@@ -48,10 +48,29 @@ function parseQty(value: string, fallbackUnit: 'lusin' | 'pcs') {
 }
 
 function Icon({ name }: { name: string }) {
-  const glyph: Record<string, string> = {
-    dashboard: '◫', Produksi: '⌁', Gudang: '▣', Penjualan: '▤', Keuangan: '▰', 'Master Data': '◉', audit: '⌘', search: '⌕', back: '←', stock: '◇', check: '✓', menu: '☰', up: '↑', down: '↓', reset: '↺', filter: '⌗', calendar: '◷', user: '●', arrow: '→', drag: '⋮⋮',
+  const art: Record<string, React.ReactNode> = {
+    dashboard: <><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></>,
+    Produksi: <><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/><circle cx="12" cy="12" r="4"/><path d="m5.6 5.6 2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></>,
+    Gudang: <><path d="m4 8 8-4 8 4v10l-8 3-8-3Z"/><path d="m4 8 8 4 8-4M12 12v9"/></>,
+    Penjualan: <><path d="M6 3h12v18l-3-2-3 2-3-2-3 2Z"/><path d="M9 8h6M9 12h6"/></>,
+    Keuangan: <><path d="M4 7h15a2 2 0 0 1 2 2v9H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h13"/><path d="M16 12h5"/><circle cx="16" cy="12" r=".7" fill="currentColor" stroke="none"/></>,
+    'Master Data': <><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v7c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12v7c0 1.7 3.6 3 8 3s8-1.3 8-3v-7"/></>,
+    audit: <><path d="M12 3 5 6v5c0 4.6 2.9 8.1 7 10 4.1-1.9 7-5.4 7-10V6Z"/><path d="m9 12 2 2 4-5"/></>,
+    search: <><circle cx="11" cy="11" r="7"/><path d="m16.5 16.5 4 4"/></>,
+    back: <><path d="m15 18-6-6 6-6"/><path d="M9 12h11"/></>,
+    stock: <><path d="m12 3 9 5-9 5-9-5Z"/><path d="m3 12 9 5 9-5M3 16l9 5 9-5"/></>,
+    check: <path d="m5 12 4 4L19 6"/>,
+    menu: <><path d="M4 7h16M4 12h16M4 17h16"/></>,
+    up: <><path d="m7 14 5-5 5 5"/></>,
+    down: <><path d="m7 10 5 5 5-5"/></>,
+    reset: <><path d="M4 8V4m0 0h4M4 4l3.2 3.2A8 8 0 1 1 4.6 14"/></>,
+    filter: <><path d="M4 6h16M7 12h10M10 18h4"/></>,
+    calendar: <><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></>,
+    user: <><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></>,
+    arrow: <><path d="M5 12h14M14 7l5 5-5 5"/></>,
+    drag: <><circle cx="9" cy="6" r="1" fill="currentColor" stroke="none"/><circle cx="15" cy="6" r="1" fill="currentColor" stroke="none"/><circle cx="9" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="15" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="9" cy="18" r="1" fill="currentColor" stroke="none"/><circle cx="15" cy="18" r="1" fill="currentColor" stroke="none"/></>,
   }
-  return <span className="icon" aria-hidden="true">{glyph[name] ?? '•'}</span>
+  return <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{art[name] ?? <circle cx="12" cy="12" r="2" fill="currentColor" stroke="none"/>}</svg>
 }
 
 function App() {
@@ -241,27 +260,35 @@ function StockCard() {
   const [skuQuery, setSkuQuery] = useState('')
   const [expandedId, setExpandedId] = useState<string | null>(null)
   const skuRows = [
-    { code: '73001', range: '28–30', name: 'Denim Classic · Indigo', sizes: ['28', '29', '30'] },
-    { code: '73002', range: '31–33', name: 'Denim Regular · Washed Blue', sizes: ['31', '32', '33'] },
-    { code: '73003', range: '34–36', name: 'Denim Relaxed · Charcoal', sizes: ['34', '35', '36'] },
+    { code: '73001', range: '28–30', name: 'Denim Classic · Indigo', sizes: ['28', '29', '30'], stocks: [96, 84, 108] as [number, number, number] },
+    { code: '73002', range: '31–33', name: 'Denim Regular · Washed Blue', sizes: ['31', '32', '33'], stocks: [72, 60, 48] as [number, number, number] },
+    { code: '73003', range: '34–36', name: 'Denim Relaxed · Charcoal', sizes: ['34', '35', '36'], stocks: [36, 42, 54] as [number, number, number] },
   ]
   const visibleSkus = skuRows.filter((sku) => `${sku.code} ${sku.range} ${sku.name}`.toLowerCase().includes(skuQuery.toLowerCase()))
   const selected = skuRows.find((sku) => sku.code === selectedSku)
-  const currentStock = initialMovements[0].balance.reduce((sum, qty) => sum + qty, 0)
+  const currentStock = selected?.stocks.reduce((sum, qty) => sum + qty, 0) ?? 0
+  const ledgerMovements = selected ? initialMovements.map((movement) => ({
+    ...movement,
+    balance: selected.stocks.map((stock, index) => stock + movement.balance[index] - initialMovements[0].balance[index]) as [number, number, number],
+  })) : []
 
   if (!selected) return <>
-    <section className="hero-copy compact"><div className="eyebrow">GUDANG · BARANG JADI</div><h1>Kartu stok FG</h1><p>Cari SKU, lalu buka kartu kronologisnya. Daftar tetap berurutan supaya cepat dipindai seperti buku.</p></section>
+    <section className="hero-copy compact"><div className="eyebrow">GUDANG · BARANG JADI</div><h1>Kartu stok FG</h1><p>Cari SKU, lalu buka kartu kronologisnya. Stok per size, total, dan konversi lusin langsung terlihat.</p></section>
     <div className="panel sku-browser">
       <div className="sku-search-field"><Icon name="search" /><input autoFocus value={skuQuery} onChange={(event) => setSkuQuery(event.target.value)} placeholder="Cari kode SKU, range, atau nama barang..." /></div>
-      <div className="sku-browser-head"><span>SKU</span><span>Range</span><span>Stok akhir</span><span /></div>
-      <div className="sku-browser-list">{visibleSkus.map((sku, index) =>
-        <button className="sku-browser-row" key={sku.code} onClick={() => { setSelectedSku(sku.code); setExpandedId(null) }}>
-          <span className="sku-sequence">{String(index + 1).padStart(2, '0')}</span>
-          <div><strong>{sku.code}</strong><small>{sku.name}</small></div>
+      <div className="sku-browser-head"><span>SKU</span><span>Range</span><span>Stok per size</span><span>Total</span><span /></div>
+      <div className="sku-browser-list">{visibleSkus.map((sku) => {
+        const total = sku.stocks.reduce((sum, qty) => sum + qty, 0)
+        const sequence = skuRows.findIndex((row) => row.code === sku.code) + 1
+        return <button className="sku-browser-row" key={sku.code} onClick={() => { setSelectedSku(sku.code); setExpandedId(null) }}>
+          <span className="sku-sequence">{String(sequence).padStart(2, '0')}</span>
+          <div className="sku-browser-name"><strong>{sku.code}</strong><small>{sku.name}</small></div>
           <span className="range-chip">{sku.range}</span>
-          <div className="sku-stock-preview"><strong>{currentStock} pcs</strong><small>{dozenPieces(currentStock)}</small></div>
+          <div className="sku-size-preview">{sku.sizes.map((size, index) => <span key={size}><small>{size}</small><strong>{sku.stocks[index]}</strong><em>{dozenPieces(sku.stocks[index])}</em></span>)}</div>
+          <div className="sku-stock-preview"><strong>{total} pcs</strong><small>{dozenPieces(total)}</small></div>
           <Icon name="arrow" />
-        </button>)}
+        </button>
+      })}
         {visibleSkus.length === 0 && <div className="sku-empty">SKU tidak ditemukan. Coba kode atau range lain.</div>}
       </div>
     </div>
@@ -270,14 +297,17 @@ function StockCard() {
   return <>
     <section className="hero-copy compact"><button className="back-link" onClick={() => { setSelectedSku(null); setExpandedId(null) }}><Icon name="back" /> Semua SKU</button><div className="eyebrow">GUDANG · BARANG JADI</div><h1>Kartu stok FG</h1><p>Angka utama per transaksi. Tekan rincian untuk melihat komposisi size; urutannya selalu kronologis.</p></section>
     <div className="panel stock-summary">
-      <div><div className="sku-title"><h2>{selected.code}</h2><span>Range {selected.range}</span></div><p>{selected.name} · Gudang FG Utama</p></div>
-      <div className="stock-total-hero"><span>STOK AKHIR</span><strong>{currentStock} pcs</strong><small>{dozenPieces(currentStock)}</small></div>
+      <div className="stock-summary-main">
+        <div><div className="sku-title"><h2>{selected.code}</h2><span>Range {selected.range}</span></div><p>{selected.name} · Gudang FG Utama</p></div>
+        <div className="stock-size-overview">{selected.sizes.map((size, index) => <div key={size}><span>SIZE {size}</span><strong>{selected.stocks[index]} pcs</strong><small>{dozenPieces(selected.stocks[index])}</small></div>)}</div>
+      </div>
+      <div className="stock-total-hero"><span>TOTAL STOK AKHIR</span><strong>{currentStock} pcs</strong><small>{dozenPieces(currentStock)}</small></div>
     </div>
     <div className="panel table-panel">
       <div className="table-toolbar"><div className="search-box compact-search"><Icon name="search" /> Cari ref / pelanggan...</div><button className="soft-btn"><Icon name="calendar" /> 30 hari</button><button className="soft-btn"><Icon name="filter" /> Filter</button></div>
       <div className="responsive-table stock-ledger"><table>
         <thead><tr><th>Waktu fisik</th><th>Transaksi</th><th className="number-head">Masuk</th><th className="number-head">Keluar</th><th className="number-head">Stok akhir</th><th aria-label="Rincian" /></tr></thead>
-        <tbody>{initialMovements.map((m) => {
+        <tbody>{ledgerMovements.map((m) => {
           const masuk = m.delta.reduce((sum, qty) => sum + Math.max(0, qty), 0)
           const keluar = m.delta.reduce((sum, qty) => sum + Math.abs(Math.min(0, qty)), 0)
           const stock = m.balance.reduce((sum, qty) => sum + qty, 0)
@@ -286,17 +316,18 @@ function StockCard() {
             <tr className={open ? 'stock-row-open' : ''}>
               <td><span className="ledger-date">{m.date}</span></td>
               <td><div className="ledger-transaction"><div><strong>{m.ref}</strong><span className="type-pill">{m.type}</span></div><small>{m.note}</small></div></td>
-              <td className="ledger-number incoming">{masuk > 0 ? `+${masuk}` : '—'}<small>{masuk > 0 ? 'pcs' : ''}</small></td>
-              <td className="ledger-number outgoing">{keluar > 0 ? `−${keluar}` : '—'}<small>{keluar > 0 ? 'pcs' : ''}</small></td>
+              <td className="ledger-number incoming">{masuk > 0 ? `+${masuk}` : '—'}<small>{masuk > 0 ? `${dozenPieces(masuk)}` : ''}</small></td>
+              <td className="ledger-number outgoing">{keluar > 0 ? `−${keluar}` : '—'}<small>{keluar > 0 ? `${dozenPieces(keluar)}` : ''}</small></td>
               <td className="ledger-balance"><strong>{stock} pcs</strong><small>{dozenPieces(stock)}</small></td>
               <td><button className="stock-expand" aria-expanded={open} aria-label={open ? 'Tutup rincian size' : 'Buka rincian size'} onClick={() => setExpandedId(open ? null : m.id)}>{open ? '−' : '+'}</button></td>
             </tr>
             {open && <tr className="stock-detail-row"><td colSpan={6}><div className="stock-size-details">
               <div className="detail-caption"><span>RINCIAN SIZE</span><small>Komposisi transaksi dan saldo sesudah transaksi</small></div>
-              {m.delta.map((delta, i) => <div className="size-ledger-card" key={i}>
-                <span>SIZE {selected.sizes[i]}</span>
+              {m.delta.map((delta, index) => <div className="size-ledger-card" key={index}>
+                <span>SIZE {selected.sizes[index]}</span>
                 <div><small>{delta >= 0 ? 'Masuk' : 'Keluar'}</small><strong className={delta < 0 ? 'neg' : delta > 0 ? 'pos' : ''}>{delta > 0 ? '+' : delta < 0 ? '−' : ''}{Math.abs(delta)} pcs</strong></div>
-                <div><small>Stok akhir</small><strong>{m.balance[i]} pcs</strong></div>
+                <div><small>Stok akhir</small><strong>{m.balance[index]} pcs</strong></div>
+                <em>{dozenPieces(m.balance[index])}</em>
               </div>)}
             </div></td></tr>}
           </Fragment>
@@ -321,17 +352,20 @@ function Movements({ movements, setMovements }: { movements: Movement[]; setMove
     setDraggedId(null)
   }
   return <>
-    <section className="hero-copy compact"><div className="eyebrow">GUDANG · BUKU MUTASI FG</div><h1>Mutasi Barang Jadi</h1><p>Susun urutan buku tanpa mengubah tanggal, saldo, HPP, atau jurnal. Seret di desktop; gunakan panah di iPad.</p></section>
+    <section className="hero-copy compact"><div className="eyebrow">GUDANG · BUKU MUTASI FG</div><h1>Mutasi Barang Jadi</h1><p>Stok per size dan total tetap terbaca. Susun urutan buku tanpa mengubah tanggal, saldo, HPP, atau jurnal.</p></section>
     <div className="panel mutation-panel">
-      <div className="table-toolbar"><div className="search-box compact-search"><Icon name="search" /> SKU, ref, pelanggan...</div><span className="reorder-hint"><Icon name="drag" /> Seret atau pakai panah</span><button className="soft-btn"><Icon name="filter" /> Semua jenis</button><button className="soft-btn" onClick={()=>setMovements(initialMovements)}><Icon name="reset" /> Reset kronologis</button></div>
-      <div className="mutation-list">{movements.map((m,idx)=>
-        <div className={`mutation-row ${draggedId === m.id ? 'is-dragging' : ''}`} key={m.id} draggable onDragStart={()=>setDraggedId(m.id)} onDragOver={(event)=>event.preventDefault()} onDrop={()=>dropOn(m.id)} onDragEnd={()=>setDraggedId(null)}>
+      <div className="table-toolbar"><div className="search-box compact-search"><Icon name="search" /> SKU, ref, pelanggan...</div><span className="reorder-hint"><Icon name="drag" /> Seret di desktop · panah di iPad</span><button className="soft-btn"><Icon name="filter" /> Semua jenis</button><button className="soft-btn" onClick={()=>setMovements(initialMovements)}><Icon name="reset" /> Reset kronologis</button></div>
+      <div className="mutation-list">{movements.map((m,idx)=>{
+        const movementTotal = m.delta.reduce((sum, qty) => sum + qty, 0)
+        const stockTotal = m.balance.reduce((sum, qty) => sum + qty, 0)
+        return <div className={`mutation-row ${draggedId === m.id ? 'is-dragging' : ''}`} key={m.id} draggable onDragStart={()=>setDraggedId(m.id)} onDragOver={(event)=>event.preventDefault()} onDrop={()=>dropOn(m.id)} onDragEnd={()=>setDraggedId(null)}>
           <div className="drag-grip" title="Seret untuk ubah urutan tampilan"><Icon name="drag" /></div>
           <div className="order-no">{String(idx+1).padStart(2,'0')}</div>
           <div className="mutation-main"><div><strong>{m.ref}</strong><span className="type-pill">{m.type}</span></div><p>{m.note}</p><small>{m.date} · factual ID {m.id}</small></div>
-          <div className="mutation-delta">{m.delta.map((d,i)=><span key={i} className={d<0?'neg':d>0?'pos':''}>{['28','29','30'][i]}: {d>0?'+':''}{d}</span>)}</div>
+          <div className="mutation-delta">{m.delta.map((delta,index)=><span key={index}><small>SIZE {['28','29','30'][index]}</small><strong className={delta<0?'neg':delta>0?'pos':''}>{delta>0?'+':''}{delta} pcs</strong><em>stok {m.balance[index]} · {dozenPieces(m.balance[index])}</em></span>)}</div>
+          <div className="mutation-total"><span>{movementTotal >= 0 ? 'TOTAL MASUK' : 'TOTAL KELUAR'}</span><strong className={movementTotal<0?'neg':'pos'}>{movementTotal>0?'+':''}{movementTotal} pcs</strong><small>{dozenPieces(Math.abs(movementTotal))}</small><i>Stok {stockTotal} pcs · {dozenPieces(stockTotal)}</i></div>
           <div className="reorder"><button aria-label="Naikkan urutan" onClick={()=>move(idx,-1)} disabled={idx===0}><Icon name="up" /></button><button aria-label="Turunkan urutan" onClick={()=>move(idx,1)} disabled={idx===movements.length-1}><Icon name="down" /></button></div>
-        </div>)}
+        </div>})}
       </div>
     </div>
   </>
