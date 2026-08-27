@@ -1,19 +1,35 @@
 import { Fragment, useMemo, useState } from 'react'
 import type { ReactNode } from 'react'
 import {
-  ArrowLeft, ArrowRight, CalendarDays, Check, ChevronDown, ChevronUp, Database,
-  Factory, GripVertical, LayoutDashboard, Layers3, ListFilter, Menu, Package,
-  ReceiptText, RotateCcw, Scissors, Search, ShieldCheck, SlidersHorizontal,
+  ArrowLeft, ArrowRight, Boxes, CalendarDays, Check, ChevronDown, ChevronUp,
+  CircleDollarSign, Database, Factory, FileText, GripVertical, History,
+  LayoutDashboard, Layers3, Link2, ListFilter, Menu, Package, Plus, ReceiptText,
+  RotateCcw, Ruler, Scissors, Search, ShieldCheck, SlidersHorizontal, Trash2,
   UserRound, WalletCards, Warehouse, X,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 
-type Page = 'dashboard' | 'sales' | 'stock-card' | 'movements-vivo' | 'movements-widie' | 'placeholder'
+type Page = 'dashboard' | 'sales' | 'stock-card' | 'movements-vivo' | 'movements-widie' | 'procurement' | 'cutting-roll' | 'placeholder'
 type NavSection = 'Produksi' | 'Gudang' | 'Penjualan' | 'Keuangan' | 'Master Data'
 type QtyTuple = [number, number, number]
 type SizeTuple = [string, string, string]
+type ReceiptMode = 'fabric' | 'accessory'
 
 type SizeRow = { size: string; stock: number; qty: number; input: string }
+type RollDraft = { id: number; yards: string }
+
+type CuttingOption = {
+  code: string
+  mandor: string
+  pattern: string
+  qty: number
+  range: string
+  sizes: SizeTuple
+  material: string
+  roll: string
+  rollAvailable: number
+  estimatedUse: number
+}
 
 type Movement = {
   id: string
@@ -54,6 +70,13 @@ const productCatalog: Product[] = [
   { code: '73006', range: '34–36', name: 'Widie Workwear', color: 'Stone', brand: 'Widie', sizes: ['34','35','36'], stocks: [24,30,36], location: 'Gudang FG Cadangan', grade: 'BS' },
 ]
 
+const cuttingOptions: CuttingOption[] = [
+  { code:'POT-031-02',mandor:'Asep',pattern:'Pola B',qty:288,range:'31–33',sizes:['31','32','33'],material:'1069 Ori',roll:'Roll 08',rollAvailable:118.5,estimatedUse:86 },
+  { code:'POT-031-01',mandor:'Asep',pattern:'Pola A',qty:276,range:'31–33',sizes:['31','32','33'],material:'1069 Ori',roll:'Roll 05',rollAvailable:104.25,estimatedUse:82 },
+  { code:'POT-028-04',mandor:'Dedi',pattern:'Regular C',qty:240,range:'28–30',sizes:['28','29','30'],material:'Denim 14 oz',roll:'Roll 12',rollAvailable:126,estimatedUse:74.5 },
+  { code:'POT-034-01',mandor:'Ujang',pattern:'Loose A',qty:216,range:'34–36',sizes:['34','35','36'],material:'Black Twill',roll:'Roll 03',rollAvailable:97.5,estimatedUse:69 },
+]
+
 const productBrands = Array.from(new Set(productCatalog.map((product) => product.brand)))
 const productRanges = Array.from(new Set(productCatalog.map((product) => product.range)))
 const productSizes = Array.from(new Set(productCatalog.flatMap((product) => product.sizes)))
@@ -82,6 +105,11 @@ const initialMovements: Movement[] = [
 const chronologicalMovements = [...initialMovements].reverse()
 const money = (value: number) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(value)
 const dozenPieces = (pcs: number) => `${Math.floor(Math.max(0, pcs) / 12)} lusin · ${Math.max(0, pcs) % 12} potong`
+const parseDecimal = (value: string) => {
+  const parsed = Number(value.trim().replace(/\s/g, '').replace(',', '.'))
+  return Number.isFinite(parsed) ? Math.max(0, parsed) : 0
+}
+const formatQuantity = (value: number, digits = 1) => new Intl.NumberFormat('id-ID', { maximumFractionDigits: digits }).format(value)
 
 function parseQty(value: string, fallbackUnit: 'lusin' | 'pcs') {
   const normalized = value.toLowerCase().replace(',', '.')
@@ -104,7 +132,9 @@ function Icon({ name }: { name: string }) {
     back: ArrowLeft, stock: Layers3, check: Check, menu: Menu, up: ChevronUp, down: ChevronDown,
     reset: RotateCcw, filter: SlidersHorizontal, calendar: CalendarDays, user: UserRound,
     arrow: ArrowRight, drag: GripVertical, close: X, chevron: ChevronDown, brand: Scissors,
-    product: Package, list: ListFilter,
+    product: Package, list: ListFilter, boxes: Boxes, cost: CircleDollarSign,
+    document: FileText, history: History, link: Link2, plus: Plus, ruler: Ruler,
+    trash: Trash2,
   }
   const Glyph = icons[name] ?? Package
   return <Glyph className="icon" strokeWidth={1.8} aria-hidden="true" />
@@ -170,6 +200,8 @@ function App() {
     : page === 'stock-card' ? 'Kartu Stok FG'
     : page === 'movements-vivo' ? 'Mutasi Barang Jadi · Vivo'
     : page === 'movements-widie' ? 'Mutasi Barang Jadi · Widie'
+    : page === 'procurement' ? 'Pembelian & Penerimaan'
+    : page === 'cutting-roll' ? 'Potongan & Roll'
     : 'Modul ERP'
 
   const chooseSubmenu = (label: string) => {
@@ -177,6 +209,8 @@ function App() {
     else if (label === 'Kartu Stok FG') setPage('stock-card')
     else if (label === 'Mutasi Barang Jadi · Vivo') setPage('movements-vivo')
     else if (label === 'Mutasi Barang Jadi · Widie') setPage('movements-widie')
+    else if (label === 'Pembelian & Penerimaan') setPage('procurement')
+    else if (label === 'Potongan & Roll') setPage('cutting-roll')
     else setPage('placeholder')
     setMobileNav(false)
   }
@@ -189,7 +223,7 @@ function App() {
       {(Object.keys(nav) as NavSection[]).map((section) => <div className="nav-section" key={section}>
         <button className={`nav-main ${expanded === section ? 'active' : ''}`} onClick={() => setExpanded(expanded === section ? null : section)}><Icon name={section} /><span>{section}</span><span className="chevron">{expanded === section ? '⌄' : '›'}</span></button>
         {expanded === section && <div className="submenu">{nav[section].map((item) => {
-          const active = (item === 'Penjualan & Invoice' && page === 'sales') || (item === 'Kartu Stok FG' && page === 'stock-card') || (item === 'Mutasi Barang Jadi · Vivo' && page === 'movements-vivo') || (item === 'Mutasi Barang Jadi · Widie' && page === 'movements-widie')
+          const active = (item === 'Penjualan & Invoice' && page === 'sales') || (item === 'Kartu Stok FG' && page === 'stock-card') || (item === 'Mutasi Barang Jadi · Vivo' && page === 'movements-vivo') || (item === 'Mutasi Barang Jadi · Widie' && page === 'movements-widie') || (item === 'Pembelian & Penerimaan' && page === 'procurement') || (item === 'Potongan & Roll' && page === 'cutting-roll')
           return <button key={item} className={active ? 'sub-active' : ''} onClick={() => chooseSubmenu(item)}>• {item}</button>
         })}</div>}
       </div>)}
@@ -206,6 +240,8 @@ function App() {
         {page === 'stock-card' && <StockCard />}
         {page === 'movements-vivo' && <Movements bookName="Vivo" bookBrands={vivoBookBrands} setBookBrands={setVivoBookBrands} movements={movements} setMovements={setMovements} />}
         {page === 'movements-widie' && <Movements bookName="Widie" bookBrands={widieBookBrands} setBookBrands={setWidieBookBrands} movements={movements} setMovements={setMovements} />}
+        {page === 'procurement' && <ProcurementPage />}
+        {page === 'cutting-roll' && <CuttingRollPage />}
         {page === 'placeholder' && <Placeholder />}
       </div>
     </main>
@@ -223,6 +259,82 @@ function Dashboard({ onOpenSales }: { onOpenSales: () => void }) {
 
 function Kpi({ label, value, note, tone }: { label: string; value: string; note: string; tone: string }) { return <div className="kpi-card"><div className="kpi-label">{label}</div><div className="kpi-value">{value}</div><div className={`kpi-note ${tone}`}>{tone === 'good' ? '↗' : tone === 'warn' ? '↘' : '•'} {note}</div><div className={`kpi-orb ${tone}`}>◉</div></div> }
 function Attention({ label, value, meta, tone }: { label: string; value: string; meta: string; tone: string }) { return <div className="attention-row"><span className={`attention-dot ${tone}`} /><div><strong>{label}</strong><small>{meta}</small></div><b>{value}</b></div> }
+
+function ProcurementPage() {
+  const [mode,setMode] = useState<ReceiptMode>('fabric')
+  const [rolls,setRolls] = useState<RollDraft[]>([{id:1,yards:'131,5'},{id:2,yards:'91'},{id:3,yards:'124'},{id:4,yards:''}])
+  const [benchmarkPrice,setBenchmarkPrice] = useState('48500')
+  const [accessoryQty,setAccessoryQty] = useState('1200')
+  const [accessoryPrice,setAccessoryPrice] = useState('850')
+  const [historyOpen,setHistoryOpen] = useState(false)
+  const [rollDetailOpen,setRollDetailOpen] = useState(false)
+  const activeRolls=rolls.filter((roll)=>parseDecimal(roll.yards)>0)
+  const totalYards=activeRolls.reduce((sum,roll)=>sum+parseDecimal(roll.yards),0)
+  const benchmark=parseDecimal(benchmarkPrice)
+  const accessoryTotal=parseDecimal(accessoryQty)*parseDecimal(accessoryPrice)
+  const updateRoll=(id:number,value:string)=>setRolls((rows)=>rows.map((roll)=>roll.id===id?{...roll,yards:value}:roll))
+  const addRoll=()=>setRolls((rows)=>[...rows,{id:Math.max(0,...rows.map((roll)=>roll.id))+1,yards:''}])
+  const removeRoll=(id:number)=>setRolls((rows)=>rows.length>1?rows.filter((roll)=>roll.id!==id):rows)
+
+  return <>
+    <section className="hero-copy compact procurement-hero"><div className="eyebrow">GUDANG · PENERIMAAN BARANG</div><h1>Pembelian & penerimaan</h1><p>Catat surat jalan saat barang datang. Kain masuk per gulung, aksesori masuk sebagai jumlah langsung.</p></section>
+    <div className="procurement-mode-bar panel" role="tablist" aria-label="Jenis penerimaan">
+      <div className="mode-tabs"><button role="tab" aria-selected={mode==='fabric'} className={mode==='fabric'?'active':''} onClick={()=>setMode('fabric')}><Icon name="ruler"/><span><strong>Kain</strong><small>Roll + yard</small></span></button><button role="tab" aria-selected={mode==='accessory'} className={mode==='accessory'?'active':''} onClick={()=>setMode('accessory')}><Icon name="boxes"/><span><strong>Aksesori</strong><small>Qty langsung</small></span></button></div>
+      <div className="receiving-rule"><Icon name="document"/><span><strong>Dasar penerimaan: surat jalan</strong><small>Kasbon boleh menyusul tanpa menahan stok masuk.</small></span></div>
+    </div>
+    <section className="procurement-layout">
+      <div className="panel receipt-editor">
+        <div className="proc-panel-head"><div><div className="eyebrow">PENERIMAAN BARU</div><h2>{mode==='fabric'?'Kain per gulung':'Aksesori per jumlah'}</h2></div><span className="draft-pill">Draft</span></div>
+        <div className="receipt-meta-grid" key={mode}>
+          <Field label="Pabrik / supplier"><input className="erp-input" defaultValue={mode==='fabric'?'Sinaran':'Mitra Aksesori'}/></Field>
+          <Field label={mode==='fabric'?'Nama bahan':'Nama aksesori'}><input className="erp-input" defaultValue={mode==='fabric'?'1069 Ori':'Kancing Metal 17 mm'}/></Field>
+          <Field label="Nomor surat jalan"><input className="erp-input" defaultValue={mode==='fabric'?'SJ-SNR-0827-19':'SJ-MA-0827-08'}/></Field>
+          <Field label="Tanggal barang datang"><input className="erp-input" type="date" defaultValue="2026-08-27"/></Field>
+        </div>
+        {mode==='fabric'?<>
+          <div className="roll-entry-head"><div><span>RINCIAN GULUNG</span><strong>Satu baris untuk satu roll</strong></div><button className="soft-btn add-roll" onClick={addRoll}><Icon name="plus"/> Tambah roll</button></div>
+          <div className="roll-entry-list">{rolls.map((roll,index)=><div className="roll-entry-row" key={roll.id}><span className="roll-number">{String(index+1).padStart(2,'0')}</span><div><label htmlFor={`roll-${roll.id}`}>Yard pada gulung</label><div className="yard-input"><input id={`roll-${roll.id}`} inputMode="decimal" value={roll.yards} placeholder="0" onChange={(event)=>updateRoll(roll.id,event.target.value)}/><span>yd</span></div></div><small>{parseDecimal(roll.yards)>0?`${formatQuantity(parseDecimal(roll.yards))} yard siap diterima`:'Belum diisi'}</small><button className="remove-roll" aria-label={`Hapus roll ${index+1}`} onClick={()=>removeRoll(roll.id)} disabled={rolls.length===1}><Icon name="trash"/></button></div>)}</div>
+          <div className="benchmark-entry"><div><Icon name="cost"/><span><strong>Harga benchmark / yard</strong><small>Dipakai sementara sampai kasbon aktual datang.</small></span></div><div className="money-input"><span>Rp</span><input inputMode="numeric" value={benchmarkPrice} onChange={(event)=>setBenchmarkPrice(event.target.value)}/></div></div>
+          <div className="receipt-total-strip"><div><span>TOTAL GULUNG</span><strong>{activeRolls.length}</strong><small>roll terisi</small></div><div><span>TOTAL PANJANG</span><strong>{formatQuantity(totalYards)} yd</strong><small>jumlah semua roll</small></div><div className="receipt-grand-total"><span>NILAI BENCHMARK</span><strong>{money(totalYards*benchmark)}</strong><small>{formatQuantity(totalYards)} yd × {money(benchmark)}</small></div></div>
+        </>:<>
+          <div className="accessory-entry-grid"><Field label="Jumlah diterima"><div className="qty-unit-input"><input inputMode="numeric" value={accessoryQty} onChange={(event)=>setAccessoryQty(event.target.value)}/><span>pcs</span></div></Field><Field label="Harga benchmark / pcs"><div className="money-input"><span>Rp</span><input inputMode="numeric" value={accessoryPrice} onChange={(event)=>setAccessoryPrice(event.target.value)}/></div></Field></div>
+          <div className="accessory-total-card"><div><Icon name="boxes"/><span><small>JUMLAH MASUK</small><strong>{formatQuantity(parseDecimal(accessoryQty),0)} pcs</strong></span></div><div><small>NILAI BENCHMARK</small><strong>{money(accessoryTotal)}</strong></div></div>
+        </>}
+        <div className="receipt-actions"><button className="soft-btn">Simpan draft</button><button className="primary-btn">Review penerimaan <Icon name="arrow"/></button></div>
+      </div>
+      <aside className="procurement-side">{mode==='fabric'?<>
+        <div className="panel current-receipt-card">
+          <div className="current-receipt-head"><div><span>HARGA AKTIF</span><h2>Sinaran · 1069 Ori</h2><small>SJ-SNR-0821-07 · masuk 21 Agu 2026</small></div><span className="actual-pill"><Icon name="check"/> Aktual</span></div>
+          <div className="receipt-quantity-hero"><div><span>27 gulung</span><strong>3.029,5 yd</strong></div><Icon name="ruler"/></div>
+          <div className="active-price"><span>Harga kasbon terbaru</span><strong>{money(49200)}<small>/ yard</small></strong><em>Nilai aktif {money(3029.5*49200)}</em></div>
+          <button className="history-toggle" aria-expanded={historyOpen} onClick={()=>setHistoryOpen(!historyOpen)}><span><Icon name="history"/> Riwayat harga</span><span>{historyOpen?'Tutup':'Lihat'} <Icon name={historyOpen?'up':'down'}/></span></button>
+          {historyOpen&&<div className="price-history"><div><span className="timeline-dot current"/><div><strong>Rp49.200 / yd</strong><small>Kasbon aktual · 26 Agu 2026</small></div><b>Aktif</b></div><div><span className="timeline-dot"/><div><strong>Rp48.500 / yd</strong><small>Benchmark saat barang datang · 21 Agu 2026</small></div><b>Awal</b></div><div className="price-delta"><span>Selisih nilai</span><strong>+{money(3029.5*(49200-48500))}</strong></div></div>}
+          <button className="roll-preview-toggle" aria-expanded={rollDetailOpen} onClick={()=>setRollDetailOpen(!rollDetailOpen)}><span>Rincian 27 roll</span><Icon name={rollDetailOpen?'up':'down'}/></button>
+          {rollDetailOpen&&<div className="roll-preview-grid">{[131.5,91,124,115.5,109,127.25].map((yard,index)=><span key={`${yard}-${index}`}><small>ROLL {String(index+1).padStart(2,'0')}</small><strong>{formatQuantity(yard,2)} yd</strong></span>)}<span className="more-rolls"><strong>+21</strong><small>roll lainnya</small></span></div>}
+        </div>
+        <div className="panel pending-cost-card"><div><span className="estimated-dot"/><div><strong>Malibu · Denim 14 oz</strong><small>18 gulung · 1.984 yd</small></div><span>Menunggu kasbon</span></div><div><small>Harga benchmark aktif sementara</small><strong>{money(47800)} / yd</strong><em>{money(1984*47800)}</em></div></div>
+      </>:<>
+        <div className="panel current-receipt-card accessory-current"><div className="current-receipt-head"><div><span>PENERIMAAN TERAKHIR</span><h2>Kancing Metal 17 mm</h2><small>Mitra Aksesori · SJ-MA-0827-08</small></div><span className="actual-pill"><Icon name="check"/> Diterima</span></div><div className="accessory-quantity-hero"><span>Jumlah masuk</span><strong>1.200 pcs</strong><small>Tidak perlu dibuat roll atau yard.</small></div><div className="active-price"><span>Harga aktif</span><strong>{money(850)}<small>/ pcs</small></strong><em>Total {money(1200*850)}</em></div></div>
+        <div className="panel procurement-note"><Icon name="link"/><div><strong>Tetap satu alur gudang</strong><p>Kain dan aksesori masuk dari surat jalan yang sama, tetapi cara hitung fisiknya tetap sesuai bentuk barang.</p></div></div>
+      </>}</aside>
+    </section>
+  </>
+}
+
+function CuttingRollPage() {
+  const [query,setQuery]=useState('')
+  const [selectedCode,setSelectedCode]=useState(cuttingOptions[0].code)
+  const visibleOptions=useMemo(()=>cuttingOptions.filter((option)=>`${option.mandor} ${option.code} ${option.pattern} ${option.qty} ${option.range} ${option.sizes.join(' ')} ${option.sizes.map((size)=>`size ${size}`).join(' ')}`.toLowerCase().includes(query.toLowerCase())),[query])
+  const selected=cuttingOptions.find((option)=>option.code===selectedCode)??cuttingOptions[0]
+  const perSize=selected.sizes.map((_,index)=>Math.floor(selected.qty/selected.sizes.length)+(index<selected.qty%selected.sizes.length?1:0))
+  return <>
+    <section className="hero-copy compact cutting-hero"><div className="eyebrow">PRODUKSI · POTONGAN</div><h1>Potongan & roll</h1><p>Cari lewat nama mandor, kode potongan, pola, jumlah, range, atau size individual.</p></section>
+    <section className="cutting-layout">
+      <div className="panel cutting-picker"><div className="cutting-search"><Icon name="search"/><input autoFocus value={query} onChange={(event)=>setQuery(event.target.value)} placeholder="Cari Asep, 031-02, Pola B, 288, Size 32..."/></div><div className="picker-caption"><span>PILIH POTONGAN</span><small>{visibleOptions.length} grup ditemukan</small></div><div className="cutting-options">{visibleOptions.map((option)=>{const active=option.code===selected.code;return <button key={option.code} className={`cutting-option ${active?'selected':''}`} onClick={()=>setSelectedCode(option.code)}><span className="mandor-avatar">{option.mandor.slice(0,1)}</span><div className="cutting-option-copy"><strong>{option.mandor}</strong><span>{option.code} · {option.pattern}</span><small>{option.qty} pcs · {dozenPieces(option.qty)} · Size {option.range}</small></div><div className="cutting-size-chips">{option.sizes.map((size)=><span key={size}>{size}</span>)}</div><span className="catalog-check">{active?<Icon name="check"/>:<Icon name="arrow"/>}</span></button>})}{visibleOptions.length===0&&<div className="catalog-empty"><Icon name="search"/><strong>Potongan tidak ditemukan</strong><small>Coba cari nama mandor, kode, pola, qty, atau size lain.</small></div>}</div></div>
+      <div className="panel cutting-detail"><div className="cutting-detail-head"><div><span>MANDOR SAAT INI</span><strong>{selected.mandor}</strong></div><span className="work-status">Siap dipotong</span></div><div className="stable-code"><div><span>KODE POTONGAN</span><strong>{selected.code}</strong><small>Kode tetap stabil walau mandor direassign.</small></div><span>{selected.pattern}</span></div><div className="cutting-qty"><div><span>TOTAL POTONGAN</span><strong>{selected.qty} pcs</strong><small>{dozenPieces(selected.qty)}</small></div><div className="cutting-range"><span>SIZE RANGE</span><strong>{selected.range}</strong></div></div><div className="cutting-size-grid">{selected.sizes.map((size,index)=><div key={size}><span>SIZE {size}</span><strong>{perSize[index]} pcs</strong><small>{dozenPieces(perSize[index])}</small></div>)}</div><div className="linked-roll-card"><div className="linked-roll-title"><span><Icon name="link"/> SUMBER KAIN</span><b>Terhubung</b></div><div className="linked-roll-main"><div><strong>{selected.material}</strong><span>{selected.roll}</span></div><div><strong>{formatQuantity(selected.rollAvailable,2)} yd</strong><span>tersedia sebelum potong</span></div></div><div className="roll-use-flow"><div><span>Perkiraan pakai</span><strong>−{formatQuantity(selected.estimatedUse,2)} yd</strong></div><Icon name="arrow"/><div><span>Perkiraan sisa</span><strong>{formatQuantity(selected.rollAvailable-selected.estimatedUse,2)} yd</strong></div></div></div><button className="primary-btn cutting-action">Catat pemakaian roll <Icon name="arrow"/></button></div>
+    </section>
+  </>
+}
 
 function SalesPage(props: {
   qtyText: string; setQtyText: (v: string) => void; unit: 'lusin' | 'pcs'; setUnit: (v: 'lusin' | 'pcs') => void;
