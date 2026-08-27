@@ -6,6 +6,7 @@ import './upgrade.css'
 import './brand-books.css'
 import './interaction-upgrades.css'
 import './interaction-upgrades'
+import './global-readability.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
