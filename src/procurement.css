@@ -190,7 +190,7 @@
 .sewing-kpi-grid>.ready{border-color:rgba(103,215,171,.17);background:linear-gradient(120deg,rgba(103,215,171,.055),rgba(9,13,22,.84))}
 .sewing-kpi-grid>.ready strong{color:#a5e0c9}
 .sewing-workspace{overflow:hidden}
-.sewing-toolbar{display:grid;grid-template-columns:minmax(220px,.8fr) minmax(310px,1.2fr) auto;align-items:center;gap:10px;padding:15px 17px;border-bottom:1px solid var(--line);background:rgba(124,141,255,.025)}
+.sewing-toolbar{display:grid;grid-template-columns:minmax(220px,.8fr) minmax(280px,1.2fr) auto auto;align-items:center;gap:10px;padding:15px 17px;border-bottom:1px solid var(--line);background:rgba(124,141,255,.025)}
 .sewing-toolbar>div:first-child>span{display:block;color:#9ba8ff;font-size:8px;font-weight:770;letter-spacing:.09em}
 .sewing-toolbar>div:first-child>strong{display:block;margin-top:4px;font-size:12px}
 .sewing-toolbar>div:first-child>small{display:block;margin-top:3px;color:#778398;font-size:8.5px}
@@ -247,6 +247,24 @@
 .sewing-laundry-gate>p{margin:8px 0 0;padding-top:7px;border-top:1px solid var(--line-soft);color:#8490a4;font-size:7.5px;display:flex;align-items:center;gap:6px}.sewing-laundry-gate>p>.icon{width:12px;height:12px;color:#93a0ff;flex:0 0 auto}.sewing-laundry-gate>p strong{color:#c7ceff}
 .sewing-empty{min-height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#748095}.sewing-empty>.icon{width:23px;height:23px}.sewing-empty strong{margin-top:8px;font-size:11px}.sewing-empty small{margin-top:4px;font-size:9px}
 
+.sewing-reverse-notice{min-height:54px;margin:-8px 0 14px;padding:10px 13px;border:1px solid rgba(241,190,104,.24);border-radius:14px;background:linear-gradient(100deg,rgba(241,190,104,.12),rgba(22,25,37,.86));display:grid;grid-template-columns:28px minmax(0,1fr) 34px;align-items:center;gap:10px;color:#d9bd86}
+.sewing-reverse-notice>.icon{width:18px;height:18px}.sewing-reverse-notice strong{display:block;color:#f1d49b;font-size:10px}.sewing-reverse-notice span{display:block;margin-top:3px;color:#aaa083;font-size:8.5px}.sewing-reverse-notice button{width:32px;height:32px;border:0;border-radius:9px;background:rgba(255,255,255,.035);color:#9d947d;display:grid;place-items:center}.sewing-reverse-notice button>.icon{width:14px;height:14px}
+.sewing-hide-toggle{min-height:40px;padding:0 10px;border:1px solid var(--line);border-radius:11px;background:rgba(255,255,255,.02);color:#8d98aa;display:flex;align-items:center;gap:7px;font-size:8px;white-space:nowrap}.sewing-hide-toggle>.icon{width:13px;height:13px}.sewing-hide-toggle b{min-width:19px;height:19px;border-radius:7px;background:rgba(255,255,255,.05);display:grid;place-items:center;font-size:7px}.sewing-hide-toggle.active{border-color:rgba(103,215,171,.18);background:rgba(103,215,171,.055);color:#9ad7c0}
+.sewing-batch-card.laundry-in-transit,.sewing-batch-card.laundry-returned{border-color:rgba(148,157,174,.14);background:linear-gradient(145deg,rgba(28,31,39,.88),rgba(15,18,24,.82))}
+.sewing-batch-card.laundry-in-transit .sewing-batch-sizes,.sewing-batch-card.laundry-in-transit .sewing-batch-note,.sewing-batch-card.laundry-in-transit .sewing-completed-input,.sewing-batch-card.laundry-returned .sewing-batch-sizes,.sewing-batch-card.laundry-returned .sewing-batch-note,.sewing-batch-card.laundry-returned .sewing-completed-input{opacity:.48}
+.sewing-batch-card.laundry-in-transit .sewing-batch-head em{background:rgba(124,141,255,.12);color:#b6c0ff}.sewing-batch-card.laundry-returned .sewing-batch-head em{background:rgba(103,215,171,.08);color:#8bcfb5}
+.sewing-completed-input.disabled input{cursor:not-allowed;color:#7e8795}.sewing-completed-input.disabled>div{background:#121620}
+.sewing-laundry-gate.tracking{border-color:rgba(124,141,255,.25);background:rgba(124,141,255,.055)}.sewing-laundry-gate.tracking>div:first-child>span{color:#aab5ff}
+.sewing-laundry-gate.returned{border-style:solid;border-color:rgba(103,215,171,.14);background:rgba(103,215,171,.025)}.sewing-laundry-gate.returned>div:first-child>span{color:#88cdb2}
+.sewing-laundry-gate.draft{border-color:rgba(241,190,104,.2);background:rgba(241,190,104,.035)}.sewing-laundry-gate.draft>div:first-child>span{color:#d3b478}
+.laundry-name-grid button.jump{box-shadow:0 6px 16px rgba(76,90,190,.13)}.laundry-name-grid button.returned{opacity:.52;cursor:default;border-color:rgba(103,215,171,.15);color:#8dbca9;background:rgba(103,215,171,.035)}
+.sewing-batch-card.reverse-focus{animation:wip-reverse-focus 1.5s ease-out;box-shadow:0 0 0 2px rgba(241,190,104,.22)}
+@keyframes wip-reverse-focus{0%{transform:translateY(-3px);box-shadow:0 0 0 5px rgba(241,190,104,.3)}100%{transform:none;box-shadow:0 0 0 2px rgba(241,190,104,.22)}}
+.wip-confirm-layer{position:fixed;inset:0;z-index:120;display:grid;place-items:center;padding:18px;background:rgba(3,5,10,.72);backdrop-filter:blur(8px)}
+.wip-confirm-dialog{width:min(500px,100%);padding:22px;border:1px solid rgba(124,141,255,.25);border-radius:20px;background:linear-gradient(150deg,#1c2235,#10141f);box-shadow:0 30px 90px rgba(0,0,0,.52);display:grid;grid-template-columns:46px minmax(0,1fr);gap:14px}
+.wip-confirm-icon{width:44px;height:44px;border-radius:14px;background:rgba(124,141,255,.12);color:#aeb8ff;display:grid;place-items:center}.wip-confirm-icon>.icon{width:21px;height:21px}.wip-confirm-dialog>div:nth-child(2)>span{color:#929fff;font-size:8px;font-weight:760;letter-spacing:.12em}.wip-confirm-dialog h2{margin:7px 0 6px;font-size:20px}.wip-confirm-dialog p{margin:0;color:#929caf;font-size:10px;line-height:1.6}.wip-confirm-dialog p strong{color:#d9deea}.wip-confirm-dialog>div:nth-child(2)>small{display:block;margin-top:8px;color:#737e92;font-size:8.5px;line-height:1.5}
+.wip-confirm-actions{grid-column:1/-1;display:flex;justify-content:flex-end;gap:8px;margin-top:4px}.wip-confirm-actions button{min-width:120px}
+
 @media(max-width:900px){.sewing-kpi-grid{grid-template-columns:1fr 1fr}.sewing-toolbar{grid-template-columns:1fr 1fr}.sewing-toolbar>div:first-child{grid-column:1/-1}.sewing-parent-head{grid-template-columns:42px minmax(0,1fr) auto}.sewing-parent-total{grid-column:2/4;text-align:left}}
 @media(max-width:620px){
   .wip-batch-card-head{grid-template-columns:1fr auto}.batch-mandor-note{grid-column:1/-1;grid-row:2}.wip-batch-card-head>small{grid-column:2;grid-row:1}
@@ -254,5 +272,6 @@
   .sewing-toolbar{grid-template-columns:1fr;padding:13px}.sewing-toolbar>div:first-child{grid-column:auto}.sewing-parent-list{padding:8px}
   .sewing-parent-head{grid-template-columns:38px minmax(0,1fr);padding:11px}.sewing-parent-order{width:36px;height:36px}.sewing-mandor-pill{grid-column:1/-1;justify-self:start}.sewing-parent-total{grid-column:1/-1;text-align:left;display:flex;align-items:center;justify-content:space-between}
   .sewing-child-grid{grid-template-columns:1fr;padding:7px}.laundry-name-grid{grid-template-columns:1fr}
+  .sewing-hide-toggle{width:100%;justify-content:center}.wip-confirm-dialog{grid-template-columns:38px minmax(0,1fr);padding:17px}.wip-confirm-icon{width:36px;height:36px}.wip-confirm-actions{display:grid;grid-template-columns:1fr 1fr}.wip-confirm-actions button{min-width:0;width:100%}
 }
 @media(max-width:390px){.sewing-kpi-grid{grid-template-columns:1fr}.sewing-completed-input{grid-template-columns:1fr 120px}}
