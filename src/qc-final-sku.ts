@@ -11,6 +11,18 @@ type QcProduct = {
   warehouse: string
 }
 
+type QcJob = {
+  ref: string
+  mandor: string
+  laundry: string
+  productKey: string
+  sizes: [string, string, string]
+  cut: [number, number, number]
+  bs: [number, number, number]
+  rewash: [number, number, number]
+  stuck: [number, number, number]
+}
+
 const qcProducts: QcProduct[] = [
   { brand: 'Vivo', sku: '73001', name: 'Vivo Classic', color: 'Indigo', range: '28–30', sizes: ['28','29','30'], warehouse: 'Gudang FG Utama' },
   { brand: 'Vivo', sku: '73002', name: 'Vivo Regular', color: 'Washed Blue', range: '31–33', sizes: ['31','32','33'], warehouse: 'Gudang FG Utama' },
@@ -19,43 +31,24 @@ const qcProducts: QcProduct[] = [
   { brand: 'Widie', sku: '73002', name: 'Widie Regular', color: 'Vintage Blue', range: '31–33', sizes: ['31','32','33'], warehouse: 'Gudang FG Cadangan' },
 ]
 
-const qcJobs = [
-  { ref: 'PO-260812-031', mandor: 'Mandor Asep', source: 'Laundry Selesai', qty: 84 },
-  { ref: 'PO-260812-028', mandor: 'Mandor Dedi', source: 'Laundry Selesai', qty: 72 },
-  { ref: 'PO-260811-024', mandor: 'Mandor Rudi', source: 'QC tertunda', qty: 48 },
+const qcJobs: QcJob[] = [
+  { ref: 'PO-260812-031', mandor: 'Mandor Asep', laundry: 'Laundry Sumber Warna', productKey: 'Vivo::73002', sizes: ['31','32','33'], cut: [28,28,28], bs: [1,0,1], rewash: [0,1,0], stuck: [1,0,0] },
+  { ref: 'PO-260812-028', mandor: 'Mandor Dedi', laundry: 'Laundry Biru Jaya', productKey: 'Vivo::73001', sizes: ['28','29','30'], cut: [24,24,24], bs: [0,1,0], rewash: [1,0,0], stuck: [0,0,1] },
+  { ref: 'PO-260811-024', mandor: 'Mandor Rudi', laundry: 'Laundry Sumber Warna', productKey: 'Widie::73001', sizes: ['28','29','30'], cut: [16,16,16], bs: [1,0,0], rewash: [0,0,0], stuck: [0,1,0] },
 ]
 
-function qcLocalDateTimeValue(date = new Date()) {
-  const offsetMs = date.getTimezoneOffset() * 60_000
-  return new Date(date.getTime() - offsetMs).toISOString().slice(0, 16)
-}
-
-function qcParseQty(value: string) {
-  const normalized = value.toLowerCase().replace(',', '.')
-  const dozenMatch = normalized.match(/([0-9]+(?:\.[0-9]+)?)\s*(?:lusin|lsn|dozen)/)
-  const pcsMatch = normalized.match(/([0-9]+(?:\.[0-9]+)?)\s*(?:pcs|pc|piece|biji|potong|ptg)/)
-  if (dozenMatch || pcsMatch) {
-    const dozen = dozenMatch ? Number(dozenMatch[1]) * 12 : 0
-    const pcs = pcsMatch ? Number(pcsMatch[1]) : 0
-    return Math.max(0, Math.round(dozen + pcs))
-  }
-  const plain = Number(normalized.replace(/[^0-9.]/g, ''))
-  return Number.isNaN(plain) ? 0 : Math.max(0, Math.round(plain))
-}
-
-function qcDozenPieces(pcs: number) {
-  return `${Math.floor(Math.max(0, pcs) / 12)} lusin · ${Math.max(0, pcs) % 12} potong`
-}
+function qcProductKey(product: QcProduct) { return `${product.brand}::${product.sku}` }
+function qcLocalDateTimeValue(date = new Date()) { const offsetMs = date.getTimezoneOffset() * 60_000; return new Date(date.getTime() - offsetMs).toISOString().slice(0,16) }
+function qcDozenPieces(pcs: number) { return `${Math.floor(Math.max(0, pcs) / 12)} lusin · ${Math.max(0, pcs) % 12} potong` }
+function qcInt(value: string | number) { const parsed = Number(value); return Number.isFinite(parsed) ? Math.max(0, Math.round(parsed)) : 0 }
 
 function qcSetTopTitle(active: boolean) {
   const topTitle = document.querySelector<HTMLElement>('.top-title')
   const strong = topTitle?.querySelector<HTMLElement>('strong')
   const sub = topTitle?.querySelector<HTMLElement>('span')
   if (!strong || !sub) return
-  if (active) {
-    strong.textContent = 'QC & Final SKU'
-    sub.textContent = 'Hasil QC, grade, dan masuk Barang Jadi'
-  }
+  if (active) { strong.textContent = 'QC & Final SKU'; sub.textContent = 'Finishing, pengecualian, dan Barang Jadi' }
+  else { strong.textContent = 'Modul ERP'; sub.textContent = 'Cepat, jelas, dan aman buat operasional' }
 }
 
 function qcGenericPlaceholder(root: HTMLElement) {
@@ -63,283 +56,133 @@ function qcGenericPlaceholder(root: HTMLElement) {
   root.removeAttribute('data-qc-ready')
   root.innerHTML = '<div class="placeholder-icon">◇</div><h2>Fondasinya sudah disiapkan.</h2><p>Modul ini berikutnya akan mengikuti flow bisnis yang sama: informasi penting terlihat sebelum user menekan tombol yang mengubah uang atau stok.</p>'
 }
+function qcUnmount() { const root = document.querySelector<HTMLElement>('.qc-prototype-root'); if (root) qcGenericPlaceholder(root); qcCloseReview(); qcSetTopTitle(false) }
 
-function qcUnmount() {
-  const root = document.querySelector<HTMLElement>('.qc-prototype-root')
-  if (root) qcGenericPlaceholder(root)
+function qcCurrentJob(root: HTMLElement) { return qcJobs[Number(root.querySelector<HTMLSelectElement>('[data-qc-job]')?.value ?? 0)] ?? qcJobs[0] }
+function qcCurrentProduct(root: HTMLElement) {
+  const brand = root.querySelector<HTMLSelectElement>('[data-qc-brand]')?.value ?? 'Vivo'
+  const sku = root.querySelector<HTMLSelectElement>('[data-qc-sku]')?.value ?? '73002'
+  return qcProducts.find((p) => p.brand === brand && p.sku === sku) ?? qcProducts[0]
 }
+function qcSetText(root: HTMLElement | Document, selector: string, text: string) { const node = root.querySelector<HTMLElement>(selector); if (node) node.textContent = text }
+function qcProductOptions(brand: string, selected?: string) { return qcProducts.filter((p) => p.brand === brand).map((p) => `<option value="${p.sku}" ${p.sku === selected ? 'selected' : ''}>${p.sku} · ${p.name}</option>`).join('') }
 
-function qcProductOptions(brand: string, selectedSku?: string) {
-  return qcProducts.filter((product) => product.brand === brand).map((product) => `<option value="${product.sku}" ${product.sku === selectedSku ? 'selected' : ''}>${product.sku} · ${product.name}</option>`).join('')
-}
-
-function qcSizeColumn(size: string, index: number, defaults: [string,string,string]) {
-  const [good, bs, rework] = defaults
-  return `<section class="qc-size-column" data-qc-size-index="${index}">
+function qcSizeRow(job: QcJob, index: number) {
+  const size = job.sizes[index]
+  return `<section class="qc-size-column qc-finish-row" data-qc-size-index="${index}">
     <div class="qc-size-head"><span>SIZE</span><strong>${size}</strong></div>
-    <label class="qc-grade good"><span>GOOD <small>→ masuk FG</small></span><input data-grade="good" value="${good}" inputmode="text" placeholder="0 pcs"/><em data-conversion="good">${qcDozenPieces(qcParseQty(good))}</em></label>
-    <label class="qc-grade bs"><span>BS <small>→ barang BS</small></span><input data-grade="bs" value="${bs}" inputmode="text" placeholder="0 pcs"/><em data-conversion="bs">${qcDozenPieces(qcParseQty(bs))}</em></label>
-    <label class="qc-grade rework"><span>REWORK <small>→ perbaikan</small></span><input data-grade="rework" value="${rework}" inputmode="text" placeholder="0 pcs"/><em data-conversion="rework">${qcDozenPieces(qcParseQty(rework))}</em></label>
-    <div class="qc-size-total"><span>DIPERIKSA</span><strong data-size-total>0 pcs</strong><small data-size-total-dozen>0 lusin · 0 potong</small></div>
+    <div class="qc-source-cut"><span>POTONGAN</span><strong data-qc-cut>${job.cut[index]} pcs</strong><small>${qcDozenPieces(job.cut[index])}</small></div>
+    <label class="qc-grade bs"><span>BS <small>→ Barang BS</small></span><input data-grade="bs" type="number" min="0" value="${job.bs[index]}" inputmode="numeric"/><em>pilih treatment nanti</em></label>
+    <label class="qc-grade rewash"><span>CU · CUCI ULANG <small>→ Rework Laundry</small></span><input data-grade="rewash" type="number" min="0" value="${job.rewash[index]}" inputmode="numeric"/><em>kategori BS, jalur laundry</em></label>
+    <label class="qc-grade stuck"><span>STUCK LAUNDRY <small>→ tetap di Laundry</small></span><input data-grade="stuck" type="number" min="0" value="${job.stuck[index]}" inputmode="numeric"/><em>bukan FG dan belum jadi BS fisik</em></label>
+    <div class="qc-auto-good"><span>GOOD · OTOMATIS</span><strong data-qc-good-size>0 pcs</strong><small data-qc-good-dozen>0 lusin · 0 potong</small></div>
   </section>`
 }
 
 function qcRender(root: HTMLElement) {
   if (root.dataset.qcReady === 'true') return
-  root.dataset.qcReady = 'true'
-  root.className = 'qc-prototype-root'
-  const initialProduct = qcProducts.find((product) => product.brand === 'Vivo' && product.sku === '73002') ?? qcProducts[0]
-  const brands = Array.from(new Set(qcProducts.map((product) => product.brand)))
+  root.dataset.qcReady = 'true'; root.className = 'qc-prototype-root'
+  const job = qcJobs[0]
+  const initialProduct = qcProducts.find((p) => qcProductKey(p) === job.productKey) ?? qcProducts[0]
+  const brands = Array.from(new Set(qcProducts.map((p) => p.brand)))
   const physicalAt = sessionStorage.getItem('erp.qcPhysicalAt') || qcLocalDateTimeValue()
 
   root.innerHTML = `
     <section class="hero-copy compact qc-hero">
-      <div class="eyebrow">PRODUKSI · QC · BARANG JADI</div>
+      <div class="eyebrow">PRODUKSI · FINISHING · BARANG JADI</div>
       <h1>QC & Final SKU</h1>
-      <p>Catat hasil fisik per size. Good masuk stok FG; BS dan Rework tetap dipisahkan supaya stok tidak tercampur.</p>
+      <p>Good tidak diketik ulang. Basisnya jumlah Potongan per size, lalu otomatis berkurang oleh BS, Cuci Ulang, dan Stuck Laundry.</p>
     </section>
-
     <section class="qc-layout">
       <div class="panel qc-workbench">
         <div class="qc-section qc-source-section">
-          <div class="qc-section-title"><div><span>01</span><div><strong>Sumber pekerjaan</strong><small>Pilih grup/PO yang benar-benar sedang diperiksa.</small></div></div><span class="qc-status-pill">SIAP QC</span></div>
+          <div class="qc-section-title"><div><span>01</span><div><strong>Sumber Potongan & finishing</strong><small>Jumlah dasar mengikuti Potongan. Pengecualian finishing yang mengurangi Good dicatat di bawah.</small></div></div><span class="qc-status-pill">DATA SIMULASI</span></div>
           <div class="qc-source-grid">
-            <label class="field"><span>PO / grup produksi</span><select class="qc-select" data-qc-job>${qcJobs.map((job, index) => `<option value="${index}">${job.ref} · ${job.mandor}</option>`).join('')}</select></label>
-            <div class="qc-source-fact"><span>SUMBER</span><strong data-qc-source>${qcJobs[0].source}</strong><small data-qc-job-qty>${qcJobs[0].qty} pcs · ${qcDozenPieces(qcJobs[0].qty)}</small></div>
-            <div class="qc-source-fact"><span>MANDOR</span><strong data-qc-mandor>${qcJobs[0].mandor}</strong><small>Jejak produksi tetap ikut PO</small></div>
+            <label class="field"><span>PO / grup produksi</span><select class="qc-select" data-qc-job>${qcJobs.map((j,i)=>`<option value="${i}">${j.ref} · ${j.mandor}</option>`).join('')}</select></label>
+            <div class="qc-source-fact"><span>POTONGAN</span><strong data-qc-cut-total>${job.cut.reduce((a,b)=>a+b,0)} pcs</strong><small data-qc-cut-dozen>${qcDozenPieces(job.cut.reduce((a,b)=>a+b,0))}</small></div>
+            <div class="qc-source-fact"><span>MANDOR / LAUNDRY</span><strong data-qc-mandor>${job.mandor}</strong><small data-qc-laundry>${job.laundry}</small></div>
           </div>
         </div>
-
         <div class="qc-section">
-          <div class="qc-section-title"><div><span>02</span><div><strong>Final SKU & waktu fisik</strong><small>Merek adalah bagian identitas SKU. Tanggal boleh kemarin kalau laporan terlambat.</small></div></div></div>
+          <div class="qc-section-title"><div><span>02</span><div><strong>Final SKU & waktu fisik</strong><small>Merek tetap bagian dari identitas SKU. Waktu fisik boleh berbeda dari waktu input.</small></div></div></div>
           <div class="qc-product-grid">
-            <label class="field"><span>Merek</span><select class="qc-select" data-qc-brand>${brands.map((brand) => `<option ${brand === initialProduct.brand ? 'selected' : ''}>${brand}</option>`).join('')}</select></label>
-            <label class="field"><span>SKU final</span><select class="qc-select" data-qc-sku>${qcProductOptions(initialProduct.brand, initialProduct.sku)}</select></label>
+            <label class="field"><span>Merek</span><select class="qc-select" data-qc-brand>${brands.map((brand)=>`<option ${brand===initialProduct.brand?'selected':''}>${brand}</option>`).join('')}</select></label>
+            <label class="field"><span>SKU final</span><select class="qc-select" data-qc-sku>${qcProductOptions(initialProduct.brand,initialProduct.sku)}</select></label>
             <label class="field"><span>Tanggal & jam fisik</span><input class="qc-date-input" data-qc-physical type="datetime-local" value="${physicalAt}"/></label>
           </div>
-          <div class="qc-product-banner">
-            <div><span class="brand-chip strong" data-qc-product-brand>${initialProduct.brand}</span><strong data-qc-product-sku>${initialProduct.sku}</strong><small data-qc-product-name>${initialProduct.name} · ${initialProduct.color} · Range ${initialProduct.range}</small></div>
-            <div><span>Tujuan Good</span><strong data-qc-warehouse>${initialProduct.warehouse}</strong><small>Mutasi: QC → FG</small></div>
-          </div>
+          <div class="qc-product-banner"><div><span class="brand-chip strong" data-qc-product-brand>${initialProduct.brand}</span><strong data-qc-product-sku>${initialProduct.sku}</strong><small data-qc-product-name>${initialProduct.name} · ${initialProduct.color} · Range ${initialProduct.range}</small></div><div><span>GOOD MASUK</span><strong data-qc-warehouse>${initialProduct.warehouse}</strong><small>Mutasi: QC → FG</small></div></div>
         </div>
-
         <div class="qc-section qc-result-section">
-          <div class="qc-section-title"><div><span>03</span><div><strong>Hasil per size</strong><small>Boleh ketik PCS, lusin, atau campuran. Total dihitung otomatis.</small></div></div><button class="soft-btn" type="button" data-qc-zero>Reset angka</button></div>
-          <div class="qc-size-grid" data-qc-size-grid>
-            ${qcSizeColumn(initialProduct.sizes[0],0,['24 pcs','2 pcs','1 pcs'])}
-            ${qcSizeColumn(initialProduct.sizes[1],1,['24 pcs','1 pcs','2 pcs'])}
-            ${qcSizeColumn(initialProduct.sizes[2],2,['24 pcs','0 pcs','1 pcs'])}
-          </div>
+          <div class="qc-section-title"><div><span>03</span><div><strong>Hasil finishing per size</strong><small>Rework tidak dicatat sebagai hasil QC. Rework baru dipilih dari menu Barang BS & Rework.</small></div></div><button class="soft-btn" type="button" data-qc-reset>Reset pengecualian</button></div>
+          <div class="qc-size-grid qc-finish-grid" data-qc-size-grid>${[0,1,2].map((i)=>qcSizeRow(job,i)).join('')}</div>
         </div>
-
-        <div class="qc-section qc-note-section">
-          <label class="field"><span>Catatan QC · opsional</span><textarea data-qc-note placeholder="Contoh: 1 pcs size 32 jahitan samping dibuka ulang"></textarea></label>
-        </div>
+        <div class="qc-section qc-note-section"><label class="field"><span>Catatan finishing · opsional</span><textarea data-qc-note placeholder="Contoh: size 31 satu pcs stuck di laundry, size 32 satu pcs cuci ulang"></textarea></label></div>
       </div>
-
       <aside class="panel qc-review-card">
-        <div class="eyebrow">RINGKASAN HASIL</div>
-        <h2>Ke mana barang bergerak?</h2>
+        <div class="eyebrow">RINGKASAN FINISHING</div><h2>Dari Potongan ke FG</h2>
+        <div class="qc-review-metric source"><span>POTONGAN</span><strong data-qc-summary-cut>0 pcs</strong><small>basis otomatis</small></div>
         <div class="qc-review-metric good"><span>GOOD · MASUK FG</span><strong data-qc-good>0 pcs</strong><small data-qc-good-dozen>0 lusin · 0 potong</small></div>
-        <div class="qc-review-metric bs"><span>BARANG BS</span><strong data-qc-bs>0 pcs</strong><small data-qc-bs-dozen>0 lusin · 0 potong</small></div>
-        <div class="qc-review-metric rework"><span>REWORK</span><strong data-qc-rework>0 pcs</strong><small data-qc-rework-dozen>0 lusin · 0 potong</small></div>
-        <div class="qc-reviewed-total"><span>TOTAL DIPERIKSA</span><strong data-qc-total>0 pcs</strong><small data-qc-total-dozen>0 lusin · 0 potong</small></div>
-        <div class="qc-check success" data-qc-check><span>✓</span><div><strong>Komposisi siap direview</strong><small>Good, BS, dan Rework dipisahkan.</small></div></div>
-        <div class="qc-review-context"><span data-qc-review-ref>${qcJobs[0].ref}</span><b>•</b><span data-qc-review-product>${initialProduct.brand} ${initialProduct.sku}</span></div>
-        <button class="primary-btn qc-review-button" type="button" data-qc-review>Review sebelum posting <span>→</span></button>
-        <small class="qc-prototype-note">Prototype UX · belum menulis transaksi ke Supabase.</small>
+        <div class="qc-review-metric bs"><span>BS · BARANG BS</span><strong data-qc-bs>0 pcs</strong><small>treatment dipilih setelahnya</small></div>
+        <div class="qc-review-metric rewash"><span>CU · CUCI ULANG</span><strong data-qc-rewash>0 pcs</strong><small>masuk jalur rework laundry</small></div>
+        <div class="qc-review-metric stuck"><span>STUCK LAUNDRY</span><strong data-qc-stuck>0 pcs</strong><small>tetap outstanding di laundry</small></div>
+        <div class="qc-check success" data-qc-check><span>✓</span><div><strong>Komposisi konsisten</strong><small>Good dihitung otomatis.</small></div></div>
+        <div class="qc-review-context"><span data-qc-review-ref>${job.ref}</span><b>•</b><span data-qc-review-product>${initialProduct.brand} ${initialProduct.sku}</span></div>
+        <button class="primary-btn qc-review-button" type="button" data-qc-review>Review finishing <span>→</span></button>
+        <small class="qc-prototype-note">Frontend simulasi · tidak menulis stok atau backend.</small>
       </aside>
     </section>
-
     <div class="qc-review-shield" data-qc-review-shield hidden></div>
     <section class="qc-review-sheet" data-qc-review-sheet hidden>
-      <div class="qc-sheet-head"><div><span>REVIEW HASIL QC</span><strong data-qc-sheet-title>${initialProduct.brand} · ${initialProduct.sku}</strong></div><button type="button" data-qc-close>×</button></div>
-      <div class="qc-sheet-flow">
-        <div class="good"><span>Masuk FG</span><strong data-qc-sheet-good>0 pcs</strong><small data-qc-sheet-good-dozen>0 lusin · 0 potong</small></div>
-        <div class="bs"><span>Barang BS</span><strong data-qc-sheet-bs>0 pcs</strong><small data-qc-sheet-bs-dozen>0 lusin · 0 potong</small></div>
-        <div class="rework"><span>Rework</span><strong data-qc-sheet-rework>0 pcs</strong><small data-qc-sheet-rework-dozen>0 lusin · 0 potong</small></div>
-      </div>
-      <div class="qc-sheet-audit"><span>Tanggal fisik</span><strong data-qc-sheet-physical>—</strong><small>Waktu input sistem tetap terpisah untuk audit.</small></div>
-      <div class="qc-sheet-actions"><button class="soft-btn" type="button" data-qc-close>Kembali edit</button><button class="primary-btn" type="button" data-qc-simulate>Simulasikan posting</button></div>
-      <div class="qc-simulation-result" data-qc-simulation hidden><strong>Simulasi alur berhasil.</strong><span>Good akan membuat mutasi <b>QC → FG</b>; BS dan Rework masuk jalurnya masing-masing. Belum ada data backend yang diubah.</span></div>
-    </section>
-  `
-
-  qcBind(root)
-  qcRecalculate(root)
+      <div class="qc-sheet-head"><div><span>REVIEW FINISHING</span><strong data-qc-sheet-title>${initialProduct.brand} · ${initialProduct.sku}</strong></div><button type="button" data-qc-close>×</button></div>
+      <div class="qc-sheet-flow"><div class="good"><span>Good → FG</span><strong data-qc-sheet-good>0 pcs</strong></div><div class="bs"><span>BS → Barang BS</span><strong data-qc-sheet-bs>0 pcs</strong></div><div class="rewash"><span>Cuci ulang</span><strong data-qc-sheet-rewash>0 pcs</strong></div><div class="stuck"><span>Stuck Laundry</span><strong data-qc-sheet-stuck>0 pcs</strong></div></div>
+      <div class="qc-sheet-audit"><span>Tanggal fisik</span><strong data-qc-sheet-physical>—</strong><small>Good otomatis dari Potongan − BS − Cuci Ulang − Stuck Laundry.</small></div>
+      <div class="qc-routing-note"><strong>Sesudah finishing</strong><span>BS baru bisa dipilih treatment-nya di <b>Barang BS & Rework</b>. Bikin bagus ke mandor menghasilkan komponen rework yang eligible payroll; Cuci Ulang menuju laundry.</span></div>
+      <div class="qc-sheet-actions"><button class="soft-btn" type="button" data-qc-close>Kembali edit</button><button class="primary-btn" type="button" data-qc-simulate>Simulasikan hasil</button></div>
+      <div class="qc-simulation-result" data-qc-simulation hidden><strong>Simulasi alur berhasil.</strong><span>Good akan masuk FG. BS menjadi kasus BS. Cuci Ulang menuju rework laundry. Stuck tetap di Laundry WIP. Backend belum berubah.</span></div>
+    </section>`
+  qcBind(root); qcRecalculate(root)
 }
 
-function qcCurrentProduct(root: HTMLElement) {
-  const brand = root.querySelector<HTMLSelectElement>('[data-qc-brand]')?.value ?? qcProducts[0].brand
-  const sku = root.querySelector<HTMLSelectElement>('[data-qc-sku]')?.value ?? qcProducts[0].sku
-  return qcProducts.find((product) => product.brand === brand && product.sku === sku) ?? qcProducts[0]
+function qcLoadJob(root: HTMLElement) {
+  const job = qcCurrentJob(root)
+  const product = qcProducts.find((p)=>qcProductKey(p)===job.productKey) ?? qcProducts[0]
+  const brand = root.querySelector<HTMLSelectElement>('[data-qc-brand]'); const sku = root.querySelector<HTMLSelectElement>('[data-qc-sku]')
+  if (brand) brand.value = product.brand
+  if (sku) { sku.innerHTML = qcProductOptions(product.brand,product.sku); sku.value = product.sku }
+  qcSetText(root,'[data-qc-cut-total]',`${job.cut.reduce((a,b)=>a+b,0)} pcs`); qcSetText(root,'[data-qc-cut-dozen]',qcDozenPieces(job.cut.reduce((a,b)=>a+b,0)))
+  qcSetText(root,'[data-qc-mandor]',job.mandor); qcSetText(root,'[data-qc-laundry]',job.laundry); qcSetText(root,'[data-qc-review-ref]',job.ref)
+  const grid = root.querySelector<HTMLElement>('[data-qc-size-grid]'); if (grid) grid.innerHTML = [0,1,2].map((i)=>qcSizeRow(job,i)).join('')
+  qcUpdateProduct(root); qcRecalculate(root)
 }
-
-function qcSetText(root: HTMLElement | Document, selector: string, text: string) {
-  const element = root.querySelector<HTMLElement>(selector)
-  if (element) element.textContent = text
-}
-
-function qcUpdateProduct(root: HTMLElement, keepValues = false) {
+function qcUpdateProduct(root: HTMLElement) {
   const product = qcCurrentProduct(root)
-  qcSetText(root, '[data-qc-product-brand]', product.brand)
-  qcSetText(root, '[data-qc-product-sku]', product.sku)
-  qcSetText(root, '[data-qc-product-name]', `${product.name} · ${product.color} · Range ${product.range}`)
-  qcSetText(root, '[data-qc-warehouse]', product.warehouse)
-  qcSetText(root, '[data-qc-review-product]', `${product.brand} ${product.sku}`)
-  qcSetText(document, '[data-qc-sheet-title]', `${product.brand} · ${product.sku}`)
-
-  const columns = Array.from(root.querySelectorAll<HTMLElement>('[data-qc-size-index]'))
-  columns.forEach((column, index) => {
-    const title = column.querySelector<HTMLElement>('.qc-size-head strong')
-    if (title) title.textContent = product.sizes[index]
-    if (!keepValues) {
-      column.querySelectorAll<HTMLInputElement>('input[data-grade]').forEach((input) => { input.value = '0 pcs' })
-    }
-  })
-  qcRecalculate(root)
+  qcSetText(root,'[data-qc-product-brand]',product.brand); qcSetText(root,'[data-qc-product-sku]',product.sku); qcSetText(root,'[data-qc-product-name]',`${product.name} · ${product.color} · Range ${product.range}`); qcSetText(root,'[data-qc-warehouse]',product.warehouse); qcSetText(root,'[data-qc-review-product]',`${product.brand} ${product.sku}`); qcSetText(document,'[data-qc-sheet-title]',`${product.brand} · ${product.sku}`)
 }
 
 function qcRecalculate(root: HTMLElement) {
-  let goodTotal = 0
-  let bsTotal = 0
-  let reworkTotal = 0
-
-  root.querySelectorAll<HTMLElement>('[data-qc-size-index]').forEach((column) => {
-    let sizeTotal = 0
-    column.querySelectorAll<HTMLInputElement>('input[data-grade]').forEach((input) => {
-      const pcs = qcParseQty(input.value)
-      const grade = input.dataset.grade ?? ''
-      sizeTotal += pcs
-      if (grade === 'good') goodTotal += pcs
-      if (grade === 'bs') bsTotal += pcs
-      if (grade === 'rework') reworkTotal += pcs
-      qcSetText(column, `[data-conversion="${grade}"]`, qcDozenPieces(pcs))
-    })
-    qcSetText(column, '[data-size-total]', `${sizeTotal} pcs`)
-    qcSetText(column, '[data-size-total-dozen]', qcDozenPieces(sizeTotal))
+  const job = qcCurrentJob(root); let goodTotal=0,bsTotal=0,rewashTotal=0,stuckTotal=0,invalid=false
+  root.querySelectorAll<HTMLElement>('[data-qc-size-index]').forEach((row)=>{
+    const index = Number(row.dataset.qcSizeIndex ?? 0), cut = job.cut[index]
+    const bs=qcInt(row.querySelector<HTMLInputElement>('[data-grade="bs"]')?.value ?? 0), rewash=qcInt(row.querySelector<HTMLInputElement>('[data-grade="rewash"]')?.value ?? 0), stuck=qcInt(row.querySelector<HTMLInputElement>('[data-grade="stuck"]')?.value ?? 0)
+    const exceptions=bs+rewash+stuck; if(exceptions>cut) invalid=true; const good=Math.max(0,cut-exceptions)
+    qcSetText(row,'[data-qc-good-size]',`${good} pcs`); qcSetText(row,'[data-qc-good-dozen]',qcDozenPieces(good)); row.classList.toggle('is-invalid',exceptions>cut)
+    goodTotal+=good; bsTotal+=bs; rewashTotal+=rewash; stuckTotal+=stuck
   })
-
-  const total = goodTotal + bsTotal + reworkTotal
-  qcSetText(root, '[data-qc-good]', `${goodTotal} pcs`)
-  qcSetText(root, '[data-qc-good-dozen]', qcDozenPieces(goodTotal))
-  qcSetText(root, '[data-qc-bs]', `${bsTotal} pcs`)
-  qcSetText(root, '[data-qc-bs-dozen]', qcDozenPieces(bsTotal))
-  qcSetText(root, '[data-qc-rework]', `${reworkTotal} pcs`)
-  qcSetText(root, '[data-qc-rework-dozen]', qcDozenPieces(reworkTotal))
-  qcSetText(root, '[data-qc-total]', `${total} pcs`)
-  qcSetText(root, '[data-qc-total-dozen]', qcDozenPieces(total))
-
-  qcSetText(document, '[data-qc-sheet-good]', `${goodTotal} pcs`)
-  qcSetText(document, '[data-qc-sheet-good-dozen]', qcDozenPieces(goodTotal))
-  qcSetText(document, '[data-qc-sheet-bs]', `${bsTotal} pcs`)
-  qcSetText(document, '[data-qc-sheet-bs-dozen]', qcDozenPieces(bsTotal))
-  qcSetText(document, '[data-qc-sheet-rework]', `${reworkTotal} pcs`)
-  qcSetText(document, '[data-qc-sheet-rework-dozen]', qcDozenPieces(reworkTotal))
-
-  const jobSelect = root.querySelector<HTMLSelectElement>('[data-qc-job]')
-  const job = qcJobs[Number(jobSelect?.value ?? 0)] ?? qcJobs[0]
-  const check = root.querySelector<HTMLElement>('[data-qc-check]')
-  if (check) {
-    const over = total > job.qty
-    check.classList.toggle('success', !over && total > 0)
-    check.classList.toggle('warn', over || total === 0)
-    check.innerHTML = over
-      ? `<span>!</span><div><strong>Jumlah melebihi sumber ${job.qty} pcs</strong><small>Cek kembali angka QC atau sumber PO.</small></div>`
-      : total === 0
-        ? `<span>!</span><div><strong>Belum ada hasil QC</strong><small>Isi minimal satu jumlah.</small></div>`
-        : `<span>✓</span><div><strong>Komposisi siap direview</strong><small>${total} dari ${job.qty} pcs sumber tercatat.</small></div>`
-  }
-  const review = root.querySelector<HTMLButtonElement>('[data-qc-review]')
-  if (review) review.disabled = total === 0 || total > job.qty
+  const cutTotal=job.cut.reduce((a,b)=>a+b,0)
+  qcSetText(root,'[data-qc-summary-cut]',`${cutTotal} pcs`); qcSetText(root,'[data-qc-good]',`${goodTotal} pcs`); qcSetText(root,'[data-qc-good-dozen]',qcDozenPieces(goodTotal)); qcSetText(root,'[data-qc-bs]',`${bsTotal} pcs`); qcSetText(root,'[data-qc-rewash]',`${rewashTotal} pcs`); qcSetText(root,'[data-qc-stuck]',`${stuckTotal} pcs`)
+  qcSetText(document,'[data-qc-sheet-good]',`${goodTotal} pcs`); qcSetText(document,'[data-qc-sheet-bs]',`${bsTotal} pcs`); qcSetText(document,'[data-qc-sheet-rewash]',`${rewashTotal} pcs`); qcSetText(document,'[data-qc-sheet-stuck]',`${stuckTotal} pcs`)
+  const check=root.querySelector<HTMLElement>('[data-qc-check]'); const review=root.querySelector<HTMLButtonElement>('[data-qc-review]')
+  if(check){check.classList.toggle('success',!invalid);check.classList.toggle('warn',invalid);check.innerHTML=invalid?'<span>!</span><div><strong>Pengecualian melebihi Potongan</strong><small>BS + Cuci Ulang + Stuck tidak boleh lebih besar dari qty Potongan pada size tersebut.</small></div>':`<span>✓</span><div><strong>Good otomatis ${goodTotal} pcs</strong><small>${cutTotal} Potongan − ${bsTotal} BS − ${rewashTotal} CU − ${stuckTotal} Stuck.</small></div>`}
+  if(review) review.disabled=invalid
 }
-
-function qcOpenReview(root: HTMLElement) {
-  const sheet = document.querySelector<HTMLElement>('[data-qc-review-sheet]')
-  const shield = document.querySelector<HTMLElement>('[data-qc-review-shield]')
-  const physical = root.querySelector<HTMLInputElement>('[data-qc-physical]')?.value ?? ''
-  qcSetText(document, '[data-qc-sheet-physical]', physical ? physical.replace('T', ' · ') : '—')
-  if (sheet) sheet.hidden = false
-  if (shield) shield.hidden = false
-  document.body.classList.add('qc-sheet-open')
+function qcOpenReview(root: HTMLElement){const physical=root.querySelector<HTMLInputElement>('[data-qc-physical]')?.value??'';qcSetText(document,'[data-qc-sheet-physical]',physical?physical.replace('T',' · '):'—');const sheet=document.querySelector<HTMLElement>('[data-qc-review-sheet]');const shield=document.querySelector<HTMLElement>('[data-qc-review-shield]');if(sheet)sheet.hidden=false;if(shield)shield.hidden=false;document.body.classList.add('qc-sheet-open')}
+function qcCloseReview(){const sheet=document.querySelector<HTMLElement>('[data-qc-review-sheet]');const shield=document.querySelector<HTMLElement>('[data-qc-review-shield]');if(sheet)sheet.hidden=true;if(shield)shield.hidden=true;document.body.classList.remove('qc-sheet-open')}
+function qcBind(root: HTMLElement){
+  root.addEventListener('input',(event)=>{const target=event.target as HTMLInputElement|null;if(!target)return;if(target.matches('input[data-grade]'))qcRecalculate(root);if(target.matches('[data-qc-physical]'))sessionStorage.setItem('erp.qcPhysicalAt',target.value)})
+  root.addEventListener('change',(event)=>{const target=event.target as HTMLSelectElement|null;if(!target)return;if(target.matches('[data-qc-job]'))qcLoadJob(root);if(target.matches('[data-qc-brand]')){const sku=root.querySelector<HTMLSelectElement>('[data-qc-sku]');if(sku)sku.innerHTML=qcProductOptions(target.value);qcUpdateProduct(root)}if(target.matches('[data-qc-sku]'))qcUpdateProduct(root)})
+  root.querySelector<HTMLButtonElement>('[data-qc-reset]')?.addEventListener('click',()=>{root.querySelectorAll<HTMLInputElement>('input[data-grade]').forEach((input)=>input.value='0');qcRecalculate(root)})
+  root.querySelector<HTMLButtonElement>('[data-qc-review]')?.addEventListener('click',()=>qcOpenReview(root));document.querySelectorAll<HTMLElement>('[data-qc-close],[data-qc-review-shield]').forEach((node)=>node.addEventListener('click',qcCloseReview));document.querySelector<HTMLButtonElement>('[data-qc-simulate]')?.addEventListener('click',()=>{const result=document.querySelector<HTMLElement>('[data-qc-simulation]');if(result)result.hidden=false})
 }
-
-function qcCloseReview() {
-  const sheet = document.querySelector<HTMLElement>('[data-qc-review-sheet]')
-  const shield = document.querySelector<HTMLElement>('[data-qc-review-shield]')
-  if (sheet) sheet.hidden = true
-  if (shield) shield.hidden = true
-  document.body.classList.remove('qc-sheet-open')
-}
-
-function qcBind(root: HTMLElement) {
-  root.addEventListener('input', (event) => {
-    const target = event.target as HTMLInputElement | HTMLTextAreaElement | null
-    if (!target) return
-    if (target.matches('input[data-grade]')) qcRecalculate(root)
-    if (target.matches('[data-qc-physical]')) sessionStorage.setItem('erp.qcPhysicalAt', target.value)
-  })
-
-  root.addEventListener('change', (event) => {
-    const target = event.target as HTMLSelectElement | null
-    if (!target) return
-    if (target.matches('[data-qc-job]')) {
-      const job = qcJobs[Number(target.value)] ?? qcJobs[0]
-      qcSetText(root, '[data-qc-source]', job.source)
-      qcSetText(root, '[data-qc-job-qty]', `${job.qty} pcs · ${qcDozenPieces(job.qty)}`)
-      qcSetText(root, '[data-qc-mandor]', job.mandor)
-      qcSetText(root, '[data-qc-review-ref]', job.ref)
-      qcRecalculate(root)
-    }
-    if (target.matches('[data-qc-brand]')) {
-      const skuSelect = root.querySelector<HTMLSelectElement>('[data-qc-sku]')
-      if (skuSelect) skuSelect.innerHTML = qcProductOptions(target.value)
-      qcUpdateProduct(root)
-    }
-    if (target.matches('[data-qc-sku]')) qcUpdateProduct(root, true)
-  })
-
-  root.querySelector<HTMLButtonElement>('[data-qc-zero]')?.addEventListener('click', () => {
-    root.querySelectorAll<HTMLInputElement>('input[data-grade]').forEach((input) => { input.value = '0 pcs' })
-    qcRecalculate(root)
-  })
-  root.querySelector<HTMLButtonElement>('[data-qc-review]')?.addEventListener('click', () => qcOpenReview(root))
-
-  document.querySelectorAll<HTMLElement>('[data-qc-close], [data-qc-review-shield]').forEach((element) => element.addEventListener('click', qcCloseReview))
-  document.querySelector<HTMLButtonElement>('[data-qc-simulate]')?.addEventListener('click', () => {
-    const result = document.querySelector<HTMLElement>('[data-qc-simulation]')
-    if (result) result.hidden = false
-  })
-}
-
-function qcMountIfNeeded() {
-  if (sessionStorage.getItem(qcActiveKey) !== qcPageId) return
-  const placeholder = document.querySelector<HTMLElement>('.placeholder')
-  if (!placeholder) return
-  qcSetTopTitle(true)
-  qcRender(placeholder)
-}
-
-document.addEventListener('click', (event) => {
-  const target = event.target as Element | null
-  const submenu = target?.closest('.submenu button') as HTMLButtonElement | null
-  if (submenu) {
-    const label = submenu.textContent?.replace(/^•\s*/, '').trim() ?? ''
-    if (label === 'QC & Final SKU') {
-      sessionStorage.setItem(qcActiveKey, qcPageId)
-    } else {
-      sessionStorage.removeItem(qcActiveKey)
-      qcUnmount()
-      qcCloseReview()
-    }
-  }
-  const mainNav = target?.closest('.nav-main')
-  if (mainNav && !submenu) {
-    sessionStorage.removeItem(qcActiveKey)
-    qcCloseReview()
-  }
-}, true)
-
-const qcObserver = new MutationObserver(qcMountIfNeeded)
-qcObserver.observe(document.documentElement, { childList: true, subtree: true })
-queueMicrotask(qcMountIfNeeded)
+function qcMountIfNeeded(){if(sessionStorage.getItem(qcActiveKey)!==qcPageId)return;const placeholder=document.querySelector<HTMLElement>('.placeholder');if(!placeholder)return;qcSetTopTitle(true);qcRender(placeholder)}
+document.addEventListener('click',(event)=>{const target=event.target as Element|null;const submenu=target?.closest('.submenu button') as HTMLButtonElement|null;if(submenu){const label=submenu.textContent?.replace(/^•\s*/,'').trim()??'';if(label==='QC & Final SKU')sessionStorage.setItem(qcActiveKey,qcPageId);else if(sessionStorage.getItem(qcActiveKey)===qcPageId){sessionStorage.removeItem(qcActiveKey);qcUnmount()}}const mainNav=target?.closest('.nav-main');if(mainNav&&!submenu&&sessionStorage.getItem(qcActiveKey)===qcPageId){sessionStorage.removeItem(qcActiveKey);qcUnmount()}},true)
+const qcObserver=new MutationObserver(qcMountIfNeeded);qcObserver.observe(document.documentElement,{childList:true,subtree:true});queueMicrotask(qcMountIfNeeded)
