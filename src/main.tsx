@@ -4,6 +4,8 @@ import App from './App'
 import './styles.css'
 import './upgrade.css'
 import './brand-books.css'
+import './interaction-upgrades.css'
+import './interaction-upgrades'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
