@@ -9,7 +9,7 @@ import {
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 
-type Page = 'dashboard' | 'sales' | 'stock-card' | 'movements-vivo' | 'movements-widie' | 'procurement' | 'cutting-roll' | 'mandor-wip' | 'placeholder'
+type Page = 'dashboard' | 'sales' | 'stock-card' | 'movements-vivo' | 'movements-widie' | 'procurement' | 'cutting-roll' | 'mandor-wip' | 'sewing-wip' | 'placeholder'
 type NavSection = 'Produksi' | 'Gudang' | 'Penjualan' | 'Keuangan' | 'Master Data'
 type QtyTuple = [number, number, number]
 type SizeTuple = [string, string, string]
@@ -162,7 +162,7 @@ const stockLocations = Array.from(new Set(productCatalog.map((product) => produc
 const stockGrades = Array.from(new Set(productCatalog.map((product) => product.grade)))
 
 const nav: Record<NavSection, string[]> = {
-  Produksi: ['Pesanan Produksi', 'Bagi Potongan', 'Mandor & WIP', 'Laundry', 'QC & Final SKU', 'Barang BS & Rework'],
+  Produksi: ['Buat Potongan', 'Bagi Potongan', 'WIP & Sewing', 'Laundry', 'QC & Final SKU', 'Barang BS & Rework'],
   Gudang: ['Ringkasan Gudang', 'Pembelian & Penerimaan', 'Bahan & Roll', 'Aksesori', 'Ringkasan Barang Jadi', 'Mutasi Barang Jadi · Vivo', 'Mutasi Barang Jadi · Widie', 'Kartu Stok FG', 'Retur & Penyesuaian'],
   Penjualan: ['Penjualan & Invoice', 'Alokasi Barang Jadi', 'Retur Penjualan', 'Pembayaran Pelanggan', 'Riwayat Pelanggan'],
   Keuangan: ['Ringkasan Keuangan', 'Kas & Bank', 'Hutang Supplier & Vendor', 'Piutang Pelanggan', 'Payroll & Kasbon', 'HPP & Rekalkulasi', 'Jurnal & Transaksi Lain', 'Laporan & Tutup Buku'],
@@ -257,6 +257,11 @@ function App() {
   const [movements, setMovements] = useState(chronologicalMovements)
   const [vivoBookBrands, setVivoBookBrands] = useState<string[]>(['Vivo'])
   const [widieBookBrands, setWidieBookBrands] = useState<string[]>(['Widie'])
+  const [mandorBatchNotes,setMandorBatchNotes] = useState<string[]>([
+    'Warna navy · stik pinggang 2 jalur',
+    'Warna maroon · obras rapat',
+    'Warna hitam · cek sambungan samping',
+  ])
 
   const totalPcs = parseQty(qtyText, unit)
   const composed = sizes.reduce((sum, row) => sum + row.qty, 0)
@@ -279,8 +284,9 @@ function App() {
     : page === 'movements-vivo' ? 'Mutasi Barang Jadi · Vivo'
     : page === 'movements-widie' ? 'Mutasi Barang Jadi · Widie'
     : page === 'procurement' ? 'Pembelian & Penerimaan'
-    : page === 'cutting-roll' ? 'Bagi Potongan'
-    : page === 'mandor-wip' ? 'Mandor & WIP'
+    : page === 'cutting-roll' ? 'Buat Potongan'
+    : page === 'mandor-wip' ? 'Bagi Potongan'
+    : page === 'sewing-wip' ? 'WIP & Sewing'
     : 'Modul ERP'
 
   const chooseSubmenu = (label: string) => {
@@ -289,8 +295,9 @@ function App() {
     else if (label === 'Mutasi Barang Jadi · Vivo') setPage('movements-vivo')
     else if (label === 'Mutasi Barang Jadi · Widie') setPage('movements-widie')
     else if (label === 'Pembelian & Penerimaan') setPage('procurement')
-    else if (label === 'Bagi Potongan') setPage('cutting-roll')
-    else if (label === 'Mandor & WIP') setPage('mandor-wip')
+    else if (label === 'Buat Potongan') setPage('cutting-roll')
+    else if (label === 'Bagi Potongan') setPage('mandor-wip')
+    else if (label === 'WIP & Sewing') setPage('sewing-wip')
     else setPage('placeholder')
     setMobileNav(false)
   }
@@ -303,7 +310,7 @@ function App() {
       {(Object.keys(nav) as NavSection[]).map((section) => <div className="nav-section" key={section}>
         <button className={`nav-main ${expanded === section ? 'active' : ''}`} onClick={() => setExpanded(expanded === section ? null : section)}><Icon name={section} /><span>{section}</span><span className="chevron">{expanded === section ? '⌄' : '›'}</span></button>
         {expanded === section && <div className="submenu">{nav[section].map((item) => {
-          const active = (item === 'Penjualan & Invoice' && page === 'sales') || (item === 'Kartu Stok FG' && page === 'stock-card') || (item === 'Mutasi Barang Jadi · Vivo' && page === 'movements-vivo') || (item === 'Mutasi Barang Jadi · Widie' && page === 'movements-widie') || (item === 'Pembelian & Penerimaan' && page === 'procurement') || (item === 'Bagi Potongan' && page === 'cutting-roll') || (item === 'Mandor & WIP' && page === 'mandor-wip')
+          const active = (item === 'Penjualan & Invoice' && page === 'sales') || (item === 'Kartu Stok FG' && page === 'stock-card') || (item === 'Mutasi Barang Jadi · Vivo' && page === 'movements-vivo') || (item === 'Mutasi Barang Jadi · Widie' && page === 'movements-widie') || (item === 'Pembelian & Penerimaan' && page === 'procurement') || (item === 'Buat Potongan' && page === 'cutting-roll') || (item === 'Bagi Potongan' && page === 'mandor-wip') || (item === 'WIP & Sewing' && page === 'sewing-wip')
           return <button key={item} className={active ? 'sub-active' : ''} onClick={() => chooseSubmenu(item)}>• {item}</button>
         })}</div>}
       </div>)}
@@ -322,7 +329,8 @@ function App() {
         {page === 'movements-widie' && <Movements bookName="Widie" bookBrands={widieBookBrands} setBookBrands={setWidieBookBrands} movements={movements} setMovements={setMovements} />}
         {page === 'procurement' && <ProcurementPage />}
         {page === 'cutting-roll' && <CuttingRollPage />}
-        {page === 'mandor-wip' && <MandorWipPage />}
+        {page === 'mandor-wip' && <MandorWipPage batchNotes={mandorBatchNotes} setBatchNotes={setMandorBatchNotes} />}
+        {page === 'sewing-wip' && <SewingWipPage batchNotes={mandorBatchNotes} />}
         {page === 'placeholder' && <Placeholder />}
       </div>
     </main>
@@ -626,8 +634,8 @@ function CuttingRollPage() {
     fillColumnsFromSource(sourceSlot,targetSlot)
   }
   return <>
-    <section className="hero-copy compact cutting-hero"><div className="eyebrow">PRODUKSI · CUTTING</div><h1>Bagi Potongan</h1><p>Ambil roll, catat hasil potong per roll dan size, lalu simpan sebagai WIP Potongan. Batch mandor belum dibuat di tahap ini.</p></section>
-    <section className="cutting-flow-rail cutting-flow-three panel" aria-label="Alur Bagi Potongan">{['Pilih roll','Catat hasil per roll','Simpan ke WIP'].map((label,index)=><div className={index===0?'active':''} key={label}><span>{String(index+1).padStart(2,'0')}</span><strong>{label}</strong>{index<2&&<Icon name="arrow"/>}</div>)}</section>
+    <section className="hero-copy compact cutting-hero"><div className="eyebrow">PRODUKSI · CUTTING</div><h1>Buat Potongan</h1><p>Ambil roll, catat hasil potong per roll dan size, lalu simpan sebagai WIP Potongan. Batch mandor belum dibuat di tahap ini.</p></section>
+    <section className="cutting-flow-rail cutting-flow-three panel" aria-label="Alur Buat Potongan">{['Pilih roll','Catat hasil per roll','Simpan ke WIP'].map((label,index)=><div className={index===0?'active':''} key={label}><span>{String(index+1).padStart(2,'0')}</span><strong>{label}</strong>{index<2&&<Icon name="arrow"/>}</div>)}</section>
     <section className="roll-first-layout">
       <div className="panel roll-catalog-panel">
         <div className="cutting-panel-head"><div><span>01 · SUMBER KAIN</span><h2>Pilih roll yang mau dibagi</h2><p>Satu roll tetap satu baris. Urutan dan yard asal tidak digabung.</p></div><span className="selection-pill">{selectedRolls.length} dipilih</span></div>
@@ -677,7 +685,7 @@ function CuttingRollPage() {
   </>
 }
 
-function MandorWipPage() {
+function MandorWipPage({ batchNotes, setBatchNotes }: { batchNotes: string[]; setBatchNotes: (updater: (current: string[]) => string[]) => void }) {
   const wipRolls = fabricRollCatalog.slice(0, 9)
   const wipRollRows = wipRolls.map((roll) => {
     const sizes = rollSizeQuantities(roll.allocation)
@@ -757,6 +765,7 @@ function MandorWipPage() {
     setSizeMatrix((current) => sizeAllocationTouched
       ? Object.fromEntries(cuttingSizes.map((size) => [size, Array.from({ length: nextCount }, (_, batchIndex) => current[size]?.[batchIndex] ?? '0')]))
       : createSizeAllocationMatrix(wipSizeTotals, nextCount))
+    setBatchNotes((current) => Array.from({ length: nextCount }, (_, batchIndex) => current[batchIndex] ?? ''))
     setBatchCountInput(String(nextCount))
     setBatchCount(nextCount)
     setSplitEditorRollId(null)
@@ -860,7 +869,7 @@ function MandorWipPage() {
   const pickupReviewAt = pickupAt ? new Intl.DateTimeFormat('id-ID', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false }).format(new Date(pickupAt)) : 'Belum diisi'
 
   return <>
-    <section className="hero-copy compact cutting-hero"><div className="eyebrow">PRODUKSI · MANDOR</div><h1>Ambil WIP & Bentuk Batch</h1><p>Pilih Potongan yang sudah selesai cutting. Setelah mandor mengambil, baru bentuk batch kerja yang sama untuk alur jahit sampai laundry.</p></section>
+    <section className="hero-copy compact cutting-hero"><div className="eyebrow">PRODUKSI · PICKUP MANDOR</div><h1>Bagi Potongan</h1><p>Pilih Potongan yang sudah selesai cutting. Setelah mandor mengambil, baru bentuk batch kerja dan beri arahan jahitan atau warna untuk setiap batch.</p></section>
     <section className="wip-flow-rail panel" aria-label="Alur pickup dan pembentukan batch">{['Pilih WIP Potongan','Catat mandor mengambil','Tentukan jumlah batch','Drag roll / batch per size'].map((label,index)=><div className={index===0?'active':''} key={label}><span>{String(index+1).padStart(2,'0')}</span><strong>{label}</strong>{index<3&&<Icon name="arrow"/>}</div>)}</section>
     <section className="wip-pickup-layout">
       <aside className="panel wip-queue-panel">
@@ -907,7 +916,7 @@ function MandorWipPage() {
 
         <div className="wip-batch-grid">
           {Array.from({length:effectiveBatchCount},(_,batchIndex)=>{const assignedRows=allocationMode==='roll'?wipRollRows.filter((row)=>(rollBatchMatrix[row.roll.id]?.[batchIndex]??[]).reduce((sum,value)=>sum+cellQuantity(value),0)>0):[];return <article data-wip-drop-batch={allocationMode==='roll'?batchIndex:undefined} className={`wip-batch-card ${rollDrag?.target===batchIndex?'drop-target':''} ${allocationMode==='size'?'size-batch-card':''}`} key={batchIndex}>
-            <div className="wip-batch-card-head"><div><span>BATCH {String(batchIndex+1).padStart(2,'0')}</span><strong>{batchTotals[batchIndex]} pcs</strong></div><small>Saran {targetTotals[batchIndex]}</small></div>
+            <div className="wip-batch-card-head"><div><span>BATCH {String(batchIndex+1).padStart(2,'0')}</span><strong>{batchTotals[batchIndex]} pcs</strong></div><label className="batch-mandor-note"><span>CATATAN JAHITAN / WARNA</span><input type="text" value={batchNotes[batchIndex]??''} placeholder="Contoh: navy · obras rapat..." aria-label={`Catatan jahitan atau warna Batch ${batchIndex+1}`} onChange={(event)=>setBatchNotes((current)=>Array.from({length:effectiveBatchCount},(_,noteIndex)=>noteIndex===batchIndex?event.target.value:current[noteIndex]??''))}/></label><small>Saran {targetTotals[batchIndex]}</small></div>
             <div className="wip-batch-size-mix">{cuttingSizes.map((size,sizeIndex)=><span className={batchSizeMix[batchIndex][sizeIndex]>0?'active':''} key={size}><small>SIZE {size}</small><strong>{batchSizeMix[batchIndex][sizeIndex]}</strong></span>)}</div>
             <div className="wip-batch-source-list">
               {allocationMode==='roll'?(assignedRows.length>0?assignedRows.map((row)=>{const sizes=rollBatchMatrix[row.roll.id]?.[batchIndex]??['0','0','0'];const allocated=sizes.reduce((sum,value)=>sum+cellQuantity(value),0);const usedIn=(rollBatchMatrix[row.roll.id]??[]).filter((batchSizes)=>batchSizes.reduce((sum,value)=>sum+cellQuantity(value),0)>0).length;const sourceExact=row.sizes.every((source,sizeIndex)=>(rollBatchMatrix[row.roll.id]??[]).reduce((sum,batchSizes)=>sum+cellQuantity(batchSizes[sizeIndex]),0)===source);const draggable=usedIn===1&&sourceExact;return <div className="wip-batch-source locked-source movable-source" key={row.roll.id}><button type="button" disabled={!draggable} className="batch-roll-drag-handle" aria-label={`Pindahkan Roll ${row.roll.sequence} ke batch lain`} title={draggable?'Tarik ke batch lain':'Roll pecah dipindahkan lewat Atur'} onPointerDown={(event)=>draggable&&beginRollDrag(event,row.roll.id)} onPointerMove={moveRollDrag} onPointerUp={finishRollDrag} onPointerCancel={cancelRollDrag}><Icon name="drag"/></button><div><strong>Roll {String(row.roll.sequence).padStart(2,'0')} · {allocated} pcs</strong><small>{cuttingSizes.map((size,sizeIndex)=>`${size}: ${cellQuantity(sizes[sizeIndex])}`).join(' · ')}</small></div><em className={usedIn>1?'pecah':'utuh'}>{usedIn>1?'Pecah':'Utuh'}</em><div className="batch-source-actions"><button type="button" onClick={()=>{setSplitEditorRollId(row.roll.id);setAllocationMessage('')}}>Atur</button><button type="button" onClick={()=>unassignRoll(row.roll.id)}>Keluarkan</button></div></div>}):<div className="wip-batch-empty"><Icon name="drag"/><strong>Tarik roll ke sini</strong><small>Roll masuk utuh secara default</small></div>):cuttingSizes.map((size,sizeIndex)=>{const allocated=sizeMatrix[size]?.[batchIndex]??'0';const check=sourceChecks[sizeIndex];return <label className={`wip-batch-source editable-size-source ${cellQuantity(allocated)===0?'empty':''}`} key={size}><div><strong>Size {size}</strong><small>Sumber {check?.total??wipSizeTotals[sizeIndex]} · terbagi {check?.assigned??0}</small></div><div className="wip-free-input"><input type="text" pattern="[0-9]*" inputMode="numeric" aria-label={`Batch ${batchIndex+1}, Size ${size}`} value={allocated} onFocus={(event)=>event.currentTarget.select()} onClick={(event)=>event.currentTarget.select()} onChange={(event)=>updateSizeAllocation(size,batchIndex,event.target.value)}/><span>pcs</span></div></label>})}
@@ -919,9 +928,106 @@ function MandorWipPage() {
         {rollDrag&&<div className="roll-drag-ghost" style={{left:rollDrag.x,top:rollDrag.y}}><Icon name="drag"/><span>{rollDrag.rollId}</span><small>{rollDrag.target===null?'Arahkan ke batch':`Lepas di Batch ${String(rollDrag.target+1).padStart(2,'0')}`}</small></div>}
         <div className="wip-source-audit"><Icon name={sourcesExact?'check':'history'}/><div><strong>{sourcesExact?'Pembagian cocok dengan seluruh sumber':'Masih ada sumber roll atau size yang tidak cocok'}</strong><span>{sourceChecks.filter((source)=>source.assigned!==source.total).map((source)=>`${source.key}: ${source.assigned}/${source.total}`).join(' · ')||`${wipRollRows.length} roll · Size 31/32/33 seluruhnya rekonsiliasi`}</span></div></div>
         <div className="wip-correction-boundary"><Icon name="audit"/><div><strong>Ini pembagian batch, bukan Koreksi Potongan</strong><span>Jumlah sumber Size 31/32/33 dikunci. “Size 32 −5, Size 31 +5” tidak diterima di sini; bila hasil cutting memang salah, gunakan Koreksi Potongan berjejak.</span></div></div>
-        <section className={`pickup-final-review ${isReady?'ready':'blocked'}`} aria-label="Review akhir pickup"><div className="pickup-review-head"><Icon name={isReady?'check':'history'}/><div><span>04 · REVIEW SEBELUM POSTING</span><strong>{isReady?'Siap dicatat sebagai pickup mandor':'Belum siap diposting'}</strong><small>{isReady?'Sesudah konfirmasi, PO masuk tahap SEWING.':'Rapikan pembagian sampai sumber, size, dan total seluruh batch pas.'}</small></div></div><div className="pickup-review-facts"><div><span>MANDOR</span><strong>{mandor||'Belum dipilih'}</strong></div><div><span>WAKTU AMBIL</span><strong>{pickupReviewAt}</strong></div><div><span>PEMBAGIAN</span><strong>{allocationMode==='roll'?'Per roll':'Awal per size'}</strong></div><div><span>TOTAL</span><strong>{effectiveBatchCount} batch · {assignedTotal} pcs</strong></div></div><div className="pickup-review-batches">{batchTotals.map((total,batchIndex)=><div className={total>0?'filled':'empty'} key={batchIndex}><span>BATCH {String(batchIndex+1).padStart(2,'0')}</span><strong>{total} pcs</strong><small>{cuttingSizes.map((size,sizeIndex)=>`${size}: ${batchSizeMix[batchIndex][sizeIndex]}`).join(' · ')}</small></div>)}</div><div className="pickup-review-next"><Icon name="arrow"/><span><strong>Setelah posting: SEWING</strong> · Laundry baru boleh dicatat ketika batch benar-benar dikirim keluar.</span></div></section>
+        <section className={`pickup-final-review ${isReady?'ready':'blocked'}`} aria-label="Review akhir pickup"><div className="pickup-review-head"><Icon name={isReady?'check':'history'}/><div><span>04 · REVIEW SEBELUM POSTING</span><strong>{isReady?'Siap dicatat sebagai pickup mandor':'Belum siap diposting'}</strong><small>{isReady?'Sesudah konfirmasi, PO masuk tahap SEWING.':'Rapikan pembagian sampai sumber, size, dan total seluruh batch pas.'}</small></div></div><div className="pickup-review-facts"><div><span>MANDOR</span><strong>{mandor||'Belum dipilih'}</strong></div><div><span>WAKTU AMBIL</span><strong>{pickupReviewAt}</strong></div><div><span>PEMBAGIAN</span><strong>{allocationMode==='roll'?'Per roll':'Awal per size'}</strong></div><div><span>TOTAL</span><strong>{effectiveBatchCount} batch · {assignedTotal} pcs</strong></div></div><div className="pickup-review-batches">{batchTotals.map((total,batchIndex)=><div className={total>0?'filled':'empty'} key={batchIndex}><span>BATCH {String(batchIndex+1).padStart(2,'0')}</span><strong>{total} pcs</strong><small>{batchNotes[batchIndex]||'Belum ada catatan mandor'}</small><em>{cuttingSizes.map((size,sizeIndex)=>`${size}: ${batchSizeMix[batchIndex][sizeIndex]}`).join(' · ')}</em></div>)}</div><div className="pickup-review-next"><Icon name="arrow"/><span><strong>Setelah posting: SEWING</strong> · Laundry baru boleh dicatat ketika batch benar-benar dikirim keluar.</span></div></section>
         <div className="allocation-footer"><small>{isReady?'Ringkasan final di atas sudah cocok. Backend belum disentuh selama prototype.':'Tombol posting terbuka setelah seluruh sumber dan total batch cocok.'}</small><div><button type="button" className="soft-btn">Simpan draft pickup</button><button type="button" className="primary-btn" disabled={!isReady}>Review & catat pickup <Icon name="arrow"/></button></div></div>
       </div>
+    </section>
+  </>
+}
+
+type SewingBatchSeed = {
+  id: string
+  number: number
+  qty: number
+  sizes: QtyTuple
+  completed: number
+  note: string
+}
+
+type SewingParentSeed = {
+  id: string
+  sequence: number
+  model: string
+  material: string
+  mandor: string
+  pickupAt: string
+  sizes: SizeTuple
+  batches: SewingBatchSeed[]
+}
+
+const sewingWipSeeds: SewingParentSeed[] = [
+  { id:'POT-260827-042',sequence:42,model:'Kulot Lucy',material:'Lucy',mandor:'Mandor Afat',pickupAt:'27 Agu 2026 · 10:30',sizes:['31','32','33'],batches:[
+    {id:'042-01',number:1,qty:229,sizes:[229,0,0],completed:188,note:'Warna navy · stik pinggang 2 jalur'},
+    {id:'042-02',number:2,qty:225,sizes:[0,225,0],completed:225,note:'Warna maroon · obras rapat'},
+    {id:'042-03',number:3,qty:222,sizes:[0,0,222],completed:0,note:'Warna hitam · cek sambungan samping'},
+  ]},
+  { id:'POT-260826-041',sequence:41,model:'Malibu Regular',material:'Malibu',mandor:'Mandor Asep',pickupAt:'26 Agu 2026 · 14:15',sizes:['28','29','30'],batches:[
+    {id:'041-01',number:1,qty:244,sizes:[82,81,81],completed:244,note:'Biru muda · benang senada · obras rapat'},
+    {id:'041-02',number:2,qty:244,sizes:[81,81,82],completed:167,note:'Biru tua · cek kantong kanan kiri'},
+  ]},
+  { id:'POT-260825-039',sequence:39,model:'Zodiak Jumbo',material:'Zodiak KW',mandor:'Mandor Dedi',pickupAt:'25 Agu 2026 · 09:40',sizes:['34','35','36'],batches:[
+    {id:'039-01',number:1,qty:114,sizes:[38,38,38],completed:114,note:'Stone · stik bawah 2 jalur'},
+    {id:'039-02',number:2,qty:114,sizes:[38,38,38],completed:92,note:'Charcoal · sambungan samping dobel'},
+    {id:'039-03',number:3,qty:114,sizes:[38,38,38],completed:0,note:'Black · gunakan benang hitam pekat'},
+  ]},
+]
+
+const laundryVendorNames = ['Laundry Berkah', 'Laundry Intan', 'Cemerlang Wash']
+
+function SewingWipPage({ batchNotes }: { batchNotes: string[] }) {
+  const parentGroups = useMemo(() => sewingWipSeeds.map((parent) => parent.id === 'POT-260827-042'
+    ? { ...parent, batches: parent.batches.map((batch, index) => ({ ...batch, note: batchNotes[index] || batch.note })) }
+    : parent), [batchNotes])
+  const mandorOptions = Array.from(new Set(parentGroups.map((parent) => parent.mandor)))
+  const [selectedMandors,setSelectedMandors] = useState([...mandorOptions])
+  const [query,setQuery] = useState('')
+  const [completedInputs,setCompletedInputs] = useState<Record<string,string>>(() => Object.fromEntries(sewingWipSeeds.flatMap((parent) => parent.batches.map((batch) => [batch.id,String(batch.completed)]))))
+  const [selectedLaundry,setSelectedLaundry] = useState<Record<string,string>>({})
+  const visibleGroups = parentGroups
+    .filter((parent) => selectedMandors.includes(parent.mandor))
+    .filter((parent) => `${parent.id} ${parent.model} ${parent.material} ${parent.mandor} ${parent.batches.map((batch) => `${batch.number} ${batch.note}`).join(' ')}`.toLowerCase().includes(query.toLowerCase()))
+    .sort((a,b) => b.sequence-a.sequence)
+  const visibleBatches = visibleGroups.flatMap((parent) => parent.batches)
+  const visibleQty = visibleBatches.reduce((sum,batch) => sum+batch.qty,0)
+  const visibleCompleted = visibleBatches.reduce((sum,batch) => sum+Math.min(batch.qty,cellQuantity(completedInputs[batch.id])),0)
+  const readyLaundryCount = visibleBatches.filter((batch) => cellQuantity(completedInputs[batch.id])===batch.qty).length
+  const updateCompleted = (batch: SewingBatchSeed, rawValue: string) => {
+    const digits = rawValue.replace(/[^0-9]/g,'').replace(/^0+(?=\d)/,'')
+    const nextValue = digits===''?'':String(Math.min(batch.qty,cellQuantity(digits)))
+    setCompletedInputs((current)=>({...current,[batch.id]:nextValue}))
+    if(cellQuantity(nextValue)<batch.qty)setSelectedLaundry((current)=>{const next={...current};delete next[batch.id];return next})
+  }
+  const chooseLaundry = (batchId: string, laundry: string) => setSelectedLaundry((current)=>({...current,[batchId]:current[batchId]===laundry?'':laundry}))
+
+  return <>
+    <section className="hero-copy compact sewing-hero"><div className="eyebrow">PRODUKSI · SETELAH PICKUP</div><h1>WIP & Sewing</h1><p>Semua jahitan tetap dikelompokkan berdasarkan Potongan induk. Mandor menyelesaikan batch kecilnya, lalu nama laundry baru bisa dipilih saat qty jahitan sudah penuh.</p></section>
+    <section className="sewing-kpi-grid"><div className="panel"><span>POTONGAN INDUK</span><strong>{visibleGroups.length}</strong><small>Urut dari batch besar terbaru</small></div><div className="panel"><span>BATCH JAHIT</span><strong>{visibleBatches.length}</strong><small>{visibleQty} pcs sedang dikelola</small></div><div className="panel"><span>SELESAI DIJAHIT</span><strong>{visibleCompleted} pcs</strong><small>{visibleQty-visibleCompleted} pcs belum selesai</small></div><div className="panel ready"><span>SIAP PILIH LAUNDRY</span><strong>{readyLaundryCount} batch</strong><small>Nama laundry sudah boleh ditekan</small></div></section>
+    <section className="panel sewing-workspace">
+      <div className="sewing-toolbar"><div><span>SEMUA JAHITAN</span><strong>Urutan Potongan induk → batch jahit</strong><small>{visibleGroups.length} Potongan induk · {visibleBatches.length} batch tampil</small></div><label className="sewing-search"><Icon name="search"/><input value={query} onChange={(event)=>setQuery(event.target.value)} placeholder="Cari Potongan, model, bahan, atau catatan..."/></label><MultiCheckFilter label="Mandor" options={mandorOptions} selected={selectedMandors} onChange={setSelectedMandors}/></div>
+      <div className="sewing-parent-list">{visibleGroups.map((parent,parentIndex)=>{
+        const parentCompleted=parent.batches.reduce((sum,batch)=>sum+Math.min(batch.qty,cellQuantity(completedInputs[batch.id])),0)
+        const parentQty=parent.batches.reduce((sum,batch)=>sum+batch.qty,0)
+        const parentProgress=Math.round((parentCompleted/Math.max(1,parentQty))*100)
+        return <article className="sewing-parent-card" key={parent.id}>
+          <header className="sewing-parent-head"><span className="sewing-parent-order">{String(parentIndex+1).padStart(2,'0')}</span><div><small>POTONGAN INDUK · BATCH BESAR</small><h2>{parent.id} · {parent.model}</h2><p>{parent.material} · pickup {parent.pickupAt}</p></div><span className="sewing-mandor-pill"><Icon name="user"/>{parent.mandor}</span><div className="sewing-parent-total"><strong>{parentCompleted}/{parentQty} pcs</strong><small>{parent.batches.length} batch jahit · {parentProgress}%</small></div></header>
+          <div className="sewing-parent-progress"><span style={{width:`${parentProgress}%`}}/></div>
+          <div className="sewing-child-grid">{parent.batches.map((batch)=>{
+            const completed=Math.min(batch.qty,cellQuantity(completedInputs[batch.id]))
+            const progress=Math.round((completed/Math.max(1,batch.qty))*100)
+            const isReady=completed===batch.qty
+            const laundry=selectedLaundry[batch.id]
+            const status=laundry?'Laundry dipilih':isReady?'Siap laundry':completed>0?'Sedang dijahit':'Menunggu jahit'
+            return <section className={`sewing-batch-card ${isReady?'ready':''} ${laundry?'laundry-selected':''}`} key={batch.id}>
+              <div className="sewing-batch-head"><div><span>BATCH {String(batch.number).padStart(2,'0')}</span><strong>{batch.qty} pcs</strong></div><em>{status}</em></div>
+              <div className="sewing-batch-sizes">{parent.sizes.map((size,sizeIndex)=><span className={batch.sizes[sizeIndex]>0?'active':''} key={size}><small>SIZE {size}</small><strong>{batch.sizes[sizeIndex]}</strong></span>)}</div>
+              <div className="sewing-batch-note"><Icon name="document"/><div><span>ARAHAN MANDOR</span><strong>{batch.note}</strong></div></div>
+              <label className="sewing-completed-input"><span>SELESAI DIJAHIT</span><div><input type="text" pattern="[0-9]*" inputMode="numeric" value={completedInputs[batch.id]??''} onFocus={(event)=>event.currentTarget.select()} onClick={(event)=>event.currentTarget.select()} onChange={(event)=>updateCompleted(batch,event.target.value)}/><b>/ {batch.qty} pcs</b></div></label>
+              <div className="sewing-batch-progress"><span style={{width:`${progress}%`}}/></div>
+              <div className={`sewing-laundry-gate ${isReady?'open':'locked'}`}><div><span>{isReady?'PILIH NAMA LAUNDRY':'LAUNDRY TERKUNCI'}</span><small>{isReady?'Tekan nama tujuan untuk batch ini.':`Selesaikan ${batch.qty-completed} pcs lagi.`}</small></div>{isReady&&<div className="laundry-name-grid">{laundryVendorNames.map((name)=><button type="button" className={laundry===name?'active':''} aria-pressed={laundry===name} onClick={()=>chooseLaundry(batch.id,name)} key={name}>{laundry===name&&<Icon name="check"/>}{name}</button>)}</div>}{laundry&&<p><Icon name="arrow"/><span><strong>{laundry}</strong> dipilih · siap dibuat pengiriman di halaman Laundry.</span></p>}</div>
+            </section>
+          })}</div>
+        </article>
+      })}{visibleGroups.length===0&&<div className="sewing-empty"><Icon name="search"/><strong>Tidak ada jahitan yang cocok</strong><small>Cek pilihan mandor atau kata pencarian.</small></div>}</div>
     </section>
   </>
 }
