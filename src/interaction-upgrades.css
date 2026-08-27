@@ -1,0 +1,133 @@
+/* Compact FG mutation book: one-line summary, drill into size detail on demand. */
+.mutation-row.mutation-collapsible {
+  cursor: pointer;
+  grid-template-columns: 28px 38px minmax(260px,1fr) auto auto 72px !important;
+  gap: 12px !important;
+  align-items: center !important;
+  padding: 11px 13px !important;
+}
+.mutation-row.mutation-collapsible:focus-visible {
+  outline: 2px solid rgba(126,143,255,.55);
+  outline-offset: -2px;
+}
+.mutation-row.mutation-collapsible .mutation-main { min-width: 0; }
+.mutation-row.mutation-collapsible .mutation-main p,
+.mutation-row.mutation-collapsible .mutation-main > small {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.mutation-row.mutation-collapsible .mutation-delta,
+.mutation-row.mutation-collapsible .mutation-total {
+  display: none !important;
+}
+.compact-book-summary {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  justify-content: flex-end;
+  min-width: 210px;
+}
+.compact-book-summary span { min-width: 88px; text-align: right; }
+.compact-book-summary small {
+  display: block;
+  color: #7f899e;
+  font-size: 9.5px;
+  font-weight: 720;
+  letter-spacing: .08em;
+}
+.compact-book-summary strong {
+  display: block;
+  margin-top: 3px;
+  font-size: 13px;
+  font-weight: 650;
+  color: #edf0f8;
+}
+.compact-book-summary span:first-child strong { color: #cfd6ff; }
+.compact-detail-toggle {
+  min-height: 34px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0 11px;
+  background: rgba(255,255,255,.025);
+  color: #c3cad9;
+  font-size: 11px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.compact-detail-toggle:hover { background: rgba(255,255,255,.05); }
+
+.mutation-row.mutation-collapsible.is-expanded {
+  grid-template-columns: 28px 38px minmax(250px,1fr) auto auto 72px !important;
+  align-items: start !important;
+  background: rgba(124,141,255,.035);
+}
+.mutation-row.mutation-collapsible.is-expanded .mutation-delta {
+  display: grid !important;
+  grid-column: 3 / -1;
+  width: 100%;
+  margin-top: 2px;
+}
+.mutation-row.mutation-collapsible.is-expanded .mutation-total {
+  display: grid !important;
+  grid-column: 3 / -1;
+  width: 100%;
+  margin-top: 4px;
+}
+
+/* Physical transaction date: business date drives mutation chronology; system entry time remains separate. */
+.form-grid.two.has-physical-date {
+  grid-template-columns: repeat(3,minmax(0,1fr));
+}
+.physical-date-field { min-width: 0; }
+.physical-date-input {
+  width: 100%;
+  height: 46px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 0 13px;
+  background: #181e30;
+  color: var(--text);
+  outline: none;
+  color-scheme: dark;
+}
+.physical-date-input:focus { border-color: rgba(126,143,255,.45); }
+.physical-date-helper {
+  color: #8e98ad;
+  font-size: 10.8px;
+  line-height: 1.45;
+}
+
+@media (max-width: 980px) {
+  .form-grid.two.has-physical-date { grid-template-columns: 1fr 1fr; }
+  .physical-date-field { grid-column: 1 / -1; }
+  .mutation-row.mutation-collapsible {
+    grid-template-columns: 26px 34px minmax(0,1fr) auto !important;
+  }
+  .compact-book-summary {
+    grid-column: 3 / 4;
+    justify-content: flex-start;
+    min-width: 0;
+  }
+  .compact-book-summary span { text-align: left; min-width: 82px; }
+  .compact-detail-toggle { grid-column: 4; grid-row: 1; }
+  .mutation-row.mutation-collapsible .reorder { grid-column: 4; grid-row: 2; }
+  .mutation-row.mutation-collapsible.is-expanded .mutation-delta,
+  .mutation-row.mutation-collapsible.is-expanded .mutation-total { grid-column: 2 / -1; }
+}
+
+@media (max-width: 620px) {
+  .form-grid.two.has-physical-date { grid-template-columns: 1fr; }
+  .physical-date-field { grid-column: auto; }
+  .mutation-row.mutation-collapsible {
+    grid-template-columns: 24px minmax(0,1fr) auto !important;
+    gap: 9px !important;
+  }
+  .mutation-row.mutation-collapsible .order-no { display: none; }
+  .mutation-row.mutation-collapsible .mutation-main { grid-column: 2; grid-row: 1; }
+  .compact-detail-toggle { grid-column: 3; grid-row: 1; padding: 0 9px; }
+  .compact-book-summary { grid-column: 2 / -1; grid-row: 2; gap: 14px; }
+  .mutation-row.mutation-collapsible .reorder { grid-column: 2 / -1; grid-row: 3; justify-content: flex-start; }
+  .mutation-row.mutation-collapsible.is-expanded .mutation-delta,
+  .mutation-row.mutation-collapsible.is-expanded .mutation-total { grid-column: 1 / -1; }
+}
