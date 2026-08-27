@@ -18,6 +18,12 @@ type ReceiptMode = 'fabric' | 'accessory'
 type SizeRow = { size: string; stock: number; qty: number; input: string }
 type RollDraft = { id: number; yards: string }
 type SlotAllocation = [number, number, number, number, number, number]
+type CuttingBatchSplitMode = 'size' | 'target'
+type CuttingChildBatch = {
+  id: string
+  label: string
+  quantities: QtyTuple
+}
 type FabricRoll = {
   id: string
   sequence: number
@@ -72,6 +78,48 @@ const cuttingSizeSlots = [
   { key: '32-a', size: '32', image: 'A' }, { key: '32-b', size: '32', image: 'B' },
   { key: '33-a', size: '33', image: 'A' }, { key: '33-b', size: '33', image: 'B' },
 ] as const
+const cuttingSizes: SizeTuple = ['31','32','33']
+
+function buildCuttingChildBatches(sizeTotals: number[], mode: CuttingBatchSplitMode, target: number): CuttingChildBatch[] {
+  const remaining = sizeTotals.map((qty) => Math.max(0, Math.round(qty))) as QtyTuple
+  if (remaining.every((qty) => qty === 0)) return []
+
+  if (mode === 'size') {
+    return remaining.flatMap((qty, sizeIndex) => qty > 0 ? [{
+      id: `size-${cuttingSizes[sizeIndex]}`,
+      label: `Size ${cuttingSizes[sizeIndex]}`,
+      quantities: remaining.map((_, index) => index === sizeIndex ? qty : 0) as QtyTuple,
+    }] : [])
+  }
+
+  const childBatches: CuttingChildBatch[] = []
+  const targetQty = Math.max(1, Math.round(target) || 1)
+  let nextSizeIndex = 0
+  while (remaining.some((qty) => qty > 0)) {
+    const available = remaining.reduce((sum, qty) => sum + qty, 0)
+    const batchQty = Math.min(targetQty, available)
+    const quantities: QtyTuple = [0, 0, 0]
+
+    for (let allocated = 0; allocated < batchQty; allocated += 1) {
+      let attempts = 0
+      while (remaining[nextSizeIndex] === 0 && attempts < remaining.length) {
+        nextSizeIndex = (nextSizeIndex + 1) % remaining.length
+        attempts += 1
+      }
+      if (attempts === remaining.length) break
+      quantities[nextSizeIndex] += 1
+      remaining[nextSizeIndex] -= 1
+      nextSizeIndex = (nextSizeIndex + 1) % remaining.length
+    }
+
+    childBatches.push({
+      id: `target-${childBatches.length + 1}`,
+      label: `Batch ${String(childBatches.length + 1).padStart(2, '0')}`,
+      quantities,
+    })
+  }
+  return childBatches
+}
 
 const fabricRollCatalog: FabricRoll[] = [
   { id:'LCY-001',sequence:1,supplier:'Sinaran',material:'Lucy',yards:101.5,receivedAt:'25 Agu 2026',allocation:[13,13,12,11,10,10] },
@@ -340,6 +388,8 @@ function CuttingRollPage() {
   const [selectedMaterials,setSelectedMaterials]=useState([...fabricRollMaterials])
   const [selectedRollIds,setSelectedRollIds]=useState(()=>fabricRollCatalog.slice(0,9).map((roll)=>roll.id))
   const [allocations,setAllocations]=useState<Record<string,SlotAllocation>>(()=>Object.fromEntries(fabricRollCatalog.map((roll)=>[roll.id,[...roll.allocation]])) as Record<string,SlotAllocation>)
+  const [batchSplitMode,setBatchSplitMode]=useState<CuttingBatchSplitMode>('target')
+  const [batchTarget,setBatchTarget]=useState('100')
   const selectedIdSet=useMemo(()=>new Set(selectedRollIds),[selectedRollIds])
   const visibleRolls=useMemo(()=>fabricRollCatalog.filter((roll)=>{
     const matchesQuery=`${roll.id} roll ${roll.sequence} ${roll.supplier} ${roll.material} ${roll.yards}`.toLowerCase().includes(query.toLowerCase())
@@ -350,6 +400,11 @@ function CuttingRollPage() {
   const slotTotals=cuttingSizeSlots.map((_,slotIndex)=>selectedRolls.reduce((sum,roll)=>sum+(allocations[roll.id]?.[slotIndex]??0),0))
   const sizeTotals=[slotTotals[0]+slotTotals[1],slotTotals[2]+slotTotals[3],slotTotals[4]+slotTotals[5]]
   const totalPieces=slotTotals.reduce((sum,qty)=>sum+qty,0)
+  const targetQuantity=Math.max(1,Math.round(Number(batchTarget)||1))
+  const childBatches=useMemo(()=>buildCuttingChildBatches(sizeTotals,batchSplitMode,targetQuantity),[sizeTotals[0],sizeTotals[1],sizeTotals[2],batchSplitMode,targetQuantity])
+  const childTotal=childBatches.reduce((sum,batch)=>sum+batch.quantities.reduce((batchSum,qty)=>batchSum+qty,0),0)
+  const remainingPieces=Math.max(0,totalPieces-childTotal)
+  const selectedMaterial=Array.from(new Set(selectedRolls.map((roll)=>roll.material))).join(' + ')||'Belum ada bahan'
   const allVisibleSelected=visibleRolls.length>0&&visibleRolls.every((roll)=>selectedIdSet.has(roll.id))
   const toggleRoll=(id:string)=>setSelectedRollIds((current)=>current.includes(id)?current.filter((rollId)=>rollId!==id):fabricRollCatalog.filter((roll)=>current.includes(roll.id)||roll.id===id).map((roll)=>roll.id))
   const toggleVisible=()=>setSelectedRollIds((current)=>{
@@ -364,7 +419,7 @@ function CuttingRollPage() {
   })
   return <>
     <section className="hero-copy compact cutting-hero"><div className="eyebrow">PRODUKSI · CUTTING</div><h1>Bagi Potongan</h1><p>Ambil roll dari stok kain, lalu catat hasil ukuran setiap roll seperti lembar Potongan fisik.</p></section>
-    <section className="cutting-flow-rail panel" aria-label="Alur Bagi Potongan">{['Pilih roll','Bagi size per roll','Bentuk PO / grup','Mandor ambil'].map((label,index)=><div className={index===0?'active':''} key={label}><span>{String(index+1).padStart(2,'0')}</span><strong>{label}</strong>{index<3&&<Icon name="arrow"/>}</div>)}</section>
+    <section className="cutting-flow-rail panel" aria-label="Alur Bagi Potongan">{['Pilih roll','Bagi size per roll','Pecah batch bawah','Mandor ambil'].map((label,index)=><div className={index===0?'active':''} key={label}><span>{String(index+1).padStart(2,'0')}</span><strong>{label}</strong>{index<3&&<Icon name="arrow"/>}</div>)}</section>
     <section className="roll-first-layout">
       <div className="panel roll-catalog-panel">
         <div className="cutting-panel-head"><div><span>01 · SUMBER KAIN</span><h2>Pilih roll yang mau dibagi</h2><p>Satu roll tetap satu baris. Urutan dan yard asal tidak digabung.</p></div><span className="selection-pill">{selectedRolls.length} dipilih</span></div>
@@ -375,7 +430,7 @@ function CuttingRollPage() {
       <aside className="panel cutting-live-summary">
         <div className="eyebrow">BATCH YANG SEDANG DISUSUN</div><h2>Kulot Lucy · 31–33</h2><p>Belum menjadi PO sebelum pembagian direview.</p>
         <div className="cutting-summary-main"><div><span>ROLL DIPILIH</span><strong>{selectedRolls.length}</strong><small>{formatQuantity(totalYards,2)} yard</small></div><div><span>TOTAL POTONGAN</span><strong>{totalPieces} pcs</strong><small>{dozenPieces(totalPieces)}</small></div></div>
-        <div className="cutting-summary-sizes">{['31','32','33'].map((size,index)=><div key={size}><span>SIZE {size}</span><strong>{sizeTotals[index]} pcs</strong><small>{dozenPieces(sizeTotals[index])}</small></div>)}</div>
+        <div className="cutting-summary-sizes">{cuttingSizes.map((size,index)=><div key={size}><span>SIZE {size}</span><strong>{sizeTotals[index]} pcs</strong><small>{dozenPieces(sizeTotals[index])}</small></div>)}</div>
         <div className="po-preview"><Icon name="link"/><div><strong>PO dibuat setelah review</strong><span>PO ini nanti muncul di QC di bawah mandor yang mengambil.</span></div></div>
         <button type="button" className="primary-btn cutting-next" disabled={selectedRolls.length===0} onClick={()=>document.getElementById('allocation-workbench')?.scrollIntoView({behavior:'smooth',block:'start'})}>Lanjut bagi ukuran <Icon name="arrow"/></button>
       </aside>
@@ -386,8 +441,18 @@ function CuttingRollPage() {
       <div className="slot-legend"><div><span>SLOT UKURAN</span><small>Gambar A/B dipertahankan</small></div>{cuttingSizeSlots.map((slot)=><span key={slot.key}><strong>{slot.size}</strong><small>Gbr {slot.image}</small></span>)}<b>TOTAL</b></div>
       <div className="allocation-roll-list">{selectedRolls.map((roll,index)=>{const row=allocations[roll.id]??roll.allocation;const rowTotal=row.reduce((sum,qty)=>sum+qty,0);return <article className="allocation-roll-row" key={roll.id}><div className="allocation-roll-identity"><span>{String(index+1).padStart(2,'0')}</span><div><strong>Roll {String(roll.sequence).padStart(2,'0')} · {roll.material}</strong><small>{roll.supplier} · {formatQuantity(roll.yards,2)} yd</small></div></div><div className="allocation-slot-grid">{cuttingSizeSlots.map((slot,slotIndex)=><label key={slot.key}><span>{slot.size}<small>{slot.image}</small></span><input aria-label={`Roll ${roll.sequence}, size ${slot.size}, gambar ${slot.image}`} inputMode="numeric" type="number" min="0" value={row[slotIndex]} onChange={(event)=>updateAllocation(roll,slotIndex,event.target.value)}/></label>)}</div><div className="allocation-row-total"><span>TOTAL ROLL</span><strong>{rowTotal} pcs</strong><small>{dozenPieces(rowTotal)}</small></div></article>})}{selectedRolls.length===0&&<div className="allocation-empty"><Icon name="ruler"/><strong>Belum ada roll dipilih</strong><small>Pilih minimal satu roll di bagian atas untuk mulai membagi ukuran.</small></div>}</div>
       <div className="cutting-totals-row"><div><span>JUMLAH SIZE 31</span><strong>{sizeTotals[0]} pcs</strong></div><div><span>JUMLAH SIZE 32</span><strong>{sizeTotals[1]} pcs</strong></div><div><span>JUMLAH SIZE 33</span><strong>{sizeTotals[2]} pcs</strong></div><div><span>TOTAL BATCH</span><strong>{totalPieces} pcs</strong><small>{dozenPieces(totalPieces)}</small></div></div>
-      <div className="potongan-handoff"><div className="handoff-copy"><span>03 · SETELAH PEMBAGIAN SELESAI</span><strong>Bentuk grup, lalu catat siapa yang mengambil</strong><small>Penetapan mandor tidak mengubah kode permanen grup.</small></div><Field label="Diambil oleh / mandor"><select className="erp-input" defaultValue="Mandor Afat"><option>Mandor Afat</option><option>Mandor Asep</option><option>Mandor Dedi</option></select></Field><Field label="Tanggal ambil"><input className="erp-input" type="date" defaultValue="2026-08-27"/></Field><div className="handoff-qc"><span>BERIKUTNYA DI QC</span><strong>Mandor Afat → PO ini</strong><small>{totalPieces} pcs · {dozenPieces(totalPieces)}</small></div></div>
-      <div className="allocation-footer"><small>Frontend simulasi · belum mengurangi stok roll atau membuat PO di backend.</small><div><button type="button" className="soft-btn">Simpan draft pembagian</button><button type="button" className="primary-btn" disabled={selectedRolls.length===0||totalPieces===0}>Review & bentuk PO <Icon name="arrow"/></button></div></div>
+      <section className="child-batch-section" aria-labelledby="child-batch-title">
+        <div className="child-batch-head"><div><span>03 · BAGI KE BATCH BAWAH</span><h2 id="child-batch-title">Pecah Potongan besar sebelum dilepas</h2><p>Sumber boleh gabungan beberapa roll. Setiap batch kecil tetap membawa komposisi size yang jelas.</p></div><span className="selection-pill">{childBatches.length} batch bawah</span></div>
+        <div className="batch-split-toolbar">
+          <div className="batch-mode-control" role="group" aria-label="Cara pembagian batch"><button type="button" className={batchSplitMode==='size'?'active':''} aria-pressed={batchSplitMode==='size'} onClick={()=>setBatchSplitMode('size')}><strong>Per size</strong><small>Satu batch untuk tiap size</small></button><button type="button" className={batchSplitMode==='target'?'active':''} aria-pressed={batchSplitMode==='target'} onClick={()=>setBatchSplitMode('target')}><strong>Target angka</strong><small>Campur size sampai angka bulat</small></button></div>
+          {batchSplitMode==='target'&&<label className="batch-target-input"><span>ISI MAKSIMAL / BATCH</span><div><input type="number" min="1" inputMode="numeric" value={batchTarget} onChange={(event)=>setBatchTarget(event.target.value)}/><b>pcs</b></div><small>Batch terakhir otomatis memakai sisanya.</small></label>}
+          <div className={`batch-split-check ${remainingPieces===0?'success':'warn'}`}><Icon name={remainingPieces===0?'check':'filter'}/><div><span>HASIL PEMBAGIAN</span><strong>{childTotal} dari {totalPieces} pcs</strong><small>{remainingPieces===0?'Pas · tidak ada sisa':`Masih tersisa ${remainingPieces} pcs`}</small></div></div>
+        </div>
+        <div className="child-batch-grid">{childBatches.map((batch,index)=>{const batchTotal=batch.quantities.reduce((sum,qty)=>sum+qty,0);return <article className="child-batch-card" key={batch.id}><div className="child-batch-card-head"><span>{batchSplitMode==='size'?batch.label:`GRUP ${String(index+1).padStart(2,'0')}`}</span><small>Belum dilepas</small></div><div className="child-batch-main"><strong>{batchTotal} pcs</strong><span>{selectedMaterial}</span></div><div className="child-batch-sizes">{cuttingSizes.map((size,sizeIndex)=><div key={size}><span>Size {size}</span><strong>{batch.quantities[sizeIndex]}</strong></div>)}</div></article>})}{childBatches.length===0&&<div className="child-batch-empty"><Icon name="boxes"/><strong>Belum ada hasil Potongan</strong><small>Isi hasil per roll dulu supaya batch bawah bisa dibentuk.</small></div>}</div>
+        <div className="batch-correction-note"><Icon name="history"/><div><strong>Pembagian awal menjadi grup asli</strong><span>Koreksi plus/minus baru dipakai kalau pembagian yang sudah disimpan perlu dibetulkan, bukan untuk membuat batch pertama kali.</span></div></div>
+      </section>
+      <div className="potongan-handoff"><div className="handoff-copy"><span>04 · LEPAS KE MANDOR</span><strong>Bentuk {childBatches.length} grup bawah, lalu catat siapa yang mengambil</strong><small>Semua grup tetap berada di bawah satu batch Potongan induk.</small></div><Field label="Diambil oleh / mandor"><select className="erp-input" defaultValue="Mandor Afat"><option>Mandor Afat</option><option>Mandor Asep</option><option>Mandor Dedi</option></select></Field><Field label="Tanggal ambil"><input className="erp-input" type="date" defaultValue="2026-08-27"/></Field><div className="handoff-qc"><span>BERIKUTNYA DI QC</span><strong>Mandor Afat → {childBatches.length} grup</strong><small>{selectedMaterial} · {totalPieces} pcs</small></div></div>
+      <div className="allocation-footer"><small>Frontend simulasi · belum mengurangi stok roll atau membuat batch di backend.</small><div><button type="button" className="soft-btn">Simpan draft pembagian</button><button type="button" className="primary-btn" disabled={selectedRolls.length===0||totalPieces===0||remainingPieces!==0}>Review & bentuk {childBatches.length} grup <Icon name="arrow"/></button></div></div>
     </section>
   </>
 }
