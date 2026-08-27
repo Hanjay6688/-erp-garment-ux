@@ -11,6 +11,8 @@ import './qc-final-sku.css'
 import './qc-final-sku'
 import './procurement.css'
 import './procurement'
+import './bs-rework'
+import './workflow-refinements.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
