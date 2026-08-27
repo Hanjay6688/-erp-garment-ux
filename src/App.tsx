@@ -39,7 +39,7 @@ const dozenPieces = (pcs: number) => `${Math.floor(Math.max(0, pcs) / 12)} lusin
 function parseQty(value: string, fallbackUnit: 'lusin' | 'pcs') {
   const normalized = value.toLowerCase().replace(',', '.')
   const dozenMatch = normalized.match(/([0-9]+(?:\.[0-9]+)?)\s*(?:lusin|lsn|dozen)/)
-  const pcsMatch = normalized.match(/([0-9]+(?:\.[0-9]+)?)\s*(?:pcs|pc|piece|biji)/)
+  const pcsMatch = normalized.match(/([0-9]+(?:\.[0-9]+)?)\s*(?:pcs|pc|piece|biji|potong|ptg)/)
   if (dozenMatch || pcsMatch) {
     const dozen = dozenMatch ? Number(dozenMatch[1]) * 12 : 0
     const pcs = pcsMatch ? Number(pcsMatch[1]) : 0
