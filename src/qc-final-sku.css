@@ -11,6 +11,15 @@
 .qc-section-title strong { display:block; color:#edf0f7; font-size:14px; font-weight:680; }
 .qc-section-title small { display:block; margin-top:3px; color:#8993a8; font-size:11.5px; line-height:1.45; }
 .qc-status-pill { border:1px solid rgba(103,215,171,.25); background:rgba(103,215,171,.08); color:#83dfba; border-radius:999px; padding:6px 9px; font-size:10.5px; font-weight:760; letter-spacing:.07em; white-space:nowrap; }
+.qc-source-picker { display:grid; gap:10px; }
+.qc-mandor-first,.qc-po-second { display:grid; grid-template-columns:32px minmax(0,1fr); gap:10px; align-items:stretch; }
+.qc-mandor-first { grid-template-columns:32px minmax(220px,.85fr) minmax(180px,1.15fr); }
+.qc-pick-step { width:31px; min-height:46px; border:1px solid rgba(124,141,255,.23); border-radius:10px; background:rgba(124,141,255,.075); color:#aeb9ff; display:grid; place-items:center; font-size:11px; font-weight:760; }
+.qc-picker-hint { min-height:46px; border:1px solid var(--line-soft); border-radius:12px; padding:8px 11px; background:rgba(255,255,255,.014); display:flex; align-items:center; gap:7px; }
+.qc-picker-hint strong { color:#c9d0dd; font-size:12px; }
+.qc-picker-hint small { color:#7f8a9f; font-size:10.5px; }
+.qc-po-second > .qc-source-grid { min-width:0; }
+.qc-select-help { display:block; margin-top:5px; color:#747f93; font-size:9.5px; line-height:1.3; }
 .qc-source-grid { display:grid; grid-template-columns:minmax(220px,1.25fr) minmax(150px,.75fr) minmax(150px,.75fr); gap:10px; align-items:stretch; }
 .qc-select,.qc-date-input { width:100%; height:46px; border:1px solid var(--line); border-radius:13px; padding:0 12px; background:#181e30; color:var(--text); outline:0; color-scheme:dark; }
 .qc-select:focus,.qc-date-input:focus { border-color:rgba(126,143,255,.46); }
@@ -102,6 +111,10 @@
 
 @media (max-width:760px) {
   .qc-section { padding:16px 14px; }
+  .qc-mandor-first { grid-template-columns:30px minmax(0,1fr); }
+  .qc-mandor-first .qc-picker-hint { grid-column:2; }
+  .qc-po-second { grid-template-columns:30px minmax(0,1fr); }
+  .qc-pick-step { width:29px; }
   .qc-source-grid,.qc-product-grid { grid-template-columns:1fr; }
   .qc-source-fact { min-height:0; }
   .qc-product-banner { grid-template-columns:1fr; }
