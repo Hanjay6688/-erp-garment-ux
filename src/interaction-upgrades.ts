@@ -44,7 +44,12 @@ function makeSummaryMetric(label: string, value: string, conversion: string, cla
 
 function enhanceMutationRows() {
   document.querySelectorAll<HTMLElement>('.mutation-row').forEach((row) => {
-    if (row.dataset.compactReady === 'true') return
+    if (row.dataset.compactReady === 'true') {
+      row.classList.add('mutation-collapsible')
+      const details = row.querySelector<HTMLElement>('.compact-details-grid')
+      if (details && details !== row.lastElementChild) row.append(details)
+      return
+    }
     row.dataset.compactReady = 'true'
     row.classList.add('mutation-collapsible')
     row.setAttribute('role', 'button')
