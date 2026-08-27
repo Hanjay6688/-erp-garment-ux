@@ -143,6 +143,7 @@
 .compact-detail-toggle:hover { background: rgba(255,255,255,.05); }
 
 .compact-details-grid { display: none; }
+.mutation-row.mutation-collapsible.is-dragging .compact-details-grid { display: none !important; }
 .mutation-row.mutation-collapsible.is-expanded {
   align-items: center !important;
   background: rgba(124,141,255,.035);
