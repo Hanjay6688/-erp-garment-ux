@@ -692,6 +692,9 @@ function MandorWipPage() {
   const [allocationMode,setAllocationMode] = useState<WipAllocationMode>('roll')
   const [rollBatchMatrix,setRollBatchMatrix] = useState<RollBatchSizeMatrix>(() => createEmptyRollBatchSizeMatrix(wipRolls, 3))
   const [sizeMatrix,setSizeMatrix] = useState<AllocationMatrix>(() => createSizeAllocationMatrix(wipSizeTotals, 3))
+  const [rollAllocationTouched,setRollAllocationTouched] = useState(false)
+  const [sizeAllocationTouched,setSizeAllocationTouched] = useState(false)
+  const [batchResizeMessage,setBatchResizeMessage] = useState('')
   const [splitEditorRollId,setSplitEditorRollId] = useState<string | null>(null)
   const [allocationMessage,setAllocationMessage] = useState('')
   const [rollDrag,setRollDrag] = useState<{ rollId: string; target: number | null; x: number; y: number } | null>(null)
@@ -724,15 +727,43 @@ function MandorWipPage() {
     return usedBatches.length === 1 && row.sizes.every((source, sizeIndex) => cellQuantity(usedBatches[0][sizeIndex]) === source)
   })
   const unassignedRollRows = wipRollRows.filter((row) => (rollBatchMatrix[row.roll.id] ?? []).every((sizes) => sizes.reduce((sum, value) => sum + cellQuantity(value), 0) === 0))
-  const applyBatchCount = () => {
-    const nextCount = Math.max(1, Math.round(Number(batchCountInput) || 1))
+  const resizeBatchCount = (requestedCount: number) => {
+    const nextCount = Math.max(1, Math.round(requestedCount || 1))
+    if (nextCount === batchCount) {
+      setBatchCountInput(String(batchCount))
+      setBatchResizeMessage('Jumlah batch tidak berubah; pembagian lu tetap aman.')
+      return
+    }
+    if (nextCount < batchCount) {
+      const removedIndexes = Array.from({ length: batchCount - nextCount }, (_, index) => nextCount + index)
+      const rollBlocked = rollAllocationTouched && removedIndexes.some((batchIndex) => wipRollRows.some((row) => (rollBatchMatrix[row.roll.id]?.[batchIndex] ?? []).some((value) => cellQuantity(value) > 0)))
+      const sizeBlocked = sizeAllocationTouched && removedIndexes.some((batchIndex) => cuttingSizes.some((size) => cellQuantity(sizeMatrix[size]?.[batchIndex]) > 0))
+      if (rollBlocked || sizeBlocked) {
+        const blockedModes = [rollBlocked ? 'Per Roll' : '', sizeBlocked ? 'Per Size' : ''].filter(Boolean).join(' & ')
+        setBatchCountInput(String(batchCount))
+        setBatchResizeMessage(`Tidak bisa hapus: batch terakhir masih berisi pembagian ${blockedModes}. Pindahkan atau kosongkan dulu.`)
+        return
+      }
+    }
+    setRollBatchMatrix((current) => {
+      const currentHasQuantity = wipRolls.some((roll) => (current[roll.id] ?? []).some((sizes) => sizes.some((value) => cellQuantity(value) > 0)))
+      if (nextCount === 1 && !currentHasQuantity) return createRollBatchSizeMatrix(wipRolls, 1)
+      return Object.fromEntries(wipRolls.map((roll) => {
+        const currentBatches = current[roll.id] ?? []
+        const resized = Array.from({ length: nextCount }, (_, batchIndex) => currentBatches[batchIndex] ? [...currentBatches[batchIndex]] : ['0', '0', '0'])
+        return [roll.id, resized]
+      }))
+    })
+    setSizeMatrix((current) => sizeAllocationTouched
+      ? Object.fromEntries(cuttingSizes.map((size) => [size, Array.from({ length: nextCount }, (_, batchIndex) => current[size]?.[batchIndex] ?? '0')]))
+      : createSizeAllocationMatrix(wipSizeTotals, nextCount))
     setBatchCountInput(String(nextCount))
     setBatchCount(nextCount)
-    setRollBatchMatrix(nextCount === 1 ? createRollBatchSizeMatrix(wipRolls, nextCount) : createEmptyRollBatchSizeMatrix(wipRolls, nextCount))
-    setSizeMatrix(createSizeAllocationMatrix(wipSizeTotals, nextCount))
     setSplitEditorRollId(null)
     setAllocationMessage('')
+    setBatchResizeMessage(nextCount > batchCount ? `Batch ${String(nextCount).padStart(2, '0')} ditambahkan; isi lama tetap di tempatnya.` : 'Batch terakhir yang kosong sudah dihapus; isi lain tetap aman.')
   }
+  const applyBatchCount = () => resizeBatchCount(Number(batchCountInput))
   const selectAllocationMode = (nextMode: WipAllocationMode) => {
     if (nextMode === allocationMode) return
     setSplitEditorRollId(null)
@@ -747,6 +778,7 @@ function MandorWipPage() {
     const digits = rawValue.replace(/[^0-9]/g, '')
     const normalized = digits.replace(/^0+(?=\d)/, '')
     setAllocationMessage('')
+    setRollAllocationTouched(true)
     setRollBatchMatrix((current) => {
       const rollBatches = (current[rollId] ?? Array.from({ length: batchCount }, () => ['0', '0', '0'])).map((sizes) => [...sizes])
       rollBatches[batchIndex][sizeIndex] = normalized
@@ -761,6 +793,7 @@ function MandorWipPage() {
     const digits = rawValue.replace(/[^0-9]/g, '')
     const normalized = digits.replace(/^0+(?=\d)/, '')
     setAllocationMessage('')
+    setSizeAllocationTouched(true)
     setSizeMatrix((current) => ({
       ...current,
       [size]: (current[size] ?? Array(batchCount).fill('0')).map((value, index) => index === batchIndex ? normalized : value),
@@ -773,10 +806,12 @@ function MandorWipPage() {
       ...current,
       [rollId]: Array.from({ length: batchCount }, (_, batchIndex) => batchIndex === targetBatch ? sourceRow.sizes.map(String) : ['0', '0', '0']),
     }))
+    setRollAllocationTouched(true)
     setAllocationMessage('')
   }
   const unassignRoll = (rollId: string) => {
     setRollBatchMatrix((current) => ({ ...current, [rollId]: Array.from({ length: batchCount }, () => ['0', '0', '0']) }))
+    setRollAllocationTouched(true)
     if (splitEditorRollId === rollId) setSplitEditorRollId(null)
     setAllocationMessage('')
   }
@@ -811,6 +846,7 @@ function MandorWipPage() {
   }
   const tidyWholeRolls = () => {
     setRollBatchMatrix(createRollBatchSizeMatrix(wipRolls, batchCount))
+    setRollAllocationTouched(true)
     setSplitEditorRollId(null)
     setAllocationMessage('')
   }
@@ -821,6 +857,7 @@ function MandorWipPage() {
   }) ?? []
   const splitEditorExact = splitEditorChecks.every((check) => check.remaining === 0)
   const isReady = sourcesExact && assignedTotal === wipTotal && mandor.length > 0 && pickupAt.length > 0
+  const pickupReviewAt = pickupAt ? new Intl.DateTimeFormat('id-ID', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false }).format(new Date(pickupAt)) : 'Belum diisi'
 
   return <>
     <section className="hero-copy compact cutting-hero"><div className="eyebrow">PRODUKSI · MANDOR</div><h1>Ambil WIP & Bentuk Batch</h1><p>Pilih Potongan yang sudah selesai cutting. Setelah mandor mengambil, baru bentuk batch kerja yang sama untuk alur jahit sampai laundry.</p></section>
@@ -846,7 +883,7 @@ function MandorWipPage() {
 
         <section className="batch-builder-setup">
           <div className="batch-builder-copy"><span>03 · BENTUK BATCH SETELAH PICKUP</span><h2>Mau dibuat menjadi berapa batch?</h2><p>{allocationMode==='roll'?'Satu batch juga boleh. Setelah diterapkan, tarik roll yang belum ditempatkan ke batch tujuan.':'Jumlah batch bebas. Sistem hanya menyusun awal berdasarkan size; setelah itu angkanya tetap bisa lu atur sendiri.'}</p></div>
-          <div className="batch-count-control"><label><span>JUMLAH BATCH · MINIMAL 1</span><div><input type="text" pattern="[0-9]*" inputMode="numeric" value={batchCountInput} onFocus={(event)=>event.currentTarget.select()} onChange={(event)=>setBatchCountInput(event.target.value.replace(/[^0-9]/g,'').replace(/^0+(?=\d)/,''))}/><b>batch</b></div></label><button type="button" className="soft-btn" onClick={applyBatchCount}>Terapkan</button></div>
+          <div className="batch-count-control"><label><span>JUMLAH BATCH · MINIMAL 1</span><div><input type="text" pattern="[0-9]*" inputMode="numeric" value={batchCountInput} onFocus={(event)=>event.currentTarget.select()} onChange={(event)=>setBatchCountInput(event.target.value.replace(/[^0-9]/g,'').replace(/^0+(?=\d)/,''))}/><b>batch</b></div></label><div className="batch-count-buttons"><button type="button" aria-label="Hapus batch terakhir" disabled={batchCount<=1} onClick={()=>resizeBatchCount(batchCount-1)}>−</button><button type="button" aria-label="Tambah satu batch" onClick={()=>resizeBatchCount(batchCount+1)}>+</button><button type="button" className="soft-btn" onClick={applyBatchCount}>Terapkan</button></div>{batchResizeMessage&&<small className={batchResizeMessage.startsWith('Tidak bisa')?'warn':'success'}>{batchResizeMessage}</small>}</div>
         </section>
 
         <div className="wip-allocation-mode" role="group" aria-label="Dasar pembagian batch">
@@ -882,7 +919,8 @@ function MandorWipPage() {
         {rollDrag&&<div className="roll-drag-ghost" style={{left:rollDrag.x,top:rollDrag.y}}><Icon name="drag"/><span>{rollDrag.rollId}</span><small>{rollDrag.target===null?'Arahkan ke batch':`Lepas di Batch ${String(rollDrag.target+1).padStart(2,'0')}`}</small></div>}
         <div className="wip-source-audit"><Icon name={sourcesExact?'check':'history'}/><div><strong>{sourcesExact?'Pembagian cocok dengan seluruh sumber':'Masih ada sumber roll atau size yang tidak cocok'}</strong><span>{sourceChecks.filter((source)=>source.assigned!==source.total).map((source)=>`${source.key}: ${source.assigned}/${source.total}`).join(' · ')||`${wipRollRows.length} roll · Size 31/32/33 seluruhnya rekonsiliasi`}</span></div></div>
         <div className="wip-correction-boundary"><Icon name="audit"/><div><strong>Ini pembagian batch, bukan Koreksi Potongan</strong><span>Jumlah sumber Size 31/32/33 dikunci. “Size 32 −5, Size 31 +5” tidak diterima di sini; bila hasil cutting memang salah, gunakan Koreksi Potongan berjejak.</span></div></div>
-        <div className="allocation-footer"><small>Frontend simulasi · pickup dan batch belum diposting ke backend.</small><div><button type="button" className="soft-btn">Simpan draft pickup</button><button type="button" className="primary-btn" disabled={!isReady}>Catat pickup & buat {effectiveBatchCount} batch <Icon name="arrow"/></button></div></div>
+        <section className={`pickup-final-review ${isReady?'ready':'blocked'}`} aria-label="Review akhir pickup"><div className="pickup-review-head"><Icon name={isReady?'check':'history'}/><div><span>04 · REVIEW SEBELUM POSTING</span><strong>{isReady?'Siap dicatat sebagai pickup mandor':'Belum siap diposting'}</strong><small>{isReady?'Sesudah konfirmasi, PO masuk tahap SEWING.':'Rapikan pembagian sampai sumber, size, dan total seluruh batch pas.'}</small></div></div><div className="pickup-review-facts"><div><span>MANDOR</span><strong>{mandor||'Belum dipilih'}</strong></div><div><span>WAKTU AMBIL</span><strong>{pickupReviewAt}</strong></div><div><span>PEMBAGIAN</span><strong>{allocationMode==='roll'?'Per roll':'Awal per size'}</strong></div><div><span>TOTAL</span><strong>{effectiveBatchCount} batch · {assignedTotal} pcs</strong></div></div><div className="pickup-review-batches">{batchTotals.map((total,batchIndex)=><div className={total>0?'filled':'empty'} key={batchIndex}><span>BATCH {String(batchIndex+1).padStart(2,'0')}</span><strong>{total} pcs</strong><small>{cuttingSizes.map((size,sizeIndex)=>`${size}: ${batchSizeMix[batchIndex][sizeIndex]}`).join(' · ')}</small></div>)}</div><div className="pickup-review-next"><Icon name="arrow"/><span><strong>Setelah posting: SEWING</strong> · Laundry baru boleh dicatat ketika batch benar-benar dikirim keluar.</span></div></section>
+        <div className="allocation-footer"><small>{isReady?'Ringkasan final di atas sudah cocok. Backend belum disentuh selama prototype.':'Tombol posting terbuka setelah seluruh sumber dan total batch cocok.'}</small><div><button type="button" className="soft-btn">Simpan draft pickup</button><button type="button" className="primary-btn" disabled={!isReady}>Review & catat pickup <Icon name="arrow"/></button></div></div>
       </div>
     </section>
   </>
