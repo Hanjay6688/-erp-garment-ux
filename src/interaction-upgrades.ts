@@ -7,6 +7,8 @@ function localDateTimeValue(date = new Date()) {
 
 function toggleMutationRow(row: Element, force?: boolean) {
   const expanded = force ?? !row.classList.contains('is-expanded')
+  const details = row.querySelector<HTMLElement>('.compact-details-grid')
+  if (expanded && details && details !== row.lastElementChild) row.append(details)
   row.classList.toggle('is-expanded', expanded)
   row.setAttribute('aria-expanded', String(expanded))
   const button = row.querySelector<HTMLButtonElement>('.compact-detail-toggle')
@@ -126,7 +128,7 @@ function enhanceMutationRows() {
       row.insertBefore(transaction, reorder)
       row.insertBefore(summary, reorder)
       row.insertBefore(toggle, reorder)
-      row.insertBefore(details, reorder)
+      row.append(details)
     } else {
       row.append(identity, transaction, summary, toggle, details)
     }
@@ -181,6 +183,13 @@ document.addEventListener('keydown', (event) => {
   event.preventDefault()
   toggleMutationRow(row)
 })
+
+document.addEventListener('dragstart', (event) => {
+  const target = event.target as Element | null
+  const row = target?.closest('.mutation-row.mutation-collapsible')
+  if (!row) return
+  toggleMutationRow(row, false)
+}, true)
 
 const observer = new MutationObserver(enhancePage)
 observer.observe(document.documentElement, { childList: true, subtree: true })
