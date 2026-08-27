@@ -9,6 +9,8 @@ import './interaction-upgrades'
 import './global-readability.css'
 import './qc-final-sku.css'
 import './qc-final-sku'
+import './procurement.css'
+import './procurement'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
