@@ -237,13 +237,40 @@ function SalesPage(props: {
 function Field({ label, children }: { label: string; children: React.ReactNode }) { return <label className="field"><span>{label}</span>{children}</label> }
 
 function StockCard() {
+  const [selectedSku, setSelectedSku] = useState<string | null>(null)
+  const [skuQuery, setSkuQuery] = useState('')
   const [expandedId, setExpandedId] = useState<string | null>(null)
+  const skuRows = [
+    { code: '73001', range: '28–30', name: 'Denim Classic · Indigo', sizes: ['28', '29', '30'] },
+    { code: '73002', range: '31–33', name: 'Denim Regular · Washed Blue', sizes: ['31', '32', '33'] },
+    { code: '73003', range: '34–36', name: 'Denim Relaxed · Charcoal', sizes: ['34', '35', '36'] },
+  ]
+  const visibleSkus = skuRows.filter((sku) => `${sku.code} ${sku.range} ${sku.name}`.toLowerCase().includes(skuQuery.toLowerCase()))
+  const selected = skuRows.find((sku) => sku.code === selectedSku)
   const currentStock = initialMovements[0].balance.reduce((sum, qty) => sum + qty, 0)
 
+  if (!selected) return <>
+    <section className="hero-copy compact"><div className="eyebrow">GUDANG · BARANG JADI</div><h1>Kartu stok FG</h1><p>Cari SKU, lalu buka kartu kronologisnya. Daftar tetap berurutan supaya cepat dipindai seperti buku.</p></section>
+    <div className="panel sku-browser">
+      <div className="sku-search-field"><Icon name="search" /><input autoFocus value={skuQuery} onChange={(event) => setSkuQuery(event.target.value)} placeholder="Cari kode SKU, range, atau nama barang..." /></div>
+      <div className="sku-browser-head"><span>SKU</span><span>Range</span><span>Stok akhir</span><span /></div>
+      <div className="sku-browser-list">{visibleSkus.map((sku, index) =>
+        <button className="sku-browser-row" key={sku.code} onClick={() => { setSelectedSku(sku.code); setExpandedId(null) }}>
+          <span className="sku-sequence">{String(index + 1).padStart(2, '0')}</span>
+          <div><strong>{sku.code}</strong><small>{sku.name}</small></div>
+          <span className="range-chip">{sku.range}</span>
+          <div className="sku-stock-preview"><strong>{currentStock} pcs</strong><small>{dozenPieces(currentStock)}</small></div>
+          <Icon name="arrow" />
+        </button>)}
+        {visibleSkus.length === 0 && <div className="sku-empty">SKU tidak ditemukan. Coba kode atau range lain.</div>}
+      </div>
+    </div>
+  </>
+
   return <>
-    <section className="hero-copy compact"><div className="eyebrow">GUDANG · BARANG JADI</div><h1>Kartu stok FG</h1><p>Angka utama per transaksi. Tekan rincian untuk melihat komposisi size; urutannya selalu kronologis.</p></section>
+    <section className="hero-copy compact"><button className="back-link" onClick={() => { setSelectedSku(null); setExpandedId(null) }}><Icon name="back" /> Semua SKU</button><div className="eyebrow">GUDANG · BARANG JADI</div><h1>Kartu stok FG</h1><p>Angka utama per transaksi. Tekan rincian untuk melihat komposisi size; urutannya selalu kronologis.</p></section>
     <div className="panel stock-summary">
-      <div><div className="sku-title"><h2>73001</h2><span>Range 28–30</span></div><p>Denim Classic · Indigo · Gudang FG Utama</p></div>
+      <div><div className="sku-title"><h2>{selected.code}</h2><span>Range {selected.range}</span></div><p>{selected.name} · Gudang FG Utama</p></div>
       <div className="stock-total-hero"><span>STOK AKHIR</span><strong>{currentStock} pcs</strong><small>{dozenPieces(currentStock)}</small></div>
     </div>
     <div className="panel table-panel">
@@ -267,7 +294,7 @@ function StockCard() {
             {open && <tr className="stock-detail-row"><td colSpan={6}><div className="stock-size-details">
               <div className="detail-caption"><span>RINCIAN SIZE</span><small>Komposisi transaksi dan saldo sesudah transaksi</small></div>
               {m.delta.map((delta, i) => <div className="size-ledger-card" key={i}>
-                <span>SIZE {['28', '29', '30'][i]}</span>
+                <span>SIZE {selected.sizes[i]}</span>
                 <div><small>{delta >= 0 ? 'Masuk' : 'Keluar'}</small><strong className={delta < 0 ? 'neg' : delta > 0 ? 'pos' : ''}>{delta > 0 ? '+' : delta < 0 ? '−' : ''}{Math.abs(delta)} pcs</strong></div>
                 <div><small>Stok akhir</small><strong>{m.balance[i]} pcs</strong></div>
               </div>)}
