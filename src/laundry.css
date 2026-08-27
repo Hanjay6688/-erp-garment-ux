@@ -118,6 +118,12 @@
 .laundry-return-done svg{width:22px;height:22px;margin-bottom:7px}
 .laundry-return-done strong{color:#bcebd8;font-size:11px}
 .laundry-return-done small{margin-top:4px;color:#758196;font-size:8.5px}
+.laundry-return-card.reversed{border-color:rgba(241,190,104,.17);background:rgba(241,190,104,.015)}
+.laundry-return-card em.reversed{border-color:rgba(241,190,104,.22);background:rgba(241,190,104,.09);color:#e1bf7f}
+.laundry-return-facts .reversed-note{display:block;margin-top:7px;padding:7px 8px;border-radius:8px;background:rgba(241,190,104,.055);color:#9c8e72}.laundry-return-facts .reversed-note b{color:#d7b879}
+.laundry-reverse-btn{width:100%;min-height:45px;margin-top:11px;padding:7px 9px;border:1px solid rgba(241,190,104,.2);border-radius:11px;background:rgba(241,190,104,.06);color:#d3b375;display:flex;align-items:center;gap:9px;text-align:left}
+.laundry-reverse-btn:hover{border-color:rgba(241,190,104,.38);background:rgba(241,190,104,.1)}.laundry-reverse-btn>.icon{width:16px;height:16px;flex:0 0 auto}.laundry-reverse-btn span{display:block}.laundry-reverse-btn strong{display:block;font-size:9px}.laundry-reverse-btn small{display:block;margin-top:3px;color:#988a70;font-size:7.5px}
+.laundry-reverse-dialog{border-color:rgba(241,190,104,.25)}.wip-confirm-icon.reverse{background:rgba(241,190,104,.11);color:#e0bc78}.laundry-reverse-dialog>div:nth-child(2)>span{color:#d4b172}.laundry-reverse-dialog .primary-btn.reverse{border-color:rgba(241,190,104,.35);background:linear-gradient(145deg,#c99348,#a87332);box-shadow:0 10px 28px rgba(151,104,45,.2)}
 
 @media(max-width:1050px){
   .laundry-kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
