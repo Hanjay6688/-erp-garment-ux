@@ -9,7 +9,7 @@ import {
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 
-type Page = 'dashboard' | 'sales' | 'stock-card' | 'movements-vivo' | 'movements-widie' | 'procurement' | 'cutting-roll' | 'placeholder'
+type Page = 'dashboard' | 'sales' | 'stock-card' | 'movements-vivo' | 'movements-widie' | 'procurement' | 'cutting-roll' | 'mandor-wip' | 'placeholder'
 type NavSection = 'Produksi' | 'Gudang' | 'Penjualan' | 'Keuangan' | 'Master Data'
 type QtyTuple = [number, number, number]
 type SizeTuple = [string, string, string]
@@ -18,12 +18,8 @@ type ReceiptMode = 'fabric' | 'accessory'
 type SizeRow = { size: string; stock: number; qty: number; input: string }
 type RollDraft = { id: number; yards: string }
 type SlotAllocation = [number, number, number, number, number, number]
-type CuttingBatchSplitMode = 'size' | 'target'
-type CuttingChildBatch = {
-  id: string
-  label: string
-  quantities: QtyTuple
-}
+type WipAllocationMode = 'roll' | 'size'
+type AllocationMatrix = Record<string, string[]>
 type FabricRoll = {
   id: string
   sequence: number
@@ -80,45 +76,103 @@ const cuttingSizeSlots = [
 ] as const
 const cuttingSizes: SizeTuple = ['31','32','33']
 
-function buildCuttingChildBatches(sizeTotals: number[], mode: CuttingBatchSplitMode, target: number): CuttingChildBatch[] {
-  const remaining = sizeTotals.map((qty) => Math.max(0, Math.round(qty))) as QtyTuple
-  if (remaining.every((qty) => qty === 0)) return []
+const rollSizeQuantities = (allocation: SlotAllocation): QtyTuple => [
+  allocation[0] + allocation[1], allocation[2] + allocation[3], allocation[4] + allocation[5],
+]
+const cellQuantity = (value: string | undefined) => Math.max(0, Math.round(Number(value) || 0))
+const balancedBatchTargets = (total: number, count: number) => {
+  const base = Math.floor(total / count)
+  const remainder = total % count
+  return Array.from({ length: count }, (_, index) => base + (index < remainder ? 1 : 0))
+}
 
-  if (mode === 'size') {
-    return remaining.flatMap((qty, sizeIndex) => qty > 0 ? [{
-      id: `size-${cuttingSizes[sizeIndex]}`,
-      label: `Size ${cuttingSizes[sizeIndex]}`,
-      quantities: remaining.map((_, index) => index === sizeIndex ? qty : 0) as QtyTuple,
-    }] : [])
-  }
+function createRollAllocationMatrix(rolls: FabricRoll[], count: number): AllocationMatrix {
+  const sources = rolls.map((roll) => ({ id: roll.id, qty: rollSizeQuantities(roll.allocation).reduce((sum, qty) => sum + qty, 0) }))
+  const total = sources.reduce((sum, source) => sum + source.qty, 0)
+  const targets = balancedBatchTargets(total, count)
+  let searchBudget = 200000
 
-  const childBatches: CuttingChildBatch[] = []
-  const targetQty = Math.max(1, Math.round(target) || 1)
-  let nextSizeIndex = 0
-  while (remaining.some((qty) => qty > 0)) {
-    const available = remaining.reduce((sum, qty) => sum + qty, 0)
-    const batchQty = Math.min(targetQty, available)
-    const quantities: QtyTuple = [0, 0, 0]
+  for (const splitSource of [...sources].reverse()) {
+    const wholeSources = sources.filter((source) => source.id !== splitSource.id).sort((a, b) => b.qty - a.qty)
+    const loads = Array(count).fill(0) as number[]
+    const wholeAssignments = new Map<string, number>()
+    let splitAllocation: number[] | null = null
 
-    for (let allocated = 0; allocated < batchQty; allocated += 1) {
-      let attempts = 0
-      while (remaining[nextSizeIndex] === 0 && attempts < remaining.length) {
-        nextSizeIndex = (nextSizeIndex + 1) % remaining.length
-        attempts += 1
+    const placeWholeSources = (sourceIndex: number): boolean => {
+      if (searchBudget-- <= 0) return false
+      if (sourceIndex === wholeSources.length) {
+        const capacities = targets.map((target, batchIndex) => target - loads[batchIndex])
+        if (capacities.every((qty) => qty >= 0) && capacities.reduce((sum, qty) => sum + qty, 0) === splitSource.qty) {
+          splitAllocation = capacities
+          return true
+        }
+        return false
       }
-      if (attempts === remaining.length) break
-      quantities[nextSizeIndex] += 1
-      remaining[nextSizeIndex] -= 1
-      nextSizeIndex = (nextSizeIndex + 1) % remaining.length
+
+      const source = wholeSources[sourceIndex]
+      const batchOrder = Array.from({ length: count }, (_, index) => index).sort((a, b) => (targets[b] - loads[b]) - (targets[a] - loads[a]))
+      const triedLoads = new Set<number>()
+      for (const batchIndex of batchOrder) {
+        if (triedLoads.has(loads[batchIndex]) || loads[batchIndex] + source.qty > targets[batchIndex]) continue
+        triedLoads.add(loads[batchIndex])
+        loads[batchIndex] += source.qty
+        wholeAssignments.set(source.id, batchIndex)
+        if (placeWholeSources(sourceIndex + 1)) return true
+        wholeAssignments.delete(source.id)
+        loads[batchIndex] -= source.qty
+      }
+      return false
     }
 
-    childBatches.push({
-      id: `target-${childBatches.length + 1}`,
-      label: `Batch ${String(childBatches.length + 1).padStart(2, '0')}`,
-      quantities,
-    })
+    if (placeWholeSources(0) && splitAllocation) {
+      const matrix: AllocationMatrix = Object.fromEntries(sources.map((source) => [source.id, Array(count).fill('0')]))
+      wholeAssignments.forEach((batchIndex, sourceId) => {
+        matrix[sourceId][batchIndex] = String(sources.find((source) => source.id === sourceId)?.qty ?? 0)
+      })
+      matrix[splitSource.id] = (splitAllocation as number[]).map(String)
+      return matrix
+    }
+    if (searchBudget <= 0) break
   }
-  return childBatches
+
+  const remainingTargets = [...targets]
+  const fallback: AllocationMatrix = Object.fromEntries(sources.map((source) => [source.id, Array(count).fill('0')]))
+  sources.forEach((source) => {
+    let remaining = source.qty
+    while (remaining > 0) {
+      const batchIndex = remainingTargets.reduce((best, qty, index, values) => qty > values[best] ? index : best, 0)
+      const allocated = Math.min(remaining, Math.max(0, remainingTargets[batchIndex]))
+      if (allocated === 0) break
+      fallback[source.id][batchIndex] = String(allocated)
+      remainingTargets[batchIndex] -= allocated
+      remaining -= allocated
+    }
+  })
+  return fallback
+}
+
+function createSizeAllocationMatrix(sizeTotals: QtyTuple, count: number): AllocationMatrix {
+  return Object.fromEntries(cuttingSizes.map((size, sizeIndex) => [size, balancedBatchTargets(sizeTotals[sizeIndex], count).map(String)]))
+}
+
+function spreadRollSizesAcrossBatches(sizeTotals: QtyTuple, batchQuantities: number[]): QtyTuple[] {
+  const remainingSizes = [...sizeTotals] as QtyTuple
+  let remainingTotal = remainingSizes.reduce((sum, qty) => sum + qty, 0)
+  return batchQuantities.map((requestedQty, batchIndex) => {
+    if (batchIndex === batchQuantities.length - 1) return [...remainingSizes] as QtyTuple
+    const qty = Math.min(Math.max(0, requestedQty), remainingTotal)
+    if (qty === 0 || remainingTotal === 0) return [0, 0, 0]
+    const exact = remainingSizes.map((sizeQty) => sizeQty * qty / remainingTotal)
+    const result = exact.map((value) => Math.floor(value)) as QtyTuple
+    let missing = qty - result.reduce((sum, value) => sum + value, 0)
+    const priority = exact.map((value, index) => ({ index, fraction: value - Math.floor(value) })).sort((a, b) => b.fraction - a.fraction)
+    priority.forEach(({ index }) => {
+      if (missing > 0 && result[index] < remainingSizes[index]) { result[index] += 1; missing -= 1 }
+    })
+    result.forEach((value, index) => { remainingSizes[index] -= value })
+    remainingTotal -= qty
+    return result
+  })
 }
 
 const fabricRollCatalog: FabricRoll[] = [
@@ -263,6 +317,7 @@ function App() {
     : page === 'movements-widie' ? 'Mutasi Barang Jadi · Widie'
     : page === 'procurement' ? 'Pembelian & Penerimaan'
     : page === 'cutting-roll' ? 'Bagi Potongan'
+    : page === 'mandor-wip' ? 'Mandor & WIP'
     : 'Modul ERP'
 
   const chooseSubmenu = (label: string) => {
@@ -272,6 +327,7 @@ function App() {
     else if (label === 'Mutasi Barang Jadi · Widie') setPage('movements-widie')
     else if (label === 'Pembelian & Penerimaan') setPage('procurement')
     else if (label === 'Bagi Potongan') setPage('cutting-roll')
+    else if (label === 'Mandor & WIP') setPage('mandor-wip')
     else setPage('placeholder')
     setMobileNav(false)
   }
@@ -284,7 +340,7 @@ function App() {
       {(Object.keys(nav) as NavSection[]).map((section) => <div className="nav-section" key={section}>
         <button className={`nav-main ${expanded === section ? 'active' : ''}`} onClick={() => setExpanded(expanded === section ? null : section)}><Icon name={section} /><span>{section}</span><span className="chevron">{expanded === section ? '⌄' : '›'}</span></button>
         {expanded === section && <div className="submenu">{nav[section].map((item) => {
-          const active = (item === 'Penjualan & Invoice' && page === 'sales') || (item === 'Kartu Stok FG' && page === 'stock-card') || (item === 'Mutasi Barang Jadi · Vivo' && page === 'movements-vivo') || (item === 'Mutasi Barang Jadi · Widie' && page === 'movements-widie') || (item === 'Pembelian & Penerimaan' && page === 'procurement') || (item === 'Bagi Potongan' && page === 'cutting-roll')
+          const active = (item === 'Penjualan & Invoice' && page === 'sales') || (item === 'Kartu Stok FG' && page === 'stock-card') || (item === 'Mutasi Barang Jadi · Vivo' && page === 'movements-vivo') || (item === 'Mutasi Barang Jadi · Widie' && page === 'movements-widie') || (item === 'Pembelian & Penerimaan' && page === 'procurement') || (item === 'Bagi Potongan' && page === 'cutting-roll') || (item === 'Mandor & WIP' && page === 'mandor-wip')
           return <button key={item} className={active ? 'sub-active' : ''} onClick={() => chooseSubmenu(item)}>• {item}</button>
         })}</div>}
       </div>)}
@@ -303,6 +359,7 @@ function App() {
         {page === 'movements-widie' && <Movements bookName="Widie" bookBrands={widieBookBrands} setBookBrands={setWidieBookBrands} movements={movements} setMovements={setMovements} />}
         {page === 'procurement' && <ProcurementPage />}
         {page === 'cutting-roll' && <CuttingRollPage />}
+        {page === 'mandor-wip' && <MandorWipPage />}
         {page === 'placeholder' && <Placeholder />}
       </div>
     </main>
@@ -388,8 +445,6 @@ function CuttingRollPage() {
   const [selectedMaterials,setSelectedMaterials]=useState([...fabricRollMaterials])
   const [selectedRollIds,setSelectedRollIds]=useState(()=>fabricRollCatalog.slice(0,9).map((roll)=>roll.id))
   const [allocations,setAllocations]=useState<Record<string,SlotAllocation>>(()=>Object.fromEntries(fabricRollCatalog.map((roll)=>[roll.id,[...roll.allocation]])) as Record<string,SlotAllocation>)
-  const [batchSplitMode,setBatchSplitMode]=useState<CuttingBatchSplitMode>('target')
-  const [batchTarget,setBatchTarget]=useState('100')
   const selectedIdSet=useMemo(()=>new Set(selectedRollIds),[selectedRollIds])
   const visibleRolls=useMemo(()=>fabricRollCatalog.filter((roll)=>{
     const matchesQuery=`${roll.id} roll ${roll.sequence} ${roll.supplier} ${roll.material} ${roll.yards}`.toLowerCase().includes(query.toLowerCase())
@@ -400,11 +455,6 @@ function CuttingRollPage() {
   const slotTotals=cuttingSizeSlots.map((_,slotIndex)=>selectedRolls.reduce((sum,roll)=>sum+(allocations[roll.id]?.[slotIndex]??0),0))
   const sizeTotals=[slotTotals[0]+slotTotals[1],slotTotals[2]+slotTotals[3],slotTotals[4]+slotTotals[5]]
   const totalPieces=slotTotals.reduce((sum,qty)=>sum+qty,0)
-  const targetQuantity=Math.max(1,Math.round(Number(batchTarget)||1))
-  const childBatches=useMemo(()=>buildCuttingChildBatches(sizeTotals,batchSplitMode,targetQuantity),[sizeTotals[0],sizeTotals[1],sizeTotals[2],batchSplitMode,targetQuantity])
-  const childTotal=childBatches.reduce((sum,batch)=>sum+batch.quantities.reduce((batchSum,qty)=>batchSum+qty,0),0)
-  const remainingPieces=Math.max(0,totalPieces-childTotal)
-  const selectedMaterial=Array.from(new Set(selectedRolls.map((roll)=>roll.material))).join(' + ')||'Belum ada bahan'
   const allVisibleSelected=visibleRolls.length>0&&visibleRolls.every((roll)=>selectedIdSet.has(roll.id))
   const toggleRoll=(id:string)=>setSelectedRollIds((current)=>current.includes(id)?current.filter((rollId)=>rollId!==id):fabricRollCatalog.filter((roll)=>current.includes(roll.id)||roll.id===id).map((roll)=>roll.id))
   const toggleVisible=()=>setSelectedRollIds((current)=>{
@@ -418,8 +468,8 @@ function CuttingRollPage() {
     return {...current,[roll.id]:next}
   })
   return <>
-    <section className="hero-copy compact cutting-hero"><div className="eyebrow">PRODUKSI · CUTTING</div><h1>Bagi Potongan</h1><p>Ambil roll dari stok kain, lalu catat hasil ukuran setiap roll seperti lembar Potongan fisik.</p></section>
-    <section className="cutting-flow-rail panel" aria-label="Alur Bagi Potongan">{['Pilih roll','Bagi size per roll','Pecah batch bawah','Mandor ambil'].map((label,index)=><div className={index===0?'active':''} key={label}><span>{String(index+1).padStart(2,'0')}</span><strong>{label}</strong>{index<3&&<Icon name="arrow"/>}</div>)}</section>
+    <section className="hero-copy compact cutting-hero"><div className="eyebrow">PRODUKSI · CUTTING</div><h1>Bagi Potongan</h1><p>Ambil roll, catat hasil potong per roll dan size, lalu simpan sebagai WIP Potongan. Batch mandor belum dibuat di tahap ini.</p></section>
+    <section className="cutting-flow-rail cutting-flow-three panel" aria-label="Alur Bagi Potongan">{['Pilih roll','Catat hasil per roll','Simpan ke WIP'].map((label,index)=><div className={index===0?'active':''} key={label}><span>{String(index+1).padStart(2,'0')}</span><strong>{label}</strong>{index<2&&<Icon name="arrow"/>}</div>)}</section>
     <section className="roll-first-layout">
       <div className="panel roll-catalog-panel">
         <div className="cutting-panel-head"><div><span>01 · SUMBER KAIN</span><h2>Pilih roll yang mau dibagi</h2><p>Satu roll tetap satu baris. Urutan dan yard asal tidak digabung.</p></div><span className="selection-pill">{selectedRolls.length} dipilih</span></div>
@@ -428,31 +478,140 @@ function CuttingRollPage() {
         <div className="cutting-roll-list">{visibleRolls.map((roll)=>{const selected=selectedIdSet.has(roll.id);return <button type="button" aria-pressed={selected} className={`stock-roll-row ${selected?'selected':''}`} key={roll.id} onClick={()=>toggleRoll(roll.id)}><span className="roll-select-box">{selected&&<Icon name="check"/>}</span><span className="stock-roll-seq">{String(roll.sequence).padStart(2,'0')}</span><span className="stock-roll-name"><strong>{roll.material}</strong><small>{roll.supplier} · {roll.id} · masuk {roll.receivedAt}</small></span><span className="stock-roll-yard"><strong>{formatQuantity(roll.yards,2)} yd</strong><small>{selected?'Masuk pembagian':'Siap dipilih'}</small></span></button>})}{visibleRolls.length===0&&<div className="catalog-empty"><Icon name="search"/><strong>Roll tidak ditemukan</strong><small>Periksa pencarian atau pilihan filter pabrik dan bahan.</small></div>}</div>
       </div>
       <aside className="panel cutting-live-summary">
-        <div className="eyebrow">BATCH YANG SEDANG DISUSUN</div><h2>Kulot Lucy · 31–33</h2><p>Belum menjadi PO sebelum pembagian direview.</p>
+        <div className="eyebrow">POTONGAN INDUK</div><h2>Kulot Lucy · 31–33</h2><p>Hasil cutting ini belum dibagi ke batch mandor.</p>
         <div className="cutting-summary-main"><div><span>ROLL DIPILIH</span><strong>{selectedRolls.length}</strong><small>{formatQuantity(totalYards,2)} yard</small></div><div><span>TOTAL POTONGAN</span><strong>{totalPieces} pcs</strong><small>{dozenPieces(totalPieces)}</small></div></div>
         <div className="cutting-summary-sizes">{cuttingSizes.map((size,index)=><div key={size}><span>SIZE {size}</span><strong>{sizeTotals[index]} pcs</strong><small>{dozenPieces(sizeTotals[index])}</small></div>)}</div>
-        <div className="po-preview"><Icon name="link"/><div><strong>PO dibuat setelah review</strong><span>PO ini nanti muncul di QC di bawah mandor yang mengambil.</span></div></div>
+        <div className="po-preview"><Icon name="warehouse"/><div><strong>Tujuan berikutnya: WIP Potongan</strong><span>Setelah disimpan, hasil ini menunggu mandor mengambil. Pembagian batch dilakukan saat pickup.</span></div></div>
         <button type="button" className="primary-btn cutting-next" disabled={selectedRolls.length===0} onClick={()=>document.getElementById('allocation-workbench')?.scrollIntoView({behavior:'smooth',block:'start'})}>Lanjut bagi ukuran <Icon name="arrow"/></button>
       </aside>
     </section>
     <section className="panel allocation-workbench" id="allocation-workbench">
       <div className="cutting-panel-head allocation-head"><div><span>02 · HASIL POTONG PER ROLL</span><h2>Isi slot ukuran tanpa menghilangkan gambar</h2><p>Size yang sama boleh muncul dua kali. Sistem baru menjumlahkannya saat membuat total per size.</p></div><span className="draft-pill">Draft</span></div>
-      <div className="cutting-meta-grid"><Field label="Merek"><select className="erp-input" defaultValue="Vivo"><option>Vivo</option><option>Widie</option></select></Field><Field label="Model"><input className="erp-input" defaultValue="Kulot Lucy"/></Field><Field label="Tipe pola"><input className="erp-input" defaultValue="Cutbray Jumbo Lucy"/></Field><Field label="Range ukuran"><select className="erp-input" defaultValue="31–33"><option>28–30</option><option>31–33</option><option>34–36</option></select></Field><Field label="Tanggal potong"><input className="erp-input" type="date" defaultValue="2026-08-27"/></Field><div className="future-po-field"><span>KODE PO / GRUP</span><strong>Dibuat otomatis</strong><small>sesudah review pembagian</small></div></div>
+      <div className="cutting-meta-grid"><Field label="Merek"><select className="erp-input" defaultValue="Vivo"><option>Vivo</option><option>Widie</option></select></Field><Field label="Model"><input className="erp-input" defaultValue="Kulot Lucy"/></Field><Field label="Tipe pola"><input className="erp-input" defaultValue="Cutbray Jumbo Lucy"/></Field><Field label="Range ukuran"><select className="erp-input" defaultValue="31–33"><option>28–30</option><option>31–33</option><option>34–36</option></select></Field><Field label="Tanggal potong"><input className="erp-input" type="date" defaultValue="2026-08-27"/></Field><div className="future-po-field"><span>KODE POTONGAN</span><strong>POT otomatis</strong><small>saat hasil masuk WIP</small></div></div>
       <div className="slot-legend"><div><span>SLOT UKURAN</span><small>Gambar A/B dipertahankan</small></div>{cuttingSizeSlots.map((slot)=><span key={slot.key}><strong>{slot.size}</strong><small>Gbr {slot.image}</small></span>)}<b>TOTAL</b></div>
       <div className="allocation-roll-list">{selectedRolls.map((roll,index)=>{const row=allocations[roll.id]??roll.allocation;const rowTotal=row.reduce((sum,qty)=>sum+qty,0);return <article className="allocation-roll-row" key={roll.id}><div className="allocation-roll-identity"><span>{String(index+1).padStart(2,'0')}</span><div><strong>Roll {String(roll.sequence).padStart(2,'0')} · {roll.material}</strong><small>{roll.supplier} · {formatQuantity(roll.yards,2)} yd</small></div></div><div className="allocation-slot-grid">{cuttingSizeSlots.map((slot,slotIndex)=><label key={slot.key}><span>{slot.size}<small>{slot.image}</small></span><input aria-label={`Roll ${roll.sequence}, size ${slot.size}, gambar ${slot.image}`} inputMode="numeric" type="number" min="0" value={row[slotIndex]} onChange={(event)=>updateAllocation(roll,slotIndex,event.target.value)}/></label>)}</div><div className="allocation-row-total"><span>TOTAL ROLL</span><strong>{rowTotal} pcs</strong><small>{dozenPieces(rowTotal)}</small></div></article>})}{selectedRolls.length===0&&<div className="allocation-empty"><Icon name="ruler"/><strong>Belum ada roll dipilih</strong><small>Pilih minimal satu roll di bagian atas untuk mulai membagi ukuran.</small></div>}</div>
       <div className="cutting-totals-row"><div><span>JUMLAH SIZE 31</span><strong>{sizeTotals[0]} pcs</strong></div><div><span>JUMLAH SIZE 32</span><strong>{sizeTotals[1]} pcs</strong></div><div><span>JUMLAH SIZE 33</span><strong>{sizeTotals[2]} pcs</strong></div><div><span>TOTAL BATCH</span><strong>{totalPieces} pcs</strong><small>{dozenPieces(totalPieces)}</small></div></div>
-      <section className="child-batch-section" aria-labelledby="child-batch-title">
-        <div className="child-batch-head"><div><span>03 · BAGI KE BATCH BAWAH</span><h2 id="child-batch-title">Pecah Potongan besar sebelum dilepas</h2><p>Sumber boleh gabungan beberapa roll. Setiap batch kecil tetap membawa komposisi size yang jelas.</p></div><span className="selection-pill">{childBatches.length} batch bawah</span></div>
-        <div className="batch-split-toolbar">
-          <div className="batch-mode-control" role="group" aria-label="Cara pembagian batch"><button type="button" className={batchSplitMode==='size'?'active':''} aria-pressed={batchSplitMode==='size'} onClick={()=>setBatchSplitMode('size')}><strong>Per size</strong><small>Satu batch untuk tiap size</small></button><button type="button" className={batchSplitMode==='target'?'active':''} aria-pressed={batchSplitMode==='target'} onClick={()=>setBatchSplitMode('target')}><strong>Target angka</strong><small>Campur size sampai angka bulat</small></button></div>
-          {batchSplitMode==='target'&&<label className="batch-target-input"><span>ISI MAKSIMAL / BATCH</span><div><input type="number" min="1" inputMode="numeric" value={batchTarget} onChange={(event)=>setBatchTarget(event.target.value)}/><b>pcs</b></div><small>Batch terakhir otomatis memakai sisanya.</small></label>}
-          <div className={`batch-split-check ${remainingPieces===0?'success':'warn'}`}><Icon name={remainingPieces===0?'check':'filter'}/><div><span>HASIL PEMBAGIAN</span><strong>{childTotal} dari {totalPieces} pcs</strong><small>{remainingPieces===0?'Pas · tidak ada sisa':`Masih tersisa ${remainingPieces} pcs`}</small></div></div>
-        </div>
-        <div className="child-batch-grid">{childBatches.map((batch,index)=>{const batchTotal=batch.quantities.reduce((sum,qty)=>sum+qty,0);return <article className="child-batch-card" key={batch.id}><div className="child-batch-card-head"><span>{batchSplitMode==='size'?batch.label:`GRUP ${String(index+1).padStart(2,'0')}`}</span><small>Belum dilepas</small></div><div className="child-batch-main"><strong>{batchTotal} pcs</strong><span>{selectedMaterial}</span></div><div className="child-batch-sizes">{cuttingSizes.map((size,sizeIndex)=><div key={size}><span>Size {size}</span><strong>{batch.quantities[sizeIndex]}</strong></div>)}</div></article>})}{childBatches.length===0&&<div className="child-batch-empty"><Icon name="boxes"/><strong>Belum ada hasil Potongan</strong><small>Isi hasil per roll dulu supaya batch bawah bisa dibentuk.</small></div>}</div>
-        <div className="batch-correction-note"><Icon name="history"/><div><strong>Pembagian awal menjadi grup asli</strong><span>Koreksi plus/minus baru dipakai kalau pembagian yang sudah disimpan perlu dibetulkan, bukan untuk membuat batch pertama kali.</span></div></div>
+      <section className="cutting-wip-destination" aria-label="Tujuan hasil cutting">
+        <div><span>03 · SIMPAN HASIL CUTTING</span><h2>Masuk WIP Potongan, belum menjadi batch jahit</h2><p>Semua jejak roll dan size tetap melekat pada Potongan induk. Mandor, batch jahit, dan alur laundry baru dicatat saat fisik barang benar-benar diambil.</p></div>
+        <div className="cutting-wip-card"><span className="wip-state-dot"/><div><small>STATUS SETELAH DISIMPAN</small><strong>Menunggu mandor mengambil</strong><span>{selectedRolls.length} roll · {totalPieces} pcs · belum dialokasikan ke batch</span></div></div>
       </section>
-      <div className="potongan-handoff"><div className="handoff-copy"><span>04 · LEPAS KE MANDOR</span><strong>Bentuk {childBatches.length} grup bawah, lalu catat siapa yang mengambil</strong><small>Semua grup tetap berada di bawah satu batch Potongan induk.</small></div><Field label="Diambil oleh / mandor"><select className="erp-input" defaultValue="Mandor Afat"><option>Mandor Afat</option><option>Mandor Asep</option><option>Mandor Dedi</option></select></Field><Field label="Tanggal ambil"><input className="erp-input" type="date" defaultValue="2026-08-27"/></Field><div className="handoff-qc"><span>BERIKUTNYA DI QC</span><strong>Mandor Afat → {childBatches.length} grup</strong><small>{selectedMaterial} · {totalPieces} pcs</small></div></div>
-      <div className="allocation-footer"><small>Frontend simulasi · belum mengurangi stok roll atau membuat batch di backend.</small><div><button type="button" className="soft-btn">Simpan draft pembagian</button><button type="button" className="primary-btn" disabled={selectedRolls.length===0||totalPieces===0||remainingPieces!==0}>Review & bentuk {childBatches.length} grup <Icon name="arrow"/></button></div></div>
+      <div className="allocation-footer"><small>Frontend simulasi · belum mengurangi stok roll atau mencatat WIP di backend.</small><div><button type="button" className="soft-btn">Simpan draft cutting</button><button type="button" className="primary-btn" disabled={selectedRolls.length===0||totalPieces===0}>Simpan Potongan ke WIP <Icon name="arrow"/></button></div></div>
+    </section>
+  </>
+}
+
+function MandorWipPage() {
+  const wipRolls = fabricRollCatalog.slice(0, 9)
+  const wipRollRows = wipRolls.map((roll) => {
+    const sizes = rollSizeQuantities(roll.allocation)
+    return { roll, sizes, quantity: sizes.reduce((sum, qty) => sum + qty, 0) }
+  })
+  const wipSizeTotals = wipRollRows.reduce<QtyTuple>((totals, row) => totals.map((qty, index) => qty + row.sizes[index]) as QtyTuple, [0, 0, 0])
+  const wipTotal = wipSizeTotals.reduce((sum, qty) => sum + qty, 0)
+  const [mandor,setMandor] = useState('Mandor Afat')
+  const [pickupAt,setPickupAt] = useState('2026-08-27T10:30')
+  const [batchCountInput,setBatchCountInput] = useState('3')
+  const [batchCount,setBatchCount] = useState(3)
+  const [allocationMode,setAllocationMode] = useState<WipAllocationMode>('roll')
+  const [rollMatrix,setRollMatrix] = useState<AllocationMatrix>(() => createRollAllocationMatrix(wipRolls, 3))
+  const [sizeMatrix,setSizeMatrix] = useState<AllocationMatrix>(() => createSizeAllocationMatrix(wipSizeTotals, 3))
+  const targetTotals = balancedBatchTargets(wipTotal, batchCount)
+  const activeMatrix = allocationMode === 'roll' ? rollMatrix : sizeMatrix
+  const activeSources = allocationMode === 'roll'
+    ? wipRollRows.map((row) => ({ key: row.roll.id, total: row.quantity }))
+    : cuttingSizes.map((size, index) => ({ key: size, total: wipSizeTotals[index] }))
+  const sourceChecks = activeSources.map((source) => ({ ...source, assigned: (activeMatrix[source.key] ?? []).reduce((sum, value) => sum + cellQuantity(value), 0) }))
+  const sourcesExact = sourceChecks.every((source) => source.assigned === source.total)
+  const batchTotals = Array.from({ length: batchCount }, (_, batchIndex) => activeSources.reduce((sum, source) => sum + cellQuantity(activeMatrix[source.key]?.[batchIndex]), 0))
+  const assignedTotal = batchTotals.reduce((sum, qty) => sum + qty, 0)
+  const remainingTotal = wipTotal - assignedTotal
+  const splitRolls = wipRollRows.filter((row) => (rollMatrix[row.roll.id] ?? []).filter((value) => cellQuantity(value) > 0).length > 1)
+  const wholeRolls = wipRollRows.filter((row) => {
+    const values = rollMatrix[row.roll.id] ?? []
+    return values.filter((value) => cellQuantity(value) > 0).length === 1 && values.reduce((sum, value) => sum + cellQuantity(value), 0) === row.quantity
+  })
+  const batchSizeMix = useMemo(() => {
+    if (!sourcesExact) return Array.from({ length: batchCount }, () => [0, 0, 0] as QtyTuple)
+    if (allocationMode === 'size') return Array.from({ length: batchCount }, (_, batchIndex) => cuttingSizes.map((size) => cellQuantity(sizeMatrix[size]?.[batchIndex])) as QtyTuple)
+    const mix = Array.from({ length: batchCount }, () => [0, 0, 0] as QtyTuple)
+    wipRollRows.forEach((row) => {
+      const spread = spreadRollSizesAcrossBatches(row.sizes, (rollMatrix[row.roll.id] ?? []).map(cellQuantity))
+      spread.forEach((sizes, batchIndex) => sizes.forEach((qty, sizeIndex) => { mix[batchIndex][sizeIndex] += qty }))
+    })
+    return mix
+  }, [allocationMode, batchCount, rollMatrix, sizeMatrix, sourcesExact])
+  const applyBatchCount = () => {
+    const nextCount = Math.min(6, Math.max(2, Math.round(Number(batchCountInput) || 2)))
+    setBatchCountInput(String(nextCount))
+    setBatchCount(nextCount)
+    setRollMatrix(createRollAllocationMatrix(wipRolls, nextCount))
+    setSizeMatrix(createSizeAllocationMatrix(wipSizeTotals, nextCount))
+  }
+  const updateAllocation = (sourceKey: string, batchIndex: number, value: string) => {
+    const setter = allocationMode === 'roll' ? setRollMatrix : setSizeMatrix
+    setter((current) => ({ ...current, [sourceKey]: (current[sourceKey] ?? Array(batchCount).fill('0')).map((currentValue, index) => index === batchIndex ? value : currentValue) }))
+  }
+  const tidyWholeRolls = () => setRollMatrix(createRollAllocationMatrix(wipRolls, batchCount))
+  const splitLastRollEvenly = () => {
+    const lastRoll = wipRollRows[wipRollRows.length - 1]
+    setRollMatrix((current) => ({ ...current, [lastRoll.roll.id]: balancedBatchTargets(lastRoll.quantity, batchCount).map(String) }))
+  }
+  const isReady = sourcesExact && assignedTotal === wipTotal && mandor.length > 0 && pickupAt.length > 0
+
+  return <>
+    <section className="hero-copy compact cutting-hero"><div className="eyebrow">PRODUKSI · MANDOR</div><h1>Ambil WIP & Bentuk Batch</h1><p>Pilih Potongan yang sudah selesai cutting. Setelah mandor mengambil, baru bentuk batch kerja yang sama untuk alur jahit sampai laundry.</p></section>
+    <section className="wip-flow-rail panel" aria-label="Alur pickup dan pembentukan batch">{['Pilih WIP Potongan','Catat mandor mengambil','Tentukan jumlah batch','Isi roll atau size'].map((label,index)=><div className={index===0?'active':''} key={label}><span>{String(index+1).padStart(2,'0')}</span><strong>{label}</strong>{index<3&&<Icon name="arrow"/>}</div>)}</section>
+    <section className="wip-pickup-layout">
+      <aside className="panel wip-queue-panel">
+        <div className="wip-queue-head"><div><span>01 · WIP POTONGAN</span><h2>Menunggu diambil</h2><p>Belum punya batch jahit atau laundry.</p></div><span className="selection-pill">3 antrean</span></div>
+        <label className="wip-search"><Icon name="search"/><input placeholder="Cari kode, bahan, atau model..."/></label>
+        <div className="wip-queue-list">
+          <button type="button" className="wip-queue-card selected"><span className="wip-queue-status">SIAP DIAMBIL</span><strong>POT-260827-042</strong><small>Kulot Lucy · Sinaran</small><div><span><b>{wipTotal} pcs</b> · 9 roll</span><em>Size 31–33</em></div></button>
+          <button type="button" className="wip-queue-card"><span className="wip-queue-status">SIAP DIAMBIL</span><strong>POT-260827-041</strong><small>Malibu · Sinaran</small><div><span><b>488 pcs</b> · 7 roll</span><em>Size 28–30</em></div></button>
+          <button type="button" className="wip-queue-card"><span className="wip-queue-status">MENUNGGU REVIEW</span><strong>POT-260827-039</strong><small>Zodiak KW · Sumber Cahaya</small><div><span><b>342 pcs</b> · 5 roll</span><em>Size 34–36</em></div></button>
+        </div>
+      </aside>
+
+      <div className="panel wip-batch-workspace">
+        <div className="wip-selected-head"><div><span>WIP TERPILIH</span><h2>POT-260827-042 · Kulot Lucy</h2><p>{wipTotal} pcs dari 9 roll · selesai potong 27 Agu 2026</p></div><span className="wip-waiting-pill"><span/> Belum diambil</span></div>
+        <div className="pickup-meta-grid">
+          <Field label="Diambil oleh / mandor"><select className="erp-input" value={mandor} onChange={(event)=>setMandor(event.target.value)}><option>Mandor Afat</option><option>Mandor Asep</option><option>Mandor Dedi</option></select></Field>
+          <Field label="Tanggal & waktu ambil"><input className="erp-input" type="datetime-local" value={pickupAt} onChange={(event)=>setPickupAt(event.target.value)}/></Field>
+          <div className="pickup-flow-note"><Icon name="link"/><div><span>BATCH YANG SAMA</span><strong>Jahit → Laundry</strong><small>Vendor laundry dipilih saat barang benar-benar dikirim.</small></div></div>
+        </div>
+
+        <section className="batch-builder-setup">
+          <div className="batch-builder-copy"><span>03 · BENTUK BATCH SETELAH PICKUP</span><h2>Mau dibagi menjadi berapa batch?</h2><p>Jumlah per batch boleh berbeda. Angka saran hanya membantu membulatkan; total sumber tetap harus terpenuhi.</p></div>
+          <div className="batch-count-control"><label><span>JUMLAH BATCH</span><div><input type="number" min="2" max="6" inputMode="numeric" value={batchCountInput} onChange={(event)=>setBatchCountInput(event.target.value)}/><b>batch</b></div></label><button type="button" className="soft-btn" onClick={applyBatchCount}>Buat ulang</button></div>
+        </section>
+
+        <div className="wip-allocation-mode" role="group" aria-label="Dasar pembagian batch">
+          <button type="button" className={allocationMode==='roll'?'active':''} aria-pressed={allocationMode==='roll'} onClick={()=>setAllocationMode('roll')}><Icon name="boxes"/><div><span>UTAMA</span><strong>Masukkan per roll</strong><small>Roll dijaga utuh sebisa mungkin.</small></div></button>
+          <button type="button" className={allocationMode==='size'?'active':''} aria-pressed={allocationMode==='size'} onClick={()=>setAllocationMode('size')}><Icon name="ruler"/><div><span>KHUSUS</span><strong>Masukkan per size</strong><small>Dipakai bila batch memang dikelompokkan berdasarkan ukuran.</small></div></button>
+        </div>
+
+        <div className="wip-reconcile-strip">
+          <div className={assignedTotal===wipTotal?'success':'warn'}><span>TERALOKASI</span><strong>{assignedTotal} / {wipTotal} pcs</strong><small>{remainingTotal===0?'Pas · tidak ada sisa':remainingTotal>0?`${remainingTotal} pcs masih di WIP`:`Kelebihan ${Math.abs(remainingTotal)} pcs`}</small></div>
+          <div><span>HASIL BATCH</span><strong>{batchCount} batch</strong><small>Saran {targetTotals.join(' · ')} pcs</small></div>
+          <div className={sourcesExact?'success':'warn'}><span>SUMBER</span><strong>{sourcesExact?'Semua terpenuhi':'Belum rekonsiliasi'}</strong><small>{allocationMode==='roll'?'Cek total setiap roll':'Cek total setiap size'}</small></div>
+        </div>
+
+        {allocationMode==='roll'?<div className={`golden-roll-rule ${splitRolls.length<=1?'success':'warn'}`}><Icon name="boxes"/><div><span>GOLDEN RULE PER ROLL</span><strong>{wholeRolls.length} roll utuh · {splitRolls.length} roll terpecah</strong><small>Roll hanya dipecah bila perlu. Pengecualian tetap boleh selama seluruh {wipTotal} pcs terpenuhi.</small></div><div><button type="button" onClick={tidyWholeRolls}>Rapikan otomatis</button><button type="button" onClick={splitLastRollEvenly}>Bagi rata roll terakhir</button></div></div>:<div className="golden-roll-rule size-mode"><Icon name="ruler"/><div><span>MODE PER SIZE</span><strong>Jejak roll tetap tersimpan di Potongan induk</strong><small>Batch bawah dikelompokkan dari jumlah Size 31, 32, dan 33.</small></div></div>}
+
+        <div className="wip-batch-grid">
+          {Array.from({length:batchCount},(_,batchIndex)=><article className="wip-batch-card" key={batchIndex}>
+            <div className="wip-batch-card-head"><div><span>BATCH {String(batchIndex+1).padStart(2,'0')}</span><strong>{batchTotals[batchIndex]} pcs</strong></div><small>Saran {targetTotals[batchIndex]}</small></div>
+            <div className="wip-batch-size-mix">{cuttingSizes.map((size,sizeIndex)=><span key={size}><small>SIZE {size}</small><strong>{sourcesExact?batchSizeMix[batchIndex][sizeIndex]:'—'}</strong></span>)}</div>
+            <div className="wip-batch-source-list">
+              {allocationMode==='roll'?wipRollRows.map((row)=>{const allocated=cellQuantity(rollMatrix[row.roll.id]?.[batchIndex]);const usedIn=(rollMatrix[row.roll.id]??[]).filter((value)=>cellQuantity(value)>0).length;const state=allocated===0?'Kosong':allocated===row.quantity&&usedIn===1?'Utuh':'Pecah';return <label className={`wip-batch-source ${allocated===0?'empty':''}`} key={row.roll.id}><div><strong>Roll {String(row.roll.sequence).padStart(2,'0')}</strong><small>{row.roll.id} · sumber {row.quantity} pcs</small></div><div className="wip-free-input"><input aria-label={`Batch ${batchIndex+1}, roll ${row.roll.sequence}`} type="number" min="0" inputMode="numeric" value={rollMatrix[row.roll.id]?.[batchIndex]??'0'} onChange={(event)=>updateAllocation(row.roll.id,batchIndex,event.target.value)}/><span>pcs</span></div><em className={state.toLowerCase()}>{state}</em></label>}):cuttingSizes.map((size,sizeIndex)=>{const allocated=cellQuantity(sizeMatrix[size]?.[batchIndex]);return <label className="wip-batch-source size-source" key={size}><div><strong>Size {size}</strong><small>Sumber {wipSizeTotals[sizeIndex]} pcs</small></div><div className="wip-free-input"><input aria-label={`Batch ${batchIndex+1}, size ${size}`} type="number" min="0" inputMode="numeric" value={sizeMatrix[size]?.[batchIndex]??'0'} onChange={(event)=>updateAllocation(size,batchIndex,event.target.value)}/><span>pcs</span></div></label>})}
+            </div>
+            <div className="wip-batch-route"><span>JAHIT</span><Icon name="arrow"/><span>LAUNDRY</span><small>Kode batch tetap sama</small></div>
+          </article>)}
+        </div>
+
+        <div className="wip-source-audit"><Icon name={sourcesExact?'check':'history'}/><div><strong>{sourcesExact?'Seluruh sumber sudah pas':'Masih ada sumber yang kurang atau lebih'}</strong><span>{sourceChecks.filter((source)=>source.assigned!==source.total).map((source)=>`${allocationMode==='roll'?source.key:`Size ${source.key}`}: ${source.assigned}/${source.total}`).join(' · ')||`${wipRollRows.length} roll · ${wipTotal} pcs siap dibentuk`}</span></div></div>
+        <div className="allocation-footer"><small>Frontend simulasi · pickup dan batch belum diposting ke backend.</small><div><button type="button" className="soft-btn">Simpan draft pickup</button><button type="button" className="primary-btn" disabled={!isReady}>Catat pickup & buat {batchCount} batch <Icon name="arrow"/></button></div></div>
+      </div>
     </section>
   </>
 }
