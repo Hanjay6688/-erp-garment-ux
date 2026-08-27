@@ -1,5 +1,5 @@
 import { Fragment, useMemo, useRef, useState } from 'react'
-import type { ClipboardEvent as ReactClipboardEvent, KeyboardEvent as ReactKeyboardEvent, PointerEvent as ReactPointerEvent, ReactNode } from 'react'
+import type { ClipboardEvent as ReactClipboardEvent, CSSProperties, KeyboardEvent as ReactKeyboardEvent, PointerEvent as ReactPointerEvent, ReactNode } from 'react'
 import {
   ArrowLeft, ArrowRight, Boxes, CalendarDays, Check, ChevronDown, ChevronUp,
   CircleDollarSign, Database, Factory, FileText, GripVertical, History,
@@ -18,6 +18,7 @@ type ReceiptMode = 'fabric' | 'accessory'
 type SizeRow = { size: string; stock: number; qty: number; input: string }
 type RollDraft = { id: number; yards: string }
 type SlotAllocation = [number, number, number, number, number, number]
+type CuttingSizeSlot = { key: string; size: string }
 type WipAllocationMode = 'roll' | 'size'
 type AllocationMatrix = Record<string, string[]>
 type RollBatchSizeMatrix = Record<string, string[][]>
@@ -70,12 +71,23 @@ const productCatalog: Product[] = [
   { code: '73006', range: '34–36', name: 'Widie Workwear', color: 'Stone', brand: 'Widie', sizes: ['34','35','36'], stocks: [24,30,36], location: 'Gudang FG Cadangan', grade: 'BS' },
 ]
 
-const cuttingSizeSlots = [
-  { key: '31-a', size: '31', image: 'A' }, { key: '31-b', size: '31', image: 'B' },
-  { key: '32-a', size: '32', image: 'A' }, { key: '32-b', size: '32', image: 'B' },
-  { key: '33-a', size: '33', image: 'A' }, { key: '33-b', size: '33', image: 'B' },
-] as const
+const initialCuttingSizeSlots: CuttingSizeSlot[] = [
+  { key: '31-1', size: '31' }, { key: '31-2', size: '31' },
+  { key: '32-1', size: '32' }, { key: '32-2', size: '32' },
+  { key: '33-1', size: '33' }, { key: '33-2', size: '33' },
+]
 const cuttingSizes: SizeTuple = ['31','32','33']
+
+const drawingLabel = (drawingNo: number) => {
+  let value = Math.max(1, drawingNo)
+  let label = ''
+  while (value > 0) {
+    value -= 1
+    label = String.fromCharCode(65 + (value % 26)) + label
+    value = Math.floor(value / 26)
+  }
+  return label
+}
 
 const rollSizeQuantities = (allocation: SlotAllocation): QtyTuple => [
   allocation[0] + allocation[1], allocation[2] + allocation[3], allocation[4] + allocation[5],
@@ -382,7 +394,9 @@ function CuttingRollPage() {
   const [selectedSuppliers,setSelectedSuppliers]=useState([...fabricRollSuppliers])
   const [selectedMaterials,setSelectedMaterials]=useState([...fabricRollMaterials])
   const [selectedRollIds,setSelectedRollIds]=useState(()=>fabricRollCatalog.slice(0,9).map((roll)=>roll.id))
-  const [allocations,setAllocations]=useState<Record<string,SlotAllocation>>(()=>Object.fromEntries(fabricRollCatalog.map((roll)=>[roll.id,[...roll.allocation]])) as Record<string,SlotAllocation>)
+  const [sizeSlots,setSizeSlots]=useState<CuttingSizeSlot[]>(()=>initialCuttingSizeSlots.map((slot)=>({...slot})))
+  const nextSlotKeyRef=useRef(initialCuttingSizeSlots.length+1)
+  const [allocations,setAllocations]=useState<Record<string,number[]>>(()=>Object.fromEntries(fabricRollCatalog.map((roll)=>[roll.id,[...roll.allocation]])))
   const [fillRange,setFillRange]=useState<{source:number;target:number}|null>(null)
   const fillRangeRef=useRef<{source:number;target:number}|null>(null)
   const fillDraggedRef=useRef(false)
@@ -396,9 +410,15 @@ function CuttingRollPage() {
   }),[query,selectedSuppliers,selectedMaterials])
   const selectedRolls=fabricRollCatalog.filter((roll)=>selectedIdSet.has(roll.id))
   const totalYards=selectedRolls.reduce((sum,roll)=>sum+roll.yards,0)
-  const slotTotals=cuttingSizeSlots.map((_,slotIndex)=>selectedRolls.reduce((sum,roll)=>sum+(allocations[roll.id]?.[slotIndex]??0),0))
-  const sizeTotals=[slotTotals[0]+slotTotals[1],slotTotals[2]+slotTotals[3],slotTotals[4]+slotTotals[5]]
+  const displayedSizeSlots=useMemo(()=>sizeSlots.map((slot,slotIndex)=>{
+    const sameSizeCount=sizeSlots.filter((candidate)=>candidate.size===slot.size).length
+    const drawingNo=sizeSlots.slice(0,slotIndex+1).filter((candidate)=>candidate.size===slot.size).length
+    return {...slot,drawingNo,image:sameSizeCount>1?drawingLabel(drawingNo):''}
+  }),[sizeSlots])
+  const slotTotals=sizeSlots.map((_,slotIndex)=>selectedRolls.reduce((sum,roll)=>sum+(allocations[roll.id]?.[slotIndex]??0),0))
+  const sizeTotals=cuttingSizes.map((size)=>sizeSlots.reduce((sum,slot,slotIndex)=>sum+(slot.size===size?slotTotals[slotIndex]:0),0)) as QtyTuple
   const totalPieces=slotTotals.reduce((sum,qty)=>sum+qty,0)
+  const slotGridStyle={'--cutting-slot-count':displayedSizeSlots.length} as CSSProperties
   const allVisibleSelected=visibleRolls.length>0&&visibleRolls.every((roll)=>selectedIdSet.has(roll.id))
   const toggleRoll=(id:string)=>setSelectedRollIds((current)=>current.includes(id)?current.filter((rollId)=>rollId!==id):fabricRollCatalog.filter((roll)=>current.includes(roll.id)||roll.id===id).map((roll)=>roll.id))
   const toggleVisible=()=>setSelectedRollIds((current)=>{
@@ -406,8 +426,32 @@ function CuttingRollPage() {
     visibleRolls.forEach((roll)=>allVisibleSelected?next.delete(roll.id):next.add(roll.id))
     return fabricRollCatalog.filter((roll)=>next.has(roll.id)).map((roll)=>roll.id)
   })
+  const addSizeSlot=(size:string)=>{
+    let insertIndex=sizeSlots.length
+    sizeSlots.forEach((slot,index)=>{if(slot.size===size)insertIndex=index+1})
+    const nextSlot={key:`${size}-${nextSlotKeyRef.current++}`,size}
+    setSizeSlots((current)=>[...current.slice(0,insertIndex),nextSlot,...current.slice(insertIndex)])
+    setAllocations((current)=>Object.fromEntries(Object.entries(current).map(([rollId,row])=>[rollId,[...row.slice(0,insertIndex),0,...row.slice(insertIndex)]])))
+    setColumnFillRange(null)
+    columnFillRangeRef.current=null
+  }
+  const removeSizeSlot=(size:string)=>{
+    const matchingIndexes=sizeSlots.map((slot,index)=>slot.size===size?index:-1).filter((index)=>index>=0)
+    if(matchingIndexes.length<=1)return
+    const removeIndex=matchingIndexes[matchingIndexes.length-1]
+    const mergeIndex=matchingIndexes[matchingIndexes.length-2]
+    setSizeSlots((current)=>current.filter((_,index)=>index!==removeIndex))
+    setAllocations((current)=>Object.fromEntries(Object.entries(current).map(([rollId,row])=>{
+      const next=[...row]
+      next[mergeIndex]=(next[mergeIndex]??0)+(next[removeIndex]??0)
+      next.splice(removeIndex,1)
+      return [rollId,next]
+    })))
+    setColumnFillRange(null)
+    columnFillRangeRef.current=null
+  }
   const updateAllocation=(roll:FabricRoll,slotIndex:number,value:string)=>setAllocations((current)=>{
-    const next=[...(current[roll.id]??roll.allocation)] as SlotAllocation
+    const next=[...(current[roll.id]??sizeSlots.map((_,index)=>roll.allocation[index]??0))]
     const normalized=value.replace(/[^0-9]/g,'').replace(/^0+(?=\d)/,'')
     next[slotIndex]=normalized===''?0:Math.max(0,Math.round(Number(normalized)||0))
     return {...current,[roll.id]:next}
@@ -428,7 +472,7 @@ function CuttingRollPage() {
     else if(event.key==='ArrowRight')nextSlot+=1
     else if(event.key==='ArrowLeft')nextSlot-=1
     else return
-    if(nextRoll<0||nextRoll>=selectedRolls.length||nextSlot<0||nextSlot>=cuttingSizeSlots.length)return
+    if(nextRoll<0||nextRoll>=selectedRolls.length||nextSlot<0||nextSlot>=sizeSlots.length)return
     event.preventDefault()
     focusAllocationCell(nextRoll,nextSlot)
   }
@@ -442,10 +486,10 @@ function CuttingRollPage() {
       pastedRows.forEach((cells,rowOffset)=>{
         const roll=selectedRolls[startRoll+rowOffset]
         if(!roll)return
-        const row=[...(next[roll.id]??roll.allocation)] as SlotAllocation
+        const row=[...(next[roll.id]??sizeSlots.map((_,index)=>roll.allocation[index]??0))]
         cells.forEach((cell,columnOffset)=>{
           const slotIndex=startSlot+columnOffset
-          if(slotIndex>=cuttingSizeSlots.length)return
+          if(slotIndex>=sizeSlots.length)return
           const normalized=cell.trim().replace(/[^0-9]/g,'').replace(/^0+(?=\d)/,'')
           row[slotIndex]=normalized===''?0:Math.max(0,Math.round(Number(normalized)||0))
         })
@@ -459,14 +503,14 @@ function CuttingRollPage() {
     setAllocations((current)=>{
       const sourceRoll=selectedRolls[sourceIndex]
       if(!sourceRoll)return current
-      const sourceValues=[...(current[sourceRoll.id]??sourceRoll.allocation)] as SlotAllocation
+      const sourceValues=[...(current[sourceRoll.id]??sizeSlots.map((_,index)=>sourceRoll.allocation[index]??0))]
       const next={...current}
       const start=Math.min(sourceIndex,targetIndex)
       const end=Math.max(sourceIndex,targetIndex)
       for(let rowIndex=start;rowIndex<=end;rowIndex+=1){
         if(rowIndex===sourceIndex)continue
         const targetRoll=selectedRolls[rowIndex]
-        if(targetRoll)next[targetRoll.id]=[...sourceValues] as SlotAllocation
+        if(targetRoll)next[targetRoll.id]=[...sourceValues]
       }
       return next
     })
@@ -518,7 +562,7 @@ function CuttingRollPage() {
       const start=Math.min(sourceSlot,targetSlot)
       const end=Math.max(sourceSlot,targetSlot)
       selectedRolls.forEach((roll)=>{
-        const row=[...(current[roll.id]??roll.allocation)] as SlotAllocation
+        const row=[...(current[roll.id]??sizeSlots.map((_,index)=>roll.allocation[index]??0))]
         const sourceValue=row[sourceSlot]
         for(let slotIndex=start;slotIndex<=end;slotIndex+=1){
           if(slotIndex!==sourceSlot)row[slotIndex]=sourceValue
@@ -542,7 +586,7 @@ function CuttingRollPage() {
     const slotElement=document.elementFromPoint(event.clientX,event.clientY)?.closest<HTMLElement>('[data-column-fill-slot]')
     const hoveredSlot=Number(slotElement?.dataset.columnFillSlot)
     if(!Number.isFinite(hoveredSlot))return
-    const target=Math.max(0,Math.min(cuttingSizeSlots.length-1,hoveredSlot))
+    const target=Math.max(0,Math.min(sizeSlots.length-1,hoveredSlot))
     if(target===range.target)return
     const nextRange={source:range.source,target}
     columnFillRangeRef.current=nextRange
@@ -565,7 +609,7 @@ function CuttingRollPage() {
   }
   const clickColumnFill=(sourceSlot:number)=>{
     if(columnFillDraggedRef.current){columnFillDraggedRef.current=false;return}
-    const targetSlot=sourceSlot<cuttingSizeSlots.length-1?sourceSlot+1:sourceSlot-1
+    const targetSlot=sourceSlot<sizeSlots.length-1?sourceSlot+1:sourceSlot-1
     fillColumnsFromSource(sourceSlot,targetSlot)
   }
   return <>
@@ -587,22 +631,24 @@ function CuttingRollPage() {
       </aside>
     </section>
     <section className="panel allocation-workbench" id="allocation-workbench">
-      <div className="cutting-panel-head allocation-head"><div><span>02 · HASIL POTONG PER ROLL</span><h2>Isi slot ukuran tanpa menghilangkan gambar</h2><p>Size yang sama boleh muncul dua kali. Sistem baru menjumlahkannya saat membuat total per size.</p></div><span className="draft-pill">Draft</span></div>
+      <div className="cutting-panel-head allocation-head"><div><span>02 · HASIL POTONG PER ROLL</span><h2>Susun slot size sesuai gambar hari ini</h2><p>Satu size boleh punya satu, dua, tiga, atau lebih slot. Label gambar hanya muncul kalau size tersebut berulang.</p></div><span className="draft-pill">Draft</span></div>
       <div className="cutting-meta-grid"><Field label="Merek"><select className="erp-input" defaultValue="Vivo"><option>Vivo</option><option>Widie</option></select></Field><Field label="Model"><input className="erp-input" defaultValue="Kulot Lucy"/></Field><Field label="Tipe pola"><input className="erp-input" defaultValue="Cutbray Jumbo Lucy"/></Field><Field label="Range ukuran"><select className="erp-input" defaultValue="31–33"><option>28–30</option><option>31–33</option><option>34–36</option></select></Field><Field label="Tanggal potong"><input className="erp-input" type="date" defaultValue="2026-08-27"/></Field><div className="future-po-field"><span>KODE POTONGAN</span><strong>POT otomatis</strong><small>saat hasil masuk WIP</small></div></div>
+      <div className="size-slot-builder"><div className="size-slot-builder-copy"><span>SUSUN KOLOM SIZE</span><strong>Tambah atau kurangi gambar per size</strong><small>Tombol minus menggabungkan isi kolom terakhir ke kolom sebelumnya—total size tetap aman.</small></div><div className="size-slot-controls">{cuttingSizes.map((size)=>{const count=sizeSlots.filter((slot)=>slot.size===size).length;return <div className="size-slot-control" key={size}><div><span>SIZE {size}</span><strong>{count===1?'1 kolom':`${count} kolom`}</strong><small>{count===1?'Tanpa label gambar':`Gambar A–${drawingLabel(count)}`}</small></div><div><button type="button" disabled={count<=1} aria-label={`Kurangi slot Size ${size}`} title="Gabungkan kolom terakhir ke kolom sebelumnya" onClick={()=>removeSizeSlot(size)}>−</button><b>{count}</b><button type="button" aria-label={`Tambah slot Size ${size}`} title="Tambah kolom gambar baru" onClick={()=>addSizeSlot(size)}>+</button></div></div>})}</div></div>
       <div className="cutting-grid-shortcuts"><span><kbd>Enter</kbd> turun</span><span><kbd>Tab</kbd> ke kanan</span><span><kbd>↑ ↓ ← →</kbd> pindah sel</span><span><Icon name="drag"/> Tarik baris ke atas / bawah</span><span>Tarik kolom ke kiri / kanan</span><span>Paste blok Excel didukung</span></div>
-      <div className="column-fill-toolbar"><div><span>FILL SATU KOLOM</span><small>Klik untuk satu kolom · tarik kiri/kanan untuk beberapa</small></div><div className="column-fill-grid">{cuttingSizeSlots.map((slot,slotIndex)=>{const isSource=columnFillRange?.source===slotIndex;const isPreview=Boolean(columnFillRange&&slotIndex!==columnFillRange.source&&slotIndex>=Math.min(columnFillRange.source,columnFillRange.target)&&slotIndex<=Math.max(columnFillRange.source,columnFillRange.target));return <button type="button" tabIndex={-1} data-column-fill-slot={slotIndex} className={`${isSource?'fill-source':''} ${isPreview?'fill-preview':''}`} key={slot.key} aria-label={`Salin seluruh kolom size ${slot.size} gambar ${slot.image}`} title="Klik: salin ke kolom sebelah · tarik: isi beberapa kolom" onPointerDown={(event)=>beginColumnFill(event,slotIndex)} onPointerMove={moveColumnFill} onPointerUp={finishColumnFill} onPointerCancel={cancelColumnFill} onClick={()=>clickColumnFill(slotIndex)}><span>{slot.size}<small>{slot.image}</small></span><Icon name="drag"/></button>})}</div><span>Seluruh roll ikut tersalin</span></div>
-      <div className="slot-legend"><div><span>SLOT UKURAN</span><small>Gambar A/B dipertahankan</small></div>{cuttingSizeSlots.map((slot)=><span key={slot.key}><strong>{slot.size}</strong><small>Gbr {slot.image}</small></span>)}<b>TOTAL</b></div>
+      <div className="column-fill-toolbar"><div><span>FILL SATU KOLOM</span><small>Klik untuk satu kolom · tarik kiri/kanan untuk beberapa</small></div><div className="column-fill-grid" style={slotGridStyle}>{displayedSizeSlots.map((slot,slotIndex)=>{const isSource=columnFillRange?.source===slotIndex;const isPreview=Boolean(columnFillRange&&slotIndex!==columnFillRange.source&&slotIndex>=Math.min(columnFillRange.source,columnFillRange.target)&&slotIndex<=Math.max(columnFillRange.source,columnFillRange.target));const drawingCopy=slot.image?` gambar ${slot.image}`:'';return <button type="button" tabIndex={-1} data-column-fill-slot={slotIndex} className={`${isSource?'fill-source':''} ${isPreview?'fill-preview':''}`} key={slot.key} aria-label={`Salin seluruh kolom size ${slot.size}${drawingCopy}`} title="Klik: salin ke kolom sebelah · tarik: isi beberapa kolom" onPointerDown={(event)=>beginColumnFill(event,slotIndex)} onPointerMove={moveColumnFill} onPointerUp={finishColumnFill} onPointerCancel={cancelColumnFill} onClick={()=>clickColumnFill(slotIndex)}><span>{slot.size}{slot.image&&<small>{slot.image}</small>}</span><Icon name="drag"/></button>})}</div><span>{displayedSizeSlots.length} kolom aktif</span></div>
+      <div className="slot-legend"><div><span>SLOT UKURAN</span><small>Jumlah gambar mengikuti susunan di atas</small></div>{displayedSizeSlots.map((slot)=><span key={slot.key}><strong>{slot.size}</strong>{slot.image&&<small>Gbr {slot.image}</small>}</span>)}<b>TOTAL</b></div>
       <div className="allocation-roll-list">{selectedRolls.map((roll,index)=>{
-        const row=allocations[roll.id]??roll.allocation
+        const row=allocations[roll.id]??sizeSlots.map((_,slotIndex)=>roll.allocation[slotIndex]??0)
         const rowTotal=row.reduce((sum,qty)=>sum+qty,0)
         const isFillSource=fillRange?.source===index
         const isFillPreview=Boolean(fillRange&&index!==fillRange.source&&index>=Math.min(fillRange.source,fillRange.target)&&index<=Math.max(fillRange.source,fillRange.target))
         return <article data-allocation-row-index={index} className={`allocation-roll-row ${isFillSource?'fill-source':''} ${isFillPreview?'fill-preview':''}`} key={roll.id}>
           <div className="allocation-roll-identity"><span>{String(index+1).padStart(2,'0')}</span><div><strong>Roll {String(roll.sequence).padStart(2,'0')} · {roll.material}</strong><small>{roll.supplier} · {formatQuantity(roll.yards,2)} yd</small></div></div>
-          <div className="allocation-slot-grid">{cuttingSizeSlots.map((slot,slotIndex)=>{
+          <div className="allocation-slot-grid" style={slotGridStyle}>{displayedSizeSlots.map((slot,slotIndex)=>{
             const isColumnSource=columnFillRange?.source===slotIndex
             const isColumnPreview=Boolean(columnFillRange&&slotIndex!==columnFillRange.source&&slotIndex>=Math.min(columnFillRange.source,columnFillRange.target)&&slotIndex<=Math.max(columnFillRange.source,columnFillRange.target))
-            return <label className={`${isColumnSource?'column-fill-source':''} ${isColumnPreview?'column-fill-preview':''}`} key={slot.key}><span>{slot.size}<small>{slot.image}</small></span><input data-cutting-row={index} data-cutting-slot={slotIndex} aria-label={`Roll ${roll.sequence}, size ${slot.size}, gambar ${slot.image}`} inputMode="numeric" type="text" pattern="[0-9]*" value={row[slotIndex]} onFocus={(event)=>{if(row[slotIndex]===0){const input=event.currentTarget;requestAnimationFrame(()=>input.select())}}} onClick={(event)=>{if(row[slotIndex]===0)event.currentTarget.select()}} onKeyDown={(event)=>handleAllocationKey(event,index,slotIndex)} onPaste={(event)=>pasteAllocationGrid(event,index,slotIndex)} onChange={(event)=>updateAllocation(roll,slotIndex,event.target.value)}/></label>
+            const drawingCopy=slot.image?`, gambar ${slot.image}`:''
+            return <label className={`${isColumnSource?'column-fill-source':''} ${isColumnPreview?'column-fill-preview':''}`} key={slot.key}><span>{slot.size}{slot.image&&<small>{slot.image}</small>}</span><input data-cutting-row={index} data-cutting-slot={slotIndex} aria-label={`Roll ${roll.sequence}, size ${slot.size}${drawingCopy}`} inputMode="numeric" type="text" pattern="[0-9]*" value={row[slotIndex]??0} onFocus={(event)=>{if((row[slotIndex]??0)===0){const input=event.currentTarget;requestAnimationFrame(()=>input.select())}}} onClick={(event)=>{if((row[slotIndex]??0)===0)event.currentTarget.select()}} onKeyDown={(event)=>handleAllocationKey(event,index,slotIndex)} onPaste={(event)=>pasteAllocationGrid(event,index,slotIndex)} onChange={(event)=>updateAllocation(roll,slotIndex,event.target.value)}/></label>
           })}</div>
           <div className="allocation-row-total"><span>TOTAL ROLL</span><strong>{rowTotal} pcs</strong><small>{dozenPieces(rowTotal)}</small></div>
           <button type="button" tabIndex={-1} className="row-fill-handle" aria-label={`Salin isi Roll ${roll.sequence} ke baris atas atau bawah`} title="Klik: salin ke baris terdekat · tarik: isi ke atas atau bawah" onPointerDown={(event)=>beginRowFill(event,index)} onPointerMove={moveRowFill} onPointerUp={finishRowFill} onPointerCancel={cancelRowFill} onClick={()=>clickRowFill(index)}><Icon name="drag"/><span/></button>
