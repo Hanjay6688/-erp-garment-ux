@@ -537,8 +537,18 @@ function Movements({ movements, setMovements }: { movements: Movement[]; setMove
           <div className="drag-grip" title="Ubah urutan buku"><Icon name="drag" /></div>
           <div className="order-no">{String(idx+1).padStart(2,'0')}</div>
           <div className="mutation-main"><div><strong>{movement.sku}</strong><span className="type-pill">{movement.type}</span></div><p>{movement.ref} · {movement.customer ?? movement.note}</p><small>{movement.date} · {movement.id}</small></div>
-          <div className="mutation-delta">{movement.delta.map((delta,index)=><span key={index}><small>SIZE {['28','29','30'][index]}</small><em className="balance-before">{movement.before[index]} pcs</em><strong className={delta<0?'neg':delta>0?'pos':''}>{delta>0?'+':''}{delta} pcs</strong><em className="balance-after">→ {movement.after[index]} pcs</em><i>{dozenPieces(movement.after[index])}</i></span>)}</div>
-          <div className="mutation-total"><span>SALDO BUKU TOTAL</span><div className="total-flow"><b>{beforeTotal}</b><em>{movementTotal>0?'+':''}{movementTotal}</em><b>{afterTotal} pcs</b></div><small>{dozenPieces(beforeTotal)} → {dozenPieces(afterTotal)}</small></div>
+          <div className="mutation-delta">{movement.delta.map((delta,index)=><span className="size-book-flow" key={index}>
+            <small className="size-book-title">SIZE {['28','29','30'][index]}</small>
+            <div className="book-step opening"><label>Saldo awal</label><strong>{movement.before[index]} pcs</strong><small>{dozenPieces(movement.before[index])}</small></div>
+            <div className="book-step change"><label>Mutasi</label><strong className={delta<0?'neg':delta>0?'pos':''}>{delta>0?'+':''}{delta} pcs</strong><small>{dozenPieces(Math.abs(delta))}</small></div>
+            <div className="book-step closing"><label>Saldo akhir</label><strong>{movement.after[index]} pcs</strong><small>{dozenPieces(movement.after[index])}</small></div>
+          </span>)}</div>
+          <div className="mutation-total">
+            <span className="total-book-title">TOTAL SKU</span>
+            <div className="total-book-step"><label>Saldo awal</label><strong>{beforeTotal} pcs</strong><small>{dozenPieces(beforeTotal)}</small></div>
+            <div className="total-book-step change"><label>Mutasi</label><strong className={movementTotal<0?'neg':'pos'}>{movementTotal>0?'+':''}{movementTotal} pcs</strong><small>{dozenPieces(Math.abs(movementTotal))}</small></div>
+            <div className="total-book-step closing"><label>Saldo akhir</label><strong>{afterTotal} pcs</strong><small>{dozenPieces(afterTotal)}</small></div>
+          </div>
           <div className="reorder"><button aria-label="Naikkan urutan" onClick={()=>moveVisible(movement.id,-1,visibleIds)} disabled={idx===0}><Icon name="up" /></button><button aria-label="Turunkan urutan" onClick={()=>moveVisible(movement.id,1,visibleIds)} disabled={idx===visibleRows.length-1}><Icon name="down" /></button></div>
         </div>})}
         {visibleRows.length === 0 && <div className="catalog-empty"><Icon name="filter" /><strong>Tidak ada mutasi</strong><small>Coba ubah pencarian atau pilihan filter.</small></div>}
