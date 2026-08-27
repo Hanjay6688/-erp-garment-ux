@@ -15,6 +15,7 @@ type QcJob = {
   ref: string
   mandor: string
   laundry: string
+  material: string
   productKey: string
   sizes: [string, string, string]
   cut: [number, number, number]
@@ -32,11 +33,11 @@ const qcProducts: QcProduct[] = [
 ]
 
 const qcJobs: QcJob[] = [
-  { ref: 'PO-260827-042', mandor: 'Mandor Afat', laundry: 'Laundry Sumber Warna', productKey: 'Vivo::73002', sizes: ['31','32','33'], cut: [229,225,222], bs: [2,1,1], rewash: [1,0,1], stuck: [0,1,0] },
-  { ref: 'PO-260812-031', mandor: 'Mandor Asep', laundry: 'Laundry Sumber Warna', productKey: 'Vivo::73002', sizes: ['31','32','33'], cut: [28,28,28], bs: [1,0,1], rewash: [0,1,0], stuck: [1,0,0] },
-  { ref: 'PO-260815-033', mandor: 'Mandor Asep', laundry: 'Laundry Biru Jaya', productKey: 'Vivo::73001', sizes: ['28','29','30'], cut: [24,24,24], bs: [0,1,0], rewash: [1,0,0], stuck: [0,0,0] },
-  { ref: 'PO-260812-028', mandor: 'Mandor Dedi', laundry: 'Laundry Biru Jaya', productKey: 'Vivo::73001', sizes: ['28','29','30'], cut: [24,24,24], bs: [0,1,0], rewash: [1,0,0], stuck: [0,0,1] },
-  { ref: 'PO-260811-024', mandor: 'Mandor Rudi', laundry: 'Laundry Sumber Warna', productKey: 'Widie::73001', sizes: ['28','29','30'], cut: [16,16,16], bs: [1,0,0], rewash: [0,0,0], stuck: [0,1,0] },
+  { ref: 'PO-260827-042', mandor: 'Mandor Afat', laundry: 'Laundry Sumber Warna', material: 'Lucy', productKey: 'Vivo::73002', sizes: ['31','32','33'], cut: [229,225,222], bs: [2,1,1], rewash: [1,0,1], stuck: [0,1,0] },
+  { ref: 'PO-260812-031', mandor: 'Mandor Asep', laundry: 'Laundry Sumber Warna', material: '1069 Ori', productKey: 'Vivo::73002', sizes: ['31','32','33'], cut: [28,28,28], bs: [1,0,1], rewash: [0,1,0], stuck: [1,0,0] },
+  { ref: 'PO-260815-033', mandor: 'Mandor Asep', laundry: 'Laundry Biru Jaya', material: 'Denim 14 oz', productKey: 'Vivo::73001', sizes: ['28','29','30'], cut: [24,24,24], bs: [0,1,0], rewash: [1,0,0], stuck: [0,0,0] },
+  { ref: 'PO-260812-028', mandor: 'Mandor Dedi', laundry: 'Laundry Biru Jaya', material: 'Zodiak KW', productKey: 'Vivo::73001', sizes: ['28','29','30'], cut: [24,24,24], bs: [0,1,0], rewash: [1,0,0], stuck: [0,0,1] },
+  { ref: 'PO-260811-024', mandor: 'Mandor Rudi', laundry: 'Laundry Sumber Warna', material: 'Black Twill', productKey: 'Widie::73001', sizes: ['28','29','30'], cut: [16,16,16], bs: [1,0,0], rewash: [0,0,0], stuck: [0,1,0] },
 ]
 
 function qcProductKey(product: QcProduct) { return `${product.brand}::${product.sku}` }
@@ -46,7 +47,7 @@ function qcInt(value: string | number) { const parsed = Number(value); return Nu
 function qcJobTotal(job: QcJob) { return job.cut.reduce((sum,qty)=>sum+qty,0) }
 const qcMandors = Array.from(new Set(qcJobs.map((job)=>job.mandor)))
 function qcJobOptions(mandor: string, selectedRef?: string) {
-  return qcJobs.map((job,index)=>({job,index})).filter(({job})=>job.mandor===mandor).map(({job,index})=>`<option value="${index}" ${job.ref===selectedRef?'selected':''}>${job.ref} · ${qcJobTotal(job)} pcs · ${qcDozenPieces(qcJobTotal(job))}</option>`).join('')
+  return qcJobs.map((job,index)=>({job,index})).filter(({job})=>job.mandor===mandor).map(({job,index})=>`<option value="${index}" ${job.ref===selectedRef?'selected':''}>${job.ref} · ${job.material} · ${qcJobTotal(job)} pcs</option>`).join('')
 }
 
 function qcSetTopTitle(active: boolean) {
@@ -107,8 +108,8 @@ function qcRender(root: HTMLElement) {
           <div class="qc-source-picker">
             <div class="qc-mandor-first"><span class="qc-pick-step">1</span><label class="field"><span>Mandor</span><select class="qc-select" data-qc-mandor-filter>${qcMandors.map((mandor)=>`<option ${mandor===job.mandor?'selected':''}>${mandor}</option>`).join('')}</select></label><div class="qc-picker-hint"><strong data-qc-po-count>${qcJobs.filter((item)=>item.mandor===job.mandor).length} PO</strong><small>tersedia untuk dipilih</small></div></div>
             <div class="qc-po-second"><span class="qc-pick-step">2</span><div class="qc-source-grid">
-              <label class="field"><span>PO / grup produksi</span><select class="qc-select" data-qc-job>${qcJobOptions(job.mandor,job.ref)}</select><small class="qc-select-help">Nomor PO · total Potongan · konversi lusin</small></label>
-              <div class="qc-source-fact"><span>POTONGAN</span><strong data-qc-cut-total>${qcJobTotal(job)} pcs</strong><small data-qc-cut-dozen>${qcDozenPieces(qcJobTotal(job))}</small></div>
+              <label class="field"><span>PO / grup produksi</span><select class="qc-select" data-qc-job>${qcJobOptions(job.mandor,job.ref)}</select><small class="qc-select-help">Nomor PO · nama bahan · total Potongan</small></label>
+              <div class="qc-source-fact"><span>POTONGAN</span><strong data-qc-cut-total>${qcJobTotal(job)} pcs</strong><small data-qc-material>Bahan · ${job.material}</small></div>
               <div class="qc-source-fact"><span>LAUNDRY</span><strong data-qc-laundry>${job.laundry}</strong><small data-qc-mandor>${job.mandor}</small></div>
             </div></div>
           </div>
@@ -160,7 +161,7 @@ function qcLoadJob(root: HTMLElement) {
   if (mandor) mandor.value = job.mandor
   if (brand) brand.value = product.brand
   if (sku) { sku.innerHTML = qcProductOptions(product.brand,product.sku); sku.value = product.sku }
-  qcSetText(root,'[data-qc-cut-total]',`${qcJobTotal(job)} pcs`); qcSetText(root,'[data-qc-cut-dozen]',qcDozenPieces(qcJobTotal(job)))
+  qcSetText(root,'[data-qc-cut-total]',`${qcJobTotal(job)} pcs`); qcSetText(root,'[data-qc-material]',`Bahan · ${job.material}`)
   qcSetText(root,'[data-qc-po-count]',`${qcJobs.filter((item)=>item.mandor===job.mandor).length} PO`); qcSetText(root,'[data-qc-mandor]',job.mandor); qcSetText(root,'[data-qc-laundry]',job.laundry); qcSetText(root,'[data-qc-review-ref]',job.ref)
   const grid = root.querySelector<HTMLElement>('[data-qc-size-grid]'); if (grid) grid.innerHTML = [0,1,2].map((i)=>qcSizeRow(job,i)).join('')
   qcUpdateProduct(root); qcRecalculate(root)
