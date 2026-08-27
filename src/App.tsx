@@ -17,18 +17,15 @@ type ReceiptMode = 'fabric' | 'accessory'
 
 type SizeRow = { size: string; stock: number; qty: number; input: string }
 type RollDraft = { id: number; yards: string }
-
-type CuttingOption = {
-  code: string
-  mandor: string
-  pattern: string
-  qty: number
-  range: string
-  sizes: SizeTuple
+type SlotAllocation = [number, number, number, number, number, number]
+type FabricRoll = {
+  id: string
+  sequence: number
+  supplier: string
   material: string
-  roll: string
-  rollAvailable: number
-  estimatedUse: number
+  yards: number
+  receivedAt: string
+  allocation: SlotAllocation
 }
 
 type Movement = {
@@ -70,12 +67,28 @@ const productCatalog: Product[] = [
   { code: '73006', range: '34–36', name: 'Widie Workwear', color: 'Stone', brand: 'Widie', sizes: ['34','35','36'], stocks: [24,30,36], location: 'Gudang FG Cadangan', grade: 'BS' },
 ]
 
-const cuttingOptions: CuttingOption[] = [
-  { code:'POT-031-02',mandor:'Asep',pattern:'Pola B',qty:288,range:'31–33',sizes:['31','32','33'],material:'1069 Ori',roll:'Roll 08',rollAvailable:118.5,estimatedUse:86 },
-  { code:'POT-031-01',mandor:'Asep',pattern:'Pola A',qty:276,range:'31–33',sizes:['31','32','33'],material:'1069 Ori',roll:'Roll 05',rollAvailable:104.25,estimatedUse:82 },
-  { code:'POT-028-04',mandor:'Dedi',pattern:'Regular C',qty:240,range:'28–30',sizes:['28','29','30'],material:'Denim 14 oz',roll:'Roll 12',rollAvailable:126,estimatedUse:74.5 },
-  { code:'POT-034-01',mandor:'Ujang',pattern:'Loose A',qty:216,range:'34–36',sizes:['34','35','36'],material:'Black Twill',roll:'Roll 03',rollAvailable:97.5,estimatedUse:69 },
+const cuttingSizeSlots = [
+  { key: '31-a', size: '31', image: 'A' }, { key: '31-b', size: '31', image: 'B' },
+  { key: '32-a', size: '32', image: 'A' }, { key: '32-b', size: '32', image: 'B' },
+  { key: '33-a', size: '33', image: 'A' }, { key: '33-b', size: '33', image: 'B' },
+] as const
+
+const fabricRollCatalog: FabricRoll[] = [
+  { id:'LCY-001',sequence:1,supplier:'Sinaran',material:'Lucy',yards:101.5,receivedAt:'25 Agu 2026',allocation:[13,13,12,11,10,10] },
+  { id:'LCY-002',sequence:2,supplier:'Sinaran',material:'Lucy',yards:108.5,receivedAt:'25 Agu 2026',allocation:[13,13,12,12,12,12] },
+  { id:'LCY-003',sequence:3,supplier:'Sinaran',material:'Lucy',yards:104,receivedAt:'25 Agu 2026',allocation:[11,11,12,12,12,12] },
+  { id:'LCY-004',sequence:4,supplier:'Sinaran',material:'Lucy',yards:109.5,receivedAt:'25 Agu 2026',allocation:[13,13,12,12,12,12] },
+  { id:'LCY-005',sequence:5,supplier:'Sinaran',material:'Lucy',yards:140,receivedAt:'25 Agu 2026',allocation:[15,15,16,16,16,16] },
+  { id:'LCY-006',sequence:6,supplier:'Sinaran',material:'Lucy',yards:121.5,receivedAt:'25 Agu 2026',allocation:[15,15,13,13,13,13] },
+  { id:'LCY-007',sequence:7,supplier:'Sinaran',material:'Lucy',yards:131.5,receivedAt:'25 Agu 2026',allocation:[14,14,15,15,15,15] },
+  { id:'LCY-008',sequence:8,supplier:'Sinaran',material:'Lucy',yards:96.5,receivedAt:'25 Agu 2026',allocation:[10,10,11,11,11,11] },
+  { id:'LCY-009',sequence:9,supplier:'Sinaran',material:'Lucy',yards:90,receivedAt:'25 Agu 2026',allocation:[11,10,10,10,10,10] },
+  { id:'LCY-010',sequence:10,supplier:'Sinaran',material:'Lucy',yards:119,receivedAt:'26 Agu 2026',allocation:[0,0,0,0,0,0] },
+  { id:'ZDK-011',sequence:11,supplier:'Sumber Cahaya',material:'Zodiak KW',yards:103,receivedAt:'25 Agu 2026',allocation:[0,0,0,0,0,0] },
+  { id:'ZDK-012',sequence:12,supplier:'Sumber Cahaya',material:'Zodiak KW',yards:98,receivedAt:'25 Agu 2026',allocation:[0,0,0,0,0,0] },
 ]
+const fabricRollSuppliers=Array.from(new Set(fabricRollCatalog.map((roll)=>roll.supplier)))
+const fabricRollMaterials=Array.from(new Set(fabricRollCatalog.map((roll)=>roll.material)))
 
 const productBrands = Array.from(new Set(productCatalog.map((product) => product.brand)))
 const productRanges = Array.from(new Set(productCatalog.map((product) => product.range)))
@@ -84,7 +97,7 @@ const stockLocations = Array.from(new Set(productCatalog.map((product) => produc
 const stockGrades = Array.from(new Set(productCatalog.map((product) => product.grade)))
 
 const nav: Record<NavSection, string[]> = {
-  Produksi: ['Pesanan Produksi', 'Potongan & Roll', 'Mandor & WIP', 'Laundry', 'QC & Final SKU', 'Barang BS & Rework'],
+  Produksi: ['Pesanan Produksi', 'Bagi Potongan', 'Mandor & WIP', 'Laundry', 'QC & Final SKU', 'Barang BS & Rework'],
   Gudang: ['Ringkasan Gudang', 'Pembelian & Penerimaan', 'Bahan & Roll', 'Aksesori', 'Ringkasan Barang Jadi', 'Mutasi Barang Jadi · Vivo', 'Mutasi Barang Jadi · Widie', 'Kartu Stok FG', 'Retur & Penyesuaian'],
   Penjualan: ['Penjualan & Invoice', 'Alokasi Barang Jadi', 'Retur Penjualan', 'Pembayaran Pelanggan', 'Riwayat Pelanggan'],
   Keuangan: ['Ringkasan Keuangan', 'Kas & Bank', 'Hutang Supplier & Vendor', 'Piutang Pelanggan', 'Payroll & Kasbon', 'HPP & Rekalkulasi', 'Jurnal & Transaksi Lain', 'Laporan & Tutup Buku'],
@@ -201,7 +214,7 @@ function App() {
     : page === 'movements-vivo' ? 'Mutasi Barang Jadi · Vivo'
     : page === 'movements-widie' ? 'Mutasi Barang Jadi · Widie'
     : page === 'procurement' ? 'Pembelian & Penerimaan'
-    : page === 'cutting-roll' ? 'Potongan & Roll'
+    : page === 'cutting-roll' ? 'Bagi Potongan'
     : 'Modul ERP'
 
   const chooseSubmenu = (label: string) => {
@@ -210,7 +223,7 @@ function App() {
     else if (label === 'Mutasi Barang Jadi · Vivo') setPage('movements-vivo')
     else if (label === 'Mutasi Barang Jadi · Widie') setPage('movements-widie')
     else if (label === 'Pembelian & Penerimaan') setPage('procurement')
-    else if (label === 'Potongan & Roll') setPage('cutting-roll')
+    else if (label === 'Bagi Potongan') setPage('cutting-roll')
     else setPage('placeholder')
     setMobileNav(false)
   }
@@ -223,7 +236,7 @@ function App() {
       {(Object.keys(nav) as NavSection[]).map((section) => <div className="nav-section" key={section}>
         <button className={`nav-main ${expanded === section ? 'active' : ''}`} onClick={() => setExpanded(expanded === section ? null : section)}><Icon name={section} /><span>{section}</span><span className="chevron">{expanded === section ? '⌄' : '›'}</span></button>
         {expanded === section && <div className="submenu">{nav[section].map((item) => {
-          const active = (item === 'Penjualan & Invoice' && page === 'sales') || (item === 'Kartu Stok FG' && page === 'stock-card') || (item === 'Mutasi Barang Jadi · Vivo' && page === 'movements-vivo') || (item === 'Mutasi Barang Jadi · Widie' && page === 'movements-widie') || (item === 'Pembelian & Penerimaan' && page === 'procurement') || (item === 'Potongan & Roll' && page === 'cutting-roll')
+          const active = (item === 'Penjualan & Invoice' && page === 'sales') || (item === 'Kartu Stok FG' && page === 'stock-card') || (item === 'Mutasi Barang Jadi · Vivo' && page === 'movements-vivo') || (item === 'Mutasi Barang Jadi · Widie' && page === 'movements-widie') || (item === 'Pembelian & Penerimaan' && page === 'procurement') || (item === 'Bagi Potongan' && page === 'cutting-roll')
           return <button key={item} className={active ? 'sub-active' : ''} onClick={() => chooseSubmenu(item)}>• {item}</button>
         })}</div>}
       </div>)}
@@ -323,15 +336,58 @@ function ProcurementPage() {
 
 function CuttingRollPage() {
   const [query,setQuery]=useState('')
-  const [selectedCode,setSelectedCode]=useState(cuttingOptions[0].code)
-  const visibleOptions=useMemo(()=>cuttingOptions.filter((option)=>`${option.mandor} ${option.code} ${option.pattern} ${option.qty} ${option.range} ${option.sizes.join(' ')} ${option.sizes.map((size)=>`size ${size}`).join(' ')}`.toLowerCase().includes(query.toLowerCase())),[query])
-  const selected=cuttingOptions.find((option)=>option.code===selectedCode)??cuttingOptions[0]
-  const perSize=selected.sizes.map((_,index)=>Math.floor(selected.qty/selected.sizes.length)+(index<selected.qty%selected.sizes.length?1:0))
+  const [selectedSuppliers,setSelectedSuppliers]=useState([...fabricRollSuppliers])
+  const [selectedMaterials,setSelectedMaterials]=useState([...fabricRollMaterials])
+  const [selectedRollIds,setSelectedRollIds]=useState(()=>fabricRollCatalog.slice(0,9).map((roll)=>roll.id))
+  const [allocations,setAllocations]=useState<Record<string,SlotAllocation>>(()=>Object.fromEntries(fabricRollCatalog.map((roll)=>[roll.id,[...roll.allocation]])) as Record<string,SlotAllocation>)
+  const selectedIdSet=useMemo(()=>new Set(selectedRollIds),[selectedRollIds])
+  const visibleRolls=useMemo(()=>fabricRollCatalog.filter((roll)=>{
+    const matchesQuery=`${roll.id} roll ${roll.sequence} ${roll.supplier} ${roll.material} ${roll.yards}`.toLowerCase().includes(query.toLowerCase())
+    return matchesQuery&&selectedSuppliers.includes(roll.supplier)&&selectedMaterials.includes(roll.material)
+  }),[query,selectedSuppliers,selectedMaterials])
+  const selectedRolls=fabricRollCatalog.filter((roll)=>selectedIdSet.has(roll.id))
+  const totalYards=selectedRolls.reduce((sum,roll)=>sum+roll.yards,0)
+  const slotTotals=cuttingSizeSlots.map((_,slotIndex)=>selectedRolls.reduce((sum,roll)=>sum+(allocations[roll.id]?.[slotIndex]??0),0))
+  const sizeTotals=[slotTotals[0]+slotTotals[1],slotTotals[2]+slotTotals[3],slotTotals[4]+slotTotals[5]]
+  const totalPieces=slotTotals.reduce((sum,qty)=>sum+qty,0)
+  const allVisibleSelected=visibleRolls.length>0&&visibleRolls.every((roll)=>selectedIdSet.has(roll.id))
+  const toggleRoll=(id:string)=>setSelectedRollIds((current)=>current.includes(id)?current.filter((rollId)=>rollId!==id):fabricRollCatalog.filter((roll)=>current.includes(roll.id)||roll.id===id).map((roll)=>roll.id))
+  const toggleVisible=()=>setSelectedRollIds((current)=>{
+    const next=new Set(current)
+    visibleRolls.forEach((roll)=>allVisibleSelected?next.delete(roll.id):next.add(roll.id))
+    return fabricRollCatalog.filter((roll)=>next.has(roll.id)).map((roll)=>roll.id)
+  })
+  const updateAllocation=(roll:FabricRoll,slotIndex:number,value:string)=>setAllocations((current)=>{
+    const next=[...(current[roll.id]??roll.allocation)] as SlotAllocation
+    next[slotIndex]=Math.max(0,Math.round(Number(value)||0))
+    return {...current,[roll.id]:next}
+  })
   return <>
-    <section className="hero-copy compact cutting-hero"><div className="eyebrow">PRODUKSI · POTONGAN</div><h1>Potongan & roll</h1><p>Cari lewat nama mandor, kode potongan, pola, jumlah, range, atau size individual.</p></section>
-    <section className="cutting-layout">
-      <div className="panel cutting-picker"><div className="cutting-search"><Icon name="search"/><input autoFocus value={query} onChange={(event)=>setQuery(event.target.value)} placeholder="Cari Asep, 031-02, Pola B, 288, Size 32..."/></div><div className="picker-caption"><span>PILIH POTONGAN</span><small>{visibleOptions.length} grup ditemukan</small></div><div className="cutting-options">{visibleOptions.map((option)=>{const active=option.code===selected.code;return <button key={option.code} className={`cutting-option ${active?'selected':''}`} onClick={()=>setSelectedCode(option.code)}><span className="mandor-avatar">{option.mandor.slice(0,1)}</span><div className="cutting-option-copy"><strong>{option.mandor}</strong><span>{option.code} · {option.pattern}</span><small>{option.qty} pcs · {dozenPieces(option.qty)} · Size {option.range}</small></div><div className="cutting-size-chips">{option.sizes.map((size)=><span key={size}>{size}</span>)}</div><span className="catalog-check">{active?<Icon name="check"/>:<Icon name="arrow"/>}</span></button>})}{visibleOptions.length===0&&<div className="catalog-empty"><Icon name="search"/><strong>Potongan tidak ditemukan</strong><small>Coba cari nama mandor, kode, pola, qty, atau size lain.</small></div>}</div></div>
-      <div className="panel cutting-detail"><div className="cutting-detail-head"><div><span>MANDOR SAAT INI</span><strong>{selected.mandor}</strong></div><span className="work-status">Siap dipotong</span></div><div className="stable-code"><div><span>KODE POTONGAN</span><strong>{selected.code}</strong><small>Kode tetap stabil walau mandor direassign.</small></div><span>{selected.pattern}</span></div><div className="cutting-qty"><div><span>TOTAL POTONGAN</span><strong>{selected.qty} pcs</strong><small>{dozenPieces(selected.qty)}</small></div><div className="cutting-range"><span>SIZE RANGE</span><strong>{selected.range}</strong></div></div><div className="cutting-size-grid">{selected.sizes.map((size,index)=><div key={size}><span>SIZE {size}</span><strong>{perSize[index]} pcs</strong><small>{dozenPieces(perSize[index])}</small></div>)}</div><div className="linked-roll-card"><div className="linked-roll-title"><span><Icon name="link"/> SUMBER KAIN</span><b>Terhubung</b></div><div className="linked-roll-main"><div><strong>{selected.material}</strong><span>{selected.roll}</span></div><div><strong>{formatQuantity(selected.rollAvailable,2)} yd</strong><span>tersedia sebelum potong</span></div></div><div className="roll-use-flow"><div><span>Perkiraan pakai</span><strong>−{formatQuantity(selected.estimatedUse,2)} yd</strong></div><Icon name="arrow"/><div><span>Perkiraan sisa</span><strong>{formatQuantity(selected.rollAvailable-selected.estimatedUse,2)} yd</strong></div></div></div><button className="primary-btn cutting-action">Catat pemakaian roll <Icon name="arrow"/></button></div>
+    <section className="hero-copy compact cutting-hero"><div className="eyebrow">PRODUKSI · CUTTING</div><h1>Bagi Potongan</h1><p>Ambil roll dari stok kain, lalu catat hasil ukuran setiap roll seperti lembar Potongan fisik.</p></section>
+    <section className="cutting-flow-rail panel" aria-label="Alur Bagi Potongan">{['Pilih roll','Bagi size per roll','Bentuk PO / grup','Mandor ambil'].map((label,index)=><div className={index===0?'active':''} key={label}><span>{String(index+1).padStart(2,'0')}</span><strong>{label}</strong>{index<3&&<Icon name="arrow"/>}</div>)}</section>
+    <section className="roll-first-layout">
+      <div className="panel roll-catalog-panel">
+        <div className="cutting-panel-head"><div><span>01 · SUMBER KAIN</span><h2>Pilih roll yang mau dibagi</h2><p>Satu roll tetap satu baris. Urutan dan yard asal tidak digabung.</p></div><span className="selection-pill">{selectedRolls.length} dipilih</span></div>
+        <div className="roll-catalog-toolbar"><div className="roll-search"><Icon name="search"/><input value={query} onChange={(event)=>setQuery(event.target.value)} placeholder="Cari roll, pabrik, bahan, atau yard..."/></div><div className="roll-filters"><MultiCheckFilter label="Pabrik" options={fabricRollSuppliers} selected={selectedSuppliers} onChange={setSelectedSuppliers}/><MultiCheckFilter label="Bahan" options={fabricRollMaterials} selected={selectedMaterials} onChange={setSelectedMaterials}/></div></div>
+        <div className="roll-list-caption"><span>{visibleRolls.length} roll tersedia</span><button type="button" onClick={toggleVisible}>{allVisibleSelected?'Batalkan hasil tampil':'Pilih semua hasil'}</button></div>
+        <div className="cutting-roll-list">{visibleRolls.map((roll)=>{const selected=selectedIdSet.has(roll.id);return <button type="button" aria-pressed={selected} className={`stock-roll-row ${selected?'selected':''}`} key={roll.id} onClick={()=>toggleRoll(roll.id)}><span className="roll-select-box">{selected&&<Icon name="check"/>}</span><span className="stock-roll-seq">{String(roll.sequence).padStart(2,'0')}</span><span className="stock-roll-name"><strong>{roll.material}</strong><small>{roll.supplier} · {roll.id} · masuk {roll.receivedAt}</small></span><span className="stock-roll-yard"><strong>{formatQuantity(roll.yards,2)} yd</strong><small>{selected?'Masuk pembagian':'Siap dipilih'}</small></span></button>})}{visibleRolls.length===0&&<div className="catalog-empty"><Icon name="search"/><strong>Roll tidak ditemukan</strong><small>Periksa pencarian atau pilihan filter pabrik dan bahan.</small></div>}</div>
+      </div>
+      <aside className="panel cutting-live-summary">
+        <div className="eyebrow">BATCH YANG SEDANG DISUSUN</div><h2>Kulot Lucy · 31–33</h2><p>Belum menjadi PO sebelum pembagian direview.</p>
+        <div className="cutting-summary-main"><div><span>ROLL DIPILIH</span><strong>{selectedRolls.length}</strong><small>{formatQuantity(totalYards,2)} yard</small></div><div><span>TOTAL POTONGAN</span><strong>{totalPieces} pcs</strong><small>{dozenPieces(totalPieces)}</small></div></div>
+        <div className="cutting-summary-sizes">{['31','32','33'].map((size,index)=><div key={size}><span>SIZE {size}</span><strong>{sizeTotals[index]} pcs</strong><small>{dozenPieces(sizeTotals[index])}</small></div>)}</div>
+        <div className="po-preview"><Icon name="link"/><div><strong>PO dibuat setelah review</strong><span>PO ini nanti muncul di QC di bawah mandor yang mengambil.</span></div></div>
+        <button type="button" className="primary-btn cutting-next" disabled={selectedRolls.length===0} onClick={()=>document.getElementById('allocation-workbench')?.scrollIntoView({behavior:'smooth',block:'start'})}>Lanjut bagi ukuran <Icon name="arrow"/></button>
+      </aside>
+    </section>
+    <section className="panel allocation-workbench" id="allocation-workbench">
+      <div className="cutting-panel-head allocation-head"><div><span>02 · HASIL POTONG PER ROLL</span><h2>Isi slot ukuran tanpa menghilangkan gambar</h2><p>Size yang sama boleh muncul dua kali. Sistem baru menjumlahkannya saat membuat total per size.</p></div><span className="draft-pill">Draft</span></div>
+      <div className="cutting-meta-grid"><Field label="Merek"><select className="erp-input" defaultValue="Vivo"><option>Vivo</option><option>Widie</option></select></Field><Field label="Model"><input className="erp-input" defaultValue="Kulot Lucy"/></Field><Field label="Tipe pola"><input className="erp-input" defaultValue="Cutbray Jumbo Lucy"/></Field><Field label="Range ukuran"><select className="erp-input" defaultValue="31–33"><option>28–30</option><option>31–33</option><option>34–36</option></select></Field><Field label="Tanggal potong"><input className="erp-input" type="date" defaultValue="2026-08-27"/></Field><div className="future-po-field"><span>KODE PO / GRUP</span><strong>Dibuat otomatis</strong><small>sesudah review pembagian</small></div></div>
+      <div className="slot-legend"><div><span>SLOT UKURAN</span><small>Gambar A/B dipertahankan</small></div>{cuttingSizeSlots.map((slot)=><span key={slot.key}><strong>{slot.size}</strong><small>Gbr {slot.image}</small></span>)}<b>TOTAL</b></div>
+      <div className="allocation-roll-list">{selectedRolls.map((roll,index)=>{const row=allocations[roll.id]??roll.allocation;const rowTotal=row.reduce((sum,qty)=>sum+qty,0);return <article className="allocation-roll-row" key={roll.id}><div className="allocation-roll-identity"><span>{String(index+1).padStart(2,'0')}</span><div><strong>Roll {String(roll.sequence).padStart(2,'0')} · {roll.material}</strong><small>{roll.supplier} · {formatQuantity(roll.yards,2)} yd</small></div></div><div className="allocation-slot-grid">{cuttingSizeSlots.map((slot,slotIndex)=><label key={slot.key}><span>{slot.size}<small>{slot.image}</small></span><input aria-label={`Roll ${roll.sequence}, size ${slot.size}, gambar ${slot.image}`} inputMode="numeric" type="number" min="0" value={row[slotIndex]} onChange={(event)=>updateAllocation(roll,slotIndex,event.target.value)}/></label>)}</div><div className="allocation-row-total"><span>TOTAL ROLL</span><strong>{rowTotal} pcs</strong><small>{dozenPieces(rowTotal)}</small></div></article>})}{selectedRolls.length===0&&<div className="allocation-empty"><Icon name="ruler"/><strong>Belum ada roll dipilih</strong><small>Pilih minimal satu roll di bagian atas untuk mulai membagi ukuran.</small></div>}</div>
+      <div className="cutting-totals-row"><div><span>JUMLAH SIZE 31</span><strong>{sizeTotals[0]} pcs</strong></div><div><span>JUMLAH SIZE 32</span><strong>{sizeTotals[1]} pcs</strong></div><div><span>JUMLAH SIZE 33</span><strong>{sizeTotals[2]} pcs</strong></div><div><span>TOTAL BATCH</span><strong>{totalPieces} pcs</strong><small>{dozenPieces(totalPieces)}</small></div></div>
+      <div className="potongan-handoff"><div className="handoff-copy"><span>03 · SETELAH PEMBAGIAN SELESAI</span><strong>Bentuk grup, lalu catat siapa yang mengambil</strong><small>Penetapan mandor tidak mengubah kode permanen grup.</small></div><Field label="Diambil oleh / mandor"><select className="erp-input" defaultValue="Mandor Afat"><option>Mandor Afat</option><option>Mandor Asep</option><option>Mandor Dedi</option></select></Field><Field label="Tanggal ambil"><input className="erp-input" type="date" defaultValue="2026-08-27"/></Field><div className="handoff-qc"><span>BERIKUTNYA DI QC</span><strong>Mandor Afat → PO ini</strong><small>{totalPieces} pcs · {dozenPieces(totalPieces)}</small></div></div>
+      <div className="allocation-footer"><small>Frontend simulasi · belum mengurangi stok roll atau membuat PO di backend.</small><div><button type="button" className="soft-btn">Simpan draft pembagian</button><button type="button" className="primary-btn" disabled={selectedRolls.length===0||totalPieces===0}>Review & bentuk PO <Icon name="arrow"/></button></div></div>
     </section>
   </>
 }
