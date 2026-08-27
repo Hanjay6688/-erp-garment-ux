@@ -1,0 +1,172 @@
+.laundry-hero{margin-bottom:24px}
+.laundry-kpi-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:14px}
+.laundry-kpi-grid>.panel{min-height:118px;padding:18px 20px;display:flex;flex-direction:column;justify-content:center}
+.laundry-kpi-grid span,.laundry-section-head span,.laundry-ticket label>span,.laundry-send-qty>span,.laundry-return-entry>div:first-child>span,.laundry-return-entry label>span{font-size:8.5px;font-weight:760;letter-spacing:.13em;color:#7f8aa1}
+.laundry-kpi-grid strong{display:block;margin-top:9px;font-size:24px;letter-spacing:-.035em}
+.laundry-kpi-grid small{display:block;margin-top:6px;color:#818ca1;font-size:9.5px}
+.laundry-kpi-grid>.alert{border-color:rgba(244,127,143,.18);background:linear-gradient(145deg,rgba(53,24,35,.64),rgba(15,18,29,.94))}
+.laundry-kpi-grid>.alert strong{color:#f2a1ad}
+.laundry-notice{min-height:46px;margin-bottom:14px;padding:0 15px;border:1px solid rgba(103,215,171,.2);border-radius:13px;background:rgba(103,215,171,.09);color:#a6e5cd;display:flex;align-items:center;gap:9px;font-size:10px}
+.laundry-notice svg{width:16px;height:16px}
+.laundry-workspace{overflow:hidden}
+.laundry-toolbar{padding:13px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:rgba(6,8,14,.2)}
+.laundry-tabs{display:flex;gap:4px;padding:4px;border:1px solid var(--line);border-radius:13px;background:rgba(255,255,255,.02)}
+.laundry-tabs button{height:38px;padding:0 12px;border:0;border-radius:9px;background:transparent;color:#8590a6;display:flex;align-items:center;gap:7px;font-size:10px;font-weight:630}
+.laundry-tabs button svg{width:14px;height:14px}
+.laundry-tabs button.active{color:#eef0ff;background:#29314c;box-shadow:0 5px 14px rgba(0,0,0,.18)}
+.laundry-search{height:46px;min-width:240px;max-width:370px;flex:1;border:1px solid var(--line);border-radius:13px;background:#171d2e;display:flex;align-items:center;gap:9px;padding:0 13px;color:#738097}
+.laundry-search svg{width:15px;height:15px;flex:0 0 auto}
+.laundry-search input{width:100%;border:0;outline:0;background:transparent;color:#e7eaf3;font-size:11px}
+.laundry-search input::placeholder{color:#687389}
+.laundry-vendors{display:flex;gap:6px;flex-wrap:wrap}
+.laundry-vendors button{height:34px;padding:0 10px;border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.018);color:#8c97ab;font-size:9px}
+.laundry-vendors button.active{border-color:rgba(124,141,255,.3);background:rgba(124,141,255,.13);color:#c9d0ff}
+.laundry-send-layout{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(310px,.65fr);align-items:start}
+.laundry-ready-pane{min-width:0;padding:20px;border-right:1px solid var(--line)}
+.laundry-section-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:14px}
+.laundry-section-head h2{font-size:18px;margin:5px 0 3px}
+.laundry-section-head p{margin:0;color:#7d889d;font-size:9.5px;line-height:1.5}
+.laundry-section-head>b{padding:7px 9px;border:1px solid var(--line);border-radius:9px;color:#adb7ca;font-size:9px;white-space:nowrap}
+.laundry-parent-list{display:flex;flex-direction:column;gap:12px}
+.laundry-parent-card{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:rgba(255,255,255,.012)}
+.laundry-parent-card>header{min-height:75px;padding:14px 15px;display:grid;grid-template-columns:31px minmax(0,1fr) auto;gap:11px;align-items:center;border-bottom:1px solid var(--line);background:linear-gradient(90deg,rgba(124,141,255,.055),transparent)}
+.laundry-parent-card>header>span{width:31px;height:31px;border-radius:9px;background:rgba(124,141,255,.1);display:grid;place-items:center;color:#9ba8ff;font-size:9px;font-weight:740}
+.laundry-parent-card h3,.laundry-return-card h3{margin:4px 0 3px;font-size:13px;font-weight:640;letter-spacing:-.015em}
+.laundry-parent-card header small,.laundry-return-card header small{display:block;color:#79849a;font-size:8.5px}
+.laundry-parent-card header p,.laundry-return-card header p{margin:0;color:#9da6b8;font-size:9px}
+.laundry-parent-card>header>div:last-child{text-align:right}
+.laundry-parent-card>header>div:last-child strong{display:block;font-size:14px}
+.laundry-parent-card>header>div:last-child small{margin-top:4px;color:#9ca8ff}
+.laundry-batch-rows{display:flex;flex-direction:column}
+.laundry-batch-row{padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.045);transition:background .15s ease,border-color .15s ease}
+.laundry-batch-row:last-child{border-bottom:0}
+.laundry-batch-row.selected{background:rgba(124,141,255,.065);box-shadow:inset 3px 0 #7c8dff}
+.laundry-batch-select{width:100%;padding:0;border:0;background:transparent;color:inherit;display:grid;grid-template-columns:26px minmax(0,1fr) auto;gap:10px;align-items:center;text-align:left}
+.laundry-check{width:24px;height:24px;border:1px solid rgba(124,141,255,.24);border-radius:8px;background:rgba(255,255,255,.018);display:grid;place-items:center;color:#dfe4ff}
+.selected .laundry-check{background:#7384f5;border-color:#7384f5}
+.laundry-check svg{width:13px;height:13px}
+.laundry-batch-select>div>span{display:block;color:#95a2ff;font-size:8px;font-weight:760;letter-spacing:.1em}
+.laundry-batch-select>div>strong{display:block;margin-top:4px;font-size:10px;font-weight:610}
+.laundry-batch-select>div>small{display:block;margin-top:4px;color:#747f94;font-size:8.5px}
+.laundry-batch-select>b{font-size:12px;white-space:nowrap}
+.laundry-size-pills{display:flex;gap:5px;flex-wrap:wrap;margin:9px 0 0 36px}
+.laundry-size-pills span{padding:5px 7px;border-radius:7px;background:rgba(255,255,255,.03);color:#7f8a9e;font-size:8px}
+.laundry-size-pills b{color:#cfd4df}
+.laundry-send-qty{margin:11px 0 0 36px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.laundry-send-qty>div{height:40px;display:flex;align-items:center;border:1px solid rgba(124,141,255,.2);border-radius:11px;background:#171d2e;overflow:hidden}
+.laundry-send-qty input{width:76px;height:100%;border:0;outline:0;background:transparent;color:#f0f2f8;text-align:center;font-size:15px;font-weight:630}
+.laundry-send-qty b{padding-right:10px;color:#8995aa;font-size:9px;font-weight:560}
+.laundry-switch-note{display:block;margin:8px 0 0 36px;color:#6f7a90;font-size:8px}
+.laundry-ticket{position:sticky;top:82px;min-width:0;padding:20px}
+.laundry-ticket-content{display:flex;flex-direction:column;gap:13px}
+.laundry-destination{padding:15px;border:1px solid rgba(124,141,255,.19);border-radius:14px;background:linear-gradient(145deg,rgba(124,141,255,.12),rgba(124,141,255,.035))}
+.laundry-destination>span{display:block;color:#929fff;font-size:8px;font-weight:760;letter-spacing:.13em}
+.laundry-destination strong{display:block;margin-top:7px;font-size:18px;letter-spacing:-.02em}
+.laundry-destination small{display:block;margin-top:4px;color:#929caf;font-size:9px}
+.laundry-ticket label{display:flex;flex-direction:column;gap:7px}
+.laundry-ticket select,.laundry-ticket input{width:100%;height:44px;padding:0 12px;border:1px solid var(--line);border-radius:12px;outline:0;background:#171d2e;color:#dfe3ed;font-size:10.5px;color-scheme:dark}
+.laundry-cost-review{border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.laundry-cost-review p{margin:0;padding:9px 12px;border-bottom:1px solid rgba(255,255,255,.045);display:flex;align-items:center;justify-content:space-between;color:#7f8a9f;font-size:9px}
+.laundry-cost-review p b{color:#cbd1dc;font-weight:610}
+.laundry-cost-review>div{padding:13px;background:rgba(103,215,171,.055)}
+.laundry-cost-review>div span{display:block;color:#77bfa4;font-size:8px;font-weight:760;letter-spacing:.12em}
+.laundry-cost-review>div strong{display:block;margin-top:5px;color:#98dfc4;font-size:21px}
+.laundry-estimate-note{margin:0;color:#747f94;font-size:8.5px;line-height:1.55}
+.laundry-ticket-actions{display:grid;grid-template-columns:1fr 1.35fr;gap:8px}
+.laundry-ticket-actions button{width:100%}
+.laundry-empty{min-height:170px;display:grid;place-items:center;align-content:center;text-align:center;padding:24px;color:#68748a}
+.laundry-empty svg{width:24px;height:24px;margin-bottom:10px}
+.laundry-empty strong{color:#b9c1d0;font-size:11px}
+.laundry-empty small{max-width:280px;margin-top:5px;font-size:8.5px;line-height:1.5}
+.laundry-empty.ticket{min-height:250px}
+.laundry-return-pane{padding:20px}
+.laundry-return-list{display:flex;flex-direction:column;gap:12px}
+.laundry-return-card{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:rgba(255,255,255,.012)}
+.laundry-return-card>header{padding:13px 15px;display:grid;grid-template-columns:31px minmax(0,1fr) auto minmax(130px,.35fr);gap:11px;align-items:center;border-bottom:1px solid var(--line);background:rgba(255,255,255,.018)}
+.laundry-return-card>header>span{width:31px;height:31px;border-radius:9px;background:rgba(124,141,255,.08);color:#96a3f5;display:grid;place-items:center;font-size:9px;font-weight:720}
+.laundry-return-card>header>div:last-child{text-align:right}
+.laundry-return-card>header>div:last-child strong{display:block;font-size:10px}
+.laundry-return-card>header>div:last-child small{margin-top:4px}
+.laundry-return-card em{padding:6px 9px;border:1px solid rgba(241,190,104,.18);border-radius:999px;background:rgba(241,190,104,.08);color:#eac17c;font-size:8px;font-style:normal;white-space:nowrap}
+.laundry-return-card em.partial{border-color:rgba(124,141,255,.2);background:rgba(124,141,255,.09);color:#aab4ff}
+.laundry-return-card em.done{border-color:rgba(103,215,171,.2);background:rgba(103,215,171,.08);color:#8cdbbc}
+.laundry-return-body{display:grid;grid-template-columns:minmax(260px,.85fr) minmax(430px,1.15fr)}
+.laundry-return-facts{padding:15px;border-right:1px solid var(--line)}
+.laundry-counts{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.laundry-counts span{padding:10px;border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.016)}
+.laundry-counts small{display:block;color:#768196;font-size:7.5px;letter-spacing:.1em}
+.laundry-counts strong{display:block;margin-top:5px;font-size:12px}
+.laundry-progress{height:5px;margin-top:12px;border-radius:999px;background:rgba(255,255,255,.05);overflow:hidden}
+.laundry-progress span{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#6476ed,#7ed3b3)}
+.laundry-return-facts p{margin:11px 0 0;color:#788398;font-size:8.5px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.laundry-return-facts p svg{width:12px;height:12px}
+.laundry-return-facts p i{width:3px;height:3px;border-radius:50%;background:#4f5a70}
+.laundry-return-facts>small{display:block;margin-top:8px;color:#7d879a;font-size:8.5px}
+.laundry-return-facts .good{color:#87d9ba}.laundry-return-facts .bs{color:#ec9fac}
+.laundry-return-entry{padding:15px;display:grid;grid-template-columns:minmax(120px,.8fr) repeat(2,minmax(100px,.65fr));gap:9px;align-items:end}
+.laundry-return-entry>div:first-child{align-self:center}
+.laundry-return-entry>div:first-child small{display:block;margin-top:5px;color:#737e93;font-size:8px}
+.laundry-return-entry label{display:flex;flex-direction:column;gap:6px}
+.laundry-return-entry input{width:100%;height:42px;padding:0 10px;border:1px solid var(--line);border-radius:11px;outline:0;background:#171d2e;color:#e7eaf2;font-size:13px;color-scheme:dark}
+.laundry-return-entry label.bs input{border-color:rgba(244,127,143,.18)}
+.laundry-return-entry label.bs>span{color:#b97d88}
+.laundry-return-entry .return-time{grid-column:1/3}
+.laundry-return-action{grid-column:3;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.laundry-return-action>span{color:#7d879b;font-size:8.5px}.laundry-return-action b{color:#cfd4df}
+.laundry-return-action button{min-width:135px}
+.laundry-return-done{min-height:120px;padding:18px;display:grid;place-items:center;align-content:center;text-align:center;color:#73d0ad}
+.laundry-return-done svg{width:22px;height:22px;margin-bottom:7px}
+.laundry-return-done strong{color:#bcebd8;font-size:11px}
+.laundry-return-done small{margin-top:4px;color:#758196;font-size:8.5px}
+
+@media(max-width:1050px){
+  .laundry-kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .laundry-send-layout{grid-template-columns:1fr}
+  .laundry-ready-pane{border-right:0;border-bottom:1px solid var(--line)}
+  .laundry-ticket{position:static}
+  .laundry-return-body{grid-template-columns:1fr}
+  .laundry-return-facts{border-right:0;border-bottom:1px solid var(--line)}
+}
+@media(max-width:700px){
+  .laundry-toolbar{align-items:stretch}
+  .laundry-tabs,.laundry-search{width:100%;max-width:none}
+  .laundry-tabs button{flex:1;justify-content:center}
+  .laundry-vendors{width:100%;overflow-x:auto;flex-wrap:nowrap;padding-bottom:2px}
+  .laundry-vendors button{flex:0 0 auto}
+  .laundry-ready-pane,.laundry-ticket,.laundry-return-pane{padding:14px}
+  .laundry-parent-card>header{grid-template-columns:31px minmax(0,1fr)}
+  .laundry-parent-card>header>div:last-child{grid-column:2;text-align:left;display:flex;gap:8px;align-items:center}
+  .laundry-parent-card>header>div:last-child small{margin:0}
+  .laundry-return-card>header{grid-template-columns:31px minmax(0,1fr) auto}
+  .laundry-return-card>header>div:last-child{grid-column:2/4;text-align:left;display:flex;gap:7px;align-items:center}
+  .laundry-return-card>header>div:last-child small{margin:0}
+  .laundry-return-entry{grid-template-columns:1fr 1fr}
+  .laundry-return-entry>div:first-child{grid-column:1/-1}
+  .laundry-return-entry .return-time{grid-column:1/-1}
+  .laundry-return-action{grid-column:1/-1}
+}
+@media(max-width:480px){
+  .laundry-kpi-grid{gap:8px}
+  .laundry-kpi-grid>.panel{min-height:104px;padding:14px}
+  .laundry-kpi-grid strong{font-size:20px}
+  .laundry-tabs{display:grid;grid-template-columns:1fr 1fr}
+  .laundry-tabs button{padding:0 7px;font-size:9px}
+  .laundry-section-head{flex-direction:column}
+  .laundry-parent-card>header{padding:12px}
+  .laundry-batch-row{padding:12px}
+  .laundry-batch-select{grid-template-columns:25px minmax(0,1fr)}
+  .laundry-batch-select>b{grid-column:2}
+  .laundry-size-pills,.laundry-send-qty,.laundry-switch-note{margin-left:35px}
+  .laundry-send-qty{align-items:flex-start;flex-direction:column}
+  .laundry-send-qty>div{width:100%}
+  .laundry-send-qty input{flex:1}
+  .laundry-ticket-actions{grid-template-columns:1fr}
+  .laundry-counts{grid-template-columns:1fr}
+  .laundry-return-card>header{grid-template-columns:31px minmax(0,1fr)}
+  .laundry-return-card>header em{grid-column:2;justify-self:start}
+  .laundry-return-card>header>div:last-child{grid-column:2}
+  .laundry-return-entry{grid-template-columns:1fr}
+  .laundry-return-entry>div:first-child,.laundry-return-entry .return-time,.laundry-return-action{grid-column:1}
+  .laundry-return-action{align-items:stretch;flex-direction:column}
+  .laundry-return-action button{width:100%}
+}
