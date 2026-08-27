@@ -1,0 +1,40 @@
+/* Brand-book split + readability pass */
+h1 { font-size: clamp(31px, 3.8vw, 52px); line-height: 1; }
+.hero-copy.compact h1 { font-size: clamp(29px, 2.9vw, 42px); }
+.eyebrow { font-size: 11.5px; }
+.hero-copy p { font-size: 14.5px; }
+.submenu button { font-size: 12.5px; }
+.top-title span { font-size: 11.5px; }
+.owner small, .env-card span { font-size: 10.5px; }
+.kpi-label { font-size: 11px; }
+.kpi-note, .panel-head p, .soft-btn { font-size: 11.5px; }
+
+.brand-book-hero { display:flex; align-items:flex-end; justify-content:space-between; gap:24px; }
+.brand-book-hero > div:first-child { min-width:0; }
+.book-brand-control { min-width:220px; display:flex; flex-direction:column; align-items:flex-end; gap:7px; }
+.book-brand-control > span { color:#98a2b8; font-size:10.5px; letter-spacing:.12em; font-weight:740; }
+.brand-chip { display:inline-flex; align-items:center; width:max-content; border:1px solid rgba(126,143,255,.26); border-radius:999px; padding:4px 8px; background:rgba(126,143,255,.10); color:#cfd6ff; font-size:10.5px; font-weight:760; letter-spacing:.06em; text-transform:uppercase; }
+.brand-chip.strong { margin-right:8px; }
+.catalog-brand-first { color:#aeb9ff !important; font-weight:760 !important; letter-spacing:.08em; text-transform:uppercase; }
+
+.mutation-brand-row { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+.mutation-brand { color:#dbe0ff; font-size:15px; font-weight:760; letter-spacing:.035em; text-transform:uppercase; }
+.mutation-sku-row { display:flex; align-items:baseline; gap:8px; margin-top:5px; flex-wrap:wrap; }
+.mutation-sku-row b { font-size:13px; color:#f2f4fb; }
+.mutation-sku-row span { color:#9ea8bc; font-size:11.5px; }
+.mutation-main p { font-size:12px; line-height:1.45; }
+.mutation-main small { font-size:10.8px; }
+.mutation-panel .type-pill { font-size:10.5px; }
+.size-book-title, .total-book-title { font-size:10.5px !important; }
+.book-step label, .total-book-step label { font-size:10px !important; }
+.book-step small, .total-book-step small { font-size:10.5px !important; }
+.book-step strong, .total-book-step strong { font-size:12.5px; }
+.filter-trigger, .filter-option-search input, .filter-options label, .filter-bulk, .filter-apply { font-size:12px; }
+
+@media (max-width: 760px) {
+  .brand-book-hero { align-items:stretch; flex-direction:column; gap:14px; }
+  .book-brand-control { align-items:stretch; min-width:0; }
+  .book-brand-control > span { text-align:left; }
+  h1 { font-size:clamp(30px, 10vw, 40px); }
+  .hero-copy.compact h1 { font-size:clamp(28px, 9vw, 36px); }
+}
