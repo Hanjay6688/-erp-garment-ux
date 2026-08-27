@@ -11,9 +11,33 @@ function toggleMutationRow(row: Element, force?: boolean) {
   row.setAttribute('aria-expanded', String(expanded))
   const button = row.querySelector<HTMLButtonElement>('.compact-detail-toggle')
   if (button) {
-    button.textContent = expanded ? 'Tutup rincian' : 'Lihat rincian'
+    button.textContent = expanded ? '▴' : '▾'
     button.setAttribute('aria-expanded', String(expanded))
+    button.setAttribute('aria-label', expanded ? 'Tutup rincian mutasi' : 'Lihat rincian mutasi')
+    button.title = expanded ? 'Tutup rincian' : 'Lihat rincian'
   }
+}
+
+function textOf(root: Element, selector: string, fallback = '—') {
+  return root.querySelector<HTMLElement>(selector)?.textContent?.trim() || fallback
+}
+
+function makeSummaryMetric(label: string, value: string, conversion: string, className: string, valueClass = '') {
+  const metric = document.createElement('span')
+  metric.className = className
+
+  const caption = document.createElement('small')
+  caption.textContent = label
+
+  const strong = document.createElement('strong')
+  strong.textContent = value
+  if (valueClass) strong.className = valueClass
+
+  const converted = document.createElement('em')
+  converted.textContent = conversion
+
+  metric.append(caption, strong, converted)
+  return metric
 }
 
 function enhanceMutationRows() {
@@ -25,18 +49,72 @@ function enhanceMutationRows() {
     row.setAttribute('tabindex', '0')
     row.setAttribute('aria-expanded', 'false')
 
-    const totalChange = row.querySelector<HTMLElement>('.mutation-total .total-book-step.change strong')?.textContent?.trim() ?? '—'
-    const totalClosing = row.querySelector<HTMLElement>('.mutation-total .total-book-step.closing strong')?.textContent?.trim() ?? '—'
+    const brand = textOf(row, '.mutation-brand')
+    const sku = textOf(row, '.mutation-sku-row b')
+    const description = textOf(row, '.mutation-sku-row span', '')
+    const movementType = textOf(row, '.type-pill')
+    const referenceLine = textOf(row, '.mutation-main > p', '')
+    const reference = referenceLine.split('·')[0]?.trim() || 'Tanpa referensi'
+    const movementDate = textOf(row, '.mutation-main > small', '')
+
+    const openingValue = textOf(row, '.mutation-total .total-book-step:not(.change):not(.closing) strong')
+    const openingConversion = textOf(row, '.mutation-total .total-book-step:not(.change):not(.closing) small', '')
+    const changeValue = textOf(row, '.mutation-total .total-book-step.change strong')
+    const changeConversion = textOf(row, '.mutation-total .total-book-step.change small', '')
+    const closingValue = textOf(row, '.mutation-total .total-book-step.closing strong')
+    const closingConversion = textOf(row, '.mutation-total .total-book-step.closing small', '')
+    const changeSource = row.querySelector<HTMLElement>('.mutation-total .total-book-step.change strong')
+    const changeTone = changeSource?.classList.contains('neg') ? 'neg' : changeSource?.classList.contains('pos') ? 'pos' : ''
+
+    const identity = document.createElement('div')
+    identity.className = 'compact-identity'
+    const brandNode = document.createElement('strong')
+    brandNode.textContent = brand
+    const skuNode = document.createElement('b')
+    skuNode.textContent = sku
+    const descriptionNode = document.createElement('small')
+    descriptionNode.textContent = description
+    identity.append(brandNode, skuNode, descriptionNode)
+
+    const transaction = document.createElement('div')
+    transaction.className = 'compact-transaction'
+    const typeNode = document.createElement('span')
+    typeNode.className = 'type-pill'
+    typeNode.textContent = movementType
+    const refNode = document.createElement('strong')
+    refNode.textContent = reference
+    const dateNode = document.createElement('small')
+    dateNode.textContent = movementDate
+    transaction.append(typeNode, refNode, dateNode)
 
     const summary = document.createElement('div')
     summary.className = 'compact-book-summary'
-    summary.innerHTML = `<span><small>MUTASI</small><strong>${totalChange}</strong></span><span><small>SALDO AKHIR</small><strong>${totalClosing}</strong></span>`
+    summary.append(
+      makeSummaryMetric('Saldo awal', openingValue, openingConversion, 'summary-opening'),
+      makeSummaryMetric('Mutasi', changeValue, changeConversion, 'summary-change', changeTone),
+      makeSummaryMetric('Saldo akhir', closingValue, closingConversion, 'summary-closing'),
+    )
+
+    const details = document.createElement('div')
+    details.className = 'compact-details-grid'
+    row.querySelectorAll<HTMLElement>('.mutation-delta .size-book-flow').forEach((card) => {
+      details.append(card.cloneNode(true))
+    })
+    const totalSource = row.querySelector<HTMLElement>('.mutation-total')
+    if (totalSource) {
+      const totalCard = totalSource.cloneNode(true) as HTMLElement
+      totalCard.classList.remove('mutation-total')
+      totalCard.classList.add('compact-total-card')
+      details.append(totalCard)
+    }
 
     const toggle = document.createElement('button')
     toggle.type = 'button'
     toggle.className = 'compact-detail-toggle'
-    toggle.textContent = 'Lihat rincian'
+    toggle.textContent = '▾'
     toggle.setAttribute('aria-expanded', 'false')
+    toggle.setAttribute('aria-label', 'Lihat rincian mutasi')
+    toggle.title = 'Lihat rincian'
     toggle.addEventListener('click', (event) => {
       event.stopPropagation()
       toggleMutationRow(row)
@@ -44,10 +122,13 @@ function enhanceMutationRows() {
 
     const reorder = row.querySelector('.reorder')
     if (reorder) {
+      row.insertBefore(identity, reorder)
+      row.insertBefore(transaction, reorder)
       row.insertBefore(summary, reorder)
       row.insertBefore(toggle, reorder)
+      row.insertBefore(details, reorder)
     } else {
-      row.append(summary, toggle)
+      row.append(identity, transaction, summary, toggle, details)
     }
   })
 }
