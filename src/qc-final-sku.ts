@@ -32,7 +32,9 @@ const qcProducts: QcProduct[] = [
 ]
 
 const qcJobs: QcJob[] = [
+  { ref: 'PO-260827-042', mandor: 'Mandor Afat', laundry: 'Laundry Sumber Warna', productKey: 'Vivo::73002', sizes: ['31','32','33'], cut: [229,225,222], bs: [2,1,1], rewash: [1,0,1], stuck: [0,1,0] },
   { ref: 'PO-260812-031', mandor: 'Mandor Asep', laundry: 'Laundry Sumber Warna', productKey: 'Vivo::73002', sizes: ['31','32','33'], cut: [28,28,28], bs: [1,0,1], rewash: [0,1,0], stuck: [1,0,0] },
+  { ref: 'PO-260815-033', mandor: 'Mandor Asep', laundry: 'Laundry Biru Jaya', productKey: 'Vivo::73001', sizes: ['28','29','30'], cut: [24,24,24], bs: [0,1,0], rewash: [1,0,0], stuck: [0,0,0] },
   { ref: 'PO-260812-028', mandor: 'Mandor Dedi', laundry: 'Laundry Biru Jaya', productKey: 'Vivo::73001', sizes: ['28','29','30'], cut: [24,24,24], bs: [0,1,0], rewash: [1,0,0], stuck: [0,0,1] },
   { ref: 'PO-260811-024', mandor: 'Mandor Rudi', laundry: 'Laundry Sumber Warna', productKey: 'Widie::73001', sizes: ['28','29','30'], cut: [16,16,16], bs: [1,0,0], rewash: [0,0,0], stuck: [0,1,0] },
 ]
@@ -41,6 +43,11 @@ function qcProductKey(product: QcProduct) { return `${product.brand}::${product.
 function qcLocalDateTimeValue(date = new Date()) { const offsetMs = date.getTimezoneOffset() * 60_000; return new Date(date.getTime() - offsetMs).toISOString().slice(0,16) }
 function qcDozenPieces(pcs: number) { return `${Math.floor(Math.max(0, pcs) / 12)} lusin · ${Math.max(0, pcs) % 12} potong` }
 function qcInt(value: string | number) { const parsed = Number(value); return Number.isFinite(parsed) ? Math.max(0, Math.round(parsed)) : 0 }
+function qcJobTotal(job: QcJob) { return job.cut.reduce((sum,qty)=>sum+qty,0) }
+const qcMandors = Array.from(new Set(qcJobs.map((job)=>job.mandor)))
+function qcJobOptions(mandor: string, selectedRef?: string) {
+  return qcJobs.map((job,index)=>({job,index})).filter(({job})=>job.mandor===mandor).map(({job,index})=>`<option value="${index}" ${job.ref===selectedRef?'selected':''}>${job.ref} · ${qcJobTotal(job)} pcs · ${qcDozenPieces(qcJobTotal(job))}</option>`).join('')
+}
 
 function qcSetTopTitle(active: boolean) {
   const topTitle = document.querySelector<HTMLElement>('.top-title')
@@ -96,11 +103,14 @@ function qcRender(root: HTMLElement) {
     <section class="qc-layout">
       <div class="panel qc-workbench">
         <div class="qc-section qc-source-section">
-          <div class="qc-section-title"><div><span>01</span><div><strong>Sumber Potongan & finishing</strong><small>Jumlah dasar mengikuti Potongan. Pengecualian finishing yang mengurangi Good dicatat di bawah.</small></div></div><span class="qc-status-pill">DATA SIMULASI</span></div>
-          <div class="qc-source-grid">
-            <label class="field"><span>PO / grup produksi</span><select class="qc-select" data-qc-job>${qcJobs.map((j,i)=>`<option value="${i}">${j.ref} · ${j.mandor}</option>`).join('')}</select></label>
-            <div class="qc-source-fact"><span>POTONGAN</span><strong data-qc-cut-total>${job.cut.reduce((a,b)=>a+b,0)} pcs</strong><small data-qc-cut-dozen>${qcDozenPieces(job.cut.reduce((a,b)=>a+b,0))}</small></div>
-            <div class="qc-source-fact"><span>MANDOR / LAUNDRY</span><strong data-qc-mandor>${job.mandor}</strong><small data-qc-laundry>${job.laundry}</small></div>
+          <div class="qc-section-title"><div><span>01</span><div><strong>Cari sumber Potongan</strong><small>Pilih mandor dulu supaya daftar PO pendek. Jumlah per size tetap ditarik dari Potongan, bukan diketik ulang.</small></div></div><span class="qc-status-pill">DATA SIMULASI</span></div>
+          <div class="qc-source-picker">
+            <div class="qc-mandor-first"><span class="qc-pick-step">1</span><label class="field"><span>Mandor</span><select class="qc-select" data-qc-mandor-filter>${qcMandors.map((mandor)=>`<option ${mandor===job.mandor?'selected':''}>${mandor}</option>`).join('')}</select></label><div class="qc-picker-hint"><strong data-qc-po-count>${qcJobs.filter((item)=>item.mandor===job.mandor).length} PO</strong><small>tersedia untuk dipilih</small></div></div>
+            <div class="qc-po-second"><span class="qc-pick-step">2</span><div class="qc-source-grid">
+              <label class="field"><span>PO / grup produksi</span><select class="qc-select" data-qc-job>${qcJobOptions(job.mandor,job.ref)}</select><small class="qc-select-help">Nomor PO · total Potongan · konversi lusin</small></label>
+              <div class="qc-source-fact"><span>POTONGAN</span><strong data-qc-cut-total>${qcJobTotal(job)} pcs</strong><small data-qc-cut-dozen>${qcDozenPieces(qcJobTotal(job))}</small></div>
+              <div class="qc-source-fact"><span>LAUNDRY</span><strong data-qc-laundry>${job.laundry}</strong><small data-qc-mandor>${job.mandor}</small></div>
+            </div></div>
           </div>
         </div>
         <div class="qc-section">
@@ -146,13 +156,21 @@ function qcRender(root: HTMLElement) {
 function qcLoadJob(root: HTMLElement) {
   const job = qcCurrentJob(root)
   const product = qcProducts.find((p)=>qcProductKey(p)===job.productKey) ?? qcProducts[0]
-  const brand = root.querySelector<HTMLSelectElement>('[data-qc-brand]'); const sku = root.querySelector<HTMLSelectElement>('[data-qc-sku]')
+  const mandor = root.querySelector<HTMLSelectElement>('[data-qc-mandor-filter]'); const brand = root.querySelector<HTMLSelectElement>('[data-qc-brand]'); const sku = root.querySelector<HTMLSelectElement>('[data-qc-sku]')
+  if (mandor) mandor.value = job.mandor
   if (brand) brand.value = product.brand
   if (sku) { sku.innerHTML = qcProductOptions(product.brand,product.sku); sku.value = product.sku }
-  qcSetText(root,'[data-qc-cut-total]',`${job.cut.reduce((a,b)=>a+b,0)} pcs`); qcSetText(root,'[data-qc-cut-dozen]',qcDozenPieces(job.cut.reduce((a,b)=>a+b,0)))
-  qcSetText(root,'[data-qc-mandor]',job.mandor); qcSetText(root,'[data-qc-laundry]',job.laundry); qcSetText(root,'[data-qc-review-ref]',job.ref)
+  qcSetText(root,'[data-qc-cut-total]',`${qcJobTotal(job)} pcs`); qcSetText(root,'[data-qc-cut-dozen]',qcDozenPieces(qcJobTotal(job)))
+  qcSetText(root,'[data-qc-po-count]',`${qcJobs.filter((item)=>item.mandor===job.mandor).length} PO`); qcSetText(root,'[data-qc-mandor]',job.mandor); qcSetText(root,'[data-qc-laundry]',job.laundry); qcSetText(root,'[data-qc-review-ref]',job.ref)
   const grid = root.querySelector<HTMLElement>('[data-qc-size-grid]'); if (grid) grid.innerHTML = [0,1,2].map((i)=>qcSizeRow(job,i)).join('')
   qcUpdateProduct(root); qcRecalculate(root)
+}
+function qcLoadMandor(root: HTMLElement) {
+  const mandor=root.querySelector<HTMLSelectElement>('[data-qc-mandor-filter]')?.value??qcMandors[0]
+  const jobSelect=root.querySelector<HTMLSelectElement>('[data-qc-job]')
+  const firstIndex=qcJobs.findIndex((job)=>job.mandor===mandor)
+  if(jobSelect){jobSelect.innerHTML=qcJobOptions(mandor);jobSelect.value=String(Math.max(0,firstIndex))}
+  qcLoadJob(root)
 }
 function qcUpdateProduct(root: HTMLElement) {
   const product = qcCurrentProduct(root)
@@ -179,7 +197,7 @@ function qcOpenReview(root: HTMLElement){const physical=root.querySelector<HTMLI
 function qcCloseReview(){const sheet=document.querySelector<HTMLElement>('[data-qc-review-sheet]');const shield=document.querySelector<HTMLElement>('[data-qc-review-shield]');if(sheet)sheet.hidden=true;if(shield)shield.hidden=true;document.body.classList.remove('qc-sheet-open')}
 function qcBind(root: HTMLElement){
   root.addEventListener('input',(event)=>{const target=event.target as HTMLInputElement|null;if(!target)return;if(target.matches('input[data-grade]'))qcRecalculate(root);if(target.matches('[data-qc-physical]'))sessionStorage.setItem('erp.qcPhysicalAt',target.value)})
-  root.addEventListener('change',(event)=>{const target=event.target as HTMLSelectElement|null;if(!target)return;if(target.matches('[data-qc-job]'))qcLoadJob(root);if(target.matches('[data-qc-brand]')){const sku=root.querySelector<HTMLSelectElement>('[data-qc-sku]');if(sku)sku.innerHTML=qcProductOptions(target.value);qcUpdateProduct(root)}if(target.matches('[data-qc-sku]'))qcUpdateProduct(root)})
+  root.addEventListener('change',(event)=>{const target=event.target as HTMLSelectElement|null;if(!target)return;if(target.matches('[data-qc-mandor-filter]'))qcLoadMandor(root);else if(target.matches('[data-qc-job]'))qcLoadJob(root);if(target.matches('[data-qc-brand]')){const sku=root.querySelector<HTMLSelectElement>('[data-qc-sku]');if(sku)sku.innerHTML=qcProductOptions(target.value);qcUpdateProduct(root)}if(target.matches('[data-qc-sku]'))qcUpdateProduct(root)})
   root.querySelector<HTMLButtonElement>('[data-qc-reset]')?.addEventListener('click',()=>{root.querySelectorAll<HTMLInputElement>('input[data-grade]').forEach((input)=>input.value='0');qcRecalculate(root)})
   root.querySelector<HTMLButtonElement>('[data-qc-review]')?.addEventListener('click',()=>qcOpenReview(root));document.querySelectorAll<HTMLElement>('[data-qc-close],[data-qc-review-shield]').forEach((node)=>node.addEventListener('click',qcCloseReview));document.querySelector<HTMLButtonElement>('[data-qc-simulate]')?.addEventListener('click',()=>{const result=document.querySelector<HTMLElement>('[data-qc-simulation]');if(result)result.hidden=false})
 }
