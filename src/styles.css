@@ -152,3 +152,24 @@ h2 { margin:5px 0 4px; font-size:20px; letter-spacing:-.025em; font-weight:630; 
 @media (max-width: 420px) {
   .kpi-grid{grid-template-columns:1fr}.size-grid{grid-template-columns:1fr 1fr}.flow-strip{grid-template-columns:1fr}.flow-strip .flow-node{padding:9px 0 9px 12px}.selected-product-head{flex-direction:column}.selected-product-head .soft-btn{width:100%}
 }
+
+
+/* FG stock ledger: totals first, size detail on demand */
+.stock-total-hero{min-width:220px;padding:14px 18px;border:1px solid rgba(105,122,236,.2);border-radius:16px;background:linear-gradient(145deg,rgba(105,122,236,.12),rgba(103,215,171,.045));text-align:center}
+.stock-total-hero>span{display:block;color:#91a0ff;font-size:8px;font-weight:760;letter-spacing:.15em}
+.stock-total-hero strong{display:block;margin-top:5px;font-size:27px;line-height:1.05;letter-spacing:-.04em}
+.stock-total-hero small{display:block;margin-top:6px;color:#aeb7cb;font-size:10px}
+.stock-ledger table{min-width:790px}.stock-ledger .number-head{text-align:center}.stock-ledger td{padding-top:16px;padding-bottom:16px}
+.ledger-date{display:block;max-width:120px;line-height:1.45}.ledger-transaction>div{display:flex;align-items:center;gap:8px}.ledger-transaction small{display:block;margin-top:5px;color:#7f899e}
+.ledger-number{text-align:center;font-size:17px!important;font-weight:650;font-variant-numeric:tabular-nums}.ledger-number small{display:block;margin-top:3px;font-size:8px;color:#6f798f;font-weight:540}.ledger-number.incoming{color:#79d9b5!important}.ledger-number.outgoing{color:#ef9aa7!important}
+.ledger-balance{text-align:center}.ledger-balance strong{display:block;font-size:17px!important;letter-spacing:-.02em;font-variant-numeric:tabular-nums}.ledger-balance small{display:block;margin-top:5px;color:#909aad;font-size:9px}
+.stock-expand{width:38px;height:38px;border:1px solid var(--line);border-radius:12px;background:rgba(124,141,255,.07);color:#a9b3ff;font-size:18px;cursor:pointer}.stock-expand:hover{border-color:rgba(124,141,255,.35);background:rgba(124,141,255,.12)}
+.stock-row-open{background:rgba(124,141,255,.025)}.stock-detail-row:hover{background:transparent!important}.stock-detail-row td{padding:0 16px 16px!important}
+.stock-size-details{display:grid;grid-template-columns:minmax(150px,.8fr) repeat(3,minmax(150px,1fr));gap:9px;padding:13px;border:1px solid rgba(124,141,255,.12);border-radius:15px;background:rgba(7,9,16,.38)}
+.detail-caption{display:flex;flex-direction:column;justify-content:center;padding:8px}.detail-caption span{color:#91a0ff;font-size:8px;font-weight:760;letter-spacing:.14em}.detail-caption small{margin-top:5px;color:#707b90;line-height:1.45}
+.size-ledger-card{padding:12px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.018)}.size-ledger-card>span{display:block;color:#9aa5ff;font-size:8px;font-weight:760;letter-spacing:.12em}.size-ledger-card>div{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:9px}.size-ledger-card small{color:#717b90;font-size:8px}.size-ledger-card strong{font-size:10px!important;font-weight:620}
+.reorder-hint{display:inline-flex;align-items:center;gap:5px;color:#7f899e;font-size:8.5px;white-space:nowrap}
+.mutation-row{grid-template-columns:28px 48px minmax(220px,1fr) minmax(220px,.7fr) 78px;transition:opacity .14s ease,background .14s ease}.mutation-row.is-dragging{opacity:.42;background:rgba(124,141,255,.07)}
+.drag-grip{height:36px;display:grid;place-items:center;color:#68748d;cursor:grab;user-select:none}.drag-grip:active{cursor:grabbing;color:#aeb8ff}.reorder button{min-width:34px;min-height:34px;color:#aeb7c9}
+@media (max-width:860px){.reorder-hint{order:4;width:100%;padding-left:3px}.mutation-row{grid-template-columns:24px 42px minmax(0,1fr) 76px}.mutation-main{grid-column:3}.mutation-delta{grid-column:3/5}.reorder{grid-column:4;grid-row:1}.drag-grip{cursor:default}.stock-size-details{grid-template-columns:repeat(3,minmax(120px,1fr))}.detail-caption{grid-column:1/-1}}
+@media (max-width:620px){.stock-summary{align-items:stretch}.stock-total-hero{min-width:0;width:100%}.stock-ledger table{min-width:720px}.stock-size-details{grid-template-columns:1fr}.detail-caption{grid-column:auto}.mutation-row{grid-template-columns:22px 36px minmax(0,1fr) 76px;gap:8px}}

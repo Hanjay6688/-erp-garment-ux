@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { Fragment, useMemo, useState } from 'react'
 
 type Page = 'dashboard' | 'sales' | 'stock-card' | 'movements' | 'placeholder'
 type NavSection = 'Produksi' | 'Gudang' | 'Penjualan' | 'Keuangan' | 'Master Data'
@@ -31,6 +31,7 @@ const initialMovements: Movement[] = [
 ]
 
 const money = (value: number) => new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(value)
+const dozenPieces = (pcs: number) => `${Math.floor(Math.max(0, pcs) / 12)} lusin · ${Math.max(0, pcs) % 12} potong`
 
 function parseQty(value: string, fallbackUnit: 'lusin' | 'pcs') {
   const normalized = value.toLowerCase().replace(',', '.')
@@ -48,7 +49,7 @@ function parseQty(value: string, fallbackUnit: 'lusin' | 'pcs') {
 
 function Icon({ name }: { name: string }) {
   const glyph: Record<string, string> = {
-    dashboard: '◫', Produksi: '⌁', Gudang: '▣', Penjualan: '▤', Keuangan: '▰', 'Master Data': '◉', audit: '⌘', search: '⌕', back: '←', stock: '◇', check: '✓', menu: '☰', up: '↑', down: '↓', reset: '↺', filter: '⌗', calendar: '◷', user: '●', arrow: '→',
+    dashboard: '◫', Produksi: '⌁', Gudang: '▣', Penjualan: '▤', Keuangan: '▰', 'Master Data': '◉', audit: '⌘', search: '⌕', back: '←', stock: '◇', check: '✓', menu: '☰', up: '↑', down: '↓', reset: '↺', filter: '⌗', calendar: '◷', user: '●', arrow: '→', drag: '⋮⋮',
   }
   return <span className="icon" aria-hidden="true">{glyph[name] ?? '•'}</span>
 }
@@ -236,21 +237,75 @@ function SalesPage(props: {
 function Field({ label, children }: { label: string; children: React.ReactNode }) { return <label className="field"><span>{label}</span>{children}</label> }
 
 function StockCard() {
+  const [expandedId, setExpandedId] = useState<string | null>(null)
+  const currentStock = initialMovements[0].balance.reduce((sum, qty) => sum + qty, 0)
+
   return <>
-    <section className="hero-copy compact"><div className="eyebrow">GUDANG · BARANG JADI</div><h1>Kartu stok FG</h1><p>Fakta fisik per SKU. Urut kronologis, tidak bisa dipoles atau di-drag.</p></section>
-    <div className="panel stock-summary"><div><div className="sku-title"><h2>73001</h2><span>Range 28–30</span></div><p>Denim Classic · Indigo · Gudang FG Utama</p></div><div className="stock-pills"><span>28 <b>96</b></span><span>29 <b>84</b></span><span>30 <b>108</b></span><span className="total">Total <b>288 pcs</b></span></div></div>
-    <div className="panel table-panel"><div className="table-toolbar"><div className="search-box compact-search"><Icon name="search" /> Cari ref / pelanggan...</div><button className="soft-btn"><Icon name="calendar" /> 30 hari</button><button className="soft-btn"><Icon name="filter" /> Filter</button></div>
-      <div className="responsive-table"><table><thead><tr><th>Waktu fisik</th><th>Ref</th><th>Jenis</th><th>Keterangan</th><th>28</th><th>29</th><th>30</th><th>Saldo</th></tr></thead><tbody>{initialMovements.map((m)=><tr key={m.id}><td>{m.date}</td><td><strong>{m.ref}</strong></td><td><span className="type-pill">{m.type}</span></td><td>{m.note}</td>{m.delta.map((d,i)=><td key={i} className={d<0?'neg':d>0?'pos':''}>{d>0?'+':''}{d}</td>)}<td><strong>{m.balance.join(' / ')}</strong></td></tr>)}</tbody></table></div>
+    <section className="hero-copy compact"><div className="eyebrow">GUDANG · BARANG JADI</div><h1>Kartu stok FG</h1><p>Angka utama per transaksi. Tekan rincian untuk melihat komposisi size; urutannya selalu kronologis.</p></section>
+    <div className="panel stock-summary">
+      <div><div className="sku-title"><h2>73001</h2><span>Range 28–30</span></div><p>Denim Classic · Indigo · Gudang FG Utama</p></div>
+      <div className="stock-total-hero"><span>STOK AKHIR</span><strong>{currentStock} pcs</strong><small>{dozenPieces(currentStock)}</small></div>
+    </div>
+    <div className="panel table-panel">
+      <div className="table-toolbar"><div className="search-box compact-search"><Icon name="search" /> Cari ref / pelanggan...</div><button className="soft-btn"><Icon name="calendar" /> 30 hari</button><button className="soft-btn"><Icon name="filter" /> Filter</button></div>
+      <div className="responsive-table stock-ledger"><table>
+        <thead><tr><th>Waktu fisik</th><th>Transaksi</th><th className="number-head">Masuk</th><th className="number-head">Keluar</th><th className="number-head">Stok akhir</th><th aria-label="Rincian" /></tr></thead>
+        <tbody>{initialMovements.map((m) => {
+          const masuk = m.delta.reduce((sum, qty) => sum + Math.max(0, qty), 0)
+          const keluar = m.delta.reduce((sum, qty) => sum + Math.abs(Math.min(0, qty)), 0)
+          const stock = m.balance.reduce((sum, qty) => sum + qty, 0)
+          const open = expandedId === m.id
+          return <Fragment key={m.id}>
+            <tr className={open ? 'stock-row-open' : ''}>
+              <td><span className="ledger-date">{m.date}</span></td>
+              <td><div className="ledger-transaction"><div><strong>{m.ref}</strong><span className="type-pill">{m.type}</span></div><small>{m.note}</small></div></td>
+              <td className="ledger-number incoming">{masuk > 0 ? `+${masuk}` : '—'}<small>{masuk > 0 ? 'pcs' : ''}</small></td>
+              <td className="ledger-number outgoing">{keluar > 0 ? `−${keluar}` : '—'}<small>{keluar > 0 ? 'pcs' : ''}</small></td>
+              <td className="ledger-balance"><strong>{stock} pcs</strong><small>{dozenPieces(stock)}</small></td>
+              <td><button className="stock-expand" aria-expanded={open} aria-label={open ? 'Tutup rincian size' : 'Buka rincian size'} onClick={() => setExpandedId(open ? null : m.id)}>{open ? '−' : '+'}</button></td>
+            </tr>
+            {open && <tr className="stock-detail-row"><td colSpan={6}><div className="stock-size-details">
+              <div className="detail-caption"><span>RINCIAN SIZE</span><small>Komposisi transaksi dan saldo sesudah transaksi</small></div>
+              {m.delta.map((delta, i) => <div className="size-ledger-card" key={i}>
+                <span>SIZE {['28', '29', '30'][i]}</span>
+                <div><small>{delta >= 0 ? 'Masuk' : 'Keluar'}</small><strong className={delta < 0 ? 'neg' : delta > 0 ? 'pos' : ''}>{delta > 0 ? '+' : delta < 0 ? '−' : ''}{Math.abs(delta)} pcs</strong></div>
+                <div><small>Stok akhir</small><strong>{m.balance[i]} pcs</strong></div>
+              </div>)}
+            </div></td></tr>}
+          </Fragment>
+        })}</tbody>
+      </table></div>
     </div>
   </>
 }
 
 function Movements({ movements, setMovements }: { movements: Movement[]; setMovements: (m: Movement[]) => void }) {
+  const [draggedId, setDraggedId] = useState<string | null>(null)
   const move = (idx: number, dir: -1 | 1) => { const next=[...movements]; const target=idx+dir; if(target<0||target>=next.length)return; [next[idx],next[target]]=[next[target],next[idx]]; setMovements(next) }
+  const dropOn = (targetId: string) => {
+    if (!draggedId || draggedId === targetId) return
+    const from = movements.findIndex((m) => m.id === draggedId)
+    const to = movements.findIndex((m) => m.id === targetId)
+    if (from < 0 || to < 0) return
+    const next = [...movements]
+    const [picked] = next.splice(from, 1)
+    next.splice(to, 0, picked)
+    setMovements(next)
+    setDraggedId(null)
+  }
   return <>
-    <section className="hero-copy compact"><div className="eyebrow">GUDANG · BUKU MUTASI FG</div><h1>Mutasi Barang Jadi</h1><p>Urutan buku boleh lu susun untuk kerja owner. Yang berubah hanya tampilan — fakta stok dan waktu fisik tetap utuh.</p></section>
-    <div className="panel mutation-panel"><div className="table-toolbar"><div className="search-box compact-search"><Icon name="search" /> SKU, ref, pelanggan...</div><button className="soft-btn"><Icon name="filter" /> Semua jenis</button><button className="soft-btn" onClick={()=>setMovements(initialMovements)}><Icon name="reset" /> Reset kronologis</button></div>
-      <div className="mutation-list">{movements.map((m,idx)=><div className="mutation-row" key={m.id}><div className="order-no">{String(idx+1).padStart(2,'0')}</div><div className="mutation-main"><div><strong>{m.ref}</strong><span className="type-pill">{m.type}</span></div><p>{m.note}</p><small>{m.date} · factual ID {m.id}</small></div><div className="mutation-delta">{m.delta.map((d,i)=><span key={i} className={d<0?'neg':d>0?'pos':''}>{['28','29','30'][i]}: {d>0?'+':''}{d}</span>)}</div><div className="reorder"><button onClick={()=>move(idx,-1)} disabled={idx===0}><Icon name="up" /></button><button onClick={()=>move(idx,1)} disabled={idx===movements.length-1}><Icon name="down" /></button></div></div>)}</div>
+    <section className="hero-copy compact"><div className="eyebrow">GUDANG · BUKU MUTASI FG</div><h1>Mutasi Barang Jadi</h1><p>Susun urutan buku tanpa mengubah tanggal, saldo, HPP, atau jurnal. Seret di desktop; gunakan panah di iPad.</p></section>
+    <div className="panel mutation-panel">
+      <div className="table-toolbar"><div className="search-box compact-search"><Icon name="search" /> SKU, ref, pelanggan...</div><span className="reorder-hint"><Icon name="drag" /> Seret atau pakai panah</span><button className="soft-btn"><Icon name="filter" /> Semua jenis</button><button className="soft-btn" onClick={()=>setMovements(initialMovements)}><Icon name="reset" /> Reset kronologis</button></div>
+      <div className="mutation-list">{movements.map((m,idx)=>
+        <div className={`mutation-row ${draggedId === m.id ? 'is-dragging' : ''}`} key={m.id} draggable onDragStart={()=>setDraggedId(m.id)} onDragOver={(event)=>event.preventDefault()} onDrop={()=>dropOn(m.id)} onDragEnd={()=>setDraggedId(null)}>
+          <div className="drag-grip" title="Seret untuk ubah urutan tampilan"><Icon name="drag" /></div>
+          <div className="order-no">{String(idx+1).padStart(2,'0')}</div>
+          <div className="mutation-main"><div><strong>{m.ref}</strong><span className="type-pill">{m.type}</span></div><p>{m.note}</p><small>{m.date} · factual ID {m.id}</small></div>
+          <div className="mutation-delta">{m.delta.map((d,i)=><span key={i} className={d<0?'neg':d>0?'pos':''}>{['28','29','30'][i]}: {d>0?'+':''}{d}</span>)}</div>
+          <div className="reorder"><button aria-label="Naikkan urutan" onClick={()=>move(idx,-1)} disabled={idx===0}><Icon name="up" /></button><button aria-label="Turunkan urutan" onClick={()=>move(idx,1)} disabled={idx===movements.length-1}><Icon name="down" /></button></div>
+        </div>)}
+      </div>
     </div>
   </>
 }
