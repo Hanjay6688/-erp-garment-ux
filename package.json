@@ -11,7 +11,6 @@
     "cf:preview": "npm run build && wrangler versions upload"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.57.4",
     "react": "latest",
     "react-dom": "latest",
     "lucide-react": "latest"

@@ -9,9 +9,6 @@ import './interaction-upgrades'
 import './global-readability.css'
 import './qc-final-sku.css'
 import './qc-final-sku'
-import './qc-live-bridge.css'
-import './qc-live-bridge'
-import './qc-posting-lock'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
