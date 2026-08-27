@@ -111,10 +111,11 @@ function createRollAllocationMatrix(rolls: FabricRoll[], count: number): Allocat
 
       const source = wholeSources[sourceIndex]
       const batchOrder = Array.from({ length: count }, (_, index) => index).sort((a, b) => (targets[b] - loads[b]) - (targets[a] - loads[a]))
-      const triedLoads = new Set<number>()
+      const triedCapacities = new Set<number>()
       for (const batchIndex of batchOrder) {
-        if (triedLoads.has(loads[batchIndex]) || loads[batchIndex] + source.qty > targets[batchIndex]) continue
-        triedLoads.add(loads[batchIndex])
+        const capacity = targets[batchIndex] - loads[batchIndex]
+        if (triedCapacities.has(capacity) || source.qty > capacity) continue
+        triedCapacities.add(capacity)
         loads[batchIndex] += source.qty
         wholeAssignments.set(source.id, batchIndex)
         if (placeWholeSources(sourceIndex + 1)) return true
