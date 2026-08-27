@@ -8,8 +8,9 @@ import {
   UserRound, WalletCards, Warehouse, X,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
+import HppPage from './HppPage'
 
-type Page = 'dashboard' | 'sales' | 'stock-card' | 'movements-vivo' | 'movements-widie' | 'procurement' | 'cutting-roll' | 'mandor-wip' | 'sewing-wip' | 'fg-handoff' | 'laundry' | 'placeholder'
+type Page = 'dashboard' | 'sales' | 'stock-card' | 'movements-vivo' | 'movements-widie' | 'procurement' | 'cutting-roll' | 'mandor-wip' | 'sewing-wip' | 'fg-handoff' | 'laundry' | 'hpp' | 'placeholder'
 type NavSection = 'Produksi' | 'Gudang' | 'Penjualan' | 'Keuangan' | 'Master Data'
 type QtyTuple = [number, number, number]
 type SizeTuple = [string, string, string]
@@ -297,6 +298,7 @@ function App() {
     : page === 'sewing-wip' ? 'WIP & Sewing'
     : page === 'fg-handoff' ? 'Serah FG & Ajukan Gajian'
     : page === 'laundry' ? 'Laundry'
+    : page === 'hpp' ? 'HPP & Rekalkulasi'
     : 'Modul ERP'
 
   const chooseSubmenu = (label: string) => {
@@ -309,6 +311,7 @@ function App() {
     else if (label === 'Bagi Potongan') setPage('mandor-wip')
     else if (label === 'WIP & Sewing') setPage('sewing-wip')
     else if (label === 'Laundry') { setLaundryPrefill(null); setPage('laundry') }
+    else if (label === 'HPP & Rekalkulasi') setPage('hpp')
     else setPage('placeholder')
     setMobileNav(false)
   }
@@ -321,7 +324,7 @@ function App() {
       {(Object.keys(nav) as NavSection[]).map((section) => <div className="nav-section" key={section}>
         <button className={`nav-main ${expanded === section ? 'active' : ''}`} onClick={() => setExpanded(expanded === section ? null : section)}><Icon name={section} /><span>{section}</span><span className="chevron">{expanded === section ? '⌄' : '›'}</span></button>
         {expanded === section && <div className="submenu">{nav[section].map((item) => {
-          const active = (item === 'Penjualan & Invoice' && page === 'sales') || (item === 'Kartu Stok FG' && page === 'stock-card') || (item === 'Mutasi Barang Jadi · Vivo' && page === 'movements-vivo') || (item === 'Mutasi Barang Jadi · Widie' && page === 'movements-widie') || (item === 'Pembelian & Penerimaan' && page === 'procurement') || (item === 'Buat Potongan' && page === 'cutting-roll') || (item === 'Bagi Potongan' && page === 'mandor-wip') || (item === 'WIP & Sewing' && (page === 'sewing-wip' || page === 'fg-handoff')) || (item === 'Laundry' && page === 'laundry')
+          const active = (item === 'Penjualan & Invoice' && page === 'sales') || (item === 'Kartu Stok FG' && page === 'stock-card') || (item === 'Mutasi Barang Jadi · Vivo' && page === 'movements-vivo') || (item === 'Mutasi Barang Jadi · Widie' && page === 'movements-widie') || (item === 'Pembelian & Penerimaan' && page === 'procurement') || (item === 'Buat Potongan' && page === 'cutting-roll') || (item === 'Bagi Potongan' && page === 'mandor-wip') || (item === 'WIP & Sewing' && (page === 'sewing-wip' || page === 'fg-handoff')) || (item === 'Laundry' && page === 'laundry') || (item === 'HPP & Rekalkulasi' && page === 'hpp')
           return <button key={item} className={active ? 'sub-active' : ''} onClick={() => chooseSubmenu(item)}>• {item}</button>
         })}</div>}
       </div>)}
@@ -380,6 +383,7 @@ function App() {
             setPage('sewing-wip')
           }}
         />}
+        {page === 'hpp' && <HppPage />}
         {page === 'placeholder' && <Placeholder />}
       </div>
     </main>
