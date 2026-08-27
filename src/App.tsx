@@ -113,7 +113,15 @@ function createRollAllocationMatrix(rolls: FabricRoll[], count: number): Allocat
 }
 
 function createSizeAllocationMatrix(sizeTotals: QtyTuple, count: number): AllocationMatrix {
-  return Object.fromEntries(cuttingSizes.map((size, sizeIndex) => [size, Array.from({ length: count }, (_, batchIndex) => String(batchIndex === sizeIndex ? sizeTotals[sizeIndex] : 0))]))
+  const safeCount = Math.max(1, count)
+  const loads = Array(safeCount).fill(0) as number[]
+  const matrix: AllocationMatrix = Object.fromEntries(cuttingSizes.map((size) => [size, Array(safeCount).fill('0')]))
+  cuttingSizes.map((size, sizeIndex) => ({ size, qty: sizeTotals[sizeIndex] })).sort((a, b) => b.qty - a.qty).forEach((source) => {
+    const batchIndex = loads.reduce((lightest, load, index, values) => load < values[lightest] ? index : lightest, 0)
+    matrix[source.size][batchIndex] = String(source.qty)
+    loads[batchIndex] += source.qty
+  })
+  return matrix
 }
 
 function createRollBatchSizeMatrix(rolls: FabricRoll[], count: number): RollBatchSizeMatrix {
@@ -123,6 +131,11 @@ function createRollBatchSizeMatrix(rolls: FabricRoll[], count: number): RollBatc
     const sourceSizes = rollSizeQuantities(roll.allocation)
     return [roll.id, Array.from({ length: count }, (_, batchIndex) => batchIndex === assignedBatch ? sourceSizes.map(String) : ['0', '0', '0'])]
   }))
+}
+
+function createEmptyRollBatchSizeMatrix(rolls: FabricRoll[], count: number): RollBatchSizeMatrix {
+  const safeCount = Math.max(1, count)
+  return Object.fromEntries(rolls.map((roll) => [roll.id, Array.from({ length: safeCount }, () => ['0', '0', '0'])]))
 }
 
 const fabricRollCatalog: FabricRoll[] = [
@@ -677,15 +690,14 @@ function MandorWipPage() {
   const [batchCountInput,setBatchCountInput] = useState('3')
   const [batchCount,setBatchCount] = useState(3)
   const [allocationMode,setAllocationMode] = useState<WipAllocationMode>('roll')
-  const [rollBatchMatrix,setRollBatchMatrix] = useState<RollBatchSizeMatrix>(() => createRollBatchSizeMatrix(wipRolls, 3))
+  const [rollBatchMatrix,setRollBatchMatrix] = useState<RollBatchSizeMatrix>(() => createEmptyRollBatchSizeMatrix(wipRolls, 3))
+  const [sizeMatrix,setSizeMatrix] = useState<AllocationMatrix>(() => createSizeAllocationMatrix(wipSizeTotals, 3))
   const [splitEditorRollId,setSplitEditorRollId] = useState<string | null>(null)
   const [allocationMessage,setAllocationMessage] = useState('')
   const [rollDrag,setRollDrag] = useState<{ rollId: string; target: number | null; x: number; y: number } | null>(null)
   const rollDragRef = useRef<{ rollId: string; target: number | null; x: number; y: number } | null>(null)
-  const rollBatchCountRef = useRef(3)
-  const effectiveBatchCount = allocationMode === 'size' ? cuttingSizes.length : batchCount
-  const targetTotals = allocationMode === 'size' ? [...wipSizeTotals] : balancedBatchTargets(wipTotal, batchCount)
-  const sizeMatrix = createSizeAllocationMatrix(wipSizeTotals, cuttingSizes.length)
+  const effectiveBatchCount = batchCount
+  const targetTotals = balancedBatchTargets(wipTotal, batchCount)
   const sourceChecks = allocationMode === 'roll'
     ? wipRollRows.flatMap((row) => row.sizes.map((total, sizeIndex) => ({
       key: `${row.roll.id} · Size ${cuttingSizes[sizeIndex]}`,
@@ -711,29 +723,21 @@ function MandorWipPage() {
     const usedBatches = batches.filter((sizes) => sizes.reduce((sum, value) => sum + cellQuantity(value), 0) > 0)
     return usedBatches.length === 1 && row.sizes.every((source, sizeIndex) => cellQuantity(usedBatches[0][sizeIndex]) === source)
   })
+  const unassignedRollRows = wipRollRows.filter((row) => (rollBatchMatrix[row.roll.id] ?? []).every((sizes) => sizes.reduce((sum, value) => sum + cellQuantity(value), 0) === 0))
   const applyBatchCount = () => {
-    const nextCount = Math.min(6, Math.max(2, Math.round(Number(batchCountInput) || 2)))
+    const nextCount = Math.max(1, Math.round(Number(batchCountInput) || 1))
     setBatchCountInput(String(nextCount))
     setBatchCount(nextCount)
-    rollBatchCountRef.current = nextCount
-    setRollBatchMatrix(createRollBatchSizeMatrix(wipRolls, nextCount))
+    setRollBatchMatrix(nextCount === 1 ? createRollBatchSizeMatrix(wipRolls, nextCount) : createEmptyRollBatchSizeMatrix(wipRolls, nextCount))
+    setSizeMatrix(createSizeAllocationMatrix(wipSizeTotals, nextCount))
     setSplitEditorRollId(null)
+    setAllocationMessage('')
   }
   const selectAllocationMode = (nextMode: WipAllocationMode) => {
     if (nextMode === allocationMode) return
     setSplitEditorRollId(null)
     setAllocationMessage('')
-    if (nextMode === 'size') {
-      rollBatchCountRef.current = batchCount
-      setAllocationMode('size')
-      setBatchCount(cuttingSizes.length)
-      setBatchCountInput(String(cuttingSizes.length))
-      return
-    }
-    const restoredCount = rollBatchCountRef.current
-    setAllocationMode('roll')
-    setBatchCount(restoredCount)
-    setBatchCountInput(String(restoredCount))
+    setAllocationMode(nextMode)
   }
   const updateSplitAllocation = (rollId: string, batchIndex: number, sizeIndex: number, rawValue: string) => {
     if (/[+-]/.test(rawValue)) {
@@ -749,6 +753,19 @@ function MandorWipPage() {
       return { ...current, [rollId]: rollBatches }
     })
   }
+  const updateSizeAllocation = (size: string, batchIndex: number, rawValue: string) => {
+    if (/[+-]/.test(rawValue)) {
+      setAllocationMessage('Gunakan jumlah absolut. Pindahkan qty antarbatch tanpa mengubah sumber size.')
+      return
+    }
+    const digits = rawValue.replace(/[^0-9]/g, '')
+    const normalized = digits.replace(/^0+(?=\d)/, '')
+    setAllocationMessage('')
+    setSizeMatrix((current) => ({
+      ...current,
+      [size]: (current[size] ?? Array(batchCount).fill('0')).map((value, index) => index === batchIndex ? normalized : value),
+    }))
+  }
   const assignWholeRoll = (rollId: string, targetBatch: number) => {
     const sourceRow = wipRollRows.find((row) => row.roll.id === rollId)
     if (!sourceRow) return
@@ -756,6 +773,11 @@ function MandorWipPage() {
       ...current,
       [rollId]: Array.from({ length: batchCount }, (_, batchIndex) => batchIndex === targetBatch ? sourceRow.sizes.map(String) : ['0', '0', '0']),
     }))
+    setAllocationMessage('')
+  }
+  const unassignRoll = (rollId: string) => {
+    setRollBatchMatrix((current) => ({ ...current, [rollId]: Array.from({ length: batchCount }, () => ['0', '0', '0']) }))
+    if (splitEditorRollId === rollId) setSplitEditorRollId(null)
     setAllocationMessage('')
   }
   const beginRollDrag = (event: ReactPointerEvent<HTMLButtonElement>, rollId: string) => {
@@ -823,13 +845,13 @@ function MandorWipPage() {
         </div>
 
         <section className="batch-builder-setup">
-          <div className="batch-builder-copy"><span>03 · BENTUK BATCH SETELAH PICKUP</span><h2>{allocationMode==='roll'?'Mau dibagi menjadi berapa batch?':'Satu size langsung menjadi satu batch'}</h2><p>{allocationMode==='roll'?'Pilih jumlah batch, lalu tarik roll utuh ke batch tujuan. Pecah roll hanya saat memang diperlukan.':'Sistem membuat Batch Size 31, Size 32, dan Size 33 langsung dari sumber Potongan yang terkunci.'}</p></div>
-          {allocationMode==='roll'?<div className="batch-count-control"><label><span>JUMLAH BATCH</span><div><input type="text" pattern="[0-9]*" inputMode="numeric" value={batchCountInput} onFocus={(event)=>event.currentTarget.select()} onChange={(event)=>setBatchCountInput(event.target.value.replace(/[^0-9]/g,'').replace(/^0+(?=\d)/,''))}/><b>batch</b></div></label><button type="button" className="soft-btn" onClick={applyBatchCount}>Buat ulang</button></div>:<div className="size-batch-count-lock"><span>OTOMATIS</span><strong>3 batch</strong><small>Size 31 · Size 32 · Size 33</small></div>}
+          <div className="batch-builder-copy"><span>03 · BENTUK BATCH SETELAH PICKUP</span><h2>Mau dibuat menjadi berapa batch?</h2><p>{allocationMode==='roll'?'Satu batch juga boleh. Setelah diterapkan, tarik roll yang belum ditempatkan ke batch tujuan.':'Jumlah batch bebas. Sistem hanya menyusun awal berdasarkan size; setelah itu angkanya tetap bisa lu atur sendiri.'}</p></div>
+          <div className="batch-count-control"><label><span>JUMLAH BATCH · MINIMAL 1</span><div><input type="text" pattern="[0-9]*" inputMode="numeric" value={batchCountInput} onFocus={(event)=>event.currentTarget.select()} onChange={(event)=>setBatchCountInput(event.target.value.replace(/[^0-9]/g,'').replace(/^0+(?=\d)/,''))}/><b>batch</b></div></label><button type="button" className="soft-btn" onClick={applyBatchCount}>Terapkan</button></div>
         </section>
 
         <div className="wip-allocation-mode" role="group" aria-label="Dasar pembagian batch">
           <button type="button" className={allocationMode==='roll'?'active':''} aria-pressed={allocationMode==='roll'} onClick={()=>selectAllocationMode('roll')}><Icon name="boxes"/><div><span>UTAMA</span><strong>Drag per roll</strong><small>Bagi per roll; kalau bisa jangan dipisah.</small></div></button>
-          <button type="button" className={allocationMode==='size'?'active':''} aria-pressed={allocationMode==='size'} onClick={()=>selectAllocationMode('size')}><Icon name="ruler"/><div><span>PER SIZE</span><strong>Langsung batch per size</strong><small>Tiga size sumber menjadi tiga batch terkunci.</small></div></button>
+          <button type="button" className={allocationMode==='size'?'active':''} aria-pressed={allocationMode==='size'} onClick={()=>selectAllocationMode('size')}><Icon name="ruler"/><div><span>AWAL PER SIZE</span><strong>Kelompokkan dari size</strong><small>Jumlah batch dan isi akhirnya tetap bebas.</small></div></button>
         </div>
 
         <div className="wip-reconcile-strip">
@@ -838,25 +860,20 @@ function MandorWipPage() {
           <div className={remainingTotal===0&&sourcesExact?'success':'warn'}><span>SISA / SELISIH</span><strong>{remainingTotal===0&&sourcesExact?'0 pcs · Pas':remainingTotal>0?`${remainingTotal} pcs tersisa`:`${Math.abs(remainingTotal)} pcs berlebih`}</strong><small>{sourcesExact?'Semua sumber cocok':'Ada roll atau size yang tidak cocok'}</small></div>
         </div>
 
-        {allocationMode==='roll'?<div className="golden-roll-rule"><Icon name="boxes"/><div><span>GOLDEN RULE</span><strong>Bagi per roll kalau bisa jangan dipisah</strong><small>{wholeRolls.length} roll utuh · {splitRolls.length} roll terpecah. Jumlah roll pecah bukan batas; pecah hanya bila kebutuhan batch memang meminta.</small></div><div><button type="button" onClick={tidyWholeRolls}>Susun roll utuh</button></div></div>:<div className="golden-roll-rule size-mode"><Icon name="ruler"/><div><span>MODE PER SIZE</span><strong>Size 31, 32, dan 33 langsung menjadi batch sendiri</strong><small>Jumlah sumber dikunci; pembagian batch tidak boleh mengubah komposisi Potongan.</small></div></div>}
+        {allocationMode==='roll'?<div className="golden-roll-rule"><Icon name="boxes"/><div><span>GOLDEN RULE</span><strong>Bagi per roll kalau bisa jangan dipisah</strong><small>{wholeRolls.length} roll utuh · {splitRolls.length} roll terpecah · {unassignedRollRows.length} belum ditempatkan.</small></div><div><button type="button" onClick={tidyWholeRolls}>Susun otomatis tanpa pecah</button></div></div>:<div className="golden-roll-rule size-mode"><Icon name="ruler"/><div><span>PEMBAGIAN AWAL PER SIZE</span><strong>Size utuh dikelompokkan dulu, lalu bebas lu pecah atau gabung</strong><small>Contoh 2 batch: Size 31 sendiri, Size 32+33 bersama. Total setiap size tetap harus sama dengan sumber.</small></div></div>}
 
-        {allocationMode==='roll'&&<section className="wip-roll-tray"><div className="wip-roll-tray-head"><div><span>ROLL SUMBER · DRAG & DROP</span><strong>Tarik roll utuh ke kartu batch</strong><small>Butuh pengecualian? Buka “Atur pecahan” dan isi per size.</small></div><span>{wipRollRows.length} roll · {wipTotal} pcs</span></div><div className="wip-roll-token-grid">{wipRollRows.map((row)=>{
-          const batches=rollBatchMatrix[row.roll.id]??[]
-          const usedBatchIndexes=batches.map((sizes,index)=>({index,quantity:sizes.reduce((sum,value)=>sum+cellQuantity(value),0)})).filter((batch)=>batch.quantity>0)
-          const assigned=usedBatchIndexes.reduce((sum,batch)=>sum+batch.quantity,0)
-          const exact=row.sizes.every((source,sizeIndex)=>batches.reduce((sum,sizes)=>sum+cellQuantity(sizes[sizeIndex]),0)===source)
-          const status=!exact?'Belum pas':usedBatchIndexes.length===1?`Batch ${String(usedBatchIndexes[0].index+1).padStart(2,'0')}`:`Pecah ${usedBatchIndexes.length} batch`
-          return <article className={`wip-roll-token ${!exact?'warn':usedBatchIndexes.length>1?'split':'whole'}`} key={row.roll.id}><button type="button" className="wip-roll-drag-handle" aria-label={`Tarik Roll ${row.roll.sequence} ke batch`} title="Tahan lalu tarik ke kartu batch" onPointerDown={(event)=>beginRollDrag(event,row.roll.id)} onPointerMove={moveRollDrag} onPointerUp={finishRollDrag} onPointerCancel={cancelRollDrag}><Icon name="drag"/></button><div><span>ROLL {String(row.roll.sequence).padStart(2,'0')} · {row.roll.id}</span><strong>{row.quantity} pcs</strong><small>{cuttingSizes.map((size,index)=>`${size}: ${row.sizes[index]}`).join(' · ')}</small></div><em>{status}</em><button type="button" className="wip-roll-split-btn" onClick={()=>{setSplitEditorRollId(row.roll.id);setAllocationMessage('')}}>Atur pecahan</button><small className="wip-roll-assigned">{assigned}/{row.quantity}</small></article>
-        })}</div></section>}
+        {allocationMode==='roll'&&<section className={`wip-roll-tray ${unassignedRollRows.length===0?'all-assigned':''}`}><div className="wip-roll-tray-head"><div><span>ROLL BELUM DITEMPATKAN</span><strong>{unassignedRollRows.length===0?'Semua roll sudah masuk batch':'Tarik roll ke kartu batch di bawah'}</strong><small>{unassignedRollRows.length===0?'Kalau mau pindah, tarik dari kartu batch atau keluarkan kembali.':'Setelah di-drop, roll hilang dari area ini supaya urutannya tetap bersih.'}</small></div><span>{unassignedRollRows.length} roll tersisa</span></div>{unassignedRollRows.length>0?<div className="wip-roll-token-grid">{unassignedRollRows.map((row)=><article className="wip-roll-token" key={row.roll.id}><button type="button" className="wip-roll-drag-handle" aria-label={`Tarik Roll ${row.roll.sequence} ke batch`} title="Tahan lalu tarik ke kartu batch" onPointerDown={(event)=>beginRollDrag(event,row.roll.id)} onPointerMove={moveRollDrag} onPointerUp={finishRollDrag} onPointerCancel={cancelRollDrag}><Icon name="drag"/></button><div><span>ROLL {String(row.roll.sequence).padStart(2,'0')} · {row.roll.id}</span><strong>{row.quantity} pcs</strong><small>{cuttingSizes.map((size,index)=>`${size}: ${row.sizes[index]}`).join(' · ')}</small></div><em>Belum masuk</em><button type="button" className="wip-roll-split-btn" onClick={()=>{setSplitEditorRollId(row.roll.id);setAllocationMessage('')}}>Atur pecahan</button><small className="wip-roll-assigned">Sumber utuh</small></article>)}</div>:<div className="wip-roll-tray-empty"><Icon name="check"/><span>Area sumber bersih</span></div>}</section>}
+
+        {allocationMode==='size'&&<div className="split-source-locks size-allocation-source-locks">{cuttingSizes.map((size,sizeIndex)=>{const check=sourceChecks[sizeIndex];const remaining=(check?.total??0)-(check?.assigned??0);return <div className={remaining===0?'success':'warn'} key={size}><span>SIZE {size} · SUMBER</span><strong>{check?.total??wipSizeTotals[sizeIndex]} pcs</strong><small>Terbagi {check?.assigned??0} · Sisa {remaining}</small></div>})}</div>}
 
         {allocationMode==='roll'&&splitEditorRow&&<section className={`roll-split-editor ${splitEditorExact?'exact':'warn'}`} role="dialog" aria-label={`Atur pecahan Roll ${splitEditorRow.roll.sequence}`}><div className="roll-split-editor-head"><div><span>PENGECUALIAN · ROLL {String(splitEditorRow.roll.sequence).padStart(2,'0')}</span><h3>Pecah {splitEditorRow.roll.id} per size</h3><p>Isi jumlah absolut untuk setiap batch. Angka sumber Potongan di bawah ini tidak bisa diubah.</p></div><button type="button" aria-label="Tutup editor pecahan" onClick={()=>{setSplitEditorRollId(null);setAllocationMessage('')}}><Icon name="close"/></button></div><div className="split-source-locks">{cuttingSizes.map((size,sizeIndex)=>{const check=splitEditorChecks[sizeIndex];return <div className={check?.remaining===0?'success':'warn'} key={size}><span>SIZE {size} · SUMBER</span><strong>{check?.source??0} pcs</strong><small>Terbagi {check?.assigned??0} · Sisa {check?.remaining??0}</small></div>})}</div><div className="split-batch-grid">{Array.from({length:batchCount},(_,batchIndex)=>{const batchValues=rollBatchMatrix[splitEditorRow.roll.id]?.[batchIndex]??['0','0','0'];return <article key={batchIndex}><span>BATCH {String(batchIndex+1).padStart(2,'0')}</span>{cuttingSizes.map((size,sizeIndex)=><label key={size}><small>Size {size}</small><div><input type="text" pattern="[0-9]*" inputMode="numeric" aria-label={`Roll ${splitEditorRow.roll.sequence}, batch ${batchIndex+1}, size ${size}`} value={batchValues[sizeIndex]??'0'} onFocus={(event)=>event.currentTarget.select()} onClick={(event)=>event.currentTarget.select()} onChange={(event)=>updateSplitAllocation(splitEditorRow.roll.id,batchIndex,sizeIndex,event.target.value)}/><b>pcs</b></div></label>)}<strong>{batchValues.reduce((sum,value)=>sum+cellQuantity(value),0)} pcs</strong></article>})}</div><div className="roll-split-editor-foot"><span className={allocationMessage?'error':splitEditorExact?'success':'warn'}>{allocationMessage|| (splitEditorExact?'Pas dengan sumber Potongan.':'Belum pas—cek Sumber, Terbagi, dan Sisa per size.')}</span><button type="button" className="soft-btn" onClick={()=>setSplitEditorRollId(null)}>Selesai</button></div></section>}
 
         <div className="wip-batch-grid">
           {Array.from({length:effectiveBatchCount},(_,batchIndex)=>{const assignedRows=allocationMode==='roll'?wipRollRows.filter((row)=>(rollBatchMatrix[row.roll.id]?.[batchIndex]??[]).reduce((sum,value)=>sum+cellQuantity(value),0)>0):[];return <article data-wip-drop-batch={allocationMode==='roll'?batchIndex:undefined} className={`wip-batch-card ${rollDrag?.target===batchIndex?'drop-target':''} ${allocationMode==='size'?'size-batch-card':''}`} key={batchIndex}>
-            <div className="wip-batch-card-head"><div><span>{allocationMode==='size'?`BATCH SIZE ${cuttingSizes[batchIndex]}`:`BATCH ${String(batchIndex+1).padStart(2,'0')}`}</span><strong>{batchTotals[batchIndex]} pcs</strong></div><small>{allocationMode==='size'?'Sumber terkunci':`Saran ${targetTotals[batchIndex]}`}</small></div>
-            <div className="wip-batch-size-mix">{cuttingSizes.map((size,sizeIndex)=><span className={allocationMode==='size'&&sizeIndex===batchIndex?'active':''} key={size}><small>SIZE {size}</small><strong>{batchSizeMix[batchIndex][sizeIndex]}</strong></span>)}</div>
+            <div className="wip-batch-card-head"><div><span>BATCH {String(batchIndex+1).padStart(2,'0')}</span><strong>{batchTotals[batchIndex]} pcs</strong></div><small>Saran {targetTotals[batchIndex]}</small></div>
+            <div className="wip-batch-size-mix">{cuttingSizes.map((size,sizeIndex)=><span className={batchSizeMix[batchIndex][sizeIndex]>0?'active':''} key={size}><small>SIZE {size}</small><strong>{batchSizeMix[batchIndex][sizeIndex]}</strong></span>)}</div>
             <div className="wip-batch-source-list">
-              {allocationMode==='roll'?(assignedRows.length>0?assignedRows.map((row)=>{const sizes=rollBatchMatrix[row.roll.id]?.[batchIndex]??['0','0','0'];const allocated=sizes.reduce((sum,value)=>sum+cellQuantity(value),0);const usedIn=(rollBatchMatrix[row.roll.id]??[]).filter((batchSizes)=>batchSizes.reduce((sum,value)=>sum+cellQuantity(value),0)>0).length;return <div className="wip-batch-source locked-source" key={row.roll.id}><div><strong>Roll {String(row.roll.sequence).padStart(2,'0')} · {allocated} pcs</strong><small>{cuttingSizes.map((size,sizeIndex)=>`${size}: ${cellQuantity(sizes[sizeIndex])}`).join(' · ')}</small></div><em className={usedIn>1?'pecah':'utuh'}>{usedIn>1?'Pecah':'Utuh'}</em><button type="button" onClick={()=>{setSplitEditorRollId(row.roll.id);setAllocationMessage('')}}>Atur</button></div>}):<div className="wip-batch-empty"><Icon name="drag"/><strong>Tarik roll ke sini</strong><small>Roll masuk utuh secara default</small></div>):<div className="wip-batch-source locked-size-source"><div><strong>Size {cuttingSizes[batchIndex]}</strong><small>Jumlah Potongan asli · tidak bisa diedit</small></div><b>{wipSizeTotals[batchIndex]} pcs</b><em>Pas</em></div>}
+              {allocationMode==='roll'?(assignedRows.length>0?assignedRows.map((row)=>{const sizes=rollBatchMatrix[row.roll.id]?.[batchIndex]??['0','0','0'];const allocated=sizes.reduce((sum,value)=>sum+cellQuantity(value),0);const usedIn=(rollBatchMatrix[row.roll.id]??[]).filter((batchSizes)=>batchSizes.reduce((sum,value)=>sum+cellQuantity(value),0)>0).length;const sourceExact=row.sizes.every((source,sizeIndex)=>(rollBatchMatrix[row.roll.id]??[]).reduce((sum,batchSizes)=>sum+cellQuantity(batchSizes[sizeIndex]),0)===source);const draggable=usedIn===1&&sourceExact;return <div className="wip-batch-source locked-source movable-source" key={row.roll.id}><button type="button" disabled={!draggable} className="batch-roll-drag-handle" aria-label={`Pindahkan Roll ${row.roll.sequence} ke batch lain`} title={draggable?'Tarik ke batch lain':'Roll pecah dipindahkan lewat Atur'} onPointerDown={(event)=>draggable&&beginRollDrag(event,row.roll.id)} onPointerMove={moveRollDrag} onPointerUp={finishRollDrag} onPointerCancel={cancelRollDrag}><Icon name="drag"/></button><div><strong>Roll {String(row.roll.sequence).padStart(2,'0')} · {allocated} pcs</strong><small>{cuttingSizes.map((size,sizeIndex)=>`${size}: ${cellQuantity(sizes[sizeIndex])}`).join(' · ')}</small></div><em className={usedIn>1?'pecah':'utuh'}>{usedIn>1?'Pecah':'Utuh'}</em><div className="batch-source-actions"><button type="button" onClick={()=>{setSplitEditorRollId(row.roll.id);setAllocationMessage('')}}>Atur</button><button type="button" onClick={()=>unassignRoll(row.roll.id)}>Keluarkan</button></div></div>}):<div className="wip-batch-empty"><Icon name="drag"/><strong>Tarik roll ke sini</strong><small>Roll masuk utuh secara default</small></div>):cuttingSizes.map((size,sizeIndex)=>{const allocated=sizeMatrix[size]?.[batchIndex]??'0';const check=sourceChecks[sizeIndex];return <label className={`wip-batch-source editable-size-source ${cellQuantity(allocated)===0?'empty':''}`} key={size}><div><strong>Size {size}</strong><small>Sumber {check?.total??wipSizeTotals[sizeIndex]} · terbagi {check?.assigned??0}</small></div><div className="wip-free-input"><input type="text" pattern="[0-9]*" inputMode="numeric" aria-label={`Batch ${batchIndex+1}, Size ${size}`} value={allocated} onFocus={(event)=>event.currentTarget.select()} onClick={(event)=>event.currentTarget.select()} onChange={(event)=>updateSizeAllocation(size,batchIndex,event.target.value)}/><span>pcs</span></div></label>})}
             </div>
             <div className="wip-batch-route"><span>JAHIT</span><Icon name="arrow"/><span>LAUNDRY</span><small>Kode batch tetap sama</small></div>
           </article>})}
