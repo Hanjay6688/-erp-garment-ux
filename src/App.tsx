@@ -9,7 +9,7 @@ import {
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 
-type Page = 'dashboard' | 'sales' | 'stock-card' | 'movements-vivo' | 'movements-widie' | 'procurement' | 'cutting-roll' | 'mandor-wip' | 'sewing-wip' | 'laundry' | 'placeholder'
+type Page = 'dashboard' | 'sales' | 'stock-card' | 'movements-vivo' | 'movements-widie' | 'procurement' | 'cutting-roll' | 'mandor-wip' | 'sewing-wip' | 'fg-handoff' | 'laundry' | 'placeholder'
 type NavSection = 'Produksi' | 'Gudang' | 'Penjualan' | 'Keuangan' | 'Master Data'
 type QtyTuple = [number, number, number]
 type SizeTuple = [string, string, string]
@@ -269,6 +269,7 @@ function App() {
   const [laundryDeliveries,setLaundryDeliveries] = useState<LaundryDelivery[]>(laundryDeliverySeeds)
   const [laundryDrafts,setLaundryDrafts] = useState<Record<string,string>>({})
   const [wipReverseNotice,setWipReverseNotice] = useState<string|null>(null)
+  const [fgHandoffParentId,setFgHandoffParentId] = useState('POT-260826-041')
 
   const totalPcs = parseQty(qtyText, unit)
   const composed = sizes.reduce((sum, row) => sum + row.qty, 0)
@@ -294,6 +295,7 @@ function App() {
     : page === 'cutting-roll' ? 'Buat Potongan'
     : page === 'mandor-wip' ? 'Bagi Potongan'
     : page === 'sewing-wip' ? 'WIP & Sewing'
+    : page === 'fg-handoff' ? 'Serah FG & Ajukan Gajian'
     : page === 'laundry' ? 'Laundry'
     : 'Modul ERP'
 
@@ -319,7 +321,7 @@ function App() {
       {(Object.keys(nav) as NavSection[]).map((section) => <div className="nav-section" key={section}>
         <button className={`nav-main ${expanded === section ? 'active' : ''}`} onClick={() => setExpanded(expanded === section ? null : section)}><Icon name={section} /><span>{section}</span><span className="chevron">{expanded === section ? '⌄' : '›'}</span></button>
         {expanded === section && <div className="submenu">{nav[section].map((item) => {
-          const active = (item === 'Penjualan & Invoice' && page === 'sales') || (item === 'Kartu Stok FG' && page === 'stock-card') || (item === 'Mutasi Barang Jadi · Vivo' && page === 'movements-vivo') || (item === 'Mutasi Barang Jadi · Widie' && page === 'movements-widie') || (item === 'Pembelian & Penerimaan' && page === 'procurement') || (item === 'Buat Potongan' && page === 'cutting-roll') || (item === 'Bagi Potongan' && page === 'mandor-wip') || (item === 'WIP & Sewing' && page === 'sewing-wip') || (item === 'Laundry' && page === 'laundry')
+          const active = (item === 'Penjualan & Invoice' && page === 'sales') || (item === 'Kartu Stok FG' && page === 'stock-card') || (item === 'Mutasi Barang Jadi · Vivo' && page === 'movements-vivo') || (item === 'Mutasi Barang Jadi · Widie' && page === 'movements-widie') || (item === 'Pembelian & Penerimaan' && page === 'procurement') || (item === 'Buat Potongan' && page === 'cutting-roll') || (item === 'Bagi Potongan' && page === 'mandor-wip') || (item === 'WIP & Sewing' && (page === 'sewing-wip' || page === 'fg-handoff')) || (item === 'Laundry' && page === 'laundry')
           return <button key={item} className={active ? 'sub-active' : ''} onClick={() => chooseSubmenu(item)}>• {item}</button>
         })}</div>}
       </div>)}
@@ -362,7 +364,9 @@ function App() {
             setPage('laundry')
           }}
           onOpenLaundry={(batchId,vendor,view)=>{setLaundryPrefill({batchId,vendor,view});setPage('laundry')}}
+          onOpenHandoff={(parentId)=>{setFgHandoffParentId(parentId);setPage('fg-handoff')}}
         />}
+        {page === 'fg-handoff' && <FgPayrollHandoffPage parentId={fgHandoffParentId} onBack={()=>setPage('sewing-wip')} />}
         {page === 'laundry' && <LaundryPage
           prefill={laundryPrefill}
           readyBatches={laundryReadyBatches}
@@ -1021,7 +1025,7 @@ const laundryVendorNames = ['Laundry Berkah', 'Laundry Intan', 'Cemerlang Wash']
 
 function SewingWipPage({
   batchNotes, deliveries, laundryDrafts, reverseNotice, onClearReverseNotice,
-  onClearLaundryDraft, onConfirmLaundry, onOpenLaundry,
+  onClearLaundryDraft, onConfirmLaundry, onOpenLaundry, onOpenHandoff,
 }: {
   batchNotes: string[]
   deliveries: LaundryDelivery[]
@@ -1031,6 +1035,7 @@ function SewingWipPage({
   onClearLaundryDraft: (batchId:string) => void
   onConfirmLaundry: (batchId:string,vendor:string) => void
   onOpenLaundry: (batchId:string,vendor:string,view:LaundryView) => void
+  onOpenHandoff: (parentId:string) => void
 }) {
   const parentGroups = useMemo(() => sewingWipSeeds.map((parent) => parent.id === 'POT-260827-042'
     ? { ...parent, batches: parent.batches.map((batch, index) => ({ ...batch, note: batchNotes[index] || batch.note })) }
@@ -1079,6 +1084,7 @@ function SewingWipPage({
         return <article className="sewing-parent-card" key={parent.id}>
           <header className="sewing-parent-head"><span className="sewing-parent-order">{String(parentIndex+1).padStart(2,'0')}</span><div><small>POTONGAN INDUK · BATCH BESAR</small><h2>{parent.id} · {parent.model}</h2><p>{parent.material} · pickup {parent.pickupAt}</p></div><span className="sewing-mandor-pill"><Icon name="user"/>{parent.mandor}</span><div className="sewing-parent-total"><strong>{parentCompleted}/{parentQty} pcs</strong><small>{parentVendors.length>0?`${parentVendors.join(' & ')} · ${parentOutside} di luar · ${parentReturned} kembali`:`${parent.batches.length} batch jahit · ${parentProgress}%`}</small></div></header>
           <div className="sewing-parent-progress"><span style={{width:`${parentProgress}%`}}/></div>
+          {parentCompleted===parentQty&&<button type="button" className="sewing-handoff-banner" onClick={()=>onOpenHandoff(parent.id)}><span className="handoff-banner-icon"><Icon name="document"/></span><span><small>SELESAI JAHIT · SIAP REKONSILIASI</small><strong>Serah FG & Ajukan Gajian</strong><em>Catat barang yang benar-benar dibawa, sisa Laundry, dan hold payroll.</em></span><b>Buka <Icon name="arrow"/></b></button>}
           <div className="sewing-child-grid">{parent.batches.map((batch)=>{
             const completed=Math.min(batch.qty,cellQuantity(completedInputs[batch.id]))
             const progress=Math.round((completed/Math.max(1,batch.qty))*100)
@@ -1105,6 +1111,83 @@ function SewingWipPage({
       })}{visibleGroups.length===0&&<div className="sewing-empty"><Icon name={completedParentCount>0?'check':'search'}/><strong>{completedParentCount>0&&hideCompleted?'Semua hasil yang cocok sudah selesai':'Tidak ada jahitan yang cocok'}</strong><small>{completedParentCount>0&&hideCompleted?'Tekan “Selesai disembunyikan” untuk membuka riwayat.':'Cek pilihan mandor atau kata pencarian.'}</small></div>}</div>
     </section>
     {pendingLaundry&&<div className="wip-confirm-layer" role="presentation"><section className="wip-confirm-dialog" role="alertdialog" aria-modal="true" aria-labelledby="confirm-laundry-title"><div className="wip-confirm-icon"><Icon name="boxes"/></div><div><span>PINDAH KE HALAMAN LAUNDRY</span><h2 id="confirm-laundry-title">Siapkan ke {pendingLaundry.vendor}?</h2><p>Batch {pendingLaundry.batchId} · {pendingLaundry.qty} pcs. Ini baru membuat draft tujuan; stok belum berpindah sampai lu menekan <strong>Catat dikirim</strong> di halaman Laundry.</p></div><div className="wip-confirm-actions"><button type="button" className="soft-btn" onClick={()=>setPendingLaundry(null)}>Batal</button><button type="button" className="primary-btn" onClick={()=>{onConfirmLaundry(pendingLaundry.batchId,pendingLaundry.vendor);setPendingLaundry(null)}}>Buka Laundry <Icon name="arrow"/></button></div></section></div>}
+  </>
+}
+
+
+type FgHandoffSize = { size:string; expected:number; received:string }
+
+function FgPayrollHandoffPage({parentId,onBack}:{parentId:string;onBack:()=>void}) {
+  const parent=sewingWipSeeds.find((item)=>item.id===parentId)??sewingWipSeeds[1]??sewingWipSeeds[0]
+  const expectedBySize=parent.sizes.map((size,index)=>({
+    size,
+    expected:parent.batches.reduce((sum,batch)=>sum+batch.sizes[index],0),
+  }))
+  const [sizeRows,setSizeRows]=useState<FgHandoffSize[]>(()=>expectedBySize.map((row,index)=>({
+    ...row,
+    received:String(Math.max(0,row.expected-(index<2?1:0))),
+  })))
+  const [laundryVendor,setLaundryVendor]=useState('Laundry Intan')
+  const [holdRateInput,setHoldRateInput]=useState('3700')
+  const [wageRateInput,setWageRateInput]=useState('18450')
+  const [reportedBsInput,setReportedBsInput]=useState('1')
+  const [reportedBsSize,setReportedBsSize]=useState(parent.sizes[1]??parent.sizes[0])
+  const [note,setNote]=useState('2 potong belum balik. 1 potong dicurigai BS — tunggu QC.')
+  const [submitted,setSubmitted]=useState(false)
+  const expectedTotal=sizeRows.reduce((sum,row)=>sum+row.expected,0)
+  const receivedTotal=sizeRows.reduce((sum,row)=>sum+cellQuantity(row.received),0)
+  const outstanding=Math.max(0,expectedTotal-receivedTotal)
+  const holdRate=cellQuantity(holdRateInput)
+  const wageRate=cellQuantity(wageRateInput)
+  const reportedBs=Math.min(receivedTotal,cellQuantity(reportedBsInput))
+  const payrollBase=expectedTotal*wageRate
+  const payrollHold=outstanding*holdRate
+  const payrollDraft=Math.max(0,payrollBase-payrollHold)
+  const updateDigits=(raw:string,max:number)=>{
+    const digits=raw.replace(/[^0-9]/g,'').replace(/^0+(?=\d)/,'')
+    return digits===''?'':String(Math.min(max,Number(digits)))
+  }
+  const updateReceived=(index:number,raw:string)=>{
+    setSizeRows((current)=>current.map((row,rowIndex)=>rowIndex===index?{...row,received:updateDigits(raw,row.expected)}:row))
+    setSubmitted(false)
+  }
+
+  return <>
+    <section className="hero-copy compact fg-handoff-hero"><div><div className="eyebrow">PRODUKSI · JEMBATAN WIP → QC</div><h1>Serah FG & Ajukan Gajian</h1><p>Mandor cukup mencatat barang yang benar-benar dibawa. Selisih otomatis menjadi Belum balik Laundry—bukan BS dan belum masuk QC.</p></div><button type="button" className="soft-btn handoff-back" onClick={onBack}><Icon name="back"/> Kembali ke WIP</button></section>
+    <div className="handoff-flow-strip"><span className="done"><b>1</b>Sewing selesai</span><i/><span className="active"><b>2</b>Serah FG + gajian</span><i/><span><b>3</b>QC fisik</span></div>
+    {submitted&&<div className="handoff-success"><Icon name="check"/><div><strong>Draft laporan berhasil dibentuk</strong><span>{receivedTotal} pcs siap QC · {outstanding} pcs tetap di {laundryVendor} · hold {money(payrollHold)}</span></div></div>}
+    <section className="handoff-layout">
+      <div className="panel handoff-workbench">
+        <header className="handoff-source-head"><span>01</span><div><small>POTONGAN INDUK · SUMBER GAJIAN</small><h2>{parent.id} · {parent.model}</h2><p>{parent.material} · {parent.mandor} · pickup {parent.pickupAt}</p></div><strong>{expectedTotal} pcs</strong></header>
+        <div className="handoff-section-title"><div><span>02</span><div><strong>Hitung FG yang benar-benar diserahkan</strong><small>Isi per size. Kekurangannya langsung dihitung sebagai masih di Laundry.</small></div></div><em className={receivedTotal+outstanding===expectedTotal?'ok':''}>{receivedTotal+outstanding}/{expectedTotal} cocok</em></div>
+        <div className="handoff-size-grid">{sizeRows.map((row,index)=>{const received=cellQuantity(row.received);const missing=Math.max(0,row.expected-received);return <article className={missing>0?'has-outstanding':''} key={row.size}>
+          <header><span>SIZE</span><strong>{row.size}</strong></header>
+          <div className="handoff-expected"><span>SEHARUSNYA</span><strong>{row.expected} pcs</strong></div>
+          <label><span>FG DISERAHKAN</span><input inputMode="numeric" value={row.received} onFocus={(event)=>event.currentTarget.select()} onClick={(event)=>event.currentTarget.select()} onChange={(event)=>updateReceived(index,event.target.value)} /></label>
+          <div className="handoff-missing"><span>BELUM BALIK</span><strong>{missing} pcs</strong></div>
+        </article>})}</div>
+        <div className="handoff-equation"><span><small>FG DIBAWA</small><strong>{receivedTotal} pcs</strong></span><b>+</b><span className="outside"><small>MASIH DI LAUNDRY</small><strong>{outstanding} pcs</strong></span><b>=</b><span className="total"><small>TARGET BATCH</small><strong>{expectedTotal} pcs</strong></span></div>
+        <div className="handoff-detail-grid">
+          <section><div className="handoff-section-title compact"><div><span>03</span><div><strong>Outstanding Laundry</strong><small>Terhubung ke vendor dan otomatis menjadi hold payroll.</small></div></div></div><div className="handoff-field-grid">
+            <label><span>LAUNDRY TERKAIT</span><select value={laundryVendor} onChange={(event)=>{setLaundryVendor(event.target.value);setSubmitted(false)}}>{laundryVendorNames.map((vendor)=><option key={vendor}>{vendor}</option>)}</select></label>
+            <label><span>TARIF HOLD / PCS</span><div className="handoff-money-input"><b>Rp</b><input inputMode="numeric" value={holdRateInput} onFocus={(event)=>event.currentTarget.select()} onChange={(event)=>{setHoldRateInput(updateDigits(event.target.value,999999));setSubmitted(false)}}/></div></label>
+          </div><div className="handoff-hold-preview"><span>{outstanding} pcs × {money(holdRate)}</span><strong>− {money(payrollHold)}</strong><small>Status: ditahan, belum menjadi potongan final.</small></div></section>
+          <section><div className="handoff-section-title compact"><div><span>04</span><div><strong>Laporan lapangan</strong><small>BS dari mandor masih indikasi; QC yang memutuskan final.</small></div></div></div><div className="handoff-field-grid">
+            <label><span>INDIKASI BS</span><input inputMode="numeric" value={reportedBsInput} onFocus={(event)=>event.currentTarget.select()} onChange={(event)=>{setReportedBsInput(updateDigits(event.target.value,receivedTotal));setSubmitted(false)}}/></label>
+            <label><span>SIZE</span><select value={reportedBsSize} onChange={(event)=>{setReportedBsSize(event.target.value);setSubmitted(false)}}>{parent.sizes.map((size)=><option key={size}>{size}</option>)}</select></label>
+          </div><label className="handoff-note"><span>CATATAN MANDOR</span><textarea value={note} onChange={(event)=>{setNote(event.target.value);setSubmitted(false)}} /></label><p className="handoff-bs-note"><Icon name="audit"/><span><strong>{reportedBs} pcs indikasi BS Size {reportedBsSize}</strong> tetap ikut ke antrean QC. Belum memotong payroll.</span></p></section>
+        </div>
+      </div>
+      <aside className="panel handoff-payroll-ticket">
+        <div className="handoff-ticket-title"><span>DRAFT GAJIAN</span><h2>{parent.mandor}</h2><p>{parent.id} · {parent.material}</p></div>
+        <label><span>TARIF GAJI / PCS</span><div className="handoff-money-input"><b>Rp</b><input inputMode="numeric" value={wageRateInput} onFocus={(event)=>event.currentTarget.select()} onChange={(event)=>{setWageRateInput(updateDigits(event.target.value,999999));setSubmitted(false)}}/></div></label>
+        <div className="handoff-payroll-lines"><p><span>Gaji dasar</span><b>{expectedTotal} × {money(wageRate)}</b></p><strong>{money(payrollBase)}</strong><p className="hold"><span>Hold belum balik</span><b>{outstanding} × {money(holdRate)}</b></p><strong className="hold">− {money(payrollHold)}</strong></div>
+        <div className="handoff-net"><span>DRAFT DIBAYARKAN</span><strong>{money(payrollDraft)}</strong><small>Hold akan dikembalikan di payroll berikutnya saat barang susulan lolos QC.</small></div>
+        <div className="handoff-output"><span>SEKALI SIMPAN MEMBENTUK</span><p><Icon name="check"/><b>{receivedTotal} pcs</b> antrean QC</p><p><Icon name="history"/><b>{outstanding} pcs</b> outstanding {laundryVendor}</p><p><Icon name="cost"/><b>{money(payrollHold)}</b> hold payroll</p></div>
+        <button type="button" className="primary-btn handoff-submit" disabled={receivedTotal<=0} onClick={()=>setSubmitted(true)}>{submitted?'Draft tersimpan':'Buat antrean QC + draft gajian'} <Icon name={submitted?'check':'arrow'}/></button>
+        <p className="handoff-audit-note">Prototype ini belum mengubah stok, payroll, atau jurnal backend.</p>
+      </aside>
+    </section>
   </>
 }
 
