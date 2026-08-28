@@ -132,7 +132,7 @@ export function StockAdjustmentPage() {
       <article><ShieldCheck/><span><small>CONTROL</small><strong>Draft → Review → Post</strong><em>Tidak ada edit saldo langsung</em></span></article>
     </section>
     <section className="panel ic-shell">
-      <nav className="ic-mode-tabs"><button className={mode === 'browse' ? 'active' : ''} onClick={() => setMode('browse')}><History/> Riwayat adjustment <b>{inventoryCases.length}</b></button><button className={mode === 'new' ? 'active' : ''} onClick={() => setMode('new')}><FilePlus2/> Input hasil cek fisik</button></nav>
+      <nav className="ic-mode-tabs"><button className={`ic-mode-option ${mode === 'browse' ? 'active' : ''}`} onClick={() => setMode('browse')}><i><History/></i><span><strong>Riwayat adjustment</strong><small>Lihat seluruh koreksi + / −</small></span><b>{inventoryCases.length}</b></button><button className={`ic-mode-option create ${mode === 'new' ? 'active' : ''}`} onClick={() => setMode('new')}><i><FilePlus2/></i><span><strong>Catat hasil cek fisik</strong><small>Isi saldo nyata · sistem hitung + / −</small></span><ArrowRight/></button></nav>
       {mode === 'browse' ? <div className="ic-browse-layout">
         <aside className="ic-case-browser">
           <header><div><span>BROWSE ADJUSTMENT</span><strong>Riwayat plus / minus stok</strong></div><small>{visibleCases.length} tampil</small></header>
@@ -151,7 +151,7 @@ export function StockAdjustmentPage() {
           <footer><button className="soft-btn">Lihat dokumen sumber</button><button className="primary-btn" disabled={selectedCase.status === 'Posted' || selectedCase.status === 'Perlu koreksi sumber'}>{selectedCase.status === 'Posted' ? 'Sudah diposting' : selectedCase.status === 'Perlu koreksi sumber' ? 'Posting diblokir' : 'Review kasus'} <ArrowRight/></button></footer>
         </main>
       </div> : <div className="ic-draft">
-        <header><div><span>NEW STOCK ADJUSTMENT · PHYSICAL COUNT</span><h2>Isi jumlah fisik—plus/minus dihitung sistem</h2><p>Pilih satu item, masukkan jumlah yang benar-benar ada, lalu review selisih terhadap System Qty yang terkunci.</p></div><div className="ic-step-rail"><b className="active">1 · Draft</b><i/><b>2 · Review</b><i/><b>3 · Post</b></div></header>
+        <header><div><span>CATAT HASIL CEK FISIK · STOCK ADJUSTMENT</span><h2>Masukkan saldo nyata, bukan angka koreksi</h2><p>Pilih barang yang dihitung, isi jumlah fisik sebenarnya, lalu sistem otomatis membuat selisih plus atau minus terhadap ledger.</p></div><div className="ic-step-rail"><b className="active">1 · Hitung</b><i/><b>2 · Review</b><i/><b>3 · Post</b></div></header>
         <div className="ic-draft-grid">
           <section className="ic-form-card">
             <div className="ic-field-grid two"><label><span>1 · AREA STOK</span><select value={scope} onChange={(event) => changeScope(event.target.value as AdjustmentScope)}><option>Kain & Roll</option><option>Aksesori</option><option>Barang Jadi</option></select></label><label><span>2 · ITEM / ROLL / SKU + SIZE</span><select value={draftItem.id} onChange={(event) => { setItemId(event.target.value); setPhysicalText(''); setNotice('') }}>{scopedItems.map((item) => <option key={item.id} value={item.id}>{item.label}</option>)}</select></label></div>

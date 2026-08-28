@@ -18,6 +18,7 @@ type Tone = 'good' | 'warn' | 'danger' | 'neutral'
 const money = (value: number) => new Intl.NumberFormat('id-ID', {
   style: 'currency', currency: 'IDR', maximumFractionDigits: 0,
 }).format(value)
+const compactSales = (value:number)=>value>=1_000_000?`Rp${(value/1_000_000).toLocaleString('id-ID',{maximumFractionDigits:1})} jt`:money(value)
 const number = (value: number) => new Intl.NumberFormat('id-ID', { maximumFractionDigits: 0 }).format(value)
 const productKey = (product: Pick<Product, 'brand' | 'code'>) => `${product.brand}::${product.code}`
 const qtyLabel = (qty: number) => `${Math.floor(Math.max(0, qty) / 12)} lusin · ${Math.max(0, qty) % 12} potong`
@@ -35,42 +36,19 @@ function makeLine(product: Product, dozens: number): DraftLine {
   }
 }
 
-const invoiceHistory = [
-  { number:'INV-JUAL-0245', customer:'Nusantara Fashion', date:'28 Agu 2026 · 10:30', sku:'73001 · 73005', qty:72, gross:6_660_000, status:'DRAFT' },
-  { number:'INV-JUAL-0244', customer:'Toko Maju Jaya', date:'28 Agu 2026 · 09:15', sku:'73003', qty:64, gross:5_760_000, status:'WAITING_ALLOCATION' },
-  { number:'INV-JUAL-0241', customer:'Toko Maju Jaya', date:'27 Agu 2026 · 16:24', sku:'73001 · 73002', qty:84, gross:7_830_000, status:'POSTED' },
-  { number:'INV-JUAL-0240', customer:'Nusantara Fashion', date:'27 Agu 2026 · 15:18', sku:'73001 · 73005', qty:144, gross:13_320_000, status:'POSTED' },
+const allInvoices = [
+  { number:'INV-JUAL-0245', customer:'Nusantara Fashion', dateKey:'2026-08-28', day:'28 Agu 2026', time:'10:30', sku:'73001 · 73005', qty:72, gross:6_660_000, returns:0, paid:0, status:'DRAFT' },
+  { number:'INV-JUAL-0244', customer:'Toko Maju Jaya', dateKey:'2026-08-28', day:'28 Agu 2026', time:'09:15', sku:'73003', qty:64, gross:5_760_000, returns:0, paid:0, status:'WAITING_ALLOCATION' },
+  { number:'INV-JUAL-0243', customer:'Sentra Denim', dateKey:'2026-08-28', day:'28 Agu 2026', time:'08:40', sku:'73006', qty:36, gross:3_420_000, returns:0, paid:3_420_000, status:'PAID' },
+  { number:'INV-JUAL-0241', customer:'Toko Maju Jaya', dateKey:'2026-08-27', day:'27 Agu 2026', time:'16:24', sku:'73001 · 73002', qty:84, gross:7_830_000, returns:180_000, paid:4_820_000, status:'POSTED' },
+  { number:'INV-JUAL-0240', customer:'Nusantara Fashion', dateKey:'2026-08-27', day:'27 Agu 2026', time:'15:18', sku:'73001 · 73005', qty:144, gross:13_320_000, returns:0, paid:8_000_000, status:'POSTED' },
+  { number:'INV-JUAL-0239', customer:'Sentra Denim', dateKey:'2026-08-27', day:'27 Agu 2026', time:'11:06', sku:'73003 · 73006', qty:60, gross:5_730_000, returns:0, paid:0, status:'POSTED' },
+  { number:'INV-JUAL-0238', customer:'Nusantara Fashion', dateKey:'2026-08-26', day:'26 Agu 2026', time:'14:52', sku:'73002', qty:96, gross:8_640_000, returns:360_000, paid:8_280_000, status:'PAID' },
+  { number:'INV-JUAL-0237', customer:'Nusantara Fashion', dateKey:'2026-08-25', day:'25 Agu 2026', time:'13:18', sku:'73001 · 73004', qty:132, gross:12_640_000, returns:860_000, paid:8_000_000, status:'POSTED' },
+  { number:'INV-JUAL-0236', customer:'Toko Maju Jaya', dateKey:'2026-08-25', day:'25 Agu 2026', time:'10:42', sku:'73005', qty:48, gross:4_560_000, returns:0, paid:4_560_000, status:'PAID' },
 ]
 
-const allocationOrders = [
-  {
-    number:'INV-JUAL-0245', customer:'Nusantara Fashion', at:'28 Agu 2026 · 10:30', status:'READY',
-    lines:[
-      { sku:'Vivo · 73001', size:'28', requested:12, onHand:96, lot:'FG-73001-0821', fifo:12 },
-      { sku:'Vivo · 73001', size:'29', requested:12, onHand:84, lot:'FG-73001-0822', fifo:12 },
-      { sku:'Vivo · 73001', size:'30', requested:12, onHand:108, lot:'FG-73001-0820', fifo:12 },
-      { sku:'Widie · 73005', size:'31', requested:12, onHand:48, lot:'FG-73005-0819', fifo:12 },
-      { sku:'Widie · 73005', size:'32', requested:12, onHand:54, lot:'FG-73005-0818', fifo:12 },
-      { sku:'Widie · 73005', size:'33', requested:12, onHand:42, lot:'FG-73005-0817', fifo:12 },
-    ],
-  },
-  {
-    number:'INV-JUAL-0244', customer:'Toko Maju Jaya', at:'28 Agu 2026 · 09:15', status:'SHORT',
-    lines:[
-      { sku:'Vivo · 73003', size:'34', requested:12, onHand:36, lot:'FG-73003-0824', fifo:12 },
-      { sku:'Vivo · 73003', size:'35', requested:12, onHand:42, lot:'FG-73003-0823', fifo:12 },
-      { sku:'Vivo · 73003', size:'36', requested:40, onHand:32, lot:'FG-73003-0822', fifo:32 },
-    ],
-  },
-  {
-    number:'DRAFT-0091', customer:'Sentra Denim', at:'28 Agu 2026 · 08:40', status:'DRAFT',
-    lines:[
-      { sku:'Widie · 73006', size:'34', requested:4, onHand:24, lot:'Belum dipilih', fifo:0 },
-      { sku:'Widie · 73006', size:'35', requested:4, onHand:30, lot:'Belum dipilih', fifo:0 },
-      { sku:'Widie · 73006', size:'36', requested:4, onHand:36, lot:'Belum dipilih', fifo:0 },
-    ],
-  },
-]
+const invoiceHistory = allInvoices.slice(0,4)
 
 const returnableInvoices = [
   {
@@ -143,8 +121,8 @@ function InvoiceWorkspace({ onNavigate }: { onNavigate: SalesPageProps['onNaviga
   const [dueDate,setDueDate] = useState('2026-09-27')
   const [query,setQuery] = useState('')
   const [brand,setBrand] = useState('Semua merek')
-  const [defaultDozens,setDefaultDozens] = useState('1')
   const [lines,setLines] = useState<DraftLine[]>([makeLine(productCatalog[0],3),makeLine(productCatalog[6],3)])
+  const [lineDozens,setLineDozens] = useState<Record<string,string>>({[productKey(productCatalog[0])]:'3',[productKey(productCatalog[6])]:'3'})
   const [notice,setNotice] = useState('')
   const [reviewOpen,setReviewOpen] = useState(false)
   const [clearOpen,setClearOpen] = useState(false)
@@ -161,16 +139,23 @@ function InvoiceWorkspace({ onNavigate }: { onNavigate: SalesPageProps['onNaviga
   const addProduct=(product:Product)=>{
     const key=productKey(product)
     if(lines.some((line)=>line.key===key)){setNotice(`${product.brand} ${product.code} sudah ada di invoice.`);return}
-    const dozens=Math.max(0,Number(defaultDozens.replace(',','.'))||0)
-    setLines((current)=>[...current,makeLine(product,dozens)])
-    setNotice(`${product.brand} ${product.code} masuk ke invoice.`)
+    setLines((current)=>[...current,makeLine(product,1)])
+    setLineDozens((current)=>({...current,[key]:'1'}))
+    setNotice(`${product.brand} ${product.code} masuk ke draft dengan helper 1 lusin. Size tetap bisa diubah bebas.`)
   }
-  const updateQty=(key:string,index:number,value:string)=>setLines((current)=>current.map((line)=>{
-    if(line.key!==key)return line
-    const next=[...line.quantities] as [number,number,number]
+  const updateQty=(key:string,index:number,value:string)=>{
+    const source=lines.find((line)=>line.key===key)
+    if(!source)return
+    const next=[...source.quantities] as [number,number,number]
     next[index]=Math.max(0,Math.round(Number(value.replace(/\D/g,''))||0))
-    return {...line,quantities:next}
-  }))
+    setLines((current)=>current.map((line)=>line.key===key?{...line,quantities:next}:line))
+    setLineDozens((current)=>({...current,[key]:(next.reduce((sum,qty)=>sum+qty,0)/12).toLocaleString('id-ID',{maximumFractionDigits:2})}))
+  }
+  const applyDozens=(key:string)=>{
+    const dozens=Math.max(0,Number((lineDozens[key]??'0').replace(',','.'))||0)
+    setLines((current)=>current.map((line)=>line.key===key?{...line,quantities:makeLine(line.product,dozens).quantities}:line))
+    setNotice(`Helper ${dozens.toLocaleString('id-ID',{maximumFractionDigits:2})} lusin diterapkan rata ke tiga size. Size tetap menjadi sumber qty akhir.`)
+  }
   const updatePrice=(key:string,value:string)=>setLines((current)=>current.map((line)=>line.key===key?{...line,priceDozen:Math.max(0,Number(value.replace(/\D/g,''))||0)}:line))
 
   return <>
@@ -187,14 +172,14 @@ function InvoiceWorkspace({ onNavigate }: { onNavigate: SalesPageProps['onNaviga
       <aside className="panel biz-catalog">
         <header><div><span>TAMBAH SKU</span><strong>{visibleProducts.length} barang tampil</strong></div><PackageSearch/></header>
         <label className="biz-search"><Search/><input value={query} onChange={(event)=>setQuery(event.target.value)} placeholder="Ketik SKU, merek, model, warna..."/></label>
-        <div className="biz-inline-filters"><select value={brand} onChange={(event)=>setBrand(event.target.value)}><option>Semua merek</option><option>Vivo</option><option>Widie</option></select><label><span>DEFAULT</span><input inputMode="decimal" value={defaultDozens} onChange={(event)=>setDefaultDozens(event.target.value.replace(/[^0-9,.]/g,''))}/><b>lusin</b></label></div>
+        <div className="biz-inline-filters browse-only"><select value={brand} onChange={(event)=>setBrand(event.target.value)}><option>Semua merek</option><option>Vivo</option><option>Widie</option></select><span><Plus/> Klik barang untuk tambah</span></div>
         <div className="biz-catalog-list">{visibleProducts.map((product)=>{const added=lines.some((line)=>line.key===productKey(product));const stock=product.stocks.reduce((sum,qty)=>sum+qty,0);return <button key={productKey(product)} className={added?'added':''} onClick={()=>addProduct(product)}><span>{product.brand.slice(0,1)}</span><div><strong>{product.brand} · {product.code}</strong><small>{product.name} · {product.color}</small><em>{product.range} · {stock} pcs</em></div>{added?<Check/>:<Plus/>}</button>})}</div>
       </aside>
 
       <div className="panel biz-invoice-draft">
         <header><div><span>INVOICE DRAFT</span><strong>{lines.length} SKU · {totalQty} pcs</strong></div><button className="biz-danger-soft" disabled={lines.length===0} onClick={()=>setClearOpen(true)}><Trash2/> Kosongkan</button></header>
         {notice&&<div className="biz-inline-notice"><CheckCircle2/> {notice}</div>}
-        <div className="biz-invoice-lines">{lines.map((line,index)=>{const qty=lineQty(line);const invalid=line.quantities.some((value,sizeIndex)=>value>line.product.stocks[sizeIndex]);return <article key={line.key} className={invalid?'invalid':''}><header><span>{String(index+1).padStart(2,'0')}</span><div><strong>{line.product.brand} · {line.product.code}</strong><small>{line.product.name} · {line.product.color} · {line.product.range}</small></div><b>{money(lineGross(line))}</b><button aria-label={`Hapus ${line.product.code}`} onClick={()=>setLines((current)=>current.filter((item)=>item.key!==line.key))}><X/></button></header><div className="biz-size-entry" data-keyboard-grid>{line.product.sizes.map((size,sizeIndex)=><label key={size} className={line.quantities[sizeIndex]>line.product.stocks[sizeIndex]?'invalid':''}><span>SIZE {size}</span><div><input data-grid-row={index} data-grid-col={sizeIndex} inputMode="numeric" value={line.quantities[sizeIndex]} onFocus={(event)=>event.currentTarget.select()} onChange={(event)=>updateQty(line.key,sizeIndex,event.target.value)}/><b>pcs</b></div><small>stok {line.product.stocks[sizeIndex]} pcs</small></label>)}</div><footer><span><small>QTY BARIS</small><strong>{qty} pcs · {qtyLabel(qty)}</strong></span><label><small>HARGA / LUSIN</small><div><b>Rp</b><input inputMode="numeric" value={line.priceDozen} onFocus={(event)=>event.currentTarget.select()} onChange={(event)=>updatePrice(line.key,event.target.value)}/></div></label>{invalid&&<em><AlertTriangle/> Ada size melebihi stok.</em>}</footer></article>})}{lines.length===0&&<div className="biz-empty"><ShoppingBag/><strong>Invoice masih kosong</strong><small>Klik SKU di katalog sebelah kiri.</small></div>}</div>
+        <div className="biz-invoice-lines">{lines.map((line,index)=>{const qty=lineQty(line);const invalid=line.quantities.some((value,sizeIndex)=>value>line.product.stocks[sizeIndex]);return <article key={line.key} className={invalid?'invalid':''}><header><span>{String(index+1).padStart(2,'0')}</span><div><strong>{line.product.brand} · {line.product.code}</strong><small>{line.product.name} · {line.product.color} · {line.product.range}</small></div><b>{money(lineGross(line))}</b><button aria-label={`Hapus ${line.product.code}`} onClick={()=>{setLines((current)=>current.filter((item)=>item.key!==line.key));setLineDozens((current)=>{const next={...current};delete next[line.key];return next})}}><X/></button></header><div className="biz-size-entry" data-keyboard-grid>{line.product.sizes.map((size,sizeIndex)=><label key={size} className={line.quantities[sizeIndex]>line.product.stocks[sizeIndex]?'invalid':''}><span>SIZE {size}</span><div><input data-grid-row={index} data-grid-col={sizeIndex} inputMode="numeric" value={line.quantities[sizeIndex]} onFocus={(event)=>event.currentTarget.select()} onChange={(event)=>updateQty(line.key,sizeIndex,event.target.value)}/><b>pcs</b></div><small>stok {line.product.stocks[sizeIndex]} pcs</small></label>)}</div><footer><span className="biz-line-total"><small>QTY BARIS · SUMBER AKHIR</small><strong>{qty} pcs · {qtyLabel(qty)}</strong></span><label className="biz-dozen-helper"><small>ISI CEPAT · LUSIN</small><div><input inputMode="decimal" value={lineDozens[line.key]??''} onFocus={(event)=>event.currentTarget.select()} onChange={(event)=>setLineDozens((current)=>({...current,[line.key]:event.target.value.replace(/[^0-9,.]/g,'')}))}/><b>lusin</b><button type="button" onClick={()=>applyDozens(line.key)}>Terapkan</button></div><em>Helper saja · qty per size tetap bisa diedit</em></label><label className="biz-price-field"><small>HARGA / LUSIN</small><div><b>Rp</b><input inputMode="numeric" value={line.priceDozen} onFocus={(event)=>event.currentTarget.select()} onChange={(event)=>updatePrice(line.key,event.target.value)}/></div></label>{invalid&&<em className="biz-line-warning"><AlertTriangle/> Ada size melebihi stok.</em>}</footer></article>})}{lines.length===0&&<div className="biz-empty"><ShoppingBag/><strong>Invoice masih kosong</strong><small>Klik SKU di katalog sebelah kiri.</small></div>}</div>
       </div>
 
       <aside className="panel biz-review-card">
@@ -204,30 +189,36 @@ function InvoiceWorkspace({ onNavigate }: { onNavigate: SalesPageProps['onNaviga
         {!stockValid&&<div className="biz-guard danger"><AlertTriangle/><span>Ada qty melebihi stok. Posting harus diblokir.</span></div>}
         <label><span>CATATAN INVOICE</span><textarea placeholder="PO pelanggan, instruksi kirim, atau catatan harga..."/></label>
         <button className="primary-btn" disabled={!canReview} onClick={()=>setReviewOpen(true)}>Review invoice <ArrowRight/></button>
-        <button className="soft-btn" onClick={()=>onNavigate('sales-allocation')}>Buka antrean alokasi</button>
+        <button className="soft-btn" onClick={()=>onNavigate('sales-allocation')}>Lihat semua invoice</button>
       </aside>
     </section>
 
-    <section className="panel biz-history-block"><header><div><span>INVOICE TERBARU</span><strong>Draft, menunggu alokasi, dan posted</strong></div><History/></header><div className="biz-table"><div className="biz-table-head"><span>Nomor / waktu</span><span>Pelanggan</span><span>SKU / qty</span><span>Nilai</span><span>Status</span></div>{invoiceHistory.map((item)=><article key={item.number}><span><strong>{item.number}</strong><small>{item.date}</small></span><strong>{item.customer}</strong><span>{item.sku}<small>{item.qty} pcs · {qtyLabel(item.qty)}</small></span><b>{money(item.gross)}</b><Pill tone={statusTone(item.status)}>{item.status}</Pill></article>)}</div></section>
+    <section className="panel biz-history-block"><header><div><span>INVOICE TERBARU</span><strong>Draft, menunggu stok, dan posted</strong></div><History/></header><div className="biz-table"><div className="biz-table-head"><span>Nomor / waktu</span><span>Pelanggan</span><span>SKU / qty</span><span>Nilai</span><span>Status</span></div>{invoiceHistory.map((item)=><article key={item.number}><span><strong>{item.number}</strong><small>{item.day} · {item.time}</small></span><strong>{item.customer}</strong><span>{item.sku}<small>{item.qty} pcs · {qtyLabel(item.qty)}</small></span><b>{money(item.gross)}</b><Pill tone={statusTone(item.status)}>{item.status}</Pill></article>)}</div></section>
 
     {reviewOpen&&<ReviewModal title="Invoice siap direview" description="Ini preview lokal. Backend belum berubah dan nomor final belum dibuat." onClose={()=>setReviewOpen(false)} action={()=>{setReviewOpen(false);setNotice('Draft invoice tersimpan di layar. Belum ada data backend yang berubah.')}}><div className="biz-impact-grid"><article><span>FG keluar</span><strong>− {totalQty} pcs</strong><small>Per size dan lot FIFO</small></article><article><span>Piutang naik</span><strong>+ {money(gross)}</strong><small>Kas tetap tidak berubah</small></article><article><span>COGS</span><strong>Dari HPP lot</strong><small>Bukan harga rata-rata SKU</small></article></div><div className="biz-guard"><ShieldCheck/><span>Posting final nanti wajib atomic: allocation, stock ledger, invoice, AR, COGS, dan jurnal berhasil bersama atau semuanya batal.</span></div></ReviewModal>}
-    {clearOpen&&<ReviewModal danger actionLabel="Kosongkan draft" title="Kosongkan draft invoice?" description="Hanya baris draft di layar yang dibuang. Invoice posted tidak pernah dihapus dari sini." onClose={()=>setClearOpen(false)} action={()=>{setLines([]);setClearOpen(false);setNotice('Draft invoice dikosongkan.')}}><div className="biz-guard danger"><AlertTriangle/><span>{lines.length} SKU dan {totalQty} pcs akan dikeluarkan dari draft lokal.</span></div></ReviewModal>}
+    {clearOpen&&<ReviewModal danger actionLabel="Kosongkan draft" title="Kosongkan draft invoice?" description="Hanya baris draft di layar yang dibuang. Invoice posted tidak pernah dihapus dari sini." onClose={()=>setClearOpen(false)} action={()=>{setLines([]);setLineDozens({});setClearOpen(false);setNotice('Draft invoice dikosongkan.')}}><div className="biz-guard danger"><AlertTriangle/><span>{lines.length} SKU dan {totalQty} pcs akan dikeluarkan dari draft lokal.</span></div></ReviewModal>}
   </>
 }
 
 function AllocationWorkspace({ onNavigate }: { onNavigate: SalesPageProps['onNavigate'] }) {
   const [query,setQuery]=useState('')
+  const [customer,setCustomer]=useState('ALL')
   const [status,setStatus]=useState('ALL')
-  const [selectedNumber,setSelectedNumber]=useState(allocationOrders[0].number)
-  const [showFifo,setShowFifo]=useState(true)
-  const visible=allocationOrders.filter((order)=>`${order.number} ${order.customer}`.toLowerCase().includes(query.toLowerCase())&&(status==='ALL'||order.status===status))
-  const selected=allocationOrders.find((order)=>order.number===selectedNumber)??allocationOrders[0]
-  const requested=selected.lines.reduce((sum,line)=>sum+line.requested,0)
-  const allocated=selected.lines.reduce((sum,line)=>sum+Math.min(line.requested,line.onHand),0)
+  const [sort,setSort]=useState('NEWEST')
+  const customers=[...new Set(allInvoices.map((invoice)=>invoice.customer))]
+  const visible=useMemo(()=>allInvoices.filter((invoice)=>`${invoice.number} ${invoice.customer} ${invoice.sku}`.toLowerCase().includes(query.toLowerCase())&&(customer==='ALL'||invoice.customer===customer)&&(status==='ALL'||invoice.status===status)).sort((a,b)=>sort==='VALUE_DESC'?b.gross-a.gross:sort==='STORE'?a.customer.localeCompare(b.customer)||b.dateKey.localeCompare(a.dateKey)||b.time.localeCompare(a.time):b.dateKey.localeCompare(a.dateKey)||b.time.localeCompare(a.time)),[query,customer,status,sort])
+  const counted=visible.filter((invoice)=>['POSTED','PAID'].includes(invoice.status))
+  const gross=counted.reduce((sum,invoice)=>sum+invoice.gross,0)
+  const returns=counted.reduce((sum,invoice)=>sum+invoice.returns,0)
+  const net=gross-returns
+  const storeTotals=customers.map((name)=>{const rows=counted.filter((invoice)=>invoice.customer===name);return {name,count:rows.length,qty:rows.reduce((sum,invoice)=>sum+invoice.qty,0),gross:rows.reduce((sum,invoice)=>sum+invoice.gross,0),returns:rows.reduce((sum,invoice)=>sum+invoice.returns,0)}}).filter((item)=>item.count>0).sort((a,b)=>(b.gross-b.returns)-(a.gross-a.returns))
+  const maxStore=Math.max(1,...storeTotals.map((item)=>item.gross-item.returns))
+  const days=[...new Set(counted.map((invoice)=>invoice.dateKey))].sort((a,b)=>b.localeCompare(a))
   return <>
-    <SalesHero eyebrow="PENJUALAN · BARANG JADI" title="Alokasi Barang Jadi" description="Preview kebutuhan per size dan lot FIFO sebelum invoice dipost. Operator menangani exception stok; urutan lot tetap dipilih server." icon={PackageSearch}/>
-    <section className="biz-metrics"><div className="panel"><span>ANTREAN</span><strong>{allocationOrders.length}</strong><small>Invoice dan draft</small></div><div className="panel good"><span>READY</span><strong>1</strong><small>Stok cukup</small></div><div className="panel danger"><span>SHORT</span><strong>1</strong><small>Butuh koreksi qty</small></div><div className="panel"><span>QTY TERPILIH</span><strong>{allocated}/{requested}</strong><small>pcs teralokasi</small></div></section>
-    <section className="panel biz-master-detail"><aside><header><div><span>BROWSE ORDER</span><strong>{visible.length} tampil</strong></div><Boxes/></header><label className="biz-search"><Search/><input value={query} onChange={(event)=>setQuery(event.target.value)} placeholder="Cari invoice atau pelanggan..."/></label><select value={status} onChange={(event)=>setStatus(event.target.value)}><option value="ALL">Semua status</option><option>READY</option><option>SHORT</option><option>DRAFT</option></select><div className="biz-browser-list">{visible.map((order)=><button key={order.number} className={order.number===selected.number?'active':''} onClick={()=>setSelectedNumber(order.number)}><span>{order.status==='READY'?'OK':order.status==='SHORT'?'!':'D'}</span><div><strong>{order.number}</strong><small>{order.customer}</small><em>{order.at}</em></div><Pill tone={statusTone(order.status)}>{order.status}</Pill></button>)}</div></aside><main><header className="biz-detail-head"><div><span>ORDER TERPILIH</span><h2>{selected.number}</h2><p>{selected.customer} · {selected.at}</p></div><Pill tone={statusTone(selected.status)}>{selected.status}</Pill></header><div className="biz-toggle"><div><strong>Perlihatkan lot FIFO</strong><small>Lot hanya preview; server menentukan urutan final.</small></div><button className={showFifo?'active':''} onClick={()=>setShowFifo((value)=>!value)}>{showFifo?'ON':'OFF'}</button></div><div className="biz-allocation-table"><div><span>SKU / size</span><span>Diminta</span><span>On hand</span><span>{showFifo?'Lot FIFO':'Status'}</span><span>Teralokasi</span></div>{selected.lines.map((line)=><article key={`${line.sku}-${line.size}`} className={line.requested>line.onHand?'invalid':''}><strong>{line.sku}<small>Size {line.size}</small></strong><span>{line.requested} pcs</span><span>{line.onHand} pcs</span><span>{showFifo?line.lot:line.requested<=line.onHand?'Cukup':'Kurang'}</span><b>{Math.min(line.requested,line.onHand)} pcs</b></article>)}</div>{selected.status==='SHORT'&&<div className="biz-guard danger"><AlertTriangle/><span>Qty size 36 kurang 8 pcs. Ubah invoice, pilih pengiriman parsial, atau tunggu FG baru—jangan paksa stok negatif.</span></div>}<footer className="biz-detail-actions"><button className="soft-btn" onClick={()=>onNavigate('sales-invoice')}>Buka invoice</button><button className="primary-btn" disabled={selected.status!=='READY'}>Review posting <ArrowRight/></button></footer></main></section>
+    <SalesHero eyebrow="PENJUALAN · INVOICE REGISTER" title="Semua Invoice" description="Cari semua nota penjualan, urutkan per toko atau nilai, lalu lihat total setiap nota dan ringkasan sales per toko dari transaksi yang benar-benar posted." icon={ReceiptText}/>
+    <section className="biz-metrics"><div className="panel"><span>INVOICE TAMPIL</span><strong>{visible.length}</strong><small>{counted.length} sudah posted / paid</small></div><div className="panel good"><span>PENJUALAN BRUTO</span><strong>{money(gross)}</strong><small>Draft tidak dihitung</small></div><div className="panel danger"><span>RETUR</span><strong>{money(returns)}</strong><small>Dokumen retur posted</small></div><div className="panel good"><span>NET SALES</span><strong>{money(net)}</strong><small>{counted.reduce((sum,invoice)=>sum+invoice.qty,0)} pcs</small></div></section>
+    <section className="panel biz-invoice-register"><header><div><span>ALL INVOICE</span><strong>{visible.length} nota sesuai filter</strong><small>Total sales hanya menghitung POSTED dan PAID.</small></div><button className="primary-btn" onClick={()=>onNavigate('sales-invoice')}><Plus/> Buat invoice</button></header><div className="biz-history-toolbar compact"><label className="biz-search"><Search/><input value={query} onChange={(event)=>setQuery(event.target.value)} placeholder="Cari invoice, toko, atau SKU..."/></label><select value={customer} onChange={(event)=>setCustomer(event.target.value)}><option value="ALL">Semua toko</option>{customers.map((name)=><option key={name}>{name}</option>)}</select><select value={status} onChange={(event)=>setStatus(event.target.value)}><option value="ALL">Semua status</option><option>POSTED</option><option>PAID</option><option>DRAFT</option><option>WAITING_ALLOCATION</option></select><select value={sort} onChange={(event)=>setSort(event.target.value)}><option value="NEWEST">Terbaru dulu</option><option value="VALUE_DESC">Total terbesar</option><option value="STORE">Urut toko</option></select></div><div className="biz-all-invoice-table"><div><span>Waktu / invoice</span><span>Toko</span><span>SKU / qty</span><span>Total nota</span><span>Retur</span><span>Net</span><span>Status</span></div>{visible.map((invoice)=><article className={!['POSTED','PAID'].includes(invoice.status)?'unposted':''} key={invoice.number}><span><strong>{invoice.number}</strong><small>{invoice.day} · {invoice.time}</small></span><strong>{invoice.customer}</strong><span>{invoice.sku}<small>{invoice.qty} pcs · {qtyLabel(invoice.qty)}</small></span><b>{money(invoice.gross)}</b><b className={invoice.returns>0?'negative':''}>{invoice.returns>0?`− ${money(invoice.returns)}`:'—'}</b><strong>{money(invoice.gross-invoice.returns)}</strong><Pill tone={statusTone(invoice.status)}>{invoice.status}</Pill></article>)}</div><footer><ShieldCheck/><span><strong>FIFO tetap jalan saat posting invoice.</strong><small>Halaman ini hanya register dan analisis; allocation lot tidak perlu menjadi pekerjaan manual terpisah.</small></span></footer></section>
+    <section className="biz-store-sales-layout"><article className="panel biz-store-ranking"><header><div><span>SALES PER TOKO</span><strong>Ranking sesuai filter</strong></div><Store/></header>{storeTotals.map((item,index)=>{const storeNet=item.gross-item.returns;return <div key={item.name}><span>{String(index+1).padStart(2,'0')}</span><div><strong>{item.name}</strong><small>{item.count} invoice · {item.qty} pcs · retur {money(item.returns)}</small><i><b style={{width:`${storeNet/maxStore*100}%`}}/></i></div><b>{money(storeNet)}</b></div>})}{storeTotals.length===0&&<div className="biz-empty compact"><FileSearch/><strong>Belum ada sales posted</strong><small>Draft tetap terlihat di register, tetapi tidak masuk total toko.</small></div>}</article><article className="panel biz-sales-timetable"><header><div><span>TIME TABLE</span><strong>Total sales harian per toko</strong></div><Clock3/></header><div className="biz-sales-time-head"><span>Tanggal</span>{customers.map((name)=><span key={name}>{name}</span>)}<span>Total</span></div>{days.map((dateKey)=>{const dayRows=counted.filter((invoice)=>invoice.dateKey===dateKey);const label=dayRows[0]?.day??dateKey;return <div className="biz-sales-time-row" key={dateKey}><strong>{label}</strong>{customers.map((name)=>{const amount=dayRows.filter((invoice)=>invoice.customer===name).reduce((sum,invoice)=>sum+invoice.gross-invoice.returns,0);return <span key={name}>{amount?compactSales(amount):'—'}</span>})}<b>{compactSales(dayRows.reduce((sum,invoice)=>sum+invoice.gross-invoice.returns,0))}</b></div>})}</article></section>
   </>
 }
 
