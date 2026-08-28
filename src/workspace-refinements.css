@@ -1,0 +1,69 @@
+/* Clear visual boundary between browse/source lists and the active work surface. */
+:is(.wh-browser,.qc-browser,.bsr-case-browser,.hpp-lot-browser,.wip-queue-panel,.roll-catalog-panel,.sku-browser,.product-picker.catalog-picker,.laundry-ready-pane){
+  border-color:rgba(124,145,189,.28)!important;
+  background:linear-gradient(155deg,#1c2634 0%,#17202c 58%,#141b25 100%)!important;
+  box-shadow:inset -1px 0 rgba(153,172,220,.13),0 13px 34px rgba(0,0,0,.2)!important;
+}
+:is(.wh-browser,.qc-browser,.bsr-case-browser,.hpp-lot-browser,.wip-queue-panel,.roll-catalog-panel)>header,
+.roll-catalog-panel>.cutting-panel-head,
+.sku-browser>.stock-browser-toolbar,
+.product-picker.catalog-picker>.catalog-toolbar,
+.laundry-ready-pane>.laundry-section-head{
+  background:linear-gradient(100deg,rgba(116,137,205,.14),rgba(57,72,103,.05))!important;
+  border-bottom-color:rgba(145,163,204,.2)!important;
+}
+:is(.wh-browser-list,.qc-browser-list,.bsr-case-list,.hpp-lot-list,.wip-queue-list,.cutting-roll-list,.sku-browser-list)>button{
+  background-color:rgba(255,255,255,.012);
+}
+:is(.wh-browser-list,.qc-browser-list,.bsr-case-list,.hpp-lot-list,.wip-queue-list,.cutting-roll-list,.sku-browser-list)>button:hover{
+  background-color:rgba(126,147,213,.085)!important;
+}
+:is(.wh-detail,.qc-browser-detail,.bsr-detail-stack,.hpp-detail-stack,.wip-batch-workspace,.cutting-live-summary,.allocation-workbench,.laundry-ticket){
+  background-color:#0e141d;
+}
+.wh-detail,.qc-browser-detail,.bsr-detail-stack,.hpp-detail-stack,.wip-batch-workspace{box-shadow:inset 1px 0 rgba(0,0,0,.28)}
+
+/* Child-batch status has to read before its controls. */
+.sewing-batch-head em{
+  padding:6px 9px!important;
+  font-size:11px!important;
+  line-height:1.1;
+  font-weight:820;
+  letter-spacing:.015em;
+}
+
+/* Cutting step 02: issue full or partial yards without changing roll identity. */
+.roll-issue-workbench{margin-top:14px;overflow:hidden;scroll-margin-top:88px}
+.roll-issue-head{background:linear-gradient(100deg,rgba(91,203,159,.065),rgba(124,141,255,.035))}
+.issue-ready-pill,.issue-error-pill{flex:0 0 auto;padding:7px 10px;border:1px solid rgba(91,203,159,.24);border-radius:999px;background:rgba(91,203,159,.09);color:#9bdec2;font-size:10.5px;font-weight:780}
+.issue-error-pill{border-color:rgba(236,124,143,.25);background:rgba(236,124,143,.08);color:#e8a0ad}
+.roll-issue-rule{margin:14px 18px 12px;padding:11px 13px;border:1px solid rgba(103,215,171,.18);border-radius:13px;background:rgba(103,215,171,.045);display:flex;align-items:flex-start;gap:10px;color:#8bd2b5}
+.roll-issue-rule>.icon{width:17px;height:17px;flex:0 0 auto}.roll-issue-rule strong{display:block;font-size:11px;color:#bce9d7}.roll-issue-rule span{display:block;margin-top:3px;color:#82968f;font-size:9.5px;line-height:1.45}
+.roll-issue-table-head,.roll-issue-list>article{display:grid;grid-template-columns:minmax(230px,1.25fr) minmax(120px,.65fr) minmax(165px,.8fr) minmax(120px,.65fr) minmax(135px,.7fr);gap:10px;align-items:center}
+.roll-issue-table-head{min-height:35px;padding:0 17px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:rgba(255,255,255,.014)}
+.roll-issue-table-head span{color:#758196;font-size:8.5px;font-weight:790;letter-spacing:.075em}.roll-issue-table-head span:not(:first-child){text-align:center}
+.roll-issue-list>article{min-height:82px;padding:10px 17px;border-bottom:1px solid rgba(255,255,255,.06);background:rgba(6,10,17,.18)}
+.roll-issue-list>article.partial{background:linear-gradient(90deg,rgba(232,177,83,.045),rgba(6,10,17,.18))}.roll-issue-list>article.invalid{background:linear-gradient(90deg,rgba(230,112,133,.055),rgba(6,10,17,.18))}
+.roll-issue-identity{min-width:0;display:flex;align-items:center;gap:10px}.roll-issue-identity>span{width:33px;height:33px;flex:0 0 auto;border-radius:10px;background:rgba(124,141,255,.1);color:#a6b1ff;display:grid;place-items:center;font-size:10px;font-weight:780}.roll-issue-identity>div{min-width:0}.roll-issue-identity strong{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px}.roll-issue-identity small{display:block;margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#7d899d;font-size:9.5px}
+.roll-issue-number{text-align:center}.roll-issue-number small,.roll-used-input>span{display:block;color:#758196;font-size:8px;font-weight:780;letter-spacing:.07em}.roll-issue-number strong{display:block;margin-top:5px;font-size:13px}.roll-issue-number.remaining strong{color:#8ed4b7}
+.roll-used-input>div{height:43px;margin-top:5px;border:1px solid rgba(124,141,255,.24);border-radius:10px;background:#141b29;display:flex;align-items:center;overflow:hidden}.roll-used-input>div:focus-within{border-color:rgba(124,141,255,.55);box-shadow:0 0 0 3px rgba(124,141,255,.08)}.roll-used-input input{min-width:0;width:100%;height:100%;padding:0 10px;border:0;outline:0;background:transparent;color:#f2f4f8;text-align:right;font-size:14px;font-variant-numeric:tabular-nums}.roll-used-input input[aria-invalid=true]{color:#eba0ad}.roll-used-input b{height:100%;padding:0 9px;border-left:1px solid var(--line);color:#8b97aa;display:grid;place-items:center;font-size:9px}
+.roll-issue-state{display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px}.roll-issue-state em{padding:5px 7px;border-radius:999px;font-size:8px;font-weight:820;font-style:normal;white-space:nowrap}.roll-issue-state em.whole{background:rgba(103,215,171,.09);color:#8dd4b7}.roll-issue-state em.split{background:rgba(241,190,104,.09);color:#dfbf7e}.roll-issue-state em.error{background:rgba(238,125,145,.09);color:#e89bab}.roll-issue-state button{height:27px;padding:0 7px;border:1px solid var(--line);border-radius:8px;background:rgba(255,255,255,.025);color:#929eb0;font-size:8px;cursor:pointer}.roll-issue-state button:disabled{opacity:.28;cursor:default}
+.roll-issue-footer{min-height:78px;padding:12px 17px;display:flex;align-items:center;justify-content:space-between;gap:16px;background:rgba(4,7,12,.25)}.roll-issue-footer>div{display:flex;align-items:center;gap:10px}.roll-issue-footer span{min-width:115px;color:#778398;font-size:8px;font-weight:780;letter-spacing:.07em}.roll-issue-footer span strong{display:block;margin-top:4px;color:#cbd4e1;font-size:15px;letter-spacing:0}.roll-issue-footer span.remaining strong{color:#8dd3b7}.roll-issue-footer i{color:#5f6c80;font-style:normal}.roll-issue-footer button{min-height:43px}
+
+/* Lifetime warehouse vocabulary. */
+.wh-balance-equation.lifetime>span.used,.wh-roll-numbers.lifetime>span.used{background:rgba(130,86,31,.045)}
+.wh-balance-equation.lifetime>span.used strong,.wh-roll-numbers.lifetime>span.used strong{color:#d4b170}
+.wh-balance-equation.lifetime>span.returned,.wh-roll-numbers.lifetime>span.returned{background:rgba(63,92,143,.055)}
+.wh-balance-equation.lifetime>span.returned strong,.wh-roll-numbers.lifetime>span.returned strong{color:#9eb6ed}
+.wh-roll-numbers.lifetime{grid-template-columns:repeat(4,minmax(0,1fr))}
+
+@media(max-width:980px){
+  :is(.wh-browser,.qc-browser,.bsr-case-browser,.hpp-lot-browser,.wip-queue-panel,.roll-catalog-panel,.sku-browser,.product-picker.catalog-picker,.laundry-ready-pane){box-shadow:inset 0 -1px rgba(153,172,220,.13),0 10px 28px rgba(0,0,0,.18)!important}
+}
+@media(max-width:820px){
+  .roll-issue-table-head{display:none}.roll-issue-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;padding:10px}.roll-issue-list>article{min-height:0;padding:12px;border:1px solid rgba(255,255,255,.08);border-radius:13px;grid-template-columns:1fr 1fr;gap:12px}.roll-issue-identity{grid-column:1/-1}.roll-issue-state{align-items:flex-end}.roll-issue-state button{min-width:92px}.roll-issue-footer{align-items:stretch;flex-direction:column}.roll-issue-footer>div{justify-content:space-between}.roll-issue-footer button{width:100%}
+  .wh-balance-equation.lifetime{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:8px}.wh-balance-equation.lifetime>i{display:none}.wh-balance-equation.lifetime>span{min-height:68px;border:1px solid rgba(255,255,255,.055);border-radius:9px}.wh-balance-equation.lifetime>span:last-child{grid-column:auto;border-top:1px solid rgba(255,255,255,.055)}.wh-roll-numbers.lifetime{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:620px){
+  .roll-issue-list{grid-template-columns:1fr}.roll-issue-head{align-items:flex-start;flex-direction:column}.roll-issue-rule{margin:11px 12px}.roll-issue-footer>div{display:grid;grid-template-columns:1fr 18px 1fr}.roll-issue-footer>div>span:last-child{grid-column:1/-1;text-align:center}.roll-issue-footer>div>i:last-of-type{display:none}.roll-issue-footer span{text-align:center}.roll-issue-footer{padding:12px}.sewing-batch-head em{font-size:10px!important}
+}

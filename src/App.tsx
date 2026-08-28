@@ -174,6 +174,13 @@ const parseDecimal = (value: string) => {
   const parsed = Number(value.trim().replace(/\s/g, '').replace(',', '.'))
   return Number.isFinite(parsed) ? Math.max(0, parsed) : 0
 }
+const cleanDecimalInput = (value: string, decimalPlaces = 2) => {
+  const compact = value.replace(/\./g, ',').replace(/[^0-9,]/g, '')
+  const [rawInteger = '', ...rawDecimals] = compact.split(',')
+  const integer = rawInteger.replace(/^0+(?=\d)/, '')
+  if (rawDecimals.length === 0) return integer
+  return `${integer || '0'},${rawDecimals.join('').slice(0, decimalPlaces)}`
+}
 const formatQuantity = (value: number, digits = 1) => new Intl.NumberFormat('id-ID', { maximumFractionDigits: digits }).format(value)
 
 function parseQty(value: string, fallbackUnit: 'lusin' | 'pcs') {
@@ -532,6 +539,7 @@ function CuttingRollPage() {
   const [selectedSuppliers,setSelectedSuppliers]=useState([...fabricRollSuppliers])
   const [selectedMaterials,setSelectedMaterials]=useState([...fabricRollMaterials])
   const [selectedRollIds,setSelectedRollIds]=useState(()=>fabricRollCatalog.slice(0,9).map((roll)=>roll.id))
+  const [rollYardUsage,setRollYardUsage]=useState<Record<string,string>>(()=>Object.fromEntries(fabricRollCatalog.map((roll)=>[roll.id,String(roll.yards).replace('.',',')])))
   const [sizeSlots,setSizeSlots]=useState<CuttingSizeSlot[]>(()=>initialCuttingSizeSlots.map((slot)=>({...slot})))
   const nextSlotKeyRef=useRef(initialCuttingSizeSlots.length+1)
   const [allocations,setAllocations]=useState<Record<string,number[]>>(()=>Object.fromEntries(fabricRollCatalog.map((roll)=>[roll.id,[...roll.allocation]])))
@@ -547,7 +555,17 @@ function CuttingRollPage() {
     return matchesQuery&&selectedSuppliers.includes(roll.supplier)&&selectedMaterials.includes(roll.material)
   }),[query,selectedSuppliers,selectedMaterials])
   const selectedRolls=fabricRollCatalog.filter((roll)=>selectedIdSet.has(roll.id))
-  const totalYards=selectedRolls.reduce((sum,roll)=>sum+roll.yards,0)
+  const rollUsageRows=selectedRolls.map((roll)=>{
+    const input=rollYardUsage[roll.id]??''
+    const used=parseDecimal(input)
+    const valid=input.trim()!==''&&used>0&&used<=roll.yards
+    return {roll,input,used,balance:Math.max(0,roll.yards-used),valid,partial:valid&&used<roll.yards}
+  })
+  const totalSourceYards=selectedRolls.reduce((sum,roll)=>sum+roll.yards,0)
+  const totalUsedYards=rollUsageRows.reduce((sum,row)=>sum+(row.valid?row.used:0),0)
+  const totalBalanceYards=rollUsageRows.reduce((sum,row)=>sum+(row.valid?row.balance:row.roll.yards),0)
+  const yardUsageValid=rollUsageRows.length>0&&rollUsageRows.every((row)=>row.valid)
+  const partialRollCount=rollUsageRows.filter((row)=>row.partial).length
   const displayedSizeSlots=useMemo(()=>sizeSlots.map((slot,slotIndex)=>{
     const sameSizeCount=sizeSlots.filter((candidate)=>candidate.size===slot.size).length
     const drawingNo=sizeSlots.slice(0,slotIndex+1).filter((candidate)=>candidate.size===slot.size).length
@@ -564,6 +582,8 @@ function CuttingRollPage() {
     visibleRolls.forEach((roll)=>allVisibleSelected?next.delete(roll.id):next.add(roll.id))
     return fabricRollCatalog.filter((roll)=>next.has(roll.id)).map((roll)=>roll.id)
   })
+  const updateRollYardUsage=(rollId:string,value:string)=>setRollYardUsage((current)=>({...current,[rollId]:cleanDecimalInput(value)}))
+  const useFullRoll=(roll:FabricRoll)=>setRollYardUsage((current)=>({...current,[roll.id]:String(roll.yards).replace('.',',')}))
   const addSizeSlot=(size:string)=>{
     let insertIndex=sizeSlots.length
     sizeSlots.forEach((slot,index)=>{if(slot.size===size)insertIndex=index+1})
@@ -752,7 +772,7 @@ function CuttingRollPage() {
   }
   return <>
     <section className="hero-copy compact cutting-hero"><div className="eyebrow">PRODUKSI · CUTTING</div><h1>Buat Potongan</h1><p>Ambil roll, catat hasil potong per roll dan size, lalu simpan sebagai WIP Potongan. Batch mandor belum dibuat di tahap ini.</p></section>
-    <section className="cutting-flow-rail cutting-flow-three panel" aria-label="Alur Buat Potongan">{['Pilih roll','Catat hasil per roll','Simpan ke WIP'].map((label,index)=><div className={index===0?'active':''} key={label}><span>{String(index+1).padStart(2,'0')}</span><strong>{label}</strong>{index<2&&<Icon name="arrow"/>}</div>)}</section>
+    <section className="cutting-flow-rail panel" aria-label="Alur Buat Potongan">{['Pilih roll','Tentukan yard used','Catat hasil per roll','Simpan ke WIP'].map((label,index)=><div className={index===0?'active':''} key={label}><span>{String(index+1).padStart(2,'0')}</span><strong>{label}</strong>{index<3&&<Icon name="arrow"/>}</div>)}</section>
     <section className="roll-first-layout">
       <div className="panel roll-catalog-panel">
         <div className="cutting-panel-head"><div><span>01 · SUMBER KAIN</span><h2>Pilih roll yang mau dibagi</h2><p>Satu roll tetap satu baris. Urutan dan yard asal tidak digabung.</p></div><span className="selection-pill">{selectedRolls.length} dipilih</span></div>
@@ -762,14 +782,27 @@ function CuttingRollPage() {
       </div>
       <aside className="panel cutting-live-summary">
         <div className="eyebrow">POTONGAN INDUK</div><h2>Kulot Lucy · 31–33</h2><p>Hasil cutting ini belum dibagi ke batch mandor.</p>
-        <div className="cutting-summary-main"><div><span>ROLL DIPILIH</span><strong>{selectedRolls.length}</strong><small>{formatQuantity(totalYards,2)} yard</small></div><div><span>TOTAL POTONGAN</span><strong>{totalPieces} pcs</strong><small>{dozenPieces(totalPieces)}</small></div></div>
+        <div className="cutting-summary-main"><div><span>YARD USED</span><strong>{formatQuantity(totalUsedYards,2)} yd</strong><small>{selectedRolls.length} roll · {partialRollCount} split</small></div><div><span>TOTAL POTONGAN</span><strong>{totalPieces} pcs</strong><small>{dozenPieces(totalPieces)}</small></div></div>
         <div className="cutting-summary-sizes">{cuttingSizes.map((size,index)=><div key={size}><span>SIZE {size}</span><strong>{sizeTotals[index]} pcs</strong><small>{dozenPieces(sizeTotals[index])}</small></div>)}</div>
         <div className="po-preview"><Icon name="warehouse"/><div><strong>Tujuan berikutnya: WIP Potongan</strong><span>Setelah disimpan, hasil ini menunggu mandor mengambil. Pembagian batch dilakukan saat pickup.</span></div></div>
-        <button type="button" className="primary-btn cutting-next" disabled={selectedRolls.length===0} onClick={()=>document.getElementById('allocation-workbench')?.scrollIntoView({behavior:'smooth',block:'start'})}>Lanjut bagi ukuran <Icon name="arrow"/></button>
+        <button type="button" className="primary-btn cutting-next" disabled={selectedRolls.length===0} onClick={()=>document.getElementById('roll-issue-workbench')?.scrollIntoView({behavior:'smooth',block:'start'})}>Atur yard yang dipakai <Icon name="arrow"/></button>
       </aside>
     </section>
+    <section className="panel roll-issue-workbench" id="roll-issue-workbench" data-keyboard-scope>
+      <div className="cutting-panel-head roll-issue-head"><div><span>02 · YARD USED PER ROLL</span><h2>Pakai seluruh roll atau ambil sebagian</h2><p>Default-nya satu roll dipakai utuh. Kalau hanya dipakai sebagian, masukkan yard aktual; sisanya tetap menjadi Stock On Hand pada nomor roll yang sama.</p></div><span className={yardUsageValid?'issue-ready-pill':'issue-error-pill'}>{yardUsageValid?'Siap dipotong':'Periksa yard'}</span></div>
+      <div className="roll-issue-rule"><Icon name="audit"/><div><strong>Golden rule: whole roll first</strong><span>Split hanya saat memang dibutuhkan di lapangan. Identitas roll tidak berubah dan total yard harus tetap rekonsiliasi.</span></div></div>
+      <div className="roll-issue-table-head"><span>ROLL SOURCE</span><span>STOCK ON HAND</span><span>USED FOR CUTTING</span><span>REMAINING</span><span>STATUS</span></div>
+      <div className="roll-issue-list" data-keyboard-grid>{rollUsageRows.map(({roll,input,used,balance,valid,partial},index)=><article className={`${valid?'':'invalid'} ${partial?'partial':''}`} key={roll.id}>
+        <div className="roll-issue-identity"><span>{String(index+1).padStart(2,'0')}</span><div><strong>{roll.id} · {roll.material}</strong><small>{roll.supplier} · masuk {roll.receivedAt}</small></div></div>
+        <div className="roll-issue-number"><small>STOCK ON HAND</small><strong>{formatQuantity(roll.yards,2)} yd</strong></div>
+        <label className="roll-used-input"><span>USED FOR CUTTING</span><div><input data-grid-row={index} data-grid-col={0} inputMode="decimal" value={input} placeholder="0" aria-invalid={!valid} onFocus={(event)=>event.currentTarget.select()} onChange={(event)=>updateRollYardUsage(roll.id,event.target.value)}/><b>yd</b></div></label>
+        <div className="roll-issue-number remaining"><small>REMAINING</small><strong>{valid?formatQuantity(balance,2):'—'} yd</strong></div>
+        <div className="roll-issue-state"><em className={!valid?'error':partial?'split':'whole'}>{!valid?'INVALID':partial?'SPLIT':'WHOLE ROLL'}</em><button type="button" disabled={valid&&!partial&&used===roll.yards} onClick={()=>useFullRoll(roll)}>Use full roll</button></div>
+      </article>)}{selectedRolls.length===0&&<div className="allocation-empty"><Icon name="ruler"/><strong>Belum ada roll dipilih</strong><small>Pilih roll pada Browse Roll di atas.</small></div>}</div>
+      <div className="roll-issue-footer"><div><span>SOURCE SELECTED<strong>{formatQuantity(totalSourceYards,2)} yd</strong></span><i>−</i><span>USED<strong>{formatQuantity(totalUsedYards,2)} yd</strong></span><i>=</i><span className="remaining">REMAINING<strong>{formatQuantity(totalBalanceYards,2)} yd</strong></span></div><button type="button" className="primary-btn" disabled={!yardUsageValid} onClick={()=>document.getElementById('allocation-workbench')?.scrollIntoView({behavior:'smooth',block:'start'})}>Lanjut catat hasil <Icon name="arrow"/></button></div>
+    </section>
     <section className="panel allocation-workbench" id="allocation-workbench">
-      <div className="cutting-panel-head allocation-head"><div><span>02 · HASIL POTONG PER ROLL</span><h2>Susun slot size sesuai gambar hari ini</h2><p>Satu size boleh punya satu, dua, tiga, atau lebih slot. Label gambar hanya muncul kalau size tersebut berulang.</p></div><span className="draft-pill">Draft</span></div>
+      <div className="cutting-panel-head allocation-head"><div><span>03 · HASIL POTONG PER ROLL</span><h2>Susun slot size sesuai gambar hari ini</h2><p>Satu size boleh punya satu, dua, tiga, atau lebih slot. Label gambar hanya muncul kalau size tersebut berulang.</p></div><span className="draft-pill">Draft</span></div>
       <div className="cutting-meta-grid"><Field label="Merek"><select className="erp-input" defaultValue="Vivo"><option>Vivo</option><option>Widie</option></select></Field><Field label="Model"><input className="erp-input" defaultValue="Kulot Lucy"/></Field><Field label="Tipe pola"><input className="erp-input" defaultValue="Cutbray Jumbo Lucy"/></Field><Field label="Range ukuran"><select className="erp-input" defaultValue="31–33"><option>28–30</option><option>31–33</option><option>34–36</option></select></Field><Field label="Tanggal potong"><input className="erp-input" type="date" defaultValue="2026-08-27"/></Field><div className="future-po-field"><span>KODE POTONGAN</span><strong>POT otomatis</strong><small>saat hasil masuk WIP</small></div></div>
       <div className="size-slot-builder"><div className="size-slot-builder-copy"><span>SUSUN KOLOM SIZE</span><strong>Tambah atau kurangi gambar per size</strong><small>Tombol minus menggabungkan isi kolom terakhir ke kolom sebelumnya—total size tetap aman.</small></div><div className="size-slot-controls">{cuttingSizes.map((size)=>{const count=sizeSlots.filter((slot)=>slot.size===size).length;return <div className="size-slot-control" key={size}><div><span>SIZE {size}</span><strong>{count===1?'1 kolom':`${count} kolom`}</strong><small>{count===1?'Tanpa label gambar':`Gambar A–${drawingLabel(count)}`}</small></div><div><button type="button" disabled={count<=1} aria-label={`Kurangi slot Size ${size}`} title="Gabungkan kolom terakhir ke kolom sebelumnya" onClick={()=>removeSizeSlot(size)}>−</button><b>{count}</b><button type="button" aria-label={`Tambah slot Size ${size}`} title="Tambah kolom gambar baru" onClick={()=>addSizeSlot(size)}>+</button></div></div>})}</div></div>
       <div className="cutting-grid-shortcuts"><span><kbd>Enter</kbd> turun</span><span><kbd>Tab</kbd> ke kanan</span><span><kbd>↑ ↓ ← →</kbd> pindah sel</span><span><Icon name="drag"/> Tarik baris ke atas / bawah</span><span>Tarik kolom ke kiri / kanan</span><span>Paste blok Excel didukung</span></div>
@@ -781,7 +814,7 @@ function CuttingRollPage() {
         const isFillSource=fillRange?.source===index
         const isFillPreview=Boolean(fillRange&&index!==fillRange.source&&index>=Math.min(fillRange.source,fillRange.target)&&index<=Math.max(fillRange.source,fillRange.target))
         return <article data-allocation-row-index={index} className={`allocation-roll-row ${isFillSource?'fill-source':''} ${isFillPreview?'fill-preview':''}`} key={roll.id}>
-          <div className="allocation-roll-identity"><span>{String(index+1).padStart(2,'0')}</span><div><strong>Roll {String(roll.sequence).padStart(2,'0')} · {roll.material}</strong><small>{roll.supplier} · {formatQuantity(roll.yards,2)} yd</small></div></div>
+          <div className="allocation-roll-identity"><span>{String(index+1).padStart(2,'0')}</span><div><strong>Roll {String(roll.sequence).padStart(2,'0')} · {roll.material}</strong><small>{formatQuantity(rollUsageRows[index]?.used??0,2)} yd used · {formatQuantity(rollUsageRows[index]?.balance??roll.yards,2)} yd remaining</small></div></div>
           <div className="allocation-slot-grid" style={slotGridStyle}>{displayedSizeSlots.map((slot,slotIndex)=>{
             const isColumnSource=columnFillRange?.source===slotIndex
             const isColumnPreview=Boolean(columnFillRange&&slotIndex!==columnFillRange.source&&slotIndex>=Math.min(columnFillRange.source,columnFillRange.target)&&slotIndex<=Math.max(columnFillRange.source,columnFillRange.target))
@@ -794,10 +827,10 @@ function CuttingRollPage() {
       })}{selectedRolls.length===0&&<div className="allocation-empty"><Icon name="ruler"/><strong>Belum ada roll dipilih</strong><small>Pilih minimal satu roll di bagian atas untuk mulai membagi ukuran.</small></div>}</div>
       <div className="cutting-totals-row"><div><span>JUMLAH SIZE 31</span><strong>{sizeTotals[0]} pcs</strong></div><div><span>JUMLAH SIZE 32</span><strong>{sizeTotals[1]} pcs</strong></div><div><span>JUMLAH SIZE 33</span><strong>{sizeTotals[2]} pcs</strong></div><div><span>TOTAL BATCH</span><strong>{totalPieces} pcs</strong><small>{dozenPieces(totalPieces)}</small></div></div>
       <section className="cutting-wip-destination" aria-label="Tujuan hasil cutting">
-        <div><span>03 · SIMPAN HASIL CUTTING</span><h2>Masuk WIP Potongan, belum menjadi batch jahit</h2><p>Semua jejak roll dan size tetap melekat pada Potongan induk. Mandor, batch jahit, dan alur laundry baru dicatat saat fisik barang benar-benar diambil.</p></div>
-        <div className="cutting-wip-card"><span className="wip-state-dot"/><div><small>STATUS SETELAH DISIMPAN</small><strong>Menunggu mandor mengambil</strong><span>{selectedRolls.length} roll · {totalPieces} pcs · belum dialokasikan ke batch</span></div></div>
+        <div><span>04 · SIMPAN HASIL CUTTING</span><h2>Masuk WIP Potongan, belum menjadi batch jahit</h2><p>Jejak roll, yard issued, sisa roll, dan size tetap melekat pada Potongan induk. Mandor serta batch jahit baru dicatat saat fisik benar-benar diambil.</p></div>
+        <div className="cutting-wip-card"><span className="wip-state-dot"/><div><small>STATUS SETELAH DISIMPAN</small><strong>Menunggu mandor mengambil</strong><span>{selectedRolls.length} roll · {formatQuantity(totalUsedYards,2)} yd used · {totalPieces} pcs</span></div></div>
       </section>
-      <div className="allocation-footer"><small>Frontend simulasi · belum mengurangi stok roll atau mencatat WIP di backend.</small><div><button type="button" className="soft-btn">Simpan draft cutting</button><button type="button" className="primary-btn" disabled={selectedRolls.length===0||totalPieces===0}>Simpan Potongan ke WIP <Icon name="arrow"/></button></div></div>
+      <div className="allocation-footer"><small>Frontend simulasi · belum mengurangi stok roll atau mencatat WIP di backend.</small><div><button type="button" className="soft-btn">Simpan draft cutting</button><button type="button" className="primary-btn" disabled={!yardUsageValid||totalPieces===0}>Simpan Potongan ke WIP <Icon name="arrow"/></button></div></div>
     </section>
   </>
 }
