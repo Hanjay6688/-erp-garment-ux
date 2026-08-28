@@ -1,4 +1,4 @@
-import { Fragment, useMemo, useRef, useState } from 'react'
+import { Fragment, useEffect, useMemo, useRef, useState } from 'react'
 import type { ClipboardEvent as ReactClipboardEvent, CSSProperties, KeyboardEvent as ReactKeyboardEvent, PointerEvent as ReactPointerEvent, ReactNode } from 'react'
 import {
   ArrowLeft, ArrowRight, Boxes, CalendarDays, Check, ChevronDown, ChevronUp,
@@ -302,6 +302,10 @@ function App() {
   const [qcSeedId,setQcSeedId] = useState('POT-260826-041::041-02')
   const [qcResult,setQcResult] = useState<QcFinalResult|null>(null)
   const [bsPrefill,setBsPrefill] = useState<QcFinalResult|null>(null)
+
+  useEffect(()=>{
+    window.scrollTo({top:0,left:0,behavior:'auto'})
+  },[page])
 
   const totalPcs = parseQty(qtyText, unit)
   const composed = sizes.reduce((sum, row) => sum + row.qty, 0)
