@@ -11,7 +11,6 @@ type AdjustmentScope = 'Kain & Roll' | 'Aksesori' | 'Barang Jadi'
 type AdjustmentStatus = 'Draft' | 'Menunggu review' | 'Posted' | 'Perlu koreksi sumber'
 type InventoryCase = {
   id: string
-  kind: 'Adjustment' | 'Return'
   scope: AdjustmentScope
   status: AdjustmentStatus
   item: string
@@ -47,11 +46,9 @@ const parseNumber = (value: string) => {
 const productKey = (brand: string, code: string) => `${brand}::${code}`
 
 const inventoryCases: InventoryCase[] = [
-  { id:'ADJ-RM-260828-007', kind:'Adjustment', scope:'Kain & Roll', status:'Draft', item:'Lucy · Roll LCY-030', detail:'Sinaran · 96,5 yd tercatat', location:'Rak Kain A-02-02', reason:'Kerusakan hama', source:'Hitung fisik OPN-260828-C', actor:'Nina · Gudang', happenedAt:'28 Agu 2026 · 11:18', systemQty:96.5, physicalQty:89, unit:'yd', note:'Tepi kain berlubang dan tidak dapat dipakai. Foto fisik wajib sebelum review.' },
-  { id:'ADJ-ACC-260828-004', kind:'Adjustment', scope:'Aksesori', status:'Menunggu review', item:'Kancing Jeans 17 mm', detail:'ACC-KNC-17 · dua kotak terbuka', location:'Aksesori A-01', reason:'Koreksi hitung', source:'Sesi opname OPN-260828-A', actor:'Nina · Gudang', happenedAt:'28 Agu 2026 · 07:44', systemQty:12492, physicalQty:12480, unit:'pcs', note:'Selisih hitung sudah dicek ulang oleh dua orang. Saldo belum berubah sebelum posting.' },
-  { id:'ADJ-FG-260828-003', kind:'Adjustment', scope:'Barang Jadi', status:'Perlu koreksi sumber', item:'Widie · SKU 73001 · Size 30', detail:'Grade Good · lot produksi', location:'Gudang FG Utama', reason:'Barang ditemukan', source:'Lot PRODUCTION FG-260827-005', actor:'Rina · QC', happenedAt:'28 Agu 2026 · 07:12', systemQty:90, physicalQty:92, unit:'pcs', note:'Surplus pada lot produksi tidak boleh diposting sebagai adjustment positif. Koreksi penerimaan QC/FG sumbernya.' },
-  { id:'RT-MD-260828-004', kind:'Return', scope:'Kain & Roll', status:'Posted', item:'Lucy · Roll LCY-029', detail:'Sisa utuh dari Mandor Asep', location:'Area Retur', reason:'Sisa produksi kembali', source:'POT-260826-041 · Batch 02', actor:'Mandor Asep', happenedAt:'28 Agu 2026 · 08:12', systemQty:0, physicalQty:18.5, unit:'yd', note:'Sisa roll diukur ulang, diterima layak pakai, lalu kembali ke saldo roll asal.' },
-  { id:'RT-MD-260827-011', kind:'Return', scope:'Aksesori', status:'Posted', item:'Karet Pinggang 32 mm', detail:'ACC-KRT-32 · kembali layak pakai', location:'Aksesori B-03', reason:'Sisa produksi kembali', source:'POT-260824-036 · Batch 01', actor:'Mandor Intan', happenedAt:'27 Agu 2026 · 14:08', systemQty:1836, physicalQty:1860, unit:'meter', note:'Retur 24 meter sudah diterima gudang dan masuk lagi ke Stock On Hand.' },
+  { id:'ADJ-RM-260828-007', scope:'Kain & Roll', status:'Draft', item:'Lucy · Roll LCY-030', detail:'Sinaran · 96,5 yd tercatat', location:'Rak Kain A-02-02', reason:'Kerusakan hama', source:'Hitung fisik OPN-260828-C', actor:'Nina · Gudang', happenedAt:'28 Agu 2026 · 11:18', systemQty:96.5, physicalQty:89, unit:'yd', note:'Tepi kain berlubang dan tidak dapat dipakai. Foto fisik wajib sebelum review.' },
+  { id:'ADJ-ACC-260828-004', scope:'Aksesori', status:'Menunggu review', item:'Kancing Jeans 17 mm', detail:'ACC-KNC-17 · dua kotak terbuka', location:'Aksesori A-01', reason:'Koreksi hitung', source:'Sesi opname OPN-260828-A', actor:'Nina · Gudang', happenedAt:'28 Agu 2026 · 07:44', systemQty:12492, physicalQty:12480, unit:'pcs', note:'Selisih hitung sudah dicek ulang oleh dua orang. Saldo belum berubah sebelum posting.' },
+  { id:'ADJ-FG-260828-003', scope:'Barang Jadi', status:'Perlu koreksi sumber', item:'Widie · SKU 73001 · Size 30', detail:'Grade Good · lot produksi', location:'Gudang FG Utama', reason:'Barang ditemukan', source:'Lot PRODUCTION FG-260827-005', actor:'Rina · QC', happenedAt:'28 Agu 2026 · 07:12', systemQty:90, physicalQty:92, unit:'pcs', note:'Surplus pada lot produksi tidak boleh diposting sebagai adjustment positif. Koreksi penerimaan QC/FG sumbernya.' },
 ]
 
 const countItems: CountItem[] = [
@@ -96,7 +93,6 @@ export function StockAdjustmentPage() {
   const [mode, setMode] = useState<'browse' | 'new'>('browse')
   const [query, setQuery] = useState('')
   const [scopeFilter, setScopeFilter] = useState('Semua')
-  const [kindFilter, setKindFilter] = useState('Semua')
   const [selectedId, setSelectedId] = useState(inventoryCases[0].id)
   const [scope, setScope] = useState<AdjustmentScope>('Kain & Roll')
   const [itemId, setItemId] = useState('LCY-030')
@@ -107,9 +103,9 @@ export function StockAdjustmentPage() {
   const [notice, setNotice] = useState('')
 
   const visibleCases = useMemo(() => inventoryCases.filter((item) => {
-    const haystack = `${item.id} ${item.kind} ${item.scope} ${item.item} ${item.reason} ${item.source} ${item.actor}`.toLowerCase()
-    return haystack.includes(query.toLowerCase()) && (scopeFilter === 'Semua' || item.scope === scopeFilter) && (kindFilter === 'Semua' || item.kind === kindFilter)
-  }), [query, scopeFilter, kindFilter])
+    const haystack = `${item.id} ${item.scope} ${item.item} ${item.reason} ${item.source} ${item.actor}`.toLowerCase()
+    return haystack.includes(query.toLowerCase()) && (scopeFilter === 'Semua' || item.scope === scopeFilter)
+  }), [query, scopeFilter])
   const selectedCase = inventoryCases.find((item) => item.id === selectedId) ?? inventoryCases[0]
   const scopedItems = countItems.filter((item) => item.scope === scope)
   const draftItem = scopedItems.find((item) => item.id === itemId) ?? scopedItems[0]
@@ -132,22 +128,22 @@ export function StockAdjustmentPage() {
     <section className="ic-metrics">
       <article><ClipboardCheck/><span><small>OPEN CASES</small><strong>3 kasus</strong><em>Belum mengubah saldo</em></span></article>
       <article className="danger"><AlertTriangle/><span><small>NEGATIVE DELTA</small><strong>19,5 unit</strong><em>Perlu alasan & bukti</em></span></article>
-      <article className="good"><History/><span><small>RETURNS POSTED</small><strong>42,5 unit</strong><em>Tetap bisa ditelusuri</em></span></article>
+      <article className="good"><History/><span><small>POSITIVE DELTA</small><strong>+2 pcs</strong><em>Tetap wajib sumber yang valid</em></span></article>
       <article><ShieldCheck/><span><small>CONTROL</small><strong>Draft → Review → Post</strong><em>Tidak ada edit saldo langsung</em></span></article>
     </section>
     <section className="panel ic-shell">
-      <nav className="ic-mode-tabs"><button className={mode === 'browse' ? 'active' : ''} onClick={() => setMode('browse')}><History/> Browse cases <b>{inventoryCases.length}</b></button><button className={mode === 'new' ? 'active' : ''} onClick={() => setMode('new')}><FilePlus2/> New physical count</button></nav>
+      <nav className="ic-mode-tabs"><button className={mode === 'browse' ? 'active' : ''} onClick={() => setMode('browse')}><History/> Riwayat adjustment <b>{inventoryCases.length}</b></button><button className={mode === 'new' ? 'active' : ''} onClick={() => setMode('new')}><FilePlus2/> Input hasil cek fisik</button></nav>
       {mode === 'browse' ? <div className="ic-browse-layout">
         <aside className="ic-case-browser">
-          <header><div><span>BROWSE ALL</span><strong>Retur & adjustment history</strong></div><small>{visibleCases.length} tampil</small></header>
-          <div className="ic-browser-tools"><label><Search/><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Cari item, alasan, actor..."/></label><div><select value={scopeFilter} onChange={(event) => setScopeFilter(event.target.value)}><option>Semua</option><option>Kain & Roll</option><option>Aksesori</option><option>Barang Jadi</option></select><select value={kindFilter} onChange={(event) => setKindFilter(event.target.value)}><option>Semua</option><option>Adjustment</option><option>Return</option></select><button onClick={() => { setQuery(''); setScopeFilter('Semua'); setKindFilter('Semua') }}><RotateCcw/></button></div></div>
+          <header><div><span>BROWSE ADJUSTMENT</span><strong>Riwayat plus / minus stok</strong></div><small>{visibleCases.length} tampil</small></header>
+          <div className="ic-browser-tools"><label><Search/><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Cari item, alasan, atau pemeriksa..."/></label><div><select value={scopeFilter} onChange={(event) => setScopeFilter(event.target.value)}><option>Semua</option><option>Kain & Roll</option><option>Aksesori</option><option>Barang Jadi</option></select><button onClick={() => { setQuery(''); setScopeFilter('Semua') }}><RotateCcw/></button></div></div>
           <div className="ic-case-list">{visibleCases.map((item) => {
             const itemDelta = item.physicalQty - item.systemQty
-            return <button key={item.id} className={selectedCase.id === item.id ? 'active' : ''} onClick={() => setSelectedId(item.id)}><span className={`ic-case-code ${item.kind === 'Return' ? 'return' : ''}`}>{item.kind === 'Return' ? 'RT' : 'AD'}</span><div><strong>{item.item}</strong><small>{item.id} · {item.scope}</small><em>{item.reason} · {item.happenedAt}</em></div><b className={itemDelta < 0 ? 'negative' : 'positive'}>{itemDelta > 0 ? '+' : ''}{number(itemDelta)} {item.unit}</b><StatusPill status={item.status}/></button>
+            return <button key={item.id} className={selectedCase.id === item.id ? 'active' : ''} onClick={() => setSelectedId(item.id)}><span className="ic-case-code">AD</span><div><strong>{item.item}</strong><small>{item.id} · {item.scope}</small><em>{item.reason} · {item.happenedAt}</em></div><b className={itemDelta < 0 ? 'negative' : 'positive'}>{itemDelta > 0 ? '+' : ''}{number(itemDelta)} {item.unit}</b><StatusPill status={item.status}/></button>
           })}</div>
         </aside>
         <main className="ic-case-detail">
-          <header><div><span>{selectedCase.kind.toUpperCase()} · {selectedCase.scope.toUpperCase()}</span><h2>{selectedCase.item}</h2><p>{selectedCase.id} · {selectedCase.happenedAt}</p></div><StatusPill status={selectedCase.status}/></header>
+          <header><div><span>ADJUSTMENT · {selectedCase.scope.toUpperCase()}</span><h2>{selectedCase.item}</h2><p>{selectedCase.id} · {selectedCase.happenedAt}</p></div><StatusPill status={selectedCase.status}/></header>
           <div className="ic-detail-facts"><article><MapPin/><span><small>LOCATION</small><strong>{selectedCase.location}</strong><em>{selectedCase.actor}</em></span></article><article><FileClock/><span><small>SOURCE</small><strong>{selectedCase.source}</strong><em>{selectedCase.reason}</em></span></article><article><Boxes/><span><small>ITEM DETAIL</small><strong>{selectedCase.detail}</strong><em>Identity locked after review</em></span></article></div>
           <BalanceEquation system={selectedCase.systemQty} physical={selectedCase.physicalQty} unit={selectedCase.unit}/>
           <section className="ic-reason-card"><span>ALASAN & CATATAN</span><strong>{selectedCase.reason}</strong><p>{selectedCase.note}</p></section>
@@ -155,19 +151,19 @@ export function StockAdjustmentPage() {
           <footer><button className="soft-btn">Lihat dokumen sumber</button><button className="primary-btn" disabled={selectedCase.status === 'Posted' || selectedCase.status === 'Perlu koreksi sumber'}>{selectedCase.status === 'Posted' ? 'Sudah diposting' : selectedCase.status === 'Perlu koreksi sumber' ? 'Posting diblokir' : 'Review kasus'} <ArrowRight/></button></footer>
         </main>
       </div> : <div className="ic-draft">
-        <header><div><span>NEW PHYSICAL COUNT</span><h2>Berapa barang yang benar-benar ada?</h2><p>Pilih item, lalu isi hasil hitung fisik. System Qty hanya pembanding dan tidak dapat diedit.</p></div><div className="ic-step-rail"><b className="active">1 · Draft</b><i/><b>2 · Review</b><i/><b>3 · Post</b></div></header>
+        <header><div><span>NEW STOCK ADJUSTMENT · PHYSICAL COUNT</span><h2>Isi jumlah fisik—plus/minus dihitung sistem</h2><p>Pilih satu item, masukkan jumlah yang benar-benar ada, lalu review selisih terhadap System Qty yang terkunci.</p></div><div className="ic-step-rail"><b className="active">1 · Draft</b><i/><b>2 · Review</b><i/><b>3 · Post</b></div></header>
         <div className="ic-draft-grid">
           <section className="ic-form-card">
             <div className="ic-field-grid two"><label><span>1 · AREA STOK</span><select value={scope} onChange={(event) => changeScope(event.target.value as AdjustmentScope)}><option>Kain & Roll</option><option>Aksesori</option><option>Barang Jadi</option></select></label><label><span>2 · ITEM / ROLL / SKU + SIZE</span><select value={draftItem.id} onChange={(event) => { setItemId(event.target.value); setPhysicalText(''); setNotice('') }}>{scopedItems.map((item) => <option key={item.id} value={item.id}>{item.label}</option>)}</select></label></div>
             <div className="ic-selected-item"><Warehouse/><div><span>ITEM TERPILIH</span><strong>{draftItem.label}</strong><small>{draftItem.detail} · {draftItem.location}</small></div></div>
-            <div className="ic-count-entry"><label className="locked"><span>SYSTEM QTY · LOCKED</span><div><strong>{number(draftItem.systemQty)} </strong><b>{draftItem.unit}</b><ShieldCheck/></div><small>Diambil dari stock ledger saat draft dibuat.</small></label><i>→</i><label><span>PHYSICAL COUNT · INPUT</span><div><input inputMode="decimal" value={physicalText} placeholder="0" onChange={(event) => setPhysicalText(event.target.value.replace(/[^0-9.,]/g, ''))} onFocus={(event) => event.currentTarget.select()}/><b>{draftItem.unit}</b></div><small>Kosong akan tetap kosong—tidak berubah menjadi 015.</small></label></div>
+            <div className="ic-count-entry"><label className="locked"><span>SYSTEM QTY · LOCKED</span><div><strong>{number(draftItem.systemQty)} </strong><b>{draftItem.unit}</b><ShieldCheck/></div><small>Diambil dari stock ledger saat draft dibuat.</small></label><i>→</i><label><span>JUMLAH FISIK SEBENARNYA · INPUT</span><div><input inputMode="decimal" value={physicalText} placeholder="Ketik hasil hitung" onChange={(event) => setPhysicalText(event.target.value.replace(/[^0-9.,]/g, ''))} onFocus={(event) => event.currentTarget.select()}/><b>{draftItem.unit}</b></div><small>Bukan angka plus/minus. Isi hasil hitung total; selisih dibuat otomatis.</small></label></div>
             <BalanceEquation system={draftItem.systemQty} physical={hasPhysical ? physical : draftItem.systemQty} unit={draftItem.unit}/>
             <div className="ic-reason-select"><span>3 · KENAPA BERBEDA?</span><div>{adjustmentReasons.map(([label, copy]) => <button key={label} className={reason === label ? 'active' : ''} onClick={() => setReason(label)}><strong>{label}</strong><small>{copy}</small><Check/></button>)}</div><p>{reasonCopy}</p></div>
             <div className="ic-field-grid three"><label><span>TANGGAL KEJADIAN / CEK</span><input type="date" defaultValue="2026-08-28"/></label><label><span>REFERENSI OPNAME / LAPORAN</span><input value={reference} onChange={(event) => setReference(event.target.value)} placeholder="Contoh: OPN-260828-C"/></label><label><span>LOKASI</span><input value={draftItem.location} readOnly/></label></div>
             <label className="ic-note-field"><span>CATATAN WAJIB</span><textarea value={note} onChange={(event) => setNote(event.target.value)} placeholder="Ceritakan apa yang terjadi, siapa yang cek ulang, dan kondisi barang..."/></label>
             <button className="ic-evidence"><ImagePlus/><span><strong>Tambah foto / bukti</strong><small>Kerusakan, lokasi, hasil hitung, atau laporan kejadian</small></span><b>Browse</b></button>
           </section>
-          <aside className="ic-review-card"><span>REVIEW IMPACT</span><h3>{hasPhysical ? delta === 0 ? 'Tidak ada selisih' : `${delta > 0 ? '+' : ''}${number(delta)} ${draftItem.unit}` : 'Isi Physical Count'}</h3><p>{draftItem.label}</p><div><article><small>SYSTEM QTY</small><strong>{number(draftItem.systemQty)} {draftItem.unit}</strong></article><article><small>PHYSICAL COUNT</small><strong>{hasPhysical ? number(physical) : '—'} {hasPhysical ? draftItem.unit : ''}</strong></article><article className={delta < 0 ? 'danger' : delta > 0 ? 'good' : ''}><small>LEDGER DELTA</small><strong>{hasPhysical ? `${delta > 0 ? '+' : ''}${number(delta)} ${draftItem.unit}` : '—'}</strong></article></div><section><small>ACCOUNTING PREVIEW</small><strong>{hasPhysical ? accounting : 'Menunggu angka fisik'}</strong><p>Jurnal baru terbentuk setelah review dan posting.</p></section>
+          <aside className="ic-review-card"><span>REVIEW IMPACT</span><h3>{hasPhysical ? delta === 0 ? 'Tidak ada selisih' : `${delta > 0 ? '+' : ''}${number(delta)} ${draftItem.unit}` : 'Isi jumlah fisik'}</h3><p>{draftItem.label}</p><div><article><small>SYSTEM QTY</small><strong>{number(draftItem.systemQty)} {draftItem.unit}</strong></article><article><small>JUMLAH FISIK</small><strong>{hasPhysical ? number(physical) : '—'} {hasPhysical ? draftItem.unit : ''}</strong></article><article className={delta < 0 ? 'danger' : delta > 0 ? 'good' : ''}><small>LEDGER DELTA</small><strong>{hasPhysical ? `${delta > 0 ? '+' : ''}${number(delta)} ${draftItem.unit}` : '—'}</strong></article></div><section><small>ACCOUNTING PREVIEW</small><strong>{hasPhysical ? accounting : 'Menunggu angka fisik'}</strong><p>Jurnal baru terbentuk setelah review dan posting.</p></section>
             {blockedPositiveFg ? <div className="ic-guard danger"><AlertTriangle/><div><strong>Adjustment positif diblokir.</strong><small>Koreksi QC/FG receipt sumber lot produksi ini.</small></div></div> : <div className="ic-guard"><ShieldCheck/><div><strong>Saldo belum berubah.</strong><small>Draft ini hanya menyiapkan bukti untuk reviewer.</small></div></div>}
             <button className="primary-btn" disabled={!hasPhysical || delta === 0 || !note.trim() || !reference.trim() || blockedPositiveFg} onClick={() => setNotice('Draft simulasi siap direview. Belum ada data yang dikirim ke backend.')}>Review adjustment <ArrowRight/></button>
             {notice && <em className="ic-notice"><Check/> {notice}</em>}

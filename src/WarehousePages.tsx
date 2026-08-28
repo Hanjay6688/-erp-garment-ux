@@ -3,7 +3,7 @@ import {
   AlertTriangle, ArrowRight, Boxes, Check, ChevronDown, ClipboardCheck,
   FileClock, Filter, History, Layers3, MapPin, Package, PackageCheck,
   Plus, RotateCcw, Ruler, Search, ShieldCheck, SlidersHorizontal,
-  Sparkles, Tag, Warehouse,
+  Sparkles, Tag, Truck, Warehouse, X,
 } from 'lucide-react'
 import { productCatalog } from './productCatalog'
 import './warehouse.css'
@@ -20,7 +20,7 @@ type MaterialSummary = {
   supplier: string
   totalReceivedYards: number
   usedYards: number
-  returnedYards: number
+  supplierReturnedYards: number
   stockOnHandYards: number
   totalRolls: number
   availableRolls: number
@@ -36,7 +36,7 @@ type FabricRoll = {
   receivedAt: string
   original: number
   remaining: number
-  returned: number
+  supplierReturned: number
   reserved: number
   location: string
   status: 'Available' | 'Allocated' | 'WIP' | 'Empty'
@@ -52,11 +52,32 @@ type Accessory = {
   unit: string
   physical: number
   reserved: number
+  supplierReturned: number
   minimum: number
   avgCost: number
   location: string
   status: 'Aman' | 'Menipis' | 'Perlu pesan'
   lastMovement: string
+}
+type SupplierReturnTarget = {
+  kind: 'fabric' | 'accessory'
+  id: string
+  label: string
+  supplier: string
+  unit: string
+  maxQty: number
+  lockedQty: number
+  location: string
+}
+type SupplierReturnRecord = {
+  id: string
+  kind: 'fabric' | 'accessory'
+  item: string
+  supplier: string
+  qty: number
+  unit: string
+  happenedAt: string
+  status: 'Posted' | 'Menunggu review'
 }
 type WarehouseCase = {
   id: string
@@ -73,30 +94,37 @@ type WarehouseCase = {
 }
 
 const materials: MaterialSummary[] = [
-  { id:'MAT-LCY', material:'Lucy', supplier:'Sinaran', totalReceivedYards:3612.5, usedYards:382.5, returnedYards:18.5, stockOnHandYards:3248.5, totalRolls:31, availableRolls:22, avgCost:49200, location:'Rak Kain A', status:'Healthy', lastMovement:'Potongan POT-260828-044 · 10:18' },
-  { id:'MAT-1069', material:'1069 Ori', supplier:'Sinaran', totalReceivedYards:3374.5, usedYards:345, returnedYards:0, stockOnHandYards:3029.5, totalRolls:27, availableRolls:11, avgCost:50750, location:'Rak Kain B', status:'Low', lastMovement:'Material issue POT-260828-041 · 09:42' },
-  { id:'MAT-ZDK', material:'Zodiak KW', supplier:'Sumber Cahaya', totalReceivedYards:2112, usedYards:228, returnedYards:0, stockOnHandYards:1884, totalRolls:18, availableRolls:14, avgCost:47600, location:'Rak Kain C', status:'Healthy', lastMovement:'Penerimaan SJ-260827-018 · kemarin' },
-  { id:'MAT-CRB', material:'Corduroy 8W', supplier:'Mitra Tekstil', totalReceivedYards:794.5, usedYards:126, returnedYards:18, stockOnHandYards:686.5, totalRolls:7, availableRolls:4, avgCost:68400, location:'Rak Kain D', status:'Review', lastMovement:'Retur Mandor RT-260828-004 · 08:12' },
+  { id:'MAT-LCY', material:'Lucy', supplier:'Sinaran', totalReceivedYards:3612.5, usedYards:382.5, supplierReturnedYards:18.5, stockOnHandYards:3211.5, totalRolls:31, availableRolls:22, avgCost:49200, location:'Rak Kain A', status:'Healthy', lastMovement:'Potongan POT-260828-044 · 10:18' },
+  { id:'MAT-1069', material:'1069 Ori', supplier:'Sinaran', totalReceivedYards:3374.5, usedYards:345, supplierReturnedYards:0, stockOnHandYards:3029.5, totalRolls:27, availableRolls:11, avgCost:50750, location:'Rak Kain B', status:'Low', lastMovement:'Material issue POT-260828-041 · 09:42' },
+  { id:'MAT-ZDK', material:'Zodiak KW', supplier:'Sumber Cahaya', totalReceivedYards:2112, usedYards:228, supplierReturnedYards:0, stockOnHandYards:1884, totalRolls:18, availableRolls:14, avgCost:47600, location:'Rak Kain C', status:'Healthy', lastMovement:'Penerimaan SJ-260827-018 · kemarin' },
+  { id:'MAT-CRB', material:'Corduroy 8W', supplier:'Mitra Tekstil', totalReceivedYards:794.5, usedYards:126, supplierReturnedYards:18, stockOnHandYards:650.5, totalRolls:7, availableRolls:4, avgCost:68400, location:'Rak Kain D', status:'Review', lastMovement:'Retur supplier RTS-260827-004 · kemarin' },
 ]
 
 const fabricRolls: FabricRoll[] = [
-  { id:'LCY-031', material:'Lucy', supplier:'Sinaran', receivedAt:'27 Agu 2026', original:131.5, remaining:131.5, returned:0, reserved:0, location:'A-02-03', status:'Available', costState:'ACTUAL', activeCost:49200, source:'SJ-260827-018' },
-  { id:'LCY-030', material:'Lucy', supplier:'Sinaran', receivedAt:'27 Agu 2026', original:124, remaining:96.5, returned:0, reserved:60, location:'A-02-02', status:'Allocated', costState:'ACTUAL', activeCost:49200, source:'SJ-260827-018' },
-  { id:'LCY-029', material:'Lucy', supplier:'Sinaran', receivedAt:'27 Agu 2026', original:91, remaining:18.5, returned:18.5, reserved:0, location:'Area Retur', status:'Available', costState:'ACTUAL', activeCost:49200, source:'RT-MD-260828-004' },
-  { id:'LCY-028', material:'Lucy', supplier:'Sinaran', receivedAt:'25 Agu 2026', original:140, remaining:140, returned:0, reserved:140, location:'Staging Potong', status:'WIP', costState:'ESTIMATED', activeCost:48500, source:'SJ-260825-012' },
-  { id:'1069-027', material:'1069 Ori', supplier:'Sinaran', receivedAt:'24 Agu 2026', original:118, remaining:118, returned:0, reserved:118, location:'B-01-01', status:'Allocated', costState:'ACTUAL', activeCost:50750, source:'SJ-260824-009' },
-  { id:'1069-026', material:'1069 Ori', supplier:'Sinaran', receivedAt:'24 Agu 2026', original:107.5, remaining:33, returned:0, reserved:0, location:'B-01-02', status:'Available', costState:'ACTUAL', activeCost:50750, source:'SJ-260824-009' },
-  { id:'ZDK-018', material:'Zodiak KW', supplier:'Sumber Cahaya', receivedAt:'27 Agu 2026', original:103, remaining:103, returned:0, reserved:0, location:'C-02-01', status:'Available', costState:'ESTIMATED', activeCost:47600, source:'SJ-260827-021' },
-  { id:'CRB-007', material:'Corduroy 8W', supplier:'Mitra Tekstil', receivedAt:'22 Agu 2026', original:108, remaining:46.5, returned:0, reserved:0, location:'D-01-02', status:'Available', costState:'ACTUAL', activeCost:68400, source:'SJ-260822-006' },
+  { id:'LCY-031', material:'Lucy', supplier:'Sinaran', receivedAt:'27 Agu 2026', original:131.5, remaining:113, supplierReturned:18.5, reserved:0, location:'A-02-03', status:'Available', costState:'ACTUAL', activeCost:49200, source:'SJ-260827-018' },
+  { id:'LCY-030', material:'Lucy', supplier:'Sinaran', receivedAt:'27 Agu 2026', original:124, remaining:96.5, supplierReturned:0, reserved:60, location:'A-02-02', status:'Allocated', costState:'ACTUAL', activeCost:49200, source:'SJ-260827-018' },
+  { id:'LCY-029', material:'Lucy', supplier:'Sinaran', receivedAt:'27 Agu 2026', original:91, remaining:18.5, supplierReturned:0, reserved:0, location:'Area Retur', status:'Available', costState:'ACTUAL', activeCost:49200, source:'RT-MD-260828-004' },
+  { id:'LCY-028', material:'Lucy', supplier:'Sinaran', receivedAt:'25 Agu 2026', original:140, remaining:140, supplierReturned:0, reserved:140, location:'Staging Potong', status:'WIP', costState:'ESTIMATED', activeCost:48500, source:'SJ-260825-012' },
+  { id:'1069-027', material:'1069 Ori', supplier:'Sinaran', receivedAt:'24 Agu 2026', original:118, remaining:118, supplierReturned:0, reserved:118, location:'B-01-01', status:'Allocated', costState:'ACTUAL', activeCost:50750, source:'SJ-260824-009' },
+  { id:'1069-026', material:'1069 Ori', supplier:'Sinaran', receivedAt:'24 Agu 2026', original:107.5, remaining:33, supplierReturned:0, reserved:0, location:'B-01-02', status:'Available', costState:'ACTUAL', activeCost:50750, source:'SJ-260824-009' },
+  { id:'ZDK-018', material:'Zodiak KW', supplier:'Sumber Cahaya', receivedAt:'27 Agu 2026', original:103, remaining:103, supplierReturned:0, reserved:0, location:'C-02-01', status:'Available', costState:'ESTIMATED', activeCost:47600, source:'SJ-260827-021' },
+  { id:'CRB-007', material:'Corduroy 8W', supplier:'Mitra Tekstil', receivedAt:'22 Agu 2026', original:108, remaining:28.5, supplierReturned:18, reserved:0, location:'D-01-02', status:'Available', costState:'ACTUAL', activeCost:68400, source:'SJ-260822-006' },
 ]
 
 const accessories: Accessory[] = [
-  { id:'ACC-KNC-17', name:'Kancing Jeans 17 mm', category:'Kancing', supplier:'Inti Metal', unit:'pcs', physical:12480, reserved:3600, minimum:6000, avgCost:1850, location:'Aksesori A-01', status:'Aman', lastMovement:'Keluar ke Mandor Asep · 10:22' },
-  { id:'ACC-RVT-CU', name:'Rivet Copper', category:'Rivet', supplier:'Inti Metal', unit:'pcs', physical:7160, reserved:3480, minimum:5000, avgCost:940, location:'Aksesori A-02', status:'Menipis', lastMovement:'Keluar ke Mandor Dedi · 09:48' },
-  { id:'ACC-ZIP-14', name:'Resleting YKK 14 cm', category:'Resleting', supplier:'Sinar Zip', unit:'pcs', physical:4380, reserved:1680, minimum:2500, avgCost:7100, location:'Aksesori B-01', status:'Aman', lastMovement:'Terima PO-BELI-260827-018 · kemarin' },
-  { id:'ACC-HTG-WD', name:'Hangtag Widie', category:'Label & tag', supplier:'Cetak Jaya', unit:'pcs', physical:2260, reserved:1920, minimum:1500, avgCost:620, location:'Aksesori C-02', status:'Perlu pesan', lastMovement:'Reservasi POT-260828-041 · 09:42' },
-  { id:'ACC-KRT-32', name:'Karet Pinggang 32 mm', category:'Karet', supplier:'Maju Elastik', unit:'meter', physical:1860, reserved:420, minimum:900, avgCost:3950, location:'Aksesori B-03', status:'Aman', lastMovement:'Retur Mandor Asep · kemarin' },
-  { id:'ACC-LBL-VV', name:'Label Woven Vivo', category:'Label & tag', supplier:'Cetak Jaya', unit:'pcs', physical:3820, reserved:1120, minimum:2000, avgCost:780, location:'Aksesori C-01', status:'Aman', lastMovement:'Keluar ke Mandor Intan · kemarin' },
+  { id:'ACC-KNC-17', name:'Kancing Jeans 17 mm', category:'Kancing', supplier:'Inti Metal', unit:'pcs', physical:12480, reserved:3600, supplierReturned:0, minimum:6000, avgCost:1850, location:'Aksesori A-01', status:'Aman', lastMovement:'Keluar ke Mandor Asep · 10:22' },
+  { id:'ACC-RVT-CU', name:'Rivet Copper', category:'Rivet', supplier:'Inti Metal', unit:'pcs', physical:7160, reserved:3480, supplierReturned:480, minimum:5000, avgCost:940, location:'Aksesori A-02', status:'Menipis', lastMovement:'Retur supplier RTS-260827-012 · kemarin' },
+  { id:'ACC-ZIP-14', name:'Resleting YKK 14 cm', category:'Resleting', supplier:'Sinar Zip', unit:'pcs', physical:4380, reserved:1680, supplierReturned:0, minimum:2500, avgCost:7100, location:'Aksesori B-01', status:'Aman', lastMovement:'Terima PO-BELI-260827-018 · kemarin' },
+  { id:'ACC-HTG-WD', name:'Hangtag Widie', category:'Label & tag', supplier:'Cetak Jaya', unit:'pcs', physical:2260, reserved:1920, supplierReturned:240, minimum:1500, avgCost:620, location:'Aksesori C-02', status:'Perlu pesan', lastMovement:'Retur supplier RTS-260826-009 · 16:18' },
+  { id:'ACC-KRT-32', name:'Karet Pinggang 32 mm', category:'Karet', supplier:'Maju Elastik', unit:'meter', physical:1860, reserved:420, supplierReturned:0, minimum:900, avgCost:3950, location:'Aksesori B-03', status:'Aman', lastMovement:'Retur Mandor Asep · kemarin' },
+  { id:'ACC-LBL-VV', name:'Label Woven Vivo', category:'Label & tag', supplier:'Cetak Jaya', unit:'pcs', physical:3820, reserved:1120, supplierReturned:0, minimum:2000, avgCost:780, location:'Aksesori C-01', status:'Aman', lastMovement:'Keluar ke Mandor Intan · kemarin' },
+]
+
+const supplierReturnRecords: SupplierReturnRecord[] = [
+  { id:'RTS-260827-006', kind:'fabric', item:'Lucy · LCY-031', supplier:'Sinaran', qty:18.5, unit:'yd', happenedAt:'27 Agu 2026 · 16:20', status:'Posted' },
+  { id:'RTS-260827-004', kind:'fabric', item:'Corduroy 8W · CRB-007', supplier:'Mitra Tekstil', qty:18, unit:'yd', happenedAt:'27 Agu 2026 · 13:12', status:'Posted' },
+  { id:'RTS-260827-012', kind:'accessory', item:'Rivet Copper', supplier:'Inti Metal', qty:480, unit:'pcs', happenedAt:'27 Agu 2026 · 11:42', status:'Posted' },
+  { id:'RTS-260826-009', kind:'accessory', item:'Hangtag Widie', supplier:'Cetak Jaya', qty:240, unit:'pcs', happenedAt:'26 Agu 2026 · 16:18', status:'Posted' },
 ]
 
 const warehouseCases: WarehouseCase[] = [
@@ -130,10 +158,41 @@ function EmptyResult({ title, note }: { title: string; note: string }) {
   return <div className="wh-empty"><Filter/><strong>{title}</strong><small>{note}</small></div>
 }
 
+function SupplierReturnModal({ kind, target, onClose }: { kind: SupplierReturnTarget['kind']; target: SupplierReturnTarget | null; onClose: () => void }) {
+  const [mode,setMode] = useState<'full'|'partial'>(target?.kind === 'fabric' ? 'full' : 'partial')
+  const [quantityText,setQuantityText] = useState('')
+  const [reference,setReference] = useState('')
+  const [note,setNote] = useState('')
+  const [notice,setNotice] = useState('')
+  const records = supplierReturnRecords.filter((record)=>record.kind===kind)
+  const historyTotal = records.reduce((sum,record)=>sum+record.qty,0)
+  const typedQty = Number(quantityText.replace(',','.')) || 0
+  const qty = target ? mode==='full' ? target.maxQty : typedQty : 0
+  const invalidQty = !!target && (qty<=0 || qty>target.maxQty)
+  const afterQty = target ? target.maxQty+target.lockedQty-qty : 0
+  return <div className="wh-return-backdrop" role="presentation" onMouseDown={onClose}>
+    <section className="wh-return-modal" role="dialog" aria-modal="true" aria-labelledby="supplier-return-title" onMouseDown={(event)=>event.stopPropagation()}>
+      <header><div><span>SUPPLIER RETURN</span><h2 id="supplier-return-title">{target ? `Retur ${target.label}` : kind==='fabric' ? 'Riwayat Retur Kain' : 'Riwayat Retur Aksesori'}</h2><p>{target ? `${target.supplier} · ${target.location}` : 'Semua retur keluar ke supplier—bukan sisa produksi yang kembali dari mandor.'}</p></div><button aria-label="Tutup popup retur" onClick={onClose}><X/></button></header>
+      <div className="wh-return-summary"><Truck/><div><span>TOTAL RETURNED TO SUPPLIER</span><strong>{formatNumber(historyTotal)} {kind==='fabric'?'yd':'pcs'}</strong><small>{records.length} dokumen posted · lifetime</small></div></div>
+      {target&&<div className="wh-return-form">
+        <div className="wh-return-identity"><span><small>ITEM / ROLL</small><strong>{target.label}</strong><em>{target.id} · {target.supplier}</em></span><span><small>STOCK ON HAND</small><strong>{formatNumber(target.maxQty+target.lockedQty)} {target.unit}</strong><em>{target.lockedQty>0?`${formatNumber(target.lockedQty)} ${target.unit} allocated—tidak boleh diretur`:'Tidak ada alokasi aktif'}</em></span></div>
+        {target.kind==='fabric'&&<div className="wh-return-choice"><button className={mode==='full'?'active':''} onClick={()=>{setMode('full');setNotice('')}}><strong>Full sisa roll</strong><small>{formatNumber(target.maxQty)} yd available</small><Check/></button><button className={mode==='partial'?'active':''} onClick={()=>{setMode('partial');setNotice('')}}><strong>Retur sebagian</strong><small>Ketik yard yang dikirim</small><Check/></button></div>}
+        <div className="wh-return-fields"><label><span>QTY RETUR KE SUPPLIER</span><div><input autoFocus={mode==='partial'} inputMode="decimal" value={mode==='full'?String(target.maxQty).replace('.',','):quantityText} readOnly={mode==='full'} placeholder="0" onFocus={(event)=>event.currentTarget.select()} onChange={(event)=>{setQuantityText(event.target.value.replace(/[^0-9.,]/g,''));setNotice('')}}/><b>{target.unit}</b></div><small>Maksimum {formatNumber(target.maxQty)} {target.unit} yang tidak dialokasikan.</small></label><label><span>TANGGAL RETUR</span><input type="date" defaultValue="2026-08-28"/></label><label><span>REFERENSI / SURAT RETUR</span><input value={reference} onChange={(event)=>setReference(event.target.value)} placeholder="Contoh: RTS-260828-013"/></label></div>
+        <label className="wh-return-note"><span>ALASAN & KONDISI BARANG</span><textarea value={note} onChange={(event)=>setNote(event.target.value)} placeholder="Kenapa dikembalikan, kondisi fisik, dan siapa yang menyetujui?"/></label>
+        <div className="wh-return-equation"><span><small>STOCK ON HAND</small><strong>{formatNumber(target.maxQty+target.lockedQty)} {target.unit}</strong></span><i>−</i><span className="out"><small>RETURN TO SUPPLIER</small><strong>{formatNumber(qty)} {target.unit}</strong></span><i>=</i><span><small>STOCK AFTER</small><strong>{formatNumber(Math.max(0,afterQty))} {target.unit}</strong></span></div>
+        <div className="wh-return-guard"><ShieldCheck/><div><strong>Retur supplier mengurangi Stock On Hand.</strong><small>Sisa dari mandor yang kembali ke gudang adalah transaksi masuk berbeda dan tidak muncul di form ini.</small></div></div>
+        <button className="primary-btn wh-return-review" disabled={invalidQty||!reference.trim()||!note.trim()} onClick={()=>setNotice('Draft retur supplier siap direview. Prototype ini belum mengirim data ke backend.')}>Review retur supplier <ArrowRight/></button>
+        {notice&&<em className="wh-return-notice"><Check/> {notice}</em>}
+      </div>}
+      <section className="wh-return-history"><header><div><span>RETURN HISTORY</span><strong>{kind==='fabric'?'Kain & roll':'Aksesori'} yang sudah dikirim ke supplier</strong></div><small>Terbaru dulu</small></header><div className="wh-return-history-head"><span>Dokumen / tanggal</span><span>Barang</span><span>Supplier</span><span>Qty</span><span>Status</span></div>{records.map((record)=><article key={record.id}><span><strong>{record.id}</strong><small>{record.happenedAt}</small></span><strong>{record.item}</strong><span>{record.supplier}</span><b>− {formatNumber(record.qty)} {record.unit}</b><StatusBadge tone={record.status==='Posted'?'good':'warn'}>{record.status}</StatusBadge></article>)}</section>
+    </section>
+  </div>
+}
+
 export default function WarehousePages({ view, onNavigate }: { view: WarehouseView; onNavigate: (view: WarehouseView) => void }) {
   if (view === 'warehouse-dashboard') return <WarehouseDashboard onNavigate={onNavigate}/>
-  if (view === 'materials-rolls') return <MaterialsRollsPage onNavigate={onNavigate}/>
-  if (view === 'accessories') return <AccessoriesPage onNavigate={onNavigate}/>
+  if (view === 'materials-rolls') return <MaterialsRollsPage/>
+  if (view === 'accessories') return <AccessoriesPage/>
   if (view === 'fg-summary') return <FinishedGoodsSummaryPage/>
   if (view === 'stock-adjustment') return <Suspense fallback={<InventoryControlFallback/>}><StockAdjustmentPage/></Suspense>
   return <Suspense fallback={<InventoryControlFallback/>}><BrandConversionPage/></Suspense>
@@ -151,11 +210,11 @@ function WarehouseDashboard({ onNavigate }: { onNavigate: (view: WarehouseView) 
     { time:'08:12', title:'Retur mandor', meta:'Lucy · LCY-029', amount:'18,5 yd', tone:'in' },
   ]
   return <>
-    <section className="hero-copy compact wh-hero"><div><div className="eyebrow">GUDANG · HARI INI</div><h1>Barang kebaca sebelum dicari.</h1><p>Satu layar untuk melihat bahan, roll, aksesori, barang jadi, dan kasus yang belum beres—dengan jejak Total Received, Used, Returned, dan Stock On Hand yang jelas.</p></div><div className="wh-updated"><span><ShieldCheck/> LEDGER READ-ONLY</span><strong>Terakhir sinkron 10:24</strong><small>Prototype frontend · belum posting ke backend</small></div></section>
-    <section className="wh-metrics"><MetricCard label="Fabric Stock On Hand" value="8.848,5 yd" note="83 roll aktif" tone="good" icon={Ruler}/><MetricCard label="Accessory Stock On Hand" value="31.960 unit" note="2 item di bawah minimum" tone="warn" icon={Package}/><MetricCard label="FG Ready to Sell" value="1.074 pcs" note="8 SKU · 2 lokasi" tone="good" icon={PackageCheck}/><MetricCard label="Need Review" value="3 kasus" note="Retur, opname, penyesuaian" tone="danger" icon={ClipboardCheck}/></section>
+    <section className="hero-copy compact wh-hero"><div><div className="eyebrow">GUDANG · HARI INI</div><h1>Barang kebaca sebelum dicari.</h1><p>Satu layar untuk melihat bahan, roll, aksesori, barang jadi, dan kasus yang belum beres—dengan jejak Total Received, Used, Returned to Supplier, dan Stock On Hand yang jelas.</p></div><div className="wh-updated"><span><ShieldCheck/> LEDGER READ-ONLY</span><strong>Terakhir sinkron 10:24</strong><small>Prototype frontend · belum posting ke backend</small></div></section>
+    <section className="wh-metrics"><MetricCard label="Fabric Stock On Hand" value="8.775,5 yd" note="83 roll aktif" tone="good" icon={Ruler}/><MetricCard label="Accessory Stock On Hand" value="31.960 unit" note="2 item di bawah minimum" tone="warn" icon={Package}/><MetricCard label="FG Ready to Sell" value="1.074 pcs" note="8 SKU · 2 lokasi" tone="good" icon={PackageCheck}/><MetricCard label="Need Review" value="3 kasus" note="Retur, opname, penyesuaian" tone="danger" icon={ClipboardCheck}/></section>
     <section className="wh-dashboard-grid">
       <div className="panel wh-zone-panel"><header><div><span>AREA GUDANG</span><h2>Buka dari pekerjaan fisiknya</h2><p>Angka tersedia sudah dikurangi reservasi aktif.</p></div><Warehouse/></header><div className="wh-zone-grid">
-        <button onClick={()=>onNavigate('materials-rolls')}><i className="blue"><Ruler/></i><span><small>KAIN</small><strong>Bahan & Roll</strong><em>83 roll · lifetime movement</em></span><b>8.848,5 yd on hand</b><ArrowRight/></button>
+        <button onClick={()=>onNavigate('materials-rolls')}><i className="blue"><Ruler/></i><span><small>KAIN</small><strong>Bahan & Roll</strong><em>83 roll · lifetime movement</em></span><b>8.775,5 yd on hand</b><ArrowRight/></button>
         <button onClick={()=>onNavigate('accessories')}><i className="violet"><Boxes/></i><span><small>KOMPONEN</small><strong>Aksesori</strong><em>6 item aktif · per unit</em></span><b>31.960 unit on hand</b><ArrowRight/></button>
         <button onClick={()=>onNavigate('fg-summary')}><i className="green"><PackageCheck/></i><span><small>BARANG JADI</small><strong>Ringkasan FG</strong><em>Per merek, SKU, size, grade</em></span><b>1.074 pcs Good</b><ArrowRight/></button>
         <button onClick={()=>onNavigate('stock-adjustment')}><i className="amber"><SlidersHorizontal/></i><span><small>PHYSICAL CONTROL</small><strong>Stock Adjustment</strong><em>Hilang, rusak, bencana, surplus</em></span><b>3 open cases</b><ArrowRight/></button>
@@ -167,39 +226,44 @@ function WarehouseDashboard({ onNavigate }: { onNavigate: (view: WarehouseView) 
   </>
 }
 
-function MaterialsRollsPage({ onNavigate }: { onNavigate: (view: WarehouseView) => void }) {
+function MaterialsRollsPage() {
   const [query,setQuery] = useState('')
   const [supplier,setSupplier] = useState('Semua')
   const [status,setStatus] = useState('Semua')
   const [selectedId,setSelectedId] = useState(materials[0].id)
+  const [returnModalOpen,setReturnModalOpen] = useState(false)
+  const [returnTarget,setReturnTarget] = useState<SupplierReturnTarget|null>(null)
   const selected = materials.find((item)=>item.id===selectedId) ?? materials[0]
   const visibleMaterials = useMemo(()=>materials.filter((item)=>`${item.material} ${item.supplier} ${item.location}`.toLowerCase().includes(query.toLowerCase()) && (supplier==='Semua'||item.supplier===supplier) && (status==='Semua'||item.status===status)),[query,supplier,status])
   const visibleRolls = fabricRolls.filter((roll)=>roll.material===selected.material)
   const estimatedCount = visibleRolls.filter((roll)=>roll.costState==='ESTIMATED').length
   return <>
-    <section className="hero-copy compact wh-hero"><div><div className="eyebrow">GUDANG · RAW MATERIAL</div><h1>Bahan & Roll</h1><p>Pilih bahan dulu, lalu telusuri setiap gulung melalui alur lifetime: Total Received − Used + Returned = Stock On Hand.</p></div><div className="wh-rule"><Ruler/><div><span>ATURAN UTAMA</span><strong>Saldo kain tetap per roll</strong><small>Split pemakaian tidak membuat nomor roll baru; sisanya tetap di roll asal.</small></div></div></section>
-    <div className="wh-context-control"><div><History/><span><strong>Perlu cek retur atau selisih fisik kain?</strong><small>Riwayat tetap satu ledger, dibuka dari konteks Bahan & Roll.</small></span></div><button onClick={()=>onNavigate('stock-adjustment')}>Cek retur & adjustment <ArrowRight/></button></div>
-    <section className="wh-metrics"><MetricCard label="Total Received" value="9.893,5 yd" note="Seluruh penerimaan lifetime" icon={Layers3}/><MetricCard label="Used" value="1.081,5 yd" note="Sudah keluar untuk produksi" tone="warn" icon={Tag}/><MetricCard label="Returned" value="36,5 yd" note="Kembali dan diterima gudang" tone="good" icon={RotateCcw}/><MetricCard label="Stock On Hand" value="8.848,5 yd" note="Received − Used + Returned" tone="good" icon={Check}/></section>
+    <section className="hero-copy compact wh-hero"><div><div className="eyebrow">GUDANG · RAW MATERIAL</div><h1>Bahan & Roll</h1><p>Pilih bahan dulu, lalu telusuri setiap gulung melalui alur lifetime: Total Received − Used − Returned to Supplier = Stock On Hand.</p></div><div className="wh-rule"><Ruler/><div><span>ATURAN UTAMA</span><strong>Saldo kain tetap per roll</strong><small>Split pemakaian tidak membuat nomor roll baru; sisanya tetap di roll asal.</small></div></div></section>
+    <div className="wh-context-control"><div><History/><span><strong>Perlu cek retur kain ke supplier?</strong><small>Retur supplier dipisahkan dari adjustment dan dari sisa yang kembali oleh mandor.</small></span></div><button onClick={()=>{setReturnTarget(null);setReturnModalOpen(true)}}>Cek retur <ArrowRight/></button></div>
+    <section className="wh-metrics"><MetricCard label="Total Received" value="9.893,5 yd" note="Seluruh penerimaan lifetime" icon={Layers3}/><MetricCard label="Used" value="1.081,5 yd" note="Sudah keluar untuk produksi" tone="warn" icon={Tag}/><MetricCard label="Returned to Supplier" value="36,5 yd" note="Keluar kembali ke supplier" tone="danger" icon={RotateCcw}/><MetricCard label="Stock On Hand" value="8.775,5 yd" note="Received − Used − Supplier Return" tone="good" icon={Check}/></section>
     <div className="panel wh-workspace">
       <div className="wh-toolbar"><SearchBox value={query} onChange={setQuery} placeholder="Cari bahan, pabrik, atau lokasi..."/><SelectFilter label="Pabrik" value={supplier} options={[...new Set(materials.map((item)=>item.supplier))]} onChange={setSupplier}/><SelectFilter label="Status" value={status} options={[...new Set(materials.map((item)=>item.status))]} onChange={setStatus}/><button className="wh-reset" onClick={()=>{setQuery('');setSupplier('Semua');setStatus('Semua')}}><RotateCcw/> Reset</button></div>
       <div className="wh-master-detail">
         <aside className="wh-browser"><header><div><span>BROWSE BAHAN</span><strong>{visibleMaterials.length} bahan tampil</strong></div><small>Klik untuk buka roll</small></header><div className="wh-browser-list">{visibleMaterials.map((item)=><button key={item.id} className={selected.id===item.id?'active':''} onClick={()=>setSelectedId(item.id)}><span className="wh-index">{String(materials.indexOf(item)+1).padStart(2,'0')}</span><div><strong>{item.material}</strong><small>{item.supplier} · {item.location}</small><em>{item.availableRolls} dari {item.totalRolls} roll aktif</em></div><b>{formatNumber(item.stockOnHandYards)} yd</b><StatusBadge>{item.status}</StatusBadge></button>)}{visibleMaterials.length===0&&<EmptyResult title="Bahan tidak ditemukan" note="Ubah pencarian atau reset filter."/>}</div></aside>
         <main className="wh-detail"><header className="wh-detail-head"><div><span>BAHAN TERPILIH</span><h2>{selected.material}</h2><p>{selected.supplier} · {selected.location} · {selected.id}</p></div><div className="wh-detail-total"><span>STOCK ON HAND</span><strong>{formatNumber(selected.stockOnHandYards)} yd</strong><small>{money(selected.avgCost)} / yd moving average</small></div></header>
-          <div className="wh-balance-equation lifetime"><span><small>TOTAL RECEIVED</small><strong>{formatNumber(selected.totalReceivedYards)} yd</strong></span><i>−</i><span className="used"><small>USED</small><strong>{formatNumber(selected.usedYards)} yd</strong></span><i>+</i><span className="returned"><small>RETURNED</small><strong>{formatNumber(selected.returnedYards)} yd</strong></span><i>=</i><span className="available"><small>STOCK ON HAND</small><strong>{formatNumber(selected.stockOnHandYards)} yd</strong></span></div>
+          <div className="wh-balance-equation lifetime"><span><small>TOTAL RECEIVED</small><strong>{formatNumber(selected.totalReceivedYards)} yd</strong></span><i>−</i><span className="used"><small>USED</small><strong>{formatNumber(selected.usedYards)} yd</strong></span><i>−</i><span className="returned"><small>RETURNED TO SUPPLIER</small><strong>{formatNumber(selected.supplierReturnedYards)} yd</strong></span><i>=</i><span className="available"><small>STOCK ON HAND</small><strong>{formatNumber(selected.stockOnHandYards)} yd</strong></span></div>
           {estimatedCount>0&&<div className="wh-inline-note warn"><FileClock/><div><strong>{estimatedCount} roll masih memakai harga benchmark</strong><small>Stok dan HPP boleh berjalan, tetapi histori benchmark tetap terlihat sampai kasbon actual cocok.</small></div></div>}
           <div className="wh-roll-head"><div><span>ROLL AKTIF</span><strong>{visibleRolls.length} gulung untuk {selected.material}</strong></div><small>Urut penerimaan terbaru</small></div>
-          <div className="wh-roll-list">{visibleRolls.map((roll)=>{const used=Math.max(0,roll.original+roll.returned-roll.remaining);return <article key={roll.id}><header><div className="wh-roll-id"><i><Ruler/></i><div><strong>{roll.id}</strong><small>{roll.source} · {roll.receivedAt}</small></div></div><div><StatusBadge>{roll.status}</StatusBadge><StatusBadge tone={statusTone(roll.costState)}>{roll.costState}</StatusBadge></div></header><div className="wh-roll-numbers lifetime"><span><small>TOTAL RECEIVED</small><strong>{formatNumber(roll.original)}</strong></span><span className="used"><small>USED</small><strong>{formatNumber(used)}</strong></span><span className="returned"><small>RETURNED</small><strong>{formatNumber(roll.returned)}</strong></span><span className="available"><small>STOCK ON HAND</small><strong>{formatNumber(roll.remaining)} yd</strong></span></div><div className="wh-roll-progress"><span style={{width:`${Math.min(100,(roll.remaining/Math.max(roll.original,1))*100)}%`}}/></div><footer><span><MapPin/> {roll.location}</span><span>{roll.reserved>0?`${formatNumber(roll.reserved)} yd allocated · `:''}{money(roll.activeCost)} / yd aktif</span><button>Riwayat roll <ArrowRight/></button></footer></article>})}</div>
+          <div className="wh-roll-list">{visibleRolls.map((roll)=>{const used=Math.max(0,roll.original-roll.supplierReturned-roll.remaining);const returnable=Math.max(0,roll.remaining-roll.reserved);return <article key={roll.id}><header><div className="wh-roll-id"><i><Ruler/></i><div><strong>{roll.id}</strong><small>{roll.source} · {roll.receivedAt}</small></div></div><div><StatusBadge>{roll.status}</StatusBadge><StatusBadge tone={statusTone(roll.costState)}>{roll.costState}</StatusBadge></div></header><div className="wh-roll-numbers lifetime"><span><small>TOTAL RECEIVED</small><strong>{formatNumber(roll.original)} yd</strong></span><span className="used"><small>USED</small><strong>{formatNumber(used)} yd</strong></span><span className="returned"><small>RETURNED TO SUPPLIER</small><strong>{formatNumber(roll.supplierReturned)} yd</strong></span><span className="reserved"><small>ALLOCATED</small><strong>{formatNumber(roll.reserved)} yd</strong></span><span className="available"><small>STOCK ON HAND</small><strong>{formatNumber(roll.remaining)} yd</strong></span></div><div className="wh-roll-progress"><span style={{width:`${Math.min(100,(roll.remaining/Math.max(roll.original,1))*100)}%`}}/></div><footer><span><MapPin/> {roll.location}</span><span>{money(roll.activeCost)} / yd aktif</span><div className="wh-roll-actions"><button>Riwayat roll <ArrowRight/></button><button className="return" disabled={returnable<=0} title={returnable<=0?'Seluruh sisa roll sedang dialokasikan':'Retur penuh atau sebagian ke supplier'} onClick={()=>{setReturnTarget({kind:'fabric',id:roll.id,label:`${roll.material} · ${roll.id}`,supplier:roll.supplier,unit:'yd',maxQty:returnable,lockedQty:roll.reserved,location:roll.location});setReturnModalOpen(true)}}><RotateCcw/> {returnable<=0?'Terkunci':'Retur supplier'}</button></div></footer></article>})}</div>
         </main>
       </div>
     </div>
+    {returnModalOpen&&<SupplierReturnModal key={returnTarget?.id??'fabric-history'} kind="fabric" target={returnTarget} onClose={()=>setReturnModalOpen(false)}/>} 
   </>
 }
 
-function AccessoriesPage({ onNavigate }: { onNavigate: (view: WarehouseView) => void }) {
+function AccessoriesPage() {
   const [query,setQuery] = useState('')
   const [category,setCategory] = useState('Semua')
   const [status,setStatus] = useState('Semua')
   const [selectedId,setSelectedId] = useState(accessories[0].id)
+  const [returnModalOpen,setReturnModalOpen] = useState(false)
+  const [returnTarget,setReturnTarget] = useState<SupplierReturnTarget|null>(null)
   const visible = useMemo(()=>accessories.filter((item)=>`${item.name} ${item.category} ${item.supplier} ${item.id}`.toLowerCase().includes(query.toLowerCase()) && (category==='Semua'||item.category===category) && (status==='Semua'||item.status===status)),[query,category,status])
   const selected = accessories.find((item)=>item.id===selectedId) ?? accessories[0]
   const available = selected.physical-selected.reserved
@@ -211,19 +275,20 @@ function AccessoriesPage({ onNavigate }: { onNavigate: (view: WarehouseView) => 
   ]
   return <>
     <section className="hero-copy compact wh-hero"><div><div className="eyebrow">GUDANG · KOMPONEN</div><h1>Aksesori</h1><p>Qty langsung per unit. Stock On Hand, Allocated to Production, Ready to Issue, minimum stok, dan moving average terlihat tanpa memaksa aksesori mengikuti bentuk roll.</p></div><div className="wh-rule"><Boxes/><div><span>POLA INPUT</span><strong>Qty langsung, bukan gulungan</strong><small>PCS, meter, set, atau unit master item.</small></div></div></section>
-    <div className="wh-context-control"><div><History/><span><strong>Perlu cek retur atau selisih fisik aksesori?</strong><small>Browse retur mandor dan adjustment tanpa meninggalkan alur gudang.</small></span></div><button onClick={()=>onNavigate('stock-adjustment')}>Cek retur & adjustment <ArrowRight/></button></div>
-    <section className="wh-metrics"><MetricCard label="Stock On Hand" value="31.960 unit" note="Saldo fisik seluruh item" icon={Package}/><MetricCard label="Allocated to Production" value="12.220 unit" note="Sudah punya tujuan produksi" tone="warn" icon={Tag}/><MetricCard label="Ready to Issue" value="19.740 unit" note="On hand dikurangi allocated" tone="good" icon={Check}/><MetricCard label="Below Minimum" value="2 item" note="Rivet & hangtag" tone="danger" icon={AlertTriangle}/></section>
+    <div className="wh-context-control"><div><History/><span><strong>Perlu cek retur aksesori ke supplier?</strong><small>Riwayat retur keluar dipisahkan dari adjustment dan retur sisa produksi oleh mandor.</small></span></div><button onClick={()=>{setReturnTarget(null);setReturnModalOpen(true)}}>Cek retur <ArrowRight/></button></div>
+    <section className="wh-metrics"><MetricCard label="Stock On Hand" value="31.960 unit" note="Saldo fisik seluruh item" icon={Package}/><MetricCard label="Allocated to Production" value="12.220 unit" note="Sudah punya tujuan produksi" tone="warn" icon={Tag}/><MetricCard label="Ready to Issue" value="19.740 unit" note="On hand dikurangi allocated" tone="good" icon={Check}/><MetricCard label="Returned to Supplier" value="720 pcs" note="2 dokumen retur supplier" tone="danger" icon={RotateCcw}/></section>
     <div className="panel wh-workspace">
       <div className="wh-toolbar"><SearchBox value={query} onChange={setQuery} placeholder="Cari aksesori, kode, supplier..."/><SelectFilter label="Kategori" value={category} options={[...new Set(accessories.map((item)=>item.category))]} onChange={setCategory}/><SelectFilter label="Status" value={status} options={[...new Set(accessories.map((item)=>item.status))]} onChange={setStatus}/><button className="wh-reset" onClick={()=>{setQuery('');setCategory('Semua');setStatus('Semua')}}><RotateCcw/> Reset</button></div>
       <div className="wh-master-detail accessory">
-        <aside className="wh-browser"><header><div><span>BROWSE AKSESORI</span><strong>{visible.length} item tampil</strong></div><small>Urut status stok</small></header><div className="wh-browser-list">{visible.map((item)=>{const itemAvailable=item.physical-item.reserved;return <button key={item.id} className={selected.id===item.id?'active':''} onClick={()=>setSelectedId(item.id)}><span className="wh-index"><Package/></span><div><strong>{item.name}</strong><small>{item.id} · {item.category}</small><em>{item.supplier} · {item.location}</em></div><b>{formatNumber(itemAvailable,0)} {item.unit}</b><StatusBadge>{item.status}</StatusBadge></button>})}{visible.length===0&&<EmptyResult title="Aksesori tidak ditemukan" note="Coba kategori lain atau reset filter."/>}</div></aside>
+        <aside className="wh-browser"><header><div><span>BROWSE AKSESORI</span><strong>{visible.length} item tampil</strong></div><small>Urut status stok</small></header><div className="wh-browser-list wh-accessory-browser">{visible.map((item)=>{const itemAvailable=item.physical-item.reserved;return <article key={item.id} className={selected.id===item.id?'active':''}><button className="wh-accessory-select" onClick={()=>setSelectedId(item.id)}><span className="wh-index"><Package/></span><div><strong>{item.name}</strong><small>{item.id} · {item.category}</small><em>{item.supplier} · {item.location}</em></div><b>{formatNumber(itemAvailable,0)} {item.unit}</b><StatusBadge>{item.status}</StatusBadge></button><button className="wh-accessory-return" disabled={itemAvailable<=0} onClick={()=>{setSelectedId(item.id);setReturnTarget({kind:'accessory',id:item.id,label:item.name,supplier:item.supplier,unit:item.unit,maxQty:itemAvailable,lockedQty:item.reserved,location:item.location});setReturnModalOpen(true)}}><RotateCcw/> Retur supplier</button></article>})}{visible.length===0&&<EmptyResult title="Aksesori tidak ditemukan" note="Coba kategori lain atau reset filter."/>}</div></aside>
         <main className="wh-detail"><header className="wh-detail-head"><div><span>ITEM TERPILIH</span><h2>{selected.name}</h2><p>{selected.id} · {selected.category} · {selected.supplier}</p></div><div className="wh-detail-total"><span>READY TO ISSUE</span><strong>{formatNumber(available,0)} {selected.unit}</strong><small>{money(selected.avgCost)} / {selected.unit} moving average</small></div></header>
-          <div className="wh-accessory-facts"><div><MapPin/><span><small>LOCATION</small><strong>{selected.location}</strong></span></div><div><Boxes/><span><small>STOCK ON HAND</small><strong>{formatNumber(selected.physical,0)} {selected.unit}</strong></span></div><div><Tag/><span><small>ALLOCATED</small><strong>{formatNumber(selected.reserved,0)} {selected.unit}</strong></span></div><div className={coverage<1?'danger':'good'}><ShieldCheck/><span><small>MINIMUM</small><strong>{formatNumber(selected.minimum,0)} {selected.unit}</strong></span></div></div>
+          <div className="wh-accessory-facts"><div><MapPin/><span><small>LOCATION</small><strong>{selected.location}</strong></span></div><div><Boxes/><span><small>STOCK ON HAND</small><strong>{formatNumber(selected.physical,0)} {selected.unit}</strong></span></div><div><Tag/><span><small>ALLOCATED</small><strong>{formatNumber(selected.reserved,0)} {selected.unit}</strong></span></div><div className="returned"><RotateCcw/><span><small>RETURNED TO SUPPLIER</small><strong>{formatNumber(selected.supplierReturned,0)} {selected.unit}</strong></span></div><div className={coverage<1?'danger':'good'}><ShieldCheck/><span><small>MINIMUM</small><strong>{formatNumber(selected.minimum,0)} {selected.unit}</strong></span></div></div>
           <div className={`wh-stock-health ${coverage<1?'danger':coverage<1.5?'warn':'good'}`}><div><span>STOCK HEALTH</span><strong>{coverage<1?'Below minimum':coverage<1.5?'Near minimum':'Safe for active demand'}</strong><small>Ready to Issue {formatNumber(available,0)} dibanding minimum {formatNumber(selected.minimum,0)} {selected.unit}.</small></div><b>{Math.round(coverage*100)}%</b></div>
           <section className="wh-mini-ledger"><header><div><span>MUTASI TERAKHIR</span><strong>{selected.lastMovement}</strong></div><button>Semua riwayat <ArrowRight/></button></header><div className="wh-mini-ledger-head"><span>Waktu / ref</span><span>Keterangan</span><span>Mutasi</span><span>Saldo fisik</span></div>{movementRows.map((row)=><article key={row.ref}><span><strong>{row.ref}</strong><small>{row.date}</small></span><span>{row.note}</span><b className={row.delta<0?'negative':row.delta>0?'positive':''}>{row.delta>0?'+':''}{formatNumber(row.delta,0)} {selected.unit}</b><strong>{formatNumber(row.balance,0)} {selected.unit}</strong></article>)}</section>
         </main>
       </div>
     </div>
+    {returnModalOpen&&<SupplierReturnModal key={returnTarget?.id??'accessory-history'} kind="accessory" target={returnTarget} onClose={()=>setReturnModalOpen(false)}/>} 
   </>
 }
 
