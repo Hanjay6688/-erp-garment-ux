@@ -14,6 +14,7 @@ import './workflow-refinements.css'
 import './laundry.css'
 import './workspace-refinements.css'
 import './ux-corrections.css'
+import './wip-control.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
