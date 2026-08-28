@@ -31,7 +31,7 @@ type Props = {
 
 const receiptLines:ReceiptLine[] = [
   {id:'line-0098-01',receipt:'RCV-RM-260826-0098',receivedAt:'26 Agu 2026 · 09:42',purchaseItemId:'PUR-ITEM-0098-01',item:'Kain Lucy · Navy',unit:'yard',received:360,invoiced:40,estimatedUnitPrice:51_500},
-  {id:'line-0101-01',receipt:'RCV-RM-260827-0101',receivedAt:'27 Agu 2026 · 11:18',purchaseItemId:'PUR-ITEM-0101-01',item:'Kain Lucy · Maroon',unit:'yard',received:300,invoiced:0,estimatedUnitPrice:54_000},
+  {id:'line-0101-01',receipt:'RCV-RM-260827-0101',receivedAt:'27 Agu 2026 · 11:18',purchaseItemId:'PUR-ITEM-0101-01',item:'Kain Lucy · Maroon',unit:'meter',received:274,invoiced:0,estimatedUnitPrice:59_100},
 ]
 
 const money=(value:number)=>new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(value)
@@ -80,7 +80,7 @@ export default function SupplierInvoiceMatchModal({grniNumber,supplier,purchaseR
           <label><span>JATUH TEMPO</span><input type="date" value={dueDate} onChange={(event)=>setDueDate(event.target.value)}/></label>
         </section>
         <section className="simatch-lines">
-          <div className="simatch-lines-title"><div><span>RECEIPT YANG BISA DI-MATCH</span><strong>Satu invoice boleh mengambil beberapa receipt dan partial qty</strong></div><Link2/></div>
+          <div className="simatch-lines-title"><div><span>RECEIPT YANG BISA DI-MATCH</span><strong>Qty dan UOM mengikuti receipt; satu invoice boleh partial dan multi-receipt</strong></div><Link2/></div>
           <div className="simatch-line-head"><span>Pilih / receipt</span><span>Barang & sisa</span><span>Qty invoice</span><span>Harga final</span><span>Diskon baris</span><span>Net</span></div>
           {receiptLines.map((line)=>{const draft=rows[line.id];const remaining=line.received-line.invoiced;const qty=Math.min(remaining,digits(draft.qty));const price=digits(draft.price);const discount=Math.min(qty*price,digits(draft.discount));return <article className={draft.selected?'selected':''} key={line.id}>
             <label className="simatch-check"><input type="checkbox" checked={draft.selected} onChange={(event)=>update(line.id,'selected',event.target.checked)}/><i>{draft.selected&&<Check/>}</i><span><strong>{line.receipt}</strong><small>{line.receivedAt}</small></span></label>
