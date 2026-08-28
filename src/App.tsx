@@ -349,6 +349,7 @@ function App() {
   const [wipReverseNotice,setWipReverseNotice] = useState<string|null>(null)
   const [qcSeedId,setQcSeedId] = useState('POT-260826-041::041-02')
   const [qcResult,setQcResult] = useState<QcFinalResult|null>(null)
+  const [finalizedQcResults,setFinalizedQcResults] = useState<QcFinalResult[]>([])
   const [bsPrefill,setBsPrefill] = useState<QcFinalResult|null>(null)
 
   useEffect(()=>{
@@ -498,12 +499,11 @@ function App() {
             const batch=parent?.batches.find((item)=>item.id===batchId)
             if(!parent||!batch)return
             setQcSeedId(`${parentId}::${batchId}`)
-            setQcResult(null)
             setPage('qc')
           }}
         />}
-        {page === 'qc' && <QcFinalPage seeds={buildQcSeeds(laundryDeliveries)} initialSeedId={qcSeedId} onBack={()=>setPage('sewing-wip')} onFinish={(result)=>{setQcResult(result);setPage('fg-handoff')}} />}
-        {page === 'fg-handoff' && qcResult && <FgPayrollHandoffPage result={qcResult} onBack={()=>setPage('qc')} onOpenBs={()=>{setBsPrefill(qcResult);setPage('bs-rework')}} />}
+        {page === 'qc' && <QcFinalPage seeds={buildQcSeeds(laundryDeliveries)} initialSeedId={qcSeedId} finalizedResults={finalizedQcResults} onBack={()=>setPage('sewing-wip')} onFinish={(result)=>{setFinalizedQcResults((current)=>{const key=`${result.parentId}::${result.batchId}`;return current.some((item)=>`${item.parentId}::${item.batchId}`===key)?current.map((item)=>`${item.parentId}::${item.batchId}`===key?result:item):[result,...current]});setQcResult(result)}} onOpenNota={(result)=>{setQcResult(result);setPage('fg-handoff')}} />}
+        {page === 'fg-handoff' && qcResult && <FgPayrollHandoffPage result={qcResult} eligibleResults={finalizedQcResults} onBack={()=>{setQcSeedId(`${qcResult.parentId}::${qcResult.batchId}`);setPage('qc')}} onOpenBs={()=>{setBsPrefill(qcResult);setPage('bs-rework')}} />}
         {page === 'bs-rework' && <BsReworkPage initialResult={bsPrefill} onBack={()=>setPage(bsPrefill?'fg-handoff':'sewing-wip')} />}
         {page === 'laundry' && <LaundryPage
           prefill={laundryPrefill}
@@ -1366,22 +1366,40 @@ const laborBomComponents = [
   {id:'hangtag',name:'Hangtag / label',rate:600,required:false,note:'Label dan hangtag final'},
   {id:'lipat',name:'Lipat akhir',rate:400,required:false,note:'Lipat dan susun serah gudang'},
 ]
-function FgPayrollHandoffPage({result,onBack,onOpenBs}:{result:QcFinalResult;onBack:()=>void;onOpenBs:()=>void}) {
-  const [regularIds,setRegularIds]=useState<string[]>(['current'])
+function FgPayrollHandoffPage({result,eligibleResults,onBack,onOpenBs}:{result:QcFinalResult;eligibleResults:QcFinalResult[];onBack:()=>void;onOpenBs:()=>void}) {
+  const currentId=`qc-${result.parentId}-${result.batchId}`
+  const [regularIds,setRegularIds]=useState<string[]>([])
   const [repairIds,setRepairIds]=useState<string[]>([])
   const [noteReviewed,setNoteReviewed]=useState(false)
-  const [note,setNote]=useState('Hasil QC sudah dikunci. BS dan hold mengurangi qty eligible pada pekerjaan FG asal.')
+  const [note,setNote]=useState('Nilai FG reguler memakai Total Pulang × harga lengkap, lalu dikurangi BS × komponen yang ditandai untuk Bikin Bagus.')
   const [noteStatus,setNoteStatus]=useState<'DRAFT'|'POSTED'>('DRAFT')
   const expectedTotal=result.expected.reduce((sum,value)=>sum+value,0)
-  const receivedTotal=result.qcGood.reduce((sum,value)=>sum+value,0)
+  const goodTotal=result.qcGood.reduce((sum,value)=>sum+value,0)
   const outstanding=result.stuckBySize.reduce((sum,value)=>sum+value,0)
   const bsTotal=result.qcBs.reduce((sum,value)=>sum+value,0)
   const rewashTotal=result.rewash.reduce((sum,value)=>sum+value,0)
+  const returnedTotal=goodTotal+bsTotal+rewashTotal
   const standardRate=laborBomComponents.reduce((sum,component)=>sum+component.rate,0)
-  const regularCards=[
-    {id:'current',source:`${result.parentId} · Batch ${result.batchId}`,sku:`${result.brand} · ${result.finalSku}`,qcQty:expectedTotal,good:receivedTotal,bs:bsTotal,rewash:rewashTotal,hold:outstanding,sewingRate:14_050,commissionRate:1_800,bomRate:Math.max(0,standardRate-15_850),subtotal:receivedTotal*standardRate,current:true},
-    {id:'eligible-previous',source:'POT-260827-042 · Batch 042-01',sku:'Widie · 73005',qcQty:76,good:72,bs:2,rewash:0,hold:2,sewingRate:13_400,commissionRate:1_650,bomRate:2_750,subtotal:72*17_800,current:false},
-  ]
+  const selectedBsComponents=laborBomComponents.filter((component)=>['finishing-detail','kancing','lipat'].includes(component.id))
+  const bsDeductionRate=selectedBsComponents.reduce((sum,component)=>sum+component.rate,0)
+  const cardsFromQc=eligibleResults.filter((item)=>item.mandor===result.mandor).map((item)=>{
+    const good=item.qcGood.reduce((sum,value)=>sum+value,0)
+    const bs=item.qcBs.reduce((sum,value)=>sum+value,0)
+    const rewash=item.rewash.reduce((sum,value)=>sum+value,0)
+    const hold=item.stuckBySize.reduce((sum,value)=>sum+value,0)
+    const returned=good+bs+rewash
+    const components=bs>0?selectedBsComponents:[]
+    const deductionRate=components.reduce((sum,component)=>sum+component.rate,0)
+    const gross=returned*standardRate
+    const deduction=bs*deductionRate
+    return {id:`qc-${item.parentId}-${item.batchId}`,source:`${item.parentId} · Batch ${item.batchId}`,sku:`${item.brand} · ${item.finalSku}`,returned,good,bs,rewash,hold,sewingRate:14_050,commissionRate:1_800,bomRate:Math.max(0,standardRate-15_850),bsComponents:components,gross,deduction,subtotal:gross-deduction,current:`${item.parentId}::${item.batchId}`===`${result.parentId}::${result.batchId}`}
+  })
+  const demoComponents=laborBomComponents.filter((component)=>['finishing-detail','kancing'].includes(component.id))
+  const demoRate=17_800
+  const demoGross=74*demoRate
+  const demoDeduction=2*demoComponents.reduce((sum,component)=>sum+component.rate,0)
+  const regularCards=cardsFromQc.some((card)=>card.id===currentId)?cardsFromQc:[{id:currentId,source:`${result.parentId} · Batch ${result.batchId}`,sku:`${result.brand} · ${result.finalSku}`,returned:returnedTotal,good:goodTotal,bs:bsTotal,rewash:rewashTotal,hold:outstanding,sewingRate:14_050,commissionRate:1_800,bomRate:Math.max(0,standardRate-15_850),bsComponents:bsTotal>0?selectedBsComponents:[],gross:returnedTotal*standardRate,deduction:bsTotal*bsDeductionRate,subtotal:returnedTotal*standardRate-bsTotal*bsDeductionRate,current:true},...cardsFromQc]
+  if(!regularCards.some((card)=>card.id==='eligible-previous'))regularCards.push({id:'eligible-previous',source:'POT-260827-042 · Batch 042-01',sku:'Widie · 73005',returned:74,good:72,bs:2,rewash:0,hold:2,sewingRate:13_400,commissionRate:1_650,bomRate:2_750,bsComponents:demoComponents,gross:demoGross,deduction:demoDeduction,subtotal:demoGross-demoDeduction,current:false})
   const repairCards=[
     {id:'repair-ready',source:'BS-260827-018 · QC ulang lulus',sku:'Vivo · 73003',qty:5,components:[{name:'Ceming / finishing detail',rate:2_500},{name:'Kancing',rate:500},{name:'Lipat akhir',rate:400}],unitRate:3_400,subtotal:17_000},
   ]
@@ -1391,35 +1409,36 @@ function FgPayrollHandoffPage({result,onBack,onOpenBs}:{result:QcFinalResult;onB
   const repairSubtotal=selectedRepair.reduce((sum,card)=>sum+card.subtotal,0)
   const noteTotal=regularSubtotal+repairSubtotal
   const editable=noteStatus==='DRAFT'
-  const toggleRegular=(id:string)=>setRegularIds((current)=>current.includes(id)?current.filter((item)=>item!==id):[...current,id])
-  const toggleRepair=(id:string)=>setRepairIds((current)=>current.includes(id)?current.filter((item)=>item!==id):[...current,id])
+  const toggleRegular=(id:string)=>{setRegularIds((current)=>current.includes(id)?current.filter((item)=>item!==id):[...current,id]);setNoteReviewed(false)}
+  const toggleRepair=(id:string)=>{setRepairIds((current)=>current.includes(id)?current.filter((item)=>item!==id):[...current,id]);setNoteReviewed(false)}
 
   return <>
-    <section className="hero-copy compact fg-handoff-hero"><div><div className="eyebrow">PRODUKSI · SETELAH QC & FINAL SKU</div><h1>Serah FG & Susun Nota FG</h1><p>Good masuk FG lebih dulu. Pekerjaan reguler dan Bikin Bagus disusun sebagai dua kelompok yang jelas, lalu Nota FG diposting ke antrean Payroll.</p></div><button type="button" className="soft-btn handoff-back" onClick={onBack}><Icon name="back"/> Kembali ke QC</button></section>
-    <div className="handoff-flow-strip"><span className="done"><b>1</b>QC terkunci</span><i/><span className="done"><b>2</b>Serah FG</span><i/><span className="active"><b>3</b>Susun Nota FG</span><i/><span><b>4</b>Payroll</span></div>
+    <section className="hero-copy compact fg-handoff-hero"><div><div className="eyebrow">PRODUKSI · ANTREAN CARD FINISHING</div><h1>Susun Nota FG</h1><p>QC yang sudah final tinggal sebagai card siap disusun. Gabungkan beberapa Batch Distribusi atau SKU milik Mandor yang sama, lalu post satu Nota FG ke Payroll.</p></div><button type="button" className="soft-btn handoff-back" onClick={onBack}><Icon name="back"/> Tinggalkan antrean & kembali ke QC</button></section>
+    <div className="handoff-flow-strip"><span className="done"><b>1</b>QC terkunci</span><i/><span className="done"><b>2</b>Card siap</span><i/><span className="active"><b>3</b>Susun Nota FG</span><i/><span><b>4</b>Payroll</span></div>
+    <div className="handoff-queue-banner"><Icon name="check"/><div><strong>FIN-{result.batchId} aman di antrean</strong><span>Kembali ke QC tidak membatalkan finalisasi dan tidak membuat card kedua. Card baru masuk draft setelah tombol Tambah ditekan.</span></div><em>{regularCards.length} card {result.mandor}</em></div>
     {noteStatus==='POSTED'&&<div className="handoff-success"><Icon name="check"/><div><strong>Nota FG sudah posted dan masuk antrean Payroll</strong><span>NFG-260828-NEW · {money(noteTotal)} · belum dibayar dan belum mengubah kas.</span></div></div>}
     <section className="handoff-layout">
       <div className="panel handoff-workbench">
-        <header className="handoff-source-head"><span>01</span><div><small>HASIL QC · {result.parentId} · BATCH DISTRIBUSI {result.batchId}</small><h2>{result.brand} · SKU {result.finalSku}</h2><p>{result.finalProductName} · {result.finalColor} · Range {result.finalRange} · bahan {result.material}</p><div className="handoff-mandor-hero"><Icon name="user"/><span><small>MANDOR PENERIMA NOTA</small><strong>{result.mandor}</strong></span></div></div><strong>{receivedTotal} Good</strong></header>
-        <div className="handoff-section-title"><div><span>02</span><div><strong>Rekonsiliasi fisik dari QC</strong><small>QC hanya menentukan hasil. Tidak ada checkbox BOM atau pemilihan Bikin Bagus di bagian ini.</small></div></div><em className="ok">QC terkunci</em></div>
+        <header className="handoff-source-head"><span>01</span><div><small>QC FINAL · {result.parentId} · BATCH DISTRIBUSI {result.batchId}</small><h2>{result.brand} · SKU {result.finalSku}</h2><p>{result.finalProductName} · {result.finalColor} · Range {result.finalRange} · bahan {result.material}</p><div className="handoff-mandor-hero"><Icon name="user"/><span><small>MANDOR PENERIMA NOTA</small><strong>{result.mandor}</strong></span></div></div><strong>{returnedTotal} pulang · {goodTotal} Good</strong></header>
+        <div className="handoff-section-title"><div><span>02</span><div><strong>Rekonsiliasi fisik dari QC</strong><small>Good menentukan FG. Total Pulang menjadi dasar pekerjaan; Stuck belum ikut karena barangnya belum kembali.</small></div></div><em className="ok">QC read-only</em></div>
         <div className="handoff-size-breakdown" role="table" aria-label="Rekonsiliasi serah FG per size">
           <div className="handoff-size-breakdown-head" role="row"><span>SIZE</span><span>POTONGAN</span><span>BAGUS → FG</span><span>BS</span><span>CUCI ULANG</span><span>STUCK LAUNDRY</span></div>
           {result.sizes.map((size,index)=><div className={`handoff-size-breakdown-row ${result.stuckBySize[index]>0?'has-outstanding':''}`} role="row" key={size}><strong data-label="SIZE">{size}</strong><span data-label="POTONGAN">{result.expected[index]} pcs</span><strong className="good" data-label="BAGUS → FG">{result.qcGood[index]} pcs</strong><span className="bs" data-label="BS">{result.qcBs[index]} pcs</span><span className="rewash" data-label="CUCI ULANG">{result.rewash[index]} pcs</span><span className="stuck" data-label="STUCK LAUNDRY">{result.stuckBySize[index]} pcs</span></div>)}
-          <div className="handoff-size-breakdown-total" role="row"><strong>TOTAL</strong><span>{expectedTotal} pcs</span><strong>{receivedTotal} pcs</strong><span>{bsTotal} pcs</span><span>{rewashTotal} pcs</span><span>{outstanding} pcs</span></div>
+          <div className="handoff-size-breakdown-total" role="row"><strong>TOTAL</strong><span>{expectedTotal} pcs</span><strong>{goodTotal} pcs</strong><span>{bsTotal} pcs</span><span>{rewashTotal} pcs</span><span>{outstanding} pcs</span></div>
         </div>
-        <div className="handoff-equation"><span><small>GOOD → FG</small><strong>{receivedTotal} pcs</strong></span><b>+</b><span><small>BS</small><strong>{bsTotal} pcs</strong></span><b>+</b><span><small>CUCI ULANG</small><strong>{rewashTotal} pcs</strong></span><b>+</b><span className="outside"><small>STUCK</small><strong>{outstanding} pcs</strong></span><b>=</b><span className="total"><small>POTONGAN</small><strong>{expectedTotal} pcs</strong></span></div>
-        <section className="nota-work-group regular"><header><div><span>03 · FG REGULER</span><h2>Pekerjaan hasil produksi</h2><p>Tarif upah jahit, komisi, dan BOM dibaca otomatis dari snapshot. BS dan hold mengurangi qty di card asal.</p></div><em>{selectedRegular.length} card masuk nota</em></header><div>{regularCards.map((card)=>{const added=regularIds.includes(card.id);const rate=card.sewingRate+card.commissionRate+card.bomRate;return <article className={`nota-work-card regular ${added?'added':''}`} key={card.id}><header><div><small>{card.source}</small><strong>{card.sku}</strong></div><span>{card.current?'HASIL QC INI':'ELIGIBLE LAIN'}</span></header><div className="nota-work-facts"><span><small>SUMBER QC</small><strong>{card.qcQty} pcs</strong></span><span className="good"><small>GOOD / DIBAYAR</small><strong>{card.good} pcs</strong></span><span className="bs"><small>BS</small><strong>{card.bs} pcs</strong></span><span className="rewash"><small>CUCI ULANG</small><strong>{card.rewash} pcs</strong></span><span className="hold"><small>HOLD</small><strong>{card.hold} pcs</strong></span></div><div className="nota-work-rate"><span>Upah jahit <b>{money(card.sewingRate)}</b></span><span>Komisi <b>{money(card.commissionRate)}</b></span><span>BOM <b>{money(card.bomRate)}</b></span><strong>{card.good} × {money(rate)} = {money(card.subtotal)}</strong></div><footer><small>BS, cuci ulang, dan hold sudah mengurangi qty bayar pada card ini.</small><button type="button" disabled={!editable||card.current} onClick={()=>toggleRegular(card.id)}>{added?'Keluarkan':'Tambah ke Nota FG'}</button></footer></article>})}</div></section>
-        <section className="nota-work-group repair"><header><div><span>04 · BIKIN BAGUS</span><h2>Pekerjaan rework yang sudah diterima</h2><p>Card terpisah dari FG Reguler. Komponen bayar dipilih saat proses Bikin Bagus, bukan di QC atau Payroll.</p></div><button type="button" className="soft-btn" onClick={onOpenBs}>Buka Browser Kasus <Icon name="arrow"/></button></header><div>{repairCards.map((card)=>{const added=repairIds.includes(card.id);return <article className={`nota-work-card repair ${added?'added':''}`} key={card.id}><header><div><small>{card.source}</small><strong>{card.sku}</strong></div><span>BIKIN BAGUS</span></header><div className="nota-repair-components">{card.components.map((component)=><span key={component.name}><Icon name="check"/><small>{component.name}</small><strong>{money(component.rate)}</strong></span>)}</div><div className="nota-work-rate repair"><span>Qty diterima <b>{card.qty} pcs</b></span><span>Tarif komponen <b>{money(card.unitRate)}</b></span><strong>{card.qty} × {money(card.unitRate)} = {money(card.subtotal)}</strong></div><footer><small>Snapshot komponen terkunci dari Bikin Bagus.</small><button type="button" disabled={!editable} onClick={()=>toggleRepair(card.id)}>{added?'Keluarkan':'Tambah ke Nota FG'}</button></footer></article>})}</div></section>
+        <div className="handoff-equation"><span><small>GOOD → FG</small><strong>{goodTotal} pcs</strong></span><b>+</b><span><small>BS</small><strong>{bsTotal} pcs</strong></span><b>+</b><span><small>CUCI ULANG</small><strong>{rewashTotal} pcs</strong></span><b>=</b><span className="total"><small>TOTAL PULANG</small><strong>{returnedTotal} pcs</strong></span><b>+</b><span className="outside"><small>STUCK</small><strong>{outstanding} pcs</strong></span></div>
+        <section className="nota-work-group regular"><header><div><span>03 · ANTREAN FG REGULER</span><h2>Card finishing belum masuk Nota FG</h2><p>Browse card Mandor yang sama. Nilai memakai Total Pulang × harga lengkap, lalu dikurangi BS × komponen Bikin Bagus.</p></div><em>{selectedRegular.length} di draft · {regularCards.length-selectedRegular.length} siap</em></header><div>{regularCards.map((card)=>{const added=regularIds.includes(card.id);const rate=card.sewingRate+card.commissionRate+card.bomRate;const status=noteStatus==='POSTED'&&added?'SUDAH MASUK NOTA':added?'SEDANG DI DRAFT':'SIAP DISUSUN';return <article className={`nota-work-card regular ${added?'added':''}`} key={card.id}><header><div><small>{card.source}</small><strong>{card.sku}</strong></div><span>{status}</span></header><div className="nota-work-facts"><span><small>TOTAL PULANG</small><strong>{card.returned} pcs</strong></span><span className="good"><small>GOOD → FG</small><strong>{card.good} pcs</strong></span><span className="bs"><small>BS</small><strong>{card.bs} pcs</strong></span><span className="rewash"><small>CUCI ULANG</small><strong>{card.rewash} pcs</strong></span><span className="hold"><small>STUCK</small><strong>{card.hold} pcs</strong></span></div><div className="nota-bs-components"><span>KOMPONEN BS DITANDAI BIKIN BAGUS</span><div>{card.bsComponents.length>0?card.bsComponents.map((component)=><em key={component.id}><Icon name="check"/>{component.name}<b>{money(component.rate)}</b></em>):<small>Tidak ada pengurang BS</small>}</div></div><div className="nota-value-formula"><span><small>TOTAL PULANG × HARGA</small><strong>{card.returned} × {money(rate)}</strong><em>{money(card.gross)}</em></span><b>−</b><span className="deduction"><small>BS × KOMPONEN DICENTANG</small><strong>{card.bs} × {money(card.bsComponents.reduce((sum,component)=>sum+component.rate,0))}</strong><em>{money(card.deduction)}</em></span><b>=</b><span className="result"><small>NILAI FG REGULER</small><strong>{money(card.subtotal)}</strong><em>Good bukan pengali upah</em></span></div><footer><small>Good hanya menentukan stok FG. Pengurang BS terlihat dan akan menjadi batas maksimum pembayaran Bikin Bagus.</small><button type="button" disabled={!editable} onClick={()=>toggleRegular(card.id)}>{added?'Keluarkan dari Draft':'Tambah ke Nota FG'}</button></footer></article>})}</div></section>
+        <section className="nota-work-group repair"><header><div><span>04 · ANTREAN BIKIN BAGUS</span><h2>Pekerjaan rework yang sudah diterima</h2><p>Card tetap terpisah. Pembayaran hanya komponen yang dicentang dan tidak boleh melampaui pengurang BS asal.</p></div><button type="button" className="soft-btn" onClick={onOpenBs}>Buka Browser Kasus <Icon name="arrow"/></button></header><div>{repairCards.map((card)=>{const added=repairIds.includes(card.id);const status=noteStatus==='POSTED'&&added?'SUDAH MASUK NOTA':added?'SEDANG DI DRAFT':'SIAP DISUSUN';return <article className={`nota-work-card repair ${added?'added':''}`} key={card.id}><header><div><small>{card.source}</small><strong>{card.sku}</strong></div><span>{status}</span></header><div className="nota-repair-components">{card.components.map((component)=><span key={component.name}><Icon name="check"/><small>{component.name}</small><strong>{money(component.rate)}</strong></span>)}</div><div className="nota-work-rate repair"><span>Qty diterima <b>{card.qty} pcs</b></span><span>Tarif komponen <b>{money(card.unitRate)}</b></span><strong>{card.qty} × {money(card.unitRate)} = {money(card.subtotal)}</strong></div><footer><small>Snapshot komponen terkunci dari Bikin Bagus.</small><button type="button" disabled={!editable} onClick={()=>toggleRepair(card.id)}>{added?'Keluarkan dari Draft':'Tambah ke Nota FG'}</button></footer></article>})}</div></section>
         <label className="handoff-note nota-note"><span>CATATAN NOTA FG</span><textarea disabled={!editable} value={note} onChange={(event)=>{setNote(event.target.value);setNoteReviewed(false)}} /></label>
       </div>
       <aside className="panel handoff-payroll-ticket">
         <div className="handoff-ticket-title"><span>NOTA FG · NFG-260828-NEW</span><h2>{result.mandor}</h2><p>{selectedRegular.length} FG Reguler · {selectedRepair.length} Bikin Bagus</p><small>28 Agu 2026 · {noteStatus==='POSTED'?'posted, belum dibayar':'draft dapat disusun'}</small></div>
         <div className="nota-ticket-groups"><article className="regular"><span><small>FG REGULER</small><strong>{selectedRegular.length} card</strong></span><b>{money(regularSubtotal)}</b></article><article className="repair"><span><small>BIKIN BAGUS</small><strong>{selectedRepair.length} card</strong></span><b>{money(repairSubtotal)}</b></article></div>
         <div className="handoff-net"><span>TOTAL NOTA FG</span><strong>{money(noteTotal)}</strong><small>Total ini masuk Payroll setelah posted. Belum ada pembayaran atau pergerakan kas.</small></div>
-        <div className="handoff-output"><span>DOKUMEN INI MEMBAWA</span><p><Icon name="check"/><b>{selectedRegular.reduce((sum,card)=>sum+card.good,0)} pcs</b> FG Reguler eligible</p><p><Icon name="history"/><b>{selectedRepair.reduce((sum,card)=>sum+card.qty,0)} pcs</b> Bikin Bagus eligible</p><p><Icon name="audit"/><b>{bsTotal} BS</b> tetap terlihat hanya pada detail card sumber</p></div>
-        <label className="handoff-final-check"><input type="checkbox" disabled={!editable} checked={noteReviewed} onChange={(event)=>setNoteReviewed(event.target.checked)}/><span><strong>Susunan Nota FG sudah gue review</strong><small>Semua card milik {result.mandor}; tarif dan sumber terlihat jelas.</small></span></label>
+        <div className="handoff-output"><span>DOKUMEN INI MEMBAWA</span><p><Icon name="check"/><b>{selectedRegular.reduce((sum,card)=>sum+card.returned,0)} pcs</b> Total Pulang sebagai dasar</p><p><Icon name="history"/><b>{money(selectedRegular.reduce((sum,card)=>sum+card.deduction,0))}</b> pengurang BS tercatat</p><p><Icon name="audit"/><b>{selectedRepair.reduce((sum,card)=>sum+card.qty,0)} pcs</b> Bikin Bagus eligible</p></div>
+        <label className="handoff-final-check"><input type="checkbox" disabled={!editable} checked={noteReviewed} onChange={(event)=>setNoteReviewed(event.target.checked)}/><span><strong>Susunan Nota FG sudah gue review</strong><small>Semua card milik {result.mandor}; formula dan pengurang BS terlihat jelas.</small></span></label>
         <button type="button" className="primary-btn handoff-submit" disabled={!editable||selectedRegular.length===0||noteTotal<=0||!noteReviewed} onClick={()=>setNoteStatus('POSTED')}>{noteStatus==='POSTED'?'Nota FG sudah posted':'Post Nota FG ke Payroll'} <Icon name={noteStatus==='POSTED'?'check':'arrow'}/></button>
-        <p className="handoff-audit-note">Prototype frontend. Posted hanya memindahkan Nota FG ke antrean Payroll; backend dan kas belum berubah.</p>
+        <p className="handoff-audit-note">Card yang tidak dipilih tetap aman di antrean. Posted hanya memindahkan susunan ini ke Payroll; backend dan kas belum berubah.</p>
       </aside>
     </section>
   </>

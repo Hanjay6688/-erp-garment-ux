@@ -49,6 +49,7 @@ export type RegularFgWorkCard = {
   source: string
   sku: string
   qcQty: number
+  returnedQty: number
   good: number
   bs: number
   rewash: number
@@ -56,6 +57,9 @@ export type RegularFgWorkCard = {
   sewingRate: number
   commissionRate: number
   bomRate: number
+  bsComponents: Array<{ name: string; rate: number }>
+  grossValue: number
+  bsDeduction: number
   subtotal: number
 }
 
@@ -158,10 +162,10 @@ export const receivables: Receivable[] = [
 ]
 
 export const payrollNotes: PayrollNote[] = [
-  { number:'PAY-MANDOR-0089', contractor:'Mandor Budi', period:'26–28 Agu 2026', status:'DRAFT', workQty:486, labor:8_009_000, attendance:0, reimbursement:1_240_000, deduction:720_000, netPayable:8_529_000, eligibleLines:14, paymentDate:'28 Agu 2026', fgNotes:[
-    {number:'NFG-260828-041',date:'28 Agu · 11:18',status:'POSTED',source:'2 Batch Distribusi · 3 pekerjaan',sku:'Widie 73001 · Widie 73005 · Vivo 73003',good:486,bs:8,stuck:3,labor:8_009_000,reimbursement:1_240_000,note:'BS dan hold sudah mengurangi qty eligible pada masing-masing pekerjaan FG. Bikin Bagus membawa komponen bayar dari proses rework.',regularCards:[
-      {id:'FG-REG-041-01',source:'POT-260826-041 · Batch 041-01',sku:'Widie · 73001',qcQty:248,good:244,bs:4,rewash:0,hold:0,sewingRate:14_000,commissionRate:2_000,bomRate:2_000,subtotal:4_392_000},
-      {id:'FG-REG-042-02',source:'POT-260827-042 · Batch 042-02',sku:'Widie · 73005',qcQty:249,good:242,bs:4,rewash:0,hold:3,sewingRate:15_500,commissionRate:2_000,bomRate:2_500,subtotal:4_840_000},
+  { number:'PAY-MANDOR-0089', contractor:'Mandor Budi', period:'26–28 Agu 2026', status:'DRAFT', workQty:494, labor:8_135_400, attendance:0, reimbursement:1_240_000, deduction:720_000, netPayable:8_655_400, eligibleLines:14, paymentDate:'28 Agu 2026', fgNotes:[
+    {number:'NFG-260828-041',date:'28 Agu · 11:18',status:'POSTED',source:'2 Batch Distribusi · 3 pekerjaan',sku:'Widie 73001 · Widie 73005 · Vivo 73003',good:486,bs:8,stuck:3,labor:8_135_400,reimbursement:1_240_000,note:'Nilai FG reguler memakai Total Pulang × harga lengkap dikurangi BS × komponen yang ditandai Bikin Bagus. Good hanya menentukan FG.',regularCards:[
+      {id:'FG-REG-041-01',source:'POT-260826-041 · Batch 041-01',sku:'Widie · 73001',qcQty:248,returnedQty:248,good:244,bs:4,rewash:0,hold:0,sewingRate:14_000,commissionRate:2_000,bomRate:2_000,bsComponents:[{name:'Ceming / finishing detail',rate:2_500},{name:'Kancing',rate:500},{name:'Lipat akhir',rate:400}],grossValue:4_464_000,bsDeduction:13_600,subtotal:4_450_400},
+      {id:'FG-REG-042-02',source:'POT-260827-042 · Batch 042-02',sku:'Widie · 73005',qcQty:249,returnedQty:246,good:242,bs:4,rewash:0,hold:3,sewingRate:15_500,commissionRate:2_000,bomRate:2_500,bsComponents:[{name:'Ceming / finishing detail',rate:2_500},{name:'Kancing',rate:500}],grossValue:4_920_000,bsDeduction:12_000,subtotal:4_908_000},
     ],repairCards:[
       {id:'BG-260828-018',source:'BS-260827-018 · QC ulang lulus',sku:'Vivo · 73003',qty:5,components:[{name:'Ceming / finishing detail',rate:2_500},{name:'Kancing',rate:500},{name:'Lipat akhir',rate:400}],unitRate:3_400,subtotal:17_000},
     ]},
@@ -170,7 +174,7 @@ export const payrollNotes: PayrollNote[] = [
     {number:'NAA-260827-021',date:'27 Agu · 10:06',source:'POT-260827-042',item:'Resleting 14 cm',qty:72,unit:'pcs',unitPrice:6_000,total:432_000},
   ],deductions:[] },
   { number:'PAY-MANDOR-0088', contractor:'Mandor Rian', period:'19–25 Agu 2026', status:'REVIEW', workQty:612, labor:10_330_000, attendance:720_000, reimbursement:1_680_000, deduction:1_890_000, netPayable:10_840_000, eligibleLines:3, paymentDate:'28 Agu 2026', fgNotes:[
-    {number:'NFG-260824-036',date:'24 Agu · 15:12',status:'POSTED',source:'POT-260823-036 · Batch 036-01',sku:'Vivo · 73002',good:312,bs:8,stuck:0,labor:5_230_000,reimbursement:840_000,note:'8 BS sudah mengurangi qty eligible di dalam Nota FG ini.'},
+    {number:'NFG-260824-036',date:'24 Agu · 15:12',status:'POSTED',source:'POT-260823-036 · Batch 036-01',sku:'Vivo · 73002',good:312,bs:8,stuck:0,labor:5_230_000,reimbursement:840_000,note:'8 BS sudah mengurangi nilai komponen terpilih di Nota FG ini; Good hanya menentukan FG.'},
     {number:'NFG-260825-039',date:'25 Agu · 16:30',status:'POSTED',source:'POT-260824-039 · Batch 039-02',sku:'Vivo · 73003',good:300,bs:5,stuck:4,labor:5_100_000,reimbursement:840_000,note:'4 pcs masih hold Laundry dan belum menjadi qty bayar.'},
   ],accessoryNotes:[
     {number:'NAA-260822-014',date:'22 Agu · 09:08',source:'POT-260823-036',item:'Rivet Copper',qty:600,unit:'pcs',unitPrice:900,total:540_000},
@@ -178,7 +182,7 @@ export const payrollNotes: PayrollNote[] = [
     {number:'NAA-260824-019',date:'24 Agu · 08:44',source:'POT-260824-039',item:'Label Woven Vivo',qty:500,unit:'pcs',unitPrice:750,total:375_000},
   ],deductions:[] },
   { number:'PAY-MANDOR-0087', contractor:'Mandor Dedi', period:'19–25 Agu 2026', status:'APPROVED', workQty:525, labor:8_970_000, attendance:0, reimbursement:980_000, deduction:1_250_000, netPayable:8_700_000, eligibleLines:0, paymentDate:'28 Agu 2026', fgNotes:[
-    {number:'NFG-260823-032',date:'23 Agu · 14:18',status:'POSTED',source:'POT-260822-032 · Batch 032-01',sku:'Vivo · 73004',good:265,bs:3,stuck:0,labor:4_550_000,reimbursement:490_000,note:'3 BS sudah mengurangi qty eligible pada nota sumber.'},
+    {number:'NFG-260823-032',date:'23 Agu · 14:18',status:'POSTED',source:'POT-260822-032 · Batch 032-01',sku:'Vivo · 73004',good:265,bs:3,stuck:0,labor:4_550_000,reimbursement:490_000,note:'3 BS sudah mengurangi nilai komponen terpilih pada Nota FG sumber.'},
     {number:'NFG-260825-040',date:'25 Agu · 13:42',status:'POSTED',source:'POT-260825-039 · Batch 039-01',sku:'Vivo · 73003',good:260,bs:2,stuck:0,labor:4_420_000,reimbursement:490_000,note:'Bikin Bagus berikutnya hanya boleh membawa komponen baru yang belum dibayar.'},
   ],accessoryNotes:[
     {number:'NAA-260821-012',date:'21 Agu · 11:04',source:'POT-260822-032',item:'Kancing Jeans 17 mm',qty:800,unit:'pcs',unitPrice:750,total:600_000},
