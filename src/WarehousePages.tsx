@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { lazy, Suspense, useMemo, useState } from 'react'
 import {
   AlertTriangle, ArrowRight, Boxes, Check, ChevronDown, ClipboardCheck,
   FileClock, Filter, History, Layers3, MapPin, Package, PackageCheck,
@@ -8,7 +8,10 @@ import {
 import { productCatalog } from './productCatalog'
 import './warehouse.css'
 
-export type WarehouseView = 'warehouse-dashboard' | 'materials-rolls' | 'accessories' | 'fg-summary' | 'returns-adjustments'
+const StockAdjustmentPage = lazy(() => import('./InventoryControlPages').then((module) => ({ default: module.StockAdjustmentPage })))
+const BrandConversionPage = lazy(() => import('./InventoryControlPages').then((module) => ({ default: module.BrandConversionPage })))
+
+export type WarehouseView = 'warehouse-dashboard' | 'materials-rolls' | 'accessories' | 'fg-summary' | 'stock-adjustment' | 'brand-conversion'
 
 type Tone = 'good' | 'warn' | 'danger' | 'neutral'
 type MaterialSummary = {
@@ -129,10 +132,15 @@ function EmptyResult({ title, note }: { title: string; note: string }) {
 
 export default function WarehousePages({ view, onNavigate }: { view: WarehouseView; onNavigate: (view: WarehouseView) => void }) {
   if (view === 'warehouse-dashboard') return <WarehouseDashboard onNavigate={onNavigate}/>
-  if (view === 'materials-rolls') return <MaterialsRollsPage/>
-  if (view === 'accessories') return <AccessoriesPage/>
+  if (view === 'materials-rolls') return <MaterialsRollsPage onNavigate={onNavigate}/>
+  if (view === 'accessories') return <AccessoriesPage onNavigate={onNavigate}/>
   if (view === 'fg-summary') return <FinishedGoodsSummaryPage/>
-  return <ReturnsAdjustmentsPage/>
+  if (view === 'stock-adjustment') return <Suspense fallback={<InventoryControlFallback/>}><StockAdjustmentPage/></Suspense>
+  return <Suspense fallback={<InventoryControlFallback/>}><BrandConversionPage/></Suspense>
+}
+
+function InventoryControlFallback() {
+  return <div className="panel wh-inventory-loading"><span/><strong>Menyiapkan inventory control…</strong><small>Memuat form dan guardrail stok.</small></div>
 }
 
 function WarehouseDashboard({ onNavigate }: { onNavigate: (view: WarehouseView) => void }) {
@@ -150,7 +158,8 @@ function WarehouseDashboard({ onNavigate }: { onNavigate: (view: WarehouseView) 
         <button onClick={()=>onNavigate('materials-rolls')}><i className="blue"><Ruler/></i><span><small>KAIN</small><strong>Bahan & Roll</strong><em>83 roll · lifetime movement</em></span><b>8.848,5 yd on hand</b><ArrowRight/></button>
         <button onClick={()=>onNavigate('accessories')}><i className="violet"><Boxes/></i><span><small>KOMPONEN</small><strong>Aksesori</strong><em>6 item aktif · per unit</em></span><b>31.960 unit on hand</b><ArrowRight/></button>
         <button onClick={()=>onNavigate('fg-summary')}><i className="green"><PackageCheck/></i><span><small>BARANG JADI</small><strong>Ringkasan FG</strong><em>Per merek, SKU, size, grade</em></span><b>1.074 pcs Good</b><ArrowRight/></button>
-        <button onClick={()=>onNavigate('returns-adjustments')}><i className="amber"><SlidersHorizontal/></i><span><small>CONTROL</small><strong>Retur & Penyesuaian</strong><em>Semua koreksi harus beralasan</em></span><b>3 menunggu</b><ArrowRight/></button>
+        <button onClick={()=>onNavigate('stock-adjustment')}><i className="amber"><SlidersHorizontal/></i><span><small>PHYSICAL CONTROL</small><strong>Stock Adjustment</strong><em>Hilang, rusak, bencana, surplus</em></span><b>3 open cases</b><ArrowRight/></button>
+        <button onClick={()=>onNavigate('brand-conversion')}><i className="violet"><Sparkles/></i><span><small>FG CONVERSION</small><strong>Ganti Merek</strong><em>Source out = target in</em></span><b>36 pcs hari ini</b><ArrowRight/></button>
       </div></div>
       <div className="panel wh-attention"><header><div><span>BUTUH PERHATIAN</span><h2>Jangan kelewat hari ini</h2></div><AlertTriangle/></header><div className="wh-attention-list"><article className="danger"><i/><div><strong>Hangtag Widie tinggal 340 pcs</strong><small>Sesudah reservasi POT-260828-041</small></div><b>Pesan</b></article><article className="warn"><i/><div><strong>12 pcs selisih opname</strong><small>Kancing Jeans 17 mm · belum posting</small></div><b>Review</b></article><article><i/><div><strong>4 roll masih ESTIMATED</strong><small>Kasbon supplier belum cocok</small></div><b>Cek</b></article></div></div>
     </section>
@@ -158,7 +167,7 @@ function WarehouseDashboard({ onNavigate }: { onNavigate: (view: WarehouseView) 
   </>
 }
 
-function MaterialsRollsPage() {
+function MaterialsRollsPage({ onNavigate }: { onNavigate: (view: WarehouseView) => void }) {
   const [query,setQuery] = useState('')
   const [supplier,setSupplier] = useState('Semua')
   const [status,setStatus] = useState('Semua')
@@ -169,6 +178,7 @@ function MaterialsRollsPage() {
   const estimatedCount = visibleRolls.filter((roll)=>roll.costState==='ESTIMATED').length
   return <>
     <section className="hero-copy compact wh-hero"><div><div className="eyebrow">GUDANG · RAW MATERIAL</div><h1>Bahan & Roll</h1><p>Pilih bahan dulu, lalu telusuri setiap gulung melalui alur lifetime: Total Received − Used + Returned = Stock On Hand.</p></div><div className="wh-rule"><Ruler/><div><span>ATURAN UTAMA</span><strong>Saldo kain tetap per roll</strong><small>Split pemakaian tidak membuat nomor roll baru; sisanya tetap di roll asal.</small></div></div></section>
+    <div className="wh-context-control"><div><History/><span><strong>Perlu cek retur atau selisih fisik kain?</strong><small>Riwayat tetap satu ledger, dibuka dari konteks Bahan & Roll.</small></span></div><button onClick={()=>onNavigate('stock-adjustment')}>Cek retur & adjustment <ArrowRight/></button></div>
     <section className="wh-metrics"><MetricCard label="Total Received" value="9.893,5 yd" note="Seluruh penerimaan lifetime" icon={Layers3}/><MetricCard label="Used" value="1.081,5 yd" note="Sudah keluar untuk produksi" tone="warn" icon={Tag}/><MetricCard label="Returned" value="36,5 yd" note="Kembali dan diterima gudang" tone="good" icon={RotateCcw}/><MetricCard label="Stock On Hand" value="8.848,5 yd" note="Received − Used + Returned" tone="good" icon={Check}/></section>
     <div className="panel wh-workspace">
       <div className="wh-toolbar"><SearchBox value={query} onChange={setQuery} placeholder="Cari bahan, pabrik, atau lokasi..."/><SelectFilter label="Pabrik" value={supplier} options={[...new Set(materials.map((item)=>item.supplier))]} onChange={setSupplier}/><SelectFilter label="Status" value={status} options={[...new Set(materials.map((item)=>item.status))]} onChange={setStatus}/><button className="wh-reset" onClick={()=>{setQuery('');setSupplier('Semua');setStatus('Semua')}}><RotateCcw/> Reset</button></div>
@@ -185,7 +195,7 @@ function MaterialsRollsPage() {
   </>
 }
 
-function AccessoriesPage() {
+function AccessoriesPage({ onNavigate }: { onNavigate: (view: WarehouseView) => void }) {
   const [query,setQuery] = useState('')
   const [category,setCategory] = useState('Semua')
   const [status,setStatus] = useState('Semua')
@@ -201,6 +211,7 @@ function AccessoriesPage() {
   ]
   return <>
     <section className="hero-copy compact wh-hero"><div><div className="eyebrow">GUDANG · KOMPONEN</div><h1>Aksesori</h1><p>Qty langsung per unit. Stock On Hand, Allocated to Production, Ready to Issue, minimum stok, dan moving average terlihat tanpa memaksa aksesori mengikuti bentuk roll.</p></div><div className="wh-rule"><Boxes/><div><span>POLA INPUT</span><strong>Qty langsung, bukan gulungan</strong><small>PCS, meter, set, atau unit master item.</small></div></div></section>
+    <div className="wh-context-control"><div><History/><span><strong>Perlu cek retur atau selisih fisik aksesori?</strong><small>Browse retur mandor dan adjustment tanpa meninggalkan alur gudang.</small></span></div><button onClick={()=>onNavigate('stock-adjustment')}>Cek retur & adjustment <ArrowRight/></button></div>
     <section className="wh-metrics"><MetricCard label="Stock On Hand" value="31.960 unit" note="Saldo fisik seluruh item" icon={Package}/><MetricCard label="Allocated to Production" value="12.220 unit" note="Sudah punya tujuan produksi" tone="warn" icon={Tag}/><MetricCard label="Ready to Issue" value="19.740 unit" note="On hand dikurangi allocated" tone="good" icon={Check}/><MetricCard label="Below Minimum" value="2 item" note="Rivet & hangtag" tone="danger" icon={AlertTriangle}/></section>
     <div className="panel wh-workspace">
       <div className="wh-toolbar"><SearchBox value={query} onChange={setQuery} placeholder="Cari aksesori, kode, supplier..."/><SelectFilter label="Kategori" value={category} options={[...new Set(accessories.map((item)=>item.category))]} onChange={setCategory}/><SelectFilter label="Status" value={status} options={[...new Set(accessories.map((item)=>item.status))]} onChange={setStatus}/><button className="wh-reset" onClick={()=>{setQuery('');setCategory('Semua');setStatus('Semua')}}><RotateCcw/> Reset</button></div>
