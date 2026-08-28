@@ -8,6 +8,7 @@ import EnterpriseSelect from './EnterpriseSelect'
 import './contractor-issue.css'
 
 type IssueStatus = 'DRAFT' | 'POSTED' | 'REVERSED'
+type PeriodFilter = 'Hari ini' | '7 hari terakhir' | 'Bulan ini' | 'Semua tanggal' | 'Custom'
 type IssueLine = {
   id: string
   item: string
@@ -63,6 +64,7 @@ export default function ContractorIssuePage() {
   const [query,setQuery] = useState('')
   const [statusFilter,setStatusFilter] = useState('Semua status')
   const [mandorFilter,setMandorFilter] = useState('Semua mandor')
+  const [periodFilter,setPeriodFilter] = useState<PeriodFilter>('Bulan ini')
   const [dateFrom,setDateFrom] = useState('2026-08-01')
   const [dateTo,setDateTo] = useState('2026-08-28')
   const [showSettled,setShowSettled] = useState(false)
@@ -74,16 +76,21 @@ export default function ContractorIssuePage() {
   const [reverseNote,setReverseNote] = useState('')
   const [notice,setNotice] = useState('')
 
+  const effectiveFrom = periodFilter === 'Hari ini' ? '2026-08-28'
+    : periodFilter === '7 hari terakhir' ? '2026-08-22'
+    : periodFilter === 'Bulan ini' ? '2026-08-01'
+    : periodFilter === 'Custom' ? dateFrom : ''
+  const effectiveTo = periodFilter === 'Semua tanggal' ? '' : periodFilter === 'Custom' ? dateTo : '2026-08-28'
   const visible = useMemo(() => documents.filter((document) => {
     const searchable = `${document.number} ${document.mandor} ${document.productionBatch} ${document.distributionBatch}`.toLowerCase()
     const statusMatches = statusFilter === 'Semua status' || document.status === statusFilter.toUpperCase()
     return searchable.includes(query.toLowerCase())
       && statusMatches
       && (mandorFilter === 'Semua mandor' || document.mandor === mandorFilter)
-      && (!dateFrom || document.issuedOn >= dateFrom)
-      && (!dateTo || document.issuedOn <= dateTo)
+      && (!effectiveFrom || document.issuedOn >= effectiveFrom)
+      && (!effectiveTo || document.issuedOn <= effectiveTo)
       && (showSettled || !document.settledAt)
-  }), [dateFrom,dateTo,documents,mandorFilter,query,showSettled,statusFilter])
+  }), [documents,effectiveFrom,effectiveTo,mandorFilter,query,showSettled,statusFilter])
   const selected = visible.find((document)=>document.number===selectedNumber) ?? visible[0] ?? null
   const availableCatalog = catalog.filter((item) => {
     const searchMatches = `${item.id} ${item.item} ${item.category}`.toLowerCase().includes(catalogQuery.toLowerCase())
@@ -116,6 +123,7 @@ export default function ContractorIssuePage() {
     setSelectedNumber(next.number)
     setStatusFilter('Semua status')
     setMandorFilter('Semua mandor')
+    setPeriodFilter('Bulan ini')
     setShowSettled(false)
     setNotice('Draft baru terbentuk lokal. Backend belum berubah.')
   }
@@ -142,9 +150,9 @@ export default function ContractorIssuePage() {
       <label className="ci-search"><Search/><input value={query} onChange={(event)=>setQuery(event.target.value)} placeholder="Cari nota, mandor, Batch Produksi..."/></label>
       <EnterpriseSelect label="MANDOR" value={mandorFilter} options={['Semua mandor',...mandorNames]} onChange={setMandorFilter}/>
       <EnterpriseSelect label="STATUS" value={statusFilter} options={['Semua status','Draft','Posted','Reversed']} onChange={setStatusFilter}/>
-      <label className="ci-date-field"><span>DARI TANGGAL</span><CalendarDays/><input type="date" value={dateFrom} onChange={(event)=>setDateFrom(event.target.value)}/></label>
-      <label className="ci-date-field"><span>SAMPAI TANGGAL</span><CalendarDays/><input type="date" value={dateTo} onChange={(event)=>setDateTo(event.target.value)}/></label>
+      <EnterpriseSelect label="PERIODE" value={periodFilter} options={['Hari ini','7 hari terakhir','Bulan ini','Semua tanggal','Custom']} onChange={(value)=>setPeriodFilter(value as PeriodFilter)}/>
       <button className={`ci-show-settled ${showSettled?'active':''}`} onClick={()=>setShowSettled((current)=>!current)}>{showSettled?<EyeOff/>:<Eye/>}<span><small>NOTA LUNAS</small><strong>{showSettled?'Sembunyikan lagi':'Tampilkan kembali'}</strong></span><b>{settledCount}</b></button>
+      {periodFilter==='Custom'&&<div className="ci-custom-range"><CalendarDays/><span><small>PERIODE CUSTOM</small><strong>{dateFrom||'Tanggal awal'} → {dateTo||'Tanggal akhir'}</strong></span><label><small>DARI</small><input type="date" value={dateFrom} max={dateTo||undefined} onChange={(event)=>setDateFrom(event.target.value)}/></label><label><small>SAMPAI</small><input type="date" value={dateTo} min={dateFrom||undefined} onChange={(event)=>setDateTo(event.target.value)}/></label></div>}
     </section>
     <section className="panel ci-layout">
       <aside><header><div><span>BROWSER NOTA</span><strong>{visible.length} dokumen tampil</strong></div><ReceiptText/></header><div className="ci-browser">{visible.map((document)=><button className={document.number===selected?.number?'active':''} key={document.number} onClick={()=>{setSelectedNumber(document.number);setNotice('')}}><i><PackageMinus/></i><span><strong>{document.number}</strong><small>{document.mandor} · {document.productionBatch}</small><em>Batch Distribusi {document.distributionBatch} · {document.issuedAt}</em></span><b>{money(documentTotal(document))}</b><Status value={document.status} settled={Boolean(document.settledAt)}/></button>)}{visible.length===0&&<div className="ci-empty browser"><Search/><strong>Tidak ada nota yang cocok</strong><small>Ubah mandor, status, rentang tanggal, atau buka kembali nota lunas.</small></div>}</div></aside>

@@ -1,9 +1,8 @@
 import { useMemo, useState } from 'react'
-import type { DragEvent } from 'react'
 import {
   ArrowLeft, ArrowRight, Check, CheckCircle2, ChevronRight, CircleMinus, CirclePlus,
-  ClipboardCheck, Clock3, FilePlus2, FileText, Filter, GripVertical, History,
-  Inbox, LockKeyhole, PackageCheck, ReceiptText, RotateCcw, Search, ShieldCheck,
+  ClipboardCheck, Clock3, FilePlus2, Filter, History,
+  Inbox, PackageCheck, ReceiptText, Search, ShieldCheck,
   UserRound, UsersRound, Waves, Wrench, X,
 } from 'lucide-react'
 import type { QcFinalResult } from './QcFinalPage'
@@ -15,7 +14,6 @@ type BsSource = 'QC_AUTO' | 'LEGACY_IMPORT'
 type BsStatus = 'OPEN' | 'ASSIGNED' | 'IN_REWORK' | 'QC_REWORK' | 'GOOD_RESTORED' | 'BS_FINAL'
 type StuckStatus = 'OUTSIDE' | 'PARTIAL' | 'BACK_TO_QC'
 type LedgerKind = 'BS_DEDUCTION' | 'REWORK_RELEASE' | 'STUCK_HOLD' | 'STUCK_RELEASE'
-type PayrollStatus = 'DRAFT' | 'CALCULATED' | 'REVIEW' | 'APPROVED' | 'PAID'
 
 type WorkComponent = { id: string; name: string; note: string; rate: number }
 
@@ -37,10 +35,7 @@ type OperationalCase = BsCase | StuckCase
 type LedgerItem = {
   id: string; kind: LedgerKind; label: string; sign: -1 | 1; qtyBySize: SizeValues; rate: number
   amount: number; payee: string; originId?: string; caseId: string; sourceLabel: string; createdAt: string
-}
-
-type PayrollNote = {
-  id: string; mandor: string; period: string; status: PayrollStatus; baseQty: number; baseRate: number; itemIds: string[]
+  componentIds?: string[]
 }
 
 const components: WorkComponent[] = [
@@ -70,9 +65,6 @@ const bsStatusLabels: Record<BsStatus, string> = {
 const stuckStatusLabels: Record<StuckStatus, string> = {
   OUTSIDE: 'Masih di Laundry', PARTIAL: 'Balik sebagian', BACK_TO_QC: 'Sudah kembali ke QC',
 }
-const payrollStatusLabels: Record<PayrollStatus, string> = {
-  DRAFT: 'Draft', CALCULATED: 'Calculated', REVIEW: 'Review', APPROVED: 'Approved', PAID: 'Paid',
-}
 
 const sum = (values: SizeValues) => values.reduce((total, value) => total + value, 0)
 const money = (value: number) => `Rp${Math.round(value).toLocaleString('id-ID')}`
@@ -89,7 +81,6 @@ const firstPositiveUnit = (values: SizeValues): SizeValues => {
 }
 const subtractSizes = (source: SizeValues, used: SizeValues): SizeValues => asSizeValues(source.map((value, index) => Math.max(0, value - used[index])))
 const addSizes = (left: SizeValues, right: SizeValues): SizeValues => asSizeValues(left.map((value, index) => value + right[index]))
-const isPayrollEditable = (status: PayrollStatus) => ['DRAFT', 'CALCULATED', 'REVIEW'].includes(status)
 const caseStatusLabel = (item: OperationalCase) => item.kind === 'BS' ? bsStatusLabels[item.status] : stuckStatusLabels[item.status]
 const caseIsDone = (item: OperationalCase) => item.kind === 'BS' ? ['GOOD_RESTORED', 'BS_FINAL'].includes(item.status) : item.status === 'BACK_TO_QC'
 const caseSourceValue = (item: OperationalCase) => item.kind === 'STUCK' ? 'LAUNDRY' : item.source
@@ -136,7 +127,7 @@ function seedLedger(cases: OperationalCase[]): LedgerItem[] {
   const firstSusulan = firstPositiveUnit(stuckCase.qtyBySize)
   const items: LedgerItem[] = [
     { id: 'ADJ-BS-018', kind: 'BS_DEDUCTION', label: 'BS dari QC · komponen belum diterima', sign: -1, qtyBySize: qcCase.qtyBySize, rate: qcRate, amount: sum(qcCase.qtyBySize) * qcRate, payee: qcCase.originalMandor, caseId: qcCase.id, sourceLabel: `${qcCase.id} · ${qcCase.sourceNote}`, createdAt: '27 Agu · 18:42' },
-    { id: 'ADJ-RW-018-01', kind: 'REWORK_RELEASE', label: 'Bikin bagus · pulihkan minus asal', sign: 1, qtyBySize: firstRestored, rate: qcRate, amount: sum(firstRestored) * qcRate, payee: qcCase.reworkMandor ?? qcCase.originalMandor, caseId: qcCase.id, originId: 'ADJ-BS-018', sourceLabel: 'Asal ADJ-BS-018 · QC rework lulus', createdAt: '28 Agu · 09:40' },
+    { id: 'ADJ-RW-018-01', kind: 'REWORK_RELEASE', label: 'Bikin bagus · siap Nota FG', sign: 1, qtyBySize: firstRestored, rate: qcRate, amount: sum(firstRestored) * qcRate, payee: qcCase.reworkMandor ?? qcCase.originalMandor, caseId: qcCase.id, originId: 'ADJ-BS-018', sourceLabel: 'Asal ADJ-BS-018 · QC rework lulus', createdAt: '28 Agu · 09:40', componentIds: qcCase.componentIds },
     { id: 'ADJ-BS-LEG-0007', kind: 'BS_DEDUCTION', label: 'BS legacy · komponen belum diterima', sign: -1, qtyBySize: legacyCase.qtyBySize, rate: legacyRate, amount: sum(legacyCase.qtyBySize) * legacyRate, payee: legacyCase.originalMandor, caseId: legacyCase.id, sourceLabel: `${legacyCase.id} · ${legacyCase.sourceNote}`, createdAt: '26 Agu · arsip' },
   ]
   if (sum(stuckCase.qtyBySize) > 0) items.push(
@@ -146,23 +137,9 @@ function seedLedger(cases: OperationalCase[]): LedgerItem[] {
   return items
 }
 
-const seedPayrollNotes = (): PayrollNote[] => [
-  { id: 'GJ-260828-010', mandor: 'Mandor Asep', period: '24–28 Agu 2026', status: 'DRAFT', baseQty: 163, baseRate: 18450, itemIds: [] },
-  { id: 'GJ-260828-011', mandor: 'Mandor Ujang', period: '24–28 Agu 2026', status: 'REVIEW', baseQty: 132, baseRate: 18450, itemIds: [] },
-  { id: 'GJ-260827-009', mandor: 'Mandor Dedi', period: '17–23 Agu 2026', status: 'PAID', baseQty: 120, baseRate: 18450, itemIds: [] },
-]
-
-function ledgerTone(kind: LedgerKind) {
-  if (kind === 'BS_DEDUCTION') return 'minus bs'
-  if (kind === 'STUCK_HOLD') return 'minus stuck'
-  if (kind === 'REWORK_RELEASE') return 'plus rework'
-  return 'plus susulan'
-}
-
 export default function BsReworkPage({ initialResult, onBack }: { initialResult?: QcFinalResult | null; onBack: () => void }) {
   const [cases, setCases] = useState<OperationalCase[]>(() => seedCases(initialResult))
   const [ledger, setLedger] = useState<LedgerItem[]>(() => seedLedger(seedCases(initialResult)))
-  const [payrollNotes, setPayrollNotes] = useState<PayrollNote[]>(seedPayrollNotes)
   const [selectedId, setSelectedId] = useState('BS-260827-018')
   const [query, setQuery] = useState('')
   const [kindFilter, setKindFilter] = useState('ALL')
@@ -171,13 +148,9 @@ export default function BsReworkPage({ initialResult, onBack }: { initialResult?
   const [sourceFilter, setSourceFilter] = useState('ALL')
   const [showLegacyForm, setShowLegacyForm] = useState(false)
   const [reworkInputs, setReworkInputs] = useState<SizeInputs>(['', '', ''])
+  const [reworkComponentIds, setReworkComponentIds] = useState<string[]>(['obras', 'centang', 'lipat'])
   const [susulanInputs, setSusulanInputs] = useState<SizeInputs>(['', '', ''])
   const [notice, setNotice] = useState<string | null>(null)
-  const [selectedNoteId, setSelectedNoteId] = useState('GJ-260828-010')
-  const [noteQuery, setNoteQuery] = useState('')
-  const [noteMandorFilter, setNoteMandorFilter] = useState('Semua mandor')
-  const [noteStatusFilter, setNoteStatusFilter] = useState('ALL')
-  const [dragTargetNote, setDragTargetNote] = useState<string | null>(null)
 
   const mandors = Array.from(new Set(cases.flatMap(caseMandors).filter(Boolean)))
   const visibleCases = useMemo(() => cases.filter((item) => {
@@ -204,38 +177,11 @@ export default function BsReworkPage({ initialResult, onBack }: { initialResult?
     : [0, 0, 0]
   const holdRemaining: SizeValues = selectedHold ? subtractSizes(selectedHold.qtyBySize, holdReleased) : [0, 0, 0]
 
-  const assignedItemIds = new Set(payrollNotes.flatMap((note) => note.itemIds))
-  const queueItems = ledger.filter((item) => !assignedItemIds.has(item.id))
-  const noteMandors = Array.from(new Set(payrollNotes.map((note) => note.mandor)))
-  const visibleNotes = payrollNotes.filter((note) => `${note.id} ${note.mandor} ${note.period}`.toLowerCase().includes(noteQuery.toLowerCase())
-    && (noteMandorFilter === 'Semua mandor' || note.mandor === noteMandorFilter)
-    && (noteStatusFilter === 'ALL' || note.status === noteStatusFilter))
-  const selectedNote = visibleNotes.find((note) => note.id === selectedNoteId) ?? visibleNotes[0] ?? payrollNotes[0]
-  const selectedNoteItems = selectedNote.itemIds.map((id) => ledger.find((item) => item.id === id)).filter((item): item is LedgerItem => Boolean(item))
-  const selectedNoteAdjustment = selectedNoteItems.reduce((total, item) => total + item.sign * item.amount, 0)
-  const selectedNoteBase = selectedNote.baseQty * selectedNote.baseRate
+  const reworkReadyItems = ledger.filter((item) => item.kind === 'REWORK_RELEASE')
 
-  const setSelectedCase = (id: string) => { setSelectedId(id); setReworkInputs(['', '', '']); setSusulanInputs(['', '', '']) }
-  const moveToNote = (itemId: string, noteId: string) => {
-    const item = ledger.find((entry) => entry.id === itemId)
-    const note = payrollNotes.find((entry) => entry.id === noteId)
-    if (!item || !note) return
-    if (!isPayrollEditable(note.status)) { setNotice(`${note.id} sudah ${payrollStatusLabels[note.status]} dan terkunci. Pilih nota Draft / Calculated / Review.`); return }
-    if (item.payee !== note.mandor) { setNotice(`${item.id} milik ${item.payee}; tidak boleh masuk nota ${note.mandor}.`); return }
-    setPayrollNotes((current) => current.map((entry) => entry.id === noteId
-      ? { ...entry, itemIds: entry.itemIds.includes(itemId) ? entry.itemIds : [...entry.itemIds, itemId] }
-      : { ...entry, itemIds: entry.itemIds.filter((id) => id !== itemId) }))
-    setSelectedNoteId(noteId)
-    setNotice(`${item.id} dipindahkan ke ${note.id}. Link kasus asal tetap menempel.`)
-  }
-  const removeFromNote = (itemId: string, noteId: string) => {
-    setPayrollNotes((current) => current.map((note) => note.id === noteId ? { ...note, itemIds: note.itemIds.filter((id) => id !== itemId) } : note))
-    setNotice(`${itemId} kembali ke daftar siap ditempel.`)
-  }
-  const handleDropToNote = (event: DragEvent<HTMLElement>, noteId: string) => {
-    event.preventDefault(); setDragTargetNote(null)
-    const id = event.dataTransfer.getData('text/plain')
-    if (ledger.some((item) => item.id === id)) moveToNote(id, noteId)
+  const setSelectedCase = (id: string) => {
+    const target=cases.find((item):item is BsCase=>item.kind==='BS'&&item.id===id)
+    setSelectedId(id); setReworkInputs(['', '', '']); setSusulanInputs(['', '', '']); setReworkComponentIds(target?.componentIds??[])
   }
   const updateReworkMandor = (mandor: string) => {
     if (!selectedBs) return
@@ -254,18 +200,19 @@ export default function BsReworkPage({ initialResult, onBack }: { initialResult?
     if (!selectedBs || !caseDeduction || !selectedBs.reworkMandor) { setNotice('Mandor rework wajib dipilih sebelum hasil QC ulang diposting.'); return }
     const requested = asSizeValues(reworkInputs.map((value, index) => Math.min(Number(value) || 0, reworkRemaining[index])))
     const qty = sum(requested)
-    if (qty <= 0) return
+    const selectedRate=componentRate(reworkComponentIds)
+    if (qty <= 0 || selectedRate <= 0) return
     const item: LedgerItem = {
       id: `ADJ-RW-${selectedBs.id.replace(/\D/g, '')}-${ledger.length + 1}`, kind: 'REWORK_RELEASE',
-      label: 'Bikin bagus · pulihkan minus asal', sign: 1, qtyBySize: requested, rate: caseDeduction.rate,
-      amount: qty * caseDeduction.rate, payee: selectedBs.reworkMandor, originId: caseDeduction.id, caseId: selectedBs.id,
-      sourceLabel: `Asal ${caseDeduction.id} · QC rework lulus`, createdAt: '28 Agu · baru saja',
+      label: 'Bikin bagus · siap Nota FG', sign: 1, qtyBySize: requested, rate: selectedRate,
+      amount: qty * selectedRate, payee: selectedBs.reworkMandor, originId: caseDeduction.id, caseId: selectedBs.id,
+      sourceLabel: `Asal ${caseDeduction.id} · QC rework lulus`, createdAt: '28 Agu · baru saja', componentIds: reworkComponentIds,
     }
     const remainingAfter = subtractSizes(reworkRemaining, requested)
     setLedger((current) => [...current, item])
     setCases((current) => current.map((entry) => entry.kind === 'BS' && entry.id === selectedBs.id ? { ...entry, status: sum(remainingAfter) === 0 ? 'GOOD_RESTORED' : 'QC_REWORK' } : entry))
     setReworkInputs(['', '', ''])
-    setNotice(`${qty} pcs bikin bagus membuat +${money(item.amount)} untuk ${item.payee}, terkunci ke ${caseDeduction.id}.`)
+    setNotice(`${qty} pcs Bikin Bagus menjadi card siap Nota FG untuk ${item.payee}. ${reworkComponentIds.length} komponen bayar sudah disnapshot.`)
   }
   const postSusulan = () => {
     if (!selectedStuck || !selectedHold) return
@@ -305,7 +252,7 @@ export default function BsReworkPage({ initialResult, onBack }: { initialResult?
 
   return <>
     <section className="hero-copy compact bsr-hero">
-      <div><div className="eyebrow">PRODUKSI · MUTU & PENYELESAIAN</div><h1>Kasus BS & Stuck Laundry</h1><p>Browse semua kasus dulu, selesaikan tindakannya, lalu tempel baris yang sudah sah ke nota gajian tujuan.</p></div>
+      <div><div className="eyebrow">PRODUKSI · MUTU & PENYELESAIAN</div><h1>Kasus BS & Stuck Laundry</h1><p>Browse kasus, selesaikan Bikin Bagus, lalu hasil yang diterima otomatis menjadi card siap disusun pada Nota FG.</p></div>
       <div className="bsr-hero-actions"><button type="button" className="soft-btn" onClick={onBack}><ArrowLeft/> Kembali</button><button type="button" className="primary-btn legacy" onClick={() => setShowLegacyForm(true)}><History/> Impor BS legacy</button></div>
     </section>
 
@@ -316,7 +263,7 @@ export default function BsReworkPage({ initialResult, onBack }: { initialResult?
       <article className="panel"><span>KASUS AKTIF</span><strong>{openCases}</strong><small>BS dan Stuck yang butuh tindakan</small></article>
       <article className="panel danger"><span>MINUS BS TERSISA</span><strong>{money(totalBsOutstanding)}</strong><small>Belum dipulihkan lewat bikin bagus</small></article>
       <article className="panel warn"><span>MASIH DI LAUNDRY</span><strong>{totalStuck} pcs</strong><small>Belum boleh berubah menjadi BS</small></article>
-      <article className="panel good"><span>BARIS SIAP NOTA</span><strong>{queueItems.length}</strong><small>Belum ditempel ke nota gajian</small></article>
+      <article className="panel good"><span>BIKIN BAGUS SIAP NOTA</span><strong>{reworkReadyItems.length}</strong><small>Menunggu disusun pada Nota FG</small></article>
     </section>
 
     <section className="panel bsr-toolbar">
@@ -353,7 +300,7 @@ export default function BsReworkPage({ initialResult, onBack }: { initialResult?
           <section className="bsr-case-facts"><div><span>SUMBER KASUS</span><strong>{selectedBs.source === 'QC_AUTO' ? 'Dibuat otomatis saat QC diposting' : 'Impor arsip BS legacy'}</strong></div><div><span>REFERENSI</span><strong>{selectedBs.sourceNote}</strong></div><div><span>DICATAT</span><strong>{selectedBs.createdAt}</strong></div><div className="wide"><span>ALASAN</span><strong>{selectedBs.reason}</strong></div></section>
           <section className="bsr-size-table"><header><span>SIZE</span><span>BS AWAL</span><span>SUDAH DIPULIHKAN</span><span>SISA MINUS</span></header>{selectedBs.sizes.map((size, index) => <div key={size}><strong>{size}</strong><span>{selectedBs.qtyBySize[index]} pcs</span><span className="plus">{releasedForCase[index]} pcs</span><strong className={reworkRemaining[index] > 0 ? 'minus' : 'done'}>{reworkRemaining[index]} pcs</strong></div>)}</section>
           <section className="bsr-component-snapshot"><header><div><span>SNAPSHOT KOMPONEN TERDAMPAK</span><strong>{caseDeduction?.id ?? 'Belum ada minus asal'}</strong></div><em><ShieldCheck/> terkunci</em></header><div>{selectedBs.componentIds.map((id) => { const component = components.find((item) => item.id === id); return component ? <article key={id}><span><Wrench/></span><div><strong>{component.name}</strong><small>{component.note}</small></div><b>{money(component.rate)}</b></article> : null })}</div><footer><span>Minus per pcs</span><strong>− {money(caseDeduction?.rate ?? componentRate(selectedBs.componentIds))}</strong></footer></section>
-          {selectedBs.status === 'QC_REWORK' && sum(reworkRemaining) > 0 && <section className="bsr-release-card rework" data-keyboard-scope><header><CirclePlus/><div><span>BIKIN BAGUS · PLUS TERHUBUNG</span><h3>Berapa yang lulus QC ulang?</h3><p>Plus mengurangi saldo minus <b>{caseDeduction?.id}</b>, tetapi dibayar ke <b>{selectedBs.reworkMandor ?? 'Mandor rework belum dipilih'}</b>.</p></div></header><div className="bsr-release-grid" data-keyboard-grid>{selectedBs.sizes.map((size, index) => <label key={size}><span>SIZE {size} · maks {reworkRemaining[index]}</span><input inputMode="numeric" data-grid-row={0} data-grid-col={index} value={reworkInputs[index]} onFocus={(event) => event.currentTarget.select()} onChange={(event) => setReworkInputs((current) => asSizeInputs(current.map((value, row) => row === index ? cleanQuantity(event.target.value, reworkRemaining[index]) : value)))}/></label>)}</div><div className="bsr-release-actions"><button type="button" className="soft-btn danger" onClick={markBsFinal}><CircleMinus/> Tetapkan sisa BS final</button><button type="button" className="primary-btn" disabled={!selectedBs.reworkMandor || sum(asSizeValues(reworkInputs.map(Number))) <= 0} onClick={postReworkRelease}>Lulus QC & buat plus <ArrowRight/></button></div></section>}
+          {selectedBs.status === 'QC_REWORK' && sum(reworkRemaining) > 0 && <section className="bsr-release-card rework" data-keyboard-scope><header><CirclePlus/><div><span>BIKIN BAGUS · KOMPONEN BAYAR</span><h3>Tentukan pekerjaan yang benar-benar diselesaikan</h3><p>Checkbox hanya berlaku untuk Bikin Bagus. Hasilnya menjadi snapshot tarif card untuk <b>{selectedBs.reworkMandor ?? 'Mandor rework belum dipilih'}</b>.</p></div></header><section className="bsr-rework-component-picker"><div><span>KOMPONEN DIKERJAKAN & DIBAYAR</span><strong>{reworkComponentIds.length} dipilih · {money(componentRate(reworkComponentIds))}/pcs</strong></div><div>{selectedBs.componentIds.map((id)=>{const component=components.find((item)=>item.id===id);if(!component)return null;const active=reworkComponentIds.includes(id);return <button type="button" className={active?'active':''} aria-pressed={active} onClick={()=>setReworkComponentIds((current)=>active?current.filter((item)=>item!==id):[...current,id])} key={id}><span>{active&&<Check/>}</span><div><strong>{component.name}</strong><small>{component.note}</small></div><b>{money(component.rate)}</b></button>})}</div></section><div className="bsr-release-grid" data-keyboard-grid>{selectedBs.sizes.map((size, index) => <label key={size}><span>SIZE {size} · maks {reworkRemaining[index]}</span><input inputMode="numeric" data-grid-row={0} data-grid-col={index} value={reworkInputs[index]} onFocus={(event) => event.currentTarget.select()} onChange={(event) => setReworkInputs((current) => asSizeInputs(current.map((value, row) => row === index ? cleanQuantity(event.target.value, reworkRemaining[index]) : value)))}/></label>)}</div><div className="bsr-release-actions"><button type="button" className="soft-btn danger" onClick={markBsFinal}><CircleMinus/> Tetapkan sisa BS final</button><button type="button" className="primary-btn" disabled={!selectedBs.reworkMandor || reworkComponentIds.length===0 || sum(asSizeValues(reworkInputs.map(Number))) <= 0} onClick={postReworkRelease}>Lulus QC & buat card Nota FG <ArrowRight/></button></div></section>}
           {['OPEN', 'ASSIGNED', 'IN_REWORK'].includes(selectedBs.status) && <div className="bsr-next-action"><div><Clock3/><span><strong>{bsStatusLabels[selectedBs.status]}</strong><small>Riwayat tidak dihapus saat tahap berganti.</small></span></div><button type="button" className="primary-btn" onClick={nextBsStatus}>{selectedBs.status === 'OPEN' ? 'Tugaskan rework' : selectedBs.status === 'ASSIGNED' ? 'Mulai bikin bagus' : 'Kirim ke QC ulang'} <ArrowRight/></button></div>}
           {selectedBs.status === 'GOOD_RESTORED' && <div className="bsr-closed good"><CheckCircle2/><div><strong>Seluruh minus kasus sudah dipulihkan</strong><span>Mandor asal dan Mandor pelaksana tetap terlihat terpisah.</span></div></div>}
           {selectedBs.status === 'BS_FINAL' && <div className="bsr-closed final"><CircleMinus/><div><strong>Ditetapkan BS final</strong><span>Minus tidak hilang. Koreksi berikutnya wajib melalui reversal berjejak.</span></div></div>}
@@ -369,32 +316,11 @@ export default function BsReworkPage({ initialResult, onBack }: { initialResult?
       </div>
     </section>
 
-    <article className="panel bsr-note-composer">
-      <header><div><span>TAHAP TERPISAH · SETELAH KASUS BERES</span><h2>Tempel baris siap gajian ke nota yang benar</h2><p>Tarik baris langsung ke kartu nota tujuan. Mandor harus cocok dan nota Approved / Paid tidak dapat diubah.</p></div><ReceiptText/></header>
-      <div className="bsr-note-layout">
-        <section className="bsr-ledger-queue"><div className="bsr-column-title"><span>BARIS SIAP DITEMPEL</span><strong>{queueItems.length} baris</strong></div>{queueItems.map((item) => {
-          const compatible = selectedNote && selectedNote.mandor === item.payee && isPayrollEditable(selectedNote.status)
-          return <article className={`bsr-ledger-item ${ledgerTone(item.kind)}`} draggable onDragStart={(event) => { event.dataTransfer.setData('text/plain', item.id); event.dataTransfer.effectAllowed = 'move' }} key={item.id}><GripVertical/><div><small>{item.id}</small><strong>{item.label}</strong><span>{item.sourceLabel}</span><em>{sum(item.qtyBySize)} pcs × {money(item.rate)} · untuk <b>{item.payee}</b></em></div><b>{item.sign > 0 ? '+' : '−'} {money(item.amount)}</b><button type="button" disabled={!compatible} onClick={() => moveToNote(item.id, selectedNote.id)}>{compatible ? <>Masuk {selectedNote.id} <ArrowRight/></> : <>Pilih nota {item.payee}</>}</button></article>
-        })}{queueItems.length === 0 && <div className="bsr-queue-empty"><Check/><span>Semua baris sudah ditempel ke nota.</span></div>}</section>
-
-        <section className="bsr-note-workspace">
-          <div className="bsr-note-browser-head"><div><span>BROWSE NOTA GAJIAN</span><strong>Pilih nota tujuan</strong></div><label><Search/><input value={noteQuery} onChange={(event) => setNoteQuery(event.target.value)} placeholder="Cari nomor / Mandor..."/></label><select value={noteMandorFilter} onChange={(event) => setNoteMandorFilter(event.target.value)}><option>Semua mandor</option>{noteMandors.map((mandor) => <option key={mandor}>{mandor}</option>)}</select><select value={noteStatusFilter} onChange={(event) => setNoteStatusFilter(event.target.value)}><option value="ALL">Semua status</option>{Object.entries(payrollStatusLabels).map(([value, label]) => <option value={value} key={value}>{label}</option>)}</select></div>
-          <div className="bsr-note-cards">{visibleNotes.map((note) => {
-            const adjustment = note.itemIds.map((id) => ledger.find((item) => item.id === id)).filter((item): item is LedgerItem => Boolean(item)).reduce((total, item) => total + item.sign * item.amount, 0)
-            const locked = !isPayrollEditable(note.status)
-            return <button type="button" className={`${selectedNote.id === note.id ? 'active' : ''} ${locked ? 'locked' : ''} ${dragTargetNote === note.id ? 'drag-over' : ''}`} onClick={() => setSelectedNoteId(note.id)} onDragOver={(event) => { event.preventDefault(); setDragTargetNote(note.id); event.dataTransfer.dropEffect = 'move' }} onDragLeave={() => setDragTargetNote(null)} onDrop={(event) => handleDropToNote(event, note.id)} key={note.id}><span className="bsr-note-card-icon">{locked ? <LockKeyhole/> : <FileText/>}</span><span><small>{payrollStatusLabels[note.status]} · {note.period}</small><strong>{note.id}</strong><em><UserRound/>{note.mandor}</em></span><b>{note.itemIds.length} baris<br/><small>{adjustment === 0 ? 'Belum ada adjust' : `${adjustment > 0 ? '+' : '−'} ${money(Math.abs(adjustment))}`}</small></b></button>
-          })}{visibleNotes.length === 0 && <div className="bsr-note-empty"><Search/><span>Nota tidak ditemukan.</span></div>}</div>
-
-          <section className={`bsr-payroll-note ${dragTargetNote === selectedNote.id ? 'drag-over' : ''}`} onDragOver={(event) => { event.preventDefault(); setDragTargetNote(selectedNote.id); event.dataTransfer.dropEffect = 'move' }} onDragLeave={() => setDragTargetNote(null)} onDrop={(event) => handleDropToNote(event, selectedNote.id)}>
-            <header><span>NOTA TERPILIH · {payrollStatusLabels[selectedNote.status]}</span><strong>{selectedNote.id}</strong><small>{selectedNote.mandor} · {selectedNote.period}</small></header>
-            <div className="bsr-note-base"><span>Upah dasar · snapshot pekerjaan</span><b>{selectedNote.baseQty} pcs × {money(selectedNote.baseRate)}</b><strong>{money(selectedNoteBase)}</strong></div>
-            <div className="bsr-note-lines">{selectedNoteItems.map((item) => <article className={ledgerTone(item.kind)} key={item.id}><div><small>{item.id}</small><strong>{item.label}</strong><span>{sum(item.qtyBySize)} pcs × {money(item.rate)} · {item.sourceLabel}</span></div><b>{item.sign > 0 ? '+' : '−'} {money(item.amount)}</b><button type="button" disabled={!isPayrollEditable(selectedNote.status)} onClick={() => removeFromNote(item.id, selectedNote.id)} aria-label={`Keluarkan ${item.id} dari nota`}><RotateCcw/></button></article>)}{selectedNoteItems.length === 0 && <div className="bsr-drop-empty">{isPayrollEditable(selectedNote.status) ? <><GripVertical/><strong>Drop baris ke nota ini</strong><span>Sumber hilang dari antrean dan tidak diduplikasi.</span></> : <><LockKeyhole/><strong>Nota sudah terkunci</strong><span>Approved / Paid hanya dapat dikoreksi lewat reversal.</span></>}</div>}</div>
-            <footer><span><small>Penyesuaian terpilih</small><b className={selectedNoteAdjustment < 0 ? 'negative' : 'positive'}>{selectedNoteAdjustment >= 0 ? '+' : '−'} {money(Math.abs(selectedNoteAdjustment))}</b></span><div><small>ESTIMASI DIBAYARKAN</small><strong>{money(selectedNoteBase + selectedNoteAdjustment)}</strong></div><button type="button" className="primary-btn" disabled={!isPayrollEditable(selectedNote.status) || selectedNoteItems.length === 0}><PackageCheck/> Simpan susunan nota</button></footer>
-          </section>
-        </section>
-      </div>
+    <article className="panel bsr-ready-nota">
+      <header><div><span>HASIL BIKIN BAGUS · OTOMATIS MASUK ANTREAN</span><h2>Card siap disusun pada Nota FG</h2><p>Browser Kasus tidak lagi menempelkan minus/plus langsung ke Payroll. Hanya hasil Bikin Bagus yang lolos QC ulang menjadi card pekerjaan.</p></div><ReceiptText/></header>
+      <div className="bsr-ready-grid">{reworkReadyItems.map((item) => <article key={item.id}><span className="bsr-ready-icon"><PackageCheck/></span><div><small>{item.id} · {item.sourceLabel}</small><strong>{item.label}</strong><em><UserRound/>{item.payee}</em><p>{(item.componentIds??[]).map((id)=>components.find((component)=>component.id===id)?.name).filter(Boolean).join(' · ')}</p></div><span className="bsr-ready-amount"><small>{sum(item.qtyBySize)} pcs × {money(item.rate)}</small><strong>{money(item.amount)}</strong><em>SIAP NOTA FG</em></span></article>)}</div>
+      <footer><ShieldCheck/><span><strong>Penyusunan tetap dilakukan di Nota FG</strong><small>Card FG Reguler dan Bikin Bagus dipisahkan jelas. Setelah Nota FG posted, barulah dokumen muncul pada Payroll.</small></span></footer>
     </article>
-
     {showLegacyForm && <LegacyBsDialog result={initialResult} onClose={() => setShowLegacyForm(false)} onCreate={(createdCase, deduction) => {
       setCases((current) => [createdCase, ...current]); setLedger((current) => [deduction, ...current]); setSelectedId(createdCase.id)
       setKindFilter('ALL'); setSourceFilter('ALL'); setShowLegacyForm(false)
