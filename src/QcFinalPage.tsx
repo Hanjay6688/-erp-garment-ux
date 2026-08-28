@@ -1,116 +1,120 @@
 import { useMemo, useState } from 'react'
-import { ArrowLeft, ArrowRight, ClipboardCheck, Info, PackageCheck, Shirt, Waves } from 'lucide-react'
+import { ArrowLeft, ArrowRight, ClipboardCheck, Filter, Info, PackageCheck, Search, Shirt, UserRound, Waves } from 'lucide-react'
 import './finalization-flow.css'
+
+type NumberTuple = [number, number, number]
+type StringTuple = [string, string, string]
 
 export type QcSeed = {
   parentId: string
   batchId: string
+  brand: string
   model: string
   material: string
   mandor: string
   laundry: string
-  sizes: [string, string, string]
-  expected: [number, number, number]
-  returnedGood: number
-  returnedBs: number
-  stuck: number
+  sizes: StringTuple
+  expected: NumberTuple
+  returnedGoodBySize: NumberTuple
+  returnedBsBySize: NumberTuple
+  stuckBySize: NumberTuple
 }
 
 export type QcFinalResult = QcSeed & {
-  qcGood: [number, number, number]
-  qcBs: [number, number, number]
-  rewash: [number, number, number]
-  stuckBySize: [number, number, number]
+  qcGood: NumberTuple
+  qcBs: NumberTuple
+  rewash: NumberTuple
   finalSku: string
   destination: string
 }
 
-const asTuple = <T,>(values: T[]): [T, T, T] => [values[0], values[1], values[2]]
-
-function allocate(total: number, capacity: [number, number, number]) {
-  let remaining = Math.max(0, total)
-  const output = capacity.map((limit) => {
-    const value = Math.min(limit, remaining)
-    remaining -= value
-    return value
-  })
-  return asTuple(output)
+const keyOf = (seed:QcSeed) => `${seed.parentId}::${seed.batchId}`
+const asNumberTuple = (values:number[]):NumberTuple => [values[0]??0,values[1]??0,values[2]??0]
+const asStringTuple = (values:string[]):StringTuple => [values[0]??'',values[1]??'',values[2]??'']
+const total = (values:NumberTuple) => values.reduce((sum,value)=>sum+value,0)
+const cleanNumber = (raw:string,max:number) => {
+  const digits=raw.replace(/\D/g,'').replace(/^0+(?=\d)/,'')
+  return digits===''?'':String(Math.min(max,Number(digits)))
 }
 
-const cleanNumber = (raw: string, max: number) => {
-  const digits = raw.replace(/\D/g, '').replace(/^0+(?=\d)/, '')
-  return digits === '' ? '' : String(Math.min(max, Number(digits)))
-}
-
-export default function QcFinalPage({ seed, onBack, onFinish }: {
-  seed: QcSeed
-  onBack: () => void
-  onFinish: (result: QcFinalResult) => void
+export default function QcFinalPage({seeds,initialSeedId,onBack,onFinish}:{
+  seeds:QcSeed[]
+  initialSeedId:string
+  onBack:()=>void
+  onFinish:(result:QcFinalResult)=>void
 }) {
-  const returnedBySize = useMemo(() => allocate(seed.returnedGood + seed.returnedBs, seed.expected), [seed])
-  const laundryBsBySize = useMemo(() => allocate(seed.returnedBs, returnedBySize), [seed, returnedBySize])
-  const stuckBySize = useMemo(() => asTuple(seed.expected.map((qty, index) => Math.max(0, qty - returnedBySize[index]))), [seed, returnedBySize])
-  const [bsInputs, setBsInputs] = useState<[string, string, string]>(() => asTuple(laundryBsBySize.map(String)) as [string, string, string])
-  const [rewashInputs, setRewashInputs] = useState<[string, string, string]>(['0', '0', '0'])
-  const [finalSku, setFinalSku] = useState('73002')
-  const [destination, setDestination] = useState('Gudang FG Utama')
-  const [reviewing, setReviewing] = useState(false)
-
-  const qcBs = asTuple(bsInputs.map((value) => Number(value) || 0))
-  const rewash = asTuple(rewashInputs.map((value) => Number(value) || 0))
-  const qcGood = asTuple(returnedBySize.map((qty, index) => Math.max(0, qty - qcBs[index] - rewash[index])))
-  const total = (values: [number, number, number]) => values.reduce((sum, value) => sum + value, 0)
-  const totalGood = total(qcGood)
-  const totalBs = total(qcBs)
-  const totalRewash = total(rewash)
-  const totalStuck = total(stuckBySize)
-
-  const updateException = (kind: 'bs' | 'rewash', index: number, raw: string) => {
-    const other = kind === 'bs' ? rewash[index] : qcBs[index]
-    const next = cleanNumber(raw, Math.max(0, returnedBySize[index] - other))
-    if (kind === 'bs') setBsInputs((current) => asTuple(current.map((value, row) => row === index ? next : value)) as [string, string, string])
-    else setRewashInputs((current) => asTuple(current.map((value, row) => row === index ? next : value)) as [string, string, string])
-    setReviewing(false)
-  }
-
-  const finish = () => onFinish({ ...seed, qcGood, qcBs, rewash, stuckBySize, finalSku, destination })
+  const [selectedId,setSelectedId]=useState(initialSeedId)
+  const [query,setQuery]=useState('')
+  const [mandorFilter,setMandorFilter]=useState('Semua mandor')
+  const [laundryFilter,setLaundryFilter]=useState('Semua laundry')
+  const [brandFilter,setBrandFilter]=useState('Semua merek')
+  const mandors=Array.from(new Set(seeds.map((seed)=>seed.mandor)))
+  const laundries=Array.from(new Set(seeds.map((seed)=>seed.laundry)))
+  const brands=Array.from(new Set(seeds.map((seed)=>seed.brand)))
+  const visible=useMemo(()=>seeds.filter((seed)=>{
+    const haystack=`${seed.parentId} ${seed.batchId} ${seed.brand} ${seed.model} ${seed.material} ${seed.mandor} ${seed.laundry}`.toLowerCase()
+    return haystack.includes(query.toLowerCase())&&(mandorFilter==='Semua mandor'||seed.mandor===mandorFilter)&&(laundryFilter==='Semua laundry'||seed.laundry===laundryFilter)&&(brandFilter==='Semua merek'||seed.brand===brandFilter)
+  }),[seeds,query,mandorFilter,laundryFilter,brandFilter])
+  const selected=visible.find((seed)=>keyOf(seed)===selectedId)??visible[0]??seeds[0]
 
   return <>
     <section className="hero-copy compact qc-flow-hero">
-      <div><div className="eyebrow">PRODUKSI · SETELAH LAUNDRY</div><h1>QC & Final SKU</h1><p>Barang yang sudah kembali diperiksa di sini. Selisih yang belum pulang otomatis tetap tercatat sebagai Stuck Laundry.</p></div>
-      <button type="button" className="soft-btn" onClick={onBack}><ArrowLeft /> Kembali ke WIP</button>
+      <div><div className="eyebrow">PRODUKSI · SETELAH LAUNDRY</div><h1>QC & Final SKU</h1><p>Browse berdasarkan merek, Mandor, atau Laundry. Pilih child batch yang fisiknya sudah kembali, lalu review per size.</p></div>
+      <button type="button" className="soft-btn" onClick={onBack}><ArrowLeft/> Kembali ke WIP</button>
     </section>
-
     <div className="final-flow-strip"><span className="done"><b>1</b>Laundry kembali</span><i/><span className="active"><b>2</b>QC & Final SKU</span><i/><span><b>3</b>Serah FG</span><i/><span><b>4</b>Gajian</span></div>
-
-    <section className="panel qc-source-card">
-      <span className="qc-source-order"><Shirt /></span><div><small>POTONGAN INDUK · CHILD BATCH</small><h2>{seed.parentId} · Batch {seed.batchId}</h2><p>{seed.model} · {seed.material} · {seed.mandor}</p></div>
-      <div><small>LAUNDRY</small><strong>{seed.laundry || 'Belum tercatat'}</strong></div><div><small>KEMBALI / DIKIRIM</small><strong>{seed.returnedGood + seed.returnedBs} / {total(seed.expected)} pcs</strong></div>
+    <section className="qc-browser-shell">
+      <aside className="panel qc-browser">
+        <header><div><span>BROWSE ANTREAN QC</span><strong>{visible.length} child batch</strong></div><Filter/></header>
+        <label className="qc-browser-search"><Search/><input value={query} onChange={(event)=>setQuery(event.target.value)} placeholder="Cari PO, merek, Mandor, bahan..."/></label>
+        <div className="qc-browser-filters">
+          <label><span>MANDOR</span><select value={mandorFilter} onChange={(event)=>setMandorFilter(event.target.value)}><option>Semua mandor</option>{mandors.map((mandor)=><option key={mandor}>{mandor}</option>)}</select></label>
+          <label><span>LAUNDRY</span><select value={laundryFilter} onChange={(event)=>setLaundryFilter(event.target.value)}><option>Semua laundry</option>{laundries.map((laundry)=><option key={laundry}>{laundry}</option>)}</select></label>
+          <label><span>MEREK</span><select value={brandFilter} onChange={(event)=>setBrandFilter(event.target.value)}><option>Semua merek</option>{brands.map((brand)=><option key={brand}>{brand}</option>)}</select></label>
+        </div>
+        <div className="qc-browser-list">{visible.map((seed,index)=>{
+          const returned=total(seed.returnedGoodBySize)+total(seed.returnedBsBySize)
+          const stuck=total(seed.stuckBySize)
+          return <button type="button" className={selected&&keyOf(seed)===keyOf(selected)?'active':''} onClick={()=>setSelectedId(keyOf(seed))} key={keyOf(seed)}><span className="qc-browser-index">{String(index+1).padStart(2,'0')}</span><span className="qc-browser-copy"><small>{seed.brand} · {seed.parentId}</small><strong>Batch {seed.batchId} · {seed.model}</strong><span className="qc-browser-mandor"><UserRound/><b>{seed.mandor}</b></span><em>{seed.laundry} · {returned} kembali · {stuck} stuck</em></span><ArrowRight/></button>
+        })}{visible.length===0&&<div className="qc-browser-empty"><Search/><strong>Antrean tidak ketemu</strong><small>Ubah Mandor, Laundry, merek, atau pencarian.</small></div>}</div>
+      </aside>
+      <div className="qc-browser-detail">{selected?<QcEditor key={keyOf(selected)} seed={selected} onFinish={onFinish}/>:<div className="panel qc-no-source"><ClipboardCheck/><strong>Belum ada barang kembali untuk QC</strong><small>Catat penerimaan di Laundry lebih dulu.</small></div>}</div>
     </section>
+  </>
+}
 
+function QcEditor({seed,onFinish}:{seed:QcSeed;onFinish:(result:QcFinalResult)=>void}) {
+  const returnedBySize=asNumberTuple(seed.returnedGoodBySize.map((qty,index)=>qty+seed.returnedBsBySize[index]))
+  const [bsInputs,setBsInputs]=useState<StringTuple>(()=>asStringTuple(seed.returnedBsBySize.map(String)))
+  const [rewashInputs,setRewashInputs]=useState<StringTuple>(['0','0','0'])
+  const [finalSku,setFinalSku]=useState(seed.brand==='Vivo'?'73003':'73002')
+  const [destination,setDestination]=useState('Gudang FG Utama')
+  const [reviewing,setReviewing]=useState(false)
+  const qcBs=asNumberTuple(bsInputs.map((value)=>Number(value)||0))
+  const rewash=asNumberTuple(rewashInputs.map((value)=>Number(value)||0))
+  const qcGood=asNumberTuple(returnedBySize.map((qty,index)=>Math.max(0,qty-qcBs[index]-rewash[index])))
+  const totalGood=total(qcGood),totalBs=total(qcBs),totalRewash=total(rewash),totalStuck=total(seed.stuckBySize),expectedTotal=total(seed.expected)
+  const updateException=(kind:'bs'|'rewash',index:number,raw:string)=>{
+    const other=kind==='bs'?rewash[index]:qcBs[index]
+    const next=cleanNumber(raw,Math.max(0,returnedBySize[index]-other))
+    if(kind==='bs')setBsInputs((current)=>asStringTuple(current.map((value,row)=>row===index?next:value)))
+    else setRewashInputs((current)=>asStringTuple(current.map((value,row)=>row===index?next:value)))
+    setReviewing(false)
+  }
+  const finish=()=>onFinish({...seed,qcGood,qcBs,rewash,finalSku,destination})
+
+  return <>
+    <section className="panel qc-source-card"><span className="qc-source-order"><Shirt/></span><div><small>{seed.brand} · POTONGAN INDUK · CHILD BATCH</small><h2>{seed.parentId} · Batch {seed.batchId}</h2><p>{seed.model} · {seed.material}</p></div><div className="qc-mandor-hero"><UserRound/><span><small>MANDOR PENANGGUNG JAWAB</small><strong>{seed.mandor}</strong></span></div><div><small>LAUNDRY</small><strong>{seed.laundry||'Belum tercatat'}</strong></div></section>
     <section className="qc-flow-layout">
       <div className="panel qc-size-workbench">
-        <header><div><span>01 · HASIL FISIK PER SIZE</span><h2>Good dihitung otomatis</h2><p>Isi hanya pengecualian. Stuck berasal dari selisih kirim–kembali, bukan input bebas.</p></div><ClipboardCheck /></header>
+        <header><div><span>01 · HASIL FISIK PER SIZE</span><h2>Good dihitung otomatis</h2><p>Qty kembali dan Stuck berasal dari penerimaan Laundry per size—bukan dibagi rata atau ditebak.</p></div><ClipboardCheck/></header>
         <div className="qc-size-head"><span>Size</span><span>Potongan</span><span>Kembali</span><span>BS</span><span>Cuci ulang</span><span>Stuck Laundry</span><span>Good</span></div>
-        <div className="qc-size-rows">{seed.sizes.map((size, index) => <div className="qc-size-row" key={size}>
-          <strong>{size}</strong><span>{seed.expected[index]}</span><span>{returnedBySize[index]}</span>
-          <label><input inputMode="numeric" value={bsInputs[index]} onFocus={(event) => event.currentTarget.select()} onChange={(event) => updateException('bs', index, event.target.value)} /></label>
-          <label><input inputMode="numeric" value={rewashInputs[index]} onFocus={(event) => event.currentTarget.select()} onChange={(event) => updateException('rewash', index, event.target.value)} /></label>
-          <span className={stuckBySize[index] > 0 ? 'stuck' : ''}>{stuckBySize[index]}</span><strong className="good">{qcGood[index]}</strong>
-        </div>)}</div>
-        <div className="qc-equation"><span><small>POTONGAN</small><strong>{total(seed.expected)}</strong></span><b>=</b><span><small>GOOD</small><strong>{totalGood}</strong></span><b>+</b><span><small>BS</small><strong>{totalBs}</strong></span><b>+</b><span><small>CUCI ULANG</small><strong>{totalRewash}</strong></span><b>+</b><span className="stuck"><small>STUCK</small><strong>{totalStuck}</strong></span></div>
-        {totalStuck > 0 && <div className="qc-auto-stuck"><Waves /><div><strong>{totalStuck} pcs otomatis Stuck Laundry</strong><span>Dihitung dari qty dikirim dikurangi seluruh barang yang sudah dicatat kembali. Tidak diputuskan sebagai BS sampai fisiknya pulang dan diperiksa.</span></div></div>}
-
-        <div className="qc-final-fields"><label><span>FINAL SKU</span><select value={finalSku} onChange={(event) => { setFinalSku(event.target.value); setReviewing(false) }}><option>73002</option><option>73001</option><option>73005</option></select></label><label><span>TUJUAN FG</span><select value={destination} onChange={(event) => { setDestination(event.target.value); setReviewing(false) }}><option>Gudang FG Utama</option><option>Gudang FG Cadangan</option></select></label></div>
+        <div className="qc-size-rows">{seed.sizes.map((size,index)=><div className="qc-size-row" key={size}><strong data-label="SIZE">{size}</strong><span data-label="POTONGAN">{seed.expected[index]}</span><span data-label="KEMBALI">{returnedBySize[index]}</span><label data-label="BS"><input inputMode="numeric" value={bsInputs[index]} onFocus={(event)=>event.currentTarget.select()} onChange={(event)=>updateException('bs',index,event.target.value)}/></label><label data-label="CUCI ULANG"><input inputMode="numeric" value={rewashInputs[index]} onFocus={(event)=>event.currentTarget.select()} onChange={(event)=>updateException('rewash',index,event.target.value)}/></label><span data-label="STUCK" className={seed.stuckBySize[index]>0?'stuck':''}>{seed.stuckBySize[index]}</span><strong data-label="GOOD" className="good">{qcGood[index]}</strong></div>)}</div>
+        <div className="qc-equation"><span><small>POTONGAN</small><strong>{expectedTotal}</strong></span><b>=</b><span><small>GOOD</small><strong>{totalGood}</strong></span><b>+</b><span><small>BS</small><strong>{totalBs}</strong></span><b>+</b><span><small>CUCI ULANG</small><strong>{totalRewash}</strong></span><b>+</b><span className="stuck"><small>STUCK</small><strong>{totalStuck}</strong></span></div>
+        {totalStuck>0&&<div className="qc-auto-stuck"><Waves/><div><strong>{totalStuck} pcs masih di {seed.laundry}</strong><span>{seed.sizes.map((size,index)=>`Size ${size}: ${seed.stuckBySize[index]}`).join(' · ')}. Belum boleh berubah menjadi BS sebelum fisiknya kembali.</span></div></div>}
+        <div className="qc-final-fields"><label><span>MEREK · FINAL SKU</span><select value={finalSku} onChange={(event)=>{setFinalSku(event.target.value);setReviewing(false)}}><option>{seed.brand==='Vivo'?'73003':'73002'}</option><option>{seed.brand==='Vivo'?'73001':'73005'}</option></select><small>{seed.brand} · {seed.model}</small></label><label><span>TUJUAN FG</span><select value={destination} onChange={(event)=>{setDestination(event.target.value);setReviewing(false)}}><option>Gudang FG Utama</option><option>Gudang FG Cadangan</option></select></label></div>
       </div>
-
-      <aside className="panel qc-review-ticket">
-        <div className="qc-review-title"><span>REVIEW FINISHING</span><h2>{seed.material} · SKU {finalSku}</h2><p>{seed.parentId} · Batch {seed.batchId}</p></div>
-        <div className="qc-review-totals"><p><span>Lolos QC / serah FG</span><strong>{totalGood} pcs</strong></p><p><span>BS final</span><strong>{totalBs} pcs</strong></p><p><span>Cuci ulang</span><strong>{totalRewash} pcs</strong></p><p className="stuck"><span>Masih di laundry</span><strong>{totalStuck} pcs</strong></p></div>
-        <div className="qc-review-rule"><Info /><span><strong>Serah FG hanya memakai Good.</strong><small>BS, cuci ulang, dan stuck tidak menambah stok FG.</small></span></div>
-        {!reviewing ? <button className="primary-btn qc-review-button" onClick={() => setReviewing(true)}>Review finishing <ArrowRight /></button> : <div className="qc-final-confirm"><PackageCheck /><div><strong>Komposisi sudah cocok</strong><span>{totalGood + totalBs + totalRewash + totalStuck}/{total(seed.expected)} pcs terjelaskan.</span></div><button className="primary-btn" disabled={totalGood <= 0} onClick={finish}>Finalkan QC & lanjut <ArrowRight /></button></div>}
-        <small className="qc-prototype-note">Prototype frontend: belum menulis stok, QC, BS, payroll, atau jurnal backend.</small>
-      </aside>
+      <aside className="panel qc-review-ticket"><div className="qc-review-title"><span>REVIEW FINISHING · {seed.brand}</span><h2>{seed.material} · SKU {finalSku}</h2><p>{seed.parentId} · Batch {seed.batchId}</p><div className="qc-ticket-mandor"><UserRound/><span><small>MANDOR</small><strong>{seed.mandor}</strong></span></div></div><div className="qc-review-totals"><p><span>Lolos QC / serah FG</span><strong>{totalGood} pcs</strong></p><p><span>BS final</span><strong>{totalBs} pcs</strong></p><p><span>Cuci ulang</span><strong>{totalRewash} pcs</strong></p><p className="stuck"><span>Masih di laundry</span><strong>{totalStuck} pcs</strong></p></div><div className="qc-review-rule"><Info/><span><strong>Serah FG hanya memakai Good.</strong><small>BS, cuci ulang, dan Stuck tidak menambah stok FG.</small></span></div>{!reviewing?<button className="primary-btn qc-review-button" onClick={()=>setReviewing(true)}>Review finishing <ArrowRight/></button>:<div className="qc-final-confirm"><PackageCheck/><div><strong>Komposisi sudah cocok</strong><span>{totalGood+totalBs+totalRewash+totalStuck}/{expectedTotal} pcs terjelaskan.</span></div><button className="primary-btn" disabled={totalGood<=0} onClick={finish}>Finalkan QC & lanjut <ArrowRight/></button></div>}<small className="qc-prototype-note">Prototype frontend: posting backend belum aktif.</small></aside>
     </section>
   </>
 }
