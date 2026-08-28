@@ -13,6 +13,7 @@ import './bs-rework'
 import './workflow-refinements.css'
 import './laundry.css'
 import './workspace-refinements.css'
+import './ux-corrections.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
