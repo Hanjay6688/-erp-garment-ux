@@ -174,6 +174,7 @@ function HppPage() {
   const [query, setQuery] = useState('')
   const [brand, setBrand] = useState('Semua merek')
   const [status, setStatus] = useState('Semua status')
+  const [activeSkuKey, setActiveSkuKey] = useState(`${hppLots[0].brand}::${hppLots[0].sku}`)
   const [activeLotId, setActiveLotId] = useState(hppLots[0].id)
   const [activeVersionNo, setActiveVersionNo] = useState<number | null>(null)
   const [activeTab, setActiveTab] = useState<HppTab>('composition')
@@ -192,7 +193,32 @@ function HppPage() {
     return matchesQuery && matchesBrand && matchesStatus
   }), [query, brand, status])
 
-  const lot = visibleLots.find((item) => item.id === activeLotId) ?? visibleLots[0] ?? hppLots[0]
+  const visibleSkuGroups = useMemo(() => Array.from(visibleLots.reduce((groups, item) => {
+    const key = `${item.brand}::${item.sku}`
+    groups.set(key, [...(groups.get(key) ?? []), item])
+    return groups
+  }, new Map<string, HppLot[]>()).entries()), [visibleLots])
+
+  const skuKey = visibleSkuGroups.some(([key]) => key === activeSkuKey) ? activeSkuKey : visibleSkuGroups[0]?.[0] ?? `${hppLots[0].brand}::${hppLots[0].sku}`
+  const skuLots = visibleSkuGroups.find(([key]) => key === skuKey)?.[1] ?? [hppLots[0]]
+  const remainingStock = (item:HppLot) => Math.max(0,item.qty-item.soldQty)
+  const activeCost = (item:HppLot) => (item.versions.find((version)=>version.no===item.currentVersion)??item.versions[item.versions.length-1]).perPcs
+  const skuRemaining = skuLots.reduce((sum,item)=>sum+remainingStock(item),0)
+  const skuInventoryValue = skuLots.reduce((sum,item)=>sum+remainingStock(item)*activeCost(item),0)
+  const skuWeightedHpp = skuRemaining>0?Math.round(skuInventoryValue/skuRemaining):0
+  const skuSizes = Array.from(skuLots.reduce((rows,item)=>{
+    const labels=item.sizes.split('–').map(Number)
+    const sizeLabels=labels.length===2?Array.from({length:labels[1]-labels[0]+1},(_,index)=>String(labels[0]+index)):[item.sizes]
+    const stock=remainingStock(item)
+    sizeLabels.forEach((size,index)=>{
+      const qty=Math.floor(stock/sizeLabels.length)+(index<stock%sizeLabels.length?1:0)
+      const current=rows.get(size)??{size,qty:0,value:0,lots:0}
+      rows.set(size,{size,qty:current.qty+qty,value:current.value+qty*activeCost(item),lots:current.lots+1})
+    })
+    return rows
+  },new Map<string,{size:string;qty:number;value:number;lots:number}>()).values())
+
+  const lot = skuLots.find((item) => item.id === activeLotId) ?? skuLots[0] ?? hppLots[0]
   const currentVersion = lot.versions.find((version) => version.no === lot.currentVersion) ?? lot.versions[lot.versions.length - 1]
   const viewedVersion = lot.versions.find((version) => version.no === activeVersionNo) ?? currentVersion
   const historicalView = viewedVersion.no !== currentVersion.no
@@ -217,12 +243,17 @@ function HppPage() {
     setSimulationNotice('')
   }
 
+  const chooseSku = (key:string,lots:HppLot[]) => {
+    setActiveSkuKey(key)
+    chooseLot(lots[0].id)
+  }
+
   return <>
     <section className="hero-copy compact hpp-hero">
       <div>
-        <div className="eyebrow">KEUANGAN · COSTING PER FG LOT</div>
+        <div className="eyebrow">KEUANGAN · SKU → SIZE → LOT / PO</div>
         <h1>HPP & Rekalkulasi</h1>
-        <p>Satu HPP aktif untuk keputusan hari ini. Semua versi lama tetap terkunci untuk audit.</p>
+        <p>Mulai dari HPP rata-rata stok per SKU, turun ke size, lalu buka lot/PO pembentuknya untuk audit.</p>
       </div>
       <details className="hpp-state-guide">
         <summary><Info /> 3 keadaan biaya <ChevronDown /></summary>
@@ -244,34 +275,42 @@ function HppPage() {
 
     <section className="hpp-master-detail">
       <aside className="panel hpp-lot-browser">
-        <header><div><span>PILIH LOT / PO</span><strong>{visibleLots.length} hasil</strong></div><PackageSearch /></header>
+        <header><div><span>PILIH SKU</span><strong>{visibleSkuGroups.length} SKU · {visibleLots.length} lot</strong></div><PackageSearch /></header>
         <div className="hpp-search"><Search /><input aria-label="Cari PO, lot, SKU, atau bahan" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Cari PO, lot, SKU, bahan..." /></div>
         <div className="hpp-filter-row">
           <label><SlidersHorizontal /><select aria-label="Filter merek" value={brand} onChange={(event) => setBrand(event.target.value)}><option>Semua merek</option><option>Widie</option><option>Vivo</option></select></label>
           <label><select aria-label="Filter status HPP" value={status} onChange={(event) => setStatus(event.target.value)}><option>Semua status</option><option value="SEMENTARA">Sementara</option><option value="BELUM_LENGKAP">Belum lengkap</option><option value="LENGKAP_BERDASARKAN_DATA_SAAT_INI">Lengkap</option></select></label>
         </div>
-        <div className="hpp-lot-list">
-          {visibleLots.map((item) => {
-            const version = item.versions.find((row) => row.no === item.currentVersion) ?? item.versions[item.versions.length - 1]
-            return <button key={item.id} className={item.id === lot.id ? 'active' : ''} onClick={() => chooseLot(item.id)}>
-              <span className="hpp-lot-seq">{String(hppLots.indexOf(item) + 1).padStart(2, '0')}</span>
-              <span className="hpp-lot-copy"><small>{item.brand} · SKU {item.sku}</small><strong>{item.po}</strong><em>{item.id} · {item.material} · {item.qty} pcs</em></span>
-              <span className={`hpp-lot-state ${item.displayStatus.toLowerCase()}`}>{statusLabel[item.displayStatus]}</span>
-              <span className="hpp-lot-cost">{money(version.perPcs)}<small>/ pcs · v{version.no}</small></span>
+        <div className="hpp-lot-list hpp-sku-list">
+          {visibleSkuGroups.map(([key,items],index) => {
+            const stock=items.reduce((sum,item)=>sum+remainingStock(item),0)
+            const value=items.reduce((sum,item)=>sum+remainingStock(item)*activeCost(item),0)
+            const average=stock>0?Math.round(value/stock):0
+            const first=items[0]
+            return <button key={key} className={key === skuKey ? 'active' : ''} onClick={() => chooseSku(key,items)}>
+              <span className="hpp-lot-seq">{String(index + 1).padStart(2, '0')}</span>
+              <span className="hpp-lot-copy"><small>{first.brand} · SKU</small><strong>{first.sku}</strong><em>{first.product} · {items.length} lot · stok {stock} pcs</em></span>
+              <span className="hpp-lot-cost">{money(average)}<small>/ pcs · rata-rata stok</small></span>
             </button>
           })}
-          {visibleLots.length === 0 && <div className="hpp-no-lot"><FileSearch /><strong>Lot tidak ketemu</strong><small>Ubah pencarian atau filter.</small></div>}
+          {visibleSkuGroups.length === 0 && <div className="hpp-no-lot"><FileSearch /><strong>SKU tidak ketemu</strong><small>Ubah pencarian atau filter.</small></div>}
         </div>
       </aside>
 
       <div className="hpp-detail-stack">
+        <section className="panel hpp-sku-summary">
+          <div><span>HPP RATA-RATA STOK SKU</span><strong>{money(skuWeightedHpp)} <small>/ pcs</small></strong><p>{skuRemaining} pcs tersisa · nilai stok {money(skuInventoryValue)}</p></div>
+          <div className="hpp-size-summary">{skuSizes.map((row)=><button key={row.size} onClick={()=>{const target=skuLots.find((item)=>item.sizes.includes(row.size));if(target)chooseLot(target.id)}}><span>SIZE {row.size}</span><strong>{row.qty} pcs</strong><small>{money(row.qty>0?Math.round(row.value/row.qty):0)} / pcs</small></button>)}</div>
+          <p className="hpp-sku-rule"><Info /> Angka ini weighted average untuk melihat nilai stok SKU. Saat penjualan, COGS tetap mengambil HPP lot sesuai FIFO.</p>
+        </section>
+        <section className="panel hpp-lot-picker"><div><span>LOT / PO PEMBENTUK SKU</span><strong>{skuLots.length} lot</strong></div>{skuLots.map((item)=><button className={item.id===lot.id?'active':''} onClick={()=>chooseLot(item.id)} key={item.id}><small>{item.po}</small><strong>{item.id}</strong><span>{item.material} · {remainingStock(item)} pcs sisa · {money(activeCost(item))}/pcs</span></button>)}</section>
         <section className="panel hpp-current-card">
           <header>
             <div className="hpp-product-id"><span>{lot.brand.slice(0, 1)}</span><div><small>{lot.brand} · SKU {lot.sku} · RANGE {lot.sizes}</small><h2>{lot.product} · {lot.color}</h2><p>{lot.po} · {lot.id} · {lot.material}</p></div></div>
             <div className={`hpp-display-status ${lot.displayStatus.toLowerCase()}`}><span>{statusLabel[lot.displayStatus]}</span><small>{currentVersion.state} · current v{currentVersion.no}</small></div>
           </header>
           <div className="hpp-current-grid">
-            <div className="hpp-hero-cost"><span>HPP AKTIF / PCS</span><strong>{money(currentVersion.perPcs)}</strong><small>{money(currentVersion.total)} total · basis {lot.qty} pcs</small></div>
+            <div className="hpp-hero-cost"><span>HPP LOT AKTIF / PCS</span><strong>{money(currentVersion.perPcs)}</strong><small>{money(currentVersion.total)} total · basis {lot.qty} pcs</small></div>
             <div><span>PERUBAHAN DARI V1</span><strong className={hppDelta >= 0 ? 'up' : 'down'}>{signedMoney(hppDelta)} <small>/ pcs</small></strong><small>{signedMoney(hppDelta * lot.qty)} seluruh lot</small></div>
             <div><span>DIPERBARUI</span><strong>{currentVersion.calculatedAt.split(' · ')[0]}</strong><small>{currentVersion.calculatedAt.split(' · ')[1]} · v{currentVersion.no}</small></div>
             <div><span>KELENGKAPAN</span><strong>{completedChecks}/{lot.checks.length} cek</strong><small>{pendingChecks ? `${pendingChecks} alasan masih terbuka` : 'Tidak ada alasan terbuka'}</small></div>
