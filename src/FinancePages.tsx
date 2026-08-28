@@ -152,6 +152,7 @@ function ReceivablesWorkspace({onSalesPayment}:{onSalesPayment:()=>void}) {
 }
 
 function PayrollWorkspace() {
+  const [notes,setNotes]=useState(payrollNotes)
   const [statusFilter,setStatusFilter]=useState('Aktif · lunas disembunyikan')
   const [mandorFilter,setMandorFilter]=useState('Semua mandor')
   const [query,setQuery]=useState('')
@@ -163,15 +164,15 @@ function PayrollWorkspace() {
   const [reverseOpen,setReverseOpen]=useState(false)
   const [reason,setReason]=useState('')
   const [notice,setNotice]=useState('')
-  const mandorOptions=['Semua mandor',...new Set(payrollNotes.map((item)=>item.contractor))]
-  const visible=useMemo(()=>payrollNotes.filter((item)=>{
+  const mandorOptions=['Semua mandor',...new Set(notes.map((item)=>item.contractor))]
+  const visible=useMemo(()=>notes.filter((item)=>{
     const statusMatches=statusFilter==='Semua status'
       || (statusFilter==='Aktif · lunas disembunyikan'&&!['PAID','REVERSED'].includes(item.status))
       || item.status===statusFilter.toUpperCase()
     return `${item.number} ${item.contractor} ${item.period}`.toLowerCase().includes(query.toLowerCase())
       && (mandorFilter==='Semua mandor'||item.contractor===mandorFilter)
       && statusMatches
-  }),[mandorFilter,query,statusFilter])
+  }),[mandorFilter,notes,query,statusFilter])
   const selected=visible.find((item)=>item.number===selectedNumber)??visible[0]??null
   const fgLabor=selected?.fgNotes.reduce((sum,item)=>sum+item.labor,0)??0
   const fgBomAndCommission=selected?.fgNotes.reduce((sum,item)=>sum+item.reimbursement,0)??0
@@ -184,10 +185,10 @@ function PayrollWorkspace() {
     && fgBomAndCommission===selected.reimbursement
     && accessoryTotal+otherDeductions===selected.deduction
     && recomputed===selected.netPayable)
-  const activeNotes=payrollNotes.filter((item)=>!['PAID','REVERSED'].includes(item.status))
+  const activeNotes=notes.filter((item)=>!['PAID','REVERSED'].includes(item.status))
   const activeDeductions=activeNotes.reduce((sum,item)=>sum+item.deduction,0)
   const eligibleLines=activeNotes.reduce((sum,item)=>sum+item.eligibleLines,0)
-  const readyToPay=payrollNotes.filter((item)=>item.status==='APPROVED').reduce((sum,item)=>sum+item.netPayable,0)
+  const readyToPay=notes.filter((item)=>item.status==='APPROVED').reduce((sum,item)=>sum+item.netPayable,0)
 
   return <>
     <FinanceHero eyebrow="KEUANGAN · PAYROLL & SETTLEMENT" title="Payroll & Kasbon" description="Buka nota payroll, cek total Nota FG dan Nota Ambil Aksesori, lalu masuk ke detail dokumen hanya saat diperlukan." icon={UsersRound}/>
@@ -203,8 +204,8 @@ function PayrollWorkspace() {
       {selected.eligibleLines>0&&<div className="biz-guard warn"><AlertTriangle/><span>{selected.eligibleLines} baris eligible belum masuk nota. Penarikan harus atomic dan idempotent; payroll tidak boleh menebak dari frontend.</span></div>}
       <section className="biz-payroll-rules"><article><Check/><span><strong>BOM upah hanya kategori</strong><small>Komponen dan rate disnapshot saat penggunaan sensitif biaya pertama.</small></span></article><article><Check/><span><strong>Kasbon tetap item stok detail</strong><small>Kancing Silver/Metal terlihat pada Nota Ambil Aksesori.</small></span></article><article><Check/><span><strong>BS/rework terlihat di Nota FG</strong><small>Komponen yang pernah dibayar tidak menjadi eligible kedua kali.</small></span></article><article><Check/><span><strong>HPP aksesori tetap moving average</strong><small>Berbeda dari tarif BOM/komisi dan harga kasbon mandor.</small></span></article></section>{notice&&<div className="biz-inline-notice"><CheckCircle2/> {notice}</div>}<footer className="biz-detail-actions"><button className="soft-btn" disabled={selected.status!=='PAID'} onClick={()=>setReverseOpen(true)}><Undo2/> Reverse payment</button><button className="primary-btn" disabled={selected.status!=='APPROVED'||!calculationMatches} onClick={()=>setPayOpen(true)}><Banknote/> Bayar nota</button></footer></main>:<main className="biz-empty payroll"><Search/><strong>Tidak ada detail payroll</strong><small>Sesuaikan filter di atas.</small></main>}</section>
     {sourceSelection&&selected&&<PayrollSourceModal selection={sourceSelection} note={selected} onClose={()=>setSourceSelection(null)}/>} 
-    {payOpen&&selected&&<FinanceModal title="Bayar nota payroll?" description="Kas keluar dan status nota berubah bersama. Komponen nota tidak dihitung ulang saat payment." onClose={()=>setPayOpen(false)} action={()=>{setPayOpen(false);setNotice('Simulasi pembayaran payroll tersimpan. Backend dan uang belum berubah.')}} disabled={!payReference.trim()}><div className="biz-payment-form"><EnterpriseSelect label="AKUN BAYAR" value={payAccount} options={['Mandiri Payroll','BCA Operasional','Kas Utama']} onChange={setPayAccount}/><label><span>TANGGAL BAYAR</span><input type="date" defaultValue="2026-08-28"/></label><label><span>REFERENSI</span><input value={payReference} onChange={(event)=>setPayReference(event.target.value)} placeholder="Nomor transfer / bukti"/></label></div><div className="biz-impact-grid"><article><span>Payroll payable</span><strong>− {money(selected.netPayable)}</strong><small>{selected.number}</small></article><article><span>Kas / bank</span><strong>− {money(selected.netPayable)}</strong><small>{payAccount}</small></article><article><span>Status</span><strong>PAID</strong><small>Nota tetap immutable</small></article></div></FinanceModal>}
-    {reverseOpen&&selected&&<FinanceModal danger title="Reverse pembayaran payroll?" description="Ini tidak menghapus nota. Backend membuat reversal kas dan mengembalikan payable dengan audit trail." onClose={()=>setReverseOpen(false)} action={()=>{setReverseOpen(false);setNotice('Simulasi reversal dibuat. Backend belum berubah.')}} actionLabel="Review reversal" disabled={!reason.trim()}><label className="biz-wide-field"><span>ALASAN REVERSAL · WAJIB</span><textarea value={reason} onChange={(event)=>setReason(event.target.value)} placeholder="Jelaskan salah akun, salah nominal, atau salah penerima..."/></label></FinanceModal>}
+    {payOpen&&selected&&<FinanceModal title="Bayar nota payroll?" description="Kas keluar dan status nota berubah bersama. Komponen nota tidak dihitung ulang saat payment." onClose={()=>setPayOpen(false)} action={()=>{setNotes((current)=>current.map((item)=>item.number===selected.number?{...item,status:'PAID'}:item));setPayOpen(false);setNotice(`${selected.number} ditandai lunas dalam simulasi dan otomatis disembunyikan dari daftar aktif. Backend dan uang belum berubah.`)}} disabled={!payReference.trim()}><div className="biz-payment-form"><EnterpriseSelect label="AKUN BAYAR" value={payAccount} options={['Mandiri Payroll','BCA Operasional','Kas Utama']} onChange={setPayAccount}/><label><span>TANGGAL BAYAR</span><input type="date" defaultValue="2026-08-28"/></label><label><span>REFERENSI</span><input value={payReference} onChange={(event)=>setPayReference(event.target.value)} placeholder="Nomor transfer / bukti"/></label></div><div className="biz-impact-grid"><article><span>Payroll payable</span><strong>− {money(selected.netPayable)}</strong><small>{selected.number}</small></article><article><span>Kas / bank</span><strong>− {money(selected.netPayable)}</strong><small>{payAccount}</small></article><article><span>Status</span><strong>PAID</strong><small>Otomatis keluar dari daftar aktif</small></article></div></FinanceModal>}
+    {reverseOpen&&selected&&<FinanceModal danger title="Reverse pembayaran payroll?" description="Ini tidak menghapus nota. Backend membuat reversal kas dan mengembalikan payable dengan audit trail." onClose={()=>setReverseOpen(false)} action={()=>{setNotes((current)=>current.map((item)=>item.number===selected.number?{...item,status:'APPROVED'}:item));setStatusFilter('Aktif · lunas disembunyikan');setReverseOpen(false);setNotice(`${selected.number} kembali ke Approved dalam simulasi. Backend belum berubah.`)}} actionLabel="Review reversal" disabled={!reason.trim()}><label className="biz-wide-field"><span>ALASAN REVERSAL · WAJIB</span><textarea value={reason} onChange={(event)=>setReason(event.target.value)} placeholder="Jelaskan salah akun, salah nominal, atau salah penerima..."/></label></FinanceModal>}
   </>
 }
 
