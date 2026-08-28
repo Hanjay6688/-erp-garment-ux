@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useMemo, useRef, useState } from 'react'
+import { Fragment, lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import type { ClipboardEvent as ReactClipboardEvent, CSSProperties, KeyboardEvent as ReactKeyboardEvent, PointerEvent as ReactPointerEvent, ReactNode } from 'react'
 import {
   ArrowLeft, ArrowRight, Boxes, CalendarDays, Check, ChevronDown, ChevronUp,
@@ -9,6 +9,8 @@ import {
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import HppPage from './HppPage'
+import type { SalesView } from './SalesPages'
+import type { FinanceView } from './FinancePages'
 import QcFinalPage from './QcFinalPage'
 import type { QcFinalResult, QcSeed } from './QcFinalPage'
 import BsReworkPage from './BsReworkPage'
@@ -17,7 +19,10 @@ import type { WarehouseView } from './WarehousePages'
 import { productCatalog } from './productCatalog'
 import type { Product } from './productCatalog'
 
-type Page = 'dashboard' | 'sales' | 'stock-card' | 'movements-vivo' | 'movements-widie' | 'procurement' | 'cutting-roll' | 'mandor-wip' | 'sewing-wip' | 'qc' | 'fg-handoff' | 'bs-rework' | 'laundry' | 'hpp' | WarehouseView | 'placeholder'
+const SalesPages = lazy(() => import('./SalesPages'))
+const FinancePages = lazy(() => import('./FinancePages'))
+
+type Page = 'dashboard' | 'stock-card' | 'movements-vivo' | 'movements-widie' | 'procurement' | 'cutting-roll' | 'mandor-wip' | 'sewing-wip' | 'qc' | 'fg-handoff' | 'bs-rework' | 'laundry' | 'hpp' | SalesView | FinanceView | WarehouseView | 'placeholder'
 type NavSection = 'Produksi' | 'Gudang' | 'Penjualan' | 'Keuangan' | 'Master Data'
 type QtyTuple = [number, number, number]
 type SizeTuple = [string, string, string]
@@ -155,6 +160,27 @@ const nav: Record<NavSection, string[]> = {
   Keuangan: ['Ringkasan Keuangan', 'Kas & Bank', 'Hutang Supplier & Vendor', 'Piutang Pelanggan', 'Payroll & Kasbon', 'HPP & Rekalkulasi', 'Jurnal & Transaksi Lain', 'Laporan & Tutup Buku'],
   'Master Data': ['Produk & SKU', 'Pelanggan', 'Supplier & Vendor', 'Mandor & Pekerja', 'Gudang & Lokasi'],
 }
+
+const salesPageByLabel: Partial<Record<string, SalesView>> = {
+  'Penjualan & Invoice': 'sales-invoice',
+  'Alokasi Barang Jadi': 'sales-allocation',
+  'Retur Penjualan': 'sales-returns',
+  'Pembayaran Pelanggan': 'sales-payments',
+  'Riwayat Pelanggan': 'sales-history',
+}
+const financePageByLabel: Partial<Record<string, FinanceView>> = {
+  'Ringkasan Keuangan': 'finance-overview',
+  'Kas & Bank': 'finance-cash',
+  'Hutang Supplier & Vendor': 'finance-ap',
+  'Piutang Pelanggan': 'finance-ar',
+  'Payroll & Kasbon': 'finance-payroll',
+  'Jurnal & Transaksi Lain': 'finance-journal',
+  'Laporan & Tutup Buku': 'finance-reports',
+}
+const salesViews: SalesView[] = ['sales-invoice','sales-allocation','sales-returns','sales-payments','sales-history']
+const financeViews: FinanceView[] = ['finance-overview','finance-cash','finance-ap','finance-ar','finance-payroll','finance-journal','finance-reports']
+const isSalesView = (page: Page): page is SalesView => salesViews.includes(page as SalesView)
+const isFinanceView = (page: Page): page is FinanceView => financeViews.includes(page as FinanceView)
 
 const initialMovements: Movement[] = [
   { id: 'MV-1052', sku: '73001', brand: 'Vivo', customer: 'Nusantara Fashion', date: '27 Agu 2026 · 13:44', ref: 'INV-260827-019', type: 'Penjualan', note: 'Nusantara Fashion', delta: [-8,-8,-8], balance: [96,84,108] },
@@ -332,7 +358,18 @@ function App() {
   }
 
   const title = page === 'dashboard' ? 'Ringkasan bisnis'
-    : page === 'sales' ? 'Input Penjualan'
+    : page === 'sales-invoice' ? 'Penjualan & Invoice'
+    : page === 'sales-allocation' ? 'Alokasi Barang Jadi'
+    : page === 'sales-returns' ? 'Retur Penjualan'
+    : page === 'sales-payments' ? 'Pembayaran Pelanggan'
+    : page === 'sales-history' ? 'Riwayat Pelanggan'
+    : page === 'finance-overview' ? 'Ringkasan Keuangan'
+    : page === 'finance-cash' ? 'Kas & Bank'
+    : page === 'finance-ap' ? 'Hutang Supplier & Vendor'
+    : page === 'finance-ar' ? 'Piutang Pelanggan'
+    : page === 'finance-payroll' ? 'Payroll & Kasbon'
+    : page === 'finance-journal' ? 'Jurnal & Transaksi Lain'
+    : page === 'finance-reports' ? 'Laporan & Tutup Buku'
     : page === 'stock-card' ? 'Kartu Stok FG'
     : page === 'movements-vivo' ? 'Mutasi Barang Jadi · Vivo'
     : page === 'movements-widie' ? 'Mutasi Barang Jadi · Widie'
@@ -354,7 +391,10 @@ function App() {
     : 'Modul ERP'
 
   const chooseSubmenu = (label: string) => {
-    if (label === 'Penjualan & Invoice') setPage('sales')
+    const salesTarget=salesPageByLabel[label]
+    const financeTarget=financePageByLabel[label]
+    if (salesTarget) setPage(salesTarget)
+    else if (financeTarget) setPage(financeTarget)
     else if (label === 'Kartu Stok FG') setPage('stock-card')
     else if (label === 'Mutasi Barang Jadi · Vivo') setPage('movements-vivo')
     else if (label === 'Mutasi Barang Jadi · Widie') setPage('movements-widie')
@@ -386,7 +426,9 @@ function App() {
       {(Object.keys(nav) as NavSection[]).map((section) => <div className="nav-section" key={section}>
         <button className={`nav-main ${expanded === section ? 'active' : ''}`} onClick={() => setExpanded(expanded === section ? null : section)}><Icon name={section} /><span>{section}</span><span className="chevron">{expanded === section ? '⌄' : '›'}</span></button>
         {expanded === section && <div className="submenu">{nav[section].map((item) => {
-          const active = (item === 'Penjualan & Invoice' && page === 'sales') || (item === 'Kartu Stok FG' && page === 'stock-card') || (item === 'Mutasi Barang Jadi · Vivo' && page === 'movements-vivo') || (item === 'Mutasi Barang Jadi · Widie' && page === 'movements-widie') || (item === 'Pembelian & Penerimaan' && page === 'procurement') || (item === 'Ringkasan Gudang' && page === 'warehouse-dashboard') || (item === 'Bahan & Roll' && page === 'materials-rolls') || (item === 'Aksesori' && page === 'accessories') || (item === 'Ringkasan Barang Jadi' && page === 'fg-summary') || (item === 'Stock Adjustment' && page === 'stock-adjustment') || (item === 'Ganti Merek' && page === 'brand-conversion') || (item === 'Buat Potongan' && page === 'cutting-roll') || (item === 'Bagi Potongan' && page === 'mandor-wip') || (item === 'WIP & Sewing' && page === 'sewing-wip') || (item === 'QC & Final SKU' && (page === 'qc' || page === 'fg-handoff')) || (item === 'Barang BS & Rework' && page === 'bs-rework') || (item === 'Laundry' && page === 'laundry') || (item === 'HPP & Rekalkulasi' && page === 'hpp')
+          const salesTarget=salesPageByLabel[item]
+          const financeTarget=financePageByLabel[item]
+          const active = (salesTarget !== undefined && page === salesTarget) || (financeTarget !== undefined && page === financeTarget) || (item === 'Kartu Stok FG' && page === 'stock-card') || (item === 'Mutasi Barang Jadi · Vivo' && page === 'movements-vivo') || (item === 'Mutasi Barang Jadi · Widie' && page === 'movements-widie') || (item === 'Pembelian & Penerimaan' && page === 'procurement') || (item === 'Ringkasan Gudang' && page === 'warehouse-dashboard') || (item === 'Bahan & Roll' && page === 'materials-rolls') || (item === 'Aksesori' && page === 'accessories') || (item === 'Ringkasan Barang Jadi' && page === 'fg-summary') || (item === 'Stock Adjustment' && page === 'stock-adjustment') || (item === 'Ganti Merek' && page === 'brand-conversion') || (item === 'Buat Potongan' && page === 'cutting-roll') || (item === 'Bagi Potongan' && page === 'mandor-wip') || (item === 'WIP & Sewing' && page === 'sewing-wip') || (item === 'QC & Final SKU' && (page === 'qc' || page === 'fg-handoff')) || (item === 'Barang BS & Rework' && page === 'bs-rework') || (item === 'Laundry' && page === 'laundry') || (item === 'HPP & Rekalkulasi' && page === 'hpp')
           return <button key={item} className={active ? 'sub-active' : ''} onClick={() => chooseSubmenu(item)}>• {item}</button>
         })}</div>}
       </div>)}
@@ -398,8 +440,9 @@ function App() {
     <main className="main-panel">
       <header className="topbar"><button className="mobile-menu" onClick={() => setMobileNav(true)}><Icon name="menu" /></button><div className="top-title"><div className="top-icon"><Icon name="dashboard" /></div><div><strong>{title}</strong><span>{page === 'dashboard' ? 'Satu layar untuk keputusan hari ini' : 'Cepat, jelas, dan aman buat operasional'}</span></div></div><div className="top-actions"><button className="sim-badge"><span /> DATA SIMULASI</button><button className="round-btn"><Icon name="search" /></button><div className="owner"><span>OH</span><div><strong>Owner</strong><small>Administrator</small></div><b>⌄</b></div></div></header>
       <div className="page-wrap" data-keyboard-scope onKeyDown={handleErgonomicKeyboard}>
-        {page === 'dashboard' && <Dashboard onOpenSales={() => setPage('sales')} />}
-        {page === 'sales' && <SalesPage qtyText={qtyText} setQtyText={setQtyText} unit={unit} setUnit={setUnit} sizes={sizes} setSizes={setSizes} totalPcs={totalPcs} composed={composed} stockEnough={stockEnough} compositionOk={compositionOk} saleTotal={saleTotal} distribute={distribute} openStock={() => setPage('stock-card')} />}
+        {page === 'dashboard' && <Dashboard onOpenSales={() => setPage('sales-invoice')} />}
+        {isSalesView(page) && <Suspense fallback={<WorkspaceFallback label="Penjualan"/>}><SalesPages view={page} onNavigate={(next)=>setPage(next)} /></Suspense>}
+        {isFinanceView(page) && <Suspense fallback={<WorkspaceFallback label="Keuangan"/>}><FinancePages view={page} onNavigate={(next)=>setPage(next)} onSalesPayment={()=>setPage('sales-payments')} /></Suspense>}
         {page === 'stock-card' && <StockCard />}
         {page === 'movements-vivo' && <Movements bookName="Vivo" bookBrands={vivoBookBrands} setBookBrands={setVivoBookBrands} movements={movements} setMovements={setMovements} />}
         {page === 'movements-widie' && <Movements bookName="Widie" bookBrands={widieBookBrands} setBookBrands={setWidieBookBrands} movements={movements} setMovements={setMovements} />}
@@ -461,6 +504,10 @@ function App() {
       </div>
     </main>
   </div>
+}
+
+function WorkspaceFallback({ label }: { label: string }) {
+  return <div className="panel placeholder"><div className="placeholder-icon">◇</div><h2>Menyiapkan {label}…</h2><p>Memuat workspace dan guardrail transaksi.</p></div>
 }
 
 function Dashboard({ onOpenSales }: { onOpenSales: () => void }) {
