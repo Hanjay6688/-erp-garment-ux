@@ -63,13 +63,13 @@ export default function QcFinalPage({seeds,initialSeedId,onBack,onFinish}:{
 
   return <>
     <section className="hero-copy compact qc-flow-hero">
-      <div><div className="eyebrow">PRODUKSI · SETELAH LAUNDRY</div><h1>QC & Final SKU</h1><p>Browse berdasarkan merek, Mandor, atau Laundry. Pilih child batch yang fisiknya sudah kembali, lalu review per size.</p></div>
+      <div><div className="eyebrow">PRODUKSI · SETELAH LAUNDRY</div><h1>QC & Final SKU</h1><p>Browse berdasarkan merek, Mandor, atau Laundry. Pilih Batch Distribusi yang fisiknya sudah kembali, lalu review per size.</p></div>
       <button type="button" className="soft-btn" onClick={onBack}><ArrowLeft/> Kembali ke WIP</button>
     </section>
     <div className="final-flow-strip"><span className="done"><b>1</b>Laundry kembali</span><i/><span className="active"><b>2</b>QC & Final SKU</span><i/><span><b>3</b>Serah FG</span><i/><span><b>4</b>Gajian</span></div>
     <section className="qc-browser-shell">
       <aside className="panel qc-browser">
-        <header><div><span>BROWSE ANTREAN QC</span><strong>{visible.length} child batch</strong></div><Filter/></header>
+        <header><div><span>BROWSE ANTREAN QC</span><strong>{visible.length} Batch Distribusi</strong></div><Filter/></header>
         <label className="qc-browser-search"><Search/><input value={query} onChange={(event)=>setQuery(event.target.value)} placeholder="Cari PO, merek, Mandor, bahan..."/></label>
         <div className="qc-browser-filters">
           <label><span>MANDOR</span><select value={mandorFilter} onChange={(event)=>setMandorFilter(event.target.value)}><option>Semua mandor</option>{mandors.map((mandor)=><option key={mandor}>{mandor}</option>)}</select></label>
@@ -121,7 +121,7 @@ function QcEditor({seed,onFinish}:{seed:QcSeed;onFinish:(result:QcFinalResult)=>
   const finish=()=>onFinish({...seed,brand:selectedBrand,qcGood,qcBs,rewash,finalSku,finalProductName:selectedProduct?.name??seed.model,finalColor:selectedProduct?.color??'',finalRange:selectedProduct?.range??sizeRange,destination})
 
   return <>
-    <section className="panel qc-source-card"><span className="qc-source-order"><Shirt/></span><div><small>{seed.brand} · POTONGAN INDUK · CHILD BATCH</small><h2>{seed.parentId} · Batch {seed.batchId}</h2><p>{seed.model} · {seed.material}</p></div><div className="qc-mandor-hero"><UserRound/><span><small>MANDOR PENANGGUNG JAWAB</small><strong>{seed.mandor}</strong></span></div><div><small>LAUNDRY</small><strong>{seed.laundry||'Belum tercatat'}</strong></div></section>
+    <section className="panel qc-source-card"><span className="qc-source-order"><Shirt/></span><div><small>{seed.brand} · BATCH PRODUKSI · BATCH DISTRIBUSI</small><h2>{seed.parentId} · Batch {seed.batchId}</h2><p>{seed.model} · {seed.material}</p></div><div className="qc-mandor-hero"><UserRound/><span><small>MANDOR PENANGGUNG JAWAB</small><strong>{seed.mandor}</strong></span></div><div><small>LAUNDRY</small><strong>{seed.laundry||'Belum tercatat'}</strong></div></section>
     <section className="qc-flow-layout">
       <div className="panel qc-size-workbench">
         <header><div><span>01 · HASIL FISIK PER SIZE</span><h2>Good dihitung otomatis</h2><p>Qty kembali dan Stuck berasal dari penerimaan Laundry per size—bukan dibagi rata atau ditebak.</p></div><ClipboardCheck/></header>

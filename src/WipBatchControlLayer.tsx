@@ -97,32 +97,32 @@ export default function WipBatchControlLayer({ mode, parent, targetBatchId, onCl
 
   if(mode==='reverse')return <div className="wip-control-backdrop" role="presentation" onMouseDown={onClose}>
     <section className="wip-control-modal reverse" role="alertdialog" aria-modal="true" aria-labelledby="wip-reverse-title" onMouseDown={(event)=>event.stopPropagation()}>
-      <header><div><span>PRE-SEWING · CHILD BATCH</span><h2 id="wip-reverse-title">Reverse Batch {String(target.number).padStart(2,'0')}?</h2><p>{parent.id} · {target.id} · {target.qty} pcs</p></div><button onClick={onClose} aria-label="Tutup"><X/></button></header>
-      <div className="wip-reverse-impact"><Undo2/><div><strong>Batch dikembalikan ke Potongan induk</strong><small>Arahan mandor dan pembagian child ini dibatalkan. Hasil cutting induk tetap ada dan bisa dibagi ulang.</small></div></div>
-      <div className="wip-control-facts"><article><span>MANDOR</span><strong>{parent.mandor}</strong></article><article><span>CHILD BATCH</span><strong>{target.id}</strong></article><article><span>QTY KEMBALI</span><strong>{target.qty} pcs</strong></article></div>
+      <header><div><span>PRE-SEWING · BATCH DISTRIBUSI</span><h2 id="wip-reverse-title">Batalkan Batch Distribusi {String(target.number).padStart(2,'0')}?</h2><p>Batch Produksi {parent.id} · {target.id} · {target.qty} pcs</p></div><button onClick={onClose} aria-label="Tutup"><X/></button></header>
+      <div className="wip-reverse-impact"><Undo2/><div><strong>Kuantitas kembali ke Batch Produksi</strong><small>Instruksi Mandor dan distribusi batch ini dibatalkan. Hasil potong produksi tetap ada dan dapat didistribusikan ulang.</small></div></div>
+      <div className="wip-control-facts"><article><span>MANDOR</span><strong>{parent.mandor}</strong></article><article><span>BATCH DISTRIBUSI</span><strong>{target.id}</strong></article><article><span>QTY KEMBALI</span><strong>{target.qty} pcs</strong></article></div>
       <div className="wip-server-guard"><ShieldCheck/><span><strong>Server akan mengecek ulang dependency</strong><small>Satu pcs selesai dijahit, Laundry, QC, FG, BS, payroll, stok, atau jurnal aktif akan langsung memblokir aksi.</small></span></div>
       <label className="wip-control-note"><span>CATATAN SINGKAT · WAJIB</span><textarea autoFocus value={note} onChange={(event)=>setNote(event.target.value)} placeholder="Contoh: salah batch mandor, bagi ulang."/><small>{note.trim().length}/4</small></label>
-      <footer><button className="soft-btn" onClick={onClose}>Batal</button><button className="danger-btn" disabled={!noteValid} onClick={confirmReverse}><Undo2/> Reverse child batch</button></footer>
+      <footer><button className="soft-btn" onClick={onClose}>Kembali</button><button className="danger-btn" disabled={!noteValid} onClick={confirmReverse}><Undo2/> Batalkan distribusi</button></footer>
     </section>
   </div>
 
   return <div className="wip-control-backdrop" role="presentation" onMouseDown={onClose}>
     <section className="wip-control-modal" role="dialog" aria-modal="true" aria-labelledby="wip-adjust-title" onMouseDown={(event)=>event.stopPropagation()}>
-      <header><div><span>WIP CONTROL · POTONGAN INDUK</span><h2 id="wip-adjust-title">Adjust {parent.id}</h2><p>Fokus Batch {String(target.number).padStart(2,'0')} · {parent.model} · {parent.material}</p></div><button onClick={onClose} aria-label="Tutup"><X/></button></header>
+      <header><div><span>WIP CONTROL · BATCH PRODUKSI</span><h2 id="wip-adjust-title">Koreksi Distribusi {parent.id}</h2><p>Fokus Batch Distribusi {String(target.number).padStart(2,'0')} · {parent.model} · {parent.material}</p></div><button onClick={onClose} aria-label="Tutup"><X/></button></header>
 
       <div className="wip-operation-tabs" role="tablist" aria-label="Jenis penyesuaian">
-        <button className={operation==='REDISTRIBUTION'?'active':''} disabled={!canRedistribute} onClick={()=>setOperation('REDISTRIBUTION')}><SlidersHorizontal/><span><strong>Pindah antar child</strong><small>Total father harus tetap sama</small></span></button>
-        <button className={operation==='PHYSICAL_RECOUNT'?'active':''} onClick={()=>setOperation('PHYSICAL_RECOUNT')}><RotateCcw/><span><strong>Koreksi hasil fisik</strong><small>Total father boleh berubah</small></span></button>
+        <button className={operation==='REDISTRIBUTION'?'active':''} disabled={!canRedistribute} onClick={()=>setOperation('REDISTRIBUTION')}><SlidersHorizontal/><span><strong>Redistribusi antar batch</strong><small>Total Batch Produksi wajib tetap sama</small></span></button>
+        <button className={operation==='PHYSICAL_RECOUNT'?'active':''} onClick={()=>setOperation('PHYSICAL_RECOUNT')}><RotateCcw/><span><strong>Koreksi hasil fisik</strong><small>Total Batch Produksi dapat berubah</small></span></button>
       </div>
-      {!canRedistribute&&<div className="wip-control-hint"><AlertTriangle/><span><strong>Redistribusi belum tersedia untuk Potongan ini.</strong> Hanya satu child batch yang masih pre-sewing; child lain sudah punya bukti jahit. Koreksi fisik tetap bisa dilakukan.</span></div>}
+      {!canRedistribute&&<div className="wip-control-hint"><AlertTriangle/><span><strong>Redistribusi belum tersedia untuk Batch Produksi ini.</strong> Hanya satu Batch Distribusi yang masih pre-sewing; batch lain sudah mempunyai bukti jahit. Koreksi fisik tetap dapat dilakukan.</span></div>}
 
       <div className="wip-father-equation">{parent.sizeLabels.map((size,index)=>{
         const delta=afterTotals[index]-originalTotals[index]
         return <article className={delta===0?'':delta>0?'positive':'negative'} key={size}><span>SIZE {size}</span><strong>{afterTotals[index]} pcs</strong><small>{originalTotals[index]} awal {delta===0?'· tetap':`· ${delta>0?'+':''}${delta}`}</small></article>
-      })}<i><span>NET FATHER</span><strong>{netDelta>0?'+':''}{netDelta} pcs</strong><small>{operation==='REDISTRIBUTION'?'wajib 0':'mengikuti cek fisik'}</small></i></div>
+      })}<i><span>NET BATCH PRODUKSI</span><strong>{netDelta>0?'+':''}{netDelta} pcs</strong><small>{operation==='REDISTRIBUTION'?'wajib 0':'mengikuti cek fisik'}</small></i></div>
 
       <section className="wip-child-editor">
-        <div className="wip-child-editor-head"><div><span>CHILD BATCH DALAM FATHER</span><strong>Ubah jumlah per size, bukan reason code</strong></div><button onClick={reset}><RotateCcw/> Reset</button></div>
+        <div className="wip-child-editor-head"><div><span>BATCH DISTRIBUSI DALAM PRODUKSI</span><strong>Ubah jumlah per size dan tulis catatan singkat</strong></div><button onClick={reset}><RotateCcw/> Reset</button></div>
         <div className="wip-child-list">{parent.batches.map((batch)=>{
           const values=drafts[batch.id]??batch.sizes
           const batchChanged=batch.sizes.some((qty,index)=>qty!==values[index])
@@ -134,8 +134,8 @@ export default function WipBatchControlLayer({ mode, parent, targetBatchId, onCl
       </section>
 
       <label className="wip-control-note"><span>CATATAN SINGKAT · WAJIB</span><textarea value={note} onChange={(event)=>setNote(event.target.value)} placeholder="Contoh: hitung fisik ulang, Size 33 kurang 2 pcs."/><small>{note.trim().length}/4</small></label>
-      <div className={`wip-control-validation ${canApply?'safe':'warn'}`}>{canApply?<ShieldCheck/>:<AlertTriangle/>}<span><strong>{!changed?'Belum ada angka yang berubah':!valuesValid?'Child batch tidak boleh 0; gunakan Reverse':operation==='REDISTRIBUTION'&&!redistributionExact?'Redistribusi belum seimbang per size':!noteValid?'Isi catatan singkat dulu':'Siap direview'}</strong><small>{operation==='REDISTRIBUTION'?'Sistem otomatis mencatat redistribusi; father total tidak berubah.':'Sistem otomatis mencatat koreksi fisik dan menjaga downstream floor.'}</small></span></div>
-      <footer><span><small>INTERNAL AUDIT OTOMATIS</small><strong>{operation==='REDISTRIBUTION'?'Redistribusi child':'Koreksi fisik'} · row-version checked</strong></span><button className="soft-btn" onClick={onClose}>Batal</button><button className="primary-btn" disabled={!canApply} onClick={confirm}>Terapkan simulasi <ArrowRight/></button></footer>
+      <div className={`wip-control-validation ${canApply?'safe':'warn'}`}>{canApply?<ShieldCheck/>:<AlertTriangle/>}<span><strong>{!changed?'Belum ada angka yang berubah':!valuesValid?'Batch Distribusi tidak boleh 0; gunakan Batalkan Distribusi':operation==='REDISTRIBUTION'&&!redistributionExact?'Redistribusi belum seimbang per size':!noteValid?'Isi catatan singkat dulu':'Siap direview'}</strong><small>{operation==='REDISTRIBUTION'?'Sistem otomatis mencatat redistribusi; total Batch Produksi tidak berubah.':'Sistem otomatis mencatat koreksi fisik dan menjaga batas transaksi downstream.'}</small></span></div>
+      <footer><span><small>INTERNAL AUDIT OTOMATIS</small><strong>{operation==='REDISTRIBUTION'?'Redistribusi batch':'Koreksi fisik'} · row-version checked</strong></span><button className="soft-btn" onClick={onClose}>Batal</button><button className="primary-btn" disabled={!canApply} onClick={confirm}>Terapkan simulasi <ArrowRight/></button></footer>
     </section>
   </div>
 }
