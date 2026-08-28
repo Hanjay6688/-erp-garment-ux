@@ -17,5 +17,15 @@
 .qc-review-ticket{padding:17px}.qc-review-title>span{font-size:10px}.qc-review-title h2{font-size:18px}.qc-review-title p{font-size:12px;line-height:1.4}.qc-ticket-mandor strong{font-size:14px}.qc-review-totals p{min-height:48px;padding:9px 11px}.qc-review-totals span{font-size:11px}.qc-review-totals strong{font-size:14px}.qc-review-rule strong{font-size:11px}.qc-review-rule small{font-size:10px}.qc-final-confirm strong{font-size:11px}.qc-final-confirm span{font-size:10px}.qc-prototype-note{font-size:9px}.qc-browser button:focus-visible,.qc-browser input:focus-visible,.qc-browser select:focus-visible,.qc-size-row input:focus-visible,.qc-final-fields select:focus-visible{outline:2px solid #7691ec;outline-offset:2px}
 
 @media(max-width:1450px){.qc-browser-shell{grid-template-columns:270px minmax(0,1fr)}.qc-flow-layout{grid-template-columns:1fr}.qc-review-ticket{position:static}.qc-final-fields{grid-template-columns:1fr 1fr}.qc-product-preview{grid-column:1/-1}}
+
+/* QC must never sacrifice the per-size workbench to a side ticket. */
+.qc-flow-layout{display:flex;flex-direction:column;align-items:stretch;gap:12px}
+.qc-size-workbench,.qc-review-ticket{width:100%;min-width:0}
+.qc-review-ticket{position:static;top:auto}
+.qc-review-totals{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+.qc-review-totals p{border-bottom:0;border-right:1px solid rgba(255,255,255,.045)}
+.qc-review-totals p:last-child{border-right:0}
+@media(max-width:1280px){.qc-browser-shell{grid-template-columns:1fr}.qc-browser{position:static}.qc-browser-list{max-height:420px}}
+@media(max-width:700px){.qc-review-totals{grid-template-columns:1fr 1fr}.qc-review-totals p:nth-child(2){border-right:0}.qc-review-totals p:nth-child(-n+2){border-bottom:1px solid rgba(255,255,255,.045)}}
 @media(max-width:1050px){.qc-browser-shell{grid-template-columns:1fr}.qc-browser{position:static}.qc-browser-filters{grid-template-columns:repeat(3,minmax(0,1fr))}.qc-browser-list{max-height:360px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:700px){.qc-browser-filters,.qc-final-fields{grid-template-columns:1fr}.qc-browser-list{grid-template-columns:1fr}.qc-final-fields{margin:0;padding:12px}.qc-product-preview{grid-column:auto}.qc-size-row>[data-label]::before{font-size:9px}.qc-size-row>span{font-size:14px}.qc-size-row .good{font-size:19px}.keyboard-grid-hint{margin:0 9px;padding-left:10px;padding-right:10px;line-height:1.7}.qc-final-product>header{padding-left:13px;padding-right:13px}}

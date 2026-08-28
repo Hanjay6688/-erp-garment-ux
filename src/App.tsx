@@ -11,10 +11,11 @@ import type { LucideIcon } from 'lucide-react'
 import HppPage from './HppPage'
 import QcFinalPage from './QcFinalPage'
 import type { QcFinalResult, QcSeed } from './QcFinalPage'
+import BsReworkPage from './BsReworkPage'
 import { productCatalog } from './productCatalog'
 import type { Product } from './productCatalog'
 
-type Page = 'dashboard' | 'sales' | 'stock-card' | 'movements-vivo' | 'movements-widie' | 'procurement' | 'cutting-roll' | 'mandor-wip' | 'sewing-wip' | 'qc' | 'fg-handoff' | 'laundry' | 'hpp' | 'placeholder'
+type Page = 'dashboard' | 'sales' | 'stock-card' | 'movements-vivo' | 'movements-widie' | 'procurement' | 'cutting-roll' | 'mandor-wip' | 'sewing-wip' | 'qc' | 'fg-handoff' | 'bs-rework' | 'laundry' | 'hpp' | 'placeholder'
 type NavSection = 'Produksi' | 'Gudang' | 'Penjualan' | 'Keuangan' | 'Master Data'
 type QtyTuple = [number, number, number]
 type SizeTuple = [string, string, string]
@@ -300,6 +301,7 @@ function App() {
   const [wipReverseNotice,setWipReverseNotice] = useState<string|null>(null)
   const [qcSeedId,setQcSeedId] = useState('POT-260826-041::041-02')
   const [qcResult,setQcResult] = useState<QcFinalResult|null>(null)
+  const [bsPrefill,setBsPrefill] = useState<QcFinalResult|null>(null)
 
   const totalPcs = parseQty(qtyText, unit)
   const composed = sizes.reduce((sum, row) => sum + row.qty, 0)
@@ -327,6 +329,7 @@ function App() {
     : page === 'sewing-wip' ? 'WIP & Sewing'
     : page === 'qc' ? 'QC & Final SKU'
     : page === 'fg-handoff' ? 'Serah FG & Ajukan Gajian'
+    : page === 'bs-rework' ? 'Barang BS & Rework'
     : page === 'laundry' ? 'Laundry'
     : page === 'hpp' ? 'HPP & Rekalkulasi'
     : 'Modul ERP'
@@ -344,6 +347,7 @@ function App() {
     else if (label === 'QC & Final SKU') {
       setPage('qc')
     }
+    else if (label === 'Barang BS & Rework') { setBsPrefill(null); setPage('bs-rework') }
     else if (label === 'HPP & Rekalkulasi') setPage('hpp')
     else setPage('placeholder')
     setMobileNav(false)
@@ -357,7 +361,7 @@ function App() {
       {(Object.keys(nav) as NavSection[]).map((section) => <div className="nav-section" key={section}>
         <button className={`nav-main ${expanded === section ? 'active' : ''}`} onClick={() => setExpanded(expanded === section ? null : section)}><Icon name={section} /><span>{section}</span><span className="chevron">{expanded === section ? '⌄' : '›'}</span></button>
         {expanded === section && <div className="submenu">{nav[section].map((item) => {
-          const active = (item === 'Penjualan & Invoice' && page === 'sales') || (item === 'Kartu Stok FG' && page === 'stock-card') || (item === 'Mutasi Barang Jadi · Vivo' && page === 'movements-vivo') || (item === 'Mutasi Barang Jadi · Widie' && page === 'movements-widie') || (item === 'Pembelian & Penerimaan' && page === 'procurement') || (item === 'Buat Potongan' && page === 'cutting-roll') || (item === 'Bagi Potongan' && page === 'mandor-wip') || (item === 'WIP & Sewing' && page === 'sewing-wip') || (item === 'QC & Final SKU' && (page === 'qc' || page === 'fg-handoff')) || (item === 'Laundry' && page === 'laundry') || (item === 'HPP & Rekalkulasi' && page === 'hpp')
+          const active = (item === 'Penjualan & Invoice' && page === 'sales') || (item === 'Kartu Stok FG' && page === 'stock-card') || (item === 'Mutasi Barang Jadi · Vivo' && page === 'movements-vivo') || (item === 'Mutasi Barang Jadi · Widie' && page === 'movements-widie') || (item === 'Pembelian & Penerimaan' && page === 'procurement') || (item === 'Buat Potongan' && page === 'cutting-roll') || (item === 'Bagi Potongan' && page === 'mandor-wip') || (item === 'WIP & Sewing' && page === 'sewing-wip') || (item === 'QC & Final SKU' && (page === 'qc' || page === 'fg-handoff')) || (item === 'Barang BS & Rework' && page === 'bs-rework') || (item === 'Laundry' && page === 'laundry') || (item === 'HPP & Rekalkulasi' && page === 'hpp')
           return <button key={item} className={active ? 'sub-active' : ''} onClick={() => chooseSubmenu(item)}>• {item}</button>
         })}</div>}
       </div>)}
@@ -410,7 +414,8 @@ function App() {
           }}
         />}
         {page === 'qc' && <QcFinalPage seeds={buildQcSeeds(laundryDeliveries)} initialSeedId={qcSeedId} onBack={()=>setPage('sewing-wip')} onFinish={(result)=>{setQcResult(result);setPage('fg-handoff')}} />}
-        {page === 'fg-handoff' && qcResult && <FgPayrollHandoffPage result={qcResult} onBack={()=>setPage('qc')} />}
+        {page === 'fg-handoff' && qcResult && <FgPayrollHandoffPage result={qcResult} onBack={()=>setPage('qc')} onOpenBs={()=>{setBsPrefill(qcResult);setPage('bs-rework')}} />}
+        {page === 'bs-rework' && <BsReworkPage initialResult={bsPrefill} onBack={()=>setPage(bsPrefill?'fg-handoff':'sewing-wip')} />}
         {page === 'laundry' && <LaundryPage
           prefill={laundryPrefill}
           readyBatches={laundryReadyBatches}
@@ -1162,17 +1167,23 @@ function SewingWipPage({
 
 
 const laborBomComponents = [
-  {id:'jahit-utama',name:'Jahit utama',rate:8200,required:true,note:'Badan, sambungan utama, dan bentuk model'},
-  {id:'obras',name:'Obras',rate:2950,required:true,note:'Obras sambungan sesuai arahan batch'},
+  {id:'jahit-utama',name:'Jahit utama',rate:8250,required:true,note:'Badan, sambungan utama, dan bentuk model'},
+  {id:'finishing-detail',name:'Ceming / finishing detail',rate:2500,required:true,note:'Detail sambungan sesuai snapshot model'},
   {id:'pinggang',name:'Ban & pinggang',rate:2600,required:true,note:'Ban, stik pinggang, dan penguat'},
   {id:'saku',name:'Saku & ritsleting',rate:2300,required:true,note:'Komponen fungsi depan/belakang'},
-  {id:'finishing',name:'Finishing jahit',rate:1500,required:false,note:'Potong benang dan pemeriksaan akhir'},
-  {id:'komisi',name:'Komisi mandor',rate:900,required:false,note:'Snapshot komisi PO yang sama'},
+  {id:'centang',name:'Centang / bartack',rate:800,required:false,note:'Penguat titik dan pemeriksaan detail'},
+  {id:'kancing',name:'Kancing',rate:500,required:false,note:'Pasang kancing sesuai model'},
+  {id:'plastik',name:'Plastik & packing',rate:500,required:false,note:'Plastik per barang jadi'},
+  {id:'hangtag',name:'Hangtag / label',rate:600,required:false,note:'Label dan hangtag final'},
+  {id:'lipat',name:'Lipat akhir',rate:400,required:false,note:'Lipat dan susun serah gudang'},
 ]
+const repairComponentIds = ['finishing-detail','centang','lipat']
 
-function FgPayrollHandoffPage({result,onBack}:{result:QcFinalResult;onBack:()=>void}) {
+function FgPayrollHandoffPage({result,onBack,onOpenBs}:{result:QcFinalResult;onBack:()=>void;onOpenBs:()=>void}) {
   const [holdRateInput,setHoldRateInput]=useState('3700')
   const [enabledComponents,setEnabledComponents]=useState<string[]>(laborBomComponents.map((component)=>component.id))
+  const [includeRework,setIncludeRework]=useState(true)
+  const [includeSusulan,setIncludeSusulan]=useState(true)
   const [bomReviewed,setBomReviewed]=useState(false)
   const [note,setNote]=useState('Selesaikan serah FG setelah hasil QC disetujui. Hold Stuck Laundry dibawa ke laporan gajian.')
   const [submitted,setSubmitted]=useState(false)
@@ -1183,9 +1194,15 @@ function FgPayrollHandoffPage({result,onBack}:{result:QcFinalResult;onBack:()=>v
   const rewashTotal=result.rewash.reduce((sum,value)=>sum+value,0)
   const holdRate=cellQuantity(holdRateInput)
   const wageRate=laborBomComponents.filter((component)=>enabledComponents.includes(component.id)).reduce((sum,component)=>sum+component.rate,0)
+  const repairRate=laborBomComponents.filter((component)=>repairComponentIds.includes(component.id)).reduce((sum,component)=>sum+component.rate,0)
   const payrollBase=expectedTotal*wageRate
+  const payrollBs=bsTotal*repairRate
   const payrollHold=outstanding*holdRate
-  const payrollDraft=Math.max(0,payrollBase-payrollHold)
+  const linkedReworkQty=2
+  const linkedSusulanQty=1
+  const payrollRework=includeRework?linkedReworkQty*repairRate:0
+  const payrollSusulan=includeSusulan?linkedSusulanQty*holdRate:0
+  const payrollDraft=payrollBase-payrollBs-payrollHold+payrollRework+payrollSusulan
   const updateDigits=(raw:string,max:number)=>{
     const digits=raw.replace(/[^0-9]/g,'').replace(/^0+(?=\d)/,'')
     return digits===''?'':String(Math.min(max,Number(digits)))
@@ -1194,7 +1211,7 @@ function FgPayrollHandoffPage({result,onBack}:{result:QcFinalResult;onBack:()=>v
   return <>
     <section className="hero-copy compact fg-handoff-hero"><div><div className="eyebrow">PRODUKSI · SETELAH QC & FINAL SKU</div><h1>Serah FG & Ajukan Gajian</h1><p>Hasil QC sudah dikunci. Good diserahkan ke gudang FG; gajian baru diajukan sebagai langkah paling akhir.</p></div><button type="button" className="soft-btn handoff-back" onClick={onBack}><Icon name="back"/> Kembali ke QC</button></section>
     <div className="handoff-flow-strip"><span className="done"><b>1</b>Laundry kembali</span><i/><span className="done"><b>2</b>QC + Final SKU</span><i/><span className="active"><b>3</b>Serah FG</span><i/><span className="active"><b>4</b>Gajian</span></div>
-    {submitted&&<div className="handoff-success"><Icon name="check"/><div><strong>Serah FG dan draft gajian terbentuk</strong><span>{receivedTotal} pcs masuk {result.destination} · {outstanding} pcs tetap di {result.laundry} · hold {money(payrollHold)}</span></div></div>}
+    {submitted&&<div className="handoff-success"><Icon name="check"/><div><strong>Serah FG dan draft gajian terbentuk</strong><span>{receivedTotal} pcs masuk {result.destination} · netto nota {money(payrollDraft)} · seluruh minus/plus membawa referensi asal.</span></div></div>}
     <section className="handoff-layout">
       <div className="panel handoff-workbench">
         <header className="handoff-source-head"><span>01</span><div><small>HASIL QC · {result.parentId} · CHILD BATCH {result.batchId}</small><h2>{result.brand} · SKU {result.finalSku}</h2><p>{result.finalProductName} · {result.finalColor} · Range {result.finalRange} · bahan {result.material}</p><div className="handoff-mandor-hero"><Icon name="user"/><span><small>MANDOR PENANGGUNG JAWAB</small><strong>{result.mandor}</strong></span></div></div><strong>{receivedTotal} Good</strong></header>
@@ -1210,7 +1227,7 @@ function FgPayrollHandoffPage({result,onBack}:{result:QcFinalResult;onBack:()=>v
             <label><span>LAUNDRY TERKAIT</span><input value={result.laundry||'Tidak ada outstanding'} readOnly /></label>
             <label><span>TARIF HOLD / PCS</span><div className="handoff-money-input"><b>Rp</b><input inputMode="numeric" value={holdRateInput} onFocus={(event)=>event.currentTarget.select()} onChange={(event)=>{setHoldRateInput(updateDigits(event.target.value,999999));setSubmitted(false)}}/></div></label>
           </div><div className="handoff-hold-preview"><span>{outstanding} pcs × {money(holdRate)}</span><strong>− {money(payrollHold)}</strong><small>Status: ditahan, belum menjadi potongan final.</small></div></section>
-          <section><div className="handoff-section-title compact"><div><span>04</span><div><strong>Catatan laporan gajian</strong><small>Gajian diajukan sesudah serah FG direview.</small></div></div></div><label className="handoff-note"><span>CATATAN MANDOR</span><textarea value={note} onChange={(event)=>{setNote(event.target.value);setSubmitted(false)}} /></label><p className="handoff-bs-note"><Icon name="audit"/><span><strong>{bsTotal} BS · {rewashTotal} cuci ulang</strong> sudah diputuskan QC dan tidak boleh diubah dari halaman gajian.</span></p></section>
+          <section><div className="handoff-section-title compact"><div><span>04</span><div><strong>BS & catatan laporan</strong><small>BS menjadi minus; rinciannya dikelola sebagai kasus mutu.</small></div></div></div><div className="handoff-bs-deduction"><div><span>BS DARI QC · {repairComponentIds.length} KOMPONEN TERDAMPAK</span><strong>{bsTotal} pcs × {money(repairRate)}</strong><small>{laborBomComponents.filter((component)=>repairComponentIds.includes(component.id)).map((component)=>component.name).join(' · ')}</small></div><b>− {money(payrollBs)}</b><button type="button" onClick={onOpenBs}>Buka BS & Rework <Icon name="arrow"/></button></div><label className="handoff-note"><span>CATATAN MANDOR</span><textarea value={note} onChange={(event)=>{setNote(event.target.value);setSubmitted(false)}} /></label><p className="handoff-bs-note"><Icon name="audit"/><span><strong>{bsTotal} BS · {rewashTotal} cuci ulang</strong> tidak boleh diubah dari gajian. Bikin bagus nanti memulihkan minus ini lewat kasus asal.</span></p></section>
         </div>
         <section className="handoff-bom-review">
           <header><div><span>05 · BOM KERJA & HAK GAJI</span><h2>BOM-JAHIT-{result.finalSku} · v3</h2><p>Snapshot PO terkunci. Checkbox menentukan komponen yang benar-benar selesai dan diajukan sekarang.</p></div><em><Icon name="audit"/> SNAPSHOT TERKUNCI</em></header>
@@ -1220,14 +1237,20 @@ function FgPayrollHandoffPage({result,onBack}:{result:QcFinalResult;onBack:()=>v
         </section>
       </div>
       <aside className="panel handoff-payroll-ticket">
-        <div className="handoff-ticket-title"><span>TAHAP TERAKHIR · DRAFT GAJIAN</span><h2>{result.mandor}</h2><p>{result.brand} · {result.parentId} · Batch {result.batchId}</p></div>
+        <div className="handoff-ticket-title"><span>NOTA GAJI · GAJI-260828-010</span><h2>{result.mandor}</h2><p>{result.brand} · {result.parentId} · Batch {result.batchId}</p><small>28 Agu 2026 · draft belum diposting</small></div>
         <div className="handoff-bom-rate"><span>TARIF BOM TERPILIH / PCS</span><strong>{money(wageRate)}</strong><small>{enabledComponents.length}/{laborBomComponents.length} komponen dicentang</small></div>
-        <div className="handoff-payroll-lines"><p><span>Gaji dasar</span><b>{expectedTotal} × {money(wageRate)}</b></p><strong>{money(payrollBase)}</strong><p className="hold"><span>Hold belum balik</span><b>{outstanding} × {money(holdRate)}</b></p><strong className="hold">− {money(payrollHold)}</strong></div>
-        <div className="handoff-net"><span>DRAFT DIBAYARKAN</span><strong>{money(payrollDraft)}</strong><small>Hold akan dikembalikan di payroll berikutnya saat barang susulan lolos QC.</small></div>
-        <div className="handoff-output"><span>SEKALI SIMPAN MEMBENTUK</span><p><Icon name="check"/><b>{receivedTotal} pcs</b> penerimaan FG SKU {result.finalSku}</p><p><Icon name="history"/><b>{outstanding} pcs</b> tetap Stuck Laundry</p><p><Icon name="cost"/><b>{money(payrollHold)}</b> hold payroll</p></div>
+        <div className="handoff-payroll-ledger">
+          <div className="base"><p><span>Upah dasar · snapshot BOM</span><b>{expectedTotal} pcs × {money(wageRate)}</b></p><strong>{money(payrollBase)}</strong></div>
+          {bsTotal>0&&<div className="minus"><p><span>BS · kasus dari QC</span><b>BS-260828-021 · {bsTotal} pcs × {money(repairRate)}</b></p><strong>− {money(payrollBs)}</strong></div>}
+          {outstanding>0&&<div className="minus"><p><span>Belum balik · hold Laundry</span><b>STK-{result.batchId} · {outstanding} pcs × {money(holdRate)}</b></p><strong>− {money(payrollHold)}</strong></div>}
+          <label className={`plus ${includeRework?'selected':''}`}><input type="checkbox" checked={includeRework} onChange={(event)=>{setIncludeRework(event.target.checked);setSubmitted(false)}}/><span className="ledger-check">{includeRework&&<Icon name="check"/>}</span><p><span>Bikin bagus · pulihkan BS lama</span><b>BS-260826-018 · {linkedReworkQty} pcs × {money(repairRate)}</b></p><strong>+ {money(linkedReworkQty*repairRate)}</strong></label>
+          <label className={`plus ${includeSusulan?'selected':''}`}><input type="checkbox" checked={includeSusulan} onChange={(event)=>{setIncludeSusulan(event.target.checked);setSubmitted(false)}}/><span className="ledger-check">{includeSusulan&&<Icon name="check"/>}</span><p><span>Susulan · lepas hold lama</span><b>STK-LDR-260826-010 · {linkedSusulanQty} pcs × {money(holdRate)}</b></p><strong>+ {money(linkedSusulanQty*holdRate)}</strong></label>
+        </div>
+        <div className="handoff-net"><span>NETTO NOTA GAJI</span><strong>{money(payrollDraft)}</strong><small>Setiap plus mengacu ke minus asal dan tidak boleh melebihi saldo yang masih terbuka.</small></div>
+        <div className="handoff-output"><span>SEKALI SIMPAN MEMBENTUK</span><p><Icon name="check"/><b>{receivedTotal} pcs</b> penerimaan FG SKU {result.finalSku}</p><p><Icon name="history"/><b>{outstanding} pcs</b> tetap Stuck Laundry</p><p><Icon name="cost"/><b>BS − {money(payrollBs)}</b> · hold − {money(payrollHold)}</p>{includeRework&&<p><Icon name="link"/><b>Bikin bagus + {money(payrollRework)}</b> terhubung ke BS-260826-018</p>}{includeSusulan&&<p><Icon name="link"/><b>Susulan + {money(payrollSusulan)}</b> terhubung ke hold asal</p>}</div>
         <label className="handoff-final-check"><input type="checkbox" checked={bomReviewed} onChange={(event)=>{setBomReviewed(event.target.checked);setSubmitted(false)}}/><span><strong>BOM kerja dan hasil QC sudah gue review</strong><small>FG diserahkan dulu, lalu draft gajian diajukan sebagai langkah terakhir.</small></span></label>
         <button type="button" className="primary-btn handoff-submit" disabled={receivedTotal<=0||wageRate<=0||!bomReviewed} onClick={()=>setSubmitted(true)}>{submitted?'Serah FG & draft tersimpan':'Serahkan FG & ajukan gajian'} <Icon name={submitted?'check':'arrow'}/></button>
-        <p className="handoff-audit-note">Prototype ini belum mengubah stok, payroll, atau jurnal backend.</p>
+        <p className="handoff-audit-note">Prototype frontend. Posting payroll menunggu kontrak origin-line untuk BS/rework dan hold/susulan.</p>
       </aside>
     </section>
   </>
