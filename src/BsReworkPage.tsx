@@ -105,7 +105,7 @@ function seedCases(result?: QcFinalResult | null): OperationalCase[] {
       mandor: result?.mandor ?? 'Mandor Asep', laundry: result?.laundry ?? 'Laundry Intan',
       brand: result?.brand ?? 'Widie', sku: result?.finalSku ?? '73001', material: result?.material ?? 'Malibu', sizes,
       qtyBySize: stuckQty, deliveryRef: 'KRM-LDR-260827-006', receiptRef: 'TRM-LDR-260827-011',
-      status: sum(stuckQty) > 0 ? 'PARTIAL' : 'BACK_TO_QC', createdAt: '27 Agu 2026 · 17:30',
+      status: sum(stuckQty) > 0 ? 'OUTSIDE' : 'BACK_TO_QC', createdAt: '27 Agu 2026 · 17:30',
     },
     {
       kind: 'BS', id: 'BS-LEG-0007', source: 'LEGACY_IMPORT', sourceNote: 'NOTA-LAMA-08/26-07',
@@ -124,7 +124,6 @@ function seedLedger(cases: OperationalCase[]): LedgerItem[] {
   const qcRate = componentRate(qcCase.componentIds)
   const legacyRate = componentRate(legacyCase.componentIds)
   const firstRestored = firstPositiveUnit(qcCase.qtyBySize)
-  const firstSusulan = firstPositiveUnit(stuckCase.qtyBySize)
   const items: LedgerItem[] = [
     { id: 'ADJ-BS-018', kind: 'BS_DEDUCTION', label: 'BS dari QC · komponen belum diterima', sign: -1, qtyBySize: qcCase.qtyBySize, rate: qcRate, amount: sum(qcCase.qtyBySize) * qcRate, payee: qcCase.originalMandor, caseId: qcCase.id, sourceLabel: `${qcCase.id} · ${qcCase.sourceNote}`, createdAt: '27 Agu · 18:42' },
     { id: 'ADJ-RW-018-01', kind: 'REWORK_RELEASE', label: 'Bikin bagus · siap Nota FG', sign: 1, qtyBySize: firstRestored, rate: qcRate, amount: sum(firstRestored) * qcRate, payee: qcCase.reworkMandor ?? qcCase.originalMandor, caseId: qcCase.id, originId: 'ADJ-BS-018', sourceLabel: 'Asal ADJ-BS-018 · QC rework lulus', createdAt: '28 Agu · 09:40', componentIds: qcCase.componentIds },
@@ -132,7 +131,6 @@ function seedLedger(cases: OperationalCase[]): LedgerItem[] {
   ]
   if (sum(stuckCase.qtyBySize) > 0) items.push(
     { id: stuckCase.id, kind: 'STUCK_HOLD', label: 'Belum balik dari Laundry', sign: -1, qtyBySize: stuckCase.qtyBySize, rate: 3700, amount: sum(stuckCase.qtyBySize) * 3700, payee: stuckCase.mandor, caseId: stuckCase.id, sourceLabel: `${stuckCase.laundry} · ${stuckCase.deliveryRef}`, createdAt: '27 Agu · 17:30' },
-    { id: 'SUS-LDR-1049-01', kind: 'STUCK_RELEASE', label: 'Susulan · fisik sudah balik', sign: 1, qtyBySize: firstSusulan, rate: 3700, amount: sum(firstSusulan) * 3700, payee: stuckCase.mandor, caseId: stuckCase.id, originId: stuckCase.id, sourceLabel: `Asal ${stuckCase.id} · diterima ${stuckCase.mandor}`, createdAt: '28 Agu · 10:05' },
   )
   return items
 }
