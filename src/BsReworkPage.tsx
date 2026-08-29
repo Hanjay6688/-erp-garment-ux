@@ -88,7 +88,7 @@ const caseMandors = (item: OperationalCase) => item.kind === 'BS' ? [item.origin
 
 function seedCases(result?: QcFinalResult | null): OperationalCase[] {
   const sizes: [string, string, string] = result?.sizes ?? ['31', '32', '33']
-  const incomingBs: SizeValues = result ? asSizeValues(result.qcBs) : [2, 1, 0]
+  const incomingBs: SizeValues = result ? asSizeValues(result.postedBsBySize) : [2, 1, 0]
   const bsQty: SizeValues = sum(incomingBs) > 0 ? incomingBs : [2, 1, 0]
   const stuckQty: SizeValues = result ? asSizeValues(result.stuckBySize) : [21, 21, 22]
   return [
