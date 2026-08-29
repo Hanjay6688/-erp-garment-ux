@@ -191,7 +191,7 @@ function BulkRateModal({entities,selectedIds,onClose,onApply}:{entities:MasterEn
 function BrowserRecord({item,active,config,bulkSelected,onSelect,onToggleBulk}:{item:MasterEntity;active:boolean;config:MasterConfig;bulkSelected:boolean;onSelect:()=>void;onToggleBulk:()=>void}){
   const EntityIcon=config.icon
   const product=config.view==='master-products'
-  return <article className={`md-browser-record ${active?'active':''} ${product?'with-check':''}`}>{product&&<label className="md-bulk-check"><input type="checkbox" checked={bulkSelected} disabled={!item.active} onChange={onToggleBulk}/><i>{bulkSelected&&<Check/>}</i><span className="sr-only">Pilih {item.code} untuk update massal</span></label>}<button type="button" className="md-browser-select" onClick={onSelect}><i><EntityIcon/></i><span><strong>{item.name}</strong><small>{item.code}</small><em>{config.fields.slice(0,2).map((field)=>item.values[field.key]).filter(Boolean).join(' · ')}</em></span><MasterState active={item.active}/></button></article>
+  return <article className={`md-browser-record ${active?'active':''} ${product?'with-check':''}`}>{product&&<label className="md-bulk-check"><input type="checkbox" checked={bulkSelected} disabled={!item.active} onChange={onToggleBulk}/><i>{bulkSelected&&<Check/>}</i><span className="sr-only">Pilih {item.code} untuk update massal</span></label>}<button type="button" className="md-browser-select" onClick={onSelect}><i><EntityIcon/></i><span><strong>{item.name}</strong><small>{item.code}</small><em>{config.fields.slice(0,2).map((field)=>formatFieldValue(field,item.values[field.key]??'')).filter(Boolean).join(' · ')}</em></span><MasterState active={item.active}/></button></article>
 }
 
 function MasterWorkspace({config}:{config:MasterConfig}){
