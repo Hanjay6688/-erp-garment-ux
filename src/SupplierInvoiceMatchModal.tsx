@@ -3,6 +3,7 @@ import {
   AlertTriangle, ArrowLeft, ArrowRight, Check, FileCheck2, FileClock,
   Link2, LockKeyhole, ReceiptText, RefreshCcw, ShieldCheck, X,
 } from 'lucide-react'
+import { cleanMoneyInput, formatMoneyInput } from './moneyInput'
 import './supplier-invoice-match.css'
 
 type ReceiptLine = {
@@ -86,8 +87,8 @@ export default function SupplierInvoiceMatchModal({grniNumber,supplier,purchaseR
             <label className="simatch-check"><input type="checkbox" checked={draft.selected} onChange={(event)=>update(line.id,'selected',event.target.checked)}/><i>{draft.selected&&<Check/>}</i><span><strong>{line.receipt}</strong><small>{line.receivedAt}</small></span></label>
             <span><strong>{line.item}</strong><small>Diterima {line.received} · sudah invoice {line.invoiced} · sisa {remaining} {line.unit}</small></span>
             <label><input disabled={!draft.selected} inputMode="numeric" value={draft.qty} onFocus={(event)=>event.currentTarget.select()} onChange={(event)=>update(line.id,'qty',String(Math.min(remaining,digits(event.target.value))))}/><small>/ {remaining} {line.unit}</small></label>
-            <label><div><b>Rp</b><input disabled={!draft.selected} inputMode="numeric" value={draft.price} onFocus={(event)=>event.currentTarget.select()} onChange={(event)=>update(line.id,'price',event.target.value.replace(/\D/g,''))}/></div><small>Estimate {money(line.estimatedUnitPrice)}</small></label>
-            <label><div><b>Rp</b><input disabled={!draft.selected} inputMode="numeric" value={draft.discount} onFocus={(event)=>event.currentTarget.select()} onChange={(event)=>update(line.id,'discount',event.target.value.replace(/\D/g,''))}/></div><small>Maks. nilai baris</small></label>
+            <label><div><b>Rp</b><input disabled={!draft.selected} inputMode="numeric" value={formatMoneyInput(draft.price)} onFocus={(event)=>event.currentTarget.select()} onChange={(event)=>update(line.id,'price',cleanMoneyInput(event.target.value))}/></div><small>Estimate {money(line.estimatedUnitPrice)}</small></label>
+            <label><div><b>Rp</b><input disabled={!draft.selected} inputMode="numeric" value={formatMoneyInput(draft.discount)} onFocus={(event)=>event.currentTarget.select()} onChange={(event)=>update(line.id,'discount',cleanMoneyInput(event.target.value))}/></div><small>Maks. nilai baris</small></label>
             <strong>{draft.selected?money(qty*price-discount):'—'}<small>{draft.selected&&qty<remaining?`${remaining-qty} ${line.unit} tetap GRNI`:draft.selected?'Receipt clear':'Tidak di-match'}</small></strong>
           </article>})}
         </section>

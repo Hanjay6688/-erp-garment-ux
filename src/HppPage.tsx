@@ -4,6 +4,7 @@ import {
   Clock3, FileSearch, GitCompareArrows, History, Info, Layers3, LockKeyhole,
   PackageSearch, RefreshCcw, Search, ShieldCheck, SlidersHorizontal,
 } from 'lucide-react'
+import { cleanMoneyInput, formatMoneyInput } from './moneyInput'
 import './hpp.css'
 
 type CostState = 'ESTIMATED' | 'ACTUAL' | 'ADJUSTED'
@@ -395,7 +396,7 @@ function HppPage() {
             <div className="hpp-recost-inputs">
               <label><span>NILAI KAIN SAAT INI / PCS</span><div><b>Rp</b><input value={materialComponent.perPcs.toLocaleString('id-ID')} readOnly /></div></label>
               <ArrowRight />
-              <label><span>NILAI BARU / PCS</span><div className="editable"><b>Rp</b><input inputMode="numeric" value={recostDrafts[lot.id] ?? String(materialComponent.perPcs + 750)} onChange={(event) => { setRecostDrafts((current) => ({ ...current, [lot.id]: event.target.value })); setSimulationNotice('') }} /></div></label>
+              <label><span>NILAI BARU / PCS</span><div className="editable"><b>Rp</b><input inputMode="numeric" value={formatMoneyInput(recostDrafts[lot.id] ?? String(materialComponent.perPcs + 750))} onChange={(event) => { setRecostDrafts((current) => ({ ...current, [lot.id]: cleanMoneyInput(event.target.value) })); setSimulationNotice('') }} /></div></label>
             </div>
             <label className="hpp-recost-reason"><span>ALASAN WAJIB</span><textarea value={reason} onChange={(event) => { setRecostReasons((current) => ({ ...current, [lot.id]: event.target.value })); setSimulationNotice('') }} placeholder="Contoh: harga final kasbon berbeda dari benchmark saat barang datang" /></label>
             <div className="hpp-recost-guard"><AlertTriangle /><p><strong>Bukan edit HPP.</strong> Saat backend disambung, aksi final harus memasukkan antrean recost, menghitung kronologis, lalu membuat v{currentVersion.no + 1}. Tidak boleh menimpa v{currentVersion.no}.</p></div>
