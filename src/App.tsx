@@ -523,7 +523,22 @@ function App() {
         />}
         {page === 'qc' && <QcFinalPage seeds={buildQcSeeds(laundryDeliveries)} initialSeedId={qcSeedId} finalizedResults={finalizedQcResults} onBack={()=>setPage('sewing-wip')} onFinish={(result)=>{setFinalizedQcResults((current)=>[result,...current]);setQcResult(result)}} onOpenNota={(result)=>{setQcResult(result);setPage('fg-handoff')}} />}
         {page === 'fg-handoff' && qcResult && <FgPayrollHandoffPage result={qcResult} eligibleResults={finalizedQcResults} onBack={()=>{setQcSeedId(`${qcResult.parentId}::${qcResult.batchId}`);setPage('qc')}} onOpenBs={()=>{setBsPrefill(qcResult);setPage('bs-rework')}} />}
-        {page === 'bs-rework' && <BsReworkPage initialResult={bsPrefill} onBack={()=>setPage(bsPrefill?'fg-handoff':'sewing-wip')} />}
+        {page === 'bs-rework' && <BsReworkPage
+          initialResult={bsPrefill}
+          onBack={()=>setPage(bsPrefill?'fg-handoff':'sewing-wip')}
+          onStuckReturned={({batchId,laundry,qtyBySize})=>{
+            const remaining:[number,number,number]=[...qtyBySize]
+            setLaundryDeliveries((current)=>current.map((delivery)=>{
+              if(delivery.batchId!==batchId||(!delivery.vendor.includes(laundry)&&!laundry.includes(delivery.vendor))||remaining.every((qty)=>qty<=0))return delivery
+              const outstanding=laundryOutstandingSizes(delivery)
+              const accepted=outstanding.map((qty,index)=>Math.min(qty,remaining[index])) as QtyTuple
+              remaining.forEach((_,index)=>{remaining[index]=Math.max(0,remaining[index]-accepted[index])})
+              const acceptedTotal=accepted.reduce((sum,qty)=>sum+qty,0)
+              if(acceptedTotal<=0)return delivery
+              return {...delivery,good:delivery.good+acceptedTotal,goodSizes:delivery.goodSizes.map((qty,index)=>qty+accepted[index]) as QtyTuple}
+            }))
+          }}
+        />}
         {page === 'laundry' && <LaundryPage
           prefill={laundryPrefill}
           readyBatches={laundryReadyBatches}
@@ -1482,7 +1497,7 @@ function FgPayrollHandoffPage({result,eligibleResults,onBack,onOpenBs}:{result:Q
     {noteStatus==='POSTED'&&<div className="handoff-success"><Icon name="check"/><div><strong>Nota FG sudah posted dan masuk antrean Payroll</strong><span>NFG-260828-NEW · {money(noteTotal)} · belum dibayar dan belum mengubah kas.</span></div></div>}
     <section className="handoff-layout">
       <div className="panel handoff-workbench">
-        <header className="handoff-source-head"><span>01</span><div><small>QC {result.completionStatus==='PARTIAL'?'SELESAI SEBAGIAN':'LENGKAP'} · {result.parentId} · BATCH DISTRIBUSI {result.batchId}</small><h2>{result.brand} · SKU {result.finalSku}</h2><p>{result.finalProductName} · {result.finalColor} · Range {result.finalRange} · bahan {result.material}</p><div className="handoff-mandor-hero"><Icon name="user"/><span><small>MANDOR PENERIMA NOTA</small><strong>{result.mandor}</strong></span></div></div><strong>{returnedTotal} pulang · {goodTotal} Good</strong></header>
+        <header className="handoff-source-head"><span>01</span><div><small>QC {result.completionStatus==='PARTIAL_SELECTION'?'SELESAI SEBAGIAN':result.completionStatus==='WAITING_LAUNDRY'?'FG SIAP POSTED · MENUNGGU LAUNDRY':result.completionStatus==='WAITING_REWORK'?'FG SIAP POSTED · MENUNGGU CUCI ULANG':'LENGKAP'} · {result.parentId} · BATCH DISTRIBUSI {result.batchId}</small><h2>{result.brand} · SKU {result.finalSku}</h2><p>{result.finalProductName} · {result.finalColor} · Range {result.finalRange} · bahan {result.material}</p><div className="handoff-mandor-hero"><Icon name="user"/><span><small>MANDOR PENERIMA NOTA</small><strong>{result.mandor}</strong></span></div></div><strong>{returnedTotal} pulang · {goodTotal} Good</strong></header>
         <div className="handoff-section-title"><div><span>02</span><div><strong>Rekonsiliasi fisik dari QC</strong><small>Good menentukan FG. Total Pulang menjadi dasar pekerjaan; Stuck belum ikut karena barangnya belum kembali.</small></div></div><em className="ok">QC read-only</em></div>
         <div className="handoff-size-breakdown" role="table" aria-label="Rekonsiliasi serah FG per size">
           <div className="handoff-size-breakdown-head" role="row"><span>SIZE</span><span>POTONGAN</span><span>BAGUS → FG</span><span>BS</span><span>CUCI ULANG</span><span>SISA OPEN</span></div>

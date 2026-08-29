@@ -137,7 +137,11 @@ function seedLedger(cases: OperationalCase[]): LedgerItem[] {
   return items
 }
 
-export default function BsReworkPage({ initialResult, onBack }: { initialResult?: QcFinalResult | null; onBack: () => void }) {
+export default function BsReworkPage({ initialResult, onBack, onStuckReturned }: {
+  initialResult?: QcFinalResult | null
+  onBack: () => void
+  onStuckReturned?: (returnEvent: { parentId: string; batchId: string; laundry: string; qtyBySize: SizeValues }) => void
+}) {
   const [cases, setCases] = useState<OperationalCase[]>(() => seedCases(initialResult))
   const [ledger, setLedger] = useState<LedgerItem[]>(() => seedLedger(seedCases(initialResult)))
   const [selectedId, setSelectedId] = useState('BS-260827-018')
@@ -229,8 +233,9 @@ export default function BsReworkPage({ initialResult, onBack }: { initialResult?
     setLedger((current) => [...current, item])
     setCases((current) => current.map((entry) => entry.kind === 'STUCK' && entry.id === selectedStuck.id
       ? { ...entry, status: sum(remainingAfter) === 0 ? 'BACK_TO_QC' : 'PARTIAL' } : entry))
+    onStuckReturned?.({parentId:selectedStuck.parentId,batchId:selectedStuck.batchId,laundry:selectedStuck.laundry,qtyBySize:requested})
     setSusulanInputs(['', '', ''])
-    setNotice(`${qty} pcs susulan melepas hold +${money(item.amount)}. Fisik berikutnya tetap masuk QC.`)
+    setNotice(`${qty} pcs susulan melepas hold +${money(item.amount)}. Outstanding PO di Laundry ikut turun dan fisiknya kembali eligible untuk QC.`)
   }
   const markBsFinal = () => {
     if (!selectedBs) return

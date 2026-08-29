@@ -111,6 +111,7 @@ begin
       'destination_location_id',v_location,
       'physical_at',clock_timestamp()-interval '2 hours',
       'reason','Test partial completion 4 of 10',
+      'completion_mode','PARTIAL_SELECTION',
       'lines',jsonb_build_array(jsonb_build_object(
         'final_product_id',v_product,
         'qty_good_pcs',4,
@@ -137,6 +138,7 @@ begin
       'destination_location_id',v_location,
       'physical_at',clock_timestamp()-interval '1 hour',
       'reason','Test final completion 6 of 10',
+      'completion_mode','ALL_READY',
       'lines',jsonb_build_array(jsonb_build_object(
         'final_product_id',v_product,
         'qty_good_pcs',6,
@@ -207,6 +209,10 @@ begin
 
     if v_retry is distinct from v_first then
       raise exception 'Idempotent retry returned a different response';
+    end if;
+    if v_first->>'completion_status' <> 'PARTIAL_SELECTION'
+       or v_first->>'completion_mode' <> 'PARTIAL_SELECTION' then
+      raise exception 'Intentional partial completion was not classified separately: %',v_first;
     end if;
     if not v_partial_finish_blocked then
       raise exception 'Partial PO close was not blocked';
