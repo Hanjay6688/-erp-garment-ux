@@ -52,9 +52,11 @@ npm run build
 
 Output directory: `dist`. A successful `npm run build` already includes the mandatory client-artifact secret scan; `npm run scan:dist` can be rerun independently.
 
-## Cloudflare Pages
+## Cloudflare Worker
 
-Import this Git repository in Cloudflare Workers & Pages.
+This repository is connected to the Cloudflare Workers build for the `erp-garment-ux` script. Pull-request branches receive preview deployments; a gated merge to `main` triggers the canonical production deployment at:
+
+`https://erp-garment-ux.zrpf6sbtjb.workers.dev/`
 
 - Framework preset: Vite
 - Build command: `npm run build`
