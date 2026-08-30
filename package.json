@@ -5,22 +5,31 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "prebuild": "node scripts/build-preflight.mjs",
     "build": "tsc -b && vite build",
+    "postbuild": "node scripts/scan-client-artifacts.mjs dist",
+    "test": "vitest run",
+    "test:security": "node scripts/test-build-preflight.mjs",
+    "scan:dist": "node scripts/scan-client-artifacts.mjs dist",
+    "test:watch": "vitest",
     "preview": "vite preview",
     "deploy": "npm run build && wrangler deploy",
     "cf:preview": "npm run build && wrangler versions upload"
   },
   "dependencies": {
-    "react": "latest",
-    "react-dom": "latest",
-    "lucide-react": "latest"
+    "@supabase/supabase-js": "2.112.4",
+    "lucide-react": "1.37.0",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
   },
   "devDependencies": {
-    "@types/react": "latest",
-    "@types/react-dom": "latest",
-    "@vitejs/plugin-react": "latest",
-    "typescript": "latest",
-    "vite": "latest",
-    "wrangler": "latest"
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.5",
+    "@vitejs/plugin-react": "6.1.1",
+    "jsdom": "26.1.0",
+    "typescript": "7.0.2",
+    "vite": "8.2.2",
+    "vitest": "4.1.11",
+    "wrangler": "4.127.1"
   }
 }
