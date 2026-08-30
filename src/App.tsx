@@ -26,6 +26,8 @@ import type { Product } from './productCatalog'
 import { cleanMoneyInput, formatMoneyInput } from './moneyInput'
 import type { ReadyFgNotaCard, RegularFgNotaSnapshot } from './fgNota'
 import { RuntimeBadge, RuntimeEnvironmentCard, RuntimeIdentity } from './components/RuntimeIdentity'
+import type { ReminderItem } from './reminders'
+import { initialReminders, reminderDueLabel, reminderPriorityLabel } from './reminders'
 
 const SalesPages = lazy(() => import('./SalesPages'))
 const FinancePages = lazy(() => import('./FinancePages'))
@@ -59,6 +61,8 @@ type RollDraft = { id: number; yards: string }
 type SlotAllocation = [number, number, number, number, number, number]
 type CuttingSizeSlot = { key: string; size: string }
 type WipAllocationMode = 'roll' | 'size'
+type PickupQueueFilter = 'WAITING' | 'PICKED' | 'ALL'
+type PickupQueueStatus = 'READY' | 'REVIEW' | 'PICKED'
 type AllocationMatrix = Record<string, string[]>
 type RollBatchSizeMatrix = Record<string, string[][]>
 type FabricRoll = {
@@ -69,6 +73,25 @@ type FabricRoll = {
   yards: number
   receivedAt: string
   allocation: SlotAllocation
+}
+
+type PickupQueueRoll = {
+  id: string
+  sequence: number
+  sizes: QtyTuple
+  batchNumbers: number[]
+}
+
+type PickupQueueItem = {
+  id: string
+  model: string
+  material: string
+  supplier: string
+  sizes: SizeTuple
+  status: PickupQueueStatus
+  mandor?: string
+  pickupAt?: string
+  rolls: PickupQueueRoll[]
 }
 
 type Movement = {
@@ -211,16 +234,17 @@ const businessMasterPageByLabel: Partial<Record<string, BusinessMasterView>> = {
 }
 const operationsPageByLabel: Record<string, OperationsAdminView> = {
   'Absensi & Rate Harian':'operations-attendance',
+  'Reminder':'admin-reminders',
   'Pengaturan ERP':'admin-settings',
   'Tutup Periode':'admin-period-close',
   'Audit Trail':'admin-audit',
 }
-const adminNav = ['Pengaturan ERP','Tutup Periode','Audit Trail']
+const adminNav = ['Reminder','Pengaturan ERP','Tutup Periode','Audit Trail']
 const salesViews: SalesView[] = ['sales-invoice','sales-allocation','sales-returns','sales-payments','sales-history']
 const financeViews: FinanceView[] = ['finance-overview','finance-cash','finance-ap','finance-ar','finance-payroll','finance-journal','finance-reports']
 const isSalesView = (page: Page): page is SalesView => salesViews.includes(page as SalesView)
 const isFinanceView = (page: Page): page is FinanceView => financeViews.includes(page as FinanceView)
-const operationsViews: OperationsAdminView[] = ['operations-attendance','admin-settings','admin-period-close','admin-audit']
+const operationsViews: OperationsAdminView[] = ['operations-attendance','admin-reminders','admin-settings','admin-period-close','admin-audit']
 const isOperationsView = (page: Page): page is OperationsAdminView => operationsViews.includes(page as OperationsAdminView)
 
 const initialMovements: Movement[] = [
@@ -387,6 +411,7 @@ function App() {
   const [postedFgCardIds,setPostedFgCardIds] = useState<string[]>([])
   const [regularFgNotaSnapshots,setRegularFgNotaSnapshots] = useState<Record<string,RegularFgNotaSnapshot>>({})
   const [bsWorkspace,setBsWorkspace] = useState<BsReworkWorkspace|null>(null)
+  const [reminders,setReminders] = useState<ReminderItem[]>(()=>initialReminders.map((item)=>({...item})))
 
   const rememberFgNotaCard = (card: ReadyFgNotaCard) => {
     setReadyFgNotaCards((current) => current.some((item) => item.id === card.id) ? current : [card, ...current])
@@ -458,6 +483,7 @@ function App() {
     : page === 'master-partners' ? 'Supplier & Vendor'
     : page === 'master-workforce' ? 'Mandor'
     : page === 'master-locations' ? 'Gudang & Lokasi'
+    : page === 'admin-reminders' ? 'Reminder'
     : page === 'admin-settings' ? 'Pengaturan ERP'
     : page === 'admin-period-close' ? 'Tutup Periode'
     : page === 'admin-audit' ? 'Audit Trail'
@@ -525,7 +551,12 @@ function App() {
     <main className="main-panel">
       <header className="topbar"><button className="mobile-menu" onClick={() => setMobileNav(true)}><Icon name="menu" /></button><div className="top-title"><div className="top-icon"><Icon name="dashboard" /></div><div><strong>{title}</strong><span>{page === 'dashboard' ? 'Satu layar untuk keputusan hari ini' : 'Cepat, jelas, dan aman buat operasional'}</span></div></div><div className="top-actions"><RuntimeBadge/><button className="round-btn"><Icon name="search" /></button><RuntimeIdentity/></div></header>
       <div className="page-wrap" data-keyboard-scope onKeyDown={handleErgonomicKeyboard}>
-        {page === 'dashboard' && <Dashboard onOpenSales={() => setPage('sales-invoice')} />}
+        {page === 'dashboard' && <Dashboard
+          reminders={reminders}
+          onOpenSales={() => setPage('sales-invoice')}
+          onOpenReminders={() => setPage('admin-reminders')}
+          onToggleReminder={(id)=>setReminders((current)=>current.map((item)=>item.id===id?{...item,status:item.status==='OPEN'?'DONE':'OPEN',completedAt:item.status==='OPEN'?'Sesi ini':undefined}:item))}
+        />}
         {isSalesView(page) && <Suspense fallback={<WorkspaceFallback label="Penjualan"/>}><SalesPages view={page} onNavigate={(next)=>setPage(next)} /></Suspense>}
         {isFinanceView(page) && <Suspense fallback={<WorkspaceFallback label="Keuangan"/>}><FinancePages view={page} onNavigate={(next)=>setPage(next)} onSalesPayment={()=>setPage('sales-payments')} onAttendance={()=>setPage('operations-attendance')} /></Suspense>}
         {page === 'stock-card' && <StockCard />}
@@ -633,7 +664,7 @@ function App() {
         {page === 'hpp' && <HppPage />}
         {(page === 'master-fabric' || page === 'master-accessory') && <Suspense fallback={<WorkspaceFallback label="Master Material"/>}><MaterialMasterPages view={page}/></Suspense>}
         {(page === 'master-products' || page === 'master-customers' || page === 'master-partners' || page === 'master-workforce' || page === 'master-locations') && <Suspense fallback={<WorkspaceFallback label="Master Data"/>}><MasterDataPages view={page}/></Suspense>}
-        {isOperationsView(page) && <Suspense fallback={<WorkspaceFallback label="Pengaturan operasional"/>}><OperationsAdminPages view={page} onNavigate={(next)=>setPage(next)}/></Suspense>}
+        {isOperationsView(page) && <Suspense fallback={<WorkspaceFallback label="Pengaturan operasional"/>}><OperationsAdminPages view={page} onNavigate={(next)=>setPage(next)} reminders={reminders} onChangeReminders={setReminders}/></Suspense>}
         {page === 'placeholder' && <Placeholder />}
       </div>
     </main>
@@ -644,17 +675,21 @@ function WorkspaceFallback({ label }: { label: string }) {
   return <div className="panel placeholder"><div className="placeholder-icon">◇</div><h2>Menyiapkan {label}…</h2><p>Memuat workspace dan guardrail transaksi.</p></div>
 }
 
-function Dashboard({ onOpenSales }: { onOpenSales: () => void }) {
+function Dashboard({reminders,onOpenSales,onOpenReminders,onToggleReminder}:{reminders:ReminderItem[];onOpenSales:()=>void;onOpenReminders:()=>void;onToggleReminder:(id:string)=>void}) {
+  const priorityOrder={URGENT:0,NORMAL:1,LOW:2}
+  const dashboardReminders=[...reminders].sort((left,right)=>left.status===right.status?priorityOrder[left.priority]-priorityOrder[right.priority]:left.status==='OPEN'?-1:1).slice(0,3)
+  const openReminderCount=reminders.filter((item)=>item.status==='OPEN').length
   return <>
     <section className="hero-copy"><div className="eyebrow">DASHBOARD OWNER <span><Icon name="calendar" /> Kamis, 27 Agustus 2026</span></div><h1>Veni. Vidi. Vici. ERP</h1><p>Pantau uang, stok, HPP, dan aliran produksi tanpa membuka sepuluh laporan.</p></section>
     <section className="kpi-grid"><Kpi label="Kas & Bank" value="Rp284,6 jt" note="+4,2% dibanding bulan lalu" tone="good" /><Kpi label="Nilai stok FG" value="Rp418,2 jt" note="1.482 pcs siap jual" tone="neutral" /><Kpi label="Piutang berjalan" value="Rp176,8 jt" note="Rp42 jt jatuh tempo ≤ 7 hari" tone="warn" /><Kpi label="HPP bulan ini" value="Rp298,4 jt" note="stabil · 62,1% dari penjualan" tone="good" /></section>
-    <section className="dashboard-grid"><div className="panel wide-panel"><div className="panel-head"><div><div className="eyebrow">PULSA KEUANGAN</div><h2>Penjualan, HPP & laba kotor</h2><p>Klik detail untuk menelusuri transaksi pembentuk angkanya.</p></div><button className="soft-btn">30 hari terakhir ⌄</button></div><div className="chart-wrap">{[52,65,58,73,69,84,77,92,88,101,96,112].map((h,i)=><div className="bar-col" key={i}><div className="bar primary" style={{height:`${h}%`}}/><div className="bar secondary" style={{height:`${Math.max(30,h-28)}%`}}/></div>)}</div><div className="chart-legend"><span><i className="legend-a" /> Penjualan Rp480,5 jt</span><span><i className="legend-b" /> HPP Rp298,4 jt</span><strong>Laba kotor Rp182,1 jt</strong></div></div><div className="panel attention-panel"><div className="eyebrow">BUTUH PERHATIAN</div><h2>4 hal hari ini</h2><Attention label="Piutang lewat jatuh tempo" value="Rp18,4 jt" meta="3 pelanggan" tone="danger" /><Attention label="Dasar status stok" value="Belum diatur" meta="belum cukup data" tone="neutral" /><Attention label="WIP tanpa update > 3 hari" value="2 grup" meta="cek mandor" tone="neutral" /><Attention label="QC menunggu keputusan" value="34 pcs" meta="BS / rework" tone="neutral" /></div></section>
+    <section className="dashboard-grid"><div className="panel wide-panel"><div className="panel-head"><div><div className="eyebrow">PULSA KEUANGAN</div><h2>Penjualan, HPP & laba kotor</h2><p>Klik detail untuk menelusuri transaksi pembentuk angkanya.</p></div><button className="soft-btn">30 hari terakhir ⌄</button></div><div className="chart-wrap">{[52,65,58,73,69,84,77,92,88,101,96,112].map((h,i)=><div className="bar-col" key={i}><div className="bar primary" style={{height:`${h}%`}}/><div className="bar secondary" style={{height:`${Math.max(30,h-28)}%`}}/></div>)}</div><div className="chart-legend"><span><i className="legend-a" /> Penjualan Rp480,5 jt</span><span><i className="legend-b" /> HPP Rp298,4 jt</span><strong>Laba kotor Rp182,1 jt</strong></div></div><div className="panel attention-panel"><div className="attention-panel-head"><div><div className="eyebrow">BUTUH PERHATIAN</div><h2>{4+openReminderCount} hal hari ini</h2></div><button onClick={onOpenReminders}>Kelola reminder</button></div>{dashboardReminders.map((item)=><ReminderAttention item={item} key={item.id} onOpen={onOpenReminders} onToggle={()=>onToggleReminder(item.id)}/>)}<Attention label="Piutang lewat jatuh tempo" value="Rp18,4 jt" meta="3 pelanggan" tone="danger" /><Attention label="Dasar status stok" value="Belum diatur" meta="belum cukup data" tone="neutral" /><Attention label="WIP tanpa update > 3 hari" value="2 grup" meta="cek mandor" tone="neutral" /><Attention label="QC menunggu keputusan" value="34 pcs" meta="BS / rework" tone="neutral" /></div></section>
     <section className="flow-strip"><div><div className="eyebrow">ALIRAN PABRIK</div><h2>Dari potongan sampai uang masuk</h2></div>{['Potongan 1.920 pcs','Mandor 1.406 pcs','Laundry 628 pcs','QC 412 pcs','FG 1.482 pcs'].map((x,i)=><div className="flow-node" key={x}><span>{String(i+1).padStart(2,'0')}</span><strong>{x.split(' ').slice(0,-2).join(' ') || x.split(' ')[0]}</strong><small>{x.split(' ').slice(-2).join(' ')}</small></div>)}<button className="primary-btn" onClick={onOpenSales}>Input penjualan <Icon name="arrow" /></button></section>
   </>
 }
 
 function Kpi({ label, value, note, tone }: { label: string; value: string; note: string; tone: string }) { return <div className="kpi-card"><div className="kpi-label">{label}</div><div className="kpi-value">{value}</div><div className={`kpi-note ${tone}`}>{tone === 'good' ? '↗' : tone === 'warn' ? '↘' : '•'} {note}</div><div className={`kpi-orb ${tone}`}>◉</div></div> }
 function Attention({ label, value, meta, tone }: { label: string; value: string; meta: string; tone: string }) { return <div className="attention-row"><span className={`attention-dot ${tone}`} /><div><strong>{label}</strong><small>{meta}</small></div><b>{value}</b></div> }
+function ReminderAttention({item,onOpen,onToggle}:{item:ReminderItem;onOpen:()=>void;onToggle:()=>void}) { return <div className={`attention-row dashboard-reminder ${item.status.toLowerCase()} ${item.priority.toLowerCase()}`}><label><input type="checkbox" checked={item.status==='DONE'} onChange={onToggle}/><i>{item.status==='DONE'?<Icon name="check"/>:null}</i><span className="sr-only">Tandai {item.title} selesai</span></label><button type="button" onClick={onOpen}><strong>{item.title}</strong><small>{item.module} · {reminderDueLabel(item.dueAt)}</small></button><b>{item.status==='DONE'?'Selesai':reminderPriorityLabel[item.priority]}</b></div> }
 
 function ProcurementPage() {
   const [mode,setMode] = useState<ReceiptMode>('fabric')
@@ -1061,6 +1096,11 @@ function CuttingRollPage() {
   </>
 }
 
+function RollBatchQuickMenu({rollId,batchCount,currentBatch,split,onAssign}:{rollId:string;batchCount:number;currentBatch:number|null;split:boolean;onAssign:(batchIndex:number)=>void}) {
+  const label=split?'Pecah':currentBatch===null?'Pilih':String(currentBatch+1)
+  return <label className="roll-batch-quick"><span className="sr-only">Pilih batch untuk {rollId}</span><select aria-label={`Pilih batch untuk ${rollId}`} value={!split&&currentBatch!==null?String(currentBatch):''} onChange={(event)=>onAssign(Number(event.target.value))}><option value="" disabled>Batch: {label}</option>{Array.from({length:batchCount},(_,batchIndex)=><option value={batchIndex} key={batchIndex}>Batch: {batchIndex+1}</option>)}</select><ChevronDown/></label>
+}
+
 function MandorWipPage({ batchNotes, setBatchNotes }: { batchNotes: string[]; setBatchNotes: (updater: (current: string[]) => string[]) => void }) {
   const wipRolls = fabricRollCatalog.slice(0, 9)
   const wipRollRows = wipRolls.map((roll) => {
@@ -1082,6 +1122,9 @@ function MandorWipPage({ batchNotes, setBatchNotes }: { batchNotes: string[]; se
   const [splitEditorRollId,setSplitEditorRollId] = useState<string | null>(null)
   const [allocationMessage,setAllocationMessage] = useState('')
   const [rollDrag,setRollDrag] = useState<{ rollId: string; target: number | null; x: number; y: number } | null>(null)
+  const [queueFilter,setQueueFilter] = useState<PickupQueueFilter>('WAITING')
+  const [queueQuery,setQueueQuery] = useState('')
+  const [queueDetailId,setQueueDetailId] = useState<string|null>(null)
   const rollDragRef = useRef<{ rollId: string; target: number | null; x: number; y: number } | null>(null)
   const effectiveBatchCount = batchCount
   const targetTotals = balancedBatchTargets(wipTotal, batchCount)
@@ -1111,6 +1154,43 @@ function MandorWipPage({ batchNotes, setBatchNotes }: { batchNotes: string[]; se
     return usedBatches.length === 1 && row.sizes.every((source, sizeIndex) => cellQuantity(usedBatches[0][sizeIndex]) === source)
   })
   const unassignedRollRows = wipRollRows.filter((row) => (rollBatchMatrix[row.roll.id] ?? []).every((sizes) => sizes.reduce((sum, value) => sum + cellQuantity(value), 0) === 0))
+  const queueItems:PickupQueueItem[] = [
+    {
+      id:'POT-260827-042',model:'Kulot Lucy',material:'Lucy',supplier:'Sinaran',sizes:cuttingSizes,status:'READY',
+      rolls:wipRollRows.map((row)=>({id:row.roll.id,sequence:row.roll.sequence,sizes:row.sizes,batchNumbers:(rollBatchMatrix[row.roll.id]??[]).flatMap((sizes,batchIndex)=>sizes.some((value)=>cellQuantity(value)>0)?[batchIndex+1]:[])})),
+    },
+    {
+      id:'POT-260827-043',model:'Nevada Loose',material:'Nevada 12 Oz',supplier:'Sumber Cahaya',sizes:['30','31','32'],status:'REVIEW',
+      rolls:[
+        {id:'NV-260827-01',sequence:1,sizes:[36,36,36],batchNumbers:[]},
+        {id:'NV-260827-02',sequence:2,sizes:[36,36,36],batchNumbers:[]},
+      ],
+    },
+    {
+      id:'POT-260827-041',model:'Malibu Regular',material:'Malibu',supplier:'Sinaran',sizes:['28','29','30'],status:'PICKED',mandor:'Mandor Epi',pickupAt:'27 Agu 2026 · 08:40',
+      rolls:[
+        {id:'MLB-260826-11',sequence:11,sizes:[42,42,42],batchNumbers:[1]},
+        {id:'MLB-260826-12',sequence:12,sizes:[40,40,40],batchNumbers:[1]},
+        {id:'MLB-260826-13',sequence:13,sizes:[40,40,40],batchNumbers:[2]},
+        {id:'MLB-260826-14',sequence:14,sizes:[40,41,41],batchNumbers:[3]},
+      ],
+    },
+    {
+      id:'POT-260827-039',model:'Zodiak KW',material:'Zodiak',supplier:'Sumber Cahaya',sizes:['34','35','36'],status:'PICKED',mandor:'Mandor Afui',pickupAt:'26 Agu 2026 · 16:20',
+      rolls:[
+        {id:'ZDK-260826-07',sequence:7,sizes:[38,38,38],batchNumbers:[1]},
+        {id:'ZDK-260826-08',sequence:8,sizes:[38,38,38],batchNumbers:[2]},
+        {id:'ZDK-260826-09',sequence:9,sizes:[38,38,38],batchNumbers:[3]},
+      ],
+    },
+  ]
+  const normalizedQueueQuery=queueQuery.trim().toLowerCase()
+  const visibleQueueItems=queueItems.filter((item)=>{
+    const statusMatch=queueFilter==='ALL'||(queueFilter==='PICKED'?item.status==='PICKED':item.status!=='PICKED')
+    const queryMatch=!normalizedQueueQuery||`${item.id} ${item.model} ${item.material} ${item.supplier} ${item.mandor??''}`.toLowerCase().includes(normalizedQueueQuery)
+    return statusMatch&&queryMatch
+  })
+  const queueDetailItem=queueItems.find((item)=>item.id===queueDetailId)??null
   const resizeBatchCount = (requestedCount: number) => {
     const nextCount = Math.max(1, Math.round(requestedCount || 1))
     if (nextCount === batchCount) {
@@ -1249,13 +1329,13 @@ function MandorWipPage({ batchNotes, setBatchNotes }: { batchNotes: string[]; se
     <section className="wip-flow-rail panel" aria-label="Alur pickup dan pembentukan batch">{['Pilih WIP Potongan','Catat mandor mengambil','Tentukan jumlah batch','Drag roll / batch per size'].map((label,index)=><div className={index===0?'active':''} key={label}><span>{String(index+1).padStart(2,'0')}</span><strong>{label}</strong>{index<3&&<Icon name="arrow"/>}</div>)}</section>
     <section className="wip-pickup-layout">
       <aside className="panel wip-queue-panel">
-        <div className="wip-queue-head"><div><span>01 · WIP POTONGAN</span><h2>Menunggu diambil</h2><p>Belum punya batch jahit atau laundry.</p></div><span className="selection-pill">3 antrean</span></div>
-        <label className="wip-search"><Icon name="search"/><input placeholder="Cari kode, bahan, atau model..."/></label>
-        <div className="wip-queue-list">
-          <button type="button" className="wip-queue-card selected"><span className="wip-queue-status">SIAP DIAMBIL</span><strong>POT-260827-042</strong><small>Kulot Lucy · Sinaran</small><div><span><b>{wipTotal} pcs</b> · 9 roll</span><em>Size 31–33</em></div></button>
-          <button type="button" className="wip-queue-card"><span className="wip-queue-status">SIAP DIAMBIL</span><strong>POT-260827-041</strong><small>Malibu · Sinaran</small><div><span><b>488 pcs</b> · 7 roll</span><em>Size 28–30</em></div></button>
-          <button type="button" className="wip-queue-card"><span className="wip-queue-status">MENUNGGU REVIEW</span><strong>POT-260827-039</strong><small>Zodiak KW · Sumber Cahaya</small><div><span><b>342 pcs</b> · 5 roll</span><em>Size 34–36</em></div></button>
-        </div>
+        <div className="wip-queue-head"><div><span>01 · WIP POTONGAN</span><h2>{queueFilter==='WAITING'?'Menunggu diambil':queueFilter==='PICKED'?'Sudah diambil':'Semua potongan'}</h2><p>Filter tidak mengubah status atau isi pembagian.</p></div><span className="selection-pill">{visibleQueueItems.length} tampil</span></div>
+        <div className="wip-queue-tabs" role="group" aria-label="Filter status pickup">{(['WAITING','PICKED','ALL'] as const).map((filter)=><button type="button" className={queueFilter===filter?'active':''} aria-pressed={queueFilter===filter} key={filter} onClick={()=>setQueueFilter(filter)}>{filter==='WAITING'?'Menunggu':filter==='PICKED'?'Sudah diambil':'Semua'}</button>)}</div>
+        <label className="wip-search"><Icon name="search"/><input value={queueQuery} onChange={(event)=>setQueueQuery(event.target.value)} placeholder="Cari kode, bahan, model, mandor..."/></label>
+        <div className="wip-queue-list">{visibleQueueItems.map((item)=>{const itemTotal=item.rolls.reduce((sum,roll)=>sum+roll.sizes.reduce((sizeSum,qty)=>sizeSum+qty,0),0);return <article className={`wip-queue-card ${item.id==='POT-260827-042'?'selected':''} ${item.status.toLowerCase()}`} key={item.id}>
+          <div className="wip-queue-card-main"><span className="wip-queue-status">{item.status==='PICKED'?'SUDAH DIAMBIL':item.status==='REVIEW'?'MENUNGGU REVIEW':'SIAP DIAMBIL'}</span><strong>{item.id}</strong><small>{item.model} · {item.supplier}</small><div><span><b>{itemTotal} pcs</b> · {item.rolls.length} roll</span><em>Size {item.sizes[0]}–{item.sizes[item.sizes.length-1]}</em></div>{item.status==='PICKED'?<p><Icon name="user"/><span><small>DIAMBIL OLEH</small><strong>{item.mandor}</strong><em>{item.pickupAt}</em></span></p>:null}</div>
+          <footer><span>{item.status==='PICKED'?`${new Set(item.rolls.flatMap((roll)=>roll.batchNumbers)).size} batch distribusi`:'Belum masuk Sewing'}</span><button type="button" onClick={()=>setQueueDetailId(item.id)}>Detail <Icon name="arrow"/></button></footer>
+        </article>})}{visibleQueueItems.length===0?<div className="wip-queue-empty"><Icon name="search"/><strong>Potongan tidak ditemukan</strong><small>Ubah filter status atau kata pencarian.</small></div>:null}</div>
       </aside>
 
       <div className="panel wip-batch-workspace">
@@ -1284,7 +1364,7 @@ function MandorWipPage({ batchNotes, setBatchNotes }: { batchNotes: string[]; se
 
         {allocationMode==='roll'?<div className="golden-roll-rule"><Icon name="boxes"/><div><span>GOLDEN RULE</span><strong>Bagi per roll kalau bisa jangan dipisah</strong><small>{wholeRolls.length} roll utuh · {splitRolls.length} roll terpecah · {unassignedRollRows.length} belum ditempatkan.</small></div><div><button type="button" onClick={tidyWholeRolls}>Susun otomatis tanpa pecah</button></div></div>:<div className="golden-roll-rule size-mode"><Icon name="ruler"/><div><span>PEMBAGIAN AWAL PER SIZE</span><strong>Size utuh dikelompokkan dulu, lalu bebas lu pecah atau gabung</strong><small>Contoh 2 batch: Size 31 sendiri, Size 32+33 bersama. Total setiap size tetap harus sama dengan sumber.</small></div></div>}
 
-        {allocationMode==='roll'&&<section className={`wip-roll-tray ${unassignedRollRows.length===0?'all-assigned':''}`}><div className="wip-roll-tray-head"><div><span>ROLL BELUM DITEMPATKAN</span><strong>{unassignedRollRows.length===0?'Semua roll sudah masuk batch':'Tarik roll ke kartu batch di bawah'}</strong><small>{unassignedRollRows.length===0?'Kalau mau pindah, tarik dari kartu batch atau keluarkan kembali.':'Setelah di-drop, roll hilang dari area ini supaya urutannya tetap bersih.'}</small></div><span>{unassignedRollRows.length} roll tersisa</span></div>{unassignedRollRows.length>0?<div className="wip-roll-token-grid">{unassignedRollRows.map((row)=><article className="wip-roll-token" key={row.roll.id}><button type="button" className="wip-roll-drag-handle" aria-label={`Tarik Roll ${row.roll.sequence} ke batch`} title="Tahan lalu tarik ke kartu batch" onPointerDown={(event)=>beginRollDrag(event,row.roll.id)} onPointerMove={moveRollDrag} onPointerUp={finishRollDrag} onPointerCancel={cancelRollDrag}><Icon name="drag"/></button><div><span>ROLL {String(row.roll.sequence).padStart(2,'0')} · {row.roll.id}</span><strong>{row.quantity} pcs</strong><small>{cuttingSizes.map((size,index)=>`${size}: ${row.sizes[index]}`).join(' · ')}</small></div><em>Belum masuk</em><button type="button" className="wip-roll-split-btn" onClick={()=>{setSplitEditorRollId(row.roll.id);setAllocationMessage('')}}>Atur pecahan</button><small className="wip-roll-assigned">Sumber utuh</small></article>)}</div>:<div className="wip-roll-tray-empty"><Icon name="check"/><span>Area sumber bersih</span></div>}</section>}
+        {allocationMode==='roll'&&<section className={`wip-roll-tray ${unassignedRollRows.length===0?'all-assigned':''}`}><div className="wip-roll-tray-head"><div><span>ROLL BELUM DITEMPATKAN</span><strong>{unassignedRollRows.length===0?'Semua roll sudah masuk batch':'Tarik roll atau pilih nomor batch'}</strong><small>{unassignedRollRows.length===0?'Kalau mau pindah, tarik dari kartu batch atau pakai pilihan Batch.':'Pilihan Batch lebih mudah dipakai di HP dan tetap memasukkan roll secara utuh.'}</small></div><span>{unassignedRollRows.length} roll tersisa</span></div>{unassignedRollRows.length>0?<div className="wip-roll-token-grid">{unassignedRollRows.map((row)=><article className="wip-roll-token" key={row.roll.id}><button type="button" className="wip-roll-drag-handle" aria-label={`Tarik Roll ${row.roll.sequence} ke batch`} title="Tahan lalu tarik ke kartu batch" onPointerDown={(event)=>beginRollDrag(event,row.roll.id)} onPointerMove={moveRollDrag} onPointerUp={finishRollDrag} onPointerCancel={cancelRollDrag}><Icon name="drag"/></button><div><span>ROLL {String(row.roll.sequence).padStart(2,'0')} · {row.roll.id}</span><strong>{row.quantity} pcs</strong><small>{cuttingSizes.map((size,index)=>`${size}: ${row.sizes[index]}`).join(' · ')}</small></div><em>Belum masuk</em><RollBatchQuickMenu rollId={row.roll.id} batchCount={batchCount} currentBatch={null} split={false} onAssign={(batchIndex)=>assignWholeRoll(row.roll.id,batchIndex)}/><button type="button" className="wip-roll-split-btn" onClick={()=>{setSplitEditorRollId(row.roll.id);setAllocationMessage('')}}>Atur pecahan</button><small className="wip-roll-assigned">Sumber utuh</small></article>)}</div>:<div className="wip-roll-tray-empty"><Icon name="check"/><span>Area sumber bersih</span></div>}</section>}
 
         {allocationMode==='size'&&<div className="split-source-locks size-allocation-source-locks">{cuttingSizes.map((size,sizeIndex)=>{const check=sourceChecks[sizeIndex];const remaining=(check?.total??0)-(check?.assigned??0);return <div className={remaining===0?'success':'warn'} key={size}><span>SIZE {size} · SUMBER</span><strong>{check?.total??wipSizeTotals[sizeIndex]} pcs</strong><small>Terbagi {check?.assigned??0} · Sisa {remaining}</small></div>})}</div>}
 
@@ -1295,7 +1375,7 @@ function MandorWipPage({ batchNotes, setBatchNotes }: { batchNotes: string[]; se
             <div className="wip-batch-card-head"><div><span>BATCH {String(batchIndex+1).padStart(2,'0')}</span><strong>{batchTotals[batchIndex]} pcs</strong></div><label className="batch-mandor-note"><span>CATATAN JAHITAN / WARNA</span><input type="text" value={batchNotes[batchIndex]??''} placeholder="Contoh: navy · obras rapat..." aria-label={`Catatan jahitan atau warna Batch ${batchIndex+1}`} onChange={(event)=>setBatchNotes((current)=>Array.from({length:effectiveBatchCount},(_,noteIndex)=>noteIndex===batchIndex?event.target.value:current[noteIndex]??''))}/></label><small>Saran {targetTotals[batchIndex]}</small></div>
             <div className="wip-batch-size-mix">{cuttingSizes.map((size,sizeIndex)=><span className={batchSizeMix[batchIndex][sizeIndex]>0?'active':''} key={size}><small>SIZE {size}</small><strong>{batchSizeMix[batchIndex][sizeIndex]}</strong></span>)}</div>
             <div className="wip-batch-source-list">
-            {allocationMode==='roll'?(assignedRows.length>0?assignedRows.map((row)=>{const sizes=rollBatchMatrix[row.roll.id]?.[batchIndex]??['0','0','0'];const allocated=sizes.reduce((sum,value)=>sum+cellQuantity(value),0);const usedIn=(rollBatchMatrix[row.roll.id]??[]).filter((batchSizes)=>batchSizes.reduce((sum,value)=>sum+cellQuantity(value),0)>0).length;const sourceExact=row.sizes.every((source,sizeIndex)=>(rollBatchMatrix[row.roll.id]??[]).reduce((sum,batchSizes)=>sum+cellQuantity(batchSizes[sizeIndex]),0)===source);const draggable=usedIn===1&&sourceExact;return <div className="wip-batch-source locked-source movable-source" key={row.roll.id}><button type="button" disabled={!draggable} className="batch-roll-drag-handle" aria-label={`Pindahkan Roll ${row.roll.sequence} ke batch lain`} title={draggable?'Tarik ke batch lain':'Roll pecah dipindahkan lewat Atur'} onPointerDown={(event)=>draggable&&beginRollDrag(event,row.roll.id)} onPointerMove={moveRollDrag} onPointerUp={finishRollDrag} onPointerCancel={cancelRollDrag}><Icon name="drag"/></button><div className="batch-roll-body"><header><div><span>ROLL {String(row.roll.sequence).padStart(2,'0')}</span><strong>{row.roll.id}</strong></div><b>{allocated} pcs</b></header><div className="batch-roll-size-pills">{cuttingSizes.map((size,sizeIndex)=><span className={cellQuantity(sizes[sizeIndex])>0?'active':''} key={size}><small>{size}</small><strong>{cellQuantity(sizes[sizeIndex])}</strong></span>)}</div><small className="batch-roll-lineage">Sumber {row.quantity} pcs · {usedIn>1?`tersebar di ${usedIn} Batch Distribusi`:'masuk utuh ke Batch Distribusi ini'}</small></div><em className={usedIn>1?'pecah':'utuh'}>{usedIn>1?'Pecah':'Utuh'}</em><div className="batch-source-actions"><button type="button" onClick={()=>{setSplitEditorRollId(row.roll.id);setAllocationMessage('')}}>Atur pembagian</button><button type="button" onClick={()=>unassignRoll(row.roll.id)}>Keluarkan roll</button></div></div>}):<div className="wip-batch-empty"><Icon name="drag"/><strong>Tarik roll ke sini</strong><small>Roll masuk utuh secara default</small></div>):cuttingSizes.map((size,sizeIndex)=>{const allocated=sizeMatrix[size]?.[batchIndex]??'0';const check=sourceChecks[sizeIndex];return <label className={`wip-batch-source editable-size-source ${cellQuantity(allocated)===0?'empty':''}`} key={size}><div><strong>Size {size}</strong><small>Sumber {check?.total??wipSizeTotals[sizeIndex]} · terbagi {check?.assigned??0}</small></div><div className="wip-free-input"><input type="text" pattern="[0-9]*" inputMode="numeric" data-grid-row={sizeIndex} data-grid-col={batchIndex} aria-label={`Batch ${batchIndex+1}, Size ${size}`} value={allocated} onFocus={(event)=>event.currentTarget.select()} onClick={(event)=>event.currentTarget.select()} onChange={(event)=>updateSizeAllocation(size,batchIndex,event.target.value)}/><span>pcs</span></div></label>})}
+            {allocationMode==='roll'?(assignedRows.length>0?assignedRows.map((row)=>{const sizes=rollBatchMatrix[row.roll.id]?.[batchIndex]??['0','0','0'];const allocated=sizes.reduce((sum,value)=>sum+cellQuantity(value),0);const usedIn=(rollBatchMatrix[row.roll.id]??[]).filter((batchSizes)=>batchSizes.reduce((sum,value)=>sum+cellQuantity(value),0)>0).length;const sourceExact=row.sizes.every((source,sizeIndex)=>(rollBatchMatrix[row.roll.id]??[]).reduce((sum,batchSizes)=>sum+cellQuantity(batchSizes[sizeIndex]),0)===source);const draggable=usedIn===1&&sourceExact;return <div className="wip-batch-source locked-source movable-source" key={row.roll.id}><button type="button" disabled={!draggable} className="batch-roll-drag-handle" aria-label={`Pindahkan Roll ${row.roll.sequence} ke batch lain`} title={draggable?'Tarik ke batch lain':'Roll pecah dipindahkan lewat Atur'} onPointerDown={(event)=>draggable&&beginRollDrag(event,row.roll.id)} onPointerMove={moveRollDrag} onPointerUp={finishRollDrag} onPointerCancel={cancelRollDrag}><Icon name="drag"/></button><div className="batch-roll-body"><header><div><span>ROLL {String(row.roll.sequence).padStart(2,'0')}</span><strong>{row.roll.id}</strong></div><b>{allocated} pcs</b></header><div className="batch-roll-size-pills">{cuttingSizes.map((size,sizeIndex)=><span className={cellQuantity(sizes[sizeIndex])>0?'active':''} key={size}><small>{size}</small><strong>{cellQuantity(sizes[sizeIndex])}</strong></span>)}</div><small className="batch-roll-lineage">Sumber {row.quantity} pcs · {usedIn>1?`tersebar di ${usedIn} Batch Distribusi`:'masuk utuh ke Batch Distribusi ini'}</small></div><em className={usedIn>1?'pecah':'utuh'}>{usedIn>1?'Pecah':'Utuh'}</em><div className="batch-source-actions"><RollBatchQuickMenu rollId={row.roll.id} batchCount={batchCount} currentBatch={usedIn===1?batchIndex:null} split={usedIn>1} onAssign={(targetBatch)=>assignWholeRoll(row.roll.id,targetBatch)}/><button type="button" onClick={()=>{setSplitEditorRollId(row.roll.id);setAllocationMessage('')}}>Atur pembagian</button><button type="button" onClick={()=>unassignRoll(row.roll.id)}>Keluarkan roll</button></div></div>}):<div className="wip-batch-empty"><Icon name="drag"/><strong>Tarik roll ke sini</strong><small>Roll masuk utuh secara default</small></div>):cuttingSizes.map((size,sizeIndex)=>{const allocated=sizeMatrix[size]?.[batchIndex]??'0';const check=sourceChecks[sizeIndex];return <label className={`wip-batch-source editable-size-source ${cellQuantity(allocated)===0?'empty':''}`} key={size}><div><strong>Size {size}</strong><small>Sumber {check?.total??wipSizeTotals[sizeIndex]} · terbagi {check?.assigned??0}</small></div><div className="wip-free-input"><input type="text" pattern="[0-9]*" inputMode="numeric" data-grid-row={sizeIndex} data-grid-col={batchIndex} aria-label={`Batch ${batchIndex+1}, Size ${size}`} value={allocated} onFocus={(event)=>event.currentTarget.select()} onClick={(event)=>event.currentTarget.select()} onChange={(event)=>updateSizeAllocation(size,batchIndex,event.target.value)}/><span>pcs</span></div></label>})}
             </div>
             <div className="wip-batch-route"><span>JAHIT</span><Icon name="arrow"/><span>LAUNDRY</span><small>Kode batch tetap sama</small></div>
           </article>})}
@@ -1307,6 +1387,12 @@ function MandorWipPage({ batchNotes, setBatchNotes }: { batchNotes: string[]; se
         <div className="allocation-footer"><small>{isReady?'Ringkasan final di atas sudah cocok. Backend belum disentuh selama prototype.':'Tombol posting terbuka setelah seluruh sumber dan total batch cocok.'}</small><div><button type="button" className="soft-btn">Simpan draft pickup</button><button type="button" className="primary-btn" disabled={!isReady}>Review & catat pickup <Icon name="arrow"/></button></div></div>
       </div>
     </section>
+    {queueDetailItem?<div className="wip-detail-backdrop" role="presentation" onMouseDown={(event)=>{if(event.target===event.currentTarget)setQueueDetailId(null)}}><section className="wip-detail-modal" role="dialog" aria-modal="true" aria-labelledby="wip-detail-title">
+      <header><div><span>DETAIL POTONGAN · {queueDetailItem.status==='PICKED'?'SUDAH DIAMBIL':'MENUNGGU DIAMBIL'}</span><h2 id="wip-detail-title">{queueDetailItem.id} · {queueDetailItem.model}</h2><p>{queueDetailItem.material} · {queueDetailItem.supplier}</p></div><button type="button" aria-label="Tutup detail potongan" onClick={()=>setQueueDetailId(null)}><Icon name="close"/></button></header>
+      <div className="wip-detail-facts"><article><span>TOTAL POTONGAN</span><strong>{queueDetailItem.rolls.reduce((sum,roll)=>sum+roll.sizes.reduce((sizeSum,qty)=>sizeSum+qty,0),0)} pcs</strong><small>{queueDetailItem.rolls.length} roll sumber</small></article><article><span>STATUS PICKUP</span><strong>{queueDetailItem.status==='PICKED'?queueDetailItem.mandor:'Belum diambil'}</strong><small>{queueDetailItem.pickupAt??'Belum punya waktu pickup'}</small></article><article><span>BATCH DISTRIBUSI</span><strong>{new Set(queueDetailItem.rolls.flatMap((roll)=>roll.batchNumbers)).size||'—'}</strong><small>{queueDetailItem.status==='PICKED'?'Snapshot pembagian':'Terbentuk setelah dialokasikan'}</small></article></div>
+      <div className="wip-detail-table"><div className="wip-detail-table-head"><span>Roll sumber</span><span>Size {queueDetailItem.sizes[0]}</span><span>Size {queueDetailItem.sizes[1]}</span><span>Size {queueDetailItem.sizes[2]}</span><span>Total</span><span>Masuk batch</span></div>{queueDetailItem.rolls.map((roll)=><article key={roll.id}><span><strong>Roll {String(roll.sequence).padStart(2,'0')}</strong><small>{roll.id}</small></span>{roll.sizes.map((qty,sizeIndex)=><b key={queueDetailItem.sizes[sizeIndex]}>{qty} pcs</b>)}<strong>{roll.sizes.reduce((sum,qty)=>sum+qty,0)} pcs</strong><em className={roll.batchNumbers.length?'assigned':'waiting'}>{roll.batchNumbers.length?roll.batchNumbers.map((batch)=>`Batch ${batch}`).join(' + '):'Belum dibagi'}</em></article>)}</div>
+      <footer><span><Icon name="audit"/> Detail ini menampilkan lineage roll dan ukuran tanpa mengubah pembagian.</span><button type="button" className="primary-btn" onClick={()=>setQueueDetailId(null)}>Tutup detail</button></footer>
+    </section></div>:null}
   </>
 }
 

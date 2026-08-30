@@ -20,6 +20,7 @@ import './workspace-refinements.css'
 import './ux-corrections.css'
 import './wip-control.css'
 import './layout-resilience.css'
+import './cutting-reminders.css'
 
 const root = ReactDOM.createRoot(document.getElementById('root')!)
 
