@@ -14,6 +14,7 @@ import type { FinanceView } from './FinancePages'
 import QcFinalPage from './QcFinalPage'
 import type { QcFinalResult, QcSeed } from './QcFinalPage'
 import BsReworkPage from './BsReworkPage'
+import type { BsReworkWorkspace } from './BsReworkPage'
 import WarehousePages from './WarehousePages'
 import type { WarehouseView } from './WarehousePages'
 import type { WipControlMode, WipControlParent, WipControlResult } from './WipBatchControlLayer'
@@ -23,6 +24,7 @@ import type { OperationsAdminView } from './OperationsAdminPages'
 import { productCatalog } from './productCatalog'
 import type { Product } from './productCatalog'
 import { cleanMoneyInput, formatMoneyInput } from './moneyInput'
+import type { ReadyFgNotaCard, RegularFgNotaSnapshot } from './fgNota'
 
 const SalesPages = lazy(() => import('./SalesPages'))
 const FinancePages = lazy(() => import('./FinancePages'))
@@ -31,6 +33,7 @@ const ContractorIssuePage = lazy(() => import('./ContractorIssuePage'))
 const MaterialMasterPages = lazy(() => import('./MaterialMasterPages'))
 const MasterDataPages = lazy(() => import('./MasterDataPages'))
 const OperationsAdminPages = lazy(() => import('./OperationsAdminPages'))
+const FgNotaPage = lazy(() => import('./FgNotaPage'))
 
 type Page = 'dashboard' | 'stock-card' | 'movements-vivo' | 'movements-widie' | 'procurement' | 'cutting-roll' | 'mandor-wip' | 'contractor-issue' | 'sewing-wip' | 'qc' | 'fg-handoff' | 'bs-rework' | 'laundry' | 'hpp' | SalesView | FinanceView | WarehouseView | MaterialMasterView | BusinessMasterView | OperationsAdminView | 'placeholder'
 type NavSection = 'Produksi' | 'Gudang' | 'Penjualan' | 'Keuangan' | 'Master Data'
@@ -47,6 +50,8 @@ type WipAdjustmentHistoryEntry = {
 type ReceiptMode = 'fabric' | 'accessory'
 type LaundryView = 'send' | 'return'
 type LaundryPrefill = { batchId: string; vendor: string; view: LaundryView }
+type NotaFocus = { kind: 'REGULAR' | 'REPAIR'; id: string }
+type NotaOrigin = 'MENU' | 'QC' | 'BS_REWORK'
 
 type SizeRow = { size: string; stock: number; qty: number; input: string }
 type RollDraft = { id: number; yards: string }
@@ -173,7 +178,7 @@ const stockLocations = Array.from(new Set(productCatalog.map((product) => produc
 const stockGrades = Array.from(new Set(productCatalog.map((product) => product.grade)))
 
 const nav: Record<NavSection, string[]> = {
-  Produksi: ['Buat Potongan', 'Bagi Potongan', 'WIP & Sewing', 'Laundry', 'QC & Final SKU', 'Barang BS & Rework'],
+  Produksi: ['Buat Potongan', 'Bagi Potongan', 'WIP & Sewing', 'Laundry', 'QC & Final SKU', 'Susun Nota FG', 'Barang BS & Rework'],
   Gudang: ['Ringkasan Gudang', 'Pembelian & Penerimaan', 'Bahan & Roll', 'Aksesori', 'Ringkasan Barang Jadi', 'Mutasi Barang Jadi · Vivo', 'Mutasi Barang Jadi · Widie', 'Kartu Stok FG', 'Stock Adjustment', 'Ganti Merek'],
   Penjualan: ['Penjualan & Invoice', 'Semua Invoice', 'Retur Penjualan', 'Pembayaran Pelanggan', 'Riwayat Pelanggan'],
   Keuangan: ['Ringkasan Keuangan', 'Kas & Bank', 'Hutang Supplier & Vendor', 'Piutang Pelanggan', 'Payroll & Kasbon', 'Absensi & Rate Harian', 'Nota Ambil Aksesori', 'HPP & Rekalkulasi', 'Jurnal & Transaksi Lain', 'Laporan & Tutup Buku'],
@@ -374,6 +379,24 @@ function App() {
   const [qcResult,setQcResult] = useState<QcFinalResult|null>(null)
   const [finalizedQcResults,setFinalizedQcResults] = useState<QcFinalResult[]>([])
   const [bsPrefill,setBsPrefill] = useState<QcFinalResult|null>(null)
+  const [bsBackPage,setBsBackPage] = useState<'sewing-wip'|'fg-handoff'>('sewing-wip')
+  const [notaFocus,setNotaFocus] = useState<NotaFocus|null>(null)
+  const [notaOrigin,setNotaOrigin] = useState<NotaOrigin>('MENU')
+  const [readyFgNotaCards,setReadyFgNotaCards] = useState<ReadyFgNotaCard[]>([])
+  const [postedFgCardIds,setPostedFgCardIds] = useState<string[]>([])
+  const [regularFgNotaSnapshots,setRegularFgNotaSnapshots] = useState<Record<string,RegularFgNotaSnapshot>>({})
+  const [bsWorkspace,setBsWorkspace] = useState<BsReworkWorkspace|null>(null)
+
+  const rememberFgNotaCard = (card: ReadyFgNotaCard) => {
+    setReadyFgNotaCards((current) => current.some((item) => item.id === card.id) ? current : [card, ...current])
+  }
+  const rememberQcNotaSnapshot = (result: QcFinalResult) => {
+    const cardId=`qc-${result.parentId}-${result.batchId}-${result.completionCount}`
+    const fullRate=laborBomComponents.reduce((sum,component)=>sum+component.rate,0)
+    const bsTotal=result.postedBsBySize.reduce((sum,value)=>sum+value,0)
+    const bsComponents=bsTotal>0?laborBomComponents.filter((component)=>['finishing-detail','centang','lipat'].includes(component.id)).map(({id,name,rate})=>({id,name,rate})):[]
+    setRegularFgNotaSnapshots((current)=>current[cardId]?current:{...current,[cardId]:{cardId,fullRate,sewingRate:14_050,commissionRate:1_800,bomRate:Math.max(0,fullRate-15_850),bsComponents}})
+  }
 
   useEffect(()=>{
     window.scrollTo({top:0,left:0,behavior:'auto'})
@@ -417,7 +440,7 @@ function App() {
     : page === 'contractor-issue' ? 'Nota Ambil Aksesori'
     : page === 'sewing-wip' ? 'WIP & Sewing'
     : page === 'qc' ? 'QC & Final SKU'
-    : page === 'fg-handoff' ? 'Serah FG & Susun Nota FG'
+    : page === 'fg-handoff' ? 'Susun Nota FG'
     : page === 'bs-rework' ? 'Barang BS & Rework'
     : page === 'laundry' ? 'Laundry'
     : page === 'hpp' ? 'HPP & Rekalkulasi'
@@ -466,7 +489,8 @@ function App() {
     else if (label === 'QC & Final SKU') {
       setPage('qc')
     }
-    else if (label === 'Barang BS & Rework') { setBsPrefill(null); setPage('bs-rework') }
+    else if (label === 'Susun Nota FG') { setQcResult(null); setNotaFocus(null); setNotaOrigin('MENU'); setPage('fg-handoff') }
+    else if (label === 'Barang BS & Rework') { setBsPrefill(null); setBsBackPage('sewing-wip'); setPage('bs-rework') }
     else if (label === 'HPP & Rekalkulasi') setPage('hpp')
     else if (label === 'Kain & Benchmark') setPage('master-fabric')
     else if (label === 'Aksesori & Harga Mandor') setPage('master-accessory')
@@ -486,7 +510,7 @@ function App() {
           const financeTarget=financePageByLabel[item]
           const masterTarget=businessMasterPageByLabel[item]
           const operationsTarget=operationsPageByLabel[item]
-          const active = (salesTarget !== undefined && page === salesTarget) || (financeTarget !== undefined && page === financeTarget) || (masterTarget !== undefined && page === masterTarget) || (operationsTarget !== undefined && page === operationsTarget) || (item === 'Kartu Stok FG' && page === 'stock-card') || (item === 'Mutasi Barang Jadi · Vivo' && page === 'movements-vivo') || (item === 'Mutasi Barang Jadi · Widie' && page === 'movements-widie') || (item === 'Pembelian & Penerimaan' && page === 'procurement') || (item === 'Ringkasan Gudang' && page === 'warehouse-dashboard') || (item === 'Bahan & Roll' && page === 'materials-rolls') || (item === 'Aksesori' && page === 'accessories') || (item === 'Ringkasan Barang Jadi' && page === 'fg-summary') || (item === 'Stock Adjustment' && page === 'stock-adjustment') || (item === 'Ganti Merek' && page === 'brand-conversion') || (item === 'Buat Potongan' && page === 'cutting-roll') || (item === 'Bagi Potongan' && page === 'mandor-wip') || (item === 'Nota Ambil Aksesori' && page === 'contractor-issue') || (item === 'WIP & Sewing' && page === 'sewing-wip') || (item === 'QC & Final SKU' && (page === 'qc' || page === 'fg-handoff')) || (item === 'Barang BS & Rework' && page === 'bs-rework') || (item === 'Laundry' && page === 'laundry') || (item === 'HPP & Rekalkulasi' && page === 'hpp') || (item === 'Kain & Benchmark' && page === 'master-fabric') || (item === 'Aksesori & Harga Mandor' && page === 'master-accessory')
+          const active = (salesTarget !== undefined && page === salesTarget) || (financeTarget !== undefined && page === financeTarget) || (masterTarget !== undefined && page === masterTarget) || (operationsTarget !== undefined && page === operationsTarget) || (item === 'Kartu Stok FG' && page === 'stock-card') || (item === 'Mutasi Barang Jadi · Vivo' && page === 'movements-vivo') || (item === 'Mutasi Barang Jadi · Widie' && page === 'movements-widie') || (item === 'Pembelian & Penerimaan' && page === 'procurement') || (item === 'Ringkasan Gudang' && page === 'warehouse-dashboard') || (item === 'Bahan & Roll' && page === 'materials-rolls') || (item === 'Aksesori' && page === 'accessories') || (item === 'Ringkasan Barang Jadi' && page === 'fg-summary') || (item === 'Stock Adjustment' && page === 'stock-adjustment') || (item === 'Ganti Merek' && page === 'brand-conversion') || (item === 'Buat Potongan' && page === 'cutting-roll') || (item === 'Bagi Potongan' && page === 'mandor-wip') || (item === 'Nota Ambil Aksesori' && page === 'contractor-issue') || (item === 'WIP & Sewing' && page === 'sewing-wip') || (item === 'QC & Final SKU' && page === 'qc') || (item === 'Susun Nota FG' && page === 'fg-handoff') || (item === 'Barang BS & Rework' && page === 'bs-rework') || (item === 'Laundry' && page === 'laundry') || (item === 'HPP & Rekalkulasi' && page === 'hpp') || (item === 'Kain & Benchmark' && page === 'master-fabric') || (item === 'Aksesori & Harga Mandor' && page === 'master-accessory')
           return <button key={item} className={active ? 'sub-active' : ''} onClick={() => chooseSubmenu(item)}>• {item}</button>
         })}</div>}
       </div>)}
@@ -542,11 +566,32 @@ function App() {
             setPage('qc')
           }}
         />}
-        {page === 'qc' && <QcFinalPage seeds={buildQcSeeds(laundryDeliveries)} initialSeedId={qcSeedId} finalizedResults={finalizedQcResults} onBack={()=>setPage('sewing-wip')} onFinish={(result)=>{setFinalizedQcResults((current)=>[result,...current]);setQcResult(result)}} onOpenNota={(result)=>{setQcResult(result);setPage('fg-handoff')}} />}
-        {page === 'fg-handoff' && qcResult && <FgPayrollHandoffPage result={qcResult} eligibleResults={finalizedQcResults} onBack={()=>{setQcSeedId(`${qcResult.parentId}::${qcResult.batchId}`);setPage('qc')}} onOpenBs={()=>{setBsPrefill(qcResult);setPage('bs-rework')}} />}
+        {page === 'qc' && <QcFinalPage seeds={buildQcSeeds(laundryDeliveries)} initialSeedId={qcSeedId} finalizedResults={finalizedQcResults} postedFgCardIds={postedFgCardIds} onBack={()=>setPage('sewing-wip')} onFinish={(result)=>{setFinalizedQcResults((current)=>{const id=`${result.parentId}::${result.batchId}::${result.completionCount}`;return current.some((item)=>`${item.parentId}::${item.batchId}::${item.completionCount}`===id)?current:[result,...current]});rememberQcNotaSnapshot(result);setQcResult(result)}} onOpenNota={(result)=>{rememberQcNotaSnapshot(result);setQcResult(result);setNotaFocus({kind:'REGULAR',id:`qc-${result.parentId}-${result.batchId}-${result.completionCount}`});setNotaOrigin('QC');setPage('fg-handoff')}} />}
+        {page === 'fg-handoff' && <Suspense fallback={<WorkspaceFallback label="Susun Nota FG"/>}><FgNotaPage
+          key={`${notaOrigin}-${notaFocus?.kind??'QUEUE'}-${notaFocus?.id??'ALL'}`}
+          result={qcResult}
+          eligibleResults={finalizedQcResults}
+          repairCards={readyFgNotaCards}
+          regularSnapshots={regularFgNotaSnapshots}
+          focus={notaFocus}
+          origin={notaOrigin}
+          postedCardIds={postedFgCardIds}
+          onPost={(ids)=>setPostedFgCardIds((current)=>Array.from(new Set([...current,...ids])))}
+          onReturn={()=>{
+            if(notaOrigin==='QC'&&qcResult){setQcSeedId(`${qcResult.parentId}::${qcResult.batchId}`);setPage('qc')}
+            else if(notaOrigin==='BS_REWORK'){setBsBackPage('fg-handoff');setPage('bs-rework')}
+          }}
+          onOpenQc={()=>{if(qcResult)setQcSeedId(`${qcResult.parentId}::${qcResult.batchId}`);setPage('qc')}}
+          onOpenBs={()=>{setBsPrefill(qcResult);setBsBackPage('fg-handoff');setPage('bs-rework')}}
+        /></Suspense>}
         {page === 'bs-rework' && <BsReworkPage
           initialResult={bsPrefill}
-          onBack={()=>setPage(bsPrefill?'fg-handoff':'sewing-wip')}
+          initialWorkspace={bsWorkspace??undefined}
+          onWorkspaceChange={setBsWorkspace}
+          postedFgCardIds={postedFgCardIds}
+          onBack={()=>setPage(bsBackPage)}
+          onNotaCardReady={rememberFgNotaCard}
+          onOpenNota={(card)=>{rememberFgNotaCard(card);setNotaFocus({kind:'REPAIR',id:card.id});setNotaOrigin('BS_REWORK');setPage('fg-handoff')}}
           onStuckReturned={({batchId,laundry,goodBySize,bsBySize})=>{
             const remainingGood:[number,number,number]=[...goodBySize]
             const remainingBs:[number,number,number]=[...bsBySize]

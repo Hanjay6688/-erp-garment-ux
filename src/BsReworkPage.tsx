@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import {
   ArrowLeft, ArrowRight, Check, CheckCircle2, ChevronRight, CircleMinus, CirclePlus,
   ClipboardCheck, Clock3, FilePlus2, Filter, History,
@@ -6,6 +6,7 @@ import {
   UserRound, UsersRound, Waves, Wrench, X,
 } from 'lucide-react'
 import type { QcFinalResult } from './QcFinalPage'
+import type { ReadyFgNotaCard } from './fgNota'
 import './bs-rework.css'
 
 type SizeValues = [number, number, number]
@@ -35,8 +36,10 @@ type OperationalCase = BsCase | StuckCase
 type LedgerItem = {
   id: string; kind: LedgerKind; label: string; sign: -1 | 0 | 1; qtyBySize: SizeValues; rate: number
   amount: number; payee: string; originId?: string; caseId: string; sourceLabel: string; createdAt: string
-  componentIds?: string[]
+  componentIds?: string[]; componentSnapshots?: WorkComponent[]
 }
+
+export type BsReworkWorkspace = { cases: OperationalCase[]; ledger: LedgerItem[] }
 
 const components: WorkComponent[] = [
   { id: 'jahit', name: 'Jahit utama', note: 'Badan dan sambungan model', rate: 8250 },
@@ -93,19 +96,24 @@ const caseMandors = (item: OperationalCase) => item.kind === 'BS' ? [item.origin
 function seedCases(result?: QcFinalResult | null): OperationalCase[] {
   const sizes: [string, string, string] = result?.sizes ?? ['31', '32', '33']
   const incomingBs: SizeValues = result ? asSizeValues(result.postedBsBySize) : [2, 1, 0]
-  const bsQty: SizeValues = sum(incomingBs) > 0 ? incomingBs : [2, 1, 0]
+  const bsQty: SizeValues = result ? incomingBs : [2, 1, 0]
   const stuckQty: SizeValues = result ? asSizeValues(result.stuckBySize) : [21, 21, 22]
+  const resultToken = result ? `${result.parentId.replace(/[^a-z0-9]/gi, '')}-${result.batchId.replace(/[^a-z0-9]/gi, '')}-${result.completionCount}` : null
+  const qcCaseId = resultToken ? `BS-${resultToken}` : 'BS-260827-018'
+  const stuckId = result
+    ? `HOLD-${result.parentId.replace(/[^a-z0-9]/gi, '')}-${result.batchId.replace(/[^a-z0-9]/gi, '')}-${result.laundry.replace(/[^a-z0-9]/gi, '')}`
+    : 'HOLD-LDR-1049'
   return [
     {
-      kind: 'BS', id: 'BS-260827-018', source: 'QC_AUTO', sourceNote: 'QC-260827-012',
+      kind: 'BS', id: qcCaseId, source: 'QC_AUTO', sourceNote: resultToken ? `QC-${resultToken}` : 'QC-260827-012',
       parentId: result?.parentId ?? 'POT-260826-041', batchId: result?.batchId ?? '041-02',
-      originalMandor: result?.mandor ?? 'Mandor Asep', reworkMandor: 'Mandor Ujang',
+      originalMandor: result?.mandor ?? 'Mandor Asep', reworkMandor: result ? null : 'Mandor Ujang',
       brand: result?.brand ?? 'Widie', sku: result?.finalSku ?? '73001', material: result?.material ?? 'Malibu', sizes,
-      qtyBySize: bsQty, origin: 'QC', reason: 'Jahitan bawah perlu dirapikan dan centang ulang.', status: 'QC_REWORK',
+      qtyBySize: bsQty, origin: 'QC', reason: 'Jahitan bawah perlu dirapikan dan centang ulang.', status: result ? 'OPEN' : 'QC_REWORK',
       componentIds: ['obras', 'centang', 'lipat'], createdAt: '27 Agu 2026 · 18:42',
     },
     {
-      kind: 'STUCK', id: 'HOLD-LDR-1049', parentId: result?.parentId ?? 'POT-260826-041', batchId: result?.batchId ?? '041-02',
+      kind: 'STUCK', id: stuckId, parentId: result?.parentId ?? 'POT-260826-041', batchId: result?.batchId ?? '041-02',
       mandor: result?.mandor ?? 'Mandor Asep', laundry: result?.laundry ?? 'Laundry Intan',
       brand: result?.brand ?? 'Widie', sku: result?.finalSku ?? '73001', material: result?.material ?? 'Malibu', sizes,
       qtyBySize: stuckQty, deliveryRef: 'KRM-LDR-260827-006', receiptRef: 'TRM-LDR-260827-011',
@@ -128,25 +136,44 @@ function seedLedger(cases: OperationalCase[]): LedgerItem[] {
   const qcRate = componentRate(qcCase.componentIds)
   const legacyRate = componentRate(legacyCase.componentIds)
   const firstRestored = firstPositiveUnit(qcCase.qtyBySize)
+  const deductionId = qcCase.id === 'BS-260827-018' ? 'ADJ-BS-018' : `ADJ-${qcCase.id}`
+  const releaseId = qcCase.id === 'BS-260827-018' ? 'ADJ-RW-018-01' : `ADJ-RW-${qcCase.id.replace(/^BS-/, '')}-01`
   const items: LedgerItem[] = [
-    { id: 'ADJ-BS-018', kind: 'BS_DEDUCTION', label: 'BS dari QC · komponen belum diterima', sign: -1, qtyBySize: qcCase.qtyBySize, rate: qcRate, amount: sum(qcCase.qtyBySize) * qcRate, payee: qcCase.originalMandor, caseId: qcCase.id, sourceLabel: `${qcCase.id} · ${qcCase.sourceNote}`, createdAt: '27 Agu · 18:42' },
-    { id: 'ADJ-RW-018-01', kind: 'REWORK_RELEASE', label: 'Bikin bagus · siap Nota FG', sign: 1, qtyBySize: firstRestored, rate: qcRate, amount: sum(firstRestored) * qcRate, payee: qcCase.reworkMandor ?? qcCase.originalMandor, caseId: qcCase.id, originId: 'ADJ-BS-018', sourceLabel: 'Asal ADJ-BS-018 · QC rework lulus', createdAt: '28 Agu · 09:40', componentIds: qcCase.componentIds },
+    { id: deductionId, kind: 'BS_DEDUCTION', label: 'BS dari QC · komponen belum diterima', sign: -1, qtyBySize: qcCase.qtyBySize, rate: qcRate, amount: sum(qcCase.qtyBySize) * qcRate, payee: qcCase.originalMandor, caseId: qcCase.id, sourceLabel: `${qcCase.id} · ${qcCase.sourceNote}`, createdAt: '27 Agu · 18:42' },
     { id: 'ADJ-BS-LEG-0007', kind: 'BS_DEDUCTION', label: 'BS legacy · komponen belum diterima', sign: -1, qtyBySize: legacyCase.qtyBySize, rate: legacyRate, amount: sum(legacyCase.qtyBySize) * legacyRate, payee: legacyCase.originalMandor, caseId: legacyCase.id, sourceLabel: `${legacyCase.id} · ${legacyCase.sourceNote}`, createdAt: '26 Agu · arsip' },
   ]
+  if (qcCase.status === 'QC_REWORK' && sum(firstRestored) > 0) items.splice(1, 0,
+    { id: releaseId, kind: 'REWORK_RELEASE', label: 'Bikin bagus · siap Nota FG', sign: 1, qtyBySize: firstRestored, rate: qcRate, amount: sum(firstRestored) * qcRate, payee: qcCase.reworkMandor ?? qcCase.originalMandor, caseId: qcCase.id, originId: deductionId, sourceLabel: `Asal ${deductionId} · QC rework lulus`, createdAt: '28 Agu · 09:40', componentIds: qcCase.componentIds, componentSnapshots: caseComponents(qcCase).map((component) => ({ ...component })) },
+  )
   if (sum(stuckCase.qtyBySize) > 0) items.push(
     { id: stuckCase.id, kind: 'STUCK_HOLD', label: 'Belum balik dari Laundry', sign: -1, qtyBySize: stuckCase.qtyBySize, rate: 3700, amount: sum(stuckCase.qtyBySize) * 3700, payee: stuckCase.mandor, caseId: stuckCase.id, sourceLabel: `${stuckCase.laundry} · ${stuckCase.deliveryRef}`, createdAt: '27 Agu · 17:30' },
   )
   return items
 }
 
-export default function BsReworkPage({ initialResult, onBack, onStuckReturned }: {
+function createInitialWorkspace(result?: QcFinalResult | null): BsReworkWorkspace {
+  const seededCases = seedCases(result)
+  const cases = result
+    ? seededCases.filter((item) => item.kind === 'BS' ? item.source === 'LEGACY_IMPORT' || sum(item.qtyBySize) > 0 : sum(item.qtyBySize) > 0)
+    : seededCases
+  const caseIds = new Set(cases.map((item) => item.id))
+  return { cases, ledger: seedLedger(seededCases).filter((item) => caseIds.has(item.caseId)) }
+}
+
+export default function BsReworkPage({ initialResult, initialWorkspace, onWorkspaceChange, postedFgCardIds = [], onBack, onStuckReturned, onOpenNota, onNotaCardReady }: {
   initialResult?: QcFinalResult | null
+  initialWorkspace?: BsReworkWorkspace
+  onWorkspaceChange?: (workspace: BsReworkWorkspace) => void
+  postedFgCardIds?: string[]
   onBack: () => void
   onStuckReturned?: (returnEvent: { parentId: string; batchId: string; laundry: string; goodBySize: SizeValues; bsBySize: SizeValues }) => void
+  onOpenNota?: (card: ReadyFgNotaCard) => void
+  onNotaCardReady?: (card: ReadyFgNotaCard) => void
 }) {
-  const [cases, setCases] = useState<OperationalCase[]>(() => seedCases(initialResult))
-  const [ledger, setLedger] = useState<LedgerItem[]>(() => seedLedger(seedCases(initialResult)))
-  const [selectedId, setSelectedId] = useState('BS-260827-018')
+  const [seededWorkspace] = useState(() => initialWorkspace ?? createInitialWorkspace(initialResult))
+  const [cases, setCases] = useState<OperationalCase[]>(seededWorkspace.cases)
+  const [ledger, setLedger] = useState<LedgerItem[]>(seededWorkspace.ledger)
+  const [selectedId, setSelectedId] = useState(() => cases[0]?.id ?? 'BS-260827-018')
   const [query, setQuery] = useState('')
   const [kindFilter, setKindFilter] = useState('ALL')
   const [mandorFilter, setMandorFilter] = useState('Semua mandor')
@@ -158,6 +185,23 @@ export default function BsReworkPage({ initialResult, onBack, onStuckReturned }:
   const [susulanGoodInputs, setSusulanGoodInputs] = useState<SizeInputs>(['', '', ''])
   const [susulanBsInputs, setSusulanBsInputs] = useState<SizeInputs>(['', '', ''])
   const [notice, setNotice] = useState<string | null>(null)
+
+  useEffect(() => {
+    onWorkspaceChange?.({ cases, ledger })
+  }, [cases, ledger])
+
+  useEffect(() => {
+    if (!initialResult || !initialWorkspace) return
+    const incomingCases = seedCases(initialResult).filter((item) => item.kind === 'BS'
+      ? item.source !== 'LEGACY_IMPORT' && sum(item.qtyBySize) > 0
+      : sum(item.qtyBySize) > 0)
+    const missingCases = incomingCases.filter((item) => !cases.some((current) => current.id === item.id))
+    if (missingCases.length === 0) return
+    const incomingLedger = seedLedger(seedCases(initialResult)).filter((item) => missingCases.some((entry) => entry.id === item.caseId) && item.kind !== 'REWORK_RELEASE')
+    setCases((current) => [...missingCases, ...current])
+    setLedger((current) => [...incomingLedger.filter((item) => !current.some((entry) => entry.id === item.id)), ...current])
+    setSelectedId(missingCases[0].id)
+  }, [initialResult, initialWorkspace])
 
   const mandors = Array.from(new Set(cases.flatMap(caseMandors).filter(Boolean)))
   const visibleCases = useMemo(() => cases.filter((item) => {
@@ -194,6 +238,37 @@ export default function BsReworkPage({ initialResult, onBack, onStuckReturned }:
 
   const reworkReadyItems = ledger.filter((item) => item.kind === 'REWORK_RELEASE' || item.kind === 'STUCK_RELEASE')
 
+  const toNotaCard = (item: LedgerItem): ReadyFgNotaCard => {
+    const sourceCase = cases.find((entry) => entry.id === item.caseId)
+    const sourceComponents = item.componentSnapshots?.map(({ id, name, rate }) => ({ id, name, rate })) ?? (item.kind === 'STUCK_RELEASE'
+      ? [{ id: 'hold-value', name: 'Pemulihan nilai Hold', rate: item.rate }]
+      : sourceCase?.kind === 'BS'
+        ? caseComponents(sourceCase)
+          .filter((component) => (item.componentIds ?? []).includes(component.id))
+          .map(({ id, name, rate }) => ({ id, name, rate }))
+        : [])
+    const fallbackSizes: [string, string, string] = ['31', '32', '33']
+    return {
+      id: item.id,
+      kind: item.kind === 'STUCK_RELEASE' ? 'STUCK_RELEASE' : 'REWORK_RELEASE',
+      caseId: item.caseId,
+      originId: item.originId,
+      sourceLabel: item.sourceLabel,
+      label: item.label,
+      brand: sourceCase?.brand ?? '—',
+      sku: sourceCase?.sku ?? '—',
+      material: sourceCase?.material ?? '—',
+      mandor: item.payee,
+      sizes: sourceCase?.sizes ?? fallbackSizes,
+      qtyBySize: item.qtyBySize,
+      qty: sum(item.qtyBySize),
+      components: sourceComponents,
+      unitRate: item.rate,
+      subtotal: item.amount,
+      createdAt: item.createdAt,
+    }
+  }
+
   const setSelectedCase = (id: string) => {
     const target=cases.find((item):item is BsCase=>item.kind==='BS'&&item.id===id)
     setSelectedId(id); setReworkInputs(['', '', '']); setSusulanGoodInputs(['', '', '']); setSusulanBsInputs(['', '', '']); setReworkComponentIds(target?.componentIds??[])
@@ -217,16 +292,19 @@ export default function BsReworkPage({ initialResult, onBack, onStuckReturned }:
     const qty = sum(requested)
     const selectedRate=caseComponentRate(selectedBs, reworkComponentIds)
     if (qty <= 0 || selectedRate <= 0) return
+    const releaseOrdinal = ledger.filter((entry) => entry.kind === 'REWORK_RELEASE' && entry.caseId === selectedBs.id).length + 1
     const item: LedgerItem = {
-      id: `ADJ-RW-${selectedBs.id.replace(/\D/g, '')}-${ledger.length + 1}`, kind: 'REWORK_RELEASE',
+      id: `ADJ-RW-${selectedBs.id.replace(/^BS-/, '').replace(/[^a-z0-9-]/gi, '')}-${String(releaseOrdinal).padStart(2, '0')}`, kind: 'REWORK_RELEASE',
       label: 'Bikin bagus · siap Nota FG', sign: 1, qtyBySize: requested, rate: selectedRate,
       amount: qty * selectedRate, payee: selectedBs.reworkMandor, originId: caseDeduction.id, caseId: selectedBs.id,
       sourceLabel: `Asal ${caseDeduction.id} · QC rework lulus`, createdAt: '28 Agu · baru saja', componentIds: reworkComponentIds,
+      componentSnapshots: caseComponents(selectedBs).filter((component) => reworkComponentIds.includes(component.id)).map((component) => ({ ...component })),
     }
     const remainingAfter = subtractSizes(reworkRemaining, requested)
     setLedger((current) => [...current, item])
     setCases((current) => current.map((entry) => entry.kind === 'BS' && entry.id === selectedBs.id ? { ...entry, status: sum(remainingAfter) === 0 ? 'GOOD_RESTORED' : 'QC_REWORK' } : entry))
     setReworkInputs(['', '', ''])
+    onNotaCardReady?.(toNotaCard(item))
     setNotice(`${qty} pcs Bikin Bagus menjadi card siap Nota FG untuk ${item.payee}. ${reworkComponentIds.length} komponen bayar sudah disnapshot.`)
   }
   const postHoldResolution = () => {
@@ -242,6 +320,7 @@ export default function BsReworkPage({ initialResult, onBack, onStuckReturned }:
       label: 'Susulan Good · plus Hold', sign: 1, qtyBySize: goodBySize, rate: selectedHold.rate,
       amount: goodQty * selectedHold.rate, payee: selectedStuck.mandor, originId: selectedHold.id, caseId: selectedStuck.id,
       sourceLabel: `Asal ${selectedHold.id} · Good diterima ${selectedStuck.mandor}`, createdAt: '29 Agu · baru saja',
+      componentSnapshots: [{ id: 'hold-value', name: 'Pemulihan nilai Hold', note: 'Nilai Hold yang benar-benar dilepas', rate: selectedHold.rate }],
     } : null
     const transitionItem: LedgerItem | null = bsQty > 0 ? {
       id: `RCLS-${selectedHold.id.replace('HOLD-', '')}-${serial}`, kind: 'STUCK_TO_BS',
@@ -266,6 +345,7 @@ export default function BsReworkPage({ initialResult, onBack, onStuckReturned }:
       return bsCase ? [bsCase, ...updated] : updated
     })
     onStuckReturned?.({parentId:selectedStuck.parentId,batchId:selectedStuck.batchId,laundry:selectedStuck.laundry,goodBySize,bsBySize})
+    if (goodItem) onNotaCardReady?.(toNotaCard(goodItem))
     setSusulanGoodInputs(['', '', '']); setSusulanBsInputs(['', '', ''])
     setNotice(`${goodQty} Good melepas Hold +${money(goodItem?.amount ?? 0)}; ${bsQty} BS direklasifikasi tanpa minus kedua. Outstanding Laundry ikut turun.`)
   }
@@ -359,7 +439,7 @@ export default function BsReworkPage({ initialResult, onBack, onStuckReturned }:
 
     <article className="panel bsr-ready-nota">
       <header><div><span>PLUS DARI SUSULAN & BIKIN BAGUS</span><h2>Card siap disusun pada Nota FG</h2><p>Susulan Good melepas Hold. Hasil Bikin Bagus memulihkan pengurang asal; reklasifikasi Hold → BS sendiri tidak membuat card nominal baru.</p></div><ReceiptText/></header>
-      <div className="bsr-ready-grid">{reworkReadyItems.map((item) => <article key={item.id}><span className="bsr-ready-icon"><PackageCheck/></span><div><small>{item.id} · {item.sourceLabel}</small><strong>{item.label}</strong><em><UserRound/>{item.payee}</em><p>{item.kind === 'STUCK_RELEASE' ? 'Pemulihan nilai Hold' : (item.componentIds??[]).map((id)=>components.find((component)=>component.id===id)?.name??(id==='hold-value'?'Nilai Hold / BS Nota FG':undefined)).filter(Boolean).join(' · ')}</p></div><span className="bsr-ready-amount"><small>{sum(item.qtyBySize)} pcs × {money(item.rate)}</small><strong>{money(item.amount)}</strong><em>SIAP NOTA FG</em></span></article>)}</div>
+      <div className="bsr-ready-grid">{reworkReadyItems.map((item) => {const posted=postedFgCardIds.includes(item.id);return <button type="button" disabled={posted} onClick={() => onOpenNota?.(toNotaCard(item))} aria-label={posted?`${item.id} sudah masuk Nota FG`:`Susun ${item.id} ke Nota FG`} key={item.id}><span className="bsr-ready-icon"><PackageCheck/></span><span className="bsr-ready-copy"><small>{item.id} · {item.sourceLabel}</small><strong>{item.label}</strong><em><UserRound/>{item.payee}</em><p>{item.kind === 'STUCK_RELEASE' ? 'Pemulihan nilai Hold' : (item.componentSnapshots??[]).map((component)=>component.name).join(' · ')||(item.componentIds??[]).map((id)=>components.find((component)=>component.id===id)?.name??(id==='hold-value'?'Nilai Hold / BS Nota FG':undefined)).filter(Boolean).join(' · ')}</p></span><span className="bsr-ready-amount"><small>{sum(item.qtyBySize)} pcs × {money(item.rate)}</small><strong>{money(item.amount)}</strong><em>{posted?'SUDAH MASUK NOTA':'SUSUN NOTA FG'} {!posted&&<ArrowRight/>}</em></span></button>})}</div>
       <footer><ShieldCheck/><span><strong>Penyusunan tetap dilakukan di Nota FG</strong><small>Card FG Reguler dan Bikin Bagus dipisahkan jelas. Setelah Nota FG posted, barulah dokumen muncul pada Payroll.</small></span></footer>
     </article>
     {showLegacyForm && <LegacyBsDialog result={initialResult} onClose={() => setShowLegacyForm(false)} onCreate={(createdCase, deduction) => {
