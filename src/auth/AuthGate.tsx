@@ -15,30 +15,44 @@ export function authGateMode(identity: AuthIdentity): AuthGateMode {
 }
 
 export function AuthGate({ children }: PropsWithChildren) {
-  const { identity, signIn, signOut, retryIdentity } = useAuth()
+  const { identity, signingOut, signOutError, signIn, signOut, retryIdentity } = useAuth()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [submitError, setSubmitError] = useState('')
   const [submitting, setSubmitting] = useState(false)
+  const [retrying, setRetrying] = useState(false)
   const gateMode = authGateMode(identity)
   const identityError = identity.status === 'ANONYMOUS' ? identity.error : null
 
   if (gateMode === 'ALLOW') return children
 
   if (gateMode === 'LOADING') {
-    return <AuthFrame eyebrow="UAT AUTH" title="Memverifikasi sesi…">
-      <div className="auth-progress" aria-label="Memuat" />
-      <p>ERP belum dibuka sampai identitas Auth dan profil ERP selesai diverifikasi.</p>
+    return <AuthFrame eyebrow="UAT AUTH" title={signingOut ? 'Mengakhiri sesi…' : 'Memverifikasi sesi…'}>
+      <div className="auth-progress" role="status" aria-live="polite" aria-label={signingOut ? 'Mengakhiri sesi' : 'Memverifikasi sesi'} />
+      <p>{signingOut
+        ? 'Akses ERP dikunci sampai proses keluar selesai.'
+        : 'ERP belum dibuka sampai identitas Auth dan profil ERP selesai diverifikasi.'}</p>
     </AuthFrame>
+  }
+
+  const retry = async () => {
+    if (retrying) return
+    setRetrying(true)
+    try {
+      await retryIdentity()
+    } finally {
+      setRetrying(false)
+    }
   }
 
   if (gateMode === 'BLOCKED' && identity.status === 'BLOCKED') {
     return <AuthFrame eyebrow="AKSES DIBLOKIR" title="Akun belum lolos guardrail">
       <p>{identity.message}</p>
       {identity.errorCode && <code>{identity.errorCode}</code>}
+      {signOutError && <div className="auth-error" role="alert">{signOutError.message}</div>}
       <div className="auth-actions">
-        <button type="button" className="auth-secondary" onClick={() => void retryIdentity()}>Periksa ulang</button>
-        <button type="button" className="auth-primary" onClick={() => void signOut()}>Keluar</button>
+        <button type="button" className="auth-secondary" disabled={retrying} onClick={() => void retry()}>{retrying ? 'Memeriksa…' : 'Periksa ulang'}</button>
+        <button type="button" className="auth-primary" disabled={signingOut} onClick={() => void signOut()}>{signingOut ? 'Keluar…' : 'Keluar'}</button>
       </div>
     </AuthFrame>
   }
@@ -63,6 +77,7 @@ export function AuthGate({ children }: PropsWithChildren) {
       <label>Kata sandi<input type="password" required autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} /></label>
       {(submitError || identityError) && <div className="auth-error" role="alert">{submitError || identityError?.message}</div>}
       <button type="submit" className="auth-primary" disabled={submitting}>{submitting ? 'Memverifikasi…' : 'Masuk'}</button>
+      {identityError?.retryable && <button type="button" className="auth-secondary" disabled={retrying} onClick={() => void retry()}>{retrying ? 'Memeriksa sesi…' : 'Coba verifikasi sesi lagi'}</button>}
     </form>
     <small className="auth-footnote">Tidak ada pendaftaran akun dari aplikasi. Hanya OWNER/ADMIN aktif yang dibuka pada fase ini.</small>
   </AuthFrame>

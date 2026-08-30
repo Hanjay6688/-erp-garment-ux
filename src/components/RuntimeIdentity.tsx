@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { useAuth } from '../auth/AuthProvider'
 
 function initials(fullName: string) {
@@ -26,17 +25,14 @@ export function RuntimeEnvironmentCard() {
 }
 
 export function RuntimeIdentity() {
-  const { identity, signOut } = useAuth()
-  const [signOutError, setSignOutError] = useState('')
+  const { identity, signingOut, signOutError, signOut } = useAuth()
 
   if (identity.status !== 'AUTHORIZED') {
     return <div className="owner"><span>OH</span><div><strong>Owner</strong><small>Simulasi</small></div></div>
   }
 
   const logout = async () => {
-    setSignOutError('')
-    const result = await signOut()
-    if (!result.ok) setSignOutError(result.error.message)
+    await signOut()
   }
 
   return <details className="auth-identity">
@@ -47,8 +43,8 @@ export function RuntimeIdentity() {
     </summary>
     <div className="auth-identity-menu">
       <small>ERP Enteng · Auth aktif</small>
-      <button type="button" onClick={() => void logout()}>Keluar</button>
-      {signOutError && <p role="alert">{signOutError}</p>}
+      <button type="button" disabled={signingOut} onClick={() => void logout()}>{signingOut ? 'Keluar…' : 'Keluar'}</button>
+      {signOutError && <p role="alert">{signOutError.message}</p>}
     </div>
   </details>
 }
