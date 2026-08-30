@@ -1,7 +1,8 @@
 # ERP Enteng UAT v2.6.11a pre-connect runbook
 
-Status: **DRAFT / NOT APPLIED**  
-Last read-only verification: 2026-08-30 UTC
+Status: **APPLIED TO ERP ENTENG UAT / VERIFIED**  
+Applied at: 2026-08-30 09:04:14.63828 UTC  
+Last verification: 2026-08-30 UTC
 
 This runbook is for one manual UAT operational patch. It is not a portable
 Supabase CLI migration and must never be deployed with `supabase db push`.
@@ -15,6 +16,33 @@ Supabase CLI migration and must never be deployed with `supabase db push`.
 
 Recalculate both hashes immediately before an approved execution. Any change
 requires another review and new recorded hashes.
+
+## Applied execution record
+
+The exact reviewed SQL was applied once through `execute_sql` to externally
+verified project `siimvrusnzxexizpyoib` / ERP Enteng. It was not sent through
+`apply_migration`, `db push`, or the universal migrations directory.
+
+Post-apply evidence:
+
+- all 18 acceptance checks and `00_ALL_CHECKS_PASS` returned true;
+- execution quiescent: advisory lock available and zero tagged backends;
+- platform migration history remained exactly 50 rows;
+- application history moved from 38 to 41 rows;
+- `v2.6.11a` installed at `2026-08-30 09:04:14.63828+00`;
+- Security Advisor returned zero findings;
+- 28 stable suites / 184 check rows returned total issue count zero on UAT;
+- recalc cron: 120/120 latest runs succeeded; queue empty;
+- direct `Accept-Profile: erp` probe returned HTTP 406 / `PGRST106`;
+- anonymous public-profile facade probe returned HTTP 401 / `42501`;
+- canonical ERP-Garment remained unchanged: platform history 272, application
+  history 38, release 2.6.1, no public application relation, and both legacy
+  authenticated grants still present;
+- UAT still has zero Auth users and zero ERP app users.
+
+Auth activation is not part of this applied database closure. The public Auth
+settings endpoint still reports `disable_signup=false`; public signup must be
+disabled before provisioning the first OWNER.
 
 ## Target boundary
 
