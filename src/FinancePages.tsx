@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import {
-  AlertTriangle, ArrowRight, Banknote, Building2, CalendarClock, Check,
+  AlertTriangle, ArrowRight, Banknote, Building2, CalendarClock, CalendarDays, Check,
   CheckCircle2, CircleDollarSign, Clock3, FileClock, FileSearch, History, Landmark,
   Link2, LockKeyhole, NotebookTabs, ReceiptText, RefreshCcw, Search, ShieldAlert,
   ShieldCheck, TrendingDown, TrendingUp, Undo2, UsersRound, WalletCards, X,
@@ -16,7 +16,7 @@ import { cleanMoneyInput, formatMoneyInput } from './moneyInput'
 import './business-pages.css'
 
 export type FinanceView = 'finance-overview' | 'finance-cash' | 'finance-ap' | 'finance-ar' | 'finance-payroll' | 'finance-journal' | 'finance-reports'
-type FinanceProps = { view: FinanceView; onNavigate: (view: FinanceView) => void; onSalesPayment: () => void }
+type FinanceProps = { view: FinanceView; onNavigate: (view: FinanceView) => void; onSalesPayment: () => void; onAttendance: () => void }
 type Tone = 'good' | 'warn' | 'danger' | 'neutral'
 type PayrollSourceSelection = { kind:'FG' | 'ACCESSORY'; number:string } | null
 
@@ -85,12 +85,12 @@ function PayrollSourceModal({selection,note,onClose}:{selection:Exclude<PayrollS
   return <div className="biz-modal-backdrop" role="presentation" onMouseDown={onClose}><section className="biz-modal finance payroll-source-modal accessory" role="dialog" aria-modal="true" aria-labelledby="payroll-source-title" onMouseDown={(event)=>event.stopPropagation()}><header><div><span>NOTA AMBIL AKSESORI · DOKUMEN SUMBER</span><h2 id="payroll-source-title">{item.number}</h2><p>{item.date} · {item.source}</p></div><button aria-label="Tutup" onClick={onClose}><X/></button></header><div className="biz-modal-body"><div className="payroll-source-identity"><FileSearch/><span><small>BARANG DETAIL</small><strong>{item.item}</strong><em>{item.source}</em></span></div><div className="payroll-accessory-equation"><span><small>QTY AKTUAL</small><strong>{item.qty.toLocaleString('id-ID')} {item.unit}</strong></span><i>×</i><span><small>HARGA MANDOR SNAPSHOT</small><strong>{money(item.unitPrice)}</strong></span><i>=</i><span className="result"><small>TOTAL KASBON</small><strong>{money(item.total)}</strong></span></div><div className="biz-guard"><ShieldCheck/><span>Nota ini berasal dari pengambilan stok detail. Nilainya mengurangi settlement mandor dan tidak mengubah moving-average HPP.</span></div></div><footer><button className="primary-btn" onClick={onClose}>Tutup detail</button></footer></section></div>
 }
 
-export default function FinancePages({view,onNavigate,onSalesPayment}:FinanceProps) {
+export default function FinancePages({view,onNavigate,onSalesPayment,onAttendance}:FinanceProps) {
   if(view==='finance-overview')return <FinanceOverview onNavigate={onNavigate}/>
   if(view==='finance-cash')return <CashWorkspace onNavigate={onNavigate}/>
   if(view==='finance-ap')return <PayablesWorkspace/>
   if(view==='finance-ar')return <ReceivablesWorkspace onSalesPayment={onSalesPayment}/>
-  if(view==='finance-payroll')return <PayrollWorkspace/>
+  if(view==='finance-payroll')return <PayrollWorkspace onAttendance={onAttendance}/>
   if(view==='finance-journal')return <JournalWorkspace/>
   return <ReportsWorkspace/>
 }
@@ -176,7 +176,7 @@ function ReceivablesWorkspace({onSalesPayment}:{onSalesPayment:()=>void}) {
   </>
 }
 
-function PayrollWorkspace() {
+function PayrollWorkspace({onAttendance}:{onAttendance:()=>void}) {
   const [notes,setNotes]=useState(payrollNotes)
   const [statusFilter,setStatusFilter]=useState('Aktif · lunas disembunyikan')
   const [mandorFilter,setMandorFilter]=useState('Semua mandor')
@@ -215,7 +215,7 @@ function PayrollWorkspace() {
   const readyToPay=notes.filter((item)=>item.status==='APPROVED').reduce((sum,item)=>sum+item.netPayable,0)
 
   return <>
-    <FinanceHero eyebrow="KEUANGAN · PAYROLL & SETTLEMENT" title="Payroll & Kasbon" description="Nota FG yang sudah posted berjajar sebagai sumber bayar. Buka detail bila perlu, lalu hitung Nota Aksesori dan potongan riil di bagian bawah." icon={UsersRound}/>
+    <FinanceHero eyebrow="KEUANGAN · PAYROLL & SETTLEMENT" title="Payroll & Kasbon" description="Nota FG yang sudah posted berjajar sebagai sumber bayar. Absensi dan rate harian dikelola di halaman terpisah, lalu masuk ke sini sebagai snapshot posted." icon={UsersRound} action={<button className="primary-btn biz-hero-action" onClick={onAttendance}><CalendarDays/> Buka Absensi & Rate</button>}/>
     <section className="biz-metrics"><div className="panel"><span>NOTA TERBUKA</span><strong>{activeNotes.length}</strong><small>Draft sampai approved</small></div><div className="panel warn"><span>ELIGIBLE BELUM DITARIK</span><strong>{eligibleLines} baris</strong><small>Masuk nota berikutnya</small></div><div className="panel danger"><span>KASBON & POTONGAN</span><strong>{compactMoney(activeDeductions)}</strong><small>Aksesori aktual + koreksi</small></div><div className="panel good"><span>SIAP DIBAYAR</span><strong>{compactMoney(readyToPay)}</strong><small>Nota approved</small></div></section>
     <section className="panel biz-payroll-browser-toolbar"><label className="biz-search"><Search/><input value={query} onChange={(event)=>setQuery(event.target.value)} placeholder="Cari nota, mandor, periode..."/></label><EnterpriseSelect label="MANDOR" value={mandorFilter} options={mandorOptions} onChange={setMandorFilter}/><EnterpriseSelect label="STATUS" value={statusFilter} options={['Aktif · lunas disembunyikan','Semua status','Draft','Calculated','Review','Approved','Paid','Reversed']} onChange={setStatusFilter}/></section>
     <section className="panel biz-master-detail finance-detail payroll-detail"><aside><header><div><span>PAYROLL BROWSER</span><strong>{visible.length} nota tampil</strong></div><UsersRound/></header><div className="biz-browser-list">{visible.map((item)=><button key={item.number} className={item.number===selected?.number?'active':''} onClick={()=>{setSelectedNumber(item.number);setNotice('');setPayReference('');setSourceSelection(null)}}><span>PY</span><div><strong>{item.number}</strong><small>{item.contractor}</small><em>{item.period}</em></div><b>{money(item.netPayable)}</b><Pill>{item.status}</Pill></button>)}{visible.length===0&&<div className="biz-empty"><Search/><strong>Nota tidak ditemukan</strong><small>Ubah filter mandor atau status.</small></div>}</div></aside>{selected?<main><header className="biz-detail-head"><div><span>NOTA PAYROLL · SOURCE LINKED</span><h2>{selected.number}</h2><p>{selected.contractor} · {selected.period}</p></div><Pill>{selected.status}</Pill></header>
