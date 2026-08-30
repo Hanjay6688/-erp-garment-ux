@@ -14,8 +14,9 @@ Supabase CLI migration and must never be deployed with `supabase db push`.
 | `ops/supabase/uat/manual_uat_only__erp_enteng__v2_6_11a_preconnect.sql` | `d8b42725eb3299989b682a8f3932f480cf5e1c10344c224235fad6154d404a91` |
 | `ops/supabase/uat/manual_uat_only__erp_enteng__v2_6_11a_preconnect.acceptance.sql` | `2e2f7a53b499b1f4ccd05ce1b398fc49f706a00b1ccf9f230b118405a6f39597` |
 
-Recalculate both hashes immediately before an approved execution. Any change
-requires another review and new recorded hashes.
+These hashes were recalculated immediately before the installed execution. Any
+future artifact change requires another review and new recorded hashes. The
+installed closure must not be re-applied merely to repeat an audit.
 
 ## Applied execution record
 
@@ -143,8 +144,8 @@ stable `[v2.6.11a/UAT_PRECONNECT]` marker is appended.
 
 ## Preflight state
 
-The manual SQL validates all preconditions before its first write. The verified
-pre-apply state is:
+The manual SQL validated all preconditions before its first write. The recorded
+pre-apply state was:
 
 - platform migration history: 50 rows;
 - application migration history: 38 rows;
@@ -155,21 +156,22 @@ pre-apply state is:
 - phase-0 product view grants: 0;
 - `erp.app_users`: RLS enabled, authenticated self-read available, anon denied;
 - Auth users and ERP app users: 0;
-- legacy authenticated RPC grants: still present until the patch is approved.
+- legacy authenticated RPC grants: present at that recorded checkpoint.
 
 The exact preflight block has been executed read-only against UAT and passed.
-No database mutation was made.
+At that pre-apply checkpoint, no database mutation had yet been made.
 
-## Approved execution route
+## Executed route and replay prohibition
 
-Execution requires explicit user approval after this runbook and both hashes
-have been reviewed.
+The authorized execution is complete. The steps below record the route that was
+used; they are not permission to replay the installed SQL. Any future mutation
+requires a separate scope, review, and explicit approval.
 
-1. Select MCP `execute_sql`, never `apply_migration`.
-2. Set the tool `project_id` explicitly to `siimvrusnzxexizpyoib`.
-3. Send the exact contents of
-   `manual_uat_only__erp_enteng__v2_6_11a_preconnect.sql` in one call.
-4. Do not prepend, append, or edit SQL in transit.
+1. MCP `execute_sql` was used, never `apply_migration`.
+2. The tool `project_id` was set explicitly to `siimvrusnzxexizpyoib`.
+3. The exact contents of
+   `manual_uat_only__erp_enteng__v2_6_11a_preconnect.sql` were sent in one call.
+4. No SQL was prepended, appended, or edited in transit.
 5. The file contains an explicit transaction. Any preflight or self-check
    exception must roll back all changes.
 6. The transaction sets `application_name = erp_enteng_v2_6_11a_preconnect`
@@ -187,9 +189,10 @@ MCP `execute_sql` intentionally does not add a platform migration row. The
 application-owned `erp.schema_migrations` rows and release note are the audit
 record for this manual UAT operation.
 
-## Database acceptance
+## Performed database acceptance
 
-Immediately after an approved execution:
+The following read-only acceptance was performed immediately after execution
+and may be repeated read-only to detect drift:
 
 1. Run the exact contents of
    `manual_uat_only__erp_enteng__v2_6_11a_preconnect.acceptance.sql` through
