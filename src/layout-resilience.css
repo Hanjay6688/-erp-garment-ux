@@ -1,0 +1,136 @@
+/* Shared layout guards: navigation and dense operational tables must not move the page. */
+.sidebar {
+  height: 100vh;
+  height: 100dvh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(126, 141, 255, .42) transparent;
+}
+
+.sidebar .brand-row,
+.sidebar .nav-caption,
+.sidebar .nav-section,
+.sidebar .env-card {
+  flex-shrink: 0;
+}
+
+.sidebar .env-card {
+  margin-bottom: 2px;
+}
+
+.sidebar::-webkit-scrollbar,
+:where(
+  .responsive-table,
+  .biz-table,
+  .biz-all-invoice-table,
+  .biz-allocation-table,
+  .biz-return-lines,
+  .biz-journal-lines,
+  .biz-aging,
+  .biz-sales-timetable,
+  .attendance-table-wrap,
+  .hpp-history-table,
+  .md-bom-table,
+  .bsr-size-table,
+  .ci-lines,
+  .simatch-lines,
+  .wh-mini-ledger,
+  .wh-case-lines,
+  .wh-draft-lines,
+  .mm-history
+)::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.sidebar::-webkit-scrollbar-thumb,
+:where(
+  .responsive-table,
+  .biz-table,
+  .biz-all-invoice-table,
+  .biz-allocation-table,
+  .biz-return-lines,
+  .biz-journal-lines,
+  .biz-aging,
+  .biz-sales-timetable,
+  .attendance-table-wrap,
+  .hpp-history-table,
+  .md-bom-table,
+  .bsr-size-table,
+  .ci-lines,
+  .simatch-lines,
+  .wh-mini-ledger,
+  .wh-case-lines,
+  .wh-draft-lines,
+  .mm-history
+)::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: rgba(126, 141, 255, .36);
+  background-clip: padding-box;
+}
+
+/* The AP, AR, and Payroll list badges are direct spans too; undo the 30px kind-icon rule. */
+.biz-browser-list > button > .biz-pill {
+  grid-column: 3;
+  grid-row: 2;
+  justify-self: end;
+  width: max-content !important;
+  max-width: 100%;
+  height: auto !important;
+  min-height: 22px;
+  padding: 4px 7px;
+  border-radius: 999px;
+  white-space: normal;
+  overflow: visible;
+  overflow-wrap: anywhere;
+  line-height: 1.15;
+  text-align: center;
+  place-items: center;
+}
+
+.biz-browser-list > button > .biz-pill.neutral {
+  border-color: #374154;
+  background: rgba(255, 255, 255, .025);
+  color: #a4afc0;
+}
+
+.biz-browser-list > button {
+  grid-template-columns: 31px minmax(0, 1fr) minmax(88px, auto);
+}
+
+/* Wide grids retain their readable column widths and slide inside their own panel. */
+:where(
+  .responsive-table,
+  .biz-table,
+  .biz-all-invoice-table,
+  .biz-allocation-table,
+  .biz-return-lines,
+  .biz-journal-lines,
+  .biz-aging,
+  .biz-sales-timetable,
+  .attendance-table-wrap,
+  .hpp-history-table,
+  .md-bom-table,
+  .bsr-size-table,
+  .ci-lines,
+  .simatch-lines,
+  .wh-mini-ledger,
+  .wh-case-lines,
+  .wh-draft-lines,
+  .mm-history
+) {
+  max-width: 100%;
+  overflow-x: auto !important;
+  overscroll-behavior-inline: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(126, 141, 255, .36) transparent;
+}
+
+@media (max-width: 860px) {
+  .sidebar {
+    max-height: 100dvh;
+  }
+}
