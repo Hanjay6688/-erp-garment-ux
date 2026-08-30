@@ -8,6 +8,8 @@ import {
 import { productCatalog } from './productCatalog'
 import type { Product } from './productCatalog'
 import { cleanMoneyInput, formatMoneyInput } from './moneyInput'
+import { distributeDozensEvenly } from './sales/distributeDozensEvenly'
+import { isSellableGoodAtLocation, parseManualPieceQuantity } from './sales/salesEligibility'
 import './business-pages.css'
 
 export type SalesView = 'sales-invoice' | 'sales-allocation' | 'sales-returns' | 'sales-payments' | 'sales-history'
@@ -25,14 +27,15 @@ const productKey = (product: Pick<Product, 'brand' | 'code'>) => `${product.bran
 const qtyLabel = (qty: number) => `${Math.floor(Math.max(0, qty) / 12)} lusin · ${Math.max(0, qty) % 12} potong`
 const lineQty = (line: DraftLine) => line.quantities.reduce((sum, qty) => sum + qty, 0)
 const lineGross = (line: DraftLine) => (lineQty(line) / 12) * line.priceDozen
+const defaultSalesLocation = 'Gudang FG Utama'
+const initialSalesProducts = productCatalog.filter((product) => isSellableGoodAtLocation(product, defaultSalesLocation)).slice(0, 2)
 
 function makeLine(product: Product, dozens: number): DraftLine {
-  const total = Math.max(0, Math.round(dozens * 12))
-  const base = Math.floor(total / 3)
-  const remainder = total % 3
+  const quantities = distributeDozensEvenly(dozens)
+  if (!quantities) throw new Error('Draft line requires an exact, evenly distributed three-size quantity.')
   return {
     key: productKey(product), product,
-    quantities: [base + (remainder > 0 ? 1 : 0), base + (remainder > 1 ? 1 : 0), base],
+    quantities,
     priceDozen: product.brand === 'Widie' ? 1_140_000 : 1_080_000,
   }
 }
@@ -40,10 +43,10 @@ function makeLine(product: Product, dozens: number): DraftLine {
 const allInvoices = [
   { number:'INV-JUAL-0245', customer:'Nusantara Fashion', dateKey:'2026-08-28', day:'28 Agu 2026', time:'10:30', sku:'73001 · 73005', qty:72, gross:6_660_000, returns:0, paid:0, status:'DRAFT' },
   { number:'INV-JUAL-0244', customer:'Toko Maju Jaya', dateKey:'2026-08-28', day:'28 Agu 2026', time:'09:15', sku:'73003', qty:64, gross:5_760_000, returns:0, paid:0, status:'DRAFT' },
-  { number:'INV-JUAL-0243', customer:'Sentra Denim', dateKey:'2026-08-28', day:'28 Agu 2026', time:'08:40', sku:'73006', qty:36, gross:3_420_000, returns:0, paid:3_420_000, status:'PAID' },
+  { number:'INV-JUAL-0243', customer:'Sentra Denim', dateKey:'2026-08-28', day:'28 Agu 2026', time:'08:40', sku:'73005', qty:36, gross:3_420_000, returns:0, paid:3_420_000, status:'PAID' },
   { number:'INV-JUAL-0241', customer:'Toko Maju Jaya', dateKey:'2026-08-27', day:'27 Agu 2026', time:'16:24', sku:'73001 · 73002', qty:84, gross:7_830_000, returns:180_000, paid:4_820_000, status:'POSTED' },
   { number:'INV-JUAL-0240', customer:'Nusantara Fashion', dateKey:'2026-08-27', day:'27 Agu 2026', time:'15:18', sku:'73001 · 73005', qty:144, gross:13_320_000, returns:0, paid:8_000_000, status:'POSTED' },
-  { number:'INV-JUAL-0239', customer:'Sentra Denim', dateKey:'2026-08-27', day:'27 Agu 2026', time:'11:06', sku:'73003 · 73006', qty:60, gross:5_730_000, returns:0, paid:0, status:'POSTED' },
+  { number:'INV-JUAL-0239', customer:'Sentra Denim', dateKey:'2026-08-27', day:'27 Agu 2026', time:'11:06', sku:'73003 · 73004', qty:60, gross:5_730_000, returns:0, paid:0, status:'POSTED' },
   { number:'INV-JUAL-0238', customer:'Nusantara Fashion', dateKey:'2026-08-26', day:'26 Agu 2026', time:'14:52', sku:'73002', qty:96, gross:8_640_000, returns:360_000, paid:8_280_000, status:'PAID' },
   { number:'INV-JUAL-0237', customer:'Nusantara Fashion', dateKey:'2026-08-25', day:'25 Agu 2026', time:'13:18', sku:'73001 · 73004', qty:132, gross:12_640_000, returns:860_000, paid:8_000_000, status:'POSTED' },
   { number:'INV-JUAL-0236', customer:'Toko Maju Jaya', dateKey:'2026-08-25', day:'25 Agu 2026', time:'10:42', sku:'73005', qty:48, gross:4_560_000, returns:0, paid:4_560_000, status:'PAID' },
@@ -82,7 +85,7 @@ const customerEvents = [
   { date:'28 Agu · 09:18', customer:'Toko Maju Jaya', type:'PAYMENT', number:'PAY-CUST-0188', description:'Pembayaran sebagian INV-JUAL-0241', sku:'—', qty:0, amount:2_000_000 },
   { date:'27 Agu · 15:18', customer:'Nusantara Fashion', type:'SALE', number:'INV-JUAL-0240', description:'73001, 73005 · Indigo dan Mid Blue', sku:'73001 · 73005', qty:144, amount:13_320_000 },
   { date:'27 Agu · 14:02', customer:'Toko Maju Jaya', type:'RETURN', number:'RET-JUAL-0045', description:'Retur 73001 size 29', sku:'73001', qty:2, amount:-180_000 },
-  { date:'27 Agu · 11:06', customer:'Sentra Denim', type:'SALE', number:'INV-JUAL-0239', description:'73003, 73006 · Charcoal dan Stone', sku:'73003 · 73006', qty:60, amount:5_730_000 },
+  { date:'27 Agu · 11:06', customer:'Sentra Denim', type:'SALE', number:'INV-JUAL-0239', description:'73003, 73004 · Charcoal dan Deep Black', sku:'73003 · 73004', qty:60, amount:5_730_000 },
   { date:'26 Agu · 16:24', customer:'Toko Maju Jaya', type:'SALE', number:'INV-JUAL-0241', description:'73001, 73002 · empat size aktif', sku:'73001 · 73002', qty:84, amount:7_830_000 },
   { date:'25 Agu · 10:12', customer:'Nusantara Fashion', type:'PAYMENT', number:'PAY-CUST-0186', description:'Pelunasan INV-JUAL-0235', sku:'—', qty:0, amount:9_200_000 },
 ]
@@ -125,29 +128,30 @@ export default function SalesPages({ view, onNavigate }: SalesPageProps) {
 
 function InvoiceWorkspace({ onNavigate }: { onNavigate: SalesPageProps['onNavigate'] }) {
   const [customer,setCustomer] = useState('Nusantara Fashion')
-  const [location,setLocation] = useState('Gudang FG Utama')
+  const [location,setLocation] = useState(defaultSalesLocation)
   const [terms,setTerms] = useState('NET 30')
   const [physicalAt,setPhysicalAt] = useState('2026-08-28T10:30')
   const [dueDate,setDueDate] = useState('2026-09-27')
   const [query,setQuery] = useState('')
   const [brand,setBrand] = useState('Semua merek')
-  const [lines,setLines] = useState<DraftLine[]>([makeLine(productCatalog[0],3),makeLine(productCatalog[6],3)])
-  const [lineDozens,setLineDozens] = useState<Record<string,string>>({[productKey(productCatalog[0])]:'3',[productKey(productCatalog[6])]:'3'})
+  const [lines,setLines] = useState<DraftLine[]>(()=>initialSalesProducts.map((product)=>makeLine(product,3)))
+  const [lineDozens,setLineDozens] = useState<Record<string,string>>(()=>Object.fromEntries(initialSalesProducts.map((product)=>[productKey(product),'3'])))
   const [notice,setNotice] = useState('')
   const [reviewOpen,setReviewOpen] = useState(false)
   const [clearOpen,setClearOpen] = useState(false)
 
   const visibleProducts = useMemo(()=>productCatalog.filter((product)=>{
     const haystack=`${product.brand} ${product.code} ${product.name} ${product.color} ${product.range}`.toLowerCase()
-    return haystack.includes(query.toLowerCase()) && (brand==='Semua merek'||product.brand===brand)
-  }),[query,brand])
+    return isSellableGoodAtLocation(product,location) && haystack.includes(query.toLowerCase()) && (brand==='Semua merek'||product.brand===brand)
+  }),[query,brand,location])
   const totalQty=lines.reduce((sum,line)=>sum+lineQty(line),0)
   const gross=lines.reduce((sum,line)=>sum+lineGross(line),0)
-  const stockValid=lines.every((line)=>line.quantities.every((qty,index)=>qty<=line.product.stocks[index]))
+  const stockValid=lines.every((line)=>isSellableGoodAtLocation(line.product,location)&&line.quantities.every((qty,index)=>Number.isSafeInteger(qty)&&qty>=0&&qty<=line.product.stocks[index]))
   const canReview=lines.length>0&&totalQty>0&&stockValid&&customer.trim().length>0
 
   const addProduct=(product:Product)=>{
     const key=productKey(product)
+    if(!isSellableGoodAtLocation(product,location)){setNotice('SKU diblokir: Sales hanya boleh memilih grade GOOD dari lokasi FG yang sedang aktif.');return}
     if(lines.some((line)=>line.key===key)){setNotice(`${product.brand} ${product.code} sudah ada di invoice.`);return}
     setLines((current)=>[...current,makeLine(product,1)])
     setLineDozens((current)=>({...current,[key]:'1'}))
@@ -156,14 +160,22 @@ function InvoiceWorkspace({ onNavigate }: { onNavigate: SalesPageProps['onNaviga
   const updateQty=(key:string,index:number,value:string)=>{
     const source=lines.find((line)=>line.key===key)
     if(!source)return
+    const parsed=parseManualPieceQuantity(value)
+    if(parsed===null){setNotice('Qty size tidak berubah: masukkan bilangan bulat PCS yang aman, tanpa minus, desimal, atau notasi ilmiah.');return}
     const next=[...source.quantities] as [number,number,number]
-    next[index]=Math.max(0,Math.round(Number(value.replace(/\D/g,''))||0))
+    next[index]=parsed
     setLines((current)=>current.map((line)=>line.key===key?{...line,quantities:next}:line))
     setLineDozens((current)=>({...current,[key]:(next.reduce((sum,qty)=>sum+qty,0)/12).toLocaleString('id-ID',{maximumFractionDigits:2})}))
   }
   const applyDozens=(key:string)=>{
-    const dozens=Math.max(0,Number((lineDozens[key]??'0').replace(',','.'))||0)
-    setLines((current)=>current.map((line)=>line.key===key?{...line,quantities:makeLine(line.product,dozens).quantities}:line))
+    const rawDozens=(lineDozens[key]??'').trim().replace(',','.')
+    const dozens=rawDozens===''?Number.NaN:Number(rawDozens)
+    const quantities=distributeDozensEvenly(dozens)
+    if(!quantities){
+      setNotice('Helper tidak diterapkan: total potong harus bulat dan habis dibagi rata ke 3 size aktif. Qty size lama tidak berubah; isi qty per size secara eksplisit.')
+      return
+    }
+    setLines((current)=>current.map((line)=>line.key===key?{...line,quantities}:line))
     setNotice(`Helper ${dozens.toLocaleString('id-ID',{maximumFractionDigits:2})} lusin diterapkan rata ke tiga size. Size tetap menjadi sumber qty akhir.`)
   }
   const updatePrice=(key:string,value:string)=>setLines((current)=>current.map((line)=>line.key===key?{...line,priceDozen:Math.max(0,Number(value.replace(/\D/g,''))||0)}:line))
@@ -173,7 +185,7 @@ function InvoiceWorkspace({ onNavigate }: { onNavigate: SalesPageProps['onNaviga
     <InvoiceLifecycle/>
     <section className="biz-meta panel">
       <label><span>PELANGGAN</span><select value={customer} onChange={(event)=>setCustomer(event.target.value)}><option>Nusantara Fashion</option><option>Toko Maju Jaya</option><option>Sentra Denim</option></select></label>
-      <label><span>LOKASI FG</span><select value={location} onChange={(event)=>setLocation(event.target.value)}><option>Gudang FG Utama</option><option>Gudang FG Cadangan</option></select></label>
+      <label><span>LOKASI FG</span><select value={location} onChange={(event)=>{const nextLocation=event.target.value;setLocation(nextLocation);setNotice(`Lokasi aktif diganti ke ${nextLocation}. Baris dari lokasi lain diblokir sampai dikeluarkan dari draft.`)}}><option>Gudang FG Utama</option><option>Gudang FG Cadangan</option></select></label>
       <label><span>WAKTU FISIK</span><input type="datetime-local" value={physicalAt} onChange={(event)=>setPhysicalAt(event.target.value)}/></label>
       <label><span>TERMIN</span><select value={terms} onChange={(event)=>setTerms(event.target.value)}><option>NET 30</option><option>COD</option><option>NET 14</option><option>NET 45</option></select></label>
       <label><span>JATUH TEMPO</span><input type="date" value={dueDate} onChange={(event)=>setDueDate(event.target.value)}/></label>
@@ -184,20 +196,26 @@ function InvoiceWorkspace({ onNavigate }: { onNavigate: SalesPageProps['onNaviga
         <header><div><span>TAMBAH SKU</span><strong>{visibleProducts.length} barang tampil</strong></div><PackageSearch/></header>
         <label className="biz-search"><Search/><input value={query} onChange={(event)=>setQuery(event.target.value)} placeholder="Ketik SKU, merek, model, warna..."/></label>
         <div className="biz-inline-filters browse-only"><select value={brand} onChange={(event)=>setBrand(event.target.value)}><option>Semua merek</option><option>Vivo</option><option>Widie</option></select><span><Plus/> Klik barang untuk tambah</span></div>
-        <div className="biz-catalog-list">{visibleProducts.map((product)=>{const added=lines.some((line)=>line.key===productKey(product));const stock=product.stocks.reduce((sum,qty)=>sum+qty,0);return <button key={productKey(product)} className={added?'added':''} onClick={()=>addProduct(product)}><span>{product.brand.slice(0,1)}</span><div><strong>{product.brand} · {product.code}</strong><small>{product.name} · {product.color}</small><em>{product.range} · {stock} pcs</em></div>{added?<Check/>:<Plus/>}</button>})}</div>
+        <div className="biz-catalog-list">{visibleProducts.map((product)=>{const added=lines.some((line)=>line.key===productKey(product));const stock=product.stocks.reduce((sum,qty)=>sum+qty,0);return <button key={productKey(product)} className={added?'added':''} onClick={()=>addProduct(product)}><span>{product.brand.slice(0,1)}</span><div><strong>{product.brand} · {product.code}</strong><small>{product.name} · {product.color}</small><em>{product.range} · {stock} pcs · GOOD · {location}</em></div>{added?<Check/>:<Plus/>}</button>})}</div>
       </aside>
 
       <div className="panel biz-invoice-draft">
         <header><div><span>INVOICE DRAFT</span><strong>{lines.length} SKU · {totalQty} pcs</strong></div><button className="biz-danger-soft" disabled={lines.length===0} onClick={()=>setClearOpen(true)}><Trash2/> Kosongkan</button></header>
         {notice&&<div className="biz-inline-notice"><CheckCircle2/> {notice}</div>}
-        <div className="biz-invoice-lines">{lines.map((line,index)=>{const qty=lineQty(line);const invalid=line.quantities.some((value,sizeIndex)=>value>line.product.stocks[sizeIndex]);return <article key={line.key} className={invalid?'invalid':''}><header><span>{String(index+1).padStart(2,'0')}</span><div><strong>{line.product.brand} · {line.product.code}</strong><small>{line.product.name} · {line.product.color} · {line.product.range}</small></div><b>{money(lineGross(line))}</b><button aria-label={`Hapus ${line.product.code}`} onClick={()=>{setLines((current)=>current.filter((item)=>item.key!==line.key));setLineDozens((current)=>{const next={...current};delete next[line.key];return next})}}><X/></button></header><div className="biz-size-entry" data-keyboard-grid>{line.product.sizes.map((size,sizeIndex)=><label key={size} className={line.quantities[sizeIndex]>line.product.stocks[sizeIndex]?'invalid':''}><span>SIZE {size}</span><div><input data-grid-row={index} data-grid-col={sizeIndex} inputMode="numeric" value={line.quantities[sizeIndex]} onFocus={(event)=>event.currentTarget.select()} onChange={(event)=>updateQty(line.key,sizeIndex,event.target.value)}/><b>pcs</b></div><small>stok {line.product.stocks[sizeIndex]} pcs</small></label>)}</div><footer><span className="biz-line-total"><small>QTY BARIS · SUMBER AKHIR</small><strong>{qty} pcs · {qtyLabel(qty)}</strong></span><label className="biz-dozen-helper"><small>ISI CEPAT · LUSIN</small><div><input inputMode="decimal" value={lineDozens[line.key]??''} onFocus={(event)=>event.currentTarget.select()} onChange={(event)=>setLineDozens((current)=>({...current,[line.key]:event.target.value.replace(/[^0-9,.]/g,'')}))}/><b>lusin</b><button type="button" onClick={()=>applyDozens(line.key)}>Terapkan</button></div><em>Helper saja · qty per size tetap bisa diedit</em></label><label className="biz-price-field"><small>HARGA / LUSIN</small><div><b>Rp</b><input inputMode="numeric" value={formatMoneyInput(line.priceDozen)} onFocus={(event)=>event.currentTarget.select()} onChange={(event)=>updatePrice(line.key,event.target.value)}/></div></label>{invalid&&<em className="biz-line-warning"><AlertTriangle/> Ada size melebihi stok.</em>}</footer></article>})}{lines.length===0&&<div className="biz-empty"><ShoppingBag/><strong>Invoice masih kosong</strong><small>Klik SKU di katalog sebelah kiri.</small></div>}</div>
+        <div className="biz-invoice-lines">{lines.map((line,index)=>{
+          const qty=lineQty(line)
+          const sellable=isSellableGoodAtLocation(line.product,location)
+          const stockExceeded=line.quantities.some((value,sizeIndex)=>value>line.product.stocks[sizeIndex])
+          const invalid=!sellable||stockExceeded
+          return <article key={line.key} className={invalid?'invalid':''}><header><span>{String(index+1).padStart(2,'0')}</span><div><strong>{line.product.brand} · {line.product.code}</strong><small>{line.product.name} · {line.product.color} · {line.product.range} · {line.product.location} · {line.product.grade}</small></div><b>{money(lineGross(line))}</b><button aria-label={`Hapus ${line.product.code}`} onClick={()=>{setLines((current)=>current.filter((item)=>item.key!==line.key));setLineDozens((current)=>{const next={...current};delete next[line.key];return next})}}><X/></button></header><div className="biz-size-entry" data-keyboard-grid>{line.product.sizes.map((size,sizeIndex)=><label key={size} className={line.quantities[sizeIndex]>line.product.stocks[sizeIndex]?'invalid':''}><span>SIZE {size}</span><div><input data-grid-row={index} data-grid-col={sizeIndex} inputMode="numeric" value={line.quantities[sizeIndex]} onFocus={(event)=>event.currentTarget.select()} onChange={(event)=>updateQty(line.key,sizeIndex,event.target.value)}/><b>pcs</b></div><small>stok {line.product.stocks[sizeIndex]} pcs</small></label>)}</div><footer><span className="biz-line-total"><small>QTY BARIS · SUMBER AKHIR</small><strong>{qty} pcs · {qtyLabel(qty)}</strong></span><label className="biz-dozen-helper"><small>ISI CEPAT · LUSIN</small><div><input inputMode="decimal" value={lineDozens[line.key]??''} onFocus={(event)=>event.currentTarget.select()} onChange={(event)=>setLineDozens((current)=>({...current,[line.key]:event.target.value.replace(/[^0-9,.]/g,'')}))}/><b>lusin</b><button type="button" onClick={()=>applyDozens(line.key)}>Terapkan</button></div><em>Helper saja · qty per size tetap bisa diedit</em></label><label className="biz-price-field"><small>HARGA / LUSIN</small><div><b>Rp</b><input inputMode="numeric" value={formatMoneyInput(line.priceDozen)} onFocus={(event)=>event.currentTarget.select()} onChange={(event)=>updatePrice(line.key,event.target.value)}/></div></label>{invalid&&<em className="biz-line-warning"><AlertTriangle/> {!sellable?'Bukan grade GOOD di lokasi FG aktif.':'Ada size melebihi stok.'}</em>}</footer></article>
+        })}{lines.length===0&&<div className="biz-empty"><ShoppingBag/><strong>Invoice masih kosong</strong><small>Klik SKU di katalog sebelah kiri.</small></div>}</div>
       </div>
 
       <aside className="panel biz-review-card">
         <span>RINGKASAN INVOICE</span><h2>{money(gross)}</h2><p>{customer} · {terms}</p>
         <div><article><small>SKU</small><strong>{lines.length}</strong></article><article><small>QTY</small><strong>{totalQty} pcs</strong></article><article><small>LUSIN</small><strong>{(totalQty/12).toLocaleString('id-ID',{maximumFractionDigits:2})}</strong></article></div>
         <section><p><Check/> SKU/size langsung dicek terhadap stok siap jual</p><p><Check/> Simpan Draft langsung membuat mutasi reserve −qty</p><p><Check/> Post mengunci invoice tanpa mengurangi stok kedua kali</p><p><Check/> Batal/kurangi Draft membuat release +qty</p></section>
-        {!stockValid&&<div className="biz-guard danger"><AlertTriangle/><span>Ada qty melebihi stok. Posting harus diblokir.</span></div>}
+        {!stockValid&&<div className="biz-guard danger"><AlertTriangle/><span>Ada baris di luar lokasi aktif, bukan grade GOOD, qty tidak aman, atau melebihi stok. Posting harus diblokir.</span></div>}
         <label><span>CATATAN INVOICE</span><textarea placeholder="PO pelanggan, instruksi kirim, atau catatan harga..."/></label>
         <button className="primary-btn" disabled={!canReview} onClick={()=>setReviewOpen(true)}>Review invoice <ArrowRight/></button>
         <button className="soft-btn" onClick={()=>onNavigate('sales-allocation')}>Lihat semua invoice</button>

@@ -25,6 +25,7 @@ import { productCatalog } from './productCatalog'
 import type { Product } from './productCatalog'
 import { cleanMoneyInput, formatMoneyInput } from './moneyInput'
 import type { ReadyFgNotaCard, RegularFgNotaSnapshot } from './fgNota'
+import { RuntimeBadge, RuntimeEnvironmentCard, RuntimeIdentity } from './components/RuntimeIdentity'
 
 const SalesPages = lazy(() => import('./SalesPages'))
 const FinancePages = lazy(() => import('./FinancePages'))
@@ -518,11 +519,11 @@ function App() {
       <div className="nav-section admin-nav-section"><button className={`nav-main ${adminExpanded||page.startsWith('admin-')?'active':''}`} onClick={()=>{setAdminExpanded((value)=>!value);setExpanded(null)}}><Icon name="audit" /><span>Pengaturan & Audit</span><span className="chevron">{adminExpanded?'⌄':'›'}</span></button>
         {adminExpanded&&<div className="submenu">{adminNav.map((item)=>{const target=operationsPageByLabel[item];return <button key={item} className={page===target?'sub-active':''} onClick={()=>chooseSubmenu(item)}>• {item}</button>})}</div>}
       </div>
-      <div className="env-card"><div className="env-dot" /><div><strong>ERP Enteng</strong><span>Target dev · UX alpha</span></div></div>
+      <RuntimeEnvironmentCard/>
     </aside>
 
     <main className="main-panel">
-      <header className="topbar"><button className="mobile-menu" onClick={() => setMobileNav(true)}><Icon name="menu" /></button><div className="top-title"><div className="top-icon"><Icon name="dashboard" /></div><div><strong>{title}</strong><span>{page === 'dashboard' ? 'Satu layar untuk keputusan hari ini' : 'Cepat, jelas, dan aman buat operasional'}</span></div></div><div className="top-actions"><button className="sim-badge"><span /> DATA SIMULASI</button><button className="round-btn"><Icon name="search" /></button><div className="owner"><span>OH</span><div><strong>Owner</strong><small>Administrator</small></div><b>⌄</b></div></div></header>
+      <header className="topbar"><button className="mobile-menu" onClick={() => setMobileNav(true)}><Icon name="menu" /></button><div className="top-title"><div className="top-icon"><Icon name="dashboard" /></div><div><strong>{title}</strong><span>{page === 'dashboard' ? 'Satu layar untuk keputusan hari ini' : 'Cepat, jelas, dan aman buat operasional'}</span></div></div><div className="top-actions"><RuntimeBadge/><button className="round-btn"><Icon name="search" /></button><RuntimeIdentity/></div></header>
       <div className="page-wrap" data-keyboard-scope onKeyDown={handleErgonomicKeyboard}>
         {page === 'dashboard' && <Dashboard onOpenSales={() => setPage('sales-invoice')} />}
         {isSalesView(page) && <Suspense fallback={<WorkspaceFallback label="Penjualan"/>}><SalesPages view={page} onNavigate={(next)=>setPage(next)} /></Suspense>}
