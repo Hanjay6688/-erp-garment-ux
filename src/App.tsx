@@ -78,7 +78,15 @@ type FabricRoll = {
 type PickupQueueRoll = {
   id: string
   sequence: number
-  sizes: QtyTuple
+  material: string
+  sourceYards: number
+  usedYards: number
+  remainingYards: number
+  slots: Array<{
+    size: string
+    image: string
+    qty: number
+  }>
   batchNumbers: number[]
 }
 
@@ -87,12 +95,21 @@ type PickupQueueItem = {
   model: string
   material: string
   supplier: string
-  sizes: SizeTuple
+  sizes: string[]
   status: PickupQueueStatus
   mandor?: string
   pickupAt?: string
   rolls: PickupQueueRoll[]
 }
+
+const pickupRollTotal = (roll: PickupQueueRoll) => roll.slots.reduce((sum, slot) => sum + slot.qty, 0)
+const pickupItemTotal = (item: PickupQueueItem) => item.rolls.reduce((sum, roll) => sum + pickupRollTotal(roll), 0)
+const pickupItemUsedYards = (item: PickupQueueItem) => item.rolls.reduce((sum, roll) => sum + roll.usedYards, 0)
+
+const pairedPickupSlots = (sizes: readonly string[], quantities: readonly number[]) => sizes.flatMap((size, sizeIndex) => [
+  { size, image: 'A', qty: quantities[sizeIndex * 2] ?? 0 },
+  { size, image: 'B', qty: quantities[(sizeIndex * 2) + 1] ?? 0 },
+])
 
 type Movement = {
   id: string
@@ -1157,30 +1174,39 @@ function MandorWipPage({ batchNotes, setBatchNotes }: { batchNotes: string[]; se
   const queueItems:PickupQueueItem[] = [
     {
       id:'POT-260827-042',model:'Kulot Lucy',material:'Lucy',supplier:'Sinaran',sizes:cuttingSizes,status:'READY',
-      rolls:wipRollRows.map((row)=>({id:row.roll.id,sequence:row.roll.sequence,sizes:row.sizes,batchNumbers:(rollBatchMatrix[row.roll.id]??[]).flatMap((sizes,batchIndex)=>sizes.some((value)=>cellQuantity(value)>0)?[batchIndex+1]:[])})),
+      rolls:wipRollRows.map((row)=>({
+        id:row.roll.id,
+        sequence:row.roll.sequence,
+        material:row.roll.material,
+        sourceYards:row.roll.yards,
+        usedYards:row.roll.yards,
+        remainingYards:0,
+        slots:pairedPickupSlots(cuttingSizes,row.roll.allocation),
+        batchNumbers:(rollBatchMatrix[row.roll.id]??[]).flatMap((sizes,batchIndex)=>sizes.some((value)=>cellQuantity(value)>0)?[batchIndex+1]:[]),
+      })),
     },
     {
       id:'POT-260827-043',model:'Nevada Loose',material:'Nevada 12 Oz',supplier:'Sumber Cahaya',sizes:['30','31','32'],status:'REVIEW',
       rolls:[
-        {id:'NV-260827-01',sequence:1,sizes:[36,36,36],batchNumbers:[]},
-        {id:'NV-260827-02',sequence:2,sizes:[36,36,36],batchNumbers:[]},
+        {id:'NV-260827-01',sequence:1,material:'Nevada 12 Oz',sourceYards:112,usedYards:108.5,remainingYards:3.5,slots:pairedPickupSlots(['30','31','32'],[18,18,18,18,18,18]),batchNumbers:[]},
+        {id:'NV-260827-02',sequence:2,material:'Nevada 12 Oz',sourceYards:110.5,usedYards:107,remainingYards:3.5,slots:pairedPickupSlots(['30','31','32'],[18,18,18,18,18,18]),batchNumbers:[]},
       ],
     },
     {
       id:'POT-260827-041',model:'Malibu Regular',material:'Malibu',supplier:'Sinaran',sizes:['28','29','30'],status:'PICKED',mandor:'Mandor Epi',pickupAt:'27 Agu 2026 · 08:40',
       rolls:[
-        {id:'MLB-260826-11',sequence:11,sizes:[42,42,42],batchNumbers:[1]},
-        {id:'MLB-260826-12',sequence:12,sizes:[40,40,40],batchNumbers:[1]},
-        {id:'MLB-260826-13',sequence:13,sizes:[40,40,40],batchNumbers:[2]},
-        {id:'MLB-260826-14',sequence:14,sizes:[40,41,41],batchNumbers:[3]},
+        {id:'MLB-260826-11',sequence:11,material:'Malibu',sourceYards:119.5,usedYards:116,remainingYards:3.5,slots:pairedPickupSlots(['28','29','30'],[21,21,21,21,21,21]),batchNumbers:[1]},
+        {id:'MLB-260826-12',sequence:12,material:'Malibu',sourceYards:113,usedYards:110.5,remainingYards:2.5,slots:pairedPickupSlots(['28','29','30'],[20,20,20,20,20,20]),batchNumbers:[1]},
+        {id:'MLB-260826-13',sequence:13,material:'Malibu',sourceYards:114.5,usedYards:111,remainingYards:3.5,slots:pairedPickupSlots(['28','29','30'],[20,20,20,20,20,20]),batchNumbers:[2]},
+        {id:'MLB-260826-14',sequence:14,material:'Malibu',sourceYards:116,usedYards:112.5,remainingYards:3.5,slots:pairedPickupSlots(['28','29','30'],[20,20,20,21,20,21]),batchNumbers:[3]},
       ],
     },
     {
       id:'POT-260827-039',model:'Zodiak KW',material:'Zodiak',supplier:'Sumber Cahaya',sizes:['34','35','36'],status:'PICKED',mandor:'Mandor Afui',pickupAt:'26 Agu 2026 · 16:20',
       rolls:[
-        {id:'ZDK-260826-07',sequence:7,sizes:[38,38,38],batchNumbers:[1]},
-        {id:'ZDK-260826-08',sequence:8,sizes:[38,38,38],batchNumbers:[2]},
-        {id:'ZDK-260826-09',sequence:9,sizes:[38,38,38],batchNumbers:[3]},
+        {id:'ZDK-260826-07',sequence:7,material:'Zodiak KW',sourceYards:107,usedYards:103.5,remainingYards:3.5,slots:pairedPickupSlots(['34','35','36'],[19,19,19,19,19,19]),batchNumbers:[1]},
+        {id:'ZDK-260826-08',sequence:8,material:'Zodiak KW',sourceYards:106.5,usedYards:103,remainingYards:3.5,slots:pairedPickupSlots(['34','35','36'],[19,19,19,19,19,19]),batchNumbers:[2]},
+        {id:'ZDK-260826-09',sequence:9,material:'Zodiak KW',sourceYards:105,usedYards:101.5,remainingYards:3.5,slots:pairedPickupSlots(['34','35','36'],[19,19,19,19,19,19]),batchNumbers:[3]},
       ],
     },
   ]
@@ -1191,6 +1217,9 @@ function MandorWipPage({ batchNotes, setBatchNotes }: { batchNotes: string[]; se
     return statusMatch&&queryMatch
   })
   const queueDetailItem=queueItems.find((item)=>item.id===queueDetailId)??null
+  const queueDetailSlots=queueDetailItem?.rolls[0]?.slots.map(({size,image})=>({size,image}))??[]
+  const queueDetailSourceYards=queueDetailItem?.rolls.reduce((sum,roll)=>sum+roll.sourceYards,0)??0
+  const queueDetailRemainingYards=queueDetailItem?.rolls.reduce((sum,roll)=>sum+roll.remainingYards,0)??0
   const resizeBatchCount = (requestedCount: number) => {
     const nextCount = Math.max(1, Math.round(requestedCount || 1))
     if (nextCount === batchCount) {
@@ -1332,9 +1361,15 @@ function MandorWipPage({ batchNotes, setBatchNotes }: { batchNotes: string[]; se
         <div className="wip-queue-head"><div><span>01 · WIP POTONGAN</span><h2>{queueFilter==='WAITING'?'Menunggu diambil':queueFilter==='PICKED'?'Sudah diambil':'Semua potongan'}</h2><p>Filter tidak mengubah status atau isi pembagian.</p></div><span className="selection-pill">{visibleQueueItems.length} tampil</span></div>
         <div className="wip-queue-tabs" role="group" aria-label="Filter status pickup">{(['WAITING','PICKED','ALL'] as const).map((filter)=><button type="button" className={queueFilter===filter?'active':''} aria-pressed={queueFilter===filter} key={filter} onClick={()=>setQueueFilter(filter)}>{filter==='WAITING'?'Menunggu':filter==='PICKED'?'Sudah diambil':'Semua'}</button>)}</div>
         <label className="wip-search"><Icon name="search"/><input value={queueQuery} onChange={(event)=>setQueueQuery(event.target.value)} placeholder="Cari kode, bahan, model, mandor..."/></label>
-        <div className="wip-queue-list">{visibleQueueItems.map((item)=>{const itemTotal=item.rolls.reduce((sum,roll)=>sum+roll.sizes.reduce((sizeSum,qty)=>sizeSum+qty,0),0);return <article className={`wip-queue-card ${item.id==='POT-260827-042'?'selected':''} ${item.status.toLowerCase()}`} key={item.id}>
-          <div className="wip-queue-card-main"><span className="wip-queue-status">{item.status==='PICKED'?'SUDAH DIAMBIL':item.status==='REVIEW'?'MENUNGGU REVIEW':'SIAP DIAMBIL'}</span><strong>{item.id}</strong><small>{item.model} · {item.supplier}</small><div><span><b>{itemTotal} pcs</b> · {item.rolls.length} roll</span><em>Size {item.sizes[0]}–{item.sizes[item.sizes.length-1]}</em></div>{item.status==='PICKED'?<p><Icon name="user"/><span><small>DIAMBIL OLEH</small><strong>{item.mandor}</strong><em>{item.pickupAt}</em></span></p>:null}</div>
-          <footer><span>{item.status==='PICKED'?`${new Set(item.rolls.flatMap((roll)=>roll.batchNumbers)).size} batch distribusi`:'Belum masuk Sewing'}</span><button type="button" onClick={()=>setQueueDetailId(item.id)}>Detail <Icon name="arrow"/></button></footer>
+        <div className="wip-queue-list">{visibleQueueItems.map((item)=>{const itemTotal=pickupItemTotal(item);const usedYards=pickupItemUsedYards(item);return <article className={`wip-queue-card ${item.id==='POT-260827-042'?'selected':''} ${item.status.toLowerCase()}`} key={item.id}>
+          <div className="wip-queue-card-main">
+            <span className="wip-queue-status">{item.status==='PICKED'?'SUDAH DIAMBIL':item.status==='REVIEW'?'MENUNGGU REVIEW':'SIAP DIAMBIL'}</span>
+            <strong>{item.id}</strong><small>{item.model}</small>
+            <div className="wip-queue-card-meta"><span><small>BAHAN</small><strong>{item.material}</strong></span><span><small>PABRIK</small><strong>{item.supplier}</strong></span></div>
+            <div className="wip-queue-card-numbers"><span><b>{itemTotal} pcs</b><small>{item.rolls.length} roll sumber</small></span><span><b>{formatQuantity(usedYards,2)} yd</b><small>yard dipakai</small></span><em>{item.sizes.join(' · ')}</em></div>
+            {item.status==='PICKED'?<p><Icon name="user"/><span><small>DIAMBIL OLEH</small><strong>{item.mandor}</strong><em>{item.pickupAt}</em></span></p>:null}
+          </div>
+          <footer><span>{item.status==='PICKED'?`${new Set(item.rolls.flatMap((roll)=>roll.batchNumbers)).size} batch distribusi`:'Belum masuk Sewing'}</span><button type="button" onClick={()=>setQueueDetailId(item.id)}>Lihat detail roll <Icon name="arrow"/></button></footer>
         </article>})}{visibleQueueItems.length===0?<div className="wip-queue-empty"><Icon name="search"/><strong>Potongan tidak ditemukan</strong><small>Ubah filter status atau kata pencarian.</small></div>:null}</div>
       </aside>
 
@@ -1389,8 +1424,25 @@ function MandorWipPage({ batchNotes, setBatchNotes }: { batchNotes: string[]; se
     </section>
     {queueDetailItem?<div className="wip-detail-backdrop" role="presentation" onMouseDown={(event)=>{if(event.target===event.currentTarget)setQueueDetailId(null)}}><section className="wip-detail-modal" role="dialog" aria-modal="true" aria-labelledby="wip-detail-title">
       <header><div><span>DETAIL POTONGAN · {queueDetailItem.status==='PICKED'?'SUDAH DIAMBIL':'MENUNGGU DIAMBIL'}</span><h2 id="wip-detail-title">{queueDetailItem.id} · {queueDetailItem.model}</h2><p>{queueDetailItem.material} · {queueDetailItem.supplier}</p></div><button type="button" aria-label="Tutup detail potongan" onClick={()=>setQueueDetailId(null)}><Icon name="close"/></button></header>
-      <div className="wip-detail-facts"><article><span>TOTAL POTONGAN</span><strong>{queueDetailItem.rolls.reduce((sum,roll)=>sum+roll.sizes.reduce((sizeSum,qty)=>sizeSum+qty,0),0)} pcs</strong><small>{queueDetailItem.rolls.length} roll sumber</small></article><article><span>STATUS PICKUP</span><strong>{queueDetailItem.status==='PICKED'?queueDetailItem.mandor:'Belum diambil'}</strong><small>{queueDetailItem.pickupAt??'Belum punya waktu pickup'}</small></article><article><span>BATCH DISTRIBUSI</span><strong>{new Set(queueDetailItem.rolls.flatMap((roll)=>roll.batchNumbers)).size||'—'}</strong><small>{queueDetailItem.status==='PICKED'?'Snapshot pembagian':'Terbentuk setelah dialokasikan'}</small></article></div>
-      <div className="wip-detail-table"><div className="wip-detail-table-head"><span>Roll sumber</span><span>Size {queueDetailItem.sizes[0]}</span><span>Size {queueDetailItem.sizes[1]}</span><span>Size {queueDetailItem.sizes[2]}</span><span>Total</span><span>Masuk batch</span></div>{queueDetailItem.rolls.map((roll)=><article key={roll.id}><span><strong>Roll {String(roll.sequence).padStart(2,'0')}</strong><small>{roll.id}</small></span>{roll.sizes.map((qty,sizeIndex)=><b key={queueDetailItem.sizes[sizeIndex]}>{qty} pcs</b>)}<strong>{roll.sizes.reduce((sum,qty)=>sum+qty,0)} pcs</strong><em className={roll.batchNumbers.length?'assigned':'waiting'}>{roll.batchNumbers.length?roll.batchNumbers.map((batch)=>`Batch ${batch}`).join(' + '):'Belum dibagi'}</em></article>)}</div>
+      <div className="wip-detail-facts">
+        <article><span>TOTAL POTONGAN</span><strong>{pickupItemTotal(queueDetailItem)} pcs</strong><small>{queueDetailItem.rolls.length} roll sumber</small></article>
+        <article><span>YARD DIPAKAI</span><strong>{formatQuantity(pickupItemUsedYards(queueDetailItem),2)} yd</strong><small>dari {formatQuantity(queueDetailSourceYards,2)} yd · sisa {formatQuantity(queueDetailRemainingYards,2)} yd</small></article>
+        <article><span>STATUS PICKUP</span><strong>{queueDetailItem.status==='PICKED'?queueDetailItem.mandor:'Belum diambil'}</strong><small>{queueDetailItem.pickupAt??'Belum punya waktu pickup'}</small></article>
+        <article><span>BATCH DISTRIBUSI</span><strong>{new Set(queueDetailItem.rolls.flatMap((roll)=>roll.batchNumbers)).size||'—'}</strong><small>{queueDetailItem.status==='PICKED'?'Snapshot pembagian':'Terbentuk setelah dialokasikan'}</small></article>
+      </div>
+      <div className="wip-detail-section-head"><div><span>LINEAGE HASIL POTONG</span><strong>Bahan, yard, dan ukuran per gambar</strong><small>Kolom ukuran sama seperti saat hasil dicatat di Buat Potongan.</small></div><em>Geser tabel →</em></div>
+      <div className="wip-detail-table">
+        <table aria-label={`Detail roll dan hasil potong ${queueDetailItem.id}`}>
+          <thead><tr><th>Bahan & kode roll</th><th>Yard asal</th><th>Dipakai</th><th>Sisa</th>{queueDetailSlots.map((slot)=><th key={`${slot.size}-${slot.image}`}>Size {slot.size}<small>{slot.image}</small></th>)}<th>Total</th><th>Masuk batch</th></tr></thead>
+          <tbody>{queueDetailItem.rolls.map((roll)=><tr key={roll.id}>
+            <th scope="row"><strong>{roll.material}</strong><small>{roll.id} · kode roll sumber</small></th>
+            <td>{formatQuantity(roll.sourceYards,2)} <small>yd</small></td><td>{formatQuantity(roll.usedYards,2)} <small>yd</small></td><td>{formatQuantity(roll.remainingYards,2)} <small>yd</small></td>
+            {queueDetailSlots.map((slot,slotIndex)=><td key={`${slot.size}-${slot.image}`}>{roll.slots[slotIndex]?.qty??0} <small>pcs</small></td>)}
+            <td className="wip-detail-total">{pickupRollTotal(roll)} <small>pcs</small></td>
+            <td><em className={roll.batchNumbers.length?'assigned':'waiting'}>{roll.batchNumbers.length?roll.batchNumbers.map((batch)=>`Batch ${batch}`).join(' + '):'Belum dibagi'}</em></td>
+          </tr>)}</tbody>
+        </table>
+      </div>
       <footer><span><Icon name="audit"/> Detail ini menampilkan lineage roll dan ukuran tanpa mengubah pembagian.</span><button type="button" className="primary-btn" onClick={()=>setQueueDetailId(null)}>Tutup detail</button></footer>
     </section></div>:null}
   </>
