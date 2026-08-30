@@ -1118,7 +1118,65 @@ function RollBatchQuickMenu({rollId,batchCount,currentBatch,split,onAssign}:{rol
   return <label className="roll-batch-quick"><span className="sr-only">Pilih batch untuk {rollId}</span><select aria-label={`Pilih batch untuk ${rollId}`} value={!split&&currentBatch!==null?String(currentBatch):''} onChange={(event)=>onAssign(Number(event.target.value))}><option value="" disabled>Batch: {label}</option>{Array.from({length:batchCount},(_,batchIndex)=><option value={batchIndex} key={batchIndex}>Batch: {batchIndex+1}</option>)}</select><ChevronDown/></label>
 }
 
-function MandorWipPage({ batchNotes, setBatchNotes }: { batchNotes: string[]; setBatchNotes: (updater: (current: string[]) => string[]) => void }) {
+type UnassignedRollCardProps = {
+  row: { roll: FabricRoll; sizes: QtyTuple; quantity: number }
+  batchCount: number
+  onAssignWhole: (rollId: string, targetBatch: number) => void
+  onOpenSplit: (rollId: string) => void
+  onDragStart: (event: ReactPointerEvent<HTMLButtonElement>, rollId: string) => void
+  onDragMove: (event: ReactPointerEvent<HTMLButtonElement>) => void
+  onDragEnd: (event: ReactPointerEvent<HTMLButtonElement>) => void
+  onDragCancel: (event: ReactPointerEvent<HTMLButtonElement>) => void
+}
+
+export function UnassignedRollCard({
+  row,
+  batchCount,
+  onAssignWhole,
+  onOpenSplit,
+  onDragStart,
+  onDragMove,
+  onDragEnd,
+  onDragCancel,
+}: UnassignedRollCardProps) {
+  const rollLabel = `Roll ${String(row.roll.sequence).padStart(2, '0')}`
+  const instructionId = `wip-roll-${row.roll.id.replace(/[^a-zA-Z0-9_-]/g, '-')}-instruction`
+
+  return <article className="wip-roll-token" aria-labelledby={`${instructionId}-title`}>
+    <header className="wip-roll-token-head">
+      <span className="wip-roll-number"><Icon name="boxes"/><span><small>ROLL</small><strong>{String(row.roll.sequence).padStart(2, '0')}</strong></span></span>
+      <span className="wip-roll-token-identity"><small>SUMBER POTONGAN</small><strong id={`${instructionId}-title`}>{row.roll.id}</strong></span>
+      <em>Belum masuk</em>
+    </header>
+    <div className="wip-roll-token-body">
+      <div className="wip-roll-token-total"><span>TOTAL ROLL</span><strong>{row.quantity}<small>pcs</small></strong></div>
+      <div className="wip-roll-token-sizes" aria-label={`Rincian ukuran ${rollLabel}`}>
+        {cuttingSizes.map((size, index) => <span key={size}><small>SIZE {size}</small><strong>{row.sizes[index]}</strong><em>pcs</em></span>)}
+      </div>
+      <p id={instructionId}>Sumber utuh dari Potongan. Tarik atau pilih batch untuk memindahkan seluruh isi roll.</p>
+    </div>
+    <footer className="wip-roll-token-actions">
+      <button
+        type="button"
+        className="wip-roll-drag-handle"
+        aria-label={`Tarik ${rollLabel} ke batch`}
+        aria-describedby={instructionId}
+        title="Tahan lalu tarik ke kartu batch"
+        onPointerDown={(event) => onDragStart(event, row.roll.id)}
+        onPointerMove={onDragMove}
+        onPointerUp={onDragEnd}
+        onPointerCancel={onDragCancel}
+      >
+        <Icon name="drag"/>
+        <span><strong>Tarik ke batch</strong><small>Tahan lalu geser</small></span>
+      </button>
+      <RollBatchQuickMenu rollId={row.roll.id} batchCount={batchCount} currentBatch={null} split={false} onAssign={(batchIndex) => onAssignWhole(row.roll.id, batchIndex)}/>
+      <button type="button" className="wip-roll-split-btn" onClick={() => onOpenSplit(row.roll.id)}><Icon name="ruler"/><span><strong>Atur pecahan</strong><small>Bagi size manual jika roll memang perlu dipecah</small></span><Icon name="arrow"/></button>
+    </footer>
+  </article>
+}
+
+export function MandorWipPage({ batchNotes, setBatchNotes }: { batchNotes: string[]; setBatchNotes: (updater: (current: string[]) => string[]) => void }) {
   const wipRolls = fabricRollCatalog.slice(0, 9)
   const wipRollRows = wipRolls.map((roll) => {
     const sizes = rollSizeQuantities(roll.allocation)
@@ -1301,7 +1359,7 @@ function MandorWipPage({ batchNotes, setBatchNotes }: { batchNotes: string[]; se
       [rollId]: Array.from({ length: batchCount }, (_, batchIndex) => batchIndex === targetBatch ? sourceRow.sizes.map(String) : ['0', '0', '0']),
     }))
     setRollAllocationTouched(true)
-    setAllocationMessage('')
+    setAllocationMessage(`Roll ${String(sourceRow.roll.sequence).padStart(2,'0')} masuk ke Batch ${String(targetBatch+1).padStart(2,'0')}.`)
   }
   const unassignRoll = (rollId: string) => {
     setRollBatchMatrix((current) => ({ ...current, [rollId]: Array.from({ length: batchCount }, () => ['0', '0', '0']) }))
@@ -1399,7 +1457,7 @@ function MandorWipPage({ batchNotes, setBatchNotes }: { batchNotes: string[]; se
 
         {allocationMode==='roll'?<div className="golden-roll-rule"><Icon name="boxes"/><div><span>GOLDEN RULE</span><strong>Bagi per roll kalau bisa jangan dipisah</strong><small>{wholeRolls.length} roll utuh · {splitRolls.length} roll terpecah · {unassignedRollRows.length} belum ditempatkan.</small></div><div><button type="button" onClick={tidyWholeRolls}>Susun otomatis tanpa pecah</button></div></div>:<div className="golden-roll-rule size-mode"><Icon name="ruler"/><div><span>PEMBAGIAN AWAL PER SIZE</span><strong>Size utuh dikelompokkan dulu, lalu bebas lu pecah atau gabung</strong><small>Contoh 2 batch: Size 31 sendiri, Size 32+33 bersama. Total setiap size tetap harus sama dengan sumber.</small></div></div>}
 
-        {allocationMode==='roll'&&<section className={`wip-roll-tray ${unassignedRollRows.length===0?'all-assigned':''}`}><div className="wip-roll-tray-head"><div><span>ROLL BELUM DITEMPATKAN</span><strong>{unassignedRollRows.length===0?'Semua roll sudah masuk batch':'Tarik roll atau pilih nomor batch'}</strong><small>{unassignedRollRows.length===0?'Kalau mau pindah, tarik dari kartu batch atau pakai pilihan Batch.':'Pilihan Batch lebih mudah dipakai di HP dan tetap memasukkan roll secara utuh.'}</small></div><span>{unassignedRollRows.length} roll tersisa</span></div>{unassignedRollRows.length>0?<div className="wip-roll-token-grid">{unassignedRollRows.map((row)=><article className="wip-roll-token" key={row.roll.id}><button type="button" className="wip-roll-drag-handle" aria-label={`Tarik Roll ${row.roll.sequence} ke batch`} title="Tahan lalu tarik ke kartu batch" onPointerDown={(event)=>beginRollDrag(event,row.roll.id)} onPointerMove={moveRollDrag} onPointerUp={finishRollDrag} onPointerCancel={cancelRollDrag}><Icon name="drag"/></button><div><span>ROLL {String(row.roll.sequence).padStart(2,'0')} · {row.roll.id}</span><strong>{row.quantity} pcs</strong><small>{cuttingSizes.map((size,index)=>`${size}: ${row.sizes[index]}`).join(' · ')}</small></div><em>Belum masuk</em><RollBatchQuickMenu rollId={row.roll.id} batchCount={batchCount} currentBatch={null} split={false} onAssign={(batchIndex)=>assignWholeRoll(row.roll.id,batchIndex)}/><button type="button" className="wip-roll-split-btn" onClick={()=>{setSplitEditorRollId(row.roll.id);setAllocationMessage('')}}>Atur pecahan</button><small className="wip-roll-assigned">Sumber utuh</small></article>)}</div>:<div className="wip-roll-tray-empty"><Icon name="check"/><span>Area sumber bersih</span></div>}</section>}
+        {allocationMode==='roll'&&<section className={`wip-roll-tray ${unassignedRollRows.length===0?'all-assigned':''}`}><div className="wip-roll-tray-head"><div><span>ROLL BELUM DITEMPATKAN</span><strong>{unassignedRollRows.length===0?'Semua roll sudah masuk batch':'Tarik roll atau pilih nomor batch'}</strong><small>{unassignedRollRows.length===0?'Kalau mau pindah, tarik dari kartu batch atau pakai pilihan Batch.':'Pilihan Batch lebih mudah dipakai di HP dan tetap memasukkan roll secara utuh.'}</small></div><span>{unassignedRollRows.length} roll tersisa</span></div><p className="sr-only" role="status" aria-live="polite">{allocationMessage}</p>{unassignedRollRows.length>0?<div className="wip-roll-token-grid">{unassignedRollRows.map((row)=><UnassignedRollCard key={row.roll.id} row={row} batchCount={batchCount} onAssignWhole={assignWholeRoll} onOpenSplit={(rollId)=>{setSplitEditorRollId(rollId);setAllocationMessage('')}} onDragStart={beginRollDrag} onDragMove={moveRollDrag} onDragEnd={finishRollDrag} onDragCancel={cancelRollDrag}/>)}</div>:<div className="wip-roll-tray-empty"><Icon name="check"/><span>Area sumber bersih</span></div>}</section>}
 
         {allocationMode==='size'&&<div className="split-source-locks size-allocation-source-locks">{cuttingSizes.map((size,sizeIndex)=>{const check=sourceChecks[sizeIndex];const remaining=(check?.total??0)-(check?.assigned??0);return <div className={remaining===0?'success':'warn'} key={size}><span>SIZE {size} · SUMBER</span><strong>{check?.total??wipSizeTotals[sizeIndex]} pcs</strong><small>Terbagi {check?.assigned??0} · Sisa {remaining}</small></div>})}</div>}
 

@@ -57,7 +57,9 @@ function authResult(userId: string | null) {
 
 function makeClient(options: {
   getUser: () => Promise<ReturnType<typeof authResult>>
+  signIn?: () => Promise<{ error: unknown }>
   signOut?: () => Promise<{ error: unknown }>
+  profileForUser?: (authUserId: string) => unknown
 }) {
   let callback: AuthCallback | null = null
   let selectedAuthUserId = ''
@@ -69,7 +71,9 @@ function makeClient(options: {
       return query
     }),
     maybeSingle: vi.fn(async () => ({
-      data: profileRows[selectedAuthUserId as keyof typeof profileRows] ?? null,
+      data: options.profileForUser
+        ? options.profileForUser(selectedAuthUserId)
+        : profileRows[selectedAuthUserId as keyof typeof profileRows] ?? null,
       error: null,
     })),
   }
@@ -77,7 +81,7 @@ function makeClient(options: {
     from: vi.fn(() => query),
     auth: {
       getUser: vi.fn(options.getUser),
-      signInWithPassword: vi.fn(async () => ({ error: null })),
+      signInWithPassword: vi.fn(options.signIn ?? (async () => ({ error: null }))),
       signOut: vi.fn(options.signOut ?? (async () => ({ error: null }))),
       onAuthStateChange: vi.fn((nextCallback: AuthCallback) => {
         callback = nextCallback
@@ -207,7 +211,162 @@ describe('AuthProvider mounted lifecycle', () => {
     expect(observed?.identity).toMatchObject({ profile: { authUserId: ownerA } })
   })
 
+  it('normalizes a rejected sign-in and remains fail-closed', async () => {
+    const fake = makeClient({
+      getUser: async () => authResult(null),
+      signIn: async () => { throw new TypeError('fetch failed') },
+    })
+    mockedClient.current = fake.client
+
+    await mount()
+    let outcome: Awaited<ReturnType<NonNullable<typeof observed>['signIn']>>
+    await act(async () => {
+      outcome = await observed!.signIn('owner@example.test', 'not-a-real-password')
+    })
+
+    expect(outcome!).toMatchObject({
+      ok: false,
+      error: { code: 'BACKEND_UNAVAILABLE', retryable: true },
+    })
+    expect(status()).toBe('ANONYMOUS')
+    expect(observed?.identity).toMatchObject({
+      status: 'ANONYMOUS',
+      error: { code: 'BACKEND_UNAVAILABLE' },
+    })
+  })
+
+  it('normalizes a rejected sign-out and restores only the unchanged verified identity', async () => {
+    const fake = makeClient({
+      getUser: async () => authResult(ownerA),
+      signOut: async () => { throw new TypeError('network unavailable') },
+    })
+    mockedClient.current = fake.client
+
+    await mount()
+    let outcome: Awaited<ReturnType<NonNullable<typeof observed>['signOut']>>
+    await act(async () => { outcome = await observed!.signOut() })
+
+    expect(outcome!).toMatchObject({ ok: false, error: { code: 'BACKEND_UNAVAILABLE' } })
+    expect(status()).toBe('AUTHORIZED')
+    expect(observed?.signOutError).toMatchObject({ code: 'BACKEND_UNAVAILABLE' })
+  })
+
+  it('does not restore an old identity when SIGNED_OUT wins a rejected sign-out race', async () => {
+    const deferredSignOut = deferred<{ error: unknown }>()
+    const fake = makeClient({
+      getUser: async () => authResult(ownerA),
+      signOut: () => deferredSignOut.promise,
+    })
+    mockedClient.current = fake.client
+
+    await mount()
+    let outcomePromise!: ReturnType<NonNullable<typeof observed>['signOut']>
+    await act(async () => {
+      outcomePromise = observed!.signOut()
+      await Promise.resolve()
+      fake.fire('SIGNED_OUT', null)
+    })
+    expect(status()).toBe('ANONYMOUS')
+
+    deferredSignOut.resolve({ error: { message: 'late network error', status: 503 } })
+    await act(async () => { await outcomePromise })
+    expect(status()).toBe('ANONYMOUS')
+    expect(observed?.signOutError).toBeNull()
+  })
+
+  it('deduplicates concurrent sign-out calls into one provider request', async () => {
+    const deferredSignOut = deferred<{ error: unknown }>()
+    const fake = makeClient({
+      getUser: async () => authResult(ownerA),
+      signOut: () => deferredSignOut.promise,
+    })
+    mockedClient.current = fake.client
+
+    await mount()
+    let first!: ReturnType<NonNullable<typeof observed>['signOut']>
+    let second!: ReturnType<NonNullable<typeof observed>['signOut']>
+    await act(async () => {
+      first = observed!.signOut()
+      second = observed!.signOut()
+      await Promise.resolve()
+    })
+    expect(first).toBe(second)
+    expect(fake.client.auth.signOut).toHaveBeenCalledTimes(1)
+    expect(observed?.signingOut).toBe(true)
+
+    deferredSignOut.resolve({ error: null })
+    await act(async () => { await Promise.all([first, second]) })
+    expect(status()).toBe('ANONYMOUS')
+    expect(observed?.signingOut).toBe(false)
+  })
+
+  it('revalidates an active profile on focus and blocks it when the backend deactivates it', async () => {
+    let active = true
+    const fake = makeClient({
+      getUser: async () => authResult(ownerA),
+      profileForUser: (authUserId) => ({
+        ...profileRows[authUserId as keyof typeof profileRows],
+        is_active: active,
+      }),
+    })
+    mockedClient.current = fake.client
+
+    await mount()
+    expect(status()).toBe('AUTHORIZED')
+    active = false
+    await act(async () => {
+      globalThis.window.dispatchEvent(new Event('focus'))
+    })
+    await settle()
+
+    expect(fake.client.auth.getUser).toHaveBeenCalledTimes(2)
+    expect(observed?.identity).toMatchObject({ status: 'BLOCKED', reason: 'ACCOUNT_INACTIVE' })
+  })
+
+  it('deduplicates focus plus visible events and ignores visibility while hidden', async () => {
+    const visibility = vi.spyOn(document, 'visibilityState', 'get').mockReturnValue('hidden')
+    const fake = makeClient({ getUser: async () => authResult(ownerA) })
+    mockedClient.current = fake.client
+
+    await mount()
+    await act(async () => {
+      document.dispatchEvent(new Event('visibilitychange'))
+      globalThis.window.dispatchEvent(new Event('focus'))
+    })
+    await settle()
+    expect(fake.client.auth.getUser).toHaveBeenCalledTimes(1)
+
+    visibility.mockReturnValue('visible')
+    await act(async () => {
+      document.dispatchEvent(new Event('visibilitychange'))
+      globalThis.window.dispatchEvent(new Event('focus'))
+    })
+    await settle()
+    expect(fake.client.auth.getUser).toHaveBeenCalledTimes(2)
+  })
+
+  it('never lets a stale focus response reopen a signed-out account', async () => {
+    const focusUser = deferred<ReturnType<typeof authResult>>()
+    const getUser = vi.fn()
+      .mockResolvedValueOnce(authResult(ownerA))
+      .mockImplementationOnce(() => focusUser.promise)
+    const fake = makeClient({ getUser })
+    mockedClient.current = fake.client
+
+    await mount()
+    await act(async () => { globalThis.window.dispatchEvent(new Event('focus')) })
+    await settle()
+    expect(fake.client.auth.getUser).toHaveBeenCalledTimes(2)
+
+    await act(async () => { fake.fire('SIGNED_OUT', null) })
+    focusUser.resolve(authResult(ownerA))
+    await settle()
+    expect(status()).toBe('ANONYMOUS')
+  })
+
   it('subscribes and unsubscribes cleanly under React StrictMode', async () => {
+    const removeWindowListener = vi.spyOn(globalThis.window, 'removeEventListener')
+    const removeDocumentListener = vi.spyOn(globalThis.document, 'removeEventListener')
     const fake = makeClient({ getUser: async () => authResult(null) })
     mockedClient.current = fake.client
 
@@ -217,6 +376,8 @@ describe('AuthProvider mounted lifecycle', () => {
 
     await act(async () => { root.unmount() })
     expect(fake.unsubscribe.mock.calls.length).toBe(unsubscribeBeforeFinalUnmount + 1)
+    expect(removeWindowListener).toHaveBeenCalledWith('focus', expect.any(Function))
+    expect(removeDocumentListener).toHaveBeenCalledWith('visibilitychange', expect.any(Function))
 
     root = createRoot(container)
   })
