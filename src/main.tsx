@@ -30,6 +30,7 @@ import './ux-corrections.css'
 import './wip-control.css'
 import './layout-resilience.css'
 import './cutting-reminders.css'
+import './quick-ui-layout-fixes.css'
 
 const root = ReactDOM.createRoot(document.getElementById('root')!)
 
