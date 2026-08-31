@@ -1,0 +1,82 @@
+{
+  "checkpoint": 2,
+  "phase": "BACKUP_CREATED_RESTORE_PENDING",
+  "captured_at_utc": "2026-08-31T19:34:43.781Z",
+  "source": {
+    "repository": "Hanjay6688/-erp-garment-ux",
+    "main_commit_sha": "bf3ce8e2821f120d8abd8788daf07f6da7c15459",
+    "evidence_branch": "evidence/checkpoints-1-2-20260901",
+    "uat_project_ref": "siimvrusnzxexizpyoib",
+    "expected_schema_fingerprint": "a0c59b96b3879edd28f3d8c57d0894a3"
+  },
+  "backup": {
+    "format": "ERP_GARMENT_CP2_LOGICAL_BACKUP_V1",
+    "encrypted_file": "ERP_ENTENG_CP2_BACKUP_20260831T193529Z.zip.enc",
+    "cipher": "AES-256-CBC",
+    "kdf": "PBKDF2-HMAC-SHA256",
+    "kdf_iterations": 600000,
+    "encrypted_sha256": "f4a7e060b3d9d60b9e04ed6bf2afd3f15e6b8af74f030fb4c11914d070ed75a1",
+    "encrypted_bytes": 886528,
+    "raw_archive_sha256": "e176cac94d78915cb5fd73a065f58150184ee0b37801e6eb70fbc8fcfa29ef53",
+    "raw_archive_bytes": 886497,
+    "recovery_key_file": "ERP_ENTENG_CP2_RECOVERY_KEY_20260831T193529Z.txt",
+    "recovery_key_file_sha256": "6ed0dd8cd8296cf6f6080ac3a0db3b12a70351789bff60b05730cb4c7f9526e3",
+    "key_storage_rule": "STORE_SEPARATELY_FROM_ENCRYPTED_BACKUP"
+  },
+  "contents": {
+    "table_payloads": 142,
+    "table_rows": 104,
+    "storage_objects": 1,
+    "storage_bytes": 1084146,
+    "platform_migrations": 55,
+    "application_migrations": 41,
+    "internal_files_verified": 148,
+    "schema_sql_bytes": 1819372,
+    "catalog_json_bytes": 3806630,
+    "data_restore_sql_bytes": 29492,
+    "includes": [
+      "ERP_ENTENG_CATALOG_SNAPSHOT.json",
+      "ERP_ENTENG_BEFORE_REBUILD.sql",
+      "ERP_ENTENG_DATA_RESTORE.sql",
+      "RECOVERY_MANIFEST.json",
+      "SHA256SUMS.json",
+      "STORAGE_MANIFEST.json",
+      "data/erp.<table>.json for every ERP table",
+      "actual Storage object bytes"
+    ],
+    "auth_state": {
+      "auth_users": 0,
+      "auth_identities": 0,
+      "app_users": 0,
+      "password_hashes_copied": false,
+      "reason": "Empty Auth state; future identity migration must use the approved Auth procedure."
+    }
+  },
+  "verification": {
+    "github_workflow_run_id": 33430989888,
+    "github_job_id_successful_attempt": 99617105226,
+    "export": "PASS",
+    "internal_checksum_validation": "PASS",
+    "encryption": "PASS",
+    "decrypt_compare": "PASS",
+    "zip_integrity": "PASS",
+    "independent_local_decrypt": "PASS",
+    "independent_local_raw_sha256_match": "PASS",
+    "independent_local_internal_checksums": "PASS_148_FILES",
+    "plaintext_uploaded_to_github_artifacts": false
+  },
+  "artifacts": {
+    "encrypted_backup_artifact_id": 9772713622,
+    "encrypted_backup_artifact_digest": "sha256:6faff3fa2473a814b8fdc7d9e291c06ef5d0535ed8d2e7f5321bf83ec083584b",
+    "recovery_key_artifact_id": 9772714077,
+    "recovery_key_artifact_digest": "sha256:81e93b1bb84efb2e2a29f5ac4aa6dcaa442e90e13e26f552f105ff68b778e18a",
+    "artifact_retention_note": "Temporary transport only. Owner must store encrypted backup and key separately in Google Drive before expiry."
+  },
+  "restore_gate": {
+    "status": "PENDING_OWNER_COST_CONFIRMATION",
+    "target": "Disposable Supabase branch cloned from ERP Enteng migrations; never ERP-Garment legacy.",
+    "quoted_branch_cost_usd_per_hour": 0.01344,
+    "requires_explicit_confirmation": true,
+    "checkpoint_2_complete": false
+  }
+}
