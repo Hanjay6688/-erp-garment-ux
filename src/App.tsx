@@ -1143,19 +1143,21 @@ export function UnassignedRollCard({
   const instructionId = `wip-roll-${row.roll.id.replace(/[^a-zA-Z0-9_-]/g, '-')}-instruction`
 
   return <article className="wip-roll-token" aria-labelledby={`${instructionId}-title`}>
-    <header className="wip-roll-token-head">
-      <span className="wip-roll-number"><Icon name="boxes"/><span><small>ROLL</small><strong>{String(row.roll.sequence).padStart(2, '0')}</strong></span></span>
-      <span className="wip-roll-token-identity"><small>SUMBER POTONGAN</small><strong id={`${instructionId}-title`}>{row.roll.id}</strong></span>
-      <em>Belum masuk</em>
-    </header>
     <div className="wip-roll-token-body">
-      <div className="wip-roll-token-total"><span>TOTAL ROLL</span><strong>{row.quantity}<small>pcs</small></strong></div>
+      <div className="wip-roll-token-total">
+        <span>PANJANG ROLL</span>
+        <strong>{formatQuantity(row.roll.yards, 2)}<small>yd</small></strong>
+        <em>{row.quantity} pcs hasil potong</em>
+      </div>
       <div className="wip-roll-token-sizes" aria-label={`Rincian ukuran ${rollLabel}`}>
         {cuttingSizes.map((size, index) => <span key={size}><small>SIZE {size}</small><strong>{row.sizes[index]}</strong><em>pcs</em></span>)}
       </div>
-      <p id={instructionId}>Sumber utuh dari Potongan. Tarik atau pilih batch untuk memindahkan seluruh isi roll.</p>
+      <p id={`${instructionId}-title`} className="wip-roll-token-code">{rollLabel} · {row.roll.id}</p>
+      <p id={instructionId}>Pindahkan utuh lewat pilihan Batch. Drag hanya alternatif desktop.</p>
     </div>
     <footer className="wip-roll-token-actions">
+      <RollBatchQuickMenu rollId={row.roll.id} batchCount={batchCount} currentBatch={null} split={false} onAssign={(batchIndex) => onAssignWhole(row.roll.id, batchIndex)}/>
+      <button type="button" className="wip-roll-split-btn" onClick={() => onOpenSplit(row.roll.id)}><Icon name="ruler"/><span><strong>Atur pecahan</strong><small>Bagi size manual</small></span><Icon name="arrow"/></button>
       <button
         type="button"
         className="wip-roll-drag-handle"
@@ -1168,10 +1170,8 @@ export function UnassignedRollCard({
         onPointerCancel={onDragCancel}
       >
         <Icon name="drag"/>
-        <span><strong>Tarik ke batch</strong><small>Tahan lalu geser</small></span>
+        <span className="sr-only">Tarik ke batch</span>
       </button>
-      <RollBatchQuickMenu rollId={row.roll.id} batchCount={batchCount} currentBatch={null} split={false} onAssign={(batchIndex) => onAssignWhole(row.roll.id, batchIndex)}/>
-      <button type="button" className="wip-roll-split-btn" onClick={() => onOpenSplit(row.roll.id)}><Icon name="ruler"/><span><strong>Atur pecahan</strong><small>Bagi size manual jika roll memang perlu dipecah</small></span><Icon name="arrow"/></button>
     </footer>
   </article>
 }
