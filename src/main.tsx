@@ -3,7 +3,16 @@ import ReactDOM from 'react-dom/client'
 import App from './App'
 import { AuthProvider } from './auth/AuthProvider'
 import { AuthGate, RuntimeConfigurationFailure } from './auth/AuthGate'
-import { parseRuntimeConfig } from './config/runtime'
+import {
+  consumeInviteAcceptanceUrl,
+  createInviteAcceptanceAttempt,
+  InviteAcceptancePage,
+  INVITE_ACCEPTANCE_PATH,
+  isInviteAcceptancePath,
+  isInviteSensitiveNavigation,
+} from './auth/InviteAcceptance'
+import { isUatRuntime, parseRuntimeConfig } from './config/runtime'
+import { getUatInviteSupabaseClient, getUatSupabaseClient } from './lib/supabase'
 import './styles.css'
 import './auth/auth.css'
 import './upgrade.css'
@@ -24,6 +33,16 @@ import './cutting-reminders.css'
 
 const root = ReactDOM.createRoot(document.getElementById('root')!)
 
+const inviteSensitiveNavigation = isInviteSensitiveNavigation(globalThis.location)
+let inviteRequest: ReturnType<typeof consumeInviteAcceptanceUrl> | null = null
+if (inviteSensitiveNavigation) {
+  try {
+    inviteRequest = consumeInviteAcceptanceUrl(globalThis.location, globalThis.history)
+  } catch {
+    globalThis.location.replace(INVITE_ACCEPTANCE_PATH)
+  }
+}
+
 try {
   // Never pass the complete Vite environment object to client code. Only these
   // four browser-safe values can participate in the bundle.
@@ -33,13 +52,30 @@ try {
     VITE_SUPABASE_PUBLISHABLE_KEY: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
     VITE_SUPABASE_ANON_KEY: import.meta.env.VITE_SUPABASE_ANON_KEY,
   })
-  root.render(
-    <React.StrictMode>
-      <AuthProvider runtime={runtime}>
-        <AuthGate><App /></AuthGate>
-      </AuthProvider>
-    </React.StrictMode>,
-  )
+  if (inviteSensitiveNavigation) {
+    if (!inviteRequest || !isUatRuntime(runtime) || !isInviteAcceptancePath(globalThis.location.pathname)) {
+      throw new Error('Tautan undangan hanya boleh diproses pada route UAT Auth yang tepat.')
+    }
+    const client = getUatInviteSupabaseClient(runtime)
+    const applicationClient = getUatSupabaseClient(runtime)
+    const attempt = createInviteAcceptanceAttempt(client, inviteRequest, {
+      clearApplicationSession: () => applicationClient.auth.signOut({ scope: 'local' }),
+    })
+    const leaveInviteFlow = () => globalThis.location.replace('/')
+    root.render(
+      <React.StrictMode>
+        <InviteAcceptancePage attempt={attempt} onComplete={leaveInviteFlow} onExit={leaveInviteFlow} />
+      </React.StrictMode>,
+    )
+  } else {
+    root.render(
+      <React.StrictMode>
+        <AuthProvider runtime={runtime}>
+          <AuthGate><App /></AuthGate>
+        </AuthProvider>
+      </React.StrictMode>,
+    )
+  }
 } catch (error) {
   root.render(<RuntimeConfigurationFailure error={error} />)
 }
