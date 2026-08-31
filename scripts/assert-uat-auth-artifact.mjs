@@ -64,6 +64,12 @@ function moduleEntrypoints(indexHtml, root) {
     ) {
       fail('UAT_ARTIFACT_ENTRYPOINT_INVALID', 'Module entrypoints must use local, query-free artifact paths.')
     }
+    if (!source.startsWith('/')) {
+      fail(
+        'UAT_ARTIFACT_ENTRYPOINT_NOT_ROOTED',
+        'Module entrypoints must be root-relative so nested invite routes can boot the SPA.',
+      )
+    }
     const entrypoint = source.startsWith('/')
       ? resolve(root, `.${source}`)
       : resolve(root, source)

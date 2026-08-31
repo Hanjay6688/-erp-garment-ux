@@ -194,24 +194,31 @@ try {
   ].join('')
   const runtimeFile = resolve(assetDirectory, 'index.js')
   writeFileSync(runtimeFile, runtimeArtifact)
-  writeFileSync(indexFile, '<!doctype html><html><head><script type="module" src="./assets/index.js"></script></head><body></body></html>')
+  writeFileSync(indexFile, '<!doctype html><html><head><script type="module" src="/assets/index.js"></script></head><body></body></html>')
   const artifactResult = assertUatAuthArtifact(fixtureRoot, validEnvironment)
   assert.equal(artifactResult.javascriptFileCount, 1)
   assert.equal(artifactResult.runtimeBundle, runtimeFile)
 
-  writeFileSync(indexFile, '<!doctype html><html><head><!-- <script type="module" src="./assets/index.js"></script> --><script type="module" src="./assets/not-runtime.js"></script></head><body></body></html>')
-  expectFailure(
-    () => assertUatAuthArtifact(fixtureRoot, validEnvironment),
-    'UAT_ARTIFACT_RUNTIME_NOT_ENTRYPOINT',
-    browserKey,
-  )
-  writeFileSync(indexFile, '<!doctype html><html><head><template><script type="module" src="./assets/index.js"></script></template><script type="module" src="./assets/not-runtime.js"></script></head><body></body></html>')
-  expectFailure(
-    () => assertUatAuthArtifact(fixtureRoot, validEnvironment),
-    'UAT_ARTIFACT_RUNTIME_NOT_ENTRYPOINT',
-    browserKey,
-  )
   writeFileSync(indexFile, '<!doctype html><html><head><script type="module" src="./assets/index.js"></script></head><body></body></html>')
+  expectFailure(
+    () => assertUatAuthArtifact(fixtureRoot, validEnvironment),
+    'UAT_ARTIFACT_ENTRYPOINT_NOT_ROOTED',
+    browserKey,
+  )
+
+  writeFileSync(indexFile, '<!doctype html><html><head><!-- <script type="module" src="/assets/index.js"></script> --><script type="module" src="/assets/not-runtime.js"></script></head><body></body></html>')
+  expectFailure(
+    () => assertUatAuthArtifact(fixtureRoot, validEnvironment),
+    'UAT_ARTIFACT_RUNTIME_NOT_ENTRYPOINT',
+    browserKey,
+  )
+  writeFileSync(indexFile, '<!doctype html><html><head><template><script type="module" src="/assets/index.js"></script></template><script type="module" src="/assets/not-runtime.js"></script></head><body></body></html>')
+  expectFailure(
+    () => assertUatAuthArtifact(fixtureRoot, validEnvironment),
+    'UAT_ARTIFACT_RUNTIME_NOT_ENTRYPOINT',
+    browserKey,
+  )
+  writeFileSync(indexFile, '<!doctype html><html><head><script type="module" src="/assets/index.js"></script></head><body></body></html>')
 
   writeFileSync(runtimeFile, runtimeArtifact.replace(
     `VITE_ERP_RUNTIME_MODE:"${UAT_AUTH_RUNTIME_MODE}"`,
