@@ -14,14 +14,21 @@ jobs:
   probe:
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    env:
+      SUPABASE_URL: https://siimvrusnzxexizpyoib.supabase.co
+      SUPABASE_ANON_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNpaW12cnVzbnp4ZXhpenB5b2liIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc3MzQzMDQsImV4cCI6MjEwMzMxMDMwNH0.i8nOoczTEPuokNnbO9-gTlWPP1qZX1ge5gUh56i_gOw
     steps:
-      - name: Probe pg_dump in protected UAT Edge runtime
+      - name: Probe internal Postgres connectivity in UAT Edge runtime
         shell: bash
         run: |
           set -euo pipefail
-          curl --fail-with-body --silent --show-error \
-            'https://siimvrusnzxexizpyoib.supabase.co/functions/v1/cp2-backup-probe-20260901?token=m6dm27AuWfpLiKFfnVmraKkopm7NtzVjEieGf6r4DzI' \
-            -o cp2-backup-probe.json
+          curl --fail-with-body --silent --show-error --request POST \
+            "$SUPABASE_URL/functions/v1/cp2-backup-probe-20260901" \
+            --header "Authorization: Bearer $SUPABASE_ANON_KEY" \
+            --header "apikey: $SUPABASE_ANON_KEY" \
+            --header 'Content-Type: application/json' \
+            --data '{}' \
+            --output cp2-backup-probe.json
           python - <<'PY'
           import json
           from pathlib import Path
@@ -31,7 +38,7 @@ jobs:
       - name: Upload probe evidence
         uses: actions/upload-artifact@v4
         with:
-          name: cp2-backup-probe
+          name: cp2-database-connectivity-probe
           path: cp2-backup-probe.json
           if-no-files-found: error
           retention-days: 3
