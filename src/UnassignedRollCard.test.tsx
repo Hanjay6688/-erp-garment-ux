@@ -49,12 +49,16 @@ describe('UnassignedRollCard', () => {
     act(() => root.render(<UnassignedRollCard row={rollRow} batchCount={3} {...handlers}/>))
 
     expect(container.querySelector('article')?.getAttribute('aria-labelledby')).toBe('wip-roll-LCY-001-instruction-title')
-    expect(container.textContent).toContain('LCY-001')
-    expect(container.textContent).toContain('69pcs')
+    expect(container.querySelector('.wip-roll-token-total')?.textContent).toContain('101,5yd')
+    expect(container.querySelector('.wip-roll-token-total')?.textContent).toContain('69 pcs hasil potong')
+    expect(container.querySelector('.wip-roll-token-code')?.textContent).toBe('Roll 01 · LCY-001')
     expect(container.textContent).toContain('SIZE 31')
     expect(container.textContent).toContain('SIZE 32')
     expect(container.textContent).toContain('SIZE 33')
-    expect(container.querySelector('[aria-label="Tarik Roll 01 ke batch"]')).toBeInstanceOf(HTMLButtonElement)
+    const dragHandle = container.querySelector('[aria-label="Tarik Roll 01 ke batch"]')
+    expect(dragHandle).toBeInstanceOf(HTMLButtonElement)
+    expect(dragHandle?.querySelector('.sr-only')?.textContent).toBe('Tarik ke batch')
+    expect(dragHandle?.nextElementSibling).toBeNull()
   })
 
   it('reuses the current batch menu as the mobile-safe alternative to dragging', () => {
