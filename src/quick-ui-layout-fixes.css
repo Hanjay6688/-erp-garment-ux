@@ -1,21 +1,282 @@
 /*
- * Quick UI layout recovery.
+ * Compact laptop layout corrections.
  *
  * Scope:
- * 1) keep unassigned Roll cards in a single internal grid column so the old
- *    five-column token rule cannot reactivate when the card switches to grid;
- * 2) make Bahan & Roll a compact two-pane workspace with independent scroll
- *    regions on desktop/tablet-landscape widths.
+ * 1) keep WIP Potongan narrow enough that the active batching workspace remains
+ *    the dominant area on a laptop;
+ * 2) keep unassigned Roll cards genuinely compact, close to their drop targets,
+ *    and multi-column without reviving the old overlapping grid rules;
+ * 3) preserve the independently scrolling Bahan & Roll browser/detail panes.
  */
 
 /* -------------------------------------------------------------------------- */
-/* Roll cards                                                                  */
+/* Bagi Potongan: narrow source browser, large active workspace                */
 /* -------------------------------------------------------------------------- */
 
+@media (min-width: 1040px) {
+  .wip-pickup-layout {
+    grid-template-columns: minmax(214px, 244px) minmax(0, 1fr);
+    align-items: start;
+    gap: 10px;
+  }
+
+  .wip-pickup-layout > .wip-queue-panel {
+    position: sticky;
+    top: 84px;
+    max-height: calc(100dvh - 96px);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .wip-queue-panel > .wip-queue-head {
+    flex: 0 0 auto;
+    min-height: 0;
+    padding: 10px 11px 9px;
+  }
+
+  .wip-queue-head > div > span {
+    font-size: 7px;
+  }
+
+  .wip-queue-head h2 {
+    margin-top: 3px;
+    font-size: 14px;
+  }
+
+  .wip-queue-head p {
+    display: none;
+  }
+
+  .wip-queue-head > .selection-pill {
+    padding: 5px 6px;
+    font-size: 7px;
+  }
+
+  .wip-queue-panel > .wip-queue-tabs {
+    flex: 0 0 auto;
+    margin: 7px 8px 0;
+    padding: 3px;
+    gap: 3px;
+  }
+
+  .wip-queue-tabs button {
+    min-height: 27px;
+    padding: 0 4px;
+    border-radius: 6px;
+    font-size: 7px;
+  }
+
+  .wip-queue-panel > .wip-search {
+    flex: 0 0 auto;
+    height: 35px;
+    margin: 7px 8px 8px;
+    padding: 0 8px;
+    border-radius: 9px;
+    gap: 6px;
+  }
+
+  .wip-search .icon {
+    width: 13px;
+    height: 13px;
+  }
+
+  .wip-search input {
+    font-size: 9px;
+  }
+
+  .wip-queue-panel > .wip-queue-list {
+    flex: 1 1 auto;
+    min-height: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
+  }
+
+  .wip-queue-list > .wip-queue-card {
+    flex: 0 0 auto;
+    min-width: 0;
+    border-right: 0;
+    border-radius: 0;
+  }
+
+  .wip-queue-card > .wip-queue-card-main {
+    padding: 9px 10px 7px;
+  }
+
+  .wip-queue-status {
+    font-size: 6.5px;
+  }
+
+  .wip-queue-card-main > strong {
+    margin-top: 4px;
+    font-size: 11px;
+  }
+
+  .wip-queue-card-main > small {
+    margin-top: 2px;
+    font-size: 8px;
+  }
+
+  .wip-queue-card-meta {
+    margin-top: 6px !important;
+    padding: 6px 0 !important;
+    gap: 5px 8px !important;
+  }
+
+  .wip-queue-card-meta small {
+    font-size: 6px;
+  }
+
+  .wip-queue-card-meta strong {
+    margin-top: 2px;
+    font-size: 8px;
+    line-height: 1.25;
+  }
+
+  .wip-queue-card-numbers {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+    gap: 4px 8px !important;
+    margin-top: 6px !important;
+  }
+
+  .wip-queue-card-numbers b {
+    font-size: 9px;
+  }
+
+  .wip-queue-card-numbers small {
+    font-size: 6px;
+  }
+
+  .wip-queue-card-numbers > em {
+    grid-column: 1 / -1;
+    justify-self: start;
+    font-size: 6.5px;
+  }
+
+  .wip-queue-card-main > p {
+    margin-top: 6px;
+    padding: 6px 7px;
+    border-radius: 7px;
+  }
+
+  .wip-queue-card-main > p .icon {
+    width: 12px;
+  }
+
+  .wip-queue-card-main > p small {
+    font-size: 5.8px;
+  }
+
+  .wip-queue-card-main > p strong {
+    font-size: 8px;
+  }
+
+  .wip-queue-card-main > p em {
+    font-size: 6px;
+  }
+
+  .wip-queue-card > footer {
+    min-height: 32px;
+    padding: 4px 8px 5px;
+  }
+
+  .wip-queue-card > footer > span {
+    display: none;
+  }
+
+  .wip-queue-card > footer button {
+    width: 100%;
+    min-height: 24px;
+    justify-content: center;
+    font-size: 7px;
+  }
+
+  .wip-queue-card > footer button .icon {
+    width: 10px;
+    height: 10px;
+  }
+
+  .wip-queue-panel > .wip-queue-list {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(111, 134, 218, .48) rgba(7, 11, 17, .2);
+  }
+
+  .wip-queue-panel > .wip-queue-list::-webkit-scrollbar {
+    width: 7px;
+  }
+
+  .wip-queue-panel > .wip-queue-list::-webkit-scrollbar-thumb {
+    border: 2px solid transparent;
+    border-radius: 999px;
+    background: rgba(111, 134, 218, .48);
+    background-clip: padding-box;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* Unassigned Roll cards: compact tickets, not full-width presentation cards   */
+/* -------------------------------------------------------------------------- */
+
+.wip-roll-tray {
+  margin: 0 14px 12px;
+  border-radius: 12px;
+}
+
+.wip-roll-tray-head {
+  min-height: 54px;
+  padding: 8px 10px;
+  gap: 9px;
+}
+
+.wip-roll-tray-head > div > span {
+  font-size: 6.8px;
+}
+
+.wip-roll-tray-head strong {
+  margin-top: 3px;
+  font-size: 10.5px;
+}
+
+.wip-roll-tray-head small {
+  margin-top: 2px;
+  font-size: 7.5px;
+  line-height: 1.3;
+}
+
+.wip-roll-tray-head > span {
+  padding: 5px 7px;
+  font-size: 7px;
+}
+
+.wip-roll-token-grid {
+  grid-template-columns: repeat(auto-fill, minmax(205px, 236px));
+  justify-content: start;
+  align-items: start;
+  gap: 7px;
+  padding: 8px;
+}
+
 .wip-roll-token-grid > .wip-roll-token {
+  isolation: isolate;
   grid-template-columns: minmax(0, 1fr);
   grid-auto-flow: row;
-  isolation: isolate;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  padding: 0 18px 0 0;
+  border-radius: 10px;
+  overflow: hidden;
+  transform: none;
+  box-shadow: 0 7px 18px rgba(0, 0, 0, .17), inset 0 1px rgba(255, 255, 255, .025);
+}
+
+.wip-roll-token-grid > .wip-roll-token:hover {
+  transform: none;
 }
 
 .wip-roll-token > .wip-roll-token-body,
@@ -25,7 +286,9 @@
 }
 
 .wip-roll-token-body {
-  grid-template-columns: minmax(100px, 112px) minmax(0, 1fr);
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: 4px 5px;
+  padding: 7px 7px 4px;
 }
 
 .wip-roll-token-total,
@@ -36,13 +299,132 @@
   min-width: 0;
 }
 
+.wip-roll-token-total {
+  min-height: 48px;
+  padding: 5px 6px;
+  border-radius: 8px;
+}
+
+.wip-roll-token-total > span {
+  font-size: 6.2px;
+  letter-spacing: .06em;
+}
+
+.wip-roll-token-total > strong {
+  margin-top: 3px;
+  font-size: 16px;
+}
+
+.wip-roll-token-total > strong > small {
+  font-size: 7px;
+}
+
+.wip-roll-token-total > em {
+  margin-top: 3px;
+  font-size: 6px;
+}
+
+.wip-roll-token-sizes {
+  gap: 3px;
+}
+
+.wip-roll-token-sizes > span {
+  min-height: 48px;
+  padding: 3px 2px;
+  border-radius: 7px;
+}
+
+.wip-roll-token-sizes small {
+  font-size: 5.8px;
+  letter-spacing: .04em;
+}
+
+.wip-roll-token-sizes strong {
+  margin-top: 2px;
+  font-size: 10.5px;
+}
+
+.wip-roll-token-sizes em {
+  margin-top: 1px;
+  font-size: 6px;
+}
+
 .wip-roll-token-body > .wip-roll-token-code {
+  grid-column: 1 / -1;
+  overflow: hidden;
+  color: #909db1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 7px;
+  line-height: 1.2;
+  letter-spacing: .035em;
+}
+
+/* Keep the instruction available to assistive technology without spending a row. */
+.wip-roll-token-body > p:last-child {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.wip-roll-token-actions {
+  grid-template-columns: minmax(0, 1fr) minmax(76px, 88px);
+  gap: 5px;
+  margin-top: 0;
+  padding: 0 7px 7px;
+  border-top: 0;
+  background: transparent;
+}
+
+.wip-roll-token-actions .roll-batch-quick {
+  width: 100%;
+  min-height: 34px;
+  padding: 4px 6px;
+  border-radius: 7px;
+}
+
+.wip-roll-token-actions .roll-batch-quick::before {
+  font-size: 5.8px;
+  letter-spacing: .06em;
+}
+
+.wip-roll-token-actions .roll-batch-quick select {
+  min-width: 0;
+  margin-top: 2px;
+  padding-right: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  font-size: 8px;
 }
 
-.wip-roll-token-actions .roll-batch-quick select,
+.wip-roll-token-actions .roll-batch-quick > svg {
+  top: 17px;
+  right: 5px;
+  width: 10px;
+  height: 10px;
+}
+
+.wip-roll-token-actions .wip-roll-split-btn {
+  grid-column: auto;
+  min-height: 34px;
+  padding: 4px 5px;
+  border-radius: 7px;
+  grid-template-columns: 12px minmax(0, 1fr) 10px;
+  gap: 4px;
+}
+
+.wip-roll-token-actions .wip-roll-split-btn > .icon {
+  width: 11px;
+  height: 11px;
+}
+
 .wip-roll-token-actions .wip-roll-split-btn strong,
 .wip-roll-token-actions .wip-roll-split-btn small {
   min-width: 0;
@@ -51,14 +433,54 @@
   white-space: nowrap;
 }
 
-@media (min-width: 641px) {
-  .wip-roll-token-grid {
-    grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
-  }
+.wip-roll-token-actions .wip-roll-split-btn strong {
+  font-size: 8px;
 }
 
-/* Drag is only an alternative for a precise desktop pointer. */
+.wip-roll-token-actions .wip-roll-split-btn small {
+  margin-top: 1px;
+  font-size: 6px;
+}
+
+.wip-roll-token-actions .wip-roll-drag-handle {
+  position: absolute;
+  inset: 0 0 0 auto;
+  z-index: 2;
+  width: 18px;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-left: 1px solid rgba(111, 134, 218, .28);
+  border-radius: 0;
+  background: rgba(78, 99, 170, .1);
+  color: #7484ae;
+  display: grid;
+  grid-template-columns: 1fr;
+  place-items: center;
+  cursor: grab;
+}
+
+.wip-roll-token-actions .wip-roll-drag-handle:hover,
+.wip-roll-token-actions .wip-roll-drag-handle:active {
+  border-left-color: rgba(131, 154, 238, .6);
+  background: rgba(91, 118, 214, .22);
+}
+
+.wip-roll-token-actions .wip-roll-drag-handle > .icon {
+  width: 9px;
+  height: 9px;
+}
+
+.wip-roll-token-actions .wip-roll-drag-handle:focus-visible {
+  outline-offset: -3px;
+}
+
+/* Drag remains a precise-pointer shortcut, never the only mobile action. */
 @media (max-width: 640px), (hover: none) and (pointer: coarse) {
+  .wip-roll-token-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
   .wip-roll-token {
     padding-right: 0;
   }
@@ -69,8 +491,13 @@
 }
 
 @media (max-width: 440px) {
+  .wip-roll-tray {
+    margin-right: 10px;
+    margin-left: 10px;
+  }
+
   .wip-roll-token-body {
-    grid-template-columns: minmax(92px, 104px) minmax(0, 1fr);
+    grid-template-columns: 82px minmax(0, 1fr);
   }
 
   .wip-roll-token-actions {
