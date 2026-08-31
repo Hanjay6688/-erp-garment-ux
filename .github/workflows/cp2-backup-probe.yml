@@ -1,0 +1,37 @@
+name: CP2 Backup Probe
+
+on:
+  push:
+    branches:
+      - evidence/checkpoints-1-2-20260901
+    paths:
+      - .github/workflows/cp2-backup-probe.yml
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Probe pg_dump in protected UAT Edge runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail-with-body --silent --show-error \
+            'https://siimvrusnzxexizpyoib.supabase.co/functions/v1/cp2-backup-probe-20260901?token=m6dm27AuWfpLiKFfnVmraKkopm7NtzVjEieGf6r4DzI' \
+            -o cp2-backup-probe.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          payload = json.loads(Path('cp2-backup-probe.json').read_text())
+          print(json.dumps(payload, indent=2, sort_keys=True))
+          PY
+      - name: Upload probe evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: cp2-backup-probe
+          path: cp2-backup-probe.json
+          if-no-files-found: error
+          retention-days: 3
