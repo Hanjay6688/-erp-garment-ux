@@ -11,7 +11,9 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [react()],
-    base: './',
+    // The Worker serves SPA fallbacks from nested routes such as
+    // /auth/accept. Root-relative assets keep those deep links bootable.
+    base: '/',
     build: {
       target: 'es2020',
       cssCodeSplit: true,

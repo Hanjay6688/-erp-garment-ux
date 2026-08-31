@@ -15,10 +15,15 @@
 .auth-secondary { border-color:rgba(255,255,255,.13); background:#161a27; color:#d5daea; }
 .auth-primary:disabled,.auth-secondary:disabled,.auth-identity-menu button:disabled { opacity:.5; cursor:not-allowed; }
 .auth-actions { display:flex; gap:10px; margin-top:22px; }
+.auth-actions-stack { display:grid; }
 .auth-error { padding:10px 12px; border:1px solid rgba(244,114,126,.3); border-radius:10px; background:rgba(244,114,126,.08); color:#ffc5cb; font-size:12px; line-height:1.45; }
 .auth-footnote { display:block; margin-top:18px; color:#737e94; font-size:10px; line-height:1.5; }
+.auth-password-help { color:#8f99ad; font-size:10px; line-height:1.5; }
+.auth-success { margin-top:22px; padding:11px 13px; border:1px solid rgba(91,213,151,.3); border-radius:10px; background:rgba(91,213,151,.08); color:#bdf5d7; font-size:12px; line-height:1.45; }
+.auth-exit { width:100%; margin-top:18px; }
 .auth-progress { width:34px; height:34px; margin:24px 0 14px; border:3px solid rgba(255,255,255,.12); border-top-color:#8d9af5; border-radius:50%; animation:auth-spin .7s linear infinite; }
 @keyframes auth-spin { to { transform:rotate(360deg); } }
+@media (prefers-reduced-motion:reduce) { .auth-progress{animation:none} }
 .runtime-badge { display:flex; align-items:center; cursor:default; white-space:nowrap; }
 .runtime-badge.uat { background:rgba(236,167,75,.1); color:#ffd8a5; }
 .runtime-badge.uat span { background:#f2a951; box-shadow:0 0 10px rgba(242,169,81,.8); }
