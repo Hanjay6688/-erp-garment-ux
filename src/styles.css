@@ -94,10 +94,12 @@ h2 { margin:5px 0 4px; font-size:20px; letter-spacing:-.025em; font-weight:630; 
 
 .dashboard-grid { display:grid; grid-template-columns:minmax(0,2fr) minmax(300px,.86fr); gap:14px; }
 .wide-panel,.attention-panel { padding:22px; min-height:360px; }
+.wide-panel { display:flex; flex-direction:column; }
 .panel-head { display:flex; align-items:flex-start; justify-content:space-between; gap:20px; }
 .panel-head p { margin:0; color:#858fa4; font-size:10.5px; }
 .soft-btn { background:rgba(255,255,255,.025); border-radius:12px; padding:9px 12px; color:#b8c0d0; font-size:10.5px; white-space:nowrap; }
 .chart-wrap { height:205px; display:flex; align-items:flex-end; gap:clamp(4px,1vw,10px); padding:25px 4px 13px; border-bottom:1px solid rgba(255,255,255,.055); background:repeating-linear-gradient(to top,transparent 0,transparent 49px,rgba(255,255,255,.045) 50px); }
+.wide-panel .chart-wrap { margin-top:auto; }
 .bar-col { flex:1; height:100%; display:flex; align-items:flex-end; justify-content:center; gap:2px; }
 .bar { width:34%; min-width:4px; border-radius:5px 5px 2px 2px; opacity:.9; }
 .bar.primary { background:linear-gradient(to top,#6071ee,#8795ff); }

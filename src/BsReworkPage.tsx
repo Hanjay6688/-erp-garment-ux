@@ -9,12 +9,13 @@ import type { QcFinalResult } from './QcFinalPage'
 import type { ReadyFgNotaCard } from './fgNota'
 import './bs-rework.css'
 
-type SizeValues = [number, number, number]
+export type SizeValues = [number, number, number]
 type SizeInputs = [string, string, string]
 type BsSource = 'QC_AUTO' | 'LEGACY_IMPORT' | 'HOLD_RESOLUTION'
 type BsStatus = 'OPEN' | 'ASSIGNED' | 'IN_REWORK' | 'QC_REWORK' | 'GOOD_RESTORED' | 'BS_FINAL'
-type StuckStatus = 'OUTSIDE' | 'PARTIAL' | 'BACK_TO_QC'
+type StuckStatus = 'OUTSIDE' | 'PARTIAL' | 'RESOLVED'
 type LedgerKind = 'BS_DEDUCTION' | 'REWORK_RELEASE' | 'STUCK_HOLD' | 'STUCK_RELEASE' | 'STUCK_TO_BS'
+export type ResolutionRoute = 'REWORK' | 'REWASH' | 'HOLD' | 'SCRAP'
 
 type WorkComponent = { id: string; name: string; note: string; rate: number }
 
@@ -66,16 +67,26 @@ const bsStatusLabels: Record<BsStatus, string> = {
   QC_REWORK: 'Menunggu hasil QC ulang', GOOD_RESTORED: 'Bikin bagus selesai', BS_FINAL: 'BS final',
 }
 const stuckStatusLabels: Record<StuckStatus, string> = {
-  OUTSIDE: 'Masih di Laundry', PARTIAL: 'Balik sebagian', BACK_TO_QC: 'Susulan selesai',
+  OUTSIDE: 'Masih di Laundry', PARTIAL: 'Balik sebagian', RESOLVED: 'Susulan selesai',
 }
+
+const resolutionOptions: Array<{ id: ResolutionRoute; label: string; description: string }> = [
+  { id: 'REWORK', label: 'Rework', description: 'Mandor memperbaiki fisik; komponen/aksesori dipilih pada simulasi.' },
+  { id: 'REWASH', label: 'Rewash', description: 'Mandor · aksesori terpilih direimburse · fee jasa vendor Laundry Rp0.' },
+  { id: 'HOLD', label: 'Hold', description: 'Tahan keputusan kasus; ini bukan Stuck Laundry dan tidak menambah FG.' },
+  { id: 'SCRAP', label: 'Scrap', description: 'Preview wajib membawa qty, alasan, actor, tanggal, dan efek persediaan/HPP.' },
+]
 
 const sum = (values: SizeValues) => values.reduce((total, value) => total + value, 0)
 const money = (value: number) => `Rp${Math.round(value).toLocaleString('id-ID')}`
 const asSizeValues = (values: number[]): SizeValues => [values[0] ?? 0, values[1] ?? 0, values[2] ?? 0]
 const asSizeInputs = (values: string[]): SizeInputs => [values[0] ?? '', values[1] ?? '', values[2] ?? '']
-const cleanQuantity = (raw: string, max = 9999) => {
-  const digits = raw.replace(/\D/g, '').replace(/^0+(?=\d)/, '')
-  return digits === '' ? '' : String(Math.min(max, Number(digits)))
+export const cleanQuantity = (raw: string, max = 9999) => {
+  const normalized = raw.trim().replace(',', '.')
+  if (normalized === '') return ''
+  const value = Number(normalized)
+  if (!Number.isFinite(value)) return ''
+  return String(Math.min(Math.max(0, Math.floor(max)), Math.max(0, Math.floor(value))))
 }
 const componentRate = (ids: string[]) => components.filter((component) => ids.includes(component.id)).reduce((total, component) => total + component.rate, 0)
 const caseComponents = (item: BsCase): WorkComponent[] => item.origin === 'HOLD'
@@ -89,9 +100,37 @@ const firstPositiveUnit = (values: SizeValues): SizeValues => {
 const subtractSizes = (source: SizeValues, used: SizeValues): SizeValues => asSizeValues(source.map((value, index) => Math.max(0, value - used[index])))
 const addSizes = (left: SizeValues, right: SizeValues): SizeValues => asSizeValues(left.map((value, index) => value + right[index]))
 const caseStatusLabel = (item: OperationalCase) => item.kind === 'BS' ? bsStatusLabels[item.status] : stuckStatusLabels[item.status]
-const caseIsDone = (item: OperationalCase) => item.kind === 'BS' ? ['GOOD_RESTORED', 'BS_FINAL'].includes(item.status) : item.status === 'BACK_TO_QC'
+const caseIsDone = (item: OperationalCase) => item.kind === 'BS' ? ['GOOD_RESTORED', 'BS_FINAL'].includes(item.status) : item.status === 'RESOLVED'
 const caseSourceValue = (item: OperationalCase) => item.kind === 'STUCK' ? 'LAUNDRY' : item.source
 const caseMandors = (item: OperationalCase) => item.kind === 'BS' ? [item.originalMandor, item.reworkMandor ?? ''] : [item.mandor]
+
+export function calculateSusulanResolution(qtySusulan: number[], qtyBsSusulan: number[], outstanding: number[]) {
+  const safeOutstanding = asSizeValues(outstanding.map((value) => Math.max(0, Math.floor(Number.isFinite(value) ? value : 0))))
+  const total = asSizeValues(qtySusulan.map((value, index) => Math.min(safeOutstanding[index], Math.max(0, Math.floor(Number.isFinite(value) ? value : 0)))))
+  const bs = asSizeValues(qtyBsSusulan.map((value, index) => Math.min(total[index], Math.max(0, Math.floor(Number.isFinite(value) ? value : 0)))))
+  const good = subtractSizes(total, bs)
+  return { total, bs, good, remaining: subtractSizes(safeOutstanding, total) }
+}
+
+export function ResolutionRoutePicker({ value, onChange, disabled = false }: {
+  value: ResolutionRoute
+  onChange: (route: ResolutionRoute) => void
+  disabled?: boolean
+}) {
+  return <fieldset className="bsr-resolution-picker" aria-label="Pilih jalur penyelesaian BS">
+    <legend>JALUR PENYELESAIAN · SIMULASI LOKAL</legend>
+    <div>{resolutionOptions.map((option) => <button
+      type="button"
+      key={option.id}
+      className={value === option.id ? 'active' : ''}
+      data-resolution-route={option.id}
+      aria-pressed={value === option.id}
+      disabled={disabled}
+      onClick={() => onChange(option.id)}
+    ><strong>{option.label}</strong><small>{option.description}</small></button>)}</div>
+    <p role="note"><ShieldCheck/> SIMULASI FRONTEND · belum menulis transaksi UAT</p>
+  </fieldset>
+}
 
 function seedCases(result?: QcFinalResult | null): OperationalCase[] {
   const sizes: [string, string, string] = result?.sizes ?? ['31', '32', '33']
@@ -117,7 +156,7 @@ function seedCases(result?: QcFinalResult | null): OperationalCase[] {
       mandor: result?.mandor ?? 'Mandor Asep', laundry: result?.laundry ?? 'Laundry Intan',
       brand: result?.brand ?? 'Widie', sku: result?.finalSku ?? '73001', material: result?.material ?? 'Malibu', sizes,
       qtyBySize: stuckQty, deliveryRef: 'KRM-LDR-260827-006', receiptRef: 'TRM-LDR-260827-011',
-      status: sum(stuckQty) > 0 ? 'OUTSIDE' : 'BACK_TO_QC', createdAt: '27 Agu 2026 · 17:30',
+      status: sum(stuckQty) > 0 ? 'OUTSIDE' : 'RESOLVED', createdAt: '27 Agu 2026 · 17:30',
     },
     {
       kind: 'BS', id: 'BS-LEG-0007', source: 'LEGACY_IMPORT', sourceNote: 'NOTA-LAMA-08/26-07',
@@ -182,8 +221,9 @@ export default function BsReworkPage({ initialResult, initialWorkspace, onWorksp
   const [showLegacyForm, setShowLegacyForm] = useState(false)
   const [reworkInputs, setReworkInputs] = useState<SizeInputs>(['', '', ''])
   const [reworkComponentIds, setReworkComponentIds] = useState<string[]>(['obras', 'centang', 'lipat'])
-  const [susulanGoodInputs, setSusulanGoodInputs] = useState<SizeInputs>(['', '', ''])
+  const [susulanQtyInputs, setSusulanQtyInputs] = useState<SizeInputs>(['', '', ''])
   const [susulanBsInputs, setSusulanBsInputs] = useState<SizeInputs>(['', '', ''])
+  const [resolutionByCase, setResolutionByCase] = useState<Record<string, ResolutionRoute>>({})
   const [notice, setNotice] = useState<string | null>(null)
 
   useEffect(() => {
@@ -217,6 +257,7 @@ export default function BsReworkPage({ initialResult, initialWorkspace, onWorksp
   const selected = visibleCases.find((item) => item.id === selectedId) ?? visibleCases[0]
   const selectedBs = selected?.kind === 'BS' ? selected : null
   const selectedStuck = selected?.kind === 'STUCK' ? selected : null
+  const selectedResolution = selectedBs ? resolutionByCase[selectedBs.id] ?? 'REWORK' : 'REWORK'
   const selectedComponents = selectedBs ? caseComponents(selectedBs) : []
   const caseDeduction = selectedBs
     ? selectedBs.deductionOriginId
@@ -232,9 +273,10 @@ export default function BsReworkPage({ initialResult, initialWorkspace, onWorksp
     ? ledger.filter((item) => ['STUCK_RELEASE', 'STUCK_TO_BS'].includes(item.kind) && item.originId === selectedHold.id).reduce<SizeValues>((total, item) => addSizes(total, item.qtyBySize), [0, 0, 0])
     : [0, 0, 0]
   const holdRemaining: SizeValues = selectedHold ? subtractSizes(selectedHold.qtyBySize, holdReleased) : [0, 0, 0]
-  const requestedHoldGood = asSizeValues(susulanGoodInputs.map((value, index) => Math.min(Number(value) || 0, holdRemaining[index])))
-  const requestedHoldBs = asSizeValues(susulanBsInputs.map((value, index) => Math.min(Number(value) || 0, Math.max(0, holdRemaining[index] - requestedHoldGood[index]))))
-  const requestedHoldTotal = addSizes(requestedHoldGood, requestedHoldBs)
+  const susulanResolution = calculateSusulanResolution(susulanQtyInputs.map(Number), susulanBsInputs.map(Number), holdRemaining)
+  const requestedHoldGood = susulanResolution.good
+  const requestedHoldBs = susulanResolution.bs
+  const requestedHoldTotal = susulanResolution.total
 
   const reworkReadyItems = ledger.filter((item) => item.kind === 'REWORK_RELEASE' || item.kind === 'STUCK_RELEASE')
 
@@ -271,7 +313,7 @@ export default function BsReworkPage({ initialResult, initialWorkspace, onWorksp
 
   const setSelectedCase = (id: string) => {
     const target=cases.find((item):item is BsCase=>item.kind==='BS'&&item.id===id)
-    setSelectedId(id); setReworkInputs(['', '', '']); setSusulanGoodInputs(['', '', '']); setSusulanBsInputs(['', '', '']); setReworkComponentIds(target?.componentIds??[])
+    setSelectedId(id); setReworkInputs(['', '', '']); setSusulanQtyInputs(['', '', '']); setSusulanBsInputs(['', '', '']); setReworkComponentIds(target?.componentIds??[])
   }
   const updateReworkMandor = (mandor: string) => {
     if (!selectedBs) return
@@ -341,18 +383,13 @@ export default function BsReworkPage({ initialResult, initialWorkspace, onWorksp
     setLedger((current) => [...current, ...[goodItem, transitionItem].filter((item): item is LedgerItem => item !== null)])
     setCases((current) => {
       const updated = current.map((entry) => entry.kind === 'STUCK' && entry.id === selectedStuck.id
-        ? { ...entry, status: sum(remainingAfter) === 0 ? 'BACK_TO_QC' as const : 'PARTIAL' as const } : entry)
+        ? { ...entry, status: sum(remainingAfter) === 0 ? 'RESOLVED' as const : 'PARTIAL' as const } : entry)
       return bsCase ? [bsCase, ...updated] : updated
     })
     onStuckReturned?.({parentId:selectedStuck.parentId,batchId:selectedStuck.batchId,laundry:selectedStuck.laundry,goodBySize,bsBySize})
     if (goodItem) onNotaCardReady?.(toNotaCard(goodItem))
-    setSusulanGoodInputs(['', '', '']); setSusulanBsInputs(['', '', ''])
-    setNotice(`${goodQty} Good melepas Hold +${money(goodItem?.amount ?? 0)}; ${bsQty} BS direklasifikasi tanpa minus kedua. Outstanding Laundry ikut turun.`)
-  }
-  const markBsFinal = () => {
-    if (!selectedBs) return
-    setCases((current) => current.map((item) => item.kind === 'BS' && item.id === selectedBs.id ? { ...item, status: 'BS_FINAL' } : item))
-    setNotice(`${selectedBs.id} ditetapkan BS final. Minus asal tetap tercatat.`)
+    setSusulanQtyInputs(['', '', '']); setSusulanBsInputs(['', '', ''])
+    setNotice(`${goodQty} Good melepas Hold +${money(goodItem?.amount ?? 0)}; ${bsQty} BS direklasifikasi tanpa minus kedua dan tanpa QC kedua. Outstanding Laundry ikut turun.`)
   }
 
   const openCases = cases.filter((item) => !caseIsDone(item)).length
@@ -373,11 +410,11 @@ export default function BsReworkPage({ initialResult, initialWorkspace, onWorksp
 
   return <>
     <section className="hero-copy compact bsr-hero">
-      <div><div className="eyebrow">PRODUKSI · MUTU & PENYELESAIAN</div><h1>Kasus BS & Stuck Laundry</h1><p>Browse kasus, selesaikan Bikin Bagus, lalu hasil yang diterima otomatis menjadi card siap disusun pada Nota FG.</p></div>
+      <div><div className="eyebrow">PRODUKSI · MUTU & PENYELESAIAN</div><h1>Kasus BS & Stuck Laundry</h1><p>Preview alur penyelesaian dan formula Susulan. Data, tarif, dan daftar komponen pada halaman ini masih fixture lokal.</p></div>
       <div className="bsr-hero-actions"><button type="button" className="soft-btn" onClick={onBack}><ArrowLeft/> Kembali</button><button type="button" className="primary-btn legacy" onClick={() => setShowLegacyForm(true)}><History/> Impor BS legacy</button></div>
     </section>
 
-    <section className="bsr-rule-banner"><ShieldCheck/><div><strong>Hold diselesaikan langsung sebagai Good atau BS</strong><span><b>Good melepas nilai Hold.</b> Jika fisik kembali sebagai BS, sistem hanya mereklasifikasi Hold menjadi kasus BS—<b>tidak membuat pengurang Nota FG kedua.</b></span></div></section>
+    <section className="bsr-rule-banner"><ShieldCheck/><div><strong>SIMULASI FRONTEND · belum menulis transaksi UAT</strong><span>Susulan diselesaikan langsung sebagai <b>Good atau BS</b>, tidak masuk QC kedua. BS hanya mereklasifikasi Hold dan <b>tidak membuat pengurang Nota FG kedua.</b></span></div></section>
     {notice && <div className="bsr-notice"><CheckCircle2/><span>{notice}</span><button type="button" onClick={() => setNotice(null)} aria-label="Tutup pemberitahuan"><X/></button></div>}
 
     <section className="bsr-kpis">
@@ -409,6 +446,12 @@ export default function BsReworkPage({ initialResult, initialWorkspace, onWorksp
       <div className="bsr-detail-stack">
         {selectedBs && <article className="panel bsr-case-detail">
           <header className="bsr-detail-head"><span className="bsr-detail-icon"><Wrench/></span><div><small>{selectedBs.source === 'QC_AUTO' ? 'BS OTOMATIS DARI QC' : selectedBs.source === 'HOLD_RESOLUTION' ? `BS DARI HOLD · ${selectedBs.sourceNote}` : `IMPOR LEGACY · ${selectedBs.sourceNote}`}</small><h2>{selectedBs.id} · {selectedBs.brand} SKU {selectedBs.sku}</h2><p>{selectedBs.parentId} · Batch {selectedBs.batchId} · {selectedBs.material}</p></div><strong className="bsr-case-total">{sum(selectedBs.qtyBySize)} BS</strong></header>
+          <ResolutionRoutePicker value={selectedResolution} disabled={['GOOD_RESTORED', 'BS_FINAL'].includes(selectedBs.status)} onChange={(route) => {
+            setResolutionByCase((current) => ({ ...current, [selectedBs.id]: route }))
+            setReworkInputs(['', '', ''])
+            setNotice(null)
+          }}/>
+          {selectedResolution === 'REWORK' && <>
           <section className="bsr-responsibility-grid">
             <article className="origin"><UserRound/><div><span>MANDOR ASAL · PEMILIK MINUS</span><strong>{selectedBs.originalMandor}</strong><small>Minus BS tetap tercatat ke Mandor ini.</small></div></article>
             <article className="reworker"><Wrench/><div><span>MANDOR REWORK · PENERIMA PLUS</span><select value={selectedBs.reworkMandor ?? ''} disabled={['GOOD_RESTORED', 'BS_FINAL'].includes(selectedBs.status)} onChange={(event) => updateReworkMandor(event.target.value)}><option value="">Belum ditugaskan</option>{reworkMandors.map((mandor) => <option key={mandor}>{mandor}</option>)}</select><small>Boleh berbeda dari Mandor asal.</small></div></article>
@@ -418,20 +461,46 @@ export default function BsReworkPage({ initialResult, initialWorkspace, onWorksp
             const done = selectedBs.status === 'BS_FINAL' ? false : index <= activeIndex
             return <div className={done ? 'done' : ''} key={step.id}><span>{done ? <Check/> : index + 1}</span><strong>{step.label}</strong>{index < bsStatusSteps.length - 1 && <i/>}</div>
           })}{selectedBs.status === 'BS_FINAL' && <em><CircleMinus/> BS final</em>}</div>
+          </>}
           <section className="bsr-case-facts"><div><span>SUMBER KASUS</span><strong>{selectedBs.source === 'QC_AUTO' ? 'Dibuat otomatis saat QC diposting' : selectedBs.source === 'HOLD_RESOLUTION' ? 'Reklasifikasi hasil susulan Laundry' : 'Impor arsip BS legacy'}</strong></div><div><span>REFERENSI</span><strong>{selectedBs.sourceNote}</strong></div><div><span>DICATAT</span><strong>{selectedBs.createdAt}</strong></div><div className="wide"><span>ALASAN</span><strong>{selectedBs.reason}</strong></div></section>
           <section className="bsr-size-table"><header><span>SIZE</span><span>BS AWAL</span><span>SUDAH DIPULIHKAN</span><span>SISA MINUS</span></header>{selectedBs.sizes.map((size, index) => <div key={size}><strong>{size}</strong><span>{selectedBs.qtyBySize[index]} pcs</span><span className="plus">{releasedForCase[index]} pcs</span><strong className={reworkRemaining[index] > 0 ? 'minus' : 'done'}>{reworkRemaining[index]} pcs</strong></div>)}</section>
-          <section className="bsr-component-snapshot"><header><div><span>SNAPSHOT KOMPONEN TERDAMPAK</span><strong>{caseDeduction?.id ?? 'Belum ada minus asal'}</strong></div><em><ShieldCheck/> terkunci</em></header><div>{selectedComponents.map((component) => <article key={component.id}><span><Wrench/></span><div><strong>{component.name}</strong><small>{component.note}</small></div><b>{money(component.rate)}</b></article>)}</div><footer><span>{selectedBs.origin === 'HOLD' ? 'Nilai Hold yang dibawa' : 'Minus per pcs'}</span><strong>− {money(caseDeduction?.rate ?? caseComponentRate(selectedBs, selectedBs.componentIds))}</strong></footer></section>
-          {selectedBs.status === 'QC_REWORK' && sum(reworkRemaining) > 0 && <section className="bsr-release-card rework" data-keyboard-scope><header><CirclePlus/><div><span>BIKIN BAGUS · KOMPONEN BAYAR</span><h3>Tentukan pekerjaan yang benar-benar diselesaikan</h3><p>Checkbox hanya berlaku untuk Bikin Bagus. Hasilnya menjadi snapshot tarif card untuk <b>{selectedBs.reworkMandor ?? 'Mandor rework belum dipilih'}</b>.</p></div></header><section className="bsr-rework-component-picker"><div><span>KOMPONEN DIKERJAKAN & DIBAYAR</span><strong>{reworkComponentIds.length} dipilih · {money(caseComponentRate(selectedBs, reworkComponentIds))}/pcs</strong></div><div>{selectedComponents.map((component)=>{const active=reworkComponentIds.includes(component.id);return <button type="button" className={active?'active':''} aria-pressed={active} onClick={()=>setReworkComponentIds((current)=>active?current.filter((item)=>item!==component.id):[...current,component.id])} key={component.id}><span>{active&&<Check/>}</span><div><strong>{component.name}</strong><small>{component.note}</small></div><b>{money(component.rate)}</b></button>})}</div></section><div className="bsr-release-grid" data-keyboard-grid>{selectedBs.sizes.map((size, index) => <label key={size}><span>SIZE {size} · maks {reworkRemaining[index]}</span><input inputMode="numeric" data-grid-row={0} data-grid-col={index} value={reworkInputs[index]} onFocus={(event) => event.currentTarget.select()} onChange={(event) => setReworkInputs((current) => asSizeInputs(current.map((value, row) => row === index ? cleanQuantity(event.target.value, reworkRemaining[index]) : value)))}/></label>)}</div><div className="bsr-release-actions"><button type="button" className="soft-btn danger" onClick={markBsFinal}><CircleMinus/> Tetapkan sisa BS final</button><button type="button" className="primary-btn" disabled={!selectedBs.reworkMandor || reworkComponentIds.length===0 || sum(asSizeValues(reworkInputs.map(Number))) <= 0} onClick={postReworkRelease}>Lulus QC & buat card Nota FG <ArrowRight/></button></div></section>}
-          {['OPEN', 'ASSIGNED', 'IN_REWORK'].includes(selectedBs.status) && <div className="bsr-next-action"><div><Clock3/><span><strong>{bsStatusLabels[selectedBs.status]}</strong><small>Riwayat tidak dihapus saat tahap berganti.</small></span></div><button type="button" className="primary-btn" onClick={nextBsStatus}>{selectedBs.status === 'OPEN' ? 'Tugaskan rework' : selectedBs.status === 'ASSIGNED' ? 'Mulai bikin bagus' : 'Kirim ke QC ulang'} <ArrowRight/></button></div>}
-          {selectedBs.status === 'GOOD_RESTORED' && <div className="bsr-closed good"><CheckCircle2/><div><strong>Seluruh minus kasus sudah dipulihkan</strong><span>Mandor asal dan Mandor pelaksana tetap terlihat terpisah.</span></div></div>}
-          {selectedBs.status === 'BS_FINAL' && <div className="bsr-closed final"><CircleMinus/><div><strong>Ditetapkan BS final</strong><span>Minus tidak hilang. Koreksi berikutnya wajib melalui reversal berjejak.</span></div></div>}
+          {selectedResolution !== 'REWORK' && <section className={`bsr-resolution-preview ${selectedResolution.toLowerCase()}`} aria-live="polite">
+            <span>{selectedResolution} · REQUIREMENT PREVIEW</span>
+            <h3>{resolutionOptions.find((option) => option.id === selectedResolution)?.label}</h3>
+            <p>{resolutionOptions.find((option) => option.id === selectedResolution)?.description}</p>
+            {selectedResolution === 'REWASH' && <ul><li>Mandor penyelesaian wajib dipilih.</li><li>Aksesori yang dipakai dipilih untuk reimbursement.</li><li>Fee jasa vendor Laundry tetap Rp0.</li></ul>}
+            {selectedResolution === 'HOLD' && <ul><li>Menahan kasus BS, bukan membuat Stuck Laundry.</li><li>Tidak menambah FG, Nota, atau payroll.</li></ul>}
+            {selectedResolution === 'SCRAP' && <ul><li>Wajib: qty, alasan, actor, dan tanggal.</li><li>Efek persediaan dan HPP harus terlihat sebelum submit.</li></ul>}
+            <small>Belum ada tombol simpan; kontrak backend, RLS, idempotency, dan audit trail belum tersedia.</small>
+          </section>}
+          {selectedResolution === 'REWORK' && <section className="bsr-component-snapshot"><header><div><span>FIXTURE KOMPONEN · BUKAN BOM AUTHORITATIVE</span><strong>{caseDeduction?.id ?? 'Belum ada minus asal'}</strong></div><em><ShieldCheck/> demo lokal</em></header><div>{selectedComponents.map((component) => <article key={component.id}><span><Wrench/></span><div><strong>{component.name}</strong><small>{component.note}</small></div><b>{money(component.rate)}</b></article>)}</div><footer><span>{selectedBs.origin === 'HOLD' ? 'Nilai Hold yang dibawa' : 'Minus per pcs'}</span><strong>− {money(caseDeduction?.rate ?? caseComponentRate(selectedBs, selectedBs.componentIds))}</strong></footer></section>}
+          {selectedResolution === 'REWORK' && selectedBs.status === 'QC_REWORK' && sum(reworkRemaining) > 0 && <section className="bsr-release-card rework" data-keyboard-scope><header><CirclePlus/><div><span>BIKIN BAGUS · SIMULASI KOMPONEN BAYAR</span><h3>Tentukan pekerjaan yang benar-benar diselesaikan</h3><p>Daftar komponen masih fixture UI, bukan BOM authoritative. Pilihan ini hanya mutasi lokal untuk <b>{selectedBs.reworkMandor ?? 'Mandor rework belum dipilih'}</b>.</p></div></header><section className="bsr-rework-component-picker"><div><span>KOMPONEN DIKERJAKAN & DIBAYAR</span><strong>{reworkComponentIds.length} dipilih · {money(caseComponentRate(selectedBs, reworkComponentIds))}/pcs</strong></div><div>{selectedComponents.map((component)=>{const active=reworkComponentIds.includes(component.id);return <button type="button" className={active?'active':''} aria-pressed={active} onClick={()=>setReworkComponentIds((current)=>active?current.filter((item)=>item!==component.id):[...current,component.id])} key={component.id}><span>{active&&<Check/>}</span><div><strong>{component.name}</strong><small>{component.note}</small></div><b>{money(component.rate)}</b></button>})}</div></section><div className="bsr-release-grid" data-keyboard-grid>{selectedBs.sizes.map((size, index) => <label key={size}><span>SIZE {size} · maks {reworkRemaining[index]}</span><input inputMode="numeric" data-grid-row={0} data-grid-col={index} value={reworkInputs[index]} onFocus={(event) => event.currentTarget.select()} onChange={(event) => setReworkInputs((current) => asSizeInputs(current.map((value, row) => row === index ? cleanQuantity(event.target.value, reworkRemaining[index]) : value)))}/></label>)}</div><div className="bsr-release-actions"><button type="button" className="primary-btn" disabled={!selectedBs.reworkMandor || reworkComponentIds.length===0 || sum(asSizeValues(reworkInputs.map(Number))) <= 0} onClick={postReworkRelease}>Lulus QC & buat card simulasi <ArrowRight/></button></div></section>}
+          {selectedResolution === 'REWORK' && ['OPEN', 'ASSIGNED', 'IN_REWORK'].includes(selectedBs.status) && <div className="bsr-next-action"><div><Clock3/><span><strong>{bsStatusLabels[selectedBs.status]}</strong><small>Simulasi lokal; riwayat UAT belum ditulis.</small></span></div><button type="button" className="primary-btn" onClick={nextBsStatus}>{selectedBs.status === 'OPEN' ? 'Tugaskan rework' : selectedBs.status === 'ASSIGNED' ? 'Mulai bikin bagus' : 'Kirim ke QC ulang'} <ArrowRight/></button></div>}
+          {selectedResolution === 'REWORK' && selectedBs.status === 'GOOD_RESTORED' && <div className="bsr-closed good"><CheckCircle2/><div><strong>Seluruh minus kasus sudah dipulihkan</strong><span>Mandor asal dan Mandor pelaksana tetap terlihat terpisah.</span></div></div>}
+          {selectedResolution === 'REWORK' && selectedBs.status === 'BS_FINAL' && <div className="bsr-closed final"><CircleMinus/><div><strong>Riwayat BS final</strong><span>Status lama hanya ditampilkan; halaman ini tidak lagi menyediakan bypass penetapan BS final.</span></div></div>}
         </article>}
 
         {selectedStuck && <article className="panel bsr-stuck-card selected-case"><header><Waves/><div><span>STUCK LAUNDRY · BUKAN BS</span><h2>{selectedStuck.id} · {selectedStuck.laundry}</h2><p>{selectedStuck.parentId} · Batch {selectedStuck.batchId} · {selectedStuck.brand} SKU {selectedStuck.sku}</p></div><strong>{sum(holdRemaining)} pcs di luar</strong></header>
           <section className="bsr-responsibility-grid stuck"><article className="origin"><UserRound/><div><span>MANDOR PENERIMA FISIK</span><strong>{selectedStuck.mandor}</strong><small>Mandor mengonfirmasi susulan benar-benar kembali.</small></div></article><article className="laundry"><Waves/><div><span>LAUNDRY & REFERENSI</span><strong>{selectedStuck.laundry}</strong><small>{selectedStuck.deliveryRef} · {selectedStuck.receiptRef}</small></div></article></section>
-          <div className="bsr-stuck-body"><section className="bsr-stuck-sizes">{selectedStuck.sizes.map((size, index) => <div key={size}><span>Size {size}</span><strong>{holdRemaining[index]} pcs</strong><small>dari {selectedStuck.qtyBySize[index]} hold</small></div>)}</section><section className="bsr-susulan-entry" data-keyboard-scope><div><span>HASIL SUSULAN · GOOD ATAU BS</span><strong>Isi hasil fisik yang benar-benar kembali</strong></div><div className="bsr-hold-lanes" data-keyboard-grid><section className="good"><header><CheckCircle2/><span><strong>BALIK GOOD</strong><small>Melepas nilai Hold menjadi plus</small></span></header><div className="bsr-release-grid">{selectedStuck.sizes.map((size, index) => <label key={size}><span>SIZE {size} · maks {Math.max(0, holdRemaining[index] - (Number(susulanBsInputs[index]) || 0))}</span><input inputMode="numeric" data-grid-row={0} data-grid-col={index} value={susulanGoodInputs[index]} disabled={holdRemaining[index] === 0} onFocus={(event) => event.currentTarget.select()} onChange={(event) => setSusulanGoodInputs((current) => asSizeInputs(current.map((value, row) => row === index ? cleanQuantity(event.target.value, Math.max(0, holdRemaining[index] - (Number(susulanBsInputs[index]) || 0))) : value)))}/></label>)}</div></section><section className="bs"><header><CircleMinus/><span><strong>JADI BS</strong><small>Reklasifikasi saja · tanpa minus kedua</small></span></header><div className="bsr-release-grid">{selectedStuck.sizes.map((size, index) => <label key={size}><span>SIZE {size} · maks {Math.max(0, holdRemaining[index] - (Number(susulanGoodInputs[index]) || 0))}</span><input inputMode="numeric" data-grid-row={1} data-grid-col={index} value={susulanBsInputs[index]} disabled={holdRemaining[index] === 0} onFocus={(event) => event.currentTarget.select()} onChange={(event) => setSusulanBsInputs((current) => asSizeInputs(current.map((value, row) => row === index ? cleanQuantity(event.target.value, Math.max(0, holdRemaining[index] - (Number(susulanGoodInputs[index]) || 0))) : value)))}/></label>)}</div></section></div><div className="bsr-hold-preview"><span><small>GOOD</small><strong>{sum(requestedHoldGood)} pcs · +{money(sum(requestedHoldGood) * (selectedHold?.rate ?? 0))}</strong></span><span><small>BS</small><strong>{sum(requestedHoldBs)} pcs · potong ulang Rp0</strong></span><em>Sisa Hold {sum(subtractSizes(holdRemaining, requestedHoldTotal))} pcs</em></div><button type="button" className="primary-btn" disabled={sum(requestedHoldTotal) <= 0} onClick={postHoldResolution}>Simpan hasil susulan <ArrowRight/></button></section></div>
+          <div className="bsr-stuck-body">
+            <section className="bsr-stuck-sizes">{selectedStuck.sizes.map((size, index) => <div key={size}><span>Size {size}</span><strong>{holdRemaining[index]} pcs</strong><small>dari {selectedStuck.qtyBySize[index]} hold</small></div>)}</section>
+            <section className="bsr-susulan-entry" data-keyboard-scope>
+              <div><span>SUSULAN LANGSUNG · TANPA QC KEDUA</span><strong>Isi qty_susulan dan qty_bs_susulan; Good dihitung otomatis</strong></div>
+              <div className="bsr-hold-lanes" data-keyboard-grid>
+                <section className="total"><header><Waves/><span><strong>QTY SUSULAN</strong><small>Total fisik yang benar-benar kembali</small></span></header><div className="bsr-release-grid">{selectedStuck.sizes.map((size, index) => <label key={size}><span>qty_susulan · SIZE {size} · maks {holdRemaining[index]}</span><input data-field={`qty_susulan_${size}`} inputMode="numeric" data-grid-row={0} data-grid-col={index} value={susulanQtyInputs[index]} disabled={holdRemaining[index] === 0} onFocus={(event) => event.currentTarget.select()} onChange={(event) => {
+                  const totalValue = cleanQuantity(event.target.value, holdRemaining[index])
+                  setSusulanQtyInputs((current) => asSizeInputs(current.map((value, row) => row === index ? totalValue : value)))
+                  setSusulanBsInputs((current) => asSizeInputs(current.map((value, row) => row === index ? cleanQuantity(value, Number(totalValue) || 0) : value)))
+                }}/></label>)}</div></section>
+                <section className="bs"><header><CircleMinus/><span><strong>QTY BS SUSULAN</strong><small>Bagian dari qty_susulan; tanpa minus kedua</small></span></header><div className="bsr-release-grid">{selectedStuck.sizes.map((size, index) => <label key={size}><span>qty_bs_susulan · SIZE {size} · maks {requestedHoldTotal[index]}</span><input data-field={`qty_bs_susulan_${size}`} inputMode="numeric" data-grid-row={1} data-grid-col={index} value={susulanBsInputs[index]} disabled={requestedHoldTotal[index] === 0} onFocus={(event) => event.currentTarget.select()} onChange={(event) => setSusulanBsInputs((current) => asSizeInputs(current.map((value, row) => row === index ? cleanQuantity(event.target.value, requestedHoldTotal[index]) : value)))}/></label>)}</div></section>
+              </div>
+              <div className="bsr-susulan-formula" aria-live="polite"><strong>GOOD = qty_susulan − qty_bs_susulan</strong>{selectedStuck.sizes.map((size, index) => <span key={size}>Size {size}: {requestedHoldTotal[index]} − {requestedHoldBs[index]} = <b>{requestedHoldGood[index]} Good</b></span>)}</div>
+              <div className="bsr-hold-preview"><span><small>GOOD TURUNAN</small><strong>{sum(requestedHoldGood)} pcs · +{money(sum(requestedHoldGood) * (selectedHold?.rate ?? 0))}</strong></span><span><small>BS SUSULAN</small><strong>{sum(requestedHoldBs)} pcs · potong ulang Rp0</strong></span><em>Sisa Hold {sum(susulanResolution.remaining)} pcs</em></div>
+              <button type="button" className="primary-btn" disabled={sum(requestedHoldTotal) <= 0} onClick={postHoldResolution}>Simpan simulasi susulan <ArrowRight/></button>
+            </section>
+          </div>
           <div className="bsr-stuck-rule"><ShieldCheck/><span><strong>Satu nilai pengurang, satu kali saja.</strong> Hold dan BS memakai nominal snapshot yang sama. Perubahan Hold → BS hanya memindahkan klasifikasi; bila Bikin Bagus lulus, plus mengacu ke nilai Hold asal.</span></div>
-          {selectedStuck.status === 'BACK_TO_QC' && <div className="bsr-closed good"><CheckCircle2/><div><strong>Semua fisik sudah diputus sebagai Good atau BS</strong><span>Kasus Hold tetap tersimpan; Good menjadi plus dan BS membawa nilai pengurang asal tanpa potong ulang.</span></div></div>}
+          {selectedStuck.status === 'RESOLVED' && <div className="bsr-closed good"><CheckCircle2/><div><strong>Semua fisik sudah diputus sebagai Good atau BS</strong><span>Kasus selesai langsung tanpa QC kedua; Good menjadi plus dan BS membawa nilai pengurang asal tanpa potong ulang.</span></div></div>}
         </article>}
         {!selected && <article className="panel bsr-no-selection"><Inbox/><strong>Tidak ada kasus pada filter ini</strong><span>Ubah filter untuk membuka detail tindakan.</span></article>}
       </div>
