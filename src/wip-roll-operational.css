@@ -1,0 +1,251 @@
+/*
+ * Bagi Potongan operational density.
+ *
+ * The source list and Roll tickets must behave like an operating worksheet,
+ * not presentation cards. Quantity is the primary fact, yards are secondary,
+ * size allocation is compact, and the source list scrolls independently on
+ * common 1024px laptop/tablet-landscape viewports.
+ */
+
+@media (min-width: 900px) {
+  .wip-pickup-layout {
+    grid-template-columns: minmax(198px, 226px) minmax(0, 1fr);
+    align-items: start;
+    gap: 9px;
+  }
+
+  .wip-pickup-layout > .wip-queue-panel {
+    position: sticky;
+    top: 82px;
+    height: clamp(430px, calc(100dvh - 104px), 700px);
+    max-height: none;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    align-self: start;
+    overflow: hidden;
+  }
+
+  .wip-queue-panel > .wip-queue-head,
+  .wip-queue-panel > .wip-queue-tabs,
+  .wip-queue-panel > .wip-search {
+    flex: 0 0 auto;
+  }
+
+  .wip-queue-panel > .wip-queue-list {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    overscroll-behavior: contain;
+    touch-action: pan-y;
+    scrollbar-gutter: stable;
+  }
+
+  .wip-queue-panel > .wip-queue-list::-webkit-scrollbar {
+    width: 7px;
+  }
+
+  .wip-queue-panel > .wip-queue-list::-webkit-scrollbar-thumb {
+    border: 2px solid transparent;
+    border-radius: 999px;
+    background: rgba(111, 134, 218, .52);
+    background-clip: padding-box;
+  }
+
+  .wip-queue-panel > .wip-queue-list {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(111, 134, 218, .52) rgba(7, 11, 17, .18);
+  }
+
+  /* Two useful tickets per row on ordinary laptop widths. */
+  .wip-roll-token-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    justify-content: stretch;
+    gap: 7px;
+  }
+
+  .wip-roll-token-grid > .wip-roll-token {
+    width: auto;
+    max-width: none;
+  }
+}
+
+@media (min-width: 1500px) {
+  .wip-roll-token-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* Roll ticket hierarchy: pieces first, yards second, source identity last. */
+.wip-roll-token-body {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 5px;
+  padding: 7px 7px 4px;
+}
+
+.wip-roll-token-total {
+  min-height: 0;
+  padding: 5px 6px;
+  border-radius: 7px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    "pieces yards"
+    "pieces yards";
+  align-items: center;
+  gap: 3px 7px;
+}
+
+.wip-roll-token-total > span {
+  display: none;
+}
+
+.wip-roll-token-total > em {
+  grid-area: pieces;
+  margin: 0;
+  color: #e8edf5;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 820;
+  line-height: 1.05;
+  letter-spacing: -.015em;
+  white-space: nowrap;
+}
+
+.wip-roll-token-total > strong {
+  grid-area: yards;
+  margin: 0;
+  color: #a9b9b1;
+  font-size: 10.5px;
+  font-weight: 720;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.wip-roll-token-total > strong > small {
+  margin-left: 2px;
+  color: #7e9188;
+  font-size: 6.5px;
+}
+
+.wip-roll-token-sizes {
+  grid-column: 1;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 3px;
+}
+
+.wip-roll-token-sizes > span {
+  min-height: 27px;
+  padding: 3px 4px;
+  border-radius: 6px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-areas:
+    "label value"
+    "label value";
+  align-items: center;
+  justify-content: stretch;
+  gap: 2px 5px;
+}
+
+.wip-roll-token-sizes small {
+  grid-area: label;
+  color: #748197;
+  font-size: 5.5px;
+  letter-spacing: .025em;
+  white-space: nowrap;
+}
+
+.wip-roll-token-sizes strong {
+  grid-area: value;
+  justify-self: end;
+  margin: 0;
+  color: #d7dee9;
+  font-size: 9px;
+  line-height: 1;
+}
+
+.wip-roll-token-sizes em {
+  display: none;
+}
+
+/* Sequence and fixture source code remain available, but never lead the card. */
+.wip-roll-token-body > .wip-roll-token-code {
+  grid-column: 1;
+  margin: 0;
+  color: #66748a;
+  font-size: 6px;
+  font-weight: 680;
+  line-height: 1.2;
+  letter-spacing: .02em;
+  opacity: .86;
+}
+
+.wip-roll-token-actions {
+  grid-template-columns: minmax(0, 1fr) 54px;
+  gap: 4px;
+  padding: 0 7px 7px;
+}
+
+.wip-roll-token-actions .roll-batch-quick {
+  min-height: 29px;
+  padding: 3px 5px;
+  border-radius: 6px;
+}
+
+.wip-roll-token-actions .roll-batch-quick::before {
+  display: none;
+}
+
+.wip-roll-token-actions .roll-batch-quick select {
+  height: 23px;
+  margin: 0;
+  padding: 0 14px 0 2px;
+  font-size: 7.5px;
+  line-height: 1;
+}
+
+.wip-roll-token-actions .roll-batch-quick > svg {
+  top: 9px;
+  right: 4px;
+  width: 9px;
+  height: 9px;
+}
+
+.wip-roll-token-actions .wip-roll-split-btn {
+  min-height: 29px;
+  padding: 3px 4px;
+  border-radius: 6px;
+  grid-template-columns: 10px minmax(0, 1fr);
+  gap: 3px;
+}
+
+.wip-roll-token-actions .wip-roll-split-btn > .icon {
+  width: 9px;
+  height: 9px;
+}
+
+.wip-roll-token-actions .wip-roll-split-btn > .icon:last-child,
+.wip-roll-token-actions .wip-roll-split-btn small {
+  display: none;
+}
+
+.wip-roll-token-actions .wip-roll-split-btn strong {
+  font-size: 7px;
+  text-align: left;
+}
+
+@media (max-width: 899px) {
+  .wip-roll-token-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@supports not (height: 100dvh) {
+  @media (min-width: 900px) {
+    .wip-pickup-layout > .wip-queue-panel {
+      height: clamp(430px, calc(100vh - 104px), 700px);
+    }
+  }
+}
