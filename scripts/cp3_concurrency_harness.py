@@ -210,6 +210,7 @@ def main() -> None:
         journals = one(conn, "select count(*) from erp.journal_entries where source_type='ATTENDANCE_HPP_ALLOCATION' and source_id=%s and status='POSTED'", (idem_pool,))
         issues = one(conn, "select coalesce(sum(issue_count),0) from erp.run_v2614_attendance_hpp_integrity_checks()")
         conn.commit()
+    issues = int(issues)
     if journals != 1 or issues != 0: raise AssertionError(f"idempotency/integrity mismatch journals={journals} issues={issues}")
     report["tests"]["same_key_same_payload_two_session"] = {"status":"PASS","results":[asdict(r) for r in results],"journal_ids":sorted(journal_ids),"posted_journals":journals}
 
