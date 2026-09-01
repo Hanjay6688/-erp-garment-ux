@@ -24,6 +24,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          # Anchor offsets are resolved after the transformer adds its datetime import.
           python -m py_compile scripts/cp3_patch_concurrency_bootstrap_once.py
           python scripts/cp3_patch_concurrency_bootstrap_once.py
           python -m py_compile scripts/cp3_concurrency_harness.py
