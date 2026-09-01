@@ -212,14 +212,16 @@ begin
   pool_id:=(first_result->>'pool_id')::uuid;
 
   begin
-    perform erp.create_attendance_hpp_pool_v1(payload||jsonb_build_object('reason','CP3 R4 changed payload'),request_id);
-    raise exception 'Expected same idempotency key/different payload rejection';
-  exception when others then
-    if sqlerrm like 'Expected same idempotency%'
-       or position('client_request_id' in lower(sqlerrm)) = 0
-       or position('different payload' in lower(sqlerrm)) = 0 then
-      raise;
-    end if;
+    perform erp.create_attendance_hpp_pool_v1(
+      payload || jsonb_build_object('reason','CP3 R4 changed payload'),
+      request_id
+    );
+    raise exception 'CP3 R4 expected changed-payload idempotency rejection';
+  exception
+    when others then
+      if sqlerrm not ilike '%client_request_id was already used with a different payload%' then
+        raise;
+      end if;
   end;
 
   begin
