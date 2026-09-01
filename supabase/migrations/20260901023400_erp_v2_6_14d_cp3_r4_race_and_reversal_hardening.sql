@@ -62,7 +62,7 @@ select
   format('%I.%I(%s)',n.nspname,p.proname,pg_get_function_identity_arguments(p.oid)),
   pg_get_functiondef(p.oid),
   encode(extensions.digest(convert_to(pg_get_functiondef(p.oid),'UTF8'),'sha256'),'hex'),
-  p.proacl::text[],
+  case when p.proacl is null then null else array(select a::text from unnest(p.proacl) a) end,
   pg_get_userbyid(p.proowner)
 from pg_proc p
 join pg_namespace n on n.oid=p.pronamespace
@@ -241,8 +241,9 @@ begin
   loop
     v_seen:=v_seen+1;
     v_count:=(length(r.def)-length(replace(r.def,p_old,'')))/nullif(length(p_old),0);
-    if v_count<>p_expected_occurrences_per_function then
-      raise exception 'R4 patch % expected % anchor occurrence(s), found %',p_proname,p_expected_occurrences_per_function,v_count;
+    if (p_expected_occurrences_per_function>=0 and v_count<>p_expected_occurrences_per_function)
+       or (p_expected_occurrences_per_function<0 and v_count<1) then
+      raise exception 'R4 patch % expected % anchor occurrence rule, found %',p_proname,p_expected_occurrences_per_function,v_count;
     end if;
     v_new_def:=replace(r.def,p_old,p_new);
     execute v_new_def;
@@ -312,13 +313,13 @@ select pg_temp.cp3_r4_replace_function(
 -- 4. Owning protected lifecycles use the private primitive. Existing unrelated
 -- reverse_journal call sites remain on the compatibility-safe generic wrapper.
 select pg_temp.cp3_r4_replace_function(
-  'cancel_attendance_hpp_pool_v1','erp.reverse_journal(','erp._cp3_r4_reverse_journal_internal(',1,1
+  'cancel_attendance_hpp_pool_v1','erp.reverse_journal(','erp._cp3_r4_reverse_journal_internal(',1,-1
 );
 select pg_temp.cp3_r4_replace_function(
-  'cancel_unpaid_payroll','erp.reverse_journal(','erp._cp3_r4_reverse_journal_internal(',1,1
+  'cancel_unpaid_payroll','erp.reverse_journal(','erp._cp3_r4_reverse_journal_internal(',1,-1
 );
 select pg_temp.cp3_r4_replace_function(
-  'reverse_paid_payroll','erp.reverse_journal(','erp._cp3_r4_reverse_journal_internal(',1,1
+  'reverse_paid_payroll','erp.reverse_journal(','erp._cp3_r4_reverse_journal_internal(',1,-1
 );
 
 -- Fail closed if a transformed owning function still references the generic RPC.
