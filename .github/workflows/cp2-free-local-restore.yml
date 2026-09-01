@@ -73,7 +73,7 @@ jobs:
           test -s restore/platform-ledger-restore.sql
           test -s restore/expected.json
 
-      - name: Start free local Supabase Postgres matching hosted version
+      - name: Start free local Supabase stack matching hosted Postgres version
         shell: bash
         run: |
           set -euo pipefail
@@ -81,7 +81,8 @@ jobs:
           supabase init --force --workdir cp2-local
           mkdir -p cp2-local/supabase/.temp
           echo '17.6.1.165' > cp2-local/supabase/.temp/postgres-version
-          supabase db start --workdir cp2-local
+          supabase start --workdir cp2-local \
+            -x gotrue,realtime,imgproxy,studio,postgres-meta,mailpit,edge-runtime,logflare,vector,supavisor
           supabase status --workdir cp2-local
 
       - name: Initialize local Supabase migration ledger
@@ -115,8 +116,18 @@ jobs:
           set -euo pipefail
           python -m pip install --quiet 'psycopg[binary]==3.2.10'
           python scripts/cp2_verify_local_restore.py
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          path = Path('cp2-free-local-restore-report.json')
+          report = json.loads(path.read_text())
+          report['database_restore'] = {'status': 'PASS'}
+          report['storage_restore'] = {'status': 'PENDING'}
+          report['status'] = 'DATABASE_PASS_STORAGE_PENDING'
+          path.write_text(json.dumps(report, indent=2, ensure_ascii=False) + '\n')
+          PY
 
-      - name: Start minimal local Storage API and restore actual object
+      - name: Restore and round-trip actual Storage object
         shell: bash
         run: |
           set -Eeuo pipefail
@@ -139,8 +150,6 @@ jobs:
           }
           trap storage_failure ERR
 
-          supabase start --workdir cp2-local \
-            -x gotrue,realtime,imgproxy,studio,postgres-meta,mailpit,edge-runtime,logflare,vector,supavisor
           supabase status -o env --workdir cp2-local > cp2-local/local.env
           set -a
           source cp2-local/local.env
