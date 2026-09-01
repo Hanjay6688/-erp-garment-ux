@@ -219,8 +219,14 @@ def reverse_work_rejects_first_then_activation(period: str, completion_id: str):
                     cur.execute('select erp.reverse_work_completion(%s::uuid,%s)', (completion_id, 'CP3 R4 reverse-first dependency proof'))
                     reverse_result['status'] = 'UNEXPECTED_SUCCESS'
                 except Exception as exc:
-                    reverse_result['error'] = str(exc)
-                    reverse_result['status'] = 'EXPECTED_REJECTION' if 'SEWING_TERMINAL_DEPENDENCY' in str(exc) else 'WRONG_ERROR'
+                    message = str(exc)
+                    reverse_result['error'] = message
+                    reverse_result['status'] = (
+                        'EXPECTED_REJECTION'
+                        if 'Work completion masih memiliki SELESAI_DIJAHIT aktif' in message
+                        and 'reverse_sewing_terminal_v1() terlebih dahulu' in message
+                        else 'WRONG_ERROR'
+                    )
                     cur.execute('rollback to savepoint before_reverse')
                 cur.execute('release savepoint before_reverse')
                 started.set()
@@ -295,7 +301,11 @@ def service_role_reversal_proof():
     try:
         with conn.cursor() as cur:
             cur.execute('set role service_role')
-            for index, journal_id in enumerate((pool_journal, payroll_journal), start=1):
+            protected = (
+                (pool_journal, 'ATTENDANCE_HPP_POOL'),
+                (payroll_journal, 'PAYROLL_ATTENDANCE_ACCRUAL'),
+            )
+            for index, (journal_id, expected_source_type) in enumerate(protected, start=1):
                 cur.execute(f'savepoint protected_{index}')
                 try:
                     cur.execute('select erp.reverse_journal(%s::uuid,%s)', (str(journal_id), 'CP3 R4 direct service-role protected reversal'))
@@ -303,7 +313,10 @@ def service_role_reversal_proof():
                 except psycopg.Error as exc:
                     message = str(exc)
                     cur.execute(f'rollback to savepoint protected_{index}')
-                    if 'PROTECTED_JOURNAL_REQUIRES_OWNING_LIFECYCLE' not in message:
+                    if (
+                        f'Protected journal source type {expected_source_type}' not in message
+                        or 'cannot be reversed through generic reverse_journal' not in message
+                    ):
                         raise RuntimeError(f'wrong protected reversal error: {message}')
                     rejected.append({'journal_id': str(journal_id), 'error': message})
                 cur.execute(f'release savepoint protected_{index}')
@@ -392,7 +405,7 @@ def main():
         'activate-vs-approve-payroll', '2026-02-01',
         'select erp.approve_payroll(%s::uuid)',
         ('a6000000-0000-0000-0000-000000000021',),
-        'ACTIVE_ATTENDANCE_HPP_POOL_BLOCKS_PAYROLL_APPROVAL',
+        'Cancel the ACTIVE pool first before approving this payroll',
     ))
 
     # 2. Approval wins, then activation waits and rejects the stale DRAFT manifest.
@@ -421,7 +434,7 @@ def main():
         'activate-vs-policy-update', '2026-03-01',
         'select erp.set_contractor_hpp_policy_v1(%s::jsonb,%s::uuid,%s::uuid)',
         (json.dumps(policy_payload), str(uuid.uuid4()), str(policy_id)),
-        'ACTIVE_ATTENDANCE_HPP_POOL_BLOCKS_POLICY_CHANGE',
+        'overlaps an ACTIVE attendance HPP pool',
     ))
 
     # 4. Policy update wins contractor lock; activation waits and rejects stale input.
@@ -442,7 +455,7 @@ def main():
         'activate-vs-reverse-work-completion', '2026-04-01',
         'select erp.reverse_work_completion(%s::uuid,%s)',
         ('a5000000-0000-0000-0000-000000000040', 'CP3 R4 activation-first reverse work'),
-        'SEWING_TERMINAL_DEPENDENCY',
+        'reverse_sewing_terminal_v1() terlebih dahulu',
     ))
 
     # 6. Reverse call owns date lock first but still fails closed; activation waits then succeeds.

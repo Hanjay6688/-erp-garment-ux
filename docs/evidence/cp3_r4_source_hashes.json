@@ -10,8 +10,8 @@
       "sha256": "765086e30cc9e5bd7d6ae6078f86ac3abc893de46770358046f8b36f18e171a2"
     },
     "scripts/cp3_r4_full_schema_concurrency.py": {
-      "bytes": 26003,
-      "sha256": "55798d3e5e3d76dcb66a42e5d2c3bb82419478dc13a92c34e09e26f0efd0e8dd"
+      "bytes": 26580,
+      "sha256": "08a9ac8e68ab91bd44afe3e8cd58f41e26ec2ad70c31dd70ccb0ae98bf3d8283"
     },
     "scripts/cp3_render_r4_reviewed_rollback.py": {
       "bytes": 3612,
@@ -100,6 +100,35 @@
       }
     ],
     "scope": "acceptance-only; runtime source unchanged"
+  },
+  "last_concurrency_assertion_alignment": {
+    "applied": [
+      {
+        "count": 1,
+        "label": "activate-vs-approve runtime rejection"
+      },
+      {
+        "count": 1,
+        "label": "activate-vs-policy runtime rejection"
+      },
+      {
+        "count": 1,
+        "label": "activate-vs-reverse-work runtime rejection"
+      },
+      {
+        "count": 1,
+        "label": "reverse-work-first fail-closed rejection"
+      },
+      {
+        "count": 1,
+        "label": "protected journal source-type matrix"
+      },
+      {
+        "count": 1,
+        "label": "service-role protected journal rejection"
+      }
+    ],
+    "scope": "harness-only; runtime source unchanged"
   },
   "last_validation_trigger": {
     "reason": "rerun after exact protected-journal, active-pool, terminal-dependency, and idempotency assertion alignment",
