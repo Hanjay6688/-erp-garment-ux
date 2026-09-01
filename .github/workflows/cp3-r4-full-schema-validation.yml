@@ -208,7 +208,40 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          supabase db push --db-url "$PGURL" --include-all --dry-run \
+          psql "$PGURL" -At -v ON_ERROR_STOP=1 \
+            -c 'select version from supabase_migrations.schema_migrations order by version' \
+            > cp3-r5-proof/platform-ledger-before-cp3.txt
+          python - <<'PY'
+          import json,re,shutil
+          from pathlib import Path
+          source_dir=Path('supabase/migrations')
+          plan_dir=Path('cp3-local/supabase/migrations')
+          plan_dir.mkdir(parents=True,exist_ok=True)
+          copied=[]
+          for source in sorted(source_dir.glob('*.sql')):
+              shutil.copyfile(source,plan_dir/source.name)
+              copied.append(source.name)
+          present={p.name.split('_',1)[0] for p in plan_dir.glob('*.sql')}
+          placeholders=[]
+          versions=Path('cp3-r5-proof/platform-ledger-before-cp3.txt').read_text().splitlines()
+          for version in versions:
+              if not re.fullmatch(r'\d{14}',version):
+                  raise SystemExit(f'invalid platform migration version: {version!r}')
+              if version in present:
+                  continue
+              name=f'{version}_recorded_ledger_placeholder.sql'
+              (plan_dir/name).write_text('-- Recorded remote migration; no-op planner placeholder.\n')
+              placeholders.append(name)
+          report={
+              'status':'PASS',
+              'recorded_version_count':len(versions),
+              'repository_migrations':copied,
+              'recorded_noop_placeholders':placeholders,
+          }
+          Path('cp3-r5-proof/ledger-complete-planner.json').write_text(json.dumps(report,indent=2)+'\n')
+          print(json.dumps(report,indent=2))
+          PY
+          supabase db push --workdir cp3-local --db-url "$PGURL" --include-all --dry-run \
             2>&1 | tee cp3-r5-proof/cp3-after-v2615-migration-plan.log
           for version in 20260901023000 20260901023100 20260901023200 20260901023400; do
             grep -F "$version" cp3-r5-proof/cp3-after-v2615-migration-plan.log >/dev/null

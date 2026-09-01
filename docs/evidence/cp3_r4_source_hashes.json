@@ -4,8 +4,8 @@
   "cp3_source_sha": "1f3fc7de66d438778dde2745791010310001de97",
   "files": {
     ".github/workflows/cp3-r4-full-schema-validation.yml": {
-      "bytes": 32461,
-      "sha256": "0811c892d79c3c9f1bf22d6ba14f3accac22a4da554c97923cb92739b435d935"
+      "bytes": 34138,
+      "sha256": "69e36a5e6749277b1998e4e809ffb6fd5174b498ed4251c0e4d79dfc0344a98f"
     },
     "scripts/cp3_r3_full_schema_concurrency.py": {
       "bytes": 13419,
@@ -115,8 +115,9 @@
     },
     "deployment_order": {
       "reason": "CP3 source migrations predate the already-live v2.6.15 platform migration",
-      "required_preview": "supabase db push --include-all --dry-run",
-      "required_apply": "supabase db push --include-all",
+      "platform_history_mode": "ledger-complete disposable directory with no-op files only for already-recorded remote versions",
+      "required_preview": "supabase db push --workdir <ledger-complete-plan> --include-all --dry-run",
+      "required_apply": "supabase db push --workdir <same-reviewed-ledger-complete-plan> --include-all",
       "workflow_runtime_order": [
         "v2.6.15",
         "v2.6.14a",
@@ -135,7 +136,8 @@
       "per-scenario terminal journal source and residue evidence",
       "automatic workflow trigger coverage for v2.6.14a and v2.6.14b",
       "current-main v2.6.15 replay and 200/20 payroll entitlement regression",
-      "CP2 catalog-restore guard rejection capture and byte-bound v2.6.15 candidate-body replay"
+      "CP2 catalog-restore guard rejection capture and byte-bound v2.6.15 candidate-body replay",
+      "ledger-complete no-op historical planner for exact out-of-order Supabase CLI preview"
     ],
     "expected_scenario_count": 16,
     "scope": "proof and current-main integration only"
