@@ -1,4 +1,5 @@
 {
+
   "manifest_version": "CP3_REVIEWED_SQL_V1",
   "candidate": "ERP_GARMENT_V2_6_14_ATTENDANCE_HPP_SEWING_TERMINAL_FOUNDATION",
   "source_path": "supabase/migrations/20260901023000_erp_v2_6_14_attendance_hpp_sewing_terminal_foundation.sql",
