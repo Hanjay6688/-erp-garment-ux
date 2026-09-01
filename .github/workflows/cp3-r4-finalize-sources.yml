@@ -1,0 +1,50 @@
+name: CP3 R4 Finalize Sources
+
+on:
+  push:
+    branches:
+      - cp3/hpp-attendance-sewing-terminal-r4-20260901
+    paths:
+      - scripts/cp3_r4_finalize_sources.py
+      - .github/workflows/cp3-r4-finalize-sources.yml
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact R4 writer branch
+        uses: actions/checkout@v4
+        with:
+          ref: cp3/hpp-attendance-sewing-terminal-r4-20260901
+          fetch-depth: 0
+
+      - name: Verify writer branch and generate exact R4 sources
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git branch --show-current)" = "cp3/hpp-attendance-sewing-terminal-r4-20260901"
+          python scripts/cp3_r4_finalize_sources.py
+          python -m py_compile \
+            scripts/cp3_r4_full_schema_concurrency.py \
+            scripts/cp3_render_r4_reviewed_rollback.py \
+            scripts/test_cp3_render_r4_reviewed_rollback.py
+          python scripts/test_cp3_render_r4_reviewed_rollback.py
+          git diff --check
+
+      - name: Remove one-time writer transports and commit complete source boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -f scripts/cp3_r4_finalize_sources.py
+          rm -f .github/workflows/cp3-r4-finalize-sources.yml
+          rm -f .github/workflows/cp3-r4-source-export.yml
+          git config user.name 'Hanjay6688'
+          git config user.email 'jktr9n2g88@privaterelay.appleid.com'
+          git add -A
+          git diff --cached --check
+          git commit -m 'test(cp3): finalize R4 full-schema proof boundary'
+          git push origin HEAD:cp3/hpp-attendance-sewing-terminal-r4-20260901
