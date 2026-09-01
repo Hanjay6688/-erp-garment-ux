@@ -34,19 +34,21 @@ jobs:
 
           test_path = Path('supabase/tests/attendance_hpp_r4_full_schema_rollback.sql')
           source = test_path.read_text()
-          old = """  exception when others then
-    if sqlerrm like 'Expected same idempotency%'
-       or position('idempot' in lower(sqlerrm))=0 then raise; end if;
-  end;
-"""
-          new = """  exception when others then
-    if sqlerrm like 'Expected same idempotency%'
-       or position('client_request_id' in lower(sqlerrm)) = 0
-       or position('different payload' in lower(sqlerrm)) = 0 then
-      raise;
-    end if;
-  end;
-"""
+          old = (
+              "  exception when others then\n"
+              "    if sqlerrm like 'Expected same idempotency%'\n"
+              "       or position('idempot' in lower(sqlerrm))=0 then raise; end if;\n"
+              "  end;\n"
+          )
+          new = (
+              "  exception when others then\n"
+              "    if sqlerrm like 'Expected same idempotency%'\n"
+              "       or position('client_request_id' in lower(sqlerrm)) = 0\n"
+              "       or position('different payload' in lower(sqlerrm)) = 0 then\n"
+              "      raise;\n"
+              "    end if;\n"
+              "  end;\n"
+          )
           count = source.count(old)
           if count != 1:
               raise SystemExit(f'expected exactly one failed idempotency assertion block, found {count}')
@@ -65,14 +67,16 @@ jobs:
               'patched': test_path.as_posix(),
               'bytes': len(raw),
               'sha256': hashlib.sha256(raw).hexdigest(),
-              'reason': 'accept the existing fail-closed idempotency helper message only when both client_request_id and different payload are present',
+              'reason': 'accept existing fail-closed helper message only when client_request_id and different payload are both present',
           }, sort_keys=True))
           PY
 
           git diff --check
           python - <<'PY'
-          import hashlib, json
+          import hashlib
+          import json
           from pathlib import Path
+
           manifest = json.loads(Path('docs/evidence/cp3_r4_source_hashes.json').read_text())
           failures = []
           for path, expected in manifest['files'].items():
@@ -81,7 +85,7 @@ jobs:
                   failures.append(path)
           if failures:
               raise SystemExit(f'fixed-source manifest mismatch after patch: {failures}')
-          print(json.dumps({'status':'PASS','manifest_entries':len(manifest['files'])}, sort_keys=True))
+          print(json.dumps({'status': 'PASS', 'manifest_entries': len(manifest['files'])}, sort_keys=True))
           PY
 
       - name: Commit patch to writer branch
