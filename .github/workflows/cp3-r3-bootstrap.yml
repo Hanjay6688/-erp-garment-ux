@@ -26,7 +26,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          test "$(git rev-parse HEAD^)" = 'ade6fcedb772fc469eee352ece0b1a3a31cb1ab5'
+          test "$(git rev-parse HEAD^)" = '17acda4c7d114257075cb396ff2b98ae1a2fb1bf'
           test "$(wc -c < .cp3-r3-bootstrap/part00.b64)" = 7000
           test "$(wc -c < .cp3-r3-bootstrap/part01.b64)" = 7000
           test "$(wc -c < .cp3-r3-bootstrap/part02.b64)" = 7000
@@ -84,6 +84,8 @@ jobs:
           cfe4ffc9c63ab8d9ef66c765af5eb420c5f31a56254fb6bf3ebdf70e858ce0a9  supabase/tests/cp3_r3_full_schema_race_seed.sql
           e2c17320074e2dcadc4d69cbc1b4be5f7ea78708715cf9681dbe9b6a797f8edf  supabase/tests/cp3_r3_full_schema_seed.sql
           SUMS
+          sed -i 's/[[:space:]]\+$//' docs/evidence/2026-09-01/cp3_r3_patch_status.md
+          echo 'cc7a20c85a0f5fdc6e40c03658d782f19fb0947c9c95f09031ecf3fe6ae51e57  docs/evidence/2026-09-01/cp3_r3_patch_status.md' | sha256sum -c -
           python -m py_compile scripts/cp3_r3_full_schema_concurrency.py
 
       - name: Remove bootstrap transport and publish exact candidate
