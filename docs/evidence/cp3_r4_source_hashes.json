@@ -138,8 +138,8 @@
     "uat_applied": false
   },
   "last_validation_trigger": {
-    "reason": "rerun after exact two-connection race assertion alignment",
-    "source_head": "b3d4fbff78f725e50fecb840777f90be10496dcb"
+    "reason": "rerun full-schema proof after deterministic policy lock-order repair",
+    "source_head": "ad6c390d151b2169ebeef2c2ebe991afc1c0e884"
   },
   "legacy_mutated": false,
   "migration_version": "v2.6.14d",
