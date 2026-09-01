@@ -37,7 +37,12 @@ jobs:
           set -Eeuo pipefail
           test "${GITHUB_REF_NAME}" = 'cp3/hpp-attendance-sewing-terminal-reconstruction-20260901'
           test "$(find .cp3-bootstrap -maxdepth 1 -type f -name 'part*.b64' | wc -l)" = 6
-          cat .cp3-bootstrap/part00.b64 \
+
+          # part00 was modified only while preparing a corrected bundle. Reconstruct the
+          # already-reviewed v1 archive from its exact historical bootstrap commit,
+          # then apply the one reproduced fixture-arity correction below.
+          git show bfcf36fa3653446a0cb89625eadcac48b9284d5f:.cp3-bootstrap/part00.b64 > /tmp/cp3-part00-reviewed.b64
+          cat /tmp/cp3-part00-reviewed.b64 \
               .cp3-bootstrap/part01.b64 \
               .cp3-bootstrap/part02.b64 \
               .cp3-bootstrap/part03.b64 \
@@ -47,10 +52,27 @@ jobs:
           echo 'fbb3108eadd1c61c46a730d951126da497a4ac7f8f0a997da14520eaac31382f  /tmp/cp3-source-bundle.zip' | sha256sum -c -
           unzip -tq /tmp/cp3-source-bundle.zip
           unzip -oq /tmp/cp3-source-bundle.zip -d .
-          rm -rf .cp3-bootstrap .github/workflows/cp3-bootstrap-source.yml /tmp/cp3-source-bundle.zip
+
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('supabase/tests/attendance_hpp_sewing_terminal_rollback.acceptance.sql')
+          text = path.read_text()
+          old = "   null, null, null,\n   gen_random_uuid(), null, true, false, date '2026-08-20', 900.00, null);"
+          new = "   null, null,\n   gen_random_uuid(), null, true, false, date '2026-08-20', 900.00, null);"
+          count = text.count(old)
+          if count != 1:
+              raise SystemExit(f'expected exactly one ZERO_DENOM fixture-arity patch target, found {count}')
+          path.write_text(text.replace(old, new))
+          PY
+
+          rm -rf .cp3-bootstrap .github/workflows/cp3-bootstrap-source.yml
+          rm -rf scripts/__pycache__ supabase/.temp
+          rm -f /tmp/cp3-source-bundle.zip /tmp/cp3-part00-reviewed.b64
 
           python scripts/test_cp3_source_contract.py
           python scripts/test_render_cp3_rollback.py
+          find scripts -type d -name '__pycache__' -prune -exec rm -rf {} +
+          rm -rf supabase/.temp
 
           git config user.name 'Hanjay6688'
           git config user.email 'jktr9n2g88@privaterelay.appleid.com'
@@ -115,5 +137,5 @@ jobs:
         run: |
           set +e
           supabase stop --no-backup --workdir cp3-local || true
-          rm -rf restore transport cp3-local /tmp/cp3-source-bundle.zip /tmp/cp2_generate_catalog_restore.py
+          rm -rf restore transport cp3-local /tmp/cp3-source-bundle.zip /tmp/cp3-part00-reviewed.b64 /tmp/cp2_generate_catalog_restore.py
           rm -f cp3-rendered-rollback.sql cp3-persistent-acceptance.sql
