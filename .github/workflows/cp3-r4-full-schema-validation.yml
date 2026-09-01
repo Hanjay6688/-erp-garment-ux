@@ -321,7 +321,16 @@ jobs:
             'active_pool_helper',to_regprocedure('erp._cp3_r4_active_pool_affects_contractor(uuid,date,date)')
           );
           SQL
-          grep -F '"status" : "PASS"' cp3-r4-proof/r4-rollback-residue.json >/dev/null
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          residue=json.loads(Path('cp3-r4-proof/r4-rollback-residue.json').read_text())
+          assert residue['status']=='PASS', residue
+          assert residue['migration_marker'] is False, residue
+          assert residue['capsule'] is None, residue
+          assert residue['private_reverse'] is None, residue
+          assert residue['active_pool_helper'] is None, residue
+          PY
 
       - name: Restore baseline business data after race and prove zero residue
         shell: bash
