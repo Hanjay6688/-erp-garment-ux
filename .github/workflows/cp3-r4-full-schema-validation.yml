@@ -1,0 +1,123 @@
+name: CP3 R4 Full-Schema Validation
+
+on:
+  push:
+    branches:
+      - cp3/hpp-attendance-sewing-terminal-r4-20260901
+    paths:
+      - '.github/workflows/cp3-r4-full-schema-validation.yml'
+      - 'docs/evidence/2026-09-01/checkpoint_3_r4_fixed_source_manifest.json'
+      - 'supabase/migrations/20260901023300_erp_v2_6_14d_active_pool_and_protected_reversal_guards.sql'
+      - 'supabase/tests/cp3_r4_full_schema_seed.sql'
+      - 'supabase/tests/cp3_r4_full_schema_race_seed.sql'
+      - 'supabase/tests/attendance_hpp_r4_full_schema_rollback.sql'
+      - 'supabase/tests/attendance_hpp_r4_validator_benchmark_rollback.sql'
+      - 'scripts/cp3_r4_full_schema_concurrency.py'
+      - 'scripts/cp3_render_reviewed_rollback.py'
+      - 'scripts/test_cp3_render_reviewed_rollback.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  validate-full-schema:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    env:
+      PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
+      CP3_R4_CONCURRENCY_REPORT: cp3-r4-concurrency-report.json
+      CP3_R4_BASE_MAIN: bf3ce8e2821f120d8abd8788daf07f6da7c15459
+      CP3_R4_REVIEWED_PARENT: 366a4b2fb6f6daa0ef1d9d47a78c7b83a8c89ceb
+      CP3_R4_TARGET_PROJECT: siimvrusnzxexizpyoib
+      CP3_R4_HISTORICAL_SCHEMA_FINGERPRINT: a0c59b96b3879edd28f3d8c57d0894a3
+      CP3_R4_VALIDATION_PAYLOAD_COMMIT: 143865c39b59c2e54f75df0ce40b22c19df565cd
+      CP3_R4_VALIDATION_WORKFLOW_SHA256: 95b792320e7a3198a6f319796f98e88260855a4a52aebce221fa49fe0d943245
+    steps:
+      - name: Checkout exact R4 candidate
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python and Supabase CLI
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Download encrypted full-schema backup
+        uses: actions/download-artifact@v4
+        with:
+          name: cp2-encrypted-backup
+          path: transport/backup
+          github-token: ${{ github.token }}
+          run-id: 33430989888
+
+      - name: Download recovery key separately
+        uses: actions/download-artifact@v4
+        with:
+          name: cp2-recovery-key-separate
+          path: transport/key
+          github-token: ${{ github.token }}
+          run-id: 33430989888
+
+      - name: Execute digest-pinned reviewed full-schema validation plan
+        shell: bash
+        run: |
+          set -euo pipefail
+          git show "$CP3_R4_VALIDATION_PAYLOAD_COMMIT:.cp3-r4-bootstrap/payload.tar.gz" > /tmp/cp3-r4-payload.tar.gz
+          tar -xzf /tmp/cp3-r4-payload.tar.gz -C /tmp ./.github/workflows/cp3-r4-full-schema-validation.yml
+          cp /tmp/.github/workflows/cp3-r4-full-schema-validation.yml cp3-r4-executed-validation-workflow.yml
+          echo "$CP3_R4_VALIDATION_WORKFLOW_SHA256  cp3-r4-executed-validation-workflow.yml" | sha256sum -c -
+          python -m pip install --quiet 'PyYAML==6.0.2'
+          python - <<'PY'
+          import os, subprocess, yaml
+          from pathlib import Path
+
+          plan = yaml.safe_load(Path('cp3-r4-executed-validation-workflow.yml').read_text())
+          steps = plan['jobs']['validate-full-schema']['steps']
+          skipped = {
+              'Checkout exact R4 candidate',
+              'Set up Python and Supabase CLI',
+              'Install Supabase CLI',
+              'Download encrypted full-schema backup and separate key',
+              'Download recovery key separately',
+              'Upload non-secret CP3 R4 proof',
+              'Destroy local stack and decrypted recovery material',
+          }
+          executed=[]
+          for step in steps:
+              name=step.get('name','unnamed')
+              if name in skipped or 'run' not in step:
+                  continue
+              print(f'::group::{name}', flush=True)
+              cp=subprocess.run(['bash','-euo','pipefail','-c',step['run']],cwd=os.environ['GITHUB_WORKSPACE'],env=os.environ.copy())
+              print('::endgroup::', flush=True)
+              if cp.returncode:
+                  raise SystemExit(f'validation step failed: {name} rc={cp.returncode}')
+              executed.append(name)
+          Path('cp3-r4-executed-steps.json').write_text(__import__('json').dumps({'status':'PASS','steps':executed},indent=2)+'\n')
+          PY
+
+      - name: Upload non-secret CP3 R4 proof
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cp3-r4-full-schema-proof
+          path: |
+            cp3-r4-*
+            docs/evidence/2026-09-01/checkpoint_3_r4_fixed_source_manifest.json
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Destroy local stack and decrypted recovery material
+        if: always()
+        shell: bash
+        run: |
+          supabase stop --no-backup --workdir cp3-local || true
+          rm -rf restore transport cp3-local /tmp/cp3-r4-payload.tar.gz /tmp/.github
