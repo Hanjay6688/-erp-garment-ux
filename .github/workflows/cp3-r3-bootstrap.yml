@@ -26,7 +26,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          test "$(git rev-parse HEAD^)" = '58803928cd50c2dddd2aa23dc6989d868f685539'
+          test "$(git rev-parse HEAD^)" = 'ade6fcedb772fc469eee352ece0b1a3a31cb1ab5'
           test "$(wc -c < .cp3-r3-bootstrap/part00.b64)" = 7000
           test "$(wc -c < .cp3-r3-bootstrap/part01.b64)" = 7000
           test "$(wc -c < .cp3-r3-bootstrap/part02.b64)" = 7000
