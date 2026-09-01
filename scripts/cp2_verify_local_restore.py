@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import json
 import os
+import traceback
 from pathlib import Path
 
 import psycopg
@@ -161,5 +162,24 @@ def main():
         raise SystemExit('Free local database restore verification failed')
 
 
+def write_crash_report(exc):
+    if REPORT.exists():
+        return
+    report = {
+        'status': 'ERROR',
+        'mode': 'FREE_LOCAL_SUPABASE_RESTORE',
+        'stage': 'DATABASE_VERIFIER',
+        'exception_type': type(exc).__name__,
+        'exception': str(exc),
+        'traceback': traceback.format_exc(),
+    }
+    REPORT.write_text(json.dumps(report, indent=2, ensure_ascii=False, default=str) + '\n')
+
+
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except BaseException as exc:
+        traceback.print_exc()
+        write_crash_report(exc)
+        raise
