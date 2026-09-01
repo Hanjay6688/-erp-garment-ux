@@ -102,8 +102,8 @@
     "scope": "acceptance-only; runtime source unchanged"
   },
   "last_validation_trigger": {
-    "reason": "rerun after fail-closed idempotency assertion repair",
-    "source_head": "dd91646d6a7abb80e1e3fe4e29eb5894f32db2d9"
+    "reason": "rerun after exact protected-journal, active-pool, terminal-dependency, and idempotency assertion alignment",
+    "source_head": "18bfb86bf500fe91ac64e6c1fce0a920fbca4b6c"
   },
   "legacy_mutated": false,
   "migration_version": "v2.6.14d",
