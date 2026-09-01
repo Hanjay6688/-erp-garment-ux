@@ -1,0 +1,13 @@
+DELETE_AFTER_PATCH_VALIDATION
+.github/workflows/cp3-patch-authoritative-attendance-once.yml
+.github/workflows/cp3-patch-authoritative-roster-once.yml
+.github/workflows/cp3-patch-concurrency-bootstrap-once.yml
+.github/workflows/cp3-retrigger-latest-once.yml
+scripts/cp3_normalize_concurrency_report_once.py
+scripts/cp3_patch_authoritative_attendance_fixture_once.py
+scripts/cp3_patch_authoritative_attendance_fixture_v2_once.py
+scripts/cp3_patch_authoritative_attendance_fixture_v3_once.py
+scripts/cp3_patch_authoritative_roster_fixture_once.py
+scripts/cp3_patch_concurrency_bootstrap_once.py
+ops/cp3/evidence/retrigger_latest_candidate_20260901.txt
+ops/cp3/CLEANUP_PLAN_20260901.txt
