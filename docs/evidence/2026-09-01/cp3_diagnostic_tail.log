@@ -1,0 +1,4 @@
+STAGE=04_RENDER_BASELINE
+HEAD=3a57080f10e86c640e0d1f6a080459b5e768fe75
+--- tail ---
+psql: error: connection to server at "127.0.0.1", port 5432 failed: FATAL:  database "cp3_render" does not exist
