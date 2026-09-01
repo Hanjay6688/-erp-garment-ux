@@ -30,6 +30,8 @@ jobs:
           test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
           cp scripts/cp3_r4_hotfix_v4.py /tmp/cp3_r4_hotfix_v4.py
           cp scripts/cp3_r4_hotfix_v5.py /tmp/cp3_r4_hotfix_v5.py
+          cp supabase/tests/cp3_r4_full_schema_seed.sql /tmp/cp3_r4_full_schema_seed.sql
+          cp supabase/tests/cp3_r4_full_schema_race_seed.sql /tmp/cp3_r4_full_schema_race_seed.sql
           git fetch --no-tags origin refs/heads/evidence/cp3-r4-generated-boundary-be76:refs/remotes/origin/evidence/cp3-r4-generated-boundary-be76
           generated="$(git rev-parse refs/remotes/origin/evidence/cp3-r4-generated-boundary-be76)"
           test "$generated" = 'be76bc551c7c10c2546a19d01dab603350e82d88'
@@ -37,10 +39,14 @@ jobs:
           git read-tree --reset -u "$generated"
           cp /tmp/cp3_r4_hotfix_v4.py scripts/cp3_r4_hotfix_v4.py
           cp /tmp/cp3_r4_hotfix_v5.py scripts/cp3_r4_hotfix_v5.py
+          cp /tmp/cp3_r4_full_schema_seed.sql supabase/tests/cp3_r4_full_schema_seed.sql
+          cp /tmp/cp3_r4_full_schema_race_seed.sql supabase/tests/cp3_r4_full_schema_race_seed.sql
 
           test -s docs/evidence/cp3_r4_source_hashes.json
           test -s supabase/migrations/20260901023400_erp_v2_6_14d_cp3_r4_race_and_reversal_hardening.sql
           test -s supabase/tests/attendance_hpp_r4_full_schema_rollback.sql
+          test -s supabase/tests/cp3_r4_full_schema_seed.sql
+          test -s supabase/tests/cp3_r4_full_schema_race_seed.sql
           test -s scripts/cp3_r4_full_schema_concurrency.py
           test -s .github/workflows/cp3-r4-full-schema-validation.yml
 
@@ -50,12 +56,11 @@ jobs:
           python scripts/test_cp3_render_r4_reviewed_rollback.py
 
           rm -f scripts/cp3_r4_hotfix_v4.py scripts/cp3_r4_hotfix_v5.py
-          rm -f .github/workflows/cp3-r4-hotfix-v4.yml .github/workflows/cp3-r4-hotfix-v5.yml
+          rm -f .github/workflows/cp3-r4-hotfix-v4.yml .github/workflows/cp3-r4-hotfix-v5.yml .github/workflows/cp3-r4-hotfix-v6.yml
           rm -f .github/workflows/cp3-r4-finalize-sources.yml .github/workflows/cp3-r4-finalize-sources-v2.yml
           rm -f .github/workflows/cp3-r4-source-export.yml .github/workflows/cp3-r4-full-schema-validation-final.yml
           rm -f scripts/cp3_r4_finalize_sources.py scripts/cp3_r4_finalize_sources_v2.py
           rm -f supabase/migrations/20260901023300_erp_v2_6_14d_active_pool_and_protected_reversal_guards.sql
-          rm -f supabase/tests/cp3_r4_full_schema_seed.sql supabase/tests/cp3_r4_full_schema_race_seed.sql
           rm -f supabase/tests/attendance_hpp_r4_validator_benchmark_rollback.sql
           rm -f docs/evidence/2026-09-01/checkpoint_3_r4_fixed_source_manifest.json
           find scripts -type d -name __pycache__ -prune -exec rm -rf {} +
@@ -63,6 +68,10 @@ jobs:
 
           test "$(find supabase/migrations -maxdepth 1 -type f -name '*14d*.sql' | wc -l)" -eq 1
           test "$(grep -Rsl "version='v2.6.14d'" supabase/migrations/*14d*.sql | wc -l)" -eq 1
+          test -s supabase/tests/cp3_r4_full_schema_seed.sql
+          test -s supabase/tests/cp3_r4_full_schema_race_seed.sql
+          grep -F '\ir cp3_r4_full_schema_seed.sql' supabase/tests/attendance_hpp_r4_full_schema_rollback.sql >/dev/null
+          grep -F 'cp3_r4_full_schema_race_seed.sql' .github/workflows/cp3-r4-full-schema-validation.yml >/dev/null
           test -z "$(find scripts -type f \( -name '*.pyc' -o -name 'cp3_r4_hotfix_v*.py' -o -name 'cp3_r4_finalize_sources*.py' \) -print -quit)"
           test -z "$(find .github/workflows -maxdepth 1 -type f \( -name 'cp3-r4-hotfix-*.yml' -o -name 'cp3-r4-finalize-*.yml' -o -name 'cp3-r4-source-export.yml' \) -print -quit)"
           git diff --check
