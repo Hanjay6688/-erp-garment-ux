@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { ArrowLeft, ArrowRight, Check, CheckCircle2, FileText, ShieldCheck, UserRound, Wrench } from 'lucide-react'
 import type { QcFinalResult } from './QcFinalPage'
-import type { ReadyFgNotaCard, RegularFgNotaSnapshot } from './fgNota'
+import { regularFgNotaCardId, selectRegularFgNotaSources, type ReadyFgNotaCard, type RegularFgNotaSnapshot } from './fgNota'
 import { calculateRegularWorkEntitlement } from './payroll/regularWorkEntitlement'
 
 type NotaFocus = { kind: 'REGULAR' | 'REPAIR'; id: string }
@@ -44,8 +44,6 @@ const laborComponents = [
 
 const money = (value: number) => `Rp${Math.round(value).toLocaleString('id-ID')}`
 const total = (values: number[]) => values.reduce((sum, value) => sum + value, 0)
-const regularCardId = (result: QcFinalResult) => `qc-${result.parentId}-${result.batchId}-${result.completionCount}`
-
 const toRegularCard = (result: QcFinalResult, savedSnapshot?: RegularFgNotaSnapshot): RegularNotaCard => {
   const good = total(result.postedGoodBySize)
   const bs = total(result.postedBsBySize)
@@ -72,7 +70,7 @@ const toRegularCard = (result: QcFinalResult, savedSnapshot?: RegularFgNotaSnaps
     stuckComponents,
   })
   return {
-    id: regularCardId(result),
+    id: regularFgNotaCardId(result),
     result,
     source: `${result.parentId} · Batch ${result.batchId} · Completion ${String(result.completionCount).padStart(2, '0')}`,
     sku: `${result.brand} · ${result.finalSku}`,
@@ -121,12 +119,9 @@ export default function FgNotaPage({
   onOpenBs: () => void
 }) {
   const allResults = useMemo(() => {
-    const unique = new Map<string, QcFinalResult>()
-    if (result) unique.set(regularCardId(result), result)
-    eligibleResults.forEach((item) => unique.set(regularCardId(item), item))
-    return Array.from(unique.values())
+    return selectRegularFgNotaSources(result ? [result, ...eligibleResults] : eligibleResults)
   }, [result, eligibleResults])
-  const focusedResult = focus?.kind === 'REGULAR' ? allResults.find((item) => regularCardId(item) === focus.id) : undefined
+  const focusedResult = focus?.kind === 'REGULAR' ? allResults.find((item) => regularFgNotaCardId(item) === focus.id) : undefined
   const focusedRepair = focus?.kind === 'REPAIR' ? repairCards.find((item) => item.id === focus.id) : undefined
   const initialMandor = focusedResult?.mandor ?? focusedRepair?.mandor ?? allResults[0]?.mandor ?? repairCards[0]?.mandor ?? ''
   const [selectedMandor, setSelectedMandor] = useState(initialMandor)
@@ -149,7 +144,7 @@ export default function FgNotaPage({
   const activeResult = focusedResult?.mandor === selectedMandor
     ? focusedResult
     : allResults.find((item) => item.mandor === selectedMandor)
-  const regularCards = allResults.filter((item) => item.mandor === selectedMandor).map((item) => toRegularCard(item, regularSnapshots[regularCardId(item)]))
+  const regularCards = allResults.filter((item) => item.mandor === selectedMandor).map((item) => toRegularCard(item, regularSnapshots[regularFgNotaCardId(item)]))
   const visibleRepairCards = repairCards.filter((item) => item.mandor === selectedMandor)
   const selectedRegular = regularCards.filter((card) => regularIds.includes(card.id) && !postedIds.has(card.id))
   const selectedRepair = visibleRepairCards.filter((card) => repairIds.includes(card.id) && !postedIds.has(card.id))

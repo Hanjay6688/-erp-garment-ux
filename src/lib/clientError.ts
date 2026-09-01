@@ -7,9 +7,6 @@ export type ClientErrorCode =
   | 'VERSION_CONFLICT'
   | 'DUPLICATE_REQUEST'
   | 'RETRYABLE_CONFLICT'
-  | 'BUSINESS_RPC_DISABLED'
-  | 'INVALID_REQUEST_ID'
-  | 'MUTATION_IN_FLIGHT'
   | 'BACKEND_UNAVAILABLE'
 
 export class ClientAppError extends Error {

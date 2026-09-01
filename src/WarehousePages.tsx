@@ -2,7 +2,7 @@ import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import {
   AlertTriangle, ArrowRight, Boxes, Check, ChevronDown, ClipboardCheck,
   FileClock, Filter, History, Layers3, MapPin, Package, PackageCheck,
-  Plus, RotateCcw, Ruler, Search, ShieldCheck, SlidersHorizontal,
+  RotateCcw, Ruler, Search, ShieldCheck, SlidersHorizontal,
   Sparkles, Tag, Truck, Warehouse, X,
 } from 'lucide-react'
 import { productCatalog } from './productCatalog'
@@ -75,20 +75,6 @@ type SupplierReturnRecord = {
   happenedAt: string
   status: 'Posted' | 'Menunggu review'
 }
-type WarehouseCase = {
-  id: string
-  type: 'Retur Mandor' | 'Stock Opname' | 'Penyesuaian'
-  status: 'Menunggu review' | 'Selisih ditemukan' | 'Selesai'
-  subject: string
-  identity: string
-  actor: string
-  location: string
-  happenedAt: string
-  source: string
-  note: string
-  lines: Array<{ label: string; unit: string; recorded: number; physical: number }>
-}
-
 const materials: MaterialSummary[] = [
   { id:'MAT-LCY', material:'Lucy', supplier:'Sinaran', totalReceivedYards:3612.5, usedYards:382.5, supplierReturnedYards:18.5, stockOnHandYards:3211.5, totalRolls:31, availableRolls:22, avgCost:49200, location:'Rak Kain A', lastMovement:'Potongan POT-260828-044 · 10:18' },
   { id:'MAT-1069', material:'1069 Ori', supplier:'Sinaran', totalReceivedYards:3374.5, usedYards:345, supplierReturnedYards:0, stockOnHandYards:3029.5, totalRolls:27, availableRolls:11, avgCost:50750, location:'Rak Kain B', lastMovement:'Material issue POT-260828-041 · 09:42' },
@@ -129,13 +115,6 @@ const supplierReturnRecords: SupplierReturnRecord[] = [
   { id:'RTS-260827-004', kind:'fabric', item:'Corduroy 8W · CRB-007', supplier:'Mitra Tekstil', qty:18, unit:'yd', happenedAt:'27 Agu 2026 · 13:12', status:'Posted' },
   { id:'RTS-260827-012', kind:'accessory', item:'Rivet Copper', supplier:'Inti Metal', qty:480, unit:'pcs', happenedAt:'27 Agu 2026 · 11:42', status:'Posted' },
   { id:'RTS-260826-009', kind:'accessory', item:'Hangtag Widie', supplier:'Cetak Jaya', qty:240, unit:'pcs', happenedAt:'26 Agu 2026 · 16:18', status:'Posted' },
-]
-
-const warehouseCases: WarehouseCase[] = [
-  { id:'RT-MD-260828-004', type:'Retur Mandor', status:'Menunggu review', subject:'Sisa kain Lucy kembali', identity:'LCY-029 · 18,5 yd', actor:'Mandor Asep', location:'Area Retur', happenedAt:'28 Agu 2026 · 08:12', source:'POT-260826-041 · Batch 02', note:'Sisa gulung utuh. Yard fisik sudah diukur ulang oleh gudang.', lines:[{label:'Roll LCY-029',unit:'yd',recorded:0,physical:18.5}] },
-  { id:'OPN-260828-002', type:'Stock Opname', status:'Selisih ditemukan', subject:'Hitung ulang Kancing Jeans', identity:'ACC-KNC-17 · Aksesori A-01', actor:'Nina · Gudang', location:'Aksesori A-01', happenedAt:'28 Agu 2026 · 07:44', source:'Sesi OPN-260828-A', note:'Dua kotak terbuka dihitung ulang. Selisih belum diposting.', lines:[{label:'Kancing Jeans 17 mm',unit:'pcs',recorded:12492,physical:12480}] },
-  { id:'ADJ-FG-260827-006', type:'Penyesuaian', status:'Menunggu review', subject:'Koreksi label grade FG', identity:'Widie · SKU 73002 · Size 32', actor:'Rina · QC', location:'Gudang FG Cadangan', happenedAt:'27 Agu 2026 · 16:40', source:'QC-260827-011', note:'Bukan selisih fisik. 1 pcs dipindah klasifikasi Good → BS.', lines:[{label:'Good · Size 32',unit:'pcs',recorded:37,physical:36},{label:'BS · Size 32',unit:'pcs',recorded:35,physical:36}] },
-  { id:'RT-MD-260827-011', type:'Retur Mandor', status:'Selesai', subject:'Karet pinggang tidak terpakai', identity:'ACC-KRT-32 · 24 meter', actor:'Mandor Intan', location:'Aksesori B-03', happenedAt:'27 Agu 2026 · 14:08', source:'POT-260824-036 · Batch 01', note:'Retur diterima layak pakai dan sudah masuk kembali ke saldo tersedia.', lines:[{label:'Karet Pinggang 32 mm',unit:'meter',recorded:1836,physical:1860}] },
 ]
 
 const prototypeStockHealth = (
@@ -380,39 +359,4 @@ function FinishedGoodsSummaryPage() {
         </main></div>
     </div>
   </>
-}
-
-function ReturnsAdjustmentsPage() {
-  const [mode,setMode] = useState<'browse'|'draft'>('browse')
-  const [query,setQuery] = useState('')
-  const [type,setType] = useState('Semua')
-  const [status,setStatus] = useState('Semua')
-  const [selectedId,setSelectedId] = useState(warehouseCases[0].id)
-  const [draftType,setDraftType] = useState<WarehouseCase['type']>('Retur Mandor')
-  const [draftLines,setDraftLines] = useState([{item:'LCY-029',unit:'yd',system:'0',physical:'18,5'},{item:'',unit:'pcs',system:'0',physical:''}])
-  const [draftNotice,setDraftNotice] = useState('')
-  const visible = useMemo(()=>warehouseCases.filter((item)=>`${item.id} ${item.type} ${item.subject} ${item.identity} ${item.actor} ${item.source}`.toLowerCase().includes(query.toLowerCase()) && (type==='Semua'||item.type===type) && (status==='Semua'||item.status===status)),[query,type,status])
-  const selected = warehouseCases.find((item)=>item.id===selectedId) ?? warehouseCases[0]
-  const parseDraft = (value:string) => Number(value.replace(',','.'))||0
-  const updateLine = (index:number,key:'item'|'unit'|'system'|'physical',value:string)=>setDraftLines((rows)=>rows.map((row,rowIndex)=>rowIndex===index?{...row,[key]:value}:row))
-  return <>
-    <section className="hero-copy compact wh-hero"><div><div className="eyebrow">GUDANG · KONTROL STOK</div><h1>Retur & Penyesuaian</h1><p>Retur menambah barang yang benar-benar kembali. Opname dan penyesuaian hanya mengubah ledger setelah alasan, bukti, serta angka sebelum–sesudah direview.</p></div><div className="wh-rule strict"><ShieldCheck/><div><span>GUARDRAIL</span><strong>Tidak ada edit saldo langsung</strong><small>Selalu draft → review → posting berjejak.</small></div></div></section>
-    <section className="wh-metrics"><MetricCard label="Menunggu review" value="2 kasus" note="Belum mengubah saldo" tone="warn" icon={ClipboardCheck}/><MetricCard label="Selisih opname" value="12 pcs" note="Kancing Jeans 17 mm" tone="danger" icon={AlertTriangle}/><MetricCard label="Retur hari ini" value="18,5 yd" note="1 roll dari Mandor Asep" tone="good" icon={RotateCcw}/><MetricCard label="Selesai 7 hari" value="14 kasus" note="Semua punya sumber & alasan" icon={History}/></section>
-    <div className="panel wh-workspace adjustments"><div className="wh-mode-tabs"><button className={mode==='browse'?'active':''} onClick={()=>setMode('browse')}><History/> Daftar kasus <b>{warehouseCases.length}</b></button><button className={mode==='draft'?'active':''} onClick={()=>setMode('draft')}><Plus/> Buat draft baru</button></div>
-      {mode==='browse'?<><div className="wh-toolbar"><SearchBox value={query} onChange={setQuery} placeholder="Cari kasus, item, mandor, sumber..."/><SelectFilter label="Jenis" value={type} options={[...new Set(warehouseCases.map((item)=>item.type))]} onChange={setType}/><SelectFilter label="Status" value={status} options={[...new Set(warehouseCases.map((item)=>item.status))]} onChange={setStatus}/><button className="wh-reset" onClick={()=>{setQuery('');setType('Semua');setStatus('Semua')}}><RotateCcw/> Reset</button></div><div className="wh-master-detail cases"><aside className="wh-browser"><header><div><span>BROWSE KASUS</span><strong>{visible.length} kasus tampil</strong></div><small>Terbaru dulu</small></header><div className="wh-browser-list">{visible.map((item)=><button key={item.id} className={selected.id===item.id?'active':''} onClick={()=>setSelectedId(item.id)}><span className="wh-index">{item.type==='Retur Mandor'?'RT':item.type==='Stock Opname'?'OP':'AD'}</span><div><strong>{item.subject}</strong><small>{item.id} · {item.type}</small><em>{item.actor} · {item.happenedAt}</em></div><b>{item.identity.split(' · ').slice(-1)}</b><StatusBadge>{item.status}</StatusBadge></button>)}{visible.length===0&&<EmptyResult title="Kasus tidak ditemukan" note="Ubah filter jenis/status atau reset pencarian."/>}</div></aside><CaseDetail selected={selected}/></div></>:<DraftAdjustment draftType={draftType} setDraftType={setDraftType} lines={draftLines} updateLine={updateLine} addLine={()=>setDraftLines((rows)=>[...rows,{item:'',unit:'pcs',system:'0',physical:''}])} parseDraft={parseDraft} notice={draftNotice} onReview={()=>setDraftNotice('Draft simulasi siap direview. Saldo belum berubah dan belum dikirim ke backend.')}/>} 
-    </div>
-  </>
-}
-
-function CaseDetail({ selected }: { selected: WarehouseCase }) {
-  const totalRecorded=selected.lines.reduce((sum,line)=>sum+line.recorded,0)
-  const totalPhysical=selected.lines.reduce((sum,line)=>sum+line.physical,0)
-  const delta=totalPhysical-totalRecorded
-  return <main className="wh-detail case-detail"><header className="wh-detail-head"><div><span>{selected.type.toUpperCase()}</span><h2>{selected.subject}</h2><p>{selected.id} · {selected.happenedAt}</p></div><StatusBadge>{selected.status}</StatusBadge></header><div className="wh-case-facts"><div><span>PELAKU / SUMBER</span><strong>{selected.actor}</strong><small>{selected.source}</small></div><div><span>LOKASI</span><strong>{selected.location}</strong><small>Lokasi fisik pemeriksaan</small></div><div><span>IDENTITAS BARANG</span><strong>{selected.identity}</strong><small>Jangan ganti item setelah review</small></div></div><div className="wh-ledger-equation"><span><small>SALDO TERCATAT</small><strong>{formatNumber(totalRecorded)}</strong></span><i>{delta>=0?'+':'−'}</i><span className={delta===0?'neutral':delta>0?'positive':'negative'}><small>PERUBAHAN</small><strong>{delta>0?'+':''}{formatNumber(delta)}</strong></span><i>=</i><span><small>SALDO SESUDAH</small><strong>{formatNumber(totalPhysical)}</strong></span></div><section className="wh-case-lines"><header><span>RINCIAN BARIS</span><small>Per item / roll / size</small></header><div className="wh-case-line-head"><span>Item</span><span>Sebelum</span><span>Fisik / kembali</span><span>Perubahan</span></div>{selected.lines.map((line)=><article key={line.label}><strong>{line.label}</strong><span>{formatNumber(line.recorded)} {line.unit}</span><span>{formatNumber(line.physical)} {line.unit}</span><b className={line.physical-line.recorded<0?'negative':line.physical-line.recorded>0?'positive':''}>{line.physical-line.recorded>0?'+':''}{formatNumber(line.physical-line.recorded)} {line.unit}</b></article>)}</section><div className="wh-case-note"><FileClock/><div><span>CATATAN & AUDIT</span><strong>{selected.note}</strong><small>Saldo hanya berubah setelah dokumen ini diposting oleh user berwenang.</small></div></div><footer className="wh-case-actions"><button className="soft-btn">Lihat dokumen sumber</button><button className="primary-btn" disabled={selected.status==='Selesai'}>{selected.status==='Selesai'?'Sudah diposting':'Review sebelum posting'} <ArrowRight/></button></footer></main>
-}
-
-function DraftAdjustment({ draftType, setDraftType, lines, updateLine, addLine, parseDraft, notice, onReview }: { draftType: WarehouseCase['type']; setDraftType:(value:WarehouseCase['type'])=>void; lines:Array<{item:string;unit:string;system:string;physical:string}>; updateLine:(index:number,key:'item'|'unit'|'system'|'physical',value:string)=>void; addLine:()=>void; parseDraft:(value:string)=>number; notice:string; onReview:()=>void }) {
-  const validLines=lines.filter((line)=>line.item.trim()&&line.physical.trim())
-  const totalDelta=validLines.reduce((sum,line)=>sum+parseDraft(line.physical)-parseDraft(line.system),0)
-  return <div className="wh-draft"><header><div><span>DRAFT BARU · BELUM MENGUBAH STOK</span><h2>{draftType}</h2><p>Pilih kejadian fisik yang benar. Jenis dokumen menentukan guardrail review, bukan sekadar label laporan.</p></div><div className="wh-draft-type">{(['Retur Mandor','Stock Opname','Penyesuaian'] as const).map((item)=><button key={item} className={draftType===item?'active':''} onClick={()=>setDraftType(item)}>{item}</button>)}</div></header><div className="wh-draft-meta"><label><span>SUMBER / REFERENSI</span><input placeholder={draftType==='Retur Mandor'?'POT / batch / mandor':'Nomor sesi / dokumen sumber'}/></label><label><span>LOKASI PEMERIKSAAN</span><select><option>Area Retur</option><option>Rak Kain A</option><option>Aksesori A-01</option><option>Gudang FG Utama</option></select></label><label><span>WAKTU FISIK</span><input type="datetime-local" defaultValue="2026-08-28T10:30"/></label></div><section className="wh-draft-lines" data-keyboard-grid><header><div><span>BARIS BARANG</span><strong>Enter turun · panah pindah sel</strong></div><button onClick={addLine}><Plus/> Tambah baris</button></header><div className="wh-draft-line-head"><span>Item / roll / SKU-size</span><span>Unit</span><span>Saldo sistem</span><span>Fisik / kembali</span><span>Selisih</span></div>{lines.map((line,index)=>{const delta=parseDraft(line.physical)-parseDraft(line.system);return <div className="wh-draft-line" key={index}><input data-grid-row={index} data-grid-col={0} value={line.item} onChange={(event)=>updateLine(index,'item',event.target.value)} placeholder="Cari item atau scan roll..."/><select value={line.unit} onChange={(event)=>updateLine(index,'unit',event.target.value)}><option>yd</option><option>pcs</option><option>meter</option><option>set</option></select><input data-grid-row={index} data-grid-col={1} value={line.system} onFocus={(event)=>event.currentTarget.select()} onChange={(event)=>updateLine(index,'system',event.target.value)} inputMode="decimal" placeholder="0"/><input data-grid-row={index} data-grid-col={2} value={line.physical} onFocus={(event)=>event.currentTarget.select()} onChange={(event)=>updateLine(index,'physical',event.target.value)} inputMode="decimal" placeholder="0"/><strong className={delta<0?'negative':delta>0?'positive':''}>{delta>0?'+':''}{formatNumber(delta)}</strong></div>})}</section><div className="wh-draft-bottom"><label><span>ALASAN & KONDISI FISIK</span><textarea placeholder="Contoh: sisa roll kembali utuh, sudah ukur ulang 18,5 yd..."/></label><div className="wh-draft-review"><span>TOTAL PERUBAHAN DRAFT</span><strong className={totalDelta<0?'negative':totalDelta>0?'positive':''}>{totalDelta>0?'+':''}{formatNumber(totalDelta)}</strong><small>{validLines.length} baris siap direview · belum posting</small><button className="primary-btn" disabled={validLines.length===0} onClick={onReview}>Review draft <ArrowRight/></button></div></div>{notice&&<div className="wh-inline-note good"><Check/><div><strong>Review lokal terbentuk</strong><small>{notice}</small></div></div>}</div>
 }

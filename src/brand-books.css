@@ -15,15 +15,6 @@ h1 { font-size: clamp(31px, 3.8vw, 52px); line-height: 1; }
 .book-brand-control > span { color:#98a2b8; font-size:10.5px; letter-spacing:.12em; font-weight:740; }
 .brand-chip { display:inline-flex; align-items:center; width:max-content; border:1px solid rgba(126,143,255,.26); border-radius:999px; padding:4px 8px; background:rgba(126,143,255,.10); color:#cfd6ff; font-size:10.5px; font-weight:760; letter-spacing:.06em; text-transform:uppercase; }
 .brand-chip.strong { margin-right:8px; }
-.catalog-brand-first { color:#aeb9ff !important; font-weight:760 !important; letter-spacing:.08em; text-transform:uppercase; }
-
-.mutation-brand-row { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
-.mutation-brand { color:#dbe0ff; font-size:15px; font-weight:760; letter-spacing:.035em; text-transform:uppercase; }
-.mutation-sku-row { display:flex; align-items:baseline; gap:8px; margin-top:5px; flex-wrap:wrap; }
-.mutation-sku-row b { font-size:13px; color:#f2f4fb; }
-.mutation-sku-row span { color:#9ea8bc; font-size:11.5px; }
-.mutation-main p { font-size:12px; line-height:1.45; }
-.mutation-main small { font-size:10.8px; }
 .mutation-panel .type-pill { font-size:10.5px; }
 .size-book-title, .total-book-title { font-size:10.5px !important; }
 .book-step label, .total-book-step label { font-size:10px !important; }

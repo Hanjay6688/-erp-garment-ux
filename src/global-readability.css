@@ -37,23 +37,9 @@ button,
 input,
 select,
 textarea { font-size: var(--text-control); }
-.soft-btn,
-.primary-btn,
-.mini-btn,
-.select-btn,
-.filter-trigger,
-.filter-option-search input,
-.filter-options label,
-.filter-bulk,
-.filter-apply { font-size: var(--text-control) !important; }
-.field > span,
-.conversion > span,
-.price-box > span,
-.sale-footer span,
-.book-brand-control > span { font-size: 11px !important; line-height: 1.3; }
-.helper,
-.parsed-qty,
-.physical-date-helper { font-size: 11.5px !important; line-height: 1.45 !important; }
+.soft-btn, .primary-btn, .filter-trigger, .filter-option-search input, .filter-options label, .filter-bulk, .filter-apply { font-size: var(--text-control) !important; }
+.field > span, .conversion > span, .book-brand-control > span { font-size: 11px !important; line-height: 1.3; }
+.helper { font-size: 11.5px !important; line-height: 1.45 !important; }
 
 /* Dashboard: labels readable, primary values remain dominant. */
 .kpi-label { font-size: 11.5px !important; }
@@ -70,45 +56,23 @@ textarea { font-size: var(--text-control); }
 .flow-node strong { font-size: 12px !important; }
 
 /* Product/SKU identity hierarchy: brand → SKU → description. */
-.catalog-name,
-.sku-browser-name,
-.mutation-main { min-width: 0; }
-.catalog-brand-first,
-.brand-chip,
-.mutation-brand { font-size: 11.5px !important; }
-.catalog-name > strong,
-.sku-browser-name > strong,
-.mutation-sku-row b { font-size: 14px !important; line-height: 1.25; }
-.catalog-name > small:last-child,
-.sku-browser-name > small,
-.mutation-sku-row span,
-.mutation-main p,
-.mutation-main > small { font-size: 11.5px !important; line-height: 1.4; }
-.catalog-meta span,
+.sku-browser-name { min-width: 0; }
+.brand-chip { font-size: 11.5px !important; }
+.sku-browser-name > strong { font-size: 14px !important; line-height: 1.25; }
+.sku-browser-name > small { font-size: 11.5px !important; line-height: 1.4; }
 .range-chip { font-size: 11.5px !important; }
 .sku-sequence,
 .order-no { font-size: 11px !important; font-variant-numeric: tabular-nums; }
 
 /* Quantity blocks: visual boundaries stop size/amounts from visually colliding. */
-.catalog-stock,
-.sku-stock-preview,
-.stock-total-hero,
-.conversion,
-.price-box,
-.sales-total-strip,
-.ledger-number,
-.ledger-balance,
-.compact-book-summary span {
+.sku-stock-preview, .stock-total-hero, .conversion, .ledger-number, .ledger-balance, .compact-book-summary span {
   font-variant-numeric: tabular-nums;
 }
-.catalog-stock,
 .sku-stock-preview {
   padding-left: 14px;
   border-left: 1px solid var(--line-strong);
 }
-.catalog-stock strong,
 .sku-stock-preview strong { font-size: 14px !important; }
-.catalog-stock small,
 .sku-stock-preview small { font-size: 11.5px !important; }
 
 /* Size numbers are treated as operational values, not tiny metadata. */
@@ -120,23 +84,14 @@ textarea { font-size: var(--text-control); }
   border-left: 1px solid var(--line-soft);
   border-right: 1px solid var(--line-soft);
 }
-.sku-size-preview > span,
-.stock-size-overview > div,
-.size-card,
-.size-ledger-card {
+.sku-size-preview > span, .stock-size-overview > div, .size-ledger-card {
   border: 1px solid var(--line-strong) !important;
   border-radius: 11px !important;
   background: rgba(255,255,255,.018);
 }
 .sku-size-preview > span { padding: 7px 8px !important; text-align: center; }
-.sku-size-preview small,
-.stock-size-overview span,
-.size-ledger-card > span,
-.size-card > div span { font-size: 11px !important; }
-.sku-size-preview strong,
-.stock-size-overview strong,
-.size-ledger-card strong,
-.size-card > div strong { font-size: 14px !important; font-variant-numeric: tabular-nums; }
+.sku-size-preview small, .stock-size-overview span, .size-ledger-card > span { font-size: 11px !important; }
+.sku-size-preview strong, .stock-size-overview strong, .size-ledger-card strong { font-size: 14px !important; font-variant-numeric: tabular-nums; }
 .sku-size-preview em,
 .stock-size-overview small,
 .size-ledger-card em { font-size: 10.8px !important; line-height: 1.3; }
@@ -164,11 +119,6 @@ table td { font-size: 12.5px; }
 .compact-book-summary small { font-size: 10.8px !important; }
 .compact-book-summary strong { font-size: 14px !important; }
 .compact-detail-toggle { font-size: 11.5px !important; }
-.mutation-delta {
-  gap: 9px !important;
-  padding-top: 10px;
-  border-top: 1px solid var(--line-soft);
-}
 .size-book-flow {
   border: 1px solid var(--line-strong) !important;
   border-radius: 12px;
@@ -189,15 +139,10 @@ table td { font-size: 12.5px; }
 .total-book-step small { font-size: 10.8px !important; }
 
 /* Filters/sheets and empty states. */
-.filter-sheet-head small,
-.filter-sheet-head strong,
-.catalog-empty small,
-.catalog-empty strong,
-.sku-empty { font-size: 12px !important; }
+.filter-sheet-head small, .filter-sheet-head strong, .catalog-empty small, .catalog-empty strong { font-size: 12px !important; }
 
 @media (max-width: 860px) {
   .page-wrap { padding-top: 28px; }
-  .catalog-stock,
   .sku-stock-preview { border-left: 0; padding-left: 0; }
   .sku-size-preview { border-left: 0; border-right: 0; padding-left: 0; padding-right: 0; }
   .compact-book-summary span { border-left: 0; border-top: 1px solid var(--line-soft); text-align: left !important; }

@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { ArrowLeft, ArrowRight, CheckCircle2, ClipboardCheck, Clock3, Filter, Info, Layers3, LockKeyhole, PackageCheck, Search, Shirt, UserRound, Waves } from 'lucide-react'
 import './finalization-flow.css'
+import { regularFgNotaCardId } from './fgNota'
 import { productCatalog } from './productCatalog'
 
 type NumberTuple = [number, number, number]
@@ -111,7 +112,7 @@ export default function QcFinalPage({seeds,initialSeedId,finalizedResults,posted
           const completedQty=result?total(result.qcGood)+total(result.qcBs):0
           const readyRemaining=result?total(result.readyRemainingBySize):0
           const expectedQty=total(seed.expected)
-          const notaPosted=Boolean(result&&postedFgCardIds.includes(`qc-${result.parentId}-${result.batchId}-${result.completionCount}`))
+          const notaPosted=Boolean(result&&postedFgCardIds.includes(regularFgNotaCardId(result)))
           const progressLabel=notaPosted
             ? `NOTA FG POSTED · card completion ${result?.completionCount}`
             : partial
@@ -124,7 +125,7 @@ export default function QcFinalPage({seeds,initialSeedId,finalizedResults,posted
           return <button type="button" className={`${selected&&keyOf(seed)===keyOf(selected)?'active ':''}${finalized?'finalized ':''}${partial?'partial':''}`} onClick={()=>{setSelectedId(keyOf(seed));setContinuingId(null)}} key={keyOf(seed)}><span className="qc-browser-index">{finalized?<CheckCircle2/>:String(index+1).padStart(2,'0')}</span><span className="qc-browser-copy"><small>{seed.brand} · {seed.parentId}</small><strong>Batch {seed.batchId} · {seed.model}</strong><span className="qc-browser-mandor"><UserRound/><b>{seed.mandor}</b></span><em>{progressLabel}</em></span><ArrowRight/></button>
         })}{visible.length===0&&<div className="qc-browser-empty"><Search/><strong>Antrean tidak ketemu</strong><small>Ubah Mandor, Laundry, merek, atau pencarian.</small></div>}</div>
       </aside>
-      <div className="qc-browser-detail">{selected?(finalizedSelected&&!continueSelected?<QcFinalizedView result={finalizedSelected} notaPosted={postedFgCardIds.includes(`qc-${finalizedSelected.parentId}-${finalizedSelected.batchId}-${finalizedSelected.completionCount}`)} hasNext={Boolean(nextPending)} onNext={()=>{if(nextPending){setSelectedId(keyOf(nextPending));setContinuingId(null)}}} onContinue={()=>setContinuingId(keyOf(selected))} onOpenNota={()=>onOpenNota(finalizedSelected)}/>:<QcEditor key={`${keyOf(selected)}::${finalizedSelected?.completionCount??0}`} seed={selected} previous={continueSelected?finalizedSelected:undefined} onFinish={(result)=>{setContinuingId(null);onFinish(result)}}/>):<div className="panel qc-no-source"><ClipboardCheck/><strong>Belum ada barang kembali untuk QC</strong><small>Catat penerimaan di Laundry lebih dulu.</small></div>}</div>
+      <div className="qc-browser-detail">{selected?(finalizedSelected&&!continueSelected?<QcFinalizedView result={finalizedSelected} notaPosted={postedFgCardIds.includes(regularFgNotaCardId(finalizedSelected))} hasNext={Boolean(nextPending)} onNext={()=>{if(nextPending){setSelectedId(keyOf(nextPending));setContinuingId(null)}}} onContinue={()=>setContinuingId(keyOf(selected))} onOpenNota={()=>onOpenNota(finalizedSelected)}/>:<QcEditor key={`${keyOf(selected)}::${finalizedSelected?.completionCount??0}`} seed={selected} previous={continueSelected?finalizedSelected:undefined} onFinish={(result)=>{setContinuingId(null);onFinish(result)}}/>):<div className="panel qc-no-source"><ClipboardCheck/><strong>Belum ada barang kembali untuk QC</strong><small>Catat penerimaan di Laundry lebih dulu.</small></div>}</div>
     </section>
   </>
 }
@@ -246,7 +247,7 @@ function QcFinalizedView({result,notaPosted,hasNext,onNext,onContinue,onOpenNota
   return <section className={`panel qc-finalized-view ${partial?'partial':''}`}>
     <header><span><LockKeyhole/></span><div><small>{result.completionStatus==='COMPLETE'?'QC FINAL · READ ONLY':'POSTING FG · READ ONLY'}</small><h2>{result.parentId} · Batch {result.batchId}</h2><p>{result.brand} · SKU {result.finalSku} · {result.finalProductName}</p></div><em><CheckCircle2/> {statusLabel}</em></header>
     <div className="qc-finalized-banner"><CheckCircle2/><span><strong>{bannerTitle}</strong><small>{bannerNote}</small></span></div>
-    <div className="qc-finalized-card"><div><span>CARD FINISHING · COMPLETION {String(result.completionCount).padStart(2,'0')}</span><strong>FIN-{result.batchId}-{String(result.completionCount).padStart(2,'0')}</strong><small>{notaPosted?'Sudah masuk Nota FG · card terkunci dari pembayaran ulang':`Belum masuk Nota FG · siap digabung dengan card ${result.mandor} lainnya`}</small></div><Layers3/></div>
+    <div className="qc-finalized-card"><div><span>CARD FINISHING · COMPLETION {String(result.completionCount).padStart(2,'0')}</span><strong>FIN-{result.batchId}-{String(result.completionCount).padStart(2,'0')}</strong><small>{notaPosted?'Sumber payroll batch sudah masuk Nota FG · completion berikutnya tidak membayar gross ulang':`Sumber payroll batch belum masuk Nota FG · siap digabung dengan sumber ${result.mandor} lainnya`}</small></div><Layers3/></div>
     <div className="qc-finalized-facts"><article><small>DIPROSES SEKARANG</small><strong>{returned} pcs</strong><span>Hasil completion yang baru dipost</span></article><article className="good"><small>GOOD → FG</small><strong>{good} pcs</strong><span>Masuk stok barang jadi</span></article><article className="bs"><small>SIAP QC TERSISA</small><strong>{readyRemaining} pcs</strong><span>Sudah kembali, belum dipilih</span></article><article className="stuck"><small>STUCK LAUNDRY</small><strong>{stuck} pcs</strong><span>Belum ikut FG atau completion</span></article></div>
     <div className="qc-finalized-actions"><span><LockKeyhole/><small>Posting #{result.completionCount} immutable. Koreksi memakai reversal; penyelesaian sisa membuat posting baru.</small></span>{result.completionStatus!=='COMPLETE'&&<button type="button" className="soft-btn" onClick={onContinue}>{partial?`Lanjutkan ${readyRemaining} pcs siap`:waitingLaundry?'Cek fisik susulan':`Lanjutkan ${remaining} pcs`}</button>}<button type="button" className="soft-btn" disabled={!hasNext} onClick={onNext}>{hasNext?'QC antrean berikutnya':'Tidak ada antrean lain'}</button><button type="button" className="primary-btn" onClick={onOpenNota}>{notaPosted?'Buka antrean Susun Nota FG':'Susun card ini ke Nota FG'} <ArrowRight/></button></div>
   </section>
