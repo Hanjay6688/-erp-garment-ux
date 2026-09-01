@@ -28,26 +28,65 @@ values
  ('26140000-0000-4000-8000-000000000013','CP3-SP','CP3 Explicit Special','MANDOR',true),
  ('26140000-0000-4000-8000-000000000014','CP3-EX','CP3 Attendance Exempt','MANDOR',false);
 
-insert into erp.contractor_workers(id,contractor_id,worker_code,worker_name,pay_scheme,daily_rate,joined_at,job_description)
-values
- ('26140000-0000-4000-8000-000000000021','26140000-0000-4000-8000-000000000011','CP3-W1','Worker N1','DAILY',1000,'2026-01-01','Sewing'),
- ('26140000-0000-4000-8000-000000000022','26140000-0000-4000-8000-000000000012','CP3-W2','Worker N2','DAILY',500,'2026-01-01','Sewing'),
- ('26140000-0000-4000-8000-000000000023','26140000-0000-4000-8000-000000000013','CP3-W3','Worker Special','DAILY',700,'2026-01-01','Sewing'),
- ('26140000-0000-4000-8000-000000000024','26140000-0000-4000-8000-000000000014','CP3-W4','Worker Exempt','DAILY',300,'2026-01-01','Sewing');
+-- Worker, employment, and initial-rate history are created only through the
+-- authoritative roster RPC. Generated identities are captured by psql variables so
+-- the rollback fixture tests the guarded production contract instead of bypassing it.
+select (erp.save_worker_roster_v1(
+  jsonb_build_object(
+    'contractor_id','26140000-0000-4000-8000-000000000011',
+    'worker_code','CP3-W1','worker_name','Worker N1','job_description','Sewing',
+    'pay_scheme','DAILY','joined_at','2026-01-01','is_active',true,
+    'initial_daily_rate',1000,'rate_effective_from','2026-01-01',
+    'reason','CP3 authoritative roster fixture'
+  ),
+  '26140000-0000-4000-8000-000000000091',null
+)->>'worker_id')::text as cp3_worker_n1
+\gset
 
-insert into erp.worker_employment_periods(id,worker_id,started_on,start_reason)
-values
- ('26140000-0000-4000-8000-000000000031','26140000-0000-4000-8000-000000000021','2026-01-01','CP3 fixture'),
- ('26140000-0000-4000-8000-000000000032','26140000-0000-4000-8000-000000000022','2026-01-01','CP3 fixture'),
- ('26140000-0000-4000-8000-000000000033','26140000-0000-4000-8000-000000000023','2026-01-01','CP3 fixture'),
- ('26140000-0000-4000-8000-000000000034','26140000-0000-4000-8000-000000000024','2026-01-01','CP3 fixture');
+select (erp.save_worker_roster_v1(
+  jsonb_build_object(
+    'contractor_id','26140000-0000-4000-8000-000000000012',
+    'worker_code','CP3-W2','worker_name','Worker N2','job_description','Sewing',
+    'pay_scheme','DAILY','joined_at','2026-01-01','is_active',true,
+    'initial_daily_rate',500,'rate_effective_from','2026-01-01',
+    'reason','CP3 authoritative roster fixture'
+  ),
+  '26140000-0000-4000-8000-000000000092',null
+)->>'worker_id')::text as cp3_worker_n2
+\gset
 
-insert into erp.worker_daily_rate_versions(id,worker_id,daily_rate,effective_from,change_reason)
-values
- ('26140000-0000-4000-8000-000000000041','26140000-0000-4000-8000-000000000021',1000,'2026-01-01','CP3 fixture'),
- ('26140000-0000-4000-8000-000000000042','26140000-0000-4000-8000-000000000022',500,'2026-01-01','CP3 fixture'),
- ('26140000-0000-4000-8000-000000000043','26140000-0000-4000-8000-000000000023',700,'2026-01-01','CP3 fixture'),
- ('26140000-0000-4000-8000-000000000044','26140000-0000-4000-8000-000000000024',300,'2026-01-01','CP3 fixture');
+select (erp.save_worker_roster_v1(
+  jsonb_build_object(
+    'contractor_id','26140000-0000-4000-8000-000000000013',
+    'worker_code','CP3-W3','worker_name','Worker Special','job_description','Sewing',
+    'pay_scheme','DAILY','joined_at','2026-01-01','is_active',true,
+    'initial_daily_rate',700,'rate_effective_from','2026-01-01',
+    'reason','CP3 authoritative roster fixture'
+  ),
+  '26140000-0000-4000-8000-000000000093',null
+)->>'worker_id')::text as cp3_worker_special
+\gset
+
+select (erp.save_worker_roster_v1(
+  jsonb_build_object(
+    'contractor_id','26140000-0000-4000-8000-000000000014',
+    'worker_code','CP3-W4','worker_name','Worker Exempt','job_description','Sewing',
+    'pay_scheme','DAILY','joined_at','2026-01-01','is_active',true,
+    'initial_daily_rate',300,'rate_effective_from','2026-01-01',
+    'reason','CP3 authoritative roster fixture'
+  ),
+  '26140000-0000-4000-8000-000000000094',null
+)->>'worker_id')::text as cp3_worker_exempt
+\gset
+
+select erp.worker_daily_rate_version_id_at(:'cp3_worker_n1'::uuid,'2026-08-10')::text as cp3_rate_n1
+\gset
+select erp.worker_daily_rate_version_id_at(:'cp3_worker_n2'::uuid,'2026-08-10')::text as cp3_rate_n2
+\gset
+select erp.worker_daily_rate_version_id_at(:'cp3_worker_special'::uuid,'2026-08-10')::text as cp3_rate_special
+\gset
+select erp.worker_daily_rate_version_id_at(:'cp3_worker_exempt'::uuid,'2026-08-10')::text as cp3_rate_exempt
+\gset
 
 -- Explicit effective-dated policy. Special and attendance-required are independent fields.
 select erp.save_contractor_hpp_policy_v1(
@@ -88,10 +127,10 @@ values
 
 insert into erp.attendance_records(id,contractor_id,worker_id,attendance_date,status,paid_fraction,attendance_period_id,record_lifecycle,change_reason)
 values
- ('26140000-0000-4000-8000-000000000211','26140000-0000-4000-8000-000000000011','26140000-0000-4000-8000-000000000021','2026-08-10','PRESENT',1,'26140000-0000-4000-8000-000000000201','POSTED','CP3 fixture'),
- ('26140000-0000-4000-8000-000000000212','26140000-0000-4000-8000-000000000012','26140000-0000-4000-8000-000000000022','2026-08-10','PRESENT',1,'26140000-0000-4000-8000-000000000202','POSTED','CP3 fixture'),
- ('26140000-0000-4000-8000-000000000213','26140000-0000-4000-8000-000000000013','26140000-0000-4000-8000-000000000023','2026-08-10','PRESENT',1,'26140000-0000-4000-8000-000000000203','POSTED','CP3 fixture'),
- ('26140000-0000-4000-8000-000000000214','26140000-0000-4000-8000-000000000014','26140000-0000-4000-8000-000000000024','2026-08-10','PRESENT',1,'26140000-0000-4000-8000-000000000204','POSTED','CP3 fixture');
+ ('26140000-0000-4000-8000-000000000211','26140000-0000-4000-8000-000000000011',:'cp3_worker_n1'::uuid,'2026-08-10','PRESENT',1,'26140000-0000-4000-8000-000000000201','POSTED','CP3 fixture'),
+ ('26140000-0000-4000-8000-000000000212','26140000-0000-4000-8000-000000000012',:'cp3_worker_n2'::uuid,'2026-08-10','PRESENT',1,'26140000-0000-4000-8000-000000000202','POSTED','CP3 fixture'),
+ ('26140000-0000-4000-8000-000000000213','26140000-0000-4000-8000-000000000013',:'cp3_worker_special'::uuid,'2026-08-10','PRESENT',1,'26140000-0000-4000-8000-000000000203','POSTED','CP3 fixture'),
+ ('26140000-0000-4000-8000-000000000214','26140000-0000-4000-8000-000000000014',:'cp3_worker_exempt'::uuid,'2026-08-10','PRESENT',1,'26140000-0000-4000-8000-000000000204','POSTED','CP3 fixture');
 
 insert into erp.payroll_settlements(id,payroll_number,contractor_id,period_start,period_end,status,payment_date)
 values
@@ -102,10 +141,10 @@ values
 
 insert into erp.payroll_attendance_items(payroll_id,worker_id,attendance_record_id,paid_fraction_snapshot,daily_rate_snapshot,worker_rate_version_id,attendance_date_snapshot,worker_name_snapshot,job_description_snapshot)
 values
- ('26140000-0000-4000-8000-000000000221','26140000-0000-4000-8000-000000000021','26140000-0000-4000-8000-000000000211',1,1000,'26140000-0000-4000-8000-000000000041','2026-08-10','Worker N1','Sewing'),
- ('26140000-0000-4000-8000-000000000222','26140000-0000-4000-8000-000000000022','26140000-0000-4000-8000-000000000212',1,500,'26140000-0000-4000-8000-000000000042','2026-08-10','Worker N2','Sewing'),
- ('26140000-0000-4000-8000-000000000223','26140000-0000-4000-8000-000000000023','26140000-0000-4000-8000-000000000213',1,700,'26140000-0000-4000-8000-000000000043','2026-08-10','Worker Special','Sewing'),
- ('26140000-0000-4000-8000-000000000224','26140000-0000-4000-8000-000000000024','26140000-0000-4000-8000-000000000214',1,300,'26140000-0000-4000-8000-000000000044','2026-08-10','Worker Exempt','Sewing');
+ ('26140000-0000-4000-8000-000000000221',:'cp3_worker_n1'::uuid,'26140000-0000-4000-8000-000000000211',1,1000,:'cp3_rate_n1'::uuid,'2026-08-10','Worker N1','Sewing'),
+ ('26140000-0000-4000-8000-000000000222',:'cp3_worker_n2'::uuid,'26140000-0000-4000-8000-000000000212',1,500,:'cp3_rate_n2'::uuid,'2026-08-10','Worker N2','Sewing'),
+ ('26140000-0000-4000-8000-000000000223',:'cp3_worker_special'::uuid,'26140000-0000-4000-8000-000000000213',1,700,:'cp3_rate_special'::uuid,'2026-08-10','Worker Special','Sewing'),
+ ('26140000-0000-4000-8000-000000000224',:'cp3_worker_exempt'::uuid,'26140000-0000-4000-8000-000000000214',1,300,:'cp3_rate_exempt'::uuid,'2026-08-10','Worker Exempt','Sewing');
 
 update erp.payroll_settlements set attendance_total=1000,status='PAID',settled_at='2026-08-31 10:00+00' where id='26140000-0000-4000-8000-000000000221';
 update erp.payroll_settlements set attendance_total=500,status='PAID',settled_at='2026-08-31 10:00+00' where id='26140000-0000-4000-8000-000000000222';
@@ -280,11 +319,11 @@ $test$;
 insert into erp.attendance_periods(id,period_number,contractor_id,period_start,period_end,pay_date,status,posting_reason)
 values ('26140000-0000-4000-8000-000000000601','CP3-ATT-N1-JUL','26140000-0000-4000-8000-000000000011','2026-07-01','2026-07-31','2026-07-31','POSTED','CP3 fixture');
 insert into erp.attendance_records(id,contractor_id,worker_id,attendance_date,status,paid_fraction,attendance_period_id,record_lifecycle,change_reason)
-values ('26140000-0000-4000-8000-000000000602','26140000-0000-4000-8000-000000000011','26140000-0000-4000-8000-000000000021','2026-07-10','PRESENT',1,'26140000-0000-4000-8000-000000000601','POSTED','CP3 fixture');
+values ('26140000-0000-4000-8000-000000000602','26140000-0000-4000-8000-000000000011',:'cp3_worker_n1'::uuid,'2026-07-10','PRESENT',1,'26140000-0000-4000-8000-000000000601','POSTED','CP3 fixture');
 insert into erp.payroll_settlements(id,payroll_number,contractor_id,period_start,period_end,status,payment_date)
 values ('26140000-0000-4000-8000-000000000603','CP3-PAY-N1-JUL','26140000-0000-4000-8000-000000000011','2026-07-01','2026-07-31','DRAFT','2026-07-31');
 insert into erp.payroll_attendance_items(payroll_id,worker_id,attendance_record_id,paid_fraction_snapshot,daily_rate_snapshot,worker_rate_version_id,attendance_date_snapshot,worker_name_snapshot,job_description_snapshot)
-values ('26140000-0000-4000-8000-000000000603','26140000-0000-4000-8000-000000000021','26140000-0000-4000-8000-000000000602',1,1000,'26140000-0000-4000-8000-000000000041','2026-07-10','Worker N1','Sewing');
+values ('26140000-0000-4000-8000-000000000603',:'cp3_worker_n1'::uuid,'26140000-0000-4000-8000-000000000602',1,1000,:'cp3_rate_n1'::uuid,'2026-07-10','Worker N1','Sewing');
 update erp.payroll_settlements set attendance_total=1000,status='PAID',settled_at='2026-07-31' where id='26140000-0000-4000-8000-000000000603';
 select erp.post_journal('PAYROLL_EXTRA_ACCRUAL','26140000-0000-4000-8000-000000000603','2026-07-31','CP3 July payroll accrual',jsonb_build_array(
  jsonb_build_object('mapping_key','LABOR_COST','debit',1000,'credit',0,'contractor_id','26140000-0000-4000-8000-000000000011','description','CP3 July labor'),
@@ -364,11 +403,11 @@ $test$;
 insert into erp.attendance_periods(id,period_number,contractor_id,period_start,period_end,pay_date,status,posting_reason)
 values ('26140000-0000-4000-8000-000000000801','CP3-ATT-N2-JUN','26140000-0000-4000-8000-000000000012','2026-06-01','2026-06-30','2026-06-30','POSTED','CP3 fixture');
 insert into erp.attendance_records(id,contractor_id,worker_id,attendance_date,status,paid_fraction,attendance_period_id,record_lifecycle,change_reason)
-values ('26140000-0000-4000-8000-000000000802','26140000-0000-4000-8000-000000000012','26140000-0000-4000-8000-000000000022','2026-06-10','PRESENT',1,'26140000-0000-4000-8000-000000000801','POSTED','CP3 fixture');
+values ('26140000-0000-4000-8000-000000000802','26140000-0000-4000-8000-000000000012',:'cp3_worker_n2'::uuid,'2026-06-10','PRESENT',1,'26140000-0000-4000-8000-000000000801','POSTED','CP3 fixture');
 insert into erp.payroll_settlements(id,payroll_number,contractor_id,period_start,period_end,status,payment_date)
 values ('26140000-0000-4000-8000-000000000803','CP3-PAY-N2-JUN','26140000-0000-4000-8000-000000000012','2026-06-01','2026-06-30','DRAFT','2026-06-30');
 insert into erp.payroll_attendance_items(payroll_id,worker_id,attendance_record_id,paid_fraction_snapshot,daily_rate_snapshot,worker_rate_version_id,attendance_date_snapshot,worker_name_snapshot,job_description_snapshot)
-values ('26140000-0000-4000-8000-000000000803','26140000-0000-4000-8000-000000000022','26140000-0000-4000-8000-000000000802',1,500,'26140000-0000-4000-8000-000000000042','2026-06-10','Worker N2','Sewing');
+values ('26140000-0000-4000-8000-000000000803',:'cp3_worker_n2'::uuid,'26140000-0000-4000-8000-000000000802',1,500,:'cp3_rate_n2'::uuid,'2026-06-10','Worker N2','Sewing');
 update erp.payroll_settlements set attendance_total=500,status='PAID',settled_at='2026-06-30' where id='26140000-0000-4000-8000-000000000803';
 select erp.post_journal('PAYROLL_EXTRA_ACCRUAL','26140000-0000-4000-8000-000000000803','2026-06-30','CP3 June payroll accrual',jsonb_build_array(
  jsonb_build_object('mapping_key','LABOR_COST','debit',500,'credit',0,'contractor_id','26140000-0000-4000-8000-000000000012','description','CP3 June labor'),
