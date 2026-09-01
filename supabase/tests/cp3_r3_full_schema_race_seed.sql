@@ -3,6 +3,18 @@
 set timezone='Asia/Jakarta';
 \ir cp3_r3_full_schema_seed.sql
 
+do $cp3$
+begin
+  if not exists (
+    select 1
+    from erp.schema_migrations
+    where version='v2.6.14c'
+  ) then
+    raise exception 'CP3 R3 race seed requires applied v2.6.14c';
+  end if;
+end
+$cp3$;
+
 -- Two additional authoritative work-completion facts are posted but terminal sewing is not yet recorded.
 insert into erp.work_completion_events(
   id,completion_number,po_id,contractor_id,cutting_group_id,physical_at,status,notes
