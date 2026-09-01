@@ -74,59 +74,23 @@
   "independent_audit_pending": true,
   "last_assertion_alignment": {
     "applied": [
-      {
-        "count": 1,
-        "label": "pool protected-journal rejection"
-      },
-      {
-        "count": 1,
-        "label": "payroll protected-journal rejection"
-      },
-      {
-        "count": 2,
-        "label": "work completion terminal dependency rejection"
-      },
-      {
-        "count": 1,
-        "label": "active-pool payroll approval rejection"
-      },
-      {
-        "count": 1,
-        "label": "active-pool policy rejection"
-      },
-      {
-        "count": 1,
-        "label": "future-policy idempotency payload mismatch"
-      }
+      {"count": 1, "label": "pool protected-journal rejection"},
+      {"count": 1, "label": "payroll protected-journal rejection"},
+      {"count": 2, "label": "work completion terminal dependency rejection"},
+      {"count": 1, "label": "active-pool payroll approval rejection"},
+      {"count": 1, "label": "active-pool policy rejection"},
+      {"count": 1, "label": "future-policy idempotency payload mismatch"}
     ],
     "scope": "acceptance-only; runtime source unchanged"
   },
   "last_concurrency_assertion_alignment": {
     "applied": [
-      {
-        "count": 1,
-        "label": "activate-vs-approve runtime rejection"
-      },
-      {
-        "count": 1,
-        "label": "activate-vs-policy runtime rejection"
-      },
-      {
-        "count": 1,
-        "label": "activate-vs-reverse-work runtime rejection"
-      },
-      {
-        "count": 1,
-        "label": "reverse-work-first fail-closed rejection"
-      },
-      {
-        "count": 1,
-        "label": "protected journal source-type matrix"
-      },
-      {
-        "count": 1,
-        "label": "service-role protected journal rejection"
-      }
+      {"count": 1, "label": "activate-vs-approve runtime rejection"},
+      {"count": 1, "label": "activate-vs-policy runtime rejection"},
+      {"count": 1, "label": "activate-vs-reverse-work runtime rejection"},
+      {"count": 1, "label": "reverse-work-first fail-closed rejection"},
+      {"count": 1, "label": "protected journal source-type matrix"},
+      {"count": 1, "label": "service-role protected journal rejection"}
     ],
     "scope": "harness-only; runtime source unchanged"
   },
@@ -141,11 +105,11 @@
     "expected_result": "public RPC denied and protected journals unchanged; owner lifecycle still proven",
     "observed_boundary": "service_role lacks USAGE on private erp schema before CP4 grants",
     "scope": "harness-only; runtime source unchanged",
-    "source_head": "7c8d92b1455e33188302be3e18b1d7227877818e"
+    "source_head": "6467f38419eb637bcd91c40e2effff1966363466"
   },
   "last_validation_trigger": {
-    "reason": "rerun full-schema proof after deterministic policy lock-order repair",
-    "source_head": "ad6c390d151b2169ebeef2c2ebe991afc1c0e884"
+    "reason": "full-schema proof after corrected pre-CP4 service-role boundary harness",
+    "source_head": "6467f38419eb637bcd91c40e2effff1966363466"
   },
   "legacy_mutated": false,
   "migration_version": "v2.6.14d",
