@@ -1,0 +1,35 @@
+name: CP3 R4 Source Export
+
+on:
+  push:
+    branches:
+      - cp3/hpp-attendance-sewing-terminal-r4-20260901
+    paths:
+      - .github/workflows/cp3-r4-source-export.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Package exact R4 starting source
+        shell: bash
+        run: |
+          set -euo pipefail
+          git rev-parse HEAD > CP3_R4_EXPORT_HEAD.txt
+          tar --exclude=.git --exclude=cp3-r4-source.tar.gz -czf cp3-r4-source.tar.gz .
+          sha256sum cp3-r4-source.tar.gz CP3_R4_EXPORT_HEAD.txt > CP3_R4_EXPORT_SHA256SUMS.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cp3-r4-source-export
+          path: |
+            cp3-r4-source.tar.gz
+            CP3_R4_EXPORT_HEAD.txt
+            CP3_R4_EXPORT_SHA256SUMS.txt
+          if-no-files-found: error
+          retention-days: 1
