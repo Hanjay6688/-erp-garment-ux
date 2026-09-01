@@ -124,7 +124,7 @@ def main():
         for key, value in expected_counts.items() if count_actual.get(key) != value
     }
 
-    integrity = rows("select check_code,severity,violation_count,details from erp.run_integrity_checks() where violation_count > 0 order by severity desc,check_code")
+    integrity = rows("select check_name as check_code,severity,issue_count as violation_count,details from erp.run_integrity_checks() where issue_count > 0 order by severity desc,check_name")
     integrity_errors = [item for item in integrity if str(item['severity']).upper() == 'ERROR']
 
     status = 'PASS' if (
