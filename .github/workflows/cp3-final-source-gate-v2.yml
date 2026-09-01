@@ -1,0 +1,382 @@
+name: CP3 Final Source Gate V2.2
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - cp3/hpp-attendance-sewing-terminal-candidate-v2-20260901
+    paths:
+      - .github/workflows/cp3-final-source-gate-v2.yml
+      - supabase/migrations/20260901023000_erp_v2_6_14a_attendance_hpp_policy_and_sewing_terminal.sql
+      - supabase/migrations/20260901023100_erp_v2_6_14b_attendance_hpp_pool_intents.sql
+      - supabase/migrations/20260901023200_erp_v2_6_14c_attendance_hpp_candidate_hardening.sql
+      - supabase/migrations/20260901023300_erp_v2_6_14d_authoritative_sewing_source.sql
+      - supabase/tests/attendance_hpp_cp3_source_contract.sql
+      - supabase/tests/attendance_hpp_cp3_concurrency.py
+      - supabase/tests/attendance_hpp_cp3_concurrency.fixture.example.json
+      - scripts/cp3_render_reviewed_rollback.py
+      - scripts/test_cp3_render_reviewed_rollback.py
+      - scripts/cp3_source_candidate_checks.py
+      - scripts/cp3_source_candidate_checks_v2.py
+      - scripts/cp3_source_candidate_checks_v3.py
+      - docs/evidence/2026-09-01/checkpoint_3_source_candidate_v2_2.md
+      - docs/evidence/2026-09-01/checkpoint_3_source_candidate_v2_2.json
+
+permissions:
+  contents: write
+
+env:
+  PYTHONUNBUFFERED: "1"
+  EVIDENCE_DIR: docs/evidence/2026-09-01/cp3-final-source-gate-v2
+
+jobs:
+  final-source-gate-v2:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout exact candidate source commit
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Record source identity
+        id: identity
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$EVIDENCE_DIR" cp3-v2-final-artifact
+          test -z "$(git status --porcelain)"
+          {
+            echo "source_commit=$GITHUB_SHA"
+            echo "source_tree=$(git rev-parse HEAD^{tree})"
+            echo "source_ref=$GITHUB_REF"
+            echo "workflow_run_id=$GITHUB_RUN_ID"
+            echo "workflow_run_attempt=$GITHUB_RUN_ATTEMPT"
+          } | tee cp3-v2-final-artifact/source-identity.txt
+
+      - name: Install parser-only dependencies
+        id: dependencies
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --quiet pglast 'psycopg[binary]'
+          python -m pip freeze | grep -E '^(pglast|psycopg|psycopg-binary)==' | sort \
+            | tee cp3-v2-final-artifact/python-dependencies.txt
+
+      - name: Python compile and rollback-renderer adversarial tests
+        id: python_tests
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m py_compile \
+            scripts/cp3_render_reviewed_rollback.py \
+            scripts/test_cp3_render_reviewed_rollback.py \
+            scripts/cp3_source_candidate_checks.py \
+            scripts/cp3_source_candidate_checks_v2.py \
+            scripts/cp3_source_candidate_checks_v3.py \
+            supabase/tests/attendance_hpp_cp3_concurrency.py
+          (
+            cd scripts
+            python -m unittest -v test_cp3_render_reviewed_rollback.py
+          ) 2>&1 | tee cp3-v2-final-artifact/renderer-tests.log
+
+      - name: Run final fail-closed source checks
+        id: source_checks
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/cp3_source_candidate_checks_v3.py 2>&1 \
+            | tee cp3-v2-final-artifact/source-checks.log
+          test -s cp3-source-candidate-v3-check-report.json
+          test -s cp3-source-candidate-v3-SHA256SUMS.txt
+          cp cp3-source-candidate-v3-check-report.json cp3-v2-final-artifact/
+          cp cp3-source-candidate-v3-SHA256SUMS.txt cp3-v2-final-artifact/
+
+      - name: Parse PostgreSQL top-level syntax
+        id: sql_parse
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from pglast import parse_sql
+
+          paths = [
+              Path('supabase/migrations/20260901023000_erp_v2_6_14a_attendance_hpp_policy_and_sewing_terminal.sql'),
+              Path('supabase/migrations/20260901023100_erp_v2_6_14b_attendance_hpp_pool_intents.sql'),
+              Path('supabase/migrations/20260901023200_erp_v2_6_14c_attendance_hpp_candidate_hardening.sql'),
+              Path('supabase/migrations/20260901023300_erp_v2_6_14d_authoritative_sewing_source.sql'),
+              Path('supabase/tests/attendance_hpp_cp3_source_contract.sql'),
+          ]
+          report = []
+          for path in paths:
+              statements = parse_sql(path.read_text(encoding='utf-8'))
+              report.append({
+                  'path': str(path),
+                  'top_level_statements': len(statements),
+                  'status': 'PARSE_PASS',
+              })
+          Path('cp3-v2-final-artifact/sql-parse-report.json').write_text(
+              json.dumps(report, indent=2, sort_keys=True) + '\n'
+          )
+          print(json.dumps(report, indent=2, sort_keys=True))
+          PY
+
+      - name: Render rollback SQL from exact reviewed migration bytes
+        id: rollback_render
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p cp3-v2-final-artifact/rendered-rollbacks
+          for source in \
+            supabase/migrations/20260901023000_erp_v2_6_14a_attendance_hpp_policy_and_sewing_terminal.sql \
+            supabase/migrations/20260901023100_erp_v2_6_14b_attendance_hpp_pool_intents.sql \
+            supabase/migrations/20260901023200_erp_v2_6_14c_attendance_hpp_candidate_hardening.sql \
+            supabase/migrations/20260901023300_erp_v2_6_14d_authoritative_sewing_source.sql
+          do
+            base="$(basename "$source" .sql)"
+            sha="$(sha256sum "$source" | awk '{print $1}')"
+            python scripts/cp3_render_reviewed_rollback.py \
+              --input "$source" \
+              --expected-sha256 "$sha" \
+              --output "cp3-v2-final-artifact/rendered-rollbacks/${base}.rollback.sql" \
+              --metadata "cp3-v2-final-artifact/rendered-rollbacks/${base}.rollback.metadata.json"
+          done
+          python - <<'PY'
+          from pathlib import Path
+          from pglast import parse_sql
+          for path in sorted(Path('cp3-v2-final-artifact/rendered-rollbacks').glob('*.rollback.sql')):
+              text = path.read_text(encoding='utf-8')
+              if '\nROLLBACK;' not in text.upper():
+                  raise SystemExit(f'missing terminal ROLLBACK: {path}')
+              parse_sql(text)
+              print(f'rollback parse PASS: {path}')
+          PY
+
+      - name: Secret, placeholder, private-surface, and no-GL-post scan
+        id: safety_scan
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euo pipefail
+          files=(
+            supabase/migrations/20260901023000_erp_v2_6_14a_attendance_hpp_policy_and_sewing_terminal.sql
+            supabase/migrations/20260901023100_erp_v2_6_14b_attendance_hpp_pool_intents.sql
+            supabase/migrations/20260901023200_erp_v2_6_14c_attendance_hpp_candidate_hardening.sql
+            supabase/migrations/20260901023300_erp_v2_6_14d_authoritative_sewing_source.sql
+            supabase/tests/attendance_hpp_cp3_source_contract.sql
+            supabase/tests/attendance_hpp_cp3_concurrency.py
+            supabase/tests/attendance_hpp_cp3_concurrency.fixture.example.json
+            scripts/cp3_render_reviewed_rollback.py
+            scripts/test_cp3_render_reviewed_rollback.py
+            scripts/cp3_source_candidate_checks.py
+            scripts/cp3_source_candidate_checks_v2.py
+            scripts/cp3_source_candidate_checks_v3.py
+          )
+          if grep -Eni '(sb_secret_|eyJ[a-zA-Z0-9_-]{20,}\.|BEGIN (RSA|OPENSSH|EC) PRIVATE KEY|password[[:space:]]*=[[:space:]]*[^[:space:]]+)' "${files[@]}"; then
+            echo 'Potential secret material detected.' >&2
+            exit 1
+          fi
+          if grep -En '^PLACEHOLDER$' "${files[@]}"; then
+            echo 'Placeholder source detected.' >&2
+            exit 1
+          fi
+          if grep -Eni 'create[[:space:]]+(or[[:space:]]+replace[[:space:]]+)?function[[:space:]]+public\..*(attendance_hpp|sewing_terminal)' "${files[@]}"; then
+            echo 'Public CP3 facade detected before gate.' >&2
+            exit 1
+          fi
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          import sys
+          sys.path.insert(0, 'scripts')
+          from cp3_source_candidate_checks import strip_sql_comments
+
+          paths = [
+              Path('supabase/migrations/20260901023000_erp_v2_6_14a_attendance_hpp_policy_and_sewing_terminal.sql'),
+              Path('supabase/migrations/20260901023100_erp_v2_6_14b_attendance_hpp_pool_intents.sql'),
+              Path('supabase/migrations/20260901023200_erp_v2_6_14c_attendance_hpp_candidate_hardening.sql'),
+              Path('supabase/migrations/20260901023300_erp_v2_6_14d_authoritative_sewing_source.sql'),
+          ]
+          executable = strip_sql_comments('\n'.join(path.read_text(encoding='utf-8') for path in paths)).lower()
+          if 'post_journal(' in executable:
+              raise SystemExit('executable post_journal call exists before CP3 gate')
+          if re.search(r'grant\s+execute[\s\S]{0,220}\bto\s+authenticated\b', executable):
+              raise SystemExit('authenticated execute grant exists before CP3 gate')
+          if 'create or replace function public.' in executable:
+              raise SystemExit('public facade exists before CP3 gate')
+          PY
+          echo 'safety scan PASS' | tee cp3-v2-final-artifact/safety-scan.txt
+
+      - name: Build complete explicit full-file SHA-256 manifest
+        id: full_manifest
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euo pipefail
+          files=(
+            .github/workflows/cp3-final-source-gate-v2.yml
+            supabase/migrations/20260901023000_erp_v2_6_14a_attendance_hpp_policy_and_sewing_terminal.sql
+            supabase/migrations/20260901023100_erp_v2_6_14b_attendance_hpp_pool_intents.sql
+            supabase/migrations/20260901023200_erp_v2_6_14c_attendance_hpp_candidate_hardening.sql
+            supabase/migrations/20260901023300_erp_v2_6_14d_authoritative_sewing_source.sql
+            supabase/tests/attendance_hpp_cp3_source_contract.sql
+            supabase/tests/attendance_hpp_cp3_concurrency.py
+            supabase/tests/attendance_hpp_cp3_concurrency.fixture.example.json
+            scripts/cp3_render_reviewed_rollback.py
+            scripts/test_cp3_render_reviewed_rollback.py
+            scripts/cp3_source_candidate_checks.py
+            scripts/cp3_source_candidate_checks_v2.py
+            scripts/cp3_source_candidate_checks_v3.py
+            docs/evidence/2026-09-01/checkpoint_3_source_candidate_v2_2.md
+            docs/evidence/2026-09-01/checkpoint_3_source_candidate_v2_2.json
+          )
+          for file in "${files[@]}"; do test -f "$file"; done
+          sha256sum "${files[@]}" | LC_ALL=C sort -k2 \
+            | tee cp3-v2-final-artifact/FULL_SHA256SUMS.txt
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          entries = []
+          for line in Path('cp3-v2-final-artifact/FULL_SHA256SUMS.txt').read_text().splitlines():
+              digest, path = line.split('  ', 1)
+              file_path = Path(path)
+              entries.append({'path':path,'sha256':digest,'bytes':file_path.stat().st_size})
+          payload = {
+              'manifest_version':'CP3_FINAL_FULL_MANIFEST_V2',
+              'source_commit':os.environ['GITHUB_SHA'],
+              'file_count':len(entries),
+              'files':entries,
+          }
+          Path('cp3-v2-final-artifact/full-manifest.json').write_text(
+              json.dumps(payload,indent=2,sort_keys=True)+'\n'
+          )
+          print(json.dumps(payload,sort_keys=True))
+          PY
+
+      - name: Persist durable V2 PASS or FAIL marker
+        if: always()
+        id: persist_status
+        shell: bash
+        env:
+          OUTCOME_IDENTITY: ${{ steps.identity.outcome }}
+          OUTCOME_DEPENDENCIES: ${{ steps.dependencies.outcome }}
+          OUTCOME_PYTHON_TESTS: ${{ steps.python_tests.outcome }}
+          OUTCOME_SOURCE_CHECKS: ${{ steps.source_checks.outcome }}
+          OUTCOME_SQL_PARSE: ${{ steps.sql_parse.outcome }}
+          OUTCOME_ROLLBACK_RENDER: ${{ steps.rollback_render.outcome }}
+          OUTCOME_SAFETY_SCAN: ${{ steps.safety_scan.outcome }}
+          OUTCOME_FULL_MANIFEST: ${{ steps.full_manifest.outcome }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$EVIDENCE_DIR"
+          rm -f \
+            docs/evidence/2026-09-01/checkpoint_3_final_source_gate_v2_PASS.json \
+            docs/evidence/2026-09-01/checkpoint_3_final_source_gate_v2_FAIL.json
+          python - <<'PY'
+          import json
+          import os
+          import subprocess
+          from pathlib import Path
+
+          outcomes={
+            'identity':os.environ['OUTCOME_IDENTITY'],
+            'dependencies':os.environ['OUTCOME_DEPENDENCIES'],
+            'python_tests':os.environ['OUTCOME_PYTHON_TESTS'],
+            'source_checks':os.environ['OUTCOME_SOURCE_CHECKS'],
+            'sql_parse':os.environ['OUTCOME_SQL_PARSE'],
+            'rollback_render':os.environ['OUTCOME_ROLLBACK_RENDER'],
+            'safety_scan':os.environ['OUTCOME_SAFETY_SCAN'],
+            'full_manifest':os.environ['OUTCOME_FULL_MANIFEST'],
+          }
+          passed=all(value=='success' for value in outcomes.values())
+          payload={
+            'checkpoint':3,
+            'gate':'CP3_FINAL_SOURCE_GATE_V2',
+            'status':'PASS_SOURCE_GATE_ONLY' if passed else 'FAIL_SOURCE_GATE',
+            'source_commit':os.environ['GITHUB_SHA'],
+            'source_tree':subprocess.check_output(['git','rev-parse','HEAD^{tree}'],text=True).strip(),
+            'branch':os.environ['GITHUB_REF_NAME'],
+            'workflow_run_id':os.environ['GITHUB_RUN_ID'],
+            'workflow_run_attempt':os.environ['GITHUB_RUN_ATTEMPT'],
+            'outcomes':outcomes,
+            'truth_boundary':{
+              'source_identity':'PASS' if passed else 'SEE_OUTCOMES',
+              'python_unit_tests':'PASS' if passed else 'SEE_OUTCOMES',
+              'top_level_sql_parse':'PASS' if passed else 'SEE_OUTCOMES',
+              'exact_byte_rollback_render':'PASS' if passed else 'SEE_OUTCOMES',
+              'plpgsql_semantic_compile':'NOT_EXECUTED',
+              'database_runtime':'NOT_EXECUTED',
+              'real_concurrency':'HARNESS_PRESENT_NOT_EXECUTED',
+              'uat_applied':False,
+              'legacy_mutated':False,
+              'gl_posted':False,
+              'route_enabled':False,
+              'live_deployed':False,
+              'backend_connected':False,
+              'production_go':False,
+            },
+            'full_manifest_path':'docs/evidence/2026-09-01/cp3-final-source-gate-v2/FULL_SHA256SUMS.txt' if Path('cp3-v2-final-artifact/FULL_SHA256SUMS.txt').exists() else None,
+            'next_gate':'WORK_SOL_MAX_READ_ONLY_DELTA_REVIEW' if passed else 'CHAT_SOL_PRO_FIX_FAILED_SOURCE_GATE',
+          }
+          filename=Path('docs/evidence/2026-09-01/checkpoint_3_final_source_gate_v2_PASS.json' if passed else 'docs/evidence/2026-09-01/checkpoint_3_final_source_gate_v2_FAIL.json')
+          filename.write_text(json.dumps(payload,indent=2,sort_keys=True)+'\n')
+          evidence=Path(os.environ['EVIDENCE_DIR'])
+          evidence.mkdir(parents=True,exist_ok=True)
+          for source,name in [
+            ('cp3-v2-final-artifact/FULL_SHA256SUMS.txt','FULL_SHA256SUMS.txt'),
+            ('cp3-v2-final-artifact/full-manifest.json','full-manifest.json'),
+            ('cp3-v2-final-artifact/sql-parse-report.json','sql-parse-report.json'),
+            ('cp3-source-candidate-v3-check-report.json','source-check-report.json'),
+          ]:
+            path=Path(source)
+            if path.exists():(evidence/name).write_bytes(path.read_bytes())
+          Path('cp3-v2-final-artifact/final-gate-status.json').write_text(json.dumps(payload,indent=2,sort_keys=True)+'\n')
+          print(json.dumps(payload,sort_keys=True))
+          PY
+
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          mapfile -t status_files < <(find docs/evidence/2026-09-01 -maxdepth 1 -name 'checkpoint_3_final_source_gate_v2_*.json' -print)
+          git add "$EVIDENCE_DIR"
+          git add "${status_files[@]}"
+          if git diff --cached --quiet; then
+            echo 'No durable V2 status delta to commit.'
+          else
+            if [[ "${status_files[0]}" == *'_PASS.json' ]]; then result=PASS; else result=FAIL; fi
+            git commit -m "Persist CP3 V2 final source gate ${result} for ${GITHUB_SHA}"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
+
+      - name: Upload full non-secret V2 source evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cp3-final-source-gate-v2-proof
+          path: |
+            cp3-v2-final-artifact/
+            docs/evidence/2026-09-01/checkpoint_3_final_source_gate_v2_PASS.json
+            docs/evidence/2026-09-01/checkpoint_3_final_source_gate_v2_FAIL.json
+            docs/evidence/2026-09-01/cp3-final-source-gate-v2/
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Enforce V2 final source verdict
+        if: always()
+        shell: bash
+        run: |
+          if [[ -f docs/evidence/2026-09-01/checkpoint_3_final_source_gate_v2_PASS.json ]]; then
+            echo 'CP3 V2 final source gate PASS — source only.'
+            exit 0
+          fi
+          echo 'CP3 V2 final source gate FAIL. See durable FAIL marker and artifact.' >&2
+          exit 1
