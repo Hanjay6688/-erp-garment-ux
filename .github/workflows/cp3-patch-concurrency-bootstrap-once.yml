@@ -1,0 +1,37 @@
+name: CP3 Patch Concurrency Bootstrap Once
+
+on:
+  push:
+    branches:
+      - cp3/hpp-attendance-sewing-terminal-candidate-20260901
+    paths:
+      - .github/workflows/cp3-patch-concurrency-bootstrap-once.yml
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout exact candidate
+        uses: actions/checkout@v4
+        with:
+          ref: cp3/hpp-attendance-sewing-terminal-candidate-20260901
+          fetch-depth: 1
+      - name: Patch concurrency bootstrap through authoritative roster and attendance RPCs
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m py_compile scripts/cp3_patch_concurrency_bootstrap_once.py
+          python scripts/cp3_patch_concurrency_bootstrap_once.py
+          python -m py_compile scripts/cp3_concurrency_harness.py
+          git diff --check
+          grep -nE 'save_worker_roster_v1|save_attendance_period_v1|post_attendance_period_v1|worker_employment_periods|worker_daily_rate_versions|insert into erp.attendance_(periods|records)|sewing capacity race|overlapping range race|post versus cancel race' scripts/cp3_concurrency_harness.py
+          sha256sum scripts/cp3_concurrency_harness.py
+          git config user.name 'cp3-source-writer'
+          git config user.email 'cp3-source-writer@users.noreply.github.com'
+          git add scripts/cp3_concurrency_harness.py
+          git commit -m 'test(cp3): bootstrap concurrency data through authoritative RPCs'
+          git push origin HEAD:cp3/hpp-attendance-sewing-terminal-candidate-20260901
