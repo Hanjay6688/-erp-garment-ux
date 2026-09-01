@@ -24,14 +24,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python -m py_compile scripts/cp3_patch_authoritative_attendance_fixture_once.py
-          python - <<'PY'
-          import runpy
-          module = runpy.run_path('scripts/cp3_patch_authoritative_attendance_fixture_once.py', run_name='cp3_attendance_fixture_patch')
-          module['START_MARKER'] = "-- Attendance and payroll sources for August.\ninsert into erp.attendance_periods(id,period_number,contractor_id,period_start,period_end,pay_date,status,posting_reason)"
-          module['END_MARKER'] = "insert into erp.payroll_settlements(id,payroll_number,contractor_id,period_start,period_end,status,payment_date)"
-          module['main']()
-          PY
+          python -m py_compile scripts/cp3_patch_authoritative_attendance_fixture_once.py scripts/cp3_patch_authoritative_attendance_fixture_v2_once.py
+          python scripts/cp3_patch_authoritative_attendance_fixture_v2_once.py
           git diff --check
           grep -nE 'save_attendance_period_v1|post_attendance_period_v1|cp3_att_period_|cp3_att_record_|insert into erp.attendance_(periods|records)|rollback;' supabase/tests/attendance_hpp_sewing_terminal_rollback.sql | head -n 200
           sha256sum supabase/tests/attendance_hpp_sewing_terminal_rollback.sql
