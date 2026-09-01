@@ -14,7 +14,7 @@ permissions:
 jobs:
   restore-verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 35
+    timeout-minutes: 40
     steps:
       - name: Checkout evidence branch
         uses: actions/checkout@v4
@@ -59,7 +59,7 @@ jobs:
           unzip -q transport/erp-enteng-cp2-raw.zip -d restore
           rm -f transport/recovery-passphrase.tmp
 
-      - name: Generate deterministic migration replay and expected verification
+      - name: Generate deterministic catalog restore and verification inputs
         shell: bash
         run: |
           set -euo pipefail
@@ -69,23 +69,177 @@ jobs:
 
           root = Path('restore')
           catalog = json.loads((root / 'ERP_ENTENG_CATALOG_SNAPSHOT.json').read_text())
-          migrations = catalog['platform_migrations']
-          start = next(i for i, m in enumerate(migrations) if m['name'] == 'overwrite_erp_enteng_reset')
+          manifest = json.loads((root / 'RECOVERY_MANIFEST.json').read_text())
 
-          chunks = [
-              r"\set ON_ERROR_STOP on",
-              r"\echo 'CP2 replay starts from overwrite_erp_enteng_reset; earlier export/network helper migrations have no surviving business state.'",
+          def qi(value):
+              return '"' + str(value).replace('"', '""') + '"'
+
+          def ql(value):
+              return "'" + str(value).replace("'", "''") + "'"
+
+          def statement(text):
+              text = str(text).rstrip()
+              return text if text.endswith(';') else text + ';'
+
+          def view_order(views, dependencies):
+              def key(schema, name):
+                  return f'{schema}.{name}'
+              by_key = {key(v['schema_name'], v['view_name']): v for v in views}
+              deps = {k: set() for k in by_key}
+              for dep in dependencies:
+                  child = key(dep['dependent_schema'], dep['dependent_name'])
+                  parent = key(dep['referenced_schema'], dep['referenced_name'])
+                  if child in by_key and parent in by_key and child != parent:
+                      deps[child].add(parent)
+              pending = set(by_key)
+              ordered = []
+              while pending:
+                  ready = sorted(k for k in pending if all(parent not in pending for parent in deps[k]))
+                  if not ready:
+                      raise SystemExit(f'cyclic view dependency: {sorted(pending)}')
+                  for item in ready:
+                      ordered.append(by_key[item])
+                      pending.remove(item)
+              return ordered
+
+          columns_by_table = {}
+          for column in catalog['columns']:
+              columns_by_table.setdefault((column['schema_name'], column['table_name']), []).append(column)
+
+          ddl = [
+              r'\set ON_ERROR_STOP on',
+              "set client_min_messages = warning;",
+              "create extension if not exists pgcrypto with schema extensions;",
+              "create extension if not exists \"uuid-ossp\" with schema extensions;",
+              "create extension if not exists pg_stat_statements with schema extensions;",
+              "create extension if not exists supabase_vault with schema vault;",
+              "create extension if not exists pg_cron with schema pg_catalog;",
+              "drop schema if exists erp cascade;",
+              "create schema erp authorization postgres;",
           ]
-          for migration in migrations[start:]:
-              chunks.append(f"\\echo 'Applying {migration['version']} {migration['name']}'")
-              for statement in migration.get('statements') or []:
-                  text = statement.rstrip()
-                  chunks.append(text if text.endswith(';') else text + ';')
-          Path('restore/platform-replay.sql').write_text('\n\n'.join(chunks) + '\n')
 
+          for sequence in catalog['sequences']:
+              ddl.append(
+                  f"create sequence {qi(sequence['schema_name'])}.{qi(sequence['sequence_name'])} "
+                  f"as {sequence['data_type']} increment by {sequence['seqincrement']} minvalue {sequence['seqmin']} "
+                  f"maxvalue {sequence['seqmax']} start with {sequence['seqstart']} cache {sequence['seqcache']}"
+                  + (" cycle;" if sequence['seqcycle'] else " no cycle;")
+              )
+              ddl.append(f"alter sequence {qi(sequence['schema_name'])}.{qi(sequence['sequence_name'])} owner to {qi(sequence['owner_name'])};")
+
+          for table in catalog['tables']:
+              key = (table['schema_name'], table['table_name'])
+              definitions = []
+              for column in columns_by_table[key]:
+                  suffix = ''
+                  if column['attgenerated'] == 's':
+                      suffix += f" generated always as ({column['default_expression']}) stored"
+                  elif column['attidentity'] == 'a':
+                      suffix += ' generated always as identity'
+                  elif column['attidentity'] == 'd':
+                      suffix += ' generated by default as identity'
+                  elif column['default_expression']:
+                      suffix += f" default {column['default_expression']}"
+                  if column['not_null']:
+                      suffix += ' not null'
+                  definitions.append(f"{qi(column['column_name'])} {column['data_type']}{suffix}")
+              ddl.append(f"create table {qi(table['schema_name'])}.{qi(table['table_name'])} (\n  " + ',\n  '.join(definitions) + "\n);")
+              ddl.append(f"alter table {qi(table['schema_name'])}.{qi(table['table_name'])} owner to {qi(table['owner_name'])};")
+
+          ddl.append('set check_function_bodies = off;')
+          for function in catalog['functions']:
+              ddl.append(statement(function['definition']))
+              ddl.append(
+                  f"alter function {qi(function['schema_name'])}.{qi(function['function_name'])}"
+                  f"({function['identity_arguments']}) owner to {qi(function['owner_name'])};"
+              )
+          ddl.append('set check_function_bodies = on;')
+
+          for constraint in catalog['constraints']:
+              ddl.append(
+                  f"alter table only {qi(constraint['schema_name'])}.{qi(constraint['table_name'])} "
+                  f"add constraint {qi(constraint['constraint_name'])} {constraint['definition']};"
+              )
+
+          for index in catalog['indexes']:
+              ddl.append(statement(index['definition']))
+
+          for view in view_order(catalog['views'], catalog['view_dependencies']):
+              options = ''
+              if view['reloptions']:
+                  options = ' with (' + ','.join(view['reloptions']) + ')'
+              ddl.append(
+                  f"create or replace view {qi(view['schema_name'])}.{qi(view['view_name'])}{options} as\n"
+                  f"{view['definition']};"
+              )
+              ddl.append(f"alter view {qi(view['schema_name'])}.{qi(view['view_name'])} owner to {qi(view['owner_name'])};")
+
+          for trigger in catalog['triggers']:
+              ddl.append(statement(trigger['definition']))
+
+          for table in catalog['tables']:
+              relation = f"{qi(table['schema_name'])}.{qi(table['table_name'])}"
+              if table['rls_enabled']:
+                  ddl.append(f"alter table {relation} enable row level security;")
+              if table['rls_forced']:
+                  ddl.append(f"alter table {relation} force row level security;")
+
+          for policy in catalog['policies']:
+              roles = ', '.join('public' if str(role).lower() == 'public' else qi(role) for role in policy['roles'])
+              permissive = 'permissive' if str(policy['permissive']).upper() == 'PERMISSIVE' else 'restrictive'
+              command = str(policy['cmd']).lower()
+              text = (
+                  f"create policy {qi(policy['policy_name'])} on {qi(policy['schema_name'])}.{qi(policy['table_name'])} "
+                  f"as {permissive} for {command} to {roles}"
+              )
+              if policy['qual']:
+                  text += f" using ({policy['qual']})"
+              if policy['with_check']:
+                  text += f" with check ({policy['with_check']})"
+              ddl.append(text + ';')
+
+          for grant in catalog['table_grants']:
+              grantee = 'public' if str(grant['grantee']).upper() == 'PUBLIC' else qi(grant['grantee'])
+              text = (
+                  f"grant {grant['privilege_type']} on table {qi(grant['schema_name'])}.{qi(grant['table_name'])} "
+                  f"to {grantee}"
+              )
+              if grant['is_grantable'] == 'YES':
+                  text += ' with grant option'
+              ddl.append(text + ';')
+
+          for grant in catalog['routine_grants']:
+              grantee = 'public' if str(grant['grantee']).upper() == 'PUBLIC' else qi(grant['grantee'])
+              ddl.append(
+                  f"grant {grant['privilege_type']} on function {qi(grant['schema_name'])}.{qi(grant['routine_name'])}"
+                  f"({grant['identity_arguments']}) to {grantee};"
+              )
+
+          ddl.append("select cron.unschedule(jobid) from cron.job;")
+          for job in catalog['cron_jobs']:
+              ddl.append(f"select cron.schedule({ql(job['jobname'])},{ql(job['schedule'])},{ql(job['command'])});")
+              if not job['active']:
+                  ddl.append(f"update cron.job set active=false where jobname={ql(job['jobname'])};")
+
+          ddl.append("notify pgrst, 'reload schema';")
+          Path('restore/catalog-schema-restore.sql').write_text('\n\n'.join(ddl) + '\n')
+
+          migrations = catalog['platform_migrations']
           payload = json.dumps(migrations, separators=(',', ':')).replace('$json$', '$ json $')
-          ledger = f"""\n\\set ON_ERROR_STOP on\ntruncate table supabase_migrations.schema_migrations;\ninsert into supabase_migrations.schema_migrations(version,name,statements)\nselect version,name,statements\nfrom jsonb_to_recordset($json${payload}$json$::jsonb)\n  as x(version text,name text,statements text[]);\n"""
-          Path('restore/platform-ledger-restore.sql').write_text(ledger)
+          Path('restore/platform-ledger-restore.sql').write_text(
+              "\\set ON_ERROR_STOP on\n"
+              "truncate table supabase_migrations.schema_migrations;\n"
+              "insert into supabase_migrations.schema_migrations(version,name,statements)\n"
+              f"select version,name,statements from jsonb_to_recordset($json${payload}$json$::jsonb) "
+              "as x(version text,name text,statements text[]);\n"
+          )
+
+          Path('restore/sequence-reseed.sql').write_text(
+              "\\set ON_ERROR_STOP on\n"
+              "select setval('erp.audit_logs_id_seq',coalesce((select max(id) from erp.audit_logs),1),exists(select 1 from erp.audit_logs));\n"
+              "select setval('erp.cost_recalc_queue_id_seq',coalesce((select max(id) from erp.cost_recalc_queue),1),exists(select 1 from erp.cost_recalc_queue));\n"
+              "select setval('erp.fg_stock_book_order_seq',coalesce((select max(book_order) from erp.fg_stock_movements),1),exists(select 1 from erp.fg_stock_movements));\n"
+          )
 
           expected = {
               'tables': len(catalog['tables']),
@@ -97,9 +251,19 @@ jobs:
               'policies': len(catalog['policies']),
               'platform_migrations': len(catalog['platform_migrations']),
               'application_migrations': len(catalog['application_migrations']),
-              'erp_rows': sum(item['rows'] for item in json.loads((root / 'RECOVERY_MANIFEST.json').read_text())['table_data']),
+              'erp_rows': sum(item['rows'] for item in manifest['table_data']),
+              'cron_jobs': len(catalog['cron_jobs']),
           }
           Path('restore/expected.json').write_text(json.dumps(expected, indent=2) + '\n')
+
+          bucket = catalog['storage_buckets'][0]
+          Path('restore/storage-bucket.json').write_text(json.dumps({
+              'id': bucket['id'],
+              'name': bucket['name'],
+              'public': bucket['public'],
+              'file_size_limit': bucket['file_size_limit'],
+              'allowed_mime_types': bucket['allowed_mime_types'],
+          }, separators=(',', ':')))
           print(json.dumps(expected, indent=2))
           PY
 
@@ -114,29 +278,28 @@ jobs:
           supabase db start --workdir cp2-local
           supabase status --workdir cp2-local
 
-      - name: Replay schema and restore ERP data
+      - name: Restore catalog schema, ERP data, ledgers, and sequence state
         shell: bash
         env:
           PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
         run: |
           set -euo pipefail
-          psql "$PGURL" -v ON_ERROR_STOP=1 -f restore/platform-replay.sql
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f restore/catalog-schema-restore.sql
           psql "$PGURL" -v ON_ERROR_STOP=1 -f restore/ERP_ENTENG_DATA_RESTORE.sql
           psql "$PGURL" -v ON_ERROR_STOP=1 -f restore/platform-ledger-restore.sql
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f restore/sequence-reseed.sql
 
       - name: Verify restored schema, data, ledgers, cron, and integrity
         shell: bash
-        env:
-          PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
         run: |
           set -euo pipefail
           python -m pip install --quiet 'psycopg[binary]==3.2.10'
           python - <<'PY'
-          import hashlib, json, re
+          import json, re
           from pathlib import Path
           import psycopg
 
-          expected_catalog = json.loads(Path('restore/ERP_ENTENG_CATALOG_SNAPSHOT.json').read_text())
+          catalog = json.loads(Path('restore/ERP_ENTENG_CATALOG_SNAPSHOT.json').read_text())
           expected_counts = json.loads(Path('restore/expected.json').read_text())
           manifest = json.loads(Path('restore/RECOVERY_MANIFEST.json').read_text())
           conn = psycopg.connect('postgresql://postgres:postgres@127.0.0.1:54322/postgres')
@@ -147,76 +310,153 @@ jobs:
                   cols = [d.name for d in cur.description]
                   return [dict(zip(cols, row)) for row in cur.fetchall()]
 
-          actual = {}
-          actual['tables'] = rows("select count(*)::int n from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='erp' and c.relkind in ('r','p')")[0]['n']
-          actual['views'] = rows("select count(*)::int n from pg_class c join pg_namespace n on n.oid=c.relnamespace where c.relkind='v' and (n.nspname='erp' or (n.nspname='public' and c.relname like 'v_erp_%'))")[0]['n']
-          actual['functions'] = rows("select count(*)::int n from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='erp' or (n.nspname='public' and p.proname like 'erp_%')")[0]['n']
-          actual['triggers'] = rows("select count(*)::int n from pg_trigger t join pg_class c on c.oid=t.tgrelid join pg_namespace n on n.oid=c.relnamespace where n.nspname='erp' and not t.tgisinternal")[0]['n']
-          actual['indexes'] = rows("select count(*)::int n from pg_index i join pg_class c on c.oid=i.indrelid join pg_namespace n on n.oid=c.relnamespace where n.nspname='erp'")[0]['n']
-          actual['constraints'] = rows("select count(*)::int n from pg_constraint con join pg_class c on c.oid=con.conrelid join pg_namespace n on n.oid=c.relnamespace where n.nspname='erp'")[0]['n']
-          actual['policies'] = rows("select count(*)::int n from pg_policies where schemaname='erp' or (schemaname='public' and tablename like 'v_erp_%')")[0]['n']
-          actual['platform_migrations'] = rows("select count(*)::int n from supabase_migrations.schema_migrations")[0]['n']
-          actual['application_migrations'] = rows("select count(*)::int n from erp.schema_migrations")[0]['n']
-          actual['cron_jobs'] = rows("select count(*)::int n from cron.job")[0]['n']
-          actual['auth_users'] = rows("select count(*)::int n from auth.users")[0]['n']
-          actual['app_users'] = rows("select count(*)::int n from erp.app_users")[0]['n']
+          def tuples(items, keys):
+              return {tuple(str(item.get(key, '')) for key in keys) for item in items}
 
-          table_names = rows("select c.relname table_name from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='erp' and c.relkind in ('r','p') order by c.relname")
-          total_rows = 0
+          actual = {}
+          actual['tables'] = rows("select n.nspname schema_name,c.relname table_name from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='erp' and c.relkind in ('r','p') order by 1,2")
+          actual['views'] = rows("select n.nspname schema_name,c.relname view_name from pg_class c join pg_namespace n on n.oid=c.relnamespace where c.relkind='v' and (n.nspname='erp' or (n.nspname='public' and c.relname like 'v_erp_%')) order by 1,2")
+          actual['functions'] = rows("select n.nspname schema_name,p.proname function_name,pg_get_function_identity_arguments(p.oid) identity_arguments from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='erp' or (n.nspname='public' and p.proname like 'erp_%') order by 1,2,3")
+          actual['triggers'] = rows("select n.nspname schema_name,c.relname table_name,t.tgname trigger_name from pg_trigger t join pg_class c on c.oid=t.tgrelid join pg_namespace n on n.oid=c.relnamespace where n.nspname='erp' and not t.tgisinternal order by 1,2,3")
+          actual['indexes'] = rows("select n.nspname schema_name,c.relname table_name,i.relname index_name from pg_index x join pg_class i on i.oid=x.indexrelid join pg_class c on c.oid=x.indrelid join pg_namespace n on n.oid=c.relnamespace where n.nspname='erp' order by 1,2,3")
+          actual['constraints'] = rows("select n.nspname schema_name,c.relname table_name,con.conname constraint_name from pg_constraint con join pg_class c on c.oid=con.conrelid join pg_namespace n on n.oid=c.relnamespace where n.nspname='erp' order by 1,2,3")
+          actual['policies'] = rows("select schemaname schema_name,tablename table_name,policyname policy_name from pg_policies where schemaname='erp' or (schemaname='public' and tablename like 'v_erp_%') order by 1,2,3")
+          actual['columns'] = rows("select n.nspname schema_name,c.relname table_name,a.attnum::text attnum,a.attname column_name,format_type(a.atttypid,a.atttypmod) data_type,a.attnotnull::text not_null,a.attidentity::text attidentity,a.attgenerated::text attgenerated from pg_attribute a join pg_class c on c.oid=a.attrelid join pg_namespace n on n.oid=c.relnamespace where n.nspname='erp' and c.relkind in ('r','p') and a.attnum>0 and not a.attisdropped order by 1,2,a.attnum")
+
+          expected_indexes = [
+              {'schema_name': i['schema_name'], 'table_name': i['table_name'], 'index_name': i['index_name']}
+              for i in catalog['indexes']
+          ] + [
+              {'schema_name': c['schema_name'], 'table_name': c['table_name'], 'index_name': c['constraint_name']}
+              for c in catalog['constraints'] if c['contype'] in ('p','u','x')
+          ]
+
+          object_specs = {
+              'tables': (catalog['tables'], ('schema_name','table_name')),
+              'views': (catalog['views'], ('schema_name','view_name')),
+              'functions': (catalog['functions'], ('schema_name','function_name','identity_arguments')),
+              'triggers': (catalog['triggers'], ('schema_name','table_name','trigger_name')),
+              'indexes': (expected_indexes, ('schema_name','table_name','index_name')),
+              'constraints': (catalog['constraints'], ('schema_name','table_name','constraint_name')),
+              'policies': (catalog['policies'], ('schema_name','table_name','policy_name')),
+              'columns': (catalog['columns'], ('schema_name','table_name','attnum','column_name','data_type','not_null','attidentity','attgenerated')),
+          }
+          object_mismatches = {}
+          for label, (expected_items, keys) in object_specs.items():
+              expected_set = tuples(expected_items, keys)
+              actual_set = tuples(actual[label], keys)
+              if expected_set != actual_set:
+                  object_mismatches[label] = {
+                      'missing': sorted(expected_set - actual_set)[:50],
+                      'unexpected': sorted(actual_set - expected_set)[:50],
+                      'expected_count': len(expected_set),
+                      'actual_count': len(actual_set),
+                  }
+
+          count_actual = {
+              'tables': len(actual['tables']),
+              'views': len(actual['views']),
+              'functions': len(actual['functions']),
+              'triggers': len(actual['triggers']),
+              'indexes': len(actual['indexes']),
+              'constraints': len(actual['constraints']),
+              'policies': len(actual['policies']),
+              'platform_migrations': rows("select count(*)::int n from supabase_migrations.schema_migrations")[0]['n'],
+              'application_migrations': rows("select count(*)::int n from erp.schema_migrations")[0]['n'],
+              'cron_jobs': rows("select count(*)::int n from cron.job")[0]['n'],
+              'auth_users': rows("select count(*)::int n from auth.users")[0]['n'],
+              'app_users': rows("select count(*)::int n from erp.app_users")[0]['n'],
+          }
+
           data_mismatches = []
+          total_rows = 0
           with conn.cursor() as cur:
               for item in manifest['table_data']:
                   table = item['table']
-                  cur.execute(f'SELECT to_jsonb(t) FROM erp."{table.replace(chr(34), chr(34)*2)}" t ORDER BY to_jsonb(t)::text')
+                  safe = table.replace('"','""')
+                  cur.execute(f'SELECT to_jsonb(t) FROM erp."{safe}" t ORDER BY to_jsonb(t)::text')
                   payload = [row[0] for row in cur.fetchall()]
-                  total_rows += len(payload)
                   backup_payload = json.loads(Path('restore', item['path']).read_text())
-                  if payload != backup_payload:
-                      data_mismatches.append({'table': table, 'expected_rows': len(backup_payload), 'actual_rows': len(payload)})
-          actual['erp_rows'] = total_rows
-
-          required_counts = {k: expected_counts[k] for k in ('tables','views','functions','triggers','indexes','constraints','policies','platform_migrations','application_migrations','erp_rows')}
-          count_mismatches = {k: {'expected': v, 'actual': actual.get(k)} for k, v in required_counts.items() if actual.get(k) != v}
+                  total_rows += len(payload)
+                  if json.dumps(payload,sort_keys=True,default=str,separators=(',',':')) != json.dumps(backup_payload,sort_keys=True,default=str,separators=(',',':')):
+                      data_mismatches.append({'table':table,'expected_rows':len(backup_payload),'actual_rows':len(payload)})
+          count_actual['erp_rows'] = total_rows
+          count_mismatches = {key:{'expected':value,'actual':count_actual.get(key)} for key,value in expected_counts.items() if count_actual.get(key) != value}
 
           integrity = rows("select check_code,severity,violation_count,details from erp.run_integrity_checks() where violation_count > 0 order by severity desc,check_code")
-          errors = [item for item in integrity if str(item['severity']).upper() == 'ERROR']
+          integrity_errors = [item for item in integrity if str(item['severity']).upper() == 'ERROR']
 
           report = {
-              'status': 'PASS' if not count_mismatches and not data_mismatches and not errors and actual['auth_users'] == 0 and actual['app_users'] == 0 else 'FAIL',
+              'status': 'PASS' if not object_mismatches and not count_mismatches and not data_mismatches and not integrity_errors and count_actual['auth_users']==0 and count_actual['app_users']==0 else 'FAIL',
               'mode': 'FREE_LOCAL_SUPABASE_RESTORE',
-              'database_url': 'local-only-redacted',
-              'expected_counts': required_counts,
-              'actual_counts': actual,
+              'postgres_image': '17.6.1.165',
+              'expected_counts': expected_counts,
+              'actual_counts': count_actual,
+              'object_mismatches': object_mismatches,
               'count_mismatches': count_mismatches,
               'data_mismatches': data_mismatches,
               'integrity_findings': integrity,
-              'integrity_errors': errors,
-              'storage_payload_in_archive': manifest['storage'],
+              'integrity_errors': integrity_errors,
           }
-          Path('cp2-free-local-restore-report.json').write_text(json.dumps(report, indent=2, default=str) + '\n')
-          print(json.dumps(report, indent=2, default=str))
+          Path('cp2-free-local-restore-report.json').write_text(json.dumps(report,indent=2,default=str)+'\n')
+          print(json.dumps(report,indent=2,default=str))
           if report['status'] != 'PASS':
-              raise SystemExit('Free local restore verification failed')
+              raise SystemExit('Free local database restore verification failed')
           PY
 
-      - name: Verify backed-up Storage object bytes
+      - name: Start minimal local APIs and restore actual Storage object
         shell: bash
         run: |
           set -euo pipefail
+          supabase start --workdir cp2-local \
+            -x gotrue,realtime,imgproxy,studio,postgres-meta,mailpit,edge-runtime,logflare,vector,supavisor
+          supabase status -o env --workdir cp2-local > cp2-local/local.env
+          set -a
+          source cp2-local/local.env
+          set +a
+          bucket="$(python -c "import json;print(json.load(open('restore/STORAGE_MANIFEST.json'))[0]['bucket'])")"
+          object="$(python -c "import json;print(json.load(open('restore/STORAGE_MANIFEST.json'))[0]['name'])")"
+          object_path="$(python -c "import json;print(json.load(open('restore/STORAGE_MANIFEST.json'))[0]['path'])")"
+          curl --fail-with-body --silent --show-error --request POST \
+            "$API_URL/storage/v1/bucket" \
+            --header "Authorization: Bearer $SERVICE_ROLE_KEY" \
+            --header "apikey: $SERVICE_ROLE_KEY" \
+            --header 'Content-Type: application/json' \
+            --data-binary @restore/storage-bucket.json
+          encoded_object="$(python -c 'import sys,urllib.parse;print("/".join(urllib.parse.quote(x,safe="") for x in sys.argv[1].split("/")))' "$object")"
+          curl --fail-with-body --silent --show-error --request POST \
+            "$API_URL/storage/v1/object/$bucket/$encoded_object" \
+            --header "Authorization: Bearer $SERVICE_ROLE_KEY" \
+            --header "apikey: $SERVICE_ROLE_KEY" \
+            --header 'x-upsert: true' \
+            --header 'Content-Type: application/octet-stream' \
+            --data-binary "@restore/$object_path"
+          curl --fail-with-body --silent --show-error \
+            "$API_URL/storage/v1/object/authenticated/$bucket/$encoded_object" \
+            --header "Authorization: Bearer $SERVICE_ROLE_KEY" \
+            --header "apikey: $SERVICE_ROLE_KEY" \
+            --output restored-storage-object.bin
+          expected_sha="$(python -c "import json;print(json.load(open('restore/STORAGE_MANIFEST.json'))[0]['sha256'])")"
+          actual_sha="$(sha256sum restored-storage-object.bin | awk '{print $1}')"
+          test "$actual_sha" = "$expected_sha"
+          expected_size="$(python -c "import json;print(json.load(open('restore/STORAGE_MANIFEST.json'))[0]['bytes'])")"
+          actual_size="$(stat -c %s restored-storage-object.bin)"
+          test "$actual_size" = "$expected_size"
           python - <<'PY'
-          import hashlib, json
+          import json
           from pathlib import Path
-          items = json.loads(Path('restore/STORAGE_MANIFEST.json').read_text())
-          if len(items) != 1:
-              raise SystemExit(f'unexpected storage object count: {len(items)}')
-          for item in items:
-              path = Path('restore', item['path'])
-              if not path.is_file():
-                  raise SystemExit(f'missing storage payload: {path}')
-              actual = hashlib.sha256(path.read_bytes()).hexdigest()
-              if actual != item['sha256']:
-                  raise SystemExit(f'storage checksum mismatch: {path}')
-              print(f"PASS {item['bucket']}/{item['name']} {path.stat().st_size} bytes {actual}")
+          report_path=Path('cp2-free-local-restore-report.json')
+          report=json.loads(report_path.read_text())
+          item=json.loads(Path('restore/STORAGE_MANIFEST.json').read_text())[0]
+          report['storage_restore']={
+            'status':'PASS',
+            'bucket':item['bucket'],
+            'object':item['name'],
+            'bytes':item['bytes'],
+            'sha256':item['sha256'],
+            'round_trip_download_verified':True,
+          }
+          report_path.write_text(json.dumps(report,indent=2)+'\n')
           PY
 
       - name: Upload non-secret restore proof
@@ -233,4 +473,4 @@ jobs:
         shell: bash
         run: |
           supabase stop --no-backup --workdir cp2-local || true
-          rm -rf restore transport cp2-local
+          rm -rf restore transport cp2-local restored-storage-object.bin
