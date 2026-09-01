@@ -1,4 +1,4 @@
-name: CP3 R4 Patch Private Primitive Harness
+name: CP3 R4 Patch Rollback Residue Assertion
 
 on:
   push:
@@ -11,7 +11,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: cp3-r4-patch-private-primitive-harness
+  group: cp3-r4-patch-rollback-residue-assertion
   cancel-in-progress: false
 
 jobs:
@@ -23,7 +23,7 @@ jobs:
           ref: cp3/hpp-attendance-sewing-terminal-r4-20260901
           fetch-depth: 0
 
-      - name: Correct exact private reversal primitive identity in race proof
+      - name: Replace formatting-dependent rollback residue grep
         shell: bash
         run: |
           set -euo pipefail
@@ -32,38 +32,41 @@ jobs:
           import json
           from pathlib import Path
 
-          script_path = Path('scripts/cp3_r4_full_schema_concurrency.py')
-          source = script_path.read_text()
+          workflow_path = Path('.github/workflows/cp3-r4-full-schema-validation.yml')
+          source = workflow_path.read_text()
+          old = "          grep -F '\"status\" : \"PASS\"' cp3-r4-proof/r4-rollback-residue.json >/dev/null\n"
+          new = (
+              "          python - <<'PY'\n"
+              "          import json\n"
+              "          from pathlib import Path\n"
+              "          residue=json.loads(Path('cp3-r4-proof/r4-rollback-residue.json').read_text())\n"
+              "          assert residue['status']=='PASS', residue\n"
+              "          assert residue['migration_marker'] is False, residue\n"
+              "          assert residue['capsule'] is None, residue\n"
+              "          assert residue['private_reverse'] is None, residue\n"
+              "          assert residue['active_pool_helper'] is None, residue\n"
+              "          PY\n"
+          )
 
-          old_proname = "p.proname='_reverse_journal_internal'"
-          new_proname = "p.proname='_cp3_r4_reverse_journal_internal'"
-          old_signature = "erp._reverse_journal_internal(uuid,text)"
-          new_signature = "erp._cp3_r4_reverse_journal_internal(uuid,text)"
-
-          if source.count(old_proname) != 1:
-              raise SystemExit(f'expected one old private primitive proname, found {source.count(old_proname)}')
-          if source.count(old_signature) != 3:
-              raise SystemExit(f'expected three old private primitive signatures, found {source.count(old_signature)}')
-
-          source = source.replace(old_proname, new_proname, 1)
-          source = source.replace(old_signature, new_signature)
-
-          if source.count(new_proname) != 1 or source.count(new_signature) != 3:
-              raise SystemExit('private primitive harness identity replacement was incomplete')
-
-          script_path.write_text(source)
+          count = source.count(old)
+          if count != 1:
+              raise SystemExit(f'rollback residue grep anchor expected once, found {count}')
+          source = source.replace(old, new, 1)
+          if "grep -F '\"status\" : \"PASS\"'" in source:
+              raise SystemExit('formatting-dependent residue grep remains')
+          workflow_path.write_text(source)
 
           manifest_path = Path('docs/evidence/cp3_r4_source_hashes.json')
           manifest = json.loads(manifest_path.read_text())
-          raw = script_path.read_bytes()
-          manifest['files'][script_path.as_posix()] = {
+          raw = workflow_path.read_bytes()
+          manifest['files'][workflow_path.as_posix()] = {
               'bytes': len(raw),
               'sha256': hashlib.sha256(raw).hexdigest(),
           }
-          manifest['last_validation_harness_patch'] = {
-              'scope': 'CP3 R4 source-only full-schema concurrency proof',
-              'defect': 'ACL proof referenced nonexistent erp._reverse_journal_internal(uuid,text)',
-              'fix': 'assert ACL on exact erp._cp3_r4_reverse_journal_internal(uuid,text) created by v2.6.14d',
+          manifest['last_workflow_harness_patch'] = {
+              'scope': 'CP3 R4 source-only full-schema rollback proof',
+              'defect': 'compact jsonb output passed semantically but failed spacing-dependent grep',
+              'fix': 'parse rollback residue JSON and assert every residue field explicitly',
               'business_runtime_changed': False,
               'uat_applied': False,
               'legacy_mutated': False,
@@ -72,13 +75,12 @@ jobs:
 
           print(json.dumps({
               'status': 'PASS',
-              'patched': script_path.as_posix(),
+              'patched': workflow_path.as_posix(),
               'bytes': len(raw),
               'sha256': hashlib.sha256(raw).hexdigest(),
           }, sort_keys=True))
           PY
 
-          python -m py_compile scripts/cp3_r4_full_schema_concurrency.py
           git diff --check
           python - <<'PY'
           import hashlib
@@ -92,16 +94,16 @@ jobs:
               if len(raw) != expected['bytes'] or hashlib.sha256(raw).hexdigest() != expected['sha256']:
                   failures.append(path)
           if failures:
-              raise SystemExit(f'fixed-source manifest mismatch after harness repair: {failures}')
+              raise SystemExit(f'fixed-source manifest mismatch after rollback assertion repair: {failures}')
           print(json.dumps({'status': 'PASS', 'manifest_entries': len(manifest['files'])}, sort_keys=True))
           PY
 
-      - name: Commit exact harness repair
+      - name: Commit exact rollback proof repair
         shell: bash
         run: |
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add scripts/cp3_r4_full_schema_concurrency.py docs/evidence/cp3_r4_source_hashes.json
-          git commit -m 'test(cp3): target exact private reversal primitive'
+          git add .github/workflows/cp3-r4-full-schema-validation.yml docs/evidence/cp3_r4_source_hashes.json
+          git commit -m 'test(cp3): parse rollback residue semantically'
           git push origin HEAD:cp3/hpp-attendance-sewing-terminal-r4-20260901
