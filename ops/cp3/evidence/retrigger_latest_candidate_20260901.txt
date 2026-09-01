@@ -1,0 +1,4 @@
+CP3 local source validation retrigger marker.
+Semantic SQL candidate parent: 249406327a715d9e1798c16719d1e2d706e318be
+Reason: validate authoritative roster fixture correction after the prior run stopped at fixture setup.
+No hosted database, auth, deployment, cron, storage, or main-branch mutation is performed by this marker.
