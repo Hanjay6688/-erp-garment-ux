@@ -49,6 +49,16 @@ class RendererTests(unittest.TestCase):
         self.assertTrue(output.rstrip().endswith("rollback;"))
         self.assertIn('"ledger_version": "v2.6.14c"', report)
 
+
+    def test_compact_14d_ledger_marker_render(self):
+        raw = VALID.replace(
+            b"version, description, installed_at",
+            b"version,description,installed_at",
+        ).replace(b"'v2.6.14a'", b"'v2.6.14d'")
+        output, report = self.run_render(raw)
+        self.assertTrue(output.rstrip().endswith("rollback;"))
+        self.assertIn('"ledger_version": "v2.6.14d"', report)
+
     def test_wrong_digest_rejected(self):
         self.assert_rejected(VALID, "sha256 mismatch", sha="0" * 64)
 

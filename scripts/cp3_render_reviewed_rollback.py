@@ -23,7 +23,7 @@ import re
 import sys
 
 
-SUPPORTED_LEDGER_VERSIONS = frozenset({"v2.6.14a", "v2.6.14b", "v2.6.14c"})
+SUPPORTED_LEDGER_VERSIONS = frozenset({"v2.6.14a", "v2.6.14b", "v2.6.14c", "v2.6.14d"})
 LEDGER_INSERT_RE = re.compile(
     r"\binsert\s+into\s+erp\.schema_migrations\s*"
     r"\(\s*version\s*,\s*description\s*,\s*installed_at\s*\)\s*"
