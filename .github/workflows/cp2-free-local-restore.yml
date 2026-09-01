@@ -1,248 +1,33 @@
-name: CP2 Free Local Restore Drill
+name: CP2 Free Local Restore Drill (Retired)
+
+# Checkpoint 2 completed successfully in workflow run 33457299164,
+# job 99699891972, at commit 41bda0f748ebef57155013ea1e2f3dc86602a85a.
+#
+# The executable one-time workflow was intentionally retired after:
+# - encrypted archive validation,
+# - matching local Supabase/Postgres 17.6.1.165 restore,
+# - exact object/count/data reconciliation,
+# - real Storage object round-trip verification,
+# - local stack and plaintext cleanup.
+#
+# Durable non-secret evidence lives under:
+# docs/evidence/2026-09-01/checkpoint_2_backup_manifest.json
+# docs/evidence/2026-09-01/checkpoint_2_restore_proof.json
+# docs/evidence/2026-09-01/checkpoint_2_backup_report.md
+#
+# Do not re-enable this file with historical recovery-artifact IDs.
+# A future restore drill must create a fresh encrypted backup and a fresh,
+# reviewed workflow on a new evidence checkpoint.
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - evidence/checkpoints-1-2-20260901
-    paths:
-      - .github/workflows/cp2-free-local-restore.yml
-      - scripts/cp2_generate_catalog_restore.py
-      - scripts/cp2_verify_local_restore.py
 
 permissions:
   contents: read
-  actions: read
 
 jobs:
-  restore-verify:
+  retired:
+    if: ${{ false }}
     runs-on: ubuntu-latest
-    timeout-minutes: 40
-    env:
-      PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
     steps:
-      - name: Checkout evidence branch
-        uses: actions/checkout@v4
-
-      - name: Install Supabase CLI
-        uses: supabase/setup-cli@v1
-        with:
-          version: latest
-
-      - name: Download encrypted backup artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: cp2-encrypted-backup
-          path: transport/backup
-          github-token: ${{ github.token }}
-          run-id: 33430989888
-
-      - name: Download recovery key artifact separately
-        uses: actions/download-artifact@v4
-        with:
-          name: cp2-recovery-key-separate
-          path: transport/key
-          github-token: ${{ github.token }}
-          run-id: 33430989888
-
-      - name: Decrypt and validate recovery archive
-        shell: bash
-        run: |
-          set -euo pipefail
-          encrypted="$(find transport/backup -type f -name 'ERP_ENTENG_CP2_BACKUP_*.zip.enc' -print -quit)"
-          keyfile="$(find transport/key -type f -name 'ERP_ENTENG_CP2_RECOVERY_KEY_*.txt' -print -quit)"
-          test -n "$encrypted"
-          test -n "$keyfile"
-          awk 'BEGIN{blank=0} {if(blank){print; exit} if($0=="") blank=1}' "$keyfile" > transport/recovery-passphrase.tmp
-          openssl enc -d -aes-256-cbc -pbkdf2 -iter 600000 -md sha256 \
-            -pass file:transport/recovery-passphrase.tmp \
-            -in "$encrypted" \
-            -out transport/erp-enteng-cp2-raw.zip
-          echo 'e176cac94d78915cb5fd73a065f58150184ee0b37801e6eb70fbc8fcfa29ef53  transport/erp-enteng-cp2-raw.zip' | sha256sum -c -
-          unzip -tq transport/erp-enteng-cp2-raw.zip
-          mkdir -p restore
-          unzip -q transport/erp-enteng-cp2-raw.zip -d restore
-          rm -f transport/recovery-passphrase.tmp
-
-      - name: Generate deterministic current-schema restore
-        shell: bash
-        run: |
-          set -euo pipefail
-          python scripts/cp2_generate_catalog_restore.py
-          test -s restore/catalog-schema-restore.sql
-          test -s restore/platform-ledger-restore.sql
-          test -s restore/expected.json
-
-      - name: Start free local Supabase stack matching hosted Postgres version
-        shell: bash
-        run: |
-          set -euo pipefail
-          mkdir -p cp2-local
-          supabase init --force --workdir cp2-local
-          mkdir -p cp2-local/supabase/.temp
-          echo '17.6.1.165' > cp2-local/supabase/.temp/postgres-version
-          supabase start --workdir cp2-local \
-            -x realtime,imgproxy,studio,postgres-meta,mailpit,edge-runtime,logflare,vector,supavisor
-          supabase status --workdir cp2-local
-
-      - name: Initialize local Supabase migration ledger
-        shell: bash
-        run: |
-          set -euo pipefail
-          psql "$PGURL" -v ON_ERROR_STOP=1 <<'SQL'
-          set lock_timeout = '4s';
-          create schema if not exists supabase_migrations;
-          create table if not exists supabase_migrations.schema_migrations (
-            version text not null primary key
-          );
-          alter table supabase_migrations.schema_migrations
-            add column if not exists statements text[];
-          alter table supabase_migrations.schema_migrations
-            add column if not exists name text;
-          SQL
-
-      - name: Restore schema, ERP data, ledgers, cron, and sequence state
-        shell: bash
-        run: |
-          set -euo pipefail
-          psql "$PGURL" -v ON_ERROR_STOP=1 -f restore/catalog-schema-restore.sql
-          psql "$PGURL" -v ON_ERROR_STOP=1 -f restore/ERP_ENTENG_DATA_RESTORE.sql
-          psql "$PGURL" -v ON_ERROR_STOP=1 -f restore/platform-ledger-restore.sql
-          psql "$PGURL" -v ON_ERROR_STOP=1 -f restore/sequence-reseed.sql
-
-      - name: Verify restored database exactly enough for CP2
-        shell: bash
-        run: |
-          set -euo pipefail
-          python -m pip install --quiet 'psycopg[binary]==3.2.10'
-          python scripts/cp2_verify_local_restore.py
-          python - <<'PY'
-          import json
-          from pathlib import Path
-          path = Path('cp2-free-local-restore-report.json')
-          report = json.loads(path.read_text())
-          report['database_restore'] = {'status': 'PASS'}
-          report['storage_restore'] = {'status': 'PENDING'}
-          report['status'] = 'DATABASE_PASS_STORAGE_PENDING'
-          path.write_text(json.dumps(report, indent=2, ensure_ascii=False) + '\n')
-          PY
-
-      - name: Restore and round-trip actual Storage object
-        shell: bash
-        run: |
-          set -Eeuo pipefail
-          exec > >(tee -a cp2-storage-restore.log) 2>&1
-
-          storage_failure() {
-            rc=$?
-            trap - ERR
-            set +e
-            echo "CP2 Storage restore failed: exit=$rc line=${BASH_LINENO[0]:-unknown}"
-            echo '--- Supabase status ---'
-            supabase status --workdir cp2-local || true
-            echo '--- Relevant containers ---'
-            docker ps -a --format 'table {{.Names}}\t{{.Status}}\t{{.Image}}' | grep -E 'NAMES|cp2-local' || true
-            echo '--- Storage API tail ---'
-            docker logs supabase_storage_cp2-local --tail 200 2>&1 || true
-            echo '--- Kong tail ---'
-            docker logs supabase_kong_cp2-local --tail 100 2>&1 || true
-            exit "$rc"
-          }
-          trap storage_failure ERR
-
-          supabase status -o env --workdir cp2-local > cp2-local/local.env
-          set -a
-          source cp2-local/local.env
-          set +a
-          test -n "${API_URL:-}"
-          test -n "${SERVICE_ROLE_KEY:-}"
-
-          storage_ready=0
-          for attempt in $(seq 1 30); do
-            if curl --fail --silent --show-error \
-              "$API_URL/storage/v1/bucket" \
-              --header "Authorization: Bearer $SERVICE_ROLE_KEY" \
-              --header "apikey: $SERVICE_ROLE_KEY" \
-              --output /dev/null; then
-              storage_ready=1
-              break
-            fi
-            echo "Waiting for Storage API ($attempt/30)"
-            sleep 2
-          done
-          test "$storage_ready" = 1
-
-          bucket="$(python -c "import json;print(json.load(open('restore/STORAGE_MANIFEST.json'))[0]['bucket'])")"
-          object="$(python -c "import json;print(json.load(open('restore/STORAGE_MANIFEST.json'))[0]['name'])")"
-          object_path="$(python -c "import json;print(json.load(open('restore/STORAGE_MANIFEST.json'))[0]['path'])")"
-          encoded_object="$(python -c 'import sys,urllib.parse;print("/".join(urllib.parse.quote(x,safe="") for x in sys.argv[1].split("/")))' "$object")"
-
-          curl --fail-with-body --silent --show-error --request POST \
-            "$API_URL/storage/v1/bucket" \
-            --header "Authorization: Bearer $SERVICE_ROLE_KEY" \
-            --header "apikey: $SERVICE_ROLE_KEY" \
-            --header 'Content-Type: application/json' \
-            --data-binary @restore/storage-bucket.json \
-            --output cp2-storage-bucket-response.json
-
-          curl --fail-with-body --silent --show-error --request POST \
-            "$API_URL/storage/v1/object/$bucket/$encoded_object" \
-            --header "Authorization: Bearer $SERVICE_ROLE_KEY" \
-            --header "apikey: $SERVICE_ROLE_KEY" \
-            --header 'x-upsert: true' \
-            --header 'Content-Type: application/octet-stream' \
-            --data-binary "@restore/$object_path" \
-            --output cp2-storage-upload-response.json
-
-          curl --fail-with-body --silent --show-error \
-            "$API_URL/storage/v1/object/authenticated/$bucket/$encoded_object" \
-            --header "Authorization: Bearer $SERVICE_ROLE_KEY" \
-            --header "apikey: $SERVICE_ROLE_KEY" \
-            --output restored-storage-object.bin
-
-          expected_sha="$(python -c "import json;print(json.load(open('restore/STORAGE_MANIFEST.json'))[0]['sha256'])")"
-          actual_sha="$(sha256sum restored-storage-object.bin | awk '{print $1}')"
-          test "$actual_sha" = "$expected_sha"
-          expected_size="$(python -c "import json;print(json.load(open('restore/STORAGE_MANIFEST.json'))[0]['bytes'])")"
-          actual_size="$(stat -c %s restored-storage-object.bin)"
-          test "$actual_size" = "$expected_size"
-
-          python - <<'PY'
-          import json
-          from pathlib import Path
-          report_path = Path('cp2-free-local-restore-report.json')
-          report = json.loads(report_path.read_text())
-          item = json.loads(Path('restore/STORAGE_MANIFEST.json').read_text())[0]
-          report['storage_restore'] = {
-              'status': 'PASS',
-              'bucket': item['bucket'],
-              'object': item['name'],
-              'bytes': item['bytes'],
-              'sha256': item['sha256'],
-              'round_trip_download_verified': True,
-          }
-          report['status'] = 'PASS'
-          report_path.write_text(json.dumps(report, indent=2, ensure_ascii=False) + '\n')
-          print(json.dumps(report['storage_restore'], indent=2))
-          PY
-
-      - name: Upload non-secret restore proof
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: cp2-free-local-restore-proof
-          path: |
-            cp2-free-local-restore-report.json
-            cp2-storage-restore.log
-            cp2-storage-bucket-response.json
-            cp2-storage-upload-response.json
-            restore/mixed-object-order.json
-          if-no-files-found: warn
-          retention-days: 7
-
-      - name: Destroy local stack and decrypted material
-        if: always()
-        shell: bash
-        run: |
-          supabase stop --no-backup --workdir cp2-local || true
-          rm -rf restore transport cp2-local restored-storage-object.bin
+      - run: echo 'Checkpoint 2 restore drill is retired; use the persisted PASS evidence.'
