@@ -1,0 +1,187 @@
+name: CP3 Source Candidate V2.1 Gate
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - cp3/hpp-attendance-sewing-terminal-candidate-v2-20260901
+    paths:
+      - .github/workflows/cp3-source-candidate-v2.yml
+      - supabase/migrations/20260901023000_erp_v2_6_14a_attendance_hpp_policy_and_sewing_terminal.sql
+      - supabase/migrations/20260901023100_erp_v2_6_14b_attendance_hpp_pool_intents.sql
+      - supabase/migrations/20260901023200_erp_v2_6_14c_attendance_hpp_candidate_hardening.sql
+      - supabase/tests/attendance_hpp_cp3_source_contract.sql
+      - supabase/tests/attendance_hpp_cp3_concurrency.py
+      - supabase/tests/attendance_hpp_cp3_concurrency.fixture.example.json
+      - scripts/cp3_render_reviewed_rollback.py
+      - scripts/test_cp3_render_reviewed_rollback.py
+      - scripts/cp3_source_candidate_checks.py
+      - scripts/cp3_source_candidate_checks_v2.py
+      - docs/evidence/2026-09-01/checkpoint_3_source_candidate_v2_1.*
+
+permissions:
+  contents: read
+
+env:
+  PYTHONUNBUFFERED: "1"
+
+jobs:
+  source-only-gate-v2:
+    name: source-only-gate-v2
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout exact candidate branch
+        uses: actions/checkout@v4
+
+      - name: Record immutable source identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          {
+            echo "GITHUB_SHA=$GITHUB_SHA"
+            echo "GITHUB_REF=$GITHUB_REF"
+            git status --short
+            git rev-parse HEAD
+            git rev-parse HEAD^{tree}
+          } | tee cp3-v2-source-identity.txt
+          test -z "$(git status --porcelain)"
+
+      - name: Install parser-only dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --quiet pglast 'psycopg[binary]'
+          python -m pip freeze | grep -E '^(pglast|psycopg|psycopg-binary)==' | sort > cp3-v2-python-dependencies.txt
+          cat cp3-v2-python-dependencies.txt
+
+      - name: Python syntax and rollback renderer adversarial suite
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m py_compile \
+            scripts/cp3_render_reviewed_rollback.py \
+            scripts/test_cp3_render_reviewed_rollback.py \
+            scripts/cp3_source_candidate_checks.py \
+            scripts/cp3_source_candidate_checks_v2.py \
+            supabase/tests/attendance_hpp_cp3_concurrency.py
+          (
+            cd scripts
+            python -m unittest -v test_cp3_render_reviewed_rollback.py
+          ) | tee cp3-v2-renderer-tests.log
+
+      - name: Run superseding fail-closed source gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/cp3_source_candidate_checks_v2.py | tee cp3-v2-source-check.log
+          test -s cp3-source-candidate-v2-check-report.json
+          test -s cp3-source-candidate-v2-SHA256SUMS.txt
+
+      - name: Parse PostgreSQL top-level syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from pglast import parse_sql
+
+          paths = [
+              Path('supabase/migrations/20260901023000_erp_v2_6_14a_attendance_hpp_policy_and_sewing_terminal.sql'),
+              Path('supabase/migrations/20260901023100_erp_v2_6_14b_attendance_hpp_pool_intents.sql'),
+              Path('supabase/migrations/20260901023200_erp_v2_6_14c_attendance_hpp_candidate_hardening.sql'),
+              Path('supabase/tests/attendance_hpp_cp3_source_contract.sql'),
+          ]
+          result = []
+          for path in paths:
+              statements = parse_sql(path.read_text(encoding='utf-8'))
+              result.append({'path': str(path), 'top_level_statements': len(statements), 'status': 'PARSE_PASS'})
+          Path('cp3-v2-pglast-parse-report.json').write_text(json.dumps(result, indent=2) + '\n')
+          print(json.dumps(result, indent=2))
+          PY
+
+      - name: Render rollback artifacts from exact reviewed migration bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p cp3-v2-rendered-rollbacks
+          for source in \
+            supabase/migrations/20260901023000_erp_v2_6_14a_attendance_hpp_policy_and_sewing_terminal.sql \
+            supabase/migrations/20260901023100_erp_v2_6_14b_attendance_hpp_pool_intents.sql \
+            supabase/migrations/20260901023200_erp_v2_6_14c_attendance_hpp_candidate_hardening.sql
+          do
+            base="$(basename "$source" .sql)"
+            sha="$(sha256sum "$source" | awk '{print $1}')"
+            python scripts/cp3_render_reviewed_rollback.py \
+              --input "$source" \
+              --expected-sha256 "$sha" \
+              --output "cp3-v2-rendered-rollbacks/${base}.rollback.sql" \
+              --metadata "cp3-v2-rendered-rollbacks/${base}.rollback.metadata.json"
+          done
+          python - <<'PY'
+          from pathlib import Path
+          from pglast import parse_sql
+          for path in sorted(Path('cp3-v2-rendered-rollbacks').glob('*.rollback.sql')):
+              text = path.read_text(encoding='utf-8')
+              if '\nROLLBACK;' not in text.upper():
+                  raise SystemExit(f'missing terminal ROLLBACK: {path}')
+              parse_sql(text)
+              print(f'rollback parse PASS: {path}')
+          PY
+
+      - name: Secret, public-surface, and no-GL-post scan
+        shell: bash
+        run: |
+          set -euo pipefail
+          files=(
+            supabase/migrations/20260901023000_erp_v2_6_14a_attendance_hpp_policy_and_sewing_terminal.sql
+            supabase/migrations/20260901023100_erp_v2_6_14b_attendance_hpp_pool_intents.sql
+            supabase/migrations/20260901023200_erp_v2_6_14c_attendance_hpp_candidate_hardening.sql
+            supabase/tests/attendance_hpp_cp3_source_contract.sql
+            supabase/tests/attendance_hpp_cp3_concurrency.py
+            scripts/cp3_render_reviewed_rollback.py
+            scripts/cp3_source_candidate_checks.py
+            scripts/cp3_source_candidate_checks_v2.py
+          )
+          if grep -Eni '(sb_secret_|eyJ[a-zA-Z0-9_-]{20,}\.|BEGIN (RSA|OPENSSH|EC) PRIVATE KEY|password[[:space:]]*=[[:space:]]*[^[:space:]]+)' "${files[@]}"; then
+            echo 'Potential secret material detected.' >&2
+            exit 1
+          fi
+          if grep -Eni 'create[[:space:]]+(or[[:space:]]+replace[[:space:]]+)?function[[:space:]]+public\..*(attendance_hpp|sewing_terminal)' "${files[@]}"; then
+            echo 'Public CP3 facade detected before gate.' >&2
+            exit 1
+          fi
+          python - <<'PY'
+          from pathlib import Path
+          import sys
+          sys.path.insert(0, 'scripts')
+          from cp3_source_candidate_checks import strip_sql_comments
+          paths = [
+              Path('supabase/migrations/20260901023000_erp_v2_6_14a_attendance_hpp_policy_and_sewing_terminal.sql'),
+              Path('supabase/migrations/20260901023100_erp_v2_6_14b_attendance_hpp_pool_intents.sql'),
+              Path('supabase/migrations/20260901023200_erp_v2_6_14c_attendance_hpp_candidate_hardening.sql'),
+          ]
+          executable = strip_sql_comments('\n'.join(path.read_text() for path in paths)).lower()
+          if 'post_journal(' in executable:
+              raise SystemExit('CP3 source candidate contains executable post_journal call')
+          PY
+          echo 'secret/public/no-GL-post scan PASS'
+
+      - name: Upload non-secret V2.1 source evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: cp3-source-candidate-v2-proof
+          path: |
+            cp3-v2-source-identity.txt
+            cp3-v2-python-dependencies.txt
+            cp3-v2-renderer-tests.log
+            cp3-v2-source-check.log
+            cp3-source-candidate-check-report.json
+            cp3-source-candidate-SHA256SUMS.txt
+            cp3-source-candidate-v2-check-report.json
+            cp3-source-candidate-v2-SHA256SUMS.txt
+            cp3-v2-pglast-parse-report.json
+            cp3-v2-rendered-rollbacks/
+          if-no-files-found: error
+          retention-days: 14
