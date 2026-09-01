@@ -1,0 +1,51 @@
+0190:     jsonb_set(m,'{destinations,0,attendance_required_snapshot}','false'::jsonb),'not an eligible normal Mandor');
+0191:   perform pg_temp.cp3_r4_expect_manifest_reject('destination empty object',
+0192:     jsonb_set(m,'{destinations,0}','{}'::jsonb),'requires non-null key sewing_terminal_event_id');
+0193:   perform pg_temp.cp3_r4_expect_manifest_reject('destination nested missing key',
+0194:     jsonb_set(m,'{destinations,0}',destination_item-'policy_version_id'),'requires non-null key policy_version_id');
+0195: end
+0196: $test$;
+0197: 
+0198: -- Exact idempotency and stale-version behavior on the owning pool lifecycle.
+0199: do $test$
+0200: declare
+0201:   request_id constant uuid:='44444444-4444-4444-8444-444444444444';
+0202:   payload jsonb:=jsonb_build_object('period_start','2026-01-01','period_end','2026-01-01','reason','CP3 R4 idempotency');
+0203:   first_result jsonb;
+0204:   second_result jsonb;
+0205:   pool_id uuid;
+0206: begin
+0207:   first_result:=erp.create_attendance_hpp_pool_v1(payload,request_id);
+0208:   second_result:=erp.create_attendance_hpp_pool_v1(payload,request_id);
+0209:   if first_result is distinct from second_result then
+0210:     raise exception 'Same idempotency key/same payload did not return the cached result';
+0211:   end if;
+0212:   pool_id:=(first_result->>'pool_id')::uuid;
+0213: 
+0214:   begin
+0215:     perform erp.create_attendance_hpp_pool_v1(payload||jsonb_build_object('reason','CP3 R4 changed payload'),request_id);
+0216:     raise exception 'Expected same idempotency key/different payload rejection';
+0217:   exception when others then
+0218:     if sqlerrm like 'Expected same idempotency%'
+0219:        or position('client_request_id' in lower(sqlerrm)) = 0
+0220:        or position('different payload' in lower(sqlerrm)) = 0 then
+0221:       raise;
+0222:     end if;
+0223:   end;
+0224: 
+0225:   begin
+0226:     perform erp.cancel_attendance_hpp_pool_v1(pool_id,'CP3 R4 stale version',gen_random_uuid(),999);
+0227:     raise exception 'Expected stale pool version rejection';
+0228:   exception when others then
+0229:     if sqlerrm not like 'STALE_VERSION%' then raise; end if;
+0230:   end;
+0231:   perform erp.cancel_attendance_hpp_pool_v1(pool_id,'CP3 R4 idempotency cleanup',gen_random_uuid(),1);
+0232: end
+0233: $test$;
+0234: 
+0235: insert into cp3_r3_ids(key,value)
+0236: values('voidable_pool',erp.create_attendance_hpp_pool_v1(
+0237:   jsonb_build_object('period_start','2026-01-01','period_end','2026-01-01','reason','CP3 R3 voidable DRAFT'),
+0238:   gen_random_uuid()));
+0239: insert into cp3_r3_ids(key,value)
+0240: values('voided_pool',erp.cancel_attendance_hpp_pool_v1(
