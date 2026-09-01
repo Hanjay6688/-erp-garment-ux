@@ -4,8 +4,8 @@
   "cp3_source_sha": "1f3fc7de66d438778dde2745791010310001de97",
   "files": {
     ".github/workflows/cp3-r4-full-schema-validation.yml": {
-      "bytes": 34138,
-      "sha256": "69e36a5e6749277b1998e4e809ffb6fd5174b498ed4251c0e4d79dfc0344a98f"
+      "bytes": 35718,
+      "sha256": "bca2b1ccf4b8765a73c6c6b3b8b8cb52600a5c95081ae14599a08f82ca2d9f1b"
     },
     "scripts/cp3_r3_full_schema_concurrency.py": {
       "bytes": 13419,
@@ -115,7 +115,7 @@
     },
     "deployment_order": {
       "reason": "CP3 source migrations predate the already-live v2.6.15 platform migration",
-      "platform_history_mode": "ledger-complete disposable directory with no-op files only for already-recorded remote versions",
+      "platform_history_mode": "ledger-complete candidate-only disposable directory with no-op files only for already-recorded remote versions",
       "required_preview": "supabase db push --workdir <ledger-complete-plan> --include-all --dry-run",
       "required_apply": "supabase db push --workdir <same-reviewed-ledger-complete-plan> --include-all",
       "workflow_runtime_order": [
@@ -137,7 +137,8 @@
       "automatic workflow trigger coverage for v2.6.14a and v2.6.14b",
       "current-main v2.6.15 replay and 200/20 payroll entitlement regression",
       "CP2 catalog-restore guard rejection capture and byte-bound v2.6.15 candidate-body replay",
-      "ledger-complete no-op historical planner for exact out-of-order Supabase CLI preview"
+      "ledger-complete no-op historical planner for exact out-of-order Supabase CLI preview",
+      "exact migration-plan assertion forbidding any non-CP3 pending migration"
     ],
     "expected_scenario_count": 16,
     "scope": "proof and current-main integration only"
