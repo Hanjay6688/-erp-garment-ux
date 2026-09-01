@@ -1,4 +1,4 @@
-name: CP3 R4 Patch Policy Lock Order
+name: CP3 R4 Patch Private Primitive Harness
 
 on:
   push:
@@ -11,7 +11,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: cp3-r4-patch-policy-lock-order
+  group: cp3-r4-patch-private-primitive-harness
   cancel-in-progress: false
 
 jobs:
@@ -23,7 +23,7 @@ jobs:
           ref: cp3/hpp-attendance-sewing-terminal-r4-20260901
           fetch-depth: 0
 
-      - name: Remove contractor-row versus advisory-lock inversion
+      - name: Correct exact private reversal primitive identity in race proof
         shell: bash
         run: |
           set -euo pipefail
@@ -32,79 +32,39 @@ jobs:
           import json
           from pathlib import Path
 
-          migration_path = Path('supabase/migrations/20260901023400_erp_v2_6_14d_cp3_r4_race_and_reversal_hardening.sql')
-          source = migration_path.read_text()
+          script_path = Path('scripts/cp3_r4_full_schema_concurrency.py')
+          source = script_path.read_text()
 
-          old = (
-              "-- 2. Policy change after ACTIVE pool: lock is already held by the R3 setter;\n"
-              "-- check the exact new effective slice after next-version boundary is known.\n"
-              "select pg_temp.cp3_r4_replace_function(\n"
-          )
-          new = (
-              "-- 2. Policy mutation lock-order hardening. Activation takes the contractor\n"
-              "-- advisory lock before post_journal() requests a foreign-key KEY SHARE lock on\n"
-              "-- erp.contractors. The setter must therefore take the same advisory lock before\n"
-              "-- locking the contractor row, otherwise activation-vs-policy can deadlock.\n"
-              "select pg_temp.cp3_r4_replace_function(\n"
-              "  'set_contractor_hpp_policy_v1',\n"
-              "  $anchor$  select * into v_contractor\n"
-              "  from erp.contractors\n"
-              "  where id = v_contractor_id\n"
-              "  for update;$anchor$,\n"
-              "  $patch$  perform pg_advisory_xact_lock(hashtextextended('CONTRACTOR_HPP_POLICY|' || v_contractor_id::text, 0));\n"
-              "\n"
-              "  select * into v_contractor\n"
-              "  from erp.contractors\n"
-              "  where id = v_contractor_id\n"
-              "  for update;$patch$,\n"
-              "  1,1\n"
-              ");\n"
-              "\n"
-              "select pg_temp.cp3_r4_replace_function(\n"
-              "  'set_contractor_hpp_policy_v1',\n"
-              "  $anchor$  perform pg_advisory_xact_lock(hashtextextended('CONTRACTOR_HPP_POLICY|' || v_contractor_id::text, 0));\n"
-              "\n"
-              "  select * into v_current$anchor$,\n"
-              "  $patch$  select * into v_current$patch$,\n"
-              "  1,1\n"
-              ");\n"
-              "\n"
-              "-- 3. Policy change after ACTIVE pool: the contractor advisory lock is now\n"
-              "-- acquired before the contractor row lock; check the exact effective slice\n"
-              "-- after the next-version boundary is known.\n"
-              "select pg_temp.cp3_r4_replace_function(\n"
-          )
+          old_proname = "p.proname='_reverse_journal_internal'"
+          new_proname = "p.proname='_cp3_r4_reverse_journal_internal'"
+          old_signature = "erp._reverse_journal_internal(uuid,text)"
+          new_signature = "erp._cp3_r4_reverse_journal_internal(uuid,text)"
 
-          count = source.count(old)
-          if count != 1:
-              raise SystemExit(f'policy lock-order insertion anchor expected once, found {count}')
-          source = source.replace(old, new, 1)
+          if source.count(old_proname) != 1:
+              raise SystemExit(f'expected one old private primitive proname, found {source.count(old_proname)}')
+          if source.count(old_signature) != 3:
+              raise SystemExit(f'expected three old private primitive signatures, found {source.count(old_signature)}')
 
-          required = [
-              'Policy mutation lock-order hardening',
-              '$anchor$  select * into v_contractor',
-              "$anchor$  perform pg_advisory_xact_lock(hashtextextended('CONTRACTOR_HPP_POLICY|' || v_contractor_id::text, 0));",
-              'The setter must therefore take the same advisory lock before',
-          ]
-          missing = [token for token in required if token not in source]
-          if missing:
-              raise SystemExit(f'policy lock-order patch incomplete: {missing}')
-          if source.count("'set_contractor_hpp_policy_v1',") < 3:
-              raise SystemExit('expected lock-order move plus active-pool policy patch')
+          source = source.replace(old_proname, new_proname, 1)
+          source = source.replace(old_signature, new_signature)
 
-          migration_path.write_text(source)
+          if source.count(new_proname) != 1 or source.count(new_signature) != 3:
+              raise SystemExit('private primitive harness identity replacement was incomplete')
+
+          script_path.write_text(source)
 
           manifest_path = Path('docs/evidence/cp3_r4_source_hashes.json')
           manifest = json.loads(manifest_path.read_text())
-          raw = migration_path.read_bytes()
-          manifest['files'][migration_path.as_posix()] = {
+          raw = script_path.read_bytes()
+          manifest['files'][script_path.as_posix()] = {
               'bytes': len(raw),
               'sha256': hashlib.sha256(raw).hexdigest(),
           }
-          manifest['last_runtime_patch'] = {
-              'scope': 'v2.6.14d source-only candidate',
-              'defect': 'activate-vs-policy deadlock from contractor row/advisory lock inversion',
-              'fix': 'contractor advisory lock precedes contractor FOR UPDATE in set_contractor_hpp_policy_v1',
+          manifest['last_validation_harness_patch'] = {
+              'scope': 'CP3 R4 source-only full-schema concurrency proof',
+              'defect': 'ACL proof referenced nonexistent erp._reverse_journal_internal(uuid,text)',
+              'fix': 'assert ACL on exact erp._cp3_r4_reverse_journal_internal(uuid,text) created by v2.6.14d',
+              'business_runtime_changed': False,
               'uat_applied': False,
               'legacy_mutated': False,
           }
@@ -112,14 +72,14 @@ jobs:
 
           print(json.dumps({
               'status': 'PASS',
-              'patched': migration_path.as_posix(),
+              'patched': script_path.as_posix(),
               'bytes': len(raw),
               'sha256': hashlib.sha256(raw).hexdigest(),
           }, sort_keys=True))
           PY
 
+          python -m py_compile scripts/cp3_r4_full_schema_concurrency.py
           git diff --check
-          python scripts/test_cp3_render_r4_reviewed_rollback.py
           python - <<'PY'
           import hashlib
           import json
@@ -132,16 +92,16 @@ jobs:
               if len(raw) != expected['bytes'] or hashlib.sha256(raw).hexdigest() != expected['sha256']:
                   failures.append(path)
           if failures:
-              raise SystemExit(f'fixed-source manifest mismatch after runtime lock-order patch: {failures}')
+              raise SystemExit(f'fixed-source manifest mismatch after harness repair: {failures}')
           print(json.dumps({'status': 'PASS', 'manifest_entries': len(manifest['files'])}, sort_keys=True))
           PY
 
-      - name: Commit source-only runtime fix
+      - name: Commit exact harness repair
         shell: bash
         run: |
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add supabase/migrations/20260901023400_erp_v2_6_14d_cp3_r4_race_and_reversal_hardening.sql docs/evidence/cp3_r4_source_hashes.json
-          git commit -m 'fix(cp3): order policy locks before contractor row lock'
+          git add scripts/cp3_r4_full_schema_concurrency.py docs/evidence/cp3_r4_source_hashes.json
+          git commit -m 'test(cp3): target exact private reversal primitive'
           git push origin HEAD:cp3/hpp-attendance-sewing-terminal-r4-20260901
