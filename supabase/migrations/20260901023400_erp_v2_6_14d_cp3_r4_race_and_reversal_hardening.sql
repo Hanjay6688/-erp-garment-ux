@@ -270,8 +270,37 @@ select pg_temp.cp3_r4_replace_function(
   1,1
 );
 
--- 2. Policy change after ACTIVE pool: lock is already held by the R3 setter;
--- check the exact new effective slice after next-version boundary is known.
+-- 2. Policy mutation lock-order hardening. Activation takes the contractor
+-- advisory lock before post_journal() requests a foreign-key KEY SHARE lock on
+-- erp.contractors. The setter must therefore take the same advisory lock before
+-- locking the contractor row, otherwise activation-vs-policy can deadlock.
+select pg_temp.cp3_r4_replace_function(
+  'set_contractor_hpp_policy_v1',
+  $anchor$  select * into v_contractor
+  from erp.contractors
+  where id = v_contractor_id
+  for update;$anchor$,
+  $patch$  perform pg_advisory_xact_lock(hashtextextended('CONTRACTOR_HPP_POLICY|' || v_contractor_id::text, 0));
+
+  select * into v_contractor
+  from erp.contractors
+  where id = v_contractor_id
+  for update;$patch$,
+  1,1
+);
+
+select pg_temp.cp3_r4_replace_function(
+  'set_contractor_hpp_policy_v1',
+  $anchor$  perform pg_advisory_xact_lock(hashtextextended('CONTRACTOR_HPP_POLICY|' || v_contractor_id::text, 0));
+
+  select * into v_current$anchor$,
+  $patch$  select * into v_current$patch$,
+  1,1
+);
+
+-- 3. Policy change after ACTIVE pool: the contractor advisory lock is now
+-- acquired before the contractor row lock; check the exact effective slice
+-- after the next-version boundary is known.
 select pg_temp.cp3_r4_replace_function(
   'set_contractor_hpp_policy_v1',
   $anchor$select min(p.effective_from) into v_next_from

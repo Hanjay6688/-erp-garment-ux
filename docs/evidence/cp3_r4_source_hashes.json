@@ -38,8 +38,8 @@
       "sha256": "2c98802925ef45d173ca23e88cd43357479c783a9571b89d4614911bfb500967"
     },
     "supabase/migrations/20260901023400_erp_v2_6_14d_cp3_r4_race_and_reversal_hardening.sql": {
-      "bytes": 17372,
-      "sha256": "469bf1ef302e8e0b2daf1e0c80e9ff593d23c0e6a09795a2bde05a690520f0f3"
+      "bytes": 18420,
+      "sha256": "51e2bad26fc55fbf267b7d0f275cbceacbd7dcb3514400b48cb5b31943458e69"
     },
     "supabase/rollbacks/20260901023400_erp_v2_6_14d_cp3_r4_race_and_reversal_hardening.rollback.sql": {
       "bytes": 2497,
@@ -129,6 +129,13 @@
       }
     ],
     "scope": "harness-only; runtime source unchanged"
+  },
+  "last_runtime_patch": {
+    "defect": "activate-vs-policy deadlock from contractor row/advisory lock inversion",
+    "fix": "contractor advisory lock precedes contractor FOR UPDATE in set_contractor_hpp_policy_v1",
+    "legacy_mutated": false,
+    "scope": "v2.6.14d source-only candidate",
+    "uat_applied": false
   },
   "last_validation_trigger": {
     "reason": "rerun after exact two-connection race assertion alignment",
