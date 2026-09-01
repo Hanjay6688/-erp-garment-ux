@@ -1,12 +1,15 @@
 {
   "checkpoint": 2,
-  "phase": "BACKUP_CREATED_RESTORE_PENDING",
+  "phase": "COMPLETE_FREE_LOCAL_RESTORE_PASS",
   "captured_at_utc": "2026-08-31T19:34:43.781Z",
+  "completed_at_utc": "2026-09-01T01:06:39Z",
   "source": {
     "repository": "Hanjay6688/-erp-garment-ux",
     "main_commit_sha": "bf3ce8e2821f120d8abd8788daf07f6da7c15459",
     "evidence_branch": "evidence/checkpoints-1-2-20260901",
+    "restore_harness_commit_sha": "41bda0f748ebef57155013ea1e2f3dc86602a85a",
     "uat_project_ref": "siimvrusnzxexizpyoib",
+    "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
     "expected_schema_fingerprint": "a0c59b96b3879edd28f3d8c57d0894a3"
   },
   "backup": {
@@ -52,31 +55,107 @@
       "reason": "Empty Auth state; future identity migration must use the approved Auth procedure."
     }
   },
-  "verification": {
+  "backup_verification": {
     "github_workflow_run_id": 33430989888,
     "github_job_id_successful_attempt": 99617105226,
     "export": "PASS",
-    "internal_checksum_validation": "PASS",
+    "internal_checksum_validation": "PASS_148_FILES",
     "encryption": "PASS",
     "decrypt_compare": "PASS",
     "zip_integrity": "PASS",
     "independent_local_decrypt": "PASS",
     "independent_local_raw_sha256_match": "PASS",
-    "independent_local_internal_checksums": "PASS_148_FILES",
     "plaintext_uploaded_to_github_artifacts": false
   },
-  "artifacts": {
+  "restore_verification": {
+    "mode": "FREE_LOCAL_SUPABASE_RESTORE",
+    "postgres_image": "17.6.1.165",
+    "github_workflow_run_id": 33457299164,
+    "github_job_id": 99699891972,
+    "workflow_head_sha": "41bda0f748ebef57155013ea1e2f3dc86602a85a",
+    "database_restore": "PASS",
+    "storage_restore": "PASS",
+    "local_stack_destroyed_after_test": true,
+    "expected_counts": {
+      "tables": 142,
+      "views": 48,
+      "functions": 436,
+      "triggers": 383,
+      "indexes": 419,
+      "constraints": 944,
+      "policies": 190,
+      "platform_migrations": 55,
+      "application_migrations": 41,
+      "erp_rows": 104,
+      "cron_jobs": 1
+    },
+    "actual_counts": {
+      "tables": 142,
+      "views": 48,
+      "functions": 436,
+      "triggers": 383,
+      "indexes": 419,
+      "constraints": 944,
+      "policies": 190,
+      "platform_migrations": 55,
+      "application_migrations": 41,
+      "erp_rows": 104,
+      "cron_jobs": 1,
+      "auth_users": 0,
+      "app_users": 0
+    },
+    "object_mismatches": {},
+    "count_mismatches": {},
+    "data_mismatches": [],
+    "platform_ledger_match": true,
+    "application_ledger_match": true,
+    "integrity_findings": [],
+    "integrity_errors": [],
+    "auth_empty_state_verified": true,
+    "storage_round_trip": {
+      "bucket": "chatgpt-temp-erp-export",
+      "object": "ERP_GARMENT_V2_6_0_COMPACT_ONE_SHOT.sql",
+      "bytes": 1084146,
+      "sha256": "756a962d8dda43c71487afa7a3cdbbd80ef787487b1eafc771c94def53187aee",
+      "download_verified": true
+    }
+  },
+  "github_artifacts": {
     "encrypted_backup_artifact_id": 9772713622,
     "encrypted_backup_artifact_digest": "sha256:6faff3fa2473a814b8fdc7d9e291c06ef5d0535ed8d2e7f5321bf83ec083584b",
     "recovery_key_artifact_id": 9772714077,
     "recovery_key_artifact_digest": "sha256:81e93b1bb84efb2e2a29f5ac4aa6dcaa442e90e13e26f552f105ff68b778e18a",
-    "artifact_retention_note": "Temporary transport only. Owner must store encrypted backup and key separately in Google Drive before expiry."
+    "restore_proof_artifact_id": 9781927051,
+    "restore_proof_artifact_digest": "sha256:3a7ead9522dc1d48bef4f04b7e97d0fb041d4953379534080f1604dc411249c5",
+    "artifact_retention_note": "Temporary transport/evidence only; durable copies are in Google Drive and GitHub evidence files."
+  },
+  "offsite_storage": {
+    "provider": "Google Drive",
+    "encrypted_backup_folder_id": "1_2M8CWEeoGVMMz1E44O4UjZ7VHbZZqOs",
+    "encrypted_backup_file_id": "1zMDqWDi8Ma8vLy0Sx54XOdEaeoUx--ms",
+    "recovery_key_folder_id": "15cu7VOTMhCAHp8AZ9GaEjfkQloeCpDp7",
+    "recovery_key_file_id": "16gnvYV3yS-uqQOupGRwBuLWkD6bJZqjX",
+    "restore_proof_folder_id": "1YFbu6u6Nbb830zNDyCkDD7I4i0bwmpGT",
+    "restore_proof_file_id": "142e9K5bZui0R6R4xBazgKxAplVWKV7if",
+    "files_shared_publicly": false,
+    "backup_and_key_separated": true
   },
   "restore_gate": {
-    "status": "PENDING_OWNER_COST_CONFIRMATION",
-    "target": "Disposable Supabase branch cloned from ERP Enteng migrations; never ERP-Garment legacy.",
-    "quoted_branch_cost_usd_per_hour": 0.01344,
-    "requires_explicit_confirmation": true,
-    "checkpoint_2_complete": false
+    "status": "PASS",
+    "target": "Ephemeral local Supabase stack in GitHub Actions; ERP-Garment legacy was not touched.",
+    "quoted_paid_branch_cost_usd_per_hour": 0.01344,
+    "paid_branch_created": false,
+    "additional_supabase_cost_usd": 0,
+    "checkpoint_2_complete": true
+  },
+  "known_limits_not_blocking_cp2": [
+    "Hosted Supabase Auth dashboard settings were not part of the logical backup and remain a separate Auth gate before OWNER UAT.",
+    "Auth contained zero users/identities/app users at capture time, so no password hash migration was required or tested.",
+    "The restore drill proves database catalog/data/cron and one real Storage object on the matching local Supabase/Postgres stack; it does not claim hosted networking or email-provider configuration parity."
+  ],
+  "takeover": {
+    "status": "TAKEOVER_READY",
+    "checkpoint_3_allowed": true,
+    "production_go": false
   }
 }
