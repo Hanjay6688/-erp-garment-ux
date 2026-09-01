@@ -1,0 +1,34 @@
+{
+  "disposable_database": true,
+  "expected_database_name": "postgres",
+  "database_role": "authenticated",
+  "jwt_claims": {
+    "sub": "00000000-0000-0000-0000-000000000001",
+    "role": "authenticated"
+  },
+  "prepare_payload": {
+    "period_start": "2026-09-01",
+    "period_end": "2026-09-07",
+    "pool_number": "CP3-LOCAL-CONCURRENCY-UNIQUE-PER-RUN",
+    "reason": "CP3 disposable real two-session fixture",
+    "source_lines": [
+      {
+        "payroll_id": "REPLACE-WITH-DISPOSABLE-POSTED-PAYROLL-UUID",
+        "original_journal_line_id": "REPLACE-WITH-DISPOSABLE-LABOR-DEBIT-LINE-UUID",
+        "amount_cents": 10000
+      }
+    ]
+  },
+  "request_ids": {
+    "prepare_same": "10000000-0000-4000-8000-000000000001",
+    "cancel": "10000000-0000-4000-8000-000000000002",
+    "finalize": "10000000-0000-4000-8000-000000000003",
+    "stale": "10000000-0000-4000-8000-000000000004"
+  },
+  "notes": [
+    "Replace every REPLACE-* value with IDs created by a reviewed local bootstrap fixture.",
+    "Use a unique pool_number and request IDs for every run.",
+    "The harness refuses remote hosts and requires CP3_DISPOSABLE_CONFIRM=I_UNDERSTAND_THIS_DATABASE_WILL_BE_DESTROYED.",
+    "Destroy the entire local stack after the report is captured; do not delete audit rows selectively."
+  ]
+}
