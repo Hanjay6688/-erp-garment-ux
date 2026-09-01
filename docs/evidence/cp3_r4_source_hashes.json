@@ -1,0 +1,74 @@
+{
+  "base_sha": "bf3ce8e2821f120d8abd8788daf07f6da7c15459",
+  "files": {
+    ".github/workflows/cp3-r4-full-schema-validation.yml": {
+      "bytes": 21334,
+      "sha256": "f52402579c0c2e9a8523589c5ffe8aca31c7d1396275ee67bdf697f31fdaefe6"
+    },
+    "scripts/cp3_r3_full_schema_concurrency.py": {
+      "bytes": 13419,
+      "sha256": "765086e30cc9e5bd7d6ae6078f86ac3abc893de46770358046f8b36f18e171a2"
+    },
+    "scripts/cp3_r4_full_schema_concurrency.py": {
+      "bytes": 26003,
+      "sha256": "55798d3e5e3d76dcb66a42e5d2c3bb82419478dc13a92c34e09e26f0efd0e8dd"
+    },
+    "scripts/cp3_render_r4_reviewed_rollback.py": {
+      "bytes": 3612,
+      "sha256": "c834528a74106680aad3378296a1ff25443c7ae37915619198d4cdc41897badc"
+    },
+    "scripts/cp3_render_reviewed_rollback.py": {
+      "bytes": 5625,
+      "sha256": "7d3279192482b1e3b8cf40f40ca181f9225120d9939d7fc35adc27b889bd817a"
+    },
+    "scripts/test_cp3_render_r4_reviewed_rollback.py": {
+      "bytes": 4318,
+      "sha256": "85f467ac6d95b6f8ce174e61098ca111df8e01bc1f67208f855cc86dfbc3952b"
+    },
+    "supabase/migrations/20260901023000_erp_v2_6_14_attendance_hpp_sewing_terminal_foundation.sql": {
+      "bytes": 67598,
+      "sha256": "68e5a8f81ac364be6a8ec01c5bffdfe4ec587f91d61a03dc9f44a4670cadb821"
+    },
+    "supabase/migrations/20260901023100_erp_v2_6_14b_attendance_hpp_candidate_hardening.sql": {
+      "bytes": 7946,
+      "sha256": "08b2a035af453ee73668d6d7cfa9e7a58310a85be75b9883647ee68cb413a56c"
+    },
+    "supabase/migrations/20260901023200_erp_v2_6_14c_attendance_hpp_uat_alignment.sql": {
+      "bytes": 81496,
+      "sha256": "2c98802925ef45d173ca23e88cd43357479c783a9571b89d4614911bfb500967"
+    },
+    "supabase/migrations/20260901023400_erp_v2_6_14d_cp3_r4_race_and_reversal_hardening.sql": {
+      "bytes": 17258,
+      "sha256": "b86e5599b6b5492564dda12c748a9fe13fc07d92c581ed4aac7cc813aeba7630"
+    },
+    "supabase/rollbacks/20260901023400_erp_v2_6_14d_cp3_r4_race_and_reversal_hardening.rollback.sql": {
+      "bytes": 2497,
+      "sha256": "f37d4f0f4bfe4b027f9a33e7ccd850422b9003e71f9bff06805192547d8fad8e"
+    },
+    "supabase/tests/attendance_hpp_r3_full_schema_rollback.sql": {
+      "bytes": 14337,
+      "sha256": "a1b2007d4facd5bf2dc363c5af7e5ef80daa0139705ebd45f2bdba47b3425d52"
+    },
+    "supabase/tests/attendance_hpp_r3_validator_benchmark_rollback.sql": {
+      "bytes": 5990,
+      "sha256": "d360c0281f4712d9498f9fc6e833d4ab5d5a2f3fa2991e403763a93583914cb2"
+    },
+    "supabase/tests/attendance_hpp_r4_full_schema_rollback.sql": {
+      "bytes": 30066,
+      "sha256": "1b90cdbd45ab26714a507d5ed2042cf62160eafb2400d9df0f10c65b010a0d5a"
+    },
+    "supabase/tests/cp3_r3_full_schema_seed.sql": {
+      "bytes": 15314,
+      "sha256": "e2c17320074e2dcadc4d69cbc1b4be5f7ea78708715cf9681dbe9b6a797f8edf"
+    }
+  },
+  "format": "CP3_R4_FIXED_SOURCE_HASHES_V1",
+  "independent_audit_pending": true,
+  "legacy_mutated": false,
+  "migration_version": "v2.6.14d",
+  "reviewed_r3_parent_sha": "366a4b2fb6f6daa0ef1d9d47a78c7b83a8c89ceb",
+  "schema_fingerprint": "a0c59b96b3879edd28f3d8c57d0894a3",
+  "source_only": true,
+  "uat_applied": false,
+  "writer": "CHAT_SOL_PRO"
+}
