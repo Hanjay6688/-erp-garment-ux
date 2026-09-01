@@ -6,7 +6,7 @@ on:
       - cp3/hpp-attendance-sewing-terminal-r4-20260901
     paths:
       - '.github/workflows/cp3-r4-bootstrap.yml'
-      - '.cp3-r4-bootstrap/payload.tar.gz'
+      - '.cp3-r4-bootstrap/**'
 
 permissions:
   contents: write
@@ -26,12 +26,29 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          archive='.cp3-r4-bootstrap/payload.tar.gz'
-          echo 'f39994156ae5cd3e35daf98ffb4cba7ff695e1aa998725aa83dbfe3f69f4a11b  .cp3-r4-bootstrap/payload.tar.gz' | sha256sum -c -
+          sha256sum -c <<'SUMS'
+          294171678a0494f10f6d50b5c84b0714ea4bff218af91f1a06edc82ba735546b  .cp3-r4-bootstrap/part000
+          098f1f72c3f8d0f971d2216e16f6c2e78cc7325e5f2f0d4744ee1e5ac92bba08  .cp3-r4-bootstrap/part001
+          cb5b531a74056e19fa1b1f503ce100df1ec9b0d5e481e1e3fe0d8346ea1c8365  .cp3-r4-bootstrap/part002_0
+          6f287a9f835ac288de5abb409be21773d0c4c0cd028ab3f61c980fe7f2896d0e  .cp3-r4-bootstrap/part002_1
+          f1db9289f00ffa85e1417e789f60d82ac09bf609dfffacd0ce1d7bfecf3c78f4  .cp3-r4-bootstrap/part003
+          7a39d2f9bd53295569283b5082e8d3c68fc32cbe348b2ef759e7cb7258518005  .cp3-r4-bootstrap/part004
+          47fabb98fb71d25dbf8409f74955006a6ea5305277d02ba03d1db9e526594af0  .cp3-r4-bootstrap/part005
+          SUMS
+          cat \
+            .cp3-r4-bootstrap/part000 \
+            .cp3-r4-bootstrap/part001 \
+            .cp3-r4-bootstrap/part002_0 \
+            .cp3-r4-bootstrap/part002_1 \
+            .cp3-r4-bootstrap/part003 \
+            .cp3-r4-bootstrap/part004 \
+            .cp3-r4-bootstrap/part005 \
+            | base64 --decode > /tmp/cp3-r4-payload.tar.gz
+          echo 'f39994156ae5cd3e35daf98ffb4cba7ff695e1aa998725aa83dbfe3f69f4a11b  /tmp/cp3-r4-payload.tar.gz' | sha256sum -c -
           python - <<'PY'
           import tarfile
           from pathlib import PurePosixPath
-          archive='.cp3-r4-bootstrap/payload.tar.gz'
+          archive='/tmp/cp3-r4-payload.tar.gz'
           required={
             'supabase/migrations/20260901023300_erp_v2_6_14d_active_pool_and_protected_reversal_guards.sql',
             'supabase/tests/cp3_r4_full_schema_seed.sql',
@@ -57,7 +74,7 @@ jobs:
               if names != required:
                   raise SystemExit(f'payload file set mismatch: missing={sorted(required-names)} extra={sorted(names-required)}')
           PY
-          tar -xzf "$archive" -C .
+          tar -xzf /tmp/cp3-r4-payload.tar.gz -C .
           python -m py_compile scripts/cp3_r4_full_schema_concurrency.py scripts/cp3_render_reviewed_rollback.py scripts/test_cp3_render_reviewed_rollback.py
           (cd scripts && python -m unittest -v test_cp3_render_reviewed_rollback.py)
 
@@ -68,6 +85,7 @@ jobs:
           rm -rf .cp3-r4-bootstrap
           rm -f .github/workflows/cp3-r4-bootstrap.yml
           rm -f .github/workflows/cp3-r4-source-export.yml
+          rm -f /tmp/cp3-r4-payload.tar.gz
           git config user.name 'Hanjay6688'
           git config user.email 'jktr9n2g88@privaterelay.appleid.com'
           git add -A
