@@ -1,0 +1,76 @@
+name: CP3 R4 Bootstrap Patch
+
+on:
+  push:
+    branches:
+      - cp3/hpp-attendance-sewing-terminal-r4-20260901
+    paths:
+      - '.github/workflows/cp3-r4-bootstrap.yml'
+      - '.cp3-r4-bootstrap/payload.tar.gz'
+
+permissions:
+  contents: write
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Checkout exact staged R4 branch
+        uses: actions/checkout@v4
+        with:
+          ref: cp3/hpp-attendance-sewing-terminal-r4-20260901
+          fetch-depth: 2
+
+      - name: Verify and install exact R4 payload
+        shell: bash
+        run: |
+          set -euo pipefail
+          archive='.cp3-r4-bootstrap/payload.tar.gz'
+          echo 'f39994156ae5cd3e35daf98ffb4cba7ff695e1aa998725aa83dbfe3f69f4a11b  .cp3-r4-bootstrap/payload.tar.gz' | sha256sum -c -
+          python - <<'PY'
+          import tarfile
+          from pathlib import PurePosixPath
+          archive='.cp3-r4-bootstrap/payload.tar.gz'
+          required={
+            'supabase/migrations/20260901023300_erp_v2_6_14d_active_pool_and_protected_reversal_guards.sql',
+            'supabase/tests/cp3_r4_full_schema_seed.sql',
+            'supabase/tests/cp3_r4_full_schema_race_seed.sql',
+            'supabase/tests/attendance_hpp_r4_full_schema_rollback.sql',
+            'supabase/tests/attendance_hpp_r4_validator_benchmark_rollback.sql',
+            'scripts/cp3_r4_full_schema_concurrency.py',
+            'scripts/cp3_render_reviewed_rollback.py',
+            'scripts/test_cp3_render_reviewed_rollback.py',
+            'docs/evidence/2026-09-01/checkpoint_3_r4_fixed_source_manifest.json',
+            '.github/workflows/cp3-r4-full-schema-validation.yml',
+          }
+          with tarfile.open(archive,'r:gz') as tf:
+              names=set()
+              for member in tf.getmembers():
+                  path=PurePosixPath(member.name)
+                  if path.is_absolute() or '..' in path.parts:
+                      raise SystemExit(f'unsafe archive path: {member.name}')
+                  normalized=str(path)
+                  if normalized.startswith('./'):
+                      normalized=normalized[2:]
+                  if member.isfile(): names.add(normalized)
+              if names != required:
+                  raise SystemExit(f'payload file set mismatch: missing={sorted(required-names)} extra={sorted(names-required)}')
+          PY
+          tar -xzf "$archive" -C .
+          python -m py_compile scripts/cp3_r4_full_schema_concurrency.py scripts/cp3_render_reviewed_rollback.py scripts/test_cp3_render_reviewed_rollback.py
+          (cd scripts && python -m unittest -v test_cp3_render_reviewed_rollback.py)
+
+      - name: Remove one-time transport and commit R4 candidate
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf .cp3-r4-bootstrap
+          rm -f .github/workflows/cp3-r4-bootstrap.yml
+          rm -f .github/workflows/cp3-r4-source-export.yml
+          git config user.name 'Hanjay6688'
+          git config user.email 'jktr9n2g88@privaterelay.appleid.com'
+          git add -A
+          git diff --cached --check
+          git commit -m 'Add CP3 R4 active-pool and protected-reversal hardening'
+          git push origin HEAD:cp3/hpp-attendance-sewing-terminal-r4-20260901
