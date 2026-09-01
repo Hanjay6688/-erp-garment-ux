@@ -1,0 +1,79 @@
+{
+  "checkpoint": 3,
+  "record_type": "source_candidate_v2_1_for_independent_delta_audit",
+  "supersedes": "docs/evidence/2026-09-01/checkpoint_3_source_candidate_v2.json",
+  "status": "SOURCE_CANDIDATE_UNDER_AUDIT",
+  "writer": "Chat Sol Pro",
+  "reviewer": "Work Sol Max",
+  "source": {
+    "repository": "Hanjay6688/-erp-garment-ux",
+    "base_commit": "bf3ce8e2821f120d8abd8788daf07f6da7c15459",
+    "base_tree": "e4377d85b612f5183b4831751de6a735d98a8b6f",
+    "candidate_branch": "cp3/hpp-attendance-sewing-terminal-candidate-v2-20260901",
+    "candidate_commit": "RECORDED_BY_CP3_SOURCE_CANDIDATE_V2_PROOF",
+    "candidate_tree": "RECORDED_BY_CP3_SOURCE_CANDIDATE_V2_PROOF",
+    "superseded_branch": "cp3/hpp-attendance-sewing-terminal-reconstruction-20260901"
+  },
+  "mutation_state": {
+    "erp_enteng_uat": false,
+    "erp_garment_legacy": false,
+    "main": false,
+    "auth": false,
+    "storage": false,
+    "cron": false,
+    "cloudflare": false
+  },
+  "candidate_migrations": [
+    "supabase/migrations/20260901023000_erp_v2_6_14a_attendance_hpp_policy_and_sewing_terminal.sql",
+    "supabase/migrations/20260901023100_erp_v2_6_14b_attendance_hpp_pool_intents.sql",
+    "supabase/migrations/20260901023200_erp_v2_6_14c_attendance_hpp_candidate_hardening.sql"
+  ],
+  "hardening": {
+    "trigger_rechecks_explicit_normal_mandor_policy": true,
+    "trigger_rechecks_authoritative_sewing_source": true,
+    "exact_reversal_negation": true,
+    "correction_lineage_retained": true,
+    "sewing_contractor_requires_pool_payroll_source": true,
+    "policy_manifest_required": true,
+    "destination_count_reconciled": true,
+    "deferred_row_validator_added": false,
+    "general_ledger_post_added": false,
+    "public_facade_added": false,
+    "authenticated_grant_added": false
+  },
+  "truth_boundary": {
+    "source_shape": "AUTOMATED_GATE_REQUIRED",
+    "top_level_sql_parse": "AUTOMATED_GATE_REQUIRED",
+    "plpgsql_semantic_compile": "NOT_EXECUTED",
+    "database_runtime": "NOT_EXECUTED",
+    "source_contract_runtime": "NOT_EXECUTED",
+    "real_concurrency": "HARNESS_PRESENT_NOT_EXECUTED",
+    "uat_applied": false,
+    "gl_posted": false,
+    "route_enabled": false,
+    "backend_connected": false,
+    "production_go": false
+  },
+  "automated_evidence": {
+    "workflow": ".github/workflows/cp3-source-candidate-v2.yml",
+    "artifact": "cp3-source-candidate-v2-proof",
+    "exact_hashes": "cp3-source-candidate-v2-SHA256SUMS.txt",
+    "source_report": "cp3-source-candidate-v2-check-report.json",
+    "rollback_artifacts": "cp3-v2-rendered-rollbacks/",
+    "identity": "cp3-v2-source-identity.txt"
+  },
+  "remaining_independent_review": [
+    "existing hosted Laundry claim route integration with typed operation isolation",
+    "actual GL posting/reversal adapter intentionally absent",
+    "validator cardinality benchmark not executed",
+    "two-session harness not executed",
+    "rollback SQL contract not executed against a disposable restored schema"
+  ],
+  "next_gate": {
+    "reviewer": "Work Sol Max",
+    "required_verdict": "GO FOR CP3 LOCAL/UAT ACCEPTANCE",
+    "uat_allowed_before_verdict": false,
+    "persistent_activation_checkpoint": 4
+  },
+  "takeover_ready": true
+}
