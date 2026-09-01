@@ -82,7 +82,7 @@ jobs:
           mkdir -p cp2-local/supabase/.temp
           echo '17.6.1.165' > cp2-local/supabase/.temp/postgres-version
           supabase start --workdir cp2-local \
-            -x gotrue,realtime,imgproxy,studio,postgres-meta,mailpit,edge-runtime,logflare,vector,supavisor
+            -x realtime,imgproxy,studio,postgres-meta,mailpit,edge-runtime,logflare,vector,supavisor
           supabase status --workdir cp2-local
 
       - name: Initialize local Supabase migration ledger
