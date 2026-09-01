@@ -1,0 +1,51 @@
+{
+  "format": "CP3_5_CANONICAL_CLEANUP_EVIDENCE_V1",
+  "repository": "Hanjay6688/-erp-garment-ux",
+  "branch": "cp3.5/canonical-cleanup-r1-20260901",
+  "reviewed_cp3_r5_head": "469f48a0724b447fc397a2a932c4872c2ed27488",
+  "reviewed_cp3_r5_tree": "c993c11f3500ae7f0b666d3fe9d60a1a032144a6",
+  "cp3_5_code_commit": "a2f52d49d21c11b6599701d43864a03bdb8d0e36",
+  "cp3_5_code_tree": "203a6478ea9a9ca05e601d0190df69473966da88",
+  "cp3_5_remote_parent": "5e37e94ed285657ae017ce5163d73b8fe8cea97d",
+  "cp3_backend_manifest_sha256": "4e613bdc15aab080ba5fd30f01408f793ec2710037e70be4d31e46b18cf097dc",
+  "source_only": true,
+  "uat_applied": false,
+  "legacy_mutated": false,
+  "deploy_performed": false,
+  "cp4_started": false,
+  "concurrent_writer_detected": false,
+  "tests": {
+    "vitest": "PASS: 19 files, 129 tests",
+    "source_ownership": "PASS: 64 reachable runtime files; zero orphan runtime files",
+    "css_ownership": "PASS: 26 stylesheets; zero unowned selector branches",
+    "cp3_backend_freeze": "PASS: 22 byte-bound files; exact four migrations",
+    "security": "PASS: build-secret canaries, UAT target isolation, artifact identity and key redaction",
+    "production_build": "PASS: TypeScript and Vite 8.2.2",
+    "automated_browser": "BLOCKED_ENV: agent-browser absent and Playwright Chromium download timed out"
+  },
+  "reused_backend_proof": {
+    "workflow_run": 33539470907,
+    "job": 99961842438,
+    "artifact": 9813072870,
+    "artifact_sha256": "56a5c38e328c3fd55c6972a0b881789fa770a239a5e6208d9cb51d72b28e8756"
+  },
+  "cleanup": {
+    "source_files_before": 94,
+    "source_files_after": 84,
+    "source_bytes_before": 1789318,
+    "source_bytes_after": 1558692,
+    "git_lines_added": 655,
+    "git_lines_deleted": 1898,
+    "initial_js_before_kb": 764.06,
+    "initial_js_after_kb": 186.56,
+    "vendor_js_after_kb": 422.29,
+    "main_css_before_kb": 498.41,
+    "main_css_after_kb": 275.14
+  },
+  "business_regressions": {
+    "laundry_formula": "200 * full_rate - 20 * uninstalled_component_rate = 3492000 for 17800 and 3400",
+    "regular_nota_identity": "one payroll source per parentId + batchId regardless of repeated QC completion clicks",
+    "hpp_denominator": "unchanged immutable SELESAI_DIJAHIT",
+    "cp3_migration_bytes_changed": false
+  }
+}
