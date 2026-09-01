@@ -1,14 +1,17 @@
-# ERP Garment — Checkpoint 2: Encrypted Backup & Restore Gate
+# ERP Garment — Checkpoint 2: Encrypted Backup & Restore Drill
 
-**Status:** BACKUP PASS · RESTORE DRILL PENDING  
-**Captured:** 2026-09-01 WIB  
+**Status:** PASS · CHECKPOINT COMPLETE  
+**Completed:** 2026-09-01 WIB  
 **Source baseline:** `main` at `bf3ce8e2821f120d8abd8788daf07f6da7c15459`  
 **UAT source:** ERP Enteng `siimvrusnzxexizpyoib`  
+**Restore mode:** free local Supabase stack in ephemeral GitHub Actions  
 **Forbidden restore target:** ERP-Garment legacy `vlxdhpkjeevubjxexnfo`
 
-## Backup result
+## Final verdict
 
-A fresh logical recovery package was exported from ERP Enteng, encrypted before artifact storage, decrypted again, byte-compared against the original archive, and independently decrypted/verified a second time outside the workflow.
+The encrypted recovery package was restored end-to-end on a local Supabase/Postgres stack matching hosted Postgres `17.6.1.165`. Database schema, ERP data, migration ledgers, cron, Auth empty state, and the actual Storage object all passed verification. The local stack and decrypted material were destroyed after the test.
+
+No paid Supabase branch was created. Additional Supabase cost for this restore drill was **USD 0**.
 
 | Check | Result |
 |---|---|
@@ -20,54 +23,110 @@ A fresh logical recovery package was exported from ERP Enteng, encrypted before 
 | Workflow decrypt/byte compare | PASS |
 | Independent local decrypt | PASS |
 | Raw archive SHA-256 match | PASS |
-| ZIP integrity | PASS |
+| Local Supabase/Postgres start | PASS |
+| Database schema restore | PASS |
+| ERP data restore | PASS — 104 rows |
+| Platform migration ledger | PASS — 55 rows |
+| Application migration ledger | PASS — 41 rows |
+| Cron restore | PASS — 1 active definition |
+| Object/count/data mismatch | NONE |
+| Integrity findings/errors | NONE |
+| Auth empty state | PASS — 0 users, 0 app users |
+| Storage restore and download round-trip | PASS — 1,084,146 bytes |
+| Local cleanup | PASS |
 | Plaintext uploaded as artifact | NO |
-| Restore into disposable DB | PENDING |
+
+## Exact restore comparison
+
+Expected and actual values matched:
+
+- tables: 142
+- views: 48
+- functions: 436
+- triggers: 383
+- indexes: 419
+- constraints: 944
+- policies: 190
+- platform migrations: 55
+- application migrations: 41
+- ERP rows: 104
+- cron jobs: 1
+
+The verifier reported:
+
+```text
+object_mismatches = {}
+count_mismatches  = {}
+data_mismatches   = []
+integrity_findings = []
+integrity_errors   = []
+platform_ledger_match = true
+application_ledger_match = true
+```
+
+## Storage proof
+
+The real Storage object was recreated through the local Storage API and downloaded again:
+
+- bucket: `chatgpt-temp-erp-export`
+- object: `ERP_GARMENT_V2_6_0_COMPACT_ONE_SHOT.sql`
+- bytes: `1,084,146`
+- SHA-256: `756a962d8dda43c71487afa7a3cdbbd80ef787487b1eafc771c94def53187aee`
+- round-trip download: PASS
 
 ## Recovery files
 
-- Encrypted backup: `ERP_ENTENG_CP2_BACKUP_20260831T193529Z.zip.enc`
-- Encrypted SHA-256: `f4a7e060b3d9d60b9e04ed6bf2afd3f15e6b8af74f030fb4c11914d070ed75a1`
-- Recovery key file: `ERP_ENTENG_CP2_RECOVERY_KEY_20260831T193529Z.txt`
-- Recovery key file SHA-256: `6ed0dd8cd8296cf6f6080ac3a0db3b12a70351789bff60b05730cb4c7f9526e3`
-- Raw archive SHA-256 after decrypt: `e176cac94d78915cb5fd73a065f58150184ee0b37801e6eb70fbc8fcfa29ef53`
+- encrypted backup: `ERP_ENTENG_CP2_BACKUP_20260831T193529Z.zip.enc`
+- encrypted SHA-256: `f4a7e060b3d9d60b9e04ed6bf2afd3f15e6b8af74f030fb4c11914d070ed75a1`
+- recovery key: `ERP_ENTENG_CP2_RECOVERY_KEY_20260831T193529Z.txt`
+- recovery-key SHA-256: `6ed0dd8cd8296cf6f6080ac3a0db3b12a70351789bff60b05730cb4c7f9526e3`
+- decrypted raw archive SHA-256: `e176cac94d78915cb5fd73a065f58150184ee0b37801e6eb70fbc8fcfa29ef53`
 
-The encrypted backup and recovery key must be stored in separate Google Drive locations. GitHub artifacts are temporary transport only.
+The encrypted backup and recovery key are stored in separate private Google Drive folders. Restore proof is stored in a third private folder.
 
-## Captured scope
+## Durable evidence
 
-- 142 ERP table payloads
-- 104 current ERP rows
-- 55 Supabase platform migrations
-- 41 application migration markers
-- complete ERP/public facade catalog for tables, columns, types, sequences, constraints, indexes, function definitions, view definitions/dependencies, triggers, policies, table/routine grants, cron, release metadata, and migration ledgers
-- generated `ERP_ENTENG_BEFORE_REBUILD.sql`
-- generated `ERP_ENTENG_DATA_RESTORE.sql`
-- one actual Storage object, 1,084,146 bytes, plus bucket/object metadata and checksum
-- empty Auth-state manifest: 0 `auth.users`, 0 `auth.identities`, 0 `erp.app_users`; no password hash was copied
+### GitHub
 
-## Evidence
+- backup/export workflow run: `33430989888`
+- successful export job: `99617105226`
+- free restore workflow run: `33457299164`
+- successful restore job: `99699891972`
+- restore harness commit: `41bda0f748ebef57155013ea1e2f3dc86602a85a`
+- restore proof artifact: `9781927051`
+- restore proof artifact digest: `sha256:3a7ead9522dc1d48bef4f04b7e97d0fb041d4953379534080f1604dc411249c5`
+- machine-readable manifest: `checkpoint_2_backup_manifest.json`
+- machine-readable restore result: `checkpoint_2_restore_proof.json`
 
-- Successful workflow run: `33430989888`
-- Successful job attempt: `99617105226`
-- Encrypted backup artifact ID: `9772713622`
-- Recovery-key artifact ID: `9772714077`
-- Machine-readable manifest: `checkpoint_2_backup_manifest.json`
+### Google Drive
 
-## Restore gate and cost
+```text
+My Drive
+├── ERP Recovery
+│   ├── Encrypted Backups
+│   │   └── ERP_ENTENG_CP2_ENCRYPTED_BACKUP_PACKAGE_20260831T193529Z.zip
+│   └── Restore Proofs
+│       └── ERP_ENTENG_CP2_FREE_LOCAL_RESTORE_PROOF_20260901.zip
+└── ERP Recovery Keys
+    └── ERP_ENTENG_CP2_RECOVERY_KEY_PACKAGE_20260831T193529Z.zip
+```
 
-A disposable Supabase branch is the next restore target. Supabase quoted:
+All three Drive files were verified private/not shared.
 
-> **USD 0.01344 per hour** while the branch exists.
+## Boundary of this proof
 
-The branch has not been created because the platform requires the owner to explicitly confirm the quoted recurring hourly cost. After confirmation, the restore drill must:
+This restore drill proves that the captured database catalog, ERP data, migration ledgers, cron definition, and actual Storage object can be recovered on the matching local Supabase/Postgres stack.
 
-1. Create a disposable branch from ERP Enteng migrations.
-2. Verify migration replay and schema fingerprint.
-3. Decrypt the backup only in the controlled restore runner.
-4. Restore ERP data and the Storage object.
-5. Compare row counts, checksums, migration ledgers, RLS, grants, functions, triggers, cron, and release metadata.
-6. Run integrity/smoke tests and verify residue.
-7. Retire temporary recovery endpoints and record the final `TAKEOVER_READY` state.
+It does not claim that hosted-only settings are restored automatically. In particular, dashboard-level Auth signup/email/provider settings, hosted networking, and provider secrets remain separate configuration gates. Auth had zero users and zero identities at capture time, so no password-hash migration was required or tested.
 
-Checkpoint 2 is not complete until those restore and verification steps pass.
+## Gate transition
+
+```text
+CHECKPOINT_1 = PASS
+CHECKPOINT_2 = PASS
+TAKEOVER_READY = YES
+CHECKPOINT_3_ALLOWED = YES
+PRODUCTION_GO = NO
+```
+
+The next framework step is Checkpoint 3: independent Ultra audit and closure of the HPP/attendance route blockers. No persistent HPP mutation should begin without rechecking the current source/UAT fingerprint against this completed recovery baseline.
