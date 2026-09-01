@@ -4,8 +4,8 @@
   "cp3_source_sha": "1f3fc7de66d438778dde2745791010310001de97",
   "files": {
     ".github/workflows/cp3-r4-full-schema-validation.yml": {
-      "bytes": 31859,
-      "sha256": "6604e85da552f9dca246a38b97eaf28db2bf06de0866556770d560d7120a5976"
+      "bytes": 32461,
+      "sha256": "0811c892d79c3c9f1bf22d6ba14f3accac22a4da554c97923cb92739b435d935"
     },
     "scripts/cp3_r3_full_schema_concurrency.py": {
       "bytes": 13419,
@@ -105,6 +105,14 @@
       "laundry_reversal_guard_md5": "e1693a04b22a2870a50266e648cca574",
       "payroll_integrity_checks_md5": "0740acdebe12fe8d47d48bbd67cb8ab3"
     },
+    "cp2_restore_boundary": {
+      "source_commit_sha": "bf3ce8e2821f120d8abd8788daf07f6da7c15459",
+      "restored_view_md5": "6b2f93955ccbab7a2b003b48125da2af",
+      "live_pre_v2615_guard_view_md5": "d7d782a167be27971ccfb358bbd00329",
+      "unchanged_function_hashes_match": true,
+      "full_migration_guard_result": "EXPECTED_CONCURRENT_WRITER_REJECTION_WITH_ZERO_MUTATION",
+      "disposable_integration_replay": "EXACT_SHA256_BOUND_CANDIDATE_BODY_AFTER_GUARD_PROOF"
+    },
     "deployment_order": {
       "reason": "CP3 source migrations predate the already-live v2.6.15 platform migration",
       "required_preview": "supabase db push --include-all --dry-run",
@@ -126,7 +134,8 @@
       "direct anon authenticated and service_role protected-reversal boundary probes",
       "per-scenario terminal journal source and residue evidence",
       "automatic workflow trigger coverage for v2.6.14a and v2.6.14b",
-      "current-main v2.6.15 replay and 200/20 payroll entitlement regression"
+      "current-main v2.6.15 replay and 200/20 payroll entitlement regression",
+      "CP2 catalog-restore guard rejection capture and byte-bound v2.6.15 candidate-body replay"
     ],
     "expected_scenario_count": 16,
     "scope": "proof and current-main integration only"

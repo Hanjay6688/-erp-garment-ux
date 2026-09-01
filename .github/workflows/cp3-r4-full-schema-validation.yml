@@ -146,25 +146,40 @@ jobs:
             'integrity_checks_md5',md5(pg_get_functiondef('erp.run_v263a_payroll_integrity_checks()'::regprocedure))
           );
           SQL
-          echo 'eb35493894bb23b52886b4cda5b85a16eb1dcd88c64822cc98acc47aa86a794c  supabase/rollbacks/20260901161322_erp_v2_6_15_payroll_component_entitlement.rollback.sql' \
+          set +e
+          psql "$PGURL" -v ON_ERROR_STOP=1 \
+            -f supabase/migrations/20260901161322_erp_v2_6_15_payroll_component_entitlement.sql \
+            2>&1 | tee cp3-r5-proof/v2615-cp2-restore-guard-rejection.log
+          guard_status=${PIPESTATUS[0]}
+          set -e
+          test "$guard_status" -ne 0
+          grep -F 'CONCURRENT_WRITER_DETECTED: eligibility view changed after fingerprint' \
+            cp3-r5-proof/v2615-cp2-restore-guard-rejection.log >/dev/null
+          psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' | tee cp3-r5-proof/cp2-restored-after-v2615-guard-rejection.json
+          select jsonb_build_object(
+            'view_definition_md5',md5(pg_get_viewdef('erp.v_payroll_production_work_eligibility'::regclass,true)),
+            'laundry_guard_md5',md5(pg_get_functiondef('erp.assert_laundry_receipt_reversal_payroll_safe(uuid)'::regprocedure)),
+            'integrity_checks_md5',md5(pg_get_functiondef('erp.run_v263a_payroll_integrity_checks()'::regprocedure))
+          );
+          SQL
+          cmp cp3-r5-proof/cp2-restored-pre-v2615-object-hashes.json \
+            cp3-r5-proof/cp2-restored-after-v2615-guard-rejection.json
+          echo '5f295958f019111674af3e079eb1bbe4bbf445e6ae35b32c8f3d94bfbad04ec6  supabase/migrations/20260901161322_erp_v2_6_15_payroll_component_entitlement.sql' \
             | sha256sum -c -
           python - <<'PY'
           from pathlib import Path
-          source = Path('supabase/rollbacks/20260901161322_erp_v2_6_15_payroll_component_entitlement.rollback.sql')
+          source = Path('supabase/migrations/20260901161322_erp_v2_6_15_payroll_component_entitlement.sql')
           raw = source.read_text()
-          marker = 'create or replace view erp.v_payroll_production_work_eligibility\n'
+          marker = '$preflight$;\n\n'
           if raw.count(marker) != 1:
-              raise SystemExit('v2.6.15 rollback pre-state marker cardinality changed')
-          rendered = marker + raw.split(marker, 1)[1]
-          Path('/tmp/v2615-live-prestate.sql').write_text(rendered)
+              raise SystemExit('v2.6.15 preflight terminator cardinality changed')
+          rendered = raw.split(marker, 1)[1]
+          if not rendered.startswith('create or replace view erp.v_payroll_production_work_eligibility\n'):
+              raise SystemExit('v2.6.15 candidate body boundary changed')
+          Path('/tmp/v2615-byte-bound-candidate-body.sql').write_text(rendered)
           PY
-          psql "$PGURL" -v ON_ERROR_STOP=1 -f /tmp/v2615-live-prestate.sql \
-            2>&1 | tee cp3-r5-proof/v2615-live-prestate-rehydrate.log
-          test "$(psql "$PGURL" -At -c "select md5(pg_get_viewdef('erp.v_payroll_production_work_eligibility'::regclass,true))")" = 'd7d782a167be27971ccfb358bbd00329'
-          test "$(psql "$PGURL" -At -c "select md5(pg_get_functiondef('erp.assert_laundry_receipt_reversal_payroll_safe(uuid)'::regprocedure))")" = 'fd9ad4f0da6d33cce6a2e379781d8560'
-          test "$(psql "$PGURL" -At -c "select md5(pg_get_functiondef('erp.run_v263a_payroll_integrity_checks()'::regprocedure))")" = 'f722bb540dc9d703b28617bdf54de1ea'
           psql "$PGURL" -v ON_ERROR_STOP=1 \
-            -f supabase/migrations/20260901161322_erp_v2_6_15_payroll_component_entitlement.sql \
+            -f /tmp/v2615-byte-bound-candidate-body.sql \
             2>&1 | tee cp3-r5-proof/v2615-before-cp3-apply.log
           psql "$PGURL" -v ON_ERROR_STOP=1 \
             -f supabase/tests/payroll_component_entitlement_rollback.sql \
@@ -541,4 +556,4 @@ jobs:
         shell: bash
         run: |
           supabase stop --no-backup --workdir cp3-local || true
-          rm -rf restore transport cp3-local cp3-r3-rendered-14c-rollback.sql /tmp/v2615-live-prestate.sql
+          rm -rf restore transport cp3-local cp3-r3-rendered-14c-rollback.sql /tmp/v2615-byte-bound-candidate-body.sql
