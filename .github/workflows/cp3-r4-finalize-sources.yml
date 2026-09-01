@@ -55,24 +55,24 @@ jobs:
             r'race_marker = "scripts/cp3_r3_full_schema_concurrency\.py"\n'
             r'.*?workflow = "\\n"\.join\(new_lines\) \+ "\\n"\n'
           )
-          race_replacement='''r3_race_trigger = "      - 'scripts/cp3_r3_full_schema_concurrency.py'\\n"
-          if workflow.count(r3_race_trigger) != 1:
-              raise SystemExit(f"R4 workflow: expected one R3 concurrency trigger path, found {workflow.count(r3_race_trigger)}")
-          workflow = workflow.replace(
-              r3_race_trigger,
-              r3_race_trigger + "      - 'scripts/cp3_r4_full_schema_concurrency.py'\\n",
-              1,
+          race_replacement=(
+            "r3_race_trigger = \"      - 'scripts/cp3_r3_full_schema_concurrency.py'\\n\"\n"
+            "if workflow.count(r3_race_trigger) != 1:\n"
+            "    raise SystemExit(f\"R4 workflow: expected one R3 concurrency trigger path, found {workflow.count(r3_race_trigger)}\")\n"
+            "workflow = workflow.replace(\n"
+            "    r3_race_trigger,\n"
+            "    r3_race_trigger + \"      - 'scripts/cp3_r4_full_schema_concurrency.py'\\n\",\n"
+            "    1,\n"
+            ")\n\n"
+            "r3_race_command = \"          python scripts/cp3_r3_full_schema_concurrency.py | tee cp3-r3-concurrency.log\\n\"\n"
+            "if workflow.count(r3_race_command) != 1:\n"
+            "    raise SystemExit(f\"R4 workflow: expected one R3 concurrency execution command, found {workflow.count(r3_race_command)}\")\n"
+            "workflow = workflow.replace(\n"
+            "    r3_race_command,\n"
+            "    r3_race_command + \"          python scripts/cp3_r4_full_schema_concurrency.py 2>&1 | tee cp3-r4-proof/r4-concurrency.log\\n\",\n"
+            "    1,\n"
+            ")\n"
           )
-
-          r3_race_command = "          python scripts/cp3_r3_full_schema_concurrency.py | tee cp3-r3-concurrency.log\\n"
-          if workflow.count(r3_race_command) != 1:
-              raise SystemExit(f"R4 workflow: expected one R3 concurrency execution command, found {workflow.count(r3_race_command)}")
-          workflow = workflow.replace(
-              r3_race_command,
-              r3_race_command + "          python scripts/cp3_r4_full_schema_concurrency.py 2>&1 | tee cp3-r4-proof/r4-concurrency.log\\n",
-              1,
-          )
-'''
           text,n=re.subn(race_pattern,race_replacement,text,count=1,flags=re.S)
           if n!=1:
               raise SystemExit(f'R4 finalizer reconciliation expected one obsolete concurrency derivation block, found {n}')
