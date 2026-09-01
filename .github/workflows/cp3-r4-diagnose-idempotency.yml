@@ -1,0 +1,58 @@
+name: CP3 R4 Diagnose Idempotency Acceptance
+
+on:
+  push:
+    branches:
+      - cp3/hpp-attendance-sewing-terminal-r4-20260901
+    paths:
+      - .github/workflows/cp3-r4-diagnose-idempotency.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: cp3-r4-idempotency-diagnosis
+  cancel-in-progress: true
+
+jobs:
+  capture:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: cp3/hpp-attendance-sewing-terminal-r4-20260901
+          fetch-depth: 0
+
+      - name: Capture exact failing SQL block
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p docs/evidence/2026-09-01
+          python - <<'PY'
+          from pathlib import Path
+          path = Path('supabase/tests/attendance_hpp_r4_full_schema_rollback.sql')
+          lines = path.read_text(encoding='utf-8').splitlines()
+          needle = 'CP3 R4 changed payload'
+          hits = [i for i, line in enumerate(lines) if needle in line]
+          if len(hits) != 1:
+              raise SystemExit(f'expected exactly one changed-payload test, found {len(hits)}')
+          i = hits[0]
+          lo = max(0, i - 25)
+          hi = min(len(lines), i + 26)
+          out = []
+          for n in range(lo, hi):
+              out.append(f'{n + 1:04d}: {lines[n]}')
+          Path('docs/evidence/2026-09-01/cp3-r4-idempotency-context.txt').write_text('\n'.join(out) + '\n', encoding='utf-8')
+          print('\n'.join(out))
+          PY
+
+      - name: Commit diagnostic context
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/evidence/2026-09-01/cp3-r4-idempotency-context.txt
+          git commit -m 'chore(cp3): record exact idempotency acceptance context'
+          git push origin HEAD:cp3/hpp-attendance-sewing-terminal-r4-20260901
