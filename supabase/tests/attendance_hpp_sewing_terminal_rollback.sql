@@ -117,20 +117,196 @@ begin
 end;
 $test$;
 
--- Attendance and payroll sources for August.
-insert into erp.attendance_periods(id,period_number,contractor_id,period_start,period_end,pay_date,status,posting_reason)
-values
- ('26140000-0000-4000-8000-000000000201','CP3-ATT-N1-AUG','26140000-0000-4000-8000-000000000011','2026-08-01','2026-08-31','2026-08-31','POSTED','CP3 fixture'),
- ('26140000-0000-4000-8000-000000000202','CP3-ATT-N2-AUG','26140000-0000-4000-8000-000000000012','2026-08-01','2026-08-31','2026-08-31','POSTED','CP3 fixture'),
- ('26140000-0000-4000-8000-000000000203','CP3-ATT-SP-AUG','26140000-0000-4000-8000-000000000013','2026-08-01','2026-08-31','2026-08-31','POSTED','CP3 fixture'),
- ('26140000-0000-4000-8000-000000000204','CP3-ATT-EX-AUG','26140000-0000-4000-8000-000000000014','2026-08-01','2026-08-31','2026-08-31','POSTED','CP3 fixture');
+-- Attendance periods are authored as complete DRAFT matrices through the
+-- authoritative RPC and then posted through the lifecycle RPC. Every eligible day is
+-- explicit: 10 August is PRESENT and every other August day is OFF.
+select (erp.save_attendance_period_v1(
+  jsonb_build_object(
+    'contractor_id','26140000-0000-4000-8000-000000000011',
+    'period_number','CP3-ATT-N1-AUG',
+    'period_start','2026-08-01','period_end','2026-08-31','pay_date','2026-08-31',
+    'reason','CP3 authoritative attendance fixture',
+    'attendance',(
+      select jsonb_agg(
+        jsonb_build_object(
+          'worker_id', :'cp3_worker_n1'::uuid,
+          'attendance_date', day_value::date,
+          'status', case when day_value::date='2026-08-10'::date then 'PRESENT' else 'OFF' end,
+          'paid_fraction', case when day_value::date='2026-08-10'::date then 1 else 0 end,
+          'notes','CP3 explicit full-month matrix'
+        ) order by day_value
+      )
+      from generate_series(
+        '2026-08-01'::date,
+        '2026-08-31'::date,
+        interval '1 day'
+      ) day_value
+    )
+  ),
+  '26140000-0000-4000-8000-000000000111',null,false
+)->>'period_id')::text as cp3_att_period_n1
+\gset
 
-insert into erp.attendance_records(id,contractor_id,worker_id,attendance_date,status,paid_fraction,attendance_period_id,record_lifecycle,change_reason)
-values
- ('26140000-0000-4000-8000-000000000211','26140000-0000-4000-8000-000000000011',:'cp3_worker_n1'::uuid,'2026-08-10','PRESENT',1,'26140000-0000-4000-8000-000000000201','POSTED','CP3 fixture'),
- ('26140000-0000-4000-8000-000000000212','26140000-0000-4000-8000-000000000012',:'cp3_worker_n2'::uuid,'2026-08-10','PRESENT',1,'26140000-0000-4000-8000-000000000202','POSTED','CP3 fixture'),
- ('26140000-0000-4000-8000-000000000213','26140000-0000-4000-8000-000000000013',:'cp3_worker_special'::uuid,'2026-08-10','PRESENT',1,'26140000-0000-4000-8000-000000000203','POSTED','CP3 fixture'),
- ('26140000-0000-4000-8000-000000000214','26140000-0000-4000-8000-000000000014',:'cp3_worker_exempt'::uuid,'2026-08-10','PRESENT',1,'26140000-0000-4000-8000-000000000204','POSTED','CP3 fixture');
+select row_version::text as cp3_att_period_n1_version
+from erp.attendance_periods
+where id=:'cp3_att_period_n1'::uuid
+\gset
+
+select erp.post_attendance_period_v1(
+  :'cp3_att_period_n1'::uuid,
+  'CP3 authoritative attendance fixture post',
+  '26140000-0000-4000-8000-000000000121',
+  :'cp3_att_period_n1_version'::bigint
+);
+
+select id::text as cp3_att_record_n1
+from erp.attendance_records
+where attendance_period_id=:'cp3_att_period_n1'::uuid
+  and worker_id=:'cp3_worker_n1'::uuid
+  and attendance_date='2026-08-10'::date
+  and record_lifecycle='POSTED'
+\gset
+
+select (erp.save_attendance_period_v1(
+  jsonb_build_object(
+    'contractor_id','26140000-0000-4000-8000-000000000012',
+    'period_number','CP3-ATT-N2-AUG',
+    'period_start','2026-08-01','period_end','2026-08-31','pay_date','2026-08-31',
+    'reason','CP3 authoritative attendance fixture',
+    'attendance',(
+      select jsonb_agg(
+        jsonb_build_object(
+          'worker_id', :'cp3_worker_n2'::uuid,
+          'attendance_date', day_value::date,
+          'status', case when day_value::date='2026-08-10'::date then 'PRESENT' else 'OFF' end,
+          'paid_fraction', case when day_value::date='2026-08-10'::date then 1 else 0 end,
+          'notes','CP3 explicit full-month matrix'
+        ) order by day_value
+      )
+      from generate_series(
+        '2026-08-01'::date,
+        '2026-08-31'::date,
+        interval '1 day'
+      ) day_value
+    )
+  ),
+  '26140000-0000-4000-8000-000000000112',null,false
+)->>'period_id')::text as cp3_att_period_n2
+\gset
+
+select row_version::text as cp3_att_period_n2_version
+from erp.attendance_periods
+where id=:'cp3_att_period_n2'::uuid
+\gset
+
+select erp.post_attendance_period_v1(
+  :'cp3_att_period_n2'::uuid,
+  'CP3 authoritative attendance fixture post',
+  '26140000-0000-4000-8000-000000000122',
+  :'cp3_att_period_n2_version'::bigint
+);
+
+select id::text as cp3_att_record_n2
+from erp.attendance_records
+where attendance_period_id=:'cp3_att_period_n2'::uuid
+  and worker_id=:'cp3_worker_n2'::uuid
+  and attendance_date='2026-08-10'::date
+  and record_lifecycle='POSTED'
+\gset
+
+select (erp.save_attendance_period_v1(
+  jsonb_build_object(
+    'contractor_id','26140000-0000-4000-8000-000000000013',
+    'period_number','CP3-ATT-SP-AUG',
+    'period_start','2026-08-01','period_end','2026-08-31','pay_date','2026-08-31',
+    'reason','CP3 authoritative attendance fixture',
+    'attendance',(
+      select jsonb_agg(
+        jsonb_build_object(
+          'worker_id', :'cp3_worker_special'::uuid,
+          'attendance_date', day_value::date,
+          'status', case when day_value::date='2026-08-10'::date then 'PRESENT' else 'OFF' end,
+          'paid_fraction', case when day_value::date='2026-08-10'::date then 1 else 0 end,
+          'notes','CP3 explicit full-month matrix'
+        ) order by day_value
+      )
+      from generate_series(
+        '2026-08-01'::date,
+        '2026-08-31'::date,
+        interval '1 day'
+      ) day_value
+    )
+  ),
+  '26140000-0000-4000-8000-000000000113',null,false
+)->>'period_id')::text as cp3_att_period_special
+\gset
+
+select row_version::text as cp3_att_period_special_version
+from erp.attendance_periods
+where id=:'cp3_att_period_special'::uuid
+\gset
+
+select erp.post_attendance_period_v1(
+  :'cp3_att_period_special'::uuid,
+  'CP3 authoritative attendance fixture post',
+  '26140000-0000-4000-8000-000000000123',
+  :'cp3_att_period_special_version'::bigint
+);
+
+select id::text as cp3_att_record_special
+from erp.attendance_records
+where attendance_period_id=:'cp3_att_period_special'::uuid
+  and worker_id=:'cp3_worker_special'::uuid
+  and attendance_date='2026-08-10'::date
+  and record_lifecycle='POSTED'
+\gset
+
+select (erp.save_attendance_period_v1(
+  jsonb_build_object(
+    'contractor_id','26140000-0000-4000-8000-000000000014',
+    'period_number','CP3-ATT-EX-AUG',
+    'period_start','2026-08-01','period_end','2026-08-31','pay_date','2026-08-31',
+    'reason','CP3 authoritative attendance fixture',
+    'attendance',(
+      select jsonb_agg(
+        jsonb_build_object(
+          'worker_id', :'cp3_worker_exempt'::uuid,
+          'attendance_date', day_value::date,
+          'status', case when day_value::date='2026-08-10'::date then 'PRESENT' else 'OFF' end,
+          'paid_fraction', case when day_value::date='2026-08-10'::date then 1 else 0 end,
+          'notes','CP3 explicit full-month matrix'
+        ) order by day_value
+      )
+      from generate_series(
+        '2026-08-01'::date,
+        '2026-08-31'::date,
+        interval '1 day'
+      ) day_value
+    )
+  ),
+  '26140000-0000-4000-8000-000000000114',null,false
+)->>'period_id')::text as cp3_att_period_exempt
+\gset
+
+select row_version::text as cp3_att_period_exempt_version
+from erp.attendance_periods
+where id=:'cp3_att_period_exempt'::uuid
+\gset
+
+select erp.post_attendance_period_v1(
+  :'cp3_att_period_exempt'::uuid,
+  'CP3 authoritative attendance fixture post',
+  '26140000-0000-4000-8000-000000000124',
+  :'cp3_att_period_exempt_version'::bigint
+);
+
+select id::text as cp3_att_record_exempt
+from erp.attendance_records
+where attendance_period_id=:'cp3_att_period_exempt'::uuid
+  and worker_id=:'cp3_worker_exempt'::uuid
+  and attendance_date='2026-08-10'::date
+  and record_lifecycle='POSTED'
+\gset
 
 insert into erp.payroll_settlements(id,payroll_number,contractor_id,period_start,period_end,status,payment_date)
 values
@@ -141,10 +317,10 @@ values
 
 insert into erp.payroll_attendance_items(payroll_id,worker_id,attendance_record_id,paid_fraction_snapshot,daily_rate_snapshot,worker_rate_version_id,attendance_date_snapshot,worker_name_snapshot,job_description_snapshot)
 values
- ('26140000-0000-4000-8000-000000000221',:'cp3_worker_n1'::uuid,'26140000-0000-4000-8000-000000000211',1,1000,:'cp3_rate_n1'::uuid,'2026-08-10','Worker N1','Sewing'),
- ('26140000-0000-4000-8000-000000000222',:'cp3_worker_n2'::uuid,'26140000-0000-4000-8000-000000000212',1,500,:'cp3_rate_n2'::uuid,'2026-08-10','Worker N2','Sewing'),
- ('26140000-0000-4000-8000-000000000223',:'cp3_worker_special'::uuid,'26140000-0000-4000-8000-000000000213',1,700,:'cp3_rate_special'::uuid,'2026-08-10','Worker Special','Sewing'),
- ('26140000-0000-4000-8000-000000000224',:'cp3_worker_exempt'::uuid,'26140000-0000-4000-8000-000000000214',1,300,:'cp3_rate_exempt'::uuid,'2026-08-10','Worker Exempt','Sewing');
+ ('26140000-0000-4000-8000-000000000221',:'cp3_worker_n1'::uuid,:'cp3_att_record_n1'::uuid,1,1000,:'cp3_rate_n1'::uuid,'2026-08-10','Worker N1','Sewing'),
+ ('26140000-0000-4000-8000-000000000222',:'cp3_worker_n2'::uuid,:'cp3_att_record_n2'::uuid,1,500,:'cp3_rate_n2'::uuid,'2026-08-10','Worker N2','Sewing'),
+ ('26140000-0000-4000-8000-000000000223',:'cp3_worker_special'::uuid,:'cp3_att_record_special'::uuid,1,700,:'cp3_rate_special'::uuid,'2026-08-10','Worker Special','Sewing'),
+ ('26140000-0000-4000-8000-000000000224',:'cp3_worker_exempt'::uuid,:'cp3_att_record_exempt'::uuid,1,300,:'cp3_rate_exempt'::uuid,'2026-08-10','Worker Exempt','Sewing');
 
 update erp.payroll_settlements set attendance_total=1000,status='PAID',settled_at='2026-08-31 10:00+00' where id='26140000-0000-4000-8000-000000000221';
 update erp.payroll_settlements set attendance_total=500,status='PAID',settled_at='2026-08-31 10:00+00' where id='26140000-0000-4000-8000-000000000222';
