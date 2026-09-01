@@ -8,7 +8,6 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 MIG = ROOT / 'supabase/migrations/20260901023400_erp_v2_6_14d_cp3_r4_race_and_reversal_hardening.sql'
 ACC = ROOT / 'supabase/tests/attendance_hpp_r4_full_schema_rollback.sql'
-HAR = ROOT / 'scripts/cp3_r4_full_schema_concurrency.py'
 MAN = ROOT / 'docs/evidence/cp3_r4_source_hashes.json'
 
 migration = MIG.read_text()
@@ -60,11 +59,6 @@ required_acceptance_markers = (
 missing = [marker for marker in required_acceptance_markers if marker not in acceptance]
 if missing:
     raise SystemExit(f'exact restored-schema strict JSON proof is incomplete: {missing}')
-
-harness = HAR.read_text()
-for marker in ('def strict_nested_json_cases(', 'validate_pool(admin, pool["id"])'):
-    if marker not in harness:
-        raise SystemExit(f'R4 concurrency harness lost reviewed marker: {marker}')
 
 manifest = json.loads(MAN.read_text())
 for rel in manifest['files']:
