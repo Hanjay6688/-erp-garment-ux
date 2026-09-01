@@ -1,0 +1,133 @@
+name: CP3 R4 Lock Order Hotfix
+
+on:
+  push:
+    branches:
+      - ops/cp3-r4-lock-order-hotfix-20260901
+    paths:
+      - .github/workflows/cp3-r4-lock-order-hotfix.yml
+
+permissions:
+  contents: write
+
+jobs:
+  patch-target:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      TARGET_BRANCH: cp3/hpp-attendance-sewing-terminal-r4-20260901
+      EXPECTED_HEAD: 7173fcda2c13788be4bf4d3481f8c115a0b3d961
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: cp3/hpp-attendance-sewing-terminal-r4-20260901
+          fetch-depth: 0
+
+      - name: Prove exact writer boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin "$TARGET_BRANCH"
+          test "$(git rev-parse HEAD)" = "$EXPECTED_HEAD"
+          test "$(git rev-parse origin/$TARGET_BRANCH)" = "$EXPECTED_HEAD"
+
+      - name: Fix contractor advisory and row-lock ordering
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib
+          import json
+
+          migration = Path('supabase/migrations/20260901023400_erp_v2_6_14d_cp3_r4_race_and_reversal_hardening.sql')
+          manifest_path = Path('docs/evidence/cp3_r4_source_hashes.json')
+          text = migration.read_text(encoding='utf-8')
+
+          marker = """-- 2. Policy change after ACTIVE pool: lock is already held by the R3 setter;
+-- check the exact new effective slice after next-version boundary is known.
+"""
+          if text.count(marker) != 1:
+              raise SystemExit(f'expected exactly one policy guard marker, found {text.count(marker)}')
+
+          lock_patch = """-- 2a. Policy mutation must take the contractor advisory lock before the
+-- contractor row lock. Activation takes the same advisory first and later needs
+-- the contractor FK key-share while posting journal lines; the reverse order
+-- creates an advisory-lock/row-lock cycle under real two-session execution.
+select pg_temp.cp3_r4_replace_function(
+  'set_contractor_hpp_policy_v1',
+  $anchor$  select * into v_contractor
+  from erp.contractors
+  where id = v_contractor_id
+  for update;
+
+  if v_contractor.id is null then raise exception 'Contractor not found'; end if;
+  if v_contractor.contractor_type <> 'MANDOR' then
+    raise exception 'Attendance HPP policy is only valid for role MANDOR';
+  end if;
+  if v_contractor.attendance_required is distinct from v_attendance_required then
+    raise exception 'attendance_required payload must explicitly match contractor master; update master first, then write a new HPP policy version';
+  end if;
+
+  perform pg_advisory_xact_lock(hashtextextended('CONTRACTOR_HPP_POLICY|' || v_contractor_id::text, 0));$anchor$,
+  $patch$  perform pg_advisory_xact_lock(hashtextextended('CONTRACTOR_HPP_POLICY|' || v_contractor_id::text, 0));
+
+  select * into v_contractor
+  from erp.contractors
+  where id = v_contractor_id
+  for update;
+
+  if v_contractor.id is null then raise exception 'Contractor not found'; end if;
+  if v_contractor.contractor_type <> 'MANDOR' then
+    raise exception 'Attendance HPP policy is only valid for role MANDOR';
+  end if;
+  if v_contractor.attendance_required is distinct from v_attendance_required then
+    raise exception 'attendance_required payload must explicitly match contractor master; update master first, then write a new HPP policy version';
+  end if;$patch$,
+  1,1
+);
+
+-- 2b. Policy change after ACTIVE pool: the shared contractor advisory lock is
+-- now held before any contractor row lock; check the exact new effective slice.
+"""
+          text = text.replace(marker, lock_patch, 1)
+          migration.write_text(text, encoding='utf-8')
+
+          raw = migration.read_bytes()
+          manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
+          key = str(migration)
+          entry = manifest['files'][key]
+          entry['bytes'] = len(raw)
+          entry['sha256'] = hashlib.sha256(raw).hexdigest()
+          manifest['last_lock_order_hardening'] = {
+              'scope': 'runtime source and real two-session race safety',
+              'root_cause': 'policy setter locked contractor row before shared contractor advisory lock while activation used advisory then FK key-share',
+              'fix': 'contractor advisory lock before contractor row lock',
+              'source_head': '7173fcda2c13788be4bf4d3481f8c115a0b3d961'
+          }
+          manifest['last_validation_trigger'] = {
+              'reason': 'rerun after deterministic contractor advisory-before-row lock hardening',
+              'source_head': 'pending hotfix commit'
+          }
+          manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + '\n', encoding='utf-8')
+
+          print(json.dumps({'migration_bytes': len(raw), 'migration_sha256': entry['sha256']}, sort_keys=True))
+          PY
+
+          git diff --check
+          grep -F "Policy mutation must take the contractor advisory lock before" \
+            supabase/migrations/20260901023400_erp_v2_6_14d_cp3_r4_race_and_reversal_hardening.sql >/dev/null
+
+      - name: Commit exact target fix
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin "$TARGET_BRANCH"
+          test "$(git rev-parse origin/$TARGET_BRANCH)" = "$EXPECTED_HEAD"
+          git config user.name 'Hanjay6688'
+          git config user.email 'jktr9n2g88@privaterelay.appleid.com'
+          git add \
+            supabase/migrations/20260901023400_erp_v2_6_14d_cp3_r4_race_and_reversal_hardening.sql \
+            docs/evidence/cp3_r4_source_hashes.json
+          git commit -m 'fix(cp3): enforce contractor advisory-before-row lock order'
+          git push origin HEAD:"$TARGET_BRANCH"
