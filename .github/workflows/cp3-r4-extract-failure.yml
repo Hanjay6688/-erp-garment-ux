@@ -1,0 +1,45 @@
+name: CP3 R4 Extract Failure
+
+on:
+  push:
+    branches:
+      - cp3/hpp-attendance-sewing-terminal-r4-20260901
+    paths:
+      - '.github/workflows/cp3-r4-extract-failure.yml'
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  extract:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: cp3-r4-full-schema-proof
+          path: proof
+          github-token: ${{ github.token }}
+          run-id: 33522142557
+          repository: Hanjay6688/-erp-garment-ux
+      - name: Print exact protected-journal acceptance failure
+        shell: bash
+        run: |
+          set -euo pipefail
+          log="$(find proof -type f -name 'r4-full-schema-acceptance.log' -print -quit)"
+          test -n "$log"
+          python - "$log" <<'PY'
+          from pathlib import Path
+          import sys
+          lines = Path(sys.argv[1]).read_text(errors='replace').splitlines()
+          hits = [i for i, line in enumerate(lines) if 'ERROR:' in line or 'Process completed with exit code' in line]
+          if not hits:
+              print('\n'.join(lines[-120:]))
+              raise SystemExit('no ERROR line found in acceptance log')
+          shown = set()
+          for hit in hits:
+              for i in range(max(0, hit - 12), min(len(lines), hit + 20)):
+                  if i not in shown:
+                      print(f'{i+1}: {lines[i]}')
+                      shown.add(i)
+          PY
