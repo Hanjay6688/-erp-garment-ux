@@ -1,0 +1,43 @@
+name: CP3 R4 Harness Hotfix V3
+
+on:
+  push:
+    branches:
+      - cp3/hpp-attendance-sewing-terminal-r4-20260901
+    paths:
+      - scripts/cp3_r4_hotfix_v3.py
+      - .github/workflows/cp3-r4-hotfix-v3.yml
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: cp3/hpp-attendance-sewing-terminal-r4-20260901
+          fetch-depth: 0
+      - name: Apply and statically validate the exact source-only hotfix
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s docs/evidence/cp3_r4_source_hashes.json
+          test -s .github/workflows/cp3-r4-full-schema-validation.yml
+          python scripts/cp3_r4_hotfix_v3.py
+          python -m py_compile scripts/cp3_r4_full_schema_concurrency.py
+          python scripts/test_cp3_render_r4_reviewed_rollback.py
+          git diff --check
+      - name: Commit the clean R4 candidate boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -f scripts/cp3_r4_hotfix_v3.py .github/workflows/cp3-r4-hotfix-v3.yml
+          git config user.name 'Hanjay6688'
+          git config user.email 'jktr9n2g88@privaterelay.appleid.com'
+          git add -A
+          git diff --cached --check
+          git commit -m 'test(cp3): harden R4 harness transaction boundaries'
+          git push origin HEAD:cp3/hpp-attendance-sewing-terminal-r4-20260901
