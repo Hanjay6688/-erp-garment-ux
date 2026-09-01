@@ -20,26 +20,41 @@ jobs:
           name: cp3-r4-full-schema-proof
           path: proof
           github-token: ${{ github.token }}
-          run-id: 33522142557
+          run-id: 33523757519
           repository: Hanjay6688/-erp-garment-ux
-      - name: Print exact protected-journal acceptance failure
+      - name: Print exact two-connection race failure
         shell: bash
         run: |
           set -euo pipefail
-          log="$(find proof -type f -name 'r4-full-schema-acceptance.log' -print -quit)"
-          test -n "$log"
-          python - "$log" <<'PY'
+          python - <<'PY'
           from pathlib import Path
-          import sys
-          lines = Path(sys.argv[1]).read_text(errors='replace').splitlines()
-          hits = [i for i, line in enumerate(lines) if 'ERROR:' in line or 'Process completed with exit code' in line]
-          if not hits:
-              print('\n'.join(lines[-120:]))
-              raise SystemExit('no ERROR line found in acceptance log')
-          shown = set()
-          for hit in hits:
-              for i in range(max(0, hit - 12), min(len(lines), hit + 20)):
-                  if i not in shown:
+
+          candidates = [
+              *Path('proof').rglob('r4-race-seed.log'),
+              *Path('proof').rglob('r4-concurrency.log'),
+              *Path('proof').rglob('cp3-r4-concurrency-report.json'),
+          ]
+          if not candidates:
+              raise SystemExit('race proof files not found')
+
+          for path in candidates:
+              print(f'===== {path} =====')
+              lines = path.read_text(errors='replace').splitlines()
+              hits = [
+                  i for i, line in enumerate(lines)
+                  if any(token in line.lower() for token in (
+                      'error:', 'traceback', 'assertionerror', 'failed', 'failure', 'exception', 'deadlock', 'timeout'
+                  ))
+              ]
+              if not hits:
+                  start = max(0, len(lines) - 160)
+                  for i in range(start, len(lines)):
                       print(f'{i+1}: {lines[i]}')
-                      shown.add(i)
+                  continue
+              shown = set()
+              for hit in hits:
+                  for i in range(max(0, hit - 15), min(len(lines), hit + 30)):
+                      if i not in shown:
+                          print(f'{i+1}: {lines[i]}')
+                          shown.add(i)
           PY
