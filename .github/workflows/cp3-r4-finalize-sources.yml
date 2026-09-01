@@ -22,7 +22,7 @@ jobs:
           ref: cp3/hpp-attendance-sewing-terminal-r4-20260901
           fetch-depth: 0
 
-      - name: Reconcile deterministic finalizer with current hard-coded race harness
+      - name: Reconcile deterministic finalizer with current hard-coded harness and acceptance
         shell: bash
         run: |
           set -euo pipefail
@@ -31,14 +31,25 @@ jobs:
           import re
           path=Path('scripts/cp3_r4_finalize_sources.py')
           text=path.read_text()
-          pattern=r"# 1\. Harden generic RPC argument discovery in the real two-session harness\..*?harness_path\.write_text\(harness, encoding=\"utf-8\"\)\n\n"
-          replacement=(
-            "# 1. The committed R4 race harness is already hard-coded to the exact owning RPC signatures.\n"
-            "#    There is no generic argument resolver to patch; keep the harness byte-stable here.\n\n"
-          )
-          text,n=re.subn(pattern,replacement,text,count=1,flags=re.S)
-          if n!=1:
-              raise SystemExit(f'R4 finalizer reconciliation expected one obsolete resolver block, found {n}')
+
+          obsolete_blocks=[
+            (
+              r"# 1\. Harden generic RPC argument discovery in the real two-session harness\..*?harness_path\.write_text\(harness, encoding=\"utf-8\"\)\n\n",
+              "# 1. The committed R4 race harness is already hard-coded to the exact owning RPC signatures.\n"
+              "#    There is no generic argument resolver to patch; keep the harness byte-stable here.\n\n",
+              'obsolete harness resolver block',
+            ),
+            (
+              r"# 2\. Grant the test role access only to the session-local ID table\..*?accept_path\.write_text\(accept, encoding=\"utf-8\"\)\n\n",
+              "# 2. Protected-journal service-role rejection is exercised by the real two-connection harness.\n"
+              "#    The committed rollback acceptance has no role-switch anchor and needs no temp-table grant.\n\n",
+              'obsolete acceptance temp-table grant block',
+            ),
+          ]
+          for pattern,replacement,label in obsolete_blocks:
+              text,n=re.subn(pattern,replacement,text,count=1,flags=re.S)
+              if n!=1:
+                  raise SystemExit(f'R4 finalizer reconciliation expected one {label}, found {n}')
           path.write_text(text)
           PY
 
@@ -61,13 +72,16 @@ jobs:
           set -euo pipefail
           rm -f scripts/cp3_r4_finalize_sources.py
           rm -f .github/workflows/cp3-r4-finalize-sources.yml
+          rm -f .github/workflows/cp3-r4-finalize-sources-v2.yml
           rm -f .github/workflows/cp3-r4-source-export.yml
+          rm -f .github/workflows/cp3-r4-full-schema-validation-final.yml
           rm -f supabase/migrations/20260901023300_erp_v2_6_14d_active_pool_and_protected_reversal_guards.sql
           rm -f supabase/tests/cp3_r4_full_schema_seed.sql
           rm -f supabase/tests/cp3_r4_full_schema_race_seed.sql
           rm -f supabase/tests/attendance_hpp_r4_validator_benchmark_rollback.sql
           rm -f docs/evidence/2026-09-01/checkpoint_3_r4_fixed_source_manifest.json
           test -s supabase/migrations/20260901023400_erp_v2_6_14d_cp3_r4_race_and_reversal_hardening.sql
+          test -s .github/workflows/cp3-r4-full-schema-validation.yml
           test "$(grep -Rsl "version='v2.6.14d'" supabase/migrations/20260901*14d*.sql | wc -l)" -eq 1
           git config user.name 'Hanjay6688'
           git config user.email 'jktr9n2g88@privaterelay.appleid.com'
