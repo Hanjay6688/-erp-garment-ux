@@ -24,29 +24,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python - <<'PY'
-          from pathlib import Path
-
-          path = Path('scripts/cp3_concurrency_harness.py')
-          text = path.read_text()
-          old = '''        issues = one(conn, "select coalesce(sum(issue_count),0) from erp.run_v2614_attendance_hpp_integrity_checks()")
-        conn.commit()
-    if journals != 1 or issues != 0: raise AssertionError(f"idempotency/integrity mismatch journals={journals} issues={issues}")
-'''
-          new = '''        issues = one(conn, "select coalesce(sum(issue_count),0) from erp.run_v2614_attendance_hpp_integrity_checks()")
-        conn.commit()
-    issues = int(issues)
-    if journals != 1 or issues != 0: raise AssertionError(f"idempotency/integrity mismatch journals={journals} issues={issues}")
-'''
-          if text.count(old) != 1:
-              raise SystemExit('integrity report normalization anchor is missing or ambiguous')
-          text = text.replace(old, new, 1)
-          if text.count('issues = int(issues)') != 1:
-              raise SystemExit('integrity issue count was not normalized exactly once')
-          if 'assert_exactly_one(results, "sewing capacity race")' not in text:
-              raise SystemExit('race assertions changed unexpectedly')
-          path.write_text(text)
-          PY
+          python -m py_compile scripts/cp3_normalize_concurrency_report_once.py
+          python scripts/cp3_normalize_concurrency_report_once.py
           python -m py_compile scripts/cp3_concurrency_harness.py
           git diff --check
           grep -nE 'issues = int\(issues\)|sewing capacity race|overlapping range race|post versus cancel race|same-key same-payload' scripts/cp3_concurrency_harness.py
