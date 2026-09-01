@@ -1,0 +1,119 @@
+name: CP3 Bootstrap Source Candidate
+
+on:
+  push:
+    branches:
+      - cp3/hpp-attendance-sewing-terminal-reconstruction-20260901
+    paths:
+      - .github/workflows/cp3-bootstrap-source.yml
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: cp3-source-bootstrap
+  cancel-in-progress: false
+
+jobs:
+  reconstruct-validate-publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout exact bootstrap head
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Reconstruct reviewed source bundle and make local candidate commit
+        id: candidate
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          test "${GITHUB_REF_NAME}" = 'cp3/hpp-attendance-sewing-terminal-reconstruction-20260901'
+          test "$(find .cp3-bootstrap -maxdepth 1 -type f -name 'part*.b64' | wc -l)" = 6
+          cat .cp3-bootstrap/part00.b64 \
+              .cp3-bootstrap/part01.b64 \
+              .cp3-bootstrap/part02.b64 \
+              .cp3-bootstrap/part03.b64 \
+              .cp3-bootstrap/part04.b64 \
+              .cp3-bootstrap/part05.b64 \
+            | base64 --decode > /tmp/cp3-source-bundle.zip
+          echo 'fbb3108eadd1c61c46a730d951126da497a4ac7f8f0a997da14520eaac31382f  /tmp/cp3-source-bundle.zip' | sha256sum -c -
+          unzip -tq /tmp/cp3-source-bundle.zip
+          unzip -oq /tmp/cp3-source-bundle.zip -d .
+          rm -rf .cp3-bootstrap .github/workflows/cp3-bootstrap-source.yml /tmp/cp3-source-bundle.zip
+
+          python scripts/test_cp3_source_contract.py
+          python scripts/test_render_cp3_rollback.py
+
+          git config user.name 'Hanjay6688'
+          git config user.email 'jktr9n2g88@privaterelay.appleid.com'
+          git add -A
+          git commit -m 'Reconstruct CP3 attendance HPP sewing-terminal foundation'
+          candidate_sha="$(git rev-parse HEAD)"
+          echo "candidate_sha=$candidate_sha" >> "$GITHUB_OUTPUT"
+          echo "CANDIDATE_SHA=$candidate_sha" >> "$GITHUB_ENV"
+
+      - name: Run full free local Supabase validation before push
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set -Eeuo pipefail
+          GITHUB_SHA="$CANDIDATE_SHA" bash scripts/run_cp3_local_validation.sh
+          test -s cp3-source-only-validation-manifest.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          report = json.loads(Path('cp3-source-only-validation-manifest.json').read_text())
+          assert report['status'] == 'PASS', report
+          assert report['git_sha'] == '${{ steps.candidate.outputs.candidate_sha }}', report
+          assert report['uat_mutated'] is False
+          assert report['legacy_mutated'] is False
+          assert report['auth_mutated'] is False
+          assert report['cloudflare_deployed'] is False
+          assert report['main_merged'] is False
+          PY
+
+      - name: Publish only the fully validated candidate commit
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          test "$(git rev-parse HEAD)" = "$CANDIDATE_SHA"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
+
+      - name: Upload non-secret validation proof
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cp3-source-only-local-validation-proof
+          path: |
+            cp3-source-only-validation-manifest.json
+            cp3-source-contract.json
+            cp3-source-sha256sums.txt
+            cp3-renderer-unit-tests.log
+            cp3-rendered-rollback.metadata.json
+            cp3-rollback-acceptance.log
+            cp3-rollback-residue-report.json
+            cp3-persistent-local-apply.log
+            cp3-persistent-acceptance.log
+            cp3-concurrency-console.log
+            cp3-concurrency-report.json
+            cp3-final-local-verification.txt
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Destroy transient material
+        if: always()
+        shell: bash
+        run: |
+          set +e
+          supabase stop --no-backup --workdir cp3-local || true
+          rm -rf restore transport cp3-local /tmp/cp3-source-bundle.zip /tmp/cp2_generate_catalog_restore.py
+          rm -f cp3-rendered-rollback.sql cp3-persistent-acceptance.sql
