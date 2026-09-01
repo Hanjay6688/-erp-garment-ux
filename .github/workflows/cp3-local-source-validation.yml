@@ -1,0 +1,238 @@
+name: CP3 Local Source Validation
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - cp3/hpp-attendance-sewing-terminal-candidate-20260901
+    paths:
+      - supabase/migrations/20260901023000_erp_v2_6_14_attendance_hpp_sewing_terminal_foundation.sql
+      - supabase/tests/attendance_hpp_sewing_terminal_rollback.sql
+      - ops/cp3/attendance_hpp_candidate_manifest.json
+      - scripts/cp3_render_reviewed_sql.py
+      - scripts/test_cp3_render_reviewed_sql.py
+      - scripts/cp3_generate_local_restore.py
+      - scripts/cp3_concurrency_harness.py
+      - .github/workflows/cp3-local-source-validation.yml
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
+      CP2_RUN_ID: '33430989888'
+    steps:
+      - name: Checkout exact candidate
+        uses: actions/checkout@v4
+
+      - name: Install Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Download encrypted CP2 baseline artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: cp2-encrypted-backup
+          path: transport/backup
+          github-token: ${{ github.token }}
+          run-id: ${{ env.CP2_RUN_ID }}
+
+      - name: Download CP2 recovery key separately
+        uses: actions/download-artifact@v4
+        with:
+          name: cp2-recovery-key-separate
+          path: transport/key
+          github-token: ${{ github.token }}
+          run-id: ${{ env.CP2_RUN_ID }}
+
+      - name: Decrypt and verify CP2 baseline
+        shell: bash
+        run: |
+          set -euo pipefail
+          encrypted="$(find transport/backup -type f -name 'ERP_ENTENG_CP2_BACKUP_*.zip.enc' -print -quit)"
+          keyfile="$(find transport/key -type f -name 'ERP_ENTENG_CP2_RECOVERY_KEY_*.txt' -print -quit)"
+          test -n "$encrypted" && test -n "$keyfile"
+          umask 077
+          awk 'BEGIN{blank=0} {if(blank){print; exit} if($0=="") blank=1}' "$keyfile" > transport/passphrase.tmp
+          openssl enc -d -aes-256-cbc -pbkdf2 -iter 600000 -md sha256 \
+            -pass file:transport/passphrase.tmp -in "$encrypted" -out transport/cp2.zip
+          echo 'e176cac94d78915cb5fd73a065f58150184ee0b37801e6eb70fbc8fcfa29ef53  transport/cp2.zip' | sha256sum -c -
+          unzip -tq transport/cp2.zip
+          mkdir -p restore
+          unzip -q transport/cp2.zip -d restore
+          rm -f transport/passphrase.tmp
+          python - <<'PY'
+          import hashlib,json,zipfile
+          with zipfile.ZipFile('transport/cp2.zip') as zf:
+              sums=json.loads(zf.read('SHA256SUMS.json'))
+              for name,expected in sums.items():
+                  actual=hashlib.sha256(zf.read(name)).hexdigest()
+                  if actual!=expected: raise SystemExit(f'checksum mismatch: {name}')
+          print(f'CP2 internal checksums PASS: {len(sums)} files')
+          PY
+
+      - name: Generate deterministic local baseline restore
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/cp3_generate_local_restore.py
+          test -s restore/cp3-catalog-schema-restore.sql
+          test -s restore/ERP_ENTENG_DATA_RESTORE.sql
+
+      - name: Start disposable local Supabase 17.6.1.165
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p cp3-local
+          supabase init --force --workdir cp3-local
+          mkdir -p cp3-local/supabase/.temp
+          echo '17.6.1.165' > cp3-local/supabase/.temp/postgres-version
+          supabase start --workdir cp3-local \
+            -x realtime,imgproxy,studio,postgres-meta,mailpit,edge-runtime,logflare,vector,supavisor
+          pg_isready -d "$PGURL"
+
+      - name: Restore baseline for exact-source compile
+        shell: bash
+        run: |
+          set -euo pipefail
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f restore/cp3-catalog-schema-restore.sql > cp3-baseline-source.log
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f restore/ERP_ENTENG_DATA_RESTORE.sql >> cp3-baseline-source.log
+
+      - name: Compile exact reviewed migration and run rollback fixture
+        shell: bash
+        run: |
+          set -euo pipefail
+          migration='supabase/migrations/20260901023000_erp_v2_6_14_attendance_hpp_sewing_terminal_foundation.sql'
+          fixture='supabase/tests/attendance_hpp_sewing_terminal_rollback.sql'
+          sha256sum "$migration" "$fixture" | tee cp3-source-hashes.txt
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f "$migration" > cp3-exact-source.log
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f "$fixture" >> cp3-exact-source.log
+          grep -q '00_ALL_CHECKS_PASS' cp3-exact-source.log
+          grep -q '00_EXECUTION_QUIESCENT' cp3-exact-source.log
+
+      - name: Run fail-closed renderer negative corpus
+        shell: bash
+        run: |
+          set -euo pipefail
+          PYTHONPATH=scripts python scripts/test_cp3_render_reviewed_sql.py | tee cp3-renderer-unit.log
+          PYTHONPATH=scripts python scripts/cp3_render_reviewed_sql.py \
+            ops/cp3/attendance_hpp_candidate_manifest.json \
+            cp3-rendered-body.sql cp3-rendered-metadata.json | tee cp3-renderer.log
+
+      - name: Restore baseline again for rendered-byte path
+        shell: bash
+        run: |
+          set -euo pipefail
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f restore/cp3-catalog-schema-restore.sql > cp3-baseline-rendered.log
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f restore/ERP_ENTENG_DATA_RESTORE.sql >> cp3-baseline-rendered.log
+
+      - name: Apply byte-bound rendered body and rerun rollback fixture
+        shell: bash
+        run: |
+          set -euo pipefail
+          {
+            echo '\set ON_ERROR_STOP on'
+            echo 'begin;'
+            echo '\i cp3-rendered-body.sql'
+            echo 'commit;'
+          } > cp3-rendered-apply.sql
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f cp3-rendered-apply.sql > cp3-rendered-path.log
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/attendance_hpp_sewing_terminal_rollback.sql >> cp3-rendered-path.log
+          grep -q '00_ALL_CHECKS_PASS' cp3-rendered-path.log
+          grep -q '00_EXECUTION_QUIESCENT' cp3-rendered-path.log
+
+      - name: Verify no hooks or grants were activated
+        shell: bash
+        run: |
+          set -euo pipefail
+          psql "$PGURL" -v ON_ERROR_STOP=1 -At <<'SQL' | tee cp3-no-activation.txt
+          create temporary table cp3_tables(name text primary key);
+          insert into cp3_tables(name) values
+            ('contractor_hpp_policy_versions'),('sewing_terminal_events'),('attendance_hpp_pools'),
+            ('attendance_hpp_pool_sources'),('attendance_hpp_pool_allocations'),
+            ('attendance_hpp_journal_credit_map'),('attendance_hpp_journal_debit_map');
+          select 'cp3_tables='||count(*) from pg_class c join pg_namespace n on n.oid=c.relnamespace join cp3_tables x on x.name=c.relname where n.nspname='erp' and c.relkind='r';
+          select 'browser_write_grants='||count(*) from information_schema.role_table_grants where table_schema='erp' and table_name in (select name from cp3_tables) and grantee in ('anon','authenticated') and privilege_type in ('INSERT','UPDATE','DELETE');
+          select 'browser_function_exec='||count(*) from information_schema.role_routine_grants where routine_schema='erp' and routine_name like '%attendance_hpp%' and grantee in ('anon','authenticated');
+          select 'hooks_on_preexisting_tables='||count(*) from pg_trigger t join pg_class c on c.oid=t.tgrelid join pg_namespace n on n.oid=c.relnamespace where n.nspname='erp' and not t.tgisinternal and c.relname not in (select name from cp3_tables) and pg_get_triggerdef(t.oid) ilike '%cp3%';
+          select 'deferred_cp3_triggers='||count(*) from pg_trigger t join pg_class c on c.oid=t.tgrelid join pg_namespace n on n.oid=c.relnamespace where n.nspname='erp' and c.relname in (select name from cp3_tables) and t.tgdeferrable;
+          SQL
+          grep -qx 'cp3_tables=7' cp3-no-activation.txt
+          grep -qx 'browser_write_grants=0' cp3-no-activation.txt
+          grep -qx 'browser_function_exec=0' cp3-no-activation.txt
+          grep -qx 'hooks_on_preexisting_tables=0' cp3-no-activation.txt
+          grep -qx 'deferred_cp3_triggers=0' cp3-no-activation.txt
+
+      - name: Run real two-session concurrency harness
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --quiet 'psycopg[binary]==3.2.10'
+          python scripts/cp3_concurrency_harness.py | tee cp3-concurrency.log
+          python - <<'PY'
+          import json
+          report=json.load(open('cp3-concurrency-report.json'))
+          assert report['status']=='PASS'
+          assert report['integrity_issue_count']==0
+          assert all(item['status']=='PASS' for item in report['tests'].values())
+          print('CP3 real concurrency report PASS')
+          PY
+
+      - name: Record final local evidence
+        if: success()
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          files=[
+            'supabase/migrations/20260901023000_erp_v2_6_14_attendance_hpp_sewing_terminal_foundation.sql',
+            'supabase/tests/attendance_hpp_sewing_terminal_rollback.sql',
+            'ops/cp3/attendance_hpp_candidate_manifest.json',
+            'scripts/cp3_render_reviewed_sql.py',
+            'scripts/test_cp3_render_reviewed_sql.py',
+            'scripts/cp3_concurrency_harness.py',
+          ]
+          proof={
+            'status':'PASS','mode':'FREE_LOCAL_SUPABASE_CP3_SOURCE_VALIDATION',
+            'postgres_image':'17.6.1.165','uat_mutated':False,'legacy_mutated':False,
+            'main_mutated':False,'cloudflare_deployed':False,'auth_mutated':False,
+            'files':{p:{'bytes':Path(p).stat().st_size,'sha256':hashlib.sha256(Path(p).read_bytes()).hexdigest()} for p in files},
+            'renderer':json.load(open('cp3-rendered-metadata.json')),
+            'concurrency':json.load(open('cp3-concurrency-report.json')),
+          }
+          Path('cp3-local-validation-proof.json').write_text(json.dumps(proof,indent=2)+'\n')
+          PY
+
+      - name: Upload non-secret CP3 proof
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cp3-local-source-validation-proof
+          path: |
+            cp3-local-validation-proof.json
+            cp3-rendered-metadata.json
+            cp3-concurrency-report.json
+            cp3-source-hashes.txt
+            cp3-no-activation.txt
+            cp3-renderer-unit.log
+            cp3-renderer.log
+            cp3-exact-source.log
+            cp3-rendered-path.log
+            cp3-concurrency.log
+          if-no-files-found: warn
+          retention-days: 7
+
+      - name: Destroy disposable stack and decrypted material
+        if: always()
+        shell: bash
+        run: |
+          supabase stop --no-backup --workdir cp3-local || true
+          rm -rf restore transport cp3-local cp3-rendered-body.sql cp3-rendered-apply.sql
