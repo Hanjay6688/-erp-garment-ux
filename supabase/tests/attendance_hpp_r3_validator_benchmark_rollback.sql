@@ -31,14 +31,45 @@ select ('b6'||lpad(g::text,30,'0'))::uuid,'CP3R3-BENCH-SEW-'||g,'SELESAI_DIJAHIT
  '2026-03-10 00:00:00+07'::timestamptz+g*interval '1 microsecond',1,'CP3 R3 benchmark'
 from generate_series(1,2000) g;
 
-insert into erp.contractor_workers(id,contractor_id,worker_code,worker_name,pay_scheme,daily_rate,is_active,joined_at,job_description)
-values('b7000000-0000-0000-0000-000000000001','b1000000-0000-0000-0000-000000000001','CP3R3-BENCH-W','Benchmark worker','DAILY',100,true,'2026-03-01','Jahit');
-insert into erp.attendance_records(id,contractor_id,worker_id,attendance_date,status,paid_fraction)
-values('b7100000-0000-0000-0000-000000000001','b1000000-0000-0000-0000-000000000001','b7000000-0000-0000-0000-000000000001','2026-03-10','PRESENT',1);
+-- Create roster/employment/rate history through the owning RPC so the benchmark
+-- exercises a valid business state instead of bypassing employment-period guards.
+create temp table cp3_r3_benchmark_worker as
+select erp.save_worker_roster_v1(jsonb_build_object(
+ 'contractor_id','b1000000-0000-0000-0000-000000000001',
+ 'worker_code','CP3R3-BENCH-W','worker_name','Benchmark worker',
+ 'job_description','Jahit','pay_scheme','DAILY',
+ 'initial_daily_rate',100,'rate_effective_from','2026-03-01',
+ 'joined_at','2026-03-01','is_active',true,'reason','CP3 R3 benchmark'
+),gen_random_uuid(),null) result;
+
+create temp table cp3_r3_benchmark_attendance as
+select erp.save_attendance_period_v1(jsonb_build_object(
+ 'contractor_id','b1000000-0000-0000-0000-000000000001',
+ 'period_number','CP3R3-BENCH-ATT','period_start','2026-03-10','period_end','2026-03-10',
+ 'pay_date','2026-03-15','reason','CP3 R3 benchmark',
+ 'attendance',jsonb_build_array(jsonb_build_object(
+   'worker_id',(select result->>'worker_id' from cp3_r3_benchmark_worker),
+   'attendance_date','2026-03-10','status','PRESENT'
+ ))
+),gen_random_uuid(),null,false) result;
+
+select erp.post_attendance_period_v1(
+ (select (result->>'period_id')::uuid from cp3_r3_benchmark_attendance),
+ 'CP3 R3 benchmark post',gen_random_uuid(),
+ (select (result->>'row_version')::bigint from cp3_r3_benchmark_attendance)
+);
+
 insert into erp.payroll_settlements(id,payroll_number,contractor_id,period_start,period_end,status,attendance_total)
 values('b7200000-0000-0000-0000-000000000001','CP3R3-BENCH-PAY','b1000000-0000-0000-0000-000000000001','2026-03-01','2026-03-15','APPROVED',100);
 insert into erp.payroll_attendance_items(id,payroll_id,worker_id,attendance_record_id,paid_fraction_snapshot,daily_rate_snapshot)
-values('b7300000-0000-0000-0000-000000000001','b7200000-0000-0000-0000-000000000001','b7000000-0000-0000-0000-000000000001','b7100000-0000-0000-0000-000000000001',1,100);
+select
+ 'b7300000-0000-0000-0000-000000000001',
+ 'b7200000-0000-0000-0000-000000000001',
+ (select (result->>'worker_id')::uuid from cp3_r3_benchmark_worker),
+ ar.id,1,100
+from erp.attendance_records ar
+where ar.worker_id=(select (result->>'worker_id')::uuid from cp3_r3_benchmark_worker)
+  and ar.attendance_date='2026-03-10';
 select erp.post_journal('PAYROLL_ATTENDANCE_ACCRUAL','b7200000-0000-0000-0000-000000000001','2026-03-15','CP3 R3 benchmark approval',jsonb_build_array(
  jsonb_build_object('mapping_key','WIP','debit',100,'credit',0,'contractor_id','b1000000-0000-0000-0000-000000000001'),
  jsonb_build_object('mapping_key','CONTRACTOR_PAYABLE','debit',0,'credit',100,'contractor_id','b1000000-0000-0000-0000-000000000001')));
