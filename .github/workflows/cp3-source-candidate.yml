@@ -132,10 +132,10 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          createdb "$PGURL" cp3_render
+          createdb --maintenance-db="$PGURL" cp3_render
           render_url='postgresql://postgres:postgres@127.0.0.1:5432/cp3_render'
-          psql "$render_url" -f supabase/tests/cp3_attendance_hpp_minimal_baseline.sql
-          psql "$render_url" -f cp3-rendered-migration-rollback.sql
+          psql "$render_url" -v ON_ERROR_STOP=1 -f supabase/tests/cp3_attendance_hpp_minimal_baseline.sql
+          psql "$render_url" -v ON_ERROR_STOP=1 -f cp3-rendered-migration-rollback.sql
           psql "$render_url" -v ON_ERROR_STOP=1 <<'SQL'
           do $check$
           begin
@@ -147,26 +147,27 @@ jobs:
           end;
           $check$;
           SQL
+          dropdb --maintenance-db="$PGURL" cp3_render
 
       - name: Apply candidate on isolated minimal contract
         shell: bash
         run: |
           set -euo pipefail
-          psql "$PGURL" -f supabase/tests/cp3_attendance_hpp_minimal_baseline.sql
-          psql "$PGURL" -f supabase/migrations/20260901023000_erp_v2_6_14_attendance_hpp_sewing_terminal_foundation.sql
-          psql "$PGURL" -f supabase/migrations/20260901023100_erp_v2_6_14b_attendance_hpp_candidate_hardening.sql
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/cp3_attendance_hpp_minimal_baseline.sql
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/migrations/20260901023000_erp_v2_6_14_attendance_hpp_sewing_terminal_foundation.sql
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/migrations/20260901023100_erp_v2_6_14b_attendance_hpp_candidate_hardening.sql
 
       - name: Run behavior, negative, idempotency, reversal, and rollback fixture
         shell: bash
         run: |
           set -euo pipefail
-          psql "$PGURL" -f supabase/tests/attendance_hpp_sewing_terminal_rollback.sql | tee cp3-acceptance.log
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/attendance_hpp_sewing_terminal_rollback.sql | tee cp3-acceptance.log
 
       - name: Run bounded 2,000-destination validator benchmark
         shell: bash
         run: |
           set -euo pipefail
-          psql "$PGURL" -f supabase/tests/attendance_hpp_validator_benchmark_rollback.sql | tee cp3-validator-benchmark.log
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/attendance_hpp_validator_benchmark_rollback.sql | tee cp3-validator-benchmark.log
 
       - name: Run real two-connection concurrency harness
         shell: bash
