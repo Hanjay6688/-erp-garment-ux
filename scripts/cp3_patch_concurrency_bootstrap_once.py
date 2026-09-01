@@ -56,18 +56,21 @@ REPLACEMENT = '''        roster = one(conn, "select erp.save_worker_roster_v1(%s
 
 def main() -> None:
     text = PATH.read_text()
+
+    # Insert imports first. Any textual edit before setup_period changes byte offsets,
+    # so bootstrap anchors are intentionally resolved only after imports are final.
+    if 'from datetime import date, timedelta\n' not in text:
+        import_anchor = 'import uuid\n'
+        if text.count(import_anchor) != 1:
+            raise SystemExit('datetime import anchor is missing or ambiguous')
+        text = text.replace(import_anchor, import_anchor + 'from datetime import date, timedelta\n', 1)
+
     if text.count(START) != 1:
         raise SystemExit('concurrency worker bootstrap anchor must appear exactly once')
     start = text.index(START)
     end = text.find(END, start)
     if end < 0:
         raise SystemExit('concurrency payroll boundary was not found after worker bootstrap')
-
-    if 'from datetime import date, timedelta\n' not in text:
-        import_anchor = 'import uuid\n'
-        if text.count(import_anchor) != 1:
-            raise SystemExit('datetime import anchor is missing or ambiguous')
-        text = text.replace(import_anchor, import_anchor + 'from datetime import date, timedelta\n', 1)
 
     text = text[:start] + REPLACEMENT + text[end:]
 
