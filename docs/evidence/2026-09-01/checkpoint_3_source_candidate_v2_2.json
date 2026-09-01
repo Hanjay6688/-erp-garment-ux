@@ -1,0 +1,106 @@
+{
+  "checkpoint": 3,
+  "record_type": "source_candidate_v2_2_for_independent_delta_audit",
+  "supersedes": "docs/evidence/2026-09-01/checkpoint_3_source_candidate_v2_1.json",
+  "status": "SOURCE_CANDIDATE_UNDER_AUDIT",
+  "writer": "Chat Sol Pro",
+  "reviewer": "Work Sol Max",
+  "source": {
+    "repository": "Hanjay6688/-erp-garment-ux",
+    "base_commit": "bf3ce8e2821f120d8abd8788daf07f6da7c15459",
+    "base_tree": "e4377d85b612f5183b4831751de6a735d98a8b6f",
+    "candidate_branch": "cp3/hpp-attendance-sewing-terminal-candidate-v2-20260901",
+    "candidate_source_commit": "RECORDED_BY_CP3_FINAL_SOURCE_GATE_V2",
+    "candidate_source_tree": "RECORDED_BY_CP3_FINAL_SOURCE_GATE_V2",
+    "superseded_branch": "cp3/hpp-attendance-sewing-terminal-reconstruction-20260901"
+  },
+  "mutation_state": {
+    "erp_enteng_uat": false,
+    "erp_garment_legacy": false,
+    "main": false,
+    "auth": false,
+    "storage": false,
+    "cron": false,
+    "cloudflare": false
+  },
+  "candidate_migrations": [
+    "supabase/migrations/20260901023000_erp_v2_6_14a_attendance_hpp_policy_and_sewing_terminal.sql",
+    "supabase/migrations/20260901023100_erp_v2_6_14b_attendance_hpp_pool_intents.sql",
+    "supabase/migrations/20260901023200_erp_v2_6_14c_attendance_hpp_candidate_hardening.sql",
+    "supabase/migrations/20260901023300_erp_v2_6_14d_authoritative_sewing_source.sql"
+  ],
+  "binding_contract": {
+    "numerator": "posted attendance payroll amount for explicit normal Mandor in exact period",
+    "eligibility": "MANDOR and attendance_required=true and is_special=false explicitly",
+    "denominator": "terminal authoritative immutable SELESAI_DIJAHIT work-completion facts in exact period",
+    "operator_supplied_authoritative_fields": [],
+    "source_derived_fields": [
+      "production_order_id",
+      "contractor_id",
+      "quantity",
+      "effective_date",
+      "effective_at_epoch_us"
+    ],
+    "source_hash_guard": true,
+    "forbidden_sources": [
+      "QC_GOOD",
+      "FG",
+      "LAUNDRY",
+      "REWORK",
+      "REWASH",
+      "SUSULAN",
+      "RETURN",
+      "name inference"
+    ],
+    "zero_denominator": "UNASSIGNED"
+  },
+  "hardening_v2_2": {
+    "terminal_work_completion_required": true,
+    "terminal_status_allowlist": ["POSTED","COMPLETED","FINAL","CLOSED"],
+    "reversed_cancelled_void_rejected": true,
+    "explicit_sewing_component_required": true,
+    "po_mandor_qty_date_time_derived": true,
+    "source_hash_checked_before_and_after_lock": true,
+    "arbitrary_correction_v1_disabled": true,
+    "replacement_source_correction_v2": true,
+    "exact_reversal_negation": true,
+    "general_ledger_post_added": false,
+    "public_facade_added": false,
+    "authenticated_grant_added": false
+  },
+  "truth_boundary": {
+    "source_shape": "FINAL_WORKFLOW_REQUIRED",
+    "top_level_sql_parse": "FINAL_WORKFLOW_REQUIRED",
+    "rollback_renderer": "FINAL_WORKFLOW_REQUIRED",
+    "plpgsql_semantic_compile": "NOT_EXECUTED",
+    "database_runtime": "NOT_EXECUTED",
+    "source_contract_runtime": "NOT_EXECUTED",
+    "real_concurrency": "HARNESS_PRESENT_NOT_EXECUTED",
+    "uat_applied": false,
+    "gl_posted": false,
+    "route_enabled": false,
+    "backend_connected": false,
+    "production_go": false
+  },
+  "final_source_gate": {
+    "workflow": ".github/workflows/cp3-final-source-gate-v2.yml",
+    "pass_marker": "docs/evidence/2026-09-01/checkpoint_3_final_source_gate_v2_PASS.json",
+    "fail_marker": "docs/evidence/2026-09-01/checkpoint_3_final_source_gate_v2_FAIL.json",
+    "artifact": "cp3-final-source-gate-v2-proof",
+    "full_manifest": "docs/evidence/2026-09-01/cp3-final-source-gate-v2/FULL_SHA256SUMS.txt"
+  },
+  "remaining_independent_review": [
+    "actual hosted Laundry claim route integration",
+    "actual GL posting and reversal intentionally absent",
+    "validator cardinality benchmark",
+    "disposable semantic SQL compile and rollback contract",
+    "real two-session execution and residue proof"
+  ],
+  "next_gate": {
+    "reviewer": "Work Sol Max",
+    "required_verdict": "GO FOR CP3 LOCAL/UAT ACCEPTANCE",
+    "uat_allowed_before_verdict": false,
+    "persistent_activation_checkpoint": 4
+  },
+  "takeover_ready": true
+}
