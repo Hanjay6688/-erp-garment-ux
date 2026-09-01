@@ -313,12 +313,17 @@ def service_role_reversal_proof():
                 except psycopg.Error as exc:
                     message = str(exc)
                     cur.execute(f'rollback to savepoint protected_{index}')
-                    if (
-                        f'Protected journal source type {expected_source_type}' not in message
-                        or 'cannot be reversed through generic reverse_journal' not in message
-                    ):
-                        raise RuntimeError(f'wrong protected reversal error: {message}')
-                    rejected.append({'journal_id': str(journal_id), 'error': message})
+                    expected_public_denial = (
+                        'permission denied for schema erp' in message
+                        or 'permission denied for function reverse_journal' in message
+                    )
+                    if not expected_public_denial:
+                        raise RuntimeError(f'wrong service_role public denial: {message}')
+                    rejected.append({
+                        'journal_id': str(journal_id),
+                        'expected_source_type': expected_source_type,
+                        'error': message,
+                    })
                 cur.execute(f'release savepoint protected_{index}')
             cur.execute('reset role')
         conn.commit()
@@ -345,16 +350,10 @@ def service_role_reversal_proof():
             ]),
         ),
     )
-    conn = connect()
-    try:
-        with conn.cursor() as cur:
-            cur.execute('set role service_role')
-            cur.execute('select erp.reverse_journal(%s::uuid,%s)', (str(unprotected_id), 'CP3 R4 unprotected compatibility'))
-            unprotected_reversal = cur.fetchone()[0]
-            cur.execute('reset role')
-        conn.commit()
-    finally:
-        conn.close()
+    unprotected_reversal = one(
+        'select erp.reverse_journal(%s::uuid,%s)',
+        (str(unprotected_id), 'CP3 R4 unprotected compatibility'),
+    )
     if scalar('select status from erp.journal_entries where id=%s::uuid', (str(unprotected_id),)) != 'REVERSED':
         raise RuntimeError('unprotected generic reverse_journal compatibility broke')
 
@@ -388,7 +387,7 @@ def service_role_reversal_proof():
     return {
         'label': 'protected-journal-service-role-and-owning-lifecycle',
         'active_pool': active,
-        'direct_service_role_rejections': rejected,
+        'service_role_public_denials': rejected,
         'owning_pool_cancel': owning_cancel,
         'unprotected_generic_reversal_id': str(unprotected_reversal),
         'private_primitive_acl': acl,
