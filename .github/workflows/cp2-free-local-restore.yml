@@ -1,11 +1,14 @@
 name: CP2 Free Local Restore Drill
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - evidence/checkpoints-1-2-20260901
     paths:
       - .github/workflows/cp2-free-local-restore.yml
+      - scripts/cp2_generate_catalog_restore.py
+      - scripts/cp2_verify_local_restore.py
 
 permissions:
   contents: read
@@ -80,6 +83,22 @@ jobs:
           echo '17.6.1.165' > cp2-local/supabase/.temp/postgres-version
           supabase db start --workdir cp2-local
           supabase status --workdir cp2-local
+
+      - name: Initialize local Supabase migration ledger
+        shell: bash
+        run: |
+          set -euo pipefail
+          psql "$PGURL" -v ON_ERROR_STOP=1 <<'SQL'
+          set lock_timeout = '4s';
+          create schema if not exists supabase_migrations;
+          create table if not exists supabase_migrations.schema_migrations (
+            version text not null primary key
+          );
+          alter table supabase_migrations.schema_migrations
+            add column if not exists statements text[];
+          alter table supabase_migrations.schema_migrations
+            add column if not exists name text;
+          SQL
 
       - name: Restore schema, ERP data, ledgers, cron, and sequence state
         shell: bash
