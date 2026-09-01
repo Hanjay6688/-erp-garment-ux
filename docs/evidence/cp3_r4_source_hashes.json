@@ -4,8 +4,8 @@
   "cp3_source_sha": "1f3fc7de66d438778dde2745791010310001de97",
   "files": {
     ".github/workflows/cp3-r4-full-schema-validation.yml": {
-      "bytes": 29860,
-      "sha256": "41893d9dbacbbaeb3709a12bcf4f71818c522d049a5d43c67a8e6715d8a63221"
+      "bytes": 31859,
+      "sha256": "6604e85da552f9dca246a38b97eaf28db2bf06de0866556770d560d7120a5976"
     },
     "scripts/cp3_r3_full_schema_concurrency.py": {
       "bytes": 13419,
