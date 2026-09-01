@@ -437,8 +437,11 @@ function App() {
     const cardId=`qc-${result.parentId}-${result.batchId}-${result.completionCount}`
     const fullRate=laborBomComponents.reduce((sum,component)=>sum+component.rate,0)
     const bsTotal=result.postedBsBySize.reduce((sum,value)=>sum+value,0)
-    const bsComponents=bsTotal>0?laborBomComponents.filter((component)=>['finishing-detail','centang','lipat'].includes(component.id)).map(({id,name,rate})=>({id,name,rate})):[]
-    setRegularFgNotaSnapshots((current)=>current[cardId]?current:{...current,[cardId]:{cardId,fullRate,sewingRate:14_050,commissionRate:1_800,bomRate:Math.max(0,fullRate-15_850),bsComponents}})
+    const stuckTotal=result.stuckBySize.reduce((sum,value)=>sum+value,0)
+    const incompleteComponents=laborBomComponents.filter((component)=>['finishing-detail','centang','lipat'].includes(component.id)).map(({id,name,rate})=>({id,name,rate}))
+    const bsComponents=bsTotal>0?incompleteComponents:[]
+    const stuckComponents=stuckTotal>0?incompleteComponents:[]
+    setRegularFgNotaSnapshots((current)=>current[cardId]?current:{...current,[cardId]:{cardId,fullRate,sewingRate:14_050,commissionRate:1_800,bomRate:Math.max(0,fullRate-15_850),bsComponents,stuckComponents}})
   }
 
   useEffect(()=>{
