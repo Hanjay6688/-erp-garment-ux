@@ -1,0 +1,32 @@
+name: CP3 Retrigger Latest Candidate Once
+
+on:
+  push:
+    branches:
+      - cp3/hpp-attendance-sewing-terminal-candidate-20260901
+    paths:
+      - .github/workflows/cp3-retrigger-latest-once.yml
+
+permissions:
+  contents: write
+
+jobs:
+  retrigger:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout exact candidate head
+        uses: actions/checkout@v4
+        with:
+          ref: cp3/hpp-attendance-sewing-terminal-candidate-20260901
+          fetch-depth: 1
+      - name: Make a harmless workflow-only retrigger commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          printf '\n# Validation retriggered after authoritative roster fixture correction.\n' >> .github/workflows/cp3-local-source-validation.yml
+          git config user.name 'cp3-validation-bot'
+          git config user.email 'cp3-validation-bot@users.noreply.github.com'
+          git add .github/workflows/cp3-local-source-validation.yml
+          git commit -m 'chore(cp3): validate latest authoritative fixture correction'
+          git push origin HEAD:cp3/hpp-attendance-sewing-terminal-candidate-20260901
