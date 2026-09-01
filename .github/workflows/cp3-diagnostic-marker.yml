@@ -1,0 +1,151 @@
+name: CP3 Diagnostic Stage Markers
+
+on:
+  push:
+    branches:
+      - cp3/hpp-attendance-sewing-terminal-reconstruction-20260901
+    paths:
+      - '.github/workflows/cp3-diagnostic-marker.yml'
+      - 'supabase/migrations/20260901023000_erp_v2_6_14_attendance_hpp_sewing_terminal_foundation.sql'
+      - 'supabase/migrations/20260901023100_erp_v2_6_14b_attendance_hpp_candidate_hardening.sql'
+      - 'supabase/tests/attendance_hpp_sewing_terminal_rollback.sql'
+      - 'supabase/tests/attendance_hpp_validator_benchmark_rollback.sql'
+      - 'supabase/tests/cp3_attendance_hpp_minimal_baseline.sql'
+      - 'scripts/cp3_render_reviewed_rollback.py'
+      - 'scripts/test_cp3_render_reviewed_rollback.py'
+      - 'scripts/cp3_attendance_hpp_concurrency.py'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U postgres"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=20
+    env:
+      PGURL: postgresql://postgres:postgres@127.0.0.1:5432/postgres
+      CP3_ALLOW_DESTRUCTIVE_LOCAL: YES
+      CP3_CONCURRENCY_REPORT: cp3-concurrency-report.json
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq postgresql-client
+          python -m pip install --quiet 'psycopg[binary]==3.2.10'
+
+      - name: Run stage diagnostics without hiding first failure
+        id: diagnostic
+        shell: bash
+        run: |
+          set -u
+          evidence='docs/evidence/2026-09-01'
+          mkdir -p "$evidence"
+          rm -f "$evidence"/cp3_marker_*
+          : > "$evidence/cp3_diagnostic_tail.log"
+
+          pass_marker() { touch "$evidence/cp3_marker_${1}_PASS"; }
+          fail_marker() {
+            stage="$1"
+            log="$2"
+            touch "$evidence/cp3_marker_${stage}_FAIL"
+            {
+              echo "STAGE=$stage"
+              echo "HEAD=$(git rev-parse HEAD)"
+              echo '--- tail ---'
+              tail -n 160 "$log"
+            } > "$evidence/cp3_diagnostic_tail.log"
+          }
+          run_stage() {
+            stage="$1"; shift
+            log="/tmp/cp3-${stage}.log"
+            echo "=== $stage ==="
+            if "$@" >"$log" 2>&1; then
+              pass_marker "$stage"
+              return 0
+            fi
+            fail_marker "$stage" "$log"
+            return 1
+          }
+
+          cat > /tmp/static.py <<'PY'
+          import re
+          from pathlib import Path
+          p=Path('supabase/migrations/20260901023000_erp_v2_6_14_attendance_hpp_sewing_terminal_foundation.sql')
+          s=p.read_text()
+          executable='\n'.join(line for line in s.splitlines() if not line.lstrip().startswith('--'))
+          forbidden=['erp.fg_lots','initial_qty_pcs','fresh_qc_good','qc_good_denominator']
+          hit=[x for x in forbidden if x.lower() in executable.lower()]
+          if hit: raise SystemExit(f'forbidden denominator tokens: {hit}')
+          for x in ['SELESAI_DIJAHIT','original_debit_journal_line_id','cancel_attendance_hpp_pool_v1','_cp3_epoch_microseconds','_cp3_assert_closed_json_object']:
+              if x not in s: raise SystemExit(f'missing {x}')
+          if re.search(r'(?im)^\s*create\s+(constraint\s+)?trigger\b',s): raise SystemExit('candidate contains trigger')
+          if re.search(r'(?im)^\s*grant\s+(execute|select|insert|update|delete|all)\b',s): raise SystemExit('candidate contains grant')
+          PY
+
+          run_stage 01_STATIC python /tmp/static.py || true
+          if test -f "$evidence/cp3_marker_01_STATIC_FAIL"; then exit 0; fi
+
+          run_stage 02_RENDERER_UNIT bash -lc 'cd scripts && python -m unittest -v test_cp3_render_reviewed_rollback.py' || true
+          if test -f "$evidence/cp3_marker_02_RENDERER_UNIT_FAIL"; then exit 0; fi
+
+          migration='supabase/migrations/20260901023000_erp_v2_6_14_attendance_hpp_sewing_terminal_foundation.sql'
+          sha="$(sha256sum "$migration"|awk '{print $1}')"
+          bytes="$(stat -c %s "$migration")"
+          run_stage 03_RENDERER python scripts/cp3_render_reviewed_rollback.py --source "$migration" --expected-sha256 "$sha" --expected-bytes "$bytes" --output /tmp/cp3-rendered.sql --report /tmp/cp3-render.json || true
+          if test -f "$evidence/cp3_marker_03_RENDERER_FAIL"; then exit 0; fi
+
+          createdb "$PGURL" cp3_render >/tmp/create-render.log 2>&1 || true
+          render_url='postgresql://postgres:postgres@127.0.0.1:5432/cp3_render'
+          run_stage 04_RENDER_BASELINE psql "$render_url" -f supabase/tests/cp3_attendance_hpp_minimal_baseline.sql || true
+          if test -f "$evidence/cp3_marker_04_RENDER_BASELINE_FAIL"; then exit 0; fi
+          run_stage 05_RENDER_ROLLBACK psql "$render_url" -f /tmp/cp3-rendered.sql || true
+          if test -f "$evidence/cp3_marker_05_RENDER_ROLLBACK_FAIL"; then exit 0; fi
+
+          run_stage 06_BASELINE psql "$PGURL" -f supabase/tests/cp3_attendance_hpp_minimal_baseline.sql || true
+          if test -f "$evidence/cp3_marker_06_BASELINE_FAIL"; then exit 0; fi
+          run_stage 07_MIGRATION_A psql "$PGURL" -f supabase/migrations/20260901023000_erp_v2_6_14_attendance_hpp_sewing_terminal_foundation.sql || true
+          if test -f "$evidence/cp3_marker_07_MIGRATION_A_FAIL"; then exit 0; fi
+          run_stage 08_MIGRATION_B psql "$PGURL" -f supabase/migrations/20260901023100_erp_v2_6_14b_attendance_hpp_candidate_hardening.sql || true
+          if test -f "$evidence/cp3_marker_08_MIGRATION_B_FAIL"; then exit 0; fi
+          run_stage 09_ACCEPTANCE psql "$PGURL" -f supabase/tests/attendance_hpp_sewing_terminal_rollback.sql || true
+          if test -f "$evidence/cp3_marker_09_ACCEPTANCE_FAIL"; then exit 0; fi
+          run_stage 10_BENCHMARK psql "$PGURL" -f supabase/tests/attendance_hpp_validator_benchmark_rollback.sql || true
+          if test -f "$evidence/cp3_marker_10_BENCHMARK_FAIL"; then exit 0; fi
+          run_stage 11_CONCURRENCY python scripts/cp3_attendance_hpp_concurrency.py || true
+          if test -f "$evidence/cp3_marker_11_CONCURRENCY_FAIL"; then exit 0; fi
+
+          pass_marker FINAL
+
+      - name: Persist non-secret stage marker on candidate branch
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'cp3-diagnostic-bot'
+          git config user.email 'cp3-diagnostic-bot@users.noreply.github.com'
+          git add docs/evidence/2026-09-01/cp3_marker_* docs/evidence/2026-09-01/cp3_diagnostic_tail.log
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'Record CP3 diagnostic stage marker [skip ci]'
+          git push origin HEAD:cp3/hpp-attendance-sewing-terminal-reconstruction-20260901
