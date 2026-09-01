@@ -27,14 +27,13 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          generated='be76bc551c7c10c2546a19d01dab603350e82d88'
           test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
-          git cat-file -e "$generated^{commit}"
           cp scripts/cp3_r4_hotfix_v4.py /tmp/cp3_r4_hotfix_v4.py
           cp scripts/cp3_r4_hotfix_v5.py /tmp/cp3_r4_hotfix_v5.py
+          git fetch --no-tags origin refs/heads/evidence/cp3-r4-generated-boundary-be76:refs/remotes/origin/evidence/cp3-r4-generated-boundary-be76
+          generated="$(git rev-parse refs/remotes/origin/evidence/cp3-r4-generated-boundary-be76)"
+          test "$generated" = 'be76bc551c7c10c2546a19d01dab603350e82d88'
 
-          # Adopt the already statically-proven generated tree while preserving this
-          # current branch commit as the parent of the final clean descendant.
           git read-tree --reset -u "$generated"
           cp /tmp/cp3_r4_hotfix_v4.py scripts/cp3_r4_hotfix_v4.py
           cp /tmp/cp3_r4_hotfix_v5.py scripts/cp3_r4_hotfix_v5.py
@@ -47,10 +46,7 @@ jobs:
 
           python scripts/cp3_r4_hotfix_v4.py
           python scripts/cp3_r4_hotfix_v5.py
-          python -m py_compile \
-            scripts/cp3_r4_full_schema_concurrency.py \
-            scripts/cp3_render_r4_reviewed_rollback.py \
-            scripts/test_cp3_render_r4_reviewed_rollback.py
+          python -m py_compile scripts/cp3_r4_full_schema_concurrency.py scripts/cp3_render_r4_reviewed_rollback.py scripts/test_cp3_render_r4_reviewed_rollback.py
           python scripts/test_cp3_render_r4_reviewed_rollback.py
 
           rm -f scripts/cp3_r4_hotfix_v4.py scripts/cp3_r4_hotfix_v5.py
@@ -87,7 +83,4 @@ jobs:
           rc=$?
           set -e
           echo "R4_PUSH_RC=$rc"
-          # A workflow-file permission rejection is expected. The immutable commit
-          # object remains addressable and the Chat Sol Pro writer will fast-forward
-          # the ref after verifying this exact SHA and tree.
           exit 0
