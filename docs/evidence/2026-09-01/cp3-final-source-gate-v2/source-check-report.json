@@ -1,0 +1,114 @@
+{
+  "authoritative_source_assertions": {
+    "arbitrary_v1_correction_disabled": true,
+    "downstream_destinations_rejected": true,
+    "gl_posting_added": false,
+    "po_mandor_qty_date_time_derived": true,
+    "public_facade_added": false,
+    "replacement_source_correction_v2": true,
+    "sewing_component_required": true,
+    "source_hash_optimistic_guard": true,
+    "terminal_work_completion_required": true
+  },
+  "files": [
+    {
+      "bytes": 10770,
+      "label": "rollback_renderer",
+      "path": "scripts/cp3_render_reviewed_rollback.py",
+      "sha256": "0bffefbc4801f71efa9b46e23caebe087f2efe8cebe476b54cad065f4611205d"
+    },
+    {
+      "bytes": 5876,
+      "label": "rollback_renderer_tests",
+      "path": "scripts/test_cp3_render_reviewed_rollback.py",
+      "sha256": "20f4acb705ef412ca1444ff2ca7d203e6c163719e60f82f1f826dd90d2a58f16"
+    },
+    {
+      "bytes": 35211,
+      "label": "migration_policy_sewing",
+      "path": "supabase/migrations/20260901023000_erp_v2_6_14a_attendance_hpp_policy_and_sewing_terminal.sql",
+      "sha256": "2e9a218ccc47a41cd60d46691a52f13d1fab499ba0d40aa16aa8326b95c41294"
+    },
+    {
+      "bytes": 41271,
+      "label": "migration_pool_intents",
+      "path": "supabase/migrations/20260901023100_erp_v2_6_14b_attendance_hpp_pool_intents.sql",
+      "sha256": "78c6caf48f3b4117b1b2433edcca500d93cfdeebb597d065f8a717a9d68b7583"
+    },
+    {
+      "bytes": 8701,
+      "label": "migration_candidate_hardening",
+      "path": "supabase/migrations/20260901023200_erp_v2_6_14c_attendance_hpp_candidate_hardening.sql",
+      "sha256": "f81ff2d40fef660a6b475e2b92a7ed4ff3742de2a4d8c97065dd050a283eaa83"
+    },
+    {
+      "bytes": 23456,
+      "label": "migration_authoritative_terminal_sewing_source",
+      "path": "supabase/migrations/20260901023300_erp_v2_6_14d_authoritative_sewing_source.sql",
+      "sha256": "e394ef14777d5109d400d093569e983817570cdbf933f5dc6ae87b633dc5df3b"
+    },
+    {
+      "bytes": 1297,
+      "label": "concurrency_fixture_example",
+      "path": "supabase/tests/attendance_hpp_cp3_concurrency.fixture.example.json",
+      "sha256": "35dc274270a6ee91c11db327d4c4049e94b6c22977e577b0419d5cf86cd36f5c"
+    },
+    {
+      "bytes": 12971,
+      "label": "concurrency_harness",
+      "path": "supabase/tests/attendance_hpp_cp3_concurrency.py",
+      "sha256": "d710dab8359baf2bdf7e1030651c567fbea052db17454fa0a34a724305cf64ad"
+    },
+    {
+      "bytes": 11565,
+      "label": "source_contract",
+      "path": "supabase/tests/attendance_hpp_cp3_source_contract.sql",
+      "sha256": "05efb7cc45224ca18973dc3751f52baf5f9b0b71e9c30d47cf1c68df5559112b"
+    }
+  ],
+  "gate_version": "CP3_SOURCE_CANDIDATE_V2_2",
+  "rollback_renderer_test_count": 19,
+  "status": "PASS_SOURCE_SHAPE_ONLY",
+  "supersedes": "cp3-source-candidate-v2-check-report.json",
+  "transaction_shape": {
+    "migration_authoritative_terminal_sewing_source": {
+      "begin": 1,
+      "commit": 1,
+      "rollback": 0,
+      "terminal": "COMMIT"
+    },
+    "migration_candidate_hardening": {
+      "begin": 1,
+      "commit": 1,
+      "rollback": 0,
+      "terminal": "COMMIT"
+    },
+    "migration_policy_sewing": {
+      "begin": 1,
+      "commit": 1,
+      "rollback": 0,
+      "terminal": "COMMIT"
+    },
+    "migration_pool_intents": {
+      "begin": 1,
+      "commit": 1,
+      "rollback": 0,
+      "terminal": "COMMIT"
+    },
+    "source_contract": {
+      "begin": 1,
+      "commit": 0,
+      "rollback": 1,
+      "terminal": "ROLLBACK"
+    }
+  },
+  "truth_boundary": {
+    "backend_connected": false,
+    "live_deployed": false,
+    "production_go": false,
+    "real_concurrency": "HARNESS_PRESENT_NOT_EXECUTED",
+    "runtime": "NOT_EXECUTED",
+    "sql_compile": "NOT_EXECUTED",
+    "uat_applied": false
+  }
+}

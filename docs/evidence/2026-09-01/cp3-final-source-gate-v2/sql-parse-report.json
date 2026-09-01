@@ -1,0 +1,27 @@
+[
+  {
+    "path": "supabase/migrations/20260901023000_erp_v2_6_14a_attendance_hpp_policy_and_sewing_terminal.sql",
+    "status": "PARSE_PASS",
+    "top_level_statements": 51
+  },
+  {
+    "path": "supabase/migrations/20260901023100_erp_v2_6_14b_attendance_hpp_pool_intents.sql",
+    "status": "PARSE_PASS",
+    "top_level_statements": 55
+  },
+  {
+    "path": "supabase/migrations/20260901023200_erp_v2_6_14c_attendance_hpp_candidate_hardening.sql",
+    "status": "PARSE_PASS",
+    "top_level_statements": 11
+  },
+  {
+    "path": "supabase/migrations/20260901023300_erp_v2_6_14d_authoritative_sewing_source.sql",
+    "status": "PARSE_PASS",
+    "top_level_statements": 21
+  },
+  {
+    "path": "supabase/tests/attendance_hpp_cp3_source_contract.sql",
+    "status": "PARSE_PASS",
+    "top_level_statements": 6
+  }
+]

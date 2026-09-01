@@ -1,0 +1,38 @@
+{
+  "branch": "cp3/hpp-attendance-sewing-terminal-candidate-v2-20260901",
+  "checkpoint": 3,
+  "full_manifest_path": "docs/evidence/2026-09-01/cp3-final-source-gate-v2/FULL_SHA256SUMS.txt",
+  "gate": "CP3_FINAL_SOURCE_GATE_V2",
+  "next_gate": "WORK_SOL_MAX_READ_ONLY_DELTA_REVIEW",
+  "outcomes": {
+    "dependencies": "success",
+    "full_manifest": "success",
+    "identity": "success",
+    "python_tests": "success",
+    "rollback_render": "success",
+    "safety_scan": "success",
+    "source_checks": "success",
+    "sql_parse": "success"
+  },
+  "source_commit": "d1cf529abca5c40dbbb84b33fa80f480532218f1",
+  "source_tree": "a577d5dc72fd175e172c1c67c53029c258690aea",
+  "status": "PASS_SOURCE_GATE_ONLY",
+  "truth_boundary": {
+    "backend_connected": false,
+    "database_runtime": "NOT_EXECUTED",
+    "exact_byte_rollback_render": "PASS",
+    "gl_posted": false,
+    "legacy_mutated": false,
+    "live_deployed": false,
+    "plpgsql_semantic_compile": "NOT_EXECUTED",
+    "production_go": false,
+    "python_unit_tests": "PASS",
+    "real_concurrency": "HARNESS_PRESENT_NOT_EXECUTED",
+    "route_enabled": false,
+    "source_identity": "PASS",
+    "top_level_sql_parse": "PASS",
+    "uat_applied": false
+  },
+  "workflow_run_attempt": "1",
+  "workflow_run_id": "33486519000"
+}
