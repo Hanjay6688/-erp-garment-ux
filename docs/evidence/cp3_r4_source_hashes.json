@@ -54,8 +54,8 @@
       "sha256": "d360c0281f4712d9498f9fc6e833d4ab5d5a2f3fa2991e403763a93583914cb2"
     },
     "supabase/tests/attendance_hpp_r4_full_schema_rollback.sql": {
-      "bytes": 30066,
-      "sha256": "1b90cdbd45ab26714a507d5ed2042cf62160eafb2400d9df0f10c65b010a0d5a"
+      "bytes": 30150,
+      "sha256": "bbe2fc31cf3bc5aa2ff31b1826baa288cb0d51c2f28b5dfbc1076066a32b6b72"
     },
     "supabase/tests/cp3_r3_full_schema_seed.sql": {
       "bytes": 15314,

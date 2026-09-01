@@ -216,7 +216,10 @@ begin
     raise exception 'Expected same idempotency key/different payload rejection';
   exception when others then
     if sqlerrm like 'Expected same idempotency%'
-       or position('idempot' in lower(sqlerrm))=0 then raise; end if;
+       or position('client_request_id' in lower(sqlerrm)) = 0
+       or position('different payload' in lower(sqlerrm)) = 0 then
+      raise;
+    end if;
   end;
 
   begin
