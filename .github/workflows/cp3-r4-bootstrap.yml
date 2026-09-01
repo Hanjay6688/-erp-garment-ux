@@ -85,6 +85,8 @@ jobs:
           rm -rf .cp3-r4-bootstrap
           rm -f .github/workflows/cp3-r4-bootstrap.yml
           rm -f .github/workflows/cp3-r4-source-export.yml
+          mv .github/workflows/cp3-r4-full-schema-validation.yml /tmp/cp3-r4-full-schema-validation.yml
+          rm -rf scripts/__pycache__
           rm -f /tmp/cp3-r4-payload.tar.gz
           git config user.name 'Hanjay6688'
           git config user.email 'jktr9n2g88@privaterelay.appleid.com'
