@@ -304,13 +304,13 @@ begin
     perform erp.reverse_journal(pool_journal,'must use owning pool cancel');
     raise exception 'Expected generic pool-journal reversal rejection';
   exception when others then
-    if sqlerrm not like 'PROTECTED_JOURNAL_REQUIRES_OWNING_LIFECYCLE:%ATTENDANCE_HPP_POOL%' then raise; end if;
+    if sqlerrm not like 'Protected journal source type ATTENDANCE_HPP_POOL cannot be reversed through generic reverse_journal.%owning attendance HPP pool%' then raise; end if;
   end;
   begin
     perform erp.reverse_journal(payroll_journal,'must use owning payroll reversal');
     raise exception 'Expected generic payroll-accrual reversal rejection';
   exception when others then
-    if sqlerrm not like 'PROTECTED_JOURNAL_REQUIRES_OWNING_LIFECYCLE:%PAYROLL_ATTENDANCE_ACCRUAL%' then raise; end if;
+    if sqlerrm not like 'Protected journal source type PAYROLL_ATTENDANCE_ACCRUAL cannot be reversed through generic reverse_journal.%payroll cancellation/reversal flow%' then raise; end if;
   end;
   if (select status from erp.journal_entries where id=pool_journal) is distinct from 'POSTED'
      or (select status from erp.journal_entries where id=payroll_journal) is distinct from 'POSTED' then
@@ -326,7 +326,7 @@ begin
     perform erp.reverse_work_completion('a5000000-0000-0000-0000-000000000001','must reverse terminal first');
     raise exception 'Expected work completion terminal-dependency rejection';
   exception when others then
-    if sqlerrm not like 'SEWING_TERMINAL_DEPENDENCY:%reverse_sewing_terminal_v1%' then raise; end if;
+    if sqlerrm not like 'Work completion masih memiliki SELESAI_DIJAHIT aktif.%reverse_sewing_terminal_v1()%' then raise; end if;
   end;
   if (select status from erp.work_completion_events where id='a5000000-0000-0000-0000-000000000001') is distinct from 'POSTED' then
     raise exception 'Rejected work-completion reversal changed source status';
@@ -376,7 +376,7 @@ begin
     perform erp.approve_payroll('a6000000-0000-0000-0000-000000000021');
     raise exception 'Expected ACTIVE pool payroll approval rejection';
   exception when others then
-    if sqlerrm not like 'ACTIVE_ATTENDANCE_HPP_POOL_BLOCKS_PAYROLL_APPROVAL:%cancel the active attendance HPP pool first%' then raise; end if;
+    if sqlerrm not like 'Attendance HPP pool for payroll period % is already ACTIVE. Cancel the ACTIVE pool first before approving this payroll.%' then raise; end if;
   end;
   if (select status from erp.payroll_settlements where id='a6000000-0000-0000-0000-000000000021')='APPROVED'
      or exists(select 1 from erp.journal_entries where source_type='PAYROLL_ATTENDANCE_ACCRUAL'
@@ -429,7 +429,7 @@ begin
       gen_random_uuid(),current_policy);
     raise exception 'Expected ACTIVE pool policy update rejection';
   exception when others then
-    if sqlerrm not like 'ACTIVE_ATTENDANCE_HPP_POOL_BLOCKS_POLICY_CHANGE:%cancel the active pool first%' then raise; end if;
+    if sqlerrm not like 'Contractor HPP policy effective from % overlaps an ACTIVE attendance HPP pool. Cancel the ACTIVE pool first, then write the new policy version.%' then raise; end if;
   end;
 
   first_result:=erp.set_contractor_hpp_policy_v1(future_payload,request_id,current_policy);
@@ -442,7 +442,10 @@ begin
     raise exception 'Expected future policy same key/different payload rejection';
   exception when others then
     if sqlerrm like 'Expected future policy%'
-       or position('idempot' in lower(sqlerrm))=0 then raise; end if;
+       or position('client_request_id' in lower(sqlerrm)) = 0
+       or position('different payload' in lower(sqlerrm)) = 0 then
+      raise;
+    end if;
   end;
 end
 $test$;
@@ -475,7 +478,7 @@ begin
     perform erp.reverse_work_completion('a5000000-0000-0000-0000-000000000040','must reverse terminal first');
     raise exception 'Expected ACTIVE-period work completion dependency rejection';
   exception when others then
-    if sqlerrm not like 'SEWING_TERMINAL_DEPENDENCY:%reverse_sewing_terminal_v1%' then raise; end if;
+    if sqlerrm not like 'Work completion masih memiliki SELESAI_DIJAHIT aktif.%reverse_sewing_terminal_v1()%' then raise; end if;
   end;
 end
 $test$;

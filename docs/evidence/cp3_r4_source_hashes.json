@@ -54,8 +54,8 @@
       "sha256": "d360c0281f4712d9498f9fc6e833d4ab5d5a2f3fa2991e403763a93583914cb2"
     },
     "supabase/tests/attendance_hpp_r4_full_schema_rollback.sql": {
-      "bytes": 30150,
-      "sha256": "bbe2fc31cf3bc5aa2ff31b1826baa288cb0d51c2f28b5dfbc1076066a32b6b72"
+      "bytes": 30516,
+      "sha256": "f3874ede686ef15d7afb0cdd02ec08eb4685c0ba0bcb10c3635254a4837e5f14"
     },
     "supabase/tests/cp3_r3_full_schema_seed.sql": {
       "bytes": 15314,
@@ -72,6 +72,35 @@
   },
   "format": "CP3_R4_FIXED_SOURCE_HASHES_V1",
   "independent_audit_pending": true,
+  "last_assertion_alignment": {
+    "applied": [
+      {
+        "count": 1,
+        "label": "pool protected-journal rejection"
+      },
+      {
+        "count": 1,
+        "label": "payroll protected-journal rejection"
+      },
+      {
+        "count": 2,
+        "label": "work completion terminal dependency rejection"
+      },
+      {
+        "count": 1,
+        "label": "active-pool payroll approval rejection"
+      },
+      {
+        "count": 1,
+        "label": "active-pool policy rejection"
+      },
+      {
+        "count": 1,
+        "label": "future-policy idempotency payload mismatch"
+      }
+    ],
+    "scope": "acceptance-only; runtime source unchanged"
+  },
   "last_validation_trigger": {
     "reason": "rerun after fail-closed idempotency assertion repair",
     "source_head": "dd91646d6a7abb80e1e3fe4e29eb5894f32db2d9"
