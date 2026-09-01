@@ -34,4 +34,5 @@ export type RegularFgNotaSnapshot = {
   commissionRate: number
   bomRate: number
   bsComponents: ReadyFgNotaComponent[]
+  stuckComponents: ReadyFgNotaComponent[]
 }
