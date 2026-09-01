@@ -55,11 +55,9 @@ jobs:
           python -m py_compile scripts/cp3_r4_full_schema_concurrency.py scripts/cp3_render_r4_reviewed_rollback.py scripts/test_cp3_render_r4_reviewed_rollback.py
           python scripts/test_cp3_render_r4_reviewed_rollback.py
 
-          rm -f scripts/cp3_r4_hotfix_v4.py scripts/cp3_r4_hotfix_v5.py
-          rm -f .github/workflows/cp3-r4-hotfix-v4.yml .github/workflows/cp3-r4-hotfix-v5.yml .github/workflows/cp3-r4-hotfix-v6.yml
-          rm -f .github/workflows/cp3-r4-finalize-sources.yml .github/workflows/cp3-r4-finalize-sources-v2.yml
+          rm -f scripts/cp3_r4_hotfix_v*.py scripts/cp3_r4_finalize_sources*.py
+          rm -f .github/workflows/cp3-r4-hotfix-*.yml .github/workflows/cp3-r4-finalize-*.yml
           rm -f .github/workflows/cp3-r4-source-export.yml .github/workflows/cp3-r4-full-schema-validation-final.yml
-          rm -f scripts/cp3_r4_finalize_sources.py scripts/cp3_r4_finalize_sources_v2.py
           rm -f supabase/migrations/20260901023300_erp_v2_6_14d_active_pool_and_protected_reversal_guards.sql
           rm -f supabase/tests/attendance_hpp_r4_validator_benchmark_rollback.sql
           rm -f docs/evidence/2026-09-01/checkpoint_3_r4_fixed_source_manifest.json
