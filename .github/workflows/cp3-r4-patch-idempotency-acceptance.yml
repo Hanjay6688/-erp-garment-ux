@@ -1,4 +1,4 @@
-name: CP3 R4 Patch Concurrency Assertions
+name: CP3 R4 Patch Policy Lock Order
 
 on:
   push:
@@ -11,7 +11,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: cp3-r4-patch-concurrency-assertions
+  group: cp3-r4-patch-policy-lock-order
   cancel-in-progress: false
 
 jobs:
@@ -23,7 +23,7 @@ jobs:
           ref: cp3/hpp-attendance-sewing-terminal-r4-20260901
           fetch-depth: 0
 
-      - name: Align real two-connection harness with exact runtime rejection contracts
+      - name: Remove contractor-row versus advisory-lock inversion
         shell: bash
         run: |
           set -euo pipefail
@@ -32,92 +32,92 @@ jobs:
           import json
           from pathlib import Path
 
-          script_path = Path('scripts/cp3_r4_full_schema_concurrency.py')
-          source = script_path.read_text()
+          migration_path = Path('supabase/migrations/20260901023400_erp_v2_6_14d_cp3_r4_race_and_reversal_hardening.sql')
+          source = migration_path.read_text()
 
-          replacements = [
-              (
-                  "        'ACTIVE_ATTENDANCE_HPP_POOL_BLOCKS_PAYROLL_APPROVAL',\n",
-                  "        'Cancel the ACTIVE pool first before approving this payroll',\n",
-                  1,
-                  'activate-vs-approve runtime rejection',
-              ),
-              (
-                  "        'ACTIVE_ATTENDANCE_HPP_POOL_BLOCKS_POLICY_CHANGE',\n",
-                  "        'overlaps an ACTIVE attendance HPP pool',\n",
-                  1,
-                  'activate-vs-policy runtime rejection',
-              ),
-              (
-                  "        'SEWING_TERMINAL_DEPENDENCY',\n",
-                  "        'reverse_sewing_terminal_v1() terlebih dahulu',\n",
-                  1,
-                  'activate-vs-reverse-work runtime rejection',
-              ),
-              (
-                  "                    reverse_result['error'] = str(exc)\n                    reverse_result['status'] = 'EXPECTED_REJECTION' if 'SEWING_TERMINAL_DEPENDENCY' in str(exc) else 'WRONG_ERROR'\n",
-                  "                    message = str(exc)\n                    reverse_result['error'] = message\n                    reverse_result['status'] = (\n                        'EXPECTED_REJECTION'\n                        if 'Work completion masih memiliki SELESAI_DIJAHIT aktif' in message\n                        and 'reverse_sewing_terminal_v1() terlebih dahulu' in message\n                        else 'WRONG_ERROR'\n                    )\n",
-                  1,
-                  'reverse-work-first fail-closed rejection',
-              ),
-              (
-                  "            for index, journal_id in enumerate((pool_journal, payroll_journal), start=1):\n",
-                  "            protected = (\n                (pool_journal, 'ATTENDANCE_HPP_POOL'),\n                (payroll_journal, 'PAYROLL_ATTENDANCE_ACCRUAL'),\n            )\n            for index, (journal_id, expected_source_type) in enumerate(protected, start=1):\n",
-                  1,
-                  'protected journal source-type matrix',
-              ),
-              (
-                  "                    if 'PROTECTED_JOURNAL_REQUIRES_OWNING_LIFECYCLE' not in message:\n                        raise RuntimeError(f'wrong protected reversal error: {message}')\n",
-                  "                    if (\n                        f'Protected journal source type {expected_source_type}' not in message\n                        or 'cannot be reversed through generic reverse_journal' not in message\n                    ):\n                        raise RuntimeError(f'wrong protected reversal error: {message}')\n",
-                  1,
-                  'service-role protected journal rejection',
-              ),
+          old = """-- 2. Policy change after ACTIVE pool: lock is already held by the R3 setter;
+-- check the exact new effective slice after next-version boundary is known.
+select pg_temp.cp3_r4_replace_function(
+"""
+          new = """-- 2. Policy mutation lock-order hardening. Activation takes the contractor
+-- advisory lock before post_journal() requests a foreign-key KEY SHARE lock on
+-- erp.contractors. The setter must therefore take the same advisory lock before
+-- locking the contractor row, otherwise activation-vs-policy can deadlock.
+select pg_temp.cp3_r4_replace_function(
+  'set_contractor_hpp_policy_v1',
+  $anchor$  select * into v_contractor
+  from erp.contractors
+  where id = v_contractor_id
+  for update;$anchor$,
+  $patch$  perform pg_advisory_xact_lock(hashtextextended('CONTRACTOR_HPP_POLICY|' || v_contractor_id::text, 0));
+
+  select * into v_contractor
+  from erp.contractors
+  where id = v_contractor_id
+  for update;$patch$,
+  1,1
+);
+
+select pg_temp.cp3_r4_replace_function(
+  'set_contractor_hpp_policy_v1',
+  $anchor$  perform pg_advisory_xact_lock(hashtextextended('CONTRACTOR_HPP_POLICY|' || v_contractor_id::text, 0));
+
+  select * into v_current$anchor$,
+  $patch$  select * into v_current$patch$,
+  1,1
+);
+
+-- 3. Policy change after ACTIVE pool: the contractor advisory lock is now
+-- acquired before the contractor row lock; check the exact effective slice
+-- after the next-version boundary is known.
+select pg_temp.cp3_r4_replace_function(
+"""
+
+          count = source.count(old)
+          if count != 1:
+              raise SystemExit(f'policy lock-order insertion anchor expected once, found {count}')
+          source = source.replace(old, new, 1)
+
+          required = [
+              'Policy mutation lock-order hardening',
+              "$anchor$  select * into v_contractor",
+              "$anchor$  perform pg_advisory_xact_lock(hashtextextended('CONTRACTOR_HPP_POLICY|' || v_contractor_id::text, 0));",
+              'The setter must therefore take the same advisory lock before',
           ]
+          missing = [token for token in required if token not in source]
+          if missing:
+              raise SystemExit(f'policy lock-order patch incomplete: {missing}')
+          if source.count("'set_contractor_hpp_policy_v1',") < 3:
+              raise SystemExit('expected lock-order move plus active-pool policy patch')
 
-          applied = []
-          for old, new, expected_count, label in replacements:
-              count = source.count(old)
-              if count != expected_count:
-                  raise SystemExit(f'{label}: expected {expected_count} exact anchor(s), found {count}')
-              source = source.replace(old, new)
-              applied.append({'label': label, 'count': count})
-
-          forbidden = [
-              'ACTIVE_ATTENDANCE_HPP_POOL_BLOCKS_PAYROLL_APPROVAL',
-              'ACTIVE_ATTENDANCE_HPP_POOL_BLOCKS_POLICY_CHANGE',
-              "'SEWING_TERMINAL_DEPENDENCY'",
-              'PROTECTED_JOURNAL_REQUIRES_OWNING_LIFECYCLE',
-          ]
-          residue = [token for token in forbidden if token in source]
-          if residue:
-              raise SystemExit(f'stale concurrency assertion-contract residue remains: {residue}')
-
-          script_path.write_text(source)
+          migration_path.write_text(source)
 
           manifest_path = Path('docs/evidence/cp3_r4_source_hashes.json')
           manifest = json.loads(manifest_path.read_text())
-          raw = script_path.read_bytes()
-          manifest['files'][script_path.as_posix()] = {
+          raw = migration_path.read_bytes()
+          manifest['files'][migration_path.as_posix()] = {
               'bytes': len(raw),
               'sha256': hashlib.sha256(raw).hexdigest(),
           }
-          manifest['last_concurrency_assertion_alignment'] = {
-              'scope': 'harness-only; runtime source unchanged',
-              'applied': applied,
+          manifest['last_runtime_patch'] = {
+              'scope': 'v2.6.14d source-only candidate',
+              'defect': 'activate-vs-policy deadlock from contractor row/advisory lock inversion',
+              'fix': 'contractor advisory lock precedes contractor FOR UPDATE in set_contractor_hpp_policy_v1',
+              'uat_applied': False,
+              'legacy_mutated': False,
           }
           manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + '\n')
 
           print(json.dumps({
               'status': 'PASS',
-              'patched': script_path.as_posix(),
+              'patched': migration_path.as_posix(),
               'bytes': len(raw),
               'sha256': hashlib.sha256(raw).hexdigest(),
-              'applied': applied,
           }, sort_keys=True))
           PY
 
-          python -m py_compile scripts/cp3_r4_full_schema_concurrency.py
           git diff --check
+          python scripts/test_cp3_render_r4_reviewed_rollback.py
           python - <<'PY'
           import hashlib
           import json
@@ -130,16 +130,16 @@ jobs:
               if len(raw) != expected['bytes'] or hashlib.sha256(raw).hexdigest() != expected['sha256']:
                   failures.append(path)
           if failures:
-              raise SystemExit(f'fixed-source manifest mismatch after concurrency alignment: {failures}')
+              raise SystemExit(f'fixed-source manifest mismatch after runtime lock-order patch: {failures}')
           print(json.dumps({'status': 'PASS', 'manifest_entries': len(manifest['files'])}, sort_keys=True))
           PY
 
-      - name: Commit exact concurrency assertion alignment
+      - name: Commit source-only runtime fix
         shell: bash
         run: |
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add scripts/cp3_r4_full_schema_concurrency.py docs/evidence/cp3_r4_source_hashes.json
-          git commit -m 'test(cp3): align R4 race assertions with runtime contracts'
+          git add supabase/migrations/20260901023400_erp_v2_6_14d_cp3_r4_race_and_reversal_hardening.sql docs/evidence/cp3_r4_source_hashes.json
+          git commit -m 'fix(cp3): order policy locks before contractor row lock'
           git push origin HEAD:cp3/hpp-attendance-sewing-terminal-r4-20260901
