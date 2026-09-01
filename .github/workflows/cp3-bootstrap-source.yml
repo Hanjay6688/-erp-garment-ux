@@ -80,10 +80,11 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          rm -rf ops/cp3/bootstrap .github/workflows/cp3-bootstrap-source.yml
+          rm -rf ops/cp3/bootstrap scripts/__pycache__
+          rm -f .github/workflows/cp3-local-source-validation.yml
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add -A
+          git add -A ops/cp3 scripts supabase
           git diff --cached --name-status
           git commit -m 'feat(cp3): reconstruct attendance HPP from sewing terminal facts'
           git push origin HEAD:${GITHUB_REF_NAME}
