@@ -1,0 +1,45 @@
+name: CP3 R4 Fixture Resilience Hotfix V5
+
+on:
+  push:
+    branches:
+      - cp3/hpp-attendance-sewing-terminal-r4-20260901
+    paths:
+      - scripts/cp3_r4_hotfix_v5.py
+      - .github/workflows/cp3-r4-hotfix-v5.yml
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: cp3/hpp-attendance-sewing-terminal-r4-20260901
+          fetch-depth: 0
+
+      - name: Apply fixture discovery hotfix and refresh fixed hashes
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s docs/evidence/cp3_r4_source_hashes.json
+          test -s scripts/cp3_r4_hotfix_v5.py
+          python scripts/cp3_r4_hotfix_v5.py
+          python -m py_compile scripts/cp3_r4_full_schema_concurrency.py
+          python scripts/test_cp3_render_r4_reviewed_rollback.py
+          git diff --check
+
+      - name: Commit clean R4 source boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -f scripts/cp3_r4_hotfix_v5.py .github/workflows/cp3-r4-hotfix-v5.yml
+          git config user.name 'Hanjay6688'
+          git config user.email 'jktr9n2g88@privaterelay.appleid.com'
+          git add -A
+          git diff --cached --check
+          git commit -m 'test(cp3): stabilize R4 race fixture discovery'
+          git push origin HEAD:cp3/hpp-attendance-sewing-terminal-r4-20260901
