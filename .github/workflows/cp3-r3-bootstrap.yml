@@ -26,7 +26,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          test "$(git rev-parse HEAD^)" = '17acda4c7d114257075cb396ff2b98ae1a2fb1bf'
+          test "$(git rev-parse HEAD^)" = '24a5c5c14a6de6410f71b223612d588d5481c1e5'
           test "$(wc -c < .cp3-r3-bootstrap/part00.b64)" = 7000
           test "$(wc -c < .cp3-r3-bootstrap/part01.b64)" = 7000
           test "$(wc -c < .cp3-r3-bootstrap/part02.b64)" = 7000
@@ -88,16 +88,23 @@ jobs:
           echo 'cc7a20c85a0f5fdc6e40c03658d782f19fb0947c9c95f09031ecf3fe6ae51e57  docs/evidence/2026-09-01/cp3_r3_patch_status.md' | sha256sum -c -
           python -m py_compile scripts/cp3_r3_full_schema_concurrency.py
 
-      - name: Remove bootstrap transport and publish exact candidate
+      - name: Publish non-workflow source files only
         shell: bash
         run: |
           set -euo pipefail
-          rm -rf .cp3-r3-bootstrap
-          rm -f .github/workflows/cp3-r3-bootstrap.yml
+          rm -rf scripts/__pycache__
+          rm -f .github/workflows/cp3-r3-full-schema-validation.yml
           rm -f /tmp/cp3-r3-patch.tar.gz /tmp/cp3-r3-patch.tar.gz.b64
           git config user.name 'Chat Sol Pro CP3 Writer'
           git config user.email 'noreply@openai.com'
-          git add -A
+          git add \
+            docs/evidence/2026-09-01/cp3_r3_patch_status.md \
+            scripts/cp3_r3_full_schema_concurrency.py \
+            supabase/migrations/20260901023200_erp_v2_6_14c_attendance_hpp_uat_alignment.sql \
+            supabase/tests/attendance_hpp_r3_full_schema_rollback.sql \
+            supabase/tests/attendance_hpp_r3_validator_benchmark_rollback.sql \
+            supabase/tests/cp3_r3_full_schema_race_seed.sql \
+            supabase/tests/cp3_r3_full_schema_seed.sql
           git diff --cached --check
           git commit -m 'Add CP3 R3 UAT-aligned source and full-schema harness'
           git push origin HEAD:cp3/hpp-attendance-sewing-terminal-r3-20260901
