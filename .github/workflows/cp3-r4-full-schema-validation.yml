@@ -32,7 +32,8 @@ jobs:
       CP3_R4_REVIEWED_PARENT: 366a4b2fb6f6daa0ef1d9d47a78c7b83a8c89ceb
       CP3_R4_TARGET_PROJECT: siimvrusnzxexizpyoib
       CP3_R4_HISTORICAL_SCHEMA_FINGERPRINT: a0c59b96b3879edd28f3d8c57d0894a3
-      CP3_R4_VALIDATION_PAYLOAD_COMMIT: 143865c39b59c2e54f75df0ce40b22c19df565cd
+      CP3_R4_VALIDATION_PARTS_COMMIT: f3a807bb37976883e105ed5fdce1d529eed2cf0b
+      CP3_R4_VALIDATION_ARCHIVE_SHA256: f39994156ae5cd3e35daf98ffb4cba7ff695e1aa998725aa83dbfe3f69f4a11b
       CP3_R4_VALIDATION_WORKFLOW_SHA256: 95b792320e7a3198a6f319796f98e88260855a4a52aebce221fa49fe0d943245
     steps:
       - name: Checkout exact R4 candidate
@@ -70,7 +71,10 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          git show "$CP3_R4_VALIDATION_PAYLOAD_COMMIT:.cp3-r4-bootstrap/payload.tar.gz" > /tmp/cp3-r4-payload.tar.gz
+          for part in part000 part001 part002_0 part002_1 part003 part004 part005; do
+            git show "$CP3_R4_VALIDATION_PARTS_COMMIT:.cp3-r4-bootstrap/$part"
+          done | base64 --decode > /tmp/cp3-r4-payload.tar.gz
+          echo "$CP3_R4_VALIDATION_ARCHIVE_SHA256  /tmp/cp3-r4-payload.tar.gz" | sha256sum -c -
           tar -xzf /tmp/cp3-r4-payload.tar.gz -C /tmp ./.github/workflows/cp3-r4-full-schema-validation.yml
           cp /tmp/.github/workflows/cp3-r4-full-schema-validation.yml cp3-r4-executed-validation-workflow.yml
           echo "$CP3_R4_VALIDATION_WORKFLOW_SHA256  cp3-r4-executed-validation-workflow.yml" | sha256sum -c -
