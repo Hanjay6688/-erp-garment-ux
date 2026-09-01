@@ -363,13 +363,13 @@ def service_role_reversal_proof():
           select 1
           from pg_proc p join pg_namespace n on n.oid=p.pronamespace
           cross join lateral aclexplode(coalesce(p.proacl,acldefault('f',p.proowner))) a
-          where n.nspname='erp' and p.proname='_reverse_journal_internal'
+          where n.nspname='erp' and p.proname='_cp3_r4_reverse_journal_internal'
             and pg_get_function_identity_arguments(p.oid)='p_journal_entry_id uuid, p_reason text'
             and a.grantee=0 and a.privilege_type='EXECUTE'
         ),
-        'anon',has_function_privilege('anon','erp._reverse_journal_internal(uuid,text)','EXECUTE'),
-        'authenticated',has_function_privilege('authenticated','erp._reverse_journal_internal(uuid,text)','EXECUTE'),
-        'service_role',has_function_privilege('service_role','erp._reverse_journal_internal(uuid,text)','EXECUTE')
+        'anon',has_function_privilege('anon','erp._cp3_r4_reverse_journal_internal(uuid,text)','EXECUTE'),
+        'authenticated',has_function_privilege('authenticated','erp._cp3_r4_reverse_journal_internal(uuid,text)','EXECUTE'),
+        'service_role',has_function_privilege('service_role','erp._cp3_r4_reverse_journal_internal(uuid,text)','EXECUTE')
       )
     """)
     if any(acl.values()):

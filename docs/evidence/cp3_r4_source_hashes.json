@@ -10,8 +10,8 @@
       "sha256": "765086e30cc9e5bd7d6ae6078f86ac3abc893de46770358046f8b36f18e171a2"
     },
     "scripts/cp3_r4_full_schema_concurrency.py": {
-      "bytes": 26528,
-      "sha256": "d45fd302e983bac0ec7516b08a5c17d04165da45ad8e8b8ca9a83818ffccb1b4"
+      "bytes": 26556,
+      "sha256": "6d63e8afdc93612bbf5946d04527b2217b4b586fe75fbbea8a356edbfdfa9272"
     },
     "scripts/cp3_render_r4_reviewed_rollback.py": {
       "bytes": 3612,
@@ -74,23 +74,59 @@
   "independent_audit_pending": true,
   "last_assertion_alignment": {
     "applied": [
-      {"count": 1, "label": "pool protected-journal rejection"},
-      {"count": 1, "label": "payroll protected-journal rejection"},
-      {"count": 2, "label": "work completion terminal dependency rejection"},
-      {"count": 1, "label": "active-pool payroll approval rejection"},
-      {"count": 1, "label": "active-pool policy rejection"},
-      {"count": 1, "label": "future-policy idempotency payload mismatch"}
+      {
+        "count": 1,
+        "label": "pool protected-journal rejection"
+      },
+      {
+        "count": 1,
+        "label": "payroll protected-journal rejection"
+      },
+      {
+        "count": 2,
+        "label": "work completion terminal dependency rejection"
+      },
+      {
+        "count": 1,
+        "label": "active-pool payroll approval rejection"
+      },
+      {
+        "count": 1,
+        "label": "active-pool policy rejection"
+      },
+      {
+        "count": 1,
+        "label": "future-policy idempotency payload mismatch"
+      }
     ],
     "scope": "acceptance-only; runtime source unchanged"
   },
   "last_concurrency_assertion_alignment": {
     "applied": [
-      {"count": 1, "label": "activate-vs-approve runtime rejection"},
-      {"count": 1, "label": "activate-vs-policy runtime rejection"},
-      {"count": 1, "label": "activate-vs-reverse-work runtime rejection"},
-      {"count": 1, "label": "reverse-work-first fail-closed rejection"},
-      {"count": 1, "label": "protected journal source-type matrix"},
-      {"count": 1, "label": "service-role protected journal rejection"}
+      {
+        "count": 1,
+        "label": "activate-vs-approve runtime rejection"
+      },
+      {
+        "count": 1,
+        "label": "activate-vs-policy runtime rejection"
+      },
+      {
+        "count": 1,
+        "label": "activate-vs-reverse-work runtime rejection"
+      },
+      {
+        "count": 1,
+        "label": "reverse-work-first fail-closed rejection"
+      },
+      {
+        "count": 1,
+        "label": "protected journal source-type matrix"
+      },
+      {
+        "count": 1,
+        "label": "service-role protected journal rejection"
+      }
     ],
     "scope": "harness-only; runtime source unchanged"
   },
@@ -106,6 +142,14 @@
     "observed_boundary": "service_role lacks USAGE on private erp schema before CP4 grants",
     "scope": "harness-only; runtime source unchanged",
     "source_head": "6467f38419eb637bcd91c40e2effff1966363466"
+  },
+  "last_validation_harness_patch": {
+    "business_runtime_changed": false,
+    "defect": "ACL proof referenced nonexistent erp._reverse_journal_internal(uuid,text)",
+    "fix": "assert ACL on exact erp._cp3_r4_reverse_journal_internal(uuid,text) created by v2.6.14d",
+    "legacy_mutated": false,
+    "scope": "CP3 R4 source-only full-schema concurrency proof",
+    "uat_applied": false
   },
   "last_validation_trigger": {
     "reason": "full-schema proof after corrected pre-CP4 service-role boundary harness",
