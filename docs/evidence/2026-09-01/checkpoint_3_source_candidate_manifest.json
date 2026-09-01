@@ -1,0 +1,164 @@
+{
+  "checkpoint": 3,
+  "record_type": "source_candidate_validation",
+  "status": "SOURCE_VALIDATION_PASS_INDEPENDENT_REVIEW_PENDING",
+  "production_go": false,
+  "source": {
+    "repository": "Hanjay6688/-erp-garment-ux",
+    "base_main_sha": "bf3ce8e2821f120d8abd8788daf07f6da7c15459",
+    "validated_source_sha": "aa1bf9d9938d543b4add1c944e7f84d4370038ae",
+    "branch": "cp3/hpp-attendance-sewing-terminal-reconstruction-20260901",
+    "draft_pr": 14,
+    "writer": "Chat Sol Pro",
+    "reviewer": "Work Sol Max"
+  },
+  "business_contract": {
+    "numerator": "posted attendance payroll cost for eligible normal Mandor in the exact period",
+    "denominator": "immutable explicit SELESAI_DIJAHIT quantity in the exact period",
+    "forbidden_denominators": ["QC_GOOD", "FG", "LAUNDRY_RETURN", "REWORK_GOOD", "SUSULAN_GOOD"],
+    "eligibility": {
+      "contractor_role": "MANDOR",
+      "attendance_required": true,
+      "is_special": false,
+      "name_inference_forbidden": true
+    }
+  },
+  "candidate_files": {
+    "supabase/migrations/20260901023000_erp_v2_6_14_attendance_hpp_sewing_terminal_foundation.sql": {
+      "sha256": "68e5a8f81ac364be6a8ec01c5bffdfe4ec587f91d61a03dc9f44a4670cadb821",
+      "bytes": 67598,
+      "lines": 1641
+    },
+    "supabase/migrations/20260901023100_erp_v2_6_14b_attendance_hpp_candidate_hardening.sql": {
+      "sha256": "08b2a035af453ee73668d6d7cfa9e7a58310a85be75b9883647ee68cb413a56c",
+      "bytes": 7946,
+      "lines": 181
+    },
+    "supabase/tests/attendance_hpp_sewing_terminal_rollback.sql": {
+      "sha256": "4df2f26cba61bfdfb2dae2fc9c714eeb333d02fe1539fa56492b5475ac6713bd",
+      "bytes": 21828,
+      "lines": 355
+    },
+    "supabase/tests/attendance_hpp_validator_benchmark_rollback.sql": {
+      "sha256": "6ec663c92a6b20a7b95b149c51941f230d477cb50222cd48b317bcb7a85cd4f9",
+      "bytes": 4581,
+      "lines": 93
+    },
+    "supabase/tests/cp3_attendance_hpp_minimal_baseline.sql": {
+      "sha256": "936f923d76c9ff9b66c350c57d26a4b90131326676b86889f27569aa2b260586",
+      "bytes": 12253,
+      "lines": 293
+    },
+    "scripts/cp3_render_reviewed_rollback.py": {
+      "sha256": "a425cfe1bc4ac8740680a9f6e0d0234926bb365f5c503a6acfd840a79f3bf49f",
+      "bytes": 5219,
+      "lines": 133
+    },
+    "scripts/test_cp3_render_reviewed_rollback.py": {
+      "sha256": "e84ff683b59bd3d9bd0b2e38fa834886aedb373fcc68a4d05cce5f42604f2139",
+      "bytes": 2901,
+      "lines": 73
+    },
+    "scripts/cp3_attendance_hpp_concurrency.py": {
+      "sha256": "a69fd46339fcc9cce9d10e1f963e70765af1e11f3324e1b2963488dd87e3c491",
+      "bytes": 17428,
+      "lines": 390
+    }
+  },
+  "validation": {
+    "cp3_workflow_run_id": 33482192065,
+    "cp3_job_id": 99774076749,
+    "cp3_conclusion": "success",
+    "build_workflow_run_id": 33482195996,
+    "build_job_id": 99774088548,
+    "build_conclusion": "success",
+    "proof_artifact_id": 9790364683,
+    "proof_artifact_digest": "sha256:fd0aecc122275f7145dfe7d320b84bc956e01d7f375d3f5f31daa18d0888119a",
+    "source_boundary": {
+      "source_only": true,
+      "no_existing_table_hook": true,
+      "no_public_or_service_grant": true,
+      "qc_good_reference": false
+    },
+    "renderer": {
+      "status": "PASS",
+      "source_sha256": "68e5a8f81ac364be6a8ec01c5bffdfe4ec587f91d61a03dc9f44a4670cadb821",
+      "source_bytes": 67598,
+      "terminal_commit_line_1_based": 1641,
+      "rendered_sha256": "40d0404d038d7ac0c8a1e85f5defe49842fa9b195164fc966be3b924dbd88d07",
+      "rendered_bytes": 67785,
+      "rollback_residue": 0
+    },
+    "acceptance": {
+      "status": "PASS",
+      "contract": "SELESAI_DIJAHIT_NOT_QC_GOOD",
+      "timezone_determinism": true,
+      "special_independent": true,
+      "active_cancel_owned_reversal": true,
+      "source_credit_per_original_debit_line": true,
+      "closed_json_contract": true,
+      "fixture_residue": 0
+    },
+    "validator_benchmark": {
+      "status": "PASS",
+      "destinations": 2000,
+      "validator_calls": 2,
+      "deferred_row_triggers": 0,
+      "execution_time_ms": 96.984,
+      "fixture_residue": 0
+    },
+    "concurrency": {
+      "status": "PASS",
+      "activate_two_session": "one PASS, one rejected after serialized state transition",
+      "cancel_two_session": "one PASS, one rejected after serialized state transition",
+      "activate_vs_cancel": "activate PASS, stale cancel rejected",
+      "pool_journals": 2,
+      "reversal_journals": 2,
+      "reversal_links": 2,
+      "cleanup": {
+        "contractor_rows": 0,
+        "idempotency_rows": 0,
+        "pool_rows": 0,
+        "sewing_rows": 0
+      }
+    },
+    "final_reconciliation": {
+      "status": "PASS",
+      "candidate_versions": ["v2.6.14a", "v2.6.14b"],
+      "new_tables": 6,
+      "new_noninternal_triggers": 0,
+      "authenticated_pool_table_select": false,
+      "service_pool_table_select": false,
+      "authenticated_activate_execute": false,
+      "service_activate_execute": false,
+      "pool_fixture_rows": 0,
+      "sewing_fixture_rows": 0,
+      "policy_fixture_rows": 0,
+      "cp3_idempotency_rows": 0
+    }
+  },
+  "target_state": {
+    "source": "PASS_CANDIDATE_ONLY",
+    "uat": "NOT_APPLIED",
+    "live": "UNCHANGED_DEMO_SIMULATION",
+    "backend_connected": false,
+    "auth_e2e": "NOT_EXECUTED",
+    "erp_garment_legacy": "READ_ONLY_UNCHANGED"
+  },
+  "mutation_statement": {
+    "erp_enteng_uat": false,
+    "erp_garment_legacy": false,
+    "auth": false,
+    "storage": false,
+    "cron": false,
+    "cloudflare": false,
+    "main": false
+  },
+  "remaining_gate": {
+    "checkpoint_3_complete": false,
+    "independent_delta_audit_required": true,
+    "reviewer": "Work Sol Max",
+    "uat_apply_allowed": false,
+    "next_smallest_safe_action": "Work Sol Max audits draft PR 14 and this exact hash set; Chat Sol Pro remains parked during review."
+  }
+}

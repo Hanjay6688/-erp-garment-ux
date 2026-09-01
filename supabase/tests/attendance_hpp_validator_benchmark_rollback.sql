@@ -1,0 +1,93 @@
+-- CP3 bounded validator benchmark on a disposable local PostgreSQL database.
+-- Generates 2,000 terminal destinations and proves one set-based validator call.
+
+\set ON_ERROR_STOP on
+begin;
+set local timezone='UTC';
+set local statement_timeout='60s';
+select set_config('app.test_user_id','b0000000-0000-0000-0000-000000000001',true);
+
+insert into erp.app_users(id,display_name,role,is_active)
+values('b0000000-0000-0000-0000-000000000001','CP3 benchmark owner','OWNER',true);
+insert into erp.contractors(id,contractor_code,contractor_name,contractor_type,attendance_required)
+values('b1000000-0000-0000-0000-000000000001','CP3-BENCH','CP3 benchmark Mandor','MANDOR',true);
+select erp.set_contractor_hpp_policy_v1(
+ jsonb_build_object('contractor_id','b1000000-0000-0000-0000-000000000001','effective_from','2026-03-01','is_special',false,'attendance_required',true,'reason','benchmark'),
+ 'b9000000-0000-0000-0000-000000000001',null);
+insert into erp.production_orders(id,po_number,contractor_id,status)
+values('b2000000-0000-0000-0000-000000000001','CP3-BENCH-PO','b1000000-0000-0000-0000-000000000001','IN_PROGRESS');
+insert into erp.cutting_groups(id,po_id,total_pcs)
+values('b3000000-0000-0000-0000-000000000001','b2000000-0000-0000-0000-000000000001',2000);
+
+insert into erp.work_completion_events(
+ id,completion_number,po_id,contractor_id,cutting_group_id,physical_at,status,created_by
+)
+select
+ ('b5'||lpad(g::text,30,'0'))::uuid,
+ 'CP3-BENCH-WC-'||g,
+ 'b2000000-0000-0000-0000-000000000001',
+ 'b1000000-0000-0000-0000-000000000001',
+ 'b3000000-0000-0000-0000-000000000001',
+ '2026-03-10 00:00:00+00'::timestamptz + g*interval '1 microsecond',
+ 'POSTED','b0000000-0000-0000-0000-000000000001'
+from generate_series(1,2000)g;
+
+insert into erp.sewing_terminal_events(
+ id,event_number,event_kind,source_work_completion_id,contractor_id,po_id,cutting_group_id,
+ physical_at,qty_signed,reason,created_by
+)
+select
+ ('b6'||lpad(g::text,30,'0'))::uuid,
+ 'CP3-BENCH-SEW-'||g,'SELESAI_DIJAHIT',
+ ('b5'||lpad(g::text,30,'0'))::uuid,
+ 'b1000000-0000-0000-0000-000000000001',
+ 'b2000000-0000-0000-0000-000000000001',
+ 'b3000000-0000-0000-0000-000000000001',
+ '2026-03-10 00:00:00+00'::timestamptz + g*interval '1 microsecond',
+ 1,'benchmark','b0000000-0000-0000-0000-000000000001'
+from generate_series(1,2000)g;
+
+insert into erp.payroll_settlements(id,payroll_number,contractor_id,period_start,period_end,status,attendance_total)
+values('b7000000-0000-0000-0000-000000000001','CP3-BENCH-PAY','b1000000-0000-0000-0000-000000000001','2026-03-01','2026-03-15','PAID',100);
+insert into erp.payroll_attendance_items(id,payroll_id,worker_id,attendance_record_id,paid_fraction_snapshot,daily_rate_snapshot)
+values('b7100000-0000-0000-0000-000000000001','b7000000-0000-0000-0000-000000000001',gen_random_uuid(),gen_random_uuid(),1,100);
+select erp.post_journal('PAYROLL_EXTRA_ACCRUAL','b7000000-0000-0000-0000-000000000001','2026-03-15','CP3 benchmark payroll',jsonb_build_array(
+ jsonb_build_object('mapping_key','LABOR_COST','debit',100,'credit',0,'contractor_id','b1000000-0000-0000-0000-000000000001'),
+ jsonb_build_object('mapping_key','WIP','debit',0,'credit',100,'contractor_id','b1000000-0000-0000-0000-000000000001')));
+
+create temp table cp3_benchmark_pool as
+select erp.create_attendance_hpp_pool_v1(
+ jsonb_build_object('period_start','2026-03-01','period_end','2026-03-15','reason','CP3 2000-row validator benchmark'),
+ 'b9000000-0000-0000-0000-000000000002') result;
+
+explain (analyze,buffers,format json)
+select erp.validate_attendance_hpp_pool_v1(
+ (select (result->>'pool_id')::uuid from cp3_benchmark_pool)
+);
+
+do $assert$
+declare p uuid;
+begin
+ p:=(select (result->>'pool_id')::uuid from cp3_benchmark_pool);
+ if (select count(*) from erp.attendance_hpp_pool_allocations where pool_id=p)<>2000 then
+  raise exception 'benchmark allocation cardinality mismatch';
+ end if;
+ if (select validation from jsonb_to_record(erp.validate_attendance_hpp_pool_v1(p)) as x(validation text)) is distinct from 'PASS' then
+  raise exception 'bounded validator did not return PASS';
+ end if;
+ if exists(
+  select 1 from pg_trigger t join pg_class c on c.oid=t.tgrelid join pg_namespace n on n.oid=c.relnamespace
+  where n.nspname='erp' and c.relname like 'attendance_hpp_%' and not t.tgisinternal
+ ) then raise exception 'benchmark found row/deferred triggers on CP3 pool objects'; end if;
+end;
+$assert$;
+
+rollback;
+
+select jsonb_build_object(
+ 'status','PASS',
+ 'destinations',2000,
+ 'validator_calls',2,
+ 'deferred_row_triggers',0,
+ 'fixture_residue',0
+) as cp3_validator_benchmark_result;

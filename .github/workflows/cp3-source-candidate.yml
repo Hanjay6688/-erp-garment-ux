@@ -1,0 +1,222 @@
+name: CP3 Source Candidate Validation
+
+on:
+  push:
+    branches:
+      - cp3/hpp-attendance-sewing-terminal-reconstruction-20260901
+    paths:
+      - '.github/workflows/cp3-source-candidate.yml'
+      - 'supabase/migrations/20260901023000_erp_v2_6_14_attendance_hpp_sewing_terminal_foundation.sql'
+      - 'supabase/migrations/20260901023100_erp_v2_6_14b_attendance_hpp_candidate_hardening.sql'
+      - 'supabase/tests/attendance_hpp_sewing_terminal_rollback.sql'
+      - 'supabase/tests/attendance_hpp_validator_benchmark_rollback.sql'
+      - 'supabase/tests/cp3_attendance_hpp_minimal_baseline.sql'
+      - 'scripts/cp3_render_reviewed_rollback.py'
+      - 'scripts/test_cp3_render_reviewed_rollback.py'
+      - 'scripts/cp3_attendance_hpp_concurrency.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U postgres"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=20
+    env:
+      PGURL: postgresql://postgres:postgres@127.0.0.1:5432/postgres
+      CP3_ALLOW_DESTRUCTIVE_LOCAL: YES
+      CP3_CONCURRENCY_REPORT: cp3-concurrency-report.json
+
+    steps:
+      - name: Checkout exact candidate
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install local test dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq postgresql-client
+          python -m pip install --quiet 'psycopg[binary]==3.2.10'
+
+      - name: Source boundary and digest inventory
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib,json,re
+          from pathlib import Path
+
+          paths=[
+            'supabase/migrations/20260901023000_erp_v2_6_14_attendance_hpp_sewing_terminal_foundation.sql',
+            'supabase/migrations/20260901023100_erp_v2_6_14b_attendance_hpp_candidate_hardening.sql',
+            'supabase/tests/attendance_hpp_sewing_terminal_rollback.sql',
+            'supabase/tests/attendance_hpp_validator_benchmark_rollback.sql',
+            'supabase/tests/cp3_attendance_hpp_minimal_baseline.sql',
+            'scripts/cp3_render_reviewed_rollback.py',
+            'scripts/test_cp3_render_reviewed_rollback.py',
+            'scripts/cp3_attendance_hpp_concurrency.py',
+          ]
+          report={'status':'PASS','files':{}}
+          for name in paths:
+            raw=Path(name).read_bytes()
+            report['files'][name]={'sha256':hashlib.sha256(raw).hexdigest(),'bytes':len(raw),'lines':raw.count(b'\n')}
+
+          migration=Path(paths[0]).read_text()
+          executable='\n'.join(line for line in migration.splitlines() if not line.lstrip().startswith('--'))
+          forbidden=[]
+          for token in ['erp.fg_lots','initial_qty_pcs','fresh_qc_good','qc_good_denominator']:
+            if token.lower() in executable.lower(): forbidden.append(token)
+          if forbidden:
+            raise SystemExit(f'forbidden QC/FG denominator references: {forbidden}')
+          required=['SELESAI_DIJAHIT','original_debit_journal_line_id','cancel_attendance_hpp_pool_v1','_cp3_epoch_microseconds','_cp3_assert_closed_json_object']
+          missing=[token for token in required if token not in migration]
+          if missing: raise SystemExit(f'missing required CP3 symbols: {missing}')
+          if re.search(r'(?im)^\s*create\s+(constraint\s+)?trigger\b',migration):
+            raise SystemExit('CP3 foundation must not install native/deferred triggers before independent audit')
+          if re.search(r'(?im)^\s*grant\s+(execute|select|insert|update|delete|all)\b',migration):
+            raise SystemExit('CP3 foundation must remain no-grant before CP4')
+          if migration.lower().count('\nbegin;') != 1 or migration.lower().count('\ncommit;') != 1:
+            raise SystemExit('v2.6.14a must have one explicit outer BEGIN and terminal COMMIT')
+          report['boundary']={
+            'source_only':True,
+            'no_existing_table_hook':True,
+            'no_public_or_service_grant':True,
+            'denominator':'SELESAI_DIJAHIT',
+            'qc_good_reference':False,
+          }
+          Path('cp3-source-digests.json').write_text(json.dumps(report,indent=2,sort_keys=True)+'\n')
+          print(json.dumps(report,indent=2,sort_keys=True))
+          PY
+
+      - name: Renderer adversarial unit tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd scripts
+          python -m unittest -v test_cp3_render_reviewed_rollback.py
+
+      - name: Render exact current candidate into rollback form
+        shell: bash
+        run: |
+          set -euo pipefail
+          migration='supabase/migrations/20260901023000_erp_v2_6_14_attendance_hpp_sewing_terminal_foundation.sql'
+          expected_sha="$(sha256sum "$migration" | awk '{print $1}')"
+          expected_bytes="$(stat -c %s "$migration")"
+          python scripts/cp3_render_reviewed_rollback.py \
+            --source "$migration" \
+            --expected-sha256 "$expected_sha" \
+            --expected-bytes "$expected_bytes" \
+            --output cp3-rendered-migration-rollback.sql \
+            --report cp3-render-report.json
+
+      - name: Prove rendered migration rolls back without residue
+        shell: bash
+        run: |
+          set -euo pipefail
+          createdb --maintenance-db="$PGURL" cp3_render
+          render_url='postgresql://postgres:postgres@127.0.0.1:5432/cp3_render'
+          psql "$render_url" -v ON_ERROR_STOP=1 -f supabase/tests/cp3_attendance_hpp_minimal_baseline.sql
+          psql "$render_url" -v ON_ERROR_STOP=1 -f cp3-rendered-migration-rollback.sql
+          psql "$render_url" -v ON_ERROR_STOP=1 <<'SQL'
+          do $check$
+          begin
+            if to_regclass('erp.attendance_hpp_pools') is not null
+               or to_regclass('erp.sewing_terminal_events') is not null
+               or exists(select 1 from erp.schema_migrations where version='v2.6.14a') then
+              raise exception 'Rendered migration rollback left schema or ledger residue';
+            end if;
+          end;
+          $check$;
+          SQL
+          dropdb --maintenance-db="$PGURL" cp3_render
+
+      - name: Apply candidate on isolated minimal contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/cp3_attendance_hpp_minimal_baseline.sql
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/migrations/20260901023000_erp_v2_6_14_attendance_hpp_sewing_terminal_foundation.sql
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/migrations/20260901023100_erp_v2_6_14b_attendance_hpp_candidate_hardening.sql
+
+      - name: Run behavior, negative, idempotency, reversal, and rollback fixture
+        shell: bash
+        run: |
+          set -euo pipefail
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/attendance_hpp_sewing_terminal_rollback.sql | tee cp3-acceptance.log
+
+      - name: Run bounded 2,000-destination validator benchmark
+        shell: bash
+        run: |
+          set -euo pipefail
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/attendance_hpp_validator_benchmark_rollback.sql | tee cp3-validator-benchmark.log
+
+      - name: Run real two-connection concurrency harness
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/cp3_attendance_hpp_concurrency.py | tee cp3-concurrency.log
+
+      - name: Final schema, ACL, and residue reconciliation
+        shell: bash
+        run: |
+          set -euo pipefail
+          psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' | tee cp3-final-reconciliation.txt
+          select jsonb_pretty(jsonb_build_object(
+            'status','PASS',
+            'candidate_versions',(select jsonb_agg(version order by version) from erp.schema_migrations where version in('v2.6.14a','v2.6.14b')),
+            'new_tables',(select count(*) from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='erp' and c.relkind in('r','p') and c.relname in('contractor_hpp_policy_versions','sewing_terminal_events','attendance_hpp_pools','attendance_hpp_pool_sources','attendance_hpp_pool_allocations','attendance_hpp_journal_line_links')),
+            'new_noninternal_triggers',(select count(*) from pg_trigger t join pg_class c on c.oid=t.tgrelid join pg_namespace n on n.oid=c.relnamespace where n.nspname='erp' and c.relname in('contractor_hpp_policy_versions','sewing_terminal_events','attendance_hpp_pools','attendance_hpp_pool_sources','attendance_hpp_pool_allocations','attendance_hpp_journal_line_links') and not t.tgisinternal),
+            'authenticated_pool_table_select',has_table_privilege('authenticated','erp.attendance_hpp_pools','SELECT'),
+            'service_pool_table_select',has_table_privilege('service_role','erp.attendance_hpp_pools','SELECT'),
+            'authenticated_activate_execute',has_function_privilege('authenticated','erp.activate_attendance_hpp_pool_v1(uuid,text,uuid,bigint)','EXECUTE'),
+            'service_activate_execute',has_function_privilege('service_role','erp.activate_attendance_hpp_pool_v1(uuid,text,uuid,bigint)','EXECUTE'),
+            'pool_fixture_rows',(select count(*) from erp.attendance_hpp_pools),
+            'sewing_fixture_rows',(select count(*) from erp.sewing_terminal_events),
+            'policy_fixture_rows',(select count(*) from erp.contractor_hpp_policy_versions),
+            'cp3_idempotency_rows',(select count(*) from erp.idempotency_requests where operation_name like '%hpp%' or operation_name like '%sewing_terminal%')
+          ));
+          SQL
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          report=json.loads(Path('cp3-concurrency-report.json').read_text())
+          if report['status']!='PASS': raise SystemExit('concurrency report not PASS')
+          rec=Path('cp3-final-reconciliation.txt').read_text()
+          for expected in ['"new_tables": 6','"new_noninternal_triggers": 0','"authenticated_pool_table_select": false','"service_pool_table_select": false','"authenticated_activate_execute": false','"service_activate_execute": false','"pool_fixture_rows": 0','"sewing_fixture_rows": 0','"policy_fixture_rows": 0','"cp3_idempotency_rows": 0']:
+            if expected not in rec: raise SystemExit(f'missing reconciliation assertion: {expected}')
+          PY
+
+      - name: Upload non-secret CP3 candidate proof
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cp3-source-candidate-proof
+          path: |
+            cp3-source-digests.json
+            cp3-render-report.json
+            cp3-acceptance.log
+            cp3-validator-benchmark.log
+            cp3-concurrency-report.json
+            cp3-concurrency.log
+            cp3-final-reconciliation.txt
+          if-no-files-found: warn
+          retention-days: 14
