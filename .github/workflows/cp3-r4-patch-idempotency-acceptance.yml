@@ -1,4 +1,4 @@
-name: CP3 R4 Patch Contract Assertions
+name: CP3 R4 Patch Concurrency Assertions
 
 on:
   push:
@@ -11,7 +11,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: cp3-r4-patch-contract-assertions
+  group: cp3-r4-patch-concurrency-assertions
   cancel-in-progress: false
 
 jobs:
@@ -23,7 +23,7 @@ jobs:
           ref: cp3/hpp-attendance-sewing-terminal-r4-20260901
           fetch-depth: 0
 
-      - name: Align acceptance assertions with exact fail-closed runtime contracts
+      - name: Align real two-connection harness with exact runtime rejection contracts
         shell: bash
         run: |
           set -euo pipefail
@@ -32,45 +32,45 @@ jobs:
           import json
           from pathlib import Path
 
-          test_path = Path('supabase/tests/attendance_hpp_r4_full_schema_rollback.sql')
-          source = test_path.read_text()
+          script_path = Path('scripts/cp3_r4_full_schema_concurrency.py')
+          source = script_path.read_text()
 
           replacements = [
               (
-                  "    if sqlerrm not like 'PROTECTED_JOURNAL_REQUIRES_OWNING_LIFECYCLE:%ATTENDANCE_HPP_POOL%' then raise; end if;\n",
-                  "    if sqlerrm not like 'Protected journal source type ATTENDANCE_HPP_POOL cannot be reversed through generic reverse_journal.%owning attendance HPP pool%' then raise; end if;\n",
+                  "        'ACTIVE_ATTENDANCE_HPP_POOL_BLOCKS_PAYROLL_APPROVAL',\n",
+                  "        'Cancel the ACTIVE pool first before approving this payroll',\n",
                   1,
-                  'pool protected-journal rejection',
+                  'activate-vs-approve runtime rejection',
               ),
               (
-                  "    if sqlerrm not like 'PROTECTED_JOURNAL_REQUIRES_OWNING_LIFECYCLE:%PAYROLL_ATTENDANCE_ACCRUAL%' then raise; end if;\n",
-                  "    if sqlerrm not like 'Protected journal source type PAYROLL_ATTENDANCE_ACCRUAL cannot be reversed through generic reverse_journal.%payroll cancellation/reversal flow%' then raise; end if;\n",
+                  "        'ACTIVE_ATTENDANCE_HPP_POOL_BLOCKS_POLICY_CHANGE',\n",
+                  "        'overlaps an ACTIVE attendance HPP pool',\n",
                   1,
-                  'payroll protected-journal rejection',
+                  'activate-vs-policy runtime rejection',
               ),
               (
-                  "    if sqlerrm not like 'SEWING_TERMINAL_DEPENDENCY:%reverse_sewing_terminal_v1%' then raise; end if;\n",
-                  "    if sqlerrm not like 'Work completion masih memiliki SELESAI_DIJAHIT aktif.%reverse_sewing_terminal_v1()%' then raise; end if;\n",
-                  2,
-                  'work completion terminal dependency rejection',
+                  "        'SEWING_TERMINAL_DEPENDENCY',\n",
+                  "        'reverse_sewing_terminal_v1() terlebih dahulu',\n",
+                  1,
+                  'activate-vs-reverse-work runtime rejection',
               ),
               (
-                  "    if sqlerrm not like 'ACTIVE_ATTENDANCE_HPP_POOL_BLOCKS_PAYROLL_APPROVAL:%cancel the active attendance HPP pool first%' then raise; end if;\n",
-                  "    if sqlerrm not like 'Attendance HPP pool for payroll period % is already ACTIVE. Cancel the ACTIVE pool first before approving this payroll.%' then raise; end if;\n",
+                  "                    reverse_result['error'] = str(exc)\n                    reverse_result['status'] = 'EXPECTED_REJECTION' if 'SEWING_TERMINAL_DEPENDENCY' in str(exc) else 'WRONG_ERROR'\n",
+                  "                    message = str(exc)\n                    reverse_result['error'] = message\n                    reverse_result['status'] = (\n                        'EXPECTED_REJECTION'\n                        if 'Work completion masih memiliki SELESAI_DIJAHIT aktif' in message\n                        and 'reverse_sewing_terminal_v1() terlebih dahulu' in message\n                        else 'WRONG_ERROR'\n                    )\n",
                   1,
-                  'active-pool payroll approval rejection',
+                  'reverse-work-first fail-closed rejection',
               ),
               (
-                  "    if sqlerrm not like 'ACTIVE_ATTENDANCE_HPP_POOL_BLOCKS_POLICY_CHANGE:%cancel the active pool first%' then raise; end if;\n",
-                  "    if sqlerrm not like 'Contractor HPP policy effective from % overlaps an ACTIVE attendance HPP pool. Cancel the ACTIVE pool first, then write the new policy version.%' then raise; end if;\n",
+                  "            for index, journal_id in enumerate((pool_journal, payroll_journal), start=1):\n",
+                  "            protected = (\n                (pool_journal, 'ATTENDANCE_HPP_POOL'),\n                (payroll_journal, 'PAYROLL_ATTENDANCE_ACCRUAL'),\n            )\n            for index, (journal_id, expected_source_type) in enumerate(protected, start=1):\n",
                   1,
-                  'active-pool policy rejection',
+                  'protected journal source-type matrix',
               ),
               (
-                  "  exception when others then\n    if sqlerrm like 'Expected future policy%'\n       or position('idempot' in lower(sqlerrm))=0 then raise; end if;\n  end;\n",
-                  "  exception when others then\n    if sqlerrm like 'Expected future policy%'\n       or position('client_request_id' in lower(sqlerrm)) = 0\n       or position('different payload' in lower(sqlerrm)) = 0 then\n      raise;\n    end if;\n  end;\n",
+                  "                    if 'PROTECTED_JOURNAL_REQUIRES_OWNING_LIFECYCLE' not in message:\n                        raise RuntimeError(f'wrong protected reversal error: {message}')\n",
+                  "                    if (\n                        f'Protected journal source type {expected_source_type}' not in message\n                        or 'cannot be reversed through generic reverse_journal' not in message\n                    ):\n                        raise RuntimeError(f'wrong protected reversal error: {message}')\n",
                   1,
-                  'future-policy idempotency payload mismatch',
+                  'service-role protected journal rejection',
               ),
           ]
 
@@ -83,40 +83,40 @@ jobs:
               applied.append({'label': label, 'count': count})
 
           forbidden = [
-              'PROTECTED_JOURNAL_REQUIRES_OWNING_LIFECYCLE:',
-              'SEWING_TERMINAL_DEPENDENCY:',
-              'ACTIVE_ATTENDANCE_HPP_POOL_BLOCKS_PAYROLL_APPROVAL:',
-              'ACTIVE_ATTENDANCE_HPP_POOL_BLOCKS_POLICY_CHANGE:',
-              "position('idempot' in lower(sqlerrm))",
+              'ACTIVE_ATTENDANCE_HPP_POOL_BLOCKS_PAYROLL_APPROVAL',
+              'ACTIVE_ATTENDANCE_HPP_POOL_BLOCKS_POLICY_CHANGE',
+              "'SEWING_TERMINAL_DEPENDENCY'",
+              'PROTECTED_JOURNAL_REQUIRES_OWNING_LIFECYCLE',
           ]
           residue = [token for token in forbidden if token in source]
           if residue:
-              raise SystemExit(f'stale assertion-contract residue remains: {residue}')
+              raise SystemExit(f'stale concurrency assertion-contract residue remains: {residue}')
 
-          test_path.write_text(source)
+          script_path.write_text(source)
 
           manifest_path = Path('docs/evidence/cp3_r4_source_hashes.json')
           manifest = json.loads(manifest_path.read_text())
-          raw = test_path.read_bytes()
-          manifest['files'][test_path.as_posix()] = {
+          raw = script_path.read_bytes()
+          manifest['files'][script_path.as_posix()] = {
               'bytes': len(raw),
               'sha256': hashlib.sha256(raw).hexdigest(),
           }
-          manifest['last_assertion_alignment'] = {
-              'scope': 'acceptance-only; runtime source unchanged',
+          manifest['last_concurrency_assertion_alignment'] = {
+              'scope': 'harness-only; runtime source unchanged',
               'applied': applied,
           }
           manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + '\n')
 
           print(json.dumps({
               'status': 'PASS',
-              'patched': test_path.as_posix(),
+              'patched': script_path.as_posix(),
               'bytes': len(raw),
               'sha256': hashlib.sha256(raw).hexdigest(),
               'applied': applied,
           }, sort_keys=True))
           PY
 
+          python -m py_compile scripts/cp3_r4_full_schema_concurrency.py
           git diff --check
           python - <<'PY'
           import hashlib
@@ -130,16 +130,16 @@ jobs:
               if len(raw) != expected['bytes'] or hashlib.sha256(raw).hexdigest() != expected['sha256']:
                   failures.append(path)
           if failures:
-              raise SystemExit(f'fixed-source manifest mismatch after assertion alignment: {failures}')
+              raise SystemExit(f'fixed-source manifest mismatch after concurrency alignment: {failures}')
           print(json.dumps({'status': 'PASS', 'manifest_entries': len(manifest['files'])}, sort_keys=True))
           PY
 
-      - name: Commit exact assertion alignment to writer branch
+      - name: Commit exact concurrency assertion alignment
         shell: bash
         run: |
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add supabase/tests/attendance_hpp_r4_full_schema_rollback.sql docs/evidence/cp3_r4_source_hashes.json
-          git commit -m 'test(cp3): align R4 rejection assertions with runtime contracts'
+          git add scripts/cp3_r4_full_schema_concurrency.py docs/evidence/cp3_r4_source_hashes.json
+          git commit -m 'test(cp3): align R4 race assertions with runtime contracts'
           git push origin HEAD:cp3/hpp-attendance-sewing-terminal-r4-20260901
