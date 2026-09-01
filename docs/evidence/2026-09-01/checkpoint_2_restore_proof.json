@@ -1,0 +1,87 @@
+{
+  "status": "PASS",
+  "checkpoint": 2,
+  "mode": "FREE_LOCAL_SUPABASE_RESTORE",
+  "completed_at_utc": "2026-09-01T01:06:39Z",
+  "postgres_image": "17.6.1.165",
+  "source_commit_sha": "bf3ce8e2821f120d8abd8788daf07f6da7c15459",
+  "expected_schema_fingerprint": "a0c59b96b3879edd28f3d8c57d0894a3",
+  "workflow": {
+    "run_id": 33457299164,
+    "job_id": 99699891972,
+    "head_sha": "41bda0f748ebef57155013ea1e2f3dc86602a85a",
+    "conclusion": "success"
+  },
+  "expected_counts": {
+    "tables": 142,
+    "views": 48,
+    "functions": 436,
+    "triggers": 383,
+    "indexes": 419,
+    "constraints": 944,
+    "policies": 190,
+    "platform_migrations": 55,
+    "application_migrations": 41,
+    "erp_rows": 104,
+    "cron_jobs": 1
+  },
+  "actual_counts": {
+    "tables": 142,
+    "views": 48,
+    "functions": 436,
+    "triggers": 383,
+    "indexes": 419,
+    "constraints": 944,
+    "policies": 190,
+    "platform_migrations": 55,
+    "application_migrations": 41,
+    "cron_jobs": 1,
+    "auth_users": 0,
+    "app_users": 0,
+    "erp_rows": 104
+  },
+  "object_mismatches": {},
+  "count_mismatches": {},
+  "data_mismatches": [],
+  "platform_ledger_match": true,
+  "application_ledger_match": true,
+  "integrity_findings": [],
+  "integrity_errors": [],
+  "auth_empty_state_verified": true,
+  "database_restore": {
+    "status": "PASS"
+  },
+  "storage_restore": {
+    "status": "PASS",
+    "bucket": "chatgpt-temp-erp-export",
+    "object": "ERP_GARMENT_V2_6_0_COMPACT_ONE_SHOT.sql",
+    "bytes": 1084146,
+    "sha256": "756a962d8dda43c71487afa7a3cdbbd80ef787487b1eafc771c94def53187aee",
+    "round_trip_download_verified": true
+  },
+  "cleanup": {
+    "local_stack_destroyed": true,
+    "decrypted_material_removed": true,
+    "erp_enteng_uat_mutated": false,
+    "erp_garment_legacy_mutated": false,
+    "paid_supabase_branch_created": false,
+    "additional_supabase_cost_usd": 0
+  },
+  "artifact": {
+    "id": 9781927051,
+    "digest": "sha256:3a7ead9522dc1d48bef4f04b7e97d0fb041d4953379534080f1604dc411249c5"
+  },
+  "google_drive": {
+    "restore_proof_file_id": "142e9K5bZui0R6R4xBazgKxAplVWKV7if",
+    "restore_proof_folder_id": "1YFbu6u6Nbb830zNDyCkDD7I4i0bwmpGT",
+    "shared": false
+  },
+  "known_limits": [
+    "Hosted Auth dashboard/provider settings are outside this logical recovery proof.",
+    "Auth had zero users and identities, so identity/password migration was not exercised.",
+    "Hosted networking and provider-secret parity are separate configuration gates."
+  ],
+  "takeover_ready": true,
+  "checkpoint_3_allowed": true,
+  "production_go": false
+}
