@@ -1,0 +1,19 @@
+{
+  "manifest_version": "CP3_REVIEWED_SQL_V1",
+  "candidate": "ERP_GARMENT_V2_6_14_ATTENDANCE_HPP_SEWING_TERMINAL_FOUNDATION",
+  "source_path": "supabase/migrations/20260901023000_erp_v2_6_14_attendance_hpp_sewing_terminal_foundation.sql",
+  "source_sha256": "31298289763f868df153516edd9fb64e58205367fa82383594ffd7b7feeabdc7",
+  "source_bytes": 84603,
+  "renderer_sha256": "b0326036177a99ab0769c2b2fe40ab694478232b540a123b49248598773a778c",
+  "expected_top_level_statement_count": 114,
+  "expected_terminal_commit_start": 84591,
+  "expected_rendered_sha256": "07982ab3528f46dc1ff47035038fba85cbc8d6d6c68221d3e0b72dc601dbcb01",
+  "expected_rendered_bytes": 84292,
+  "operations": [
+    {
+      "domain": "ATTENDANCE_HPP",
+      "operation_type": "ATTENDANCE_HPP_FOUNDATION",
+      "source_path": "supabase/migrations/20260901023000_erp_v2_6_14_attendance_hpp_sewing_terminal_foundation.sql"
+    }
+  ]
+}
