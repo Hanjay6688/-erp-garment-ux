@@ -1,0 +1,236 @@
+name: CP2 Free Local Restore Drill
+
+on:
+  push:
+    branches:
+      - evidence/checkpoints-1-2-20260901
+    paths:
+      - .github/workflows/cp2-free-local-restore.yml
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  restore-verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - name: Checkout evidence branch
+        uses: actions/checkout@v4
+
+      - name: Install Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Download encrypted backup artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: cp2-encrypted-backup
+          path: transport/backup
+          github-token: ${{ github.token }}
+          run-id: 33430989888
+
+      - name: Download recovery key artifact separately
+        uses: actions/download-artifact@v4
+        with:
+          name: cp2-recovery-key-separate
+          path: transport/key
+          github-token: ${{ github.token }}
+          run-id: 33430989888
+
+      - name: Decrypt and validate recovery archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          encrypted="$(find transport/backup -type f -name 'ERP_ENTENG_CP2_BACKUP_*.zip.enc' -print -quit)"
+          keyfile="$(find transport/key -type f -name 'ERP_ENTENG_CP2_RECOVERY_KEY_*.txt' -print -quit)"
+          test -n "$encrypted"
+          test -n "$keyfile"
+          awk 'BEGIN{blank=0} {if(blank){print; exit} if($0=="") blank=1}' "$keyfile" > transport/recovery-passphrase.tmp
+          openssl enc -d -aes-256-cbc -pbkdf2 -iter 600000 -md sha256 \
+            -pass file:transport/recovery-passphrase.tmp \
+            -in "$encrypted" \
+            -out transport/erp-enteng-cp2-raw.zip
+          echo 'e176cac94d78915cb5fd73a065f58150184ee0b37801e6eb70fbc8fcfa29ef53  transport/erp-enteng-cp2-raw.zip' | sha256sum -c -
+          unzip -tq transport/erp-enteng-cp2-raw.zip
+          mkdir -p restore
+          unzip -q transport/erp-enteng-cp2-raw.zip -d restore
+          rm -f transport/recovery-passphrase.tmp
+
+      - name: Generate deterministic migration replay and expected verification
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          root = Path('restore')
+          catalog = json.loads((root / 'ERP_ENTENG_CATALOG_SNAPSHOT.json').read_text())
+          migrations = catalog['platform_migrations']
+          start = next(i for i, m in enumerate(migrations) if m['name'] == 'overwrite_erp_enteng_reset')
+
+          chunks = [
+              r"\set ON_ERROR_STOP on",
+              r"\echo 'CP2 replay starts from overwrite_erp_enteng_reset; earlier export/network helper migrations have no surviving business state.'",
+          ]
+          for migration in migrations[start:]:
+              chunks.append(f"\\echo 'Applying {migration['version']} {migration['name']}'")
+              for statement in migration.get('statements') or []:
+                  text = statement.rstrip()
+                  chunks.append(text if text.endswith(';') else text + ';')
+          Path('restore/platform-replay.sql').write_text('\n\n'.join(chunks) + '\n')
+
+          payload = json.dumps(migrations, separators=(',', ':')).replace('$json$', '$ json $')
+          ledger = f"""\n\\set ON_ERROR_STOP on\ntruncate table supabase_migrations.schema_migrations;\ninsert into supabase_migrations.schema_migrations(version,name,statements)\nselect version,name,statements\nfrom jsonb_to_recordset($json${payload}$json$::jsonb)\n  as x(version text,name text,statements text[]);\n"""
+          Path('restore/platform-ledger-restore.sql').write_text(ledger)
+
+          expected = {
+              'tables': len(catalog['tables']),
+              'views': len(catalog['views']),
+              'functions': len(catalog['functions']),
+              'triggers': len(catalog['triggers']),
+              'indexes': len(catalog['indexes']) + sum(1 for c in catalog['constraints'] if c['contype'] in ('p','u','x')),
+              'constraints': len(catalog['constraints']),
+              'policies': len(catalog['policies']),
+              'platform_migrations': len(catalog['platform_migrations']),
+              'application_migrations': len(catalog['application_migrations']),
+              'erp_rows': sum(item['rows'] for item in json.loads((root / 'RECOVERY_MANIFEST.json').read_text())['table_data']),
+          }
+          Path('restore/expected.json').write_text(json.dumps(expected, indent=2) + '\n')
+          print(json.dumps(expected, indent=2))
+          PY
+
+      - name: Start a free local Supabase Postgres matching hosted version
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p cp2-local
+          supabase init --force --workdir cp2-local
+          mkdir -p cp2-local/supabase/.temp
+          echo '17.6.1.165' > cp2-local/supabase/.temp/postgres-version
+          supabase db start --workdir cp2-local
+          supabase status --workdir cp2-local
+
+      - name: Replay schema and restore ERP data
+        shell: bash
+        env:
+          PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
+        run: |
+          set -euo pipefail
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f restore/platform-replay.sql
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f restore/ERP_ENTENG_DATA_RESTORE.sql
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f restore/platform-ledger-restore.sql
+
+      - name: Verify restored schema, data, ledgers, cron, and integrity
+        shell: bash
+        env:
+          PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
+        run: |
+          set -euo pipefail
+          python -m pip install --quiet 'psycopg[binary]==3.2.10'
+          python - <<'PY'
+          import hashlib, json, re
+          from pathlib import Path
+          import psycopg
+
+          expected_catalog = json.loads(Path('restore/ERP_ENTENG_CATALOG_SNAPSHOT.json').read_text())
+          expected_counts = json.loads(Path('restore/expected.json').read_text())
+          manifest = json.loads(Path('restore/RECOVERY_MANIFEST.json').read_text())
+          conn = psycopg.connect('postgresql://postgres:postgres@127.0.0.1:54322/postgres')
+
+          def rows(query):
+              with conn.cursor() as cur:
+                  cur.execute(query)
+                  cols = [d.name for d in cur.description]
+                  return [dict(zip(cols, row)) for row in cur.fetchall()]
+
+          actual = {}
+          actual['tables'] = rows("select count(*)::int n from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='erp' and c.relkind in ('r','p')")[0]['n']
+          actual['views'] = rows("select count(*)::int n from pg_class c join pg_namespace n on n.oid=c.relnamespace where c.relkind='v' and (n.nspname='erp' or (n.nspname='public' and c.relname like 'v_erp_%'))")[0]['n']
+          actual['functions'] = rows("select count(*)::int n from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='erp' or (n.nspname='public' and p.proname like 'erp_%')")[0]['n']
+          actual['triggers'] = rows("select count(*)::int n from pg_trigger t join pg_class c on c.oid=t.tgrelid join pg_namespace n on n.oid=c.relnamespace where n.nspname='erp' and not t.tgisinternal")[0]['n']
+          actual['indexes'] = rows("select count(*)::int n from pg_index i join pg_class c on c.oid=i.indrelid join pg_namespace n on n.oid=c.relnamespace where n.nspname='erp'")[0]['n']
+          actual['constraints'] = rows("select count(*)::int n from pg_constraint con join pg_class c on c.oid=con.conrelid join pg_namespace n on n.oid=c.relnamespace where n.nspname='erp'")[0]['n']
+          actual['policies'] = rows("select count(*)::int n from pg_policies where schemaname='erp' or (schemaname='public' and tablename like 'v_erp_%')")[0]['n']
+          actual['platform_migrations'] = rows("select count(*)::int n from supabase_migrations.schema_migrations")[0]['n']
+          actual['application_migrations'] = rows("select count(*)::int n from erp.schema_migrations")[0]['n']
+          actual['cron_jobs'] = rows("select count(*)::int n from cron.job")[0]['n']
+          actual['auth_users'] = rows("select count(*)::int n from auth.users")[0]['n']
+          actual['app_users'] = rows("select count(*)::int n from erp.app_users")[0]['n']
+
+          table_names = rows("select c.relname table_name from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='erp' and c.relkind in ('r','p') order by c.relname")
+          total_rows = 0
+          data_mismatches = []
+          with conn.cursor() as cur:
+              for item in manifest['table_data']:
+                  table = item['table']
+                  cur.execute(f'SELECT to_jsonb(t) FROM erp."{table.replace(chr(34), chr(34)*2)}" t ORDER BY to_jsonb(t)::text')
+                  payload = [row[0] for row in cur.fetchall()]
+                  total_rows += len(payload)
+                  backup_payload = json.loads(Path('restore', item['path']).read_text())
+                  if payload != backup_payload:
+                      data_mismatches.append({'table': table, 'expected_rows': len(backup_payload), 'actual_rows': len(payload)})
+          actual['erp_rows'] = total_rows
+
+          required_counts = {k: expected_counts[k] for k in ('tables','views','functions','triggers','indexes','constraints','policies','platform_migrations','application_migrations','erp_rows')}
+          count_mismatches = {k: {'expected': v, 'actual': actual.get(k)} for k, v in required_counts.items() if actual.get(k) != v}
+
+          integrity = rows("select check_code,severity,violation_count,details from erp.run_integrity_checks() where violation_count > 0 order by severity desc,check_code")
+          errors = [item for item in integrity if str(item['severity']).upper() == 'ERROR']
+
+          report = {
+              'status': 'PASS' if not count_mismatches and not data_mismatches and not errors and actual['auth_users'] == 0 and actual['app_users'] == 0 else 'FAIL',
+              'mode': 'FREE_LOCAL_SUPABASE_RESTORE',
+              'database_url': 'local-only-redacted',
+              'expected_counts': required_counts,
+              'actual_counts': actual,
+              'count_mismatches': count_mismatches,
+              'data_mismatches': data_mismatches,
+              'integrity_findings': integrity,
+              'integrity_errors': errors,
+              'storage_payload_in_archive': manifest['storage'],
+          }
+          Path('cp2-free-local-restore-report.json').write_text(json.dumps(report, indent=2, default=str) + '\n')
+          print(json.dumps(report, indent=2, default=str))
+          if report['status'] != 'PASS':
+              raise SystemExit('Free local restore verification failed')
+          PY
+
+      - name: Verify backed-up Storage object bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          items = json.loads(Path('restore/STORAGE_MANIFEST.json').read_text())
+          if len(items) != 1:
+              raise SystemExit(f'unexpected storage object count: {len(items)}')
+          for item in items:
+              path = Path('restore', item['path'])
+              if not path.is_file():
+                  raise SystemExit(f'missing storage payload: {path}')
+              actual = hashlib.sha256(path.read_bytes()).hexdigest()
+              if actual != item['sha256']:
+                  raise SystemExit(f'storage checksum mismatch: {path}')
+              print(f"PASS {item['bucket']}/{item['name']} {path.stat().st_size} bytes {actual}")
+          PY
+
+      - name: Upload non-secret restore proof
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cp2-free-local-restore-proof
+          path: cp2-free-local-restore-report.json
+          if-no-files-found: warn
+          retention-days: 7
+
+      - name: Destroy local stack and decrypted material
+        if: always()
+        shell: bash
+        run: |
+          supabase stop --no-backup --workdir cp2-local || true
+          rm -rf restore transport cp2-local
