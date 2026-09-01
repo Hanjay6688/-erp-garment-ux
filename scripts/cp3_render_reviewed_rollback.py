@@ -6,7 +6,7 @@ The transform is deliberately fail-closed:
 - UTF-8/LF bytes only;
 - exactly one standalone BEGIN and one standalone COMMIT;
 - COMMIT must be the last executable line;
-- exactly one v2.6.14a migration-ledger insertion marker;
+- exactly one supported CP3 migration-ledger insertion marker;
 - output records source/output digests and transformed line indexes.
 
 This tool does not parse or rewrite arbitrary SQL. It only removes the exact
@@ -19,7 +19,17 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
+import re
 import sys
+
+
+SUPPORTED_LEDGER_VERSIONS = frozenset({"v2.6.14a", "v2.6.14b", "v2.6.14c"})
+LEDGER_INSERT_RE = re.compile(
+    r"\binsert\s+into\s+erp\.schema_migrations\s*"
+    r"\(\s*version\s*,\s*description\s*,\s*installed_at\s*\)\s*"
+    r"values\s*\(\s*'([^']+)'",
+    re.IGNORECASE | re.DOTALL,
+)
 
 
 def sha256(data: bytes) -> str:
@@ -76,12 +86,12 @@ def render(source: Path, expected_sha: str, expected_bytes: int, output: Path, r
     if begin_lines[0] >= commit_lines[0]:
         raise ValueError("BEGIN must precede terminal COMMIT")
 
-    marker = "insert into erp.schema_migrations(version, description, installed_at)"
-    marker_count = text.lower().count(marker)
-    if marker_count != 1:
-        raise ValueError(f"expected exactly one v2.6.14a ledger marker; found {marker_count}")
-    if "'v2.6.14a'" not in text:
-        raise ValueError("v2.6.14a ledger version is absent")
+    ledger_versions = LEDGER_INSERT_RE.findall(text)
+    if len(ledger_versions) != 1:
+        raise ValueError(f"expected exactly one CP3 ledger marker; found {len(ledger_versions)}")
+    ledger_version = ledger_versions[0].lower()
+    if ledger_version not in SUPPORTED_LEDGER_VERSIONS:
+        raise ValueError(f"CP3 ledger version is absent or unsupported: {ledger_versions[0]!r}")
 
     body = [line for index, line in enumerate(lines) if index not in {begin_lines[0], commit_lines[0]}]
     rendered_text = (
@@ -104,7 +114,8 @@ def render(source: Path, expected_sha: str, expected_bytes: int, output: Path, r
         "source_bytes": len(raw),
         "begin_line_1_based": begin_lines[0] + 1,
         "terminal_commit_line_1_based": commit_lines[0] + 1,
-        "ledger_marker_count": marker_count,
+        "ledger_marker_count": len(ledger_versions),
+        "ledger_version": ledger_version,
         "output": str(output),
         "output_sha256": sha256(rendered),
         "output_bytes": len(rendered),
