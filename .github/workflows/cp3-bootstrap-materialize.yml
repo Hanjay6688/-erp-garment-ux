@@ -1,0 +1,55 @@
+name: CP3 Bootstrap Materialize Source Candidate
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - cp3/hpp-attendance-sewing-terminal-reconstruction-v2-20260901
+    paths:
+      - .github/workflows/cp3-bootstrap-materialize.yml
+      - .cp3-bootstrap/**
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact reconstruction branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Decode and verify reviewed candidate bundle
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat .cp3-bootstrap/bundle.b64.* | base64 --decode > /tmp/cp3-source-bundle.zip
+          echo '7df5c552888d2ab44f1ddf6ba3fab2641a27080258613bf139bbfa9491f924b6  /tmp/cp3-source-bundle.zip' | sha256sum -c -
+          unzip -tq /tmp/cp3-source-bundle.zip
+          unzip -oq /tmp/cp3-source-bundle.zip -d .
+          test -s supabase/migrations/20260901023000_erp_v2_6_14_attendance_hpp_sewing_terminal_foundation.sql
+          test -s supabase/tests/attendance_hpp_sewing_terminal_rollback.sql
+          test -s supabase/tests/attendance_hpp_concurrency_setup.sql
+          test -s scripts/cp3_hpp_concurrency.py
+          test -s scripts/cp3_verify_source.py
+          test -s .github/workflows/cp3-hpp-source-candidate.yml
+          python scripts/cp3_verify_source.py
+          test "$(python -c "import json;print(json.load(open('cp3-source-static-report.json'))['status'])")" = PASS
+
+      - name: Replace transport-only bootstrap with auditable source
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf .cp3-bootstrap
+          rm -f .github/workflows/cp3-bootstrap-materialize.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git diff --cached --check
+          git diff --cached --stat
+          git commit -m 'Materialize CP3 HPP source candidate'
+          git push origin "HEAD:${GITHUB_REF_NAME}"
