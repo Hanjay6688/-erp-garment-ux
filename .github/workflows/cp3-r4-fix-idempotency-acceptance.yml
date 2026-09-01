@@ -1,0 +1,132 @@
+name: CP3 R4 Fix Expected Idempotency Acceptance
+
+on:
+  push:
+    branches:
+      - cp3/hpp-attendance-sewing-terminal-r4-20260901
+    paths:
+      - .github/workflows/cp3-r4-fix-idempotency-acceptance.yml
+
+permissions:
+  contents: write
+
+env:
+  BRANCH: cp3/hpp-attendance-sewing-terminal-r4-20260901
+
+concurrency:
+  group: cp3-r4-idempotency-acceptance-writer
+  cancel-in-progress: true
+
+jobs:
+  patch:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: cp3/hpp-attendance-sewing-terminal-r4-20260901
+          fetch-depth: 0
+
+      - name: Patch only the expected changed-payload rejection block
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib
+          import json
+
+          sql_path = Path('supabase/tests/attendance_hpp_r4_full_schema_rollback.sql')
+          manifest_path = Path('docs/evidence/cp3_r4_source_hashes.json')
+          lines = sql_path.read_text(encoding='utf-8').splitlines(keepends=True)
+          needle = 'CP3 R4 changed payload'
+          hits = [i for i, line in enumerate(lines) if needle in line]
+          if len(hits) != 1:
+              raise SystemExit(f'expected one changed-payload assertion, found {len(hits)}')
+          hit = hits[0]
+
+          # Find the smallest enclosing PL/pgSQL BEGIN/END block by indentation.
+          start = None
+          block_indent = None
+          for i in range(hit, -1, -1):
+              if lines[i].strip().lower() == 'begin':
+                  indent = lines[i][:len(lines[i]) - len(lines[i].lstrip())]
+                  if len(indent) < len(lines[hit]) - len(lines[hit].lstrip()):
+                      start = i
+                      block_indent = indent
+                      break
+          if start is None or block_indent is None:
+              raise SystemExit('could not locate enclosing BEGIN for changed-payload assertion')
+
+          end = None
+          for i in range(hit + 1, len(lines)):
+              stripped = lines[i].strip().lower()
+              indent = lines[i][:len(lines[i]) - len(lines[i].lstrip())]
+              if indent == block_indent and stripped == 'end;':
+                  end = i
+                  break
+          if end is None:
+              raise SystemExit('could not locate enclosing END for changed-payload assertion')
+
+          old_block = ''.join(lines[start:end + 1])
+          if 'create_attendance_hpp_pool_v1' not in old_block or needle not in old_block:
+              raise SystemExit('refusing to replace a non-target block')
+
+          i = block_indent
+          replacement = (
+              f"{i}begin\n"
+              f"{i}  perform erp.create_attendance_hpp_pool_v1(\n"
+              f"{i}    payload || jsonb_build_object('reason','CP3 R4 changed payload'),\n"
+              f"{i}    request_id\n"
+              f"{i}  );\n"
+              f"{i}  raise exception 'CP3 R4 expected changed-payload idempotency rejection';\n"
+              f"{i}exception\n"
+              f"{i}  when others then\n"
+              f"{i}    if sqlerrm not ilike '%client_request_id was already used with a different payload%' then\n"
+              f"{i}      raise;\n"
+              f"{i}    end if;\n"
+              f"{i}end;\n"
+          )
+          lines[start:end + 1] = [replacement]
+          sql_path.write_text(''.join(lines), encoding='utf-8')
+
+          # Keep the fixed-source manifest byte-accurate.
+          manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
+          rel = str(sql_path)
+          if rel not in manifest.get('files', {}):
+              raise SystemExit(f'{rel} is not pinned by the R4 source manifest')
+          data = sql_path.read_bytes()
+          manifest['files'][rel] = {
+              'sha256': hashlib.sha256(data).hexdigest(),
+              'bytes': len(data),
+          }
+          manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + '\n', encoding='utf-8')
+
+          # Diagnostic file was temporary transport only.
+          Path('docs/evidence/2026-09-01/cp3-r4-idempotency-context.txt').unlink(missing_ok=True)
+          print(json.dumps({
+              'status': 'PASS',
+              'patched_lines': [start + 1, end + 1],
+              'sql_sha256': hashlib.sha256(data).hexdigest(),
+              'sql_bytes': len(data),
+          }, sort_keys=True))
+          PY
+          git diff --check
+
+      - name: Commit exact acceptance repair
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin "$BRANCH"
+          test "$(git rev-parse origin/$BRANCH)" = "$(git rev-parse HEAD)" || {
+            echo 'Concurrent branch drift detected; refusing stale write' >&2
+            exit 75
+          }
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add supabase/tests/attendance_hpp_r4_full_schema_rollback.sql docs/evidence/cp3_r4_source_hashes.json
+          git add -u docs/evidence/2026-09-01/cp3-r4-idempotency-context.txt || true
+          git diff --cached --check
+          test -n "$(git diff --cached --name-only)"
+          git commit -m 'test(cp3): catch expected changed-payload idempotency rejection'
+          git push origin HEAD:"$BRANCH"
