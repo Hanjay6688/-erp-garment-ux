@@ -24,8 +24,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python -m py_compile scripts/cp3_patch_authoritative_attendance_fixture_once.py scripts/cp3_patch_authoritative_attendance_fixture_v2_once.py
-          python scripts/cp3_patch_authoritative_attendance_fixture_v2_once.py
+          python -m py_compile scripts/cp3_patch_authoritative_attendance_fixture_once.py scripts/cp3_patch_authoritative_attendance_fixture_v3_once.py
+          python scripts/cp3_patch_authoritative_attendance_fixture_v3_once.py
           git diff --check
           grep -nE 'save_attendance_period_v1|post_attendance_period_v1|cp3_att_period_|cp3_att_record_|insert into erp.attendance_(periods|records)|rollback;' supabase/tests/attendance_hpp_sewing_terminal_rollback.sql | head -n 200
           sha256sum supabase/tests/attendance_hpp_sewing_terminal_rollback.sql
