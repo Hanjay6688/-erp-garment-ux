@@ -1,4 +1,4 @@
-name: CP3 R4 Patch Idempotency Acceptance
+name: CP3 R4 Patch Contract Assertions
 
 on:
   push:
@@ -11,7 +11,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: cp3-r4-patch-idempotency-acceptance
+  group: cp3-r4-patch-contract-assertions
   cancel-in-progress: false
 
 jobs:
@@ -23,7 +23,7 @@ jobs:
           ref: cp3/hpp-attendance-sewing-terminal-r4-20260901
           fetch-depth: 0
 
-      - name: Patch exact failed assertion and refresh fixed-source manifest
+      - name: Align acceptance assertions with exact fail-closed runtime contracts
         shell: bash
         run: |
           set -euo pipefail
@@ -34,25 +34,66 @@ jobs:
 
           test_path = Path('supabase/tests/attendance_hpp_r4_full_schema_rollback.sql')
           source = test_path.read_text()
-          old = (
-              "  exception when others then\n"
-              "    if sqlerrm like 'Expected same idempotency%'\n"
-              "       or position('idempot' in lower(sqlerrm))=0 then raise; end if;\n"
-              "  end;\n"
-          )
-          new = (
-              "  exception when others then\n"
-              "    if sqlerrm like 'Expected same idempotency%'\n"
-              "       or position('client_request_id' in lower(sqlerrm)) = 0\n"
-              "       or position('different payload' in lower(sqlerrm)) = 0 then\n"
-              "      raise;\n"
-              "    end if;\n"
-              "  end;\n"
-          )
-          count = source.count(old)
-          if count != 1:
-              raise SystemExit(f'expected exactly one failed idempotency assertion block, found {count}')
-          test_path.write_text(source.replace(old, new, 1))
+
+          replacements = [
+              (
+                  "    if sqlerrm not like 'PROTECTED_JOURNAL_REQUIRES_OWNING_LIFECYCLE:%ATTENDANCE_HPP_POOL%' then raise; end if;\n",
+                  "    if sqlerrm not like 'Protected journal source type ATTENDANCE_HPP_POOL cannot be reversed through generic reverse_journal.%owning attendance HPP pool%' then raise; end if;\n",
+                  1,
+                  'pool protected-journal rejection',
+              ),
+              (
+                  "    if sqlerrm not like 'PROTECTED_JOURNAL_REQUIRES_OWNING_LIFECYCLE:%PAYROLL_ATTENDANCE_ACCRUAL%' then raise; end if;\n",
+                  "    if sqlerrm not like 'Protected journal source type PAYROLL_ATTENDANCE_ACCRUAL cannot be reversed through generic reverse_journal.%payroll cancellation/reversal flow%' then raise; end if;\n",
+                  1,
+                  'payroll protected-journal rejection',
+              ),
+              (
+                  "    if sqlerrm not like 'SEWING_TERMINAL_DEPENDENCY:%reverse_sewing_terminal_v1%' then raise; end if;\n",
+                  "    if sqlerrm not like 'Work completion masih memiliki SELESAI_DIJAHIT aktif.%reverse_sewing_terminal_v1()%' then raise; end if;\n",
+                  2,
+                  'work completion terminal dependency rejection',
+              ),
+              (
+                  "    if sqlerrm not like 'ACTIVE_ATTENDANCE_HPP_POOL_BLOCKS_PAYROLL_APPROVAL:%cancel the active attendance HPP pool first%' then raise; end if;\n",
+                  "    if sqlerrm not like 'Attendance HPP pool for payroll period % is already ACTIVE. Cancel the ACTIVE pool first before approving this payroll.%' then raise; end if;\n",
+                  1,
+                  'active-pool payroll approval rejection',
+              ),
+              (
+                  "    if sqlerrm not like 'ACTIVE_ATTENDANCE_HPP_POOL_BLOCKS_POLICY_CHANGE:%cancel the active pool first%' then raise; end if;\n",
+                  "    if sqlerrm not like 'Contractor HPP policy effective from % overlaps an ACTIVE attendance HPP pool. Cancel the ACTIVE pool first, then write the new policy version.%' then raise; end if;\n",
+                  1,
+                  'active-pool policy rejection',
+              ),
+              (
+                  "  exception when others then\n    if sqlerrm like 'Expected future policy%'\n       or position('idempot' in lower(sqlerrm))=0 then raise; end if;\n  end;\n",
+                  "  exception when others then\n    if sqlerrm like 'Expected future policy%'\n       or position('client_request_id' in lower(sqlerrm)) = 0\n       or position('different payload' in lower(sqlerrm)) = 0 then\n      raise;\n    end if;\n  end;\n",
+                  1,
+                  'future-policy idempotency payload mismatch',
+              ),
+          ]
+
+          applied = []
+          for old, new, expected_count, label in replacements:
+              count = source.count(old)
+              if count != expected_count:
+                  raise SystemExit(f'{label}: expected {expected_count} exact anchor(s), found {count}')
+              source = source.replace(old, new)
+              applied.append({'label': label, 'count': count})
+
+          forbidden = [
+              'PROTECTED_JOURNAL_REQUIRES_OWNING_LIFECYCLE:',
+              'SEWING_TERMINAL_DEPENDENCY:',
+              'ACTIVE_ATTENDANCE_HPP_POOL_BLOCKS_PAYROLL_APPROVAL:',
+              'ACTIVE_ATTENDANCE_HPP_POOL_BLOCKS_POLICY_CHANGE:',
+              "position('idempot' in lower(sqlerrm))",
+          ]
+          residue = [token for token in forbidden if token in source]
+          if residue:
+              raise SystemExit(f'stale assertion-contract residue remains: {residue}')
+
+          test_path.write_text(source)
 
           manifest_path = Path('docs/evidence/cp3_r4_source_hashes.json')
           manifest = json.loads(manifest_path.read_text())
@@ -61,13 +102,18 @@ jobs:
               'bytes': len(raw),
               'sha256': hashlib.sha256(raw).hexdigest(),
           }
+          manifest['last_assertion_alignment'] = {
+              'scope': 'acceptance-only; runtime source unchanged',
+              'applied': applied,
+          }
           manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + '\n')
 
           print(json.dumps({
+              'status': 'PASS',
               'patched': test_path.as_posix(),
               'bytes': len(raw),
               'sha256': hashlib.sha256(raw).hexdigest(),
-              'reason': 'accept existing fail-closed helper message only when client_request_id and different payload are both present',
+              'applied': applied,
           }, sort_keys=True))
           PY
 
@@ -84,16 +130,16 @@ jobs:
               if len(raw) != expected['bytes'] or hashlib.sha256(raw).hexdigest() != expected['sha256']:
                   failures.append(path)
           if failures:
-              raise SystemExit(f'fixed-source manifest mismatch after patch: {failures}')
+              raise SystemExit(f'fixed-source manifest mismatch after assertion alignment: {failures}')
           print(json.dumps({'status': 'PASS', 'manifest_entries': len(manifest['files'])}, sort_keys=True))
           PY
 
-      - name: Commit patch to writer branch
+      - name: Commit exact assertion alignment to writer branch
         shell: bash
         run: |
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add supabase/tests/attendance_hpp_r4_full_schema_rollback.sql docs/evidence/cp3_r4_source_hashes.json
-          git commit -m 'test(cp3): accept fail-closed idempotency payload mismatch'
+          git commit -m 'test(cp3): align R4 rejection assertions with runtime contracts'
           git push origin HEAD:cp3/hpp-attendance-sewing-terminal-r4-20260901
