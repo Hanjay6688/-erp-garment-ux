@@ -1,0 +1,107 @@
+{
+  "checkpoint": 3,
+  "record_type": "source_candidate_for_independent_delta_audit",
+  "status": "SOURCE_CANDIDATE_UNDER_AUDIT",
+  "writer": "Chat Sol Pro",
+  "reviewer": "Work Sol Max",
+  "source": {
+    "repository": "Hanjay6688/-erp-garment-ux",
+    "base_branch": "main",
+    "base_commit": "bf3ce8e2821f120d8abd8788daf07f6da7c15459",
+    "base_tree": "e4377d85b612f5183b4831751de6a735d98a8b6f",
+    "candidate_branch": "cp3/hpp-attendance-sewing-terminal-candidate-v2-20260901",
+    "candidate_commit": "RECORDED_BY_GITHUB_CI_ARTIFACT",
+    "candidate_tree": "RECORDED_BY_GITHUB_CI_ARTIFACT",
+    "superseded_branch": "cp3/hpp-attendance-sewing-terminal-reconstruction-20260901"
+  },
+  "targets": {
+    "uat_project_ref": "siimvrusnzxexizpyoib",
+    "uat_mutated": false,
+    "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
+    "legacy_mutated": false,
+    "main_mutated": false,
+    "cloudflare_deployed": false,
+    "auth_mutated": false,
+    "storage_mutated": false,
+    "cron_mutated": false
+  },
+  "binding_contract": {
+    "numerator": "posted attendance payroll amount for eligible normal Mandor in the exact period",
+    "eligibility": [
+      "contractor_role=MANDOR",
+      "attendance_required=true",
+      "is_special=false explicitly"
+    ],
+    "denominator": "immutable authoritative SELESAI_DIJAHIT events in the exact period",
+    "forbidden_denominator_sources": [
+      "QC_GOOD",
+      "FG",
+      "LAUNDRY",
+      "REWORK_GOOD",
+      "REWASH",
+      "SUSULAN_GOOD",
+      "name inference"
+    ],
+    "zero_denominator": "positive numerator remains UNASSIGNED; no silent allocation or QC fallback"
+  },
+  "files": [
+    "supabase/migrations/20260901023000_erp_v2_6_14a_attendance_hpp_policy_and_sewing_terminal.sql",
+    "supabase/migrations/20260901023100_erp_v2_6_14b_attendance_hpp_pool_intents.sql",
+    "supabase/tests/attendance_hpp_cp3_source_contract.sql",
+    "supabase/tests/attendance_hpp_cp3_concurrency.py",
+    "supabase/tests/attendance_hpp_cp3_concurrency.fixture.example.json",
+    "scripts/cp3_render_reviewed_rollback.py",
+    "scripts/test_cp3_render_reviewed_rollback.py",
+    "scripts/cp3_source_candidate_checks.py",
+    ".github/workflows/cp3-source-candidate.yml",
+    "docs/evidence/2026-09-01/checkpoint_3_source_candidate_v2.md",
+    "docs/evidence/2026-09-01/checkpoint_3_source_candidate_v2.json"
+  ],
+  "defect_disposition": {
+    "CP3-P0-01": "SOURCE_FIX_CANDIDATE",
+    "CP3-P1-01": "SOURCE_FIX_CANDIDATE",
+    "CP3-P1-02": "PROVENANCE_CANDIDATE",
+    "CP3-P1-03": "SOURCE_FIX_CANDIDATE",
+    "CP3-P1-04": "SOURCE_FIX_CANDIDATE",
+    "CP3-P1-05": "SOURCE_FIX_CANDIDATE",
+    "CP3-P1-06": "SOURCE_FIX_CANDIDATE",
+    "CP3-P1-07": "SOURCE_FIX_CANDIDATE",
+    "CP3-P1-08": "PARTIAL_EXISTING_CLAIM_ROUTE_INTEGRATION_REVIEW_REQUIRED",
+    "CP3-P1-09": "SOURCE_FIX_CANDIDATE_BENCHMARK_PENDING",
+    "CP3-P1-10": "HARNESS_PRESENT_NOT_EXECUTED"
+  },
+  "truth_boundary": {
+    "source_shape": "AUTOMATED_GATE_REQUIRED",
+    "sql_top_level_parse": "AUTOMATED_GATE_REQUIRED",
+    "database_compile": "NOT_EXECUTED",
+    "runtime_behavior": "NOT_EXECUTED",
+    "real_concurrency": "HARNESS_PRESENT_NOT_EXECUTED",
+    "rollback_fixture": "SOURCE_CONTRACT_PRESENT_NOT_EXECUTED",
+    "uat_applied": false,
+    "gl_posted": false,
+    "route_enabled": false,
+    "backend_connected": false,
+    "production_go": false
+  },
+  "automated_evidence": {
+    "workflow": ".github/workflows/cp3-source-candidate.yml",
+    "artifact": "cp3-source-candidate-proof",
+    "expected_outputs": [
+      "cp3-source-identity.txt",
+      "cp3-source-candidate-check-report.json",
+      "cp3-source-candidate-SHA256SUMS.txt",
+      "cp3-pglast-parse-report.json",
+      "rollback renderer unit-test log",
+      "exact-byte rendered rollback SQL and metadata"
+    ],
+    "hash_policy": "Use only SHA-256 produced for the exact CI candidate commit; do not copy historical 2b1278 or stale recovered hashes."
+  },
+  "next_gate": {
+    "required_reviewer": "Work Sol Max",
+    "action": "read-only delta review of exact candidate commit and CI artifact",
+    "uat_allowed": false,
+    "required_verdict": "GO FOR CP3 LOCAL/UAT ACCEPTANCE",
+    "persistent_activation_checkpoint": 4
+  },
+  "takeover_ready": true
+}
