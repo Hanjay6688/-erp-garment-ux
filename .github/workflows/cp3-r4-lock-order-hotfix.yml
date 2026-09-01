@@ -1,4 +1,4 @@
-name: CP3 R4 Lock Order Hotfix
+name: CP3 R4 Service Role Harness Hotfix
 
 on:
   push:
@@ -16,16 +16,20 @@ jobs:
     timeout-minutes: 10
     env:
       TARGET_BRANCH: cp3/hpp-attendance-sewing-terminal-r4-20260901
-      EXPECTED_HEAD: 7173fcda2c13788be4bf4d3481f8c115a0b3d961
-      MARKER_B64: LS0gMi4gUG9saWN5IGNoYW5nZSBhZnRlciBBQ1RJVkUgcG9vbDogbG9jayBpcyBhbHJlYWR5IGhlbGQgYnkgdGhlIFIzIHNldHRlcjsKLS0gY2hlY2sgdGhlIGV4YWN0IG5ldyBlZmZlY3RpdmUgc2xpY2UgYWZ0ZXIgbmV4dC12ZXJzaW9uIGJvdW5kYXJ5IGlzIGtub3duLgo=
-      PATCH_B64: LS0gMmEuIFBvbGljeSBtdXRhdGlvbiBtdXN0IHRha2UgdGhlIGNvbnRyYWN0b3IgYWR2aXNvcnkgbG9jayBiZWZvcmUgdGhlCi0tIGNvbnRyYWN0b3Igcm93IGxvY2suIEFjdGl2YXRpb24gdGFrZXMgdGhlIHNhbWUgYWR2aXNvcnkgZmlyc3QgYW5kIGxhdGVyIG5lZWRzCi0tIHRoZSBjb250cmFjdG9yIEZLIGtleS1zaGFyZSB3aGlsZSBwb3N0aW5nIGpvdXJuYWwgbGluZXM7IHRoZSByZXZlcnNlIG9yZGVyCi0tIGNyZWF0ZXMgYW4gYWR2aXNvcnktbG9jay9yb3ctbG9jayBjeWNsZSB1bmRlciByZWFsIHR3by1zZXNzaW9uIGV4ZWN1dGlvbi4Kc2VsZWN0IHBnX3RlbXAuY3AzX3I0X3JlcGxhY2VfZnVuY3Rpb24oCiAgJ3NldF9jb250cmFjdG9yX2hwcF9wb2xpY3lfdjEnLAogICRhbmNob3IkICBzZWxlY3QgKiBpbnRvIHZfY29udHJhY3RvcgogIGZyb20gZXJwLmNvbnRyYWN0b3JzCiAgd2hlcmUgaWQgPSB2X2NvbnRyYWN0b3JfaWQKICBmb3IgdXBkYXRlOwoKICBpZiB2X2NvbnRyYWN0b3IuaWQgaXMgbnVsbCB0aGVuIHJhaXNlIGV4Y2VwdGlvbiAnQ29udHJhY3RvciBub3QgZm91bmQnOyBlbmQgaWY7CiAgaWYgdl9jb250cmFjdG9yLmNvbnRyYWN0b3JfdHlwZSA8PiAnTUFORE9SJyB0aGVuCiAgICByYWlzZSBleGNlcHRpb24gJ0F0dGVuZGFuY2UgSFBQIHBvbGljeSBpcyBvbmx5IHZhbGlkIGZvciByb2xlIE1BTkRPUic7CiAgZW5kIGlmOwogIGlmIHZfY29udHJhY3Rvci5hdHRlbmRhbmNlX3JlcXVpcmVkIGlzIGRpc3RpbmN0IGZyb20gdl9hdHRlbmRhbmNlX3JlcXVpcmVkIHRoZW4KICAgIHJhaXNlIGV4Y2VwdGlvbiAnYXR0ZW5kYW5jZV9yZXF1aXJlZCBwYXlsb2FkIG11c3QgZXhwbGljaXRseSBtYXRjaCBjb250cmFjdG9yIG1hc3RlcjsgdXBkYXRlIG1hc3RlciBmaXJzdCwgdGhlbiB3cml0ZSBhIG5ldyBIUFAgcG9saWN5IHZlcnNpb24nOwogIGVuZCBpZjsKCiAgcGVyZm9ybSBwZ19hZHZpc29yeV94YWN0X2xvY2soaGFzaHRleHRleHRlbmRlZCgnQ09OVFJBQ1RPUl9IUFBfUE9MSUNZfCcgfHwgdl9jb250cmFjdG9yX2lkOjp0ZXh0LCAwKSk7JGFuY2hvciQsCiAgJHBhdGNoJCAgcGVyZm9ybSBwZ19hZHZpc29yeV94YWN0X2xvY2soaGFzaHRleHRleHRlbmRlZCgnQ09OVFJBQ1RPUl9IUFBfUE9MSUNZfCcgfHwgdl9jb250cmFjdG9yX2lkOjp0ZXh0LCAwKSk7CgogIHNlbGVjdCAqIGludG8gdl9jb250cmFjdG9yCiAgZnJvbSBlcnAuY29udHJhY3RvcnMKICB3aGVyZSBpZCA9IHZfY29udHJhY3Rvcl9pZAogIGZvciB1cGRhdGU7CgogIGlmIHZfY29udHJhY3Rvci5pZCBpcyBudWxsIHRoZW4gcmFpc2UgZXhjZXB0aW9uICdDb250cmFjdG9yIG5vdCBmb3VuZCc7IGVuZCBpZjsKICBpZiB2X2NvbnRyYWN0b3IuY29udHJhY3Rvcl90eXBlIDw+ICdNQU5ET1InIHRoZW4KICAgIHJhaXNlIGV4Y2VwdGlvbiAnQXR0ZW5kYW5jZSBIUFAgcG9saWN5IGlzIG9ubHkgdmFsaWQgZm9yIHJvbGUgTUFORE9SJzsKICBlbmQgaWY7CiAgaWYgdl9jb250cmFjdG9yLmF0dGVuZGFuY2VfcmVxdWlyZWQgaXMgZGlzdGluY3QgZnJvbSB2X2F0dGVuZGFuY2VfcmVxdWlyZWQgdGhlbgogICAgcmFpc2UgZXhjZXB0aW9uICdhdHRlbmRhbmNlX3JlcXVpcmVkIHBheWxvYWQgbXVzdCBleHBsaWNpdGx5IG1hdGNoIGNvbnRyYWN0b3IgbWFzdGVyOyB1cGRhdGUgbWFzdGVyIGZpcnN0LCB0aGVuIHdyaXRlIGEgbmV3IEhQUCBwb2xpY3kgdmVyc2lvbic7CiAgZW5kIGlmOyRwYXRjaCQsCiAgMSwxCik7CgotLSAyYi4gUG9saWN5IGNoYW5nZSBhZnRlciBBQ1RJVkUgcG9vbDogdGhlIHNoYXJlZCBjb250cmFjdG9yIGFkdmlzb3J5IGxvY2sgaXMKLS0gbm93IGhlbGQgYmVmb3JlIGFueSBjb250cmFjdG9yIHJvdyBsb2NrOyBjaGVjayB0aGUgZXhhY3QgbmV3IGVmZmVjdGl2ZSBzbGljZS4K
+      EXPECTED_HEAD: 7c8d92b1455e33188302be3e18b1d7227877818e
+      OLD1_B64: ICAgICAgICAgICAgICAgICAgICBpZiAoCiAgICAgICAgICAgICAgICAgICAgICAgIGYnUHJvdGVjdGVkIGpvdXJuYWwgc291cmNlIHR5cGUge2V4cGVjdGVkX3NvdXJjZV90eXBlfScgbm90IGluIG1lc3NhZ2UKICAgICAgICAgICAgICAgICAgICAgICAgb3IgJ2Nhbm5vdCBiZSByZXZlcnNlZCB0aHJvdWdoIGdlbmVyaWMgcmV2ZXJzZV9qb3VybmFsJyBub3QgaW4gbWVzc2FnZQogICAgICAgICAgICAgICAgICAgICk6CiAgICAgICAgICAgICAgICAgICAgICAgIHJhaXNlIFJ1bnRpbWVFcnJvcihmJ3dyb25nIHByb3RlY3RlZCByZXZlcnNhbCBlcnJvcjoge21lc3NhZ2V9JykKICAgICAgICAgICAgICAgICAgICByZWplY3RlZC5hcHBlbmQoeydqb3VybmFsX2lkJzogc3RyKGpvdXJuYWxfaWQpLCAnZXJyb3InOiBtZXNzYWdlfSkK
+      NEW1_B64: ICAgICAgICAgICAgICAgICAgICBleHBlY3RlZF9wdWJsaWNfZGVuaWFsID0gKAogICAgICAgICAgICAgICAgICAgICAgICAncGVybWlzc2lvbiBkZW5pZWQgZm9yIHNjaGVtYSBlcnAnIGluIG1lc3NhZ2UKICAgICAgICAgICAgICAgICAgICAgICAgb3IgJ3Blcm1pc3Npb24gZGVuaWVkIGZvciBmdW5jdGlvbiByZXZlcnNlX2pvdXJuYWwnIGluIG1lc3NhZ2UKICAgICAgICAgICAgICAgICAgICApCiAgICAgICAgICAgICAgICAgICAgaWYgbm90IGV4cGVjdGVkX3B1YmxpY19kZW5pYWw6CiAgICAgICAgICAgICAgICAgICAgICAgIHJhaXNlIFJ1bnRpbWVFcnJvcihmJ3dyb25nIHNlcnZpY2Vfcm9sZSBwdWJsaWMgZGVuaWFsOiB7bWVzc2FnZX0nKQogICAgICAgICAgICAgICAgICAgIHJlamVjdGVkLmFwcGVuZCh7CiAgICAgICAgICAgICAgICAgICAgICAgICdqb3VybmFsX2lkJzogc3RyKGpvdXJuYWxfaWQpLAogICAgICAgICAgICAgICAgICAgICAgICAnZXhwZWN0ZWRfc291cmNlX3R5cGUnOiBleHBlY3RlZF9zb3VyY2VfdHlwZSwKICAgICAgICAgICAgICAgICAgICAgICAgJ2Vycm9yJzogbWVzc2FnZSwKICAgICAgICAgICAgICAgICAgICB9KQo=
+      OLD2_B64: ICAgIGNvbm4gPSBjb25uZWN0KCkKICAgIHRyeToKICAgICAgICB3aXRoIGNvbm4uY3Vyc29yKCkgYXMgY3VyOgogICAgICAgICAgICBjdXIuZXhlY3V0ZSgnc2V0IHJvbGUgc2VydmljZV9yb2xlJykKICAgICAgICAgICAgY3VyLmV4ZWN1dGUoJ3NlbGVjdCBlcnAucmV2ZXJzZV9qb3VybmFsKCVzOjp1dWlkLCVzKScsIChzdHIodW5wcm90ZWN0ZWRfaWQpLCAnQ1AzIFI0IHVucHJvdGVjdGVkIGNvbXBhdGliaWxpdHknKSkKICAgICAgICAgICAgdW5wcm90ZWN0ZWRfcmV2ZXJzYWwgPSBjdXIuZmV0Y2hvbmUoKVswXQogICAgICAgICAgICBjdXIuZXhlY3V0ZSgncmVzZXQgcm9sZScpCiAgICAgICAgY29ubi5jb21taXQoKQogICAgZmluYWxseToKICAgICAgICBjb25uLmNsb3NlKCkK
+      NEW2_B64: ICAgIHVucHJvdGVjdGVkX3JldmVyc2FsID0gb25lKAogICAgICAgICdzZWxlY3QgZXJwLnJldmVyc2Vfam91cm5hbCglczo6dXVpZCwlcyknLAogICAgICAgIChzdHIodW5wcm90ZWN0ZWRfaWQpLCAnQ1AzIFI0IHVucHJvdGVjdGVkIGNvbXBhdGliaWxpdHknKSwKICAgICkK
+      OLD3_B64: ICAgICAgICAnZGlyZWN0X3NlcnZpY2Vfcm9sZV9yZWplY3Rpb25zJzogcmVqZWN0ZWQsCg==
+      NEW3_B64: ICAgICAgICAnc2VydmljZV9yb2xlX3B1YmxpY19kZW5pYWxzJzogcmVqZWN0ZWQsCg==
     steps:
       - uses: actions/checkout@v4
         with:
           ref: cp3/hpp-attendance-sewing-terminal-r4-20260901
           fetch-depth: 0
 
-      - name: Patch exact target and refresh frozen migration digest
+      - name: Patch exact harness and refresh frozen digest
         shell: bash
         run: |
           set -euo pipefail
@@ -34,39 +38,42 @@ jobs:
           test "$(git rev-parse origin/$TARGET_BRANCH)" = "$EXPECTED_HEAD"
           python - <<'PY'
           from pathlib import Path
-          import base64, hashlib, json, os
-          migration = Path('supabase/migrations/20260901023400_erp_v2_6_14d_cp3_r4_race_and_reversal_hardening.sql')
+          import base64, hashlib, json, os, py_compile
+          script = Path('scripts/cp3_r4_full_schema_concurrency.py')
           manifest_path = Path('docs/evidence/cp3_r4_source_hashes.json')
-          text = migration.read_text(encoding='utf-8')
-          marker = base64.b64decode(os.environ['MARKER_B64']).decode()
-          patch = base64.b64decode(os.environ['PATCH_B64']).decode()
-          if text.count(marker) != 1:
-              raise SystemExit(f'expected one lock-order marker, found {text.count(marker)}')
-          migration.write_text(text.replace(marker, patch, 1), encoding='utf-8')
-          raw = migration.read_bytes()
+          text = script.read_text(encoding='utf-8')
+          for index in (1, 2, 3):
+              old = base64.b64decode(os.environ[f'OLD{index}_B64']).decode()
+              new = base64.b64decode(os.environ[f'NEW{index}_B64']).decode()
+              if text.count(old) != 1:
+                  raise SystemExit(f'expected one harness anchor {index}, found {text.count(old)}')
+              text = text.replace(old, new, 1)
+          script.write_text(text, encoding='utf-8')
+          py_compile.compile(str(script), doraise=True)
+          raw = script.read_bytes()
           manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
-          entry = manifest['files'][str(migration)]
+          entry = manifest['files'][str(script)]
           entry.update(bytes=len(raw), sha256=hashlib.sha256(raw).hexdigest())
-          manifest['last_lock_order_hardening'] = {
-              'scope': 'runtime source and real two-session race safety',
-              'root_cause': 'policy setter held contractor row before shared advisory while activation held advisory before FK key-share',
-              'fix': 'contractor advisory before contractor row lock',
+          manifest['last_security_harness_alignment'] = {
+              'scope': 'harness-only; runtime source unchanged',
+              'observed_boundary': 'service_role lacks USAGE on private erp schema before CP4 grants',
+              'expected_result': 'public RPC denied and protected journals unchanged; owner lifecycle still proven',
               'source_head': os.environ['EXPECTED_HEAD']
           }
           manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + '\n', encoding='utf-8')
           print(json.dumps(entry, sort_keys=True))
           PY
+          find scripts -type d -name __pycache__ -prune -exec rm -rf {} +
           git diff --check
-          grep -F 'Policy mutation must take the contractor advisory lock before' supabase/migrations/20260901023400_erp_v2_6_14d_cp3_r4_race_and_reversal_hardening.sql >/dev/null
 
-      - name: Commit and push clean target fix
+      - name: Commit and push exact target fix
         shell: bash
         run: |
           set -euo pipefail
           git fetch origin "$TARGET_BRANCH"
           test "$(git rev-parse origin/$TARGET_BRANCH)" = "$EXPECTED_HEAD"
-          git config user.name 'Hanjay6688'
-          git config user.email 'jktr9n2g88@privaterelay.appleid.com'
-          git add supabase/migrations/20260901023400_erp_v2_6_14d_cp3_r4_race_and_reversal_hardening.sql docs/evidence/cp3_r4_source_hashes.json
-          git commit -m 'fix(cp3): enforce contractor advisory-before-row lock order'
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add scripts/cp3_r4_full_schema_concurrency.py docs/evidence/cp3_r4_source_hashes.json
+          git commit -m 'test(cp3): align service-role harness with pre-CP4 schema boundary'
           git push origin HEAD:"$TARGET_BRANCH"
