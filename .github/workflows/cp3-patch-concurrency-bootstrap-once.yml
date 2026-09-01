@@ -1,4 +1,4 @@
-name: CP3 Patch Concurrency Bootstrap Once
+name: CP3 Normalize Concurrency Report Once
 
 on:
   push:
@@ -20,19 +20,39 @@ jobs:
         with:
           ref: cp3/hpp-attendance-sewing-terminal-candidate-20260901
           fetch-depth: 1
-      - name: Patch concurrency bootstrap through authoritative roster and attendance RPCs
+      - name: Normalize Decimal integrity result before JSON serialization
         shell: bash
         run: |
           set -euo pipefail
-          # Anchor offsets are resolved after the transformer adds its datetime import.
-          python -m py_compile scripts/cp3_patch_concurrency_bootstrap_once.py
-          python scripts/cp3_patch_concurrency_bootstrap_once.py
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path('scripts/cp3_concurrency_harness.py')
+          text = path.read_text()
+          old = '''        issues = one(conn, "select coalesce(sum(issue_count),0) from erp.run_v2614_attendance_hpp_integrity_checks()")
+        conn.commit()
+    if journals != 1 or issues != 0: raise AssertionError(f"idempotency/integrity mismatch journals={journals} issues={issues}")
+'''
+          new = '''        issues = one(conn, "select coalesce(sum(issue_count),0) from erp.run_v2614_attendance_hpp_integrity_checks()")
+        conn.commit()
+    issues = int(issues)
+    if journals != 1 or issues != 0: raise AssertionError(f"idempotency/integrity mismatch journals={journals} issues={issues}")
+'''
+          if text.count(old) != 1:
+              raise SystemExit('integrity report normalization anchor is missing or ambiguous')
+          text = text.replace(old, new, 1)
+          if text.count('issues = int(issues)') != 1:
+              raise SystemExit('integrity issue count was not normalized exactly once')
+          if 'assert_exactly_one(results, "sewing capacity race")' not in text:
+              raise SystemExit('race assertions changed unexpectedly')
+          path.write_text(text)
+          PY
           python -m py_compile scripts/cp3_concurrency_harness.py
           git diff --check
-          grep -nE 'save_worker_roster_v1|save_attendance_period_v1|post_attendance_period_v1|worker_employment_periods|worker_daily_rate_versions|insert into erp.attendance_(periods|records)|sewing capacity race|overlapping range race|post versus cancel race' scripts/cp3_concurrency_harness.py
+          grep -nE 'issues = int\(issues\)|sewing capacity race|overlapping range race|post versus cancel race|same-key same-payload' scripts/cp3_concurrency_harness.py
           sha256sum scripts/cp3_concurrency_harness.py
           git config user.name 'cp3-source-writer'
           git config user.email 'cp3-source-writer@users.noreply.github.com'
           git add scripts/cp3_concurrency_harness.py
-          git commit -m 'test(cp3): bootstrap concurrency data through authoritative RPCs'
+          git commit -m 'test(cp3): serialize integrity issue count as integer'
           git push origin HEAD:cp3/hpp-attendance-sewing-terminal-candidate-20260901
