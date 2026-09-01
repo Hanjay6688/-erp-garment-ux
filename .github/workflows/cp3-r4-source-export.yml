@@ -21,15 +21,15 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          git rev-parse HEAD > CP3_R4_EXPORT_HEAD.txt
-          tar --exclude=.git --exclude=cp3-r4-source.tar.gz -czf cp3-r4-source.tar.gz .
-          sha256sum cp3-r4-source.tar.gz CP3_R4_EXPORT_HEAD.txt > CP3_R4_EXPORT_SHA256SUMS.txt
+          git rev-parse HEAD > /tmp/CP3_R4_EXPORT_HEAD.txt
+          tar --exclude=.git -C "$GITHUB_WORKSPACE" -czf /tmp/cp3-r4-source.tar.gz .
+          sha256sum /tmp/cp3-r4-source.tar.gz /tmp/CP3_R4_EXPORT_HEAD.txt > /tmp/CP3_R4_EXPORT_SHA256SUMS.txt
       - uses: actions/upload-artifact@v4
         with:
           name: cp3-r4-source-export
           path: |
-            cp3-r4-source.tar.gz
-            CP3_R4_EXPORT_HEAD.txt
-            CP3_R4_EXPORT_SHA256SUMS.txt
+            /tmp/cp3-r4-source.tar.gz
+            /tmp/CP3_R4_EXPORT_HEAD.txt
+            /tmp/CP3_R4_EXPORT_SHA256SUMS.txt
           if-no-files-found: error
           retention-days: 1
