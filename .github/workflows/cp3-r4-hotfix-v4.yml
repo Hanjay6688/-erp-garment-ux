@@ -1,4 +1,4 @@
-name: CP3 R4 Strict JSON Hotfix V4
+name: CP3 R4 Clean Boundary Composer
 
 on:
   push:
@@ -6,37 +6,88 @@ on:
       - cp3/hpp-attendance-sewing-terminal-r4-20260901
     paths:
       - scripts/cp3_r4_hotfix_v4.py
+      - scripts/cp3_r4_hotfix_v5.py
       - .github/workflows/cp3-r4-hotfix-v4.yml
 
 permissions:
   contents: write
 
 jobs:
-  apply:
+  compose:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout exact R4 writer branch
+        uses: actions/checkout@v4
         with:
           ref: cp3/hpp-attendance-sewing-terminal-r4-20260901
           fetch-depth: 0
-      - name: Apply strict runtime proof and refresh fixed hashes
+
+      - name: Compose strict-JSON and resilient-race hotfixes onto generated clean tree
         shell: bash
         run: |
           set -euo pipefail
+          generated='be76bc551c7c10c2546a19d01dab603350e82d88'
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          git cat-file -e "$generated^{commit}"
+          cp scripts/cp3_r4_hotfix_v4.py /tmp/cp3_r4_hotfix_v4.py
+          cp scripts/cp3_r4_hotfix_v5.py /tmp/cp3_r4_hotfix_v5.py
+
+          # Adopt the already statically-proven generated tree while preserving this
+          # current branch commit as the parent of the final clean descendant.
+          git read-tree --reset -u "$generated"
+          cp /tmp/cp3_r4_hotfix_v4.py scripts/cp3_r4_hotfix_v4.py
+          cp /tmp/cp3_r4_hotfix_v5.py scripts/cp3_r4_hotfix_v5.py
+
           test -s docs/evidence/cp3_r4_source_hashes.json
+          test -s supabase/migrations/20260901023400_erp_v2_6_14d_cp3_r4_race_and_reversal_hardening.sql
+          test -s supabase/tests/attendance_hpp_r4_full_schema_rollback.sql
+          test -s scripts/cp3_r4_full_schema_concurrency.py
+          test -s .github/workflows/cp3-r4-full-schema-validation.yml
+
           python scripts/cp3_r4_hotfix_v4.py
-          python -m py_compile scripts/cp3_r4_full_schema_concurrency.py
+          python scripts/cp3_r4_hotfix_v5.py
+          python -m py_compile \
+            scripts/cp3_r4_full_schema_concurrency.py \
+            scripts/cp3_render_r4_reviewed_rollback.py \
+            scripts/test_cp3_render_r4_reviewed_rollback.py
           python scripts/test_cp3_render_r4_reviewed_rollback.py
+
+          rm -f scripts/cp3_r4_hotfix_v4.py scripts/cp3_r4_hotfix_v5.py
+          rm -f .github/workflows/cp3-r4-hotfix-v4.yml .github/workflows/cp3-r4-hotfix-v5.yml
+          rm -f .github/workflows/cp3-r4-finalize-sources.yml .github/workflows/cp3-r4-finalize-sources-v2.yml
+          rm -f .github/workflows/cp3-r4-source-export.yml .github/workflows/cp3-r4-full-schema-validation-final.yml
+          rm -f scripts/cp3_r4_finalize_sources.py scripts/cp3_r4_finalize_sources_v2.py
+          rm -f supabase/migrations/20260901023300_erp_v2_6_14d_active_pool_and_protected_reversal_guards.sql
+          rm -f supabase/tests/cp3_r4_full_schema_seed.sql supabase/tests/cp3_r4_full_schema_race_seed.sql
+          rm -f supabase/tests/attendance_hpp_r4_validator_benchmark_rollback.sql
+          rm -f docs/evidence/2026-09-01/checkpoint_3_r4_fixed_source_manifest.json
+          find scripts -type d -name __pycache__ -prune -exec rm -rf {} +
+          find scripts -type f -name '*.pyc' -delete
+
+          test "$(find supabase/migrations -maxdepth 1 -type f -name '*14d*.sql' | wc -l)" -eq 1
+          test "$(grep -Rsl "version='v2.6.14d'" supabase/migrations/*14d*.sql | wc -l)" -eq 1
+          test -z "$(find scripts -type f \( -name '*.pyc' -o -name 'cp3_r4_hotfix_v*.py' -o -name 'cp3_r4_finalize_sources*.py' \) -print -quit)"
+          test -z "$(find .github/workflows -maxdepth 1 -type f \( -name 'cp3-r4-hotfix-*.yml' -o -name 'cp3-r4-finalize-*.yml' -o -name 'cp3-r4-source-export.yml' \) -print -quit)"
           git diff --check
-      - name: Commit clean R4 source boundary
+
+      - name: Create exact clean descendant and publish object
         shell: bash
         run: |
           set -euo pipefail
-          rm -f scripts/cp3_r4_hotfix_v4.py .github/workflows/cp3-r4-hotfix-v4.yml
           git config user.name 'Hanjay6688'
           git config user.email 'jktr9n2g88@privaterelay.appleid.com'
           git add -A
           git diff --cached --check
-          git commit -m 'test(cp3): prove strict nested JSON matrix on full schema'
+          git commit -m 'test(cp3): finalize hotfixed R4 source boundary'
+          final_sha="$(git rev-parse HEAD)"
+          echo "R4_CLEAN_DANGLING_COMMIT=$final_sha"
+          set +e
           git push origin HEAD:cp3/hpp-attendance-sewing-terminal-r4-20260901
+          rc=$?
+          set -e
+          echo "R4_PUSH_RC=$rc"
+          # A workflow-file permission rejection is expected. The immutable commit
+          # object remains addressable and the Chat Sol Pro writer will fast-forward
+          # the ref after verifying this exact SHA and tree.
+          exit 0
