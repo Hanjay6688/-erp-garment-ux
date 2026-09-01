@@ -131,8 +131,8 @@
     "scope": "harness-only; runtime source unchanged"
   },
   "last_validation_trigger": {
-    "reason": "rerun after exact protected-journal, active-pool, terminal-dependency, and idempotency assertion alignment",
-    "source_head": "18bfb86bf500fe91ac64e6c1fce0a920fbca4b6c"
+    "reason": "rerun after exact two-connection race assertion alignment",
+    "source_head": "b3d4fbff78f725e50fecb840777f90be10496dcb"
   },
   "legacy_mutated": false,
   "migration_version": "v2.6.14d",
