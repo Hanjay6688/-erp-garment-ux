@@ -152,8 +152,8 @@
     "uat_applied": false
   },
   "last_validation_trigger": {
-    "reason": "full-schema proof after corrected pre-CP4 service-role boundary harness",
-    "source_head": "6467f38419eb637bcd91c40e2effff1966363466"
+    "reason": "full-schema proof after exact private reversal primitive harness repair",
+    "source_head": "8dc5d996a3d21e6dd364cdb0e4dcb9ea488781ed"
   },
   "legacy_mutated": false,
   "migration_version": "v2.6.14d",
