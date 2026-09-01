@@ -1,0 +1,35 @@
+name: CP3 Inspect Fixture Once
+
+on:
+  push:
+    branches:
+      - cp3/hpp-attendance-sewing-terminal-v2-20260901
+    paths:
+      - .github/workflows/cp3-inspect-fixture-once.yml
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout exact V2 branch
+        uses: actions/checkout@v4
+      - name: Print source identity and focused fixture/migration anchors
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "HEAD=$(git rev-parse HEAD)"
+          echo "PARENT=$(git rev-parse HEAD^)"
+          echo '--- fixture 1..140 ---'
+          nl -ba supabase/tests/attendance_hpp_sewing_terminal_rollback.sql | sed -n '1,140p'
+          echo '--- direct-write and GUC anchors ---'
+          grep -nE 'worker_employment|contractor_workers|save_worker_roster|set_config|attendance_required|special|SELESAI|QC|GOOD|ROLLBACK|COMMIT' \
+            supabase/tests/attendance_hpp_sewing_terminal_rollback.sql \
+            supabase/migrations/20260901023000_erp_v2_6_14_attendance_hpp_sewing_terminal_foundation.sql || true
+          echo '--- hashes ---'
+          sha256sum \
+            supabase/tests/attendance_hpp_sewing_terminal_rollback.sql \
+            supabase/migrations/20260901023000_erp_v2_6_14_attendance_hpp_sewing_terminal_foundation.sql
