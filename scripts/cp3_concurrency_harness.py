@@ -6,6 +6,7 @@ import json
 import os
 import threading
 import uuid
+from datetime import date, timedelta
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, asdict
 
@@ -44,15 +45,52 @@ def setup_period(tag: str, start: str, end: str, event_date: str, amount: int, q
     ]}
     with connect() as conn:
         one(conn, "insert into erp.contractors(id,contractor_code,contractor_name,contractor_type,attendance_required) values (%s,%s,%s,'MANDOR',true)", (ids["contractor"], f"CP3C-{tag}", f"CP3C {tag}"))
-        one(conn, "insert into erp.contractor_workers(id,contractor_id,worker_code,worker_name,pay_scheme,daily_rate,joined_at,job_description) values (%s,%s,%s,%s,'DAILY',%s,'2026-01-01','Sewing')", (ids["worker"], ids["contractor"], f"W-{tag}", f"Worker {tag}", amount))
-        one(conn, "insert into erp.worker_employment_periods(id,worker_id,started_on,start_reason) values (%s,%s,'2026-01-01','CP3 concurrency')", (ids["employment"], ids["worker"]))
-        one(conn, "insert into erp.worker_daily_rate_versions(id,worker_id,daily_rate,effective_from,change_reason) values (%s,%s,%s,'2026-01-01','CP3 concurrency')", (ids["rate"], ids["worker"], amount))
+        roster = one(conn, "select erp.save_worker_roster_v1(%s::jsonb,%s::uuid,null)", (json.dumps({
+            "contractor_id": ids["contractor"], "worker_code": f"W-{tag}",
+            "worker_name": f"Worker {tag}", "job_description": "Sewing",
+            "pay_scheme": "DAILY", "joined_at": "2026-01-01", "is_active": True,
+            "initial_daily_rate": amount, "rate_effective_from": "2026-01-01",
+            "reason": "CP3 authoritative concurrency roster"
+        }), uid(f"{tag}:worker-roster")))
+        roster = roster if isinstance(roster, dict) else json.loads(roster)
+        ids["worker"] = str(roster["worker_id"])
+        ids["rate"] = str(one(conn, "select erp.worker_daily_rate_version_id_at(%s::uuid,%s::date)", (ids["worker"], event_date)))
         policy = one(conn, "select erp.save_contractor_hpp_policy_v1(%s::jsonb,%s::uuid,null)", (json.dumps({
             "contractor_id": ids["contractor"], "effective_from": "2026-01-01",
             "attendance_required": True, "is_special": False, "change_reason": "CP3 concurrency policy"
         }), ids["policy_req"]))
-        one(conn, "insert into erp.attendance_periods(id,period_number,contractor_id,period_start,period_end,pay_date,status,posting_reason) values (%s,%s,%s,%s,%s,%s,'POSTED','CP3 concurrency')", (ids["attendance_period"], f"ATT-{tag}", ids["contractor"], start, end, end))
-        one(conn, "insert into erp.attendance_records(id,contractor_id,worker_id,attendance_date,status,paid_fraction,attendance_period_id,record_lifecycle,change_reason) values (%s,%s,%s,%s,'PRESENT',1,%s,'POSTED','CP3 concurrency')", (ids["attendance_record"], ids["contractor"], ids["worker"], event_date, ids["attendance_period"]))
+
+        start_day = date.fromisoformat(start)
+        end_day = date.fromisoformat(end)
+        present_day = date.fromisoformat(event_date)
+        attendance = []
+        day = start_day
+        while day <= end_day:
+            present = day == present_day
+            attendance.append({
+                "worker_id": ids["worker"],
+                "attendance_date": day.isoformat(),
+                "status": "PRESENT" if present else "OFF",
+                "paid_fraction": 1 if present else 0,
+                "notes": "CP3 explicit concurrency attendance matrix",
+            })
+            day += timedelta(days=1)
+
+        attendance_saved = one(conn, "select erp.save_attendance_period_v1(%s::jsonb,%s::uuid,null,false)", (json.dumps({
+            "contractor_id": ids["contractor"], "period_number": f"ATT-{tag}",
+            "period_start": start, "period_end": end, "pay_date": end,
+            "reason": "CP3 authoritative concurrency attendance",
+            "attendance": attendance,
+        }), uid(f"{tag}:attendance-save")))
+        attendance_saved = attendance_saved if isinstance(attendance_saved, dict) else json.loads(attendance_saved)
+        ids["attendance_period"] = str(attendance_saved["period_id"])
+        one(conn, "select erp.post_attendance_period_v1(%s::uuid,%s,%s::uuid,%s)", (
+            ids["attendance_period"], "CP3 authoritative concurrency attendance post",
+            uid(f"{tag}:attendance-post"), attendance_saved["row_version"]
+        ))
+        ids["attendance_record"] = str(one(conn, "select id from erp.attendance_records where attendance_period_id=%s::uuid and worker_id=%s::uuid and attendance_date=%s::date and record_lifecycle='POSTED'", (
+            ids["attendance_period"], ids["worker"], event_date
+        )))
         one(conn, "insert into erp.payroll_settlements(id,payroll_number,contractor_id,period_start,period_end,status,payment_date) values (%s,%s,%s,%s,%s,'DRAFT',%s)", (ids["payroll"], f"PAY-{tag}", ids["contractor"], start, end, end))
         one(conn, "insert into erp.payroll_attendance_items(payroll_id,worker_id,attendance_record_id,paid_fraction_snapshot,daily_rate_snapshot,worker_rate_version_id,attendance_date_snapshot,worker_name_snapshot,job_description_snapshot) values (%s,%s,%s,1,%s,%s,%s,%s,'Sewing')", (ids["payroll"], ids["worker"], ids["attendance_record"], amount, ids["rate"], event_date, f"Worker {tag}"))
         one(conn, "update erp.payroll_settlements set attendance_total=%s,status='PAID',settled_at=%s::date where id=%s", (amount, end, ids["payroll"]))
