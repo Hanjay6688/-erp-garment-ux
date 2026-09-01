@@ -1,0 +1,173 @@
+{
+  "checkpoint": 1,
+  "record_type": "forward_addendum",
+  "status": "PASS_INDEPENDENTLY_REVALIDATED",
+  "algorithm": {
+    "name": "CP1_REVALIDATION_V1",
+    "script": "scripts/cp1_fingerprint.sql",
+    "script_sha256": "943bf1180e39a898e38aea359a14f1a3459a1e7ad8dde7f35657ced672376509",
+    "historical_hashes_comparable": false,
+    "reason": "The historical evidence preserved hash values but not the exact serialization algorithm or column scope. V1 establishes a forward, reproducible baseline without rewriting the historical record."
+  },
+  "writer_lock": {
+    "writer": "Codex /root",
+    "scope": "documentation and evidence only",
+    "source_base_branch": "evidence/checkpoints-1-2-20260901",
+    "source_base_commit": "c00500f2a681310ab7d64d177f7d84dea873088b",
+    "source_base_tree": "b33e7cb5bb6217b95e8d2974581c2a158417f9c2",
+    "main_commit": "bf3ce8e2821f120d8abd8788daf07f6da7c15459",
+    "main_tree": "e4377d85b612f5183b4831751de6a735d98a8b6f",
+    "concurrent_writer_detected": false,
+    "persistent_database_write": false,
+    "auth_write": false,
+    "cloudflare_deploy": false,
+    "main_write": false
+  },
+  "scope": {
+    "catalog_schemas": ["erp", "public"],
+    "erp_table_and_rls_counts_schema": "erp",
+    "column_relation_kinds": ["table", "partitioned_table", "view", "materialized_view", "foreign_table"],
+    "columns_exclude": ["system_columns", "dropped_columns", "schemas_outside_erp_and_public"],
+    "grant_sources": ["information_schema.role_table_grants", "information_schema.role_routine_grants"],
+    "runtime_observations": ["auth", "app_users", "rls", "storage", "cron", "migration_ledger", "other_nonidle_client_sessions"]
+  },
+  "repeat_verification": {
+    "first_run_utc": {
+      "uat": "2026-09-01T01:45:32.005Z",
+      "legacy": "2026-09-01T01:45:33.187Z"
+    },
+    "second_run_utc": {
+      "uat": "2026-09-01T01:45:43.746Z",
+      "legacy": "2026-09-01T01:45:42.590Z"
+    },
+    "component_hashes_stable": true,
+    "object_counts_stable": true,
+    "migration_ledgers_stable": true
+  },
+  "uat": {
+    "project_ref": "siimvrusnzxexizpyoib",
+    "policy": "UAT_READ_ONLY_FOR_THIS_REVALIDATION",
+    "object_counts": {
+      "erp_tables": 142,
+      "scoped_relations": 194,
+      "scoped_columns": 2233,
+      "scoped_views": 48,
+      "scoped_functions": 436,
+      "scoped_triggers": 383,
+      "scoped_indexes": 419,
+      "scoped_constraints": 944,
+      "scoped_policies": 190,
+      "scoped_table_grants": 2569,
+      "scoped_routine_grants": 903,
+      "scoped_grants_total": 3472
+    },
+    "hashes": {
+      "relation": "84db475b123a89f201bbb9c0ef5cb096",
+      "column": "cb5629df0b8ebdbdeefd7ad54f744a24",
+      "view": "1e3d7cc8697f6e1acd01b7501b0c5ea0",
+      "function": "4940fb9c665bcbba762b81e03f133f1e",
+      "trigger": "3b87f5d46420ae873c0bb3b2c2655b9b",
+      "index": "7141c96a77bc6e54ba6d17b0c5909ea9",
+      "constraint": "80e511872dc648c8a18cef171f0f1e09",
+      "policy": "2c130e7fcb833b90d94ba6703db59a96",
+      "table_grant": "bb1e995f92931eb9ef61502cc494d837",
+      "routine_grant": "5829756182af413db57df6726327b391",
+      "schema_fingerprint_v1": "caf4560c036608927ffa4bec093dcbb1"
+    },
+    "runtime_state": {
+      "auth_users": 0,
+      "app_users": 0,
+      "erp_rls_enabled_tables": 142,
+      "erp_rls_disabled_tables": 0,
+      "storage_buckets": 1,
+      "storage_objects": 1,
+      "cron_jobs": 1,
+      "active_cron_jobs": 1,
+      "other_nonidle_client_sessions": 0,
+      "platform_migrations": 55,
+      "latest_platform_migration": "20260831032949_erp_v2_6_13b_auth_profile_facade_tracking"
+    }
+  },
+  "legacy": {
+    "project_ref": "vlxdhpkjeevubjxexnfo",
+    "policy": "CANONICAL_READ_ONLY",
+    "object_counts": {
+      "erp_tables": 136,
+      "scoped_relations": 186,
+      "scoped_columns": 2102,
+      "scoped_views": 46,
+      "scoped_functions": 398,
+      "scoped_triggers": 363,
+      "scoped_indexes": 399,
+      "scoped_constraints": 864,
+      "scoped_policies": 184,
+      "scoped_table_grants": 2475,
+      "scoped_routine_grants": 825,
+      "scoped_grants_total": 3300
+    },
+    "hashes": {
+      "relation": "7bba531f607972968e8c3129aa4993fc",
+      "column": "b4969195e4f36c4373a09655583c3aa1",
+      "view": "9ed202304aa062ba2d37ee046eba1f42",
+      "function": "c3c09e860a6f752edaf7126536967e2b",
+      "trigger": "9fc7b47815e824d5e5452480b8817527",
+      "index": "1ff9e60c228cec44e498eea2a0fe76c7",
+      "constraint": "e14831160549517896272eb73cdc4cbf",
+      "policy": "10a34217725c5f6e5c02758c4b86ed7b",
+      "table_grant": "ebe17ead3673310aee64b0e20cc40067",
+      "routine_grant": "008cff6ae1f5663404093922b06904e3",
+      "schema_fingerprint_v1": "178db1a1feef13fa055bd0493c33a9ac"
+    },
+    "runtime_state": {
+      "auth_users": 0,
+      "app_users": 0,
+      "erp_rls_enabled_tables": 136,
+      "erp_rls_disabled_tables": 0,
+      "storage_buckets": 1,
+      "storage_objects": 1,
+      "cron_jobs": 1,
+      "active_cron_jobs": 1,
+      "other_nonidle_client_sessions": 0,
+      "platform_migrations": 272,
+      "latest_platform_migration": "20260829204756_erp_v2_6_11_operational_reservations_and_completion_scope"
+    }
+  },
+  "column_count_reconciliation": {
+    "historical_uat": 2870,
+    "historical_legacy": 2701,
+    "v1_uat": 2233,
+    "v1_legacy": 2102,
+    "finding": "SCOPE_DIFFERENCE_NOT_PROVEN_SCHEMA_DRIFT",
+    "explanation": "The historical query and scope were not preserved. V1 counts non-dropped user-relation columns only in erp/public, so the values are intentionally not compared as like-for-like."
+  },
+  "cloudflare": {
+    "production": {
+      "worker": "erp-garment-ux",
+      "version_id": "593b5d6f-748a-498b-bf58-a6c7d2263294",
+      "source_commit": "bf3ce8e2821f120d8abd8788daf07f6da7c15459",
+      "runtime": "DEMO_SIMULATION",
+      "root_sha256": "f14a36d20b7e751ad81eea9762b35f0d9200400bcb8869dd20e67081257fdad0",
+      "javascript_sha256": "323798fee530edc5cc94d2cf9168386539c9bf76985357c3f0bd12100d44589b",
+      "css_sha256": "c279db52b256e9d6ac839881c5099d12111f566d47e2a283cb5752593dda2952"
+    },
+    "evidence_branch_preview": {
+      "version_id": "ee4a830d-552b-4157-9f33-b260b5c2c465",
+      "github_check_run_id": 99613055201,
+      "cloudflare_build_id": "5fabc743-52a4-4230-8fb8-e11ed46081c0",
+      "production": false
+    },
+    "finding": "The evidence preview version is not the production Worker version and must not be cited as live production."
+  },
+  "checkpoint_2": {
+    "evidence_claim": "PASS",
+    "independent_validation": "PENDING",
+    "handoff_label": "REPORTED PASS / AWAITING INDEPENDENT VALIDATION"
+  },
+  "verdict": {
+    "checkpoint_1": "PASS",
+    "takeover_ready": true,
+    "unknown_drift_detected": false,
+    "production_go": false,
+    "next_action": "Independently validate Checkpoint 2 restore evidence before any persistent UAT mutation."
+  }
+}
