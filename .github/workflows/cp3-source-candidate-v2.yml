@@ -1,0 +1,61 @@
+name: CP3 Source Candidate V2 Local Validation
+on:
+  workflow_dispatch:
+  push:
+    branches: [cp3/hpp-attendance-sewing-terminal-v2-20260901]
+    paths:
+      - .github/workflows/cp3-source-candidate-v2.yml
+      - ops/cp3/**
+      - scripts/cp3_materialize_archive.py
+permissions:
+  contents: read
+  actions: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
+      CP2_EVIDENCE_COMMIT: c00500f2a681310ab7d64d177f7d84dea873088b
+      CP2_RAW_SHA256: e176cac94d78915cb5fd73a065f58150184ee0b37801e6eb70fbc8fcfa29ef53
+    steps:
+      - uses: actions/checkout@v4
+      - uses: supabase/setup-cli@v1
+        with: {version: latest}
+      - uses: actions/download-artifact@v4
+        with:
+          name: cp2-encrypted-backup
+          path: transport/backup
+          github-token: ${{ github.token }}
+          run-id: 33430989888
+      - uses: actions/download-artifact@v4
+        with:
+          name: cp2-recovery-key-separate
+          path: transport/key
+          github-token: ${{ github.token }}
+          run-id: 33430989888
+      - name: Materialize reviewed source archive
+        run: python scripts/cp3_materialize_archive.py | tee cp3-materialize-archive-report.json
+      - name: Validate in disposable local Supabase
+        run: bash scripts/cp3_validate_local.sh
+      - name: Upload non-secret proof
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cp3-source-candidate-v2-proof
+          path: |
+            cp3-source-candidate-v2-proof.json
+            cp3-materialize-archive-report.json
+            cp3-static-contract-report.json
+            cp3-catalog-contract-report.json
+            cp3-renderer-report.json
+            cp3-renderer-unit.log
+            cp3-baseline-before.json
+            cp3-baseline-after-rollback.json
+            cp3-local-candidate-verification.json
+            cp3-concurrency-report.json
+            cp3-rollback-acceptance.log
+            cp3-local-candidate-apply.log
+            cp3-concurrency-setup.log
+          if-no-files-found: warn
+          retention-days: 14
