@@ -1,0 +1,89 @@
+name: CP3 Source Reconstruction Bootstrap
+
+on:
+  push:
+    branches:
+      - cp3/hpp-attendance-sewing-terminal-candidate-20260901
+    paths:
+      - .github/workflows/cp3-bootstrap-source.yml
+
+permissions:
+  contents: write
+
+jobs:
+  materialize-reviewed-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact candidate branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Guard target, base, and staged transport
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "${GITHUB_REF_NAME}" = 'cp3/hpp-attendance-sewing-terminal-candidate-20260901'
+          git merge-base --is-ancestor bf3ce8e2821f120d8abd8788daf07f6da7c15459 HEAD
+          test "$(find ops/cp3/bootstrap -maxdepth 1 -type f -name 'chunk_*' | wc -l)" = 8
+          test ! -e supabase/migrations/20260901023000_erp_v2_6_14_attendance_hpp_sewing_terminal_foundation.sql
+
+      - name: Reassemble and authenticate transport bundle
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat ops/cp3/bootstrap/chunk_* > /tmp/cp3-source-bundle.b64
+          test "$(wc -c < /tmp/cp3-source-bundle.b64)" = 42852
+          base64 --decode /tmp/cp3-source-bundle.b64 > /tmp/cp3-source-bundle.tar.gz
+          echo '0af10559233d681895f47f54653c4cc9aaed1947b67cb771873477eee9bba682  /tmp/cp3-source-bundle.tar.gz' | sha256sum -c -
+          tar -tzf /tmp/cp3-source-bundle.tar.gz | sort > /tmp/actual-paths.txt
+          cat > /tmp/expected-paths.txt <<'EOF'
+          .github/workflows/cp3-local-source-validation.yml
+          ops/cp3/attendance_hpp_candidate_manifest.json
+          scripts/cp3_concurrency_harness.py
+          scripts/cp3_generate_local_restore.py
+          scripts/cp3_render_reviewed_sql.py
+          scripts/test_cp3_render_reviewed_sql.py
+          supabase/migrations/20260901023000_erp_v2_6_14_attendance_hpp_sewing_terminal_foundation.sql
+          supabase/tests/attendance_hpp_sewing_terminal_rollback.sql
+          EOF
+          sort -o /tmp/expected-paths.txt /tmp/expected-paths.txt
+          diff -u /tmp/expected-paths.txt /tmp/actual-paths.txt
+          tar -xzf /tmp/cp3-source-bundle.tar.gz
+
+      - name: Verify every reconstructed byte
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo '31298289763f868df153516edd9fb64e58205367fa82383594ffd7b7feeabdc7  supabase/migrations/20260901023000_erp_v2_6_14_attendance_hpp_sewing_terminal_foundation.sql' | sha256sum -c -
+          echo 'a60eafcca6aa7e5ca983589d603c5f2f1c31e288d540e8108f1509974c636a40  supabase/tests/attendance_hpp_sewing_terminal_rollback.sql' | sha256sum -c -
+          echo 'b0326036177a99ab0769c2b2fe40ab694478232b540a123b49248598773a778c  scripts/cp3_render_reviewed_sql.py' | sha256sum -c -
+          echo 'd3bb7e0a0a5992adadee6559ee54a45be33bf788937be19a572cef47644b06ae  scripts/test_cp3_render_reviewed_sql.py' | sha256sum -c -
+          echo '9a9ddaa36d97c71c3f3e37b4c3a8d60b0c2913e4fa558704a46db977f9bf0b84  scripts/cp3_generate_local_restore.py' | sha256sum -c -
+          echo '996a318e872000df87bbf8acacc699c6b0ad2b9174491720565fadc6ba6aa5e8  scripts/cp3_concurrency_harness.py' | sha256sum -c -
+          echo '83bb786064dfb3aa116a51b664b0df37e17e3a9ebc365b5f27aee6326476c32e  ops/cp3/attendance_hpp_candidate_manifest.json' | sha256sum -c -
+          echo '153cdb360d70dfb9fa31fc36c6a8afdb08107bb6bf4b5afae8acae6f7502f6fd  .github/workflows/cp3-local-source-validation.yml' | sha256sum -c -
+          python -m py_compile \
+            scripts/cp3_render_reviewed_sql.py \
+            scripts/test_cp3_render_reviewed_sql.py \
+            scripts/cp3_generate_local_restore.py \
+            scripts/cp3_concurrency_harness.py
+          PYTHONPATH=scripts python scripts/test_cp3_render_reviewed_sql.py
+          python scripts/cp3_render_reviewed_sql.py \
+            ops/cp3/attendance_hpp_candidate_manifest.json \
+            /tmp/cp3-rendered.sql \
+            /tmp/cp3-rendered.json
+          echo '07982ab3528f46dc1ff47035038fba85cbc8d6d6c68221d3e0b72dc601dbcb01  /tmp/cp3-rendered.sql' | sha256sum -c -
+
+      - name: Replace transport with exact reviewable source
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf ops/cp3/bootstrap .github/workflows/cp3-bootstrap-source.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git diff --cached --name-status
+          git commit -m 'feat(cp3): reconstruct attendance HPP from sewing terminal facts'
+          git push origin HEAD:${GITHUB_REF_NAME}
