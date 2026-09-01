@@ -73,7 +73,7 @@ jobs:
             "    1,\n"
             ")\n"
           )
-          text,n=re.subn(race_pattern,race_replacement,text,count=1,flags=re.S)
+          text,n=re.subn(race_pattern,lambda _match: race_replacement,text,count=1,flags=re.S)
           if n!=1:
               raise SystemExit(f'R4 finalizer reconciliation expected one obsolete concurrency derivation block, found {n}')
           path.write_text(text)
