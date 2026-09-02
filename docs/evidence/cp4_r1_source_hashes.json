@@ -4,7 +4,7 @@
   "parent_sha": "92e49047941c09f18a306a9b2998f101c62e6ffe",
   "parent_tree": "8625bd6053c256456f67185d60e0bb95f9bc574e",
   "candidate_first_sha": "da8ed9055738c26ce882ad8b1adda047fe000c72",
-  "candidate_generation_parent_sha": "9276250310f14d769bf9f1dbb9247287b173fe05",
+  "candidate_generation_parent_sha": "98aa031bdba010e706f5bb745f12eb3612e09819",
   "cp3_reviewed_head": "469f48a0724b447fc397a2a932c4872c2ed27488",
   "pre_cp4_recovery_run_id": 33587654349,
   "target_project_ref": "siimvrusnzxexizpyoib",
@@ -16,22 +16,27 @@
   "production_go": false,
   "migration_version": "20260902043000",
   "application_version": "v2.6.16",
+  "hosted_uat_require_owner_admin": {
+    "definition_md5": "8c22fb34fb8adf2085ca5703e32d38a5",
+    "acl": "{postgres=X/postgres,service_role=X/postgres}",
+    "owner": "postgres"
+  },
   "files": {
     ".github/workflows/cp4-full-schema-validation.yml": {
-      "bytes": 24594,
-      "sha256": "aa9620cdc8bc597b066537bbdcbe85f8c855f182693c1ccfff5333e9c13296c8"
+      "bytes": 26595,
+      "sha256": "ff2397bd72b4b7c7121a5874f66f751ed267d8445ce8d99aa8079a433570730e"
     },
     "scripts/check-backend-ownership.mjs": {
-      "bytes": 5748,
-      "sha256": "8b90a31dc4febdcc5b5126013c61ac7d79385a35fe2e974eef5abf5f9c4a846c"
+      "bytes": 5945,
+      "sha256": "40c451b20e87bee32af313e7a379419e7a3132ca9da9b18bf79e5a51e6ef3a77"
     },
     "scripts/cp4_auth_rls_e2e.mjs": {
       "bytes": 10197,
       "sha256": "6d71f61eef348d1bcf38b7adcc97f998cd1dee7068d8bf0a7bfb25c67299f331"
     },
     "supabase/migrations/20260902043000_erp_v2_6_16_cp4_hpp_route_auth_boundary.sql": {
-      "bytes": 25072,
-      "sha256": "af4e82669315c76bfcb105eb261a11e94cd96a357202be620d0191a027ff12f2"
+      "bytes": 25695,
+      "sha256": "fcba665519b289fd8d0cca2a07d4207d6e959e4bd1c2c1b700e35c0334f0c9e2"
     },
     "supabase/rollbacks/20260902043000_erp_v2_6_16_cp4_hpp_route_auth_boundary.rollback.sql": {
       "bytes": 3811,

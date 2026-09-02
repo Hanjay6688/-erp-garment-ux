@@ -66,6 +66,12 @@ begin
   if v_owner_guard_md5 is distinct from '8c22fb34fb8adf2085ca5703e32d38a5' then
     raise exception 'CONCURRENT_WRITER_DETECTED: require_owner_admin changed after the reviewed UAT fingerprint (observed %)',v_owner_guard_md5;
   end if;
+  if has_function_privilege('public','erp.require_owner_admin()','EXECUTE')
+     or has_function_privilege('anon','erp.require_owner_admin()','EXECUTE')
+     or has_function_privilege('authenticated','erp.require_owner_admin()','EXECUTE')
+     or not has_function_privilege('service_role','erp.require_owner_admin()','EXECUTE') then
+    raise exception 'CONCURRENT_WRITER_DETECTED: require_owner_admin ACL differs from the reviewed UAT boundary';
+  end if;
 end
 $guard$;
 
@@ -139,6 +145,8 @@ begin
   end if;
 end
 $function$;
+revoke all on function erp.require_owner_admin() from public, anon, authenticated, service_role;
+grant execute on function erp.require_owner_admin() to service_role;
 
 create or replace view erp.v_attendance_hpp_active_allocation_by_po_group
 with (security_invoker=true)

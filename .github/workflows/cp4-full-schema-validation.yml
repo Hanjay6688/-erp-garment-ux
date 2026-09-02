@@ -32,6 +32,7 @@ env:
   SOURCE_R4_SHA: 13d855bd424d995b0abfc7e8c6b7a5ca83afa0a9
   SOURCE_R5_SHA: bfdfc8e7772f66a138c875416f19e52dacfa0fee
   SOURCE_R6_SHA: 9276250310f14d769bf9f1dbb9247287b173fe05
+  SOURCE_R7_SHA: 98aa031bdba010e706f5bb745f12eb3612e09819
   RECOVERY_RUN_ID: 33587654349
   PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
   CP3_R4_CONCURRENCY_REPORT: cp4-proof/cp3-r4-concurrency-report.json
@@ -52,7 +53,8 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p cp4-proof
-          test "$(git rev-parse HEAD^)" = "$SOURCE_R6_SHA"
+          test "$(git rev-parse HEAD^)" = "$SOURCE_R7_SHA"
+          test "$(git rev-parse "$SOURCE_R7_SHA^")" = "$SOURCE_R6_SHA"
           test "$(git rev-parse "$SOURCE_R6_SHA^")" = "$SOURCE_R5_SHA"
           test "$(git rev-parse "$SOURCE_R5_SHA^")" = "$SOURCE_R4_SHA"
           test "$(git rev-parse "$SOURCE_R4_SHA^")" = "$SOURCE_R3_SHA"
@@ -253,6 +255,32 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          # The reusable catalog capsule predates one hosted-UAT ACL revoke on
+          # this function. Record the discrepancy, then align this disposable
+          # boundary to the exact currently observed hosted UAT ACL.
+          psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' > cp4-proof/PRE_CP4_OWNER_GUARD_ACL_BEFORE_ALIGNMENT.json
+          select jsonb_build_object(
+            'definition_md5',md5(pg_get_functiondef(p.oid)),
+            'acl',coalesce(p.proacl::text,'NULL'),'owner',pg_get_userbyid(p.proowner)
+          ) from pg_proc p where p.oid='erp.require_owner_admin()'::regprocedure;
+          SQL
+          psql "$PGURL" -v ON_ERROR_STOP=1 <<'SQL'
+          revoke all on function erp.require_owner_admin() from public, anon, authenticated, service_role;
+          grant execute on function erp.require_owner_admin() to service_role;
+          SQL
+          psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' | tee cp4-proof/PRE_CP4_OWNER_GUARD_UAT_ALIGNMENT.json
+          select jsonb_build_object(
+            'status',case when md5(pg_get_functiondef(p.oid))='8c22fb34fb8adf2085ca5703e32d38a5'
+              and not has_function_privilege('public',p.oid,'EXECUTE')
+              and not has_function_privilege('anon',p.oid,'EXECUTE')
+              and not has_function_privilege('authenticated',p.oid,'EXECUTE')
+              and has_function_privilege('service_role',p.oid,'EXECUTE')
+              and pg_get_userbyid(p.proowner)='postgres' then 'PASS' else 'FAIL' end,
+            'definition_md5',md5(pg_get_functiondef(p.oid)),
+            'acl',coalesce(p.proacl::text,'NULL'),'owner',pg_get_userbyid(p.proowner)
+          ) from pg_proc p where p.oid='erp.require_owner_admin()'::regprocedure;
+          SQL
+          test "$(python -c "import json;print(json.load(open('cp4-proof/PRE_CP4_OWNER_GUARD_UAT_ALIGNMENT.json'))['status'])")" = 'PASS'
           psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' > cp4-proof/PRE_CP4_FUNCTION_ACL.json
           select jsonb_build_object('functions',jsonb_agg(jsonb_build_object(
             'identity',format('%I.%I(%s)',n.nspname,p.proname,pg_get_function_identity_arguments(p.oid)),
