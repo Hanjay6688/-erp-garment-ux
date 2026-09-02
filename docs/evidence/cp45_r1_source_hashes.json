@@ -3,12 +3,31 @@
   "candidate_branch": "cp4.5/rbac-production-identity-wip-r1-20260902",
   "source_base_sha": "57d8346a7cdf4ee86519f2dd2a1b54d39ebbb6cc",
   "source_base_tree": "48fc87507dc8a18d5829d518e53f298ad0c7e01a",
-  "generation_parent_sha": "c90140b7fcd5cc6bec16074e806f865f28ef0209",
+  "generation_parent_sha": "0c1e1922276616ba1636640acfade63d89f92b5c",
   "target_project_ref": "siimvrusnzxexizpyoib",
   "target_environment": "ERP Enteng UAT",
   "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
   "migration_version": "20260902104937",
   "application_version": "v2.6.17",
+  "integrity_correction": {
+    "defect_id": "P2-CP45-001",
+    "status": "SOURCE_CANDIDATE_PENDING_EXACT_HEAD_CI_AND_UAT",
+    "migration_version": "20260902180726",
+    "application_version": "v2.6.17a",
+    "source_only": true,
+    "uat_applied": false,
+    "uat_applied_at": null,
+    "exact_head_ci": {
+      "status": "PENDING"
+    },
+    "hosted_auth_permission_e2e": {
+      "status": "PENDING",
+      "mode": "MANUAL_HOSTED_UAT_VERIFIED",
+      "classified_as_ci": false,
+      "github_service_role_secret_used": false
+    }
+  },
+  "closure_status": "NO_GO_PENDING_CP45A_CORRECTION_PROOF",
   "source_only": false,
   "uat_applied": true,
   "uat_applied_at": "2026-09-02T14:49:11.827931Z",
@@ -56,8 +75,8 @@
       "sha256": "4322a80bcac49d0f67eb7484477abecf2eed60746e5400580b4000aa69f3242a"
     },
     ".github/workflows/cp45-full-schema-validation.yml": {
-      "bytes": 37198,
-      "sha256": "a6182564a4180d6fdbaf7418e76f4c21224f765049e8047fbbfff61eeedab1e7"
+      "bytes": 44239,
+      "sha256": "eb527b0087ee19007c5e2f1948c99daa12e83078e56af0a29cf440c3ca5c6655"
     },
     ".gitignore": {
       "bytes": 177,
@@ -68,16 +87,16 @@
       "sha256": "349f7d653adbf132e21d3ee2adb740bf9f2185445d612e5dce73a674fa178184"
     },
     "docs/evidence/cp45_closure_runbook.md": {
-      "bytes": 1290,
-      "sha256": "2bc852c0173e57fc99ee86a0040a6b00907cf7b4e9a1dc32a9a5b89939002449"
+      "bytes": 1732,
+      "sha256": "01bbe4e93e89c133614971e66e9487e55d629ec121b4c05e7557d77bcd838d62"
     },
     "docs/evidence/cp45_hosted_uat_auth_e2e.json": {
       "bytes": 10053,
       "sha256": "34fcc833a721adba1c32e5ef22ab474802d17cf01099481dc3dfd138d4b4ecaa"
     },
     "docs/evidence/cp45_truth_boundary.md": {
-      "bytes": 3318,
-      "sha256": "7fbd6015f1454429ffe83f539c687cc6606839f85389054c20f91d67927b26ec"
+      "bytes": 4051,
+      "sha256": "f0adb995f1513cd8df686f1705b4247d19c7f3422827051f247b5494460cc99e"
     },
     "package-lock.json": {
       "bytes": 125971,
@@ -92,12 +111,12 @@
       "sha256": "e690c43d42a18734111a870923bf940e42d3a821c0c4bbb29bd43679f2123c80"
     },
     "scripts/check-access-catalog.mjs": {
-      "bytes": 5374,
-      "sha256": "78d0ec37dfc1e361d43169316a03ecabeae09366bd7599d02d6d2345804f2eb7"
+      "bytes": 6519,
+      "sha256": "a54e7ecb389302de2cf82993dd2cadf82bd6b77fe3305582fc8b91f00aed1e72"
     },
     "scripts/check-backend-ownership-v2.mjs": {
-      "bytes": 13928,
-      "sha256": "6ff8c75bbf5e9f32d929a20ee623c7067afeab590bcac18d03cf966810204d32"
+      "bytes": 16207,
+      "sha256": "a6e6924ac74c99c47e565051f7e845fbf923f28fd2f7c768f89728c4f5114f38"
     },
     "scripts/check-source-ownership.mjs": {
       "bytes": 4101,
@@ -107,9 +126,13 @@
       "bytes": 19904,
       "sha256": "973573382d6f72b315e0ed54f0d843dcb37c9f92408da14502df38af4ea15fb7"
     },
+    "scripts/cp45_pattern_assignment_concurrency.py": {
+      "bytes": 16334,
+      "sha256": "52d84cb2dac1f4471eb66e13f77226f7bac6751cc64fbad6f07d0b7ea2833e69"
+    },
     "scripts/render-cp45-source-hashes.mjs": {
-      "bytes": 3988,
-      "sha256": "c04819c5c5cb4dc3fa93fa6de637144e108dccea5a2af248662d8153e502500c"
+      "bytes": 4607,
+      "sha256": "2a409c12182dc254b26ac7caaf1cd4685e88ed0c05e65b9cf5455b6ad5ed36f5"
     },
     "src/AccessControlPage.tsx": {
       "bytes": 19428,
@@ -235,13 +258,25 @@
       "bytes": 98728,
       "sha256": "66175dcc5c73d2fb3bad493c1c6bd6a1ad14877251b0c690c0b642ae226c849a"
     },
+    "supabase/migrations/20260902180726_erp_v2_6_17a_cp45_pattern_assignment_immutability.sql": {
+      "bytes": 18297,
+      "sha256": "7ab0704fe6141f8cb0af469f951dcc188989769cf75b4c02bac10d2794133590"
+    },
     "supabase/rollbacks/20260902104937_erp_v2_6_17_access_pattern_wip_control.rollback.sql": {
       "bytes": 9829,
       "sha256": "7aa400652bc65f85c5a69f8cc1f40f80f0658bf9d8b9a665f9a0acd8e599d012"
     },
+    "supabase/rollbacks/20260902180726_erp_v2_6_17a_cp45_pattern_assignment_immutability.rollback.sql": {
+      "bytes": 6995,
+      "sha256": "1a9b8332800cd24dcb0861e1339f38dbf8f6875bfbc56865e7f5b676257b7850"
+    },
     "supabase/tests/access_pattern_wip_control_rollback.sql": {
       "bytes": 39651,
       "sha256": "d120a7859a02b85559212adbf8c83d1dd4e3e4f586a117f528cd49fd55197e9e"
+    },
+    "supabase/tests/cp45_pattern_assignment_immutability_rollback.sql": {
+      "bytes": 14871,
+      "sha256": "8e15656336d3aba3f554155402e14fd7c58514c44f99e38d65bf60ee8e3f8354"
     },
     "tests/browser/cp45.spec.ts": {
       "bytes": 5646,
