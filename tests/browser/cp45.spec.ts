@@ -13,7 +13,7 @@ test('CP4.5 Master Pola grows from operational need with fail-closed Potongan se
   page.on('pageerror', (error) => pageErrors.push(error.message))
 
   await page.goto('/')
-  await expect(page.locator('.top-title strong')).toHaveText('Dashboard')
+  await expect(page.locator('.top-title strong')).toHaveText('Ringkasan bisnis')
 
   await openNavigation(page, testInfo.project.name, 'Produksi', 'Buat Potongan')
   await expect(page.getByRole('heading', { name: 'Buat Potongan' })).toBeVisible()

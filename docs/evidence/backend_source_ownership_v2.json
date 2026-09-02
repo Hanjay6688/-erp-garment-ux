@@ -8,7 +8,7 @@
   "candidate_cp45_manifest": {
     "path": "docs/evidence/cp45_r1_source_hashes.json",
     "bytes": 8208,
-    "sha256": "16c50fa316e7a22f6651b427c0a12b8021a25c87481a3462b727e270125b14dd"
+    "sha256": "1cfbb24435feb195a7d1d11e419d77c4f7340204ca83a64cdd933a5cd4dc8f40"
   },
   "target_project_ref": "siimvrusnzxexizpyoib",
   "legacy_project_ref": "vlxdhpkjeevubjxexnfo",

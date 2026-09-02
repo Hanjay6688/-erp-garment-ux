@@ -15,6 +15,8 @@ const sha256 = (bytes) => createHash('sha256').update(bytes).digest('hex')
 const git = (...args) => execFileSync('git', args, { cwd: root, encoding: 'utf8' }).trim()
 const lines = (value) => value.split('\n').map((line) => line.trim()).filter(Boolean)
 const baseline = git('rev-list', '--max-parents=0', 'HEAD').split('\n').at(-1)
+const generationParent = process.env.CP45_GENERATION_PARENT_SHA || git('rev-parse', 'HEAD')
+if (!/^[0-9a-f]{40}$/.test(generationParent)) throw new Error('CP45_GENERATION_PARENT_SHA must be an exact commit SHA')
 const trackedDelta = lines(git('diff', '--name-only', '--diff-filter=ACMRTUXB', baseline, '--'))
 const untracked = lines(git('ls-files', '--others', '--exclude-standard'))
 const excluded = new Set([manifestRelative, ownershipRelative])
@@ -37,7 +39,7 @@ const manifest = {
   candidate_branch: 'cp4.5/rbac-production-identity-wip-r1-20260902',
   source_base_sha: '57d8346a7cdf4ee86519f2dd2a1b54d39ebbb6cc',
   source_base_tree: '48fc87507dc8a18d5829d518e53f298ad0c7e01a',
-  generation_parent_sha: git('rev-parse', 'HEAD'),
+  generation_parent_sha: generationParent,
   target_project_ref: 'siimvrusnzxexizpyoib',
   target_environment: 'ERP Enteng UAT',
   legacy_project_ref: 'vlxdhpkjeevubjxexnfo',

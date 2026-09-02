@@ -12,7 +12,7 @@ permissions:
 
 concurrency:
   group: cp45-r1-${{ github.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 env:
   SOURCE_BASE_SHA: 57d8346a7cdf4ee86519f2dd2a1b54d39ebbb6cc
