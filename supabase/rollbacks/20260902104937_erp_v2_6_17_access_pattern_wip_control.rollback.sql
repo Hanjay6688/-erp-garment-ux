@@ -127,14 +127,45 @@ drop function erp.guard_protected_role();
 drop function erp.guard_access_catalog_immutability();
 
 do $restore_functions$
-declare r record;
+declare r record;a record;v_grantee text;
 begin
   for r in
-    select function_identity,function_definition
+    select function_identity,function_definition,acl_snapshot,owner_snapshot
     from erp.cp45_v2617_rollback_capsule
     order by function_identity
   loop
     execute r.function_definition;
+    execute format('alter function %s owner to %I',r.function_identity,r.owner_snapshot);
+
+    -- CREATE OR REPLACE preserves the CP4.5 ACL. Remove every current grant,
+    -- then rebuild the exact pre-CP4.5 privilege set captured in the capsule.
+    for a in
+      select distinct x.grantee
+      from pg_proc p join pg_namespace n on n.oid=p.pronamespace
+      cross join lateral aclexplode(coalesce(p.proacl,acldefault('f',p.proowner))) x
+      where format('%I.%I(%s)',n.nspname,p.proname,pg_get_function_identity_arguments(p.oid))=r.function_identity
+    loop
+      v_grantee:=case when a.grantee=0 then 'PUBLIC' else format('%I',pg_get_userbyid(a.grantee)) end;
+      execute format('revoke all privileges on function %s from %s',r.function_identity,v_grantee);
+    end loop;
+
+    if r.acl_snapshot is null then
+      execute format('grant execute on function %s to PUBLIC',r.function_identity);
+    else
+      for a in
+        select x.* from aclexplode(r.acl_snapshot::aclitem[]) x
+        order by x.grantee,x.privilege_type,x.is_grantable
+      loop
+        if a.privilege_type<>'EXECUTE' then
+          raise exception 'v2.6.17 rollback refused: unsupported function privilege %',a.privilege_type;
+        end if;
+        v_grantee:=case when a.grantee=0 then 'PUBLIC' else format('%I',pg_get_userbyid(a.grantee)) end;
+        execute format(
+          'grant execute on function %s to %s%s',r.function_identity,v_grantee,
+          case when a.is_grantable then ' with grant option' else '' end
+        );
+      end loop;
+    end if;
   end loop;
 end
 $restore_functions$;
@@ -152,8 +183,16 @@ begin
   where p.oid is null
      or encode(extensions.digest(convert_to(pg_get_functiondef(p.oid),'UTF8'),'sha256'),'hex')
         is distinct from c.definition_sha256
-     or (case when p.proacl is null then null else array(select a::text from unnest(p.proacl) a) end)
-        is distinct from c.acl_snapshot
+     or coalesce((
+          select array_agg(format('%s:%s:%s:%s',a.grantor,a.grantee,a.privilege_type,a.is_grantable)
+            order by a.grantor,a.grantee,a.privilege_type,a.is_grantable)
+          from aclexplode(coalesce(p.proacl,acldefault('f',p.proowner))) a
+        ),array[]::text[])
+        is distinct from coalesce((
+          select array_agg(format('%s:%s:%s:%s',a.grantor,a.grantee,a.privilege_type,a.is_grantable)
+            order by a.grantor,a.grantee,a.privilege_type,a.is_grantable)
+          from aclexplode(coalesce(c.acl_snapshot::aclitem[],acldefault('f',p.proowner))) a
+        ),array[]::text[])
      or pg_get_userbyid(p.proowner) is distinct from c.owner_snapshot;
   if v_bad is not null then
     raise exception 'v2.6.17 rollback exact function/ACL/owner restoration failed: %',v_bad;

@@ -336,7 +336,13 @@ jobs:
           select jsonb_build_object('functions',jsonb_agg(jsonb_build_object(
             'identity',format('%I.%I(%s)',n.nspname,p.proname,pg_get_function_identity_arguments(p.oid)),
             'definition_sha256',encode(extensions.digest(convert_to(pg_get_functiondef(p.oid),'UTF8'),'sha256'),'hex'),
-            'acl',coalesce(p.proacl::text,'NULL'),'owner',pg_get_userbyid(p.proowner)
+            'acl',(select coalesce(jsonb_agg(jsonb_build_object(
+              'grantor',pg_get_userbyid(a.grantor),
+              'grantee',case when a.grantee=0 then 'PUBLIC' else pg_get_userbyid(a.grantee) end,
+              'privilege',a.privilege_type,'grantable',a.is_grantable
+            ) order by a.grantor,a.grantee,a.privilege_type,a.is_grantable),'[]'::jsonb)
+              from aclexplode(coalesce(p.proacl,acldefault('f',p.proowner))) a),
+            'owner',pg_get_userbyid(p.proowner)
           ) order by p.proname,pg_get_function_identity_arguments(p.oid)))
           from pg_proc p join pg_namespace n on n.oid=p.pronamespace
           where n.nspname='erp' and p.proname in('current_app_role','current_app_user_id','save_app_user_v2','require_owner_admin');
@@ -428,7 +434,13 @@ jobs:
           select jsonb_build_object('functions',jsonb_agg(jsonb_build_object(
             'identity',format('%I.%I(%s)',n.nspname,p.proname,pg_get_function_identity_arguments(p.oid)),
             'definition_sha256',encode(extensions.digest(convert_to(pg_get_functiondef(p.oid),'UTF8'),'sha256'),'hex'),
-            'acl',coalesce(p.proacl::text,'NULL'),'owner',pg_get_userbyid(p.proowner)
+            'acl',(select coalesce(jsonb_agg(jsonb_build_object(
+              'grantor',pg_get_userbyid(a.grantor),
+              'grantee',case when a.grantee=0 then 'PUBLIC' else pg_get_userbyid(a.grantee) end,
+              'privilege',a.privilege_type,'grantable',a.is_grantable
+            ) order by a.grantor,a.grantee,a.privilege_type,a.is_grantable),'[]'::jsonb)
+              from aclexplode(coalesce(p.proacl,acldefault('f',p.proowner))) a),
+            'owner',pg_get_userbyid(p.proowner)
           ) order by p.proname,pg_get_function_identity_arguments(p.oid)))
           from pg_proc p join pg_namespace n on n.oid=p.pronamespace
           where n.nspname='erp' and p.proname in('current_app_role','current_app_user_id','save_app_user_v2','require_owner_admin');
@@ -454,8 +466,11 @@ jobs:
               and to_regclass('erp.v_wip_control_status_v1') is null
               and to_regprocedure('erp.guard_pattern_assignment_snapshot()') is null
               and to_regprocedure('erp.require_pattern_identity_on_app_write()') is null
+              and to_regprocedure('erp.guard_posted_qc_item_immutable()') is null
               and not exists(select 1 from pg_trigger where tgrelid='erp.cutting_groups'::regclass
                 and tgname in('trg_05_pattern_assignment_snapshot','trg_06_require_pattern_identity') and not tgisinternal)
+              and not exists(select 1 from pg_trigger where tgrelid='erp.qc_inspection_items'::regclass
+                and tgname='trg_00_guard_posted_qc_item_immutable' and not tgisinternal)
               and not exists(select 1 from information_schema.columns
                 where table_schema='erp' and table_name='cutting_groups'
                   and column_name in('pattern_id','pattern_code_snapshot','pattern_name_snapshot','pattern_revision_snapshot'))

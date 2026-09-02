@@ -3,7 +3,7 @@
   "candidate_branch": "cp4.5/rbac-production-identity-wip-r1-20260902",
   "source_base_sha": "57d8346a7cdf4ee86519f2dd2a1b54d39ebbb6cc",
   "source_base_tree": "48fc87507dc8a18d5829d518e53f298ad0c7e01a",
-  "generation_parent_sha": "97519761f131038beaf5ed0065303f98f35a1829",
+  "generation_parent_sha": "cf815e01f45eeff18cb92da7dd6668cec38b1a19",
   "target_project_ref": "siimvrusnzxexizpyoib",
   "target_environment": "ERP Enteng UAT",
   "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
@@ -35,8 +35,8 @@
       "sha256": "4322a80bcac49d0f67eb7484477abecf2eed60746e5400580b4000aa69f3242a"
     },
     ".github/workflows/cp45-full-schema-validation.yml": {
-      "bytes": 36091,
-      "sha256": "197b9eb34077d661540b78a80919d1a1836aa82ac430e5aa3ea1ff6e3d96cdda"
+      "bytes": 37198,
+      "sha256": "a6182564a4180d6fdbaf7418e76f4c21224f765049e8047fbbfff61eeedab1e7"
     },
     ".gitignore": {
       "bytes": 177,
@@ -207,8 +207,8 @@
       "sha256": "66175dcc5c73d2fb3bad493c1c6bd6a1ad14877251b0c690c0b642ae226c849a"
     },
     "supabase/rollbacks/20260902104937_erp_v2_6_17_access_pattern_wip_control.rollback.sql": {
-      "bytes": 7746,
-      "sha256": "79d57dfce491d899924021475957599c731d696be8668fe9db2f52043ff43890"
+      "bytes": 9829,
+      "sha256": "7aa400652bc65f85c5a69f8cc1f40f80f0658bf9d8b9a665f9a0acd8e599d012"
     },
     "supabase/tests/access_pattern_wip_control_rollback.sql": {
       "bytes": 39651,
