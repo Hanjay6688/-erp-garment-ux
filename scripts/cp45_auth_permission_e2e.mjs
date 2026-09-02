@@ -271,8 +271,9 @@ try {
   patternIds.push(raceWinner.json.pattern_id)
   assert.match(raceLoser?.text || '', /PATTERN_CODE_REVISION|duplicate|unique/i)
 
+  const roleSuffix = safeRunId.replaceAll('-', '').slice(-10).toUpperCase()
   const customRole = await saveRole(ownerSession.accessToken, {
-    code: `CP45_CUSTOM_${safeRunId.replaceAll('-', '').slice(-10).toUpperCase()}`,
+    code: `CP45_C_${roleSuffix}`,
     name: `CP45 Custom ${safeRunId}`,
     description: `CP45 synthetic ${safeRunId}`,
     change_reason: 'CP45 hosted custom role',
@@ -286,7 +287,7 @@ try {
     ],
   })
   const viewRole = await saveRole(ownerSession.accessToken, {
-    code: `CP45_VIEW_${safeRunId.replaceAll('-', '').slice(-10).toUpperCase()}`,
+    code: `CP45_V_${roleSuffix}`,
     name: `CP45 View ${safeRunId}`,
     description: `CP45 synthetic ${safeRunId}`,
     change_reason: 'CP45 hosted view-only role',
