@@ -41,6 +41,31 @@ assert.equal(cp4Manifest.legacy_mutated, false)
 
 const candidateManifestBytes = readFileSync(resolve(root, ownershipV2.candidate_cp45_manifest.path))
 const candidate = JSON.parse(candidateManifestBytes)
+const cp45aRollbackSource = readFileSync(resolve(
+  root,
+  'supabase/rollbacks/20260902180726_erp_v2_6_17a_cp45_pattern_assignment_immutability.rollback.sql',
+), 'utf8')
+const cp45aWorkflowSource = readFileSync(resolve(root, '.github/workflows/cp45-full-schema-validation.yml'), 'utf8')
+const normalizeSql = (value) => value.replace(/\s+/g, ' ').trim()
+const guardLedgerPredicate = cp45aRollbackSource.match(
+  /select count\(\*\) into v_match_count\s+from supabase_migrations\.schema_migrations m\s+where ([\s\S]*?);\s+select count\(\*\) into v_conflict_count/,
+)
+const deleteLedgerPredicate = cp45aRollbackSource.match(
+  /delete from supabase_migrations\.schema_migrations m\s+where ([\s\S]*?);\s+drop table erp\.cp45_v2617a_rollback_capsule/,
+)
+assert.ok(guardLedgerPredicate, 'CP4.5a rollback guard ledger predicate is missing')
+assert.ok(deleteLedgerPredicate, 'CP4.5a rollback DELETE ledger predicate is missing')
+assert.equal(
+  normalizeSql(deleteLedgerPredicate[1]),
+  normalizeSql(guardLedgerPredicate[1]),
+  'CP4.5a rollback DELETE predicate diverges from the guarded ledger match',
+)
+assert.match(
+  normalizeSql(guardLedgerPredicate[1]),
+  /m\.version='20260902180726' and m\.name='erp_v2_6_17a_cp45_pattern_assignment_immutability'/,
+)
+assert.match(cp45aWorkflowSource, /set name='WRONG_MIGRATION'/)
+assert.match(cp45aWorkflowSource, /CP45A_ROLLBACK_WRONG_LOCAL_NAME_REJECTION\.log/)
 assert.equal(candidateManifestBytes.length, ownershipV2.candidate_cp45_manifest.bytes)
 assert.equal(hash('sha256', candidateManifestBytes), ownershipV2.candidate_cp45_manifest.sha256)
 assert.equal(candidate.format, 'CP45_R1_SOURCE_HASHES_V1')
@@ -78,7 +103,30 @@ if (candidate.integrity_correction.uat_applied) {
   assert.equal(candidate.integrity_correction.proof_delta_ci.build_ux.run_id, 33672264605)
   assert.equal(candidate.integrity_correction.proof_delta_ci.full_schema.run_id, 33672264683)
   assert.equal(candidate.integrity_correction.proof_delta_ci.hosted_platform_ledger_shape_rollback, 'PASS')
-  assert.equal(candidate.closure_status, 'CP45A_CORRECTION_PROVEN_READY_FOR_INDEPENDENT_AUDIT')
+  const rollbackIdentity = candidate.integrity_correction.rollback_ledger_identity_correction
+  assert.equal(rollbackIdentity.defect_id, 'P2-CP45-002')
+  assert.equal(rollbackIdentity.status, 'SOURCE_PATCH_PENDING_EXACT_HEAD_CI')
+  assert.equal(rollbackIdentity.runtime_changed, false)
+  assert.equal(rollbackIdentity.uat_reapply_required, false)
+  assert.equal(rollbackIdentity.hosted_auth_rerun_required, false)
+  assert.deepEqual(rollbackIdentity.local_ledger_identity, {
+    version: '20260902180726',
+    name: 'erp_v2_6_17a_cp45_pattern_assignment_immutability',
+    match_requirement: 'VERSION_AND_NAME',
+  })
+  assert.deepEqual(rollbackIdentity.connector_ledger_identity, {
+    name: 'erp_v2_6_17a_cp45_pattern_assignment_immutability',
+    source_sha256: '62a25994d2b3be0986ca83492f4d29d2ebad17c1795543045827a77d55ef816a',
+    match_requirement: 'NAME_AND_SOURCE_SHA256',
+  })
+  assert.equal(rollbackIdentity.delete_predicate_matches_guard, true)
+  assert.deepEqual(rollbackIdentity.negative_test, {
+    status: 'PENDING_EXACT_HEAD_FULL_SCHEMA',
+    case: 'LOCAL_VERSION_CORRECT_NAME_WRONG',
+    expected: 'ROLLBACK_REFUSED',
+  })
+  assert.equal(rollbackIdentity.exact_head_ci.status, 'PENDING')
+  assert.equal(candidate.closure_status, 'NO_GO_PENDING_CP45A_ROLLBACK_LEDGER_IDENTITY_CI')
 } else {
   assert.equal(candidate.integrity_correction.source_only, true)
   assert.equal(candidate.integrity_correction.uat_applied_at, null)

@@ -485,6 +485,28 @@ jobs:
           test "$(psql "$PGURL" -At -c "select count(*) from erp.production_patterns")" = '0'
           test "$(psql "$PGURL" -At -c "select count(*) from erp.production_pattern_audit")" = '0'
 
+      - name: Reject wrong-name local v2.6.17a rollback ledger
+        shell: bash
+        run: |
+          set -euo pipefail
+          set +e
+          psql "$PGURL" -v ON_ERROR_STOP=1 <<'SQL' > cp45-proof/CP45A_ROLLBACK_WRONG_LOCAL_NAME_REJECTION.log 2>&1
+          begin;
+          update supabase_migrations.schema_migrations
+          set name='WRONG_MIGRATION'
+          where version='20260902180726'
+            and name='erp_v2_6_17a_cp45_pattern_assignment_immutability';
+          \i supabase/rollbacks/20260902180726_erp_v2_6_17a_cp45_pattern_assignment_immutability.rollback.sql
+          SQL
+          rollback_status=$?
+          set -e
+          test "$rollback_status" -ne 0
+          grep -F 'v2.6.17a rollback refused: platform ledger identity is ambiguous' \
+            cp45-proof/CP45A_ROLLBACK_WRONG_LOCAL_NAME_REJECTION.log >/dev/null
+          test "$(psql "$PGURL" -At -c "select count(*) from supabase_migrations.schema_migrations where version='20260902180726' and name='erp_v2_6_17a_cp45_pattern_assignment_immutability'")" = '1'
+          test "$(psql "$PGURL" -At -c "select count(*) from erp.schema_migrations where version='v2.6.17a'")" = '1'
+          test "$(psql "$PGURL" -At -c "select to_regprocedure('erp.assert_pattern_initial_assignment_allowed(uuid)') is not null")" = 't'
+
       - name: Roll back v2.6.17a and prove exact v2.6.17 restoration
         shell: bash
         run: |

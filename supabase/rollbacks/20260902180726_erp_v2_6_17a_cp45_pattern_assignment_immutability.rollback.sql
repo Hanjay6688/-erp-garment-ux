@@ -159,7 +159,10 @@ declare
 begin
   select count(*) into v_match_count
   from supabase_migrations.schema_migrations m
-  where m.version='20260902180726'
+  where (
+       m.version='20260902180726'
+       and m.name='erp_v2_6_17a_cp45_pattern_assignment_immutability'
+     )
      or (
        m.name='erp_v2_6_17a_cp45_pattern_assignment_immutability'
        and coalesce(
@@ -179,7 +182,10 @@ begin
   where (m.version='20260902180726'
          or m.name='erp_v2_6_17a_cp45_pattern_assignment_immutability')
     and not (
-      m.version='20260902180726'
+      (
+        m.version='20260902180726'
+        and m.name='erp_v2_6_17a_cp45_pattern_assignment_immutability'
+      )
       or (
         m.name='erp_v2_6_17a_cp45_pattern_assignment_immutability'
         and coalesce(
@@ -205,7 +211,10 @@ $platform_ledger_guard$;
 
 delete from erp.schema_migrations where version='v2.6.17a';
 delete from supabase_migrations.schema_migrations m
-where m.version='20260902180726'
+where (
+     m.version='20260902180726'
+     and m.name='erp_v2_6_17a_cp45_pattern_assignment_immutability'
+   )
    or (
      m.name='erp_v2_6_17a_cp45_pattern_assignment_immutability'
      and coalesce(

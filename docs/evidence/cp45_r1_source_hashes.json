@@ -3,7 +3,7 @@
   "candidate_branch": "cp4.5/rbac-production-identity-wip-r1-20260902",
   "source_base_sha": "57d8346a7cdf4ee86519f2dd2a1b54d39ebbb6cc",
   "source_base_tree": "48fc87507dc8a18d5829d518e53f298ad0c7e01a",
-  "generation_parent_sha": "ab97d1d08936c05c609c004477f974361340d203",
+  "generation_parent_sha": "36a161fe5dd1fabbc1e581e501da8ddf7b839df0",
   "target_project_ref": "siimvrusnzxexizpyoib",
   "target_environment": "ERP Enteng UAT",
   "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
@@ -65,9 +65,35 @@
         "artifact_digest_sha256": "957ea6b6a72daef25df841777e63737151249696b519d71acb495c539ce6ae8f"
       },
       "hosted_platform_ledger_shape_rollback": "PASS"
+    },
+    "rollback_ledger_identity_correction": {
+      "defect_id": "P2-CP45-002",
+      "status": "SOURCE_PATCH_PENDING_EXACT_HEAD_CI",
+      "runtime_changed": false,
+      "uat_reapply_required": false,
+      "hosted_auth_rerun_required": false,
+      "local_ledger_identity": {
+        "version": "20260902180726",
+        "name": "erp_v2_6_17a_cp45_pattern_assignment_immutability",
+        "match_requirement": "VERSION_AND_NAME"
+      },
+      "connector_ledger_identity": {
+        "name": "erp_v2_6_17a_cp45_pattern_assignment_immutability",
+        "source_sha256": "62a25994d2b3be0986ca83492f4d29d2ebad17c1795543045827a77d55ef816a",
+        "match_requirement": "NAME_AND_SOURCE_SHA256"
+      },
+      "delete_predicate_matches_guard": true,
+      "negative_test": {
+        "status": "PENDING_EXACT_HEAD_FULL_SCHEMA",
+        "case": "LOCAL_VERSION_CORRECT_NAME_WRONG",
+        "expected": "ROLLBACK_REFUSED"
+      },
+      "exact_head_ci": {
+        "status": "PENDING"
+      }
     }
   },
-  "closure_status": "CP45A_CORRECTION_PROVEN_READY_FOR_INDEPENDENT_AUDIT",
+  "closure_status": "NO_GO_PENDING_CP45A_ROLLBACK_LEDGER_IDENTITY_CI",
   "source_only": false,
   "uat_applied": true,
   "uat_applied_at": "2026-09-02T14:49:11.827931Z",
@@ -115,8 +141,8 @@
       "sha256": "f9c67c99ba74074c6fac7827a4a0390d2d0fc365e6017b75fd82a89a47138445"
     },
     ".github/workflows/cp45-full-schema-validation.yml": {
-      "bytes": 45763,
-      "sha256": "388e05dbc40d9c3c56a24e528d40ca5d92b95411861a19dc1988b6a6a2239ca8"
+      "bytes": 47079,
+      "sha256": "822aaa3b184d3afa8b16fb53559a01cb896b2b8694b7a70ec63929bd5ec0eaea"
     },
     ".gitignore": {
       "bytes": 177,
@@ -159,8 +185,8 @@
       "sha256": "a54e7ecb389302de2cf82993dd2cadf82bd6b77fe3305582fc8b91f00aed1e72"
     },
     "scripts/check-backend-ownership-v2.mjs": {
-      "bytes": 22159,
-      "sha256": "cb0742fffa391e38bb972b4442d4a689f4ac43a5c82abfa4b9fcda399414e30c"
+      "bytes": 24760,
+      "sha256": "87365bd0cab5db9287112cc44e9db203362fc2e3138050a68e9841f6374dc772"
     },
     "scripts/check-source-ownership.mjs": {
       "bytes": 4101,
@@ -311,8 +337,8 @@
       "sha256": "7aa400652bc65f85c5a69f8cc1f40f80f0658bf9d8b9a665f9a0acd8e599d012"
     },
     "supabase/rollbacks/20260902180726_erp_v2_6_17a_cp45_pattern_assignment_immutability.rollback.sql": {
-      "bytes": 9113,
-      "sha256": "fc9cdd156273a81dbb960f10a207c691f6f497a7c57e3d0975167be85b43a038"
+      "bytes": 9368,
+      "sha256": "dea15f56ef7911d5da300892fa8037efae26979d51c78e6773e416b95b2797bf"
     },
     "supabase/tests/access_pattern_wip_control_rollback.sql": {
       "bytes": 39651,
