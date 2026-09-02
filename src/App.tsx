@@ -72,6 +72,12 @@ type PickupQueueFilter = 'WAITING' | 'PICKED' | 'ALL'
 type PickupQueueStatus = 'READY' | 'REVIEW' | 'PICKED'
 type AllocationMatrix = Record<string, string[]>
 type RollBatchSizeMatrix = Record<string, string[][]>
+type ProductionPatternSnapshot = Readonly<{
+  id: string
+  code: string
+  revision: string
+  name: string
+}>
 type FabricRoll = {
   id: string
   sequence: number
@@ -103,11 +109,23 @@ type PickupQueueItem = {
   material: string
   supplier: string
   sizes: string[]
+  pattern: ProductionPatternSnapshot | null
   status: PickupQueueStatus
   mandor?: string
   pickupAt?: string
   rolls: PickupQueueRoll[]
 }
+
+const simulationPatternSnapshots = {
+  lucyRegular: { id: 'b4500000-0000-0000-0000-000000000042', code: 'LCY-REG', revision: 'R1', name: 'Kulot Lucy Regular' },
+  nevadaLoose: { id: 'b4500000-0000-0000-0000-000000000043', code: 'NVD-LOOSE', revision: 'R2', name: 'Nevada Loose' },
+  malibuRegular: { id: 'b4500000-0000-0000-0000-000000000041', code: 'MLB-REG', revision: 'R1', name: 'Malibu Regular' },
+  zodiakJumbo: { id: 'b4500000-0000-0000-0000-000000000039', code: 'ZDK-JUMBO', revision: 'R3', name: 'Zodiak Jumbo' },
+} satisfies Record<string, ProductionPatternSnapshot>
+
+const patternSnapshotLabel = (pattern: ProductionPatternSnapshot | null) => pattern
+  ? `${pattern.code} · ${pattern.revision} · ${pattern.name}`
+  : 'Histori lama · Pola belum tercatat'
 
 const pickupRollTotal = (roll: PickupQueueRoll) => roll.slots.reduce((sum, slot) => sum + slot.qty, 0)
 const pickupItemTotal = (item: PickupQueueItem) => item.rolls.reduce((sum, roll) => sum + pickupRollTotal(roll), 0)
@@ -1225,7 +1243,7 @@ export function MandorWipPage({ batchNotes, setBatchNotes }: { batchNotes: strin
   const unassignedRollRows = wipRollRows.filter((row) => (rollBatchMatrix[row.roll.id] ?? []).every((sizes) => sizes.reduce((sum, value) => sum + cellQuantity(value), 0) === 0))
   const queueItems:PickupQueueItem[] = [
     {
-      id:'POT-260827-042',model:'Kulot Lucy',material:'Lucy',supplier:'Sinaran',sizes:cuttingSizes,status:'READY',
+      id:'POT-260827-042',model:'Kulot Lucy',material:'Lucy',supplier:'Sinaran',sizes:cuttingSizes,pattern:simulationPatternSnapshots.lucyRegular,status:'READY',
       rolls:wipRollRows.map((row)=>({
         id:row.roll.id,
         sequence:row.roll.sequence,
@@ -1238,14 +1256,14 @@ export function MandorWipPage({ batchNotes, setBatchNotes }: { batchNotes: strin
       })),
     },
     {
-      id:'POT-260827-043',model:'Nevada Loose',material:'Nevada 12 Oz',supplier:'Sumber Cahaya',sizes:['30','31','32'],status:'REVIEW',
+      id:'POT-260827-043',model:'Nevada Loose',material:'Nevada 12 Oz',supplier:'Sumber Cahaya',sizes:['30','31','32'],pattern:simulationPatternSnapshots.nevadaLoose,status:'REVIEW',
       rolls:[
         {id:'NV-260827-01',sequence:1,material:'Nevada 12 Oz',sourceYards:112,usedYards:108.5,remainingYards:3.5,slots:pairedPickupSlots(['30','31','32'],[18,18,18,18,18,18]),batchNumbers:[]},
         {id:'NV-260827-02',sequence:2,material:'Nevada 12 Oz',sourceYards:110.5,usedYards:107,remainingYards:3.5,slots:pairedPickupSlots(['30','31','32'],[18,18,18,18,18,18]),batchNumbers:[]},
       ],
     },
     {
-      id:'POT-260827-041',model:'Malibu Regular',material:'Malibu',supplier:'Sinaran',sizes:['28','29','30'],status:'PICKED',mandor:'Mandor Epi',pickupAt:'27 Agu 2026 · 08:40',
+      id:'POT-260827-041',model:'Malibu Regular',material:'Malibu',supplier:'Sinaran',sizes:['28','29','30'],pattern:simulationPatternSnapshots.malibuRegular,status:'PICKED',mandor:'Mandor Epi',pickupAt:'27 Agu 2026 · 08:40',
       rolls:[
         {id:'MLB-260826-11',sequence:11,material:'Malibu',sourceYards:119.5,usedYards:116,remainingYards:3.5,slots:pairedPickupSlots(['28','29','30'],[21,21,21,21,21,21]),batchNumbers:[1]},
         {id:'MLB-260826-12',sequence:12,material:'Malibu',sourceYards:113,usedYards:110.5,remainingYards:2.5,slots:pairedPickupSlots(['28','29','30'],[20,20,20,20,20,20]),batchNumbers:[1]},
@@ -1254,7 +1272,7 @@ export function MandorWipPage({ batchNotes, setBatchNotes }: { batchNotes: strin
       ],
     },
     {
-      id:'POT-260827-039',model:'Zodiak KW',material:'Zodiak',supplier:'Sumber Cahaya',sizes:['34','35','36'],status:'PICKED',mandor:'Mandor Afui',pickupAt:'26 Agu 2026 · 16:20',
+      id:'POT-260827-039',model:'Zodiak KW',material:'Zodiak',supplier:'Sumber Cahaya',sizes:['34','35','36'],pattern:simulationPatternSnapshots.zodiakJumbo,status:'PICKED',mandor:'Mandor Afui',pickupAt:'26 Agu 2026 · 16:20',
       rolls:[
         {id:'ZDK-260826-07',sequence:7,material:'Zodiak KW',sourceYards:107,usedYards:103.5,remainingYards:3.5,slots:pairedPickupSlots(['34','35','36'],[19,19,19,19,19,19]),batchNumbers:[1]},
         {id:'ZDK-260826-08',sequence:8,material:'Zodiak KW',sourceYards:106.5,usedYards:103,remainingYards:3.5,slots:pairedPickupSlots(['34','35','36'],[19,19,19,19,19,19]),batchNumbers:[2]},
@@ -1265,9 +1283,10 @@ export function MandorWipPage({ batchNotes, setBatchNotes }: { batchNotes: strin
   const normalizedQueueQuery=queueQuery.trim().toLowerCase()
   const visibleQueueItems=queueItems.filter((item)=>{
     const statusMatch=queueFilter==='ALL'||(queueFilter==='PICKED'?item.status==='PICKED':item.status!=='PICKED')
-    const queryMatch=!normalizedQueueQuery||`${item.id} ${item.model} ${item.material} ${item.supplier} ${item.mandor??''}`.toLowerCase().includes(normalizedQueueQuery)
+    const queryMatch=!normalizedQueueQuery||`${item.id} ${item.model} ${item.material} ${item.supplier} ${item.mandor??''} ${item.pattern?.code??''} ${item.pattern?.revision??''} ${item.pattern?.name??''}`.toLowerCase().includes(normalizedQueueQuery)
     return statusMatch&&queryMatch
   })
+  const selectedQueueItem=queueItems.find((item)=>item.id==='POT-260827-042')!
   const queueDetailItem=queueItems.find((item)=>item.id===queueDetailId)??null
   const queueDetailSlots=queueDetailItem?.rolls[0]?.slots.map(({size,image})=>({size,image}))??[]
   const queueDetailSourceYards=queueDetailItem?.rolls.reduce((sum,roll)=>sum+roll.sourceYards,0)??0
@@ -1412,12 +1431,12 @@ export function MandorWipPage({ batchNotes, setBatchNotes }: { batchNotes: strin
       <aside className="panel wip-queue-panel">
         <div className="wip-queue-head"><div><span>01 · WIP POTONGAN</span><h2>{queueFilter==='WAITING'?'Menunggu diambil':queueFilter==='PICKED'?'Sudah diambil':'Semua potongan'}</h2><p>Filter tidak mengubah status atau isi pembagian.</p></div><span className="selection-pill">{visibleQueueItems.length} tampil</span></div>
         <div className="wip-queue-tabs" role="group" aria-label="Filter status pickup">{(['WAITING','PICKED','ALL'] as const).map((filter)=><button type="button" className={queueFilter===filter?'active':''} aria-pressed={queueFilter===filter} key={filter} onClick={()=>setQueueFilter(filter)}>{filter==='WAITING'?'Menunggu':filter==='PICKED'?'Sudah diambil':'Semua'}</button>)}</div>
-        <label className="wip-search"><Icon name="search"/><input value={queueQuery} onChange={(event)=>setQueueQuery(event.target.value)} placeholder="Cari kode, bahan, model, mandor..."/></label>
+        <label className="wip-search"><Icon name="search"/><input value={queueQuery} onChange={(event)=>setQueueQuery(event.target.value)} placeholder="Cari kode, Pola, bahan, model, mandor..."/></label>
         <div className="wip-queue-list">{visibleQueueItems.map((item)=>{const itemTotal=pickupItemTotal(item);const usedYards=pickupItemUsedYards(item);return <article className={`wip-queue-card ${item.id==='POT-260827-042'?'selected':''} ${item.status.toLowerCase()}`} key={item.id}>
           <div className="wip-queue-card-main">
             <span className="wip-queue-status">{item.status==='PICKED'?'SUDAH DIAMBIL':item.status==='REVIEW'?'MENUNGGU REVIEW':'SIAP DIAMBIL'}</span>
             <strong>{item.id}</strong><small>{item.model}</small>
-            <div className="wip-queue-card-meta"><span><small>BAHAN</small><strong>{item.material}</strong></span><span><small>PABRIK</small><strong>{item.supplier}</strong></span></div>
+            <div className="wip-queue-card-meta"><span><small>BAHAN</small><strong>{item.material}</strong></span><span><small>PABRIK</small><strong>{item.supplier}</strong></span><span className="wip-queue-pattern" data-pattern-snapshot={item.pattern?.id??'legacy-null'}><small>POLA · SNAPSHOT</small><strong>{patternSnapshotLabel(item.pattern)}</strong></span></div>
             <div className="wip-queue-card-numbers"><span><b>{itemTotal} pcs</b><small>{item.rolls.length} roll sumber</small></span><span><b>{formatQuantity(usedYards,2)} yd</b><small>yard dipakai</small></span><em>{item.sizes.join(' · ')}</em></div>
             {item.status==='PICKED'?<p><Icon name="user"/><span><small>DIAMBIL OLEH</small><strong>{item.mandor}</strong><em>{item.pickupAt}</em></span></p>:null}
           </div>
@@ -1426,10 +1445,11 @@ export function MandorWipPage({ batchNotes, setBatchNotes }: { batchNotes: strin
       </aside>
 
       <div className="panel wip-batch-workspace">
-        <div className="wip-selected-head"><div><span>WIP TERPILIH</span><h2>POT-260827-042 · Kulot Lucy</h2><p>{wipTotal} pcs dari 9 roll · selesai potong 27 Agu 2026</p></div><span className="wip-waiting-pill"><span/> Belum diambil</span></div>
+        <div className="wip-selected-head"><div><span>WIP TERPILIH</span><h2>POT-260827-042 · Kulot Lucy</h2><p>{wipTotal} pcs dari 9 roll · selesai potong 27 Agu 2026</p><div className="wip-selected-pattern" data-pattern-snapshot={selectedQueueItem.pattern?.id??'legacy-null'}><Icon name="audit"/><span><small>POLA SNAPSHOT · TERKUNCI</small><strong>{patternSnapshotLabel(selectedQueueItem.pattern)}</strong></span></div></div><span className="wip-waiting-pill"><span/> Belum diambil</span></div>
         <div className="pickup-meta-grid">
           <Field label="Diambil oleh / mandor"><select className="erp-input" value={mandor} onChange={(event)=>setMandor(event.target.value)}><option>Mandor Afat</option><option>Mandor Asep</option><option>Mandor Dedi</option></select></Field>
           <Field label="Tanggal & waktu ambil"><input className="erp-input" type="datetime-local" value={pickupAt} onChange={(event)=>setPickupAt(event.target.value)}/></Field>
+          <div className="pickup-pattern-note" data-pattern-snapshot={selectedQueueItem.pattern?.id??'legacy-null'}><Icon name="audit"/><div><span>POLA DARI POTONGAN</span><strong>{selectedQueueItem.pattern ? `${selectedQueueItem.pattern.code} · ${selectedQueueItem.pattern.revision}` : 'Belum tercatat'}</strong><small>{selectedQueueItem.pattern?.name??'Histori lama tetap bisa dibaca.'} · tidak dapat diganti saat pickup.</small></div></div>
           <div className="pickup-flow-note"><Icon name="link"/><div><span>BATCH YANG SAMA</span><strong>Jahit → Laundry</strong><small>Vendor laundry dipilih saat barang benar-benar dikirim.</small></div></div>
         </div>
 
@@ -1470,17 +1490,18 @@ export function MandorWipPage({ batchNotes, setBatchNotes }: { batchNotes: strin
 
         {rollDrag&&<div className="roll-drag-ghost" style={{left:rollDrag.x,top:rollDrag.y}}><Icon name="drag"/><span>{rollDrag.rollId}</span><small>{rollDrag.target===null?'Arahkan ke batch':`Lepas di Batch ${String(rollDrag.target+1).padStart(2,'0')}`}</small></div>}
         <div className="wip-source-audit"><Icon name={sourcesExact?'check':'history'}/><div><strong>{sourcesExact?'Pembagian cocok dengan seluruh sumber':'Masih ada sumber roll atau size yang tidak cocok'}</strong><span>{sourceChecks.filter((source)=>source.assigned!==source.total).map((source)=>`${source.key}: ${source.assigned}/${source.total}`).join(' · ')||`${wipRollRows.length} roll · Size 31/32/33 seluruhnya rekonsiliasi`}</span></div></div>
-        <section className={`pickup-final-review ${isReady?'ready':'blocked'}`} aria-label="Review akhir pickup"><div className="pickup-review-head"><Icon name={isReady?'check':'history'}/><div><span>04 · REVIEW SEBELUM POSTING</span><strong>{isReady?'Siap dicatat sebagai pickup mandor':'Belum siap diposting'}</strong><small>{isReady?'Sesudah konfirmasi, PO masuk tahap SEWING.':'Rapikan pembagian sampai sumber, size, dan total seluruh batch pas.'}</small></div></div><div className="pickup-review-facts"><div><span>MANDOR</span><strong>{mandor||'Belum dipilih'}</strong></div><div><span>WAKTU AMBIL</span><strong>{pickupReviewAt}</strong></div><div><span>PEMBAGIAN</span><strong>{allocationMode==='roll'?'Per roll':'Awal per size'}</strong></div><div><span>TOTAL</span><strong>{effectiveBatchCount} batch · {assignedTotal} pcs</strong></div></div><div className="pickup-review-batches">{batchTotals.map((total,batchIndex)=><div className={total>0?'filled':'empty'} key={batchIndex}><span>BATCH {String(batchIndex+1).padStart(2,'0')}</span><strong>{total} pcs</strong><small>{batchNotes[batchIndex]||'Belum ada catatan mandor'}</small><em>{cuttingSizes.map((size,sizeIndex)=>`${size}: ${batchSizeMix[batchIndex][sizeIndex]}`).join(' · ')}</em></div>)}</div><div className="pickup-review-next"><Icon name="arrow"/><span><strong>Setelah posting: SEWING</strong> · Laundry baru boleh dicatat ketika batch benar-benar dikirim keluar.</span></div></section>
+        <section className={`pickup-final-review ${isReady?'ready':'blocked'}`} aria-label="Review akhir pickup"><div className="pickup-review-head"><Icon name={isReady?'check':'history'}/><div><span>04 · REVIEW SEBELUM POSTING</span><strong>{isReady?'Siap dicatat sebagai pickup mandor':'Belum siap diposting'}</strong><small>{isReady?'Sesudah konfirmasi, PO masuk tahap SEWING.':'Rapikan pembagian sampai sumber, size, dan total seluruh batch pas.'}</small></div></div><div className="pickup-review-facts"><div><span>MANDOR</span><strong>{mandor||'Belum dipilih'}</strong></div><div><span>WAKTU AMBIL</span><strong>{pickupReviewAt}</strong></div><div><span>POLA SNAPSHOT</span><strong>{selectedQueueItem.pattern ? `${selectedQueueItem.pattern.code} · ${selectedQueueItem.pattern.revision}` : 'Histori lama'}</strong></div><div><span>PEMBAGIAN</span><strong>{allocationMode==='roll'?'Per roll':'Awal per size'}</strong></div><div><span>TOTAL</span><strong>{effectiveBatchCount} batch · {assignedTotal} pcs</strong></div></div><div className="pickup-review-batches">{batchTotals.map((total,batchIndex)=><div className={total>0?'filled':'empty'} key={batchIndex}><span>BATCH {String(batchIndex+1).padStart(2,'0')}</span><strong>{total} pcs</strong><small>{batchNotes[batchIndex]||'Belum ada catatan mandor'}</small><em>{cuttingSizes.map((size,sizeIndex)=>`${size}: ${batchSizeMix[batchIndex][sizeIndex]}`).join(' · ')}</em></div>)}</div><div className="pickup-review-next"><Icon name="arrow"/><span><strong>Setelah posting: SEWING</strong> · Pola snapshot ikut Batch Produksi; Laundry baru boleh dicatat ketika batch benar-benar dikirim keluar.</span></div></section>
         <div className="allocation-footer"><small>{isReady?'Ringkasan final di atas sudah cocok. Backend belum disentuh selama prototype.':'Tombol posting terbuka setelah seluruh sumber dan total batch cocok.'}</small><div><button type="button" className="soft-btn">Simpan draft pickup</button><button type="button" className="primary-btn" disabled={!isReady}>Review & catat pickup <Icon name="arrow"/></button></div></div>
       </div>
     </section>
     {queueDetailItem?<div className="wip-detail-backdrop" role="presentation" onMouseDown={(event)=>{if(event.target===event.currentTarget)setQueueDetailId(null)}}><section className="wip-detail-modal" role="dialog" aria-modal="true" aria-labelledby="wip-detail-title">
-      <header><div><span>DETAIL POTONGAN · {queueDetailItem.status==='PICKED'?'SUDAH DIAMBIL':'MENUNGGU DIAMBIL'}</span><h2 id="wip-detail-title">{queueDetailItem.id} · {queueDetailItem.model}</h2><p>{queueDetailItem.material} · {queueDetailItem.supplier}</p></div><button type="button" aria-label="Tutup detail potongan" onClick={()=>setQueueDetailId(null)}><Icon name="close"/></button></header>
+      <header><div><span>DETAIL POTONGAN · {queueDetailItem.status==='PICKED'?'SUDAH DIAMBIL':'MENUNGGU DIAMBIL'}</span><h2 id="wip-detail-title">{queueDetailItem.id} · {queueDetailItem.model}</h2><p>{queueDetailItem.material} · {queueDetailItem.supplier} · Pola {patternSnapshotLabel(queueDetailItem.pattern)}</p></div><button type="button" aria-label="Tutup detail potongan" onClick={()=>setQueueDetailId(null)}><Icon name="close"/></button></header>
       <div className="wip-detail-facts">
         <article><span>TOTAL POTONGAN</span><strong>{pickupItemTotal(queueDetailItem)} pcs</strong><small>{queueDetailItem.rolls.length} roll sumber</small></article>
         <article><span>YARD DIPAKAI</span><strong>{formatQuantity(pickupItemUsedYards(queueDetailItem),2)} yd</strong><small>dari {formatQuantity(queueDetailSourceYards,2)} yd · sisa {formatQuantity(queueDetailRemainingYards,2)} yd</small></article>
         <article><span>STATUS PICKUP</span><strong>{queueDetailItem.status==='PICKED'?queueDetailItem.mandor:'Belum diambil'}</strong><small>{queueDetailItem.pickupAt??'Belum punya waktu pickup'}</small></article>
         <article><span>BATCH DISTRIBUSI</span><strong>{new Set(queueDetailItem.rolls.flatMap((roll)=>roll.batchNumbers)).size||'—'}</strong><small>{queueDetailItem.status==='PICKED'?'Snapshot pembagian':'Terbentuk setelah dialokasikan'}</small></article>
+        <article data-pattern-snapshot={queueDetailItem.pattern?.id??'legacy-null'}><span>POLA · SNAPSHOT</span><strong>{queueDetailItem.pattern ? `${queueDetailItem.pattern.code} · ${queueDetailItem.pattern.revision}` : 'Belum tercatat'}</strong><small>{queueDetailItem.pattern?.name??'Histori lama tetap terbaca'} · identitas tidak berubah saat master diedit</small></article>
       </div>
       <div className="wip-detail-section-head"><div><span>LINEAGE HASIL POTONG</span><strong>Bahan, yard, dan ukuran per gambar</strong><small>Kolom ukuran sama seperti saat hasil dicatat di Buat Potongan.</small></div><em>Geser tabel →</em></div>
       <div className="wip-detail-table">
@@ -1495,7 +1516,7 @@ export function MandorWipPage({ batchNotes, setBatchNotes }: { batchNotes: strin
           </tr>)}</tbody>
         </table>
       </div>
-      <footer><span><Icon name="audit"/> Detail ini menampilkan lineage roll dan ukuran tanpa mengubah pembagian.</span><button type="button" className="primary-btn" onClick={()=>setQueueDetailId(null)}>Tutup detail</button></footer>
+      <footer><span><Icon name="audit"/> Detail ini menampilkan lineage Pola, roll, dan ukuran tanpa mengubah pembagian.</span><button type="button" className="primary-btn" onClick={()=>setQueueDetailId(null)}>Tutup detail</button></footer>
     </section></div>:null}
   </>
 }
@@ -1513,6 +1534,7 @@ type SewingParentSeed = {
   id: string
   sequence: number
   plannedBrand?: string
+  pattern: ProductionPatternSnapshot | null
   model: string
   material: string
   mandor: string
@@ -1522,16 +1544,16 @@ type SewingParentSeed = {
 }
 
 const sewingWipSeeds: SewingParentSeed[] = [
-  { id:'POT-260827-042',sequence:42,plannedBrand:'Widie',model:'Kulot Lucy',material:'Lucy',mandor:'Mandor Afat',pickupAt:'27 Agu 2026 · 10:30',sizes:['31','32','33'],batches:[
+  { id:'POT-260827-042',sequence:42,plannedBrand:'Widie',pattern:simulationPatternSnapshots.lucyRegular,model:'Kulot Lucy',material:'Lucy',mandor:'Mandor Afat',pickupAt:'27 Agu 2026 · 10:30',sizes:['31','32','33'],batches:[
     {id:'042-01',number:1,qty:229,sizes:[229,0,0],completed:188,note:'Warna navy · stik pinggang 2 jalur'},
     {id:'042-02',number:2,qty:225,sizes:[0,225,0],completed:225,note:'Warna maroon · obras rapat'},
     {id:'042-03',number:3,qty:222,sizes:[0,0,222],completed:0,note:'Warna hitam · cek sambungan samping'},
   ]},
-  { id:'POT-260826-041',sequence:41,model:'Malibu Regular',material:'Malibu',mandor:'Mandor Asep',pickupAt:'26 Agu 2026 · 14:15',sizes:['28','29','30'],batches:[
+  { id:'POT-260826-041',sequence:41,pattern:simulationPatternSnapshots.malibuRegular,model:'Malibu Regular',material:'Malibu',mandor:'Mandor Asep',pickupAt:'26 Agu 2026 · 14:15',sizes:['28','29','30'],batches:[
     {id:'041-01',number:1,qty:244,sizes:[82,81,81],completed:244,note:'Biru muda · benang senada · obras rapat'},
     {id:'041-02',number:2,qty:244,sizes:[81,81,82],completed:244,note:'Biru tua · cek kantong kanan kiri'},
   ]},
-  { id:'POT-260825-039',sequence:39,plannedBrand:'Vivo',model:'Zodiak Jumbo',material:'Zodiak KW',mandor:'Mandor Dedi',pickupAt:'25 Agu 2026 · 09:40',sizes:['34','35','36'],batches:[
+  { id:'POT-260825-039',sequence:39,plannedBrand:'Vivo',pattern:simulationPatternSnapshots.zodiakJumbo,model:'Zodiak Jumbo',material:'Zodiak KW',mandor:'Mandor Dedi',pickupAt:'25 Agu 2026 · 09:40',sizes:['34','35','36'],batches:[
     {id:'039-01',number:1,qty:114,sizes:[38,38,38],completed:114,note:'Stone · stik bawah 2 jalur'},
     {id:'039-02',number:2,qty:114,sizes:[38,38,38],completed:114,note:'Charcoal · sambungan samping dobel'},
     {id:'039-03',number:3,qty:114,sizes:[38,38,38],completed:0,note:'Black · gunakan benang hitam pekat'},
@@ -1540,7 +1562,7 @@ const sewingWipSeeds: SewingParentSeed[] = [
 
 const laundryVendorNames = ['Laundry Berkah', 'Laundry Intan', 'Cemerlang Wash']
 
-function SewingWipPage({
+export function SewingWipPage({
   batchNotes, deliveries, finalizedResults, laundryDrafts, reverseNotice, onClearReverseNotice,
   onClearLaundryDraft, onConfirmLaundry, onOpenLaundry, onOpenQc,
 }: {
@@ -1597,7 +1619,7 @@ function SewingWipPage({
   const completedParentCount=parentGroups.filter(parentIsCompleted).length
   const visibleGroups = parentGroups
     .filter((parent) => selectedMandors.includes(parent.mandor))
-    .filter((parent) => `${parent.id} ${parent.model} ${parent.material} ${parent.mandor} ${parent.batches.map((batch) => `${batch.number} ${batch.note}`).join(' ')}`.toLowerCase().includes(query.toLowerCase()))
+    .filter((parent) => `${parent.id} ${parent.model} ${parent.material} ${parent.mandor} ${parent.pattern?.code??''} ${parent.pattern?.revision??''} ${parent.pattern?.name??''} ${parent.batches.map((batch) => `${batch.number} ${batch.note}`).join(' ')}`.toLowerCase().includes(query.toLowerCase()))
     .filter((parent)=>statusFilter==='ALL'||(statusFilter==='COMPLETED'?parentIsCompleted(parent):!parentIsCompleted(parent)))
     .sort((a,b) => b.sequence-a.sequence)
   const visibleBatches = visibleGroups.flatMap((parent) => parent.batches)
@@ -1683,7 +1705,7 @@ function SewingWipPage({
         const parentReturned=parentDeliveries.reduce((sum,delivery)=>sum+delivery.good+delivery.bs,0)
         const parentVendors=Array.from(new Set(parentDeliveries.filter((delivery)=>laundryOutstanding(delivery)>0).map((delivery)=>delivery.vendor)))
         return <article className="sewing-parent-card" key={parent.id}>
-          <header className="sewing-parent-head"><span className="sewing-parent-order">{String(parentIndex+1).padStart(2,'0')}</span><div><small>{parent.plannedBrand ? `MEREK RENCANA · OPSIONAL · ${parent.plannedBrand}` : 'MEREK BELUM DITENTUKAN'} · BATCH PRODUKSI</small><h2>{parent.id} · {parent.model}</h2><p>{parent.material} · pickup {parent.pickupAt}</p></div><span className="sewing-mandor-pill"><Icon name="user"/><span><small>MANDOR</small><strong>{parent.mandor}</strong></span></span><div className="sewing-parent-total"><strong>{parentCompleted}/{parentQty} pcs</strong><small>{parentVendors.length>0?`${parentVendors.join(' & ')} · ${parentOutside} di luar · ${parentReturned} kembali`:`${parent.batches.length} Batch Distribusi · ${parentProgress}%`}</small></div></header>
+          <header className="sewing-parent-head"><span className="sewing-parent-order">{String(parentIndex+1).padStart(2,'0')}</span><div><small>{parent.plannedBrand ? `MEREK RENCANA · OPSIONAL · ${parent.plannedBrand}` : 'MEREK BELUM DITENTUKAN'} · BATCH PRODUKSI</small><h2>{parent.id} · {parent.model}</h2><p>{parent.material} · pickup {parent.pickupAt}</p><div className="sewing-parent-pattern" data-pattern-snapshot={parent.pattern?.id??'legacy-null'}><Icon name="audit"/><span><small>POLA SNAPSHOT</small><strong>{patternSnapshotLabel(parent.pattern)}</strong></span></div></div><span className="sewing-mandor-pill"><Icon name="user"/><span><small>MANDOR</small><strong>{parent.mandor}</strong></span></span><div className="sewing-parent-total"><strong>{parentCompleted}/{parentQty} pcs</strong><small>{parentVendors.length>0?`${parentVendors.join(' & ')} · ${parentOutside} di luar · ${parentReturned} kembali`:`${parent.batches.length} Batch Distribusi · ${parentProgress}%`}</small></div></header>
           <div className="sewing-parent-progress"><span style={{width:`${parentProgress}%`}}/></div>
           <div className="sewing-child-grid">{parent.batches.map((batch,batchIndex)=>{
             const completed=Math.min(batch.qty,cellQuantity(completedInputs[batch.id]))

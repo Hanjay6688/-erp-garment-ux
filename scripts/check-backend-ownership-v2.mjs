@@ -58,7 +58,7 @@ assert.equal(candidate.hygiene.production_deploy_authorized, false)
 if (candidate.uat_applied) {
   assert.equal(candidate.source_only, false)
   assert.match(candidate.uat_applied_at, /^2026-09-02T/)
-  assert.equal(candidate.generation_parent_sha, '4cda99fcf6f96f053981787f8cc2cbd39b809928')
+  assert.equal(candidate.generation_parent_sha, '5c06412bdb5d47317aaf388604d7d1ed8337189d')
   assert.equal(candidate.ci_runtime.status, 'PASS')
   assert.equal(candidate.ci_runtime.head_sha, '4cda99fcf6f96f053981787f8cc2cbd39b809928')
   assert.equal(candidate.ci_runtime.head_tree, 'c9b7aae6e3ea3db64d4abe6de4987f378166a9bf')
@@ -206,6 +206,12 @@ const backendCandidate = candidatePaths.filter((path) => (
   || path === '.github/workflows/cp45-full-schema-validation.yml'
   || path === candidate.hosted_auth_permission_e2e.evidence_path
 )).sort()
+const backendOwnedUnique = new Set([...expectedFrozen, ...backendCandidate])
+assert.equal(
+  backendOwnedUnique.size,
+  expectedFrozen.length + backendCandidate.length,
+  'Frozen and CP4.5 backend ownership sets overlap',
+)
 assert.deepEqual(discovered, [...expectedFrozen, ...backendCandidate].sort(), 'Backend source/proof file is unowned or stale')
 
 assert.deepEqual(candidatePaths.filter((path) => path.startsWith('supabase/migrations/20260902104937_')), [
@@ -222,5 +228,5 @@ const onlyCp3 = process.argv.includes('--cp3-only')
 if (onlyCp3) {
   console.log(`Frozen CP3 backend passed: ${Object.keys(cp3Manifest.files).length} byte-bound files.`)
 } else {
-  console.log(`Backend ownership v2 passed: ${expectedFrozen.length} frozen files + ${backendCandidate.length} CP4.5 backend artifacts; ${candidatePaths.length} total candidate files; zero unowned backend artifacts.`)
+  console.log(`Backend ownership v2 passed: ${backendOwnedUnique.size} unique backend/proof files (${expectedFrozen.length} frozen + ${backendCandidate.length} CP4.5, overlap 0); CP4.5 manifest separately byte-binds ${candidatePaths.length} candidate files across all scopes; zero unowned backend artifacts.`)
 }

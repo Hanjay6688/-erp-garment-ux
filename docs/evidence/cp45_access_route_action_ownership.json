@@ -27,6 +27,7 @@
     "cutting_view_does_not_grant_pattern_manage": true,
     "quick_create_uses_master_save_rpc": true,
     "cutting_transaction_pattern_id_required": true,
+    "pattern_snapshot_visible_in_pickup_and_wip": true,
     "grandfathered_history_requires_bulk_import": false,
     "browser_direct_table_access": false,
     "production_go": false

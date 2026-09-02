@@ -3,7 +3,7 @@
 import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { MandorWipPage, UnassignedRollCard } from './App'
+import { MandorWipPage, SewingWipPage, UnassignedRollCard } from './App'
 
 let container: HTMLDivElement
 let root: Root
@@ -90,6 +90,28 @@ describe('UnassignedRollCard', () => {
 })
 
 describe('MandorWipPage roll placement', () => {
+  it('carries one locked pattern snapshot through pickup, search, review, and detail', () => {
+    act(() => root.render(<MandorWipPage batchNotes={['', '', '']} setBatchNotes={vi.fn()}/>))
+
+    expect(container.querySelector('.wip-selected-pattern')?.textContent).toContain('LCY-REG · R1 · Kulot Lucy Regular')
+    expect(container.querySelector('.pickup-pattern-note')?.textContent).toContain('tidak dapat diganti saat pickup')
+    expect(container.querySelector('.pickup-review-facts')?.textContent).toContain('POLA SNAPSHOTLCY-REG · R1')
+    expect(container.querySelectorAll('[data-pattern-snapshot="b4500000-0000-0000-0000-000000000042"]')).toHaveLength(3)
+
+    const search = container.querySelector<HTMLInputElement>('[placeholder="Cari kode, Pola, bahan, model, mandor..."]')!
+    act(() => {
+      const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')?.set
+      setter?.call(search, 'LCY-REG')
+      search.dispatchEvent(new Event('input', { bubbles: true }))
+    })
+    expect(container.querySelectorAll('.wip-queue-card')).toHaveLength(1)
+    expect(container.querySelector('.wip-queue-pattern')?.textContent).toContain('LCY-REG · R1 · Kulot Lucy Regular')
+
+    const detail = [...container.querySelectorAll('button')].find((button) => button.textContent?.includes('Lihat detail roll'))!
+    act(() => detail.click())
+    expect(container.querySelector('[role="dialog"]')?.textContent).toContain('POLA · SNAPSHOTLCY-REG · R1')
+  })
+
   it('routes the batch menu through whole-roll allocation without duplicating the source', () => {
     act(() => root.render(<MandorWipPage batchNotes={['', '', '']} setBatchNotes={vi.fn()}/>))
     const select = container.querySelector<HTMLSelectElement>('[aria-label="Pilih batch untuk LCY-001"]')!
@@ -106,5 +128,34 @@ describe('MandorWipPage roll placement', () => {
     expect(batchCards[1].textContent).toContain('69 pcs')
     expect(batchCards[2].textContent).not.toContain('LCY-001')
     expect(container.querySelector('[role="status"]')?.textContent).toBe('Roll 01 masuk ke Batch 02.')
+  })
+})
+
+describe('SewingWipPage pattern lineage', () => {
+  it('keeps the parent Potongan snapshot visible and searchable after batch distribution', () => {
+    act(() => root.render(<SewingWipPage
+      batchNotes={['Navy', 'Maroon', 'Hitam']}
+      deliveries={[]}
+      finalizedResults={[]}
+      laundryDrafts={{}}
+      reverseNotice={null}
+      onClearReverseNotice={vi.fn()}
+      onClearLaundryDraft={vi.fn()}
+      onConfirmLaundry={vi.fn()}
+      onOpenLaundry={vi.fn()}
+      onOpenQc={vi.fn()}
+    />))
+
+    expect(container.querySelectorAll('.sewing-parent-pattern')).toHaveLength(3)
+    expect(container.querySelector('.sewing-parent-pattern')?.textContent).toContain('LCY-REG · R1 · Kulot Lucy Regular')
+
+    const search = container.querySelector<HTMLInputElement>('[placeholder="Cari produksi, model, Pola, bahan, Mandor, status..."]')!
+    act(() => {
+      const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')?.set
+      setter?.call(search, 'ZDK-JUMBO')
+      search.dispatchEvent(new Event('input', { bubbles: true }))
+    })
+    expect(container.querySelectorAll('.sewing-parent-card')).toHaveLength(1)
+    expect(container.querySelector('.sewing-parent-pattern')?.textContent).toContain('ZDK-JUMBO · R3 · Zodiak Jumbo')
   })
 })

@@ -3,7 +3,7 @@
   "candidate_branch": "cp4.5/rbac-production-identity-wip-r1-20260902",
   "source_base_sha": "57d8346a7cdf4ee86519f2dd2a1b54d39ebbb6cc",
   "source_base_tree": "48fc87507dc8a18d5829d518e53f298ad0c7e01a",
-  "generation_parent_sha": "4cda99fcf6f96f053981787f8cc2cbd39b809928",
+  "generation_parent_sha": "5c06412bdb5d47317aaf388604d7d1ed8337189d",
   "target_project_ref": "siimvrusnzxexizpyoib",
   "target_environment": "ERP Enteng UAT",
   "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
@@ -64,8 +64,8 @@
       "sha256": "2da8deb0f2440384f7056397af721079f5f11ab92dd1c03931a3c20c518fa9c0"
     },
     "docs/evidence/cp45_access_route_action_ownership.json": {
-      "bytes": 1186,
-      "sha256": "f18c69f43671156f10de0bcf70e252c726adcc44bc44047f90148f5922b9ec90"
+      "bytes": 1242,
+      "sha256": "349f7d653adbf132e21d3ee2adb740bf9f2185445d612e5dce73a674fa178184"
     },
     "docs/evidence/cp45_closure_runbook.md": {
       "bytes": 1290,
@@ -76,8 +76,8 @@
       "sha256": "34fcc833a721adba1c32e5ef22ab474802d17cf01099481dc3dfd138d4b4ecaa"
     },
     "docs/evidence/cp45_truth_boundary.md": {
-      "bytes": 2643,
-      "sha256": "b560ee32e7363738303b5638edb1747c5e7d547eb068095ab8f31c5adccc86f7"
+      "bytes": 3318,
+      "sha256": "7fbd6015f1454429ffe83f539c687cc6606839f85389054c20f91d67927b26ec"
     },
     "package-lock.json": {
       "bytes": 125971,
@@ -92,12 +92,12 @@
       "sha256": "e690c43d42a18734111a870923bf940e42d3a821c0c4bbb29bd43679f2123c80"
     },
     "scripts/check-access-catalog.mjs": {
-      "bytes": 5136,
-      "sha256": "30011943a7acea3a66b38eff93313a000e8072ea3c08a3c5ebe2b167eec20240"
+      "bytes": 5374,
+      "sha256": "78d0ec37dfc1e361d43169316a03ecabeae09366bd7599d02d6d2345804f2eb7"
     },
     "scripts/check-backend-ownership-v2.mjs": {
-      "bytes": 13612,
-      "sha256": "6fa06feaf7b0f08b2a8652acde0065d1deecd257e45384dd3df804df7aabab34"
+      "bytes": 13928,
+      "sha256": "2d467b26664e7666051eb00bd729c9262c9bf1e4339b4873a113db5d9d81b9ef"
     },
     "scripts/check-source-ownership.mjs": {
       "bytes": 4101,
@@ -116,8 +116,8 @@
       "sha256": "04c24da58e2c23c7b60c9ea944aa1f0968885aec1235d6805d4224ab7ea1ddf0"
     },
     "src/App.tsx": {
-      "bytes": 206962,
-      "sha256": "3892e3f5d1e8c140a15b94f3f1b2581e50d87cc465ad155a06397bac35e07d13"
+      "bytes": 210280,
+      "sha256": "d54d93c28942e8e51a6cdd7919e16b81b54c031d6283ce7d704ccc89f2b54094"
     },
     "src/ConnectedWipStatusPage.tsx": {
       "bytes": 12098,
@@ -134,6 +134,10 @@
     "src/QcFinalPage.tsx": {
       "bytes": 26746,
       "sha256": "395b2008433c3329f4527bf27814e1245bb0b41c1c3db3c2ad0126e57c62c408"
+    },
+    "src/UnassignedRollCard.test.tsx": {
+      "bytes": 7219,
+      "sha256": "488dda42887fb1cc36ea7ccb3463be47ad4ae85caed1b966135455a5ad58e7ca"
     },
     "src/access-control-cp45.css": {
       "bytes": 373,
@@ -212,8 +216,8 @@
       "sha256": "280117b3b74e069b243b723aada1cfe22a37df2514c375c2e69291660d338543"
     },
     "src/procurement.css": {
-      "bytes": 86773,
-      "sha256": "4e1227e4fdb9f4b4a49544a16977a11ed34268c68c2ea09ad6bf3831609e01d0"
+      "bytes": 90206,
+      "sha256": "928092046529ecb9ce7a357d5e9b39a57a263acac8fa1c80d951e6eba99dd0f3"
     },
     "src/types/database.preconnect.ts": {
       "bytes": 2754,
@@ -240,8 +244,8 @@
       "sha256": "d120a7859a02b85559212adbf8c83d1dd4e3e4f586a117f528cd49fd55197e9e"
     },
     "tests/browser/cp45.spec.ts": {
-      "bytes": 3949,
-      "sha256": "ca879ac062af4d0d8032c82e669b74502829e817bf1fe4ba1e616f831bf0fa1e"
+      "bytes": 5633,
+      "sha256": "47b3604a416314e6aefd7a1cd7e20ceb8c63d97e33d99e675ed4b9feca220233"
     }
   }
 }

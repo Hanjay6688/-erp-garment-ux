@@ -2,8 +2,9 @@ import { expect, test, type Page } from '@playwright/test'
 
 async function openNavigation(page: Page, projectName: string, section: string, item: string) {
   if (projectName === 'mobile-chromium') await page.getByRole('button', { name: 'Buka menu' }).click()
-  await page.getByRole('button', { name: new RegExp(`^${section}`) }).click()
-  await page.getByRole('button', { name: `• ${item}`, exact: true }).click()
+  const target = page.getByRole('button', { name: `• ${item}`, exact: true })
+  if (!(await target.isVisible())) await page.getByRole('button', { name: new RegExp(`^${section}`) }).click()
+  await target.click()
 }
 
 test('CP4.5 Master Pola grows from operational need with fail-closed Potongan selection', async ({ page }, testInfo) => {
@@ -38,6 +39,28 @@ test('CP4.5 Master Pola grows from operational need with fail-closed Potongan se
     contentType: 'image/png',
   })
 
+  await openNavigation(page, testInfo.project.name, 'Produksi', 'Bagi Potongan')
+  await expect(page.getByRole('heading', { name: 'Bagi Potongan' })).toBeVisible()
+  await expect(page.locator('.wip-selected-pattern')).toContainText('LCY-REG · R1 · Kulot Lucy Regular')
+  await expect(page.locator('.pickup-pattern-note')).toContainText('tidak dapat diganti saat pickup')
+  await page.getByPlaceholder('Cari kode, Pola, bahan, model, mandor...').fill('LCY-REG')
+  await expect(page.locator('.wip-queue-card')).toHaveCount(1)
+  await expect(page.locator('.wip-queue-pattern')).toContainText('LCY-REG · R1 · Kulot Lucy Regular')
+  await page.getByRole('button', { name: /Lihat detail roll/ }).click()
+  await expect(page.getByRole('dialog', { name: /POT-260827-042/ })).toContainText('POLA · SNAPSHOT')
+  await expect(page.getByRole('dialog', { name: /POT-260827-042/ })).toContainText('LCY-REG · R1')
+  await page.getByRole('button', { name: 'Tutup detail' }).click()
+
+  await openNavigation(page, testInfo.project.name, 'Produksi', 'WIP & Sewing')
+  await expect(page.getByRole('heading', { name: 'WIP & Sewing' })).toBeVisible()
+  await page.getByPlaceholder('Cari produksi, model, Pola, bahan, Mandor, status...').fill('LCY-REG')
+  await expect(page.locator('.sewing-parent-card')).toHaveCount(1)
+  await expect(page.locator('.sewing-parent-pattern')).toContainText('LCY-REG · R1 · Kulot Lucy Regular')
+  await testInfo.attach(`pattern-lineage-${testInfo.project.name}`, {
+    body: await page.screenshot({ fullPage: true }),
+    contentType: 'image/png',
+  })
+
   await openNavigation(page, testInfo.project.name, 'Master Data', 'Pola')
   await expect(page.getByRole('heading', { name: 'Pola', exact: true })).toBeVisible()
   await expect(page.getByPlaceholder('Cari kode, revisi, atau nama Pola…')).toBeVisible()
@@ -65,6 +88,7 @@ test('CP4.5 Master Pola grows from operational need with fail-closed Potongan se
       viewport: testInfo.project.name,
       master_pattern_source: 'erp_save_pattern_v1',
       cutting_pattern_required: true,
+      pattern_snapshot_visible_in_pickup_and_wip: true,
       production_go: false,
     }, null, 2)),
     contentType: 'application/json',
