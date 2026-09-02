@@ -29,6 +29,7 @@ env:
   SOURCE_R1_SHA: da8ed9055738c26ce882ad8b1adda047fe000c72
   SOURCE_R2_SHA: faf71948d2ac762e28619f6f9e4096eaecb4be37
   SOURCE_R3_SHA: 79052c8c505dc779bb2345eed4e4bf866da00548
+  SOURCE_R4_SHA: 13d855bd424d995b0abfc7e8c6b7a5ca83afa0a9
   RECOVERY_RUN_ID: 33587654349
   PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
   CP3_R4_CONCURRENCY_REPORT: cp4-proof/cp3-r4-concurrency-report.json
@@ -49,7 +50,8 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p cp4-proof
-          test "$(git rev-parse HEAD^)" = "$SOURCE_R3_SHA"
+          test "$(git rev-parse HEAD^)" = "$SOURCE_R4_SHA"
+          test "$(git rev-parse "$SOURCE_R4_SHA^")" = "$SOURCE_R3_SHA"
           test "$(git rev-parse "$SOURCE_R3_SHA^")" = "$SOURCE_R2_SHA"
           test "$(git rev-parse "$SOURCE_R2_SHA^")" = "$SOURCE_R1_SHA"
           test "$(git rev-parse "$SOURCE_R1_SHA^")" = "$SOURCE_BASE_SHA"

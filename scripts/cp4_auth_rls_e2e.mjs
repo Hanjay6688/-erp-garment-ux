@@ -151,7 +151,13 @@ try {
   const anonProfile = await request('/rest/v1/v_erp_my_profile?select=*')
   record('profile-anon-denied', anonProfile, [401, 403])
   const serviceProfile = await request('/rest/v1/v_erp_my_profile?select=*', { key: serviceKey, token: serviceKey })
-  record('profile-service-role-denied', serviceProfile, [401, 403])
+  // Hosted UAT denies SELECT to service_role directly. The local Supabase role
+  // graph may still route this self-filtered view and return HTTP 200 []; both
+  // are fail-closed. Any visible profile row is a security failure.
+  record('profile-service-role-no-profile-leak', serviceProfile, [200, 401, 403])
+  if (serviceProfile.status === 200) {
+    assert.deepEqual(serviceProfile.json, [])
+  }
 
   const ownerPreview = await preview({ token: ownerSession.access_token })
   record('rpc-owner-allowed', ownerPreview, [200])
