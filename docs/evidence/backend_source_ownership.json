@@ -7,6 +7,11 @@
     "path": "docs/evidence/cp3_r4_source_hashes.json",
     "sha256": "4e613bdc15aab080ba5fd30f01408f793ec2710037e70be4d31e46b18cf097dc"
   },
+  "candidate_cp4_manifest": {
+    "path": "docs/evidence/cp4_r1_source_hashes.json",
+    "bytes": 1558,
+    "sha256": "1a07c3013faa6bd9c6f7cb193c29422acbc6eae36964d9a72978a28557f97c42"
+  },
   "uat_recorded_sources": [
     {
       "path": "supabase/migrations/20260829185830_erp_v2_6_10_fg_partial_completion.sql",

@@ -1,0 +1,39 @@
+{
+  "format": "CP4_R1_SOURCE_HASHES_V1",
+  "candidate_branch": "cp4/hpp-auth-owner-uat-r1-20260902",
+  "parent_sha": "92e49047941c09f18a306a9b2998f101c62e6ffe",
+  "parent_tree": "8625bd6053c256456f67185d60e0bb95f9bc574e",
+  "cp3_reviewed_head": "469f48a0724b447fc397a2a932c4872c2ed27488",
+  "pre_cp4_recovery_run_id": 33587654349,
+  "target_project_ref": "siimvrusnzxexizpyoib",
+  "target_environment": "ERP Enteng UAT",
+  "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
+  "source_only": true,
+  "uat_applied": false,
+  "legacy_mutated": false,
+  "production_go": false,
+  "migration_version": "20260902043000",
+  "application_version": "v2.6.16",
+  "files": {
+    ".github/workflows/cp4-full-schema-validation.yml": {
+      "bytes": 23141,
+      "sha256": "3ce8941d8d7ca250999836bec3ecc8fd6ed1289069acca660ad9778f7bc73306"
+    },
+    "scripts/cp4_auth_rls_e2e.mjs": {
+      "bytes": 9750,
+      "sha256": "ffc05f66afbd4275679ee60fc9865fc01df7f7718337d3f7040f9ab99db7f2d0"
+    },
+    "supabase/migrations/20260902043000_erp_v2_6_16_cp4_hpp_route_auth_boundary.sql": {
+      "bytes": 23277,
+      "sha256": "65f5f799003de69b5b3f7bee48cd6df70ba12b1c0d0a1b14a7c2917d6746734a"
+    },
+    "supabase/rollbacks/20260902043000_erp_v2_6_16_cp4_hpp_route_auth_boundary.rollback.sql": {
+      "bytes": 3743,
+      "sha256": "8c07cc703084f0d22762772b6995194d9cf2432239eaeda8ca86d181b916b050"
+    },
+    "supabase/tests/cp4_hpp_route_auth_rollback.sql": {
+      "bytes": 16874,
+      "sha256": "d80d9d017ddb956532c82feb8b11b992f8b222955f92e1223dd169bbbdf2f395"
+    }
+  }
+}
