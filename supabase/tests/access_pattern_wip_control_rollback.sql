@@ -521,10 +521,10 @@ begin
       'final_product_id',v_product,'qty_good_pcs',100,'qty_bs_pcs',0,'notes','CP45 exact'
     ))
   );
-  v_fg:=public.erp_post_final_sku_allocation_v1(
-    v_fg_payload,v_fg_request,(select row_version from erp.cutting_groups where id='a3200000-0000-0000-0000-000000000003')
-  );
-  v_fg_replay:=public.erp_post_final_sku_allocation_v1(v_fg_payload,v_fg_request,1);
+  select row_version into v_group_version
+  from erp.cutting_groups where id='a3200000-0000-0000-0000-000000000003';
+  v_fg:=public.erp_post_final_sku_allocation_v1(v_fg_payload,v_fg_request,v_group_version);
+  v_fg_replay:=public.erp_post_final_sku_allocation_v1(v_fg_payload,v_fg_request,v_group_version);
   if v_fg is distinct from v_fg_replay then raise exception 'Final SKU double-click produced a second effect'; end if;
   if (select coalesce(sum(qty_signed),0) from erp.fg_stock_movements
       where source_id in(select id from erp.qc_inspection_items
