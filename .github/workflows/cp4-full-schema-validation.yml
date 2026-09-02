@@ -28,6 +28,7 @@ env:
   SOURCE_BASE_TREE: 8625bd6053c256456f67185d60e0bb95f9bc574e
   SOURCE_R1_SHA: da8ed9055738c26ce882ad8b1adda047fe000c72
   SOURCE_R2_SHA: faf71948d2ac762e28619f6f9e4096eaecb4be37
+  SOURCE_R3_SHA: 79052c8c505dc779bb2345eed4e4bf866da00548
   RECOVERY_RUN_ID: 33587654349
   PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
   CP3_R4_CONCURRENCY_REPORT: cp4-proof/cp3-r4-concurrency-report.json
@@ -48,7 +49,8 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p cp4-proof
-          test "$(git rev-parse HEAD^)" = "$SOURCE_R2_SHA"
+          test "$(git rev-parse HEAD^)" = "$SOURCE_R3_SHA"
+          test "$(git rev-parse "$SOURCE_R3_SHA^")" = "$SOURCE_R2_SHA"
           test "$(git rev-parse "$SOURCE_R2_SHA^")" = "$SOURCE_R1_SHA"
           test "$(git rev-parse "$SOURCE_R1_SHA^")" = "$SOURCE_BASE_SHA"
           test "$(git rev-parse "$SOURCE_BASE_SHA^{tree}")" = "$SOURCE_BASE_TREE"
@@ -152,8 +154,20 @@ jobs:
           supabase init --force --workdir cp4-local
           mkdir -p cp4-local/supabase/.temp
           echo '17.6.1.165' > cp4-local/supabase/.temp/postgres-version
-          sed -i 's/^enable_signup = true$/enable_signup = false/' cp4-local/supabase/config.toml
-          grep -n '^enable_signup = false$' cp4-local/supabase/config.toml | tee cp4-proof/LOCAL_SIGNUP_DISABLED.txt
+          # Disable only global public signup. Keep the email provider enabled
+          # so admin-created/invited users can still log in and recover access.
+          sed -i '0,/^enable_signup = true$/s//enable_signup = false/' cp4-local/supabase/config.toml
+          python - <<'PY'
+          import json,tomllib
+          from pathlib import Path
+          config=tomllib.loads(Path('cp4-local/supabase/config.toml').read_text())
+          assert config['auth']['enable_signup'] is False
+          assert config['auth']['email']['enable_signup'] is True
+          Path('cp4-proof/LOCAL_AUTH_CONFIG.json').write_text(json.dumps({
+            'global_public_signup':config['auth']['enable_signup'],
+            'email_provider_enabled':config['auth']['email']['enable_signup'],
+          },indent=2)+'\n')
+          PY
           supabase start --workdir cp4-local \
             -x realtime,imgproxy,studio,postgres-meta,edge-runtime,logflare,vector,supavisor
 
