@@ -151,9 +151,9 @@ begin
     'a3000000-0000-0000-0000-000000000001',v_product,1,1,'2026-01-02 09:03+00',v_group_fg
   );
 
+  select row_version into v_version from erp.cutting_groups where id=v_group_first;
   perform set_config('request.jwt.claims',jsonb_build_object('sub',v_owner_auth,'role','authenticated')::text,true);
   execute 'set local role authenticated';
-  select row_version into v_version from erp.cutting_groups where id=v_group_first;
   v_first:=public.erp_assign_pattern_v1(v_group_first,v_pattern_a,'CP45A first binding',v_request,v_version);
   v_replay:=public.erp_assign_pattern_v1(v_group_first,v_pattern_a,'CP45A first binding',v_request,v_version);
   if v_first is distinct from v_replay then
@@ -166,7 +166,7 @@ begin
     raise exception 'First assignment did not bind the canonical snapshot: %',v_first;
   end if;
 
-  select row_version into v_version from erp.cutting_groups where id=v_group_first;
+  v_version:=(v_first->>'row_version')::bigint;
   v_expected_failure:=false;
   begin
     perform public.erp_assign_pattern_v1(v_group_first,v_pattern_b,'forbidden second binding',gen_random_uuid(),v_version);
@@ -215,7 +215,7 @@ begin
 
   perform set_config('request.jwt.claims',jsonb_build_object('sub',v_customer_auth,'role','authenticated')::text,true);
   execute 'set local role authenticated';
-  select row_version into v_version from erp.cutting_groups where id=v_group_unauthorized;
+  v_version:=1;
   v_expected_failure:=false;
   begin
     perform public.erp_assign_pattern_v1(v_group_unauthorized,v_pattern_a,'unauthorized',gen_random_uuid(),v_version);
@@ -231,7 +231,7 @@ begin
   foreach v_gid in array array[
     v_group_status,v_group_material,v_group_sewing,v_group_laundry,v_group_qc,v_group_fg
   ] loop
-    select row_version into v_version from erp.cutting_groups where id=v_gid;
+    v_version:=1;
     v_expected_failure:=false;
     begin
       perform public.erp_assign_pattern_v1(v_gid,v_pattern_a,'downstream/state must block',gen_random_uuid(),v_version);
@@ -251,7 +251,7 @@ begin
   update erp.production_patterns set is_active=false where id=v_pattern_b;
   perform set_config('request.jwt.claims',jsonb_build_object('sub',v_owner_auth,'role','authenticated')::text,true);
   execute 'set local role authenticated';
-  select row_version into v_version from erp.cutting_groups where id=v_group_inactive;
+  v_version:=1;
   v_expected_failure:=false;
   begin
     perform public.erp_assign_pattern_v1(v_group_inactive,v_pattern_b,'inactive must fail',gen_random_uuid(),v_version);
@@ -262,6 +262,8 @@ begin
     end if;
   end;
   if not v_expected_failure then raise exception 'Inactive pattern was accepted for first assignment'; end if;
+  execute 'reset role';
+  perform set_config('request.jwt.claims','{}',true);
 
   if exists(
     select 1 from erp.cutting_groups
@@ -270,7 +272,6 @@ begin
       v_group_laundry,v_group_qc,v_group_fg,v_group_inactive
     ) and pattern_id is not null
   ) then raise exception 'A rejected assignment left a pattern residue'; end if;
-  execute 'reset role';
 end
 $test$;
 
