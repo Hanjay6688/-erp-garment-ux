@@ -49,6 +49,7 @@ jobs:
           npm run check:access
           node --check scripts/cp4_auth_rls_e2e.mjs
           node --check scripts/cp45_auth_permission_e2e.mjs
+          python -m py_compile scripts/cp45_pattern_assignment_concurrency.py
           git diff --check "$SOURCE_BASE_SHA" "$GITHUB_SHA"
           printf 'branch=%s\nhead=%s\nparent=%s\nbase=%s\nbase_tree=%s\nremote_head=%s\ncommit_count=%s\n' \
             "$GITHUB_REF_NAME" "$GITHUB_SHA" "$(git rev-parse HEAD^)" "$SOURCE_BASE_SHA" "$SOURCE_BASE_TREE" "$remote_head" \
@@ -399,6 +400,67 @@ jobs:
             -f supabase/tests/access_pattern_wip_control_rollback.sql \
             2>&1 | tee cp45-proof/CP45_ACCESS_PATTERN_WIP_ACCEPTANCE.log
 
+      - name: Apply CP4.5 v2.6.17a immutable pattern correction once
+        shell: bash
+        run: |
+          set -euo pipefail
+          psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' > cp45-proof/PRE_CP45A_PATTERN_FUNCTIONS.json
+          select jsonb_build_object('functions',jsonb_agg(jsonb_build_object(
+            'identity',format('%I.%I(%s)',n.nspname,p.proname,pg_get_function_identity_arguments(p.oid)),
+            'definition_sha256',encode(extensions.digest(convert_to(pg_get_functiondef(p.oid),'UTF8'),'sha256'),'hex'),
+            'acl',(select coalesce(jsonb_agg(jsonb_build_object(
+              'grantor',pg_get_userbyid(a.grantor),
+              'grantee',case when a.grantee=0 then 'PUBLIC' else pg_get_userbyid(a.grantee) end,
+              'privilege',a.privilege_type,'grantable',a.is_grantable
+            ) order by a.grantor,a.grantee,a.privilege_type,a.is_grantable),'[]'::jsonb)
+              from aclexplode(coalesce(p.proacl,acldefault('f',p.proowner))) a),
+            'owner',pg_get_userbyid(p.proowner)
+          ) order by p.proname,pg_get_function_identity_arguments(p.oid)))
+          from pg_proc p join pg_namespace n on n.oid=p.pronamespace
+          where p.oid in(
+            'erp.assign_pattern_v1(uuid,uuid,text,uuid,bigint)'::regprocedure,
+            'erp.guard_pattern_assignment_snapshot()'::regprocedure
+          );
+          SQL
+          sha256sum supabase/migrations/20260902180726_erp_v2_6_17a_cp45_pattern_assignment_immutability.sql \
+            | tee cp45-proof/CP45A_MIGRATION_SHA256.txt
+          psql "$PGURL" -v ON_ERROR_STOP=1 \
+            -f supabase/migrations/20260902180726_erp_v2_6_17a_cp45_pattern_assignment_immutability.sql \
+            2>&1 | tee cp45-proof/CP45A_APPLY.log
+          psql "$PGURL" -v ON_ERROR_STOP=1 -c "insert into supabase_migrations.schema_migrations(version,name,statements) values('20260902180726','erp_v2_6_17a_cp45_pattern_assignment_immutability',array[]::text[]) on conflict(version) do nothing"
+          set +e
+          psql "$PGURL" -v ON_ERROR_STOP=1 \
+            -f supabase/migrations/20260902180726_erp_v2_6_17a_cp45_pattern_assignment_immutability.sql \
+            > cp45-proof/CP45A_REPLAY_REJECTION.log 2>&1
+          replay_status=$?
+          set -e
+          test "$replay_status" -ne 0
+          grep -F 'v2.6.17a is already recorded' cp45-proof/CP45A_REPLAY_REJECTION.log >/dev/null
+
+      - name: Prove immutable assignment, downstream blockers, and real races
+        shell: bash
+        run: |
+          set -euo pipefail
+          psql "$PGURL" -v ON_ERROR_STOP=1 \
+            -f supabase/tests/cp45_pattern_assignment_immutability_rollback.sql \
+            2>&1 | tee cp45-proof/CP45A_PATTERN_ASSIGNMENT_ACCEPTANCE.log
+          export CP45_PATTERN_ASSIGNMENT_RACE_REPORT=cp45-proof/cp45-pattern-assignment-concurrency.json
+          python scripts/cp45_pattern_assignment_concurrency.py \
+            2>&1 | tee cp45-proof/CP45A_PATTERN_ASSIGNMENT_CONCURRENCY.log
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('cp45-proof/cp45-pattern-assignment-concurrency.json').read_text())
+          assert r['status']=='PASS',r
+          assert r['assertions']=={
+            'exactly_one_assignment_winner':True,
+            'loser_cannot_overwrite_snapshot':True,
+            'downstream_fk_first_blocks_assignment':True,
+            'real_two_connection_wait_observed':True,
+          },r
+          assert all(value==0 for value in r['residue'].values()),r
+          PY
+
       - name: Re-run frozen CP4 and affected CP3 behavior under CP4.5
         shell: bash
         run: |
@@ -422,6 +484,53 @@ jobs:
           test "$(psql "$PGURL" -At -c "select count(*) from erp.app_users")" = '0'
           test "$(psql "$PGURL" -At -c "select count(*) from erp.production_patterns")" = '0'
           test "$(psql "$PGURL" -At -c "select count(*) from erp.production_pattern_audit")" = '0'
+
+      - name: Roll back v2.6.17a and prove exact v2.6.17 restoration
+        shell: bash
+        run: |
+          set -euo pipefail
+          psql "$PGURL" -v ON_ERROR_STOP=1 \
+            -f supabase/rollbacks/20260902180726_erp_v2_6_17a_cp45_pattern_assignment_immutability.rollback.sql \
+            2>&1 | tee cp45-proof/CP45A_ROLLBACK.log
+          psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' > cp45-proof/POST_CP45A_PATTERN_FUNCTIONS.json
+          select jsonb_build_object('functions',jsonb_agg(jsonb_build_object(
+            'identity',format('%I.%I(%s)',n.nspname,p.proname,pg_get_function_identity_arguments(p.oid)),
+            'definition_sha256',encode(extensions.digest(convert_to(pg_get_functiondef(p.oid),'UTF8'),'sha256'),'hex'),
+            'acl',(select coalesce(jsonb_agg(jsonb_build_object(
+              'grantor',pg_get_userbyid(a.grantor),
+              'grantee',case when a.grantee=0 then 'PUBLIC' else pg_get_userbyid(a.grantee) end,
+              'privilege',a.privilege_type,'grantable',a.is_grantable
+            ) order by a.grantor,a.grantee,a.privilege_type,a.is_grantable),'[]'::jsonb)
+              from aclexplode(coalesce(p.proacl,acldefault('f',p.proowner))) a),
+            'owner',pg_get_userbyid(p.proowner)
+          ) order by p.proname,pg_get_function_identity_arguments(p.oid)))
+          from pg_proc p join pg_namespace n on n.oid=p.pronamespace
+          where p.oid in(
+            'erp.assign_pattern_v1(uuid,uuid,text,uuid,bigint)'::regprocedure,
+            'erp.guard_pattern_assignment_snapshot()'::regprocedure
+          );
+          SQL
+          cmp cp45-proof/PRE_CP45A_PATTERN_FUNCTIONS.json cp45-proof/POST_CP45A_PATTERN_FUNCTIONS.json
+          psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' | tee cp45-proof/CP45A_ROLLBACK_RESIDUE.json
+          select jsonb_build_object(
+            'status',case when
+              exists(select 1 from erp.schema_migrations where version='v2.6.17')
+              and not exists(select 1 from erp.schema_migrations where version='v2.6.17a')
+              and exists(select 1 from supabase_migrations.schema_migrations where version='20260902104937')
+              and not exists(select 1 from supabase_migrations.schema_migrations where version='20260902180726')
+              and to_regclass('erp.cp45_v2617a_rollback_capsule') is null
+              and to_regprocedure('erp.assert_pattern_initial_assignment_allowed(uuid)') is null
+              and md5(pg_get_functiondef('erp.assign_pattern_v1(uuid,uuid,text,uuid,bigint)'::regprocedure))='5d291996e4297426b790e64eef163412'
+              and md5(pg_get_functiondef('erp.guard_pattern_assignment_snapshot()'::regprocedure))='8da2f40884705902230695dbf85a5fea'
+              then 'PASS' else 'FAIL' end,
+            'base_application',exists(select 1 from erp.schema_migrations where version='v2.6.17'),
+            'correction_application',exists(select 1 from erp.schema_migrations where version='v2.6.17a'),
+            'correction_platform',exists(select 1 from supabase_migrations.schema_migrations where version='20260902180726'),
+            'capsule',to_regclass('erp.cp45_v2617a_rollback_capsule'),
+            'helper',to_regprocedure('erp.assert_pattern_initial_assignment_allowed(uuid)')
+          );
+          SQL
+          test "$(python -c "import json;print(json.load(open('cp45-proof/CP45A_ROLLBACK_RESIDUE.json'))['status'])")" = 'PASS'
 
       - name: Roll back exact CP4.5 and prove exact CP4 restoration
         shell: bash

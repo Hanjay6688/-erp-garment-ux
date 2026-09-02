@@ -4,6 +4,7 @@ import { resolve } from 'node:path'
 
 const root = process.cwd()
 const migration = readFileSync(resolve(root, 'supabase/migrations/20260902104937_erp_v2_6_17_access_pattern_wip_control.sql'), 'utf8')
+const integrityCorrection = readFileSync(resolve(root, 'supabase/migrations/20260902180726_erp_v2_6_17a_cp45_pattern_assignment_immutability.sql'), 'utf8')
 const catalog = readFileSync(resolve(root, 'src/auth/accessCatalog.ts'), 'utf8')
 const app = readFileSync(resolve(root, 'src/App.tsx'), 'utf8')
 const evidence = JSON.parse(readFileSync(resolve(root, 'docs/evidence/cp45_access_route_action_ownership.json'), 'utf8'))
@@ -81,6 +82,21 @@ assert.equal(evidence.invariants.cutting_transaction_pattern_id_required, true)
 assert.equal(evidence.invariants.pattern_snapshot_visible_in_pickup_and_wip, true)
 assert.equal(evidence.invariants.grandfathered_history_requires_bulk_import, false)
 assert.match(migration, /PATTERN_ID_REQUIRED_FOR_CUTTING_TRANSACTION/)
+const initialAssignmentGuard = between(
+  integrityCorrection,
+  'create function erp.assert_pattern_initial_assignment_allowed',
+  'create or replace function erp.guard_pattern_assignment_snapshot',
+)
+for (const table of [
+  'cutting_qty_correction_lines', 'work_completion_events', 'sewing_terminal_events',
+  'laundry_delivery_lines', 'qc_inspection_items', 'fg_lots', 'bs_cases',
+  'attendance_hpp_pool_allocations', 'wip_stage_events', 'wip_control_flags', 'scrap_batches',
+]) assert.match(initialAssignmentGuard, new RegExp(`erp\\.${table}`), `Missing initial-assignment blocker: ${table}`)
+assert.doesNotMatch(initialAssignmentGuard, /cutting_group_(?:rolls|size_slots)/)
+assert.match(initialAssignmentGuard, /for update/i)
+assert.match(integrityCorrection, /PATTERN_IDENTITY_ALREADY_BOUND/)
+assert.match(integrityCorrection, /PATTERN_ASSIGNMENT_SNAPSHOT_IMMUTABLE/)
+assert.match(integrityCorrection, /revoke all on function erp\.assert_pattern_initial_assignment_allowed\(uuid\)/)
 assert.match(app, /disabled=\{!hasCanonicalPattern\(selectedPattern\)\|\|!yardUsageValid\|\|totalPieces===0\}/)
 assert.match(app, /className="wip-selected-pattern" data-pattern-snapshot=/)
 assert.match(app, /className="sewing-parent-pattern" data-pattern-snapshot=/)

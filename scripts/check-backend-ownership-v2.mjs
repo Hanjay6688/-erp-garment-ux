@@ -1,9 +1,11 @@
 import assert from 'node:assert/strict'
 import { createHash } from 'node:crypto'
+import { execFileSync } from 'node:child_process'
 import { readFileSync, readdirSync } from 'node:fs'
 import { extname, join, relative, resolve } from 'node:path'
 
 const root = process.cwd()
+const git = (...args) => execFileSync('git', args, { cwd: root, encoding: 'utf8' }).trim()
 const hash = (algorithm, bytes) => createHash(algorithm).update(bytes).digest('hex')
 const posix = (path) => path.split('\\').join('/')
 const readJson = (path) => JSON.parse(readFileSync(resolve(root, path), 'utf8'))
@@ -49,6 +51,24 @@ assert.equal(candidate.target_project_ref, 'siimvrusnzxexizpyoib')
 assert.equal(candidate.legacy_project_ref, 'vlxdhpkjeevubjxexnfo')
 assert.equal(candidate.migration_version, '20260902104937')
 assert.equal(candidate.application_version, 'v2.6.17')
+assert.equal(candidate.integrity_correction.defect_id, 'P2-CP45-001')
+assert.equal(candidate.integrity_correction.migration_version, '20260902180726')
+assert.equal(candidate.integrity_correction.application_version, 'v2.6.17a')
+assert.equal(candidate.integrity_correction.hosted_auth_permission_e2e.mode, 'MANUAL_HOSTED_UAT_VERIFIED')
+assert.equal(candidate.integrity_correction.hosted_auth_permission_e2e.classified_as_ci, false)
+assert.equal(candidate.integrity_correction.hosted_auth_permission_e2e.github_service_role_secret_used, false)
+if (candidate.integrity_correction.uat_applied) {
+  assert.equal(candidate.integrity_correction.source_only, false)
+  assert.match(candidate.integrity_correction.uat_applied_at, /^2026-09-02T/)
+  assert.equal(candidate.integrity_correction.exact_head_ci.status, 'PASS')
+  assert.equal(candidate.integrity_correction.hosted_auth_permission_e2e.status, 'PASS')
+} else {
+  assert.equal(candidate.integrity_correction.source_only, true)
+  assert.equal(candidate.integrity_correction.uat_applied_at, null)
+  assert.equal(candidate.integrity_correction.exact_head_ci.status, 'PENDING')
+  assert.equal(candidate.integrity_correction.hosted_auth_permission_e2e.status, 'PENDING')
+  assert.equal(candidate.closure_status, 'NO_GO_PENDING_CP45A_CORRECTION_PROOF')
+}
 assert.equal(candidate.legacy_mutated, false)
 assert.equal(candidate.production_go, false)
 assert.equal(candidate.hygiene.branch_protection_status_enforcement, false)
@@ -58,7 +78,10 @@ assert.equal(candidate.hygiene.production_deploy_authorized, false)
 if (candidate.uat_applied) {
   assert.equal(candidate.source_only, false)
   assert.match(candidate.uat_applied_at, /^2026-09-02T/)
-  assert.equal(candidate.generation_parent_sha, 'c90140b7fcd5cc6bec16074e806f865f28ef0209')
+  assert.match(candidate.generation_parent_sha, /^[0-9a-f]{40}$/)
+  if (process.env.GITHUB_ACTIONS === 'true') {
+    assert.equal(candidate.generation_parent_sha, git('rev-parse', 'HEAD^'))
+  }
   assert.equal(candidate.ci_runtime.status, 'PASS')
   assert.equal(candidate.ci_runtime.head_sha, '4cda99fcf6f96f053981787f8cc2cbd39b809928')
   assert.equal(candidate.ci_runtime.head_tree, 'c9b7aae6e3ea3db64d4abe6de4987f378166a9bf')
@@ -186,6 +209,7 @@ const discovered = [
   ...walk(resolve(root, 'supabase/tests'), (path) => extname(path) === '.sql'),
   ...walk(resolve(root, 'ops/supabase'), (path) => extname(path) === '.sql'),
   ...walk(resolve(root, 'scripts'), (path) => /^(?:cp3_|test_cp3_).*\.py$/.test(path.split('/').at(-1))),
+  ...walk(resolve(root, 'scripts'), (path) => /^cp45_.*\.py$/.test(path.split('/').at(-1))),
   ...walk(resolve(root, 'scripts'), (path) => /^cp(?:4|45)_.*\.mjs$/.test(path.split('/').at(-1))),
   'scripts/check-backend-ownership.mjs',
   'scripts/check-backend-ownership-v2.mjs',
@@ -202,6 +226,7 @@ const backendCandidate = candidatePaths.filter((path) => (
   || path.startsWith('supabase/tests/')
   || path.startsWith('ops/supabase/')
   || /^scripts\/cp45_.*\.mjs$/.test(path)
+  || /^scripts\/cp45_.*\.py$/.test(path)
   || path === 'scripts/check-backend-ownership-v2.mjs'
   || path === '.github/workflows/cp45-full-schema-validation.yml'
   || path === candidate.hosted_auth_permission_e2e.evidence_path
@@ -217,11 +242,19 @@ assert.deepEqual(discovered, [...expectedFrozen, ...backendCandidate].sort(), 'B
 assert.deepEqual(candidatePaths.filter((path) => path.startsWith('supabase/migrations/20260902104937_')), [
   'supabase/migrations/20260902104937_erp_v2_6_17_access_pattern_wip_control.sql',
 ])
+assert.deepEqual(candidatePaths.filter((path) => path.startsWith('supabase/migrations/20260902180726_')), [
+  'supabase/migrations/20260902180726_erp_v2_6_17a_cp45_pattern_assignment_immutability.sql',
+])
 assert.deepEqual(candidatePaths.filter((path) => path.startsWith('supabase/rollbacks/20260902104937_')), [
   'supabase/rollbacks/20260902104937_erp_v2_6_17_access_pattern_wip_control.rollback.sql',
 ])
+assert.deepEqual(candidatePaths.filter((path) => path.startsWith('supabase/rollbacks/20260902180726_')), [
+  'supabase/rollbacks/20260902180726_erp_v2_6_17a_cp45_pattern_assignment_immutability.rollback.sql',
+])
 assert.ok(candidatePaths.includes('supabase/tests/access_pattern_wip_control_rollback.sql'))
+assert.ok(candidatePaths.includes('supabase/tests/cp45_pattern_assignment_immutability_rollback.sql'))
 assert.ok(candidatePaths.includes('scripts/cp45_auth_permission_e2e.mjs'))
+assert.ok(candidatePaths.includes('scripts/cp45_pattern_assignment_concurrency.py'))
 assert.ok(candidatePaths.includes('.github/workflows/cp45-full-schema-validation.yml'))
 
 const onlyCp3 = process.argv.includes('--cp3-only')

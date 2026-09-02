@@ -7,11 +7,12 @@ CP4.5 is a pre-CP5 candidate for ERP Enteng UAT. It does not authorize a product
 - Dynamic role, permission, user-role assignment, Master Pola, authoritative WIP status, WIP flags, and the Final SKU permission boundary use guarded RPCs in connected UAT mode.
 - Master Pola may start empty. Search is server-side and paginated; status filtering supports active, inactive, and all records.
 - Both the Master Pola page and quick-create from Buat Potongan call `erp_save_pattern_v1`. There is no second table, shadow list, or free-text transaction identity.
-- Pattern identity is `(pattern_id, code snapshot, name snapshot, revision snapshot)`. Database triggers populate immutable transaction snapshots from an active master row.
+- Pattern identity is `(pattern_id, code snapshot, name snapshot, revision snapshot)`. Database triggers populate immutable transaction snapshots from an active master row. The v2.6.17a forward-only correction makes this an initial-only binding: the Potongan must still be a pristine `CUT` draft with no downstream fact, and a bound identity cannot be reassigned, unassigned, or edited in place.
 - Grandfathered history may remain without `pattern_id`, so deployment does not require importing old Pola. Any new or changed Potongan through a JWT application request is rejected unless it carries `pattern_id`.
 - A used pattern can only be deactivated. Inactive patterns are excluded from normal choices and remain readable in historical WIP.
 - Bagi Potongan and WIP display the immutable parent-Potongan pattern snapshot. Pickup and child-batch controls do not offer a second pattern selector, so splitting or moving quantities cannot silently change identity.
 - Code/revision uniqueness, client-request idempotency, permission checks, optimistic version checks, and database uniqueness handle duplicate and concurrent creation.
+- Assignment and downstream child creation serialize on the Potongan row. A later correction of a bound Pola is intentionally unavailable through the assignment RPC; it requires a separately reviewed append-only lifecycle/version rather than overwriting history.
 - Final SKU binds every posted Good piece to an active product. Once its QC document leaves draft, item identity is immutable; corrections must use the owning reversal or reclassification lifecycle.
 
 ## Deliberate UI boundary
@@ -22,6 +23,7 @@ The non-UAT Bagi Potongan and WIP screens use explicit simulation fixtures. Thos
 
 ## Safety and hygiene
 
+- Independent audit defect `P2-CP45-001` remains a closure stop until v2.6.17a has exact-head CI, hosted-UAT verification, cleanup, and a fresh read-only re-gate. The base v2.6.17 evidence is retained but does not by itself close this correction.
 - Frozen CP3 and CP4 runtime/proof bytes remain byte-bound by the V2 ownership gate.
 - Legacy ERP Garment is read-only and outside the CP4.5 mutation target.
 - Branch protection/status enforcement is absent and recorded as non-blocking P3 hygiene.
