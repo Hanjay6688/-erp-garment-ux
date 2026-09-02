@@ -328,21 +328,6 @@ jobs:
           test "$(psql "$PGURL" -At -c "select count(*) from auth.users")" = '0'
           test "$(psql "$PGURL" -At -c "select count(*) from erp.app_users")" = '0'
 
-      - name: Re-run all real two-connection CP3 race orderings under CP4
-        shell: bash
-        run: |
-          set -euo pipefail
-          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/cp3_r4_full_schema_race_seed.sql 2>&1 | tee cp45-proof/CP3_R4_RACE_SEED.log
-          python scripts/cp3_r4_full_schema_concurrency.py 2>&1 | tee cp45-proof/CP3_R4_CONCURRENCY.log
-          python - <<'PY'
-          import json
-          from pathlib import Path
-          r=json.loads(Path('cp45-proof/cp3-r4-concurrency-report.json').read_text())
-          assert r['status']=='PASS',r
-          assert r['assertions']['pool_cancel_vs_source_both_orders'] is True
-          assert r['assertions']['per_scenario_terminal_evidence'] is True
-          PY
-
       - name: Capture exact CP4 boundary before CP4.5
         shell: bash
         run: |
@@ -488,6 +473,21 @@ jobs:
           );
           SQL
           test "$(python -c "import json;print(json.load(open('cp45-proof/CP45_ROLLBACK_RESIDUE.json'))['status'])")" = 'PASS'
+
+      - name: Re-run all real two-connection CP3 race orderings under restored CP4
+        shell: bash
+        run: |
+          set -euo pipefail
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/cp3_r4_full_schema_race_seed.sql 2>&1 | tee cp45-proof/CP3_R4_RACE_SEED.log
+          python scripts/cp3_r4_full_schema_concurrency.py 2>&1 | tee cp45-proof/CP3_R4_CONCURRENCY.log
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('cp45-proof/cp3-r4-concurrency-report.json').read_text())
+          assert r['status']=='PASS',r
+          assert r['assertions']['pool_cancel_vs_source_both_orders'] is True
+          assert r['assertions']['per_scenario_terminal_evidence'] is True
+          PY
 
       - name: Roll back exact CP4 and prove byte-equivalent restoration
         shell: bash

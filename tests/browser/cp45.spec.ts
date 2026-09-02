@@ -20,7 +20,7 @@ test('CP4.5 Master Pola grows from operational need with fail-closed Potongan se
   await expect(page.getByText('POLA · WAJIB', { exact: true })).toBeVisible()
   await expect(page.getByRole('button', { name: /Simpan Potongan ke WIP/ })).toBeDisabled()
 
-  await page.getByRole('option').first().click()
+  await page.getByRole('listbox', { name: 'Pola aktif' }).getByRole('option').first().click()
   await expect(page.getByRole('button', { name: /Simpan Potongan ke WIP/ })).toBeEnabled()
   await expect(page.getByText(/MASTER POLA SIMULATION/)).toBeVisible()
 

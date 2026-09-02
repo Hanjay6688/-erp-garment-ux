@@ -3,7 +3,7 @@
   "candidate_branch": "cp4.5/rbac-production-identity-wip-r1-20260902",
   "source_base_sha": "57d8346a7cdf4ee86519f2dd2a1b54d39ebbb6cc",
   "source_base_tree": "48fc87507dc8a18d5829d518e53f298ad0c7e01a",
-  "generation_parent_sha": "b1fe3cd4e2d25e8234f3daf9cf4d903be0de5601",
+  "generation_parent_sha": "1bbca79ba899dabc49e8cf99580acac8cd0d2fb2",
   "target_project_ref": "siimvrusnzxexizpyoib",
   "target_environment": "ERP Enteng UAT",
   "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
@@ -35,8 +35,8 @@
       "sha256": "4322a80bcac49d0f67eb7484477abecf2eed60746e5400580b4000aa69f3242a"
     },
     ".github/workflows/cp45-full-schema-validation.yml": {
-      "bytes": 36082,
-      "sha256": "6c119dbcd9a2c286ab67fa504a7d40180cdd531546d5113cca076db39a605d64"
+      "bytes": 36091,
+      "sha256": "197b9eb34077d661540b78a80919d1a1836aa82ac430e5aa3ea1ff6e3d96cdda"
     },
     ".gitignore": {
       "bytes": 177,
@@ -215,8 +215,8 @@
       "sha256": "852ad9e7b80fdc4cce179f68afbd65dcd92b8b3f0ac02c8a3f5a80078b54e758"
     },
     "tests/browser/cp45.spec.ts": {
-      "bytes": 3900,
-      "sha256": "cc18478c61e2f3ce2d43244db99821c1b144b11db15c2968b51e7835bc3d033c"
+      "bytes": 3945,
+      "sha256": "40f2b1bf9638e2afafd51b2f4681e270fc53b2cf864ffac79c15c6f298fd085e"
     }
   }
 }
