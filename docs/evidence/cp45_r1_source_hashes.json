@@ -3,7 +3,7 @@
   "candidate_branch": "cp4.5/rbac-production-identity-wip-r1-20260902",
   "source_base_sha": "57d8346a7cdf4ee86519f2dd2a1b54d39ebbb6cc",
   "source_base_tree": "48fc87507dc8a18d5829d518e53f298ad0c7e01a",
-  "generation_parent_sha": "0c1e1922276616ba1636640acfade63d89f92b5c",
+  "generation_parent_sha": "53be83d0016baed45adbf37020f9ec7646f8ff14",
   "target_project_ref": "siimvrusnzxexizpyoib",
   "target_environment": "ERP Enteng UAT",
   "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
@@ -71,8 +71,8 @@
   },
   "files": {
     ".github/workflows/ci.yml": {
-      "bytes": 1203,
-      "sha256": "4322a80bcac49d0f67eb7484477abecf2eed60746e5400580b4000aa69f3242a"
+      "bytes": 1242,
+      "sha256": "f9c67c99ba74074c6fac7827a4a0390d2d0fc365e6017b75fd82a89a47138445"
     },
     ".github/workflows/cp45-full-schema-validation.yml": {
       "bytes": 44239,
@@ -259,8 +259,8 @@
       "sha256": "66175dcc5c73d2fb3bad493c1c6bd6a1ad14877251b0c690c0b642ae226c849a"
     },
     "supabase/migrations/20260902180726_erp_v2_6_17a_cp45_pattern_assignment_immutability.sql": {
-      "bytes": 18297,
-      "sha256": "7ab0704fe6141f8cb0af469f951dcc188989769cf75b4c02bac10d2794133590"
+      "bytes": 18304,
+      "sha256": "62a25994d2b3be0986ca83492f4d29d2ebad17c1795543045827a77d55ef816a"
     },
     "supabase/rollbacks/20260902104937_erp_v2_6_17_access_pattern_wip_control.rollback.sql": {
       "bytes": 9829,
