@@ -3,7 +3,7 @@
   "candidate_branch": "cp4.5/rbac-production-identity-wip-r1-20260902",
   "source_base_sha": "57d8346a7cdf4ee86519f2dd2a1b54d39ebbb6cc",
   "source_base_tree": "48fc87507dc8a18d5829d518e53f298ad0c7e01a",
-  "generation_parent_sha": "eaf2769bbe2d34687f1f4d8173500ee85656e63b",
+  "generation_parent_sha": "ab97d1d08936c05c609c004477f974361340d203",
   "target_project_ref": "siimvrusnzxexizpyoib",
   "target_environment": "ERP Enteng UAT",
   "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
@@ -11,7 +11,7 @@
   "application_version": "v2.6.17",
   "integrity_correction": {
     "defect_id": "P2-CP45-001",
-    "status": "UAT_APPLIED_HOSTED_E2E_PASS_PENDING_ROLLBACK_PROOF_CI",
+    "status": "PASS_READY_FOR_INDEPENDENT_AUDIT",
     "migration_version": "20260902180726",
     "application_version": "v2.6.17a",
     "source_only": false,
@@ -43,9 +43,31 @@
       "case_count": 10,
       "case_passed": 10,
       "cleanup_verified": true
+    },
+    "proof_delta_ci": {
+      "status": "PASS",
+      "head_sha": "ab97d1d08936c05c609c004477f974361340d203",
+      "head_tree": "70fbaee6366b904ad558a65471bafe38994e3090",
+      "parent_sha": "eaf2769bbe2d34687f1f4d8173500ee85656e63b",
+      "build_ux": {
+        "run_id": 33672264605,
+        "job_id": 100388477006,
+        "dist_artifact_id": 9863021866,
+        "dist_artifact_digest_sha256": "89c11164524956362c771567f543f4556b5b474bc0e101a4832ad67c891befdb",
+        "browser_artifact_id": 9863019263,
+        "browser_artifact_digest_sha256": "8273867bf76b4b371c3832faa213acf17e8db31cb750628a5089f3f304d75fa1"
+      },
+      "full_schema": {
+        "run_id": 33672264683,
+        "job_id": 100388477234,
+        "artifact_id": 9863076659,
+        "artifact_name": "cp45-r1-full-schema-auth-proof",
+        "artifact_digest_sha256": "957ea6b6a72daef25df841777e63737151249696b519d71acb495c539ce6ae8f"
+      },
+      "hosted_platform_ledger_shape_rollback": "PASS"
     }
   },
-  "closure_status": "NO_GO_PENDING_CP45A_ROLLBACK_PROOF_DELTA_CI",
+  "closure_status": "CP45A_CORRECTION_PROVEN_READY_FOR_INDEPENDENT_AUDIT",
   "source_only": false,
   "uat_applied": true,
   "uat_applied_at": "2026-09-02T14:49:11.827931Z",
@@ -117,8 +139,8 @@
       "sha256": "f0adb995f1513cd8df686f1705b4247d19c7f3422827051f247b5494460cc99e"
     },
     "docs/evidence/cp45a_hosted_uat_auth_e2e.json": {
-      "bytes": 7685,
-      "sha256": "89977d837241dea59ebff425ee9e7e151076853380dc6f80d5f7995cedf7ca38"
+      "bytes": 8620,
+      "sha256": "ede2c46d28425b71aac345ad8795958b8eaca26d2df8c3af2322326c9afbf398"
     },
     "package-lock.json": {
       "bytes": 125971,
@@ -137,8 +159,8 @@
       "sha256": "a54e7ecb389302de2cf82993dd2cadf82bd6b77fe3305582fc8b91f00aed1e72"
     },
     "scripts/check-backend-ownership-v2.mjs": {
-      "bytes": 21143,
-      "sha256": "d568f4fa43f51aca298f797ece8fb760c3e06ac908a5d399ebfefa38ffd8612b"
+      "bytes": 22159,
+      "sha256": "cb0742fffa391e38bb972b4442d4a689f4ac43a5c82abfa4b9fcda399414e30c"
     },
     "scripts/check-source-ownership.mjs": {
       "bytes": 4101,

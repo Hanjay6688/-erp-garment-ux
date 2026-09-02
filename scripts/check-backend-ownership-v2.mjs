@@ -70,6 +70,15 @@ if (candidate.integrity_correction.uat_applied) {
   assert.equal(candidate.integrity_correction.hosted_auth_permission_e2e.case_count, 10)
   assert.equal(candidate.integrity_correction.hosted_auth_permission_e2e.case_passed, 10)
   assert.equal(candidate.integrity_correction.hosted_auth_permission_e2e.cleanup_verified, true)
+  assert.equal(candidate.integrity_correction.status, 'PASS_READY_FOR_INDEPENDENT_AUDIT')
+  assert.equal(candidate.integrity_correction.proof_delta_ci.status, 'PASS')
+  assert.equal(candidate.integrity_correction.proof_delta_ci.head_sha, 'ab97d1d08936c05c609c004477f974361340d203')
+  assert.equal(candidate.integrity_correction.proof_delta_ci.head_tree, '70fbaee6366b904ad558a65471bafe38994e3090')
+  assert.equal(candidate.integrity_correction.proof_delta_ci.parent_sha, candidate.integrity_correction.exact_head_ci.head_sha)
+  assert.equal(candidate.integrity_correction.proof_delta_ci.build_ux.run_id, 33672264605)
+  assert.equal(candidate.integrity_correction.proof_delta_ci.full_schema.run_id, 33672264683)
+  assert.equal(candidate.integrity_correction.proof_delta_ci.hosted_platform_ledger_shape_rollback, 'PASS')
+  assert.equal(candidate.closure_status, 'CP45A_CORRECTION_PROVEN_READY_FOR_INDEPENDENT_AUDIT')
 } else {
   assert.equal(candidate.integrity_correction.source_only, true)
   assert.equal(candidate.integrity_correction.uat_applied_at, null)
@@ -128,6 +137,7 @@ if (candidate.integrity_correction.hosted_auth_permission_e2e.evidence_path) {
   assert.equal(correctionEvidence.legacy_isolation.application_cp45_ledger, 0)
   assert.equal(correctionEvidence.advisor_snapshot.security.correction_specific, 0)
   assert.equal(correctionEvidence.advisor_snapshot.performance.correction_specific, 0)
+  assert.deepEqual(correctionEvidence.proof_delta_ci, candidate.integrity_correction.proof_delta_ci)
   assert.equal(correctionEvidence.production_go, false)
 }
 assert.equal(candidate.legacy_mutated, false)

@@ -158,6 +158,28 @@
       "artifact_digest_sha256": "daf5333c1dc1813d586d45f41ab04478ee3effc8b6c270fcd18f45a28464a4de"
     }
   },
+  "proof_delta_ci": {
+    "status": "PASS",
+    "head_sha": "ab97d1d08936c05c609c004477f974361340d203",
+    "head_tree": "70fbaee6366b904ad558a65471bafe38994e3090",
+    "parent_sha": "eaf2769bbe2d34687f1f4d8173500ee85656e63b",
+    "build_ux": {
+      "run_id": 33672264605,
+      "job_id": 100388477006,
+      "dist_artifact_id": 9863021866,
+      "dist_artifact_digest_sha256": "89c11164524956362c771567f543f4556b5b474bc0e101a4832ad67c891befdb",
+      "browser_artifact_id": 9863019263,
+      "browser_artifact_digest_sha256": "8273867bf76b4b371c3832faa213acf17e8db31cb750628a5089f3f304d75fa1"
+    },
+    "full_schema": {
+      "run_id": 33672264683,
+      "job_id": 100388477234,
+      "artifact_id": 9863076659,
+      "artifact_name": "cp45-r1-full-schema-auth-proof",
+      "artifact_digest_sha256": "957ea6b6a72daef25df841777e63737151249696b519d71acb495c539ce6ae8f"
+    },
+    "hosted_platform_ledger_shape_rollback": "PASS"
+  },
   "cleanup": {
     "verified_at": "2026-09-02T19:10:12.921986Z",
     "auth_users": 0,
