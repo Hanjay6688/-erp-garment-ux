@@ -44,6 +44,21 @@ Never relabel or reuse a UAT artifact as a demo or production artifact. `vite.co
 
 See [docs/preconnect-security.md](docs/preconnect-security.md) before connecting any screen to backend strings or enabling an RPC.
 
+## Source ownership
+
+CP3.5 validates the whole repository, not only the attendance candidate:
+
+- every production TypeScript, TSX, and CSS file is reachable from the app entry;
+- every stylesheet selector has an owning production component;
+- every migration, rollback, SQL regression, proof harness, and UAT provenance
+  file is classified and hash-bound;
+- recorded v2.6.10–v2.6.13 source filenames use their exact ERP Enteng ledger
+  versions, while the four reviewed CP3 migrations remain unchanged.
+
+Run `npm run check:source`, `npm run check:css`, and `npm run check:backend`.
+See [docs/cp3-5-code-ownership.md](docs/cp3-5-code-ownership.md) for the short
+source map and the migration replay boundary.
+
 ## Production build
 
 ```bash

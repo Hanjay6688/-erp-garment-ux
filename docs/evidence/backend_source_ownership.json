@@ -1,0 +1,94 @@
+{
+  "format": "ERP_BACKEND_SOURCE_OWNERSHIP_V1",
+  "uat_project_ref": "siimvrusnzxexizpyoib",
+  "uat_mutated": false,
+  "legacy_mutated": false,
+  "reviewed_cp3_manifest": {
+    "path": "docs/evidence/cp3_r4_source_hashes.json",
+    "sha256": "4e613bdc15aab080ba5fd30f01408f793ec2710037e70be4d31e46b18cf097dc"
+  },
+  "uat_recorded_sources": [
+    {
+      "path": "supabase/migrations/20260829185830_erp_v2_6_10_fg_partial_completion.sql",
+      "ledger_version": "20260829185830",
+      "bytes": 17607,
+      "md5": "8ce2b7278c2c0679f116260ae2e505ff",
+      "sha256": "60bb2e91663f266209ec2299426468dbee670ed2bd9e6dc84546c4d9b34b0ae3"
+    },
+    {
+      "path": "supabase/migrations/20260829204632_erp_v2_6_11_operational_reservations_and_completion_scope.sql",
+      "ledger_version": "20260829204632",
+      "bytes": 32970,
+      "md5": "6aa3cfc8210747aa823280d02b5c03e3",
+      "sha256": "cb9a31893ff348b33687dab7c22aee5e79340c2d8a5ae2d052297f31d2ac5498"
+    },
+    {
+      "path": "supabase/migrations/20260830140645_erp_v2_6_12_attendance_and_stock_explainability.sql",
+      "ledger_version": "20260830140645",
+      "bytes": 99271,
+      "md5": "e7917e6247f0b3276425e568da050593",
+      "sha256": "c4021991ec01b25e939f09ea15cebc27739711c7d39cb7662e72c611861ff18d"
+    },
+    {
+      "path": "supabase/migrations/20260830190955_erp_v2_6_13_manual_reminders_v1.sql",
+      "ledger_version": "20260830190955",
+      "bytes": 26376,
+      "md5": "77c9b08bc303809257a0c8bc46dbbc83",
+      "sha256": "f71978d212b34f881984772239e02b3d5c07613f59e3199c3dccd02481b7a8a5"
+    }
+  ],
+  "recorded_migration_regressions": [
+    {
+      "path": "supabase/tests/fg_partial_completion_rollback.sql",
+      "bytes": 9066,
+      "sha256": "854f33c57e49da0ee13c7e1835255eaf07a98c3533b58237f18e1363ec009d5c"
+    },
+    {
+      "path": "supabase/tests/sale_draft_reservation_rollback.sql",
+      "bytes": 8244,
+      "sha256": "a22a2d0d1ebb03b1425579fb3cf89df44175bbf73f2163056ec0127f79aadd4b"
+    },
+    {
+      "path": "supabase/tests/attendance_stock_explainability_rollback.sql",
+      "bytes": 42394,
+      "sha256": "107c212cd3e4fa95d1707cff141c4f7360d8f00241be27bfba1bc7d475f59f36"
+    },
+    {
+      "path": "supabase/tests/manual_reminders_rollback.sql",
+      "bytes": 28882,
+      "sha256": "6763f656a6afb0ce4a518978bc2fb4087bd5638ca2668b612eef01712b3c4da4"
+    }
+  ],
+  "uat_provenance": [
+    {
+      "path": "ops/supabase/uat/manual_uat_only__erp_enteng__v2_6_11a_preconnect.sql",
+      "bytes": 25223,
+      "sha256": "d8b42725eb3299989b682a8f3932f480cf5e1c10344c224235fad6154d404a91"
+    },
+    {
+      "path": "ops/supabase/uat/manual_uat_only__erp_enteng__v2_6_11a_preconnect.acceptance.sql",
+      "bytes": 17128,
+      "sha256": "2e2f7a53b499b1f4ccd05ce1b398fc49f706a00b1ccf9f230b118405a6f39597"
+    },
+    {
+      "path": "ops/supabase/uat/applied/20260831031520_manual_reminders_v1_acl_hardening.sql",
+      "bytes": 16026,
+      "sha256": "ef232bc2556bbf5495dd48ce78ac534ea943719f57f9ab9a7f27bbf67b64f6a8"
+    },
+    {
+      "path": "ops/supabase/uat/applied/20260831032949_erp_v2_6_13b_auth_profile_facade_tracking.sql",
+      "bytes": 15812,
+      "sha256": "a590eb50f32c6e3c86b46ab6df554a93714b7227a56b7a7d7539e3628e996e60"
+    },
+    {
+      "path": "ops/supabase/uat/acceptance/20260831031520_manual_reminders_v1_acl_hardening_rollback.sql",
+      "bytes": 16540,
+      "sha256": "bb3da0d415a3158c248fd641643bdd9bbe903473590dfed02d27feb27e5c6343"
+    },
+    {
+      "path": "ops/supabase/uat/acceptance/20260831032949_erp_v2_6_13b_auth_profile_facade_tracking_rollback.sql",
+      "bytes": 10928,
+      "sha256": "3029e004507f2bcf87a5f4d62da976be76fa2850a7817b57d9a2cc8246f17cd0"
+    }
+  ]
+}

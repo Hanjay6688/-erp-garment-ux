@@ -1,7 +1,9 @@
-# CP3.5 code ownership
+# CP3.5 full repository ownership
 
-CP3.5 removes superseded runtime code while preserving byte-bound accounting
-proof. A file is retained only when it belongs to one of these categories.
+CP3.5 covers the complete frontend and backend repository. It removes
+superseded runtime code, aligns recorded migration identities with ERP Enteng,
+and preserves byte-bound accounting proof. A code file is retained only when it
+has an explicit runtime, migration, regression, proof, or UAT-provenance owner.
 
 ## Runtime
 
@@ -25,9 +27,39 @@ recognize the same full sewn quantity twice. The 200 sewn / 20 stuck rule stays
 
 ## Immutable migration history
 
-Recorded or independently reviewed migrations are not compacted, renamed, or
-edited in place. Their timestamps and bytes are part of the migration ledger
-and recovery contract, even when a later migration supersedes a function.
+Recorded or independently reviewed migrations are not compacted or edited in
+place. Their timestamps and bytes are part of the migration ledger and recovery
+contract, even when a later migration supersedes a function. CP3.5 corrected
+four stale local filenames to their already-recorded UAT identities; their SQL
+bytes did not change.
+
+Four recorded source files previously carried local timestamps that differed
+from the exact ERP Enteng platform ledger. CP3.5 changed filenames only so the
+active migration path now uses the recorded versions:
+
+| Release | ERP Enteng ledger version |
+|---|---|
+| v2.6.10 | `20260829185830` |
+| v2.6.11 | `20260829204632` |
+| v2.6.12 | `20260830140645` |
+| v2.6.13 | `20260830190955` |
+
+The SQL bytes and their UAT ledger MD5 values are unchanged. The full pre-v2.6.10
+base remains the encrypted CP2 recovery set; this repository is not a standalone
+empty-database installer and ordinary migration-folder replay is forbidden.
+
+## Complete backend ownership
+
+`scripts/check-backend-ownership.mjs` inventories every SQL migration,
+rollback, regression, UAT evidence file, CP3 harness, renderer, and validation
+workflow. The fixed map is `docs/evidence/backend_source_ownership.json`.
+
+- 36 backend/proof files are owned;
+- four recorded migration sources match ERP Enteng ledger bytes and names;
+- all 22 R5 CP3 proof files remain byte-for-byte frozen;
+- the only pending backend candidate is the exact four-migration CP3 set;
+- no ordinary `supabase db push` may replace the reviewed ledger-complete CP3
+  planner.
 
 ## Frozen CP3 candidate
 
@@ -48,7 +80,8 @@ compaction.
 
 ## Current mutation boundary
 
-- CP3.5 source branch: writable
+- CP3.5 R1: frozen and superseded by the full-scope R2 candidate
+- CP3.5 R2 source branch: writable until reviewer freeze
 - ERP Enteng UAT: read-only
 - ERP Garment legacy: read-only
 - CP3 migrations: source-only, not applied
