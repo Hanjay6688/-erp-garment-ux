@@ -8,6 +8,9 @@ export type DemoRuntimeConfig = {
   authMode: 'DISABLED'
   businessDataMode: 'SIMULATION'
   businessRpcEnabled: false
+  accessControlMode: 'SIMULATION'
+  patternMode: 'SIMULATION'
+  wipStatusMode: 'SIMULATION'
 }
 
 export type UatRuntimeConfig = {
@@ -15,6 +18,9 @@ export type UatRuntimeConfig = {
   authMode: 'UAT_SUPABASE'
   businessDataMode: 'SIMULATION'
   businessRpcEnabled: false
+  accessControlMode: 'CONNECTED'
+  patternMode: 'CONNECTED'
+  wipStatusMode: 'CONNECTED'
   projectRef: typeof ERP_ENTENG_UAT_PROJECT_REF
   supabaseUrl: string
   browserKey: string
@@ -150,6 +156,9 @@ export function parseRuntimeConfig(environment: RuntimeEnvironment): RuntimeConf
       authMode: 'DISABLED',
       businessDataMode: 'SIMULATION',
       businessRpcEnabled: false,
+      accessControlMode: 'SIMULATION',
+      patternMode: 'SIMULATION',
+      wipStatusMode: 'SIMULATION',
     }
   }
 
@@ -189,6 +198,9 @@ export function parseRuntimeConfig(environment: RuntimeEnvironment): RuntimeConf
     authMode: 'UAT_SUPABASE',
     businessDataMode: 'SIMULATION',
     businessRpcEnabled: false,
+    accessControlMode: 'CONNECTED',
+    patternMode: 'CONNECTED',
+    wipStatusMode: 'CONNECTED',
     projectRef: ERP_ENTENG_UAT_PROJECT_REF,
     supabaseUrl,
     browserKey,

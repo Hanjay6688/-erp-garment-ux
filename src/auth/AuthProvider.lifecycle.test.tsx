@@ -19,6 +19,9 @@ const runtime: UatRuntimeConfig = {
   authMode: 'UAT_SUPABASE',
   businessDataMode: 'SIMULATION',
   businessRpcEnabled: false,
+  accessControlMode: 'CONNECTED',
+  patternMode: 'CONNECTED',
+  wipStatusMode: 'CONNECTED',
   projectRef: 'siimvrusnzxexizpyoib',
   supabaseUrl: 'https://siimvrusnzxexizpyoib.supabase.co',
   browserKey: 'sb_publishable_test_only_1234567890',
@@ -29,18 +32,33 @@ const profileRows = {
     id: '018f7c2e-7b8a-7ab1-8d4a-1234567890ac',
     auth_user_id: ownerA,
     full_name: 'Owner A',
-    role: 'OWNER',
+    role_id: '018f7c2e-7b8a-7ab1-8d4a-1234567890ad',
+    role_code: 'OWNER',
+    role_name: 'Owner',
     is_active: true,
     row_version: 1,
+    role_row_version: 1,
   },
   [ownerB]: {
     id: '018f7c2e-7b8a-7ab1-8d4a-1234567890bc',
     auth_user_id: ownerB,
     full_name: 'Owner B',
-    role: 'OWNER',
+    role_id: '018f7c2e-7b8a-7ab1-8d4a-1234567890bd',
+    role_code: 'OWNER',
+    role_name: 'Owner',
     is_active: true,
     row_version: 2,
+    role_row_version: 1,
   },
+}
+
+function accessBundle(authUserId: string) {
+  return {
+    allowed: true,
+    profile: profileRows[authUserId as keyof typeof profileRows] ?? null,
+    permissions: ['settings.access.manage', 'production.wip.view'],
+    external_portals: { mandor: 'NOT CONNECTED', laundry: 'NOT CONNECTED', store: 'NOT CONNECTED' },
+  }
 }
 
 type AuthCallback = (event: string, session: { user: { id: string } } | null) => unknown
@@ -59,28 +77,25 @@ function makeClient(options: {
   getUser: () => Promise<ReturnType<typeof authResult>>
   signIn?: () => Promise<{ error: unknown }>
   signOut?: () => Promise<{ error: unknown }>
-  profileForUser?: (authUserId: string) => unknown
+  accessForUser?: (authUserId: string) => unknown
 }) {
   let callback: AuthCallback | null = null
-  let selectedAuthUserId = ''
+  let currentAuthUserId = ''
   const unsubscribe = vi.fn()
-  const query = {
-    select: vi.fn(() => query),
-    eq: vi.fn((_column: string, value: string) => {
-      selectedAuthUserId = value
-      return query
-    }),
-    maybeSingle: vi.fn(async () => ({
-      data: options.profileForUser
-        ? options.profileForUser(selectedAuthUserId)
-        : profileRows[selectedAuthUserId as keyof typeof profileRows] ?? null,
+  const getUser = vi.fn(async () => {
+    const result = await options.getUser()
+    currentAuthUserId = result.data.user?.id ?? ''
+    return result
+  })
+  const client = {
+    rpc: vi.fn(async () => ({
+      data: options.accessForUser
+        ? options.accessForUser(currentAuthUserId)
+        : accessBundle(currentAuthUserId),
       error: null,
     })),
-  }
-  const client = {
-    from: vi.fn(() => query),
     auth: {
-      getUser: vi.fn(options.getUser),
+      getUser,
       signInWithPassword: vi.fn(options.signIn ?? (async () => ({ error: null }))),
       signOut: vi.fn(options.signOut ?? (async () => ({ error: null }))),
       onAuthStateChange: vi.fn((nextCallback: AuthCallback) => {
@@ -304,10 +319,9 @@ describe('AuthProvider mounted lifecycle', () => {
     let active = true
     const fake = makeClient({
       getUser: async () => authResult(ownerA),
-      profileForUser: (authUserId) => ({
-        ...profileRows[authUserId as keyof typeof profileRows],
-        is_active: active,
-      }),
+      accessForUser: (authUserId) => active
+        ? accessBundle(authUserId)
+        : { allowed: false, reason: 'APP_USER_INACTIVE' },
     })
     mockedClient.current = fake.client
 

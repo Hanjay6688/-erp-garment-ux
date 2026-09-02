@@ -1,0 +1,22 @@
+.user-access-actions {
+  grid-column: 2;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 7px;
+}
+
+.user-list .user-access-actions select {
+  grid-column: auto;
+  width: 100%;
+}
+
+.user-access-actions button {
+  padding: 7px 9px;
+  font-size: 10px;
+}
+
+@media (max-width: 520px) {
+  .user-access-actions {
+    grid-template-columns: 1fr;
+  }
+}

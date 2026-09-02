@@ -66,21 +66,43 @@ assert.deepEqual(
 )
 
 const unsafeRendering = /\b(?:innerHTML|insertAdjacentHTML|dangerouslySetInnerHTML|document\.write)\b/
-const businessDataAccess = /\.(?:rpc|schema)\s*\(/
 const dataReads = []
+const rpcOwnership = new Set()
 
 for (const file of sourceFiles.filter((candidate) => !isTestSource(candidate) && extname(candidate) !== '.css')) {
   const source = readFileSync(file, 'utf8')
   const name = relative(process.cwd(), file)
   assert.equal(unsafeRendering.test(source), false, `Unsafe HTML rendering boundary in ${name}`)
-  assert.equal(businessDataAccess.test(source), false, `Business Data API boundary opened in ${name}`)
+  assert.equal(/\.schema\s*\(/.test(source), false, `Direct schema boundary opened in ${name}`)
   for (const match of source.matchAll(/\.from\s*\(\s*['"]([^'"]+)['"]\s*\)/g)) {
     dataReads.push({ file: name, relation: match[1] })
   }
+  const rpcInvocations = [...source.matchAll(/\.rpc\s*\(/g)]
+  const literalRpcInvocations = [...source.matchAll(/\.rpc\s*\(\s*['"]([^'"]+)['"]/g)]
+  assert.equal(
+    rpcInvocations.length,
+    literalRpcInvocations.length,
+    `Dynamic/unowned RPC name in ${name}`,
+  )
+  literalRpcInvocations.forEach((match) => rpcOwnership.add(`${name}:${match[1]}`))
 }
 
-assert.deepEqual(dataReads, [
-  { file: 'src/auth/AuthProvider.tsx', relation: 'v_erp_my_profile' },
-])
+assert.deepEqual(dataReads, [], 'Browser code must not read ERP tables/views directly')
 
-console.log(`Source ownership passed: ${reachable.size} runtime files, no orphan or unsafe business boundary.`)
+assert.deepEqual([...rpcOwnership].sort(), [
+  'src/AccessControlPage.tsx:erp_deactivate_role_v1',
+  'src/AccessControlPage.tsx:erp_get_access_admin_v1',
+  'src/AccessControlPage.tsx:erp_save_app_user_v3',
+  'src/AccessControlPage.tsx:erp_save_role_v1',
+  'src/ConnectedWipStatusPage.tsx:erp_get_wip_control_v1',
+  'src/ConnectedWipStatusPage.tsx:erp_list_patterns_v1',
+  'src/ConnectedWipStatusPage.tsx:erp_set_wip_control_flag_v1',
+  'src/CuttingPatternPicker.tsx:erp_list_patterns_v1',
+  'src/CuttingPatternPicker.tsx:erp_save_pattern_v1',
+  'src/PatternPage.tsx:erp_deactivate_pattern_v1',
+  'src/PatternPage.tsx:erp_list_patterns_v1',
+  'src/PatternPage.tsx:erp_save_pattern_v1',
+  'src/auth/AuthProvider.tsx:erp_get_my_access_v1',
+].sort(), 'Browser RPC ownership drift')
+
+console.log(`Source ownership passed: ${reachable.size} runtime files, ${rpcOwnership.size} owned RPC boundaries, no orphan or direct table access.`)

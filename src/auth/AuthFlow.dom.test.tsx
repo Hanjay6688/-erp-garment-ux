@@ -19,6 +19,9 @@ const runtime: UatRuntimeConfig = {
   authMode: 'UAT_SUPABASE',
   businessDataMode: 'SIMULATION',
   businessRpcEnabled: false,
+  accessControlMode: 'CONNECTED',
+  patternMode: 'CONNECTED',
+  wipStatusMode: 'CONNECTED',
   projectRef: 'siimvrusnzxexizpyoib',
   supabaseUrl: 'https://siimvrusnzxexizpyoib.supabase.co',
   browserKey: 'sb_publishable_test_only_1234567890',
@@ -28,29 +31,33 @@ function authResult(userId: string | null) {
   return { data: { user: userId ? { id: userId } : null }, error: null }
 }
 
+function accessBundle() {
+  return {
+    allowed: true,
+    profile: {
+      id: '018f7c2e-7b8a-7ab1-8d4a-1234567890ac',
+      auth_user_id: ownerId,
+      full_name: 'Owner UAT',
+      role_id: '018f7c2e-7b8a-7ab1-8d4a-1234567890ad',
+      role_code: 'OWNER',
+      role_name: 'Owner',
+      is_active: true,
+      row_version: 1,
+      role_row_version: 1,
+    },
+    permissions: ['settings.access.manage', 'production.wip.view'],
+    external_portals: { mandor: 'NOT CONNECTED', laundry: 'NOT CONNECTED', store: 'NOT CONNECTED' },
+  }
+}
+
 function makeClient(options: {
   getUser: () => Promise<ReturnType<typeof authResult>>
   signIn?: () => Promise<{ error: unknown }>
-  profile?: () => Promise<{ data: unknown; error: unknown }>
+  access?: () => Promise<{ data: unknown; error: unknown }>
 }) {
   const unsubscribe = vi.fn()
-  const query = {
-    select: vi.fn(() => query),
-    eq: vi.fn(() => query),
-    maybeSingle: vi.fn(options.profile ?? (async () => ({
-      data: {
-        id: '018f7c2e-7b8a-7ab1-8d4a-1234567890ac',
-        auth_user_id: ownerId,
-        full_name: 'Owner UAT',
-        role: 'OWNER',
-        is_active: true,
-        row_version: 1,
-      },
-      error: null,
-    }))),
-  }
   return {
-    from: vi.fn(() => query),
+    rpc: vi.fn(options.access ?? (async () => ({ data: accessBundle(), error: null }))),
     auth: {
       getUser: vi.fn(options.getUser),
       signInWithPassword: vi.fn(options.signIn ?? (async () => ({ error: null }))),
@@ -121,22 +128,15 @@ describe('Auth UAT DOM flow', () => {
   })
 
   it('retries a transient self-profile lookup without bypassing the blocked gate', async () => {
-    const profile = vi.fn()
+    const access = vi.fn()
       .mockRejectedValueOnce(new TypeError('profile fetch failed'))
       .mockResolvedValueOnce({
-        data: {
-          id: '018f7c2e-7b8a-7ab1-8d4a-1234567890ac',
-          auth_user_id: ownerId,
-          full_name: 'Owner UAT',
-          role: 'OWNER',
-          is_active: true,
-          row_version: 1,
-        },
+        data: accessBundle(),
         error: null,
       })
     mockedClient.current = makeClient({
       getUser: async () => authResult(ownerId),
-      profile,
+      access,
     })
 
     await renderFlow()
@@ -149,7 +149,7 @@ describe('Auth UAT DOM flow', () => {
     await act(async () => { retry!.dispatchEvent(new MouseEvent('click', { bubbles: true })) })
     await settle()
 
-    expect(profile).toHaveBeenCalledTimes(2)
+    expect(access).toHaveBeenCalledTimes(2)
     expect(container.querySelector('[data-testid="private-app"]')?.textContent).toBe('ERP terbuka')
   })
 

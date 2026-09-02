@@ -1,0 +1,16 @@
+{
+  "format": "ERP_BACKEND_SOURCE_OWNERSHIP_V2",
+  "frozen_v1": {
+    "path": "docs/evidence/backend_source_ownership.json",
+    "bytes": 3894,
+    "sha256": "5da3ee5d3b906ebdd1f4bfb55d35a91b3ce6d715c03b98463e6dee35ad04dd1e"
+  },
+  "candidate_cp45_manifest": {
+    "path": "docs/evidence/cp45_r1_source_hashes.json",
+    "bytes": 8208,
+    "sha256": "16c50fa316e7a22f6651b427c0a12b8021a25c87481a3462b727e270125b14dd"
+  },
+  "target_project_ref": "siimvrusnzxexizpyoib",
+  "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
+  "production_go": false
+}

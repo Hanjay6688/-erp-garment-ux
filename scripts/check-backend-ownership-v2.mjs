@@ -1,0 +1,156 @@
+import assert from 'node:assert/strict'
+import { createHash } from 'node:crypto'
+import { readFileSync, readdirSync } from 'node:fs'
+import { extname, join, relative, resolve } from 'node:path'
+
+const root = process.cwd()
+const hash = (algorithm, bytes) => createHash(algorithm).update(bytes).digest('hex')
+const posix = (path) => path.split('\\').join('/')
+const readJson = (path) => JSON.parse(readFileSync(resolve(root, path), 'utf8'))
+
+const ownershipV1Path = 'docs/evidence/backend_source_ownership.json'
+const ownershipV2Path = 'docs/evidence/backend_source_ownership_v2.json'
+const ownershipV1Bytes = readFileSync(resolve(root, ownershipV1Path))
+const ownershipV2 = readJson(ownershipV2Path)
+const ownershipV1 = JSON.parse(ownershipV1Bytes)
+
+assert.equal(hash('sha256', ownershipV1Bytes), '5da3ee5d3b906ebdd1f4bfb55d35a91b3ce6d715c03b98463e6dee35ad04dd1e')
+assert.equal(ownershipV1.format, 'ERP_BACKEND_SOURCE_OWNERSHIP_V1')
+assert.equal(ownershipV2.format, 'ERP_BACKEND_SOURCE_OWNERSHIP_V2')
+assert.deepEqual(ownershipV2.frozen_v1, {
+  path: ownershipV1Path,
+  bytes: 3894,
+  sha256: '5da3ee5d3b906ebdd1f4bfb55d35a91b3ce6d715c03b98463e6dee35ad04dd1e',
+})
+assert.equal(ownershipV2.target_project_ref, 'siimvrusnzxexizpyoib')
+assert.equal(ownershipV2.legacy_project_ref, 'vlxdhpkjeevubjxexnfo')
+assert.equal(ownershipV2.production_go, false)
+
+const cp3ManifestBytes = readFileSync(resolve(root, ownershipV1.reviewed_cp3_manifest.path))
+const cp3Manifest = JSON.parse(cp3ManifestBytes)
+const cp4ManifestBytes = readFileSync(resolve(root, ownershipV1.candidate_cp4_manifest.path))
+const cp4Manifest = JSON.parse(cp4ManifestBytes)
+assert.equal(hash('sha256', cp3ManifestBytes), ownershipV1.reviewed_cp3_manifest.sha256)
+assert.equal(hash('sha256', cp4ManifestBytes), ownershipV1.candidate_cp4_manifest.sha256)
+assert.equal(cp3Manifest.format, 'CP3_R5_CURRENT_MAIN_FIXED_SOURCE_HASHES_V1')
+assert.equal(cp4Manifest.format, 'CP4_R1_SOURCE_HASHES_V1')
+assert.equal(cp4Manifest.production_go, false)
+assert.equal(cp4Manifest.legacy_mutated, false)
+
+const candidateManifestBytes = readFileSync(resolve(root, ownershipV2.candidate_cp45_manifest.path))
+const candidate = JSON.parse(candidateManifestBytes)
+assert.equal(candidateManifestBytes.length, ownershipV2.candidate_cp45_manifest.bytes)
+assert.equal(hash('sha256', candidateManifestBytes), ownershipV2.candidate_cp45_manifest.sha256)
+assert.equal(candidate.format, 'CP45_R1_SOURCE_HASHES_V1')
+assert.equal(candidate.candidate_branch, 'cp4.5/rbac-production-identity-wip-r1-20260902')
+assert.equal(candidate.source_base_sha, '57d8346a7cdf4ee86519f2dd2a1b54d39ebbb6cc')
+assert.equal(candidate.source_base_tree, '48fc87507dc8a18d5829d518e53f298ad0c7e01a')
+assert.equal(candidate.target_project_ref, 'siimvrusnzxexizpyoib')
+assert.equal(candidate.legacy_project_ref, 'vlxdhpkjeevubjxexnfo')
+assert.equal(candidate.migration_version, '20260902104937')
+assert.equal(candidate.application_version, 'v2.6.17')
+assert.equal(candidate.legacy_mutated, false)
+assert.equal(candidate.production_go, false)
+assert.equal(candidate.hygiene.branch_protection_status_enforcement, false)
+assert.equal(candidate.hygiene.severity, 'P3')
+assert.equal(candidate.hygiene.cloudflare_dry_run_environment, 'uat-auth')
+assert.equal(candidate.hygiene.production_deploy_authorized, false)
+if (candidate.uat_applied) {
+  assert.equal(candidate.source_only, false)
+  assert.match(candidate.uat_applied_at, /^2026-09-02T/)
+  assert.equal(candidate.hosted_auth_permission_e2e.status, 'PASS')
+  assert.equal(candidate.hosted_auth_permission_e2e.mode, 'MANUAL_HOSTED_UAT_VERIFIED')
+  assert.equal(candidate.hosted_auth_permission_e2e.classified_as_ci, false)
+  assert.equal(candidate.hosted_auth_permission_e2e.github_service_role_secret_used, false)
+} else {
+  assert.equal(candidate.source_only, true)
+  assert.equal(candidate.uat_applied_at, null)
+  assert.equal(candidate.hosted_auth_permission_e2e.status, 'PENDING')
+}
+
+const fixedEntries = [
+  ...ownershipV1.uat_recorded_sources,
+  ...ownershipV1.recorded_migration_regressions,
+  ...ownershipV1.uat_provenance,
+]
+const frozenFiles = {
+  ...cp3Manifest.files,
+  ...cp4Manifest.files,
+  ...Object.fromEntries(fixedEntries.map((entry) => [entry.path, entry])),
+}
+assert.equal(Object.keys(frozenFiles).length, Object.keys(cp3Manifest.files).length + Object.keys(cp4Manifest.files).length + fixedEntries.length)
+for (const [path, expected] of Object.entries(frozenFiles)) {
+  const bytes = readFileSync(resolve(root, path))
+  assert.equal(bytes.length, expected.bytes, `Frozen byte length drift: ${path}`)
+  assert.equal(hash('sha256', bytes), expected.sha256, `Frozen SHA-256 drift: ${path}`)
+  if (expected.ledger_version) {
+    assert.ok(path.split('/').at(-1).startsWith(`${expected.ledger_version}_`), `Ledger filename mismatch: ${path}`)
+    assert.equal(hash('md5', bytes), expected.md5, `Frozen UAT ledger byte mismatch: ${path}`)
+  }
+}
+
+const candidatePaths = Object.keys(candidate.files).sort()
+assert.equal(candidatePaths.length > 0, true, 'CP4.5 candidate manifest is empty')
+assert.equal(new Set(candidatePaths).size, candidatePaths.length)
+assert.equal(candidatePaths.some((path) => path.startsWith('supabase/.temp/')), false)
+assert.equal(candidatePaths.includes(ownershipV2.candidate_cp45_manifest.path), false)
+assert.equal(candidatePaths.includes(ownershipV2Path), false)
+assert.deepEqual(candidatePaths.filter((path) => path in frozenFiles), [], 'CP4.5 manifest overlaps a frozen backend artifact')
+for (const [path, expected] of Object.entries(candidate.files)) {
+  const bytes = readFileSync(resolve(root, path))
+  assert.equal(bytes.length, expected.bytes, `CP4.5 byte length drift: ${path}`)
+  assert.equal(hash('sha256', bytes), expected.sha256, `CP4.5 SHA-256 drift: ${path}`)
+}
+
+function walk(directory, accept) {
+  return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
+    const path = join(directory, entry.name)
+    if (entry.isDirectory()) return walk(path, accept)
+    return accept(path) ? [posix(relative(root, path))] : []
+  })
+}
+
+const discovered = [
+  ...walk(resolve(root, 'supabase/migrations'), (path) => extname(path) === '.sql'),
+  ...walk(resolve(root, 'supabase/rollbacks'), (path) => extname(path) === '.sql'),
+  ...walk(resolve(root, 'supabase/tests'), (path) => extname(path) === '.sql'),
+  ...walk(resolve(root, 'ops/supabase'), (path) => extname(path) === '.sql'),
+  ...walk(resolve(root, 'scripts'), (path) => /^(?:cp3_|test_cp3_).*\.py$/.test(path.split('/').at(-1))),
+  ...walk(resolve(root, 'scripts'), (path) => /^cp(?:4|45)_.*\.mjs$/.test(path.split('/').at(-1))),
+  'scripts/check-backend-ownership.mjs',
+  'scripts/check-backend-ownership-v2.mjs',
+  '.github/workflows/cp3-r4-full-schema-validation.yml',
+  '.github/workflows/cp4-full-schema-validation.yml',
+  '.github/workflows/cp45-full-schema-validation.yml',
+  'docs/evidence/cp4_hosted_uat_auth_e2e.json',
+  ...(candidate.hosted_auth_permission_e2e.evidence_path ? [candidate.hosted_auth_permission_e2e.evidence_path] : []),
+].sort()
+const expectedFrozen = Object.keys(frozenFiles).sort()
+const backendCandidate = candidatePaths.filter((path) => (
+  path.startsWith('supabase/migrations/')
+  || path.startsWith('supabase/rollbacks/')
+  || path.startsWith('supabase/tests/')
+  || path.startsWith('ops/supabase/')
+  || /^scripts\/cp45_.*\.mjs$/.test(path)
+  || path === 'scripts/check-backend-ownership-v2.mjs'
+  || path === '.github/workflows/cp45-full-schema-validation.yml'
+  || path === candidate.hosted_auth_permission_e2e.evidence_path
+)).sort()
+assert.deepEqual(discovered, [...expectedFrozen, ...backendCandidate].sort(), 'Backend source/proof file is unowned or stale')
+
+assert.deepEqual(candidatePaths.filter((path) => path.startsWith('supabase/migrations/20260902104937_')), [
+  'supabase/migrations/20260902104937_erp_v2_6_17_access_pattern_wip_control.sql',
+])
+assert.deepEqual(candidatePaths.filter((path) => path.startsWith('supabase/rollbacks/20260902104937_')), [
+  'supabase/rollbacks/20260902104937_erp_v2_6_17_access_pattern_wip_control.rollback.sql',
+])
+assert.ok(candidatePaths.includes('supabase/tests/access_pattern_wip_control_rollback.sql'))
+assert.ok(candidatePaths.includes('scripts/cp45_auth_permission_e2e.mjs'))
+assert.ok(candidatePaths.includes('.github/workflows/cp45-full-schema-validation.yml'))
+
+const onlyCp3 = process.argv.includes('--cp3-only')
+if (onlyCp3) {
+  console.log(`Frozen CP3 backend passed: ${Object.keys(cp3Manifest.files).length} byte-bound files.`)
+} else {
+  console.log(`Backend ownership v2 passed: ${expectedFrozen.length} frozen files + ${backendCandidate.length} CP4.5 backend artifacts; ${candidatePaths.length} total candidate files; zero unowned backend artifacts.`)
+}
