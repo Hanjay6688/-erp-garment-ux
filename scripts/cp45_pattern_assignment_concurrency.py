@@ -58,45 +58,62 @@ def setup():
             """
             insert into erp.app_users(id,auth_user_id,full_name,role,role_id,is_active)
             select %s::uuid,%s::uuid,'CP45A Race Owner','OWNER',id,true
-            from erp.app_roles where role_code='OWNER';
-
-            insert into erp.product_models(id,model_code,model_name)
-            values(%s::uuid,'CP45A-RACE-MODEL','CP45A Race Model');
+            from erp.app_roles where role_code='OWNER'
+            """,
+            (OWNER_APP, OWNER_AUTH),
+        )
+        cur.execute(
+            "insert into erp.product_models(id,model_code,model_name) "
+            "values(%s::uuid,'CP45A-RACE-MODEL','CP45A Race Model')",
+            (MODEL,),
+        )
+        cur.execute(
+            """
             insert into erp.production_orders(
               id,po_number,model_id,target_qty_pcs,status,current_stage,physical_start_at
-            ) values(%s::uuid,'CP45A-RACE-PO',%s::uuid,2,'DRAFT','CUTTING',clock_timestamp());
+            ) values(%s::uuid,'CP45A-RACE-PO',%s::uuid,2,'DRAFT','CUTTING',clock_timestamp())
+            """,
+            (PO, MODEL),
+        )
+        cur.execute(
+            """
             insert into erp.cutting_batches(id,po_id,batch_number,cut_at,status,notes)
-            values(%s::uuid,%s::uuid,'CP45A-RACE-BATCH',clock_timestamp(),'OPEN','CP45A race');
+            values(%s::uuid,%s::uuid,'CP45A-RACE-BATCH',clock_timestamp(),'OPEN','CP45A race')
+            """,
+            (BATCH, PO),
+        )
+        cur.execute(
+            """
             insert into erp.cutting_groups(
               id,po_id,group_number,cut_at,status,cutting_batch_id,notes
             ) values
               (%s::uuid,%s::uuid,'CP45A-RACE-ASSIGN',clock_timestamp(),'CUT',%s::uuid,'assignment race'),
-              (%s::uuid,%s::uuid,'CP45A-RACE-DOWNSTREAM',clock_timestamp(),'CUT',%s::uuid,'downstream race');
-
+              (%s::uuid,%s::uuid,'CP45A-RACE-DOWNSTREAM',clock_timestamp(),'CUT',%s::uuid,'downstream race')
+            """,
+            (GROUP_ASSIGN, PO, BATCH, GROUP_DOWNSTREAM, PO, BATCH),
+        )
+        cur.execute(
+            """
             insert into erp.production_patterns(
               id,pattern_code,revision,pattern_name,sort_order,is_active,created_by,updated_by
             ) values
               (%s::uuid,'CP45A-RACE-A','R1','CP45A Race Pattern A',10,true,%s::uuid,%s::uuid),
-              (%s::uuid,'CP45A-RACE-B','R1','CP45A Race Pattern B',20,true,%s::uuid,%s::uuid);
-
-            insert into erp.laundry_vendors(id,vendor_code,vendor_name)
-            values(%s::uuid,'CP45A-RACE-L','CP45A Race Laundry');
+              (%s::uuid,'CP45A-RACE-B','R1','CP45A Race Pattern B',20,true,%s::uuid,%s::uuid)
+            """,
+            (PATTERN_A, OWNER_APP, OWNER_APP, PATTERN_B, OWNER_APP, OWNER_APP),
+        )
+        cur.execute(
+            "insert into erp.laundry_vendors(id,vendor_code,vendor_name) "
+            "values(%s::uuid,'CP45A-RACE-L','CP45A Race Laundry')",
+            (VENDOR,),
+        )
+        cur.execute(
+            """
             insert into erp.laundry_deliveries(
               id,delivery_number,po_id,vendor_id,target_dyeing_color,physical_at,status
-            ) values(%s::uuid,'CP45A-RACE-DELIVERY',%s::uuid,%s::uuid,'N/A',clock_timestamp(),'DRAFT');
+            ) values(%s::uuid,'CP45A-RACE-DELIVERY',%s::uuid,%s::uuid,'N/A',clock_timestamp(),'DRAFT')
             """,
-            (
-                OWNER_APP, OWNER_AUTH,
-                MODEL,
-                PO, MODEL,
-                BATCH, PO,
-                GROUP_ASSIGN, PO, BATCH,
-                GROUP_DOWNSTREAM, PO, BATCH,
-                PATTERN_A, OWNER_APP, OWNER_APP,
-                PATTERN_B, OWNER_APP, OWNER_APP,
-                VENDOR,
-                DELIVERY, PO, VENDOR,
-            ),
+            (DELIVERY, PO, VENDOR),
         )
         conn.commit()
 
