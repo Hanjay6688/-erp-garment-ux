@@ -160,12 +160,12 @@ try {
   }
 
   const ownerPreview = await preview({ token: ownerSession.access_token })
-  record('rpc-owner-allowed', ownerPreview, [200])
-  assert.equal(ownerPreview.json?.denominator_qty, 0)
-  assert.equal(ownerPreview.json?.numerator_amount, 0)
+  record('rpc-owner-authorized-domain-guard', ownerPreview, [400])
+  assert.match(ownerPreview.text, /No eligible normal-Mandor attendance payroll cost exists/i)
 
   const servicePreview = await preview({ key: serviceKey, token: serviceKey })
-  record('rpc-service-role-allowed', servicePreview, [200])
+  record('rpc-service-role-authorized-domain-guard', servicePreview, [400])
+  assert.match(servicePreview.text, /No eligible normal-Mandor attendance payroll cost exists/i)
 
   for (const [label, token] of [
     ['staff', staffSession.access_token],

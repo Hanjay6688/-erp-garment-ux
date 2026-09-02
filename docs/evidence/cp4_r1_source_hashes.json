@@ -4,7 +4,7 @@
   "parent_sha": "92e49047941c09f18a306a9b2998f101c62e6ffe",
   "parent_tree": "8625bd6053c256456f67185d60e0bb95f9bc574e",
   "candidate_first_sha": "da8ed9055738c26ce882ad8b1adda047fe000c72",
-  "candidate_generation_parent_sha": "13d855bd424d995b0abfc7e8c6b7a5ca83afa0a9",
+  "candidate_generation_parent_sha": "bfdfc8e7772f66a138c875416f19e52dacfa0fee",
   "cp3_reviewed_head": "469f48a0724b447fc397a2a932c4872c2ed27488",
   "pre_cp4_recovery_run_id": 33587654349,
   "target_project_ref": "siimvrusnzxexizpyoib",
@@ -18,16 +18,16 @@
   "application_version": "v2.6.16",
   "files": {
     ".github/workflows/cp4-full-schema-validation.yml": {
-      "bytes": 24292,
-      "sha256": "0d95ad5a97dcd0353ab4959feaedf5c16eb6b9f3dc709f8e8d0cfb074ccad30e"
+      "bytes": 24421,
+      "sha256": "c8393ac2a72b65198e7357212e4da78659efe514fe02bb157b83a2ac83afebf2"
     },
     "scripts/check-backend-ownership.mjs": {
       "bytes": 5748,
-      "sha256": "c3f798e13b3fee11f641baa3ce0ec48d958ed57e929ce929b677b817820462c6"
+      "sha256": "f0f39dcc87b2d5600f0e8d8f3ce49ba278e99b38eee9dc9c92027fd04c3a5e33"
     },
     "scripts/cp4_auth_rls_e2e.mjs": {
-      "bytes": 10082,
-      "sha256": "31e072728ce454271369e325895d8277b81e79db45e164ce7592b95f0a559fb3"
+      "bytes": 10197,
+      "sha256": "6d71f61eef348d1bcf38b7adcc97f998cd1dee7068d8bf0a7bfb25c67299f331"
     },
     "supabase/migrations/20260902043000_erp_v2_6_16_cp4_hpp_route_auth_boundary.sql": {
       "bytes": 23277,

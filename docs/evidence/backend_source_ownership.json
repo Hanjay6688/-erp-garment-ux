@@ -10,7 +10,7 @@
   "candidate_cp4_manifest": {
     "path": "docs/evidence/cp4_r1_source_hashes.json",
     "bytes": 1865,
-    "sha256": "a8506ca7171901a130ad8e685d9d040d424698a4d23daf603bcfb20e36f05c56"
+    "sha256": "b4f2b866af7d88cd3ef0e084e94176a707aa6255fbcdd56260541b281fe50ba1"
   },
   "uat_recorded_sources": [
     {
