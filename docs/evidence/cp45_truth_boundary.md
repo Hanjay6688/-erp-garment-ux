@@ -11,6 +11,7 @@ CP4.5 is a pre-CP5 candidate for ERP Enteng UAT. It does not authorize a product
 - Grandfathered history may remain without `pattern_id`, so deployment does not require importing old Pola. Any new or changed Potongan through a JWT application request is rejected unless it carries `pattern_id`.
 - A used pattern can only be deactivated. Inactive patterns are excluded from normal choices and remain readable in historical WIP.
 - Code/revision uniqueness, client-request idempotency, permission checks, optimistic version checks, and database uniqueness handle duplicate and concurrent creation.
+- Final SKU binds every posted Good piece to an active product. Once its QC document leaves draft, item identity is immutable; corrections must use the owning reversal or reclassification lifecycle.
 
 ## Deliberate UI boundary
 

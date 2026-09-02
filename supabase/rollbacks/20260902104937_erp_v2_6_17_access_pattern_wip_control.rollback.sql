@@ -56,6 +56,8 @@ drop function public.erp_get_access_admin_v1();
 drop function public.erp_get_my_access_v1();
 
 drop function erp.post_final_sku_allocation_v1(jsonb,uuid,bigint);
+drop trigger trg_00_guard_posted_qc_item_immutable on erp.qc_inspection_items;
+drop function erp.guard_posted_qc_item_immutable();
 drop function erp.set_wip_control_flag_v1(jsonb,uuid,bigint);
 drop function erp.get_wip_control_v1(text,uuid,text,text);
 drop view erp.v_wip_control_status_v1;

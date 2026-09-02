@@ -33,10 +33,16 @@ begin
      or to_regprocedure('erp.guard_last_owner_auth_delete()') is not null
      or to_regprocedure('erp.guard_pattern_assignment_snapshot()') is not null
      or to_regprocedure('erp.require_pattern_identity_on_app_write()') is not null
+     or to_regprocedure('erp.guard_posted_qc_item_immutable()') is not null
      or exists(
        select 1 from pg_trigger
        where tgrelid='auth.users'::regclass
          and tgname='trg_cp45_guard_last_owner_auth_delete'
+         and not tgisinternal
+     ) or exists(
+       select 1 from pg_trigger
+       where tgrelid=to_regclass('erp.qc_inspection_items')
+         and tgname='trg_00_guard_posted_qc_item_immutable'
          and not tgisinternal
      ) then
     raise exception 'ERP v2.6.17 target guard: prior CP4.5 residue exists';
@@ -1575,6 +1581,42 @@ grant execute on function public.erp_get_wip_control_v1(text,uuid,text,text),
   public.erp_set_wip_control_flag_v1(jsonb,uuid,bigint)
   to authenticated,service_role;
 
+-- A Final-SKU allocation is inserted while its QC document is DRAFT. Once the
+-- document is posted (or otherwise leaves DRAFT), every item is historical
+-- fact: correction belongs to an owning reversal/reclassification, never an
+-- UPDATE/DELETE or a late INSERT against the old posting.
+create function erp.guard_posted_qc_item_immutable()
+returns trigger
+language plpgsql
+security definer
+set search_path=''
+as $function$
+declare v_status text;
+begin
+  if tg_op in ('UPDATE','DELETE') then
+    select q.status into v_status
+    from erp.qc_inspections q where q.id=old.inspection_id;
+    if v_status is not null and v_status<>'DRAFT' then
+      raise exception using errcode='42501',message='POSTED_FINAL_SKU_IDENTITY_IMMUTABLE';
+    end if;
+  end if;
+  if tg_op in ('INSERT','UPDATE') then
+    select q.status into v_status
+    from erp.qc_inspections q where q.id=new.inspection_id;
+    if v_status is not null and v_status<>'DRAFT' then
+      raise exception using errcode='42501',message='POSTED_FINAL_SKU_IDENTITY_IMMUTABLE';
+    end if;
+  end if;
+  if tg_op='DELETE' then return old; end if;
+  return new;
+end;
+$function$;
+revoke all on function erp.guard_posted_qc_item_immutable()
+from public,anon,authenticated,service_role;
+create trigger trg_00_guard_posted_qc_item_immutable
+before insert or update or delete on erp.qc_inspection_items
+for each row execute function erp.guard_posted_qc_item_immutable();
+
 -- Brand remains absent from PO, Potongan, sewing, and Laundry. This wrapper
 -- adds an explicit declared-Good reconciliation at the only binding boundary:
 -- each Good piece must resolve to an active Final SKU/product.
@@ -1674,6 +1716,18 @@ begin
      or has_function_privilege('authenticated','erp.require_pattern_identity_on_app_write()','EXECUTE')
      or has_function_privilege('service_role','erp.require_pattern_identity_on_app_write()','EXECUTE') then
     raise exception 'ERP v2.6.17 private permission primitive gained browser execute';
+  end if;
+
+  if has_function_privilege('public','erp.guard_posted_qc_item_immutable()','EXECUTE')
+     or has_function_privilege('anon','erp.guard_posted_qc_item_immutable()','EXECUTE')
+     or has_function_privilege('authenticated','erp.guard_posted_qc_item_immutable()','EXECUTE')
+     or has_function_privilege('service_role','erp.guard_posted_qc_item_immutable()','EXECUTE')
+     or not exists(
+       select 1 from pg_trigger
+       where tgrelid='erp.qc_inspection_items'::regclass
+         and tgname='trg_00_guard_posted_qc_item_immutable' and not tgisinternal
+     ) then
+    raise exception 'ERP v2.6.17 posted Final-SKU immutability boundary is incomplete';
   end if;
 
   if has_table_privilege('public','erp.app_roles','SELECT')

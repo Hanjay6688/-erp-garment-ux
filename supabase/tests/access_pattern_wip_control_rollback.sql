@@ -535,7 +535,9 @@ begin
   where qi.cutting_group_id='a3200000-0000-0000-0000-000000000003' limit 1;
   v_expected_failure:=false;
   begin update erp.qc_inspection_items set final_product_id=v_product_inactive where id=v_qc_item;
-  exception when others then v_expected_failure:=true; end;
+  exception when sqlstate '42501' then
+    if sqlerrm='POSTED_FINAL_SKU_IDENTITY_IMMUTABLE' then v_expected_failure:=true; else raise; end if;
+  end;
   if not v_expected_failure then raise exception 'Posted Final SKU/product snapshot was silently edited'; end if;
 
   -- Authoritative WIP cases and filters. Group S is terminal/no-action;
@@ -590,12 +592,15 @@ begin
      or has_function_privilege('service_role','erp.guard_pattern_assignment_snapshot()','EXECUTE')
      or has_function_privilege('authenticated','erp.require_pattern_identity_on_app_write()','EXECUTE')
      or has_function_privilege('service_role','erp.require_pattern_identity_on_app_write()','EXECUTE')
+     or has_function_privilege('authenticated','erp.guard_posted_qc_item_immutable()','EXECUTE')
+     or has_function_privilege('service_role','erp.guard_posted_qc_item_immutable()','EXECUTE')
      or has_table_privilege('authenticated','erp.app_roles','SELECT')
      or has_table_privilege('authenticated','erp.production_patterns','INSERT')
      or to_regprocedure('erp.guard_last_owner_auth_delete()') is null
      or not exists(select 1 from pg_trigger where tgrelid='auth.users'::regclass and tgname='trg_cp45_guard_last_owner_auth_delete' and not tgisinternal)
      or not exists(select 1 from pg_trigger where tgrelid='erp.cutting_groups'::regclass and tgname='trg_05_pattern_assignment_snapshot' and not tgisinternal)
      or not exists(select 1 from pg_trigger where tgrelid='erp.cutting_groups'::regclass and tgname='trg_06_require_pattern_identity' and not tgisinternal)
+     or not exists(select 1 from pg_trigger where tgrelid='erp.qc_inspection_items'::regclass and tgname='trg_00_guard_posted_qc_item_immutable' and not tgisinternal)
      or md5(pg_get_functiondef('erp.require_owner_admin()'::regprocedure))<>'965de305e5a381cfdf5588f2b9d4babc'
      or exists(select 1 from information_schema.columns where table_schema='erp'
        and table_name in('production_orders','cutting_groups','sewing_terminal_events','laundry_deliveries','laundry_receipts')

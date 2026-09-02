@@ -3,7 +3,7 @@
   "candidate_branch": "cp4.5/rbac-production-identity-wip-r1-20260902",
   "source_base_sha": "57d8346a7cdf4ee86519f2dd2a1b54d39ebbb6cc",
   "source_base_tree": "48fc87507dc8a18d5829d518e53f298ad0c7e01a",
-  "generation_parent_sha": "d74b029f9a4890347c6e3302a15a2c20fce8cb80",
+  "generation_parent_sha": "8b07eaf9c3592dae320db3bc3d0f1b1f9dbcfa50",
   "target_project_ref": "siimvrusnzxexizpyoib",
   "target_environment": "ERP Enteng UAT",
   "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
@@ -51,8 +51,8 @@
       "sha256": "2bc852c0173e57fc99ee86a0040a6b00907cf7b4e9a1dc32a9a5b89939002449"
     },
     "docs/evidence/cp45_truth_boundary.md": {
-      "bytes": 2444,
-      "sha256": "80ae5c8d18b525f6560c8017eee278acf22971ea535199901c099d8265ec0fba"
+      "bytes": 2643,
+      "sha256": "b560ee32e7363738303b5638edb1747c5e7d547eb068095ab8f31c5adccc86f7"
     },
     "package-lock.json": {
       "bytes": 125971,
@@ -203,16 +203,16 @@
       "sha256": "706dc41ee6a821fc120936265d4b7e1aa7003e206eb219ee14c4deed8e403268"
     },
     "supabase/migrations/20260902104937_erp_v2_6_17_access_pattern_wip_control.sql": {
-      "bytes": 96361,
-      "sha256": "d36554702fca844f36dae5ebb0a2f52cf3eafa951b3aaacc6d495a7d80aff5df"
+      "bytes": 98728,
+      "sha256": "66175dcc5c73d2fb3bad493c1c6bd6a1ad14877251b0c690c0b642ae226c849a"
     },
     "supabase/rollbacks/20260902104937_erp_v2_6_17_access_pattern_wip_control.rollback.sql": {
-      "bytes": 7615,
-      "sha256": "661bedddf67864b51d89478cba1eefcbd940f386164ab6237b581580b35a4cf2"
+      "bytes": 7746,
+      "sha256": "79d57dfce491d899924021475957599c731d696be8668fe9db2f52043ff43890"
     },
     "supabase/tests/access_pattern_wip_control_rollback.sql": {
-      "bytes": 39201,
-      "sha256": "69f201ca69f8a24ba4b0a3a47b68c8c412af977e3c03fe33bc4679b9baa2b4e1"
+      "bytes": 39651,
+      "sha256": "d120a7859a02b85559212adbf8c83d1dd4e3e4f586a117f528cd49fd55197e9e"
     },
     "tests/browser/cp45.spec.ts": {
       "bytes": 3949,
