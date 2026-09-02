@@ -321,7 +321,7 @@ begin
   select pg_get_functiondef('erp.assign_pattern_v1(uuid,uuid,text,uuid,bigint)'::regprocedure) into v_assign_def;
   select pg_get_functiondef('erp.guard_pattern_assignment_snapshot()'::regprocedure) into v_snapshot_def;
 
-  if v_helper_def not like '%FOR UPDATE%'
+  if lower(v_helper_def) not like '%for update%'
      or v_helper_def not like '%PATTERN_IDENTITY_ALREADY_BOUND%'
      or v_helper_def not like '%PATTERN_INITIAL_ASSIGNMENT_REQUIRES_PRISTINE_CUTTING%'
      or v_assign_def not like '%assert_pattern_initial_assignment_allowed%'
