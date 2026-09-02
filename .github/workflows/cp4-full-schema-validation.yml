@@ -26,6 +26,7 @@ concurrency:
 env:
   SOURCE_BASE_SHA: 92e49047941c09f18a306a9b2998f101c62e6ffe
   SOURCE_BASE_TREE: 8625bd6053c256456f67185d60e0bb95f9bc574e
+  SOURCE_R1_SHA: da8ed9055738c26ce882ad8b1adda047fe000c72
   RECOVERY_RUN_ID: 33587654349
   PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
   CP3_R4_CONCURRENCY_REPORT: cp4-proof/cp3-r4-concurrency-report.json
@@ -46,7 +47,8 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p cp4-proof
-          test "$(git rev-parse HEAD^)" = "$SOURCE_BASE_SHA"
+          test "$(git rev-parse HEAD^)" = "$SOURCE_R1_SHA"
+          test "$(git rev-parse "$SOURCE_R1_SHA^")" = "$SOURCE_BASE_SHA"
           test "$(git rev-parse "$SOURCE_BASE_SHA^{tree}")" = "$SOURCE_BASE_TREE"
           remote_head="$(git ls-remote origin "refs/heads/${GITHUB_REF_NAME}" | awk '{print $1}')"
           test "$remote_head" = "$GITHUB_SHA"
@@ -54,8 +56,8 @@ jobs:
           npm run check:backend
           node --check scripts/cp4_auth_rls_e2e.mjs
           git diff --check "$SOURCE_BASE_SHA" "$GITHUB_SHA"
-          printf 'branch=%s\nhead=%s\nparent=%s\nbase_tree=%s\nremote_head=%s\n' \
-            "$GITHUB_REF_NAME" "$GITHUB_SHA" "$(git rev-parse HEAD^)" "$SOURCE_BASE_TREE" "$remote_head" \
+          printf 'branch=%s\nhead=%s\nparent=%s\nbase=%s\nbase_tree=%s\nremote_head=%s\n' \
+            "$GITHUB_REF_NAME" "$GITHUB_SHA" "$(git rev-parse HEAD^)" "$SOURCE_BASE_SHA" "$SOURCE_BASE_TREE" "$remote_head" \
             | tee cp4-proof/IDENTITY.txt
 
       - name: Set up Python, PostgreSQL client, and pinned Supabase CLI

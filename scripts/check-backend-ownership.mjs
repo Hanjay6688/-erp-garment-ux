@@ -28,6 +28,7 @@ assert.equal(hash('sha256', cp4ManifestBytes), ownership.candidate_cp4_manifest.
 assert.equal(cp4Manifest.format, 'CP4_R1_SOURCE_HASHES_V1')
 assert.equal(cp4Manifest.parent_sha, '92e49047941c09f18a306a9b2998f101c62e6ffe')
 assert.equal(cp4Manifest.parent_tree, '8625bd6053c256456f67185d60e0bb95f9bc574e')
+assert.equal(cp4Manifest.candidate_generation_parent_sha, 'da8ed9055738c26ce882ad8b1adda047fe000c72')
 assert.equal(cp4Manifest.target_project_ref, 'siimvrusnzxexizpyoib')
 assert.equal(cp4Manifest.legacy_project_ref, 'vlxdhpkjeevubjxexnfo')
 assert.equal(cp4Manifest.source_only, true)
@@ -50,6 +51,7 @@ const discovered = [
   ...walk(resolve(root, 'ops/supabase'), (path) => extname(path) === '.sql'),
   ...walk(resolve(root, 'scripts'), (path) => /^(?:cp3_|test_cp3_).*\.py$/.test(path.split('/').at(-1))),
   ...walk(resolve(root, 'scripts'), (path) => /^cp4_.*\.mjs$/.test(path.split('/').at(-1))),
+  'scripts/check-backend-ownership.mjs',
   '.github/workflows/cp3-r4-full-schema-validation.yml',
   '.github/workflows/cp4-full-schema-validation.yml',
 ].sort()

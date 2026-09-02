@@ -28,6 +28,16 @@ insert into erp.products(
   'b2000000-0000-0000-0000-000000000001','2026-01-01 00:00:00+00'
 );
 
+-- Explicit empty BOM: this fixture intentionally has no accessory cost. The
+-- runtime must keep failing closed when neither a real BOM nor this explicit
+-- NO ACCESSORY declaration exists.
+insert into erp.accessory_bom_versions(
+  product_id,version_label,effective_from,is_active,notes
+) values (
+  'b2000000-0000-0000-0000-000000000001','CP4-NO-ACCESSORY',
+  '2026-01-01 00:00:00+00',true,'Empty BOM declaration for CP4 rollback-only acceptance'
+);
+
 insert into erp.fg_lots(
   id,lot_number,po_id,product_id,initial_qty_pcs,cached_qty_pcs,produced_at,cutting_group_id
 ) values
