@@ -29,7 +29,7 @@ assert.equal(cp4Manifest.format, 'CP4_R1_SOURCE_HASHES_V1')
 assert.equal(cp4Manifest.parent_sha, '92e49047941c09f18a306a9b2998f101c62e6ffe')
 assert.equal(cp4Manifest.parent_tree, '8625bd6053c256456f67185d60e0bb95f9bc574e')
 assert.equal(cp4Manifest.candidate_first_sha, 'da8ed9055738c26ce882ad8b1adda047fe000c72')
-assert.equal(cp4Manifest.candidate_generation_parent_sha, '98aa031bdba010e706f5bb745f12eb3612e09819')
+assert.equal(cp4Manifest.candidate_generation_parent_sha, 'c2eea97f79d4c54dd8cda003c0a5b3030206134b')
 assert.deepEqual(cp4Manifest.hosted_uat_require_owner_admin, {
   definition_md5: '8c22fb34fb8adf2085ca5703e32d38a5',
   acl: '{postgres=X/postgres,service_role=X/postgres}',

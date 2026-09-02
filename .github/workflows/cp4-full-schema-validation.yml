@@ -33,6 +33,7 @@ env:
   SOURCE_R5_SHA: bfdfc8e7772f66a138c875416f19e52dacfa0fee
   SOURCE_R6_SHA: 9276250310f14d769bf9f1dbb9247287b173fe05
   SOURCE_R7_SHA: 98aa031bdba010e706f5bb745f12eb3612e09819
+  SOURCE_R8_SHA: c2eea97f79d4c54dd8cda003c0a5b3030206134b
   RECOVERY_RUN_ID: 33587654349
   PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
   CP3_R4_CONCURRENCY_REPORT: cp4-proof/cp3-r4-concurrency-report.json
@@ -53,7 +54,8 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p cp4-proof
-          test "$(git rev-parse HEAD^)" = "$SOURCE_R7_SHA"
+          test "$(git rev-parse HEAD^)" = "$SOURCE_R8_SHA"
+          test "$(git rev-parse "$SOURCE_R8_SHA^")" = "$SOURCE_R7_SHA"
           test "$(git rev-parse "$SOURCE_R7_SHA^")" = "$SOURCE_R6_SHA"
           test "$(git rev-parse "$SOURCE_R6_SHA^")" = "$SOURCE_R5_SHA"
           test "$(git rev-parse "$SOURCE_R5_SHA^")" = "$SOURCE_R4_SHA"
@@ -397,7 +399,17 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          psql "$PGURL" -v ON_ERROR_STOP=1 -f restore/ERP_ENTENG_DATA_RESTORE.sql
+          # The baseline data restore intentionally truncates every ERP table,
+          # including the application ledger. Preserve the four CP3 markers:
+          # CP4 rollback removes only CP4, not the already-applied CP3 schema.
+          psql "$PGURL" -v ON_ERROR_STOP=1 <<'SQL'
+          create temp table cp4_saved_cp3_application_markers on commit preserve rows
+          as select * from erp.schema_migrations where version like 'v2.6.14%';
+          \i restore/ERP_ENTENG_DATA_RESTORE.sql
+          insert into erp.schema_migrations
+          select * from cp4_saved_cp3_application_markers
+          on conflict(version) do nothing;
+          SQL
           psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' | tee cp4-proof/FINAL_RECONCILIATION.json
           select jsonb_build_object(
             'status',case when
