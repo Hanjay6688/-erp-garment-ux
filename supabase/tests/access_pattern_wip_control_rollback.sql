@@ -440,6 +440,14 @@ begin
     'a3200000-0000-0000-0000-000000000003',v_pattern_b_id,'Required pattern before Final SKU',gen_random_uuid(),v_group_version
   );
 
+  -- The partial-Laundry fixture is also an application lifecycle write. Bind
+  -- the same active canonical pattern before posting it; do not weaken the
+  -- transaction guard merely to accommodate a direct SQL seed.
+  select row_version into v_group_version from erp.cutting_groups where id='a3200000-0000-0000-0000-000000000006';
+  perform public.erp_assign_pattern_v1(
+    'a3200000-0000-0000-0000-000000000006',v_pattern_b_id,'Required pattern before Laundry lifecycle',gen_random_uuid(),v_group_version
+  );
+
   -- Laundry facts cover draft, in-transit, partial, Stuck, and Missing without
   -- introducing brand anywhere before Final SKU.
   insert into erp.laundry_vendors(id,vendor_code,vendor_name)
