@@ -55,6 +55,33 @@ select erp.rebuild_po_hpp('a3000000-0000-0000-0000-000000000002','CP4 pre-activa
 select erp.sync_po_hpp_to_gl('a3000000-0000-0000-0000-000000000001','2026-01-01');
 select erp.sync_po_hpp_to_gl('a3000000-0000-0000-0000-000000000002','2026-01-01');
 
+-- CP3's full-schema fixture already carries legitimate non-attendance work
+-- cost. Bind every CP4 assertion to that exact baseline so this test proves
+-- the attendance delta without pretending the existing HPP is zero.
+insert into cp4_ids(key,value)
+select 'baseline',jsonb_build_object(
+  'hpp_total',(select round(coalesce(sum(h.total_cost),0),2)
+    from erp.hpp_versions h
+    where h.is_current and h.lot_id in('b3000000-0000-0000-0000-000000000001','b3000000-0000-0000-0000-000000000002')),
+  'gl_hpp',(select round(coalesce(sum(s.hpp_total_cost),0),2)
+    from erp.po_hpp_gl_state s
+    where s.po_id in('a3000000-0000-0000-0000-000000000001','a3000000-0000-0000-0000-000000000002')),
+  'lot_a',(select round(total_cost,2) from erp.hpp_versions
+    where lot_id='b3000000-0000-0000-0000-000000000001' and is_current),
+  'lot_b',(select round(total_cost,2) from erp.hpp_versions
+    where lot_id='b3000000-0000-0000-0000-000000000002' and is_current),
+  'fg_net',(select round(coalesce(sum(case when jl.account_id=erp.account_id('FG_INVENTORY') then jl.debit-jl.credit else 0 end),0),2)
+    from erp.journal_entries je join erp.po_hpp_gl_events e on e.id=je.source_id
+    join erp.journal_lines jl on jl.journal_entry_id=je.id
+    where je.source_type='PO_HPP_GL_SYNC'
+      and e.po_id in('a3000000-0000-0000-0000-000000000001','a3000000-0000-0000-0000-000000000002')),
+  'wip_net',(select round(coalesce(sum(case when jl.account_id=erp.account_id('WIP') then jl.credit-jl.debit else 0 end),0),2)
+    from erp.journal_entries je join erp.po_hpp_gl_events e on e.id=je.source_id
+    join erp.journal_lines jl on jl.journal_entry_id=je.id
+    where je.source_type='PO_HPP_GL_SYNC'
+      and e.po_id in('a3000000-0000-0000-0000-000000000001','a3000000-0000-0000-0000-000000000002'))
+);
+
 insert into cp4_ids(key,value)
 values('pool',public.erp_create_attendance_hpp_pool_v1(
   jsonb_build_object('period_start','2026-01-01','period_end','2026-01-01','reason','CP4 persistent HPP route'),
@@ -137,8 +164,16 @@ declare
   v_gl_hpp numeric;
   v_pool_debit numeric;
   v_pool_credit numeric;
-  v_fg_debit numeric;
-  v_wip_credit numeric;
+  v_fg_net numeric;
+  v_wip_net numeric;
+  v_attendance_a numeric;
+  v_attendance_b numeric;
+  v_base_hpp numeric:=(select (value->>'hpp_total')::numeric from cp4_ids where key='baseline');
+  v_base_gl numeric:=(select (value->>'gl_hpp')::numeric from cp4_ids where key='baseline');
+  v_base_lot_a numeric:=(select (value->>'lot_a')::numeric from cp4_ids where key='baseline');
+  v_base_lot_b numeric:=(select (value->>'lot_b')::numeric from cp4_ids where key='baseline');
+  v_base_fg_net numeric:=(select (value->>'fg_net')::numeric from cp4_ids where key='baseline');
+  v_base_wip_net numeric:=(select (value->>'wip_net')::numeric from cp4_ids where key='baseline');
 begin
   if (select value->>'status' from cp4_ids where key='activated') is distinct from 'ACTIVE'
      or (select (value->>'row_version')::bigint from cp4_ids where key='activated')<>2 then
@@ -149,6 +184,15 @@ begin
   from erp.hpp_versions h
   join erp.hpp_version_components c on c.hpp_version_id=h.id
   where h.is_current and h.lot_id in('b3000000-0000-0000-0000-000000000001','b3000000-0000-0000-0000-000000000002')
+    and c.component_type='LABOR' and c.source_type='ATTENDANCE_HPP_ACTIVE_ALLOCATION';
+  select
+    round(coalesce(sum(c.total_cost) filter(where h.lot_id='b3000000-0000-0000-0000-000000000001'),0),2),
+    round(coalesce(sum(c.total_cost) filter(where h.lot_id='b3000000-0000-0000-0000-000000000002'),0),2)
+  into v_attendance_a,v_attendance_b
+  from erp.hpp_versions h
+  join erp.hpp_version_components c on c.hpp_version_id=h.id
+  where h.is_current
+    and h.lot_id in('b3000000-0000-0000-0000-000000000001','b3000000-0000-0000-0000-000000000002')
     and c.component_type='LABOR' and c.source_type='ATTENDANCE_HPP_ACTIVE_ALLOCATION';
   select round(sum(h.total_cost),2) into v_hpp_total
   from erp.hpp_versions h
@@ -163,9 +207,9 @@ begin
   where je.source_type='ATTENDANCE_HPP_POOL' and je.source_id=v_pool and je.status='POSTED';
 
   select
-    round(coalesce(sum(case when jl.account_id=erp.account_id('FG_INVENTORY') then jl.debit else 0 end),0),2),
-    round(coalesce(sum(case when jl.account_id=erp.account_id('WIP') then jl.credit else 0 end),0),2)
-  into v_fg_debit,v_wip_credit
+    round(coalesce(sum(case when jl.account_id=erp.account_id('FG_INVENTORY') then jl.debit-jl.credit else 0 end),0),2),
+    round(coalesce(sum(case when jl.account_id=erp.account_id('WIP') then jl.credit-jl.debit else 0 end),0),2)
+  into v_fg_net,v_wip_net
   from erp.journal_entries je join erp.po_hpp_gl_events e on e.id=je.source_id
   join erp.journal_lines jl on jl.journal_entry_id=je.id
   where je.source_type='PO_HPP_GL_SYNC'
@@ -173,19 +217,22 @@ begin
     and je.status='POSTED';
 
   if v_attendance is distinct from 150.00
-     or v_hpp_total is distinct from 150.00
-     or v_gl_hpp is distinct from 150.00
+     or v_attendance_a is distinct from 90.00
+     or v_attendance_b is distinct from 60.00
+     or v_hpp_total is distinct from v_base_hpp+150.00
+     or v_gl_hpp is distinct from v_base_gl+150.00
      or v_pool_debit is distinct from 150.00
      or v_pool_credit is distinct from 150.00
-     or v_fg_debit is distinct from 150.00
-     or v_wip_credit is distinct from 150.00 then
-    raise exception 'CP4 activation reconciliation mismatch attendance %, HPP %, GL %, pool D/C %/%, FG/WIP %/%',
-      v_attendance,v_hpp_total,v_gl_hpp,v_pool_debit,v_pool_credit,v_fg_debit,v_wip_credit;
+     or v_fg_net is distinct from v_base_fg_net+150.00
+     or v_wip_net is distinct from v_base_wip_net+150.00 then
+    raise exception 'CP4 activation reconciliation mismatch attendance % (%/%), HPP % baseline %, GL % baseline %, pool D/C %/%, FG/WIP net %/% baselines %/%',
+      v_attendance,v_attendance_a,v_attendance_b,v_hpp_total,v_base_hpp,v_gl_hpp,v_base_gl,
+      v_pool_debit,v_pool_credit,v_fg_net,v_wip_net,v_base_fg_net,v_base_wip_net;
   end if;
 
-  if (select round(total_cost,2) from erp.hpp_versions where lot_id='b3000000-0000-0000-0000-000000000001' and is_current) is distinct from 90.00
-     or (select round(total_cost,2) from erp.hpp_versions where lot_id='b3000000-0000-0000-0000-000000000002' and is_current) is distinct from 60.00 then
-    raise exception 'CP4 immutable sewing-lineage allocation did not produce lot HPP 90/60';
+  if (select round(total_cost,2) from erp.hpp_versions where lot_id='b3000000-0000-0000-0000-000000000001' and is_current) is distinct from v_base_lot_a+90.00
+     or (select round(total_cost,2) from erp.hpp_versions where lot_id='b3000000-0000-0000-0000-000000000002' and is_current) is distinct from v_base_lot_b+60.00 then
+    raise exception 'CP4 immutable sewing-lineage allocation did not add lot HPP 90/60 over baseline';
   end if;
 end
 $test$;
@@ -221,7 +268,8 @@ begin
      or (select row_version from erp.attendance_hpp_pools where id=v_pool)<>2
      or (select status from erp.journal_entries where id=v_post) is distinct from 'POSTED'
      or exists(select 1 from erp.journal_entries where reversal_of_id=v_post)
-     or (select round(sum(h.total_cost),2) from erp.hpp_versions h where h.is_current and h.lot_id in('b3000000-0000-0000-0000-000000000001','b3000000-0000-0000-0000-000000000002')) is distinct from 150.00 then
+     or (select round(sum(h.total_cost),2) from erp.hpp_versions h where h.is_current and h.lot_id in('b3000000-0000-0000-0000-000000000001','b3000000-0000-0000-0000-000000000002'))
+        is distinct from (select (value->>'hpp_total')::numeric+150.00 from cp4_ids where key='baseline') then
     raise exception 'CP4 failed cancellation left partial residue';
   end if;
 end
@@ -248,6 +296,10 @@ declare
   v_pool_net numeric;
   v_hpp_sync_fg_net numeric;
   v_hpp_sync_wip_net numeric;
+  v_base_hpp numeric:=(select (value->>'hpp_total')::numeric from cp4_ids where key='baseline');
+  v_base_gl numeric:=(select (value->>'gl_hpp')::numeric from cp4_ids where key='baseline');
+  v_base_fg_net numeric:=(select (value->>'fg_net')::numeric from cp4_ids where key='baseline');
+  v_base_wip_net numeric:=(select (value->>'wip_net')::numeric from cp4_ids where key='baseline');
 begin
   if (select value->>'status' from cp4_ids where key='cancelled') is distinct from 'CANCELLED'
      or (select (value->>'row_version')::bigint from cp4_ids where key='cancelled')<>3
@@ -264,7 +316,8 @@ begin
       and c.source_type='ATTENDANCE_HPP_ACTIVE_ALLOCATION'
       and abs(c.total_cost)>0.005
   )
-     or (select round(sum(s.hpp_total_cost),2) from erp.po_hpp_gl_state s where s.po_id in('a3000000-0000-0000-0000-000000000001','a3000000-0000-0000-0000-000000000002')) is distinct from 0.00
+     or (select round(sum(h.total_cost),2) from erp.hpp_versions h where h.is_current and h.lot_id in('b3000000-0000-0000-0000-000000000001','b3000000-0000-0000-0000-000000000002')) is distinct from v_base_hpp
+     or (select round(sum(s.hpp_total_cost),2) from erp.po_hpp_gl_state s where s.po_id in('a3000000-0000-0000-0000-000000000001','a3000000-0000-0000-0000-000000000002')) is distinct from v_base_gl
      or exists(select 1 from erp.v_attendance_hpp_active_allocation_by_po_group where pool_id=v_pool) then
     raise exception 'CP4 cancellation left active HPP residue';
   end if;
@@ -275,7 +328,7 @@ begin
 
   select
     round(coalesce(sum(case when jl.account_id=erp.account_id('FG_INVENTORY') then jl.debit-jl.credit else 0 end),0),2),
-    round(coalesce(sum(case when jl.account_id=erp.account_id('WIP') then jl.debit-jl.credit else 0 end),0),2)
+    round(coalesce(sum(case when jl.account_id=erp.account_id('WIP') then jl.credit-jl.debit else 0 end),0),2)
   into v_hpp_sync_fg_net,v_hpp_sync_wip_net
   from erp.journal_entries je join erp.po_hpp_gl_events e on e.id=je.source_id
   join erp.journal_lines jl on jl.journal_entry_id=je.id
@@ -283,9 +336,10 @@ begin
     and e.po_id in('a3000000-0000-0000-0000-000000000001','a3000000-0000-0000-0000-000000000002');
 
   if v_pool_net is distinct from 0.00
-     or v_hpp_sync_fg_net is distinct from 0.00
-     or v_hpp_sync_wip_net is distinct from 0.00 then
-    raise exception 'CP4 activation+cancellation journal net is not zero: pool %, FG %, WIP %',v_pool_net,v_hpp_sync_fg_net,v_hpp_sync_wip_net;
+     or v_hpp_sync_fg_net is distinct from v_base_fg_net
+     or v_hpp_sync_wip_net is distinct from v_base_wip_net then
+    raise exception 'CP4 activation+cancellation did not return to journal baseline: pool %, FG % baseline %, WIP % baseline %',
+      v_pool_net,v_hpp_sync_fg_net,v_base_fg_net,v_hpp_sync_wip_net,v_base_wip_net;
   end if;
 end
 $test$;
