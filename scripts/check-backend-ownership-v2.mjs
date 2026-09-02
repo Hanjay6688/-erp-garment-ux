@@ -62,12 +62,73 @@ if (candidate.integrity_correction.uat_applied) {
   assert.match(candidate.integrity_correction.uat_applied_at, /^2026-09-02T/)
   assert.equal(candidate.integrity_correction.exact_head_ci.status, 'PASS')
   assert.equal(candidate.integrity_correction.hosted_auth_permission_e2e.status, 'PASS')
+  assert.equal(candidate.integrity_correction.platform_ledger.version, '20260902185106')
+  assert.equal(candidate.integrity_correction.platform_ledger.name, 'erp_v2_6_17a_cp45_pattern_assignment_immutability')
+  assert.equal(candidate.integrity_correction.platform_ledger.source_bytes, 18304)
+  assert.equal(candidate.integrity_correction.platform_ledger.source_sha256, '62a25994d2b3be0986ca83492f4d29d2ebad17c1795543045827a77d55ef816a')
+  assert.equal(candidate.integrity_correction.hosted_auth_permission_e2e.evidence_path, 'docs/evidence/cp45a_hosted_uat_auth_e2e.json')
+  assert.equal(candidate.integrity_correction.hosted_auth_permission_e2e.case_count, 10)
+  assert.equal(candidate.integrity_correction.hosted_auth_permission_e2e.case_passed, 10)
+  assert.equal(candidate.integrity_correction.hosted_auth_permission_e2e.cleanup_verified, true)
 } else {
   assert.equal(candidate.integrity_correction.source_only, true)
   assert.equal(candidate.integrity_correction.uat_applied_at, null)
   assert.equal(candidate.integrity_correction.exact_head_ci.status, 'PENDING')
   assert.equal(candidate.integrity_correction.hosted_auth_permission_e2e.status, 'PENDING')
   assert.equal(candidate.closure_status, 'NO_GO_PENDING_CP45A_CORRECTION_PROOF')
+}
+
+if (candidate.integrity_correction.hosted_auth_permission_e2e.evidence_path) {
+  const correctionEvidence = readJson(candidate.integrity_correction.hosted_auth_permission_e2e.evidence_path)
+  assert.equal(correctionEvidence.format, 'CP45A_HOSTED_UAT_AUTH_E2E_V1')
+  assert.equal(correctionEvidence.status, 'PASS')
+  assert.equal(correctionEvidence.mode, 'MANUAL_HOSTED_UAT_VERIFIED')
+  assert.equal(correctionEvidence.target_project_ref, candidate.target_project_ref)
+  assert.equal(correctionEvidence.runtime_source_head, candidate.integrity_correction.exact_head_ci.head_sha)
+  assert.equal(correctionEvidence.runtime_source_tree, candidate.integrity_correction.exact_head_ci.head_tree)
+  assert.equal(correctionEvidence.migration_version, candidate.integrity_correction.migration_version)
+  assert.equal(correctionEvidence.application_version, candidate.integrity_correction.application_version)
+  assert.deepEqual(correctionEvidence.platform_ledger, {
+    version: '20260902185106',
+    name: 'erp_v2_6_17a_cp45_pattern_assignment_immutability',
+    statement_count: 1,
+    source_bytes: 18304,
+    source_sha256: '62a25994d2b3be0986ca83492f4d29d2ebad17c1795543045827a77d55ef816a',
+  })
+  assert.equal(correctionEvidence.verification_boundary.classified_as_ci, false)
+  assert.equal(correctionEvidence.verification_boundary.github_service_role_secret_used, false)
+  assert.equal(correctionEvidence.verification_boundary.service_role_key_used, false)
+  assert.equal(correctionEvidence.verification_boundary.real_http_jwt, true)
+  assert.equal(correctionEvidence.verification_boundary.synthetic_identities, 2)
+  assert.equal(correctionEvidence.verification_boundary.real_owner_invited, false)
+  assert.equal(correctionEvidence.verification_boundary.credentials_or_jwt_recorded, false)
+  assert.equal(correctionEvidence.case_count, 10)
+  assert.equal(correctionEvidence.case_passed, 10)
+  assert.equal(correctionEvidence.cases.length, 10)
+  assert.equal(new Set(correctionEvidence.cases.map(({ name }) => name)).size, 10)
+  assert.equal(correctionEvidence.cases.every(({ ok }) => ok === true), true)
+  assert.equal(correctionEvidence.assertions.first_assignment_binds_canonical_pattern_and_snapshot, true)
+  assert.equal(correctionEvidence.assertions.first_assignment_replay_is_idempotent, true)
+  assert.equal(correctionEvidence.assertions.second_assignment_is_rejected, true)
+  assert.equal(correctionEvidence.assertions.rejected_reassignment_preserves_pattern_a_snapshot, true)
+  assert.equal(correctionEvidence.assertions.sewing_fact_blocks_initial_assignment, true)
+  assert.equal(correctionEvidence.assertions.view_only_user_cannot_assign_pattern, true)
+  for (const key of [
+    'auth_users', 'auth_identities', 'auth_sessions', 'auth_refresh_tokens',
+    'app_users', 'patterns', 'pattern_audit', 'assignment_idempotency',
+    'cutting_groups', 'work_completion_events', 'temporary_http_extensions',
+  ]) assert.equal(correctionEvidence.cleanup[key], 0, `Hosted correction cleanup residue: ${key}`)
+  assert.equal(correctionEvidence.cleanup.temporary_credentials_retained, false)
+  assert.equal(correctionEvidence.uat_post_cleanup.writer_sessions, 0)
+  assert.equal(correctionEvidence.uat_post_cleanup.idle_in_transaction, 0)
+  assert.equal(correctionEvidence.uat_post_cleanup.waiting_locks, 0)
+  assert.equal(correctionEvidence.uat_post_cleanup.write_capable_locks, 0)
+  assert.equal(correctionEvidence.legacy_isolation.mutated, false)
+  assert.equal(correctionEvidence.legacy_isolation.platform_cp45_ledger, 0)
+  assert.equal(correctionEvidence.legacy_isolation.application_cp45_ledger, 0)
+  assert.equal(correctionEvidence.advisor_snapshot.security.correction_specific, 0)
+  assert.equal(correctionEvidence.advisor_snapshot.performance.correction_specific, 0)
+  assert.equal(correctionEvidence.production_go, false)
 }
 assert.equal(candidate.legacy_mutated, false)
 assert.equal(candidate.production_go, false)
@@ -218,6 +279,9 @@ const discovered = [
   '.github/workflows/cp45-full-schema-validation.yml',
   'docs/evidence/cp4_hosted_uat_auth_e2e.json',
   ...(candidate.hosted_auth_permission_e2e.evidence_path ? [candidate.hosted_auth_permission_e2e.evidence_path] : []),
+  ...(candidate.integrity_correction.hosted_auth_permission_e2e.evidence_path
+    ? [candidate.integrity_correction.hosted_auth_permission_e2e.evidence_path]
+    : []),
 ].sort()
 const expectedFrozen = Object.keys(frozenFiles).sort()
 const backendCandidate = candidatePaths.filter((path) => (
@@ -230,6 +294,7 @@ const backendCandidate = candidatePaths.filter((path) => (
   || path === 'scripts/check-backend-ownership-v2.mjs'
   || path === '.github/workflows/cp45-full-schema-validation.yml'
   || path === candidate.hosted_auth_permission_e2e.evidence_path
+  || path === candidate.integrity_correction.hosted_auth_permission_e2e.evidence_path
 )).sort()
 const backendOwnedUnique = new Set([...expectedFrozen, ...backendCandidate])
 assert.equal(

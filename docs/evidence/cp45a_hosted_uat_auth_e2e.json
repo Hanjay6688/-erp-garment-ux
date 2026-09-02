@@ -1,0 +1,225 @@
+{
+  "format": "CP45A_HOSTED_UAT_AUTH_E2E_V1",
+  "status": "PASS",
+  "mode": "MANUAL_HOSTED_UAT_VERIFIED",
+  "target_project_ref": "siimvrusnzxexizpyoib",
+  "target_environment": "ERP Enteng UAT",
+  "runtime_source_head": "eaf2769bbe2d34687f1f4d8173500ee85656e63b",
+  "runtime_source_tree": "a08256d423f64e7be8d967c89ea7ab81dcbc2284",
+  "runtime_source_parent": "de5265673c64d73b0fcc8d886e7cf5f28c740d7e",
+  "migration_version": "20260902180726",
+  "application_version": "v2.6.17a",
+  "platform_ledger": {
+    "version": "20260902185106",
+    "name": "erp_v2_6_17a_cp45_pattern_assignment_immutability",
+    "statement_count": 1,
+    "source_bytes": 18304,
+    "source_sha256": "62a25994d2b3be0986ca83492f4d29d2ebad17c1795543045827a77d55ef816a"
+  },
+  "tested_at": "2026-09-02T19:09:41.441Z",
+  "verification_boundary": {
+    "classified_as_ci": false,
+    "github_service_role_secret_used": false,
+    "service_role_key_used": false,
+    "auth_fixture": "DIRECT_HOSTED_AUTH_ROWS_WITH_REAL_PASSWORD_GRANT",
+    "real_password_grant": true,
+    "real_http_jwt": true,
+    "synthetic_identities": 2,
+    "roles": [
+      "PRODUKSI_QC",
+      "AUDITOR_VIEW_ONLY"
+    ],
+    "real_owner_account_created": false,
+    "real_owner_invited": false,
+    "credentials_or_jwt_recorded": false,
+    "production_touched": false
+  },
+  "case_count": 10,
+  "case_passed": 10,
+  "cases": [
+    {
+      "name": "auth-password-grant-production-user",
+      "scope": "AUTH_HTTP",
+      "status": 200,
+      "observation": "JWT_SUBJECT_MATCH",
+      "ok": true
+    },
+    {
+      "name": "auth-password-grant-view-only",
+      "scope": "AUTH_HTTP",
+      "status": 200,
+      "observation": "JWT_SUBJECT_MATCH",
+      "ok": true
+    },
+    {
+      "name": "rpc-production-user-access",
+      "scope": "DATA_API",
+      "status": 200,
+      "observation": "PRODUCTION_ROLE_RESOLVED",
+      "ok": true
+    },
+    {
+      "name": "rpc-initial-pattern-assignment",
+      "scope": "DATA_API",
+      "status": 200,
+      "observation": "INITIAL_BINDING_AND_SNAPSHOT_OK",
+      "ok": true
+    },
+    {
+      "name": "rpc-initial-assignment-idempotent-replay",
+      "scope": "DATA_API",
+      "status": 200,
+      "observation": "IDENTICAL_REPLAY",
+      "ok": true
+    },
+    {
+      "name": "rpc-second-assignment-rejected",
+      "scope": "DATA_API",
+      "status": 400,
+      "observation": "PATTERN_IDENTITY_ALREADY_BOUND",
+      "ok": true
+    },
+    {
+      "name": "database-snapshot-stable-after-rejection",
+      "scope": "DATABASE_ASSERTION",
+      "status": 0,
+      "observation": "PATTERN_A_AND_SINGLE_ASSIGN_AUDIT_RETAINED",
+      "ok": true
+    },
+    {
+      "name": "rpc-downstream-assignment-rejected",
+      "scope": "DATA_API",
+      "status": 400,
+      "observation": "PATTERN_INITIAL_ASSIGNMENT_REQUIRES_PRISTINE_CUTTING",
+      "ok": true
+    },
+    {
+      "name": "database-downstream-group-remains-unbound",
+      "scope": "DATABASE_ASSERTION",
+      "status": 0,
+      "observation": "DOWNSTREAM_GROUP_UNCHANGED",
+      "ok": true
+    },
+    {
+      "name": "rpc-view-only-assignment-rejected",
+      "scope": "DATA_API",
+      "status": 403,
+      "observation": "PERMISSION_DENIED: production pattern assignment",
+      "ok": true
+    }
+  ],
+  "assertions": {
+    "jwt_subject_matches_each_identity": true,
+    "production_role_resolved_from_hosted_auth": true,
+    "cutting_edit_draft_does_not_imply_pattern_manage": true,
+    "first_assignment_binds_canonical_pattern_and_snapshot": true,
+    "first_assignment_replay_is_idempotent": true,
+    "second_assignment_is_rejected": true,
+    "rejected_reassignment_preserves_pattern_a_snapshot": true,
+    "rejected_reassignment_leaves_exactly_one_assignment_audit": true,
+    "sewing_fact_blocks_initial_assignment": true,
+    "blocked_downstream_group_remains_unbound": true,
+    "view_only_user_cannot_assign_pattern": true,
+    "synthetic_cleanup_returns_exact_zero": true
+  },
+  "runtime_contract": {
+    "helper_signature": "erp.assert_pattern_initial_assignment_allowed(uuid)",
+    "helper_md5": "b215a0950dd84f0f942830c0177bfeca",
+    "helper_sha256": "57dffa6c387a0175fa5442493c3fbeb932ba73a51f86971be709aee1fd992555",
+    "assign_md5": "b52b314f1fe564a5cd440849c7b092d9",
+    "assign_sha256": "6d2e0a6634880dd30ecc265dcae5b5ff577bcacbca97fccf4a261bfecda80b48",
+    "snapshot_guard_md5": "911074a0843aa3b0086eea3bbac999a9",
+    "snapshot_guard_sha256": "252e874a207a267f95b7c727d13c3b544768916db23ed1786f9b72b2f3165dc9",
+    "owner": "postgres",
+    "security_definer": true,
+    "empty_search_path": true,
+    "private_helper_api_execute": false,
+    "snapshot_trigger_enabled": true,
+    "rollback_capsule_rows": 2,
+    "rollback_capsule_valid": 2,
+    "cp4_owner_guard_md5": "965de305e5a381cfdf5588f2b9d4babc"
+  },
+  "source_ci": {
+    "status": "PASS",
+    "head_sha": "eaf2769bbe2d34687f1f4d8173500ee85656e63b",
+    "head_tree": "a08256d423f64e7be8d967c89ea7ab81dcbc2284",
+    "build_ux": {
+      "run_id": 33669230998,
+      "job_id": 100378411259,
+      "dist_artifact_id": 9861933152,
+      "dist_artifact_digest_sha256": "eb381393f0b812ff49c55cefbe055374b6ba079d551154b182d03b122e07bf6f",
+      "browser_artifact_id": 9861929840,
+      "browser_artifact_digest_sha256": "f5d4ee6ac38104a510ec67ab9236f7221857d18f066589e55eada8b3450e304b"
+    },
+    "full_schema": {
+      "run_id": 33669230989,
+      "job_id": 100378412286,
+      "artifact_id": 9861923992,
+      "artifact_digest_sha256": "daf5333c1dc1813d586d45f41ab04478ee3effc8b6c270fcd18f45a28464a4de"
+    }
+  },
+  "cleanup": {
+    "verified_at": "2026-09-02T19:10:12.921986Z",
+    "auth_users": 0,
+    "auth_identities": 0,
+    "auth_sessions": 0,
+    "auth_refresh_tokens": 0,
+    "app_users": 0,
+    "patterns": 0,
+    "pattern_audit": 0,
+    "assignment_idempotency": 0,
+    "cutting_groups": 0,
+    "work_completion_events": 0,
+    "temporary_http_extensions": 0,
+    "temporary_credentials_retained": false
+  },
+  "uat_post_cleanup": {
+    "writer_sessions": 0,
+    "idle_in_transaction": 0,
+    "waiting_locks": 0,
+    "write_capable_locks": 0,
+    "platform_correction_ledger": 1,
+    "application_correction_ledger": 1,
+    "rollback_capsule_rows": 2
+  },
+  "legacy_isolation": {
+    "verified_at": "2026-09-02T19:10:12.275615Z",
+    "mutated": false,
+    "writer_sessions": 0,
+    "idle_in_transaction": 0,
+    "waiting_locks": 0,
+    "write_capable_locks": 0,
+    "platform_cp45_ledger": 0,
+    "application_cp45_ledger": 0,
+    "correction_helper_exists": false,
+    "correction_capsule_exists": false
+  },
+  "advisor_snapshot": {
+    "checked_at": "2026-09-02T19:12:48.126Z",
+    "security": {
+      "info": 13,
+      "warn": 31,
+      "correction_specific": 0,
+      "categories": [
+        "rls_enabled_no_policy",
+        "authenticated_security_definer_function_executable"
+      ]
+    },
+    "performance": {
+      "info": 280,
+      "warn": 0,
+      "correction_specific": 0,
+      "categories": [
+        "unindexed_foreign_keys",
+        "unused_index"
+      ]
+    },
+    "interpretation": "No advisor finding targets the private v2.6.17a helper, capsule, or snapshot trigger; public authenticated facades remain intentionally permission-guarded and were exercised with hosted JWTs."
+  },
+  "execution_notes": [
+    "Auth schema compatibility probes failed before commit and were transactionally rolled back with zero residue.",
+    "A preliminary completed run observed the valid pristine-cutting rejection label after the sewing fixture advanced lifecycle state; cleanup was zero.",
+    "The final run accepts either reviewed fail-closed downstream path and passed 10 of 10 cases with exact-zero cleanup."
+  ],
+  "production_go": false
+}

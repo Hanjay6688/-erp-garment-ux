@@ -489,6 +489,30 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          cp45a_source_b64="$(base64 -w0 supabase/migrations/20260902180726_erp_v2_6_17a_cp45_pattern_assignment_immutability.sql)"
+          psql "$PGURL" -v ON_ERROR_STOP=1 -v cp45a_source_b64="$cp45a_source_b64" <<'SQL' | tee cp45-proof/CP45A_HOSTED_PLATFORM_LEDGER_SHAPE.json
+          update supabase_migrations.schema_migrations
+          set version='20260902185106',
+              statements=array[convert_from(decode(:'cp45a_source_b64','base64'),'UTF8')]
+          where version='20260902180726'
+            and name='erp_v2_6_17a_cp45_pattern_assignment_immutability';
+          select jsonb_build_object(
+            'version',version,
+            'name',name,
+            'source_bytes',octet_length(array_to_string(statements,E'\n')),
+            'source_sha256',encode(
+              extensions.digest(
+                convert_to(array_to_string(statements,E'\n'),'UTF8'),
+                'sha256'
+              ),
+              'hex'
+            )
+          )
+          from supabase_migrations.schema_migrations
+          where name='erp_v2_6_17a_cp45_pattern_assignment_immutability';
+          SQL
+          grep -F '62a25994d2b3be0986ca83492f4d29d2ebad17c1795543045827a77d55ef816a' \
+            cp45-proof/CP45A_HOSTED_PLATFORM_LEDGER_SHAPE.json >/dev/null
           psql "$PGURL" -v ON_ERROR_STOP=1 \
             -f supabase/rollbacks/20260902180726_erp_v2_6_17a_cp45_pattern_assignment_immutability.rollback.sql \
             2>&1 | tee cp45-proof/CP45A_ROLLBACK.log
@@ -517,7 +541,11 @@ jobs:
               exists(select 1 from erp.schema_migrations where version='v2.6.17')
               and not exists(select 1 from erp.schema_migrations where version='v2.6.17a')
               and exists(select 1 from supabase_migrations.schema_migrations where version='20260902104937')
-              and not exists(select 1 from supabase_migrations.schema_migrations where version='20260902180726')
+              and not exists(
+                select 1 from supabase_migrations.schema_migrations
+                where version='20260902180726'
+                   or name='erp_v2_6_17a_cp45_pattern_assignment_immutability'
+              )
               and to_regclass('erp.cp45_v2617a_rollback_capsule') is null
               and to_regprocedure('erp.assert_pattern_initial_assignment_allowed(uuid)') is null
               and md5(pg_get_functiondef('erp.assign_pattern_v1(uuid,uuid,text,uuid,bigint)'::regprocedure))='5d291996e4297426b790e64eef163412'
@@ -525,7 +553,11 @@ jobs:
               then 'PASS' else 'FAIL' end,
             'base_application',exists(select 1 from erp.schema_migrations where version='v2.6.17'),
             'correction_application',exists(select 1 from erp.schema_migrations where version='v2.6.17a'),
-            'correction_platform',exists(select 1 from supabase_migrations.schema_migrations where version='20260902180726'),
+            'correction_platform',exists(
+              select 1 from supabase_migrations.schema_migrations
+              where version='20260902180726'
+                 or name='erp_v2_6_17a_cp45_pattern_assignment_immutability'
+            ),
             'capsule',to_regclass('erp.cp45_v2617a_rollback_capsule'),
             'helper',to_regprocedure('erp.assert_pattern_initial_assignment_allowed(uuid)')
           );

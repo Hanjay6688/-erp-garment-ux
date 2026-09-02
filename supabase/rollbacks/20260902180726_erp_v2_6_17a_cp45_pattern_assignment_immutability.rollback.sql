@@ -148,8 +148,77 @@ begin
 end
 $restore_guard$;
 
+-- Supabase records connector-applied migrations with the apply timestamp as
+-- the platform version. Local/full-schema validation records the reviewed
+-- filename version instead. Accept exactly one of those two ledger shapes,
+-- and bind the connector shape to the exact reviewed migration bytes.
+do $platform_ledger_guard$
+declare
+  v_match_count integer;
+  v_conflict_count integer;
+begin
+  select count(*) into v_match_count
+  from supabase_migrations.schema_migrations m
+  where m.version='20260902180726'
+     or (
+       m.name='erp_v2_6_17a_cp45_pattern_assignment_immutability'
+       and coalesce(
+         encode(
+           extensions.digest(
+             convert_to(array_to_string(m.statements,E'\n'),'UTF8'),
+             'sha256'
+           ),
+           'hex'
+         ),
+         ''
+       )='62a25994d2b3be0986ca83492f4d29d2ebad17c1795543045827a77d55ef816a'
+     );
+
+  select count(*) into v_conflict_count
+  from supabase_migrations.schema_migrations m
+  where (m.version='20260902180726'
+         or m.name='erp_v2_6_17a_cp45_pattern_assignment_immutability')
+    and not (
+      m.version='20260902180726'
+      or (
+        m.name='erp_v2_6_17a_cp45_pattern_assignment_immutability'
+        and coalesce(
+          encode(
+            extensions.digest(
+              convert_to(array_to_string(m.statements,E'\n'),'UTF8'),
+              'sha256'
+            ),
+            'hex'
+          ),
+          ''
+        )='62a25994d2b3be0986ca83492f4d29d2ebad17c1795543045827a77d55ef816a'
+      )
+    );
+
+  if v_match_count<>1 or v_conflict_count<>0 then
+    raise exception
+      'v2.6.17a rollback refused: platform ledger identity is ambiguous (match %, conflict %)',
+      v_match_count,v_conflict_count;
+  end if;
+end
+$platform_ledger_guard$;
+
 delete from erp.schema_migrations where version='v2.6.17a';
-delete from supabase_migrations.schema_migrations where version='20260902180726';
+delete from supabase_migrations.schema_migrations m
+where m.version='20260902180726'
+   or (
+     m.name='erp_v2_6_17a_cp45_pattern_assignment_immutability'
+     and coalesce(
+       encode(
+         extensions.digest(
+           convert_to(array_to_string(m.statements,E'\n'),'UTF8'),
+           'sha256'
+         ),
+         'hex'
+       ),
+       ''
+     )='62a25994d2b3be0986ca83492f4d29d2ebad17c1795543045827a77d55ef816a'
+   );
 drop table erp.cp45_v2617a_rollback_capsule;
 
 select pg_notify('pgrst','reload schema');

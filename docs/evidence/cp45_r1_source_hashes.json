@@ -3,7 +3,7 @@
   "candidate_branch": "cp4.5/rbac-production-identity-wip-r1-20260902",
   "source_base_sha": "57d8346a7cdf4ee86519f2dd2a1b54d39ebbb6cc",
   "source_base_tree": "48fc87507dc8a18d5829d518e53f298ad0c7e01a",
-  "generation_parent_sha": "de5265673c64d73b0fcc8d886e7cf5f28c740d7e",
+  "generation_parent_sha": "eaf2769bbe2d34687f1f4d8173500ee85656e63b",
   "target_project_ref": "siimvrusnzxexizpyoib",
   "target_environment": "ERP Enteng UAT",
   "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
@@ -11,23 +11,41 @@
   "application_version": "v2.6.17",
   "integrity_correction": {
     "defect_id": "P2-CP45-001",
-    "status": "SOURCE_CANDIDATE_PENDING_EXACT_HEAD_CI_AND_UAT",
+    "status": "UAT_APPLIED_HOSTED_E2E_PASS_PENDING_ROLLBACK_PROOF_CI",
     "migration_version": "20260902180726",
     "application_version": "v2.6.17a",
-    "source_only": true,
-    "uat_applied": false,
-    "uat_applied_at": null,
+    "source_only": false,
+    "uat_applied": true,
+    "uat_applied_at": "2026-09-02T18:51:06Z",
+    "platform_ledger": {
+      "version": "20260902185106",
+      "name": "erp_v2_6_17a_cp45_pattern_assignment_immutability",
+      "source_bytes": 18304,
+      "source_sha256": "62a25994d2b3be0986ca83492f4d29d2ebad17c1795543045827a77d55ef816a"
+    },
     "exact_head_ci": {
-      "status": "PENDING"
+      "status": "PASS",
+      "head_sha": "eaf2769bbe2d34687f1f4d8173500ee85656e63b",
+      "head_tree": "a08256d423f64e7be8d967c89ea7ab81dcbc2284",
+      "build_run_id": 33669230998,
+      "build_job_id": 100378411259,
+      "full_schema_run_id": 33669230989,
+      "full_schema_job_id": 100378412286,
+      "full_schema_artifact_id": 9861923992,
+      "full_schema_artifact_digest_sha256": "daf5333c1dc1813d586d45f41ab04478ee3effc8b6c270fcd18f45a28464a4de"
     },
     "hosted_auth_permission_e2e": {
-      "status": "PENDING",
+      "status": "PASS",
       "mode": "MANUAL_HOSTED_UAT_VERIFIED",
       "classified_as_ci": false,
-      "github_service_role_secret_used": false
+      "github_service_role_secret_used": false,
+      "evidence_path": "docs/evidence/cp45a_hosted_uat_auth_e2e.json",
+      "case_count": 10,
+      "case_passed": 10,
+      "cleanup_verified": true
     }
   },
-  "closure_status": "NO_GO_PENDING_CP45A_CORRECTION_PROOF",
+  "closure_status": "NO_GO_PENDING_CP45A_ROLLBACK_PROOF_DELTA_CI",
   "source_only": false,
   "uat_applied": true,
   "uat_applied_at": "2026-09-02T14:49:11.827931Z",
@@ -75,8 +93,8 @@
       "sha256": "f9c67c99ba74074c6fac7827a4a0390d2d0fc365e6017b75fd82a89a47138445"
     },
     ".github/workflows/cp45-full-schema-validation.yml": {
-      "bytes": 44239,
-      "sha256": "eb527b0087ee19007c5e2f1948c99daa12e83078e56af0a29cf440c3ca5c6655"
+      "bytes": 45763,
+      "sha256": "388e05dbc40d9c3c56a24e528d40ca5d92b95411861a19dc1988b6a6a2239ca8"
     },
     ".gitignore": {
       "bytes": 177,
@@ -98,6 +116,10 @@
       "bytes": 4051,
       "sha256": "f0adb995f1513cd8df686f1705b4247d19c7f3422827051f247b5494460cc99e"
     },
+    "docs/evidence/cp45a_hosted_uat_auth_e2e.json": {
+      "bytes": 7685,
+      "sha256": "89977d837241dea59ebff425ee9e7e151076853380dc6f80d5f7995cedf7ca38"
+    },
     "package-lock.json": {
       "bytes": 125971,
       "sha256": "3f52c1eb326b53129977e78e7c95b14e0d0bebd8c8229e0cab96e88c85d88195"
@@ -115,8 +137,8 @@
       "sha256": "a54e7ecb389302de2cf82993dd2cadf82bd6b77fe3305582fc8b91f00aed1e72"
     },
     "scripts/check-backend-ownership-v2.mjs": {
-      "bytes": 16207,
-      "sha256": "a6e6924ac74c99c47e565051f7e845fbf923f28fd2f7c768f89728c4f5114f38"
+      "bytes": 21143,
+      "sha256": "d568f4fa43f51aca298f797ece8fb760c3e06ac908a5d399ebfefa38ffd8612b"
     },
     "scripts/check-source-ownership.mjs": {
       "bytes": 4101,
@@ -267,8 +289,8 @@
       "sha256": "7aa400652bc65f85c5a69f8cc1f40f80f0658bf9d8b9a665f9a0acd8e599d012"
     },
     "supabase/rollbacks/20260902180726_erp_v2_6_17a_cp45_pattern_assignment_immutability.rollback.sql": {
-      "bytes": 6995,
-      "sha256": "1a9b8332800cd24dcb0861e1339f38dbf8f6875bfbc56865e7f5b676257b7850"
+      "bytes": 9113,
+      "sha256": "fc9cdd156273a81dbb960f10a207c691f6f497a7c57e3d0975167be85b43a038"
     },
     "supabase/tests/access_pattern_wip_control_rollback.sql": {
       "bytes": 39651,
