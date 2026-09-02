@@ -376,6 +376,14 @@ begin
      or has_table_privilege('service_role','erp.attendance_hpp_pools','SELECT') then
     raise exception 'CP4 private route or reversal primitive gained exposure';
   end if;
+
+  if has_function_privilege('public','erp.require_owner_admin()','EXECUTE')
+     or has_function_privilege('anon','erp.require_owner_admin()','EXECUTE')
+     or has_function_privilege('authenticated','erp.require_owner_admin()','EXECUTE')
+     or not has_function_privilege('service_role','erp.require_owner_admin()','EXECUTE')
+     or pg_get_functiondef('erp.require_owner_admin()'::regprocedure) not like '%SET search_path TO ''''%' then
+    raise exception 'CP4 null-safe owner/admin guard ACL or search_path mismatch';
+  end if;
 end
 $test$;
 

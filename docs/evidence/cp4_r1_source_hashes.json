@@ -4,7 +4,7 @@
   "parent_sha": "92e49047941c09f18a306a9b2998f101c62e6ffe",
   "parent_tree": "8625bd6053c256456f67185d60e0bb95f9bc574e",
   "candidate_first_sha": "da8ed9055738c26ce882ad8b1adda047fe000c72",
-  "candidate_generation_parent_sha": "bfdfc8e7772f66a138c875416f19e52dacfa0fee",
+  "candidate_generation_parent_sha": "9276250310f14d769bf9f1dbb9247287b173fe05",
   "cp3_reviewed_head": "469f48a0724b447fc397a2a932c4872c2ed27488",
   "pre_cp4_recovery_run_id": 33587654349,
   "target_project_ref": "siimvrusnzxexizpyoib",
@@ -18,28 +18,28 @@
   "application_version": "v2.6.16",
   "files": {
     ".github/workflows/cp4-full-schema-validation.yml": {
-      "bytes": 24421,
-      "sha256": "c8393ac2a72b65198e7357212e4da78659efe514fe02bb157b83a2ac83afebf2"
+      "bytes": 24594,
+      "sha256": "aa9620cdc8bc597b066537bbdcbe85f8c855f182693c1ccfff5333e9c13296c8"
     },
     "scripts/check-backend-ownership.mjs": {
       "bytes": 5748,
-      "sha256": "f0f39dcc87b2d5600f0e8d8f3ce49ba278e99b38eee9dc9c92027fd04c3a5e33"
+      "sha256": "8b90a31dc4febdcc5b5126013c61ac7d79385a35fe2e974eef5abf5f9c4a846c"
     },
     "scripts/cp4_auth_rls_e2e.mjs": {
       "bytes": 10197,
       "sha256": "6d71f61eef348d1bcf38b7adcc97f998cd1dee7068d8bf0a7bfb25c67299f331"
     },
     "supabase/migrations/20260902043000_erp_v2_6_16_cp4_hpp_route_auth_boundary.sql": {
-      "bytes": 23277,
-      "sha256": "65f5f799003de69b5b3f7bee48cd6df70ba12b1c0d0a1b14a7c2917d6746734a"
+      "bytes": 25072,
+      "sha256": "af4e82669315c76bfcb105eb261a11e94cd96a357202be620d0191a027ff12f2"
     },
     "supabase/rollbacks/20260902043000_erp_v2_6_16_cp4_hpp_route_auth_boundary.rollback.sql": {
-      "bytes": 3743,
-      "sha256": "8c07cc703084f0d22762772b6995194d9cf2432239eaeda8ca86d181b916b050"
+      "bytes": 3811,
+      "sha256": "c37d2b10d47017157762b0ba7dfa0fa8af7d95bf4439d139b337ed667e93ded4"
     },
     "supabase/tests/cp4_hpp_route_auth_rollback.sql": {
-      "bytes": 21382,
-      "sha256": "dd46163315ac64e25383846ad724a68c73d0d24c6494cfabd145a35b5e047456"
+      "bytes": 21916,
+      "sha256": "eca6b325f2bb188adac4d2739e9f129e01e0d203c12284e4c827fb58b7098a86"
     }
   }
 }

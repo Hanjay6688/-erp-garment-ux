@@ -18,8 +18,8 @@ begin
     raise exception 'CP4 rollback refused: cancel every ACTIVE attendance HPP pool through its owning lifecycle first';
   end if;
   select count(*) into v_expected from erp.cp4_v2616_rollback_capsule;
-  if v_expected<>3 then
-    raise exception 'CP4 rollback refused: expected three exact function definitions, found %',v_expected;
+  if v_expected<>4 then
+    raise exception 'CP4 rollback refused: expected four exact function definitions, found %',v_expected;
   end if;
   select count(*) into v_invalid
   from erp.cp4_v2616_rollback_capsule
@@ -47,6 +47,7 @@ begin
     select function_identity,function_definition
     from erp.cp4_v2616_rollback_capsule
     order by case
+      when function_identity like 'erp.require_owner_admin(%' then 5
       when function_identity like 'erp.rebuild_po_hpp(%' then 10
       when function_identity like 'erp.activate_attendance_hpp_pool_v1(%' then 20
       when function_identity like 'erp.cancel_attendance_hpp_pool_v1(%' then 30

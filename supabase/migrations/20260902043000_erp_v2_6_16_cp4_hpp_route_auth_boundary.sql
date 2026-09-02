@@ -16,6 +16,7 @@ set local statement_timeout='120s';
 do $guard$
 declare
   v_rebuild_md5 text;
+  v_owner_guard_md5 text;
 begin
   if not exists(select 1 from erp.schema_migrations where version='v2.6.14d') then
     raise exception 'ERP v2.6.16 requires the independently reviewed v2.6.14d candidate first';
@@ -28,6 +29,7 @@ begin
      or to_regprocedure('erp.sync_po_hpp_to_gl(uuid,date)') is null
      or to_regprocedure('erp.activate_attendance_hpp_pool_v1(uuid,text,uuid,bigint)') is null
      or to_regprocedure('erp.cancel_attendance_hpp_pool_v1(uuid,text,uuid,bigint)') is null
+     or to_regprocedure('erp.require_owner_admin()') is null
      or to_regclass('erp.attendance_hpp_pools') is null
      or to_regclass('erp.attendance_hpp_pool_allocations') is null
      or to_regclass('public.v_erp_my_profile') is null then
@@ -59,6 +61,11 @@ begin
   if v_rebuild_md5 is distinct from 'cfa7eb941c9cb717078b0dd751ceeb86' then
     raise exception 'CONCURRENT_WRITER_DETECTED: rebuild_po_hpp changed after the reviewed UAT fingerprint (observed %)',v_rebuild_md5;
   end if;
+  select md5(pg_get_functiondef('erp.require_owner_admin()'::regprocedure))
+  into v_owner_guard_md5;
+  if v_owner_guard_md5 is distinct from '8c22fb34fb8adf2085ca5703e32d38a5' then
+    raise exception 'CONCURRENT_WRITER_DETECTED: require_owner_admin changed after the reviewed UAT fingerprint (observed %)',v_owner_guard_md5;
+  end if;
 end
 $guard$;
 
@@ -87,15 +94,16 @@ where n.nspname='erp'
   and p.proname in (
     'rebuild_po_hpp',
     'activate_attendance_hpp_pool_v1',
-    'cancel_attendance_hpp_pool_v1'
+    'cancel_attendance_hpp_pool_v1',
+    'require_owner_admin'
   );
 
 do $capsule_guard$
 declare v_count integer;v_invalid integer;
 begin
   select count(*) into v_count from erp.cp4_v2616_rollback_capsule;
-  if v_count<>3 then
-    raise exception 'ERP v2.6.16 rollback capsule expected three exact functions, found %',v_count;
+  if v_count<>4 then
+    raise exception 'ERP v2.6.16 rollback capsule expected four exact functions, found %',v_count;
   end if;
   select count(*) into v_invalid
   from erp.cp4_v2616_rollback_capsule
@@ -106,6 +114,31 @@ begin
   end if;
 end
 $capsule_guard$;
+
+-- The pre-CP4 guard used NULL NOT IN (...), whose result is NULL. PL/pgSQL
+-- therefore skipped rejection for inactive or unmapped JWT users. Preserve
+-- service-role/internal compatibility, but fail closed for a missing app role.
+create or replace function erp.require_owner_admin()
+returns void
+language plpgsql
+stable
+security definer
+set search_path=''
+as $function$
+declare v_jwt_role text;
+begin
+  if session_user in ('postgres','supabase_admin') then return; end if;
+  begin
+    v_jwt_role:=coalesce(auth.jwt()->>'role','');
+  exception when others then
+    v_jwt_role:='';
+  end;
+  if v_jwt_role='service_role' then return; end if;
+  if coalesce(erp.current_app_role(),'') not in ('OWNER','ADMIN') then
+    raise exception 'OWNER or ADMIN access required';
+  end if;
+end
+$function$;
 
 create or replace view erp.v_attendance_hpp_active_allocation_by_po_group
 with (security_invoker=true)
@@ -546,11 +579,19 @@ begin
      or has_table_privilege('service_role','erp.attendance_hpp_pools','SELECT') then
     raise exception 'ERP v2.6.16 private CP3 boundary was accidentally exposed';
   end if;
+
+  if has_function_privilege('public','erp.require_owner_admin()','EXECUTE')
+     or has_function_privilege('anon','erp.require_owner_admin()','EXECUTE')
+     or has_function_privilege('authenticated','erp.require_owner_admin()','EXECUTE')
+     or not has_function_privilege('service_role','erp.require_owner_admin()','EXECUTE')
+     or pg_get_functiondef('erp.require_owner_admin()'::regprocedure) not like '%SET search_path TO ''''%' then
+    raise exception 'ERP v2.6.16 null-safe owner/admin guard ACL or search_path mismatch';
+  end if;
 end
 $post_guard$;
 
 insert into erp.schema_migrations(version,description)
-values('v2.6.16','CP4 persistent attendance-HPP lot/GL route and least-privilege owner/admin Data API boundary');
+values('v2.6.16','CP4 persistent attendance-HPP lot/GL route and null-safe least-privilege owner/admin Data API boundary');
 
 select pg_notify('pgrst','reload schema');
 commit;

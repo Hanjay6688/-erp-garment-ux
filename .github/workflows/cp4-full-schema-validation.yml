@@ -31,6 +31,7 @@ env:
   SOURCE_R3_SHA: 79052c8c505dc779bb2345eed4e4bf866da00548
   SOURCE_R4_SHA: 13d855bd424d995b0abfc7e8c6b7a5ca83afa0a9
   SOURCE_R5_SHA: bfdfc8e7772f66a138c875416f19e52dacfa0fee
+  SOURCE_R6_SHA: 9276250310f14d769bf9f1dbb9247287b173fe05
   RECOVERY_RUN_ID: 33587654349
   PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
   CP3_R4_CONCURRENCY_REPORT: cp4-proof/cp3-r4-concurrency-report.json
@@ -51,7 +52,8 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p cp4-proof
-          test "$(git rev-parse HEAD^)" = "$SOURCE_R5_SHA"
+          test "$(git rev-parse HEAD^)" = "$SOURCE_R6_SHA"
+          test "$(git rev-parse "$SOURCE_R6_SHA^")" = "$SOURCE_R5_SHA"
           test "$(git rev-parse "$SOURCE_R5_SHA^")" = "$SOURCE_R4_SHA"
           test "$(git rev-parse "$SOURCE_R4_SHA^")" = "$SOURCE_R3_SHA"
           test "$(git rev-parse "$SOURCE_R3_SHA^")" = "$SOURCE_R2_SHA"
@@ -258,7 +260,7 @@ jobs:
             'acl',coalesce(p.proacl::text,'NULL'),'owner',pg_get_userbyid(p.proowner)
           ) order by p.proname,pg_get_function_identity_arguments(p.oid)))
           from pg_proc p join pg_namespace n on n.oid=p.pronamespace
-          where n.nspname='erp' and p.proname in('rebuild_po_hpp','activate_attendance_hpp_pool_v1','cancel_attendance_hpp_pool_v1');
+          where n.nspname='erp' and p.proname in('rebuild_po_hpp','activate_attendance_hpp_pool_v1','cancel_attendance_hpp_pool_v1','require_owner_admin');
           SQL
           psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' > cp4-proof/PRE_CP4_COUNTS.json
           select jsonb_build_object(
@@ -343,7 +345,7 @@ jobs:
             'acl',coalesce(p.proacl::text,'NULL'),'owner',pg_get_userbyid(p.proowner)
           ) order by p.proname,pg_get_function_identity_arguments(p.oid)))
           from pg_proc p join pg_namespace n on n.oid=p.pronamespace
-          where n.nspname='erp' and p.proname in('rebuild_po_hpp','activate_attendance_hpp_pool_v1','cancel_attendance_hpp_pool_v1');
+          where n.nspname='erp' and p.proname in('rebuild_po_hpp','activate_attendance_hpp_pool_v1','cancel_attendance_hpp_pool_v1','require_owner_admin');
           SQL
           cmp cp4-proof/PRE_CP4_FUNCTION_ACL.json cp4-proof/POST_CP4_FUNCTION_ACL.json
           psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' | tee cp4-proof/CP4_ROLLBACK_RESIDUE.json
