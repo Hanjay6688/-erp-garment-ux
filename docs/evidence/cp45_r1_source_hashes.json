@@ -3,7 +3,7 @@
   "candidate_branch": "cp4.5/rbac-production-identity-wip-r1-20260902",
   "source_base_sha": "57d8346a7cdf4ee86519f2dd2a1b54d39ebbb6cc",
   "source_base_tree": "48fc87507dc8a18d5829d518e53f298ad0c7e01a",
-  "generation_parent_sha": "adecefad5f7e446dd7ce2748447b5abd8f2cdcdd",
+  "generation_parent_sha": "de5265673c64d73b0fcc8d886e7cf5f28c740d7e",
   "target_project_ref": "siimvrusnzxexizpyoib",
   "target_environment": "ERP Enteng UAT",
   "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
@@ -127,8 +127,8 @@
       "sha256": "973573382d6f72b315e0ed54f0d843dcb37c9f92408da14502df38af4ea15fb7"
     },
     "scripts/cp45_pattern_assignment_concurrency.py": {
-      "bytes": 16334,
-      "sha256": "52d84cb2dac1f4471eb66e13f77226f7bac6751cc64fbad6f07d0b7ea2833e69"
+      "bytes": 16642,
+      "sha256": "11795a6cf6a52d6659b3ee66c668e1151ee3bb560db50da31b7f3e0eb2d30f41"
     },
     "scripts/render-cp45-source-hashes.mjs": {
       "bytes": 4607,
