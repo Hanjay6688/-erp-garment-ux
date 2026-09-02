@@ -3,7 +3,7 @@ import { expect, test, type Page } from '@playwright/test'
 async function openNavigation(page: Page, projectName: string, section: string, item: string) {
   if (projectName === 'mobile-chromium') await page.getByRole('button', { name: 'Buka menu' }).click()
   await page.getByRole('button', { name: new RegExp(`^${section}`) }).click()
-  await page.getByRole('button', { name: new RegExp(`${item}$`) }).click()
+  await page.getByRole('button', { name: `• ${item}`, exact: true }).click()
 }
 
 test('CP4.5 Master Pola grows from operational need with fail-closed Potongan selection', async ({ page }, testInfo) => {

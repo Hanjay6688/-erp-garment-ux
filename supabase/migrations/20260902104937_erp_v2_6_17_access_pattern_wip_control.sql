@@ -1114,10 +1114,10 @@ begin
       select jsonb_agg(jsonb_build_object(
         'id',x.id,'code',x.pattern_code,'revision',x.revision,'name',x.pattern_name,
         'sort_order',x.sort_order,'is_active',x.is_active,'row_version',x.row_version,
-        'updated_at',x.updated_at,'updated_by',x.updated_by,'usage_count',x.usage_count
+        'updated_at',x.updated_at,'updated_by',x.updated_by_name,'usage_count',x.usage_count
       ) order by x.sort_order,x.pattern_code,x.revision,x.id)
       from (
-        select p.*,u.full_name updated_by,(
+        select p.*,u.full_name as updated_by_name,(
           select count(*) from erp.cutting_groups g where g.pattern_id=p.id
         ) usage_count
         from erp.production_patterns p left join erp.app_users u on u.id=p.updated_by
