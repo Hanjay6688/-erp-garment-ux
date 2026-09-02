@@ -36,3 +36,22 @@ export type RegularFgNotaSnapshot = {
   bsComponents: ReadyFgNotaComponent[]
   stuckComponents: ReadyFgNotaComponent[]
 }
+
+export type RegularFgNotaSource = {
+  parentId: string
+  batchId: string
+  completionCount: number
+}
+
+export const regularFgNotaCardId = (source: Pick<RegularFgNotaSource, 'parentId' | 'batchId'>) =>
+  `qc-${source.parentId}-${source.batchId}`
+
+export function selectRegularFgNotaSources<T extends RegularFgNotaSource>(sources: readonly T[]) {
+  const earliestBySewingSource = new Map<string, T>()
+  sources.forEach((source) => {
+    const id = regularFgNotaCardId(source)
+    const current = earliestBySewingSource.get(id)
+    if (!current || source.completionCount < current.completionCount) earliestBySewingSource.set(id, source)
+  })
+  return Array.from(earliestBySewingSource.values())
+}

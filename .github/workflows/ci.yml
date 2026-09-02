@@ -2,7 +2,7 @@ name: Build UX
 
 on:
   push:
-    branches: [main]
+    branches: [main, cp3.5/full-canonical-cleanup-r2-20260901]
   pull_request:
     branches: [main]
 

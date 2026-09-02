@@ -8,14 +8,10 @@ import {
   UserRound, WalletCards, Warehouse, X,
 } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
-import HppPage from './HppPage'
 import type { SalesView } from './SalesPages'
 import type { FinanceView } from './FinancePages'
-import QcFinalPage from './QcFinalPage'
 import type { QcFinalResult, QcSeed } from './QcFinalPage'
-import BsReworkPage from './BsReworkPage'
 import type { BsReworkWorkspace } from './BsReworkPage'
-import WarehousePages from './WarehousePages'
 import type { WarehouseView } from './WarehousePages'
 import type { WipControlMode, WipControlParent, WipControlResult } from './WipBatchControlLayer'
 import type { MaterialMasterView } from './MaterialMasterPages'
@@ -24,13 +20,17 @@ import type { OperationsAdminView } from './OperationsAdminPages'
 import { productCatalog } from './productCatalog'
 import type { Product } from './productCatalog'
 import { cleanMoneyInput, formatMoneyInput } from './moneyInput'
-import type { ReadyFgNotaCard, RegularFgNotaSnapshot } from './fgNota'
+import { regularFgNotaCardId, type ReadyFgNotaCard, type RegularFgNotaSnapshot } from './fgNota'
 import { RuntimeBadge, RuntimeEnvironmentCard, RuntimeIdentity } from './components/RuntimeIdentity'
 import type { ReminderItem } from './reminders'
 import { initialReminders, reminderDueLabel, reminderPriorityLabel } from './reminders'
 
 const SalesPages = lazy(() => import('./SalesPages'))
 const FinancePages = lazy(() => import('./FinancePages'))
+const HppPage = lazy(() => import('./HppPage'))
+const QcFinalPage = lazy(() => import('./QcFinalPage'))
+const BsReworkPage = lazy(() => import('./BsReworkPage'))
+const WarehousePages = lazy(() => import('./WarehousePages'))
 const WipBatchControlLayer = lazy(() => import('./WipBatchControlLayer'))
 const ContractorIssuePage = lazy(() => import('./ContractorIssuePage'))
 const MaterialMasterPages = lazy(() => import('./MaterialMasterPages'))
@@ -56,7 +56,6 @@ type LaundryPrefill = { batchId: string; vendor: string; view: LaundryView }
 type NotaFocus = { kind: 'REGULAR' | 'REPAIR'; id: string }
 type NotaOrigin = 'MENU' | 'QC' | 'BS_REWORK'
 
-type SizeRow = { size: string; stock: number; qty: number; input: string }
 type RollDraft = { id: number; yards: string }
 type SlotAllocation = [number, number, number, number, number, number]
 type CuttingSizeSlot = { key: string; size: string }
@@ -212,7 +211,6 @@ const fabricRollSuppliers=Array.from(new Set(fabricRollCatalog.map((roll)=>roll.
 const fabricRollMaterials=Array.from(new Set(fabricRollCatalog.map((roll)=>roll.material)))
 
 const productBrands = Array.from(new Set(productCatalog.map((product) => product.brand)))
-const productRanges = Array.from(new Set(productCatalog.map((product) => product.range)))
 const productSizes = Array.from(new Set(productCatalog.flatMap((product) => product.sizes)))
 const cuttingSizeOptions = [...productSizes].sort((left,right)=>(Number(left)||0)-(Number(right)||0))
 const stockLocations = Array.from(new Set(productCatalog.map((product) => product.location)))
@@ -290,20 +288,6 @@ const cleanDecimalInput = (value: string, decimalPlaces = 2) => {
   return `${integer || '0'},${rawDecimals.join('').slice(0, decimalPlaces)}`
 }
 const formatQuantity = (value: number, digits = 1) => new Intl.NumberFormat('id-ID', { maximumFractionDigits: digits }).format(value)
-
-function parseQty(value: string, fallbackUnit: 'lusin' | 'pcs') {
-  const normalized = value.toLowerCase().replace(',', '.')
-  const dozenMatch = normalized.match(/([0-9]+(?:\.[0-9]+)?)\s*(?:lusin|lsn|dozen)/)
-  const pcsMatch = normalized.match(/([0-9]+(?:\.[0-9]+)?)\s*(?:pcs|pc|piece|biji|potong|ptg)/)
-  if (dozenMatch || pcsMatch) {
-    const dozen = dozenMatch ? Number(dozenMatch[1]) * 12 : 0
-    const pcs = pcsMatch ? Number(pcsMatch[1]) : 0
-    return Math.max(0, Math.round(dozen + pcs))
-  }
-  const plain = Number(normalized.replace(/[^0-9.]/g, ''))
-  if (Number.isNaN(plain)) return 0
-  return Math.max(0, Math.round(fallbackUnit === 'lusin' ? plain * 12 : plain))
-}
 
 function Icon({ name }: { name: string }) {
   const icons: Record<string, LucideIcon> = {
@@ -399,11 +383,6 @@ function App() {
   const [expanded, setExpanded] = useState<NavSection | null>(null)
   const [adminExpanded,setAdminExpanded] = useState(false)
   const [mobileNav, setMobileNav] = useState(false)
-  const [qtyText, setQtyText] = useState('2')
-  const [unit, setUnit] = useState<'lusin' | 'pcs'>('lusin')
-  const [sizes, setSizes] = useState<SizeRow[]>([
-    { size: '28', stock: 96, qty: 8, input: '8' }, { size: '29', stock: 84, qty: 8, input: '8' }, { size: '30', stock: 108, qty: 8, input: '8' },
-  ])
   const [movements, setMovements] = useState(chronologicalMovements)
   const [vivoBookBrands, setVivoBookBrands] = useState<string[]>(['Vivo'])
   const [widieBookBrands, setWidieBookBrands] = useState<string[]>(['Widie'])
@@ -434,7 +413,7 @@ function App() {
     setReadyFgNotaCards((current) => current.some((item) => item.id === card.id) ? current : [card, ...current])
   }
   const rememberQcNotaSnapshot = (result: QcFinalResult) => {
-    const cardId=`qc-${result.parentId}-${result.batchId}-${result.completionCount}`
+    const cardId=regularFgNotaCardId(result)
     const fullRate=laborBomComponents.reduce((sum,component)=>sum+component.rate,0)
     const bsTotal=result.postedBsBySize.reduce((sum,value)=>sum+value,0)
     const stuckTotal=result.stuckBySize.reduce((sum,value)=>sum+value,0)
@@ -447,21 +426,6 @@ function App() {
   useEffect(()=>{
     window.scrollTo({top:0,left:0,behavior:'auto'})
   },[page])
-
-  const totalPcs = parseQty(qtyText, unit)
-  const composed = sizes.reduce((sum, row) => sum + row.qty, 0)
-  const stockEnough = sizes.every((row) => row.qty <= row.stock)
-  const compositionOk = composed > 0
-  const saleTotal = (composed / 12) * 1080000
-
-  const distribute = () => {
-    const base = Math.floor(totalPcs / sizes.length)
-    let remainder = totalPcs % sizes.length
-    setSizes((rows) => rows.map((row) => {
-      const qty = base + (remainder-- > 0 ? 1 : 0)
-      return { ...row, qty, input: String(qty) }
-    }))
-  }
 
   const title = page === 'dashboard' ? 'Ringkasan bisnis'
     : page === 'sales-invoice' ? 'Penjualan & Invoice'
@@ -583,7 +547,7 @@ function App() {
         {page === 'movements-vivo' && <Movements bookName="Vivo" bookBrands={vivoBookBrands} setBookBrands={setVivoBookBrands} movements={movements} setMovements={setMovements} />}
         {page === 'movements-widie' && <Movements bookName="Widie" bookBrands={widieBookBrands} setBookBrands={setWidieBookBrands} movements={movements} setMovements={setMovements} />}
         {page === 'procurement' && <ProcurementPage />}
-        {(page === 'warehouse-dashboard' || page === 'materials-rolls' || page === 'accessories' || page === 'fg-summary' || page === 'stock-adjustment' || page === 'brand-conversion') && <WarehousePages view={page} onNavigate={(next)=>setPage(next)} />}
+        {(page === 'warehouse-dashboard' || page === 'materials-rolls' || page === 'accessories' || page === 'fg-summary' || page === 'stock-adjustment' || page === 'brand-conversion') && <Suspense fallback={<WorkspaceFallback label="Gudang"/>}><WarehousePages view={page} onNavigate={(next)=>setPage(next)} /></Suspense>}
         {page === 'cutting-roll' && <CuttingRollPage />}
         {page === 'mandor-wip' && <MandorWipPage batchNotes={mandorBatchNotes} setBatchNotes={setMandorBatchNotes} />}
         {page === 'contractor-issue' && <Suspense fallback={<WorkspaceFallback label="Nota Ambil Aksesori"/>}><ContractorIssuePage/></Suspense>}
@@ -618,7 +582,7 @@ function App() {
             setPage('qc')
           }}
         />}
-        {page === 'qc' && <QcFinalPage seeds={buildQcSeeds(laundryDeliveries)} initialSeedId={qcSeedId} finalizedResults={finalizedQcResults} postedFgCardIds={postedFgCardIds} onBack={()=>setPage('sewing-wip')} onFinish={(result)=>{setFinalizedQcResults((current)=>{const id=`${result.parentId}::${result.batchId}::${result.completionCount}`;return current.some((item)=>`${item.parentId}::${item.batchId}::${item.completionCount}`===id)?current:[result,...current]});rememberQcNotaSnapshot(result);setQcResult(result)}} onOpenNota={(result)=>{rememberQcNotaSnapshot(result);setQcResult(result);setNotaFocus({kind:'REGULAR',id:`qc-${result.parentId}-${result.batchId}-${result.completionCount}`});setNotaOrigin('QC');setPage('fg-handoff')}} />}
+        {page === 'qc' && <Suspense fallback={<WorkspaceFallback label="QC & Final SKU"/>}><QcFinalPage seeds={buildQcSeeds(laundryDeliveries)} initialSeedId={qcSeedId} finalizedResults={finalizedQcResults} postedFgCardIds={postedFgCardIds} onBack={()=>setPage('sewing-wip')} onFinish={(result)=>{setFinalizedQcResults((current)=>{const id=`${result.parentId}::${result.batchId}::${result.completionCount}`;return current.some((item)=>`${item.parentId}::${item.batchId}::${item.completionCount}`===id)?current:[result,...current]});rememberQcNotaSnapshot(result);setQcResult(result)}} onOpenNota={(result)=>{rememberQcNotaSnapshot(result);setQcResult(result);setNotaFocus({kind:'REGULAR',id:regularFgNotaCardId(result)});setNotaOrigin('QC');setPage('fg-handoff')}} /></Suspense>}
         {page === 'fg-handoff' && <Suspense fallback={<WorkspaceFallback label="Susun Nota FG"/>}><FgNotaPage
           key={`${notaOrigin}-${notaFocus?.kind??'QUEUE'}-${notaFocus?.id??'ALL'}`}
           result={qcResult}
@@ -636,7 +600,7 @@ function App() {
           onOpenQc={()=>{if(qcResult)setQcSeedId(`${qcResult.parentId}::${qcResult.batchId}`);setPage('qc')}}
           onOpenBs={()=>{setBsPrefill(qcResult);setBsBackPage('fg-handoff');setPage('bs-rework')}}
         /></Suspense>}
-        {page === 'bs-rework' && <BsReworkPage
+        {page === 'bs-rework' && <Suspense fallback={<WorkspaceFallback label="Barang BS & Rework"/>}><BsReworkPage
           initialResult={bsPrefill}
           initialWorkspace={bsWorkspace??undefined}
           onWorkspaceChange={setBsWorkspace}
@@ -666,7 +630,7 @@ function App() {
               }
             }))
           }}
-        />}
+        /></Suspense>}
         {page === 'laundry' && <LaundryPage
           prefill={laundryPrefill}
           readyBatches={laundryReadyBatches}
@@ -681,7 +645,7 @@ function App() {
           }}
           onOpenQc={(parentId,batchId)=>{setQcSeedId(`${parentId}::${batchId}`);setQcResult(null);setPage('qc')}}
         />}
-        {page === 'hpp' && <HppPage />}
+        {page === 'hpp' && <Suspense fallback={<WorkspaceFallback label="HPP & Rekalkulasi"/>}><HppPage /></Suspense>}
         {(page === 'master-fabric' || page === 'master-accessory') && <Suspense fallback={<WorkspaceFallback label="Master Material"/>}><MaterialMasterPages view={page}/></Suspense>}
         {(page === 'master-products' || page === 'master-customers' || page === 'master-partners' || page === 'master-workforce' || page === 'master-locations') && <Suspense fallback={<WorkspaceFallback label="Master Data"/>}><MasterDataPages view={page}/></Suspense>}
         {isOperationsView(page) && <Suspense fallback={<WorkspaceFallback label="Pengaturan operasional"/>}><OperationsAdminPages view={page} onNavigate={(next)=>setPage(next)} reminders={reminders} onChangeReminders={setReminders}/></Suspense>}
@@ -1721,83 +1685,6 @@ const laborBomComponents = [
   {id:'hangtag',name:'Hangtag / label',rate:600,required:false,note:'Label dan hangtag final'},
   {id:'lipat',name:'Lipat akhir',rate:400,required:false,note:'Lipat dan susun serah gudang'},
 ]
-function FgPayrollHandoffPage({result,eligibleResults,onBack,onOpenBs}:{result:QcFinalResult;eligibleResults:QcFinalResult[];onBack:()=>void;onOpenBs:()=>void}) {
-  const currentId=`qc-${result.parentId}-${result.batchId}-${result.completionCount}`
-  const [regularIds,setRegularIds]=useState<string[]>([])
-  const [repairIds,setRepairIds]=useState<string[]>([])
-  const [noteReviewed,setNoteReviewed]=useState(false)
-  const [note,setNote]=useState('Nilai FG reguler memakai Total Pulang × harga lengkap, lalu dikurangi BS × komponen Bikin Bagus. Hold yang kemudian menjadi BS hanya direklasifikasi tanpa pengurang kedua.')
-  const [noteStatus,setNoteStatus]=useState<'DRAFT'|'POSTED'>('DRAFT')
-  const expectedTotal=result.expected.reduce((sum,value)=>sum+value,0)
-  const goodTotal=result.postedGoodBySize.reduce((sum,value)=>sum+value,0)
-  const outstanding=result.remainingBySize.reduce((sum,value)=>sum+value,0)
-  const bsTotal=result.postedBsBySize.reduce((sum,value)=>sum+value,0)
-  const rewashTotal=result.postedRewashBySize.reduce((sum,value)=>sum+value,0)
-  const returnedTotal=goodTotal+bsTotal+rewashTotal
-  const standardRate=laborBomComponents.reduce((sum,component)=>sum+component.rate,0)
-  const selectedBsComponents=laborBomComponents.filter((component)=>['finishing-detail','centang','lipat'].includes(component.id))
-  const bsDeductionRate=selectedBsComponents.reduce((sum,component)=>sum+component.rate,0)
-  const cardsFromQc=eligibleResults.filter((item)=>item.mandor===result.mandor).map((item)=>{
-    const good=item.postedGoodBySize.reduce((sum,value)=>sum+value,0)
-    const bs=item.postedBsBySize.reduce((sum,value)=>sum+value,0)
-    const rewash=item.postedRewashBySize.reduce((sum,value)=>sum+value,0)
-    const hold=item.remainingBySize.reduce((sum,value)=>sum+value,0)
-    const returned=good+bs+rewash
-    const components=bs>0?selectedBsComponents:[]
-    const deductionRate=components.reduce((sum,component)=>sum+component.rate,0)
-    const gross=returned*standardRate
-    const deduction=bs*deductionRate
-    return {id:`qc-${item.parentId}-${item.batchId}-${item.completionCount}`,source:`${item.parentId} · Batch ${item.batchId} · Completion ${String(item.completionCount).padStart(2,'0')}`,sku:`${item.brand} · ${item.finalSku}`,returned,good,bs,rewash,hold,sewingRate:14_050,commissionRate:1_800,bomRate:Math.max(0,standardRate-15_850),bsComponents:components,gross,deduction,subtotal:gross-deduction,current:`qc-${item.parentId}-${item.batchId}-${item.completionCount}`===currentId}
-  })
-  const demoComponents=laborBomComponents.filter((component)=>['finishing-detail','kancing'].includes(component.id))
-  const demoRate=17_800
-  const demoGross=74*demoRate
-  const demoDeduction=2*demoComponents.reduce((sum,component)=>sum+component.rate,0)
-  const regularCards=cardsFromQc.some((card)=>card.id===currentId)?cardsFromQc:[{id:currentId,source:`${result.parentId} · Batch ${result.batchId} · Completion ${String(result.completionCount).padStart(2,'0')}`,sku:`${result.brand} · ${result.finalSku}`,returned:returnedTotal,good:goodTotal,bs:bsTotal,rewash:rewashTotal,hold:result.remainingBySize.reduce((sum,value)=>sum+value,0),sewingRate:14_050,commissionRate:1_800,bomRate:Math.max(0,standardRate-15_850),bsComponents:bsTotal>0?selectedBsComponents:[],gross:returnedTotal*standardRate,deduction:bsTotal*bsDeductionRate,subtotal:returnedTotal*standardRate-bsTotal*bsDeductionRate,current:true},...cardsFromQc]
-  if(!regularCards.some((card)=>card.id==='eligible-previous'))regularCards.push({id:'eligible-previous',source:'POT-260827-042 · Batch 042-01',sku:'Widie · 73005',returned:74,good:72,bs:2,rewash:0,hold:2,sewingRate:13_400,commissionRate:1_650,bomRate:2_750,bsComponents:demoComponents,gross:demoGross,deduction:demoDeduction,subtotal:demoGross-demoDeduction,current:false})
-  const repairCards=[
-    {id:'repair-ready',source:'BS-260827-018 · QC ulang lulus',sku:'Vivo · 73003',qty:5,components:[{name:'Ceming / finishing detail',rate:2_500},{name:'Kancing',rate:500},{name:'Lipat akhir',rate:400}],unitRate:3_400,subtotal:17_000},
-  ]
-  const selectedRegular=regularCards.filter((card)=>regularIds.includes(card.id))
-  const selectedRepair=repairCards.filter((card)=>repairIds.includes(card.id))
-  const regularSubtotal=selectedRegular.reduce((sum,card)=>sum+card.subtotal,0)
-  const repairSubtotal=selectedRepair.reduce((sum,card)=>sum+card.subtotal,0)
-  const noteTotal=regularSubtotal+repairSubtotal
-  const editable=noteStatus==='DRAFT'
-  const toggleRegular=(id:string)=>{setRegularIds((current)=>current.includes(id)?current.filter((item)=>item!==id):[...current,id]);setNoteReviewed(false)}
-  const toggleRepair=(id:string)=>{setRepairIds((current)=>current.includes(id)?current.filter((item)=>item!==id):[...current,id]);setNoteReviewed(false)}
-
-  return <>
-    <section className="hero-copy compact fg-handoff-hero"><div><div className="eyebrow">PRODUKSI · ANTREAN CARD FINISHING</div><h1>Susun Nota FG</h1><p>QC yang sudah final tinggal sebagai card siap disusun. Gabungkan beberapa Batch Distribusi atau SKU milik Mandor yang sama, lalu post satu Nota FG ke Payroll.</p></div><button type="button" className="soft-btn handoff-back" onClick={onBack}><Icon name="back"/> Tinggalkan antrean & kembali ke QC</button></section>
-    <div className="handoff-flow-strip"><span className="done"><b>1</b>QC posting terkunci</span><i/><span className="done"><b>2</b>Card siap</span><i/><span className="active"><b>3</b>Susun Nota FG</span><i/><span><b>4</b>Payroll</span></div>
-    <div className="handoff-queue-banner"><Icon name="check"/><div><strong>FIN-{result.batchId}-{String(result.completionCount).padStart(2,'0')} aman di antrean</strong><span>Penyelesaian sebagian tetap menghasilkan card sendiri. Sisa Potongan tidak membatalkan lot atau card yang sudah posted.</span></div><em>{regularCards.length} card {result.mandor}</em></div>
-    {noteStatus==='POSTED'&&<div className="handoff-success"><Icon name="check"/><div><strong>Nota FG sudah posted dan masuk antrean Payroll</strong><span>NFG-260828-NEW · {money(noteTotal)} · belum dibayar dan belum mengubah kas.</span></div></div>}
-    <section className="handoff-layout">
-      <div className="panel handoff-workbench">
-        <header className="handoff-source-head"><span>01</span><div><small>QC {result.completionStatus==='PARTIAL_SELECTION'?'SELESAI SEBAGIAN':result.completionStatus==='WAITING_LAUNDRY'?'FG SIAP POSTED · MENUNGGU LAUNDRY':result.completionStatus==='WAITING_REWORK'?'FG SIAP POSTED · MENUNGGU CUCI ULANG':'LENGKAP'} · {result.parentId} · BATCH DISTRIBUSI {result.batchId}</small><h2>{result.brand} · SKU {result.finalSku}</h2><p>{result.finalProductName} · {result.finalColor} · Range {result.finalRange} · bahan {result.material}</p><div className="handoff-mandor-hero"><Icon name="user"/><span><small>MANDOR PENERIMA NOTA</small><strong>{result.mandor}</strong></span></div></div><strong>{returnedTotal} pulang · {goodTotal} Good</strong></header>
-        <div className="handoff-section-title"><div><span>02</span><div><strong>Rekonsiliasi fisik dari QC</strong><small>Good menentukan FG. Total Pulang menjadi dasar pekerjaan; Stuck belum ikut karena barangnya belum kembali. Jika Hold berubah menjadi BS, nominal pengurang asal dibawa tanpa potong ulang.</small></div></div><em className="ok">QC read-only</em></div>
-        <div className="handoff-size-breakdown" role="table" aria-label="Rekonsiliasi serah FG per size">
-          <div className="handoff-size-breakdown-head" role="row"><span>SIZE</span><span>POTONGAN</span><span>BAGUS → FG</span><span>BS</span><span>CUCI ULANG</span><span>SISA OPEN</span></div>
-          {result.sizes.map((size,index)=><div className={`handoff-size-breakdown-row ${result.remainingBySize[index]>0?'has-outstanding':''}`} role="row" key={size}><strong data-label="SIZE">{size}</strong><span data-label="POTONGAN">{result.expected[index]} pcs</span><strong className="good" data-label="BAGUS → FG">{result.postedGoodBySize[index]} pcs</strong><span className="bs" data-label="BS">{result.postedBsBySize[index]} pcs</span><span className="rewash" data-label="CUCI ULANG">{result.postedRewashBySize[index]} pcs</span><span className="stuck" data-label="SISA OPEN">{result.remainingBySize[index]} pcs</span></div>)}
-          <div className="handoff-size-breakdown-total" role="row"><strong>TOTAL</strong><span>{expectedTotal} pcs</span><strong>{goodTotal} pcs</strong><span>{bsTotal} pcs</span><span>{rewashTotal} pcs</span><span>{outstanding} pcs</span></div>
-        </div>
-        <div className="handoff-equation"><span><small>GOOD → FG</small><strong>{goodTotal} pcs</strong></span><b>+</b><span><small>BS</small><strong>{bsTotal} pcs</strong></span><b>+</b><span><small>CUCI ULANG</small><strong>{rewashTotal} pcs</strong></span><b>=</b><span className="total"><small>TOTAL PULANG</small><strong>{returnedTotal} pcs</strong></span><b>+</b><span className="outside"><small>SISA OPEN</small><strong>{outstanding} pcs</strong></span></div>
-        <section className="nota-work-group regular"><header><div><span>03 · ANTREAN FG REGULER</span><h2>Card finishing belum masuk Nota FG</h2><p>Browse card Mandor yang sama. Nilai memakai Total Pulang × harga lengkap, lalu dikurangi BS × komponen Bikin Bagus. Hold → BS tidak menambah pengurang.</p></div><em>{selectedRegular.length} di draft · {regularCards.length-selectedRegular.length} siap</em></header><div>{regularCards.map((card)=>{const added=regularIds.includes(card.id);const rate=card.sewingRate+card.commissionRate+card.bomRate;const status=noteStatus==='POSTED'&&added?'SUDAH MASUK NOTA':added?'SEDANG DI DRAFT':'SIAP DISUSUN';return <article className={`nota-work-card regular ${added?'added':''}`} key={card.id}><header><div><small>{card.source}</small><strong>{card.sku}</strong></div><span>{status}</span></header><div className="nota-work-facts"><span><small>TOTAL PULANG</small><strong>{card.returned} pcs</strong></span><span className="good"><small>GOOD → FG</small><strong>{card.good} pcs</strong></span><span className="bs"><small>BS</small><strong>{card.bs} pcs</strong></span><span className="rewash"><small>CUCI ULANG</small><strong>{card.rewash} pcs</strong></span><span className="hold"><small>STUCK</small><strong>{card.hold} pcs</strong></span></div><div className="nota-bs-components"><span>KOMPONEN BS DITANDAI BIKIN BAGUS</span><div>{card.bsComponents.length>0?card.bsComponents.map((component)=><em key={component.id}><Icon name="check"/>{component.name}<b>{money(component.rate)}</b></em>):<small>Tidak ada pengurang BS</small>}</div></div><div className="nota-value-formula"><span><small>TOTAL PULANG × HARGA</small><strong>{card.returned} × {money(rate)}</strong><em>{money(card.gross)}</em></span><b>−</b><span className="deduction"><small>BS × KOMPONEN DICENTANG</small><strong>{card.bs} × {money(card.bsComponents.reduce((sum,component)=>sum+component.rate,0))}</strong><em>{money(card.deduction)}</em></span><b>=</b><span className="result"><small>NILAI FG REGULER</small><strong>{money(card.subtotal)}</strong><em>Good bukan pengali upah</em></span></div><footer><small>Good menentukan stok FG. Pengurang BS menjadi batas Bikin Bagus; reklasifikasi dari Hold membawa snapshot lama tanpa potong kedua.</small><button type="button" disabled={!editable} onClick={()=>toggleRegular(card.id)}>{added?'Keluarkan dari Draft':'Tambah ke Nota FG'}</button></footer></article>})}</div></section>
-        <section className="nota-work-group repair"><header><div><span>04 · ANTREAN BIKIN BAGUS</span><h2>Pekerjaan rework yang sudah diterima</h2><p>Card tetap terpisah. Pembayaran hanya komponen yang dicentang dan tidak boleh melampaui pengurang BS asal.</p></div><button type="button" className="soft-btn" onClick={onOpenBs}>Buka Browser Kasus <Icon name="arrow"/></button></header><div>{repairCards.map((card)=>{const added=repairIds.includes(card.id);const status=noteStatus==='POSTED'&&added?'SUDAH MASUK NOTA':added?'SEDANG DI DRAFT':'SIAP DISUSUN';return <article className={`nota-work-card repair ${added?'added':''}`} key={card.id}><header><div><small>{card.source}</small><strong>{card.sku}</strong></div><span>{status}</span></header><div className="nota-repair-components">{card.components.map((component)=><span key={component.name}><Icon name="check"/><small>{component.name}</small><strong>{money(component.rate)}</strong></span>)}</div><div className="nota-work-rate repair"><span>Qty diterima <b>{card.qty} pcs</b></span><span>Tarif komponen <b>{money(card.unitRate)}</b></span><strong>{card.qty} × {money(card.unitRate)} = {money(card.subtotal)}</strong></div><footer><small>Snapshot komponen terkunci dari Bikin Bagus.</small><button type="button" disabled={!editable} onClick={()=>toggleRepair(card.id)}>{added?'Keluarkan dari Draft':'Tambah ke Nota FG'}</button></footer></article>})}</div></section>
-        <label className="handoff-note nota-note"><span>CATATAN NOTA FG</span><textarea disabled={!editable} value={note} onChange={(event)=>{setNote(event.target.value);setNoteReviewed(false)}} /></label>
-      </div>
-      <aside className="panel handoff-payroll-ticket">
-        <div className="handoff-ticket-title"><span>NOTA FG · NFG-260828-NEW</span><h2>{result.mandor}</h2><p>{selectedRegular.length} FG Reguler · {selectedRepair.length} Bikin Bagus</p><small>28 Agu 2026 · {noteStatus==='POSTED'?'posted, belum dibayar':'draft dapat disusun'}</small></div>
-        <div className="nota-ticket-groups"><article className="regular"><span><small>FG REGULER</small><strong>{selectedRegular.length} card</strong></span><b>{money(regularSubtotal)}</b></article><article className="repair"><span><small>BIKIN BAGUS</small><strong>{selectedRepair.length} card</strong></span><b>{money(repairSubtotal)}</b></article></div>
-        <div className="handoff-net"><span>TOTAL NOTA FG</span><strong>{money(noteTotal)}</strong><small>Total ini masuk Payroll setelah posted. Belum ada pembayaran atau pergerakan kas.</small></div>
-        <div className="handoff-output"><span>DOKUMEN INI MEMBAWA</span><p><Icon name="check"/><b>{selectedRegular.reduce((sum,card)=>sum+card.returned,0)} pcs</b> Total Pulang sebagai dasar</p><p><Icon name="history"/><b>{money(selectedRegular.reduce((sum,card)=>sum+card.deduction,0))}</b> pengurang BS tercatat</p><p><Icon name="audit"/><b>{selectedRepair.reduce((sum,card)=>sum+card.qty,0)} pcs</b> Bikin Bagus eligible</p></div>
-        <label className="handoff-final-check"><input type="checkbox" disabled={!editable} checked={noteReviewed} onChange={(event)=>setNoteReviewed(event.target.checked)}/><span><strong>Susunan Nota FG sudah gue review</strong><small>Semua card milik {result.mandor}; formula dan pengurang BS terlihat jelas.</small></span></label>
-        <button type="button" className="primary-btn handoff-submit" disabled={!editable||selectedRegular.length===0||noteTotal<=0||!noteReviewed} onClick={()=>setNoteStatus('POSTED')}>{noteStatus==='POSTED'?'Nota FG sudah posted':'Post Nota FG ke Payroll'} <Icon name={noteStatus==='POSTED'?'check':'arrow'}/></button>
-        <p className="handoff-audit-note">Card yang tidak dipilih tetap aman di antrean. Posted hanya memindahkan susunan ini ke Payroll; backend dan kas belum berubah.</p>
-      </aside>
-    </section>
-  </>
-}
 
 type LaundryReadyBatch = {
   id:string; parentId:string; sequence:number; brand:string; model:string; material:string; mandor:string;
@@ -2090,35 +1977,6 @@ function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,setDeliver
   </>
 }
 
-function SalesPage(props: {
-  qtyText: string; setQtyText: (v: string) => void; unit: 'lusin' | 'pcs'; setUnit: (v: 'lusin' | 'pcs') => void;
-  sizes: SizeRow[]; setSizes: (v: SizeRow[]) => void; totalPcs: number; composed: number; stockEnough: boolean; compositionOk: boolean; saleTotal: number; distribute: () => void; openStock: () => void
-}) {
-  const { qtyText, setQtyText, unit, setUnit, sizes, setSizes, totalPcs, composed, stockEnough, compositionOk, saleTotal, distribute, openStock } = props
-  const [productQuery, setProductQuery] = useState('')
-  const [selectedProductKey, setSelectedProductKey] = useState(productKey(productCatalog[0]))
-  const [selectedBrands, setSelectedBrands] = useState([...productBrands])
-  const [selectedRanges, setSelectedRanges] = useState([...productRanges])
-  const selectedProduct = productCatalog.find((product) => productKey(product) === selectedProductKey) ?? productCatalog[0]
-  const visibleProducts = useMemo(() => productCatalog.filter((product) => {
-    const matchesQuery = `${product.brand} ${product.code} ${product.range} ${product.name} ${product.color}`.toLowerCase().includes(productQuery.toLowerCase())
-    return matchesQuery && selectedBrands.includes(product.brand) && selectedRanges.includes(product.range)
-  }), [productQuery, selectedBrands, selectedRanges])
-  const chooseProduct = (product: Product) => { setSelectedProductKey(productKey(product)); setSizes(product.sizes.map((size,index)=>({size,stock:product.stocks[index],qty:0,input:''}))) }
-
-  return <>
-    <section className="hero-copy compact"><div className="eyebrow">PENJUALAN · BARANG JADI</div><h1>Input penjualan</h1></section>
-    <section className="sales-layout"><div className="panel sale-form-panel">
-      <div className="form-grid two"><Field label="Pelanggan"><button className="select-btn">Nusantara Fashion <Icon name="chevron" /></button></Field><Field label="Sumber barang"><button className="select-btn">Gudang FG Utama <Icon name="chevron" /></button></Field></div>
-      <div className="product-picker catalog-picker"><div className="catalog-toolbar"><div><div className="eyebrow">PILIH BARANG</div><small>{visibleProducts.length} dari {productCatalog.length} SKU</small></div><div className="catalog-search"><Icon name="search" /><input value={productQuery} onChange={(e)=>setProductQuery(e.target.value)} placeholder="Cari merek, SKU, range, model, warna..." /></div><div className="catalog-filters"><MultiCheckFilter label="Merek" options={productBrands} selected={selectedBrands} onChange={setSelectedBrands} /><MultiCheckFilter label="Range" options={productRanges} selected={selectedRanges} onChange={setSelectedRanges} /></div></div>
-      <div className="catalog-results">{visibleProducts.map((product)=>{ const total=product.stocks.reduce((s,q)=>s+q,0); const active=productKey(product)===selectedProductKey; return <button className={`catalog-row ${active?'selected':''}`} key={productKey(product)} onClick={()=>chooseProduct(product)}><span className="catalog-seq">{String(productCatalog.findIndex((item)=>productKey(item)===productKey(product))+1).padStart(2,'0')}</span><div className="catalog-name"><small className="catalog-brand-first">{product.brand}</small><strong>{product.code}</strong><small>{product.name} · {product.color}</small></div><div className="catalog-meta"><span>{product.brand}</span><span>{product.range}</span></div><div className="catalog-stock"><strong>{total} pcs</strong><small>{dozenPieces(total)}</small></div><span className="catalog-check">{active?<Icon name="check"/>:<Icon name="arrow"/>}</span></button>})}</div></div>
-      <div className="selected-product-head"><div><div className="sku-title"><span className="brand-chip strong">{selectedProduct.brand}</span><h2>{selectedProduct.code}</h2><span>Range {selectedProduct.range}</span></div><p>{selectedProduct.name} · {selectedProduct.color}</p></div><button className="soft-btn" onClick={openStock}><Icon name="stock" /> Cek kartu stok</button></div>
-      <div className="sale-entry-grid"><div className="qty-column"><Field label="Isi cepat total · opsional"><div className="quantity-input"><input value={qtyText} onChange={(e)=>setQtyText(e.target.value)} placeholder="2 atau 1 lusin 6 potong"/><div className="unit-toggle"><button className={unit==='lusin'?'active':''} onClick={()=>setUnit('lusin')}>lusin</button><button className={unit==='pcs'?'active':''} onClick={()=>setUnit('pcs')}>pcs</button></div></div><small className="helper">Gunakan kalau mau isi cepat, lalu bagi rata ke size.</small></Field><div className="conversion"><span>HASIL ISI CEPAT</span><strong>{totalPcs} pcs</strong><small>{dozenPieces(totalPcs)}</small></div><button className="soft-btn quick-distribute" onClick={distribute} disabled={totalPcs<=0}>Bagi rata ke semua size</button><div className="price-box"><span>HARGA / LUSIN</span><strong>{money(1080000)}</strong></div></div>
-      <div className="composition-column"><div className="composition-head"><div><strong>Jumlah per size</strong><span>Boleh ketik PCS, lusin, atau campuran.</span></div></div><div className="size-grid" data-keyboard-grid>{sizes.map((row,index)=><div className="size-card" key={row.size}><div><strong>Size {row.size}</strong><span>stok {row.stock} pcs</span></div><input inputMode="text" data-grid-row={index} data-grid-col={0} value={row.input} placeholder="8 atau 1 lusin" onChange={(e)=>{ const raw=e.target.value; const next=[...sizes]; next[index]={...row,input:raw,qty:parseQty(raw,'pcs')}; setSizes(next) }}/><small className="parsed-qty">{row.qty} pcs · {dozenPieces(row.qty)}</small></div>)}</div><div className="sales-total-strip"><span>TOTAL DARI SIZE</span><strong>{composed} pcs</strong><small>{dozenPieces(composed)}</small></div><div className={`validation ${compositionOk&&stockEnough?'success':'error'}`}><Icon name={compositionOk&&stockEnough?'check':'filter'} /> {!compositionOk?'Isi minimal satu size.':stockEnough?'Jumlah otomatis dijumlahkan dan stok mencukupi.':'Ada size yang melebihi stok.'}</div></div></div>
-      <div className="sale-footer"><div><span>TOTAL PENJUALAN</span><strong>{money(saleTotal)}</strong><small>Nusantara Fashion · {selectedProduct.brand} {selectedProduct.code} · {composed} pcs · {dozenPieces(composed)}</small></div><button className="primary-btn" disabled={!compositionOk||!stockEnough}>Review transaksi <Icon name="arrow" /></button></div>
-    </div></section>
-  </>
-}
 
 function Field({ label, children }: { label: string; children: ReactNode }) { return <label className="field"><span>{label}</span>{children}</label> }
 
@@ -2145,10 +2003,117 @@ function StockCard() {
   return <><section className="hero-copy compact"><button className="back-link" onClick={()=>{setSelectedKey(null);setExpandedId(null)}}><Icon name="back" /> Semua SKU</button><div className="eyebrow">GUDANG · BARANG JADI</div><h1>Kartu stok FG</h1></section><div className="panel stock-summary"><div className="stock-summary-main"><div><div className="sku-title"><span className="brand-chip strong">{selected.brand}</span><h2>{selected.code}</h2><span>Range {selected.range}</span></div><p>{selected.name} · {selected.color} · {selected.location}</p></div><div className="stock-size-overview">{selected.sizes.map((size,index)=><div key={size}><span>SIZE {size}</span><strong>{selected.stocks[index]} pcs</strong><small>{dozenPieces(selected.stocks[index])}</small></div>)}</div></div><div className="stock-total-hero"><span>TOTAL STOK AKHIR</span><strong>{currentStock} pcs</strong><small>{dozenPieces(currentStock)}</small></div></div><div className="panel table-panel"><div className="table-toolbar"><div className="search-box compact-search"><Icon name="search" /> Cari ref / pelanggan...</div><button className="soft-btn"><Icon name="calendar" /> 30 hari</button><button className="soft-btn"><Icon name="filter" /> Filter</button></div><div className="responsive-table stock-ledger"><table><thead><tr><th>Waktu fisik</th><th>Transaksi</th><th className="number-head">Masuk</th><th className="number-head">Keluar</th><th className="number-head">Stok akhir</th><th aria-label="Rincian" /></tr></thead><tbody>{ledgerMovements.map((movement)=>{ const masuk=movement.delta.reduce((s,q)=>s+Math.max(0,q),0); const keluar=movement.delta.reduce((s,q)=>s+Math.abs(Math.min(0,q)),0); const stock=movement.balance.reduce((s,q)=>s+q,0); const open=expandedId===movement.id; return <Fragment key={movement.id}><tr className={open?'stock-row-open':''}><td><span className="ledger-date">{movement.date}</span></td><td><div className="ledger-transaction"><div><strong>{movement.ref}</strong><span className="type-pill">{movement.type}</span></div><small>{movement.note}</small></div></td><td className="ledger-number incoming">{masuk>0?`+${masuk}`:'—'}<small>{masuk>0?dozenPieces(masuk):''}</small></td><td className="ledger-number outgoing">{keluar>0?`−${keluar}`:'—'}<small>{keluar>0?dozenPieces(keluar):''}</small></td><td className="ledger-balance"><strong>{stock} pcs</strong><small>{dozenPieces(stock)}</small></td><td><button className="stock-expand" onClick={()=>setExpandedId(open?null:movement.id)}>{open?'−':'+'}</button></td></tr>{open&&<tr className="stock-detail-row"><td colSpan={6}><div className="stock-size-details"><div className="detail-caption"><span>RINCIAN SIZE</span><small>Komposisi transaksi dan saldo sesudah transaksi</small></div>{movement.delta.map((delta,index)=><div className="size-ledger-card" key={index}><span>SIZE {selected.sizes[index]}</span><div><small>{delta>=0?'Masuk':'Keluar'}</small><strong className={delta<0?'neg':delta>0?'pos':''}>{delta>0?'+':delta<0?'−':''}{Math.abs(delta)} pcs</strong></div><div><small>Stok akhir</small><strong>{movement.balance[index]} pcs</strong></div><em>{dozenPieces(movement.balance[index])}</em></div>)}</div></td></tr>}</Fragment>})}</tbody></table></div></div></>
 }
 
+type MovementBookRowData = Movement & { before: QtyTuple; after: QtyTuple }
+
+function MovementBookMetric({
+  label,
+  value,
+  conversion,
+  className,
+  valueClass = '',
+}: {
+  label: string
+  value: string
+  conversion: string
+  className: string
+  valueClass?: string
+}) {
+  return <span className={className}>
+    <small>{label}</small>
+    <strong className={valueClass}>{value}</strong>
+    <em>{conversion}</em>
+  </span>
+}
+
+export function MovementBookRow({
+  movement,
+  index,
+  rowCount,
+  expanded,
+  dragged,
+  onToggle,
+  onDragStart,
+  onDrop,
+  onDragEnd,
+  onMove,
+}: {
+  movement: MovementBookRowData
+  index: number
+  rowCount: number
+  expanded: boolean
+  dragged: boolean
+  onToggle: () => void
+  onDragStart: () => void
+  onDrop: () => void
+  onDragEnd: () => void
+  onMove: (direction: -1 | 1) => void
+}) {
+  const product = productCatalog.find((item) => productKey(item) === movementProductKey(movement))
+  const sizes = product?.sizes ?? ['28', '29', '30']
+  const movementTotal = movement.delta.reduce((sum, quantity) => sum + quantity, 0)
+  const beforeTotal = movement.before.reduce((sum, quantity) => sum + quantity, 0)
+  const afterTotal = movement.after.reduce((sum, quantity) => sum + quantity, 0)
+  const changeClass = movementTotal < 0 ? 'neg' : movementTotal > 0 ? 'pos' : ''
+
+  return <div
+    className={`mutation-row mutation-collapsible ${expanded ? 'is-expanded' : ''} ${dragged ? 'is-dragging' : ''}`}
+    draggable
+    onDragStart={() => { onDragStart(); if (expanded) onToggle() }}
+    onDragOver={(event) => event.preventDefault()}
+    onDrop={onDrop}
+    onDragEnd={onDragEnd}
+  >
+    <div className="drag-grip" title="Ubah urutan buku"><Icon name="drag" /></div>
+    <div className="order-no">{String(index + 1).padStart(2, '0')}</div>
+    <div className="compact-identity">
+      <strong>{movement.brand}</strong>
+      <b>{movement.sku}</b>
+      <small>{product ? `${product.name} · ${product.color}` : 'Deskripsi barang'}</small>
+    </div>
+    <div className="compact-transaction">
+      <span className="type-pill">{movement.type}</span>
+      <strong>{movement.ref}</strong>
+      <small>{movement.date}</small>
+    </div>
+    <div className="compact-book-summary">
+      <MovementBookMetric label="Saldo awal" value={`${beforeTotal} pcs`} conversion={dozenPieces(beforeTotal)} className="summary-opening" />
+      <MovementBookMetric label="Mutasi" value={`${movementTotal > 0 ? '+' : ''}${movementTotal} pcs`} conversion={dozenPieces(Math.abs(movementTotal))} className="summary-change" valueClass={changeClass} />
+      <MovementBookMetric label="Saldo akhir" value={`${afterTotal} pcs`} conversion={dozenPieces(afterTotal)} className="summary-closing" />
+    </div>
+    <button
+      type="button"
+      className="compact-detail-toggle"
+      aria-expanded={expanded}
+      aria-label={expanded ? 'Tutup rincian mutasi' : 'Lihat rincian mutasi'}
+      title={expanded ? 'Tutup rincian' : 'Lihat rincian'}
+      onClick={onToggle}
+    >{expanded ? '▴' : '▾'}</button>
+    <div className="reorder">
+      <button aria-label="Naikkan urutan" onClick={() => onMove(-1)} disabled={index === 0}><Icon name="up" /></button>
+      <button aria-label="Turunkan urutan" onClick={() => onMove(1)} disabled={index === rowCount - 1}><Icon name="down" /></button>
+    </div>
+    {expanded && <div className="compact-details-grid">
+      {movement.delta.map((delta, sizeIndex) => <span className="size-book-flow" key={sizes[sizeIndex]}>
+        <small className="size-book-title">SIZE {sizes[sizeIndex]}</small>
+        <div className="book-step opening"><label>Saldo awal</label><strong>{movement.before[sizeIndex]} pcs</strong><small>{dozenPieces(movement.before[sizeIndex])}</small></div>
+        <div className="book-step change"><label>Mutasi</label><strong className={delta < 0 ? 'neg' : delta > 0 ? 'pos' : ''}>{delta > 0 ? '+' : ''}{delta} pcs</strong><small>{dozenPieces(Math.abs(delta))}</small></div>
+        <div className="book-step closing"><label>Saldo akhir</label><strong>{movement.after[sizeIndex]} pcs</strong><small>{dozenPieces(movement.after[sizeIndex])}</small></div>
+      </span>)}
+      <div className="compact-total-card">
+        <span className="total-book-title">TOTAL {movement.brand} · {movement.sku}</span>
+        <div className="total-book-step"><label>Saldo awal</label><strong>{beforeTotal} pcs</strong><small>{dozenPieces(beforeTotal)}</small></div>
+        <div className="total-book-step change"><label>Mutasi</label><strong className={changeClass}>{movementTotal > 0 ? '+' : ''}{movementTotal} pcs</strong><small>{dozenPieces(Math.abs(movementTotal))}</small></div>
+        <div className="total-book-step closing"><label>Saldo akhir</label><strong>{afterTotal} pcs</strong><small>{dozenPieces(afterTotal)}</small></div>
+      </div>
+    </div>}
+  </div>
+}
+
 function Movements({ bookName, bookBrands, setBookBrands, movements, setMovements }: {
   bookName: string; bookBrands: string[]; setBookBrands: (brands: string[]) => void; movements: Movement[]; setMovements: (m: Movement[]) => void
 }) {
   const [draggedId, setDraggedId] = useState<string | null>(null)
+  const [expandedMovementId, setExpandedMovementId] = useState<string | null>(null)
   const [movementQuery, setMovementQuery] = useState('')
   const customerOptions = ['Nusantara Fashion','Sumber Denim','Maju Jaya','Tanpa toko']
   const movementTypes = Array.from(new Set(initialMovements.map((movement)=>movement.type)))
@@ -2171,7 +2136,22 @@ function Movements({ bookName, bookBrands, setBookBrands, movements, setMovement
   return <>
     <section className="hero-copy compact brand-book-hero"><div><div className="eyebrow">GUDANG · BUKU MUTASI FG</div><h1>Buku {bookName}</h1><p>Halaman ini mengikuti buku fisik. Merek yang masuk ke buku bisa diatur tanpa mengubah fakta transaksi.</p></div><div className="book-brand-control"><span>MEREK DALAM BUKU</span><MultiCheckFilter label="Atur merek" options={productBrands} selected={bookBrands} onChange={setBookBrands}/></div></section>
     <div className="panel mutation-panel"><div className="table-toolbar mutation-toolbar"><div className="catalog-search compact-search"><Icon name="search" /><input value={movementQuery} onChange={(e)=>setMovementQuery(e.target.value)} placeholder="Cari merek, SKU, deskripsi, ref, toko..." /></div><MultiCheckFilter label="Toko" options={customerOptions} selected={selectedCustomers} onChange={setSelectedCustomers}/><MultiCheckFilter label="Jenis" options={movementTypes} selected={selectedTypes} onChange={setSelectedTypes}/><button className="soft-btn" onClick={()=>setMovements(chronologicalMovements)}><Icon name="reset" /> Reset urutan</button></div>
-      <div className="mutation-list">{visibleRows.map((movement,idx)=>{ const product=productCatalog.find((item)=>productKey(item)===movementProductKey(movement)); const sizes=product?.sizes??['28','29','30']; const movementTotal=movement.delta.reduce((s,q)=>s+q,0); const beforeTotal=movement.before.reduce((s,q)=>s+q,0); const afterTotal=movement.after.reduce((s,q)=>s+q,0); return <div className={`mutation-row mutation-collapsible ${draggedId===movement.id?'is-dragging':''}`} key={movement.id} draggable onDragStart={()=>setDraggedId(movement.id)} onDragOver={(e)=>e.preventDefault()} onDrop={()=>dropOn(movement.id)} onDragEnd={()=>setDraggedId(null)}><div className="drag-grip" title="Ubah urutan buku"><Icon name="drag" /></div><div className="order-no">{String(idx+1).padStart(2,'0')}</div><div className="mutation-main"><div className="mutation-brand-row"><strong className="mutation-brand">{movement.brand}</strong><span className="type-pill">{movement.type}</span></div><div className="mutation-sku-row"><b>SKU {movement.sku}</b><span>{product ? `${product.name} · ${product.color}` : 'Deskripsi barang'}</span></div><p>{movement.ref} · {movement.customer??movement.note}</p><small>{movement.date} · {movement.id}</small></div><div className="mutation-delta">{movement.delta.map((delta,index)=><span className="size-book-flow" key={index}><small className="size-book-title">SIZE {sizes[index]}</small><div className="book-step opening"><label>Saldo awal</label><strong>{movement.before[index]} pcs</strong><small>{dozenPieces(movement.before[index])}</small></div><div className="book-step change"><label>Mutasi</label><strong className={delta<0?'neg':delta>0?'pos':''}>{delta>0?'+':''}{delta} pcs</strong><small>{dozenPieces(Math.abs(delta))}</small></div><div className="book-step closing"><label>Saldo akhir</label><strong>{movement.after[index]} pcs</strong><small>{dozenPieces(movement.after[index])}</small></div></span>)}</div><div className="mutation-total"><span className="total-book-title">TOTAL {movement.brand} · {movement.sku}</span><div className="total-book-step"><label>Saldo awal</label><strong>{beforeTotal} pcs</strong><small>{dozenPieces(beforeTotal)}</small></div><div className="total-book-step change"><label>Mutasi</label><strong className={movementTotal<0?'neg':'pos'}>{movementTotal>0?'+':''}{movementTotal} pcs</strong><small>{dozenPieces(Math.abs(movementTotal))}</small></div><div className="total-book-step closing"><label>Saldo akhir</label><strong>{afterTotal} pcs</strong><small>{dozenPieces(afterTotal)}</small></div></div><div className="reorder"><button aria-label="Naikkan urutan" onClick={()=>moveVisible(movement.id,-1,visibleIds)} disabled={idx===0}><Icon name="up" /></button><button aria-label="Turunkan urutan" onClick={()=>moveVisible(movement.id,1,visibleIds)} disabled={idx===visibleRows.length-1}><Icon name="down" /></button></div></div>})}{visibleRows.length===0&&<div className="catalog-empty"><Icon name="filter" /><strong>Tidak ada mutasi di buku {bookName}</strong><small>Cek merek yang dipilih atau ubah filter.</small></div>}</div>
+      <div className="mutation-list">
+        {visibleRows.map((movement, index) => <MovementBookRow
+          key={movement.id}
+          movement={movement}
+          index={index}
+          rowCount={visibleRows.length}
+          expanded={expandedMovementId === movement.id}
+          dragged={draggedId === movement.id}
+          onToggle={() => setExpandedMovementId((current) => current === movement.id ? null : movement.id)}
+          onDragStart={() => setDraggedId(movement.id)}
+          onDrop={() => dropOn(movement.id)}
+          onDragEnd={() => setDraggedId(null)}
+          onMove={(direction) => moveVisible(movement.id, direction, visibleIds)}
+        />)}
+        {visibleRows.length === 0 && <div className="catalog-empty"><Icon name="filter" /><strong>Tidak ada mutasi di buku {bookName}</strong><small>Cek merek yang dipilih atau ubah filter.</small></div>}
+      </div>
     </div>
   </>
 }

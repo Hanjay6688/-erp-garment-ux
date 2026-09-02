@@ -17,6 +17,16 @@ export default defineConfig(({ mode }) => {
     build: {
       target: 'es2020',
       cssCodeSplit: true,
+      rolldownOptions: {
+        output: {
+          codeSplitting: {
+            groups: [{
+              name: 'vendor',
+              test: /node_modules[\\/]/,
+            }],
+          },
+        },
+      },
     },
   }
 })

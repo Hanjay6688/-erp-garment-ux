@@ -1,20 +1,10 @@
-/* Compact FG mutation book: one scan-line per movement, 4-card detail on tap. */
+/* Compact FG mutation book: one scan-line per movement, 4-card detail on demand. */
 .mutation-row.mutation-collapsible {
-  cursor: pointer;
   display: grid !important;
   grid-template-columns: 28px 38px minmax(150px,.9fr) minmax(150px,.9fr) minmax(330px,1.55fr) 36px 72px !important;
   gap: 10px !important;
   align-items: center !important;
   padding: 10px 12px !important;
-}
-.mutation-row.mutation-collapsible:focus-visible {
-  outline: 2px solid rgba(126,143,255,.55);
-  outline-offset: -2px;
-}
-.mutation-row.mutation-collapsible .mutation-main,
-.mutation-row.mutation-collapsible .mutation-delta,
-.mutation-row.mutation-collapsible .mutation-total {
-  display: none !important;
 }
 
 .compact-identity,
@@ -223,23 +213,6 @@
   white-space: nowrap;
 }
 
-/* Physical transaction date: business date drives mutation chronology; system entry time remains separate. */
-.form-grid.two.has-physical-date { grid-template-columns: repeat(3,minmax(0,1fr)); }
-.physical-date-field { min-width: 0; }
-.physical-date-input {
-  width: 100%;
-  height: 46px;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: 0 13px;
-  background: #181e30;
-  color: var(--text);
-  outline: none;
-  color-scheme: dark;
-}
-.physical-date-input:focus { border-color: rgba(126,143,255,.45); }
-.physical-date-helper { color: #8e98ad; font-size: 10.8px; line-height: 1.45; }
-
 @media (max-width: 1080px) {
   .mutation-row.mutation-collapsible {
     grid-template-columns: 26px 34px minmax(125px,.8fr) minmax(125px,.8fr) minmax(295px,1.45fr) 34px !important;
@@ -249,8 +222,6 @@
 }
 
 @media (max-width: 760px) {
-  .form-grid.two.has-physical-date { grid-template-columns: 1fr 1fr; }
-  .physical-date-field { grid-column: 1 / -1; }
   .mutation-panel { overflow: hidden; }
   .mutation-row.mutation-collapsible {
     grid-template-columns: minmax(92px,.85fr) minmax(88px,.8fr) minmax(190px,1.75fr) 28px !important;
@@ -292,8 +263,6 @@
 }
 
 @media (max-width: 480px) {
-  .form-grid.two.has-physical-date { grid-template-columns: 1fr; }
-  .physical-date-field { grid-column: auto; }
   .mutation-row.mutation-collapsible {
     grid-template-columns: minmax(82px,.8fr) minmax(78px,.75fr) minmax(174px,1.7fr) 26px !important;
     gap: 5px !important;

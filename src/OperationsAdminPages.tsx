@@ -38,10 +38,6 @@ type AuditEvent = {
   sourceTime: string
 }
 
-const money = (value: number) => new Intl.NumberFormat('id-ID', {
-  style: 'currency', currency: 'IDR', maximumFractionDigits: 0,
-}).format(value)
-
 const dateLabel = (value: string) => new Intl.DateTimeFormat('id-ID', {
   weekday: 'long', day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC',
 }).format(new Date(`${value}T00:00:00Z`))

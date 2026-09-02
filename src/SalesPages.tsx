@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 import {
   AlertTriangle, ArrowRight, Banknote, Boxes, Check, CheckCircle2, Clock3,
   FileSearch, History, PackageCheck, PackageSearch, Plus, ReceiptText,
-  RotateCcw, Search, ShieldCheck, ShoppingBag, Store, Trash2, Undo2,
+  Search, ShieldCheck, ShoppingBag, Store, Trash2, Undo2,
   WalletCards, X,
 } from 'lucide-react'
 import { productCatalog } from './productCatalog'
@@ -22,7 +22,6 @@ const money = (value: number) => new Intl.NumberFormat('id-ID', {
   style: 'currency', currency: 'IDR', maximumFractionDigits: 0,
 }).format(value)
 const compactSales = (value:number)=>value>=1_000_000?`Rp${(value/1_000_000).toLocaleString('id-ID',{maximumFractionDigits:1})} jt`:money(value)
-const number = (value: number) => new Intl.NumberFormat('id-ID', { maximumFractionDigits: 0 }).format(value)
 const productKey = (product: Pick<Product, 'brand' | 'code'>) => `${product.brand}::${product.code}`
 const qtyLabel = (qty: number) => `${Math.floor(Math.max(0, qty) / 12)} lusin · ${Math.max(0, qty) % 12} potong`
 const lineQty = (line: DraftLine) => line.quantities.reduce((sum, qty) => sum + qty, 0)

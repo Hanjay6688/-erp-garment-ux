@@ -373,10 +373,6 @@
   grid-template-columns: 34px minmax(0, 1fr) auto auto auto;
 }
 
-.wip-roll-assigned {
-  grid-column: 2/6;
-}
-
 .wip-batch-source.movable-source .batch-source-actions {
   grid-template-columns: minmax(91px, .9fr) 1fr 1fr;
 }
@@ -1024,10 +1020,6 @@
     grid-column: 3;
   }
 
-  .wip-roll-assigned {
-    grid-column: 2/4;
-  }
-
   .wip-batch-source.movable-source .batch-source-actions {
     grid-template-columns: 1fr 1fr;
   }
@@ -1156,40 +1148,7 @@
   box-shadow: 0 0 0 3px rgba(101, 126, 219, .12), 0 16px 34px rgba(0, 0, 0, .25);
 }
 
-.wip-roll-token-head {
-  min-height: 70px;
-  padding: 13px 13px 11px;
-  display: grid;
-  grid-template-columns: 46px minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 10px;
-  border-bottom: 1px solid rgba(255, 255, 255, .065);
-  background: linear-gradient(105deg, rgba(91, 113, 196, .11), rgba(22, 31, 45, .46));
-}
-
-.wip-roll-number {
-  width: 46px;
-  height: 46px;
-  padding: 0 7px;
-  border: 1px solid rgba(117, 141, 225, .28);
-  border-radius: 13px;
-  background: linear-gradient(145deg, rgba(91, 116, 205, .22), rgba(42, 55, 82, .3));
-  box-shadow: inset 0 1px rgba(255, 255, 255, .05);
-  color: #aebcff;
-  display: grid;
-  grid-template-columns: 17px 1fr;
-  align-items: center;
-  gap: 3px;
-}
-
 .wip-roll-number > .icon { width: 16px; height: 16px; }
-.wip-roll-number > span { display: flex; flex-direction: column; }
-.wip-roll-number small { color: #8291bc; font-size: 8px; font-weight: 850; letter-spacing: .09em; }
-.wip-roll-number strong { margin-top: 1px; color: #e2e7ff; font-size: 15px; line-height: 1; }
-.wip-roll-token-identity { min-width: 0; }
-.wip-roll-token-identity small { display: block; color: #7b89a1; font-size: 8.5px; font-weight: 850; letter-spacing: .1em; }
-.wip-roll-token-identity strong { display: block; margin-top: 5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: #edf1f8; font-size: 14px; letter-spacing: .015em; }
-.wip-roll-token-head > em { padding: 6px 8px; border: 1px solid rgba(241, 190, 104, .17); border-radius: 999px; background: rgba(133, 88, 38, .11); color: #dfbd7f; font-size: 9px; font-style: normal; font-weight: 750; white-space: nowrap; }
 
 .wip-roll-token-body {
   min-width: 0;
@@ -1319,9 +1278,6 @@
 @media (max-width: 440px) {
   .wip-roll-token-actions { grid-template-columns: 1fr; }
   .wip-roll-token-body { grid-template-columns: 78px minmax(0, 1fr); }
-  .wip-roll-token-head { grid-template-columns: 43px minmax(0, 1fr); }
-  .wip-roll-number { width: 43px; height: 43px; }
-  .wip-roll-token-head > em { grid-column: 2; justify-self: start; }
   .wip-roll-token-actions .wip-roll-drag-handle,
   .wip-roll-token-actions .roll-batch-quick { min-height: 50px; }
 }

@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import {
-  AlertTriangle, ArrowRight, Banknote, Building2, CalendarClock, CalendarDays, Check,
-  CheckCircle2, CircleDollarSign, Clock3, FileClock, FileSearch, History, Landmark,
+  AlertTriangle, ArrowRight, Banknote, CalendarClock, CalendarDays, Check,
+  CheckCircle2, CircleDollarSign, Clock3, FileClock, FileSearch, Landmark,
   Link2, LockKeyhole, NotebookTabs, ReceiptText, RefreshCcw, Search, ShieldAlert,
   ShieldCheck, TrendingDown, TrendingUp, Undo2, UsersRound, WalletCards, X,
 } from 'lucide-react'
