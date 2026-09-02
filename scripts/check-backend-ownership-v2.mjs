@@ -58,7 +58,7 @@ assert.equal(candidate.hygiene.production_deploy_authorized, false)
 if (candidate.uat_applied) {
   assert.equal(candidate.source_only, false)
   assert.match(candidate.uat_applied_at, /^2026-09-02T/)
-  assert.equal(candidate.generation_parent_sha, '5c06412bdb5d47317aaf388604d7d1ed8337189d')
+  assert.equal(candidate.generation_parent_sha, 'c90140b7fcd5cc6bec16074e806f865f28ef0209')
   assert.equal(candidate.ci_runtime.status, 'PASS')
   assert.equal(candidate.ci_runtime.head_sha, '4cda99fcf6f96f053981787f8cc2cbd39b809928')
   assert.equal(candidate.ci_runtime.head_tree, 'c9b7aae6e3ea3db64d4abe6de4987f378166a9bf')

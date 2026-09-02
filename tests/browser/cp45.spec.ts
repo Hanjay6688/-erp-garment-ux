@@ -49,7 +49,7 @@ test('CP4.5 Master Pola grows from operational need with fail-closed Potongan se
   await page.getByRole('button', { name: /Lihat detail roll/ }).click()
   await expect(page.getByRole('dialog', { name: /POT-260827-042/ })).toContainText('POLA · SNAPSHOT')
   await expect(page.getByRole('dialog', { name: /POT-260827-042/ })).toContainText('LCY-REG · R1')
-  await page.getByRole('button', { name: 'Tutup detail' }).click()
+  await page.getByRole('button', { name: 'Tutup detail', exact: true }).click()
 
   await openNavigation(page, testInfo.project.name, 'Produksi', 'WIP & Sewing')
   await expect(page.getByRole('heading', { name: 'WIP & Sewing' })).toBeVisible()

@@ -3,7 +3,7 @@
   "candidate_branch": "cp4.5/rbac-production-identity-wip-r1-20260902",
   "source_base_sha": "57d8346a7cdf4ee86519f2dd2a1b54d39ebbb6cc",
   "source_base_tree": "48fc87507dc8a18d5829d518e53f298ad0c7e01a",
-  "generation_parent_sha": "5c06412bdb5d47317aaf388604d7d1ed8337189d",
+  "generation_parent_sha": "c90140b7fcd5cc6bec16074e806f865f28ef0209",
   "target_project_ref": "siimvrusnzxexizpyoib",
   "target_environment": "ERP Enteng UAT",
   "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
@@ -97,7 +97,7 @@
     },
     "scripts/check-backend-ownership-v2.mjs": {
       "bytes": 13928,
-      "sha256": "2d467b26664e7666051eb00bd729c9262c9bf1e4339b4873a113db5d9d81b9ef"
+      "sha256": "6ff8c75bbf5e9f32d929a20ee623c7067afeab590bcac18d03cf966810204d32"
     },
     "scripts/check-source-ownership.mjs": {
       "bytes": 4101,
@@ -244,8 +244,8 @@
       "sha256": "d120a7859a02b85559212adbf8c83d1dd4e3e4f586a117f528cd49fd55197e9e"
     },
     "tests/browser/cp45.spec.ts": {
-      "bytes": 5633,
-      "sha256": "47b3604a416314e6aefd7a1cd7e20ceb8c63d97e33d99e675ed4b9feca220233"
+      "bytes": 5646,
+      "sha256": "48d2a9a172baaab069c8d5a1e66f47519cb68e90bf447920b8d655950d0e9c02"
     }
   }
 }
