@@ -105,7 +105,7 @@ if (candidate.integrity_correction.uat_applied) {
   assert.equal(candidate.integrity_correction.proof_delta_ci.hosted_platform_ledger_shape_rollback, 'PASS')
   const rollbackIdentity = candidate.integrity_correction.rollback_ledger_identity_correction
   assert.equal(rollbackIdentity.defect_id, 'P2-CP45-002')
-  assert.equal(rollbackIdentity.status, 'SOURCE_PATCH_PENDING_EXACT_HEAD_CI')
+  assert.equal(rollbackIdentity.status, 'PASS_READY_FOR_INDEPENDENT_AUDIT')
   assert.equal(rollbackIdentity.runtime_changed, false)
   assert.equal(rollbackIdentity.uat_reapply_required, false)
   assert.equal(rollbackIdentity.hosted_auth_rerun_required, false)
@@ -121,12 +121,28 @@ if (candidate.integrity_correction.uat_applied) {
   })
   assert.equal(rollbackIdentity.delete_predicate_matches_guard, true)
   assert.deepEqual(rollbackIdentity.negative_test, {
-    status: 'PENDING_EXACT_HEAD_FULL_SCHEMA',
+    status: 'PASS',
     case: 'LOCAL_VERSION_CORRECT_NAME_WRONG',
     expected: 'ROLLBACK_REFUSED',
+    observed_match_count: 0,
+    observed_conflict_count: 1,
   })
-  assert.equal(rollbackIdentity.exact_head_ci.status, 'PENDING')
-  assert.equal(candidate.closure_status, 'NO_GO_PENDING_CP45A_ROLLBACK_LEDGER_IDENTITY_CI')
+  assert.equal(rollbackIdentity.exact_head_ci.status, 'PASS')
+  assert.equal(rollbackIdentity.exact_head_ci.head_sha, '7e71f1961a19f621c976c1a4a5cfbf5a4980485e')
+  assert.equal(rollbackIdentity.exact_head_ci.head_tree, '461febdc118e06070f939b6da15ff9c10abfe29e')
+  assert.equal(rollbackIdentity.exact_head_ci.parent_sha, '36a161fe5dd1fabbc1e581e501da8ddf7b839df0')
+  assert.equal(rollbackIdentity.exact_head_ci.build_ux.run_id, 33675876921)
+  assert.equal(rollbackIdentity.exact_head_ci.build_ux.job_id, 100400289329)
+  assert.equal(rollbackIdentity.exact_head_ci.full_schema.run_id, 33675876855)
+  assert.equal(rollbackIdentity.exact_head_ci.full_schema.job_id, 100400289327)
+  assert.deepEqual(rollbackIdentity.exact_head_ci.artifact_assertions, {
+    identity_matches_exact_head: true,
+    wrong_local_name_rejected: true,
+    hosted_ledger_shape_rollback_passed: true,
+    final_reconciliation_passed: true,
+    synthetic_residue_zero: true,
+  })
+  assert.equal(candidate.closure_status, 'CP45A_ROLLBACK_LEDGER_IDENTITY_PROVEN_READY_FOR_INDEPENDENT_AUDIT')
 } else {
   assert.equal(candidate.integrity_correction.source_only, true)
   assert.equal(candidate.integrity_correction.uat_applied_at, null)

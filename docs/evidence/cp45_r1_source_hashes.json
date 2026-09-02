@@ -3,7 +3,7 @@
   "candidate_branch": "cp4.5/rbac-production-identity-wip-r1-20260902",
   "source_base_sha": "57d8346a7cdf4ee86519f2dd2a1b54d39ebbb6cc",
   "source_base_tree": "48fc87507dc8a18d5829d518e53f298ad0c7e01a",
-  "generation_parent_sha": "36a161fe5dd1fabbc1e581e501da8ddf7b839df0",
+  "generation_parent_sha": "7e71f1961a19f621c976c1a4a5cfbf5a4980485e",
   "target_project_ref": "siimvrusnzxexizpyoib",
   "target_environment": "ERP Enteng UAT",
   "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
@@ -68,7 +68,7 @@
     },
     "rollback_ledger_identity_correction": {
       "defect_id": "P2-CP45-002",
-      "status": "SOURCE_PATCH_PENDING_EXACT_HEAD_CI",
+      "status": "PASS_READY_FOR_INDEPENDENT_AUDIT",
       "runtime_changed": false,
       "uat_reapply_required": false,
       "hosted_auth_rerun_required": false,
@@ -84,16 +84,43 @@
       },
       "delete_predicate_matches_guard": true,
       "negative_test": {
-        "status": "PENDING_EXACT_HEAD_FULL_SCHEMA",
+        "status": "PASS",
         "case": "LOCAL_VERSION_CORRECT_NAME_WRONG",
-        "expected": "ROLLBACK_REFUSED"
+        "expected": "ROLLBACK_REFUSED",
+        "observed_match_count": 0,
+        "observed_conflict_count": 1
       },
       "exact_head_ci": {
-        "status": "PENDING"
+        "status": "PASS",
+        "head_sha": "7e71f1961a19f621c976c1a4a5cfbf5a4980485e",
+        "head_tree": "461febdc118e06070f939b6da15ff9c10abfe29e",
+        "parent_sha": "36a161fe5dd1fabbc1e581e501da8ddf7b839df0",
+        "build_ux": {
+          "run_id": 33675876921,
+          "job_id": 100400289329,
+          "dist_artifact_id": 9864375645,
+          "dist_artifact_digest_sha256": "2133def77c04916c251fe57d81cb12c7767c676d93c76552eb5bcf71fc60a494",
+          "browser_artifact_id": 9864373762,
+          "browser_artifact_digest_sha256": "c5b422646a984e891dd7570ae83a0ab414b1249ce11241004fb1c7fe81a9cd57"
+        },
+        "full_schema": {
+          "run_id": 33675876855,
+          "job_id": 100400289327,
+          "artifact_id": 9864424538,
+          "artifact_name": "cp45-r1-full-schema-auth-proof",
+          "artifact_digest_sha256": "331e21ed7c58fe11a141fad7077b7b9b5b8d2fe80c7a11bd5477780547d4f8cf"
+        },
+        "artifact_assertions": {
+          "identity_matches_exact_head": true,
+          "wrong_local_name_rejected": true,
+          "hosted_ledger_shape_rollback_passed": true,
+          "final_reconciliation_passed": true,
+          "synthetic_residue_zero": true
+        }
       }
     }
   },
-  "closure_status": "NO_GO_PENDING_CP45A_ROLLBACK_LEDGER_IDENTITY_CI",
+  "closure_status": "CP45A_ROLLBACK_LEDGER_IDENTITY_PROVEN_READY_FOR_INDEPENDENT_AUDIT",
   "source_only": false,
   "uat_applied": true,
   "uat_applied_at": "2026-09-02T14:49:11.827931Z",
@@ -185,8 +212,8 @@
       "sha256": "a54e7ecb389302de2cf82993dd2cadf82bd6b77fe3305582fc8b91f00aed1e72"
     },
     "scripts/check-backend-ownership-v2.mjs": {
-      "bytes": 24760,
-      "sha256": "87365bd0cab5db9287112cc44e9db203362fc2e3138050a68e9841f6374dc772"
+      "bytes": 25697,
+      "sha256": "6dee170ab6f44c86ff50f5e73c288ff6200cb5a97578c522b161743f286ca571"
     },
     "scripts/check-source-ownership.mjs": {
       "bytes": 4101,
