@@ -1,0 +1,103 @@
+{
+  "format": "CP4_HOSTED_UAT_AUTH_E2E_V1",
+  "status": "PASS",
+  "mode": "MANUAL_HOSTED_UAT_VERIFIED",
+  "target_project_ref": "siimvrusnzxexizpyoib",
+  "target_environment": "ERP Enteng UAT",
+  "runtime_source_head": "26962a056864dccc8c0afab9be1a94526831a345",
+  "tested_at": "2026-09-02T08:50:17.890Z",
+  "verification_boundary": {
+    "github_service_role_secret_used": false,
+    "classified_as_ci": false,
+    "synthetic_identities": 4,
+    "real_owner_account_created": false,
+    "secrets_recorded": false
+  },
+  "cases": [
+    { "name": "signin-owner", "status": 200 },
+    { "name": "signin-staff", "status": 200 },
+    { "name": "signin-inactive", "status": 200 },
+    { "name": "signin-unmapped", "status": 200 },
+    { "name": "profile-owner", "status": 200 },
+    { "name": "profile-staff", "status": 200 },
+    { "name": "profile-inactive", "status": 200 },
+    { "name": "profile-unmapped", "status": 200 },
+    { "name": "profile-anon-denied", "status": 401 },
+    { "name": "rpc-owner-authorized-domain-guard", "status": 400 },
+    { "name": "rpc-staff-denied", "status": 400 },
+    { "name": "rpc-inactive-denied", "status": 400 },
+    { "name": "rpc-unmapped-denied", "status": 400 },
+    { "name": "rpc-anon-denied", "status": 401 },
+    { "name": "private-inner-rpc-not-exposed", "status": 404 },
+    { "name": "generic-reversal-rpc-not-exposed", "status": 404 },
+    { "name": "auth-refresh-owner", "status": 200 },
+    { "name": "auth-logout-owner-global", "status": 204 },
+    { "name": "auth-refresh-after-logout-denied", "status": 400 },
+    { "name": "auth-logout-staff-global", "status": 204 },
+    { "name": "auth-logout-inactive-global", "status": 204 },
+    { "name": "auth-logout-unmapped-global", "status": 204 }
+  ],
+  "assertions": {
+    "jwt_subject_matches_each_identity": true,
+    "owner_profile_active_owner": true,
+    "staff_profile_active_staff": true,
+    "inactive_profile_inactive_owner": true,
+    "unmapped_profile_empty": true,
+    "owner_reaches_domain_guard": true,
+    "staff_inactive_unmapped_fail_closed": true,
+    "anonymous_denied": true,
+    "private_rpcs_not_exposed": true,
+    "refresh_rotation_and_global_logout": true
+  },
+  "hosted_service_role_scope": {
+    "status": "NOT_RUN_NO_SERVICE_KEY",
+    "reason": "This is a manual hosted-UAT proof using the publishable key and four dashboard-created identities, not hosted CI.",
+    "local_full_schema_ci_coverage": true
+  },
+  "cleanup": {
+    "verified_at": "2026-09-02T08:54:58.892652Z",
+    "auth_users": 0,
+    "auth_identities": 0,
+    "auth_sessions": 0,
+    "auth_refresh_tokens": 0,
+    "app_users": 0,
+    "temporary_credentials_retained": false
+  },
+  "uat_post_cleanup": {
+    "writer_sessions": 0,
+    "idle_in_transaction": 0,
+    "waiting_sessions": 0,
+    "write_capable_locks": 0,
+    "platform_cp4_ledger": 1,
+    "application_cp4_ledger": 1,
+    "guard_definition_md5": "965de305e5a381cfdf5588f2b9d4babc",
+    "guard_acl": "{postgres=X/postgres,service_role=X/postgres}",
+    "guard_owner": "postgres",
+    "rollback_capsule_rows": 4,
+    "rollback_capsule_valid": 4,
+    "pools": 0,
+    "allocations": 0,
+    "active_hpp_components": 0,
+    "journals": 0
+  },
+  "source_ci": {
+    "status": "PASS",
+    "head_sha": "26962a056864dccc8c0afab9be1a94526831a345",
+    "run_id": 33594123691,
+    "job_id": 100133979797,
+    "artifact_id": 9832837825,
+    "artifact_name": "cp4-r1-full-schema-auth-proof",
+    "artifact_sha256": "d551b880b8a3c26e8c08dec2b3e8caa5f5bbed27fd848d839411a1c4371823ca"
+  },
+  "legacy_isolation": {
+    "project_ref": "vlxdhpkjeevubjxexnfo",
+    "verified_at": "2026-09-02T08:55:17.317535Z",
+    "mutated": false,
+    "platform_cp4_ledger": 0,
+    "application_cp4_ledger": 0,
+    "cp4_objects": 0,
+    "writer_sessions": 0,
+    "write_capable_locks": 0
+  },
+  "production_go": false
+}

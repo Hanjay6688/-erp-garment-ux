@@ -1,7 +1,7 @@
 {
   "format": "ERP_BACKEND_SOURCE_OWNERSHIP_V1",
   "uat_project_ref": "siimvrusnzxexizpyoib",
-  "uat_mutated": false,
+  "uat_mutated": true,
   "legacy_mutated": false,
   "reviewed_cp3_manifest": {
     "path": "docs/evidence/cp3_r4_source_hashes.json",
@@ -9,8 +9,8 @@
   },
   "candidate_cp4_manifest": {
     "path": "docs/evidence/cp4_r1_source_hashes.json",
-    "bytes": 2050,
-    "sha256": "b640cdab156ca40b351d10847e8ab9ce00ec7d70c5ff53e2cc74d326e9d18047"
+    "bytes": 2848,
+    "sha256": "14b894f626d5076215c0f0fe7c2b0ed93a022ff637e4368af576ffb3631473d3"
   },
   "uat_recorded_sources": [
     {

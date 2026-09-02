@@ -17,7 +17,7 @@ const hash = (algorithm, bytes) => createHash(algorithm).update(bytes).digest('h
 const posix = (path) => path.split('\\').join('/')
 
 assert.equal(ownership.format, 'ERP_BACKEND_SOURCE_OWNERSHIP_V1')
-assert.equal(ownership.uat_mutated, false)
+assert.equal(ownership.uat_mutated, true)
 assert.equal(ownership.legacy_mutated, false)
 assert.equal(hash('sha256', cp3ManifestBytes), ownership.reviewed_cp3_manifest.sha256)
 assert.equal(cp3Manifest.format, 'CP3_R5_CURRENT_MAIN_FIXED_SOURCE_HASHES_V1')
@@ -29,18 +29,67 @@ assert.equal(cp4Manifest.format, 'CP4_R1_SOURCE_HASHES_V1')
 assert.equal(cp4Manifest.parent_sha, '92e49047941c09f18a306a9b2998f101c62e6ffe')
 assert.equal(cp4Manifest.parent_tree, '8625bd6053c256456f67185d60e0bb95f9bc574e')
 assert.equal(cp4Manifest.candidate_first_sha, 'da8ed9055738c26ce882ad8b1adda047fe000c72')
-assert.equal(cp4Manifest.candidate_generation_parent_sha, 'c2eea97f79d4c54dd8cda003c0a5b3030206134b')
+assert.equal(cp4Manifest.candidate_generation_parent_sha, '26962a056864dccc8c0afab9be1a94526831a345')
 assert.deepEqual(cp4Manifest.hosted_uat_require_owner_admin, {
-  definition_md5: '8c22fb34fb8adf2085ca5703e32d38a5',
+  definition_md5: '965de305e5a381cfdf5588f2b9d4babc',
   acl: '{postgres=X/postgres,service_role=X/postgres}',
   owner: 'postgres',
 })
 assert.equal(cp4Manifest.target_project_ref, 'siimvrusnzxexizpyoib')
 assert.equal(cp4Manifest.legacy_project_ref, 'vlxdhpkjeevubjxexnfo')
-assert.equal(cp4Manifest.source_only, true)
-assert.equal(cp4Manifest.uat_applied, false)
+assert.equal(cp4Manifest.source_only, false)
+assert.equal(cp4Manifest.uat_applied, true)
+assert.equal(cp4Manifest.uat_applied_at, '2026-09-02T05:29:58Z')
+assert.deepEqual(cp4Manifest.ci_exact_head, {
+  status: 'PASS',
+  head_sha: '26962a056864dccc8c0afab9be1a94526831a345',
+  run_id: 33594123691,
+  job_id: 100133979797,
+  artifact_id: 9832837825,
+  artifact_name: 'cp4-r1-full-schema-auth-proof',
+  artifact_sha256: 'd551b880b8a3c26e8c08dec2b3e8caa5f5bbed27fd848d839411a1c4371823ca',
+})
+assert.deepEqual(cp4Manifest.hosted_auth_rls_e2e, {
+  status: 'PASS',
+  mode: 'MANUAL_HOSTED_UAT_VERIFIED',
+  evidence_path: 'docs/evidence/cp4_hosted_uat_auth_e2e.json',
+  tested_at: '2026-09-02T08:50:17.890Z',
+  github_service_role_secret_used: false,
+})
 assert.equal(cp4Manifest.legacy_mutated, false)
 assert.equal(cp4Manifest.production_go, false)
+
+const hostedEvidence = JSON.parse(readFileSync(resolve(root, cp4Manifest.hosted_auth_rls_e2e.evidence_path), 'utf8'))
+assert.equal(hostedEvidence.format, 'CP4_HOSTED_UAT_AUTH_E2E_V1')
+assert.equal(hostedEvidence.status, 'PASS')
+assert.equal(hostedEvidence.mode, 'MANUAL_HOSTED_UAT_VERIFIED')
+assert.equal(hostedEvidence.runtime_source_head, cp4Manifest.ci_exact_head.head_sha)
+assert.equal(hostedEvidence.verification_boundary.github_service_role_secret_used, false)
+assert.equal(hostedEvidence.verification_boundary.classified_as_ci, false)
+assert.equal(hostedEvidence.verification_boundary.synthetic_identities, 4)
+assert.equal(hostedEvidence.verification_boundary.real_owner_account_created, false)
+assert.equal(hostedEvidence.cases.length, 22)
+assert.deepEqual(hostedEvidence.cleanup, {
+  verified_at: '2026-09-02T08:54:58.892652Z',
+  auth_users: 0,
+  auth_identities: 0,
+  auth_sessions: 0,
+  auth_refresh_tokens: 0,
+  app_users: 0,
+  temporary_credentials_retained: false,
+})
+assert.equal(hostedEvidence.uat_post_cleanup.writer_sessions, 0)
+assert.equal(hostedEvidence.uat_post_cleanup.write_capable_locks, 0)
+assert.equal(hostedEvidence.uat_post_cleanup.platform_cp4_ledger, 1)
+assert.equal(hostedEvidence.uat_post_cleanup.application_cp4_ledger, 1)
+assert.equal(hostedEvidence.uat_post_cleanup.rollback_capsule_rows, 4)
+assert.equal(hostedEvidence.uat_post_cleanup.rollback_capsule_valid, 4)
+assert.equal(hostedEvidence.source_ci.run_id, cp4Manifest.ci_exact_head.run_id)
+assert.equal(hostedEvidence.source_ci.artifact_sha256, cp4Manifest.ci_exact_head.artifact_sha256)
+assert.equal(hostedEvidence.legacy_isolation.mutated, false)
+assert.equal(hostedEvidence.legacy_isolation.platform_cp4_ledger, 0)
+assert.equal(hostedEvidence.legacy_isolation.application_cp4_ledger, 0)
+assert.equal(hostedEvidence.production_go, false)
 
 function walk(directory, accept) {
   return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
@@ -60,6 +109,7 @@ const discovered = [
   'scripts/check-backend-ownership.mjs',
   '.github/workflows/cp3-r4-full-schema-validation.yml',
   '.github/workflows/cp4-full-schema-validation.yml',
+  'docs/evidence/cp4_hosted_uat_auth_e2e.json',
 ].sort()
 
 const fixedEntries = [

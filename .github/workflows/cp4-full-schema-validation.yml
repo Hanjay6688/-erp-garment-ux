@@ -12,6 +12,7 @@ on:
       - 'scripts/cp4_auth_rls_e2e.mjs'
       - 'scripts/check-backend-ownership.mjs'
       - 'docs/evidence/cp4_r1_source_hashes.json'
+      - 'docs/evidence/cp4_hosted_uat_auth_e2e.json'
       - 'docs/evidence/backend_source_ownership.json'
   workflow_dispatch:
 
@@ -34,6 +35,7 @@ env:
   SOURCE_R6_SHA: 9276250310f14d769bf9f1dbb9247287b173fe05
   SOURCE_R7_SHA: 98aa031bdba010e706f5bb745f12eb3612e09819
   SOURCE_R8_SHA: c2eea97f79d4c54dd8cda003c0a5b3030206134b
+  SOURCE_R9_SHA: 26962a056864dccc8c0afab9be1a94526831a345
   RECOVERY_RUN_ID: 33587654349
   PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
   CP3_R4_CONCURRENCY_REPORT: cp4-proof/cp3-r4-concurrency-report.json
@@ -54,7 +56,8 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p cp4-proof
-          test "$(git rev-parse HEAD^)" = "$SOURCE_R8_SHA"
+          test "$(git rev-parse HEAD^)" = "$SOURCE_R9_SHA"
+          test "$(git rev-parse "$SOURCE_R9_SHA^")" = "$SOURCE_R8_SHA"
           test "$(git rev-parse "$SOURCE_R8_SHA^")" = "$SOURCE_R7_SHA"
           test "$(git rev-parse "$SOURCE_R7_SHA^")" = "$SOURCE_R6_SHA"
           test "$(git rev-parse "$SOURCE_R6_SHA^")" = "$SOURCE_R5_SHA"

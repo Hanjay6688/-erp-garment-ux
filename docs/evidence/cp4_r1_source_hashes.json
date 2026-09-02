@@ -4,31 +4,48 @@
   "parent_sha": "92e49047941c09f18a306a9b2998f101c62e6ffe",
   "parent_tree": "8625bd6053c256456f67185d60e0bb95f9bc574e",
   "candidate_first_sha": "da8ed9055738c26ce882ad8b1adda047fe000c72",
-  "candidate_generation_parent_sha": "c2eea97f79d4c54dd8cda003c0a5b3030206134b",
+  "candidate_generation_parent_sha": "26962a056864dccc8c0afab9be1a94526831a345",
   "cp3_reviewed_head": "469f48a0724b447fc397a2a932c4872c2ed27488",
   "pre_cp4_recovery_run_id": 33587654349,
   "target_project_ref": "siimvrusnzxexizpyoib",
   "target_environment": "ERP Enteng UAT",
   "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
-  "source_only": true,
-  "uat_applied": false,
+  "source_only": false,
+  "uat_applied": true,
+  "uat_applied_at": "2026-09-02T05:29:58Z",
   "legacy_mutated": false,
   "production_go": false,
   "migration_version": "20260902043000",
   "application_version": "v2.6.16",
   "hosted_uat_require_owner_admin": {
-    "definition_md5": "8c22fb34fb8adf2085ca5703e32d38a5",
+    "definition_md5": "965de305e5a381cfdf5588f2b9d4babc",
     "acl": "{postgres=X/postgres,service_role=X/postgres}",
     "owner": "postgres"
   },
+  "ci_exact_head": {
+    "status": "PASS",
+    "head_sha": "26962a056864dccc8c0afab9be1a94526831a345",
+    "run_id": 33594123691,
+    "job_id": 100133979797,
+    "artifact_id": 9832837825,
+    "artifact_name": "cp4-r1-full-schema-auth-proof",
+    "artifact_sha256": "d551b880b8a3c26e8c08dec2b3e8caa5f5bbed27fd848d839411a1c4371823ca"
+  },
+  "hosted_auth_rls_e2e": {
+    "status": "PASS",
+    "mode": "MANUAL_HOSTED_UAT_VERIFIED",
+    "evidence_path": "docs/evidence/cp4_hosted_uat_auth_e2e.json",
+    "tested_at": "2026-09-02T08:50:17.890Z",
+    "github_service_role_secret_used": false
+  },
   "files": {
     ".github/workflows/cp4-full-schema-validation.yml": {
-      "bytes": 27302,
-      "sha256": "ac6fdabed1df0c805456e3046ddf34a721cc8d1ab4d4ea8c33b54f13e42160b0"
+      "bytes": 27484,
+      "sha256": "b3cbebf786a004e97554b1b9a9e4dcd5da1223c496997192c9f3184e4adf5a1f"
     },
     "scripts/check-backend-ownership.mjs": {
-      "bytes": 5945,
-      "sha256": "b3645953718d0daacf735ac644788c5da9911e3eb38e62b80ea26c0d740f9c3b"
+      "bytes": 8479,
+      "sha256": "7cc132d8bea98708a29c0a673dfcf7fe0bd9622a08f6b511cb2f44e264d07a5a"
     },
     "scripts/cp4_auth_rls_e2e.mjs": {
       "bytes": 10197,
@@ -45,6 +62,10 @@
     "supabase/tests/cp4_hpp_route_auth_rollback.sql": {
       "bytes": 21916,
       "sha256": "eca6b325f2bb188adac4d2739e9f129e01e0d203c12284e4c827fb58b7098a86"
+    },
+    "docs/evidence/cp4_hosted_uat_auth_e2e.json": {
+      "bytes": 3837,
+      "sha256": "d323a88404c00adcc82391717108e9b71dd56411bebf6a85fa1a472ed444ab89"
     }
   }
 }
