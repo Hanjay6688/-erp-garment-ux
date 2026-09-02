@@ -3,25 +3,46 @@
   "candidate_branch": "cp4.5/rbac-production-identity-wip-r1-20260902",
   "source_base_sha": "57d8346a7cdf4ee86519f2dd2a1b54d39ebbb6cc",
   "source_base_tree": "48fc87507dc8a18d5829d518e53f298ad0c7e01a",
-  "generation_parent_sha": "cf815e01f45eeff18cb92da7dd6668cec38b1a19",
+  "generation_parent_sha": "4cda99fcf6f96f053981787f8cc2cbd39b809928",
   "target_project_ref": "siimvrusnzxexizpyoib",
   "target_environment": "ERP Enteng UAT",
   "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
   "migration_version": "20260902104937",
   "application_version": "v2.6.17",
-  "source_only": true,
-  "uat_applied": false,
-  "uat_applied_at": null,
+  "source_only": false,
+  "uat_applied": true,
+  "uat_applied_at": "2026-09-02T14:49:11.827931Z",
   "legacy_mutated": false,
   "production_go": false,
   "ci_runtime": {
-    "status": "PENDING"
+    "status": "PASS",
+    "head_sha": "4cda99fcf6f96f053981787f8cc2cbd39b809928",
+    "head_tree": "c9b7aae6e3ea3db64d4abe6de4987f378166a9bf",
+    "build_ux": {
+      "run_id": 33643332136,
+      "job_id": 100291665221,
+      "dist_artifact_id": 9851829539,
+      "dist_artifact_digest_sha256": "4e0415839a0f525bec623e02204b09cdeec71ee9a1f24e36286be49c5b131c4c",
+      "browser_artifact_id": 9851826391,
+      "browser_artifact_digest_sha256": "1d3b52e35fd7e85e917a96e7a59149620d8efdabe4ffc2de946aecea724434d2"
+    },
+    "full_schema": {
+      "run_id": 33643332142,
+      "job_id": 100291667268,
+      "artifact_id": 9851848676,
+      "artifact_name": "cp45-r1-full-schema-auth-proof",
+      "artifact_digest_sha256": "79d73e7cf46b0d9183b8537c4b8c7a7669fdeaf43c275ca69394a89923bc53c0"
+    }
   },
   "hosted_auth_permission_e2e": {
-    "status": "PENDING",
+    "status": "PASS",
     "mode": "MANUAL_HOSTED_UAT_VERIFIED",
     "classified_as_ci": false,
-    "github_service_role_secret_used": false
+    "github_service_role_secret_used": false,
+    "evidence_path": "docs/evidence/cp45_hosted_uat_auth_e2e.json",
+    "case_count": 44,
+    "case_passed": 44,
+    "cleanup_verified": true
   },
   "hygiene": {
     "branch_protection_status_enforcement": false,
@@ -50,6 +71,10 @@
       "bytes": 1290,
       "sha256": "2bc852c0173e57fc99ee86a0040a6b00907cf7b4e9a1dc32a9a5b89939002449"
     },
+    "docs/evidence/cp45_hosted_uat_auth_e2e.json": {
+      "bytes": 10053,
+      "sha256": "34fcc833a721adba1c32e5ef22ab474802d17cf01099481dc3dfd138d4b4ecaa"
+    },
     "docs/evidence/cp45_truth_boundary.md": {
       "bytes": 2643,
       "sha256": "b560ee32e7363738303b5638edb1747c5e7d547eb068095ab8f31c5adccc86f7"
@@ -71,8 +96,8 @@
       "sha256": "30011943a7acea3a66b38eff93313a000e8072ea3c08a3c5ebe2b167eec20240"
     },
     "scripts/check-backend-ownership-v2.mjs": {
-      "bytes": 8732,
-      "sha256": "fbe5e8125766153836c2ebbc8823f36cb8413ddda60cfbeab4f95a34ce5448fb"
+      "bytes": 13612,
+      "sha256": "6fa06feaf7b0f08b2a8652acde0065d1deecd257e45384dd3df804df7aabab34"
     },
     "scripts/check-source-ownership.mjs": {
       "bytes": 4101,
