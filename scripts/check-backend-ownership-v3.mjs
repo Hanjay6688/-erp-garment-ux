@@ -45,7 +45,7 @@ for (const ownership of [ownershipV2, ownershipV3]) {
 }
 assert.equal(ownershipV3.source_only, false)
 assert.equal(ownershipV3.uat_applied, true)
-assert.equal(ownershipV3.candidate_apply_status, 'RECORDED_V2618_V2618A_V2619')
+assert.equal(ownershipV3.candidate_apply_status, 'RECORDED_V2618_V2618A_V2619_V2619A')
 
 const cp3ManifestBytes = readFileSync(resolve(root, ownershipV1.reviewed_cp3_manifest.path))
 const cp4ManifestBytes = readFileSync(resolve(root, ownershipV1.candidate_cp4_manifest.path))
@@ -142,20 +142,23 @@ assert.equal(candidate.target_project_ref, 'siimvrusnzxexizpyoib')
 assert.equal(candidate.legacy_project_ref, 'vlxdhpkjeevubjxexnfo')
 assert.equal(candidate.source_only, false)
 assert.equal(candidate.uat_applied, true)
-assert.equal(candidate.uat_applied_at, '2026-09-03T10:58:14.838166Z')
-assert.equal(candidate.candidate_apply_status, 'RECORDED_V2618_V2618A_V2619')
+assert.equal(candidate.uat_applied_at, '2026-09-03T15:10:34.973034Z')
+assert.equal(candidate.candidate_apply_status, 'RECORDED_V2618_V2618A_V2619_V2619A')
 assert.deepEqual(candidate.uat_recorded_state, {
-  application_versions: ['v2.6.18', 'v2.6.18a', 'v2.6.19'],
-  platform_versions: ['20260903060213', '20260903105741', '20260903105814'],
-  latest_installed_at: '2026-09-03T10:58:14.838166Z',
+  application_versions: ['v2.6.18', 'v2.6.18a', 'v2.6.19', 'v2.6.19a'],
+  platform_versions: ['20260903060213', '20260903105741', '20260903105814', '20260903151034'],
+  latest_installed_at: '2026-09-03T15:10:34.973034Z',
 })
-assert.equal(candidate.closure_status, 'READY_FOR_INDEPENDENT_AUDIT_NO_GO')
+assert.equal(candidate.closure_status, 'V2619A_IMPLEMENTED_PENDING_CURRENT_HEAD_CI_NO_GO')
 assert.equal(candidate.legacy_mutated, false)
 assert.equal(candidate.production_go, false)
-assert.equal(candidate.verification.status, 'HOSTED_UAT_VERIFIED_PENDING_INDEPENDENT_AUDIT')
+assert.equal(candidate.verification.status, 'V2619A_HOSTED_TRANSACTIONAL_VERIFIED_CURRENT_HEAD_CI_PENDING')
 assert.equal(candidate.verification.full_schema_acceptance_executed, true)
 assert.equal(candidate.verification.hosted_uat_executed, true)
 assert.equal(candidate.verification.hosted_uat_evidence_path, 'docs/evidence/cp5_hosted_uat_auth_e2e.json')
+assert.equal(candidate.verification.forward_correction_uat_evidence_path, 'docs/evidence/cp5_v2619a_uat_acceptance.json')
+assert.equal(candidate.verification.forward_correction_hosted_http_auth_retest, false)
+assert.equal(candidate.verification.forward_correction_full_schema_ci, 'PENDING_CURRENT_HEAD')
 assert.equal(candidate.verification.read_only_uat_preflight_executed, true)
 assert.equal(candidate.verification.read_only_uat_preflight_path, 'docs/evidence/cp5_uat_readonly_preflight.json')
 const uatPreflight = readJson(candidate.verification.read_only_uat_preflight_path)
@@ -181,6 +184,7 @@ assert.deepEqual(uatPreflight.conclusion, {
 })
 
 const hostedEvidence = readJson(candidate.verification.hosted_uat_evidence_path)
+const lineageEvidence = readJson(candidate.verification.forward_correction_uat_evidence_path)
 assert.equal(hostedEvidence.format, 'CP5_HOSTED_UAT_AUTH_E2E_V1')
 assert.equal(hostedEvidence.status, 'PASS')
 assert.equal(hostedEvidence.mode, 'MANUAL_HOSTED_UAT_VERIFIED')
@@ -215,6 +219,20 @@ assert.equal(hostedEvidence.cloudflare_preview.promoted_to_canonical_worker, fal
 assert.equal(hostedEvidence.cloudflare_preview.temporary_environment_file_active, false)
 assert.equal(hostedEvidence.legacy_mutated, false)
 assert.equal(hostedEvidence.production_go, false)
+assert.equal(lineageEvidence.format, 'CP5_V2619A_UAT_ACCEPTANCE_V1')
+assert.equal(lineageEvidence.status, 'PASS')
+assert.equal(lineageEvidence.mode, 'HOSTED_UAT_RECORDED_MIGRATION_AND_TRANSACTIONAL_SQL')
+assert.equal(lineageEvidence.correction.application_version, 'v2.6.19a')
+assert.equal(lineageEvidence.correction.platform_ledger_version, '20260903151034')
+assert.equal(lineageEvidence.correction.source_bytes, 55354)
+assert.equal(lineageEvidence.correction.source_sha256, '204b9246f3c8c6464476da1a7f1574f5e0ae4c46f024c082704795b3eef5210f')
+assert.equal(lineageEvidence.predecessor_preserved.rewritten_or_deleted, false)
+assert.ok(lineageEvidence.transactional_proofs.every(({ status, state_effect }) => status === 'PASS' && state_effect.includes('ROLLED_BACK')))
+assert.ok(Object.values(lineageEvidence.assertions).every((value) => value === true))
+assert.ok(Object.values(lineageEvidence.post_proof_residue).every((value) => value === 0))
+assert.equal(lineageEvidence.hosted_http_auth_retest, false)
+assert.equal(lineageEvidence.legacy_mutated, false)
+assert.equal(lineageEvidence.production_go, false)
 assert.deepEqual(candidate.hosted_auth_permission_e2e, {
   status: 'PASS',
   mode: 'MANUAL_HOSTED_UAT_VERIFIED',
@@ -225,6 +243,7 @@ assert.deepEqual(candidate.hosted_auth_permission_e2e, {
   synthetic_cleanup_zero: true,
 })
 assert.equal(candidate.ci_runtime.status, 'PASS')
+assert.equal(candidate.ci_runtime.scope, 'PRE_V2619A_BASELINE_ONLY')
 assert.equal(candidate.ci_runtime.runtime_head_sha, hostedEvidence.source_ci.head_sha)
 assert.equal(candidate.cloudflare_preview.status, 'PASS')
 assert.equal(candidate.cloudflare_preview.promoted_to_canonical_worker, false)
@@ -288,6 +307,10 @@ for (const [key, expected] of Object.entries({
     version: '20260903070932', application_version: 'v2.6.19',
     name: 'erp_v2_6_19_cp5_bs_resolution_recovery',
   },
+  rework_accessory_lineage: {
+    version: '20260903151034', application_version: 'v2.6.19a',
+    name: 'erp_v2_6_19a_cp5_rework_accessory_lineage',
+  },
 })) {
   const migration = candidate.migrations[key]
   assert.equal(migration.version, expected.version)
@@ -323,6 +346,15 @@ assert.deepEqual(candidate.migrations.bs_resolution, {
   uat_platform_statement_count: 1,
   uat_business_facts_observed: 0,
 })
+assert.deepEqual(candidate.migrations.rework_accessory_lineage, {
+  ...candidate.migrations.rework_accessory_lineage,
+  uat_applied: true,
+  uat_platform_ledger_version: '20260903151034',
+  uat_platform_statement_count: 1,
+  uat_business_facts_observed: 0,
+})
+assert.equal(candidate.migrations.rework_accessory_lineage.source_bytes, 55354)
+assert.equal(candidate.migrations.rework_accessory_lineage.source_sha256, '204b9246f3c8c6464476da1a7f1574f5e0ae4c46f024c082704795b3eef5210f')
 
 function walk(directory, accept) {
   return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
@@ -357,6 +389,7 @@ const discovered = [
   cutting.hosted_evidence_path,
   candidate.verification.read_only_uat_preflight_path,
   candidate.verification.hosted_uat_evidence_path,
+  candidate.verification.forward_correction_uat_evidence_path,
 ].sort()
 
 function isCuttingBackend(path) {
@@ -383,6 +416,7 @@ function isCp5Backend(path) {
     || path === '.github/workflows/cp5-full-schema-validation.yml'
     || path === candidate.verification.read_only_uat_preflight_path
     || path === candidate.verification.hosted_uat_evidence_path
+    || path === candidate.verification.forward_correction_uat_evidence_path
 }
 
 const candidateBackend = candidatePaths.filter(isCp5Backend)

@@ -60,8 +60,12 @@ function workspace(patternId: string | null = null, includeRow = true) {
       contractor_name: 'Mandor A', responsible_vendor_id: null, vendor_name: null, detected_stage: 'QC', cause_source: 'SEWING',
       untracked_type: null, claim_type: null, compensation_amount: 0, laundry_delivery_id: null, laundry_receipt_line_id: null,
       legacy_reference: null, notes: 'Perlu recovery', next_action: 'START_REWORK_OR_DISPOSITION', is_closed: false,
+      accessory_bom: { state: 'AVAILABLE', bom_version_id: 'bom-1', items: [
+        { id: 'bom-item-1', category_id: 'category-1', code: 'KANCING', name: 'Kancing', base_uom_code: 'PCS', qty_per_good_fg_base: 2, reimbursement_rate: 100, reimbursement_uom_code: 'PCS' },
+        { id: 'bom-item-2', category_id: 'category-2', code: 'LABEL', name: 'Label', base_uom_code: 'PCS', qty_per_good_fg_base: 1, reimbursement_rate: 50, reimbursement_uom_code: 'PCS' },
+      ] },
       components: [{ id: 'component-1', work_component_id: 'work-1', code: 'JAHIT', name: 'Jahit', category: 'LABOR', completed_before_bs_qty: 0, lifetime_newly_completed_qty: 0, lifetime_paid_qty: 0, notes: null }],
-      resolutions: [], rework_orders: [], hold_events: [],
+      resolutions: [], rework_orders: [] as Array<Record<string, unknown>>, hold_events: [],
     }] : [],
   }
 }
@@ -171,6 +175,100 @@ describe('CP5 connected BS Resolution DOM boundary', () => {
     expect(container.textContent).toContain('Tidak ada kasus pada filter ini')
     expect(container.textContent).toContain('Tidak ada detail')
     expect(container.textContent).not.toContain('BS-1')
+  })
+
+  it('sends only checked accessory BOM items when a rework order is created', async () => {
+    const rpc = vi.fn(async (name: string, _args?: Record<string, unknown>) => {
+      if (name === 'erp_list_patterns_v1') return { data: patterns, error: null }
+      if (name === 'erp_get_bs_resolution_workspace_v1') return { data: workspace(), error: null }
+      if (name === 'erp_save_bs_resolution_action_v1') return { data: { ok: true }, error: null }
+      throw new Error(`Unexpected RPC ${name}`)
+    })
+    mockedClient.current = { rpc }
+    authState.current = identity([
+      'production.bs_rework.view', 'production.bs_rework.create',
+      'production.bs_rework.post', 'production.bs_rework.reverse', 'master.pattern.view',
+    ])
+
+    await renderPage()
+    const routeForm = container.querySelector<HTMLElement>('.cbsr-route-form')!
+    const number = routeForm.querySelector<HTMLInputElement>('input[placeholder="RW-BS-1"]')!
+    const party = routeForm.querySelector<HTMLSelectElement>('select')!
+    const reason = routeForm.querySelector<HTMLTextAreaElement>('textarea')!
+    await act(async () => {
+      setControlValue(number, 'RW-BS-1-A')
+      setControlValue(party, 'contractor-1')
+      setControlValue(reason, 'Pasang kancing saja sesuai fisik')
+      routeForm.querySelectorAll<HTMLInputElement>('.cbsr-accessories input[type="checkbox"]')[1]!.click()
+    })
+    const create = [...routeForm.querySelectorAll<HTMLButtonElement>('button')]
+      .find((button) => button.textContent?.includes('Buat order rework'))!
+    expect(create.disabled).toBe(false)
+    await act(async () => { create.click() })
+    await settle()
+
+    const call = rpc.mock.calls.find(([name]) => name === 'erp_save_bs_resolution_action_v1')
+    expect(call?.[1]).toMatchObject({
+      p_action: 'SAVE_REWORK', p_expected_version: null,
+      p_payload: {
+        accessory_bom_version_id: 'bom-1', accessory_bom_item_ids: ['bom-item-1'],
+        components: [{ bs_case_component_id: 'component-1', qty_performed: 10 }],
+      },
+    })
+  })
+
+  it('saves cumulative partial returns without calling the completion action', async () => {
+    const partial = workspace()
+    const row = partial.rows[0]
+    row.status = 'IN_REWORK'
+    row.active_rework_qty = 4
+    row.available_qty = 6
+    row.rework_orders = [{
+      id: 'rework-1', rework_number: 'RW-PARTIAL-1', destination_type: 'CONTRACTOR',
+      contractor_id: 'contractor-1', contractor_name: 'Mandor A', vendor_id: null, vendor_name: null,
+      qty_sent: 4, qty_good_returned: 1, qty_bs_returned: 1,
+      physical_sent_at: '2026-09-03T10:00:00Z', completed_at: null, status: 'PARTIAL', cost_posted: false,
+      return_fg_location_id: 'location-1', return_fg_location_name: 'Gudang FG', good_fg_lot_id: null,
+      row_version: 2, notes: null, components: [],
+      accessory_decision: { state: 'SELECTED', bom_version_id: 'bom-1', reimbursement_contractor_id: 'contractor-1', selected_item_count: 1, selection_sha256: 'b'.repeat(64), basis_at: '2026-09-03T10:00:00Z', selected_items: [
+        { id: 'choice-1', bom_item_id: 'bom-item-1', category_id: 'category-1', code: 'KANCING', name: 'Kancing', qty_per_good_fg_base: 2, reimbursement_unit_rate_base: 100 },
+      ] },
+    }]
+    const rpc = vi.fn(async (name: string, _args?: Record<string, unknown>) => {
+      if (name === 'erp_list_patterns_v1') return { data: patterns, error: null }
+      if (name === 'erp_get_bs_resolution_workspace_v1') return { data: partial, error: null }
+      if (name === 'erp_save_bs_resolution_action_v1') return { data: { ok: true }, error: null }
+      throw new Error(`Unexpected RPC ${name}`)
+    })
+    mockedClient.current = { rpc }
+    authState.current = identity([
+      'production.bs_rework.view', 'production.bs_rework.create',
+      'production.bs_rework.post', 'production.bs_rework.reverse', 'master.pattern.view',
+    ])
+
+    await renderPage()
+    const completion = container.querySelector<HTMLElement>('.cbsr-completion-form')!
+    const controls = completion.querySelectorAll<HTMLInputElement>('input')
+    await act(async () => {
+      setControlValue(controls[0]!, '2')
+      setControlValue(controls[1]!, '1')
+      setControlValue(controls[3]!, 'Tiga barang sudah kembali fisik')
+    })
+    const savePartial = [...completion.querySelectorAll<HTMLButtonElement>('button')]
+      .find((button) => button.textContent?.includes('Simpan partial'))!
+    expect(savePartial.disabled).toBe(false)
+    await act(async () => { savePartial.click() })
+    await settle()
+
+    const mutationCalls = rpc.mock.calls.filter(([name]) => name === 'erp_save_bs_resolution_action_v1')
+    expect(mutationCalls).toHaveLength(1)
+    expect(mutationCalls[0]?.[1]).toMatchObject({
+      p_action: 'SAVE_REWORK', p_expected_version: 2,
+      p_payload: {
+        id: 'rework-1', action: 'SAVE', qty_good_returned: 2,
+        qty_bs_returned: 1, return_fg_location_id: 'location-1',
+      },
+    })
   })
 
   it('renders view-only access without executable CP5 controls', async () => {

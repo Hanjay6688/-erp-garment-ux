@@ -65,8 +65,8 @@ const patternRows = [
   { id: 'pattern-2', code: 'SLIM', revision: 'R1', name: 'Slim', sort_order: 2, is_active: true, row_version: 1, updated_at: '2026-09-03T07:00:00Z', updated_by: null, usage_count: 0 },
 ]
 
-function workspace(patternId: string | null, includeRow = true) {
-  return {
+function workspace(patternId: string | null, includeRow = true, partialOrder = false) {
+  const result = {
     filter: 'ACTIVE', kind: 'ALL', pattern_id: patternId, query: null,
     limit: 50, offset: 0, total: includeRow ? 1 : 0,
     lookups: {
@@ -88,13 +88,41 @@ function workspace(patternId: string | null, includeRow = true) {
       contractor_name: 'Mandor A', responsible_vendor_id: null, vendor_name: null, detected_stage: 'QC', cause_source: 'SEWING',
       untracked_type: null, claim_type: null, compensation_amount: 0, laundry_delivery_id: null, laundry_receipt_line_id: null,
       legacy_reference: null, notes: 'Perlu recovery', next_action: 'START_REWORK_OR_DISPOSITION', is_closed: false,
+      accessory_bom: { state: 'AVAILABLE', bom_version_id: 'bom-1', items: [
+        { id: 'bom-item-1', category_id: 'category-1', code: 'KANCING', name: 'Kancing', base_uom_code: 'PCS', qty_per_good_fg_base: 2, reimbursement_rate: 100, reimbursement_uom_code: 'PCS' },
+        { id: 'bom-item-2', category_id: 'category-2', code: 'LABEL', name: 'Label', base_uom_code: 'PCS', qty_per_good_fg_base: 1, reimbursement_rate: 50, reimbursement_uom_code: 'PCS' },
+      ] },
       components: [{ id: 'component-1', work_component_id: 'work-1', code: 'JAHIT', name: 'Jahit', category: 'LABOR', completed_before_bs_qty: 0, lifetime_newly_completed_qty: 0, lifetime_paid_qty: 0, notes: null }],
-      resolutions: [], rework_orders: [], hold_events: [],
+      resolutions: [], rework_orders: [] as Array<Record<string, unknown>>, hold_events: [],
     }] : [],
   }
+  if (partialOrder && result.rows[0]) {
+    const row = result.rows[0]
+    row.status = 'IN_REWORK'
+    row.active_rework_qty = 4
+    row.available_qty = 6
+    row.rework_orders = [{
+      id: 'rework-1', rework_number: 'RW-PARTIAL-1', destination_type: 'CONTRACTOR',
+      contractor_id: 'contractor-1', contractor_name: 'Mandor A', vendor_id: null, vendor_name: null,
+      qty_sent: 4, qty_good_returned: 1, qty_bs_returned: 1,
+      physical_sent_at: '2026-09-03T10:00:00Z', completed_at: null, status: 'PARTIAL', cost_posted: false,
+      return_fg_location_id: 'location-1', return_fg_location_name: 'Gudang FG', good_fg_lot_id: null,
+      row_version: 2, notes: null, components: [],
+      accessory_decision: {
+        state: 'SELECTED', bom_version_id: 'bom-1', reimbursement_contractor_id: 'contractor-1',
+        selected_item_count: 1, selection_sha256: 'b'.repeat(64), basis_at: '2026-09-03T10:00:00Z',
+        selected_items: [{
+          id: 'choice-1', bom_item_id: 'bom-item-1', category_id: 'category-1',
+          code: 'KANCING', name: 'Kancing', qty_per_good_fg_base: 2,
+          reimbursement_unit_rate_base: 100,
+        }],
+      },
+    }]
+  }
+  return result
 }
 
-async function installLocalUatContract(page: Page, viewOnly = false): Promise<ContractCalls> {
+async function installLocalUatContract(page: Page, viewOnly = false, partialOrder = false): Promise<ContractCalls> {
   const calls: ContractCalls = { workspace: [], actions: [], unexpected: [] }
   await page.route(`${uatOrigin}/**`, async (route) => {
     const request = route.request()
@@ -136,7 +164,11 @@ async function installLocalUatContract(page: Page, viewOnly = false): Promise<Co
     if (rpcName === 'erp_get_bs_resolution_workspace_v1') {
       const args = payload ?? {}
       calls.workspace.push(args)
-      await json(route, workspace((args.p_pattern_id as string | null) ?? null, args.p_pattern_id !== 'pattern-2'))
+      await json(route, workspace(
+        (args.p_pattern_id as string | null) ?? null,
+        args.p_pattern_id !== 'pattern-2',
+        partialOrder,
+      ))
       return
     }
     if (rpcName === 'erp_save_bs_resolution_action_v1') {
@@ -187,6 +219,12 @@ test('CP5 local mocked-UAT contract keeps server-side Pattern truth and one muta
 
   await page.getByLabel('FILTER POLA CP5').selectOption('pattern-1')
   await expect(page.locator('.cbsr-detail').getByRole('heading', { name: 'BS-1', exact: true })).toBeVisible()
+  const accessoryChoice = page.getByRole('group', { name: /AKSESORI YANG BENAR-BENAR DIPASANG/ })
+  await expect(accessoryChoice.getByText('KANCING · Kancing')).toBeVisible()
+  const labelChoice = accessoryChoice.getByRole('checkbox', { name: /LABEL · Label/ })
+  await expect(labelChoice).toBeChecked()
+  await labelChoice.uncheck()
+  await expect(labelChoice).not.toBeChecked()
   await page.locator('.cbsr-route-tabs').getByRole('button', { name: 'Hold', exact: true }).click()
   await page.locator('.cbsr-route-form textarea').fill('Menunggu bukti fisik Laundry')
   const saveHold = page.getByRole('button', { name: /Simpan HOLD/ })
@@ -211,6 +249,39 @@ test('CP5 local mocked-UAT contract keeps server-side Pattern truth and one muta
   expect(calls.unexpected).toEqual([])
   expect(consoleErrors).toEqual([])
   expect(pageErrors).toEqual([])
+})
+
+test('CP5 local mocked-UAT contract saves cumulative partial return without posting completion', async ({ page }, testInfo) => {
+  const calls = await installLocalUatContract(page, false, true)
+  await signIn(page)
+  await openBsResolution(page, testInfo.project.name)
+
+  await expect(page.getByText('RW-PARTIAL-1', { exact: true }).first()).toBeVisible()
+  await page.getByLabel('GOOD KUMULATIF').fill('2')
+  await page.getByLabel('BS KUMULATIF').fill('1')
+  await page.getByLabel('ALASAN HASIL FISIK').fill('Tiga barang sudah kembali fisik')
+  const savePartial = page.getByRole('button', { name: /Simpan partial/ })
+  await expect(savePartial).toBeEnabled()
+  await savePartial.click()
+  await expect.poll(() => calls.actions.length).toBe(1)
+  expect(calls.actions[0]).toMatchObject({
+    p_action: 'SAVE_REWORK', p_expected_version: 2,
+    p_payload: {
+      id: 'rework-1', action: 'SAVE', qty_good_returned: 2,
+      qty_bs_returned: 1, return_fg_location_id: 'location-1',
+    },
+  })
+  expect(calls.actions[0]?.p_action).not.toBe('COMPLETE_REWORK')
+  expect(calls.unexpected).toEqual([])
+
+  await testInfo.attach('cp5-partial-return-contract', {
+    body: Buffer.from(JSON.stringify({
+      status: 'PASS', proof_class: 'LOCAL_MOCKED_UAT_CONTRACT',
+      action: 'SAVE_REWORK', completion_posted: false,
+      hosted_uat: false, production_go: false,
+    }, null, 2)),
+    contentType: 'application/json',
+  })
 })
 
 test('CP5 local mocked-UAT contract keeps view-only identity non-executable', async ({ page }, testInfo) => {

@@ -1,7 +1,7 @@
 {
   "format": "CP5_ACCESS_ROUTE_ACTION_OWNERSHIP_V1",
-  "scope": "Pre-CP5 cutting persistence, pickup, WIP, Pattern filters, and CP5 BS Resolution source boundary",
-  "closure_status": "READY_FOR_INDEPENDENT_AUDIT_NO_GO",
+  "scope": "Pre-CP5 cutting persistence, pickup, WIP, Pattern filters, CP5 BS Resolution, and v2.6.19a rework accessory-lineage boundary",
+  "closure_status": "V2619A_IMPLEMENTED_PENDING_CURRENT_HEAD_CI_NO_GO",
   "counts": {
     "backend_permissions": 111,
     "navigation_labels": 46,
@@ -41,10 +41,13 @@
     "simulation_pattern_filter_laundry": true,
     "simulation_pattern_filter_qc": true,
     "bs_resolution_uses_two_public_rpc_facades": true,
+    "rework_accessory_selection_uses_existing_dispatcher": true,
+    "rework_partial_return_uses_existing_dispatcher": true,
+    "private_accessory_lineage_has_no_browser_table_access": true,
     "laundry_and_qc_writers_connected": false,
     "source_only": false,
     "uat_applied": true,
-    "candidate_apply_status": "RECORDED_V2618_V2618A_V2619",
+    "candidate_apply_status": "RECORDED_V2618_V2618A_V2619_V2619A",
     "hosted_auth_permission_e2e": "PASS_31_OF_31",
     "legacy_mutated": false,
     "production_go": false

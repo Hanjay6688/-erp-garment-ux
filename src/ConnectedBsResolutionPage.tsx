@@ -183,25 +183,32 @@ function ReworkCompletion({ order, workspace, canCreate, canPost, canReverse, ow
   order: ReworkOrder; workspace: BsResolutionWorkspace; canCreate: boolean; canPost: boolean
   canReverse: boolean; ownerAdmin: boolean; onAction: RunAction
 }) {
-  const [good, setGood] = useState(String(Math.max(0, order.qty_sent - order.qty_bs_returned)))
+  const [good, setGood] = useState(String(order.qty_good_returned))
   const [bad, setBad] = useState(String(order.qty_bs_returned))
   const [completedAt, setCompletedAt] = useState(nowInput)
   const [locationId, setLocationId] = useState(order.return_fg_location_id ?? workspace.lookups.fg_locations[0]?.id ?? '')
   const [reason, setReason] = useState('')
+  const returned = qty(good) + qty(bad)
+  const previousReturned = order.qty_good_returned + order.qty_bs_returned
   const exact = exactReworkCompletion(qty(good), qty(bad), order.qty_sent)
+  const cumulative = qty(good) >= order.qty_good_returned && qty(bad) >= order.qty_bs_returned
+  const newPartial = cumulative && returned > previousReturned && returned < order.qty_sent
   const canCancel = order.qty_good_returned + order.qty_bs_returned === 0
   if (order.status === 'COMPLETED' && order.cost_posted) return <div className="cbsr-rework-complete"><PackageCheck/><span><strong>{order.qty_good_returned} Good · {order.qty_bs_returned} BS</strong><small>Biaya posted {order.good_fg_lot_id ? '· lot FG terbentuk' : '· tanpa Good FG'}</small></span><button disabled={!canReverse || !ownerAdmin || reason.trim().length < 4} onClick={() => void onAction('REVERSE_REWORK_COMPLETION', { rework_order_id: order.id, change_reason: reason.trim() }, order.row_version)}><Undo2/> Reverse</button><input value={reason} onChange={(event) => setReason(event.target.value)} placeholder="Alasan reversal Owner/Admin"/></div>
   if (order.status === 'CANCELLED') return <div className="cbsr-muted">Order dibatalkan; histori tetap dipertahankan.</div>
-  return <div className="cbsr-completion-form"><header><span>HASIL REWORK · TOTAL HARUS PERSIS {order.qty_sent} PCS</span><strong>{order.rework_number}</strong></header><div>
-    <label><span>GOOD</span><input inputMode="numeric" value={good} onChange={(event) => setGood(cleanBsQuantity(event.target.value, order.qty_sent))}/></label>
-    <label><span>BS KEMBALI</span><input inputMode="numeric" value={bad} onChange={(event) => setBad(cleanBsQuantity(event.target.value, order.qty_sent))}/></label>
+  return <div className="cbsr-completion-form"><header><span>HASIL KUMULATIF · {previousReturned} MASUK · {order.qty_sent - previousReturned} BELUM KEMBALI</span><strong>{order.rework_number}</strong></header><div>
+    <label><span>GOOD KUMULATIF</span><input inputMode="numeric" value={good} onChange={(event) => setGood(cleanBsQuantity(event.target.value, order.qty_sent))}/></label>
+    <label><span>BS KUMULATIF</span><input inputMode="numeric" value={bad} onChange={(event) => setBad(cleanBsQuantity(event.target.value, order.qty_sent))}/></label>
     <label><span>WAKTU SELESAI</span><input type="datetime-local" value={completedAt} onChange={(event) => setCompletedAt(event.target.value)}/></label>
     <label><span>GUDANG GOOD FG</span><select value={locationId} disabled={qty(good) === 0} onChange={(event) => setLocationId(event.target.value)}><option value="">Pilih lokasi…</option>{workspace.lookups.fg_locations.map((item) => <option value={item.id} key={item.id}>{item.code} · {item.name}</option>)}</select></label>
-    <label className="wide"><span>ALASAN COMPLETION</span><input value={reason} onChange={(event) => setReason(event.target.value)} placeholder="Hasil pemeriksaan fisik"/></label>
-  </div><footer><span className={exact ? 'ok' : 'bad'}>{qty(good)} + {qty(bad)} = {qty(good) + qty(bad)} / {order.qty_sent}</span><div>{canCancel ? <button className="danger" disabled={!canCreate || reason.trim().length < 4} onClick={() => {
+    <label className="wide"><span>ALASAN HASIL FISIK</span><input value={reason} onChange={(event) => setReason(event.target.value)} placeholder="Barang yang benar-benar kembali dan hasil pemeriksaannya"/></label>
+  </div><p className="cbsr-partial-note">Simpan partial hanya memperbarui custody/WIP. FG, HPP, reimbursement, dan hutang baru diposting setelah seluruh {order.qty_sent} pcs kembali.</p><footer><span className={exact && cumulative ? 'ok' : 'bad'}>{qty(good)} + {qty(bad)} = {returned} / {order.qty_sent}{!cumulative ? ' · tidak boleh turun' : ''}</span><div>{canCancel ? <button className="danger" disabled={!canCreate || reason.trim().length < 4} onClick={() => {
     if (!globalThis.confirm(`Batalkan ${order.rework_number}? Histori order tetap disimpan sebagai CANCELLED.`)) return
     void onAction('SAVE_REWORK', { id: order.id, action: 'CANCEL', change_reason: reason.trim() }, order.row_version)
-  }}><X/> Batalkan order</button> : null}<button disabled={!canPost || !exact || qty(good) > 0 && !locationId || !completedAt || reason.trim().length < 4} onClick={() => void onAction('COMPLETE_REWORK', {
+  }}><X/> Batalkan order</button> : null}{newPartial ? <button disabled={!canCreate || qty(good) > 0 && !locationId || reason.trim().length < 4} onClick={() => void onAction('SAVE_REWORK', {
+    id: order.id, action: 'SAVE', qty_good_returned: qty(good), qty_bs_returned: qty(bad),
+    return_fg_location_id: qty(good) > 0 ? locationId : null, change_reason: reason.trim(),
+  }, order.row_version)}><Save/> Simpan partial</button> : null}<button disabled={!canPost || !exact || !cumulative || qty(good) > 0 && !locationId || !completedAt || reason.trim().length < 4} onClick={() => void onAction('COMPLETE_REWORK', {
     rework_order_id: order.id, qty_good: qty(good), qty_bs: qty(bad), completed_at: toIso(completedAt),
     return_fg_location_id: qty(good) > 0 ? locationId : null, change_reason: reason.trim(),
   }, order.row_version)}><PackageCheck/> Post hasil & recovery</button></div></footer></div>
@@ -222,8 +229,13 @@ function BsActionPanel({ row, workspace, canCreate, canPost, canReverse, ownerAd
   const [claimId, setClaimId] = useState('')
   const [compensation, setCompensation] = useState('0')
   const [componentIds, setComponentIds] = useState(row.components.map((item) => item.id))
+  const accessoryBom = row.accessory_bom
+  const [accessoryIds, setAccessoryIds] = useState(
+    accessoryBom?.state === 'AVAILABLE' ? accessoryBom.items.map((item) => item.id) : [],
+  )
   const activeOrders = row.rework_orders.filter((item) => ['OPEN', 'IN_PROGRESS', 'PARTIAL'].includes(item.status))
   const canStart = ['OPEN', 'PARTIAL'].includes(row.status) && row.available_qty > 0 && activeOrders.length === 0
+  const nativeBomMissing = Boolean(row.po_id && row.product_id && accessoryBom?.state === 'UNAVAILABLE')
   const settledClaims = workspace.lookups.settled_claims.filter((item) => Boolean(
     row.responsible_vendor_id && item.vendor_id === row.responsible_vendor_id
     && (!row.laundry_receipt_line_id
@@ -247,12 +259,16 @@ function BsActionPanel({ row, workspace, canCreate, canPost, canReverse, ownerAd
       <label><span>WAKTU FISIK</span><input type="datetime-local" value={physicalAt} onChange={(event) => setPhysicalAt(event.target.value)}/></label>
       <label><span>GUDANG FG BILA GOOD</span><select value={locationId} onChange={(event) => setLocationId(event.target.value)}><option value="">Pilih saat completion</option>{workspace.lookups.fg_locations.map((item) => <option value={item.id} key={item.id}>{item.code} · {item.name}</option>)}</select></label>
       <label className="wide"><span>CATATAN / ALASAN</span><textarea value={reason} onChange={(event) => setReason(event.target.value)} placeholder="Kerusakan dan instruksi fisik"/></label>
-    </div>{route === 'REWORK' ? <fieldset className="cbsr-checks"><legend>KOMPONEN DIKERJAKAN ULANG</legend>{row.components.map((item) => <label key={item.id}><input type="checkbox" checked={componentIds.includes(item.id)} onChange={(event) => setComponentIds((current) => event.target.checked ? [...current, item.id] : current.filter((id) => id !== item.id))}/><span><strong>{item.code}</strong>{item.name}</span></label>)}</fieldset> : <p className="cbsr-zero-fee"><Waves/> Rewash memakai destination LAUNDRY; fee kerja komponen bernilai Rp0 melalui entitlement canonical.</p>}<button className="cbsr-submit" disabled={!canCreate || !canStart || !number.trim() || !partyId || sendQty <= 0 || !physicalAt || reason.trim().length < 4 || route === 'REWORK' && componentIds.length === 0} onClick={() => void onAction('SAVE_REWORK', {
+    </div>{route === 'REWORK' ? <fieldset className="cbsr-checks"><legend>KOMPONEN KERJA YANG DIULANG · DASAR UPAH REWORK</legend>{row.components.map((item) => <label key={item.id}><input type="checkbox" checked={componentIds.includes(item.id)} onChange={(event) => setComponentIds((current) => event.target.checked ? [...current, item.id] : current.filter((id) => id !== item.id))}/><span><strong>{item.code}</strong>{item.name}</span></label>)}</fieldset> : <p className="cbsr-zero-fee"><Waves/> Vendor Rewash tidak mendapat fee kerja komponen. Reimbursement aksesori terpilih tetap menuju Mandor PO.</p>}
+    {accessoryBom?.state === 'AVAILABLE' ? <fieldset className="cbsr-checks cbsr-accessories"><legend>AKSESORI YANG BENAR-BENAR DIPASANG · DASAR REIMBURSEMENT</legend><p>Default semua tercentang. Uncheck item yang tidak dipasang atau sudah pernah dibayar; pilihan ini terkunci saat order dibuat.</p>{accessoryBom.items.map((item) => <label key={item.id}><input type="checkbox" checked={accessoryIds.includes(item.id)} onChange={(event) => setAccessoryIds((current) => event.target.checked ? [...current, item.id] : current.filter((id) => id !== item.id))}/><span><strong>{item.code} · {item.name}</strong>{item.qty_per_good_fg_base} {item.base_uom_code}/pcs · {money(item.reimbursement_rate)}/{item.reimbursement_uom_code}</span></label>)}</fieldset> : accessoryBom?.state === 'NONE' ? <p className="cbsr-zero-fee"><Check/> BOM produk menyatakan tanpa aksesori. Keputusan kosong tetap disimpan secara immutable.</p> : <p className={nativeBomMissing ? 'cbsr-bom-warning' : 'cbsr-zero-fee'}><AlertTriangle/> {nativeBomMissing ? 'BOM aksesori produk belum tersedia. Setup BOM—termasuk BOM kosong—sebelum membuat order.' : 'Kasus legacy ini tidak punya PO/SKU; pilihan aksesori kosong akan dicatat sebagai UNAVAILABLE dan hasil GOOD tetap tidak dapat diposting.'}</p>}
+    <button className="cbsr-submit" disabled={!canCreate || !canStart || nativeBomMissing || !number.trim() || !partyId || sendQty <= 0 || !physicalAt || reason.trim().length < 4 || route === 'REWORK' && componentIds.length === 0} onClick={() => void onAction('SAVE_REWORK', {
       rework_number: number.trim(),
       bs_case_id: row.id, destination_type: route === 'REWORK' ? 'CONTRACTOR' : 'LAUNDRY',
       contractor_id: route === 'REWORK' ? partyId : null, vendor_id: route === 'REWASH' ? partyId : null,
       qty_sent: sendQty, qty_good_returned: 0, qty_bs_returned: 0, physical_sent_at: toIso(physicalAt),
       status: 'IN_PROGRESS', return_fg_location_id: locationId || null, change_reason: reason.trim(), notes: reason.trim(),
+      accessory_bom_version_id: accessoryBom?.bom_version_id ?? null,
+      accessory_bom_item_ids: accessoryIds,
       components: route === 'REWORK' ? componentIds.map((bs_case_component_id) => ({ bs_case_component_id, qty_performed: sendQty, notes: reason.trim() })) : [],
     }, null)}><Wrench/> Buat order {route === 'REWORK' ? 'rework' : 'rewash'}</button></div> : null}
     {(route === 'DISPOSITION' || route === 'COMPENSATION') ? <div className="cbsr-route-form"><div className="cbsr-form-grid compact">
@@ -295,7 +311,7 @@ function CaseDetail({ row, workspace, canCreate, canPost, canReverse, ownerAdmin
     {row.kind === 'BS' ? <ClassificationPanel key={`classification-${row.id}-${row.row_version}`} row={row} workspace={workspace} canCreate={canCreate} onAction={onAction}/> : null}
     {row.kind === 'BS' ? <BsActionPanel key={`actions-${row.id}-${row.row_version}`} row={row} workspace={workspace} canCreate={canCreate} canPost={canPost} canReverse={canReverse} ownerAdmin={ownerAdmin} onAction={onAction}/> : <ClaimActionPanel key={`claim-${row.id}-${row.row_version}`} row={row} canCreate={canCreate} canPost={canPost} canReverse={canReverse} ownerAdmin={ownerAdmin} onAction={onAction}/>}
     <section className="cbsr-history"><header><History/><div><span>AUTHORITATIVE HISTORY</span><strong>Rework, resolution, dan HOLD tidak ditimpa</strong></div></header>
-      {row.rework_orders.map((order) => <article key={order.id}><Wrench/><div><small>{order.destination_type} · {new Date(order.physical_sent_at).toLocaleString('id-ID')}</small><strong>{order.rework_number} · {order.qty_sent} pcs</strong><span>{order.contractor_name ?? order.vendor_name} · {statusLabel(order.status)} · {order.components.length} komponen</span>{order.status === 'COMPLETED' ? <ReworkCompletion order={order} workspace={workspace} canCreate={canCreate} canPost={canPost} canReverse={canReverse} ownerAdmin={ownerAdmin} onAction={onAction}/> : null}</div></article>)}
+      {row.rework_orders.map((order) => <article key={order.id}><Wrench/><div><small>{order.destination_type} · {new Date(order.physical_sent_at).toLocaleString('id-ID')}</small><strong>{order.rework_number} · {order.qty_sent} pcs</strong><span>{order.contractor_name ?? order.vendor_name} · {statusLabel(order.status)} · {order.components.length} komponen kerja · {order.accessory_decision.selected_item_count} aksesori</span><span>{order.accessory_decision.selected_items.map((item) => item.name).join(', ') || `Pilihan aksesori ${order.accessory_decision.state}`}</span>{order.status === 'COMPLETED' ? <ReworkCompletion order={order} workspace={workspace} canCreate={canCreate} canPost={canPost} canReverse={canReverse} ownerAdmin={ownerAdmin} onAction={onAction}/> : null}</div></article>)}
       {row.resolutions.map((resolution) => <article key={resolution.id}><PackageCheck/><div><small>{new Date(resolution.physical_at).toLocaleString('id-ID')}</small><strong>{statusLabel(resolution.resolution_type)} · {resolution.qty_pcs} pcs</strong><span>{money(resolution.compensation_amount)} · {resolution.notes ?? 'Tanpa catatan'}</span>{row.kind === 'BS' && !resolution.source_rework_order_id ? <div className="cbsr-inline-reverse"><input value={reverseReason} onChange={(event) => setReverseReason(event.target.value)} placeholder="Alasan reversal Owner/Admin"/><button disabled={!canReverse || !ownerAdmin || reverseReason.trim().length < 4} onClick={() => void onAction('REVERSE_DISPOSITION', { resolution_id: resolution.id, change_reason: reverseReason.trim() }, row.row_version)}><Undo2/> Reverse</button></div> : null}</div></article>)}
       {row.hold_events.map((event) => <article key={event.id}><Clock3/><div><small>{event.actor_name ?? 'System'} · {new Date(event.physical_at).toLocaleString('id-ID')}</small><strong>{event.action} · {statusLabel(event.previous_status)} → {statusLabel(event.resulting_status)}</strong><span>{event.reason}</span></div></article>)}
       {row.rework_orders.length + row.resolutions.length + row.hold_events.length === 0 ? <div className="cbsr-empty-history">Belum ada lifecycle event sesudah kasus dibuat.</div> : null}

@@ -24,6 +24,10 @@ const baseResponse = () => ({
     contractor_name: 'Mandor A', responsible_vendor_id: null, vendor_name: null, detected_stage: 'QC', cause_source: 'SEWING',
     untracked_type: null, claim_type: null, compensation_amount: 0, laundry_delivery_id: null, laundry_receipt_line_id: null,
     legacy_reference: null, notes: 'Tahan cek fisik', next_action: 'RELEASE_HOLD', is_closed: false,
+    accessory_bom: { state: 'AVAILABLE', bom_version_id: 'bom-1', items: [
+      { id: 'bom-item-1', category_id: 'category-1', code: 'KANCING', name: 'Kancing', base_uom_code: 'PCS', qty_per_good_fg_base: 2, reimbursement_rate: 100, reimbursement_uom_code: 'PCS' },
+      { id: 'bom-item-2', category_id: 'category-2', code: 'LABEL', name: 'Label', base_uom_code: 'PCS', qty_per_good_fg_base: 1, reimbursement_rate: 50, reimbursement_uom_code: 'PCS' },
+    ] },
     components: [{ id: 'component-1', work_component_id: 'work-1', code: 'JAHIT', name: 'Jahit', category: 'LABOR', completed_before_bs_qty: 0, lifetime_newly_completed_qty: 0, lifetime_paid_qty: 0, notes: null }],
     resolutions: [{ id: 'resolution-1', resolution_type: 'OTHER', qty_pcs: 2, compensation_amount: 0, responsible_contractor_id: null, responsible_vendor_id: null, source_rework_order_id: null, source_laundry_claim_id: null, physical_at: '2026-09-03T09:00:00Z', notes: 'Selesai', created_at: '2026-09-03T09:01:00Z' }],
     rework_orders: [],
@@ -41,6 +45,23 @@ describe('CP5 authoritative response boundary', () => {
     expect(workspace.lookups.laundry_sources[0]).toMatchObject({ qty_sent_pcs: 10, qty_claimable_pcs: 7 })
     expect(workspace.lookups.laundry_receipt_sources[0]).toMatchObject({ qty_bs_laundry: 3, qty_claimable_pcs: 2 })
     expect(workspace.lookups.settled_claims[0]).toMatchObject({ available_qty: 2, available_amount: 50_000 })
+    expect(workspace.rows[0].accessory_bom).toMatchObject({ state: 'AVAILABLE', bom_version_id: 'bom-1' })
+    expect(workspace.rows[0].accessory_bom?.items.map((item) => item.code)).toEqual(['KANCING', 'LABEL'])
+  })
+
+  it('preserves the immutable selected-accessory decision on a rework order', () => {
+    const response = baseResponse()
+    response.rows[0].rework_orders = [{
+      id: 'rw-1', rework_number: 'RW-1', destination_type: 'CONTRACTOR', contractor_id: 'contractor-1', contractor_name: 'Mandor A', vendor_id: null, vendor_name: null,
+      qty_sent: 4, qty_good_returned: 1, qty_bs_returned: 1, physical_sent_at: '2026-09-03T10:00:00Z', completed_at: null, status: 'PARTIAL', cost_posted: false,
+      return_fg_location_id: 'location-1', return_fg_location_name: 'Gudang FG', good_fg_lot_id: null, row_version: 2, notes: null, components: [],
+      accessory_decision: { state: 'SELECTED', bom_version_id: 'bom-1', reimbursement_contractor_id: 'contractor-1', selected_item_count: 1, selection_sha256: 'a'.repeat(64), basis_at: '2026-09-03T10:00:00Z', selected_items: [
+        { id: 'choice-1', bom_item_id: 'bom-item-1', category_id: 'category-1', code: 'KANCING', name: 'Kancing', qty_per_good_fg_base: 2, reimbursement_unit_rate_base: 100 },
+      ] },
+    }] as never
+    const order = parseBsResolutionWorkspace(response).rows[0].rework_orders[0]
+    expect(order).toMatchObject({ status: 'PARTIAL', qty_good_returned: 1, qty_bs_returned: 1 })
+    expect(order.accessory_decision.selected_items.map((item) => item.code)).toEqual(['KANCING'])
   })
 
   it('fails closed on malformed nested rework quantities instead of inventing recovery state', () => {

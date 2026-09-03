@@ -252,7 +252,7 @@ jobs:
           select jsonb_build_object(
             'status',case when
               exists(select 1 from erp.schema_migrations where version='v2.6.17a')
-              and not exists(select 1 from erp.schema_migrations where version in('v2.6.18','v2.6.18a','v2.6.19'))
+              and not exists(select 1 from erp.schema_migrations where version in('v2.6.18','v2.6.18a','v2.6.19','v2.6.19a'))
               and md5(pg_get_functiondef('erp.require_internal()'::regprocedure))='785838675ae23699ce163e4218f058bf'
               and md5(pg_get_functiondef('erp.list_patterns_v1(text,text,integer,integer)'::regprocedure))='feff17283c331b4883b208227bc99079'
               and (select count(*) from auth.users)=0
@@ -289,7 +289,7 @@ jobs:
           select jsonb_build_object(
             'status',case when
               exists(select 1 from erp.schema_migrations where version='v2.6.18')
-              and not exists(select 1 from erp.schema_migrations where version in('v2.6.18a','v2.6.19'))
+              and not exists(select 1 from erp.schema_migrations where version in('v2.6.18a','v2.6.19','v2.6.19a'))
               and exists(select 1 from supabase_migrations.schema_migrations
                 where version='20260903022604' and name='erp_v2_6_18_cutting_persistence_pickup_wip')
               and (select count(*) from erp.cutting_bridge_v2618_rollback_capsule where object_kind='FUNCTION')=8
@@ -344,11 +344,27 @@ jobs:
           test "$replay_status" -ne 0
           grep -F 'v2.6.19 is already recorded' cp5-proof/V2619_REPLAY_REJECTION.log >/dev/null
 
-      - name: Run authoritative CP5 lifecycle, DAMAGE, recovery, ACL, and rollback-safe acceptance
+      - name: Apply official v2.6.19a accessory-lineage correction once and reject replay
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(wc -c < supabase/migrations/20260903151034_erp_v2_6_19a_cp5_rework_accessory_lineage.sql)" = '55354'
+          echo '204b9246f3c8c6464476da1a7f1574f5e0ae4c46f024c082704795b3eef5210f  supabase/migrations/20260903151034_erp_v2_6_19a_cp5_rework_accessory_lineage.sql' | sha256sum -c - | tee cp5-proof/V2619A_MIGRATION_SHA256.txt
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/migrations/20260903151034_erp_v2_6_19a_cp5_rework_accessory_lineage.sql 2>&1 | tee cp5-proof/V2619A_APPLY.log
+          psql "$PGURL" -v ON_ERROR_STOP=1 -c "insert into supabase_migrations.schema_migrations(version,name,statements) values('20260903151034','erp_v2_6_19a_cp5_rework_accessory_lineage',array[]::text[]) on conflict(version) do nothing"
+          set +e
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/migrations/20260903151034_erp_v2_6_19a_cp5_rework_accessory_lineage.sql > cp5-proof/V2619A_REPLAY_REJECTION.log 2>&1
+          replay_status=$?
+          set -e
+          test "$replay_status" -ne 0
+          grep -F 'v2.6.19a is already recorded' cp5-proof/V2619A_REPLAY_REJECTION.log >/dev/null
+
+      - name: Run authoritative CP5 lifecycle, selected-accessory, partial-return, accounting, reversal, ACL, and rollback-safe acceptance
         shell: bash
         run: |
           set -euo pipefail
           psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/cp5_bs_resolution_recovery_rollback.sql 2>&1 | tee cp5-proof/CP5_BS_RESOLUTION_ACCEPTANCE.log
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/cp5_rework_accessory_lineage_rollback.sql 2>&1 | tee cp5-proof/CP5_REWORK_ACCESSORY_LINEAGE_ACCEPTANCE.log
 
       - name: Run real two-connection CP5 serialization races
         shell: bash
@@ -403,6 +419,107 @@ jobs:
           cp -R cp45-browser-proof cp5-proof/pre-cp5-pattern-browser
           npm run test:browser:cp5
           cp -R cp5-browser-contract-proof cp5-proof/browser-contract
+
+      - name: Reject v2.6.19a rollback after relevant post-install history
+        shell: bash
+        run: |
+          set -euo pipefail
+          set +e
+          psql "$PGURL" -v ON_ERROR_STOP=1 <<'SQL' > cp5-proof/V2619A_ROLLBACK_POST_USE_REJECTION.log 2>&1
+          begin;
+          insert into erp.idempotency_requests(
+            actor_key,operation_name,client_request_id,request_hash
+          ) values(
+            'cp5-v2619a-rollback-proof','save_rework_order_v2',
+            'c9ff0000-0000-4000-8000-000000000001','synthetic-post-use-proof'
+          );
+          \i supabase/rollbacks/20260903151034_erp_v2_6_19a_cp5_rework_accessory_lineage.rollback.sql
+          SQL
+          rollback_status=$?
+          set -e
+          test "$rollback_status" -ne 0
+          grep -F 'v2.6.19a rollback refused: post-install business/audit/idempotency history exists' \
+            cp5-proof/V2619A_ROLLBACK_POST_USE_REJECTION.log >/dev/null
+          test "$(psql "$PGURL" -At -c "select count(*) from erp.idempotency_requests where client_request_id='c9ff0000-0000-4000-8000-000000000001'")" = '0'
+          test "$(psql "$PGURL" -At -c "select count(*) from erp.schema_migrations where version='v2.6.19a'")" = '1'
+
+      - name: Reject wrong-name local v2.6.19a rollback ledger
+        shell: bash
+        run: |
+          set -euo pipefail
+          set +e
+          psql "$PGURL" -v ON_ERROR_STOP=1 <<'SQL' > cp5-proof/V2619A_ROLLBACK_WRONG_LOCAL_NAME_REJECTION.log 2>&1
+          begin;
+          update supabase_migrations.schema_migrations
+          set name='WRONG_MIGRATION'
+          where version='20260903151034'
+            and name='erp_v2_6_19a_cp5_rework_accessory_lineage';
+          \i supabase/rollbacks/20260903151034_erp_v2_6_19a_cp5_rework_accessory_lineage.rollback.sql
+          SQL
+          rollback_status=$?
+          set -e
+          test "$rollback_status" -ne 0
+          grep -F 'v2.6.19a rollback refused: platform ledger identity is ambiguous' \
+            cp5-proof/V2619A_ROLLBACK_WRONG_LOCAL_NAME_REJECTION.log >/dev/null
+          test "$(psql "$PGURL" -At -c "select count(*) from supabase_migrations.schema_migrations where version='20260903151034' and name='erp_v2_6_19a_cp5_rework_accessory_lineage'")" = '1'
+          test "$(psql "$PGURL" -At -c "select count(*) from erp.schema_migrations where version='v2.6.19a'")" = '1'
+          test "$(psql "$PGURL" -At -c "select to_regclass('erp.rework_accessory_decisions') is not null")" = 't'
+
+      - name: Roll back connector-shaped v2.6.19a and prove exact v2.6.19 restoration
+        shell: bash
+        run: |
+          set -euo pipefail
+          correction_source='supabase/migrations/20260903151034_erp_v2_6_19a_cp5_rework_accessory_lineage.sql'
+          correction_source_b64="$(base64 -w0 "$correction_source")"
+          psql "$PGURL" -v ON_ERROR_STOP=1 -v correction_source_b64="$correction_source_b64" <<'SQL'
+          update supabase_migrations.schema_migrations
+          set version='20260903161034',
+              statements=array[convert_from(decode(:'correction_source_b64','base64'),'UTF8')]
+          where version='20260903151034'
+            and name='erp_v2_6_19a_cp5_rework_accessory_lineage';
+          SQL
+          psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' | tee cp5-proof/V2619A_HOSTED_PLATFORM_LEDGER_SHAPE.json
+          select jsonb_build_object(
+            'version',version,
+            'name',name,
+            'source_bytes',octet_length(array_to_string(statements,E'\n')),
+            'source_sha256',encode(
+              extensions.digest(convert_to(array_to_string(statements,E'\n'),'UTF8'),'sha256'),
+              'hex'
+            )
+          )
+          from supabase_migrations.schema_migrations
+          where name='erp_v2_6_19a_cp5_rework_accessory_lineage';
+          SQL
+          expected_hash="$(sha256sum "$correction_source" | awk '{print $1}')"
+          observed_hash="$(python -c "import json;print(json.load(open('cp5-proof/V2619A_HOSTED_PLATFORM_LEDGER_SHAPE.json'))['source_sha256'])")"
+          test "$observed_hash" = "$expected_hash"
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/rollbacks/20260903151034_erp_v2_6_19a_cp5_rework_accessory_lineage.rollback.sql 2>&1 | tee cp5-proof/V2619A_ROLLBACK.log
+          psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' | tee cp5-proof/V2619A_ROLLBACK_RESIDUE.json
+          select jsonb_build_object(
+            'status',case when
+              exists(select 1 from erp.schema_migrations where version='v2.6.19')
+              and not exists(select 1 from erp.schema_migrations where version='v2.6.19a')
+              and exists(select 1 from supabase_migrations.schema_migrations
+                where version='20260903070932' and name='erp_v2_6_19_cp5_bs_resolution_recovery')
+              and not exists(select 1 from supabase_migrations.schema_migrations
+                where name='erp_v2_6_19a_cp5_rework_accessory_lineage')
+              and to_regclass('erp.bs_resolution_v2619a_rollback_capsule') is null
+              and to_regclass('erp.rework_accessory_decisions') is null
+              and to_regclass('erp.rework_accessory_selection_lines') is null
+              and to_regclass('erp.bs_resolution_v2619_rollback_capsule') is not null
+              and to_regprocedure('public.erp_get_bs_resolution_workspace_v1(text,text,uuid,text,integer,integer)') is not null
+              and md5(pg_get_functiondef('erp.save_rework_order_v2(jsonb,uuid,bigint)'::regprocedure))='d4f297f43858bb3c819c9cacec2972ab'
+              and md5(pg_get_functiondef('public.erp_get_bs_resolution_workspace_v1(text,text,uuid,text,integer,integer)'::regprocedure))='f4f238d3b029c63d8d4c7753e3b661a1'
+              then 'PASS' else 'FAIL' end,
+            'v2619_application',exists(select 1 from erp.schema_migrations where version='v2.6.19'),
+            'v2619a_application',exists(select 1 from erp.schema_migrations where version='v2.6.19a'),
+            'v2619a_platform',exists(select 1 from supabase_migrations.schema_migrations where name='erp_v2_6_19a_cp5_rework_accessory_lineage'),
+            'save_rework_md5',md5(pg_get_functiondef('erp.save_rework_order_v2(jsonb,uuid,bigint)'::regprocedure))
+          );
+          SQL
+          test "$(python -c "import json;print(json.load(open('cp5-proof/V2619A_ROLLBACK_RESIDUE.json'))['status'])")" = 'PASS'
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/cp5_bs_resolution_recovery_rollback.sql 2>&1 | tee cp5-proof/V2619_AFTER_V2619A_ROLLBACK.log
 
       - name: Reject wrong-name local v2.6.19 rollback ledger
         shell: bash
@@ -539,10 +656,10 @@ jobs:
           select jsonb_build_object(
             'status',case when
               exists(select 1 from erp.schema_migrations where version='v2.6.18')
-              and not exists(select 1 from erp.schema_migrations where version in('v2.6.18a','v2.6.19'))
+              and not exists(select 1 from erp.schema_migrations where version in('v2.6.18a','v2.6.19','v2.6.19a'))
               and exists(select 1 from supabase_migrations.schema_migrations where version='20260903022604')
               and not exists(select 1 from supabase_migrations.schema_migrations
-                where name in('erp_v2_6_18a_cutting_bridge_reconciliation','erp_v2_6_19_cp5_bs_resolution_recovery'))
+                where name in('erp_v2_6_18a_cutting_bridge_reconciliation','erp_v2_6_19_cp5_bs_resolution_recovery','erp_v2_6_19a_cp5_rework_accessory_lineage'))
               and to_regclass('erp.cutting_bridge_v2618_rollback_capsule') is not null
               and to_regclass('erp.cutting_bridge_v2618a_rollback_capsule') is null
               and to_regclass('erp.cutting_bridge_execution_context') is null
@@ -614,10 +731,10 @@ jobs:
           select jsonb_build_object(
             'status',case when
               exists(select 1 from erp.schema_migrations where version='v2.6.17a')
-              and not exists(select 1 from erp.schema_migrations where version in('v2.6.18','v2.6.18a','v2.6.19'))
+              and not exists(select 1 from erp.schema_migrations where version in('v2.6.18','v2.6.18a','v2.6.19','v2.6.19a'))
               and not exists(select 1 from supabase_migrations.schema_migrations
-                where version in('20260903022604','20260903060213','20260903070931','20260903070932','20260903080931','20260903080932')
-                   or name in('erp_v2_6_18_cutting_persistence_pickup_wip','erp_v2_6_18a_cutting_bridge_reconciliation','erp_v2_6_19_cp5_bs_resolution_recovery'))
+                where version in('20260903022604','20260903060213','20260903070931','20260903070932','20260903080931','20260903080932','20260903151034','20260903161034')
+                   or name in('erp_v2_6_18_cutting_persistence_pickup_wip','erp_v2_6_18a_cutting_bridge_reconciliation','erp_v2_6_19_cp5_bs_resolution_recovery','erp_v2_6_19a_cp5_rework_accessory_lineage'))
               and to_regclass('erp.cutting_bridge_v2618_rollback_capsule') is null
               and to_regclass('erp.cutting_bridge_v2618a_rollback_capsule') is null
               and to_regclass('erp.cutting_bridge_execution_context') is null
@@ -657,10 +774,10 @@ jobs:
             'status',case when
               (select count(*) from auth.users)=0
               and (select count(*) from erp.app_users)=0
-              and not exists(select 1 from erp.schema_migrations where version in('v2.6.18','v2.6.18a','v2.6.19'))
+              and not exists(select 1 from erp.schema_migrations where version in('v2.6.18','v2.6.18a','v2.6.19','v2.6.19a'))
               and not exists(select 1 from supabase_migrations.schema_migrations
-                where version in('20260903022604','20260903060213','20260903070931','20260903070932','20260903080931','20260903080932')
-                   or name in('erp_v2_6_18_cutting_persistence_pickup_wip','erp_v2_6_18a_cutting_bridge_reconciliation','erp_v2_6_19_cp5_bs_resolution_recovery'))
+                where version in('20260903022604','20260903060213','20260903070931','20260903070932','20260903080931','20260903080932','20260903151034','20260903161034')
+                   or name in('erp_v2_6_18_cutting_persistence_pickup_wip','erp_v2_6_18a_cutting_bridge_reconciliation','erp_v2_6_19_cp5_bs_resolution_recovery','erp_v2_6_19a_cp5_rework_accessory_lineage'))
               and to_regclass('erp.cutting_bridge_v2618a_rollback_capsule') is null
               and to_regclass('erp.cutting_bridge_execution_context') is null
               and to_regclass('erp.bs_resolution_execution_context') is null
@@ -670,6 +787,7 @@ jobs:
             'v2618_application',exists(select 1 from erp.schema_migrations where version='v2.6.18'),
             'v2618a_application',exists(select 1 from erp.schema_migrations where version='v2.6.18a'),
             'v2619_application',exists(select 1 from erp.schema_migrations where version='v2.6.19'),
+            'v2619a_application',exists(select 1 from erp.schema_migrations where version='v2.6.19a'),
             'production_go',false
           );
           SQL

@@ -93,7 +93,7 @@ for (const path of sourceFiles(resolve(root, 'src'))) {
 }
 
 assert.equal(evidence.format, 'CP5_ACCESS_ROUTE_ACTION_OWNERSHIP_V1')
-assert.equal(evidence.closure_status, 'READY_FOR_INDEPENDENT_AUDIT_NO_GO')
+assert.equal(evidence.closure_status, 'V2619A_IMPLEMENTED_PENDING_CURRENT_HEAD_CI_NO_GO')
 assert.equal(evidence.production_go, false)
 assert.equal(evidence.counts.backend_permissions, permissionRows.length)
 assert.equal(evidence.counts.navigation_labels, navMap.size)
@@ -157,7 +157,10 @@ assert.equal([...bsPage.matchAll(/\.rpc\s*\(\s*['"]([^'"]+)['"]/g)].length, 2)
 assert.equal(evidence.invariants.laundry_and_qc_writers_connected, false)
 assert.equal(evidence.invariants.source_only, false)
 assert.equal(evidence.invariants.uat_applied, true)
-assert.equal(evidence.invariants.candidate_apply_status, 'RECORDED_V2618_V2618A_V2619')
+assert.equal(evidence.invariants.candidate_apply_status, 'RECORDED_V2618_V2618A_V2619_V2619A')
+assert.equal(evidence.invariants.rework_accessory_selection_uses_existing_dispatcher, true)
+assert.equal(evidence.invariants.rework_partial_return_uses_existing_dispatcher, true)
+assert.equal(evidence.invariants.private_accessory_lineage_has_no_browser_table_access, true)
 assert.equal(evidence.invariants.hosted_auth_permission_e2e, 'PASS_31_OF_31')
 assert.equal(evidence.invariants.legacy_mutated, false)
 

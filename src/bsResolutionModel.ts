@@ -43,6 +43,23 @@ export type ReworkComponent = {
   qty_newly_payable: number; rate_snapshot: number; amount_payable: number
   rate_basis: string; notes: string | null
 }
+export type ReworkAccessoryItem = {
+  id: string; bom_item_id: string; category_id: string; code: string; name: string
+  qty_per_good_fg_base: number; reimbursement_unit_rate_base: number
+}
+export type ReworkAccessoryDecision = {
+  state: 'SELECTED' | 'NONE' | 'UNAVAILABLE'; bom_version_id: string | null
+  reimbursement_contractor_id: string | null; selected_item_count: number
+  selection_sha256: string; basis_at: string; selected_items: ReworkAccessoryItem[]
+}
+export type BsAccessoryBomItem = {
+  id: string; category_id: string; code: string; name: string; base_uom_code: string
+  qty_per_good_fg_base: number; reimbursement_rate: number; reimbursement_uom_code: string
+}
+export type BsAccessoryBom = {
+  state: 'AVAILABLE' | 'NONE' | 'UNAVAILABLE'; bom_version_id: string | null
+  items: BsAccessoryBomItem[]
+}
 export type ReworkOrder = {
   id: string; rework_number: string; destination_type: 'CONTRACTOR' | 'LAUNDRY'
   contractor_id: string | null; contractor_name: string | null
@@ -52,6 +69,7 @@ export type ReworkOrder = {
   cost_posted: boolean; return_fg_location_id: string | null
   return_fg_location_name: string | null; good_fg_lot_id: string | null
   row_version: number; notes: string | null; components: ReworkComponent[]
+  accessory_decision: ReworkAccessoryDecision
 }
 export type BsHoldEvent = {
   id: string; action: 'HOLD' | 'RELEASE'; previous_status: string
@@ -74,6 +92,7 @@ export type BsResolutionRow = {
   notes: string | null; next_action: string; is_closed: boolean
   components: BsCaseComponent[]; resolutions: BsResolution[]
   rework_orders: ReworkOrder[]; hold_events: BsHoldEvent[]
+  accessory_bom: BsAccessoryBom | null
 }
 export type BsResolutionWorkspace = {
   filter: BsWorkspaceFilter; kind: BsWorkspaceKind; pattern_id: string | null
@@ -154,6 +173,54 @@ function parseReworkComponent(value: unknown): ReworkComponent {
     amount_payable: number(raw.amount_payable, 'Nilai dibayar'), rate_basis: text(raw.rate_basis, 'Dasar rate'), notes: nullableText(raw.notes),
   }
 }
+function parseReworkAccessoryItem(value: unknown): ReworkAccessoryItem {
+  const raw = record(value, 'Aksesori terpilih')
+  return {
+    id: text(raw.id, 'ID pilihan aksesori'), bom_item_id: text(raw.bom_item_id, 'ID item BOM aksesori'),
+    category_id: text(raw.category_id, 'ID kategori aksesori'), code: text(raw.code, 'Kode aksesori'),
+    name: text(raw.name, 'Nama aksesori'),
+    qty_per_good_fg_base: number(raw.qty_per_good_fg_base, 'Qty aksesori per Good', Number.EPSILON),
+    reimbursement_unit_rate_base: number(raw.reimbursement_unit_rate_base, 'Rate reimbursement aksesori'),
+  }
+}
+function parseReworkAccessoryDecision(value: unknown): ReworkAccessoryDecision {
+  const raw = record(value, 'Keputusan aksesori rework')
+  const state = text(raw.state, 'Status keputusan aksesori')
+  if (!['SELECTED', 'NONE', 'UNAVAILABLE'].includes(state)) throw new Error('Status keputusan aksesori tidak valid.')
+  const selectedItems = list(raw.selected_items, 'Aksesori rework terpilih').map(parseReworkAccessoryItem)
+  const selectedItemCount = integer(raw.selected_item_count, 'Jumlah aksesori terpilih')
+  if (selectedItemCount !== selectedItems.length) throw new Error('Jumlah keputusan aksesori tidak konsisten.')
+  if ((state === 'SELECTED') !== (selectedItemCount > 0)) throw new Error('Status dan isi keputusan aksesori tidak konsisten.')
+  if ((state === 'UNAVAILABLE') !== (raw.bom_version_id == null)) throw new Error('Lineage BOM keputusan aksesori tidak konsisten.')
+  const selectionSha = text(raw.selection_sha256, 'Hash keputusan aksesori')
+  if (!/^[0-9a-f]{64}$/.test(selectionSha)) throw new Error('Hash keputusan aksesori tidak valid.')
+  return {
+    state: state as ReworkAccessoryDecision['state'], bom_version_id: nullableText(raw.bom_version_id),
+    reimbursement_contractor_id: nullableText(raw.reimbursement_contractor_id),
+    selected_item_count: selectedItemCount, selection_sha256: selectionSha,
+    basis_at: text(raw.basis_at, 'Waktu dasar keputusan aksesori'), selected_items: selectedItems,
+  }
+}
+function parseAccessoryBom(value: unknown): BsAccessoryBom | null {
+  if (value == null) return null
+  const raw = record(value, 'BOM aksesori kasus')
+  const state = text(raw.state, 'Status BOM aksesori')
+  if (!['AVAILABLE', 'NONE', 'UNAVAILABLE'].includes(state)) throw new Error('Status BOM aksesori tidak valid.')
+  const items = list(raw.items, 'Item BOM aksesori').map((item) => {
+    const itemRaw = record(item, 'Item BOM aksesori')
+    return {
+      id: text(itemRaw.id, 'ID item BOM aksesori'), category_id: text(itemRaw.category_id, 'ID kategori aksesori'),
+      code: text(itemRaw.code, 'Kode aksesori'), name: text(itemRaw.name, 'Nama aksesori'),
+      base_uom_code: text(itemRaw.base_uom_code, 'Satuan dasar aksesori'),
+      qty_per_good_fg_base: number(itemRaw.qty_per_good_fg_base, 'Qty aksesori per Good', Number.EPSILON),
+      reimbursement_rate: number(itemRaw.reimbursement_rate, 'Rate reimbursement aksesori'),
+      reimbursement_uom_code: text(itemRaw.reimbursement_uom_code, 'Satuan reimbursement aksesori'),
+    }
+  })
+  if ((state === 'AVAILABLE') !== (items.length > 0)) throw new Error('Status dan isi BOM aksesori tidak konsisten.')
+  if ((state === 'UNAVAILABLE') !== (raw.bom_version_id == null)) throw new Error('Lineage versi BOM aksesori tidak konsisten.')
+  return { state: state as BsAccessoryBom['state'], bom_version_id: nullableText(raw.bom_version_id), items }
+}
 function parseRework(value: unknown): ReworkOrder {
   const raw = record(value, 'Order rework')
   const destination = text(raw.destination_type, 'Tujuan rework')
@@ -171,6 +238,7 @@ function parseRework(value: unknown): ReworkOrder {
     return_fg_location_id: nullableText(raw.return_fg_location_id), return_fg_location_name: nullableText(raw.return_fg_location_name),
     good_fg_lot_id: nullableText(raw.good_fg_lot_id), row_version: integer(raw.row_version, 'Versi rework', 1),
     notes: nullableText(raw.notes), components: list(raw.components, 'Daftar komponen rework').map(parseReworkComponent),
+    accessory_decision: parseReworkAccessoryDecision(raw.accessory_decision),
   }
 }
 function parseHold(value: unknown): BsHoldEvent {
@@ -206,6 +274,7 @@ function parseRow(value: unknown): BsResolutionRow {
     is_closed: raw.is_closed, components: list(raw.components, 'Daftar komponen BS').map(parseComponent),
     resolutions: list(raw.resolutions, 'Daftar resolusi').map(parseResolution), rework_orders: list(raw.rework_orders, 'Daftar rework').map(parseRework),
     hold_events: list(raw.hold_events, 'Daftar riwayat HOLD').map(parseHold),
+    accessory_bom: parseAccessoryBom(raw.accessory_bom),
   }
 }
 

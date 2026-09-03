@@ -280,6 +280,7 @@ begin
       'qty_sent',1,'qty_good_returned',0,'qty_bs_returned',0,
       'physical_sent_at','2026-08-21 07:30:00+00','status','IN_PROGRESS',
       'change_reason','CP5 temporary rewash entered for cancellation proof',
+      'accessory_bom_item_ids',jsonb_build_array(),
       'components',jsonb_build_array()
     ),gen_random_uuid(),null
   );
@@ -357,6 +358,7 @@ begin
       'qty_sent',5,'qty_good_returned',0,'qty_bs_returned',0,
       'physical_sent_at','2026-08-21 10:00:00+00','status','IN_PROGRESS',
       'change_reason','CP5 send five pieces to rewash','notes','CP5 rewash',
+      'accessory_bom_item_ids',jsonb_build_array(),
       'components',jsonb_build_array()
     ),gen_random_uuid(),null
   );
@@ -405,6 +407,7 @@ begin
       'qty_sent',7,'qty_good_returned',0,'qty_bs_returned',0,
       'physical_sent_at','2026-08-21 13:00:00+00','status','IN_PROGRESS',
       'change_reason','CP5 contractor rework with canonical component rate',
+      'accessory_bom_item_ids',jsonb_build_array(),
       'components',jsonb_build_array(jsonb_build_object(
         'bs_case_component_id',v_component,'qty_performed',7,'notes','CP5 sewing retry'
       ))

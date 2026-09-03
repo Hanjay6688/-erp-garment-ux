@@ -1,0 +1,126 @@
+{
+  "format": "CP5_V2619A_UAT_ACCEPTANCE_V1",
+  "status": "PASS",
+  "mode": "HOSTED_UAT_RECORDED_MIGRATION_AND_TRANSACTIONAL_SQL",
+  "captured_at_utc": "2026-09-03T15:21:37.275Z",
+  "target_project_ref": "siimvrusnzxexizpyoib",
+  "target_environment": "ERP Enteng UAT",
+  "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
+  "correction": {
+    "application_version": "v2.6.19a",
+    "source_ledger_version": "20260903151034",
+    "platform_ledger_version": "20260903151034",
+    "name": "erp_v2_6_19a_cp5_rework_accessory_lineage",
+    "source_path": "supabase/migrations/20260903151034_erp_v2_6_19a_cp5_rework_accessory_lineage.sql",
+    "source_bytes": 55354,
+    "source_sha256": "204b9246f3c8c6464476da1a7f1574f5e0ae4c46f024c082704795b3eef5210f",
+    "platform_statement_count": 1,
+    "installed_at": "2026-09-03T15:10:34.973034Z",
+    "apply_path": "SUPABASE_OFFICIAL_APPLY_MIGRATION_CONNECTOR"
+  },
+  "predecessor_preserved": {
+    "application_version": "v2.6.19",
+    "platform_ledger_version": "20260903105814",
+    "name": "erp_v2_6_19_cp5_bs_resolution_recovery",
+    "source_bytes": 67744,
+    "source_sha256": "79e7b51b82759f1f4579fc373d11e41a668f312a569425aad2fdc2c4d6d68aa6",
+    "rewritten_or_deleted": false
+  },
+  "transactional_proofs": [
+    {
+      "name": "candidate_compile_and_schema_guard",
+      "status": "PASS",
+      "state_effect": "ROLLED_BACK"
+    },
+    {
+      "name": "existing_cp5_full_acceptance_under_candidate",
+      "status": "PASS",
+      "state_effect": "ROLLED_BACK"
+    },
+    {
+      "name": "selected_accessory_positive_financial_acceptance_under_candidate",
+      "status": "PASS",
+      "state_effect": "ROLLED_BACK"
+    },
+    {
+      "name": "repository_source_cp5_rework_accessory_lineage_rollback_against_installed_v2619a",
+      "source_path": "supabase/tests/cp5_rework_accessory_lineage_rollback.sql",
+      "status": "PASS",
+      "state_effect": "ROLLED_BACK"
+    },
+    {
+      "name": "repository_source_existing_cp5_acceptance_against_installed_v2619a",
+      "source_path": "supabase/tests/cp5_bs_resolution_recovery_rollback.sql",
+      "status": "PASS",
+      "state_effect": "ROLLED_BACK"
+    },
+    {
+      "name": "reviewed_v2619a_rollback_exact_restore",
+      "source_path": "supabase/rollbacks/20260903151034_erp_v2_6_19a_cp5_rework_accessory_lineage.rollback.sql",
+      "status": "PASS",
+      "state_effect": "OUTER_TRANSACTION_ROLLED_BACK_TO_V2619A"
+    }
+  ],
+  "assertions": {
+    "immutable_explicit_accessory_bom_selection": true,
+    "unchecked_bom_items_never_enter_hpp_or_reimbursement": true,
+    "positive_good_selected_button_hpp_60": true,
+    "positive_good_selected_button_reimbursement_90": true,
+    "positive_good_reimbursement_variance_30": true,
+    "positive_good_rework_labor_payable_20": true,
+    "explicit_empty_selection_never_falls_back_to_full_bom": true,
+    "rewash_selected_label_hpp_4": true,
+    "rewash_selected_label_reimbursement_7_to_po_contractor": true,
+    "rewash_vendor_work_fee_zero": true,
+    "partial_return_is_cumulative_and_posts_no_fg_or_money": true,
+    "completion_is_idempotent": true,
+    "reversal_unwinds_stock_and_money_but_preserves_selection_history": true,
+    "workspace_returns_authoritative_bom_and_frozen_decision": true,
+    "lineage_tables_private_rls_enabled": true,
+    "missing_hold_event_actor_index_added": true,
+    "reviewed_rollback_has_post_install_business_history_refusal_guard": true
+  },
+  "installed_function_md5": {
+    "save_rework_order_v2": "5bf622dfba25e85e846ddb8ba0dedac5",
+    "complete_rework_order_v2": "ca6fba986bf22ad2849ecc79fd2fa697",
+    "ensure_fg_accessory_cost_snapshot": "9808f90671de7a20ae16a197d8a61fd3",
+    "post_accessory_reimbursement_accrual": "87bf4af5a2267075ad49e0d39d3da69f",
+    "post_rework_completion": "675b7b52bc0c849c7fc8295afe4a614f",
+    "public_workspace": "0316fd7f5e2e3d0347fa1924c599a66c"
+  },
+  "post_proof_residue": {
+    "auth_users": 0,
+    "app_users": 0,
+    "bs_cases": 0,
+    "rework_orders": 0,
+    "rework_accessory_decisions": 0,
+    "rework_accessory_selection_lines": 0,
+    "fg_lots": 0,
+    "fg_accessory_cost_snapshots": 0,
+    "contractor_accessory_reimbursement_entitlements": 0,
+    "idempotency_requests": 0,
+    "bs_resolution_execution_context": 0,
+    "waiting_on_lock": 0,
+    "transactions_over_5m": 0
+  },
+  "post_apply_advisors": {
+    "observed_at_utc": "2026-09-03T15:33:09.438Z",
+    "new_scoped_security_warn_or_error": 0,
+    "new_scoped_performance_warn_or_error": 0,
+    "private_rls_without_policy_info": [
+      "erp.bs_resolution_v2619a_rollback_capsule",
+      "erp.rework_accessory_decisions",
+      "erp.rework_accessory_selection_lines"
+    ],
+    "private_rls_without_policy_reason": "Intentional deny-by-default private tables; browser roles have no table grants and use the permission-checked public facade.",
+    "foreign_key_index_info_count": 6,
+    "foreign_key_index_info_reason": "Informational only: immutable parent rows are not deleted through application workflows; hot decision_id and rework_order_id paths are already covered by unique or lookup indexes.",
+    "audit_finding_actor_fk_now_indexed": true,
+    "actor_index_advisor_state": "UNUSED_ON_EMPTY_UAT_NOT_UNINDEXED"
+  },
+  "hosted_http_auth_retest": false,
+  "hosted_http_auth_note": "The earlier 31/31 hosted Auth evidence remains historical v2.6.19 proof. v2.6.19a was exercised as authenticated-role transactional SQL; fresh real Auth/JWT coverage is required in the updated disposable full-schema CI before re-audit.",
+  "legacy_mutated": false,
+  "production_go": false,
+  "independent_audit_verdict": "PENDING"
+}

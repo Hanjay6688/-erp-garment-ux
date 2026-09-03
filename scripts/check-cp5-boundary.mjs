@@ -16,6 +16,9 @@ const cuttingTestPath = 'supabase/tests/cutting_bridge_persistence_pickup_wip_ro
 const cp5MigrationPath = 'supabase/migrations/20260903070932_erp_v2_6_19_cp5_bs_resolution_recovery.sql'
 const cp5RollbackPath = 'supabase/rollbacks/20260903070932_erp_v2_6_19_cp5_bs_resolution_recovery.rollback.sql'
 const cp5TestPath = 'supabase/tests/cp5_bs_resolution_recovery_rollback.sql'
+const lineageMigrationPath = 'supabase/migrations/20260903151034_erp_v2_6_19a_cp5_rework_accessory_lineage.sql'
+const lineageRollbackPath = 'supabase/rollbacks/20260903151034_erp_v2_6_19a_cp5_rework_accessory_lineage.rollback.sql'
+const lineageTestPath = 'supabase/tests/cp5_rework_accessory_lineage_rollback.sql'
 
 const cuttingMigration = read(cuttingMigrationPath)
 const cuttingRollback = read(cuttingRollbackPath)
@@ -25,6 +28,9 @@ const cuttingTest = read(cuttingTestPath)
 const cp5Migration = read(cp5MigrationPath)
 const cp5Rollback = read(cp5RollbackPath)
 const cp5Test = read(cp5TestPath)
+const lineageMigration = read(lineageMigrationPath)
+const lineageRollback = read(lineageRollbackPath)
+const lineageTest = read(lineageTestPath)
 
 function onlyVersion(directory, version, expected) {
   const matches = readdirSync(resolve(root, directory))
@@ -38,12 +44,16 @@ onlyVersion('supabase/migrations', '20260903070931', correctionMigrationPath.spl
 onlyVersion('supabase/rollbacks', '20260903070931', correctionRollbackPath.split('/').at(-1))
 onlyVersion('supabase/migrations', '20260903070932', cp5MigrationPath.split('/').at(-1))
 onlyVersion('supabase/rollbacks', '20260903070932', cp5RollbackPath.split('/').at(-1))
+onlyVersion('supabase/migrations', '20260903151034', lineageMigrationPath.split('/').at(-1))
+onlyVersion('supabase/rollbacks', '20260903151034', lineageRollbackPath.split('/').at(-1))
 
 for (const [path, sql] of [
   [cuttingMigrationPath, cuttingMigration], [cuttingRollbackPath, cuttingRollback],
   [correctionMigrationPath, correctionMigration], [correctionRollbackPath, correctionRollback],
   [cuttingTestPath, cuttingTest], [cp5MigrationPath, cp5Migration],
   [cp5RollbackPath, cp5Rollback], [cp5TestPath, cp5Test],
+  [lineageMigrationPath, lineageMigration], [lineageRollbackPath, lineageRollback],
+  [lineageTestPath, lineageTest],
 ]) {
   const tags = [...sql.matchAll(/\$[A-Za-z_][A-Za-z0-9_]*\$|\$\$/g)].map((match) => match[0])
   const counts = new Map()
@@ -77,6 +87,10 @@ const correctionHash = assertLedgerIdentity(
 const cp5Hash = assertLedgerIdentity(
   cp5Rollback, cp5Migration, '20260903070932',
   'erp_v2_6_19_cp5_bs_resolution_recovery', '__BS_RESOLUTION_MIGRATION_SHA256__',
+)
+const lineageHash = assertLedgerIdentity(
+  lineageRollback, lineageMigration, '20260903151034',
+  'erp_v2_6_19a_cp5_rework_accessory_lineage', '__REWORK_ACCESSORY_LINEAGE_MIGRATION_SHA256__',
 )
 
 assert.equal(Buffer.byteLength(cuttingMigration), 80392, 'Recorded UAT v2.6.18 byte length drift')
@@ -139,6 +153,33 @@ assert.match(cp5Migration, /delete from erp\.bs_resolution_execution_context[\s\
 assert.match(cp5Rollback, /v_internal_def not like '%cutting_bridge_execution_context%'/)
 assert.match(cp5Rollback, /v_internal_def like '%bs_resolution_execution_context%'/)
 
+assert.equal(Buffer.byteLength(lineageMigration), 55354, 'Recorded UAT v2.6.19a byte length drift')
+assert.equal(lineageHash, '204b9246f3c8c6464476da1a7f1574f5e0ae4c46f024c082704795b3eef5210f', 'Recorded UAT v2.6.19a source drift')
+for (const token of [
+  'rework_accessory_decisions', 'rework_accessory_selection_lines',
+  'accessory_bom_item_ids must be an explicit array',
+  'Cumulative rework return quantities cannot decrease',
+  'Final cumulative rework quantities cannot decrease',
+  'Link the lot before snapshotting', 'idx_bs_case_hold_events_actor',
+  'ux_rework_orders_good_fg_lot_v2619a', "'v2.6.19a'",
+]) assert.ok(lineageMigration.includes(token), `v2.6.19a lineage boundary token missing: ${token}`)
+for (const token of [
+  'intentionally pre-use only', 'exact six-function capsule',
+  'post-install business/audit/idempotency history exists',
+  "md5(pg_get_functiondef(\n       'erp.save_rework_order_v2(jsonb,uuid,bigint)'::regprocedure",
+  'f4f238d3b029c63d8d4c7753e3b661a1',
+]) assert.ok(lineageRollback.includes(token), `v2.6.19a rollback proof token missing: ${token}`)
+for (const token of [
+  'Only Button was newly installed; Label remained unchecked',
+  'Partial return posted FG/accounting or lost cumulative custody',
+  'Selected Button reimbursement did not accrue to the authoritative Mandor',
+  'Selected accessory accrual did not post exact WIP/variance/payable amounts',
+  'Explicit empty accessory choice fell back to the full BOM',
+  'REWASH did not pay only Label to the PO Mandor with zero vendor work fee',
+  'Reversal did not unwind money/stock while preserving immutable selection',
+  'Accessory selection history accepted an in-place rewrite',
+]) assert.ok(lineageTest.includes(token), `v2.6.19a acceptance proof missing: ${token}`)
+
 const cp5Page = read('src/ConnectedBsResolutionPage.tsx')
 const cp5Model = read('src/bsResolutionModel.ts')
 const cp5ModelTest = read('src/bsResolutionModel.test.ts')
@@ -169,9 +210,14 @@ for (const token of [
   "type ClaimType = 'STUCK' | 'MISSING' | 'DAMAGE' | 'OTHER'", 'receipt_line_id:',
   'settled_claims', "action: 'CANCEL'", 'busyRef.current', 'cbsr-pagination',
   'completed_before_bs_qty', 'globalThis.crypto.randomUUID()', 'loadRequestRef.current',
-  'actionRequestRef.current.fingerprint',
+  'actionRequestRef.current.fingerprint', 'AKSESORI YANG BENAR-BENAR DIPASANG',
+  'accessory_bom_item_ids: accessoryIds', "action: 'SAVE', qty_good_returned: qty(good)",
+  'Simpan partial', 'Vendor Rewash tidak mendapat fee kerja komponen',
 ]) assert.ok(cp5Page.includes(token), `CP5 UI lifecycle token missing: ${token}`)
-for (const token of ['laundry_sources', 'laundry_receipt_sources', 'settled_claims', 'qty_claimable_pcs']) {
+for (const token of [
+  'laundry_sources', 'laundry_receipt_sources', 'settled_claims', 'qty_claimable_pcs',
+  'accessory_bom', 'accessory_decision', 'selection_sha256',
+]) {
   assert.ok(cp5Model.includes(token), `CP5 response parser omits ${token}`)
   assert.ok(cp5ModelTest.includes(token), `CP5 parser test omits ${token}`)
 }
@@ -224,12 +270,17 @@ for (const token of [
   'same-frame double mutation', "p_action: 'HOLD_BS'", "p_pattern_id === 'pattern-2'",
   'Tidak ada kasus pada filter ini', 'Tidak ada detail', 'view-only access',
   'reuses the same idempotency key',
+  'sends only checked accessory BOM items', 'saves cumulative partial returns without calling the completion action',
+  "accessory_bom_item_ids: ['bom-item-1']", "p_action: 'SAVE_REWORK'", "action: 'SAVE'",
 ]) assert.ok(cp5DomTest.includes(token), `CP5 DOM proof missing: ${token}`)
 for (const token of [
   "proof_class: 'LOCAL_MOCKED_UAT_CONTRACT'", 'hosted_uat: false',
   "p_action: 'HOLD_BS'", "args.p_pattern_id !== 'pattern-2'",
   'same_frame_mutation_count', 'view_only_mutation_count: 0',
   "locator('.cbsr-detail').getByRole('heading', { name: 'BS-1', exact: true })",
+  'AKSESORI YANG BENAR-BENAR DIPASANG',
+  'saves cumulative partial return without posting completion',
+  "p_action: 'SAVE_REWORK', p_expected_version: 2", 'completion_posted: false',
 ]) assert.ok(cp5BrowserTest.includes(token), `CP5 browser contract proof missing: ${token}`)
 assert.match(cp5BrowserConfig, /testMatch: 'cp5-bs-resolution\.spec\.ts'/)
 assert.match(cp5BrowserConfig, /ERP_UAT_AUTH_ALLOW_MOCK_KEY: '1'/)
@@ -280,13 +331,19 @@ for (const token of [
   '20260903022604_erp_v2_6_18_cutting_persistence_pickup_wip.sql',
   '20260903070931_erp_v2_6_18a_cutting_bridge_reconciliation.sql',
   '20260903070932_erp_v2_6_19_cp5_bs_resolution_recovery.sql',
+  '20260903151034_erp_v2_6_19a_cp5_rework_accessory_lineage.sql',
   'cp5_bs_resolution_recovery_rollback.sql', 'cp5_bs_resolution_concurrency.py',
+  'cp5_rework_accessory_lineage_rollback.sql',
   'cp5_auth_permission_e2e.mjs', 'test:browser:precp5', 'test:browser:cp5',
+  '20260903151034_erp_v2_6_19a_cp5_rework_accessory_lineage.rollback.sql',
   '20260903070932_erp_v2_6_19_cp5_bs_resolution_recovery.rollback.sql',
   '20260903070931_erp_v2_6_18a_cutting_bridge_reconciliation.rollback.sql',
   '20260903022604_erp_v2_6_18_cutting_persistence_pickup_wip.rollback.sql',
-  'V2619_ROLLBACK_WRONG_LOCAL_NAME_REJECTION.log', 'V2618A_ROLLBACK_WRONG_LOCAL_NAME_REJECTION.log',
+  'V2619A_ROLLBACK_WRONG_LOCAL_NAME_REJECTION.log', 'V2619_ROLLBACK_WRONG_LOCAL_NAME_REJECTION.log',
+  'V2619A_ROLLBACK_POST_USE_REJECTION.log',
+  'V2618A_ROLLBACK_WRONG_LOCAL_NAME_REJECTION.log',
   'V2618_ROLLBACK_WRONG_LOCAL_NAME_REJECTION.log', 'V2619_HOSTED_PLATFORM_LEDGER_SHAPE.json',
+  'V2619A_HOSTED_PLATFORM_LEDGER_SHAPE.json',
   'V2618A_HOSTED_PLATFORM_LEDGER_SHAPE.json', 'V2618_HOSTED_PLATFORM_LEDGER_SHAPE.json',
   '20260903060213', '6a568a78ad0b9baa2ef5ee958ee967d7c997cc1f4dfb7f0e4ef5e6ff69e5038f',
   "set name='WRONG_MIGRATION'", "'production_go',false",
@@ -298,4 +355,4 @@ for (const staleRecoveryToken of [
 
 const tempDirectory = resolve(root, 'supabase/.temp')
 assert.equal(existsSync(tempDirectory) ? readdirSync(tempDirectory).length : 0, 0, 'Supabase generator cache files must not enter the candidate')
-console.log(`CP5 boundary passed: recorded Cutting ${cuttingHash.slice(0, 12)}, reconciliation ${correctionHash.slice(0, 12)}, BS Resolution ${cp5Hash.slice(0, 12)}; canonical gates, 12 actions, Pattern filters, rollback identities, mixed-case release-key regression, and hosted-UAT boundaries are owned.`)
+console.log(`CP5 boundary passed: recorded Cutting ${cuttingHash.slice(0, 12)}, reconciliation ${correctionHash.slice(0, 12)}, BS Resolution ${cp5Hash.slice(0, 12)}, accessory lineage ${lineageHash.slice(0, 12)}; canonical gates, 12 actions, partial returns, selected-only reimbursement, Pattern filters, rollback identities, mixed-case release-key regression, and hosted-UAT boundaries are owned.`)
