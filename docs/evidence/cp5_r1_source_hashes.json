@@ -3,7 +3,7 @@
   "candidate_branch": "pre-cp5/cutting-persistence-pickup-wip-r1-20260903",
   "source_base_sha": "8bfac13b91ea1be92111139e2fddcabccf9ae19a",
   "source_base_tree": "a9b193010266bb686c57709865a992769a835855",
-  "generation_parent_sha": "4f3ef7899c99b537837d1519c3847ecc9e4fd95e",
+  "generation_parent_sha": "e3193bbdc18fe39ded43e14b022007876fee9c52",
   "target_project_ref": "siimvrusnzxexizpyoib",
   "target_environment": "ERP Enteng UAT",
   "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
@@ -83,8 +83,8 @@
       "sha256": "23f854de26c66ee8bb0d5e9aa98684da31471aadd98d63c303d31e135f7d0cf9"
     },
     ".gitignore": {
-      "bytes": 301,
-      "sha256": "d5ecd0edae05e742df746b0f87dfa509505ccc4409185b88ed63dfd89e88990a"
+      "bytes": 345,
+      "sha256": "b3fbafd905cf6f028db98274a05811af388886e01d3209c59e098134e19b42d4"
     },
     "docs/evidence/cp5_access_route_action_ownership.json": {
       "bytes": 1912,
@@ -255,8 +255,8 @@
       "sha256": "c9787a5ad5e6514b9fad91f5642b63e611bc187855c121e06450b570f22898c0"
     },
     "supabase/tests/cutting_bridge_persistence_pickup_wip_rollback.sql": {
-      "bytes": 26676,
-      "sha256": "98d349868fa20c8ecbdd13c15fd9f7e217caf44feb8c0022939e4a2f07f56929"
+      "bytes": 27072,
+      "sha256": "d1b32d2ae631512ae039197487abb1bb9e6e6900f6fc86ad416542c08da22407"
     },
     "tests/browser/cp5-bs-resolution.spec.ts": {
       "bytes": 11764,
