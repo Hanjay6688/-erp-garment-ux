@@ -245,7 +245,7 @@ begin
   ) or(
     m.name='erp_v2_6_19_cp5_bs_resolution_recovery'
     and coalesce(encode(extensions.digest(convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'),'hex'),'')
-      ='5c3e0b77eea21ae0a01763a9ed002c9a6850fdbf89bb5bfb384ac3bcbe00d1a9'
+      ='79e7b51b82759f1f4579fc373d11e41a668f312a569425aad2fdc2c4d6d68aa6'
   );
   select count(*) into v_conflict_count
   from supabase_migrations.schema_migrations m
@@ -254,7 +254,7 @@ begin
       (m.version='20260903070932' and m.name='erp_v2_6_19_cp5_bs_resolution_recovery')
       or(m.name='erp_v2_6_19_cp5_bs_resolution_recovery'
         and coalesce(encode(extensions.digest(convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'),'hex'),'')
-          ='5c3e0b77eea21ae0a01763a9ed002c9a6850fdbf89bb5bfb384ac3bcbe00d1a9')
+          ='79e7b51b82759f1f4579fc373d11e41a668f312a569425aad2fdc2c4d6d68aa6')
     );
   if v_match_count<>1 or v_conflict_count<>0 then
     raise exception 'v2.6.19 rollback refused: platform ledger identity is ambiguous (match %, conflict %)',
@@ -270,7 +270,7 @@ where(
 ) or(
   m.name='erp_v2_6_19_cp5_bs_resolution_recovery'
   and coalesce(encode(extensions.digest(convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'),'hex'),'')
-    ='5c3e0b77eea21ae0a01763a9ed002c9a6850fdbf89bb5bfb384ac3bcbe00d1a9'
+    ='79e7b51b82759f1f4579fc373d11e41a668f312a569425aad2fdc2c4d6d68aa6'
 );
 
 drop table erp.bs_resolution_v2619_rollback_capsule;

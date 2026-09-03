@@ -125,6 +125,7 @@ for (const token of [
   'actor_key=erp._idempotency_actor_key()', 'erp.has_permission(c.permission_key)',
   'laundry_receipt_sources', 'settled_claims', "d.status in('SENT','PARTIAL_RETURN','RETURNED','CLOSED')",
   "c.claim_type='DAMAGE'", "c.status='SETTLED'", 'p_pattern_id',
+  "untracked_type=case when v_cause='UNKNOWN' then untracked_type else null end",
 ]) assert.ok(cp5Migration.includes(token), `CP5 boundary token missing: ${token}`)
 assert.doesNotMatch(cp5Migration, /d\.status\s*=\s*'POSTED'/, 'Laundry delivery lookup uses an impossible POSTED status')
 assert.match(cp5Migration, /coalesce\(c\.delivery_id,claim_receipt\.delivery_id\) delivery_id/, 'Settled receipt claim must derive its delivery lineage')
@@ -213,6 +214,7 @@ for (const proof of [
   'CP5 DAMAGE claim exceeded receipt-line capacity', 'source_laundry_receipt_line_id=v_receipt_line',
   'laundry_receipt_bs_product_allocations', 'source_laundry_bs_allocation_id=v_receipt_allocation',
   'select row_version into v_receipt_version',
+  'CP5 manual BS classification did not reconcile tracked cause and legacy audit lineage',
 ]) assert.ok(cp5Test.includes(proof), `CP5 acceptance proof missing: ${proof}`)
 
 for (const token of [

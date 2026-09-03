@@ -3,7 +3,7 @@
   "candidate_branch": "pre-cp5/cutting-persistence-pickup-wip-r1-20260903",
   "source_base_sha": "8bfac13b91ea1be92111139e2fddcabccf9ae19a",
   "source_base_tree": "a9b193010266bb686c57709865a992769a835855",
-  "generation_parent_sha": "5a90ae2e1e3c10733f7a511034c05ee3a0b5be1d",
+  "generation_parent_sha": "c3608ee8fa78fee05241c0b2c60c8d1e8986e789",
   "target_project_ref": "siimvrusnzxexizpyoib",
   "target_environment": "ERP Enteng UAT",
   "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
@@ -38,8 +38,8 @@
       "application_version": "v2.6.19",
       "name": "erp_v2_6_19_cp5_bs_resolution_recovery",
       "source_path": "supabase/migrations/20260903070932_erp_v2_6_19_cp5_bs_resolution_recovery.sql",
-      "source_bytes": 62510,
-      "source_sha256": "5c3e0b77eea21ae0a01763a9ed002c9a6850fdbf89bb5bfb384ac3bcbe00d1a9",
+      "source_bytes": 67744,
+      "source_sha256": "79e7b51b82759f1f4579fc373d11e41a668f312a569425aad2fdc2c4d6d68aa6",
       "rollback_path": "supabase/rollbacks/20260903070932_erp_v2_6_19_cp5_bs_resolution_recovery.rollback.sql",
       "acceptance_path": "supabase/tests/cp5_bs_resolution_recovery_rollback.sql",
       "uat_applied": false
@@ -115,8 +115,8 @@
       "sha256": "2c644f1f834e23753d462e1d9c3ca14379941d8f3eb17f9a38d67b3f0c0d4bca"
     },
     "scripts/check-cp5-boundary.mjs": {
-      "bytes": 19187,
-      "sha256": "38b0befa9c6560599b596ba798847d298a53888c6947f048ba3588eec92fc8f4"
+      "bytes": 19360,
+      "sha256": "eec062c2cc38488ae463a80c69312ad429857b65161c2ea2cecd201dce921ca3"
     },
     "scripts/check-source-ownership.mjs": {
       "bytes": 4509,
@@ -235,8 +235,8 @@
       "sha256": "d024a9ef2c8b1d5d9c529669b0b46a7588575f3bdc6788252c1b90d0ab2aae6a"
     },
     "supabase/migrations/20260903070932_erp_v2_6_19_cp5_bs_resolution_recovery.sql": {
-      "bytes": 62510,
-      "sha256": "5c3e0b77eea21ae0a01763a9ed002c9a6850fdbf89bb5bfb384ac3bcbe00d1a9"
+      "bytes": 67744,
+      "sha256": "79e7b51b82759f1f4579fc373d11e41a668f312a569425aad2fdc2c4d6d68aa6"
     },
     "supabase/rollbacks/20260903022604_erp_v2_6_18_cutting_persistence_pickup_wip.rollback.sql": {
       "bytes": 17064,
@@ -248,11 +248,11 @@
     },
     "supabase/rollbacks/20260903070932_erp_v2_6_19_cp5_bs_resolution_recovery.rollback.sql": {
       "bytes": 14011,
-      "sha256": "a33abf9e987b53ae52e74cf4f4fef535d2c67e2a392b6b846c0eb1b0bcce4fa9"
+      "sha256": "758fbfc1cf44c5092efc7c1bc8be3d8edeb6c32a0e47baaaa78838ec22e2d571"
     },
     "supabase/tests/cp5_bs_resolution_recovery_rollback.sql": {
-      "bytes": 33925,
-      "sha256": "99c2e51d08af4768c52632b2c1f63940457a013a7a87842122e651b166c59a46"
+      "bytes": 34246,
+      "sha256": "78384f5272a7b20034178317dbf5602ab86436940ea4c962528baf9da46ac665"
     },
     "supabase/tests/cutting_bridge_persistence_pickup_wip_rollback.sql": {
       "bytes": 28265,

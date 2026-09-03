@@ -266,6 +266,11 @@ begin
       'change_reason','CP5 physical inspection classified Laundry cause'
     ),gen_random_uuid(),v_manual_version
   );
+  if v_response#>>'{result,cause_source}'<>'LAUNDRY'
+     or v_response#>>'{result,untracked_type}' is not null
+     or v_response#>>'{result,legacy_reference}'<>'CP5-LEGACY-BOOK-17' then
+    raise exception 'CP5 manual BS classification did not reconcile tracked cause and legacy audit lineage: %',v_response;
+  end if;
   v_manual_version:=(v_response#>>'{result,row_version}')::bigint;
 
   v_response:=public.erp_save_bs_resolution_action_v1(
