@@ -96,8 +96,10 @@ async function cleanup() {
     const ids = appUserIds.map((id) => `'${id}'::uuid`).join(',')
     sql(`begin;
       set local erp.cp45_allow_synthetic_cleanup='on';
+      delete from erp.audit_logs where changed_by in (${ids}) or entity_id in (${ids});
       delete from erp.app_access_audit where actor_app_user_id in (${ids}) or entity_id in (${ids});
       delete from erp.app_users where id in (${ids});
+      -- The first pass releases audit FKs; this pass removes delete tombstones.
       delete from erp.audit_logs where changed_by in (${ids}) or entity_id in (${ids});
       commit;`)
   }

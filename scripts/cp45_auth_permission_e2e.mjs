@@ -187,6 +187,7 @@ function cleanupDatabase() {
   if (!appIds && !customRoles && !patterns && !requests) return
   sql(`begin;
     set local erp.cp45_allow_synthetic_cleanup='on';
+    ${appIds || auditEntities ? `delete from erp.audit_logs where ${appIds ? `changed_by in (${appIds})` : 'false'} or ${auditEntities ? `entity_id in (${auditEntities})` : 'false'};` : ''}
     ${patterns ? `delete from erp.production_pattern_audit where pattern_id in (${patterns}) or entity_id in (${patterns});` : ''}
     ${patterns ? `delete from erp.production_patterns where id in (${patterns});` : ''}
     ${appIds ? `delete from erp.app_access_audit where actor_app_user_id in (${appIds}) or (entity_type='USER_ACCESS' and entity_id in (${appIds}));` : ''}
@@ -196,6 +197,7 @@ function cleanupDatabase() {
     ${appIds ? `delete from erp.app_users where id in (${appIds});` : ''}
     ${customRoles ? `delete from erp.app_roles where id in (${customRoles});` : ''}
     ${requests ? `delete from erp.idempotency_requests where client_request_id in (${requests});` : ''}
+    -- The first pass releases audit FKs; this pass removes delete tombstones.
     ${appIds || auditEntities ? `delete from erp.audit_logs where ${appIds ? `changed_by in (${appIds})` : 'false'} or ${auditEntities ? `entity_id in (${auditEntities})` : 'false'};` : ''}
     commit;`)
 }
