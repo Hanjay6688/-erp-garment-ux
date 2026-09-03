@@ -27,6 +27,8 @@ DELIVERY = 'c6c00000-0000-4000-8000-000000000305'
 DELIVERY_LINE = 'c6c00000-0000-4000-8000-000000000306'
 RECEIPT = 'c6c00000-0000-4000-8000-000000000307'
 RECEIPT_LINE = 'c6c00000-0000-4000-8000-000000000308'
+CONTRACTOR = 'c6c00000-0000-4000-8000-000000000309'
+MODEL = 'c6c00000-0000-4000-8000-000000000310'
 DISPOSE_REQUEST_A = 'c6c00000-0000-4000-8000-000000000401'
 DISPOSE_REQUEST_B = 'c6c00000-0000-4000-8000-000000000402'
 CLAIM_REQUEST_A = 'c6c00000-0000-4000-8000-000000000403'
@@ -76,14 +78,29 @@ def setup():
         )
         cur.execute(
             """
+            insert into erp.contractors(
+              id,contractor_code,contractor_name,contractor_type,attendance_required
+            ) values(%s::uuid,'CP5-RACE-M','CP5 Race Mandor','MANDOR',true)
+            """,
+            (CONTRACTOR,),
+        )
+        cur.execute(
+            """
+            insert into erp.product_models(id,model_code,model_name)
+            values(%s::uuid,'CP5-RACE-MODEL','CP5 Race Model')
+            """,
+            (MODEL,),
+        )
+        cur.execute(
+            """
             insert into erp.production_orders(
               id,po_number,model_id,contractor_id,target_qty_pcs,status,current_stage,physical_start_at,notes
             ) values(
-              %s::uuid,'CP5-RACE-PO','a2000000-0000-0000-0000-000000000001',
-              'a1000000-0000-0000-0000-000000000001',3,'CUTTING','CUTTING',clock_timestamp(),'CP5 race'
+              %s::uuid,'CP5-RACE-PO',%s::uuid,%s::uuid,
+              3,'CUTTING','CUTTING',clock_timestamp(),'CP5 race'
             )
             """,
-            (PO,),
+            (PO, MODEL, CONTRACTOR),
         )
         cur.execute(
             "insert into erp.cutting_batches(id,po_id,batch_number,cut_at,status,notes) "
@@ -135,7 +152,10 @@ def setup():
 
 def cleanup():
     request_ids = [DISPOSE_REQUEST_A, DISPOSE_REQUEST_B, CLAIM_REQUEST_A, CLAIM_REQUEST_B]
-    entity_ids = [BS_CASE, PO, BATCH, GROUP, VENDOR, DELIVERY, DELIVERY_LINE, RECEIPT, RECEIPT_LINE]
+    entity_ids = [
+        BS_CASE, PO, BATCH, GROUP, VENDOR, DELIVERY, DELIVERY_LINE,
+        RECEIPT, RECEIPT_LINE, CONTRACTOR, MODEL,
+    ]
     with connect() as conn, conn.cursor() as cur:
         cur.execute("set local lock_timeout='10s'")
         cur.execute("select set_config('erp.cp45_allow_synthetic_cleanup','on',true)")
@@ -155,6 +175,8 @@ def cleanup():
         cur.execute("delete from erp.cutting_groups where id=%s::uuid", (GROUP,))
         cur.execute("delete from erp.cutting_batches where id=%s::uuid", (BATCH,))
         cur.execute("delete from erp.production_orders where id=%s::uuid", (PO,))
+        cur.execute("delete from erp.contractors where id=%s::uuid", (CONTRACTOR,))
+        cur.execute("delete from erp.product_models where id=%s::uuid", (MODEL,))
         cur.execute(
             "delete from erp.audit_logs where changed_by=%s::uuid or entity_id=any(%s::uuid[]) or change_reason like 'CP5 race %%'",
             (OPERATOR_APP, entity_ids),
@@ -381,6 +403,8 @@ try:
           'groups',(select count(*) from erp.cutting_groups where id=%s::uuid),
           'batches',(select count(*) from erp.cutting_batches where id=%s::uuid),
           'orders',(select count(*) from erp.production_orders where id=%s::uuid),
+          'contractors',(select count(*) from erp.contractors where id=%s::uuid),
+          'models',(select count(*) from erp.product_models where id=%s::uuid),
           'idempotency',(select count(*) from erp.idempotency_requests where client_request_id=any(%s::uuid[])),
           'access_audit',(select count(*) from erp.app_access_audit
             where actor_app_user_id=%s::uuid or entity_id=%s::uuid),
@@ -392,9 +416,13 @@ try:
         (
             OPERATOR_APP, BS_CASE, BS_CASE, BS_CASE, RECEIPT_LINE,
             RECEIPT, RECEIPT_LINE, DELIVERY, DELIVERY_LINE, VENDOR, GROUP, BATCH, PO,
+            CONTRACTOR, MODEL,
             [DISPOSE_REQUEST_A, DISPOSE_REQUEST_B, CLAIM_REQUEST_A, CLAIM_REQUEST_B],
             OPERATOR_APP, OPERATOR_APP, OPERATOR_APP,
-            [BS_CASE, PO, BATCH, GROUP, VENDOR, DELIVERY, DELIVERY_LINE, RECEIPT, RECEIPT_LINE],
+            [
+                BS_CASE, PO, BATCH, GROUP, VENDOR, DELIVERY, DELIVERY_LINE,
+                RECEIPT, RECEIPT_LINE, CONTRACTOR, MODEL,
+            ],
         ),
     )
 except Exception as exc:  # pragma: no cover - emitted as proof

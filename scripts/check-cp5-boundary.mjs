@@ -244,6 +244,8 @@ for (const token of [
   'run_disposition_race()', 'run_claim_race()', 'DAMAGE claim exceeds BS quantity',
   'real_two_connection_wait_observed', 'remaining_capacity', "'audit_logs',(select count(*) from erp.audit_logs",
   "'access_audit',(select count(*) from erp.app_access_audit", "report['residue'] = residue",
+  "insert into erp.contractors", "insert into erp.product_models",
+  "'contractors',(select count(*) from erp.contractors", "'models',(select count(*) from erp.product_models",
 ]) assert.ok(cp5RaceTest.includes(token), `CP5 concurrency proof missing: ${token}`)
 for (const token of [
   'SOURCE_BASE_SHA: 8bfac13b91ea1be92111139e2fddcabccf9ae19a',
