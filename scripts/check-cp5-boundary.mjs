@@ -238,6 +238,9 @@ for (const token of [
 ]) assert.ok(cp5RaceTest.includes(token), `CP5 concurrency proof missing: ${token}`)
 for (const token of [
   'SOURCE_BASE_SHA: 8bfac13b91ea1be92111139e2fddcabccf9ae19a',
+  'erp_enteng_cp45a_catalog_bootstrap.sql.gz',
+  'READ_ONLY_PG_CATALOG_PLUS_ALLOWLISTED_CONFIGURATION',
+  'CP45A_RESTORED_BOUNDARY.json',
   '20260903022604_erp_v2_6_18_cutting_persistence_pickup_wip.sql',
   '20260903070931_erp_v2_6_18a_cutting_bridge_reconciliation.sql',
   '20260903070932_erp_v2_6_19_cp5_bs_resolution_recovery.sql',
@@ -252,6 +255,10 @@ for (const token of [
   '20260903060213', '6a568a78ad0b9baa2ef5ee958ee967d7c997cc1f4dfb7f0e4ef5e6ff69e5038f',
   "set name='WRONG_MIGRATION'", "'production_go',false",
 ]) assert.ok(cp5Workflow.includes(token), `CP5 full-schema workflow missing: ${token}`)
+for (const staleRecoveryToken of [
+  'RECOVERY_RUN_ID', 'cp35-final-recovery-capsule-encrypted',
+  'cp35-final-recovery-key-separate', 'recovery-transport',
+]) assert.equal(cp5Workflow.includes(staleRecoveryToken), false, `CP5 workflow still depends on expiring recovery material: ${staleRecoveryToken}`)
 
 const tempDirectory = resolve(root, 'supabase/.temp')
 assert.equal(existsSync(tempDirectory) ? readdirSync(tempDirectory).length : 0, 0, 'Supabase generator cache files must not enter the candidate')

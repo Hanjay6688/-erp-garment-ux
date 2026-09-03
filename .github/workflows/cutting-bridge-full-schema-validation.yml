@@ -278,9 +278,15 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          git show 8bfac13b91ea1be92111139e2fddcabccf9ae19a:supabase/tests/cutting_bridge_persistence_pickup_wip_rollback.sql \
+            > supabase/tests/.cutting_bridge_v2618_frozen_acceptance.sql
+          echo '417053a101891dae0810c157479d8876ba43704f1552bb36b5426b48a239dfdd  supabase/tests/.cutting_bridge_v2618_frozen_acceptance.sql' \
+            | sha256sum -c - \
+            | tee cutting-bridge-proof/CUTTING_BRIDGE_FROZEN_ACCEPTANCE_SHA256.txt
           psql "$PGURL" -v ON_ERROR_STOP=1 \
-            -f supabase/tests/cutting_bridge_persistence_pickup_wip_rollback.sql \
+            -f supabase/tests/.cutting_bridge_v2618_frozen_acceptance.sql \
             2>&1 | tee cutting-bridge-proof/CUTTING_BRIDGE_ACCEPTANCE.log
+          rm supabase/tests/.cutting_bridge_v2618_frozen_acceptance.sql
           psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' \
             | tee cutting-bridge-proof/CUTTING_BRIDGE_INSTALLED_FUNCTION_HASHES.json
           select jsonb_object_agg(

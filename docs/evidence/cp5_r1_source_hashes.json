@@ -3,7 +3,7 @@
   "candidate_branch": "pre-cp5/cutting-persistence-pickup-wip-r1-20260903",
   "source_base_sha": "8bfac13b91ea1be92111139e2fddcabccf9ae19a",
   "source_base_tree": "a9b193010266bb686c57709865a992769a835855",
-  "generation_parent_sha": "8bfac13b91ea1be92111139e2fddcabccf9ae19a",
+  "generation_parent_sha": "0c35edb6326c9bc8d1745799a7ca37e0df70318b",
   "target_project_ref": "siimvrusnzxexizpyoib",
   "target_environment": "ERP Enteng UAT",
   "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
@@ -70,9 +70,17 @@
   "legacy_mutated": false,
   "production_go": false,
   "files": {
+    ".github/workflows/ci.yml": {
+      "bytes": 1865,
+      "sha256": "6c878f0085bdf8c6a18a8bbc92f00dff0755f0841809d31460a12e942b21b182"
+    },
     ".github/workflows/cp5-full-schema-validation.yml": {
-      "bytes": 42553,
-      "sha256": "24ed5a3750a670fceda8d950988f4520e85280ec33d9a52d234ef29f6d1216fc"
+      "bytes": 43952,
+      "sha256": "f342645a5139f5dee69545d9825c050c74dadbc74d9a9c966cb12ed039997a14"
+    },
+    ".github/workflows/cutting-bridge-full-schema-validation.yml": {
+      "bytes": 26658,
+      "sha256": "c41b634f57558877167c577e3c80bb8d662c994ad17d31393f38bae2089496c3"
     },
     ".gitignore": {
       "bytes": 301,
@@ -103,12 +111,12 @@
       "sha256": "993657d43b4ff5373d1b46e700e447f9234fd67f5178d6e5816592181971cbda"
     },
     "scripts/check-backend-ownership-v3.mjs": {
-      "bytes": 18066,
-      "sha256": "568b4a2e13889535d0664724971ed50301fd2d2eca1e54c1d092673a5d9f7e9d"
+      "bytes": 18057,
+      "sha256": "2c644f1f834e23753d462e1d9c3ca14379941d8f3eb17f9a38d67b3f0c0d4bca"
     },
     "scripts/check-cp5-boundary.mjs": {
-      "bytes": 18013,
-      "sha256": "3e9a1f26f3c1373e39d25a50024a42447e466c78ec193adf3296caafb00673fd"
+      "bytes": 18456,
+      "sha256": "383cdd3049b54140ca022a3c551aa789b6b9808d1605adc40e2890a97eb714eb"
     },
     "scripts/check-source-ownership.mjs": {
       "bytes": 4509,

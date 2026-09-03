@@ -30,12 +30,16 @@ jobs:
       - run: npm run test:security
       - run: npm run build
       - run: npm run test:browser:cp45
+      - run: npm run test:browser:precp5
+      - run: npm run test:browser:cp5
       - name: Upload non-secret browser proof
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: erp-desktop-mobile-browser-proof
-          path: cp45-browser-proof
+          path: |
+            cp45-browser-proof
+            cp5-browser-contract-proof
           if-no-files-found: warn
           retention-days: 30
       - run: npm run scan:dist

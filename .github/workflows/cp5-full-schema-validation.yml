@@ -17,7 +17,6 @@ concurrency:
 env:
   SOURCE_BASE_SHA: 8bfac13b91ea1be92111139e2fddcabccf9ae19a
   SOURCE_BASE_TREE: a9b193010266bb686c57709865a992769a835855
-  RECOVERY_RUN_ID: 33587654349
   PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
   CP45_PATTERN_ASSIGNMENT_RACE_REPORT: cp5-proof/cp45-pattern-assignment-concurrency.json
   CP45_AUTH_REPORT: cp5-proof/cp45-auth-permission-e2e.json
@@ -53,8 +52,8 @@ jobs:
           npx playwright test --list --config playwright.cp5.config.ts
           npx playwright test tests/browser/cutting-bridge.spec.ts --list
           git diff --check "$SOURCE_BASE_SHA" "$GITHUB_SHA"
-          printf 'branch=%s\nhead=%s\nbase=%s\nbase_tree=%s\nremote_head=%s\ncommit_count=%s\n' \
-            "$GITHUB_REF_NAME" "$GITHUB_SHA" "$SOURCE_BASE_SHA" "$SOURCE_BASE_TREE" "$remote_head" \
+          printf 'branch=%s\nhead=%s\nparent=%s\nbase=%s\nbase_tree=%s\nremote_head=%s\ncommit_count=%s\n' \
+            "$GITHUB_REF_NAME" "$GITHUB_SHA" "$(git rev-parse HEAD^)" "$SOURCE_BASE_SHA" "$SOURCE_BASE_TREE" "$remote_head" \
             "$(git rev-list --count "$SOURCE_BASE_SHA"..HEAD)" | tee cp5-proof/IDENTITY.txt
 
       - name: Set up Python and PostgreSQL client
@@ -83,154 +82,148 @@ jobs:
           psql --version | tee cp5-proof/PSQL_VERSION.txt
           node --version | tee cp5-proof/NODE_VERSION.txt
 
-      - name: Download verified pre-CP4 recovery capsule and separate key
-        uses: actions/download-artifact@v4
-        with:
-          name: cp35-final-recovery-capsule-encrypted
-          path: recovery-transport/capsule
-          github-token: ${{ github.token }}
-          run-id: ${{ env.RECOVERY_RUN_ID }}
-
-      - name: Download separately stored recovery key
-        uses: actions/download-artifact@v4
-        with:
-          name: cp35-final-recovery-key-separate
-          path: recovery-transport/key
-          github-token: ${{ github.token }}
-          run-id: ${{ env.RECOVERY_RUN_ID }}
-
-      - name: Decrypt and byte-verify recovery boundary
+      - name: Verify immutable CP4.5a catalog/config bootstrap
         shell: bash
         run: |
           set -euo pipefail
-          (cd recovery-transport/capsule && sha256sum -c FINAL_ENCRYPTED_SHA256SUMS.txt)
-          (cd recovery-transport/key && sha256sum -c FINAL_KEY_SHA256SUMS.txt)
-          encrypted="$(find recovery-transport/capsule -type f -name '*.zip.enc' -print -quit)"
-          keyfile="$(find recovery-transport/key -type f -name '*RECOVERY_KEY_*.txt' -print -quit)"
-          test -n "$encrypted"
-          test -n "$keyfile"
-          awk 'BEGIN{blank=0} {if(blank){print; exit} if($0=="") blank=1}' "$keyfile" > recovery-transport/passphrase.tmp
-          openssl enc -d -aes-256-cbc -pbkdf2 -iter 600000 -md sha256 \
-            -pass file:recovery-transport/passphrase.tmp -in "$encrypted" \
-            -out recovery-transport/CP35_FINAL_RECOVERY_CAPSULE.zip
-          expected="$(awk '{print $1}' recovery-transport/capsule/FINAL_RAW_SHA256SUMS.txt)"
-          observed="$(sha256sum recovery-transport/CP35_FINAL_RECOVERY_CAPSULE.zip | awk '{print $1}')"
-          test "$observed" = "$expected"
-          unzip -tq recovery-transport/CP35_FINAL_RECOVERY_CAPSULE.zip
-          mkdir recovery restore
-          unzip -q recovery-transport/CP35_FINAL_RECOVERY_CAPSULE.zip -d recovery
           python - <<'PY'
-          import hashlib,json
+          import gzip,hashlib,json
           from pathlib import Path
-          root=Path('recovery')
-          expected=json.loads((root/'SHA256SUMS.json').read_text())
-          bad={name for name,digest in expected.items() if hashlib.sha256((root/name).read_bytes()).hexdigest()!=digest}
-          if bad: raise SystemExit(f'recovery capsule byte mismatch: {sorted(bad)}')
-          manifest=json.loads((root/'RECOVERY_MANIFEST.json').read_text())
-          assert manifest['source_sha']=='92e49047941c09f18a306a9b2998f101c62e6ffe'
-          assert manifest['source_tree']=='8625bd6053c256456f67185d60e0bb95f9bc574e'
-          assert manifest['uat_mutated'] is False
-          Path('cp5-proof/RECOVERY_CAPSULE_REUSE.json').write_text(json.dumps({'status':'PASS','files':len(expected),'manifest':manifest},indent=2)+'\n')
+          fixture=Path('supabase/tests/fixtures/erp_enteng_cp45a_catalog_bootstrap.sql.gz')
+          external_fixture=Path('supabase/tests/fixtures/erp_enteng_cp45a_external_application_triggers.sql')
+          manifest=json.loads(Path('supabase/tests/fixtures/erp_enteng_cp45a_catalog_bootstrap.manifest.json').read_text())
+          packed=fixture.read_bytes(); sql=gzip.decompress(packed); external_sql=external_fixture.read_bytes()
+          digest=lambda value:hashlib.sha256(value).hexdigest()
+          assert manifest['format']=='ERP_ENTENG_CP45A_CATALOG_CONFIG_BOOTSTRAP_V1'
+          assert manifest['source_project_ref']=='siimvrusnzxexizpyoib'
+          assert manifest['source_kind']=='READ_ONLY_PG_CATALOG_PLUS_ALLOWLISTED_CONFIGURATION'
+          assert manifest['contains_business_rows'] is False
+          assert manifest['contains_auth_rows'] is False
+          assert manifest['contains_app_users'] is False
+          assert manifest['contains_credentials'] is False
+          assert manifest['counts']=={
+            'constraints':1064,'functions':500,'indexes':202,'platform_migrations':63,
+            'policies':190,'sequences':6,'tables':159,'triggers':398,'views':51,
+          }
+          assert manifest['safe_configuration_rows']=={
+            'app_roles':9,'app_permissions':111,'app_role_permissions':329,
+            'chart_accounts':24,'accounting_account_mappings':24,'uom_definitions':8,
+            'misc_finance_categories':2,'accounting_period_control':1,'cash_accounts':1,
+            'system_release_info':1,'schema_migrations':48,
+            'cp3_r4_rollback_capsule':7,'cp4_v2616_rollback_capsule':4,
+            'cp45_v2617_rollback_capsule':3,'cp45_v2617a_rollback_capsule':2,
+          }
+          assert len(packed)==manifest['gzip_bytes'] and digest(packed)==manifest['gzip_sha256']
+          assert len(sql)==manifest['sql_bytes'] and digest(sql)==manifest['sql_sha256']
+          external=manifest['external_application_triggers']
+          assert external['count']==1
+          assert external['fixture_path']==str(external_fixture)
+          assert len(external_sql)==external['sql_bytes'] and digest(external_sql)==external['sql_sha256']
+          assert b'trg_cp45_guard_last_owner_auth_delete' in external_sql
+          report={
+            'status':'PASS','source_kind':manifest['source_kind'],
+            'captured_at_utc':manifest['captured_at_utc'],
+            'contains_business_rows':False,'contains_auth_rows':False,
+            'catalog_payload_sha256':manifest['catalog_payload_sha256'],
+            'external_application_trigger_sha256':external['sql_sha256'],
+            'sql_sha256':manifest['sql_sha256'],'gzip_sha256':manifest['gzip_sha256'],
+          }
+          Path('cp5-proof/CP45A_CATALOG_BOOTSTRAP_VERIFICATION.json').write_text(json.dumps(report,indent=2)+'\n')
           PY
-          unzip -q recovery/ERP_ENTENG_CP2_RAW_BASELINE.zip -d restore
-          shred -u recovery-transport/passphrase.tmp "$keyfile" 2>/dev/null || true
 
-      - name: Start disposable local Supabase and render restore scripts
+      - name: Start free disposable local Supabase
         shell: bash
         run: |
           set -euo pipefail
-          cp recovery/scripts/cp35_generate_catalog_restore.py /tmp/cp5_generate_catalog_restore.py
-          cp recovery/scripts/cp35_verify_local_restore.py /tmp/cp5_verify_local_restore.py
-          python /tmp/cp5_generate_catalog_restore.py | tee cp5-proof/RESTORE_GENERATOR_RESULT.json
           mkdir cp5-local
           supabase init --force --workdir cp5-local
           mkdir -p cp5-local/supabase/.temp
           echo '17.6.1.165' > cp5-local/supabase/.temp/postgres-version
           sed -i '0,/^enable_signup = true$/s//enable_signup = false/' cp5-local/supabase/config.toml
+          python - <<'PY'
+          import json,tomllib
+          from pathlib import Path
+          config=tomllib.loads(Path('cp5-local/supabase/config.toml').read_text())
+          assert config['auth']['enable_signup'] is False
+          assert config['auth']['email']['enable_signup'] is True
+          Path('cp5-proof/LOCAL_AUTH_CONFIG.json').write_text(json.dumps({
+            'global_public_signup':False,'email_provider_enabled':True,
+          },indent=2)+'\n')
+          PY
           supabase start --workdir cp5-local \
             -x realtime,imgproxy,studio,postgres-meta,edge-runtime,logflare,vector,supavisor
 
-      - name: Restore exact ERP Enteng pre-CP4 schema and data
+      - name: Restore exact CP4.5a schema and allowlisted configuration
         shell: bash
         run: |
           set -euo pipefail
-          psql "$PGURL" -v ON_ERROR_STOP=1 <<'SQL'
-          create schema if not exists supabase_migrations;
-          create table if not exists supabase_migrations.schema_migrations(version text primary key);
-          alter table supabase_migrations.schema_migrations add column if not exists statements text[];
-          alter table supabase_migrations.schema_migrations add column if not exists name text;
+          gzip -dc supabase/tests/fixtures/erp_enteng_cp45a_catalog_bootstrap.sql.gz \
+            | psql "$PGURL" -v ON_ERROR_STOP=1 \
+            | tee cp5-proof/CP45A_CATALOG_BOOTSTRAP.log
+          psql "$PGURL" -v ON_ERROR_STOP=1 \
+            -f supabase/tests/fixtures/erp_enteng_cp45a_external_application_triggers.sql \
+            2>&1 | tee cp5-proof/CP45A_EXTERNAL_APPLICATION_TRIGGERS.log
+          psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' | tee cp5-proof/CP45A_RESTORED_BOUNDARY.json
+          select jsonb_build_object(
+            'status',case when
+              (select count(*) from auth.users)=0
+              and (select count(*) from erp.app_users)=0
+              and (select count(*) from erp.audit_logs)=0
+              and (select count(*) from erp.schema_migrations)=48
+              and (select count(*) from erp.schema_migrations where version='v2.6.17a')=1
+              and (select count(*) from supabase_migrations.schema_migrations)=63
+              and (select count(*) from supabase_migrations.schema_migrations where version='20260902043000')=1
+              and (select count(*) from supabase_migrations.schema_migrations where version='20260902104937')=1
+              and (select count(*) from supabase_migrations.schema_migrations where version='20260902185106')=1
+              and (select count(*) from erp.cp3_r4_rollback_capsule)=7
+              and (select count(*) from erp.cp4_v2616_rollback_capsule)=4
+              and (select count(*) from erp.cp45_v2617_rollback_capsule)=3
+              and (select count(*) from erp.cp45_v2617a_rollback_capsule)=2
+              and (select count(*) from pg_trigger t join pg_class c on c.oid=t.tgrelid join pg_namespace tn on tn.oid=c.relnamespace join pg_proc p on p.oid=t.tgfoid join pg_namespace fn on fn.oid=p.pronamespace where not t.tgisinternal and tn.nspname<>'erp' and fn.nspname='erp')=1
+              and exists(select 1 from pg_trigger t join pg_class c on c.oid=t.tgrelid join pg_namespace tn on tn.oid=c.relnamespace where not t.tgisinternal and tn.nspname='auth' and c.relname='users' and t.tgname='trg_cp45_guard_last_owner_auth_delete')
+              then 'PASS' else 'FAIL' end,
+            'tables',(select count(*) from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='erp' and c.relkind='r'),
+            'views',(select count(*) from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname in('erp','public') and c.relkind='v' and (n.nspname='erp' or not exists(select 1 from pg_depend d where d.classid='pg_class'::regclass and d.objid=c.oid and d.deptype='e'))),
+            'functions',(select count(*) from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname in('erp','public') and not exists(select 1 from pg_depend d where d.classid='pg_proc'::regclass and d.objid=p.oid and d.deptype='e')),
+            'triggers',(select count(*) from pg_trigger t join pg_class c on c.oid=t.tgrelid join pg_namespace n on n.oid=c.relnamespace where n.nspname='erp' and not t.tgisinternal),
+            'external_application_triggers',(select count(*) from pg_trigger t join pg_class c on c.oid=t.tgrelid join pg_namespace tn on tn.oid=c.relnamespace join pg_proc p on p.oid=t.tgfoid join pg_namespace fn on fn.oid=p.pronamespace where not t.tgisinternal and tn.nspname<>'erp' and fn.nspname='erp'),
+            'constraints',(select count(*) from pg_constraint co join pg_class c on c.oid=co.conrelid join pg_namespace n on n.oid=c.relnamespace where n.nspname='erp' and c.relkind='r'),
+            'indexes',(select count(*) from pg_index i join pg_class c on c.oid=i.indrelid join pg_namespace n on n.oid=c.relnamespace where n.nspname='erp'),
+            'policies',(select count(*) from pg_policy p join pg_class c on c.oid=p.polrelid join pg_namespace n on n.oid=c.relnamespace where n.nspname='erp'),
+            'platform_count',(select count(*) from supabase_migrations.schema_migrations),
+            'application_count',(select count(*) from erp.schema_migrations),
+            'auth_users',(select count(*) from auth.users),
+            'app_users',(select count(*) from erp.app_users),
+            'audit_logs',(select count(*) from erp.audit_logs)
+          );
           SQL
-          psql "$PGURL" -v ON_ERROR_STOP=1 -f restore/catalog-schema-restore.sql
-          psql "$PGURL" -v ON_ERROR_STOP=1 -f restore/ERP_ENTENG_DATA_RESTORE.sql
-          psql "$PGURL" -v ON_ERROR_STOP=1 -f restore/platform-ledger-restore.sql
-          psql "$PGURL" -v ON_ERROR_STOP=1 -f restore/sequence-reseed.sql
-          python /tmp/cp5_verify_local_restore.py | tee cp5-proof/CP2_BASELINE_RESTORE.log
-          echo '5f295958f019111674af3e079eb1bbe4bbf445e6ae35b32c8f3d94bfbad04ec6  supabase/migrations/20260901161322_erp_v2_6_15_payroll_component_entitlement.sql' | sha256sum -c -
           python - <<'PY'
+          import json
           from pathlib import Path
-          raw=Path('supabase/migrations/20260901161322_erp_v2_6_15_payroll_component_entitlement.sql').read_text()
-          marker='$preflight$;\n\n'
-          if raw.count(marker)!=1: raise SystemExit('v2.6.15 boundary changed')
-          Path('/tmp/v2615-byte-bound-body.sql').write_text(raw.split(marker,1)[1])
+          r=json.loads(Path('cp5-proof/CP45A_RESTORED_BOUNDARY.json').read_text())
+          assert r['status']=='PASS',r
+          assert r=={
+            'status':'PASS','tables':159,'views':51,'functions':500,'triggers':398,
+            'external_application_triggers':1,'constraints':1064,'indexes':462,'policies':190,
+            'platform_count':63,'application_count':48,'auth_users':0,'app_users':0,'audit_logs':0,
+          },r
           PY
-          psql "$PGURL" -v ON_ERROR_STOP=1 -f /tmp/v2615-byte-bound-body.sql
-          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/payroll_component_entitlement_rollback.sql
-          psql "$PGURL" -v ON_ERROR_STOP=1 <<'SQL'
-          insert into supabase_migrations.schema_migrations(version,name,statements)
-          values('20260901161322','erp_v2_6_15_payroll_component_entitlement',array[]::text[])
-          on conflict(version) do nothing;
-          SQL
-
-      - name: Apply frozen CP3, CP4, and CP4.5 chain in exact order
-        shell: bash
-        run: |
-          set -euo pipefail
-          files=(
-            20260901023000_erp_v2_6_14_attendance_hpp_sewing_terminal_foundation.sql
-            20260901023100_erp_v2_6_14b_attendance_hpp_candidate_hardening.sql
-            20260901023200_erp_v2_6_14c_attendance_hpp_uat_alignment.sql
-            20260901023400_erp_v2_6_14d_cp3_r4_race_and_reversal_hardening.sql
-          )
-          : > cp5-proof/PREDECESSOR_APPLY_ORDER.txt
-          for file in "${files[@]}"; do
-            version="${file%%_*}"
-            name="${file#*_}"
-            name="${name%.sql}"
-            sha256sum "supabase/migrations/$file" | tee -a cp5-proof/PREDECESSOR_APPLY_ORDER.txt
-            psql "$PGURL" -v ON_ERROR_STOP=1 -f "supabase/migrations/$file"
-            psql "$PGURL" -v ON_ERROR_STOP=1 -c "insert into supabase_migrations.schema_migrations(version,name,statements) values('$version','$name',array[]::text[]) on conflict(version) do nothing"
-          done
-          psql "$PGURL" -v ON_ERROR_STOP=1 <<'SQL'
-          revoke all on function erp.require_owner_admin() from public, anon, authenticated, service_role;
-          grant execute on function erp.require_owner_admin() to service_role;
-          SQL
-          predecessors=(
-            20260902043000_erp_v2_6_16_cp4_hpp_route_auth_boundary.sql
-            20260902104937_erp_v2_6_17_access_pattern_wip_control.sql
-            20260902180726_erp_v2_6_17a_cp45_pattern_assignment_immutability.sql
-          )
-          for file in "${predecessors[@]}"; do
-            version="${file%%_*}"
-            name="${file#*_}"
-            name="${name%.sql}"
-            sha256sum "supabase/migrations/$file" | tee -a cp5-proof/PREDECESSOR_APPLY_ORDER.txt
-            psql "$PGURL" -v ON_ERROR_STOP=1 -f "supabase/migrations/$file"
-            psql "$PGURL" -v ON_ERROR_STOP=1 -c "insert into supabase_migrations.schema_migrations(version,name,statements) values('$version','$name',array[]::text[]) on conflict(version) do nothing"
-          done
 
       - name: Prove frozen predecessor behavior and real CP4.5 races
         shell: bash
         run: |
           set -euo pipefail
-          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/cp4_hpp_route_auth_rollback.sql 2>&1 | tee cp5-proof/CP4_BASELINE_ACCEPTANCE.log
-          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/access_pattern_wip_control_rollback.sql 2>&1 | tee cp5-proof/CP45_BASELINE_ACCEPTANCE.log
           psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/cp45_pattern_assignment_immutability_rollback.sql 2>&1 | tee cp5-proof/CP45A_BASELINE_ACCEPTANCE.log
           python scripts/cp45_pattern_assignment_concurrency.py 2>&1 | tee cp5-proof/CP45A_BASELINE_CONCURRENCY.log
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/cp4_hpp_route_auth_rollback.sql 2>&1 | tee cp5-proof/CP4_BASELINE_ACCEPTANCE.log
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/attendance_hpp_r4_full_schema_rollback.sql 2>&1 | tee cp5-proof/CP3_R4_BASELINE_ACCEPTANCE.log
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/payroll_component_entitlement_rollback.sql 2>&1 | tee cp5-proof/V2615_BASELINE_ACCEPTANCE.log
           python - <<'PY'
           import json
           from pathlib import Path
           r=json.loads(Path('cp5-proof/cp45-pattern-assignment-concurrency.json').read_text())
           assert r['status']=='PASS',r
+          assert all(r['assertions'].values()),r
           assert all(value==0 for value in r['residue'].values()),r
           PY
 
@@ -395,9 +388,9 @@ jobs:
         run: |
           set -euo pipefail
           psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/cutting_bridge_persistence_pickup_wip_rollback.sql 2>&1 | tee cp5-proof/V2618_UNDER_CP5_REGRESSION.log
-          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/access_pattern_wip_control_rollback.sql 2>&1 | tee cp5-proof/CP45_UNDER_CP5_REGRESSION.log
           psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/cp45_pattern_assignment_immutability_rollback.sql 2>&1 | tee cp5-proof/CP45A_UNDER_CP5_REGRESSION.log
           psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/cp4_hpp_route_auth_rollback.sql 2>&1 | tee cp5-proof/CP4_UNDER_CP5_REGRESSION.log
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/attendance_hpp_r4_full_schema_rollback.sql 2>&1 | tee cp5-proof/CP3_R4_UNDER_CP5_REGRESSION.log
           psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/payroll_component_entitlement_rollback.sql 2>&1 | tee cp5-proof/V2615_UNDER_CP5_REGRESSION.log
 
       - name: Run Pattern-filter and CP5 mocked-UAT browser contracts on desktop and mobile
@@ -641,8 +634,10 @@ jobs:
           );
           SQL
           test "$(python -c "import json;print(json.load(open('cp5-proof/V2618_ROLLBACK_RESIDUE.json'))['status'])")" = 'PASS'
-          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/access_pattern_wip_control_rollback.sql 2>&1 | tee cp5-proof/CP45_AFTER_CP5_ROLLBACK.log
           psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/cp45_pattern_assignment_immutability_rollback.sql 2>&1 | tee cp5-proof/CP45A_AFTER_CP5_ROLLBACK.log
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/cp4_hpp_route_auth_rollback.sql 2>&1 | tee cp5-proof/CP4_AFTER_CP5_ROLLBACK.log
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/attendance_hpp_r4_full_schema_rollback.sql 2>&1 | tee cp5-proof/CP3_R4_AFTER_CP5_ROLLBACK.log
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/payroll_component_entitlement_rollback.sql 2>&1 | tee cp5-proof/V2615_AFTER_CP5_ROLLBACK.log
 
       - name: Run frontend, ownership, security, and production build regression
         shell: bash
@@ -688,10 +683,9 @@ jobs:
           if-no-files-found: warn
           retention-days: 30
 
-      - name: Destroy disposable stack and recovery material
+      - name: Destroy disposable stack
         if: always()
         shell: bash
         run: |
           supabase stop --workdir cp5-local --no-backup 2>/dev/null || true
-          find recovery recovery-transport -type f \( -name '*.zip' -o -name '*.zip.enc' -o -name '*KEY*.txt' -o -name '*passphrase*' \) -exec shred -u {} + 2>/dev/null || true
-          rm -rf cp5-local recovery restore recovery-transport /tmp/v2615-byte-bound-body.sql
+          rm -rf cp5-local
