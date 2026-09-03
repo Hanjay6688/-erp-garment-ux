@@ -18,6 +18,10 @@
 .laundry-search svg{width:15px;height:15px;flex:0 0 auto}
 .laundry-search input{width:100%;border:0;outline:0;background:transparent;color:#e7eaf3;font-size:11px}
 .laundry-search input::placeholder{color:#687389}
+.laundry-pattern-filter{min-width:190px;padding:6px 9px;border:1px solid var(--line);border-radius:11px;background:#171d2e;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 8px}
+.laundry-pattern-filter>span{grid-column:1/-1;color:#7f8aa1;font-size:8px;font-weight:760;letter-spacing:.1em}
+.laundry-pattern-filter select{min-width:0;border:0;outline:0;background:transparent;color:#cbd3e4;font-size:10px;font-weight:700;color-scheme:dark}
+.laundry-pattern-filter small{color:#7b88a0;font-size:7px;white-space:nowrap}
 .laundry-vendors{display:flex;gap:6px;flex-wrap:wrap}
 .laundry-vendors button{height:34px;padding:0 10px;border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.018);color:#8c97ab;font-size:9px}
 .laundry-vendors button.active{border-color:rgba(124,141,255,.3);background:rgba(124,141,255,.13);color:#c9d0ff}
@@ -34,6 +38,7 @@
 .laundry-parent-card h3,.laundry-return-card h3{margin:4px 0 3px;font-size:13px;font-weight:640;letter-spacing:-.015em}
 .laundry-parent-card header small,.laundry-return-card header small{display:block;color:#79849a;font-size:8.5px}
 .laundry-parent-card header p,.laundry-return-card header p{margin:0;color:#9da6b8;font-size:9px}
+.laundry-parent-card header .laundry-pattern-snapshot,.laundry-return-card header .laundry-pattern-snapshot{margin-top:4px;color:#93a6e7;font-size:8px;font-weight:760;letter-spacing:.03em}
 .laundry-parent-card>header>div:last-child{text-align:right}
 .laundry-parent-card>header>div:last-child strong{display:block;font-size:14px}
 .laundry-parent-card>header>div:last-child small{margin-top:4px;color:#9ca8ff}
@@ -131,7 +136,7 @@
 }
 @media(max-width:700px){
   .laundry-toolbar{align-items:stretch}
-  .laundry-tabs,.laundry-search{width:100%;max-width:none}
+  .laundry-tabs,.laundry-search,.laundry-pattern-filter{width:100%;max-width:none}
   .laundry-tabs button{flex:1;justify-content:center}
   .laundry-vendors{width:100%;overflow-x:auto;flex-wrap:nowrap;padding-bottom:2px}
   .laundry-vendors button{flex:0 0 auto}

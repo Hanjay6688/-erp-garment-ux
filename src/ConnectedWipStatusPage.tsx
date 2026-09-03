@@ -4,7 +4,7 @@ import { useAuth } from './auth/AuthProvider'
 import { hasPermission } from './auth/accessCatalog'
 import { getUatSupabaseClient } from './lib/supabase'
 import { normalizeClientError } from './lib/clientError'
-import { parsePatternRows, type PatternRow } from './patternModel'
+import ConnectedPatternFilter from './ConnectedPatternFilter'
 import './connected-wip-status.css'
 
 export type WipStatusFilter = 'ACTIVE' | 'COMPLETED' | 'ALL'
@@ -103,11 +103,15 @@ export default function ConnectedWipStatusPage() {
   const [patternId, setPatternId] = useState('')
   const [query, setQuery] = useState('')
   const [response, setResponse] = useState<WipResponse | null>(null)
-  const [patterns, setPatterns] = useState<PatternRow[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
-  const load = useCallback(async (nextFilter = filter, nextSort = sort, nextPattern = patternId, nextQuery = query) => {
+  const load = useCallback(async (
+    nextFilter: WipStatusFilter,
+    nextSort: WipStatusSort,
+    nextPattern: string,
+    nextQuery: string,
+  ) => {
     setLoading(true)
     setError('')
     const { data, error: loadError } = await client.rpc('erp_get_wip_control_v1', {
@@ -121,18 +125,9 @@ export default function ConnectedWipStatusPage() {
       try { setResponse(parseWipResponse(data)) } catch (parseError) { setError(String(parseError)) }
     }
     setLoading(false)
-  }, [client, filter, patternId, query, sort])
-
-  useEffect(() => { void load() }, []) // eslint-disable-line react-hooks/exhaustive-deps
-  useEffect(() => {
-    void client.rpc('erp_list_patterns_v1', {
-      p_status: 'ALL', p_query: null, p_limit: 200, p_offset: 0,
-    }).then(({ data, error: patternError }) => {
-      if (patternError) return
-      try { setPatterns(parsePatternRows(data)) } catch { /* WIP itself remains available. */ }
-    })
   }, [client])
 
+  useEffect(() => { void load('ACTIVE', 'PATTERN', '', '') }, [load])
   const changeFilter = (next: WipStatusFilter) => { setFilter(next); void load(next, sort, patternId, query) }
   const changeSort = (next: WipStatusSort) => { setSort(next); void load(filter, next, patternId, query) }
   const changePattern = (next: string) => { setPatternId(next); void load(filter, sort, next, query) }
@@ -151,7 +146,7 @@ export default function ConnectedWipStatusPage() {
       p_expected_version: null,
     })
     if (flagError) setError(normalizeClientError(flagError).message)
-    else await load()
+    else await load(filter, sort, patternId, query)
   }
 
   const rows = response?.rows ?? []
@@ -159,13 +154,13 @@ export default function ConnectedWipStatusPage() {
   const blocked = rows.filter((row) => activeBlockerLabels(row).length > 0).length
 
   return <section className="connected-wip-page">
-    <header className="cwip-hero"><div><span>PRODUKSI · AUTHORITATIVE CONTROL</span><h1>WIP & Sewing</h1><p>Status Aktif/Selesai dihitung backend dari seluruh fakta sewing, Laundry, QC, BS/Rework, dan tindakan operator.</p></div><button onClick={() => void load()}><RefreshCw/> Refetch</button></header>
+    <header className="cwip-hero"><div><span>PRODUKSI · AUTHORITATIVE CONTROL</span><h1>WIP & Sewing</h1><p>Status Aktif/Selesai dihitung backend dari seluruh fakta sewing, Laundry, QC, BS/Rework, dan tindakan operator.</p></div><button onClick={() => void load(filter, sort, patternId, query)}><RefreshCw/> Refetch</button></header>
     <div className="cwip-truth"><ShieldCheck/><strong>UAT BACKEND CONNECTED</strong><span>Merek belum ditentukan sampai Good dialokasikan ke Final SKU.</span></div>
     {error && <div className="cwip-error" role="alert"><AlertTriangle/><span>{error}</span><button onClick={() => setError('')}><X/></button></div>}
 
     <section className="cwip-kpis"><article><span>BARIS TAMPIL</span><strong>{rows.length}</strong><small>{filter === 'ACTIVE' ? 'Selesai disembunyikan' : filter === 'COMPLETED' ? 'Riwayat selesai' : 'Aktif + selesai'}</small></article><article><span>KUANTITAS</span><strong>{qty} pcs</strong><small>Read-only control total</small></article><article><span>MASIH ADA AKSI</span><strong>{blocked}</strong><small>Gabungan seluruh blocker</small></article></section>
 
-    <section className="cwip-workspace"><header><div className="cwip-tabs" role="tablist" aria-label="Status WIP">{(['ACTIVE', 'COMPLETED', 'ALL'] as const).map((value) => <button className={filter === value ? 'active' : ''} onClick={() => changeFilter(value)} key={value}>{value === 'ACTIVE' ? 'Aktif' : value === 'COMPLETED' ? 'Selesai' : 'Semua'}</button>)}</div><label className="cwip-search"><Search/><input value={query} onChange={(event) => setQuery(event.target.value)} onKeyDown={(event) => { if (event.key === 'Enter') void load() }} placeholder="Nomor produksi, model, Pola, mandor, status…"/><button onClick={() => void load()}><Filter/> Terapkan</button></label><select aria-label="Filter Pola" value={patternId} onChange={(event) => changePattern(event.target.value)}><option value="">Semua Pola</option>{patterns.map((pattern) => <option value={pattern.id} key={pattern.id}>{pattern.is_active ? '' : '[Nonaktif] '}{pattern.code} · {pattern.revision} · {pattern.name}</option>)}</select><select aria-label="Urutan WIP" value={sort} onChange={(event) => changeSort(event.target.value as WipStatusSort)}><option value="PATTERN">Urutan Pola</option><option value="PRODUCTION">Kronologi produksi</option><option value="UPDATED">Terakhir diperbarui</option></select></header>
+    <section className="cwip-workspace"><header><div className="cwip-tabs" role="tablist" aria-label="Status WIP">{(['ACTIVE', 'COMPLETED', 'ALL'] as const).map((value) => <button className={filter === value ? 'active' : ''} onClick={() => changeFilter(value)} key={value}>{value === 'ACTIVE' ? 'Aktif' : value === 'COMPLETED' ? 'Selesai' : 'Semua'}</button>)}</div><label className="cwip-search"><Search/><input value={query} onChange={(event) => setQuery(event.target.value)} onKeyDown={(event) => { if (event.key === 'Enter') void load(filter, sort, patternId, query) }} placeholder="Nomor produksi, model, Pola, mandor, status…"/><button onClick={() => void load(filter, sort, patternId, query)}><Filter/> Terapkan</button></label><ConnectedPatternFilter value={patternId} onChange={changePattern}/><select aria-label="Urutan WIP" value={sort} onChange={(event) => changeSort(event.target.value as WipStatusSort)}><option value="PATTERN">Urutan Pola</option><option value="PRODUCTION">Kronologi produksi</option><option value="UPDATED">Terakhir diperbarui</option></select></header>
       {loading ? <div className="cwip-empty"><RefreshCw className="spin"/><strong>Mengambil status authoritative…</strong></div> : <div className="cwip-list">{rows.map((row) => {
         const blockers = activeBlockerLabels(row)
         return <article key={row.cutting_group_id} className={row.control_status.toLowerCase()}><header><span className="cwip-order">{row.pattern_sort_order ?? '—'}</span><div><small>{row.po_number} · {row.group_number}</small><h2>{row.model_code} · {row.model_name}</h2><p>{row.executor_name || 'Mandor belum ditentukan'} · Merek belum ditentukan</p></div><em>{row.control_status === 'COMPLETED' ? <><Check/> SELESAI</> : <><Clock3/> AKTIF</>}</em></header><div className="cwip-facts"><span><small>POLA · SNAPSHOT</small><strong>{row.pattern_code ? `${row.pattern_code} · ${row.pattern_revision || 'R1'} · ${row.pattern_name}` : 'Belum ditentukan'}</strong></span><span><small>EFEKTIF</small><strong>{row.effective_qty_pcs} pcs</strong></span><span><small>SELESAI DIJAHIT</small><strong>{row.sewn_qty_pcs} pcs</strong></span><span><small>FINAL SKU TERSISA</small><strong>{row.remaining_final_sku_qty_pcs} pcs</strong></span></div><div className="cwip-blockers">{blockers.length ? blockers.map((label) => <span key={label}><AlertTriangle/>{label}</span>) : <span className="clear"><Check/> Tidak ada aksi WIP tersisa</span>}</div>{row.open_flags.length > 0 && <div className="cwip-flags">{row.open_flags.map((openFlag) => <span key={openFlag.id}><Flag/><strong>{openFlag.type.replaceAll('_', ' ')}</strong>{openFlag.note}</span>)}</div>}<footer><span><SlidersHorizontal/> Row version {row.row_version} · diperbarui {new Date(row.updated_at).toLocaleString('id-ID')}</span>{row.control_status === 'ACTIVE' && <button disabled={!canAdjust} onClick={() => void flag(row)}><Flag/> Tandai tindak lanjut</button>}</footer></article>

@@ -10,16 +10,20 @@ export type DemoRuntimeConfig = {
   businessRpcEnabled: false
   accessControlMode: 'SIMULATION'
   patternMode: 'SIMULATION'
+  cuttingMode: 'SIMULATION'
+  distributionMode: 'SIMULATION'
   wipStatusMode: 'SIMULATION'
 }
 
 export type UatRuntimeConfig = {
   mode: 'UAT_AUTH_SIMULATION'
   authMode: 'UAT_SUPABASE'
-  businessDataMode: 'SIMULATION'
-  businessRpcEnabled: false
+  businessDataMode: 'PARTIAL_CONNECTED'
+  businessRpcEnabled: true
   accessControlMode: 'CONNECTED'
   patternMode: 'CONNECTED'
+  cuttingMode: 'CONNECTED'
+  distributionMode: 'CONNECTED'
   wipStatusMode: 'CONNECTED'
   projectRef: typeof ERP_ENTENG_UAT_PROJECT_REF
   supabaseUrl: string
@@ -158,6 +162,8 @@ export function parseRuntimeConfig(environment: RuntimeEnvironment): RuntimeConf
       businessRpcEnabled: false,
       accessControlMode: 'SIMULATION',
       patternMode: 'SIMULATION',
+      cuttingMode: 'SIMULATION',
+      distributionMode: 'SIMULATION',
       wipStatusMode: 'SIMULATION',
     }
   }
@@ -196,10 +202,12 @@ export function parseRuntimeConfig(environment: RuntimeEnvironment): RuntimeConf
   return {
     mode,
     authMode: 'UAT_SUPABASE',
-    businessDataMode: 'SIMULATION',
-    businessRpcEnabled: false,
+    businessDataMode: 'PARTIAL_CONNECTED',
+    businessRpcEnabled: true,
     accessControlMode: 'CONNECTED',
     patternMode: 'CONNECTED',
+    cuttingMode: 'CONNECTED',
+    distributionMode: 'CONNECTED',
     wipStatusMode: 'CONNECTED',
     projectRef: ERP_ENTENG_UAT_PROJECT_REF,
     supabaseUrl,

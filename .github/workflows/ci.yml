@@ -2,7 +2,7 @@ name: Build UX
 
 on:
   push:
-    branches: [main, cp3.5/full-canonical-cleanup-r2-20260901, cp4.5/rbac-production-identity-wip-r1-20260902]
+    branches: [main, cp3.5/full-canonical-cleanup-r2-20260901, cp4.5/rbac-production-identity-wip-r1-20260902, pre-cp5/cutting-persistence-pickup-wip-r1-20260903]
   pull_request:
     branches: [main]
 
@@ -28,11 +28,11 @@ jobs:
       - run: npm run test:security
       - run: npm run build
       - run: npm run test:browser:cp45
-      - name: Upload non-secret CP4.5 browser proof
+      - name: Upload non-secret browser proof
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: cp45-desktop-mobile-browser-proof
+          name: erp-desktop-mobile-browser-proof
           path: cp45-browser-proof
           if-no-files-found: warn
           retention-days: 30
