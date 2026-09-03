@@ -144,9 +144,12 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          gzip -dc supabase/tests/fixtures/erp_enteng_pre_cp3_schema_ledger.sql.gz \
-            | psql "$PGURL" -v ON_ERROR_STOP=1 \
-            | tee cutting-bridge-proof/PRE_CP3_SCHEMA_BOOTSTRAP.log
+          {
+            printf 'set check_function_bodies=off;\n'
+            gzip -dc supabase/tests/fixtures/erp_enteng_pre_cp3_schema_ledger.sql.gz
+            printf '\nset check_function_bodies=on;\n'
+          } | psql "$PGURL" -v ON_ERROR_STOP=1 \
+              | tee cutting-bridge-proof/PRE_CP3_SCHEMA_BOOTSTRAP.log
           psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' | tee cutting-bridge-proof/PRE_CP3_SCHEMA_BOUNDARY.json
           select jsonb_build_object(
             'platform_count',(select count(*) from supabase_migrations.schema_migrations),
