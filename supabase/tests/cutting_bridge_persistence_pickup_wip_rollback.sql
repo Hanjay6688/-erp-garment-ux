@@ -135,6 +135,7 @@ begin
   if v_cut is distinct from v_replay then
     raise exception 'Cutting double-click/idempotent replay diverged';
   end if;
+  execute 'reset role';
   v_group:=(v_cut->>'cutting_group_id')::uuid;
   v_group_version:=(v_cut->>'row_version')::bigint;
   if (v_cut->>'material_issue_posted')::boolean
@@ -152,9 +153,11 @@ begin
     'id',v_group,'action','SAVE_DRAFT','notes','Cutting Bridge revised draft',
     'change_reason','Cutting Bridge draft edit'
   );
+  execute 'set local role authenticated';
   v_cut:=public.erp_save_cutting_group_before_sewing_v2(
     v_cut_payload,gen_random_uuid(),v_group_version
   );
+  execute 'reset role';
   v_group_version:=(v_cut->>'row_version')::bigint;
   if not exists(
     select 1 from erp.cutting_groups
@@ -170,9 +173,11 @@ begin
   v_cut_payload:=v_cut_payload||jsonb_build_object(
     'action','POST','change_reason','Cutting Bridge exact cutting post'
   );
+  execute 'set local role authenticated';
   v_cut:=public.erp_save_cutting_group_before_sewing_v2(
     v_cut_payload,gen_random_uuid(),v_group_version
   );
+  execute 'reset role';
   v_group_version:=(v_cut->>'row_version')::bigint;
   if v_cut->>'pattern_id'<>v_pattern::text
      or v_cut->>'pattern_code'<>'CBR-REG'
@@ -210,6 +215,7 @@ begin
   end if;
 
   v_failed:=false;
+  execute 'set local role authenticated';
   begin
     perform public.erp_save_cutting_group_before_sewing_v2(
       v_cut_payload||jsonb_build_object('id',v_group,'action','SAVE_DRAFT','change_reason','must reject late edit'),
@@ -218,8 +224,10 @@ begin
   exception when others then
     if sqlerrm like '%sudah diposting%' then v_failed:=true; else raise; end if;
   end;
+  execute 'reset role';
   if not v_failed then raise exception 'Posted Potongan accepted an in-place edit'; end if;
 
+  execute 'set local role authenticated';
   v_queue:=public.erp_get_cutting_pickup_queue_v1('WAITING',v_pattern,'CBR-REG',50,0);
   if (v_queue->>'total')::integer<>1
      or v_queue#>>'{rows,0,cutting_group_id}'<>v_group::text
@@ -236,6 +244,7 @@ begin
   if (v_queue->>'total')::integer<>0 or jsonb_array_length(v_queue->'rows')<>0 then
     raise exception 'Pickup queue ignored exact server-side pattern_id filter: %',v_queue;
   end if;
+  execute 'reset role';
   select y.id into v_yield_s
   from erp.cutting_roll_yields y
   join erp.cutting_group_rolls r on r.id=y.cutting_group_roll_id
@@ -261,8 +270,10 @@ begin
       ))
     )
   );
+  execute 'set local role authenticated';
   v_pickup:=public.erp_save_cutting_pickup_v1(v_pickup_payload,v_pickup_request,null);
   v_replay:=public.erp_save_cutting_pickup_v1(v_pickup_payload,v_pickup_request,null);
+  execute 'reset role';
   if v_pickup is distinct from v_replay then
     raise exception 'Pickup double-click/idempotent replay diverged';
   end if;
@@ -276,9 +287,11 @@ begin
   v_pickup_payload:=v_pickup_payload||jsonb_build_object(
     'id',v_pickup_id,'action','POST','change_reason','Cutting Bridge exact pickup post'
   );
+  execute 'set local role authenticated';
   v_posted:=public.erp_save_cutting_pickup_v1(
     v_pickup_payload,gen_random_uuid(),v_pickup_version
   );
+  execute 'reset role';
   v_group_version:=(v_posted->>'group_row_version')::bigint;
   v_pickup_version:=(v_posted->>'row_version')::bigint;
   if v_posted->>'status'<>'POSTED'
@@ -295,6 +308,7 @@ begin
     raise exception 'Posted pickup did not advance exact canonical state: %',v_posted;
   end if;
 
+  execute 'set local role authenticated';
   v_wip:=public.erp_get_wip_control_v1('ALL',v_pattern,'PRODUCTION','CBR-PO-CUT-001');
   if not exists(
     select 1 from jsonb_array_elements(v_wip->'rows') x
@@ -312,8 +326,10 @@ begin
   if jsonb_array_length(v_wip->'rows')<>0 then
     raise exception 'Connected WIP ignored exact server-side pattern_id filter: %',v_wip;
   end if;
+  execute 'reset role';
 
   v_failed:=false;
+  execute 'set local role authenticated';
   begin
     perform public.erp_save_cutting_pickup_v1(
       v_pickup_payload||jsonb_build_object('change_reason','must reject posted edit'),
@@ -322,8 +338,8 @@ begin
   exception when sqlstate '42501' then
     if sqlerrm='POSTED_CUTTING_PICKUP_IS_IMMUTABLE' then v_failed:=true; else raise; end if;
   end;
-  if not v_failed then raise exception 'Posted pickup accepted an in-place edit'; end if;
   execute 'reset role';
+  if not v_failed then raise exception 'Posted pickup accepted an in-place edit'; end if;
   perform set_config('request.jwt.claims','{}',true);
 
   update erp.production_patterns set pattern_name='Bridge Master Renamed Later' where id=v_pattern;
