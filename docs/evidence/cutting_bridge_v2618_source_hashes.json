@@ -3,7 +3,7 @@
   "candidate_branch": "pre-cp5/cutting-persistence-pickup-wip-r1-20260903",
   "source_base_sha": "d5c48ce5c8daa7e6da92dc9d690d9b36879e74c1",
   "source_base_tree": "70f7bf3c0265520eac5aafff747f448ed8be3e6b",
-  "generation_parent_sha": "da4a66cfe63e547eb92b35854245c6ff025b1558",
+  "generation_parent_sha": "c9967194b5e24471403544a652f990b41bf6cbf2",
   "target_project_ref": "siimvrusnzxexizpyoib",
   "target_environment": "ERP Enteng UAT",
   "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
@@ -48,16 +48,16 @@
       "sha256": "cbe10a9f6718f35cfef3fc3025e319c2f945a018b8700c68eb94da90be8fc85d"
     },
     ".github/workflows/cutting-bridge-full-schema-validation.yml": {
-      "bytes": 24434,
-      "sha256": "92757b3868a88f6fe5264675f68278de59259bfeb0e2f9805349767b9207f9ca"
+      "bytes": 26134,
+      "sha256": "90f6f9d8508aff446bc0eebebf9ce8839f36d6c7baeb6d2e81dd1573b02b33ba"
     },
     "package.json": {
       "bytes": 2731,
       "sha256": "79a7ae5d43ed1caa2226cbc4ec42e36875374a199f87b025c1bd3ba490466ecf"
     },
     "scripts/check-backend-ownership-v3.mjs": {
-      "bytes": 13999,
-      "sha256": "831d29f7399ed064d847539a426d96ba40edf5dd4db164949ec47474587fa371"
+      "bytes": 14863,
+      "sha256": "04d71944226e6296c5ed7c622b27d9e177c26cdd18a3e0ab858a257459ad4959"
     },
     "scripts/check-source-ownership.mjs": {
       "bytes": 4363,
@@ -68,8 +68,8 @@
       "sha256": "f3790e3aaa5c5aae10244d4ff5531ba07285715ba22681aeee1fe1eea94bd36d"
     },
     "scripts/cutting_bridge_build_catalog_bootstrap.py": {
-      "bytes": 23147,
-      "sha256": "4fe759f54235e9346ef550fcf003ea88e4a05a6bd368b4b4926a617b5bac3fc8"
+      "bytes": 24931,
+      "sha256": "98d9a10bcf999f6975fa6eee936184dcc14e17e6deed9b39e27996354854b3c8"
     },
     "scripts/render-cutting-bridge-source-hashes.mjs": {
       "bytes": 4630,
@@ -160,20 +160,24 @@
       "sha256": "ce627dd13c3581c367c3a6294cde43a277ceade8d91cc46474e800a70916ddf4"
     },
     "supabase/tests/cutting_bridge_boundary_fingerprint.sql": {
-      "bytes": 2691,
-      "sha256": "b826643925811f773aee166d74b3edb7a784eb4e5c087e871b4a78602e7e5afa"
+      "bytes": 3380,
+      "sha256": "5b4005a9d164ed51a87d3cfc0d20144bd8560b10d725e1f45892fd493e92f5ff"
     },
     "supabase/tests/cutting_bridge_persistence_pickup_wip_rollback.sql": {
       "bytes": 19168,
       "sha256": "292fdeba8d9ef9742f281614df1b81b4187c2be6d3375218507b9a11d648f7e9"
     },
     "supabase/tests/fixtures/erp_enteng_cp45a_catalog_bootstrap.manifest.json": {
-      "bytes": 1732,
-      "sha256": "b5133732d9c4459bcc9ebdd081d19331333b178a2d3bf52d370070d6a10bfd76"
+      "bytes": 2146,
+      "sha256": "89d45284b80dc43161ece446ceec9ad9e2426560cc5d3aa0acf9c4e4dc7c74f8"
     },
     "supabase/tests/fixtures/erp_enteng_cp45a_catalog_bootstrap.sql.gz": {
       "bytes": 308353,
       "sha256": "7aa808a3060bb878fab6b311ba031b9d91d2f12f7268bcc67ea0b88e0974b7ae"
+    },
+    "supabase/tests/fixtures/erp_enteng_cp45a_external_application_triggers.sql": {
+      "bytes": 204,
+      "sha256": "b029bb64454d48883b0bd88f931e8084891d305593312e0ccc8963c6c2730c57"
     },
     "tests/browser/cutting-bridge.spec.ts": {
       "bytes": 3232,
