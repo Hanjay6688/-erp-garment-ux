@@ -892,18 +892,22 @@ begin
       from erp.cutting_groups g
       join erp.production_orders po on po.id=g.po_id
       join erp.product_models pm on pm.id=po.model_id
+      left join erp.contractors pc on pc.id=po.contractor_id
       where g.material_issue_posted
         and (v_filter='ALL'
           or (v_filter='WAITING' and g.status='CUT' and g.picked_up_at is null)
           or (v_filter='PICKED' and g.picked_up_at is not null))
         and (p_pattern_id is null or g.pattern_id=p_pattern_id)
         and (v_query is null or lower(concat_ws(' ',g.group_number,po.po_number,pm.model_code,pm.model_name,
-          g.pattern_code_snapshot,g.pattern_revision_snapshot,g.pattern_name_snapshot,g.executor_name)) like '%'||v_query||'%')
+          g.pattern_code_snapshot,g.pattern_revision_snapshot,g.pattern_name_snapshot,g.executor_name,
+          pc.contractor_name)) like '%'||v_query||'%')
     ),
     'rows',coalesce((
       select jsonb_agg(jsonb_build_object(
         'cutting_group_id',x.id,'group_number',x.group_number,'row_version',x.row_version,
         'po_id',x.po_id,'po_number',x.po_number,'model_code',x.model_code,'model_name',x.model_name,
+        'assigned_contractor_id',x.assigned_contractor_id,
+        'assigned_contractor_name',x.assigned_contractor_name,
         'cut_at',x.cut_at,'status',x.status,'picked_up_at',x.picked_up_at,'executor_name',x.executor_name,
         'source_location_id',x.source_location_id,'source_location_code',x.source_location_code,
         'pattern_id',x.pattern_id,'pattern_code',x.pattern_code_snapshot,
@@ -913,7 +917,9 @@ begin
         'pickup',x.pickup,'rolls',x.rolls
       ) order by x.cut_at,x.group_number,x.id)
       from (
-        select g.*,po.po_number,pm.model_code,pm.model_name,l.location_code as source_location_code,
+        select g.*,po.po_number,pm.model_code,pm.model_name,
+          po.contractor_id as assigned_contractor_id,pc.contractor_name as assigned_contractor_name,
+          l.location_code as source_location_code,
           coalesce((select sum(cgr.qty_issued) from erp.cutting_group_rolls cgr where cgr.cutting_group_id=g.id),0) total_qty_issued,
           coalesce((select sum(y.qty_pcs) from erp.cutting_group_rolls cgr join erp.cutting_roll_yields y on y.cutting_group_roll_id=cgr.id where cgr.cutting_group_id=g.id),0) total_pieces,
           (g.pattern_id is not null and g.source_location_id is not null
@@ -971,6 +977,7 @@ begin
         from erp.cutting_groups g
         join erp.production_orders po on po.id=g.po_id
         join erp.product_models pm on pm.id=po.model_id
+        left join erp.contractors pc on pc.id=po.contractor_id
         left join erp.locations l on l.id=g.source_location_id
         where g.material_issue_posted
           and (v_filter='ALL'
@@ -978,7 +985,8 @@ begin
             or (v_filter='PICKED' and g.picked_up_at is not null))
           and (p_pattern_id is null or g.pattern_id=p_pattern_id)
           and (v_query is null or lower(concat_ws(' ',g.group_number,po.po_number,pm.model_code,pm.model_name,
-            g.pattern_code_snapshot,g.pattern_revision_snapshot,g.pattern_name_snapshot,g.executor_name)) like '%'||v_query||'%')
+          g.pattern_code_snapshot,g.pattern_revision_snapshot,g.pattern_name_snapshot,g.executor_name,
+          pc.contractor_name)) like '%'||v_query||'%')
         order by g.cut_at,g.group_number,g.id limit p_limit offset p_offset
       ) x
     ),'[]'::jsonb)
@@ -1008,6 +1016,7 @@ declare
   v_group erp.cutting_groups%rowtype;
   v_batch jsonb;v_allocation jsonb;v_batch_id uuid;
   v_actor uuid:=erp.current_app_user_id();
+  v_po_contractor_id uuid;
   v_batch_count integer;v_max_batch integer;
 begin
   if v_action='SAVE' then v_action:='SAVE_DRAFT'; end if;
@@ -1087,9 +1096,15 @@ begin
     raise exception 'batches must be a non-empty array';
   end if;
 
-  -- Serialize stage advancement for multiple Potongan under one PO without
-  -- forcing every pickup group to use one Mandor.
-  perform 1 from erp.production_orders where id=v_group.po_id for update;
+  -- The existing downstream cost/payroll model owns Mandor at PO level.
+  -- Lock that identity before composing a pickup, and never silently move an
+  -- already assigned PO to another Mandor.
+  select po.contractor_id into v_po_contractor_id
+  from erp.production_orders po where po.id=v_group.po_id for update;
+  if v_po_contractor_id is not null
+     and v_po_contractor_id is distinct from v_contractor_id then
+    raise exception using errcode='23514',message='PO_ALREADY_ASSIGNED_TO_DIFFERENT_MANDOR';
+  end if;
 
   if v_id is null then
     insert into erp.cutting_pickups(
@@ -1181,7 +1196,8 @@ begin
     ) then raise exception using errcode='23514',message='POSTED_DISTRIBUTION_MUST_EXACTLY_RECONCILE_EVERY_SOURCE_YIELD'; end if;
 
     update erp.production_orders
-    set status=case when status in ('DRAFT','CUTTING') then 'SEWING' else status end,
+    set contractor_id=coalesce(contractor_id,v_contractor_id),
+        status=case when status in ('DRAFT','CUTTING') then 'SEWING' else status end,
         current_stage=case when current_stage='CUTTING' then 'SEWING' else current_stage end,
         updated_at=clock_timestamp()
     where id=v_group.po_id;

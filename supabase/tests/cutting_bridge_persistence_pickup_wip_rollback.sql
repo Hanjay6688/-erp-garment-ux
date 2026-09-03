@@ -284,6 +284,29 @@ begin
     raise exception 'Pickup draft did not preserve exact distribution: %',v_pickup;
   end if;
 
+  update erp.production_orders
+  set contractor_id='a1000000-0000-0000-0000-000000000002'
+  where id=v_po;
+  execute 'set local role authenticated';
+  v_queue:=public.erp_get_cutting_pickup_queue_v1('WAITING',v_pattern,'CBR',50,0);
+  if v_queue#>>'{rows,0,assigned_contractor_id}'<>'a1000000-0000-0000-0000-000000000002'
+     or v_queue#>>'{rows,0,assigned_contractor_name}'<>'CP3 R3 Normal B' then
+    raise exception 'Pickup queue did not expose the canonical PO Mandor lock: %',v_queue;
+  end if;
+  v_failed:=false;
+  begin
+    perform public.erp_save_cutting_pickup_v1(
+      v_pickup_payload||jsonb_build_object(
+        'id',v_pickup_id,'action','POST','change_reason','must reject a different PO Mandor'
+      ),gen_random_uuid(),v_pickup_version
+    );
+  exception when sqlstate '23514' then
+    if sqlerrm='PO_ALREADY_ASSIGNED_TO_DIFFERENT_MANDOR' then v_failed:=true; else raise; end if;
+  end;
+  execute 'reset role';
+  if not v_failed then raise exception 'Pickup accepted a Mandor different from the canonical PO Mandor'; end if;
+  update erp.production_orders set contractor_id=null where id=v_po;
+
   v_pickup_payload:=v_pickup_payload||jsonb_build_object(
     'id',v_pickup_id,'action','POST','change_reason','Cutting Bridge exact pickup post'
   );
@@ -301,7 +324,7 @@ begin
        where id=v_group and status='PICKED_UP' and picked_up_at='2026-08-15 10:00:00+00'
          and executor_name='CP3 R3 Normal A'
      )
-     or not exists(select 1 from erp.production_orders where id=v_po and status='SEWING' and current_stage='SEWING')
+     or not exists(select 1 from erp.production_orders where id=v_po and contractor_id='a1000000-0000-0000-0000-000000000001' and status='SEWING' and current_stage='SEWING')
      or (select sum(a.qty_pcs) from erp.cutting_distribution_allocations a
          join erp.cutting_distribution_batches b on b.id=a.batch_id
          where b.pickup_id=v_pickup_id)<>90 then

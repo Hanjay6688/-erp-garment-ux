@@ -135,6 +135,8 @@ export type PickupQueueRow = {
   po_number: string
   model_code: string
   model_name: string
+  assigned_contractor_id: string | null
+  assigned_contractor_name: string | null
   cut_at: string
   status: string
   picked_up_at: string | null
@@ -376,6 +378,8 @@ export function parsePickupQueue(value: unknown): PickupQueue {
         group_number: text(row.group_number, 'Nomor Potongan'), row_version: number(row.row_version, 'Versi Potongan'),
         po_id: text(row.po_id, 'ID PO'), po_number: text(row.po_number, 'Nomor PO'),
         model_code: text(row.model_code, 'Kode model'), model_name: text(row.model_name, 'Nama model'),
+        assigned_contractor_id: optionalText(row.assigned_contractor_id),
+        assigned_contractor_name: optionalText(row.assigned_contractor_name),
         cut_at: text(row.cut_at, 'Waktu potong'), status: text(row.status, 'Status Potongan'),
         picked_up_at: optionalText(row.picked_up_at), executor_name: optionalText(row.executor_name),
         source_location_id: optionalText(row.source_location_id),

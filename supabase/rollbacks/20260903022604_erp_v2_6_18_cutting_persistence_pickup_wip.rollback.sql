@@ -303,7 +303,7 @@ begin
        and coalesce(
          encode(extensions.digest(convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'),'hex'),
          ''
-       )='41cc50f1fbf171e89608232221c66d4b2b60806dd681fd298942dbdf94ffd58f'
+       )='6a568a78ad0b9baa2ef5ee958ee967d7c997cc1f4dfb7f0e4ef5e6ff69e5038f'
      );
 
   select count(*) into v_conflict_count
@@ -316,7 +316,7 @@ begin
         and coalesce(
           encode(extensions.digest(convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'),'hex'),
           ''
-        )='41cc50f1fbf171e89608232221c66d4b2b60806dd681fd298942dbdf94ffd58f'
+        )='6a568a78ad0b9baa2ef5ee958ee967d7c997cc1f4dfb7f0e4ef5e6ff69e5038f'
       )
     );
 
@@ -339,7 +339,7 @@ where (
      and coalesce(
        encode(extensions.digest(convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'),'hex'),
        ''
-     )='41cc50f1fbf171e89608232221c66d4b2b60806dd681fd298942dbdf94ffd58f'
+     )='6a568a78ad0b9baa2ef5ee958ee967d7c997cc1f4dfb7f0e4ef5e6ff69e5038f'
    );
 
 drop table erp.cutting_bridge_v2618_rollback_capsule;
