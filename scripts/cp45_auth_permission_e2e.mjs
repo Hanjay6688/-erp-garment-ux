@@ -187,7 +187,6 @@ function cleanupDatabase() {
   if (!appIds && !customRoles && !patterns && !requests) return
   sql(`begin;
     set local erp.cp45_allow_synthetic_cleanup='on';
-    ${appIds || auditEntities ? `delete from erp.audit_logs where ${appIds ? `changed_by in (${appIds})` : 'false'} or ${auditEntities ? `entity_id in (${auditEntities})` : 'false'};` : ''}
     ${patterns ? `delete from erp.production_pattern_audit where pattern_id in (${patterns}) or entity_id in (${patterns});` : ''}
     ${patterns ? `delete from erp.production_patterns where id in (${patterns});` : ''}
     ${appIds ? `delete from erp.app_access_audit where actor_app_user_id in (${appIds}) or (entity_type='USER_ACCESS' and entity_id in (${appIds}));` : ''}
@@ -197,6 +196,7 @@ function cleanupDatabase() {
     ${appIds ? `delete from erp.app_users where id in (${appIds});` : ''}
     ${customRoles ? `delete from erp.app_roles where id in (${customRoles});` : ''}
     ${requests ? `delete from erp.idempotency_requests where client_request_id in (${requests});` : ''}
+    ${appIds || auditEntities ? `delete from erp.audit_logs where ${appIds ? `changed_by in (${appIds})` : 'false'} or ${auditEntities ? `entity_id in (${auditEntities})` : 'false'};` : ''}
     commit;`)
 }
 
@@ -415,6 +415,7 @@ try {
     'auth_sessions',(select count(*) from auth.sessions),
     'auth_refresh_tokens',(select count(*) from auth.refresh_tokens),
     'app_users',(select count(*) from erp.app_users),
+    'audit_logs',(select count(*) from erp.audit_logs),
     'custom_roles',(select count(*) from erp.app_roles where description like 'CP45 synthetic ${safeRunId}%'),
     'access_audit',(select count(*) from erp.app_access_audit),
     'patterns',(select count(*) from erp.production_patterns),

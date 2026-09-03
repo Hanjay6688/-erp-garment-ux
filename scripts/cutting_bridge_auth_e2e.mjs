@@ -96,9 +96,9 @@ async function cleanup() {
     const ids = appUserIds.map((id) => `'${id}'::uuid`).join(',')
     sql(`begin;
       set local erp.cp45_allow_synthetic_cleanup='on';
-      delete from erp.audit_logs where changed_by in (${ids}) or entity_id in (${ids});
       delete from erp.app_access_audit where actor_app_user_id in (${ids}) or entity_id in (${ids});
       delete from erp.app_users where id in (${ids});
+      delete from erp.audit_logs where changed_by in (${ids}) or entity_id in (${ids});
       commit;`)
   }
   for (const user of [...users].reverse()) {
@@ -165,7 +165,8 @@ const residue = JSON.parse(sql(`select jsonb_build_object(
   'auth_identities',(select count(*) from auth.identities where user_id in (${authIds})),
   'auth_sessions',(select count(*) from auth.sessions where user_id in (${authIds})),
   'auth_refresh_tokens',(select count(*) from auth.refresh_tokens where user_id::text in (${users.map(({ id }) => `'${id}'`).join(',') || "''"})),
-  'app_users',(select count(*) from erp.app_users where id in (${appIds}))
+  'app_users',(select count(*) from erp.app_users where id in (${appIds})),
+  'audit_logs',(select count(*) from erp.audit_logs where changed_by in (${appIds}) or entity_id in (${appIds}))
 )`))
 
 const report = {
@@ -188,6 +189,6 @@ const report = {
   production_go: false,
 }
 writeFileSync(reportPath, `${JSON.stringify(report, null, 2)}\n`)
-assert.deepEqual(residue, { auth_users: 0, auth_identities: 0, auth_sessions: 0, auth_refresh_tokens: 0, app_users: 0 })
+assert.deepEqual(residue, { auth_users: 0, auth_identities: 0, auth_sessions: 0, auth_refresh_tokens: 0, app_users: 0, audit_logs: 0 })
 if (failure) throw failure
 console.log(`Cutting Bridge local Auth/JWT E2E PASS: ${cases.length}/${cases.length}; residue zero.`)
