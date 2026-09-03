@@ -23,6 +23,8 @@ const hostedEvidenceRelative = 'docs/evidence/cp5_hosted_uat_auth_e2e.json'
 const lineageMigrationRelative = 'supabase/migrations/20260903151034_erp_v2_6_19a_cp5_rework_accessory_lineage.sql'
 const lineageRollbackRelative = 'supabase/rollbacks/20260903151034_erp_v2_6_19a_cp5_rework_accessory_lineage.rollback.sql'
 const lineageEvidenceRelative = 'docs/evidence/cp5_v2619a_uat_acceptance.json'
+const v2619aCodeHeadSha = '2175bd8f199f6a5d860e7f517042e2efe35916e7'
+const v2619aCodeHeadTree = 'd845b1ff613774a150b999dbfa2b41b772e416e9'
 
 const sha256 = (bytes) => createHash('sha256').update(bytes).digest('hex')
 const git = (...args) => execFileSync('git', args, { cwd: root, encoding: 'utf8' }).trim()
@@ -204,14 +206,16 @@ const manifest = {
     },
   },
   verification: {
-    status: 'V2619A_HOSTED_TRANSACTIONAL_VERIFIED_CURRENT_HEAD_CI_PENDING',
+    status: 'V2619A_CODE_HEAD_CI_PASS_READY_FOR_INDEPENDENT_REAUDIT',
     required_local_commands: ['npm test', 'npm run build', 'npm run test:security'],
     full_schema_acceptance_executed: true,
     hosted_uat_executed: true,
     hosted_uat_evidence_path: hostedEvidenceRelative,
     forward_correction_uat_evidence_path: lineageEvidenceRelative,
     forward_correction_hosted_http_auth_retest: false,
-    forward_correction_full_schema_ci: 'PENDING_CURRENT_HEAD',
+    forward_correction_full_schema_ci: 'PASS',
+    forward_correction_ci_head_sha: v2619aCodeHeadSha,
+    forward_correction_ci_head_tree: v2619aCodeHeadTree,
     read_only_uat_preflight_executed: true,
     read_only_uat_preflight_path: 'docs/evidence/cp5_uat_readonly_preflight.json',
   },
@@ -221,7 +225,7 @@ const manifest = {
     platform_versions: ['20260903060213', '20260903105741', '20260903105814', '20260903151034'],
     latest_installed_at: '2026-09-03T15:10:34.973034Z',
   },
-  closure_status: 'V2619A_IMPLEMENTED_PENDING_CURRENT_HEAD_CI_NO_GO',
+  closure_status: 'READY_FOR_INDEPENDENT_REAUDIT_NO_GO',
   hosted_auth_permission_e2e: {
     status: hostedEvidence.status,
     mode: hostedEvidence.mode,
@@ -232,8 +236,44 @@ const manifest = {
     synthetic_cleanup_zero: true,
   },
   ci_runtime: {
+    status: 'PASS',
+    scope: 'CURRENT_V2619A_CODE_HEAD',
+    runtime_head_sha: v2619aCodeHeadSha,
+    runtime_head_tree: v2619aCodeHeadTree,
+    unit_tests: { files: 25, passed: 168 },
+    browser_tests: { cp45: 2, pre_cp5: 2, cp5: 6, total: 10 },
+    build_push: {
+      run_id: 33774390975, job_id: 100712335950,
+      dist_artifact_id: 9901021365,
+      dist_artifact_digest_sha256: '9729560d4f063e673603c685f4ff803613806105bcc89d3d8455c388ae71d7e4',
+      browser_artifact_id: 9901019172,
+      browser_artifact_digest_sha256: '31914693f2cee7acdd42a8f8eb42680cbf351739e4e553748853f484b9ca9f23',
+    },
+    build_pr: {
+      run_id: 33774401928, job_id: 100712374137,
+      dist_artifact_id: 9901045905,
+      dist_artifact_digest_sha256: '4f90cca51a0ba9c2ec7799b6636ac4205e36b6dfdc598e4db282ee1216ba1c1b',
+      browser_artifact_id: 9901043335,
+      browser_artifact_digest_sha256: 'bd04387cb5912fff80fc001fa04d2931d890e2e1496386cf504ed830135399cd',
+    },
+    cp5_full_schema: {
+      run_id: 33774390811, job_id: 100712335295,
+      artifact_id: 9901122437,
+      artifact_digest_sha256: '979d3ac9e23bbe86dcafbd01bddd52eb77ec2bf478a391b1d4424bbae1205a87',
+    },
+    pre_cp5_full_schema: {
+      run_id: 33774401624, job_id: 100712374712,
+      artifact_id: 9901057447,
+      artifact_digest_sha256: 'e232cf72bff897c399763bb65d417e6a11f6c0aa94696adb4b91d55b98fe0c17',
+    },
+    workers_build: {
+      check_id: 100712911183,
+      build_id: 'f1ee6e8f-9308-4a48-82eb-f01ed7837a82',
+    },
+  },
+  pre_v2619a_ci_runtime: {
     status: hostedEvidence.source_ci.status,
-    scope: 'PRE_V2619A_BASELINE_ONLY',
+    scope: 'HISTORICAL_PRE_V2619A_BASELINE_ONLY',
     runtime_head_sha: hostedEvidence.source_ci.head_sha,
     runtime_head_tree: hostedEvidence.source_ci.head_tree,
     build_push_run_id: hostedEvidence.source_ci.build_push.run_id,

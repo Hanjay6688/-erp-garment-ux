@@ -1,9 +1,10 @@
 # CP5 independent audit handoff
 
-This handoff records the CP5 v2.6.19a audit correction while its current-head
-CI is still pending. It is not yet the final independent-audit freeze and is
-not approval to merge, deploy to production, invite a real owner, or mutate
-the legacy ERP Garment project.
+This handoff records the CP5 v2.6.19a audit correction after its exact code
+head passed all five required checks. The next commit is evidence-only and
+must itself rerun the same current-head checks before independent re-audit.
+This is not approval to merge, deploy to production, invite a real owner, or
+mutate the legacy ERP Garment project.
 
 ## Exact target and commit shape
 
@@ -15,15 +16,20 @@ the legacy ERP Garment project.
 - CP5 source-base tree: `a9b193010266bb686c57709865a992769a835855`
 - Pre-correction hosted-evidence head: `7ac07d0f3d60436e44601061bc9584709efc67bd`
 - v2.6.19a correction parent: `7ac07d0f3d60436e44601061bc9584709efc67bd`
-- v2.6.19a correction head/tree: resolve from the PR after the writer push;
-  current-head CI must bind to that exact SHA before audit starts.
+- v2.6.19a correction code head: `2175bd8f199f6a5d860e7f517042e2efe35916e7`
+- v2.6.19a correction code tree: `d845b1ff613774a150b999dbfa2b41b772e416e9`
+- Final evidence-only head/tree: resolve from the PR after the evidence push;
+  its parent must be the correction code head above and its own five checks
+  must pass before re-audit starts.
 
 Resolve branch HEAD immediately before review and reject drift or a concurrent
-writer. The correction chain must descend from `7ac07d0f3d60436e44601061bc9584709efc67bd`.
-Its source manifest must own every changed byte, including the forward
-migration, reviewed rollback, SQL acceptance, frontend contract, browser/DOM
-proof, workflow, and evidence. Recorded v2.6.19 bytes must remain unchanged;
-the correction is the official forward-only v2.6.19a migration.
+writer. The final evidence-only commit must descend directly from
+`2175bd8f199f6a5d860e7f517042e2efe35916e7`; its cumulative diff may update
+only this handoff, generated ownership manifests, and their validation
+checkers. The code head manifest owns every correction byte, including the
+forward migration, reviewed rollback, SQL acceptance, frontend contract,
+browser/DOM proof, workflow, and evidence. Recorded v2.6.19 bytes remain
+unchanged; the correction is the official forward-only v2.6.19a migration.
 
 ## Delivered functional boundary
 
@@ -79,36 +85,39 @@ inside an outer transaction, which was rolled back to leave v2.6.19a active.
 All scoped business rows, locks, and long transactions remained zero. See
 `docs/evidence/cp5_v2619a_uat_acceptance.json`.
 
-## Pre-correction CI baseline and required current-head rerun
+## Exact correction code-head CI
 
-The prior CP5 closure had five successful checks. These remain predecessor
-regression evidence, but they do not count as current-head v2.6.19a CI:
+Correction code head `2175bd8f199f6a5d860e7f517042e2efe35916e7`
+has five successful checks:
 
-- Build push run/job `33751681211` / `100636432796`; dist artifact
-  `9891842446` with SHA-256
-  `dfd34b1ac19ec36883f586c803578146f37015c504a2f09fe9f1c3902879a27b`;
-  browser artifact `9891840562` with SHA-256
-  `21a7c18ccfe3809ccc4ae65acb5c0cbc6096110641fd9869d6cd6b06e063eb83`.
-- Build PR run/job `33751686144` / `100636448834`; dist artifact
-  `9891848918` with SHA-256
-  `e1c1ca186ffd8fef59c06b389a891d6c86d826e6811225c991ed6684ca23d4cf`;
-  browser artifact `9891846664` with SHA-256
-  `cb2a782c8d55478f8bdbbef4ddf0ca2d6e0b0c8552de62aa19facd573a222ffc`.
-- CP5 full-schema run/job `33751681199` / `100636432739`; artifact
-  `9891955134` with SHA-256
-  `89bf947818e65fd90126eaf11f6426a12389c275f8faaa0f5fca217b7fe62347`.
-- Pre-CP5 full-schema run/job `33751686266` / `100636448934`; artifact
-  `9891913344` with SHA-256
-  `8c64c3e90cbb8dc7688b4bc944b0dff154613e9c90d8850b42f3a6924f7599e2`.
-- Workers build check `100636558235`, build
-  `823c8b78-863f-4731-b0e7-f68050ac9d83`.
+- Build push run/job `33774390975` / `100712335950`; dist artifact
+  `9901021365` with SHA-256
+  `9729560d4f063e673603c685f4ff803613806105bcc89d3d8455c388ae71d7e4`;
+  browser artifact `9901019172` with SHA-256
+  `31914693f2cee7acdd42a8f8eb42680cbf351739e4e553748853f484b9ca9f23`.
+- Build PR run/job `33774401928` / `100712374137`; dist artifact
+  `9901045905` with SHA-256
+  `4f90cca51a0ba9c2ec7799b6636ac4205e36b6dfdc598e4db282ee1216ba1c1b`;
+  browser artifact `9901043335` with SHA-256
+  `bd04387cb5912fff80fc001fa04d2931d890e2e1496386cf504ed830135399cd`.
+- CP5 full-schema run/job `33774390811` / `100712335295`; artifact
+  `9901122437` with SHA-256
+  `979d3ac9e23bbe86dcafbd01bddd52eb77ec2bf478a391b1d4424bbae1205a87`.
+- Pre-CP5 full-schema run/job `33774401624` / `100712374712`; artifact
+  `9901057447` with SHA-256
+  `e232cf72bff897c399763bb65d417e6a11f6c0aa94696adb4b91d55b98fe0c17`.
+- Workers build check `100712911183`, build
+  `f1ee6e8f-9308-4a48-82eb-f01ed7837a82`.
 
-Before independent audit, the updated head must rerun pinned Chromium,
-desktop/mobile browser contracts, real local Auth/JWT, both two-connection
-races, selected-accessory positive accounting, all predecessor regressions,
-wrong-ledger rejection, and the rollback ladder
-`v2.6.19a -> v2.6.19 -> v2.6.18a -> v2.6.18 -> CP4.5`, ending with zero
-disposable residue.
+The two Build runs each passed 25 files / 168 tests and ten Chromium cases:
+two CP4.5, two pre-CP5 Pattern, and six CP5 BS Resolution desktop/mobile
+contracts. Full-schema CI applied v2.6.19a once, rejected replay, proved
+selected-only positive accounting and cumulative partial returns, ran real
+Auth/JWT and both two-connection races, rejected post-use and wrong-ledger
+rollbacks, completed the ladder
+`v2.6.19a -> v2.6.19 -> v2.6.18a -> v2.6.18 -> CP4.5`, and ended with zero
+disposable residue. The evidence-only successor must rerun the same five
+checks; its run identities are intentionally resolved after this file exists.
 
 ## Required independent checks
 
@@ -140,9 +149,10 @@ disposable residue.
 - ERP Enteng UAT migrations `v2.6.18`, `v2.6.18a`, `v2.6.19`, `v2.6.19a`: recorded
 - Hosted CP5 Auth/JWT evidence: `MANUAL_HOSTED_UAT_VERIFIED`, 31/31 PASS
 - Hosted v2.6.19a transactional SQL and reviewed rollback proof: PASS
-- Exact v2.6.19a current-head CI: pending writer push
+- Exact v2.6.19a correction code-head CI: 5/5 PASS
+- Final evidence-only current-head CI: required before re-audit
 - Legacy ERP Garment mutated: no
 - Canonical Worker promoted: no
 - Production deploy or production GO: no
-- Independent re-audit verdict: pending current-head CI
+- Independent re-audit verdict: pending final evidence-head CI
 - Merge authorization: pending independent PASS

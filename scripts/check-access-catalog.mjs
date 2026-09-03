@@ -93,7 +93,7 @@ for (const path of sourceFiles(resolve(root, 'src'))) {
 }
 
 assert.equal(evidence.format, 'CP5_ACCESS_ROUTE_ACTION_OWNERSHIP_V1')
-assert.equal(evidence.closure_status, 'V2619A_IMPLEMENTED_PENDING_CURRENT_HEAD_CI_NO_GO')
+assert.equal(evidence.closure_status, 'READY_FOR_INDEPENDENT_REAUDIT_NO_GO')
 assert.equal(evidence.production_go, false)
 assert.equal(evidence.counts.backend_permissions, permissionRows.length)
 assert.equal(evidence.counts.navigation_labels, navMap.size)
