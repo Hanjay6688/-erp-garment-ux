@@ -1,9 +1,13 @@
 name: Pre-CP5 Cutting Persistence, Pickup, and WIP Full-Schema Validation
 
 on:
-  push:
+  pull_request:
     branches:
-      - pre-cp5/cutting-persistence-pickup-wip-r1-20260903
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
   workflow_dispatch:
 
 permissions:
@@ -11,7 +15,7 @@ permissions:
   actions: read
 
 concurrency:
-  group: cutting-bridge-v2618-${{ github.ref }}
+  group: cutting-bridge-v2618-${{ github.event.pull_request.head.ref || github.ref }}
   cancel-in-progress: true
 
 env:
@@ -30,6 +34,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Cutting Bridge identity, ancestry, ownership, and source gate
         shell: bash
@@ -40,8 +45,11 @@ jobs:
           test "$(git rev-list --count "$SOURCE_BASE_SHA"..HEAD)" -ge 1
           test -z "$(git rev-list --merges "$SOURCE_BASE_SHA"..HEAD)"
           test "$(git rev-parse "$SOURCE_BASE_SHA^{tree}")" = "$SOURCE_BASE_TREE"
-          remote_head="$(git ls-remote origin "refs/heads/${GITHUB_REF_NAME}" | awk '{print $1}')"
-          test "$remote_head" = "$GITHUB_SHA"
+          source_branch="${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}"
+          candidate_sha="${{ github.event.pull_request.head.sha || github.sha }}"
+          test "$(git rev-parse HEAD)" = "$candidate_sha"
+          remote_head="$(git ls-remote origin "refs/heads/${source_branch}" | awk '{print $1}')"
+          test "$remote_head" = "$candidate_sha"
           npm ci
           npm run check:backend
           npm run check:access
@@ -49,9 +57,9 @@ jobs:
           node --check scripts/cutting_bridge_auth_e2e.mjs
           python -m py_compile scripts/cutting_bridge_build_catalog_bootstrap.py
           python -m py_compile scripts/cp45_pattern_assignment_concurrency.py
-          git diff --check "$SOURCE_BASE_SHA" "$GITHUB_SHA"
+          git diff --check "$SOURCE_BASE_SHA" "$candidate_sha"
           printf 'branch=%s\nhead=%s\nparent=%s\nbase=%s\nbase_tree=%s\nremote_head=%s\ncommit_count=%s\n' \
-            "$GITHUB_REF_NAME" "$GITHUB_SHA" "$(git rev-parse HEAD^)" "$SOURCE_BASE_SHA" "$SOURCE_BASE_TREE" "$remote_head" \
+            "$source_branch" "$candidate_sha" "$(git rev-parse HEAD^)" "$SOURCE_BASE_SHA" "$SOURCE_BASE_TREE" "$remote_head" \
             "$(git rev-list --count "$SOURCE_BASE_SHA"..HEAD)" | tee cutting-bridge-proof/IDENTITY.txt
 
       - name: Set up Python and PostgreSQL client
