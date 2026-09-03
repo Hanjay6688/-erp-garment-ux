@@ -7,6 +7,7 @@ const root = process.cwd()
 const manifestRelative = 'docs/evidence/cutting_bridge_v2618_source_hashes.json'
 const ownershipRelative = 'docs/evidence/backend_source_ownership_v3.json'
 const frozenOwnershipRelative = 'docs/evidence/backend_source_ownership_v2.json'
+const hostedEvidenceRelative = 'docs/evidence/cutting_bridge_hosted_uat_auth_e2e.json'
 const manifestPath = resolve(root, manifestRelative)
 const ownershipPath = resolve(root, ownershipRelative)
 const frozenOwnershipPath = resolve(root, frozenOwnershipRelative)
@@ -50,6 +51,7 @@ const manifest = {
   application_version: 'v2.6.18',
   scope: 'PRE_CP5_CUTTING_PERSISTENCE_PICKUP_WIP_BRIDGE',
   cp5_scope: 'BS_RESOLUTION_NOT_STARTED',
+  hosted_evidence_path: hostedEvidenceRelative,
   closure_status: previous.closure_status ?? 'NO_GO_PENDING_EXACT_HEAD_CI_UAT_AND_INDEPENDENT_AUDIT',
   source_only: previous.source_only ?? true,
   uat_applied: previous.uat_applied ?? false,

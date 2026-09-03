@@ -1,0 +1,283 @@
+{
+  "format": "CUTTING_BRIDGE_HOSTED_UAT_AUTH_E2E_V1",
+  "status": "PASS",
+  "mode": "MANUAL_HOSTED_UAT_VERIFIED",
+  "classified_as_ci": false,
+  "target_project_ref": "siimvrusnzxexizpyoib",
+  "target_environment": "ERP Enteng UAT",
+  "tested_at": "2026-09-03T06:16:00Z",
+  "reviewed_runtime_source": {
+    "head_sha": "afc0e1e4e614e013375bb95ffae85ed178b09c72",
+    "head_tree": "a56841d31434754ece589e047409a7af056e5bb8",
+    "migration_version": "20260903022604",
+    "migration_name": "erp_v2_6_18_cutting_persistence_pickup_wip",
+    "migration_bytes": 80392,
+    "migration_sha256": "6a568a78ad0b9baa2ef5ee958ee967d7c997cc1f4dfb7f0e4ef5e6ff69e5038f"
+  },
+  "pre_hosted_proof_head": {
+    "head_sha": "57262cfc62275e04b0153e76dbdd8230b85c84d3",
+    "head_tree": "56a2e13332ff3b23cfcf6b0d1356f9b9babbeebb",
+    "parent_sha": "afc0e1e4e614e013375bb95ffae85ed178b09c72"
+  },
+  "verification_boundary": {
+    "auth_fixture": "DIRECT_HOSTED_AUTH_ROWS_WITH_REAL_PASSWORD_GRANT",
+    "real_password_grant": true,
+    "real_http_jwt": true,
+    "publishable_key_only": true,
+    "github_service_role_secret_used": false,
+    "service_role_key_used": false,
+    "synthetic_identities": 3,
+    "synthetic_app_users": 2,
+    "roles": [
+      "PRODUKSI_QC",
+      "CUSTOMER_INACTIVE",
+      "UNMAPPED"
+    ],
+    "real_owner_account_created": false,
+    "real_owner_invited": false,
+    "credentials_or_jwt_recorded": false,
+    "legacy_touched": false,
+    "production_touched": false
+  },
+  "case_count": 14,
+  "case_passed": 14,
+  "cases": [
+    {
+      "name": "auth-password-grant-production",
+      "scope": "AUTH_HTTP",
+      "status": 200,
+      "observation": "ACCESS_AND_REFRESH_TOKEN_ISSUED",
+      "ok": true
+    },
+    {
+      "name": "auth-password-grant-customer",
+      "scope": "AUTH_HTTP",
+      "status": 200,
+      "observation": "ACCESS_TOKEN_ISSUED",
+      "ok": true
+    },
+    {
+      "name": "auth-password-grant-unmapped",
+      "scope": "AUTH_HTTP",
+      "status": 200,
+      "observation": "ACCESS_TOKEN_ISSUED",
+      "ok": true
+    },
+    {
+      "name": "auth-user-production",
+      "scope": "AUTH_HTTP",
+      "status": 200,
+      "observation": "JWT_SUBJECT_AND_AUDIENCE_MATCH",
+      "ok": true
+    },
+    {
+      "name": "rpc-production-profile-permissions",
+      "scope": "DATA_API",
+      "status": 200,
+      "observation": "CUTTING_DISTRIBUTION_AND_WIP_PERMISSIONS_RESOLVED",
+      "ok": true
+    },
+    {
+      "name": "rpc-production-cutting-workspace",
+      "scope": "DATA_API",
+      "status": 200,
+      "observation": "CANONICAL_WORKSPACE_ARRAY_RETURNED",
+      "ok": true
+    },
+    {
+      "name": "rpc-production-pickup-queue",
+      "scope": "DATA_API",
+      "status": 200,
+      "observation": "SERVER_SIDE_PATTERN_FILTER_QUEUE_RETURNED",
+      "ok": true
+    },
+    {
+      "name": "rpc-production-connected-wip",
+      "scope": "DATA_API",
+      "status": 200,
+      "observation": "SERVER_SIDE_PATTERN_FILTER_WIP_RETURNED",
+      "ok": true
+    },
+    {
+      "name": "rpc-customer-cutting-workspace-denied",
+      "scope": "DATA_API",
+      "status": 403,
+      "observation": "PERMISSION_DENIED",
+      "ok": true
+    },
+    {
+      "name": "rpc-unmapped-cutting-workspace-denied",
+      "scope": "DATA_API",
+      "status": 403,
+      "observation": "PERMISSION_DENIED",
+      "ok": true
+    },
+    {
+      "name": "auth-global-logout-production",
+      "scope": "AUTH_HTTP",
+      "status": 204,
+      "observation": "GLOBAL_LOGOUT_ACCEPTED",
+      "ok": true
+    },
+    {
+      "name": "auth-global-logout-customer",
+      "scope": "AUTH_HTTP",
+      "status": 204,
+      "observation": "GLOBAL_LOGOUT_ACCEPTED",
+      "ok": true
+    },
+    {
+      "name": "auth-global-logout-unmapped",
+      "scope": "AUTH_HTTP",
+      "status": 204,
+      "observation": "GLOBAL_LOGOUT_ACCEPTED",
+      "ok": true
+    },
+    {
+      "name": "auth-refresh-after-global-logout-denied",
+      "scope": "AUTH_HTTP",
+      "status": 400,
+      "observation": "REFRESH_TOKEN_NOT_FOUND",
+      "ok": true
+    }
+  ],
+  "assertions": {
+    "jwt_subject_matches_production_identity": true,
+    "production_role_resolves_required_permissions": true,
+    "cutting_workspace_is_authenticated_and_guarded": true,
+    "pickup_queue_is_authenticated_and_guarded": true,
+    "wip_control_is_authenticated_and_guarded": true,
+    "customer_role_is_fail_closed": true,
+    "unmapped_identity_is_fail_closed": true,
+    "global_logout_revokes_refresh": true,
+    "synthetic_cleanup_returns_exact_zero": true,
+    "baseline_audit_rows_preserved": true,
+    "temporary_http_extension_removed": true
+  },
+  "truth_boundary": {
+    "cutting_final_save": "UAT_RPC_CONNECTED",
+    "pickup_distribution": "UAT_RPC_CONNECTED",
+    "wip_control": "UAT_RPC_CONNECTED",
+    "pickup_pattern_filter": "SERVER_SIDE_PATTERN_ID",
+    "wip_pattern_filter": "SERVER_SIDE_PATTERN_ID",
+    "laundry_pattern_filter": "SIMULATION_ONLY",
+    "qc_pattern_filter": "SIMULATION_ONLY"
+  },
+  "uat_runtime": {
+    "verified_at": "2026-09-03T06:19:11.659089Z",
+    "platform_ledger": {
+      "version": "20260903060213",
+      "name": "erp_v2_6_18_cutting_persistence_pickup_wip",
+      "statement_count": 1,
+      "source_bytes": 80392,
+      "source_sha256": "6a568a78ad0b9baa2ef5ee958ee967d7c997cc1f4dfb7f0e4ef5e6ff69e5038f"
+    },
+    "application_ledger": {
+      "version": "v2.6.18",
+      "count": 1,
+      "installed_at": "2026-09-03T06:02:13.500158Z"
+    },
+    "rollback_capsule_rows": 17,
+    "rollback_capsule_valid": 17,
+    "public_facades": 5,
+    "private_chain_functions": 6,
+    "owner": "postgres",
+    "security_definer": true,
+    "empty_search_path": true
+  },
+  "source_ci": {
+    "status": "PASS",
+    "head_sha": "57262cfc62275e04b0153e76dbdd8230b85c84d3",
+    "head_tree": "56a2e13332ff3b23cfcf6b0d1356f9b9babbeebb",
+    "parent_sha": "afc0e1e4e614e013375bb95ffae85ed178b09c72",
+    "build_push": {
+      "run_id": 33721042794,
+      "job_id": 100540070512,
+      "dist_artifact_id": 9880265412,
+      "dist_artifact_digest_sha256": "0fdd5bc68b484693442a4b1cf04ad10ce960889f895e6d9d0cac84fcd76ee924",
+      "browser_artifact_id": 9880263931,
+      "browser_artifact_digest_sha256": "a2c33b4c7c492e245018018ed2a2da79abbd343dcb9b9309e3ae4cdd73143cab"
+    },
+    "build_pull_request": {
+      "run_id": 33721039039,
+      "job_id": 100540060113,
+      "dist_artifact_id": 9880268794,
+      "dist_artifact_digest_sha256": "40a7d71bc47cd61449cee7c1b5f0477e0ab192f034fe151aeb33d314cf4f1396",
+      "browser_artifact_id": 9880267606,
+      "browser_artifact_digest_sha256": "e42a531685de9bb76c2fac411c01a5a1d71ec19729713a1ace8c9eee898fc45f"
+    },
+    "full_schema": {
+      "run_id": 33721039047,
+      "job_id": 100540060402,
+      "artifact_id": 9880290225,
+      "artifact_digest_sha256": "a40b36a6cf7e85094f55b57bacd02a1757d09ceef09c512d79f94cfa35dca0cd"
+    }
+  },
+  "cleanup": {
+    "verified_at": "2026-09-03T06:19:11.659089Z",
+    "auth_users": 0,
+    "auth_identities": 0,
+    "auth_sessions": 0,
+    "auth_refresh_tokens": 0,
+    "app_users": 0,
+    "synthetic_access_audit": 0,
+    "synthetic_audit_logs": 0,
+    "patterns": 0,
+    "pattern_audit": 0,
+    "cutting_groups": 0,
+    "cutting_pickups": 0,
+    "distribution_batches": 0,
+    "distribution_allocations": 0,
+    "wip_flags": 0,
+    "idempotency_requests": 0,
+    "baseline_audit_logs": 36,
+    "temporary_http_extensions": 0,
+    "temporary_credentials_retained": false
+  },
+  "legacy_isolation": {
+    "verified_at": "2026-09-03T06:19:31.958662Z",
+    "project_ref": "vlxdhpkjeevubjxexnfo",
+    "mutated": false,
+    "writer_sessions": 0,
+    "idle_in_transaction": 0,
+    "waiting_locks": 0,
+    "write_capable_locks": 0,
+    "platform_ledger": 0,
+    "application_ledger": 0,
+    "bridge_capsule_exists": false,
+    "bridge_objects_exist": false
+  },
+  "advisor_snapshot": {
+    "checked_at": "2026-09-03T06:17:14.843Z",
+    "security": {
+      "info": 16,
+      "warn": 35,
+      "bridge_specific": 8,
+      "bridge_private_rls_without_policy_info": 3,
+      "bridge_guarded_public_facade_warn": 5,
+      "categories": [
+        "rls_enabled_no_policy",
+        "authenticated_security_definer_function_executable"
+      ]
+    },
+    "performance": {
+      "info": 291,
+      "warn": 0,
+      "bridge_specific": 8,
+      "bridge_unindexed_actor_foreign_key_info": 3,
+      "bridge_unused_index_info": 5,
+      "categories": [
+        "unindexed_foreign_keys",
+        "unused_index"
+      ]
+    },
+    "interpretation": "The three private bridge tables intentionally have no RLS policies and no authenticated table grants. The five public SECURITY DEFINER facades are the intended authenticated API and are permission-guarded; the hosted JWT matrix exercised them. Performance notices are informational on the empty UAT dataset and do not authorize index removal or a production deploy."
+  },
+  "execution_notes": [
+    "Compatibility probes that failed before fixture commit were transactionally rolled back.",
+    "The first HTTP matrix attempt stopped on a nullable diagnostic field; exact synthetic cleanup was completed before the corrected run.",
+    "The final run used three new synthetic identities, passed 14 of 14 cases, globally logged out every identity, and returned all scoped residue to zero.",
+    "No email, password, JWT, bearer token, publishable key, service-role key, or synthetic UUID is stored in this evidence."
+  ],
+  "production_go": false
+}
