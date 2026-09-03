@@ -12,6 +12,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          # Pull request workflows default to a synthetic merge commit. The
+          # ownership manifest is bound to the candidate commit and its real
+          # parent, so always validate the exact PR head bytes instead.
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 2
       - uses: actions/setup-node@v4
         with:

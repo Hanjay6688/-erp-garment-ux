@@ -3,7 +3,7 @@
   "candidate_branch": "cp4.5/rbac-production-identity-wip-r1-20260902",
   "source_base_sha": "57d8346a7cdf4ee86519f2dd2a1b54d39ebbb6cc",
   "source_base_tree": "48fc87507dc8a18d5829d518e53f298ad0c7e01a",
-  "generation_parent_sha": "7e71f1961a19f621c976c1a4a5cfbf5a4980485e",
+  "generation_parent_sha": "eb5c2e3e46ddf714847d2ab0d6f30230424663d5",
   "target_project_ref": "siimvrusnzxexizpyoib",
   "target_environment": "ERP Enteng UAT",
   "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
@@ -164,8 +164,8 @@
   },
   "files": {
     ".github/workflows/ci.yml": {
-      "bytes": 1242,
-      "sha256": "f9c67c99ba74074c6fac7827a4a0390d2d0fc365e6017b75fd82a89a47138445"
+      "bytes": 1538,
+      "sha256": "134489f8640402f22892f6722019464193ef4d41dc53f5e3d351212c2ed9cc15"
     },
     ".github/workflows/cp45-full-schema-validation.yml": {
       "bytes": 47079,
