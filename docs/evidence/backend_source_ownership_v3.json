@@ -7,8 +7,8 @@
   },
   "candidate_cutting_bridge_manifest": {
     "path": "docs/evidence/cutting_bridge_v2618_source_hashes.json",
-    "bytes": 7296,
-    "sha256": "1147afc8cc3c987a3454671f12172024ab80dfe07ce4b68cb0c5277eb0ebee3d"
+    "bytes": 7454,
+    "sha256": "7f1e108368a3e97786ec7a116671e62cf5cf2bc0a93241f590a2ea7b15518ad2"
   },
   "target_project_ref": "siimvrusnzxexizpyoib",
   "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
