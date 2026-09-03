@@ -234,6 +234,8 @@ assert.match(migration, /perform erp\.require_permission\('production\.distribut
 assert.match(migration, /p_pattern_id uuid default null/)
 assert.match(migration, /if tg_op='DELETE' then return old; end if;/)
 assert.doesNotMatch(rollback, /__CUTTING_BRIDGE_MIGRATION_SHA256__/)
+const migrationSha256 = hash('sha256', Buffer.from(migration))
+assert.equal(rollback.split(migrationSha256).length - 1, 3, 'Rollback must bind the exact migration SHA-256 three times')
 const normalizeSql = (value) => value.replace(/\s+/g, ' ').trim()
 const guardPredicate = rollback.match(/select count\(\*\) into v_match_count\s+from supabase_migrations\.schema_migrations m\s+where ([\s\S]*?);\s+select count\(\*\) into v_conflict_count/)
 const deletePredicate = rollback.match(/delete from supabase_migrations\.schema_migrations m\s+where ([\s\S]*?);\s+drop table erp\.cutting_bridge_v2618_rollback_capsule/)

@@ -1104,6 +1104,12 @@ begin
         notes=case when p_payload ? 'notes' then nullif(btrim(p_payload->>'notes'),'') else notes end,
         updated_at=clock_timestamp()
     where id=v_id returning * into v_pickup;
+    -- Delete allocations while their draft parent batch is still visible.
+    -- Relying on the FK cascade hides the deleting batch from the child guard,
+    -- which correctly fails closed because it can no longer prove DRAFT state.
+    delete from erp.cutting_distribution_allocations a
+    using erp.cutting_distribution_batches b
+    where a.batch_id=b.id and b.pickup_id=v_id;
     delete from erp.cutting_distribution_batches where pickup_id=v_id;
   end if;
 
