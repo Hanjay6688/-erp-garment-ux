@@ -18,10 +18,11 @@ legacy ERP Garment project.
 - Hosted-runtime tree: `f0bbaefdc2a44d101f762342e4b82f96d3eddfdd`
 
 Resolve branch HEAD immediately before review and reject drift or a concurrent
-writer. The final handoff commit must have `264d6aa3512884db8454fdfb8f9e6df37697628b`
-as its parent. Its diff must contain only this handoff, the hosted evidence,
-the CP5 source-hash manifest, and backend ownership v3. The application, SQL,
-tests, and release guard must remain byte-identical to the closure tree above.
+writer. The final evidence-only commit chain must descend from
+`264d6aa3512884db8454fdfb8f9e6df37697628b`. Its cumulative diff from that
+commit may contain only this handoff, the hosted evidence, the CP5 source-hash
+manifest, and backend ownership v3. The application, SQL, tests, and release
+guard must remain byte-identical to the closure tree above.
 
 ## Delivered functional boundary
 
@@ -126,4 +127,3 @@ disposable residue zero.
 - Production deploy or production GO: no
 - Independent audit verdict: pending
 - Merge authorization: pending independent PASS
-

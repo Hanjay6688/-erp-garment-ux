@@ -3,7 +3,7 @@
   "candidate_branch": "pre-cp5/cutting-persistence-pickup-wip-r1-20260903",
   "source_base_sha": "8bfac13b91ea1be92111139e2fddcabccf9ae19a",
   "source_base_tree": "a9b193010266bb686c57709865a992769a835855",
-  "generation_parent_sha": "264d6aa3512884db8454fdfb8f9e6df37697628b",
+  "generation_parent_sha": "0fb1eef0d63c0458fc93ffb24aee4e1516b70862",
   "target_project_ref": "siimvrusnzxexizpyoib",
   "target_environment": "ERP Enteng UAT",
   "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
@@ -139,8 +139,8 @@
       "sha256": "d8d4293770a2dee517ab8c973b48b06b4ed085fe16fb7cea99518a0aa7b081eb"
     },
     "docs/evidence/cp5_independent_audit_handoff.md": {
-      "bytes": 7066,
-      "sha256": "fb47d0ebce5820a2aed604053b5a119ea434acdb4bf1391a1ea890dd49364baa"
+      "bytes": 7098,
+      "sha256": "d95585d97b7d86702778f8accd7854310768fa7102a9ed0718c28530c7af91c7"
     },
     "docs/evidence/cp5_uat_readonly_preflight.json": {
       "bytes": 1770,
