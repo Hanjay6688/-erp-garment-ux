@@ -3,7 +3,7 @@
   "candidate_branch": "pre-cp5/cutting-persistence-pickup-wip-r1-20260903",
   "source_base_sha": "d5c48ce5c8daa7e6da92dc9d690d9b36879e74c1",
   "source_base_tree": "70f7bf3c0265520eac5aafff747f448ed8be3e6b",
-  "generation_parent_sha": "afc0e1e4e614e013375bb95ffae85ed178b09c72",
+  "generation_parent_sha": "3d3910753ff51c376b7fb26304af710c3179c0ba",
   "target_project_ref": "siimvrusnzxexizpyoib",
   "target_environment": "ERP Enteng UAT",
   "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
@@ -12,20 +12,34 @@
   "application_version": "v2.6.18",
   "scope": "PRE_CP5_CUTTING_PERSISTENCE_PICKUP_WIP_BRIDGE",
   "cp5_scope": "BS_RESOLUTION_NOT_STARTED",
-  "closure_status": "NO_GO_PENDING_EXACT_HEAD_CI_UAT_AND_INDEPENDENT_AUDIT",
-  "source_only": true,
-  "uat_applied": false,
-  "uat_applied_at": null,
+  "hosted_evidence_path": "docs/evidence/cutting_bridge_hosted_uat_auth_e2e.json",
+  "closure_status": "NO_GO_PENDING_EXACT_HEAD_CI_AND_INDEPENDENT_AUDIT",
+  "source_only": false,
+  "uat_applied": true,
+  "uat_applied_at": "2026-09-03T06:02:13.500158Z",
   "legacy_mutated": false,
   "production_go": false,
   "ci_runtime": {
-    "status": "PENDING"
+    "status": "PASS",
+    "head_sha": "57262cfc62275e04b0153e76dbdd8230b85c84d3",
+    "build_push_run_id": 33721042794,
+    "build_push_job_id": 100540070512,
+    "build_pull_request_run_id": 33721039039,
+    "build_pull_request_job_id": 100540060113,
+    "full_schema_run_id": 33721039047,
+    "full_schema_job_id": 100540060402,
+    "full_schema_artifact_id": 9880290225,
+    "full_schema_artifact_digest_sha256": "a40b36a6cf7e85094f55b57bacd02a1757d09ceef09c512d79f94cfa35dca0cd"
   },
   "hosted_auth_permission_e2e": {
-    "status": "PENDING",
+    "status": "PASS",
     "mode": "MANUAL_HOSTED_UAT_VERIFIED",
     "classified_as_ci": false,
-    "github_service_role_secret_used": false
+    "github_service_role_secret_used": false,
+    "evidence_path": "docs/evidence/cutting_bridge_hosted_uat_auth_e2e.json",
+    "case_count": 14,
+    "case_passed": 14,
+    "synthetic_cleanup_zero": true
   },
   "truth_boundary": {
     "cutting_final_save": "UAT_RPC_CONNECTED",
@@ -51,13 +65,17 @@
       "bytes": 26134,
       "sha256": "90f6f9d8508aff446bc0eebebf9ce8839f36d6c7baeb6d2e81dd1573b02b33ba"
     },
+    "docs/evidence/cutting_bridge_hosted_uat_auth_e2e.json": {
+      "bytes": 9461,
+      "sha256": "a82e995dc0ceb59b9a588a40a4113c34fd293b7d1f802cc35eb9072b04c4c0f2"
+    },
     "package.json": {
       "bytes": 2731,
       "sha256": "79a7ae5d43ed1caa2226cbc4ec42e36875374a199f87b025c1bd3ba490466ecf"
     },
     "scripts/check-backend-ownership-v3.mjs": {
-      "bytes": 15048,
-      "sha256": "83c5d4079ac7d65b89fc71e57ab46fd70acc22775f953a6497ded6d66385e0c2"
+      "bytes": 19038,
+      "sha256": "37ed70772b4b4599ac104f5b2462ec19f9568d20426242b9c939b5f2b02db77f"
     },
     "scripts/check-source-ownership.mjs": {
       "bytes": 4363,
@@ -80,8 +98,8 @@
       "sha256": "98d9a10bcf999f6975fa6eee936184dcc14e17e6deed9b39e27996354854b3c8"
     },
     "scripts/render-cutting-bridge-source-hashes.mjs": {
-      "bytes": 4630,
-      "sha256": "5f1491820e21241594efea383925321969ee7eb3c95aeed6edbf2b9e5d947eed"
+      "bytes": 4765,
+      "sha256": "9c7837ed8a80d4128fa452e78c88107ef9f9199f4ac7402299ed8334b4d051ac"
     },
     "src/App.tsx": {
       "bytes": 213701,
