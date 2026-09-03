@@ -82,6 +82,14 @@ function uuidCondition(column, values) {
   return list ? `${column} in (${list})` : 'false'
 }
 
+function textUuidCondition(column, values) {
+  const list = values
+    .filter((value) => /^[0-9a-f-]{36}$/i.test(value))
+    .map((value) => `'${value}'`)
+    .join(',')
+  return list ? `${column}::text in (${list})` : 'false'
+}
+
 async function createAuthUser(label) {
   const email = `cp5-${label}-${safeRunId}@example.invalid`
   const userPassword = password()
@@ -364,7 +372,7 @@ try {
     'auth_users',(select count(*) from auth.users where ${uuidCondition('id', users.map((user) => user.id))}),
     'auth_identities',(select count(*) from auth.identities where ${uuidCondition('user_id', users.map((user) => user.id))}),
     'auth_sessions',(select count(*) from auth.sessions where ${uuidCondition('user_id', users.map((user) => user.id))}),
-    'auth_refresh_tokens',(select count(*) from auth.refresh_tokens where ${uuidCondition('user_id', users.map((user) => user.id))}),
+    'auth_refresh_tokens',(select count(*) from auth.refresh_tokens where ${textUuidCondition('user_id', users.map((user) => user.id))}),
     'app_users',(select count(*) from erp.app_users where ${uuidCondition('id', appUserIds)}),
     'custom_roles',(select count(*) from erp.app_roles where ${uuidCondition('id', roleIds)}),
     'bs_cases',(select count(*) from erp.bs_cases where ${uuidCondition('id', bsCaseIds)}),

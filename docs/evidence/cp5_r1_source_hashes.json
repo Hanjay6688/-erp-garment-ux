@@ -3,7 +3,7 @@
   "candidate_branch": "pre-cp5/cutting-persistence-pickup-wip-r1-20260903",
   "source_base_sha": "8bfac13b91ea1be92111139e2fddcabccf9ae19a",
   "source_base_tree": "a9b193010266bb686c57709865a992769a835855",
-  "generation_parent_sha": "3f4f0a77c004658c877a710cfaf15e036c7c5ead",
+  "generation_parent_sha": "527cebe3a1b25556f4d4df79f13ea913e7ceb80e",
   "target_project_ref": "siimvrusnzxexizpyoib",
   "target_environment": "ERP Enteng UAT",
   "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
@@ -115,16 +115,16 @@
       "sha256": "2c644f1f834e23753d462e1d9c3ca14379941d8f3eb17f9a38d67b3f0c0d4bca"
     },
     "scripts/check-cp5-boundary.mjs": {
-      "bytes": 19660,
-      "sha256": "9e7aaf51d8a9eee5958418a6069be3b5b3f7e172e3b4944f5c48bb0699c70e80"
+      "bytes": 19724,
+      "sha256": "8301232de70dfd79bef691fc9d3408d71cdcab4bd7d260b96f4aa24b305ecd80"
     },
     "scripts/check-source-ownership.mjs": {
       "bytes": 4509,
       "sha256": "b2714345988a3eb23d7f4d26f3ba1388a48ab4406fa249419c78c0be7ee7bc68"
     },
     "scripts/cp5_auth_permission_e2e.mjs": {
-      "bytes": 20102,
-      "sha256": "6c98a0aa801ed819f198a9fd6e94ada7f5ceb2274ae11acdc78b45051da4d82d"
+      "bytes": 20337,
+      "sha256": "803755f34efec76f9d9cd5d382520b13f95608a85091d4277f978b2430d17a0d"
     },
     "scripts/cp5_bs_resolution_concurrency.py": {
       "bytes": 19702,

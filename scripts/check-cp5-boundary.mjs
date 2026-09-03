@@ -239,6 +239,7 @@ for (const token of [
   'owner_stale_rejection_and_reversal', 'synthetic_identity_session_token_and_business_cleanup',
   "'audit_logs',(select count(*) from erp.audit_logs", "'access_audit',(select count(*) from erp.app_access_audit",
   "'execution_context',(select count(*) from erp.bs_resolution_execution_context)",
+  "textUuidCondition('user_id', users.map((user) => user.id))",
 ]) assert.ok(cp5AuthTest.includes(token), `CP5 Auth/JWT proof missing: ${token}`)
 for (const token of [
   'run_disposition_race()', 'run_claim_race()', 'DAMAGE claim exceeds BS quantity',
