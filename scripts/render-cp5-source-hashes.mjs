@@ -19,6 +19,7 @@ const correctionMigrationRelative = 'supabase/migrations/20260903070931_erp_v2_6
 const correctionRollbackRelative = 'supabase/rollbacks/20260903070931_erp_v2_6_18a_cutting_bridge_reconciliation.rollback.sql'
 const cp5MigrationRelative = 'supabase/migrations/20260903070932_erp_v2_6_19_cp5_bs_resolution_recovery.sql'
 const cp5RollbackRelative = 'supabase/rollbacks/20260903070932_erp_v2_6_19_cp5_bs_resolution_recovery.rollback.sql'
+const hostedEvidenceRelative = 'docs/evidence/cp5_hosted_uat_auth_e2e.json'
 
 const sha256 = (bytes) => createHash('sha256').update(bytes).digest('hex')
 const git = (...args) => execFileSync('git', args, { cwd: root, encoding: 'utf8' }).trim()
@@ -40,6 +41,23 @@ assert.equal(
 )
 
 const previous = existsSync(manifestPath) ? JSON.parse(readFileSync(manifestPath, 'utf8')) : null
+const hostedEvidence = JSON.parse(readFileSync(resolve(root, hostedEvidenceRelative), 'utf8'))
+assert.equal(hostedEvidence.format, 'CP5_HOSTED_UAT_AUTH_E2E_V1')
+assert.equal(hostedEvidence.status, 'PASS')
+assert.equal(hostedEvidence.mode, 'MANUAL_HOSTED_UAT_VERIFIED')
+assert.equal(hostedEvidence.classified_as_ci, false)
+assert.equal(hostedEvidence.target_project_ref, 'siimvrusnzxexizpyoib')
+assert.equal(hostedEvidence.case_count, 31)
+assert.equal(hostedEvidence.case_passed, 31)
+for (const field of [
+  'auth_users', 'auth_identities', 'auth_sessions', 'auth_refresh_tokens',
+  'app_users', 'custom_roles', 'bs_cases', 'bs_resolutions', 'bs_components',
+  'rework_orders', 'rework_components', 'hold_events', 'idempotency',
+  'execution_context', 'synthetic_access_audit', 'synthetic_audit_logs',
+  'temporary_http_extensions', 'new_audit_rows_after_cleanup', 'waiting_locks',
+  'transactions_over_5m',
+]) assert.equal(hostedEvidence.cleanup[field], 0, `CP5 hosted proof contains residue: ${field}`)
+assert.equal(hostedEvidence.cleanup.preexisting_audit_rows_preserved, 36)
 
 function bindRollback(rollbackRelative, placeholder, previousHash, nextHash) {
   const path = resolve(root, rollbackRelative)
@@ -131,7 +149,10 @@ const manifest = {
       source_sha256: correctionMigrationHash,
       rollback_path: correctionRollbackRelative,
       acceptance_path: 'supabase/tests/cutting_bridge_persistence_pickup_wip_rollback.sql',
-      uat_applied: false,
+      uat_applied: true,
+      uat_platform_ledger_version: '20260903105741',
+      uat_platform_statement_count: 1,
+      uat_business_facts_observed: 0,
     },
     bs_resolution: {
       version: '20260903070932', application_version: 'v2.6.19',
@@ -141,27 +162,56 @@ const manifest = {
       source_sha256: cp5MigrationHash,
       rollback_path: cp5RollbackRelative,
       acceptance_path: 'supabase/tests/cp5_bs_resolution_recovery_rollback.sql',
-      uat_applied: false,
+      uat_applied: true,
+      uat_platform_ledger_version: '20260903105814',
+      uat_platform_statement_count: 1,
+      uat_business_facts_observed: 0,
     },
   },
   verification: {
-    status: 'SOURCE_RECONCILED_PENDING_FULL_SCHEMA_CI_AND_UAT_V2618A_CP5',
+    status: 'HOSTED_UAT_VERIFIED_PENDING_INDEPENDENT_AUDIT',
     required_local_commands: ['npm test', 'npm run build', 'npm run test:security'],
-    full_schema_acceptance_executed: false,
-    hosted_uat_executed: false,
+    full_schema_acceptance_executed: true,
+    hosted_uat_executed: true,
+    hosted_uat_evidence_path: hostedEvidenceRelative,
     read_only_uat_preflight_executed: true,
     read_only_uat_preflight_path: 'docs/evidence/cp5_uat_readonly_preflight.json',
   },
-  candidate_apply_status: 'PARTIAL_RECORDED_V2618_ONLY',
-  uat_partial_state: {
-    recorded_application_version: 'v2.6.18',
-    recorded_platform_version: '20260903060213',
-    correction_pending: 'v2.6.18a',
-    cp5_pending: 'v2.6.19',
+  candidate_apply_status: 'RECORDED_V2618_V2618A_V2619',
+  uat_recorded_state: {
+    application_versions: ['v2.6.18', 'v2.6.18a', 'v2.6.19'],
+    platform_versions: ['20260903060213', '20260903105741', '20260903105814'],
+    latest_installed_at: '2026-09-03T10:58:14.838166Z',
+  },
+  closure_status: 'READY_FOR_INDEPENDENT_AUDIT_NO_GO',
+  hosted_auth_permission_e2e: {
+    status: hostedEvidence.status,
+    mode: hostedEvidence.mode,
+    classified_as_ci: hostedEvidence.classified_as_ci,
+    evidence_path: hostedEvidenceRelative,
+    case_count: hostedEvidence.case_count,
+    case_passed: hostedEvidence.case_passed,
+    synthetic_cleanup_zero: true,
+  },
+  ci_runtime: {
+    status: hostedEvidence.source_ci.status,
+    runtime_head_sha: hostedEvidence.source_ci.head_sha,
+    runtime_head_tree: hostedEvidence.source_ci.head_tree,
+    build_push_run_id: hostedEvidence.source_ci.build_push.run_id,
+    full_schema_run_id: hostedEvidence.source_ci.cp5_full_schema.run_id,
+    full_schema_artifact_id: hostedEvidence.source_ci.cp5_full_schema.artifact_id,
+    full_schema_artifact_digest_sha256: hostedEvidence.source_ci.cp5_full_schema.artifact_digest_sha256,
+  },
+  cloudflare_preview: {
+    status: 'PASS',
+    version_id: hostedEvidence.cloudflare_preview.version_id,
+    immutable_preview_url: hostedEvidence.cloudflare_preview.immutable_preview_url,
+    observed_runtime_identity: hostedEvidence.cloudflare_preview.observed_runtime_identity,
+    promoted_to_canonical_worker: hostedEvidence.cloudflare_preview.promoted_to_canonical_worker,
   },
   source_only: false,
-  uat_applied: false,
-  uat_applied_at: null,
+  uat_applied: true,
+  uat_applied_at: '2026-09-03T10:58:14.838166Z',
   legacy_mutated: false,
   production_go: false,
   files,
@@ -189,8 +239,8 @@ const ownership = {
   target_project_ref: 'siimvrusnzxexizpyoib',
   legacy_project_ref: 'vlxdhpkjeevubjxexnfo',
   source_only: false,
-  uat_applied: false,
-  candidate_apply_status: 'PARTIAL_RECORDED_V2618_ONLY',
+  uat_applied: true,
+  candidate_apply_status: 'RECORDED_V2618_V2618A_V2619',
   production_go: false,
 }
 writeFileSync(ownershipPath, `${JSON.stringify(ownership, null, 2)}\n`)

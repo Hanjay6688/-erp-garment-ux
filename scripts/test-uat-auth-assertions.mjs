@@ -114,6 +114,15 @@ expectFailure(
   'sb_publishable_unreviewed_12345678901234567890',
 )
 expectFailure(
+  () => assertUatAuthBuildEnvironment({
+    ...validEnvironment,
+    ERP_UAT_AUTH_ALLOW_MOCK_KEY: '',
+    VITE_SUPABASE_PUBLISHABLE_KEY: 'sb_publishable_Unreviewed_MixedCase_1234567890',
+  }),
+  'UAT_PUBLISHABLE_KEY_IDENTITY_MISMATCH',
+  'sb_publishable_Unreviewed_MixedCase_1234567890',
+)
+expectFailure(
   () => assertUatAuthBuildEnvironment({ ...validEnvironment, ERP_UAT_AUTH_ALLOW_MOCK_KEY: 'true' }),
   'UAT_MOCK_KEY_FLAG_INVALID',
   browserKey,

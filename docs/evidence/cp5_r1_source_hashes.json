@@ -3,7 +3,7 @@
   "candidate_branch": "pre-cp5/cutting-persistence-pickup-wip-r1-20260903",
   "source_base_sha": "8bfac13b91ea1be92111139e2fddcabccf9ae19a",
   "source_base_tree": "a9b193010266bb686c57709865a992769a835855",
-  "generation_parent_sha": "527cebe3a1b25556f4d4df79f13ea913e7ceb80e",
+  "generation_parent_sha": "e2745a2f3cf77735913967dfb57151069513bbf1",
   "target_project_ref": "siimvrusnzxexizpyoib",
   "target_environment": "ERP Enteng UAT",
   "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
@@ -31,7 +31,10 @@
       "source_sha256": "d024a9ef2c8b1d5d9c529669b0b46a7588575f3bdc6788252c1b90d0ab2aae6a",
       "rollback_path": "supabase/rollbacks/20260903070931_erp_v2_6_18a_cutting_bridge_reconciliation.rollback.sql",
       "acceptance_path": "supabase/tests/cutting_bridge_persistence_pickup_wip_rollback.sql",
-      "uat_applied": false
+      "uat_applied": true,
+      "uat_platform_ledger_version": "20260903105741",
+      "uat_platform_statement_count": 1,
+      "uat_business_facts_observed": 0
     },
     "bs_resolution": {
       "version": "20260903070932",
@@ -42,31 +45,68 @@
       "source_sha256": "79e7b51b82759f1f4579fc373d11e41a668f312a569425aad2fdc2c4d6d68aa6",
       "rollback_path": "supabase/rollbacks/20260903070932_erp_v2_6_19_cp5_bs_resolution_recovery.rollback.sql",
       "acceptance_path": "supabase/tests/cp5_bs_resolution_recovery_rollback.sql",
-      "uat_applied": false
+      "uat_applied": true,
+      "uat_platform_ledger_version": "20260903105814",
+      "uat_platform_statement_count": 1,
+      "uat_business_facts_observed": 0
     }
   },
   "verification": {
-    "status": "SOURCE_RECONCILED_PENDING_FULL_SCHEMA_CI_AND_UAT_V2618A_CP5",
+    "status": "HOSTED_UAT_VERIFIED_PENDING_INDEPENDENT_AUDIT",
     "required_local_commands": [
       "npm test",
       "npm run build",
       "npm run test:security"
     ],
-    "full_schema_acceptance_executed": false,
-    "hosted_uat_executed": false,
+    "full_schema_acceptance_executed": true,
+    "hosted_uat_executed": true,
+    "hosted_uat_evidence_path": "docs/evidence/cp5_hosted_uat_auth_e2e.json",
     "read_only_uat_preflight_executed": true,
     "read_only_uat_preflight_path": "docs/evidence/cp5_uat_readonly_preflight.json"
   },
-  "candidate_apply_status": "PARTIAL_RECORDED_V2618_ONLY",
-  "uat_partial_state": {
-    "recorded_application_version": "v2.6.18",
-    "recorded_platform_version": "20260903060213",
-    "correction_pending": "v2.6.18a",
-    "cp5_pending": "v2.6.19"
+  "candidate_apply_status": "RECORDED_V2618_V2618A_V2619",
+  "uat_recorded_state": {
+    "application_versions": [
+      "v2.6.18",
+      "v2.6.18a",
+      "v2.6.19"
+    ],
+    "platform_versions": [
+      "20260903060213",
+      "20260903105741",
+      "20260903105814"
+    ],
+    "latest_installed_at": "2026-09-03T10:58:14.838166Z"
+  },
+  "closure_status": "READY_FOR_INDEPENDENT_AUDIT_NO_GO",
+  "hosted_auth_permission_e2e": {
+    "status": "PASS",
+    "mode": "MANUAL_HOSTED_UAT_VERIFIED",
+    "classified_as_ci": false,
+    "evidence_path": "docs/evidence/cp5_hosted_uat_auth_e2e.json",
+    "case_count": 31,
+    "case_passed": 31,
+    "synthetic_cleanup_zero": true
+  },
+  "ci_runtime": {
+    "status": "PASS",
+    "runtime_head_sha": "e2745a2f3cf77735913967dfb57151069513bbf1",
+    "runtime_head_tree": "f0bbaefdc2a44d101f762342e4b82f96d3eddfdd",
+    "build_push_run_id": 33740662722,
+    "full_schema_run_id": 33740661926,
+    "full_schema_artifact_id": 9887697337,
+    "full_schema_artifact_digest_sha256": "c3a08cc067435a78c29de55777ed917b5db64df28527b4fe6138e781830a3786"
+  },
+  "cloudflare_preview": {
+    "status": "PASS",
+    "version_id": "7f2c2ab0-5936-4ed6-b58d-6db00a8db6da",
+    "immutable_preview_url": "https://7f2c2ab0-erp-garment-ux.zrpf6sbtjb.workers.dev",
+    "observed_runtime_identity": "ERP ENTENG · UAT AUTH",
+    "promoted_to_canonical_worker": false
   },
   "source_only": false,
-  "uat_applied": false,
-  "uat_applied_at": null,
+  "uat_applied": true,
+  "uat_applied_at": "2026-09-03T10:58:14.838166Z",
   "legacy_mutated": false,
   "production_go": false,
   "files": {
@@ -86,9 +126,17 @@
       "bytes": 345,
       "sha256": "b3fbafd905cf6f028db98274a05811af388886e01d3209c59e098134e19b42d4"
     },
+    "README.md": {
+      "bytes": 4404,
+      "sha256": "29c2b56c23e3cfd830a3b2d6c2ca766ea05ddc4fe8a2b07142d56e4eb0859570"
+    },
     "docs/evidence/cp5_access_route_action_ownership.json": {
       "bytes": 1912,
       "sha256": "81a9e2b24905bd37d273ad92c841de1c7a71c622c1909fddecf4d4557bf5142a"
+    },
+    "docs/evidence/cp5_hosted_uat_auth_e2e.json": {
+      "bytes": 14158,
+      "sha256": "554e10f7334e1230cb10b6054e5bfaead87b7ff85a4cc9f8e9d93294a7fea4e7"
     },
     "docs/evidence/cp5_uat_readonly_preflight.json": {
       "bytes": 1770,
@@ -106,17 +154,21 @@
       "bytes": 1394,
       "sha256": "9effe9acdf5de935093d7cd71a164a9c04b074133aa9267a8ae4488ebd69482a"
     },
+    "scripts/assert-uat-auth-env.mjs": {
+      "bytes": 4647,
+      "sha256": "488e615a37d98a1b56d77a01afe78c58954b4d9f81a13a6df2c1648069e361f4"
+    },
     "scripts/check-access-catalog.mjs": {
       "bytes": 9807,
       "sha256": "993657d43b4ff5373d1b46e700e447f9234fd67f5178d6e5816592181971cbda"
     },
     "scripts/check-backend-ownership-v3.mjs": {
-      "bytes": 18057,
-      "sha256": "2c644f1f834e23753d462e1d9c3ca14379941d8f3eb17f9a38d67b3f0c0d4bca"
+      "bytes": 21797,
+      "sha256": "10f58d8a2745df6c2749ecf2985d0b236dec1f0cdcab5467575d933070e78c68"
     },
     "scripts/check-cp5-boundary.mjs": {
-      "bytes": 19724,
-      "sha256": "8301232de70dfd79bef691fc9d3408d71cdcab4bd7d260b96f4aa24b305ecd80"
+      "bytes": 21075,
+      "sha256": "f1ae637d87ea5a59604eeae5daaf7e5878bf5ee2c865eaa2d7e119d2d2821981"
     },
     "scripts/check-source-ownership.mjs": {
       "bytes": 4509,
@@ -131,8 +183,12 @@
       "sha256": "f95f4ccf1a848411cf4029f6ad8f059b4bc2a2cd97893973cf6ff6ffdba292ce"
     },
     "scripts/render-cp5-source-hashes.mjs": {
-      "bytes": 9583,
-      "sha256": "6d84e3cdf91d08d30df043963d306b911a650145c7c757308b1b56eba49cee46"
+      "bytes": 12369,
+      "sha256": "4ddc4469aa3a2c5809105f5b023d4f8ca03ea5d6e330589200a7e0fcade8897b"
+    },
+    "scripts/test-uat-auth-assertions.mjs": {
+      "bytes": 10391,
+      "sha256": "9f06b969b41e8aecc74dccdf248002b43d5a9f30e3452221fddf8f1381333b88"
     },
     "src/App.tsx": {
       "bytes": 214021,

@@ -149,6 +149,9 @@ const cp5AuthTest = read('scripts/cp5_auth_permission_e2e.mjs')
 const cp5RaceTest = read('scripts/cp5_bs_resolution_concurrency.py')
 const cp5Workflow = read('.github/workflows/cp5-full-schema-validation.yml')
 const packageJson = read('package.json')
+const uatEnvironmentGuard = read('scripts/assert-uat-auth-env.mjs')
+const uatEnvironmentGuardTest = read('scripts/test-uat-auth-assertions.mjs')
+const hostedUatEvidence = JSON.parse(read('docs/evidence/cp5_hosted_uat_auth_e2e.json'))
 const app = read('src/App.tsx')
 const cuttingPage = read('src/ConnectedCuttingPage.tsx')
 const cuttingPatternPicker = read('src/CuttingPatternPicker.tsx')
@@ -231,6 +234,25 @@ for (const token of [
 assert.match(cp5BrowserConfig, /testMatch: 'cp5-bs-resolution\.spec\.ts'/)
 assert.match(cp5BrowserConfig, /ERP_UAT_AUTH_ALLOW_MOCK_KEY: '1'/)
 assert.match(packageJson, /"test:browser:cp5": "playwright test --config playwright\.cp5\.config\.ts"/)
+assert.ok(
+  uatEnvironmentGuard.includes('if (!/^sb_publishable_[a-z0-9._-]{16,}$/i.test(publishableKey))'),
+  'UAT release guard regressed to a case-sensitive publishable-key format check',
+)
+assert.ok(
+  uatEnvironmentGuardTest.includes('sb_publishable_Unreviewed_MixedCase_1234567890'),
+  'UAT release guard lacks a mixed-case publishable-key regression',
+)
+assert.equal(hostedUatEvidence.format, 'CP5_HOSTED_UAT_AUTH_E2E_V1')
+assert.equal(hostedUatEvidence.status, 'PASS')
+assert.equal(hostedUatEvidence.mode, 'MANUAL_HOSTED_UAT_VERIFIED')
+assert.equal(hostedUatEvidence.classified_as_ci, false)
+assert.equal(hostedUatEvidence.case_count, 31)
+assert.equal(hostedUatEvidence.case_passed, 31)
+assert.equal(hostedUatEvidence.assertions.server_side_pattern_filter_has_true_empty_state, true)
+assert.equal(hostedUatEvidence.cleanup.temporary_credentials_retained, false)
+assert.equal(hostedUatEvidence.cleanup.new_audit_rows_after_cleanup, 0)
+assert.equal(hostedUatEvidence.cloudflare_preview.promoted_to_canonical_worker, false)
+assert.equal(hostedUatEvidence.production_go, false)
 
 for (const token of [
   "const uatHost = 'siimvrusnzxexizpyoib.supabase.co'",
@@ -276,4 +298,4 @@ for (const staleRecoveryToken of [
 
 const tempDirectory = resolve(root, 'supabase/.temp')
 assert.equal(existsSync(tempDirectory) ? readdirSync(tempDirectory).length : 0, 0, 'Supabase generator cache files must not enter the candidate')
-console.log(`CP5 boundary passed: recorded Cutting ${cuttingHash.slice(0, 12)}, reconciliation ${correctionHash.slice(0, 12)}, BS Resolution ${cp5Hash.slice(0, 12)}; canonical gates, 12 actions, Pattern filters, rollback identities, and partial-UAT boundaries are owned.`)
+console.log(`CP5 boundary passed: recorded Cutting ${cuttingHash.slice(0, 12)}, reconciliation ${correctionHash.slice(0, 12)}, BS Resolution ${cp5Hash.slice(0, 12)}; canonical gates, 12 actions, Pattern filters, rollback identities, mixed-case release-key regression, and hosted-UAT boundaries are owned.`)

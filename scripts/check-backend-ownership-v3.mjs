@@ -44,8 +44,8 @@ for (const ownership of [ownershipV2, ownershipV3]) {
   assert.equal(ownership.production_go, false)
 }
 assert.equal(ownershipV3.source_only, false)
-assert.equal(ownershipV3.uat_applied, false)
-assert.equal(ownershipV3.candidate_apply_status, 'PARTIAL_RECORDED_V2618_ONLY')
+assert.equal(ownershipV3.uat_applied, true)
+assert.equal(ownershipV3.candidate_apply_status, 'RECORDED_V2618_V2618A_V2619')
 
 const cp3ManifestBytes = readFileSync(resolve(root, ownershipV1.reviewed_cp3_manifest.path))
 const cp4ManifestBytes = readFileSync(resolve(root, ownershipV1.candidate_cp4_manifest.path))
@@ -141,20 +141,21 @@ assert.equal(git('rev-parse', `${candidate.source_base_sha}^{tree}`), candidate.
 assert.equal(candidate.target_project_ref, 'siimvrusnzxexizpyoib')
 assert.equal(candidate.legacy_project_ref, 'vlxdhpkjeevubjxexnfo')
 assert.equal(candidate.source_only, false)
-assert.equal(candidate.uat_applied, false)
-assert.equal(candidate.uat_applied_at, null)
-assert.equal(candidate.candidate_apply_status, 'PARTIAL_RECORDED_V2618_ONLY')
-assert.deepEqual(candidate.uat_partial_state, {
-  recorded_application_version: 'v2.6.18',
-  recorded_platform_version: '20260903060213',
-  correction_pending: 'v2.6.18a',
-  cp5_pending: 'v2.6.19',
+assert.equal(candidate.uat_applied, true)
+assert.equal(candidate.uat_applied_at, '2026-09-03T10:58:14.838166Z')
+assert.equal(candidate.candidate_apply_status, 'RECORDED_V2618_V2618A_V2619')
+assert.deepEqual(candidate.uat_recorded_state, {
+  application_versions: ['v2.6.18', 'v2.6.18a', 'v2.6.19'],
+  platform_versions: ['20260903060213', '20260903105741', '20260903105814'],
+  latest_installed_at: '2026-09-03T10:58:14.838166Z',
 })
+assert.equal(candidate.closure_status, 'READY_FOR_INDEPENDENT_AUDIT_NO_GO')
 assert.equal(candidate.legacy_mutated, false)
 assert.equal(candidate.production_go, false)
-assert.equal(candidate.verification.status, 'SOURCE_RECONCILED_PENDING_FULL_SCHEMA_CI_AND_UAT_V2618A_CP5')
-assert.equal(candidate.verification.full_schema_acceptance_executed, false)
-assert.equal(candidate.verification.hosted_uat_executed, false)
+assert.equal(candidate.verification.status, 'HOSTED_UAT_VERIFIED_PENDING_INDEPENDENT_AUDIT')
+assert.equal(candidate.verification.full_schema_acceptance_executed, true)
+assert.equal(candidate.verification.hosted_uat_executed, true)
+assert.equal(candidate.verification.hosted_uat_evidence_path, 'docs/evidence/cp5_hosted_uat_auth_e2e.json')
 assert.equal(candidate.verification.read_only_uat_preflight_executed, true)
 assert.equal(candidate.verification.read_only_uat_preflight_path, 'docs/evidence/cp5_uat_readonly_preflight.json')
 const uatPreflight = readJson(candidate.verification.read_only_uat_preflight_path)
@@ -178,6 +179,55 @@ assert.deepEqual(uatPreflight.conclusion, {
   uat_mutated_by_preflight: false,
   production_go: false,
 })
+
+const hostedEvidence = readJson(candidate.verification.hosted_uat_evidence_path)
+assert.equal(hostedEvidence.format, 'CP5_HOSTED_UAT_AUTH_E2E_V1')
+assert.equal(hostedEvidence.status, 'PASS')
+assert.equal(hostedEvidence.mode, 'MANUAL_HOSTED_UAT_VERIFIED')
+assert.equal(hostedEvidence.classified_as_ci, false)
+assert.equal(hostedEvidence.closure_status, 'READY_FOR_INDEPENDENT_AUDIT_NO_GO')
+assert.equal(hostedEvidence.target_project_ref, 'siimvrusnzxexizpyoib')
+assert.equal(hostedEvidence.reviewed_runtime_source.remote_head_sha, 'e2745a2f3cf77735913967dfb57151069513bbf1')
+assert.equal(hostedEvidence.reviewed_runtime_source.head_tree, 'f0bbaefdc2a44d101f762342e4b82f96d3eddfdd')
+assert.equal(hostedEvidence.reviewed_runtime_source.tree_equal, true)
+assert.equal(hostedEvidence.case_count, 31)
+assert.equal(hostedEvidence.case_passed, 31)
+assert.equal(hostedEvidence.cases.length, 31)
+assert.ok(hostedEvidence.cases.every(({ ok }) => ok === true))
+assert.equal(hostedEvidence.assertions.server_side_pattern_filter_has_true_empty_state, true)
+assert.equal(hostedEvidence.assertions.synthetic_cleanup_returns_exact_zero, true)
+for (const field of [
+  'auth_users', 'auth_identities', 'auth_sessions', 'auth_refresh_tokens',
+  'app_users', 'custom_roles', 'bs_cases', 'bs_resolutions', 'bs_components',
+  'rework_orders', 'rework_components', 'hold_events', 'idempotency',
+  'execution_context', 'synthetic_access_audit', 'synthetic_audit_logs',
+  'temporary_http_extensions', 'new_audit_rows_after_cleanup', 'waiting_locks',
+  'transactions_over_5m',
+]) assert.equal(hostedEvidence.cleanup[field], 0, `CP5 hosted cleanup residue: ${field}`)
+assert.equal(hostedEvidence.cleanup.preexisting_audit_rows_preserved, 36)
+assert.equal(hostedEvidence.cleanup.temporary_credentials_retained, false)
+assert.equal(hostedEvidence.source_ci.status, 'PASS')
+assert.equal(hostedEvidence.source_ci.unit_tests.passed, 165)
+assert.equal(hostedEvidence.source_ci.cp5_full_schema.real_two_connection_disposition_race, 'PASS')
+assert.equal(hostedEvidence.source_ci.cp5_full_schema.real_two_connection_damage_capacity_race, 'PASS')
+assert.equal(hostedEvidence.cloudflare_preview.observed_runtime_identity, 'ERP ENTENG · UAT AUTH')
+assert.equal(hostedEvidence.cloudflare_preview.promoted_to_canonical_worker, false)
+assert.equal(hostedEvidence.cloudflare_preview.temporary_environment_file_active, false)
+assert.equal(hostedEvidence.legacy_mutated, false)
+assert.equal(hostedEvidence.production_go, false)
+assert.deepEqual(candidate.hosted_auth_permission_e2e, {
+  status: 'PASS',
+  mode: 'MANUAL_HOSTED_UAT_VERIFIED',
+  classified_as_ci: false,
+  evidence_path: candidate.verification.hosted_uat_evidence_path,
+  case_count: 31,
+  case_passed: 31,
+  synthetic_cleanup_zero: true,
+})
+assert.equal(candidate.ci_runtime.status, 'PASS')
+assert.equal(candidate.ci_runtime.runtime_head_sha, hostedEvidence.source_ci.head_sha)
+assert.equal(candidate.cloudflare_preview.status, 'PASS')
+assert.equal(candidate.cloudflare_preview.promoted_to_canonical_worker, false)
 
 const cuttingManifestAtCp5Base = gitBytes('show', `${candidate.source_base_sha}:${cuttingManifestPath}`)
 assert.equal(cuttingManifestAtCp5Base.length, cuttingManifestBytes.length)
@@ -259,8 +309,20 @@ assert.deepEqual(candidate.migrations.cutting_bridge, {
 })
 assert.equal(candidate.migrations.cutting_bridge.source_bytes, 80392)
 assert.equal(candidate.migrations.cutting_bridge.source_sha256, '6a568a78ad0b9baa2ef5ee958ee967d7c997cc1f4dfb7f0e4ef5e6ff69e5038f')
-assert.equal(candidate.migrations.cutting_bridge_reconciliation.uat_applied, false)
-assert.equal(candidate.migrations.bs_resolution.uat_applied, false)
+assert.deepEqual(candidate.migrations.cutting_bridge_reconciliation, {
+  ...candidate.migrations.cutting_bridge_reconciliation,
+  uat_applied: true,
+  uat_platform_ledger_version: '20260903105741',
+  uat_platform_statement_count: 1,
+  uat_business_facts_observed: 0,
+})
+assert.deepEqual(candidate.migrations.bs_resolution, {
+  ...candidate.migrations.bs_resolution,
+  uat_applied: true,
+  uat_platform_ledger_version: '20260903105814',
+  uat_platform_statement_count: 1,
+  uat_business_facts_observed: 0,
+})
 
 function walk(directory, accept) {
   return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
@@ -294,6 +356,7 @@ const discovered = [
     : []),
   cutting.hosted_evidence_path,
   candidate.verification.read_only_uat_preflight_path,
+  candidate.verification.hosted_uat_evidence_path,
 ].sort()
 
 function isCuttingBackend(path) {
@@ -319,6 +382,7 @@ function isCp5Backend(path) {
     || path === 'scripts/render-cp5-source-hashes.mjs'
     || path === '.github/workflows/cp5-full-schema-validation.yml'
     || path === candidate.verification.read_only_uat_preflight_path
+    || path === candidate.verification.hosted_uat_evidence_path
 }
 
 const candidateBackend = candidatePaths.filter(isCp5Backend)
