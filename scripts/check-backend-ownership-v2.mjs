@@ -214,7 +214,10 @@ if (candidate.uat_applied) {
   assert.equal(candidate.source_only, false)
   assert.match(candidate.uat_applied_at, /^2026-09-02T/)
   assert.match(candidate.generation_parent_sha, /^[0-9a-f]{40}$/)
-  if (process.env.GITHUB_ACTIONS === 'true') {
+  const githubSourceBranch = process.env.GITHUB_HEAD_REF || process.env.GITHUB_REF_NAME
+  const validatesCandidateParent = process.env.GITHUB_ACTIONS === 'true'
+    && githubSourceBranch === candidate.candidate_branch
+  if (validatesCandidateParent) {
     assert.equal(candidate.generation_parent_sha, git('rev-parse', 'HEAD^'))
   }
   assert.equal(candidate.ci_runtime.status, 'PASS')

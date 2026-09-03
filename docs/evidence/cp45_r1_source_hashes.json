@@ -3,7 +3,7 @@
   "candidate_branch": "cp4.5/rbac-production-identity-wip-r1-20260902",
   "source_base_sha": "57d8346a7cdf4ee86519f2dd2a1b54d39ebbb6cc",
   "source_base_tree": "48fc87507dc8a18d5829d518e53f298ad0c7e01a",
-  "generation_parent_sha": "eb5c2e3e46ddf714847d2ab0d6f30230424663d5",
+  "generation_parent_sha": "f99fb475f53e9df1c4ccfe0539aec280d72ceb51",
   "target_project_ref": "siimvrusnzxexizpyoib",
   "target_environment": "ERP Enteng UAT",
   "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
@@ -212,8 +212,8 @@
       "sha256": "a54e7ecb389302de2cf82993dd2cadf82bd6b77fe3305582fc8b91f00aed1e72"
     },
     "scripts/check-backend-ownership-v2.mjs": {
-      "bytes": 25697,
-      "sha256": "6dee170ab6f44c86ff50f5e73c288ff6200cb5a97578c522b161743f286ca571"
+      "bytes": 25902,
+      "sha256": "c8c1fa98cb7d3c7cff688a1e17635c70dbfe1e5c084a62f45bdbefed1c459ab4"
     },
     "scripts/check-source-ownership.mjs": {
       "bytes": 4101,
