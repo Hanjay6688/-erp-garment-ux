@@ -212,6 +212,7 @@ for (const proof of [
   'CP5 explicit claim REJECT action failed', 'CP5 rejected DAMAGE claim did not restore receipt-line capacity',
   'CP5 DAMAGE claim exceeded receipt-line capacity', 'source_laundry_receipt_line_id=v_receipt_line',
   'laundry_receipt_bs_product_allocations', 'source_laundry_bs_allocation_id=v_receipt_allocation',
+  'select row_version into v_receipt_version',
 ]) assert.ok(cp5Test.includes(proof), `CP5 acceptance proof missing: ${proof}`)
 
 for (const token of [

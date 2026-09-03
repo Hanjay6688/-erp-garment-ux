@@ -53,6 +53,7 @@ declare
   v_claim_version bigint;
   v_damage_claim uuid;
   v_damage_claim_version bigint;
+  v_receipt_version bigint;
   v_failed boolean;
 begin
   if not exists(select 1 from erp.schema_migrations where version='v2.6.18a')
@@ -176,8 +177,11 @@ begin
     v_receipt_allocation,v_receipt_line,v_product,3,
     'CP5 exact Laundry BS product lineage',v_owner_app
   );
+  select row_version into v_receipt_version
+  from erp.laundry_receipts where id=v_receipt;
   v_response:=erp.post_laundry_receipt_v2(
-    v_receipt,gen_random_uuid(),1,'CP5 physical Laundry return with three damaged pieces'
+    v_receipt,gen_random_uuid(),v_receipt_version,
+    'CP5 physical Laundry return with three damaged pieces'
   );
   if v_response->>'status'<>'POSTED' or (v_response->>'bs_case_count')::integer<>1 then
     raise exception 'CP5 Laundry receipt did not create its authoritative BS case: %',v_response;
