@@ -3,7 +3,7 @@
   "candidate_branch": "pre-cp5/cutting-persistence-pickup-wip-r1-20260903",
   "source_base_sha": "d5c48ce5c8daa7e6da92dc9d690d9b36879e74c1",
   "source_base_tree": "70f7bf3c0265520eac5aafff747f448ed8be3e6b",
-  "generation_parent_sha": "364fa14c823ff1f9ab818c96b474d6f5771b0f7a",
+  "generation_parent_sha": "bfb34523f4457bfbedecebc1d11bc7495da8ed1a",
   "target_project_ref": "siimvrusnzxexizpyoib",
   "target_environment": "ERP Enteng UAT",
   "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
@@ -64,12 +64,12 @@
       "sha256": "5baa5314cff26bc996c96610bfbc2ec2cafc64f890ecf16b43073af56529c591"
     },
     "scripts/cp45_auth_permission_e2e.mjs": {
-      "bytes": 19960,
-      "sha256": "62b74baf7bd72aa0c8faf8202f9bee28b02e24c06c1f1b9cffe7b23d3ba3d4e4"
+      "bytes": 20229,
+      "sha256": "17a6b084bc796d009524057adae94f0704a187fbd2f195bd22db275cf2f22798"
     },
     "scripts/cutting_bridge_auth_e2e.mjs": {
-      "bytes": 8229,
-      "sha256": "a59b0881d08cc7c9e2c1487852d6c64fb88432f8e864ec4d63102d5adc8db8af"
+      "bytes": 8398,
+      "sha256": "284e39c510c0dce84e886f04419c0ddd94f787f49068be28ef5f8a270db35625"
     },
     "scripts/cutting_bridge_build_catalog_bootstrap.py": {
       "bytes": 24931,
