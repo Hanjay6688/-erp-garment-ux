@@ -216,6 +216,20 @@ async function cleanupAuth() {
   }
 }
 
+function cleanupFinalAuditTombstones() {
+  const appIds = quotedUuidList(appUserIds)
+  const entityIds = quotedUuidList([
+    ...appUserIds, ...roleIds, ...patternIds, ...users.map(({ id }) => id),
+  ])
+  if (!appIds && !entityIds) return
+  sql(`begin;
+    set local erp.cp45_allow_synthetic_cleanup='on';
+    delete from erp.audit_logs
+    where ${appIds ? `changed_by in (${appIds})` : 'false'}
+       or ${entityIds ? `entity_id in (${entityIds})` : 'false'};
+    commit;`)
+}
+
 let failure
 try {
   const owner = await createAuthUser('owner')
@@ -407,6 +421,7 @@ try {
 } finally {
   try { cleanupDatabase() } catch (error) { failure ||= error }
   try { await cleanupAuth() } catch (error) { failure ||= error }
+  try { cleanupFinalAuditTombstones() } catch (error) { failure ||= error }
 }
 
 let residue

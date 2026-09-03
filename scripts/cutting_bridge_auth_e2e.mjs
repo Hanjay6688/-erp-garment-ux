@@ -110,6 +110,16 @@ async function cleanup() {
       })
     } catch { /* residue is checked below */ }
   }
+  if (appUserIds.length || users.length) {
+    const appIds = appUserIds.map((id) => `'${id}'::uuid`).join(',') || 'null::uuid'
+    const entityIds = [...appUserIds, ...users.map(({ id }) => id)]
+      .map((id) => `'${id}'::uuid`).join(',') || 'null::uuid'
+    sql(`begin;
+      set local erp.cp45_allow_synthetic_cleanup='on';
+      delete from erp.audit_logs
+      where changed_by in (${appIds}) or entity_id in (${entityIds});
+      commit;`)
+  }
 }
 
 let failure
