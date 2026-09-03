@@ -247,6 +247,7 @@ for (const token of [
   "insert into erp.contractors", "insert into erp.product_models",
   "'contractors',(select count(*) from erp.contractors", "'models',(select count(*) from erp.product_models",
 ]) assert.ok(cp5RaceTest.includes(token), `CP5 concurrency proof missing: ${token}`)
+assert.doesNotMatch(cp5RaceTest, /clock_timestamp\(\)/, 'CP5 race fixtures must not depend on runner wall-clock ordering')
 for (const token of [
   'SOURCE_BASE_SHA: 8bfac13b91ea1be92111139e2fddcabccf9ae19a',
   'erp_enteng_cp45a_catalog_bootstrap.sql.gz',

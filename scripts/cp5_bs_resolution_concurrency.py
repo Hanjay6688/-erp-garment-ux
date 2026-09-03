@@ -71,7 +71,7 @@ def setup():
               cause_source,qty_pcs,status,physical_at,notes
             ) values(
               %s::uuid,'CP5-RACE-BS','LEGACY','CP5-RACE-BOOK','UNKNOWN',
-              'UNKNOWN',2,'OPEN',clock_timestamp(),'CP5 disposition race'
+              'UNKNOWN',2,'OPEN','2026-09-03T07:00:00Z','CP5 disposition race'
             )
             """,
             (BS_CASE,),
@@ -97,20 +97,20 @@ def setup():
               id,po_number,model_id,contractor_id,target_qty_pcs,status,current_stage,physical_start_at,notes
             ) values(
               %s::uuid,'CP5-RACE-PO',%s::uuid,%s::uuid,
-              3,'CUTTING','CUTTING',clock_timestamp(),'CP5 race'
+              3,'CUTTING','CUTTING','2026-09-03T06:00:00Z','CP5 race'
             )
             """,
             (PO, MODEL, CONTRACTOR),
         )
         cur.execute(
             "insert into erp.cutting_batches(id,po_id,batch_number,cut_at,status,notes) "
-            "values(%s::uuid,%s::uuid,'CP5-RACE-BATCH',clock_timestamp(),'OPEN','CP5 race')",
+            "values(%s::uuid,%s::uuid,'CP5-RACE-BATCH','2026-09-03T06:15:00Z','OPEN','CP5 race')",
             (BATCH, PO),
         )
         cur.execute(
             """
             insert into erp.cutting_groups(id,po_id,group_number,cut_at,status,cutting_batch_id,notes)
-            values(%s::uuid,%s::uuid,'CP5-RACE-GROUP',clock_timestamp(),'CUT',%s::uuid,'CP5 race')
+            values(%s::uuid,%s::uuid,'CP5-RACE-GROUP','2026-09-03T06:15:00Z','CUT',%s::uuid,'CP5 race')
             """,
             (GROUP, PO, BATCH),
         )
@@ -123,7 +123,7 @@ def setup():
             """
             insert into erp.laundry_deliveries(
               id,delivery_number,po_id,vendor_id,target_dyeing_color,physical_at,status,created_by,special_instruction
-            ) values(%s::uuid,'CP5-RACE-DELIVERY',%s::uuid,%s::uuid,'N/A',clock_timestamp(),'RETURNED',%s::uuid,'CP5 race')
+            ) values(%s::uuid,'CP5-RACE-DELIVERY',%s::uuid,%s::uuid,'N/A','2026-09-03T07:30:00Z','RETURNED',%s::uuid,'CP5 race')
             """,
             (DELIVERY, PO, VENDOR, OPERATOR_APP),
         )
@@ -136,7 +136,7 @@ def setup():
         )
         cur.execute(
             "insert into erp.laundry_receipts(id,receipt_number,delivery_id,physical_at,status) "
-            "values(%s::uuid,'CP5-RACE-RECEIPT',%s::uuid,clock_timestamp(),'POSTED')",
+            "values(%s::uuid,'CP5-RACE-RECEIPT',%s::uuid,'2026-09-03T08:30:00Z','POSTED')",
             (RECEIPT, DELIVERY),
         )
         cur.execute(
