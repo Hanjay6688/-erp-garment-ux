@@ -116,6 +116,8 @@ assert.match(cuttingTest, /CBR_DIST_VIEW/)
 assert.doesNotMatch(cuttingTest, /CBR_DISTRIBUTION_VIEW/, 'Cutting acceptance synthetic legacy role exceeds app_users.role varchar(20)')
 assert.match(cuttingTest, /not like '%require_internal%'/)
 assert.match(cuttingTest, /version='v2\.6\.18a'/)
+assert.match(cuttingTest, /public\.erp_record_sewing_terminal_v1/, 'Cutting acceptance bypasses the authenticated sewing-terminal facade')
+assert.doesNotMatch(cuttingTest, /insert\s+into\s+erp\.sewing_terminal_events/i, 'Cutting acceptance must not forge an authoritative sewing terminal event')
 
 for (const token of [
   'bs_resolution_execution_context', 'cutting_bridge_execution_context',

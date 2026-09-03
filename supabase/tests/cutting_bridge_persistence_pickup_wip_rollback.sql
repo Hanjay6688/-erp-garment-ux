@@ -36,6 +36,9 @@ declare
   v_cut_request constant uuid:='c5040000-0000-4000-8000-000000000001';
   v_pickup_request constant uuid:='c5040000-0000-4000-8000-000000000002';
   v_pickup_recreate_request constant uuid:='c5040000-0000-4000-8000-000000000003';
+  v_component_snapshot constant uuid:='c5050000-0000-4000-8000-000000000001';
+  v_work_completion constant uuid:='c5050000-0000-4000-8000-000000000002';
+  v_work_line constant uuid:='c5050000-0000-4000-8000-000000000003';
   v_cut_payload jsonb;
   v_pickup_payload jsonb;
   v_cut jsonb;
@@ -429,18 +432,44 @@ begin
   -- This is the regression that prevents completed_qty=batch_qty from making
   -- a live WIP row disappear before Laundry/QC/BS resolution is complete.
   execute 'reset role';
-  insert into erp.sewing_terminal_events(
-    event_number,event_kind,contractor_id,po_id,cutting_group_id,
-    physical_at,qty_signed,reason,created_by
+  insert into erp.po_work_component_snapshots(
+    id,po_id,work_component_id,sequence_no,rate_per_pcs_snapshot,committed_at
   ) values(
-    'SEW-CBR-FULL-001','SELESAI_DIJAHIT','a1000000-0000-0000-0000-000000000001',
-    v_po,v_group,'2026-08-15 11:00:00+00',90,
+    v_component_snapshot,v_po,'a4000000-0000-0000-0000-000000000001',1,0,
+    '2026-08-15 10:30:00+00'
+  );
+  insert into erp.work_completion_events(
+    id,completion_number,po_id,contractor_id,cutting_group_id,
+    physical_at,status,notes,created_by
+  ) values(
+    v_work_completion,'WC-CBR-FULL-001',v_po,
+    'a1000000-0000-0000-0000-000000000001',v_group,
+    '2026-08-15 11:00:00+00','DRAFT',
     'Cutting Bridge fully sewn but not handed off',v_production_app
   );
+  insert into erp.work_completion_lines(
+    id,completion_id,po_component_snapshot_id,work_component_id,
+    qty_completed,qty_payable,rate_snapshot,notes
+  ) values(
+    v_work_line,v_work_completion,v_component_snapshot,
+    'a4000000-0000-0000-0000-000000000001',90,90,0,
+    'Cutting Bridge canonical sewing completion'
+  );
+  perform erp.post_work_completion(v_work_completion);
+
+  perform set_config('request.jwt.claims',jsonb_build_object(
+    'sub',v_owner_auth,'role','authenticated'
+  )::text,true);
+  execute 'set local role authenticated';
+  perform public.erp_record_sewing_terminal_v1(jsonb_build_object(
+    'work_completion_id',v_work_completion,
+    'qty_pcs',90,
+    'reason','Cutting Bridge fully sewn but not handed off'
+  ),gen_random_uuid());
+
   perform set_config('request.jwt.claims',jsonb_build_object(
     'sub',v_production_auth,'role','authenticated'
   )::text,true);
-  execute 'set local role authenticated';
   v_wip:=public.erp_get_wip_control_v1('ALL',v_pattern,'PRODUCTION','CBR-PO-CUT-001');
   if not exists(
     select 1 from jsonb_array_elements(v_wip->'rows') x
