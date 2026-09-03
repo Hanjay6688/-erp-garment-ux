@@ -3,7 +3,7 @@
   "candidate_branch": "pre-cp5/cutting-persistence-pickup-wip-r1-20260903",
   "source_base_sha": "d5c48ce5c8daa7e6da92dc9d690d9b36879e74c1",
   "source_base_tree": "70f7bf3c0265520eac5aafff747f448ed8be3e6b",
-  "generation_parent_sha": "d67f94d27ae977e36b19670381468c18face9b0d",
+  "generation_parent_sha": "ad74e6a7cf8f4b22833a1ef25d2740bc51abc3fb",
   "target_project_ref": "siimvrusnzxexizpyoib",
   "target_environment": "ERP Enteng UAT",
   "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
@@ -56,8 +56,8 @@
       "sha256": "79a7ae5d43ed1caa2226cbc4ec42e36875374a199f87b025c1bd3ba490466ecf"
     },
     "scripts/check-backend-ownership-v3.mjs": {
-      "bytes": 14863,
-      "sha256": "04d71944226e6296c5ed7c622b27d9e177c26cdd18a3e0ab858a257459ad4959"
+      "bytes": 15048,
+      "sha256": "83c5d4079ac7d65b89fc71e57ab46fd70acc22775f953a6497ded6d66385e0c2"
     },
     "scripts/check-source-ownership.mjs": {
       "bytes": 4363,
@@ -152,12 +152,12 @@
       "sha256": "48377f384a851b81fd04b75a623860f60dcac61f58e2ff74f6d4ca1db1041322"
     },
     "supabase/migrations/20260903022604_erp_v2_6_18_cutting_persistence_pickup_wip.sql": {
-      "bytes": 79184,
-      "sha256": "8e438d77aa35500b65b16ae0ce2c85d3a0cc11382a94fe2905e7b1070a5b2bf6"
+      "bytes": 79567,
+      "sha256": "41cc50f1fbf171e89608232221c66d4b2b60806dd681fd298942dbdf94ffd58f"
     },
     "supabase/rollbacks/20260903022604_erp_v2_6_18_cutting_persistence_pickup_wip.rollback.sql": {
       "bytes": 15726,
-      "sha256": "ce627dd13c3581c367c3a6294cde43a277ceade8d91cc46474e800a70916ddf4"
+      "sha256": "c2834020843a40ce17ba61ae1022c2aeeff59a5e4fb50021f81e488c7c05c4f9"
     },
     "supabase/tests/cutting_bridge_boundary_fingerprint.sql": {
       "bytes": 3380,
