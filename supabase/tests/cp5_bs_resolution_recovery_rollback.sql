@@ -22,12 +22,16 @@ declare
   v_po constant uuid:='c6030000-0000-4000-8000-000000000001';
   v_batch constant uuid:='c6040000-0000-4000-8000-000000000001';
   v_group constant uuid:='c6040000-0000-4000-8000-000000000002';
+  v_size_slot constant uuid:='c6040000-0000-4000-8000-000000000003';
   v_snapshot constant uuid:='c6050000-0000-4000-8000-000000000001';
   v_pattern_bs constant uuid:='c6060000-0000-4000-8000-000000000001';
   v_delivery constant uuid:='c6070000-0000-4000-8000-000000000001';
   v_delivery_line constant uuid:='c6070000-0000-4000-8000-000000000002';
   v_receipt constant uuid:='c6070000-0000-4000-8000-000000000003';
   v_receipt_line constant uuid:='c6070000-0000-4000-8000-000000000004';
+  v_brand constant uuid:='c6070000-0000-4000-8000-000000000005';
+  v_product constant uuid:='c6070000-0000-4000-8000-000000000006';
+  v_receipt_allocation constant uuid:='c6070000-0000-4000-8000-000000000007';
   v_manual_request constant uuid:='c6080000-0000-4000-8000-000000000001';
   v_manual_payload jsonb;
   v_response jsonb;
@@ -111,6 +115,11 @@ begin
     v_group,v_po,'CP5-GROUP-001','2026-08-20 08:00:00+00','CUT',v_batch,v_pattern,
     'CP5 immutable Pattern fixture'
   );
+  insert into erp.cutting_group_size_slots(
+    id,cutting_group_id,slot_no,size_id,drawing_no
+  ) values(
+    v_size_slot,v_group,1,'a2100000-0000-0000-0000-000000000001',1
+  );
   insert into erp.po_work_component_snapshots(
     id,po_id,work_component_id,sequence_no,rate_per_pcs_snapshot,committed_at
   ) values(
@@ -151,6 +160,22 @@ begin
   insert into erp.laundry_receipt_lines(
     id,receipt_id,delivery_line_id,qty_good_received,qty_bs_laundry,qty_stuck,qty_missing
   ) values(v_receipt_line,v_receipt,v_delivery_line,5,3,0,0);
+  insert into erp.brands(id,brand_code,brand_name)
+  values(v_brand,'CP5-BRAND','CP5 Final Product Brand');
+  insert into erp.products(
+    id,sku,model_id,brand_id,color_name,size_id,product_name,
+    identity_root_id,effective_from,is_active
+  ) values(
+    v_product,'CP5-SKU-BLUE-S','a2000000-0000-0000-0000-000000000001',
+    v_brand,'CP5 BLUE','a2100000-0000-0000-0000-000000000001',
+    'CP5 Blue Small',v_product,'2026-01-01 00:00:00+00',true
+  );
+  insert into erp.laundry_receipt_bs_product_allocations(
+    id,receipt_line_id,product_id,qty_bs,notes,created_by
+  ) values(
+    v_receipt_allocation,v_receipt_line,v_product,3,
+    'CP5 exact Laundry BS product lineage',v_owner_app
+  );
   v_response:=erp.post_laundry_receipt_v2(
     v_receipt,gen_random_uuid(),1,'CP5 physical Laundry return with three damaged pieces'
   );
@@ -158,7 +183,9 @@ begin
     raise exception 'CP5 Laundry receipt did not create its authoritative BS case: %',v_response;
   end if;
   select id into v_receipt_bs from erp.bs_cases
-  where source_laundry_receipt_line_id=v_receipt_line;
+  where source_laundry_receipt_line_id=v_receipt_line
+    and source_laundry_bs_allocation_id=v_receipt_allocation
+    and product_id=v_product;
   if v_receipt_bs is null then
     raise exception 'CP5 Laundry DAMAGE lineage has no source BS case';
   end if;
