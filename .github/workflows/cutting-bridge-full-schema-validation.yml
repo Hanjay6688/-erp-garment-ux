@@ -432,6 +432,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          rm -rf supabase/.temp
           npm test
           npm run test:security
           npm run build
@@ -450,4 +451,4 @@ jobs:
         shell: bash
         run: |
           supabase stop --workdir cp4-local --no-backup 2>/dev/null || true
-          rm -rf cp4-local
+          rm -rf cp4-local supabase/.temp

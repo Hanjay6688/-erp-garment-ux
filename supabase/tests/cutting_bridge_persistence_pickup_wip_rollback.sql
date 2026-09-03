@@ -78,13 +78,13 @@ begin
   from erp.app_roles where role_code='CUSTOMER';
   insert into erp.app_roles(id,role_code,role_name,description)
   values
-    (v_distribution_role,'CBR_DISTRIBUTION_VIEW','Bridge Distribution View','Pattern lookup permission acceptance'),
+    (v_distribution_role,'CBR_DIST_VIEW','Bridge Distribution View','Pattern lookup permission acceptance'),
     (v_bs_lookup_role,'CBR_BS_VIEW','Bridge BS View','Pattern lookup permission acceptance');
   insert into erp.app_role_permissions(role_id,permission_key) values
     (v_distribution_role,'production.distribution.view'),
     (v_bs_lookup_role,'production.bs_rework.view');
   insert into erp.app_users(id,auth_user_id,full_name,role,role_id,is_active) values
-    (v_distribution_app,v_distribution_auth,'Bridge Distribution Lookup','CBR_DISTRIBUTION_VIEW',v_distribution_role,true),
+    (v_distribution_app,v_distribution_auth,'Bridge Distribution Lookup','CBR_DIST_VIEW',v_distribution_role,true),
     (v_bs_lookup_app,v_bs_lookup_auth,'Bridge BS Lookup','CBR_BS_VIEW',v_bs_lookup_role,true);
 
   insert into erp.production_patterns(

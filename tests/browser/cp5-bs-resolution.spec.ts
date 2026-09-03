@@ -186,7 +186,7 @@ test('CP5 local mocked-UAT contract keeps server-side Pattern truth and one muta
   expect(calls.workspace.filter((args) => args.p_pattern_id === 'pattern-2')).toHaveLength(1)
 
   await page.getByLabel('FILTER POLA CP5').selectOption('pattern-1')
-  await expect(page.getByText('BS-1', { exact: true })).toBeVisible()
+  await expect(page.locator('.cbsr-detail').getByRole('heading', { name: 'BS-1', exact: true })).toBeVisible()
   await page.locator('.cbsr-route-tabs').getByRole('button', { name: 'Hold', exact: true }).click()
   await page.locator('.cbsr-route-form textarea').fill('Menunggu bukti fisik Laundry')
   const saveHold = page.getByRole('button', { name: /Simpan HOLD/ })

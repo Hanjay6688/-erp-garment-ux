@@ -112,6 +112,8 @@ assert.match(correctionRollback, /restores the exact recorded v2\.6\.18 runtime/
 assert.match(correctionRollback, /drop table erp\.cutting_bridge_execution_context/)
 assert.match(correctionRollback, /disable row level security/)
 assert.match(cuttingTest, /PRODUKSI_QC/)
+assert.match(cuttingTest, /CBR_DIST_VIEW/)
+assert.doesNotMatch(cuttingTest, /CBR_DISTRIBUTION_VIEW/, 'Cutting acceptance synthetic legacy role exceeds app_users.role varchar(20)')
 assert.match(cuttingTest, /not like '%require_internal%'/)
 assert.match(cuttingTest, /version='v2\.6\.18a'/)
 
@@ -218,6 +220,7 @@ for (const token of [
   "proof_class: 'LOCAL_MOCKED_UAT_CONTRACT'", 'hosted_uat: false',
   "p_action: 'HOLD_BS'", "args.p_pattern_id !== 'pattern-2'",
   'same_frame_mutation_count', 'view_only_mutation_count: 0',
+  "locator('.cbsr-detail').getByRole('heading', { name: 'BS-1', exact: true })",
 ]) assert.ok(cp5BrowserTest.includes(token), `CP5 browser contract proof missing: ${token}`)
 assert.match(cp5BrowserConfig, /testMatch: 'cp5-bs-resolution\.spec\.ts'/)
 assert.match(cp5BrowserConfig, /ERP_UAT_AUTH_ALLOW_MOCK_KEY: '1'/)
@@ -241,6 +244,7 @@ for (const token of [
   'erp_enteng_cp45a_catalog_bootstrap.sql.gz',
   'READ_ONLY_PG_CATALOG_PLUS_ALLOWLISTED_CONFIGURATION',
   'CP45A_RESTORED_BOUNDARY.json',
+  'rm -rf supabase/.temp',
   '20260903022604_erp_v2_6_18_cutting_persistence_pickup_wip.sql',
   '20260903070931_erp_v2_6_18a_cutting_bridge_reconciliation.sql',
   '20260903070932_erp_v2_6_19_cp5_bs_resolution_recovery.sql',
