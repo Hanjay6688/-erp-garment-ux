@@ -16,7 +16,9 @@ jobs:
           # ownership manifest is bound to the candidate commit and its real
           # parent, so always validate the exact PR head bytes instead.
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
-          fetch-depth: 2
+          # The Cutting Bridge ownership gate compares the exact candidate
+          # delta to its frozen base tree, which is the third commit here.
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: 22
