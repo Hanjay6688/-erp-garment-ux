@@ -168,8 +168,10 @@ assert.ok(candidatePaths.includes('.github/workflows/cutting-bridge-full-schema-
 
 const catalogFixturePath = 'supabase/tests/fixtures/erp_enteng_cp45a_catalog_bootstrap.sql.gz'
 const catalogFixtureManifestPath = 'supabase/tests/fixtures/erp_enteng_cp45a_catalog_bootstrap.manifest.json'
+const externalTriggerFixturePath = 'supabase/tests/fixtures/erp_enteng_cp45a_external_application_triggers.sql'
 assert.ok(candidatePaths.includes(catalogFixturePath))
 assert.ok(candidatePaths.includes(catalogFixtureManifestPath))
+assert.ok(candidatePaths.includes(externalTriggerFixturePath))
 assert.ok(candidatePaths.includes('scripts/cutting_bridge_build_catalog_bootstrap.py'))
 assert.ok(candidatePaths.includes('supabase/tests/cutting_bridge_boundary_fingerprint.sql'))
 assert.equal(candidatePaths.some((path) => path.includes('pre_cp3_schema_ledger')), false)
@@ -177,6 +179,7 @@ assert.equal(candidatePaths.includes('scripts/cutting_bridge_build_ledger_bootst
 const catalogFixtureManifest = readJson(catalogFixtureManifestPath)
 const catalogFixture = readFileSync(resolve(root, catalogFixturePath))
 const catalogSql = gunzipSync(catalogFixture)
+const externalTriggerSql = readFileSync(resolve(root, externalTriggerFixturePath))
 assert.equal(catalogFixtureManifest.format, 'ERP_ENTENG_CP45A_CATALOG_CONFIG_BOOTSTRAP_V1')
 assert.equal(catalogFixtureManifest.source_project_ref, 'siimvrusnzxexizpyoib')
 assert.equal(catalogFixtureManifest.source_kind, 'READ_ONLY_PG_CATALOG_PLUS_ALLOWLISTED_CONFIGURATION')
@@ -216,6 +219,11 @@ assert.equal(catalogFixture.length, catalogFixtureManifest.gzip_bytes)
 assert.equal(hash('sha256', catalogFixture), catalogFixtureManifest.gzip_sha256)
 assert.equal(catalogSql.length, catalogFixtureManifest.sql_bytes)
 assert.equal(hash('sha256', catalogSql), catalogFixtureManifest.sql_sha256)
+assert.equal(catalogFixtureManifest.external_application_triggers.count, 1)
+assert.equal(catalogFixtureManifest.external_application_triggers.fixture_path, externalTriggerFixturePath)
+assert.equal(externalTriggerSql.length, catalogFixtureManifest.external_application_triggers.sql_bytes)
+assert.equal(hash('sha256', externalTriggerSql), catalogFixtureManifest.external_application_triggers.sql_sha256)
+assert.match(externalTriggerSql.toString('utf8'), /create trigger trg_cp45_guard_last_owner_auth_delete before delete on auth\.users for each row execute function erp\.guard_last_owner_auth_delete\(\);/)
 assert.equal(catalogFixtureManifest.excluded_nonzero_table.table, 'audit_logs')
 assert.equal(catalogFixtureManifest.excluded_nonzero_table.rows, 36)
 

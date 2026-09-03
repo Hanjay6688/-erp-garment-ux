@@ -56,5 +56,22 @@ select jsonb_build_object(
       'erp.sizes'::regclass,
       'erp.locations'::regclass
     )
+  ),
+  'external_application_triggers',(
+    select jsonb_agg(jsonb_build_object(
+      'table',format('%I.%I',tn.nspname,c.relname),
+      'trigger',t.tgname,
+      'function',format('%I.%I',fn.nspname,p.proname),
+      'definition_sha256',encode(extensions.digest(convert_to(pg_get_triggerdef(t.oid,true),'UTF8'),'sha256'),'hex'),
+      'enabled',t.tgenabled
+    ) order by tn.nspname,c.relname,t.tgname)
+    from pg_trigger t
+    join pg_class c on c.oid=t.tgrelid
+    join pg_namespace tn on tn.oid=c.relnamespace
+    join pg_proc p on p.oid=t.tgfoid
+    join pg_namespace fn on fn.oid=p.pronamespace
+    where not t.tgisinternal
+      and tn.nspname<>'erp'
+      and fn.nspname='erp'
   )
 );

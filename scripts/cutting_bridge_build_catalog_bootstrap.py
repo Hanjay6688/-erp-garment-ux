@@ -21,6 +21,7 @@ from pathlib import Path
 
 FIXTURE_PATH = Path("supabase/tests/fixtures/erp_enteng_cp45a_catalog_bootstrap.sql.gz")
 MANIFEST_PATH = Path("supabase/tests/fixtures/erp_enteng_cp45a_catalog_bootstrap.manifest.json")
+EXTERNAL_TRIGGER_PATH = Path("supabase/tests/fixtures/erp_enteng_cp45a_external_application_triggers.sql")
 SOURCE_PROJECT = "siimvrusnzxexizpyoib"
 EXPECTED_COUNTS = {
     "sequences": 6,
@@ -76,6 +77,18 @@ FORBIDDEN_DATA_TABLES = {
     "production_pattern_audit",
     "cutting_groups",
     "production_orders",
+}
+EXPECTED_EXTERNAL_TRIGGER = {
+    "schema_name": "auth",
+    "table_name": "users",
+    "trigger_name": "trg_cp45_guard_last_owner_auth_delete",
+    "function_schema": "erp",
+    "function_name": "guard_last_owner_auth_delete",
+    "definition": (
+        "CREATE TRIGGER trg_cp45_guard_last_owner_auth_delete BEFORE DELETE ON auth.users "
+        "FOR EACH ROW EXECUTE FUNCTION erp.guard_last_owner_auth_delete()"
+    ),
+    "enabled": "O",
 }
 
 
@@ -242,6 +255,13 @@ def main() -> None:
         raise SystemExit("catalog source project mismatch")
     if meta.get("auth_users") != 0 or meta.get("app_users") != 0:
         raise SystemExit("snapshot boundary is not synthetic-identity clean")
+
+    # Application-owned triggers are not necessarily attached to an ERP table.
+    # Keep the auth.users guard separate so the catalog fixture remains free of
+    # Auth rows while the disposable full-schema boundary is still exact.
+    external_triggers = catalog.pop("external_triggers", [])
+    if external_triggers != [EXPECTED_EXTERNAL_TRIGGER]:
+        raise SystemExit("external application trigger boundary mismatch")
 
     for category, expected in EXPECTED_COUNTS.items():
         actual = len(catalog.get(category, []))
@@ -487,6 +507,13 @@ def main() -> None:
     FIXTURE_PATH.parent.mkdir(parents=True, exist_ok=True)
     FIXTURE_PATH.write_bytes(compressed)
 
+    external_trigger_sql = (
+        r"\set ON_ERROR_STOP on" + "\n\n"
+        + "set client_min_messages=warning;\n\n"
+        + statement(EXPECTED_EXTERNAL_TRIGGER["definition"]) + "\n"
+    ).encode()
+    EXTERNAL_TRIGGER_PATH.write_bytes(external_trigger_sql)
+
     canonical_source = json.dumps(
         {category: rows for category, rows in sorted(catalog.items())},
         sort_keys=True,
@@ -511,6 +538,19 @@ def main() -> None:
         },
         "safe_configuration_rows": {table: len(safe_rows[table]) for table in SAFE_DATA_TABLES},
         "catalog_payload_sha256": sha256(canonical_source),
+        "external_application_triggers": {
+            "captured_at_utc": meta["captured_at_utc"],
+            "count": len(external_triggers),
+            "source_payload_sha256": sha256(json.dumps(
+                external_triggers,
+                sort_keys=True,
+                separators=(",", ":"),
+                ensure_ascii=False,
+            ).encode()),
+            "fixture_path": str(EXTERNAL_TRIGGER_PATH),
+            "sql_bytes": len(external_trigger_sql),
+            "sql_sha256": sha256(external_trigger_sql),
+        },
         "mixed_sql_function_view_order_count": len(order_evidence),
         "sql_bytes": len(sql),
         "sql_sha256": sha256(sql),

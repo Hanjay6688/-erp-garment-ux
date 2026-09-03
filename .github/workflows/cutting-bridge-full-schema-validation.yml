@@ -96,8 +96,9 @@ jobs:
           import gzip,hashlib,json
           from pathlib import Path
           fixture=Path('supabase/tests/fixtures/erp_enteng_cp45a_catalog_bootstrap.sql.gz')
+          external_fixture=Path('supabase/tests/fixtures/erp_enteng_cp45a_external_application_triggers.sql')
           manifest=json.loads(Path('supabase/tests/fixtures/erp_enteng_cp45a_catalog_bootstrap.manifest.json').read_text())
-          packed=fixture.read_bytes(); sql=gzip.decompress(packed)
+          packed=fixture.read_bytes(); sql=gzip.decompress(packed); external_sql=external_fixture.read_bytes()
           digest=lambda value:hashlib.sha256(value).hexdigest()
           assert manifest['format']=='ERP_ENTENG_CP45A_CATALOG_CONFIG_BOOTSTRAP_V1'
           assert manifest['source_project_ref']=='siimvrusnzxexizpyoib'
@@ -120,11 +121,17 @@ jobs:
           }
           assert len(packed)==manifest['gzip_bytes'] and digest(packed)==manifest['gzip_sha256']
           assert len(sql)==manifest['sql_bytes'] and digest(sql)==manifest['sql_sha256']
+          external=manifest['external_application_triggers']
+          assert external['count']==1
+          assert external['fixture_path']==str(external_fixture)
+          assert len(external_sql)==external['sql_bytes'] and digest(external_sql)==external['sql_sha256']
+          assert b'trg_cp45_guard_last_owner_auth_delete' in external_sql
           report={
             'status':'PASS','source_kind':manifest['source_kind'],
             'captured_at_utc':manifest['captured_at_utc'],
             'contains_business_rows':False,'contains_auth_rows':False,
             'catalog_payload_sha256':manifest['catalog_payload_sha256'],
+            'external_application_trigger_sha256':external['sql_sha256'],
             'sql_sha256':manifest['sql_sha256'],'gzip_sha256':manifest['gzip_sha256'],
           }
           Path('cutting-bridge-proof/CP45A_CATALOG_BOOTSTRAP_VERIFICATION.json').write_text(json.dumps(report,indent=2)+'\n')
@@ -159,6 +166,9 @@ jobs:
           gzip -dc supabase/tests/fixtures/erp_enteng_cp45a_catalog_bootstrap.sql.gz \
             | psql "$PGURL" -v ON_ERROR_STOP=1 \
             | tee cutting-bridge-proof/CP45A_CATALOG_BOOTSTRAP.log
+          psql "$PGURL" -v ON_ERROR_STOP=1 \
+            -f supabase/tests/fixtures/erp_enteng_cp45a_external_application_triggers.sql \
+            2>&1 | tee cutting-bridge-proof/CP45A_EXTERNAL_APPLICATION_TRIGGERS.log
           psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' | tee cutting-bridge-proof/CP45A_RESTORED_BOUNDARY.json
           select jsonb_build_object(
             'status',case when
@@ -175,11 +185,14 @@ jobs:
               and (select count(*) from erp.cp4_v2616_rollback_capsule)=4
               and (select count(*) from erp.cp45_v2617_rollback_capsule)=3
               and (select count(*) from erp.cp45_v2617a_rollback_capsule)=2
+              and (select count(*) from pg_trigger t join pg_class c on c.oid=t.tgrelid join pg_namespace tn on tn.oid=c.relnamespace join pg_proc p on p.oid=t.tgfoid join pg_namespace fn on fn.oid=p.pronamespace where not t.tgisinternal and tn.nspname<>'erp' and fn.nspname='erp')=1
+              and exists(select 1 from pg_trigger t join pg_class c on c.oid=t.tgrelid join pg_namespace tn on tn.oid=c.relnamespace where not t.tgisinternal and tn.nspname='auth' and c.relname='users' and t.tgname='trg_cp45_guard_last_owner_auth_delete')
               then 'PASS' else 'FAIL' end,
             'tables',(select count(*) from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='erp' and c.relkind='r'),
             'views',(select count(*) from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname in('erp','public') and c.relkind='v' and (n.nspname='erp' or not exists(select 1 from pg_depend d where d.classid='pg_class'::regclass and d.objid=c.oid and d.deptype='e'))),
             'functions',(select count(*) from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname in('erp','public') and not exists(select 1 from pg_depend d where d.classid='pg_proc'::regclass and d.objid=p.oid and d.deptype='e')),
             'triggers',(select count(*) from pg_trigger t join pg_class c on c.oid=t.tgrelid join pg_namespace n on n.oid=c.relnamespace where n.nspname='erp' and not t.tgisinternal),
+            'external_application_triggers',(select count(*) from pg_trigger t join pg_class c on c.oid=t.tgrelid join pg_namespace tn on tn.oid=c.relnamespace join pg_proc p on p.oid=t.tgfoid join pg_namespace fn on fn.oid=p.pronamespace where not t.tgisinternal and tn.nspname<>'erp' and fn.nspname='erp'),
             'constraints',(select count(*) from pg_constraint co join pg_class c on c.oid=co.conrelid join pg_namespace n on n.oid=c.relnamespace where n.nspname='erp' and c.relkind='r'),
             'indexes',(select count(*) from pg_index i join pg_class c on c.oid=i.indrelid join pg_namespace n on n.oid=c.relnamespace where n.nspname='erp'),
             'policies',(select count(*) from pg_policy p join pg_class c on c.oid=p.polrelid join pg_namespace n on n.oid=c.relnamespace where n.nspname='erp'),
@@ -199,6 +212,7 @@ jobs:
             'tables':159,'views':51,'functions':500,'triggers':398,
             'constraints':1064,'indexes':462,'policies':190,
           },r
+          assert r['external_application_triggers']==1,r
           PY
           psql "$PGURL" -At -v ON_ERROR_STOP=1 \
             -f supabase/tests/cutting_bridge_boundary_fingerprint.sql \
