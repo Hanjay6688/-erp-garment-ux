@@ -152,6 +152,12 @@ def cleanup():
             (OWNER_APP, all_ids),
         )
         cur.execute("delete from erp.app_users where id=%s::uuid", (OWNER_APP,))
+        # The first pass releases audit FKs; this pass removes the app-user
+        # delete tombstone created by the immutable audit trigger.
+        cur.execute(
+            "delete from erp.audit_logs where changed_by=%s::uuid or entity_id=any(%s::uuid[])",
+            (OWNER_APP, all_ids),
+        )
         conn.commit()
 
 
@@ -369,6 +375,8 @@ try:
           'patterns',(select count(*) from erp.production_patterns where id=any(%s::uuid[])),
           'pattern_audit',(select count(*) from erp.production_pattern_audit
             where entity_id=any(%s::uuid[]) or pattern_id=any(%s::uuid[])),
+          'audit_logs',(select count(*) from erp.audit_logs
+            where changed_by=%s::uuid or entity_id=any(%s::uuid[])),
           'idempotency',(select count(*) from erp.idempotency_requests where client_request_id=any(%s::uuid[])),
           'laundry_vendors',(select count(*) from erp.laundry_vendors where id=%s::uuid),
           'laundry_deliveries',(select count(*) from erp.laundry_deliveries where id=%s::uuid),
@@ -379,6 +387,8 @@ try:
             OWNER_APP, MODEL, PO, BATCH,
             [GROUP_ASSIGN, GROUP_DOWNSTREAM], [PATTERN_A, PATTERN_B],
             [GROUP_ASSIGN, GROUP_DOWNSTREAM, PATTERN_A, PATTERN_B], [PATTERN_A, PATTERN_B],
+            OWNER_APP, [OWNER_APP, MODEL, PO, BATCH, GROUP_ASSIGN, GROUP_DOWNSTREAM,
+                        PATTERN_A, PATTERN_B, VENDOR, DELIVERY, DELIVERY_LINE],
             [REQUEST_A, REQUEST_B, REQUEST_DOWNSTREAM],
             VENDOR, DELIVERY, DELIVERY_LINE,
         ),
