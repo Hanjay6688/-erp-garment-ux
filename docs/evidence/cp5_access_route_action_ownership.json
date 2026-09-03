@@ -1,6 +1,7 @@
 {
   "format": "CP5_ACCESS_ROUTE_ACTION_OWNERSHIP_V1",
   "scope": "Pre-CP5 cutting persistence, pickup, WIP, Pattern filters, and CP5 BS Resolution source boundary",
+  "closure_status": "READY_FOR_INDEPENDENT_AUDIT_NO_GO",
   "counts": {
     "backend_permissions": 111,
     "navigation_labels": 46,
@@ -42,8 +43,10 @@
     "bs_resolution_uses_two_public_rpc_facades": true,
     "laundry_and_qc_writers_connected": false,
     "source_only": false,
-    "uat_applied": false,
-    "uat_partial_state": "RECORDED_V2618_ONLY",
+    "uat_applied": true,
+    "candidate_apply_status": "RECORDED_V2618_V2618A_V2619",
+    "hosted_auth_permission_e2e": "PASS_31_OF_31",
+    "legacy_mutated": false,
     "production_go": false
   },
   "production_go": false

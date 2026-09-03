@@ -93,6 +93,7 @@ for (const path of sourceFiles(resolve(root, 'src'))) {
 }
 
 assert.equal(evidence.format, 'CP5_ACCESS_ROUTE_ACTION_OWNERSHIP_V1')
+assert.equal(evidence.closure_status, 'READY_FOR_INDEPENDENT_AUDIT_NO_GO')
 assert.equal(evidence.production_go, false)
 assert.equal(evidence.counts.backend_permissions, permissionRows.length)
 assert.equal(evidence.counts.navigation_labels, navMap.size)
@@ -155,7 +156,9 @@ assert.equal(evidence.invariants.bs_resolution_uses_two_public_rpc_facades, true
 assert.equal([...bsPage.matchAll(/\.rpc\s*\(\s*['"]([^'"]+)['"]/g)].length, 2)
 assert.equal(evidence.invariants.laundry_and_qc_writers_connected, false)
 assert.equal(evidence.invariants.source_only, false)
-assert.equal(evidence.invariants.uat_applied, false)
-assert.equal(evidence.invariants.uat_partial_state, 'RECORDED_V2618_ONLY')
+assert.equal(evidence.invariants.uat_applied, true)
+assert.equal(evidence.invariants.candidate_apply_status, 'RECORDED_V2618_V2618A_V2619')
+assert.equal(evidence.invariants.hosted_auth_permission_e2e, 'PASS_31_OF_31')
+assert.equal(evidence.invariants.legacy_mutated, false)
 
 console.log(`Access ownership passed: frozen CP4.5 proof intact; CP5 owns ${permissionRows.length} backend permissions, ${navMap.size} nav labels, ${pageMap.size} routes, ${actionMap.size} sensitive actions, and ${rpcBoundaries.size} browser RPC boundaries.`)

@@ -3,7 +3,7 @@
   "candidate_branch": "pre-cp5/cutting-persistence-pickup-wip-r1-20260903",
   "source_base_sha": "8bfac13b91ea1be92111139e2fddcabccf9ae19a",
   "source_base_tree": "a9b193010266bb686c57709865a992769a835855",
-  "generation_parent_sha": "0fb1eef0d63c0458fc93ffb24aee4e1516b70862",
+  "generation_parent_sha": "aa04dc5e97e91274a0fc9b71aac62d92ef9d5312",
   "target_project_ref": "siimvrusnzxexizpyoib",
   "target_environment": "ERP Enteng UAT",
   "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
@@ -131,16 +131,16 @@
       "sha256": "29c2b56c23e3cfd830a3b2d6c2ca766ea05ddc4fe8a2b07142d56e4eb0859570"
     },
     "docs/evidence/cp5_access_route_action_ownership.json": {
-      "bytes": 1912,
-      "sha256": "81a9e2b24905bd37d273ad92c841de1c7a71c622c1909fddecf4d4557bf5142a"
+      "bytes": 2061,
+      "sha256": "40899c7de1604c3dc1d781b5d9745516a9b4a9ff597aff17f34247d8cd2e1e55"
     },
     "docs/evidence/cp5_hosted_uat_auth_e2e.json": {
       "bytes": 15939,
       "sha256": "d8d4293770a2dee517ab8c973b48b06b4ed085fe16fb7cea99518a0aa7b081eb"
     },
     "docs/evidence/cp5_independent_audit_handoff.md": {
-      "bytes": 7098,
-      "sha256": "d95585d97b7d86702778f8accd7854310768fa7102a9ed0718c28530c7af91c7"
+      "bytes": 7283,
+      "sha256": "2d2b8cc6bb432f95bf8551edcc7d2ab047971e5100fac04c1492612f0107f411"
     },
     "docs/evidence/cp5_uat_readonly_preflight.json": {
       "bytes": 1770,
@@ -163,8 +163,8 @@
       "sha256": "488e615a37d98a1b56d77a01afe78c58954b4d9f81a13a6df2c1648069e361f4"
     },
     "scripts/check-access-catalog.mjs": {
-      "bytes": 9807,
-      "sha256": "993657d43b4ff5373d1b46e700e447f9234fd67f5178d6e5816592181971cbda"
+      "bytes": 10028,
+      "sha256": "a30301cd6f2ec5a386ab35871f43b6820b17a9455af5c899cda67ac06d608b8e"
     },
     "scripts/check-backend-ownership-v3.mjs": {
       "bytes": 21797,
