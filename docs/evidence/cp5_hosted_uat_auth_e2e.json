@@ -175,6 +175,52 @@
       "cp5_desktop_mobile": "4_PASS"
     }
   },
+  "closure_candidate_ci": {
+    "status": "PASS",
+    "commit_sha": "264d6aa3512884db8454fdfb8f9e6df37697628b",
+    "tree_sha": "cd69ab82958817884e5a2e6a7f76f93369bc0877",
+    "parent_sha": "e2745a2f3cf77735913967dfb57151069513bbf1",
+    "checks_total": 5,
+    "checks_passed": 5,
+    "build_push": {
+      "run_id": 33751681211,
+      "job_id": 100636432796,
+      "dist_artifact_id": 9891842446,
+      "dist_artifact_digest_sha256": "dfd34b1ac19ec36883f586c803578146f37015c504a2f09fe9f1c3902879a27b",
+      "browser_artifact_id": 9891840562,
+      "browser_artifact_digest_sha256": "21a7c18ccfe3809ccc4ae65acb5c0cbc6096110641fd9869d6cd6b06e063eb83"
+    },
+    "build_pull_request": {
+      "run_id": 33751686144,
+      "job_id": 100636448834,
+      "dist_artifact_id": 9891848918,
+      "dist_artifact_digest_sha256": "e1c1ca186ffd8fef59c06b389a891d6c86d826e6811225c991ed6684ca23d4cf",
+      "browser_artifact_id": 9891846664,
+      "browser_artifact_digest_sha256": "cb2a782c8d55478f8bdbbef4ddf0ca2d6e0b0c8552de62aa19facd573a222ffc"
+    },
+    "cp5_full_schema": {
+      "run_id": 33751681199,
+      "job_id": 100636432739,
+      "artifact_id": 9891955134,
+      "artifact_digest_sha256": "89bf947818e65fd90126eaf11f6426a12389c275f8faaa0f5fca217b7fe62347"
+    },
+    "pre_cp5_full_schema": {
+      "run_id": 33751686266,
+      "job_id": 100636448934,
+      "artifact_id": 9891913344,
+      "artifact_digest_sha256": "8c64c3e90cbb8dc7688b4bc944b0dff154613e9c90d8850b42f3a6924f7599e2"
+    },
+    "workers_build": {
+      "check_id": 100636558235,
+      "build_id": "823c8b78-863f-4731-b0e7-f68050ac9d83",
+      "status": "PASS"
+    },
+    "browser_contracts": {
+      "chromium_installed_by_ci": true,
+      "desktop_mobile_cases_passed": 8
+    },
+    "production_go": false
+  },
   "cloudflare_preview": {
     "runtime_source_head": "e2745a2f3cf77735913967dfb57151069513bbf1",
     "deployment_only_commit": "8c6cac7940c40aec11d47afa96aae81e895be545",
