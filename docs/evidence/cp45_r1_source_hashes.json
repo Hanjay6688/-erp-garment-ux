@@ -1,0 +1,383 @@
+{
+  "format": "CP45_R1_SOURCE_HASHES_V1",
+  "candidate_branch": "cp4.5/rbac-production-identity-wip-r1-20260902",
+  "source_base_sha": "57d8346a7cdf4ee86519f2dd2a1b54d39ebbb6cc",
+  "source_base_tree": "48fc87507dc8a18d5829d518e53f298ad0c7e01a",
+  "generation_parent_sha": "eb5c2e3e46ddf714847d2ab0d6f30230424663d5",
+  "target_project_ref": "siimvrusnzxexizpyoib",
+  "target_environment": "ERP Enteng UAT",
+  "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
+  "migration_version": "20260902104937",
+  "application_version": "v2.6.17",
+  "integrity_correction": {
+    "defect_id": "P2-CP45-001",
+    "status": "PASS_READY_FOR_INDEPENDENT_AUDIT",
+    "migration_version": "20260902180726",
+    "application_version": "v2.6.17a",
+    "source_only": false,
+    "uat_applied": true,
+    "uat_applied_at": "2026-09-02T18:51:06Z",
+    "platform_ledger": {
+      "version": "20260902185106",
+      "name": "erp_v2_6_17a_cp45_pattern_assignment_immutability",
+      "source_bytes": 18304,
+      "source_sha256": "62a25994d2b3be0986ca83492f4d29d2ebad17c1795543045827a77d55ef816a"
+    },
+    "exact_head_ci": {
+      "status": "PASS",
+      "head_sha": "eaf2769bbe2d34687f1f4d8173500ee85656e63b",
+      "head_tree": "a08256d423f64e7be8d967c89ea7ab81dcbc2284",
+      "build_run_id": 33669230998,
+      "build_job_id": 100378411259,
+      "full_schema_run_id": 33669230989,
+      "full_schema_job_id": 100378412286,
+      "full_schema_artifact_id": 9861923992,
+      "full_schema_artifact_digest_sha256": "daf5333c1dc1813d586d45f41ab04478ee3effc8b6c270fcd18f45a28464a4de"
+    },
+    "hosted_auth_permission_e2e": {
+      "status": "PASS",
+      "mode": "MANUAL_HOSTED_UAT_VERIFIED",
+      "classified_as_ci": false,
+      "github_service_role_secret_used": false,
+      "evidence_path": "docs/evidence/cp45a_hosted_uat_auth_e2e.json",
+      "case_count": 10,
+      "case_passed": 10,
+      "cleanup_verified": true
+    },
+    "proof_delta_ci": {
+      "status": "PASS",
+      "head_sha": "ab97d1d08936c05c609c004477f974361340d203",
+      "head_tree": "70fbaee6366b904ad558a65471bafe38994e3090",
+      "parent_sha": "eaf2769bbe2d34687f1f4d8173500ee85656e63b",
+      "build_ux": {
+        "run_id": 33672264605,
+        "job_id": 100388477006,
+        "dist_artifact_id": 9863021866,
+        "dist_artifact_digest_sha256": "89c11164524956362c771567f543f4556b5b474bc0e101a4832ad67c891befdb",
+        "browser_artifact_id": 9863019263,
+        "browser_artifact_digest_sha256": "8273867bf76b4b371c3832faa213acf17e8db31cb750628a5089f3f304d75fa1"
+      },
+      "full_schema": {
+        "run_id": 33672264683,
+        "job_id": 100388477234,
+        "artifact_id": 9863076659,
+        "artifact_name": "cp45-r1-full-schema-auth-proof",
+        "artifact_digest_sha256": "957ea6b6a72daef25df841777e63737151249696b519d71acb495c539ce6ae8f"
+      },
+      "hosted_platform_ledger_shape_rollback": "PASS"
+    },
+    "rollback_ledger_identity_correction": {
+      "defect_id": "P2-CP45-002",
+      "status": "PASS_READY_FOR_INDEPENDENT_AUDIT",
+      "runtime_changed": false,
+      "uat_reapply_required": false,
+      "hosted_auth_rerun_required": false,
+      "local_ledger_identity": {
+        "version": "20260902180726",
+        "name": "erp_v2_6_17a_cp45_pattern_assignment_immutability",
+        "match_requirement": "VERSION_AND_NAME"
+      },
+      "connector_ledger_identity": {
+        "name": "erp_v2_6_17a_cp45_pattern_assignment_immutability",
+        "source_sha256": "62a25994d2b3be0986ca83492f4d29d2ebad17c1795543045827a77d55ef816a",
+        "match_requirement": "NAME_AND_SOURCE_SHA256"
+      },
+      "delete_predicate_matches_guard": true,
+      "negative_test": {
+        "status": "PASS",
+        "case": "LOCAL_VERSION_CORRECT_NAME_WRONG",
+        "expected": "ROLLBACK_REFUSED",
+        "observed_match_count": 0,
+        "observed_conflict_count": 1
+      },
+      "exact_head_ci": {
+        "status": "PASS",
+        "head_sha": "7e71f1961a19f621c976c1a4a5cfbf5a4980485e",
+        "head_tree": "461febdc118e06070f939b6da15ff9c10abfe29e",
+        "parent_sha": "36a161fe5dd1fabbc1e581e501da8ddf7b839df0",
+        "build_ux": {
+          "run_id": 33675876921,
+          "job_id": 100400289329,
+          "dist_artifact_id": 9864375645,
+          "dist_artifact_digest_sha256": "2133def77c04916c251fe57d81cb12c7767c676d93c76552eb5bcf71fc60a494",
+          "browser_artifact_id": 9864373762,
+          "browser_artifact_digest_sha256": "c5b422646a984e891dd7570ae83a0ab414b1249ce11241004fb1c7fe81a9cd57"
+        },
+        "full_schema": {
+          "run_id": 33675876855,
+          "job_id": 100400289327,
+          "artifact_id": 9864424538,
+          "artifact_name": "cp45-r1-full-schema-auth-proof",
+          "artifact_digest_sha256": "331e21ed7c58fe11a141fad7077b7b9b5b8d2fe80c7a11bd5477780547d4f8cf"
+        },
+        "artifact_assertions": {
+          "identity_matches_exact_head": true,
+          "wrong_local_name_rejected": true,
+          "hosted_ledger_shape_rollback_passed": true,
+          "final_reconciliation_passed": true,
+          "synthetic_residue_zero": true
+        }
+      }
+    }
+  },
+  "closure_status": "CP45A_ROLLBACK_LEDGER_IDENTITY_PROVEN_READY_FOR_INDEPENDENT_AUDIT",
+  "source_only": false,
+  "uat_applied": true,
+  "uat_applied_at": "2026-09-02T14:49:11.827931Z",
+  "legacy_mutated": false,
+  "production_go": false,
+  "ci_runtime": {
+    "status": "PASS",
+    "head_sha": "4cda99fcf6f96f053981787f8cc2cbd39b809928",
+    "head_tree": "c9b7aae6e3ea3db64d4abe6de4987f378166a9bf",
+    "build_ux": {
+      "run_id": 33643332136,
+      "job_id": 100291665221,
+      "dist_artifact_id": 9851829539,
+      "dist_artifact_digest_sha256": "4e0415839a0f525bec623e02204b09cdeec71ee9a1f24e36286be49c5b131c4c",
+      "browser_artifact_id": 9851826391,
+      "browser_artifact_digest_sha256": "1d3b52e35fd7e85e917a96e7a59149620d8efdabe4ffc2de946aecea724434d2"
+    },
+    "full_schema": {
+      "run_id": 33643332142,
+      "job_id": 100291667268,
+      "artifact_id": 9851848676,
+      "artifact_name": "cp45-r1-full-schema-auth-proof",
+      "artifact_digest_sha256": "79d73e7cf46b0d9183b8537c4b8c7a7669fdeaf43c275ca69394a89923bc53c0"
+    }
+  },
+  "hosted_auth_permission_e2e": {
+    "status": "PASS",
+    "mode": "MANUAL_HOSTED_UAT_VERIFIED",
+    "classified_as_ci": false,
+    "github_service_role_secret_used": false,
+    "evidence_path": "docs/evidence/cp45_hosted_uat_auth_e2e.json",
+    "case_count": 44,
+    "case_passed": 44,
+    "cleanup_verified": true
+  },
+  "hygiene": {
+    "branch_protection_status_enforcement": false,
+    "severity": "P3",
+    "cloudflare_dry_run_environment": "uat-auth",
+    "production_deploy_authorized": false
+  },
+  "files": {
+    ".github/workflows/ci.yml": {
+      "bytes": 1538,
+      "sha256": "134489f8640402f22892f6722019464193ef4d41dc53f5e3d351212c2ed9cc15"
+    },
+    ".github/workflows/cp45-full-schema-validation.yml": {
+      "bytes": 47079,
+      "sha256": "822aaa3b184d3afa8b16fb53559a01cb896b2b8694b7a70ec63929bd5ec0eaea"
+    },
+    ".gitignore": {
+      "bytes": 177,
+      "sha256": "2da8deb0f2440384f7056397af721079f5f11ab92dd1c03931a3c20c518fa9c0"
+    },
+    "docs/evidence/cp45_access_route_action_ownership.json": {
+      "bytes": 1242,
+      "sha256": "349f7d653adbf132e21d3ee2adb740bf9f2185445d612e5dce73a674fa178184"
+    },
+    "docs/evidence/cp45_closure_runbook.md": {
+      "bytes": 1732,
+      "sha256": "01bbe4e93e89c133614971e66e9487e55d629ec121b4c05e7557d77bcd838d62"
+    },
+    "docs/evidence/cp45_hosted_uat_auth_e2e.json": {
+      "bytes": 10053,
+      "sha256": "34fcc833a721adba1c32e5ef22ab474802d17cf01099481dc3dfd138d4b4ecaa"
+    },
+    "docs/evidence/cp45_truth_boundary.md": {
+      "bytes": 4051,
+      "sha256": "f0adb995f1513cd8df686f1705b4247d19c7f3422827051f247b5494460cc99e"
+    },
+    "docs/evidence/cp45a_hosted_uat_auth_e2e.json": {
+      "bytes": 8620,
+      "sha256": "ede2c46d28425b71aac345ad8795958b8eaca26d2df8c3af2322326c9afbf398"
+    },
+    "package-lock.json": {
+      "bytes": 125971,
+      "sha256": "3f52c1eb326b53129977e78e7c95b14e0d0bebd8c8229e0cab96e88c85d88195"
+    },
+    "package.json": {
+      "bytes": 2727,
+      "sha256": "2e3b9602d89e81c2023eae4127754deef63499c04bf621d0f2a756e7ff297dcc"
+    },
+    "playwright.config.ts": {
+      "bytes": 1027,
+      "sha256": "e690c43d42a18734111a870923bf940e42d3a821c0c4bbb29bd43679f2123c80"
+    },
+    "scripts/check-access-catalog.mjs": {
+      "bytes": 6519,
+      "sha256": "a54e7ecb389302de2cf82993dd2cadf82bd6b77fe3305582fc8b91f00aed1e72"
+    },
+    "scripts/check-backend-ownership-v2.mjs": {
+      "bytes": 25697,
+      "sha256": "6dee170ab6f44c86ff50f5e73c288ff6200cb5a97578c522b161743f286ca571"
+    },
+    "scripts/check-source-ownership.mjs": {
+      "bytes": 4101,
+      "sha256": "7185abed41144977b5c075591e7042f8c2cfbcba506bf802061d6299d42d37f5"
+    },
+    "scripts/cp45_auth_permission_e2e.mjs": {
+      "bytes": 19904,
+      "sha256": "973573382d6f72b315e0ed54f0d843dcb37c9f92408da14502df38af4ea15fb7"
+    },
+    "scripts/cp45_pattern_assignment_concurrency.py": {
+      "bytes": 16642,
+      "sha256": "11795a6cf6a52d6659b3ee66c668e1151ee3bb560db50da31b7f3e0eb2d30f41"
+    },
+    "scripts/render-cp45-source-hashes.mjs": {
+      "bytes": 4607,
+      "sha256": "2a409c12182dc254b26ac7caaf1cd4685e88ed0c05e65b9cf5455b6ad5ed36f5"
+    },
+    "src/AccessControlPage.tsx": {
+      "bytes": 19428,
+      "sha256": "04c24da58e2c23c7b60c9ea944aa1f0968885aec1235d6805d4224ab7ea1ddf0"
+    },
+    "src/App.tsx": {
+      "bytes": 210280,
+      "sha256": "d54d93c28942e8e51a6cdd7919e16b81b54c031d6283ce7d704ccc89f2b54094"
+    },
+    "src/ConnectedWipStatusPage.tsx": {
+      "bytes": 12098,
+      "sha256": "ad0212562b9c400a453d07769993859ec7615f01cdaa3f2302b688b7f468400f"
+    },
+    "src/CuttingPatternPicker.tsx": {
+      "bytes": 7964,
+      "sha256": "8cd3bec55a333d684578bd5817a6bb0e797b11a2cdb4c32f9ac048869b9c8c82"
+    },
+    "src/PatternPage.tsx": {
+      "bytes": 10746,
+      "sha256": "cfd0f894571d1a08abd09e69cc8a2199f4520537a165842777ea6ffbcc6fb31f"
+    },
+    "src/QcFinalPage.tsx": {
+      "bytes": 26746,
+      "sha256": "395b2008433c3329f4527bf27814e1245bb0b41c1c3db3c2ad0126e57c62c408"
+    },
+    "src/UnassignedRollCard.test.tsx": {
+      "bytes": 7219,
+      "sha256": "488dda42887fb1cc36ea7ccb3463be47ad4ae85caed1b966135455a5ad58e7ca"
+    },
+    "src/access-control-cp45.css": {
+      "bytes": 373,
+      "sha256": "1a98c628d7b60d89f099ed3af8eb2bf040eb8f137568762d0aca32313c11d4a6"
+    },
+    "src/access-control.css": {
+      "bytes": 8462,
+      "sha256": "f693651e616faff7744a4e453a4f44ccc98eb8e3e75d2dc9be8f9e4802f22157"
+    },
+    "src/accessProductionControl.test.ts": {
+      "bytes": 3862,
+      "sha256": "f78f6909a59bc11b48f2b6eeb78961ffd05a7e897ec2da4f979d05493e9cae49"
+    },
+    "src/auth/AuthFlow.dom.test.tsx": {
+      "bytes": 6610,
+      "sha256": "75f8e87160ebefa3c509269ef7237504f4c0f2d5b9890ca07a359137c5422c4e"
+    },
+    "src/auth/AuthGate.test.ts": {
+      "bytes": 1156,
+      "sha256": "0cc290f8f8a31448046379f8bc96af04efcebb11ddc688e86ad1170777c8b783"
+    },
+    "src/auth/AuthGate.tsx": {
+      "bytes": 5014,
+      "sha256": "cbd3ad2327936e276ef73b946887889cc0a55520717314e2873edf121964994e"
+    },
+    "src/auth/AuthProvider.lifecycle.test.tsx": {
+      "bytes": 13617,
+      "sha256": "5545775ec3f396d51ca95a7107be8abeee46eab98b54ae55c1433ed7c89b9e32"
+    },
+    "src/auth/AuthProvider.test.ts": {
+      "bytes": 5536,
+      "sha256": "c26fb9d5308228d4c8b4f68456fe3be298e0a544caa3e77949de2ddbfbd09368"
+    },
+    "src/auth/AuthProvider.tsx": {
+      "bytes": 9882,
+      "sha256": "1e88acaae9261e2384f97629bc091c9173a99020d1797bd6bba88b08870c5373"
+    },
+    "src/auth/accessCatalog.test.ts": {
+      "bytes": 1224,
+      "sha256": "e07a30aae90c907a926a22774c99e4327486603fb292b4b13f792f540aab18e7"
+    },
+    "src/auth/accessCatalog.ts": {
+      "bytes": 5797,
+      "sha256": "b119184534a900ce52f7fcb58d3f068f8a286ce34696167ffd3e9f21dcf22ede"
+    },
+    "src/auth/authPolicy.ts": {
+      "bytes": 7147,
+      "sha256": "65155939c0962c1c397474feb1be9228bb19f148189b81904d78e33f7c9da388"
+    },
+    "src/components/RuntimeIdentity.tsx": {
+      "bytes": 1881,
+      "sha256": "c16a1a500fab5e0dcd96af8f13bd8d1480118242e1f2559a3968784808672f1d"
+    },
+    "src/config/runtime.test.ts": {
+      "bytes": 3535,
+      "sha256": "bab3e01fcd293c753b8618406c7687a67bf6ebb622dd91bd6b4186adfe9d52c7"
+    },
+    "src/config/runtime.ts": {
+      "bytes": 6507,
+      "sha256": "c1dac16439cff6b526ac059e595cc6d0b66ca4de45b4674bb9358377a1f68030"
+    },
+    "src/connected-wip-status.css": {
+      "bytes": 5532,
+      "sha256": "fbfb231ba14c566f9c8723c788396113d2b414895d4de9e3e43887cc78687682"
+    },
+    "src/cutting-pattern-picker.css": {
+      "bytes": 3636,
+      "sha256": "3260f72e1a7a91b90f701b40a6ace0b9cd031116a448041760363c84c829a416"
+    },
+    "src/pattern-page.css": {
+      "bytes": 6139,
+      "sha256": "f896bfd4a1da959d6048658fb51abe9bcfc8e39827341c56d30bf56eda6e0097"
+    },
+    "src/patternModel.ts": {
+      "bytes": 1986,
+      "sha256": "280117b3b74e069b243b723aada1cfe22a37df2514c375c2e69291660d338543"
+    },
+    "src/procurement.css": {
+      "bytes": 90206,
+      "sha256": "928092046529ecb9ce7a357d5e9b39a57a263acac8fa1c80d951e6eba99dd0f3"
+    },
+    "src/types/database.preconnect.ts": {
+      "bytes": 2754,
+      "sha256": "e9df96318f603daf50158e3451dcc335cb49481fb4956e40994925212da7247a"
+    },
+    "src/wipControlPolicy.test.ts": {
+      "bytes": 1614,
+      "sha256": "610cea93ff2f6dfed94d3aed96fb9686b1bee328dde4031cd55f4f354b195ebb"
+    },
+    "src/wipControlPolicy.ts": {
+      "bytes": 1143,
+      "sha256": "706dc41ee6a821fc120936265d4b7e1aa7003e206eb219ee14c4deed8e403268"
+    },
+    "supabase/migrations/20260902104937_erp_v2_6_17_access_pattern_wip_control.sql": {
+      "bytes": 98728,
+      "sha256": "66175dcc5c73d2fb3bad493c1c6bd6a1ad14877251b0c690c0b642ae226c849a"
+    },
+    "supabase/migrations/20260902180726_erp_v2_6_17a_cp45_pattern_assignment_immutability.sql": {
+      "bytes": 18304,
+      "sha256": "62a25994d2b3be0986ca83492f4d29d2ebad17c1795543045827a77d55ef816a"
+    },
+    "supabase/rollbacks/20260902104937_erp_v2_6_17_access_pattern_wip_control.rollback.sql": {
+      "bytes": 9829,
+      "sha256": "7aa400652bc65f85c5a69f8cc1f40f80f0658bf9d8b9a665f9a0acd8e599d012"
+    },
+    "supabase/rollbacks/20260902180726_erp_v2_6_17a_cp45_pattern_assignment_immutability.rollback.sql": {
+      "bytes": 9368,
+      "sha256": "dea15f56ef7911d5da300892fa8037efae26979d51c78e6773e416b95b2797bf"
+    },
+    "supabase/tests/access_pattern_wip_control_rollback.sql": {
+      "bytes": 39651,
+      "sha256": "d120a7859a02b85559212adbf8c83d1dd4e3e4f586a117f528cd49fd55197e9e"
+    },
+    "supabase/tests/cp45_pattern_assignment_immutability_rollback.sql": {
+      "bytes": 14683,
+      "sha256": "a793fb36c1ab91dbaeca215db9d5175848d68774ce570332df07360ba2402c4b"
+    },
+    "tests/browser/cp45.spec.ts": {
+      "bytes": 5646,
+      "sha256": "48d2a9a172baaab069c8d5a1e66f47519cb68e90bf447920b8d655950d0e9c02"
+    }
+  }
+}

@@ -1,0 +1,778 @@
+name: CP4.5 Access, Pola, WIP, and Identity Full-Schema Validation
+
+on:
+  push:
+    branches:
+      - cp4.5/rbac-production-identity-wip-r1-20260902
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: cp45-r1-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  SOURCE_BASE_SHA: 57d8346a7cdf4ee86519f2dd2a1b54d39ebbb6cc
+  SOURCE_BASE_TREE: 48fc87507dc8a18d5829d518e53f298ad0c7e01a
+  RECOVERY_RUN_ID: 33587654349
+  PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
+  CP3_R4_CONCURRENCY_REPORT: cp45-proof/cp3-r4-concurrency-report.json
+  CP4_AUTH_REPORT: cp45-proof/cp4-auth-rls-e2e.json
+  CP45_AUTH_REPORT: cp45-proof/cp45-auth-permission-e2e.json
+
+jobs:
+  validate-full-schema:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    steps:
+      - name: Checkout exact CP4.5 candidate
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Identity, ancestry, ownership, and source gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p cp45-proof
+          test "$(git merge-base HEAD "$SOURCE_BASE_SHA")" = "$SOURCE_BASE_SHA"
+          test "$(git rev-list --count "$SOURCE_BASE_SHA"..HEAD)" -ge 1
+          test -z "$(git rev-list --merges "$SOURCE_BASE_SHA"..HEAD)"
+          test "$(git rev-parse "$SOURCE_BASE_SHA^{tree}")" = "$SOURCE_BASE_TREE"
+          remote_head="$(git ls-remote origin "refs/heads/${GITHUB_REF_NAME}" | awk '{print $1}')"
+          test "$remote_head" = "$GITHUB_SHA"
+          npm ci
+          npm run check:backend
+          npm run check:access
+          node --check scripts/cp4_auth_rls_e2e.mjs
+          node --check scripts/cp45_auth_permission_e2e.mjs
+          python -m py_compile scripts/cp45_pattern_assignment_concurrency.py
+          git diff --check "$SOURCE_BASE_SHA" "$GITHUB_SHA"
+          printf 'branch=%s\nhead=%s\nparent=%s\nbase=%s\nbase_tree=%s\nremote_head=%s\ncommit_count=%s\n' \
+            "$GITHUB_REF_NAME" "$GITHUB_SHA" "$(git rev-parse HEAD^)" "$SOURCE_BASE_SHA" "$SOURCE_BASE_TREE" "$remote_head" \
+            "$(git rev-list --count "$SOURCE_BASE_SHA"..HEAD)" | tee cp45-proof/IDENTITY.txt
+
+      - name: Set up Python, PostgreSQL client, and pinned Supabase CLI
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install validation runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq postgresql-client
+          python -m pip install --quiet 'psycopg[binary]==3.2.10'
+
+      - name: Install Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: 2.116.0
+
+      - name: Record pinned runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          supabase --version | tee cp45-proof/SUPABASE_CLI_VERSION.txt
+          psql --version | tee cp45-proof/PSQL_VERSION.txt
+          node --version | tee cp45-proof/NODE_VERSION.txt
+
+      - name: Download already-verified pre-CP4 recovery capsule
+        uses: actions/download-artifact@v4
+        with:
+          name: cp35-final-recovery-capsule-encrypted
+          path: recovery-transport/capsule
+          github-token: ${{ github.token }}
+          run-id: ${{ env.RECOVERY_RUN_ID }}
+
+      - name: Download its separately stored recovery key
+        uses: actions/download-artifact@v4
+        with:
+          name: cp35-final-recovery-key-separate
+          path: recovery-transport/key
+          github-token: ${{ github.token }}
+          run-id: ${{ env.RECOVERY_RUN_ID }}
+
+      - name: Decrypt and byte-verify the reused recovery capsule
+        shell: bash
+        run: |
+          set -euo pipefail
+          (cd recovery-transport/capsule && sha256sum -c FINAL_ENCRYPTED_SHA256SUMS.txt)
+          (cd recovery-transport/key && sha256sum -c FINAL_KEY_SHA256SUMS.txt)
+          encrypted="$(find recovery-transport/capsule -type f -name '*.zip.enc' -print -quit)"
+          keyfile="$(find recovery-transport/key -type f -name '*RECOVERY_KEY_*.txt' -print -quit)"
+          test -n "$encrypted"; test -n "$keyfile"
+          awk 'BEGIN{blank=0} {if(blank){print; exit} if($0=="") blank=1}' "$keyfile" > recovery-transport/passphrase.tmp
+          openssl enc -d -aes-256-cbc -pbkdf2 -iter 600000 -md sha256 \
+            -pass file:recovery-transport/passphrase.tmp -in "$encrypted" \
+            -out recovery-transport/CP35_FINAL_RECOVERY_CAPSULE.zip
+          (cd recovery-transport/capsule && sha256sum -c FINAL_RAW_SHA256SUMS.txt < /dev/null) || {
+            expected="$(awk '{print $1}' recovery-transport/capsule/FINAL_RAW_SHA256SUMS.txt)"
+            observed="$(sha256sum recovery-transport/CP35_FINAL_RECOVERY_CAPSULE.zip | awk '{print $1}')"
+            test "$observed" = "$expected"
+          }
+          unzip -tq recovery-transport/CP35_FINAL_RECOVERY_CAPSULE.zip
+          mkdir recovery restore
+          unzip -q recovery-transport/CP35_FINAL_RECOVERY_CAPSULE.zip -d recovery
+          python - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          root=Path('recovery')
+          expected=json.loads((root/'SHA256SUMS.json').read_text())
+          bad={name for name,digest in expected.items() if hashlib.sha256((root/name).read_bytes()).hexdigest()!=digest}
+          if bad: raise SystemExit(f'recovery capsule byte mismatch: {sorted(bad)}')
+          manifest=json.loads((root/'RECOVERY_MANIFEST.json').read_text())
+          assert manifest['source_sha']=='92e49047941c09f18a306a9b2998f101c62e6ffe'
+          assert manifest['source_tree']=='8625bd6053c256456f67185d60e0bb95f9bc574e'
+          assert manifest['uat_mutated'] is False
+          Path('cp45-proof/RECOVERY_CAPSULE_REUSE.json').write_text(json.dumps({'status':'PASS','files':len(expected),'manifest':manifest},indent=2)+'\n')
+          PY
+          unzip -q recovery/ERP_ENTENG_CP2_RAW_BASELINE.zip -d restore
+          shred -u recovery-transport/passphrase.tmp "$keyfile" 2>/dev/null || true
+
+      - name: Render restore scripts and start free disposable local Supabase
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp recovery/scripts/cp35_generate_catalog_restore.py /tmp/cp4_generate_catalog_restore.py
+          cp recovery/scripts/cp35_verify_local_restore.py /tmp/cp4_verify_local_restore.py
+          python /tmp/cp4_generate_catalog_restore.py | tee cp45-proof/RESTORE_GENERATOR_RESULT.json
+          mkdir cp4-local
+          supabase init --force --workdir cp4-local
+          mkdir -p cp4-local/supabase/.temp
+          echo '17.6.1.165' > cp4-local/supabase/.temp/postgres-version
+          # Disable only global public signup. Keep the email provider enabled
+          # so admin-created/invited users can still log in and recover access.
+          sed -i '0,/^enable_signup = true$/s//enable_signup = false/' cp4-local/supabase/config.toml
+          python - <<'PY'
+          import json,tomllib
+          from pathlib import Path
+          config=tomllib.loads(Path('cp4-local/supabase/config.toml').read_text())
+          assert config['auth']['enable_signup'] is False
+          assert config['auth']['email']['enable_signup'] is True
+          Path('cp45-proof/LOCAL_AUTH_CONFIG.json').write_text(json.dumps({
+            'global_public_signup':config['auth']['enable_signup'],
+            'email_provider_enabled':config['auth']['email']['enable_signup'],
+          },indent=2)+'\n')
+          PY
+          supabase start --workdir cp4-local \
+            -x realtime,imgproxy,studio,postgres-meta,edge-runtime,logflare,vector,supavisor
+
+      - name: Restore the exact ERP Enteng pre-CP4 boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          psql "$PGURL" -v ON_ERROR_STOP=1 <<'SQL'
+          create schema if not exists supabase_migrations;
+          create table if not exists supabase_migrations.schema_migrations(version text primary key);
+          alter table supabase_migrations.schema_migrations add column if not exists statements text[];
+          alter table supabase_migrations.schema_migrations add column if not exists name text;
+          SQL
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f restore/catalog-schema-restore.sql
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f restore/ERP_ENTENG_DATA_RESTORE.sql
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f restore/platform-ledger-restore.sql
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f restore/sequence-reseed.sql
+          python /tmp/cp4_verify_local_restore.py | tee cp45-proof/CP2_BASELINE_RESTORE.log
+          echo '5f295958f019111674af3e079eb1bbe4bbf445e6ae35b32c8f3d94bfbad04ec6  supabase/migrations/20260901161322_erp_v2_6_15_payroll_component_entitlement.sql' | sha256sum -c -
+          python - <<'PY'
+          from pathlib import Path
+          raw=Path('supabase/migrations/20260901161322_erp_v2_6_15_payroll_component_entitlement.sql').read_text()
+          marker='$preflight$;\n\n'
+          if raw.count(marker)!=1: raise SystemExit('v2.6.15 boundary changed')
+          Path('/tmp/v2615-byte-bound-body.sql').write_text(raw.split(marker,1)[1])
+          PY
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f /tmp/v2615-byte-bound-body.sql
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/payroll_component_entitlement_rollback.sql
+          psql "$PGURL" -v ON_ERROR_STOP=1 <<'SQL'
+          insert into supabase_migrations.schema_migrations(version,name,statements)
+          values('20260901161322','erp_v2_6_15_payroll_component_entitlement',array[]::text[])
+          on conflict(version) do nothing;
+          SQL
+          psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' | tee cp45-proof/PRE_CP4_UAT_BOUNDARY.json
+          select jsonb_build_object(
+            'platform_count',(select count(*) from supabase_migrations.schema_migrations),
+            'platform_latest',(select max(version) from supabase_migrations.schema_migrations),
+            'application_count',(select count(*) from erp.schema_migrations),
+            'auth_users',(select count(*) from auth.users),
+            'app_users',(select count(*) from erp.app_users),
+            'eligibility_view_md5',md5(pg_get_viewdef('erp.v_payroll_production_work_eligibility'::regclass,true)),
+            'laundry_guard_md5',md5(pg_get_functiondef('erp.assert_laundry_receipt_reversal_payroll_safe(uuid)'::regprocedure)),
+            'integrity_checks_md5',md5(pg_get_functiondef('erp.run_v263a_payroll_integrity_checks()'::regprocedure)),
+            'rebuild_po_hpp_md5',md5(pg_get_functiondef('erp.rebuild_po_hpp(uuid,text)'::regprocedure)),
+            'cp3_tables',(select count(*) from information_schema.tables where table_schema='erp' and table_name in('contractor_hpp_policy_versions','sewing_terminal_events','attendance_hpp_pools'))
+          );
+          SQL
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path('cp45-proof/PRE_CP4_UAT_BOUNDARY.json').read_text())
+          expected={'platform_count':56,'platform_latest':'20260901161322','application_count':41,'auth_users':0,'app_users':0,'eligibility_view_md5':'5e04553cdbb7e91404191dd4ca30a57b','laundry_guard_md5':'e1693a04b22a2870a50266e648cca574','integrity_checks_md5':'0740acdebe12fe8d47d48bbd67cb8ab3','rebuild_po_hpp_md5':'cfa7eb941c9cb717078b0dd751ceeb86','cp3_tables':0}
+          assert x==expected,(x,expected)
+          PY
+
+      - name: Apply only the four frozen CP3 migrations in reviewed order
+        shell: bash
+        run: |
+          set -euo pipefail
+          files=(
+            20260901023000_erp_v2_6_14_attendance_hpp_sewing_terminal_foundation.sql
+            20260901023100_erp_v2_6_14b_attendance_hpp_candidate_hardening.sql
+            20260901023200_erp_v2_6_14c_attendance_hpp_uat_alignment.sql
+            20260901023400_erp_v2_6_14d_cp3_r4_race_and_reversal_hardening.sql
+          )
+          : > cp45-proof/CP3_EXACT_APPLY_ORDER.txt
+          for file in "${files[@]}"; do
+            version="${file%%_*}"
+            name="${file#*_}"; name="${name%.sql}"
+            sha256sum "supabase/migrations/$file" | tee -a cp45-proof/CP3_EXACT_APPLY_ORDER.txt
+            psql "$PGURL" -v ON_ERROR_STOP=1 -f "supabase/migrations/$file"
+            psql "$PGURL" -v ON_ERROR_STOP=1 -c "insert into supabase_migrations.schema_migrations(version,name,statements) values('$version','$name',array[]::text[]) on conflict(version) do nothing"
+          done
+          test "$(psql "$PGURL" -At -c "select string_agg(version,',' order by version) from supabase_migrations.schema_migrations where version like '20260901023%'")" = '20260901023000,20260901023100,20260901023200,20260901023400'
+
+      - name: Capture exact pre-CP4 function, ACL, ledger, and baseline state
+        shell: bash
+        run: |
+          set -euo pipefail
+          # The reusable catalog capsule predates one hosted-UAT ACL revoke on
+          # this function. Record the discrepancy, then align this disposable
+          # boundary to the exact currently observed hosted UAT ACL.
+          psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' > cp45-proof/PRE_CP4_OWNER_GUARD_ACL_BEFORE_ALIGNMENT.json
+          select jsonb_build_object(
+            'definition_md5',md5(pg_get_functiondef(p.oid)),
+            'acl',coalesce(p.proacl::text,'NULL'),'owner',pg_get_userbyid(p.proowner)
+          ) from pg_proc p where p.oid='erp.require_owner_admin()'::regprocedure;
+          SQL
+          psql "$PGURL" -v ON_ERROR_STOP=1 <<'SQL'
+          revoke all on function erp.require_owner_admin() from public, anon, authenticated, service_role;
+          grant execute on function erp.require_owner_admin() to service_role;
+          SQL
+          psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' | tee cp45-proof/PRE_CP4_OWNER_GUARD_UAT_ALIGNMENT.json
+          select jsonb_build_object(
+            'status',case when md5(pg_get_functiondef(p.oid))='8c22fb34fb8adf2085ca5703e32d38a5'
+              and not has_function_privilege('public',p.oid,'EXECUTE')
+              and not has_function_privilege('anon',p.oid,'EXECUTE')
+              and not has_function_privilege('authenticated',p.oid,'EXECUTE')
+              and has_function_privilege('service_role',p.oid,'EXECUTE')
+              and pg_get_userbyid(p.proowner)='postgres' then 'PASS' else 'FAIL' end,
+            'definition_md5',md5(pg_get_functiondef(p.oid)),
+            'acl',coalesce(p.proacl::text,'NULL'),'owner',pg_get_userbyid(p.proowner)
+          ) from pg_proc p where p.oid='erp.require_owner_admin()'::regprocedure;
+          SQL
+          test "$(python -c "import json;print(json.load(open('cp45-proof/PRE_CP4_OWNER_GUARD_UAT_ALIGNMENT.json'))['status'])")" = 'PASS'
+          psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' > cp45-proof/PRE_CP4_FUNCTION_ACL.json
+          select jsonb_build_object('functions',jsonb_agg(jsonb_build_object(
+            'identity',format('%I.%I(%s)',n.nspname,p.proname,pg_get_function_identity_arguments(p.oid)),
+            'definition_sha256',encode(extensions.digest(convert_to(pg_get_functiondef(p.oid),'UTF8'),'sha256'),'hex'),
+            'acl',coalesce(p.proacl::text,'NULL'),'owner',pg_get_userbyid(p.proowner)
+          ) order by p.proname,pg_get_function_identity_arguments(p.oid)))
+          from pg_proc p join pg_namespace n on n.oid=p.pronamespace
+          where n.nspname='erp' and p.proname in('rebuild_po_hpp','activate_attendance_hpp_pool_v1','cancel_attendance_hpp_pool_v1','require_owner_admin');
+          SQL
+          psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' > cp45-proof/PRE_CP4_COUNTS.json
+          select jsonb_build_object(
+            'platform_count',(select count(*) from supabase_migrations.schema_migrations),
+            'application_count',(select count(*) from erp.schema_migrations),
+            'auth_users',(select count(*) from auth.users),
+            'app_users',(select count(*) from erp.app_users),
+            'journals',(select count(*) from erp.journal_entries),
+            'hpp_versions',(select count(*) from erp.hpp_versions),
+            'pools',(select count(*) from erp.attendance_hpp_pools)
+          );
+          SQL
+
+      - name: Apply CP4 candidate and prove immutable-forward guard
+        shell: bash
+        run: |
+          set -euo pipefail
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/migrations/20260902043000_erp_v2_6_16_cp4_hpp_route_auth_boundary.sql 2>&1 | tee cp45-proof/CP4_APPLY.log
+          psql "$PGURL" -v ON_ERROR_STOP=1 -c "insert into supabase_migrations.schema_migrations(version,name,statements) values('20260902043000','erp_v2_6_16_cp4_hpp_route_auth_boundary',array[]::text[]) on conflict(version) do nothing"
+          set +e
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/migrations/20260902043000_erp_v2_6_16_cp4_hpp_route_auth_boundary.sql > cp45-proof/CP4_REPLAY_REJECTION.log 2>&1
+          replay_status=$?
+          set -e
+          test "$replay_status" -ne 0
+          grep -F 'v2.6.16 is already recorded' cp45-proof/CP4_REPLAY_REJECTION.log >/dev/null
+
+      - name: Run CP4 HPP, accounting, atomic-failure, and ACL acceptance
+        shell: bash
+        run: |
+          set -euo pipefail
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/cp4_hpp_route_auth_rollback.sql 2>&1 | tee cp45-proof/CP4_HPP_ROUTE_ACCEPTANCE.log
+
+      - name: Re-run every CP3 behavior affected by the lifecycle patch
+        shell: bash
+        run: |
+          set -euo pipefail
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/attendance_hpp_r3_full_schema_rollback.sql 2>&1 | tee cp45-proof/CP3_R3_REGRESSION.log
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/attendance_hpp_r4_full_schema_rollback.sql 2>&1 | tee cp45-proof/CP3_R4_REGRESSION.log
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/payroll_component_entitlement_rollback.sql 2>&1 | tee cp45-proof/V2615_REGRESSION.log
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/attendance_hpp_r3_validator_benchmark_rollback.sql 2>&1 | tee cp45-proof/CP3_2000_DESTINATION_BENCHMARK.log
+
+      - name: Run real local Auth, JWT, RLS, role, recovery, and RPC E2E
+        shell: bash
+        run: |
+          set -euo pipefail
+          for attempt in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:54321/auth/v1/health >/dev/null; then break; fi
+            sleep 1
+          done
+          source <(supabase status --workdir cp4-local -o env)
+          export SUPABASE_URL="$API_URL"
+          export SUPABASE_ANON_KEY="$ANON_KEY"
+          export SUPABASE_SERVICE_ROLE_KEY="$SERVICE_ROLE_KEY"
+          node scripts/cp4_auth_rls_e2e.mjs 2>&1 | tee cp45-proof/CP4_AUTH_RLS_E2E.log
+          test "$(psql "$PGURL" -At -c "select count(*) from auth.users")" = '0'
+          test "$(psql "$PGURL" -At -c "select count(*) from erp.app_users")" = '0'
+
+      - name: Capture exact CP4 boundary before CP4.5
+        shell: bash
+        run: |
+          set -euo pipefail
+          psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' > cp45-proof/PRE_CP45_ACCESS_FUNCTION_ACL.json
+          select jsonb_build_object('functions',jsonb_agg(jsonb_build_object(
+            'identity',format('%I.%I(%s)',n.nspname,p.proname,pg_get_function_identity_arguments(p.oid)),
+            'definition_sha256',encode(extensions.digest(convert_to(pg_get_functiondef(p.oid),'UTF8'),'sha256'),'hex'),
+            'acl',(select coalesce(jsonb_agg(jsonb_build_object(
+              'grantor',pg_get_userbyid(a.grantor),
+              'grantee',case when a.grantee=0 then 'PUBLIC' else pg_get_userbyid(a.grantee) end,
+              'privilege',a.privilege_type,'grantable',a.is_grantable
+            ) order by a.grantor,a.grantee,a.privilege_type,a.is_grantable),'[]'::jsonb)
+              from aclexplode(coalesce(p.proacl,acldefault('f',p.proowner))) a),
+            'owner',pg_get_userbyid(p.proowner)
+          ) order by p.proname,pg_get_function_identity_arguments(p.oid)))
+          from pg_proc p join pg_namespace n on n.oid=p.pronamespace
+          where n.nspname='erp' and p.proname in('current_app_role','current_app_user_id','save_app_user_v2','require_owner_admin');
+          SQL
+          psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' > cp45-proof/PRE_CP45_APP_USERS_CONTRACT.json
+          select jsonb_build_object(
+            'role_constraint',(select pg_get_constraintdef(oid,true) from pg_constraint
+              where conrelid='erp.app_users'::regclass and conname='app_users_role_check'),
+            'columns',(select jsonb_agg(column_name order by ordinal_position)
+              from information_schema.columns where table_schema='erp' and table_name='app_users')
+          );
+          SQL
+          psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' | tee cp45-proof/PRE_CP45_STATE.json
+          select jsonb_build_object(
+            'status',case when
+              (select count(*) from supabase_migrations.schema_migrations where version='20260902043000')=1
+              and (select count(*) from erp.schema_migrations where version='v2.6.16')=1
+              and (select count(*) from erp.cp4_v2616_rollback_capsule)=4
+              and (select count(*) from auth.users)=0
+              and (select count(*) from erp.app_users)=0
+              then 'PASS' else 'FAIL' end,
+            'cp4_platform',(select count(*) from supabase_migrations.schema_migrations where version='20260902043000'),
+            'cp4_application',(select count(*) from erp.schema_migrations where version='v2.6.16'),
+            'cp4_capsule',(select count(*) from erp.cp4_v2616_rollback_capsule),
+            'auth_users',(select count(*) from auth.users),'app_users',(select count(*) from erp.app_users)
+          );
+          SQL
+          test "$(python -c "import json;print(json.load(open('cp45-proof/PRE_CP45_STATE.json'))['status'])")" = 'PASS'
+
+      - name: Apply CP4.5 once and prove immutable-forward guard
+        shell: bash
+        run: |
+          set -euo pipefail
+          sha256sum supabase/migrations/20260902104937_erp_v2_6_17_access_pattern_wip_control.sql \
+            | tee cp45-proof/CP45_MIGRATION_SHA256.txt
+          psql "$PGURL" -v ON_ERROR_STOP=1 \
+            -f supabase/migrations/20260902104937_erp_v2_6_17_access_pattern_wip_control.sql \
+            2>&1 | tee cp45-proof/CP45_APPLY.log
+          psql "$PGURL" -v ON_ERROR_STOP=1 -c "insert into supabase_migrations.schema_migrations(version,name,statements) values('20260902104937','erp_v2_6_17_access_pattern_wip_control',array[]::text[]) on conflict(version) do nothing"
+          set +e
+          psql "$PGURL" -v ON_ERROR_STOP=1 \
+            -f supabase/migrations/20260902104937_erp_v2_6_17_access_pattern_wip_control.sql \
+            > cp45-proof/CP45_REPLAY_REJECTION.log 2>&1
+          replay_status=$?
+          set -e
+          test "$replay_status" -ne 0
+          grep -F 'v2.6.17 is already recorded' cp45-proof/CP45_REPLAY_REJECTION.log >/dev/null
+
+      - name: Run CP4.5 access, Pola, WIP, and Final-SKU acceptance
+        shell: bash
+        run: |
+          set -euo pipefail
+          psql "$PGURL" -v ON_ERROR_STOP=1 \
+            -f supabase/tests/access_pattern_wip_control_rollback.sql \
+            2>&1 | tee cp45-proof/CP45_ACCESS_PATTERN_WIP_ACCEPTANCE.log
+
+      - name: Apply CP4.5 v2.6.17a immutable pattern correction once
+        shell: bash
+        run: |
+          set -euo pipefail
+          psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' > cp45-proof/PRE_CP45A_PATTERN_FUNCTIONS.json
+          select jsonb_build_object('functions',jsonb_agg(jsonb_build_object(
+            'identity',format('%I.%I(%s)',n.nspname,p.proname,pg_get_function_identity_arguments(p.oid)),
+            'definition_sha256',encode(extensions.digest(convert_to(pg_get_functiondef(p.oid),'UTF8'),'sha256'),'hex'),
+            'acl',(select coalesce(jsonb_agg(jsonb_build_object(
+              'grantor',pg_get_userbyid(a.grantor),
+              'grantee',case when a.grantee=0 then 'PUBLIC' else pg_get_userbyid(a.grantee) end,
+              'privilege',a.privilege_type,'grantable',a.is_grantable
+            ) order by a.grantor,a.grantee,a.privilege_type,a.is_grantable),'[]'::jsonb)
+              from aclexplode(coalesce(p.proacl,acldefault('f',p.proowner))) a),
+            'owner',pg_get_userbyid(p.proowner)
+          ) order by p.proname,pg_get_function_identity_arguments(p.oid)))
+          from pg_proc p join pg_namespace n on n.oid=p.pronamespace
+          where p.oid in(
+            'erp.assign_pattern_v1(uuid,uuid,text,uuid,bigint)'::regprocedure,
+            'erp.guard_pattern_assignment_snapshot()'::regprocedure
+          );
+          SQL
+          sha256sum supabase/migrations/20260902180726_erp_v2_6_17a_cp45_pattern_assignment_immutability.sql \
+            | tee cp45-proof/CP45A_MIGRATION_SHA256.txt
+          psql "$PGURL" -v ON_ERROR_STOP=1 \
+            -f supabase/migrations/20260902180726_erp_v2_6_17a_cp45_pattern_assignment_immutability.sql \
+            2>&1 | tee cp45-proof/CP45A_APPLY.log
+          psql "$PGURL" -v ON_ERROR_STOP=1 -c "insert into supabase_migrations.schema_migrations(version,name,statements) values('20260902180726','erp_v2_6_17a_cp45_pattern_assignment_immutability',array[]::text[]) on conflict(version) do nothing"
+          set +e
+          psql "$PGURL" -v ON_ERROR_STOP=1 \
+            -f supabase/migrations/20260902180726_erp_v2_6_17a_cp45_pattern_assignment_immutability.sql \
+            > cp45-proof/CP45A_REPLAY_REJECTION.log 2>&1
+          replay_status=$?
+          set -e
+          test "$replay_status" -ne 0
+          grep -F 'v2.6.17a is already recorded' cp45-proof/CP45A_REPLAY_REJECTION.log >/dev/null
+
+      - name: Prove immutable assignment, downstream blockers, and real races
+        shell: bash
+        run: |
+          set -euo pipefail
+          psql "$PGURL" -v ON_ERROR_STOP=1 \
+            -f supabase/tests/cp45_pattern_assignment_immutability_rollback.sql \
+            2>&1 | tee cp45-proof/CP45A_PATTERN_ASSIGNMENT_ACCEPTANCE.log
+          export CP45_PATTERN_ASSIGNMENT_RACE_REPORT=cp45-proof/cp45-pattern-assignment-concurrency.json
+          python scripts/cp45_pattern_assignment_concurrency.py \
+            2>&1 | tee cp45-proof/CP45A_PATTERN_ASSIGNMENT_CONCURRENCY.log
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('cp45-proof/cp45-pattern-assignment-concurrency.json').read_text())
+          assert r['status']=='PASS',r
+          assert r['assertions']=={
+            'exactly_one_assignment_winner':True,
+            'loser_cannot_overwrite_snapshot':True,
+            'downstream_fk_first_blocks_assignment':True,
+            'real_two_connection_wait_observed':True,
+          },r
+          assert all(value==0 for value in r['residue'].values()),r
+          PY
+
+      - name: Re-run frozen CP4 and affected CP3 behavior under CP4.5
+        shell: bash
+        run: |
+          set -euo pipefail
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/cp4_hpp_route_auth_rollback.sql 2>&1 | tee cp45-proof/CP4_UNDER_CP45_REGRESSION.log
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/attendance_hpp_r4_full_schema_rollback.sql 2>&1 | tee cp45-proof/CP3_R4_UNDER_CP45_REGRESSION.log
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/payroll_component_entitlement_rollback.sql 2>&1 | tee cp45-proof/V2615_UNDER_CP45_REGRESSION.log
+
+      - name: Run CP4.5 real Auth, JWT, permission, and concurrent Pola E2E
+        shell: bash
+        run: |
+          set -euo pipefail
+          source <(supabase status --workdir cp4-local -o env)
+          export SUPABASE_URL="$API_URL"
+          export SUPABASE_ANON_KEY="$ANON_KEY"
+          export SUPABASE_SERVICE_ROLE_KEY="$SERVICE_ROLE_KEY"
+          export PGURL
+          export CP45_PROOF_CLASSIFICATION=LOCAL_FULL_SCHEMA_AUTH_VERIFIED
+          node scripts/cp45_auth_permission_e2e.mjs 2>&1 | tee cp45-proof/CP45_AUTH_PERMISSION_E2E.log
+          test "$(psql "$PGURL" -At -c "select count(*) from auth.users")" = '0'
+          test "$(psql "$PGURL" -At -c "select count(*) from erp.app_users")" = '0'
+          test "$(psql "$PGURL" -At -c "select count(*) from erp.production_patterns")" = '0'
+          test "$(psql "$PGURL" -At -c "select count(*) from erp.production_pattern_audit")" = '0'
+
+      - name: Reject wrong-name local v2.6.17a rollback ledger
+        shell: bash
+        run: |
+          set -euo pipefail
+          set +e
+          psql "$PGURL" -v ON_ERROR_STOP=1 <<'SQL' > cp45-proof/CP45A_ROLLBACK_WRONG_LOCAL_NAME_REJECTION.log 2>&1
+          begin;
+          update supabase_migrations.schema_migrations
+          set name='WRONG_MIGRATION'
+          where version='20260902180726'
+            and name='erp_v2_6_17a_cp45_pattern_assignment_immutability';
+          \i supabase/rollbacks/20260902180726_erp_v2_6_17a_cp45_pattern_assignment_immutability.rollback.sql
+          SQL
+          rollback_status=$?
+          set -e
+          test "$rollback_status" -ne 0
+          grep -F 'v2.6.17a rollback refused: platform ledger identity is ambiguous' \
+            cp45-proof/CP45A_ROLLBACK_WRONG_LOCAL_NAME_REJECTION.log >/dev/null
+          test "$(psql "$PGURL" -At -c "select count(*) from supabase_migrations.schema_migrations where version='20260902180726' and name='erp_v2_6_17a_cp45_pattern_assignment_immutability'")" = '1'
+          test "$(psql "$PGURL" -At -c "select count(*) from erp.schema_migrations where version='v2.6.17a'")" = '1'
+          test "$(psql "$PGURL" -At -c "select to_regprocedure('erp.assert_pattern_initial_assignment_allowed(uuid)') is not null")" = 't'
+
+      - name: Roll back v2.6.17a and prove exact v2.6.17 restoration
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp45a_source_b64="$(base64 -w0 supabase/migrations/20260902180726_erp_v2_6_17a_cp45_pattern_assignment_immutability.sql)"
+          psql "$PGURL" -v ON_ERROR_STOP=1 -v cp45a_source_b64="$cp45a_source_b64" <<'SQL' | tee cp45-proof/CP45A_HOSTED_PLATFORM_LEDGER_SHAPE.json
+          update supabase_migrations.schema_migrations
+          set version='20260902185106',
+              statements=array[convert_from(decode(:'cp45a_source_b64','base64'),'UTF8')]
+          where version='20260902180726'
+            and name='erp_v2_6_17a_cp45_pattern_assignment_immutability';
+          select jsonb_build_object(
+            'version',version,
+            'name',name,
+            'source_bytes',octet_length(array_to_string(statements,E'\n')),
+            'source_sha256',encode(
+              extensions.digest(
+                convert_to(array_to_string(statements,E'\n'),'UTF8'),
+                'sha256'
+              ),
+              'hex'
+            )
+          )
+          from supabase_migrations.schema_migrations
+          where name='erp_v2_6_17a_cp45_pattern_assignment_immutability';
+          SQL
+          grep -F '62a25994d2b3be0986ca83492f4d29d2ebad17c1795543045827a77d55ef816a' \
+            cp45-proof/CP45A_HOSTED_PLATFORM_LEDGER_SHAPE.json >/dev/null
+          psql "$PGURL" -v ON_ERROR_STOP=1 \
+            -f supabase/rollbacks/20260902180726_erp_v2_6_17a_cp45_pattern_assignment_immutability.rollback.sql \
+            2>&1 | tee cp45-proof/CP45A_ROLLBACK.log
+          psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' > cp45-proof/POST_CP45A_PATTERN_FUNCTIONS.json
+          select jsonb_build_object('functions',jsonb_agg(jsonb_build_object(
+            'identity',format('%I.%I(%s)',n.nspname,p.proname,pg_get_function_identity_arguments(p.oid)),
+            'definition_sha256',encode(extensions.digest(convert_to(pg_get_functiondef(p.oid),'UTF8'),'sha256'),'hex'),
+            'acl',(select coalesce(jsonb_agg(jsonb_build_object(
+              'grantor',pg_get_userbyid(a.grantor),
+              'grantee',case when a.grantee=0 then 'PUBLIC' else pg_get_userbyid(a.grantee) end,
+              'privilege',a.privilege_type,'grantable',a.is_grantable
+            ) order by a.grantor,a.grantee,a.privilege_type,a.is_grantable),'[]'::jsonb)
+              from aclexplode(coalesce(p.proacl,acldefault('f',p.proowner))) a),
+            'owner',pg_get_userbyid(p.proowner)
+          ) order by p.proname,pg_get_function_identity_arguments(p.oid)))
+          from pg_proc p join pg_namespace n on n.oid=p.pronamespace
+          where p.oid in(
+            'erp.assign_pattern_v1(uuid,uuid,text,uuid,bigint)'::regprocedure,
+            'erp.guard_pattern_assignment_snapshot()'::regprocedure
+          );
+          SQL
+          cmp cp45-proof/PRE_CP45A_PATTERN_FUNCTIONS.json cp45-proof/POST_CP45A_PATTERN_FUNCTIONS.json
+          psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' | tee cp45-proof/CP45A_ROLLBACK_RESIDUE.json
+          select jsonb_build_object(
+            'status',case when
+              exists(select 1 from erp.schema_migrations where version='v2.6.17')
+              and not exists(select 1 from erp.schema_migrations where version='v2.6.17a')
+              and exists(select 1 from supabase_migrations.schema_migrations where version='20260902104937')
+              and not exists(
+                select 1 from supabase_migrations.schema_migrations
+                where version='20260902180726'
+                   or name='erp_v2_6_17a_cp45_pattern_assignment_immutability'
+              )
+              and to_regclass('erp.cp45_v2617a_rollback_capsule') is null
+              and to_regprocedure('erp.assert_pattern_initial_assignment_allowed(uuid)') is null
+              and md5(pg_get_functiondef('erp.assign_pattern_v1(uuid,uuid,text,uuid,bigint)'::regprocedure))='5d291996e4297426b790e64eef163412'
+              and md5(pg_get_functiondef('erp.guard_pattern_assignment_snapshot()'::regprocedure))='8da2f40884705902230695dbf85a5fea'
+              then 'PASS' else 'FAIL' end,
+            'base_application',exists(select 1 from erp.schema_migrations where version='v2.6.17'),
+            'correction_application',exists(select 1 from erp.schema_migrations where version='v2.6.17a'),
+            'correction_platform',exists(
+              select 1 from supabase_migrations.schema_migrations
+              where version='20260902180726'
+                 or name='erp_v2_6_17a_cp45_pattern_assignment_immutability'
+            ),
+            'capsule',to_regclass('erp.cp45_v2617a_rollback_capsule'),
+            'helper',to_regprocedure('erp.assert_pattern_initial_assignment_allowed(uuid)')
+          );
+          SQL
+          test "$(python -c "import json;print(json.load(open('cp45-proof/CP45A_ROLLBACK_RESIDUE.json'))['status'])")" = 'PASS'
+
+      - name: Roll back exact CP4.5 and prove exact CP4 restoration
+        shell: bash
+        run: |
+          set -euo pipefail
+          psql "$PGURL" -v ON_ERROR_STOP=1 \
+            -f supabase/rollbacks/20260902104937_erp_v2_6_17_access_pattern_wip_control.rollback.sql \
+            2>&1 | tee cp45-proof/CP45_ROLLBACK.log
+          psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' > cp45-proof/POST_CP45_ACCESS_FUNCTION_ACL.json
+          select jsonb_build_object('functions',jsonb_agg(jsonb_build_object(
+            'identity',format('%I.%I(%s)',n.nspname,p.proname,pg_get_function_identity_arguments(p.oid)),
+            'definition_sha256',encode(extensions.digest(convert_to(pg_get_functiondef(p.oid),'UTF8'),'sha256'),'hex'),
+            'acl',(select coalesce(jsonb_agg(jsonb_build_object(
+              'grantor',pg_get_userbyid(a.grantor),
+              'grantee',case when a.grantee=0 then 'PUBLIC' else pg_get_userbyid(a.grantee) end,
+              'privilege',a.privilege_type,'grantable',a.is_grantable
+            ) order by a.grantor,a.grantee,a.privilege_type,a.is_grantable),'[]'::jsonb)
+              from aclexplode(coalesce(p.proacl,acldefault('f',p.proowner))) a),
+            'owner',pg_get_userbyid(p.proowner)
+          ) order by p.proname,pg_get_function_identity_arguments(p.oid)))
+          from pg_proc p join pg_namespace n on n.oid=p.pronamespace
+          where n.nspname='erp' and p.proname in('current_app_role','current_app_user_id','save_app_user_v2','require_owner_admin');
+          SQL
+          cmp cp45-proof/PRE_CP45_ACCESS_FUNCTION_ACL.json cp45-proof/POST_CP45_ACCESS_FUNCTION_ACL.json
+          psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' > cp45-proof/POST_CP45_APP_USERS_CONTRACT.json
+          select jsonb_build_object(
+            'role_constraint',(select pg_get_constraintdef(oid,true) from pg_constraint
+              where conrelid='erp.app_users'::regclass and conname='app_users_role_check'),
+            'columns',(select jsonb_agg(column_name order by ordinal_position)
+              from information_schema.columns where table_schema='erp' and table_name='app_users')
+          );
+          SQL
+          cmp cp45-proof/PRE_CP45_APP_USERS_CONTRACT.json cp45-proof/POST_CP45_APP_USERS_CONTRACT.json
+          psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' | tee cp45-proof/CP45_ROLLBACK_RESIDUE.json
+          select jsonb_build_object(
+            'status',case when
+              not exists(select 1 from erp.schema_migrations where version='v2.6.17')
+              and not exists(select 1 from supabase_migrations.schema_migrations where version='20260902104937')
+              and to_regclass('erp.cp45_v2617_rollback_capsule') is null
+              and to_regclass('erp.production_patterns') is null
+              and to_regclass('erp.app_roles') is null
+              and to_regclass('erp.v_wip_control_status_v1') is null
+              and to_regprocedure('erp.guard_pattern_assignment_snapshot()') is null
+              and to_regprocedure('erp.require_pattern_identity_on_app_write()') is null
+              and to_regprocedure('erp.guard_posted_qc_item_immutable()') is null
+              and not exists(select 1 from pg_trigger where tgrelid='erp.cutting_groups'::regclass
+                and tgname in('trg_05_pattern_assignment_snapshot','trg_06_require_pattern_identity') and not tgisinternal)
+              and not exists(select 1 from pg_trigger where tgrelid='erp.qc_inspection_items'::regclass
+                and tgname='trg_00_guard_posted_qc_item_immutable' and not tgisinternal)
+              and not exists(select 1 from information_schema.columns
+                where table_schema='erp' and table_name='cutting_groups'
+                  and column_name in('pattern_id','pattern_code_snapshot','pattern_name_snapshot','pattern_revision_snapshot'))
+              and not exists(select 1 from pg_proc p join pg_namespace n on n.oid=p.pronamespace
+                where n.nspname='public' and p.proname in('erp_get_my_access_v1','erp_list_patterns_v1','erp_get_wip_control_v1'))
+              and (select count(*) from supabase_migrations.schema_migrations where version='20260902043000')=1
+              and (select count(*) from erp.schema_migrations where version='v2.6.16')=1
+              and (select count(*) from erp.cp4_v2616_rollback_capsule)=4
+              then 'PASS' else 'FAIL' end,
+            'cp45_application',exists(select 1 from erp.schema_migrations where version='v2.6.17'),
+            'cp45_platform',exists(select 1 from supabase_migrations.schema_migrations where version='20260902104937'),
+            'cp4_application',(select count(*) from erp.schema_migrations where version='v2.6.16'),
+            'cp4_platform',(select count(*) from supabase_migrations.schema_migrations where version='20260902043000'),
+            'cp4_capsule',(select count(*) from erp.cp4_v2616_rollback_capsule)
+          );
+          SQL
+          test "$(python -c "import json;print(json.load(open('cp45-proof/CP45_ROLLBACK_RESIDUE.json'))['status'])")" = 'PASS'
+
+      - name: Re-run all real two-connection CP3 race orderings under restored CP4
+        shell: bash
+        run: |
+          set -euo pipefail
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/cp3_r4_full_schema_race_seed.sql 2>&1 | tee cp45-proof/CP3_R4_RACE_SEED.log
+          python scripts/cp3_r4_full_schema_concurrency.py 2>&1 | tee cp45-proof/CP3_R4_CONCURRENCY.log
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('cp45-proof/cp3-r4-concurrency-report.json').read_text())
+          assert r['status']=='PASS',r
+          assert r['assertions']['pool_cancel_vs_source_both_orders'] is True
+          assert r['assertions']['per_scenario_terminal_evidence'] is True
+          PY
+
+      - name: Roll back exact CP4 and prove byte-equivalent restoration
+        shell: bash
+        run: |
+          set -euo pipefail
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/rollbacks/20260902043000_erp_v2_6_16_cp4_hpp_route_auth_boundary.rollback.sql 2>&1 | tee cp45-proof/CP4_ROLLBACK.log
+          psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' > cp45-proof/POST_CP4_FUNCTION_ACL.json
+          select jsonb_build_object('functions',jsonb_agg(jsonb_build_object(
+            'identity',format('%I.%I(%s)',n.nspname,p.proname,pg_get_function_identity_arguments(p.oid)),
+            'definition_sha256',encode(extensions.digest(convert_to(pg_get_functiondef(p.oid),'UTF8'),'sha256'),'hex'),
+            'acl',coalesce(p.proacl::text,'NULL'),'owner',pg_get_userbyid(p.proowner)
+          ) order by p.proname,pg_get_function_identity_arguments(p.oid)))
+          from pg_proc p join pg_namespace n on n.oid=p.pronamespace
+          where n.nspname='erp' and p.proname in('rebuild_po_hpp','activate_attendance_hpp_pool_v1','cancel_attendance_hpp_pool_v1','require_owner_admin');
+          SQL
+          cmp cp45-proof/PRE_CP4_FUNCTION_ACL.json cp45-proof/POST_CP4_FUNCTION_ACL.json
+          psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' | tee cp45-proof/CP4_ROLLBACK_RESIDUE.json
+          select jsonb_build_object(
+            'status',case when
+              not exists(select 1 from erp.schema_migrations where version='v2.6.16')
+              and not exists(select 1 from supabase_migrations.schema_migrations where version='20260902043000')
+              and to_regclass('erp.cp4_v2616_rollback_capsule') is null
+              and to_regclass('erp.v_attendance_hpp_active_allocation_by_po_group') is null
+              and not exists(select 1 from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public' and p.proname like 'erp_%attendance_hpp%')
+              then 'PASS' else 'FAIL' end,
+            'application_marker',exists(select 1 from erp.schema_migrations where version='v2.6.16'),
+            'platform_marker',exists(select 1 from supabase_migrations.schema_migrations where version='20260902043000'),
+            'capsule',to_regclass('erp.cp4_v2616_rollback_capsule'),
+            'detail_view',to_regclass('erp.v_attendance_hpp_active_allocation_by_po_group')
+          );
+          SQL
+          test "$(python -c "import json;print(json.load(open('cp45-proof/CP4_ROLLBACK_RESIDUE.json'))['status'])")" = 'PASS'
+
+      - name: Restore baseline data and prove zero synthetic residue
+        shell: bash
+        run: |
+          set -euo pipefail
+          # The baseline data restore intentionally truncates every ERP table,
+          # including the application ledger. Preserve the four CP3 markers:
+          # CP4 rollback removes only CP4, not the already-applied CP3 schema.
+          psql "$PGURL" -v ON_ERROR_STOP=1 <<'SQL'
+          create temp table cp4_saved_cp3_application_markers on commit preserve rows
+          as select * from erp.schema_migrations where version like 'v2.6.14%';
+          \i restore/ERP_ENTENG_DATA_RESTORE.sql
+          insert into erp.schema_migrations
+          select * from cp4_saved_cp3_application_markers
+          on conflict(version) do nothing;
+          SQL
+          psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' | tee cp45-proof/FINAL_RECONCILIATION.json
+          select jsonb_build_object(
+            'status',case when
+              (select count(*) from auth.users)=0
+              and (select count(*) from erp.app_users)=0
+              and (select count(*) from erp.attendance_hpp_pools)=0
+              and (select count(*) from erp.sewing_terminal_events)=0
+              and (select count(*) from erp.journal_entries)=0
+              and (select count(*) from erp.hpp_versions)=0
+              and (select count(*) from erp.production_orders where po_number like 'CP3R%' or po_number like 'CP4%')=0
+              then 'PASS' else 'FAIL' end,
+            'platform_count',(select count(*) from supabase_migrations.schema_migrations),
+            'platform_latest',(select max(version) from supabase_migrations.schema_migrations),
+            'application_versions',(select jsonb_agg(version order by version) from erp.schema_migrations where version like 'v2.6.14%'),
+            'auth_users',(select count(*) from auth.users),
+            'app_users',(select count(*) from erp.app_users),
+            'pools',(select count(*) from erp.attendance_hpp_pools),
+            'sewing_events',(select count(*) from erp.sewing_terminal_events),
+            'journals',(select count(*) from erp.journal_entries),
+            'hpp_versions',(select count(*) from erp.hpp_versions),
+            'v2615_view_md5',md5(pg_get_viewdef('erp.v_payroll_production_work_eligibility'::regclass,true)),
+            'v2615_laundry_guard_md5',md5(pg_get_functiondef('erp.assert_laundry_receipt_reversal_payroll_safe(uuid)'::regprocedure)),
+            'v2615_integrity_checks_md5',md5(pg_get_functiondef('erp.run_v263a_payroll_integrity_checks()'::regprocedure))
+          );
+          SQL
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('cp45-proof/FINAL_RECONCILIATION.json').read_text())
+          assert r['status']=='PASS',r
+          assert r['platform_count']==60,r
+          assert r['platform_latest']=='20260901161322',r
+          assert r['application_versions']==['v2.6.14a','v2.6.14b','v2.6.14c','v2.6.14d'],r
+          assert r['v2615_view_md5']=='5e04553cdbb7e91404191dd4ca30a57b',r
+          assert r['v2615_laundry_guard_md5']=='e1693a04b22a2870a50266e648cca574',r
+          assert r['v2615_integrity_checks_md5']=='0740acdebe12fe8d47d48bbd67cb8ab3',r
+          PY
+
+      - name: Run frontend, ownership, security, and production build regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm test
+          npm run test:security
+          npm run build
+
+      - name: Upload non-secret CP4.5 proof
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cp45-r1-full-schema-auth-proof
+          path: cp45-proof
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Destroy disposable stack and recovery material
+        if: always()
+        shell: bash
+        run: |
+          supabase stop --workdir cp4-local --no-backup 2>/dev/null || true
+          find recovery recovery-transport -type f \( -name '*.zip' -o -name '*.zip.enc' -o -name '*KEY*.txt' -o -name '*passphrase*' \) -exec shred -u {} + 2>/dev/null || true
+          rm -rf cp4-local recovery restore recovery-transport /tmp/v2615-byte-bound-body.sql

@@ -3,6 +3,9 @@ dist/
 .wrangler/
 .wrangler-dry-run/
 *.tsbuildinfo
+cp45-browser-proof/
+playwright-report/
+test-results/
 .env*
 !.env.example
 .dev.vars*

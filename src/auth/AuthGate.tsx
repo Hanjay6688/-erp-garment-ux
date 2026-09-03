@@ -31,7 +31,7 @@ export function AuthGate({ children }: PropsWithChildren) {
       <div className="auth-progress" role="status" aria-live="polite" aria-label={signingOut ? 'Mengakhiri sesi' : 'Memverifikasi sesi'} />
       <p>{signingOut
         ? 'Akses ERP dikunci sampai proses keluar selesai.'
-        : 'ERP belum dibuka sampai identitas Auth dan profil ERP selesai diverifikasi.'}</p>
+        : 'ERP belum dibuka sampai identitas, role aktif, dan bundle izin selesai diverifikasi.'}</p>
     </AuthFrame>
   }
 
@@ -71,7 +71,7 @@ export function AuthGate({ children }: PropsWithChildren) {
   }
 
   return <AuthFrame eyebrow="ERP ENTENG · UAT AUTH" title="Masuk ke Atelier ERP">
-    <p>Auth memakai UAT. Seluruh angka dan transaksi bisnis di layar tetap data simulasi.</p>
+    <p>Auth, hak akses, Master Pola, dan status WIP memakai UAT. Modul bisnis lain tetap diberi batas data simulasi.</p>
     <form className="auth-form" onSubmit={submit}>
       <label>Email akun ERP<input type="email" required autoComplete="username" value={email} onChange={(event) => setEmail(event.target.value)} /></label>
       <label>Kata sandi<input type="password" required autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} /></label>
@@ -79,7 +79,7 @@ export function AuthGate({ children }: PropsWithChildren) {
       <button type="submit" className="auth-primary" disabled={submitting}>{submitting ? 'Memverifikasi…' : 'Masuk'}</button>
       {identityError?.retryable && <button type="button" className="auth-secondary" disabled={retrying} onClick={() => void retry()}>{retrying ? 'Memeriksa sesi…' : 'Coba verifikasi sesi lagi'}</button>}
     </form>
-    <small className="auth-footnote">Tidak ada pendaftaran akun dari aplikasi. Hanya OWNER/ADMIN aktif yang dibuka pada fase ini.</small>
+    <small className="auth-footnote">Tidak ada pendaftaran akun dari aplikasi. Hanya pengguna terpetakan dengan role aktif yang dapat masuk.</small>
   </AuthFrame>
 }
 

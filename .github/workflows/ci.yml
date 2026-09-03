@@ -2,7 +2,7 @@ name: Build UX
 
 on:
   push:
-    branches: [main, cp3.5/full-canonical-cleanup-r2-20260901]
+    branches: [main, cp3.5/full-canonical-cleanup-r2-20260901, cp4.5/rbac-production-identity-wip-r1-20260902]
   pull_request:
     branches: [main]
 
@@ -11,17 +11,34 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Pull request workflows default to a synthetic merge commit. The
+          # ownership manifest is bound to the candidate commit and its real
+          # parent, so always validate the exact PR head bytes instead.
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 2
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
       - run: npm ci
+      - name: Install pinned Chromium test runtime
+        run: npx --no-install playwright install --with-deps chromium
       - run: npm test
       - run: npm run test:security
       - run: npm run build
+      - run: npm run test:browser:cp45
+      - name: Upload non-secret CP4.5 browser proof
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cp45-desktop-mobile-browser-proof
+          path: cp45-browser-proof
+          if-no-files-found: warn
+          retention-days: 30
       - run: npm run scan:dist
       - name: Verify Cloudflare package
-        run: npx --no-install wrangler deploy --dry-run --outdir .wrangler-dry-run
+        run: npx --no-install wrangler deploy --env uat-auth --dry-run --outdir .wrangler-dry-run
       - uses: actions/upload-artifact@v4
         with:
           name: erp-ux-dist

@@ -6,13 +6,13 @@ import { ClientAppError, normalizeAuthError, normalizeClientError } from '../lib
 import { getUatSupabaseClient } from '../lib/supabase'
 import type { PreconnectDatabase } from '../types/database.preconnect'
 import {
-  identityFromProfileLookupError,
-  identityFromProfileRead,
+  identityFromAccessLookupError,
+  identityFromAccessRead,
   planAuthEvent,
-  resolveOwnProfile,
+  resolveOwnAccess,
 } from './authPolicy'
 import type { AuthIdentity } from './authPolicy'
-export type { AppRole, AppUserProfile, AuthIdentity } from './authPolicy'
+export type { AppRole, AppUserProfile, AuthIdentity, AuthorizedAccess } from './authPolicy'
 
 type AuthActionResult = { ok: true } | { ok: false; error: ClientAppError }
 
@@ -39,13 +39,9 @@ function isExpectedMissingSession(error: unknown) {
     || message.includes('auth session missing')
 }
 
-async function readOwnProfile(client: SupabaseClient<PreconnectDatabase>, authUserId: string) {
-  return resolveOwnProfile(async (expectedAuthUserId) => {
-    const { data, error } = await client
-      .from('v_erp_my_profile')
-      .select('id, auth_user_id, full_name, role, is_active, row_version')
-      .eq('auth_user_id', expectedAuthUserId)
-      .maybeSingle()
+async function readOwnAccess(client: SupabaseClient<PreconnectDatabase>, authUserId: string) {
+  return resolveOwnAccess(async () => {
+    const { data, error } = await client.rpc('erp_get_my_access_v1')
     return { data, error }
   }, authUserId)
 }
@@ -93,18 +89,18 @@ export function AuthProvider({ runtime, children }: PropsWithChildren<{ runtime:
         return
       }
 
-      let profileRead
+      let accessRead
       try {
-        profileRead = await readOwnProfile(client, data.user.id)
+        accessRead = await readOwnAccess(client, data.user.id)
       } catch (error) {
         if (sequence === refreshSequence.current && mounted.current) {
-          commitIdentity(identityFromProfileLookupError(error))
+          commitIdentity(identityFromAccessLookupError(error))
         }
         return
       }
 
       if (sequence !== refreshSequence.current || !mounted.current) return
-      commitIdentity(identityFromProfileRead(profileRead))
+      commitIdentity(identityFromAccessRead(accessRead))
     } catch (error) {
       const normalized = normalizeClientError(error)
       if (sequence === refreshSequence.current && mounted.current) {

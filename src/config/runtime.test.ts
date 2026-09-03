@@ -29,6 +29,9 @@ describe('parseRuntimeConfig', () => {
       authMode: 'DISABLED',
       businessDataMode: 'SIMULATION',
       businessRpcEnabled: false,
+      accessControlMode: 'SIMULATION',
+      patternMode: 'SIMULATION',
+      wipStatusMode: 'SIMULATION',
     })
   })
 
@@ -52,6 +55,9 @@ describe('parseRuntimeConfig', () => {
       mode: 'UAT_AUTH_SIMULATION',
       projectRef: ERP_ENTENG_UAT_PROJECT_REF,
       businessRpcEnabled: false,
+      accessControlMode: 'CONNECTED',
+      patternMode: 'CONNECTED',
+      wipStatusMode: 'CONNECTED',
     })
   })
 

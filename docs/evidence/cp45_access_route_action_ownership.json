@@ -1,0 +1,36 @@
+{
+  "format": "CP45_ACCESS_ROUTE_ACTION_OWNERSHIP_V1",
+  "scope": "CP4.5 pre-CP5 access, Master Pola, WIP, and Final SKU boundary",
+  "counts": {
+    "backend_permissions": 111,
+    "navigation_labels": 46,
+    "protected_routes": 46,
+    "sensitive_actions": 17,
+    "browser_rpc_boundaries": 13
+  },
+  "critical_routes": {
+    "cutting-roll": "production.cutting.view",
+    "sewing-wip": "production.wip.view",
+    "master-pattern": "master.pattern.view",
+    "admin-access": "settings.access.view"
+  },
+  "critical_actions": {
+    "saveRole": "settings.access.manage",
+    "assignUserRole": "settings.access.manage",
+    "savePattern": "master.pattern.manage",
+    "quickCreatePattern": "master.pattern.manage",
+    "adjustWip": "production.wip.adjust",
+    "reverseWip": "production.wip.reverse",
+    "postFinalSku": "production.final_sku.post"
+  },
+  "invariants": {
+    "cutting_view_does_not_grant_pattern_manage": true,
+    "quick_create_uses_master_save_rpc": true,
+    "cutting_transaction_pattern_id_required": true,
+    "pattern_snapshot_visible_in_pickup_and_wip": true,
+    "grandfathered_history_requires_bulk_import": false,
+    "browser_direct_table_access": false,
+    "production_go": false
+  },
+  "production_go": false
+}

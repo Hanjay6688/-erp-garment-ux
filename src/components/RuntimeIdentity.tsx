@@ -9,7 +9,7 @@ export function RuntimeBadge() {
   const { runtime } = useAuth()
   return <div className={`sim-badge runtime-badge ${runtime.mode === 'UAT_AUTH_SIMULATION' ? 'uat' : 'demo'}`}>
     <span />
-    {runtime.mode === 'UAT_AUTH_SIMULATION' ? 'UAT AUTH + DATA SIMULASI' : 'DEMO · DATA SIMULASI'}
+    {runtime.mode === 'UAT_AUTH_SIMULATION' ? 'UAT · AKSES/POLA/WIP LIVE' : 'DEMO · DATA SIMULASI'}
   </div>
 }
 
@@ -19,7 +19,7 @@ export function RuntimeEnvironmentCard() {
     <div className="env-dot" />
     <div>
       <strong>{runtime.mode === 'UAT_AUTH_SIMULATION' ? 'ERP Enteng' : 'Mode Demo'}</strong>
-      <span>{runtime.mode === 'UAT_AUTH_SIMULATION' ? 'Auth UAT · data simulasi' : 'Tanpa koneksi backend'}</span>
+      <span>{runtime.mode === 'UAT_AUTH_SIMULATION' ? 'Akses, Pola, WIP terhubung · modul lain simulasi' : 'Tanpa koneksi backend'}</span>
     </div>
   </div>
 }
@@ -38,11 +38,11 @@ export function RuntimeIdentity() {
   return <details className="auth-identity">
     <summary className="owner">
       <span>{initials(identity.profile.fullName)}</span>
-      <div><strong>{identity.profile.fullName}</strong><small>{identity.profile.role} · UAT</small></div>
+      <div><strong>{identity.profile.fullName}</strong><small>{identity.profile.roleName} · UAT</small></div>
       <b>⌄</b>
     </summary>
     <div className="auth-identity-menu">
-      <small>ERP Enteng · Auth aktif</small>
+      <small>ERP Enteng · {identity.permissions.length} izin aktif</small>
       <button type="button" disabled={signingOut} onClick={() => void logout()}>{signingOut ? 'Keluar…' : 'Keluar'}</button>
       {signOutError && <p role="alert">{signOutError.message}</p>}
     </div>
