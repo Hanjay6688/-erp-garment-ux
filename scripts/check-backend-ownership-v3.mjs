@@ -3,6 +3,7 @@ import { createHash } from 'node:crypto'
 import { execFileSync } from 'node:child_process'
 import { readFileSync, readdirSync } from 'node:fs'
 import { extname, join, relative, resolve } from 'node:path'
+import { gunzipSync } from 'node:zlib'
 
 const root = process.cwd()
 const posix = (path) => path.split('\\').join('/')
@@ -164,6 +165,32 @@ assert.ok(candidatePaths.includes('src/ConnectedWipStatusPage.tsx'))
 assert.ok(candidatePaths.includes('src/ConnectedPatternFilter.tsx'))
 assert.ok(candidatePaths.includes('tests/browser/cutting-bridge.spec.ts'))
 assert.ok(candidatePaths.includes('.github/workflows/cutting-bridge-full-schema-validation.yml'))
+
+const ledgerFixturePath = 'supabase/tests/fixtures/erp_enteng_pre_cp3_schema_ledger.sql.gz'
+const ledgerFixtureManifestPath = 'supabase/tests/fixtures/erp_enteng_pre_cp3_schema_ledger.manifest.json'
+assert.ok(candidatePaths.includes(ledgerFixturePath))
+assert.ok(candidatePaths.includes(ledgerFixtureManifestPath))
+assert.ok(candidatePaths.includes('scripts/cutting_bridge_build_ledger_bootstrap.py'))
+const ledgerFixtureManifest = readJson(ledgerFixtureManifestPath)
+const ledgerFixture = readFileSync(resolve(root, ledgerFixturePath))
+const ledgerSql = gunzipSync(ledgerFixture)
+assert.equal(ledgerFixtureManifest.format, 'ERP_ENTENG_PRE_CP3_SCHEMA_LEDGER_BOOTSTRAP_V1')
+assert.equal(ledgerFixtureManifest.source_project_ref, 'siimvrusnzxexizpyoib')
+assert.equal(ledgerFixtureManifest.source_kind, 'SUPABASE_PLATFORM_LEDGER_SCHEMA_SOURCE_ONLY')
+assert.equal(ledgerFixtureManifest.contains_business_rows, false)
+assert.equal(ledgerFixtureManifest.contains_credentials, false)
+assert.equal(ledgerFixtureManifest.first_version, '20260826112217')
+assert.equal(ledgerFixtureManifest.last_version, '20260831032949')
+assert.equal(ledgerFixtureManifest.executable_migration_count, 48)
+assert.equal(ledgerFixtureManifest.platform_marker_count, 7)
+assert.equal(ledgerFixtureManifest.expected_platform_count, 55)
+assert.equal(ledgerFixtureManifest.ledger_manifest_sha256, '103b938b48303d75bb056db1e30265a34ccecd9c52db070f842db4d5977197b8')
+assert.equal(ledgerFixture.length, ledgerFixtureManifest.gzip_bytes)
+assert.equal(hash('sha256', ledgerFixture), ledgerFixtureManifest.gzip_sha256)
+assert.equal(ledgerSql.length, ledgerFixtureManifest.sql_bytes)
+assert.equal(hash('sha256', ledgerSql), ledgerFixtureManifest.sql_sha256)
+assert.equal(ledgerFixtureManifest.migrations.length, 48)
+assert.equal(ledgerFixtureManifest.platform_markers.length, 7)
 
 const migration = readFileSync(resolve(root, migrationPath), 'utf8')
 const rollback = readFileSync(resolve(root, rollbackPath), 'utf8')

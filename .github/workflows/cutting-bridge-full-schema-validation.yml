@@ -17,7 +17,6 @@ concurrency:
 env:
   SOURCE_BASE_SHA: d5c48ce5c8daa7e6da92dc9d690d9b36879e74c1
   SOURCE_BASE_TREE: 70f7bf3c0265520eac5aafff747f448ed8be3e6b
-  RECOVERY_RUN_ID: 33587654349
   PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
   CP3_R4_CONCURRENCY_REPORT: cutting-bridge-proof/cp3-r4-concurrency-report.json
   CP4_AUTH_REPORT: cutting-bridge-proof/cp4-auth-rls-e2e.json
@@ -51,6 +50,7 @@ jobs:
           node --check scripts/cp4_auth_rls_e2e.mjs
           node --check scripts/cp45_auth_permission_e2e.mjs
           node --check scripts/cutting_bridge_auth_e2e.mjs
+          python -m py_compile scripts/cutting_bridge_build_ledger_bootstrap.py
           python -m py_compile scripts/cp45_pattern_assignment_concurrency.py
           git diff --check "$SOURCE_BASE_SHA" "$GITHUB_SHA"
           printf 'branch=%s\nhead=%s\nparent=%s\nbase=%s\nbase_tree=%s\nremote_head=%s\ncommit_count=%s\n' \
@@ -83,66 +83,42 @@ jobs:
           psql --version | tee cutting-bridge-proof/PSQL_VERSION.txt
           node --version | tee cutting-bridge-proof/NODE_VERSION.txt
 
-      - name: Download already-verified pre-CP4 recovery capsule
-        uses: actions/download-artifact@v4
-        with:
-          name: cp35-final-recovery-capsule-encrypted
-          path: recovery-transport/capsule
-          github-token: ${{ github.token }}
-          run-id: ${{ env.RECOVERY_RUN_ID }}
-
-      - name: Download its separately stored recovery key
-        uses: actions/download-artifact@v4
-        with:
-          name: cp35-final-recovery-key-separate
-          path: recovery-transport/key
-          github-token: ${{ github.token }}
-          run-id: ${{ env.RECOVERY_RUN_ID }}
-
-      - name: Decrypt and byte-verify the reused recovery capsule
+      - name: Verify immutable schema-only pre-CP3 ledger bootstrap
         shell: bash
         run: |
           set -euo pipefail
-          (cd recovery-transport/capsule && sha256sum -c FINAL_ENCRYPTED_SHA256SUMS.txt)
-          (cd recovery-transport/key && sha256sum -c FINAL_KEY_SHA256SUMS.txt)
-          encrypted="$(find recovery-transport/capsule -type f -name '*.zip.enc' -print -quit)"
-          keyfile="$(find recovery-transport/key -type f -name '*RECOVERY_KEY_*.txt' -print -quit)"
-          test -n "$encrypted"; test -n "$keyfile"
-          awk 'BEGIN{blank=0} {if(blank){print; exit} if($0=="") blank=1}' "$keyfile" > recovery-transport/passphrase.tmp
-          openssl enc -d -aes-256-cbc -pbkdf2 -iter 600000 -md sha256 \
-            -pass file:recovery-transport/passphrase.tmp -in "$encrypted" \
-            -out recovery-transport/CP35_FINAL_RECOVERY_CAPSULE.zip
-          (cd recovery-transport/capsule && sha256sum -c FINAL_RAW_SHA256SUMS.txt < /dev/null) || {
-            expected="$(awk '{print $1}' recovery-transport/capsule/FINAL_RAW_SHA256SUMS.txt)"
-            observed="$(sha256sum recovery-transport/CP35_FINAL_RECOVERY_CAPSULE.zip | awk '{print $1}')"
-            test "$observed" = "$expected"
-          }
-          unzip -tq recovery-transport/CP35_FINAL_RECOVERY_CAPSULE.zip
-          mkdir recovery restore
-          unzip -q recovery-transport/CP35_FINAL_RECOVERY_CAPSULE.zip -d recovery
           python - <<'PY'
-          import hashlib,json
+          import gzip,hashlib,json
           from pathlib import Path
-          root=Path('recovery')
-          expected=json.loads((root/'SHA256SUMS.json').read_text())
-          bad={name for name,digest in expected.items() if hashlib.sha256((root/name).read_bytes()).hexdigest()!=digest}
-          if bad: raise SystemExit(f'recovery capsule byte mismatch: {sorted(bad)}')
-          manifest=json.loads((root/'RECOVERY_MANIFEST.json').read_text())
-          assert manifest['source_sha']=='92e49047941c09f18a306a9b2998f101c62e6ffe'
-          assert manifest['source_tree']=='8625bd6053c256456f67185d60e0bb95f9bc574e'
-          assert manifest['uat_mutated'] is False
-          Path('cutting-bridge-proof/RECOVERY_CAPSULE_REUSE.json').write_text(json.dumps({'status':'PASS','files':len(expected),'manifest':manifest},indent=2)+'\n')
+          fixture=Path('supabase/tests/fixtures/erp_enteng_pre_cp3_schema_ledger.sql.gz')
+          manifest=json.loads(Path('supabase/tests/fixtures/erp_enteng_pre_cp3_schema_ledger.manifest.json').read_text())
+          packed=fixture.read_bytes(); sql=gzip.decompress(packed)
+          digest=lambda b:hashlib.sha256(b).hexdigest()
+          assert manifest['format']=='ERP_ENTENG_PRE_CP3_SCHEMA_LEDGER_BOOTSTRAP_V1'
+          assert manifest['source_project_ref']=='siimvrusnzxexizpyoib'
+          assert manifest['source_kind']=='SUPABASE_PLATFORM_LEDGER_SCHEMA_SOURCE_ONLY'
+          assert manifest['contains_business_rows'] is False
+          assert manifest['contains_credentials'] is False
+          assert manifest['first_version']=='20260826112217'
+          assert manifest['last_version']=='20260831032949'
+          assert manifest['executable_migration_count']==48
+          assert manifest['platform_marker_count']==7
+          assert manifest['expected_platform_count']==55
+          assert len(packed)==manifest['gzip_bytes'] and digest(packed)==manifest['gzip_sha256']
+          assert len(sql)==manifest['sql_bytes'] and digest(sql)==manifest['sql_sha256']
+          assert len(manifest['migrations'])==48 and len(manifest['platform_markers'])==7
+          Path('cutting-bridge-proof/PRE_CP3_LEDGER_BOOTSTRAP_VERIFICATION.json').write_text(json.dumps({
+            'status':'PASS','source_kind':manifest['source_kind'],
+            'contains_business_rows':False,'contains_credentials':False,
+            'executable_migrations':48,'platform_markers':7,
+            'sql_sha256':manifest['sql_sha256'],'gzip_sha256':manifest['gzip_sha256'],
+          },indent=2)+'\n')
           PY
-          unzip -q recovery/ERP_ENTENG_CP2_RAW_BASELINE.zip -d restore
-          shred -u recovery-transport/passphrase.tmp "$keyfile" 2>/dev/null || true
 
-      - name: Render restore scripts and start free disposable local Supabase
+      - name: Start free disposable local Supabase
         shell: bash
         run: |
           set -euo pipefail
-          cp recovery/scripts/cp35_generate_catalog_restore.py /tmp/cp4_generate_catalog_restore.py
-          cp recovery/scripts/cp35_verify_local_restore.py /tmp/cp4_verify_local_restore.py
-          python /tmp/cp4_generate_catalog_restore.py | tee cutting-bridge-proof/RESTORE_GENERATOR_RESULT.json
           mkdir cp4-local
           supabase init --force --workdir cp4-local
           mkdir -p cp4-local/supabase/.temp
@@ -164,21 +140,30 @@ jobs:
           supabase start --workdir cp4-local \
             -x realtime,imgproxy,studio,postgres-meta,edge-runtime,logflare,vector,supavisor
 
-      - name: Restore the exact ERP Enteng pre-CP4 boundary
+      - name: Reconstruct the exact schema-only ERP Enteng pre-CP4 boundary
         shell: bash
         run: |
           set -euo pipefail
-          psql "$PGURL" -v ON_ERROR_STOP=1 <<'SQL'
-          create schema if not exists supabase_migrations;
-          create table if not exists supabase_migrations.schema_migrations(version text primary key);
-          alter table supabase_migrations.schema_migrations add column if not exists statements text[];
-          alter table supabase_migrations.schema_migrations add column if not exists name text;
+          gzip -dc supabase/tests/fixtures/erp_enteng_pre_cp3_schema_ledger.sql.gz \
+            | psql "$PGURL" -v ON_ERROR_STOP=1 \
+            | tee cutting-bridge-proof/PRE_CP3_SCHEMA_BOOTSTRAP.log
+          psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' | tee cutting-bridge-proof/PRE_CP3_SCHEMA_BOUNDARY.json
+          select jsonb_build_object(
+            'platform_count',(select count(*) from supabase_migrations.schema_migrations),
+            'platform_latest',(select max(version) from supabase_migrations.schema_migrations),
+            'application_count',(select count(*) from erp.schema_migrations),
+            'auth_users',(select count(*) from auth.users),
+            'app_users',(select count(*) from erp.app_users),
+            'cp3_tables',(select count(*) from information_schema.tables where table_schema='erp' and table_name in('contractor_hpp_policy_versions','sewing_terminal_events','attendance_hpp_pools'))
+          );
           SQL
-          psql "$PGURL" -v ON_ERROR_STOP=1 -f restore/catalog-schema-restore.sql
-          psql "$PGURL" -v ON_ERROR_STOP=1 -f restore/ERP_ENTENG_DATA_RESTORE.sql
-          psql "$PGURL" -v ON_ERROR_STOP=1 -f restore/platform-ledger-restore.sql
-          psql "$PGURL" -v ON_ERROR_STOP=1 -f restore/sequence-reseed.sql
-          python /tmp/cp4_verify_local_restore.py | tee cutting-bridge-proof/CP2_BASELINE_RESTORE.log
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          x=json.loads(Path('cutting-bridge-proof/PRE_CP3_SCHEMA_BOUNDARY.json').read_text())
+          expected={'platform_count':55,'platform_latest':'20260831032949','application_count':40,'auth_users':0,'app_users':0,'cp3_tables':0}
+          assert x==expected,(x,expected)
+          PY
           echo '5f295958f019111674af3e079eb1bbe4bbf445e6ae35b32c8f3d94bfbad04ec6  supabase/migrations/20260901161322_erp_v2_6_15_payroll_component_entitlement.sql' | sha256sum -c -
           python - <<'PY'
           from pathlib import Path
@@ -828,21 +813,13 @@ jobs:
           SQL
           test "$(python -c "import json;print(json.load(open('cutting-bridge-proof/CP4_ROLLBACK_RESIDUE.json'))['status'])")" = 'PASS'
 
-      - name: Restore baseline data and prove zero synthetic residue
+      - name: Prove zero synthetic residue on the schema-only baseline
         shell: bash
         run: |
           set -euo pipefail
-          # The baseline data restore intentionally truncates every ERP table,
-          # including the application ledger. Preserve the four CP3 markers:
-          # CP4 rollback removes only CP4, not the already-applied CP3 schema.
-          psql "$PGURL" -v ON_ERROR_STOP=1 <<'SQL'
-          create temp table cp4_saved_cp3_application_markers on commit preserve rows
-          as select * from erp.schema_migrations where version like 'v2.6.14%';
-          \i restore/ERP_ENTENG_DATA_RESTORE.sql
-          insert into erp.schema_migrations
-          select * from cp4_saved_cp3_application_markers
-          on conflict(version) do nothing;
-          SQL
+          # Every acceptance fixture is transactional or explicitly cleaned.
+          # The ledger bootstrap contains schema/config seeds only, so no data
+          # restore is needed to distinguish baseline rows from test residue.
           psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' | tee cutting-bridge-proof/FINAL_RECONCILIATION.json
           select jsonb_build_object(
             'status',case when
@@ -898,10 +875,9 @@ jobs:
           if-no-files-found: warn
           retention-days: 30
 
-      - name: Destroy disposable stack and recovery material
+      - name: Destroy disposable stack
         if: always()
         shell: bash
         run: |
           supabase stop --workdir cp4-local --no-backup 2>/dev/null || true
-          find recovery recovery-transport -type f \( -name '*.zip' -o -name '*.zip.enc' -o -name '*KEY*.txt' -o -name '*passphrase*' \) -exec shred -u {} + 2>/dev/null || true
-          rm -rf cp4-local recovery restore recovery-transport /tmp/v2615-byte-bound-body.sql
+          rm -rf cp4-local /tmp/v2615-byte-bound-body.sql
