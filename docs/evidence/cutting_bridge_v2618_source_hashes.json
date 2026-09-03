@@ -1,0 +1,167 @@
+{
+  "format": "CUTTING_BRIDGE_V2618_SOURCE_HASHES_V1",
+  "candidate_branch": "pre-cp5/cutting-persistence-pickup-wip-r1-20260903",
+  "source_base_sha": "d5c48ce5c8daa7e6da92dc9d690d9b36879e74c1",
+  "source_base_tree": "70f7bf3c0265520eac5aafff747f448ed8be3e6b",
+  "generation_parent_sha": "94136eb34e86990a0b20c70ca2ea5ad03064f02a",
+  "target_project_ref": "siimvrusnzxexizpyoib",
+  "target_environment": "ERP Enteng UAT",
+  "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
+  "migration_version": "20260903022604",
+  "migration_name": "erp_v2_6_18_cutting_persistence_pickup_wip",
+  "application_version": "v2.6.18",
+  "scope": "PRE_CP5_CUTTING_PERSISTENCE_PICKUP_WIP_BRIDGE",
+  "cp5_scope": "BS_RESOLUTION_NOT_STARTED",
+  "closure_status": "NO_GO_PENDING_EXACT_HEAD_CI_UAT_AND_INDEPENDENT_AUDIT",
+  "source_only": true,
+  "uat_applied": false,
+  "uat_applied_at": null,
+  "legacy_mutated": false,
+  "production_go": false,
+  "ci_runtime": {
+    "status": "PENDING"
+  },
+  "hosted_auth_permission_e2e": {
+    "status": "PENDING",
+    "mode": "MANUAL_HOSTED_UAT_VERIFIED",
+    "classified_as_ci": false,
+    "github_service_role_secret_used": false
+  },
+  "truth_boundary": {
+    "cutting_final_save": "UAT_RPC_CONNECTED",
+    "pickup_distribution": "UAT_RPC_CONNECTED",
+    "wip_control": "UAT_RPC_CONNECTED",
+    "pickup_pattern_filter": "SERVER_SIDE_PATTERN_ID",
+    "wip_pattern_filter": "SERVER_SIDE_PATTERN_ID",
+    "laundry_pattern_filter": "SIMULATION_ONLY",
+    "qc_pattern_filter": "SIMULATION_ONLY"
+  },
+  "hygiene": {
+    "branch_protection_status_enforcement": false,
+    "severity": "P3",
+    "cloudflare_dry_run_environment": "uat-auth",
+    "production_deploy_authorized": false
+  },
+  "files": {
+    ".github/workflows/ci.yml": {
+      "bytes": 1583,
+      "sha256": "da0e0af5fadd78b5a616ed909e00a102aab12420e45c6806dbe706db17951d43"
+    },
+    ".github/workflows/cutting-bridge-full-schema-validation.yml": {
+      "bytes": 55693,
+      "sha256": "983c739f599adcd59d6889b8e4975e713e5bfa8f56d2fe6ec11faeffec8c1d6d"
+    },
+    "package.json": {
+      "bytes": 2731,
+      "sha256": "79a7ae5d43ed1caa2226cbc4ec42e36875374a199f87b025c1bd3ba490466ecf"
+    },
+    "scripts/check-backend-ownership-v3.mjs": {
+      "bytes": 11409,
+      "sha256": "5498650bd3839bb8f4c97f35a4e5c86771d053f5cf4e475e2f4000fe8c17547a"
+    },
+    "scripts/check-source-ownership.mjs": {
+      "bytes": 4363,
+      "sha256": "5baa5314cff26bc996c96610bfbc2ec2cafc64f890ecf16b43073af56529c591"
+    },
+    "scripts/cutting_bridge_auth_e2e.mjs": {
+      "bytes": 8100,
+      "sha256": "f3790e3aaa5c5aae10244d4ff5531ba07285715ba22681aeee1fe1eea94bd36d"
+    },
+    "scripts/render-cutting-bridge-source-hashes.mjs": {
+      "bytes": 4630,
+      "sha256": "5f1491820e21241594efea383925321969ee7eb3c95aeed6edbf2b9e5d947eed"
+    },
+    "src/App.tsx": {
+      "bytes": 213701,
+      "sha256": "96392f8a3c7177ffee14a27ec4d52ab243ac4979b003edd064852f42a04730ad"
+    },
+    "src/ConnectedCuttingPage.tsx": {
+      "bytes": 19906,
+      "sha256": "e6df41c90c6790fa462fc9dd22df1d854ee8114fd420ac941001568e31b29ecd"
+    },
+    "src/ConnectedPatternFilter.tsx": {
+      "bytes": 3019,
+      "sha256": "e8702b96aead7dc0ec379cd5f25b14e8daebc57dec414a2f94c08693f4e65899"
+    },
+    "src/ConnectedPickupPage.tsx": {
+      "bytes": 18007,
+      "sha256": "fc4011e4d3cdbec1b2fb68ed6ad2f48420c94b7d1befe1df5df63a68f44144bd"
+    },
+    "src/ConnectedWipStatusPage.tsx": {
+      "bytes": 11543,
+      "sha256": "c52d048b4f6e99e2e5ad15ea4a12919b119781b1d996a4e69817d4158632894a"
+    },
+    "src/QcFinalPage.tsx": {
+      "bytes": 27992,
+      "sha256": "be22da25b065ac1738fcec8d5ee48b5ce3f808b40b4a45edf3a3fa118bc22ec7"
+    },
+    "src/auth/AuthFlow.dom.test.tsx": {
+      "bytes": 6677,
+      "sha256": "55ab227191f6715f8a5b854701890acf6a82d039ccaa81966d21e189aeecdc91"
+    },
+    "src/auth/AuthProvider.lifecycle.test.tsx": {
+      "bytes": 13684,
+      "sha256": "a514ace5e50039da11b89f65c7558d51595e164f0fd6e7aafbacb8902d604d5f"
+    },
+    "src/config/runtime.test.ts": {
+      "bytes": 3719,
+      "sha256": "88f496b20aa85668dee25fa14616a638d90ce1482f60cfa1536f95da859e611a"
+    },
+    "src/config/runtime.ts": {
+      "bytes": 6775,
+      "sha256": "4652347b5bd38d6e37b3a82eb5d51b548bd12cefd9a918a66dff94c89a89c14d"
+    },
+    "src/connected-cutting.css": {
+      "bytes": 5575,
+      "sha256": "55f496153c34fafa97acdff16c8912c079af198f2211f3d9a31ee1d9ed12ce5e"
+    },
+    "src/connected-pattern-filter.css": {
+      "bytes": 1173,
+      "sha256": "8ea6af0ba0e34e69382aab7bd7ffd879d43cd83da77c7c42a265c01c570b1310"
+    },
+    "src/connected-pickup.css": {
+      "bytes": 6829,
+      "sha256": "febd03e4d9fe5abd93c4396c499d8baae4b8bedcc367bdc2ef726bc9c8d9e95a"
+    },
+    "src/cutting-reminders.css": {
+      "bytes": 30840,
+      "sha256": "b586f616ae2277ab24e9835446e24b1a5b2d45586820da7350d837f7a4498066"
+    },
+    "src/cuttingPersistence.test.ts": {
+      "bytes": 8256,
+      "sha256": "85911b70bd56975e093e7ba8183c985ddd9df2f67b472f7de989a4f6a8bdb127"
+    },
+    "src/cuttingPersistence.ts": {
+      "bytes": 20914,
+      "sha256": "7fd56f02b87cbe18d75807e951fa19d90ac95a496c4faefc49aba76cf51cfa3b"
+    },
+    "src/finalization-flow.css": {
+      "bytes": 28524,
+      "sha256": "527a9c46ef1b36d6d706ebf6b93afe1eb886ba8b739495847f2ffe9bdcbda4f9"
+    },
+    "src/laundry.css": {
+      "bytes": 49020,
+      "sha256": "dd874e2a13892b293b8a7f7dc47b661c9b856e47952d9e7d9d8035f6b94e5ce4"
+    },
+    "src/types/database.preconnect.ts": {
+      "bytes": 3533,
+      "sha256": "48377f384a851b81fd04b75a623860f60dcac61f58e2ff74f6d4ca1db1041322"
+    },
+    "supabase/migrations/20260903022604_erp_v2_6_18_cutting_persistence_pickup_wip.sql": {
+      "bytes": 79184,
+      "sha256": "8e438d77aa35500b65b16ae0ce2c85d3a0cc11382a94fe2905e7b1070a5b2bf6"
+    },
+    "supabase/rollbacks/20260903022604_erp_v2_6_18_cutting_persistence_pickup_wip.rollback.sql": {
+      "bytes": 15726,
+      "sha256": "ce627dd13c3581c367c3a6294cde43a277ceade8d91cc46474e800a70916ddf4"
+    },
+    "supabase/tests/cutting_bridge_persistence_pickup_wip_rollback.sql": {
+      "bytes": 19168,
+      "sha256": "292fdeba8d9ef9742f281614df1b81b4187c2be6d3375218507b9a11d648f7e9"
+    },
+    "tests/browser/cutting-bridge.spec.ts": {
+      "bytes": 3232,
+      "sha256": "f21472f770267425f8493fdb1ba791433737edb87551aff4046c91d855190851"
+    }
+  }
+}
