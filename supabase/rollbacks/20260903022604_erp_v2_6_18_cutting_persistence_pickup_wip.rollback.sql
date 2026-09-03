@@ -15,15 +15,26 @@ declare
   v_save_def text;
   v_post_def text;
   v_wip_def text;
+  v_pattern_def text;
 begin
   if not exists(select 1 from erp.schema_migrations where version='v2.6.17a')
      or not exists(select 1 from erp.schema_migrations where version='v2.6.18') then
     raise exception 'v2.6.18 rollback refused: required application markers are absent';
   end if;
+  if exists(select 1 from erp.schema_migrations where version in('v2.6.18a','v2.6.19'))
+     or to_regclass('erp.cutting_bridge_v2618a_rollback_capsule') is not null
+     or to_regclass('erp.cutting_bridge_execution_context') is not null
+     or to_regclass('erp.bs_resolution_execution_context') is not null
+     or to_regprocedure('public.erp_save_bs_resolution_action_v1(text,jsonb,uuid,bigint)') is not null then
+    raise exception 'v2.6.18 rollback refused: rollback CP5/v2.6.19 and v2.6.18a first';
+  end if;
   if to_regclass('erp.cutting_bridge_v2618_rollback_capsule') is null
      or (select count(*) from erp.cutting_bridge_v2618_rollback_capsule where object_kind='FUNCTION')<>8
-     or (select count(*) from erp.cutting_bridge_v2618_rollback_capsule where object_kind='RELATION')<>9 then
-    raise exception 'v2.6.18 rollback refused: exact 8-function/9-relation capsule is missing';
+     or (select count(*) from erp.cutting_bridge_v2618_rollback_capsule where object_kind='RELATION')<>9
+     or (select relrowsecurity from pg_class where oid='erp.cutting_bridge_v2618_rollback_capsule'::regclass)
+     or to_regclass('erp.idx_material_stock_location_roll') is null
+     or to_regclass('erp.idx_material_stock_roll_location') is not null then
+    raise exception 'v2.6.18 rollback refused: exact recorded 8-function/9-relation capsule is missing';
   end if;
 
   select string_agg(object_identity,',' order by object_identity) into v_capsule_bad
@@ -59,11 +70,15 @@ begin
     into v_post_def;
   select pg_get_functiondef('erp.get_wip_control_v1(text,uuid,text,text)'::regprocedure)
     into v_wip_def;
+  select pg_get_functiondef('erp.list_patterns_v1(text,text,integer,integer)'::regprocedure)
+    into v_pattern_def;
   if v_save_def not like '%CUTTING_ROLL_USAGE_MUST_RECONCILE_ISSUED_CONSUMED_AND_REMAINING%'
      or v_save_def not like '%production.cutting.post%'
      or v_post_def not like '%INSUFFICIENT_ROLL_STOCK%'
      or v_post_def not like '%pg_advisory_xact_lock%'
-     or v_wip_def not like '%cutting_distribution_allocations%' then
+     or v_wip_def not like '%cutting_distribution_allocations%'
+     or md5(v_pattern_def)<>'feff17283c331b4883b208227bc99079'
+     or v_post_def like '%cutting_bridge_execution_context%' then
     raise exception 'v2.6.18 rollback refused: installed source drifted after apply';
   end if;
 
@@ -262,6 +277,8 @@ begin
        is distinct from '4fb3ff74878223f225f43a62a8d3abc3'
      or md5(pg_get_functiondef('erp.get_wip_control_v1(text,uuid,text,text)'::regprocedure))
        is distinct from '39d0d7d26688baecb07084037cc89787'
+     or md5(pg_get_functiondef('erp.list_patterns_v1(text,text,integer,integer)'::regprocedure))
+       is distinct from 'feff17283c331b4883b208227bc99079'
      or md5(pg_get_functiondef('erp.require_owner_admin()'::regprocedure))
        is distinct from '965de305e5a381cfdf5588f2b9d4babc' then
     raise exception 'v2.6.18 rollback failed to restore the exact CP4.5/CP4 runtime boundary';
@@ -274,6 +291,8 @@ begin
      or to_regprocedure('public.erp_save_cutting_group_before_sewing_v2(jsonb,uuid,bigint)') is not null
      or to_regprocedure('public.erp_get_cutting_pickup_queue_v1(text,uuid,text,integer,integer)') is not null
      or to_regprocedure('public.erp_save_cutting_pickup_v1(jsonb,uuid,bigint)') is not null
+     or to_regclass('erp.idx_material_stock_location_roll') is not null
+     or to_regclass('erp.idx_material_stock_roll_location') is not null
      or exists(
        select 1 from information_schema.columns
        where table_schema='erp' and table_name='cutting_groups' and column_name='source_location_id'

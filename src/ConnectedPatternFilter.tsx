@@ -26,24 +26,28 @@ export default function ConnectedPatternFilter({ value, onChange, label = 'FILTE
     let cancelled = false
     const timer = globalThis.setTimeout(() => {
       setLoading(true)
-      void client.rpc('erp_list_patterns_v1', {
-        p_status: 'ALL', p_query: query.trim() || null, p_limit: 50, p_offset: 0,
-      }).then(({ data, error: loadError }) => {
-        if (cancelled) return
-        if (loadError) setError(normalizeClientError(loadError).message)
-        else {
-          try {
-            const parsed = parsePatternRows(data)
-            setRows(parsed)
-            const match = parsed.find((row) => row.id === value)
-            if (match) setSelected(match)
-            setError('')
-          } catch (parseError) {
-            setError(parseError instanceof Error ? parseError.message : String(parseError))
+      setError('')
+      const fetchPatterns = async () => {
+        try {
+          const { data, error: loadError } = await client.rpc('erp_list_patterns_v1', {
+            p_status: 'ALL', p_query: query.trim() || null, p_limit: 50, p_offset: 0,
+          })
+          if (cancelled) return
+          if (loadError) {
+            setError(normalizeClientError(loadError).message)
+            return
           }
+          const parsed = parsePatternRows(data)
+          setRows(parsed)
+          const match = parsed.find((row) => row.id === value)
+          setSelected((current) => match ?? (current?.id === value ? current : null))
+        } catch (loadFailure) {
+          if (!cancelled) setError(normalizeClientError(loadFailure).message)
+        } finally {
+          if (!cancelled) setLoading(false)
         }
-        setLoading(false)
-      })
+      }
+      void fetchPatterns()
     }, 180)
     return () => { cancelled = true; globalThis.clearTimeout(timer) }
   }, [client, query, value])

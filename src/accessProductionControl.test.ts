@@ -54,6 +54,11 @@ describe('connected access, Pola, and WIP response boundaries', () => {
         laundry_in_transit_qty_pcs: 10, unresolved_laundry_issue_qty_pcs: 2,
         pending_final_sku_handoff_qty_pcs: 4, remaining_final_sku_qty_pcs: 40,
         open_bs_count: 1, open_rework_count: 0, open_flag_count: 1, open_flags: [], row_version: 1,
+        distribution: {
+          pickup_id: 'pickup-1', contractor_id: 'contractor-1', contractor_name: 'Mandor A',
+          picked_up_at: '2026-09-03T08:00:00Z', allocation_mode: 'SIZE',
+          batches: [{ id: 'batch-1', batch_no: 1, notes: 'Navy', qty_pcs: 100, sizes: [{ size_code: 'M', qty_pcs: 100 }] }],
+        },
       }],
     })
     expect(response.rows[0].control_status).toBe('ACTIVE')
@@ -61,5 +66,13 @@ describe('connected access, Pola, and WIP response boundaries', () => {
       'Siap tapi belum dikirim', 'Di perjalanan/Laundry', 'Stuck/Missing',
       'Menunggu handoff QC', 'Belum Final SKU', 'BS terbuka', 'Tindakan operator',
     ])
+    expect(response.rows[0].distribution?.batches[0]).toMatchObject({ batch_no: 1, qty_pcs: 100 })
+  })
+
+  it('rejects malformed persisted Batch Distribusi instead of inventing WIP lineage', () => {
+    expect(() => parseWipResponse({
+      filter: 'ACTIVE', sort: 'PATTERN', pattern_id: null,
+      rows: [{ cutting_group_id: 'group-1', control_status: 'ACTIVE', distribution: { pickup_id: 'pickup-1', batches: [{ batch_no: 0 }] } }],
+    })).toThrow(/pickup WIP|Batch Distribusi/)
   })
 })

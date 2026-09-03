@@ -34,6 +34,7 @@ describe('parseRuntimeConfig', () => {
       cuttingMode: 'SIMULATION',
       distributionMode: 'SIMULATION',
       wipStatusMode: 'SIMULATION',
+      bsResolutionMode: 'SIMULATION',
     })
   })
 
@@ -63,6 +64,7 @@ describe('parseRuntimeConfig', () => {
       cuttingMode: 'CONNECTED',
       distributionMode: 'CONNECTED',
       wipStatusMode: 'CONNECTED',
+      bsResolutionMode: 'CONNECTED',
     })
   })
 

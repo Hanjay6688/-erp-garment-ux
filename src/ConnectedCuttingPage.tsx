@@ -45,6 +45,11 @@ function rollFromDraft(draft: CuttingDraft, rollId: string): CuttingWorkspaceRol
   }
 }
 
+function sizesForOrder(workspace: CuttingWorkspace | null, orderId: string) {
+  const modelId = workspace?.orders.find((order) => order.id === orderId)?.model_id
+  return modelId ? workspace?.sizes.filter((size) => size.model_ids.includes(modelId)) ?? [] : []
+}
+
 export default function ConnectedCuttingPage() {
   const { runtime, identity } = useAuth()
   if (runtime.mode !== 'UAT_AUTH_SIMULATION') throw new Error('ConnectedCuttingPage hanya untuk ERP Enteng UAT.')
@@ -55,6 +60,7 @@ export default function ConnectedCuttingPage() {
   const [workspace, setWorkspace] = useState<CuttingWorkspace | null>(null)
   const [locationId, setLocationId] = useState('')
   const [rollQuery, setRollQuery] = useState('')
+  const [rollOffset, setRollOffset] = useState(0)
   const [orderId, setOrderId] = useState('')
   const [pattern, setPattern] = useState<CuttingPatternChoice | null>(null)
   const [cutAt, setCutAt] = useState(() => datetimeLocal(new Date()))
@@ -69,41 +75,54 @@ export default function ConnectedCuttingPage() {
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
   const requestRef = useRef<{ fingerprint: string; id: string }>({ fingerprint: '', id: '' })
+  const savingRef = useRef(false)
+  const loadRequestRef = useRef(0)
+  const viewRef = useRef({ locationId, rollQuery })
+  viewRef.current = { locationId, rollQuery }
 
-  const load = useCallback(async (nextLocation: string | null, nextQuery: string) => {
+  const load = useCallback(async (nextLocation: string | null, nextQuery = rollQuery, nextOffset = rollOffset) => {
+    const requestId = ++loadRequestRef.current
     setLoading(true)
     setError('')
-    const { data, error: loadError } = await client.rpc('erp_get_cutting_workspace_v1', {
-      p_roll_query: nextQuery.trim() || null,
-      p_location_id: nextLocation || null,
-      p_limit: 100,
-      p_offset: 0,
-    })
-    if (loadError) setError(normalizeClientError(loadError).message)
-    else {
+    try {
+      const { data, error: loadError } = await client.rpc('erp_get_cutting_workspace_v1', {
+        p_roll_query: nextQuery.trim() || null,
+        p_location_id: nextLocation || null,
+        p_limit: 100,
+        p_offset: nextOffset,
+      })
+      if (requestId !== loadRequestRef.current) return
+      if (loadError) {
+        setError(normalizeClientError(loadError).message)
+        return
+      }
       try {
         const parsed = parseCuttingWorkspace(data)
         setWorkspace(parsed)
-        if (!nextLocation && parsed.locations[0]) setLocationId((current) => current || parsed.locations[0].id)
-        setOrderId((current) => current || parsed.orders[0]?.id || '')
-        setSlots((current) => current.length > 0 ? current : parsed.sizes
-          .filter((size) => parsed.orders[0] && size.model_ids.includes(parsed.orders[0].model_id))
-          .slice(0, 3)
-          .map((size) => ({ key: globalThis.crypto.randomUUID(), sizeId: size.id, sizeCode: size.code })))
+        setRollOffset(parsed.offset)
+        if (!nextLocation && parsed.locations[0]) setLocationId(parsed.locations[0].id)
+        const nextOrderId = orderId || parsed.orders[0]?.id || ''
+        if (!orderId && nextOrderId) setOrderId(nextOrderId)
+        const initialSizes = sizesForOrder(parsed, nextOrderId)
+        if (slots.length === 0 && initialSizes.length > 0) {
+          setSlots(initialSizes.slice(0, 3).map((size) => ({ key: globalThis.crypto.randomUUID(), sizeId: size.id, sizeCode: size.code })))
+        }
       } catch (parseError) {
         setError(parseError instanceof Error ? parseError.message : String(parseError))
       }
+    } catch (loadFailure) {
+      if (requestId === loadRequestRef.current) setError(normalizeClientError(loadFailure).message)
+    } finally {
+      if (requestId === loadRequestRef.current) setLoading(false)
     }
-    setLoading(false)
-  }, [client])
+  }, [client, orderId, rollOffset, rollQuery, slots.length])
 
-  useEffect(() => { void load(null, '') }, [load])
-  useEffect(() => { if (locationId) void load(locationId, '') }, [load, locationId])
+  useEffect(() => { void load(null, '', 0) }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => { if (locationId) { setRollOffset(0); void load(locationId, rollQuery, 0) } }, [locationId]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const selected = Object.values(selectedRolls)
-  const selectedOrder = workspace?.orders.find((order) => order.id === orderId)
-  const availableSizes = workspace?.sizes.filter((size) => selectedOrder && size.model_ids.includes(selectedOrder.model_id)) ?? []
   const selectedIds = new Set(Object.keys(selectedRolls))
+  const availableSizes = sizesForOrder(workspace, orderId)
   const totalIssued = selected.reduce((sum, item) => sum + item.issued, 0)
   const totalConsumed = selected.reduce((sum, item) => sum + numeric(item.consumed), 0)
   const totalRemaining = selected.reduce((sum, item) => sum + Math.max(0, item.issued - numeric(item.consumed)), 0)
@@ -126,6 +145,18 @@ export default function ConnectedCuttingPage() {
     setNotice('Form baru siap. Belum ada data backend yang ditulis.')
   }
 
+  const changeOrder = (nextOrderId: string) => {
+    setOrderId(nextOrderId)
+    const nextSizes = sizesForOrder(workspace, nextOrderId)
+    setSlots(nextSizes.slice(0, 3).map((size) => ({
+      key: globalThis.crypto.randomUUID(), sizeId: size.id, sizeCode: size.code,
+    })))
+    setSelectedRolls({})
+    setYields({})
+    requestRef.current = { fingerprint: '', id: '' }
+    if (selected.length > 0) setNotice('Pilihan roll dikosongkan karena Production Order berubah.')
+  }
+
   const toggleSize = (sizeId: string, sizeCode: string) => {
     const existing = slots.find((slot) => slot.sizeId === sizeId)
     if (existing) {
@@ -139,15 +170,6 @@ export default function ConnectedCuttingPage() {
       return
     }
     setSlots((current) => [...current, { key: globalThis.crypto.randomUUID(), sizeId, sizeCode }])
-  }
-
-  const changeOrder = (nextOrderId: string) => {
-    const modelId = workspace?.orders.find((order) => order.id === nextOrderId)?.model_id
-    const nextSlots = (workspace?.sizes ?? []).filter((size) => modelId && size.model_ids.includes(modelId)).slice(0, 3)
-      .map((size) => ({ key: globalThis.crypto.randomUUID(), sizeId: size.id, sizeCode: size.code }))
-    setOrderId(nextOrderId)
-    setSlots(nextSlots)
-    setYields(Object.fromEntries(selected.map((item) => [item.roll.id, Object.fromEntries(nextSlots.map((slot) => [slot.key, '0']))])))
   }
 
   const toggleRoll = (roll: CuttingWorkspaceRoll) => {
@@ -185,7 +207,7 @@ export default function ConnectedCuttingPage() {
     } : null)
     setCutAt(datetimeLocal(draft.cut_at))
     setNotes(draft.notes ?? '')
-    setSlots(nextSlots.length > 0 ? nextSlots : (workspace?.sizes.slice(0, 3).map((size) => ({ key: globalThis.crypto.randomUUID(), sizeId: size.id, sizeCode: size.code })) ?? []))
+    setSlots(nextSlots.length > 0 ? nextSlots : sizesForOrder(workspace, draft.po_id).slice(0, 3).map((size) => ({ key: globalThis.crypto.randomUUID(), sizeId: size.id, sizeCode: size.code })))
     setSelectedRolls(nextRolls)
     setYields(nextYields)
     requestRef.current = { fingerprint: '', id: '' }
@@ -216,53 +238,66 @@ export default function ConnectedCuttingPage() {
   })
 
   const save = async (action: 'SAVE_DRAFT' | 'POST') => {
-    if (!formValid || saving || (draftId ? !canEdit : !canCreate) || (action === 'POST' && !canPost)) return
+    if (!formValid || savingRef.current || (draftId ? !canEdit : !canCreate) || (action === 'POST' && !canPost)) return
+    savingRef.current = true
     setSaving(true)
     setError('')
     setNotice('')
-    const nextPayload = payload(action)
-    const fingerprint = JSON.stringify({ payload: nextPayload, expected: draftVersion })
-    if (requestRef.current.fingerprint !== fingerprint) {
-      requestRef.current = { fingerprint, id: globalThis.crypto.randomUUID() }
-    }
-    const { data, error: saveError } = await client.rpc('erp_save_cutting_group_before_sewing_v2', {
-      p_payload: nextPayload,
-      p_client_request_id: requestRef.current.id,
-      p_expected_version: draftVersion,
-    })
-    if (saveError) setError(normalizeClientError(saveError).message)
-    else {
-      try {
-        const result = parseCuttingSaveResult(data)
-        const successNotice = result.material_issue_posted
-          ? `${result.group_number} terposting · ${result.total_pieces} pcs masuk antrean Bagi Potongan.`
-          : `${result.group_number} tersimpan sebagai draft backend · row version ${result.row_version}.`
-        if (!result.material_issue_posted) {
-          setDraftId(result.cutting_group_id)
-          setDraftVersion(result.row_version)
-        }
-        await load(locationId, rollQuery)
-        if (result.material_issue_posted) resetForm()
-        setNotice(successNotice)
-      } catch (parseError) {
-        setError(parseError instanceof Error ? parseError.message : String(parseError))
+    try {
+      const nextPayload = payload(action)
+      const fingerprint = JSON.stringify({ payload: nextPayload, expected: draftVersion })
+      if (requestRef.current.fingerprint !== fingerprint) {
+        requestRef.current = { fingerprint, id: globalThis.crypto.randomUUID() }
       }
+      const { data, error: saveError } = await client.rpc('erp_save_cutting_group_before_sewing_v2', {
+        p_payload: nextPayload,
+        p_client_request_id: requestRef.current.id,
+        p_expected_version: draftVersion,
+      })
+      if (saveError) throw normalizeClientError(saveError)
+      const result = parseCuttingSaveResult(data)
+      const successNotice = result.material_issue_posted
+        ? `${result.group_number} terposting · ${result.total_pieces} pcs masuk antrean Bagi Potongan.`
+        : `${result.group_number} tersimpan sebagai draft backend · row version ${result.row_version}.`
+      if (!result.material_issue_posted) {
+        setDraftId(result.cutting_group_id)
+        setDraftVersion(result.row_version)
+      }
+      const currentView = viewRef.current
+      await load(currentView.locationId || null, currentView.rollQuery, 0)
+      if (result.material_issue_posted) resetForm()
+      setNotice(successNotice)
+    } catch (saveFailure) {
+      setError(saveFailure instanceof Error ? saveFailure.message : normalizeClientError(saveFailure).message)
+    } finally {
+      savingRef.current = false
+      setSaving(false)
     }
-    setSaving(false)
   }
 
   const removeDraft = async () => {
-    if (!draftId || draftVersion === null || !canEdit || saving) return
+    if (!draftId || draftVersion === null || !canEdit || savingRef.current) return
     if (!globalThis.confirm('Hapus draft Potongan ini? Hanya draft yang belum diposting yang dapat dihapus.')) return
+    savingRef.current = true
     setSaving(true)
-    const { error: deleteError } = await client.rpc('erp_save_cutting_group_before_sewing_v2', {
-      p_payload: { id: draftId, action: 'DELETE', change_reason: 'Hapus draft Potongan dari workspace connected' },
-      p_client_request_id: globalThis.crypto.randomUUID(),
-      p_expected_version: draftVersion,
-    })
-    if (deleteError) setError(normalizeClientError(deleteError).message)
-    else { resetForm(); await load(locationId, rollQuery) }
-    setSaving(false)
+    setError('')
+    setNotice('')
+    try {
+      const { error: deleteError } = await client.rpc('erp_save_cutting_group_before_sewing_v2', {
+        p_payload: { id: draftId, action: 'DELETE', change_reason: 'Hapus draft Potongan dari workspace connected' },
+        p_client_request_id: globalThis.crypto.randomUUID(),
+        p_expected_version: draftVersion,
+      })
+      if (deleteError) throw normalizeClientError(deleteError)
+      resetForm()
+      const currentView = viewRef.current
+      await load(currentView.locationId || null, currentView.rollQuery, 0)
+    } catch (deleteFailure) {
+      setError(deleteFailure instanceof Error ? deleteFailure.message : normalizeClientError(deleteFailure).message)
+    } finally {
+      savingRef.current = false
+      setSaving(false)
+    }
   }
 
   return <section className="connected-cutting-page">
@@ -275,11 +310,11 @@ export default function ConnectedCuttingPage() {
       <aside className="ccut-drafts"><header><div><span>DRAFT BACKEND</span><strong>{workspace?.drafts.length ?? 0} Potongan</strong></div><button onClick={resetForm}>Baru</button></header>{workspace?.drafts.map((draft) => <button key={draft.cutting_group_id} className={draftId === draft.cutting_group_id ? 'active' : ''} onClick={() => resumeDraft(draft)}><FilePenLine/><span><strong>{draft.group_number}</strong><small>{draft.po_number} · {draft.pattern_code ? `${draft.pattern_code} ${draft.pattern_revision}` : 'Pola belum diikat'}</small></span><em>v{draft.row_version}</em></button>)}{!loading && workspace?.drafts.length === 0 && <p>Belum ada draft Potongan.</p>}</aside>
 
       <main className="ccut-form">
-        <section className="ccut-card"><header><span>01 · IDENTITAS KANONIK</span><strong>PO, Pola, waktu, dan gudang sumber</strong></header><div className="ccut-fields"><label>Production Order<select value={orderId} onChange={(event) => changeOrder(event.target.value)}><option value="">Pilih PO…</option>{workspace?.orders.map((order) => <option value={order.id} key={order.id}>{order.po_number} · {order.model_code} · {order.model_name}</option>)}</select></label><label>Waktu potong<input type="datetime-local" value={cutAt} max={datetimeLocal(new Date())} onChange={(event) => setCutAt(event.target.value)}/></label><label>Gudang bahan<select value={locationId} onChange={(event) => setLocationId(event.target.value)}><option value="">Pilih gudang…</option>{workspace?.locations.map((location) => <option value={location.id} key={location.id}>{location.code} · {location.name}</option>)}</select></label><label>Catatan<input value={notes} onChange={(event) => setNotes(event.target.value)} placeholder="Opsional"/></label></div><CuttingPatternPicker value={pattern} onChange={setPattern}/></section>
+        <section className="ccut-card"><header><span>01 · IDENTITAS KANONIK</span><strong>PO, Pola, waktu, dan gudang sumber</strong></header><div className="ccut-fields"><label>Production Order<select value={orderId} disabled={draftId !== null} onChange={(event) => changeOrder(event.target.value)}><option value="">Pilih PO…</option>{workspace?.orders.map((order) => <option value={order.id} key={order.id}>{order.po_number} · {order.model_code} · {order.model_name}</option>)}</select></label><label>Waktu potong<input type="datetime-local" value={cutAt} max={datetimeLocal(new Date())} onChange={(event) => setCutAt(event.target.value)}/></label><label>Gudang bahan<select value={locationId} onChange={(event) => { setLocationId(event.target.value); setRollOffset(0); setSelectedRolls({}); setYields({}); if (selected.length > 0) setNotice('Pilihan roll dikosongkan karena gudang bahan berubah.') }}><option value="">Pilih gudang…</option>{workspace?.locations.map((location) => <option value={location.id} key={location.id}>{location.code} · {location.name}</option>)}</select></label><label>Catatan<input value={notes} onChange={(event) => setNotes(event.target.value)} placeholder="Opsional"/></label></div><CuttingPatternPicker value={pattern} onChange={setPattern}/></section>
 
-        <section className="ccut-card"><header><span>02 · UKURAN MODEL</span><strong>Kolom hasil potong mengikuti Master Model</strong></header><div className="ccut-size-list">{availableSizes.map((size) => <button className={slots.some((slot) => slot.sizeId === size.id) ? 'active' : ''} onClick={() => toggleSize(size.id, size.code)} key={size.id}>{size.code}</button>)}</div>{selectedOrder && availableSizes.length === 0 ? <small role="alert">Model ini belum memiliki mapping size aktif di Master Model.</small> : null}</section>
+        <section className="ccut-card"><header><span>02 · UKURAN AKTIF</span><strong>Kolom hasil potong sesuai model PO</strong></header><div className="ccut-size-list">{availableSizes.map((size) => <button className={slots.some((slot) => slot.sizeId === size.id) ? 'active' : ''} onClick={() => toggleSize(size.id, size.code)} key={size.id}>{size.code}</button>)}{orderId && availableSizes.length === 0 ? <span>Model PO ini belum memiliki ukuran aktif.</span> : null}</div></section>
 
-        <section className="ccut-card"><header><span>03 · ROLL FISIK</span><strong>{workspace?.roll_total ?? 0} tersedia di lokasi</strong></header><div className="ccut-search"><Search/><input value={rollQuery} onChange={(event) => setRollQuery(event.target.value)} onKeyDown={(event) => { if (event.key === 'Enter') void load(locationId || null, rollQuery) }} placeholder="Nomor roll, bahan, supplier…"/><button onClick={() => void load(locationId || null, rollQuery)}>Cari</button></div><div className="ccut-roll-catalog">{loading ? <span><LoaderCircle className="spin"/> Memuat roll…</span> : workspace?.rolls.map((roll) => <button className={selectedIds.has(roll.id) ? 'active' : ''} onClick={() => toggleRoll(roll)} key={roll.id}><span><strong>{roll.roll_number}</strong><small>{roll.material_sku} · {roll.material_name}</small></span><em>{roll.available_qty} {roll.unit_code}</em></button>)}</div></section>
+        <section className="ccut-card"><header><span>03 · ROLL FISIK</span><strong>{workspace?.roll_total ?? 0} tersedia di lokasi</strong></header><div className="ccut-search"><Search/><input value={rollQuery} onChange={(event) => setRollQuery(event.target.value)} onKeyDown={(event) => { if (event.key === 'Enter') { setRollOffset(0); void load(locationId || null, rollQuery, 0) } }} placeholder="Nomor roll, bahan, supplier…"/><button onClick={() => { setRollOffset(0); void load(locationId || null, rollQuery, 0) }}>Cari</button></div><div className="ccut-roll-catalog">{loading ? <span><LoaderCircle className="spin"/> Memuat roll…</span> : workspace?.rolls.map((roll) => <button className={selectedIds.has(roll.id) ? 'active' : ''} onClick={() => toggleRoll(roll)} key={roll.id}><span><strong>{roll.roll_number}</strong><small>{roll.material_sku} · {roll.material_name}</small></span><em>{roll.available_qty} {roll.unit_code}</em></button>)}</div><footer className="ccut-pagination"><span>{workspace?.roll_total ? `${rollOffset + 1}–${rollOffset + workspace.rolls.length} dari ${workspace.roll_total}` : '0 roll'}</span><div><button disabled={loading || rollOffset === 0} onClick={() => void load(locationId || null, rollQuery, Math.max(0, rollOffset - 100))}>Sebelumnya</button><button disabled={loading || !workspace || rollOffset + workspace.rolls.length >= workspace.roll_total} onClick={() => void load(locationId || null, rollQuery, rollOffset + 100)}>Berikutnya</button></div></footer></section>
 
         <section className="ccut-card wide"><header><span>04 · HASIL PER ROLL & SIZE</span><strong>Angka sumber direkonsiliasi backend</strong></header>{selected.length === 0 ? <div className="ccut-empty">Pilih minimal satu roll dari gudang bahan.</div> : <div className="ccut-table-wrap"><table><thead><tr><th>Roll</th><th>Keluar</th><th>Terpakai</th><th>Sisa</th>{slots.map((slot) => <th key={slot.key}>Size {slot.sizeCode}</th>)}<th>Total pcs</th></tr></thead><tbody>{selected.map((item) => { const consumed = numeric(item.consumed); const rowPieces = slots.reduce((sum, slot) => sum + Math.max(0, Math.floor(numeric(yields[item.roll.id]?.[slot.key] ?? '0'))), 0); return <tr key={item.roll.id}><th><strong>{item.roll.roll_number}</strong><small>{item.roll.material_name}</small></th><td>{item.issued} {item.roll.unit_code}</td><td><input inputMode="decimal" value={item.consumed} onChange={(event) => setSelectedRolls((current) => ({ ...current, [item.roll.id]: { ...current[item.roll.id], consumed: event.target.value.replace(/[^0-9.,]/g, '') } }))}/></td><td className={consumed > item.issued ? 'bad' : ''}>{Math.max(0, item.issued - consumed).toFixed(2)}</td>{slots.map((slot) => <td key={slot.key}><input inputMode="numeric" value={yields[item.roll.id]?.[slot.key] ?? '0'} onFocus={(event) => event.currentTarget.select()} onChange={(event) => setYields((current) => ({ ...current, [item.roll.id]: { ...current[item.roll.id], [slot.key]: event.target.value.replace(/\D/g, '') } }))}/></td>)}<td><strong>{rowPieces}</strong></td></tr>})}</tbody></table></div>}</section>
 

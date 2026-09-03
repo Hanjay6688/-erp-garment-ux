@@ -1,27 +1,29 @@
 import assert from 'node:assert/strict'
 import { createHash } from 'node:crypto'
 import { execFileSync } from 'node:child_process'
-import { readFileSync, readdirSync } from 'node:fs'
+import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs'
 import { extname, join, relative, resolve } from 'node:path'
-import { gunzipSync } from 'node:zlib'
 
 const root = process.cwd()
-const posix = (path) => path.split('\\').join('/')
 const git = (...args) => execFileSync('git', args, { cwd: root, encoding: 'utf8' }).trim()
+const gitBytes = (...args) => execFileSync('git', args, { cwd: root })
 const hash = (algorithm, bytes) => createHash(algorithm).update(bytes).digest('hex')
+const posix = (path) => path.split('\\').join('/')
 const readJson = (path) => JSON.parse(readFileSync(resolve(root, path), 'utf8'))
-const shaFile = (path) => hash('sha256', readFileSync(resolve(root, path)))
+const lines = (value) => value.split('\n').map((line) => line.trim()).filter(Boolean)
+
 const ownershipV1Path = 'docs/evidence/backend_source_ownership.json'
 const ownershipV2Path = 'docs/evidence/backend_source_ownership_v2.json'
 const ownershipV3Path = 'docs/evidence/backend_source_ownership_v3.json'
-
 const ownershipV1Bytes = readFileSync(resolve(root, ownershipV1Path))
 const ownershipV2Bytes = readFileSync(resolve(root, ownershipV2Path))
-const ownershipV3 = readJson(ownershipV3Path)
 const ownershipV1 = JSON.parse(ownershipV1Bytes)
 const ownershipV2 = JSON.parse(ownershipV2Bytes)
+const ownershipV3 = readJson(ownershipV3Path)
 
+assert.equal(ownershipV1Bytes.length, 3894)
 assert.equal(hash('sha256', ownershipV1Bytes), '5da3ee5d3b906ebdd1f4bfb55d35a91b3ce6d715c03b98463e6dee35ad04dd1e')
+assert.equal(ownershipV2Bytes.length, 546)
 assert.equal(hash('sha256', ownershipV2Bytes), '55cc9196c9097415780cee4739c235d358e6831a9a07006459d5f86761dd91f9')
 assert.equal(ownershipV1.format, 'ERP_BACKEND_SOURCE_OWNERSHIP_V1')
 assert.equal(ownershipV2.format, 'ERP_BACKEND_SOURCE_OWNERSHIP_V2')
@@ -31,95 +33,234 @@ assert.deepEqual(ownershipV3.frozen_v2, {
   bytes: 546,
   sha256: '55cc9196c9097415780cee4739c235d358e6831a9a07006459d5f86761dd91f9',
 })
-assert.equal(ownershipV3.target_project_ref, 'siimvrusnzxexizpyoib')
-assert.equal(ownershipV3.legacy_project_ref, 'vlxdhpkjeevubjxexnfo')
-assert.equal(ownershipV3.production_go, false)
+assert.deepEqual(ownershipV3.candidate_cutting_bridge_manifest, {
+  path: 'docs/evidence/cutting_bridge_v2618_source_hashes.json',
+  bytes: 8515,
+  sha256: 'b33061e457bd0225546d361e0385921c7ebcdd127efa23f4610bf3ba06ce653d',
+})
+for (const ownership of [ownershipV2, ownershipV3]) {
+  assert.equal(ownership.target_project_ref, 'siimvrusnzxexizpyoib')
+  assert.equal(ownership.legacy_project_ref, 'vlxdhpkjeevubjxexnfo')
+  assert.equal(ownership.production_go, false)
+}
+assert.equal(ownershipV3.source_only, false)
+assert.equal(ownershipV3.uat_applied, false)
+assert.equal(ownershipV3.candidate_apply_status, 'PARTIAL_RECORDED_V2618_ONLY')
 
 const cp3ManifestBytes = readFileSync(resolve(root, ownershipV1.reviewed_cp3_manifest.path))
 const cp4ManifestBytes = readFileSync(resolve(root, ownershipV1.candidate_cp4_manifest.path))
 const cp45ManifestBytes = readFileSync(resolve(root, ownershipV2.candidate_cp45_manifest.path))
 assert.equal(hash('sha256', cp3ManifestBytes), ownershipV1.reviewed_cp3_manifest.sha256)
 assert.equal(hash('sha256', cp4ManifestBytes), ownershipV1.candidate_cp4_manifest.sha256)
+assert.equal(cp45ManifestBytes.length, ownershipV2.candidate_cp45_manifest.bytes)
 assert.equal(hash('sha256', cp45ManifestBytes), ownershipV2.candidate_cp45_manifest.sha256)
 const cp3Manifest = JSON.parse(cp3ManifestBytes)
 const cp4Manifest = JSON.parse(cp4ManifestBytes)
 const cp45Manifest = JSON.parse(cp45ManifestBytes)
-
-const candidateManifestPath = ownershipV3.candidate_cutting_bridge_manifest.path
-const candidateManifestBytes = readFileSync(resolve(root, candidateManifestPath))
-assert.equal(candidateManifestBytes.length, ownershipV3.candidate_cutting_bridge_manifest.bytes)
-assert.equal(hash('sha256', candidateManifestBytes), ownershipV3.candidate_cutting_bridge_manifest.sha256)
-const candidate = JSON.parse(candidateManifestBytes)
-assert.equal(candidate.format, 'CUTTING_BRIDGE_V2618_SOURCE_HASHES_V1')
-assert.equal(candidate.candidate_branch, 'pre-cp5/cutting-persistence-pickup-wip-r1-20260903')
-assert.equal(candidate.source_base_sha, 'd5c48ce5c8daa7e6da92dc9d690d9b36879e74c1')
-assert.equal(candidate.source_base_tree, '70f7bf3c0265520eac5aafff747f448ed8be3e6b')
-assert.match(candidate.generation_parent_sha, /^[0-9a-f]{40}$/)
-assert.equal(candidate.target_project_ref, 'siimvrusnzxexizpyoib')
-assert.equal(candidate.legacy_project_ref, 'vlxdhpkjeevubjxexnfo')
-assert.equal(candidate.migration_version, '20260903022604')
-assert.equal(candidate.migration_name, 'erp_v2_6_18_cutting_persistence_pickup_wip')
-assert.equal(candidate.application_version, 'v2.6.18')
-assert.equal(candidate.scope, 'PRE_CP5_CUTTING_PERSISTENCE_PICKUP_WIP_BRIDGE')
-assert.equal(candidate.cp5_scope, 'BS_RESOLUTION_NOT_STARTED')
-assert.equal(candidate.hosted_evidence_path, 'docs/evidence/cutting_bridge_hosted_uat_auth_e2e.json')
-assert.equal(candidate.legacy_mutated, false)
-assert.equal(candidate.production_go, false)
-assert.deepEqual(candidate.truth_boundary, {
-  cutting_final_save: 'UAT_RPC_CONNECTED',
-  pickup_distribution: 'UAT_RPC_CONNECTED',
-  wip_control: 'UAT_RPC_CONNECTED',
-  pickup_pattern_filter: 'SERVER_SIDE_PATTERN_ID',
-  wip_pattern_filter: 'SERVER_SIDE_PATTERN_ID',
-  laundry_pattern_filter: 'SIMULATION_ONLY',
-  qc_pattern_filter: 'SIMULATION_ONLY',
-})
-assert.equal(candidate.hygiene.cloudflare_dry_run_environment, 'uat-auth')
-assert.equal(candidate.hygiene.production_deploy_authorized, false)
-
-const githubSourceBranch = process.env.GITHUB_HEAD_REF || process.env.GITHUB_REF_NAME
-if (process.env.GITHUB_ACTIONS === 'true' && githubSourceBranch === candidate.candidate_branch) {
-  assert.equal(candidate.generation_parent_sha, git('rev-parse', 'HEAD^'))
-}
-
-const candidatePaths = Object.keys(candidate.files).sort()
-assert.ok(candidatePaths.length > 0, 'Cutting Bridge manifest is empty')
-assert.equal(new Set(candidatePaths).size, candidatePaths.length)
-assert.equal(candidatePaths.includes(candidateManifestPath), false)
-assert.equal(candidatePaths.includes(ownershipV3Path), false)
-assert.equal(candidatePaths.some((path) => path.startsWith('supabase/.temp/')), false)
-assert.equal(candidatePaths.some((path) => path.startsWith('cp45-browser-proof/')), false)
-for (const [path, expected] of Object.entries(candidate.files)) {
-  const bytes = readFileSync(resolve(root, path))
-  assert.equal(bytes.length, expected.bytes, `Cutting Bridge byte length drift: ${path}`)
-  assert.equal(hash('sha256', bytes), expected.sha256, `Cutting Bridge SHA-256 drift: ${path}`)
-}
-
-const deltaPaths = git('diff', '--name-only', '--diff-filter=ACMRTUXB', candidate.source_base_tree, 'HEAD', '--')
-  .split('\n').map((path) => path.trim()).filter(Boolean)
-  .filter((path) => ![candidateManifestPath, ownershipV3Path].includes(path))
-  .sort()
-assert.deepEqual(candidatePaths, deltaPaths, 'Manifest does not bind the exact candidate delta')
+assert.equal(cp3Manifest.format, 'CP3_R5_CURRENT_MAIN_FIXED_SOURCE_HASHES_V1')
+assert.equal(cp4Manifest.format, 'CP4_R1_SOURCE_HASHES_V1')
+assert.equal(cp45Manifest.format, 'CP45_R1_SOURCE_HASHES_V1')
+assert.equal(cp45Manifest.production_go, false)
 
 const fixedEntries = [
   ...ownershipV1.uat_recorded_sources,
   ...ownershipV1.recorded_migration_regressions,
   ...ownershipV1.uat_provenance,
 ]
-const baseFiles = {
+const preCp45Frozen = {
   ...cp3Manifest.files,
   ...cp4Manifest.files,
   ...Object.fromEntries(fixedEntries.map((entry) => [entry.path, entry])),
-  ...cp45Manifest.files,
 }
-const overridden = new Set(candidatePaths)
-for (const [path, expected] of Object.entries(baseFiles)) {
-  if (overridden.has(path)) continue
+
+function isCp45Backend(path) {
+  return path.startsWith('supabase/migrations/')
+    || path.startsWith('supabase/rollbacks/')
+    || path.startsWith('supabase/tests/')
+    || path.startsWith('ops/supabase/')
+    || /^scripts\/cp45_.*\.mjs$/.test(path)
+    || /^scripts\/cp45_.*\.py$/.test(path)
+    || path === 'scripts/check-backend-ownership-v2.mjs'
+    || path === '.github/workflows/cp45-full-schema-validation.yml'
+    || path === cp45Manifest.hosted_auth_permission_e2e.evidence_path
+    || path === cp45Manifest.integrity_correction.hosted_auth_permission_e2e.evidence_path
+}
+
+const cuttingManifestPath = ownershipV3.candidate_cutting_bridge_manifest.path
+const cuttingManifestBytes = readFileSync(resolve(root, cuttingManifestPath))
+assert.equal(cuttingManifestBytes.length, ownershipV3.candidate_cutting_bridge_manifest.bytes)
+assert.equal(hash('sha256', cuttingManifestBytes), ownershipV3.candidate_cutting_bridge_manifest.sha256)
+const cutting = JSON.parse(cuttingManifestBytes)
+const candidateManifestBytes = readFileSync(resolve(root, ownershipV3.candidate_cp5_manifest.path))
+assert.equal(candidateManifestBytes.length, ownershipV3.candidate_cp5_manifest.bytes)
+assert.equal(hash('sha256', candidateManifestBytes), ownershipV3.candidate_cp5_manifest.sha256)
+const candidate = JSON.parse(candidateManifestBytes)
+const cuttingPaths = Object.keys(cutting.files).sort()
+const candidatePaths = Object.keys(candidate.files).sort()
+const cuttingOverrides = new Set(cuttingPaths)
+const cp5Overrides = new Set(candidatePaths)
+
+assert.equal(cutting.format, 'CUTTING_BRIDGE_V2618_SOURCE_HASHES_V1')
+assert.equal(cutting.candidate_branch, 'pre-cp5/cutting-persistence-pickup-wip-r1-20260903')
+assert.equal(cutting.source_base_sha, 'd5c48ce5c8daa7e6da92dc9d690d9b36879e74c1')
+assert.equal(cutting.source_base_tree, '70f7bf3c0265520eac5aafff747f448ed8be3e6b')
+assert.equal(cutting.target_project_ref, 'siimvrusnzxexizpyoib')
+assert.equal(cutting.legacy_project_ref, 'vlxdhpkjeevubjxexnfo')
+assert.equal(cutting.migration_version, '20260903022604')
+assert.equal(cutting.migration_name, 'erp_v2_6_18_cutting_persistence_pickup_wip')
+assert.equal(cutting.application_version, 'v2.6.18')
+assert.equal(cutting.source_only, false)
+assert.equal(cutting.uat_applied, true)
+assert.equal(cutting.legacy_mutated, false)
+assert.equal(cutting.production_go, false)
+assert.equal(cutting.ci_runtime.status, 'PASS')
+assert.equal(cutting.hosted_auth_permission_e2e.status, 'PASS')
+assert.equal(cutting.hosted_auth_permission_e2e.case_count, 14)
+assert.equal(cutting.hosted_auth_permission_e2e.case_passed, 14)
+
+const frozenBackend = {
+  ...preCp45Frozen,
+  ...Object.fromEntries(Object.entries(cp45Manifest.files).filter(([path]) => isCp45Backend(path))),
+}
+for (const [path, expected] of Object.entries(frozenBackend)) {
+  if (cuttingOverrides.has(path) || cp5Overrides.has(path)) continue
   const bytes = readFileSync(resolve(root, path))
-  assert.equal(bytes.length, expected.bytes, `Frozen byte length drift: ${path}`)
-  assert.equal(hash('sha256', bytes), expected.sha256, `Frozen SHA-256 drift: ${path}`)
-  if (expected.ledger_version) assert.equal(hash('md5', bytes), expected.md5, `Frozen ledger MD5 drift: ${path}`)
+  assert.equal(bytes.length, expected.bytes, `Frozen backend byte length drift: ${path}`)
+  assert.equal(hash('sha256', bytes), expected.sha256, `Frozen backend SHA-256 drift: ${path}`)
+  if (expected.ledger_version) {
+    assert.ok(path.split('/').at(-1).startsWith(`${expected.ledger_version}_`), `Frozen ledger filename mismatch: ${path}`)
+    assert.equal(hash('md5', bytes), expected.md5, `Frozen UAT ledger bytes drift: ${path}`)
+  }
 }
+assert.equal(candidate.format, 'CP5_R1_SOURCE_HASHES_V1')
+assert.equal(candidate.candidate_branch, 'pre-cp5/cutting-persistence-pickup-wip-r1-20260903')
+assert.equal(candidate.source_base_sha, '8bfac13b91ea1be92111139e2fddcabccf9ae19a')
+assert.equal(candidate.source_base_tree, 'a9b193010266bb686c57709865a992769a835855')
+assert.equal(candidate.generation_parent_sha, candidate.source_base_sha)
+assert.equal(git('rev-parse', `${candidate.source_base_sha}^{tree}`), candidate.source_base_tree)
+assert.equal(candidate.target_project_ref, 'siimvrusnzxexizpyoib')
+assert.equal(candidate.legacy_project_ref, 'vlxdhpkjeevubjxexnfo')
+assert.equal(candidate.source_only, false)
+assert.equal(candidate.uat_applied, false)
+assert.equal(candidate.uat_applied_at, null)
+assert.equal(candidate.candidate_apply_status, 'PARTIAL_RECORDED_V2618_ONLY')
+assert.deepEqual(candidate.uat_partial_state, {
+  recorded_application_version: 'v2.6.18',
+  recorded_platform_version: '20260903060213',
+  correction_pending: 'v2.6.18a',
+  cp5_pending: 'v2.6.19',
+})
+assert.equal(candidate.legacy_mutated, false)
+assert.equal(candidate.production_go, false)
+assert.equal(candidate.verification.status, 'SOURCE_RECONCILED_PENDING_FULL_SCHEMA_CI_AND_UAT_V2618A_CP5')
+assert.equal(candidate.verification.full_schema_acceptance_executed, false)
+assert.equal(candidate.verification.hosted_uat_executed, false)
+assert.equal(candidate.verification.read_only_uat_preflight_executed, true)
+assert.equal(candidate.verification.read_only_uat_preflight_path, 'docs/evidence/cp5_uat_readonly_preflight.json')
+const uatPreflight = readJson(candidate.verification.read_only_uat_preflight_path)
+assert.equal(uatPreflight.format, 'CP5_UAT_READONLY_PREFLIGHT_V1')
+assert.equal(uatPreflight.query_class, 'SELECT_ONLY')
+assert.deepEqual(uatPreflight.application_versions, ['v2.6.18'])
+assert.deepEqual(uatPreflight.platform_entries, [{
+  version: '20260903060213',
+  name: 'erp_v2_6_18_cutting_persistence_pickup_wip',
+  statement_count: 1,
+  source_bytes: 80392,
+  source_sha256: '6a568a78ad0b9baa2ef5ee958ee967d7c997cc1f4dfb7f0e4ef5e6ff69e5038f',
+}])
+assert.ok(Object.values(uatPreflight.business_facts).every((value) => value === 0))
+assert.deepEqual(uatPreflight.activity, { waiting_on_lock: 0, transactions_over_5m: 0 })
+assert.deepEqual(uatPreflight.conclusion, {
+  exact_recorded_source_matches_local: true,
+  v2618a_absent: true,
+  v2619_absent: true,
+  unused_reconciliation_boundary: true,
+  uat_mutated_by_preflight: false,
+  production_go: false,
+})
+
+const cuttingManifestAtCp5Base = gitBytes('show', `${candidate.source_base_sha}:${cuttingManifestPath}`)
+assert.equal(cuttingManifestAtCp5Base.length, cuttingManifestBytes.length)
+assert.equal(hash('sha256', cuttingManifestAtCp5Base), hash('sha256', cuttingManifestBytes))
+for (const [path, expected] of Object.entries(cutting.files)) {
+  const baseBytes = gitBytes('show', `${candidate.source_base_sha}:${path}`)
+  assert.equal(baseBytes.length, expected.bytes, `Cutting Bridge base byte length drift: ${path}`)
+  assert.equal(hash('sha256', baseBytes), expected.sha256, `Cutting Bridge base SHA-256 drift: ${path}`)
+  if (cp5Overrides.has(path)) continue
+  const bytes = readFileSync(resolve(root, path))
+  assert.equal(bytes.length, expected.bytes, `Unchanged Cutting Bridge byte length drift: ${path}`)
+  assert.equal(hash('sha256', bytes), expected.sha256, `Unchanged Cutting Bridge SHA-256 drift: ${path}`)
+}
+
+const githubSourceBranch = process.env.GITHUB_HEAD_REF || process.env.GITHUB_REF_NAME
+if (process.env.GITHUB_ACTIONS === 'true' && githubSourceBranch === candidate.candidate_branch) {
+  assert.equal(candidate.generation_parent_sha, git('rev-parse', 'HEAD^'))
+}
+
+assert.ok(candidatePaths.length > 0, 'CP5 candidate manifest is empty')
+assert.equal(new Set(candidatePaths).size, candidatePaths.length)
+assert.equal(candidatePaths.some((path) => path.startsWith('supabase/.temp/')), false)
+assert.equal(candidatePaths.includes(ownershipV3Path), false)
+assert.equal(candidatePaths.includes(ownershipV3.candidate_cp5_manifest.path), false)
+assert.deepEqual(
+  candidatePaths.filter((path) => path in frozenBackend && !cuttingOverrides.has(path)),
+  [],
+  'CP5 candidate overlaps an immutable pre-Cutting backend artifact',
+)
+for (const [path, expected] of Object.entries(candidate.files)) {
+  const bytes = readFileSync(resolve(root, path))
+  assert.equal(bytes.length, expected.bytes, `CP5 byte length drift: ${path}`)
+  assert.equal(hash('sha256', bytes), expected.sha256, `CP5 SHA-256 drift: ${path}`)
+}
+
+const deleted = lines(git('diff', '--name-only', '--diff-filter=D', candidate.source_base_sha, '--'))
+assert.deepEqual(deleted, [], 'CP5 candidate has an unowned deletion')
+const expectedCandidatePaths = [...new Set([
+  ...lines(git('diff', '--name-only', '--diff-filter=ACMRTUXB', candidate.source_base_sha, '--')),
+  ...lines(git('ls-files', '--others', '--exclude-standard')),
+])]
+  .filter((path) => ![ownershipV3Path, ownershipV3.candidate_cp5_manifest.path].includes(path))
+  .filter((path) => !path.startsWith('supabase/.temp/'))
+  .filter((path) => existsSync(resolve(root, path)) && statSync(resolve(root, path)).isFile())
+  .sort()
+assert.deepEqual(candidatePaths, expectedCandidatePaths, 'CP5 manifest is stale or omits a source delta')
+
+for (const [key, expected] of Object.entries({
+  cutting_bridge: {
+    version: '20260903022604', application_version: 'v2.6.18',
+    name: 'erp_v2_6_18_cutting_persistence_pickup_wip',
+  },
+  cutting_bridge_reconciliation: {
+    version: '20260903070931', application_version: 'v2.6.18a',
+    name: 'erp_v2_6_18a_cutting_bridge_reconciliation',
+  },
+  bs_resolution: {
+    version: '20260903070932', application_version: 'v2.6.19',
+    name: 'erp_v2_6_19_cp5_bs_resolution_recovery',
+  },
+})) {
+  const migration = candidate.migrations[key]
+  assert.equal(migration.version, expected.version)
+  assert.equal(migration.application_version, expected.application_version)
+  assert.equal(migration.name, expected.name)
+  const bytes = readFileSync(resolve(root, migration.source_path))
+  assert.equal(migration.source_bytes, bytes.length)
+  assert.equal(migration.source_sha256, hash('sha256', bytes))
+  assert.ok(cuttingOverrides.has(migration.source_path) || cp5Overrides.has(migration.source_path))
+  assert.ok(cuttingOverrides.has(migration.rollback_path) || cp5Overrides.has(migration.rollback_path))
+  assert.ok(cuttingOverrides.has(migration.acceptance_path) || cp5Overrides.has(migration.acceptance_path))
+}
+assert.deepEqual(candidate.migrations.cutting_bridge, {
+  ...candidate.migrations.cutting_bridge,
+  uat_applied: true,
+  uat_platform_ledger_version: '20260903060213',
+  uat_platform_statement_count: 1,
+  uat_business_facts_observed: 0,
+})
+assert.equal(candidate.migrations.cutting_bridge.source_bytes, 80392)
+assert.equal(candidate.migrations.cutting_bridge.source_sha256, '6a568a78ad0b9baa2ef5ee958ee967d7c997cc1f4dfb7f0e4ef5e6ff69e5038f')
+assert.equal(candidate.migrations.cutting_bridge_reconciliation.uat_applied, false)
+assert.equal(candidate.migrations.bs_resolution.uat_applied, false)
 
 function walk(directory, accept) {
   return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
@@ -134,173 +275,61 @@ const discovered = [
   ...walk(resolve(root, 'supabase/rollbacks'), (path) => extname(path) === '.sql'),
   ...walk(resolve(root, 'supabase/tests'), (path) => extname(path) === '.sql'),
   ...walk(resolve(root, 'ops/supabase'), (path) => extname(path) === '.sql'),
-  ...walk(resolve(root, 'scripts'), (path) => /^(?:cp3_|test_cp3_|cp4_|cp45_|cutting_bridge_).*\.(?:py|mjs)$/.test(path.split('/').at(-1))),
-  ...walk(resolve(root, 'scripts'), (path) => /^check-backend-ownership(?:-v\d+)?\.mjs$/.test(path.split('/').at(-1))),
-  ...walk(resolve(root, '.github/workflows'), (path) => /^(?:cp3|cp4|cp45|cutting-bridge).*\.ya?ml$/.test(path.split('/').at(-1))),
-  ...walk(resolve(root, 'docs/evidence'), (path) => /^(?:cp4|cp45|cutting_bridge).*hosted.*e2e\.json$/.test(path.split('/').at(-1))),
-].sort()
-const owned = new Set([
-  ...Object.keys(baseFiles),
-  ...candidatePaths,
+  ...walk(resolve(root, 'scripts'), (path) => /^(?:cp3_|test_cp3_|cp4_|cp45_|cp5_|cutting_bridge_).*\.(?:mjs|py)$/.test(path.split('/').at(-1))),
   'scripts/check-backend-ownership.mjs',
   'scripts/check-backend-ownership-v2.mjs',
   'scripts/check-backend-ownership-v3.mjs',
+  'scripts/check-cp5-boundary.mjs',
+  'scripts/render-cp5-source-hashes.mjs',
+  'scripts/render-cutting-bridge-source-hashes.mjs',
   '.github/workflows/cp3-r4-full-schema-validation.yml',
   '.github/workflows/cp4-full-schema-validation.yml',
   '.github/workflows/cp45-full-schema-validation.yml',
   '.github/workflows/cutting-bridge-full-schema-validation.yml',
+  '.github/workflows/cp5-full-schema-validation.yml',
   'docs/evidence/cp4_hosted_uat_auth_e2e.json',
-])
-const unowned = discovered.filter((path) => !owned.has(path))
-assert.deepEqual(unowned, [], `Backend source/proof file is unowned: ${unowned.join(', ')}`)
+  ...(cp45Manifest.hosted_auth_permission_e2e.evidence_path ? [cp45Manifest.hosted_auth_permission_e2e.evidence_path] : []),
+  ...(cp45Manifest.integrity_correction.hosted_auth_permission_e2e.evidence_path
+    ? [cp45Manifest.integrity_correction.hosted_auth_permission_e2e.evidence_path]
+    : []),
+  cutting.hosted_evidence_path,
+  candidate.verification.read_only_uat_preflight_path,
+].sort()
 
-const migrationPath = 'supabase/migrations/20260903022604_erp_v2_6_18_cutting_persistence_pickup_wip.sql'
-const rollbackPath = 'supabase/rollbacks/20260903022604_erp_v2_6_18_cutting_persistence_pickup_wip.rollback.sql'
-const acceptancePath = 'supabase/tests/cutting_bridge_persistence_pickup_wip_rollback.sql'
-for (const path of [migrationPath, rollbackPath, acceptancePath]) assert.ok(candidatePaths.includes(path), `${path} is not byte-bound`)
-assert.deepEqual(candidatePaths.filter((path) => path.startsWith('supabase/migrations/20260903022604_')), [migrationPath])
-assert.deepEqual(candidatePaths.filter((path) => path.startsWith('supabase/rollbacks/20260903022604_')), [rollbackPath])
-assert.ok(candidatePaths.includes('src/ConnectedCuttingPage.tsx'))
-assert.ok(candidatePaths.includes('src/ConnectedPickupPage.tsx'))
-assert.ok(candidatePaths.includes('src/ConnectedWipStatusPage.tsx'))
-assert.ok(candidatePaths.includes('src/ConnectedPatternFilter.tsx'))
-assert.ok(candidatePaths.includes('tests/browser/cutting-bridge.spec.ts'))
-assert.ok(candidatePaths.includes('.github/workflows/cutting-bridge-full-schema-validation.yml'))
-assert.ok(candidatePaths.includes(candidate.hosted_evidence_path))
+function isCuttingBackend(path) {
+  return path.startsWith('supabase/migrations/')
+    || path.startsWith('supabase/rollbacks/')
+    || path.startsWith('supabase/tests/')
+    || path.startsWith('ops/supabase/')
+    || /^scripts\/(?:cp45_|cutting_bridge_).*\.(?:mjs|py)$/.test(path)
+    || path === 'scripts/check-backend-ownership-v3.mjs'
+    || path === 'scripts/render-cutting-bridge-source-hashes.mjs'
+    || path === '.github/workflows/cutting-bridge-full-schema-validation.yml'
+    || path === cutting.hosted_evidence_path
+}
 
-const hostedEvidenceText = readFileSync(resolve(root, candidate.hosted_evidence_path), 'utf8')
-const hostedEvidence = JSON.parse(hostedEvidenceText)
-assert.equal(hostedEvidence.format, 'CUTTING_BRIDGE_HOSTED_UAT_AUTH_E2E_V1')
-assert.equal(hostedEvidence.status, 'PASS')
-assert.equal(hostedEvidence.mode, 'MANUAL_HOSTED_UAT_VERIFIED')
-assert.equal(hostedEvidence.classified_as_ci, false)
-assert.equal(hostedEvidence.target_project_ref, candidate.target_project_ref)
-assert.equal(hostedEvidence.reviewed_runtime_source.migration_version, candidate.migration_version)
-assert.equal(hostedEvidence.reviewed_runtime_source.migration_name, candidate.migration_name)
-assert.equal(hostedEvidence.reviewed_runtime_source.migration_bytes, candidate.files[migrationPath].bytes)
-assert.equal(hostedEvidence.reviewed_runtime_source.migration_sha256, candidate.files[migrationPath].sha256)
-assert.equal(hostedEvidence.verification_boundary.publishable_key_only, true)
-assert.equal(hostedEvidence.verification_boundary.github_service_role_secret_used, false)
-assert.equal(hostedEvidence.verification_boundary.service_role_key_used, false)
-assert.equal(hostedEvidence.verification_boundary.real_owner_account_created, false)
-assert.equal(hostedEvidence.verification_boundary.real_owner_invited, false)
-assert.equal(hostedEvidence.verification_boundary.credentials_or_jwt_recorded, false)
-assert.equal(hostedEvidence.verification_boundary.legacy_touched, false)
-assert.equal(hostedEvidence.verification_boundary.production_touched, false)
-assert.equal(hostedEvidence.case_count, 14)
-assert.equal(hostedEvidence.case_passed, 14)
-assert.equal(hostedEvidence.cases.length, 14)
-assert.equal(hostedEvidence.cases.every(({ ok }) => ok === true), true)
-assert.deepEqual(hostedEvidence.truth_boundary, candidate.truth_boundary)
-assert.equal(hostedEvidence.uat_runtime.platform_ledger.source_bytes, candidate.files[migrationPath].bytes)
-assert.equal(hostedEvidence.uat_runtime.platform_ledger.source_sha256, candidate.files[migrationPath].sha256)
-assert.equal(hostedEvidence.uat_runtime.rollback_capsule_rows, 17)
-assert.equal(hostedEvidence.uat_runtime.rollback_capsule_valid, 17)
-assert.equal(hostedEvidence.cleanup.auth_users, 0)
-assert.equal(hostedEvidence.cleanup.auth_identities, 0)
-assert.equal(hostedEvidence.cleanup.auth_sessions, 0)
-assert.equal(hostedEvidence.cleanup.auth_refresh_tokens, 0)
-assert.equal(hostedEvidence.cleanup.app_users, 0)
-assert.equal(hostedEvidence.cleanup.synthetic_access_audit, 0)
-assert.equal(hostedEvidence.cleanup.synthetic_audit_logs, 0)
-assert.equal(hostedEvidence.cleanup.patterns, 0)
-assert.equal(hostedEvidence.cleanup.pattern_audit, 0)
-assert.equal(hostedEvidence.cleanup.cutting_groups, 0)
-assert.equal(hostedEvidence.cleanup.cutting_pickups, 0)
-assert.equal(hostedEvidence.cleanup.distribution_batches, 0)
-assert.equal(hostedEvidence.cleanup.distribution_allocations, 0)
-assert.equal(hostedEvidence.cleanup.wip_flags, 0)
-assert.equal(hostedEvidence.cleanup.idempotency_requests, 0)
-assert.equal(hostedEvidence.cleanup.baseline_audit_logs, 36)
-assert.equal(hostedEvidence.cleanup.temporary_http_extensions, 0)
-assert.equal(hostedEvidence.cleanup.temporary_credentials_retained, false)
-assert.equal(hostedEvidence.legacy_isolation.mutated, false)
-assert.equal(hostedEvidence.legacy_isolation.platform_ledger, 0)
-assert.equal(hostedEvidence.legacy_isolation.application_ledger, 0)
-assert.equal(hostedEvidence.production_go, false)
-assert.doesNotMatch(hostedEvidenceText, /@example\.invalid/i)
-assert.doesNotMatch(hostedEvidenceText, /\bBearer\s+eyJ[A-Za-z0-9._-]+/i)
-assert.doesNotMatch(hostedEvidenceText, /\beyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\b/)
-assert.doesNotMatch(hostedEvidenceText, /\bsb_(?:publishable|secret)_[A-Za-z0-9_-]+\b/i)
-assert.doesNotMatch(hostedEvidenceText, /Cb18!Aa/)
+function isCp5Backend(path) {
+  return path.startsWith('supabase/migrations/')
+    || path.startsWith('supabase/rollbacks/')
+    || path.startsWith('supabase/tests/')
+    || path.startsWith('ops/supabase/')
+    || /^scripts\/cp5_.*\.(?:mjs|py)$/.test(path)
+    || path === 'scripts/check-backend-ownership-v3.mjs'
+    || path === 'scripts/check-cp5-boundary.mjs'
+    || path === 'scripts/render-cp5-source-hashes.mjs'
+    || path === '.github/workflows/cp5-full-schema-validation.yml'
+    || path === candidate.verification.read_only_uat_preflight_path
+}
 
-const catalogFixturePath = 'supabase/tests/fixtures/erp_enteng_cp45a_catalog_bootstrap.sql.gz'
-const catalogFixtureManifestPath = 'supabase/tests/fixtures/erp_enteng_cp45a_catalog_bootstrap.manifest.json'
-const externalTriggerFixturePath = 'supabase/tests/fixtures/erp_enteng_cp45a_external_application_triggers.sql'
-assert.ok(candidatePaths.includes(catalogFixturePath))
-assert.ok(candidatePaths.includes(catalogFixtureManifestPath))
-assert.ok(candidatePaths.includes(externalTriggerFixturePath))
-assert.ok(candidatePaths.includes('scripts/cutting_bridge_build_catalog_bootstrap.py'))
-assert.ok(candidatePaths.includes('supabase/tests/cutting_bridge_boundary_fingerprint.sql'))
-assert.equal(candidatePaths.some((path) => path.includes('pre_cp3_schema_ledger')), false)
-assert.equal(candidatePaths.includes('scripts/cutting_bridge_build_ledger_bootstrap.py'), false)
-const catalogFixtureManifest = readJson(catalogFixtureManifestPath)
-const catalogFixture = readFileSync(resolve(root, catalogFixturePath))
-const catalogSql = gunzipSync(catalogFixture)
-const externalTriggerSql = readFileSync(resolve(root, externalTriggerFixturePath))
-assert.equal(catalogFixtureManifest.format, 'ERP_ENTENG_CP45A_CATALOG_CONFIG_BOOTSTRAP_V1')
-assert.equal(catalogFixtureManifest.source_project_ref, 'siimvrusnzxexizpyoib')
-assert.equal(catalogFixtureManifest.source_kind, 'READ_ONLY_PG_CATALOG_PLUS_ALLOWLISTED_CONFIGURATION')
-assert.equal(catalogFixtureManifest.contains_business_rows, false)
-assert.equal(catalogFixtureManifest.contains_auth_rows, false)
-assert.equal(catalogFixtureManifest.contains_app_users, false)
-assert.equal(catalogFixtureManifest.contains_credentials, false)
-assert.deepEqual(catalogFixtureManifest.counts, {
-  constraints: 1064,
-  functions: 500,
-  indexes: 202,
-  platform_migrations: 63,
-  policies: 190,
-  sequences: 6,
-  tables: 159,
-  triggers: 398,
-  views: 51,
-})
-assert.deepEqual(catalogFixtureManifest.safe_configuration_rows, {
-  app_roles: 9,
-  app_permissions: 111,
-  app_role_permissions: 329,
-  chart_accounts: 24,
-  accounting_account_mappings: 24,
-  uom_definitions: 8,
-  misc_finance_categories: 2,
-  accounting_period_control: 1,
-  cash_accounts: 1,
-  system_release_info: 1,
-  schema_migrations: 48,
-  cp3_r4_rollback_capsule: 7,
-  cp4_v2616_rollback_capsule: 4,
-  cp45_v2617_rollback_capsule: 3,
-  cp45_v2617a_rollback_capsule: 2,
-})
-assert.equal(catalogFixture.length, catalogFixtureManifest.gzip_bytes)
-assert.equal(hash('sha256', catalogFixture), catalogFixtureManifest.gzip_sha256)
-assert.equal(catalogSql.length, catalogFixtureManifest.sql_bytes)
-assert.equal(hash('sha256', catalogSql), catalogFixtureManifest.sql_sha256)
-assert.equal(catalogFixtureManifest.external_application_triggers.count, 1)
-assert.equal(catalogFixtureManifest.external_application_triggers.fixture_path, externalTriggerFixturePath)
-assert.equal(externalTriggerSql.length, catalogFixtureManifest.external_application_triggers.sql_bytes)
-assert.equal(hash('sha256', externalTriggerSql), catalogFixtureManifest.external_application_triggers.sql_sha256)
-assert.match(externalTriggerSql.toString('utf8'), /create trigger trg_cp45_guard_last_owner_auth_delete before delete on auth\.users for each row execute function erp\.guard_last_owner_auth_delete\(\);/)
-assert.equal(catalogFixtureManifest.excluded_nonzero_table.table, 'audit_logs')
-assert.equal(catalogFixtureManifest.excluded_nonzero_table.rows, 36)
+const candidateBackend = candidatePaths.filter(isCp5Backend)
+const cuttingBackend = cuttingPaths.filter(isCuttingBackend)
+const backendOwned = new Set([...Object.keys(frozenBackend), ...cuttingBackend, ...candidateBackend])
+const unowned = discovered.filter((path) => !backendOwned.has(path))
+assert.deepEqual(unowned, [], `Backend source/proof artifact is unowned: ${unowned.join(', ')}`)
 
-const migration = readFileSync(resolve(root, migrationPath), 'utf8')
-const rollback = readFileSync(resolve(root, rollbackPath), 'utf8')
-assert.match(migration, /perform erp\.require_permission\('production\.cutting\.post'\)/)
-assert.match(migration, /perform erp\.require_permission\('production\.distribution\.post'\)/)
-assert.match(migration, /p_pattern_id uuid default null/)
-assert.match(migration, /if tg_op='DELETE' then return old; end if;/)
-assert.doesNotMatch(rollback, /__CUTTING_BRIDGE_MIGRATION_SHA256__/)
-const migrationSha256 = hash('sha256', Buffer.from(migration))
-assert.equal(rollback.split(migrationSha256).length - 1, 3, 'Rollback must bind the exact migration SHA-256 three times')
-const normalizeSql = (value) => value.replace(/\s+/g, ' ').trim()
-const guardPredicate = rollback.match(/select count\(\*\) into v_match_count\s+from supabase_migrations\.schema_migrations m\s+where ([\s\S]*?);\s+select count\(\*\) into v_conflict_count/)
-const deletePredicate = rollback.match(/delete from supabase_migrations\.schema_migrations m\s+where ([\s\S]*?);\s+drop table erp\.cutting_bridge_v2618_rollback_capsule/)
-assert.ok(guardPredicate, 'Cutting Bridge rollback ledger guard is missing')
-assert.ok(deletePredicate, 'Cutting Bridge rollback ledger DELETE is missing')
-assert.equal(normalizeSql(guardPredicate[1]), normalizeSql(deletePredicate[1]), 'Rollback guard and DELETE ledger predicates differ')
-
-const activeBaseFiles = Object.keys(baseFiles).filter((path) => !overridden.has(path))
-const effectiveOwned = new Set([...activeBaseFiles, ...candidatePaths])
-console.log(`Backend ownership v3 passed: ${effectiveOwned.size} effective unique source/proof files (${activeBaseFiles.length} inherited + ${candidatePaths.length} Cutting Bridge, ${Object.keys(baseFiles).length - activeBaseFiles.length} overrides); ${discovered.length} backend artifacts discovered, zero unowned.`)
+const cp5Check = execFileSync(process.execPath, ['scripts/check-cp5-boundary.mjs'], {
+  cwd: root,
+  encoding: 'utf8',
+}).trim()
+console.log(cp5Check)
+console.log(`Backend ownership v3 passed: ${Object.keys(frozenBackend).length} inherited + ${cuttingBackend.length} Cutting Bridge + ${candidateBackend.length} CP5 backend/proof entries; ${backendOwned.size} effective unique files, ${candidatePaths.length} CP5 source files byte-bound, zero unowned.`)

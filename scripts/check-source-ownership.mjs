@@ -96,6 +96,8 @@ assert.deepEqual([...rpcOwnership].sort(), [
   'src/AccessControlPage.tsx:erp_save_role_v1',
   'src/ConnectedCuttingPage.tsx:erp_get_cutting_workspace_v1',
   'src/ConnectedCuttingPage.tsx:erp_save_cutting_group_before_sewing_v2',
+  'src/ConnectedBsResolutionPage.tsx:erp_get_bs_resolution_workspace_v1',
+  'src/ConnectedBsResolutionPage.tsx:erp_save_bs_resolution_action_v1',
   'src/ConnectedPatternFilter.tsx:erp_list_patterns_v1',
   'src/ConnectedPickupPage.tsx:erp_get_cutting_pickup_queue_v1',
   'src/ConnectedPickupPage.tsx:erp_save_cutting_pickup_v1',

@@ -1,0 +1,50 @@
+{
+  "format": "CP5_ACCESS_ROUTE_ACTION_OWNERSHIP_V1",
+  "scope": "Pre-CP5 cutting persistence, pickup, WIP, Pattern filters, and CP5 BS Resolution source boundary",
+  "counts": {
+    "backend_permissions": 111,
+    "navigation_labels": 46,
+    "protected_routes": 46,
+    "sensitive_actions": 19,
+    "browser_rpc_boundaries": 19
+  },
+  "critical_routes": {
+    "cutting-roll": "production.cutting.view",
+    "mandor-wip": "production.distribution.view",
+    "sewing-wip": "production.wip.view",
+    "laundry": "production.laundry.view",
+    "qc": "production.final_sku.view",
+    "bs-rework": "production.bs_rework.view"
+  },
+  "critical_actions": {
+    "quickCreatePattern": "master.pattern.manage",
+    "adjustWip": "production.wip.adjust",
+    "reverseWip": "production.wip.reverse",
+    "postLaundry": "production.laundry.post",
+    "postFinalSku": "production.final_sku.post",
+    "postBsResolution": "production.bs_rework.post",
+    "reverseBsResolution": "production.bs_rework.reverse"
+  },
+  "invariants": {
+    "cutting_view_does_not_grant_pattern_manage": true,
+    "quick_create_uses_master_save_rpc": true,
+    "cutting_transaction_pattern_id_required": true,
+    "pattern_snapshot_visible_in_pickup_and_wip": true,
+    "grandfathered_history_requires_bulk_import": false,
+    "cp45_evidence_remains_frozen": true,
+    "browser_direct_table_access": false,
+    "module_specific_runtime_routing": true,
+    "connected_pattern_filter_cutting_pickup": true,
+    "connected_pattern_filter_wip": true,
+    "connected_pattern_filter_bs_resolution": true,
+    "simulation_pattern_filter_laundry": true,
+    "simulation_pattern_filter_qc": true,
+    "bs_resolution_uses_two_public_rpc_facades": true,
+    "laundry_and_qc_writers_connected": false,
+    "source_only": false,
+    "uat_applied": false,
+    "uat_partial_state": "RECORDED_V2618_ONLY",
+    "production_go": false
+  },
+  "production_go": false
+}

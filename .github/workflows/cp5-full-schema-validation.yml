@@ -1,0 +1,697 @@
+name: CP5 BS Resolution and Cutting Bridge Full-Schema Validation
+
+on:
+  push:
+    branches:
+      - pre-cp5/cutting-persistence-pickup-wip-r1-20260903
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: cp5-r1-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  SOURCE_BASE_SHA: 8bfac13b91ea1be92111139e2fddcabccf9ae19a
+  SOURCE_BASE_TREE: a9b193010266bb686c57709865a992769a835855
+  RECOVERY_RUN_ID: 33587654349
+  PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
+  CP45_PATTERN_ASSIGNMENT_RACE_REPORT: cp5-proof/cp45-pattern-assignment-concurrency.json
+  CP45_AUTH_REPORT: cp5-proof/cp45-auth-permission-e2e.json
+  CP5_BS_RESOLUTION_RACE_REPORT: cp5-proof/cp5-bs-resolution-concurrency.json
+  CP5_AUTH_REPORT: cp5-proof/cp5-auth-permission-e2e.json
+
+jobs:
+  validate-full-schema:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 65
+    steps:
+      - name: Checkout exact CP5 candidate
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Identity, ancestry, ownership, and source gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p cp5-proof
+          test "$(git merge-base HEAD "$SOURCE_BASE_SHA")" = "$SOURCE_BASE_SHA"
+          test "$(git rev-parse "$SOURCE_BASE_SHA^{tree}")" = "$SOURCE_BASE_TREE"
+          test "$(git rev-list --count "$SOURCE_BASE_SHA"..HEAD)" -ge 1
+          test -z "$(git rev-list --merges "$SOURCE_BASE_SHA"..HEAD)"
+          remote_head="$(git ls-remote origin "refs/heads/${GITHUB_REF_NAME}" | awk '{print $1}')"
+          test "$remote_head" = "$GITHUB_SHA"
+          npm ci
+          npm run check:backend
+          npm run check:access
+          node --check scripts/cp5_auth_permission_e2e.mjs
+          python -m py_compile scripts/cp5_bs_resolution_concurrency.py
+          npx playwright test --list --config playwright.cp5.config.ts
+          npx playwright test tests/browser/cutting-bridge.spec.ts --list
+          git diff --check "$SOURCE_BASE_SHA" "$GITHUB_SHA"
+          printf 'branch=%s\nhead=%s\nbase=%s\nbase_tree=%s\nremote_head=%s\ncommit_count=%s\n' \
+            "$GITHUB_REF_NAME" "$GITHUB_SHA" "$SOURCE_BASE_SHA" "$SOURCE_BASE_TREE" "$remote_head" \
+            "$(git rev-list --count "$SOURCE_BASE_SHA"..HEAD)" | tee cp5-proof/IDENTITY.txt
+
+      - name: Set up Python and PostgreSQL client
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install validation runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq postgresql-client
+          python -m pip install --quiet 'psycopg[binary]==3.2.10'
+
+      - name: Install pinned Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: 2.116.0
+
+      - name: Record pinned runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          supabase --version | tee cp5-proof/SUPABASE_CLI_VERSION.txt
+          psql --version | tee cp5-proof/PSQL_VERSION.txt
+          node --version | tee cp5-proof/NODE_VERSION.txt
+
+      - name: Download verified pre-CP4 recovery capsule and separate key
+        uses: actions/download-artifact@v4
+        with:
+          name: cp35-final-recovery-capsule-encrypted
+          path: recovery-transport/capsule
+          github-token: ${{ github.token }}
+          run-id: ${{ env.RECOVERY_RUN_ID }}
+
+      - name: Download separately stored recovery key
+        uses: actions/download-artifact@v4
+        with:
+          name: cp35-final-recovery-key-separate
+          path: recovery-transport/key
+          github-token: ${{ github.token }}
+          run-id: ${{ env.RECOVERY_RUN_ID }}
+
+      - name: Decrypt and byte-verify recovery boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          (cd recovery-transport/capsule && sha256sum -c FINAL_ENCRYPTED_SHA256SUMS.txt)
+          (cd recovery-transport/key && sha256sum -c FINAL_KEY_SHA256SUMS.txt)
+          encrypted="$(find recovery-transport/capsule -type f -name '*.zip.enc' -print -quit)"
+          keyfile="$(find recovery-transport/key -type f -name '*RECOVERY_KEY_*.txt' -print -quit)"
+          test -n "$encrypted"
+          test -n "$keyfile"
+          awk 'BEGIN{blank=0} {if(blank){print; exit} if($0=="") blank=1}' "$keyfile" > recovery-transport/passphrase.tmp
+          openssl enc -d -aes-256-cbc -pbkdf2 -iter 600000 -md sha256 \
+            -pass file:recovery-transport/passphrase.tmp -in "$encrypted" \
+            -out recovery-transport/CP35_FINAL_RECOVERY_CAPSULE.zip
+          expected="$(awk '{print $1}' recovery-transport/capsule/FINAL_RAW_SHA256SUMS.txt)"
+          observed="$(sha256sum recovery-transport/CP35_FINAL_RECOVERY_CAPSULE.zip | awk '{print $1}')"
+          test "$observed" = "$expected"
+          unzip -tq recovery-transport/CP35_FINAL_RECOVERY_CAPSULE.zip
+          mkdir recovery restore
+          unzip -q recovery-transport/CP35_FINAL_RECOVERY_CAPSULE.zip -d recovery
+          python - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          root=Path('recovery')
+          expected=json.loads((root/'SHA256SUMS.json').read_text())
+          bad={name for name,digest in expected.items() if hashlib.sha256((root/name).read_bytes()).hexdigest()!=digest}
+          if bad: raise SystemExit(f'recovery capsule byte mismatch: {sorted(bad)}')
+          manifest=json.loads((root/'RECOVERY_MANIFEST.json').read_text())
+          assert manifest['source_sha']=='92e49047941c09f18a306a9b2998f101c62e6ffe'
+          assert manifest['source_tree']=='8625bd6053c256456f67185d60e0bb95f9bc574e'
+          assert manifest['uat_mutated'] is False
+          Path('cp5-proof/RECOVERY_CAPSULE_REUSE.json').write_text(json.dumps({'status':'PASS','files':len(expected),'manifest':manifest},indent=2)+'\n')
+          PY
+          unzip -q recovery/ERP_ENTENG_CP2_RAW_BASELINE.zip -d restore
+          shred -u recovery-transport/passphrase.tmp "$keyfile" 2>/dev/null || true
+
+      - name: Start disposable local Supabase and render restore scripts
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp recovery/scripts/cp35_generate_catalog_restore.py /tmp/cp5_generate_catalog_restore.py
+          cp recovery/scripts/cp35_verify_local_restore.py /tmp/cp5_verify_local_restore.py
+          python /tmp/cp5_generate_catalog_restore.py | tee cp5-proof/RESTORE_GENERATOR_RESULT.json
+          mkdir cp5-local
+          supabase init --force --workdir cp5-local
+          mkdir -p cp5-local/supabase/.temp
+          echo '17.6.1.165' > cp5-local/supabase/.temp/postgres-version
+          sed -i '0,/^enable_signup = true$/s//enable_signup = false/' cp5-local/supabase/config.toml
+          supabase start --workdir cp5-local \
+            -x realtime,imgproxy,studio,postgres-meta,edge-runtime,logflare,vector,supavisor
+
+      - name: Restore exact ERP Enteng pre-CP4 schema and data
+        shell: bash
+        run: |
+          set -euo pipefail
+          psql "$PGURL" -v ON_ERROR_STOP=1 <<'SQL'
+          create schema if not exists supabase_migrations;
+          create table if not exists supabase_migrations.schema_migrations(version text primary key);
+          alter table supabase_migrations.schema_migrations add column if not exists statements text[];
+          alter table supabase_migrations.schema_migrations add column if not exists name text;
+          SQL
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f restore/catalog-schema-restore.sql
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f restore/ERP_ENTENG_DATA_RESTORE.sql
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f restore/platform-ledger-restore.sql
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f restore/sequence-reseed.sql
+          python /tmp/cp5_verify_local_restore.py | tee cp5-proof/CP2_BASELINE_RESTORE.log
+          echo '5f295958f019111674af3e079eb1bbe4bbf445e6ae35b32c8f3d94bfbad04ec6  supabase/migrations/20260901161322_erp_v2_6_15_payroll_component_entitlement.sql' | sha256sum -c -
+          python - <<'PY'
+          from pathlib import Path
+          raw=Path('supabase/migrations/20260901161322_erp_v2_6_15_payroll_component_entitlement.sql').read_text()
+          marker='$preflight$;\n\n'
+          if raw.count(marker)!=1: raise SystemExit('v2.6.15 boundary changed')
+          Path('/tmp/v2615-byte-bound-body.sql').write_text(raw.split(marker,1)[1])
+          PY
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f /tmp/v2615-byte-bound-body.sql
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/payroll_component_entitlement_rollback.sql
+          psql "$PGURL" -v ON_ERROR_STOP=1 <<'SQL'
+          insert into supabase_migrations.schema_migrations(version,name,statements)
+          values('20260901161322','erp_v2_6_15_payroll_component_entitlement',array[]::text[])
+          on conflict(version) do nothing;
+          SQL
+
+      - name: Apply frozen CP3, CP4, and CP4.5 chain in exact order
+        shell: bash
+        run: |
+          set -euo pipefail
+          files=(
+            20260901023000_erp_v2_6_14_attendance_hpp_sewing_terminal_foundation.sql
+            20260901023100_erp_v2_6_14b_attendance_hpp_candidate_hardening.sql
+            20260901023200_erp_v2_6_14c_attendance_hpp_uat_alignment.sql
+            20260901023400_erp_v2_6_14d_cp3_r4_race_and_reversal_hardening.sql
+          )
+          : > cp5-proof/PREDECESSOR_APPLY_ORDER.txt
+          for file in "${files[@]}"; do
+            version="${file%%_*}"
+            name="${file#*_}"
+            name="${name%.sql}"
+            sha256sum "supabase/migrations/$file" | tee -a cp5-proof/PREDECESSOR_APPLY_ORDER.txt
+            psql "$PGURL" -v ON_ERROR_STOP=1 -f "supabase/migrations/$file"
+            psql "$PGURL" -v ON_ERROR_STOP=1 -c "insert into supabase_migrations.schema_migrations(version,name,statements) values('$version','$name',array[]::text[]) on conflict(version) do nothing"
+          done
+          psql "$PGURL" -v ON_ERROR_STOP=1 <<'SQL'
+          revoke all on function erp.require_owner_admin() from public, anon, authenticated, service_role;
+          grant execute on function erp.require_owner_admin() to service_role;
+          SQL
+          predecessors=(
+            20260902043000_erp_v2_6_16_cp4_hpp_route_auth_boundary.sql
+            20260902104937_erp_v2_6_17_access_pattern_wip_control.sql
+            20260902180726_erp_v2_6_17a_cp45_pattern_assignment_immutability.sql
+          )
+          for file in "${predecessors[@]}"; do
+            version="${file%%_*}"
+            name="${file#*_}"
+            name="${name%.sql}"
+            sha256sum "supabase/migrations/$file" | tee -a cp5-proof/PREDECESSOR_APPLY_ORDER.txt
+            psql "$PGURL" -v ON_ERROR_STOP=1 -f "supabase/migrations/$file"
+            psql "$PGURL" -v ON_ERROR_STOP=1 -c "insert into supabase_migrations.schema_migrations(version,name,statements) values('$version','$name',array[]::text[]) on conflict(version) do nothing"
+          done
+
+      - name: Prove frozen predecessor behavior and real CP4.5 races
+        shell: bash
+        run: |
+          set -euo pipefail
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/cp4_hpp_route_auth_rollback.sql 2>&1 | tee cp5-proof/CP4_BASELINE_ACCEPTANCE.log
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/access_pattern_wip_control_rollback.sql 2>&1 | tee cp5-proof/CP45_BASELINE_ACCEPTANCE.log
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/cp45_pattern_assignment_immutability_rollback.sql 2>&1 | tee cp5-proof/CP45A_BASELINE_ACCEPTANCE.log
+          python scripts/cp45_pattern_assignment_concurrency.py 2>&1 | tee cp5-proof/CP45A_BASELINE_CONCURRENCY.log
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('cp5-proof/cp45-pattern-assignment-concurrency.json').read_text())
+          assert r['status']=='PASS',r
+          assert all(value==0 for value in r['residue'].values()),r
+          PY
+
+      - name: Prove real local Auth and permission foundation before CP5
+        shell: bash
+        run: |
+          set -euo pipefail
+          for attempt in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:54321/auth/v1/health >/dev/null; then break; fi
+            sleep 1
+          done
+          source <(supabase status --workdir cp5-local -o env)
+          export SUPABASE_URL="$API_URL"
+          export SUPABASE_ANON_KEY="$ANON_KEY"
+          export SUPABASE_SERVICE_ROLE_KEY="$SERVICE_ROLE_KEY"
+          export CP45_PROOF_CLASSIFICATION=LOCAL_FULL_SCHEMA_AUTH_VERIFIED
+          node scripts/cp45_auth_permission_e2e.mjs 2>&1 | tee cp5-proof/CP45_AUTH_FOUNDATION.log
+          test "$(psql "$PGURL" -At -c 'select count(*) from auth.users')" = '0'
+          test "$(psql "$PGURL" -At -c 'select count(*) from erp.app_users')" = '0'
+
+      - name: Capture exact pre-Cutting and pre-CP5 boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' | tee cp5-proof/PRE_CP5_BOUNDARY.json
+          select jsonb_build_object(
+            'status',case when
+              exists(select 1 from erp.schema_migrations where version='v2.6.17a')
+              and not exists(select 1 from erp.schema_migrations where version in('v2.6.18','v2.6.18a','v2.6.19'))
+              and md5(pg_get_functiondef('erp.require_internal()'::regprocedure))='785838675ae23699ce163e4218f058bf'
+              and md5(pg_get_functiondef('erp.list_patterns_v1(text,text,integer,integer)'::regprocedure))='feff17283c331b4883b208227bc99079'
+              and (select count(*) from auth.users)=0
+              and (select count(*) from erp.app_users)=0
+              then 'PASS' else 'FAIL' end,
+            'platform_versions',(select jsonb_agg(version order by version) from supabase_migrations.schema_migrations where version like '2026090%'),
+            'application_versions',(select jsonb_agg(version order by version) from erp.schema_migrations where version like 'v2.6.1%'),
+            'require_internal_md5',md5(pg_get_functiondef('erp.require_internal()'::regprocedure)),
+            'list_patterns_md5',md5(pg_get_functiondef('erp.list_patterns_v1(text,text,integer,integer)'::regprocedure))
+          );
+          SQL
+          test "$(python -c "import json;print(json.load(open('cp5-proof/PRE_CP5_BOUNDARY.json'))['status'])")" = 'PASS'
+
+      - name: Apply v2.6.18 Cutting Bridge once and reject replay
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(wc -c < supabase/migrations/20260903022604_erp_v2_6_18_cutting_persistence_pickup_wip.sql)" = '80392'
+          echo '6a568a78ad0b9baa2ef5ee958ee967d7c997cc1f4dfb7f0e4ef5e6ff69e5038f  supabase/migrations/20260903022604_erp_v2_6_18_cutting_persistence_pickup_wip.sql' | sha256sum -c - | tee cp5-proof/V2618_MIGRATION_SHA256.txt
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/migrations/20260903022604_erp_v2_6_18_cutting_persistence_pickup_wip.sql 2>&1 | tee cp5-proof/V2618_APPLY.log
+          psql "$PGURL" -v ON_ERROR_STOP=1 -c "insert into supabase_migrations.schema_migrations(version,name,statements) values('20260903022604','erp_v2_6_18_cutting_persistence_pickup_wip',array[]::text[]) on conflict(version) do nothing"
+          set +e
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/migrations/20260903022604_erp_v2_6_18_cutting_persistence_pickup_wip.sql > cp5-proof/V2618_REPLAY_REJECTION.log 2>&1
+          replay_status=$?
+          set -e
+          test "$replay_status" -ne 0
+          grep -F 'v2.6.18 is already recorded' cp5-proof/V2618_REPLAY_REJECTION.log >/dev/null
+
+      - name: Prove exact recorded and unused v2.6.18 boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' | tee cp5-proof/V2618_RECORDED_BOUNDARY.json
+          select jsonb_build_object(
+            'status',case when
+              exists(select 1 from erp.schema_migrations where version='v2.6.18')
+              and not exists(select 1 from erp.schema_migrations where version in('v2.6.18a','v2.6.19'))
+              and exists(select 1 from supabase_migrations.schema_migrations
+                where version='20260903022604' and name='erp_v2_6_18_cutting_persistence_pickup_wip')
+              and (select count(*) from erp.cutting_bridge_v2618_rollback_capsule where object_kind='FUNCTION')=8
+              and (select count(*) from erp.cutting_bridge_v2618_rollback_capsule where object_kind='RELATION')=9
+              and not (select relrowsecurity from pg_class where oid='erp.cutting_bridge_v2618_rollback_capsule'::regclass)
+              and to_regclass('erp.cutting_bridge_v2618a_rollback_capsule') is null
+              and to_regclass('erp.cutting_bridge_execution_context') is null
+              and to_regclass('erp.idx_material_stock_location_roll') is not null
+              and to_regclass('erp.idx_material_stock_roll_location') is null
+              and md5(pg_get_functiondef('erp.require_internal()'::regprocedure))='785838675ae23699ce163e4218f058bf'
+              and md5(pg_get_functiondef('erp.list_patterns_v1(text,text,integer,integer)'::regprocedure))='feff17283c331b4883b208227bc99079'
+              and md5(pg_get_functiondef('erp.post_cutting_material_issue(uuid,uuid)'::regprocedure))='bf91c08814f5eba65412439b7edb07bb'
+              and not exists(select 1 from erp.cutting_pickups)
+              and not exists(select 1 from erp.cutting_distribution_batches)
+              and not exists(select 1 from erp.cutting_distribution_allocations)
+              and not exists(select 1 from erp.cutting_groups where source_location_id is not null)
+              then 'PASS' else 'FAIL' end,
+            'function_capsule',(select count(*) from erp.cutting_bridge_v2618_rollback_capsule where object_kind='FUNCTION'),
+            'relation_capsule',(select count(*) from erp.cutting_bridge_v2618_rollback_capsule where object_kind='RELATION'),
+            'cutting_facts',(select count(*) from erp.cutting_pickups),
+            'require_internal_md5',md5(pg_get_functiondef('erp.require_internal()'::regprocedure))
+          );
+          SQL
+          test "$(python -c "import json;print(json.load(open('cp5-proof/V2618_RECORDED_BOUNDARY.json'))['status'])")" = 'PASS'
+
+      - name: Apply v2.6.18a reconciliation once and reject replay
+        shell: bash
+        run: |
+          set -euo pipefail
+          sha256sum supabase/migrations/20260903070931_erp_v2_6_18a_cutting_bridge_reconciliation.sql | tee cp5-proof/V2618A_MIGRATION_SHA256.txt
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/migrations/20260903070931_erp_v2_6_18a_cutting_bridge_reconciliation.sql 2>&1 | tee cp5-proof/V2618A_APPLY.log
+          psql "$PGURL" -v ON_ERROR_STOP=1 -c "insert into supabase_migrations.schema_migrations(version,name,statements) values('20260903070931','erp_v2_6_18a_cutting_bridge_reconciliation',array[]::text[]) on conflict(version) do nothing"
+          set +e
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/migrations/20260903070931_erp_v2_6_18a_cutting_bridge_reconciliation.sql > cp5-proof/V2618A_REPLAY_REJECTION.log 2>&1
+          replay_status=$?
+          set -e
+          test "$replay_status" -ne 0
+          grep -F 'v2.6.18a is already recorded or CP5 is already installed' cp5-proof/V2618A_REPLAY_REJECTION.log >/dev/null
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/cutting_bridge_persistence_pickup_wip_rollback.sql 2>&1 | tee cp5-proof/V2618_ACCEPTANCE.log
+
+      - name: Apply v2.6.19 CP5 once and reject replay
+        shell: bash
+        run: |
+          set -euo pipefail
+          sha256sum supabase/migrations/20260903070932_erp_v2_6_19_cp5_bs_resolution_recovery.sql | tee cp5-proof/V2619_MIGRATION_SHA256.txt
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/migrations/20260903070932_erp_v2_6_19_cp5_bs_resolution_recovery.sql 2>&1 | tee cp5-proof/V2619_APPLY.log
+          psql "$PGURL" -v ON_ERROR_STOP=1 -c "insert into supabase_migrations.schema_migrations(version,name,statements) values('20260903070932','erp_v2_6_19_cp5_bs_resolution_recovery',array[]::text[]) on conflict(version) do nothing"
+          set +e
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/migrations/20260903070932_erp_v2_6_19_cp5_bs_resolution_recovery.sql > cp5-proof/V2619_REPLAY_REJECTION.log 2>&1
+          replay_status=$?
+          set -e
+          test "$replay_status" -ne 0
+          grep -F 'v2.6.19 is already recorded' cp5-proof/V2619_REPLAY_REJECTION.log >/dev/null
+
+      - name: Run authoritative CP5 lifecycle, DAMAGE, recovery, ACL, and rollback-safe acceptance
+        shell: bash
+        run: |
+          set -euo pipefail
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/cp5_bs_resolution_recovery_rollback.sql 2>&1 | tee cp5-proof/CP5_BS_RESOLUTION_ACCEPTANCE.log
+
+      - name: Run real two-connection CP5 serialization races
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/cp5_bs_resolution_concurrency.py 2>&1 | tee cp5-proof/CP5_BS_RESOLUTION_CONCURRENCY.log
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('cp5-proof/cp5-bs-resolution-concurrency.json').read_text())
+          assert r['status']=='PASS',r
+          assert r['assertions']=={
+            'exactly_one_disposition_winner':True,
+            'stale_disposition_cannot_overwrite':True,
+            'damage_claim_capacity_serialized':True,
+            'real_two_connection_wait_observed':True,
+          },r
+          assert all(value==0 for value in r['residue'].values()),r
+          PY
+
+      - name: Run CP5 real Auth, JWT, HTTP permission, replay, reversal, and cleanup E2E
+        shell: bash
+        run: |
+          set -euo pipefail
+          source <(supabase status --workdir cp5-local -o env)
+          export SUPABASE_URL="$API_URL"
+          export SUPABASE_ANON_KEY="$ANON_KEY"
+          export SUPABASE_SERVICE_ROLE_KEY="$SERVICE_ROLE_KEY"
+          export CP5_PROOF_CLASSIFICATION=LOCAL_FULL_SCHEMA_AUTH_VERIFIED
+          node scripts/cp5_auth_permission_e2e.mjs 2>&1 | tee cp5-proof/CP5_AUTH_PERMISSION_E2E.log
+          test "$(psql "$PGURL" -At -c 'select count(*) from auth.users')" = '0'
+          test "$(psql "$PGURL" -At -c 'select count(*) from erp.app_users')" = '0'
+          test "$(psql "$PGURL" -At -c 'select count(*) from erp.bs_resolution_execution_context')" = '0'
+
+      - name: Re-run affected Cutting, Pola, WIP, HPP, and accounting behavior under CP5
+        shell: bash
+        run: |
+          set -euo pipefail
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/cutting_bridge_persistence_pickup_wip_rollback.sql 2>&1 | tee cp5-proof/V2618_UNDER_CP5_REGRESSION.log
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/access_pattern_wip_control_rollback.sql 2>&1 | tee cp5-proof/CP45_UNDER_CP5_REGRESSION.log
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/cp45_pattern_assignment_immutability_rollback.sql 2>&1 | tee cp5-proof/CP45A_UNDER_CP5_REGRESSION.log
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/cp4_hpp_route_auth_rollback.sql 2>&1 | tee cp5-proof/CP4_UNDER_CP5_REGRESSION.log
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/payroll_component_entitlement_rollback.sql 2>&1 | tee cp5-proof/V2615_UNDER_CP5_REGRESSION.log
+
+      - name: Run Pattern-filter and CP5 mocked-UAT browser contracts on desktop and mobile
+        shell: bash
+        run: |
+          set -euo pipefail
+          npx playwright install --with-deps chromium
+          npm run build
+          npm run test:browser:precp5
+          cp -R cp45-browser-proof cp5-proof/pre-cp5-pattern-browser
+          npm run test:browser:cp5
+          cp -R cp5-browser-contract-proof cp5-proof/browser-contract
+
+      - name: Reject wrong-name local v2.6.19 rollback ledger
+        shell: bash
+        run: |
+          set -euo pipefail
+          set +e
+          psql "$PGURL" -v ON_ERROR_STOP=1 <<'SQL' > cp5-proof/V2619_ROLLBACK_WRONG_LOCAL_NAME_REJECTION.log 2>&1
+          begin;
+          update supabase_migrations.schema_migrations
+          set name='WRONG_MIGRATION'
+          where version='20260903070932'
+            and name='erp_v2_6_19_cp5_bs_resolution_recovery';
+          \i supabase/rollbacks/20260903070932_erp_v2_6_19_cp5_bs_resolution_recovery.rollback.sql
+          SQL
+          rollback_status=$?
+          set -e
+          test "$rollback_status" -ne 0
+          grep -F 'v2.6.19 rollback refused: platform ledger identity is ambiguous' \
+            cp5-proof/V2619_ROLLBACK_WRONG_LOCAL_NAME_REJECTION.log >/dev/null
+          test "$(psql "$PGURL" -At -c "select count(*) from supabase_migrations.schema_migrations where version='20260903070932' and name='erp_v2_6_19_cp5_bs_resolution_recovery'")" = '1'
+          test "$(psql "$PGURL" -At -c "select count(*) from erp.schema_migrations where version='v2.6.19'")" = '1'
+          test "$(psql "$PGURL" -At -c "select to_regprocedure('public.erp_save_bs_resolution_action_v1(text,jsonb,uuid,bigint)') is not null")" = 't'
+
+      - name: Roll back connector-shaped v2.6.19 and prove exact v2.6.18a restoration
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp5_source='supabase/migrations/20260903070932_erp_v2_6_19_cp5_bs_resolution_recovery.sql'
+          cp5_source_b64="$(base64 -w0 "$cp5_source")"
+          psql "$PGURL" -v ON_ERROR_STOP=1 -v cp5_source_b64="$cp5_source_b64" <<'SQL'
+          update supabase_migrations.schema_migrations
+          set version='20260903080932',
+              statements=array[convert_from(decode(:'cp5_source_b64','base64'),'UTF8')]
+          where version='20260903070932'
+            and name='erp_v2_6_19_cp5_bs_resolution_recovery';
+          SQL
+          psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' | tee cp5-proof/V2619_HOSTED_PLATFORM_LEDGER_SHAPE.json
+          select jsonb_build_object(
+            'version',version,
+            'name',name,
+            'source_bytes',octet_length(array_to_string(statements,E'\n')),
+            'source_sha256',encode(
+              extensions.digest(convert_to(array_to_string(statements,E'\n'),'UTF8'),'sha256'),
+              'hex'
+            )
+          )
+          from supabase_migrations.schema_migrations
+          where name='erp_v2_6_19_cp5_bs_resolution_recovery';
+          SQL
+          expected_hash="$(sha256sum "$cp5_source" | awk '{print $1}')"
+          observed_hash="$(python -c "import json;print(json.load(open('cp5-proof/V2619_HOSTED_PLATFORM_LEDGER_SHAPE.json'))['source_sha256'])")"
+          test "$observed_hash" = "$expected_hash"
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/rollbacks/20260903070932_erp_v2_6_19_cp5_bs_resolution_recovery.rollback.sql 2>&1 | tee cp5-proof/V2619_ROLLBACK.log
+          psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' | tee cp5-proof/V2619_ROLLBACK_RESIDUE.json
+          select jsonb_build_object(
+            'status',case when
+              exists(select 1 from erp.schema_migrations where version='v2.6.18')
+              and exists(select 1 from erp.schema_migrations where version='v2.6.18a')
+              and not exists(select 1 from erp.schema_migrations where version='v2.6.19')
+              and exists(select 1 from supabase_migrations.schema_migrations where version='20260903022604')
+              and exists(select 1 from supabase_migrations.schema_migrations where version='20260903070931')
+              and not exists(select 1 from supabase_migrations.schema_migrations where name='erp_v2_6_19_cp5_bs_resolution_recovery')
+              and to_regclass('erp.bs_resolution_v2619_rollback_capsule') is null
+              and to_regclass('erp.bs_case_hold_events') is null
+              and to_regclass('erp.bs_resolution_execution_context') is null
+              and to_regclass('erp.cutting_bridge_v2618a_rollback_capsule') is not null
+              and to_regclass('erp.cutting_bridge_execution_context') is not null
+              and to_regprocedure('public.erp_get_bs_resolution_workspace_v1(text,text,uuid,text,integer,integer)') is null
+              and to_regprocedure('public.erp_get_cutting_workspace_v1(text,uuid,integer,integer)') is not null
+              then 'PASS' else 'FAIL' end,
+            'v2618_application',exists(select 1 from erp.schema_migrations where version='v2.6.18'),
+            'v2618a_application',exists(select 1 from erp.schema_migrations where version='v2.6.18a'),
+            'v2619_application',exists(select 1 from erp.schema_migrations where version='v2.6.19'),
+            'v2619_platform',exists(select 1 from supabase_migrations.schema_migrations where name='erp_v2_6_19_cp5_bs_resolution_recovery'),
+            'cutting_context',to_regclass('erp.cutting_bridge_execution_context')
+          );
+          SQL
+          test "$(python -c "import json;print(json.load(open('cp5-proof/V2619_ROLLBACK_RESIDUE.json'))['status'])")" = 'PASS'
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/cutting_bridge_persistence_pickup_wip_rollback.sql 2>&1 | tee cp5-proof/V2618_AFTER_CP5_ROLLBACK.log
+
+      - name: Reject wrong-name local v2.6.18a rollback ledger
+        shell: bash
+        run: |
+          set -euo pipefail
+          set +e
+          psql "$PGURL" -v ON_ERROR_STOP=1 <<'SQL' > cp5-proof/V2618A_ROLLBACK_WRONG_LOCAL_NAME_REJECTION.log 2>&1
+          begin;
+          update supabase_migrations.schema_migrations
+          set name='WRONG_MIGRATION'
+          where version='20260903070931'
+            and name='erp_v2_6_18a_cutting_bridge_reconciliation';
+          \i supabase/rollbacks/20260903070931_erp_v2_6_18a_cutting_bridge_reconciliation.rollback.sql
+          SQL
+          rollback_status=$?
+          set -e
+          test "$rollback_status" -ne 0
+          grep -F 'v2.6.18a rollback refused: platform ledger identity is ambiguous' \
+            cp5-proof/V2618A_ROLLBACK_WRONG_LOCAL_NAME_REJECTION.log >/dev/null
+          test "$(psql "$PGURL" -At -c "select count(*) from supabase_migrations.schema_migrations where version='20260903070931' and name='erp_v2_6_18a_cutting_bridge_reconciliation'")" = '1'
+          test "$(psql "$PGURL" -At -c "select count(*) from erp.schema_migrations where version='v2.6.18a'")" = '1'
+          test "$(psql "$PGURL" -At -c "select to_regclass('erp.cutting_bridge_execution_context') is not null")" = 't'
+
+      - name: Roll back connector-shaped v2.6.18a and prove exact recorded v2.6.18 restoration
+        shell: bash
+        run: |
+          set -euo pipefail
+          correction_source='supabase/migrations/20260903070931_erp_v2_6_18a_cutting_bridge_reconciliation.sql'
+          correction_source_b64="$(base64 -w0 "$correction_source")"
+          psql "$PGURL" -v ON_ERROR_STOP=1 -v correction_source_b64="$correction_source_b64" <<'SQL'
+          update supabase_migrations.schema_migrations
+          set version='20260903080931',
+              statements=array[convert_from(decode(:'correction_source_b64','base64'),'UTF8')]
+          where version='20260903070931'
+            and name='erp_v2_6_18a_cutting_bridge_reconciliation';
+          SQL
+          psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' | tee cp5-proof/V2618A_HOSTED_PLATFORM_LEDGER_SHAPE.json
+          select jsonb_build_object(
+            'version',version,
+            'name',name,
+            'source_bytes',octet_length(array_to_string(statements,E'\n')),
+            'source_sha256',encode(
+              extensions.digest(convert_to(array_to_string(statements,E'\n'),'UTF8'),'sha256'),
+              'hex'
+            )
+          )
+          from supabase_migrations.schema_migrations
+          where name='erp_v2_6_18a_cutting_bridge_reconciliation';
+          SQL
+          expected_hash="$(sha256sum "$correction_source" | awk '{print $1}')"
+          observed_hash="$(python -c "import json;print(json.load(open('cp5-proof/V2618A_HOSTED_PLATFORM_LEDGER_SHAPE.json'))['source_sha256'])")"
+          test "$observed_hash" = "$expected_hash"
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/rollbacks/20260903070931_erp_v2_6_18a_cutting_bridge_reconciliation.rollback.sql 2>&1 | tee cp5-proof/V2618A_ROLLBACK.log
+          psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' | tee cp5-proof/V2618A_ROLLBACK_RESIDUE.json
+          select jsonb_build_object(
+            'status',case when
+              exists(select 1 from erp.schema_migrations where version='v2.6.18')
+              and not exists(select 1 from erp.schema_migrations where version in('v2.6.18a','v2.6.19'))
+              and exists(select 1 from supabase_migrations.schema_migrations where version='20260903022604')
+              and not exists(select 1 from supabase_migrations.schema_migrations
+                where name in('erp_v2_6_18a_cutting_bridge_reconciliation','erp_v2_6_19_cp5_bs_resolution_recovery'))
+              and to_regclass('erp.cutting_bridge_v2618_rollback_capsule') is not null
+              and to_regclass('erp.cutting_bridge_v2618a_rollback_capsule') is null
+              and to_regclass('erp.cutting_bridge_execution_context') is null
+              and to_regclass('erp.idx_material_stock_location_roll') is not null
+              and to_regclass('erp.idx_material_stock_roll_location') is null
+              and not (select relrowsecurity from pg_class where oid='erp.cutting_bridge_v2618_rollback_capsule'::regclass)
+              and md5(pg_get_functiondef('erp.require_internal()'::regprocedure))='785838675ae23699ce163e4218f058bf'
+              and md5(pg_get_functiondef('erp.list_patterns_v1(text,text,integer,integer)'::regprocedure))='feff17283c331b4883b208227bc99079'
+              and md5(pg_get_functiondef('erp.post_cutting_material_issue(uuid,uuid)'::regprocedure))='bf91c08814f5eba65412439b7edb07bb'
+              then 'PASS' else 'FAIL' end,
+            'v2618_application',exists(select 1 from erp.schema_migrations where version='v2.6.18'),
+            'v2618a_application',exists(select 1 from erp.schema_migrations where version='v2.6.18a'),
+            'require_internal_md5',md5(pg_get_functiondef('erp.require_internal()'::regprocedure))
+          );
+          SQL
+          test "$(python -c "import json;print(json.load(open('cp5-proof/V2618A_ROLLBACK_RESIDUE.json'))['status'])")" = 'PASS'
+
+      - name: Reject wrong-name local v2.6.18 rollback ledger
+        shell: bash
+        run: |
+          set -euo pipefail
+          set +e
+          psql "$PGURL" -v ON_ERROR_STOP=1 <<'SQL' > cp5-proof/V2618_ROLLBACK_WRONG_LOCAL_NAME_REJECTION.log 2>&1
+          begin;
+          update supabase_migrations.schema_migrations
+          set name='WRONG_MIGRATION'
+          where version='20260903022604'
+            and name='erp_v2_6_18_cutting_persistence_pickup_wip';
+          \i supabase/rollbacks/20260903022604_erp_v2_6_18_cutting_persistence_pickup_wip.rollback.sql
+          SQL
+          rollback_status=$?
+          set -e
+          test "$rollback_status" -ne 0
+          grep -F 'v2.6.18 rollback refused: platform ledger identity is ambiguous' \
+            cp5-proof/V2618_ROLLBACK_WRONG_LOCAL_NAME_REJECTION.log >/dev/null
+          test "$(psql "$PGURL" -At -c "select count(*) from supabase_migrations.schema_migrations where version='20260903022604' and name='erp_v2_6_18_cutting_persistence_pickup_wip'")" = '1'
+          test "$(psql "$PGURL" -At -c "select count(*) from erp.schema_migrations where version='v2.6.18'")" = '1'
+          test "$(psql "$PGURL" -At -c "select to_regprocedure('public.erp_get_cutting_workspace_v1(text,uuid,integer,integer)') is not null")" = 't'
+
+      - name: Roll back UAT-ledger-shaped v2.6.18 and prove exact CP4.5 restoration
+        shell: bash
+        run: |
+          set -euo pipefail
+          cutting_source='supabase/migrations/20260903022604_erp_v2_6_18_cutting_persistence_pickup_wip.sql'
+          cutting_source_b64="$(base64 -w0 "$cutting_source")"
+          psql "$PGURL" -v ON_ERROR_STOP=1 -v cutting_source_b64="$cutting_source_b64" <<'SQL' | tee cp5-proof/V2618_HOSTED_PLATFORM_LEDGER_SHAPE.json
+          update supabase_migrations.schema_migrations
+          set version='20260903060213',
+              statements=array[convert_from(decode(:'cutting_source_b64','base64'),'UTF8')]
+          where version='20260903022604'
+            and name='erp_v2_6_18_cutting_persistence_pickup_wip';
+          select jsonb_build_object(
+            'version',version,
+            'name',name,
+            'source_bytes',octet_length(array_to_string(statements,E'\n')),
+            'source_sha256',encode(
+              extensions.digest(convert_to(array_to_string(statements,E'\n'),'UTF8'),'sha256'),
+              'hex'
+            )
+          )
+          from supabase_migrations.schema_migrations
+          where name='erp_v2_6_18_cutting_persistence_pickup_wip';
+          SQL
+          grep -F '6a568a78ad0b9baa2ef5ee958ee967d7c997cc1f4dfb7f0e4ef5e6ff69e5038f' \
+            cp5-proof/V2618_HOSTED_PLATFORM_LEDGER_SHAPE.json >/dev/null
+          grep -F '80392' cp5-proof/V2618_HOSTED_PLATFORM_LEDGER_SHAPE.json >/dev/null
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/rollbacks/20260903022604_erp_v2_6_18_cutting_persistence_pickup_wip.rollback.sql 2>&1 | tee cp5-proof/V2618_ROLLBACK.log
+          psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' | tee cp5-proof/V2618_ROLLBACK_RESIDUE.json
+          select jsonb_build_object(
+            'status',case when
+              exists(select 1 from erp.schema_migrations where version='v2.6.17a')
+              and not exists(select 1 from erp.schema_migrations where version in('v2.6.18','v2.6.18a','v2.6.19'))
+              and not exists(select 1 from supabase_migrations.schema_migrations
+                where version in('20260903022604','20260903060213','20260903070931','20260903070932','20260903080931','20260903080932')
+                   or name in('erp_v2_6_18_cutting_persistence_pickup_wip','erp_v2_6_18a_cutting_bridge_reconciliation','erp_v2_6_19_cp5_bs_resolution_recovery'))
+              and to_regclass('erp.cutting_bridge_v2618_rollback_capsule') is null
+              and to_regclass('erp.cutting_bridge_v2618a_rollback_capsule') is null
+              and to_regclass('erp.cutting_bridge_execution_context') is null
+              and to_regclass('erp.cutting_pickups') is null
+              and to_regclass('erp.cutting_distribution_batches') is null
+              and to_regclass('erp.cutting_distribution_allocations') is null
+              and not exists(select 1 from information_schema.columns where table_schema='erp' and table_name='cutting_groups' and column_name='source_location_id')
+              and md5(pg_get_functiondef('erp.require_internal()'::regprocedure))='785838675ae23699ce163e4218f058bf'
+              and md5(pg_get_functiondef('erp.list_patterns_v1(text,text,integer,integer)'::regprocedure))='feff17283c331b4883b208227bc99079'
+              then 'PASS' else 'FAIL' end,
+            'v2617a_application',exists(select 1 from erp.schema_migrations where version='v2.6.17a'),
+            'v2618_application',exists(select 1 from erp.schema_migrations where version='v2.6.18'),
+            'v2618_platform',exists(select 1 from supabase_migrations.schema_migrations where version='20260903022604')
+          );
+          SQL
+          test "$(python -c "import json;print(json.load(open('cp5-proof/V2618_ROLLBACK_RESIDUE.json'))['status'])")" = 'PASS'
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/access_pattern_wip_control_rollback.sql 2>&1 | tee cp5-proof/CP45_AFTER_CP5_ROLLBACK.log
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/cp45_pattern_assignment_immutability_rollback.sql 2>&1 | tee cp5-proof/CP45A_AFTER_CP5_ROLLBACK.log
+
+      - name: Run frontend, ownership, security, and production build regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm test
+          npm run test:security
+          npm run build
+
+      - name: Record final no-residue and no-production-GO boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' | tee cp5-proof/FINAL_RECONCILIATION.json
+          select jsonb_build_object(
+            'status',case when
+              (select count(*) from auth.users)=0
+              and (select count(*) from erp.app_users)=0
+              and not exists(select 1 from erp.schema_migrations where version in('v2.6.18','v2.6.18a','v2.6.19'))
+              and not exists(select 1 from supabase_migrations.schema_migrations
+                where version in('20260903022604','20260903060213','20260903070931','20260903070932','20260903080931','20260903080932')
+                   or name in('erp_v2_6_18_cutting_persistence_pickup_wip','erp_v2_6_18a_cutting_bridge_reconciliation','erp_v2_6_19_cp5_bs_resolution_recovery'))
+              and to_regclass('erp.cutting_bridge_v2618a_rollback_capsule') is null
+              and to_regclass('erp.cutting_bridge_execution_context') is null
+              and to_regclass('erp.bs_resolution_execution_context') is null
+              then 'PASS' else 'FAIL' end,
+            'auth_users',(select count(*) from auth.users),
+            'app_users',(select count(*) from erp.app_users),
+            'v2618_application',exists(select 1 from erp.schema_migrations where version='v2.6.18'),
+            'v2618a_application',exists(select 1 from erp.schema_migrations where version='v2.6.18a'),
+            'v2619_application',exists(select 1 from erp.schema_migrations where version='v2.6.19'),
+            'production_go',false
+          );
+          SQL
+          test "$(python -c "import json;print(json.load(open('cp5-proof/FINAL_RECONCILIATION.json'))['status'])")" = 'PASS'
+
+      - name: Upload non-secret CP5 proof
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cp5-r1-full-schema-auth-browser-proof
+          path: cp5-proof
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Destroy disposable stack and recovery material
+        if: always()
+        shell: bash
+        run: |
+          supabase stop --workdir cp5-local --no-backup 2>/dev/null || true
+          find recovery recovery-transport -type f \( -name '*.zip' -o -name '*.zip.enc' -o -name '*KEY*.txt' -o -name '*passphrase*' \) -exec shred -u {} + 2>/dev/null || true
+          rm -rf cp5-local recovery restore recovery-transport /tmp/v2615-byte-bound-body.sql

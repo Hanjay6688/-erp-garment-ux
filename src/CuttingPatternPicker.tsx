@@ -53,6 +53,7 @@ export default function CuttingPatternPicker({ value, onChange }: {
   const [revision, setRevision] = useState('R1')
   const [name, setName] = useState('')
   const [saving, setSaving] = useState(false)
+  const savingRef = useRef(false)
   const requestIdRef = useRef(globalThis.crypto.randomUUID())
 
   useEffect(() => {
@@ -60,16 +61,24 @@ export default function CuttingPatternPicker({ value, onChange }: {
     let cancelled = false
     const timer = globalThis.setTimeout(() => {
       setLoading(true)
-      void client.rpc('erp_list_patterns_v1', {
-        p_status: 'ACTIVE', p_query: query.trim() || null, p_limit: 30, p_offset: 0,
-      }).then(({ data, error: loadError }) => {
-        if (cancelled) return
-        if (loadError) setError(normalizeClientError(loadError).message)
-        else {
-          try { setRows(parsePatternRows(data)) } catch (parseError) { setError(String(parseError)) }
+      setError('')
+      void (async () => {
+        try {
+          const { data, error: loadError } = await client.rpc('erp_list_patterns_v1', {
+            p_status: 'ACTIVE', p_query: query.trim() || null, p_limit: 30, p_offset: 0,
+          })
+          if (cancelled) return
+          if (loadError) {
+            setError(normalizeClientError(loadError).message)
+            return
+          }
+          setRows(parsePatternRows(data))
+        } catch (loadFailure) {
+          if (!cancelled) setError(loadFailure instanceof Error ? loadFailure.message : normalizeClientError(loadFailure).message)
+        } finally {
+          if (!cancelled) setLoading(false)
         }
-        setLoading(false)
-      })
+      })()
     }, 180)
     return () => { cancelled = true; globalThis.clearTimeout(timer) }
   }, [client, query])
@@ -88,7 +97,7 @@ export default function CuttingPatternPicker({ value, onChange }: {
   }
 
   const quickCreate = async () => {
-    if (!canManage || saving) return
+    if (!canManage || savingRef.current) return
     const normalizedCode = code.trim().toUpperCase()
     const normalizedRevision = revision.trim().toUpperCase()
     const normalizedName = name.trim()
@@ -96,6 +105,7 @@ export default function CuttingPatternPicker({ value, onChange }: {
       setError('Kode, revisi, dan nama Pola wajib diisi.')
       return
     }
+    savingRef.current = true
     setSaving(true)
     try {
       let choice: CuttingPatternChoice
@@ -120,6 +130,7 @@ export default function CuttingPatternPicker({ value, onChange }: {
     } catch (saveError) {
       setError(saveError instanceof Error ? saveError.message : String(saveError))
     } finally {
+      savingRef.current = false
       setSaving(false)
     }
   }

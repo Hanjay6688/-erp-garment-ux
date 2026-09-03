@@ -87,6 +87,20 @@ export type PreconnectDatabase = {
         Args: { p_payload: Json; p_client_request_id: string; p_expected_version?: number | null }
         Returns: Json
       }
+      erp_get_bs_resolution_workspace_v1: {
+        Args: {
+          p_filter?: string; p_kind?: string; p_pattern_id?: string | null
+          p_query?: string | null; p_limit?: number; p_offset?: number
+        }
+        Returns: Json
+      }
+      erp_save_bs_resolution_action_v1: {
+        Args: {
+          p_action: string; p_payload: Json; p_client_request_id: string
+          p_expected_version?: number | null
+        }
+        Returns: Json
+      }
       erp_post_final_sku_allocation_v1: {
         Args: { p_payload: Json; p_client_request_id: string; p_expected_version: number }
         Returns: Json

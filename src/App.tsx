@@ -47,6 +47,7 @@ const PatternPage = lazy(() => import('./PatternPage'))
 const ConnectedCuttingPage = lazy(() => import('./ConnectedCuttingPage'))
 const ConnectedPickupPage = lazy(() => import('./ConnectedPickupPage'))
 const ConnectedWipStatusPage = lazy(() => import('./ConnectedWipStatusPage'))
+const ConnectedBsResolutionPage = lazy(() => import('./ConnectedBsResolutionPage'))
 
 type Page = 'dashboard' | 'stock-card' | 'movements-vivo' | 'movements-widie' | 'procurement' | 'cutting-roll' | 'mandor-wip' | 'contractor-issue' | 'sewing-wip' | 'qc' | 'fg-handoff' | 'bs-rework' | 'laundry' | 'hpp' | 'master-pattern' | 'admin-access' | SalesView | FinanceView | WarehouseView | MaterialMasterView | BusinessMasterView | OperationsAdminView | 'placeholder'
 type NavSection = 'Produksi' | 'Gudang' | 'Penjualan' | 'Keuangan' | 'Master Data'
@@ -585,13 +586,13 @@ function App() {
         {page === 'movements-widie' && <Movements bookName="Widie" bookBrands={widieBookBrands} setBookBrands={setWidieBookBrands} movements={movements} setMovements={setMovements} />}
         {page === 'procurement' && <ProcurementPage />}
         {(page === 'warehouse-dashboard' || page === 'materials-rolls' || page === 'accessories' || page === 'fg-summary' || page === 'stock-adjustment' || page === 'brand-conversion') && <Suspense fallback={<WorkspaceFallback label="Gudang"/>}><WarehousePages view={page} onNavigate={(next)=>setPage(next)} /></Suspense>}
-        {page === 'cutting-roll' && runtime.mode === 'UAT_AUTH_SIMULATION' && <Suspense fallback={<WorkspaceFallback label="Buat Potongan connected"/>}><ConnectedCuttingPage/></Suspense>}
-        {page === 'cutting-roll' && runtime.mode !== 'UAT_AUTH_SIMULATION' && <CuttingRollPage />}
-        {page === 'mandor-wip' && runtime.mode === 'UAT_AUTH_SIMULATION' && <Suspense fallback={<WorkspaceFallback label="Bagi Potongan connected"/>}><ConnectedPickupPage/></Suspense>}
-        {page === 'mandor-wip' && runtime.mode !== 'UAT_AUTH_SIMULATION' && <MandorWipPage batchNotes={mandorBatchNotes} setBatchNotes={setMandorBatchNotes} />}
+        {page === 'cutting-roll' && runtime.cuttingMode === 'CONNECTED' && <Suspense fallback={<WorkspaceFallback label="Buat Potongan connected"/>}><ConnectedCuttingPage/></Suspense>}
+        {page === 'cutting-roll' && runtime.cuttingMode === 'SIMULATION' && <CuttingRollPage />}
+        {page === 'mandor-wip' && runtime.distributionMode === 'CONNECTED' && <Suspense fallback={<WorkspaceFallback label="Bagi Potongan connected"/>}><ConnectedPickupPage/></Suspense>}
+        {page === 'mandor-wip' && runtime.distributionMode === 'SIMULATION' && <MandorWipPage batchNotes={mandorBatchNotes} setBatchNotes={setMandorBatchNotes} />}
         {page === 'contractor-issue' && <Suspense fallback={<WorkspaceFallback label="Nota Ambil Aksesori"/>}><ContractorIssuePage/></Suspense>}
-        {page === 'sewing-wip' && runtime.mode === 'UAT_AUTH_SIMULATION' && <Suspense fallback={<WorkspaceFallback label="WIP authoritative"/>}><ConnectedWipStatusPage/></Suspense>}
-        {page === 'sewing-wip' && runtime.mode !== 'UAT_AUTH_SIMULATION' && <SewingWipPage
+        {page === 'sewing-wip' && runtime.wipStatusMode === 'CONNECTED' && <Suspense fallback={<WorkspaceFallback label="WIP authoritative"/>}><ConnectedWipStatusPage/></Suspense>}
+        {page === 'sewing-wip' && runtime.wipStatusMode === 'SIMULATION' && <SewingWipPage
           batchNotes={mandorBatchNotes}
           deliveries={laundryDeliveries}
           finalizedResults={finalizedQcResults}
@@ -641,7 +642,8 @@ function App() {
           onOpenQc={()=>{if(qcResult)setQcSeedId(`${qcResult.parentId}::${qcResult.batchId}`);setPage('qc')}}
           onOpenBs={()=>{setBsPrefill(qcResult);setBsBackPage('fg-handoff');setPage('bs-rework')}}
         /></Suspense>}
-        {page === 'bs-rework' && <Suspense fallback={<WorkspaceFallback label="Barang BS & Rework"/>}><BsReworkPage
+        {page === 'bs-rework' && runtime.bsResolutionMode === 'CONNECTED' && <Suspense fallback={<WorkspaceFallback label="BS Resolution connected"/>}><ConnectedBsResolutionPage/></Suspense>}
+        {page === 'bs-rework' && runtime.bsResolutionMode === 'SIMULATION' && <Suspense fallback={<WorkspaceFallback label="Barang BS & Rework"/>}><BsReworkPage
           initialResult={bsPrefill}
           initialWorkspace={bsWorkspace??undefined}
           onWorkspaceChange={setBsWorkspace}
@@ -1903,7 +1905,7 @@ function LaundryPage({prefill,readyBatches,setReadyBatches,deliveries,setDeliver
 
   const visibleReady=readyBatches.filter((batch)=>batch.vendor!=='Belum dipilih').filter((batch)=>vendorFilter==='Semua laundry'||batch.vendor===vendorFilter).filter((batch)=>!patternFilter||batch.pattern?.id===patternFilter).filter((batch)=>`${batch.parentId} ${batch.id} ${batch.model} ${batch.material} ${batch.mandor} ${batch.vendor} ${batch.note} ${patternSnapshotLabel(batch.pattern)}`.toLowerCase().includes(query.toLowerCase())).sort((a,b)=>b.sequence-a.sequence)
   const groupedReady=Array.from(visibleReady.reduce((groups,batch)=>groups.set(batch.parentId,[...(groups.get(batch.parentId)??[]),batch]),new Map<string,LaundryReadyBatch[]>()).entries())
-  const selectedBatches=visibleReady.filter((batch)=>selectedIds.includes(batch.id))
+  const selectedBatches=readyBatches.filter((batch)=>selectedIds.includes(batch.id))
   const selectedParent=selectedBatches[0]?.parentId??''
   const selectedVendor=selectedBatches[0]?.vendor??''
   const selectedTotal=selectedBatches.reduce((sum,batch)=>sum+(sendSizeInputs[batch.id]??batch.sizes.map(String)).reduce((subtotal,value)=>subtotal+cellQuantity(value),0),0)

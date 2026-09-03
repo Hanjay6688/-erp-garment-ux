@@ -79,7 +79,7 @@ export default function QcFinalPage({seeds,initialSeedId,finalizedResults,posted
     const haystack=`${seed.parentId} ${seed.batchId} ${seed.model} ${seed.material} ${seed.mandor} ${seed.laundry} ${patternLabel}`.toLowerCase()
     return haystack.includes(query.toLowerCase())&&(mandorFilter==='Semua mandor'||seed.mandor===mandorFilter)&&(laundryFilter==='Semua laundry'||seed.laundry===laundryFilter)&&(!patternFilter||seed.pattern?.id===patternFilter)
   }),[seeds,query,mandorFilter,laundryFilter,patternFilter])
-  const selected=visible.find((seed)=>keyOf(seed)===selectedId)??visible[0]??null
+  const selected=visible.find((seed)=>keyOf(seed)===selectedId)??visible[0]
   const finalizedById=useMemo(()=>{
     const latest=new Map<string,QcFinalResult>()
     finalizedResults.forEach((result)=>{

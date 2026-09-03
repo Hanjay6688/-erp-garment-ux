@@ -14,7 +14,7 @@ import {
 const queueRow: PickupQueueRow = {
   cutting_group_id: 'group-1', group_number: 'POT-001', row_version: 4,
   po_id: 'po-1', po_number: 'PO-001', model_code: 'MDL', model_name: 'Model',
-  assigned_contractor_id: null, assigned_contractor_name: null,
+  assigned_contractor_id: 'mandor-1', assigned_contractor_name: 'Mandor A',
   cut_at: '2026-09-03T00:00:00Z', status: 'CUT', picked_up_at: null, executor_name: null,
   source_location_id: 'loc-1', source_location_code: 'RM', pickup_eligible: true,
   pattern_id: 'pattern-1', pattern_code: 'REG', pattern_revision: 'R1', pattern_name: 'Regular',
@@ -65,6 +65,7 @@ describe('cutting persistence response boundary', () => {
       }],
     })
     expect(parsed.drafts[0]).toMatchObject({ cutting_group_id: 'group-1', pattern_code: 'REG', editable: true })
+    expect(parsed.sizes[0].model_ids).toEqual(['model-1'])
     expect(parsed.rolls[0].available_qty).toBe(20)
   })
 
@@ -159,16 +160,6 @@ describe('pickup queue parser', () => {
       }],
     })
     expect(parsed.rows[0].pickup?.batches[0].allocations).toHaveLength(2)
-  })
-
-  it('preserves the PO Mandor lock used by Pickup posting', () => {
-    const parsed = parsePickupQueue({
-      filter: 'WAITING', pattern_id: null, query: null, limit: 50, offset: 0, total: 1,
-      contractors: [{ id: 'mandor-1', code: 'M-1', name: 'Mandor A' }],
-      rows: [{ ...queueRow, assigned_contractor_id: 'mandor-1', assigned_contractor_name: 'Mandor A' }],
-    })
-    expect(parsed.rows[0]).toMatchObject({
-      assigned_contractor_id: 'mandor-1', assigned_contractor_name: 'Mandor A',
-    })
+    expect(parsed.rows[0]).toMatchObject({ assigned_contractor_id: 'mandor-1', assigned_contractor_name: 'Mandor A' })
   })
 })

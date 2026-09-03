@@ -24,6 +24,7 @@ const runtime: UatRuntimeConfig = {
   cuttingMode: 'CONNECTED',
   distributionMode: 'CONNECTED',
   wipStatusMode: 'CONNECTED',
+  bsResolutionMode: 'CONNECTED',
   projectRef: 'siimvrusnzxexizpyoib',
   supabaseUrl: 'https://siimvrusnzxexizpyoib.supabase.co',
   browserKey: 'sb_publishable_test_only_1234567890',

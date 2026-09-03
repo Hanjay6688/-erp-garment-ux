@@ -1,0 +1,61 @@
+{
+  "format": "CP5_UAT_READONLY_PREFLIGHT_V1",
+  "observed_at": "2026-09-03T07:35:05.395347+00:00",
+  "query_class": "SELECT_ONLY",
+  "project": {
+    "id": "siimvrusnzxexizpyoib",
+    "name": "ERP Enteng",
+    "status": "ACTIVE_HEALTHY",
+    "region": "ap-southeast-1",
+    "postgres_version": "17.6.1.165"
+  },
+  "application_versions": [
+    "v2.6.18"
+  ],
+  "platform_entries": [
+    {
+      "version": "20260903060213",
+      "name": "erp_v2_6_18_cutting_persistence_pickup_wip",
+      "statement_count": 1,
+      "source_bytes": 80392,
+      "source_sha256": "6a568a78ad0b9baa2ef5ee958ee967d7c997cc1f4dfb7f0e4ef5e6ff69e5038f"
+    }
+  ],
+  "business_facts": {
+    "cutting_pickups": 0,
+    "distribution_batches": 0,
+    "distribution_allocations": 0,
+    "source_location_groups": 0,
+    "bridge_idempotency": 0,
+    "bridge_audit": 0
+  },
+  "objects": {
+    "v2618_capsule": "erp.cutting_bridge_v2618_rollback_capsule",
+    "v2618_capsule_function_count": 8,
+    "v2618_capsule_relation_count": 9,
+    "v2618_capsule_rls": false,
+    "v2618a_capsule": null,
+    "cutting_context": null,
+    "bs_context": null,
+    "old_stock_index": "erp.idx_material_stock_location_roll",
+    "new_stock_index": null
+  },
+  "functions": {
+    "require_internal_md5": "785838675ae23699ce163e4218f058bf",
+    "list_patterns_md5": "feff17283c331b4883b208227bc99079",
+    "post_cutting_md5": "bf91c08814f5eba65412439b7edb07bb",
+    "private_helpers_with_guard": 0
+  },
+  "activity": {
+    "waiting_on_lock": 0,
+    "transactions_over_5m": 0
+  },
+  "conclusion": {
+    "exact_recorded_source_matches_local": true,
+    "v2618a_absent": true,
+    "v2619_absent": true,
+    "unused_reconciliation_boundary": true,
+    "uat_mutated_by_preflight": false,
+    "production_go": false
+  }
+}

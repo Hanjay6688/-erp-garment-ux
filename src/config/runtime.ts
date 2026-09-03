@@ -13,6 +13,7 @@ export type DemoRuntimeConfig = {
   cuttingMode: 'SIMULATION'
   distributionMode: 'SIMULATION'
   wipStatusMode: 'SIMULATION'
+  bsResolutionMode: 'SIMULATION'
 }
 
 export type UatRuntimeConfig = {
@@ -25,6 +26,7 @@ export type UatRuntimeConfig = {
   cuttingMode: 'CONNECTED'
   distributionMode: 'CONNECTED'
   wipStatusMode: 'CONNECTED'
+  bsResolutionMode: 'CONNECTED'
   projectRef: typeof ERP_ENTENG_UAT_PROJECT_REF
   supabaseUrl: string
   browserKey: string
@@ -165,6 +167,7 @@ export function parseRuntimeConfig(environment: RuntimeEnvironment): RuntimeConf
       cuttingMode: 'SIMULATION',
       distributionMode: 'SIMULATION',
       wipStatusMode: 'SIMULATION',
+      bsResolutionMode: 'SIMULATION',
     }
   }
 
@@ -209,6 +212,7 @@ export function parseRuntimeConfig(environment: RuntimeEnvironment): RuntimeConf
     cuttingMode: 'CONNECTED',
     distributionMode: 'CONNECTED',
     wipStatusMode: 'CONNECTED',
+    bsResolutionMode: 'CONNECTED',
     projectRef: ERP_ENTENG_UAT_PROJECT_REF,
     supabaseUrl,
     browserKey,
