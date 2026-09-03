@@ -204,11 +204,13 @@ jobs:
             -f supabase/tests/cutting_bridge_boundary_fingerprint.sql \
             > cutting-bridge-proof/PRE_BRIDGE_BOUNDARY.json
 
-      - name: Prove frozen CP3, CP4, and CP4.5 behavior on restored boundary
+      - name: Prove frozen CP3, CP4, and CP4.5a behavior on restored boundary
         shell: bash
         run: |
           set -euo pipefail
-          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/access_pattern_wip_control_rollback.sql 2>&1 | tee cutting-bridge-proof/CP45_ACCESS_PATTERN_WIP_REGRESSION.log
+          # The v2.6.17 acceptance predates the immutable-assignment correction
+          # and intentionally performs a late bind.  At the v2.6.17a boundary,
+          # the correction acceptance below is the authoritative Pola regression.
           psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/cp45_pattern_assignment_immutability_rollback.sql 2>&1 | tee cutting-bridge-proof/CP45A_PATTERN_ASSIGNMENT_REGRESSION.log
           export CP45_PATTERN_ASSIGNMENT_RACE_REPORT=cutting-bridge-proof/cp45-pattern-assignment-concurrency.json
           python scripts/cp45_pattern_assignment_concurrency.py 2>&1 | tee cutting-bridge-proof/CP45A_PATTERN_ASSIGNMENT_CONCURRENCY.log
