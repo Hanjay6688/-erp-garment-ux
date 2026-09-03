@@ -166,31 +166,58 @@ assert.ok(candidatePaths.includes('src/ConnectedPatternFilter.tsx'))
 assert.ok(candidatePaths.includes('tests/browser/cutting-bridge.spec.ts'))
 assert.ok(candidatePaths.includes('.github/workflows/cutting-bridge-full-schema-validation.yml'))
 
-const ledgerFixturePath = 'supabase/tests/fixtures/erp_enteng_pre_cp3_schema_ledger.sql.gz'
-const ledgerFixtureManifestPath = 'supabase/tests/fixtures/erp_enteng_pre_cp3_schema_ledger.manifest.json'
-assert.ok(candidatePaths.includes(ledgerFixturePath))
-assert.ok(candidatePaths.includes(ledgerFixtureManifestPath))
-assert.ok(candidatePaths.includes('scripts/cutting_bridge_build_ledger_bootstrap.py'))
-const ledgerFixtureManifest = readJson(ledgerFixtureManifestPath)
-const ledgerFixture = readFileSync(resolve(root, ledgerFixturePath))
-const ledgerSql = gunzipSync(ledgerFixture)
-assert.equal(ledgerFixtureManifest.format, 'ERP_ENTENG_PRE_CP3_SCHEMA_LEDGER_BOOTSTRAP_V1')
-assert.equal(ledgerFixtureManifest.source_project_ref, 'siimvrusnzxexizpyoib')
-assert.equal(ledgerFixtureManifest.source_kind, 'SUPABASE_PLATFORM_LEDGER_SCHEMA_SOURCE_ONLY')
-assert.equal(ledgerFixtureManifest.contains_business_rows, false)
-assert.equal(ledgerFixtureManifest.contains_credentials, false)
-assert.equal(ledgerFixtureManifest.first_version, '20260826112217')
-assert.equal(ledgerFixtureManifest.last_version, '20260831032949')
-assert.equal(ledgerFixtureManifest.executable_migration_count, 48)
-assert.equal(ledgerFixtureManifest.platform_marker_count, 7)
-assert.equal(ledgerFixtureManifest.expected_platform_count, 55)
-assert.equal(ledgerFixtureManifest.ledger_manifest_sha256, '103b938b48303d75bb056db1e30265a34ccecd9c52db070f842db4d5977197b8')
-assert.equal(ledgerFixture.length, ledgerFixtureManifest.gzip_bytes)
-assert.equal(hash('sha256', ledgerFixture), ledgerFixtureManifest.gzip_sha256)
-assert.equal(ledgerSql.length, ledgerFixtureManifest.sql_bytes)
-assert.equal(hash('sha256', ledgerSql), ledgerFixtureManifest.sql_sha256)
-assert.equal(ledgerFixtureManifest.migrations.length, 48)
-assert.equal(ledgerFixtureManifest.platform_markers.length, 7)
+const catalogFixturePath = 'supabase/tests/fixtures/erp_enteng_cp45a_catalog_bootstrap.sql.gz'
+const catalogFixtureManifestPath = 'supabase/tests/fixtures/erp_enteng_cp45a_catalog_bootstrap.manifest.json'
+assert.ok(candidatePaths.includes(catalogFixturePath))
+assert.ok(candidatePaths.includes(catalogFixtureManifestPath))
+assert.ok(candidatePaths.includes('scripts/cutting_bridge_build_catalog_bootstrap.py'))
+assert.ok(candidatePaths.includes('supabase/tests/cutting_bridge_boundary_fingerprint.sql'))
+assert.equal(candidatePaths.some((path) => path.includes('pre_cp3_schema_ledger')), false)
+assert.equal(candidatePaths.includes('scripts/cutting_bridge_build_ledger_bootstrap.py'), false)
+const catalogFixtureManifest = readJson(catalogFixtureManifestPath)
+const catalogFixture = readFileSync(resolve(root, catalogFixturePath))
+const catalogSql = gunzipSync(catalogFixture)
+assert.equal(catalogFixtureManifest.format, 'ERP_ENTENG_CP45A_CATALOG_CONFIG_BOOTSTRAP_V1')
+assert.equal(catalogFixtureManifest.source_project_ref, 'siimvrusnzxexizpyoib')
+assert.equal(catalogFixtureManifest.source_kind, 'READ_ONLY_PG_CATALOG_PLUS_ALLOWLISTED_CONFIGURATION')
+assert.equal(catalogFixtureManifest.contains_business_rows, false)
+assert.equal(catalogFixtureManifest.contains_auth_rows, false)
+assert.equal(catalogFixtureManifest.contains_app_users, false)
+assert.equal(catalogFixtureManifest.contains_credentials, false)
+assert.deepEqual(catalogFixtureManifest.counts, {
+  constraints: 1064,
+  functions: 500,
+  indexes: 202,
+  platform_migrations: 63,
+  policies: 190,
+  sequences: 6,
+  tables: 159,
+  triggers: 398,
+  views: 51,
+})
+assert.deepEqual(catalogFixtureManifest.safe_configuration_rows, {
+  app_roles: 9,
+  app_permissions: 111,
+  app_role_permissions: 329,
+  chart_accounts: 24,
+  accounting_account_mappings: 24,
+  uom_definitions: 8,
+  misc_finance_categories: 2,
+  accounting_period_control: 1,
+  cash_accounts: 1,
+  system_release_info: 1,
+  schema_migrations: 48,
+  cp3_r4_rollback_capsule: 7,
+  cp4_v2616_rollback_capsule: 4,
+  cp45_v2617_rollback_capsule: 3,
+  cp45_v2617a_rollback_capsule: 2,
+})
+assert.equal(catalogFixture.length, catalogFixtureManifest.gzip_bytes)
+assert.equal(hash('sha256', catalogFixture), catalogFixtureManifest.gzip_sha256)
+assert.equal(catalogSql.length, catalogFixtureManifest.sql_bytes)
+assert.equal(hash('sha256', catalogSql), catalogFixtureManifest.sql_sha256)
+assert.equal(catalogFixtureManifest.excluded_nonzero_table.table, 'audit_logs')
+assert.equal(catalogFixtureManifest.excluded_nonzero_table.rows, 36)
 
 const migration = readFileSync(resolve(root, migrationPath), 'utf8')
 const rollback = readFileSync(resolve(root, rollbackPath), 'utf8')

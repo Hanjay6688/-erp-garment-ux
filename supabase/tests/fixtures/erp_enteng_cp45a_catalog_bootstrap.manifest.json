@@ -1,0 +1,57 @@
+{
+  "format": "ERP_ENTENG_CP45A_CATALOG_CONFIG_BOOTSTRAP_V1",
+  "source_project_ref": "siimvrusnzxexizpyoib",
+  "source_kind": "READ_ONLY_PG_CATALOG_PLUS_ALLOWLISTED_CONFIGURATION",
+  "captured_at_utc": "2026-09-03T04:36:24.526731Z",
+  "postgres_version": "17.6",
+  "contains_business_rows": false,
+  "contains_auth_rows": false,
+  "contains_app_users": false,
+  "contains_credentials": false,
+  "excluded_nonzero_table": {
+    "table": "audit_logs",
+    "rows": 36
+  },
+  "counts": {
+    "constraints": 1064,
+    "functions": 500,
+    "indexes": 202,
+    "platform_migrations": 63,
+    "policies": 190,
+    "sequences": 6,
+    "tables": 159,
+    "triggers": 398,
+    "views": 51
+  },
+  "support_counts": {
+    "columns": 1673,
+    "custom_types": 0,
+    "view_dependencies": 16,
+    "table_grants": 1365,
+    "sequence_grants": 10,
+    "routine_grants": 506
+  },
+  "safe_configuration_rows": {
+    "app_roles": 9,
+    "app_permissions": 111,
+    "app_role_permissions": 329,
+    "chart_accounts": 24,
+    "accounting_account_mappings": 24,
+    "uom_definitions": 8,
+    "misc_finance_categories": 2,
+    "accounting_period_control": 1,
+    "cash_accounts": 1,
+    "system_release_info": 1,
+    "schema_migrations": 48,
+    "cp3_r4_rollback_capsule": 7,
+    "cp4_v2616_rollback_capsule": 4,
+    "cp45_v2617_rollback_capsule": 3,
+    "cp45_v2617a_rollback_capsule": 2
+  },
+  "catalog_payload_sha256": "a262a20771c6b2f24d2f85182b97b61e0b524c6b0b11cdabe11a658d01190d2c",
+  "mixed_sql_function_view_order_count": 114,
+  "sql_bytes": 2126909,
+  "sql_sha256": "4a50a8b8eebb6f28db2fc02894c97ca11ebc7ea1e983ee166952126c7d98c212",
+  "gzip_bytes": 308353,
+  "gzip_sha256": "7aa808a3060bb878fab6b311ba031b9d91d2f12f7268bcc67ea0b88e0974b7ae"
+}
