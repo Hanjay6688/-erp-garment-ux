@@ -3,7 +3,7 @@
   "candidate_branch": "pre-cp5/cutting-persistence-pickup-wip-r1-20260903",
   "source_base_sha": "d5c48ce5c8daa7e6da92dc9d690d9b36879e74c1",
   "source_base_tree": "70f7bf3c0265520eac5aafff747f448ed8be3e6b",
-  "generation_parent_sha": "ad74e6a7cf8f4b22833a1ef25d2740bc51abc3fb",
+  "generation_parent_sha": "da2d2c882ccddef2f594dad260cfd753c6c75fdd",
   "target_project_ref": "siimvrusnzxexizpyoib",
   "target_environment": "ERP Enteng UAT",
   "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
@@ -88,8 +88,8 @@
       "sha256": "e8702b96aead7dc0ec379cd5f25b14e8daebc57dec414a2f94c08693f4e65899"
     },
     "src/ConnectedPickupPage.tsx": {
-      "bytes": 18007,
-      "sha256": "fc4011e4d3cdbec1b2fb68ed6ad2f48420c94b7d1befe1df5df63a68f44144bd"
+      "bytes": 18280,
+      "sha256": "19f3a41d565e75260de19c1e9b2b00ec9cfe4f20a0defe1c9c761a2942c82f35"
     },
     "src/ConnectedWipStatusPage.tsx": {
       "bytes": 11543,
@@ -132,12 +132,12 @@
       "sha256": "b586f616ae2277ab24e9835446e24b1a5b2d45586820da7350d837f7a4498066"
     },
     "src/cuttingPersistence.test.ts": {
-      "bytes": 8256,
-      "sha256": "85911b70bd56975e093e7ba8183c985ddd9df2f67b472f7de989a4f6a8bdb127"
+      "bytes": 8834,
+      "sha256": "7b9faeb6ef08b7ce00093864c9d819fe4cb05f370cdd63225b7c8c2034912c98"
     },
     "src/cuttingPersistence.ts": {
-      "bytes": 20914,
-      "sha256": "7fd56f02b87cbe18d75807e951fa19d90ac95a496c4faefc49aba76cf51cfa3b"
+      "bytes": 21148,
+      "sha256": "145259363621a736dcb111372b595070707e595775f7cda4afd9c59f3d072bec"
     },
     "src/finalization-flow.css": {
       "bytes": 28524,
@@ -152,20 +152,20 @@
       "sha256": "48377f384a851b81fd04b75a623860f60dcac61f58e2ff74f6d4ca1db1041322"
     },
     "supabase/migrations/20260903022604_erp_v2_6_18_cutting_persistence_pickup_wip.sql": {
-      "bytes": 79567,
-      "sha256": "41cc50f1fbf171e89608232221c66d4b2b60806dd681fd298942dbdf94ffd58f"
+      "bytes": 80392,
+      "sha256": "6a568a78ad0b9baa2ef5ee958ee967d7c997cc1f4dfb7f0e4ef5e6ff69e5038f"
     },
     "supabase/rollbacks/20260903022604_erp_v2_6_18_cutting_persistence_pickup_wip.rollback.sql": {
       "bytes": 15726,
-      "sha256": "c2834020843a40ce17ba61ae1022c2aeeff59a5e4fb50021f81e488c7c05c4f9"
+      "sha256": "7b401fbe6dbd0a44d551d7754a5ff4593d5e274161e716f31e51621cab9128af"
     },
     "supabase/tests/cutting_bridge_boundary_fingerprint.sql": {
       "bytes": 3380,
       "sha256": "5b4005a9d164ed51a87d3cfc0d20144bd8560b10d725e1f45892fd493e92f5ff"
     },
     "supabase/tests/cutting_bridge_persistence_pickup_wip_rollback.sql": {
-      "bytes": 19696,
-      "sha256": "2faf00036b21c251b71351eb3359a631280036cdddd8a1223e02cbd332cb38ea"
+      "bytes": 20866,
+      "sha256": "417053a101891dae0810c157479d8876ba43704f1552bb36b5426b48a239dfdd"
     },
     "supabase/tests/fixtures/erp_enteng_cp45a_catalog_bootstrap.manifest.json": {
       "bytes": 2146,
