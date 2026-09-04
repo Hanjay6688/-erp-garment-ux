@@ -13,7 +13,7 @@
   "candidate_cp5_manifest": {
     "path": "docs/evidence/cp5_r1_source_hashes.json",
     "bytes": 20836,
-    "sha256": "ca7399adad01645793075981b8a64f6fdf9304bae3731fc34ed732076ea7f6de"
+    "sha256": "5760d901d0cd8387dff92cbedc8436dfe4a68eae0cbd1c94810d4886227a6c21"
   },
   "target_project_ref": "siimvrusnzxexizpyoib",
   "legacy_project_ref": "vlxdhpkjeevubjxexnfo",

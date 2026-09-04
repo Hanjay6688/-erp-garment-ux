@@ -43,6 +43,10 @@ declare
   r erp.bs_resolution_v2619c_rollback_capsule%rowtype;
   v_installed_at timestamptz;
   v_constraint text;
+  v_cash_resolution_count integer;
+  v_new_resolution_count integer;
+  v_new_request_count integer;
+  v_new_audit_count integer;
 begin
   select installed_at into v_installed_at
   from erp.schema_migrations where version='v2.6.19c';
@@ -87,26 +91,30 @@ begin
      ) then
     raise exception 'v2.6.19c rollback refused: installed invariant is incomplete';
   end if;
-  if exists(
-       select 1 from erp.bs_resolutions
-       where resolution_type='CASH_COMPENSATION'
-     )
-     or exists(
-       select 1 from erp.bs_resolutions where created_at>=v_installed_at
-     )
-     or exists(
-       select 1 from erp.idempotency_requests
-       where operation_name in(
-         'resolve_bs_case_disposition_v2','reverse_bs_disposition_v2',
-         'resolve_laundry_claim_v2','save_bs_resolution_action_v1'
-       ) and created_at>=v_installed_at
-     )
-     or exists(
-       select 1 from erp.audit_logs
-       where changed_at>=v_installed_at
-         and entity_type in('laundry_claims','bs_resolutions')
-     ) then
-    raise exception 'v2.6.19c rollback refused: post-install claim/BS financial or audit history exists';
+  select count(*) into v_cash_resolution_count
+  from erp.bs_resolutions where resolution_type='CASH_COMPENSATION';
+  select count(*) into v_new_resolution_count
+  from erp.bs_resolutions where created_at>=v_installed_at;
+  select count(*) into v_new_request_count
+  from erp.idempotency_requests
+  where operation_name in(
+    'resolve_bs_case_disposition_v2','reverse_bs_disposition_v2',
+    'resolve_laundry_claim_v2','save_bs_resolution_action_v1'
+  ) and created_at>=v_installed_at;
+  select count(*) into v_new_audit_count
+  from erp.audit_logs
+  where changed_at>=v_installed_at
+    and entity_type in('laundry_claims','bs_resolutions');
+  if v_cash_resolution_count<>0
+     or v_new_resolution_count<>0
+     or v_new_request_count<>0
+     or v_new_audit_count<>0 then
+    raise exception using
+      message='v2.6.19c rollback refused: post-install claim/BS financial or audit history exists',
+      detail=format(
+        'cash_resolutions=%s, new_resolutions=%s, new_idempotency_requests=%s, new_audit_rows=%s',
+        v_cash_resolution_count,v_new_resolution_count,v_new_request_count,v_new_audit_count
+      );
   end if;
 end
 $rollback_guard$;

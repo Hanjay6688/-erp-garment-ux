@@ -579,6 +579,31 @@ jobs:
             cp5-proof/V2619C_ROLLBACK_TAMPERED_STATEMENT_REJECTION.log >/dev/null
           test "$(psql "$PGURL" -At -c "select encode(extensions.digest(convert_to(array_to_string(statements,E'\\n'),'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations where name='erp_v2_6_19c_cp5_atomic_reversal_reconciliation'")" = '70bafe4f4c690c6ef1548f712ee2035a78c9137e153c92c69fc57decba58e3cc'
 
+          psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' | tee cp5-proof/V2619C_PRE_ROLLBACK_HISTORY.json
+          with installed as(
+            select installed_at from erp.schema_migrations where version='v2.6.19c'
+          ), counts as(
+            select
+              (select count(*) from erp.bs_resolutions where resolution_type='CASH_COMPENSATION') as cash_resolutions,
+              (select count(*) from erp.bs_resolutions,installed where created_at>=installed.installed_at) as new_resolutions,
+              (select count(*) from erp.idempotency_requests,installed
+                where operation_name in(
+                  'resolve_bs_case_disposition_v2','reverse_bs_disposition_v2',
+                  'resolve_laundry_claim_v2','save_bs_resolution_action_v1'
+                ) and created_at>=installed.installed_at) as new_idempotency_requests,
+              (select count(*) from erp.audit_logs,installed
+                where changed_at>=installed.installed_at
+                  and entity_type in('laundry_claims','bs_resolutions')) as new_audit_rows
+          ) select jsonb_build_object(
+            'status',case when cash_resolutions+new_resolutions+new_idempotency_requests+new_audit_rows=0 then 'PASS' else 'FAIL' end,
+            'cash_resolutions',cash_resolutions,
+            'new_resolutions',new_resolutions,
+            'new_idempotency_requests',new_idempotency_requests,
+            'new_audit_rows',new_audit_rows
+          ) from counts;
+          SQL
+          test "$(python3 -c "import json;print(json.load(open('cp5-proof/V2619C_PRE_ROLLBACK_HISTORY.json'))['status'])")" = 'PASS'
+
           psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/rollbacks/20260904061346_erp_v2_6_19c_cp5_atomic_reversal_reconciliation.rollback.sql 2>&1 | tee cp5-proof/V2619C_ROLLBACK.log
           psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' | tee cp5-proof/V2619C_ROLLBACK_RESIDUE.json
           select jsonb_build_object(
