@@ -52,6 +52,9 @@ const browserConfig = read('playwright.cp6.config.ts')
 const rules = read('docs/erp-reliability-invariants.md')
 const packageJson = read('package.json')
 
+assert.ok(acceptance.includes('v_nested jsonb;'),
+  'CP6 acceptance must declare the nested workspace fact used by failed-wash assertions')
+
 function onlyVersion(directory, expectedName) {
   const matches = readdirSync(resolve(root, directory)).filter((name) => name.startsWith(`${version}_`))
   assert.deepEqual(matches, [expectedName], `CP6 version ${version} is duplicated or misnamed in ${directory}`)

@@ -88,6 +88,7 @@ declare
   v_response jsonb;
   v_replay jsonb;
   v_workspace jsonb;
+  v_nested jsonb;
   v_group_version bigint;
   v_foreign_group_version bigint;
   v_delivery uuid;
