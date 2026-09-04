@@ -5,7 +5,6 @@ dist/
 *.tsbuildinfo
 cp45-browser-proof/
 cp5-browser-contract-proof/
-cp6-browser-contract-proof/
 cp5-proof/
 cutting-bridge-proof/
 cp4-local/

@@ -17,6 +17,7 @@ const acceptancePath = 'supabase/tests/cp6_laundry_qc_fg_authoritative_rollback.
 const seedPath = 'supabase/tests/cp6_laundry_qc_concurrency_seed.sql'
 const racePath = 'scripts/cp6_laundry_qc_concurrency.py'
 const workflowPath = '.github/workflows/cp6-full-schema-validation.yml'
+const mainWorkflowPath = '.github/workflows/ci.yml'
 
 const migration = read(migrationPath)
 const rollback = read(rollbackPath)
@@ -24,6 +25,8 @@ const acceptance = read(acceptancePath)
 const seed = read(seedPath)
 const race = read(racePath)
 const workflow = read(workflowPath)
+const mainWorkflow = read(mainWorkflowPath)
+const predecessorOwnership = read('scripts/check-predecessor-backend-ownership.mjs')
 const model = read('src/laundryQcModel.ts')
 const modelTest = read('src/laundryQcModel.test.ts')
 const hook = read('src/useLaundryQcWorkspace.ts')
@@ -302,6 +305,14 @@ assert.match(browserConfig, /testMatch: 'cp6-laundry-qc\.spec\.ts'/)
 assert.match(browserConfig, /ERP_UAT_AUTH_ALLOW_MOCK_KEY: '1'/)
 assert.match(packageJson, /"check:cp6": "node scripts\/check-cp6-boundary\.mjs"/)
 assert.match(packageJson, /"test:security":[^\n]*npm run check:cp6/)
+assert.match(packageJson, /"check:backend": "node scripts\/check-predecessor-backend-ownership\.mjs"/)
+for (const token of [
+  "cp6Predecessor = '6d4cda118f5d28d1f039cc0ecf318d0866f55c2c'",
+  "['worktree', 'add', '--detach'", 'check-backend-ownership-v3.mjs',
+  'Fetch full history before claiming backend ownership PASS',
+]) assert.ok(predecessorOwnership.includes(token), `CP6 predecessor ownership wrapper missing: ${token}`)
+assert.ok(mainWorkflow.includes('npm run test:browser:cp6'), 'Main PR CI omits the CP6 Chromium contract')
+assert.ok(mainWorkflow.includes('cp6-browser-contract-proof'), 'Main PR CI omits CP6 browser artifacts')
 
 for (const token of [
   'Reliability Data adalah Dewa. Keuangan, stok, dan HPP adalah Raja.',
