@@ -231,30 +231,25 @@ begin
 end
 $restore_guard$;
 
--- Local/full-schema installs use the official generated version. Connector
--- installs may use a generated ledger version; that path must match name and
--- the SHA-256 of the frozen migration bytes. Guard and DELETE predicates are
--- intentionally identical.
+-- Official-timestamp and connector-generated ledgers must both match the exact
+-- name and SHA-256 of the frozen migration bytes. Guard and DELETE predicates
+-- are intentionally identical.
 do $platform_ledger_guard$
 declare v_match_count integer;v_conflict_count integer;
 begin
   select count(*) into v_match_count
   from supabase_migrations.schema_migrations m
-  where(
-    m.version='20260903070932' and m.name='erp_v2_6_19_cp5_bs_resolution_recovery'
-  ) or(
-    m.name='erp_v2_6_19_cp5_bs_resolution_recovery'
+  where m.name='erp_v2_6_19_cp5_bs_resolution_recovery'
     and coalesce(encode(extensions.digest(convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'),'hex'),'')
       ='79e7b51b82759f1f4579fc373d11e41a668f312a569425aad2fdc2c4d6d68aa6'
-  );
+  ;
   select count(*) into v_conflict_count
   from supabase_migrations.schema_migrations m
   where(m.version='20260903070932' or m.name='erp_v2_6_19_cp5_bs_resolution_recovery')
     and not(
-      (m.version='20260903070932' and m.name='erp_v2_6_19_cp5_bs_resolution_recovery')
-      or(m.name='erp_v2_6_19_cp5_bs_resolution_recovery'
-        and coalesce(encode(extensions.digest(convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'),'hex'),'')
-          ='79e7b51b82759f1f4579fc373d11e41a668f312a569425aad2fdc2c4d6d68aa6')
+      m.name='erp_v2_6_19_cp5_bs_resolution_recovery'
+      and coalesce(encode(extensions.digest(convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'),'hex'),'')
+        ='79e7b51b82759f1f4579fc373d11e41a668f312a569425aad2fdc2c4d6d68aa6'
     );
   if v_match_count<>1 or v_conflict_count<>0 then
     raise exception 'v2.6.19 rollback refused: platform ledger identity is ambiguous (match %, conflict %)',
@@ -265,13 +260,10 @@ $platform_ledger_guard$;
 
 delete from erp.schema_migrations where version='v2.6.19';
 delete from supabase_migrations.schema_migrations m
-where(
-  m.version='20260903070932' and m.name='erp_v2_6_19_cp5_bs_resolution_recovery'
-) or(
-  m.name='erp_v2_6_19_cp5_bs_resolution_recovery'
+where m.name='erp_v2_6_19_cp5_bs_resolution_recovery'
   and coalesce(encode(extensions.digest(convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'),'hex'),'')
     ='79e7b51b82759f1f4579fc373d11e41a668f312a569425aad2fdc2c4d6d68aa6'
-);
+;
 
 drop table erp.bs_resolution_v2619_rollback_capsule;
 select pg_notify('pgrst','reload schema');

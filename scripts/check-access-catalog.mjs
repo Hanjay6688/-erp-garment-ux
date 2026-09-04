@@ -93,7 +93,10 @@ for (const path of sourceFiles(resolve(root, 'src'))) {
 }
 
 assert.equal(evidence.format, 'CP5_ACCESS_ROUTE_ACTION_OWNERSHIP_V1')
-assert.equal(evidence.closure_status, 'READY_FOR_INDEPENDENT_REAUDIT_NO_GO')
+assert.ok([
+  'V2619C_CORRECTION_PENDING_CI_UAT_NO_GO',
+  'READY_FOR_INDEPENDENT_REAUDIT_NO_GO',
+].includes(evidence.closure_status))
 assert.equal(evidence.production_go, false)
 assert.equal(evidence.counts.backend_permissions, permissionRows.length)
 assert.equal(evidence.counts.navigation_labels, navMap.size)
@@ -155,11 +158,20 @@ assert.match(app, /aria-label="Filter Pola Laundry"/)
 assert.equal(evidence.invariants.simulation_pattern_filter_qc, true)
 assert.match(readFileSync(resolve(root, 'src/QcFinalPage.tsx'), 'utf8'), /aria-label="Filter Pola QC"/)
 assert.equal(evidence.invariants.bs_resolution_uses_two_public_rpc_facades, true)
-assert.equal([...bsPage.matchAll(/\.rpc\s*\(\s*['"]([^'"]+)['"]/g)].length, 2)
+const bsRpcNames = [...bsPage.matchAll(/\.rpc\s*\(\s*['"]([^'"]+)['"]/g)].map((match) => match[1])
+assert.deepEqual(
+  [...new Set(bsRpcNames)].sort(),
+  ['erp_get_bs_resolution_workspace_v1', 'erp_save_bs_resolution_action_v1'],
+)
+assert.equal(bsRpcNames.filter((name) => name === 'erp_get_bs_resolution_workspace_v1').length, 1)
+assert.equal(bsRpcNames.filter((name) => name === 'erp_save_bs_resolution_action_v1').length, 2)
 assert.equal(evidence.invariants.laundry_and_qc_writers_connected, false)
 assert.equal(evidence.invariants.source_only, false)
 assert.equal(evidence.invariants.uat_applied, true)
-assert.equal(evidence.invariants.candidate_apply_status, 'RECORDED_V2618_V2618A_V2619_V2619A_V2619B')
+assert.ok([
+  'RECORDED_V2618_V2618A_V2619_V2619A_V2619B_V2619C_PENDING',
+  'RECORDED_V2618_V2618A_V2619_V2619A_V2619B_V2619C',
+].includes(evidence.invariants.candidate_apply_status))
 assert.equal(evidence.invariants.rework_accessory_selection_uses_existing_dispatcher, true)
 assert.equal(evidence.invariants.rework_partial_return_uses_existing_dispatcher, true)
 assert.equal(evidence.invariants.rework_defaults_are_server_proven_unpaid_or_remaining_entitlement, true)
@@ -173,6 +185,9 @@ assert.equal(evidence.invariants.laundry_claim_types_are_missing_stuck_damage_on
 assert.match(bsPage, /type ClaimType = 'STUCK' \| 'MISSING' \| 'DAMAGE'/)
 assert.doesNotMatch(createClaimBlock, /OTHER/)
 assert.equal(evidence.invariants.post_commit_refetch_failure_freezes_all_writers, true)
+assert.equal(evidence.invariants.lost_response_reuses_exact_durable_envelope, true)
+assert.equal(evidence.invariants.claim_bs_cash_lineage_is_atomic, true)
+assert.equal(evidence.invariants.rollback_ledger_is_statement_digest_bound, true)
 assert.match(bsPage, /setWorkspaceStale\(true\)/)
 assert.match(bsPage, /effectiveCanCreate = canCreate && !workspaceStale/)
 assert.match(bsPage, /effectiveCanPost = canPost && !workspaceStale/)

@@ -252,7 +252,7 @@ jobs:
           select jsonb_build_object(
             'status',case when
               exists(select 1 from erp.schema_migrations where version='v2.6.17a')
-              and not exists(select 1 from erp.schema_migrations where version in('v2.6.18','v2.6.18a','v2.6.19','v2.6.19a','v2.6.19b'))
+              and not exists(select 1 from erp.schema_migrations where version in('v2.6.18','v2.6.18a','v2.6.19','v2.6.19a','v2.6.19b','v2.6.19c'))
               and md5(pg_get_functiondef('erp.require_internal()'::regprocedure))='785838675ae23699ce163e4218f058bf'
               and md5(pg_get_functiondef('erp.list_patterns_v1(text,text,integer,integer)'::regprocedure))='feff17283c331b4883b208227bc99079'
               and (select count(*) from auth.users)=0
@@ -289,7 +289,7 @@ jobs:
           select jsonb_build_object(
             'status',case when
               exists(select 1 from erp.schema_migrations where version='v2.6.18')
-              and not exists(select 1 from erp.schema_migrations where version in('v2.6.18a','v2.6.19','v2.6.19a','v2.6.19b'))
+              and not exists(select 1 from erp.schema_migrations where version in('v2.6.18a','v2.6.19','v2.6.19a','v2.6.19b','v2.6.19c'))
               and exists(select 1 from supabase_migrations.schema_migrations
                 where version='20260903022604' and name='erp_v2_6_18_cutting_persistence_pickup_wip')
               and (select count(*) from erp.cutting_bridge_v2618_rollback_capsule where object_kind='FUNCTION')=8
@@ -374,6 +374,65 @@ jobs:
           test "$replay_status" -ne 0
           grep -F 'v2.6.19b is already recorded' cp5-proof/V2619B_REPLAY_REJECTION.log >/dev/null
 
+      - name: Apply official v2.6.19c atomic reversal closure once and reject replay
+        shell: bash
+        run: |
+          set -euo pipefail
+          correction_source='supabase/migrations/20260904061346_erp_v2_6_19c_cp5_atomic_reversal_reconciliation.sql'
+          test "$(wc -c < "$correction_source")" = '13864'
+          echo '1b66c8bd8c12c2acef47e97e7e0ff15e82e5ef12618d11fea288750b862732e7  supabase/migrations/20260904061346_erp_v2_6_19c_cp5_atomic_reversal_reconciliation.sql' | sha256sum -c - | tee cp5-proof/V2619C_MIGRATION_SHA256.txt
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f "$correction_source" 2>&1 | tee cp5-proof/V2619C_APPLY.log
+          psql "$PGURL" -v ON_ERROR_STOP=1 -c "insert into supabase_migrations.schema_migrations(version,name,statements) values('20260904061346','erp_v2_6_19c_cp5_atomic_reversal_reconciliation',array[]::text[]) on conflict(version) do nothing"
+          set +e
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f "$correction_source" > cp5-proof/V2619C_REPLAY_REJECTION.log 2>&1
+          replay_status=$?
+          set -e
+          test "$replay_status" -ne 0
+          grep -F 'v2.6.19c is already recorded' cp5-proof/V2619C_REPLAY_REJECTION.log >/dev/null
+          psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' | tee cp5-proof/V2619C_INSTALLED_INVARIANT.json
+          select jsonb_build_object(
+            'status',case when
+              exists(select 1 from erp.schema_migrations where version='v2.6.19c')
+              and (select count(*) from erp.bs_resolution_v2619c_rollback_capsule)=1
+              and (select relrowsecurity from pg_class where oid='erp.bs_resolution_v2619c_rollback_capsule'::regclass)
+              and not exists(select 1 from pg_policy where polrelid='erp.bs_resolution_v2619c_rollback_capsule'::regclass)
+              and exists(
+                select 1 from pg_constraint
+                where conrelid='erp.bs_resolutions'::regclass
+                  and conname='bs_resolutions_cash_claim_contract_v2619c'
+                  and convalidated
+              )
+              and exists(
+                select 1 from pg_trigger
+                where tgrelid='erp.bs_resolutions'::regclass
+                  and tgname='trg_00_guard_bs_resolution_claim_state_v2619c'
+                  and tgenabled<>'D' and not tgisinternal
+              )
+              and exists(
+                select 1 from pg_trigger
+                where tgrelid='erp.laundry_claims'::regclass
+                  and tgname='trg_00_guard_laundry_claim_bs_dependency_v2619c'
+                  and tgenabled<>'D' and not tgisinternal
+              )
+              and coalesce((
+                select p.prosecdef
+                  and pg_get_userbyid(p.proowner)='postgres'
+                  and coalesce(p.proconfig,array[]::text[])@>array['search_path=""']::text[]
+                from pg_proc p
+                where p.oid='erp.reverse_laundry_claim_resolution(uuid,text)'::regprocedure
+              ),false)
+              and not has_function_privilege('authenticated','erp.reverse_laundry_claim_resolution(uuid,text)','EXECUTE')
+              and not has_function_privilege('anon','erp.reverse_laundry_claim_resolution(uuid,text)','EXECUTE')
+              then 'PASS' else 'FAIL' end,
+            'application_marker',exists(select 1 from erp.schema_migrations where version='v2.6.19c'),
+            'capsule_rows',(select count(*) from erp.bs_resolution_v2619c_rollback_capsule),
+            'constraint_validated',coalesce((select convalidated from pg_constraint where conrelid='erp.bs_resolutions'::regclass and conname='bs_resolutions_cash_claim_contract_v2619c'),false),
+            'reverse_claim_md5',md5(pg_get_functiondef('erp.reverse_laundry_claim_resolution(uuid,text)'::regprocedure)),
+            'production_go',false
+          );
+          SQL
+          test "$(python3 -c "import json;print(json.load(open('cp5-proof/V2619C_INSTALLED_INVARIANT.json'))['status'])")" = 'PASS'
+
       - name: Run authoritative CP5 lifecycle, selected-accessory, partial-return, accounting, reversal, ACL, and rollback-safe acceptance
         shell: bash
         run: |
@@ -397,6 +456,7 @@ jobs:
             'damage_claim_capacity_serialized':True,
             'damage_claim_and_receipt_reversal_serialize_both_directions':True,
             'stuck_claim_and_physical_return_share_one_conservation_lock':True,
+            'claim_reversal_and_bs_cash_compensation_serialize_both_directions':True,
             'real_two_connection_wait_observed':True,
           },r
           assert all(value==0 for value in r['residue'].values()),r
@@ -436,6 +496,106 @@ jobs:
           cp -R cp45-browser-proof cp5-proof/pre-cp5-pattern-browser
           npm run test:browser:cp5
           cp -R cp5-browser-contract-proof cp5-proof/browser-contract
+
+      - name: Reject v2.6.19c rollback after relevant post-install history
+        shell: bash
+        run: |
+          set -euo pipefail
+          set +e
+          psql "$PGURL" -v ON_ERROR_STOP=1 <<'SQL' > cp5-proof/V2619C_ROLLBACK_POST_USE_REJECTION.log 2>&1
+          begin;
+          insert into erp.idempotency_requests(
+            actor_key,operation_name,client_request_id,request_hash
+          ) values(
+            'cp5-v2619c-rollback-proof','save_bs_resolution_action_v1',
+            'c9ff0000-0000-4000-8000-000000000003','synthetic-post-use-proof'
+          );
+          \i supabase/rollbacks/20260904061346_erp_v2_6_19c_cp5_atomic_reversal_reconciliation.rollback.sql
+          SQL
+          rollback_status=$?
+          set -e
+          test "$rollback_status" -ne 0
+          grep -F 'v2.6.19c rollback refused: post-install claim/BS financial or audit history exists' \
+            cp5-proof/V2619C_ROLLBACK_POST_USE_REJECTION.log >/dev/null
+          test "$(psql "$PGURL" -At -c "select count(*) from erp.idempotency_requests where client_request_id='c9ff0000-0000-4000-8000-000000000003'")" = '0'
+          test "$(psql "$PGURL" -At -c "select count(*) from erp.schema_migrations where version='v2.6.19c'")" = '1'
+
+      - name: Reject wrong-name local v2.6.19c rollback ledger
+        shell: bash
+        run: |
+          set -euo pipefail
+          set +e
+          psql "$PGURL" -v ON_ERROR_STOP=1 <<'SQL' > cp5-proof/V2619C_ROLLBACK_WRONG_LOCAL_NAME_REJECTION.log 2>&1
+          begin;
+          update supabase_migrations.schema_migrations
+          set name='WRONG_MIGRATION'
+          where version='20260904061346'
+            and name='erp_v2_6_19c_cp5_atomic_reversal_reconciliation';
+          \i supabase/rollbacks/20260904061346_erp_v2_6_19c_cp5_atomic_reversal_reconciliation.rollback.sql
+          SQL
+          rollback_status=$?
+          set -e
+          test "$rollback_status" -ne 0
+          grep -F 'v2.6.19c rollback refused: platform ledger statement digest is ambiguous' \
+            cp5-proof/V2619C_ROLLBACK_WRONG_LOCAL_NAME_REJECTION.log >/dev/null
+          test "$(psql "$PGURL" -At -c "select count(*) from supabase_migrations.schema_migrations where version='20260904061346' and name='erp_v2_6_19c_cp5_atomic_reversal_reconciliation'")" = '1'
+          test "$(psql "$PGURL" -At -c "select to_regclass('erp.bs_resolution_v2619c_rollback_capsule') is not null")" = 't'
+
+      - name: Reject tampered statement bytes then roll back connector-shaped v2.6.19c
+        shell: bash
+        run: |
+          set -euo pipefail
+          correction_source='supabase/migrations/20260904061346_erp_v2_6_19c_cp5_atomic_reversal_reconciliation.sql'
+          correction_source_b64="$(python3 -c "import base64,pathlib; p=pathlib.Path('$correction_source').read_bytes(); assert p.endswith(b'\\n'); print(base64.b64encode(p[:-1]).decode())")"
+          psql "$PGURL" -v ON_ERROR_STOP=1 -v correction_source_b64="$correction_source_b64" <<'SQL'
+          update supabase_migrations.schema_migrations
+          set version='20260904071346',
+              statements=array[convert_from(decode(:'correction_source_b64','base64'),'UTF8')]
+          where version='20260904061346'
+            and name='erp_v2_6_19c_cp5_atomic_reversal_reconciliation';
+          SQL
+          test "$(psql "$PGURL" -At -c "select encode(extensions.digest(convert_to(array_to_string(statements,E'\\n'),'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations where name='erp_v2_6_19c_cp5_atomic_reversal_reconciliation'")" = 'ee26bce863a95d5994b61f2794de3fa42811cd08fc127f4148897ba4becc5fb6'
+
+          set +e
+          psql "$PGURL" -v ON_ERROR_STOP=1 <<'SQL' > cp5-proof/V2619C_ROLLBACK_TAMPERED_STATEMENT_REJECTION.log 2>&1
+          begin;
+          update supabase_migrations.schema_migrations
+          set statements=array[array_to_string(statements,E'\n')||E'\n-- TAMPERED LEDGER STATEMENT']
+          where name='erp_v2_6_19c_cp5_atomic_reversal_reconciliation';
+          \i supabase/rollbacks/20260904061346_erp_v2_6_19c_cp5_atomic_reversal_reconciliation.rollback.sql
+          SQL
+          rollback_status=$?
+          set -e
+          test "$rollback_status" -ne 0
+          grep -F 'v2.6.19c rollback refused: platform ledger statement digest is ambiguous' \
+            cp5-proof/V2619C_ROLLBACK_TAMPERED_STATEMENT_REJECTION.log >/dev/null
+          test "$(psql "$PGURL" -At -c "select encode(extensions.digest(convert_to(array_to_string(statements,E'\\n'),'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations where name='erp_v2_6_19c_cp5_atomic_reversal_reconciliation'")" = 'ee26bce863a95d5994b61f2794de3fa42811cd08fc127f4148897ba4becc5fb6'
+
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/rollbacks/20260904061346_erp_v2_6_19c_cp5_atomic_reversal_reconciliation.rollback.sql 2>&1 | tee cp5-proof/V2619C_ROLLBACK.log
+          psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' | tee cp5-proof/V2619C_ROLLBACK_RESIDUE.json
+          select jsonb_build_object(
+            'status',case when
+              exists(select 1 from erp.schema_migrations where version='v2.6.19b')
+              and not exists(select 1 from erp.schema_migrations where version='v2.6.19c')
+              and not exists(select 1 from supabase_migrations.schema_migrations
+                where name='erp_v2_6_19c_cp5_atomic_reversal_reconciliation')
+              and to_regclass('erp.bs_resolution_v2619c_rollback_capsule') is null
+              and to_regprocedure('erp.guard_bs_resolution_claim_state_v2619c()') is null
+              and to_regprocedure('erp.guard_laundry_claim_bs_dependency_v2619c()') is null
+              and not exists(
+                select 1 from pg_constraint
+                where conrelid='erp.bs_resolutions'::regclass
+                  and conname='bs_resolutions_cash_claim_contract_v2619c'
+              )
+              and md5(pg_get_functiondef('erp.reverse_laundry_claim_resolution(uuid,text)'::regprocedure))='685a8ff668c28b5673cd24a2a89c6f7f'
+              then 'PASS' else 'FAIL' end,
+            'v2619b_application',exists(select 1 from erp.schema_migrations where version='v2.6.19b'),
+            'v2619c_application',exists(select 1 from erp.schema_migrations where version='v2.6.19c'),
+            'v2619c_platform',exists(select 1 from supabase_migrations.schema_migrations where name='erp_v2_6_19c_cp5_atomic_reversal_reconciliation'),
+            'reverse_claim_md5',md5(pg_get_functiondef('erp.reverse_laundry_claim_resolution(uuid,text)'::regprocedure))
+          );
+          SQL
+          test "$(python3 -c "import json;print(json.load(open('cp5-proof/V2619C_ROLLBACK_RESIDUE.json'))['status'])")" = 'PASS'
 
       - name: Reject v2.6.19b rollback after relevant post-install history
         shell: bash
@@ -511,6 +671,20 @@ jobs:
           expected_hash="$(python3 -c "import hashlib,pathlib; p=pathlib.Path('$correction_source').read_bytes(); print(hashlib.sha256(p[:-1]).hexdigest())")"
           observed_hash="$(python3 -c "import json;print(json.load(open('cp5-proof/V2619B_HOSTED_PLATFORM_LEDGER_SHAPE.json'))['source_sha256'])")"
           test "$observed_hash" = "$expected_hash"
+          set +e
+          psql "$PGURL" -v ON_ERROR_STOP=1 <<'SQL' > cp5-proof/V2619B_ROLLBACK_TAMPERED_STATEMENT_REJECTION.log 2>&1
+          begin;
+          update supabase_migrations.schema_migrations
+          set statements=array[array_to_string(statements,E'\n')||E'\n-- TAMPERED LEDGER STATEMENT']
+          where name='erp_v2_6_19b_cp5_reliability_closure';
+          \i supabase/rollbacks/20260904012525_erp_v2_6_19b_cp5_reliability_closure.rollback.sql
+          SQL
+          tamper_status=$?
+          set -e
+          test "$tamper_status" -ne 0
+          grep -F 'v2.6.19b rollback refused: platform ledger identity is ambiguous' \
+            cp5-proof/V2619B_ROLLBACK_TAMPERED_STATEMENT_REJECTION.log >/dev/null
+          test "$(psql "$PGURL" -At -c "select encode(extensions.digest(convert_to(array_to_string(statements,E'\\n'),'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations where name='erp_v2_6_19b_cp5_reliability_closure'")" = "$expected_hash"
           psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/rollbacks/20260904012525_erp_v2_6_19b_cp5_reliability_closure.rollback.sql 2>&1 | tee cp5-proof/V2619B_ROLLBACK.log
           psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' | tee cp5-proof/V2619B_ROLLBACK_RESIDUE.json
           select jsonb_build_object(
@@ -624,6 +798,20 @@ jobs:
           expected_hash="$(sha256sum "$correction_source" | awk '{print $1}')"
           observed_hash="$(python -c "import json;print(json.load(open('cp5-proof/V2619A_HOSTED_PLATFORM_LEDGER_SHAPE.json'))['source_sha256'])")"
           test "$observed_hash" = "$expected_hash"
+          set +e
+          psql "$PGURL" -v ON_ERROR_STOP=1 <<'SQL' > cp5-proof/V2619A_ROLLBACK_TAMPERED_STATEMENT_REJECTION.log 2>&1
+          begin;
+          update supabase_migrations.schema_migrations
+          set statements=array[array_to_string(statements,E'\n')||E'\n-- TAMPERED LEDGER STATEMENT']
+          where name='erp_v2_6_19a_cp5_rework_accessory_lineage';
+          \i supabase/rollbacks/20260903151034_erp_v2_6_19a_cp5_rework_accessory_lineage.rollback.sql
+          SQL
+          tamper_status=$?
+          set -e
+          test "$tamper_status" -ne 0
+          grep -F 'v2.6.19a rollback refused: platform ledger identity is ambiguous' \
+            cp5-proof/V2619A_ROLLBACK_TAMPERED_STATEMENT_REJECTION.log >/dev/null
+          test "$(psql "$PGURL" -At -c "select encode(extensions.digest(convert_to(array_to_string(statements,E'\\n'),'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations where name='erp_v2_6_19a_cp5_rework_accessory_lineage'")" = "$expected_hash"
           psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/rollbacks/20260903151034_erp_v2_6_19a_cp5_rework_accessory_lineage.rollback.sql 2>&1 | tee cp5-proof/V2619A_ROLLBACK.log
           psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' | tee cp5-proof/V2619A_ROLLBACK_RESIDUE.json
           select jsonb_build_object(
@@ -702,6 +890,20 @@ jobs:
           expected_hash="$(sha256sum "$cp5_source" | awk '{print $1}')"
           observed_hash="$(python -c "import json;print(json.load(open('cp5-proof/V2619_HOSTED_PLATFORM_LEDGER_SHAPE.json'))['source_sha256'])")"
           test "$observed_hash" = "$expected_hash"
+          set +e
+          psql "$PGURL" -v ON_ERROR_STOP=1 <<'SQL' > cp5-proof/V2619_ROLLBACK_TAMPERED_STATEMENT_REJECTION.log 2>&1
+          begin;
+          update supabase_migrations.schema_migrations
+          set statements=array[array_to_string(statements,E'\n')||E'\n-- TAMPERED LEDGER STATEMENT']
+          where name='erp_v2_6_19_cp5_bs_resolution_recovery';
+          \i supabase/rollbacks/20260903070932_erp_v2_6_19_cp5_bs_resolution_recovery.rollback.sql
+          SQL
+          tamper_status=$?
+          set -e
+          test "$tamper_status" -ne 0
+          grep -F 'v2.6.19 rollback refused: platform ledger identity is ambiguous' \
+            cp5-proof/V2619_ROLLBACK_TAMPERED_STATEMENT_REJECTION.log >/dev/null
+          test "$(psql "$PGURL" -At -c "select encode(extensions.digest(convert_to(array_to_string(statements,E'\\n'),'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations where name='erp_v2_6_19_cp5_bs_resolution_recovery'")" = "$expected_hash"
           psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/rollbacks/20260903070932_erp_v2_6_19_cp5_bs_resolution_recovery.rollback.sql 2>&1 | tee cp5-proof/V2619_ROLLBACK.log
           psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' | tee cp5-proof/V2619_ROLLBACK_RESIDUE.json
           select jsonb_build_object(
@@ -781,15 +983,29 @@ jobs:
           expected_hash="$(sha256sum "$correction_source" | awk '{print $1}')"
           observed_hash="$(python -c "import json;print(json.load(open('cp5-proof/V2618A_HOSTED_PLATFORM_LEDGER_SHAPE.json'))['source_sha256'])")"
           test "$observed_hash" = "$expected_hash"
+          set +e
+          psql "$PGURL" -v ON_ERROR_STOP=1 <<'SQL' > cp5-proof/V2618A_ROLLBACK_TAMPERED_STATEMENT_REJECTION.log 2>&1
+          begin;
+          update supabase_migrations.schema_migrations
+          set statements=array[array_to_string(statements,E'\n')||E'\n-- TAMPERED LEDGER STATEMENT']
+          where name='erp_v2_6_18a_cutting_bridge_reconciliation';
+          \i supabase/rollbacks/20260903070931_erp_v2_6_18a_cutting_bridge_reconciliation.rollback.sql
+          SQL
+          tamper_status=$?
+          set -e
+          test "$tamper_status" -ne 0
+          grep -F 'v2.6.18a rollback refused: platform ledger identity is ambiguous' \
+            cp5-proof/V2618A_ROLLBACK_TAMPERED_STATEMENT_REJECTION.log >/dev/null
+          test "$(psql "$PGURL" -At -c "select encode(extensions.digest(convert_to(array_to_string(statements,E'\\n'),'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations where name='erp_v2_6_18a_cutting_bridge_reconciliation'")" = "$expected_hash"
           psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/rollbacks/20260903070931_erp_v2_6_18a_cutting_bridge_reconciliation.rollback.sql 2>&1 | tee cp5-proof/V2618A_ROLLBACK.log
           psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' | tee cp5-proof/V2618A_ROLLBACK_RESIDUE.json
           select jsonb_build_object(
             'status',case when
               exists(select 1 from erp.schema_migrations where version='v2.6.18')
-              and not exists(select 1 from erp.schema_migrations where version in('v2.6.18a','v2.6.19','v2.6.19a','v2.6.19b'))
+              and not exists(select 1 from erp.schema_migrations where version in('v2.6.18a','v2.6.19','v2.6.19a','v2.6.19b','v2.6.19c'))
               and exists(select 1 from supabase_migrations.schema_migrations where version='20260903022604')
               and not exists(select 1 from supabase_migrations.schema_migrations
-                where name in('erp_v2_6_18a_cutting_bridge_reconciliation','erp_v2_6_19_cp5_bs_resolution_recovery','erp_v2_6_19a_cp5_rework_accessory_lineage','erp_v2_6_19b_cp5_reliability_closure'))
+                where name in('erp_v2_6_18a_cutting_bridge_reconciliation','erp_v2_6_19_cp5_bs_resolution_recovery','erp_v2_6_19a_cp5_rework_accessory_lineage','erp_v2_6_19b_cp5_reliability_closure','erp_v2_6_19c_cp5_atomic_reversal_reconciliation'))
               and to_regclass('erp.cutting_bridge_v2618_rollback_capsule') is not null
               and to_regclass('erp.cutting_bridge_v2618a_rollback_capsule') is null
               and to_regclass('erp.cutting_bridge_execution_context') is null
@@ -856,15 +1072,29 @@ jobs:
           grep -F '6a568a78ad0b9baa2ef5ee958ee967d7c997cc1f4dfb7f0e4ef5e6ff69e5038f' \
             cp5-proof/V2618_HOSTED_PLATFORM_LEDGER_SHAPE.json >/dev/null
           grep -F '80392' cp5-proof/V2618_HOSTED_PLATFORM_LEDGER_SHAPE.json >/dev/null
+          set +e
+          psql "$PGURL" -v ON_ERROR_STOP=1 <<'SQL' > cp5-proof/V2618_ROLLBACK_TAMPERED_STATEMENT_REJECTION.log 2>&1
+          begin;
+          update supabase_migrations.schema_migrations
+          set statements=array[array_to_string(statements,E'\n')||E'\n-- TAMPERED LEDGER STATEMENT']
+          where name='erp_v2_6_18_cutting_persistence_pickup_wip';
+          \i supabase/rollbacks/20260903022604_erp_v2_6_18_cutting_persistence_pickup_wip.rollback.sql
+          SQL
+          tamper_status=$?
+          set -e
+          test "$tamper_status" -ne 0
+          grep -F 'v2.6.18 rollback refused: platform ledger identity is ambiguous' \
+            cp5-proof/V2618_ROLLBACK_TAMPERED_STATEMENT_REJECTION.log >/dev/null
+          test "$(psql "$PGURL" -At -c "select encode(extensions.digest(convert_to(array_to_string(statements,E'\\n'),'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations where name='erp_v2_6_18_cutting_persistence_pickup_wip'")" = '6a568a78ad0b9baa2ef5ee958ee967d7c997cc1f4dfb7f0e4ef5e6ff69e5038f'
           psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/rollbacks/20260903022604_erp_v2_6_18_cutting_persistence_pickup_wip.rollback.sql 2>&1 | tee cp5-proof/V2618_ROLLBACK.log
           psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' | tee cp5-proof/V2618_ROLLBACK_RESIDUE.json
           select jsonb_build_object(
             'status',case when
               exists(select 1 from erp.schema_migrations where version='v2.6.17a')
-              and not exists(select 1 from erp.schema_migrations where version in('v2.6.18','v2.6.18a','v2.6.19','v2.6.19a','v2.6.19b'))
+              and not exists(select 1 from erp.schema_migrations where version in('v2.6.18','v2.6.18a','v2.6.19','v2.6.19a','v2.6.19b','v2.6.19c'))
               and not exists(select 1 from supabase_migrations.schema_migrations
-                where version in('20260903022604','20260903060213','20260903070931','20260903070932','20260903080931','20260903080932','20260903151034','20260903161034','20260904012525','20260904022525')
-                   or name in('erp_v2_6_18_cutting_persistence_pickup_wip','erp_v2_6_18a_cutting_bridge_reconciliation','erp_v2_6_19_cp5_bs_resolution_recovery','erp_v2_6_19a_cp5_rework_accessory_lineage','erp_v2_6_19b_cp5_reliability_closure'))
+                where version in('20260903022604','20260903060213','20260903070931','20260903070932','20260903080931','20260903080932','20260903151034','20260903161034','20260904012525','20260904022525','20260904061346','20260904071346')
+                   or name in('erp_v2_6_18_cutting_persistence_pickup_wip','erp_v2_6_18a_cutting_bridge_reconciliation','erp_v2_6_19_cp5_bs_resolution_recovery','erp_v2_6_19a_cp5_rework_accessory_lineage','erp_v2_6_19b_cp5_reliability_closure','erp_v2_6_19c_cp5_atomic_reversal_reconciliation'))
               and to_regclass('erp.cutting_bridge_v2618_rollback_capsule') is null
               and to_regclass('erp.cutting_bridge_v2618a_rollback_capsule') is null
               and to_regclass('erp.cutting_bridge_execution_context') is null
@@ -904,13 +1134,28 @@ jobs:
             'status',case when
               (select count(*) from auth.users)=0
               and (select count(*) from erp.app_users)=0
-              and not exists(select 1 from erp.schema_migrations where version in('v2.6.18','v2.6.18a','v2.6.19','v2.6.19a','v2.6.19b'))
+              and not exists(select 1 from erp.schema_migrations where version in('v2.6.18','v2.6.18a','v2.6.19','v2.6.19a','v2.6.19b','v2.6.19c'))
               and not exists(select 1 from supabase_migrations.schema_migrations
-                where version in('20260903022604','20260903060213','20260903070931','20260903070932','20260903080931','20260903080932','20260903151034','20260903161034','20260904012525','20260904022525')
-                   or name in('erp_v2_6_18_cutting_persistence_pickup_wip','erp_v2_6_18a_cutting_bridge_reconciliation','erp_v2_6_19_cp5_bs_resolution_recovery','erp_v2_6_19a_cp5_rework_accessory_lineage','erp_v2_6_19b_cp5_reliability_closure'))
+                where version in('20260903022604','20260903060213','20260903070931','20260903070932','20260903080931','20260903080932','20260903151034','20260903161034','20260904012525','20260904022525','20260904061346','20260904071346')
+                   or name in('erp_v2_6_18_cutting_persistence_pickup_wip','erp_v2_6_18a_cutting_bridge_reconciliation','erp_v2_6_19_cp5_bs_resolution_recovery','erp_v2_6_19a_cp5_rework_accessory_lineage','erp_v2_6_19b_cp5_reliability_closure','erp_v2_6_19c_cp5_atomic_reversal_reconciliation'))
               and to_regclass('erp.cutting_bridge_v2618a_rollback_capsule') is null
               and to_regclass('erp.cutting_bridge_execution_context') is null
               and to_regclass('erp.bs_resolution_execution_context') is null
+              and to_regclass('erp.bs_resolution_v2619c_rollback_capsule') is null
+              and to_regprocedure('erp.guard_bs_resolution_claim_state_v2619c()') is null
+              and to_regprocedure('erp.guard_laundry_claim_bs_dependency_v2619c()') is null
+              and not exists(
+                select 1 from pg_constraint
+                where conrelid='erp.bs_resolutions'::regclass
+                  and conname='bs_resolutions_cash_claim_contract_v2619c'
+              )
+              and not exists(
+                select 1 from pg_trigger
+                where tgname in(
+                  'trg_00_guard_bs_resolution_claim_state_v2619c',
+                  'trg_00_guard_laundry_claim_bs_dependency_v2619c'
+                ) and not tgisinternal
+              )
               then 'PASS' else 'FAIL' end,
             'auth_users',(select count(*) from auth.users),
             'app_users',(select count(*) from erp.app_users),
@@ -919,6 +1164,7 @@ jobs:
             'v2619_application',exists(select 1 from erp.schema_migrations where version='v2.6.19'),
             'v2619a_application',exists(select 1 from erp.schema_migrations where version='v2.6.19a'),
             'v2619b_application',exists(select 1 from erp.schema_migrations where version='v2.6.19b'),
+            'v2619c_application',exists(select 1 from erp.schema_migrations where version='v2.6.19c'),
             'production_go',false
           );
           SQL

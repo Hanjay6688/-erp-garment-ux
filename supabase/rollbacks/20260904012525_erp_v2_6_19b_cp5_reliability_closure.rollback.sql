@@ -101,8 +101,8 @@ begin
 end
 $rollback_guard$;
 
--- Local/full-schema installs use the official timestamp. Connector installs
--- may use a generated version, but must match the exact name and source digest.
+-- Official-timestamp and connector-generated ledgers must both match the exact
+-- name and source digest.
 do $platform_ledger_guard$
 declare
   v_match_count integer;
@@ -110,29 +110,21 @@ declare
 begin
   select count(*) into v_match_count
   from supabase_migrations.schema_migrations m
-  where(
-    m.version='20260904012525'
-    and m.name='erp_v2_6_19b_cp5_reliability_closure'
-  ) or(
-    m.name='erp_v2_6_19b_cp5_reliability_closure'
+  where m.name='erp_v2_6_19b_cp5_reliability_closure'
     and coalesce(encode(extensions.digest(
       convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'
     ),'hex'),'')='89ed4535720e12722bc1cbedd1bbcb5b7920f9ee4b6b19754214d05ac82b0e8d'
-  );
+  ;
   select count(*) into v_conflict_count
   from supabase_migrations.schema_migrations m
   where(
     m.version='20260904012525'
     or m.name='erp_v2_6_19b_cp5_reliability_closure'
   ) and not(
-    (m.version='20260904012525'
-      and m.name='erp_v2_6_19b_cp5_reliability_closure')
-    or(
-      m.name='erp_v2_6_19b_cp5_reliability_closure'
-      and coalesce(encode(extensions.digest(
-        convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'
-      ),'hex'),'')='89ed4535720e12722bc1cbedd1bbcb5b7920f9ee4b6b19754214d05ac82b0e8d'
-    )
+    m.name='erp_v2_6_19b_cp5_reliability_closure'
+    and coalesce(encode(extensions.digest(
+      convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'
+    ),'hex'),'')='89ed4535720e12722bc1cbedd1bbcb5b7920f9ee4b6b19754214d05ac82b0e8d'
   );
   if v_match_count<>1 or v_conflict_count<>0 then
     raise exception 'v2.6.19b rollback refused: platform ledger identity is ambiguous (match %, conflict %)',
@@ -257,15 +249,11 @@ $restore_guard$;
 
 delete from erp.schema_migrations where version='v2.6.19b';
 delete from supabase_migrations.schema_migrations m
-where(
-  m.version='20260904012525'
-  and m.name='erp_v2_6_19b_cp5_reliability_closure'
-) or(
-  m.name='erp_v2_6_19b_cp5_reliability_closure'
+where m.name='erp_v2_6_19b_cp5_reliability_closure'
   and coalesce(encode(extensions.digest(
     convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'
   ),'hex'),'')='89ed4535720e12722bc1cbedd1bbcb5b7920f9ee4b6b19754214d05ac82b0e8d'
-);
+;
 
 drop table erp.bs_resolution_v2619b_rollback_capsule;
 select pg_notify('pgrst','reload schema');

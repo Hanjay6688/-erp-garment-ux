@@ -302,10 +302,9 @@ begin
 end
 $restore_guard$;
 
--- Local/full-schema installs use the reviewed filename version. Connector
--- installs may use a generated version, so that path must match exact name and
--- the SHA-256 of the frozen migration bytes. Guard and DELETE predicates are
--- intentionally identical.
+-- Official-timestamp and connector-generated installs must both match the exact
+-- semantic name and SHA-256 of the frozen migration bytes. Guard and DELETE
+-- predicates are intentionally identical.
 do $platform_ledger_guard$
 declare
   v_match_count integer;
@@ -313,30 +312,21 @@ declare
 begin
   select count(*) into v_match_count
   from supabase_migrations.schema_migrations m
-  where (
-       m.version='20260903022604'
-       and m.name='erp_v2_6_18_cutting_persistence_pickup_wip'
-     )
-     or (
-       m.name='erp_v2_6_18_cutting_persistence_pickup_wip'
-       and coalesce(
-         encode(extensions.digest(convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'),'hex'),
-         ''
-       )='6a568a78ad0b9baa2ef5ee958ee967d7c997cc1f4dfb7f0e4ef5e6ff69e5038f'
-     );
+  where m.name='erp_v2_6_18_cutting_persistence_pickup_wip'
+    and coalesce(
+      encode(extensions.digest(convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'),'hex'),
+      ''
+    )='6a568a78ad0b9baa2ef5ee958ee967d7c997cc1f4dfb7f0e4ef5e6ff69e5038f';
 
   select count(*) into v_conflict_count
   from supabase_migrations.schema_migrations m
   where (m.version='20260903022604' or m.name='erp_v2_6_18_cutting_persistence_pickup_wip')
     and not (
-      (m.version='20260903022604' and m.name='erp_v2_6_18_cutting_persistence_pickup_wip')
-      or (
-        m.name='erp_v2_6_18_cutting_persistence_pickup_wip'
-        and coalesce(
-          encode(extensions.digest(convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'),'hex'),
-          ''
-        )='6a568a78ad0b9baa2ef5ee958ee967d7c997cc1f4dfb7f0e4ef5e6ff69e5038f'
-      )
+      m.name='erp_v2_6_18_cutting_persistence_pickup_wip'
+      and coalesce(
+        encode(extensions.digest(convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'),'hex'),
+        ''
+      )='6a568a78ad0b9baa2ef5ee958ee967d7c997cc1f4dfb7f0e4ef5e6ff69e5038f'
     );
 
   if v_match_count<>1 or v_conflict_count<>0 then
@@ -349,17 +339,11 @@ $platform_ledger_guard$;
 
 delete from erp.schema_migrations where version='v2.6.18';
 delete from supabase_migrations.schema_migrations m
-where (
-     m.version='20260903022604'
-     and m.name='erp_v2_6_18_cutting_persistence_pickup_wip'
-   )
-   or (
-     m.name='erp_v2_6_18_cutting_persistence_pickup_wip'
-     and coalesce(
-       encode(extensions.digest(convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'),'hex'),
-       ''
-     )='6a568a78ad0b9baa2ef5ee958ee967d7c997cc1f4dfb7f0e4ef5e6ff69e5038f'
-   );
+where m.name='erp_v2_6_18_cutting_persistence_pickup_wip'
+  and coalesce(
+    encode(extensions.digest(convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'),'hex'),
+    ''
+  )='6a568a78ad0b9baa2ef5ee958ee967d7c997cc1f4dfb7f0e4ef5e6ff69e5038f';
 
 drop table erp.cutting_bridge_v2618_rollback_capsule;
 

@@ -35,6 +35,10 @@ CLAIM_WINS_RECEIPT = 'c6c00000-0000-4000-8000-000000000313'
 CLAIM_WINS_RECEIPT_LINE = 'c6c00000-0000-4000-8000-000000000314'
 REVERSAL_WINS_RECEIPT = 'c6c00000-0000-4000-8000-000000000315'
 REVERSAL_WINS_RECEIPT_LINE = 'c6c00000-0000-4000-8000-000000000316'
+CASH_WINS_BS_CASE = 'c6c00000-0000-4000-8000-000000000317'
+CASH_WINS_CLAIM = 'c6c00000-0000-4000-8000-000000000318'
+REVERSAL_WINS_BS_CASE = 'c6c00000-0000-4000-8000-000000000319'
+REVERSAL_WINS_CLAIM = 'c6c00000-0000-4000-8000-000000000320'
 DISPOSE_REQUEST_A = 'c6c00000-0000-4000-8000-000000000401'
 DISPOSE_REQUEST_B = 'c6c00000-0000-4000-8000-000000000402'
 CLAIM_REQUEST_A = 'c6c00000-0000-4000-8000-000000000403'
@@ -42,6 +46,8 @@ CLAIM_REQUEST_B = 'c6c00000-0000-4000-8000-000000000404'
 CLAIM_REQUEST_C = 'c6c00000-0000-4000-8000-000000000405'
 CLAIM_REQUEST_D = 'c6c00000-0000-4000-8000-000000000406'
 CLAIM_REQUEST_E = 'c6c00000-0000-4000-8000-000000000407'
+CASH_REQUEST_A = 'c6c00000-0000-4000-8000-000000000408'
+CASH_REQUEST_B = 'c6c00000-0000-4000-8000-000000000409'
 
 
 def connect():
@@ -191,27 +197,60 @@ def setup():
                 REVERSAL_WINS_RECEIPT_LINE, REVERSAL_WINS_RECEIPT, DELIVERY_LINE,
             ),
         )
+        cur.execute(
+            """
+            insert into erp.bs_cases(
+              id,bs_number,untracked_type,legacy_reference,detected_at_stage,
+              cause_source,responsible_vendor_id,qty_pcs,status,physical_at,notes
+            ) values
+              (%s::uuid,'CP5-RACE-CASH-WINS-BS','LEGACY','CP5-RACE-CASH-WINS',
+               'UNKNOWN','UNKNOWN',%s::uuid,1,'OPEN','2026-09-03T07:10:00Z','CP5 claim dependency race'),
+              (%s::uuid,'CP5-RACE-REVERSAL-WINS-BS','LEGACY','CP5-RACE-REVERSAL-WINS',
+               'UNKNOWN','UNKNOWN',%s::uuid,1,'OPEN','2026-09-03T07:11:00Z','CP5 claim dependency race')
+            """,
+            (CASH_WINS_BS_CASE, VENDOR, REVERSAL_WINS_BS_CASE, VENDOR),
+        )
+        cur.execute(
+            """
+            insert into erp.laundry_claims(
+              id,claim_number,vendor_id,delivery_id,qty_claimed,claim_type,
+              compensation_amount,status,opened_at,resolved_at,resolution_date,notes
+            ) values
+              (%s::uuid,'CP5-RACE-CASH-WINS-CLAIM',%s::uuid,%s::uuid,1,'STUCK',
+               25,'SETTLED','2026-09-03T08:00:00Z','2026-09-03T08:10:00Z','2026-09-03','CP5 claim dependency race'),
+              (%s::uuid,'CP5-RACE-REVERSAL-WINS-CLAIM',%s::uuid,%s::uuid,1,'STUCK',
+               25,'SETTLED','2026-09-03T08:01:00Z','2026-09-03T08:11:00Z','2026-09-03','CP5 claim dependency race')
+            """,
+            (CASH_WINS_CLAIM, VENDOR, DELIVERY, REVERSAL_WINS_CLAIM, VENDOR, DELIVERY),
+        )
         conn.commit()
 
 
 def cleanup():
     request_ids = [
         DISPOSE_REQUEST_A, DISPOSE_REQUEST_B, CLAIM_REQUEST_A, CLAIM_REQUEST_B,
-        CLAIM_REQUEST_C, CLAIM_REQUEST_D, CLAIM_REQUEST_E,
+        CLAIM_REQUEST_C, CLAIM_REQUEST_D, CLAIM_REQUEST_E, CASH_REQUEST_A, CASH_REQUEST_B,
     ]
     entity_ids = [
         BS_CASE, PO, BATCH, GROUP, VENDOR, DELIVERY, DELIVERY_LINE,
         RECEIPT, RECEIPT_LINE, RETURN_RECEIPT, RETURN_RECEIPT_LINE,
         CLAIM_WINS_RECEIPT, CLAIM_WINS_RECEIPT_LINE,
         REVERSAL_WINS_RECEIPT, REVERSAL_WINS_RECEIPT_LINE, CONTRACTOR, MODEL,
+        CASH_WINS_BS_CASE, CASH_WINS_CLAIM, REVERSAL_WINS_BS_CASE, REVERSAL_WINS_CLAIM,
     ]
     with connect() as conn, conn.cursor() as cur:
         cur.execute("set local lock_timeout='10s'")
         cur.execute("select set_config('erp.cp45_allow_synthetic_cleanup','on',true)")
+        cur.execute(
+            "delete from erp.bs_resolutions where bs_case_id=any(%s::uuid[])",
+            ([BS_CASE, CASH_WINS_BS_CASE, REVERSAL_WINS_BS_CASE],),
+        )
         cur.execute("delete from erp.laundry_claims where claim_number like 'CP5-RACE-%%'")
-        cur.execute("delete from erp.bs_resolutions where bs_case_id=%s::uuid", (BS_CASE,))
         cur.execute("delete from erp.bs_case_components where bs_case_id=%s::uuid", (BS_CASE,))
-        cur.execute("delete from erp.bs_cases where id=%s::uuid", (BS_CASE,))
+        cur.execute(
+            "delete from erp.bs_cases where id=any(%s::uuid[])",
+            ([BS_CASE, CASH_WINS_BS_CASE, REVERSAL_WINS_BS_CASE],),
+        )
         cur.execute(
             "delete from erp.idempotency_requests where client_request_id=any(%s::uuid[])",
             (request_ids,),
@@ -668,11 +707,198 @@ def run_stuck_vs_return_race():
     return {'claim_winner': claim_winner, 'receipt_loser': receipt_loser, 'final': final}
 
 
+def cash_disposition_winner(started: threading.Event, result: dict):
+    conn = connect()
+    try:
+        with conn.cursor() as cur:
+            cur.execute("set local lock_timeout='10s'")
+            set_operator_context(cur)
+            result['response'] = action(cur, 'DISPOSE_BS', {
+                'bs_case_id': CASH_WINS_BS_CASE,
+                'resolution_type': 'CASH_COMPENSATION',
+                'qty_pcs': 1, 'compensation_amount': 25,
+                'source_laundry_claim_id': CASH_WINS_CLAIM,
+                'physical_at': '2026-09-03T08:20:00Z',
+                'change_reason': 'CP5 cash disposition commits before claim reversal',
+            }, CASH_REQUEST_A, 1)
+            started.set()
+            time.sleep(HOLD_SECONDS)
+        conn.commit()
+        result['status'] = 'PASS'
+    except Exception as exc:  # pragma: no cover - emitted in proof
+        conn.rollback()
+        result['status'] = 'FAIL'
+        result['error'] = str(exc)
+        started.set()
+    finally:
+        conn.close()
+
+
+def claim_reversal_loser(started: threading.Event, result: dict):
+    started.wait(timeout=10)
+    began = time.monotonic()
+    conn = connect()
+    try:
+        with conn.cursor() as cur:
+            cur.execute("set local lock_timeout='10s'")
+            cur.execute("select set_config('app.change_reason','CP5 dependency race reversal loser',true)")
+            cur.execute(
+                "update erp.laundry_claims set status='REJECTED' where id=%s::uuid",
+                (CASH_WINS_CLAIM,),
+            )
+        conn.commit()
+        result['status'] = 'UNEXPECTED_SUCCESS'
+    except Exception as exc:
+        conn.rollback()
+        result['error'] = str(exc)
+        result['status'] = (
+            'EXPECTED_REJECTION'
+            if 'CLAIM_RESOLUTION_IN_USE_BY_ACTIVE_BS_CASH_COMPENSATION' in str(exc)
+            else 'WRONG_ERROR'
+        )
+    finally:
+        result['elapsed_seconds'] = round(time.monotonic() - began, 3)
+        conn.close()
+
+
+def claim_reversal_winner(started: threading.Event, result: dict):
+    conn = connect()
+    try:
+        with conn.cursor() as cur:
+            cur.execute("set local lock_timeout='10s'")
+            cur.execute("select set_config('app.change_reason','CP5 dependency race reversal winner',true)")
+            cur.execute(
+                "update erp.laundry_claims set status='REJECTED' where id=%s::uuid",
+                (REVERSAL_WINS_CLAIM,),
+            )
+            started.set()
+            time.sleep(HOLD_SECONDS)
+        conn.commit()
+        result['status'] = 'PASS'
+    except Exception as exc:  # pragma: no cover - emitted in proof
+        conn.rollback()
+        result['status'] = 'FAIL'
+        result['error'] = str(exc)
+        started.set()
+    finally:
+        conn.close()
+
+
+def cash_disposition_loser(started: threading.Event, result: dict):
+    started.wait(timeout=10)
+    began = time.monotonic()
+    conn = connect()
+    try:
+        with conn.cursor() as cur:
+            cur.execute("set local lock_timeout='10s'")
+            set_operator_context(cur)
+            result['unexpected_response'] = action(cur, 'DISPOSE_BS', {
+                'bs_case_id': REVERSAL_WINS_BS_CASE,
+                'resolution_type': 'CASH_COMPENSATION',
+                'qty_pcs': 1, 'compensation_amount': 25,
+                'source_laundry_claim_id': REVERSAL_WINS_CLAIM,
+                'physical_at': '2026-09-03T08:21:00Z',
+                'change_reason': 'CP5 claim reversal commits before cash disposition',
+            }, CASH_REQUEST_B, 1)
+        conn.commit()
+        result['status'] = 'UNEXPECTED_SUCCESS'
+    except Exception as exc:
+        conn.rollback()
+        result['error'] = str(exc)
+        result['status'] = (
+            'EXPECTED_REJECTION'
+            if 'Linked laundry claim must be SETTLED' in str(exc)
+            or 'BS_CASH_COMPENSATION_REQUIRES_ACTIVE_SETTLED_CLAIM' in str(exc)
+            else 'WRONG_ERROR'
+        )
+    finally:
+        result['elapsed_seconds'] = round(time.monotonic() - began, 3)
+        conn.close()
+
+
+def run_claim_cash_dependency_races():
+    cash_started = threading.Event()
+    cash_winner = {}
+    reversal_loser = {}
+    first = threading.Thread(target=cash_disposition_winner, args=(cash_started, cash_winner), daemon=True)
+    second = threading.Thread(target=claim_reversal_loser, args=(cash_started, reversal_loser), daemon=True)
+    first.start(); second.start(); first.join(timeout=20); second.join(timeout=20)
+    if first.is_alive() or second.is_alive():
+        raise RuntimeError('cash-wins claim dependency race thread timeout')
+    if cash_winner.get('status') != 'PASS' or reversal_loser.get('status') != 'EXPECTED_REJECTION':
+        raise RuntimeError(f'cash-wins claim dependency mismatch: cash={cash_winner}, reversal={reversal_loser}')
+    if reversal_loser.get('elapsed_seconds', 0) < WAIT_FLOOR_SECONDS:
+        raise RuntimeError(f'cash-wins claim dependency did not serialize: {reversal_loser}')
+    cash_final = scalar(
+        """
+        select jsonb_build_object(
+          'claim_status',(select status from erp.laundry_claims where id=%s::uuid),
+          'cash_resolution_count',(select count(*) from erp.bs_resolutions
+            where bs_case_id=%s::uuid and source_laundry_claim_id=%s::uuid
+              and resolution_type='CASH_COMPENSATION')
+        )
+        """,
+        (CASH_WINS_CLAIM, CASH_WINS_BS_CASE, CASH_WINS_CLAIM),
+    )
+    if cash_final != {'claim_status': 'SETTLED', 'cash_resolution_count': 1}:
+        raise RuntimeError(f'cash-wins dependency final state mismatch: {cash_final}')
+
+    reversal_started = threading.Event()
+    reversal_winner = {}
+    cash_loser = {}
+    third = threading.Thread(target=claim_reversal_winner, args=(reversal_started, reversal_winner), daemon=True)
+    fourth = threading.Thread(target=cash_disposition_loser, args=(reversal_started, cash_loser), daemon=True)
+    third.start(); fourth.start(); third.join(timeout=20); fourth.join(timeout=20)
+    if third.is_alive() or fourth.is_alive():
+        raise RuntimeError('reversal-wins claim dependency race thread timeout')
+    if reversal_winner.get('status') != 'PASS' or cash_loser.get('status') != 'EXPECTED_REJECTION':
+        raise RuntimeError(f'reversal-wins claim dependency mismatch: reversal={reversal_winner}, cash={cash_loser}')
+    if cash_loser.get('elapsed_seconds', 0) < WAIT_FLOOR_SECONDS:
+        raise RuntimeError(f'reversal-wins claim dependency did not serialize: {cash_loser}')
+    reversal_final = scalar(
+        """
+        select jsonb_build_object(
+          'claim_status',(select status from erp.laundry_claims where id=%s::uuid),
+          'cash_resolution_count',(select count(*) from erp.bs_resolutions
+            where bs_case_id=%s::uuid or source_laundry_claim_id=%s::uuid)
+        )
+        """,
+        (REVERSAL_WINS_CLAIM, REVERSAL_WINS_BS_CASE, REVERSAL_WINS_CLAIM),
+    )
+    if reversal_final != {'claim_status': 'REJECTED', 'cash_resolution_count': 0}:
+        raise RuntimeError(f'reversal-wins dependency final state mismatch: {reversal_final}')
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute("select set_config('erp.cp45_allow_synthetic_cleanup','on',true)")
+        cur.execute(
+            "delete from erp.bs_resolutions where bs_case_id=any(%s::uuid[])",
+            ([CASH_WINS_BS_CASE, REVERSAL_WINS_BS_CASE],),
+        )
+        cur.execute(
+            "delete from erp.laundry_claims where id=any(%s::uuid[])",
+            ([CASH_WINS_CLAIM, REVERSAL_WINS_CLAIM],),
+        )
+        cur.execute(
+            "delete from erp.bs_cases where id=any(%s::uuid[])",
+            ([CASH_WINS_BS_CASE, REVERSAL_WINS_BS_CASE],),
+        )
+        cur.execute(
+            "delete from erp.idempotency_requests where client_request_id=any(%s::uuid[])",
+            ([CASH_REQUEST_A, CASH_REQUEST_B],),
+        )
+        conn.commit()
+    return {
+        'cash_winner': cash_winner, 'reversal_loser': reversal_loser,
+        'cash_winner_final': cash_final, 'reversal_winner': reversal_winner,
+        'cash_loser': cash_loser, 'reversal_winner_final': reversal_final,
+    }
+
+
 report = {'status': 'FAIL', 'production_go': False}
 failure = None
 try:
     setup()
     report['disposition_vs_disposition'] = run_disposition_race()
+    report['claim_reversal_vs_bs_cash_compensation'] = run_claim_cash_dependency_races()
     report['damage_claim_vs_capacity'] = run_claim_race()
     report['damage_claim_wins_vs_receipt_reversal'] = run_damage_source_claim_wins_race()
     report['receipt_reversal_wins_vs_damage_claim'] = run_damage_source_reversal_wins_race()
@@ -683,6 +909,7 @@ try:
         'damage_claim_capacity_serialized': True,
         'damage_claim_and_receipt_reversal_serialize_both_directions': True,
         'stuck_claim_and_physical_return_share_one_conservation_lock': True,
+        'claim_reversal_and_bs_cash_compensation_serialize_both_directions': True,
         'real_two_connection_wait_observed': True,
     }
     report['status'] = 'PASS'
@@ -702,8 +929,8 @@ try:
         """
         select jsonb_build_object(
           'app_users',(select count(*) from erp.app_users where id=%s::uuid),
-          'bs_cases',(select count(*) from erp.bs_cases where id=%s::uuid),
-          'bs_resolutions',(select count(*) from erp.bs_resolutions where bs_case_id=%s::uuid),
+          'bs_cases',(select count(*) from erp.bs_cases where id=any(%s::uuid[])),
+          'bs_resolutions',(select count(*) from erp.bs_resolutions where bs_case_id=any(%s::uuid[])),
           'bs_components',(select count(*) from erp.bs_case_components where bs_case_id=%s::uuid),
           'claims',(select count(*) from erp.laundry_claims where claim_number like 'CP5-RACE-%%'),
           'receipts',(select count(*) from erp.laundry_receipts where id=any(%s::uuid[])),
@@ -725,14 +952,17 @@ try:
         )
         """,
         (
-            OPERATOR_APP, BS_CASE, BS_CASE, BS_CASE,
+            OPERATOR_APP,
+            [BS_CASE, CASH_WINS_BS_CASE, REVERSAL_WINS_BS_CASE],
+            [BS_CASE, CASH_WINS_BS_CASE, REVERSAL_WINS_BS_CASE],
+            BS_CASE,
             [RECEIPT, RETURN_RECEIPT, CLAIM_WINS_RECEIPT, REVERSAL_WINS_RECEIPT],
             [RECEIPT_LINE, RETURN_RECEIPT_LINE, CLAIM_WINS_RECEIPT_LINE, REVERSAL_WINS_RECEIPT_LINE],
             DELIVERY, DELIVERY_LINE, VENDOR, GROUP, BATCH, PO,
             CONTRACTOR, MODEL,
             [
                 DISPOSE_REQUEST_A, DISPOSE_REQUEST_B, CLAIM_REQUEST_A, CLAIM_REQUEST_B,
-                CLAIM_REQUEST_C, CLAIM_REQUEST_D, CLAIM_REQUEST_E,
+                CLAIM_REQUEST_C, CLAIM_REQUEST_D, CLAIM_REQUEST_E, CASH_REQUEST_A, CASH_REQUEST_B,
             ],
             OPERATOR_APP, OPERATOR_APP, OPERATOR_APP,
             [
@@ -740,7 +970,8 @@ try:
                 RECEIPT, RECEIPT_LINE, RETURN_RECEIPT, RETURN_RECEIPT_LINE,
                 CLAIM_WINS_RECEIPT, CLAIM_WINS_RECEIPT_LINE,
                 REVERSAL_WINS_RECEIPT, REVERSAL_WINS_RECEIPT_LINE,
-                CONTRACTOR, MODEL,
+                CASH_WINS_BS_CASE, CASH_WINS_CLAIM,
+                REVERSAL_WINS_BS_CASE, REVERSAL_WINS_CLAIM, CONTRACTOR, MODEL,
             ],
         ),
     )

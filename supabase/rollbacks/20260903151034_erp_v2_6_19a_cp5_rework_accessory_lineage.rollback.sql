@@ -99,9 +99,9 @@ begin
 end
 $rollback_guard$;
 
--- Local/full-schema installs use the official generated version. Connector
--- installs with a generated version must match the name and frozen source
--- SHA-256. Guard and DELETE predicates are intentionally identical.
+-- Official-timestamp and connector-generated ledgers must both match the name
+-- and frozen source SHA-256. Guard and DELETE predicates are intentionally
+-- identical.
 do $platform_ledger_guard$
 declare
   v_match_count integer;
@@ -109,29 +109,21 @@ declare
 begin
   select count(*) into v_match_count
   from supabase_migrations.schema_migrations m
-  where(
-    m.version='20260903151034'
-    and m.name='erp_v2_6_19a_cp5_rework_accessory_lineage'
-  ) or(
-    m.name='erp_v2_6_19a_cp5_rework_accessory_lineage'
+  where m.name='erp_v2_6_19a_cp5_rework_accessory_lineage'
     and coalesce(encode(extensions.digest(
       convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'
     ),'hex'),'')='204b9246f3c8c6464476da1a7f1574f5e0ae4c46f024c082704795b3eef5210f'
-  );
+  ;
   select count(*) into v_conflict_count
   from supabase_migrations.schema_migrations m
   where(
     m.version='20260903151034'
     or m.name='erp_v2_6_19a_cp5_rework_accessory_lineage'
   ) and not(
-    (m.version='20260903151034'
-      and m.name='erp_v2_6_19a_cp5_rework_accessory_lineage')
-    or(
-      m.name='erp_v2_6_19a_cp5_rework_accessory_lineage'
-      and coalesce(encode(extensions.digest(
-        convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'
-      ),'hex'),'')='204b9246f3c8c6464476da1a7f1574f5e0ae4c46f024c082704795b3eef5210f'
-    )
+    m.name='erp_v2_6_19a_cp5_rework_accessory_lineage'
+    and coalesce(encode(extensions.digest(
+      convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'
+    ),'hex'),'')='204b9246f3c8c6464476da1a7f1574f5e0ae4c46f024c082704795b3eef5210f'
   );
   if v_match_count<>1 or v_conflict_count<>0 then
     raise exception 'v2.6.19a rollback refused: platform ledger identity is ambiguous (match %, conflict %)',
@@ -269,15 +261,11 @@ $restore_guard$;
 
 delete from erp.schema_migrations where version='v2.6.19a';
 delete from supabase_migrations.schema_migrations m
-where(
-  m.version='20260903151034'
-  and m.name='erp_v2_6_19a_cp5_rework_accessory_lineage'
-) or(
-  m.name='erp_v2_6_19a_cp5_rework_accessory_lineage'
+where m.name='erp_v2_6_19a_cp5_rework_accessory_lineage'
   and coalesce(encode(extensions.digest(
     convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'
   ),'hex'),'')='204b9246f3c8c6464476da1a7f1574f5e0ae4c46f024c082704795b3eef5210f'
-);
+;
 
 drop table erp.bs_resolution_v2619a_rollback_capsule;
 select pg_notify('pgrst','reload schema');

@@ -65,6 +65,7 @@ begin
   if not exists(select 1 from erp.schema_migrations where version='v2.6.18a')
      or not exists(select 1 from erp.schema_migrations where version='v2.6.19')
      or not exists(select 1 from erp.schema_migrations where version='v2.6.19b')
+     or not exists(select 1 from erp.schema_migrations where version='v2.6.19c')
      or to_regprocedure('public.erp_get_bs_resolution_workspace_v1(text,text,uuid,text,integer,integer)') is null
      or to_regprocedure('public.erp_save_bs_resolution_action_v1(text,jsonb,uuid,bigint)') is null
      or to_regclass('erp.bs_case_hold_events') is null
@@ -73,7 +74,17 @@ begin
      or to_regclass('erp.cutting_bridge_v2618a_rollback_capsule') is null
      or (select count(*) from erp.bs_resolution_v2619_rollback_capsule where object_kind='FUNCTION')<>20
      or (select count(*) from erp.bs_resolution_v2619_rollback_capsule where object_kind='RELATION')<>10 then
-    raise exception 'CP5 v2.6.19 boundary/capsule is not installed completely';
+    raise exception 'CP5 v2.6.19c boundary/capsule is not installed completely';
+  end if;
+  if to_regprocedure('erp.guard_bs_resolution_claim_state_v2619c()') is null
+     or to_regprocedure('erp.guard_laundry_claim_bs_dependency_v2619c()') is null
+     or not exists(
+       select 1 from pg_constraint
+       where conrelid='erp.bs_resolutions'::regclass
+         and conname='bs_resolutions_cash_claim_contract_v2619c'
+         and convalidated
+     ) then
+    raise exception 'CP5 v2.6.19c claim/BS cross-ledger invariant is not installed completely';
   end if;
   if has_function_privilege('anon','public.erp_get_bs_resolution_workspace_v1(text,text,uuid,text,integer,integer)','EXECUTE')
      or has_function_privilege('anon','public.erp_save_bs_resolution_action_v1(text,jsonb,uuid,bigint)','EXECUTE')
@@ -715,6 +726,28 @@ begin
   end if;
   v_cash_disposition:=(v_response#>>'{result,bs_resolution_id}')::uuid;
   v_manual_version:=(v_response#>>'{result,row_version}')::bigint;
+
+  v_failed:=false;
+  begin
+    perform public.erp_save_bs_resolution_action_v1(
+      'REVERSE_CLAIM_RESOLUTION',jsonb_build_object(
+        'laundry_claim_id',v_claim,
+        'change_reason','CP5 must reject claim reversal while BS cash remains active'
+      ),gen_random_uuid(),v_claim_version
+    );
+  exception when others then
+    if sqlerrm like '%CLAIM_RESOLUTION_IN_USE_BY_ACTIVE_BS_CASH_COMPENSATION%' then
+      v_failed:=true;
+    else
+      raise;
+    end if;
+  end;
+  if not v_failed
+     or not exists(select 1 from erp.laundry_claims where id=v_claim and status='SETTLED')
+     or not exists(select 1 from erp.bs_resolutions where id=v_cash_disposition) then
+    raise exception 'CP5 reversed a settled claim while its BS CASH_COMPENSATION remained active';
+  end if;
+
   v_response:=public.erp_save_bs_resolution_action_v1(
     'REVERSE_DISPOSITION',jsonb_build_object(
       'resolution_id',v_cash_disposition,'change_reason','CP5 Owner corrects claim allocation'

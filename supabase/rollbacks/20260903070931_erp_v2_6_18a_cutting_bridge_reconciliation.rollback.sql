@@ -163,28 +163,24 @@ begin
 end
 $restore_guard$;
 
--- Local validation uses the reviewed filename. A connector-generated ledger
--- version must instead match both the semantic name and exact source hash.
+-- Official-timestamp and connector-generated ledgers must both match the
+-- semantic name and exact source hash.
 do $platform_ledger_guard$
 declare v_match_count integer;v_conflict_count integer;
 begin
   select count(*) into v_match_count
   from supabase_migrations.schema_migrations m
-  where(
-    m.version='20260903070931' and m.name='erp_v2_6_18a_cutting_bridge_reconciliation'
-  ) or(
-    m.name='erp_v2_6_18a_cutting_bridge_reconciliation'
+  where m.name='erp_v2_6_18a_cutting_bridge_reconciliation'
     and coalesce(encode(extensions.digest(convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'),'hex'),'')
       ='d024a9ef2c8b1d5d9c529669b0b46a7588575f3bdc6788252c1b90d0ab2aae6a'
-  );
+  ;
   select count(*) into v_conflict_count
   from supabase_migrations.schema_migrations m
   where(m.version='20260903070931' or m.name='erp_v2_6_18a_cutting_bridge_reconciliation')
     and not(
-      (m.version='20260903070931' and m.name='erp_v2_6_18a_cutting_bridge_reconciliation')
-      or(m.name='erp_v2_6_18a_cutting_bridge_reconciliation'
-        and coalesce(encode(extensions.digest(convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'),'hex'),'')
-          ='d024a9ef2c8b1d5d9c529669b0b46a7588575f3bdc6788252c1b90d0ab2aae6a')
+      m.name='erp_v2_6_18a_cutting_bridge_reconciliation'
+      and coalesce(encode(extensions.digest(convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'),'hex'),'')
+        ='d024a9ef2c8b1d5d9c529669b0b46a7588575f3bdc6788252c1b90d0ab2aae6a'
     );
   if v_match_count<>1 or v_conflict_count<>0 then
     raise exception 'v2.6.18a rollback refused: platform ledger identity is ambiguous (match %, conflict %)',
@@ -195,13 +191,10 @@ $platform_ledger_guard$;
 
 delete from erp.schema_migrations where version='v2.6.18a';
 delete from supabase_migrations.schema_migrations m
-where(
-  m.version='20260903070931' and m.name='erp_v2_6_18a_cutting_bridge_reconciliation'
-) or(
-  m.name='erp_v2_6_18a_cutting_bridge_reconciliation'
+where m.name='erp_v2_6_18a_cutting_bridge_reconciliation'
   and coalesce(encode(extensions.digest(convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'),'hex'),'')
     ='d024a9ef2c8b1d5d9c529669b0b46a7588575f3bdc6788252c1b90d0ab2aae6a'
-);
+;
 
 drop table erp.cutting_bridge_v2618a_rollback_capsule;
 select pg_notify('pgrst','reload schema');

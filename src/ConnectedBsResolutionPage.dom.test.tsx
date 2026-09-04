@@ -107,6 +107,7 @@ let root: Root
 
 beforeEach(() => {
   ;(globalThis as typeof globalThis & { IS_REACT_ACT_ENVIRONMENT: boolean }).IS_REACT_ACT_ENVIRONMENT = true
+  globalThis.localStorage.clear()
   container = document.createElement('div')
   document.body.append(container)
   root = createRoot(container)
@@ -115,6 +116,7 @@ beforeEach(() => {
 afterEach(async () => {
   await act(async () => { root.unmount() })
   container.remove()
+  globalThis.localStorage.clear()
   vi.restoreAllMocks()
 })
 
@@ -325,21 +327,24 @@ describe('CP5 connected BS Resolution DOM boundary', () => {
     const claimType = [...container.querySelectorAll<HTMLSelectElement>('.cbsr-modal-layer select')]
       .find((select) => [...select.options].some((option) => option.text === 'STUCK'))!
     expect([...claimType.options].map((option) => option.text)).toEqual(['STUCK', 'MISSING', 'DAMAGE'])
-    await act(async () => { container.querySelector<HTMLButtonElement>('.cbsr-modal-layer button[aria-label="Tutup"]')!.click() })
-
-    const holdTab = [...container.querySelectorAll<HTMLButtonElement>('.cbsr-route-tabs button')]
-      .find((button) => button.textContent?.trim() === 'Hold')!
-    await act(async () => { holdTab.click() })
-    await act(async () => { setControlValue(container.querySelector<HTMLTextAreaElement>('.cbsr-route-form textarea')!, 'Bukti fisik belum lengkap') })
-    const saveHold = [...container.querySelectorAll<HTMLButtonElement>('button')]
-      .find((button) => button.textContent?.includes('Simpan HOLD'))!
-    await act(async () => { saveHold.click() })
+    const claimModal = container.querySelector<HTMLElement>('.cbsr-modal-layer')!
+    const claimInputs = claimModal.querySelectorAll<HTMLInputElement>('input')
+    await act(async () => {
+      setControlValue(claimInputs[0]!, 'CLM-REFETCH-FAIL')
+      setControlValue(claimInputs[1]!, '2')
+      setControlValue(claimModal.querySelector<HTMLTextAreaElement>('textarea')!, 'Dua barang belum kembali secara fisik')
+    })
+    const saveClaim = [...claimModal.querySelectorAll<HTMLButtonElement>('button')]
+      .find((button) => button.textContent?.includes('Simpan claim'))!
+    expect(saveClaim.disabled).toBe(false)
+    await act(async () => { saveClaim.click() })
     await settle()
 
     expect(container.textContent).toContain('Aksi sudah tersimpan, tetapi refresh authoritative gagal')
     expect(container.textContent).not.toContain('Workspace authoritative sudah dimuat ulang')
     expect(container.textContent).toContain('seluruh writer terkunci')
-    expect(saveHold.disabled).toBe(true)
+    expect(container.querySelector('.cbsr-modal-layer')).toBe(claimModal)
+    expect(saveClaim.disabled).toBe(true)
     expect(claimButton.disabled).toBe(true)
 
     const refetch = [...container.querySelectorAll<HTMLButtonElement>('button')]
@@ -347,6 +352,7 @@ describe('CP5 connected BS Resolution DOM boundary', () => {
     await act(async () => { refetch.click() })
     await settle()
     expect(container.textContent).not.toContain('State layar stale setelah mutasi tersimpan')
+    expect(saveClaim.disabled).toBe(false)
     expect(claimButton.disabled).toBe(false)
     expect(rpc.mock.calls.filter(([name]) => name === 'erp_save_bs_resolution_action_v1')).toHaveLength(1)
   })
@@ -432,7 +438,7 @@ describe('CP5 connected BS Resolution DOM boundary', () => {
     expect(rpc.mock.calls.some(([name]) => name === 'erp_save_bs_resolution_action_v1')).toBe(false)
   })
 
-  it('reuses the same idempotency key when an unchanged action is retried after a transport error', async () => {
+  it('persists a lost-response envelope across reload and reconciles only the exact old UUID and payload', async () => {
     let actionAttempts = 0
     const rpc = vi.fn(async (name: string, _args?: Record<string, unknown>) => {
       if (name === 'erp_list_patterns_v1') return { data: patterns, error: null }
@@ -462,12 +468,49 @@ describe('CP5 connected BS Resolution DOM boundary', () => {
 
     await act(async () => { saveHold.click() })
     await settle()
-    expect(container.textContent).toContain('Layanan UAT belum dapat dihubungi')
-    await act(async () => { saveHold.click() })
+    expect(container.textContent).toContain('Hasil transaksi belum diketahui')
+    expect(container.textContent).toContain('Reconcile transaksi')
+    expect(saveHold.disabled).toBe(true)
+    expect([...container.querySelectorAll<HTMLButtonElement>('button')]
+      .find((button) => button.textContent?.includes('Claim Laundry'))?.disabled).toBe(true)
+    const firstAction = rpc.mock.calls.find(([name]) => name === 'erp_save_bs_resolution_action_v1')?.[1]
+    expect(firstAction).toMatchObject({
+      p_action: 'HOLD_BS', p_expected_version: 4,
+      p_payload: { bs_case_id: 'case-1', change_reason: 'Bukti fisik belum lengkap' },
+    })
+
+    await act(async () => {
+      setControlValue(reason, 'Payload berbeda yang tidak boleh terkirim')
+      saveHold.click()
+    })
+    expect(rpc.mock.calls.filter(([name]) => name === 'erp_save_bs_resolution_action_v1')).toHaveLength(1)
+
+    await act(async () => { root.unmount() })
+    root = createRoot(container)
+    await renderPage()
+    expect(container.textContent).toContain('Hasil transaksi belum diketahui')
+    const claimButton = [...container.querySelectorAll<HTMLButtonElement>('button')]
+      .find((button) => button.textContent?.includes('Claim Laundry'))!
+    expect(claimButton.disabled).toBe(true)
+
+    const refetch = [...container.querySelectorAll<HTMLButtonElement>('button')]
+      .find((button) => button.textContent?.trim() === 'Refetch')!
+    await act(async () => { refetch.click() })
+    await settle()
+    expect(container.textContent).toContain('Hasil transaksi belum diketahui')
+    expect(claimButton.disabled).toBe(true)
+
+    const reconcile = [...container.querySelectorAll<HTMLButtonElement>('button')]
+      .find((button) => button.textContent?.includes('Reconcile transaksi'))!
+    await act(async () => { reconcile.click() })
     await settle()
 
     const actionCalls = rpc.mock.calls.filter(([name]) => name === 'erp_save_bs_resolution_action_v1')
     expect(actionCalls).toHaveLength(2)
-    expect(actionCalls[0]?.[1]?.p_client_request_id).toBe(actionCalls[1]?.[1]?.p_client_request_id)
+    expect(actionCalls[1]?.[1]).toEqual(firstAction)
+    expect(container.textContent).toContain('sudah direconcile dengan UUID lama')
+    expect(claimButton.disabled).toBe(false)
+    expect([...Array(globalThis.localStorage.length)].map((_, index) => globalThis.localStorage.key(index))
+      .filter((key) => key?.startsWith('erp.cp5.pending-mutation.v1:'))).toEqual([])
   })
 })

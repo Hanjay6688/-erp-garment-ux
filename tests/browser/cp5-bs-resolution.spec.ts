@@ -124,8 +124,11 @@ function workspace(patternId: string | null, includeRow = true, partialOrder = f
   return result
 }
 
-async function installLocalUatContract(page: Page, viewOnly = false, partialOrder = false): Promise<ContractCalls> {
+async function installLocalUatContract(
+  page: Page, viewOnly = false, partialOrder = false, loseFirstActionResponse = false,
+): Promise<ContractCalls> {
   const calls: ContractCalls = { workspace: [], actions: [], unexpected: [] }
+  let actionAttempts = 0
   await page.route(`${uatOrigin}/**`, async (route) => {
     const request = route.request()
     const url = new URL(request.url())
@@ -175,7 +178,12 @@ async function installLocalUatContract(page: Page, viewOnly = false, partialOrde
     }
     if (rpcName === 'erp_save_bs_resolution_action_v1') {
       calls.actions.push(payload ?? {})
+      actionAttempts += 1
       await new Promise((resolve) => globalThis.setTimeout(resolve, 120))
+      if (loseFirstActionResponse && actionAttempts === 1) {
+        await route.abort('connectionreset')
+        return
+      }
       await json(route, { request_id: payload?.p_client_request_id, action: payload?.p_action, result: { status: 'ON_HOLD', row_version: 5 } })
       return
     }
@@ -253,6 +261,49 @@ test('CP5 local mocked-UAT contract keeps server-side Pattern truth and one muta
   expect(calls.unexpected).toEqual([])
   expect(consoleErrors).toEqual([])
   expect(pageErrors).toEqual([])
+})
+
+test('CP5 lost commit response survives reload and reconciles the exact persisted request', async ({ page }, testInfo) => {
+  const calls = await installLocalUatContract(page, false, false, true)
+  await signIn(page)
+  await openBsResolution(page, testInfo.project.name)
+
+  await page.locator('.cbsr-route-tabs').getByRole('button', { name: 'Hold', exact: true }).click()
+  await page.locator('.cbsr-route-form textarea').fill('Menunggu bukti fisik Laundry')
+  const saveHold = page.getByRole('button', { name: /Simpan HOLD/ })
+  await saveHold.click()
+  await expect(page.getByText(/Hasil transaksi belum diketahui/).first()).toBeVisible()
+  await expect(saveHold).toBeDisabled()
+  await expect(page.getByRole('button', { name: /Claim Laundry/ })).toBeDisabled()
+  expect(calls.actions).toHaveLength(1)
+
+  await page.reload()
+  await expect(page.locator('.top-title strong')).toBeVisible()
+  await openBsResolution(page, testInfo.project.name)
+  await expect(page.getByText(/Hasil transaksi belum diketahui/).first()).toBeVisible()
+  await expect(page.getByRole('button', { name: /Claim Laundry/ })).toBeDisabled()
+
+  await page.getByRole('button', { name: 'Refetch', exact: true }).click()
+  await expect(page.getByText(/Hasil transaksi belum diketahui/).first()).toBeVisible()
+  await expect(page.getByRole('button', { name: /Claim Laundry/ })).toBeDisabled()
+
+  await page.getByRole('button', { name: /Reconcile transaksi/ }).click()
+  await expect(page.getByText(/sudah direconcile dengan UUID lama/)).toBeVisible()
+  await expect(page.getByRole('button', { name: /Claim Laundry/ })).toBeEnabled()
+  expect(calls.actions).toHaveLength(2)
+  expect(calls.actions[1]).toEqual(calls.actions[0])
+
+  await testInfo.attach('cp5-lost-response-reconciliation', {
+    body: Buffer.from(JSON.stringify({
+      status: 'PASS', proof_class: 'LOCAL_MOCKED_UAT_CONTRACT',
+      simulated_server_commit_count: 1, transport_attempt_count: calls.actions.length,
+      same_idempotency_uuid: calls.actions[0]?.p_client_request_id === calls.actions[1]?.p_client_request_id,
+      exact_payload_replay: true, persisted_across_reload: true,
+      hosted_uat: false, production_go: false,
+    }, null, 2)),
+    contentType: 'application/json',
+  })
+  expect(calls.unexpected).toEqual([])
 })
 
 test('CP5 local mocked-UAT contract saves cumulative partial return without posting completion', async ({ page }, testInfo) => {
