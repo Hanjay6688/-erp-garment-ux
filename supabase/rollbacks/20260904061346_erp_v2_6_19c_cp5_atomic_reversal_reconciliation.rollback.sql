@@ -5,6 +5,39 @@ begin;
 set local lock_timeout='10s';
 set local statement_timeout='180s';
 
+-- Platform identity is the first rollback gate. A wrong name or altered
+-- statement array must never be masked by a later post-use refusal: operators
+-- need the failure to identify the corrupt/ambiguous ledger itself.
+do $platform_ledger_guard$
+declare
+  v_match_count integer;
+  v_conflict_count integer;
+begin
+  select count(*) into v_match_count
+  from supabase_migrations.schema_migrations m
+  where m.name='erp_v2_6_19c_cp5_atomic_reversal_reconciliation'
+    and coalesce(encode(extensions.digest(
+      convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'
+    ),'hex'),'')='70bafe4f4c690c6ef1548f712ee2035a78c9137e153c92c69fc57decba58e3cc';
+
+  select count(*) into v_conflict_count
+  from supabase_migrations.schema_migrations m
+  where(
+    m.version='20260904061346'
+    or m.name='erp_v2_6_19c_cp5_atomic_reversal_reconciliation'
+  ) and not(
+    m.name='erp_v2_6_19c_cp5_atomic_reversal_reconciliation'
+    and coalesce(encode(extensions.digest(
+      convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'
+    ),'hex'),'')='70bafe4f4c690c6ef1548f712ee2035a78c9137e153c92c69fc57decba58e3cc'
+  );
+  if v_match_count<>1 or v_conflict_count<>0 then
+    raise exception 'v2.6.19c rollback refused: platform ledger statement digest is ambiguous (match %, conflict %)',
+      v_match_count,v_conflict_count;
+  end if;
+end
+$platform_ledger_guard$;
+
 do $rollback_guard$
 declare
   r erp.bs_resolution_v2619c_rollback_capsule%rowtype;
@@ -77,36 +110,6 @@ begin
   end if;
 end
 $rollback_guard$;
-
-do $platform_ledger_guard$
-declare
-  v_match_count integer;
-  v_conflict_count integer;
-begin
-  select count(*) into v_match_count
-  from supabase_migrations.schema_migrations m
-  where m.name='erp_v2_6_19c_cp5_atomic_reversal_reconciliation'
-    and coalesce(encode(extensions.digest(
-      convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'
-    ),'hex'),'')='70bafe4f4c690c6ef1548f712ee2035a78c9137e153c92c69fc57decba58e3cc';
-
-  select count(*) into v_conflict_count
-  from supabase_migrations.schema_migrations m
-  where(
-    m.version='20260904061346'
-    or m.name='erp_v2_6_19c_cp5_atomic_reversal_reconciliation'
-  ) and not(
-    m.name='erp_v2_6_19c_cp5_atomic_reversal_reconciliation'
-    and coalesce(encode(extensions.digest(
-      convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'
-    ),'hex'),'')='70bafe4f4c690c6ef1548f712ee2035a78c9137e153c92c69fc57decba58e3cc'
-  );
-  if v_match_count<>1 or v_conflict_count<>0 then
-    raise exception 'v2.6.19c rollback refused: platform ledger statement digest is ambiguous (match %, conflict %)',
-      v_match_count,v_conflict_count;
-  end if;
-end
-$platform_ledger_guard$;
 
 drop trigger trg_00_guard_bs_resolution_claim_state_v2619c on erp.bs_resolutions;
 drop trigger trg_00_guard_laundry_claim_bs_dependency_v2619c on erp.laundry_claims;
