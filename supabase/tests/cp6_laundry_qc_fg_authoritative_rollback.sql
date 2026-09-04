@@ -1276,6 +1276,7 @@ begin
     if sqlerrm like 'CP6 completion_mode PARTIAL_SELECTION conflicts with authoritative ready-for-QC remainder %'
       then v_failed:=true; else raise; end if;
   end;
+  execute 'reset role';
   if not v_failed
      or exists(select 1 from erp.qc_inspections where po_id=v_po)
      or exists(select 1 from erp.fg_lots where po_id=v_po)
@@ -1297,6 +1298,7 @@ begin
       'notes','Exact CP6 receipt/batch/size source'
     ))
   );
+  execute 'set local role authenticated';
   v_response:=public.erp_save_laundry_qc_action_v1(
     'POST_FINAL_SKU',v_qc_payload,v_qc_request,v_group_version
   );
