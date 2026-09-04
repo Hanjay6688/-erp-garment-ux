@@ -69,7 +69,10 @@ export function assertUatAuthBuildEnvironment(environment = process.env) {
   }
 
   const publishableKey = environmentValue(environment, 'VITE_SUPABASE_PUBLISHABLE_KEY')
-  if (!/^sb_publishable_[a-z0-9._-]{16,}$/.test(publishableKey)) {
+  // Supabase publishable keys are case-sensitive and may contain uppercase
+  // characters. Keep the prefix exact while accepting the documented opaque
+  // key alphabet; identity is still pinned by SHA-256 below.
+  if (!/^sb_publishable_[a-z0-9._-]{16,}$/i.test(publishableKey)) {
     fail(
       'UAT_PUBLISHABLE_KEY_INVALID',
       'Dedicated UAT Auth artifacts require one valid modern Supabase publishable key.',

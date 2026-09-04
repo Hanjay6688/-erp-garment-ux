@@ -26,12 +26,12 @@ npm run dev
 ## Runtime contract
 
 - With no environment variables the app runs as `DEMO_SIMULATION`.
-- `UAT_AUTH_SIMULATION` connects Auth only to ERP Enteng (`siimvrusnzxexizpyoib`). Business data and actions remain local simulation.
-- UAT accepts one browser-safe publishable key (or legacy anon key). A production project URL, secret key, service-role key, missing variable, or unknown mode blocks startup; there is no fallback.
-- The UAT gate verifies the Auth user and reads only `public.v_erp_my_profile`, a self-filtered security-invoker/security-barrier facade over the private profile table. The whole `erp` schema stays private. Only active `OWNER` or `ADMIN` roles are currently allowed; there is no in-app signup.
-- The business RPC allowlist is intentionally empty during this phase.
+- `UAT_AUTH_SIMULATION` connects Auth, access control, Master Pola, Potongan, Pickup/Distribusi, WIP, and Barang BS/Rework to ERP Enteng (`siimvrusnzxexizpyoib`). Laundry and QC remain explicitly labelled simulation until CP6 connects their canonical data paths.
+- The dedicated UAT release accepts the pinned browser-safe modern publishable key. A production project URL, secret key, service-role key, missing variable, or unknown mode blocks startup; there is no fallback.
+- The UAT gate resolves each active mapped user through canonical public facades and the permission catalog. The `erp` schema, domain tables, and private writer functions remain inaccessible from the browser; there is no in-app signup.
+- Browser traffic is limited to the source-owned canonical RPC allowlist. Connected reads and writes are server-authoritative, including server-side Pattern filters and optimistic row-version guards.
 
-Copy `.env.example` for the UAT variable names. Do not commit real credentials.
+Copy `.env.example` for the UAT variable names. Do not commit environment files or any server credential.
 
 ### Build-time environments
 
@@ -42,7 +42,7 @@ Copy `.env.example` for the UAT variable names. Do not commit real credentials.
 
 Never relabel or reuse a UAT artifact as a demo or production artifact. `vite.config.ts` explicitly loads and scans `.env*` plus process environment before bundling, so a forbidden secret/service-role name or server key cannot hide in a mode file. `postbuild` always scans `dist`; CI separately reruns the canary regression and output scan.
 
-See [docs/preconnect-security.md](docs/preconnect-security.md) before connecting any screen to backend strings or enabling an RPC.
+See [docs/preconnect-security.md](docs/preconnect-security.md) before connecting any screen to backend strings or enabling an RPC. The binding cross-domain safety contract is documented in [ERP reliability invariants](docs/erp-reliability-invariants.md).
 
 ## Source ownership
 

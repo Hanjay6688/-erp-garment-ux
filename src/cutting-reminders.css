@@ -136,6 +136,8 @@
   color: #d0d6ff;
 }
 
+.simulation-pattern-filter{margin:0 12px 12px;padding:9px 10px;border:1px solid rgba(124,141,255,.2);border-radius:11px;background:#151c2b;display:grid;gap:5px}.simulation-pattern-filter>span{color:#96a4ff;font-size:8px;font-weight:850;letter-spacing:.09em}.simulation-pattern-filter select{min-width:0;width:100%;border:1px solid var(--line);border-radius:8px;background:#1a2233;color:#e8ebf3;padding:8px;font-size:10px}.simulation-pattern-filter small{color:#747f92;font-size:7.5px}.simulation-pattern-filter.compact{min-width:190px;margin:0;padding:7px 9px}.sewing-toolbar .simulation-pattern-filter.compact{align-self:stretch}
+
 .wip-queue-card {
   min-height: 0;
   padding: 0;

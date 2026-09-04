@@ -1,13 +1,18 @@
 import assert from 'node:assert/strict'
-import { readFileSync } from 'node:fs'
-import { resolve } from 'node:path'
+import { createHash } from 'node:crypto'
+import { readFileSync, readdirSync } from 'node:fs'
+import { extname, join, resolve } from 'node:path'
 
 const root = process.cwd()
 const migration = readFileSync(resolve(root, 'supabase/migrations/20260902104937_erp_v2_6_17_access_pattern_wip_control.sql'), 'utf8')
 const integrityCorrection = readFileSync(resolve(root, 'supabase/migrations/20260902180726_erp_v2_6_17a_cp45_pattern_assignment_immutability.sql'), 'utf8')
 const catalog = readFileSync(resolve(root, 'src/auth/accessCatalog.ts'), 'utf8')
 const app = readFileSync(resolve(root, 'src/App.tsx'), 'utf8')
-const evidence = JSON.parse(readFileSync(resolve(root, 'docs/evidence/cp45_access_route_action_ownership.json'), 'utf8'))
+const cp45EvidencePath = resolve(root, 'docs/evidence/cp45_access_route_action_ownership.json')
+const cp45EvidenceBytes = readFileSync(cp45EvidencePath)
+const cp45Evidence = JSON.parse(cp45EvidenceBytes)
+const evidence = JSON.parse(readFileSync(resolve(root, 'docs/evidence/cp5_access_route_action_ownership.json'), 'utf8'))
+const v2619cEvidence = JSON.parse(readFileSync(resolve(root, 'docs/evidence/cp5_v2619c_uat_acceptance.json'), 'utf8'))
 
 function between(source, start, end) {
   const from = source.indexOf(start)
@@ -62,12 +67,40 @@ for (const route of discoveredRoutes) {
 const missingRouteConsumers = [...pageMap.keys()].filter((route) => !app.includes(`'${route}'`))
 assert.deepEqual(missingRouteConsumers, [], 'Permission points to a missing route')
 
-assert.equal(evidence.format, 'CP45_ACCESS_ROUTE_ACTION_OWNERSHIP_V1')
+assert.equal(cp45EvidenceBytes.length, 1242, 'Frozen CP4.5 access evidence byte length drift')
+assert.equal(
+  createHash('sha256').update(cp45EvidenceBytes).digest('hex'),
+  '349f7d653adbf132e21d3ee2adb740bf9f2185445d612e5dce73a674fa178184',
+  'Frozen CP4.5 access evidence SHA-256 drift',
+)
+assert.equal(cp45Evidence.format, 'CP45_ACCESS_ROUTE_ACTION_OWNERSHIP_V1')
+assert.equal(cp45Evidence.counts.sensitive_actions, 17)
+assert.equal(cp45Evidence.production_go, false)
+
+function sourceFiles(directory) {
+  return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
+    const path = join(directory, entry.name)
+    if (entry.isDirectory()) return sourceFiles(path)
+    return ['.ts', '.tsx'].includes(extname(path)) && !/(?:\.test\.|\.d\.ts$)/.test(path) ? [path] : []
+  })
+}
+
+const rpcBoundaries = new Set()
+for (const path of sourceFiles(resolve(root, 'src'))) {
+  const source = readFileSync(path, 'utf8')
+  for (const match of source.matchAll(/\.rpc\s*\(\s*['"]([^'"]+)['"]/g)) {
+    rpcBoundaries.add(`${path.slice(root.length + 1)}:${match[1]}`)
+  }
+}
+
+assert.equal(evidence.format, 'CP5_ACCESS_ROUTE_ACTION_OWNERSHIP_V1')
+assert.equal(evidence.closure_status, 'READY_FOR_INDEPENDENT_REAUDIT_NO_GO')
 assert.equal(evidence.production_go, false)
 assert.equal(evidence.counts.backend_permissions, permissionRows.length)
 assert.equal(evidence.counts.navigation_labels, navMap.size)
 assert.equal(evidence.counts.protected_routes, pageMap.size)
 assert.equal(evidence.counts.sensitive_actions, actionMap.size)
+assert.equal(evidence.counts.browser_rpc_boundaries, rpcBoundaries.size)
 for (const [route, permission] of Object.entries(evidence.critical_routes)) {
   assert.equal(pageMap.get(route), permission, `Critical route evidence drift: ${route}`)
 }
@@ -101,4 +134,89 @@ assert.match(app, /disabled=\{!hasCanonicalPattern\(selectedPattern\)\|\|!yardUs
 assert.match(app, /className="wip-selected-pattern" data-pattern-snapshot=/)
 assert.match(app, /className="sewing-parent-pattern" data-pattern-snapshot=/)
 
-console.log(`Access ownership passed: ${permissionRows.length} backend permissions, ${navMap.size} nav labels, ${pageMap.size} routes, ${actionMap.size} sensitive actions; zero stale owners.`)
+assert.equal(evidence.invariants.cp45_evidence_remains_frozen, true)
+assert.equal(evidence.invariants.module_specific_runtime_routing, true)
+assert.match(app, /runtime\.cuttingMode === 'CONNECTED'/)
+assert.match(app, /runtime\.distributionMode === 'CONNECTED'/)
+assert.match(app, /runtime\.wipStatusMode === 'CONNECTED'/)
+assert.match(app, /runtime\.bsResolutionMode === 'CONNECTED'/)
+assert.equal(evidence.invariants.connected_pattern_filter_cutting_pickup, true)
+assert.match(readFileSync(resolve(root, 'src/ConnectedPickupPage.tsx'), 'utf8'), /ConnectedPatternFilter/)
+assert.equal(evidence.invariants.connected_pattern_filter_wip, true)
+assert.match(readFileSync(resolve(root, 'src/ConnectedWipStatusPage.tsx'), 'utf8'), /ConnectedPatternFilter/)
+assert.equal(evidence.invariants.connected_pattern_filter_bs_resolution, true)
+const bsPage = readFileSync(resolve(root, 'src/ConnectedBsResolutionPage.tsx'), 'utf8')
+const bsModel = readFileSync(resolve(root, 'src/bsResolutionModel.ts'), 'utf8')
+const createClaimBlock = between(bsPage, 'function CreateClaim', 'function ClassificationPanel')
+assert.match(bsPage, /ConnectedPatternFilter/)
+assert.match(bsPage, /erp_get_bs_resolution_workspace_v1/)
+assert.match(bsPage, /erp_save_bs_resolution_action_v1/)
+assert.equal(evidence.invariants.simulation_pattern_filter_laundry, true)
+assert.match(app, /aria-label="Filter Pola Laundry"/)
+assert.equal(evidence.invariants.simulation_pattern_filter_qc, true)
+assert.match(readFileSync(resolve(root, 'src/QcFinalPage.tsx'), 'utf8'), /aria-label="Filter Pola QC"/)
+assert.equal(evidence.invariants.bs_resolution_uses_two_public_rpc_facades, true)
+const bsRpcNames = [...bsPage.matchAll(/\.rpc\s*\(\s*['"]([^'"]+)['"]/g)].map((match) => match[1])
+assert.deepEqual(
+  [...new Set(bsRpcNames)].sort(),
+  ['erp_get_bs_resolution_workspace_v1', 'erp_save_bs_resolution_action_v1'],
+)
+assert.equal(bsRpcNames.filter((name) => name === 'erp_get_bs_resolution_workspace_v1').length, 1)
+assert.equal(bsRpcNames.filter((name) => name === 'erp_save_bs_resolution_action_v1').length, 2)
+assert.equal(evidence.invariants.laundry_and_qc_writers_connected, false)
+assert.equal(evidence.invariants.source_only, false)
+assert.equal(evidence.invariants.uat_applied, true)
+assert.equal(evidence.invariants.candidate_apply_status, 'RECORDED_V2618_V2618A_V2619_V2619A_V2619B_V2619C')
+assert.equal(evidence.invariants.rework_accessory_selection_uses_existing_dispatcher, true)
+assert.equal(evidence.invariants.rework_partial_return_uses_existing_dispatcher, true)
+assert.equal(evidence.invariants.rework_defaults_are_server_proven_unpaid_or_remaining_entitlement, true)
+assert.match(bsPage, /filter\(\(item\) => item\.default_selected\)/)
+assert.match(bsPage, /remaining_new_work_qty_pcs/)
+assert.match(bsModel, /SERVER_ENTITLEMENT_V2619B/)
+assert.equal(evidence.invariants.manual_replacement_requires_explicit_selection, true)
+assert.match(bsModel, /MANUAL_REPLACEMENT/)
+assert.match(bsPage, /manual bila penggantian nyata/)
+assert.equal(evidence.invariants.laundry_claim_types_are_missing_stuck_damage_only, true)
+assert.match(bsPage, /type ClaimType = 'STUCK' \| 'MISSING' \| 'DAMAGE'/)
+assert.doesNotMatch(createClaimBlock, /OTHER/)
+assert.equal(evidence.invariants.post_commit_refetch_failure_freezes_all_writers, true)
+assert.equal(evidence.invariants.lost_response_reuses_exact_durable_envelope, true)
+assert.equal(evidence.invariants.claim_bs_cash_lineage_is_atomic, true)
+assert.equal(evidence.invariants.rollback_ledger_is_statement_digest_bound, true)
+assert.match(bsPage, /setWorkspaceStale\(true\)/)
+assert.match(bsPage, /effectiveCanCreate = canCreate && !workspaceStale/)
+assert.match(bsPage, /effectiveCanPost = canPost && !workspaceStale/)
+assert.match(bsPage, /effectiveCanReverse = canReverse && !workspaceStale/)
+assert.equal(evidence.invariants.private_accessory_lineage_has_no_browser_table_access, true)
+assert.equal(evidence.invariants.hosted_auth_permission_e2e, 'PASS_31_OF_31')
+assert.equal(evidence.invariants.legacy_mutated, false)
+assert.equal(evidence.invariants.v2619c_uat_runtime_verified, true)
+assert.equal(evidence.invariants.v2619c_platform_ledger_exact_source, true)
+assert.equal(evidence.invariants.exact_code_head_ci_5_of_5, true)
+
+assert.equal(v2619cEvidence.format, 'CP5_V2619C_UAT_ACCEPTANCE_V1')
+assert.equal(v2619cEvidence.status, 'PASS')
+assert.equal(v2619cEvidence.correction.application_version, 'v2.6.19c')
+assert.equal(v2619cEvidence.correction.source_bytes, 13808)
+assert.equal(v2619cEvidence.correction.source_sha256, 'b11014081391f3d72e242813b09bb64c53e2aefe0f4eb42cc20e8089a57ef8ba')
+assert.equal(v2619cEvidence.correction.connector_ledger_sha256, v2619cEvidence.correction.source_sha256)
+assert.equal(v2619cEvidence.code_ci.runtime_head_sha, '49647ded395d516983417e5f6315f6f0dc707f3d')
+assert.equal(v2619cEvidence.code_ci.runtime_head_tree, '9c1b5ee3d6c225d0b7ef5b3d193e0e90ef30a2c5')
+assert.deepEqual(v2619cEvidence.code_ci.unit_tests, { files: 25, passed: 172 })
+assert.deepEqual(v2619cEvidence.code_ci.browser_tests, { cp45: 2, pre_cp5: 2, cp5: 8, total: 12 })
+assert.equal(v2619cEvidence.code_ci.ownership.unowned, 0)
+assert.equal(v2619cEvidence.hosted_uat_runtime.enabled_guard_triggers, 2)
+assert.equal(v2619cEvidence.hosted_uat_runtime.capsule_definition_mismatch, 0)
+assert.equal(v2619cEvidence.installed_function_md5.reverse_laundry_claim_resolution, 'eb83b83b5c5b1a302f56f433f919e363')
+assert.equal(v2619cEvidence.disposable_proofs.v2619c_pre_rollback_history.new_audit_rows, 0)
+assert.ok(Object.values(v2619cEvidence.post_proof_residue).every((value) => value === 0))
+assert.equal(v2619cEvidence.preexisting_state_preserved.audit_rows, 36)
+assert.equal(v2619cEvidence.post_apply_advisors.security_error, 0)
+assert.equal(v2619cEvidence.post_apply_advisors.scoped_unexpected_security_warn, 0)
+assert.equal(v2619cEvidence.post_apply_advisors.performance_warn_or_error, 0)
+assert.equal(v2619cEvidence.legacy_read_only.legacy_mutated, false)
+assert.equal(v2619cEvidence.legacy_mutated, false)
+assert.equal(v2619cEvidence.production_go, false)
+assert.equal(v2619cEvidence.independent_audit_verdict, 'PENDING')
+
+console.log(`Access ownership passed: frozen CP4.5 proof intact; CP5 owns ${permissionRows.length} backend permissions, ${navMap.size} nav labels, ${pageMap.size} routes, ${actionMap.size} sensitive actions, and ${rpcBoundaries.size} browser RPC boundaries.`)

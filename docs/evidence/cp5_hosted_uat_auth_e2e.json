@@ -1,0 +1,316 @@
+{
+  "format": "CP5_HOSTED_UAT_AUTH_E2E_V1",
+  "status": "PASS",
+  "mode": "MANUAL_HOSTED_UAT_VERIFIED",
+  "classified_as_ci": false,
+  "closure_status": "READY_FOR_INDEPENDENT_AUDIT_NO_GO",
+  "target_project_ref": "siimvrusnzxexizpyoib",
+  "target_environment": "ERP Enteng UAT",
+  "tested_at": "2026-09-03T11:13:26.037Z",
+  "reviewed_runtime_source": {
+    "remote_head_sha": "e2745a2f3cf77735913967dfb57151069513bbf1",
+    "local_equivalent_head_sha": "ac21f742826547bcbac958f9078c1ae5c5bc1746",
+    "head_tree": "f0bbaefdc2a44d101f762342e4b82f96d3eddfdd",
+    "tree_equal": true,
+    "remote_parent_sha": "527cebe3a1b25556f4d4df79f13ea913e7ceb80e"
+  },
+  "uat_apply": {
+    "read_only_preflight_refreshed_at": "2026-09-03T10:57:05.490149Z",
+    "source_and_schema_guard_match": true,
+    "waiting_locks_before_apply": 0,
+    "transactions_over_5m_before_apply": 0,
+    "migrations": [
+      {
+        "application_version": "v2.6.18a",
+        "source_version": "20260903070931",
+        "source_name": "erp_v2_6_18a_cutting_bridge_reconciliation",
+        "source_bytes": 21350,
+        "source_sha256": "d024a9ef2c8b1d5d9c529669b0b46a7588575f3bdc6788252c1b90d0ab2aae6a",
+        "platform_ledger_version": "20260903105741",
+        "platform_statement_count": 1,
+        "installed_at": "2026-09-03T10:57:41.762254Z"
+      },
+      {
+        "application_version": "v2.6.19",
+        "source_version": "20260903070932",
+        "source_name": "erp_v2_6_19_cp5_bs_resolution_recovery",
+        "source_bytes": 67744,
+        "source_sha256": "79e7b51b82759f1f4579fc373d11e41a668f312a569425aad2fdc2c4d6d68aa6",
+        "platform_ledger_version": "20260903105814",
+        "platform_statement_count": 1,
+        "installed_at": "2026-09-03T10:58:14.838166Z"
+      }
+    ],
+    "hosted_transactional_acceptance": {
+      "cp5_bs_resolution_recovery_rollback_sql": "PASS_ROLLED_BACK",
+      "cutting_bridge_persistence_pickup_wip_rollback_sql": "PASS_ROLLED_BACK",
+      "business_residue_after_acceptance": 0
+    }
+  },
+  "verification_boundary": {
+    "auth_fixture": "DIRECT_HOSTED_AUTH_ROWS_WITH_REAL_PASSWORD_GRANT",
+    "real_password_grant": true,
+    "real_http_jwt": true,
+    "publishable_key_only": true,
+    "github_service_role_secret_used": false,
+    "service_role_key_used": false,
+    "synthetic_identities": 4,
+    "synthetic_app_users": 3,
+    "temporary_custom_roles": 1,
+    "roles": [
+      "OWNER",
+      "PRODUKSI_QC",
+      "CP5_VIEW_ONLY",
+      "UNMAPPED"
+    ],
+    "real_owner_account_created": false,
+    "real_owner_invited": false,
+    "credentials_or_jwt_recorded": false,
+    "legacy_touched": false,
+    "production_touched": false
+  },
+  "case_count": 31,
+  "case_passed": 31,
+  "cases": [
+    { "name": "auth-password-grant-owner", "scope": "AUTH_HTTP", "status": 200, "observation": "REAL_SESSION_ISSUED", "ok": true },
+    { "name": "rpc-owner-access", "scope": "DATA_API", "status": 200, "observation": "OWNER_REVERSE_PERMISSION_RESOLVED", "ok": true },
+    { "name": "rpc-create-view-only-role", "scope": "DATA_API", "status": 200, "observation": "VIEW_AND_PATTERN_VIEW_ONLY", "ok": true },
+    { "name": "rpc-map-operator", "scope": "DATA_API", "status": 200, "observation": "PRODUKSI_QC_MAPPED", "ok": true },
+    { "name": "rpc-map-viewer", "scope": "DATA_API", "status": 200, "observation": "CP5_VIEW_ONLY_MAPPED", "ok": true },
+    { "name": "auth-password-grant-operator", "scope": "AUTH_HTTP", "status": 200, "observation": "REAL_SESSION_ISSUED", "ok": true },
+    { "name": "auth-password-grant-viewer", "scope": "AUTH_HTTP", "status": 200, "observation": "REAL_SESSION_ISSUED", "ok": true },
+    { "name": "auth-password-grant-unmapped", "scope": "AUTH_HTTP", "status": 200, "observation": "REAL_SESSION_ISSUED", "ok": true },
+    { "name": "rpc-operator-access", "scope": "DATA_API", "status": 200, "observation": "POST_ALLOWED_REVERSE_DENIED", "ok": true },
+    { "name": "rpc-viewer-access", "scope": "DATA_API", "status": 200, "observation": "VIEW_ONLY_BUNDLE", "ok": true },
+    { "name": "rpc-unmapped-access", "scope": "DATA_API", "status": 200, "observation": "APP_USER_NOT_FOUND_FAIL_CLOSED", "ok": true },
+    { "name": "rpc-anonymous-workspace-denied", "scope": "DATA_API", "status": 401, "observation": "ANON_DENIED", "ok": true },
+    { "name": "rpc-unmapped-workspace-denied", "scope": "DATA_API", "status": 403, "observation": "PERMISSION_DENIED", "ok": true },
+    { "name": "rest-direct-bs-table-denied", "scope": "DATA_API", "status": 404, "observation": "PRIVATE_SCHEMA_NOT_EXPOSED", "ok": true },
+    { "name": "rpc-private-writer-denied", "scope": "DATA_API", "status": 404, "observation": "PRIVATE_FUNCTION_NOT_EXPOSED", "ok": true },
+    { "name": "rpc-create-manual-bs", "scope": "DATA_API", "status": 200, "observation": "MANUAL_LEGACY_CASE_CREATED", "ok": true },
+    { "name": "rpc-create-manual-bs-idempotent-replay", "scope": "DATA_API", "status": 200, "observation": "IDENTICAL_RESPONSE", "ok": true },
+    { "name": "rpc-create-manual-bs-conflicting-replay", "scope": "DATA_API", "status": 400, "observation": "DIFFERENT_PAYLOAD_REJECTED", "ok": true },
+    { "name": "rpc-viewer-workspace", "scope": "DATA_API", "status": 200, "observation": "ONE_AUTHORIZED_CASE", "ok": true },
+    { "name": "rpc-server-pattern-filter-empty", "scope": "DATA_API", "status": 200, "observation": "TOTAL_ZERO_ROWS_EMPTY", "ok": true },
+    { "name": "rpc-viewer-disposition-denied", "scope": "DATA_API", "status": 403, "observation": "POST_PERMISSION_DENIED", "ok": true },
+    { "name": "rpc-operator-disposition", "scope": "DATA_API", "status": 200, "observation": "PARTIAL_AND_VERSION_ADVANCED", "ok": true },
+    { "name": "rpc-operator-reverse-denied", "scope": "DATA_API", "status": 403, "observation": "REVERSE_PERMISSION_DENIED", "ok": true },
+    { "name": "rpc-owner-stale-reverse-denied", "scope": "DATA_API", "status": 400, "observation": "STALE_VERSION", "ok": true },
+    { "name": "rpc-owner-correct-reverse", "scope": "DATA_API", "status": 200, "observation": "REVERSED_CASE_OPEN_VERSION_ADVANCED", "ok": true },
+    { "name": "rpc-final-authoritative-refetch", "scope": "DATA_API", "status": 200, "observation": "OPEN_RESOLVED_ZERO_EXACT_VERSION", "ok": true },
+    { "name": "auth-global-logout-owner", "scope": "AUTH_HTTP", "status": 204, "observation": "GLOBAL_LOGOUT_ACCEPTED", "ok": true },
+    { "name": "auth-global-logout-operator", "scope": "AUTH_HTTP", "status": 204, "observation": "GLOBAL_LOGOUT_ACCEPTED", "ok": true },
+    { "name": "auth-global-logout-viewer", "scope": "AUTH_HTTP", "status": 204, "observation": "GLOBAL_LOGOUT_ACCEPTED", "ok": true },
+    { "name": "auth-global-logout-unmapped", "scope": "AUTH_HTTP", "status": 204, "observation": "GLOBAL_LOGOUT_ACCEPTED", "ok": true },
+    { "name": "auth-refresh-after-global-logout-denied", "scope": "AUTH_HTTP", "status": 400, "observation": "REFRESH_REVOKED", "ok": true }
+  ],
+  "assertions": {
+    "real_auth_password_sessions": true,
+    "owner_operator_viewer_unmapped_profiles": true,
+    "anonymous_and_unmapped_fail_closed": true,
+    "private_table_and_writer_fail_closed": true,
+    "manual_bs_idempotency_and_conflict": true,
+    "server_side_pattern_filter_has_true_empty_state": true,
+    "view_only_read_and_mutation_boundary": true,
+    "operator_can_post_but_cannot_reverse": true,
+    "owner_stale_version_rejected_and_correct_version_reversed": true,
+    "authoritative_refetch_matches_final_state": true,
+    "global_logout_revokes_refresh": true,
+    "synthetic_cleanup_returns_exact_zero": true
+  },
+  "runtime_contract": {
+    "permissions": [
+      "production.bs_rework.create",
+      "production.bs_rework.post",
+      "production.bs_rework.reverse",
+      "production.bs_rework.view"
+    ],
+    "public_facades": 2,
+    "public_facades_authenticated_execute": true,
+    "public_facades_anon_execute": false,
+    "public_facades_public_execute": false,
+    "private_workspace_and_writer_authenticated_execute": false,
+    "function_owner": "postgres",
+    "security_definer": true,
+    "empty_search_path": true,
+    "cutting_bridge_v2618a_capsule_rows": 8,
+    "bs_resolution_v2619_capsule_rows": 30,
+    "capsule_and_execution_context_rls": true
+  },
+  "source_ci": {
+    "status": "PASS",
+    "head_sha": "e2745a2f3cf77735913967dfb57151069513bbf1",
+    "head_tree": "f0bbaefdc2a44d101f762342e4b82f96d3eddfdd",
+    "unit_tests": { "files": 25, "tests": 165, "passed": 165 },
+    "build_push": {
+      "run_id": 33740662722,
+      "job_id": 100601536553,
+      "dist_artifact_id": 9887637996,
+      "dist_artifact_digest_sha256": "ad123df7e07a8fdbdf90464b9d7a00fb589a11326a4b5deb863064ae7b6d0642",
+      "browser_artifact_id": 9887635525,
+      "browser_artifact_digest_sha256": "dd3081051da18437d19f550a20188c3880194c28e018ec06786dbbc6b1ee2059"
+    },
+    "build_pull_request": {
+      "run_id": 33740666699,
+      "job_id": 100601547962,
+      "dist_artifact_id": 9887639787,
+      "dist_artifact_digest_sha256": "f07aa5ebc3905b0463cf5cb951aa548f52e39057926e4647194548811ccab9fc",
+      "browser_artifact_id": 9887638153,
+      "browser_artifact_digest_sha256": "99d588d6a5f1a18912017045874c268134f76cbac2b42c44622de43b23c15a52"
+    },
+    "cp5_full_schema": {
+      "run_id": 33740661926,
+      "job_id": 100601536805,
+      "artifact_id": 9887697337,
+      "artifact_name": "cp5-r1-full-schema-auth-browser-proof",
+      "artifact_digest_sha256": "c3a08cc067435a78c29de55777ed917b5db64df28527b4fe6138e781830a3786",
+      "real_two_connection_disposition_race": "PASS",
+      "real_two_connection_damage_capacity_race": "PASS",
+      "rollback_ladder_and_predecessor_regressions": "PASS",
+      "final_disposable_schema_residue": 0
+    },
+    "browser": {
+      "cp45_desktop_mobile": "2_PASS",
+      "cutting_bridge_pattern_desktop_mobile": "2_PASS",
+      "cp5_desktop_mobile": "4_PASS"
+    }
+  },
+  "closure_candidate_ci": {
+    "status": "PASS",
+    "commit_sha": "264d6aa3512884db8454fdfb8f9e6df37697628b",
+    "tree_sha": "cd69ab82958817884e5a2e6a7f76f93369bc0877",
+    "parent_sha": "e2745a2f3cf77735913967dfb57151069513bbf1",
+    "checks_total": 5,
+    "checks_passed": 5,
+    "build_push": {
+      "run_id": 33751681211,
+      "job_id": 100636432796,
+      "dist_artifact_id": 9891842446,
+      "dist_artifact_digest_sha256": "dfd34b1ac19ec36883f586c803578146f37015c504a2f09fe9f1c3902879a27b",
+      "browser_artifact_id": 9891840562,
+      "browser_artifact_digest_sha256": "21a7c18ccfe3809ccc4ae65acb5c0cbc6096110641fd9869d6cd6b06e063eb83"
+    },
+    "build_pull_request": {
+      "run_id": 33751686144,
+      "job_id": 100636448834,
+      "dist_artifact_id": 9891848918,
+      "dist_artifact_digest_sha256": "e1c1ca186ffd8fef59c06b389a891d6c86d826e6811225c991ed6684ca23d4cf",
+      "browser_artifact_id": 9891846664,
+      "browser_artifact_digest_sha256": "cb2a782c8d55478f8bdbbef4ddf0ca2d6e0b0c8552de62aa19facd573a222ffc"
+    },
+    "cp5_full_schema": {
+      "run_id": 33751681199,
+      "job_id": 100636432739,
+      "artifact_id": 9891955134,
+      "artifact_digest_sha256": "89bf947818e65fd90126eaf11f6426a12389c275f8faaa0f5fca217b7fe62347"
+    },
+    "pre_cp5_full_schema": {
+      "run_id": 33751686266,
+      "job_id": 100636448934,
+      "artifact_id": 9891913344,
+      "artifact_digest_sha256": "8c64c3e90cbb8dc7688b4bc944b0dff154613e9c90d8850b42f3a6924f7599e2"
+    },
+    "workers_build": {
+      "check_id": 100636558235,
+      "build_id": "823c8b78-863f-4731-b0e7-f68050ac9d83",
+      "status": "PASS"
+    },
+    "browser_contracts": {
+      "chromium_installed_by_ci": true,
+      "desktop_mobile_cases_passed": 8
+    },
+    "production_go": false
+  },
+  "cloudflare_preview": {
+    "runtime_source_head": "e2745a2f3cf77735913967dfb57151069513bbf1",
+    "deployment_only_commit": "8c6cac7940c40aec11d47afa96aae81e895be545",
+    "deployment_only_paths": [".env.production", "wrangler.jsonc"],
+    "application_source_changed": false,
+    "workers_build_check_id": 100629164785,
+    "workers_build_id": "dd62d8c4-37c8-4c36-aa69-aa60e538bb8b",
+    "version_id": "7f2c2ab0-5936-4ed6-b58d-6db00a8db6da",
+    "immutable_preview_url": "https://7f2c2ab0-erp-garment-ux.zrpf6sbtjb.workers.dev",
+    "observed_runtime_identity": "ERP ENTENG · UAT AUTH",
+    "observed_title": "Atelier Garment ERP",
+    "observed_entry_javascript": "assets/index-r51m1_lv.js",
+    "observed_entry_stylesheet": "assets/index-CpbbjZIy.css",
+    "local_pinned_uat_artifact": {
+      "file_count": 47,
+      "index_html_sha256": "9433cc58bb611314fd75ccb9edfd22dc04ed1c71f3fd49363fcbe479da6550c8",
+      "entry_javascript_sha256": "42213095953f2724099a1371368c1674b1080b6d22bade0bcfdc28c715dae6db",
+      "entry_stylesheet_sha256": "f03b4c630f31ac8392bf8e8c02672e75691c7f5206e1b6345ce992c6fb6bddf6",
+      "artifact_identity_guard": "PASS",
+      "client_secret_scan": "PASS"
+    },
+    "deploy_branch": "deploy/cp5-uat-auth-e2745a2-20260903",
+    "deploy_branch_active_ref_after_proof": "e2745a2f3cf77735913967dfb57151069513bbf1",
+    "temporary_environment_file_active": false,
+    "promoted_to_canonical_worker": false,
+    "production_deploy_authorized": false
+  },
+  "container_browser_note": {
+    "cloud_browser_chromium": "PASS",
+    "local_playwright_rerun": "ENVIRONMENT_BLOCKED",
+    "reason": "Pinned Chromium headless-shell was absent from the transient container and the CDN download timed out.",
+    "product_assertion_failed": false,
+    "substitute_evidence": "Exact-head GitHub CI installed Chromium 151.0.7922.34 and passed all eight desktop/mobile browser cases."
+  },
+  "cleanup": {
+    "verified_at": "2026-09-03T11:13:26.037Z",
+    "auth_users": 0,
+    "auth_identities": 0,
+    "auth_sessions": 0,
+    "auth_refresh_tokens": 0,
+    "app_users": 0,
+    "custom_roles": 0,
+    "bs_cases": 0,
+    "bs_resolutions": 0,
+    "bs_components": 0,
+    "rework_orders": 0,
+    "rework_components": 0,
+    "hold_events": 0,
+    "idempotency": 0,
+    "execution_context": 0,
+    "synthetic_access_audit": 0,
+    "synthetic_audit_logs": 0,
+    "temporary_http_extensions": 0,
+    "preexisting_audit_rows_preserved": 36,
+    "preexisting_audit_max_changed_at": "2026-09-02T19:09:40.299186Z",
+    "new_audit_rows_after_cleanup": 0,
+    "waiting_locks": 0,
+    "transactions_over_5m": 0,
+    "temporary_credentials_retained": false
+  },
+  "advisor_snapshot": {
+    "checked_at": "2026-09-03T11:37:21.004Z",
+    "security": { "info": 22, "warn": 37 },
+    "performance": { "info": 289, "warn": 0 },
+    "cp5_specific": {
+      "intentional_private_rls_without_policy": [
+        "erp.bs_case_hold_events",
+        "erp.bs_resolution_execution_context",
+        "erp.bs_resolution_v2619_rollback_capsule"
+      ],
+      "intentional_authenticated_security_definer_facades": [
+        "public.erp_get_bs_resolution_workspace_v1",
+        "public.erp_save_bs_resolution_action_v1"
+      ],
+      "rationale": "Private relations are deny-all browser internals. Public facades are the intentional authenticated API, revoke anon/PUBLIC, use an empty search_path, and enforce erp.require_permission in the private chain; the hosted JWT matrix verifies both allowed and denied roles.",
+      "rls_remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+      "security_definer_remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable"
+    }
+  },
+  "truth_boundary": {
+    "access_control": "UAT_RPC_CONNECTED",
+    "master_pattern": "UAT_RPC_CONNECTED",
+    "cutting_final_save": "UAT_RPC_CONNECTED",
+    "pickup_distribution": "UAT_RPC_CONNECTED",
+    "wip_control": "UAT_RPC_CONNECTED",
+    "bs_resolution": "UAT_RPC_CONNECTED",
+    "bs_pattern_filter": "SERVER_SIDE_PATTERN_ID",
+    "laundry_pattern_filter": "SIMULATION_ONLY",
+    "qc_pattern_filter": "SIMULATION_ONLY"
+  },
+  "legacy_mutated": false,
+  "production_go": false
+}

@@ -197,6 +197,8 @@ function cleanupDatabase() {
     ${appIds ? `delete from erp.app_users where id in (${appIds});` : ''}
     ${customRoles ? `delete from erp.app_roles where id in (${customRoles});` : ''}
     ${requests ? `delete from erp.idempotency_requests where client_request_id in (${requests});` : ''}
+    -- The first pass releases audit FKs; this pass removes delete tombstones.
+    ${appIds || auditEntities ? `delete from erp.audit_logs where ${appIds ? `changed_by in (${appIds})` : 'false'} or ${auditEntities ? `entity_id in (${auditEntities})` : 'false'};` : ''}
     commit;`)
 }
 
@@ -212,6 +214,20 @@ async function cleanupAuth() {
       // The residue query below is authoritative.
     }
   }
+}
+
+function cleanupFinalAuditTombstones() {
+  const appIds = quotedUuidList(appUserIds)
+  const entityIds = quotedUuidList([
+    ...appUserIds, ...roleIds, ...patternIds, ...users.map(({ id }) => id),
+  ])
+  if (!appIds && !entityIds) return
+  sql(`begin;
+    set local erp.cp45_allow_synthetic_cleanup='on';
+    delete from erp.audit_logs
+    where ${appIds ? `changed_by in (${appIds})` : 'false'}
+       or ${entityIds ? `entity_id in (${entityIds})` : 'false'};
+    commit;`)
 }
 
 let failure
@@ -405,6 +421,7 @@ try {
 } finally {
   try { cleanupDatabase() } catch (error) { failure ||= error }
   try { await cleanupAuth() } catch (error) { failure ||= error }
+  try { cleanupFinalAuditTombstones() } catch (error) { failure ||= error }
 }
 
 let residue
@@ -415,6 +432,7 @@ try {
     'auth_sessions',(select count(*) from auth.sessions),
     'auth_refresh_tokens',(select count(*) from auth.refresh_tokens),
     'app_users',(select count(*) from erp.app_users),
+    'audit_logs',(select count(*) from erp.audit_logs),
     'custom_roles',(select count(*) from erp.app_roles where description like 'CP45 synthetic ${safeRunId}%'),
     'access_audit',(select count(*) from erp.app_access_audit),
     'patterns',(select count(*) from erp.production_patterns),

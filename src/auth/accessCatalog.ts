@@ -113,6 +113,8 @@ export const SENSITIVE_ACTION_PERMISSION = Object.freeze({
   postLaundry: 'production.laundry.post',
   reverseLaundry: 'production.laundry.reverse',
   postFinalSku: 'production.final_sku.post',
+  postBsResolution: 'production.bs_rework.post',
+  reverseBsResolution: 'production.bs_rework.reverse',
   stockAdjustment: 'warehouse.stock.adjust',
   postInvoice: 'sales.invoice.post',
   reverseInvoice: 'sales.invoice.reverse',

@@ -9,7 +9,7 @@ export function RuntimeBadge() {
   const { runtime } = useAuth()
   return <div className={`sim-badge runtime-badge ${runtime.mode === 'UAT_AUTH_SIMULATION' ? 'uat' : 'demo'}`}>
     <span />
-    {runtime.mode === 'UAT_AUTH_SIMULATION' ? 'UAT · AKSES/POLA/WIP LIVE' : 'DEMO · DATA SIMULASI'}
+    {runtime.mode === 'UAT_AUTH_SIMULATION' ? 'UAT · MODUL TERPILIH LIVE' : 'DEMO · DATA SIMULASI'}
   </div>
 }
 
@@ -19,7 +19,7 @@ export function RuntimeEnvironmentCard() {
     <div className="env-dot" />
     <div>
       <strong>{runtime.mode === 'UAT_AUTH_SIMULATION' ? 'ERP Enteng' : 'Mode Demo'}</strong>
-      <span>{runtime.mode === 'UAT_AUTH_SIMULATION' ? 'Akses, Pola, WIP terhubung · modul lain simulasi' : 'Tanpa koneksi backend'}</span>
+      <span>{runtime.mode === 'UAT_AUTH_SIMULATION' ? 'Akses, Pola, Potongan, Distribusi, WIP, dan BS terhubung · Laundry/QC simulasi' : 'Tanpa koneksi backend'}</span>
     </div>
   </div>
 }

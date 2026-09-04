@@ -1,0 +1,24 @@
+{
+  "format": "ERP_BACKEND_SOURCE_OWNERSHIP_V3",
+  "frozen_v2": {
+    "path": "docs/evidence/backend_source_ownership_v2.json",
+    "bytes": 546,
+    "sha256": "55cc9196c9097415780cee4739c235d358e6831a9a07006459d5f86761dd91f9"
+  },
+  "candidate_cutting_bridge_manifest": {
+    "path": "docs/evidence/cutting_bridge_v2618_source_hashes.json",
+    "bytes": 8515,
+    "sha256": "b33061e457bd0225546d361e0385921c7ebcdd127efa23f4610bf3ba06ce653d"
+  },
+  "candidate_cp5_manifest": {
+    "path": "docs/evidence/cp5_r1_source_hashes.json",
+    "bytes": 21001,
+    "sha256": "93021f92305a404401db958b04358e8b484ad0d8442a2439d902b95e08228794"
+  },
+  "target_project_ref": "siimvrusnzxexizpyoib",
+  "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
+  "source_only": false,
+  "uat_applied": true,
+  "candidate_apply_status": "RECORDED_V2618_V2618A_V2619_V2619A_V2619B_V2619C_PENDING",
+  "production_go": false
+}

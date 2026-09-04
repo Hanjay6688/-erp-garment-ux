@@ -31,7 +31,10 @@ describe('parseRuntimeConfig', () => {
       businessRpcEnabled: false,
       accessControlMode: 'SIMULATION',
       patternMode: 'SIMULATION',
+      cuttingMode: 'SIMULATION',
+      distributionMode: 'SIMULATION',
       wipStatusMode: 'SIMULATION',
+      bsResolutionMode: 'SIMULATION',
     })
   })
 
@@ -54,10 +57,14 @@ describe('parseRuntimeConfig', () => {
     expect(runtime).toMatchObject({
       mode: 'UAT_AUTH_SIMULATION',
       projectRef: ERP_ENTENG_UAT_PROJECT_REF,
-      businessRpcEnabled: false,
+      businessDataMode: 'PARTIAL_CONNECTED',
+      businessRpcEnabled: true,
       accessControlMode: 'CONNECTED',
       patternMode: 'CONNECTED',
+      cuttingMode: 'CONNECTED',
+      distributionMode: 'CONNECTED',
       wipStatusMode: 'CONNECTED',
+      bsResolutionMode: 'CONNECTED',
     })
   })
 

@@ -4,8 +4,16 @@ dist/
 .wrangler-dry-run/
 *.tsbuildinfo
 cp45-browser-proof/
+cp5-browser-contract-proof/
+cp5-proof/
+cutting-bridge-proof/
+cp4-local/
+cp5-local/
 playwright-report/
 test-results/
+scripts/__pycache__/
+cp5-auth-permission-e2e.json
+cp5-bs-resolution-concurrency.json
 .env*
 !.env.example
 .dev.vars*

@@ -1,0 +1,454 @@
+name: Pre-CP5 Cutting Persistence, Pickup, and WIP Full-Schema Validation
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: cutting-bridge-v2618-${{ github.event.pull_request.head.ref || github.ref }}
+  cancel-in-progress: true
+
+env:
+  SOURCE_BASE_SHA: d5c48ce5c8daa7e6da92dc9d690d9b36879e74c1
+  SOURCE_BASE_TREE: 70f7bf3c0265520eac5aafff747f448ed8be3e6b
+  PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
+  CP45_AUTH_REPORT: cutting-bridge-proof/cp45-auth-permission-e2e.json
+  CUTTING_BRIDGE_AUTH_REPORT: cutting-bridge-proof/cutting-bridge-auth-e2e.json
+
+jobs:
+  validate-full-schema:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    steps:
+      - name: Checkout exact pre-CP5 Cutting Bridge candidate
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+      - name: Cutting Bridge identity, ancestry, ownership, and source gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p cutting-bridge-proof
+          test "$(git merge-base HEAD "$SOURCE_BASE_SHA")" = "$SOURCE_BASE_SHA"
+          test "$(git rev-list --count "$SOURCE_BASE_SHA"..HEAD)" -ge 1
+          test -z "$(git rev-list --merges "$SOURCE_BASE_SHA"..HEAD)"
+          test "$(git rev-parse "$SOURCE_BASE_SHA^{tree}")" = "$SOURCE_BASE_TREE"
+          source_branch="${GITHUB_HEAD_REF:-$GITHUB_REF_NAME}"
+          candidate_sha="${{ github.event.pull_request.head.sha || github.sha }}"
+          test "$(git rev-parse HEAD)" = "$candidate_sha"
+          remote_head="$(git ls-remote origin "refs/heads/${source_branch}" | awk '{print $1}')"
+          test "$remote_head" = "$candidate_sha"
+          npm ci
+          npm run check:backend
+          npm run check:access
+          node --check scripts/cp45_auth_permission_e2e.mjs
+          node --check scripts/cutting_bridge_auth_e2e.mjs
+          python -m py_compile scripts/cutting_bridge_build_catalog_bootstrap.py
+          python -m py_compile scripts/cp45_pattern_assignment_concurrency.py
+          git diff --check "$SOURCE_BASE_SHA" "$candidate_sha"
+          printf 'branch=%s\nhead=%s\nparent=%s\nbase=%s\nbase_tree=%s\nremote_head=%s\ncommit_count=%s\n' \
+            "$source_branch" "$candidate_sha" "$(git rev-parse HEAD^)" "$SOURCE_BASE_SHA" "$SOURCE_BASE_TREE" "$remote_head" \
+            "$(git rev-list --count "$SOURCE_BASE_SHA"..HEAD)" | tee cutting-bridge-proof/IDENTITY.txt
+
+      - name: Set up Python and PostgreSQL client
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install validation runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq postgresql-client
+          python -m pip install --quiet 'psycopg[binary]==3.2.10'
+
+      - name: Install pinned Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: 2.116.0
+
+      - name: Record pinned runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          supabase --version | tee cutting-bridge-proof/SUPABASE_CLI_VERSION.txt
+          psql --version | tee cutting-bridge-proof/PSQL_VERSION.txt
+          node --version | tee cutting-bridge-proof/NODE_VERSION.txt
+
+      - name: Verify immutable CP4.5a catalog/config bootstrap
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import gzip,hashlib,json
+          from pathlib import Path
+          fixture=Path('supabase/tests/fixtures/erp_enteng_cp45a_catalog_bootstrap.sql.gz')
+          external_fixture=Path('supabase/tests/fixtures/erp_enteng_cp45a_external_application_triggers.sql')
+          manifest=json.loads(Path('supabase/tests/fixtures/erp_enteng_cp45a_catalog_bootstrap.manifest.json').read_text())
+          packed=fixture.read_bytes(); sql=gzip.decompress(packed); external_sql=external_fixture.read_bytes()
+          digest=lambda value:hashlib.sha256(value).hexdigest()
+          assert manifest['format']=='ERP_ENTENG_CP45A_CATALOG_CONFIG_BOOTSTRAP_V1'
+          assert manifest['source_project_ref']=='siimvrusnzxexizpyoib'
+          assert manifest['source_kind']=='READ_ONLY_PG_CATALOG_PLUS_ALLOWLISTED_CONFIGURATION'
+          assert manifest['contains_business_rows'] is False
+          assert manifest['contains_auth_rows'] is False
+          assert manifest['contains_app_users'] is False
+          assert manifest['contains_credentials'] is False
+          assert manifest['counts']=={
+            'constraints':1064,'functions':500,'indexes':202,'platform_migrations':63,
+            'policies':190,'sequences':6,'tables':159,'triggers':398,'views':51,
+          }
+          assert manifest['safe_configuration_rows']=={
+            'app_roles':9,'app_permissions':111,'app_role_permissions':329,
+            'chart_accounts':24,'accounting_account_mappings':24,'uom_definitions':8,
+            'misc_finance_categories':2,'accounting_period_control':1,'cash_accounts':1,
+            'system_release_info':1,'schema_migrations':48,
+            'cp3_r4_rollback_capsule':7,'cp4_v2616_rollback_capsule':4,
+            'cp45_v2617_rollback_capsule':3,'cp45_v2617a_rollback_capsule':2,
+          }
+          assert len(packed)==manifest['gzip_bytes'] and digest(packed)==manifest['gzip_sha256']
+          assert len(sql)==manifest['sql_bytes'] and digest(sql)==manifest['sql_sha256']
+          external=manifest['external_application_triggers']
+          assert external['count']==1
+          assert external['fixture_path']==str(external_fixture)
+          assert len(external_sql)==external['sql_bytes'] and digest(external_sql)==external['sql_sha256']
+          assert b'trg_cp45_guard_last_owner_auth_delete' in external_sql
+          report={
+            'status':'PASS','source_kind':manifest['source_kind'],
+            'captured_at_utc':manifest['captured_at_utc'],
+            'contains_business_rows':False,'contains_auth_rows':False,
+            'catalog_payload_sha256':manifest['catalog_payload_sha256'],
+            'external_application_trigger_sha256':external['sql_sha256'],
+            'sql_sha256':manifest['sql_sha256'],'gzip_sha256':manifest['gzip_sha256'],
+          }
+          Path('cutting-bridge-proof/CP45A_CATALOG_BOOTSTRAP_VERIFICATION.json').write_text(json.dumps(report,indent=2)+'\n')
+          PY
+
+      - name: Start free disposable local Supabase
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir cp4-local
+          supabase init --force --workdir cp4-local
+          mkdir -p cp4-local/supabase/.temp
+          echo '17.6.1.165' > cp4-local/supabase/.temp/postgres-version
+          sed -i '0,/^enable_signup = true$/s//enable_signup = false/' cp4-local/supabase/config.toml
+          python - <<'PY'
+          import json,tomllib
+          from pathlib import Path
+          config=tomllib.loads(Path('cp4-local/supabase/config.toml').read_text())
+          assert config['auth']['enable_signup'] is False
+          assert config['auth']['email']['enable_signup'] is True
+          Path('cutting-bridge-proof/LOCAL_AUTH_CONFIG.json').write_text(json.dumps({
+            'global_public_signup':False,'email_provider_enabled':True,
+          },indent=2)+'\n')
+          PY
+          supabase start --workdir cp4-local \
+            -x realtime,imgproxy,studio,postgres-meta,edge-runtime,logflare,vector,supavisor
+
+      - name: Restore exact CP4.5a schema and allowlisted configuration
+        shell: bash
+        run: |
+          set -euo pipefail
+          gzip -dc supabase/tests/fixtures/erp_enteng_cp45a_catalog_bootstrap.sql.gz \
+            | psql "$PGURL" -v ON_ERROR_STOP=1 \
+            | tee cutting-bridge-proof/CP45A_CATALOG_BOOTSTRAP.log
+          psql "$PGURL" -v ON_ERROR_STOP=1 \
+            -f supabase/tests/fixtures/erp_enteng_cp45a_external_application_triggers.sql \
+            2>&1 | tee cutting-bridge-proof/CP45A_EXTERNAL_APPLICATION_TRIGGERS.log
+          psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' | tee cutting-bridge-proof/CP45A_RESTORED_BOUNDARY.json
+          select jsonb_build_object(
+            'status',case when
+              (select count(*) from auth.users)=0
+              and (select count(*) from erp.app_users)=0
+              and (select count(*) from erp.audit_logs)=0
+              and (select count(*) from erp.schema_migrations)=48
+              and (select count(*) from erp.schema_migrations where version='v2.6.17a')=1
+              and (select count(*) from supabase_migrations.schema_migrations)=63
+              and (select count(*) from supabase_migrations.schema_migrations where version='20260902043000')=1
+              and (select count(*) from supabase_migrations.schema_migrations where version='20260902104937')=1
+              and (select count(*) from supabase_migrations.schema_migrations where version='20260902185106')=1
+              and (select count(*) from erp.cp3_r4_rollback_capsule)=7
+              and (select count(*) from erp.cp4_v2616_rollback_capsule)=4
+              and (select count(*) from erp.cp45_v2617_rollback_capsule)=3
+              and (select count(*) from erp.cp45_v2617a_rollback_capsule)=2
+              and (select count(*) from pg_trigger t join pg_class c on c.oid=t.tgrelid join pg_namespace tn on tn.oid=c.relnamespace join pg_proc p on p.oid=t.tgfoid join pg_namespace fn on fn.oid=p.pronamespace where not t.tgisinternal and tn.nspname<>'erp' and fn.nspname='erp')=1
+              and exists(select 1 from pg_trigger t join pg_class c on c.oid=t.tgrelid join pg_namespace tn on tn.oid=c.relnamespace where not t.tgisinternal and tn.nspname='auth' and c.relname='users' and t.tgname='trg_cp45_guard_last_owner_auth_delete')
+              then 'PASS' else 'FAIL' end,
+            'tables',(select count(*) from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='erp' and c.relkind='r'),
+            'views',(select count(*) from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname in('erp','public') and c.relkind='v' and (n.nspname='erp' or not exists(select 1 from pg_depend d where d.classid='pg_class'::regclass and d.objid=c.oid and d.deptype='e'))),
+            'functions',(select count(*) from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname in('erp','public') and not exists(select 1 from pg_depend d where d.classid='pg_proc'::regclass and d.objid=p.oid and d.deptype='e')),
+            'triggers',(select count(*) from pg_trigger t join pg_class c on c.oid=t.tgrelid join pg_namespace n on n.oid=c.relnamespace where n.nspname='erp' and not t.tgisinternal),
+            'external_application_triggers',(select count(*) from pg_trigger t join pg_class c on c.oid=t.tgrelid join pg_namespace tn on tn.oid=c.relnamespace join pg_proc p on p.oid=t.tgfoid join pg_namespace fn on fn.oid=p.pronamespace where not t.tgisinternal and tn.nspname<>'erp' and fn.nspname='erp'),
+            'constraints',(select count(*) from pg_constraint co join pg_class c on c.oid=co.conrelid join pg_namespace n on n.oid=c.relnamespace where n.nspname='erp' and c.relkind='r'),
+            'indexes',(select count(*) from pg_index i join pg_class c on c.oid=i.indrelid join pg_namespace n on n.oid=c.relnamespace where n.nspname='erp'),
+            'policies',(select count(*) from pg_policy p join pg_class c on c.oid=p.polrelid join pg_namespace n on n.oid=c.relnamespace where n.nspname='erp'),
+            'platform_count',(select count(*) from supabase_migrations.schema_migrations),
+            'application_count',(select count(*) from erp.schema_migrations),
+            'auth_users',(select count(*) from auth.users),
+            'app_users',(select count(*) from erp.app_users),
+            'audit_logs',(select count(*) from erp.audit_logs)
+          );
+          SQL
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('cutting-bridge-proof/CP45A_RESTORED_BOUNDARY.json').read_text())
+          assert r['status']=='PASS',r
+          assert {k:r[k] for k in ('tables','views','functions','triggers','constraints','indexes','policies')}=={
+            'tables':159,'views':51,'functions':500,'triggers':398,
+            'constraints':1064,'indexes':462,'policies':190,
+          },r
+          assert r['external_application_triggers']==1,r
+          PY
+          psql "$PGURL" -At -v ON_ERROR_STOP=1 \
+            -f supabase/tests/cutting_bridge_boundary_fingerprint.sql \
+            > cutting-bridge-proof/PRE_BRIDGE_BOUNDARY.json
+
+      - name: Prove frozen CP3, CP4, and CP4.5a behavior on restored boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          # The v2.6.17 acceptance predates the immutable-assignment correction
+          # and intentionally performs a late bind.  At the v2.6.17a boundary,
+          # the correction acceptance below is the authoritative Pola regression.
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/cp45_pattern_assignment_immutability_rollback.sql 2>&1 | tee cutting-bridge-proof/CP45A_PATTERN_ASSIGNMENT_REGRESSION.log
+          export CP45_PATTERN_ASSIGNMENT_RACE_REPORT=cutting-bridge-proof/cp45-pattern-assignment-concurrency.json
+          python scripts/cp45_pattern_assignment_concurrency.py 2>&1 | tee cutting-bridge-proof/CP45A_PATTERN_ASSIGNMENT_CONCURRENCY.log
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/cp4_hpp_route_auth_rollback.sql 2>&1 | tee cutting-bridge-proof/CP4_UNDER_CP45_REGRESSION.log
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/attendance_hpp_r4_full_schema_rollback.sql 2>&1 | tee cutting-bridge-proof/CP3_R4_UNDER_CP45_REGRESSION.log
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/payroll_component_entitlement_rollback.sql 2>&1 | tee cutting-bridge-proof/V2615_UNDER_CP45_REGRESSION.log
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('cutting-bridge-proof/cp45-pattern-assignment-concurrency.json').read_text())
+          assert r['status']=='PASS',r
+          assert all(r['assertions'].values()),r
+          assert all(value==0 for value in r['residue'].values()),r
+          PY
+
+      - name: Run CP4.5 local Auth and permission regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          source <(supabase status --workdir cp4-local -o env)
+          export SUPABASE_URL="$API_URL"
+          export SUPABASE_ANON_KEY="$ANON_KEY"
+          export SUPABASE_SERVICE_ROLE_KEY="$SERVICE_ROLE_KEY"
+          export PGURL
+          export CP45_PROOF_CLASSIFICATION=LOCAL_FULL_SCHEMA_AUTH_VERIFIED
+          node scripts/cp45_auth_permission_e2e.mjs 2>&1 | tee cutting-bridge-proof/CP45_AUTH_PERMISSION_E2E.log
+          test "$(psql "$PGURL" -At -c 'select count(*) from auth.users')" = '0'
+          test "$(psql "$PGURL" -At -c 'select count(*) from erp.app_users')" = '0'
+          test "$(psql "$PGURL" -At -c 'select count(*) from erp.production_patterns')" = '0'
+
+      - name: Apply pre-CP5 Cutting Bridge once and reject replay
+        shell: bash
+        run: |
+          set -euo pipefail
+          sha256sum supabase/migrations/20260903022604_erp_v2_6_18_cutting_persistence_pickup_wip.sql \
+            | tee cutting-bridge-proof/CUTTING_BRIDGE_MIGRATION_SHA256.txt
+          psql "$PGURL" -v ON_ERROR_STOP=1 \
+            -f supabase/migrations/20260903022604_erp_v2_6_18_cutting_persistence_pickup_wip.sql \
+            2>&1 | tee cutting-bridge-proof/CUTTING_BRIDGE_APPLY.log
+          psql "$PGURL" -v ON_ERROR_STOP=1 -c "insert into supabase_migrations.schema_migrations(version,name,statements) values('20260903022604','erp_v2_6_18_cutting_persistence_pickup_wip',array[]::text[])"
+          set +e
+          psql "$PGURL" -v ON_ERROR_STOP=1 \
+            -f supabase/migrations/20260903022604_erp_v2_6_18_cutting_persistence_pickup_wip.sql \
+            > cutting-bridge-proof/CUTTING_BRIDGE_REPLAY_REJECTION.log 2>&1
+          replay_status=$?
+          set -e
+          test "$replay_status" -ne 0
+          grep -F 'v2.6.18 is already recorded' cutting-bridge-proof/CUTTING_BRIDGE_REPLAY_REJECTION.log >/dev/null
+
+      - name: Run Cutting persistence, Pickup, WIP, and Pola acceptance
+        shell: bash
+        run: |
+          set -euo pipefail
+          git show 8bfac13b91ea1be92111139e2fddcabccf9ae19a:supabase/tests/cutting_bridge_persistence_pickup_wip_rollback.sql \
+            > supabase/tests/.cutting_bridge_v2618_frozen_acceptance.sql
+          echo '417053a101891dae0810c157479d8876ba43704f1552bb36b5426b48a239dfdd  supabase/tests/.cutting_bridge_v2618_frozen_acceptance.sql' \
+            | sha256sum -c - \
+            | tee cutting-bridge-proof/CUTTING_BRIDGE_FROZEN_ACCEPTANCE_SHA256.txt
+          psql "$PGURL" -v ON_ERROR_STOP=1 \
+            -f supabase/tests/.cutting_bridge_v2618_frozen_acceptance.sql \
+            2>&1 | tee cutting-bridge-proof/CUTTING_BRIDGE_ACCEPTANCE.log
+          rm supabase/tests/.cutting_bridge_v2618_frozen_acceptance.sql
+          psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' \
+            | tee cutting-bridge-proof/CUTTING_BRIDGE_INSTALLED_FUNCTION_HASHES.json
+          select jsonb_object_agg(
+            format('%I.%I(%s)',n.nspname,p.proname,pg_get_function_identity_arguments(p.oid)),
+            encode(extensions.digest(convert_to(pg_get_functiondef(p.oid),'UTF8'),'sha256'),'hex')
+            order by n.nspname,p.proname,pg_get_function_identity_arguments(p.oid)
+          )
+          from pg_proc p join pg_namespace n on n.oid=p.pronamespace
+          where p.oid in(
+            'erp.get_cutting_workspace_v1(text,uuid,integer,integer)'::regprocedure,
+            'erp.post_cutting_material_issue(uuid,uuid)'::regprocedure,
+            'erp.save_cutting_group_before_sewing_v2(jsonb,uuid,bigint)'::regprocedure,
+            'erp.get_cutting_pickup_queue_v1(text,uuid,text,integer,integer)'::regprocedure,
+            'erp.save_cutting_pickup_v1(jsonb,uuid,bigint)'::regprocedure,
+            'erp.get_wip_control_v1(text,uuid,text,text)'::regprocedure,
+            'public.erp_get_cutting_workspace_v1(text,uuid,integer,integer)'::regprocedure,
+            'public.erp_save_cutting_group_before_sewing_v2(jsonb,uuid,bigint)'::regprocedure,
+            'public.erp_get_cutting_pickup_queue_v1(text,uuid,text,integer,integer)'::regprocedure,
+            'public.erp_save_cutting_pickup_v1(jsonb,uuid,bigint)'::regprocedure
+          );
+          SQL
+
+      - name: Run Cutting Bridge local Auth and JWT facade E2E
+        shell: bash
+        run: |
+          set -euo pipefail
+          source <(supabase status --workdir cp4-local -o env)
+          export SUPABASE_URL="$API_URL"
+          export SUPABASE_ANON_KEY="$ANON_KEY"
+          export SUPABASE_SERVICE_ROLE_KEY="$SERVICE_ROLE_KEY"
+          export PGURL
+          node scripts/cutting_bridge_auth_e2e.mjs 2>&1 | tee cutting-bridge-proof/CUTTING_BRIDGE_AUTH_E2E.log
+          test "$(psql "$PGURL" -At -c 'select count(*) from auth.users')" = '0'
+          test "$(psql "$PGURL" -At -c 'select count(*) from erp.app_users')" = '0'
+
+      - name: Reject wrong-name local Cutting Bridge rollback ledger
+        shell: bash
+        run: |
+          set -euo pipefail
+          set +e
+          psql "$PGURL" -v ON_ERROR_STOP=1 <<'SQL' \
+            > cutting-bridge-proof/CUTTING_BRIDGE_ROLLBACK_WRONG_LOCAL_NAME_REJECTION.log 2>&1
+          begin;
+          update supabase_migrations.schema_migrations
+          set name='WRONG_MIGRATION'
+          where version='20260903022604'
+            and name='erp_v2_6_18_cutting_persistence_pickup_wip';
+          \i supabase/rollbacks/20260903022604_erp_v2_6_18_cutting_persistence_pickup_wip.rollback.sql
+          SQL
+          rollback_status=$?
+          set -e
+          test "$rollback_status" -ne 0
+          grep -F 'v2.6.18 rollback refused: platform ledger identity is ambiguous' \
+            cutting-bridge-proof/CUTTING_BRIDGE_ROLLBACK_WRONG_LOCAL_NAME_REJECTION.log >/dev/null
+          test "$(psql "$PGURL" -At -c "select count(*) from supabase_migrations.schema_migrations where version='20260903022604' and name='erp_v2_6_18_cutting_persistence_pickup_wip'")" = '1'
+          test "$(psql "$PGURL" -At -c "select count(*) from erp.schema_migrations where version='v2.6.18'")" = '1'
+
+      - name: Roll back exact Cutting Bridge and prove CP4.5a restoration
+        shell: bash
+        run: |
+          set -euo pipefail
+          bridge_source_b64="$(base64 -w0 supabase/migrations/20260903022604_erp_v2_6_18_cutting_persistence_pickup_wip.sql)"
+          psql "$PGURL" -v ON_ERROR_STOP=1 -v bridge_source_b64="$bridge_source_b64" <<'SQL' \
+            | tee cutting-bridge-proof/CUTTING_BRIDGE_HOSTED_PLATFORM_LEDGER_SHAPE.json
+          update supabase_migrations.schema_migrations
+          set version='20260903040000',
+              statements=array[convert_from(decode(:'bridge_source_b64','base64'),'UTF8')]
+          where version='20260903022604'
+            and name='erp_v2_6_18_cutting_persistence_pickup_wip';
+          select jsonb_build_object(
+            'version',version,'name',name,
+            'source_bytes',octet_length(array_to_string(statements,E'\n')),
+            'source_sha256',encode(extensions.digest(convert_to(array_to_string(statements,E'\n'),'UTF8'),'sha256'),'hex')
+          )
+          from supabase_migrations.schema_migrations
+          where name='erp_v2_6_18_cutting_persistence_pickup_wip';
+          SQL
+          psql "$PGURL" -v ON_ERROR_STOP=1 \
+            -f supabase/rollbacks/20260903022604_erp_v2_6_18_cutting_persistence_pickup_wip.rollback.sql \
+            2>&1 | tee cutting-bridge-proof/CUTTING_BRIDGE_ROLLBACK.log
+          psql "$PGURL" -At -v ON_ERROR_STOP=1 \
+            -f supabase/tests/cutting_bridge_boundary_fingerprint.sql \
+            > cutting-bridge-proof/POST_BRIDGE_BOUNDARY.json
+          cmp cutting-bridge-proof/PRE_BRIDGE_BOUNDARY.json cutting-bridge-proof/POST_BRIDGE_BOUNDARY.json
+
+      - name: Prove final baseline and zero synthetic residue
+        shell: bash
+        run: |
+          set -euo pipefail
+          psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' | tee cutting-bridge-proof/FINAL_RECONCILIATION.json
+          select jsonb_build_object(
+            'status',case when
+              (select count(*) from supabase_migrations.schema_migrations)=63
+              and (select count(*) from erp.schema_migrations)=48
+              and (select count(*) from erp.schema_migrations where version='v2.6.17a')=1
+              and not exists(select 1 from erp.schema_migrations where version='v2.6.18')
+              and not exists(select 1 from supabase_migrations.schema_migrations where version in('20260903022604','20260903040000') or name='erp_v2_6_18_cutting_persistence_pickup_wip')
+              and (select count(*) from auth.users)=0
+              and (select count(*) from auth.identities)=0
+              and (select count(*) from auth.sessions)=0
+              and (select count(*) from auth.refresh_tokens)=0
+              and (select count(*) from erp.app_users)=0
+              and (select count(*) from erp.audit_logs)=0
+              and (select count(*) from erp.idempotency_requests)=0
+              and (select count(*) from erp.production_patterns)=0
+              and (select count(*) from erp.production_orders)=0
+              and (select count(*) from erp.cutting_groups)=0
+              and (select count(*) from erp.sewing_terminal_events)=0
+              and (select count(*) from erp.attendance_hpp_pools)=0
+              and (select count(*) from erp.journal_entries)=0
+              and to_regclass('erp.cutting_bridge_v2618_rollback_capsule') is null
+              and to_regclass('erp.cutting_pickups') is null
+              and to_regclass('erp.cutting_distribution_batches') is null
+              and to_regclass('erp.cutting_distribution_allocations') is null
+              and to_regprocedure('public.erp_get_cutting_workspace_v1(text,uuid,integer,integer)') is null
+              then 'PASS' else 'FAIL' end,
+            'platform_count',(select count(*) from supabase_migrations.schema_migrations),
+            'application_count',(select count(*) from erp.schema_migrations),
+            'auth_users',(select count(*) from auth.users),
+            'app_users',(select count(*) from erp.app_users),
+            'audit_logs',(select count(*) from erp.audit_logs),
+            'idempotency',(select count(*) from erp.idempotency_requests),
+            'patterns',(select count(*) from erp.production_patterns),
+            'production_orders',(select count(*) from erp.production_orders),
+            'cutting_groups',(select count(*) from erp.cutting_groups),
+            'cp3_capsule',(select count(*) from erp.cp3_r4_rollback_capsule),
+            'cp4_capsule',(select count(*) from erp.cp4_v2616_rollback_capsule),
+            'cp45_capsule',(select count(*) from erp.cp45_v2617_rollback_capsule),
+            'cp45a_capsule',(select count(*) from erp.cp45_v2617a_rollback_capsule)
+          );
+          SQL
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('cutting-bridge-proof/FINAL_RECONCILIATION.json').read_text())
+          assert r['status']=='PASS',r
+          assert [r['cp3_capsule'],r['cp4_capsule'],r['cp45_capsule'],r['cp45a_capsule']]==[7,4,3,2],r
+          PY
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/cp4_hpp_route_auth_rollback.sql 2>&1 | tee cutting-bridge-proof/POST_ROLLBACK_CP4_REGRESSION.log
+          psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/cp45_pattern_assignment_immutability_rollback.sql 2>&1 | tee cutting-bridge-proof/POST_ROLLBACK_CP45A_REGRESSION.log
+
+      - name: Run frontend, ownership, security, and production build regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf supabase/.temp
+          npm test
+          npm run test:security
+          npm run build
+
+      - name: Upload non-secret Cutting Bridge proof
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cutting-bridge-v2618-full-schema-auth-proof
+          path: cutting-bridge-proof
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Destroy disposable stack
+        if: always()
+        shell: bash
+        run: |
+          supabase stop --workdir cp4-local --no-backup 2>/dev/null || true
+          rm -rf cp4-local supabase/.temp
