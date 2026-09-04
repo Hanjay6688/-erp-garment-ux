@@ -134,7 +134,7 @@ function laundryWorkspace(committed = false) {
       pattern_id: ids.pattern, pattern_code: 'REG', pattern_revision: 'R1', pattern_name: 'Regular',
       po_id: ids.po, po_number: 'PO-CP6-001', po_status: 'SEWING',
       model_code: 'VIVO-REG', model_name: 'Vivo Regular', contractor_id: ids.contractor,
-      contractor_code: 'M-01', contractor_name: 'Mandor A', picked_up_at: '2026-09-04T07:00:00Z',
+      contractor_code: 'M-01', contractor_name: 'Mandor A', picked_up_at: '2026-09-04T00:30:00Z',
       group_unsent_ready_qty_pcs: 10,
       sizes: [
         { size_id: ids.sizeS, size_code: 'S', sort_order: 1, allocated_qty_pcs: 6, sent_qty_pcs: 0, available_qty_pcs: 6 },
@@ -143,7 +143,7 @@ function laundryWorkspace(committed = false) {
     }],
     deliveries: [{
       delivery_id: ids.delivery, delivery_number: 'LDR-CP6-001', row_version: 3, status: 'PARTIAL_RETURN',
-      physical_at: '2026-09-04T07:10:00Z', target_dyeing_color: 'NAVY', special_instruction: null,
+      physical_at: '2026-09-04T00:40:00Z', target_dyeing_color: 'NAVY', special_instruction: null,
       po_id: ids.po, po_number: 'PO-CP6-001', model_id: ids.model, cutting_group_id: ids.group,
       group_number: 'POT-CP6-001', cutting_group_row_version: 7, model_code: 'VIVO-REG',
       model_name: 'Vivo Regular', contractor_name: 'Mandor A', vendor_id: ids.vendor,
@@ -165,7 +165,7 @@ function qcWorkspace(committed = false) {
     ...baseWorkspace('QC'),
     qc_queue: committed ? [] : [{
       source_batch_size_line_id: ids.receiptSizeS, receipt_line_id: ids.receiptLine,
-      receipt_id: ids.receipt, receipt_number: 'LRC-CP6-001', receipt_physical_at: '2026-09-04T07:30:00Z',
+      receipt_id: ids.receipt, receipt_number: 'LRC-CP6-001', receipt_physical_at: '2026-09-04T00:50:00Z',
       distribution_batch_id: ids.batch, batch_no: 1, delivery_line_id: ids.deliveryLine,
       delivery_id: ids.delivery, delivery_number: 'LDR-CP6-001', vendor_name: 'Laundry Nyata',
       cutting_group_id: ids.group, group_number: 'POT-CP6-001', cutting_group_row_version: 9,
@@ -301,10 +301,14 @@ test('CP6 Laundry send starts at zero and posts one exact batch-size mutation', 
   await page.getByLabel('PROSES CUCI TARGET').selectOption(ids.process)
   await page.getByLabel('WARNA TARGET').fill('NAVY')
   await page.getByLabel('ALASAN / BUKTI SERAH TERIMA').fill('Surat jalan fisik sudah dicocokkan')
-  await page.getByRole('checkbox', { name: laundrySendConfirmation, exact: true }).check()
+  const confirmation = page.getByRole('checkbox', { name: laundrySendConfirmation, exact: true })
+  await confirmation.check()
   const post = page.getByRole('button', { name: /Post pengiriman atomic/ })
   await expect(post).toBeDisabled()
   await page.getByLabel('WAKTU FISIK KELUAR').fill('2026-09-04T08:00')
+  await expect(confirmation).not.toBeChecked()
+  await expect(post).toBeDisabled()
+  await confirmation.check()
   await expect(post).toBeEnabled()
   await post.evaluate((button: HTMLButtonElement) => { button.click(); button.click() })
   await expect.poll(() => calls.actions.length).toBe(1)
