@@ -23,6 +23,7 @@ env:
   CP5_BS_RESOLUTION_RACE_REPORT: cp6-proof/cp5-bs-resolution-concurrency.json
   CP5_AUTH_REPORT: cp6-proof/cp5-auth-permission-e2e.json
   CP6_LAUNDRY_QC_RACE_REPORT: cp6-proof/cp6-laundry-qc-concurrency.json
+  CP6_MAINTENANCE_PGURL: postgresql://postgres:postgres@127.0.0.1:54322/template1
   CP6_RACE_PGURL: postgresql://postgres:postgres@127.0.0.1:54322/cp6_race
   CP6_PREFLIGHT_PGURL: postgresql://postgres:postgres@127.0.0.1:54322/cp6_preflight
 
@@ -621,19 +622,13 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          preflight_dump='cp6-proof/CP6_PREINSTALL_DATABASE.dump'
           cleanup_preflight() {
-            dropdb --if-exists --force --maintenance-db="$PGURL" cp6_preflight >/dev/null 2>&1 || true
-            rm -f "$preflight_dump"
+            dropdb --if-exists --force --maintenance-db="$CP6_MAINTENANCE_PGURL" cp6_preflight >/dev/null 2>&1 || true
           }
           trap cleanup_preflight EXIT
-          dropdb --if-exists --force --maintenance-db="$PGURL" cp6_preflight
-          createdb --maintenance-db="$PGURL" --template=template0 cp6_preflight
-          pg_dump "$PGURL" --format=custom --exclude-extension=pg_cron \
-            --exclude-schema=realtime --file="$preflight_dump"
-          pg_restore --dbname="$CP6_PREFLIGHT_PGURL" --no-owner --exit-on-error "$preflight_dump"
-          bash scripts/verify-cp6-disposable-clone.sh \
-            "$PGURL" "$CP6_PREFLIGHT_PGURL" cp6-proof/CP6_PREFLIGHT_CLONE_BOUNDARY
+          bash scripts/clone-cp6-disposable-database.sh \
+            "$PGURL" "$CP6_MAINTENANCE_PGURL" "$CP6_PREFLIGHT_PGURL" cp6_preflight \
+            cp6-proof/CP6_PREFLIGHT_CLONE_BOUNDARY
           psql "$CP6_PREFLIGHT_PGURL" -v ON_ERROR_STOP=1 <<'SQL'
           set session_replication_role=replica;
           insert into erp.products(
@@ -700,19 +695,13 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          race_dump='cp6-proof/CP6_PRE_RACE_DATABASE.dump'
           cleanup_race() {
-            dropdb --if-exists --force --maintenance-db="$PGURL" cp6_race >/dev/null 2>&1 || true
-            rm -f "$race_dump"
+            dropdb --if-exists --force --maintenance-db="$CP6_MAINTENANCE_PGURL" cp6_race >/dev/null 2>&1 || true
           }
           trap cleanup_race EXIT
-          dropdb --if-exists --force --maintenance-db="$PGURL" cp6_race
-          createdb --maintenance-db="$PGURL" --template=template0 cp6_race
-          pg_dump "$PGURL" --format=custom --exclude-extension=pg_cron \
-            --exclude-schema=realtime --file="$race_dump"
-          pg_restore --dbname="$CP6_RACE_PGURL" --no-owner --exit-on-error "$race_dump"
-          bash scripts/verify-cp6-disposable-clone.sh \
-            "$PGURL" "$CP6_RACE_PGURL" cp6-proof/CP6_RACE_CLONE_BOUNDARY
+          bash scripts/clone-cp6-disposable-database.sh \
+            "$PGURL" "$CP6_MAINTENANCE_PGURL" "$CP6_RACE_PGURL" cp6_race \
+            cp6-proof/CP6_RACE_CLONE_BOUNDARY
           psql "$CP6_RACE_PGURL" -v ON_ERROR_STOP=1 \
             -f supabase/tests/cp3_r4_full_schema_seed.sql \
             2>&1 | tee cp6-proof/CP6_RACE_FOUNDATION_SEED.log

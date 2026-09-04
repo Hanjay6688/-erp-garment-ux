@@ -27,6 +27,7 @@ const race = read(racePath)
 const workflow = read(workflowPath)
 const mainWorkflow = read(mainWorkflowPath)
 const cloneVerifier = read('scripts/verify-cp6-disposable-clone.sh')
+const cloneBuilder = read('scripts/clone-cp6-disposable-database.sh')
 const gitignore = read('.gitignore')
 const predecessorOwnership = read('scripts/check-predecessor-backend-ownership.mjs')
 const authPolicy = read('src/auth/authPolicy.ts')
@@ -445,23 +446,27 @@ for (const token of [
   'CP6_POSTGRES_CLIENT_SERVER_COMPATIBILITY.txt',
   'test "$client_major" = "$server_major"',
 ]) assert.ok(workflow.includes(token), `CP6 disposable database toolchain guard missing: ${token}`)
-assert.equal(occurrences(workflow, '--exclude-extension=pg_cron'), 2,
-  'Both and only the CP6 preflight/race clones must omit server-bound pg_cron')
-assert.equal(occurrences(workflow, '--exclude-schema=realtime'), 2,
-  'Both and only the CP6 preflight/race clones must omit the privileged platform Realtime schema')
+assert.equal(occurrences(workflow, 'scripts/clone-cp6-disposable-database.sh'), 2,
+  'Both and only the CP6 preflight/race tests must use the fenced physical clone builder')
 for (const token of [
-  'scripts/verify-cp6-disposable-clone.sh',
+  'CP6_MAINTENANCE_PGURL',
   'cp6-proof/CP6_PREFLIGHT_CLONE_BOUNDARY',
   'cp6-proof/CP6_RACE_CLONE_BOUNDARY',
 ]) assert.ok(workflow.includes(token), `CP6 disposable clone proof missing: ${token}`)
 for (const token of [
   "source_pg_cron_count", "clone_pg_cron_count", "test \"$source_pg_cron_count\" = '1'",
-  "test \"$clone_pg_cron_count\" = '0'", '--schema=erp', '--no-owner',
-  "source_realtime_schema_count", "clone_realtime_schema_count",
-  "test \"$source_realtime_schema_count\" = '1'", "test \"$clone_realtime_schema_count\" = '0'",
+  "test \"$clone_pg_cron_count\" = '1'", '--schema=erp',
   '--restrict-key="$restrict_key"', 'cmp -s "$source_erp_dump" "$clone_erp_dump"',
-  'erp_schema_grants_sequences_rows=IDENTICAL', 'status=PASS',
+  'erp_schema_owners_grants_sequences_rows=IDENTICAL', 'status=PASS',
 ]) assert.ok(cloneVerifier.includes(token), `CP6 disposable clone verifier missing: ${token}`)
+for (const token of [
+  'cp6_preflight|cp6_race', "trap restore_source_connections EXIT",
+  'alter database postgres with allow_connections false',
+  'pg_terminate_backend(pid)', '--template=postgres',
+  'alter database postgres with allow_connections true',
+  'remaining_source_connections', 'scripts/verify-cp6-disposable-clone.sh',
+  'clone_strategy=TEMPLATE_POSTGRES', 'source_connections_restored=PASS',
+]) assert.ok(cloneBuilder.includes(token), `CP6 fenced physical clone builder missing: ${token}`)
 assert.equal(sha256(gitignore), 'b3fbafd905cf6f028db98274a05811af388886e01d3209c59e098134e19b42d4',
   'CP6 changed the frozen CP5 .gitignore instead of keeping proof ownership explicit')
 
