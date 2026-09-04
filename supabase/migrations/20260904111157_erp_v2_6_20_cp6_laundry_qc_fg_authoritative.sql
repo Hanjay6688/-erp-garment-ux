@@ -60,6 +60,7 @@ begin
      or to_regprocedure('erp.save_laundry_receipt_draft_v2(jsonb,uuid,bigint)') is null
      or to_regprocedure('erp.post_qc(uuid)') is null
      or to_regprocedure('erp.post_fg_partial_completion_v2(jsonb,uuid,bigint)') is null
+     or to_regprocedure('erp.post_fg_partial_completion_v2_legacy_v2610(jsonb,uuid,bigint)') is null
      or to_regprocedure('erp.post_vendor_invoice(uuid)') is null
      or to_regprocedure('erp.reverse_vendor_invoice(uuid,text)') is null
      or to_regprocedure('erp.desired_laundry_accrual(uuid)') is null
@@ -204,6 +205,12 @@ begin
   if v_actual is distinct from '1982eef2790eefeac5dd08033b60f62c' then
     raise exception 'DRIFT_CONCURRENT_MUTATION_DETECTED: Final-SKU partial posting changed (%)',v_actual;
   end if;
+  select md5(pg_get_functiondef(
+    'erp.post_fg_partial_completion_v2_legacy_v2610(jsonb,uuid,bigint)'::regprocedure
+  )) into v_actual;
+  if v_actual is distinct from '4704db79cbcd2ad70384c6dbdfe85572' then
+    raise exception 'DRIFT_CONCURRENT_MUTATION_DETECTED: Final-SKU document-number writer changed (%)',v_actual;
+  end if;
   select md5(pg_get_functiondef('erp.post_vendor_invoice(uuid)'::regprocedure)) into v_actual;
   if v_actual is distinct from 'b2e8ffa3e9caf72aaa101a34bded5001' then
     raise exception 'DRIFT_CONCURRENT_MUTATION_DETECTED: vendor invoice posting changed (%)',v_actual;
@@ -301,7 +308,8 @@ where p.oid in(
   'erp.validate_product_identity_period()'::regprocedure,
   'erp.run_v259_integrity_checks()'::regprocedure,
   'erp.apply_migration_master_rows(uuid)'::regprocedure,
-  'erp.desired_laundry_accrual(uuid)'::regprocedure
+  'erp.desired_laundry_accrual(uuid)'::regprocedure,
+  'erp.post_fg_partial_completion_v2_legacy_v2610(jsonb,uuid,bigint)'::regprocedure
 );
 
 insert into erp.cp6_v2620_rollback_capsule(
@@ -325,7 +333,7 @@ where c.oid in(
 
 do $capsule_guard$
 begin
-  if (select count(*) from erp.cp6_v2620_rollback_capsule)<>8
+  if (select count(*) from erp.cp6_v2620_rollback_capsule)<>9
      or exists(
        select 1 from erp.cp6_v2620_rollback_capsule c
        where c.definition_sha256 is distinct from encode(extensions.digest(
@@ -350,6 +358,9 @@ begin
      or (select md5(c.object_definition) from erp.cp6_v2620_rollback_capsule c
          where c.object_regidentity='erp.desired_laundry_accrual(uuid)'::regprocedure::text)
           is distinct from '4ded5af2c9c604357d18c783b00dcdb9'
+     or (select md5(c.object_definition) from erp.cp6_v2620_rollback_capsule c
+         where c.object_regidentity='erp.post_fg_partial_completion_v2_legacy_v2610(jsonb,uuid,bigint)'::regprocedure::text)
+          is distinct from '4704db79cbcd2ad70384c6dbdfe85572'
      or coalesce((select c.definition_sha256 from erp.cp6_v2620_rollback_capsule c
          where c.object_regidentity='erp.v_fg_partial_completion_progress'),'') not in(
           '7897479ca27144e599b6607b60f5b9bed08bdea57171ff6ba8ec81ce46f20037',
@@ -490,6 +501,243 @@ create index idx_laundry_receipt_batch_size_source_v2620
   on erp.laundry_receipt_batch_size_lines(delivery_batch_size_line_id,receipt_line_id);
 create index idx_products_brand_sku_effective_v2620
   on erp.products(brand_id,lower(btrim(sku)),size_id,effective_from,effective_to,id);
+
+-- The predecessor derived a UNIQUE document number from only the first ten
+-- UUID hex characters. Keep its transactional/idempotency behavior intact,
+-- but eliminate that 40-bit collision surface for every CP6 Final-SKU post.
+CREATE OR REPLACE FUNCTION erp.post_fg_partial_completion_v2_legacy_v2610(p_payload jsonb, p_client_request_id uuid, p_expected_version bigint)
+ RETURNS jsonb
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO 'erp', 'public', 'auth', 'extensions', 'pg_temp'
+AS $function$
+declare
+  v_operation constant text := 'post_fg_partial_completion_v2';
+  v_hash text;
+  v_cached jsonb;
+  v_response jsonb;
+  v_group erp.cutting_groups%rowtype;
+  v_po_status text;
+  v_group_id uuid := nullif(p_payload->>'cutting_group_id', '')::uuid;
+  v_destination_location_id uuid := nullif(p_payload->>'destination_location_id', '')::uuid;
+  v_physical_at timestamptz := coalesce(
+    nullif(p_payload->>'physical_at', '')::timestamptz,
+    clock_timestamp()
+  );
+  v_reason text := nullif(btrim(p_payload->>'reason'), '');
+  v_lines jsonb := p_payload->'lines';
+  v_qc_id uuid := gen_random_uuid();
+  v_inspection_number text;
+  v_total_qty bigint;
+  v_good_qty bigint;
+  v_bs_qty bigint;
+  v_effective_qty bigint;
+  v_prior_qty bigint;
+  v_stock_qty bigint;
+  v_stock_event_count bigint;
+  v_progress erp.v_fg_partial_completion_progress%rowtype;
+begin
+  perform erp.require_internal();
+  if p_expected_version is null then
+    raise exception 'expected_version is required';
+  end if;
+  if v_group_id is null then
+    raise exception 'cutting_group_id is required';
+  end if;
+  if v_destination_location_id is null then
+    raise exception 'destination_location_id is required';
+  end if;
+  if v_reason is null then
+    raise exception 'Completion reason is required';
+  end if;
+  if v_physical_at > clock_timestamp() + interval '5 minutes' then
+    raise exception 'Tanggal/jam penyelesaian FG berada di masa depan';
+  end if;
+  if jsonb_typeof(v_lines) <> 'array' or jsonb_array_length(v_lines) = 0 then
+    raise exception 'Partial FG completion requires at least one line';
+  end if;
+
+  v_hash := erp._request_hash(jsonb_build_object(
+    'payload', p_payload,
+    'expected_version', p_expected_version
+  ));
+  v_cached := erp._idempotency_begin(v_operation, p_client_request_id, v_hash);
+  if v_cached is not null then
+    return v_cached;
+  end if;
+
+  perform set_config('app.change_reason', v_reason, true);
+
+  select * into v_group
+  from erp.cutting_groups
+  where id = v_group_id
+  for update;
+  if v_group.id is null then
+    raise exception 'Potongan not found';
+  end if;
+  if v_group.row_version <> p_expected_version then
+    raise exception 'STALE_VERSION expected %, current %',
+      p_expected_version, v_group.row_version;
+  end if;
+
+  select status into v_po_status
+  from erp.production_orders
+  where id = v_group.po_id
+  for update;
+  if v_po_status in ('FINISHED', 'CANCELLED') then
+    raise exception 'PO berstatus % dan tidak menerima penyelesaian FG baru', v_po_status;
+  end if;
+
+  if not exists (
+    select 1 from erp.locations l
+    where l.id = v_destination_location_id
+      and l.is_active = true
+      and l.location_type = 'FG_WAREHOUSE'
+  ) then
+    raise exception 'Destination must be an active FG warehouse';
+  end if;
+
+  if exists (
+    select 1
+    from jsonb_to_recordset(v_lines) as x(
+      final_product_id uuid,
+      qty_good_pcs integer,
+      qty_bs_pcs integer,
+      source_laundry_receipt_line_id uuid,
+      notes text
+    )
+    where coalesce(x.qty_good_pcs, 0) < 0
+       or coalesce(x.qty_bs_pcs, 0) < 0
+       or coalesce(x.qty_good_pcs, 0) + coalesce(x.qty_bs_pcs, 0) <= 0
+       or x.final_product_id is null
+  ) then
+    raise exception 'Every completion line requires a SKU and a positive GOOD/BS quantity';
+  end if;
+
+  if exists (
+    select 1
+    from jsonb_to_recordset(v_lines) as x(
+      final_product_id uuid,
+      qty_good_pcs integer,
+      qty_bs_pcs integer,
+      source_laundry_receipt_line_id uuid,
+      notes text
+    )
+    group by x.final_product_id, x.source_laundry_receipt_line_id
+    having count(*) > 1
+  ) then
+    raise exception 'Duplicate SKU and laundry source lines are not allowed';
+  end if;
+
+  select
+    sum(coalesce(x.qty_good_pcs, 0) + coalesce(x.qty_bs_pcs, 0))::bigint,
+    sum(coalesce(x.qty_good_pcs, 0))::bigint,
+    sum(coalesce(x.qty_bs_pcs, 0))::bigint
+  into v_total_qty, v_good_qty, v_bs_qty
+  from jsonb_to_recordset(v_lines) as x(
+    final_product_id uuid,
+    qty_good_pcs integer,
+    qty_bs_pcs integer,
+    source_laundry_receipt_line_id uuid,
+    notes text
+  );
+
+  select effective_qty_pcs, qc_accounted_qty_pcs
+  into v_effective_qty, v_prior_qty
+  from erp.v_fg_partial_completion_progress
+  where cutting_group_id = v_group.id;
+  if coalesce(v_effective_qty, 0) <= 0 then
+    raise exception 'Potongan has no effective quantity available for FG';
+  end if;
+  if coalesce(v_prior_qty, 0) + coalesce(v_total_qty, 0) > v_effective_qty then
+    raise exception
+      'Qty penyelesaian melebihi sisa Potongan. Efektif %, sudah diposting %, input %.',
+      v_effective_qty, coalesce(v_prior_qty, 0), coalesce(v_total_qty, 0);
+  end if;
+
+  -- The request UUID is already the idempotency identity. Use all 128 bits
+  -- in the human document key: truncating to 40 bits lets distinct valid
+  -- requests collide and rejects a real posting at the unique constraint.
+  v_inspection_number := 'FGP-'
+    || to_char(v_physical_at, 'YYMMDD') || '-'
+    || upper(replace(p_client_request_id::text, '-', ''));
+
+  insert into erp.qc_inspections(
+    id, inspection_number, po_id, physical_at, status,
+    notes, created_by, destination_location_id
+  ) values (
+    v_qc_id, v_inspection_number, v_group.po_id, v_physical_at, 'DRAFT',
+    'Partial FG completion: ' || v_reason,
+    erp.current_app_user_id(), v_destination_location_id
+  );
+
+  insert into erp.qc_inspection_items(
+    inspection_id, cutting_group_id, source_laundry_receipt_line_id,
+    final_product_id, qty_good_pcs, qty_bs_pcs, notes
+  )
+  select
+    v_qc_id,
+    v_group.id,
+    x.source_laundry_receipt_line_id,
+    x.final_product_id,
+    coalesce(x.qty_good_pcs, 0),
+    coalesce(x.qty_bs_pcs, 0),
+    nullif(btrim(x.notes), '')
+  from jsonb_to_recordset(v_lines) as x(
+    final_product_id uuid,
+    qty_good_pcs integer,
+    qty_bs_pcs integer,
+    source_laundry_receipt_line_id uuid,
+    notes text
+  );
+
+  perform erp.post_qc(v_qc_id);
+
+  -- Invalidate stale partial-completion drafts after every successful posting.
+  update erp.cutting_groups
+  set updated_at = clock_timestamp()
+  where id = v_group.id
+  returning * into v_group;
+
+  select * into v_progress
+  from erp.v_fg_partial_completion_progress
+  where cutting_group_id = v_group.id;
+
+  select
+    coalesce(sum(m.qty_signed), 0)::bigint,
+    count(*)::bigint
+  into v_stock_qty, v_stock_event_count
+  from erp.fg_stock_movements m
+  where m.movement_type = 'QC_GOOD'
+    and m.source_type = 'QC_ITEM'
+    and m.source_id in (
+      select i.id from erp.qc_inspection_items i where i.inspection_id = v_qc_id
+    );
+
+  v_response := jsonb_build_object(
+    'qc_inspection_id', v_qc_id,
+    'inspection_number', v_inspection_number,
+    'cutting_group_id', v_group.id,
+    'po_id', v_group.po_id,
+    'completion_status', v_progress.completion_status,
+    'posted_qty_pcs', v_total_qty,
+    'good_qty_pcs', v_good_qty,
+    'bs_qty_pcs', v_bs_qty,
+    'fg_stock_in_qty_pcs', v_stock_qty,
+    'fg_stock_event_count', v_stock_event_count,
+    'cumulative_qc_qty_pcs', v_progress.qc_accounted_qty_pcs,
+    'remaining_qc_qty_pcs', v_progress.remaining_qc_qty_pcs,
+    'completion_count', v_progress.completion_count,
+    'row_version', v_group.row_version,
+    'document_status', 'POSTED'
+  );
+
+  return erp._idempotency_complete(v_operation, p_client_request_id, v_response);
+end;
+$function$;
+
+alter function erp.post_fg_partial_completion_v2_legacy_v2610(jsonb,uuid,bigint)
+  owner to postgres;
 
 -- The delivery rate is only a forecast for pieces whose actual process is not
 -- known yet.  Once a POSTED receipt records an ESTIMATED actual process/rate,
@@ -3431,7 +3679,7 @@ declare
   v_public record;
   v_fg_progress_def text;
 begin
-  if (select count(*) from erp.cp6_v2620_rollback_capsule)<>8
+  if (select count(*) from erp.cp6_v2620_rollback_capsule)<>9
      or (select count(*) from erp.cp6_v2620_acl_capsule)<>13
      or exists(
        select 1 from erp.cp6_v2620_rollback_capsule c
@@ -3596,6 +3844,9 @@ begin
        not like '%cp6_laundry_qc_execution_context%'
      or pg_get_functiondef('erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)'::regprocedure)
        not like '%browser_formula_used%false%'
+     or md5(pg_get_functiondef(
+       'erp.post_fg_partial_completion_v2_legacy_v2610(jsonb,uuid,bigint)'::regprocedure
+       )) is distinct from '38d2795520b05cd70fd7bee2c69d3afa'
      or v_fg_progress_def !~
        'coalesce\(lr\.laundry_good_returned_qty_pcs,[^)]*\)-coalesce\(q\.laundry_qc_accounted_qty_pcs,[^)]*\)'
      or v_fg_progress_def ~

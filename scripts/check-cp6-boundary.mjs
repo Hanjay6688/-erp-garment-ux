@@ -147,7 +147,7 @@ assert.ok(workflow.includes(`= '${ledgerSha}'`), 'CP6 workflow platform-ledger d
 assert.ok(workflow.includes('\\set migration_source_b64 `python3 -c'),
   'CP6 workflow does not stream exact statement bytes into a psql-local variable')
 assert.ok(!workflow.includes('-v migration_source_b64="$migration_source_b64"'),
-  'CP6 workflow passes the 179 KiB statement through an argv entry and will exceed MAX_ARG_STRLEN')
+  'CP6 workflow passes the 188 KiB statement through an argv entry and will exceed MAX_ARG_STRLEN')
 
 const backendActionBlock = migration.match(/if v_action not in\(\s*([\s\S]*?)\s*\) then/)
 assert.ok(backendActionBlock, 'CP6 backend action allowlist not found')
@@ -207,10 +207,23 @@ for (const [signature, digest] of [
   assert.ok(migration.includes(`'${signature}'::regprocedure`), `CP6 omits finance dependency ${signature}`)
   assert.ok(migration.includes(`'${digest}'`), `CP6 finance dependency digest drifted for ${signature}`)
 }
-assert.equal(occurrences(migration, 'count(*) from erp.cp6_v2620_rollback_capsule)<>8'), 2,
-  'CP6 must bind all eight replaced functions/views, including Laundry accrual, into install/post guards')
-assert.ok(rollback.includes('count(*) from erp.cp6_v2620_rollback_capsule)<>8'),
-  'CP6 rollback does not require the exact eight-object restoration capsule')
+const finalSkuNumberWriter = 'erp.post_fg_partial_completion_v2_legacy_v2610(jsonb,uuid,bigint)'
+assert.ok(migration.includes(`'${finalSkuNumberWriter}'::regprocedure`),
+  'CP6 omits the collision-safe Final-SKU document-number writer dependency')
+assert.equal(occurrences(migration, "'4704db79cbcd2ad70384c6dbdfe85572'"), 2,
+  'CP6 must bind the exact predecessor Final-SKU writer into dependency and rollback-capsule guards')
+assert.equal(occurrences(migration, "'38d2795520b05cd70fd7bee2c69d3afa'"), 1,
+  'CP6 must bind the exact installed collision-safe Final-SKU writer digest')
+assert.ok(acceptance.includes("'38d2795520b05cd70fd7bee2c69d3afa'"),
+  'Acceptance does not prove the collision-safe Final-SKU writer install boundary')
+assert.ok(migration.includes("upper(replace(p_client_request_id::text, '-', ''))"),
+  'Final-SKU document numbers must retain all UUID entropy')
+assert.equal(migration.includes("upper(substr(replace(p_client_request_id::text, '-', ''), 1, 10))"), false,
+  'Final-SKU document numbers still truncate UUID entropy to a collision-prone prefix')
+assert.equal(occurrences(migration, 'count(*) from erp.cp6_v2620_rollback_capsule)<>9'), 2,
+  'CP6 must bind all nine replaced functions/views, including Laundry accrual and the Final-SKU number writer, into install/post guards')
+assert.ok(rollback.includes('count(*) from erp.cp6_v2620_rollback_capsule)<>9'),
+  'CP6 rollback does not require the exact nine-object restoration capsule')
 for (const token of [
   'posted_receipt_cost', "lrl.actual_cost_status in('ESTIMATED','FINAL')",
   "lrl.actual_cost_status='ESTIMATED'", 'unbilled_actual_estimate',
@@ -466,6 +479,23 @@ assert.deepEqual(raceKeys, [
   'final_sku_vs_vendor_invoice', 'final_sku_vs_vendor_invoice_reversal',
   'post_final_sku', 'final_sku_vs_reverse_receipt',
 ], 'CP6 concurrency proof must retain exactly nine named races')
+
+const requestBlockStart = race.indexOf('REQUESTS = {')
+const requestBlockEnd = race.indexOf('\n}\n\n', requestBlockStart)
+assert.ok(requestBlockStart >= 0 && requestBlockEnd > requestBlockStart,
+  'CP6 concurrency request-ID fixture block is missing')
+const requestIds = [...race.slice(requestBlockStart, requestBlockEnd)
+  .matchAll(/'([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})'/g)]
+  .map((match) => match[1])
+assert.ok(requestIds.length >= 2 && new Set(requestIds).size === requestIds.length,
+  'CP6 concurrency proof needs distinct valid request UUIDs')
+const requestPrefixCounts = new Map()
+for (const requestId of requestIds) {
+  const prefix = requestId.replaceAll('-', '').slice(0, 10)
+  requestPrefixCounts.set(prefix, (requestPrefixCounts.get(prefix) ?? 0) + 1)
+}
+assert.ok([...requestPrefixCounts.values()].some((count) => count >= 2),
+  'CP6 race fixtures must retain distinct UUIDs sharing the legacy ten-hex prefix collision')
 for (const token of [
   "'receipt_cost_status': 'ESTIMATED'", "'laundry_accrual': 70",
   "'wip_net': 0", "'fg_net': 70", "'vendor_ap_net': 0",
@@ -535,6 +565,10 @@ for (const token of [
   'V2620_ROLLBACK_POST_USE_REJECTION.log', 'FINAL_RECONCILIATION.json',
   "'production_go',false", 'rm -rf supabase/.temp',
 ]) assert.ok(workflow.includes(token), `CP6 full-schema workflow missing: ${token}`)
+for (const key of [
+  'desired_laundry_accrual_sha256', 'final_sku_number_writer_sha256',
+]) assert.equal(occurrences(workflow, key), 3,
+  `CP6 rollback proof must snapshot, resnapshot, and compare ${key}`)
 assert.match(browserConfig, /testMatch: 'cp6-laundry-qc\.spec\.ts'/)
 assert.match(browserConfig, /ERP_UAT_AUTH_ALLOW_MOCK_KEY: '1'/)
 assert.match(packageJson, /"check:cp6": "node scripts\/check-cp6-boundary\.mjs"/)

@@ -107,13 +107,16 @@ begin
      or to_regprocedure('erp.guard_cp6_vendor_invoice_receipt_on_post_v2620()') is null
      or to_regprocedure('public.erp_get_laundry_qc_workspace_v1(text,text)') is null
      or to_regprocedure('public.erp_save_laundry_qc_action_v1(text,jsonb,uuid,bigint)') is null
+     or md5(pg_get_functiondef(
+       'erp.post_fg_partial_completion_v2_legacy_v2610(jsonb,uuid,bigint)'::regprocedure
+       )) is distinct from '38d2795520b05cd70fd7bee2c69d3afa'
      or not exists(
        select 1 from pg_trigger t
        where t.tgrelid='erp.vendor_invoices'::regclass
          and t.tgname='trg_guard_cp6_vendor_invoice_receipt_on_post_v2620'
          and t.tgenabled<>'D' and not t.tgisinternal
      )
-     or (select count(*) from erp.cp6_v2620_rollback_capsule)<>8
+     or (select count(*) from erp.cp6_v2620_rollback_capsule)<>9
      or (select count(*) from erp.cp6_v2620_acl_capsule)<>13 then
     raise exception 'CP6 v2.6.20 boundary is not installed completely';
   end if;
