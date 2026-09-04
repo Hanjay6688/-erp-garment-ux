@@ -3,6 +3,9 @@ import { expect, test, type Page, type Route } from '@playwright/test'
 const uatOrigin = 'https://siimvrusnzxexizpyoib.supabase.co'
 const localOrigin = 'http://127.0.0.1:4175'
 const userId = 'c8b00000-0000-4000-8000-000000000001'
+const laundrySendConfirmation = 'Saya sudah mencocokkan vendor, batch, ukuran, jumlah, warna, dan waktu dengan serah-terima fisik.'
+const laundryReceiptConfirmation = 'Saya sudah menghitung fisik per ukuran; Good dan BS benar, sisanya memang belum kembali.'
+const qcConfirmation = 'Saya sudah mencocokkan hasil QC fisik, ukuran, Merek/Nomor SKU/Model, jumlah Good/BS, lokasi, dan waktu.'
 
 const ids = {
   batch: 'c8b10000-0000-4000-8000-000000000001',
@@ -271,7 +274,7 @@ async function prepareValidLaundrySend(page: Page, reason: string) {
   await page.getByLabel('WARNA TARGET').fill('NAVY')
   await page.getByLabel('WAKTU FISIK KELUAR').fill('2026-09-04T08:00')
   await page.getByLabel('ALASAN / BUKTI SERAH TERIMA').fill(reason)
-  await page.getByRole('checkbox', { name: /mencocokkan vendor, batch, size/ }).check()
+  await page.getByRole('checkbox', { name: laundrySendConfirmation, exact: true }).check()
   await expect(page.getByRole('button', { name: /Post pengiriman atomic/ })).toBeEnabled()
 }
 
@@ -298,7 +301,7 @@ test('CP6 Laundry send starts at zero and posts one exact batch-size mutation', 
   await page.getByLabel('PROSES CUCI TARGET').selectOption(ids.process)
   await page.getByLabel('WARNA TARGET').fill('NAVY')
   await page.getByLabel('ALASAN / BUKTI SERAH TERIMA').fill('Surat jalan fisik sudah dicocokkan')
-  await page.getByRole('checkbox', { name: /mencocokkan vendor, batch, size/ }).check()
+  await page.getByRole('checkbox', { name: laundrySendConfirmation, exact: true }).check()
   const post = page.getByRole('button', { name: /Post pengiriman atomic/ })
   await expect(post).toBeDisabled()
   await page.getByLabel('WAKTU FISIK KELUAR').fill('2026-09-04T08:00')
@@ -366,7 +369,7 @@ test('CP6 Laundry receipt records only Good and BS while Stuck stays derived', a
   await openPage(page, testInfo.project.name, 'Laundry', 'Laundry')
   await page.getByRole('button', { name: 'Terima kembali', exact: true }).click()
   await page.getByLabel('SURAT KIRIM AKTIF').selectOption(ids.delivery)
-  await expect(page.getByText(/Tetap outstanding 4/)).toBeVisible()
+  await expect(page.getByText('Belum kembali 4', { exact: true })).toBeVisible()
   await expect(page.getByText('OTHER', { exact: true })).toHaveCount(0)
   await expect(page.getByLabel(/Stuck/i)).toHaveCount(0)
   await page.getByLabel('PROSES AKTUAL').selectOption(ids.process)
@@ -380,8 +383,8 @@ test('CP6 Laundry receipt records only Good and BS while Stuck stays derived', a
   await expect(product.locator(`option[value="${ids.productS}"]`))
     .toHaveText('Vivo · 73001 · Vivo Pants · NAVY')
   await product.selectOption(ids.productS)
-  await expect(page.getByText(/Tetap outstanding 0/)).toBeVisible()
-  await page.getByRole('checkbox', { name: /menghitung fisik per size/ }).check()
+  await expect(page.getByText('Belum kembali 0', { exact: true })).toBeVisible()
+  await page.getByRole('checkbox', { name: laundryReceiptConfirmation, exact: true }).check()
   await page.getByRole('button', { name: /Post penerimaan atomic/ }).click()
   await expect.poll(() => calls.actions.length).toBe(1)
   expect(calls.actions[0]).toMatchObject({
@@ -407,7 +410,7 @@ test('CP6 committed send form stays retired after failed then successful refetch
   await page.getByLabel('WARNA TARGET').fill('NAVY')
   await page.getByLabel('WAKTU FISIK KELUAR').fill('2026-09-04T08:00')
   await page.getByLabel('ALASAN / BUKTI SERAH TERIMA').fill('Bukti fisik committed sekali')
-  await page.getByRole('checkbox', { name: /mencocokkan vendor, batch, size/ }).check()
+  await page.getByRole('checkbox', { name: laundrySendConfirmation, exact: true }).check()
   await page.getByRole('button', { name: /Post pengiriman atomic/ }).click()
   await expect(page.getByText(/Transaksi sudah committed, tetapi refetch gagal/i)).toBeVisible()
   await expect(page.getByLabel('BATCH DISTRIBUSI AUTHORITATIVE')).toHaveValue('')
@@ -429,7 +432,7 @@ test('CP6 lost response reconciles the exact persisted UUID and payload', async 
   await page.getByLabel('WARNA TARGET').fill('NAVY')
   await page.getByLabel('WAKTU FISIK KELUAR').fill('2026-09-04T08:00')
   await page.getByLabel('ALASAN / BUKTI SERAH TERIMA').fill('Respons hilang harus reconcile')
-  await page.getByRole('checkbox', { name: /mencocokkan vendor, batch, size/ }).check()
+  await page.getByRole('checkbox', { name: laundrySendConfirmation, exact: true }).check()
   await page.getByRole('button', { name: /Post pengiriman atomic/ }).click()
   await expect(page.getByRole('button', { name: /Reconcile UUID lama/ })).toBeVisible()
   await page.getByRole('button', { name: /Reconcile UUID lama/ }).click()
@@ -448,6 +451,8 @@ test('CP6 QC binds exact receipt batch-size and lets server own stock and HPP', 
   await expect(page.getByLabel('BS QC size S')).toHaveValue('0')
   await page.getByRole('button', { name: 'Isi semua sebagai Good' }).click()
   const product = page.getByLabel('Final SKU size S')
+  await expect(product.locator('option')).toHaveCount(1)
+  await page.getByLabel('WAKTU FISIK QC').fill('2026-09-04T08:00')
   await expect(product.locator('option')).toHaveCount(2)
   await expect(product.locator(`option[value="${ids.productM}"]`)).toHaveCount(0)
   await expect(product.locator(`option[value="${ids.wrongProduct}"]`)).toHaveCount(0)
@@ -455,9 +460,8 @@ test('CP6 QC binds exact receipt batch-size and lets server own stock and HPP', 
     .toHaveText('Vivo · 73001 · Vivo Pants · NAVY')
   await product.selectOption(ids.productS)
   await page.getByLabel('LOKASI FG TUJUAN').selectOption(ids.location)
-  await page.getByLabel('WAKTU FISIK QC').fill('2026-09-04T08:00')
   await page.getByLabel('ALASAN / BUKTI HASIL QC').fill('QC fisik dan label SKU cocok')
-  await page.getByRole('checkbox', { name: /hasil QC fisik, size, merek\/SKU/ }).check()
+  await page.getByRole('checkbox', { name: qcConfirmation, exact: true }).check()
   const post = page.getByRole('button', { name: /Post QC \+ Final SKU atomic/ })
   await post.evaluate((button: HTMLButtonElement) => { button.click(); button.click() })
   await expect.poll(() => calls.actions.length).toBe(1)
