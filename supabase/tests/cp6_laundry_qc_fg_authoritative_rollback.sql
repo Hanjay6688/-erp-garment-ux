@@ -1550,7 +1550,9 @@ begin
     ),gen_random_uuid(),v_receipt_version
   );
   if v_response->>'status'<>'REVERSED' then raise exception 'CP6 receipt reversal failed: %',v_response; end if;
+  execute 'reset role';
   select row_version into v_group_version from erp.cutting_groups where id=v_group;
+  execute 'set local role authenticated';
   v_failed:=false;
   begin
     perform public.erp_save_laundry_qc_action_v1(
