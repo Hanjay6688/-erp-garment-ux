@@ -449,7 +449,7 @@ for (const token of [
 assert.equal(occurrences(workflow, 'scripts/clone-cp6-disposable-database.sh'), 2,
   'Both and only the CP6 preflight/race tests must use the fenced physical clone builder')
 for (const token of [
-  'CP6_MAINTENANCE_PGURL',
+  'CP6_MAINTENANCE_PGURL', 'CP6_DATABASE_CONTAINER: supabase_db_cp5-local',
   'cp6-proof/CP6_PREFLIGHT_CLONE_BOUNDARY',
   'cp6-proof/CP6_RACE_CLONE_BOUNDARY',
 ]) assert.ok(workflow.includes(token), `CP6 disposable clone proof missing: ${token}`)
@@ -460,18 +460,21 @@ for (const token of [
   'erp_schema_owners_grants_sequences_rows=IDENTICAL', 'status=PASS',
 ]) assert.ok(cloneVerifier.includes(token), `CP6 disposable clone verifier missing: ${token}`)
 for (const token of [
-  'cp6_preflight|cp6_race', "trap restore_source_connections EXIT",
+  'cp6_preflight|cp6_race', "supabase_db_cp5-local", "trap restore_source_connections EXIT",
+  "admin_psql", "psql -U supabase_admin -d template1",
+  "test \"$(admin_psql -c 'select current_user')\" = 'supabase_admin'",
   "test \"$source_pgurl\" = 'postgresql://postgres:postgres@127.0.0.1:54322/postgres'",
   "test \"$maintenance_pgurl\" = 'postgresql://postgres:postgres@127.0.0.1:54322/template1'",
   'refusing a clone URL outside the exact loopback CP6 disposable allowlist',
   'alter database postgres with allow_connections false',
-  'pg_terminate_backend(pid)', '--template=postgres',
+  'pg_terminate_backend(pid)', 'createdb -U supabase_admin', '--template=postgres',
   'alter database postgres with allow_connections true',
   'remaining_source_connections', 'scripts/verify-cp6-disposable-clone.sh',
-  'clone_strategy=TEMPLATE_POSTGRES', 'source_connections_restored=PASS',
+  'clone_strategy=TEMPLATE_POSTGRES', 'database_admin=supabase_admin',
+  'source_connections_restored=PASS',
 ]) assert.ok(cloneBuilder.includes(token), `CP6 fenced physical clone builder missing: ${token}`)
 assert.ok(cloneBuilder.indexOf("source_fenced='1'")
-  < cloneBuilder.indexOf("-c 'alter database postgres with allow_connections false'"),
+  < cloneBuilder.indexOf("admin_psql -c 'alter database postgres with allow_connections false'"),
   'CP6 connection-restoration trap is armed only after the source fence can already succeed')
 assert.equal(sha256(gitignore), 'b3fbafd905cf6f028db98274a05811af388886e01d3209c59e098134e19b42d4',
   'CP6 changed the frozen CP5 .gitignore instead of keeping proof ownership explicit')
