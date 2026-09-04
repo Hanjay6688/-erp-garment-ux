@@ -576,11 +576,7 @@ begin
       'POST_DELIVERY',v_send_payload-'physical_at',gen_random_uuid(),v_group_version
     );
   exception when others then
-    -- The closed-payload gate runs before timestamp parsing.  A missing
-    -- required key must therefore fail at that stricter boundary; the next
-    -- case separately proves that a present but timezone-less value is also
-    -- rejected by the physical-time validator.
-    if sqlerrm='CP6 POST_DELIVERY payload requires non-null key physical_at'
+    if sqlerrm='An explicit timezone-qualified physical_at is required; server time is never a transactional default'
       then v_failed:=true; else raise; end if;
   end;
   if not v_failed then raise exception 'CP6 silently defaulted a physical transaction time'; end if;
@@ -597,6 +593,19 @@ begin
       then v_failed:=true; else raise; end if;
   end;
   if not v_failed then raise exception 'CP6 accepted an ambiguous physical time without timezone'; end if;
+  v_failed:=false;
+  begin
+    perform public.erp_save_laundry_qc_action_v1(
+      'POST_DELIVERY',v_send_payload||jsonb_build_object(
+        'physical_at','2026-02-30T11:00:00+00',
+        'reason','CP6 invalid physical calendar must fail'
+      ),gen_random_uuid(),v_group_version
+    );
+  exception when others then
+    if sqlerrm='An explicit timezone-qualified physical_at is required; server time is never a transactional default'
+      then v_failed:=true; else raise; end if;
+  end;
+  if not v_failed then raise exception 'CP6 accepted a calendar-invalid physical time'; end if;
   v_failed:=false;
   begin
     perform public.erp_save_laundry_qc_action_v1(

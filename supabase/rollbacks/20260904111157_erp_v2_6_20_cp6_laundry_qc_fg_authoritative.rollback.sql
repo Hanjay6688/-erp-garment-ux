@@ -23,7 +23,7 @@ begin
   where m.name='erp_v2_6_20_cp6_laundry_qc_fg_authoritative'
     and coalesce(encode(extensions.digest(
       convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'
-    ),'hex'),'')='b9147fc54eea887804dc17cbdf62f18c2220b7bb3bf298c0e45c398ea8577884';
+    ),'hex'),'')='45abb737caeba8001def98bf815d426eb0a286f0ac6178c24be5059488feea9b';
 
   select count(*) into v_conflict_count
   from supabase_migrations.schema_migrations m
@@ -34,7 +34,7 @@ begin
     m.name='erp_v2_6_20_cp6_laundry_qc_fg_authoritative'
     and coalesce(encode(extensions.digest(
       convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'
-    ),'hex'),'')='b9147fc54eea887804dc17cbdf62f18c2220b7bb3bf298c0e45c398ea8577884'
+    ),'hex'),'')='45abb737caeba8001def98bf815d426eb0a286f0ac6178c24be5059488feea9b'
   );
   if v_match_count<>1 or v_conflict_count<>0 then
     raise exception 'v2.6.20 rollback refused: platform ledger statement digest is ambiguous (match %, conflict %)',
@@ -432,7 +432,7 @@ delete from supabase_migrations.schema_migrations m
 where m.name='erp_v2_6_20_cp6_laundry_qc_fg_authoritative'
   and coalesce(encode(extensions.digest(
     convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'
-  ),'hex'),'')='b9147fc54eea887804dc17cbdf62f18c2220b7bb3bf298c0e45c398ea8577884';
+  ),'hex'),'')='45abb737caeba8001def98bf815d426eb0a286f0ac6178c24be5059488feea9b';
 
 drop table erp.cp6_v2620_acl_capsule;
 drop table erp.cp6_v2620_rollback_capsule;

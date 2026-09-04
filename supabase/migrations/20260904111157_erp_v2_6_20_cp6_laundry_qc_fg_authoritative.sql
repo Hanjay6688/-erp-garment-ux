@@ -2172,7 +2172,7 @@ declare
   v_response jsonb;
   v_actor uuid:=erp.current_app_user_id();
   v_physical_raw text:=nullif(btrim(p_payload->>'physical_at'),'');
-  v_physical_at timestamptz:=v_physical_raw::timestamptz;
+  v_physical_at timestamptz;
   v_batch_id uuid:=nullif(p_payload->>'distribution_batch_id','')::uuid;
   v_group_id uuid:=nullif(p_payload->>'cutting_group_id','')::uuid;
   v_delivery_id uuid:=nullif(p_payload->>'delivery_id','')::uuid;
@@ -2209,6 +2209,23 @@ begin
     'POST_DELIVERY','POST_RECEIPT','REVERSE_DELIVERY',
     'REVERSE_RECEIPT','POST_FINAL_SKU','REVERSE_FINAL_SKU'
   ) then raise exception 'Unsupported CP6 Laundry/QC action %',coalesce(v_action,'NULL'); end if;
+
+  -- Physical time is operator intent. Validate it before the generic closed-payload
+  -- gate so missing, timezone-less, and calendar-invalid values all fail with one
+  -- actionable domain message instead of a helper or native cast error.
+  if v_action in('POST_DELIVERY','POST_RECEIPT','POST_FINAL_SKU') then
+    if jsonb_typeof(p_payload->'physical_at') is distinct from 'string'
+       or v_physical_raw is null
+       or v_physical_raw !~ '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[+-]\d{2}(:\d{2})?)$' then
+      raise exception 'An explicit timezone-qualified physical_at is required; server time is never a transactional default';
+    end if;
+    begin
+      v_physical_at:=v_physical_raw::timestamptz;
+    exception
+      when data_exception then
+        raise exception 'An explicit timezone-qualified physical_at is required; server time is never a transactional default';
+    end;
+  end if;
 
   -- Do not let JSON coercion reinterpret a physical count or silently ignore
   -- a misspelled field.  Every connected writer uses one closed, canonical
@@ -2342,12 +2359,6 @@ begin
     end if;
   end if;
   if v_reason is null or length(v_reason)<4 then raise exception 'A clear reason of at least 4 characters is required'; end if;
-  if v_action in('POST_DELIVERY','POST_RECEIPT','POST_FINAL_SKU') and(
-       v_physical_at is null
-       or v_physical_raw !~ '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[+-]\d{2}(:\d{2})?)$'
-     ) then
-    raise exception 'An explicit timezone-qualified physical_at is required; server time is never a transactional default';
-  end if;
   if v_physical_at>clock_timestamp()+interval '5 minutes' then
     raise exception 'Physical time cannot be more than five minutes in the future';
   end if;

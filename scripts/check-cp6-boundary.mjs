@@ -115,6 +115,25 @@ assert.equal(occurrences(migration, 'po.po_number,po.model_id,po.status,g.id'), 
 assert.equal(occurrences(migration, 'q.po_id,po.po_number,po.status,rev.reversal_blocker'), 1,
   'QC workspace must group the backend PO-status reversal decision')
 
+const physicalTimeGate = migration.indexOf("if v_action in('POST_DELIVERY','POST_RECEIPT','POST_FINAL_SKU') then")
+const closedPayloadGate = migration.indexOf("if v_action='POST_DELIVERY' then")
+assert.ok(physicalTimeGate > migration.indexOf('Unsupported CP6 Laundry/QC action')
+  && physicalTimeGate < closedPayloadGate,
+  'CP6 physical-time domain gate must run before the generic closed-payload gate')
+assert.ok(migration.includes('v_physical_at timestamptz;'),
+  'CP6 must defer timestamp casting until the domain gate has validated operator input')
+assert.equal(occurrences(migration, 'v_physical_at timestamptz:=v_physical_raw::timestamptz;'), 0,
+  'CP6 declaration still exposes native timestamp cast errors before domain validation')
+assert.ok(migration.includes('when data_exception then'),
+  'CP6 must map calendar/timezone parser failures to the physical-time domain error')
+assert.equal(occurrences(migration,
+  'An explicit timezone-qualified physical_at is required; server time is never a transactional default'), 2,
+  'CP6 must use one stable operator-facing error for missing, ambiguous, and invalid physical time')
+assert.ok(acceptance.includes("'POST_DELIVERY',v_send_payload-'physical_at'"))
+assert.ok(acceptance.includes('CP6 accepted a calendar-invalid physical time'))
+assert.equal(acceptance.includes('CP6 POST_DELIVERY payload requires non-null key physical_at'), false,
+  'Acceptance was weakened to bless a generic missing-key error for operator physical time')
+
 const migrationBytes = Buffer.from(migration, 'utf8')
 assert.equal(migrationBytes.at(-1), 10, 'CP6 migration must have one final LF excluded from platform statements')
 const migrationFileSha = sha256(migrationBytes)
