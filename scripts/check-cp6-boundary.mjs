@@ -502,6 +502,16 @@ assert.equal(
   false,
   'Authenticated browser role must not be used to call private vendor-invoice routines',
 )
+const vendorApQuery = "where l.vendor_id=%s::uuid and l.account_id=erp.account_id('AP_VENDOR')"
+const fakePoApQuery = "where l.po_id=%s::uuid and l.account_id=erp.account_id('AP_VENDOR')"
+assert.equal(occurrences(race, vendorApQuery), 2,
+  'Both race finance snapshots must read the vendor-scoped AP control line')
+assert.equal(occurrences(race, fakePoApQuery), 0,
+  'Race finance snapshots must not invent a PO dimension for a multi-PO invoice')
+assert.ok(race.includes('PO, PO, PO, PO, VENDOR,'),
+  'Invoice/Final-SKU snapshot does not bind the vendor AP placeholder')
+assert.ok(race.includes('PO, receipt_line, PO, PO, PO, PO, VENDOR,'),
+  'Final residue snapshot does not bind the vendor AP placeholder')
 
 const postDeliveryStart = migration.lastIndexOf("if v_action='POST_DELIVERY' then")
 const postReceiptStart = migration.lastIndexOf("elsif v_action='POST_RECEIPT' then")

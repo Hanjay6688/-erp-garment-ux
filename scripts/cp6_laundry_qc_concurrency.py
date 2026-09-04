@@ -611,8 +611,10 @@ def invoice_qc_state(invoice_id: str, receipt_line: str):
             where l.po_id=%s::uuid and l.account_id=erp.account_id('FG_INVENTORY')),
           'accrued_net',(select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
             where l.po_id=%s::uuid and l.account_id=erp.account_id('ACCRUED_MANUFACTURING')),
+          -- AP is vendor-scoped: one invoice may settle receipt lines from
+          -- multiple production orders, so the control line has no fake PO.
           'vendor_ap_net',(select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
-            where l.po_id=%s::uuid and l.account_id=erp.account_id('AP_VENDOR')),
+            where l.vendor_id=%s::uuid and l.account_id=erp.account_id('AP_VENDOR')),
           'unbalanced_journals',(select count(*) from(
             select e.id from erp.journal_entries e join erp.journal_lines l on l.journal_entry_id=e.id
             group by e.id having sum(l.debit)<>sum(l.credit)
@@ -621,7 +623,7 @@ def invoice_qc_state(invoice_id: str, receipt_line: str):
         """,
         (
             invoice_id, receipt_line, receipt_line, PO, PO, PO,
-            PO, PO, PO, PO, PO,
+            PO, PO, PO, PO, VENDOR,
         ),
     )
 
@@ -966,8 +968,10 @@ def main():
             where l.po_id=%s::uuid and l.account_id=erp.account_id('FG_INVENTORY')),
           'accrued_net',(select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
             where l.po_id=%s::uuid and l.account_id=erp.account_id('ACCRUED_MANUFACTURING')),
+          -- AP is vendor-scoped: one invoice may settle receipt lines from
+          -- multiple production orders, so the control line has no fake PO.
           'vendor_ap_net',(select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
-            where l.po_id=%s::uuid and l.account_id=erp.account_id('AP_VENDOR')),
+            where l.vendor_id=%s::uuid and l.account_id=erp.account_id('AP_VENDOR')),
           'unbalanced_journals',(select count(*) from(
             select e.id from erp.journal_entries e join erp.journal_lines l on l.journal_entry_id=e.id
             group by e.id having sum(l.debit)<>sum(l.credit)
@@ -981,7 +985,7 @@ def main():
         """,
         (
             PO, delivery_id, delivery_id, receipt_id, PO, PO, PO, PO,
-            PO, receipt_line, PO, PO, PO, PO, PO,
+            PO, receipt_line, PO, PO, PO, PO, VENDOR,
             [
                 REQUESTS['delivery_winner'], REQUESTS['receipt_winner'],
                 REQUESTS['invoice_qc_post'], REQUESTS['invoice_qc_reverse'],
