@@ -418,13 +418,28 @@ for (const token of [
   'invoice replacement/retry left financial residue or duplicated history',
   'append-only Laundry WIP reversal history is not net zero',
   'controlled reversal lost history or left active stock/accrual',
-  'paid retry did not preserve cost/HPP/custody separation',
-  'paid full return did not conserve WIP/accrual/HPP',
+  'paid retry did not preserve WIP/accrual/HPP/custody separation',
+  'paid full return did not conserve WIP/accrual without manufacturing FG/HPP',
   'malformed failed-wash invoice did not fail without residue',
+  'did not split WIP into exact accrual/AP without manufacturing FG/HPP',
+  "'failed_wash_wip_path',jsonb_build_array(180,180,190,180,90,0)",
+  "'failed_wash_hpp_without_fg',0",
   'cost reversal rewrote the immutable full-return custody fact',
   'paid failed-wash reversal lost history or left cost/WIP residue',
   'CP6_AUTHORITATIVE_ACCEPTANCE_PASS', 'CP6_AUTHORITATIVE_RESIDUE_ZERO',
 ]) assert.ok(acceptance.includes(token), `CP6 acceptance proof missing: ${token}`)
+assert.equal(occurrences(acceptance, "account_id=erp.account_id('WIP'))<>180"), 3,
+  'Paid failed-wash proof must pin WIP 180 after retry, full return, and invoice reversal')
+assert.equal(occurrences(acceptance, "account_id=erp.account_id('WIP'))<>190"), 1,
+  'Paid failed-wash invoice proof must pin WIP 190 as accrual 90 plus AP 100')
+assert.equal(occurrences(acceptance, "account_id=erp.account_id('WIP'))<>90"), 1,
+  'Reversing one paid attempt must leave exactly one WIP estimate of 90')
+assert.equal(occurrences(acceptance,
+  "account_id=erp.account_id('ACCRUED_MANUFACTURING'))<>-180"), 3,
+  'Paid failed-wash proof must pin accrued manufacturing at 180 in every equivalent state')
+assert.equal(occurrences(acceptance,
+  "account_id=erp.account_id('ACCRUED_MANUFACTURING'))<>-90"), 2,
+  'Invoice finalization and one-attempt reversal must pin accrued manufacturing at 90')
 
 for (const token of [
   "case when to_regclass('erp.laundry_delivery_batch_size_lines') is null",

@@ -1720,7 +1720,15 @@ begin
   where l.po_id=v_po and l.lot_origin='PRODUCTION' and h.is_current;
   if (select accrued_amount from erp.laundry_cost_accrual_state where po_id=v_po)<>180
      or erp.desired_laundry_accrual(v_po)<>180
-     or v_hpp<>v_hpp_baseline+180
+     or v_hpp_baseline<>0 or v_hpp<>v_hpp_baseline
+     or coalesce((select hpp_total_cost from erp.po_hpp_gl_state where po_id=v_po),0)<>0
+     or coalesce((select fg_value from erp.po_hpp_gl_state where po_id=v_po),0)<>0
+     or (select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
+       where l.po_id=v_po and l.account_id=erp.account_id('WIP'))<>180
+     or (select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
+       where l.po_id=v_po and l.account_id=erp.account_id('ACCRUED_MANUFACTURING'))<>-180
+     or (select coalesce(sum(l.credit-l.debit),0) from erp.journal_lines l
+       where l.vendor_id=v_vendor and l.account_id=erp.account_id('AP_VENDOR'))<>0
      or right((select receipt_number from erp.laundry_receipts
        where id=v_failed_retry_receipt),32)<>upper(replace(v_failed_retry_receipt::text,'-',''))
      or (select count(*) from erp.laundry_failed_wash_attempts
@@ -1734,7 +1742,7 @@ begin
        where receipt_line_id=v_failed_retry_receipt_line)
      or exists(select 1 from erp.wip_stage_events
        where source_type='LAUNDRY_RECEIPT_LINE' and source_id=v_failed_retry_receipt_line) then
-    raise exception 'CP6 paid retry did not preserve cost/HPP/custody separation (HPP %, baseline %)',
+    raise exception 'CP6 paid retry did not preserve WIP/accrual/HPP/custody separation (HPP %, baseline %)',
       v_hpp,v_hpp_baseline;
   end if;
 
@@ -1781,7 +1789,15 @@ begin
   where l.po_id=v_po and l.lot_origin='PRODUCTION' and h.is_current;
   if (select accrued_amount from erp.laundry_cost_accrual_state where po_id=v_po)<>180
      or erp.desired_laundry_accrual(v_po)<>180
-     or v_hpp<>v_hpp_baseline+180
+     or v_hpp<>v_hpp_baseline
+     or coalesce((select hpp_total_cost from erp.po_hpp_gl_state where po_id=v_po),0)<>0
+     or coalesce((select fg_value from erp.po_hpp_gl_state where po_id=v_po),0)<>0
+     or (select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
+       where l.po_id=v_po and l.account_id=erp.account_id('WIP'))<>180
+     or (select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
+       where l.po_id=v_po and l.account_id=erp.account_id('ACCRUED_MANUFACTURING'))<>-180
+     or (select coalesce(sum(l.credit-l.debit),0) from erp.journal_lines l
+       where l.vendor_id=v_vendor and l.account_id=erp.account_id('AP_VENDOR'))<>0
      or right((select receipt_number from erp.laundry_receipts
        where id=v_failed_return_receipt),32)<>upper(replace(v_failed_return_receipt::text,'-',''))
      or (select count(*) from erp.laundry_failed_wash_attempts
@@ -1797,7 +1813,7 @@ begin
          and w.stage_from='LAUNDRY' and w.stage_to='SEWING' and w.qty_pcs=10)<>1
      or exists(select 1 from erp.laundry_receipt_batch_size_lines
        where receipt_line_id=v_failed_return_receipt_line) then
-    raise exception 'CP6 paid full return did not conserve WIP/accrual/HPP (HPP %, baseline %)',
+    raise exception 'CP6 paid full return did not conserve WIP/accrual without manufacturing FG/HPP (HPP %, baseline %)',
       v_hpp,v_hpp_baseline;
   end if;
 
@@ -1864,16 +1880,32 @@ begin
   if (select status from erp.vendor_invoices where id=v_failed_invoice)<>'POSTED'
      or (select actual_cost_status from erp.laundry_receipt_lines
        where id=v_failed_return_receipt_line)<>'FINAL'
+     or (select actual_rate_snapshot from erp.laundry_receipt_lines
+       where id=v_failed_return_receipt_line)<>10
+     or (select actual_cost from erp.laundry_receipt_lines
+       where id=v_failed_return_receipt_line)<>100
+     or (select prior_actual_cost_status from erp.vendor_invoice_items
+       where id=v_failed_invoice_item)<>'ESTIMATED'
+     or (select prior_actual_rate_snapshot from erp.vendor_invoice_items
+       where id=v_failed_invoice_item)<>9
+     or (select prior_actual_cost from erp.vendor_invoice_items
+       where id=v_failed_invoice_item)<>90
      or (select accrued_amount from erp.laundry_cost_accrual_state where po_id=v_po)<>90
      or erp.desired_laundry_accrual(v_po)<>90
-     or v_hpp<>v_hpp_baseline+190
+     or v_hpp<>v_hpp_baseline
+     or coalesce((select hpp_total_cost from erp.po_hpp_gl_state where po_id=v_po),0)<>0
+     or coalesce((select fg_value from erp.po_hpp_gl_state where po_id=v_po),0)<>0
+     or (select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
+       where l.po_id=v_po and l.account_id=erp.account_id('WIP'))<>190
+     or (select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
+       where l.po_id=v_po and l.account_id=erp.account_id('ACCRUED_MANUFACTURING'))<>-90
      or (select coalesce(sum(l.credit-l.debit),0) from erp.journal_lines l
        where l.vendor_id=v_vendor and l.account_id=erp.account_id('AP_VENDOR'))<>100
      or exists(
        select 1 from erp.journal_entries e join erp.journal_lines l on l.journal_entry_id=e.id
        where e.status='POSTED' group by e.id having sum(l.debit)<>sum(l.credit)
      ) then
-    raise exception 'CP6 paid failed-wash invoice split AP/accrual/HPP (HPP %, baseline %)',
+    raise exception 'CP6 paid failed-wash invoice did not split WIP into exact accrual/AP without manufacturing FG/HPP (HPP %, baseline %)',
       v_hpp,v_hpp_baseline;
   end if;
 
@@ -1887,7 +1919,14 @@ begin
         where id=v_failed_return_receipt_line)<>9
      or (select actual_cost from erp.laundry_receipt_lines
         where id=v_failed_return_receipt_line)<>90
-     or erp.desired_laundry_accrual(v_po)<>180 or v_hpp<>v_hpp_baseline+180
+     or (select accrued_amount from erp.laundry_cost_accrual_state where po_id=v_po)<>180
+     or erp.desired_laundry_accrual(v_po)<>180 or v_hpp<>v_hpp_baseline
+     or coalesce((select hpp_total_cost from erp.po_hpp_gl_state where po_id=v_po),0)<>0
+     or coalesce((select fg_value from erp.po_hpp_gl_state where po_id=v_po),0)<>0
+     or (select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
+       where l.po_id=v_po and l.account_id=erp.account_id('WIP'))<>180
+     or (select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
+       where l.po_id=v_po and l.account_id=erp.account_id('ACCRUED_MANUFACTURING'))<>-180
      or (select coalesce(sum(l.credit-l.debit),0) from erp.journal_lines l
        where l.vendor_id=v_vendor and l.account_id=erp.account_id('AP_VENDOR'))<>0 then
     raise exception 'CP6 failed-wash invoice reversal did not restore estimate exactly';
@@ -1907,7 +1946,16 @@ begin
   where l.po_id=v_po and l.lot_origin='PRODUCTION' and h.is_current;
   if v_response->>'stock_effect'<>'PHYSICAL_RETURN_PRESERVED'
      or (select status from erp.laundry_deliveries where id=v_delivery)<>'REVERSED'
-     or erp.desired_laundry_accrual(v_po)<>90 or v_hpp<>v_hpp_baseline+90 then
+     or (select accrued_amount from erp.laundry_cost_accrual_state where po_id=v_po)<>90
+     or erp.desired_laundry_accrual(v_po)<>90 or v_hpp<>v_hpp_baseline
+     or coalesce((select hpp_total_cost from erp.po_hpp_gl_state where po_id=v_po),0)<>0
+     or coalesce((select fg_value from erp.po_hpp_gl_state where po_id=v_po),0)<>0
+     or (select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
+       where l.po_id=v_po and l.account_id=erp.account_id('WIP'))<>90
+     or (select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
+       where l.po_id=v_po and l.account_id=erp.account_id('ACCRUED_MANUFACTURING'))<>-90
+     or (select coalesce(sum(l.credit-l.debit),0) from erp.journal_lines l
+       where l.vendor_id=v_vendor and l.account_id=erp.account_id('AP_VENDOR'))<>0 then
     raise exception 'CP6 cost reversal rewrote the immutable full-return custody fact';
   end if;
 
@@ -1923,7 +1971,16 @@ begin
   select coalesce(sum(h.total_cost),0) into v_hpp
   from erp.hpp_versions h join erp.fg_lots l on l.id=h.lot_id
   where l.po_id=v_po and l.lot_origin='PRODUCTION' and h.is_current;
-  if erp.desired_laundry_accrual(v_po)<>0 or v_hpp<>v_hpp_baseline
+  if (select accrued_amount from erp.laundry_cost_accrual_state where po_id=v_po)<>0
+     or erp.desired_laundry_accrual(v_po)<>0 or v_hpp<>v_hpp_baseline
+     or coalesce((select hpp_total_cost from erp.po_hpp_gl_state where po_id=v_po),0)<>0
+     or coalesce((select fg_value from erp.po_hpp_gl_state where po_id=v_po),0)<>0
+     or (select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
+       where l.po_id=v_po and l.account_id=erp.account_id('WIP'))<>0
+     or (select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
+       where l.po_id=v_po and l.account_id=erp.account_id('ACCRUED_MANUFACTURING'))<>0
+     or (select coalesce(sum(l.credit-l.debit),0) from erp.journal_lines l
+       where l.vendor_id=v_vendor and l.account_id=erp.account_id('AP_VENDOR'))<>0
      or (select count(*) from erp.laundry_failed_wash_attempts
        where delivery_id=v_delivery)<>2
      or (select count(*) from erp.laundry_failed_wash_batch_size_lines x
@@ -1993,6 +2050,8 @@ begin
     'late_invoice_hpp',94,'replacement_invoice_hpp',88,
     'invoice_reversal_replay','NO_OP','replacement_history_preserved',true,
     'paid_failed_wash_attempts',2,'paid_retry_cost',90,'paid_full_return_cost',90,
+    'failed_wash_wip_path',jsonb_build_array(180,180,190,180,90,0),
+    'failed_wash_hpp_without_fg',0,
     'failed_wash_final_cost_residue',0,'failed_wash_physical_net',0,
     'final_active_accrual',0,'final_po_ledger_net',0,
     'history_preserved',true,'browser_formula_used',false,'production_go',false
