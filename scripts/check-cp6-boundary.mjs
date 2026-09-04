@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict'
+import { spawnSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import { readFileSync, readdirSync } from 'node:fs'
 import { resolve } from 'node:path'
@@ -160,6 +161,27 @@ assert.ok(workflow.includes('\\set migration_source_b64 `python3 -c'),
   'CP6 workflow does not stream exact statement bytes into a psql-local variable')
 assert.ok(!workflow.includes('-v migration_source_b64="$migration_source_b64"'),
   'CP6 workflow passes the 232 KiB statement through an argv entry and will exceed MAX_ARG_STRLEN')
+
+function assertWorkflowShellSyntax(stepName) {
+  const marker = `      - name: ${stepName}`
+  const stepStart = workflow.indexOf(marker)
+  assert.ok(stepStart >= 0, `CP6 workflow step is missing: ${stepName}`)
+  const runMarker = '        run: |\n'
+  const runStart = workflow.indexOf(runMarker, stepStart)
+  assert.ok(runStart >= 0, `CP6 workflow shell body is missing: ${stepName}`)
+  const bodyStart = runStart + runMarker.length
+  const nextStep = workflow.indexOf('\n      - name:', bodyStart)
+  const body = workflow.slice(bodyStart, nextStep < 0 ? workflow.length : nextStep)
+    .split('\n')
+    .map((line) => line.startsWith('          ') ? line.slice(10) : line)
+    .join('\n')
+  const parsed = spawnSync('bash', ['-n'], { input: body, encoding: 'utf8' })
+  assert.equal(parsed.status, 0,
+    `CP6 workflow shell syntax failed for ${stepName}: ${parsed.stderr}`)
+}
+
+assertWorkflowShellSyntax('Reject tampered v2.6.20 statement bytes and perform exact pre-use rollback')
+assertWorkflowShellSyntax('Reject tampered statement bytes then roll back connector-shaped v2.6.19c')
 
 const backendActionBlock = migration.match(/if v_action not in\(\s*([\s\S]*?)\s*\) then/)
 assert.ok(backendActionBlock, 'CP6 backend action allowlist not found')

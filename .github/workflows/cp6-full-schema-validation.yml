@@ -1007,7 +1007,7 @@ jobs:
           set statements=array[convert_from(decode(:'migration_source_b64','base64'),'UTF8')]
           where name='erp_v2_6_20_cp6_laundry_qc_fg_authoritative';
           SQL
-          test "$(psql "$PGURL" -At -c "select encode(extensions.digest(convert_to(array_to_string(statements,E'\\n'),'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations where name='erp_v2_6_20_cp6_laundry_qc_fg_authoritative')" = '52e51f56f4b8b08b7797b1a92ca9b9e26cbe611e81615c3379c728b95877ada1'
+          test "$(psql "$PGURL" -At -c "select encode(extensions.digest(convert_to(array_to_string(statements,E'\\n'),'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations where name='erp_v2_6_20_cp6_laundry_qc_fg_authoritative'")" = '52e51f56f4b8b08b7797b1a92ca9b9e26cbe611e81615c3379c728b95877ada1'
 
           set +e
           psql "$PGURL" -v ON_ERROR_STOP=1 <<'SQL' > cp6-proof/V2620_ROLLBACK_TAMPERED_STATEMENT_REJECTION.log 2>&1
