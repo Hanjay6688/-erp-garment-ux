@@ -139,6 +139,8 @@ assert.equal(acceptance.includes('CP6 POST_DELIVERY payload requires non-null ke
   'Acceptance was weakened to bless a generic missing-key error for operator physical time')
 assert.equal(acceptance.includes("'physical_at','2026-09-05"), false,
   'CP6 acceptance must not depend on a physical fixture time that is future at the frozen test boundary')
+assert.equal(acceptance.includes("'2026-09-06','2026-09-06"), false,
+  'CP6 acceptance must not report a future-dated failed-wash invoice as ordinary valid history')
 
 const migrationBytes = Buffer.from(migration, 'utf8')
 assert.equal(migrationBytes.at(-1), 10, 'CP6 migration must have one final LF excluded from platform statements')
@@ -259,6 +261,13 @@ for (const token of [
   'revoke all on function erp.desired_laundry_accrual(uuid)',
 ]) assert.ok(migration.includes(token), `Laundry actual-rate accrual reconciliation missing: ${token}`)
 for (const token of [
+  'Failed-wash receipt must contain exactly one canonical cost line',
+  'Failed-wash service cost must not create physical Good/BS receipt facts',
+  'Failed-wash canonical cost line is not an exact zero-output estimate',
+  'Failed-wash attempted size total does not equal its canonical cost quantity',
+  'Failed-wash attempted size facts do not belong to the exact delivery capacity',
+]) assert.ok(migration.includes(token), `Failed-wash post invariant is not independently diagnosable: ${token}`)
+for (const token of [
   'CP6 delivery-time target rate', 'CP6 receipt-time actual-process estimate',
   "erp.desired_laundry_accrual(v_po)<>82", 'prior_actual_rate_snapshot from erp.vendor_invoice_items',
   '<>9', 'Six physically returned pieces at final invoice rate 11',
@@ -343,7 +352,11 @@ for (const token of [
 ]) assert.ok(laundryPage.includes(token), `Laundry reversal UX guard missing: ${token}`)
 for (const token of [
   '!row.reversible', '!canReverse', 'row.reversal_blocker',
+  'Cuci gagal berbayar dicatat dari tab Laundry sebagai attempt biaya terpisah',
+  'seluruh barang kembali ke Jahit',
 ]) assert.ok(qcPage.includes(token), `QC reversal UX guard missing: ${token}`)
+assert.ok(!qcPage.includes('tetap ditahan sampai alur hutang vendor'),
+  'QC UI still claims the authoritative paid failed-wash flow is unavailable')
 for (const token of [
   'Receipt sudah dipakai QC; reverse QC aktif terlebih dahulu.',
   'FG hasil QC masih dipakai transaksi downstream aktif.',

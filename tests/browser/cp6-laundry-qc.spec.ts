@@ -582,6 +582,8 @@ test('CP6 QC binds exact receipt batch-size and lets server own stock and HPP', 
   const calls = await installContract(page)
   await signIn(page)
   await openPage(page, testInfo.project.name, 'QC & Final SKU', 'QC & Final SKU')
+  await expect(page.getByText('Cuci gagal berbayar dicatat dari tab Laundry sebagai attempt biaya terpisah;', { exact: false })).toBeVisible()
+  await expect(page.getByText(/tetap ditahan sampai alur hutang vendor/i)).toHaveCount(0)
   await page.getByLabel('POTONGAN DENGAN GOOD LAUNDRY SIAP QC').selectOption(ids.group)
   await expect(page.getByLabel('Good final size S')).toHaveValue('0')
   await expect(page.getByLabel('BS QC size S')).toHaveValue('0')

@@ -4202,38 +4202,46 @@ begin
   if exists(select 1 from erp.laundry_failed_wash_attempts a where a.receipt_id=new.id) then
     select a.* into r
     from erp.laundry_failed_wash_attempts a where a.receipt_id=new.id;
-    if (select count(*) from erp.laundry_receipt_lines l where l.receipt_id=new.id)<>1
-       or exists(
-         select 1 from erp.laundry_receipt_batch_size_lines x
-         join erp.laundry_receipt_lines l on l.id=x.receipt_line_id
-         where l.receipt_id=new.id
-       )
-       or exists(
-         select 1 from erp.laundry_receipt_lines l
-         where l.receipt_id=new.id and(
-           l.id<>r.receipt_line_id or l.qty_good_received<>0 or l.qty_bs_laundry<>0
-           or l.qty_stuck<>0 or l.qty_missing<>0
-           or l.actual_wash_process_id is null
-           or l.actual_rate_snapshot is null or l.actual_rate_snapshot<0
-           or l.actual_cost_status<>'ESTIMATED'
-           or l.actual_cost is distinct from round(r.qty_attempted_pcs*l.actual_rate_snapshot,2)
-         )
-       )
-       or (select coalesce(sum(x.qty_attempted_pcs),0)
-           from erp.laundry_failed_wash_batch_size_lines x
-           where x.attempt_id=r.id)<>r.qty_attempted_pcs
-       or exists(
-         select 1
-         from erp.laundry_failed_wash_batch_size_lines x
-         join erp.laundry_delivery_batch_size_lines s
-           on s.id=x.delivery_batch_size_line_id
-         join erp.laundry_delivery_lines dl on dl.id=s.delivery_line_id
-         where x.attempt_id=r.id and(
-           dl.delivery_id<>r.delivery_id or x.size_id<>s.size_id
-           or x.qty_attempted_pcs>s.qty_sent_pcs
-         )
-       ) then
-      raise exception 'Failed-wash receipt must contain one zero-output cost line and exact attempted batch/size facts';
+    if (select count(*) from erp.laundry_receipt_lines l where l.receipt_id=new.id)<>1 then
+      raise exception 'Failed-wash receipt must contain exactly one canonical cost line';
+    end if;
+    if exists(
+      select 1 from erp.laundry_receipt_batch_size_lines x
+      join erp.laundry_receipt_lines l on l.id=x.receipt_line_id
+      where l.receipt_id=new.id
+    ) then
+      raise exception 'Failed-wash service cost must not create physical Good/BS receipt facts';
+    end if;
+    if exists(
+      select 1 from erp.laundry_receipt_lines l
+      where l.receipt_id=new.id and(
+        l.id<>r.receipt_line_id or l.qty_good_received<>0 or l.qty_bs_laundry<>0
+        or l.qty_stuck<>0 or l.qty_missing<>0
+        or l.actual_wash_process_id is null
+        or l.actual_rate_snapshot is null or l.actual_rate_snapshot<0
+        or l.actual_cost_status<>'ESTIMATED'
+        or l.actual_cost is distinct from round(r.qty_attempted_pcs*l.actual_rate_snapshot,2)
+      )
+    ) then
+      raise exception 'Failed-wash canonical cost line is not an exact zero-output estimate';
+    end if;
+    if (select coalesce(sum(x.qty_attempted_pcs),0)
+        from erp.laundry_failed_wash_batch_size_lines x
+        where x.attempt_id=r.id)<>r.qty_attempted_pcs then
+      raise exception 'Failed-wash attempted size total does not equal its canonical cost quantity';
+    end if;
+    if exists(
+      select 1
+      from erp.laundry_failed_wash_batch_size_lines x
+      join erp.laundry_delivery_batch_size_lines s
+        on s.id=x.delivery_batch_size_line_id
+      join erp.laundry_delivery_lines dl on dl.id=s.delivery_line_id
+      where x.attempt_id=r.id and(
+        dl.delivery_id<>r.delivery_id or x.size_id<>s.size_id
+        or x.qty_attempted_pcs>s.qty_sent_pcs
+      )
+    ) then
+      raise exception 'Failed-wash attempted size facts do not belong to the exact delivery capacity';
     end if;
     if r.custody_outcome='RETRY_AT_VENDOR' then
       if r.return_wip_event_id is not null

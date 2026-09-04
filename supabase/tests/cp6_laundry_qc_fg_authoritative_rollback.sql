@@ -1826,8 +1826,8 @@ begin
       id,invoice_number,vendor_id,invoice_date,received_at,due_date,
       status,total_amount,notes,created_by
     ) values(
-      v_failed_invoice,'CP6-FAILED-WASH-VI-BAD',v_vendor,'2026-09-06','2026-09-06 08:00:00+00',
-      '2026-09-20','DRAFT',101,'Malformed paid-attempt invoice must roll back',v_owner_app
+      v_failed_invoice,'CP6-FAILED-WASH-VI-BAD',v_vendor,'2026-09-03','2026-09-03 08:00:00+00',
+      '2026-09-17','DRAFT',101,'Malformed paid-attempt invoice must roll back',v_owner_app
     );
     insert into erp.vendor_invoice_items(
       id,invoice_id,receipt_line_id,description,qty_pcs,actual_rate,actual_amount
@@ -1848,8 +1848,8 @@ begin
     id,invoice_number,vendor_id,invoice_date,received_at,due_date,
     status,total_amount,notes,created_by
   ) values(
-    v_failed_invoice,'CP6-FAILED-WASH-VI-001',v_vendor,'2026-09-06','2026-09-06 08:00:00+00',
-    '2026-09-20','DRAFT',100,'Authoritative paid failed-wash invoice',v_owner_app
+    v_failed_invoice,'CP6-FAILED-WASH-VI-001',v_vendor,'2026-09-03','2026-09-03 08:00:00+00',
+    '2026-09-17','DRAFT',100,'Authoritative paid failed-wash invoice',v_owner_app
   );
   insert into erp.vendor_invoice_items(
     id,invoice_id,receipt_line_id,description,qty_pcs,actual_rate,actual_amount

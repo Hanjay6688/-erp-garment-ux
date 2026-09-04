@@ -191,6 +191,6 @@ export default function ConnectedQcFinalPage() {
       {tab === 'QUEUE' ? <FinalSkuForm key={`qc-${bridge.committedSequence}`} workspace={bridge.workspace} writerLocked={bridge.writerLocked} canPost={canPost} onAction={onAction}/> : null}
       {tab === 'HISTORY' ? <QcHistory workspace={bridge.workspace} writerLocked={bridge.writerLocked} canReverse={canReverse} onAction={onAction}/> : null}
     </> : <div className="clq-loading"><AlertTriangle/> Data belum tersedia; semua tombol transaksi tetap terkunci.</div>}
-    <section className="clq-rare-case"><AlertTriangle/><div><strong>Cuci ulang tidak boleh dicatat sebagai hasil QC palsu</strong><p>Jika hasil cuci gagal, koreksi penerimaan/pengiriman dari riwayat lalu buat pengiriman baru. Kasus cuci ulang berbayar tetap ditahan sampai alur hutang vendor dan HPP-nya tersedia.</p></div></section>
+    <section className="clq-rare-case"><AlertTriangle/><div><strong>Cuci gagal tidak boleh dicatat sebagai hasil QC palsu</strong><p>Cuci gagal berbayar dicatat dari tab Laundry sebagai attempt biaya terpisah; jangan ubah menjadi Good, BS, atau QC palsu. Posisi fisik tetap mengikuti pilihan coba lagi di vendor atau seluruh barang kembali ke Jahit.</p></div></section>
   </div>
 }
