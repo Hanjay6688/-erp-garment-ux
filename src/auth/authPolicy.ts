@@ -210,7 +210,11 @@ export function planAuthEvent(
 
   const sameVerifiedUser = current.status === 'AUTHORIZED'
     && current.profile.authUserId === sessionAuthUserId
-  if (event === 'TOKEN_REFRESHED' && sameVerifiedUser) {
+  // Supabase broadcasts a same-session SIGNED_IN event across browser tabs.
+  // Keep the already verified UI mounted so an operator's unsubmitted form is
+  // not destroyed, while still re-reading the profile and permissions. A
+  // different user remains synchronously locked below.
+  if (sameVerifiedUser && (event === 'TOKEN_REFRESHED' || event === 'SIGNED_IN')) {
     return {
       immediateIdentity: null,
       invalidatePending: true,

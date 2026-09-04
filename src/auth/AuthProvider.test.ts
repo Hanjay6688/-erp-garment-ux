@@ -130,8 +130,13 @@ describe('Auth subscription ordering', () => {
     expect(plan.refreshAfterCallback).toBe(false)
   })
 
-  it('preserves UI only for TOKEN_REFRESHED on the same verified user', () => {
+  it('preserves UI while revalidating same-user token and cross-tab sign-in events', () => {
     expect(planAuthEvent(authorized, 'TOKEN_REFRESHED', authUserId)).toEqual({
+      immediateIdentity: null,
+      invalidatePending: true,
+      refreshAfterCallback: true,
+    })
+    expect(planAuthEvent(authorized, 'SIGNED_IN', authUserId)).toEqual({
       immediateIdentity: null,
       invalidatePending: true,
       refreshAfterCallback: true,

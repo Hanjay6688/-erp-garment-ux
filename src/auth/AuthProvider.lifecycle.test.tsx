@@ -206,6 +206,31 @@ describe('AuthProvider mounted lifecycle', () => {
     expect(observed?.identity).toMatchObject({ profile: { authUserId: ownerB } })
   })
 
+  it('keeps same-user forms mounted while a cross-tab sign-in is revalidated', async () => {
+    const sameUserRefresh = deferred<ReturnType<typeof authResult>>()
+    const getUser = vi.fn()
+      .mockResolvedValueOnce(authResult(ownerA))
+      .mockImplementationOnce(() => sameUserRefresh.promise)
+    const fake = makeClient({ getUser })
+    mockedClient.current = fake.client
+
+    await mount()
+    expect(status()).toBe('AUTHORIZED')
+
+    await act(async () => {
+      expect(fake.fire('SIGNED_IN', ownerA)).toBeUndefined()
+    })
+    await settle()
+    expect(getUser).toHaveBeenCalledTimes(2)
+    expect(status()).toBe('AUTHORIZED')
+    expect(observed?.identity).toMatchObject({ profile: { authUserId: ownerA } })
+
+    sameUserRefresh.resolve(authResult(ownerA))
+    await settle()
+    expect(status()).toBe('AUTHORIZED')
+    expect(observed?.identity).toMatchObject({ profile: { authUserId: ownerA } })
+  })
+
   it('restores the verified identity when sign-out fails after the immediate lock', async () => {
     const signOut = deferred<{ error: unknown }>()
     const fake = makeClient({
