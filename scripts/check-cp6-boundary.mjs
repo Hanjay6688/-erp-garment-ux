@@ -467,10 +467,13 @@ for (const token of [
   "test \"$maintenance_pgurl\" = 'postgresql://postgres:postgres@127.0.0.1:54322/template1'",
   'refusing a clone URL outside the exact loopback CP6 disposable allowlist',
   'alter database postgres with allow_connections false',
+  'docker restart "$database_container"', 'wait_for_admin',
+  "select datallowconn from pg_database where datname='postgres'",
   'pg_terminate_backend(pid)', 'createdb -U supabase_admin', '--template=postgres',
   'alter database postgres with allow_connections true',
   'remaining_source_connections', 'scripts/verify-cp6-disposable-clone.sh',
   'clone_strategy=TEMPLATE_POSTGRES', 'database_admin=supabase_admin',
+  'source_restart_under_fence=PASS',
   'source_connections_restored=PASS',
 ]) assert.ok(cloneBuilder.includes(token), `CP6 fenced physical clone builder missing: ${token}`)
 assert.ok(cloneBuilder.indexOf("source_fenced='1'")

@@ -50,6 +50,16 @@ admin_psql() {
 }
 test "$(admin_psql -c 'select current_user')" = 'supabase_admin'
 
+wait_for_admin() {
+  local attempt
+  for attempt in $(seq 1 60); do
+    if admin_psql -c 'select 1' >/dev/null 2>&1; then return 0; fi
+    sleep 1
+  done
+  echo 'disposable database admin did not recover after the fenced restart' >&2
+  return 1
+}
+
 restore_source_connections() {
   if [[ "$source_fenced" = '1' ]]; then
     admin_psql -c 'alter database postgres with allow_connections true' >/dev/null || true
@@ -64,6 +74,12 @@ dropdb --if-exists --force --maintenance-db="$maintenance_pgurl" "$clone_name"
 # CI database and is restored even if termination or cloning fails.
 source_fenced='1'
 admin_psql -c 'alter database postgres with allow_connections false'
+# Supabase preload workers reconnect to postgres immediately after a signal.
+# Restart only the exact disposable DB container while datallowconn=false so
+# client and extension sessions cannot race CREATE DATABASE ... TEMPLATE.
+docker restart "$database_container" >/dev/null
+wait_for_admin
+test "$(admin_psql -c "select datallowconn from pg_database where datname='postgres'")" = 'f'
 terminated_connections="$(admin_psql <<'SQL'
 select count(*) filter(where terminated)
 from(
@@ -93,6 +109,7 @@ bash scripts/verify-cp6-disposable-clone.sh "$source_pgurl" "$clone_pgurl" "$pro
   printf 'database_container=%s\n' "$database_container"
   printf 'database_admin=supabase_admin\n'
   printf 'clone_strategy=TEMPLATE_POSTGRES\n'
+  printf 'source_restart_under_fence=PASS\n'
   printf 'terminated_source_connections=%s\n' "$terminated_connections"
   printf 'remaining_source_connections_during_clone=%s\n' "$remaining_connections"
   printf 'source_connections_restored=PASS\n'
