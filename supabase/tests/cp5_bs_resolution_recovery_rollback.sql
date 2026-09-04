@@ -224,6 +224,10 @@ begin
       v_cp6_delivery_batch_size,v_delivery_line,v_cp6_distribution_batch,
       'a2100000-0000-0000-0000-000000000001',12,v_owner_app
     );
+    update erp.cutting_groups
+    set picked_up_at='2026-08-20 08:30:00+00',
+        executor_name='CP5 CP6 Mandor',status='PICKED_UP'
+    where id=v_group;
     update erp.laundry_deliveries set status='SENT' where id=v_delivery;
   end if;
   perform erp.post_journal(

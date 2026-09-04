@@ -352,6 +352,8 @@ for (const token of [
   "if to_regclass('erp.laundry_delivery_batch_size_lines') is not null then",
   'v_cp6_distribution_allocation', 'v_cp6_delivery_batch_size',
   'v_cp6_receipt_batch_size', 'v_cp6_late_receipt_batch_size',
+  "set picked_up_at='2026-08-20 08:30:00+00'",
+  "executor_name='CP5 CP6 Mandor',status='PICKED_UP'",
   "update erp.laundry_deliveries set status='SENT' where id=v_delivery",
   'v_response:=erp.post_laundry_receipt_v2(',
   'The CP5 behavior remains under test',
