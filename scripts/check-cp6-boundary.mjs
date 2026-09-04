@@ -27,6 +27,9 @@ const race = read(racePath)
 const workflow = read(workflowPath)
 const mainWorkflow = read(mainWorkflowPath)
 const predecessorOwnership = read('scripts/check-predecessor-backend-ownership.mjs')
+const authPolicy = read('src/auth/authPolicy.ts')
+const authPolicyTest = read('src/auth/AuthProvider.test.ts')
+const authLifecycleTest = read('src/auth/AuthProvider.lifecycle.test.tsx')
 const model = read('src/laundryQcModel.ts')
 const modelTest = read('src/laundryQcModel.test.ts')
 const hook = read('src/useLaundryQcWorkspace.ts')
@@ -254,6 +257,20 @@ for (const token of [
   'two live tabs serialize one global envelope and send at most one operator intent',
   'firstCalls.actions.length + secondCalls.actions.length).toBe(1)',
 ]) assert.ok(browser.includes(token), `CP6 browser reliability/permission proof missing: ${token}`)
+const firstTabPrepared = browser.indexOf("prepareValidLaundrySend(page, 'Tab pertama mencatat serah terima yang sama')")
+const secondTabOpened = browser.indexOf('const secondPage = await context.newPage()')
+assert.ok(firstTabPrepared > 0 && secondTabOpened > firstTabPrepared,
+  'CP6 browser must prepare the first operator form before opening the second tab')
+for (const token of [
+  ".toHaveValue('Tab pertama mencatat serah terima yang sama')",
+  "getByRole('checkbox', { name: laundrySendConfirmation, exact: true })).toBeChecked()",
+]) assert.ok(browser.includes(token), `CP6 browser does not prove first-tab form preservation: ${token}`)
+assert.match(authPolicy, /sameVerifiedUser && \(event === 'TOKEN_REFRESHED' \|\| event === 'SIGNED_IN'\)/,
+  'Same-user cross-tab sign-in would remount and erase an in-progress operator form')
+assert.ok(authPolicyTest.includes("planAuthEvent(authorized, 'SIGNED_IN', authUserId)"),
+  'Auth policy unit proof omits same-user cross-tab SIGNED_IN')
+assert.ok(authLifecycleTest.includes('keeps same-user forms mounted while a cross-tab sign-in is revalidated'),
+  'Mounted auth lifecycle proof omits same-user form preservation')
 
 assert.match(masterPage, /isProduct\?<>{brandField&&renderField\(brandField,true\)}<label><span>NOMOR SKU<\/span>[\s\S]*?{modelField&&renderField\(modelField\)}/,
   'Product editor is not ordered Merek -> Nomor SKU -> Model')

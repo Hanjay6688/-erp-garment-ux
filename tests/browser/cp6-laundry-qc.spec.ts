@@ -343,6 +343,7 @@ test('CP6 two live tabs serialize one global envelope and send at most one opera
   const firstCalls = await installContract(page, { state })
   await signIn(page)
   await openPage(page, testInfo.project.name, 'Laundry', 'Laundry')
+  await prepareValidLaundrySend(page, 'Tab pertama mencatat serah terima yang sama')
 
   const secondPage = await context.newPage()
   const secondCalls = await installContract(secondPage, { state })
@@ -350,10 +351,14 @@ test('CP6 two live tabs serialize one global envelope and send at most one opera
   await expect(secondPage.locator('.top-title strong')).toBeVisible()
   await openPage(secondPage, testInfo.project.name, 'Laundry', 'Laundry')
 
-  await Promise.all([
-    prepareValidLaundrySend(page, 'Tab pertama mencatat serah terima yang sama'),
-    prepareValidLaundrySend(secondPage, 'Tab kedua mencoba serah terima yang sama'),
-  ])
+  await expect(page.getByRole('heading', { name: 'Laundry', exact: true })).toBeVisible()
+  await expect(page.getByLabel('BATCH DISTRIBUSI AUTHORITATIVE')).toHaveValue(ids.batch)
+  await expect(page.getByLabel('Qty kirim size S')).toHaveValue('6')
+  await expect(page.getByLabel('WAKTU FISIK KELUAR')).toHaveValue('2026-09-04T08:00')
+  await expect(page.getByLabel('ALASAN / BUKTI SERAH TERIMA'))
+    .toHaveValue('Tab pertama mencatat serah terima yang sama')
+  await expect(page.getByRole('checkbox', { name: laundrySendConfirmation, exact: true })).toBeChecked()
+  await prepareValidLaundrySend(secondPage, 'Tab kedua mencoba serah terima yang sama')
   await Promise.all([
     page.getByRole('button', { name: /Post pengiriman atomic/ }).evaluate((button: HTMLButtonElement) => button.click()),
     secondPage.getByRole('button', { name: /Post pengiriman atomic/ }).evaluate((button: HTMLButtonElement) => button.click()),
