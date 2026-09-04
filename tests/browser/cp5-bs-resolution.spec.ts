@@ -126,9 +126,11 @@ function workspace(patternId: string | null, includeRow = true, partialOrder = f
 
 async function installLocalUatContract(
   page: Page, viewOnly = false, partialOrder = false, loseFirstActionResponse = false,
+  failFirstPostCommitWorkspace = false,
 ): Promise<ContractCalls> {
   const calls: ContractCalls = { workspace: [], actions: [], unexpected: [] }
   let actionAttempts = 0
+  let failNextWorkspace = false
   await page.route(`${uatOrigin}/**`, async (route) => {
     const request = route.request()
     const url = new URL(request.url())
@@ -169,6 +171,11 @@ async function installLocalUatContract(
     if (rpcName === 'erp_get_bs_resolution_workspace_v1') {
       const args = payload ?? {}
       calls.workspace.push(args)
+      if (failNextWorkspace) {
+        failNextWorkspace = false
+        await json(route, { message: 'Refetch network failed' }, 503)
+        return
+      }
       await json(route, workspace(
         (args.p_pattern_id as string | null) ?? null,
         args.p_pattern_id !== 'pattern-2',
@@ -184,6 +191,7 @@ async function installLocalUatContract(
         await route.abort('connectionreset')
         return
       }
+      if (failFirstPostCommitWorkspace && actionAttempts === 1) failNextWorkspace = true
       await json(route, { request_id: payload?.p_client_request_id, action: payload?.p_action, result: { status: 'ON_HOLD', row_version: 5 } })
       return
     }
@@ -299,6 +307,79 @@ test('CP5 lost commit response survives reload and reconciles the exact persiste
       simulated_server_commit_count: 1, transport_attempt_count: calls.actions.length,
       same_idempotency_uuid: calls.actions[0]?.p_client_request_id === calls.actions[1]?.p_client_request_id,
       exact_payload_replay: true, persisted_across_reload: true,
+      hosted_uat: false, production_go: false,
+    }, null, 2)),
+    contentType: 'application/json',
+  })
+  expect(calls.unexpected).toEqual([])
+})
+
+test('CP5 committed claim cannot be submitted again after failed then successful refetch', async ({ page }, testInfo) => {
+  const calls = await installLocalUatContract(page, false, false, false, true)
+  await signIn(page)
+  await openBsResolution(page, testInfo.project.name)
+
+  const claimButton = page.getByRole('button', { name: /Claim Laundry/ })
+  await claimButton.click()
+  const modal = page.getByRole('dialog', { name: 'Buat claim Laundry' })
+  await modal.getByLabel('NOMOR CLAIM').fill('CLM-COMMIT-ONCE-001')
+  await modal.getByLabel(/QTY CLAIM/).fill('2')
+  await modal.getByLabel('ALASAN / BUKTI · WAJIB').fill('Dua barang belum kembali secara fisik')
+  await modal.getByRole('button', { name: /Simpan claim/ }).click()
+
+  await expect(page.getByText(/Aksi sudah tersimpan, tetapi refresh authoritative gagal/)).toBeVisible()
+  await expect(modal).toHaveCount(0)
+  await expect(claimButton).toBeDisabled()
+  expect(calls.actions).toHaveLength(1)
+
+  await page.getByRole('button', { name: 'Refetch', exact: true }).click()
+  await expect(claimButton).toBeEnabled()
+  await expect(modal).toHaveCount(0)
+  expect(calls.actions).toHaveLength(1)
+  expect(calls.actions[0]).toMatchObject({ p_action: 'SAVE_CLAIM' })
+
+  await testInfo.attach('cp5-claim-committed-form-retired', {
+    body: Buffer.from(JSON.stringify({
+      status: 'PASS', proof_class: 'LOCAL_MOCKED_UAT_CONTRACT',
+      committed_form_retired: true, mutation_count_after_recovery: calls.actions.length,
+      hosted_uat: false, production_go: false,
+    }, null, 2)),
+    contentType: 'application/json',
+  })
+  expect(calls.unexpected).toEqual([])
+})
+
+test('CP5 committed manual BS cannot be submitted again after failed then successful refetch', async ({ page }, testInfo) => {
+  const calls = await installLocalUatContract(page, false, false, false, true)
+  await signIn(page)
+  await openBsResolution(page, testInfo.project.name)
+
+  const manualBsButton = page.getByRole('button', { name: /BS legacy/ })
+  await manualBsButton.click()
+  const modal = page.getByRole('dialog', { name: 'Catat BS legacy / out-of-nowhere' })
+  await modal.getByLabel('REFERENSI LEGACY · WAJIB').fill('BUKU-BS-LEGACY-001')
+  await modal.getByLabel('QTY PCS').fill('3')
+  await modal.getByLabel('ALASAN PENCATATAN · WAJIB').fill('Temuan fisik gudang lama')
+  await modal.getByRole('button', { name: /Simpan kasus authoritative/ }).click()
+
+  await expect(page.getByText(/Aksi sudah tersimpan, tetapi refresh authoritative gagal/)).toBeVisible()
+  await expect(modal).toHaveCount(0)
+  await expect(manualBsButton).toBeDisabled()
+  expect(calls.actions).toHaveLength(1)
+
+  await page.getByRole('button', { name: 'Refetch', exact: true }).click()
+  await expect(manualBsButton).toBeEnabled()
+  await expect(modal).toHaveCount(0)
+  expect(calls.actions).toHaveLength(1)
+  expect(calls.actions[0]).toMatchObject({
+    p_action: 'CREATE_MANUAL_BS',
+    p_payload: { legacy_reference: 'BUKU-BS-LEGACY-001', qty_pcs: 3 },
+  })
+
+  await testInfo.attach('cp5-manual-bs-committed-form-retired', {
+    body: Buffer.from(JSON.stringify({
+      status: 'PASS', proof_class: 'LOCAL_MOCKED_UAT_CONTRACT',
+      committed_form_retired: true, mutation_count_after_recovery: calls.actions.length,
       hosted_uat: false, production_go: false,
     }, null, 2)),
     contentType: 'application/json',

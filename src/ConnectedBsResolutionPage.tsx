@@ -527,6 +527,7 @@ export default function ConnectedBsResolutionPage() {
         }
         return false
       }
+      if (action === 'CREATE_MANUAL_BS' || action === 'SAVE_CLAIM') setCreateMode(null)
       const recoveryEnvelopeCleared = clearPendingMutation()
       setWorkspaceStale(true)
       const currentView = viewRef.current

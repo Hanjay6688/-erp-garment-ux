@@ -301,6 +301,7 @@ for (const token of [
   'Simpan partial', 'Vendor Rewash tidak mendapat fee kerja komponen',
   'item.default_selected', 'workspaceStale', 'refresh authoritative gagal',
   'seluruh writer terkunci sampai Refetch authoritative berhasil',
+  "action === 'CREATE_MANUAL_BS' || action === 'SAVE_CLAIM'",
   'return refetched && recoveryEnvelopeCleared', 'canSubmit={effectiveCanCreate}',
   'remaining_unentitled_good_qty_pcs', 'selectedContractKey',
 ]) assert.ok(cp5Page.includes(token), `CP5 UI lifecycle token missing: ${token}`)
@@ -395,12 +396,15 @@ for (const token of [
   'Tidak ada kasus pada filter ini', 'Tidak ada detail', 'view-only access',
   'persists a lost-response envelope across reload',
   'Payload berbeda yang tidak boleh terkirim', 'sudah direconcile dengan UUID lama',
-  "expect(container.querySelector('.cbsr-modal-layer')).toBe(claimModal)",
+  "expect(container.querySelector('.cbsr-modal-layer')).toBeNull()",
+  'retires a committed claim form permanently',
+  'retires a committed manual BS form permanently',
+  "p_action: 'CREATE_MANUAL_BS'",
   'defaults only server-proven unpaid items and sends exactly the checked set',
   'saves cumulative partial returns without calling the completion action',
   "accessory_bom_item_ids: ['bom-item-1']", "p_action: 'SAVE_REWORK'", "action: 'SAVE'",
   'allows an explicit real replacement without silently checking a prior entitlement',
-  'removes claim OTHER and freezes every writer',
+  "expect(actionCalls).toHaveLength(1)",
 ]) assert.ok(cp5DomTest.includes(token), `CP5 DOM proof missing: ${token}`)
 for (const token of [
   "proof_class: 'LOCAL_MOCKED_UAT_CONTRACT'", 'hosted_uat: false',
@@ -413,6 +417,9 @@ for (const token of [
   "p_action: 'SAVE_REWORK', p_expected_version: 2", 'completion_posted: false',
   'lost commit response survives reload', 'same_idempotency_uuid',
   'persisted_across_reload: true',
+  'committed claim cannot be submitted again',
+  'committed manual BS cannot be submitted again',
+  'mutation_count_after_recovery', "p_action: 'CREATE_MANUAL_BS'", "p_action: 'SAVE_CLAIM'",
 ]) assert.ok(cp5BrowserTest.includes(token), `CP5 browser contract proof missing: ${token}`)
 assert.match(cp5BrowserConfig, /testMatch: 'cp5-bs-resolution\.spec\.ts'/)
 assert.match(cp5BrowserConfig, /ERP_UAT_AUTH_ALLOW_MOCK_KEY: '1'/)

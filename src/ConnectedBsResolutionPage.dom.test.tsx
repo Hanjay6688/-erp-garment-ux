@@ -302,7 +302,7 @@ describe('CP5 connected BS Resolution DOM boundary', () => {
     expect(workspaceCalls).toBe(2)
   })
 
-  it('removes claim OTHER and freezes every writer after a saved mutation whose authoritative refetch fails', async () => {
+  it('retires a committed claim form permanently when its authoritative refetch fails', async () => {
     let workspaceCalls = 0
     const rpc = vi.fn(async (name: string) => {
       if (name === 'erp_list_patterns_v1') return { data: patterns, error: null }
@@ -343,8 +343,8 @@ describe('CP5 connected BS Resolution DOM boundary', () => {
     expect(container.textContent).toContain('Aksi sudah tersimpan, tetapi refresh authoritative gagal')
     expect(container.textContent).not.toContain('Workspace authoritative sudah dimuat ulang')
     expect(container.textContent).toContain('seluruh writer terkunci')
-    expect(container.querySelector('.cbsr-modal-layer')).toBe(claimModal)
-    expect(saveClaim.disabled).toBe(true)
+    expect(container.querySelector('.cbsr-modal-layer')).toBeNull()
+    expect(saveClaim.isConnected).toBe(false)
     expect(claimButton.disabled).toBe(true)
 
     const refetch = [...container.querySelectorAll<HTMLButtonElement>('button')]
@@ -352,9 +352,67 @@ describe('CP5 connected BS Resolution DOM boundary', () => {
     await act(async () => { refetch.click() })
     await settle()
     expect(container.textContent).not.toContain('State layar stale setelah mutasi tersimpan')
-    expect(saveClaim.disabled).toBe(false)
     expect(claimButton.disabled).toBe(false)
+    expect(container.querySelector('.cbsr-modal-layer')).toBeNull()
+    saveClaim.click()
     expect(rpc.mock.calls.filter(([name]) => name === 'erp_save_bs_resolution_action_v1')).toHaveLength(1)
+  })
+
+  it('retires a committed manual BS form permanently when its authoritative refetch fails', async () => {
+    let workspaceCalls = 0
+    const rpc = vi.fn(async (name: string, _args?: Record<string, unknown>) => {
+      if (name === 'erp_list_patterns_v1') return { data: patterns, error: null }
+      if (name === 'erp_get_bs_resolution_workspace_v1') {
+        workspaceCalls += 1
+        if (workspaceCalls === 2) return { data: null, error: { message: 'Refetch network failed' } }
+        return { data: workspace(), error: null }
+      }
+      if (name === 'erp_save_bs_resolution_action_v1') return { data: { ok: true }, error: null }
+      throw new Error(`Unexpected RPC ${name}`)
+    })
+    mockedClient.current = { rpc }
+    authState.current = identity([
+      'production.bs_rework.view', 'production.bs_rework.create',
+      'production.bs_rework.post', 'production.bs_rework.reverse', 'master.pattern.view',
+    ])
+
+    await renderPage()
+    const manualBsButton = [...container.querySelectorAll<HTMLButtonElement>('button')]
+      .find((button) => button.textContent?.includes('BS legacy'))!
+    await act(async () => { manualBsButton.click() })
+    const manualBsModal = container.querySelector<HTMLElement>('.cbsr-modal-layer')!
+    const inputs = manualBsModal.querySelectorAll<HTMLInputElement>('.cbsr-form-grid input')
+    await act(async () => {
+      setControlValue(inputs[1]!, 'BUKU-BS-LEGACY-001')
+      setControlValue(inputs[2]!, '3')
+      setControlValue(inputs[4]!, 'Temuan fisik gudang lama')
+    })
+    const saveManualBs = [...manualBsModal.querySelectorAll<HTMLButtonElement>('button')]
+      .find((button) => button.textContent?.includes('Simpan kasus authoritative'))!
+    expect(saveManualBs.disabled).toBe(false)
+    await act(async () => { saveManualBs.click() })
+    await settle()
+
+    expect(container.textContent).toContain('Aksi sudah tersimpan, tetapi refresh authoritative gagal')
+    expect(container.textContent).toContain('seluruh writer terkunci')
+    expect(container.querySelector('.cbsr-modal-layer')).toBeNull()
+    expect(saveManualBs.isConnected).toBe(false)
+    expect(manualBsButton.disabled).toBe(true)
+
+    const refetch = [...container.querySelectorAll<HTMLButtonElement>('button')]
+      .find((button) => button.textContent?.trim() === 'Refetch')!
+    await act(async () => { refetch.click() })
+    await settle()
+    expect(container.textContent).not.toContain('State layar stale setelah mutasi tersimpan')
+    expect(manualBsButton.disabled).toBe(false)
+    expect(container.querySelector('.cbsr-modal-layer')).toBeNull()
+    saveManualBs.click()
+    const actionCalls = rpc.mock.calls.filter(([name]) => name === 'erp_save_bs_resolution_action_v1')
+    expect(actionCalls).toHaveLength(1)
+    expect(actionCalls[0]?.[1]).toMatchObject({
+      p_action: 'CREATE_MANUAL_BS',
+      p_payload: { legacy_reference: 'BUKU-BS-LEGACY-001', qty_pcs: 3 },
+    })
   })
 
   it('saves cumulative partial returns without calling the completion action', async () => {
