@@ -493,6 +493,15 @@ assert.equal(occurrences(invoiceFixture, 'cur.execute('), 2,
   'Vendor-invoice parent and item inserts must use two Psycopg-safe statements')
 assert.equal(/vendor_invoices[\s\S]*;\s*insert into erp\.vendor_invoice_items/.test(invoiceFixture), false,
   'Vendor-invoice race fixture must not send multiple commands as one prepared statement')
+assert.ok(race.includes('def set_operator_claims(cur):'),
+  'CP6 race harness lacks a claims-only backend execution context')
+assert.equal(occurrences(race, 'set_operator_claims(cur)'), 7,
+  'Every internal vendor-invoice lifecycle path must retain backend privilege with operator claims')
+assert.equal(
+  /set_operator_context\(cur\)\s+(?:if reverse_invoice:\s+)?cur\.execute\(\s*['"]select erp\.(?:post|reverse)_vendor_invoice/.test(race),
+  false,
+  'Authenticated browser role must not be used to call private vendor-invoice routines',
+)
 
 const postDeliveryStart = migration.lastIndexOf("if v_action='POST_DELIVERY' then")
 const postReceiptStart = migration.lastIndexOf("elsif v_action='POST_RECEIPT' then")

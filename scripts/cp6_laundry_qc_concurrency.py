@@ -60,9 +60,14 @@ def connect():
     return psycopg.connect(PGURL, autocommit=False)
 
 
-def set_operator_context(cur):
+def set_operator_claims(cur):
+    """Attach the real operator identity while retaining the backend DB role."""
     claims = json.dumps({'sub': OPERATOR_AUTH, 'role': 'authenticated'})
     cur.execute("select set_config('request.jwt.claims',%s,true)", (claims,))
+
+
+def set_operator_context(cur):
+    set_operator_claims(cur)
     cur.execute('set local role authenticated')
 
 
@@ -271,7 +276,7 @@ def run_vendor_invoice_vs_receipt_reversal(
         try:
             with conn.cursor() as cur:
                 cur.execute("set local lock_timeout='10s'")
-                set_operator_context(cur)
+                set_operator_claims(cur)
                 cur.execute('select erp.post_vendor_invoice(%s::uuid)', (VENDOR_INVOICE,))
                 posted.set()
                 time.sleep(HOLD_SECONDS)
@@ -347,7 +352,7 @@ def run_vendor_invoice_vs_final_sku(
         try:
             with conn.cursor() as cur:
                 cur.execute("set local lock_timeout='10s'")
-                set_operator_context(cur)
+                set_operator_claims(cur)
                 cur.execute('select erp.post_vendor_invoice(%s::uuid)', (invoice_id,))
                 posted.set()
                 time.sleep(HOLD_SECONDS)
@@ -413,7 +418,7 @@ def run_vendor_invoice_reversal_vs_final_sku(
         try:
             with conn.cursor() as cur:
                 cur.execute("set local lock_timeout='10s'")
-                set_operator_context(cur)
+                set_operator_claims(cur)
                 cur.execute(
                     'select erp.reverse_vendor_invoice(%s::uuid,%s)',
                     (invoice_id, 'CP6 concurrent invoice reversal versus Final-SKU'),
@@ -507,7 +512,7 @@ def run_final_sku_before_vendor_invoice(
         try:
             with conn.cursor() as cur:
                 cur.execute("set local lock_timeout='10s'")
-                set_operator_context(cur)
+                set_operator_claims(cur)
                 if reverse_invoice:
                     cur.execute(
                         'select erp.reverse_vendor_invoice(%s::uuid,%s)',
@@ -578,7 +583,7 @@ def create_vendor_invoice(
 
 def reverse_vendor_invoice(invoice_id: str, reason: str):
     with connect() as conn, conn.cursor() as cur:
-        set_operator_context(cur)
+        set_operator_claims(cur)
         cur.execute(
             "select erp.reverse_vendor_invoice(%s::uuid,%s)",
             (invoice_id, reason),
