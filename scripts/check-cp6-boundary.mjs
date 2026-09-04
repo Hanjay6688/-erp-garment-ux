@@ -26,6 +26,8 @@ const seed = read(seedPath)
 const race = read(racePath)
 const workflow = read(workflowPath)
 const mainWorkflow = read(mainWorkflowPath)
+const cloneVerifier = read('scripts/verify-cp6-disposable-clone.sh')
+const gitignore = read('.gitignore')
 const predecessorOwnership = read('scripts/check-predecessor-backend-ownership.mjs')
 const authPolicy = read('src/auth/authPolicy.ts')
 const authPolicyTest = read('src/auth/AuthProvider.test.ts')
@@ -238,13 +240,6 @@ for (const token of [
   'FG hasil QC masih dipakai transaksi downstream aktif.',
   "toBeDisabled()",
 ]) assert.ok(browser.includes(token), `Browser reversal-affordance proof missing: ${token}`)
-for (const token of [
-  'WRITER DIBLOKIR', 'Formula Nota FG lama belum menjadi kontrak backend',
-  'Tidak ada data yang dihapus atau diposting.',
-]) {
-  assert.ok(fgBoundary.includes(token), `Connected Nota FG safety boundary missing: ${token}`)
-  assert.ok(browser.includes(token), `Browser Nota FG safety proof missing: ${token}`)
-}
 
 for (const token of [
   'platform ledger statement digest is ambiguous',
@@ -281,14 +276,20 @@ for (const token of [
   'globalThis.crypto.randomUUID()', 'isExactCommittedResponse',
   'candidate.fingerprint !== fingerprint', 'busyRef.current', 'workspaceStale',
   'workspaceReadyRef.current = false', '!workspaceReadyRef.current',
-  'committedRefreshRequired', 'retireCommittedForm()',
+  'committedRefreshRequired', 'retireCommittedForm()', 'globalThis.navigator?.locks',
+  "mode: 'exclusive', ifAvailable: true", "globalThis.addEventListener('storage'",
+  'erp.cp6.pending-mutation.v1:', 'preserveExactPending',
   'Reconcile wajib memakai UUID/payload yang sama',
 ]) assert.ok(hook.includes(token), `CP6 UI reliability lifecycle missing: ${token}`)
+assert.doesNotMatch(hook, /erp\.cp6\.\$\{scope\.toLowerCase\(\)\}\.pending-mutation/,
+  'CP6 pending envelope is scope-local and can be overwritten across Laundry/QC tabs')
 for (const token of [
   'reconciles an ambiguous response with the exact same UUID, payload, and version',
   'retires a committed form and keeps it dead after refetch failure then recovery',
   'locks the writer synchronously when a refetch starts before React can rerender',
   'fails closed when a persisted envelope is corrupt',
+  'refuses a second mounted writer while the global cross-tab envelope is in flight',
+  'fails closed without Web Locks and sends no mutation',
 ]) assert.ok(hookTest.includes(token), `CP6 hook lifecycle proof missing: ${token}`)
 
 assert.equal(occurrences(laundryPage, "const [physicalAt, setPhysicalAt] = useState('')"), 2,
@@ -297,6 +298,10 @@ assert.equal(occurrences(qcPage, "const [physicalAt, setPhysicalAt] = useState('
   'QC physical timestamp must start blank')
 assert.equal(laundryPage.includes('localNow'), false, 'Laundry UI infers physical time from page/browser clock')
 assert.equal(qcPage.includes('localNow'), false, 'QC UI infers physical time from page/browser clock')
+assert.equal(occurrences(laundryPage, 'cp6WibPhysicalTimeToIso(physicalAt)'), 2,
+  'Both Laundry physical timestamps must use the fixed business-time serializer')
+assert.equal(occurrences(qcPage, 'cp6WibPhysicalTimeToIso(physicalAt)'), 1,
+  'QC physical timestamp must use the fixed business-time serializer')
 assert.equal(occurrences(laundryPage, 'useEffect(() => setConfirmed(false), [workspace])'), 2,
   'Laundry acknowledgement must expire after every authoritative refetch')
 assert.equal(occurrences(qcPage, 'useEffect(() => setConfirmed(false), [workspace])'), 1,
@@ -311,6 +316,13 @@ for (const token of [
   'Hak kerja · {roleName}', 'Mode lihat saja untuk {action}.',
   'Form dikunci; data tetap bisa dilihat.',
 ]) assert.ok(permissionNotice.includes(token), `CP6 permission UX invariant missing: ${token}`)
+for (const token of [
+  'PAGAR KEAMANAN DATA', 'Ini bukan masalah hak akses role Anda.',
+  'Nota FG belum aman untuk disimpan', 'Tidak ada data yang dihapus atau diposting.',
+  'Untuk sekarang, simpan Final SKU dari halaman QC',
+]) assert.ok(fgBoundary.includes(token), `CP6 blocked Nota FG operator guidance missing: ${token}`)
+assert.doesNotMatch(fgBoundary, /SAFETY BOUNDARY|hard-coded|subtotal React/,
+  'Blocked Nota FG explains implementation jargon instead of the operator decision')
 assert.match(laundryPage, /actionLocked = writerLocked \|\| !actionAllowed/)
 assert.match(qcPage, /actionLocked = writerLocked \|\| !canPost/)
 const cp6FontSizes = [...workspaceCss.matchAll(/font-size:\s*([\d.]+)px/g)].map((match) => Number(match[1]))
@@ -433,6 +445,21 @@ for (const token of [
   'CP6_POSTGRES_CLIENT_SERVER_COMPATIBILITY.txt',
   'test "$client_major" = "$server_major"',
 ]) assert.ok(workflow.includes(token), `CP6 disposable database toolchain guard missing: ${token}`)
+assert.equal(occurrences(workflow, '--exclude-extension=pg_cron'), 2,
+  'Both and only the CP6 preflight/race clones must omit server-bound pg_cron')
+for (const token of [
+  'scripts/verify-cp6-disposable-clone.sh',
+  'cp6-proof/CP6_PREFLIGHT_CLONE_BOUNDARY',
+  'cp6-proof/CP6_RACE_CLONE_BOUNDARY',
+]) assert.ok(workflow.includes(token), `CP6 disposable clone proof missing: ${token}`)
+for (const token of [
+  "source_pg_cron_count", "clone_pg_cron_count", "test \"$source_pg_cron_count\" = '1'",
+  "test \"$clone_pg_cron_count\" = '0'", '--schema=erp', '--no-owner',
+  '--restrict-key="$restrict_key"', 'cmp -s "$source_erp_dump" "$clone_erp_dump"',
+  'erp_schema_grants_sequences_rows=IDENTICAL', 'status=PASS',
+]) assert.ok(cloneVerifier.includes(token), `CP6 disposable clone verifier missing: ${token}`)
+assert.equal(sha256(gitignore), 'b3fbafd905cf6f028db98274a05811af388886e01d3209c59e098134e19b42d4',
+  'CP6 changed the frozen CP5 .gitignore instead of keeping proof ownership explicit')
 
 for (const token of [
   'Reliability Data adalah Dewa. Keuangan, stok, dan HPP adalah Raja.',
