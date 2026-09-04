@@ -1084,8 +1084,54 @@ def main():
         ('Penerimaan laundry ini sudah dipakai QC',),
     )
 
+    # A Final-SKU facade commit deliberately produces two durable receipts
+    # under the same UUID: the public CP6 envelope and the authoritative
+    # private FG-posting envelope.  Bind each UUID to its exact operation so
+    # the proof rejects both missing receipts and any unrelated/duplicate
+    # idempotency fact instead of accepting a loose aggregate count.
+    winner_facade_expectations = [
+        (REQUESTS['delivery_winner'], 'cp6_laundry_qc_action_v1:post_delivery'),
+        (REQUESTS['receipt_winner'], 'cp6_laundry_qc_action_v1:post_receipt'),
+        (REQUESTS['failed_wash_winner'], 'cp6_laundry_qc_action_v1:post_failed_wash'),
+        (REQUESTS['failed_wash_reverse'], 'cp6_laundry_qc_action_v1:reverse_receipt'),
+        (REQUESTS['invoice_qc_post'], 'cp6_laundry_qc_action_v1:post_final_sku'),
+        (REQUESTS['invoice_qc_reverse'], 'cp6_laundry_qc_action_v1:reverse_final_sku'),
+        (REQUESTS['invoice_reversal_qc_post'], 'cp6_laundry_qc_action_v1:post_final_sku'),
+        (REQUESTS['invoice_reversal_qc_reverse'], 'cp6_laundry_qc_action_v1:reverse_final_sku'),
+        (REQUESTS['qc_before_invoice_post'], 'cp6_laundry_qc_action_v1:post_final_sku'),
+        (REQUESTS['qc_before_invoice_reverse'], 'cp6_laundry_qc_action_v1:reverse_final_sku'),
+        (REQUESTS['qc_before_invoice_reversal_post'], 'cp6_laundry_qc_action_v1:post_final_sku'),
+        (REQUESTS['qc_before_invoice_reversal_reverse'], 'cp6_laundry_qc_action_v1:reverse_final_sku'),
+        (REQUESTS['qc_winner'], 'cp6_laundry_qc_action_v1:post_final_sku'),
+        (REQUESTS['qc_reverse'], 'cp6_laundry_qc_action_v1:reverse_final_sku'),
+        (REQUESTS['qc_repost_winner'], 'cp6_laundry_qc_action_v1:post_final_sku'),
+    ]
+    winner_requests = [request_id for request_id, _ in winner_facade_expectations]
+    winner_operations = [operation for _, operation in winner_facade_expectations]
+    final_sku_requests = [
+        REQUESTS['invoice_qc_post'],
+        REQUESTS['invoice_reversal_qc_post'],
+        REQUESTS['qc_before_invoice_post'],
+        REQUESTS['qc_before_invoice_reversal_post'],
+        REQUESTS['qc_winner'],
+        REQUESTS['qc_repost_winner'],
+    ]
+    loser_requests = [
+        REQUESTS['delivery_loser'], REQUESTS['receipt_loser'],
+        REQUESTS['failed_wash_receipt_loser'],
+        REQUESTS['qc_loser'], REQUESTS['receipt_reverse_loser'],
+        REQUESTS['invoice_receipt_reverse_loser'],
+    ]
+
     invariants = scalar(
         """
+        with expected_facade(client_request_id,operation_name) as (
+          select * from unnest(%s::uuid[],%s::text[])
+        ), expected_final_sku(client_request_id) as (
+          select unnest(%s::uuid[])
+        ), expected_loser(client_request_id) as (
+          select unnest(%s::uuid[])
+        )
         select jsonb_build_object(
           'active_delivery_count',(select count(*) from erp.laundry_deliveries
             where po_id=%s::uuid and status<>'REVERSED'),
@@ -1141,35 +1187,49 @@ def main():
             group by e.id having sum(l.debit)<>sum(l.credit)
           ) bad),
           'execution_context_rows',(select count(*) from erp.cp6_laundry_qc_execution_context),
-          'winner_idempotency_rows',(select count(*) from erp.idempotency_requests
-            where client_request_id=any(%s::uuid[]) and status='COMPLETED'),
+          'winner_facade_idempotency_rows',(select count(*)
+            from erp.idempotency_requests i join expected_facade e
+              using(client_request_id,operation_name)
+            where i.status='COMPLETED'),
+          'winner_facade_request_ids',(select count(distinct i.client_request_id)
+            from erp.idempotency_requests i join expected_facade e
+              using(client_request_id,operation_name)
+            where i.status='COMPLETED'),
+          'winner_nested_final_sku_idempotency_rows',(select count(*)
+            from erp.idempotency_requests i join expected_final_sku e
+              using(client_request_id)
+            where i.operation_name='post_fg_partial_completion_v2'
+              and i.status='COMPLETED'),
+          'winner_nested_final_sku_request_ids',(select count(distinct i.client_request_id)
+            from erp.idempotency_requests i join expected_final_sku e
+              using(client_request_id)
+            where i.operation_name='post_fg_partial_completion_v2'
+              and i.status='COMPLETED'),
+          'unexpected_winner_idempotency_rows',(select count(*)
+            from erp.idempotency_requests i
+            where i.client_request_id in (select client_request_id from expected_facade)
+              and not (
+                i.status='COMPLETED'
+                and (
+                  exists(select 1 from expected_facade e
+                    where e.client_request_id=i.client_request_id
+                      and e.operation_name=i.operation_name)
+                  or (
+                    i.operation_name='post_fg_partial_completion_v2'
+                    and exists(select 1 from expected_final_sku e
+                      where e.client_request_id=i.client_request_id)
+                  )
+                )
+              )),
           'loser_idempotency_rows',(select count(*) from erp.idempotency_requests
-            where client_request_id=any(%s::uuid[]))
+            where client_request_id in (select client_request_id from expected_loser))
         )
         """,
         (
+            winner_requests, winner_operations, final_sku_requests, loser_requests,
             PO, delivery_id, delivery_id, delivery_id, delivery_id,
             delivery_id, receipt_id, PO, PO, PO, PO,
             PO, receipt_line, PO, PO, PO, PO, VENDOR,
-            [
-                REQUESTS['delivery_winner'], REQUESTS['receipt_winner'],
-                REQUESTS['failed_wash_winner'], REQUESTS['failed_wash_reverse'],
-                REQUESTS['invoice_qc_post'], REQUESTS['invoice_qc_reverse'],
-                REQUESTS['invoice_reversal_qc_post'],
-                REQUESTS['invoice_reversal_qc_reverse'],
-                REQUESTS['qc_before_invoice_post'],
-                REQUESTS['qc_before_invoice_reverse'],
-                REQUESTS['qc_before_invoice_reversal_post'],
-                REQUESTS['qc_before_invoice_reversal_reverse'],
-                REQUESTS['qc_winner'], REQUESTS['qc_reverse'],
-                REQUESTS['qc_repost_winner'],
-            ],
-            [
-                REQUESTS['delivery_loser'], REQUESTS['receipt_loser'],
-                REQUESTS['failed_wash_receipt_loser'],
-                REQUESTS['qc_loser'], REQUESTS['receipt_reverse_loser'],
-                REQUESTS['invoice_receipt_reverse_loser'],
-            ],
         ),
     )
     expected = {
@@ -1193,10 +1253,14 @@ def main():
         'vendor_ap_net': 0,
         'unbalanced_journals': 0,
         'execution_context_rows': 0,
-        # Exactly the 15 facade requests listed above committed. Private
-        # invoice post/reversal paths do not manufacture facade idempotency
-        # rows, and every losing request must remain absent.
-        'winner_idempotency_rows': 15,
+        # Exactly 15 public facade envelopes committed. The six Final-SKU
+        # winners each also committed their one expected private FG envelope;
+        # no other winner operation or any losing request may leave a row.
+        'winner_facade_idempotency_rows': 15,
+        'winner_facade_request_ids': 15,
+        'winner_nested_final_sku_idempotency_rows': 6,
+        'winner_nested_final_sku_request_ids': 6,
+        'unexpected_winner_idempotency_rows': 0,
         'loser_idempotency_rows': 0,
     }
     report['invariants'] = invariants
