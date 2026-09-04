@@ -3,7 +3,7 @@
   "candidate_branch": "pre-cp5/cutting-persistence-pickup-wip-r1-20260903",
   "source_base_sha": "8bfac13b91ea1be92111139e2fddcabccf9ae19a",
   "source_base_tree": "a9b193010266bb686c57709865a992769a835855",
-  "generation_parent_sha": "144f865886e8be45c0f039a6d66027db64fda55f",
+  "generation_parent_sha": "c5bf9d6d31b33e9d52942daa5a1e401b35b3ffea",
   "target_project_ref": "siimvrusnzxexizpyoib",
   "target_environment": "ERP Enteng UAT",
   "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
@@ -216,8 +216,8 @@
       "sha256": "23f854de26c66ee8bb0d5e9aa98684da31471aadd98d63c303d31e135f7d0cf9"
     },
     ".gitignore": {
-      "bytes": 346,
-      "sha256": "b3b42dbf3cae8f1447346500173bf5bd5b6b4e632177b439829be0ba48b9370a"
+      "bytes": 345,
+      "sha256": "b3fbafd905cf6f028db98274a05811af388886e01d3209c59e098134e19b42d4"
     },
     "README.md": {
       "bytes": 4528,
