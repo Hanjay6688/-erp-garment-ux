@@ -12,6 +12,7 @@ const cp45EvidencePath = resolve(root, 'docs/evidence/cp45_access_route_action_o
 const cp45EvidenceBytes = readFileSync(cp45EvidencePath)
 const cp45Evidence = JSON.parse(cp45EvidenceBytes)
 const evidence = JSON.parse(readFileSync(resolve(root, 'docs/evidence/cp5_access_route_action_ownership.json'), 'utf8'))
+const v2619cEvidence = JSON.parse(readFileSync(resolve(root, 'docs/evidence/cp5_v2619c_uat_acceptance.json'), 'utf8'))
 
 function between(source, start, end) {
   const from = source.indexOf(start)
@@ -93,10 +94,7 @@ for (const path of sourceFiles(resolve(root, 'src'))) {
 }
 
 assert.equal(evidence.format, 'CP5_ACCESS_ROUTE_ACTION_OWNERSHIP_V1')
-assert.ok([
-  'V2619C_CORRECTION_PENDING_CI_UAT_NO_GO',
-  'READY_FOR_INDEPENDENT_REAUDIT_NO_GO',
-].includes(evidence.closure_status))
+assert.equal(evidence.closure_status, 'READY_FOR_INDEPENDENT_REAUDIT_NO_GO')
 assert.equal(evidence.production_go, false)
 assert.equal(evidence.counts.backend_permissions, permissionRows.length)
 assert.equal(evidence.counts.navigation_labels, navMap.size)
@@ -168,10 +166,7 @@ assert.equal(bsRpcNames.filter((name) => name === 'erp_save_bs_resolution_action
 assert.equal(evidence.invariants.laundry_and_qc_writers_connected, false)
 assert.equal(evidence.invariants.source_only, false)
 assert.equal(evidence.invariants.uat_applied, true)
-assert.ok([
-  'RECORDED_V2618_V2618A_V2619_V2619A_V2619B_V2619C_PENDING',
-  'RECORDED_V2618_V2618A_V2619_V2619A_V2619B_V2619C',
-].includes(evidence.invariants.candidate_apply_status))
+assert.equal(evidence.invariants.candidate_apply_status, 'RECORDED_V2618_V2618A_V2619_V2619A_V2619B_V2619C')
 assert.equal(evidence.invariants.rework_accessory_selection_uses_existing_dispatcher, true)
 assert.equal(evidence.invariants.rework_partial_return_uses_existing_dispatcher, true)
 assert.equal(evidence.invariants.rework_defaults_are_server_proven_unpaid_or_remaining_entitlement, true)
@@ -195,5 +190,33 @@ assert.match(bsPage, /effectiveCanReverse = canReverse && !workspaceStale/)
 assert.equal(evidence.invariants.private_accessory_lineage_has_no_browser_table_access, true)
 assert.equal(evidence.invariants.hosted_auth_permission_e2e, 'PASS_31_OF_31')
 assert.equal(evidence.invariants.legacy_mutated, false)
+assert.equal(evidence.invariants.v2619c_uat_runtime_verified, true)
+assert.equal(evidence.invariants.v2619c_platform_ledger_exact_source, true)
+assert.equal(evidence.invariants.exact_code_head_ci_5_of_5, true)
+
+assert.equal(v2619cEvidence.format, 'CP5_V2619C_UAT_ACCEPTANCE_V1')
+assert.equal(v2619cEvidence.status, 'PASS')
+assert.equal(v2619cEvidence.correction.application_version, 'v2.6.19c')
+assert.equal(v2619cEvidence.correction.source_bytes, 13808)
+assert.equal(v2619cEvidence.correction.source_sha256, 'b11014081391f3d72e242813b09bb64c53e2aefe0f4eb42cc20e8089a57ef8ba')
+assert.equal(v2619cEvidence.correction.connector_ledger_sha256, v2619cEvidence.correction.source_sha256)
+assert.equal(v2619cEvidence.code_ci.runtime_head_sha, '49647ded395d516983417e5f6315f6f0dc707f3d')
+assert.equal(v2619cEvidence.code_ci.runtime_head_tree, '9c1b5ee3d6c225d0b7ef5b3d193e0e90ef30a2c5')
+assert.deepEqual(v2619cEvidence.code_ci.unit_tests, { files: 25, passed: 172 })
+assert.deepEqual(v2619cEvidence.code_ci.browser_tests, { cp45: 2, pre_cp5: 2, cp5: 8, total: 12 })
+assert.equal(v2619cEvidence.code_ci.ownership.unowned, 0)
+assert.equal(v2619cEvidence.hosted_uat_runtime.enabled_guard_triggers, 2)
+assert.equal(v2619cEvidence.hosted_uat_runtime.capsule_definition_mismatch, 0)
+assert.equal(v2619cEvidence.installed_function_md5.reverse_laundry_claim_resolution, 'eb83b83b5c5b1a302f56f433f919e363')
+assert.equal(v2619cEvidence.disposable_proofs.v2619c_pre_rollback_history.new_audit_rows, 0)
+assert.ok(Object.values(v2619cEvidence.post_proof_residue).every((value) => value === 0))
+assert.equal(v2619cEvidence.preexisting_state_preserved.audit_rows, 36)
+assert.equal(v2619cEvidence.post_apply_advisors.security_error, 0)
+assert.equal(v2619cEvidence.post_apply_advisors.scoped_unexpected_security_warn, 0)
+assert.equal(v2619cEvidence.post_apply_advisors.performance_warn_or_error, 0)
+assert.equal(v2619cEvidence.legacy_read_only.legacy_mutated, false)
+assert.equal(v2619cEvidence.legacy_mutated, false)
+assert.equal(v2619cEvidence.production_go, false)
+assert.equal(v2619cEvidence.independent_audit_verdict, 'PENDING')
 
 console.log(`Access ownership passed: frozen CP4.5 proof intact; CP5 owns ${permissionRows.length} backend permissions, ${navMap.size} nav labels, ${pageMap.size} routes, ${actionMap.size} sensitive actions, and ${rpcBoundaries.size} browser RPC boundaries.`)

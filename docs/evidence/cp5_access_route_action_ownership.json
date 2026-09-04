@@ -1,7 +1,7 @@
 {
   "format": "CP5_ACCESS_ROUTE_ACTION_OWNERSHIP_V1",
-  "scope": "Pre-CP5 cutting persistence, pickup, WIP, Pattern filters, CP5 BS Resolution, and v2.6.19c atomic-reversal/reconciliation candidate",
-  "closure_status": "V2619C_CORRECTION_PENDING_CI_UAT_NO_GO",
+  "scope": "Pre-CP5 cutting persistence, pickup, WIP, Pattern filters, CP5 BS Resolution, and recorded v2.6.19c atomic-reversal/reconciliation closure",
+  "closure_status": "READY_FOR_INDEPENDENT_REAUDIT_NO_GO",
   "counts": {
     "backend_permissions": 111,
     "navigation_labels": 46,
@@ -54,10 +54,13 @@
     "laundry_and_qc_writers_connected": false,
     "source_only": false,
     "uat_applied": true,
-    "candidate_apply_status": "RECORDED_V2618_V2618A_V2619_V2619A_V2619B_V2619C_PENDING",
+    "candidate_apply_status": "RECORDED_V2618_V2618A_V2619_V2619A_V2619B_V2619C",
     "hosted_auth_permission_e2e": "PASS_31_OF_31",
     "legacy_mutated": false,
-    "production_go": false
+    "production_go": false,
+    "v2619c_uat_runtime_verified": true,
+    "v2619c_platform_ledger_exact_source": true,
+    "exact_code_head_ci_5_of_5": true
   },
   "production_go": false
 }

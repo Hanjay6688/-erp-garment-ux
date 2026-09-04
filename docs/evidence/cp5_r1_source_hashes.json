@@ -3,7 +3,7 @@
   "candidate_branch": "pre-cp5/cutting-persistence-pickup-wip-r1-20260903",
   "source_base_sha": "8bfac13b91ea1be92111139e2fddcabccf9ae19a",
   "source_base_tree": "a9b193010266bb686c57709865a992769a835855",
-  "generation_parent_sha": "6673b64c4ab61bd1cf0638c60110dc6aef33553e",
+  "generation_parent_sha": "49647ded395d516983417e5f6315f6f0dc707f3d",
   "target_project_ref": "siimvrusnzxexizpyoib",
   "target_environment": "ERP Enteng UAT",
   "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
@@ -252,16 +252,16 @@
       "sha256": "e3c42af86793e7abb29aaa88d44c688ca09db94f605e048f343823d223e56f8e"
     },
     "docs/evidence/cp5_access_route_action_ownership.json": {
-      "bytes": 2742,
-      "sha256": "02a9118d974d6635c6ad6cf5f3d0dbd02ff447ec7e3c7069d8115e1ae48b42f1"
+      "bytes": 2867,
+      "sha256": "34b0212cd6b014e655e978b0089ce2fe50f8f3bafee40092cc0c2c34fd916e1d"
     },
     "docs/evidence/cp5_hosted_uat_auth_e2e.json": {
       "bytes": 15939,
       "sha256": "d8d4293770a2dee517ab8c973b48b06b4ed085fe16fb7cea99518a0aa7b081eb"
     },
     "docs/evidence/cp5_independent_audit_handoff.md": {
-      "bytes": 12454,
-      "sha256": "c4b2dc8a4772b8ff591e0cf573b73574329a12779a38db9724055ebdfa1c8a75"
+      "bytes": 12121,
+      "sha256": "35e7d0af57ed2f0200b34d7f021bb9659e13b354a39a13942646878f384f35ad"
     },
     "docs/evidence/cp5_uat_readonly_preflight.json": {
       "bytes": 1770,
@@ -274,6 +274,10 @@
     "docs/evidence/cp5_v2619b_uat_acceptance.json": {
       "bytes": 8578,
       "sha256": "ba13b7026f9676c986ea1ee97e2df576e230f27536830decfaf4ca937acf3e2c"
+    },
+    "docs/evidence/cp5_v2619c_uat_acceptance.json": {
+      "bytes": 9157,
+      "sha256": "26413816186bf130db28927c96145f3879ba5ad1de9dffd47dac633abf1937de"
     },
     "package.json": {
       "bytes": 3064,
@@ -292,8 +296,8 @@
       "sha256": "488e615a37d98a1b56d77a01afe78c58954b4d9f81a13a6df2c1648069e361f4"
     },
     "scripts/check-access-catalog.mjs": {
-      "bytes": 12251,
-      "sha256": "4108e55d6669223a5d8a7bb0a7f9a505adbef6c6d9ed61b27459f00c1ee1a3f0"
+      "bytes": 14347,
+      "sha256": "4c72e72854a8e3e2363e7dbec75329a068cd8b7474f739eca6c9680fa029646c"
     },
     "scripts/check-backend-ownership-v3.mjs": {
       "bytes": 35329,

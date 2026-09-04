@@ -1,0 +1,225 @@
+{
+  "format": "CP5_V2619C_UAT_ACCEPTANCE_V1",
+  "status": "PASS",
+  "mode": "EXACT_CODE_HEAD_CI_AND_HOSTED_UAT_RECORDED_MIGRATION",
+  "captured_at_utc": "2026-09-04T08:38:59.114Z",
+  "target_project_ref": "siimvrusnzxexizpyoib",
+  "target_environment": "ERP Enteng UAT",
+  "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
+  "correction": {
+    "application_version": "v2.6.19c",
+    "source_ledger_version": "20260904061346",
+    "platform_ledger_version": "20260904083552",
+    "name": "erp_v2_6_19c_cp5_atomic_reversal_reconciliation",
+    "source_path": "supabase/migrations/20260904061346_erp_v2_6_19c_cp5_atomic_reversal_reconciliation.sql",
+    "source_bytes": 13808,
+    "source_sha256": "b11014081391f3d72e242813b09bb64c53e2aefe0f4eb42cc20e8089a57ef8ba",
+    "connector_ledger_bytes": 13808,
+    "connector_ledger_sha256": "b11014081391f3d72e242813b09bb64c53e2aefe0f4eb42cc20e8089a57ef8ba",
+    "connector_difference": "NONE_EXACT_SOURCE_BYTES",
+    "platform_statement_count": 1,
+    "installed_at": "2026-09-04T08:35:52.935001Z",
+    "apply_path": "SUPABASE_OFFICIAL_APPLY_MIGRATION_CONNECTOR"
+  },
+  "predecessor_preserved": {
+    "application_version": "v2.6.19b",
+    "platform_ledger_version": "20260904032110",
+    "name": "erp_v2_6_19b_cp5_reliability_closure",
+    "source_bytes": 42021,
+    "source_sha256": "b1bde1a6ccd1f60dd001d99b72d479ffa0a18a6ea46bf93cd80e406e2ef0ce1d",
+    "connector_ledger_bytes": 42020,
+    "connector_ledger_sha256": "89ed4535720e12722bc1cbedd1bbcb5b7920f9ee4b6b19754214d05ac82b0e8d",
+    "rewritten_or_deleted": false
+  },
+  "code_ci": {
+    "status": "PASS",
+    "scope": "EXACT_V2619C_RUNTIME_CODE_HEAD",
+    "runtime_head_sha": "49647ded395d516983417e5f6315f6f0dc707f3d",
+    "runtime_head_tree": "9c1b5ee3d6c225d0b7ef5b3d193e0e90ef30a2c5",
+    "unit_tests": {
+      "files": 25,
+      "passed": 172
+    },
+    "browser_tests": {
+      "cp45": 2,
+      "pre_cp5": 2,
+      "cp5": 8,
+      "total": 12
+    },
+    "ownership": {
+      "inherited": 55,
+      "cutting_bridge": 15,
+      "cp5": 24,
+      "effective_unique": 89,
+      "cp5_byte_bound": 65,
+      "unowned": 0,
+      "runtime_files": 86,
+      "rpc_boundaries": 19
+    },
+    "build_push": {
+      "run_id": 33853233915,
+      "job_id": 100960561572,
+      "dist_artifact_id": 9929320072,
+      "dist_artifact_digest_sha256": "81b64664a34deb45f0e292f20c08c59524f5177dfa83c2959ef28bb3b46d8cee",
+      "browser_artifact_id": 9929318152,
+      "browser_artifact_digest_sha256": "b87cabd0db4aefb6f6956c64fb5bd5b7840ff77422163da65868d358c32ee7f2"
+    },
+    "build_pr": {
+      "run_id": 33853238388,
+      "job_id": 100960575862,
+      "dist_artifact_id": 9929260245,
+      "dist_artifact_digest_sha256": "c1e5a812c06519c9ec0ecf27c70ca4a5a0e11d9e59fe49117e4c26b68b269002",
+      "browser_artifact_id": 9929258548,
+      "browser_artifact_digest_sha256": "ec795b5e619b95bf8ee3b3ae9f24bf7d950f1c1f7f774458176f7bbc9586e95a"
+    },
+    "cp5_full_schema": {
+      "run_id": 33853233792,
+      "job_id": 100960561707,
+      "artifact_id": 9929435682,
+      "artifact_digest_sha256": "b88e9a26491e1b8b95003ec616b854595bb904bda4385b1e497d9b23f12aabc9"
+    },
+    "pre_cp5_full_schema": {
+      "run_id": 33853238358,
+      "job_id": 100960575646,
+      "artifact_id": 9929253240,
+      "artifact_digest_sha256": "33a6441aac4e10028dd97662975b12d0e6d73078219c6a2868e4f2ea8738ef02"
+    },
+    "workers_build": {
+      "check_id": 100960709349,
+      "build_id": "41f41e9d-42f6-40c0-980d-2b8fc63bb475"
+    }
+  },
+  "assertions": {
+    "active_bs_cash_compensation_blocks_claim_reversal": true,
+    "claim_reversal_and_cash_disposition_share_claim_row_lock": true,
+    "race_serializes_with_cash_winner_and_reversal_rejection": true,
+    "race_serializes_with_reversal_winner_and_cash_rejection": true,
+    "cash_disposition_requires_active_settled_claim": true,
+    "durable_pending_mutation_survives_reload": true,
+    "ambiguous_response_replays_same_request_id_payload_and_expected_version": true,
+    "writer_remains_frozen_until_exact_envelope_reconciliation": true,
+    "ordinary_refetch_cannot_discard_pending_mutation": true,
+    "confirmed_mutation_with_failed_refetch_reports_stale_truthfully": true,
+    "rollback_platform_name_and_statement_digest_bound": true,
+    "wrong_name_rollback_rejected": true,
+    "tampered_statement_rollback_rejected": true,
+    "normal_rollback_restores_predecessor": true,
+    "rollback_post_use_guard_remains_enforced": true,
+    "synthetic_cleanup_preserves_rollback_guard_and_leaves_zero_audit_residue": true,
+    "prior_accessory_partial_rework_finance_laundry_and_ownership_closures_preserved": true
+  },
+  "disposable_proofs": {
+    "authoritative_acceptance": "PASS_ROLLBACK_ONLY",
+    "serialized_race_families": 5,
+    "claim_cash_dependency_directions": 2,
+    "auth_jwt_http_assertions": 30,
+    "targeted_residue": 0,
+    "v2619c_pre_rollback_history": {
+      "new_audit_rows": 0,
+      "new_resolutions": 0,
+      "cash_resolutions": 0,
+      "new_idempotency_requests": 0
+    },
+    "rollback_ladder": "PASS_V2619C_THROUGH_V2618_TO_CP45"
+  },
+  "hosted_uat_runtime": {
+    "application_rows_v2618_through_v2619c": 6,
+    "platform_rows_v2618_through_v2619c": 6,
+    "capsule_counts": {
+      "v2618": 17,
+      "v2618a": 8,
+      "v2619": 30,
+      "v2619a": 6,
+      "v2619b": 7,
+      "v2619c": 1
+    },
+    "capsule_definition_mismatch": 0,
+    "constraint_validated": true,
+    "enabled_guard_triggers": 2,
+    "reverse_claim_owner": "postgres",
+    "reverse_claim_security_definer": true,
+    "reverse_claim_search_path": "EMPTY",
+    "reverse_claim_client_execute": false,
+    "private_capsule_rls": true,
+    "private_capsule_policy_count": 0,
+    "private_capsule_client_access": false
+  },
+  "installed_function_md5": {
+    "public_workspace": "fb86492bd5e86d9f110892c9b9534c02",
+    "public_save_action": "786b539e210b7a56e837f3f37f75a117",
+    "save_laundry_claim_v2": "ad401dcf66738cbdccd0cae329c32674",
+    "bs_accessory_bom_options_v1": "c232978a5e2402dd3db9fd0cf92b077c",
+    "guard_laundry_claim_capacity_on_resolution": "f656bf67545395dffedbd89b027bfe32",
+    "guard_laundry_receipt_source_capacity_on_post": "a2666231dad8315b67ae5ea15b959a69",
+    "validate_laundry_claim_lineage": "c6340f59dc4fa802a9e8f5f7fca495a1",
+    "set_rework_accessory_selection_basis_v2619b": "d71e06d0f0bdb8317972462cab765c08",
+    "reverse_laundry_claim_resolution": "eb83b83b5c5b1a302f56f433f919e363"
+  },
+  "post_proof_residue": {
+    "auth_users": 0,
+    "app_users": 0,
+    "bs_cases": 0,
+    "bs_resolutions": 0,
+    "rework_orders": 0,
+    "rework_accessory_decisions": 0,
+    "rework_accessory_selection_lines": 0,
+    "laundry_claims": 0,
+    "laundry_receipts": 0,
+    "laundry_deliveries": 0,
+    "fg_lots": 0,
+    "fg_accessory_cost_snapshots": 0,
+    "contractor_accessory_reimbursement_entitlements": 0,
+    "idempotency_requests": 0,
+    "bs_resolution_execution_context": 0,
+    "waiting_on_lock": 0,
+    "active_non_self_sessions": 0,
+    "transactions_over_5m": 0,
+    "idle_in_transaction": 0
+  },
+  "preexisting_state_preserved": {
+    "audit_rows": 36,
+    "application_migration_rows_v2618_through_v2619c": 6,
+    "platform_migration_rows_v2618_through_v2619c": 6
+  },
+  "post_apply_advisors": {
+    "observed_at_utc": "2026-09-04T08:36:48.530Z",
+    "security_error": 0,
+    "scoped_unexpected_security_warn": 0,
+    "intentional_authenticated_security_definer_warn": [
+      "public.erp_get_bs_resolution_workspace_v1",
+      "public.erp_save_bs_resolution_action_v1"
+    ],
+    "security_definer_reason": "Intentional authenticated facades with internal permission checks; owner postgres, empty search_path, anonymous denial, and private-table denial are verified.",
+    "private_rls_without_policy_info": [
+      "erp.bs_resolution_v2619c_rollback_capsule"
+    ],
+    "private_rls_without_policy_reason": "Intentional deny-by-default private rollback capsule; browser roles have no direct grants.",
+    "performance_warn_or_error": 0,
+    "scoped_foreign_key_info_count": 4,
+    "unused_index_info_reason": "Informational on empty UAT; no v2.6.19c index was added or removed."
+  },
+  "legacy_read_only": {
+    "observed_at_utc": "2026-09-04T08:37:25.156725Z",
+    "platform_migration_count": 272,
+    "latest_platform_version": "20260829204756",
+    "application_migration_count": 38,
+    "latest_application_version": "v2.6.9a",
+    "cp5_platform_entries": 0,
+    "cp5_application_entries": 0,
+    "cp5_relations_or_capsules": 0,
+    "cp5_facade": false,
+    "v2619c_reverse_contract": false,
+    "auth_users": 0,
+    "app_users": 0,
+    "waiting_on_lock": 0,
+    "active_non_self_sessions": 0,
+    "transactions_over_5m": 0,
+    "idle_in_transaction": 0,
+    "legacy_mutated": false
+  },
+  "hosted_http_auth_retest": false,
+  "hosted_http_auth_note": "Exact-code-head disposable CI passed 30 Auth/JWT assertions. Hosted UAT was verified through exact ledger bytes, live ACL/RLS/owner/search_path/function fingerprints, invariants, and zero residue; no hosted password user was created.",
+  "legacy_mutated": false,
+  "production_go": false,
+  "independent_audit_verdict": "PENDING"
+}
