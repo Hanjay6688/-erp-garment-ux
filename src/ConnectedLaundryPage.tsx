@@ -15,7 +15,7 @@ import type { Json } from './types/database.preconnect'
 import './connected-laundry-qc.css'
 
 type RunAction = (
-  action: 'POST_DELIVERY' | 'POST_RECEIPT' | 'REVERSE_DELIVERY' | 'REVERSE_RECEIPT',
+  action: 'POST_DELIVERY' | 'POST_RECEIPT' | 'POST_FAILED_WASH' | 'REVERSE_DELIVERY' | 'REVERSE_RECEIPT',
   payload: Json,
   expectedVersion: number | null,
   retireCommittedForm: () => void,
@@ -192,6 +192,91 @@ function ReturnLaundryForm({ workspace, writerLocked, canPost, onAction }: {
   </section>
 }
 
+type FailedWashCustody = '' | 'RETRY_AT_VENDOR' | 'RETURN_UNPROCESSED'
+
+function FailedWashForm({ workspace, writerLocked, canPost, onAction }: {
+  workspace: LaundryQcWorkspace; writerLocked: boolean; canPost: boolean; onAction: RunAction
+}) {
+  const candidates = workspace.deliveries.filter((row) => ['SENT', 'PARTIAL_RETURN'].includes(row.status)
+    && row.physical_outstanding_qty_pcs > 0 && row.active_claim_qty_pcs === 0)
+  const [deliveryId, setDeliveryId] = useState('')
+  const [processId, setProcessId] = useState('')
+  const [custodyOutcome, setCustodyOutcome] = useState<FailedWashCustody>('')
+  const [physicalAt, setPhysicalAt] = useState('')
+  const [reason, setReason] = useState('')
+  const [confirmed, setConfirmed] = useState(false)
+  const [quantities, setQuantities] = useState<Record<string, string>>({})
+  useEffect(() => setConfirmed(false), [workspace])
+  const actionLocked = writerLocked || !canPost
+  const delivery = candidates.find((row) => row.delivery_id === deliveryId) ?? null
+  const physicalIso = cp6WibPhysicalTimeToIso(physicalAt)
+  const rate = delivery ? findLaundryRateAt(workspace, delivery.vendor_id, processId, physicalIso ?? '') : null
+  const lines = delivery?.sizes.map((row) => ({
+    delivery_batch_size_line_id: row.delivery_batch_size_line_id,
+    qty_attempted_pcs: quantity(quantities[row.delivery_batch_size_line_id] ?? '0'),
+  })).filter((row) => row.qty_attempted_pcs > 0) ?? []
+  const total = lines.reduce((sum, row) => sum + row.qty_attempted_pcs, 0)
+  const invalidQuantity = delivery?.sizes.some((row) =>
+    parseQuantity(quantities[row.delivery_batch_size_line_id] ?? '0') === null) ?? false
+  const over = delivery?.sizes.some((row) =>
+    quantity(quantities[row.delivery_batch_size_line_id] ?? '0') > row.outstanding_qty_pcs) ?? false
+  const fullReturnEligible = Boolean(delivery && delivery.status === 'SENT'
+    && delivery.returned_qty_pcs === 0 && delivery.physical_outstanding_qty_pcs === delivery.qty_sent_pcs)
+  const fullReturnExact = Boolean(delivery && lines.length === delivery.sizes.length
+    && delivery.sizes.every((row) => quantity(quantities[row.delivery_batch_size_line_id] ?? '0') === row.qty_sent_pcs))
+  const valid = Boolean(delivery && canPost && workspace.readiness.laundry_writer_ready
+    && processId && custodyOutcome && physicalIso && rate && total > 0 && !invalidQuantity && !over
+    && (custodyOutcome !== 'RETURN_UNPROCESSED' || fullReturnEligible && fullReturnExact)
+    && reason.trim().length >= 4 && confirmed)
+  const reset = () => {
+    setDeliveryId(''); setProcessId(''); setCustodyOutcome(''); setPhysicalAt('')
+    setReason(''); setQuantities({}); setConfirmed(false)
+  }
+  const fillOutstanding = () => {
+    if (!delivery) return
+    setQuantities(Object.fromEntries(delivery.sizes.map((row) => [
+      row.delivery_batch_size_line_id,
+      String(custodyOutcome === 'RETURN_UNPROCESSED' ? row.qty_sent_pcs : row.outstanding_qty_pcs),
+    ])))
+    setConfirmed(false)
+  }
+
+  return <section className="clq-panel">
+    <header><div><span>JASA GAGAL CUCI · BIAYA TANPA GOOD / BS PALSU</span><h2>Catat attempt yang benar-benar ditagih vendor</h2><p>Pakai hanya bila vendor memang berhak menagih jasa yang gagal. Sistem menyimpan biaya attempt tanpa memalsukan penerimaan barang.</p></div><AlertTriangle/></header>
+    <Cp6ActionBlocked allowed={canPost} action="jasa gagal cuci berbayar" requirement="izin Post Laundry"/>
+    <div className="clq-form-grid">
+      <label className="wide"><span>SURAT KIRIM YANG MENGALAMI GAGAL CUCI</span><select aria-label="SURAT KIRIM GAGAL CUCI" value={deliveryId} disabled={actionLocked} onChange={(event) => {
+        setDeliveryId(event.target.value); setCustodyOutcome(''); setQuantities({}); setConfirmed(false)
+      }}><option value="">Pilih pengiriman aktif…</option>{candidates.map((row) => <option key={row.delivery_id} value={row.delivery_id}>{row.delivery_number} · {row.vendor_name} · {row.po_number} · di vendor {row.physical_outstanding_qty_pcs} pcs</option>)}</select></label>
+      <label><span>PROSES YANG GAGAL TETAPI DITAGIH</span><select aria-label="PROSES GAGAL CUCI" value={processId} disabled={actionLocked} onChange={(event) => { setProcessId(event.target.value); setConfirmed(false) }}><option value="">Pilih proses/tagihan…</option>{workspace.lookups.wash_processes.map((row) => <option key={row.id} value={row.id}>{row.code} · {row.name}</option>)}</select></label>
+      <label><span>POSISI FISIK SETELAH KEJADIAN</span><select aria-label="POSISI FISIK GAGAL CUCI" value={custodyOutcome} disabled={actionLocked || !delivery} onChange={(event) => {
+        const next = event.target.value as FailedWashCustody
+        setCustodyOutcome(next)
+        setQuantities(next === 'RETURN_UNPROCESSED' && delivery
+          ? Object.fromEntries(delivery.sizes.map((row) => [row.delivery_batch_size_line_id, String(row.qty_sent_pcs)]))
+          : {})
+        setConfirmed(false)
+      }}><option value="">Pilih posisi fisik…</option><option value="RETRY_AT_VENDOR">Tetap di vendor untuk dicoba lagi</option><option value="RETURN_UNPROCESSED" disabled={!fullReturnEligible}>Seluruh pengiriman kembali tanpa diproses</option></select></label>
+      <label><span>WAKTU KEJADIAN FISIK · WIB</span><input aria-label="WAKTU GAGAL CUCI" type="datetime-local" value={physicalAt} disabled={actionLocked} onChange={(event) => { setPhysicalAt(event.target.value); setConfirmed(false) }}/><small>Wajib diisi operator · {CP6_BUSINESS_TIME_LABEL}</small></label>
+      <label className="wide"><span>BUKTI / ALASAN TAGIHAN</span><input aria-label="ALASAN TAGIHAN GAGAL CUCI" value={reason} disabled={actionLocked} onChange={(event) => { setReason(event.target.value); setConfirmed(false) }} placeholder="Contoh: kimia habis setelah proses dimulai; vendor menagih satu attempt"/></label>
+    </div>
+    {delivery ? <div className="clq-line-editor"><header><div><strong>{delivery.delivery_number} · {delivery.vendor_name}</strong><small>{delivery.model_code} · {delivery.group_number} · Batch {delivery.batch_no}</small></div><button type="button" disabled={actionLocked || !custodyOutcome} onClick={fillOutstanding}>{custodyOutcome === 'RETURN_UNPROCESSED' ? 'Isi seluruh kiriman' : 'Isi seluruh yang di vendor'}</button></header>{delivery.sizes.filter((row) => row.outstanding_qty_pcs > 0).map((row) => <label key={row.delivery_batch_size_line_id}><span><b>Ukuran {row.size_code}</b><small>Dikirim {row.qty_sent_pcs} · masih di vendor {row.outstanding_qty_pcs}</small></span><input aria-label={`Qty gagal cuci size ${row.size_code}`} inputMode="numeric" disabled={actionLocked || custodyOutcome === 'RETURN_UNPROCESSED'} value={quantities[row.delivery_batch_size_line_id] ?? '0'} onChange={(event) => {
+      setQuantities((current) => ({ ...current, [row.delivery_batch_size_line_id]: event.target.value })); setConfirmed(false)
+    }}/></label>)}</div> : <div className="clq-empty"><Waves/><strong>Pilih pengiriman yang gagal dicuci</strong><small>Jumlah dimulai dari nol dan tidak pernah diturunkan otomatis agar input fisik tidak berubah diam-diam.</small></div>}
+    <div className="clq-impact"><ShieldCheck/><span><strong>{total} pcs attempt · {rate ? `${money(rate.rate_per_pcs)}/pcs · biaya ${money(total * rate.rate_per_pcs)}` : 'tarif authoritative belum cocok'}</strong><small>{custodyOutcome === 'RETRY_AT_VENDOR' ? 'Fisik tetap tercatat di Laundry. Attempt berikutnya boleh menjadi biaya kedua hanya bila benar-benar terjadi.' : custodyOutcome === 'RETURN_UNPROCESSED' ? 'Seluruh fisik kembali ke Jahit. Pengiriman lama ditutup append-only dan kirim ulang wajib menjadi dokumen baru.' : 'Pilih posisi fisik; biaya dan custody tidak boleh diasumsikan.'}</small></span></div>
+    {invalidQuantity || over || custodyOutcome === 'RETURN_UNPROCESSED' && (!fullReturnEligible || !fullReturnExact) ? <div className="clq-warning"><AlertTriangle/><span>{invalidQuantity ? 'Qty attempt harus bilangan bulat pcs; input tidak diubah diam-diam.' : over ? 'Qty attempt melebihi fisik yang masih berada pada vendor.' : 'Kembali tanpa diproses wajib seluruh pengiriman asli, per ukuran, tanpa penerimaan parsial sebelumnya. Gunakan alur penerimaan biasa untuk barang yang hanya kembali sebagian.'}</span></div> : null}
+    <label className="clq-confirm"><input type="checkbox" checked={confirmed} disabled={actionLocked} onChange={(event) => setConfirmed(event.target.checked)}/><span>Saya sudah mencocokkan bukti tagihan, proses, jumlah per ukuran, waktu, dan posisi fisik. Tidak ada Good atau BS yang diterima dari attempt ini.</span></label>
+    <footer><button className="primary" aria-label="Post jasa gagal cuci atomic" disabled={actionLocked || !valid} onClick={() => {
+      if (!delivery || !physicalIso || !custodyOutcome) return
+      void onAction('POST_FAILED_WASH', {
+        delivery_id: delivery.delivery_id, wash_process_id: processId,
+        custody_outcome: custodyOutcome, physical_at: physicalIso,
+        reason: reason.trim(), lines,
+      }, delivery.row_version, reset)
+    }}><ShieldCheck/> Catat attempt berbayar</button></footer>
+  </section>
+}
+
 function LaundryHistory({ workspace, writerLocked, canReverse, onAction }: {
   workspace: LaundryQcWorkspace; writerLocked: boolean; canReverse: boolean; onAction: RunAction
 }) {
@@ -201,10 +286,15 @@ function LaundryHistory({ workspace, writerLocked, canReverse, onAction }: {
     <header><History/><div><span>RIWAYAT TRANSAKSI</span><h2>Dokumen tidak dihapus; kesalahan dibalik dengan catatan baru</h2></div></header>
     <Cp6ActionBlocked allowed={canReverse} action="koreksi riwayat Laundry" requirement="izin Reverse Laundry"/>
     {workspace.deliveries.length === 0 ? <div className="clq-empty"><History/><strong>Belum ada pengiriman CP6</strong><small>Data lama yang belum punya hubungan lengkap tetap dipisahkan dan tidak ditebak.</small></div> : workspace.deliveries.map((delivery) => <article key={delivery.delivery_id}>
-      <header><div><small>{formatCp6WibDateTime(delivery.physical_at)} · versi {delivery.row_version}</small><strong>{delivery.delivery_number} · {delivery.vendor_name}</strong><span>{delivery.po_number} · {delivery.group_number} · Batch {delivery.batch_no} · {delivery.qty_sent_pcs} pcs</span></div><em>{status(delivery.status)}</em></header>
-      <div className="clq-history-facts"><span><small>SUDAH KEMBALI</small><b>{delivery.returned_qty_pcs}</b></span><span><small>BELUM KEMBALI</small><b>{delivery.physical_outstanding_qty_pcs}</b></span><span><small>KLAIM AKTIF</small><b>{delivery.active_claim_qty_pcs}</b></span><span><small>TARIF SAAT DIKIRIM</small><b>{money(delivery.estimated_rate_snapshot)}</b></span></div>
-      {delivery.receipts.map((receipt) => <div className="clq-reversal" key={receipt.id}><span><small>{receipt.number} · versi {receipt.row_version}</small><strong>{status(receipt.status)} · {formatCp6WibDateTime(receipt.physical_at)}</strong><small>{receipt.reversal_blocker ?? 'Siap dibalik secara authoritative.'}</small></span><input aria-label={`Alasan reversal ${receipt.number}`} value={reasons[receipt.id] ?? ''} disabled={writerLocked || !canReverse || !receipt.reversible} onChange={(event) => setReason(receipt.id, event.target.value)} placeholder="Alasan pembatalan · wajib"/><button disabled={writerLocked || !canReverse || !receipt.reversible || (reasons[receipt.id] ?? '').trim().length < 4} onClick={() => void onAction('REVERSE_RECEIPT', { receipt_id: receipt.id, reason: reasons[receipt.id].trim() }, receipt.row_version, () => setReason(receipt.id, ''))}><Undo2/> Batalkan penerimaan</button></div>)}
-      <div className="clq-reversal"><span><small>GAGAL CUCI TANPA TAGIHAN</small><strong>Batalkan surat kirim, lalu buat pengiriman baru</strong><small>{delivery.reversal_blocker ?? 'Siap dibalik secara authoritative.'}</small></span><input aria-label={`Alasan reversal ${delivery.delivery_number}`} value={reasons[delivery.delivery_id] ?? ''} disabled={writerLocked || !canReverse || !delivery.reversible} onChange={(event) => setReason(delivery.delivery_id, event.target.value)} placeholder="Bukti seluruh barang kembali"/><button disabled={writerLocked || !canReverse || !delivery.reversible || (reasons[delivery.delivery_id] ?? '').trim().length < 4} onClick={() => void onAction('REVERSE_DELIVERY', { delivery_id: delivery.delivery_id, reason: reasons[delivery.delivery_id].trim() }, delivery.row_version, () => setReason(delivery.delivery_id, ''))}><RotateCcw/> Batalkan pengiriman</button></div>
+      <header><div><small>{formatCp6WibDateTime(delivery.physical_at)} · versi {delivery.row_version}</small><strong>{delivery.delivery_number} · {delivery.vendor_name}</strong><span>{delivery.po_number} · {delivery.group_number} · Batch {delivery.batch_no} · {delivery.qty_sent_pcs} pcs</span></div><em>{delivery.returned_unprocessed_qty_pcs > 0 ? 'Kembali tanpa proses' : status(delivery.status)}</em></header>
+      <div className="clq-history-facts"><span><small>GOOD / BS KEMBALI</small><b>{delivery.returned_qty_pcs}</b></span><span><small>KEMBALI TANPA PROSES</small><b>{delivery.returned_unprocessed_qty_pcs}</b></span><span><small>MASIH DI VENDOR</small><b>{delivery.physical_outstanding_qty_pcs}</b></span><span><small>KLAIM AKTIF</small><b>{delivery.active_claim_qty_pcs}</b></span><span><small>TARIF SAAT DIKIRIM</small><b>{money(delivery.estimated_rate_snapshot)}</b></span></div>
+      {delivery.receipts.map((receipt) => {
+        const failedAttempt = receipt.event_kind === 'FAILED_WASH_ATTEMPT'
+        const custody = receipt.custody_outcome === 'RETURN_UNPROCESSED'
+          ? 'seluruh fisik kembali tanpa diproses' : 'fisik tetap di vendor'
+        return <div className="clq-reversal" key={receipt.id}><span><small>{receipt.number} · versi {receipt.row_version}</small><strong>{failedAttempt ? `Cuci gagal berbayar · ${custody}` : 'Penerimaan fisik'} · {status(receipt.status)} · {formatCp6WibDateTime(receipt.physical_at)}</strong>{failedAttempt ? <small>{receipt.attempted_qty_pcs} pcs · {receipt.process_name} · tarif {receipt.actual_rate === null ? 'tidak ada' : money(receipt.actual_rate)} · biaya {receipt.actual_cost === null ? 'tidak ada' : money(receipt.actual_cost)}</small> : null}<small>{receipt.reversal_blocker ?? (failedAttempt && receipt.custody_outcome === 'RETURN_UNPROCESSED' ? 'Biaya dapat dibalik; fakta fisik kembali tetap dipertahankan.' : 'Siap dibalik secara authoritative.')}</small></span><input aria-label={`Alasan reversal ${receipt.number}`} value={reasons[receipt.id] ?? ''} disabled={writerLocked || !canReverse || !receipt.reversible} onChange={(event) => setReason(receipt.id, event.target.value)} placeholder="Alasan pembatalan · wajib"/><button disabled={writerLocked || !canReverse || !receipt.reversible || (reasons[receipt.id] ?? '').trim().length < 4} onClick={() => void onAction('REVERSE_RECEIPT', { receipt_id: receipt.id, reason: reasons[receipt.id].trim() }, receipt.row_version, () => setReason(receipt.id, ''))}><Undo2/> {failedAttempt ? 'Batalkan biaya attempt' : 'Batalkan penerimaan'}</button></div>
+      })}
+      <div className="clq-reversal"><span><small>{delivery.returned_unprocessed_qty_pcs > 0 ? 'FAKTA FISIK SUDAH DIKEMBALIKAN' : 'GAGAL CUCI TANPA TAGIHAN'}</small><strong>{delivery.returned_unprocessed_qty_pcs > 0 ? 'Histori pengiriman lama tetap disimpan; kirim ulang dengan dokumen baru' : 'Batalkan surat kirim, lalu buat pengiriman baru'}</strong><small>{delivery.reversal_blocker ?? 'Siap dibalik secara authoritative.'}</small></span><input aria-label={`Alasan reversal ${delivery.delivery_number}`} value={reasons[delivery.delivery_id] ?? ''} disabled={writerLocked || !canReverse || !delivery.reversible} onChange={(event) => setReason(delivery.delivery_id, event.target.value)} placeholder="Bukti seluruh barang kembali"/><button disabled={writerLocked || !canReverse || !delivery.reversible || (reasons[delivery.delivery_id] ?? '').trim().length < 4} onClick={() => void onAction('REVERSE_DELIVERY', { delivery_id: delivery.delivery_id, reason: reasons[delivery.delivery_id].trim() }, delivery.row_version, () => setReason(delivery.delivery_id, ''))}><RotateCcw/> Batalkan pengiriman</button></div>
     </article>)}
   </section>
 }
@@ -217,7 +307,7 @@ export default function ConnectedLaundryPage() {
   const canReverse = hasPermission(access, SENSITIVE_ACTION_PERMISSION.reverseLaundry)
   const roleName = identity.status === 'AUTHORIZED' ? identity.profile.roleName : 'Tanpa role'
   const bridge = useLaundryQcWorkspace('LAUNDRY')
-  const [tab, setTab] = useState<'SEND' | 'RETURN' | 'HISTORY'>('SEND')
+  const [tab, setTab] = useState<'SEND' | 'RETURN' | 'FAILED' | 'HISTORY'>('SEND')
   const kpis = useMemo(() => ({
     ready: bridge.workspace ? totalReadyToSend(bridge.workspace.ready_batches) : 0,
     outside: bridge.workspace?.deliveries.reduce((sum, row) => sum + row.physical_outstanding_qty_pcs, 0) ?? 0,
@@ -237,18 +327,20 @@ export default function ConnectedLaundryPage() {
     <Cp6PermissionNotice roleName={roleName} capabilities={[
       { label: 'Kirim Laundry', allowed: canCreate && canPost, requirement: 'Buat + Post Laundry' },
       { label: 'Terima Laundry', allowed: canPost, requirement: 'Post Laundry' },
+      { label: 'Gagal cuci berbayar', allowed: canPost, requirement: 'Post Laundry' },
       { label: 'Koreksi riwayat', allowed: canReverse, requirement: 'Reverse Laundry' },
     ]}/>
     {bridge.error ? <div className="clq-alert error"><AlertTriangle/><span>{bridge.error}</span>{bridge.pending && !bridge.corruptedEnvelope ? <button aria-label="Reconcile UUID lama" onClick={() => void bridge.reconcile()} disabled={bridge.busy}><RefreshCw/> Cek status transaksi</button> : bridge.committedRefreshRequired || bridge.workspaceStale && !bridge.corruptedEnvelope ? <button onClick={() => void bridge.load()} disabled={bridge.busy}><RefreshCw/> Refetch</button> : null}</div> : null}
     {bridge.notice ? <div className="clq-alert notice"><CheckCircle2/><span>{bridge.notice}</span></div> : null}
     {bridge.busy ? <div className="clq-busy"><LoaderCircle className="spin"/> Menjaga transaksi tetap satu kali…</div> : null}
     <section className="clq-kpis"><article><span>SIAP DIKIRIM</span><strong>{kpis.ready}</strong><small>pcs selesai jahit, belum dikirim</small></article><article><span>DI LUAR PABRIK</span><strong>{kpis.outside}</strong><small>pcs belum kembali</small></article><article><span>TERIKAT KLAIM</span><strong>{kpis.claims}</strong><small>Stuck/Missing aktif</small></article><article><span>DATA LAMA TERPISAH</span><strong>{bridge.workspace?.legacy_unlinked.delivery_count ?? 0}</strong><small>tidak ditebak atau digabung</small></article></section>
-    <nav className="clq-tabs"><button className={tab === 'SEND' ? 'active' : ''} onClick={() => setTab('SEND')}>Kirim ke Laundry</button><button className={tab === 'RETURN' ? 'active' : ''} onClick={() => setTab('RETURN')}>Terima kembali</button><button className={tab === 'HISTORY' ? 'active' : ''} onClick={() => setTab('HISTORY')}>Riwayat & koreksi</button><label><Search/><input value={bridge.query} onChange={(event) => bridge.search(event.target.value)} placeholder="Cari PO, Potongan, atau vendor…"/></label></nav>
+    <nav className="clq-tabs"><button className={tab === 'SEND' ? 'active' : ''} onClick={() => setTab('SEND')}>Kirim ke Laundry</button><button className={tab === 'RETURN' ? 'active' : ''} onClick={() => setTab('RETURN')}>Terima kembali</button><button className={tab === 'FAILED' ? 'active' : ''} onClick={() => setTab('FAILED')}>Cuci gagal berbayar</button><button className={tab === 'HISTORY' ? 'active' : ''} onClick={() => setTab('HISTORY')}>Riwayat & koreksi</button><label><Search/><input value={bridge.query} onChange={(event) => bridge.search(event.target.value)} placeholder="Cari PO, Potongan, atau vendor…"/></label></nav>
     {bridge.loading && !bridge.workspace ? <div className="clq-loading"><LoaderCircle className="spin"/> Memuat data resmi…</div> : bridge.workspace ? <>
       {tab === 'SEND' ? <SendLaundryForm key={`send-${bridge.committedSequence}`} workspace={bridge.workspace} writerLocked={bridge.writerLocked} canCreate={canCreate} canPost={canPost} onAction={onAction}/> : null}
       {tab === 'RETURN' ? <ReturnLaundryForm key={`return-${bridge.committedSequence}`} workspace={bridge.workspace} writerLocked={bridge.writerLocked} canPost={canPost} onAction={onAction}/> : null}
+      {tab === 'FAILED' ? <FailedWashForm key={`failed-${bridge.committedSequence}`} workspace={bridge.workspace} writerLocked={bridge.writerLocked} canPost={canPost} onAction={onAction}/> : null}
       {tab === 'HISTORY' ? <LaundryHistory workspace={bridge.workspace} writerLocked={bridge.writerLocked} canReverse={canReverse} onAction={onAction}/> : null}
     </> : <div className="clq-loading"><AlertTriangle/> Data belum tersedia; semua tombol transaksi tetap terkunci.</div>}
-    <section className="clq-rare-case"><AlertTriangle/><div><strong>Kasus khusus: cuci gagal tetapi vendor tetap menagih</strong><p>Jangan catat sebagai penerimaan biasa karena biaya Laundry dan HPP bisa ganda. Jika tidak ditagih, batalkan pengiriman lalu kirim ulang. Jika tetap ditagih, tahan kasus sampai alur biaya jasa khusus tersedia.</p></div></section>
+    <section className="clq-rare-case"><AlertTriangle/><div><strong>Jangan campur dua kejadian cuci gagal.</strong><p>Tanpa tagihan: batalkan surat kirim setelah seluruh fisik kembali. Dengan tagihan: gunakan “Cuci gagal berbayar”; setiap attempt punya biaya sendiri, sementara posisi fisik tetap dicatat terpisah dan tidak pernah dibuat menjadi Good/BS palsu.</p></div></section>
   </div>
 }

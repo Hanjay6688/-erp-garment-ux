@@ -1,6 +1,6 @@
 export type LaundryQcScope = 'LAUNDRY' | 'QC'
 export type LaundryQcAction =
-  | 'POST_DELIVERY' | 'POST_RECEIPT' | 'REVERSE_DELIVERY'
+  | 'POST_DELIVERY' | 'POST_RECEIPT' | 'POST_FAILED_WASH' | 'REVERSE_DELIVERY'
   | 'REVERSE_RECEIPT' | 'POST_FINAL_SKU' | 'REVERSE_FINAL_SKU'
 
 export type Cp6Lookup = { id: string; code: string; name: string }
@@ -35,7 +35,11 @@ export type Cp6DeliverySize = {
 }
 export type Cp6ReceiptSummary = {
   id: string; number: string; status: string; row_version: number
-  physical_at: string; actual_cost: number | null
+  physical_at: string; actual_cost: number | null; actual_rate: number | null
+  cost_status: string; event_kind: 'PHYSICAL_RECEIPT' | 'FAILED_WASH_ATTEMPT'
+  failed_wash_attempt_id: string | null
+  custody_outcome: 'RETRY_AT_VENDOR' | 'RETURN_UNPROCESSED' | null
+  attempted_qty_pcs: number | null; process_name: string | null
   reversible: boolean; reversal_blocker: string | null
 }
 export type Cp6Delivery = {
@@ -48,7 +52,8 @@ export type Cp6Delivery = {
   process_name: string | null; delivery_line_id: string; qty_sent_pcs: number
   estimated_rate_snapshot: number; estimated_cost: number
   distribution_batch_id: string; batch_no: number; returned_qty_pcs: number
-  physical_outstanding_qty_pcs: number; active_claim_qty_pcs: number
+  physical_outstanding_qty_pcs: number; returned_unprocessed_qty_pcs: number
+  active_claim_qty_pcs: number
   reversible: boolean; reversal_blocker: string | null
   sizes: Cp6DeliverySize[]; receipts: Cp6ReceiptSummary[]
 }
@@ -79,7 +84,7 @@ export type LaundryQcWorkspace = {
   readiness: {
     laundry_writer_ready: boolean; qc_writer_ready: boolean
     lineage_integrity_ok: true; lineage_issue_count: 0
-    no_fixture_fallback: true; failed_wash_with_charge_supported: false
+    no_fixture_fallback: true; failed_wash_with_charge_supported: true
   }
   ready_batches: Cp6ReadyBatch[]; deliveries: Cp6Delivery[]
   qc_queue: Cp6QcQueueRow[]; qc_history: Cp6QcHistory[]
@@ -234,13 +239,15 @@ function parseReadyBatch(value: unknown): Cp6ReadyBatch {
   }
 }
 
-function parseDeliverySize(value: unknown): Cp6DeliverySize {
+function parseDeliverySize(value: unknown, deliveryReversed: boolean): Cp6DeliverySize {
   const raw = record(value, 'Size pengiriman Laundry')
   const sent = integer(raw.qty_sent_pcs, 'Qty kirim size', 1)
   const good = integer(raw.good_returned_qty_pcs, 'Good kembali')
   const bs = integer(raw.bs_returned_qty_pcs, 'BS Laundry kembali')
   const outstanding = integer(raw.outstanding_qty_pcs, 'Outstanding Laundry')
-  if (good + bs > sent || outstanding !== sent - good - bs) throw new Error('Konservasi size pengiriman Laundry tidak konsisten.')
+  if (good + bs > sent || outstanding !== (deliveryReversed ? 0 : sent - good - bs)) {
+    throw new Error('Konservasi size pengiriman Laundry tidak konsisten.')
+  }
   return {
     delivery_batch_size_line_id: id(raw.delivery_batch_size_line_id, 'ID sumber batch/size'),
     size_id: id(raw.size_id, 'ID size pengiriman'), size_code: text(raw.size_code, 'Kode size pengiriman'),
@@ -256,17 +263,44 @@ function parseReceiptSummary(value: unknown): Cp6ReceiptSummary {
   if (reversible !== (blocker === null)) {
     throw new Error('Status dan penghambat reversal penerimaan kontradiktif.')
   }
+  const eventKind = text(raw.event_kind, 'Jenis peristiwa Laundry')
+  if (!['PHYSICAL_RECEIPT', 'FAILED_WASH_ATTEMPT'].includes(eventKind)) {
+    throw new Error('Jenis peristiwa Laundry tidak dikenal.')
+  }
+  const failedAttemptId = raw.failed_wash_attempt_id === null
+    ? null : id(raw.failed_wash_attempt_id, 'ID attempt cuci gagal')
+  const custodyOutcome = raw.custody_outcome === null
+    ? null : text(raw.custody_outcome, 'Hasil custody cuci gagal')
+  const attemptedQty = raw.attempted_qty_pcs === null
+    ? null : integer(raw.attempted_qty_pcs, 'Qty attempt cuci gagal', 1)
+  const processName = nullableText(raw.process_name, 'Proses attempt cuci gagal')
+  if (eventKind === 'PHYSICAL_RECEIPT'
+    && (failedAttemptId !== null || custodyOutcome !== null || attemptedQty !== null || processName !== null)) {
+    throw new Error('Penerimaan fisik membawa metadata attempt cuci gagal.')
+  }
+  if (eventKind === 'FAILED_WASH_ATTEMPT'
+    && (failedAttemptId === null || !['RETRY_AT_VENDOR', 'RETURN_UNPROCESSED'].includes(custodyOutcome ?? '')
+      || attemptedQty === null || processName === null)) {
+    throw new Error('Metadata attempt cuci gagal tidak lengkap.')
+  }
   return {
     id: id(raw.id, 'ID penerimaan'), number: text(raw.number, 'Nomor penerimaan'),
     status: text(raw.status, 'Status penerimaan'), row_version: integer(raw.row_version, 'Versi penerimaan', 1),
     physical_at: timestamp(raw.physical_at, 'Waktu penerimaan'), actual_cost: optionalMoney(raw.actual_cost, 'Biaya aktual'),
+    actual_rate: optionalMoney(raw.actual_rate, 'Tarif aktual'), cost_status: text(raw.cost_status, 'Status biaya'),
+    event_kind: eventKind as Cp6ReceiptSummary['event_kind'], failed_wash_attempt_id: failedAttemptId,
+    custody_outcome: custodyOutcome as Cp6ReceiptSummary['custody_outcome'],
+    attempted_qty_pcs: attemptedQty, process_name: processName,
     reversible, reversal_blocker: blocker,
   }
 }
 
 function parseDelivery(value: unknown): Cp6Delivery {
   const raw = record(value, 'Pengiriman Laundry')
-  const sizes = list(raw.sizes, 'Size pengiriman').map(parseDeliverySize)
+  const deliveryStatus = text(raw.status, 'Status pengiriman')
+  const deliveryReversed = deliveryStatus === 'REVERSED'
+  const sizes = list(raw.sizes, 'Size pengiriman')
+    .map((row) => parseDeliverySize(row, deliveryReversed))
   const receipts = list(raw.receipts, 'Penerimaan Laundry').map(parseReceiptSummary)
   assertUnique(sizes, (size) => size.delivery_batch_size_line_id, 'Sumber batch/size pengiriman Laundry')
   assertUnique(sizes, (size) => size.size_id, 'Size dalam satu pengiriman Laundry')
@@ -274,11 +308,14 @@ function parseDelivery(value: unknown): Cp6Delivery {
   const sent = integer(raw.qty_sent_pcs, 'Total dikirim', 1)
   const returned = integer(raw.returned_qty_pcs, 'Total kembali')
   const outstanding = integer(raw.physical_outstanding_qty_pcs, 'Total di luar')
+  const returnedUnprocessed = integer(raw.returned_unprocessed_qty_pcs, 'Total kembali tanpa diproses')
   const activeClaim = integer(raw.active_claim_qty_pcs, 'Qty claim aktif')
   const reversible = bool(raw.reversible, 'Status reversal pengiriman')
   const blocker = nullableText(raw.reversal_blocker, 'Penghambat reversal pengiriman')
   if (sizes.reduce((sum, row) => sum + row.qty_sent_pcs, 0) !== sent
-    || returned > sent || outstanding !== sent - returned
+    || returned > sent || returnedUnprocessed > sent
+    || returned + returnedUnprocessed + outstanding !== sent
+    || deliveryReversed !== (returnedUnprocessed === sent)
     || sizes.reduce((sum, row) => sum + row.outstanding_qty_pcs, 0) !== outstanding
     || activeClaim > outstanding) {
     throw new Error('Agregat pengiriman Laundry tidak sama dengan fakta size.')
@@ -288,7 +325,7 @@ function parseDelivery(value: unknown): Cp6Delivery {
   }
   return {
     delivery_id: id(raw.delivery_id, 'ID pengiriman'), delivery_number: text(raw.delivery_number, 'Nomor pengiriman'),
-    row_version: integer(raw.row_version, 'Versi pengiriman', 1), status: text(raw.status, 'Status pengiriman'),
+    row_version: integer(raw.row_version, 'Versi pengiriman', 1), status: deliveryStatus,
     physical_at: timestamp(raw.physical_at, 'Waktu pengiriman'), target_dyeing_color: text(raw.target_dyeing_color, 'Warna target'),
     special_instruction: nullableText(raw.special_instruction, 'Instruksi khusus'), po_id: id(raw.po_id, 'ID PO pengiriman'),
     po_number: text(raw.po_number, 'Nomor PO pengiriman'), model_id: id(raw.model_id, 'ID model pengiriman'),
@@ -305,6 +342,7 @@ function parseDelivery(value: unknown): Cp6Delivery {
     estimated_cost: number(raw.estimated_cost, 'Biaya estimasi'),
     distribution_batch_id: id(raw.distribution_batch_id, 'ID batch pengiriman'), batch_no: integer(raw.batch_no, 'Nomor batch pengiriman', 1),
     returned_qty_pcs: returned, physical_outstanding_qty_pcs: outstanding,
+    returned_unprocessed_qty_pcs: returnedUnprocessed,
     active_claim_qty_pcs: activeClaim,
     reversible, reversal_blocker: blocker, sizes,
     receipts,
@@ -361,7 +399,7 @@ export function parseLaundryQcWorkspace(value: unknown): LaundryQcWorkspace {
   }
   const lookupsRaw = record(raw.lookups, 'Lookup Laundry/QC')
   const readinessRaw = record(raw.readiness, 'Kesiapan writer Laundry/QC')
-  if (readinessRaw.no_fixture_fallback !== true || readinessRaw.failed_wash_with_charge_supported !== false
+  if (readinessRaw.no_fixture_fallback !== true || readinessRaw.failed_wash_with_charge_supported !== true
     || readinessRaw.lineage_integrity_ok !== true
     || integer(readinessRaw.lineage_issue_count, 'Jumlah masalah lineage') !== 0) {
     throw new Error('Batas reliability Laundry/QC tidak cocok.')
@@ -477,7 +515,7 @@ export function parseLaundryQcWorkspace(value: unknown): LaundryQcWorkspace {
     readiness: {
       laundry_writer_ready: expectedLaundryReady, qc_writer_ready: expectedQcReady,
       lineage_integrity_ok: true, lineage_issue_count: 0,
-      no_fixture_fallback: true, failed_wash_with_charge_supported: false,
+      no_fixture_fallback: true, failed_wash_with_charge_supported: true,
     },
     ready_batches: readyBatches, deliveries, qc_queue: qcQueue, qc_history: qcHistory,
     legacy_unlinked: {

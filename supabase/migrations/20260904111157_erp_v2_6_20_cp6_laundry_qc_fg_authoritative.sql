@@ -30,6 +30,8 @@ begin
      or to_regclass('erp.cp6_v2620_acl_capsule') is not null
      or to_regclass('erp.laundry_delivery_batch_size_lines') is not null
      or to_regclass('erp.laundry_receipt_batch_size_lines') is not null
+     or to_regclass('erp.laundry_failed_wash_attempts') is not null
+     or to_regclass('erp.laundry_failed_wash_batch_size_lines') is not null
      or to_regclass('erp.cp6_laundry_qc_execution_context') is not null
      or to_regclass('erp.idx_products_brand_sku_effective_v2620') is not null
      or to_regclass('erp.uq_cp6_wip_reversal_source_v2620') is not null
@@ -309,6 +311,8 @@ where p.oid in(
   'erp.run_v259_integrity_checks()'::regprocedure,
   'erp.apply_migration_master_rows(uuid)'::regprocedure,
   'erp.desired_laundry_accrual(uuid)'::regprocedure,
+  'erp.sync_laundry_accrual(uuid,date)'::regprocedure,
+  'erp.rebuild_po_hpp(uuid,text)'::regprocedure,
   'erp.post_fg_partial_completion_v2_legacy_v2610(jsonb,uuid,bigint)'::regprocedure
 );
 
@@ -333,7 +337,7 @@ where c.oid in(
 
 do $capsule_guard$
 begin
-  if (select count(*) from erp.cp6_v2620_rollback_capsule)<>9
+  if (select count(*) from erp.cp6_v2620_rollback_capsule)<>11
      or exists(
        select 1 from erp.cp6_v2620_rollback_capsule c
        where c.definition_sha256 is distinct from encode(extensions.digest(
@@ -358,6 +362,12 @@ begin
      or (select md5(c.object_definition) from erp.cp6_v2620_rollback_capsule c
          where c.object_regidentity='erp.desired_laundry_accrual(uuid)'::regprocedure::text)
           is distinct from '4ded5af2c9c604357d18c783b00dcdb9'
+     or (select md5(c.object_definition) from erp.cp6_v2620_rollback_capsule c
+         where c.object_regidentity='erp.sync_laundry_accrual(uuid,date)'::regprocedure::text)
+          is distinct from '9d5afd8d5c23e81a924a87cb4ef0037d'
+     or (select md5(c.object_definition) from erp.cp6_v2620_rollback_capsule c
+         where c.object_regidentity='erp.rebuild_po_hpp(uuid,text)'::regprocedure::text)
+          is distinct from 'bf5593c35375abb35c0c6d531ee375e6'
      or (select md5(c.object_definition) from erp.cp6_v2620_rollback_capsule c
          where c.object_regidentity='erp.post_fg_partial_completion_v2_legacy_v2610(jsonb,uuid,bigint)'::regprocedure::text)
           is distinct from '4704db79cbcd2ad70384c6dbdfe85572'
@@ -499,6 +509,37 @@ create table erp.laundry_receipt_batch_size_lines(
 );
 create index idx_laundry_receipt_batch_size_source_v2620
   on erp.laundry_receipt_batch_size_lines(delivery_batch_size_line_id,receipt_line_id);
+
+-- A paid failed wash is a service fact, not a fake physical receipt.  The
+-- receipt header/line is retained only as the canonical vendor-invoice source;
+-- exact attempted pieces live here and never enter GOOD, BS, QC, or FG.
+create table erp.laundry_failed_wash_attempts(
+  id uuid primary key default gen_random_uuid(),
+  receipt_id uuid not null unique references erp.laundry_receipts(id) on delete restrict,
+  receipt_line_id uuid not null unique references erp.laundry_receipt_lines(id) on delete restrict,
+  delivery_id uuid not null references erp.laundry_deliveries(id) on delete restrict,
+  custody_outcome text not null check(custody_outcome in('RETRY_AT_VENDOR','RETURN_UNPROCESSED')),
+  qty_attempted_pcs integer not null check(qty_attempted_pcs>0),
+  return_wip_event_id uuid unique references erp.wip_stage_events(id) on delete restrict,
+  reason text not null check(length(btrim(reason))>=4),
+  created_by uuid not null references erp.app_users(id) on delete restrict,
+  created_at timestamptz not null default clock_timestamp(),
+  check((custody_outcome='RETRY_AT_VENDOR' and return_wip_event_id is null)
+     or custody_outcome='RETURN_UNPROCESSED')
+);
+
+create table erp.laundry_failed_wash_batch_size_lines(
+  id uuid primary key default gen_random_uuid(),
+  attempt_id uuid not null references erp.laundry_failed_wash_attempts(id) on delete restrict,
+  delivery_batch_size_line_id uuid not null references erp.laundry_delivery_batch_size_lines(id) on delete restrict,
+  size_id uuid not null references erp.sizes(id) on delete restrict,
+  qty_attempted_pcs integer not null check(qty_attempted_pcs>0),
+  created_by uuid not null references erp.app_users(id) on delete restrict,
+  created_at timestamptz not null default clock_timestamp(),
+  unique(attempt_id,delivery_batch_size_line_id)
+);
+create index idx_failed_wash_source_size_v2620
+  on erp.laundry_failed_wash_batch_size_lines(delivery_batch_size_line_id,attempt_id);
 create index idx_products_brand_sku_effective_v2620
   on erp.products(brand_id,lower(btrim(sku)),size_id,effective_from,effective_to,id);
 
@@ -775,16 +816,149 @@ as $function$
     join erp.laundry_deliveries ld on ld.id=ldl.delivery_id
     left join posted_receipt_cost rc on rc.delivery_line_id=ldl.id
     where ld.po_id=p_po_id and ld.status not in('DRAFT','REVERSED')
+  ), active_delivery_amount as(
+    select coalesce(sum(
+      unbilled_actual_estimate
+      +greatest(qty_sent_pcs-costed_qty,0)*coalesce(estimated_rate_snapshot,0)
+    ),0)::numeric amount
+    from line_status
+  ), returned_failed_wash_amount as(
+    select coalesce(sum(rl.actual_cost),0)::numeric amount
+    from erp.laundry_failed_wash_attempts a
+    join erp.laundry_receipt_lines rl on rl.id=a.receipt_line_id
+    join erp.laundry_receipts r on r.id=a.receipt_id and r.status='POSTED'
+    join erp.laundry_deliveries d on d.id=a.delivery_id and d.status='REVERSED'
+    where d.po_id=p_po_id and rl.actual_cost_status='ESTIMATED'
   )
-  select coalesce(sum(
-    unbilled_actual_estimate
-    +greatest(qty_sent_pcs-costed_qty,0)*coalesce(estimated_rate_snapshot,0)
-  ),0)::numeric
-  from line_status
+  select a.amount+f.amount
+  from active_delivery_amount a cross join returned_failed_wash_amount f
 $function$;
 alter function erp.desired_laundry_accrual(uuid) owner to postgres;
 revoke all on function erp.desired_laundry_accrual(uuid)
   from public,anon,authenticated,service_role;
+
+-- The predecessor synchronizer locks the state row, but a PO has no row on
+-- its first accrual. Two first callers could therefore both observe zero,
+-- post the same delta twice, and only serialize at the final UPSERT. Use the
+-- same per-PO transaction fence as rebuild_po_hpp before reading the state so
+-- invoice, reversal, foreground, and background callers share one money/HPP
+-- order even while the state row is absent.
+create or replace function erp.sync_laundry_accrual(
+  p_po_id uuid,p_effective_date date default current_date
+)
+returns void
+language plpgsql
+security definer
+set search_path=''
+as $function$
+declare
+  v_old numeric(24,6):=0;
+  v_new numeric(24,6):=0;
+  v_delta numeric(24,6):=0;
+  v_event uuid;
+  v_journal uuid;
+  v_abs numeric(24,2);
+begin
+  perform erp.require_internal();
+  perform pg_advisory_xact_lock(hashtextextended('PO_HPP:'||p_po_id::text,0));
+  select accrued_amount into v_old
+  from erp.laundry_cost_accrual_state
+  where po_id=p_po_id
+  for update;
+  v_old:=coalesce(v_old,0);
+  v_new:=coalesce(erp.desired_laundry_accrual(p_po_id),0);
+  v_delta:=v_new-v_old;
+  if abs(v_delta)<=0.005 then
+    insert into erp.laundry_cost_accrual_state(po_id,accrued_amount,updated_at)
+    values(p_po_id,v_new,now())
+    on conflict(po_id) do update set
+      accrued_amount=excluded.accrued_amount,updated_at=now();
+    return;
+  end if;
+  insert into erp.laundry_cost_accrual_events(
+    po_id,old_amount,new_amount,delta_amount,effective_date
+  ) values(p_po_id,v_old,v_new,v_delta,p_effective_date)
+  returning id into v_event;
+  v_abs:=round(abs(v_delta),2);
+  if v_delta>0 then
+    v_journal:=erp.post_journal(
+      'LAUNDRY_ESTIMATE_ACCRUAL',v_event,p_effective_date,
+      'Laundry estimate accrual',jsonb_build_array(
+        jsonb_build_object('mapping_key','WIP','debit',v_abs,'credit',0,'po_id',p_po_id),
+        jsonb_build_object('mapping_key','ACCRUED_MANUFACTURING','debit',0,'credit',v_abs,'po_id',p_po_id)
+      )
+    );
+  else
+    v_journal:=erp.post_journal(
+      'LAUNDRY_ESTIMATE_ACCRUAL',v_event,p_effective_date,
+      'Laundry estimate accrual reduction',jsonb_build_array(
+        jsonb_build_object('mapping_key','ACCRUED_MANUFACTURING','debit',v_abs,'credit',0,'po_id',p_po_id),
+        jsonb_build_object('mapping_key','WIP','debit',0,'credit',v_abs,'po_id',p_po_id)
+      )
+    );
+  end if;
+  update erp.laundry_cost_accrual_events
+  set journal_entry_id=v_journal where id=v_event;
+  insert into erp.laundry_cost_accrual_state(po_id,accrued_amount,updated_at)
+  values(p_po_id,v_new,now())
+  on conflict(po_id) do update set
+    accrued_amount=excluded.accrued_amount,updated_at=now();
+end
+$function$;
+alter function erp.sync_laundry_accrual(uuid,date) owner to postgres;
+
+-- The predecessor HPP builder already owns every allocation rule.  Patch only
+-- its two Laundry totals, under an exact predecessor MD5 gate captured above:
+-- an active delivery already includes service-only attempts, while a fully
+-- returned delivery contributes only its retained failed-wash attempt costs.
+-- The exact pre-definition remains in the rollback capsule.
+do $patch_failed_wash_hpp$
+declare
+  v_definition text;
+  v_global_anchor constant text:='  into v_laundry,v_pending from dl;';
+  v_group_anchor constant text:='      into v_group_laundry from dl;';
+  v_global_addition constant text:=$sql$
+
+  select v_laundry+coalesce(sum(rl.actual_cost),0)
+    into v_laundry
+  from erp.laundry_failed_wash_attempts a
+  join erp.laundry_receipt_lines rl on rl.id=a.receipt_line_id
+  join erp.laundry_receipts rh on rh.id=a.receipt_id and rh.status='POSTED'
+  join erp.laundry_deliveries ld on ld.id=a.delivery_id and ld.status='REVERSED'
+  where ld.po_id=p_po_id and rl.actual_cost_status in('ESTIMATED','FINAL');
+$sql$;
+  v_group_addition constant text:=$sql$
+
+      select v_group_laundry+coalesce(sum(rl.actual_cost),0)
+        into v_group_laundry
+      from erp.laundry_failed_wash_attempts a
+      join erp.laundry_receipt_lines rl on rl.id=a.receipt_line_id
+      join erp.laundry_receipts rh on rh.id=a.receipt_id and rh.status='POSTED'
+      join erp.laundry_deliveries ld on ld.id=a.delivery_id and ld.status='REVERSED'
+      join erp.laundry_delivery_lines ldl on ldl.delivery_id=ld.id
+      where ld.po_id=p_po_id and ldl.cutting_group_id=r.lineage_group_id
+        and rl.actual_cost_status in('ESTIMATED','FINAL');
+$sql$;
+begin
+  select pg_get_functiondef('erp.rebuild_po_hpp(uuid,text)'::regprocedure)
+    into v_definition;
+  if (length(v_definition)-length(replace(v_definition,v_global_anchor,'')))
+       /length(v_global_anchor)<>1
+     or (length(v_definition)-length(replace(v_definition,v_group_anchor,'')))
+       /length(v_group_anchor)<>1
+     or position('laundry_failed_wash_attempts' in v_definition)>0 then
+    raise exception 'DRIFT_CONCURRENT_MUTATION_DETECTED: HPP Laundry patch anchors are not exact';
+  end if;
+  v_definition:=replace(v_definition,v_global_anchor,v_global_anchor||v_global_addition);
+  v_definition:=replace(v_definition,v_group_anchor,v_group_anchor||v_group_addition);
+  execute v_definition;
+  if (select (length(pg_get_functiondef('erp.rebuild_po_hpp(uuid,text)'::regprocedure))
+       -length(replace(pg_get_functiondef('erp.rebuild_po_hpp(uuid,text)'::regprocedure),
+         'laundry_failed_wash_attempts','')))/length('laundry_failed_wash_attempts'))<>2 then
+    raise exception 'CP6 failed-wash HPP installation is incomplete';
+  end if;
+end
+$patch_failed_wash_hpp$;
 
 -- WIP stage history is append-only.  The predecessor reversal functions
 -- restore document/finance/stock state but do not append the inverse of their
@@ -808,6 +982,10 @@ declare
   v_reason text:=coalesce(
     nullif(btrim(current_setting('app.change_reason',true)),''),
     'Canonical Laundry document reversal'
+  );
+  v_physical_at timestamptz:=coalesce(
+    nullif(current_setting('app.physical_at',true),'')::timestamptz,
+    clock_timestamp()
   );
 begin
   if old.status='REVERSED' or new.status<>'REVERSED' then return new; end if;
@@ -854,7 +1032,7 @@ begin
           then 'CP6_LAUNDRY_RECEIPT_WIP_REVERSAL'
         else 'CP6_LAUNDRY_BS_WIP_REVERSAL'
       end,
-      w.id,clock_timestamp(),erp.current_app_user_id(),
+      w.id,v_physical_at,erp.current_app_user_id(),
       'Append-only inverse of WIP event '||w.id::text||': '||v_reason
     from erp.wip_stage_events w
     where(
@@ -939,7 +1117,7 @@ begin
     )
     select
       w.po_id,w.cutting_group_id,w.stage_to,w.stage_from,w.qty_pcs,w.contractor_id,
-      'CP6_LAUNDRY_DELIVERY_WIP_REVERSAL',w.id,clock_timestamp(),
+      'CP6_LAUNDRY_DELIVERY_WIP_REVERSAL',w.id,v_physical_at,
       erp.current_app_user_id(),
       'Append-only inverse of WIP event '||w.id::text||': '||v_reason
     from erp.wip_stage_events w
@@ -1005,7 +1183,7 @@ create table erp.cp6_laundry_qc_execution_context(
   transaction_id bigint not null,
   actor_key text not null,
   action text not null check(action in(
-    'POST_DELIVERY','POST_RECEIPT','POST_FINAL_SKU'
+    'POST_DELIVERY','POST_RECEIPT','POST_FAILED_WASH','POST_FINAL_SKU'
   )),
   permission_key text not null,
   client_request_id uuid not null,
@@ -1016,10 +1194,14 @@ create table erp.cp6_laundry_qc_execution_context(
 
 alter table erp.laundry_delivery_batch_size_lines enable row level security;
 alter table erp.laundry_receipt_batch_size_lines enable row level security;
+alter table erp.laundry_failed_wash_attempts enable row level security;
+alter table erp.laundry_failed_wash_batch_size_lines enable row level security;
 alter table erp.cp6_laundry_qc_execution_context enable row level security;
 revoke all on table
   erp.laundry_delivery_batch_size_lines,
   erp.laundry_receipt_batch_size_lines,
+  erp.laundry_failed_wash_attempts,
+  erp.laundry_failed_wash_batch_size_lines,
   erp.cp6_laundry_qc_execution_context
 from public,anon,authenticated,service_role;
 
@@ -1068,7 +1250,7 @@ begin
       and c.transaction_id=txid_current()
       and c.actor_key=erp._idempotency_actor_key()
       and(
-        (c.action in('POST_DELIVERY','POST_RECEIPT')
+        (c.action in('POST_DELIVERY','POST_RECEIPT','POST_FAILED_WASH')
           and c.permission_key='production.laundry.post')
         or(c.action='POST_FINAL_SKU'
           and c.permission_key='production.final_sku.post')
@@ -2075,6 +2257,44 @@ begin
           or max(rl.qty_stuck)<>0 or max(rl.qty_missing)<>0
      ) broken_receipt)
     +(select count(*)
+      from erp.laundry_failed_wash_attempts a
+      join erp.laundry_receipts r on r.id=a.receipt_id
+      join erp.laundry_receipt_lines rl on rl.id=a.receipt_line_id
+      join erp.laundry_delivery_lines dl on dl.id=rl.delivery_line_id
+      join erp.laundry_deliveries d on d.id=a.delivery_id
+      where r.delivery_id<>a.delivery_id or rl.receipt_id<>r.id
+         or dl.delivery_id<>d.id
+         or rl.qty_good_received<>0 or rl.qty_bs_laundry<>0
+         or rl.qty_stuck<>0 or rl.qty_missing<>0
+         or rl.actual_wash_process_id is null
+         or rl.actual_rate_snapshot is null or rl.actual_rate_snapshot<0
+         or rl.actual_cost_status not in('ESTIMATED','FINAL')
+         or rl.actual_cost is distinct from round(a.qty_attempted_pcs*rl.actual_rate_snapshot,2)
+         or exists(select 1 from erp.laundry_receipt_batch_size_lines x
+           where x.receipt_line_id=rl.id)
+         or (select coalesce(sum(x.qty_attempted_pcs),0)
+             from erp.laundry_failed_wash_batch_size_lines x
+             where x.attempt_id=a.id)<>a.qty_attempted_pcs
+         or exists(
+           select 1 from erp.laundry_failed_wash_batch_size_lines x
+           join erp.laundry_delivery_batch_size_lines s
+             on s.id=x.delivery_batch_size_line_id
+           where x.attempt_id=a.id and(
+             s.delivery_line_id<>dl.id or s.size_id<>x.size_id
+             or x.qty_attempted_pcs>s.qty_sent_pcs
+           )
+         )
+         or (a.custody_outcome='RETRY_AT_VENDOR' and a.return_wip_event_id is not null)
+         or (a.custody_outcome='RETURN_UNPROCESSED' and not exists(
+           select 1 from erp.wip_stage_events rv
+           join erp.wip_stage_events src
+             on src.id=rv.source_id and src.source_type='LAUNDRY_DELIVERY_LINE'
+           where rv.id=a.return_wip_event_id and src.source_id=dl.id
+             and rv.source_type='CP6_LAUNDRY_DELIVERY_WIP_REVERSAL'
+             and rv.stage_from='LAUNDRY' and rv.stage_to='SEWING'
+             and rv.qty_pcs=a.qty_attempted_pcs
+         )))
+    +(select count(*)
      from erp.qc_inspection_items qi
      join erp.qc_inspections q on q.id=qi.inspection_id
      left join erp.laundry_receipt_batch_size_lines rx
@@ -2192,9 +2412,10 @@ begin
         coalesce((select sum(rl.qty_good_received+rl.qty_bs_laundry)
           from erp.laundry_receipt_lines rl join erp.laundry_receipts r on r.id=rl.receipt_id
           where rl.delivery_line_id=dl.id and r.status='POSTED'),0)::bigint returned_qty_pcs,
-        greatest(dl.qty_sent_pcs-coalesce((select sum(rl.qty_good_received+rl.qty_bs_laundry)
+        case when d.status='REVERSED' then 0 else greatest(dl.qty_sent_pcs-coalesce((select sum(rl.qty_good_received+rl.qty_bs_laundry)
           from erp.laundry_receipt_lines rl join erp.laundry_receipts r on r.id=rl.receipt_id
-          where rl.delivery_line_id=dl.id and r.status='POSTED'),0),0)::bigint physical_outstanding_qty_pcs,
+          where rl.delivery_line_id=dl.id and r.status='POSTED'),0),0) end::bigint physical_outstanding_qty_pcs,
+        case when d.status='REVERSED' then dl.qty_sent_pcs else 0 end::bigint returned_unprocessed_qty_pcs,
         coalesce((select sum(cl.qty_claimed) from erp.laundry_claims cl
           where cl.delivery_id=d.id and cl.claim_type in('STUCK','MISSING')
             and cl.status<>'REJECTED'),0)::bigint active_claim_qty_pcs,
@@ -2206,8 +2427,9 @@ begin
               sx.qty_sent_pcs,
               coalesce(sum(rx.qty_good_received) filter(where rh.status='POSTED'),0)::bigint good_returned_qty_pcs,
               coalesce(sum(rx.qty_bs_laundry) filter(where rh.status='POSTED'),0)::bigint bs_returned_qty_pcs,
-              greatest(sx.qty_sent_pcs-coalesce(sum(rx.qty_good_received+rx.qty_bs_laundry)
-                filter(where rh.status='POSTED'),0),0)::bigint outstanding_qty_pcs
+              case when d.status='REVERSED' then 0 else
+                greatest(sx.qty_sent_pcs-coalesce(sum(rx.qty_good_received+rx.qty_bs_laundry)
+                  filter(where rh.status='POSTED'),0),0) end::bigint outstanding_qty_pcs
             from erp.laundry_delivery_batch_size_lines sx
             join erp.sizes s on s.id=sx.size_id
             left join erp.laundry_receipt_batch_size_lines rx on rx.delivery_batch_size_line_id=sx.id
@@ -2219,15 +2441,35 @@ begin
         coalesce((select jsonb_agg(jsonb_build_object(
           'id',r.id,'number',r.receipt_number,'status',r.status,'row_version',r.row_version,
           'physical_at',r.physical_at,'actual_cost',rl.actual_cost,
+          'actual_rate',rl.actual_rate_snapshot,'cost_status',rl.actual_cost_status,
+          'event_kind',case when fa.id is null then 'PHYSICAL_RECEIPT' else 'FAILED_WASH_ATTEMPT' end,
+          'failed_wash_attempt_id',fa.id,'custody_outcome',fa.custody_outcome,
+          'attempted_qty_pcs',fa.qty_attempted_pcs,'process_name',aw.process_name,
           'reversible',rr.reversal_blocker is null,
           'reversal_blocker',rr.reversal_blocker
         ) order by r.physical_at desc,r.id desc)
           from erp.laundry_receipts r join erp.laundry_receipt_lines rl on rl.receipt_id=r.id
+          left join erp.laundry_failed_wash_attempts fa on fa.receipt_line_id=rl.id
+          left join erp.wash_processes aw on aw.id=rl.actual_wash_process_id
           cross join lateral(
             select case
               when r.status<>'POSTED' then 'Receipt bukan POSTED aktif.'
-              when d.status='REVERSED' then 'Surat kirim sumber sudah direverse.'
               when po.status='FINISHED' then 'PO sudah FINISHED; reopen downstream terlebih dahulu.'
+              when fa.id is not null and exists(
+                select 1 from erp.vendor_invoice_items vii
+                join erp.vendor_invoices vi on vi.id=vii.invoice_id
+                where vii.receipt_line_id=rl.id and vi.status<>'REVERSED'
+              ) then 'Biaya cuci gagal sudah ditagih; reverse invoice vendor aktif terlebih dahulu.'
+              when fa.id is not null and(
+                exists(select 1 from erp.laundry_receipt_batch_size_lines bx
+                  where bx.receipt_line_id=rl.id)
+                or exists(select 1 from erp.qc_inspection_items qi
+                  where qi.source_laundry_receipt_line_id=rl.id)
+                or exists(select 1 from erp.wip_stage_events wip
+                  where wip.source_type='LAUNDRY_RECEIPT_LINE' and wip.source_id=rl.id)
+              ) then 'Attempt cuci gagal memiliki histori fisik/QC yang tidak semestinya; reversal dikunci untuk investigasi.'
+              when fa.id is not null then null
+              when d.status='REVERSED' then 'Surat kirim sumber sudah direverse.'
               when exists(
                 select 1 from erp.qc_inspection_items qi
                 join erp.qc_inspections qh on qh.id=qi.inspection_id
@@ -2433,7 +2675,7 @@ begin
       'lineage_integrity_ok',v_lineage_issue_count=0,
       'lineage_issue_count',v_lineage_issue_count,
       'no_fixture_fallback',true,
-      'failed_wash_with_charge_supported',false
+      'failed_wash_with_charge_supported',true
     ),
     'ready_batches',v_ready,'deliveries',v_deliveries,
     'qc_queue',v_qc_queue,'qc_history',v_qc_history,
@@ -2445,7 +2687,9 @@ begin
       'receipt_count',(select count(*) from erp.laundry_receipts r
         where not exists(select 1 from erp.laundry_receipt_lines rl
           join erp.laundry_receipt_batch_size_lines x on x.receipt_line_id=rl.id
-          where rl.receipt_id=r.id))
+          where rl.receipt_id=r.id)
+          and not exists(select 1 from erp.laundry_failed_wash_attempts a
+            where a.receipt_id=r.id))
     )
   );
 end
@@ -2466,6 +2710,7 @@ as $function$
 declare
   v_action text:=upper(nullif(btrim(p_action),''));
   v_reason text:=nullif(btrim(p_payload->>'reason'),'');
+  v_custody_outcome text:=upper(nullif(btrim(p_payload->>'custody_outcome'),''));
   v_hash text;
   v_cached jsonb;
   v_response jsonb;
@@ -2476,6 +2721,8 @@ declare
   v_group_id uuid:=nullif(p_payload->>'cutting_group_id','')::uuid;
   v_delivery_id uuid:=nullif(p_payload->>'delivery_id','')::uuid;
   v_receipt_id uuid;
+  v_failed_wash_attempt_id uuid;
+  v_return_wip_event_id uuid;
   v_qc_id uuid:=nullif(p_payload->>'qc_inspection_id','')::uuid;
   v_vendor_id uuid:=nullif(p_payload->>'vendor_id','')::uuid;
   v_process_id uuid:=nullif(p_payload->>'wash_process_id','')::uuid;
@@ -2505,14 +2752,14 @@ begin
   if p_client_request_id is null then raise exception 'client_request_id UUID is required'; end if;
   if v_actor is null then raise exception 'Active ERP app user is required'; end if;
   if v_action not in(
-    'POST_DELIVERY','POST_RECEIPT','REVERSE_DELIVERY',
+    'POST_DELIVERY','POST_RECEIPT','POST_FAILED_WASH','REVERSE_DELIVERY',
     'REVERSE_RECEIPT','POST_FINAL_SKU','REVERSE_FINAL_SKU'
   ) then raise exception 'Unsupported CP6 Laundry/QC action %',coalesce(v_action,'NULL'); end if;
 
   -- Physical time is operator intent. Validate it before the generic closed-payload
   -- gate so missing, timezone-less, and calendar-invalid values all fail with one
   -- actionable domain message instead of a helper or native cast error.
-  if v_action in('POST_DELIVERY','POST_RECEIPT','POST_FINAL_SKU') then
+  if v_action in('POST_DELIVERY','POST_RECEIPT','POST_FAILED_WASH','POST_FINAL_SKU') then
     if jsonb_typeof(p_payload->'physical_at') is distinct from 'string'
        or v_physical_raw is null
        or v_physical_raw !~ '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[+-]\d{2}(:\d{2})?)$' then
@@ -2589,6 +2836,34 @@ begin
         raise exception 'CP6 POST_RECEIPT line has invalid field types';
       end if;
     end loop;
+  elsif v_action='POST_FAILED_WASH' then
+    perform erp._cp3_assert_closed_json_object(
+      p_payload,
+      array['delivery_id','wash_process_id','custody_outcome','physical_at','reason','lines'],
+      array['delivery_id','wash_process_id','custody_outcome','physical_at','reason','lines'],
+      'CP6 POST_FAILED_WASH payload'
+    );
+    if jsonb_typeof(p_payload->'delivery_id')<>'string'
+       or jsonb_typeof(p_payload->'wash_process_id')<>'string'
+       or jsonb_typeof(p_payload->'custody_outcome')<>'string'
+       or v_custody_outcome not in('RETRY_AT_VENDOR','RETURN_UNPROCESSED')
+       or jsonb_typeof(p_payload->'physical_at')<>'string'
+       or jsonb_typeof(p_payload->'reason')<>'string'
+       or jsonb_typeof(p_payload->'lines')<>'array' then
+      raise exception 'CP6 POST_FAILED_WASH payload has invalid field types';
+    end if;
+    for v_line in select value from jsonb_array_elements(v_lines) loop
+      perform erp._cp3_assert_closed_json_object(
+        v_line,array['delivery_batch_size_line_id','qty_attempted_pcs'],
+        array['delivery_batch_size_line_id','qty_attempted_pcs'],
+        'CP6 POST_FAILED_WASH line'
+      );
+      if jsonb_typeof(v_line->'delivery_batch_size_line_id')<>'string'
+         or jsonb_typeof(v_line->'qty_attempted_pcs')<>'number'
+         or(v_line->>'qty_attempted_pcs')!~'^[1-9][0-9]*$' then
+        raise exception 'CP6 POST_FAILED_WASH line has invalid field types';
+      end if;
+    end loop;
   elsif v_action='POST_FINAL_SKU' then
     perform erp._cp3_assert_closed_json_object(
       p_payload,
@@ -2662,7 +2937,7 @@ begin
     raise exception 'Physical time cannot be more than five minutes in the future';
   end if;
 
-  if v_action in('POST_DELIVERY','POST_RECEIPT') then
+  if v_action in('POST_DELIVERY','POST_RECEIPT','POST_FAILED_WASH') then
     perform erp.require_permission('production.laundry.post');
     if v_action='POST_DELIVERY' then perform erp.require_permission('production.laundry.create'); end if;
   elsif v_action in('REVERSE_DELIVERY','REVERSE_RECEIPT') then
@@ -3038,6 +3313,275 @@ begin
       'hpp_effect','ACTUAL_LAUNDRY_COST_REBUILT'
     );
 
+  elsif v_action='POST_FAILED_WASH' then
+    if p_expected_version is null or v_delivery_id is null or v_process_id is null then
+      raise exception 'Delivery, failed process, and expected_version are required';
+    end if;
+    if jsonb_typeof(v_lines)<>'array' or jsonb_array_length(v_lines)=0 then
+      raise exception 'Paid failed wash requires positive attempted batch/size lines';
+    end if;
+    if exists(
+      select 1 from jsonb_to_recordset(v_lines) x(
+        delivery_batch_size_line_id uuid,qty_attempted_pcs integer
+      ) where x.delivery_batch_size_line_id is null or coalesce(x.qty_attempted_pcs,0)<=0
+    ) or exists(
+      select 1 from jsonb_to_recordset(v_lines) x(
+        delivery_batch_size_line_id uuid,qty_attempted_pcs integer
+      ) group by x.delivery_batch_size_line_id having count(*)>1
+    ) then
+      raise exception 'Failed-wash size lines must be unique positive integer pieces';
+    end if;
+
+    select min(dl.cutting_group_id::text)::uuid,count(*)::integer
+      into v_group_id,v_group_count
+    from erp.laundry_delivery_lines dl where dl.delivery_id=v_delivery_id;
+    if v_group_count<>1 or v_group_id is null then
+      raise exception 'Connected failed-wash action requires one authoritative delivery line';
+    end if;
+    perform pg_advisory_xact_lock(hashtextextended('CP6FLOW:'||v_group_id::text,0));
+    select * into v_delivery from erp.laundry_deliveries
+    where id=v_delivery_id for update;
+    if v_delivery.id is null or v_delivery.status not in('SENT','PARTIAL_RETURN') then
+      raise exception 'Paid failed wash requires an active SENT/PARTIAL_RETURN delivery';
+    end if;
+    if v_delivery.row_version<>p_expected_version then
+      raise exception 'STALE_VERSION expected %, current %',p_expected_version,v_delivery.row_version;
+    end if;
+    if v_physical_at<v_delivery.physical_at
+       or exists(select 1 from erp.laundry_receipts r
+         where r.delivery_id=v_delivery.id and r.status='POSTED'
+           and r.physical_at>v_physical_at) then
+      raise exception 'Failed-wash physical time cannot precede the send or later posted Laundry history';
+    end if;
+    if exists(select 1 from erp.laundry_claims c
+      where c.delivery_id=v_delivery.id and c.status<>'REJECTED') then
+      raise exception 'Resolve/reject active Laundry claims before recording a failed-wash service attempt';
+    end if;
+    perform 1 from erp.wash_processes w
+    where w.id=v_process_id and w.is_active for share;
+    if not found then raise exception 'An active authoritative failed wash process is required'; end if;
+    perform pg_advisory_xact_lock(hashtextextended(
+      'LRATE:'||v_delivery.vendor_id::text||':'||v_process_id::text,0
+    ));
+    select count(*)::integer,min(r.rate_per_pcs) into v_rate_count,v_rate
+    from erp.laundry_vendor_rate_versions r
+    where r.vendor_id=v_delivery.vendor_id and r.wash_process_id=v_process_id
+      and r.effective_from<=v_physical_at
+      and(r.effective_to is null or r.effective_to>v_physical_at);
+    if v_rate_count<>1 then
+      raise exception 'Exactly one authoritative failed-wash rate must be effective for this vendor/process/time; found %',v_rate_count;
+    end if;
+    perform 1 from erp.laundry_vendor_rate_versions r
+    where r.vendor_id=v_delivery.vendor_id and r.wash_process_id=v_process_id
+      and r.effective_from<=v_physical_at
+      and(r.effective_to is null or r.effective_to>v_physical_at)
+    order by r.id for share;
+    select min(dl.id::text)::uuid into v_delivery_line_id
+    from erp.laundry_delivery_lines dl where dl.delivery_id=v_delivery.id;
+    perform 1
+    from erp.laundry_delivery_batch_size_lines s
+    join jsonb_to_recordset(v_lines) x(
+      delivery_batch_size_line_id uuid,qty_attempted_pcs integer
+    ) on x.delivery_batch_size_line_id=s.id
+    order by s.id for update of s;
+    if (select count(*)
+        from erp.laundry_delivery_batch_size_lines s
+        join jsonb_to_recordset(v_lines) x(
+          delivery_batch_size_line_id uuid,qty_attempted_pcs integer
+        ) on x.delivery_batch_size_line_id=s.id
+        where s.delivery_line_id=v_delivery_line_id)<>jsonb_array_length(v_lines)
+       or exists(
+         select 1
+         from jsonb_to_recordset(v_lines) x(
+           delivery_batch_size_line_id uuid,qty_attempted_pcs integer
+         )
+         join erp.laundry_delivery_batch_size_lines s
+           on s.id=x.delivery_batch_size_line_id
+         where x.qty_attempted_pcs>s.qty_sent_pcs-coalesce((
+           select sum(rx.qty_good_received+rx.qty_bs_laundry)
+           from erp.laundry_receipt_batch_size_lines rx
+           join erp.laundry_receipt_lines rl on rl.id=rx.receipt_line_id
+           join erp.laundry_receipts rh on rh.id=rl.receipt_id
+           where rx.delivery_batch_size_line_id=s.id and rh.status='POSTED'
+         ),0)
+       ) then
+      raise exception 'Failed-wash attempted quantity exceeds the exact pieces still in Laundry custody';
+    end if;
+    select sum(x.qty_attempted_pcs)::bigint into v_total
+    from jsonb_to_recordset(v_lines) x(
+      delivery_batch_size_line_id uuid,qty_attempted_pcs integer
+    );
+    if v_custody_outcome='RETURN_UNPROCESSED' and(
+      v_delivery.status<>'SENT'
+      or exists(
+        select 1 from erp.laundry_receipt_lines rl
+        join erp.laundry_receipts rh on rh.id=rl.receipt_id
+        left join erp.laundry_failed_wash_attempts a on a.receipt_line_id=rl.id
+        where rh.delivery_id=v_delivery.id and rh.status='POSTED'
+          and a.id is null and rl.qty_good_received+rl.qty_bs_laundry>0
+      )
+      or jsonb_array_length(v_lines)<>(
+        select count(*) from erp.laundry_delivery_batch_size_lines s
+        where s.delivery_line_id=v_delivery_line_id
+      )
+      or exists(
+        select 1 from erp.laundry_delivery_batch_size_lines s
+        left join jsonb_to_recordset(v_lines) x(
+          delivery_batch_size_line_id uuid,qty_attempted_pcs integer
+        ) on x.delivery_batch_size_line_id=s.id
+        where s.delivery_line_id=v_delivery_line_id
+          and x.qty_attempted_pcs is distinct from s.qty_sent_pcs
+      )
+    ) then
+      raise exception 'Return-unprocessed is deliberately all-or-nothing: every exact sent size must return before redispatch';
+    end if;
+
+    v_receipt_id:=gen_random_uuid();
+    v_receipt_line_id:=gen_random_uuid();
+    v_failed_wash_attempt_id:=gen_random_uuid();
+    v_number:='LFW-'||to_char(v_physical_at,'YYMMDD')||'-'
+      ||upper(substr(replace(v_receipt_id::text,'-',''),1,10));
+    insert into erp.cp6_laundry_qc_execution_context(
+      backend_pid,transaction_id,actor_key,action,permission_key,client_request_id,payload
+    ) values(
+      pg_backend_pid(),txid_current(),erp._idempotency_actor_key(),v_action,
+      'production.laundry.post',p_client_request_id,p_payload
+    );
+    insert into erp.laundry_receipts(
+      id,receipt_number,delivery_id,physical_at,status,created_by
+    ) values(v_receipt_id,v_number,v_delivery.id,v_physical_at,'DRAFT',v_actor);
+    insert into erp.laundry_receipt_lines(
+      id,receipt_id,delivery_line_id,actual_wash_process_id,
+      qty_good_received,qty_bs_laundry,qty_stuck,qty_missing,
+      actual_rate_snapshot,actual_cost_status,actual_cost,notes
+    ) values(
+      v_receipt_line_id,v_receipt_id,v_delivery_line_id,v_process_id,
+      0,0,0,0,v_rate,'ESTIMATED',round(v_total*v_rate,2),
+      'CP6 paid failed-wash service only; no physical Good/BS receipt: '||v_reason
+    );
+    insert into erp.laundry_failed_wash_attempts(
+      id,receipt_id,receipt_line_id,delivery_id,custody_outcome,
+      qty_attempted_pcs,reason,created_by
+    ) values(
+      v_failed_wash_attempt_id,v_receipt_id,v_receipt_line_id,v_delivery.id,
+      v_custody_outcome,v_total,v_reason,v_actor
+    );
+    insert into erp.laundry_failed_wash_batch_size_lines(
+      attempt_id,delivery_batch_size_line_id,size_id,qty_attempted_pcs,created_by
+    ) select v_failed_wash_attempt_id,x.delivery_batch_size_line_id,s.size_id,
+        x.qty_attempted_pcs,v_actor
+      from jsonb_to_recordset(v_lines) x(
+        delivery_batch_size_line_id uuid,qty_attempted_pcs integer
+      ) join erp.laundry_delivery_batch_size_lines s
+        on s.id=x.delivery_batch_size_line_id;
+
+    if v_custody_outcome='RETURN_UNPROCESSED' then
+      perform set_config('app.physical_at',v_physical_at::text,true);
+      update erp.laundry_deliveries
+      set status='REVERSED',updated_at=clock_timestamp()
+      where id=v_delivery.id;
+      select min(rv.id::text)::uuid,count(*)::integer
+        into v_return_wip_event_id,v_group_count
+      from erp.wip_stage_events rv
+      join erp.wip_stage_events src
+        on src.id=rv.source_id and src.source_type='LAUNDRY_DELIVERY_LINE'
+      join erp.laundry_delivery_lines dl
+        on dl.id=src.source_id and dl.delivery_id=v_delivery.id
+      where rv.source_type='CP6_LAUNDRY_DELIVERY_WIP_REVERSAL';
+      if v_group_count<>1 or v_return_wip_event_id is null then
+        raise exception 'Return-unprocessed did not create exactly one linked physical WIP inverse';
+      end if;
+      update erp.laundry_failed_wash_attempts
+      set return_wip_event_id=v_return_wip_event_id
+      where id=v_failed_wash_attempt_id;
+    else
+      update erp.laundry_deliveries set updated_at=clock_timestamp()
+      where id=v_delivery.id;
+    end if;
+
+    update erp.laundry_receipts
+    set status='POSTED',updated_at=clock_timestamp()
+    where id=v_receipt_id;
+
+    if v_custody_outcome='RETURN_UNPROCESSED' then
+      update erp.cutting_groups g
+      set status=case
+        when exists(
+          select 1 from erp.laundry_receipt_lines rl
+          join erp.laundry_receipts rh on rh.id=rl.receipt_id and rh.status='POSTED'
+          join erp.laundry_delivery_lines dl on dl.id=rl.delivery_line_id
+          join erp.laundry_deliveries d on d.id=dl.delivery_id and d.status<>'REVERSED'
+          where dl.cutting_group_id=g.id and rl.qty_good_received+rl.qty_bs_laundry>0
+        ) then 'RETURNED'
+        when exists(
+          select 1 from erp.laundry_delivery_lines dl
+          join erp.laundry_deliveries d on d.id=dl.delivery_id
+          where dl.cutting_group_id=g.id and d.status not in('DRAFT','REVERSED')
+        ) then 'LAUNDRY'
+        when g.picked_up_at is not null then 'PICKED_UP' else 'CUT' end
+      where g.id=v_group_id;
+      select * into v_po from erp.production_orders where id=v_delivery.po_id for update;
+      if v_po.status not in('ON_HOLD','CANCELLED') then
+        update erp.production_orders po set
+          status=case
+            when exists(select 1 from erp.qc_inspections q
+              where q.po_id=po.id and q.status='POSTED') then 'QC'
+            when exists(select 1 from erp.laundry_deliveries d
+              where d.po_id=po.id and d.status not in('DRAFT','REVERSED')) then 'LAUNDRY'
+            when exists(select 1 from erp.cutting_groups g
+              where g.po_id=po.id and g.picked_up_at is not null) then 'SEWING'
+            else 'CUTTING' end,
+          current_stage=case
+            when exists(select 1 from erp.qc_inspections q
+              where q.po_id=po.id and q.status='POSTED') then 'QC'
+            when exists(select 1 from erp.laundry_deliveries d
+              where d.po_id=po.id and d.status not in('DRAFT','REVERSED')) then 'LAUNDRY'
+            when exists(select 1 from erp.cutting_groups g
+              where g.po_id=po.id and g.picked_up_at is not null) then 'SEWING'
+            else 'CUTTING' end,
+          updated_at=clock_timestamp()
+        where po.id=v_po.id;
+      end if;
+    end if;
+
+    perform erp.sync_laundry_accrual(v_delivery.po_id,v_physical_at::date);
+    if exists(select 1 from erp.fg_lots f where f.po_id=v_delivery.po_id) then
+      perform erp.rebuild_po_hpp(
+        v_delivery.po_id,'Paid failed-wash service attempt '||v_failed_wash_attempt_id::text
+      );
+      perform erp.propagate_conversion_hpp_for_po(v_delivery.po_id);
+      perform erp.sync_po_hpp_to_gl(v_delivery.po_id,v_physical_at::date);
+    end if;
+    insert into erp.audit_logs(
+      entity_type,entity_id,action,new_data,changed_by,change_reason
+    ) values(
+      'laundry_failed_wash_attempts',v_failed_wash_attempt_id,'POST',
+      jsonb_build_object(
+        'receipt_id',v_receipt_id,'delivery_id',v_delivery.id,
+        'custody_outcome',v_custody_outcome,'qty_attempted_pcs',v_total,
+        'rate_per_pcs',v_rate,'estimated_cost',round(v_total*v_rate,2),
+        'history_deleted',false
+      ),v_actor,v_reason
+    );
+    delete from erp.cp6_laundry_qc_execution_context
+    where backend_pid=pg_backend_pid() and transaction_id=txid_current();
+    if not found then raise exception 'CP6 execution context cleanup failed'; end if;
+    select * into v_receipt from erp.laundry_receipts where id=v_receipt_id;
+    select * into v_delivery from erp.laundry_deliveries where id=v_delivery.id;
+    v_response:=jsonb_build_object(
+      'action',v_action,'failed_wash_attempt_id',v_failed_wash_attempt_id,
+      'receipt_id',v_receipt.id,'receipt_number',v_receipt.receipt_number,
+      'receipt_status',v_receipt.status,'receipt_row_version',v_receipt.row_version,
+      'delivery_id',v_delivery.id,'delivery_status',v_delivery.status,
+      'delivery_row_version',v_delivery.row_version,
+      'custody_outcome',v_custody_outcome,'qty_attempted_pcs',v_total,
+      'rate_per_pcs',v_rate,'actual_cost',round(v_total*v_rate,2),
+      'cost_status','ESTIMATED_UNBILLED',
+      'stock_effect',case when v_custody_outcome='RETRY_AT_VENDOR'
+        then 'PHYSICAL_STAYS_AT_LAUNDRY' else 'LAUNDRY_TO_SEWING_RETURN' end,
+      'hpp_effect','FAILED_WASH_COST_REBUILT_WITHOUT_GOOD_BS_OR_FG'
+    );
+
   elsif v_action='REVERSE_DELIVERY' then
     if p_expected_version is null or v_delivery_id is null then
       raise exception 'Delivery and expected_version are required';
@@ -3081,13 +3625,97 @@ begin
     if v_receipt.row_version<>p_expected_version then
       raise exception 'STALE_VERSION expected %, current %',p_expected_version,v_receipt.row_version;
     end if;
-    perform erp.reverse_laundry_receipt(v_receipt.id,v_reason);
-    select * into v_receipt from erp.laundry_receipts where id=v_receipt.id;
-    v_response:=jsonb_build_object(
-      'action',v_action,'receipt_id',v_receipt.id,'status',v_receipt.status,
-      'row_version',v_receipt.row_version,'history_deleted',false,
-      'stock_effect','LAUNDRY_RETURN_REVERSED','hpp_effect','LAUNDRY_AND_FG_HPP_REBUILT'
-    );
+    select a.id,a.custody_outcome into v_failed_wash_attempt_id,v_custody_outcome
+    from erp.laundry_failed_wash_attempts a where a.receipt_id=v_receipt.id
+    for update;
+    if v_failed_wash_attempt_id is null then
+      perform erp.reverse_laundry_receipt(v_receipt.id,v_reason);
+      select * into v_receipt from erp.laundry_receipts where id=v_receipt.id;
+      v_response:=jsonb_build_object(
+        'action',v_action,'receipt_id',v_receipt.id,'status',v_receipt.status,
+        'row_version',v_receipt.row_version,'history_deleted',false,
+        'stock_effect','LAUNDRY_RETURN_REVERSED','hpp_effect','LAUNDRY_AND_FG_HPP_REBUILT'
+      );
+    else
+      if v_receipt.status='REVERSED' then
+        v_response:=jsonb_build_object(
+          'action',v_action,'receipt_id',v_receipt.id,'status',v_receipt.status,
+          'row_version',v_receipt.row_version,'history_deleted',false,
+          'stock_effect','NO_OP_ALREADY_REVERSED',
+          'hpp_effect','NO_OP_ALREADY_REVERSED'
+        );
+      else
+        if v_receipt.status<>'POSTED' then
+          raise exception 'Only a POSTED failed-wash service attempt can be reversed';
+        end if;
+        select * into v_delivery from erp.laundry_deliveries
+        where id=v_receipt.delivery_id for update;
+        select * into v_po from erp.production_orders
+        where id=v_delivery.po_id for update;
+        if v_po.status='FINISHED' then
+          raise exception 'PO sudah FINISHED. Reopen downstream before reversing failed-wash cost history.';
+        end if;
+        if exists(
+          select 1 from erp.vendor_invoice_items i
+          join erp.vendor_invoices h on h.id=i.invoice_id
+          where i.receipt_line_id in(
+            select l.id from erp.laundry_receipt_lines l where l.receipt_id=v_receipt.id
+          ) and h.status<>'REVERSED'
+        ) then
+          raise exception 'Penerimaan laundry ini sudah masuk invoice vendor. Reverse invoice vendor aktif terlebih dahulu.';
+        end if;
+        if exists(
+          select 1 from erp.qc_inspection_items i
+          join erp.qc_inspections h on h.id=i.inspection_id
+          where i.source_laundry_receipt_line_id in(
+            select l.id from erp.laundry_receipt_lines l where l.receipt_id=v_receipt.id
+          ) and h.status<>'REVERSED'
+        ) or exists(
+          select 1 from erp.laundry_receipt_batch_size_lines x
+          join erp.laundry_receipt_lines l on l.id=x.receipt_line_id
+          where l.receipt_id=v_receipt.id
+        ) then
+          raise exception 'Failed-wash service-only receipt unexpectedly owns physical/QC facts; reversal stopped for investigation';
+        end if;
+        update erp.laundry_receipts
+        set status='REVERSED',updated_at=clock_timestamp()
+        where id=v_receipt.id;
+        -- A RETURN_UNPROCESSED custody fact remains immutable. Reversing the
+        -- vendor charge never resurrects the old dispatch; a later physical
+        -- handoff is a new delivery with its own time, rate, and lineage.
+        update erp.laundry_deliveries set updated_at=clock_timestamp()
+        where id=v_delivery.id;
+        perform erp.sync_laundry_accrual(v_delivery.po_id,current_date);
+        if exists(select 1 from erp.fg_lots f where f.po_id=v_delivery.po_id) then
+          perform erp.rebuild_po_hpp(
+            v_delivery.po_id,'Failed-wash service cost reversed '||v_failed_wash_attempt_id::text
+          );
+          perform erp.propagate_conversion_hpp_for_po(v_delivery.po_id);
+          perform erp.sync_po_hpp_to_gl(v_delivery.po_id,current_date);
+        end if;
+        insert into erp.audit_logs(
+          entity_type,entity_id,action,new_data,changed_by,change_reason
+        ) values(
+          'laundry_failed_wash_attempts',v_failed_wash_attempt_id,'REVERSE',
+          jsonb_build_object(
+            'receipt_id',v_receipt.id,'custody_outcome',v_custody_outcome,
+            'physical_return_preserved',v_custody_outcome='RETURN_UNPROCESSED',
+            'history_deleted',false
+          ),v_actor,v_reason
+        );
+        select * into v_receipt from erp.laundry_receipts where id=v_receipt.id;
+        select * into v_delivery from erp.laundry_deliveries where id=v_delivery.id;
+        v_response:=jsonb_build_object(
+          'action',v_action,'receipt_id',v_receipt.id,'status',v_receipt.status,
+          'row_version',v_receipt.row_version,'delivery_id',v_delivery.id,
+          'delivery_status',v_delivery.status,'delivery_row_version',v_delivery.row_version,
+          'history_deleted',false,'custody_outcome',v_custody_outcome,
+          'stock_effect',case when v_custody_outcome='RETURN_UNPROCESSED'
+            then 'PHYSICAL_RETURN_PRESERVED' else 'PHYSICAL_STAYS_AT_LAUNDRY' end,
+          'hpp_effect','FAILED_WASH_COST_REVERSED_AND_REPORTS_REBUILT'
+        );
+      end if;
+    end if;
 
   elsif v_action='POST_FINAL_SKU' then
     if p_expected_version is null or v_group_id is null or v_location_id is null then
@@ -3373,6 +4001,113 @@ begin
 end
 $function$;
 
+-- Failed-wash facts may only be assembled inside the one public facade while
+-- their receipt is DRAFT.  Once posted, neither the attempted sizes nor the
+-- custody declaration can be edited or deleted.
+create function erp.guard_cp6_failed_wash_attempt_v2620()
+returns trigger
+language plpgsql
+security definer
+set search_path=''
+as $function$
+declare
+  v_row erp.laundry_failed_wash_attempts%rowtype;
+  v_receipt_status text;
+  v_receipt_delivery uuid;
+  v_line_receipt uuid;
+  v_line_delivery uuid;
+begin
+  if not exists(
+    select 1 from erp.cp6_laundry_qc_execution_context c
+    where c.backend_pid=pg_backend_pid() and c.transaction_id=txid_current()
+      and c.actor_key=erp._idempotency_actor_key()
+      and c.action='POST_FAILED_WASH'
+      and c.permission_key='production.laundry.post'
+      and erp.has_permission(c.permission_key)
+  ) then
+    raise exception using errcode='42501',message='FAILED_WASH_FACTS_REQUIRE_AUTHORITATIVE_FACADE';
+  end if;
+  if tg_op='DELETE' then v_row:=old; else v_row:=new; end if;
+  select r.status,r.delivery_id,rl.receipt_id,dl.delivery_id
+    into v_receipt_status,v_receipt_delivery,v_line_receipt,v_line_delivery
+  from erp.laundry_receipts r
+  join erp.laundry_receipt_lines rl on rl.id=v_row.receipt_line_id
+  join erp.laundry_delivery_lines dl on dl.id=rl.delivery_line_id
+  where r.id=v_row.receipt_id;
+  if v_receipt_status is distinct from 'DRAFT'
+     or v_receipt_delivery is distinct from v_row.delivery_id
+     or v_line_receipt is distinct from v_row.receipt_id
+     or v_line_delivery is distinct from v_row.delivery_id then
+    raise exception using errcode='42501',message='POSTED_OR_MISMATCHED_FAILED_WASH_FACT_IMMUTABLE';
+  end if;
+  if tg_op='DELETE' then
+    raise exception using errcode='42501',message='FAILED_WASH_HISTORY_DELETE_FORBIDDEN';
+  end if;
+  if new.created_by is distinct from erp.current_app_user_id() then
+    raise exception 'Failed-wash actor must equal the authenticated ERP app user';
+  end if;
+  if tg_op='UPDATE' and row(
+      new.id,new.receipt_id,new.receipt_line_id,new.delivery_id,new.custody_outcome,
+      new.qty_attempted_pcs,new.reason,new.created_by,new.created_at
+    ) is distinct from row(
+      old.id,old.receipt_id,old.receipt_line_id,old.delivery_id,old.custody_outcome,
+      old.qty_attempted_pcs,old.reason,old.created_by,old.created_at
+    ) then
+    raise exception using errcode='42501',message='FAILED_WASH_FACT_IMMUTABLE';
+  end if;
+  if new.custody_outcome='RETRY_AT_VENDOR' and new.return_wip_event_id is not null then
+    raise exception 'Retry-at-vendor must not manufacture a physical WIP return';
+  end if;
+  return new;
+end
+$function$;
+
+create function erp.guard_cp6_failed_wash_size_v2620()
+returns trigger
+language plpgsql
+security definer
+set search_path=''
+as $function$
+declare
+  v_receipt_status text;
+  v_delivery_id uuid;
+  v_source_delivery uuid;
+  v_source_size uuid;
+  v_source_qty integer;
+begin
+  if tg_op<>'INSERT' then
+    raise exception using errcode='42501',message='FAILED_WASH_SIZE_HISTORY_IMMUTABLE';
+  end if;
+  if not exists(
+    select 1 from erp.cp6_laundry_qc_execution_context c
+    where c.backend_pid=pg_backend_pid() and c.transaction_id=txid_current()
+      and c.actor_key=erp._idempotency_actor_key()
+      and c.action='POST_FAILED_WASH'
+      and c.permission_key='production.laundry.post'
+      and erp.has_permission(c.permission_key)
+  ) then
+    raise exception using errcode='42501',message='FAILED_WASH_FACTS_REQUIRE_AUTHORITATIVE_FACADE';
+  end if;
+  select r.status,a.delivery_id into v_receipt_status,v_delivery_id
+  from erp.laundry_failed_wash_attempts a
+  join erp.laundry_receipts r on r.id=a.receipt_id
+  where a.id=new.attempt_id;
+  select dl.delivery_id,s.size_id,s.qty_sent_pcs
+    into v_source_delivery,v_source_size,v_source_qty
+  from erp.laundry_delivery_batch_size_lines s
+  join erp.laundry_delivery_lines dl on dl.id=s.delivery_line_id
+  where s.id=new.delivery_batch_size_line_id for update of s;
+  if v_receipt_status is distinct from 'DRAFT'
+     or v_source_delivery is distinct from v_delivery_id
+     or v_source_size is distinct from new.size_id
+     or new.qty_attempted_pcs>coalesce(v_source_qty,0)
+     or new.created_by is distinct from erp.current_app_user_id() then
+    raise exception 'Failed-wash size must be a positive exact size from its active delivery';
+  end if;
+  return new;
+end
+$function$;
+
 create function erp.guard_cp6_laundry_lineage_on_post_v2620()
 returns trigger
 language plpgsql
@@ -3459,6 +4194,83 @@ declare
   v_line_count integer;
 begin
   if not(old.status='DRAFT' and new.status='POSTED') then return new; end if;
+  if exists(select 1 from erp.laundry_failed_wash_attempts a where a.receipt_id=new.id) then
+    select a.* into r
+    from erp.laundry_failed_wash_attempts a where a.receipt_id=new.id;
+    if (select count(*) from erp.laundry_receipt_lines l where l.receipt_id=new.id)<>1
+       or exists(
+         select 1 from erp.laundry_receipt_batch_size_lines x
+         join erp.laundry_receipt_lines l on l.id=x.receipt_line_id
+         where l.receipt_id=new.id
+       )
+       or exists(
+         select 1 from erp.laundry_receipt_lines l
+         where l.receipt_id=new.id and(
+           l.id<>r.receipt_line_id or l.qty_good_received<>0 or l.qty_bs_laundry<>0
+           or l.qty_stuck<>0 or l.qty_missing<>0
+           or l.actual_wash_process_id is null
+           or l.actual_rate_snapshot is null or l.actual_rate_snapshot<0
+           or l.actual_cost_status<>'ESTIMATED'
+           or l.actual_cost is distinct from round(r.qty_attempted_pcs*l.actual_rate_snapshot,2)
+         )
+       )
+       or (select coalesce(sum(x.qty_attempted_pcs),0)
+           from erp.laundry_failed_wash_batch_size_lines x
+           where x.attempt_id=r.id)<>r.qty_attempted_pcs
+       or exists(
+         select 1
+         from erp.laundry_failed_wash_batch_size_lines x
+         join erp.laundry_delivery_batch_size_lines s
+           on s.id=x.delivery_batch_size_line_id
+         join erp.laundry_delivery_lines dl on dl.id=s.delivery_line_id
+         where x.attempt_id=r.id and(
+           dl.delivery_id<>r.delivery_id or x.size_id<>s.size_id
+           or x.qty_attempted_pcs>s.qty_sent_pcs
+         )
+       ) then
+      raise exception 'Failed-wash receipt must contain one zero-output cost line and exact attempted batch/size facts';
+    end if;
+    if r.custody_outcome='RETRY_AT_VENDOR' then
+      if r.return_wip_event_id is not null
+         or not exists(select 1 from erp.laundry_deliveries d
+           where d.id=r.delivery_id and d.status in('SENT','PARTIAL_RETURN')) then
+        raise exception 'Retry-at-vendor must preserve active Laundry custody without a WIP return';
+      end if;
+    else
+      if r.return_wip_event_id is null
+         or not exists(
+           select 1
+           from erp.wip_stage_events rv
+           join erp.wip_stage_events src
+             on src.id=rv.source_id and src.source_type='LAUNDRY_DELIVERY_LINE'
+           join erp.laundry_delivery_lines dl
+             on dl.id=src.source_id and dl.delivery_id=r.delivery_id
+           join erp.laundry_deliveries d on d.id=dl.delivery_id
+           where rv.id=r.return_wip_event_id
+             and rv.source_type='CP6_LAUNDRY_DELIVERY_WIP_REVERSAL'
+             and rv.po_id=d.po_id and rv.cutting_group_id=dl.cutting_group_id
+             and rv.stage_from='LAUNDRY' and rv.stage_to='SEWING'
+             and rv.qty_pcs=r.qty_attempted_pcs
+             and d.status='REVERSED'
+         )
+         or (select count(*) from erp.laundry_failed_wash_batch_size_lines x
+             where x.attempt_id=r.id)<>
+            (select count(*) from erp.laundry_delivery_batch_size_lines s
+             join erp.laundry_delivery_lines dl on dl.id=s.delivery_line_id
+             where dl.delivery_id=r.delivery_id)
+         or exists(
+           select 1 from erp.laundry_delivery_batch_size_lines s
+           join erp.laundry_delivery_lines dl on dl.id=s.delivery_line_id
+           left join erp.laundry_failed_wash_batch_size_lines x
+             on x.attempt_id=r.id and x.delivery_batch_size_line_id=s.id
+           where dl.delivery_id=r.delivery_id
+             and x.qty_attempted_pcs is distinct from s.qty_sent_pcs
+         ) then
+        raise exception 'Return-unprocessed must return the entire exact delivery and bind one immutable WIP inverse';
+      end if;
+    end if;
+    return new;
+  end if;
   if not exists(
     select 1 from erp.laundry_receipt_batch_size_lines x
     join erp.laundry_receipt_lines l on l.id=x.receipt_line_id
@@ -3537,6 +4349,12 @@ begin
   ) then
     raise exception 'Vendor invoice cannot be posted without Laundry receipt items';
   end if;
+  if exists(
+    select 1 from erp.vendor_invoice_items i
+    where i.invoice_id=new.id group by i.receipt_line_id having count(*)<>1
+  ) then
+    raise exception 'One Laundry receipt line may appear only once in one vendor invoice';
+  end if;
 
   perform 1
   from erp.laundry_receipts r
@@ -3558,6 +4376,21 @@ begin
   ) then
     raise exception 'Vendor invoice lifecycle lost its authoritative POSTED Laundry receipt; retry only after reconciliation';
   end if;
+  if exists(
+    select 1
+    from erp.vendor_invoice_items i
+    join erp.laundry_receipt_lines rl on rl.id=i.receipt_line_id
+    left join erp.laundry_failed_wash_attempts a on a.receipt_line_id=rl.id
+    where i.invoice_id=new.id and(
+      i.qty_pcs is null or i.qty_pcs<=0
+      or i.actual_rate is null or i.actual_rate<0
+      or i.actual_amount is distinct from round(i.qty_pcs*i.actual_rate,2)
+      or i.qty_pcs is distinct from coalesce(a.qty_attempted_pcs,
+        rl.qty_good_received+rl.qty_bs_laundry)
+    )
+  ) then
+    raise exception 'Vendor invoice Laundry quantity/rate/amount must equal the authoritative physical receipt or failed-wash attempt';
+  end if;
   return new;
 end
 $function$;
@@ -3568,11 +4401,23 @@ for each row execute function erp.guard_cp6_laundry_delivery_batch_size_v2620();
 create trigger trg_guard_cp6_receipt_batch_size_v2620
 before insert or update or delete on erp.laundry_receipt_batch_size_lines
 for each row execute function erp.guard_cp6_laundry_receipt_batch_size_v2620();
+create trigger trg_guard_cp6_failed_wash_attempt_v2620
+before insert or update or delete on erp.laundry_failed_wash_attempts
+for each row execute function erp.guard_cp6_failed_wash_attempt_v2620();
+create trigger trg_guard_cp6_failed_wash_size_v2620
+before insert or update or delete on erp.laundry_failed_wash_batch_size_lines
+for each row execute function erp.guard_cp6_failed_wash_size_v2620();
 create trigger trg_audit_cp6_delivery_batch_size_v2620
 after insert or update or delete on erp.laundry_delivery_batch_size_lines
 for each row execute function erp.audit_row_change();
 create trigger trg_audit_cp6_receipt_batch_size_v2620
 after insert or update or delete on erp.laundry_receipt_batch_size_lines
+for each row execute function erp.audit_row_change();
+create trigger trg_audit_cp6_failed_wash_attempt_v2620
+after insert or update or delete on erp.laundry_failed_wash_attempts
+for each row execute function erp.audit_row_change();
+create trigger trg_audit_cp6_failed_wash_size_v2620
+after insert or update or delete on erp.laundry_failed_wash_batch_size_lines
 for each row execute function erp.audit_row_change();
 create trigger trg_guard_cp6_delivery_lineage_on_post_v2620
 before update of status on erp.laundry_deliveries
@@ -3586,12 +4431,16 @@ for each row execute function erp.guard_cp6_vendor_invoice_receipt_on_post_v2620
 
 alter function erp.guard_cp6_laundry_delivery_batch_size_v2620() owner to postgres;
 alter function erp.guard_cp6_laundry_receipt_batch_size_v2620() owner to postgres;
+alter function erp.guard_cp6_failed_wash_attempt_v2620() owner to postgres;
+alter function erp.guard_cp6_failed_wash_size_v2620() owner to postgres;
 alter function erp.guard_cp6_laundry_lineage_on_post_v2620() owner to postgres;
 alter function erp.guard_cp6_laundry_receipt_lineage_on_post_v2620() owner to postgres;
 alter function erp.guard_cp6_vendor_invoice_receipt_on_post_v2620() owner to postgres;
 revoke all on function
   erp.guard_cp6_laundry_delivery_batch_size_v2620(),
   erp.guard_cp6_laundry_receipt_batch_size_v2620(),
+  erp.guard_cp6_failed_wash_attempt_v2620(),
+  erp.guard_cp6_failed_wash_size_v2620(),
   erp.guard_cp6_laundry_lineage_on_post_v2620(),
   erp.guard_cp6_laundry_receipt_lineage_on_post_v2620(),
   erp.guard_cp6_vendor_invoice_receipt_on_post_v2620()
@@ -3661,6 +4510,10 @@ comment on table erp.laundry_delivery_batch_size_lines is
   'CP6 immutable physical lineage from posted contractor distribution batch/size into a Laundry delivery.';
 comment on table erp.laundry_receipt_batch_size_lines is
   'CP6 immutable physical return by delivery batch/size. Only Good is QC capacity; Laundry BS is terminal and product-bound.';
+comment on table erp.laundry_failed_wash_attempts is
+  'CP6 immutable paid failed-wash service fact. It records cost and custody outcome without manufacturing Good, BS, QC, or FG.';
+comment on table erp.laundry_failed_wash_batch_size_lines is
+  'CP6 immutable exact batch-size quantity charged for one failed-wash attempt.';
 comment on function public.erp_save_laundry_qc_action_v1(text,jsonb,uuid,bigint) is
   'CP6 authoritative atomic writer. UUID idempotency, row versions, source conservation, reversal-only correction, and server-owned finance/stock/HPP effects.';
 
@@ -3679,7 +4532,7 @@ declare
   v_public record;
   v_fg_progress_def text;
 begin
-  if (select count(*) from erp.cp6_v2620_rollback_capsule)<>9
+  if (select count(*) from erp.cp6_v2620_rollback_capsule)<>11
      or (select count(*) from erp.cp6_v2620_acl_capsule)<>13
      or exists(
        select 1 from erp.cp6_v2620_rollback_capsule c
@@ -3713,6 +4566,8 @@ begin
       values
         ('erp.laundry_delivery_batch_size_lines'::regclass),
         ('erp.laundry_receipt_batch_size_lines'::regclass),
+        ('erp.laundry_failed_wash_attempts'::regclass),
+        ('erp.laundry_failed_wash_batch_size_lines'::regclass),
         ('erp.cp6_laundry_qc_execution_context'::regclass),
         ('erp.cp6_v2620_rollback_capsule'::regclass),
         ('erp.cp6_v2620_acl_capsule'::regclass)
@@ -3796,6 +4651,22 @@ begin
      ) then
     raise exception 'ERP v2.6.20 post guard: append-only WIP reversal boundary failed';
   end if;
+  if to_regclass('erp.idx_failed_wash_source_size_v2620') is null
+     or not exists(select 1 from pg_trigger
+       where tgrelid='erp.laundry_failed_wash_attempts'::regclass
+         and tgname='trg_guard_cp6_failed_wash_attempt_v2620'
+         and tgenabled<>'D' and not tgisinternal)
+     or not exists(select 1 from pg_trigger
+       where tgrelid='erp.laundry_failed_wash_batch_size_lines'::regclass
+         and tgname='trg_guard_cp6_failed_wash_size_v2620'
+         and tgenabled<>'D' and not tgisinternal)
+     or has_function_privilege(
+       'authenticated','erp.guard_cp6_failed_wash_attempt_v2620()','EXECUTE'
+     ) or has_function_privilege(
+       'authenticated','erp.guard_cp6_failed_wash_size_v2620()','EXECUTE'
+     ) then
+    raise exception 'ERP v2.6.20 post guard: immutable paid failed-wash boundary failed';
+  end if;
   if not exists(
        select 1 from pg_trigger t
        where t.tgrelid='erp.vendor_invoices'::regclass
@@ -3822,6 +4693,11 @@ begin
      or has_function_privilege('authenticated','erp.desired_laundry_accrual(uuid)','EXECUTE')
      or has_function_privilege('service_role','erp.desired_laundry_accrual(uuid)','EXECUTE') then
     raise exception 'ERP v2.6.20 post guard: facade/private ACL boundary failed';
+  end if;
+  if replace(pg_get_functiondef(
+       'erp.sync_laundry_accrual(uuid,date)'::regprocedure),' ','')
+       not like '%pg_advisory_xact_lock(hashtextextended(''PO_HPP:''||p_po_id::text,0))%fromerp.laundry_cost_accrual_state%forupdate%' then
+    raise exception 'ERP v2.6.20 post guard: first-row Laundry accrual serialization is absent';
   end if;
   for v_public in
     select p.oid::regprocedure sig,p.prosecdef,p.proowner,p.proconfig
@@ -3877,6 +4753,26 @@ begin
     group by l.id,l.qty_good_received,l.qty_bs_laundry
     having sum(x.qty_good_received)<>l.qty_good_received
       or sum(x.qty_bs_laundry)<>l.qty_bs_laundry
+  ) or exists(
+    select 1
+    from erp.laundry_failed_wash_attempts a
+    join erp.laundry_receipt_lines rl on rl.id=a.receipt_line_id
+    join erp.laundry_receipts rh on rh.id=a.receipt_id
+    join erp.laundry_deliveries d on d.id=a.delivery_id
+    left join lateral(
+      select count(*) line_count,coalesce(sum(x.qty_attempted_pcs),0)::bigint qty_attempted_pcs
+      from erp.laundry_failed_wash_batch_size_lines x where x.attempt_id=a.id
+    ) sx on true
+    where rh.status='POSTED' and(
+      rl.receipt_id<>a.receipt_id or rh.delivery_id<>a.delivery_id
+      or line_count=0 or sx.qty_attempted_pcs<>a.qty_attempted_pcs
+      or rl.qty_good_received+rl.qty_bs_laundry+rl.qty_stuck+rl.qty_missing<>0
+      or rl.actual_cost is distinct from round(a.qty_attempted_pcs*rl.actual_rate_snapshot,2)
+      or (a.custody_outcome='RETRY_AT_VENDOR' and a.return_wip_event_id is not null)
+      or (a.custody_outcome='RETURN_UNPROCESSED' and(
+        d.status<>'REVERSED' or a.return_wip_event_id is null
+      ))
+    )
   ) then raise exception 'ERP v2.6.20 post guard: aggregate/lineage mismatch exists'; end if;
   if not exists(select 1 from pg_trigger where tgrelid='erp.laundry_deliveries'::regclass
       and tgname='trg_00_bump_row_version_v2620' and tgenabled<>'D' and not tgisinternal)

@@ -28,7 +28,7 @@ function base(scope: 'LAUNDRY' | 'QC') {
     readiness: {
       laundry_writer_ready: true, qc_writer_ready: true,
       lineage_integrity_ok: true, lineage_issue_count: 0,
-      no_fixture_fallback: true, failed_wash_with_charge_supported: false,
+      no_fixture_fallback: true, failed_wash_with_charge_supported: true,
     },
     ready_batches: scope === 'LAUNDRY' ? [{
       distribution_batch_id: uuid(10), batch_no: 1, pickup_id: uuid(11), cutting_group_id: uuid(12),
@@ -67,13 +67,13 @@ describe('parseLaundryQcWorkspace', () => {
     expect(totalReadyToSend(workspace.ready_batches)).toBe(8)
   })
 
-  it('rejects any fixture fallback or charged-failure shortcut', () => {
+  it('rejects any fixture fallback or a backend that silently disables the paid-failure contract', () => {
     const fixture = base('LAUNDRY')
     fixture.readiness.no_fixture_fallback = false
     expect(() => parseLaundryQcWorkspace(fixture)).toThrow('Batas reliability')
-    const charged = base('LAUNDRY')
-    charged.readiness.failed_wash_with_charge_supported = true
-    expect(() => parseLaundryQcWorkspace(charged)).toThrow('Batas reliability')
+    const disabled = base('LAUNDRY')
+    disabled.readiness.failed_wash_with_charge_supported = false
+    expect(() => parseLaundryQcWorkspace(disabled)).toThrow('Batas reliability')
   })
 
   it('fails closed when backend reports any CP6 lineage issue', () => {
@@ -184,7 +184,8 @@ describe('parseLaundryQcWorkspace', () => {
       process_code: 'WASH', process_name: 'Cuci', delivery_line_id: uuid(21),
       qty_sent_pcs: 2, estimated_rate_snapshot: 1200, estimated_cost: 2400,
       distribution_batch_id: uuid(10), batch_no: 1, returned_qty_pcs: 1,
-      physical_outstanding_qty_pcs: 1, active_claim_qty_pcs: 0,
+      physical_outstanding_qty_pcs: 1, returned_unprocessed_qty_pcs: 0,
+      active_claim_qty_pcs: 0,
       reversible: false, reversal_blocker: 'Masih ada receipt aktif.',
       sizes: [{
         delivery_batch_size_line_id: uuid(22), size_id: uuid(9), size_code: '31',
@@ -193,7 +194,10 @@ describe('parseLaundryQcWorkspace', () => {
       }],
       receipts: [{
         id: uuid(23), number: 'LRC-001', status: 'POSTED', row_version: 2,
-        physical_at: '2026-09-03T00:00:00Z', actual_cost: 1200,
+        physical_at: '2026-09-03T00:00:00Z', actual_cost: 1200, actual_rate: 1200,
+        cost_status: 'ESTIMATED', event_kind: 'PHYSICAL_RECEIPT',
+        failed_wash_attempt_id: null, custody_outcome: null,
+        attempted_qty_pcs: null, process_name: null,
         reversible: false, reversal_blocker: 'Receipt sudah dipakai QC.',
       }],
     }

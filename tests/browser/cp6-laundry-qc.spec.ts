@@ -5,6 +5,7 @@ const localOrigin = 'http://127.0.0.1:4175'
 const userId = 'c8b00000-0000-4000-8000-000000000001'
 const laundrySendConfirmation = 'Saya sudah mencocokkan vendor, batch, ukuran, jumlah, warna, dan waktu dengan serah-terima fisik.'
 const laundryReceiptConfirmation = 'Saya sudah menghitung fisik per ukuran; Good dan BS benar, sisanya memang belum kembali.'
+const failedWashConfirmation = 'Saya sudah mencocokkan bukti tagihan, proses, jumlah per ukuran, waktu, dan posisi fisik. Tidak ada Good atau BS yang diterima dari attempt ini.'
 const qcConfirmation = 'Saya sudah mencocokkan hasil QC fisik, ukuran, Merek/Nomor SKU/Model, jumlah Good/BS, lokasi, dan waktu.'
 
 const ids = {
@@ -33,6 +34,11 @@ const ids = {
   receiptLine: 'c8b30000-0000-4000-8000-000000000005',
   receiptSizeS: 'c8b30000-0000-4000-8000-000000000006',
   qcInspection: 'c8b30000-0000-4000-8000-000000000007',
+  fullDelivery: 'c8b30000-0000-4000-8000-000000000008',
+  fullDeliveryLine: 'c8b30000-0000-4000-8000-000000000009',
+  fullDeliverySizeM: 'c8b30000-0000-4000-8000-000000000010',
+  failedReceipt: 'c8b30000-0000-4000-8000-000000000011',
+  failedAttempt: 'c8b30000-0000-4000-8000-000000000012',
 }
 
 type ContractOptions = {
@@ -120,7 +126,7 @@ function baseWorkspace(scope: 'LAUNDRY' | 'QC') {
     readiness: {
       laundry_writer_ready: true, qc_writer_ready: true,
       lineage_integrity_ok: true, lineage_issue_count: 0,
-      no_fixture_fallback: true, failed_wash_with_charge_supported: false,
+      no_fixture_fallback: true, failed_wash_with_charge_supported: true,
     },
     ready_batches: [], deliveries: [], qc_queue: [], qc_history: [],
     legacy_unlinked: { delivery_count: 0, receipt_count: 0 },
@@ -153,15 +159,43 @@ function laundryWorkspace(committed = false) {
       process_code: 'BIO', process_name: 'Bio Wash', delivery_line_id: ids.deliveryLine,
       qty_sent_pcs: 6, estimated_rate_snapshot: 700, estimated_cost: 4200,
       distribution_batch_id: ids.batch, batch_no: 1, returned_qty_pcs: 2,
-      physical_outstanding_qty_pcs: 4, active_claim_qty_pcs: 0, reversible: false,
+      physical_outstanding_qty_pcs: 4, returned_unprocessed_qty_pcs: 0,
+      active_claim_qty_pcs: 0, reversible: false,
       reversal_blocker: 'Masih ada barang fisik di luar Laundry.',
       sizes: [{
         delivery_batch_size_line_id: ids.deliverySizeS, size_id: ids.sizeS, size_code: 'S', sort_order: 1,
         qty_sent_pcs: 6, good_returned_qty_pcs: 2, bs_returned_qty_pcs: 0, outstanding_qty_pcs: 4,
       }], receipts: [{
         id: ids.receipt, number: 'LRC-CP6-001', status: 'POSTED', row_version: 4,
-        physical_at: '2026-09-04T00:50:00Z', actual_cost: null, reversible: false,
+        physical_at: '2026-09-04T00:50:00Z', actual_cost: null, actual_rate: null,
+        cost_status: 'ESTIMATED', event_kind: 'PHYSICAL_RECEIPT',
+        failed_wash_attempt_id: null, custody_outcome: null,
+        attempted_qty_pcs: null, process_name: null, reversible: false,
         reversal_blocker: 'Receipt sudah dipakai QC; reverse QC aktif terlebih dahulu.',
+      }],
+    }, {
+      delivery_id: ids.fullDelivery, delivery_number: 'LDR-CP6-FULL', row_version: 5, status: 'SENT',
+      physical_at: '2026-09-04T00:42:00Z', target_dyeing_color: 'NAVY', special_instruction: null,
+      po_id: ids.po, po_number: 'PO-CP6-001', model_id: ids.model, cutting_group_id: ids.group,
+      group_number: 'POT-CP6-001', cutting_group_row_version: 7, model_code: 'VIVO-REG',
+      model_name: 'Vivo Regular', contractor_name: 'Mandor A', vendor_id: ids.vendor,
+      vendor_code: 'L-01', vendor_name: 'Laundry Nyata', wash_process_id: ids.process,
+      process_code: 'BIO', process_name: 'Bio Wash', delivery_line_id: ids.fullDeliveryLine,
+      qty_sent_pcs: 4, estimated_rate_snapshot: 700, estimated_cost: 2800,
+      distribution_batch_id: ids.batch, batch_no: 1, returned_qty_pcs: 0,
+      physical_outstanding_qty_pcs: 4, returned_unprocessed_qty_pcs: 0,
+      active_claim_qty_pcs: 0, reversible: false,
+      reversal_blocker: 'Masih ada receipt aktif; reverse receipt terlebih dahulu.',
+      sizes: [{
+        delivery_batch_size_line_id: ids.fullDeliverySizeM, size_id: ids.sizeM, size_code: 'M', sort_order: 2,
+        qty_sent_pcs: 4, good_returned_qty_pcs: 0, bs_returned_qty_pcs: 0, outstanding_qty_pcs: 4,
+      }], receipts: [{
+        id: ids.failedReceipt, number: 'LFW-CP6-001', status: 'POSTED', row_version: 2,
+        physical_at: '2026-09-04T00:55:00Z', actual_cost: 2800, actual_rate: 700,
+        cost_status: 'ESTIMATED', event_kind: 'FAILED_WASH_ATTEMPT',
+        failed_wash_attempt_id: ids.failedAttempt, custody_outcome: 'RETRY_AT_VENDOR',
+        attempted_qty_pcs: 4, process_name: 'Bio Wash', reversible: true,
+        reversal_blocker: null,
       }],
     }],
   }
@@ -440,6 +474,67 @@ test('CP6 Laundry receipt records only Good and BS while Stuck stays derived', a
   assertNoErrors()
 })
 
+test('CP6 paid failed-wash retry posts cost without inventing a physical receipt', async ({ page }, testInfo) => {
+  const assertNoErrors = watchErrors(page)
+  const calls = await installContract(page)
+  await signIn(page)
+  await openPage(page, testInfo.project.name, 'Laundry', 'Laundry')
+  await page.getByRole('button', { name: 'Cuci gagal berbayar', exact: true }).click()
+  await page.getByLabel('SURAT KIRIM GAGAL CUCI').selectOption(ids.delivery)
+  await expect(page.getByLabel('Qty gagal cuci size S')).toHaveValue('0')
+  await page.getByLabel('PROSES GAGAL CUCI').selectOption(ids.process)
+  await page.getByLabel('POSISI FISIK GAGAL CUCI').selectOption('RETRY_AT_VENDOR')
+  await page.getByLabel('WAKTU GAGAL CUCI').fill('2026-09-04T08:00')
+  await page.getByLabel('ALASAN TAGIHAN GAGAL CUCI').fill('Kimia habis setelah attempt dimulai')
+  await page.getByLabel('Qty gagal cuci size S').fill('4x')
+  await expect(page.getByLabel('Qty gagal cuci size S')).toHaveValue('4x')
+  await expect(page.getByText(/input tidak diubah diam-diam/i)).toBeVisible()
+  await page.getByLabel('Qty gagal cuci size S').fill('4')
+  await page.getByRole('checkbox', { name: failedWashConfirmation, exact: true }).check()
+  await page.getByRole('button', { name: /Post jasa gagal cuci atomic/ }).click()
+  await expect.poll(() => calls.actions.length).toBe(1)
+  expect(calls.actions[0]).toMatchObject({
+    p_action: 'POST_FAILED_WASH', p_expected_version: 3,
+    p_payload: {
+      delivery_id: ids.delivery, wash_process_id: ids.process,
+      custody_outcome: 'RETRY_AT_VENDOR', physical_at: '2026-09-04T01:00:00.000Z',
+      lines: [{ delivery_batch_size_line_id: ids.deliverySizeS, qty_attempted_pcs: 4 }],
+    },
+  })
+  expect(JSON.stringify(calls.actions[0])).not.toContain('qty_good_received')
+  expect(JSON.stringify(calls.actions[0])).not.toContain('qty_bs_laundry')
+  assertNoErrors()
+})
+
+test('CP6 paid full return is exact, all-or-nothing, and retires the committed form', async ({ page }, testInfo) => {
+  const assertNoErrors = watchErrors(page)
+  const calls = await installContract(page)
+  await signIn(page)
+  await openPage(page, testInfo.project.name, 'Laundry', 'Laundry')
+  await page.getByRole('button', { name: 'Cuci gagal berbayar', exact: true }).click()
+  await page.getByLabel('SURAT KIRIM GAGAL CUCI').selectOption(ids.fullDelivery)
+  await page.getByLabel('PROSES GAGAL CUCI').selectOption(ids.process)
+  await page.getByLabel('POSISI FISIK GAGAL CUCI').selectOption('RETURN_UNPROCESSED')
+  await expect(page.getByLabel('Qty gagal cuci size M')).toHaveValue('4')
+  await expect(page.getByLabel('Qty gagal cuci size M')).toBeDisabled()
+  await expect(page.getByText(/Seluruh fisik kembali ke Jahit/)).toBeVisible()
+  await page.getByLabel('WAKTU GAGAL CUCI').fill('2026-09-04T08:00')
+  await page.getByLabel('ALASAN TAGIHAN GAGAL CUCI').fill('Vendor tidak mampu lanjut dan mengembalikan semua')
+  await page.getByRole('checkbox', { name: failedWashConfirmation, exact: true }).check()
+  await page.getByRole('button', { name: /Post jasa gagal cuci atomic/ }).click()
+  await expect.poll(() => calls.actions.length).toBe(1)
+  expect(calls.actions[0]).toMatchObject({
+    p_action: 'POST_FAILED_WASH', p_expected_version: 5,
+    p_payload: {
+      delivery_id: ids.fullDelivery, wash_process_id: ids.process,
+      custody_outcome: 'RETURN_UNPROCESSED', physical_at: '2026-09-04T01:00:00.000Z',
+      lines: [{ delivery_batch_size_line_id: ids.fullDeliverySizeM, qty_attempted_pcs: 4 }],
+    },
+  })
+  await expect(page.getByLabel('SURAT KIRIM GAGAL CUCI')).toHaveValue('')
+  assertNoErrors()
+})
+
 test('CP6 committed send form stays retired after failed then successful refetch', async ({ page }, testInfo) => {
   const calls = await installContract(page, { failFirstPostCommitWorkspace: true })
   await signIn(page)
@@ -530,6 +625,8 @@ test('CP6 reversal buttons obey authoritative downstream blockers', async ({ pag
   await page.getByRole('button', { name: 'Riwayat & koreksi', exact: true }).click()
   await expect(page.getByText('Receipt sudah dipakai QC; reverse QC aktif terlebih dahulu.', { exact: true })).toBeVisible()
   await expect(page.getByRole('button', { name: 'Batalkan penerimaan', exact: true })).toBeDisabled()
+  await expect(page.getByText(/Cuci gagal berbayar · fisik tetap di vendor/)).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Batalkan biaya attempt', exact: true })).toBeEnabled()
 
   await openPage(page, testInfo.project.name, 'QC & Final SKU', 'QC & Final SKU')
   await page.getByRole('button', { name: 'Riwayat & koreksi', exact: true }).click()

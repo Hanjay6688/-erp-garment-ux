@@ -23,7 +23,7 @@ begin
   where m.name='erp_v2_6_20_cp6_laundry_qc_fg_authoritative'
     and coalesce(encode(extensions.digest(
       convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'
-    ),'hex'),'')='4a252c7c895d031cbc92d656808a515294e18a923dc943e62e205a83c3ad5596';
+    ),'hex'),'')='083846e8009fc32fcf0145956efab90b19b6a3b4d33530e94557b08946cb6281';
 
   select count(*) into v_conflict_count
   from supabase_migrations.schema_migrations m
@@ -34,7 +34,7 @@ begin
     m.name='erp_v2_6_20_cp6_laundry_qc_fg_authoritative'
     and coalesce(encode(extensions.digest(
       convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'
-    ),'hex'),'')='4a252c7c895d031cbc92d656808a515294e18a923dc943e62e205a83c3ad5596'
+    ),'hex'),'')='083846e8009fc32fcf0145956efab90b19b6a3b4d33530e94557b08946cb6281'
   );
   if v_match_count<>1 or v_conflict_count<>0 then
     raise exception 'v2.6.20 rollback refused: platform ledger statement digest is ambiguous (match %, conflict %)',
@@ -56,6 +56,8 @@ lock table
   erp.fg_lots,
   erp.fg_stock_movements,
   erp.idempotency_requests,
+  erp.laundry_failed_wash_attempts,
+  erp.laundry_failed_wash_batch_size_lines,
   erp.laundry_deliveries,
   erp.laundry_delivery_batch_size_lines,
   erp.laundry_delivery_lines,
@@ -94,7 +96,7 @@ begin
     raise exception 'v2.6.20 rollback refused: a successor migration is already installed';
   end if;
   if to_regclass('erp.cp6_v2620_rollback_capsule') is null
-     or (select count(*) from erp.cp6_v2620_rollback_capsule)<>9
+     or (select count(*) from erp.cp6_v2620_rollback_capsule)<>11
      or to_regclass('erp.cp6_v2620_acl_capsule') is null
      or (select count(*) from erp.cp6_v2620_acl_capsule)<>13 then
     raise exception 'v2.6.20 rollback refused: exact rollback capsule is missing';
@@ -133,6 +135,8 @@ begin
   select
     (select count(*) from erp.laundry_delivery_batch_size_lines)
     +(select count(*) from erp.laundry_receipt_batch_size_lines)
+    +(select count(*) from erp.laundry_failed_wash_attempts)
+    +(select count(*) from erp.laundry_failed_wash_batch_size_lines)
     +(select count(*) from erp.qc_inspection_items
       where source_laundry_receipt_batch_size_line_id is not null)
     +(select count(*) from erp.cp6_laundry_qc_execution_context)
@@ -154,6 +158,7 @@ begin
   where a.changed_at>=v_installed_at
     and a.entity_type in(
       'laundry_delivery_batch_size_lines','laundry_receipt_batch_size_lines',
+      'laundry_failed_wash_attempts','laundry_failed_wash_batch_size_lines',
       'laundry_deliveries','laundry_delivery_lines','laundry_receipts',
       'laundry_receipt_lines','laundry_receipt_bs_product_allocations',
       'qc_inspections','qc_inspection_items','fg_lots','fg_stock_movements',
@@ -339,10 +344,16 @@ drop trigger trg_guard_cp6_receipt_lineage_on_post_v2620 on erp.laundry_receipts
 drop trigger trg_guard_cp6_vendor_invoice_receipt_on_post_v2620 on erp.vendor_invoices;
 drop trigger trg_guard_cp6_delivery_batch_size_v2620 on erp.laundry_delivery_batch_size_lines;
 drop trigger trg_guard_cp6_receipt_batch_size_v2620 on erp.laundry_receipt_batch_size_lines;
+drop trigger trg_guard_cp6_failed_wash_attempt_v2620 on erp.laundry_failed_wash_attempts;
+drop trigger trg_guard_cp6_failed_wash_size_v2620 on erp.laundry_failed_wash_batch_size_lines;
 drop trigger trg_audit_cp6_delivery_batch_size_v2620 on erp.laundry_delivery_batch_size_lines;
 drop trigger trg_audit_cp6_receipt_batch_size_v2620 on erp.laundry_receipt_batch_size_lines;
+drop trigger trg_audit_cp6_failed_wash_attempt_v2620 on erp.laundry_failed_wash_attempts;
+drop trigger trg_audit_cp6_failed_wash_size_v2620 on erp.laundry_failed_wash_batch_size_lines;
 drop function erp.guard_cp6_laundry_delivery_batch_size_v2620();
 drop function erp.guard_cp6_laundry_receipt_batch_size_v2620();
+drop function erp.guard_cp6_failed_wash_attempt_v2620();
+drop function erp.guard_cp6_failed_wash_size_v2620();
 drop function erp.guard_cp6_laundry_lineage_on_post_v2620();
 drop function erp.guard_cp6_laundry_receipt_lineage_on_post_v2620();
 drop function erp.guard_cp6_vendor_invoice_receipt_on_post_v2620();
@@ -351,6 +362,8 @@ alter table erp.qc_inspection_items drop constraint qc_items_cp6_source_batch_si
 drop index erp.idx_qc_items_cp6_source_batch_size_v2620;
 alter table erp.qc_inspection_items drop column source_laundry_receipt_batch_size_line_id;
 
+drop table erp.laundry_failed_wash_batch_size_lines;
+drop table erp.laundry_failed_wash_attempts;
 drop table erp.laundry_receipt_batch_size_lines;
 drop table erp.laundry_delivery_batch_size_lines;
 drop table erp.cp6_laundry_qc_execution_context;
@@ -408,13 +421,44 @@ begin
   end loop;
   if to_regclass('erp.laundry_delivery_batch_size_lines') is not null
      or to_regclass('erp.laundry_receipt_batch_size_lines') is not null
+     or to_regclass('erp.laundry_failed_wash_attempts') is not null
+     or to_regclass('erp.laundry_failed_wash_batch_size_lines') is not null
      or to_regclass('erp.cp6_laundry_qc_execution_context') is not null
      or to_regclass('erp.uq_cp6_wip_reversal_source_v2620') is not null
      or to_regclass('erp.idx_products_brand_sku_effective_v2620') is not null
+     or to_regclass('erp.idx_laundry_delivery_batch_size_source_v2620') is not null
+     or to_regclass('erp.idx_laundry_receipt_batch_size_source_v2620') is not null
+     or to_regclass('erp.idx_failed_wash_source_size_v2620') is not null
+     or to_regclass('erp.idx_qc_items_cp6_source_batch_size_v2620') is not null
      or to_regprocedure('erp.append_cp6_laundry_wip_reversal_v2620()') is not null
+     or to_regprocedure('erp.guard_cp6_qc_batch_size_source_v2620()') is not null
+     or to_regprocedure('erp.guard_cp6_laundry_delivery_batch_size_v2620()') is not null
+     or to_regprocedure('erp.guard_cp6_laundry_receipt_batch_size_v2620()') is not null
+     or to_regprocedure('erp.guard_cp6_failed_wash_attempt_v2620()') is not null
+     or to_regprocedure('erp.guard_cp6_failed_wash_size_v2620()') is not null
+     or to_regprocedure('erp.guard_cp6_laundry_lineage_on_post_v2620()') is not null
+     or to_regprocedure('erp.guard_cp6_laundry_receipt_lineage_on_post_v2620()') is not null
      or to_regprocedure('erp.guard_cp6_vendor_invoice_receipt_on_post_v2620()') is not null
+     or to_regprocedure('erp.get_laundry_qc_workspace_v1(text,text)') is not null
+     or to_regprocedure('erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)') is not null
      or to_regprocedure('public.erp_get_laundry_qc_workspace_v1(text,text)') is not null
      or to_regprocedure('public.erp_save_laundry_qc_action_v1(text,jsonb,uuid,bigint)') is not null
+     or exists(select 1 from pg_trigger where not tgisinternal and tgname in(
+       'trg_00_bump_row_version_v2620',
+       'trg_append_cp6_laundry_wip_reversal_v2620',
+       'trg_01_guard_cp6_qc_batch_size_source_v2620',
+       'trg_guard_cp6_delivery_batch_size_v2620',
+       'trg_guard_cp6_receipt_batch_size_v2620',
+       'trg_guard_cp6_failed_wash_attempt_v2620',
+       'trg_guard_cp6_failed_wash_size_v2620',
+       'trg_audit_cp6_delivery_batch_size_v2620',
+       'trg_audit_cp6_receipt_batch_size_v2620',
+       'trg_audit_cp6_failed_wash_attempt_v2620',
+       'trg_audit_cp6_failed_wash_size_v2620',
+       'trg_guard_cp6_delivery_lineage_on_post_v2620',
+       'trg_guard_cp6_receipt_lineage_on_post_v2620',
+       'trg_guard_cp6_vendor_invoice_receipt_on_post_v2620'
+     ))
      or exists(select 1 from information_schema.columns
        where table_schema='erp' and table_name='laundry_deliveries' and column_name='row_version')
      or exists(select 1 from information_schema.columns
@@ -432,7 +476,7 @@ delete from supabase_migrations.schema_migrations m
 where m.name='erp_v2_6_20_cp6_laundry_qc_fg_authoritative'
   and coalesce(encode(extensions.digest(
     convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'
-  ),'hex'),'')='4a252c7c895d031cbc92d656808a515294e18a923dc943e62e205a83c3ad5596';
+  ),'hex'),'')='083846e8009fc32fcf0145956efab90b19b6a3b4d33530e94557b08946cb6281';
 
 drop table erp.cp6_v2620_acl_capsule;
 drop table erp.cp6_v2620_rollback_capsule;

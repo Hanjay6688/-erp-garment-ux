@@ -116,7 +116,7 @@ assert.equal(occurrences(migration, 'po.po_number,po.model_id,po.status,g.id'), 
 assert.equal(occurrences(migration, 'q.po_id,po.po_number,po.status,rev.reversal_blocker'), 1,
   'QC workspace must group the backend PO-status reversal decision')
 
-const physicalTimeGate = migration.indexOf("if v_action in('POST_DELIVERY','POST_RECEIPT','POST_FINAL_SKU') then")
+const physicalTimeGate = migration.indexOf("if v_action in('POST_DELIVERY','POST_RECEIPT','POST_FAILED_WASH','POST_FINAL_SKU') then")
 const closedPayloadGate = migration.indexOf("if v_action='POST_DELIVERY' then")
 assert.ok(physicalTimeGate > migration.indexOf('Unsupported CP6 Laundry/QC action')
   && physicalTimeGate < closedPayloadGate,
@@ -148,12 +148,12 @@ assert.ok(workflow.includes(`= '${ledgerSha}'`), 'CP6 workflow platform-ledger d
 assert.ok(workflow.includes('\\set migration_source_b64 `python3 -c'),
   'CP6 workflow does not stream exact statement bytes into a psql-local variable')
 assert.ok(!workflow.includes('-v migration_source_b64="$migration_source_b64"'),
-  'CP6 workflow passes the 188 KiB statement through an argv entry and will exceed MAX_ARG_STRLEN')
+  'CP6 workflow passes the 232 KiB statement through an argv entry and will exceed MAX_ARG_STRLEN')
 
 const backendActionBlock = migration.match(/if v_action not in\(\s*([\s\S]*?)\s*\) then/)
 assert.ok(backendActionBlock, 'CP6 backend action allowlist not found')
 const expectedActions = [
-  'POST_DELIVERY', 'POST_RECEIPT', 'REVERSE_DELIVERY',
+  'POST_DELIVERY', 'POST_RECEIPT', 'POST_FAILED_WASH', 'REVERSE_DELIVERY',
   'REVERSE_RECEIPT', 'POST_FINAL_SKU', 'REVERSE_FINAL_SKU',
 ]
 assert.deepEqual(literals(backendActionBlock[1]), expectedActions, 'CP6 backend action vocabulary drifted')
@@ -170,7 +170,7 @@ for (const token of [
   'Laporan keuangan termasuk di dalam wilayah Keuangan.',
   'lock table erp.schema_migrations', 'DRIFT_CONCURRENT_MUTATION_DETECTED',
   'erp._cp3_assert_closed_json_object', 'CP6 POST_DELIVERY payload',
-  'CP6 POST_RECEIPT payload', 'CP6 POST_FINAL_SKU payload',
+  'CP6 POST_RECEIPT payload', 'CP6 POST_FAILED_WASH payload', 'CP6 POST_FINAL_SKU payload',
   'CP6 REVERSE_DELIVERY payload', 'CP6 REVERSE_RECEIPT payload',
   'CP6 REVERSE_FINAL_SKU payload', 'for update', 'pg_advisory_xact_lock',
   "'ESTIMATED'", 'PRESERVED_UNTIL_VENDOR_INVOICE',
@@ -188,6 +188,8 @@ for (const token of [
   'completion_mode is operational/reporting state, not browser-owned',
   'conflicts with authoritative ready-for-QC remainder',
   'actual_cost_status', 'rebuild_po_hpp', 'propagate_conversion_hpp_for_po',
+  'laundry_failed_wash_attempts', 'laundry_failed_wash_batch_size_lines',
+  'RETURN_UNPROCESSED', 'PHYSICAL_STAYS_AT_LAUNDRY',
   'sync_po_hpp_to_gl', 'desired_laundry_accrual', 'post_journal', 'reverse_journal',
   "or (old.status='POSTED' and new.status='REVERSED')",
 ]) assert.ok(migration.includes(token), `CP6 authoritative boundary token missing: ${token}`)
@@ -197,11 +199,13 @@ assert.ok(acceptance.includes('CP6 false PARTIAL must fail atomically'),
   'Acceptance does not reject a false PARTIAL_SELECTION declaration')
 assert.ok(acceptance.includes('completion-mode rejection left QC, FG, BS, finance, or idempotency residue'),
   'Acceptance does not prove false completion labels roll back every derived fact')
-assert.equal(occurrences(migration, "pg_advisory_xact_lock(hashtextextended('CP6FLOW:'||v_group_id::text,0))"), 6,
-  'All six CP6 mutations must share the same Potongan serialization fence')
+assert.equal(occurrences(migration, "pg_advisory_xact_lock(hashtextextended('CP6FLOW:'||v_group_id::text,0))"), 7,
+  'All seven CP6 mutations must share the same Potongan serialization fence')
 
 for (const [signature, digest] of [
   ['erp.desired_laundry_accrual(uuid)', '4ded5af2c9c604357d18c783b00dcdb9'],
+  ['erp.sync_laundry_accrual(uuid,date)', '9d5afd8d5c23e81a924a87cb4ef0037d'],
+  ['erp.rebuild_po_hpp(uuid,text)', 'bf5593c35375abb35c0c6d531ee375e6'],
   ['erp.post_journal(text,uuid,date,text,jsonb)', 'dbf6138ccc575950fc6aed789863af8c'],
   ['erp.reverse_journal(uuid,text)', '6ee9da4164624f08381415b01630f323'],
 ]) {
@@ -221,14 +225,16 @@ assert.ok(migration.includes("upper(replace(p_client_request_id::text, '-', ''))
   'Final-SKU document numbers must retain all UUID entropy')
 assert.equal(migration.includes("upper(substr(replace(p_client_request_id::text, '-', ''), 1, 10))"), false,
   'Final-SKU document numbers still truncate UUID entropy to a collision-prone prefix')
-assert.equal(occurrences(migration, 'count(*) from erp.cp6_v2620_rollback_capsule)<>9'), 2,
-  'CP6 must bind all nine replaced functions/views, including Laundry accrual and the Final-SKU number writer, into install/post guards')
-assert.ok(rollback.includes('count(*) from erp.cp6_v2620_rollback_capsule)<>9'),
-  'CP6 rollback does not require the exact nine-object restoration capsule')
+assert.equal(occurrences(migration, 'count(*) from erp.cp6_v2620_rollback_capsule)<>11'), 2,
+  'CP6 must bind all eleven replaced functions/views, including accrual serialization, HPP, and the Final-SKU number writer, into install/post guards')
+assert.ok(rollback.includes('count(*) from erp.cp6_v2620_rollback_capsule)<>11'),
+  'CP6 rollback does not require the exact eleven-object restoration capsule')
 for (const token of [
   'posted_receipt_cost', "lrl.actual_cost_status in('ESTIMATED','FINAL')",
   "lrl.actual_cost_status='ESTIMATED'", 'unbilled_actual_estimate',
   'greatest(qty_sent_pcs-costed_qty,0)*coalesce(estimated_rate_snapshot,0)',
+  "pg_advisory_xact_lock(hashtextextended('PO_HPP:'||p_po_id::text,0))",
+  'first-row Laundry accrual serialization is absent',
   'one process/rate while WIP/accrued manufacturing still uses another',
   'revoke all on function erp.desired_laundry_accrual(uuid)',
 ]) assert.ok(migration.includes(token), `Laundry actual-rate accrual reconciliation missing: ${token}`)
@@ -320,6 +326,9 @@ for (const token of [
 for (const token of [
   'Receipt sudah dipakai QC; reverse QC aktif terlebih dahulu.',
   'FG hasil QC masih dipakai transaksi downstream aktif.',
+  'CP6 paid failed-wash retry posts cost without inventing a physical receipt',
+  'CP6 paid full return is exact, all-or-nothing, and retires the committed form',
+  "expect.poll(() => calls.actions.length).toBe(1)",
   "toBeDisabled()",
 ]) assert.ok(browser.includes(token), `Browser reversal-affordance proof missing: ${token}`)
 
@@ -330,6 +339,14 @@ for (const token of [
   'exact rollback capsule is missing', 'installed object/capsule drift',
   'rollback failed exact ACL restoration', 'rollback left CP6 schema residue',
 ]) assert.ok(rollback.includes(token), `CP6 rollback refusal/restoration proof missing: ${token}`)
+for (const token of [
+  "to_regclass('erp.idx_failed_wash_source_size_v2620') is not null",
+  "to_regprocedure('erp.guard_cp6_failed_wash_attempt_v2620()') is not null",
+  "to_regprocedure('erp.guard_cp6_failed_wash_size_v2620()') is not null",
+  "to_regprocedure('erp.get_laundry_qc_workspace_v1(text,text)') is not null",
+  "to_regprocedure('erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)') is not null",
+  "'trg_guard_cp6_vendor_invoice_receipt_on_post_v2620'",
+]) assert.ok(rollback.includes(token), `CP6 rollback schema-residue guard missing: ${token}`)
 
 for (const token of [
   'CP6 coerced a string into a physical integer quantity',
@@ -344,6 +361,11 @@ for (const token of [
   'invoice replacement/retry left financial residue or duplicated history',
   'append-only Laundry WIP reversal history is not net zero',
   'controlled reversal lost history or left active stock/accrual',
+  'paid retry did not preserve cost/HPP/custody separation',
+  'paid full return did not conserve WIP/accrual/HPP',
+  'malformed failed-wash invoice did not fail without residue',
+  'cost reversal rewrote the immutable full-return custody fact',
+  'paid failed-wash reversal lost history or left cost/WIP residue',
   'CP6_AUTHORITATIVE_ACCEPTANCE_PASS', 'CP6_AUTHORITATIVE_RESIDUE_ZERO',
 ]) assert.ok(acceptance.includes(token), `CP6 acceptance proof missing: ${token}`)
 
@@ -389,21 +411,21 @@ for (const token of [
   'fails closed without Web Locks and sends no mutation',
 ]) assert.ok(hookTest.includes(token), `CP6 hook lifecycle proof missing: ${token}`)
 
-assert.equal(occurrences(laundryPage, "const [physicalAt, setPhysicalAt] = useState('')"), 2,
-  'Laundry physical timestamps must start blank for dispatch and receipt')
+assert.equal(occurrences(laundryPage, "const [physicalAt, setPhysicalAt] = useState('')"), 3,
+  'Laundry physical timestamps must start blank for dispatch, receipt, and failed wash')
 assert.equal(occurrences(qcPage, "const [physicalAt, setPhysicalAt] = useState('')"), 1,
   'QC physical timestamp must start blank')
 assert.equal(laundryPage.includes('localNow'), false, 'Laundry UI infers physical time from page/browser clock')
 assert.equal(qcPage.includes('localNow'), false, 'QC UI infers physical time from page/browser clock')
-assert.equal(occurrences(laundryPage, 'cp6WibPhysicalTimeToIso(physicalAt)'), 2,
-  'Both Laundry physical timestamps must use the fixed business-time serializer')
+assert.equal(occurrences(laundryPage, 'cp6WibPhysicalTimeToIso(physicalAt)'), 3,
+  'All Laundry physical timestamps must use the fixed business-time serializer')
 assert.equal(occurrences(qcPage, 'cp6WibPhysicalTimeToIso(physicalAt)'), 1,
   'QC physical timestamp must use the fixed business-time serializer')
-assert.equal(occurrences(laundryPage, 'useEffect(() => setConfirmed(false), [workspace])'), 2,
+assert.equal(occurrences(laundryPage, 'useEffect(() => setConfirmed(false), [workspace])'), 3,
   'Laundry acknowledgement must expire after every authoritative refetch')
 assert.equal(occurrences(qcPage, 'useEffect(() => setConfirmed(false), [workspace])'), 1,
   'QC acknowledgement must expire after every authoritative refetch')
-for (const token of ['WAKTU FISIK KELUAR', 'WAKTU FISIK KEMBALI']) {
+for (const token of ['WAKTU FISIK KELUAR', 'WAKTU FISIK KEMBALI', 'WAKTU KEJADIAN FISIK']) {
   assert.ok(laundryPage.includes(token), `Laundry UI physical-time input missing: ${token}`)
 }
 assert.ok(qcPage.includes('WAKTU FISIK QC'), 'QC UI physical-time input missing')
@@ -436,8 +458,8 @@ for (const token of [
 ]) assert.ok(businessTimeTest.includes(token), `WIB conversion test missing: ${token}`)
 assert.ok(browser.includes("getByRole('button', { name: /Post pengiriman atomic/ })"), 'CP6 browser send proof missing')
 assert.ok(browser.includes('await expect(post).toBeDisabled()'), 'CP6 browser does not prove blank physical time blocks posting')
-assert.equal(occurrences(browser, "physical_at: '2026-09-04T01:00:00.000Z'"), 3,
-  'Browser contract must prove all three 08:00 WIB inputs serialize to exact UTC instants')
+assert.equal(occurrences(browser, "physical_at: '2026-09-04T01:00:00.000Z'"), 5,
+  'Browser contract must prove all five asserted 08:00 WIB inputs serialize to exact UTC instants')
 assert.ok(browser.includes('calls.workspace.length).toBe(2)'), 'CP6 browser does not prove refetch expires acknowledgement')
 for (const token of [
   'view-only role sees server facts but every mutation control starts locked',
@@ -486,15 +508,24 @@ for (const token of [
   'requires every reversal affordance to match the backend blocker decision',
   'fails closed when two rate versions overlap at the physical time',
   'fails closed when backend reports any CP6 lineage issue',
+  'silently disables the paid-failure contract',
 ]) assert.ok(modelTest.includes(token), `CP6 parser test coverage missing: ${token}`)
 
 const raceKeys = [...race.matchAll(/report\['races'\]\['([^']+)'\]\s*=/g)].map((match) => match[1])
 assert.deepEqual(raceKeys, [
-  'post_delivery', 'post_receipt', 'vendor_invoice_vs_reverse_receipt',
+  'first_accrual_creation', 'post_delivery',
+  'failed_wash_vs_post_receipt', 'post_receipt',
+  'vendor_invoice_vs_reverse_receipt',
   'vendor_invoice_vs_final_sku', 'vendor_invoice_reversal_vs_final_sku',
   'final_sku_vs_vendor_invoice', 'final_sku_vs_vendor_invoice_reversal',
   'post_final_sku', 'final_sku_vs_reverse_receipt',
-], 'CP6 concurrency proof must retain exactly nine named races')
+], 'CP6 concurrency proof must retain exactly eleven named races')
+
+for (const token of [
+  'CP6-FIRST-ACCRUAL-PO',
+  "erp.desired_laundry_accrual('c8d40000-0000-4000-8000-000000000001')<>70",
+  'CP6 first-row accrual race seed is not pristine',
+]) assert.ok(seed.includes(token), `First-row accrual race seed missing: ${token}`)
 
 const requestBlockStart = race.indexOf('REQUESTS = {')
 const requestBlockEnd = race.indexOf('\n}\n\n', requestBlockStart)
@@ -513,11 +544,17 @@ for (const requestId of requestIds) {
 assert.ok([...requestPrefixCounts.values()].some((count) => count >= 2),
   'CP6 race fixtures must retain distinct UUIDs sharing the legacy ten-hex prefix collision')
 for (const token of [
+  'run_first_accrual_creation_race',
+  "'first_accrual_invariants'", "'state_rows': 1", "'event_rows': 1",
+  "'event_delta': 70", "'journal_rows': 1",
+  'Second first-accrual caller did not wait for the PO_HPP fence',
   "'receipt_cost_status': 'ESTIMATED'", "'laundry_accrual': 70",
   "'wip_net': 0", "'fg_net': 70", "'vendor_ap_net': 0",
   "'unbalanced_journals': 0", "'loser_idempotency_rows': 0",
   "'receipt_actual_cost': 90", "'current_hpp_total': 90",
-  "'vendor_ap_net': -90", "'winner_idempotency_rows': 19",
+  "'vendor_ap_net': -90", "'winner_idempotency_rows': 15",
+  "'failed_wash_attempt_history': 1", "'failed_wash_active_receipts': 0",
+  "'failed_wash_physical_lines': 0", 'POST_FAILED_WASH_VS_POST_RECEIPT',
   "'voided_hpp_history_lots': 5", "l.lot_origin='PRODUCTION'",
   'real serialization wait', 'invoice finalization owns the receipt lock',
   'invoice cost/AP commits before a waiting Final-SKU reads HPP',
@@ -541,8 +578,8 @@ assert.equal(/vendor_invoices[\s\S]*;\s*insert into erp\.vendor_invoice_items/.t
   'Vendor-invoice race fixture must not send multiple commands as one prepared statement')
 assert.ok(race.includes('def set_operator_claims(cur):'),
   'CP6 race harness lacks a claims-only backend execution context')
-assert.equal(occurrences(race, 'set_operator_claims(cur)'), 7,
-  'Every internal vendor-invoice lifecycle path must retain backend privilege with operator claims')
+assert.equal(occurrences(race, 'set_operator_claims(cur)'), 9,
+  'Every internal accrual/vendor-invoice lifecycle path must retain backend privilege with operator claims')
 assert.equal(
   /set_operator_context\(cur\)\s+(?:if reverse_invoice:\s+)?cur\.execute\(\s*['"]select erp\.(?:post|reverse)_vendor_invoice/.test(race),
   false,
@@ -575,16 +612,26 @@ for (const token of [
   'vendor_invoice_vs_reverse_receipt', 'vendor_invoice_vs_final_sku',
   'vendor_invoice_reversal_vs_final_sku',
   'final_sku_vs_vendor_invoice', 'final_sku_vs_vendor_invoice_reversal',
-  'final_sku_vs_reverse_receipt',
+  'final_sku_vs_reverse_receipt', 'failed_wash_vs_post_receipt',
+  'first_accrual_creation', "'event_delta': 70",
   'V2620_ROLLBACK_TAMPERED_STATEMENT_REJECTION.log',
   'V2620_PREEXISTING_PRODUCT_AMBIGUITY_REJECTION.log',
   'V2620_ROLLBACK_POST_USE_REJECTION.log', 'FINAL_RECONCILIATION.json',
   "'production_go',false", 'rm -rf supabase/.temp',
 ]) assert.ok(workflow.includes(token), `CP6 full-schema workflow missing: ${token}`)
 for (const key of [
-  'desired_laundry_accrual_sha256', 'final_sku_number_writer_sha256',
+  'desired_laundry_accrual_sha256', 'sync_laundry_accrual_sha256',
+  'rebuild_po_hpp_sha256', 'final_sku_number_writer_sha256',
 ]) assert.equal(occurrences(workflow, key), 3,
   `CP6 rollback proof must snapshot, resnapshot, and compare ${key}`)
+for (const token of [
+  "to_regclass('erp.idx_failed_wash_source_size_v2620') is not null",
+  "to_regprocedure('erp.guard_cp6_failed_wash_attempt_v2620()') is not null",
+  "to_regprocedure('erp.guard_cp6_failed_wash_size_v2620()') is not null",
+  "to_regprocedure('erp.get_laundry_qc_workspace_v1(text,text)') is not null",
+  "to_regprocedure('erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)') is not null",
+  "'trg_guard_cp6_vendor_invoice_receipt_on_post_v2620'",
+]) assert.ok(workflow.includes(token), `CP6 rollback/final schema-residue proof missing: ${token}`)
 assert.match(browserConfig, /testMatch: 'cp6-laundry-qc\.spec\.ts'/)
 assert.match(browserConfig, /ERP_UAT_AUTH_ALLOW_MOCK_KEY: '1'/)
 assert.match(packageJson, /"check:cp6": "node scripts\/check-cp6-boundary\.mjs"/)
@@ -657,4 +704,4 @@ for (const token of [
   'The legacy ERP project is read-only',
 ]) assert.ok(rules.includes(token), `Binding ERP reliability rule missing: ${token}`)
 
-console.log(`CP6 boundary passed: migration ${migrationBytes.length} bytes / ${migrationFileSha.slice(0, 12)}, ledger ${ledgerSha.slice(0, 12)}; six closed actions, exact batch-size conservation, Brand-scoped SKU identity, explicit physical time, durable idempotency, append-only reversal, finance/stock/HPP reconciliation, nine serialized races, and digest-bound rollback are owned.`)
+console.log(`CP6 boundary passed: migration ${migrationBytes.length} bytes / ${migrationFileSha.slice(0, 12)}, ledger ${ledgerSha.slice(0, 12)}; seven closed actions, exact batch-size conservation, Brand-scoped SKU identity, explicit physical time, durable idempotency, append-only reversal, paid failed-wash custody/cost separation, finance/stock/HPP reconciliation, eleven serialized races, and digest-bound rollback are owned.`)

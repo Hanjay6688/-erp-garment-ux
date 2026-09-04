@@ -15,7 +15,7 @@ type PendingMutation = {
 }
 
 const actions = new Set<LaundryQcAction>([
-  'POST_DELIVERY', 'POST_RECEIPT', 'REVERSE_DELIVERY',
+  'POST_DELIVERY', 'POST_RECEIPT', 'POST_FAILED_WASH', 'REVERSE_DELIVERY',
   'REVERSE_RECEIPT', 'POST_FINAL_SKU', 'REVERSE_FINAL_SKU',
 ])
 const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i

@@ -71,13 +71,19 @@ declare
   v_qc_request constant uuid:='c7060000-0000-4000-8000-000000000003';
   v_false_all_ready_request constant uuid:='c7060000-0000-4000-8000-000000000004';
   v_false_partial_request constant uuid:='c7060000-0000-4000-8000-000000000005';
+  v_failed_retry_request constant uuid:='c7060000-0000-4000-8000-000000000006';
+  v_failed_return_request constant uuid:='c7060000-0000-4000-8000-000000000007';
+  v_redispatch_request constant uuid:='c7060000-0000-4000-8000-000000000008';
   v_claim constant uuid:='c7070000-0000-4000-8000-000000000001';
   v_late_invoice constant uuid:='c7080000-0000-4000-8000-000000000001';
   v_late_invoice_item constant uuid:='c7080000-0000-4000-8000-000000000002';
   v_replacement_invoice constant uuid:='c7080000-0000-4000-8000-000000000003';
   v_replacement_invoice_item constant uuid:='c7080000-0000-4000-8000-000000000004';
+  v_failed_invoice constant uuid:='c7080000-0000-4000-8000-000000000005';
+  v_failed_invoice_item constant uuid:='c7080000-0000-4000-8000-000000000006';
   v_send_payload jsonb;
   v_receipt_payload jsonb;
+  v_failed_payload jsonb;
   v_qc_payload jsonb;
   v_response jsonb;
   v_replay jsonb;
@@ -91,15 +97,24 @@ declare
   v_receipt_line uuid;
   v_receipt_version bigint;
   v_receipt_size_line uuid;
+  v_failed_retry_receipt uuid;
+  v_failed_retry_receipt_line uuid;
+  v_failed_retry_attempt uuid;
+  v_failed_return_receipt uuid;
+  v_failed_return_receipt_line uuid;
+  v_failed_return_attempt uuid;
   v_qc uuid;
   v_qc_version bigint;
   v_failed boolean;
   v_hpp numeric;
+  v_hpp_baseline numeric;
 begin
   if not exists(select 1 from erp.schema_migrations where version='v2.6.20')
      or not exists(select 1 from erp.schema_migrations where version='v2.6.19c')
      or to_regclass('erp.laundry_delivery_batch_size_lines') is null
      or to_regclass('erp.laundry_receipt_batch_size_lines') is null
+     or to_regclass('erp.laundry_failed_wash_attempts') is null
+     or to_regclass('erp.laundry_failed_wash_batch_size_lines') is null
      or to_regclass('erp.cp6_laundry_qc_execution_context') is null
      or to_regclass('erp.cp6_v2620_acl_capsule') is null
      or to_regclass('erp.idx_products_brand_sku_effective_v2620') is null
@@ -116,7 +131,7 @@ begin
          and t.tgname='trg_guard_cp6_vendor_invoice_receipt_on_post_v2620'
          and t.tgenabled<>'D' and not t.tgisinternal
      )
-     or (select count(*) from erp.cp6_v2620_rollback_capsule)<>9
+     or (select count(*) from erp.cp6_v2620_rollback_capsule)<>11
      or (select count(*) from erp.cp6_v2620_acl_capsule)<>13 then
     raise exception 'CP6 v2.6.20 boundary is not installed completely';
   end if;
@@ -130,6 +145,8 @@ begin
      or has_function_privilege('authenticated','erp.desired_laundry_accrual(uuid)','EXECUTE')
      or has_table_privilege('authenticated','erp.laundry_delivery_batch_size_lines','SELECT,INSERT,UPDATE,DELETE')
      or has_table_privilege('authenticated','erp.laundry_receipt_batch_size_lines','SELECT,INSERT,UPDATE,DELETE')
+     or has_table_privilege('authenticated','erp.laundry_failed_wash_attempts','SELECT,INSERT,UPDATE,DELETE')
+     or has_table_privilege('authenticated','erp.laundry_failed_wash_batch_size_lines','SELECT,INSERT,UPDATE,DELETE')
      or has_table_privilege('authenticated','erp.cp6_laundry_qc_execution_context','SELECT,INSERT,UPDATE,DELETE')
      or has_table_privilege('authenticated','erp.cp6_v2620_rollback_capsule','SELECT,INSERT,UPDATE,DELETE')
      or has_table_privilege('authenticated','erp.cp6_v2620_acl_capsule','SELECT,INSERT,UPDATE,DELETE')
@@ -163,6 +180,9 @@ begin
     raise exception 'CP6 browser/private ACL boundary is open';
   end if;
   if pg_get_functiondef('erp.require_internal()'::regprocedure) not like '%cp6_laundry_qc_execution_context%'
+     or replace(pg_get_functiondef(
+       'erp.sync_laundry_accrual(uuid,date)'::regprocedure),' ','')
+       not like '%pg_advisory_xact_lock(hashtextextended(''PO_HPP:''||p_po_id::text,0))%fromerp.laundry_cost_accrual_state%forupdate%'
      or pg_get_functiondef('erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)'::regprocedure)
        not like '%browser_formula_used%false%'
      or pg_get_viewdef('erp.v_fg_partial_completion_progress'::regclass,true)
@@ -533,7 +553,7 @@ begin
   if v_workspace->>'contract_version'<>'CP6_V2620'
      or v_workspace->>'scope'<>'LAUNDRY'
      or v_workspace#>>'{readiness,no_fixture_fallback}'<>'true'
-     or v_workspace#>>'{readiness,failed_wash_with_charge_supported}'<>'false'
+     or v_workspace#>>'{readiness,failed_wash_with_charge_supported}'<>'true'
      or v_workspace#>>'{readiness,lineage_integrity_ok}'<>'true'
      or (v_workspace#>>'{readiness,lineage_issue_count}')::bigint<>0
      or jsonb_array_length(v_workspace->'ready_batches')<>1
@@ -1635,6 +1655,297 @@ begin
     raise exception 'CP6 append-only Laundry WIP reversal history is not net zero';
   end if;
 
+  -- Rare but real owner flow: the vendor may charge a failed service attempt.
+  -- A retry keeps custody at Laundry; a full unprocessed return moves custody
+  -- back to Sewing. Neither path may manufacture Good, BS, QC, or FG facts.
+  select coalesce(sum(h.total_cost),0) into v_hpp_baseline
+  from erp.hpp_versions h join erp.fg_lots l on l.id=h.lot_id
+  where l.po_id=v_po and l.lot_origin='PRODUCTION' and h.is_current;
+  select row_version into v_group_version from erp.cutting_groups where id=v_group;
+  execute 'set local role authenticated';
+  v_response:=public.erp_save_laundry_qc_action_v1(
+    'POST_DELIVERY',v_send_payload||jsonb_build_object(
+      'physical_at','2026-09-05T09:00:00+00',
+      'reason','CP6 redispatch before paid failed-wash proof',
+      'notes','New immutable handoff after the old dispatch was reversed'
+    ),v_redispatch_request,v_group_version
+  );
+  execute 'reset role';
+  if v_response->>'status'<>'SENT'
+     or (v_response->>'rate_per_pcs')::numeric<>9
+     or (v_response->>'estimated_cost')::numeric<>90 then
+    raise exception 'CP6 rare-flow redispatch did not use the authoritative current rate: %',v_response;
+  end if;
+  v_delivery:=(v_response->>'delivery_id')::uuid;
+  v_delivery_version:=(v_response->>'row_version')::bigint;
+  select id into v_delivery_size_line
+  from erp.laundry_delivery_batch_size_lines
+  where delivery_line_id in(select id from erp.laundry_delivery_lines where delivery_id=v_delivery);
+
+  v_failed_payload:=jsonb_build_object(
+    'delivery_id',v_delivery,'wash_process_id',v_process,
+    'custody_outcome','RETRY_AT_VENDOR','physical_at','2026-09-05T10:00:00+00',
+    'reason','CP6 chemical exhausted after paid retry attempt',
+    'lines',jsonb_build_array(jsonb_build_object(
+      'delivery_batch_size_line_id',v_delivery_size_line,'qty_attempted_pcs',10
+    ))
+  );
+  execute 'set local role authenticated';
+  v_response:=public.erp_save_laundry_qc_action_v1(
+    'POST_FAILED_WASH',v_failed_payload,v_failed_retry_request,v_delivery_version
+  );
+  v_replay:=public.erp_save_laundry_qc_action_v1(
+    'POST_FAILED_WASH',v_failed_payload,v_failed_retry_request,v_delivery_version
+  );
+  execute 'reset role';
+  if v_response is distinct from v_replay
+     or v_response->>'custody_outcome'<>'RETRY_AT_VENDOR'
+     or (v_response->>'qty_attempted_pcs')::integer<>10
+     or (v_response->>'actual_cost')::numeric<>90
+     or v_response->>'stock_effect'<>'PHYSICAL_STAYS_AT_LAUNDRY' then
+    raise exception 'CP6 paid retry/replay changed cost or physical meaning: %, %',v_response,v_replay;
+  end if;
+  v_failed_retry_receipt:=(v_response->>'receipt_id')::uuid;
+  v_failed_retry_attempt:=(v_response->>'failed_wash_attempt_id')::uuid;
+  v_delivery_version:=(v_response->>'delivery_row_version')::bigint;
+  select id into v_failed_retry_receipt_line
+  from erp.laundry_receipt_lines where receipt_id=v_failed_retry_receipt;
+  select coalesce(sum(h.total_cost),0) into v_hpp
+  from erp.hpp_versions h join erp.fg_lots l on l.id=h.lot_id
+  where l.po_id=v_po and l.lot_origin='PRODUCTION' and h.is_current;
+  if (select accrued_amount from erp.laundry_cost_accrual_state where po_id=v_po)<>180
+     or erp.desired_laundry_accrual(v_po)<>180
+     or v_hpp<>v_hpp_baseline+180
+     or (select count(*) from erp.laundry_failed_wash_attempts
+       where id=v_failed_retry_attempt and receipt_id=v_failed_retry_receipt
+         and custody_outcome='RETRY_AT_VENDOR' and qty_attempted_pcs=10
+         and return_wip_event_id is null)<>1
+     or (select count(*) from erp.laundry_failed_wash_batch_size_lines
+       where attempt_id=v_failed_retry_attempt and delivery_batch_size_line_id=v_delivery_size_line
+         and qty_attempted_pcs=10)<>1
+     or exists(select 1 from erp.laundry_receipt_batch_size_lines
+       where receipt_line_id=v_failed_retry_receipt_line)
+     or exists(select 1 from erp.wip_stage_events
+       where source_type='LAUNDRY_RECEIPT_LINE' and source_id=v_failed_retry_receipt_line) then
+    raise exception 'CP6 paid retry did not preserve cost/HPP/custody separation (HPP %, baseline %)',
+      v_hpp,v_hpp_baseline;
+  end if;
+
+  execute 'set local role authenticated';
+  v_failed:=false;
+  begin
+    perform public.erp_save_laundry_qc_action_v1(
+      'POST_FAILED_WASH',v_failed_payload||jsonb_build_object(
+        'reason','CP6 changed retry payload must conflict'
+      ),v_failed_retry_request,v_delivery_version
+    );
+  exception when others then
+    if sqlerrm='client_request_id was already used with a different payload'
+      then v_failed:=true; else raise; end if;
+  end;
+  execute 'reset role';
+  if not v_failed then raise exception 'CP6 paid retry idempotency accepted a different payload'; end if;
+
+  v_failed_payload:=jsonb_build_object(
+    'delivery_id',v_delivery,'wash_process_id',v_process,
+    'custody_outcome','RETURN_UNPROCESSED','physical_at','2026-09-05T11:00:00+00',
+    'reason','CP6 vendor returns the complete PO batch unprocessed but charges attempt',
+    'lines',jsonb_build_array(jsonb_build_object(
+      'delivery_batch_size_line_id',v_delivery_size_line,'qty_attempted_pcs',10
+    ))
+  );
+  execute 'set local role authenticated';
+  v_response:=public.erp_save_laundry_qc_action_v1(
+    'POST_FAILED_WASH',v_failed_payload,v_failed_return_request,v_delivery_version
+  );
+  execute 'reset role';
+  if v_response->>'custody_outcome'<>'RETURN_UNPROCESSED'
+     or v_response->>'delivery_status'<>'REVERSED'
+     or v_response->>'stock_effect'<>'LAUNDRY_TO_SEWING_RETURN'
+     or (v_response->>'actual_cost')::numeric<>90 then
+    raise exception 'CP6 paid full-return response is not explicit: %',v_response;
+  end if;
+  v_failed_return_receipt:=(v_response->>'receipt_id')::uuid;
+  v_failed_return_attempt:=(v_response->>'failed_wash_attempt_id')::uuid;
+  select id into v_failed_return_receipt_line
+  from erp.laundry_receipt_lines where receipt_id=v_failed_return_receipt;
+  select coalesce(sum(h.total_cost),0) into v_hpp
+  from erp.hpp_versions h join erp.fg_lots l on l.id=h.lot_id
+  where l.po_id=v_po and l.lot_origin='PRODUCTION' and h.is_current;
+  if (select accrued_amount from erp.laundry_cost_accrual_state where po_id=v_po)<>180
+     or erp.desired_laundry_accrual(v_po)<>180
+     or v_hpp<>v_hpp_baseline+180
+     or (select count(*) from erp.laundry_failed_wash_attempts
+       where delivery_id=v_delivery)<>2
+     or (select count(*) from erp.laundry_failed_wash_attempts
+       where id=v_failed_return_attempt and receipt_id=v_failed_return_receipt
+         and custody_outcome='RETURN_UNPROCESSED' and qty_attempted_pcs=10
+         and return_wip_event_id is not null)<>1
+     or (select count(*) from erp.wip_stage_events w
+       where w.id=(select return_wip_event_id from erp.laundry_failed_wash_attempts
+         where id=v_failed_return_attempt)
+         and w.source_type='CP6_LAUNDRY_DELIVERY_WIP_REVERSAL'
+         and w.stage_from='LAUNDRY' and w.stage_to='SEWING' and w.qty_pcs=10)<>1
+     or exists(select 1 from erp.laundry_receipt_batch_size_lines
+       where receipt_line_id=v_failed_return_receipt_line) then
+    raise exception 'CP6 paid full return did not conserve WIP/accrual/HPP (HPP %, baseline %)',
+      v_hpp,v_hpp_baseline;
+  end if;
+
+  execute 'set local role authenticated';
+  v_workspace:=public.erp_get_laundry_qc_workspace_v1('LAUNDRY','CP6-PO-001');
+  execute 'reset role';
+  select value into v_nested from jsonb_array_elements(v_workspace->'deliveries')
+  where value->>'delivery_id'=v_delivery::text;
+  if v_nested is null
+     or (v_nested->>'returned_unprocessed_qty_pcs')::integer<>10
+     or (v_nested->>'physical_outstanding_qty_pcs')::integer<>0
+     or (select count(*) from jsonb_array_elements(v_nested->'receipts') r
+       where r->>'event_kind'='FAILED_WASH_ATTEMPT'
+         and r->>'attempted_qty_pcs'='10' and r->>'process_name'='CP6 Standard Wash')<>2
+     or (select count(*) from jsonb_array_elements(v_workspace->'ready_batches') b
+       where b->>'distribution_batch_id'=v_distribution_batch::text
+         and (b#>>'{sizes,0,available_qty_pcs}')::integer=10)<>1 then
+    raise exception 'CP6 workspace merged paid cost with physical receipt or hid returned capacity: %',v_nested;
+  end if;
+
+  -- Invoice qty/rate/amount is server-checked against the attempt. A malformed
+  -- bill must roll back its own header, item, AP, HPP, and receipt-cost update.
+  v_failed:=false;
+  begin
+    insert into erp.vendor_invoices(
+      id,invoice_number,vendor_id,invoice_date,received_at,due_date,
+      status,total_amount,notes,created_by
+    ) values(
+      v_failed_invoice,'CP6-FAILED-WASH-VI-BAD',v_vendor,'2026-09-06','2026-09-06 08:00:00+00',
+      '2026-09-20','DRAFT',101,'Malformed paid-attempt invoice must roll back',v_owner_app
+    );
+    insert into erp.vendor_invoice_items(
+      id,invoice_id,receipt_line_id,description,qty_pcs,actual_rate,actual_amount
+    ) values(
+      v_failed_invoice_item,v_failed_invoice,v_failed_return_receipt_line,
+      'Ten failed-wash pieces with invalid amount',10,10,101
+    );
+    perform erp.post_vendor_invoice(v_failed_invoice);
+  exception when others then
+    if sqlerrm='Vendor invoice Laundry quantity/rate/amount must equal the authoritative physical receipt or failed-wash attempt'
+      then v_failed:=true; else raise; end if;
+  end;
+  if not v_failed or exists(select 1 from erp.vendor_invoices where id=v_failed_invoice) then
+    raise exception 'CP6 malformed failed-wash invoice did not fail without residue';
+  end if;
+
+  insert into erp.vendor_invoices(
+    id,invoice_number,vendor_id,invoice_date,received_at,due_date,
+    status,total_amount,notes,created_by
+  ) values(
+    v_failed_invoice,'CP6-FAILED-WASH-VI-001',v_vendor,'2026-09-06','2026-09-06 08:00:00+00',
+    '2026-09-20','DRAFT',100,'Authoritative paid failed-wash invoice',v_owner_app
+  );
+  insert into erp.vendor_invoice_items(
+    id,invoice_id,receipt_line_id,description,qty_pcs,actual_rate,actual_amount
+  ) values(
+    v_failed_invoice_item,v_failed_invoice,v_failed_return_receipt_line,
+    'Ten failed-wash pieces at final rate 10',10,10,100
+  );
+  perform erp.post_vendor_invoice(v_failed_invoice);
+  select coalesce(sum(h.total_cost),0) into v_hpp
+  from erp.hpp_versions h join erp.fg_lots l on l.id=h.lot_id
+  where l.po_id=v_po and l.lot_origin='PRODUCTION' and h.is_current;
+  if (select status from erp.vendor_invoices where id=v_failed_invoice)<>'POSTED'
+     or (select actual_cost_status from erp.laundry_receipt_lines
+       where id=v_failed_return_receipt_line)<>'FINAL'
+     or (select accrued_amount from erp.laundry_cost_accrual_state where po_id=v_po)<>90
+     or erp.desired_laundry_accrual(v_po)<>90
+     or v_hpp<>v_hpp_baseline+190
+     or (select coalesce(sum(l.credit-l.debit),0) from erp.journal_lines l
+       where l.vendor_id=v_vendor and l.account_id=erp.account_id('AP_VENDOR'))<>100
+     or exists(
+       select 1 from erp.journal_entries e join erp.journal_lines l on l.journal_entry_id=e.id
+       where e.status='POSTED' group by e.id having sum(l.debit)<>sum(l.credit)
+     ) then
+    raise exception 'CP6 paid failed-wash invoice split AP/accrual/HPP (HPP %, baseline %)',
+      v_hpp,v_hpp_baseline;
+  end if;
+
+  perform erp.reverse_vendor_invoice(v_failed_invoice,'CP6 reverse paid failed-wash invoice');
+  select coalesce(sum(h.total_cost),0) into v_hpp
+  from erp.hpp_versions h join erp.fg_lots l on l.id=h.lot_id
+  where l.po_id=v_po and l.lot_origin='PRODUCTION' and h.is_current;
+  if erp.desired_laundry_accrual(v_po)<>180 or v_hpp<>v_hpp_baseline+180
+     or (select coalesce(sum(l.credit-l.debit),0) from erp.journal_lines l
+       where l.vendor_id=v_vendor and l.account_id=erp.account_id('AP_VENDOR'))<>0 then
+    raise exception 'CP6 failed-wash invoice reversal did not restore estimate exactly';
+  end if;
+
+  select row_version into v_receipt_version from erp.laundry_receipts
+  where id=v_failed_return_receipt;
+  execute 'set local role authenticated';
+  v_response:=public.erp_save_laundry_qc_action_v1(
+    'REVERSE_RECEIPT',jsonb_build_object(
+      'receipt_id',v_failed_return_receipt,'reason','CP6 reverse full-return service cost only'
+    ),gen_random_uuid(),v_receipt_version
+  );
+  execute 'reset role';
+  select coalesce(sum(h.total_cost),0) into v_hpp
+  from erp.hpp_versions h join erp.fg_lots l on l.id=h.lot_id
+  where l.po_id=v_po and l.lot_origin='PRODUCTION' and h.is_current;
+  if v_response->>'stock_effect'<>'PHYSICAL_RETURN_PRESERVED'
+     or (select status from erp.laundry_deliveries where id=v_delivery)<>'REVERSED'
+     or erp.desired_laundry_accrual(v_po)<>90 or v_hpp<>v_hpp_baseline+90 then
+    raise exception 'CP6 cost reversal rewrote the immutable full-return custody fact';
+  end if;
+
+  select row_version into v_receipt_version from erp.laundry_receipts
+  where id=v_failed_retry_receipt;
+  execute 'set local role authenticated';
+  perform public.erp_save_laundry_qc_action_v1(
+    'REVERSE_RECEIPT',jsonb_build_object(
+      'receipt_id',v_failed_retry_receipt,'reason','CP6 reverse retry service cost'
+    ),gen_random_uuid(),v_receipt_version
+  );
+  execute 'reset role';
+  select coalesce(sum(h.total_cost),0) into v_hpp
+  from erp.hpp_versions h join erp.fg_lots l on l.id=h.lot_id
+  where l.po_id=v_po and l.lot_origin='PRODUCTION' and h.is_current;
+  if erp.desired_laundry_accrual(v_po)<>0 or v_hpp<>v_hpp_baseline
+     or (select count(*) from erp.laundry_failed_wash_attempts
+       where delivery_id=v_delivery)<>2
+     or (select count(*) from erp.laundry_failed_wash_batch_size_lines x
+       join erp.laundry_failed_wash_attempts a on a.id=x.attempt_id
+       where a.delivery_id=v_delivery)<>2
+     or (select count(*) from erp.laundry_receipts
+       where id in(v_failed_retry_receipt,v_failed_return_receipt) and status='REVERSED')<>2
+     or exists(
+       select 1
+       from unnest(array['SEWING','LAUNDRY']) stage(name)
+       where(
+         select coalesce(sum(
+           case when w.stage_to=stage.name then w.qty_pcs else 0 end
+           -case when w.stage_from=stage.name then w.qty_pcs else 0 end
+         ),0)
+         from erp.wip_stage_events w
+         where w.source_id in(
+           select dl.id from erp.laundry_delivery_lines dl where dl.delivery_id=v_delivery
+         ) or w.source_id in(
+           select src.id from erp.wip_stage_events src
+           join erp.laundry_delivery_lines dl on dl.id=src.source_id
+           where dl.delivery_id=v_delivery and src.source_type='LAUNDRY_DELIVERY_LINE'
+         )
+       )<>0
+     ) then
+    raise exception 'CP6 paid failed-wash reversal lost history or left cost/WIP residue';
+  end if;
+
+  v_failed:=false;
+  begin
+    delete from erp.laundry_failed_wash_attempts where id=v_failed_retry_attempt;
+  exception when sqlstate '42501' then
+    if sqlerrm='FAILED_WASH_FACTS_REQUIRE_AUTHORITATIVE_FACADE'
+      then v_failed:=true; else raise; end if;
+  end;
+  if not v_failed then raise exception 'CP6 allowed failed-wash history deletion'; end if;
+
   v_failed:=false;
   begin
     update erp.laundry_delivery_batch_size_lines set qty_sent_pcs=9 where id=v_delivery_size_line;
@@ -1666,6 +1977,8 @@ begin
     'fg_stock',4,'hpp_total',v_hpp,'unbilled_accrual_before_reversal',70,
     'late_invoice_hpp',82,'replacement_invoice_hpp',76,
     'invoice_reversal_replay','NO_OP','replacement_history_preserved',true,
+    'paid_failed_wash_attempts',2,'paid_retry_cost',90,'paid_full_return_cost',90,
+    'failed_wash_final_cost_residue',0,'failed_wash_physical_net',0,
     'final_active_accrual',0,'final_po_ledger_net',0,
     'history_preserved',true,'browser_formula_used',false,'production_go',false
   );
@@ -1686,12 +1999,16 @@ begin
      or exists(select 1 from erp.laundry_claims where id='c7070000-0000-4000-8000-000000000001')
      or exists(select 1 from erp.vendor_invoices where id in(
        'c7080000-0000-4000-8000-000000000001',
-       'c7080000-0000-4000-8000-000000000003'
+       'c7080000-0000-4000-8000-000000000003',
+       'c7080000-0000-4000-8000-000000000005'
      ))
      or exists(select 1 from erp.idempotency_requests where client_request_id in(
        'c7060000-0000-4000-8000-000000000001',
        'c7060000-0000-4000-8000-000000000002',
-       'c7060000-0000-4000-8000-000000000003'
+       'c7060000-0000-4000-8000-000000000003',
+       'c7060000-0000-4000-8000-000000000006',
+       'c7060000-0000-4000-8000-000000000007',
+       'c7060000-0000-4000-8000-000000000008'
      )) then
     raise exception 'CP6 acceptance left transaction residue';
   end if;

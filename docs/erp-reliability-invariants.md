@@ -79,6 +79,11 @@ be read back from the authoritative backend. A partial success is a failure.
 - An unprocessed return caused by a failed wash is a physical return workflow,
   not a free-form claim. Re-dispatch and a legitimate second Laundry charge are
   a CP6 workflow and must preserve both physical legs.
+- A paid failed-wash attempt is a service-cost fact, never a fake Good/BS
+  receipt. `RETRY_AT_VENDOR` keeps physical custody at Laundry and may add a
+  second real attempt cost; `RETURN_UNPROCESSED` is exact/all-or-nothing and
+  appends Laundry-to-Sewing custody. Reversing its charge must not erase or
+  resurrect the physical return, and a re-dispatch is always a new document.
 - A physical Laundry receipt may snapshot the authoritative rate for HPP, but
   remains `ESTIMATED`/unbilled. It must not release the manufacturing accrual
   until a posted vendor invoice atomically finalizes the receipt cost, creates

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Nine real two-connection races for CP6 Laundry -> QC -> FG."""
+"""Eleven real two-connection races for CP6 Laundry -> QC -> FG."""
 from __future__ import annotations
 
 import json
@@ -27,6 +27,7 @@ PROCESS = 'c8c20000-0000-4000-8000-000000000003'
 LOCATION = 'c8c20000-0000-4000-8000-000000000001'
 PRODUCT = 'c8c10000-0000-4000-8000-000000000004'
 PO = 'c8c40000-0000-4000-8000-000000000001'
+FIRST_ACCRUAL_PO = 'c8d40000-0000-4000-8000-000000000001'
 VENDOR_INVOICE = 'c8c70000-0000-4000-8000-000000000001'
 VENDOR_INVOICE_ITEM = 'c8c70000-0000-4000-8000-000000000002'
 VENDOR_INVOICE_QC = 'c8c70000-0000-4000-8000-000000000003'
@@ -53,6 +54,9 @@ REQUESTS = {
     'qc_before_invoice_reverse': 'c8c60000-0000-4000-8000-000000000016',
     'qc_before_invoice_reversal_post': 'c8c60000-0000-4000-8000-000000000017',
     'qc_before_invoice_reversal_reverse': 'c8c60000-0000-4000-8000-000000000018',
+    'failed_wash_winner': 'c8c60000-0000-4000-8000-000000000019',
+    'failed_wash_receipt_loser': 'c8c60000-0000-4000-8000-000000000020',
+    'failed_wash_reverse': 'c8c60000-0000-4000-8000-000000000021',
 }
 
 
@@ -180,6 +184,71 @@ def run_race(
     if loser.get('elapsed_seconds', 0) < WAIT_FLOOR_SECONDS:
         raise RuntimeError(f'{name} did not observe a real serialization wait: {loser}')
     return {'winner': winner, 'loser': loser}
+
+
+def run_first_accrual_creation_race() -> dict[str, Any]:
+    """Prove two first callers create one state row and one money delta."""
+    first_finished = threading.Event()
+    first: dict[str, Any] = {}
+    second: dict[str, Any] = {}
+
+    def holder():
+        conn = connect()
+        try:
+            with conn.cursor() as cur:
+                cur.execute("set local lock_timeout='10s'")
+                set_operator_claims(cur)
+                cur.execute(
+                    'select erp.sync_laundry_accrual(%s::uuid,%s::date)',
+                    (FIRST_ACCRUAL_PO, '2026-09-04'),
+                )
+                first_finished.set()
+                time.sleep(HOLD_SECONDS)
+            conn.commit()
+            first['status'] = 'PASS'
+        except Exception as exc:  # pragma: no cover - emitted into CI evidence
+            conn.rollback()
+            first['status'] = 'FAIL'
+            first['error'] = str(exc)
+            first_finished.set()
+        finally:
+            conn.close()
+
+    def waiter():
+        first_finished.wait(timeout=10)
+        began = time.monotonic()
+        conn = connect()
+        try:
+            with conn.cursor() as cur:
+                cur.execute("set local lock_timeout='10s'")
+                set_operator_claims(cur)
+                cur.execute(
+                    'select erp.sync_laundry_accrual(%s::uuid,%s::date)',
+                    (FIRST_ACCRUAL_PO, '2026-09-04'),
+                )
+            conn.commit()
+            second['status'] = 'PASS'
+        except Exception as exc:  # pragma: no cover - emitted into CI evidence
+            conn.rollback()
+            second['status'] = 'FAIL'
+            second['error'] = str(exc)
+        finally:
+            second['elapsed_seconds'] = round(time.monotonic() - began, 3)
+            conn.close()
+
+    one = threading.Thread(target=holder, daemon=True)
+    two = threading.Thread(target=waiter, daemon=True)
+    one.start()
+    two.start()
+    one.join(timeout=20)
+    two.join(timeout=20)
+    if one.is_alive() or two.is_alive():
+        raise RuntimeError('FIRST_ACCRUAL_CREATION race thread timeout')
+    if first.get('status') != 'PASS' or second.get('status') != 'PASS':
+        raise RuntimeError(f'First accrual race mismatch: first={first}, second={second}')
+    if second.get('elapsed_seconds', 0) < WAIT_FLOOR_SECONDS:
+        raise RuntimeError(f'Second first-accrual caller did not wait for the PO_HPP fence: {second}')
+    return {'first': first, 'second': second}
 
 
 def run_committed_action_race(
@@ -636,6 +705,51 @@ def main():
         'races': {},
     }
 
+    report['races']['first_accrual_creation'] = run_first_accrual_creation_race()
+    first_accrual_invariants = scalar(
+        """
+        select jsonb_build_object(
+          'state_rows',(select count(*) from erp.laundry_cost_accrual_state
+            where po_id=%s::uuid),
+          'accrued_amount',(select coalesce(sum(accrued_amount),0)
+            from erp.laundry_cost_accrual_state where po_id=%s::uuid),
+          'event_rows',(select count(*) from erp.laundry_cost_accrual_events
+            where po_id=%s::uuid),
+          'event_delta',(select coalesce(sum(delta_amount),0)
+            from erp.laundry_cost_accrual_events where po_id=%s::uuid),
+          'journal_rows',(select count(distinct journal_entry_id)
+            from erp.laundry_cost_accrual_events where po_id=%s::uuid),
+          'wip_net',(select coalesce(sum(debit-credit),0) from erp.journal_lines
+            where po_id=%s::uuid and account_id=erp.account_id('WIP')),
+          'accrued_net',(select coalesce(sum(debit-credit),0) from erp.journal_lines
+            where po_id=%s::uuid and account_id=erp.account_id('ACCRUED_MANUFACTURING')),
+          'unbalanced_journals',(select count(*) from(
+            select e.id from erp.journal_entries e join erp.journal_lines l
+              on l.journal_entry_id=e.id
+            where l.po_id=%s::uuid group by e.id having sum(l.debit)<>sum(l.credit)
+          ) bad)
+        )
+        """,
+        (FIRST_ACCRUAL_PO,) * 8,
+    )
+    first_accrual_expected = {
+        'state_rows': 1,
+        'accrued_amount': 70,
+        'event_rows': 1,
+        'event_delta': 70,
+        'journal_rows': 1,
+        'wip_net': 70,
+        'accrued_net': -70,
+        'unbalanced_journals': 0,
+    }
+    report['first_accrual_invariants'] = first_accrual_invariants
+    report['first_accrual_expected'] = first_accrual_expected
+    if first_accrual_invariants != first_accrual_expected:
+        raise RuntimeError(
+            'CP6 first-row accrual serialization mismatch: '
+            f'expected={first_accrual_expected}, actual={first_accrual_invariants}'
+        )
+
     group_version = int(scalar('select row_version from erp.cutting_groups where id=%s::uuid', (GROUP,)))
     delivery_payload = {
         'distribution_batch_id': BATCH,
@@ -672,6 +786,46 @@ def main():
             'bs_product_id': None,
         }],
     }
+    failed_wash_payload = {
+        'delivery_id': delivery_id,
+        'wash_process_id': PROCESS,
+        'custody_outcome': 'RETRY_AT_VENDOR',
+        'physical_at': '2026-09-01T11:30:00Z',
+        'reason': 'CP6 paid failed-wash versus physical receipt race',
+        'lines': [{
+            'delivery_batch_size_line_id': delivery_size_line,
+            'qty_attempted_pcs': 10,
+        }],
+    }
+    report['races']['failed_wash_vs_post_receipt'] = run_committed_action_race(
+        'POST_FAILED_WASH_VS_POST_RECEIPT',
+        'POST_FAILED_WASH', failed_wash_payload,
+        REQUESTS['failed_wash_winner'], delivery_version,
+        'POST_RECEIPT', receipt_payload,
+        REQUESTS['failed_wash_receipt_loser'], delivery_version,
+        ('STALE_VERSION',),
+    )
+    failed_wash_response = (
+        report['races']['failed_wash_vs_post_receipt']['winner']['response']
+    )
+    failed_wash_receipt = str(failed_wash_response['receipt_id'])
+    failed_wash_reversal = single_action(
+        'REVERSE_RECEIPT',
+        {
+            'receipt_id': failed_wash_receipt,
+            'reason': 'CP6 restore failed-wash race before physical receipt proof',
+        },
+        REQUESTS['failed_wash_reverse'],
+        int(failed_wash_response['receipt_row_version']),
+    )
+    if failed_wash_reversal.get('status') != 'REVERSED':
+        raise RuntimeError(
+            f'CP6 could not reverse paid failed-wash race winner: {failed_wash_reversal}'
+        )
+    delivery_version = int(scalar(
+        'select row_version from erp.laundry_deliveries where id=%s::uuid',
+        (delivery_id,),
+    ))
     report['races']['post_receipt'] = run_race(
         'POST_RECEIPT', 'POST_RECEIPT', receipt_payload, delivery_version,
         REQUESTS['receipt_winner'], REQUESTS['receipt_loser'],
@@ -939,6 +1093,16 @@ def main():
             from erp.laundry_delivery_batch_size_lines x
             join erp.laundry_delivery_lines l on l.id=x.delivery_line_id
             where l.delivery_id=%s::uuid),
+          'failed_wash_attempt_history',(select count(*)
+            from erp.laundry_failed_wash_attempts a where a.delivery_id=%s::uuid),
+          'failed_wash_active_receipts',(select count(*)
+            from erp.laundry_failed_wash_attempts a
+            join erp.laundry_receipts r on r.id=a.receipt_id
+            where a.delivery_id=%s::uuid and r.status='POSTED'),
+          'failed_wash_physical_lines',(select count(*)
+            from erp.laundry_failed_wash_attempts a
+            join erp.laundry_receipt_batch_size_lines x on x.receipt_line_id=a.receipt_line_id
+            where a.delivery_id=%s::uuid),
           'posted_receipt_count',(select count(*) from erp.laundry_receipts
             where delivery_id=%s::uuid and status='POSTED'),
           'receipt_good_qty',(select coalesce(sum(x.qty_good_received),0)
@@ -984,10 +1148,12 @@ def main():
         )
         """,
         (
-            PO, delivery_id, delivery_id, receipt_id, PO, PO, PO, PO,
+            PO, delivery_id, delivery_id, delivery_id, delivery_id,
+            delivery_id, receipt_id, PO, PO, PO, PO,
             PO, receipt_line, PO, PO, PO, PO, VENDOR,
             [
                 REQUESTS['delivery_winner'], REQUESTS['receipt_winner'],
+                REQUESTS['failed_wash_winner'], REQUESTS['failed_wash_reverse'],
                 REQUESTS['invoice_qc_post'], REQUESTS['invoice_qc_reverse'],
                 REQUESTS['invoice_reversal_qc_post'],
                 REQUESTS['invoice_reversal_qc_reverse'],
@@ -1000,6 +1166,7 @@ def main():
             ],
             [
                 REQUESTS['delivery_loser'], REQUESTS['receipt_loser'],
+                REQUESTS['failed_wash_receipt_loser'],
                 REQUESTS['qc_loser'], REQUESTS['receipt_reverse_loser'],
                 REQUESTS['invoice_receipt_reverse_loser'],
             ],
@@ -1008,6 +1175,9 @@ def main():
     expected = {
         'active_delivery_count': 1,
         'delivery_size_qty': 10,
+        'failed_wash_attempt_history': 1,
+        'failed_wash_active_receipts': 0,
+        'failed_wash_physical_lines': 0,
         'posted_receipt_count': 1,
         'receipt_good_qty': 10,
         'posted_qc_count': 1,
@@ -1023,7 +1193,10 @@ def main():
         'vendor_ap_net': 0,
         'unbalanced_journals': 0,
         'execution_context_rows': 0,
-        'winner_idempotency_rows': 19,
+        # Exactly the 15 facade requests listed above committed. Private
+        # invoice post/reversal paths do not manufacture facade idempotency
+        # rows, and every losing request must remain absent.
+        'winner_idempotency_rows': 15,
         'loser_idempotency_rows': 0,
     }
     report['invariants'] = invariants
@@ -1032,7 +1205,7 @@ def main():
         raise RuntimeError(f'CP6 serialized-state invariant mismatch: expected={expected}, actual={invariants}')
     report['status'] = 'PASS'
     REPORT.write_text(json.dumps(report, indent=2, sort_keys=True, default=str) + '\n', encoding='utf8')
-    print('CP6 Laundry/QC/FG concurrency passed: nine serialized races, including both invoice post/reversal scheduling directions versus Final-SKU and source reversal; no duplicate physical, finance, stock, or HPP fact.')
+    print('CP6 Laundry/QC/FG concurrency passed: eleven serialized races, including first-row accrual, paid failed-wash versus physical receipt, and both invoice post/reversal scheduling directions versus Final-SKU/source reversal; no duplicate physical, finance, stock, or HPP fact.')
 
 
 if __name__ == '__main__':

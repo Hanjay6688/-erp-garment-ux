@@ -607,6 +607,12 @@ jobs:
             'desired_laundry_accrual_sha256',encode(extensions.digest(convert_to(
               pg_get_functiondef('erp.desired_laundry_accrual(uuid)'::regprocedure),'UTF8'
             ),'sha256'),'hex'),
+            'sync_laundry_accrual_sha256',encode(extensions.digest(convert_to(
+              pg_get_functiondef('erp.sync_laundry_accrual(uuid,date)'::regprocedure),'UTF8'
+            ),'sha256'),'hex'),
+            'rebuild_po_hpp_sha256',encode(extensions.digest(convert_to(
+              pg_get_functiondef('erp.rebuild_po_hpp(uuid,text)'::regprocedure),'UTF8'
+            ),'sha256'),'hex'),
             'final_sku_number_writer_sha256',encode(extensions.digest(convert_to(
               pg_get_functiondef('erp.post_fg_partial_completion_v2_legacy_v2610(jsonb,uuid,bigint)'::regprocedure),'UTF8'
             ),'sha256'),'hex'),
@@ -676,11 +682,11 @@ jobs:
         run: |
           set -euo pipefail
           migration_source='supabase/migrations/20260904111157_erp_v2_6_20_cp6_laundry_qc_fg_authoritative.sql'
-          test "$(wc -c < "$migration_source")" = '192365'
-          echo 'f3337330bfb6240bd1b090c692d9a968a6d79f2c025a27b0c4799d4cf5656996  supabase/migrations/20260904111157_erp_v2_6_20_cp6_laundry_qc_fg_authoritative.sql' | sha256sum -c - | tee cp6-proof/V2620_MIGRATION_SHA256.txt
+          test "$(wc -c < "$migration_source")" = '237865'
+          echo 'd580e0a1120657afc38ca3e21e75bd90afef980efb744ca02550360245a7748d  supabase/migrations/20260904111157_erp_v2_6_20_cp6_laundry_qc_fg_authoritative.sql' | sha256sum -c - | tee cp6-proof/V2620_MIGRATION_SHA256.txt
           psql "$PGURL" -v ON_ERROR_STOP=1 -f "$migration_source" 2>&1 | tee cp6-proof/V2620_APPLY.log
           # Linux limits each argv entry to roughly 128 KiB. Keep the exact
-          # 188 KiB statement out of `psql -v`; psql variables themselves are
+          # 232 KiB statement out of `psql -v`; psql variables themselves are
           # unbounded and can safely receive controlled command output.
           psql "$PGURL" -v ON_ERROR_STOP=1 <<'SQL'
           \set migration_source_b64 `python3 -c "import base64,pathlib; p=pathlib.Path('supabase/migrations/20260904111157_erp_v2_6_20_cp6_laundry_qc_fg_authoritative.sql').read_bytes(); assert p.endswith(b'\\n'); print(base64.b64encode(p[:-1]).decode())"`
@@ -690,7 +696,7 @@ jobs:
             array[convert_from(decode(:'migration_source_b64','base64'),'UTF8')]
           ) on conflict(version) do nothing;
           SQL
-          test "$(psql "$PGURL" -At -c "select encode(extensions.digest(convert_to(array_to_string(statements,E'\\n'),'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations where name='erp_v2_6_20_cp6_laundry_qc_fg_authoritative'")" = '4a252c7c895d031cbc92d656808a515294e18a923dc943e62e205a83c3ad5596'
+          test "$(psql "$PGURL" -At -c "select encode(extensions.digest(convert_to(array_to_string(statements,E'\\n'),'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations where name='erp_v2_6_20_cp6_laundry_qc_fg_authoritative'")" = '083846e8009fc32fcf0145956efab90b19b6a3b4d33530e94557b08946cb6281'
           set +e
           psql "$PGURL" -v ON_ERROR_STOP=1 -f "$migration_source" > cp6-proof/V2620_REPLAY_REJECTION.log 2>&1
           replay_status=$?
@@ -708,7 +714,7 @@ jobs:
           grep -F 'CP6_AUTHORITATIVE_ACCEPTANCE_PASS' cp6-proof/V2620_AUTHORITATIVE_ACCEPTANCE.log >/dev/null
           grep -F 'CP6_AUTHORITATIVE_RESIDUE_ZERO' cp6-proof/V2620_AUTHORITATIVE_ACCEPTANCE.log >/dev/null
 
-      - name: Run real two-connection CP6 delivery, receipt, vendor-invoice, Final-SKU, and reversal races in an isolated database clone
+      - name: Run eleven real two-connection CP6 accrual, delivery, receipt, invoice, Final-SKU, and reversal races in an isolated clone
         shell: bash
         run: |
           set -euo pipefail
@@ -741,7 +747,9 @@ jobs:
 
           report = json.loads(Path(os.environ['CP6_LAUNDRY_QC_RACE_REPORT']).read_text())
           expected = {
+              'first_accrual_creation',
               'post_delivery',
+              'failed_wash_vs_post_receipt',
               'post_receipt',
               'vendor_invoice_vs_reverse_receipt',
               'vendor_invoice_vs_final_sku',
@@ -753,6 +761,17 @@ jobs:
           }
           assert report['status'] == 'PASS', report
           assert set(report['races']) == expected, report['races']
+          assert report['first_accrual_invariants'] == report['first_accrual_expected'], report
+          assert report['first_accrual_invariants'] == {
+              'state_rows': 1,
+              'accrued_amount': 70,
+              'event_rows': 1,
+              'event_delta': 70,
+              'journal_rows': 1,
+              'wip_net': 70,
+              'accrued_net': -70,
+              'unbalanced_journals': 0,
+          }, report
           assert report['invoice_qc_invariants'] == report['invoice_qc_expected'], report
           assert report['invoice_qc_invariants']['receipt_actual_cost'] == 90.0, report
           assert report['invoice_qc_invariants']['current_hpp_total'] == 90.0, report
@@ -775,6 +794,8 @@ jobs:
           PY
           test "$(psql "$PGURL" -At -c "select count(*) from erp.laundry_delivery_batch_size_lines")" = '0'
           test "$(psql "$PGURL" -At -c "select count(*) from erp.laundry_receipt_batch_size_lines")" = '0'
+          test "$(psql "$PGURL" -At -c "select count(*) from erp.laundry_failed_wash_attempts")" = '0'
+          test "$(psql "$PGURL" -At -c "select count(*) from erp.laundry_failed_wash_batch_size_lines")" = '0'
           test "$(psql "$PGURL" -At -c "select count(*) from erp.cp6_laundry_qc_execution_context")" = '0'
 
       - name: Re-run affected CP5, Cutting, partial-FG, HPP, and accounting behavior under CP6
@@ -984,7 +1005,7 @@ jobs:
           test "$rollback_status" -ne 0
           grep -F 'v2.6.20 rollback refused: platform ledger statement digest is ambiguous' \
             cp6-proof/V2620_ROLLBACK_TAMPERED_STATEMENT_REJECTION.log >/dev/null
-          test "$(psql "$PGURL" -At -c "select encode(extensions.digest(convert_to(array_to_string(statements,E'\\n'),'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations where name='erp_v2_6_20_cp6_laundry_qc_fg_authoritative'")" = '4a252c7c895d031cbc92d656808a515294e18a923dc943e62e205a83c3ad5596'
+          test "$(psql "$PGURL" -At -c "select encode(extensions.digest(convert_to(array_to_string(statements,E'\\n'),'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations where name='erp_v2_6_20_cp6_laundry_qc_fg_authoritative'")" = '083846e8009fc32fcf0145956efab90b19b6a3b4d33530e94557b08946cb6281'
 
           psql "$PGURL" -v ON_ERROR_STOP=1 \
             -f supabase/rollbacks/20260904111157_erp_v2_6_20_cp6_laundry_qc_fg_authoritative.rollback.sql \
@@ -1030,6 +1051,8 @@ jobs:
               where name='erp_v2_6_20_cp6_laundry_qc_fg_authoritative'),
             'cp6_tables',to_regclass('erp.laundry_delivery_batch_size_lines') is not null
               or to_regclass('erp.laundry_receipt_batch_size_lines') is not null
+              or to_regclass('erp.laundry_failed_wash_attempts') is not null
+              or to_regclass('erp.laundry_failed_wash_batch_size_lines') is not null
               or to_regclass('erp.cp6_laundry_qc_execution_context') is not null,
             'cp6_facades',to_regprocedure('public.erp_get_laundry_qc_workspace_v1(text,text)') is not null
               or to_regprocedure('public.erp_save_laundry_qc_action_v1(text,jsonb,uuid,bigint)') is not null,
@@ -1037,7 +1060,37 @@ jobs:
               or to_regclass('erp.cp6_v2620_acl_capsule') is not null
               or to_regclass('erp.uq_cp6_wip_reversal_source_v2620') is not null
               or to_regclass('erp.idx_products_brand_sku_effective_v2620') is not null
+              or to_regclass('erp.idx_laundry_delivery_batch_size_source_v2620') is not null
+              or to_regclass('erp.idx_laundry_receipt_batch_size_source_v2620') is not null
+              or to_regclass('erp.idx_failed_wash_source_size_v2620') is not null
+              or to_regclass('erp.idx_qc_items_cp6_source_batch_size_v2620') is not null
               or to_regprocedure('erp.append_cp6_laundry_wip_reversal_v2620()') is not null
+              or to_regprocedure('erp.guard_cp6_qc_batch_size_source_v2620()') is not null
+              or to_regprocedure('erp.guard_cp6_laundry_delivery_batch_size_v2620()') is not null
+              or to_regprocedure('erp.guard_cp6_laundry_receipt_batch_size_v2620()') is not null
+              or to_regprocedure('erp.guard_cp6_failed_wash_attempt_v2620()') is not null
+              or to_regprocedure('erp.guard_cp6_failed_wash_size_v2620()') is not null
+              or to_regprocedure('erp.guard_cp6_laundry_lineage_on_post_v2620()') is not null
+              or to_regprocedure('erp.guard_cp6_laundry_receipt_lineage_on_post_v2620()') is not null
+              or to_regprocedure('erp.guard_cp6_vendor_invoice_receipt_on_post_v2620()') is not null
+              or to_regprocedure('erp.get_laundry_qc_workspace_v1(text,text)') is not null
+              or to_regprocedure('erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)') is not null
+              or exists(select 1 from pg_trigger where not tgisinternal and tgname in(
+                'trg_00_bump_row_version_v2620',
+                'trg_append_cp6_laundry_wip_reversal_v2620',
+                'trg_01_guard_cp6_qc_batch_size_source_v2620',
+                'trg_guard_cp6_delivery_batch_size_v2620',
+                'trg_guard_cp6_receipt_batch_size_v2620',
+                'trg_guard_cp6_failed_wash_attempt_v2620',
+                'trg_guard_cp6_failed_wash_size_v2620',
+                'trg_audit_cp6_delivery_batch_size_v2620',
+                'trg_audit_cp6_receipt_batch_size_v2620',
+                'trg_audit_cp6_failed_wash_attempt_v2620',
+                'trg_audit_cp6_failed_wash_size_v2620',
+                'trg_guard_cp6_delivery_lineage_on_post_v2620',
+                'trg_guard_cp6_receipt_lineage_on_post_v2620',
+                'trg_guard_cp6_vendor_invoice_receipt_on_post_v2620'
+              ))
               or exists(select 1 from information_schema.columns where table_schema='erp'
                 and table_name='laundry_deliveries' and column_name='row_version')
               or exists(select 1 from information_schema.columns where table_schema='erp'
@@ -1059,6 +1112,12 @@ jobs:
             ),'sha256'),'hex'),
             'desired_laundry_accrual_sha256',encode(extensions.digest(convert_to(
               pg_get_functiondef('erp.desired_laundry_accrual(uuid)'::regprocedure),'UTF8'
+            ),'sha256'),'hex'),
+            'sync_laundry_accrual_sha256',encode(extensions.digest(convert_to(
+              pg_get_functiondef('erp.sync_laundry_accrual(uuid,date)'::regprocedure),'UTF8'
+            ),'sha256'),'hex'),
+            'rebuild_po_hpp_sha256',encode(extensions.digest(convert_to(
+              pg_get_functiondef('erp.rebuild_po_hpp(uuid,text)'::regprocedure),'UTF8'
             ),'sha256'),'hex'),
             'final_sku_number_writer_sha256',encode(extensions.digest(convert_to(
               pg_get_functiondef('erp.post_fg_partial_completion_v2_legacy_v2610(jsonb,uuid,bigint)'::regprocedure),'UTF8'
@@ -1089,7 +1148,8 @@ jobs:
           for key in (
             'require_internal_md5','public_final_sku_sha256','product_identity_sha256',
             'v259_integrity_sha256','master_writer_sha256',
-            'desired_laundry_accrual_sha256','final_sku_number_writer_sha256',
+            'desired_laundry_accrual_sha256','sync_laundry_accrual_sha256',
+            'rebuild_po_hpp_sha256','final_sku_number_writer_sha256',
             'fg_progress_sha256','wip_control_sha256',
             'browser_writer_acl_objects','browser_writer_acl_sha256'
           ):
@@ -1783,11 +1843,47 @@ jobs:
               and to_regprocedure('erp.guard_bs_resolution_claim_state_v2619c()') is null
               and to_regprocedure('erp.guard_laundry_claim_bs_dependency_v2619c()') is null
               and to_regclass('erp.cp6_v2620_rollback_capsule') is null
+              and to_regclass('erp.cp6_v2620_acl_capsule') is null
               and to_regclass('erp.laundry_delivery_batch_size_lines') is null
               and to_regclass('erp.laundry_receipt_batch_size_lines') is null
+              and to_regclass('erp.laundry_failed_wash_attempts') is null
+              and to_regclass('erp.laundry_failed_wash_batch_size_lines') is null
               and to_regclass('erp.cp6_laundry_qc_execution_context') is null
+              and to_regclass('erp.uq_cp6_wip_reversal_source_v2620') is null
+              and to_regclass('erp.idx_products_brand_sku_effective_v2620') is null
+              and to_regclass('erp.idx_laundry_delivery_batch_size_source_v2620') is null
+              and to_regclass('erp.idx_laundry_receipt_batch_size_source_v2620') is null
+              and to_regclass('erp.idx_failed_wash_source_size_v2620') is null
+              and to_regclass('erp.idx_qc_items_cp6_source_batch_size_v2620') is null
               and to_regprocedure('public.erp_get_laundry_qc_workspace_v1(text,text)') is null
               and to_regprocedure('public.erp_save_laundry_qc_action_v1(text,jsonb,uuid,bigint)') is null
+              and to_regprocedure('erp.append_cp6_laundry_wip_reversal_v2620()') is null
+              and to_regprocedure('erp.guard_cp6_qc_batch_size_source_v2620()') is null
+              and to_regprocedure('erp.guard_cp6_laundry_delivery_batch_size_v2620()') is null
+              and to_regprocedure('erp.guard_cp6_laundry_receipt_batch_size_v2620()') is null
+              and to_regprocedure('erp.guard_cp6_failed_wash_attempt_v2620()') is null
+              and to_regprocedure('erp.guard_cp6_failed_wash_size_v2620()') is null
+              and to_regprocedure('erp.guard_cp6_laundry_lineage_on_post_v2620()') is null
+              and to_regprocedure('erp.guard_cp6_laundry_receipt_lineage_on_post_v2620()') is null
+              and to_regprocedure('erp.guard_cp6_vendor_invoice_receipt_on_post_v2620()') is null
+              and to_regprocedure('erp.get_laundry_qc_workspace_v1(text,text)') is null
+              and to_regprocedure('erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)') is null
+              and not exists(select 1 from pg_trigger where not tgisinternal and tgname in(
+                'trg_00_bump_row_version_v2620',
+                'trg_append_cp6_laundry_wip_reversal_v2620',
+                'trg_01_guard_cp6_qc_batch_size_source_v2620',
+                'trg_guard_cp6_delivery_batch_size_v2620',
+                'trg_guard_cp6_receipt_batch_size_v2620',
+                'trg_guard_cp6_failed_wash_attempt_v2620',
+                'trg_guard_cp6_failed_wash_size_v2620',
+                'trg_audit_cp6_delivery_batch_size_v2620',
+                'trg_audit_cp6_receipt_batch_size_v2620',
+                'trg_audit_cp6_failed_wash_attempt_v2620',
+                'trg_audit_cp6_failed_wash_size_v2620',
+                'trg_guard_cp6_delivery_lineage_on_post_v2620',
+                'trg_guard_cp6_receipt_lineage_on_post_v2620',
+                'trg_guard_cp6_vendor_invoice_receipt_on_post_v2620'
+              ))
               and not exists(
                 select 1 from pg_constraint
                 where conrelid='erp.bs_resolutions'::regclass

@@ -48,7 +48,7 @@ function workspace() {
     readiness: {
       laundry_writer_ready: false, qc_writer_ready: false,
       lineage_integrity_ok: true, lineage_issue_count: 0,
-      no_fixture_fallback: true, failed_wash_with_charge_supported: false,
+      no_fixture_fallback: true, failed_wash_with_charge_supported: true,
     },
     ready_batches: [], deliveries: [], qc_queue: [], qc_history: [],
     legacy_unlinked: { delivery_count: 0, receipt_count: 0 },

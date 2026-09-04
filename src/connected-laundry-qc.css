@@ -331,7 +331,7 @@
 
 .clq-tabs {
   display: grid;
-  grid-template-columns: auto auto auto minmax(220px, 1fr);
+  grid-template-columns: auto auto auto auto minmax(220px, 1fr);
   gap: 8px;
 }
 
@@ -773,7 +773,7 @@
 .clq-history-facts {
   padding: 10px 12px;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 8px;
 }
 
@@ -891,7 +891,7 @@
   }
 
   .clq-tabs {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
 
   .clq-tabs.qc {

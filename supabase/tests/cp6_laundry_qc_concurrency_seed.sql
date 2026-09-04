@@ -157,4 +157,116 @@ select erp.record_sewing_terminal_v1(jsonb_build_object(
   'qty_pcs',10,'reason','CP6 isolated concurrency terminal'
 ),gen_random_uuid());
 
+-- A separate, internally consistent PO starts with a real 70-unit Laundry
+-- estimate but deliberately has no accrual-state row. The Python race calls
+-- sync_laundry_accrual twice concurrently and proves first-row creation posts
+-- exactly one financial delta instead of double-accruing the same service.
+insert into erp.material_rolls(
+  id,material_id,supplier_id,roll_number,original_qty,cached_qty,status,received_at
+) values(
+  'c8d30000-0000-4000-8000-000000000001','c8c30000-0000-4000-8000-000000000002',
+  'c8c30000-0000-4000-8000-000000000001','CP6-FIRST-ACCRUAL-ROLL',10,10,
+  'AVAILABLE','2026-08-31 07:00+00'
+);
+insert into erp.production_orders(
+  id,po_number,model_id,contractor_id,target_qty_pcs,status,current_stage,physical_start_at,notes
+) values(
+  'c8d40000-0000-4000-8000-000000000001','CP6-FIRST-ACCRUAL-PO',
+  'a2000000-0000-0000-0000-000000000001','a1000000-0000-0000-0000-000000000001',
+  10,'LAUNDRY','LAUNDRY','2026-09-01 07:00+00','First-row accrual serialization proof'
+);
+insert into erp.cutting_batches(id,po_id,batch_number,cut_at,status,notes)
+values(
+  'c8d40000-0000-4000-8000-000000000002','c8d40000-0000-4000-8000-000000000001',
+  'CP6-FIRST-ACCRUAL-CUT','2026-09-01 08:00+00','OPEN','First-row accrual proof'
+);
+insert into erp.cutting_groups(
+  id,po_id,group_number,cut_at,status,cutting_batch_id,pattern_id,notes
+) values(
+  'c8d40000-0000-4000-8000-000000000003','c8d40000-0000-4000-8000-000000000001',
+  'CP6-FIRST-ACCRUAL-GROUP','2026-09-01 08:00+00','CUT',
+  'c8d40000-0000-4000-8000-000000000002','c8c10000-0000-4000-8000-000000000001',
+  'Immutable first-row accrual source'
+);
+insert into erp.cutting_group_size_slots(id,cutting_group_id,slot_no,size_id,drawing_no)
+values(
+  'c8d40000-0000-4000-8000-000000000004','c8d40000-0000-4000-8000-000000000003',
+  1,'c8c10000-0000-4000-8000-000000000002',1
+);
+insert into erp.cutting_group_rolls(
+  id,cutting_group_id,roll_id,qty_issued,qty_consumed,qty_reported_remaining,
+  qty_physically_returned,return_destination,unit_cost_snapshot,notes
+) values(
+  'c8d40000-0000-4000-8000-000000000005','c8d40000-0000-4000-8000-000000000003',
+  'c8d30000-0000-4000-8000-000000000001',10,10,0,0,'NONE',0,
+  'First-row accrual proof'
+);
+insert into erp.cutting_roll_yields(id,cutting_group_roll_id,size_slot_id,qty_pcs)
+values(
+  'c8d40000-0000-4000-8000-000000000006','c8d40000-0000-4000-8000-000000000005',
+  'c8d40000-0000-4000-8000-000000000004',10
+);
+insert into erp.cutting_pickups(
+  id,cutting_group_id,contractor_id,picked_up_at,allocation_mode,status,notes,created_by
+) values(
+  'c8d40000-0000-4000-8000-000000000007','c8d40000-0000-4000-8000-000000000003',
+  'a1000000-0000-0000-0000-000000000001','2026-09-01 09:00+00','ROLL','DRAFT',
+  'First-row accrual proof','c8c00000-0000-4000-8000-000000000001'
+);
+insert into erp.cutting_distribution_batches(id,pickup_id,batch_no,notes)
+values(
+  'c8d40000-0000-4000-8000-000000000008','c8d40000-0000-4000-8000-000000000007',
+  1,'First-row accrual exact batch'
+);
+insert into erp.cutting_distribution_allocations(id,batch_id,cutting_roll_yield_id,qty_pcs)
+values(
+  'c8d40000-0000-4000-8000-000000000009','c8d40000-0000-4000-8000-000000000008',
+  'c8d40000-0000-4000-8000-000000000006',10
+);
+update erp.cutting_groups
+set picked_up_at='2026-09-01 09:00+00',executor_name='CP6 Accrual Mandor',status='PICKED_UP'
+where id='c8d40000-0000-4000-8000-000000000003';
+update erp.cutting_pickups
+set status='POSTED',posted_by='c8c00000-0000-4000-8000-000000000001',
+    posted_at='2026-09-01 09:00+00'
+where id='c8d40000-0000-4000-8000-000000000007';
+insert into erp.laundry_deliveries(
+  id,delivery_number,po_id,vendor_id,target_dyeing_color,target_wash_process_id,
+  special_instruction,physical_at,status,created_by
+) values(
+  'c8d50000-0000-4000-8000-000000000001','CP6-FIRST-ACCRUAL-DELIVERY',
+  'c8d40000-0000-4000-8000-000000000001','c8c20000-0000-4000-8000-000000000002',
+  'NAVY','c8c20000-0000-4000-8000-000000000003','First-row accrual proof',
+  '2026-09-01 11:00+00','DRAFT','c8c00000-0000-4000-8000-000000000001'
+);
+insert into erp.laundry_delivery_lines(
+  id,delivery_id,cutting_group_id,qty_sent_pcs,estimated_rate_snapshot,
+  estimated_cost_status,notes
+) values(
+  'c8d50000-0000-4000-8000-000000000002','c8d50000-0000-4000-8000-000000000001',
+  'c8d40000-0000-4000-8000-000000000003',10,7,'ESTIMATED',
+  'First-row accrual proof'
+);
+insert into erp.laundry_delivery_batch_size_lines(
+  id,delivery_line_id,distribution_batch_id,size_id,qty_sent_pcs,created_by
+) values(
+  'c8d50000-0000-4000-8000-000000000003','c8d50000-0000-4000-8000-000000000002',
+  'c8d40000-0000-4000-8000-000000000008','c8c10000-0000-4000-8000-000000000002',
+  10,'c8c00000-0000-4000-8000-000000000001'
+);
+update erp.laundry_deliveries set status='SENT'
+where id='c8d50000-0000-4000-8000-000000000001';
+
+do $first_accrual_seed_guard$
+begin
+  if erp.desired_laundry_accrual('c8d40000-0000-4000-8000-000000000001')<>70
+     or exists(select 1 from erp.laundry_cost_accrual_state
+       where po_id='c8d40000-0000-4000-8000-000000000001')
+     or exists(select 1 from erp.laundry_cost_accrual_events
+       where po_id='c8d40000-0000-4000-8000-000000000001') then
+    raise exception 'CP6 first-row accrual race seed is not pristine';
+  end if;
+end
+$first_accrual_seed_guard$;
+
 commit;
