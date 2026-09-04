@@ -12,13 +12,13 @@
   },
   "candidate_cp5_manifest": {
     "path": "docs/evidence/cp5_r1_source_hashes.json",
-    "bytes": 18979,
-    "sha256": "78b96217bb6c187225dbd162439d5bf43b4a2bdfc554e8a74882496af7680a6c"
+    "bytes": 19291,
+    "sha256": "3242e7cc431d77d1a81d7e1da9ce79927d6f223e617a9eb2326bc836eb241cc5"
   },
   "target_project_ref": "siimvrusnzxexizpyoib",
   "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
   "source_only": false,
   "uat_applied": true,
-  "candidate_apply_status": "RECORDED_V2618_V2618A_V2619_V2619A_V2619B_PENDING",
+  "candidate_apply_status": "RECORDED_V2618_V2618A_V2619_V2619A_V2619B",
   "production_go": false
 }

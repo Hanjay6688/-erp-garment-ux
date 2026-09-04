@@ -1,6 +1,6 @@
 {
   "format": "CP5_ACCESS_ROUTE_ACTION_OWNERSHIP_V1",
-  "scope": "Pre-CP5 cutting persistence, pickup, WIP, Pattern filters, CP5 BS Resolution, and v2.6.19a rework accessory-lineage boundary",
+  "scope": "Pre-CP5 cutting persistence, pickup, WIP, Pattern filters, CP5 BS Resolution, and v2.6.19b reliability boundary",
   "closure_status": "READY_FOR_INDEPENDENT_REAUDIT_NO_GO",
   "counts": {
     "backend_permissions": 111,
@@ -43,11 +43,15 @@
     "bs_resolution_uses_two_public_rpc_facades": true,
     "rework_accessory_selection_uses_existing_dispatcher": true,
     "rework_partial_return_uses_existing_dispatcher": true,
+    "rework_defaults_are_server_proven_unpaid_or_remaining_entitlement": true,
+    "manual_replacement_requires_explicit_selection": true,
+    "laundry_claim_types_are_missing_stuck_damage_only": true,
+    "post_commit_refetch_failure_freezes_all_writers": true,
     "private_accessory_lineage_has_no_browser_table_access": true,
     "laundry_and_qc_writers_connected": false,
     "source_only": false,
     "uat_applied": true,
-    "candidate_apply_status": "RECORDED_V2618_V2618A_V2619_V2619A",
+    "candidate_apply_status": "RECORDED_V2618_V2618A_V2619_V2619A_V2619B",
     "hosted_auth_permission_e2e": "PASS_31_OF_31",
     "legacy_mutated": false,
     "production_go": false

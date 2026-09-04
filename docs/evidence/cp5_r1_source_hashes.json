@@ -3,7 +3,7 @@
   "candidate_branch": "pre-cp5/cutting-persistence-pickup-wip-r1-20260903",
   "source_base_sha": "8bfac13b91ea1be92111139e2fddcabccf9ae19a",
   "source_base_tree": "a9b193010266bb686c57709865a992769a835855",
-  "generation_parent_sha": "c5bf9d6d31b33e9d52942daa5a1e401b35b3ffea",
+  "generation_parent_sha": "abd2e9e0dad09a2fe33d330ddc83872da3c54b53",
   "target_project_ref": "siimvrusnzxexizpyoib",
   "target_environment": "ERP Enteng UAT",
   "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
@@ -77,14 +77,14 @@
         "supabase/tests/cp5_bs_resolution_recovery_rollback.sql",
         "supabase/tests/cp5_rework_accessory_lineage_rollback.sql"
       ],
-      "uat_applied": false,
-      "uat_platform_ledger_version": null,
-      "uat_platform_statement_count": null,
+      "uat_applied": true,
+      "uat_platform_ledger_version": "20260904032110",
+      "uat_platform_statement_count": 1,
       "uat_business_facts_observed": 0
     }
   },
   "verification": {
-    "status": "V2619B_CODE_CANDIDATE_AWAITING_EXACT_HEAD_CI_AND_UAT",
+    "status": "V2619B_CODE_HEAD_CI_AND_UAT_PASS_READY_FOR_INDEPENDENT_REAUDIT",
     "required_local_commands": [
       "npm test",
       "npm run build",
@@ -98,30 +98,32 @@
     "forward_correction_full_schema_ci": "PASS",
     "forward_correction_ci_head_sha": "2175bd8f199f6a5d860e7f517042e2efe35916e7",
     "forward_correction_ci_head_tree": "d845b1ff613774a150b999dbfa2b41b772e416e9",
-    "reliability_correction_uat_evidence_path": null,
-    "reliability_correction_full_schema_ci": "PENDING",
-    "reliability_correction_ci_head_sha": null,
-    "reliability_correction_ci_head_tree": null,
+    "reliability_correction_uat_evidence_path": "docs/evidence/cp5_v2619b_uat_acceptance.json",
+    "reliability_correction_full_schema_ci": "PASS",
+    "reliability_correction_ci_head_sha": "abd2e9e0dad09a2fe33d330ddc83872da3c54b53",
+    "reliability_correction_ci_head_tree": "b8db214b145d4bac61bb62c21ac43210a42df57e",
     "read_only_uat_preflight_executed": true,
     "read_only_uat_preflight_path": "docs/evidence/cp5_uat_readonly_preflight.json"
   },
-  "candidate_apply_status": "RECORDED_V2618_V2618A_V2619_V2619A_V2619B_PENDING",
+  "candidate_apply_status": "RECORDED_V2618_V2618A_V2619_V2619A_V2619B",
   "uat_recorded_state": {
     "application_versions": [
       "v2.6.18",
       "v2.6.18a",
       "v2.6.19",
-      "v2.6.19a"
+      "v2.6.19a",
+      "v2.6.19b"
     ],
     "platform_versions": [
       "20260903060213",
       "20260903105741",
       "20260903105814",
-      "20260903151034"
+      "20260903151034",
+      "20260904032110"
     ],
-    "latest_installed_at": "2026-09-03T15:10:34.973034Z"
+    "latest_installed_at": "2026-09-04T03:21:10.200423Z"
   },
-  "closure_status": "V2619B_CORRECTION_PENDING_CI_UAT_NO_GO",
+  "closure_status": "READY_FOR_INDEPENDENT_REAUDIT_NO_GO",
   "hosted_auth_permission_e2e": {
     "status": "PASS",
     "mode": "MANUAL_HOSTED_UAT_VERIFIED",
@@ -133,12 +135,12 @@
   },
   "ci_runtime": {
     "status": "PASS",
-    "scope": "LAST_RECORDED_V2619A_CODE_HEAD_HISTORICAL",
-    "runtime_head_sha": "2175bd8f199f6a5d860e7f517042e2efe35916e7",
-    "runtime_head_tree": "d845b1ff613774a150b999dbfa2b41b772e416e9",
+    "scope": "CURRENT_V2619B_CODE_HEAD",
+    "runtime_head_sha": "abd2e9e0dad09a2fe33d330ddc83872da3c54b53",
+    "runtime_head_tree": "b8db214b145d4bac61bb62c21ac43210a42df57e",
     "unit_tests": {
       "files": 25,
-      "passed": 168
+      "passed": 172
     },
     "browser_tests": {
       "cp45": 2,
@@ -147,36 +149,36 @@
       "total": 10
     },
     "build_push": {
-      "run_id": 33774390975,
-      "job_id": 100712335950,
-      "dist_artifact_id": 9901021365,
-      "dist_artifact_digest_sha256": "9729560d4f063e673603c685f4ff803613806105bcc89d3d8455c388ae71d7e4",
-      "browser_artifact_id": 9901019172,
-      "browser_artifact_digest_sha256": "31914693f2cee7acdd42a8f8eb42680cbf351739e4e553748853f484b9ca9f23"
+      "run_id": 33831666623,
+      "job_id": 100895779188,
+      "dist_artifact_id": 9921939239,
+      "dist_artifact_digest_sha256": "b7e62b080025f81d8685d3167f887b910c7005d2e9623b60f8b19b1ac03277a3",
+      "browser_artifact_id": 9921938084,
+      "browser_artifact_digest_sha256": "d0768112da1e0e097bcf0f4ec3b2080aee3c925bef6dea7bb98c81c795add7b0"
     },
     "build_pr": {
-      "run_id": 33774401928,
-      "job_id": 100712374137,
-      "dist_artifact_id": 9901045905,
-      "dist_artifact_digest_sha256": "4f90cca51a0ba9c2ec7799b6636ac4205e36b6dfdc598e4db282ee1216ba1c1b",
-      "browser_artifact_id": 9901043335,
-      "browser_artifact_digest_sha256": "bd04387cb5912fff80fc001fa04d2931d890e2e1496386cf504ed830135399cd"
+      "run_id": 33831670004,
+      "job_id": 100895789611,
+      "dist_artifact_id": 9921972533,
+      "dist_artifact_digest_sha256": "df8709c73cbab3d05ca6f49098766ae91e0843166595e552bb013acfdc4bfdc2",
+      "browser_artifact_id": 9921971246,
+      "browser_artifact_digest_sha256": "ff18ed90a58964e2e8d9279c9d54055fbae5d8319bd3ae0cbe2491554223c606"
     },
     "cp5_full_schema": {
-      "run_id": 33774390811,
-      "job_id": 100712335295,
-      "artifact_id": 9901122437,
-      "artifact_digest_sha256": "979d3ac9e23bbe86dcafbd01bddd52eb77ec2bf478a391b1d4424bbae1205a87"
+      "run_id": 33831666549,
+      "job_id": 100895779110,
+      "artifact_id": 9922045831,
+      "artifact_digest_sha256": "8d82b8ee0c0d5c2d9a2ab420c20f8597fcc1a40d231d7affab6a36565349cbd3"
     },
     "pre_cp5_full_schema": {
-      "run_id": 33774401624,
-      "job_id": 100712374712,
-      "artifact_id": 9901057447,
-      "artifact_digest_sha256": "e232cf72bff897c399763bb65d417e6a11f6c0aa94696adb4b91d55b98fe0c17"
+      "run_id": 33831669979,
+      "job_id": 100895789590,
+      "artifact_id": 9921962427,
+      "artifact_digest_sha256": "3bd228d7be7a6dd90a3c8586f34d6851c82049ee675364b703ab2c413a2b67be"
     },
     "workers_build": {
-      "check_id": 100712911183,
-      "build_id": "f1ee6e8f-9308-4a48-82eb-f01ed7837a82"
+      "check_id": 100897068917,
+      "build_id": "49fdf3a4-9a87-47b2-a65e-293c26f312f2"
     }
   },
   "pre_v2619a_ci_runtime": {
@@ -198,8 +200,8 @@
   },
   "source_only": false,
   "uat_applied": true,
-  "uat_applied_at": "2026-09-03T15:10:34.973034Z",
-  "current_correction_uat_applied": false,
+  "uat_applied_at": "2026-09-04T03:21:10.200423Z",
+  "current_correction_uat_applied": true,
   "legacy_mutated": false,
   "production_go": false,
   "files": {
@@ -228,16 +230,16 @@
       "sha256": "e3c42af86793e7abb29aaa88d44c688ca09db94f605e048f343823d223e56f8e"
     },
     "docs/evidence/cp5_access_route_action_ownership.json": {
-      "bytes": 2290,
-      "sha256": "6512c7b296d885408d970ff70009ab302c37c3a60d5e5f4cf417f518309384aa"
+      "bytes": 2547,
+      "sha256": "db60f1121a9e8fcd9c22bd445296f9111bcb2825f591889ccd0c489033edee9b"
     },
     "docs/evidence/cp5_hosted_uat_auth_e2e.json": {
       "bytes": 15939,
       "sha256": "d8d4293770a2dee517ab8c973b48b06b4ed085fe16fb7cea99518a0aa7b081eb"
     },
     "docs/evidence/cp5_independent_audit_handoff.md": {
-      "bytes": 9293,
-      "sha256": "e82fd6ea74b6cf826bfb9686b03c17cf70c09f0705c8aabbcee5799eefab2603"
+      "bytes": 12454,
+      "sha256": "c4b2dc8a4772b8ff591e0cf573b73574329a12779a38db9724055ebdfa1c8a75"
     },
     "docs/evidence/cp5_uat_readonly_preflight.json": {
       "bytes": 1770,
@@ -246,6 +248,10 @@
     "docs/evidence/cp5_v2619a_uat_acceptance.json": {
       "bytes": 5624,
       "sha256": "0c7da0950afa0c5a01f26cd15e1377765cefad8c5d5f374527542092a6e483a1"
+    },
+    "docs/evidence/cp5_v2619b_uat_acceptance.json": {
+      "bytes": 8578,
+      "sha256": "ba13b7026f9676c986ea1ee97e2df576e230f27536830decfaf4ca937acf3e2c"
     },
     "package.json": {
       "bytes": 3064,
@@ -264,8 +270,8 @@
       "sha256": "488e615a37d98a1b56d77a01afe78c58954b4d9f81a13a6df2c1648069e361f4"
     },
     "scripts/check-access-catalog.mjs": {
-      "bytes": 10310,
-      "sha256": "59f68d22f733156911e8d5868791d819adc3277c3c44f37bea4710e7312ba134"
+      "bytes": 11525,
+      "sha256": "3db209efa4aac1f01e11d0b19b0014483b4506cc20d66e142b8408f3c3d59f24"
     },
     "scripts/check-backend-ownership-v3.mjs": {
       "bytes": 31481,

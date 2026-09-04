@@ -1,0 +1,197 @@
+{
+  "format": "CP5_V2619B_UAT_ACCEPTANCE_V1",
+  "status": "PASS",
+  "mode": "EXACT_CODE_HEAD_CI_AND_HOSTED_UAT_RECORDED_MIGRATION",
+  "captured_at_utc": "2026-09-04T03:28:28.030Z",
+  "target_project_ref": "siimvrusnzxexizpyoib",
+  "target_environment": "ERP Enteng UAT",
+  "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
+  "correction": {
+    "application_version": "v2.6.19b",
+    "source_ledger_version": "20260904012525",
+    "platform_ledger_version": "20260904032110",
+    "name": "erp_v2_6_19b_cp5_reliability_closure",
+    "source_path": "supabase/migrations/20260904012525_erp_v2_6_19b_cp5_reliability_closure.sql",
+    "source_bytes": 42021,
+    "source_sha256": "b1bde1a6ccd1f60dd001d99b72d479ffa0a18a6ea46bf93cd80e406e2ef0ce1d",
+    "connector_ledger_bytes": 42020,
+    "connector_ledger_sha256": "89ed4535720e12722bc1cbedd1bbcb5b7920f9ee4b6b19754214d05ac82b0e8d",
+    "connector_difference": "SOURCE_FINAL_NEWLINE_STRIPPED_ONLY",
+    "platform_statement_count": 1,
+    "installed_at": "2026-09-04T03:21:10.200423Z",
+    "apply_path": "SUPABASE_OFFICIAL_APPLY_MIGRATION_CONNECTOR"
+  },
+  "predecessor_preserved": {
+    "application_version": "v2.6.19a",
+    "platform_ledger_version": "20260903151034",
+    "name": "erp_v2_6_19a_cp5_rework_accessory_lineage",
+    "source_bytes": 55354,
+    "source_sha256": "204b9246f3c8c6464476da1a7f1574f5e0ae4c46f024c082704795b3eef5210f",
+    "rewritten_or_deleted": false
+  },
+  "code_ci": {
+    "status": "PASS",
+    "scope": "CURRENT_V2619B_CODE_HEAD",
+    "runtime_head_sha": "abd2e9e0dad09a2fe33d330ddc83872da3c54b53",
+    "runtime_head_tree": "b8db214b145d4bac61bb62c21ac43210a42df57e",
+    "unit_tests": {
+      "files": 25,
+      "passed": 172
+    },
+    "browser_tests": {
+      "cp45": 2,
+      "pre_cp5": 2,
+      "cp5": 6,
+      "total": 10
+    },
+    "build_push": {
+      "run_id": 33831666623,
+      "job_id": 100895779188,
+      "dist_artifact_id": 9921939239,
+      "dist_artifact_digest_sha256": "b7e62b080025f81d8685d3167f887b910c7005d2e9623b60f8b19b1ac03277a3",
+      "browser_artifact_id": 9921938084,
+      "browser_artifact_digest_sha256": "d0768112da1e0e097bcf0f4ec3b2080aee3c925bef6dea7bb98c81c795add7b0"
+    },
+    "build_pr": {
+      "run_id": 33831670004,
+      "job_id": 100895789611,
+      "dist_artifact_id": 9921972533,
+      "dist_artifact_digest_sha256": "df8709c73cbab3d05ca6f49098766ae91e0843166595e552bb013acfdc4bfdc2",
+      "browser_artifact_id": 9921971246,
+      "browser_artifact_digest_sha256": "ff18ed90a58964e2e8d9279c9d54055fbae5d8319bd3ae0cbe2491554223c606"
+    },
+    "cp5_full_schema": {
+      "run_id": 33831666549,
+      "job_id": 100895779110,
+      "artifact_id": 9922045831,
+      "artifact_digest_sha256": "8d82b8ee0c0d5c2d9a2ab420c20f8597fcc1a40d231d7affab6a36565349cbd3"
+    },
+    "pre_cp5_full_schema": {
+      "run_id": 33831669979,
+      "job_id": 100895789590,
+      "artifact_id": 9921962427,
+      "artifact_digest_sha256": "3bd228d7be7a6dd90a3c8586f34d6851c82049ee675364b703ab2c413a2b67be"
+    },
+    "workers_build": {
+      "check_id": 100897068917,
+      "build_id": "49fdf3a4-9a87-47b2-a65e-293c26f312f2"
+    }
+  },
+  "transactional_proofs": [
+    {
+      "name": "repository_source_cp5_rework_accessory_lineage_against_installed_v2619b",
+      "source_path": "supabase/tests/cp5_rework_accessory_lineage_rollback.sql",
+      "status": "PASS",
+      "state_effect": "ROLLED_BACK"
+    },
+    {
+      "name": "repository_source_cp5_bs_resolution_recovery_against_installed_v2619b",
+      "source_path": "supabase/tests/cp5_bs_resolution_recovery_rollback.sql",
+      "status": "PASS",
+      "state_effect": "ROLLED_BACK"
+    },
+    {
+      "name": "reviewed_v2619b_rollback_exact_restore",
+      "source_path": "supabase/rollbacks/20260904012525_erp_v2_6_19b_cp5_reliability_closure.rollback.sql",
+      "status": "PASS",
+      "state_effect": "OUTER_TRANSACTION_ROLLED_BACK_TO_V2619B"
+    }
+  ],
+  "assertions": {
+    "accessory_defaults_are_server_proven_unpaid_baseline": true,
+    "previously_entitled_or_unprovable_accessories_default_off": true,
+    "manual_replacement_requires_explicit_operator_selection": true,
+    "selection_basis_is_immutable_and_fail_closed": true,
+    "rework_component_defaults_follow_remaining_work_entitlement": true,
+    "laundry_other_claim_type_removed": true,
+    "missing_and_stuck_share_delivery_outstanding_conservation": true,
+    "damage_requires_posted_receipt_and_receipt_conservation": true,
+    "draft_reversed_or_wrong_vendor_sources_are_rejected": true,
+    "delivery_receipt_lock_order_is_consistent": true,
+    "source_reversal_is_blocked_after_active_claim_lineage": true,
+    "mutation_success_with_refetch_failure_freezes_all_writers": true,
+    "immutable_accessory_category_reference_matches_owner_sheet": true,
+    "migration_replay_rejected": true,
+    "rollback_wrong_ledger_and_post_use_guards_pass": true,
+    "five_serialized_races_pass": true,
+    "disposable_auth_jwt_assertions_30_of_30": true
+  },
+  "installed_function_md5": {
+    "public_workspace": "fb86492bd5e86d9f110892c9b9534c02",
+    "save_laundry_claim_v2": "ad401dcf66738cbdccd0cae329c32674",
+    "get_rework_accessory_bom_options": "c232978a5e2402dd3db9fd0cf92b077c",
+    "guard_laundry_claim_capacity_on_resolution": "f656bf67545395dffedbd89b027bfe32",
+    "guard_laundry_receipt_capacity": "a2666231dad8315b67ae5ea15b959a69",
+    "validate_laundry_claim_lineage": "c6340f59dc4fa802a9e8f5f7fca495a1",
+    "guard_rework_accessory_decision": "c45277836e0514330b4d160ff2da3d5b"
+  },
+  "post_proof_residue": {
+    "auth_users": 0,
+    "app_users": 0,
+    "bs_cases": 0,
+    "bs_resolutions": 0,
+    "rework_orders": 0,
+    "rework_accessory_decisions": 0,
+    "rework_accessory_selection_lines": 0,
+    "laundry_claims": 0,
+    "laundry_receipts": 0,
+    "laundry_deliveries": 0,
+    "fg_lots": 0,
+    "fg_accessory_cost_snapshots": 0,
+    "contractor_accessory_reimbursement_entitlements": 0,
+    "idempotency_requests": 0,
+    "bs_resolution_execution_context": 0,
+    "cutting_allocations": 0,
+    "waiting_on_lock": 0,
+    "active_non_self_sessions": 0,
+    "transactions_over_5m": 0,
+    "idle_in_transaction": 0
+  },
+  "preexisting_state_preserved": {
+    "audit_rows": 36,
+    "application_migration_rows_v2618_through_v2619b": 5,
+    "platform_migration_rows_v2618_through_v2619b": 5
+  },
+  "post_apply_advisors": {
+    "observed_at_utc": "2026-09-04T03:28:28.030Z",
+    "scoped_security_error": 0,
+    "scoped_unexpected_security_warn": 0,
+    "intentional_authenticated_security_definer_warn": [
+      "public.erp_get_bs_resolution_workspace_v1"
+    ],
+    "security_definer_reason": "Intentional authenticated facade: owner postgres, empty search_path, anon denied, private-table grants denied, and internal permission checks independently verified.",
+    "private_rls_without_policy_info": [
+      "erp.bs_resolution_v2619b_rollback_capsule",
+      "erp.rework_accessory_decisions",
+      "erp.rework_accessory_selection_lines"
+    ],
+    "private_rls_without_policy_reason": "Intentional deny-by-default private tables; browser roles have no direct table grants.",
+    "scoped_performance_warn_or_error": 0,
+    "foreign_key_index_info_count": 6,
+    "foreign_key_index_info_reason": "Informational only: immutable lineage parents are not deleted by application workflows; hot rework-order paths already have unique or lookup indexes; UAT contains zero business rows.",
+    "unused_index_info": [
+      "erp.idx_rework_accessory_decisions_bs_case",
+      "erp.idx_bs_case_hold_events_actor"
+    ],
+    "unused_index_reason": "Expected on empty UAT; existence and predicate of the audit-required actor index were verified."
+  },
+  "legacy_read_only": {
+    "observed_at_utc": "2026-09-04T03:25:53Z",
+    "platform_migration_count": 272,
+    "latest_platform_version": "20260829204756",
+    "latest_application_version": "v2.6.9a",
+    "cp5_platform_or_application_entries": 0,
+    "cp5_relations_or_capsules": 0,
+    "cp5_facade_or_execution_context": 0,
+    "auth_users": 0,
+    "app_users": 0,
+    "waiting_on_lock": 0,
+    "transactions_over_5m": 0,
+    "legacy_mutated": false
+  },
+  "hosted_http_auth_retest": false,
+  "hosted_http_auth_note": "Current v2.6.19b exact-code-head disposable full-schema CI passed 30 Auth/JWT assertions. Hosted UAT was validated through authenticated-role transactional SQL plus live ACL, owner, RLS, empty-search-path, function-MD5, and residue checks; no new hosted password user was created.",
+  "legacy_mutated": false,
+  "production_go": false,
+  "independent_audit_verdict": "PENDING"
+}
