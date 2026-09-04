@@ -243,13 +243,22 @@ begin
   select encode(extensions.digest(
     convert_to(pg_get_viewdef('erp.v_fg_partial_completion_progress'::regclass,true),'UTF8'),'sha256'
   ),'hex') into v_actual;
-  if v_actual is distinct from '7897479ca27144e599b6607b60f5b9bed08bdea57171ff6ba8ec81ce46f20037' then
+  -- pg_get_viewdef is not a parse/deparse fixed point. Permit only the exact
+  -- live UAT 17.6 predecessor and the independently verified, semantically
+  -- equivalent 17.6.1 immutable-catalog replay used by disposable CI.
+  if coalesce(v_actual,'') not in(
+    '7897479ca27144e599b6607b60f5b9bed08bdea57171ff6ba8ec81ce46f20037',
+    'efb2d15345589645f2184c3a749da42acc11bad1d4585988c3e02c5c762464e6'
+  ) then
     raise exception 'DRIFT_CONCURRENT_MUTATION_DETECTED: FG progress view changed (%)',v_actual;
   end if;
   select encode(extensions.digest(
     convert_to(pg_get_viewdef('erp.v_wip_control_status_v1'::regclass,true),'UTF8'),'sha256'
   ),'hex') into v_actual;
-  if v_actual is distinct from '2aa2bab69b86be921b022eaca8142a1523124c05bd639b8a641ccf572ac8ded4' then
+  if coalesce(v_actual,'') not in(
+    '2aa2bab69b86be921b022eaca8142a1523124c05bd639b8a641ccf572ac8ded4',
+    'a823510e0e5e5f57dc124001db93ec9636e8120970281473e10fedc54089420a'
+  ) then
     raise exception 'DRIFT_CONCURRENT_MUTATION_DETECTED: WIP control view changed (%)',v_actual;
   end if;
 end
@@ -337,12 +346,16 @@ begin
      or (select md5(c.object_definition) from erp.cp6_v2620_rollback_capsule c
          where c.object_regidentity='erp.apply_migration_master_rows(uuid)'::regprocedure::text)
           is distinct from '0272a1db007565dcd49b95ed888afef7'
-     or (select c.definition_sha256 from erp.cp6_v2620_rollback_capsule c
-         where c.object_regidentity='erp.v_fg_partial_completion_progress')
-          is distinct from '7897479ca27144e599b6607b60f5b9bed08bdea57171ff6ba8ec81ce46f20037'
-     or (select c.definition_sha256 from erp.cp6_v2620_rollback_capsule c
-         where c.object_regidentity='erp.v_wip_control_status_v1')
-          is distinct from '2aa2bab69b86be921b022eaca8142a1523124c05bd639b8a641ccf572ac8ded4' then
+     or coalesce((select c.definition_sha256 from erp.cp6_v2620_rollback_capsule c
+         where c.object_regidentity='erp.v_fg_partial_completion_progress'),'') not in(
+          '7897479ca27144e599b6607b60f5b9bed08bdea57171ff6ba8ec81ce46f20037',
+          'efb2d15345589645f2184c3a749da42acc11bad1d4585988c3e02c5c762464e6'
+        )
+     or coalesce((select c.definition_sha256 from erp.cp6_v2620_rollback_capsule c
+         where c.object_regidentity='erp.v_wip_control_status_v1'),'') not in(
+          '2aa2bab69b86be921b022eaca8142a1523124c05bd639b8a641ccf572ac8ded4',
+          'a823510e0e5e5f57dc124001db93ec9636e8120970281473e10fedc54089420a'
+        ) then
     raise exception 'ERP v2.6.20 rollback capsule is incomplete or invalid';
   end if;
 end

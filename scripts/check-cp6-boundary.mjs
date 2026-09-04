@@ -90,6 +90,16 @@ for (const match of migration.matchAll(/\bdelete\s+from\s+erp\.([a-z0-9_]+)/gi))
 assert.doesNotMatch(rollback, /\btruncate\b|\bdelete\s+from\s+erp\.(?!schema_migrations\b)/i,
   'CP6 rollback deletes business history instead of refusing post-use rollback')
 
+for (const predecessorViewSha of [
+  '7897479ca27144e599b6607b60f5b9bed08bdea57171ff6ba8ec81ce46f20037',
+  'efb2d15345589645f2184c3a749da42acc11bad1d4585988c3e02c5c762464e6',
+  '2aa2bab69b86be921b022eaca8142a1523124c05bd639b8a641ccf572ac8ded4',
+  'a823510e0e5e5f57dc124001db93ec9636e8120970281473e10fedc54089420a',
+]) assert.equal(occurrences(migration, predecessorViewSha), 2,
+  `CP6 must bind guard and rollback capsule to audited predecessor view ${predecessorViewSha}`)
+assert.ok(migration.includes('pg_get_viewdef is not a parse/deparse fixed point'),
+  'CP6 predecessor view allowlist lacks its live-UAT versus immutable-replay rationale')
+
 const migrationBytes = Buffer.from(migration, 'utf8')
 assert.equal(migrationBytes.at(-1), 10, 'CP6 migration must have one final LF excluded from platform statements')
 const migrationFileSha = sha256(migrationBytes)
