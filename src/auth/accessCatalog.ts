@@ -113,6 +113,7 @@ export const SENSITIVE_ACTION_PERMISSION = Object.freeze({
   postLaundry: 'production.laundry.post',
   reverseLaundry: 'production.laundry.reverse',
   postFinalSku: 'production.final_sku.post',
+  reverseFinalSku: 'production.final_sku.reverse',
   postBsResolution: 'production.bs_rework.post',
   reverseBsResolution: 'production.bs_rework.reverse',
   stockAdjustment: 'warehouse.stock.adjust',
@@ -136,4 +137,11 @@ export function isPageAllowed(bundle: AccessBundle | null | undefined, pageId: s
 export function isNavLabelAllowed(bundle: AccessBundle | null | undefined, label: string) {
   const permission = NAV_PERMISSION_BY_LABEL[label]
   return permission ? hasPermission(bundle, permission) : false
+}
+
+export function firstAllowedPageId(
+  bundle: AccessBundle | null | undefined,
+  candidates: readonly string[] = Object.keys(PAGE_PERMISSION_BY_ID),
+) {
+  return candidates.find((pageId) => isPageAllowed(bundle, pageId)) ?? null
 }

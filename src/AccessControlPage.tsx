@@ -168,7 +168,13 @@ export default function AccessControlPage() {
     setHighRiskConfirmed(false)
   }
 
-  const grouped = groupPermissionRows(data?.permissions ?? []).filter((module) => `${module.label} ${module.key}`.toLowerCase().includes(moduleQuery.toLowerCase()))
+  const allGrouped = groupPermissionRows(data?.permissions ?? [])
+  const grouped = allGrouped.filter((module) => `${module.label} ${module.key}`.toLowerCase().includes(moduleQuery.toLowerCase()))
+  const invisibleActionModules = allGrouped.filter((module) => {
+    const viewPermission = module.rows.find((permission) => permission.action === 'view')
+    return Boolean(viewPermission && !draftPermissions.includes(viewPermission.key)
+      && module.rows.some((permission) => permission.action !== 'view' && draftPermissions.includes(permission.key)))
+  })
   const selectedHasHighRisk = (data?.permissions ?? []).some((permission) => permission.high_risk && draftPermissions.includes(permission.key))
 
   const togglePermission = (key: string) => setDraftPermissions((current) => current.includes(key) ? current.filter((item) => item !== key) : [...current, key])
@@ -250,14 +256,18 @@ export default function AccessControlPage() {
     else await load()
   }
 
-  if (loading) return <section className="access-state" role="status"><RefreshCw className="spin"/><strong>Memuat hak akses authoritative…</strong></section>
+  if (loading) return <section className="access-state" role="status"><RefreshCw className="spin"/><strong>Memuat data hak akses dari server…</strong></section>
 
   return <section className="access-page">
     <header className="access-hero">
-      <div><span>PENGATURAN · SERVER-ENFORCED</span><h1>Pengguna & Hak Akses</h1><p>Satu pengguna memiliki satu role. Perubahan izin berlaku pada request server berikutnya.</p></div>
-      <button onClick={() => void load()}><RefreshCw/> Refresh</button>
+      <div><span>PENGATURAN · DIPERIKSA SERVER</span><h1>Pengguna & Hak Akses</h1><p>Satu pengguna memiliki satu role. Perubahan izin diperiksa lagi oleh server pada aksi berikutnya.</p></div>
+      <button onClick={() => void load()}><RefreshCw/> Muat ulang</button>
     </header>
-    <div className={`truth-strip ${connected ? 'connected' : 'simulation'}`}><ShieldCheck/><strong>{connected ? 'UAT BACKEND CONNECTED' : 'DATA SIMULASI'}</strong><span>Portal Mandor, Laundry, dan Toko: NOT CONNECTED</span></div>
+    <div className={`truth-strip ${connected ? 'connected' : 'simulation'}`}><ShieldCheck/><strong>{connected ? 'UAT TERHUBUNG KE SERVER' : 'DATA SIMULASI'}</strong><span>Portal Mandor, Laundry, dan Toko belum terhubung</span></div>
+    <div className={`access-mode-banner ${canManage ? 'manage' : 'view'}`} role="status">
+      {canManage ? <ShieldCheck/> : <LockKeyhole/>}
+      <span><strong>{canManage ? 'Mode kelola hak akses' : 'Mode lihat saja'}</strong><small>{canManage ? 'Anda dapat menduplikat role, mengubah role pengguna, dan menonaktifkan akses. Semua perubahan tetap diaudit oleh server.' : 'Anda dapat memeriksa role dan riwayat, tetapi semua kontrol perubahan dikunci karena role Anda tidak memiliki izin Kelola Hak Akses.'}</small></span>
+    </div>
     {error && <div className="access-error" role="alert"><AlertTriangle/><span>{error}</span><button onClick={() => setError('')} aria-label="Tutup"><X/></button></div>}
 
     <div className="access-grid">
@@ -267,7 +277,7 @@ export default function AccessControlPage() {
           <div className="role-title"><span><strong>{role.name}</strong><small>{role.code}</small></span><div>{role.is_system && <em>SYSTEM</em>}{role.is_protected && <em className="locked"><LockKeyhole/> TERKUNCI</em>}{!role.is_active && <em>NONAKTIF</em>}</div></div>
           <p>{role.description || 'Tanpa deskripsi.'}</p>
           <dl><div><dt>Pengguna aktif</dt><dd>{role.active_user_count}</dd></div><div><dt>Terakhir diubah</dt><dd>{localDate(role.updated_at)} · {role.updated_by || 'System'}</dd></div></dl>
-          <footer><button onClick={() => openRole(role, true)}><Copy/> Duplikat</button><button disabled={!canManage || role.is_system || role.is_protected || !role.is_active} onClick={() => openRole(role)}>{role.is_protected ? <LockKeyhole/> : <ShieldCheck/>} Edit</button>{!role.is_system && <button disabled={!canManage || !connected || !role.is_active} onClick={() => void deactivateRole(role)}><X/> Nonaktifkan</button>}</footer>
+          <footer><button disabled={!canManage} title={canManage ? 'Buat role khusus dari template ini.' : 'Perlu izin Kelola Hak Akses.'} onClick={() => openRole(role, true)}><Copy/> Duplikat</button><button title={role.is_system || role.is_protected ? 'Role bawaan tidak diubah langsung. Duplikat untuk membuat role khusus.' : 'Edit role khusus'} disabled={!canManage || role.is_system || role.is_protected || !role.is_active} onClick={() => openRole(role)}>{role.is_system || role.is_protected ? <LockKeyhole/> : <ShieldCheck/>} {role.is_system || role.is_protected ? 'Template tetap' : 'Edit'}</button>{!role.is_system && <button disabled={!canManage || !connected || !role.is_active} onClick={() => void deactivateRole(role)}><X/> Nonaktifkan</button>}</footer>
         </article>)}</div>
       </section>
 
@@ -275,13 +285,13 @@ export default function AccessControlPage() {
         <header><div><span>PENGGUNA</span><strong>{data?.users.length ?? 0} akses</strong></div><UserRound/></header>
         <div className="user-list">{(data?.users ?? []).map((user) => <article key={user.id}>
           <span className="user-avatar">{user.full_name.slice(0, 2).toUpperCase()}</span>
-          <div><strong>{user.full_name}</strong><small>{user.mapped ? 'TERPETAKAN' : 'BELUM TERPETAKAN'} · {user.is_active ? 'AKTIF' : 'NONAKTIF'}</small><small>Masuk terakhir: {localDate(user.last_sign_in_at)}</small></div>
+          <div><strong>{user.full_name}</strong><small>{user.mapped ? 'LOGIN TERHUBUNG' : 'BELUM TERHUBUNG KE LOGIN'} · {user.is_active ? 'AKTIF' : 'NONAKTIF'}</small><small>Masuk terakhir: {localDate(user.last_sign_in_at)}</small></div>
           <div className="user-access-actions"><select aria-label={`Role ${user.full_name}`} value={user.role_id} disabled={!canManage || !connected} onChange={(event) => void changeUserRole(user, event.target.value)}>{(data?.roles ?? []).filter((role) => role.is_active).map((role) => <option value={role.id} key={role.id}>{role.name}</option>)}</select><button disabled={!canManage || !connected} onClick={() => void changeUserActive(user)}>{user.is_active ? 'Nonaktifkan' : 'Aktifkan'}</button></div>
         </article>)}</div>
       </section>
     </div>
 
-    <section className="access-panel audit-panel"><header><div><span>AUDIT IMMUTABLE</span><strong>100 perubahan terakhir</strong></div><ShieldCheck/></header><div>{(data?.audit ?? []).slice(0, 8).map((entry) => <article key={entry.id}><strong>{entry.entity_type} · {entry.action}</strong><span>{entry.change_reason}</span><small>{localDate(entry.changed_at)} · {entry.changed_by || 'System'}</small></article>)}{(data?.audit.length ?? 0) === 0 && <p>Belum ada perubahan akses.</p>}</div></section>
+    <section className="access-panel audit-panel"><header><div><span>RIWAYAT TIDAK BISA DIHAPUS</span><strong>{Math.min(data?.audit.length ?? 0, 8)} perubahan terbaru ditampilkan</strong></div><ShieldCheck/></header><div>{(data?.audit ?? []).slice(0, 8).map((entry) => <article key={entry.id}><strong>{entry.entity_type} · {entry.action}</strong><span>{entry.change_reason}</span><small>{localDate(entry.changed_at)} · {entry.changed_by || 'System'}</small></article>)}{(data?.audit.length ?? 0) === 0 && <p>Belum ada perubahan akses.</p>}</div></section>
 
     {editorSource && <div className="role-editor-layer" role="presentation" onMouseDown={() => !dirty && setSelectedRoleId(null)}><section className="role-editor" role="dialog" aria-modal="true" aria-labelledby="role-editor-title" onMouseDown={(event) => event.stopPropagation()}>
       <header><div><span>{isDuplicate ? 'DUPLIKAT ROLE' : 'EDIT ROLE'}</span><h2 id="role-editor-title">{editorSource.name}</h2><p>{editorSource.is_protected ? 'OWNER memiliki semua izin dan tidak dapat dilemahkan.' : 'Pilih aksi yang benar-benar dibutuhkan.'}</p></div><button onClick={() => setSelectedRoleId(null)} aria-label="Tutup"><X/></button></header>
@@ -291,6 +301,7 @@ export default function AccessControlPage() {
         const all = keys.every((key) => draftPermissions.includes(key))
         return <article key={module.key}><header><div><strong>{module.label}</strong><small>{module.key}</small></div><button disabled={editorSource.is_protected && !isDuplicate} onClick={() => toggleModule(keys, !all)}>{all ? 'Kosongkan modul' : 'Pilih semua modul'}</button></header><div>{module.rows.map((permission) => <label key={permission.key} className={permission.high_risk ? 'high-risk' : ''}><input type="checkbox" checked={draftPermissions.includes(permission.key)} disabled={editorSource.is_protected && !isDuplicate} onChange={() => togglePermission(permission.key)}/><span><strong>{permission.action_label}{permission.high_risk && ' · Risiko tinggi'}</strong><small>{permission.description}</small></span></label>)}</div></article>
       })}</div>
+      {invisibleActionModules.length > 0 ? <aside className="permission-dependency-warning" role="status"><AlertTriangle/><span><strong>Ada aksi tanpa izin Lihat</strong><small>{invisibleActionModules.map((module) => module.label).join(' · ')} tidak akan muncul di menu role ini. Tambahkan izin Lihat bila role harus mengerjakan modul tersebut.</small></span></aside> : null}
       <aside className="sidebar-preview"><strong>Preview modul terlihat</strong><span>{[...new Set((data?.permissions ?? []).filter((permission) => draftPermissions.includes(permission.key) && permission.action === 'view').map((permission) => permission.module_label))].join(' · ') || 'Tidak ada modul'}</span></aside>
       {!editorSource.is_protected || isDuplicate ? <footer><label>Alasan perubahan<textarea value={changeReason} onChange={(event) => setChangeReason(event.target.value)} placeholder="Wajib untuk audit immutable."/></label>{selectedHasHighRisk && <label className="high-risk-confirm"><input type="checkbox" checked={highRiskConfirmed} onChange={(event) => setHighRiskConfirmed(event.target.checked)}/><span><AlertTriangle/><strong>Saya memahami izin berisiko tinggi yang dipilih.</strong></span></label>}<div><button onClick={() => setSelectedRoleId(null)}>Batal</button><button disabled={!canManage || saving || !dirty && !isDuplicate} onClick={() => void save()}><Save/> {saving ? 'Menyimpan…' : 'Simpan role'}</button></div></footer>
       : <footer className="owner-lock"><LockKeyhole/><span><strong>OWNER terkunci</strong><small>Gunakan Duplikat untuk membuat role baru tanpa mengubah OWNER.</small></span><Check/></footer>}

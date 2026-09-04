@@ -76,7 +76,10 @@ test('CP4.5 Master Pola grows from operational need with fail-closed Potongan se
   await openNavigation(page, testInfo.project.name, 'Pengaturan & Audit', 'Pengguna & Hak Akses')
   await expect(page.getByRole('heading', { name: 'Pengguna & Hak Akses' })).toBeVisible()
   await expect(page.getByText('DATA SIMULASI', { exact: true })).toBeVisible()
-  await expect(page.getByText(/request server berikutnya/)).toBeVisible()
+  await expect(page.getByText(/diperiksa lagi oleh server pada aksi berikutnya/)).toBeVisible()
+  await expect(page.getByText('Mode kelola hak akses', { exact: true })).toBeVisible()
+  await expect(page.locator('.role-list > article').first().locator('.role-title strong')).toHaveCSS('color', 'rgb(47, 39, 35)')
+  await expect(page.locator('.access-panel').first()).toHaveCSS('background-color', 'rgb(255, 255, 255)')
 
   await testInfo.attach(`access-${testInfo.project.name}`, {
     body: await page.screenshot({ fullPage: true }),

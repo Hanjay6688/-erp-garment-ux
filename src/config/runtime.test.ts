@@ -35,6 +35,9 @@ describe('parseRuntimeConfig', () => {
       distributionMode: 'SIMULATION',
       wipStatusMode: 'SIMULATION',
       bsResolutionMode: 'SIMULATION',
+      laundryMode: 'SIMULATION',
+      qcFinalMode: 'SIMULATION',
+      fgHandoffMode: 'SIMULATION',
     })
   })
 
@@ -65,6 +68,9 @@ describe('parseRuntimeConfig', () => {
       distributionMode: 'CONNECTED',
       wipStatusMode: 'CONNECTED',
       bsResolutionMode: 'CONNECTED',
+      laundryMode: 'CONNECTED',
+      qcFinalMode: 'CONNECTED',
+      fgHandoffMode: 'BLOCKED_UNTIL_AUTHORITATIVE',
     })
   })
 

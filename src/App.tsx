@@ -23,7 +23,7 @@ import { cleanMoneyInput, formatMoneyInput } from './moneyInput'
 import { regularFgNotaCardId, type ReadyFgNotaCard, type RegularFgNotaSnapshot } from './fgNota'
 import { RuntimeBadge, RuntimeEnvironmentCard, RuntimeIdentity } from './components/RuntimeIdentity'
 import { useAuth } from './auth/AuthProvider'
-import { PAGE_PERMISSION_BY_ID, SENSITIVE_ACTION_PERMISSION, hasPermission, isNavLabelAllowed, isPageAllowed } from './auth/accessCatalog'
+import { PAGE_PERMISSION_BY_ID, SENSITIVE_ACTION_PERMISSION, firstAllowedPageId, hasPermission, isNavLabelAllowed, isPageAllowed } from './auth/accessCatalog'
 import type { ReminderItem } from './reminders'
 import { initialReminders, reminderDueLabel, reminderPriorityLabel } from './reminders'
 import { deriveWipControlStatus } from './wipControlPolicy'
@@ -48,6 +48,9 @@ const ConnectedCuttingPage = lazy(() => import('./ConnectedCuttingPage'))
 const ConnectedPickupPage = lazy(() => import('./ConnectedPickupPage'))
 const ConnectedWipStatusPage = lazy(() => import('./ConnectedWipStatusPage'))
 const ConnectedBsResolutionPage = lazy(() => import('./ConnectedBsResolutionPage'))
+const ConnectedLaundryPage = lazy(() => import('./ConnectedLaundryPage'))
+const ConnectedQcFinalPage = lazy(() => import('./ConnectedQcFinalPage'))
+const ConnectedFgHandoffBoundary = lazy(() => import('./ConnectedFgHandoffBoundary'))
 
 type Page = 'dashboard' | 'stock-card' | 'movements-vivo' | 'movements-widie' | 'procurement' | 'cutting-roll' | 'mandor-wip' | 'contractor-issue' | 'sewing-wip' | 'qc' | 'fg-handoff' | 'bs-rework' | 'laundry' | 'hpp' | 'master-pattern' | 'admin-access' | SalesView | FinanceView | WarehouseView | MaterialMasterView | BusinessMasterView | OperationsAdminView | 'placeholder'
 type NavSection = 'Produksi' | 'Gudang' | 'Penjualan' | 'Keuangan' | 'Master Data'
@@ -412,7 +415,9 @@ function App() {
   const accessBundle = identity.status === 'AUTHORIZED' ? identity : null
   const demoAccess = identity.status === 'DEMO'
   const canSeeNavLabel = (label: string) => demoAccess || isNavLabelAllowed(accessBundle, label)
-  const [page, setPage] = useState<Page>('dashboard')
+  const [page, setPage] = useState<Page>(() => demoAccess
+    ? 'dashboard'
+    : (firstAllowedPageId(accessBundle) as Page | null) ?? 'dashboard')
   const [expanded, setExpanded] = useState<NavSection | null>(null)
   const [adminExpanded,setAdminExpanded] = useState(false)
   const [mobileNav, setMobileNav] = useState(false)
@@ -441,6 +446,12 @@ function App() {
   const [regularFgNotaSnapshots,setRegularFgNotaSnapshots] = useState<Record<string,RegularFgNotaSnapshot>>({})
   const [bsWorkspace,setBsWorkspace] = useState<BsReworkWorkspace|null>(null)
   const [reminders,setReminders] = useState<ReminderItem[]>(()=>initialReminders.map((item)=>({...item})))
+
+  useEffect(() => {
+    if (demoAccess || !accessBundle || isPageAllowed(accessBundle, page)) return
+    const nextPage = firstAllowedPageId(accessBundle)
+    if (nextPage && nextPage !== page) setPage(nextPage as Page)
+  }, [accessBundle, demoAccess, page])
 
   const rememberFgNotaCard = (card: ReadyFgNotaCard) => {
     setReadyFgNotaCards((current) => current.some((item) => item.id === card.id) ? current : [card, ...current])
@@ -624,8 +635,10 @@ function App() {
             setPage('qc')
           }}
         />}
-        {page === 'qc' && <Suspense fallback={<WorkspaceFallback label="QC & Final SKU"/>}><QcFinalPage seeds={buildQcSeeds(laundryDeliveries)} initialSeedId={qcSeedId} finalizedResults={finalizedQcResults} postedFgCardIds={postedFgCardIds} canPostFinalSku={demoAccess || hasPermission(accessBundle, SENSITIVE_ACTION_PERMISSION.postFinalSku)} onBack={()=>setPage('sewing-wip')} onFinish={(result)=>{setFinalizedQcResults((current)=>{const id=`${result.parentId}::${result.batchId}::${result.completionCount}`;return current.some((item)=>`${item.parentId}::${item.batchId}::${item.completionCount}`===id)?current:[result,...current]});rememberQcNotaSnapshot(result);setQcResult(result)}} onOpenNota={(result)=>{rememberQcNotaSnapshot(result);setQcResult(result);setNotaFocus({kind:'REGULAR',id:regularFgNotaCardId(result)});setNotaOrigin('QC');setPage('fg-handoff')}} /></Suspense>}
-        {page === 'fg-handoff' && <Suspense fallback={<WorkspaceFallback label="Susun Nota FG"/>}><FgNotaPage
+        {page === 'qc' && runtime.qcFinalMode === 'CONNECTED' && <Suspense fallback={<WorkspaceFallback label="QC & Final SKU connected"/>}><ConnectedQcFinalPage/></Suspense>}
+        {page === 'qc' && runtime.qcFinalMode === 'SIMULATION' && <Suspense fallback={<WorkspaceFallback label="QC & Final SKU"/>}><QcFinalPage seeds={buildQcSeeds(laundryDeliveries)} initialSeedId={qcSeedId} finalizedResults={finalizedQcResults} postedFgCardIds={postedFgCardIds} canPostFinalSku={demoAccess || hasPermission(accessBundle, SENSITIVE_ACTION_PERMISSION.postFinalSku)} onBack={()=>setPage('sewing-wip')} onFinish={(result)=>{setFinalizedQcResults((current)=>{const id=`${result.parentId}::${result.batchId}::${result.completionCount}`;return current.some((item)=>`${item.parentId}::${item.batchId}::${item.completionCount}`===id)?current:[result,...current]});rememberQcNotaSnapshot(result);setQcResult(result)}} onOpenNota={(result)=>{rememberQcNotaSnapshot(result);setQcResult(result);setNotaFocus({kind:'REGULAR',id:regularFgNotaCardId(result)});setNotaOrigin('QC');setPage('fg-handoff')}} /></Suspense>}
+        {page === 'fg-handoff' && runtime.fgHandoffMode === 'BLOCKED_UNTIL_AUTHORITATIVE' && <Suspense fallback={<WorkspaceFallback label="Nota FG safety boundary"/>}><ConnectedFgHandoffBoundary/></Suspense>}
+        {page === 'fg-handoff' && runtime.fgHandoffMode === 'SIMULATION' && <Suspense fallback={<WorkspaceFallback label="Susun Nota FG"/>}><FgNotaPage
           key={`${notaOrigin}-${notaFocus?.kind??'QUEUE'}-${notaFocus?.id??'ALL'}`}
           result={qcResult}
           eligibleResults={finalizedQcResults}
@@ -674,7 +687,8 @@ function App() {
             }))
           }}
         /></Suspense>}
-        {page === 'laundry' && <LaundryPage
+        {page === 'laundry' && runtime.laundryMode === 'CONNECTED' && <Suspense fallback={<WorkspaceFallback label="Laundry connected"/>}><ConnectedLaundryPage/></Suspense>}
+        {page === 'laundry' && runtime.laundryMode === 'SIMULATION' && <LaundryPage
           prefill={laundryPrefill}
           readyBatches={laundryReadyBatches}
           setReadyBatches={setLaundryReadyBatches}
