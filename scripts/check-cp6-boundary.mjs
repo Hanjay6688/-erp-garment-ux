@@ -99,6 +99,12 @@ for (const predecessorViewSha of [
   `CP6 must bind guard and rollback capsule to audited predecessor view ${predecessorViewSha}`)
 assert.ok(migration.includes('pg_get_viewdef is not a parse/deparse fixed point'),
   'CP6 predecessor view allowlist lacks its live-UAT versus immutable-replay rationale')
+assert.ok(migration.includes(
+  '%coalesce(lr.laundry_good_returned_qty_pcs,%)-coalesce(q.laundry_qc_accounted_qty_pcs,%',
+), 'CP6 no-double-QC post guard is not bound to the adjacent Good-minus-QC formula')
+assert.ok(!migration.includes(
+  '%laundry_returned_qty_pcs% - COALESCE(q.laundry_qc_accounted_qty_pcs%',
+), 'CP6 no-double-QC post guard still permits a cross-expression wildcard false positive')
 
 const migrationBytes = Buffer.from(migration, 'utf8')
 assert.equal(migrationBytes.at(-1), 10, 'CP6 migration must have one final LF excluded from platform statements')
