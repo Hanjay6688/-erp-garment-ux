@@ -3355,6 +3355,7 @@ end;
 do $post_guard$
 declare
   v_public record;
+  v_fg_progress_def text;
 begin
   if (select count(*) from erp.cp6_v2620_rollback_capsule)<>7
      or (select count(*) from erp.cp6_v2620_acl_capsule)<>13
@@ -3510,16 +3511,18 @@ begin
       raise exception 'ERP v2.6.20 post guard: insecure public facade %',v_public.sig;
     end if;
   end loop;
+  v_fg_progress_def:=lower(regexp_replace(
+    pg_get_viewdef('erp.v_fg_partial_completion_progress'::regclass,true),
+    '[[:space:]]+','','g'
+  ));
   if pg_get_functiondef('erp.require_internal()'::regprocedure)
        not like '%cp6_laundry_qc_execution_context%'
      or pg_get_functiondef('erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)'::regprocedure)
        not like '%browser_formula_used%false%'
-     or pg_get_viewdef('erp.v_fg_partial_completion_progress'::regclass,true)
-       not like '%laundry_good_returned_qty_pcs%laundry_qc_accounted_qty_pcs%'
-     or regexp_replace(lower(pg_get_viewdef(
-       'erp.v_fg_partial_completion_progress'::regclass,true
-     )),'[[:space:]]','','g') not like
-       '%coalesce(lr.laundry_good_returned_qty_pcs,%)-coalesce(q.laundry_qc_accounted_qty_pcs,%' then
+     or v_fg_progress_def !~
+       'coalesce\(lr\.laundry_good_returned_qty_pcs,[^)]*\)-coalesce\(q\.laundry_qc_accounted_qty_pcs,[^)]*\)'
+     or v_fg_progress_def ~
+       'coalesce\(lr\.laundry_returned_qty_pcs,[^)]*\)-coalesce\(q\.laundry_qc_accounted_qty_pcs,[^)]*\)' then
     raise exception 'ERP v2.6.20 post guard: internal bridge or no-double-QC contract failed';
   end if;
   if pg_get_viewdef('erp.v_wip_control_status_v1'::regclass,true)
