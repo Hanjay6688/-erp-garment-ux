@@ -20,7 +20,7 @@ import './connected-bs-resolution.css'
 type RunAction = (
   action: BsResolutionAction, payload: Json, expectedVersion: number | null,
 ) => Promise<boolean>
-type ClaimType = 'STUCK' | 'MISSING' | 'DAMAGE' | 'OTHER'
+type ClaimType = 'STUCK' | 'MISSING' | 'DAMAGE'
 
 const nowInput = () => {
   const now = new Date()
@@ -93,27 +93,27 @@ function CreateClaim({ workspace, onClose, onAction }: {
   const [compensation, setCompensation] = useState('0')
   const [openedAt, setOpenedAt] = useState(nowInput)
   const [reason, setReason] = useState('')
-  const deliverySources = workspace.lookups.laundry_sources.filter((item) => claimType === 'OTHER' || item.qty_claimable_pcs > 0)
+  const deliverySources = workspace.lookups.laundry_sources.filter((item) => item.qty_claimable_pcs > 0)
   const receiptSources = workspace.lookups.laundry_receipt_sources
   const deliverySource = deliverySources.find((item) => item.id === sourceId)
   const receiptSource = receiptSources.find((item) => item.id === sourceId)
   const source = claimType === 'DAMAGE' ? receiptSource : deliverySource
   const maxQuantity = claimType === 'DAMAGE'
     ? receiptSource?.qty_claimable_pcs ?? 0
-    : claimType === 'OTHER' ? deliverySource?.qty_sent_pcs ?? 0 : deliverySource?.qty_claimable_pcs ?? 0
+    : deliverySource?.qty_claimable_pcs ?? 0
   const valid = Boolean(source && number.trim() && qty(quantity) > 0 && qty(quantity) <= maxQuantity && openedAt && reason.trim().length >= 4)
   return <div className="cbsr-modal-layer" role="presentation"><section role="dialog" aria-modal="true" aria-labelledby="new-claim-title">
     <header><div><span>LAUNDRY EXCEPTION</span><h2 id="new-claim-title">Buat claim Laundry</h2><p>Stuck/Missing mengikuti surat kirim; Damage wajib mengikuti baris penerimaan BS. Vendor dan PO tidak diketik ulang.</p></div><button aria-label="Tutup" onClick={onClose}><X/></button></header>
     <div className="cbsr-form-grid">
-      <label className="wide"><span>{claimType === 'DAMAGE' ? 'BARIS PENERIMAAN BS' : 'SURAT KIRIM'}</span><select value={sourceId} onChange={(event) => { setSourceId(event.target.value); setQuantity('') }}><option value="">Pilih sumber…</option>{claimType === 'DAMAGE' ? receiptSources.map((item) => <option value={item.id} key={item.id}>{item.number} · {item.delivery_number} · {item.vendor_name} · {item.qty_claimable_pcs}/{item.qty_bs_laundry} pcs bisa diclaim</option>) : deliverySources.map((item) => <option value={item.id} key={item.id}>{item.number} · {item.vendor_name} · {item.po_number} · {claimType === 'OTHER' ? item.qty_sent_pcs : item.qty_claimable_pcs} pcs tersedia</option>)}</select>{(claimType === 'DAMAGE' ? receiptSources : deliverySources).length === 0 ? <small className="cbsr-field-warning">Belum ada sumber fisik yang masih memiliki kapasitas claim jenis ini.</small> : null}</label>
+      <label className="wide"><span>{claimType === 'DAMAGE' ? 'BARIS PENERIMAAN BS' : 'SURAT KIRIM'}</span><select value={sourceId} onChange={(event) => { setSourceId(event.target.value); setQuantity('') }}><option value="">Pilih sumber…</option>{claimType === 'DAMAGE' ? receiptSources.map((item) => <option value={item.id} key={item.id}>{item.number} · {item.delivery_number} · {item.vendor_name} · {item.qty_claimable_pcs}/{item.qty_bs_laundry} pcs bisa diclaim</option>) : deliverySources.map((item) => <option value={item.id} key={item.id}>{item.number} · {item.vendor_name} · {item.po_number} · {item.qty_claimable_pcs} pcs outstanding</option>)}</select>{(claimType === 'DAMAGE' ? receiptSources : deliverySources).length === 0 ? <small className="cbsr-field-warning">Belum ada sumber fisik yang masih memiliki kapasitas claim jenis ini.</small> : null}</label>
       <label><span>NOMOR CLAIM</span><input value={number} onChange={(event) => setNumber(event.target.value)} placeholder="CLM-LDR-…"/></label>
       <label><span>JENIS</span><select value={claimType} onChange={(event) => {
         const next = event.target.value as ClaimType
         setClaimType(next); setQuantity('')
         setSourceId(next === 'DAMAGE'
           ? workspace.lookups.laundry_receipt_sources[0]?.id ?? ''
-          : workspace.lookups.laundry_sources.find((item) => next === 'OTHER' || item.qty_claimable_pcs > 0)?.id ?? '')
-      }}><option>STUCK</option><option>MISSING</option><option>DAMAGE</option><option>OTHER</option></select></label>
+          : workspace.lookups.laundry_sources.find((item) => item.qty_claimable_pcs > 0)?.id ?? '')
+      }}><option>STUCK</option><option>MISSING</option><option>DAMAGE</option></select></label>
       <label><span>QTY CLAIM · MAKS {maxQuantity}</span><input inputMode="numeric" value={quantity} onChange={(event) => setQuantity(cleanBsQuantity(event.target.value, maxQuantity))}/></label>
       <label><span>NILAI KOMPENSASI</span><input inputMode="numeric" value={compensation} onChange={(event) => setCompensation(cleanBsQuantity(event.target.value, 999_999_999))}/></label>
       <label><span>WAKTU DIBUKA</span><input type="datetime-local" value={openedAt} onChange={(event) => setOpenedAt(event.target.value)}/></label>
@@ -228,10 +228,10 @@ function BsActionPanel({ row, workspace, canCreate, canPost, canReverse, ownerAd
   const [resolutionType, setResolutionType] = useState('SCRAP')
   const [claimId, setClaimId] = useState('')
   const [compensation, setCompensation] = useState('0')
-  const [componentIds, setComponentIds] = useState(row.components.map((item) => item.id))
+  const [componentIds, setComponentIds] = useState(row.components.filter((item) => item.default_selected).map((item) => item.id))
   const accessoryBom = row.accessory_bom
   const [accessoryIds, setAccessoryIds] = useState(
-    accessoryBom?.state === 'AVAILABLE' ? accessoryBom.items.map((item) => item.id) : [],
+    accessoryBom?.state === 'AVAILABLE' ? accessoryBom.items.filter((item) => item.default_selected).map((item) => item.id) : [],
   )
   const activeOrders = row.rework_orders.filter((item) => ['OPEN', 'IN_PROGRESS', 'PARTIAL'].includes(item.status))
   const canStart = ['OPEN', 'PARTIAL'].includes(row.status) && row.available_qty > 0 && activeOrders.length === 0
@@ -259,8 +259,8 @@ function BsActionPanel({ row, workspace, canCreate, canPost, canReverse, ownerAd
       <label><span>WAKTU FISIK</span><input type="datetime-local" value={physicalAt} onChange={(event) => setPhysicalAt(event.target.value)}/></label>
       <label><span>GUDANG FG BILA GOOD</span><select value={locationId} onChange={(event) => setLocationId(event.target.value)}><option value="">Pilih saat completion</option>{workspace.lookups.fg_locations.map((item) => <option value={item.id} key={item.id}>{item.code} · {item.name}</option>)}</select></label>
       <label className="wide"><span>CATATAN / ALASAN</span><textarea value={reason} onChange={(event) => setReason(event.target.value)} placeholder="Kerusakan dan instruksi fisik"/></label>
-    </div>{route === 'REWORK' ? <fieldset className="cbsr-checks"><legend>KOMPONEN KERJA YANG DIULANG · DASAR UPAH REWORK</legend>{row.components.map((item) => <label key={item.id}><input type="checkbox" checked={componentIds.includes(item.id)} onChange={(event) => setComponentIds((current) => event.target.checked ? [...current, item.id] : current.filter((id) => id !== item.id))}/><span><strong>{item.code}</strong>{item.name}</span></label>)}</fieldset> : <p className="cbsr-zero-fee"><Waves/> Vendor Rewash tidak mendapat fee kerja komponen. Reimbursement aksesori terpilih tetap menuju Mandor PO.</p>}
-    {accessoryBom?.state === 'AVAILABLE' ? <fieldset className="cbsr-checks cbsr-accessories"><legend>AKSESORI YANG BENAR-BENAR DIPASANG · DASAR REIMBURSEMENT</legend><p>Default semua tercentang. Uncheck item yang tidak dipasang atau sudah pernah dibayar; pilihan ini terkunci saat order dibuat.</p>{accessoryBom.items.map((item) => <label key={item.id}><input type="checkbox" checked={accessoryIds.includes(item.id)} onChange={(event) => setAccessoryIds((current) => event.target.checked ? [...current, item.id] : current.filter((id) => id !== item.id))}/><span><strong>{item.code} · {item.name}</strong>{item.qty_per_good_fg_base} {item.base_uom_code}/pcs · {money(item.reimbursement_rate)}/{item.reimbursement_uom_code}</span></label>)}</fieldset> : accessoryBom?.state === 'NONE' ? <p className="cbsr-zero-fee"><Check/> BOM produk menyatakan tanpa aksesori. Keputusan kosong tetap disimpan secara immutable.</p> : <p className={nativeBomMissing ? 'cbsr-bom-warning' : 'cbsr-zero-fee'}><AlertTriangle/> {nativeBomMissing ? 'BOM aksesori produk belum tersedia. Setup BOM—termasuk BOM kosong—sebelum membuat order.' : 'Kasus legacy ini tidak punya PO/SKU; pilihan aksesori kosong akan dicatat sebagai UNAVAILABLE dan hasil GOOD tetap tidak dapat diposting.'}</p>}
+    </div>{route === 'REWORK' ? <fieldset className="cbsr-checks"><legend>KOMPONEN KERJA YANG DIULANG · DASAR UPAH REWORK</legend><p>Server hanya mencentang komponen yang masih punya entitlement kerja baru. Counter, bukan status pembayaran kas, menjadi batas anti-bayar-ganda.</p>{row.components.map((item) => <label key={item.id}><input type="checkbox" checked={componentIds.includes(item.id)} onChange={(event) => setComponentIds((current) => event.target.checked ? [...current, item.id] : current.filter((id) => id !== item.id))}/><span><strong>{item.code}</strong>{item.name} · sisa hak baru {item.remaining_new_work_qty_pcs} pcs</span></label>)}</fieldset> : <p className="cbsr-zero-fee"><Waves/> Vendor Rewash tidak mendapat fee kerja komponen. Reimbursement aksesori terpilih tetap menuju Mandor PO.</p>}
+    {accessoryBom?.state === 'AVAILABLE' ? <fieldset className="cbsr-checks cbsr-accessories"><legend>AKSESORI YANG BENAR-BENAR DIPASANG · DASAR REIMBURSEMENT</legend><p>Server otomatis mencentang baseline yang belum menjadi entitlement. Yang pernah menjadi entitlement atau tidak bisa dibuktikan akan off; centang manual hanya bila benar-benar ada penggantian tambahan. Pilihan final terkunci saat order dibuat.</p>{accessoryBom.items.map((item) => <label key={item.id}><input type="checkbox" checked={accessoryIds.includes(item.id)} onChange={(event) => setAccessoryIds((current) => event.target.checked ? [...current, item.id] : current.filter((id) => id !== item.id))}/><span><strong>{item.code} · {item.name}</strong>{item.qty_per_good_fg_base} {item.base_uom_code}/pcs · {money(item.reimbursement_rate)}/{item.reimbursement_uom_code} · {item.default_selected ? `${item.remaining_unentitled_good_qty_pcs} pcs baseline belum entitlement` : 'default off · manual bila penggantian nyata'}</span></label>)}</fieldset> : accessoryBom?.state === 'NONE' ? <p className="cbsr-zero-fee"><Check/> BOM produk menyatakan tanpa aksesori. Keputusan kosong tetap disimpan secara immutable.</p> : <p className={nativeBomMissing ? 'cbsr-bom-warning' : 'cbsr-zero-fee'}><AlertTriangle/> {nativeBomMissing ? 'BOM aksesori produk belum tersedia. Setup BOM—termasuk BOM kosong—sebelum membuat order.' : 'Kasus legacy ini tidak punya PO/SKU; pilihan aksesori kosong akan dicatat sebagai UNAVAILABLE dan hasil GOOD tetap tidak dapat diposting.'}</p>}
     <button className="cbsr-submit" disabled={!canCreate || !canStart || nativeBomMissing || !number.trim() || !partyId || sendQty <= 0 || !physicalAt || reason.trim().length < 4 || route === 'REWORK' && componentIds.length === 0} onClick={() => void onAction('SAVE_REWORK', {
       rework_number: number.trim(),
       bs_case_id: row.id, destination_type: route === 'REWORK' ? 'CONTRACTOR' : 'LAUNDRY',
@@ -344,6 +344,7 @@ export default function ConnectedBsResolutionPage() {
   viewRef.current = { filter, kind, patternId, query }
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
+  const [workspaceStale, setWorkspaceStale] = useState(false)
   const [createMode, setCreateMode] = useState<'BS' | 'CLAIM' | null>(null)
 
   const load = useCallback(async (
@@ -357,19 +358,22 @@ export default function ConnectedBsResolutionPage() {
         p_filter: nextFilter, p_kind: nextKind, p_pattern_id: nextPattern || null,
         p_query: nextQuery.trim() || null, p_limit: 50, p_offset: nextOffset,
       })
-      if (requestId !== loadRequestRef.current) return
+      if (requestId !== loadRequestRef.current) return false
       if (loadError) {
         setError(normalizeClientError(loadError).message)
-        return
+        return false
       }
       try {
         const parsed = parseBsResolutionWorkspace(data)
         setWorkspace(parsed)
+        setWorkspaceStale(false)
         setOffset(parsed.offset)
         setSelectedKey((current) => parsed.rows.some((row) => row.case_key === current) ? current : parsed.rows[0]?.case_key ?? '')
-      } catch (parseError) { setError(parseError instanceof Error ? parseError.message : String(parseError)) }
+        return true
+      } catch (parseError) { setError(parseError instanceof Error ? parseError.message : String(parseError)); return false }
     } catch (loadFailure) {
       if (requestId === loadRequestRef.current) setError(normalizeClientError(loadFailure).message)
+      return false
     } finally {
       if (requestId === loadRequestRef.current) setLoading(false)
     }
@@ -378,6 +382,10 @@ export default function ConnectedBsResolutionPage() {
   useEffect(() => { void load() }, []) // eslint-disable-line react-hooks/exhaustive-deps
   const runAction: RunAction = useCallback(async (action, payload, expectedVersion) => {
     if (busyRef.current) return false
+    if (workspaceStale) {
+      setError('Workspace belum authoritative. Refetch wajib berhasil sebelum aksi lain dijalankan.')
+      return false
+    }
     busyRef.current = true
     setBusy(true); setError(''); setNotice('')
     try {
@@ -391,9 +399,11 @@ export default function ConnectedBsResolutionPage() {
       })
       if (actionError) throw normalizeClientError(actionError)
       actionRequestRef.current = { fingerprint: '', id: '' }
-      setNotice(`${statusLabel(action)} tersimpan. Workspace sudah di-refetch dari backend.`)
+      setWorkspaceStale(true)
       const currentView = viewRef.current
-      await load(currentView.filter, currentView.kind, currentView.patternId, currentView.query, 0)
+      const refetched = await load(currentView.filter, currentView.kind, currentView.patternId, currentView.query, 0)
+      if (refetched) setNotice(`${statusLabel(action)} tersimpan. Workspace authoritative sudah dimuat ulang.`)
+      else setError('Aksi sudah tersimpan, tetapi refresh authoritative gagal. Jangan ulangi aksi. Semua writer dibekukan sampai Refetch berhasil.')
       return true
     } catch (actionFailure) {
       setError(actionFailure instanceof Error ? actionFailure.message : String(actionFailure))
@@ -402,7 +412,7 @@ export default function ConnectedBsResolutionPage() {
       busyRef.current = false
       setBusy(false)
     }
-  }, [client, load])
+  }, [client, load, workspaceStale])
 
   const rows = workspace?.rows ?? []
   const selected = rows.find((row) => row.case_key === selectedKey) ?? rows[0]
@@ -412,16 +422,31 @@ export default function ConnectedBsResolutionPage() {
   ))
   const canPageBack = offset > 0
   const canPageForward = Boolean(workspace && offset + workspace.rows.length < workspace.total)
+  const effectiveCanCreate = canCreate && !workspaceStale
+  const effectiveCanPost = canPost && !workspaceStale
+  const effectiveCanReverse = canReverse && !workspaceStale
+  const selectedContractKey = selected ? [
+    selected.case_key, selected.row_version, selected.status, selected.available_qty,
+    selected.accessory_bom?.bom_version_id ?? 'NO_BOM',
+    selected.accessory_bom?.items.map((item) => (
+      `${item.id}.${item.default_selected}.${item.remaining_unentitled_good_qty_pcs}`
+    )).join(',') ?? 'NO_ACCESSORY',
+    selected.components.map((item) => (
+      `${item.id}.${item.default_selected}.${item.remaining_new_work_qty_pcs}`
+    )).join(','),
+    selected.rework_orders.map((order) => `${order.id}.${order.row_version}`).join(','),
+  ].join(':') : ''
   return <section className="connected-bs-resolution-page">
-    <header className="cbsr-hero"><div><span>CP5 · AUTHORITATIVE RECOVERY</span><h1>Barang BS & Rework</h1><p>Resolve fisik, biaya, FG, dan claim dari satu lineage; browser tidak menulis tabel atau jurnal langsung.</p></div><div><button disabled={!canCreate || !hasClaimSource} title={hasClaimSource ? 'Buat claim dari sumber fisik Laundry' : 'Belum ada surat kirim atau penerimaan BS yang dapat dijadikan sumber'} onClick={() => setCreateMode('CLAIM')}><Plus/> Claim Laundry</button><button className="primary" disabled={!canCreate || !workspace} onClick={() => setCreateMode('BS')}><Plus/> BS legacy</button><button onClick={() => void load()}><RefreshCw/> Refetch</button></div></header>
+    <header className="cbsr-hero"><div><span>CP5 · AUTHORITATIVE RECOVERY</span><h1>Barang BS & Rework</h1><p>Resolve fisik, biaya, FG, dan claim dari satu lineage; browser tidak menulis tabel atau jurnal langsung.</p></div><div><button disabled={!effectiveCanCreate || !hasClaimSource} title={hasClaimSource ? 'Buat claim dari sumber fisik Laundry' : 'Belum ada surat kirim atau penerimaan BS yang dapat dijadikan sumber'} onClick={() => setCreateMode('CLAIM')}><Plus/> Claim Laundry</button><button className="primary" disabled={!effectiveCanCreate || !workspace} onClick={() => setCreateMode('BS')}><Plus/> BS legacy</button><button disabled={loading} onClick={() => void load()}><RefreshCw/> Refetch</button></div></header>
     <div className="cbsr-boundary"><ShieldCheck/><strong>UAT BACKEND CONNECTED</strong><span>Rework, rewash, HOLD, disposition, claim, HPP, dan reversal memakai fungsi kanonik server.</span></div>
     {error ? <div className="cbsr-alert error" role="alert"><AlertTriangle/><span>{error}</span><button onClick={() => setError('')}><X/></button></div> : null}
     {notice ? <div className="cbsr-alert notice"><Check/><span>{notice}</span><button onClick={() => setNotice('')}><X/></button></div> : null}
+    {workspaceStale ? <div className="cbsr-alert error" role="alert"><AlertTriangle/><span>State layar stale setelah mutasi tersimpan. Jangan ulangi aksi; seluruh writer terkunci sampai Refetch authoritative berhasil.</span></div> : null}
     {busy ? <div className="cbsr-busy"><LoaderCircle className="spin"/> Mengunci transaksi dan memuat ulang state…</div> : null}
     <section className="cbsr-kpis"><article><span>TOTAL KASUS FILTER</span><strong>{workspace?.total ?? 0}</strong><small>{filter === 'ACTIVE' ? 'Closed disembunyikan' : filter}</small></article><article><span>QTY HALAMAN INI</span><strong>{activeQty} pcs</strong><small>Available + active rework</small></article><article><span>ON HOLD · HALAMAN</span><strong>{rows.filter((row) => row.status === 'ON_HOLD').length}</strong><small>Keputusan dibekukan eksplisit</small></article><article><span>CLAIM · HALAMAN</span><strong>{rows.filter((row) => row.kind === 'LAUNDRY_CLAIM').length}</strong><small>Filter halaman aktif</small></article></section>
     <section className="cbsr-workspace"><aside><header><div className="cbsr-tabs">{(['ACTIVE', 'CLOSED', 'ALL'] as const).map((value) => <button className={filter === value ? 'active' : ''} key={value} onClick={() => { setFilter(value); setOffset(0); void load(value, kind, patternId, query, 0) }}>{value === 'ACTIVE' ? 'Aktif' : value === 'CLOSED' ? 'Selesai' : 'Semua'}</button>)}</div><select aria-label="Jenis kasus CP5" value={kind} onChange={(event) => { const next = event.target.value as BsWorkspaceKind; setKind(next); setOffset(0); void load(filter, next, patternId, query, 0) }}><option value="ALL">BS + Claim</option><option value="BS">Barang BS</option><option value="LAUNDRY_CLAIM">Claim Laundry</option></select></header><label className="cbsr-search"><Search/><input value={query} onChange={(event) => setQuery(event.target.value)} onKeyDown={(event) => { if (event.key === 'Enter') { setOffset(0); void load(filter, kind, patternId, query, 0) } }} placeholder="Nomor, PO, model, Pola, pihak…"/><button onClick={() => { setOffset(0); void load(filter, kind, patternId, query, 0) }}>Cari</button></label><ConnectedPatternFilter label="FILTER POLA CP5" value={patternId} onChange={(next) => { setPatternId(next); setOffset(0); void load(filter, kind, next, query, 0) }}/>
       <div className="cbsr-list">{loading ? <div className="cbsr-empty"><LoaderCircle className="spin"/> Memuat kasus…</div> : rows.map((row) => <button type="button" className={`${row.case_key === selected?.case_key ? 'active ' : ''}${row.status === 'ON_HOLD' ? 'hold' : ''}`} key={row.case_key} onClick={() => setSelectedKey(row.case_key)}><span className={row.kind === 'BS' ? 'bs' : 'claim'}>{row.kind === 'BS' ? <Shirt/> : <Waves/>}</span><div><small>{row.po_number ?? row.legacy_reference ?? 'TANPA PO'} · {row.group_number ?? row.claim_type ?? 'UNTRACKED'}</small><strong>{row.number}</strong><em>{bsPatternLabel(row)}</em><p>{row.available_qty} tersedia · {row.active_rework_qty} rework</p></div><b>{statusLabel(row.status)}</b></button>)}{!loading && rows.length === 0 ? <div className="cbsr-empty"><Search/><strong>Tidak ada kasus pada filter ini</strong><small>Filter tidak mengubah transaksi.</small></div> : null}</div><footer className="cbsr-pagination"><span>{workspace?.total ? `${offset + 1}–${offset + rows.length} dari ${workspace.total}` : '0 kasus'}</span><div><button disabled={loading || !canPageBack} onClick={() => void load(filter, kind, patternId, query, Math.max(0, offset - 50))}>Sebelumnya</button><button disabled={loading || !canPageForward} onClick={() => void load(filter, kind, patternId, query, offset + 50)}>Berikutnya</button></div></footer>
-    </aside>{selected && workspace ? <CaseDetail key={selected.case_key} row={selected} workspace={workspace} canCreate={canCreate} canPost={canPost} canReverse={canReverse} ownerAdmin={ownerAdmin} onAction={runAction}/> : <main className="cbsr-no-selection"><PackageCheck/><strong>Tidak ada detail</strong><small>Ubah filter atau buat kasus yang memang punya sumber fisik.</small></main>}</section>
+    </aside>{selected && workspace ? <CaseDetail key={selectedContractKey} row={selected} workspace={workspace} canCreate={effectiveCanCreate} canPost={effectiveCanPost} canReverse={effectiveCanReverse} ownerAdmin={ownerAdmin} onAction={runAction}/> : <main className="cbsr-no-selection"><PackageCheck/><strong>Tidak ada detail</strong><small>Ubah filter atau buat kasus yang memang punya sumber fisik.</small></main>}</section>
     {createMode === 'BS' && workspace ? <CreateManualBs workspace={workspace} onClose={() => setCreateMode(null)} onAction={runAction}/> : null}
     {createMode === 'CLAIM' && workspace ? <CreateClaim workspace={workspace} onClose={() => setCreateMode(null)} onAction={runAction}/> : null}
   </section>

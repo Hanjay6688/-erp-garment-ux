@@ -23,6 +23,9 @@ const hostedEvidenceRelative = 'docs/evidence/cp5_hosted_uat_auth_e2e.json'
 const lineageMigrationRelative = 'supabase/migrations/20260903151034_erp_v2_6_19a_cp5_rework_accessory_lineage.sql'
 const lineageRollbackRelative = 'supabase/rollbacks/20260903151034_erp_v2_6_19a_cp5_rework_accessory_lineage.rollback.sql'
 const lineageEvidenceRelative = 'docs/evidence/cp5_v2619a_uat_acceptance.json'
+const reliabilityMigrationRelative = 'supabase/migrations/20260904012525_erp_v2_6_19b_cp5_reliability_closure.sql'
+const reliabilityRollbackRelative = 'supabase/rollbacks/20260904012525_erp_v2_6_19b_cp5_reliability_closure.rollback.sql'
+const reliabilityEvidenceRelative = 'docs/evidence/cp5_v2619b_uat_acceptance.json'
 const v2619aCodeHeadSha = '2175bd8f199f6a5d860e7f517042e2efe35916e7'
 const v2619aCodeHeadTree = 'd845b1ff613774a150b999dbfa2b41b772e416e9'
 
@@ -48,6 +51,10 @@ assert.equal(
 const previous = existsSync(manifestPath) ? JSON.parse(readFileSync(manifestPath, 'utf8')) : null
 const hostedEvidence = JSON.parse(readFileSync(resolve(root, hostedEvidenceRelative), 'utf8'))
 const lineageEvidence = JSON.parse(readFileSync(resolve(root, lineageEvidenceRelative), 'utf8'))
+const reliabilityEvidence = existsSync(resolve(root, reliabilityEvidenceRelative))
+  ? JSON.parse(readFileSync(resolve(root, reliabilityEvidenceRelative), 'utf8'))
+  : null
+const reliabilityRecorded = reliabilityEvidence !== null
 assert.equal(hostedEvidence.format, 'CP5_HOSTED_UAT_AUTH_E2E_V1')
 assert.equal(hostedEvidence.status, 'PASS')
 assert.equal(hostedEvidence.mode, 'MANUAL_HOSTED_UAT_VERIFIED')
@@ -74,6 +81,27 @@ assert.equal(lineageEvidence.hosted_http_auth_retest, false)
 assert.ok(Object.values(lineageEvidence.post_proof_residue).every((value) => value === 0))
 assert.equal(lineageEvidence.legacy_mutated, false)
 assert.equal(lineageEvidence.production_go, false)
+if (reliabilityRecorded) {
+  assert.equal(reliabilityEvidence.format, 'CP5_V2619B_UAT_ACCEPTANCE_V1')
+  assert.equal(reliabilityEvidence.status, 'PASS')
+  assert.equal(reliabilityEvidence.mode, 'EXACT_CODE_HEAD_CI_AND_HOSTED_UAT_RECORDED_MIGRATION')
+  assert.equal(reliabilityEvidence.target_project_ref, 'siimvrusnzxexizpyoib')
+  assert.equal(reliabilityEvidence.correction.application_version, 'v2.6.19b')
+  assert.equal(reliabilityEvidence.correction.source_ledger_version, '20260904012525')
+  assert.equal(reliabilityEvidence.correction.source_path, reliabilityMigrationRelative)
+  assert.equal(reliabilityEvidence.correction.source_bytes, 42021)
+  assert.equal(reliabilityEvidence.correction.source_sha256, 'b1bde1a6ccd1f60dd001d99b72d479ffa0a18a6ea46bf93cd80e406e2ef0ce1d')
+  assert.equal(reliabilityEvidence.correction.connector_ledger_sha256, '89ed4535720e12722bc1cbedd1bbcb5b7920f9ee4b6b19754214d05ac82b0e8d')
+  assert.equal(reliabilityEvidence.code_ci.status, 'PASS')
+  assert.match(reliabilityEvidence.code_ci.runtime_head_sha, /^[0-9a-f]{40}$/)
+  assert.match(reliabilityEvidence.code_ci.runtime_head_tree, /^[0-9a-f]{40}$/)
+  assert.equal(reliabilityEvidence.code_ci.unit_tests.files, 25)
+  assert.equal(reliabilityEvidence.code_ci.unit_tests.passed, 172)
+  assert.deepEqual(reliabilityEvidence.code_ci.browser_tests, { cp45: 2, pre_cp5: 2, cp5: 6, total: 10 })
+  assert.ok(Object.values(reliabilityEvidence.post_proof_residue).every((value) => value === 0))
+  assert.equal(reliabilityEvidence.legacy_read_only.legacy_mutated, false)
+  assert.equal(reliabilityEvidence.production_go, false)
+}
 
 function bindRollback(rollbackRelative, placeholder, previousHash, nextHash) {
   const path = resolve(root, rollbackRelative)
@@ -93,10 +121,12 @@ const cuttingMigrationBytes = readFileSync(resolve(root, cuttingMigrationRelativ
 const correctionMigrationBytes = readFileSync(resolve(root, correctionMigrationRelative))
 const cp5MigrationBytes = readFileSync(resolve(root, cp5MigrationRelative))
 const lineageMigrationBytes = readFileSync(resolve(root, lineageMigrationRelative))
+const reliabilityMigrationBytes = readFileSync(resolve(root, reliabilityMigrationRelative))
 const cuttingMigrationHash = sha256(cuttingMigrationBytes)
 const correctionMigrationHash = sha256(correctionMigrationBytes)
 const cp5MigrationHash = sha256(cp5MigrationBytes)
 const lineageMigrationHash = sha256(lineageMigrationBytes)
+const reliabilityMigrationHash = sha256(reliabilityMigrationBytes)
 assert.equal(cuttingMigrationBytes.length, 80392, 'Recorded UAT v2.6.18 source byte length drift')
 assert.equal(cuttingMigrationHash, '6a568a78ad0b9baa2ef5ee958ee967d7c997cc1f4dfb7f0e4ef5e6ff69e5038f', 'Recorded UAT v2.6.18 source SHA-256 drift')
 bindRollback(
@@ -115,9 +145,22 @@ bindRollback(
   lineageRollbackRelative, '__REWORK_ACCESSORY_LINEAGE_MIGRATION_SHA256__',
   previous?.migrations?.rework_accessory_lineage?.source_sha256, lineageMigrationHash,
 )
+bindRollback(
+  reliabilityRollbackRelative, '__CP5_RELIABILITY_CLOSURE_MIGRATION_SHA256__',
+  previous?.migrations?.reliability_closure?.connector_ledger_sha256, '89ed4535720e12722bc1cbedd1bbcb5b7920f9ee4b6b19754214d05ac82b0e8d',
+)
 assert.equal(lineageMigrationBytes.length, 55354, 'Recorded UAT v2.6.19a source byte length drift')
 assert.equal(lineageMigrationHash, '204b9246f3c8c6464476da1a7f1574f5e0ae4c46f024c082704795b3eef5210f', 'Recorded UAT v2.6.19a source SHA-256 drift')
+assert.equal(reliabilityMigrationBytes.length, 42021, 'v2.6.19b source byte length drift')
+assert.equal(reliabilityMigrationHash, 'b1bde1a6ccd1f60dd001d99b72d479ffa0a18a6ea46bf93cd80e406e2ef0ce1d', 'v2.6.19b source SHA-256 drift')
 
+const materializedPaths = lines(process.env.CP5_MATERIALIZED_CHANGED_PATHS ?? '')
+const materializedMode = !existsSync(resolve(root, '.git'))
+if (materializedMode) {
+  assert.ok(previous, 'Materialized rendering requires the preceding manifest')
+  assert.ok(materializedPaths.length > 0, 'Materialized rendering requires CP5_MATERIALIZED_CHANGED_PATHS')
+  assert.ok(process.env.CP5_GENERATION_PARENT_SHA, 'Materialized rendering requires CP5_GENERATION_PARENT_SHA')
+}
 const sourceBaseSha = previous?.source_base_sha ?? git('rev-parse', 'HEAD')
 const sourceBaseTree = previous?.source_base_tree ?? git('rev-parse', `${sourceBaseSha}^{tree}`)
 const generationParentSha = process.env.CP5_GENERATION_PARENT_SHA || git('rev-parse', 'HEAD')
@@ -125,10 +168,12 @@ assert.match(sourceBaseSha, /^[0-9a-f]{40}$/)
 assert.match(sourceBaseTree, /^[0-9a-f]{40}$/)
 assert.match(generationParentSha, /^[0-9a-f]{40}$/)
 
-const deleted = lines(git('diff', '--name-only', '--diff-filter=D', sourceBaseSha, '--'))
+const deleted = materializedMode ? [] : lines(git('diff', '--name-only', '--diff-filter=D', sourceBaseSha, '--'))
 assert.deepEqual(deleted, [], 'CP5 manifest does not conceal deletions; record or restore deleted files first')
-const trackedDelta = lines(git('diff', '--name-only', '--diff-filter=ACMRTUXB', sourceBaseSha, '--'))
-const untracked = lines(git('ls-files', '--others', '--exclude-standard'))
+const trackedDelta = materializedMode
+  ? [...Object.keys(previous.files), ...materializedPaths]
+  : lines(git('diff', '--name-only', '--diff-filter=ACMRTUXB', sourceBaseSha, '--'))
+const untracked = materializedMode ? [] : lines(git('ls-files', '--others', '--exclude-standard'))
 const excluded = new Set([manifestRelative, ownershipRelative])
 const candidates = [...new Set([...trackedDelta, ...untracked])]
   .filter((path) => !excluded.has(path))
@@ -204,9 +249,28 @@ const manifest = {
       uat_platform_statement_count: 1,
       uat_business_facts_observed: 0,
     },
+    reliability_closure: {
+      version: '20260904012525', application_version: 'v2.6.19b',
+      name: 'erp_v2_6_19b_cp5_reliability_closure',
+      source_path: reliabilityMigrationRelative,
+      source_bytes: reliabilityMigrationBytes.length,
+      source_sha256: reliabilityMigrationHash,
+      connector_ledger_sha256: '89ed4535720e12722bc1cbedd1bbcb5b7920f9ee4b6b19754214d05ac82b0e8d',
+      rollback_path: reliabilityRollbackRelative,
+      acceptance_paths: [
+        'supabase/tests/cp5_bs_resolution_recovery_rollback.sql',
+        'supabase/tests/cp5_rework_accessory_lineage_rollback.sql',
+      ],
+      uat_applied: reliabilityRecorded,
+      uat_platform_ledger_version: reliabilityRecorded ? reliabilityEvidence.correction.platform_ledger_version : null,
+      uat_platform_statement_count: reliabilityRecorded ? reliabilityEvidence.correction.platform_statement_count : null,
+      uat_business_facts_observed: 0,
+    },
   },
   verification: {
-    status: 'V2619A_CODE_HEAD_CI_PASS_READY_FOR_INDEPENDENT_REAUDIT',
+    status: reliabilityRecorded
+      ? 'V2619B_CODE_HEAD_CI_AND_UAT_PASS_READY_FOR_INDEPENDENT_REAUDIT'
+      : 'V2619B_CODE_CANDIDATE_AWAITING_EXACT_HEAD_CI_AND_UAT',
     required_local_commands: ['npm test', 'npm run build', 'npm run test:security'],
     full_schema_acceptance_executed: true,
     hosted_uat_executed: true,
@@ -216,16 +280,30 @@ const manifest = {
     forward_correction_full_schema_ci: 'PASS',
     forward_correction_ci_head_sha: v2619aCodeHeadSha,
     forward_correction_ci_head_tree: v2619aCodeHeadTree,
+    reliability_correction_uat_evidence_path: reliabilityRecorded ? reliabilityEvidenceRelative : null,
+    reliability_correction_full_schema_ci: reliabilityRecorded ? 'PASS' : 'PENDING',
+    reliability_correction_ci_head_sha: reliabilityRecorded ? reliabilityEvidence.code_ci.runtime_head_sha : null,
+    reliability_correction_ci_head_tree: reliabilityRecorded ? reliabilityEvidence.code_ci.runtime_head_tree : null,
     read_only_uat_preflight_executed: true,
     read_only_uat_preflight_path: 'docs/evidence/cp5_uat_readonly_preflight.json',
   },
-  candidate_apply_status: 'RECORDED_V2618_V2618A_V2619_V2619A',
+  candidate_apply_status: reliabilityRecorded
+    ? 'RECORDED_V2618_V2618A_V2619_V2619A_V2619B'
+    : 'RECORDED_V2618_V2618A_V2619_V2619A_V2619B_PENDING',
   uat_recorded_state: {
-    application_versions: ['v2.6.18', 'v2.6.18a', 'v2.6.19', 'v2.6.19a'],
-    platform_versions: ['20260903060213', '20260903105741', '20260903105814', '20260903151034'],
-    latest_installed_at: '2026-09-03T15:10:34.973034Z',
+    application_versions: reliabilityRecorded
+      ? ['v2.6.18', 'v2.6.18a', 'v2.6.19', 'v2.6.19a', 'v2.6.19b']
+      : ['v2.6.18', 'v2.6.18a', 'v2.6.19', 'v2.6.19a'],
+    platform_versions: reliabilityRecorded
+      ? ['20260903060213', '20260903105741', '20260903105814', '20260903151034', reliabilityEvidence.correction.platform_ledger_version]
+      : ['20260903060213', '20260903105741', '20260903105814', '20260903151034'],
+    latest_installed_at: reliabilityRecorded
+      ? reliabilityEvidence.correction.installed_at
+      : '2026-09-03T15:10:34.973034Z',
   },
-  closure_status: 'READY_FOR_INDEPENDENT_REAUDIT_NO_GO',
+  closure_status: reliabilityRecorded
+    ? 'READY_FOR_INDEPENDENT_REAUDIT_NO_GO'
+    : 'V2619B_CORRECTION_PENDING_CI_UAT_NO_GO',
   hosted_auth_permission_e2e: {
     status: hostedEvidence.status,
     mode: hostedEvidence.mode,
@@ -235,9 +313,9 @@ const manifest = {
     case_passed: hostedEvidence.case_passed,
     synthetic_cleanup_zero: true,
   },
-  ci_runtime: {
+  ci_runtime: reliabilityRecorded ? reliabilityEvidence.code_ci : {
     status: 'PASS',
-    scope: 'CURRENT_V2619A_CODE_HEAD',
+    scope: 'LAST_RECORDED_V2619A_CODE_HEAD_HISTORICAL',
     runtime_head_sha: v2619aCodeHeadSha,
     runtime_head_tree: v2619aCodeHeadTree,
     unit_tests: { files: 25, passed: 168 },
@@ -290,7 +368,10 @@ const manifest = {
   },
   source_only: false,
   uat_applied: true,
-  uat_applied_at: '2026-09-03T15:10:34.973034Z',
+  uat_applied_at: reliabilityRecorded
+    ? reliabilityEvidence.correction.installed_at
+    : '2026-09-03T15:10:34.973034Z',
+  current_correction_uat_applied: reliabilityRecorded,
   legacy_mutated: false,
   production_go: false,
   files,
@@ -319,9 +400,9 @@ const ownership = {
   legacy_project_ref: 'vlxdhpkjeevubjxexnfo',
   source_only: false,
   uat_applied: true,
-  candidate_apply_status: 'RECORDED_V2618_V2618A_V2619_V2619A',
+  candidate_apply_status: manifest.candidate_apply_status,
   production_go: false,
 }
 writeFileSync(ownershipPath, `${JSON.stringify(ownership, null, 2)}\n`)
 
-console.log(`Rendered CP5 source ownership: ${candidates.length} byte-bound files; migration ledgers ${cuttingMigrationHash.slice(0, 12)} / ${correctionMigrationHash.slice(0, 12)} / ${cp5MigrationHash.slice(0, 12)} / ${lineageMigrationHash.slice(0, 12)}.`)
+console.log(`Rendered CP5 source ownership: ${candidates.length} byte-bound files; migration ledgers ${cuttingMigrationHash.slice(0, 12)} / ${correctionMigrationHash.slice(0, 12)} / ${cp5MigrationHash.slice(0, 12)} / ${lineageMigrationHash.slice(0, 12)} / ${reliabilityMigrationHash.slice(0, 12)}; v2.6.19b ${reliabilityRecorded ? 'RECORDED' : 'PENDING'}.`)

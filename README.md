@@ -42,7 +42,7 @@ Copy `.env.example` for the UAT variable names. Do not commit environment files 
 
 Never relabel or reuse a UAT artifact as a demo or production artifact. `vite.config.ts` explicitly loads and scans `.env*` plus process environment before bundling, so a forbidden secret/service-role name or server key cannot hide in a mode file. `postbuild` always scans `dist`; CI separately reruns the canary regression and output scan.
 
-See [docs/preconnect-security.md](docs/preconnect-security.md) before connecting any screen to backend strings or enabling an RPC.
+See [docs/preconnect-security.md](docs/preconnect-security.md) before connecting any screen to backend strings or enabling an RPC. The binding cross-domain safety contract is documented in [ERP reliability invariants](docs/erp-reliability-invariants.md).
 
 ## Source ownership
 

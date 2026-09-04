@@ -88,11 +88,11 @@ function workspace(patternId: string | null, includeRow = true, partialOrder = f
       contractor_name: 'Mandor A', responsible_vendor_id: null, vendor_name: null, detected_stage: 'QC', cause_source: 'SEWING',
       untracked_type: null, claim_type: null, compensation_amount: 0, laundry_delivery_id: null, laundry_receipt_line_id: null,
       legacy_reference: null, notes: 'Perlu recovery', next_action: 'START_REWORK_OR_DISPOSITION', is_closed: false,
-      accessory_bom: { state: 'AVAILABLE', bom_version_id: 'bom-1', items: [
-        { id: 'bom-item-1', category_id: 'category-1', code: 'KANCING', name: 'Kancing', base_uom_code: 'PCS', qty_per_good_fg_base: 2, reimbursement_rate: 100, reimbursement_uom_code: 'PCS' },
-        { id: 'bom-item-2', category_id: 'category-2', code: 'LABEL', name: 'Label', base_uom_code: 'PCS', qty_per_good_fg_base: 1, reimbursement_rate: 50, reimbursement_uom_code: 'PCS' },
+      accessory_bom: { state: 'AVAILABLE', bom_version_id: 'bom-1', default_policy: 'SERVER_ENTITLEMENT_V2619B', available_qty_pcs: 10, items: [
+        { id: 'bom-item-1', category_id: 'category-1', code: 'KANCING', name: 'Kancing', base_uom_code: 'PCS', qty_per_good_fg_base: 2, reimbursement_rate: 100, reimbursement_uom_code: 'PCS', default_selected: true, default_selection_basis: 'UNPAID_BASELINE', default_reason: 'PRE_FG_UNPAID_BASELINE', already_entitled_good_qty_pcs: 0, already_cash_settled_good_qty_pcs: 0, remaining_unentitled_good_qty_pcs: 10 },
+        { id: 'bom-item-2', category_id: 'category-2', code: 'LABEL', name: 'Label', base_uom_code: 'PCS', qty_per_good_fg_base: 1, reimbursement_rate: 50, reimbursement_uom_code: 'PCS', default_selected: true, default_selection_basis: 'UNPAID_BASELINE', default_reason: 'PRE_FG_UNPAID_BASELINE', already_entitled_good_qty_pcs: 2, already_cash_settled_good_qty_pcs: 0, remaining_unentitled_good_qty_pcs: 8 },
       ] },
-      components: [{ id: 'component-1', work_component_id: 'work-1', code: 'JAHIT', name: 'Jahit', category: 'LABOR', completed_before_bs_qty: 0, lifetime_newly_completed_qty: 0, lifetime_paid_qty: 0, notes: null }],
+      components: [{ id: 'component-1', work_component_id: 'work-1', code: 'JAHIT', name: 'Jahit', category: 'LABOR', completed_before_bs_qty: 0, lifetime_newly_completed_qty: 0, lifetime_paid_qty: 0, remaining_new_work_qty_pcs: 10, default_selected: true, default_selection_basis: 'UNPAID_COMPONENT_ENTITLEMENT', notes: null }],
       resolutions: [], rework_orders: [] as Array<Record<string, unknown>>, hold_events: [],
     }] : [],
   }
@@ -101,6 +101,8 @@ function workspace(patternId: string | null, includeRow = true, partialOrder = f
     row.status = 'IN_REWORK'
     row.active_rework_qty = 4
     row.available_qty = 6
+    row.accessory_bom.available_qty_pcs = 6
+    row.accessory_bom.items.forEach((item) => { item.remaining_unentitled_good_qty_pcs = 6 })
     row.rework_orders = [{
       id: 'rework-1', rework_number: 'RW-PARTIAL-1', destination_type: 'CONTRACTOR',
       contractor_id: 'contractor-1', contractor_name: 'Mandor A', vendor_id: null, vendor_name: null,
@@ -114,7 +116,7 @@ function workspace(patternId: string | null, includeRow = true, partialOrder = f
         selected_items: [{
           id: 'choice-1', bom_item_id: 'bom-item-1', category_id: 'category-1',
           code: 'KANCING', name: 'Kancing', qty_per_good_fg_base: 2,
-          reimbursement_unit_rate_base: 100,
+          reimbursement_unit_rate_base: 100, selection_basis: 'UNPAID_BASELINE',
         }],
       },
     }]
@@ -225,6 +227,8 @@ test('CP5 local mocked-UAT contract keeps server-side Pattern truth and one muta
   await expect(labelChoice).toBeChecked()
   await labelChoice.uncheck()
   await expect(labelChoice).not.toBeChecked()
+  await labelChoice.check()
+  await expect(labelChoice).toBeChecked()
   await page.locator('.cbsr-route-tabs').getByRole('button', { name: 'Hold', exact: true }).click()
   await page.locator('.cbsr-route-form textarea').fill('Menunggu bukti fisik Laundry')
   const saveHold = page.getByRole('button', { name: /Simpan HOLD/ })

@@ -32,6 +32,7 @@ declare
   v_rework_bs constant uuid:='c9040000-0000-4000-8000-000000000001';
   v_none_bs constant uuid:='c9040000-0000-4000-8000-000000000002';
   v_rewash_bs constant uuid:='c9040000-0000-4000-8000-000000000003';
+  v_manual_replacement_bs constant uuid:='c9040000-0000-4000-8000-000000000004';
   v_complete_request constant uuid:='c9050000-0000-4000-8000-000000000001';
   v_response jsonb;
   v_replay jsonb;
@@ -50,8 +51,10 @@ declare
   v_failed boolean;
 begin
   if not exists(select 1 from erp.schema_migrations where version='v2.6.19a')
+     or not exists(select 1 from erp.schema_migrations where version='v2.6.19b')
      or to_regclass('erp.rework_accessory_decisions') is null
      or to_regclass('erp.rework_accessory_selection_lines') is null
+     or to_regclass('erp.bs_resolution_v2619b_rollback_capsule') is null
      or to_regprocedure('erp.resolve_rework_accessory_bom_v1(uuid,timestamp with time zone)') is null then
     raise exception 'CP5 v2.6.19a selected-accessory boundary is not installed';
   end if;
@@ -132,7 +135,9 @@ begin
     (v_none_bs,'CP5-LINEAGE-NONE-BS',v_po,v_group,v_product,'QC','SEWING',
      'a1000000-0000-0000-0000-000000000001',null,2,'OPEN','2026-08-24 08:01:00+00','Explicit no accessory'),
     (v_rewash_bs,'CP5-LINEAGE-REWASH-BS',v_po,v_group,v_product,'LAUNDRY','LAUNDRY',
-     null,v_vendor,2,'OPEN','2026-08-24 08:02:00+00','Rewash selected accessory');
+     null,v_vendor,2,'OPEN','2026-08-24 08:02:00+00','Rewash selected accessory'),
+    (v_manual_replacement_bs,'CP5-MANUAL-REPLACEMENT-BS',v_po,v_group,v_product,'WAREHOUSE','UNKNOWN',
+     null,null,1,'OPEN','2026-08-24 08:03:00+00','Post-FG baseline is not automatically reimbursable');
 
   perform set_config('request.jwt.claims',jsonb_build_object(
     'sub',v_production_auth,'role','authenticated'
@@ -144,9 +149,50 @@ begin
   );
   if v_workspace#>>'{rows,0,accessory_bom,state}'<>'AVAILABLE'
      or v_workspace#>>'{rows,0,accessory_bom,bom_version_id}'<>v_bom::text
-     or jsonb_array_length(v_workspace#>'{rows,0,accessory_bom,items}')<>2 then
+     or v_workspace#>>'{rows,0,accessory_bom,default_policy}'<>'SERVER_ENTITLEMENT_V2619B'
+     or jsonb_array_length(v_workspace#>'{rows,0,accessory_bom,items}')<>2
+     or exists(
+       select 1 from jsonb_array_elements(v_workspace#>'{rows,0,accessory_bom,items}') x
+       where (x->>'default_selected')::boolean is not true
+         or x->>'default_selection_basis'<>'UNPAID_BASELINE'
+         or (x->>'remaining_unentitled_good_qty_pcs')::integer<>4
+     )
+     or v_workspace#>>'{rows,0,components,0,default_selection_basis}'<>'UNPAID_COMPONENT_ENTITLEMENT'
+     or (v_workspace#>>'{rows,0,components,0,remaining_new_work_qty_pcs}')::integer<>4
+     or (v_workspace#>>'{rows,0,components,0,default_selected}')::boolean is not true then
     raise exception 'Workspace did not expose the authoritative two-line accessory BOM: %',v_workspace;
   end if;
+
+  v_workspace:=public.erp_get_bs_resolution_workspace_v1(
+    'ACTIVE','BS',null,'CP5-MANUAL-REPLACEMENT-BS',50,0
+  );
+  if (v_workspace->>'total')::integer<>1
+     or exists(
+       select 1 from jsonb_array_elements(v_workspace#>'{rows,0,accessory_bom,items}') x
+       where (x->>'default_selected')::boolean is not false
+         or x->>'default_selection_basis'<>'MANUAL_REPLACEMENT'
+         or (x->>'remaining_unentitled_good_qty_pcs')::integer<>0
+     ) then
+    raise exception 'Post-FG/warehouse accessory baseline was silently auto-selected: %',v_workspace;
+  end if;
+  v_response:=public.erp_save_bs_resolution_action_v1(
+    'SAVE_REWORK',jsonb_build_object(
+      'rework_number','CP5-MANUAL-REPLACEMENT','bs_case_id',v_manual_replacement_bs,
+      'destination_type','LAUNDRY','contractor_id',null,'vendor_id',v_vendor,
+      'qty_sent',1,'physical_sent_at','2026-08-24 08:30:00+00','status','IN_PROGRESS',
+      'return_fg_location_id',v_location,'accessory_bom_version_id',v_bom,
+      'accessory_bom_item_ids',jsonb_build_array(v_item_a),
+      'components',jsonb_build_array(),
+      'change_reason','Operator confirms a real post-FG Button replacement'
+    ),gen_random_uuid(),null
+  );
+  if v_response#>>'{result,accessory_decision,selected_items,0,selection_basis}'<>'MANUAL_REPLACEMENT' then
+    raise exception 'Explicit post-FG replacement lost its immutable manual provenance: %',v_response;
+  end if;
+
+  v_workspace:=public.erp_get_bs_resolution_workspace_v1(
+    'ACTIVE','BS',null,'CP5-LINEAGE-REWORK-BS',50,0
+  );
   select (x->>'id')::uuid into v_component
   from jsonb_array_elements(v_workspace#>'{rows,0,components}') x limit 1;
   if v_component is null then raise exception 'Rework labor component baseline is missing'; end if;
@@ -172,6 +218,7 @@ begin
   v_rework_version:=(v_response#>>'{result,row_version}')::bigint;
   if v_response#>>'{result,accessory_decision,state}'<>'SELECTED'
      or v_response#>>'{result,accessory_decision,selected_items,0,bom_item_id}'<>v_item_a::text
+     or v_response#>>'{result,accessory_decision,selected_items,0,selection_basis}'<>'UNPAID_BASELINE'
      or (v_response#>>'{result,accessory_decision,selected_item_count}')::integer<>1 then
     raise exception 'Rework creation lost the immutable one-item accessory choice: %',v_response;
   end if;
@@ -307,6 +354,27 @@ begin
     raise exception 'Contractor rework labor did not post its separately selected work component';
   end if;
 
+  execute 'set local role authenticated';
+  v_workspace:=public.erp_get_bs_resolution_workspace_v1(
+    'ACTIVE','BS',null,'CP5-LINEAGE-REWORK-BS',50,0
+  );
+  execute 'reset role';
+  if (v_workspace#>>'{rows,0,available_qty}')::integer<>1
+     or exists(
+       select 1 from jsonb_array_elements(v_workspace#>'{rows,0,accessory_bom,items}') x
+       where (x->>'default_selected')::boolean is not true
+         or x->>'default_selection_basis'<>'UNPAID_BASELINE'
+         or (x->>'remaining_unentitled_good_qty_pcs')::integer<>1
+     )
+     or not exists(
+       select 1 from jsonb_array_elements(v_workspace#>'{rows,0,accessory_bom,items}') x
+       where (x->>'id')::uuid=v_item_a
+         and (x->>'already_entitled_good_qty_pcs')::integer=3
+         and (x->>'already_cash_settled_good_qty_pcs')::integer=0
+     ) then
+    raise exception 'Remaining physical BS did not keep exactly one unpaid baseline entitlement: %',v_workspace;
+  end if;
+
   perform set_config('request.jwt.claims',jsonb_build_object(
     'sub',v_owner_auth,'role','authenticated'
   )::text,true);
@@ -322,6 +390,7 @@ begin
      or not exists(
        select 1 from erp.rework_accessory_selection_lines l
        where l.rework_order_id=v_rework and l.bom_item_id=v_item_a
+         and l.selection_basis='UNPAID_BASELINE'
      )
      or not exists(
        select 1 from erp.contractor_accessory_reimbursement_entitlements e
@@ -422,7 +491,8 @@ begin
     'ALL','BS',null,'CP5-LINEAGE-REWASH-BS',50,0
   );
   if v_workspace#>>'{rows,0,rework_orders,0,accessory_decision,state}'<>'SELECTED'
-     or v_workspace#>>'{rows,0,rework_orders,0,accessory_decision,selected_items,0,bom_item_id}'<>v_item_b::text then
+     or v_workspace#>>'{rows,0,rework_orders,0,accessory_decision,selected_items,0,bom_item_id}'<>v_item_b::text
+     or v_workspace#>>'{rows,0,rework_orders,0,accessory_decision,selected_items,0,selection_basis}'<>'UNPAID_BASELINE' then
     raise exception 'Workspace lost the frozen REWASH accessory decision: %',v_workspace;
   end if;
 

@@ -45,7 +45,10 @@ for (const ownership of [ownershipV2, ownershipV3]) {
 }
 assert.equal(ownershipV3.source_only, false)
 assert.equal(ownershipV3.uat_applied, true)
-assert.equal(ownershipV3.candidate_apply_status, 'RECORDED_V2618_V2618A_V2619_V2619A')
+assert.ok([
+  'RECORDED_V2618_V2618A_V2619_V2619A_V2619B_PENDING',
+  'RECORDED_V2618_V2618A_V2619_V2619A_V2619B',
+].includes(ownershipV3.candidate_apply_status))
 
 const cp3ManifestBytes = readFileSync(resolve(root, ownershipV1.reviewed_cp3_manifest.path))
 const cp4ManifestBytes = readFileSync(resolve(root, ownershipV1.candidate_cp4_manifest.path))
@@ -95,6 +98,11 @@ const candidateManifestBytes = readFileSync(resolve(root, ownershipV3.candidate_
 assert.equal(candidateManifestBytes.length, ownershipV3.candidate_cp5_manifest.bytes)
 assert.equal(hash('sha256', candidateManifestBytes), ownershipV3.candidate_cp5_manifest.sha256)
 const candidate = JSON.parse(candidateManifestBytes)
+const reliabilityRecorded = candidate.current_correction_uat_applied === true
+const expectedApplyStatus = reliabilityRecorded
+  ? 'RECORDED_V2618_V2618A_V2619_V2619A_V2619B'
+  : 'RECORDED_V2618_V2618A_V2619_V2619A_V2619B_PENDING'
+assert.equal(ownershipV3.candidate_apply_status, expectedApplyStatus)
 const cuttingPaths = Object.keys(cutting.files).sort()
 const candidatePaths = Object.keys(candidate.files).sort()
 const cuttingOverrides = new Set(cuttingPaths)
@@ -142,17 +150,15 @@ assert.equal(candidate.target_project_ref, 'siimvrusnzxexizpyoib')
 assert.equal(candidate.legacy_project_ref, 'vlxdhpkjeevubjxexnfo')
 assert.equal(candidate.source_only, false)
 assert.equal(candidate.uat_applied, true)
-assert.equal(candidate.uat_applied_at, '2026-09-03T15:10:34.973034Z')
-assert.equal(candidate.candidate_apply_status, 'RECORDED_V2618_V2618A_V2619_V2619A')
-assert.deepEqual(candidate.uat_recorded_state, {
-  application_versions: ['v2.6.18', 'v2.6.18a', 'v2.6.19', 'v2.6.19a'],
-  platform_versions: ['20260903060213', '20260903105741', '20260903105814', '20260903151034'],
-  latest_installed_at: '2026-09-03T15:10:34.973034Z',
-})
-assert.equal(candidate.closure_status, 'READY_FOR_INDEPENDENT_REAUDIT_NO_GO')
+assert.equal(candidate.candidate_apply_status, expectedApplyStatus)
 assert.equal(candidate.legacy_mutated, false)
 assert.equal(candidate.production_go, false)
-assert.equal(candidate.verification.status, 'V2619A_CODE_HEAD_CI_PASS_READY_FOR_INDEPENDENT_REAUDIT')
+assert.equal(candidate.verification.status, reliabilityRecorded
+  ? 'V2619B_CODE_HEAD_CI_AND_UAT_PASS_READY_FOR_INDEPENDENT_REAUDIT'
+  : 'V2619B_CODE_CANDIDATE_AWAITING_EXACT_HEAD_CI_AND_UAT')
+assert.equal(candidate.closure_status, reliabilityRecorded
+  ? 'READY_FOR_INDEPENDENT_REAUDIT_NO_GO'
+  : 'V2619B_CORRECTION_PENDING_CI_UAT_NO_GO')
 assert.equal(candidate.verification.full_schema_acceptance_executed, true)
 assert.equal(candidate.verification.hosted_uat_executed, true)
 assert.equal(candidate.verification.hosted_uat_evidence_path, 'docs/evidence/cp5_hosted_uat_auth_e2e.json')
@@ -161,6 +167,20 @@ assert.equal(candidate.verification.forward_correction_hosted_http_auth_retest, 
 assert.equal(candidate.verification.forward_correction_full_schema_ci, 'PASS')
 assert.equal(candidate.verification.forward_correction_ci_head_sha, '2175bd8f199f6a5d860e7f517042e2efe35916e7')
 assert.equal(candidate.verification.forward_correction_ci_head_tree, 'd845b1ff613774a150b999dbfa2b41b772e416e9')
+assert.equal(candidate.verification.reliability_correction_full_schema_ci, reliabilityRecorded ? 'PASS' : 'PENDING')
+assert.equal(candidate.verification.reliability_correction_uat_evidence_path, reliabilityRecorded
+  ? 'docs/evidence/cp5_v2619b_uat_acceptance.json'
+  : null)
+if (!reliabilityRecorded) {
+  assert.equal(candidate.verification.reliability_correction_ci_head_sha, null)
+  assert.equal(candidate.verification.reliability_correction_ci_head_tree, null)
+  assert.equal(candidate.uat_applied_at, '2026-09-03T15:10:34.973034Z')
+  assert.deepEqual(candidate.uat_recorded_state, {
+    application_versions: ['v2.6.18', 'v2.6.18a', 'v2.6.19', 'v2.6.19a'],
+    platform_versions: ['20260903060213', '20260903105741', '20260903105814', '20260903151034'],
+    latest_installed_at: '2026-09-03T15:10:34.973034Z',
+  })
+}
 assert.equal(candidate.verification.read_only_uat_preflight_executed, true)
 assert.equal(candidate.verification.read_only_uat_preflight_path, 'docs/evidence/cp5_uat_readonly_preflight.json')
 const uatPreflight = readJson(candidate.verification.read_only_uat_preflight_path)
@@ -244,9 +264,9 @@ assert.deepEqual(candidate.hosted_auth_permission_e2e, {
   case_passed: 31,
   synthetic_cleanup_zero: true,
 })
-assert.deepEqual(candidate.ci_runtime, {
+const historicalV2619aCiRuntime = {
   status: 'PASS',
-  scope: 'CURRENT_V2619A_CODE_HEAD',
+  scope: 'LAST_RECORDED_V2619A_CODE_HEAD_HISTORICAL',
   runtime_head_sha: '2175bd8f199f6a5d860e7f517042e2efe35916e7',
   runtime_head_tree: 'd845b1ff613774a150b999dbfa2b41b772e416e9',
   unit_tests: { files: 25, passed: 168 },
@@ -279,7 +299,45 @@ assert.deepEqual(candidate.ci_runtime, {
     check_id: 100712911183,
     build_id: 'f1ee6e8f-9308-4a48-82eb-f01ed7837a82',
   },
-})
+}
+let reliabilityEvidence = null
+if (reliabilityRecorded) {
+  reliabilityEvidence = readJson(candidate.verification.reliability_correction_uat_evidence_path)
+  assert.equal(reliabilityEvidence.format, 'CP5_V2619B_UAT_ACCEPTANCE_V1')
+  assert.equal(reliabilityEvidence.status, 'PASS')
+  assert.equal(reliabilityEvidence.mode, 'EXACT_CODE_HEAD_CI_AND_HOSTED_UAT_RECORDED_MIGRATION')
+  assert.equal(reliabilityEvidence.target_project_ref, 'siimvrusnzxexizpyoib')
+  assert.equal(reliabilityEvidence.legacy_project_ref, 'vlxdhpkjeevubjxexnfo')
+  assert.equal(reliabilityEvidence.correction.application_version, 'v2.6.19b')
+  assert.equal(reliabilityEvidence.correction.source_ledger_version, '20260904012525')
+  assert.equal(reliabilityEvidence.correction.source_path, 'supabase/migrations/20260904012525_erp_v2_6_19b_cp5_reliability_closure.sql')
+  assert.equal(reliabilityEvidence.correction.source_bytes, 42021)
+  assert.equal(reliabilityEvidence.correction.source_sha256, 'b1bde1a6ccd1f60dd001d99b72d479ffa0a18a6ea46bf93cd80e406e2ef0ce1d')
+  assert.equal(reliabilityEvidence.correction.connector_ledger_sha256, '89ed4535720e12722bc1cbedd1bbcb5b7920f9ee4b6b19754214d05ac82b0e8d')
+  assert.equal(reliabilityEvidence.correction.platform_statement_count, 1)
+  assert.match(reliabilityEvidence.correction.platform_ledger_version, /^\d{14}$/)
+  assert.match(reliabilityEvidence.correction.installed_at, /^2026-/)
+  assert.equal(reliabilityEvidence.code_ci.status, 'PASS')
+  assert.equal(reliabilityEvidence.code_ci.scope, 'CURRENT_V2619B_CODE_HEAD')
+  assert.match(reliabilityEvidence.code_ci.runtime_head_sha, /^[0-9a-f]{40}$/)
+  assert.match(reliabilityEvidence.code_ci.runtime_head_tree, /^[0-9a-f]{40}$/)
+  assert.deepEqual(reliabilityEvidence.code_ci.unit_tests, { files: 25, passed: 172 })
+  assert.deepEqual(reliabilityEvidence.code_ci.browser_tests, { cp45: 2, pre_cp5: 2, cp5: 6, total: 10 })
+  assert.equal(candidate.verification.reliability_correction_ci_head_sha, reliabilityEvidence.code_ci.runtime_head_sha)
+  assert.equal(candidate.verification.reliability_correction_ci_head_tree, reliabilityEvidence.code_ci.runtime_head_tree)
+  assert.deepEqual(candidate.ci_runtime, reliabilityEvidence.code_ci)
+  assert.equal(candidate.uat_applied_at, reliabilityEvidence.correction.installed_at)
+  assert.deepEqual(candidate.uat_recorded_state, {
+    application_versions: ['v2.6.18', 'v2.6.18a', 'v2.6.19', 'v2.6.19a', 'v2.6.19b'],
+    platform_versions: ['20260903060213', '20260903105741', '20260903105814', '20260903151034', reliabilityEvidence.correction.platform_ledger_version],
+    latest_installed_at: reliabilityEvidence.correction.installed_at,
+  })
+  assert.ok(Object.values(reliabilityEvidence.post_proof_residue).every((value) => value === 0))
+  assert.equal(reliabilityEvidence.legacy_read_only.legacy_mutated, false)
+  assert.equal(reliabilityEvidence.production_go, false)
+} else {
+  assert.deepEqual(candidate.ci_runtime, historicalV2619aCiRuntime)
+}
 assert.deepEqual(candidate.pre_v2619a_ci_runtime, {
   status: hostedEvidence.source_ci.status,
   scope: 'HISTORICAL_PRE_V2619A_BASELINE_ONLY',
@@ -356,6 +414,10 @@ for (const [key, expected] of Object.entries({
     version: '20260903151034', application_version: 'v2.6.19a',
     name: 'erp_v2_6_19a_cp5_rework_accessory_lineage',
   },
+  reliability_closure: {
+    version: '20260904012525', application_version: 'v2.6.19b',
+    name: 'erp_v2_6_19b_cp5_reliability_closure',
+  },
 })) {
   const migration = candidate.migrations[key]
   assert.equal(migration.version, expected.version)
@@ -366,7 +428,11 @@ for (const [key, expected] of Object.entries({
   assert.equal(migration.source_sha256, hash('sha256', bytes))
   assert.ok(cuttingOverrides.has(migration.source_path) || cp5Overrides.has(migration.source_path))
   assert.ok(cuttingOverrides.has(migration.rollback_path) || cp5Overrides.has(migration.rollback_path))
-  assert.ok(cuttingOverrides.has(migration.acceptance_path) || cp5Overrides.has(migration.acceptance_path))
+  const acceptancePaths = migration.acceptance_paths ?? [migration.acceptance_path]
+  assert.ok(acceptancePaths.length > 0)
+  for (const acceptancePath of acceptancePaths) {
+    assert.ok(cuttingOverrides.has(acceptancePath) || cp5Overrides.has(acceptancePath))
+  }
 }
 assert.deepEqual(candidate.migrations.cutting_bridge, {
   ...candidate.migrations.cutting_bridge,
@@ -400,6 +466,16 @@ assert.deepEqual(candidate.migrations.rework_accessory_lineage, {
 })
 assert.equal(candidate.migrations.rework_accessory_lineage.source_bytes, 55354)
 assert.equal(candidate.migrations.rework_accessory_lineage.source_sha256, '204b9246f3c8c6464476da1a7f1574f5e0ae4c46f024c082704795b3eef5210f')
+assert.deepEqual(candidate.migrations.reliability_closure, {
+  ...candidate.migrations.reliability_closure,
+  connector_ledger_sha256: '89ed4535720e12722bc1cbedd1bbcb5b7920f9ee4b6b19754214d05ac82b0e8d',
+  uat_applied: reliabilityRecorded,
+  uat_platform_ledger_version: reliabilityRecorded ? reliabilityEvidence.correction.platform_ledger_version : null,
+  uat_platform_statement_count: reliabilityRecorded ? 1 : null,
+  uat_business_facts_observed: 0,
+})
+assert.equal(candidate.migrations.reliability_closure.source_bytes, 42021)
+assert.equal(candidate.migrations.reliability_closure.source_sha256, 'b1bde1a6ccd1f60dd001d99b72d479ffa0a18a6ea46bf93cd80e406e2ef0ce1d')
 
 function walk(directory, accept) {
   return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
@@ -435,6 +511,9 @@ const discovered = [
   candidate.verification.read_only_uat_preflight_path,
   candidate.verification.hosted_uat_evidence_path,
   candidate.verification.forward_correction_uat_evidence_path,
+  ...(candidate.verification.reliability_correction_uat_evidence_path
+    ? [candidate.verification.reliability_correction_uat_evidence_path]
+    : []),
 ].sort()
 
 function isCuttingBackend(path) {
@@ -462,6 +541,7 @@ function isCp5Backend(path) {
     || path === candidate.verification.read_only_uat_preflight_path
     || path === candidate.verification.hosted_uat_evidence_path
     || path === candidate.verification.forward_correction_uat_evidence_path
+    || path === candidate.verification.reliability_correction_uat_evidence_path
 }
 
 const candidateBackend = candidatePaths.filter(isCp5Backend)

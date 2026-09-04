@@ -60,11 +60,11 @@ function workspace(patternId: string | null = null, includeRow = true) {
       contractor_name: 'Mandor A', responsible_vendor_id: null, vendor_name: null, detected_stage: 'QC', cause_source: 'SEWING',
       untracked_type: null, claim_type: null, compensation_amount: 0, laundry_delivery_id: null, laundry_receipt_line_id: null,
       legacy_reference: null, notes: 'Perlu recovery', next_action: 'START_REWORK_OR_DISPOSITION', is_closed: false,
-      accessory_bom: { state: 'AVAILABLE', bom_version_id: 'bom-1', items: [
-        { id: 'bom-item-1', category_id: 'category-1', code: 'KANCING', name: 'Kancing', base_uom_code: 'PCS', qty_per_good_fg_base: 2, reimbursement_rate: 100, reimbursement_uom_code: 'PCS' },
-        { id: 'bom-item-2', category_id: 'category-2', code: 'LABEL', name: 'Label', base_uom_code: 'PCS', qty_per_good_fg_base: 1, reimbursement_rate: 50, reimbursement_uom_code: 'PCS' },
+      accessory_bom: { state: 'AVAILABLE', bom_version_id: 'bom-1', default_policy: 'SERVER_ENTITLEMENT_V2619B', available_qty_pcs: 10, items: [
+        { id: 'bom-item-1', category_id: 'category-1', code: 'KANCING', name: 'Kancing', base_uom_code: 'PCS', qty_per_good_fg_base: 2, reimbursement_rate: 100, reimbursement_uom_code: 'PCS', default_selected: true, default_selection_basis: 'UNPAID_BASELINE', default_reason: 'PRE_FG_UNPAID_BASELINE', already_entitled_good_qty_pcs: 0, already_cash_settled_good_qty_pcs: 0, remaining_unentitled_good_qty_pcs: 10 },
+        { id: 'bom-item-2', category_id: 'category-2', code: 'LABEL', name: 'Label', base_uom_code: 'PCS', qty_per_good_fg_base: 1, reimbursement_rate: 50, reimbursement_uom_code: 'PCS', default_selected: true, default_selection_basis: 'UNPAID_BASELINE', default_reason: 'PRE_FG_UNPAID_BASELINE', already_entitled_good_qty_pcs: 2, already_cash_settled_good_qty_pcs: 0, remaining_unentitled_good_qty_pcs: 8 },
       ] },
-      components: [{ id: 'component-1', work_component_id: 'work-1', code: 'JAHIT', name: 'Jahit', category: 'LABOR', completed_before_bs_qty: 0, lifetime_newly_completed_qty: 0, lifetime_paid_qty: 0, notes: null }],
+      components: [{ id: 'component-1', work_component_id: 'work-1', code: 'JAHIT', name: 'Jahit', category: 'LABOR', completed_before_bs_qty: 0, lifetime_newly_completed_qty: 0, lifetime_paid_qty: 0, remaining_new_work_qty_pcs: 10, default_selected: true, default_selection_basis: 'UNPAID_COMPONENT_ENTITLEMENT', notes: null }],
       resolutions: [], rework_orders: [] as Array<Record<string, unknown>>, hold_events: [],
     }] : [],
   }
@@ -177,7 +177,7 @@ describe('CP5 connected BS Resolution DOM boundary', () => {
     expect(container.textContent).not.toContain('BS-1')
   })
 
-  it('sends only checked accessory BOM items when a rework order is created', async () => {
+  it('defaults only server-proven unpaid items and sends exactly the checked set', async () => {
     const rpc = vi.fn(async (name: string, _args?: Record<string, unknown>) => {
       if (name === 'erp_list_patterns_v1') return { data: patterns, error: null }
       if (name === 'erp_get_bs_resolution_workspace_v1') return { data: workspace(), error: null }
@@ -217,12 +217,148 @@ describe('CP5 connected BS Resolution DOM boundary', () => {
     })
   })
 
+  it('allows an explicit real replacement without silently checking a prior entitlement', async () => {
+    const manualReplacement = workspace()
+    manualReplacement.rows[0].detected_stage = 'WAREHOUSE'
+    manualReplacement.rows[0].accessory_bom.items.forEach((item) => {
+      item.default_selected = false
+      item.default_selection_basis = 'MANUAL_REPLACEMENT'
+      item.default_reason = 'POST_FG_OR_UNPROVEN_BASELINE'
+      item.remaining_unentitled_good_qty_pcs = 0
+    })
+    const rpc = vi.fn(async (name: string, _args?: Record<string, unknown>) => {
+      if (name === 'erp_list_patterns_v1') return { data: patterns, error: null }
+      if (name === 'erp_get_bs_resolution_workspace_v1') return { data: manualReplacement, error: null }
+      if (name === 'erp_save_bs_resolution_action_v1') return { data: { ok: true }, error: null }
+      throw new Error(`Unexpected RPC ${name}`)
+    })
+    mockedClient.current = { rpc }
+    authState.current = identity([
+      'production.bs_rework.view', 'production.bs_rework.create',
+      'production.bs_rework.post', 'production.bs_rework.reverse', 'master.pattern.view',
+    ])
+
+    await renderPage()
+    const routeForm = container.querySelector<HTMLElement>('.cbsr-route-form')!
+    const accessories = routeForm.querySelectorAll<HTMLInputElement>('.cbsr-accessories input[type="checkbox"]')
+    expect(accessories[0]?.checked).toBe(false)
+    expect(accessories[1]?.checked).toBe(false)
+    await act(async () => {
+      setControlValue(routeForm.querySelector<HTMLInputElement>('input[placeholder="RW-BS-1"]')!, 'RW-BS-1-REPLACE')
+      setControlValue(routeForm.querySelector<HTMLSelectElement>('select')!, 'contractor-1')
+      setControlValue(routeForm.querySelector<HTMLTextAreaElement>('textarea')!, 'Label benar-benar diganti ulang')
+      accessories[1]!.click()
+    })
+    const create = [...routeForm.querySelectorAll<HTMLButtonElement>('button')]
+      .find((button) => button.textContent?.includes('Buat order rework'))!
+    await act(async () => { create.click() })
+    await settle()
+
+    expect(rpc.mock.calls.find(([name]) => name === 'erp_save_bs_resolution_action_v1')?.[1]).toMatchObject({
+      p_payload: { accessory_bom_item_ids: ['bom-item-2'] },
+    })
+  })
+
+  it('discards local checkbox edits after mutation and remounts the authoritative refetched contract', async () => {
+    const refreshed = workspace()
+    refreshed.rows[0].status = 'ON_HOLD'
+    refreshed.rows[0].row_version = 5
+    let workspaceCalls = 0
+    const rpc = vi.fn(async (name: string) => {
+      if (name === 'erp_list_patterns_v1') return { data: patterns, error: null }
+      if (name === 'erp_get_bs_resolution_workspace_v1') {
+        workspaceCalls += 1
+        return { data: workspaceCalls === 1 ? workspace() : refreshed, error: null }
+      }
+      if (name === 'erp_save_bs_resolution_action_v1') return { data: { ok: true }, error: null }
+      throw new Error(`Unexpected RPC ${name}`)
+    })
+    mockedClient.current = { rpc }
+    authState.current = identity([
+      'production.bs_rework.view', 'production.bs_rework.create',
+      'production.bs_rework.post', 'production.bs_rework.reverse', 'master.pattern.view',
+    ])
+
+    await renderPage()
+    let accessories = container.querySelectorAll<HTMLInputElement>('.cbsr-accessories input[type="checkbox"]')
+    expect(accessories[1]?.checked).toBe(true)
+    await act(async () => { accessories[1]!.click() })
+    expect(accessories[1]?.checked).toBe(false)
+
+    const holdTab = [...container.querySelectorAll<HTMLButtonElement>('.cbsr-route-tabs button')]
+      .find((button) => button.textContent?.trim() === 'Hold')!
+    await act(async () => { holdTab.click() })
+    await act(async () => { setControlValue(container.querySelector<HTMLTextAreaElement>('.cbsr-route-form textarea')!, 'Bukti fisik sedang diverifikasi') })
+    const saveHold = [...container.querySelectorAll<HTMLButtonElement>('button')]
+      .find((button) => button.textContent?.includes('Simpan HOLD'))!
+    await act(async () => { saveHold.click() })
+    await settle()
+
+    accessories = container.querySelectorAll<HTMLInputElement>('.cbsr-accessories input[type="checkbox"]')
+    expect(accessories[1]?.checked).toBe(true)
+    expect(container.textContent).toContain('Workspace authoritative sudah dimuat ulang')
+    expect(workspaceCalls).toBe(2)
+  })
+
+  it('removes claim OTHER and freezes every writer after a saved mutation whose authoritative refetch fails', async () => {
+    let workspaceCalls = 0
+    const rpc = vi.fn(async (name: string) => {
+      if (name === 'erp_list_patterns_v1') return { data: patterns, error: null }
+      if (name === 'erp_get_bs_resolution_workspace_v1') {
+        workspaceCalls += 1
+        if (workspaceCalls === 2) return { data: null, error: { message: 'Refetch network failed' } }
+        return { data: workspace(), error: null }
+      }
+      if (name === 'erp_save_bs_resolution_action_v1') return { data: { ok: true }, error: null }
+      throw new Error(`Unexpected RPC ${name}`)
+    })
+    mockedClient.current = { rpc }
+    authState.current = identity([
+      'production.bs_rework.view', 'production.bs_rework.create',
+      'production.bs_rework.post', 'production.bs_rework.reverse', 'master.pattern.view',
+    ])
+
+    await renderPage()
+    const claimButton = [...container.querySelectorAll<HTMLButtonElement>('button')]
+      .find((button) => button.textContent?.includes('Claim Laundry'))!
+    await act(async () => { claimButton.click() })
+    const claimType = [...container.querySelectorAll<HTMLSelectElement>('.cbsr-modal-layer select')]
+      .find((select) => [...select.options].some((option) => option.text === 'STUCK'))!
+    expect([...claimType.options].map((option) => option.text)).toEqual(['STUCK', 'MISSING', 'DAMAGE'])
+    await act(async () => { container.querySelector<HTMLButtonElement>('.cbsr-modal-layer button[aria-label="Tutup"]')!.click() })
+
+    const holdTab = [...container.querySelectorAll<HTMLButtonElement>('.cbsr-route-tabs button')]
+      .find((button) => button.textContent?.trim() === 'Hold')!
+    await act(async () => { holdTab.click() })
+    await act(async () => { setControlValue(container.querySelector<HTMLTextAreaElement>('.cbsr-route-form textarea')!, 'Bukti fisik belum lengkap') })
+    const saveHold = [...container.querySelectorAll<HTMLButtonElement>('button')]
+      .find((button) => button.textContent?.includes('Simpan HOLD'))!
+    await act(async () => { saveHold.click() })
+    await settle()
+
+    expect(container.textContent).toContain('Aksi sudah tersimpan, tetapi refresh authoritative gagal')
+    expect(container.textContent).not.toContain('Workspace authoritative sudah dimuat ulang')
+    expect(container.textContent).toContain('seluruh writer terkunci')
+    expect(saveHold.disabled).toBe(true)
+    expect(claimButton.disabled).toBe(true)
+
+    const refetch = [...container.querySelectorAll<HTMLButtonElement>('button')]
+      .find((button) => button.textContent?.trim() === 'Refetch')!
+    await act(async () => { refetch.click() })
+    await settle()
+    expect(container.textContent).not.toContain('State layar stale setelah mutasi tersimpan')
+    expect(claimButton.disabled).toBe(false)
+    expect(rpc.mock.calls.filter(([name]) => name === 'erp_save_bs_resolution_action_v1')).toHaveLength(1)
+  })
+
   it('saves cumulative partial returns without calling the completion action', async () => {
     const partial = workspace()
     const row = partial.rows[0]
     row.status = 'IN_REWORK'
     row.active_rework_qty = 4
     row.available_qty = 6
+    row.accessory_bom.available_qty_pcs = 6
+    row.accessory_bom.items.forEach((item) => { item.remaining_unentitled_good_qty_pcs = 6 })
     row.rework_orders = [{
       id: 'rework-1', rework_number: 'RW-PARTIAL-1', destination_type: 'CONTRACTOR',
       contractor_id: 'contractor-1', contractor_name: 'Mandor A', vendor_id: null, vendor_name: null,
@@ -231,7 +367,7 @@ describe('CP5 connected BS Resolution DOM boundary', () => {
       return_fg_location_id: 'location-1', return_fg_location_name: 'Gudang FG', good_fg_lot_id: null,
       row_version: 2, notes: null, components: [],
       accessory_decision: { state: 'SELECTED', bom_version_id: 'bom-1', reimbursement_contractor_id: 'contractor-1', selected_item_count: 1, selection_sha256: 'b'.repeat(64), basis_at: '2026-09-03T10:00:00Z', selected_items: [
-        { id: 'choice-1', bom_item_id: 'bom-item-1', category_id: 'category-1', code: 'KANCING', name: 'Kancing', qty_per_good_fg_base: 2, reimbursement_unit_rate_base: 100 },
+        { id: 'choice-1', bom_item_id: 'bom-item-1', category_id: 'category-1', code: 'KANCING', name: 'Kancing', qty_per_good_fg_base: 2, reimbursement_unit_rate_base: 100, selection_basis: 'UNPAID_BASELINE' },
       ] },
     }]
     const rpc = vi.fn(async (name: string, _args?: Record<string, unknown>) => {

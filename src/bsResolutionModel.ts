@@ -28,7 +28,9 @@ export type SettledClaimLookup = {
 export type BsCaseComponent = {
   id: string; work_component_id: string; code: string; name: string; category: string
   completed_before_bs_qty: number; lifetime_newly_completed_qty: number
-  lifetime_paid_qty: number; notes: string | null
+  lifetime_paid_qty: number; remaining_new_work_qty_pcs: number
+  default_selected: boolean; default_selection_basis: 'UNPAID_COMPONENT_ENTITLEMENT'
+  notes: string | null
 }
 export type BsResolution = {
   id: string; bs_case_id?: string | null; resolution_type: string; qty_pcs: number
@@ -46,6 +48,7 @@ export type ReworkComponent = {
 export type ReworkAccessoryItem = {
   id: string; bom_item_id: string; category_id: string; code: string; name: string
   qty_per_good_fg_base: number; reimbursement_unit_rate_base: number
+  selection_basis: 'UNPAID_BASELINE' | 'MANUAL_REPLACEMENT'
 }
 export type ReworkAccessoryDecision = {
   state: 'SELECTED' | 'NONE' | 'UNAVAILABLE'; bom_version_id: string | null
@@ -55,10 +58,16 @@ export type ReworkAccessoryDecision = {
 export type BsAccessoryBomItem = {
   id: string; category_id: string; code: string; name: string; base_uom_code: string
   qty_per_good_fg_base: number; reimbursement_rate: number; reimbursement_uom_code: string
+  default_selected: boolean; default_selection_basis: 'UNPAID_BASELINE' | 'MANUAL_REPLACEMENT'
+  default_reason: 'NO_AVAILABLE_QUANTITY' | 'PRE_FG_UNPAID_BASELINE'
+    | 'POST_FG_OR_UNPROVEN_BASELINE' | 'BASELINE_ENTITLEMENT_EXHAUSTED'
+  already_entitled_good_qty_pcs: number
+  already_cash_settled_good_qty_pcs: number
+  remaining_unentitled_good_qty_pcs: number
 }
 export type BsAccessoryBom = {
   state: 'AVAILABLE' | 'NONE' | 'UNAVAILABLE'; bom_version_id: string | null
-  items: BsAccessoryBomItem[]
+  default_policy: 'SERVER_ENTITLEMENT_V2619B'; available_qty_pcs: number; items: BsAccessoryBomItem[]
 }
 export type ReworkOrder = {
   id: string; rework_number: string; destination_type: 'CONTRACTOR' | 'LAUNDRY'
@@ -126,6 +135,15 @@ const integer = (value: unknown, label: string, minimum = 0) => {
   if (!Number.isSafeInteger(parsed)) throw new Error(`${label} tidak valid.`)
   return parsed
 }
+const boolean = (value: unknown, label: string) => {
+  if (typeof value !== 'boolean') throw new Error(`${label} tidak valid.`)
+  return value
+}
+const exactText = <T extends string>(value: unknown, allowed: readonly T[], label: string): T => {
+  const parsed = text(value, label)
+  if (!allowed.includes(parsed as T)) throw new Error(`${label} tidak valid.`)
+  return parsed as T
+}
 const list = (value: unknown, label: string) => {
   if (!Array.isArray(value)) throw new Error(`${label} tidak valid.`)
   return value
@@ -141,12 +159,21 @@ function parsePattern(value: unknown): BsPattern {
 }
 function parseComponent(value: unknown): BsCaseComponent {
   const raw = record(value, 'Komponen BS')
+  const remaining = integer(raw.remaining_new_work_qty_pcs, 'Sisa komponen belum jadi entitlement')
+  const defaultSelected = boolean(raw.default_selected, 'Default komponen')
+  if (defaultSelected !== (remaining > 0)) throw new Error('Default komponen tidak konsisten dengan sisa entitlement.')
   return {
     id: text(raw.id, 'ID komponen BS'), work_component_id: text(raw.work_component_id, 'ID jenis kerja'),
     code: text(raw.code, 'Kode komponen'), name: text(raw.name, 'Nama komponen'), category: text(raw.category, 'Kategori komponen'),
     completed_before_bs_qty: integer(raw.completed_before_bs_qty, 'Qty komponen sebelum BS'),
     lifetime_newly_completed_qty: integer(raw.lifetime_newly_completed_qty, 'Qty komponen rework'),
-    lifetime_paid_qty: integer(raw.lifetime_paid_qty, 'Qty komponen dibayar'), notes: nullableText(raw.notes),
+    lifetime_paid_qty: integer(raw.lifetime_paid_qty, 'Qty komponen dibayar'),
+    remaining_new_work_qty_pcs: remaining,
+    default_selected: defaultSelected,
+    default_selection_basis: exactText(
+      raw.default_selection_basis, ['UNPAID_COMPONENT_ENTITLEMENT'] as const, 'Dasar default komponen',
+    ),
+    notes: nullableText(raw.notes),
   }
 }
 function parseResolution(value: unknown): BsResolution {
@@ -181,6 +208,9 @@ function parseReworkAccessoryItem(value: unknown): ReworkAccessoryItem {
     name: text(raw.name, 'Nama aksesori'),
     qty_per_good_fg_base: number(raw.qty_per_good_fg_base, 'Qty aksesori per Good', Number.EPSILON),
     reimbursement_unit_rate_base: number(raw.reimbursement_unit_rate_base, 'Rate reimbursement aksesori'),
+    selection_basis: exactText(
+      raw.selection_basis, ['UNPAID_BASELINE', 'MANUAL_REPLACEMENT'] as const, 'Dasar pilihan aksesori',
+    ),
   }
 }
 function parseReworkAccessoryDecision(value: unknown): ReworkAccessoryDecision {
@@ -208,6 +238,24 @@ function parseAccessoryBom(value: unknown): BsAccessoryBom | null {
   if (!['AVAILABLE', 'NONE', 'UNAVAILABLE'].includes(state)) throw new Error('Status BOM aksesori tidak valid.')
   const items = list(raw.items, 'Item BOM aksesori').map((item) => {
     const itemRaw = record(item, 'Item BOM aksesori')
+    const defaultSelected = boolean(itemRaw.default_selected, 'Default pilihan aksesori')
+    const defaultBasis = exactText(
+      itemRaw.default_selection_basis, ['UNPAID_BASELINE', 'MANUAL_REPLACEMENT'] as const,
+      'Dasar default aksesori',
+    )
+    const defaultReason = exactText(
+      itemRaw.default_reason,
+      [
+        'NO_AVAILABLE_QUANTITY', 'PRE_FG_UNPAID_BASELINE',
+        'POST_FG_OR_UNPROVEN_BASELINE', 'BASELINE_ENTITLEMENT_EXHAUSTED',
+      ] as const,
+      'Alasan default aksesori',
+    )
+    if (defaultSelected !== (defaultReason === 'PRE_FG_UNPAID_BASELINE')
+        || (defaultSelected && defaultBasis !== 'UNPAID_BASELINE')
+        || (defaultBasis === 'MANUAL_REPLACEMENT' && defaultSelected)) {
+      throw new Error('Default aksesori tidak konsisten dengan basis entitlement.')
+    }
     return {
       id: text(itemRaw.id, 'ID item BOM aksesori'), category_id: text(itemRaw.category_id, 'ID kategori aksesori'),
       code: text(itemRaw.code, 'Kode aksesori'), name: text(itemRaw.name, 'Nama aksesori'),
@@ -215,11 +263,25 @@ function parseAccessoryBom(value: unknown): BsAccessoryBom | null {
       qty_per_good_fg_base: number(itemRaw.qty_per_good_fg_base, 'Qty aksesori per Good', Number.EPSILON),
       reimbursement_rate: number(itemRaw.reimbursement_rate, 'Rate reimbursement aksesori'),
       reimbursement_uom_code: text(itemRaw.reimbursement_uom_code, 'Satuan reimbursement aksesori'),
+      default_selected: defaultSelected,
+      default_selection_basis: defaultBasis,
+      default_reason: defaultReason,
+      already_entitled_good_qty_pcs: integer(itemRaw.already_entitled_good_qty_pcs, 'Good yang sudah menjadi entitlement'),
+      already_cash_settled_good_qty_pcs: integer(itemRaw.already_cash_settled_good_qty_pcs, 'Good yang sudah dibayar tunai'),
+      remaining_unentitled_good_qty_pcs: integer(
+        itemRaw.remaining_unentitled_good_qty_pcs, 'Sisa Good yang belum menjadi entitlement',
+      ),
     }
   })
   if ((state === 'AVAILABLE') !== (items.length > 0)) throw new Error('Status dan isi BOM aksesori tidak konsisten.')
   if ((state === 'UNAVAILABLE') !== (raw.bom_version_id == null)) throw new Error('Lineage versi BOM aksesori tidak konsisten.')
-  return { state: state as BsAccessoryBom['state'], bom_version_id: nullableText(raw.bom_version_id), items }
+  return {
+    state: state as BsAccessoryBom['state'], bom_version_id: nullableText(raw.bom_version_id),
+    default_policy: exactText(
+      raw.default_policy, ['SERVER_ENTITLEMENT_V2619B'] as const, 'Kebijakan default aksesori',
+    ),
+    available_qty_pcs: integer(raw.available_qty_pcs, 'Qty tersedia untuk keputusan aksesori'), items,
+  }
 }
 function parseRework(value: unknown): ReworkOrder {
   const raw = record(value, 'Order rework')
@@ -257,24 +319,59 @@ function parseRow(value: unknown): BsResolutionRow {
   const kind = text(raw.kind, 'Jenis kasus')
   if (!['BS', 'LAUNDRY_CLAIM'].includes(kind)) throw new Error('Jenis kasus CP5 tidak valid.')
   if (typeof raw.is_closed !== 'boolean') throw new Error('Status tutup CP5 tidak valid.')
+  const caseQty = integer(raw.qty_pcs, 'Qty kasus', 1)
+  const detectedStage = text(raw.detected_stage, 'Tahap deteksi')
+  const availableQty = integer(raw.available_qty, 'Qty tersedia')
+  const accessoryBom = parseAccessoryBom(raw.accessory_bom)
+  if (kind === 'BS' && accessoryBom?.available_qty_pcs !== availableQty) {
+    throw new Error('Qty tersedia BOM aksesori tidak konsisten dengan kasus.')
+  }
+  if (kind === 'BS' && accessoryBom) {
+    const preFgTracked = raw.po_id != null && raw.product_id != null && raw.untracked_type == null
+      && ['SEWING', 'LAUNDRY', 'QC'].includes(detectedStage)
+    for (const item of accessoryBom.items) {
+      if (item.already_cash_settled_good_qty_pcs > item.already_entitled_good_qty_pcs) {
+        throw new Error('Pembayaran aksesori melebihi entitlement authoritative.')
+      }
+      const expectedRemaining = preFgTracked
+        ? Math.min(availableQty, Math.max(caseQty - item.already_entitled_good_qty_pcs, 0))
+        : 0
+      const expectedReason = availableQty <= 0
+        ? 'NO_AVAILABLE_QUANTITY'
+        : !preFgTracked
+          ? 'POST_FG_OR_UNPROVEN_BASELINE'
+          : expectedRemaining <= 0
+            ? 'BASELINE_ENTITLEMENT_EXHAUSTED'
+            : 'PRE_FG_UNPAID_BASELINE'
+      if (item.remaining_unentitled_good_qty_pcs !== expectedRemaining
+          || item.default_selected !== (expectedRemaining > 0)
+          || item.default_reason !== expectedReason
+          || item.default_selection_basis !== (expectedRemaining > 0 ? 'UNPAID_BASELINE' : 'MANUAL_REPLACEMENT')) {
+        throw new Error('Default aksesori tidak cocok dengan entitlement authoritative kasus.')
+      }
+    }
+  }
+  if (kind === 'LAUNDRY_CLAIM' && accessoryBom !== null) {
+    throw new Error('Claim Laundry tidak boleh membawa default BOM aksesori.')
+  }
   return {
     case_key: text(raw.case_key, 'Kunci kasus'), kind: kind as BsResolutionRow['kind'], id: text(raw.id, 'ID kasus'),
     number: text(raw.number, 'Nomor kasus'), status: text(raw.status, 'Status kasus'), row_version: integer(raw.row_version, 'Versi kasus', 1),
-    qty_pcs: integer(raw.qty_pcs, 'Qty kasus', 1), resolved_qty: integer(raw.resolved_qty, 'Qty resolved'),
-    active_rework_qty: integer(raw.active_rework_qty, 'Qty rework aktif'), available_qty: integer(raw.available_qty, 'Qty tersedia'),
+    qty_pcs: caseQty, resolved_qty: integer(raw.resolved_qty, 'Qty resolved'),
+    active_rework_qty: integer(raw.active_rework_qty, 'Qty rework aktif'), available_qty: availableQty,
     opened_at: text(raw.opened_at, 'Waktu kasus'), po_id: nullableText(raw.po_id), po_number: nullableText(raw.po_number),
     model_name: nullableText(raw.model_name), cutting_group_id: nullableText(raw.cutting_group_id), group_number: nullableText(raw.group_number),
     patterns: list(raw.patterns, 'Daftar Pola kasus').map(parsePattern), product_id: nullableText(raw.product_id), sku: nullableText(raw.sku),
     product_name: nullableText(raw.product_name), responsible_contractor_id: nullableText(raw.responsible_contractor_id),
     contractor_name: nullableText(raw.contractor_name), responsible_vendor_id: nullableText(raw.responsible_vendor_id), vendor_name: nullableText(raw.vendor_name),
-    detected_stage: text(raw.detected_stage, 'Tahap deteksi'), cause_source: text(raw.cause_source, 'Sumber penyebab'),
+    detected_stage: detectedStage, cause_source: text(raw.cause_source, 'Sumber penyebab'),
     untracked_type: nullableText(raw.untracked_type), claim_type: nullableText(raw.claim_type), compensation_amount: number(raw.compensation_amount, 'Kompensasi'),
     laundry_delivery_id: nullableText(raw.laundry_delivery_id), laundry_receipt_line_id: nullableText(raw.laundry_receipt_line_id),
     legacy_reference: nullableText(raw.legacy_reference), notes: nullableText(raw.notes), next_action: text(raw.next_action, 'Aksi berikutnya'),
     is_closed: raw.is_closed, components: list(raw.components, 'Daftar komponen BS').map(parseComponent),
     resolutions: list(raw.resolutions, 'Daftar resolusi').map(parseResolution), rework_orders: list(raw.rework_orders, 'Daftar rework').map(parseRework),
     hold_events: list(raw.hold_events, 'Daftar riwayat HOLD').map(parseHold),
-    accessory_bom: parseAccessoryBom(raw.accessory_bom),
+    accessory_bom: accessoryBom,
   }
 }
 

@@ -32,6 +32,12 @@ declare
   v_brand constant uuid:='c6070000-0000-4000-8000-000000000005';
   v_product constant uuid:='c6070000-0000-4000-8000-000000000006';
   v_receipt_allocation constant uuid:='c6070000-0000-4000-8000-000000000007';
+  v_draft_delivery constant uuid:='c6070000-0000-4000-8000-000000000008';
+  v_reversed_delivery constant uuid:='c6070000-0000-4000-8000-000000000009';
+  v_bad_receipt constant uuid:='c6070000-0000-4000-8000-00000000000a';
+  v_bad_receipt_line constant uuid:='c6070000-0000-4000-8000-00000000000b';
+  v_late_receipt constant uuid:='c6070000-0000-4000-8000-00000000000c';
+  v_late_receipt_line constant uuid:='c6070000-0000-4000-8000-00000000000d';
   v_manual_request constant uuid:='c6080000-0000-4000-8000-000000000001';
   v_manual_payload jsonb;
   v_response jsonb;
@@ -58,6 +64,7 @@ declare
 begin
   if not exists(select 1 from erp.schema_migrations where version='v2.6.18a')
      or not exists(select 1 from erp.schema_migrations where version='v2.6.19')
+     or not exists(select 1 from erp.schema_migrations where version='v2.6.19b')
      or to_regprocedure('public.erp_get_bs_resolution_workspace_v1(text,text,uuid,text,integer,integer)') is null
      or to_regprocedure('public.erp_save_bs_resolution_action_v1(text,jsonb,uuid,bigint)') is null
      or to_regclass('erp.bs_case_hold_events') is null
@@ -194,6 +201,24 @@ begin
     raise exception 'CP5 Laundry DAMAGE lineage has no source BS case';
   end if;
 
+  insert into erp.laundry_deliveries(
+    id,delivery_number,po_id,vendor_id,target_dyeing_color,
+    physical_at,status,portal_visible,created_by,special_instruction
+  ) values
+    (v_draft_delivery,'CP5-DRAFT-DELIVERY',v_po,v_vendor,'CP5 BLUE',
+      '2026-08-22 08:00:00+00','DRAFT',true,v_owner_app,'Must not source a claim'),
+    (v_reversed_delivery,'CP5-REVERSED-DELIVERY',v_po,v_vendor,'CP5 BLUE',
+      '2026-08-22 08:00:00+00','REVERSED',true,v_owner_app,'Must not source a claim');
+  insert into erp.laundry_receipts(id,receipt_number,delivery_id,physical_at,status)
+  values
+    (v_bad_receipt,'CP5-DRAFT-RECEIPT',v_delivery,'2026-08-22 09:00:00+00','DRAFT'),
+    (v_late_receipt,'CP5-LATE-RECEIPT',v_delivery,'2026-08-22 09:10:00+00','DRAFT');
+  insert into erp.laundry_receipt_lines(
+    id,receipt_id,delivery_line_id,qty_good_received,qty_bs_laundry,qty_stuck,qty_missing
+  ) values
+    (v_bad_receipt_line,v_bad_receipt,v_delivery_line,0,1,0,0),
+    (v_late_receipt_line,v_late_receipt,v_delivery_line,1,0,0,0);
+
   perform set_config('request.jwt.claims',jsonb_build_object(
     'sub',v_production_auth,'role','authenticated'
   )::text,true);
@@ -228,6 +253,86 @@ begin
   if (v_workspace->>'total')::integer<>0 then
     raise exception 'CP5 server-side Pattern filter returned a row for a different Pattern';
   end if;
+
+  v_failed:=false;
+  begin
+    perform public.erp_save_bs_resolution_action_v1(
+      'SAVE_CLAIM',jsonb_build_object(
+        'action','SAVE','claim_number','CP5-DRAFT-SOURCE-CLAIM','vendor_id',v_vendor,
+        'delivery_id',v_draft_delivery,'qty_claimed',1,'claim_type','STUCK',
+        'compensation_amount',0,'opened_at','2026-08-22 09:00:00+00',
+        'change_reason','CP5 DRAFT delivery must fail closed'
+      ),gen_random_uuid(),null
+    );
+  exception when others then
+    if sqlerrm like '%requires a sent authoritative delivery%' then v_failed:=true; else raise; end if;
+  end;
+  if not v_failed then raise exception 'CP5 accepted a claim against a DRAFT delivery'; end if;
+
+  v_failed:=false;
+  begin
+    perform public.erp_save_bs_resolution_action_v1(
+      'SAVE_CLAIM',jsonb_build_object(
+        'action','SAVE','claim_number','CP5-REVERSED-SOURCE-CLAIM','vendor_id',v_vendor,
+        'delivery_id',v_reversed_delivery,'qty_claimed',1,'claim_type','MISSING',
+        'compensation_amount',0,'opened_at','2026-08-22 09:00:00+00',
+        'change_reason','CP5 REVERSED delivery must fail closed'
+      ),gen_random_uuid(),null
+    );
+  exception when others then
+    if sqlerrm like '%requires a sent authoritative delivery%' then v_failed:=true; else raise; end if;
+  end;
+  if not v_failed then raise exception 'CP5 accepted a claim against a REVERSED delivery'; end if;
+
+  v_failed:=false;
+  begin
+    perform public.erp_save_bs_resolution_action_v1(
+      'SAVE_CLAIM',jsonb_build_object(
+        'action','SAVE','claim_number','CP5-DRAFT-RECEIPT-CLAIM','vendor_id',v_vendor,
+        'delivery_id',v_delivery,'receipt_line_id',v_bad_receipt_line,
+        'qty_claimed',1,'claim_type','DAMAGE','compensation_amount',0,
+        'opened_at','2026-08-22 09:01:00+00',
+        'change_reason','CP5 DRAFT receipt must fail closed'
+      ),gen_random_uuid(),null
+    );
+  exception when others then
+    if sqlerrm like '%requires a POSTED receipt%' then v_failed:=true; else raise; end if;
+  end;
+  if not v_failed then raise exception 'CP5 accepted DAMAGE against a DRAFT receipt'; end if;
+
+  execute 'reset role';
+  update erp.laundry_receipts set status='REVERSED' where id=v_bad_receipt;
+  execute 'set local role authenticated';
+  v_failed:=false;
+  begin
+    perform public.erp_save_bs_resolution_action_v1(
+      'SAVE_CLAIM',jsonb_build_object(
+        'action','SAVE','claim_number','CP5-REVERSED-RECEIPT-CLAIM','vendor_id',v_vendor,
+        'delivery_id',v_delivery,'receipt_line_id',v_bad_receipt_line,
+        'qty_claimed',1,'claim_type','DAMAGE','compensation_amount',0,
+        'opened_at','2026-08-22 09:02:00+00',
+        'change_reason','CP5 REVERSED receipt must fail closed'
+      ),gen_random_uuid(),null
+    );
+  exception when others then
+    if sqlerrm like '%requires a POSTED receipt%' then v_failed:=true; else raise; end if;
+  end;
+  if not v_failed then raise exception 'CP5 accepted DAMAGE against a REVERSED receipt'; end if;
+
+  v_failed:=false;
+  begin
+    perform public.erp_save_bs_resolution_action_v1(
+      'SAVE_CLAIM',jsonb_build_object(
+        'action','SAVE','claim_number','CP5-OTHER-CLAIM','vendor_id',v_vendor,
+        'delivery_id',v_delivery,'qty_claimed',1,'claim_type','OTHER',
+        'compensation_amount',0,'opened_at','2026-08-22 09:03:00+00',
+        'change_reason','CP5 free-form OTHER must fail closed'
+      ),gen_random_uuid(),null
+    );
+  exception when others then
+    if sqlerrm like '%MISSING, STUCK, or DAMAGE%' then v_failed:=true; else raise; end if;
+  end;
+  if not v_failed then raise exception 'CP5 accepted unconserved Laundry claim OTHER'; end if;
 
   v_manual_payload:=jsonb_build_object(
     'untracked_type','LEGACY','legacy_reference','CP5-LEGACY-BOOK-17',
@@ -453,6 +558,16 @@ begin
     raise exception 'CP5 DAMAGE claim did not reserve receipt capacity or preserve Pattern lineage: %',v_workspace;
   end if;
 
+  execute 'reset role';
+  v_failed:=false;
+  begin
+    update erp.laundry_receipts set status='REVERSED' where id=v_receipt;
+  exception when others then
+    if sqlerrm like '%dependent DAMAGE claims%' then v_failed:=true; else raise; end if;
+  end;
+  execute 'set local role authenticated';
+  if not v_failed then raise exception 'CP5 reversed a POSTED receipt with an active DAMAGE claim'; end if;
+
   v_failed:=false;
   begin
     perform public.erp_save_bs_resolution_action_v1(
@@ -465,7 +580,7 @@ begin
       ),gen_random_uuid(),null
     );
   exception when others then
-    if sqlerrm like '%DAMAGE claim exceeds BS quantity%' then v_failed:=true; else raise; end if;
+    if sqlerrm like '%DAMAGE conservation failed%' then v_failed:=true; else raise; end if;
   end;
   if not v_failed then raise exception 'CP5 DAMAGE claim exceeded receipt-line capacity'; end if;
 
@@ -504,6 +619,27 @@ begin
     ),gen_random_uuid(),v_claim_version
   );
   v_claim_version:=(v_response#>>'{result,row_version}')::bigint;
+
+  execute 'reset role';
+  v_failed:=false;
+  begin
+    update erp.laundry_deliveries set status='REVERSED' where id=v_delivery;
+  exception when others then
+    if sqlerrm like '%dependent Laundry claims%' then v_failed:=true; else raise; end if;
+  end;
+  if not v_failed then raise exception 'CP5 invalidated a delivery with an active STUCK claim'; end if;
+
+  v_failed:=false;
+  begin
+    update erp.laundry_receipts set status='POSTED' where id=v_late_receipt;
+  exception when others then
+    if sqlerrm like '%return plus active MISSING/STUCK claims exceed sent quantity%' then v_failed:=true; else raise; end if;
+  end;
+  if not v_failed then raise exception 'CP5 posted a physical return on already-claimed outstanding quantity'; end if;
+  if not exists(select 1 from erp.laundry_receipts where id=v_late_receipt and status='DRAFT') then
+    raise exception 'CP5 failed receipt-vs-claim race path left a partial receipt status';
+  end if;
+  execute 'set local role authenticated';
 
   v_workspace:=public.erp_get_bs_resolution_workspace_v1('ALL','ALL',v_pattern,null,50,0);
   if (v_workspace->>'total')::integer<>4

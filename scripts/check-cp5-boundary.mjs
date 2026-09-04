@@ -19,6 +19,8 @@ const cp5TestPath = 'supabase/tests/cp5_bs_resolution_recovery_rollback.sql'
 const lineageMigrationPath = 'supabase/migrations/20260903151034_erp_v2_6_19a_cp5_rework_accessory_lineage.sql'
 const lineageRollbackPath = 'supabase/rollbacks/20260903151034_erp_v2_6_19a_cp5_rework_accessory_lineage.rollback.sql'
 const lineageTestPath = 'supabase/tests/cp5_rework_accessory_lineage_rollback.sql'
+const reliabilityMigrationPath = 'supabase/migrations/20260904012525_erp_v2_6_19b_cp5_reliability_closure.sql'
+const reliabilityRollbackPath = 'supabase/rollbacks/20260904012525_erp_v2_6_19b_cp5_reliability_closure.rollback.sql'
 
 const cuttingMigration = read(cuttingMigrationPath)
 const cuttingRollback = read(cuttingRollbackPath)
@@ -31,6 +33,8 @@ const cp5Test = read(cp5TestPath)
 const lineageMigration = read(lineageMigrationPath)
 const lineageRollback = read(lineageRollbackPath)
 const lineageTest = read(lineageTestPath)
+const reliabilityMigration = read(reliabilityMigrationPath)
+const reliabilityRollback = read(reliabilityRollbackPath)
 
 function onlyVersion(directory, version, expected) {
   const matches = readdirSync(resolve(root, directory))
@@ -46,6 +50,8 @@ onlyVersion('supabase/migrations', '20260903070932', cp5MigrationPath.split('/')
 onlyVersion('supabase/rollbacks', '20260903070932', cp5RollbackPath.split('/').at(-1))
 onlyVersion('supabase/migrations', '20260903151034', lineageMigrationPath.split('/').at(-1))
 onlyVersion('supabase/rollbacks', '20260903151034', lineageRollbackPath.split('/').at(-1))
+onlyVersion('supabase/migrations', '20260904012525', reliabilityMigrationPath.split('/').at(-1))
+onlyVersion('supabase/rollbacks', '20260904012525', reliabilityRollbackPath.split('/').at(-1))
 
 for (const [path, sql] of [
   [cuttingMigrationPath, cuttingMigration], [cuttingRollbackPath, cuttingRollback],
@@ -54,6 +60,7 @@ for (const [path, sql] of [
   [cp5RollbackPath, cp5Rollback], [cp5TestPath, cp5Test],
   [lineageMigrationPath, lineageMigration], [lineageRollbackPath, lineageRollback],
   [lineageTestPath, lineageTest],
+  [reliabilityMigrationPath, reliabilityMigration], [reliabilityRollbackPath, reliabilityRollback],
 ]) {
   const tags = [...sql.matchAll(/\$[A-Za-z_][A-Za-z0-9_]*\$|\$\$/g)].map((match) => match[0])
   const counts = new Map()
@@ -63,8 +70,8 @@ for (const [path, sql] of [
   assert.match(sql, /\b(?:commit|rollback);\s*$/i, `${path} has no explicit transaction close`)
 }
 
-function assertLedgerIdentity(rollback, migration, version, name, placeholder) {
-  const migrationHash = sha256(migration)
+function assertLedgerIdentity(rollback, migration, version, name, placeholder, ledgerSource = migration) {
+  const migrationHash = sha256(ledgerSource)
   assert.doesNotMatch(rollback, new RegExp(placeholder), `${name} rollback hash was not rendered`)
   assert.equal((rollback.match(new RegExp(migrationHash, 'g')) ?? []).length, 3, `${name} rollback does not bind match, conflict, and DELETE predicates to exact migration bytes`)
   const guard = rollback.match(/select count\(\*\) into v_match_count\s+from supabase_migrations\.schema_migrations m\s+where\s*([\s\S]*?);\s+select count\(\*\) into v_conflict_count/i)
@@ -91,6 +98,12 @@ const cp5Hash = assertLedgerIdentity(
 const lineageHash = assertLedgerIdentity(
   lineageRollback, lineageMigration, '20260903151034',
   'erp_v2_6_19a_cp5_rework_accessory_lineage', '__REWORK_ACCESSORY_LINEAGE_MIGRATION_SHA256__',
+)
+assert.ok(reliabilityMigration.endsWith('\n'), 'v2.6.19b source must retain one canonical file newline')
+const reliabilityHash = assertLedgerIdentity(
+  reliabilityRollback, reliabilityMigration, '20260904012525',
+  'erp_v2_6_19b_cp5_reliability_closure', '__CP5_RELIABILITY_CLOSURE_MIGRATION_SHA256__',
+  reliabilityMigration.slice(0, -1),
 )
 
 assert.equal(Buffer.byteLength(cuttingMigration), 80392, 'Recorded UAT v2.6.18 byte length drift')
@@ -180,6 +193,39 @@ for (const token of [
   'Accessory selection history accepted an in-place rewrite',
 ]) assert.ok(lineageTest.includes(token), `v2.6.19a acceptance proof missing: ${token}`)
 
+assert.equal(Buffer.byteLength(reliabilityMigration), 42021, 'v2.6.19b source byte length drift')
+assert.equal(sha256(reliabilityMigration), 'b1bde1a6ccd1f60dd001d99b72d479ffa0a18a6ea46bf93cd80e406e2ef0ce1d', 'v2.6.19b file source drift')
+assert.equal(reliabilityHash, '89ed4535720e12722bc1cbedd1bbcb5b7920f9ee4b6b19754214d05ac82b0e8d', 'v2.6.19b connector ledger source drift')
+for (const token of [
+  'rollback capsule is incomplete or invalid', "check(claim_type in('MISSING','STUCK','DAMAGE'))",
+  "selection_basis in('UNPAID_BASELINE','MANUAL_REPLACEMENT')",
+  'Laundry claim requires a sent authoritative delivery',
+  'Laundry return plus active MISSING/STUCK claims exceed sent quantity',
+  'SERVER_ENTITLEMENT_V2619B', 'UNPAID_COMPONENT_ENTITLEMENT',
+  'remaining_unentitled_good_qty_pcs', 'v_entitled_qty<v_case_qty',
+  'for update of lr,lrl', 'matching DAMAGE claim validation',
+  "new.status in('DRAFT','REVERSED')", "new.status='REVERSED'",
+  "'v2.6.19b'",
+]) assert.ok(reliabilityMigration.includes(token), `v2.6.19b reliability token missing: ${token}`)
+for (const token of [
+  'post-install business/financial/stock/HPP/audit history exists',
+  'platform ledger identity is ambiguous', 'exact function/ACL/owner restoration failed',
+  'rollback left reliability-closure residue',
+]) assert.ok(reliabilityRollback.includes(token), `v2.6.19b rollback proof token missing: ${token}`)
+for (const token of [
+  'CP5 accepted a claim against a DRAFT delivery',
+  'CP5 accepted a claim against a REVERSED delivery',
+  'CP5 accepted DAMAGE against a DRAFT receipt',
+  'CP5 accepted DAMAGE against a REVERSED receipt',
+  'CP5 accepted unconserved Laundry claim OTHER',
+  'return plus active MISSING/STUCK claims exceed sent quantity',
+]) assert.ok(cp5Test.includes(token), `v2.6.19b Laundry acceptance proof missing: ${token}`)
+for (const token of [
+  'SERVER_ENTITLEMENT_V2619B', 'UNPAID_BASELINE', 'MANUAL_REPLACEMENT',
+  'UNPAID_COMPONENT_ENTITLEMENT', 'remaining_unentitled_good_qty_pcs',
+  'Remaining physical BS did not keep exactly one unpaid baseline entitlement',
+]) assert.ok(lineageTest.includes(token), `v2.6.19b accessory-default proof missing: ${token}`)
+
 const cp5Page = read('src/ConnectedBsResolutionPage.tsx')
 const cp5Model = read('src/bsResolutionModel.ts')
 const cp5ModelTest = read('src/bsResolutionModel.test.ts')
@@ -189,6 +235,9 @@ const cp5BrowserConfig = read('playwright.cp5.config.ts')
 const cp5AuthTest = read('scripts/cp5_auth_permission_e2e.mjs')
 const cp5RaceTest = read('scripts/cp5_bs_resolution_concurrency.py')
 const cp5Workflow = read('.github/workflows/cp5-full-schema-validation.yml')
+const masterDataPage = read('src/MasterDataPages.tsx')
+const materialMasterPage = read('src/MaterialMasterPages.tsx')
+const reliabilityRules = read('docs/erp-reliability-invariants.md')
 const packageJson = read('package.json')
 const uatEnvironmentGuard = read('scripts/assert-uat-auth-env.mjs')
 const uatEnvironmentGuardTest = read('scripts/test-uat-auth-assertions.mjs')
@@ -207,20 +256,57 @@ assert.deepEqual(
   'CP5 browser boundary must use exactly the two owned public RPC facades',
 )
 for (const token of [
-  "type ClaimType = 'STUCK' | 'MISSING' | 'DAMAGE' | 'OTHER'", 'receipt_line_id:',
+  "type ClaimType = 'STUCK' | 'MISSING' | 'DAMAGE'", 'receipt_line_id:',
   'settled_claims', "action: 'CANCEL'", 'busyRef.current', 'cbsr-pagination',
   'completed_before_bs_qty', 'globalThis.crypto.randomUUID()', 'loadRequestRef.current',
   'actionRequestRef.current.fingerprint', 'AKSESORI YANG BENAR-BENAR DIPASANG',
   'accessory_bom_item_ids: accessoryIds', "action: 'SAVE', qty_good_returned: qty(good)",
   'Simpan partial', 'Vendor Rewash tidak mendapat fee kerja komponen',
+  'item.default_selected', 'workspaceStale', 'refresh authoritative gagal',
+  'seluruh writer terkunci sampai Refetch authoritative berhasil',
+  'remaining_unentitled_good_qty_pcs', 'selectedContractKey',
 ]) assert.ok(cp5Page.includes(token), `CP5 UI lifecycle token missing: ${token}`)
+const claimFormSource = cp5Page.slice(cp5Page.indexOf('function CreateClaim'), cp5Page.indexOf('function ClassificationPanel'))
+assert.doesNotMatch(claimFormSource, /OTHER/, 'CP5 claim UI still offers unconserved Laundry OTHER')
 for (const token of [
   'laundry_sources', 'laundry_receipt_sources', 'settled_claims', 'qty_claimable_pcs',
-  'accessory_bom', 'accessory_decision', 'selection_sha256',
+  'accessory_bom', 'accessory_decision', 'selection_sha256', 'default_selected',
+  'default_selection_basis', 'remaining_new_work_qty_pcs', 'selection_basis',
+  'remaining_unentitled_good_qty_pcs',
 ]) {
   assert.ok(cp5Model.includes(token), `CP5 response parser omits ${token}`)
   assert.ok(cp5ModelTest.includes(token), `CP5 parser test omits ${token}`)
 }
+
+for (const token of [
+  "{category:'Kancing',chargeUom:'pcs',reimbursementUom:'pcs',mandorCharge:495,reimbursement:500",
+  "{category:'Sleting',chargeUom:'lusin',reimbursementUom:'pcs',mandorCharge:29_900,reimbursement:2_500",
+  "{category:'Hang Tag',chargeUom:'lusin',reimbursementUom:'pcs',mandorCharge:7_150,reimbursement:600",
+  "{category:'Lock Pin',chargeUom:'pcs',reimbursementUom:'pcs',mandorCharge:300,reimbursement:300",
+  "{category:'Kain Kantong'", "{category:'Label'", "{category:'Kain Keras'",
+]) assert.ok(masterDataPage.includes(token), `Owner accessory category truth missing: ${token}`)
+for (const token of [
+  "{category:'Kancing',sellingPrices:[{id:'owner-kancing-charge',amount:495,uom:'pcs'",
+  "{category:'Centang',sellingPrices:[{id:'owner-centang-charge',amount:200,uom:'pcs'",
+  "{category:'Kulit',sellingPrices:[{id:'owner-kulit-charge',amount:1_000,uom:'pcs'",
+  "{category:'Sleting',sellingPrices:[{id:'owner-sleting-charge',amount:29_900,uom:'lusin'",
+  "{category:'Plat',sellingPrices:[{id:'owner-plat-charge',amount:500,uom:'pcs'",
+  "{category:'Hang Tag',sellingPrices:[{id:'owner-hang-tag-charge',amount:7_150,uom:'lusin'",
+  "{category:'Lock Pin',sellingPrices:[{id:'owner-lock-pin-charge',amount:300,uom:'pcs'",
+  "{category:'Kain Kantong',sellingPrices:[],reimbursementPrices:[]}",
+  "{category:'Label',sellingPrices:[],reimbursementPrices:[]}",
+  "{category:'Kain Keras',sellingPrices:[],reimbursementPrices:[]}",
+  '7 kategori aktif dan 3 future',
+  'tagihan dan reimbursement selalu memakai kategori besar',
+]) assert.ok(materialMasterPage.includes(token), `Operational accessory master truth missing: ${token}`)
+for (const forbidden of [
+  "category:'Resleting'", "amount:750,uom:'pcs'", "amount:800,uom:'pcs'",
+]) assert.equal(materialMasterPage.includes(forbidden), false, `Stale accessory master truth remains: ${forbidden}`)
+for (const token of [
+  'Reliability Data adalah Dewa. Keuangan, stok, dan HPP adalah Raja.',
+  'Financial posting, stock movement, HPP propagation, entitlement, physical custody',
+  'The legacy ERP project is read-only',
+]) assert.ok(reliabilityRules.includes(token), `ERP supreme reliability rule missing: ${token}`)
 
 assert.match(pickupPage, /ConnectedPatternFilter/)
 assert.match(wipPage, /ConnectedPatternFilter/)
@@ -270,8 +356,11 @@ for (const token of [
   'same-frame double mutation', "p_action: 'HOLD_BS'", "p_pattern_id === 'pattern-2'",
   'Tidak ada kasus pada filter ini', 'Tidak ada detail', 'view-only access',
   'reuses the same idempotency key',
-  'sends only checked accessory BOM items', 'saves cumulative partial returns without calling the completion action',
+  'defaults only server-proven unpaid items and sends exactly the checked set',
+  'saves cumulative partial returns without calling the completion action',
   "accessory_bom_item_ids: ['bom-item-1']", "p_action: 'SAVE_REWORK'", "action: 'SAVE'",
+  'allows an explicit real replacement without silently checking a prior entitlement',
+  'removes claim OTHER and freezes every writer',
 ]) assert.ok(cp5DomTest.includes(token), `CP5 DOM proof missing: ${token}`)
 for (const token of [
   "proof_class: 'LOCAL_MOCKED_UAT_CONTRACT'", 'hosted_uat: false',
@@ -279,6 +368,7 @@ for (const token of [
   'same_frame_mutation_count', 'view_only_mutation_count: 0',
   "locator('.cbsr-detail').getByRole('heading', { name: 'BS-1', exact: true })",
   'AKSESORI YANG BENAR-BENAR DIPASANG',
+  'SERVER_ENTITLEMENT_V2619B', 'remaining_unentitled_good_qty_pcs',
   'saves cumulative partial return without posting completion',
   "p_action: 'SAVE_REWORK', p_expected_version: 2", 'completion_posted: false',
 ]) assert.ok(cp5BrowserTest.includes(token), `CP5 browser contract proof missing: ${token}`)
@@ -315,7 +405,10 @@ for (const token of [
   "textUuidCondition('user_id', users.map((user) => user.id))",
 ]) assert.ok(cp5AuthTest.includes(token), `CP5 Auth/JWT proof missing: ${token}`)
 for (const token of [
-  'run_disposition_race()', 'run_claim_race()', 'DAMAGE claim exceeds BS quantity',
+  'run_disposition_race()', 'run_claim_race()', 'DAMAGE conservation failed',
+  'run_damage_source_claim_wins_race()', 'run_damage_source_reversal_wins_race()',
+  'damage_claim_and_receipt_reversal_serialize_both_directions',
+  'run_stuck_vs_return_race()', 'stuck_claim_and_physical_return_share_one_conservation_lock',
   'real_two_connection_wait_observed', 'remaining_capacity', "'audit_logs',(select count(*) from erp.audit_logs",
   "'access_audit',(select count(*) from erp.app_access_audit", "report['residue'] = residue",
   "insert into erp.contractors", "insert into erp.product_models",
@@ -332,18 +425,23 @@ for (const token of [
   '20260903070931_erp_v2_6_18a_cutting_bridge_reconciliation.sql',
   '20260903070932_erp_v2_6_19_cp5_bs_resolution_recovery.sql',
   '20260903151034_erp_v2_6_19a_cp5_rework_accessory_lineage.sql',
+  '20260904012525_erp_v2_6_19b_cp5_reliability_closure.sql',
   'cp5_bs_resolution_recovery_rollback.sql', 'cp5_bs_resolution_concurrency.py',
   'cp5_rework_accessory_lineage_rollback.sql',
   'cp5_auth_permission_e2e.mjs', 'test:browser:precp5', 'test:browser:cp5',
   '20260903151034_erp_v2_6_19a_cp5_rework_accessory_lineage.rollback.sql',
+  '20260904012525_erp_v2_6_19b_cp5_reliability_closure.rollback.sql',
   '20260903070932_erp_v2_6_19_cp5_bs_resolution_recovery.rollback.sql',
   '20260903070931_erp_v2_6_18a_cutting_bridge_reconciliation.rollback.sql',
   '20260903022604_erp_v2_6_18_cutting_persistence_pickup_wip.rollback.sql',
   'V2619A_ROLLBACK_WRONG_LOCAL_NAME_REJECTION.log', 'V2619_ROLLBACK_WRONG_LOCAL_NAME_REJECTION.log',
   'V2619A_ROLLBACK_POST_USE_REJECTION.log',
+  'V2619B_ROLLBACK_POST_USE_REJECTION.log',
+  'V2619B_ROLLBACK_WRONG_LOCAL_NAME_REJECTION.log',
   'V2618A_ROLLBACK_WRONG_LOCAL_NAME_REJECTION.log',
   'V2618_ROLLBACK_WRONG_LOCAL_NAME_REJECTION.log', 'V2619_HOSTED_PLATFORM_LEDGER_SHAPE.json',
   'V2619A_HOSTED_PLATFORM_LEDGER_SHAPE.json',
+  'V2619B_HOSTED_PLATFORM_LEDGER_SHAPE.json',
   'V2618A_HOSTED_PLATFORM_LEDGER_SHAPE.json', 'V2618_HOSTED_PLATFORM_LEDGER_SHAPE.json',
   '20260903060213', '6a568a78ad0b9baa2ef5ee958ee967d7c997cc1f4dfb7f0e4ef5e6ff69e5038f',
   "set name='WRONG_MIGRATION'", "'production_go',false",
@@ -355,4 +453,4 @@ for (const staleRecoveryToken of [
 
 const tempDirectory = resolve(root, 'supabase/.temp')
 assert.equal(existsSync(tempDirectory) ? readdirSync(tempDirectory).length : 0, 0, 'Supabase generator cache files must not enter the candidate')
-console.log(`CP5 boundary passed: recorded Cutting ${cuttingHash.slice(0, 12)}, reconciliation ${correctionHash.slice(0, 12)}, BS Resolution ${cp5Hash.slice(0, 12)}, accessory lineage ${lineageHash.slice(0, 12)}; canonical gates, 12 actions, partial returns, selected-only reimbursement, Pattern filters, rollback identities, mixed-case release-key regression, and hosted-UAT boundaries are owned.`)
+console.log(`CP5 boundary passed: recorded Cutting ${cuttingHash.slice(0, 12)}, reconciliation ${correctionHash.slice(0, 12)}, BS Resolution ${cp5Hash.slice(0, 12)}, accessory lineage ${lineageHash.slice(0, 12)}, reliability closure ${reliabilityHash.slice(0, 12)}; canonical gates, 12 actions, entitlement-derived defaults, conserved Laundry claims, stale-writer freeze, rollback identities, and hosted-UAT boundaries are owned.`)
