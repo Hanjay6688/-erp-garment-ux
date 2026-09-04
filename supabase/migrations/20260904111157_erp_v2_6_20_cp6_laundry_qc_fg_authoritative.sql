@@ -2400,16 +2400,28 @@ begin
       group by x.size_id having count(*)>1
     ) then raise exception 'Laundry delivery size lines must be unique and positive'; end if;
 
+    -- Resolve the immutable Potongan key without retaining a row lock, then
+    -- take the shared CP6 fence before every business row.  The locked re-read
+    -- below rejects a source that changed while this transaction waited; it
+    -- must never continue under a fence for the wrong Potongan.
     select p.cutting_group_id into v_group_id
     from erp.cutting_distribution_batches b
     join erp.cutting_pickups p on p.id=b.pickup_id and p.status='POSTED'
-    where b.id=v_batch_id
-    for update of b,p;
+    where b.id=v_batch_id;
     if v_group_id is null then raise exception 'Authoritative POSTED distribution batch was not found'; end if;
     -- Every CP6 mutation that can change Laundry/QC progress shares this
     -- transaction fence.  Cross-document actions on one Potongan therefore
     -- have one serial order even when their individual row locks do not meet.
     perform pg_advisory_xact_lock(hashtextextended('CP6FLOW:'||v_group_id::text,0));
+    perform 1
+    from erp.cutting_distribution_batches b
+    join erp.cutting_pickups p on p.id=b.pickup_id
+    where b.id=v_batch_id and p.status='POSTED'
+      and p.cutting_group_id=v_group_id
+    for update of b,p;
+    if not found then
+      raise exception 'Authoritative POSTED distribution batch changed while waiting for the Potongan fence; refetch before retrying';
+    end if;
     select * into v_group from erp.cutting_groups where id=v_group_id for update;
     if v_group.row_version<>p_expected_version then
       raise exception 'STALE_VERSION expected %, current %',p_expected_version,v_group.row_version;

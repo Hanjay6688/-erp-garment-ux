@@ -16,10 +16,6 @@ PGURL = os.environ.get('CP6_RACE_PGURL', 'postgresql://postgres:postgres@127.0.0
 REPORT = Path(os.environ.get('CP6_LAUNDRY_QC_RACE_REPORT', 'cp6-laundry-qc-concurrency.json'))
 HOLD_SECONDS = 1.0
 WAIT_FLOOR_SECONDS = 0.5
-FLOW_LOCK_SQL = (
-    "select pg_advisory_xact_lock("
-    "hashtextextended('CP6FLOW:'||(%s::uuid)::text,0))"
-)
 
 OPERATOR_AUTH = 'c8c00000-0000-4000-8000-000000000101'
 OPERATOR_APP = 'c8c00000-0000-4000-8000-000000000001'
@@ -101,8 +97,6 @@ def single_action(
 
 def run_race(
     name: str,
-    lock_sql: str,
-    lock_params: tuple[Any, ...],
     action_name: str,
     payload: dict[str, Any],
     expected_version: int,
@@ -110,6 +104,14 @@ def run_race(
     loser_request: str,
     allowed_loser_errors: tuple[str, ...],
 ) -> dict[str, Any]:
+    """Hold a completed winner action before commit, using runtime lock order.
+
+    The winner action itself establishes the canonical runtime lock order.  A
+    fixture must never pre-lock a business row before invoking the facade:
+    doing so would manufacture a row -> advisory order opposite to the
+    production advisory -> row order and turn a valid serialization proof into
+    a test-induced deadlock.
+    """
     started = threading.Event()
     winner: dict[str, Any] = {}
     loser: dict[str, Any] = {}
@@ -119,13 +121,12 @@ def run_race(
         try:
             with conn.cursor() as cur:
                 cur.execute("set local lock_timeout='10s'")
-                cur.execute(lock_sql, lock_params)
-                started.set()
-                time.sleep(HOLD_SECONDS)
                 set_operator_context(cur)
                 winner['response'] = action(
                     cur, action_name, payload, winner_request, expected_version,
                 )
+                started.set()
+                time.sleep(HOLD_SECONDS)
             conn.commit()
             winner['status'] = 'PASS'
         except Exception as exc:  # pragma: no cover - emitted into CI evidence
@@ -634,10 +635,7 @@ def main():
         'lines': [{'size_id': SIZE, 'qty_sent_pcs': 10}],
     }
     report['races']['post_delivery'] = run_race(
-        'POST_DELIVERY',
-        'select b.id from erp.cutting_distribution_batches b '
-        'join erp.cutting_pickups p on p.id=b.pickup_id where b.id=%s::uuid for update of b,p',
-        (BATCH,), 'POST_DELIVERY', delivery_payload, group_version,
+        'POST_DELIVERY', 'POST_DELIVERY', delivery_payload, group_version,
         REQUESTS['delivery_winner'], REQUESTS['delivery_loser'], ('STALE_VERSION',),
     )
     delivery_response = report['races']['post_delivery']['winner']['response']
@@ -662,8 +660,7 @@ def main():
         }],
     }
     report['races']['post_receipt'] = run_race(
-        'POST_RECEIPT', FLOW_LOCK_SQL, (GROUP,),
-        'POST_RECEIPT', receipt_payload, delivery_version,
+        'POST_RECEIPT', 'POST_RECEIPT', receipt_payload, delivery_version,
         REQUESTS['receipt_winner'], REQUESTS['receipt_loser'],
         ('STALE_VERSION', 'Laundry receipt requires an active SENT/PARTIAL_RETURN delivery'),
     )
@@ -884,8 +881,7 @@ def main():
         'select row_version from erp.cutting_groups where id=%s::uuid', (GROUP,),
     ))
     report['races']['post_final_sku'] = run_race(
-        'POST_FINAL_SKU', FLOW_LOCK_SQL, (GROUP,),
-        'POST_FINAL_SKU', qc_payload, group_version,
+        'POST_FINAL_SKU', 'POST_FINAL_SKU', qc_payload, group_version,
         REQUESTS['qc_winner'], REQUESTS['qc_loser'],
         ('STALE_VERSION', 'QC quantity exceeds GOOD returned for the exact Laundry batch/size'),
     )

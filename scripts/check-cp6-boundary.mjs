@@ -460,18 +460,21 @@ for (const token of [
   'invoice cost/AP commits before a waiting Final-SKU reads HPP',
   'invoice reversal restores estimate before waiting Final-SKU HPP',
   'Hold Final-SKU uncommitted, then prove invoice lifecycle recosts it',
+  'The winner action itself establishes the canonical runtime lock order.',
 ]) assert.ok(race.includes(token), `CP6 concurrency invariant missing: ${token}`)
-
-assert.equal(occurrences(race, 'FLOW_LOCK_SQL, (GROUP,)'), 2,
-  'POST_RECEIPT and POST_FINAL_SKU races must prime the canonical CP6FLOW lock first')
-assert.ok(race.includes("hashtextextended('CP6FLOW:'||(%s::uuid)::text,0)"),
-  'CP6 race harness does not derive the same Potongan advisory-lock key as the backend')
-assert.equal(race.includes("'POST_RECEIPT', 'select id from erp.laundry_deliveries"), false,
-  'POST_RECEIPT race primes a downstream row lock before the canonical CP6FLOW lock')
-assert.equal(race.includes("'POST_FINAL_SKU', 'select id from erp.laundry_receipts"), false,
-  'POST_FINAL_SKU race primes a downstream row lock before the canonical CP6FLOW lock')
+assert.equal(race.includes('lock_sql'), false,
+  'CP6 race fixture must not pre-lock a row before the runtime advisory fence')
 assert.ok(race.includes('Laundry receipt requires an active SENT/PARTIAL_RETURN delivery'),
   'Serialized duplicate receipt does not accept the authoritative terminal-status rejection')
+
+const postDeliveryStart = migration.lastIndexOf("if v_action='POST_DELIVERY' then")
+const postReceiptStart = migration.lastIndexOf("elsif v_action='POST_RECEIPT' then")
+const postDeliveryAction = migration.slice(postDeliveryStart, postReceiptStart)
+assert.ok(postDeliveryAction.indexOf("pg_advisory_xact_lock(hashtextextended('CP6FLOW:'||v_group_id::text,0))")
+  < postDeliveryAction.indexOf('for update of b,p'),
+  'POST_DELIVERY must acquire the Potongan fence before source row locks')
+assert.ok(postDeliveryAction.includes('changed while waiting for the Potongan fence; refetch before retrying'),
+  'POST_DELIVERY does not fail closed when its unlocked identity lookup changes')
 
 for (const token of [
   'npm run check:cp6', 'python -m py_compile scripts/cp6_laundry_qc_concurrency.py',
