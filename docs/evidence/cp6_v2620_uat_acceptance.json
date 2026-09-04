@@ -1,0 +1,268 @@
+{
+  "format": "CP6_V2620_UAT_ACCEPTANCE_V1",
+  "status": "PASS_READ_ONLY_POST_APPLY",
+  "captured_at_utc": "2026-09-04T23:33:35.247Z",
+  "target_project_ref": "siimvrusnzxexizpyoib",
+  "target_environment": "ERP Enteng UAT",
+  "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
+  "authorization_boundary": {
+    "uat_ddl_mutation": "ONE_OFFICIAL_V2_6_20_APPLY_MIGRATION",
+    "uat_business_mutation": false,
+    "uat_seed_or_dummy_transaction": false,
+    "legacy_mutated": false,
+    "canonical_worker_promoted": false,
+    "pr_merged": false,
+    "production_go": false
+  },
+  "migration": {
+    "application_version": "v2.6.20",
+    "source_version": "20260904111157",
+    "platform_version": "20260904232442",
+    "name": "erp_v2_6_20_cp6_laundry_qc_fg_authoritative",
+    "source_path": "supabase/migrations/20260904111157_erp_v2_6_20_cp6_laundry_qc_fg_authoritative.sql",
+    "source_bytes": 251923,
+    "source_sha256": "52e51f56f4b8b08b7797b1a92ca9b9e26cbe611e81615c3379c728b95877ada1",
+    "platform_statement_count": 1,
+    "platform_statement_bytes": 251923,
+    "platform_statement_sha256": "52e51f56f4b8b08b7797b1a92ca9b9e26cbe611e81615c3379c728b95877ada1",
+    "installed_at": "2026-09-04T23:24:42.205220Z",
+    "apply_path": "SUPABASE_OFFICIAL_APPLY_MIGRATION_CONNECTOR",
+    "connector_difference": "NONE_EXACT_FULL_SOURCE_BYTES"
+  },
+  "application_ledger": [
+    {
+      "version": "v2.6.18",
+      "rows": 1,
+      "installed_at": "2026-09-03T06:02:13.500158Z"
+    },
+    {
+      "version": "v2.6.18a",
+      "rows": 1,
+      "installed_at": "2026-09-03T10:57:41.762254Z"
+    },
+    {
+      "version": "v2.6.19",
+      "rows": 1,
+      "installed_at": "2026-09-03T10:58:14.838166Z"
+    },
+    {
+      "version": "v2.6.19a",
+      "rows": 1,
+      "installed_at": "2026-09-03T15:10:34.973034Z"
+    },
+    {
+      "version": "v2.6.19b",
+      "rows": 1,
+      "installed_at": "2026-09-04T03:21:10.200423Z"
+    },
+    {
+      "version": "v2.6.19c",
+      "rows": 1,
+      "installed_at": "2026-09-04T08:35:52.935001Z"
+    },
+    {
+      "version": "v2.6.20",
+      "rows": 1,
+      "installed_at": "2026-09-04T23:24:42.205220Z"
+    }
+  ],
+  "platform_ledger": [
+    {
+      "version": "20260903060213",
+      "name": "erp_v2_6_18_cutting_persistence_pickup_wip",
+      "statement_count": 1,
+      "statement_bytes": 80392,
+      "statement_sha256": "6a568a78ad0b9baa2ef5ee958ee967d7c997cc1f4dfb7f0e4ef5e6ff69e5038f"
+    },
+    {
+      "version": "20260903105741",
+      "name": "erp_v2_6_18a_cutting_bridge_reconciliation",
+      "statement_count": 1,
+      "statement_bytes": 21350,
+      "statement_sha256": "d024a9ef2c8b1d5d9c529669b0b46a7588575f3bdc6788252c1b90d0ab2aae6a"
+    },
+    {
+      "version": "20260903105814",
+      "name": "erp_v2_6_19_cp5_bs_resolution_recovery",
+      "statement_count": 1,
+      "statement_bytes": 67744,
+      "statement_sha256": "79e7b51b82759f1f4579fc373d11e41a668f312a569425aad2fdc2c4d6d68aa6"
+    },
+    {
+      "version": "20260903151034",
+      "name": "erp_v2_6_19a_cp5_rework_accessory_lineage",
+      "statement_count": 1,
+      "statement_bytes": 55354,
+      "statement_sha256": "204b9246f3c8c6464476da1a7f1574f5e0ae4c46f024c082704795b3eef5210f"
+    },
+    {
+      "version": "20260904032110",
+      "name": "erp_v2_6_19b_cp5_reliability_closure",
+      "statement_count": 1,
+      "statement_bytes": 42020,
+      "statement_sha256": "89ed4535720e12722bc1cbedd1bbcb5b7920f9ee4b6b19754214d05ac82b0e8d"
+    },
+    {
+      "version": "20260904083552",
+      "name": "erp_v2_6_19c_cp5_atomic_reversal_reconciliation",
+      "statement_count": 1,
+      "statement_bytes": 13808,
+      "statement_sha256": "b11014081391f3d72e242813b09bb64c53e2aefe0f4eb42cc20e8089a57ef8ba"
+    },
+    {
+      "version": "20260904232442",
+      "name": "erp_v2_6_20_cp6_laundry_qc_fg_authoritative",
+      "statement_count": 1,
+      "statement_bytes": 251923,
+      "statement_sha256": "52e51f56f4b8b08b7797b1a92ca9b9e26cbe611e81615c3379c728b95877ada1"
+    }
+  ],
+  "rollback_and_acl_capsules": {
+    "rollback_rows": 13,
+    "acl_rows": 13,
+    "stored_definition_checksum_mismatch": 0,
+    "installed_runtime_checksum_mismatch": 0,
+    "predecessor_definitions_distinct_from_installed": 13,
+    "note": "The final count is expected: the capsule stores the 13 exact predecessor definitions while installed_definition_sha256 binds each current v2.6.20 definition."
+  },
+  "public_facades": [
+    {
+      "identity": "erp_get_laundry_qc_workspace_v1(text,text)",
+      "owner": "postgres",
+      "security_definer": true,
+      "search_path": "",
+      "public_execute": false,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "service_role_execute": true,
+      "sha256": "cc09c0497a8d476fe993b34364ece62b06fcf2f122ceedf38bb47c6a2fba87bb"
+    },
+    {
+      "identity": "erp_post_final_sku_allocation_v1(jsonb,uuid,bigint)",
+      "owner": "postgres",
+      "security_definer": true,
+      "search_path": "",
+      "public_execute": false,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "service_role_execute": true,
+      "sha256": "2a3a67f7c21831d16d311d4030e66ebfdd80c0741a80fa0bd957ff2654af7443"
+    },
+    {
+      "identity": "erp_save_laundry_qc_action_v1(text,jsonb,uuid,bigint)",
+      "owner": "postgres",
+      "security_definer": true,
+      "search_path": "",
+      "public_execute": false,
+      "anon_execute": false,
+      "authenticated_execute": true,
+      "service_role_execute": true,
+      "sha256": "d6c4c5382a50adb419a538d4c6786b625f5f6ed640f7d80be6bcf124bdaedee7"
+    }
+  ],
+  "private_boundary": {
+    "private_functions_checked": 11,
+    "private_function_execute_leaks": 0,
+    "private_tables_checked": 7,
+    "private_table_or_rls_leaks": 0,
+    "permission_guards_present": true,
+    "final_sku_internal_context_present": true,
+    "expected_indexes_checked": 6,
+    "expected_indexes_valid_and_ready": 6
+  },
+  "database_hygiene": {
+    "erp_tables_total": 180,
+    "zero_row_tables": 156,
+    "nonzero_static_control_or_history_tables": {
+      "accounting_account_mappings": 24,
+      "accounting_period_control": 1,
+      "app_permissions": 111,
+      "app_role_permissions": 329,
+      "app_roles": 9,
+      "audit_logs": 36,
+      "bs_resolution_v2619_rollback_capsule": 30,
+      "bs_resolution_v2619a_rollback_capsule": 6,
+      "bs_resolution_v2619b_rollback_capsule": 7,
+      "bs_resolution_v2619c_rollback_capsule": 1,
+      "cash_accounts": 1,
+      "chart_accounts": 24,
+      "cp3_r4_rollback_capsule": 7,
+      "cp45_v2617_rollback_capsule": 3,
+      "cp45_v2617a_rollback_capsule": 2,
+      "cp4_v2616_rollback_capsule": 4,
+      "cp6_v2620_acl_capsule": 13,
+      "cp6_v2620_rollback_capsule": 13,
+      "cutting_bridge_v2618_rollback_capsule": 17,
+      "cutting_bridge_v2618a_rollback_capsule": 8,
+      "misc_finance_categories": 2,
+      "schema_migrations": 55,
+      "system_release_info": 1,
+      "uom_definitions": 8
+    },
+    "transactional_business_tables_nonzero": 0,
+    "auth_users": 0,
+    "app_users": 0,
+    "cp6_execution_context": 0,
+    "audit_rows": 36,
+    "latest_audit_at": "2026-09-02T19:09:40.299186Z",
+    "new_audit_rows_from_cp6_apply": 0,
+    "waiting_locks": 0,
+    "active_nonself_sessions": 0,
+    "transactions_over_five_minutes": 0,
+    "idle_in_transaction_sessions": 0,
+    "http_or_pg_net_extensions": []
+  },
+  "advisor": {
+    "observed_at_utc": "2026-09-04T23:30:15Z",
+    "security": {
+      "errors": 0,
+      "warnings": 39,
+      "infos": 34,
+      "cp6_authenticated_security_definer_warnings": 3,
+      "cp6_rls_without_policy_infos": 7,
+      "classification": "INTENTIONAL_PUBLIC_FACADES_AND_PRIVATE_DENY_BY_DEFAULT_TABLES",
+      "security_definer_remediation_url": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable",
+      "rls_no_policy_remediation_url": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy"
+    },
+    "performance": {
+      "errors": 0,
+      "warnings": 0,
+      "infos": 309,
+      "cp6_unindexed_foreign_key_infos": 9,
+      "cp6_unused_index_infos": 5,
+      "classification": "NON_BLOCKING_EMPTY_UAT_PERFORMANCE_OBSERVATIONS_REQUIRING_SCALE_REVIEW",
+      "unindexed_foreign_key_remediation_url": "https://supabase.com/docs/guides/database/database-linter?lint=0001_unindexed_foreign_keys",
+      "unused_index_remediation_url": "https://supabase.com/docs/guides/database/database-linter?lint=0005_unused_index"
+    }
+  },
+  "legacy_read_only": {
+    "observed_at_utc": "2026-09-04T23:30:13.631Z",
+    "platform_migrations": 272,
+    "latest_platform_version": "20260829204756",
+    "application_migrations": 38,
+    "latest_application_version": "v2.6.9a",
+    "cp5_or_cp6_platform_rows": 0,
+    "cp5_or_cp6_application_rows": 0,
+    "cp6_objects_present": 0,
+    "auth_users": 0,
+    "app_users": 0,
+    "waiting_locks": 0,
+    "active_nonself_sessions": 0,
+    "transactions_over_five_minutes": 0,
+    "idle_in_transaction_sessions": 0,
+    "audit_rows": 2,
+    "latest_audit_at": "2026-08-28T09:59:41.219804Z",
+    "http_or_pg_net_extensions": [],
+    "historical_function_md5": {
+      "save_rework_order_v2": "d4f297f43858bb3c819c9cacec2972ab",
+      "complete_rework_order_v2": "c59e0fc2f14934d3947ce5cc7f3c78bb",
+      "save_laundry_claim_v2": "3ce81f61adc7d56c5bd9d048dafda180"
+    }
+  },
+  "limitations": [
+    "Hosted UAT verification after the one official DDL apply was read-only; no business fixture or password user was created.",
+    "Authoritative transaction, Auth/JWT, finance, stock, HPP, reversal, rollback, and concurrency behavior was executed in the exact-head disposable full-schema proof.",
+    "Browser tests use mocked UAT responses to prove the UI state machine; hosted database identity and ACLs were verified separately.",
+    "Performance advisor INFO items are recorded rather than silently treated as proof of either safety or failure; scale behavior remains an independent-review concern."
+  ]
+}
