@@ -141,6 +141,10 @@ begin
   if v_actual is distinct from '55ff5dbf95b37dcfbd05b651defc3531' then
     raise exception 'DRIFT_CONCURRENT_MUTATION_DETECTED: post_laundry_receipt changed (%)',v_actual;
   end if;
+  select md5(pg_get_functiondef('erp.validate_laundry_receipt_line()'::regprocedure)) into v_actual;
+  if v_actual is distinct from 'eefc0197092de53df2dd1031c5706ea3' then
+    raise exception 'DRIFT_CONCURRENT_MUTATION_DETECTED: Laundry receipt cost validator changed (%)',v_actual;
+  end if;
   select md5(pg_get_functiondef('erp.post_final_sku_allocation_v1(jsonb,uuid,bigint)'::regprocedure)) into v_actual;
   if v_actual is distinct from 'fb2ed5bb9239e18b2ae6649d8cda1ce3' then
     raise exception 'DRIFT_CONCURRENT_MUTATION_DETECTED: post_final_sku_allocation changed (%)',v_actual;
@@ -313,6 +317,7 @@ where p.oid in(
   'erp.desired_laundry_accrual(uuid)'::regprocedure,
   'erp.sync_laundry_accrual(uuid,date)'::regprocedure,
   'erp.rebuild_po_hpp(uuid,text)'::regprocedure,
+  'erp.validate_laundry_receipt_line()'::regprocedure,
   'erp.post_fg_partial_completion_v2_legacy_v2610(jsonb,uuid,bigint)'::regprocedure
 );
 
@@ -337,7 +342,7 @@ where c.oid in(
 
 do $capsule_guard$
 begin
-  if (select count(*) from erp.cp6_v2620_rollback_capsule)<>11
+  if (select count(*) from erp.cp6_v2620_rollback_capsule)<>12
      or exists(
        select 1 from erp.cp6_v2620_rollback_capsule c
        where c.definition_sha256 is distinct from encode(extensions.digest(
@@ -368,6 +373,9 @@ begin
      or (select md5(c.object_definition) from erp.cp6_v2620_rollback_capsule c
          where c.object_regidentity='erp.rebuild_po_hpp(uuid,text)'::regprocedure::text)
           is distinct from 'bf5593c35375abb35c0c6d531ee375e6'
+     or (select md5(c.object_definition) from erp.cp6_v2620_rollback_capsule c
+         where c.object_regidentity='erp.validate_laundry_receipt_line()'::regprocedure::text)
+          is distinct from 'eefc0197092de53df2dd1031c5706ea3'
      or (select md5(c.object_definition) from erp.cp6_v2620_rollback_capsule c
          where c.object_regidentity='erp.post_fg_partial_completion_v2_legacy_v2610(jsonb,uuid,bigint)'::regprocedure::text)
           is distinct from '4704db79cbcd2ad70384c6dbdfe85572'
@@ -1204,6 +1212,95 @@ revoke all on table
   erp.laundry_failed_wash_batch_size_lines,
   erp.cp6_laundry_qc_execution_context
 from public,anon,authenticated,service_role;
+
+-- The predecessor receipt validator derives cost from physical Good + BS.
+-- A paid failed-wash attempt deliberately has zero physical output, so its
+-- service cost must instead use the exact attempted quantity from the active
+-- facade envelope. No other receipt path may select this formula.
+create or replace function erp.validate_laundry_receipt_line()
+returns trigger
+language plpgsql
+security definer
+set search_path=''
+as $function$
+declare
+  v_sent integer;
+  v_other integer;
+  v_receipt_delivery uuid;
+  v_line_delivery uuid;
+  v_remaining integer;
+  v_failed_context_count integer:=0;
+  v_failed_qty bigint:=0;
+begin
+  select lr.delivery_id into v_receipt_delivery
+  from erp.laundry_receipts lr where lr.id=new.receipt_id;
+  select ldl.delivery_id,ldl.qty_sent_pcs into v_line_delivery,v_sent
+  from erp.laundry_delivery_lines ldl where ldl.id=new.delivery_line_id;
+  if v_sent is null then raise exception 'Laundry delivery line not found'; end if;
+  if v_receipt_delivery is null or v_receipt_delivery<>v_line_delivery then
+    raise exception 'Receipt and receipt line belong to different laundry deliveries';
+  end if;
+  select coalesce(sum(lrl.qty_good_received+lrl.qty_bs_laundry),0) into v_other
+  from erp.laundry_receipt_lines lrl
+  join erp.laundry_receipts lr on lr.id=lrl.receipt_id
+  where lrl.delivery_line_id=new.delivery_line_id
+    and lrl.id<>new.id and lr.status<>'REVERSED';
+  if v_other+new.qty_good_received+new.qty_bs_laundry>v_sent then
+    raise exception 'Cumulative laundry physical return exceeds quantity sent';
+  end if;
+  v_remaining:=v_sent-v_other-new.qty_good_received-new.qty_bs_laundry;
+  if new.qty_stuck+new.qty_missing>v_remaining then
+    raise exception 'STUCK + MISSING exceeds remaining unreturned quantity';
+  end if;
+
+  select count(distinct (c.backend_pid,c.transaction_id)),
+         coalesce(sum(x.qty_attempted_pcs),0)::bigint
+    into v_failed_context_count,v_failed_qty
+  from erp.cp6_laundry_qc_execution_context c
+  cross join lateral jsonb_to_recordset(c.payload->'lines')
+    x(delivery_batch_size_line_id uuid,qty_attempted_pcs integer)
+  where c.backend_pid=pg_backend_pid()
+    and c.transaction_id=txid_current()
+    and c.actor_key=erp._idempotency_actor_key()
+    and c.action='POST_FAILED_WASH'
+    and c.permission_key='production.laundry.post'
+    and erp.has_permission(c.permission_key)
+    and (c.payload->>'delivery_id')::uuid=v_receipt_delivery
+    and (c.payload->>'wash_process_id')::uuid=new.actual_wash_process_id;
+
+  if v_failed_context_count>0 then
+    if v_failed_context_count<>1 or v_failed_qty<=0
+       or new.qty_good_received<>0 or new.qty_bs_laundry<>0
+       or new.qty_stuck<>0 or new.qty_missing<>0
+       or new.actual_rate_snapshot is null or new.actual_rate_snapshot<0
+       or new.actual_cost_status not in('PENDING','ESTIMATED') then
+      raise exception 'Paid failed-wash cost requires one exact zero-output facade context';
+    end if;
+    new.actual_cost_status:='ESTIMATED';
+    new.actual_cost:=round(v_failed_qty*new.actual_rate_snapshot,2);
+    return new;
+  end if;
+
+  -- Preserve every predecessor physical-receipt rule byte-for-behavior.
+  if new.actual_cost_status='FINAL' and new.actual_cost is not null then
+    return new;
+  end if;
+  if new.actual_rate_snapshot is null then
+    new.actual_cost:=null;
+    if new.actual_cost_status='FINAL' then
+      raise exception 'FINAL laundry cost requires actual_cost or actual_rate_snapshot';
+    end if;
+    new.actual_cost_status:='PENDING';
+  else
+    new.actual_cost:=(new.qty_good_received+new.qty_bs_laundry)*new.actual_rate_snapshot;
+    if new.actual_cost_status='PENDING' then new.actual_cost_status:='ESTIMATED'; end if;
+  end if;
+  return new;
+end
+$function$;
+alter function erp.validate_laundry_receipt_line() owner to postgres;
+revoke all on function erp.validate_laundry_receipt_line()
+  from public,anon,authenticated,service_role;
 
 create or replace function erp.require_internal()
 returns void
@@ -4545,7 +4642,7 @@ declare
   v_public record;
   v_fg_progress_def text;
 begin
-  if (select count(*) from erp.cp6_v2620_rollback_capsule)<>11
+  if (select count(*) from erp.cp6_v2620_rollback_capsule)<>12
      or (select count(*) from erp.cp6_v2620_acl_capsule)<>13
      or exists(
        select 1 from erp.cp6_v2620_rollback_capsule c

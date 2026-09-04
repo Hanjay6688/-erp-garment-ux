@@ -613,6 +613,9 @@ jobs:
             'rebuild_po_hpp_sha256',encode(extensions.digest(convert_to(
               pg_get_functiondef('erp.rebuild_po_hpp(uuid,text)'::regprocedure),'UTF8'
             ),'sha256'),'hex'),
+            'receipt_cost_validator_sha256',encode(extensions.digest(convert_to(
+              pg_get_functiondef('erp.validate_laundry_receipt_line()'::regprocedure),'UTF8'
+            ),'sha256'),'hex'),
             'final_sku_number_writer_sha256',encode(extensions.digest(convert_to(
               pg_get_functiondef('erp.post_fg_partial_completion_v2_legacy_v2610(jsonb,uuid,bigint)'::regprocedure),'UTF8'
             ),'sha256'),'hex'),
@@ -682,8 +685,8 @@ jobs:
         run: |
           set -euo pipefail
           migration_source='supabase/migrations/20260904111157_erp_v2_6_20_cp6_laundry_qc_fg_authoritative.sql'
-          test "$(wc -c < "$migration_source")" = '238397'
-          echo 'b5fab36207ed535c5bfe79eeb6528b31d5ccb7c95fe20c5d8f4acab3ace02e47  supabase/migrations/20260904111157_erp_v2_6_20_cp6_laundry_qc_fg_authoritative.sql' | sha256sum -c - | tee cp6-proof/V2620_MIGRATION_SHA256.txt
+          test "$(wc -c < "$migration_source")" = '242892'
+          echo 'b0fdc6e93a6883a9a0214d970a36e90ea814dceaabda049086e0e6b3e8ecdace  supabase/migrations/20260904111157_erp_v2_6_20_cp6_laundry_qc_fg_authoritative.sql' | sha256sum -c - | tee cp6-proof/V2620_MIGRATION_SHA256.txt
           psql "$PGURL" -v ON_ERROR_STOP=1 -f "$migration_source" 2>&1 | tee cp6-proof/V2620_APPLY.log
           # Linux limits each argv entry to roughly 128 KiB. Keep the exact
           # 232 KiB statement out of `psql -v`; psql variables themselves are
@@ -696,7 +699,7 @@ jobs:
             array[convert_from(decode(:'migration_source_b64','base64'),'UTF8')]
           ) on conflict(version) do nothing;
           SQL
-          test "$(psql "$PGURL" -At -c "select encode(extensions.digest(convert_to(array_to_string(statements,E'\\n'),'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations where name='erp_v2_6_20_cp6_laundry_qc_fg_authoritative'")" = '2d7881aa876e0a3db1d1d49974846b1f46e9ec9e703b3f3d917709728cbfd5ea'
+          test "$(psql "$PGURL" -At -c "select encode(extensions.digest(convert_to(array_to_string(statements,E'\\n'),'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations where name='erp_v2_6_20_cp6_laundry_qc_fg_authoritative'")" = '3e46546639fdfc464cdc625e1d50543d530d8cd7adffbdc8fffb337d283fa105'
           set +e
           psql "$PGURL" -v ON_ERROR_STOP=1 -f "$migration_source" > cp6-proof/V2620_REPLAY_REJECTION.log 2>&1
           replay_status=$?
@@ -1005,7 +1008,7 @@ jobs:
           test "$rollback_status" -ne 0
           grep -F 'v2.6.20 rollback refused: platform ledger statement digest is ambiguous' \
             cp6-proof/V2620_ROLLBACK_TAMPERED_STATEMENT_REJECTION.log >/dev/null
-          test "$(psql "$PGURL" -At -c "select encode(extensions.digest(convert_to(array_to_string(statements,E'\\n'),'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations where name='erp_v2_6_20_cp6_laundry_qc_fg_authoritative'")" = '2d7881aa876e0a3db1d1d49974846b1f46e9ec9e703b3f3d917709728cbfd5ea'
+          test "$(psql "$PGURL" -At -c "select encode(extensions.digest(convert_to(array_to_string(statements,E'\\n'),'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations where name='erp_v2_6_20_cp6_laundry_qc_fg_authoritative'")" = '3e46546639fdfc464cdc625e1d50543d530d8cd7adffbdc8fffb337d283fa105'
 
           psql "$PGURL" -v ON_ERROR_STOP=1 \
             -f supabase/rollbacks/20260904111157_erp_v2_6_20_cp6_laundry_qc_fg_authoritative.rollback.sql \
@@ -1119,6 +1122,9 @@ jobs:
             'rebuild_po_hpp_sha256',encode(extensions.digest(convert_to(
               pg_get_functiondef('erp.rebuild_po_hpp(uuid,text)'::regprocedure),'UTF8'
             ),'sha256'),'hex'),
+            'receipt_cost_validator_sha256',encode(extensions.digest(convert_to(
+              pg_get_functiondef('erp.validate_laundry_receipt_line()'::regprocedure),'UTF8'
+            ),'sha256'),'hex'),
             'final_sku_number_writer_sha256',encode(extensions.digest(convert_to(
               pg_get_functiondef('erp.post_fg_partial_completion_v2_legacy_v2610(jsonb,uuid,bigint)'::regprocedure),'UTF8'
             ),'sha256'),'hex'),
@@ -1149,7 +1155,8 @@ jobs:
             'require_internal_md5','public_final_sku_sha256','product_identity_sha256',
             'v259_integrity_sha256','master_writer_sha256',
             'desired_laundry_accrual_sha256','sync_laundry_accrual_sha256',
-            'rebuild_po_hpp_sha256','final_sku_number_writer_sha256',
+            'rebuild_po_hpp_sha256','receipt_cost_validator_sha256',
+            'final_sku_number_writer_sha256',
             'fg_progress_sha256','wip_control_sha256',
             'browser_writer_acl_objects','browser_writer_acl_sha256'
           ):
