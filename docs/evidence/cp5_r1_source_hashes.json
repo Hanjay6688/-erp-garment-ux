@@ -3,7 +3,7 @@
   "candidate_branch": "pre-cp5/cutting-persistence-pickup-wip-r1-20260903",
   "source_base_sha": "8bfac13b91ea1be92111139e2fddcabccf9ae19a",
   "source_base_tree": "a9b193010266bb686c57709865a992769a835855",
-  "generation_parent_sha": "796441b9f3aa14b24c849581f5098f110d1db0d5",
+  "generation_parent_sha": "c733dc7c3bb335f46d4a2b034d5d4c274f359341",
   "target_project_ref": "siimvrusnzxexizpyoib",
   "target_environment": "ERP Enteng UAT",
   "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
@@ -472,8 +472,8 @@
       "sha256": "5ad43b7ae62b067deb130ad792284f1fd597fc8114e601f345659995715a1804"
     },
     "supabase/tests/cp5_bs_resolution_recovery_rollback.sql": {
-      "bytes": 42323,
-      "sha256": "9f4a27f95027b7f8474afa95d58a09ff89ccc76381370a7d7c0186af00079327"
+      "bytes": 42389,
+      "sha256": "e94e27ef6c6d22e98aba21b97fc17d64fb2a907d3cd51a14e6a76f31d19c36e0"
     },
     "supabase/tests/cp5_rework_accessory_lineage_rollback.sql": {
       "bytes": 25854,

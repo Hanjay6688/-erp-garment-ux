@@ -742,11 +742,13 @@ begin
       raise;
     end if;
   end;
+  execute 'reset role';
   if not v_failed
      or not exists(select 1 from erp.laundry_claims where id=v_claim and status='SETTLED')
      or not exists(select 1 from erp.bs_resolutions where id=v_cash_disposition) then
     raise exception 'CP5 reversed a settled claim while its BS CASH_COMPENSATION remained active';
   end if;
+  execute 'set local role authenticated';
 
   v_response:=public.erp_save_bs_resolution_action_v1(
     'REVERSE_DISPOSITION',jsonb_build_object(
