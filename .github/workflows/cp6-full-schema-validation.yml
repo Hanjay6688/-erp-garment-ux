@@ -673,8 +673,11 @@ jobs:
           test "$(wc -c < "$migration_source")" = '179694'
           echo '1faa2772b3e2666ffecdac050e603e52acd33c2a1340aaca86f02ac04a1da8bd  supabase/migrations/20260904111157_erp_v2_6_20_cp6_laundry_qc_fg_authoritative.sql' | sha256sum -c - | tee cp6-proof/V2620_MIGRATION_SHA256.txt
           psql "$PGURL" -v ON_ERROR_STOP=1 -f "$migration_source" 2>&1 | tee cp6-proof/V2620_APPLY.log
-          migration_source_b64="$(python3 -c "import base64,pathlib; p=pathlib.Path('$migration_source').read_bytes(); assert p.endswith(b'\\n'); print(base64.b64encode(p[:-1]).decode())")"
-          psql "$PGURL" -v ON_ERROR_STOP=1 -v migration_source_b64="$migration_source_b64" <<'SQL'
+          # Linux limits each argv entry to roughly 128 KiB. Keep the exact
+          # 179 KiB statement out of `psql -v`; psql variables themselves are
+          # unbounded and can safely receive controlled command output.
+          psql "$PGURL" -v ON_ERROR_STOP=1 <<'SQL'
+          \set migration_source_b64 `python3 -c "import base64,pathlib; p=pathlib.Path('supabase/migrations/20260904111157_erp_v2_6_20_cp6_laundry_qc_fg_authoritative.sql').read_bytes(); assert p.endswith(b'\\n'); print(base64.b64encode(p[:-1]).decode())"`
           insert into supabase_migrations.schema_migrations(version,name,statements)
           values(
             '20260904111157','erp_v2_6_20_cp6_laundry_qc_fg_authoritative',

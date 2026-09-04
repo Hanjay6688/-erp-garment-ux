@@ -121,6 +121,10 @@ assert.match(workflow, new RegExp(`test "\\$\\(wc -c < "\\$migration_source"\\)"
   'CP6 workflow byte count is stale')
 assert.ok(workflow.includes(`${migrationFileSha}  ${migrationPath}`), 'CP6 workflow file SHA-256 is stale')
 assert.ok(workflow.includes(`= '${ledgerSha}'`), 'CP6 workflow platform-ledger digest is stale')
+assert.ok(workflow.includes('\\set migration_source_b64 `python3 -c'),
+  'CP6 workflow does not stream exact statement bytes into a psql-local variable')
+assert.ok(!workflow.includes('-v migration_source_b64="$migration_source_b64"'),
+  'CP6 workflow passes the 179 KiB statement through an argv entry and will exceed MAX_ARG_STRLEN')
 
 const backendActionBlock = migration.match(/if v_action not in\(\s*([\s\S]*?)\s*\) then/)
 assert.ok(backendActionBlock, 'CP6 backend action allowlist not found')
