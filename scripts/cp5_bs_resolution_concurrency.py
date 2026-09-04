@@ -242,9 +242,10 @@ def cleanup():
         cur.execute("set local lock_timeout='10s'")
         cur.execute("select set_config('erp.cp45_allow_synthetic_cleanup','on',true)")
         cur.execute(
-            "delete from erp.bs_resolutions where bs_case_id=any(%s::uuid[])",
+            "delete from erp.bs_resolutions where bs_case_id=any(%s::uuid[]) returning id",
             ([BS_CASE, CASH_WINS_BS_CASE, REVERSAL_WINS_BS_CASE],),
         )
+        entity_ids.extend(str(row[0]) for row in cur.fetchall())
         cur.execute("delete from erp.laundry_claims where claim_number like 'CP5-RACE-%%'")
         cur.execute("delete from erp.bs_case_components where bs_case_id=%s::uuid", (BS_CASE,))
         cur.execute(
@@ -870,9 +871,10 @@ def run_claim_cash_dependency_races():
     with connect() as conn, conn.cursor() as cur:
         cur.execute("select set_config('erp.cp45_allow_synthetic_cleanup','on',true)")
         cur.execute(
-            "delete from erp.bs_resolutions where bs_case_id=any(%s::uuid[])",
+            "delete from erp.bs_resolutions where bs_case_id=any(%s::uuid[]) returning id",
             ([CASH_WINS_BS_CASE, REVERSAL_WINS_BS_CASE],),
         )
+        retired_resolution_ids = [str(row[0]) for row in cur.fetchall()]
         cur.execute(
             "delete from erp.laundry_claims where id=any(%s::uuid[])",
             ([CASH_WINS_CLAIM, REVERSAL_WINS_CLAIM],),
@@ -885,6 +887,12 @@ def run_claim_cash_dependency_races():
             "delete from erp.idempotency_requests where client_request_id=any(%s::uuid[])",
             ([CASH_REQUEST_A, CASH_REQUEST_B],),
         )
+        if retired_resolution_ids:
+            cur.execute(
+                "delete from erp.audit_logs "
+                "where entity_type='bs_resolutions' and entity_id=any(%s::uuid[])",
+                (retired_resolution_ids,),
+            )
         conn.commit()
     return {
         'cash_winner': cash_winner, 'reversal_loser': reversal_loser,
