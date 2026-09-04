@@ -38,6 +38,7 @@ const businessTime = read('src/cp6BusinessTime.ts')
 const businessTimeTest = read('src/cp6BusinessTime.test.ts')
 const laundryPage = read('src/ConnectedLaundryPage.tsx')
 const qcPage = read('src/ConnectedQcFinalPage.tsx')
+const fgBoundary = read('src/ConnectedFgHandoffBoundary.tsx')
 const permissionNotice = read('src/Cp6PermissionNotice.tsx')
 const workspaceCss = read('src/connected-laundry-qc.css')
 const masterPage = read('src/MasterDataPages.tsx')
@@ -237,6 +238,13 @@ for (const token of [
   'FG hasil QC masih dipakai transaksi downstream aktif.',
   "toBeDisabled()",
 ]) assert.ok(browser.includes(token), `Browser reversal-affordance proof missing: ${token}`)
+for (const token of [
+  'WRITER DIBLOKIR', 'Formula Nota FG lama belum menjadi kontrak backend',
+  'Tidak ada data yang dihapus atau diposting.',
+]) {
+  assert.ok(fgBoundary.includes(token), `Connected Nota FG safety boundary missing: ${token}`)
+  assert.ok(browser.includes(token), `Browser Nota FG safety proof missing: ${token}`)
+}
 
 for (const token of [
   'platform ledger statement digest is ambiguous',
