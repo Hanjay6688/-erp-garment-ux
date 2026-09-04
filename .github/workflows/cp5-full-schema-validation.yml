@@ -379,8 +379,8 @@ jobs:
         run: |
           set -euo pipefail
           correction_source='supabase/migrations/20260904061346_erp_v2_6_19c_cp5_atomic_reversal_reconciliation.sql'
-          test "$(wc -c < "$correction_source")" = '13864'
-          echo '1b66c8bd8c12c2acef47e97e7e0ff15e82e5ef12618d11fea288750b862732e7  supabase/migrations/20260904061346_erp_v2_6_19c_cp5_atomic_reversal_reconciliation.sql' | sha256sum -c - | tee cp5-proof/V2619C_MIGRATION_SHA256.txt
+          test "$(wc -c < "$correction_source")" = '13808'
+          echo 'b11014081391f3d72e242813b09bb64c53e2aefe0f4eb42cc20e8089a57ef8ba  supabase/migrations/20260904061346_erp_v2_6_19c_cp5_atomic_reversal_reconciliation.sql' | sha256sum -c - | tee cp5-proof/V2619C_MIGRATION_SHA256.txt
           psql "$PGURL" -v ON_ERROR_STOP=1 -f "$correction_source" 2>&1 | tee cp5-proof/V2619C_APPLY.log
           psql "$PGURL" -v ON_ERROR_STOP=1 -c "insert into supabase_migrations.schema_migrations(version,name,statements) values('20260904061346','erp_v2_6_19c_cp5_atomic_reversal_reconciliation',array[]::text[]) on conflict(version) do nothing"
           set +e
@@ -554,7 +554,7 @@ jobs:
           where version='20260904061346'
             and name='erp_v2_6_19c_cp5_atomic_reversal_reconciliation';
           SQL
-          test "$(psql "$PGURL" -At -c "select encode(extensions.digest(convert_to(array_to_string(statements,E'\\n'),'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations where name='erp_v2_6_19c_cp5_atomic_reversal_reconciliation'")" = 'ee26bce863a95d5994b61f2794de3fa42811cd08fc127f4148897ba4becc5fb6'
+          test "$(psql "$PGURL" -At -c "select encode(extensions.digest(convert_to(array_to_string(statements,E'\\n'),'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations where name='erp_v2_6_19c_cp5_atomic_reversal_reconciliation'")" = '70bafe4f4c690c6ef1548f712ee2035a78c9137e153c92c69fc57decba58e3cc'
 
           set +e
           psql "$PGURL" -v ON_ERROR_STOP=1 <<'SQL' > cp5-proof/V2619C_ROLLBACK_TAMPERED_STATEMENT_REJECTION.log 2>&1
@@ -569,7 +569,7 @@ jobs:
           test "$rollback_status" -ne 0
           grep -F 'v2.6.19c rollback refused: platform ledger statement digest is ambiguous' \
             cp5-proof/V2619C_ROLLBACK_TAMPERED_STATEMENT_REJECTION.log >/dev/null
-          test "$(psql "$PGURL" -At -c "select encode(extensions.digest(convert_to(array_to_string(statements,E'\\n'),'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations where name='erp_v2_6_19c_cp5_atomic_reversal_reconciliation'")" = 'ee26bce863a95d5994b61f2794de3fa42811cd08fc127f4148897ba4becc5fb6'
+          test "$(psql "$PGURL" -At -c "select encode(extensions.digest(convert_to(array_to_string(statements,E'\\n'),'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations where name='erp_v2_6_19c_cp5_atomic_reversal_reconciliation'")" = '70bafe4f4c690c6ef1548f712ee2035a78c9137e153c92c69fc57decba58e3cc'
 
           psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/rollbacks/20260904061346_erp_v2_6_19c_cp5_atomic_reversal_reconciliation.rollback.sql 2>&1 | tee cp5-proof/V2619C_ROLLBACK.log
           psql "$PGURL" -At -v ON_ERROR_STOP=1 <<'SQL' | tee cp5-proof/V2619C_ROLLBACK_RESIDUE.json

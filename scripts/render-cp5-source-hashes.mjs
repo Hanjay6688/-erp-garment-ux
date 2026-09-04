@@ -117,9 +117,9 @@ if (atomicRecorded) {
   assert.equal(atomicEvidence.correction.application_version, 'v2.6.19c')
   assert.equal(atomicEvidence.correction.source_ledger_version, '20260904061346')
   assert.equal(atomicEvidence.correction.source_path, atomicMigrationRelative)
-  assert.equal(atomicEvidence.correction.source_bytes, 13864)
-  assert.equal(atomicEvidence.correction.source_sha256, '1b66c8bd8c12c2acef47e97e7e0ff15e82e5ef12618d11fea288750b862732e7')
-  assert.equal(atomicEvidence.correction.connector_ledger_sha256, 'ee26bce863a95d5994b61f2794de3fa42811cd08fc127f4148897ba4becc5fb6')
+  assert.equal(atomicEvidence.correction.source_bytes, 13808)
+  assert.equal(atomicEvidence.correction.source_sha256, 'b11014081391f3d72e242813b09bb64c53e2aefe0f4eb42cc20e8089a57ef8ba')
+  assert.equal(atomicEvidence.correction.connector_ledger_sha256, '70bafe4f4c690c6ef1548f712ee2035a78c9137e153c92c69fc57decba58e3cc')
   assert.equal(atomicEvidence.code_ci.status, 'PASS')
   assert.match(atomicEvidence.code_ci.runtime_head_sha, /^[0-9a-f]{40}$/)
   assert.match(atomicEvidence.code_ci.runtime_head_tree, /^[0-9a-f]{40}$/)
@@ -180,14 +180,14 @@ bindRollback(
 )
 bindRollback(
   atomicRollbackRelative, '__CP5_ATOMIC_REVERSAL_MIGRATION_SHA256__',
-  previous?.migrations?.atomic_reversal?.connector_ledger_sha256, 'ee26bce863a95d5994b61f2794de3fa42811cd08fc127f4148897ba4becc5fb6',
+  previous?.migrations?.atomic_reversal?.connector_ledger_sha256, '70bafe4f4c690c6ef1548f712ee2035a78c9137e153c92c69fc57decba58e3cc',
 )
 assert.equal(lineageMigrationBytes.length, 55354, 'Recorded UAT v2.6.19a source byte length drift')
 assert.equal(lineageMigrationHash, '204b9246f3c8c6464476da1a7f1574f5e0ae4c46f024c082704795b3eef5210f', 'Recorded UAT v2.6.19a source SHA-256 drift')
 assert.equal(reliabilityMigrationBytes.length, 42021, 'v2.6.19b source byte length drift')
 assert.equal(reliabilityMigrationHash, 'b1bde1a6ccd1f60dd001d99b72d479ffa0a18a6ea46bf93cd80e406e2ef0ce1d', 'v2.6.19b source SHA-256 drift')
-assert.equal(atomicMigrationBytes.length, 13864, 'v2.6.19c source byte length drift')
-assert.equal(atomicMigrationHash, '1b66c8bd8c12c2acef47e97e7e0ff15e82e5ef12618d11fea288750b862732e7', 'v2.6.19c source SHA-256 drift')
+assert.equal(atomicMigrationBytes.length, 13808, 'v2.6.19c source byte length drift')
+assert.equal(atomicMigrationHash, 'b11014081391f3d72e242813b09bb64c53e2aefe0f4eb42cc20e8089a57ef8ba', 'v2.6.19c source SHA-256 drift')
 
 const materializedPaths = lines(process.env.CP5_MATERIALIZED_CHANGED_PATHS ?? '')
 const materializedMode = !existsSync(resolve(root, '.git'))
@@ -307,7 +307,7 @@ const manifest = {
       source_path: atomicMigrationRelative,
       source_bytes: atomicMigrationBytes.length,
       source_sha256: atomicMigrationHash,
-      connector_ledger_sha256: 'ee26bce863a95d5994b61f2794de3fa42811cd08fc127f4148897ba4becc5fb6',
+      connector_ledger_sha256: '70bafe4f4c690c6ef1548f712ee2035a78c9137e153c92c69fc57decba58e3cc',
       rollback_path: atomicRollbackRelative,
       acceptance_paths: [
         'supabase/tests/cp5_bs_resolution_recovery_rollback.sql',

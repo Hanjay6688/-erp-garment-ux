@@ -81,7 +81,7 @@ insert into erp.bs_resolution_v2619c_rollback_capsule(
 )
 select
   format('%I.%I(%s)',n.nspname,p.proname,pg_get_function_identity_arguments(p.oid)),
-  format('%I.%I(%s)',n.nspname,p.proname,pg_get_function_identity_arguments(p.oid)),
+  p.oid::regprocedure::text,
   pg_get_functiondef(p.oid),
   encode(extensions.digest(convert_to(pg_get_functiondef(p.oid),'UTF8'),'sha256'),'hex'),
   case when p.proacl is null then null else array(select a::text from unnest(p.proacl) a) end,

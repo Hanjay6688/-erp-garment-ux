@@ -348,9 +348,9 @@ if (atomicRecorded) {
   assert.equal(atomicEvidence.correction.application_version, 'v2.6.19c')
   assert.equal(atomicEvidence.correction.source_ledger_version, '20260904061346')
   assert.equal(atomicEvidence.correction.source_path, 'supabase/migrations/20260904061346_erp_v2_6_19c_cp5_atomic_reversal_reconciliation.sql')
-  assert.equal(atomicEvidence.correction.source_bytes, 13864)
-  assert.equal(atomicEvidence.correction.source_sha256, '1b66c8bd8c12c2acef47e97e7e0ff15e82e5ef12618d11fea288750b862732e7')
-  assert.equal(atomicEvidence.correction.connector_ledger_sha256, 'ee26bce863a95d5994b61f2794de3fa42811cd08fc127f4148897ba4becc5fb6')
+  assert.equal(atomicEvidence.correction.source_bytes, 13808)
+  assert.equal(atomicEvidence.correction.source_sha256, 'b11014081391f3d72e242813b09bb64c53e2aefe0f4eb42cc20e8089a57ef8ba')
+  assert.equal(atomicEvidence.correction.connector_ledger_sha256, '70bafe4f4c690c6ef1548f712ee2035a78c9137e153c92c69fc57decba58e3cc')
   assert.equal(atomicEvidence.correction.platform_statement_count, 1)
   assert.match(atomicEvidence.correction.platform_ledger_version, /^\d{14}$/)
   assert.match(atomicEvidence.correction.installed_at, /^2026-/)
@@ -519,14 +519,14 @@ assert.equal(candidate.migrations.reliability_closure.source_bytes, 42021)
 assert.equal(candidate.migrations.reliability_closure.source_sha256, 'b1bde1a6ccd1f60dd001d99b72d479ffa0a18a6ea46bf93cd80e406e2ef0ce1d')
 assert.deepEqual(candidate.migrations.atomic_reversal, {
   ...candidate.migrations.atomic_reversal,
-  connector_ledger_sha256: 'ee26bce863a95d5994b61f2794de3fa42811cd08fc127f4148897ba4becc5fb6',
+  connector_ledger_sha256: '70bafe4f4c690c6ef1548f712ee2035a78c9137e153c92c69fc57decba58e3cc',
   uat_applied: atomicRecorded,
   uat_platform_ledger_version: atomicRecorded ? atomicEvidence.correction.platform_ledger_version : null,
   uat_platform_statement_count: atomicRecorded ? 1 : null,
   uat_business_facts_observed: 0,
 })
-assert.equal(candidate.migrations.atomic_reversal.source_bytes, 13864)
-assert.equal(candidate.migrations.atomic_reversal.source_sha256, '1b66c8bd8c12c2acef47e97e7e0ff15e82e5ef12618d11fea288750b862732e7')
+assert.equal(candidate.migrations.atomic_reversal.source_bytes, 13808)
+assert.equal(candidate.migrations.atomic_reversal.source_sha256, 'b11014081391f3d72e242813b09bb64c53e2aefe0f4eb42cc20e8089a57ef8ba')
 
 function walk(directory, accept) {
   return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {

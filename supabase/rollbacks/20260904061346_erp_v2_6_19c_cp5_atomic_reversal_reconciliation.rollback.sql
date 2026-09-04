@@ -88,7 +88,7 @@ begin
   where m.name='erp_v2_6_19c_cp5_atomic_reversal_reconciliation'
     and coalesce(encode(extensions.digest(
       convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'
-    ),'hex'),'')='ee26bce863a95d5994b61f2794de3fa42811cd08fc127f4148897ba4becc5fb6';
+    ),'hex'),'')='70bafe4f4c690c6ef1548f712ee2035a78c9137e153c92c69fc57decba58e3cc';
 
   select count(*) into v_conflict_count
   from supabase_migrations.schema_migrations m
@@ -99,7 +99,7 @@ begin
     m.name='erp_v2_6_19c_cp5_atomic_reversal_reconciliation'
     and coalesce(encode(extensions.digest(
       convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'
-    ),'hex'),'')='ee26bce863a95d5994b61f2794de3fa42811cd08fc127f4148897ba4becc5fb6'
+    ),'hex'),'')='70bafe4f4c690c6ef1548f712ee2035a78c9137e153c92c69fc57decba58e3cc'
   );
   if v_match_count<>1 or v_conflict_count<>0 then
     raise exception 'v2.6.19c rollback refused: platform ledger statement digest is ambiguous (match %, conflict %)',
@@ -190,7 +190,7 @@ delete from supabase_migrations.schema_migrations m
 where m.name='erp_v2_6_19c_cp5_atomic_reversal_reconciliation'
   and coalesce(encode(extensions.digest(
     convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'
-  ),'hex'),'')='ee26bce863a95d5994b61f2794de3fa42811cd08fc127f4148897ba4becc5fb6';
+  ),'hex'),'')='70bafe4f4c690c6ef1548f712ee2035a78c9137e153c92c69fc57decba58e3cc';
 
 drop table erp.bs_resolution_v2619c_rollback_capsule;
 select pg_notify('pgrst','reload schema');

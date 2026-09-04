@@ -3,7 +3,7 @@
   "candidate_branch": "pre-cp5/cutting-persistence-pickup-wip-r1-20260903",
   "source_base_sha": "8bfac13b91ea1be92111139e2fddcabccf9ae19a",
   "source_base_tree": "a9b193010266bb686c57709865a992769a835855",
-  "generation_parent_sha": "076c98556acee879bc681722ec138151c2d87889",
+  "generation_parent_sha": "796441b9f3aa14b24c849581f5098f110d1db0d5",
   "target_project_ref": "siimvrusnzxexizpyoib",
   "target_environment": "ERP Enteng UAT",
   "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
@@ -87,9 +87,9 @@
       "application_version": "v2.6.19c",
       "name": "erp_v2_6_19c_cp5_atomic_reversal_reconciliation",
       "source_path": "supabase/migrations/20260904061346_erp_v2_6_19c_cp5_atomic_reversal_reconciliation.sql",
-      "source_bytes": 13864,
-      "source_sha256": "1b66c8bd8c12c2acef47e97e7e0ff15e82e5ef12618d11fea288750b862732e7",
-      "connector_ledger_sha256": "ee26bce863a95d5994b61f2794de3fa42811cd08fc127f4148897ba4becc5fb6",
+      "source_bytes": 13808,
+      "source_sha256": "b11014081391f3d72e242813b09bb64c53e2aefe0f4eb42cc20e8089a57ef8ba",
+      "connector_ledger_sha256": "70bafe4f4c690c6ef1548f712ee2035a78c9137e153c92c69fc57decba58e3cc",
       "rollback_path": "supabase/rollbacks/20260904061346_erp_v2_6_19c_cp5_atomic_reversal_reconciliation.rollback.sql",
       "acceptance_paths": [
         "supabase/tests/cp5_bs_resolution_recovery_rollback.sql",
@@ -233,7 +233,7 @@
     },
     ".github/workflows/cp5-full-schema-validation.yml": {
       "bytes": 78508,
-      "sha256": "bd9f2f5c24fae1e80cb0d4f92ac796fdeec320e16a6c9d92a4640b758f030281"
+      "sha256": "6ff3f4f30552b3cfdb107bc596b09a38135a32df4e6c5f01c5311d249211221e"
     },
     ".github/workflows/cutting-bridge-full-schema-validation.yml": {
       "bytes": 26705,
@@ -297,11 +297,11 @@
     },
     "scripts/check-backend-ownership-v3.mjs": {
       "bytes": 35329,
-      "sha256": "f8e59c76af988619ab8db72c767904d43eebf2fd205ac590fda691ceffb61790"
+      "sha256": "79f610b59a2bca281e1a77ac0dcb2d4a9560715d5837ba7dd0ccd153aeee2e7d"
     },
     "scripts/check-cp5-boundary.mjs": {
       "bytes": 35869,
-      "sha256": "250a8854693b5494cc0755d68e8ff3a77fbce35cd4ce5b4c1f92e78b75c4722b"
+      "sha256": "2f129828f321d54254d290820ae90e32d3bbe91d20d27761bd2dcbacff28b13d"
     },
     "scripts/check-source-ownership.mjs": {
       "bytes": 4509,
@@ -317,7 +317,7 @@
     },
     "scripts/render-cp5-source-hashes.mjs": {
       "bytes": 26437,
-      "sha256": "efe1bb0b4f251a667c9ebb36361337b054fc4fe277b7f8e6610636134b6214c1"
+      "sha256": "4a1ff071137abdfe3f3e3b0ad19f0ba4bbd0ea73ac8b135d71aaf94f65ce78f5"
     },
     "scripts/test-uat-auth-assertions.mjs": {
       "bytes": 10391,
@@ -444,8 +444,8 @@
       "sha256": "b1bde1a6ccd1f60dd001d99b72d479ffa0a18a6ea46bf93cd80e406e2ef0ce1d"
     },
     "supabase/migrations/20260904061346_erp_v2_6_19c_cp5_atomic_reversal_reconciliation.sql": {
-      "bytes": 13864,
-      "sha256": "1b66c8bd8c12c2acef47e97e7e0ff15e82e5ef12618d11fea288750b862732e7"
+      "bytes": 13808,
+      "sha256": "b11014081391f3d72e242813b09bb64c53e2aefe0f4eb42cc20e8089a57ef8ba"
     },
     "supabase/rollbacks/20260903022604_erp_v2_6_18_cutting_persistence_pickup_wip.rollback.sql": {
       "bytes": 16612,
@@ -469,7 +469,7 @@
     },
     "supabase/rollbacks/20260904061346_erp_v2_6_19c_cp5_atomic_reversal_reconciliation.rollback.sql": {
       "bytes": 7922,
-      "sha256": "fc08e8b33a942c89627ea38fc5a793949d468d08fa30749916bfdd012b01128c"
+      "sha256": "5ad43b7ae62b067deb130ad792284f1fd597fc8114e601f345659995715a1804"
     },
     "supabase/tests/cp5_bs_resolution_recovery_rollback.sql": {
       "bytes": 42323,

@@ -227,9 +227,9 @@ for (const token of [
   'platform ledger identity is ambiguous', 'exact function/ACL/owner restoration failed',
   'rollback left reliability-closure residue',
 ]) assert.ok(reliabilityRollback.includes(token), `v2.6.19b rollback proof token missing: ${token}`)
-assert.equal(Buffer.byteLength(atomicReversalMigration), 13864, 'v2.6.19c source byte length drift')
-assert.equal(sha256(atomicReversalMigration), '1b66c8bd8c12c2acef47e97e7e0ff15e82e5ef12618d11fea288750b862732e7', 'v2.6.19c file source drift')
-assert.equal(atomicReversalHash, 'ee26bce863a95d5994b61f2794de3fa42811cd08fc127f4148897ba4becc5fb6', 'v2.6.19c connector ledger source drift')
+assert.equal(Buffer.byteLength(atomicReversalMigration), 13808, 'v2.6.19c source byte length drift')
+assert.equal(sha256(atomicReversalMigration), 'b11014081391f3d72e242813b09bb64c53e2aefe0f4eb42cc20e8089a57ef8ba', 'v2.6.19c file source drift')
+assert.equal(atomicReversalHash, '70bafe4f4c690c6ef1548f712ee2035a78c9137e153c92c69fc57decba58e3cc', 'v2.6.19c connector ledger source drift')
 for (const token of [
   'CLAIM_RESOLUTION_IN_USE_BY_ACTIVE_BS_CASH_COMPENSATION',
   'BS_CASH_COMPENSATION_REQUIRES_ACTIVE_SETTLED_CLAIM',
