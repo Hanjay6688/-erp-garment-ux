@@ -74,6 +74,7 @@ declare
   v_failed_retry_request constant uuid:='c7060000-0000-4000-8000-000000000006';
   v_failed_return_request constant uuid:='c7060000-0000-4000-8000-000000000007';
   v_redispatch_request constant uuid:='c7060000-0000-4000-8000-000000000008';
+  v_failed_partial_return_request constant uuid:='c7060000-0000-4000-8000-000000000009';
   v_claim constant uuid:='c7070000-0000-4000-8000-000000000001';
   v_late_invoice constant uuid:='c7080000-0000-4000-8000-000000000001';
   v_late_invoice_item constant uuid:='c7080000-0000-4000-8000-000000000002';
@@ -107,6 +108,7 @@ declare
   v_qc uuid;
   v_qc_version bigint;
   v_failed boolean;
+  v_receipt_count_before integer;
   v_hpp numeric;
   v_hpp_baseline numeric;
 begin
@@ -1761,6 +1763,39 @@ begin
   execute 'reset role';
   if not v_failed then raise exception 'CP6 paid retry idempotency accepted a different payload'; end if;
 
+  -- A physical return is intentionally all-or-nothing. Prove a short return
+  -- cannot create a second charge, receipt, custody transition, or replay row.
+  select count(*) into v_receipt_count_before
+  from erp.laundry_receipts where delivery_id=v_delivery;
+  execute 'set local role authenticated';
+  v_failed:=false;
+  begin
+    perform public.erp_save_laundry_qc_action_v1(
+      'POST_FAILED_WASH',v_failed_payload||jsonb_build_object(
+        'custody_outcome','RETURN_UNPROCESSED',
+        'physical_at','2026-09-02T10:30:00+00',
+        'reason','CP6 partial full return must fail atomically',
+        'lines',jsonb_build_array(jsonb_build_object(
+          'delivery_batch_size_line_id',v_delivery_size_line,'qty_attempted_pcs',9
+        ))
+      ),v_failed_partial_return_request,v_delivery_version
+    );
+  exception when others then
+    if sqlerrm='Return-unprocessed is deliberately all-or-nothing: every exact sent size must return before redispatch'
+      then v_failed:=true; else raise; end if;
+  end;
+  execute 'reset role';
+  if not v_failed
+     or (select status from erp.laundry_deliveries where id=v_delivery)<>'SENT'
+     or (select count(*) from erp.laundry_failed_wash_attempts
+       where delivery_id=v_delivery)<>1
+     or (select count(*) from erp.laundry_receipts
+       where delivery_id=v_delivery)<>v_receipt_count_before
+     or exists(select 1 from erp.idempotency_requests
+       where client_request_id=v_failed_partial_return_request) then
+    raise exception 'CP6 partial full return did not fail atomically without receipt, attempt, custody, or idempotency residue';
+  end if;
+
   v_failed_payload:=jsonb_build_object(
     'delivery_id',v_delivery,'wash_process_id',v_process,
     'custody_outcome','RETURN_UNPROCESSED','physical_at','2026-09-02T11:00:00+00',
@@ -1853,11 +1888,29 @@ begin
     );
     perform erp.post_vendor_invoice(v_failed_invoice);
   exception when others then
-    if sqlerrm='Vendor invoice Laundry quantity/rate/amount must equal the authoritative physical receipt or failed-wash attempt'
+    if sqlerrm='Final failed-wash invoice cost must equal immutable attempt quantity times rate'
       then v_failed:=true; else raise; end if;
   end;
-  if not v_failed or exists(select 1 from erp.vendor_invoices where id=v_failed_invoice) then
-    raise exception 'CP6 malformed failed-wash invoice did not fail without residue';
+  if not v_failed
+     or exists(select 1 from erp.vendor_invoices where id=v_failed_invoice)
+     or exists(select 1 from erp.vendor_invoice_items where id=v_failed_invoice_item)
+     or (select actual_cost_status from erp.laundry_receipt_lines
+       where id=v_failed_return_receipt_line)<>'ESTIMATED'
+     or (select actual_rate_snapshot from erp.laundry_receipt_lines
+       where id=v_failed_return_receipt_line)<>9
+     or (select actual_cost from erp.laundry_receipt_lines
+       where id=v_failed_return_receipt_line)<>90
+     or (select accrued_amount from erp.laundry_cost_accrual_state where po_id=v_po)<>180
+     or erp.desired_laundry_accrual(v_po)<>180
+     or coalesce((select hpp_total_cost from erp.po_hpp_gl_state where po_id=v_po),0)<>0
+     or coalesce((select fg_value from erp.po_hpp_gl_state where po_id=v_po),0)<>0
+     or (select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
+       where l.po_id=v_po and l.account_id=erp.account_id('WIP'))<>180
+     or (select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
+       where l.po_id=v_po and l.account_id=erp.account_id('ACCRUED_MANUFACTURING'))<>-180
+     or (select coalesce(sum(l.credit-l.debit),0) from erp.journal_lines l
+       where l.vendor_id=v_vendor and l.account_id=erp.account_id('AP_VENDOR'))<>0 then
+    raise exception 'CP6 malformed failed-wash invoice did not fail without receipt, accrual, AP, HPP, FG, or journal residue';
   end if;
 
   insert into erp.vendor_invoices(

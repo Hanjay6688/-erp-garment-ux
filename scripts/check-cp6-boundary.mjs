@@ -206,6 +206,11 @@ assert.ok(acceptance.includes('CP6 false PARTIAL must fail atomically'),
   'Acceptance does not reject a false PARTIAL_SELECTION declaration')
 assert.ok(acceptance.includes('completion-mode rejection left QC, FG, BS, finance, or idempotency residue'),
   'Acceptance does not prove false completion labels roll back every derived fact')
+for (const token of [
+  'Return-unprocessed is deliberately all-or-nothing: every exact sent size must return before redispatch',
+  'CP6 partial full return did not fail atomically without receipt, attempt, custody, or idempotency residue',
+  'v_failed_partial_return_request',
+]) assert.ok(acceptance.includes(token), `Partial full-return atomic rejection proof missing: ${token}`)
 assert.equal(occurrences(migration, "pg_advisory_xact_lock(hashtextextended('CP6FLOW:'||v_group_id::text,0))"), 7,
   'All seven CP6 mutations must share the same Potongan serialization fence')
 
@@ -433,7 +438,7 @@ for (const token of [
   'controlled reversal lost history or left active stock/accrual',
   'paid retry did not preserve WIP/accrual/HPP/custody separation',
   'paid full return did not conserve WIP/accrual without manufacturing FG/HPP',
-  'malformed failed-wash invoice did not fail without residue',
+  'malformed failed-wash invoice did not fail without receipt, accrual, AP, HPP, FG, or journal residue',
   'did not split WIP into exact accrual/AP without manufacturing FG/HPP',
   "'failed_wash_wip_path',jsonb_build_array(180,180,190,180,90,0)",
   "'failed_wash_hpp_without_fg',0",
@@ -441,14 +446,14 @@ for (const token of [
   'paid failed-wash reversal lost history or left cost/WIP residue',
   'CP6_AUTHORITATIVE_ACCEPTANCE_PASS', 'CP6_AUTHORITATIVE_RESIDUE_ZERO',
 ]) assert.ok(acceptance.includes(token), `CP6 acceptance proof missing: ${token}`)
-assert.equal(occurrences(acceptance, "account_id=erp.account_id('WIP'))<>180"), 3,
-  'Paid failed-wash proof must pin WIP 180 after retry, full return, and invoice reversal')
+assert.equal(occurrences(acceptance, "account_id=erp.account_id('WIP'))<>180"), 4,
+  'Paid failed-wash proof must pin WIP 180 after retry, full return, malformed-invoice rollback, and invoice reversal')
 assert.equal(occurrences(acceptance, "account_id=erp.account_id('WIP'))<>190"), 1,
   'Paid failed-wash invoice proof must pin WIP 190 as accrual 90 plus AP 100')
 assert.equal(occurrences(acceptance, "account_id=erp.account_id('WIP'))<>90"), 1,
   'Reversing one paid attempt must leave exactly one WIP estimate of 90')
 assert.equal(occurrences(acceptance,
-  "account_id=erp.account_id('ACCRUED_MANUFACTURING'))<>-180"), 3,
+  "account_id=erp.account_id('ACCRUED_MANUFACTURING'))<>-180"), 4,
   'Paid failed-wash proof must pin accrued manufacturing at 180 in every equivalent state')
 assert.equal(occurrences(acceptance,
   "account_id=erp.account_id('ACCRUED_MANUFACTURING'))<>-90"), 2,
