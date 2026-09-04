@@ -23,6 +23,7 @@ const migration = read(migrationPath)
 const rollback = read(rollbackPath)
 const acceptance = read(acceptancePath)
 const seed = read(seedPath)
+const cp5Recovery = read('supabase/tests/cp5_bs_resolution_recovery_rollback.sql')
 const race = read(racePath)
 const workflow = read(workflowPath)
 const mainWorkflow = read(mainWorkflowPath)
@@ -345,6 +346,19 @@ for (const token of [
   'controlled reversal lost history or left active stock/accrual',
   'CP6_AUTHORITATIVE_ACCEPTANCE_PASS', 'CP6_AUTHORITATIVE_RESIDUE_ZERO',
 ]) assert.ok(acceptance.includes(token), `CP6 acceptance proof missing: ${token}`)
+
+for (const token of [
+  "case when to_regclass('erp.laundry_delivery_batch_size_lines') is null",
+  "if to_regclass('erp.laundry_delivery_batch_size_lines') is not null then",
+  'v_cp6_distribution_allocation', 'v_cp6_delivery_batch_size',
+  'v_cp6_receipt_batch_size', 'v_cp6_late_receipt_batch_size',
+  "update erp.laundry_deliveries set status='SENT' where id=v_delivery",
+  'v_response:=erp.post_laundry_receipt_v2(',
+  'The CP5 behavior remains under test',
+]) assert.ok(cp5Recovery.includes(token),
+  `CP5-under-CP6 immutable-lineage regression proof missing: ${token}`)
+assert.equal(/disable\s+trigger|session_replication_role/i.test(cp5Recovery), false,
+  'CP5-under-CP6 regression must not bypass authoritative database triggers')
 
 const rpcNames = [...hook.matchAll(/\.rpc\s*\(\s*['"]([^'"]+)['"]/g)].map((match) => match[1])
 assert.deepEqual([...new Set(rpcNames)].sort(), [

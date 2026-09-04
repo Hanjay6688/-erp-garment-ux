@@ -32,6 +32,19 @@ declare
   v_brand constant uuid:='c6070000-0000-4000-8000-000000000005';
   v_product constant uuid:='c6070000-0000-4000-8000-000000000006';
   v_receipt_allocation constant uuid:='c6070000-0000-4000-8000-000000000007';
+  -- CP6-only compatibility lineage keeps this CP5 regression on the real
+  -- immutable batch/size path instead of weakening the new database guards.
+  v_cp6_supplier constant uuid:='c6090000-0000-4000-8000-000000000001';
+  v_cp6_material constant uuid:='c6090000-0000-4000-8000-000000000002';
+  v_cp6_roll constant uuid:='c6090000-0000-4000-8000-000000000003';
+  v_cp6_group_roll constant uuid:='c6090000-0000-4000-8000-000000000004';
+  v_cp6_yield constant uuid:='c6090000-0000-4000-8000-000000000005';
+  v_cp6_pickup constant uuid:='c6090000-0000-4000-8000-000000000006';
+  v_cp6_distribution_batch constant uuid:='c6090000-0000-4000-8000-000000000007';
+  v_cp6_distribution_allocation constant uuid:='c6090000-0000-4000-8000-000000000008';
+  v_cp6_delivery_batch_size constant uuid:='c6090000-0000-4000-8000-000000000009';
+  v_cp6_receipt_batch_size constant uuid:='c6090000-0000-4000-8000-00000000000a';
+  v_cp6_late_receipt_batch_size constant uuid:='c6090000-0000-4000-8000-00000000000b';
   v_draft_delivery constant uuid:='c6070000-0000-4000-8000-000000000008';
   v_reversed_delivery constant uuid:='c6070000-0000-4000-8000-000000000009';
   v_bad_receipt constant uuid:='c6070000-0000-4000-8000-00000000000a';
@@ -150,7 +163,10 @@ begin
     physical_at,status,portal_visible,created_by,special_instruction
   ) values(
     v_delivery,'CP5-PATTERN-DELIVERY',v_po,v_vendor,'CP5 BLUE',
-    '2026-08-22 08:00:00+00','SENT',true,v_owner_app,'CP5 sent source'
+    '2026-08-22 08:00:00+00',
+    case when to_regclass('erp.laundry_delivery_batch_size_lines') is null
+      then 'SENT' else 'DRAFT' end,
+    true,v_owner_app,'CP5 sent source'
   );
   insert into erp.laundry_delivery_lines(
     id,delivery_id,cutting_group_id,qty_sent_pcs,estimated_rate_snapshot,
@@ -158,6 +174,58 @@ begin
   ) values(
     v_delivery_line,v_delivery,v_group,12,0,'FINAL','CP5 source line'
   );
+
+  if to_regclass('erp.laundry_delivery_batch_size_lines') is not null then
+    -- The CP5 behavior remains under test, but its physical fixture must obey
+    -- CP6's authoritative Potongan -> distribution batch -> size lineage.
+    perform set_config('request.jwt.claims',jsonb_build_object(
+      'sub',v_owner_auth,'role','authenticated'
+    )::text,true);
+    perform set_config('app.change_reason','CP5 regression CP6 lineage fixture',true);
+    insert into erp.suppliers(id,supplier_code,supplier_name,supplier_type)
+    values(v_cp6_supplier,'CP5-CP6-SUP','CP5 CP6 Lineage Supplier','MATERIAL');
+    insert into erp.materials(id,material_sku,material_name,material_type,unit_code)
+    values(v_cp6_material,'CP5-CP6-FAB','CP5 CP6 Lineage Fabric','FABRIC','yd');
+    insert into erp.material_rolls(
+      id,material_id,supplier_id,roll_number,original_qty,cached_qty,status,received_at
+    ) values(
+      v_cp6_roll,v_cp6_material,v_cp6_supplier,'CP5-CP6-ROLL',12,12,'AVAILABLE',
+      '2026-08-20 07:00:00+00'
+    );
+    insert into erp.cutting_group_rolls(
+      id,cutting_group_id,roll_id,qty_issued,qty_consumed,qty_reported_remaining,
+      qty_physically_returned,return_destination,unit_cost_snapshot,notes
+    ) values(
+      v_cp6_group_roll,v_group,v_cp6_roll,12,12,0,0,'NONE',0,
+      'CP5 regression source under CP6'
+    );
+    insert into erp.cutting_roll_yields(id,cutting_group_roll_id,size_slot_id,qty_pcs)
+    values(v_cp6_yield,v_cp6_group_roll,v_size_slot,12);
+    insert into erp.cutting_pickups(
+      id,cutting_group_id,contractor_id,picked_up_at,allocation_mode,status,notes,created_by
+    ) values(
+      v_cp6_pickup,v_group,'a1000000-0000-0000-0000-000000000001',
+      '2026-08-20 08:30:00+00','ROLL','DRAFT',
+      'CP5 regression immutable distribution source',v_owner_app
+    );
+    insert into erp.cutting_distribution_batches(id,pickup_id,batch_no,notes)
+    values(v_cp6_distribution_batch,v_cp6_pickup,1,'CP5 regression exact batch');
+    insert into erp.cutting_distribution_allocations(
+      id,batch_id,cutting_roll_yield_id,qty_pcs
+    ) values(
+      v_cp6_distribution_allocation,v_cp6_distribution_batch,v_cp6_yield,12
+    );
+    update erp.cutting_pickups
+    set status='POSTED',posted_by=v_owner_app,posted_at='2026-08-20 08:30:00+00'
+    where id=v_cp6_pickup;
+    insert into erp.laundry_delivery_batch_size_lines(
+      id,delivery_line_id,distribution_batch_id,size_id,qty_sent_pcs,created_by
+    ) values(
+      v_cp6_delivery_batch_size,v_delivery_line,v_cp6_distribution_batch,
+      'a2100000-0000-0000-0000-000000000001',12,v_owner_app
+    );
+    update erp.laundry_deliveries set status='SENT' where id=v_delivery;
+  end if;
   perform erp.post_journal(
     'CP5_VENDOR_PAYABLE',v_delivery,'2026-08-22','CP5 vendor payable for settlement proof',
     jsonb_build_array(
@@ -195,6 +263,15 @@ begin
     v_receipt_allocation,v_receipt_line,v_product,3,
     'CP5 exact Laundry BS product lineage',v_owner_app
   );
+  if to_regclass('erp.laundry_receipt_batch_size_lines') is not null then
+    insert into erp.laundry_receipt_batch_size_lines(
+      id,receipt_line_id,delivery_batch_size_line_id,size_id,
+      qty_good_received,qty_bs_laundry,bs_product_id,created_by
+    ) values(
+      v_cp6_receipt_batch_size,v_receipt_line,v_cp6_delivery_batch_size,
+      'a2100000-0000-0000-0000-000000000001',5,3,v_product,v_owner_app
+    );
+  end if;
   select row_version into v_receipt_version
   from erp.laundry_receipts where id=v_receipt;
   v_response:=erp.post_laundry_receipt_v2(
@@ -229,6 +306,15 @@ begin
   ) values
     (v_bad_receipt_line,v_bad_receipt,v_delivery_line,0,1,0,0),
     (v_late_receipt_line,v_late_receipt,v_delivery_line,1,0,0,0);
+  if to_regclass('erp.laundry_receipt_batch_size_lines') is not null then
+    insert into erp.laundry_receipt_batch_size_lines(
+      id,receipt_line_id,delivery_batch_size_line_id,size_id,
+      qty_good_received,qty_bs_laundry,bs_product_id,created_by
+    ) values(
+      v_cp6_late_receipt_batch_size,v_late_receipt_line,v_cp6_delivery_batch_size,
+      'a2100000-0000-0000-0000-000000000001',1,0,null,v_owner_app
+    );
+  end if;
 
   perform set_config('request.jwt.claims',jsonb_build_object(
     'sub',v_production_auth,'role','authenticated'
