@@ -624,7 +624,14 @@ jobs:
         run: |
           set -euo pipefail
           cleanup_preflight() {
-            dropdb --if-exists --force --maintenance-db="$CP6_MAINTENANCE_PGURL" cp6_preflight >/dev/null 2>&1 || true
+            docker exec "$CP6_DATABASE_CONTAINER" \
+              dropdb -U supabase_admin --if-exists --force --maintenance-db=template1 cp6_preflight
+            remaining="$(docker exec "$CP6_DATABASE_CONTAINER" \
+              psql -U supabase_admin -d template1 -X -At -v ON_ERROR_STOP=1 \
+              -c "select count(*) from pg_database where datname='cp6_preflight'")"
+            test "$remaining" = '0'
+            printf 'clone_database=cp6_preflight\nremaining_databases=%s\nstatus=PASS\n' "$remaining" \
+              | tee cp6-proof/CP6_PREFLIGHT_CLONE_CLEANUP.txt
           }
           trap cleanup_preflight EXIT
           bash scripts/clone-cp6-disposable-database.sh \
@@ -697,7 +704,14 @@ jobs:
         run: |
           set -euo pipefail
           cleanup_race() {
-            dropdb --if-exists --force --maintenance-db="$CP6_MAINTENANCE_PGURL" cp6_race >/dev/null 2>&1 || true
+            docker exec "$CP6_DATABASE_CONTAINER" \
+              dropdb -U supabase_admin --if-exists --force --maintenance-db=template1 cp6_race
+            remaining="$(docker exec "$CP6_DATABASE_CONTAINER" \
+              psql -U supabase_admin -d template1 -X -At -v ON_ERROR_STOP=1 \
+              -c "select count(*) from pg_database where datname='cp6_race'")"
+            test "$remaining" = '0'
+            printf 'clone_database=cp6_race\nremaining_databases=%s\nstatus=PASS\n' "$remaining" \
+              | tee cp6-proof/CP6_RACE_CLONE_CLEANUP.txt
           }
           trap cleanup_race EXIT
           bash scripts/clone-cp6-disposable-database.sh \

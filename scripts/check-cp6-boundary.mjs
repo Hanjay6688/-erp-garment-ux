@@ -448,10 +448,15 @@ for (const token of [
 ]) assert.ok(workflow.includes(token), `CP6 disposable database toolchain guard missing: ${token}`)
 assert.equal(occurrences(workflow, 'scripts/clone-cp6-disposable-database.sh'), 2,
   'Both and only the CP6 preflight/race tests must use the fenced physical clone builder')
+assert.equal(occurrences(workflow, 'dropdb -U supabase_admin --if-exists --force --maintenance-db=template1'), 2,
+  'Both CP6 physical clones must be removed by their disposable database owner')
 for (const token of [
   'CP6_MAINTENANCE_PGURL', 'CP6_DATABASE_CONTAINER: supabase_db_cp5-local',
   'cp6-proof/CP6_PREFLIGHT_CLONE_BOUNDARY',
   'cp6-proof/CP6_RACE_CLONE_BOUNDARY',
+  'CP6_PREFLIGHT_CLONE_CLEANUP.txt', 'CP6_RACE_CLONE_CLEANUP.txt',
+  "select count(*) from pg_database where datname='cp6_preflight'",
+  "select count(*) from pg_database where datname='cp6_race'",
 ]) assert.ok(workflow.includes(token), `CP6 disposable clone proof missing: ${token}`)
 for (const token of [
   "source_pg_cron_count", "clone_pg_cron_count", "test \"$source_pg_cron_count\" = '1'",
