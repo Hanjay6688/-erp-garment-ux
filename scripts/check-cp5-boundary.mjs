@@ -120,6 +120,9 @@ const atomicReversalHash = assertLedgerIdentity(
   'erp_v2_6_19c_cp5_atomic_reversal_reconciliation', '__CP5_ATOMIC_REVERSAL_MIGRATION_SHA256__',
   atomicReversalMigration.slice(0, -1),
 )
+const atomicReversalFileHash = sha256(atomicReversalMigration)
+assert.equal((atomicReversalRollback.match(new RegExp(atomicReversalFileHash, 'g')) ?? []).length, 3,
+  'v2.6.19c rollback must also bind the exact full-file hosted ledger shape')
 
 assert.equal(Buffer.byteLength(cuttingMigration), 80392, 'Recorded UAT v2.6.18 byte length drift')
 assert.equal(cuttingHash, '6a568a78ad0b9baa2ef5ee958ee967d7c997cc1f4dfb7f0e4ef5e6ff69e5038f', 'Recorded UAT v2.6.18 source drift')
@@ -229,7 +232,7 @@ for (const token of [
 ]) assert.ok(reliabilityRollback.includes(token), `v2.6.19b rollback proof token missing: ${token}`)
 assert.equal(Buffer.byteLength(atomicReversalMigration), 13808, 'v2.6.19c source byte length drift')
 assert.equal(sha256(atomicReversalMigration), 'b11014081391f3d72e242813b09bb64c53e2aefe0f4eb42cc20e8089a57ef8ba', 'v2.6.19c file source drift')
-assert.equal(atomicReversalHash, '70bafe4f4c690c6ef1548f712ee2035a78c9137e153c92c69fc57decba58e3cc', 'v2.6.19c connector ledger source drift')
+assert.equal(atomicReversalHash, '70bafe4f4c690c6ef1548f712ee2035a78c9137e153c92c69fc57decba58e3cc', 'v2.6.19c no-terminal-LF ledger source drift')
 for (const token of [
   'CLAIM_RESOLUTION_IN_USE_BY_ACTIVE_BS_CASH_COMPENSATION',
   'BS_CASH_COMPENSATION_REQUIRES_ACTIVE_SETTLED_CLAIM',
@@ -515,4 +518,4 @@ for (const staleRecoveryToken of [
 
 const tempDirectory = resolve(root, 'supabase/.temp')
 assert.equal(existsSync(tempDirectory) ? readdirSync(tempDirectory).length : 0, 0, 'Supabase generator cache files must not enter the candidate')
-console.log(`CP5 boundary passed: recorded Cutting ${cuttingHash.slice(0, 12)}, reconciliation ${correctionHash.slice(0, 12)}, BS Resolution ${cp5Hash.slice(0, 12)}, accessory lineage ${lineageHash.slice(0, 12)}, reliability closure ${reliabilityHash.slice(0, 12)}, atomic reversal ${atomicReversalHash.slice(0, 12)}; canonical gates, 12 actions, entitlement-derived defaults, conserved Laundry claims, lost-response reconciliation, claim/BS serialization, digest-bound rollback identities, and hosted-UAT boundaries are owned.`)
+console.log(`CP5 boundary passed: recorded Cutting ${cuttingHash.slice(0, 12)}, reconciliation ${correctionHash.slice(0, 12)}, BS Resolution ${cp5Hash.slice(0, 12)}, accessory lineage ${lineageHash.slice(0, 12)}, reliability closure ${reliabilityHash.slice(0, 12)}, atomic reversal ledger ${atomicReversalHash.slice(0, 12)}/${atomicReversalFileHash.slice(0, 12)}; canonical gates, 12 actions, entitlement-derived defaults, conserved Laundry claims, lost-response reconciliation, claim/BS serialization, digest-bound rollback identities, and hosted-UAT boundaries are owned.`)

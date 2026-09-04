@@ -147,11 +147,15 @@ assert.equal(migrationBytes.at(-1), 10, 'CP6 migration must have one final LF ex
 const migrationFileSha = sha256(migrationBytes)
 const ledgerSha = sha256(migrationBytes.subarray(0, -1))
 assert.equal(occurrences(rollback, ledgerSha), 3,
-  'CP6 rollback must bind both platform guards and its exact delete to current statement bytes')
+  'CP6 rollback must bind both platform guards and its exact delete to no-terminal-LF statement bytes')
+assert.equal(occurrences(rollback, migrationFileSha), 3,
+  'CP6 rollback must bind both platform guards and its exact delete to full-file hosted statement bytes')
 assert.match(workflow, new RegExp(`test "\\$\\(wc -c < "\\$migration_source"\\)" = '${migrationBytes.length}'`),
   'CP6 workflow byte count is stale')
 assert.ok(workflow.includes(`${migrationFileSha}  ${migrationPath}`), 'CP6 workflow file SHA-256 is stale')
 assert.ok(workflow.includes(`= '${ledgerSha}'`), 'CP6 workflow platform-ledger digest is stale')
+assert.ok(occurrences(workflow, migrationFileSha) >= 3,
+  'CP6 workflow does not prove the full-file hosted ledger shape and tamper rejection')
 assert.ok(workflow.includes('\\set migration_source_b64 `python3 -c'),
   'CP6 workflow does not stream exact statement bytes into a psql-local variable')
 assert.ok(!workflow.includes('-v migration_source_b64="$migration_source_b64"'),
@@ -801,4 +805,4 @@ for (const token of [
   'The legacy ERP project is read-only',
 ]) assert.ok(rules.includes(token), `Binding ERP reliability rule missing: ${token}`)
 
-console.log(`CP6 boundary passed: migration ${migrationBytes.length} bytes / ${migrationFileSha.slice(0, 12)}, ledger ${ledgerSha.slice(0, 12)}; seven closed actions, exact batch-size conservation, Brand-scoped SKU identity, explicit physical time, durable idempotency, append-only reversal, paid failed-wash custody/cost separation, finance/stock/HPP reconciliation, eleven serialized races, and digest-bound rollback are owned.`)
+console.log(`CP6 boundary passed: migration ${migrationBytes.length} bytes; exact ledger shapes ${ledgerSha.slice(0, 12)}/${migrationFileSha.slice(0, 12)}; seven closed actions, exact batch-size conservation, Brand-scoped SKU identity, explicit physical time, durable idempotency, append-only reversal, paid failed-wash custody/cost separation, finance/stock/HPP reconciliation, eleven serialized races, and digest-bound rollback are owned.`)

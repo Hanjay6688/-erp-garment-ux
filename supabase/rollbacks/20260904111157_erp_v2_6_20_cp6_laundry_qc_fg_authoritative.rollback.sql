@@ -6,7 +6,10 @@ begin;
 set local lock_timeout='10s';
 set local statement_timeout='180s';
 
--- Fence both ledgers before trusting their identity.  SHARE ROW EXCLUSIVE
+-- Fence both ledgers before trusting their identity. Hosted apply_migration
+-- has emitted both exact source bytes and the same source without its one
+-- terminal LF. Those are the only two reviewed byte identities accepted.
+-- SHARE ROW EXCLUSIVE
 -- still permits read-only observers but prevents a concurrent installer or
 -- ledger rewrite from crossing the rollback decision.
 lock table erp.schema_migrations,
@@ -23,7 +26,10 @@ begin
   where m.name='erp_v2_6_20_cp6_laundry_qc_fg_authoritative'
     and coalesce(encode(extensions.digest(
       convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'
-    ),'hex'),'')='e5fcf69ddec8e2bebdc3c511b57af886666aadded62801ff34905df7bfc95485';
+    ),'hex'),'') in(
+      'e5fcf69ddec8e2bebdc3c511b57af886666aadded62801ff34905df7bfc95485',
+      '52e51f56f4b8b08b7797b1a92ca9b9e26cbe611e81615c3379c728b95877ada1'
+    );
 
   select count(*) into v_conflict_count
   from supabase_migrations.schema_migrations m
@@ -34,7 +40,10 @@ begin
     m.name='erp_v2_6_20_cp6_laundry_qc_fg_authoritative'
     and coalesce(encode(extensions.digest(
       convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'
-    ),'hex'),'')='e5fcf69ddec8e2bebdc3c511b57af886666aadded62801ff34905df7bfc95485'
+    ),'hex'),'') in(
+      'e5fcf69ddec8e2bebdc3c511b57af886666aadded62801ff34905df7bfc95485',
+      '52e51f56f4b8b08b7797b1a92ca9b9e26cbe611e81615c3379c728b95877ada1'
+    )
   );
   if v_match_count<>1 or v_conflict_count<>0 then
     raise exception 'v2.6.20 rollback refused: platform ledger statement digest is ambiguous (match %, conflict %)',
@@ -476,7 +485,10 @@ delete from supabase_migrations.schema_migrations m
 where m.name='erp_v2_6_20_cp6_laundry_qc_fg_authoritative'
   and coalesce(encode(extensions.digest(
     convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'
-  ),'hex'),'')='e5fcf69ddec8e2bebdc3c511b57af886666aadded62801ff34905df7bfc95485';
+  ),'hex'),'') in(
+    'e5fcf69ddec8e2bebdc3c511b57af886666aadded62801ff34905df7bfc95485',
+    '52e51f56f4b8b08b7797b1a92ca9b9e26cbe611e81615c3379c728b95877ada1'
+  );
 
 drop table erp.cp6_v2620_acl_capsule;
 drop table erp.cp6_v2620_rollback_capsule;

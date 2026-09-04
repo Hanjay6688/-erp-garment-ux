@@ -427,7 +427,7 @@ jobs:
           test "$(wc -c < "$correction_source")" = '13808'
           echo 'b11014081391f3d72e242813b09bb64c53e2aefe0f4eb42cc20e8089a57ef8ba  supabase/migrations/20260904061346_erp_v2_6_19c_cp5_atomic_reversal_reconciliation.sql' | sha256sum -c - | tee cp6-proof/V2619C_MIGRATION_SHA256.txt
           psql "$PGURL" -v ON_ERROR_STOP=1 -f "$correction_source" 2>&1 | tee cp6-proof/V2619C_APPLY.log
-          correction_source_b64="$(python3 -c "import base64,pathlib; p=pathlib.Path('$correction_source').read_bytes(); assert p.endswith(b'\\n'); print(base64.b64encode(p[:-1]).decode())")"
+          correction_source_b64="$(python3 -c "import base64,pathlib; p=pathlib.Path('$correction_source').read_bytes(); assert p.endswith(b'\\n'); print(base64.b64encode(p).decode())")"
           psql "$PGURL" -v ON_ERROR_STOP=1 -v correction_source_b64="$correction_source_b64" <<'SQL'
           insert into supabase_migrations.schema_migrations(version,name,statements)
           values(
@@ -435,7 +435,7 @@ jobs:
             array[convert_from(decode(:'correction_source_b64','base64'),'UTF8')]
           ) on conflict(version) do nothing;
           SQL
-          test "$(psql "$PGURL" -At -c "select encode(extensions.digest(convert_to(array_to_string(statements,E'\\n'),'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations where name='erp_v2_6_19c_cp5_atomic_reversal_reconciliation'")" = '70bafe4f4c690c6ef1548f712ee2035a78c9137e153c92c69fc57decba58e3cc'
+          test "$(psql "$PGURL" -At -c "select encode(extensions.digest(convert_to(array_to_string(statements,E'\\n'),'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations where name='erp_v2_6_19c_cp5_atomic_reversal_reconciliation'")" = 'b11014081391f3d72e242813b09bb64c53e2aefe0f4eb42cc20e8089a57ef8ba'
           set +e
           psql "$PGURL" -v ON_ERROR_STOP=1 -f "$correction_source" > cp6-proof/V2619C_REPLAY_REJECTION.log 2>&1
           replay_status=$?
@@ -998,6 +998,17 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          # Earlier refusal paths exercised the reviewed no-terminal-LF
+          # statement. Re-materialize the other exact hosted connector shape:
+          # the full reviewed file including its single terminal LF.
+          psql "$PGURL" -v ON_ERROR_STOP=1 <<'SQL'
+          \set migration_source_b64 `python3 -c "import base64,pathlib; p=pathlib.Path('supabase/migrations/20260904111157_erp_v2_6_20_cp6_laundry_qc_fg_authoritative.sql').read_bytes(); assert p.endswith(b'\\n'); print(base64.b64encode(p).decode())"`
+          update supabase_migrations.schema_migrations
+          set statements=array[convert_from(decode(:'migration_source_b64','base64'),'UTF8')]
+          where name='erp_v2_6_20_cp6_laundry_qc_fg_authoritative';
+          SQL
+          test "$(psql "$PGURL" -At -c "select encode(extensions.digest(convert_to(array_to_string(statements,E'\\n'),'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations where name='erp_v2_6_20_cp6_laundry_qc_fg_authoritative')" = '52e51f56f4b8b08b7797b1a92ca9b9e26cbe611e81615c3379c728b95877ada1'
+
           set +e
           psql "$PGURL" -v ON_ERROR_STOP=1 <<'SQL' > cp6-proof/V2620_ROLLBACK_TAMPERED_STATEMENT_REJECTION.log 2>&1
           begin;
@@ -1011,7 +1022,7 @@ jobs:
           test "$rollback_status" -ne 0
           grep -F 'v2.6.20 rollback refused: platform ledger statement digest is ambiguous' \
             cp6-proof/V2620_ROLLBACK_TAMPERED_STATEMENT_REJECTION.log >/dev/null
-          test "$(psql "$PGURL" -At -c "select encode(extensions.digest(convert_to(array_to_string(statements,E'\\n'),'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations where name='erp_v2_6_20_cp6_laundry_qc_fg_authoritative'")" = 'e5fcf69ddec8e2bebdc3c511b57af886666aadded62801ff34905df7bfc95485'
+          test "$(psql "$PGURL" -At -c "select encode(extensions.digest(convert_to(array_to_string(statements,E'\\n'),'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations where name='erp_v2_6_20_cp6_laundry_qc_fg_authoritative'")" = '52e51f56f4b8b08b7797b1a92ca9b9e26cbe611e81615c3379c728b95877ada1'
 
           psql "$PGURL" -v ON_ERROR_STOP=1 \
             -f supabase/rollbacks/20260904111157_erp_v2_6_20_cp6_laundry_qc_fg_authoritative.rollback.sql \
