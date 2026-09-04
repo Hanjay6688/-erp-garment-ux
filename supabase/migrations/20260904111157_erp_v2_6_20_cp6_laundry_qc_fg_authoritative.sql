@@ -50,6 +50,7 @@ begin
      or to_regprocedure('erp.post_laundry_delivery(uuid)') is null
      or to_regprocedure('erp.post_laundry_receipt(uuid)') is null
      or to_regprocedure('erp.validate_laundry_receipt_line()') is null
+     or to_regprocedure('erp.guard_laundry_receipt_source_capacity_on_post()') is null
      or to_regprocedure('erp.post_final_sku_allocation_v1(jsonb,uuid,bigint)') is null
      or to_regprocedure('erp.reverse_laundry_delivery(uuid,text)') is null
      or to_regprocedure('erp.reverse_laundry_receipt(uuid,text)') is null
@@ -145,6 +146,12 @@ begin
   select md5(pg_get_functiondef('erp.validate_laundry_receipt_line()'::regprocedure)) into v_actual;
   if v_actual is distinct from 'eefc0197092de53df2dd1031c5706ea3' then
     raise exception 'DRIFT_CONCURRENT_MUTATION_DETECTED: Laundry receipt cost validator changed (%)',v_actual;
+  end if;
+  select md5(pg_get_functiondef(
+    'erp.guard_laundry_receipt_source_capacity_on_post()'::regprocedure
+  )) into v_actual;
+  if v_actual is distinct from 'a2666231dad8315b67ae5ea15b959a69' then
+    raise exception 'DRIFT_CONCURRENT_MUTATION_DETECTED: Laundry receipt source guard changed (%)',v_actual;
   end if;
   select md5(pg_get_functiondef('erp.post_final_sku_allocation_v1(jsonb,uuid,bigint)'::regprocedure)) into v_actual;
   if v_actual is distinct from 'fb2ed5bb9239e18b2ae6649d8cda1ce3' then
@@ -319,6 +326,7 @@ where p.oid in(
   'erp.sync_laundry_accrual(uuid,date)'::regprocedure,
   'erp.rebuild_po_hpp(uuid,text)'::regprocedure,
   'erp.validate_laundry_receipt_line()'::regprocedure,
+  'erp.guard_laundry_receipt_source_capacity_on_post()'::regprocedure,
   'erp.post_fg_partial_completion_v2_legacy_v2610(jsonb,uuid,bigint)'::regprocedure
 );
 
@@ -343,7 +351,7 @@ where c.oid in(
 
 do $capsule_guard$
 begin
-  if (select count(*) from erp.cp6_v2620_rollback_capsule)<>12
+  if (select count(*) from erp.cp6_v2620_rollback_capsule)<>13
      or exists(
        select 1 from erp.cp6_v2620_rollback_capsule c
        where c.definition_sha256 is distinct from encode(extensions.digest(
@@ -377,6 +385,9 @@ begin
      or (select md5(c.object_definition) from erp.cp6_v2620_rollback_capsule c
          where c.object_regidentity='erp.validate_laundry_receipt_line()'::regprocedure::text)
           is distinct from 'eefc0197092de53df2dd1031c5706ea3'
+     or (select md5(c.object_definition) from erp.cp6_v2620_rollback_capsule c
+         where c.object_regidentity='erp.guard_laundry_receipt_source_capacity_on_post()'::regprocedure::text)
+          is distinct from 'a2666231dad8315b67ae5ea15b959a69'
      or (select md5(c.object_definition) from erp.cp6_v2620_rollback_capsule c
          where c.object_regidentity='erp.post_fg_partial_completion_v2_legacy_v2610(jsonb,uuid,bigint)'::regprocedure::text)
           is distinct from '4704db79cbcd2ad70384c6dbdfe85572'
@@ -1213,6 +1224,137 @@ revoke all on table
   erp.laundry_failed_wash_batch_size_lines,
   erp.cp6_laundry_qc_execution_context
 from public,anon,authenticated,service_role;
+
+-- RETURN_UNPROCESSED is one atomic cost + custody event.  Its delivery is
+-- already REVERSED (and therefore already owns the append-only Laundry ->
+-- Sewing inverse) when the zero-output service receipt reaches POSTED.  Keep
+-- the predecessor source/capacity guard intact for every ordinary receipt,
+-- and admit that otherwise-invalid source state only when the same transaction
+-- owns the exact facade envelope, immutable attempt, complete size return, and
+-- linked WIP inverse.  A spoofed context, partial return, or missing history
+-- still fails closed.
+create or replace function erp.guard_laundry_receipt_source_capacity_on_post()
+returns trigger
+language plpgsql
+set search_path=''
+as $function$
+declare
+  r record;
+  v_delivery_status text;
+  v_sent bigint;
+  v_sent_total bigint;
+  v_prior bigint;
+  v_prior_total bigint;
+  v_current bigint;
+  v_current_total bigint;
+  v_claimed bigint;
+  v_source_delivery uuid;
+  v_cp6_full_return_context boolean:=false;
+begin
+  if new.status='POSTED' and old.status is distinct from 'POSTED' then
+    select ld.status::text into v_delivery_status
+    from erp.laundry_deliveries ld where ld.id=new.delivery_id for update;
+
+    if v_delivery_status='REVERSED' then
+      select exists(
+        select 1
+        from erp.cp6_laundry_qc_execution_context c
+        join erp.laundry_failed_wash_attempts a
+          on a.receipt_id=new.id and a.delivery_id=new.delivery_id
+         and a.custody_outcome='RETURN_UNPROCESSED'
+        join erp.wip_stage_events rv on rv.id=a.return_wip_event_id
+        join erp.wip_stage_events src
+          on src.id=rv.source_id and src.source_type='LAUNDRY_DELIVERY_LINE'
+        join erp.laundry_delivery_lines dl
+          on dl.id=src.source_id and dl.delivery_id=new.delivery_id
+        where c.backend_pid=pg_backend_pid()
+          and c.transaction_id=txid_current()
+          and c.actor_key=erp._idempotency_actor_key()
+          and c.action='POST_FAILED_WASH'
+          and c.permission_key='production.laundry.post'
+          and erp.has_permission(c.permission_key)
+          and c.client_request_id is not null
+          and (c.payload->>'delivery_id')::uuid=new.delivery_id
+          and c.payload->>'custody_outcome'='RETURN_UNPROCESSED'
+          and rv.source_type='CP6_LAUNDRY_DELIVERY_WIP_REVERSAL'
+          and rv.po_id=(select d.po_id from erp.laundry_deliveries d where d.id=new.delivery_id)
+          and rv.cutting_group_id=dl.cutting_group_id
+          and rv.stage_from='LAUNDRY' and rv.stage_to='SEWING'
+          and rv.qty_pcs=a.qty_attempted_pcs
+          and (select count(*) from erp.laundry_receipt_lines l where l.receipt_id=new.id)=1
+          and not exists(
+            select 1 from erp.laundry_receipt_lines l
+            where l.receipt_id=new.id and(
+              l.qty_good_received<>0 or l.qty_bs_laundry<>0
+              or l.qty_stuck<>0 or l.qty_missing<>0
+            )
+          )
+          and (select coalesce(sum(x.qty_attempted_pcs),0)
+               from erp.laundry_failed_wash_batch_size_lines x
+               where x.attempt_id=a.id)=a.qty_attempted_pcs
+          and not exists(
+            select 1
+            from erp.laundry_delivery_batch_size_lines s
+            join erp.laundry_delivery_lines source_line on source_line.id=s.delivery_line_id
+            left join erp.laundry_failed_wash_batch_size_lines x
+              on x.attempt_id=a.id and x.delivery_batch_size_line_id=s.id
+            where source_line.delivery_id=new.delivery_id
+              and x.qty_attempted_pcs is distinct from s.qty_sent_pcs
+          )
+      ) into v_cp6_full_return_context;
+    end if;
+
+    if v_delivery_status is null
+       or (v_delivery_status not in('SENT','PARTIAL_RETURN','RETURNED','CLOSED')
+           and not(v_delivery_status='REVERSED' and v_cp6_full_return_context)) then
+      raise exception 'Laundry receipt posting requires an authoritative sent delivery';
+    end if;
+
+    select coalesce(sum(ldl.qty_sent_pcs),0)::bigint into v_sent_total
+    from erp.laundry_delivery_lines ldl where ldl.delivery_id=new.delivery_id;
+    select coalesce(sum(lrl.qty_good_received+lrl.qty_bs_laundry),0)::bigint into v_prior_total
+    from erp.laundry_receipt_lines lrl
+    join erp.laundry_receipts lr on lr.id=lrl.receipt_id
+    where lr.delivery_id=new.delivery_id and lr.id<>new.id and lr.status='POSTED';
+    select coalesce(sum(lrl.qty_good_received+lrl.qty_bs_laundry),0)::bigint into v_current_total
+    from erp.laundry_receipt_lines lrl where lrl.receipt_id=new.id;
+    select coalesce(sum(lc.qty_claimed),0)::bigint into v_claimed
+    from erp.laundry_claims lc
+    where lc.delivery_id=new.delivery_id and lc.claim_type in('MISSING','STUCK')
+      and lc.status<>'REJECTED';
+    if v_prior_total+v_current_total+v_claimed>v_sent_total then
+      raise exception 'Laundry return plus active MISSING/STUCK claims exceed sent quantity. Sent %, prior returns %, this return %, active claims %',
+        v_sent_total,v_prior_total,v_current_total,v_claimed;
+    end if;
+
+    for r in
+      select lrl.delivery_line_id,
+             sum(lrl.qty_good_received+lrl.qty_bs_laundry)::bigint current_qty
+      from erp.laundry_receipt_lines lrl where lrl.receipt_id=new.id
+      group by lrl.delivery_line_id order by lrl.delivery_line_id
+    loop
+      select ldl.qty_sent_pcs,ldl.delivery_id into v_sent,v_source_delivery
+      from erp.laundry_delivery_lines ldl where ldl.id=r.delivery_line_id for update;
+      if v_sent is null or v_source_delivery is distinct from new.delivery_id then
+        raise exception 'Laundry receipt line source does not belong to this delivery at posting time';
+      end if;
+      select coalesce(sum(x.qty_good_received+x.qty_bs_laundry),0)::bigint into v_prior
+      from erp.laundry_receipt_lines x
+      join erp.laundry_receipts xr on xr.id=x.receipt_id
+      where x.delivery_line_id=r.delivery_line_id and xr.id<>new.id and xr.status='POSTED';
+      v_current:=coalesce(r.current_qty,0);
+      if v_prior+v_current>v_sent then
+        raise exception 'Laundry physical return exceeds quantity sent at posting. Sent %, already returned %, this receipt %',
+          v_sent,v_prior,v_current;
+      end if;
+    end loop;
+  end if;
+  return new;
+end
+$function$;
+alter function erp.guard_laundry_receipt_source_capacity_on_post() owner to postgres;
+revoke all on function erp.guard_laundry_receipt_source_capacity_on_post()
+  from public,anon,authenticated,service_role;
 
 -- The predecessor receipt validator derives cost from physical Good + BS.
 -- A paid failed-wash attempt deliberately has zero physical output, so its
@@ -4670,7 +4812,7 @@ declare
   v_public record;
   v_fg_progress_def text;
 begin
-  if (select count(*) from erp.cp6_v2620_rollback_capsule)<>12
+  if (select count(*) from erp.cp6_v2620_rollback_capsule)<>13
      or (select count(*) from erp.cp6_v2620_acl_capsule)<>13
      or exists(
        select 1 from erp.cp6_v2620_rollback_capsule c
@@ -4858,6 +5000,9 @@ begin
        not like '%cp6_laundry_qc_execution_context%'
      or pg_get_functiondef('erp.validate_laundry_receipt_line()'::regprocedure)
        not like '%v_failed_context_count%POST_FAILED_WASH%v_existing_failed_qty%'
+     or pg_get_functiondef(
+       'erp.guard_laundry_receipt_source_capacity_on_post()'::regprocedure
+       ) not like '%v_cp6_full_return_context%RETURN_UNPROCESSED%CP6_LAUNDRY_DELIVERY_WIP_REVERSAL%'
      or pg_get_functiondef('erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)'::regprocedure)
        not like '%browser_formula_used%false%'
      or md5(pg_get_functiondef(

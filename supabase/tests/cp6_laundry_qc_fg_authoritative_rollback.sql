@@ -132,7 +132,7 @@ begin
          and t.tgname='trg_guard_cp6_vendor_invoice_receipt_on_post_v2620'
          and t.tgenabled<>'D' and not t.tgisinternal
      )
-     or (select count(*) from erp.cp6_v2620_rollback_capsule)<>12
+     or (select count(*) from erp.cp6_v2620_rollback_capsule)<>13
      or (select count(*) from erp.cp6_v2620_acl_capsule)<>13 then
     raise exception 'CP6 v2.6.20 boundary is not installed completely';
   end if;

@@ -23,7 +23,7 @@ begin
   where m.name='erp_v2_6_20_cp6_laundry_qc_fg_authoritative'
     and coalesce(encode(extensions.digest(
       convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'
-    ),'hex'),'')='c182db70ec6131ae0e3144dd28650012d377d0c6d2d213e5c92864e4473786c3';
+    ),'hex'),'')='e5fcf69ddec8e2bebdc3c511b57af886666aadded62801ff34905df7bfc95485';
 
   select count(*) into v_conflict_count
   from supabase_migrations.schema_migrations m
@@ -34,7 +34,7 @@ begin
     m.name='erp_v2_6_20_cp6_laundry_qc_fg_authoritative'
     and coalesce(encode(extensions.digest(
       convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'
-    ),'hex'),'')='c182db70ec6131ae0e3144dd28650012d377d0c6d2d213e5c92864e4473786c3'
+    ),'hex'),'')='e5fcf69ddec8e2bebdc3c511b57af886666aadded62801ff34905df7bfc95485'
   );
   if v_match_count<>1 or v_conflict_count<>0 then
     raise exception 'v2.6.20 rollback refused: platform ledger statement digest is ambiguous (match %, conflict %)',
@@ -96,7 +96,7 @@ begin
     raise exception 'v2.6.20 rollback refused: a successor migration is already installed';
   end if;
   if to_regclass('erp.cp6_v2620_rollback_capsule') is null
-     or (select count(*) from erp.cp6_v2620_rollback_capsule)<>12
+     or (select count(*) from erp.cp6_v2620_rollback_capsule)<>13
      or to_regclass('erp.cp6_v2620_acl_capsule') is null
      or (select count(*) from erp.cp6_v2620_acl_capsule)<>13 then
     raise exception 'v2.6.20 rollback refused: exact rollback capsule is missing';
@@ -476,7 +476,7 @@ delete from supabase_migrations.schema_migrations m
 where m.name='erp_v2_6_20_cp6_laundry_qc_fg_authoritative'
   and coalesce(encode(extensions.digest(
     convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'
-  ),'hex'),'')='c182db70ec6131ae0e3144dd28650012d377d0c6d2d213e5c92864e4473786c3';
+  ),'hex'),'')='e5fcf69ddec8e2bebdc3c511b57af886666aadded62801ff34905df7bfc95485';
 
 drop table erp.cp6_v2620_acl_capsule;
 drop table erp.cp6_v2620_rollback_capsule;

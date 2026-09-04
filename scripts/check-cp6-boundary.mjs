@@ -247,12 +247,12 @@ for (const token of [
   "where id=v_failed_retry_receipt),32)<>upper(replace(v_failed_retry_receipt::text,'-',''))",
   "where id=v_failed_return_receipt),32)<>upper(replace(v_failed_return_receipt::text,'-',''))",
 ]) assert.ok(acceptance.includes(token), `Runtime full-UUID document identity proof missing: ${token}`)
-assert.equal(occurrences(migration, 'count(*) from erp.cp6_v2620_rollback_capsule)<>12'), 2,
-  'CP6 must bind all twelve replaced functions/views, including receipt-cost validation, accrual serialization, HPP, and the Final-SKU number writer, into install/post guards')
-assert.ok(rollback.includes('count(*) from erp.cp6_v2620_rollback_capsule)<>12'),
-  'CP6 rollback does not require the exact twelve-object restoration capsule')
-assert.ok(acceptance.includes('count(*) from erp.cp6_v2620_rollback_capsule)<>12'),
-  'CP6 acceptance does not require the exact twelve-object restoration capsule')
+assert.equal(occurrences(migration, 'count(*) from erp.cp6_v2620_rollback_capsule)<>13'), 2,
+  'CP6 must bind all thirteen replaced functions/views, including receipt source/cost validation, accrual serialization, HPP, and the Final-SKU number writer, into install/post guards')
+assert.ok(rollback.includes('count(*) from erp.cp6_v2620_rollback_capsule)<>13'),
+  'CP6 rollback does not require the exact thirteen-object restoration capsule')
+assert.ok(acceptance.includes('count(*) from erp.cp6_v2620_rollback_capsule)<>13'),
+  'CP6 acceptance does not require the exact thirteen-object restoration capsule')
 for (const token of [
   'posted_receipt_cost', "lrl.actual_cost_status in('ESTIMATED','FINAL')",
   "lrl.actual_cost_status='ESTIMATED'", 'unbilled_actual_estimate',
@@ -281,6 +281,19 @@ for (const token of [
 ]) assert.ok(migration.includes(token), `Failed-wash cost formula does not preserve the physical-receipt validator boundary: ${token}`)
 assert.equal(occurrences(workflow, "'receipt_cost_validator_sha256'"), 3,
   'Full-schema proof must capture, restore, and compare the predecessor Laundry receipt-cost validator')
+for (const token of [
+  "to_regprocedure('erp.guard_laundry_receipt_source_capacity_on_post()') is null",
+  "md5(pg_get_functiondef(\n    'erp.guard_laundry_receipt_source_capacity_on_post()'::regprocedure",
+  "'erp.guard_laundry_receipt_source_capacity_on_post()'::regprocedure",
+  'create or replace function erp.guard_laundry_receipt_source_capacity_on_post()',
+  'v_cp6_full_return_context boolean:=false',
+  "c.action='POST_FAILED_WASH'", "c.payload->>'custody_outcome'='RETURN_UNPROCESSED'",
+  "rv.source_type='CP6_LAUNDRY_DELIVERY_WIP_REVERSAL'",
+  "not(v_delivery_status='REVERSED' and v_cp6_full_return_context)",
+  "not like '%v_cp6_full_return_context%RETURN_UNPROCESSED%CP6_LAUNDRY_DELIVERY_WIP_REVERSAL%'",
+]) assert.ok(migration.includes(token), `Full-return receipt source exception is not exact and fail-closed: ${token}`)
+assert.equal(occurrences(workflow, "'receipt_source_guard_sha256'"), 3,
+  'Full-schema proof must capture, restore, and compare the predecessor Laundry receipt source guard')
 for (const token of [
   'Failed-wash receipt must contain exactly one canonical cost line',
   'Failed-wash service cost must not create physical Good/BS receipt facts',
