@@ -2025,7 +2025,7 @@ begin
       where(v_query is null or lower(concat_ws(' ',d.delivery_number,po.po_number,g.group_number,
         m.model_code,m.model_name,v.vendor_code,v.vendor_name,w.process_code,w.process_name)) like '%'||v_query||'%')
       group by d.id,d.delivery_number,d.row_version,d.status,d.physical_at,
-        d.target_dyeing_color,d.special_instruction,d.po_id,po.po_number,po.model_id,g.id,g.group_number,g.row_version,
+        d.target_dyeing_color,d.special_instruction,d.po_id,po.po_number,po.model_id,po.status,g.id,g.group_number,g.row_version,
         m.model_code,m.model_name,c.contractor_name,v.id,v.vendor_code,v.vendor_name,
         w.id,w.process_code,w.process_name,dl.id,dl.qty_sent_pcs,dl.estimated_rate_snapshot,
         x.distribution_batch_id,b.batch_no,rev.reversal_blocker
@@ -2115,7 +2115,7 @@ begin
       where i.source_laundry_receipt_batch_size_line_id is not null
         and(v_query is null or lower(concat_ws(' ',q.inspection_number,po.po_number,l.location_name)) like '%'||v_query||'%')
       group by q.id,q.inspection_number,q.status,q.row_version,q.physical_at,
-        q.destination_location_id,l.location_name,q.po_id,po.po_number,rev.reversal_blocker
+        q.destination_location_id,l.location_name,q.po_id,po.po_number,po.status,rev.reversal_blocker
     ) z;
   end if;
 

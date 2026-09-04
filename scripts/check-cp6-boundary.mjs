@@ -110,6 +110,10 @@ assert.ok(migration.includes(
 assert.doesNotMatch(migration,
   /laundry_returned_qty_pcs% - COALESCE\(q\.laundry_qc_accounted_qty_pcs/,
   'CP6 post-install guard may not use a cross-expression wildcard for readiness')
+assert.equal(occurrences(migration, 'po.po_number,po.model_id,po.status,g.id'), 1,
+  'Laundry workspace must group the backend PO-status reversal decision')
+assert.equal(occurrences(migration, 'q.po_id,po.po_number,po.status,rev.reversal_blocker'), 1,
+  'QC workspace must group the backend PO-status reversal decision')
 
 const migrationBytes = Buffer.from(migration, 'utf8')
 assert.equal(migrationBytes.at(-1), 10, 'CP6 migration must have one final LF excluded from platform statements')
