@@ -300,7 +300,8 @@ where p.oid in(
   'public.erp_post_final_sku_allocation_v1(jsonb,uuid,bigint)'::regprocedure,
   'erp.validate_product_identity_period()'::regprocedure,
   'erp.run_v259_integrity_checks()'::regprocedure,
-  'erp.apply_migration_master_rows(uuid)'::regprocedure
+  'erp.apply_migration_master_rows(uuid)'::regprocedure,
+  'erp.desired_laundry_accrual(uuid)'::regprocedure
 );
 
 insert into erp.cp6_v2620_rollback_capsule(
@@ -324,7 +325,7 @@ where c.oid in(
 
 do $capsule_guard$
 begin
-  if (select count(*) from erp.cp6_v2620_rollback_capsule)<>7
+  if (select count(*) from erp.cp6_v2620_rollback_capsule)<>8
      or exists(
        select 1 from erp.cp6_v2620_rollback_capsule c
        where c.definition_sha256 is distinct from encode(extensions.digest(
@@ -346,6 +347,9 @@ begin
      or (select md5(c.object_definition) from erp.cp6_v2620_rollback_capsule c
          where c.object_regidentity='erp.apply_migration_master_rows(uuid)'::regprocedure::text)
           is distinct from '0272a1db007565dcd49b95ed888afef7'
+     or (select md5(c.object_definition) from erp.cp6_v2620_rollback_capsule c
+         where c.object_regidentity='erp.desired_laundry_accrual(uuid)'::regprocedure::text)
+          is distinct from '4ded5af2c9c604357d18c783b00dcdb9'
      or coalesce((select c.definition_sha256 from erp.cp6_v2620_rollback_capsule c
          where c.object_regidentity='erp.v_fg_partial_completion_progress'),'') not in(
           '7897479ca27144e599b6607b60f5b9bed08bdea57171ff6ba8ec81ce46f20037',
@@ -486,6 +490,53 @@ create index idx_laundry_receipt_batch_size_source_v2620
   on erp.laundry_receipt_batch_size_lines(delivery_batch_size_line_id,receipt_line_id);
 create index idx_products_brand_sku_effective_v2620
   on erp.products(brand_id,lower(btrim(sku)),size_id,effective_from,effective_to,id);
+
+-- The delivery rate is only a forecast for pieces whose actual process is not
+-- known yet.  Once a POSTED receipt records an ESTIMATED actual process/rate,
+-- both HPP and the unbilled accrual must use that same immutable receipt cost.
+-- FINAL receipt cost has moved to AP, so only still-unbilled ESTIMATED actual
+-- cost remains accrued.  This prevents an interim report from showing HPP at
+-- one process/rate while WIP/accrued manufacturing still uses another.
+create or replace function erp.desired_laundry_accrual(p_po_id uuid)
+returns numeric
+language sql
+stable
+security definer
+set search_path=''
+as $function$
+  with posted_receipt_cost as(
+    select
+      lrl.delivery_line_id,
+      coalesce(sum(lrl.qty_good_received+lrl.qty_bs_laundry) filter(
+        where lr.status='POSTED'
+          and lrl.actual_cost_status in('ESTIMATED','FINAL')
+      ),0) as costed_qty,
+      coalesce(sum(lrl.actual_cost) filter(
+        where lr.status='POSTED' and lrl.actual_cost_status='ESTIMATED'
+      ),0) as unbilled_actual_estimate
+    from erp.laundry_receipt_lines lrl
+    join erp.laundry_receipts lr on lr.id=lrl.receipt_id
+    group by lrl.delivery_line_id
+  ), line_status as(
+    select
+      ldl.qty_sent_pcs,
+      ldl.estimated_rate_snapshot,
+      coalesce(rc.costed_qty,0) as costed_qty,
+      coalesce(rc.unbilled_actual_estimate,0) as unbilled_actual_estimate
+    from erp.laundry_delivery_lines ldl
+    join erp.laundry_deliveries ld on ld.id=ldl.delivery_id
+    left join posted_receipt_cost rc on rc.delivery_line_id=ldl.id
+    where ld.po_id=p_po_id and ld.status not in('DRAFT','REVERSED')
+  )
+  select coalesce(sum(
+    unbilled_actual_estimate
+    +greatest(qty_sent_pcs-costed_qty,0)*coalesce(estimated_rate_snapshot,0)
+  ),0)::numeric
+  from line_status
+$function$;
+alter function erp.desired_laundry_accrual(uuid) owner to postgres;
+revoke all on function erp.desired_laundry_accrual(uuid)
+  from public,anon,authenticated,service_role;
 
 -- WIP stage history is append-only.  The predecessor reversal functions
 -- restore document/finance/stock state but do not append the inverse of their
@@ -3380,7 +3431,7 @@ declare
   v_public record;
   v_fg_progress_def text;
 begin
-  if (select count(*) from erp.cp6_v2620_rollback_capsule)<>7
+  if (select count(*) from erp.cp6_v2620_rollback_capsule)<>8
      or (select count(*) from erp.cp6_v2620_acl_capsule)<>13
      or exists(
        select 1 from erp.cp6_v2620_rollback_capsule c
@@ -3518,7 +3569,10 @@ begin
      or not has_function_privilege('authenticated','public.erp_get_laundry_qc_workspace_v1(text,text)','EXECUTE')
      or not has_function_privilege('authenticated','public.erp_save_laundry_qc_action_v1(text,jsonb,uuid,bigint)','EXECUTE')
      or has_function_privilege('authenticated','erp.get_laundry_qc_workspace_v1(text,text)','EXECUTE')
-     or has_function_privilege('authenticated','erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)','EXECUTE') then
+     or has_function_privilege('authenticated','erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)','EXECUTE')
+     or has_function_privilege('anon','erp.desired_laundry_accrual(uuid)','EXECUTE')
+     or has_function_privilege('authenticated','erp.desired_laundry_accrual(uuid)','EXECUTE')
+     or has_function_privilege('service_role','erp.desired_laundry_accrual(uuid)','EXECUTE') then
     raise exception 'ERP v2.6.20 post guard: facade/private ACL boundary failed';
   end if;
   for v_public in

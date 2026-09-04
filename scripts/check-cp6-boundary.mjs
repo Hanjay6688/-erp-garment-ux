@@ -207,6 +207,23 @@ for (const [signature, digest] of [
   assert.ok(migration.includes(`'${signature}'::regprocedure`), `CP6 omits finance dependency ${signature}`)
   assert.ok(migration.includes(`'${digest}'`), `CP6 finance dependency digest drifted for ${signature}`)
 }
+assert.equal(occurrences(migration, 'count(*) from erp.cp6_v2620_rollback_capsule)<>8'), 2,
+  'CP6 must bind all eight replaced functions/views, including Laundry accrual, into install/post guards')
+assert.ok(rollback.includes('count(*) from erp.cp6_v2620_rollback_capsule)<>8'),
+  'CP6 rollback does not require the exact eight-object restoration capsule')
+for (const token of [
+  'posted_receipt_cost', "lrl.actual_cost_status in('ESTIMATED','FINAL')",
+  "lrl.actual_cost_status='ESTIMATED'", 'unbilled_actual_estimate',
+  'greatest(qty_sent_pcs-costed_qty,0)*coalesce(estimated_rate_snapshot,0)',
+  'one process/rate while WIP/accrued manufacturing still uses another',
+  'revoke all on function erp.desired_laundry_accrual(uuid)',
+]) assert.ok(migration.includes(token), `Laundry actual-rate accrual reconciliation missing: ${token}`)
+for (const token of [
+  'CP6 delivery-time target rate', 'CP6 receipt-time actual-process estimate',
+  "erp.desired_laundry_accrual(v_po)<>82", 'prior_actual_rate_snapshot from erp.vendor_invoice_items',
+  '<>9', 'Six physically returned pieces at final invoice rate 11',
+  'Replacement invoice: six pieces at actual rate 10',
+]) assert.ok(acceptance.includes(token), `Different target/actual Laundry rate proof missing: ${token}`)
 
 for (const token of [
   'Human identity is Brand -> SKU number -> Model',

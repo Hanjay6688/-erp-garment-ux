@@ -36,6 +36,7 @@ declare
   v_vendor constant uuid:='c7020000-0000-4000-8000-000000000002';
   v_process constant uuid:='c7020000-0000-4000-8000-000000000003';
   v_rate constant uuid:='c7020000-0000-4000-8000-000000000004';
+  v_rate_actual constant uuid:='c7020000-0000-4000-8000-000000000005';
   v_supplier constant uuid:='c7030000-0000-4000-8000-000000000001';
   v_material constant uuid:='c7030000-0000-4000-8000-000000000002';
   v_roll constant uuid:='c7030000-0000-4000-8000-000000000003';
@@ -112,7 +113,7 @@ begin
          and t.tgname='trg_guard_cp6_vendor_invoice_receipt_on_post_v2620'
          and t.tgenabled<>'D' and not t.tgisinternal
      )
-     or (select count(*) from erp.cp6_v2620_rollback_capsule)<>7
+     or (select count(*) from erp.cp6_v2620_rollback_capsule)<>8
      or (select count(*) from erp.cp6_v2620_acl_capsule)<>13 then
     raise exception 'CP6 v2.6.20 boundary is not installed completely';
   end if;
@@ -123,6 +124,7 @@ begin
      or has_function_privilege('authenticated','erp.get_laundry_qc_workspace_v1(text,text)','EXECUTE')
      or has_function_privilege('authenticated','erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)','EXECUTE')
      or has_function_privilege('authenticated','erp.guard_cp6_vendor_invoice_receipt_on_post_v2620()','EXECUTE')
+     or has_function_privilege('authenticated','erp.desired_laundry_accrual(uuid)','EXECUTE')
      or has_table_privilege('authenticated','erp.laundry_delivery_batch_size_lines','SELECT,INSERT,UPDATE,DELETE')
      or has_table_privilege('authenticated','erp.laundry_receipt_batch_size_lines','SELECT,INSERT,UPDATE,DELETE')
      or has_table_privilege('authenticated','erp.cp6_laundry_qc_execution_context','SELECT,INSERT,UPDATE,DELETE')
@@ -364,7 +366,11 @@ begin
   values(v_process,'CP6-WASH','CP6 Standard Wash',true);
   insert into erp.laundry_vendor_rate_versions(
     id,vendor_id,wash_process_id,rate_per_pcs,effective_from,effective_to,notes
-  ) values(v_rate,v_vendor,v_process,7,'2026-01-01 00:00+00',null,'CP6 exact rate');
+  ) values
+    (v_rate,v_vendor,v_process,7,'2026-01-01 00:00+00','2026-09-01 11:30:00+00',
+      'CP6 delivery-time target rate'),
+    (v_rate_actual,v_vendor,v_process,9,'2026-09-01 11:30:00+00',null,
+      'CP6 receipt-time actual-process estimate');
 
   insert into erp.suppliers(id,supplier_code,supplier_name,supplier_type)
   values(v_supplier,'CP6-SUP','CP6 Synthetic Supplier','MATERIAL');
@@ -817,7 +823,7 @@ begin
      or v_response->>'delivery_status'<>'PARTIAL_RETURN'
      or (v_response->>'good_qty_pcs')::integer<>5
      or (v_response->>'bs_qty_pcs')::integer<>1
-     or (v_response->>'actual_cost')::numeric<>42 then
+     or (v_response->>'actual_cost')::numeric<>54 then
     raise exception 'CP6 receipt posting/idempotent replay diverged: %, %',v_response,v_replay;
   end if;
   v_receipt:=(v_response->>'receipt_id')::uuid;
@@ -833,12 +839,14 @@ begin
      or (select actual_cost_status from erp.laundry_receipt_lines where id=v_receipt_line)<>'ESTIMATED'
      or v_response->>'cost_status'<>'ESTIMATED_UNBILLED'
      or v_response->>'accrual_effect'<>'PRESERVED_UNTIL_VENDOR_INVOICE'
-     or (select accrued_amount from erp.laundry_cost_accrual_state where po_id=v_po)<>70
-     or erp.desired_laundry_accrual(v_po)<>70
+     or (select actual_rate_snapshot from erp.laundry_receipt_lines where id=v_receipt_line)<>9
+     or (select actual_cost from erp.laundry_receipt_lines where id=v_receipt_line)<>54
+     or (select accrued_amount from erp.laundry_cost_accrual_state where po_id=v_po)<>82
+     or erp.desired_laundry_accrual(v_po)<>82
      or (select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
-       where l.po_id=v_po and l.account_id=erp.account_id('WIP'))<>70
+       where l.po_id=v_po and l.account_id=erp.account_id('WIP'))<>82
      or (select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
-       where l.po_id=v_po and l.account_id=erp.account_id('ACCRUED_MANUFACTURING'))<>-70
+       where l.po_id=v_po and l.account_id=erp.account_id('ACCRUED_MANUFACTURING'))<>-82
      or (select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
        where l.po_id=v_po and l.account_id=erp.account_id('AP_VENDOR'))<>0
      or (select count(*) from erp.wip_stage_events
@@ -916,8 +924,8 @@ begin
            and laundry_outstanding_qty_pcs=0 and resolved_claim_qty_pcs=0
            and remaining_qc_qty_pcs=9
        )
-       or (select accrued_amount from erp.laundry_cost_accrual_state where po_id=v_po)<>70
-       or erp.desired_laundry_accrual(v_po)<>70
+       or (select accrued_amount from erp.laundry_cost_accrual_state where po_id=v_po)<>90
+       or erp.desired_laundry_accrual(v_po)<>90
        or (select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
          where l.po_id=v_po and l.account_id=erp.account_id('AP_VENDOR'))<>0
        or (select coalesce(sum(e.qty_pcs) filter(where e.stage_to='LAUNDRY'),0)
@@ -1331,15 +1339,15 @@ begin
      or (select count(*) from erp.bs_cases where qc_item_id in(
        select id from erp.qc_inspection_items where inspection_id=v_qc
      ) and qty_pcs=1 and status='OPEN')<>1
-     or v_hpp<>70
-     or (select hpp_total_cost from erp.po_hpp_gl_state where po_id=v_po)<>70
-     or (select fg_value from erp.po_hpp_gl_state where po_id=v_po)<>70
+     or v_hpp<>82
+     or (select hpp_total_cost from erp.po_hpp_gl_state where po_id=v_po)<>82
+     or (select fg_value from erp.po_hpp_gl_state where po_id=v_po)<>82
      or (select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
        where l.po_id=v_po and l.account_id=erp.account_id('WIP'))<>0
      or (select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
-       where l.po_id=v_po and l.account_id=erp.account_id('FG_INVENTORY'))<>70
+       where l.po_id=v_po and l.account_id=erp.account_id('FG_INVENTORY'))<>82
      or (select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
-       where l.po_id=v_po and l.account_id=erp.account_id('ACCRUED_MANUFACTURING'))<>-70
+       where l.po_id=v_po and l.account_id=erp.account_id('ACCRUED_MANUFACTURING'))<>-82
      or (select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
        where l.po_id=v_po and l.account_id=erp.account_id('AP_VENDOR'))<>0
      or exists(
@@ -1382,13 +1390,13 @@ begin
     status,total_amount,notes,created_by
   ) values(
     v_late_invoice,'CP6-LATE-VI-001',v_vendor,'2026-09-03','2026-09-03 08:00:00+00',
-    '2026-09-17','DRAFT',54,'CP6 late actual Laundry invoice',v_owner_app
+    '2026-09-17','DRAFT',66,'CP6 late actual Laundry invoice',v_owner_app
   );
   insert into erp.vendor_invoice_items(
     id,invoice_id,receipt_line_id,description,qty_pcs,actual_rate,actual_amount
   ) values(
     v_late_invoice_item,v_late_invoice,v_receipt_line,
-    'Six physically returned pieces at actual rate 9',6,9,54
+    'Six physically returned pieces at final invoice rate 11',6,11,66
   );
   perform erp.post_vendor_invoice(v_late_invoice);
   select coalesce(sum(h.total_cost),0) into v_hpp
@@ -1396,24 +1404,24 @@ begin
   where l.po_id=v_po and l.lot_origin='PRODUCTION' and h.is_current;
   if (select status from erp.vendor_invoices where id=v_late_invoice)<>'POSTED'
      or (select actual_cost_status from erp.laundry_receipt_lines where id=v_receipt_line)<>'FINAL'
-     or (select actual_rate_snapshot from erp.laundry_receipt_lines where id=v_receipt_line)<>9
-     or (select actual_cost from erp.laundry_receipt_lines where id=v_receipt_line)<>54
+     or (select actual_rate_snapshot from erp.laundry_receipt_lines where id=v_receipt_line)<>11
+     or (select actual_cost from erp.laundry_receipt_lines where id=v_receipt_line)<>66
      or (select prior_actual_cost_status from erp.vendor_invoice_items where id=v_late_invoice_item)<>'ESTIMATED'
-     or (select prior_actual_rate_snapshot from erp.vendor_invoice_items where id=v_late_invoice_item)<>7
-     or (select prior_actual_cost from erp.vendor_invoice_items where id=v_late_invoice_item)<>42
+     or (select prior_actual_rate_snapshot from erp.vendor_invoice_items where id=v_late_invoice_item)<>9
+     or (select prior_actual_cost from erp.vendor_invoice_items where id=v_late_invoice_item)<>54
      or (select accrued_amount from erp.laundry_cost_accrual_state where po_id=v_po)<>28
      or erp.desired_laundry_accrual(v_po)<>28
-     or v_hpp<>82
-     or (select hpp_total_cost from erp.po_hpp_gl_state where po_id=v_po)<>82
-     or (select fg_value from erp.po_hpp_gl_state where po_id=v_po)<>82
+     or v_hpp<>94
+     or (select hpp_total_cost from erp.po_hpp_gl_state where po_id=v_po)<>94
+     or (select fg_value from erp.po_hpp_gl_state where po_id=v_po)<>94
      or (select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
        where l.po_id=v_po and l.account_id=erp.account_id('WIP'))<>0
      or (select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
-       where l.po_id=v_po and l.account_id=erp.account_id('FG_INVENTORY'))<>82
+       where l.po_id=v_po and l.account_id=erp.account_id('FG_INVENTORY'))<>94
      or (select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
        where l.po_id=v_po and l.account_id=erp.account_id('ACCRUED_MANUFACTURING'))<>-28
      or (select coalesce(sum(l.credit-l.debit),0) from erp.journal_lines l
-       where l.vendor_id=v_vendor and l.account_id=erp.account_id('AP_VENDOR'))<>54
+       where l.vendor_id=v_vendor and l.account_id=erp.account_id('AP_VENDOR'))<>66
      or exists(
        select 1 from erp.journal_entries e join erp.journal_lines l on l.journal_entry_id=e.id
        where e.status='POSTED' group by e.id having sum(l.debit)<>sum(l.credit)
@@ -1429,19 +1437,19 @@ begin
   where l.po_id=v_po and l.lot_origin='PRODUCTION' and h.is_current;
   if (select status from erp.vendor_invoices where id=v_late_invoice)<>'REVERSED'
      or (select actual_cost_status from erp.laundry_receipt_lines where id=v_receipt_line)<>'ESTIMATED'
-     or (select actual_rate_snapshot from erp.laundry_receipt_lines where id=v_receipt_line)<>7
-     or (select actual_cost from erp.laundry_receipt_lines where id=v_receipt_line)<>42
-     or (select accrued_amount from erp.laundry_cost_accrual_state where po_id=v_po)<>70
-     or erp.desired_laundry_accrual(v_po)<>70
-     or v_hpp<>70
-     or (select hpp_total_cost from erp.po_hpp_gl_state where po_id=v_po)<>70
-     or (select fg_value from erp.po_hpp_gl_state where po_id=v_po)<>70
+     or (select actual_rate_snapshot from erp.laundry_receipt_lines where id=v_receipt_line)<>9
+     or (select actual_cost from erp.laundry_receipt_lines where id=v_receipt_line)<>54
+     or (select accrued_amount from erp.laundry_cost_accrual_state where po_id=v_po)<>82
+     or erp.desired_laundry_accrual(v_po)<>82
+     or v_hpp<>82
+     or (select hpp_total_cost from erp.po_hpp_gl_state where po_id=v_po)<>82
+     or (select fg_value from erp.po_hpp_gl_state where po_id=v_po)<>82
      or (select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
        where l.po_id=v_po and l.account_id=erp.account_id('WIP'))<>0
      or (select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
-       where l.po_id=v_po and l.account_id=erp.account_id('FG_INVENTORY'))<>70
+       where l.po_id=v_po and l.account_id=erp.account_id('FG_INVENTORY'))<>82
      or (select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
-       where l.po_id=v_po and l.account_id=erp.account_id('ACCRUED_MANUFACTURING'))<>-70
+       where l.po_id=v_po and l.account_id=erp.account_id('ACCRUED_MANUFACTURING'))<>-82
      or (select coalesce(sum(l.credit-l.debit),0) from erp.journal_lines l
        where l.vendor_id=v_vendor and l.account_id=erp.account_id('AP_VENDOR'))<>0 then
     raise exception 'CP6 late invoice reversal did not restore estimated accrual/HPP/FG exactly (HPP %)',v_hpp;
@@ -1452,13 +1460,13 @@ begin
     status,total_amount,notes,created_by
   ) values(
     v_replacement_invoice,'CP6-REPLACEMENT-VI-001',v_vendor,'2026-09-04','2026-09-04 08:00:00+00',
-    '2026-09-18','DRAFT',48,'CP6 replacement for reversed late invoice',v_owner_app
+    '2026-09-18','DRAFT',60,'CP6 replacement for reversed late invoice',v_owner_app
   );
   insert into erp.vendor_invoice_items(
     id,invoice_id,receipt_line_id,description,qty_pcs,actual_rate,actual_amount
   ) values(
     v_replacement_invoice_item,v_replacement_invoice,v_receipt_line,
-    'Replacement invoice: six pieces at actual rate 8',6,8,48
+    'Replacement invoice: six pieces at actual rate 10',6,10,60
   );
   perform erp.post_vendor_invoice(v_replacement_invoice);
   select coalesce(sum(h.total_cost),0) into v_hpp
@@ -1466,20 +1474,20 @@ begin
   where l.po_id=v_po and l.lot_origin='PRODUCTION' and h.is_current;
   if (select status from erp.vendor_invoices where id=v_replacement_invoice)<>'POSTED'
      or (select actual_cost_status from erp.laundry_receipt_lines where id=v_receipt_line)<>'FINAL'
-     or (select actual_rate_snapshot from erp.laundry_receipt_lines where id=v_receipt_line)<>8
-     or (select actual_cost from erp.laundry_receipt_lines where id=v_receipt_line)<>48
+     or (select actual_rate_snapshot from erp.laundry_receipt_lines where id=v_receipt_line)<>10
+     or (select actual_cost from erp.laundry_receipt_lines where id=v_receipt_line)<>60
      or (select accrued_amount from erp.laundry_cost_accrual_state where po_id=v_po)<>28
-     or v_hpp<>76
-     or (select hpp_total_cost from erp.po_hpp_gl_state where po_id=v_po)<>76
-     or (select fg_value from erp.po_hpp_gl_state where po_id=v_po)<>76
+     or v_hpp<>88
+     or (select hpp_total_cost from erp.po_hpp_gl_state where po_id=v_po)<>88
+     or (select fg_value from erp.po_hpp_gl_state where po_id=v_po)<>88
      or (select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
        where l.po_id=v_po and l.account_id=erp.account_id('WIP'))<>0
      or (select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
-       where l.po_id=v_po and l.account_id=erp.account_id('FG_INVENTORY'))<>76
+       where l.po_id=v_po and l.account_id=erp.account_id('FG_INVENTORY'))<>88
      or (select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
        where l.po_id=v_po and l.account_id=erp.account_id('ACCRUED_MANUFACTURING'))<>-28
      or (select coalesce(sum(l.credit-l.debit),0) from erp.journal_lines l
-       where l.vendor_id=v_vendor and l.account_id=erp.account_id('AP_VENDOR'))<>48 then
+       where l.vendor_id=v_vendor and l.account_id=erp.account_id('AP_VENDOR'))<>60 then
     raise exception 'CP6 replacement invoice did not replace financial state atomically (HPP %)',v_hpp;
   end if;
   perform erp.reverse_vendor_invoice(
@@ -1494,22 +1502,22 @@ begin
   where l.po_id=v_po and l.lot_origin='PRODUCTION' and h.is_current;
   if (select status from erp.vendor_invoices where id=v_replacement_invoice)<>'REVERSED'
      or (select actual_cost_status from erp.laundry_receipt_lines where id=v_receipt_line)<>'ESTIMATED'
-     or (select actual_rate_snapshot from erp.laundry_receipt_lines where id=v_receipt_line)<>7
-     or (select actual_cost from erp.laundry_receipt_lines where id=v_receipt_line)<>42
-     or (select accrued_amount from erp.laundry_cost_accrual_state where po_id=v_po)<>70
-     or erp.desired_laundry_accrual(v_po)<>70
-     or v_hpp<>70
-     or (select hpp_total_cost from erp.po_hpp_gl_state where po_id=v_po)<>70
-     or (select fg_value from erp.po_hpp_gl_state where po_id=v_po)<>70
+     or (select actual_rate_snapshot from erp.laundry_receipt_lines where id=v_receipt_line)<>9
+     or (select actual_cost from erp.laundry_receipt_lines where id=v_receipt_line)<>54
+     or (select accrued_amount from erp.laundry_cost_accrual_state where po_id=v_po)<>82
+     or erp.desired_laundry_accrual(v_po)<>82
+     or v_hpp<>82
+     or (select hpp_total_cost from erp.po_hpp_gl_state where po_id=v_po)<>82
+     or (select fg_value from erp.po_hpp_gl_state where po_id=v_po)<>82
      or (select count(*) from erp.cost_adjustments
        where source_id in(v_late_invoice_item,v_replacement_invoice_item)
          and source_type in('VENDOR_INVOICE_ITEM','VENDOR_INVOICE_REVERSAL'))<>4
      or (select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
        where l.po_id=v_po and l.account_id=erp.account_id('WIP'))<>0
      or (select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
-       where l.po_id=v_po and l.account_id=erp.account_id('FG_INVENTORY'))<>70
+       where l.po_id=v_po and l.account_id=erp.account_id('FG_INVENTORY'))<>82
      or (select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
-       where l.po_id=v_po and l.account_id=erp.account_id('ACCRUED_MANUFACTURING'))<>-70
+       where l.po_id=v_po and l.account_id=erp.account_id('ACCRUED_MANUFACTURING'))<>-82
      or (select coalesce(sum(l.credit-l.debit),0) from erp.journal_lines l
        where l.vendor_id=v_vendor and l.account_id=erp.account_id('AP_VENDOR'))<>0
      or exists(
