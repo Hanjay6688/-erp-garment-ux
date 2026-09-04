@@ -16,6 +16,10 @@ PGURL = os.environ.get('CP6_RACE_PGURL', 'postgresql://postgres:postgres@127.0.0
 REPORT = Path(os.environ.get('CP6_LAUNDRY_QC_RACE_REPORT', 'cp6-laundry-qc-concurrency.json'))
 HOLD_SECONDS = 1.0
 WAIT_FLOOR_SECONDS = 0.5
+FLOW_LOCK_SQL = (
+    "select pg_advisory_xact_lock("
+    "hashtextextended('CP6FLOW:'||(%s::uuid)::text,0))"
+)
 
 OPERATOR_AUTH = 'c8c00000-0000-4000-8000-000000000101'
 OPERATOR_APP = 'c8c00000-0000-4000-8000-000000000001'
@@ -658,9 +662,10 @@ def main():
         }],
     }
     report['races']['post_receipt'] = run_race(
-        'POST_RECEIPT', 'select id from erp.laundry_deliveries where id=%s::uuid for update',
-        (delivery_id,), 'POST_RECEIPT', receipt_payload, delivery_version,
-        REQUESTS['receipt_winner'], REQUESTS['receipt_loser'], ('STALE_VERSION',),
+        'POST_RECEIPT', FLOW_LOCK_SQL, (GROUP,),
+        'POST_RECEIPT', receipt_payload, delivery_version,
+        REQUESTS['receipt_winner'], REQUESTS['receipt_loser'],
+        ('STALE_VERSION', 'Laundry receipt requires an active SENT/PARTIAL_RETURN delivery'),
     )
     receipt_response = report['races']['post_receipt']['winner']['response']
     receipt_id = str(receipt_response['receipt_id'])
@@ -879,8 +884,8 @@ def main():
         'select row_version from erp.cutting_groups where id=%s::uuid', (GROUP,),
     ))
     report['races']['post_final_sku'] = run_race(
-        'POST_FINAL_SKU', 'select id from erp.laundry_receipts where id=%s::uuid for update',
-        (receipt_id,), 'POST_FINAL_SKU', qc_payload, group_version,
+        'POST_FINAL_SKU', FLOW_LOCK_SQL, (GROUP,),
+        'POST_FINAL_SKU', qc_payload, group_version,
         REQUESTS['qc_winner'], REQUESTS['qc_loser'],
         ('STALE_VERSION', 'QC quantity exceeds GOOD returned for the exact Laundry batch/size'),
     )

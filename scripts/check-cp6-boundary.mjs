@@ -462,6 +462,17 @@ for (const token of [
   'Hold Final-SKU uncommitted, then prove invoice lifecycle recosts it',
 ]) assert.ok(race.includes(token), `CP6 concurrency invariant missing: ${token}`)
 
+assert.equal(occurrences(race, 'FLOW_LOCK_SQL, (GROUP,)'), 2,
+  'POST_RECEIPT and POST_FINAL_SKU races must prime the canonical CP6FLOW lock first')
+assert.ok(race.includes("hashtextextended('CP6FLOW:'||(%s::uuid)::text,0)"),
+  'CP6 race harness does not derive the same Potongan advisory-lock key as the backend')
+assert.equal(race.includes("'POST_RECEIPT', 'select id from erp.laundry_deliveries"), false,
+  'POST_RECEIPT race primes a downstream row lock before the canonical CP6FLOW lock')
+assert.equal(race.includes("'POST_FINAL_SKU', 'select id from erp.laundry_receipts"), false,
+  'POST_FINAL_SKU race primes a downstream row lock before the canonical CP6FLOW lock')
+assert.ok(race.includes('Laundry receipt requires an active SENT/PARTIAL_RETURN delivery'),
+  'Serialized duplicate receipt does not accept the authoritative terminal-status rejection')
+
 for (const token of [
   'npm run check:cp6', 'python -m py_compile scripts/cp6_laundry_qc_concurrency.py',
   'test:browser:cp6', 'V2620_MIGRATION_SHA256.txt',
