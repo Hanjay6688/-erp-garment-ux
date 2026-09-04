@@ -332,6 +332,9 @@ assert.ok(mainWorkflow.includes('npm run test:browser:cp6'), 'Main PR CI omits t
 assert.ok(mainWorkflow.includes('cp6-browser-contract-proof'), 'Main PR CI omits CP6 browser artifacts')
 for (const token of [
   'postgresql-client-17', "/usr/lib/postgresql/17/bin/pg_dump",
+  'https://www.postgresql.org/media/keys/ACCC4CF8.asc',
+  'B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8',
+  'https://apt.postgresql.org/pub/repos/apt',
   'Verify PostgreSQL dump and server compatibility',
   'CP6_POSTGRES_CLIENT_SERVER_COMPATIBILITY.txt',
   'test "$client_major" = "$server_major"',
