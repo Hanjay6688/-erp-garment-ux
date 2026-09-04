@@ -3,7 +3,7 @@
   "candidate_branch": "pre-cp5/cutting-persistence-pickup-wip-r1-20260903",
   "source_base_sha": "8bfac13b91ea1be92111139e2fddcabccf9ae19a",
   "source_base_tree": "a9b193010266bb686c57709865a992769a835855",
-  "generation_parent_sha": "4941c584ea14060fccba0916af2cebe974a0eacb",
+  "generation_parent_sha": "a3c6c7010788bfa47c06cbb03911fcfe1df32537",
   "target_project_ref": "siimvrusnzxexizpyoib",
   "target_environment": "ERP Enteng UAT",
   "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
@@ -232,8 +232,8 @@
       "sha256": "6c878f0085bdf8c6a18a8bbc92f00dff0755f0841809d31460a12e942b21b182"
     },
     ".github/workflows/cp5-full-schema-validation.yml": {
-      "bytes": 78508,
-      "sha256": "6ff3f4f30552b3cfdb107bc596b09a38135a32df4e6c5f01c5311d249211221e"
+      "bytes": 79198,
+      "sha256": "a0294f6469f98eb6abfb6b7259ab1a394b781361879c294b0da237642b544106"
     },
     ".github/workflows/cutting-bridge-full-schema-validation.yml": {
       "bytes": 26705,

@@ -382,7 +382,15 @@ jobs:
           test "$(wc -c < "$correction_source")" = '13808'
           echo 'b11014081391f3d72e242813b09bb64c53e2aefe0f4eb42cc20e8089a57ef8ba  supabase/migrations/20260904061346_erp_v2_6_19c_cp5_atomic_reversal_reconciliation.sql' | sha256sum -c - | tee cp5-proof/V2619C_MIGRATION_SHA256.txt
           psql "$PGURL" -v ON_ERROR_STOP=1 -f "$correction_source" 2>&1 | tee cp5-proof/V2619C_APPLY.log
-          psql "$PGURL" -v ON_ERROR_STOP=1 -c "insert into supabase_migrations.schema_migrations(version,name,statements) values('20260904061346','erp_v2_6_19c_cp5_atomic_reversal_reconciliation',array[]::text[]) on conflict(version) do nothing"
+          correction_source_b64="$(python3 -c "import base64,pathlib; p=pathlib.Path('$correction_source').read_bytes(); assert p.endswith(b'\\n'); print(base64.b64encode(p[:-1]).decode())")"
+          psql "$PGURL" -v ON_ERROR_STOP=1 -v correction_source_b64="$correction_source_b64" <<'SQL'
+          insert into supabase_migrations.schema_migrations(version,name,statements)
+          values(
+            '20260904061346','erp_v2_6_19c_cp5_atomic_reversal_reconciliation',
+            array[convert_from(decode(:'correction_source_b64','base64'),'UTF8')]
+          ) on conflict(version) do nothing;
+          SQL
+          test "$(psql "$PGURL" -At -c "select encode(extensions.digest(convert_to(array_to_string(statements,E'\\n'),'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations where name='erp_v2_6_19c_cp5_atomic_reversal_reconciliation'")" = '70bafe4f4c690c6ef1548f712ee2035a78c9137e153c92c69fc57decba58e3cc'
           set +e
           psql "$PGURL" -v ON_ERROR_STOP=1 -f "$correction_source" > cp5-proof/V2619C_REPLAY_REJECTION.log 2>&1
           replay_status=$?
