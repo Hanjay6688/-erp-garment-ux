@@ -599,7 +599,21 @@ jobs:
             'cash_resolutions',cash_resolutions,
             'new_resolutions',new_resolutions,
             'new_idempotency_requests',new_idempotency_requests,
-            'new_audit_rows',new_audit_rows
+            'new_audit_rows',new_audit_rows,
+            'audit_row_identity',(
+              select coalesce(jsonb_agg(jsonb_build_object(
+                'id',a.id,
+                'entity_type',a.entity_type,
+                'entity_id',a.entity_id,
+                'action',a.action,
+                'changed_by',a.changed_by,
+                'change_reason',a.change_reason,
+                'changed_at',a.changed_at
+              ) order by a.changed_at,a.id),'[]'::jsonb)
+              from erp.audit_logs a,installed
+              where a.changed_at>=installed.installed_at
+                and a.entity_type in('laundry_claims','bs_resolutions')
+            )
           ) from counts;
           SQL
           test "$(python3 -c "import json;print(json.load(open('cp5-proof/V2619C_PRE_ROLLBACK_HISTORY.json'))['status'])")" = 'PASS'
