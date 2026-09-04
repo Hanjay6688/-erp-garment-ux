@@ -243,6 +243,8 @@ for (const token of [
   'CP6 cross-Potongan/PO Final-SKU rejection failed or left finance/stock/HPP residue',
   'CP6 trusted writer bypassed the cross-Potongan/PO source trigger',
   'CP6 trusted receipt-linked QC writer bypassed exact batch/size lineage',
+  'CP6 exact receipt/batch/size cap failed or left QC residue',
+  'CP6 facade accepted quantity above authoritative Potongan remainder',
   'CP6 trusted delivery writer bypassed exact batch/size lineage or left residue',
   'CP6 trusted receipt writer bypassed exact batch/size lineage or left residue',
   'CP6 trusted receipt writer created a multi-line receipt or left residue',

@@ -1020,6 +1020,36 @@ begin
     raise exception 'CP6 trusted receipt-linked QC writer bypassed exact batch/size lineage';
   end if;
 
+  -- Prove the table boundary itself conserves one exact receipt/batch/size,
+  -- independently of the broader Potongan remainder checked by the facade.
+  -- The receipt-size source contains five Good pieces, so six must fail and
+  -- roll the temporary QC header back with the rejected item.
+  v_failed:=false;
+  begin
+    insert into erp.qc_inspections(
+      id,inspection_number,po_id,physical_at,status,notes,created_by,
+      destination_location_id
+    ) values(
+      v_foreign_qc,'CP6-QC-SOURCE-OVERAGE-DIRECT',v_po,
+      '2026-09-01 13:00+00','DRAFT','Trusted-writer exact source cap probe',
+      v_owner_app,v_fg_location
+    );
+    insert into erp.qc_inspection_items(
+      inspection_id,cutting_group_id,source_laundry_receipt_line_id,
+      source_laundry_receipt_batch_size_line_id,final_product_id,
+      qty_good_pcs,qty_bs_pcs,notes
+    ) values(
+      v_foreign_qc,v_group,v_receipt_line,v_receipt_size_line,
+      v_product_s,6,0,'Must exceed this exact five-piece Good source'
+    );
+  exception when others then
+    if sqlerrm like 'QC quantity exceeds GOOD returned for the exact Laundry batch/size.%'
+      then v_failed:=true; else raise; end if;
+  end;
+  if not v_failed or exists(select 1 from erp.qc_inspections where id=v_foreign_qc) then
+    raise exception 'CP6 exact receipt/batch/size cap failed or left QC residue';
+  end if;
+
   execute 'set local role authenticated';
   v_failed:=false;
   begin
@@ -1178,9 +1208,10 @@ begin
       ),gen_random_uuid(),v_group_version
     );
   exception when others then
-    if sqlerrm like 'QC quantity exceeds GOOD returned for the exact Laundry batch/size.%' then v_failed:=true; else raise; end if;
+    if sqlerrm like 'Qty penyelesaian melebihi sisa Potongan.%'
+      then v_failed:=true; else raise; end if;
   end;
-  if not v_failed then raise exception 'CP6 QC accepted quantity above exact Good return'; end if;
+  if not v_failed then raise exception 'CP6 facade accepted quantity above authoritative Potongan remainder'; end if;
 
   v_failed:=false;
   begin
