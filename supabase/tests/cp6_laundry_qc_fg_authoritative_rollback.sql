@@ -132,7 +132,7 @@ begin
          and t.tgname='trg_guard_cp6_vendor_invoice_receipt_on_post_v2620'
          and t.tgenabled<>'D' and not t.tgisinternal
      )
-     or (select count(*) from erp.cp6_v2620_rollback_capsule)<>11
+     or (select count(*) from erp.cp6_v2620_rollback_capsule)<>12
      or (select count(*) from erp.cp6_v2620_acl_capsule)<>13 then
     raise exception 'CP6 v2.6.20 boundary is not installed completely';
   end if;
@@ -1881,7 +1881,13 @@ begin
   select coalesce(sum(h.total_cost),0) into v_hpp
   from erp.hpp_versions h join erp.fg_lots l on l.id=h.lot_id
   where l.po_id=v_po and l.lot_origin='PRODUCTION' and h.is_current;
-  if erp.desired_laundry_accrual(v_po)<>180 or v_hpp<>v_hpp_baseline+180
+  if (select actual_cost_status from erp.laundry_receipt_lines
+        where id=v_failed_return_receipt_line)<>'ESTIMATED'
+     or (select actual_rate_snapshot from erp.laundry_receipt_lines
+        where id=v_failed_return_receipt_line)<>9
+     or (select actual_cost from erp.laundry_receipt_lines
+        where id=v_failed_return_receipt_line)<>90
+     or erp.desired_laundry_accrual(v_po)<>180 or v_hpp<>v_hpp_baseline+180
      or (select coalesce(sum(l.credit-l.debit),0) from erp.journal_lines l
        where l.vendor_id=v_vendor and l.account_id=erp.account_id('AP_VENDOR'))<>0 then
     raise exception 'CP6 failed-wash invoice reversal did not restore estimate exactly';

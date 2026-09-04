@@ -251,6 +251,8 @@ assert.equal(occurrences(migration, 'count(*) from erp.cp6_v2620_rollback_capsul
   'CP6 must bind all twelve replaced functions/views, including receipt-cost validation, accrual serialization, HPP, and the Final-SKU number writer, into install/post guards')
 assert.ok(rollback.includes('count(*) from erp.cp6_v2620_rollback_capsule)<>12'),
   'CP6 rollback does not require the exact twelve-object restoration capsule')
+assert.ok(acceptance.includes('count(*) from erp.cp6_v2620_rollback_capsule)<>12'),
+  'CP6 acceptance does not require the exact twelve-object restoration capsule')
 for (const token of [
   'posted_receipt_cost', "lrl.actual_cost_status in('ESTIMATED','FINAL')",
   "lrl.actual_cost_status='ESTIMATED'", 'unbilled_actual_estimate',
@@ -263,13 +265,19 @@ for (const token of [
 for (const token of [
   "md5(pg_get_functiondef('erp.validate_laundry_receipt_line()'::regprocedure))",
   "'erp.validate_laundry_receipt_line()'::regprocedure",
+  "to_regprocedure('erp.validate_laundry_receipt_line()') is null",
   'create or replace function erp.validate_laundry_receipt_line()',
   "c.action='POST_FAILED_WASH'", "c.permission_key='production.laundry.post'",
   "(c.payload->>'delivery_id')::uuid=v_receipt_delivery",
   "(c.payload->>'wash_process_id')::uuid=new.actual_wash_process_id",
   "new.actual_cost:=round(v_failed_qty*new.actual_rate_snapshot,2)",
+  'select a.qty_attempted_pcs into v_existing_failed_qty',
+  "new.actual_cost:=round(v_existing_failed_qty*new.actual_rate_snapshot,2)",
+  'Final failed-wash invoice cost must equal immutable attempt quantity times rate',
+  'Existing paid failed-wash cost must remain ESTIMATED until an exact invoice finalizes it',
   "new.actual_cost:=(new.qty_good_received+new.qty_bs_laundry)*new.actual_rate_snapshot",
   'Paid failed-wash cost requires one exact zero-output facade context',
+  "not like '%v_failed_context_count%POST_FAILED_WASH%v_existing_failed_qty%'",
 ]) assert.ok(migration.includes(token), `Failed-wash cost formula does not preserve the physical-receipt validator boundary: ${token}`)
 assert.equal(occurrences(workflow, "'receipt_cost_validator_sha256'"), 3,
   'Full-schema proof must capture, restore, and compare the predecessor Laundry receipt-cost validator')
@@ -286,6 +294,8 @@ for (const token of [
   '<>9', 'Six physically returned pieces at final invoice rate 11',
   'Replacement invoice: six pieces at actual rate 10',
   "'late_invoice_hpp',94,'replacement_invoice_hpp',88",
+  "where id=v_failed_return_receipt_line)<>'ESTIMATED'",
+  'where id=v_failed_return_receipt_line)<>90',
 ]) assert.ok(acceptance.includes(token), `Different target/actual Laundry rate proof missing: ${token}`)
 
 for (const token of [

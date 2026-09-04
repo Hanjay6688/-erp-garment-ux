@@ -49,6 +49,7 @@ begin
      or to_regprocedure('erp.require_internal()') is null
      or to_regprocedure('erp.post_laundry_delivery(uuid)') is null
      or to_regprocedure('erp.post_laundry_receipt(uuid)') is null
+     or to_regprocedure('erp.validate_laundry_receipt_line()') is null
      or to_regprocedure('erp.post_final_sku_allocation_v1(jsonb,uuid,bigint)') is null
      or to_regprocedure('erp.reverse_laundry_delivery(uuid,text)') is null
      or to_regprocedure('erp.reverse_laundry_receipt(uuid,text)') is null
@@ -1231,6 +1232,7 @@ declare
   v_remaining integer;
   v_failed_context_count integer:=0;
   v_failed_qty bigint:=0;
+  v_existing_failed_qty bigint;
 begin
   select lr.delivery_id into v_receipt_delivery
   from erp.laundry_receipts lr where lr.id=new.receipt_id;
@@ -1278,6 +1280,32 @@ begin
     end if;
     new.actual_cost_status:='ESTIMATED';
     new.actual_cost:=round(v_failed_qty*new.actual_rate_snapshot,2);
+    return new;
+  end if;
+
+  -- Invoice posting changes an existing attempt to FINAL; reversal restores
+  -- its ESTIMATED snapshot. The original Good+BS formula would turn that
+  -- restored service cost back into zero, so bind both transitions to the
+  -- immutable attempt quantity instead of to physical output.
+  select a.qty_attempted_pcs into v_existing_failed_qty
+  from erp.laundry_failed_wash_attempts a
+  where a.receipt_line_id=new.id;
+  if v_existing_failed_qty is not null then
+    if new.qty_good_received<>0 or new.qty_bs_laundry<>0
+       or new.qty_stuck<>0 or new.qty_missing<>0
+       or new.actual_rate_snapshot is null or new.actual_rate_snapshot<0 then
+      raise exception 'Existing paid failed-wash cost lost its zero-output attempt lineage';
+    end if;
+    if new.actual_cost_status='FINAL' then
+      if new.actual_cost is distinct from round(v_existing_failed_qty*new.actual_rate_snapshot,2) then
+        raise exception 'Final failed-wash invoice cost must equal immutable attempt quantity times rate';
+      end if;
+      return new;
+    end if;
+    if new.actual_cost_status<>'ESTIMATED' then
+      raise exception 'Existing paid failed-wash cost must remain ESTIMATED until an exact invoice finalizes it';
+    end if;
+    new.actual_cost:=round(v_existing_failed_qty*new.actual_rate_snapshot,2);
     return new;
   end if;
 
@@ -4828,6 +4856,8 @@ begin
   ));
   if pg_get_functiondef('erp.require_internal()'::regprocedure)
        not like '%cp6_laundry_qc_execution_context%'
+     or pg_get_functiondef('erp.validate_laundry_receipt_line()'::regprocedure)
+       not like '%v_failed_context_count%POST_FAILED_WASH%v_existing_failed_qty%'
      or pg_get_functiondef('erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)'::regprocedure)
        not like '%browser_formula_used%false%'
      or md5(pg_get_functiondef(
@@ -4909,7 +4939,7 @@ $post_guard$;
 insert into erp.schema_migrations(version,description)
 values(
   'v2.6.20',
-  'CP6 authoritative Laundry/QC/Final-SKU bridge: immutable distribution batch-size lineage, atomic writers, exact Good-to-QC conservation, reversal-only correction, and server-owned finance/stock/HPP effects'
+  'CP6 authoritative Laundry/QC/Final-SKU bridge: immutable distribution batch-size lineage, paid failed-wash attempt cost/custody separation, atomic writers, exact Good-to-QC conservation, reversal-only correction, and server-owned finance/stock/HPP effects'
 );
 
 select pg_notify('pgrst','reload schema');
