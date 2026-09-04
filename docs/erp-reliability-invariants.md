@@ -37,6 +37,15 @@ be read back from the authoritative backend. A partial success is a failure.
   same. Stock, HPP, and transaction lineage remain bound to the exact
   `product_id`/size; two active roots may never overlap for the same Brand + SKU
   + Size.
+- Product identity history is one linear effective-dated chain per exact-size
+  root. Every non-root version has exactly one predecessor in that root, a
+  predecessor has at most one successor, and both meet at the same timestamp.
+  A missing root, detached version, fork, overlap, or retroactive boundary move
+  fails closed; it is never repaired by rewriting stock/HPP history.
+- After a product row is created, its Brand, SKU number, Model, Color, Size,
+  root/predecessor links, and effective period are immutable. Display name,
+  visibility, and active status may be maintained; a real identity change waits
+  for a controlled successor-row workflow and never edits the old row.
 - The current backend keeps one versioned product root per exact size. A master
   screen may present those rows as one human SKU, but a future connected master
   writer must fan out price/BOM changes atomically to every selected size root

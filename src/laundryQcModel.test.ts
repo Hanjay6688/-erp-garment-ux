@@ -27,6 +27,7 @@ function base(scope: 'LAUNDRY' | 'QC') {
     contract_version: 'CP6_V2620', scope, generated_at: '2026-09-04T10:00:00Z', lookups: lookups(),
     readiness: {
       laundry_writer_ready: true, qc_writer_ready: true,
+      lineage_integrity_ok: true, lineage_issue_count: 0,
       no_fixture_fallback: true, failed_wash_with_charge_supported: false,
     },
     ready_batches: scope === 'LAUNDRY' ? [{
@@ -73,6 +74,13 @@ describe('parseLaundryQcWorkspace', () => {
     const charged = base('LAUNDRY')
     charged.readiness.failed_wash_with_charge_supported = true
     expect(() => parseLaundryQcWorkspace(charged)).toThrow('Batas reliability')
+  })
+
+  it('fails closed when backend reports any CP6 lineage issue', () => {
+    const brokenLineage = base('LAUNDRY')
+    brokenLineage.readiness.lineage_integrity_ok = false as true
+    brokenLineage.readiness.lineage_issue_count = 1 as 0
+    expect(() => parseLaundryQcWorkspace(brokenLineage)).toThrow('Batas reliability')
   })
 
   it('rejects changed or deleted quantity conservation', () => {
@@ -161,6 +169,52 @@ describe('parseLaundryQcWorkspace', () => {
     const fixture = base('LAUNDRY')
     fixture.qc_queue = base('QC').qc_queue
     expect(() => parseLaundryQcWorkspace(fixture)).toThrow('membocorkan data QC')
+  })
+
+  it('requires every reversal affordance to match the backend blocker decision', () => {
+    const laundry = base('LAUNDRY')
+    const blockedDelivery = {
+      delivery_id: uuid(20), delivery_number: 'LDR-001', row_version: 3,
+      status: 'PARTIAL_RETURN', physical_at: '2026-09-02T00:00:00Z',
+      target_dyeing_color: 'Hitam', special_instruction: null, po_id: uuid(14),
+      po_number: 'PO-001', model_id: uuid(7), cutting_group_id: uuid(12),
+      group_number: 'P-001', cutting_group_row_version: 4, model_code: 'MOD-A',
+      model_name: 'Model A', contractor_name: 'Mandor A', vendor_id: uuid(1),
+      vendor_code: 'LDR-A', vendor_name: 'Laundry A', wash_process_id: uuid(2),
+      process_code: 'WASH', process_name: 'Cuci', delivery_line_id: uuid(21),
+      qty_sent_pcs: 2, estimated_rate_snapshot: 1200, estimated_cost: 2400,
+      distribution_batch_id: uuid(10), batch_no: 1, returned_qty_pcs: 1,
+      physical_outstanding_qty_pcs: 1, active_claim_qty_pcs: 0,
+      reversible: false, reversal_blocker: 'Masih ada receipt aktif.',
+      sizes: [{
+        delivery_batch_size_line_id: uuid(22), size_id: uuid(9), size_code: '31',
+        sort_order: 1, qty_sent_pcs: 2, good_returned_qty_pcs: 1,
+        bs_returned_qty_pcs: 0, outstanding_qty_pcs: 1,
+      }],
+      receipts: [{
+        id: uuid(23), number: 'LRC-001', status: 'POSTED', row_version: 2,
+        physical_at: '2026-09-03T00:00:00Z', actual_cost: 1200,
+        reversible: false, reversal_blocker: 'Receipt sudah dipakai QC.',
+      }],
+    }
+    ;(laundry.deliveries as unknown[]).push(blockedDelivery)
+    expect(parseLaundryQcWorkspace(laundry).deliveries[0].receipts[0].reversible).toBe(false)
+    blockedDelivery.receipts[0].reversible = true
+    expect(() => parseLaundryQcWorkspace(laundry)).toThrow('reversal penerimaan kontradiktif')
+
+    const qc = base('QC')
+    const blockedQc = {
+      qc_inspection_id: uuid(24), inspection_number: 'FGP-001', status: 'POSTED',
+      row_version: 4, physical_at: '2026-09-03T01:00:00Z',
+      destination_location_id: uuid(5), location_name: 'FG A', po_id: uuid(14),
+      po_number: 'PO-001', good_qty_pcs: 1, bs_qty_pcs: 0,
+      cutting_group_count: 1, reversible: false,
+      reversal_blocker: 'FG hasil QC masih dipakai transaksi downstream aktif.',
+    }
+    ;(qc.qc_history as unknown[]).push(blockedQc)
+    expect(parseLaundryQcWorkspace(qc).qc_history[0].reversible).toBe(false)
+    blockedQc.reversible = true
+    expect(() => parseLaundryQcWorkspace(qc)).toThrow('reversal QC kontradiktif')
   })
 
   it('selects the exact backdated rate interval and product interval', () => {

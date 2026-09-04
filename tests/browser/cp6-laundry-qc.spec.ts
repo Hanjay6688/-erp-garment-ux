@@ -32,6 +32,7 @@ const ids = {
   receipt: 'c8b30000-0000-4000-8000-000000000004',
   receiptLine: 'c8b30000-0000-4000-8000-000000000005',
   receiptSizeS: 'c8b30000-0000-4000-8000-000000000006',
+  qcInspection: 'c8b30000-0000-4000-8000-000000000007',
 }
 
 type ContractOptions = {
@@ -118,6 +119,7 @@ function baseWorkspace(scope: 'LAUNDRY' | 'QC') {
     lookups: lookups(),
     readiness: {
       laundry_writer_ready: true, qc_writer_ready: true,
+      lineage_integrity_ok: true, lineage_issue_count: 0,
       no_fixture_fallback: true, failed_wash_with_charge_supported: false,
     },
     ready_batches: [], deliveries: [], qc_queue: [], qc_history: [],
@@ -152,10 +154,15 @@ function laundryWorkspace(committed = false) {
       qty_sent_pcs: 6, estimated_rate_snapshot: 700, estimated_cost: 4200,
       distribution_batch_id: ids.batch, batch_no: 1, returned_qty_pcs: 2,
       physical_outstanding_qty_pcs: 4, active_claim_qty_pcs: 0, reversible: false,
+      reversal_blocker: 'Masih ada barang fisik di luar Laundry.',
       sizes: [{
         delivery_batch_size_line_id: ids.deliverySizeS, size_id: ids.sizeS, size_code: 'S', sort_order: 1,
         qty_sent_pcs: 6, good_returned_qty_pcs: 2, bs_returned_qty_pcs: 0, outstanding_qty_pcs: 4,
-      }], receipts: [],
+      }], receipts: [{
+        id: ids.receipt, number: 'LRC-CP6-001', status: 'POSTED', row_version: 4,
+        physical_at: '2026-09-04T00:50:00Z', actual_cost: null, reversible: false,
+        reversal_blocker: 'Receipt sudah dipakai QC; reverse QC aktif terlebih dahulu.',
+      }],
     }],
   }
 }
@@ -173,6 +180,14 @@ function qcWorkspace(committed = false) {
       model_name: 'Vivo Regular', size_id: ids.sizeS, size_code: 'S', size_sort: 1,
       qty_good_received: 5, qc_accounted_qty_pcs: 0, available_for_qc_qty_pcs: 5,
       completion_status: 'READY_FOR_QC', remaining_qc_qty_pcs: 5,
+    }],
+    qc_history: [{
+      qc_inspection_id: ids.qcInspection, inspection_number: 'QC-CP6-BLOCKED', status: 'POSTED',
+      row_version: 6, physical_at: '2026-09-04T01:10:00Z',
+      destination_location_id: ids.location, location_name: 'Gudang FG Utama',
+      po_id: ids.po, po_number: 'PO-CP6-001', good_qty_pcs: 5, bs_qty_pcs: 0,
+      cutting_group_count: 1, reversible: false,
+      reversal_blocker: 'FG hasil QC masih dipakai transaksi downstream aktif.',
     }],
   }
 }
@@ -371,6 +386,23 @@ test('CP6 two live tabs serialize one global envelope and send at most one opera
   await secondPage.close()
 })
 
+test('CP6 authoritative refetch expires an earlier physical acknowledgement', async ({ page }, testInfo) => {
+  const calls = await installContract(page)
+  await signIn(page)
+  await openPage(page, testInfo.project.name, 'Laundry', 'Laundry')
+  await prepareValidLaundrySend(page, 'Bukti fisik wajib habis saat data berubah')
+  const confirmation = page.getByRole('checkbox', { name: laundrySendConfirmation, exact: true })
+  const post = page.getByRole('button', { name: /Post pengiriman atomic/ })
+  await expect(confirmation).toBeChecked()
+  await expect(post).toBeEnabled()
+
+  await page.getByRole('button', { name: 'Muat ulang data', exact: true }).click()
+  await expect.poll(() => calls.workspace.length).toBe(2)
+  await expect(confirmation).not.toBeChecked()
+  await expect(post).toBeDisabled()
+  expect(calls.actions).toEqual([])
+})
+
 test('CP6 Laundry receipt records only Good and BS while Stuck stays derived', async ({ page }, testInfo) => {
   const assertNoErrors = watchErrors(page)
   const calls = await installContract(page)
@@ -489,6 +521,21 @@ test('CP6 QC binds exact receipt batch-size and lets server own stock and HPP', 
   expect(JSON.stringify(calls.actions[0])).not.toContain('hpp')
   expect(JSON.stringify(calls.actions[0])).not.toContain('amount')
   assertNoErrors()
+})
+
+test('CP6 reversal buttons obey authoritative downstream blockers', async ({ page }, testInfo) => {
+  const calls = await installContract(page)
+  await signIn(page)
+  await openPage(page, testInfo.project.name, 'Laundry', 'Laundry')
+  await page.getByRole('button', { name: 'Riwayat & koreksi', exact: true }).click()
+  await expect(page.getByText('Receipt sudah dipakai QC; reverse QC aktif terlebih dahulu.', { exact: true })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Batalkan penerimaan', exact: true })).toBeDisabled()
+
+  await openPage(page, testInfo.project.name, 'QC & Final SKU', 'QC & Final SKU')
+  await page.getByRole('button', { name: 'Riwayat & koreksi', exact: true }).click()
+  await expect(page.getByText('FG hasil QC masih dipakai transaksi downstream aktif.', { exact: true })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Batalkan finalisasi', exact: true })).toBeDisabled()
+  expect(calls.actions).toEqual([])
 })
 
 test('CP6 blocks the legacy browser Nota writer in connected UAT', async ({ page }, testInfo) => {

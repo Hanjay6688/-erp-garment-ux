@@ -115,12 +115,13 @@ begin
     select 1
     from erp.products p
     left join erp.products old on old.id=p.supersedes_product_id
-    where p.supersedes_product_id is not null
-      and (
-        old.id is null
-        or p.identity_root_id<>old.identity_root_id
-        or old.effective_to is distinct from p.effective_from
-      )
+    where (p.id=p.identity_root_id and p.supersedes_product_id is not null)
+       or (p.id<>p.identity_root_id and (
+         p.supersedes_product_id is null
+         or old.id is null
+         or p.identity_root_id<>old.identity_root_id
+         or old.effective_to is distinct from p.effective_from
+       ))
   ) then
     raise exception 'ERP v2.6.20 pre-existing product identity ambiguity: repair Brand + SKU + Model history before install';
   end if;
@@ -785,11 +786,68 @@ set search_path=''
 as $function$
 declare
   v_end timestamptz:=coalesce(new.effective_to,'infinity'::timestamptz);
+  v_root_identity uuid;
+  v_predecessor_identity uuid;
+  v_predecessor_end timestamptz;
 begin
+  if tg_op='UPDATE' then
+    if row(
+      new.id,new.sku,new.model_id,new.brand_id,new.color_name,new.size_id,
+      new.identity_root_id,new.effective_from,new.effective_to,new.supersedes_product_id
+    ) is distinct from row(
+      old.id,old.sku,old.model_id,old.brand_id,old.color_name,old.size_id,
+      old.identity_root_id,old.effective_from,old.effective_to,old.supersedes_product_id
+    ) then
+      raise exception 'Identitas dan periode SKU immutable setelah row dibuat; ubah nama/status tampilan saja atau buat successor terkontrol, jangan menulis ulang sejarah stok/HPP';
+    end if;
+  end if;
   if new.identity_root_id is null then new.identity_root_id:=new.id; end if;
   if new.effective_from is null then new.effective_from:=clock_timestamp(); end if;
   if new.effective_to is not null and new.effective_to<=new.effective_from then
     raise exception 'Tanggal akhir identitas SKU harus setelah tanggal mulai berlaku';
+  end if;
+
+  -- A version chain is accounting lineage, not editable display metadata.
+  -- Serialize every member on the immutable root and reject missing roots,
+  -- detached successors, branches, or a timestamp change that would rewrite
+  -- the predecessor/successor boundary underneath historical stock and HPP.
+  perform pg_advisory_xact_lock(hashtextextended(
+    'SKUROOT:'||new.identity_root_id::text,0
+  ));
+  if new.identity_root_id=new.id then
+    if new.supersedes_product_id is not null then
+      raise exception 'Root identitas SKU tidak boleh menunjuk predecessor';
+    end if;
+  else
+    select r.identity_root_id into v_root_identity
+    from erp.products r where r.id=new.identity_root_id;
+    if v_root_identity is distinct from new.identity_root_id then
+      raise exception 'identity_root_id SKU wajib menunjuk root yang valid dan menunjuk dirinya sendiri';
+    end if;
+    if new.supersedes_product_id is null then
+      raise exception 'Versi SKU non-root wajib menunjuk predecessor';
+    end if;
+    select p.identity_root_id,p.effective_to
+      into v_predecessor_identity,v_predecessor_end
+    from erp.products p where p.id=new.supersedes_product_id;
+    if v_predecessor_identity is distinct from new.identity_root_id
+       or v_predecessor_end is distinct from new.effective_from then
+      raise exception 'Predecessor SKU wajib satu root dan berakhir tepat saat successor mulai';
+    end if;
+    if exists(
+      select 1 from erp.products p
+      where p.supersedes_product_id=new.supersedes_product_id and p.id<>new.id
+    ) then
+      raise exception 'Satu versi SKU tidak boleh memiliki lebih dari satu successor';
+    end if;
+  end if;
+  if exists(
+    select 1 from erp.products p
+    where p.supersedes_product_id=new.id and p.id<>new.id
+      and (p.identity_root_id is distinct from new.identity_root_id
+        or p.effective_from is distinct from new.effective_to)
+  ) then
+    raise exception 'Perubahan periode SKU akan memutus rantai successor yang sudah ada';
   end if;
 
   perform pg_advisory_xact_lock(hashtextextended(
@@ -894,14 +952,27 @@ begin
   return query
     select 'PRODUCT_IDENTITY_ROOT_INVALID','ERROR',count(*)::bigint,
       'Every identity_root_id must point to a root product whose identity_root_id points to itself'
-    from erp.products p join erp.products r on r.id=p.identity_root_id
-    where r.identity_root_id<>r.id;
+    from erp.products p left join erp.products r on r.id=p.identity_root_id
+    where r.id is null or r.identity_root_id<>r.id;
   return query
     select 'PRODUCT_SUCCESSOR_CHAIN_MISMATCH','ERROR',count(*)::bigint,
-      'Successor products must stay in the same identity root and start exactly when predecessor ends'
-    from erp.products p join erp.products old on old.id=p.supersedes_product_id
-    where p.identity_root_id<>old.identity_root_id
-       or old.effective_to is distinct from p.effective_from;
+      'Roots have no predecessor; every non-root stays in one root and starts exactly when its predecessor ends'
+    from erp.products p left join erp.products old on old.id=p.supersedes_product_id
+    where (p.id=p.identity_root_id and p.supersedes_product_id is not null)
+       or (p.id<>p.identity_root_id and (
+         p.supersedes_product_id is null or old.id is null
+         or p.identity_root_id<>old.identity_root_id
+         or old.effective_to is distinct from p.effective_from
+       ));
+  return query
+    select 'PRODUCT_SUCCESSOR_BRANCH','ERROR',count(*)::bigint,
+      'One product identity version must have at most one direct successor'
+    from(
+      select p.supersedes_product_id
+      from erp.products p
+      where p.supersedes_product_id is not null
+      group by p.supersedes_product_id having count(*)>1
+    ) branched;
   return query
     select 'PRODUCT_PRICE_OVERLAP','ERROR',count(*)::bigint,
       'Selling-price versions for one product must not overlap'
@@ -1202,6 +1273,9 @@ declare
   v_product_size uuid;
   v_product_model uuid;
   v_source_model uuid;
+  v_source_group uuid;
+  v_source_po uuid;
+  v_qc_po uuid;
   v_receipt_physical_at timestamptz;
   v_qc_physical_at timestamptz;
   v_prior bigint;
@@ -1237,29 +1311,36 @@ begin
         and coalesce(nullif(x.value->>'qty_bs_pcs','')::integer,0)=new.qty_bs_pcs;
     end if;
     if v_source_id is null then
-      -- Trusted legacy writers remain readable, but every connected CP6 write
-      -- is forced through the public action facade and receives exact lineage.
-      if v_context_payload is not null then
-        raise exception using errcode='23514',message='CP6_LAUNDRY_SIZE_LINEAGE_REQUIRED';
-      end if;
-      return new;
+      -- Historical rows remain readable. New receipt-linked QC facts do not
+      -- get a trusted-writer exemption: every caller must provide exact
+      -- receipt/batch/size lineage through the CP6 facade. Otherwise a private
+      -- legacy writer could bypass size conservation while still posting FG,
+      -- HPP, reimbursement, and journals.
+      raise exception using errcode='23514',message='CP6_LAUNDRY_SIZE_LINEAGE_REQUIRED';
     end if;
     new.source_laundry_receipt_batch_size_line_id:=v_source_id;
   end if;
 
-  select x.receipt_line_id,x.size_id,x.qty_good_received,po.model_id,r.physical_at,q.physical_at
-    into v_receipt_line,v_size,v_good,v_source_model,v_receipt_physical_at,v_qc_physical_at
+  select x.receipt_line_id,x.size_id,x.qty_good_received,po.model_id,
+    dl.cutting_group_id,po.id,q.po_id,r.physical_at,q.physical_at
+    into v_receipt_line,v_size,v_good,v_source_model,
+      v_source_group,v_source_po,v_qc_po,v_receipt_physical_at,v_qc_physical_at
   from erp.laundry_receipt_batch_size_lines x
   join erp.laundry_receipt_lines rl on rl.id=x.receipt_line_id
   join erp.laundry_receipts r on r.id=rl.receipt_id
   join erp.laundry_delivery_lines dl on dl.id=rl.delivery_line_id
+  join erp.laundry_deliveries d on d.id=dl.delivery_id and d.status<>'REVERSED'
   join erp.cutting_groups g on g.id=dl.cutting_group_id
-  join erp.production_orders po on po.id=g.po_id
+  join erp.production_orders po on po.id=g.po_id and po.id=d.po_id
   join erp.qc_inspections q on q.id=new.inspection_id
   where x.id=v_source_id and r.status='POSTED'
   for update of r,x;
   if v_receipt_line is distinct from new.source_laundry_receipt_line_id then
     raise exception 'QC batch/size source does not belong to its receipt line';
+  end if;
+  if v_source_group is distinct from new.cutting_group_id
+     or v_source_po is distinct from v_qc_po then
+    raise exception 'QC batch/size source belongs to a different Potongan/PO';
   end if;
   if v_qc_physical_at<v_receipt_physical_at then
     raise exception 'QC physical time cannot be earlier than its authoritative Laundry receipt';
@@ -1349,7 +1430,7 @@ with qc as(
     coalesce(sum(c.qty_claimed),0)::bigint resolved_claim_qty_pcs
   from erp.laundry_claims c
   join lateral(
-    select min(dl.cutting_group_id) cutting_group_id
+    select min(dl.cutting_group_id::text)::uuid cutting_group_id
     from erp.laundry_delivery_lines dl
     where dl.delivery_id=c.delivery_id
     having count(distinct dl.cutting_group_id)=1
@@ -1451,7 +1532,7 @@ with sewing as(
     coalesce(sum(c.qty_claimed) filter(where c.status in('SETTLED','WRITTEN_OFF')),0)::bigint resolved_issue_qty_pcs
   from erp.laundry_claims c
   join lateral(
-    select min(dl.cutting_group_id) cutting_group_id
+    select min(dl.cutting_group_id::text)::uuid cutting_group_id
     from erp.laundry_delivery_lines dl
     where dl.delivery_id=c.delivery_id
     having count(distinct dl.cutting_group_id)=1
@@ -1576,6 +1657,7 @@ declare
   v_deliveries jsonb:='[]'::jsonb;
   v_qc_queue jsonb:='[]'::jsonb;
   v_qc_history jsonb:='[]'::jsonb;
+  v_lineage_issue_count bigint:=0;
 begin
   if v_scope not in('LAUNDRY','QC') then raise exception 'scope must be LAUNDRY or QC'; end if;
   if v_scope='LAUNDRY' then perform erp.require_permission('production.laundry.view');
@@ -1614,6 +1696,101 @@ begin
   join erp.brands b on b.id=p.brand_id and b.is_active
   join erp.sizes s on s.id=p.size_id and s.is_active
   where p.is_active and p.is_portal_visible;
+
+  -- Read paths are also an integrity boundary. Never hide a malformed CP6
+  -- chain by dropping it from a join and showing a smaller, apparently valid
+  -- queue. Legacy rows without CP6 child lineage are reported separately;
+  -- every row claiming CP6 lineage must be exact and no facade-created
+  -- DRAFT/context residue may survive a commit.
+  select
+    (select count(*)
+     from erp.laundry_delivery_batch_size_lines x
+     join erp.laundry_delivery_lines dl on dl.id=x.delivery_line_id
+     join erp.laundry_deliveries d on d.id=dl.delivery_id
+     join erp.cutting_distribution_batches b on b.id=x.distribution_batch_id
+     join erp.cutting_pickups p on p.id=b.pickup_id
+     join erp.cutting_groups g on g.id=dl.cutting_group_id
+     where p.status<>'POSTED'
+        or p.cutting_group_id<>dl.cutting_group_id
+        or g.po_id<>d.po_id
+        or not exists(
+          select 1
+          from erp.cutting_distribution_allocations a
+          join erp.cutting_roll_yields y on y.id=a.cutting_roll_yield_id
+          join erp.cutting_group_size_slots sl on sl.id=y.size_slot_id
+          where a.batch_id=x.distribution_batch_id and sl.size_id=x.size_id
+          having coalesce(sum(a.qty_pcs),0)>0
+        ))
+    +(select count(*) from(
+       select d.id
+       from erp.laundry_deliveries d
+       join erp.laundry_delivery_lines dl on dl.delivery_id=d.id
+       join erp.laundry_delivery_batch_size_lines x on x.delivery_line_id=dl.id
+       group by d.id,d.status
+       having d.status='DRAFT'
+          or count(distinct dl.id)<>1
+          or count(distinct x.distribution_batch_id)<>1
+          or sum(x.qty_sent_pcs)<>max(dl.qty_sent_pcs)
+     ) broken_delivery)
+    +(select count(*)
+     from erp.laundry_receipt_batch_size_lines x
+     join erp.laundry_receipt_lines rl on rl.id=x.receipt_line_id
+     join erp.laundry_receipts r on r.id=rl.receipt_id
+     join erp.laundry_delivery_batch_size_lines sx on sx.id=x.delivery_batch_size_line_id
+     join erp.laundry_delivery_lines dl on dl.id=sx.delivery_line_id
+     join erp.laundry_deliveries d on d.id=dl.delivery_id
+     where rl.delivery_line_id<>sx.delivery_line_id
+        or r.delivery_id<>d.id
+        or x.size_id<>sx.size_id
+        or (x.qty_bs_laundry>0 and not exists(
+          select 1
+          from erp.products product
+          join erp.production_orders po on po.id=d.po_id and po.model_id=product.model_id
+          where product.id=x.bs_product_id and product.size_id=x.size_id
+            and product.effective_from<=r.physical_at
+            and(product.effective_to is null or product.effective_to>r.physical_at)
+        )))
+    +(select count(*) from(
+       select r.id
+       from erp.laundry_receipts r
+       join erp.laundry_receipt_lines rl on rl.receipt_id=r.id
+       join erp.laundry_receipt_batch_size_lines x on x.receipt_line_id=rl.id
+       group by r.id,r.status
+       having r.status='DRAFT'
+          or count(distinct rl.id)<>1
+          or sum(x.qty_good_received)<>max(rl.qty_good_received)
+          or sum(x.qty_bs_laundry)<>max(rl.qty_bs_laundry)
+          or max(rl.qty_stuck)<>0 or max(rl.qty_missing)<>0
+     ) broken_receipt)
+    +(select count(*)
+     from erp.qc_inspection_items qi
+     join erp.qc_inspections q on q.id=qi.inspection_id
+     left join erp.laundry_receipt_batch_size_lines rx
+       on rx.id=qi.source_laundry_receipt_batch_size_line_id
+     left join erp.laundry_receipt_lines rl on rl.id=rx.receipt_line_id
+     left join erp.laundry_receipts r on r.id=rl.receipt_id
+     left join erp.laundry_delivery_batch_size_lines sx on sx.id=rx.delivery_batch_size_line_id
+     left join erp.laundry_delivery_lines dl on dl.id=sx.delivery_line_id
+     left join erp.laundry_deliveries d on d.id=dl.delivery_id
+     left join erp.cutting_groups g on g.id=dl.cutting_group_id
+     left join erp.products product on product.id=qi.final_product_id
+     where qi.source_laundry_receipt_batch_size_line_id is not null
+       and (rx.id is null
+         or qi.source_laundry_receipt_line_id is distinct from rx.receipt_line_id
+         or (q.status<>'REVERSED' and r.status is distinct from 'POSTED')
+         or (q.status<>'REVERSED' and d.status='REVERSED')
+         or r.delivery_id is distinct from d.id
+         or qi.cutting_group_id is distinct from dl.cutting_group_id
+         or q.po_id is distinct from d.po_id
+         or g.po_id is distinct from d.po_id
+         or product.size_id is distinct from rx.size_id
+         or product.model_id is distinct from(
+           select po.model_id from erp.production_orders po where po.id=d.po_id
+         )
+         or product.effective_from>q.physical_at
+         or(product.effective_to is not null and product.effective_to<=q.physical_at)))
+    +(select count(*) from erp.cp6_laundry_qc_execution_context)
+  into v_lineage_issue_count;
 
   if v_scope='LAUNDRY' then
     select coalesce(jsonb_agg(to_jsonb(z) order by z.po_number,z.group_number,z.batch_no,z.distribution_batch_id),'[]'::jsonb)
@@ -1709,9 +1886,8 @@ begin
         coalesce((select sum(cl.qty_claimed) from erp.laundry_claims cl
           where cl.delivery_id=d.id and cl.claim_type in('STUCK','MISSING')
             and cl.status<>'REJECTED'),0)::bigint active_claim_qty_pcs,
-        not exists(select 1 from erp.laundry_receipts r where r.delivery_id=d.id and r.status<>'REVERSED')
-          and not exists(select 1 from erp.laundry_claims cl where cl.delivery_id=d.id and cl.status<>'REJECTED')
-          as reversible,
+        rev.reversal_blocker is null as reversible,
+        rev.reversal_blocker,
         coalesce((select jsonb_agg(to_jsonb(sq) order by sq.sort_order,sq.size_code,sq.delivery_batch_size_line_id)
           from(
             select sx.id delivery_batch_size_line_id,s.id size_id,s.size_code,s.sort_order,
@@ -1730,28 +1906,116 @@ begin
           ) sq),'[]'::jsonb) sizes,
         coalesce((select jsonb_agg(jsonb_build_object(
           'id',r.id,'number',r.receipt_number,'status',r.status,'row_version',r.row_version,
-          'physical_at',r.physical_at,'actual_cost',rl.actual_cost
+          'physical_at',r.physical_at,'actual_cost',rl.actual_cost,
+          'reversible',rr.reversal_blocker is null,
+          'reversal_blocker',rr.reversal_blocker
         ) order by r.physical_at desc,r.id desc)
           from erp.laundry_receipts r join erp.laundry_receipt_lines rl on rl.receipt_id=r.id
+          cross join lateral(
+            select case
+              when r.status<>'POSTED' then 'Receipt bukan POSTED aktif.'
+              when d.status='REVERSED' then 'Surat kirim sumber sudah direverse.'
+              when po.status='FINISHED' then 'PO sudah FINISHED; reopen downstream terlebih dahulu.'
+              when exists(
+                select 1 from erp.qc_inspection_items qi
+                join erp.qc_inspections qh on qh.id=qi.inspection_id
+                where qi.source_laundry_receipt_line_id=rl.id and qh.status<>'REVERSED'
+              ) then 'Receipt sudah dipakai QC; reverse QC aktif terlebih dahulu.'
+              when exists(
+                select 1 from erp.vendor_invoice_items vii
+                join erp.vendor_invoices vi on vi.id=vii.invoice_id
+                where vii.receipt_line_id=rl.id and vi.status<>'REVERSED'
+              ) then 'Receipt sudah ditagih; reverse invoice vendor aktif terlebih dahulu.'
+              when exists(
+                select 1 from erp.laundry_claims lc
+                where(lc.receipt_line_id=rl.id or lc.delivery_id=d.id)
+                  and lc.status<>'REJECTED'
+              ) then 'Receipt/surat kirim masih dipakai claim; bereskan claim terlebih dahulu.'
+              when exists(
+                select 1 from erp.bs_cases bc
+                where(bc.source_laundry_receipt_line_id=rl.id
+                  or bc.bs_number='BS-LAU-'||r.receipt_number||'-'||substr(rl.id::text,1,8))
+                  and(
+                    exists(select 1 from erp.rework_orders ro
+                      where ro.bs_case_id=bc.id and ro.status<>'CANCELLED')
+                    or exists(select 1 from erp.bs_resolutions br where br.bs_case_id=bc.id)
+                  )
+              ) then 'BS dari receipt sudah diproses; reverse downstream BS terlebih dahulu.'
+              when(
+                select count(*) from erp.wip_stage_events wip
+                where wip.source_type='LAUNDRY_RECEIPT_LINE' and wip.source_id=rl.id
+              )<>1 or(
+                select count(*) from erp.wip_stage_events wip
+                where wip.source_type='LAUNDRY_RECEIPT_LINE'
+                  and wip.source_id=rl.id and wip.po_id=d.po_id
+                  and wip.stage_from='LAUNDRY' and wip.stage_to='QC'
+                  and wip.qty_pcs=rl.qty_good_received+rl.qty_bs_laundry
+              )<>1 then 'Histori WIP receipt tidak utuh; reversal dikunci untuk investigasi.'
+              when exists(
+                select 1
+                from erp.laundry_receipt_batch_size_lines bx
+                where bx.receipt_line_id=rl.id and bx.qty_bs_laundry>0
+                  and((
+                      select count(*) from erp.wip_stage_events wip
+                      where wip.source_type='CP6_LAUNDRY_BS_SIZE_LINE'
+                        and wip.source_id=bx.id
+                    )<>1 or(
+                      select count(*) from erp.wip_stage_events wip
+                      where wip.source_type='CP6_LAUNDRY_BS_SIZE_LINE'
+                        and wip.source_id=bx.id and wip.stage_from='QC'
+                        and wip.stage_to='ON_HOLD' and wip.qty_pcs=bx.qty_bs_laundry
+                    )<>1)
+              ) then 'Histori WIP BS Laundry tidak utuh; reversal dikunci untuk investigasi.'
+              else null
+            end reversal_blocker
+          ) rr
           where r.delivery_id=d.id),'[]'::jsonb) receipts
       from erp.laundry_deliveries d
       join erp.laundry_delivery_lines dl on dl.delivery_id=d.id
       join erp.laundry_delivery_batch_size_lines x on x.delivery_line_id=dl.id
       join erp.cutting_distribution_batches b on b.id=x.distribution_batch_id
-      join erp.cutting_groups g on g.id=dl.cutting_group_id
-      join erp.production_orders po on po.id=d.po_id
+      join erp.cutting_groups g on g.id=dl.cutting_group_id and g.po_id=d.po_id
+      join erp.production_orders po on po.id=d.po_id and po.id=g.po_id
       join erp.product_models m on m.id=po.model_id
       join erp.cutting_pickups p on p.id=b.pickup_id and p.status='POSTED'
+        and p.cutting_group_id=g.id
       join erp.contractors c on c.id=p.contractor_id
       join erp.laundry_vendors v on v.id=d.vendor_id
       left join erp.wash_processes w on w.id=d.target_wash_process_id
+      cross join lateral(
+        select case
+          when d.status not in('SENT','PARTIAL_RETURN','RETURNED','CLOSED')
+            then 'Surat kirim bukan dokumen posted aktif.'
+          when po.status='FINISHED'
+            then 'PO sudah FINISHED; reopen downstream terlebih dahulu.'
+          when exists(select 1 from erp.laundry_receipts r
+            where r.delivery_id=d.id and r.status<>'REVERSED')
+            then 'Masih ada receipt aktif; reverse receipt terlebih dahulu.'
+          when exists(select 1 from erp.laundry_claims cl
+            where cl.delivery_id=d.id and cl.status<>'REJECTED')
+            then 'Masih ada claim aktif/terselesaikan; bereskan claim terlebih dahulu.'
+          when exists(
+            select 1
+            from erp.laundry_delivery_lines lx
+            left join erp.wip_stage_events wip
+              on wip.source_type='LAUNDRY_DELIVERY_LINE' and wip.source_id=lx.id
+            where lx.delivery_id=d.id
+            group by lx.id,lx.qty_sent_pcs
+            having count(wip.id)<>1 or count(wip.id) filter(where
+              wip.po_id=d.po_id and wip.stage_from='SEWING' and wip.stage_to='LAUNDRY'
+              and wip.qty_pcs=lx.qty_sent_pcs
+            )<>1
+          ) then 'Histori WIP surat kirim tidak utuh; reversal dikunci untuk investigasi.'
+          else null
+        end reversal_blocker
+      ) rev
       where(v_query is null or lower(concat_ws(' ',d.delivery_number,po.po_number,g.group_number,
         m.model_code,m.model_name,v.vendor_code,v.vendor_name,w.process_code,w.process_name)) like '%'||v_query||'%')
       group by d.id,d.delivery_number,d.row_version,d.status,d.physical_at,
         d.target_dyeing_color,d.special_instruction,d.po_id,po.po_number,po.model_id,g.id,g.group_number,g.row_version,
         m.model_code,m.model_name,c.contractor_name,v.id,v.vendor_code,v.vendor_name,
         w.id,w.process_code,w.process_name,dl.id,dl.qty_sent_pcs,dl.estimated_rate_snapshot,
-        x.distribution_batch_id,b.batch_no
+        x.distribution_batch_id,b.batch_no,rev.reversal_blocker
     ) z;
   else
     select coalesce(jsonb_agg(to_jsonb(z) order by z.po_number,z.group_number,z.batch_no,z.size_sort,z.size_code,z.source_batch_size_line_id),'[]'::jsonb)
@@ -1772,16 +2036,20 @@ begin
         fp.completion_status,fp.remaining_qc_qty_pcs
       from erp.laundry_receipt_batch_size_lines rx
       join erp.laundry_receipt_lines rl on rl.id=rx.receipt_line_id
-      join erp.laundry_receipts r on r.id=rl.receipt_id and r.status='POSTED'
       join erp.laundry_delivery_batch_size_lines sx on sx.id=rx.delivery_batch_size_line_id
       join erp.laundry_delivery_lines dl on dl.id=sx.delivery_line_id
+        and dl.id=rl.delivery_line_id
       join erp.laundry_deliveries d on d.id=dl.delivery_id and d.status<>'REVERSED'
+      join erp.laundry_receipts r on r.id=rl.receipt_id and r.status='POSTED'
+        and r.delivery_id=d.id
       join erp.cutting_distribution_batches b on b.id=sx.distribution_batch_id
-      join erp.cutting_groups g on g.id=dl.cutting_group_id
-      join erp.production_orders po on po.id=d.po_id
+      join erp.cutting_pickups p on p.id=b.pickup_id and p.status='POSTED'
+        and p.cutting_group_id=dl.cutting_group_id
+      join erp.cutting_groups g on g.id=dl.cutting_group_id and g.po_id=d.po_id
+      join erp.production_orders po on po.id=d.po_id and po.id=g.po_id
       join erp.product_models m on m.id=po.model_id
       join erp.laundry_vendors v on v.id=d.vendor_id
-      join erp.sizes s on s.id=rx.size_id
+      join erp.sizes s on s.id=rx.size_id and s.id=sx.size_id
       join erp.v_fg_partial_completion_progress fp on fp.cutting_group_id=g.id
       where rx.qty_good_received>coalesce((select sum(i.qty_good_pcs+i.qty_bs_pcs)
           from erp.qc_inspection_items i join erp.qc_inspections q on q.id=i.inspection_id
@@ -1796,15 +2064,45 @@ begin
       select q.id qc_inspection_id,q.inspection_number,q.status,q.row_version,q.physical_at,
         q.destination_location_id,l.location_name,q.po_id,po.po_number,
         sum(i.qty_good_pcs)::bigint good_qty_pcs,sum(i.qty_bs_pcs)::bigint bs_qty_pcs,
-        count(distinct i.cutting_group_id)::integer cutting_group_count
+        count(distinct i.cutting_group_id)::integer cutting_group_count,
+        rev.reversal_blocker is null as reversible,rev.reversal_blocker
       from erp.qc_inspections q
       join erp.qc_inspection_items i on i.inspection_id=q.id
       join erp.production_orders po on po.id=q.po_id
       left join erp.locations l on l.id=q.destination_location_id
+      cross join lateral(
+        select case
+          when q.status<>'POSTED' then 'Finalisasi QC bukan POSTED aktif.'
+          when po.status='FINISHED' then 'PO sudah FINISHED; reopen downstream terlebih dahulu.'
+          when exists(
+            select 1 from erp.bs_cases bc
+            where bc.qc_item_id in(select x.id from erp.qc_inspection_items x where x.inspection_id=q.id)
+              and bc.status<>'CANCELLED'
+              and(
+                exists(select 1 from erp.rework_orders ro
+                  where ro.bs_case_id=bc.id and ro.status<>'CANCELLED')
+                or exists(select 1 from erp.bs_resolutions br where br.bs_case_id=bc.id)
+              )
+          ) then 'BS hasil QC sudah diproses; reverse downstream BS terlebih dahulu.'
+          when exists(
+            select 1 from erp.fg_lots fl
+            where fl.qc_item_id in(select x.id from erp.qc_inspection_items x where x.inspection_id=q.id)
+              and fl.lot_origin='PRODUCTION'
+              and erp.fg_lot_has_active_downstream(fl.id,'QC_GOOD','QC_ITEM',fl.qc_item_id)
+          ) then 'FG hasil QC masih dipakai transaksi downstream aktif.'
+          when exists(
+            select 1 from erp.contractor_accessory_reimbursement_entitlements e
+            join erp.fg_lots fl on fl.id=e.lot_id
+            where fl.qc_item_id in(select x.id from erp.qc_inspection_items x where x.inspection_id=q.id)
+              and fl.lot_origin='PRODUCTION' and e.payroll_status<>'UNALLOCATED'
+          ) then 'Reimbursement aksesori sudah masuk payroll; reverse payroll terlebih dahulu.'
+          else null
+        end reversal_blocker
+      ) rev
       where i.source_laundry_receipt_batch_size_line_id is not null
         and(v_query is null or lower(concat_ws(' ',q.inspection_number,po.po_number,l.location_name)) like '%'||v_query||'%')
       group by q.id,q.inspection_number,q.status,q.row_version,q.physical_at,
-        q.destination_location_id,l.location_name,q.po_id,po.po_number
+        q.destination_location_id,l.location_name,q.po_id,po.po_number,rev.reversal_blocker
     ) z;
   end if;
 
@@ -1815,9 +2113,13 @@ begin
       'fg_locations',v_locations,'products',v_products
     ),
     'readiness',jsonb_build_object(
-      'laundry_writer_ready',jsonb_array_length(v_vendors)>0
+      'laundry_writer_ready',v_lineage_issue_count=0
+        and jsonb_array_length(v_vendors)>0
         and jsonb_array_length(v_processes)>0 and jsonb_array_length(v_rates)>0,
-      'qc_writer_ready',jsonb_array_length(v_locations)>0 and jsonb_array_length(v_products)>0,
+      'qc_writer_ready',v_lineage_issue_count=0
+        and jsonb_array_length(v_locations)>0 and jsonb_array_length(v_products)>0,
+      'lineage_integrity_ok',v_lineage_issue_count=0,
+      'lineage_issue_count',v_lineage_issue_count,
       'no_fixture_fallback',true,
       'failed_wash_with_charge_supported',false
     ),
@@ -1871,11 +2173,13 @@ declare
   v_line jsonb;
   v_rate numeric(18,2);
   v_rate_count integer;
+  v_group_count integer;
   v_total bigint;
   v_good bigint;
   v_bs bigint;
   v_available bigint;
   v_available_at_physical_time bigint;
+  v_ready_after_qc bigint;
   v_delivery_line_id uuid;
   v_receipt_line_id uuid;
   v_number text;
@@ -2078,6 +2382,10 @@ begin
     where b.id=v_batch_id
     for update of b,p;
     if v_group_id is null then raise exception 'Authoritative POSTED distribution batch was not found'; end if;
+    -- Every CP6 mutation that can change Laundry/QC progress shares this
+    -- transaction fence.  Cross-document actions on one Potongan therefore
+    -- have one serial order even when their individual row locks do not meet.
+    perform pg_advisory_xact_lock(hashtextextended('CP6FLOW:'||v_group_id::text,0));
     select * into v_group from erp.cutting_groups where id=v_group_id for update;
     if v_group.row_version<>p_expected_version then
       raise exception 'STALE_VERSION expected %, current %',p_expected_version,v_group.row_version;
@@ -2233,6 +2541,13 @@ begin
       ) group by x.delivery_batch_size_line_id having count(*)>1
     ) then raise exception 'Receipt size lines must be unique, positive, and bind every Laundry BS to a product'; end if;
 
+    select min(dl.cutting_group_id::text)::uuid,count(*)::integer
+      into v_group_id,v_group_count
+    from erp.laundry_delivery_lines dl where dl.delivery_id=v_delivery_id;
+    if v_group_count<>1 or v_group_id is null then
+      raise exception 'Connected CP6 receipt requires one authoritative delivery line';
+    end if;
+    perform pg_advisory_xact_lock(hashtextextended('CP6FLOW:'||v_group_id::text,0));
     select * into v_delivery from erp.laundry_deliveries where id=v_delivery_id for update;
     if v_delivery.id is null or v_delivery.status not in('SENT','PARTIAL_RETURN') then
       raise exception 'Laundry receipt requires an active SENT/PARTIAL_RETURN delivery';
@@ -2266,8 +2581,9 @@ begin
       and r.effective_from<=v_physical_at
       and(r.effective_to is null or r.effective_to>v_physical_at)
     order by r.id for share;
-    select min(dl.id) into v_delivery_line_id
-    from erp.laundry_delivery_lines dl where dl.delivery_id=v_delivery.id;
+    select min(dl.id::text)::uuid into v_delivery_line_id
+    from erp.laundry_delivery_lines dl
+    where dl.delivery_id=v_delivery.id and dl.cutting_group_id=v_group_id;
     if v_delivery_line_id is null or(
       select count(*) from erp.laundry_delivery_lines dl where dl.delivery_id=v_delivery.id
     )<>1 then raise exception 'Connected CP6 receipt requires one authoritative delivery line'; end if;
@@ -2391,6 +2707,13 @@ begin
     if p_expected_version is null or v_delivery_id is null then
       raise exception 'Delivery and expected_version are required';
     end if;
+    select min(dl.cutting_group_id::text)::uuid,count(distinct dl.cutting_group_id)::integer
+      into v_group_id,v_group_count
+    from erp.laundry_delivery_lines dl where dl.delivery_id=v_delivery_id;
+    if v_group_count<>1 or v_group_id is null then
+      raise exception 'Connected CP6 delivery reversal requires one Potongan';
+    end if;
+    perform pg_advisory_xact_lock(hashtextextended('CP6FLOW:'||v_group_id::text,0));
     select * into v_delivery from erp.laundry_deliveries where id=v_delivery_id for update;
     if v_delivery.id is null then raise exception 'Laundry delivery not found'; end if;
     if v_delivery.row_version<>p_expected_version then
@@ -2409,6 +2732,15 @@ begin
       raise exception 'Receipt and expected_version are required';
     end if;
     v_receipt_id:=(p_payload->>'receipt_id')::uuid;
+    select min(dl.cutting_group_id::text)::uuid,count(distinct dl.cutting_group_id)::integer
+      into v_group_id,v_group_count
+    from erp.laundry_receipt_lines rl
+    join erp.laundry_delivery_lines dl on dl.id=rl.delivery_line_id
+    where rl.receipt_id=v_receipt_id;
+    if v_group_count<>1 or v_group_id is null then
+      raise exception 'Connected CP6 receipt reversal requires one Potongan';
+    end if;
+    perform pg_advisory_xact_lock(hashtextextended('CP6FLOW:'||v_group_id::text,0));
     select * into v_receipt from erp.laundry_receipts where id=v_receipt_id for update;
     if v_receipt.id is null then raise exception 'Laundry receipt not found'; end if;
     if v_receipt.row_version<>p_expected_version then
@@ -2454,8 +2786,9 @@ begin
     for share;
     if not found then raise exception 'Destination must be an active FG warehouse'; end if;
 
-    -- Receipt reversal locks the document header first.  Final-SKU posting
-    -- must use the same order, otherwise a concurrent reversal could change
+    perform pg_advisory_xact_lock(hashtextextended('CP6FLOW:'||v_group_id::text,0));
+    -- The shared Potongan fence is acquired before receipt headers. A
+    -- concurrent reversal cannot change
     -- POSTED -> REVERSED after a child source was checked but before QC/FG was
     -- committed.  Lock every referenced header deterministically, then
     -- re-check the complete exact-source chain while those locks are held.
@@ -2488,8 +2821,14 @@ begin
         on rl.id=sx.receipt_line_id
        and rl.id=x.source_laundry_receipt_line_id
       join erp.laundry_receipts r on r.id=rl.receipt_id and r.status='POSTED'
+      join erp.laundry_delivery_lines dl
+        on dl.id=rl.delivery_line_id and dl.cutting_group_id=v_group_id
+      join erp.laundry_deliveries d
+        on d.id=dl.delivery_id and d.status<>'REVERSED'
+      join erp.cutting_groups g
+        on g.id=v_group_id and g.po_id=d.po_id
     )<>jsonb_array_length(v_lines) then
-      raise exception 'Every Final SKU source must belong to an authoritative POSTED Laundry receipt';
+      raise exception 'Every Final SKU source must belong to the same Potongan and an authoritative POSTED Laundry receipt';
     end if;
     insert into erp.cp6_laundry_qc_execution_context(
       backend_pid,transaction_id,actor_key,action,permission_key,client_request_id,payload
@@ -2498,6 +2837,21 @@ begin
       'production.final_sku.post',p_client_request_id,p_payload
     );
     v_nested:=erp.post_final_sku_allocation_v1(p_payload,p_client_request_id,p_expected_version);
+    -- completion_mode is operational/reporting state, not browser-owned
+    -- metadata.  The predecessor persists the declaration before returning
+    -- the authoritative post-mutation progress.  Reject a lie in either
+    -- direction here; the exception rolls the nested QC, FG, BS, HPP,
+    -- journal, row-version, and both idempotency envelopes back atomically.
+    v_ready_after_qc:=nullif(v_nested->>'ready_for_qc_qty_pcs','')::bigint;
+    if v_ready_after_qc is null then
+      raise exception 'CP6 Final-SKU writer did not return authoritative ready-for-QC balance';
+    end if;
+    if ((p_payload->>'completion_mode')='ALL_READY' and v_ready_after_qc<>0)
+       or ((p_payload->>'completion_mode')='PARTIAL_SELECTION' and v_ready_after_qc=0) then
+      raise exception
+        'CP6 completion_mode % conflicts with authoritative ready-for-QC remainder % after atomic posting',
+        p_payload->>'completion_mode',v_ready_after_qc;
+    end if;
     delete from erp.cp6_laundry_qc_execution_context
     where backend_pid=pg_backend_pid() and transaction_id=txid_current();
     if not found then raise exception 'CP6 execution context cleanup failed'; end if;
@@ -2514,6 +2868,13 @@ begin
     if p_expected_version is null or v_qc_id is null then
       raise exception 'QC inspection and expected_version are required';
     end if;
+    select min(i.cutting_group_id::text)::uuid,count(distinct i.cutting_group_id)::integer
+      into v_group_id,v_group_count
+    from erp.qc_inspection_items i where i.inspection_id=v_qc_id;
+    if v_group_count<>1 or v_group_id is null then
+      raise exception 'Connected CP6 Final-SKU reversal requires one Potongan';
+    end if;
+    perform pg_advisory_xact_lock(hashtextextended('CP6FLOW:'||v_group_id::text,0));
     select * into v_qc from erp.qc_inspections where id=v_qc_id for update;
     if v_qc.id is null then raise exception 'QC inspection not found'; end if;
     if v_qc.row_version<>p_expected_version then
@@ -2690,12 +3051,14 @@ declare
   v_allocated bigint;
   v_prior bigint;
 begin
-  if not(old.status='DRAFT' and new.status='SENT')
-     or not exists(
-       select 1 from erp.laundry_delivery_batch_size_lines x
-       join erp.laundry_delivery_lines l on l.id=x.delivery_line_id
-       where l.delivery_id=new.id
-     ) then return new; end if;
+  if not(old.status='DRAFT' and new.status='SENT') then return new; end if;
+  if not exists(
+    select 1 from erp.laundry_delivery_batch_size_lines x
+    join erp.laundry_delivery_lines l on l.id=x.delivery_line_id
+    where l.delivery_id=new.id
+  ) then
+    raise exception 'CP6 posted Laundry delivery requires immutable distribution batch/size lineage';
+  end if;
 
   select count(*) into v_line_count
   from erp.laundry_delivery_lines where delivery_id=new.id;
@@ -2758,13 +3121,21 @@ as $function$
 declare
   r record;
   v_prior bigint;
+  v_line_count integer;
 begin
-  if not(old.status='DRAFT' and new.status='POSTED')
-     or not exists(
-       select 1 from erp.laundry_receipt_batch_size_lines x
-       join erp.laundry_receipt_lines l on l.id=x.receipt_line_id
-       where l.receipt_id=new.id
-     ) then return new; end if;
+  if not(old.status='DRAFT' and new.status='POSTED') then return new; end if;
+  if not exists(
+    select 1 from erp.laundry_receipt_batch_size_lines x
+    join erp.laundry_receipt_lines l on l.id=x.receipt_line_id
+    where l.receipt_id=new.id
+  ) then
+    raise exception 'CP6 posted Laundry receipt requires immutable delivery batch/size lineage';
+  end if;
+  select count(*) into v_line_count
+  from erp.laundry_receipt_lines where receipt_id=new.id;
+  if v_line_count<>1 then
+    raise exception 'CP6 Laundry receipt must contain exactly one authoritative delivery line';
+  end if;
   if exists(
     select 1 from erp.laundry_receipt_lines l
     left join(
@@ -2809,10 +3180,11 @@ begin
 end
 $function$;
 
--- The legacy invoice poster validates a POSTED receipt before it writes AP,
--- but historically did not retain a lock on the receipt header.  Serialize
--- the final DRAFT -> POSTED transition against receipt reversal and re-check
--- the source while the lock is held.  An exception here rolls back the entire
+-- The legacy invoice lifecycle changes the authoritative cost on receipt lines
+-- before it posts/reverses AP and rebuilds HPP.  It historically did not retain
+-- a lock on the receipt header.  Serialize both DRAFT -> POSTED and
+-- POSTED -> REVERSED against receipt reversal and Final-SKU, then re-check the
+-- source while the lock is held.  An exception here rolls back the entire
 -- invoice transaction, including receipt-cost, journal, HPP, and AP changes.
 create function erp.guard_cp6_vendor_invoice_receipt_on_post_v2620()
 returns trigger
@@ -2821,7 +3193,10 @@ security definer
 set search_path=''
 as $function$
 begin
-  if not(old.status='DRAFT' and new.status='POSTED') then return new; end if;
+  if not(
+    (old.status='DRAFT' and new.status='POSTED')
+    or (old.status='POSTED' and new.status='REVERSED')
+  ) then return new; end if;
   if not exists(
     select 1 from erp.vendor_invoice_items i where i.invoice_id=new.id
   ) then
@@ -2846,7 +3221,7 @@ begin
     join erp.laundry_receipts r on r.id=rl.receipt_id
     where i.invoice_id=new.id and r.status<>'POSTED'
   ) then
-    raise exception 'Vendor invoice posting lost its authoritative POSTED Laundry receipt; retry only after reconciliation';
+    raise exception 'Vendor invoice lifecycle lost its authoritative POSTED Laundry receipt; retry only after reconciliation';
   end if;
   return new;
 end
@@ -3014,6 +3389,12 @@ begin
   if to_regclass('erp.idx_products_brand_sku_effective_v2620') is null
      or pg_get_functiondef('erp.validate_product_identity_period()'::regprocedure)
        not like '%BRANDSKU:%new.brand_id%'
+     or pg_get_functiondef('erp.validate_product_identity_period()'::regprocedure)
+       not like '%SKUROOT:%new.identity_root_id%'
+     or pg_get_functiondef('erp.validate_product_identity_period()'::regprocedure)
+       not like '%Satu versi SKU tidak boleh memiliki lebih dari satu successor%'
+     or pg_get_functiondef('erp.validate_product_identity_period()'::regprocedure)
+       not like '%Identitas dan periode SKU immutable setelah row dibuat%'
      or replace(pg_get_functiondef(
        'erp.validate_product_identity_period()'::regprocedure),' ','')
        not like '%p.brand_id=new.brand_id%p.size_id=new.size_id%'
@@ -3022,6 +3403,8 @@ begin
      or replace(pg_get_functiondef(
        'erp.run_v259_integrity_checks()'::regprocedure),' ','')
        not like '%PRODUCT_IDENTITY_BRAND_SKU_VARIANT_MISMATCH%'
+     or pg_get_functiondef('erp.run_v259_integrity_checks()'::regprocedure)
+       not like '%PRODUCT_SUCCESSOR_BRANCH%'
      or replace(pg_get_functiondef(
        'erp.apply_migration_master_rows(uuid)'::regprocedure),' ','')
        not like '%p.brand_id=v_brand%p.size_id=v_size%' then
@@ -3085,10 +3468,13 @@ begin
      ) or replace(pg_get_functiondef(
        'erp.guard_cp6_vendor_invoice_receipt_on_post_v2620()'::regprocedure),' ','')
          not like '%orderbyr.id%forupdate%r.status<>''POSTED''%'
+     or replace(pg_get_functiondef(
+       'erp.guard_cp6_vendor_invoice_receipt_on_post_v2620()'::regprocedure),' ','')
+         not like '%old.status=''POSTED''andnew.status=''REVERSED''%'
      or has_function_privilege(
        'authenticated','erp.guard_cp6_vendor_invoice_receipt_on_post_v2620()','EXECUTE'
      ) then
-    raise exception 'ERP v2.6.20 post guard: vendor-invoice/receipt-reversal serialization failed';
+    raise exception 'ERP v2.6.20 post guard: vendor-invoice/receipt/Final-SKU serialization failed';
   end if;
   if has_function_privilege('anon','public.erp_get_laundry_qc_workspace_v1(text,text)','EXECUTE')
      or has_function_privilege('anon','public.erp_save_laundry_qc_action_v1(text,jsonb,uuid,bigint)','EXECUTE')

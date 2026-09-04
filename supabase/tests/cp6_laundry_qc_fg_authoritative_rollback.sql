@@ -29,6 +29,9 @@ declare
   v_wrong_model_product constant uuid:='c7010000-0000-4000-8000-000000000041';
   v_expired_product constant uuid:='c7010000-0000-4000-8000-000000000042';
   v_inactive_brand_product constant uuid:='c7010000-0000-4000-8000-000000000043';
+  v_chain_root constant uuid:='c7010000-0000-4000-8000-000000000044';
+  v_chain_successor constant uuid:='c7010000-0000-4000-8000-000000000045';
+  v_chain_probe constant uuid:='c7010000-0000-4000-8000-000000000046';
   v_fg_location constant uuid:='c7020000-0000-4000-8000-000000000001';
   v_vendor constant uuid:='c7020000-0000-4000-8000-000000000002';
   v_process constant uuid:='c7020000-0000-4000-8000-000000000003';
@@ -49,12 +52,24 @@ declare
   v_distribution_allocation_2 constant uuid:='c7040000-0000-4000-8000-000000000011';
   v_malformed_delivery constant uuid:='c7040000-0000-4000-8000-000000000012';
   v_malformed_delivery_line constant uuid:='c7040000-0000-4000-8000-000000000013';
+  v_foreign_po constant uuid:='c7040000-0000-4000-8000-000000000014';
+  v_foreign_cut_batch constant uuid:='c7040000-0000-4000-8000-000000000015';
+  v_foreign_group constant uuid:='c7040000-0000-4000-8000-000000000016';
+  v_foreign_slot constant uuid:='c7040000-0000-4000-8000-000000000017';
+  v_foreign_group_roll constant uuid:='c7040000-0000-4000-8000-000000000018';
+  v_foreign_yield constant uuid:='c7040000-0000-4000-8000-000000000019';
+  v_foreign_qc constant uuid:='c7040000-0000-4000-8000-000000000020';
+  v_malformed_receipt constant uuid:='c7040000-0000-4000-8000-000000000021';
+  v_malformed_receipt_line constant uuid:='c7040000-0000-4000-8000-000000000022';
+  v_malformed_receipt_line_2 constant uuid:='c7040000-0000-4000-8000-000000000023';
   v_component_snapshot constant uuid:='c7050000-0000-4000-8000-000000000001';
   v_work_completion constant uuid:='c7050000-0000-4000-8000-000000000002';
   v_work_line constant uuid:='c7050000-0000-4000-8000-000000000003';
   v_send_request constant uuid:='c7060000-0000-4000-8000-000000000001';
   v_receipt_request constant uuid:='c7060000-0000-4000-8000-000000000002';
   v_qc_request constant uuid:='c7060000-0000-4000-8000-000000000003';
+  v_false_all_ready_request constant uuid:='c7060000-0000-4000-8000-000000000004';
+  v_false_partial_request constant uuid:='c7060000-0000-4000-8000-000000000005';
   v_claim constant uuid:='c7070000-0000-4000-8000-000000000001';
   v_late_invoice constant uuid:='c7080000-0000-4000-8000-000000000001';
   v_late_invoice_item constant uuid:='c7080000-0000-4000-8000-000000000002';
@@ -67,6 +82,7 @@ declare
   v_replay jsonb;
   v_workspace jsonb;
   v_group_version bigint;
+  v_foreign_group_version bigint;
   v_delivery uuid;
   v_delivery_version bigint;
   v_delivery_size_line uuid;
@@ -226,11 +242,113 @@ begin
   if not v_failed then
     raise exception 'CP6 allowed one brand + SKU number to drift across model/color by size';
   end if;
+
+  -- Product-version metadata is stock/HPP lineage. Prove even a trusted
+  -- writer cannot detach a non-root version, fork one predecessor, or rewrite
+  -- any identity/period field after creation. Display text remains editable.
+  v_failed:=false;
+  begin
+    insert into erp.products(
+      id,sku,model_id,brand_id,color_name,size_id,product_name,
+      identity_root_id,effective_from,effective_to,is_active,is_portal_visible
+    ) values(
+      v_chain_probe,'CP6-CHAIN-L',v_other_model,v_second_brand,
+      'BLACK',v_size_l,'CP6 Detached Chain Probe',v_chain_root,
+      '2030-01-01 00:00+00','2031-01-01 00:00+00',true,false
+    );
+  exception when others then
+    if sqlerrm='identity_root_id SKU wajib menunjuk root yang valid dan menunjuk dirinya sendiri'
+      then v_failed:=true; else raise; end if;
+  end;
+  if not v_failed then raise exception 'CP6 allowed a product version with a missing identity root'; end if;
+
+  insert into erp.products(
+    id,sku,model_id,brand_id,color_name,size_id,product_name,
+    identity_root_id,effective_from,effective_to,is_active,is_portal_visible
+  ) values(
+    v_chain_root,'CP6-CHAIN-L',v_other_model,v_second_brand,
+    'BLACK',v_size_l,'CP6 Chain Root',v_chain_root,
+    '2026-01-01 00:00+00','2027-01-01 00:00+00',true,false
+  );
+  insert into erp.products(
+    id,sku,model_id,brand_id,color_name,size_id,product_name,
+    identity_root_id,effective_from,effective_to,supersedes_product_id,
+    is_active,is_portal_visible
+  ) values(
+    v_chain_successor,'CP6-CHAIN-L',v_other_model,v_second_brand,
+    'BLACK',v_size_l,'CP6 Chain Successor',v_chain_root,
+    '2027-01-01 00:00+00',null,v_chain_root,true,false
+  );
+
+  v_failed:=false;
+  begin
+    insert into erp.products(
+      id,sku,model_id,brand_id,color_name,size_id,product_name,
+      identity_root_id,effective_from,effective_to,is_active,is_portal_visible
+    ) values(
+      v_chain_probe,'CP6-CHAIN-L',v_other_model,v_second_brand,
+      'BLACK',v_size_l,'CP6 Detached Non-root Probe',v_chain_root,
+      '2030-01-01 00:00+00','2031-01-01 00:00+00',true,false
+    );
+  exception when others then
+    if sqlerrm='Versi SKU non-root wajib menunjuk predecessor'
+      then v_failed:=true; else raise; end if;
+  end;
+  if not v_failed then raise exception 'CP6 allowed a non-root product version without a predecessor'; end if;
+
+  v_failed:=false;
+  begin
+    insert into erp.products(
+      id,sku,model_id,brand_id,color_name,size_id,product_name,
+      identity_root_id,effective_from,effective_to,supersedes_product_id,
+      is_active,is_portal_visible
+    ) values(
+      v_chain_probe,'CP6-CHAIN-L',v_other_model,v_second_brand,
+      'BLACK',v_size_l,'CP6 Forked Successor Probe',v_chain_root,
+      '2027-01-01 00:00+00',null,v_chain_root,true,false
+    );
+  exception when others then
+    if sqlerrm='Satu versi SKU tidak boleh memiliki lebih dari satu successor'
+      then v_failed:=true; else raise; end if;
+  end;
+  if not v_failed then raise exception 'CP6 allowed a branched product successor chain'; end if;
+
+  v_failed:=false;
+  begin
+    update erp.products
+    set effective_to='2027-02-01 00:00+00'
+    where id=v_chain_root;
+  exception when others then
+    if sqlerrm='Identitas dan periode SKU immutable setelah row dibuat; ubah nama/status tampilan saja atau buat successor terkontrol, jangan menulis ulang sejarah stok/HPP'
+      then v_failed:=true; else raise; end if;
+  end;
+  if not v_failed then raise exception 'CP6 allowed a product period update to rewrite historical stock/HPP identity'; end if;
+
+  v_failed:=false;
+  begin
+    update erp.products set color_name='WHITE' where id=v_chain_successor;
+  exception when others then
+    if sqlerrm='Identitas dan periode SKU immutable setelah row dibuat; ubah nama/status tampilan saja atau buat successor terkontrol, jangan menulis ulang sejarah stok/HPP'
+      then v_failed:=true; else raise; end if;
+  end;
+  if not v_failed then raise exception 'CP6 allowed a product identity update to rewrite historical stock/HPP meaning'; end if;
+
+  update erp.products set product_name='CP6 Chain Successor Renamed' where id=v_chain_successor;
+  if (select product_name from erp.products where id=v_chain_successor)<>'CP6 Chain Successor Renamed' then
+    raise exception 'CP6 immutable identity guard blocked safe display-name maintenance';
+  end if;
+
   if (select issue_count from erp.run_v259_integrity_checks()
       where check_name='PRODUCT_IDENTITY_SKU_CROSS_ROOT_OVERLAP')<>0
      or (select issue_count from erp.run_v259_integrity_checks()
-      where check_name='PRODUCT_IDENTITY_BRAND_SKU_VARIANT_MISMATCH')<>0 then
-    raise exception 'CP6 product checker rejected valid same-SKU size/brand variants';
+      where check_name='PRODUCT_IDENTITY_BRAND_SKU_VARIANT_MISMATCH')<>0
+     or (select issue_count from erp.run_v259_integrity_checks()
+      where check_name='PRODUCT_IDENTITY_ROOT_INVALID')<>0
+     or (select issue_count from erp.run_v259_integrity_checks()
+      where check_name='PRODUCT_SUCCESSOR_CHAIN_MISMATCH')<>0
+     or (select issue_count from erp.run_v259_integrity_checks()
+      where check_name='PRODUCT_SUCCESSOR_BRANCH')<>0 then
+    raise exception 'CP6 product checker rejected valid Brand/SKU variants or version lineage';
   end if;
   insert into erp.accessory_bom_versions(
     product_id,version_label,effective_from,is_active,notes
@@ -336,6 +454,36 @@ begin
     raise exception 'CP6 malformed multi-batch rejection left transaction residue';
   end if;
 
+  v_failed:=false;
+  begin
+    update erp.cutting_pickups
+    set status='POSTED',posted_by=v_owner_app,posted_at='2026-09-01 09:00+00'
+    where id=v_pickup;
+    insert into erp.laundry_deliveries(
+      id,delivery_number,po_id,vendor_id,target_dyeing_color,target_wash_process_id,
+      physical_at,status,created_by
+    ) values(
+      v_malformed_delivery,'LDR-CP6-NO-SIZE-LINEAGE',v_po,v_vendor,'NAVY',v_process,
+      '2026-09-01 11:00+00','DRAFT',v_owner_app
+    );
+    insert into erp.laundry_delivery_lines(
+      id,delivery_id,cutting_group_id,qty_sent_pcs,estimated_rate_snapshot,
+      estimated_cost_status,notes
+    ) values(
+      v_malformed_delivery_line,v_malformed_delivery,v_group,10,7,'ESTIMATED',
+      'A trusted legacy writer still may not omit exact batch/size lineage'
+    );
+    perform erp.post_laundry_delivery(v_malformed_delivery);
+  exception when others then
+    if sqlerrm='CP6 posted Laundry delivery requires immutable distribution batch/size lineage'
+      then v_failed:=true; else raise; end if;
+  end;
+  if not v_failed
+     or exists(select 1 from erp.laundry_deliveries where id=v_malformed_delivery)
+     or (select status from erp.cutting_pickups where id=v_pickup)<>'DRAFT' then
+    raise exception 'CP6 trusted delivery writer bypassed exact batch/size lineage or left residue';
+  end if;
+
   delete from erp.cutting_distribution_allocations where id=v_distribution_allocation_2;
   delete from erp.cutting_distribution_batches where id=v_distribution_batch_2;
   update erp.cutting_distribution_allocations set qty_pcs=10
@@ -377,6 +525,8 @@ begin
      or v_workspace->>'scope'<>'LAUNDRY'
      or v_workspace#>>'{readiness,no_fixture_fallback}'<>'true'
      or v_workspace#>>'{readiness,failed_wash_with_charge_supported}'<>'false'
+     or v_workspace#>>'{readiness,lineage_integrity_ok}'<>'true'
+     or (v_workspace#>>'{readiness,lineage_issue_count}')::bigint<>0
      or jsonb_array_length(v_workspace->'ready_batches')<>1
      or (v_workspace#>>'{ready_batches,0,sizes,0,available_qty_pcs}')::integer<>10
      or (v_workspace#>>'{ready_batches,0,group_unsent_ready_qty_pcs}')::integer<>10 then
@@ -533,6 +683,67 @@ begin
     if sqlerrm like 'STALE_VERSION expected %, current %' then v_failed:=true; else raise; end if;
   end;
   if not v_failed then raise exception 'CP6 accepted a stale duplicate Laundry send'; end if;
+
+  execute 'reset role';
+  v_failed:=false;
+  begin
+    insert into erp.laundry_receipts(
+      id,receipt_number,delivery_id,physical_at,status,created_by
+    ) values(
+      v_malformed_receipt,'LRC-CP6-NO-SIZE-LINEAGE',v_delivery,
+      '2026-09-01 12:00+00','DRAFT',v_owner_app
+    );
+    insert into erp.laundry_receipt_lines(
+      id,receipt_id,delivery_line_id,actual_wash_process_id,
+      qty_good_received,qty_bs_laundry,qty_stuck,qty_missing,
+      actual_rate_snapshot,actual_cost_status,actual_cost,notes
+    ) select
+      v_malformed_receipt_line,v_malformed_receipt,dl.id,v_process,
+      10,0,0,0,7,'ESTIMATED',70,
+      'A trusted legacy writer still may not omit exact return batch/size lineage'
+    from erp.laundry_delivery_lines dl where dl.delivery_id=v_delivery;
+    perform erp.post_laundry_receipt(v_malformed_receipt);
+  exception when others then
+    if sqlerrm='CP6 posted Laundry receipt requires immutable delivery batch/size lineage'
+      then v_failed:=true; else raise; end if;
+  end;
+  if not v_failed or exists(select 1 from erp.laundry_receipts where id=v_malformed_receipt) then
+    raise exception 'CP6 trusted receipt writer bypassed exact batch/size lineage or left residue';
+  end if;
+
+  v_failed:=false;
+  begin
+    insert into erp.laundry_receipts(
+      id,receipt_number,delivery_id,physical_at,status,created_by
+    ) values(
+      v_malformed_receipt,'LRC-CP6-TWO-LINES',v_delivery,
+      '2026-09-01 12:00+00','DRAFT',v_owner_app
+    );
+    insert into erp.laundry_receipt_lines(
+      id,receipt_id,delivery_line_id,actual_wash_process_id,
+      qty_good_received,qty_bs_laundry,qty_stuck,qty_missing,
+      actual_rate_snapshot,actual_cost_status,actual_cost,notes
+    ) select
+      x.id,v_malformed_receipt,dl.id,v_process,
+      5,0,0,0,7,'ESTIMATED',35,'One physical receipt must keep one line'
+    from erp.laundry_delivery_lines dl
+    cross join (values(v_malformed_receipt_line),(v_malformed_receipt_line_2)) as x(id)
+    where dl.delivery_id=v_delivery;
+    insert into erp.laundry_receipt_batch_size_lines(
+      receipt_line_id,delivery_batch_size_line_id,size_id,
+      qty_good_received,qty_bs_laundry,bs_product_id,created_by
+    ) values
+      (v_malformed_receipt_line,v_delivery_size_line,v_size_s,5,0,null,v_owner_app),
+      (v_malformed_receipt_line_2,v_delivery_size_line,v_size_s,5,0,null,v_owner_app);
+    perform erp.post_laundry_receipt(v_malformed_receipt);
+  exception when others then
+    if sqlerrm='CP6 Laundry receipt must contain exactly one authoritative delivery line'
+      then v_failed:=true; else raise; end if;
+  end;
+  if not v_failed or exists(select 1 from erp.laundry_receipts where id=v_malformed_receipt) then
+    raise exception 'CP6 trusted receipt writer created a multi-line receipt or left residue';
+  end if;
+  execute 'set local role authenticated';
 
   v_receipt_payload:=jsonb_build_object(
     'delivery_id',v_delivery,'wash_process_id',v_process,
@@ -712,6 +923,122 @@ begin
     raise exception 'CP6 disposable late-return proof did not restore its exact starting history';
   end if;
 
+  -- A product/model/size match is not sufficient lineage. Prove a permissioned
+  -- caller cannot consume Group A's exact Laundry return while minting FG/HPP
+  -- under another Potongan and PO that happen to use the same model and size.
+  insert into erp.production_orders(
+    id,po_number,model_id,contractor_id,target_qty_pcs,status,current_stage,
+    physical_start_at,notes
+  ) values(
+    v_foreign_po,'CP6-PO-FOREIGN','a2000000-0000-0000-0000-000000000001',
+    'a1000000-0000-0000-0000-000000000001',1,'CUTTING','CUTTING',
+    '2026-09-01 07:00+00','Must never consume another PO Laundry source'
+  );
+  insert into erp.cutting_batches(id,po_id,batch_number,cut_at,status,notes)
+  values(v_foreign_cut_batch,v_foreign_po,'CP6-CUT-FOREIGN','2026-09-01 08:00+00','OPEN','Cross-PO rejection fixture');
+  insert into erp.cutting_groups(
+    id,po_id,group_number,cut_at,status,cutting_batch_id,pattern_id,notes
+  ) values(
+    v_foreign_group,v_foreign_po,'CP6-GROUP-FOREIGN','2026-09-01 08:00+00','CUT',
+    v_foreign_cut_batch,v_pattern,'Must retain its own physical lineage'
+  );
+  insert into erp.cutting_group_size_slots(id,cutting_group_id,slot_no,size_id,drawing_no)
+  values(v_foreign_slot,v_foreign_group,1,v_size_s,1);
+  insert into erp.cutting_group_rolls(
+    id,cutting_group_id,roll_id,qty_issued,qty_consumed,qty_reported_remaining,
+    qty_physically_returned,return_destination,unit_cost_snapshot,notes
+  ) values(
+    v_foreign_group_roll,v_foreign_group,v_roll,1,1,0,0,'NONE',0,
+    'Cross-PO lineage rejection fixture only'
+  );
+  insert into erp.cutting_roll_yields(id,cutting_group_roll_id,size_slot_id,qty_pcs)
+  values(v_foreign_yield,v_foreign_group_roll,v_foreign_slot,1);
+  select row_version into v_foreign_group_version
+  from erp.cutting_groups where id=v_foreign_group;
+
+  v_failed:=false;
+  begin
+    insert into erp.qc_inspections(
+      id,inspection_number,po_id,physical_at,status,notes,created_by,
+      destination_location_id
+    ) values(
+      v_foreign_qc,'CP6-QC-FOREIGN-DIRECT',v_foreign_po,
+      '2026-09-01 13:00+00','DRAFT','Trusted-writer cross-lineage probe',
+      v_owner_app,v_fg_location
+    );
+    insert into erp.qc_inspection_items(
+      inspection_id,cutting_group_id,source_laundry_receipt_line_id,
+      source_laundry_receipt_batch_size_line_id,final_product_id,
+      qty_good_pcs,qty_bs_pcs,notes
+    ) values(
+      v_foreign_qc,v_foreign_group,v_receipt_line,v_receipt_size_line,
+      v_product_s,1,0,'Must be rejected by the table trigger itself'
+    );
+  exception when others then
+    if sqlerrm='QC batch/size source belongs to a different Potongan/PO'
+      then v_failed:=true; else raise; end if;
+  end;
+  if not v_failed or exists(select 1 from erp.qc_inspections where id=v_foreign_qc) then
+    raise exception 'CP6 trusted writer bypassed the cross-Potongan/PO source trigger';
+  end if;
+
+  v_failed:=false;
+  begin
+    insert into erp.qc_inspections(
+      id,inspection_number,po_id,physical_at,status,notes,created_by,
+      destination_location_id
+    ) values(
+      v_foreign_qc,'CP6-QC-UNLINKED-DIRECT',v_po,
+      '2026-09-01 13:00+00','DRAFT','Trusted-writer missing size-lineage probe',
+      v_owner_app,v_fg_location
+    );
+    insert into erp.qc_inspection_items(
+      inspection_id,cutting_group_id,source_laundry_receipt_line_id,
+      final_product_id,qty_good_pcs,qty_bs_pcs,notes
+    ) values(
+      v_foreign_qc,v_group,v_receipt_line,v_product_s,1,0,
+      'A private writer still may not omit exact receipt/batch/size lineage'
+    );
+  exception when sqlstate '23514' then
+    if sqlerrm='CP6_LAUNDRY_SIZE_LINEAGE_REQUIRED'
+      then v_failed:=true; else raise; end if;
+  end;
+  if not v_failed or exists(select 1 from erp.qc_inspections where id=v_foreign_qc) then
+    raise exception 'CP6 trusted receipt-linked QC writer bypassed exact batch/size lineage';
+  end if;
+
+  execute 'set local role authenticated';
+  v_failed:=false;
+  begin
+    perform public.erp_save_laundry_qc_action_v1(
+      'POST_FINAL_SKU',jsonb_build_object(
+        'cutting_group_id',v_foreign_group,
+        'destination_location_id',v_fg_location,
+        'physical_at','2026-09-01T13:00:00+00',
+        'reason','CP6 cross-Potongan source must fail closed',
+        'good_qty_pcs',1,'completion_mode','PARTIAL_SELECTION',
+        'lines',jsonb_build_array(jsonb_build_object(
+          'final_product_id',v_product_s,'qty_good_pcs',1,'qty_bs_pcs',0,
+          'source_laundry_receipt_line_id',v_receipt_line,
+          'source_laundry_receipt_batch_size_line_id',v_receipt_size_line,
+          'notes','This source belongs to the primary Potongan, not this PO'
+        ))
+      ),gen_random_uuid(),v_foreign_group_version
+    );
+  exception when others then
+    if sqlerrm='Every Final SKU source must belong to the same Potongan and an authoritative POSTED Laundry receipt'
+       or sqlerrm='QC batch/size source belongs to a different Potongan/PO'
+      then v_failed:=true; else raise; end if;
+  end;
+  execute 'reset role';
+  if not v_failed
+     or exists(select 1 from erp.qc_inspections where po_id=v_foreign_po)
+     or exists(select 1 from erp.fg_lots where po_id=v_foreign_po)
+     or exists(select 1 from erp.hpp_versions h join erp.fg_lots l on l.id=h.lot_id where l.po_id=v_foreign_po)
+     or exists(select 1 from erp.journal_lines where po_id=v_foreign_po) then
+    raise exception 'CP6 cross-Potongan/PO Final-SKU rejection failed or left finance/stock/HPP residue';
+  end if;
+
   select row_version into v_group_version from erp.cutting_groups where id=v_group;
   execute 'set local role authenticated';
   v_workspace:=public.erp_get_laundry_qc_workspace_v1('QC','CP6-PO-001');
@@ -859,6 +1186,59 @@ begin
   end;
   if not v_failed then raise exception 'CP6 coerced a string into declared Final-SKU Good quantity'; end if;
 
+  -- The browser may suggest a completion label, but only the post-mutation
+  -- authoritative balance may prove it.  Both lies must roll the entire
+  -- nested QC/FG/BS/finance transaction and its idempotency envelope back.
+  v_failed:=false;
+  begin
+    perform public.erp_save_laundry_qc_action_v1(
+      'POST_FINAL_SKU',jsonb_build_object(
+        'cutting_group_id',v_group,'destination_location_id',v_fg_location,
+        'physical_at','2026-09-01T13:00:00+00',
+        'reason','CP6 false ALL READY must fail atomically',
+        'good_qty_pcs',1,'completion_mode','ALL_READY',
+        'lines',jsonb_build_array(jsonb_build_object(
+          'final_product_id',v_product_s,'qty_good_pcs',1,'qty_bs_pcs',0,
+          'source_laundry_receipt_line_id',v_receipt_line,
+          'source_laundry_receipt_batch_size_line_id',v_receipt_size_line
+        ))
+      ),v_false_all_ready_request,v_group_version
+    );
+  exception when others then
+    if sqlerrm like 'CP6 completion_mode ALL_READY conflicts with authoritative ready-for-QC remainder %'
+      then v_failed:=true; else raise; end if;
+  end;
+  if not v_failed then raise exception 'CP6 trusted a false ALL_READY browser declaration'; end if;
+
+  v_failed:=false;
+  begin
+    perform public.erp_save_laundry_qc_action_v1(
+      'POST_FINAL_SKU',jsonb_build_object(
+        'cutting_group_id',v_group,'destination_location_id',v_fg_location,
+        'physical_at','2026-09-01T13:00:00+00',
+        'reason','CP6 false PARTIAL must fail atomically',
+        'good_qty_pcs',4,'completion_mode','PARTIAL_SELECTION',
+        'lines',jsonb_build_array(jsonb_build_object(
+          'final_product_id',v_product_s,'qty_good_pcs',4,'qty_bs_pcs',1,
+          'source_laundry_receipt_line_id',v_receipt_line,
+          'source_laundry_receipt_batch_size_line_id',v_receipt_size_line
+        ))
+      ),v_false_partial_request,v_group_version
+    );
+  exception when others then
+    if sqlerrm like 'CP6 completion_mode PARTIAL_SELECTION conflicts with authoritative ready-for-QC remainder %'
+      then v_failed:=true; else raise; end if;
+  end;
+  if not v_failed
+     or exists(select 1 from erp.qc_inspections where po_id=v_po)
+     or exists(select 1 from erp.fg_lots where po_id=v_po)
+     or exists(select 1 from erp.bs_cases b join erp.qc_inspection_items i on i.id=b.qc_item_id
+       where i.cutting_group_id=v_group)
+     or exists(select 1 from erp.idempotency_requests
+       where client_request_id in(v_false_all_ready_request,v_false_partial_request)) then
+    raise exception 'CP6 completion-mode rejection left QC, FG, BS, finance, or idempotency residue';
+  end if;
+
   v_qc_payload:=jsonb_build_object(
     'cutting_group_id',v_group,'destination_location_id',v_fg_location,
     'physical_at','2026-09-01T13:00:00+00','reason','CP6 physical QC and Final SKU checked',
@@ -925,6 +1305,24 @@ begin
       and qc_accounted_qty_pcs=10 and ready_for_qc_qty_pcs=0
       and laundry_outstanding_qty_pcs=0 and remaining_qc_qty_pcs=0
   ) then raise exception 'CP6 terminal quantity conservation failed after QC'; end if;
+
+  execute 'set local role authenticated';
+  v_workspace:=public.erp_get_laundry_qc_workspace_v1('QC','CP6-PO-001');
+  if jsonb_array_length(v_workspace->'qc_history')<>1
+     or (v_workspace#>>'{qc_history,0,reversible}')::boolean is distinct from true
+     or v_workspace#>'{qc_history,0,reversal_blocker}' is distinct from 'null'::jsonb then
+    raise exception 'CP6 QC workspace did not expose the authoritative reversal decision';
+  end if;
+  v_workspace:=public.erp_get_laundry_qc_workspace_v1('LAUNDRY','CP6-PO-001');
+  execute 'reset role';
+  if (v_workspace#>>'{deliveries,0,reversible}')::boolean is distinct from false
+     or v_workspace#>>'{deliveries,0,reversal_blocker}'
+        <>'Masih ada receipt aktif; reverse receipt terlebih dahulu.'
+     or (v_workspace#>>'{deliveries,0,receipts,0,reversible}')::boolean is distinct from false
+     or v_workspace#>>'{deliveries,0,receipts,0,reversal_blocker}'
+        <>'Receipt sudah dipakai QC; reverse QC aktif terlebih dahulu.' then
+    raise exception 'CP6 Laundry workspace offered a reversal that backend authority must reject';
+  end if;
 
   -- A late vendor invoice is the financial finalization boundary.  The
   -- physical receipt remains immutable while AP, accrual, HPP, and FG value
@@ -1110,7 +1508,7 @@ begin
       'POST_FINAL_SKU',v_qc_payload,gen_random_uuid(),v_group_version
     );
   exception when others then
-    if sqlerrm='Every Final SKU source must belong to an authoritative POSTED Laundry receipt'
+    if sqlerrm='Every Final SKU source must belong to the same Potongan and an authoritative POSTED Laundry receipt'
       then v_failed:=true; else raise; end if;
   end;
   if not v_failed then
@@ -1191,6 +1589,14 @@ begin
   if not v_failed then raise exception 'CP6 allowed historical receipt size deletion'; end if;
   if exists(select 1 from erp.cp6_laundry_qc_execution_context) then
     raise exception 'CP6 transaction-scoped internal context leaked';
+  end if;
+
+  execute 'set local role authenticated';
+  v_workspace:=public.erp_get_laundry_qc_workspace_v1('QC','CP6-PO-001');
+  execute 'reset role';
+  if v_workspace#>>'{readiness,lineage_integrity_ok}'<>'true'
+     or (v_workspace#>>'{readiness,lineage_issue_count}')::bigint<>0 then
+    raise exception 'CP6 reversal chain did not return to an exact, readable lineage state: %',v_workspace;
   end if;
 
   raise notice 'CP6_AUTHORITATIVE_ACCEPTANCE_PASS %',jsonb_build_object(

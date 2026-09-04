@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Five real two-connection races for CP6 Laundry -> QC -> FG."""
+"""Nine real two-connection races for CP6 Laundry -> QC -> FG."""
 from __future__ import annotations
 
 import json
@@ -29,6 +29,10 @@ PRODUCT = 'c8c10000-0000-4000-8000-000000000004'
 PO = 'c8c40000-0000-4000-8000-000000000001'
 VENDOR_INVOICE = 'c8c70000-0000-4000-8000-000000000001'
 VENDOR_INVOICE_ITEM = 'c8c70000-0000-4000-8000-000000000002'
+VENDOR_INVOICE_QC = 'c8c70000-0000-4000-8000-000000000003'
+VENDOR_INVOICE_QC_ITEM = 'c8c70000-0000-4000-8000-000000000004'
+VENDOR_INVOICE_QC_AFTER = 'c8c70000-0000-4000-8000-000000000005'
+VENDOR_INVOICE_QC_AFTER_ITEM = 'c8c70000-0000-4000-8000-000000000006'
 
 REQUESTS = {
     'delivery_winner': 'c8c60000-0000-4000-8000-000000000001',
@@ -41,6 +45,14 @@ REQUESTS = {
     'qc_repost_winner': 'c8c60000-0000-4000-8000-000000000008',
     'receipt_reverse_loser': 'c8c60000-0000-4000-8000-000000000009',
     'invoice_receipt_reverse_loser': 'c8c60000-0000-4000-8000-000000000010',
+    'invoice_qc_post': 'c8c60000-0000-4000-8000-000000000011',
+    'invoice_qc_reverse': 'c8c60000-0000-4000-8000-000000000012',
+    'invoice_reversal_qc_post': 'c8c60000-0000-4000-8000-000000000013',
+    'invoice_reversal_qc_reverse': 'c8c60000-0000-4000-8000-000000000014',
+    'qc_before_invoice_post': 'c8c60000-0000-4000-8000-000000000015',
+    'qc_before_invoice_reverse': 'c8c60000-0000-4000-8000-000000000016',
+    'qc_before_invoice_reversal_post': 'c8c60000-0000-4000-8000-000000000017',
+    'qc_before_invoice_reversal_reverse': 'c8c60000-0000-4000-8000-000000000018',
 }
 
 
@@ -315,37 +327,287 @@ def run_vendor_invoice_vs_receipt_reversal(
     return {'winner': winner, 'loser': loser}
 
 
-def create_vendor_invoice(receipt_line: str):
+def run_vendor_invoice_vs_final_sku(
+    invoice_id: str,
+    qc_payload: dict[str, Any],
+    group_version: int,
+) -> dict[str, Any]:
+    """Prove invoice cost/AP commits before a waiting Final-SKU reads HPP."""
+    posted = threading.Event()
+    invoice: dict[str, Any] = {}
+    qc: dict[str, Any] = {}
+
+    def holder():
+        conn = connect()
+        try:
+            with conn.cursor() as cur:
+                cur.execute("set local lock_timeout='10s'")
+                set_operator_context(cur)
+                cur.execute('select erp.post_vendor_invoice(%s::uuid)', (invoice_id,))
+                posted.set()
+                time.sleep(HOLD_SECONDS)
+            conn.commit()
+            invoice['status'] = 'PASS'
+        except Exception as exc:  # pragma: no cover - emitted into CI evidence
+            conn.rollback()
+            invoice['status'] = 'FAIL'
+            invoice['error'] = str(exc)
+            posted.set()
+        finally:
+            conn.close()
+
+    def waiter():
+        posted.wait(timeout=10)
+        began = time.monotonic()
+        conn = connect()
+        try:
+            with conn.cursor() as cur:
+                cur.execute("set local lock_timeout='10s'")
+                set_operator_context(cur)
+                qc['response'] = action(
+                    cur, 'POST_FINAL_SKU', qc_payload,
+                    REQUESTS['invoice_qc_post'], group_version,
+                )
+            conn.commit()
+            qc['status'] = 'PASS'
+        except Exception as exc:  # pragma: no cover - emitted into CI evidence
+            conn.rollback()
+            qc['status'] = 'FAIL'
+            qc['error'] = str(exc)
+        finally:
+            qc['elapsed_seconds'] = round(time.monotonic() - began, 3)
+            conn.close()
+
+    first = threading.Thread(target=holder, daemon=True)
+    second = threading.Thread(target=waiter, daemon=True)
+    first.start()
+    second.start()
+    first.join(timeout=20)
+    second.join(timeout=20)
+    if first.is_alive() or second.is_alive():
+        raise RuntimeError('VENDOR_INVOICE_VS_FINAL_SKU race thread timeout')
+    if invoice.get('status') != 'PASS' or qc.get('status') != 'PASS':
+        raise RuntimeError(f'Vendor invoice/Final-SKU race mismatch: invoice={invoice}, qc={qc}')
+    if qc.get('elapsed_seconds', 0) < WAIT_FLOOR_SECONDS:
+        raise RuntimeError(f'Final-SKU did not wait for invoice receipt lock: {qc}')
+    return {'invoice': invoice, 'qc': qc}
+
+
+def run_vendor_invoice_reversal_vs_final_sku(
+    invoice_id: str,
+    qc_payload: dict[str, Any],
+    group_version: int,
+) -> dict[str, Any]:
+    """Prove invoice reversal restores estimate before waiting Final-SKU HPP."""
+    reversed_invoice = threading.Event()
+    invoice: dict[str, Any] = {}
+    qc: dict[str, Any] = {}
+
+    def holder():
+        conn = connect()
+        try:
+            with conn.cursor() as cur:
+                cur.execute("set local lock_timeout='10s'")
+                set_operator_context(cur)
+                cur.execute(
+                    'select erp.reverse_vendor_invoice(%s::uuid,%s)',
+                    (invoice_id, 'CP6 concurrent invoice reversal versus Final-SKU'),
+                )
+                reversed_invoice.set()
+                time.sleep(HOLD_SECONDS)
+            conn.commit()
+            invoice['status'] = 'PASS'
+        except Exception as exc:  # pragma: no cover - emitted into CI evidence
+            conn.rollback()
+            invoice['status'] = 'FAIL'
+            invoice['error'] = str(exc)
+            reversed_invoice.set()
+        finally:
+            conn.close()
+
+    def waiter():
+        reversed_invoice.wait(timeout=10)
+        began = time.monotonic()
+        conn = connect()
+        try:
+            with conn.cursor() as cur:
+                cur.execute("set local lock_timeout='10s'")
+                set_operator_context(cur)
+                qc['response'] = action(
+                    cur, 'POST_FINAL_SKU', qc_payload,
+                    REQUESTS['invoice_reversal_qc_post'], group_version,
+                )
+            conn.commit()
+            qc['status'] = 'PASS'
+        except Exception as exc:  # pragma: no cover - emitted into CI evidence
+            conn.rollback()
+            qc['status'] = 'FAIL'
+            qc['error'] = str(exc)
+        finally:
+            qc['elapsed_seconds'] = round(time.monotonic() - began, 3)
+            conn.close()
+
+    first = threading.Thread(target=holder, daemon=True)
+    second = threading.Thread(target=waiter, daemon=True)
+    first.start()
+    second.start()
+    first.join(timeout=20)
+    second.join(timeout=20)
+    if first.is_alive() or second.is_alive():
+        raise RuntimeError('VENDOR_INVOICE_REVERSAL_VS_FINAL_SKU race thread timeout')
+    if invoice.get('status') != 'PASS' or qc.get('status') != 'PASS':
+        raise RuntimeError(f'Invoice reversal/Final-SKU race mismatch: invoice={invoice}, qc={qc}')
+    if qc.get('elapsed_seconds', 0) < WAIT_FLOOR_SECONDS:
+        raise RuntimeError(f'Final-SKU did not wait for invoice-reversal receipt lock: {qc}')
+    return {'invoice_reversal': invoice, 'qc': qc}
+
+
+def run_final_sku_before_vendor_invoice(
+    invoice_id: str,
+    qc_payload: dict[str, Any],
+    group_version: int,
+    qc_request_id: str,
+    reverse_invoice: bool = False,
+) -> dict[str, Any]:
+    """Hold Final-SKU uncommitted, then prove invoice lifecycle recosts it."""
+    posted = threading.Event()
+    qc: dict[str, Any] = {}
+    invoice: dict[str, Any] = {}
+
+    def holder():
+        conn = connect()
+        try:
+            with conn.cursor() as cur:
+                cur.execute("set local lock_timeout='10s'")
+                set_operator_context(cur)
+                qc['response'] = action(
+                    cur, 'POST_FINAL_SKU', qc_payload, qc_request_id, group_version,
+                )
+                posted.set()
+                time.sleep(HOLD_SECONDS)
+            conn.commit()
+            qc['status'] = 'PASS'
+        except Exception as exc:  # pragma: no cover - emitted into CI evidence
+            conn.rollback()
+            qc['status'] = 'FAIL'
+            qc['error'] = str(exc)
+            posted.set()
+        finally:
+            conn.close()
+
+    def waiter():
+        posted.wait(timeout=10)
+        began = time.monotonic()
+        conn = connect()
+        try:
+            with conn.cursor() as cur:
+                cur.execute("set local lock_timeout='10s'")
+                set_operator_context(cur)
+                if reverse_invoice:
+                    cur.execute(
+                        'select erp.reverse_vendor_invoice(%s::uuid,%s)',
+                        (invoice_id, 'CP6 Final-SKU-first invoice reversal serialization'),
+                    )
+                else:
+                    cur.execute('select erp.post_vendor_invoice(%s::uuid)', (invoice_id,))
+            conn.commit()
+            invoice['status'] = 'PASS'
+        except Exception as exc:  # pragma: no cover - emitted into CI evidence
+            conn.rollback()
+            invoice['status'] = 'FAIL'
+            invoice['error'] = str(exc)
+        finally:
+            invoice['elapsed_seconds'] = round(time.monotonic() - began, 3)
+            conn.close()
+
+    first = threading.Thread(target=holder, daemon=True)
+    second = threading.Thread(target=waiter, daemon=True)
+    first.start()
+    second.start()
+    first.join(timeout=20)
+    second.join(timeout=20)
+    if first.is_alive() or second.is_alive():
+        raise RuntimeError('FINAL_SKU_BEFORE_VENDOR_INVOICE race thread timeout')
+    if qc.get('status') != 'PASS' or invoice.get('status') != 'PASS':
+        raise RuntimeError(f'Final-SKU/invoice lifecycle race mismatch: qc={qc}, invoice={invoice}')
+    if invoice.get('elapsed_seconds', 0) < WAIT_FLOOR_SECONDS:
+        raise RuntimeError(f'Invoice lifecycle did not wait for Final-SKU receipt lock: {invoice}')
+    return {'qc': qc, 'invoice_reversal' if reverse_invoice else 'invoice': invoice}
+
+
+def create_vendor_invoice(
+    receipt_line: str,
+    invoice_id: str,
+    item_id: str,
+    invoice_number: str,
+    actual_rate: int,
+):
+    total = actual_rate * 10
     with connect() as conn, conn.cursor() as cur:
         cur.execute(
             """
             insert into erp.vendor_invoices(
               id,invoice_number,vendor_id,invoice_date,received_at,due_date,
               status,total_amount,notes,created_by
-            ) values(%s::uuid,'CP6-RACE-VI-001',%s::uuid,'2026-09-01',
-              '2026-09-01 12:30:00+00','2026-09-15','DRAFT',70,
+            ) values(%s::uuid,%s,%s::uuid,'2026-09-01',
+              '2026-09-01 12:30:00+00','2026-09-15','DRAFT',%s,
               'CP6 invoice/reversal serialization proof',%s::uuid);
             insert into erp.vendor_invoice_items(
               id,invoice_id,receipt_line_id,description,qty_pcs,actual_rate,actual_amount
             ) values(%s::uuid,%s::uuid,%s::uuid,
-              'CP6 exact posted receipt',10,7,70)
+              'CP6 exact posted receipt',10,%s,%s)
             """,
             (
-                VENDOR_INVOICE, VENDOR, OPERATOR_APP,
-                VENDOR_INVOICE_ITEM, VENDOR_INVOICE, receipt_line,
+                invoice_id, invoice_number, VENDOR, total, OPERATOR_APP,
+                item_id, invoice_id, receipt_line, actual_rate, total,
             ),
         )
         conn.commit()
 
 
-def reverse_vendor_invoice():
+def reverse_vendor_invoice(invoice_id: str, reason: str):
     with connect() as conn, conn.cursor() as cur:
         set_operator_context(cur)
         cur.execute(
             "select erp.reverse_vendor_invoice(%s::uuid,%s)",
-            (VENDOR_INVOICE, 'CP6 restore pre-invoice state after serialization proof'),
+            (invoice_id, reason),
         )
         conn.commit()
+
+
+def invoice_qc_state(invoice_id: str, receipt_line: str):
+    return scalar(
+        """
+        select jsonb_build_object(
+          'invoice_status',(select status from erp.vendor_invoices where id=%s::uuid),
+          'receipt_cost_status',(select actual_cost_status from erp.laundry_receipt_lines where id=%s::uuid),
+          'receipt_actual_cost',(select actual_cost from erp.laundry_receipt_lines where id=%s::uuid),
+          'posted_qc_count',(select count(*) from erp.qc_inspections where po_id=%s::uuid and status='POSTED'),
+          'fg_stock_qty',(select coalesce(sum(m.qty_signed),0) from erp.fg_stock_movements m
+            join erp.fg_lots l on l.id=m.lot_id where l.po_id=%s::uuid),
+          'current_hpp_total',(select coalesce(sum(h.total_cost),0) from erp.hpp_versions h
+            join erp.fg_lots l on l.id=h.lot_id
+            where l.po_id=%s::uuid and l.lot_origin='PRODUCTION' and h.is_current),
+          'laundry_accrual',(select accrued_amount from erp.laundry_cost_accrual_state where po_id=%s::uuid),
+          'wip_net',(select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
+            where l.po_id=%s::uuid and l.account_id=erp.account_id('WIP')),
+          'fg_net',(select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
+            where l.po_id=%s::uuid and l.account_id=erp.account_id('FG_INVENTORY')),
+          'accrued_net',(select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
+            where l.po_id=%s::uuid and l.account_id=erp.account_id('ACCRUED_MANUFACTURING')),
+          'vendor_ap_net',(select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
+            where l.po_id=%s::uuid and l.account_id=erp.account_id('AP_VENDOR')),
+          'unbalanced_journals',(select count(*) from(
+            select e.id from erp.journal_entries e join erp.journal_lines l on l.journal_entry_id=e.id
+            group by e.id having sum(l.debit)<>sum(l.credit)
+          ) bad)
+        )
+        """,
+        (
+            invoice_id, receipt_line, receipt_line, PO, PO, PO,
+            PO, PO, PO, PO, PO,
+        ),
+    )
 
 
 def main():
@@ -410,14 +672,18 @@ def main():
         (receipt_line,),
     ))
 
-    create_vendor_invoice(receipt_line)
+    create_vendor_invoice(
+        receipt_line, VENDOR_INVOICE, VENDOR_INVOICE_ITEM, 'CP6-RACE-VI-001', 7,
+    )
     receipt_version = int(scalar(
         'select row_version from erp.laundry_receipts where id=%s::uuid', (receipt_id,),
     ))
     report['races']['vendor_invoice_vs_reverse_receipt'] = (
         run_vendor_invoice_vs_receipt_reversal(receipt_id, receipt_version)
     )
-    reverse_vendor_invoice()
+    reverse_vendor_invoice(
+        VENDOR_INVOICE, 'CP6 restore pre-invoice state after receipt-reversal proof',
+    )
 
     group_version = int(scalar('select row_version from erp.cutting_groups where id=%s::uuid', (GROUP,)))
     qc_payload = {
@@ -436,6 +702,182 @@ def main():
             'notes': 'One exact source may become FG once',
         }],
     }
+
+    create_vendor_invoice(
+        receipt_line, VENDOR_INVOICE_QC, VENDOR_INVOICE_QC_ITEM,
+        'CP6-RACE-VI-002', 9,
+    )
+    group_version = int(scalar(
+        'select row_version from erp.cutting_groups where id=%s::uuid', (GROUP,),
+    ))
+    report['races']['vendor_invoice_vs_final_sku'] = run_vendor_invoice_vs_final_sku(
+        VENDOR_INVOICE_QC, qc_payload, group_version,
+    )
+    invoice_qc_invariants = invoice_qc_state(VENDOR_INVOICE_QC, receipt_line)
+    expected_invoice_qc = {
+        'invoice_status': 'POSTED',
+        'receipt_cost_status': 'FINAL',
+        'receipt_actual_cost': 90,
+        'posted_qc_count': 1,
+        'fg_stock_qty': 10,
+        'current_hpp_total': 90,
+        'laundry_accrual': 0,
+        'wip_net': 0,
+        'fg_net': 90,
+        'accrued_net': 0,
+        'vendor_ap_net': -90,
+        'unbalanced_journals': 0,
+    }
+    report['invoice_qc_invariants'] = invoice_qc_invariants
+    report['invoice_qc_expected'] = expected_invoice_qc
+    if invoice_qc_invariants != expected_invoice_qc:
+        raise RuntimeError(
+            'CP6 invoice/Final-SKU serialized finance mismatch: '
+            f'expected={expected_invoice_qc}, actual={invoice_qc_invariants}'
+        )
+
+    invoice_qc_response = report['races']['vendor_invoice_vs_final_sku']['qc']['response']
+    reversed_invoice_qc = single_action(
+        'REVERSE_FINAL_SKU',
+        {
+            'qc_inspection_id': str(invoice_qc_response['qc_inspection_id']),
+            'reason': 'CP6 restore after invoice versus Final-SKU proof',
+        },
+        REQUESTS['invoice_qc_reverse'],
+        int(invoice_qc_response['qc_row_version']),
+    )
+    if reversed_invoice_qc.get('status') != 'REVERSED':
+        raise RuntimeError(f'CP6 could not reverse invoice-race QC: {reversed_invoice_qc}')
+    group_version = int(scalar(
+        'select row_version from erp.cutting_groups where id=%s::uuid', (GROUP,),
+    ))
+    report['races']['vendor_invoice_reversal_vs_final_sku'] = (
+        run_vendor_invoice_reversal_vs_final_sku(
+            VENDOR_INVOICE_QC, qc_payload, group_version,
+        )
+    )
+    invoice_reversal_qc_invariants = invoice_qc_state(VENDOR_INVOICE_QC, receipt_line)
+    expected_invoice_reversal_qc = {
+        'invoice_status': 'REVERSED',
+        'receipt_cost_status': 'ESTIMATED',
+        'receipt_actual_cost': 70,
+        'posted_qc_count': 1,
+        'fg_stock_qty': 10,
+        'current_hpp_total': 70,
+        'laundry_accrual': 70,
+        'wip_net': 0,
+        'fg_net': 70,
+        'accrued_net': -70,
+        'vendor_ap_net': 0,
+        'unbalanced_journals': 0,
+    }
+    report['invoice_reversal_qc_invariants'] = invoice_reversal_qc_invariants
+    report['invoice_reversal_qc_expected'] = expected_invoice_reversal_qc
+    if invoice_reversal_qc_invariants != expected_invoice_reversal_qc:
+        raise RuntimeError(
+            'CP6 invoice-reversal/Final-SKU serialized finance mismatch: '
+            f'expected={expected_invoice_reversal_qc}, actual={invoice_reversal_qc_invariants}'
+        )
+
+    invoice_reversal_qc_response = (
+        report['races']['vendor_invoice_reversal_vs_final_sku']['qc']['response']
+    )
+    reversed_invoice_reversal_qc = single_action(
+        'REVERSE_FINAL_SKU',
+        {
+            'qc_inspection_id': str(invoice_reversal_qc_response['qc_inspection_id']),
+            'reason': 'CP6 restore after invoice-reversal versus Final-SKU proof',
+        },
+        REQUESTS['invoice_reversal_qc_reverse'],
+        int(invoice_reversal_qc_response['qc_row_version']),
+    )
+    if reversed_invoice_reversal_qc.get('status') != 'REVERSED':
+        raise RuntimeError(
+            f'CP6 could not reverse invoice-reversal-race QC: {reversed_invoice_reversal_qc}'
+        )
+
+    # Repeat both lifecycle directions with Final-SKU holding the receipt first.
+    # The invoice may update its private transaction before it reaches the
+    # status trigger, but it must wait on the receipt header, then recost active
+    # HPP/GL from the committed physical truth before it can commit.
+    create_vendor_invoice(
+        receipt_line, VENDOR_INVOICE_QC_AFTER, VENDOR_INVOICE_QC_AFTER_ITEM,
+        'CP6-RACE-VI-003', 9,
+    )
+    group_version = int(scalar(
+        'select row_version from erp.cutting_groups where id=%s::uuid', (GROUP,),
+    ))
+    report['races']['final_sku_vs_vendor_invoice'] = run_final_sku_before_vendor_invoice(
+        VENDOR_INVOICE_QC_AFTER, qc_payload, group_version,
+        REQUESTS['qc_before_invoice_post'],
+    )
+    qc_before_invoice_state = invoice_qc_state(VENDOR_INVOICE_QC_AFTER, receipt_line)
+    report['qc_before_invoice_invariants'] = qc_before_invoice_state
+    report['qc_before_invoice_expected'] = expected_invoice_qc
+    if qc_before_invoice_state != expected_invoice_qc:
+        raise RuntimeError(
+            'CP6 Final-SKU-first invoice recost mismatch: '
+            f'expected={expected_invoice_qc}, actual={qc_before_invoice_state}'
+        )
+    qc_before_invoice_response = (
+        report['races']['final_sku_vs_vendor_invoice']['qc']['response']
+    )
+    reversed_qc_before_invoice = single_action(
+        'REVERSE_FINAL_SKU',
+        {
+            'qc_inspection_id': str(qc_before_invoice_response['qc_inspection_id']),
+            'reason': 'CP6 restore after Final-SKU-first invoice proof',
+        },
+        REQUESTS['qc_before_invoice_reverse'],
+        int(qc_before_invoice_response['qc_row_version']),
+    )
+    if reversed_qc_before_invoice.get('status') != 'REVERSED':
+        raise RuntimeError(
+            f'CP6 could not reverse Final-SKU-first invoice QC: {reversed_qc_before_invoice}'
+        )
+
+    group_version = int(scalar(
+        'select row_version from erp.cutting_groups where id=%s::uuid', (GROUP,),
+    ))
+    report['races']['final_sku_vs_vendor_invoice_reversal'] = (
+        run_final_sku_before_vendor_invoice(
+            VENDOR_INVOICE_QC_AFTER, qc_payload, group_version,
+            REQUESTS['qc_before_invoice_reversal_post'], reverse_invoice=True,
+        )
+    )
+    qc_before_invoice_reversal_state = invoice_qc_state(
+        VENDOR_INVOICE_QC_AFTER, receipt_line,
+    )
+    report['qc_before_invoice_reversal_invariants'] = qc_before_invoice_reversal_state
+    report['qc_before_invoice_reversal_expected'] = expected_invoice_reversal_qc
+    if qc_before_invoice_reversal_state != expected_invoice_reversal_qc:
+        raise RuntimeError(
+            'CP6 Final-SKU-first invoice-reversal recost mismatch: '
+            f'expected={expected_invoice_reversal_qc}, actual={qc_before_invoice_reversal_state}'
+        )
+    qc_before_invoice_reversal_response = (
+        report['races']['final_sku_vs_vendor_invoice_reversal']['qc']['response']
+    )
+    reversed_qc_before_invoice_reversal = single_action(
+        'REVERSE_FINAL_SKU',
+        {
+            'qc_inspection_id': str(
+                qc_before_invoice_reversal_response['qc_inspection_id']
+            ),
+            'reason': 'CP6 restore after Final-SKU-first invoice-reversal proof',
+        },
+        REQUESTS['qc_before_invoice_reversal_reverse'],
+        int(qc_before_invoice_reversal_response['qc_row_version']),
+    )
+    if reversed_qc_before_invoice_reversal.get('status') != 'REVERSED':
+        raise RuntimeError(
+            'CP6 could not reverse Final-SKU-first invoice-reversal QC: '
+            f'{reversed_qc_before_invoice_reversal}'
+        )
+
+    group_version = int(scalar(
+        'select row_version from erp.cutting_groups where id=%s::uuid', (GROUP,),
+    ))
     report['races']['post_final_sku'] = run_race(
         'POST_FINAL_SKU', 'select id from erp.laundry_receipts where id=%s::uuid for update',
         (receipt_id,), 'POST_FINAL_SKU', qc_payload, group_version,
@@ -497,7 +939,11 @@ def main():
           'fg_stock_qty',(select coalesce(sum(m.qty_signed),0) from erp.fg_stock_movements m
             join erp.fg_lots l on l.id=m.lot_id where l.po_id=%s::uuid),
           'current_hpp_total',(select coalesce(sum(h.total_cost),0) from erp.hpp_versions h
-            join erp.fg_lots l on l.id=h.lot_id where l.po_id=%s::uuid and h.is_current),
+            join erp.fg_lots l on l.id=h.lot_id
+            where l.po_id=%s::uuid and l.lot_origin='PRODUCTION' and h.is_current),
+          'voided_hpp_history_lots',(select count(distinct l.id) from erp.fg_lots l
+            join erp.hpp_versions h on h.lot_id=l.id
+            where l.po_id=%s::uuid and l.lot_origin='VOIDED_PRODUCTION'),
           'receipt_cost_status',(select actual_cost_status from erp.laundry_receipt_lines
             where id=%s::uuid),
           'laundry_accrual',(select accrued_amount from erp.laundry_cost_accrual_state
@@ -523,9 +969,16 @@ def main():
         """,
         (
             PO, delivery_id, delivery_id, receipt_id, PO, PO, PO, PO,
-            receipt_line, PO, PO, PO, PO, PO,
+            PO, receipt_line, PO, PO, PO, PO, PO,
             [
                 REQUESTS['delivery_winner'], REQUESTS['receipt_winner'],
+                REQUESTS['invoice_qc_post'], REQUESTS['invoice_qc_reverse'],
+                REQUESTS['invoice_reversal_qc_post'],
+                REQUESTS['invoice_reversal_qc_reverse'],
+                REQUESTS['qc_before_invoice_post'],
+                REQUESTS['qc_before_invoice_reverse'],
+                REQUESTS['qc_before_invoice_reversal_post'],
+                REQUESTS['qc_before_invoice_reversal_reverse'],
                 REQUESTS['qc_winner'], REQUESTS['qc_reverse'],
                 REQUESTS['qc_repost_winner'],
             ],
@@ -545,6 +998,7 @@ def main():
         'qc_accounted_qty': 10,
         'fg_stock_qty': 10,
         'current_hpp_total': 70,
+        'voided_hpp_history_lots': 5,
         'receipt_cost_status': 'ESTIMATED',
         'laundry_accrual': 70,
         'wip_net': 0,
@@ -553,7 +1007,7 @@ def main():
         'vendor_ap_net': 0,
         'unbalanced_journals': 0,
         'execution_context_rows': 0,
-        'winner_idempotency_rows': 7,
+        'winner_idempotency_rows': 19,
         'loser_idempotency_rows': 0,
     }
     report['invariants'] = invariants
@@ -562,7 +1016,7 @@ def main():
         raise RuntimeError(f'CP6 serialized-state invariant mismatch: expected={expected}, actual={invariants}')
     report['status'] = 'PASS'
     REPORT.write_text(json.dumps(report, indent=2, sort_keys=True, default=str) + '\n', encoding='utf8')
-    print('CP6 Laundry/QC/FG concurrency passed: five serialized races, including vendor invoice and Final-SKU versus receipt reversal; no duplicate physical, finance, stock, or HPP fact.')
+    print('CP6 Laundry/QC/FG concurrency passed: nine serialized races, including both invoice post/reversal scheduling directions versus Final-SKU and source reversal; no duplicate physical, finance, stock, or HPP fact.')
 
 
 if __name__ == '__main__':

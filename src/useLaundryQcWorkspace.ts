@@ -153,12 +153,17 @@ export function useLaundryQcWorkspace(scope: LaundryQcScope) {
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
   const busyRef = useRef(false)
+  // React state reaches the DOM on the next render. This synchronous flag
+  // closes the writer in the current event turn, including refetch/search and
+  // cross-tab storage events, so a stale callback cannot dispatch old facts.
+  const workspaceReadyRef = useRef(false)
   const loadRequestRef = useRef(0)
   const queryRef = useRef(query)
   queryRef.current = query
 
   const load = useCallback(async (nextQuery = queryRef.current) => {
     const requestId = ++loadRequestRef.current
+    workspaceReadyRef.current = false
     setLoading(true)
     setWorkspaceStale(true)
     try {
@@ -173,10 +178,12 @@ export function useLaundryQcWorkspace(scope: LaundryQcScope) {
       const observed = readPending(key)
       if (!observed.corrupted && observed.envelope === null) setExternalMutationBlocked(false)
       setError(mutationLockSupported ? '' : 'Browser ini tidak menyediakan Web Locks. Data tetap bisa dibaca, tetapi semua writer CP6 dikunci agar dua tab tidak dapat menggandakan transaksi.')
+      workspaceReadyRef.current = true
       setWorkspaceStale(false)
       return true
     } catch (failure) {
       if (requestId === loadRequestRef.current) {
+        workspaceReadyRef.current = false
         setWorkspaceStale(true)
         setError(normalizeClientError(failure).message)
       }
@@ -289,7 +296,7 @@ export function useLaundryQcWorkspace(scope: LaundryQcScope) {
     expectedVersion: number | null,
     retireCommittedForm: () => void,
   ) => {
-    if (busyRef.current || pending || corruptedEnvelope || committedRefreshRequired
+    if (busyRef.current || !workspaceReadyRef.current || pending || corruptedEnvelope || committedRefreshRequired
       || workspaceStale || externalMutationBlocked) return false
     const manager = mutationLockManager()
     if (!manager) {
@@ -305,6 +312,7 @@ export function useLaundryQcWorkspace(scope: LaundryQcScope) {
       }, async (lock) => {
         if (!lock) {
           const observed = readPending(key)
+          workspaceReadyRef.current = false
           setExternalMutationBlocked(true)
           setWorkspaceStale(true)
           if (observed.corrupted) setCorruptedEnvelope(true)
@@ -385,6 +393,7 @@ export function useLaundryQcWorkspace(scope: LaundryQcScope) {
         }
       })
     } catch (failure) {
+      workspaceReadyRef.current = false
       setWorkspaceStale(true)
       setError(`Kunci writer CP6 gagal: ${normalizeClientError(failure).message}. Tidak ada request baru yang boleh dikirim.`)
       return false
@@ -398,6 +407,7 @@ export function useLaundryQcWorkspace(scope: LaundryQcScope) {
     const synchronizeGlobalEnvelope = (event: StorageEvent) => {
       if (event.key !== key || event.storageArea && event.storageArea !== globalThis.localStorage) return
       const observed = readPending(key)
+      workspaceReadyRef.current = false
       setWorkspaceStale(true)
       setExternalMutationBlocked(true)
       if (observed.corrupted) {
@@ -430,7 +440,7 @@ export function useLaundryQcWorkspace(scope: LaundryQcScope) {
 
   const acknowledgeCommittedFormRetired = useCallback((sequence: number) => {
     if (sequence <= 0 || sequence !== committedSequence || workspaceStale
-      || pending !== null || corruptedEnvelope || busyRef.current) return false
+      || !workspaceReadyRef.current || pending !== null || corruptedEnvelope || busyRef.current) return false
     setCommittedRefreshRequired(false)
     return true
   }, [committedSequence, corruptedEnvelope, pending, workspaceStale])

@@ -9,7 +9,7 @@ describe('CP6 business time', () => {
     expect(formatCp6WibDateTime('2026-09-04T01:15:00.000Z')).toContain('08.15')
   })
 
-  it('never invents a physical time for blank or invalid operator input', () => {
+  it('rejects impossible or ambiguous wall-clock values instead of inventing physical time', () => {
     expect(cp6WibPhysicalTimeToIso('')).toBeNull()
     expect(cp6WibPhysicalTimeToIso('2026-02-30T08:00')).toBeNull()
     expect(cp6WibPhysicalTimeToIso('2026-09-04')).toBeNull()

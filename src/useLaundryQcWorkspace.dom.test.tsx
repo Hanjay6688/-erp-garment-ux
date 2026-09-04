@@ -45,7 +45,11 @@ function workspace() {
   return {
     contract_version: 'CP6_V2620', scope: 'LAUNDRY', generated_at: '2026-09-04T12:00:00Z',
     lookups: { vendors: [], wash_processes: [], rate_versions: [], fg_locations: [], products: [] },
-    readiness: { laundry_writer_ready: false, qc_writer_ready: false, no_fixture_fallback: true, failed_wash_with_charge_supported: false },
+    readiness: {
+      laundry_writer_ready: false, qc_writer_ready: false,
+      lineage_integrity_ok: true, lineage_issue_count: 0,
+      no_fixture_fallback: true, failed_wash_with_charge_supported: false,
+    },
     ready_batches: [], deliveries: [], qc_queue: [], qc_history: [],
     legacy_unlinked: { delivery_count: 0, receipt_count: 0 },
   }
@@ -333,5 +337,32 @@ describe('useLaundryQcWorkspace durable mutation envelope', () => {
     await click('#run')
     expect(rpc.mock.calls.filter(([name]) => name === 'erp_save_laundry_qc_action_v1')).toHaveLength(0)
     expect(container.querySelector('#error')?.textContent).toContain('Web Locks')
+  })
+
+  it('locks the writer synchronously when a refetch starts before React can rerender', async () => {
+    let finishRefetch: (() => void) | undefined
+    let workspaceReads = 0
+    const rpc = vi.fn(async (name: string, args: unknown) => {
+      if (name === 'erp_save_laundry_qc_action_v1') return { data: committed(args), error: null }
+      workspaceReads += 1
+      if (workspaceReads === 1) return { data: workspace(), error: null }
+      await new Promise<void>((resolve) => { finishRefetch = resolve })
+      return { data: workspace(), error: null }
+    })
+    mockedClient.current = { rpc }
+    await renderHarness()
+    expect(state()).toMatchObject({ locked: false, stale: false })
+
+    await act(async () => {
+      container.querySelector<HTMLButtonElement>('#load')?.click()
+      // This callback still exists in the pre-render DOM. The synchronous
+      // readiness ref, not a later React render, must reject it.
+      container.querySelector<HTMLButtonElement>('#run')?.click()
+      await Promise.resolve()
+    })
+    expect(rpc.mock.calls.filter(([name]) => name === 'erp_save_laundry_qc_action_v1')).toHaveLength(0)
+    finishRefetch?.()
+    await settle()
+    expect(state()).toMatchObject({ locked: false, stale: false })
   })
 })
