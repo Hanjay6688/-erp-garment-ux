@@ -576,7 +576,11 @@ begin
       'POST_DELIVERY',v_send_payload-'physical_at',gen_random_uuid(),v_group_version
     );
   exception when others then
-    if sqlerrm='An explicit timezone-qualified physical_at is required; server time is never a transactional default'
+    -- The closed-payload gate runs before timestamp parsing.  A missing
+    -- required key must therefore fail at that stricter boundary; the next
+    -- case separately proves that a present but timezone-less value is also
+    -- rejected by the physical-time validator.
+    if sqlerrm='CP6 POST_DELIVERY payload requires non-null key physical_at'
       then v_failed:=true; else raise; end if;
   end;
   if not v_failed then raise exception 'CP6 silently defaulted a physical transaction time'; end if;
