@@ -1670,7 +1670,7 @@ begin
   execute 'set local role authenticated';
   v_response:=public.erp_save_laundry_qc_action_v1(
     'POST_DELIVERY',v_send_payload||jsonb_build_object(
-      'physical_at','2026-09-05T09:00:00+00',
+      'physical_at','2026-09-02T09:00:00+00',
       'reason','CP6 redispatch before paid failed-wash proof',
       'notes','New immutable handoff after the old dispatch was reversed'
     ),v_redispatch_request,v_group_version
@@ -1689,7 +1689,7 @@ begin
 
   v_failed_payload:=jsonb_build_object(
     'delivery_id',v_delivery,'wash_process_id',v_process,
-    'custody_outcome','RETRY_AT_VENDOR','physical_at','2026-09-05T10:00:00+00',
+    'custody_outcome','RETRY_AT_VENDOR','physical_at','2026-09-02T10:00:00+00',
     'reason','CP6 chemical exhausted after paid retry attempt',
     'lines',jsonb_build_array(jsonb_build_object(
       'delivery_batch_size_line_id',v_delivery_size_line,'qty_attempted_pcs',10
@@ -1755,7 +1755,7 @@ begin
 
   v_failed_payload:=jsonb_build_object(
     'delivery_id',v_delivery,'wash_process_id',v_process,
-    'custody_outcome','RETURN_UNPROCESSED','physical_at','2026-09-05T11:00:00+00',
+    'custody_outcome','RETURN_UNPROCESSED','physical_at','2026-09-02T11:00:00+00',
     'reason','CP6 vendor returns the complete PO batch unprocessed but charges attempt',
     'lines',jsonb_build_array(jsonb_build_object(
       'delivery_batch_size_line_id',v_delivery_size_line,'qty_attempted_pcs',10
@@ -1984,7 +1984,7 @@ begin
   raise notice 'CP6_AUTHORITATIVE_ACCEPTANCE_PASS %',jsonb_build_object(
     'delivery_qty',10,'receipt_good',5,'receipt_bs',1,'resolved_stuck',4,'qc_good',4,'qc_bs',1,
     'fg_stock',4,'hpp_total',v_hpp,'unbilled_accrual_before_reversal',70,
-    'late_invoice_hpp',82,'replacement_invoice_hpp',76,
+    'late_invoice_hpp',94,'replacement_invoice_hpp',88,
     'invoice_reversal_replay','NO_OP','replacement_history_preserved',true,
     'paid_failed_wash_attempts',2,'paid_retry_cost',90,'paid_full_return_cost',90,
     'failed_wash_final_cost_residue',0,'failed_wash_physical_net',0,

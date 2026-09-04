@@ -137,6 +137,8 @@ assert.ok(acceptance.includes("'POST_DELIVERY',v_send_payload-'physical_at'"))
 assert.ok(acceptance.includes('CP6 accepted a calendar-invalid physical time'))
 assert.equal(acceptance.includes('CP6 POST_DELIVERY payload requires non-null key physical_at'), false,
   'Acceptance was weakened to bless a generic missing-key error for operator physical time')
+assert.equal(acceptance.includes("'physical_at','2026-09-05"), false,
+  'CP6 acceptance must not depend on a physical fixture time that is future at the frozen test boundary')
 
 const migrationBytes = Buffer.from(migration, 'utf8')
 assert.equal(migrationBytes.at(-1), 10, 'CP6 migration must have one final LF excluded from platform statements')
@@ -261,6 +263,7 @@ for (const token of [
   "erp.desired_laundry_accrual(v_po)<>82", 'prior_actual_rate_snapshot from erp.vendor_invoice_items',
   '<>9', 'Six physically returned pieces at final invoice rate 11',
   'Replacement invoice: six pieces at actual rate 10',
+  "'late_invoice_hpp',94,'replacement_invoice_hpp',88",
 ]) assert.ok(acceptance.includes(token), `Different target/actual Laundry rate proof missing: ${token}`)
 
 for (const token of [
