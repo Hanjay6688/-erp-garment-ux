@@ -549,6 +549,10 @@ def create_vendor_invoice(
 ):
     total = actual_rate * 10
     with connect() as conn, conn.cursor() as cur:
+        # Psycopg 3 rejects multiple parameterized commands in one prepared
+        # statement. Keep the parent and child inserts as two statements inside
+        # this one transaction so they remain atomic without relying on a
+        # driver-specific multi-command path.
         cur.execute(
             """
             insert into erp.vendor_invoices(
@@ -556,16 +560,18 @@ def create_vendor_invoice(
               status,total_amount,notes,created_by
             ) values(%s::uuid,%s,%s::uuid,'2026-09-01',
               '2026-09-01 12:30:00+00','2026-09-15','DRAFT',%s,
-              'CP6 invoice/reversal serialization proof',%s::uuid);
+              'CP6 invoice/reversal serialization proof',%s::uuid)
+            """,
+            (invoice_id, invoice_number, VENDOR, total, OPERATOR_APP),
+        )
+        cur.execute(
+            """
             insert into erp.vendor_invoice_items(
               id,invoice_id,receipt_line_id,description,qty_pcs,actual_rate,actual_amount
             ) values(%s::uuid,%s::uuid,%s::uuid,
               'CP6 exact posted receipt',10,%s,%s)
             """,
-            (
-                invoice_id, invoice_number, VENDOR, total, OPERATOR_APP,
-                item_id, invoice_id, receipt_line, actual_rate, total,
-            ),
+            (item_id, invoice_id, receipt_line, actual_rate, total),
         )
         conn.commit()
 

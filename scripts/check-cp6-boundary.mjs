@@ -467,6 +467,16 @@ assert.equal(race.includes('lock_sql'), false,
 assert.ok(race.includes('Laundry receipt requires an active SENT/PARTIAL_RETURN delivery'),
   'Serialized duplicate receipt does not accept the authoritative terminal-status rejection')
 
+const invoiceFixtureStart = race.indexOf('def create_vendor_invoice(')
+const invoiceFixtureEnd = race.indexOf('\ndef reverse_vendor_invoice(', invoiceFixtureStart)
+assert.ok(invoiceFixtureStart >= 0 && invoiceFixtureEnd > invoiceFixtureStart,
+  'CP6 race fixture vendor-invoice helper is missing')
+const invoiceFixture = race.slice(invoiceFixtureStart, invoiceFixtureEnd)
+assert.equal(occurrences(invoiceFixture, 'cur.execute('), 2,
+  'Vendor-invoice parent and item inserts must use two Psycopg-safe statements')
+assert.equal(/vendor_invoices[\s\S]*;\s*insert into erp\.vendor_invoice_items/.test(invoiceFixture), false,
+  'Vendor-invoice race fixture must not send multiple commands as one prepared statement')
+
 const postDeliveryStart = migration.lastIndexOf("if v_action='POST_DELIVERY' then")
 const postReceiptStart = migration.lastIndexOf("elsif v_action='POST_RECEIPT' then")
 const postDeliveryAction = migration.slice(postDeliveryStart, postReceiptStart)
