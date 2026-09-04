@@ -330,6 +330,12 @@ for (const token of [
 ]) assert.ok(predecessorOwnership.includes(token), `CP6 predecessor ownership wrapper missing: ${token}`)
 assert.ok(mainWorkflow.includes('npm run test:browser:cp6'), 'Main PR CI omits the CP6 Chromium contract')
 assert.ok(mainWorkflow.includes('cp6-browser-contract-proof'), 'Main PR CI omits CP6 browser artifacts')
+for (const token of [
+  'postgresql-client-17', "/usr/lib/postgresql/17/bin/pg_dump",
+  'Verify PostgreSQL dump and server compatibility',
+  'CP6_POSTGRES_CLIENT_SERVER_COMPATIBILITY.txt',
+  'test "$client_major" = "$server_major"',
+]) assert.ok(workflow.includes(token), `CP6 disposable database toolchain guard missing: ${token}`)
 
 for (const token of [
   'Reliability Data adalah Dewa. Keuangan, stok, dan HPP adalah Raja.',

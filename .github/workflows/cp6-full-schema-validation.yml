@@ -72,7 +72,9 @@ jobs:
         run: |
           set -euo pipefail
           sudo apt-get update -qq
-          sudo apt-get install -y -qq postgresql-client
+          sudo apt-get install -y -qq postgresql-client-17
+          test -x /usr/lib/postgresql/17/bin/pg_dump
+          echo '/usr/lib/postgresql/17/bin' >> "$GITHUB_PATH"
           python -m pip install --quiet 'psycopg[binary]==3.2.10'
 
       - name: Install pinned Supabase CLI
@@ -86,6 +88,8 @@ jobs:
           set -euo pipefail
           supabase --version | tee cp6-proof/SUPABASE_CLI_VERSION.txt
           psql --version | tee cp6-proof/PSQL_VERSION.txt
+          pg_dump --version | tee cp6-proof/PG_DUMP_VERSION.txt
+          pg_restore --version | tee cp6-proof/PG_RESTORE_VERSION.txt
           node --version | tee cp6-proof/NODE_VERSION.txt
 
       - name: Verify immutable CP4.5a catalog/config bootstrap
@@ -158,6 +162,19 @@ jobs:
           PY
           supabase start --workdir cp5-local \
             -x realtime,imgproxy,studio,postgres-meta,edge-runtime,logflare,vector,supavisor
+
+      - name: Verify PostgreSQL dump and server compatibility
+        shell: bash
+        run: |
+          set -euo pipefail
+          client_major="$(pg_dump --version | awk '{print $3}' | cut -d. -f1)"
+          server_major="$(psql "$PGURL" -At -v ON_ERROR_STOP=1 -c "select current_setting('server_version_num')::integer / 10000")"
+          test "$client_major" = '17'
+          test "$server_major" = '17'
+          test "$client_major" = "$server_major"
+          printf 'client_major=%s\nserver_major=%s\nstatus=PASS\n' \
+            "$client_major" "$server_major" \
+            | tee cp6-proof/CP6_POSTGRES_CLIENT_SERVER_COMPATIBILITY.txt
 
       - name: Restore exact CP4.5a schema and allowlisted configuration
         shell: bash
