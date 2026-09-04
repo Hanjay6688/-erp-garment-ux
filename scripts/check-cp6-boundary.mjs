@@ -447,6 +447,8 @@ for (const token of [
 ]) assert.ok(workflow.includes(token), `CP6 disposable database toolchain guard missing: ${token}`)
 assert.equal(occurrences(workflow, '--exclude-extension=pg_cron'), 2,
   'Both and only the CP6 preflight/race clones must omit server-bound pg_cron')
+assert.equal(occurrences(workflow, '--exclude-schema=realtime'), 2,
+  'Both and only the CP6 preflight/race clones must omit the privileged platform Realtime schema')
 for (const token of [
   'scripts/verify-cp6-disposable-clone.sh',
   'cp6-proof/CP6_PREFLIGHT_CLONE_BOUNDARY',
@@ -455,6 +457,8 @@ for (const token of [
 for (const token of [
   "source_pg_cron_count", "clone_pg_cron_count", "test \"$source_pg_cron_count\" = '1'",
   "test \"$clone_pg_cron_count\" = '0'", '--schema=erp', '--no-owner',
+  "source_realtime_schema_count", "clone_realtime_schema_count",
+  "test \"$source_realtime_schema_count\" = '1'", "test \"$clone_realtime_schema_count\" = '0'",
   '--restrict-key="$restrict_key"', 'cmp -s "$source_erp_dump" "$clone_erp_dump"',
   'erp_schema_grants_sequences_rows=IDENTICAL', 'status=PASS',
 ]) assert.ok(cloneVerifier.includes(token), `CP6 disposable clone verifier missing: ${token}`)

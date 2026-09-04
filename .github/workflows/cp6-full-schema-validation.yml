@@ -629,7 +629,8 @@ jobs:
           trap cleanup_preflight EXIT
           dropdb --if-exists --force --maintenance-db="$PGURL" cp6_preflight
           createdb --maintenance-db="$PGURL" --template=template0 cp6_preflight
-          pg_dump "$PGURL" --format=custom --exclude-extension=pg_cron --file="$preflight_dump"
+          pg_dump "$PGURL" --format=custom --exclude-extension=pg_cron \
+            --exclude-schema=realtime --file="$preflight_dump"
           pg_restore --dbname="$CP6_PREFLIGHT_PGURL" --no-owner --exit-on-error "$preflight_dump"
           bash scripts/verify-cp6-disposable-clone.sh \
             "$PGURL" "$CP6_PREFLIGHT_PGURL" cp6-proof/CP6_PREFLIGHT_CLONE_BOUNDARY
@@ -707,7 +708,8 @@ jobs:
           trap cleanup_race EXIT
           dropdb --if-exists --force --maintenance-db="$PGURL" cp6_race
           createdb --maintenance-db="$PGURL" --template=template0 cp6_race
-          pg_dump "$PGURL" --format=custom --exclude-extension=pg_cron --file="$race_dump"
+          pg_dump "$PGURL" --format=custom --exclude-extension=pg_cron \
+            --exclude-schema=realtime --file="$race_dump"
           pg_restore --dbname="$CP6_RACE_PGURL" --no-owner --exit-on-error "$race_dump"
           bash scripts/verify-cp6-disposable-clone.sh \
             "$PGURL" "$CP6_RACE_PGURL" cp6-proof/CP6_RACE_CLONE_BOUNDARY
