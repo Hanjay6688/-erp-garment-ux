@@ -3087,7 +3087,11 @@ begin
 
     v_delivery_id:=gen_random_uuid();
     v_delivery_line_id:=gen_random_uuid();
-    v_number:='LDR-'||to_char(v_physical_at,'YYMMDD')||'-'||upper(substr(replace(v_delivery_id::text,'-',''),1,10));
+    -- The UUID is already the immutable document identity. Keep all 128 bits
+    -- in the unique human key so two valid postings can never be rejected by
+    -- the former 40-bit display prefix collision surface.
+    v_number:='LDR-'||to_char(v_physical_at,'YYMMDD')||'-'
+      ||upper(replace(v_delivery_id::text,'-',''));
     insert into erp.laundry_deliveries(
       id,delivery_number,po_id,vendor_id,target_dyeing_color,target_wash_process_id,
       special_instruction,physical_at,status,created_by
@@ -3241,7 +3245,8 @@ begin
     v_total:=v_good+v_bs;
     v_receipt_id:=gen_random_uuid();
     v_receipt_line_id:=gen_random_uuid();
-    v_number:='LRC-'||to_char(v_physical_at,'YYMMDD')||'-'||upper(substr(replace(v_receipt_id::text,'-',''),1,10));
+    v_number:='LRC-'||to_char(v_physical_at,'YYMMDD')||'-'
+      ||upper(replace(v_receipt_id::text,'-',''));
     insert into erp.laundry_receipts(
       id,receipt_number,delivery_id,physical_at,status,created_by
     ) values(v_receipt_id,v_number,v_delivery.id,v_physical_at,'DRAFT',v_actor);
@@ -3440,7 +3445,7 @@ begin
     v_receipt_line_id:=gen_random_uuid();
     v_failed_wash_attempt_id:=gen_random_uuid();
     v_number:='LFW-'||to_char(v_physical_at,'YYMMDD')||'-'
-      ||upper(substr(replace(v_receipt_id::text,'-',''),1,10));
+      ||upper(replace(v_receipt_id::text,'-',''));
     insert into erp.cp6_laundry_qc_execution_context(
       backend_pid,transaction_id,actor_key,action,permission_key,client_request_id,payload
     ) values(

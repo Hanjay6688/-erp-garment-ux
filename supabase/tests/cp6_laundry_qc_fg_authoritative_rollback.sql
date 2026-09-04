@@ -693,6 +693,8 @@ begin
   from erp.laundry_delivery_batch_size_lines
   where delivery_line_id in(select id from erp.laundry_delivery_lines where delivery_id=v_delivery);
   if v_delivery_size_line is null
+     or right((select delivery_number from erp.laundry_deliveries where id=v_delivery),32)
+       <>upper(replace(v_delivery::text,'-',''))
      or (select count(*) from erp.laundry_delivery_batch_size_lines
        where delivery_line_id in(select id from erp.laundry_delivery_lines where delivery_id=v_delivery))<>1
      or (select accrued_amount from erp.laundry_cost_accrual_state where po_id=v_po)<>70
@@ -856,6 +858,8 @@ begin
   select id into v_receipt_size_line from erp.laundry_receipt_batch_size_lines
   where receipt_line_id=v_receipt_line;
   if v_receipt_size_line is null
+     or right((select receipt_number from erp.laundry_receipts where id=v_receipt),32)
+       <>upper(replace(v_receipt::text,'-',''))
      or (select count(*) from erp.bs_cases where source_laundry_receipt_line_id in(
        select id from erp.laundry_receipt_lines where receipt_id=v_receipt
      ) and qty_pcs=1 and product_id=v_product_s and status='OPEN')<>1
@@ -1716,6 +1720,8 @@ begin
   if (select accrued_amount from erp.laundry_cost_accrual_state where po_id=v_po)<>180
      or erp.desired_laundry_accrual(v_po)<>180
      or v_hpp<>v_hpp_baseline+180
+     or right((select receipt_number from erp.laundry_receipts
+       where id=v_failed_retry_receipt),32)<>upper(replace(v_failed_retry_receipt::text,'-',''))
      or (select count(*) from erp.laundry_failed_wash_attempts
        where id=v_failed_retry_attempt and receipt_id=v_failed_retry_receipt
          and custody_outcome='RETRY_AT_VENDOR' and qty_attempted_pcs=10
@@ -1775,6 +1781,8 @@ begin
   if (select accrued_amount from erp.laundry_cost_accrual_state where po_id=v_po)<>180
      or erp.desired_laundry_accrual(v_po)<>180
      or v_hpp<>v_hpp_baseline+180
+     or right((select receipt_number from erp.laundry_receipts
+       where id=v_failed_return_receipt),32)<>upper(replace(v_failed_return_receipt::text,'-',''))
      or (select count(*) from erp.laundry_failed_wash_attempts
        where delivery_id=v_delivery)<>2
      or (select count(*) from erp.laundry_failed_wash_attempts

@@ -626,6 +626,8 @@ test('CP6 reversal buttons obey authoritative downstream blockers', async ({ pag
   await expect(page.getByText('Receipt sudah dipakai QC; reverse QC aktif terlebih dahulu.', { exact: true })).toBeVisible()
   await expect(page.getByRole('button', { name: 'Batalkan penerimaan', exact: true })).toBeDisabled()
   await expect(page.getByText(/Cuci gagal berbayar · fisik tetap di vendor/)).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Batalkan biaya attempt', exact: true })).toBeDisabled()
+  await page.getByLabel('Alasan reversal LFW-CP6-001', { exact: true }).fill('Tagihan attempt salah dan harus dibalik')
   await expect(page.getByRole('button', { name: 'Batalkan biaya attempt', exact: true })).toBeEnabled()
 
   await openPage(page, testInfo.project.name, 'QC & Final SKU', 'QC & Final SKU')

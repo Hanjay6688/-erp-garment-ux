@@ -225,6 +225,21 @@ assert.ok(migration.includes("upper(replace(p_client_request_id::text, '-', ''))
   'Final-SKU document numbers must retain all UUID entropy')
 assert.equal(migration.includes("upper(substr(replace(p_client_request_id::text, '-', ''), 1, 10))"), false,
   'Final-SKU document numbers still truncate UUID entropy to a collision-prone prefix')
+for (const [identity, expectedOccurrences] of [
+  ['v_delivery_id', 1],
+  ['v_receipt_id', 2],
+]) {
+  assert.equal(occurrences(migration, `upper(replace(${identity}::text,'-',''))`), expectedOccurrences,
+    `Every CP6 ${identity} document number must retain all UUID entropy`)
+  assert.equal(migration.includes(`upper(substr(replace(${identity}::text,'-',''),1,10))`), false,
+    `CP6 ${identity} document numbers still expose a 40-bit collision surface`)
+}
+for (const token of [
+  "right((select delivery_number from erp.laundry_deliveries where id=v_delivery),32)",
+  "right((select receipt_number from erp.laundry_receipts where id=v_receipt),32)",
+  "where id=v_failed_retry_receipt),32)<>upper(replace(v_failed_retry_receipt::text,'-',''))",
+  "where id=v_failed_return_receipt),32)<>upper(replace(v_failed_return_receipt::text,'-',''))",
+]) assert.ok(acceptance.includes(token), `Runtime full-UUID document identity proof missing: ${token}`)
 assert.equal(occurrences(migration, 'count(*) from erp.cp6_v2620_rollback_capsule)<>11'), 2,
   'CP6 must bind all eleven replaced functions/views, including accrual serialization, HPP, and the Final-SKU number writer, into install/post guards')
 assert.ok(rollback.includes('count(*) from erp.cp6_v2620_rollback_capsule)<>11'),
