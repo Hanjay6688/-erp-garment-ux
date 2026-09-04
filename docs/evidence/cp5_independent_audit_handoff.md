@@ -7,6 +7,14 @@ could be followed by a different mutation identity, and rollback trusted a
 migration name/version without binding exact statement bytes. Those findings
 are implemented in v2.6.19c and proved on the exact code head below.
 
+A later independent pass on evidence HEAD
+`6e42bcb9afb33745d0bfc2312139568d4462e4d9` found one additional P1:
+after a confirmed create succeeded and its authoritative refetch failed, the
+preserved create modal could become executable again after a later successful
+manual refetch and issue a second UUID. The frontend-only correction retires a
+confirmed `CREATE_MANUAL_BS` or `SAVE_CLAIM` form before refetch and proves
+that recovery cannot resurrect the committed form.
+
 This handoff is evidence, not authority. A reviewer must independently derive
 the verdict from exact source, database behavior, and business conservation.
 It does not authorize merge, production deployment, a real-user invitation, or
@@ -21,15 +29,22 @@ any mutation of the legacy ERP Garment project. `production_go` is `false`.
 - Live-main tree: `70f7bf3c0265520eac5aafff747f448ed8be3e6b`
 - CP5 source base: `8bfac13b91ea1be92111139e2fddcabccf9ae19a`
 - CP5 source-base tree: `a9b193010266bb686c57709865a992769a835855`
-- v2.6.19c runtime code head: `49647ded395d516983417e5f6315f6f0dc707f3d`
-- v2.6.19c runtime code tree: `9c1b5ee3d6c225d0b7ef5b3d193e0e90ef30a2c5`
+- v2.6.19c database/runtime baseline head:
+  `49647ded395d516983417e5f6315f6f0dc707f3d`
+- v2.6.19c database/runtime baseline tree:
+  `9c1b5ee3d6c225d0b7ef5b3d193e0e90ef30a2c5`
+- Audited predecessor evidence head:
+  `6e42bcb9afb33745d0bfc2312139568d4462e4d9`
+- Committed-create P1 code head:
+  `17e2c56e7e3eea84697fbbc1d5999a5af2e779d9`
+- Committed-create P1 code tree:
+  `3acddcebba62f57be617213a910532514964ff13`
 - Evidence/checker successor: resolve from PR immediately before review; its
-  first parent must be the runtime code head above.
+  first parent must be the committed-create P1 code head above.
 
 Reject branch drift, a concurrent writer, a non-direct evidence parent, or any
-runtime/migration change after `49647ded395d516983417e5f6315f6f0dc707f3d`. The successor may change only
-this handoff, v2.6.19c UAT evidence, access evidence/checker, and generated
-ownership manifests. Recorded v2.6.18 through v2.6.19b bytes remain immutable;
+runtime change after `17e2c56e7e3eea84697fbbc1d5999a5af2e779d9`. The
+successor may change only this handoff and generated ownership evidence. Recorded v2.6.18 through v2.6.19b bytes remain immutable;
 v2.6.19c is the official forward migration.
 
 ## Owner business truth
@@ -94,6 +109,13 @@ invent a new UUID/payload/version. A normal workspace refresh cannot silently
 discard it. Only an authoritative exact reconciliation or a proven
 non-ambiguous pre-send failure may release the writer.
 
+A confirmed successful `CREATE_MANUAL_BS` or `SAVE_CLAIM` retires its create
+modal before the follow-up workspace read. If that read fails, the page remains
+stale and all writers remain frozen; a later successful manual refetch restores
+the page but never resurrects the committed form. DOM and mocked-UAT browser
+regressions exercise both actions and require the mutation count to remain
+exactly one.
+
 ## Delivered boundary
 
 | Area | Current truth |
@@ -113,7 +135,22 @@ The public dispatcher still owns twelve canonical actions:
 `REVERSE_REWORK_COMPLETION`, `SAVE_CLAIM`, `RESOLVE_CLAIM`, and
 `REVERSE_CLAIM_RESOLUTION`.
 
-## Exact code-head proof
+## Committed-create P1 correction boundary
+
+Frontend code head `17e2c56e7e3eea84697fbbc1d5999a5af2e779d9`
+changes only the BS Resolution page, its DOM regression, its mocked-UAT browser
+contract, and the CP5 boundary checker. There is no SQL, migration, RPC, ledger,
+UAT, or legacy mutation.
+
+Local source proof passed 25 files / 173 unit tests, production build and client
+secret scan, TypeScript, source/access/CSS ownership, and the CP5 boundary
+checker. The browser suite enumerates twelve CP5 desktop/mobile cases, including
+both committed-create recovery paths. This environment had no Chromium binary,
+so browser execution and the complete security/full-schema suite must be
+verified from the exact evidence-successor CI; do not infer PASS from this
+handoff.
+
+## Prior exact v2.6.19c code-head proof
 
 Runtime code head `49647ded395d516983417e5f6315f6f0dc707f3d` passed all five required checks:
 
@@ -186,13 +223,17 @@ It lacks the v19c contract and was not mutated.
 
 1. Resolve PR #23 identity, exact head/parent/tree/base, draft/open/unmerged
    state, and `production_go:false`. Treat this document as a claim.
-2. Verify the final evidence commit is a direct child of `49647ded395d516983417e5f6315f6f0dc707f3d` and is
-   evidence/checker-only. Recompute every Git blob and ownership hash.
+2. Verify the final evidence commit is a direct child of
+   `17e2c56e7e3eea84697fbbc1d5999a5af2e779d9` and is evidence-only.
+   Recompute every Git blob and ownership hash.
 3. Independently inspect the claim/cash invariant and lock order. Reproduce both
    commit orders and prove there is no reversed claim plus active dependent cash.
 4. Reproduce browser timeout after server commit, reload, ordinary refetch,
    exact-envelope replay, conflict, and successful reconciliation. Prove request
    UUID, canonical payload, expected version, and target identity never change.
+   Separately reproduce confirmed-success then failed-refetch for both
+   `CREATE_MANUAL_BS` and `SAVE_CLAIM`; after a successful manual refetch the
+   committed modal must remain absent and mutation count must stay exactly one.
 5. Tamper each rollback ledger name and statement bytes. Require refusal. Then
    prove normal v19c rollback restores exact v19b with zero relevant history.
 6. Re-run unit, build, browser, access/security/ownership, CP5 full-schema, and
@@ -206,7 +247,9 @@ It lacks the v19c contract and was not mutated.
 ## Authorization boundary
 
 - ERP Enteng v2.6.18 through v2.6.19c: recorded.
-- Exact v2.6.19c runtime code-head CI: 5/5 PASS.
+- Exact v2.6.19c database/runtime baseline CI: 5/5 PASS.
+- Committed-create correction: require exact final evidence-head CI PASS; resolve
+  the current run IDs and artifact digests independently.
 - Legacy mutated: no.
 - Canonical Worker promoted: no.
 - PR merged: no.

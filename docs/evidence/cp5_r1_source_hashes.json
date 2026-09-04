@@ -3,7 +3,7 @@
   "candidate_branch": "pre-cp5/cutting-persistence-pickup-wip-r1-20260903",
   "source_base_sha": "8bfac13b91ea1be92111139e2fddcabccf9ae19a",
   "source_base_tree": "a9b193010266bb686c57709865a992769a835855",
-  "generation_parent_sha": "49647ded395d516983417e5f6315f6f0dc707f3d",
+  "generation_parent_sha": "17e2c56e7e3eea84697fbbc1d5999a5af2e779d9",
   "target_project_ref": "siimvrusnzxexizpyoib",
   "target_environment": "ERP Enteng UAT",
   "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
@@ -260,8 +260,8 @@
       "sha256": "d8d4293770a2dee517ab8c973b48b06b4ed085fe16fb7cea99518a0aa7b081eb"
     },
     "docs/evidence/cp5_independent_audit_handoff.md": {
-      "bytes": 12121,
-      "sha256": "35e7d0af57ed2f0200b34d7f021bb9659e13b354a39a13942646878f384f35ad"
+      "bytes": 14370,
+      "sha256": "4482ff79fe28a154a7ef94fc28ea56b7e68424eed8583e44236c717de8d6f57e"
     },
     "docs/evidence/cp5_uat_readonly_preflight.json": {
       "bytes": 1770,
@@ -304,8 +304,8 @@
       "sha256": "79f610b59a2bca281e1a77ac0dcb2d4a9560715d5837ba7dd0ccd153aeee2e7d"
     },
     "scripts/check-cp5-boundary.mjs": {
-      "bytes": 35869,
-      "sha256": "2f129828f321d54254d290820ae90e32d3bbe91d20d27761bd2dcbacff28b13d"
+      "bytes": 36241,
+      "sha256": "5f08cbf1d047116c131dd9f2014f339bac1243421a53b9207069822598df82a5"
     },
     "scripts/check-source-ownership.mjs": {
       "bytes": 4509,
@@ -332,12 +332,12 @@
       "sha256": "c5446f42e6cec8c35f0a1e343f22ac4b4bc2edcf400acc1c7b2ebafdc9eba632"
     },
     "src/ConnectedBsResolutionPage.dom.test.tsx": {
-      "bytes": 27798,
-      "sha256": "1bf7411a1ec4e18eb51c56ef88a7522c357fe6e99e10bc513ead1830d9df0ba3"
+      "bytes": 30749,
+      "sha256": "6cdc09cbc97c091698077d782c8792f8ddb4a41f044fb2fd5f10b2e2d2c191d9"
     },
     "src/ConnectedBsResolutionPage.tsx": {
-      "bytes": 60949,
-      "sha256": "e7274af40829e900fbe64c55bbf9473e88ac17ab3cfcf3d3ea0ee5c7327a008a"
+      "bytes": 61037,
+      "sha256": "1b64c953eec8adee2e24aa09e93ce11a38e10be5e38644aaeec031d9f80a8193"
     },
     "src/ConnectedCuttingPage.tsx": {
       "bytes": 22008,
@@ -488,8 +488,8 @@
       "sha256": "f1b5bb04874d86fff8b867780a1d1aa2997371152576ab82b9dfbbfacacedf77"
     },
     "tests/browser/cp5-bs-resolution.spec.ts": {
-      "bytes": 18717,
-      "sha256": "146d270784fd18ec13b8deafe1ab19f48440ab9382d21a75aa6a1b6fb3e5fe21"
+      "bytes": 22425,
+      "sha256": "8dcafcf1ead9dec38713f7a75f317eed63de1bf64a666e0e354c540e913a7ab4"
     }
   }
 }
