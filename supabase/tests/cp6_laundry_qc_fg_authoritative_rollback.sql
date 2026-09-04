@@ -1147,7 +1147,10 @@ begin
       ),gen_random_uuid(),v_group_version
     );
   exception when others then
-    if sqlerrm='Every connected Final SKU line needs positive quantity and exact receipt/batch/size lineage' then v_failed:=true; else raise; end if;
+    -- Exact Laundry lineage is part of the closed public payload contract.
+    -- Omitting it must fail before any semantic quantity or source lookup.
+    if sqlerrm='CP6 POST_FINAL_SKU line requires non-null key source_laundry_receipt_line_id'
+      then v_failed:=true; else raise; end if;
   end;
   if not v_failed then raise exception 'CP6 connected writer accepted source-less direct QC'; end if;
 
