@@ -189,6 +189,10 @@ for (const token of [
 ]) assert.ok(race.includes(token), `Temporal/main-race evidence missing: ${token}`)
 for (const token of [
   "holder_outcome: str = 'PASS'", "holder_outcome == 'REJECT'",
+  'def cp6flow_prelock(group_id: str)',
+  'def invoice_post_prelock(invoice_id: str, group_id: str)',
+  "holder_prelock_label='CP6FLOW_GROUP'",
+  "holder_prelock_label='INVOICE_HEADER_THEN_CP6FLOW'",
   "'reverse_receipt_vs_reverse_qc'", "'replacement_post_vs_invoice_reversal'",
   "current_cost_state='ESTIMATED', fg_net=35, wip_net=35, accrued_net=-70",
   "report['race_count'] = len(report['races'])", 'sixteen serialized schedules',

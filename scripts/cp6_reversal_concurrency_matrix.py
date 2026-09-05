@@ -160,6 +160,36 @@ def single(operation: dict[str, Any]):
     return response
 
 
+def cp6flow_prelock(group_id: str) -> Callable[[Any], None]:
+    """Acquire the exact shared Potongan fence before a rejected facade."""
+    def acquire(cur):
+        set_operator_context(cur)
+        cur.execute(
+            "select pg_advisory_xact_lock(hashtextextended('CP6FLOW:'||%s::text,0))",
+            (group_id,),
+        )
+
+    return acquire
+
+
+def invoice_post_prelock(invoice_id: str, group_id: str) -> Callable[[Any], None]:
+    """Mirror post_vendor_invoice's header -> shared Potongan lock order."""
+    def acquire(cur):
+        set_operator_claims(cur)
+        cur.execute(
+            'select id from erp.vendor_invoices where id=%s::uuid for update',
+            (invoice_id,),
+        )
+        if cur.fetchone() is None:
+            raise RuntimeError('Rejected invoice holder header disappeared before race')
+        cur.execute(
+            "select pg_advisory_xact_lock(hashtextextended('CP6FLOW:'||%s::text,0))",
+            (group_id,),
+        )
+
+    return acquire
+
+
 def run_pair(
     name: str,
     holder_operation: dict[str, Any],
@@ -168,9 +198,20 @@ def run_pair(
     allowed_waiter_errors: tuple[str, ...] = (),
     holder_outcome: str = 'PASS',
     allowed_holder_errors: tuple[str, ...] = (),
+    holder_prelock: Callable[[Any], None] | None = None,
+    holder_prelock_label: str | None = None,
 ) -> dict[str, Any]:
     """Run production operations, observe the actual blocker, then reconcile."""
-    holder_done = threading.Event()
+    if holder_outcome == 'REJECT' and (
+        holder_prelock is None or holder_prelock_label is None
+    ):
+        raise RuntimeError(
+            f'{name}: rejected holder requires an explicit production-order prelock'
+        )
+    if holder_outcome == 'PASS' and holder_prelock is not None:
+        raise RuntimeError(f'{name}: successful holder must acquire locks through runtime')
+
+    holder_ready = threading.Event()
     waiter_started = threading.Event()
     holder: dict[str, Any] = {}
     waiter: dict[str, Any] = {}
@@ -182,9 +223,17 @@ def run_pair(
                 cur.execute("set local lock_timeout='10s'")
                 cur.execute('select pg_backend_pid()')
                 holder['backend_pid'] = cur.fetchone()[0]
+                if holder_prelock is not None:
+                    holder_prelock(cur)
+                    holder['canonical_prelock'] = holder_prelock_label
+                    holder_ready.set()
+                    if not waiter_started.wait(timeout=10):
+                        raise RuntimeError(f'{name}: waiter did not start behind prelock')
+                    time.sleep(HOLD_SECONDS)
                 holder['response'] = holder_operation['call'](cur)
-                holder_done.set()
-                time.sleep(HOLD_SECONDS)
+                if holder_prelock is None:
+                    holder_ready.set()
+                    time.sleep(HOLD_SECONDS)
             conn.commit()
             holder['status'] = 'PASS'
         except Exception as exc:  # pragma: no cover - CI evidence
@@ -195,19 +244,13 @@ def run_pair(
                 and any(token in str(exc) for token in allowed_holder_errors)
                 else 'FAIL'
             )
-            holder_done.set()
-            # An aborted PostgreSQL transaction retains transaction-level
-            # advisory/row locks until rollback. Hold those real production
-            # locks so the inverse schedule can prove its successful waiter
-            # blocked behind the rejected first intent.
-            if holder['status'] == 'EXPECTED_REJECTION':
-                time.sleep(HOLD_SECONDS)
+            holder_ready.set()
             conn.rollback()
         finally:
             conn.close()
 
     def wait():
-        holder_done.wait(timeout=10)
+        holder_ready.wait(timeout=10)
         began = time.monotonic()
         conn = connect()
         try:
@@ -705,6 +748,8 @@ def main():
         'PASS',
         holder_outcome='REJECT',
         allowed_holder_errors=('Penerimaan laundry ini sudah dipakai QC',),
+        holder_prelock=cp6flow_prelock(str(item['group_id'])),
+        holder_prelock_label='CP6FLOW_GROUP',
     )
     report['states']['reverse_receipt_vs_reverse_qc'] = state('REVRECEIPT_REVQC')
     require(
@@ -732,6 +777,8 @@ def main():
         allowed_holder_errors=(
             'Laundry receipt line is already billed by another active vendor invoice',
         ),
+        holder_prelock=invoice_post_prelock(invoice_b, str(item['group_id'])),
+        holder_prelock_label='INVOICE_HEADER_THEN_CP6FLOW',
     )
     report['states']['replacement_post_vs_invoice_reversal'] = scalar(
         """

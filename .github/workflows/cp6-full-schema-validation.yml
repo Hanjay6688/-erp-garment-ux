@@ -992,6 +992,8 @@ jobs:
           assert set(report['races'])==expected,report
           assert report['all_blockers_observed'] is True,report
           assert all(row['pg_blocking_pids_observed'] for row in report['races'].values()),report
+          assert report['races']['reverse_receipt_vs_reverse_qc']['holder']['canonical_prelock']=='CP6FLOW_GROUP',report
+          assert report['races']['replacement_post_vs_invoice_reversal']['holder']['canonical_prelock']=='INVOICE_HEADER_THEN_CP6FLOW',report
           assert report['idempotency_and_ledger']==report['idempotency_expected'],report
           assert report['idempotency_and_ledger']['rejected_rows']==0,report
           assert report['idempotency_and_ledger']['execution_context_rows']==0,report
