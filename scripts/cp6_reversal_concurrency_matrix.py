@@ -377,14 +377,21 @@ def setup_receipt(case: str) -> dict[str, Any]:
     return item
 
 
-def qc_payload(item: dict[str, Any], case: str, quantity: int) -> dict[str, Any]:
+def qc_payload(
+    item: dict[str, Any],
+    case: str,
+    quantity: int,
+    completion_mode_override: str | None = None,
+) -> dict[str, Any]:
     return {
         'cutting_group_id': str(item['group_id']),
         'destination_location_id': LOCATION,
         'physical_at': '2026-08-29T13:00:00Z',
         'reason': f'CP6 matrix {case} Final SKU {quantity}',
         'good_qty_pcs': quantity,
-        'completion_mode': 'ALL_READY' if quantity == 10 else 'PARTIAL_SELECTION',
+        'completion_mode': completion_mode_override or (
+            'ALL_READY' if quantity == 10 else 'PARTIAL_SELECTION'
+        ),
         'lines': [{
             'final_product_id': PRODUCT,
             'qty_good_pcs': quantity,
@@ -707,7 +714,13 @@ def main():
     item = setup_qc('POSTQC_REVQC', quantity=5)
     report['races']['post_final_sku_vs_reverse_qc'] = run_pair(
         'POST_FINAL_SKU_VS_REVERSE_QC',
-        facade_operation('POST_FINAL_SKU', qc_payload(item, 'POSTQC_REVQC', 5),
+        # Before the competing reversal commits, this second 5-pcs post
+        # consumes the full authoritative ready balance.  Its operator intent
+        # must therefore be ALL_READY at post time; after its commit, reversal
+        # of the older 5-pcs QC legitimately opens a new remainder.
+        facade_operation('POST_FINAL_SKU', qc_payload(
+            item, 'POSTQC_REVQC', 5, completion_mode_override='ALL_READY',
+        ),
                          request_id('POSTQC_REVQC:RACE:POSTQC'), group_version(str(item['group_id']))),
         facade_operation('REVERSE_FINAL_SKU', {
             'qc_inspection_id': item['qc_id'], 'reason': 'CP6 matrix repost wins reverse QC',

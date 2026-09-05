@@ -210,6 +210,7 @@ for (const token of [
   "'reverse_qc_vs_post_final_sku'", "'post_final_sku_vs_reverse_qc'",
   'deferred_item', 'link_item=False', 'invoice_header_status',
   'invoice_item_count=0',
+  "completion_mode_override='ALL_READY'",
   'fg_qty=5, current_hpp=70, fg_net=70, wip_net=0, accrued_net=-70',
   "'rejected_rows': 0", "'execution_context_rows': 0", "'unbalanced_journals': 0",
   "'matrix_vendor_ap': 180", "'production_go': False",
