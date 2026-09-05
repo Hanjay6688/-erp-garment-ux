@@ -1085,6 +1085,7 @@ jobs:
           assert report['f02_physical_prefix']['same_rejected_uuid_attempts'] == 2, report
           assert report['f02_physical_prefix']['before_first_rejected'] is True, report
           assert report['f02_physical_prefix']['between_dispatch_and_return_rejected'] is True, report
+          assert report['f02_physical_prefix']['concurrent_backdates']['holder']['canonical_fence_prelocked'] is True, report
           assert report['f02_physical_prefix']['concurrent_backdates']['pg_blocking_pids_observed'] is True, report
           assert report['f02_physical_prefix']['timeline']['laundry_at_day_2'] == 10, report
           assert report['f02_physical_prefix']['timeline']['laundry_at_day_3'] == 0, report

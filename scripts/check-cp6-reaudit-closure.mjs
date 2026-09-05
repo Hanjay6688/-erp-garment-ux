@@ -182,6 +182,8 @@ for (const token of [
   "'physical_at': '2026-09-01T10:30:00Z'",
   'before_first_rejected', 'between_dispatch_and_return_rejected',
   'F02_CONCURRENT_BACKDATES', 'future distribution batch/size history negative',
+  "pg_advisory_xact_lock(hashtextextended('CP6FLOW:'||%s::text,0))",
+  "holder['canonical_fence_prelocked'] = True",
   "'rejected_request_rows': 0", "report['race_count'] = len(report['races'])",
   "value.get('pg_blocking_pids_observed') is True",
 ]) assert.ok(race.includes(token), `Temporal/main-race evidence missing: ${token}`)

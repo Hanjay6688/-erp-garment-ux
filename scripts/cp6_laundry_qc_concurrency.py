@@ -422,10 +422,15 @@ def run_f02_physical_prefix_proof() -> dict[str, Any]:
         rejection_errors.append(str(exc).splitlines()[0])
 
     # Two already-open operator transactions exercise the same rejected
-    # backdate concurrently. The first failed statement deliberately retains
-    # its transaction locks until rollback; the second must be observed
-    # blocked by that exact backend and then independently reject. Neither may
-    # leave a document or idempotency envelope.
+    # backdate concurrently. PostgreSQL releases transaction locks as soon as
+    # an unhandled statement error aborts the transaction, so a holder that
+    # signals only *after* its expected domain error cannot provide real
+    # pg_blocking_pids evidence. Acquire the exact CP6FLOW advisory fence that
+    # POST_DELIVERY acquires first, then invoke the facade re-entrantly after
+    # the waiter is blocked. This preserves production lock order and proves
+    # the second operator cannot evaluate the same historical prefix outside
+    # that canonical serial order. Neither rejection may leave a document or
+    # idempotency envelope.
     holder_ready = threading.Event()
     waiter_started = threading.Event()
     holder: dict[str, Any] = {}
@@ -439,6 +444,15 @@ def run_f02_physical_prefix_proof() -> dict[str, Any]:
                 set_operator_context(cur)
                 cur.execute('select pg_backend_pid()')
                 holder['backend_pid'] = cur.fetchone()[0]
+                cur.execute(
+                    "select pg_advisory_xact_lock(hashtextextended('CP6FLOW:'||%s::text,0))",
+                    (F02_GROUP,),
+                )
+                holder['canonical_fence_prelocked'] = True
+                holder_ready.set()
+                if not waiter_started.wait(timeout=10):
+                    raise RuntimeError('F02 concurrent waiter did not start')
+                time.sleep(HOLD_SECONDS)
                 try:
                     action(
                         cur, 'POST_DELIVERY', before_first_payload,
@@ -452,8 +466,6 @@ def run_f02_physical_prefix_proof() -> dict[str, Any]:
                         if 'future distribution batch/size history negative' in str(exc)
                         else 'WRONG_ERROR'
                     )
-                    holder_ready.set()
-                    time.sleep(HOLD_SECONDS)
             conn.rollback()
         finally:
             holder_ready.set()
