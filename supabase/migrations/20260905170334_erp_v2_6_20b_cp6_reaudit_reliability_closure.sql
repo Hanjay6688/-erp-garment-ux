@@ -407,15 +407,25 @@ begin
   end if;
   v_definition:=replace(v_definition,v_anchor,v_replacement);
 
-  v_anchor:=$anchor$    select sum(x.qty_sent_pcs)::bigint into v_total
-    from jsonb_to_recordset(v_lines) x(size_id uuid,qty_sent_pcs integer);
-    select coalesce(w.unsent_ready_qty_pcs,0)::bigint into v_available$anchor$;
-  v_replacement:=$replacement$    select sum(x.qty_sent_pcs)::bigint into v_total
-    from jsonb_to_recordset(v_lines) x(size_id uuid,qty_sent_pcs integer);
+  -- Preserve the specific, operator-facing "sewing output not ready at this
+  -- time" rejection first.  The full future-prefix replay still runs before
+  -- any delivery fact is created and catches histories that are valid at the
+  -- insertion instant but become impossible at a later immutable event.
+  v_anchor:=$anchor$    if v_total>v_available_at_physical_time then
+      raise exception 'Laundry send time predates sufficient authoritative sewing output. Ready at physical time %, requested %',
+        v_available_at_physical_time,v_total;
+    end if;
+
+    v_delivery_id:=gen_random_uuid();$anchor$;
+  v_replacement:=$replacement$    if v_total>v_available_at_physical_time then
+      raise exception 'Laundry send time predates sufficient authoritative sewing output. Ready at physical time %, requested %',
+        v_available_at_physical_time,v_total;
+    end if;
+
     perform erp.assert_cp6_dispatch_timeline_v2620b(
       v_batch_id,v_group.id,v_physical_at,v_lines
     );
-    select coalesce(w.unsent_ready_qty_pcs,0)::bigint into v_available$replacement$;
+    v_delivery_id:=gen_random_uuid();$replacement$;
   if (length(v_definition)-length(replace(v_definition,v_anchor,'')))/length(v_anchor)<>1 then
     raise exception 'DRIFT_CONCURRENT_MUTATION_DETECTED: full dispatch-timeline anchor is not exact';
   end if;

@@ -58,8 +58,8 @@ for (const [path, sql] of [[migrationPath, migration], [rollbackPath, rollback]]
 const migrationBytes = Buffer.from(migration)
 const migrationFileSha = sha256(migrationBytes)
 const migrationLedgerSha = sha256(migrationBytes.subarray(0, -1))
-assert.equal(migrationFileSha, 'd8cc9327d31d1bb11886f0c3f13c9f89eeaefd9cb23a9ed0352861ccec7a3156')
-assert.equal(migrationLedgerSha, '85c802d46f1651aa7c6c63cfd34583223f6f1a13d24825fa6e57f61e9a138ac9')
+assert.equal(migrationFileSha, '67c2b8eeb4a473c20a6ac312b863ef8f3b7eccf2a6d8805e921b3996e9eca406')
+assert.equal(migrationLedgerSha, 'fedd509515694fb8f03d90ebccfcc260c8e13f0784d589d04f61b9ece8d2ed25')
 assert.equal(occurrences(rollback, migrationFileSha), 4)
 assert.equal(occurrences(rollback, migrationLedgerSha), 4)
 assert.ok(occurrences(workflow, migrationFileSha) >= 2)
@@ -113,6 +113,22 @@ for (const token of [
   'future distribution batch/size history negative',
   'future Potongan WIP history negative',
 ]) assert.ok(timeline.includes(token), `Full future-prefix invariant missing: ${token}`)
+
+const writerPatch = migration.slice(
+  migration.indexOf('do $patch_writer$'),
+  migration.indexOf('$patch_writer$;', migration.indexOf('do $patch_writer$') + 10),
+)
+for (const token of [
+  'Preserve the specific, operator-facing',
+  'Laundry send time predates sufficient authoritative sewing output.',
+  'perform erp.assert_cp6_dispatch_timeline_v2620b(',
+  'v_delivery_id:=gen_random_uuid();',
+]) assert.ok(writerPatch.includes(token), `Dispatch guard ordering contract missing: ${token}`)
+assert.ok(
+  writerPatch.indexOf('Laundry send time predates sufficient authoritative sewing output.')
+    < writerPatch.indexOf('perform erp.assert_cp6_dispatch_timeline_v2620b('),
+  'Specific chronology UX guard must precede the general future-prefix replay',
+)
 
 const hpp = migration.slice(
   migration.indexOf('do $patch_partial_hpp$'),

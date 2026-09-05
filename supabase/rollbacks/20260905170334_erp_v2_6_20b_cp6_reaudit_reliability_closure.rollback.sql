@@ -21,8 +21,8 @@ begin
     and coalesce(encode(extensions.digest(
       convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'
     ),'hex'),'') in(
-      '85c802d46f1651aa7c6c63cfd34583223f6f1a13d24825fa6e57f61e9a138ac9',
-      'd8cc9327d31d1bb11886f0c3f13c9f89eeaefd9cb23a9ed0352861ccec7a3156'
+      'fedd509515694fb8f03d90ebccfcc260c8e13f0784d589d04f61b9ece8d2ed25',
+      '67c2b8eeb4a473c20a6ac312b863ef8f3b7eccf2a6d8805e921b3996e9eca406'
     );
   select count(*) into v_conflict_count
   from supabase_migrations.schema_migrations m
@@ -30,8 +30,8 @@ begin
     and coalesce(encode(extensions.digest(
       convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'
     ),'hex'),'') not in(
-      '85c802d46f1651aa7c6c63cfd34583223f6f1a13d24825fa6e57f61e9a138ac9',
-      'd8cc9327d31d1bb11886f0c3f13c9f89eeaefd9cb23a9ed0352861ccec7a3156'
+      'fedd509515694fb8f03d90ebccfcc260c8e13f0784d589d04f61b9ece8d2ed25',
+      '67c2b8eeb4a473c20a6ac312b863ef8f3b7eccf2a6d8805e921b3996e9eca406'
     );
   if v_match_count<>1 or v_conflict_count<>0 then
     raise exception 'v2.6.20b rollback refused: platform ledger identity is ambiguous (match %, conflict %)',
@@ -84,8 +84,8 @@ begin
     and coalesce(encode(extensions.digest(
       convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'
     ),'hex'),'') in(
-      '85c802d46f1651aa7c6c63cfd34583223f6f1a13d24825fa6e57f61e9a138ac9',
-      'd8cc9327d31d1bb11886f0c3f13c9f89eeaefd9cb23a9ed0352861ccec7a3156'
+      'fedd509515694fb8f03d90ebccfcc260c8e13f0784d589d04f61b9ece8d2ed25',
+      '67c2b8eeb4a473c20a6ac312b863ef8f3b7eccf2a6d8805e921b3996e9eca406'
     );
   if exists(
        select 1 from erp.schema_migrations m
@@ -226,8 +226,8 @@ begin
     and coalesce(encode(extensions.digest(
       convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'
     ),'hex'),'') in(
-      '85c802d46f1651aa7c6c63cfd34583223f6f1a13d24825fa6e57f61e9a138ac9',
-      'd8cc9327d31d1bb11886f0c3f13c9f89eeaefd9cb23a9ed0352861ccec7a3156'
+      'fedd509515694fb8f03d90ebccfcc260c8e13f0784d589d04f61b9ece8d2ed25',
+      '67c2b8eeb4a473c20a6ac312b863ef8f3b7eccf2a6d8805e921b3996e9eca406'
     );
   get diagnostics v_deleted=row_count;
   if v_deleted<>1 then
