@@ -547,6 +547,24 @@ def state(case: str) -> dict[str, Any]:
           'current_hpp',(select coalesce(sum(h.total_cost),0) from erp.hpp_versions h
             join erp.fg_lots l on l.id=h.lot_id
             where l.po_id=po.id and l.lot_origin='PRODUCTION' and h.is_current),
+          'reversed_lot_hpp_rows',(select count(*) from erp.hpp_versions h
+            join erp.fg_lots l on l.id=h.lot_id
+            join erp.qc_inspection_items qi on qi.id=l.qc_item_id
+            join erp.qc_inspections q on q.id=qi.inspection_id
+            where l.po_id=po.id and l.lot_origin='VOIDED_PRODUCTION'
+              and q.status='REVERSED'),
+          'reversed_lot_count',(select count(*) from erp.fg_lots l
+            join erp.qc_inspection_items qi on qi.id=l.qc_item_id
+            join erp.qc_inspections q on q.id=qi.inspection_id
+            where l.po_id=po.id and l.lot_origin='VOIDED_PRODUCTION'
+              and q.status='REVERSED'),
+          'reversed_lot_hpp_history',(select coalesce(sum(h.total_cost),0)
+            from erp.hpp_versions h
+            join erp.fg_lots l on l.id=h.lot_id
+            join erp.qc_inspection_items qi on qi.id=l.qc_item_id
+            join erp.qc_inspections q on q.id=qi.inspection_id
+            where l.po_id=po.id and l.lot_origin='VOIDED_PRODUCTION'
+              and q.status='REVERSED'),
           'active_laundry_hpp',(select coalesce(sum(
               c.total_cost*greatest(coalesce(stock.qty,0),0)
                 /nullif(h.qty_basis_pcs,0)
@@ -606,6 +624,16 @@ def require(actual: dict[str, Any], **expected):
                   if actual.get(key) != expected_value}
     if mismatches:
         raise RuntimeError(f'State mismatch {mismatches}; full state={actual}')
+
+
+def require_reversed_hpp_history(actual: dict[str, Any]):
+    """A reversed FG lot is voided but retains its immutable HPP history."""
+    if (
+        actual.get('reversed_lot_count') != 1
+        or actual.get('reversed_lot_hpp_rows', 0) < 1
+        or actual.get('reversed_lot_hpp_history', 0) <= 0
+    ):
+        raise RuntimeError(f'Reversed lot HPP history mismatch; full state={actual}')
 
 
 def main():
@@ -861,12 +889,13 @@ def main():
         'PASS',
     )
     report['states']['reverse_qc_vs_post_final_sku'] = state('REVQC_POSTQC')
-    # A reversed historical lot keeps an immutable HPP version, so current_hpp
-    # covers both historical lots. Only the active five-piece lot may remain in
-    # FG: 35 Laundry in FG and the other 35 still in WIP.
+    # The reversed lot is marked VOIDED_PRODUCTION and keeps immutable HPP
+    # history. `current_hpp` and active Laundry HPP deliberately cover only
+    # the active five-piece lot: 35 in FG, with the other 35 still in WIP.
     require(report['states']['reverse_qc_vs_post_final_sku'], posted_qc=1, reversed_qc=1,
-            fg_qty=5, current_hpp=70, active_laundry_hpp=35,
+            fg_qty=5, current_hpp=35, active_laundry_hpp=35,
             fg_net=35, wip_net=35, accrued_net=-70)
+    require_reversed_hpp_history(report['states']['reverse_qc_vs_post_final_sku'])
 
     item = setup_qc('POSTQC_REVQC', quantity=5)
     report['states']['partial_hpp_before_post_final_sku_vs_reverse_qc'] = state(
@@ -894,8 +923,9 @@ def main():
     )
     report['states']['post_final_sku_vs_reverse_qc'] = state('POSTQC_REVQC')
     require(report['states']['post_final_sku_vs_reverse_qc'], posted_qc=1, reversed_qc=1,
-            fg_qty=5, current_hpp=70, active_laundry_hpp=35,
+            fg_qty=5, current_hpp=35, active_laundry_hpp=35,
             fg_net=35, wip_net=35, accrued_net=-70)
+    require_reversed_hpp_history(report['states']['post_final_sku_vs_reverse_qc'])
 
     completed_ids = [row[0] for row in successful_facades]
     completed_operations = [row[1] for row in successful_facades]

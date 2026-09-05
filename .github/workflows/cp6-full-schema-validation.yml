@@ -994,6 +994,14 @@ jobs:
           assert all(row['pg_blocking_pids_observed'] for row in report['races'].values()),report
           assert report['races']['reverse_receipt_vs_reverse_qc']['holder']['canonical_prelock']=='CP6FLOW_GROUP',report
           assert report['races']['replacement_post_vs_invoice_reversal']['holder']['canonical_prelock']=='INVOICE_HEADER_THEN_CP6FLOW',report
+          for key in ('reverse_qc_vs_post_final_sku','post_final_sku_vs_reverse_qc'):
+            state=report['states'][key]
+            assert state['current_hpp']==35,state
+            assert state['active_laundry_hpp']==35,state
+            assert state['wip_net']==35 and state['fg_net']==35,state
+            assert state['reversed_lot_count']==1,state
+            assert state['reversed_lot_hpp_rows']>=1,state
+            assert state['reversed_lot_hpp_history']>0,state
           assert report['idempotency_and_ledger']==report['idempotency_expected'],report
           assert report['idempotency_and_ledger']['rejected_rows']==0,report
           assert report['idempotency_and_ledger']['execution_context_rows']==0,report

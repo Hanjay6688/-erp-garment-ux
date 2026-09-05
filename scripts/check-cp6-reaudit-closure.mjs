@@ -195,8 +195,16 @@ for (const token of [
   "holder_prelock_label='INVOICE_HEADER_THEN_CP6FLOW'",
   "'reverse_receipt_vs_reverse_qc'", "'replacement_post_vs_invoice_reversal'",
   "current_cost_state='ESTIMATED', fg_net=35, wip_net=35, accrued_net=-70",
+  'def require_reversed_hpp_history(actual: dict[str, Any])',
+  "actual.get('reversed_lot_count') != 1",
+  "actual.get('reversed_lot_hpp_rows', 0) < 1",
+  "l.lot_origin='VOIDED_PRODUCTION'",
   "report['race_count'] = len(report['races'])", 'sixteen serialized schedules',
 ]) assert.ok(matrix.includes(token), `Inverse/partial race evidence missing: ${token}`)
+assert.equal(occurrences(matrix, 'fg_qty=5, current_hpp=70'), 0,
+  'Reversed historical HPP must not be counted as current stock HPP')
+assert.equal(occurrences(matrix, 'fg_qty=5, current_hpp=35, active_laundry_hpp=35'), 4,
+  'Both partial starting states and both serialized final states must conserve 35 FG / 35 WIP')
 for (const token of [
   'REVRECEIPT_REVQC', 'REPLACEMENT_INVERSE',
   'SCALE_OP_01', 'SCALE_OP_08', "'CP6_SCALE_OPERATOR'", '<>24',
