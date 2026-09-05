@@ -2620,10 +2620,19 @@ jobs:
               }
           proof_files={}
           for path in sorted(item for item in proof.rglob('*') if item.is_file()):
-              relative=str(path.relative_to(proof))
+              relative_path=path.relative_to(proof)
+              relative=str(relative_path)
               if relative=='CP6_V2620B_RUNTIME_MANIFEST.json': continue
+              # actions/upload-artifact excludes hidden path components when
+              # include-hidden-files is false.  The manifest must describe
+              # exactly the files an independent reviewer can download.
+              if any(part.startswith('.') for part in relative_path.parts): continue
               data=path.read_bytes()
               proof_files[relative]={'bytes':len(data),'sha256':digest(data)}
+          assert all(
+              not any(part.startswith('.') for part in Path(name).parts)
+              for name in proof_files
+          )
 
           head=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()
           assert head==os.environ['GITHUB_SHA']
@@ -2659,6 +2668,10 @@ jobs:
               'rollback_and_complete_ladder':True,
               'physical_clone_residue_zero':True,
             },
+            'archive_policy':{
+              'include_hidden_files':False,
+              'manifest_excludes_hidden_path_components':True,
+            },
             'hosted_boundary':{
               'uat_project_ref':'siimvrusnzxexizpyoib',
               'legacy_project_ref':'vlxdhpkjeevubjxexnfo',
@@ -2685,6 +2698,7 @@ jobs:
           name: cp6-r1-full-schema-auth-browser-proof
           path: cp6-proof
           if-no-files-found: warn
+          include-hidden-files: false
           retention-days: 30
 
       - name: Destroy disposable stack
