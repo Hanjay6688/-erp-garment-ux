@@ -254,10 +254,19 @@ begin
         where qi.source_laundry_receipt_batch_size_line_id=v_receipt_size_line
           and q.status<>'REVERSED'),0)
       from erp.laundry_receipt_batch_size_lines where id=v_receipt_size_line),
+    -- Scope the journal *entries* by PO, then balance every line in each
+    -- selected entry.  Filtering journal lines by PO before summing would
+    -- discard legitimate counterparty/AP lines whose PO dimension is null and
+    -- falsely report a globally balanced journal as unbalanced.
     'unbalanced_journals',(select count(*) from(
-      select e.id from erp.journal_entries e
+      select e.id
+      from erp.journal_entries e
       join erp.journal_lines j on j.journal_entry_id=e.id
-      where j.po_id=v_po group by e.id having sum(j.debit)<>sum(j.credit)
+      where exists(
+        select 1 from erp.journal_lines scoped
+        where scoped.journal_entry_id=e.id and scoped.po_id=v_po
+      )
+      group by e.id having sum(j.debit)<>sum(j.credit)
     ) bad)
   ) into v_financial;
   if v_financial<>jsonb_build_object(

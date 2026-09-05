@@ -233,11 +233,14 @@ for (const token of [
   'Beyond-first-500 SKU posted through authoritative facade',
   'CP6-SCALE-NO-ACCESSORY-0700', 'explicit_empty_bom_products',
   "'active_laundry_hpp',7", "'wip_net',63", "'fg_net',7",
+  'where scoped.journal_entry_id=e.id and scoped.po_id=v_po',
+  'group by e.id having sum(j.debit)<>sum(j.credit)',
   'idx_products_qc_model_size_effective_v2620b',
   "current_setting('enable_seqscan')<>'on'", "'natural_plan',v_plan",
   'rollback;',
 ]) assert.ok(scale.includes(token), `Scale paging/transaction proof missing: ${token}`)
 assert.equal(scale.includes('enable_seqscan\',\'off'), false)
+assert.equal(scale.includes('where j.po_id=v_po group by e.id'), false)
 for (const token of [
   'DISPOSABLE_CP6_EIGHT_OPERATOR_WRITE_LOAD', 'threading.Barrier(len(CASES))',
   "state='idle in transaction'", 'cardinality(pg_blocking_pids(pid))>0',
