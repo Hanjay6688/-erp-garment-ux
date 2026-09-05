@@ -1370,13 +1370,13 @@ begin
      or (select count(*) from erp.bs_cases where qc_item_id in(
        select id from erp.qc_inspection_items where inspection_id=v_qc
      ) and qty_pcs=1 and status='OPEN')<>1
-     or v_hpp<>82
-     or (select hpp_total_cost from erp.po_hpp_gl_state where po_id=v_po)<>82
-     or (select fg_value from erp.po_hpp_gl_state where po_id=v_po)<>82
+     or v_hpp<>36
+     or (select hpp_total_cost from erp.po_hpp_gl_state where po_id=v_po)<>36
+     or (select fg_value from erp.po_hpp_gl_state where po_id=v_po)<>36
      or (select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
-       where l.po_id=v_po and l.account_id=erp.account_id('WIP'))<>0
+       where l.po_id=v_po and l.account_id=erp.account_id('WIP'))<>46
      or (select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
-       where l.po_id=v_po and l.account_id=erp.account_id('FG_INVENTORY'))<>82
+       where l.po_id=v_po and l.account_id=erp.account_id('FG_INVENTORY'))<>36
      or (select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
        where l.po_id=v_po and l.account_id=erp.account_id('ACCRUED_MANUFACTURING'))<>-82
      or (select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
@@ -1413,9 +1413,10 @@ begin
   end if;
 
   -- A late vendor invoice is the financial finalization boundary.  The
-  -- physical receipt remains immutable while AP, accrual, HPP, and FG value
-  -- move together.  Reversal must restore the exact estimated snapshot, and
-  -- a replacement invoice must be a new auditable document, never overwrite.
+  -- physical receipt remains immutable while AP, accrual, HPP, FG value, and
+  -- the unallocated WIP remainder move together.  Only the exact four Good FG
+  -- pieces absorb their receipt-line share; reversal must restore the exact
+  -- estimated snapshot, and a replacement invoice is a new auditable document.
   insert into erp.vendor_invoices(
     id,invoice_number,vendor_id,invoice_date,received_at,due_date,
     status,total_amount,notes,created_by
@@ -1442,13 +1443,13 @@ begin
      or (select prior_actual_cost from erp.vendor_invoice_items where id=v_late_invoice_item)<>54
      or (select accrued_amount from erp.laundry_cost_accrual_state where po_id=v_po)<>28
      or erp.desired_laundry_accrual(v_po)<>28
-     or v_hpp<>94
-     or (select hpp_total_cost from erp.po_hpp_gl_state where po_id=v_po)<>94
-     or (select fg_value from erp.po_hpp_gl_state where po_id=v_po)<>94
+     or v_hpp<>44
+     or (select hpp_total_cost from erp.po_hpp_gl_state where po_id=v_po)<>44
+     or (select fg_value from erp.po_hpp_gl_state where po_id=v_po)<>44
      or (select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
-       where l.po_id=v_po and l.account_id=erp.account_id('WIP'))<>0
+       where l.po_id=v_po and l.account_id=erp.account_id('WIP'))<>50
      or (select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
-       where l.po_id=v_po and l.account_id=erp.account_id('FG_INVENTORY'))<>94
+       where l.po_id=v_po and l.account_id=erp.account_id('FG_INVENTORY'))<>44
      or (select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
        where l.po_id=v_po and l.account_id=erp.account_id('ACCRUED_MANUFACTURING'))<>-28
      or (select coalesce(sum(l.credit-l.debit),0) from erp.journal_lines l
@@ -1472,13 +1473,13 @@ begin
      or (select actual_cost from erp.laundry_receipt_lines where id=v_receipt_line)<>54
      or (select accrued_amount from erp.laundry_cost_accrual_state where po_id=v_po)<>82
      or erp.desired_laundry_accrual(v_po)<>82
-     or v_hpp<>82
-     or (select hpp_total_cost from erp.po_hpp_gl_state where po_id=v_po)<>82
-     or (select fg_value from erp.po_hpp_gl_state where po_id=v_po)<>82
+     or v_hpp<>36
+     or (select hpp_total_cost from erp.po_hpp_gl_state where po_id=v_po)<>36
+     or (select fg_value from erp.po_hpp_gl_state where po_id=v_po)<>36
      or (select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
-       where l.po_id=v_po and l.account_id=erp.account_id('WIP'))<>0
+       where l.po_id=v_po and l.account_id=erp.account_id('WIP'))<>46
      or (select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
-       where l.po_id=v_po and l.account_id=erp.account_id('FG_INVENTORY'))<>82
+       where l.po_id=v_po and l.account_id=erp.account_id('FG_INVENTORY'))<>36
      or (select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
        where l.po_id=v_po and l.account_id=erp.account_id('ACCRUED_MANUFACTURING'))<>-82
      or (select coalesce(sum(l.credit-l.debit),0) from erp.journal_lines l
@@ -1508,13 +1509,13 @@ begin
      or (select actual_rate_snapshot from erp.laundry_receipt_lines where id=v_receipt_line)<>10
      or (select actual_cost from erp.laundry_receipt_lines where id=v_receipt_line)<>60
      or (select accrued_amount from erp.laundry_cost_accrual_state where po_id=v_po)<>28
-     or v_hpp<>88
-     or (select hpp_total_cost from erp.po_hpp_gl_state where po_id=v_po)<>88
-     or (select fg_value from erp.po_hpp_gl_state where po_id=v_po)<>88
+     or v_hpp<>40
+     or (select hpp_total_cost from erp.po_hpp_gl_state where po_id=v_po)<>40
+     or (select fg_value from erp.po_hpp_gl_state where po_id=v_po)<>40
      or (select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
-       where l.po_id=v_po and l.account_id=erp.account_id('WIP'))<>0
+       where l.po_id=v_po and l.account_id=erp.account_id('WIP'))<>48
      or (select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
-       where l.po_id=v_po and l.account_id=erp.account_id('FG_INVENTORY'))<>88
+       where l.po_id=v_po and l.account_id=erp.account_id('FG_INVENTORY'))<>40
      or (select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
        where l.po_id=v_po and l.account_id=erp.account_id('ACCRUED_MANUFACTURING'))<>-28
      or (select coalesce(sum(l.credit-l.debit),0) from erp.journal_lines l
@@ -1537,16 +1538,16 @@ begin
      or (select actual_cost from erp.laundry_receipt_lines where id=v_receipt_line)<>54
      or (select accrued_amount from erp.laundry_cost_accrual_state where po_id=v_po)<>82
      or erp.desired_laundry_accrual(v_po)<>82
-     or v_hpp<>82
-     or (select hpp_total_cost from erp.po_hpp_gl_state where po_id=v_po)<>82
-     or (select fg_value from erp.po_hpp_gl_state where po_id=v_po)<>82
+     or v_hpp<>36
+     or (select hpp_total_cost from erp.po_hpp_gl_state where po_id=v_po)<>36
+     or (select fg_value from erp.po_hpp_gl_state where po_id=v_po)<>36
      or (select count(*) from erp.cost_adjustments
        where source_id in(v_late_invoice_item,v_replacement_invoice_item)
          and source_type in('VENDOR_INVOICE_ITEM','VENDOR_INVOICE_REVERSAL'))<>4
      or (select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
-       where l.po_id=v_po and l.account_id=erp.account_id('WIP'))<>0
+       where l.po_id=v_po and l.account_id=erp.account_id('WIP'))<>46
      or (select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
-       where l.po_id=v_po and l.account_id=erp.account_id('FG_INVENTORY'))<>82
+       where l.po_id=v_po and l.account_id=erp.account_id('FG_INVENTORY'))<>36
      or (select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
        where l.po_id=v_po and l.account_id=erp.account_id('ACCRUED_MANUFACTURING'))<>-82
      or (select coalesce(sum(l.credit-l.debit),0) from erp.journal_lines l
@@ -2114,7 +2115,9 @@ begin
   raise notice 'CP6_AUTHORITATIVE_ACCEPTANCE_PASS %',jsonb_build_object(
     'delivery_qty',10,'receipt_good',5,'receipt_bs',1,'resolved_stuck',4,'qc_good',4,'qc_bs',1,
     'fg_stock',4,'hpp_total',v_hpp,'unbilled_accrual_before_reversal',70,
-    'late_invoice_hpp',94,'replacement_invoice_hpp',88,
+    'initial_partial_hpp',36,'initial_partial_wip',46,
+    'late_invoice_hpp',44,'late_invoice_wip',50,
+    'replacement_invoice_hpp',40,'replacement_invoice_wip',48,
     'invoice_reversal_replay','NO_OP','replacement_history_preserved',true,
     'paid_failed_wash_attempts',2,'paid_retry_cost',90,'paid_full_return_cost',90,
     'failed_wash_wip_path',jsonb_build_array(180,180,190,180,90,0),

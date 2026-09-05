@@ -337,7 +337,11 @@ for (const token of [
   "erp.desired_laundry_accrual(v_po)<>82", 'prior_actual_rate_snapshot from erp.vendor_invoice_items',
   '<>9', 'Six physically returned pieces at final invoice rate 11',
   'Replacement invoice: six pieces at actual rate 10',
-  "'late_invoice_hpp',94,'replacement_invoice_hpp',88",
+  "'initial_partial_hpp',36,'initial_partial_wip',46",
+  "'late_invoice_hpp',44,'late_invoice_wip',50",
+  "'replacement_invoice_hpp',40,'replacement_invoice_wip',48",
+  "v_hpp<>36", "v_hpp<>44", "v_hpp<>40",
+  "account_id('WIP'))<>46", "account_id('WIP'))<>50", "account_id('WIP'))<>48",
   "where id=v_failed_return_receipt_line)<>'ESTIMATED'",
   'where id=v_failed_return_receipt_line)<>90',
 ]) assert.ok(acceptance.includes(token), `Different target/actual Laundry rate proof missing: ${token}`)
