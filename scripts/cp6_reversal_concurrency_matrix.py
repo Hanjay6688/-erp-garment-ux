@@ -456,14 +456,16 @@ def state(case: str) -> dict[str, Any]:
             where d.po_id=po.id order by vi.created_at desc,vi.id desc limit 1),
           'receipt_cost_status',(select rl.actual_cost_status
             from erp.laundry_receipt_lines rl
+            join erp.laundry_receipts r on r.id=rl.receipt_id
             join erp.laundry_delivery_lines dl on dl.id=rl.delivery_line_id
             join erp.laundry_deliveries d on d.id=dl.delivery_id
-            where d.po_id=po.id order by rl.created_at desc,rl.id desc limit 1),
+            where d.po_id=po.id order by r.physical_at desc,r.id desc,rl.id desc limit 1),
           'receipt_cost',(select rl.actual_cost
             from erp.laundry_receipt_lines rl
+            join erp.laundry_receipts r on r.id=rl.receipt_id
             join erp.laundry_delivery_lines dl on dl.id=rl.delivery_line_id
             join erp.laundry_deliveries d on d.id=dl.delivery_id
-            where d.po_id=po.id order by rl.created_at desc,rl.id desc limit 1)
+            where d.po_id=po.id order by r.physical_at desc,r.id desc,rl.id desc limit 1)
         )
         from erp.production_orders po where po.po_number=%s
         """,

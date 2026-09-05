@@ -211,6 +211,10 @@ for (const token of [
   "'rejected_rows': 0", "'execution_context_rows': 0", "'unbalanced_journals': 0",
   "'matrix_vendor_ap': 180", "'production_go': False",
 ]) assert.ok(reversalRace.includes(token), `Reversal race matrix token missing: ${token}`)
+assert.equal(reversalRace.includes('rl.created_at'), false,
+  'Reversal matrix must order receipt lines through authoritative receipt physical time')
+assert.ok(occurrences(reversalRace, 'order by r.physical_at desc,r.id desc,rl.id desc') >= 2,
+  'Reversal matrix receipt-cost snapshots are not deterministically ordered')
 
 for (const token of [
   'collection_window: Cp6CollectionWindow', 'transaction_limit !== 200',
