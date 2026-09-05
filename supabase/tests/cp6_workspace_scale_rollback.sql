@@ -100,10 +100,22 @@ begin
   analyze erp.qc_inspections;
   analyze erp.qc_inspection_items;
 
+  perform set_config(
+    'request.jwt.claims',
+    jsonb_build_object(
+      'sub','c8c00000-0000-4000-8000-000000000101',
+      'role','authenticated'
+    )::text,
+    true
+  );
+  execute 'set local role authenticated';
   v_started:=clock_timestamp();
-  v_workspace:=erp.get_laundry_qc_workspace_v1('QC',null);
+  v_workspace:=public.erp_get_laundry_qc_workspace_v1('QC',null);
   v_elapsed_ms:=round(extract(epoch from(clock_timestamp()-v_started))*1000,3);
-  v_filtered:=erp.get_laundry_qc_workspace_v1('QC','CP6-SCALE-PRODUCT-0700');
+  v_filtered:=public.erp_get_laundry_qc_workspace_v1(
+    'QC','CP6-SCALE-PRODUCT-0700'
+  );
+  execute 'reset role';
 
   if jsonb_array_length(v_workspace#>'{lookups,products}')<>500
      or jsonb_array_length(v_workspace->'qc_history')<>200

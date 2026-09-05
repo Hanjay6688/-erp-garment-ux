@@ -188,6 +188,8 @@ for (const token of [
   'CP6-SCALE-PRODUCT-0700',
   "'SCALE-'||lpad(i::text,4,'0')",
   "po.po_number='CP6-MX-REVQC_INVOICE_REV'", "qh.status<>'REVERSED'",
+  "execute 'set local role authenticated'", 'public.erp_get_laundry_qc_workspace_v1',
+  "execute 'reset role'",
   'idx_laundry_failed_wash_attempts_delivery_v2620a', "'ROLLBACK_ONLY'",
   "'production_go',false", "set status='REVERSED'", 'rollback;',
 ]) assert.ok(scale.includes(token), `Rollback-only scale proof token missing: ${token}`)
