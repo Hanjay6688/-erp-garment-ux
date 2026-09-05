@@ -698,8 +698,11 @@ def main():
         'PASS',
     )
     report['states']['reverse_qc_vs_post_final_sku'] = state('REVQC_POSTQC')
+    # HPP total_cost is the surviving active FG cost pool, not qty * the
+    # Laundry rate.  Exactly one 5-pcs lot remains active and owns the one
+    # 70-unit group Laundry cost; the reversed lot must not duplicate it.
     require(report['states']['reverse_qc_vs_post_final_sku'], posted_qc=1, reversed_qc=1,
-            fg_qty=5, current_hpp=35)
+            fg_qty=5, current_hpp=70, fg_net=70, wip_net=0, accrued_net=-70)
 
     item = setup_qc('POSTQC_REVQC', quantity=5)
     report['races']['post_final_sku_vs_reverse_qc'] = run_pair(
@@ -713,7 +716,7 @@ def main():
     )
     report['states']['post_final_sku_vs_reverse_qc'] = state('POSTQC_REVQC')
     require(report['states']['post_final_sku_vs_reverse_qc'], posted_qc=1, reversed_qc=1,
-            fg_qty=5, current_hpp=35)
+            fg_qty=5, current_hpp=70, fg_net=70, wip_net=0, accrued_net=-70)
 
     completed_ids = [row[0] for row in successful_facades]
     completed_operations = [row[1] for row in successful_facades]
