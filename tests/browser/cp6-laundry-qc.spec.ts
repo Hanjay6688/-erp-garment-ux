@@ -617,7 +617,7 @@ test('CP6 QC binds exact receipt batch-size and lets server own stock and HPP', 
   await expect(page.getByLabel('Good final size S')).toHaveValue('0')
   await expect(page.getByLabel('BS QC size S')).toHaveValue('0')
   await page.getByRole('button', { name: 'Isi semua sebagai Good' }).click()
-  const product = page.getByLabel('Final SKU size S')
+  const product = page.getByLabel('Final SKU size S', { exact: true })
   await expect(product.locator('option')).toHaveCount(1)
   await page.getByLabel('WAKTU FISIK QC').fill('2026-09-04T08:00')
   await expect(product.locator('option')).toHaveCount(2)
@@ -659,10 +659,10 @@ test('CP6 QC finds an SKU beyond the initial catalog without hiding its source q
   await source.selectOption(ids.group)
   await page.getByRole('button', { name: 'Isi semua sebagai Good' }).click()
   await page.getByLabel('WAKTU FISIK QC').fill('2026-09-04T08:00')
-  const product = page.getByLabel('Final SKU size S')
+  const product = page.getByLabel('Final SKU size S', { exact: true })
   await expect(product.locator(`option[value="${ids.productBeyond500}"]`)).toHaveCount(0)
 
-  await page.getByLabel('Cari Final SKU size S').fill('73999')
+  await page.getByLabel('Cari Final SKU size S', { exact: true }).fill('73999')
   await page.getByRole('button', { name: 'Cari SKU', exact: true }).click()
   await expect.poll(() => calls.productSearch.length).toBe(1)
   expect(calls.productSearch[0]).toMatchObject({
