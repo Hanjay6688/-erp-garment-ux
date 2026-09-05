@@ -231,6 +231,7 @@ for (const token of [
   'cp6_workspace_scale_seen_products', 'v_generated_seen<>700',
   'public.erp_search_final_sku_products_v1', 'CP6-SCALE-PRODUCT-0700',
   'Beyond-first-500 SKU posted through authoritative facade',
+  'CP6-SCALE-NO-ACCESSORY-0700', 'explicit_empty_bom_products',
   "'active_laundry_hpp',7", "'wip_net',63", "'fg_net',7",
   'idx_products_qc_model_size_effective_v2620b',
   "current_setting('enable_seqscan')<>'on'", "'natural_plan',v_plan",

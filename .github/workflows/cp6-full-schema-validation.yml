@@ -1011,17 +1011,22 @@ jobs:
           PY
           baseline_products="$(psql "$CP6_RACE_PGURL" -At -c 'select count(*) from erp.products')"
           baseline_qc="$(psql "$CP6_RACE_PGURL" -At -c 'select count(*) from erp.qc_inspections')"
+          baseline_boms="$(psql "$CP6_RACE_PGURL" -At -c 'select count(*) from erp.accessory_bom_versions')"
           psql "$CP6_RACE_PGURL" -X -qAt -v ON_ERROR_STOP=1 \
             -f supabase/tests/cp6_workspace_scale_rollback.sql \
             | tee cp6-proof/CP6_WORKSPACE_SCALE.json
           test "$(psql "$CP6_RACE_PGURL" -At -c 'select count(*) from erp.products')" = "$baseline_products"
           test "$(psql "$CP6_RACE_PGURL" -At -c 'select count(*) from erp.qc_inspections')" = "$baseline_qc"
+          test "$(psql "$CP6_RACE_PGURL" -At -c 'select count(*) from erp.accessory_bom_versions')" = "$baseline_boms"
           python - <<'PY'
           import json
           from pathlib import Path
           report=json.loads(Path('cp6-proof/CP6_WORKSPACE_SCALE.json').read_text())
           assert report['status']=='PASS',report
-          assert report['dataset']=={'generated_products':700,'generated_qc_history':205},report
+          assert report['dataset']=={
+            'generated_products':700,'generated_qc_history':205,
+            'explicit_empty_bom_products':1,
+          },report
           assert report['returned']=={'products':500,'qc_history':200},report
           assert report['resolver']['generated_seen']==700,report
           assert report['resolver']['exact_0700_count']==1,report

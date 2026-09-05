@@ -86,6 +86,17 @@ begin
     );
   end loop;
 
+  -- Product 0700 is posted below, so its master data must be operational—not
+  -- merely searchable. Declare the intentional no-accessory choice explicitly;
+  -- the HPP writer must keep rejecting every undeclared BOM fallback.
+  insert into erp.accessory_bom_versions(
+    product_id,version_label,effective_from,is_active,notes
+  ) values(
+    md5('CP6-WORKSPACE-SCALE-PRODUCT-700')::uuid,
+    'CP6-SCALE-NO-ACCESSORY-0700','2026-01-01 00:00:00+00',true,
+    'Explicit empty BOM for rollback-only product 0700 transaction proof'
+  );
+
   for i in 1..205 loop
     v_qc:=md5('CP6-WORKSPACE-SCALE-QC-'||i::text)::uuid;
     v_item:=md5('CP6-WORKSPACE-SCALE-QC-ITEM-'||i::text)::uuid;
@@ -274,7 +285,10 @@ begin
 
   insert into cp6_workspace_scale_result(result) values(jsonb_build_object(
     'status','PASS',
-    'dataset',jsonb_build_object('generated_products',700,'generated_qc_history',205),
+    'dataset',jsonb_build_object(
+      'generated_products',700,'generated_qc_history',205,
+      'explicit_empty_bom_products',1
+    ),
     'returned',jsonb_build_object('products',500,'qc_history',200),
     'collection_window',v_workspace->'collection_window',
     'resolver',jsonb_build_object(
