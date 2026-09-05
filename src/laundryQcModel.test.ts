@@ -30,6 +30,12 @@ function base(scope: 'LAUNDRY' | 'QC') {
       lineage_integrity_ok: true, lineage_issue_count: 0,
       no_fixture_fallback: true, failed_wash_with_charge_supported: true,
     },
+    collection_window: {
+      transaction_limit: 200, product_limit: 500, query_required_for_more: true,
+      products_relevant_to_live_qc: scope === 'QC', products_truncated: false,
+      ready_batches_truncated: false, deliveries_truncated: false,
+      qc_queue_truncated: false, qc_history_truncated: false, any_truncated: false,
+    },
     ready_batches: scope === 'LAUNDRY' ? [{
       distribution_batch_id: uuid(10), batch_no: 1, pickup_id: uuid(11), cutting_group_id: uuid(12),
       cutting_group_row_version: 4, group_number: 'P-001', pattern_id: uuid(13), pattern_code: 'PAT-A',
@@ -74,6 +80,30 @@ describe('parseLaundryQcWorkspace', () => {
     const disabled = base('LAUNDRY')
     disabled.readiness.failed_wash_with_charge_supported = false
     expect(() => parseLaundryQcWorkspace(disabled)).toThrow('Batas reliability')
+  })
+
+  it('requires explicit bounded-collection metadata and rejects silent truncation', () => {
+    const missing = base('LAUNDRY') as Record<string, unknown>
+    delete missing.collection_window
+    expect(() => parseLaundryQcWorkspace(missing)).toThrow('Batas koleksi')
+
+    const lying = base('LAUNDRY')
+    lying.collection_window.any_truncated = true
+    expect(() => parseLaundryQcWorkspace(lying)).toThrow('Status pagination')
+
+    const changedLimit = base('QC')
+    changedLimit.collection_window.transaction_limit = 201
+    expect(() => parseLaundryQcWorkspace(changedLimit)).toThrow('Kontrak batas koleksi')
+
+    const bounded = base('LAUNDRY')
+    bounded.ready_batches = Array.from({ length: 200 }, (_, index) => ({
+      ...bounded.ready_batches[0],
+      distribution_batch_id: uuid(1000 + index),
+      batch_no: index + 1,
+    }))
+    bounded.collection_window.ready_batches_truncated = true
+    bounded.collection_window.any_truncated = true
+    expect(parseLaundryQcWorkspace(bounded).ready_batches).toHaveLength(200)
   })
 
   it('fails closed when backend reports any CP6 lineage issue', () => {

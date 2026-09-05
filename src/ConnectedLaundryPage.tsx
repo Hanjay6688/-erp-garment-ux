@@ -307,6 +307,7 @@ export default function ConnectedLaundryPage() {
   const canReverse = hasPermission(access, SENSITIVE_ACTION_PERMISSION.reverseLaundry)
   const roleName = identity.status === 'AUTHORIZED' ? identity.profile.roleName : 'Tanpa role'
   const bridge = useLaundryQcWorkspace('LAUNDRY')
+  const collectionTruncated = bridge.workspace?.collection_window.any_truncated ?? false
   const [tab, setTab] = useState<'SEND' | 'RETURN' | 'FAILED' | 'HISTORY'>('SEND')
   const kpis = useMemo(() => ({
     ready: bridge.workspace ? totalReadyToSend(bridge.workspace.ready_batches) : 0,
@@ -332,6 +333,7 @@ export default function ConnectedLaundryPage() {
     ]}/>
     {bridge.error ? <div className="clq-alert error"><AlertTriangle/><span>{bridge.error}</span>{bridge.pending && !bridge.corruptedEnvelope ? <button aria-label="Reconcile UUID lama" onClick={() => void bridge.reconcile()} disabled={bridge.busy}><RefreshCw/> Cek status transaksi</button> : bridge.committedRefreshRequired || bridge.workspaceStale && !bridge.corruptedEnvelope ? <button onClick={() => void bridge.load()} disabled={bridge.busy}><RefreshCw/> Refetch</button> : null}</div> : null}
     {bridge.notice ? <div className="clq-alert notice"><CheckCircle2/><span>{bridge.notice}</span></div> : null}
+    {collectionTruncated ? <div className="clq-warning" role="status"><AlertTriangle/><span><strong>Daftar server dibatasi agar halaman tetap stabil.</strong> Hasil yang tampil bukan seluruh histori. Persempit kata kunci pada kolom Cari sampai peringatan ini hilang sebelum menyimpulkan transaksi tidak ada.</span></div> : null}
     {bridge.busy ? <div className="clq-busy"><LoaderCircle className="spin"/> Menjaga transaksi tetap satu kali…</div> : null}
     <section className="clq-kpis"><article><span>SIAP DIKIRIM</span><strong>{kpis.ready}</strong><small>pcs selesai jahit, belum dikirim</small></article><article><span>DI LUAR PABRIK</span><strong>{kpis.outside}</strong><small>pcs belum kembali</small></article><article><span>TERIKAT KLAIM</span><strong>{kpis.claims}</strong><small>Stuck/Missing aktif</small></article><article><span>DATA LAMA TERPISAH</span><strong>{bridge.workspace?.legacy_unlinked.delivery_count ?? 0}</strong><small>tidak ditebak atau digabung</small></article></section>
     <nav className="clq-tabs"><button className={tab === 'SEND' ? 'active' : ''} onClick={() => setTab('SEND')}>Kirim ke Laundry</button><button className={tab === 'RETURN' ? 'active' : ''} onClick={() => setTab('RETURN')}>Terima kembali</button><button className={tab === 'FAILED' ? 'active' : ''} onClick={() => setTab('FAILED')}>Cuci gagal berbayar</button><button className={tab === 'HISTORY' ? 'active' : ''} onClick={() => setTab('HISTORY')}>Riwayat & koreksi</button><label><Search/><input value={bridge.query} onChange={(event) => bridge.search(event.target.value)} placeholder="Cari PO, Potongan, atau vendor…"/></label></nav>

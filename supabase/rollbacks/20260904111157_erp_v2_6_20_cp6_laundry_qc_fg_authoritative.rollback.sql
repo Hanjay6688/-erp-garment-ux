@@ -85,10 +85,25 @@ in share row exclusive mode;
 do $rollback_guard$
 declare
   v_installed_at timestamptz;
+  v_platform_version text;
   v_fact_count bigint;
   v_request_count bigint;
   v_audit_count bigint;
 begin
+  -- Hosted Supabase assigns the platform-ledger version at apply time.  It is
+  -- not necessarily the source filename timestamp.  Resolve the one row whose
+  -- name and statement bytes were authenticated above, then compare genuine
+  -- successors against that actual version.  Otherwise the migration's own
+  -- UAT row (for example 20260904232442) is mistaken for a successor.
+  select m.version into strict v_platform_version
+  from supabase_migrations.schema_migrations m
+  where m.name='erp_v2_6_20_cp6_laundry_qc_fg_authoritative'
+    and coalesce(encode(extensions.digest(
+      convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'
+    ),'hex'),'') in(
+      'e5fcf69ddec8e2bebdc3c511b57af886666aadded62801ff34905df7bfc95485',
+      '52e51f56f4b8b08b7797b1a92ca9b9e26cbe611e81615c3379c728b95877ada1'
+    );
   select installed_at into v_installed_at
   from erp.schema_migrations where version='v2.6.20';
   if v_installed_at is null
@@ -100,7 +115,7 @@ begin
        where m.version<>'v2.6.20' and m.installed_at>v_installed_at
      ) or exists(
        select 1 from supabase_migrations.schema_migrations m
-       where m.version>'20260904111157'
+       where m.version>v_platform_version
      ) then
     raise exception 'v2.6.20 rollback refused: a successor migration is already installed';
   end if;

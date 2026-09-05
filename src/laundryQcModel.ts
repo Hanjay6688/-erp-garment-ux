@@ -75,6 +75,12 @@ export type Cp6QcHistory = {
   bs_qty_pcs: number; cutting_group_count: number
   reversible: boolean; reversal_blocker: string | null
 }
+export type Cp6CollectionWindow = {
+  transaction_limit: number; product_limit: number; query_required_for_more: true
+  products_relevant_to_live_qc: boolean; products_truncated: boolean
+  ready_batches_truncated: boolean; deliveries_truncated: boolean
+  qc_queue_truncated: boolean; qc_history_truncated: boolean; any_truncated: boolean
+}
 export type LaundryQcWorkspace = {
   contract_version: 'CP6_V2620'; scope: LaundryQcScope; generated_at: string
   lookups: {
@@ -86,6 +92,7 @@ export type LaundryQcWorkspace = {
     lineage_integrity_ok: true; lineage_issue_count: 0
     no_fixture_fallback: true; failed_wash_with_charge_supported: true
   }
+  collection_window: Cp6CollectionWindow
   ready_batches: Cp6ReadyBatch[]; deliveries: Cp6Delivery[]
   qc_queue: Cp6QcQueueRow[]; qc_history: Cp6QcHistory[]
   legacy_unlinked: { delivery_count: number; receipt_count: number }
@@ -399,12 +406,30 @@ export function parseLaundryQcWorkspace(value: unknown): LaundryQcWorkspace {
   }
   const lookupsRaw = record(raw.lookups, 'Lookup Laundry/QC')
   const readinessRaw = record(raw.readiness, 'Kesiapan writer Laundry/QC')
+  const windowRaw = record(raw.collection_window, 'Batas koleksi Laundry/QC')
   if (readinessRaw.no_fixture_fallback !== true || readinessRaw.failed_wash_with_charge_supported !== true
     || readinessRaw.lineage_integrity_ok !== true
     || integer(readinessRaw.lineage_issue_count, 'Jumlah masalah lineage') !== 0) {
     throw new Error('Batas reliability Laundry/QC tidak cocok.')
   }
   const scope = raw.scope as LaundryQcScope
+  const collectionWindow: Cp6CollectionWindow = {
+    transaction_limit: integer(windowRaw.transaction_limit, 'Batas transaksi', 1),
+    product_limit: integer(windowRaw.product_limit, 'Batas produk', 1),
+    query_required_for_more: bool(windowRaw.query_required_for_more, 'Kewajiban pencarian lanjutan') as true,
+    products_relevant_to_live_qc: bool(windowRaw.products_relevant_to_live_qc, 'Scope produk QC'),
+    products_truncated: bool(windowRaw.products_truncated, 'Produk terpotong'),
+    ready_batches_truncated: bool(windowRaw.ready_batches_truncated, 'Batch siap terpotong'),
+    deliveries_truncated: bool(windowRaw.deliveries_truncated, 'Pengiriman terpotong'),
+    qc_queue_truncated: bool(windowRaw.qc_queue_truncated, 'Antrean QC terpotong'),
+    qc_history_truncated: bool(windowRaw.qc_history_truncated, 'Histori QC terpotong'),
+    any_truncated: bool(windowRaw.any_truncated, 'Status koleksi terpotong'),
+  }
+  if (collectionWindow.transaction_limit !== 200 || collectionWindow.product_limit !== 500
+    || collectionWindow.query_required_for_more !== true
+    || collectionWindow.products_relevant_to_live_qc !== (scope === 'QC')) {
+    throw new Error('Kontrak batas koleksi Laundry/QC tidak cocok.')
+  }
   const readyBatches = list(raw.ready_batches, 'Batch Laundry').map(parseReadyBatch)
   const deliveries = list(raw.deliveries, 'Pengiriman Laundry').map(parseDelivery)
   const qcQueue = list(raw.qc_queue, 'Antrean QC').map(parseQcQueue)
@@ -419,6 +444,24 @@ export function parseLaundryQcWorkspace(value: unknown): LaundryQcWorkspace {
   const fgLocations = list(lookupsRaw.fg_locations, 'Lokasi FG')
     .map((row) => parseLookup(row, 'Lokasi FG'))
   const products = list(lookupsRaw.products, 'Produk').map(parseProduct)
+  const truncationFlags = [
+    collectionWindow.products_truncated, collectionWindow.ready_batches_truncated,
+    collectionWindow.deliveries_truncated, collectionWindow.qc_queue_truncated,
+    collectionWindow.qc_history_truncated,
+  ]
+  if (collectionWindow.any_truncated !== truncationFlags.some(Boolean)
+    || readyBatches.length > collectionWindow.transaction_limit
+    || deliveries.length > collectionWindow.transaction_limit
+    || qcQueue.length > collectionWindow.transaction_limit
+    || qcHistory.length > collectionWindow.transaction_limit
+    || products.length > collectionWindow.product_limit
+    || (collectionWindow.ready_batches_truncated && readyBatches.length !== collectionWindow.transaction_limit)
+    || (collectionWindow.deliveries_truncated && deliveries.length !== collectionWindow.transaction_limit)
+    || (collectionWindow.qc_queue_truncated && qcQueue.length !== collectionWindow.transaction_limit)
+    || (collectionWindow.qc_history_truncated && qcHistory.length !== collectionWindow.transaction_limit)
+    || (collectionWindow.products_truncated && products.length !== collectionWindow.product_limit)) {
+    throw new Error('Status pagination workspace tidak sama dengan koleksi authoritative.')
+  }
   assertUnique(vendors, (row) => row.id, 'ID Vendor')
   assertUnique(vendors, (row) => normalizedText(row.code), 'Kode Vendor')
   assertUnique(washProcesses, (row) => row.id, 'ID proses cuci')
@@ -517,6 +560,7 @@ export function parseLaundryQcWorkspace(value: unknown): LaundryQcWorkspace {
       lineage_integrity_ok: true, lineage_issue_count: 0,
       no_fixture_fallback: true, failed_wash_with_charge_supported: true,
     },
+    collection_window: collectionWindow,
     ready_batches: readyBatches, deliveries, qc_queue: qcQueue, qc_history: qcHistory,
     legacy_unlinked: {
       delivery_count: integer(legacyRaw.delivery_count, 'Pengiriman tanpa lineage CP6'),

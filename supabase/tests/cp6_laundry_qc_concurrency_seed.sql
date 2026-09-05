@@ -157,6 +157,106 @@ select erp.record_sewing_terminal_v1(jsonb_build_object(
   'qty_pcs',10,'reason','CP6 isolated concurrency terminal'
 ),gen_random_uuid());
 
+-- Independent-audit F02 owns a separate Potongan so its immutable return
+-- timeline cannot contaminate the finance/race fixture above.  Ten pieces are
+-- sewn before day 1; Python will dispatch day 1, physically return day 3,
+-- reject a redispatch dated day 2, and accept a new dispatch dated day 4.
+insert into erp.material_rolls(
+  id,material_id,supplier_id,roll_number,original_qty,cached_qty,status,received_at
+) values(
+  'c8e30000-0000-4000-8000-000000000001','c8c30000-0000-4000-8000-000000000002',
+  'c8c30000-0000-4000-8000-000000000001','CP6-F02-ROLL',10,10,
+  'AVAILABLE','2026-08-30 07:00+00'
+);
+insert into erp.production_orders(
+  id,po_number,model_id,contractor_id,target_qty_pcs,status,current_stage,physical_start_at,notes
+) values(
+  'c8e40000-0000-4000-8000-000000000001','CP6-F02-PO',
+  'a2000000-0000-0000-0000-000000000001','a1000000-0000-0000-0000-000000000001',
+  10,'SEWING','SEWING','2026-08-30 07:00+00','F02 physical-prefix proof'
+);
+insert into erp.cutting_batches(id,po_id,batch_number,cut_at,status,notes)
+values(
+  'c8e40000-0000-4000-8000-000000000002','c8e40000-0000-4000-8000-000000000001',
+  'CP6-F02-CUT','2026-08-30 08:00+00','OPEN','F02 physical-prefix proof'
+);
+insert into erp.cutting_groups(
+  id,po_id,group_number,cut_at,status,cutting_batch_id,pattern_id,notes
+) values(
+  'c8e40000-0000-4000-8000-000000000003','c8e40000-0000-4000-8000-000000000001',
+  'CP6-F02-GROUP','2026-08-30 08:00+00','CUT','c8e40000-0000-4000-8000-000000000002',
+  'c8c10000-0000-4000-8000-000000000001','Immutable F02 source'
+);
+insert into erp.cutting_group_size_slots(id,cutting_group_id,slot_no,size_id,drawing_no)
+values(
+  'c8e40000-0000-4000-8000-000000000004','c8e40000-0000-4000-8000-000000000003',
+  1,'c8c10000-0000-4000-8000-000000000002',1
+);
+insert into erp.cutting_group_rolls(
+  id,cutting_group_id,roll_id,qty_issued,qty_consumed,qty_reported_remaining,
+  qty_physically_returned,return_destination,unit_cost_snapshot,notes
+) values(
+  'c8e40000-0000-4000-8000-000000000005','c8e40000-0000-4000-8000-000000000003',
+  'c8e30000-0000-4000-8000-000000000001',10,10,0,0,'NONE',0,
+  'F02 physical-prefix proof'
+);
+insert into erp.cutting_roll_yields(id,cutting_group_roll_id,size_slot_id,qty_pcs)
+values(
+  'c8e40000-0000-4000-8000-000000000006','c8e40000-0000-4000-8000-000000000005',
+  'c8e40000-0000-4000-8000-000000000004',10
+);
+insert into erp.cutting_pickups(
+  id,cutting_group_id,contractor_id,picked_up_at,allocation_mode,status,notes,created_by
+) values(
+  'c8e40000-0000-4000-8000-000000000007','c8e40000-0000-4000-8000-000000000003',
+  'a1000000-0000-0000-0000-000000000001','2026-08-30 09:00+00','ROLL','DRAFT',
+  'F02 physical-prefix proof','c8c00000-0000-4000-8000-000000000001'
+);
+insert into erp.cutting_distribution_batches(id,pickup_id,batch_no,notes)
+values(
+  'c8e40000-0000-4000-8000-000000000008','c8e40000-0000-4000-8000-000000000007',
+  1,'F02 exact batch'
+);
+insert into erp.cutting_distribution_allocations(id,batch_id,cutting_roll_yield_id,qty_pcs)
+values(
+  'c8e40000-0000-4000-8000-000000000009','c8e40000-0000-4000-8000-000000000008',
+  'c8e40000-0000-4000-8000-000000000006',10
+);
+update erp.cutting_groups
+set picked_up_at='2026-08-30 09:00+00',executor_name='CP6 F02 Mandor',status='PICKED_UP'
+where id='c8e40000-0000-4000-8000-000000000003';
+update erp.cutting_pickups
+set status='POSTED',posted_by='c8c00000-0000-4000-8000-000000000001',
+    posted_at='2026-08-30 09:00+00'
+where id='c8e40000-0000-4000-8000-000000000007';
+insert into erp.po_work_component_snapshots(
+  id,po_id,work_component_id,sequence_no,rate_per_pcs_snapshot,committed_at
+) values(
+  'c8e50000-0000-4000-8000-000000000001','c8e40000-0000-4000-8000-000000000001',
+  'a4000000-0000-0000-0000-000000000001',1,0,'2026-08-30 09:30+00'
+);
+insert into erp.work_completion_events(
+  id,completion_number,po_id,contractor_id,cutting_group_id,physical_at,status,notes,created_by
+) values(
+  'c8e50000-0000-4000-8000-000000000002','CP6-F02-WC',
+  'c8e40000-0000-4000-8000-000000000001','a1000000-0000-0000-0000-000000000001',
+  'c8e40000-0000-4000-8000-000000000003','2026-08-30 10:00+00','DRAFT',
+  'F02 sewn capacity','c8c00000-0000-4000-8000-000000000001'
+);
+insert into erp.work_completion_lines(
+  id,completion_id,po_component_snapshot_id,work_component_id,
+  qty_completed,qty_payable,rate_snapshot,notes
+) values(
+  'c8e50000-0000-4000-8000-000000000003','c8e50000-0000-4000-8000-000000000002',
+  'c8e50000-0000-4000-8000-000000000001','a4000000-0000-0000-0000-000000000001',
+  10,10,0,'F02 sewn capacity'
+);
+select erp.post_work_completion('c8e50000-0000-4000-8000-000000000002');
+select erp.record_sewing_terminal_v1(jsonb_build_object(
+  'work_completion_id','c8e50000-0000-4000-8000-000000000002',
+  'qty_pcs',10,'reason','CP6 F02 physical-prefix terminal'
+),gen_random_uuid());
+
 -- A separate, internally consistent PO starts with a real 70-unit Laundry
 -- estimate but deliberately has no accrual-state row. The Python race calls
 -- sync_laundry_accrual twice concurrently and proves first-row creation posts

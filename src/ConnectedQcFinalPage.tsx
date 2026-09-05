@@ -165,6 +165,7 @@ export default function ConnectedQcFinalPage() {
   const canReverse = hasPermission(access, SENSITIVE_ACTION_PERMISSION.reverseFinalSku)
   const roleName = identity.status === 'AUTHORIZED' ? identity.profile.roleName : 'Tanpa role'
   const bridge = useLaundryQcWorkspace('QC')
+  const collectionTruncated = bridge.workspace?.collection_window.any_truncated ?? false
   const [tab, setTab] = useState<'QUEUE' | 'HISTORY'>('QUEUE')
   const queueQty = bridge.workspace?.qc_queue.reduce((sum, row) => sum + row.available_for_qc_qty_pcs, 0) ?? 0
   const onAction: RunAction = bridge.runAction
@@ -184,6 +185,7 @@ export default function ConnectedQcFinalPage() {
     ]}/>
     {bridge.error ? <div className="clq-alert error"><AlertTriangle/><span>{bridge.error}</span>{bridge.pending && !bridge.corruptedEnvelope ? <button aria-label="Reconcile UUID lama" onClick={() => void bridge.reconcile()} disabled={bridge.busy}><RefreshCw/> Cek status transaksi</button> : bridge.committedRefreshRequired || bridge.workspaceStale && !bridge.corruptedEnvelope ? <button onClick={() => void bridge.load()} disabled={bridge.busy}><RefreshCw/> Refetch</button> : null}</div> : null}
     {bridge.notice ? <div className="clq-alert notice"><CheckCircle2/><span>{bridge.notice}</span></div> : null}
+    {collectionTruncated ? <div className="clq-warning" role="status"><AlertTriangle/><span><strong>Antrean, histori, atau pilihan SKU dibatasi server.</strong> Hasil yang tampil belum lengkap. Persempit kata kunci pada kolom Cari sampai peringatan ini hilang; Merek → Nomor SKU → Model tetap berasal dari sumber QC yang cocok.</span></div> : null}
     {bridge.busy ? <div className="clq-busy"><LoaderCircle className="spin"/> Menjaga finalisasi tetap satu kali…</div> : null}
     <section className="clq-kpis"><article><span>GOOD SIAP QC</span><strong>{queueQty}</strong><small>pcs dari sumber yang tepat</small></article><article><span>BARIS UKURAN</span><strong>{bridge.workspace?.qc_queue.length ?? 0}</strong><small>penerimaan · batch · ukuran</small></article><article><span>FINALISASI AKTIF</span><strong>{bridge.workspace?.qc_history.filter((row) => row.status === 'POSTED').length ?? 0}</strong><small>transaksi CP6 tersimpan</small></article><article><span>DATA LAMA TERPISAH</span><strong>{bridge.workspace?.legacy_unlinked.receipt_count ?? 0}</strong><small>tidak ditebak atau digabung</small></article></section>
     <nav className="clq-tabs qc"><button className={tab === 'QUEUE' ? 'active' : ''} onClick={() => setTab('QUEUE')}>Antrean finalisasi</button><button className={tab === 'HISTORY' ? 'active' : ''} onClick={() => setTab('HISTORY')}>Riwayat & koreksi</button><label><Search/><input value={bridge.query} onChange={(event) => bridge.search(event.target.value)} placeholder="Cari PO, Potongan, atau SKU…"/></label></nav>

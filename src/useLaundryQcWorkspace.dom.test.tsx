@@ -50,6 +50,12 @@ function workspace() {
       lineage_integrity_ok: true, lineage_issue_count: 0,
       no_fixture_fallback: true, failed_wash_with_charge_supported: true,
     },
+    collection_window: {
+      transaction_limit: 200, product_limit: 500, query_required_for_more: true,
+      products_relevant_to_live_qc: false, products_truncated: false,
+      ready_batches_truncated: false, deliveries_truncated: false,
+      qc_queue_truncated: false, qc_history_truncated: false, any_truncated: false,
+    },
     ready_batches: [], deliveries: [], qc_queue: [], qc_history: [],
     legacy_unlinked: { delivery_count: 0, receipt_count: 0 },
   }

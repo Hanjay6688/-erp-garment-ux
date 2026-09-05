@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Eleven real two-connection races for CP6 Laundry -> QC -> FG."""
+"""Real two-connection races for CP6 Laundry -> QC -> FG reliability."""
 from __future__ import annotations
 
 import json
@@ -28,12 +28,19 @@ LOCATION = 'c8c20000-0000-4000-8000-000000000001'
 PRODUCT = 'c8c10000-0000-4000-8000-000000000004'
 PO = 'c8c40000-0000-4000-8000-000000000001'
 FIRST_ACCRUAL_PO = 'c8d40000-0000-4000-8000-000000000001'
+F02_PO = 'c8e40000-0000-4000-8000-000000000001'
+F02_GROUP = 'c8e40000-0000-4000-8000-000000000003'
+F02_BATCH = 'c8e40000-0000-4000-8000-000000000008'
 VENDOR_INVOICE = 'c8c70000-0000-4000-8000-000000000001'
 VENDOR_INVOICE_ITEM = 'c8c70000-0000-4000-8000-000000000002'
 VENDOR_INVOICE_QC = 'c8c70000-0000-4000-8000-000000000003'
 VENDOR_INVOICE_QC_ITEM = 'c8c70000-0000-4000-8000-000000000004'
 VENDOR_INVOICE_QC_AFTER = 'c8c70000-0000-4000-8000-000000000005'
 VENDOR_INVOICE_QC_AFTER_ITEM = 'c8c70000-0000-4000-8000-000000000006'
+VENDOR_INVOICE_REPLACED = 'c8c70000-0000-4000-8000-000000000007'
+VENDOR_INVOICE_REPLACED_ITEM = 'c8c70000-0000-4000-8000-000000000008'
+VENDOR_INVOICE_REPLACEMENT = 'c8c70000-0000-4000-8000-000000000009'
+VENDOR_INVOICE_REPLACEMENT_ITEM = 'c8c70000-0000-4000-8000-000000000010'
 
 REQUESTS = {
     'delivery_winner': 'c8c60000-0000-4000-8000-000000000001',
@@ -57,6 +64,10 @@ REQUESTS = {
     'failed_wash_winner': 'c8c60000-0000-4000-8000-000000000019',
     'failed_wash_receipt_loser': 'c8c60000-0000-4000-8000-000000000020',
     'failed_wash_reverse': 'c8c60000-0000-4000-8000-000000000021',
+    'f02_first_delivery': 'c8e60000-0000-4000-8000-000000000001',
+    'f02_physical_return': 'c8e60000-0000-4000-8000-000000000002',
+    'f02_backdated_rejected': 'c8e60000-0000-4000-8000-000000000003',
+    'f02_later_delivery': 'c8e60000-0000-4000-8000-000000000004',
 }
 
 
@@ -249,6 +260,160 @@ def run_first_accrual_creation_race() -> dict[str, Any]:
     if second.get('elapsed_seconds', 0) < WAIT_FLOOR_SECONDS:
         raise RuntimeError(f'Second first-accrual caller did not wait for the PO_HPP fence: {second}')
     return {'first': first, 'second': second}
+
+
+def run_f02_physical_prefix_proof() -> dict[str, Any]:
+    """Reject redispatch before return time and accept it after return time."""
+    group_version = int(scalar(
+        'select row_version from erp.cutting_groups where id=%s::uuid', (F02_GROUP,),
+    ))
+    first_delivery = single_action(
+        'POST_DELIVERY',
+        {
+            'distribution_batch_id': F02_BATCH,
+            'vendor_id': VENDOR,
+            'wash_process_id': PROCESS,
+            'target_dyeing_color': 'NAVY',
+            'physical_at': '2026-09-01T11:00:00Z',
+            'reason': 'CP6 F02 first physical dispatch',
+            'notes': 'Immutable day-one custody handoff',
+            'lines': [{'size_id': SIZE, 'qty_sent_pcs': 10}],
+        },
+        REQUESTS['f02_first_delivery'],
+        group_version,
+    )
+    first_delivery_id = str(first_delivery['delivery_id'])
+    first_delivery_size_line = str(scalar(
+        'select x.id from erp.laundry_delivery_batch_size_lines x '
+        'join erp.laundry_delivery_lines l on l.id=x.delivery_line_id '
+        'where l.delivery_id=%s::uuid',
+        (first_delivery_id,),
+    ))
+    returned = single_action(
+        'POST_FAILED_WASH',
+        {
+            'delivery_id': first_delivery_id,
+            'wash_process_id': PROCESS,
+            'custody_outcome': 'RETURN_UNPROCESSED',
+            'physical_at': '2026-09-03T11:00:00Z',
+            'reason': 'CP6 F02 physical return from vendor',
+            'lines': [{
+                'delivery_batch_size_line_id': first_delivery_size_line,
+                'qty_attempted_pcs': 10,
+            }],
+        },
+        REQUESTS['f02_physical_return'],
+        int(first_delivery['row_version']),
+    )
+    if returned.get('delivery_status') != 'REVERSED':
+        raise RuntimeError(f'F02 return did not reverse original custody: {returned}')
+
+    group_version = int(scalar(
+        'select row_version from erp.cutting_groups where id=%s::uuid', (F02_GROUP,),
+    ))
+    backdated_payload = {
+        'distribution_batch_id': F02_BATCH,
+        'vendor_id': VENDOR,
+        'wash_process_id': PROCESS,
+        'target_dyeing_color': 'NAVY',
+        'physical_at': '2026-09-02T11:00:00Z',
+        'reason': 'CP6 F02 forbidden backdated redispatch',
+        'notes': 'Must not precede the linked day-three return',
+        'lines': [{'size_id': SIZE, 'qty_sent_pcs': 10}],
+    }
+    rejection_errors: list[str] = []
+    for _ in range(2):
+        conn = connect()
+        try:
+            with conn.cursor() as cur:
+                set_operator_context(cur)
+                action(
+                    cur, 'POST_DELIVERY', backdated_payload,
+                    REQUESTS['f02_backdated_rejected'], group_version,
+                )
+            conn.commit()
+            raise RuntimeError('F02 backdated redispatch unexpectedly committed')
+        except psycopg.Error as exc:
+            conn.rollback()
+            if 'precedes sufficient linked physical return' not in str(exc):
+                raise RuntimeError(f'F02 backdated redispatch returned wrong error: {exc}') from exc
+            rejection_errors.append(str(exc).splitlines()[0])
+        finally:
+            conn.close()
+
+    later_payload = dict(backdated_payload)
+    later_payload.update({
+        'physical_at': '2026-09-04T11:00:00Z',
+        'reason': 'CP6 F02 lawful post-return redispatch',
+        'notes': 'New custody starts after the immutable return',
+    })
+    later_delivery = single_action(
+        'POST_DELIVERY', later_payload, REQUESTS['f02_later_delivery'], group_version,
+    )
+    timeline = scalar(
+        """
+        select jsonb_build_object(
+          'delivery_rows',(select count(*) from erp.laundry_deliveries
+            where po_id=%s::uuid),
+          'active_delivery_rows',(select count(*) from erp.laundry_deliveries
+            where po_id=%s::uuid and status<>'REVERSED'),
+          'failed_wash_attempt_rows',(select count(*)
+            from erp.laundry_failed_wash_attempts where delivery_id=%s::uuid),
+          'linked_return_rows',(select count(*)
+            from erp.laundry_failed_wash_attempts a
+            join erp.wip_stage_events rv on rv.id=a.return_wip_event_id
+            where a.delivery_id=%s::uuid
+              and rv.source_type='CP6_LAUNDRY_DELIVERY_WIP_REVERSAL'
+              and rv.physical_at='2026-09-03 11:00:00+00'),
+          'laundry_at_day_2',(select coalesce(sum(case
+              when stage_to='LAUNDRY' then qty_pcs
+              when stage_from='LAUNDRY' then -qty_pcs else 0 end),0)
+            from erp.wip_stage_events where cutting_group_id=%s::uuid
+              and physical_at<='2026-09-02 11:00:00+00'),
+          'laundry_at_day_3',(select coalesce(sum(case
+              when stage_to='LAUNDRY' then qty_pcs
+              when stage_from='LAUNDRY' then -qty_pcs else 0 end),0)
+            from erp.wip_stage_events where cutting_group_id=%s::uuid
+              and physical_at<='2026-09-03 11:00:00+00'),
+          'laundry_at_day_4',(select coalesce(sum(case
+              when stage_to='LAUNDRY' then qty_pcs
+              when stage_from='LAUNDRY' then -qty_pcs else 0 end),0)
+            from erp.wip_stage_events where cutting_group_id=%s::uuid
+              and physical_at<='2026-09-04 11:00:00+00'),
+          'rejected_request_rows',(select count(*) from erp.idempotency_requests
+            where client_request_id=%s::uuid),
+          'execution_context_rows',(select count(*)
+            from erp.cp6_laundry_qc_execution_context)
+        )
+        """,
+        (
+            F02_PO, F02_PO, first_delivery_id, first_delivery_id,
+            F02_GROUP, F02_GROUP, F02_GROUP,
+            REQUESTS['f02_backdated_rejected'],
+        ),
+    )
+    expected = {
+        'delivery_rows': 2,
+        'active_delivery_rows': 1,
+        'failed_wash_attempt_rows': 1,
+        'linked_return_rows': 1,
+        'laundry_at_day_2': 10,
+        'laundry_at_day_3': 0,
+        'laundry_at_day_4': 10,
+        'rejected_request_rows': 0,
+        'execution_context_rows': 0,
+    }
+    if timeline != expected:
+        raise RuntimeError(
+            f'F02 physical-prefix conservation mismatch: expected={expected}, actual={timeline}'
+        )
+    return {
+        'status': 'PASS',
+        'same_rejected_uuid_attempts': len(rejection_errors),
+        'rejection_errors': rejection_errors,
+        'later_delivery_id': str(later_delivery['delivery_id']),
+        'timeline': timeline,
+    }
 
 
 def run_committed_action_race(
@@ -614,6 +779,109 @@ def run_final_sku_before_vendor_invoice(
     return {'qc': qc, 'invoice_reversal' if reverse_invoice else 'invoice': invoice}
 
 
+def run_invoice_reversal_vs_replacement_post(
+    replaced_invoice_id: str,
+    replacement_invoice_id: str,
+) -> dict[str, Any]:
+    """Reproduce F01 and prove the waiter refreshes prior cost under lock.
+
+    The holder restores the receipt estimate but keeps that transaction
+    uncommitted.  The replacement posting must block on the canonical CP6FLOW
+    fence before it opens the cursor that captures prior_actual_*.
+    """
+    reversed_invoice = threading.Event()
+    waiter_started = threading.Event()
+    holder: dict[str, Any] = {}
+    waiter: dict[str, Any] = {}
+
+    def holder_work():
+        conn = connect()
+        try:
+            with conn.cursor() as cur:
+                cur.execute("set local lock_timeout='10s'")
+                set_operator_claims(cur)
+                cur.execute('select pg_backend_pid()')
+                holder['backend_pid'] = cur.fetchone()[0]
+                cur.execute(
+                    'select erp.reverse_vendor_invoice(%s::uuid,%s)',
+                    (replaced_invoice_id, 'CP6 F01 replaced invoice reversal'),
+                )
+                reversed_invoice.set()
+                time.sleep(HOLD_SECONDS)
+            conn.commit()
+            holder['status'] = 'PASS'
+        except Exception as exc:  # pragma: no cover - emitted into CI evidence
+            conn.rollback()
+            holder['status'] = 'FAIL'
+            holder['error'] = str(exc)
+            reversed_invoice.set()
+        finally:
+            conn.close()
+
+    def waiter_work():
+        reversed_invoice.wait(timeout=10)
+        began = time.monotonic()
+        conn = connect()
+        try:
+            with conn.cursor() as cur:
+                cur.execute("set local lock_timeout='10s'")
+                set_operator_claims(cur)
+                cur.execute('select pg_backend_pid()')
+                waiter['backend_pid'] = cur.fetchone()[0]
+                waiter_started.set()
+                cur.execute(
+                    'select erp.post_vendor_invoice(%s::uuid)',
+                    (replacement_invoice_id,),
+                )
+            conn.commit()
+            waiter['status'] = 'PASS'
+        except Exception as exc:  # pragma: no cover - emitted into CI evidence
+            conn.rollback()
+            waiter['status'] = 'FAIL'
+            waiter['error'] = str(exc)
+            waiter_started.set()
+        finally:
+            waiter['elapsed_seconds'] = round(time.monotonic() - began, 3)
+            conn.close()
+
+    first = threading.Thread(target=holder_work, daemon=True)
+    second = threading.Thread(target=waiter_work, daemon=True)
+    first.start()
+    second.start()
+    waiter_started.wait(timeout=10)
+
+    lock_observed = False
+    observation_deadline = time.monotonic() + HOLD_SECONDS
+    while time.monotonic() < observation_deadline:
+        if holder.get('backend_pid') and waiter.get('backend_pid'):
+            blockers = scalar(
+                'select pg_blocking_pids(%s)', (waiter['backend_pid'],),
+            )
+            if holder['backend_pid'] in blockers:
+                lock_observed = True
+                break
+        time.sleep(0.025)
+
+    first.join(timeout=20)
+    second.join(timeout=20)
+    if first.is_alive() or second.is_alive():
+        raise RuntimeError('INVOICE_REVERSAL_VS_REPLACEMENT_POST race thread timeout')
+    if holder.get('status') != 'PASS' or waiter.get('status') != 'PASS':
+        raise RuntimeError(
+            f'Invoice reversal/replacement race mismatch: holder={holder}, waiter={waiter}'
+        )
+    if waiter.get('elapsed_seconds', 0) < WAIT_FLOOR_SECONDS or not lock_observed:
+        raise RuntimeError(
+            'Invoice replacement did not prove a real canonical-lock wait: '
+            f'lock_observed={lock_observed}, waiter={waiter}'
+        )
+    return {
+        'invoice_reversal': holder,
+        'replacement_post': waiter,
+        'pg_blocking_pids_observed': lock_observed,
+    }
+
+
 def create_vendor_invoice(
     receipt_line: str,
     invoice_id: str,
@@ -749,6 +1017,8 @@ def main():
             'CP6 first-row accrual serialization mismatch: '
             f'expected={first_accrual_expected}, actual={first_accrual_invariants}'
         )
+
+    report['f02_physical_prefix'] = run_f02_physical_prefix_proof()
 
     group_version = int(scalar('select row_version from erp.cutting_groups where id=%s::uuid', (GROUP,)))
     delivery_payload = {
@@ -963,6 +1233,91 @@ def main():
     if reversed_invoice_reversal_qc.get('status') != 'REVERSED':
         raise RuntimeError(
             f'CP6 could not reverse invoice-reversal-race QC: {reversed_invoice_reversal_qc}'
+        )
+
+    # Independent-audit F01, exact schedule: A is FINAL 90; reverse A and hold
+    # it uncommitted; post replacement B at 100 from another connection.  B
+    # must wait before prior_actual_* is captured.  Reversing B must therefore
+    # restore the live ESTIMATED 70 state, never resurrect A's cancelled 90.
+    create_vendor_invoice(
+        receipt_line, VENDOR_INVOICE_REPLACED, VENDOR_INVOICE_REPLACED_ITEM,
+        'CP6-RACE-VI-F01-A', 9,
+    )
+    with connect() as conn, conn.cursor() as cur:
+        set_operator_claims(cur)
+        cur.execute(
+            'select erp.post_vendor_invoice(%s::uuid)', (VENDOR_INVOICE_REPLACED,),
+        )
+        conn.commit()
+    create_vendor_invoice(
+        receipt_line, VENDOR_INVOICE_REPLACEMENT, VENDOR_INVOICE_REPLACEMENT_ITEM,
+        'CP6-RACE-VI-F01-B', 10,
+    )
+    report['races']['invoice_reversal_vs_replacement_post'] = (
+        run_invoice_reversal_vs_replacement_post(
+            VENDOR_INVOICE_REPLACED, VENDOR_INVOICE_REPLACEMENT,
+        )
+    )
+    f01_prior_state = scalar(
+        """
+        select jsonb_build_object(
+          'prior_status',prior_actual_cost_status,
+          'prior_rate',prior_actual_rate_snapshot,
+          'prior_cost',prior_actual_cost
+        )
+        from erp.vendor_invoice_items where id=%s::uuid
+        """,
+        (VENDOR_INVOICE_REPLACEMENT_ITEM,),
+    )
+    f01_post_state = invoice_qc_state(VENDOR_INVOICE_REPLACEMENT, receipt_line)
+    f01_post_expected = {
+        'invoice_status': 'POSTED',
+        'receipt_cost_status': 'FINAL',
+        'receipt_actual_cost': 100,
+        'posted_qc_count': 0,
+        'fg_stock_qty': 0,
+        'current_hpp_total': 0,
+        'laundry_accrual': 0,
+        'wip_net': 100,
+        'fg_net': 0,
+        'accrued_net': 0,
+        'vendor_ap_net': -100,
+        'unbalanced_journals': 0,
+    }
+    report['f01_replacement_prior_state'] = f01_prior_state
+    report['f01_replacement_post_state'] = f01_post_state
+    if f01_prior_state != {
+        'prior_status': 'ESTIMATED', 'prior_rate': 7, 'prior_cost': 70,
+    } or f01_post_state != f01_post_expected:
+        raise RuntimeError(
+            'CP6 F01 replacement captured stale prior cost or broke finance: '
+            f'prior={f01_prior_state}, expected_prior=ESTIMATED/7/70, '
+            f'post={f01_post_state}, expected_post={f01_post_expected}'
+        )
+    reverse_vendor_invoice(
+        VENDOR_INVOICE_REPLACEMENT,
+        'CP6 F01 prove replacement reversal restores live estimate',
+    )
+    f01_final_state = invoice_qc_state(VENDOR_INVOICE_REPLACEMENT, receipt_line)
+    f01_final_expected = {
+        'invoice_status': 'REVERSED',
+        'receipt_cost_status': 'ESTIMATED',
+        'receipt_actual_cost': 70,
+        'posted_qc_count': 0,
+        'fg_stock_qty': 0,
+        'current_hpp_total': 0,
+        'laundry_accrual': 70,
+        'wip_net': 70,
+        'fg_net': 0,
+        'accrued_net': -70,
+        'vendor_ap_net': 0,
+        'unbalanced_journals': 0,
+    }
+    report['f01_replacement_final_state'] = f01_final_state
+    if f01_final_state != f01_final_expected:
+        raise RuntimeError(
+            'CP6 F01 replacement reversal resurrected cancelled cost: '
+            f'expected={f01_final_expected}, actual={f01_final_state}'
         )
 
     # Repeat both lifecycle directions with Final-SKU holding the receipt first.
@@ -1269,7 +1624,7 @@ def main():
         raise RuntimeError(f'CP6 serialized-state invariant mismatch: expected={expected}, actual={invariants}')
     report['status'] = 'PASS'
     REPORT.write_text(json.dumps(report, indent=2, sort_keys=True, default=str) + '\n', encoding='utf8')
-    print('CP6 Laundry/QC/FG concurrency passed: eleven serialized races, including first-row accrual, paid failed-wash versus physical receipt, and both invoice post/reversal scheduling directions versus Final-SKU/source reversal; no duplicate physical, finance, stock, or HPP fact.')
+    print('CP6 Laundry/QC/FG concurrency passed: twelve serialized races plus physical-time prefix proof, including first-row accrual, invoice reversal/replacement, paid failed-wash versus physical receipt, and both invoice post/reversal scheduling directions versus Final-SKU/source reversal; no duplicate physical, finance, stock, or HPP fact.')
 
 
 if __name__ == '__main__':

@@ -1,0 +1,149 @@
+import assert from 'node:assert/strict'
+import { createHash } from 'node:crypto'
+import { readFileSync, readdirSync } from 'node:fs'
+import { resolve } from 'node:path'
+
+const root = process.cwd()
+const read = (path) => readFileSync(resolve(root, path), 'utf8')
+const sha256 = (value) => createHash('sha256').update(value).digest('hex')
+const occurrences = (source, token) => source.split(token).length - 1
+
+const oldMigrationPath = 'supabase/migrations/20260904111157_erp_v2_6_20_cp6_laundry_qc_fg_authoritative.sql'
+const oldRollbackPath = 'supabase/rollbacks/20260904111157_erp_v2_6_20_cp6_laundry_qc_fg_authoritative.rollback.sql'
+const migrationPath = 'supabase/migrations/20260905110913_erp_v2_6_20a_cp6_audit_reliability_closure.sql'
+const rollbackPath = 'supabase/rollbacks/20260905110913_erp_v2_6_20a_cp6_audit_reliability_closure.rollback.sql'
+const racePath = 'scripts/cp6_laundry_qc_concurrency.py'
+const seedPath = 'supabase/tests/cp6_laundry_qc_concurrency_seed.sql'
+const workflowPath = '.github/workflows/cp6-full-schema-validation.yml'
+
+const oldMigration = read(oldMigrationPath)
+const oldRollback = read(oldRollbackPath)
+const migration = read(migrationPath)
+const rollback = read(rollbackPath)
+const race = read(racePath)
+const seed = read(seedPath)
+const workflow = read(workflowPath)
+
+assert.equal(
+  sha256(oldMigration),
+  '52e51f56f4b8b08b7797b1a92ca9b9e26cbe611e81615c3379c728b95877ada1',
+  'Recorded v2.6.20 migration bytes changed; use a forward migration only',
+)
+assert.equal(Buffer.byteLength(oldMigration), 251923)
+assert.ok(oldMigration.endsWith('\n'))
+
+for (const [path, sql] of [
+  [migrationPath, migration], [rollbackPath, rollback], [oldRollbackPath, oldRollback],
+]) {
+  assert.ok(sql.endsWith('\n'), `${path} must retain a terminal LF`)
+  const quoteCounts = new Map()
+  for (const match of sql.matchAll(/\$[A-Za-z_][A-Za-z0-9_]*\$|\$\$/g)) {
+    quoteCounts.set(match[0], (quoteCounts.get(match[0]) ?? 0) + 1)
+  }
+  assert.deepEqual(
+    [...quoteCounts].filter(([, count]) => count % 2 !== 0), [],
+    `Unbalanced dollar quote in ${path}`,
+  )
+  assert.match(sql, /\bbegin;[\s\S]*\bcommit;\s*$/i, `${path} is not one explicit transaction`)
+}
+
+const migrationBytes = Buffer.from(migration, 'utf8')
+const migrationFileSha = sha256(migrationBytes)
+const migrationLedgerSha = sha256(migrationBytes.subarray(0, -1))
+assert.equal(migrationBytes.length, 25849, 'v2.6.20a byte count changed; update all exact evidence together')
+assert.equal(migrationFileSha, '4ddafa3af937da7a8c0beb4a6a74d9d1447ef6f9c43b321fd513726ba597fcb2')
+assert.equal(migrationLedgerSha, 'd628334354f4f9c5cdbbc39f1c8ee1a54b0c283cd178f582191a98dfa5224347')
+assert.equal(occurrences(rollback, migrationFileSha), 4)
+assert.equal(occurrences(rollback, migrationLedgerSha), 4)
+
+const sameTimestampMigrations = readdirSync(resolve(root, 'supabase/migrations'))
+  .filter((name) => name.startsWith('20260905110913_'))
+const sameTimestampRollbacks = readdirSync(resolve(root, 'supabase/rollbacks'))
+  .filter((name) => name.startsWith('20260905110913_'))
+assert.deepEqual(sameTimestampMigrations, [migrationPath.split('/').at(-1)])
+assert.deepEqual(sameTimestampRollbacks, [rollbackPath.split('/').at(-1)])
+
+assert.doesNotMatch(migration, /\btruncate\b|\bdelete\s+from\b|\bdrop\s+(?:table|function|schema|index|trigger)\b/i,
+  'Forward audit closure contains a destructive operation')
+for (const token of [
+  'VENI. VIDI. VICI. ERP. — I CONQUERED ERP.',
+  'Reliable data adalah dewa. Keuangan termasuk laporan, stok, dan HPP adalah raja.',
+  "version='v2.6.20'", "version='v2.6.20a'",
+  "'b2e8ffa3e9caf72aaa101a34bded5001'",
+  "'43cec1668118c4a9c30939be72cc45b5'",
+  "'c03b264c3e180c5d272f310e9374021a'",
+  'cp6_v2620a_rollback_capsule',
+  "count(*) from erp.cp6_v2620a_rollback_capsule)<>4",
+  'installed_definition_sha256',
+  'idx_laundry_failed_wash_attempts_delivery_v2620a',
+  'include(receipt_id,receipt_line_id,custody_outcome,qty_attempted_pcs,return_wip_event_id)',
+]) assert.ok(migration.includes(token), `v2.6.20a guard/index token missing: ${token}`)
+
+const invoicePatchStart = migration.indexOf('do $patch_invoice_lifecycle$')
+const invoicePatchEnd = migration.indexOf('$patch_invoice_lifecycle$;', invoicePatchStart + 10)
+assert.ok(invoicePatchStart >= 0 && invoicePatchEnd > invoicePatchStart)
+const invoicePatch = migration.slice(invoicePatchStart, invoicePatchEnd)
+for (const token of [
+  "pg_get_functiondef('erp.post_vendor_invoice(uuid)'::regprocedure)",
+  "pg_get_functiondef('erp.reverse_vendor_invoice(uuid,text)'::regprocedure)",
+  "pg_advisory_xact_lock(hashtextextended('CP6FLOW:'||v_group_id::text,0))",
+  'from erp.laundry_receipts lr', 'order by lr.id', 'for update;',
+  'from erp.laundry_receipt_lines lrl', 'order by lrl.id',
+  'post_vendor_invoice lock anchor is not exact',
+  'reverse_vendor_invoice lock anchor is not exact',
+]) assert.ok(invoicePatch.includes(token), `Canonical invoice lock proof missing: ${token}`)
+assert.equal(occurrences(invoicePatch, "pg_advisory_xact_lock(hashtextextended('CP6FLOW:'||v_group_id::text,0))"), 2)
+assert.equal(occurrences(invoicePatch, 'from erp.laundry_receipts lr'), 2)
+assert.equal(occurrences(invoicePatch, 'from erp.laundry_receipt_lines lrl'), 2)
+
+const timelinePatchStart = migration.indexOf('do $patch_physical_timeline$')
+const timelinePatchEnd = migration.indexOf('$patch_physical_timeline$;', timelinePatchStart + 10)
+assert.ok(timelinePatchStart >= 0 && timelinePatchEnd > timelinePatchStart)
+const timelinePatch = migration.slice(timelinePatchStart, timelinePatchEnd)
+for (const token of [
+  "d.status<>'DRAFT' and d.physical_at<=v_physical_at",
+  'dispatched_at_prefix', 'returned_at_prefix',
+  "rv.source_type='CP6_LAUNDRY_DELIVERY_WIP_REVERSAL'",
+  "rv.physical_at<=v_physical_at",
+  'Laundry redispatch time precedes sufficient linked physical return',
+  'CP6 size-prefix anchor is not exact', 'CP6 group-prefix anchor is not exact',
+]) assert.ok(timelinePatch.includes(token), `Physical-time prefix guard missing: ${token}`)
+
+for (const token of [
+  'v_platform_version text;', 'select m.version into strict v_platform_version',
+  'where m.version>v_platform_version', "m.version>'20260904111157'",
+]) {
+  if (token === "m.version>'20260904111157'") {
+    assert.equal(oldRollback.includes(token), false, 'Old rollback still compares against source timestamp')
+  } else {
+    assert.ok(oldRollback.includes(token), `Portable v2.6.20 rollback token missing: ${token}`)
+  }
+}
+
+for (const token of [
+  'run_invoice_reversal_vs_replacement_post', 'pg_blocking_pids',
+  "'prior_status': 'ESTIMATED', 'prior_rate': 7, 'prior_cost': 70",
+  'replacement reversal resurrected cancelled cost',
+  'run_f02_physical_prefix_proof', 'same_rejected_uuid_attempts',
+  "'laundry_at_day_2': 10", "'laundry_at_day_3': 0", "'laundry_at_day_4': 10",
+  "'rejected_request_rows': 0",
+]) assert.ok(race.includes(token), `Executable F01/F02 proof token missing: ${token}`)
+for (const token of ['CP6-F02-PO', 'CP6 F02 physical-prefix terminal', 'Immutable F02 source']) {
+  assert.ok(seed.includes(token), `F02 isolated fixture token missing: ${token}`)
+}
+
+for (const token of [
+  migrationPath, rollbackPath,
+  'V2620A_MIGRATION_SHA256.txt', migrationFileSha, migrationLedgerSha,
+  'invoice_reversal_vs_replacement_post', 'pg_blocking_pids_observed',
+  "report['f02_physical_prefix']['status'] == 'PASS'",
+  'V2620A_ROLLBACK_WRONG_NAME_REJECTION.log',
+  "version='20260904232442'", 'V2620_ROLLBACK_TRUE_SUCCESSOR_REJECTION.log',
+  'V2620_ROLLBACK_WRONG_NAME_REJECTION.log',
+]) assert.ok(workflow.includes(token), `Workflow audit-closure proof missing: ${token}`)
+
+console.log(
+  `CP6 audit closure passed: immutable v2.6.20 ${sha256(oldMigration).slice(0, 12)}, `
+  + `forward v2.6.20a ${migrationFileSha.slice(0, 12)}, canonical invoice locks, `
+  + 'physical-time prefix conservation, indexed dependency lookup, and portable exact rollback are statically owned.',
+)

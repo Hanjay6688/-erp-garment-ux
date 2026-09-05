@@ -147,10 +147,10 @@ const migrationBytes = Buffer.from(migration, 'utf8')
 assert.equal(migrationBytes.at(-1), 10, 'CP6 migration must have one final LF excluded from platform statements')
 const migrationFileSha = sha256(migrationBytes)
 const ledgerSha = sha256(migrationBytes.subarray(0, -1))
-assert.equal(occurrences(rollback, ledgerSha), 3,
-  'CP6 rollback must bind both platform guards and its exact delete to no-terminal-LF statement bytes')
-assert.equal(occurrences(rollback, migrationFileSha), 3,
-  'CP6 rollback must bind both platform guards and its exact delete to full-file hosted statement bytes')
+assert.equal(occurrences(rollback, ledgerSha), 4,
+  'CP6 rollback must bind both platform guards, actual own-version resolution, and its exact delete to no-terminal-LF statement bytes')
+assert.equal(occurrences(rollback, migrationFileSha), 4,
+  'CP6 rollback must bind both platform guards, actual own-version resolution, and its exact delete to full-file hosted statement bytes')
 assert.match(workflow, new RegExp(`test "\\$\\(wc -c < "\\$migration_source"\\)" = '${migrationBytes.length}'`),
   'CP6 workflow byte count is stale')
 assert.ok(workflow.includes(`${migrationFileSha}  ${migrationPath}`), 'CP6 workflow file SHA-256 is stale')
@@ -180,7 +180,7 @@ function assertWorkflowShellSyntax(stepName) {
     `CP6 workflow shell syntax failed for ${stepName}: ${parsed.stderr}`)
 }
 
-assertWorkflowShellSyntax('Reject tampered v2.6.20 statement bytes and perform exact pre-use rollback')
+assertWorkflowShellSyntax('Roll back v2.6.20a then prove v2.6.20 UAT-version portability and exact rollback')
 assertWorkflowShellSyntax('Reject tampered statement bytes then roll back connector-shaped v2.6.19c')
 
 const backendActionBlock = migration.match(/if v_action not in\(\s*([\s\S]*?)\s*\) then/)
@@ -633,9 +633,10 @@ assert.deepEqual(raceKeys, [
   'failed_wash_vs_post_receipt', 'post_receipt',
   'vendor_invoice_vs_reverse_receipt',
   'vendor_invoice_vs_final_sku', 'vendor_invoice_reversal_vs_final_sku',
+  'invoice_reversal_vs_replacement_post',
   'final_sku_vs_vendor_invoice', 'final_sku_vs_vendor_invoice_reversal',
   'post_final_sku', 'final_sku_vs_reverse_receipt',
-], 'CP6 concurrency proof must retain exactly eleven named races')
+], 'CP6 concurrency proof must retain twelve named races including the audited invoice replacement schedule')
 
 for (const token of [
   'CP6-FIRST-ACCRUAL-PO',
@@ -701,7 +702,7 @@ assert.equal(/vendor_invoices[\s\S]*;\s*insert into erp\.vendor_invoice_items/.t
   'Vendor-invoice race fixture must not send multiple commands as one prepared statement')
 assert.ok(race.includes('def set_operator_claims(cur):'),
   'CP6 race harness lacks a claims-only backend execution context')
-assert.equal(occurrences(race, 'set_operator_claims(cur)'), 9,
+assert.equal(occurrences(race, 'set_operator_claims(cur)'), 12,
   'Every internal accrual/vendor-invoice lifecycle path must retain backend privilege with operator claims')
 assert.equal(
   /set_operator_context\(cur\)\s+(?:if reverse_invoice:\s+)?cur\.execute\(\s*['"]select erp\.(?:post|reverse)_vendor_invoice/.test(race),
@@ -739,7 +740,7 @@ for (const token of [
   'first_accrual_creation', "'event_delta': 70",
   'V2620_ROLLBACK_TAMPERED_STATEMENT_REJECTION.log',
   'V2620_PREEXISTING_PRODUCT_AMBIGUITY_REJECTION.log',
-  'V2620_ROLLBACK_POST_USE_REJECTION.log', 'FINAL_RECONCILIATION.json',
+  'V2620A_ROLLBACK_POST_USE_REJECTION.log', 'FINAL_RECONCILIATION.json',
   "'production_go',false", 'rm -rf supabase/.temp',
 ]) assert.ok(workflow.includes(token), `CP6 full-schema workflow missing: ${token}`)
 for (const key of [
@@ -757,7 +758,7 @@ for (const token of [
 ]) assert.ok(workflow.includes(token), `CP6 rollback/final schema-residue proof missing: ${token}`)
 assert.match(browserConfig, /testMatch: 'cp6-laundry-qc\.spec\.ts'/)
 assert.match(browserConfig, /ERP_UAT_AUTH_ALLOW_MOCK_KEY: '1'/)
-assert.match(packageJson, /"check:cp6": "node scripts\/check-cp6-boundary\.mjs"/)
+assert.match(packageJson, /"check:cp6": "node scripts\/check-cp6-boundary\.mjs && node scripts\/check-cp6-audit-closure\.mjs"/)
 assert.match(packageJson, /"test:security":[^\n]*npm run check:cp6/)
 assert.match(packageJson, /"check:backend": "node scripts\/check-predecessor-backend-ownership\.mjs"/)
 for (const token of [
@@ -827,4 +828,4 @@ for (const token of [
   'The legacy ERP project is read-only',
 ]) assert.ok(rules.includes(token), `Binding ERP reliability rule missing: ${token}`)
 
-console.log(`CP6 boundary passed: migration ${migrationBytes.length} bytes; exact ledger shapes ${ledgerSha.slice(0, 12)}/${migrationFileSha.slice(0, 12)}; seven closed actions, exact batch-size conservation, Brand-scoped SKU identity, explicit physical time, durable idempotency, append-only reversal, paid failed-wash custody/cost separation, finance/stock/HPP reconciliation, eleven serialized races, and digest-bound rollback are owned.`)
+console.log(`CP6 boundary passed: immutable migration ${migrationBytes.length} bytes; exact ledger shapes ${ledgerSha.slice(0, 12)}/${migrationFileSha.slice(0, 12)}; seven closed actions, physical-time conservation, Brand-scoped SKU identity, durable idempotency, append-only reversal, paid failed-wash custody/cost separation, finance/stock/HPP reconciliation, twelve serialized races, and digest-bound rollback are owned.`)
