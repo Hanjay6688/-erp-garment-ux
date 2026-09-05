@@ -53,7 +53,8 @@ begin
       identity_root_id,effective_from,is_active,is_portal_visible
     ) values(
       v_product,'CP6-SCALE-PRODUCT-'||lpad(i::text,4,'0'),v_model,
-      'c8c10000-0000-4000-8000-000000000003','NAVY',
+      'c8c10000-0000-4000-8000-000000000003',
+      'SCALE-'||lpad(i::text,4,'0'),
       'c8c10000-0000-4000-8000-000000000002',
       'CP6 scale product '||lpad(i::text,4,'0'),v_product,
       '2026-01-01 00:00:00+00',true,true
