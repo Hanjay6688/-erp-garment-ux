@@ -248,6 +248,8 @@ assert.equal(scale.includes('enable_seqscan\',\'off'), false)
 assert.equal(scale.includes('where j.po_id=v_po group by e.id'), false)
 for (const token of [
   'DISPOSABLE_CP6_EIGHT_OPERATOR_WRITE_LOAD', 'threading.Barrier(len(CASES))',
+  'if params:', 'cur.execute(query, params)', 'cur.execute(query)',
+  "like 'cp6-scale-op-%'",
   "state='idle in transaction'", 'cardinality(pg_blocking_pids(pid))>0',
   "'active_transactions': 8", "'blocked_transactions': 0",
   "'posted_qc': 8", "'fg_qty': 80", "'current_hpp': 560",

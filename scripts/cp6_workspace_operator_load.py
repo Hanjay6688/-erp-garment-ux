@@ -66,7 +66,14 @@ def facade(cur, action_name: str, payload: dict[str, Any], req: str, version: in
 
 def scalar(query: str, params=()):
     with connect() as conn, conn.cursor() as cur:
-        cur.execute(query, params)
+        # psycopg interprets percent signs as placeholder syntax only when a
+        # parameter sequence is supplied.  Observation queries intentionally
+        # contain a literal LIKE 'cp6-scale-op-%', so execute parameter-free
+        # statements without an empty tuple instead of rewriting SQL bytes.
+        if params:
+            cur.execute(query, params)
+        else:
+            cur.execute(query)
         row = cur.fetchone()
         conn.commit()
         return row[0] if row else None
