@@ -56,6 +56,9 @@ function runSql(url, statement) {
 
 const sql = (statement) => runSql(pgurl, statement)
 const authSql = (statement) => runSql(authPgurl, statement)
+const physicalNow = () => sql(
+  `select to_char(clock_timestamp() at time zone 'UTC','YYYY-MM-DD"T"HH24:MI:SS.US"Z"')`,
+)
 
 if (disposableDatabase) {
   assert.equal(sql('select current_database()'), disposableDatabase,
@@ -523,7 +526,7 @@ try {
   // The reversals above append their physical correction at commit time. Use
   // an explicit operator timestamp sampled after that commit; a fixed historic
   // timestamp here would correctly be rejected as an impossible redispatch.
-  const retryDeliveryPhysicalAt = sql('select clock_timestamp()::text')
+  const retryDeliveryPhysicalAt = physicalNow()
   const retryDelivery = await cp6Action(operatorSession, 'POST_DELIVERY', {
     distribution_batch_id: fixture.batch,
     vendor_id: fixture.vendor,
@@ -542,7 +545,7 @@ try {
     (candidate) => candidate.size_id === fixture.size,
   )
   assert.ok(retrySize, 'Failed-wash HTTP proof lost its exact delivery batch/size')
-  const failedWashPhysicalAt = sql('select clock_timestamp()::text')
+  const failedWashPhysicalAt = physicalNow()
   const failedWash = await cp6Action(operatorSession, 'POST_FAILED_WASH', {
     delivery_id: retryDelivery.delivery_id,
     wash_process_id: fixture.process,
