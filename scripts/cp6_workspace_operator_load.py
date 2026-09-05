@@ -219,24 +219,55 @@ def main():
     ]
     for thread in threads:
         thread.start()
-    for event in action_done:
-        if not event.wait(timeout=20):
-            release_commit.set()
-            raise RuntimeError('Eight-operator actions did not all reach the commit fence')
+    # Every operator posts the same final SKU/location/grade.  That is a real
+    # shared FG-balance hot spot: one transaction must own the balance row and
+    # the other seven must serialize behind it, otherwise stock can lose an
+    # update.  Wait for the first completed action (the lock holder), then
+    # capture the seven blocked writers before allowing the holder to commit.
+    first_action_deadline = time.monotonic() + 20
+    while time.monotonic() < first_action_deadline and not any(
+        event.is_set() for event in action_done
+    ):
+        time.sleep(0.01)
+    if not any(event.is_set() for event in action_done):
+        release_commit.set()
+        raise RuntimeError('Eight-operator shared-balance holder never reached its commit fence')
 
-    observation = scalar(
-        """
-        select jsonb_build_object(
-          'active_transactions',count(*),
-          'all_idle_in_transaction',bool_and(state='idle in transaction'),
-          'max_transaction_age_seconds',round(max(extract(epoch from(clock_timestamp()-xact_start))::numeric),3),
-          'blocked_transactions',count(*) filter(where cardinality(pg_blocking_pids(pid))>0),
-          'backend_pids',jsonb_agg(pid order by application_name)
+    observation = None
+    observation_deadline = time.monotonic() + 5
+    while time.monotonic() < observation_deadline:
+        observation = scalar(
+            """
+            select jsonb_build_object(
+              'active_transactions',count(*),
+              'idle_transactions',count(*) filter(where state='idle in transaction'),
+              'active_writers',count(*) filter(where state='active'),
+              'max_transaction_age_seconds',round(max(extract(epoch from(clock_timestamp()-xact_start))::numeric),3),
+              'blocked_transactions',count(*) filter(where cardinality(pg_blocking_pids(pid))>0),
+              'blocking_edges',coalesce(jsonb_agg(jsonb_build_object(
+                'pid',pid,'application_name',application_name,
+                'blocked_by',pg_blocking_pids(pid)
+              ) order by application_name) filter(where cardinality(pg_blocking_pids(pid))>0),'[]'::jsonb),
+              'backend_pids',jsonb_agg(pid order by application_name)
+            )
+            from pg_stat_activity
+            where application_name like 'cp6-scale-op-%' and xact_start is not null
+            """
         )
-        from pg_stat_activity
-        where application_name like 'cp6-scale-op-%' and xact_start is not null
-        """
-    )
+        if all(observation.get(key) == value for key, value in {
+            'active_transactions': 8,
+            'idle_transactions': 1,
+            'active_writers': 7,
+            'blocked_transactions': 7,
+        }.items()):
+            break
+        time.sleep(0.025)
+    else:
+        release_commit.set()
+        raise RuntimeError(
+            f'Eight-operator shared FG balance did not expose the required '
+            f'one-holder/seven-waiter serialization: {observation}'
+        )
     release_commit.set()
     for thread in threads:
         thread.join(timeout=20)
@@ -248,13 +279,8 @@ def main():
     action_latencies = [float(outcome['action_ms']) for outcome in outcomes]
     p95_action_ms = max(action_latencies)  # conservative for a bounded n=8 proof
     max_total_ms = max(float(outcome['total_ms']) for outcome in outcomes)
-    if observation != {
-        **observation,
-        'active_transactions': 8,
-        'all_idle_in_transaction': True,
-        'blocked_transactions': 0,
-    }:
-        raise RuntimeError(f'Multi-operator overlap observation mismatch: {observation}')
+    if len(observation['blocking_edges']) != 7:
+        raise RuntimeError(f'Multi-operator blocker-edge evidence mismatch: {observation}')
     if float(observation['max_transaction_age_seconds']) >= OBSERVED_TRANSACTION_AGE_BUDGET_SECONDS:
         raise RuntimeError(f'Multi-operator transaction-age budget exceeded: {observation}')
     if p95_action_ms >= ACTION_BUDGET_MS or max_total_ms >= TOTAL_BUDGET_MS:
@@ -319,6 +345,12 @@ def main():
         'status': 'PASS',
         'classification': 'DISPOSABLE_CP6_EIGHT_OPERATOR_WRITE_LOAD',
         'operators': len(CASES),
+        'contention_model': 'ONE_COMMIT_HOLDER_SEVEN_SERIALIZED_WAITERS_ON_SHARED_FG_BALANCE',
+        'shared_fg_balance_key': {
+            'product_id': PRODUCT,
+            'location_id': LOCATION,
+            'quality_grade': 'GRADE_A',
+        },
         'simultaneous_uncommitted_writes_observed': observation,
         'p95_action_ms_conservative': p95_action_ms,
         'max_total_ms': max_total_ms,
@@ -335,9 +367,9 @@ def main():
     REPORT.parent.mkdir(parents=True, exist_ok=True)
     REPORT.write_text(json.dumps(report, indent=2, sort_keys=True) + '\n')
     print(
-        'CP6 eight-operator write load passed: eight simultaneous independent '
-        'Final-SKU transactions, zero blockers, bounded transaction age/latency, '
-        'stock/HPP/WIP/journals reconciled.'
+        'CP6 eight-operator write load passed: one shared-FG-balance holder and '
+        'seven PID-observed serialized waiters all committed within budget; '
+        'stock/HPP/WIP/journals reconciled without a lost update.'
     )
 
 

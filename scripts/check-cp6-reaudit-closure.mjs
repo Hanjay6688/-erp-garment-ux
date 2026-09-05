@@ -251,13 +251,18 @@ for (const token of [
   'if params:', 'cur.execute(query, params)', 'cur.execute(query)',
   "like 'cp6-scale-op-%'",
   "state='idle in transaction'", 'cardinality(pg_blocking_pids(pid))>0',
-  "'active_transactions': 8", "'blocked_transactions': 0",
+  "'active_transactions': 8", "'idle_transactions': 1",
+  "'active_writers': 7", "'blocked_transactions': 7",
+  'ONE_COMMIT_HOLDER_SEVEN_SERIALIZED_WAITERS_ON_SHARED_FG_BALANCE',
+  "'blocking_edges'", "len(observation['blocking_edges']) != 7",
   "'posted_qc': 8", "'fg_qty': 80", "'current_hpp': 560",
   "'wip_net': 0", "'fg_net': 560", "'accrued_net': -560",
   'where scoped.journal_entry_id=e.id',
   'and scoped.po_id in(select id from target_po)',
 ]) assert.ok(load.includes(token), `Eight-operator write/load proof missing: ${token}`)
 assert.equal(load.includes('where j.po_id in(select id from target_po)\n            group by e.id having'), false)
+assert.equal(load.includes("'all_idle_in_transaction'"), false)
+assert.equal(load.includes("'blocked_transactions': 0"), false)
 
 for (const token of [
   migrationPath, rollbackPath, 'V2620B_MIGRATION_SHA256.txt',
@@ -270,6 +275,8 @@ for (const token of [
   "set(report['positive_evidence']['mutation_action_kinds'])==expected_actions",
   "set(report['positive_evidence']['viewer_denied_action_kinds'])==expected_actions",
   'scripts/cp6_workspace_operator_load.py', 'V2620B_ROLLBACK_CONCURRENCY.json',
+  "['idle_transactions']==1", "['active_writers']==7",
+  "['blocked_transactions']==7", "['blocking_edges'])==7",
   'V2620B_ROLLBACK_SUCCESSOR_REJECTION.log', 'V2620B_ROLLBACK_TAMPER_REJECTION.log',
   'Bind successful CP6 proof to the exact runtime SHA',
   "'format':'CP6_V2620B_RUNTIME_PROOF_V1'",

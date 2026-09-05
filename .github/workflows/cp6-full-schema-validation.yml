@@ -1051,7 +1051,16 @@ jobs:
           assert report['status']=='PASS',report
           assert report['operators']==8,report
           assert report['simultaneous_uncommitted_writes_observed']['active_transactions']==8,report
-          assert report['simultaneous_uncommitted_writes_observed']['blocked_transactions']==0,report
+          assert report['simultaneous_uncommitted_writes_observed']['idle_transactions']==1,report
+          assert report['simultaneous_uncommitted_writes_observed']['active_writers']==7,report
+          assert report['simultaneous_uncommitted_writes_observed']['blocked_transactions']==7,report
+          assert len(report['simultaneous_uncommitted_writes_observed']['blocking_edges'])==7,report
+          assert report['contention_model']=='ONE_COMMIT_HOLDER_SEVEN_SERIALIZED_WAITERS_ON_SHARED_FG_BALANCE',report
+          assert report['shared_fg_balance_key']=={
+            'product_id':'c8c10000-0000-4000-8000-000000000004',
+            'location_id':'c8c20000-0000-4000-8000-000000000001',
+            'quality_grade':'GRADE_A',
+          },report
           assert report['reconciliation']=={
             'posted_qc':8,'fg_qty':80,'current_hpp':560,
             'wip_net':0,'fg_net':560,'accrued_net':-560,
