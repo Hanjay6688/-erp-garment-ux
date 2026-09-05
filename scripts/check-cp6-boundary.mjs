@@ -802,7 +802,9 @@ for (const token of [
   'erp_schema_owners_grants_sequences_rows=IDENTICAL', 'status=PASS',
 ]) assert.ok(cloneVerifier.includes(token), `CP6 disposable clone verifier missing: ${token}`)
 for (const token of [
-  'cp6_preflight|cp6_race', "supabase_db_cp5-local", "trap restore_source_connections EXIT",
+  'cp6_preflight|cp6_race|cp6_auth',
+  'cp6_auth|postgresql://postgres:postgres@127.0.0.1:54322/cp6_auth',
+  "supabase_db_cp5-local", "trap restore_source_connections EXIT",
   "admin_psql", "psql -U supabase_admin -d template1",
   "test \"$(admin_psql -c 'select current_user')\" = 'supabase_admin'",
   "test \"$source_pgurl\" = 'postgresql://postgres:postgres@127.0.0.1:54322/postgres'",
