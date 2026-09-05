@@ -72,6 +72,18 @@ assert.equal(migrationLedgerSha, 'd628334354f4f9c5cdbbc39f1c8ee1a54b0c283cd178f5
 assert.equal(occurrences(rollback, migrationFileSha), 4)
 assert.equal(occurrences(rollback, migrationLedgerSha), 4)
 
+const rollbackBusinessLockStart = rollback.indexOf('lock table\n  erp.audit_logs,')
+const rollbackBusinessLockEnd = rollback.indexOf('\nin share row exclusive mode;', rollbackBusinessLockStart)
+assert.ok(rollbackBusinessLockStart >= 0 && rollbackBusinessLockEnd > rollbackBusinessLockStart)
+const rollbackBusinessLocks = rollback.slice(rollbackBusinessLockStart, rollbackBusinessLockEnd)
+for (const relation of [
+  'erp.audit_logs', 'erp.idempotency_requests', 'erp.products',
+  'erp.vendor_invoices', 'erp.vendor_invoice_items',
+  'erp.laundry_deliveries', 'erp.laundry_receipts',
+  'erp.qc_inspections', 'erp.qc_inspection_items', 'erp.wip_stage_events',
+]) assert.ok(rollbackBusinessLocks.includes(relation),
+  `v2.6.20a rollback does not fence counted/writer relation ${relation}`)
+
 const sameTimestampMigrations = readdirSync(resolve(root, 'supabase/migrations'))
   .filter((name) => name.startsWith('20260905110913_'))
 const sameTimestampRollbacks = readdirSync(resolve(root, 'supabase/rollbacks'))
@@ -164,6 +176,7 @@ for (const token of [
   'anonymous_unmapped_inactive_denial', 'viewer_laundry_and_qc_read_only',
   'non_admin_operator_reaches_domain_guard', 'direct_cp6_table_denial',
   'negative_mutation_transaction_residue_zero', 'auth_app_role_audit_idempotency_context_cleanup_zero',
+  'confirm_high_risk: true',
   "assert.notEqual(new URL(baseUrl).hostname, 'vlxdhpkjeevubjxexnfo.supabase.co'",
   'production_go: false',
 ]) assert.ok(auth.includes(token), `Real post-CP6 Auth/JWT proof token missing: ${token}`)

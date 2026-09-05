@@ -122,6 +122,10 @@ async function createRole(ownerToken, label, permissionKeys) {
       name: `CP6 ${label} ${safeRunId}`,
       description: `CP6 real JWT ${label}`,
       permission_keys: permissionKeys,
+      // Posting/creating production facts is intentionally high-risk. This
+      // mirrors the explicit Access Control UX acknowledgement; omitting it
+      // must remain a backend rejection, not a test bypass.
+      confirm_high_risk: true,
       change_reason: `CP6 ${safeRunId} create ${label} role`,
     },
     p_client_request_id: requestId,

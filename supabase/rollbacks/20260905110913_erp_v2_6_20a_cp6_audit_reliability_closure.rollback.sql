@@ -52,6 +52,7 @@ lock table
   erp.laundry_receipts,
   erp.laundry_receipt_batch_size_lines,
   erp.laundry_receipt_lines,
+  erp.products,
   erp.qc_inspections,
   erp.qc_inspection_items,
   erp.vendor_invoice_items,
