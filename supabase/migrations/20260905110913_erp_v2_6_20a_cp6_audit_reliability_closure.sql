@@ -383,7 +383,7 @@ begin$replacement$;
     join erp.brands b on b.id=p.brand_id and b.is_active
     join erp.sizes s on s.id=p.size_id and s.is_active
     where p.is_active and p.is_portal_visible
-      and v_scope='QC' and exists(
+      and(v_scope<>'QC' or exists(
         select 1
         from erp.laundry_receipt_batch_size_lines rx
         join erp.laundry_receipt_lines rl on rl.id=rx.receipt_line_id
@@ -404,7 +404,7 @@ begin$replacement$;
             d.delivery_number,po.po_number,g.group_number,m.model_code,
             m.model_name,b.brand_code,b.brand_name,p.sku,p.product_name,
             s.size_code)) like '%'||v_query||'%')
-      )
+      ))
     order by b.brand_name,p.sku,m.model_name,p.color_name,s.sort_order,p.id
     limit v_product_limit+1
   ) x;$replacement$;

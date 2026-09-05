@@ -66,9 +66,9 @@ for (const [path, sql] of [
 const migrationBytes = Buffer.from(migration, 'utf8')
 const migrationFileSha = sha256(migrationBytes)
 const migrationLedgerSha = sha256(migrationBytes.subarray(0, -1))
-assert.equal(migrationBytes.length, 25849, 'v2.6.20a byte count changed; update all exact evidence together')
-assert.equal(migrationFileSha, '4ddafa3af937da7a8c0beb4a6a74d9d1447ef6f9c43b321fd513726ba597fcb2')
-assert.equal(migrationLedgerSha, 'd628334354f4f9c5cdbbc39f1c8ee1a54b0c283cd178f582191a98dfa5224347')
+assert.equal(migrationBytes.length, 25850, 'v2.6.20a byte count changed; update all exact evidence together')
+assert.equal(migrationFileSha, '03e0dcaaafecb9107d08d0c44e55b719fbaed63cd8881872423a0e9457a429cd')
+assert.equal(migrationLedgerSha, '1b1b821d0a2d69a653a894c3bb407974c97bef1897d2a0f568d0264270542298')
 assert.equal(occurrences(rollback, migrationFileSha), 4)
 assert.equal(occurrences(rollback, migrationLedgerSha), 4)
 
@@ -113,6 +113,7 @@ for (const token of [
   'v_product_limit constant integer:=500', 'limit v_collection_limit+1',
   'limit v_product_limit+1', "'collection_window',jsonb_build_object(",
   "'query_required_for_more',true", "'products_relevant_to_live_qc',v_scope='QC'",
+  "and(v_scope<>'QC' or exists(",
   "'any_truncated',v_products_truncated or v_ready_truncated",
 ]) assert.ok(migration.includes(token), `Bounded workspace token missing: ${token}`)
 assert.ok(occurrences(migration, 'limit v_collection_limit+1') >= 4,
