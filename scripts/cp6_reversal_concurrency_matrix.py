@@ -94,9 +94,31 @@ def facade_operation(
     }
 
 
-def invoice_post_operation(invoice_id: str) -> dict[str, Any]:
+def invoice_post_operation(
+    invoice_id: str,
+    deferred_item: dict[str, Any] | None = None,
+) -> dict[str, Any]:
     def invoke(cur):
         set_operator_claims(cur)
+        # The reverse-receipt-first schedule cannot pre-link a DRAFT item:
+        # reverse_laundry_receipt correctly treats every non-REVERSED linked
+        # invoice as an existing dependency.  Link the draft inside the
+        # competing transaction, then exercise the real production post.
+        if deferred_item is not None:
+            cur.execute(
+                """
+                insert into erp.vendor_invoice_items(
+                  id,invoice_id,receipt_line_id,description,
+                  qty_pcs,actual_rate,actual_amount
+                ) values(%s::uuid,%s::uuid,%s::uuid,
+                  'CP6 matrix deferred exact receipt',10,%s,%s)
+                """,
+                (
+                    deferred_item['invoice_item_id'], invoice_id,
+                    deferred_item['receipt_line_id'], deferred_item['rate'],
+                    deferred_item['rate'] * 10,
+                ),
+            )
         cur.execute('select erp.post_vendor_invoice(%s::uuid)', (invoice_id,))
         return None
 
@@ -387,7 +409,12 @@ def setup_qc(case: str, quantity: int = 10) -> dict[str, Any]:
     return item
 
 
-def create_invoice(item: dict[str, Any], case: str, rate: int = 9) -> str:
+def create_invoice(
+    item: dict[str, Any],
+    case: str,
+    rate: int = 9,
+    link_item: bool = True,
+) -> str:
     invoice_id = str(uuid.uuid5(REQUEST_NAMESPACE, f'{case}:INVOICE'))
     invoice_item_id = str(uuid.uuid5(REQUEST_NAMESPACE, f'{case}:INVOICE:ITEM'))
     with connect() as conn, conn.cursor() as cur:
@@ -401,17 +428,21 @@ def create_invoice(item: dict[str, Any], case: str, rate: int = 9) -> str:
             """,
             (invoice_id, f'CP6-MX-VI-{case}', VENDOR, rate * 10, OPERATOR_APP),
         )
-        cur.execute(
-            """
-            insert into erp.vendor_invoice_items(
-              id,invoice_id,receipt_line_id,description,qty_pcs,actual_rate,actual_amount
-            ) values(%s::uuid,%s::uuid,%s::uuid,'CP6 matrix exact receipt',10,%s,%s)
-            """,
-            (invoice_item_id, invoice_id, item['receipt_line_id'], rate, rate * 10),
-        )
+        if link_item:
+            cur.execute(
+                """
+                insert into erp.vendor_invoice_items(
+                  id,invoice_id,receipt_line_id,description,
+                  qty_pcs,actual_rate,actual_amount
+                ) values(%s::uuid,%s::uuid,%s::uuid,
+                  'CP6 matrix exact receipt',10,%s,%s)
+                """,
+                (invoice_item_id, invoice_id, item['receipt_line_id'], rate, rate * 10),
+            )
         conn.commit()
     item['invoice_id'] = invoice_id
     item['invoice_item_id'] = invoice_item_id
+    item['invoice_rate'] = rate
     return invoice_id
 
 
@@ -454,6 +485,12 @@ def state(case: str) -> dict[str, Any]:
             join erp.laundry_delivery_lines dl on dl.id=rl.delivery_line_id
             join erp.laundry_deliveries d on d.id=dl.delivery_id
             where d.po_id=po.id order by vi.created_at desc,vi.id desc limit 1),
+          'invoice_header_status',(select vi.status from erp.vendor_invoices vi
+            where vi.invoice_number='CP6-MX-VI-'||substring(po.po_number from 8)
+            order by vi.created_at desc,vi.id desc limit 1),
+          'invoice_item_count',(select count(*) from erp.vendor_invoice_items vii
+            join erp.vendor_invoices vi on vi.id=vii.invoice_id
+            where vi.invoice_number='CP6-MX-VI-'||substring(po.po_number from 8)),
           'receipt_cost_status',(select rl.actual_cost_status
             from erp.laundry_receipt_lines rl
             join erp.laundry_receipts r on r.id=rl.receipt_id
@@ -556,17 +593,29 @@ def main():
     require(report['states']['failed_wash_vs_reverse_delivery'], posted_receipts=1, failed_attempts=1)
 
     item = setup_receipt('REVRECEIPT_INVOICE')
-    invoice_id = create_invoice(item, 'REVRECEIPT_INVOICE')
+    invoice_id = create_invoice(item, 'REVRECEIPT_INVOICE', link_item=False)
     report['races']['reverse_receipt_vs_vendor_invoice'] = run_pair(
         'REVERSE_RECEIPT_VS_VENDOR_INVOICE',
         facade_operation('REVERSE_RECEIPT', {
             'receipt_id': item['receipt_id'], 'reason': 'CP6 matrix receipt reversal wins invoice',
         }, request_id('REVRECEIPT_INVOICE:RACE:REVRECEIPT'), item['receipt_version']),
-        invoice_post_operation(invoice_id), 'REJECT',
-        ('Vendor invoice can only bill POSTED laundry receipt lines',),
+        invoice_post_operation(invoice_id, {
+            'invoice_item_id': item['invoice_item_id'],
+            'receipt_line_id': item['receipt_line_id'],
+            'rate': item['invoice_rate'],
+        }), 'REJECT',
+        (
+            'Vendor invoice can only bill POSTED laundry receipt lines',
+            'Vendor invoice lifecycle lost its authoritative POSTED Laundry receipt',
+        ),
     )
     report['states']['reverse_receipt_vs_vendor_invoice'] = state('REVRECEIPT_INVOICE')
-    require(report['states']['reverse_receipt_vs_vendor_invoice'], reversed_receipts=1, invoice_status='DRAFT')
+    require(
+        report['states']['reverse_receipt_vs_vendor_invoice'],
+        reversed_receipts=1,
+        invoice_header_status='DRAFT',
+        invoice_item_count=0,
+    )
 
     item = setup_receipt('REVRECEIPT_QC')
     report['races']['reverse_receipt_vs_final_sku'] = run_pair(
