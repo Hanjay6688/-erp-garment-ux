@@ -111,6 +111,7 @@ assert.deepEqual([...rpcOwnership].sort(), [
   'src/auth/AuthProvider.tsx:erp_get_my_access_v1',
   'src/useLaundryQcWorkspace.ts:erp_get_laundry_qc_workspace_v1',
   'src/useLaundryQcWorkspace.ts:erp_save_laundry_qc_action_v1',
+  'src/useLaundryQcWorkspace.ts:erp_search_final_sku_products_v1',
 ].sort(), 'Browser RPC ownership drift')
 
 console.log(`Source ownership passed: ${reachable.size} runtime files, ${rpcOwnership.size} owned RPC boundaries, no orphan or direct table access.`)

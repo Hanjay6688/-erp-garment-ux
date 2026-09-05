@@ -66,8 +66,11 @@ REQUESTS = {
     'failed_wash_reverse': 'c8c60000-0000-4000-8000-000000000021',
     'f02_first_delivery': 'c8e60000-0000-4000-8000-000000000001',
     'f02_physical_return': 'c8e60000-0000-4000-8000-000000000002',
-    'f02_backdated_rejected': 'c8e60000-0000-4000-8000-000000000003',
-    'f02_later_delivery': 'c8e60000-0000-4000-8000-000000000004',
+    'f02_before_first_rejected': 'c8e60000-0000-4000-8000-000000000003',
+    'f02_between_rejected': 'c8e60000-0000-4000-8000-000000000004',
+    'f02_concurrent_rejected_a': 'c8e60000-0000-4000-8000-000000000005',
+    'f02_concurrent_rejected_b': 'c8e60000-0000-4000-8000-000000000006',
+    'f02_later_delivery': 'c8e60000-0000-4000-8000-000000000007',
 }
 
 
@@ -92,6 +95,27 @@ def scalar(query: str, params=()):
         row = cur.fetchone()
         conn.commit()
         return row[0] if row else None
+
+
+def observe_blocker(
+    name: str,
+    holder: dict[str, Any],
+    waiter: dict[str, Any],
+    waiter_started: threading.Event,
+) -> bool:
+    """Observe the exact holder PID in pg_blocking_pids for every schedule."""
+    if not waiter_started.wait(timeout=10):
+        raise RuntimeError(f'{name}: waiter never published its backend PID')
+    deadline = time.monotonic() + HOLD_SECONDS
+    while time.monotonic() < deadline:
+        holder_pid = holder.get('backend_pid')
+        waiter_pid = waiter.get('backend_pid')
+        if holder_pid and waiter_pid:
+            blockers = scalar('select pg_blocking_pids(%s)', (waiter_pid,))
+            if holder_pid in blockers:
+                return True
+        time.sleep(0.025)
+    return False
 
 
 def action(cur, action_name: str, payload: dict[str, Any], request_id: str, expected_version: int):
@@ -133,6 +157,7 @@ def run_race(
     a test-induced deadlock.
     """
     started = threading.Event()
+    waiter_started = threading.Event()
     winner: dict[str, Any] = {}
     loser: dict[str, Any] = {}
 
@@ -142,6 +167,8 @@ def run_race(
             with conn.cursor() as cur:
                 cur.execute("set local lock_timeout='10s'")
                 set_operator_context(cur)
+                cur.execute('select pg_backend_pid()')
+                winner['backend_pid'] = cur.fetchone()[0]
                 winner['response'] = action(
                     cur, action_name, payload, winner_request, expected_version,
                 )
@@ -165,6 +192,9 @@ def run_race(
             with conn.cursor() as cur:
                 cur.execute("set local lock_timeout='10s'")
                 set_operator_context(cur)
+                cur.execute('select pg_backend_pid()')
+                loser['backend_pid'] = cur.fetchone()[0]
+                waiter_started.set()
                 loser['unexpected_response'] = action(
                     cur, action_name, payload, loser_request, expected_version,
                 )
@@ -186,20 +216,29 @@ def run_race(
     second = threading.Thread(target=waiter, daemon=True)
     first.start()
     second.start()
+    lock_observed = observe_blocker(name, winner, loser, waiter_started)
     first.join(timeout=20)
     second.join(timeout=20)
     if first.is_alive() or second.is_alive():
         raise RuntimeError(f'{name} race thread timeout')
     if winner.get('status') != 'PASS' or loser.get('status') != 'EXPECTED_REJECTION':
         raise RuntimeError(f'{name} race mismatch: winner={winner}, loser={loser}')
-    if loser.get('elapsed_seconds', 0) < WAIT_FLOOR_SECONDS:
-        raise RuntimeError(f'{name} did not observe a real serialization wait: {loser}')
-    return {'winner': winner, 'loser': loser}
+    if loser.get('elapsed_seconds', 0) < WAIT_FLOOR_SECONDS or not lock_observed:
+        raise RuntimeError(
+            f'{name} did not observe canonical PID blocking: '
+            f'blocker={lock_observed}, loser={loser}'
+        )
+    return {
+        'winner': winner,
+        'loser': loser,
+        'pg_blocking_pids_observed': lock_observed,
+    }
 
 
 def run_first_accrual_creation_race() -> dict[str, Any]:
     """Prove two first callers create one state row and one money delta."""
     first_finished = threading.Event()
+    waiter_started = threading.Event()
     first: dict[str, Any] = {}
     second: dict[str, Any] = {}
 
@@ -209,6 +248,8 @@ def run_first_accrual_creation_race() -> dict[str, Any]:
             with conn.cursor() as cur:
                 cur.execute("set local lock_timeout='10s'")
                 set_operator_claims(cur)
+                cur.execute('select pg_backend_pid()')
+                first['backend_pid'] = cur.fetchone()[0]
                 cur.execute(
                     'select erp.sync_laundry_accrual(%s::uuid,%s::date)',
                     (FIRST_ACCRUAL_PO, '2026-09-04'),
@@ -233,6 +274,9 @@ def run_first_accrual_creation_race() -> dict[str, Any]:
             with conn.cursor() as cur:
                 cur.execute("set local lock_timeout='10s'")
                 set_operator_claims(cur)
+                cur.execute('select pg_backend_pid()')
+                second['backend_pid'] = cur.fetchone()[0]
+                waiter_started.set()
                 cur.execute(
                     'select erp.sync_laundry_accrual(%s::uuid,%s::date)',
                     (FIRST_ACCRUAL_PO, '2026-09-04'),
@@ -251,19 +295,29 @@ def run_first_accrual_creation_race() -> dict[str, Any]:
     two = threading.Thread(target=waiter, daemon=True)
     one.start()
     two.start()
+    lock_observed = observe_blocker(
+        'FIRST_ACCRUAL_CREATION', first, second, waiter_started,
+    )
     one.join(timeout=20)
     two.join(timeout=20)
     if one.is_alive() or two.is_alive():
         raise RuntimeError('FIRST_ACCRUAL_CREATION race thread timeout')
     if first.get('status') != 'PASS' or second.get('status') != 'PASS':
         raise RuntimeError(f'First accrual race mismatch: first={first}, second={second}')
-    if second.get('elapsed_seconds', 0) < WAIT_FLOOR_SECONDS:
-        raise RuntimeError(f'Second first-accrual caller did not wait for the PO_HPP fence: {second}')
-    return {'first': first, 'second': second}
+    if second.get('elapsed_seconds', 0) < WAIT_FLOOR_SECONDS or not lock_observed:
+        raise RuntimeError(
+            'Second first-accrual caller lacked canonical PID-blocking evidence: '
+            f'blocker={lock_observed}, second={second}'
+        )
+    return {
+        'first': first,
+        'second': second,
+        'pg_blocking_pids_observed': lock_observed,
+    }
 
 
 def run_f02_physical_prefix_proof() -> dict[str, Any]:
-    """Reject redispatch before return time and accept it after return time."""
+    """Reject every impossible insertion into immutable physical history."""
     group_version = int(scalar(
         'select row_version from erp.cutting_groups where id=%s::uuid', (F02_GROUP,),
     ))
@@ -311,37 +365,152 @@ def run_f02_physical_prefix_proof() -> dict[str, Any]:
     group_version = int(scalar(
         'select row_version from erp.cutting_groups where id=%s::uuid', (F02_GROUP,),
     ))
-    backdated_payload = {
+    before_first_payload = {
         'distribution_batch_id': F02_BATCH,
         'vendor_id': VENDOR,
         'wash_process_id': PROCESS,
         'target_dyeing_color': 'NAVY',
-        'physical_at': '2026-09-02T11:00:00Z',
-        'reason': 'CP6 F02 forbidden backdated redispatch',
-        'notes': 'Must not precede the linked day-three return',
+        'physical_at': '2026-09-01T10:30:00Z',
+        'reason': 'CP6 F02 forbidden insertion before first dispatch',
+        'notes': 'Would make the future 11:00 physical prefix negative',
         'lines': [{'size_id': SIZE, 'qty_sent_pcs': 10}],
     }
     rejection_errors: list[str] = []
+    # Replay the exact same rejected envelope. A domain failure may never
+    # leave an idempotency row that turns a later retry into a false success.
     for _ in range(2):
         conn = connect()
         try:
             with conn.cursor() as cur:
                 set_operator_context(cur)
                 action(
-                    cur, 'POST_DELIVERY', backdated_payload,
-                    REQUESTS['f02_backdated_rejected'], group_version,
+                    cur, 'POST_DELIVERY', before_first_payload,
+                    REQUESTS['f02_before_first_rejected'], group_version,
                 )
             conn.commit()
             raise RuntimeError('F02 backdated redispatch unexpectedly committed')
         except psycopg.Error as exc:
             conn.rollback()
-            if 'precedes sufficient linked physical return' not in str(exc):
-                raise RuntimeError(f'F02 backdated redispatch returned wrong error: {exc}') from exc
+            if 'future distribution batch/size history negative' not in str(exc):
+                raise RuntimeError(
+                    f'F02 before-first insertion returned wrong error: {exc}'
+                ) from exc
             rejection_errors.append(str(exc).splitlines()[0])
         finally:
             conn.close()
 
-    later_payload = dict(backdated_payload)
+    between_payload = dict(before_first_payload)
+    between_payload.update({
+        'physical_at': '2026-09-02T11:00:00Z',
+        'reason': 'CP6 F02 forbidden insertion between dispatch and return',
+        'notes': 'Cannot spend custody that only returns on day three',
+    })
+    try:
+        single_action(
+            'POST_DELIVERY', between_payload,
+            REQUESTS['f02_between_rejected'], group_version,
+        )
+        raise RuntimeError('F02 between-dispatch-and-return insertion unexpectedly committed')
+    except psycopg.Error as exc:
+        if not any(token in str(exc) for token in (
+            'precedes sufficient linked physical return',
+            'future distribution batch/size history negative',
+        )):
+            raise RuntimeError(
+                f'F02 between-event insertion returned wrong error: {exc}'
+            ) from exc
+        rejection_errors.append(str(exc).splitlines()[0])
+
+    # Two already-open operator transactions exercise the same rejected
+    # backdate concurrently. The first failed statement deliberately retains
+    # its transaction locks until rollback; the second must be observed
+    # blocked by that exact backend and then independently reject. Neither may
+    # leave a document or idempotency envelope.
+    holder_ready = threading.Event()
+    waiter_started = threading.Event()
+    holder: dict[str, Any] = {}
+    waiter: dict[str, Any] = {}
+
+    def rejected_holder():
+        conn = connect()
+        try:
+            with conn.cursor() as cur:
+                cur.execute("set local lock_timeout='10s'")
+                set_operator_context(cur)
+                cur.execute('select pg_backend_pid()')
+                holder['backend_pid'] = cur.fetchone()[0]
+                try:
+                    action(
+                        cur, 'POST_DELIVERY', before_first_payload,
+                        REQUESTS['f02_concurrent_rejected_a'], group_version,
+                    )
+                    holder['status'] = 'UNEXPECTED_SUCCESS'
+                except psycopg.Error as exc:
+                    holder['error'] = str(exc)
+                    holder['status'] = (
+                        'EXPECTED_REJECTION'
+                        if 'future distribution batch/size history negative' in str(exc)
+                        else 'WRONG_ERROR'
+                    )
+                    holder_ready.set()
+                    time.sleep(HOLD_SECONDS)
+            conn.rollback()
+        finally:
+            holder_ready.set()
+            conn.close()
+
+    def rejected_waiter():
+        holder_ready.wait(timeout=10)
+        began = time.monotonic()
+        conn = connect()
+        try:
+            with conn.cursor() as cur:
+                cur.execute("set local lock_timeout='10s'")
+                set_operator_context(cur)
+                cur.execute('select pg_backend_pid()')
+                waiter['backend_pid'] = cur.fetchone()[0]
+                waiter_started.set()
+                try:
+                    action(
+                        cur, 'POST_DELIVERY', before_first_payload,
+                        REQUESTS['f02_concurrent_rejected_b'], group_version,
+                    )
+                    waiter['status'] = 'UNEXPECTED_SUCCESS'
+                except psycopg.Error as exc:
+                    waiter['error'] = str(exc)
+                    waiter['status'] = (
+                        'EXPECTED_REJECTION'
+                        if 'future distribution batch/size history negative' in str(exc)
+                        else 'WRONG_ERROR'
+                    )
+            conn.rollback()
+        finally:
+            waiter['elapsed_seconds'] = round(time.monotonic() - began, 3)
+            conn.close()
+
+    first = threading.Thread(target=rejected_holder, daemon=True)
+    second = threading.Thread(target=rejected_waiter, daemon=True)
+    first.start()
+    second.start()
+    concurrent_blocker = observe_blocker(
+        'F02_CONCURRENT_BACKDATES', holder, waiter, waiter_started,
+    )
+    first.join(timeout=20)
+    second.join(timeout=20)
+    if first.is_alive() or second.is_alive():
+        raise RuntimeError('F02 concurrent rejected backdate thread timeout')
+    if (
+        holder.get('status') != 'EXPECTED_REJECTION'
+        or waiter.get('status') != 'EXPECTED_REJECTION'
+        or waiter.get('elapsed_seconds', 0) < WAIT_FLOOR_SECONDS
+        or not concurrent_blocker
+    ):
+        raise RuntimeError(
+            'F02 concurrent backdate invariant mismatch: '
+            f'holder={holder}, waiter={waiter}, blocker={concurrent_blocker}'
+        )
+
+    later_payload = dict(before_first_payload)
     later_payload.update({
         'physical_at': '2026-09-04T11:00:00Z',
         'reason': 'CP6 F02 lawful post-return redispatch',
@@ -381,7 +550,7 @@ def run_f02_physical_prefix_proof() -> dict[str, Any]:
             from erp.wip_stage_events where cutting_group_id=%s::uuid
               and physical_at<='2026-09-04 11:00:00+00'),
           'rejected_request_rows',(select count(*) from erp.idempotency_requests
-            where client_request_id=%s::uuid),
+            where client_request_id in(%s::uuid,%s::uuid,%s::uuid,%s::uuid)),
           'execution_context_rows',(select count(*)
             from erp.cp6_laundry_qc_execution_context)
         )
@@ -389,7 +558,10 @@ def run_f02_physical_prefix_proof() -> dict[str, Any]:
         (
             F02_PO, F02_PO, first_delivery_id, first_delivery_id,
             F02_GROUP, F02_GROUP, F02_GROUP,
-            REQUESTS['f02_backdated_rejected'],
+            REQUESTS['f02_before_first_rejected'],
+            REQUESTS['f02_between_rejected'],
+            REQUESTS['f02_concurrent_rejected_a'],
+            REQUESTS['f02_concurrent_rejected_b'],
         ),
     )
     expected = {
@@ -409,8 +581,16 @@ def run_f02_physical_prefix_proof() -> dict[str, Any]:
         )
     return {
         'status': 'PASS',
-        'same_rejected_uuid_attempts': len(rejection_errors),
+        'same_rejected_uuid_attempts': 2,
+        'rejected_temporal_variants': len(rejection_errors),
         'rejection_errors': rejection_errors,
+        'before_first_rejected': True,
+        'between_dispatch_and_return_rejected': True,
+        'concurrent_backdates': {
+            'holder': holder,
+            'waiter': waiter,
+            'pg_blocking_pids_observed': concurrent_blocker,
+        },
         'later_delivery_id': str(later_delivery['delivery_id']),
         'timeline': timeline,
     }
@@ -430,6 +610,7 @@ def run_committed_action_race(
 ) -> dict[str, Any]:
     """Hold the winner uncommitted after its action acquired business locks."""
     posted = threading.Event()
+    waiter_started = threading.Event()
     winner: dict[str, Any] = {}
     loser: dict[str, Any] = {}
 
@@ -439,6 +620,8 @@ def run_committed_action_race(
             with conn.cursor() as cur:
                 cur.execute("set local lock_timeout='10s'")
                 set_operator_context(cur)
+                cur.execute('select pg_backend_pid()')
+                winner['backend_pid'] = cur.fetchone()[0]
                 winner['response'] = action(
                     cur, winner_action, winner_payload, winner_request,
                     winner_expected_version,
@@ -463,6 +646,9 @@ def run_committed_action_race(
             with conn.cursor() as cur:
                 cur.execute("set local lock_timeout='10s'")
                 set_operator_context(cur)
+                cur.execute('select pg_backend_pid()')
+                loser['backend_pid'] = cur.fetchone()[0]
+                waiter_started.set()
                 loser['unexpected_response'] = action(
                     cur, loser_action, loser_payload, loser_request,
                     loser_expected_version,
@@ -485,15 +671,23 @@ def run_committed_action_race(
     second = threading.Thread(target=waiter, daemon=True)
     first.start()
     second.start()
+    lock_observed = observe_blocker(name, winner, loser, waiter_started)
     first.join(timeout=20)
     second.join(timeout=20)
     if first.is_alive() or second.is_alive():
         raise RuntimeError(f'{name} race thread timeout')
     if winner.get('status') != 'PASS' or loser.get('status') != 'EXPECTED_REJECTION':
         raise RuntimeError(f'{name} race mismatch: winner={winner}, loser={loser}')
-    if loser.get('elapsed_seconds', 0) < WAIT_FLOOR_SECONDS:
-        raise RuntimeError(f'{name} did not wait for the winner receipt lock: {loser}')
-    return {'winner': winner, 'loser': loser}
+    if loser.get('elapsed_seconds', 0) < WAIT_FLOOR_SECONDS or not lock_observed:
+        raise RuntimeError(
+            f'{name} lacked canonical PID-blocking evidence: '
+            f'blocker={lock_observed}, loser={loser}'
+        )
+    return {
+        'winner': winner,
+        'loser': loser,
+        'pg_blocking_pids_observed': lock_observed,
+    }
 
 
 def run_vendor_invoice_vs_receipt_reversal(
@@ -502,6 +696,7 @@ def run_vendor_invoice_vs_receipt_reversal(
 ) -> dict[str, Any]:
     """Prove invoice finalization owns the receipt lock before it commits AP."""
     posted = threading.Event()
+    waiter_started = threading.Event()
     winner: dict[str, Any] = {}
     loser: dict[str, Any] = {}
 
@@ -511,6 +706,8 @@ def run_vendor_invoice_vs_receipt_reversal(
             with conn.cursor() as cur:
                 cur.execute("set local lock_timeout='10s'")
                 set_operator_claims(cur)
+                cur.execute('select pg_backend_pid()')
+                winner['backend_pid'] = cur.fetchone()[0]
                 cur.execute('select erp.post_vendor_invoice(%s::uuid)', (VENDOR_INVOICE,))
                 posted.set()
                 time.sleep(HOLD_SECONDS)
@@ -532,6 +729,9 @@ def run_vendor_invoice_vs_receipt_reversal(
             with conn.cursor() as cur:
                 cur.execute("set local lock_timeout='10s'")
                 set_operator_context(cur)
+                cur.execute('select pg_backend_pid()')
+                loser['backend_pid'] = cur.fetchone()[0]
+                waiter_started.set()
                 loser['unexpected_response'] = action(
                     cur,
                     'REVERSE_RECEIPT',
@@ -560,15 +760,25 @@ def run_vendor_invoice_vs_receipt_reversal(
     second = threading.Thread(target=waiter, daemon=True)
     first.start()
     second.start()
+    lock_observed = observe_blocker(
+        'VENDOR_INVOICE_VS_REVERSE_RECEIPT', winner, loser, waiter_started,
+    )
     first.join(timeout=20)
     second.join(timeout=20)
     if first.is_alive() or second.is_alive():
         raise RuntimeError('VENDOR_INVOICE_VS_REVERSE_RECEIPT race thread timeout')
     if winner.get('status') != 'PASS' or loser.get('status') != 'EXPECTED_REJECTION':
         raise RuntimeError(f'Vendor invoice race mismatch: winner={winner}, loser={loser}')
-    if loser.get('elapsed_seconds', 0) < WAIT_FLOOR_SECONDS:
-        raise RuntimeError(f'Vendor invoice race did not retain the receipt lock: {loser}')
-    return {'winner': winner, 'loser': loser}
+    if loser.get('elapsed_seconds', 0) < WAIT_FLOOR_SECONDS or not lock_observed:
+        raise RuntimeError(
+            'Vendor invoice race lacked canonical PID-blocking evidence: '
+            f'blocker={lock_observed}, loser={loser}'
+        )
+    return {
+        'winner': winner,
+        'loser': loser,
+        'pg_blocking_pids_observed': lock_observed,
+    }
 
 
 def run_vendor_invoice_vs_final_sku(
@@ -578,6 +788,7 @@ def run_vendor_invoice_vs_final_sku(
 ) -> dict[str, Any]:
     """Prove invoice cost/AP commits before a waiting Final-SKU reads HPP."""
     posted = threading.Event()
+    waiter_started = threading.Event()
     invoice: dict[str, Any] = {}
     qc: dict[str, Any] = {}
 
@@ -587,6 +798,8 @@ def run_vendor_invoice_vs_final_sku(
             with conn.cursor() as cur:
                 cur.execute("set local lock_timeout='10s'")
                 set_operator_claims(cur)
+                cur.execute('select pg_backend_pid()')
+                invoice['backend_pid'] = cur.fetchone()[0]
                 cur.execute('select erp.post_vendor_invoice(%s::uuid)', (invoice_id,))
                 posted.set()
                 time.sleep(HOLD_SECONDS)
@@ -608,6 +821,9 @@ def run_vendor_invoice_vs_final_sku(
             with conn.cursor() as cur:
                 cur.execute("set local lock_timeout='10s'")
                 set_operator_context(cur)
+                cur.execute('select pg_backend_pid()')
+                qc['backend_pid'] = cur.fetchone()[0]
+                waiter_started.set()
                 qc['response'] = action(
                     cur, 'POST_FINAL_SKU', qc_payload,
                     REQUESTS['invoice_qc_post'], group_version,
@@ -626,15 +842,25 @@ def run_vendor_invoice_vs_final_sku(
     second = threading.Thread(target=waiter, daemon=True)
     first.start()
     second.start()
+    lock_observed = observe_blocker(
+        'VENDOR_INVOICE_VS_FINAL_SKU', invoice, qc, waiter_started,
+    )
     first.join(timeout=20)
     second.join(timeout=20)
     if first.is_alive() or second.is_alive():
         raise RuntimeError('VENDOR_INVOICE_VS_FINAL_SKU race thread timeout')
     if invoice.get('status') != 'PASS' or qc.get('status') != 'PASS':
         raise RuntimeError(f'Vendor invoice/Final-SKU race mismatch: invoice={invoice}, qc={qc}')
-    if qc.get('elapsed_seconds', 0) < WAIT_FLOOR_SECONDS:
-        raise RuntimeError(f'Final-SKU did not wait for invoice receipt lock: {qc}')
-    return {'invoice': invoice, 'qc': qc}
+    if qc.get('elapsed_seconds', 0) < WAIT_FLOOR_SECONDS or not lock_observed:
+        raise RuntimeError(
+            'Final-SKU lacked invoice PID-blocking evidence: '
+            f'blocker={lock_observed}, qc={qc}'
+        )
+    return {
+        'invoice': invoice,
+        'qc': qc,
+        'pg_blocking_pids_observed': lock_observed,
+    }
 
 
 def run_vendor_invoice_reversal_vs_final_sku(
@@ -644,6 +870,7 @@ def run_vendor_invoice_reversal_vs_final_sku(
 ) -> dict[str, Any]:
     """Prove invoice reversal restores estimate before waiting Final-SKU HPP."""
     reversed_invoice = threading.Event()
+    waiter_started = threading.Event()
     invoice: dict[str, Any] = {}
     qc: dict[str, Any] = {}
 
@@ -653,6 +880,8 @@ def run_vendor_invoice_reversal_vs_final_sku(
             with conn.cursor() as cur:
                 cur.execute("set local lock_timeout='10s'")
                 set_operator_claims(cur)
+                cur.execute('select pg_backend_pid()')
+                invoice['backend_pid'] = cur.fetchone()[0]
                 cur.execute(
                     'select erp.reverse_vendor_invoice(%s::uuid,%s)',
                     (invoice_id, 'CP6 concurrent invoice reversal versus Final-SKU'),
@@ -677,6 +906,9 @@ def run_vendor_invoice_reversal_vs_final_sku(
             with conn.cursor() as cur:
                 cur.execute("set local lock_timeout='10s'")
                 set_operator_context(cur)
+                cur.execute('select pg_backend_pid()')
+                qc['backend_pid'] = cur.fetchone()[0]
+                waiter_started.set()
                 qc['response'] = action(
                     cur, 'POST_FINAL_SKU', qc_payload,
                     REQUESTS['invoice_reversal_qc_post'], group_version,
@@ -695,15 +927,25 @@ def run_vendor_invoice_reversal_vs_final_sku(
     second = threading.Thread(target=waiter, daemon=True)
     first.start()
     second.start()
+    lock_observed = observe_blocker(
+        'VENDOR_INVOICE_REVERSAL_VS_FINAL_SKU', invoice, qc, waiter_started,
+    )
     first.join(timeout=20)
     second.join(timeout=20)
     if first.is_alive() or second.is_alive():
         raise RuntimeError('VENDOR_INVOICE_REVERSAL_VS_FINAL_SKU race thread timeout')
     if invoice.get('status') != 'PASS' or qc.get('status') != 'PASS':
         raise RuntimeError(f'Invoice reversal/Final-SKU race mismatch: invoice={invoice}, qc={qc}')
-    if qc.get('elapsed_seconds', 0) < WAIT_FLOOR_SECONDS:
-        raise RuntimeError(f'Final-SKU did not wait for invoice-reversal receipt lock: {qc}')
-    return {'invoice_reversal': invoice, 'qc': qc}
+    if qc.get('elapsed_seconds', 0) < WAIT_FLOOR_SECONDS or not lock_observed:
+        raise RuntimeError(
+            'Final-SKU lacked invoice-reversal PID-blocking evidence: '
+            f'blocker={lock_observed}, qc={qc}'
+        )
+    return {
+        'invoice_reversal': invoice,
+        'qc': qc,
+        'pg_blocking_pids_observed': lock_observed,
+    }
 
 
 def run_final_sku_before_vendor_invoice(
@@ -715,6 +957,7 @@ def run_final_sku_before_vendor_invoice(
 ) -> dict[str, Any]:
     """Hold Final-SKU uncommitted, then prove invoice lifecycle recosts it."""
     posted = threading.Event()
+    waiter_started = threading.Event()
     qc: dict[str, Any] = {}
     invoice: dict[str, Any] = {}
 
@@ -724,6 +967,8 @@ def run_final_sku_before_vendor_invoice(
             with conn.cursor() as cur:
                 cur.execute("set local lock_timeout='10s'")
                 set_operator_context(cur)
+                cur.execute('select pg_backend_pid()')
+                qc['backend_pid'] = cur.fetchone()[0]
                 qc['response'] = action(
                     cur, 'POST_FINAL_SKU', qc_payload, qc_request_id, group_version,
                 )
@@ -747,6 +992,9 @@ def run_final_sku_before_vendor_invoice(
             with conn.cursor() as cur:
                 cur.execute("set local lock_timeout='10s'")
                 set_operator_claims(cur)
+                cur.execute('select pg_backend_pid()')
+                invoice['backend_pid'] = cur.fetchone()[0]
+                waiter_started.set()
                 if reverse_invoice:
                     cur.execute(
                         'select erp.reverse_vendor_invoice(%s::uuid,%s)',
@@ -768,15 +1016,25 @@ def run_final_sku_before_vendor_invoice(
     second = threading.Thread(target=waiter, daemon=True)
     first.start()
     second.start()
+    lock_observed = observe_blocker(
+        'FINAL_SKU_BEFORE_VENDOR_INVOICE', qc, invoice, waiter_started,
+    )
     first.join(timeout=20)
     second.join(timeout=20)
     if first.is_alive() or second.is_alive():
         raise RuntimeError('FINAL_SKU_BEFORE_VENDOR_INVOICE race thread timeout')
     if qc.get('status') != 'PASS' or invoice.get('status') != 'PASS':
         raise RuntimeError(f'Final-SKU/invoice lifecycle race mismatch: qc={qc}, invoice={invoice}')
-    if invoice.get('elapsed_seconds', 0) < WAIT_FLOOR_SECONDS:
-        raise RuntimeError(f'Invoice lifecycle did not wait for Final-SKU receipt lock: {invoice}')
-    return {'qc': qc, 'invoice_reversal' if reverse_invoice else 'invoice': invoice}
+    if invoice.get('elapsed_seconds', 0) < WAIT_FLOOR_SECONDS or not lock_observed:
+        raise RuntimeError(
+            'Invoice lifecycle lacked Final-SKU PID-blocking evidence: '
+            f'blocker={lock_observed}, invoice={invoice}'
+        )
+    return {
+        'qc': qc,
+        'invoice_reversal' if reverse_invoice else 'invoice': invoice,
+        'pg_blocking_pids_observed': lock_observed,
+    }
 
 
 def run_invoice_reversal_vs_replacement_post(
@@ -1622,9 +1880,19 @@ def main():
     report['expected'] = expected
     if invariants != expected:
         raise RuntimeError(f'CP6 serialized-state invariant mismatch: expected={expected}, actual={invariants}')
+    report['race_count'] = len(report['races'])
+    report['all_blockers_observed'] = all(
+        value.get('pg_blocking_pids_observed') is True
+        for value in report['races'].values()
+    )
+    if report['race_count'] != 12 or not report['all_blockers_observed']:
+        raise RuntimeError(
+            'CP6 primary race evidence is incomplete: '
+            f"count={report['race_count']}, blockers={report['all_blockers_observed']}"
+        )
     report['status'] = 'PASS'
     REPORT.write_text(json.dumps(report, indent=2, sort_keys=True, default=str) + '\n', encoding='utf8')
-    print('CP6 Laundry/QC/FG concurrency passed: twelve serialized races plus physical-time prefix proof, including first-row accrual, invoice reversal/replacement, paid failed-wash versus physical receipt, and both invoice post/reversal scheduling directions versus Final-SKU/source reversal; no duplicate physical, finance, stock, or HPP fact.')
+    print('CP6 Laundry/QC/FG concurrency passed: twelve serialized races with all holder/waiter blocker PIDs observed, plus full physical-time prefix proof; no duplicate physical, finance, stock, or HPP fact.')
 
 
 if __name__ == '__main__':

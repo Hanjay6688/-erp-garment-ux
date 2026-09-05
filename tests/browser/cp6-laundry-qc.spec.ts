@@ -27,6 +27,7 @@ const ids = {
   productM: 'c8b20000-0000-4000-8000-000000000007',
   wrongProduct: 'c8b20000-0000-4000-8000-000000000008',
   wrongModel: 'c8b20000-0000-4000-8000-000000000009',
+  productBeyond500: 'c8b20000-0000-4000-8000-000000000010',
   delivery: 'c8b30000-0000-4000-8000-000000000001',
   deliveryLine: 'c8b30000-0000-4000-8000-000000000002',
   deliverySizeS: 'c8b30000-0000-4000-8000-000000000003',
@@ -50,6 +51,7 @@ type ContractOptions = {
 type ContractState = { actionAttempts: number; committed: boolean; failNextWorkspace: boolean }
 type ContractCalls = {
   workspace: Record<string, unknown>[]
+  productSearch: Record<string, unknown>[]
   actions: Record<string, unknown>[]
   unexpected: string[]
 }
@@ -130,6 +132,8 @@ function baseWorkspace(scope: 'LAUNDRY' | 'QC') {
     },
     collection_window: {
       transaction_limit: 200, product_limit: 500, query_required_for_more: true,
+      transaction_query_scope: 'SOURCE_QUEUE_AND_HISTORY',
+      product_search_contract: 'CP6_PRODUCT_SEARCH_V2620B', product_query_decoupled: true,
       products_relevant_to_live_qc: scope === 'QC', products_truncated: false,
       ready_batches_truncated: false, deliveries_truncated: false,
       qc_queue_truncated: false, qc_history_truncated: false, any_truncated: false,
@@ -233,7 +237,7 @@ function qcWorkspace(committed = false) {
 }
 
 async function installContract(page: Page, options: ContractOptions = {}): Promise<ContractCalls> {
-  const calls: ContractCalls = { workspace: [], actions: [], unexpected: [] }
+  const calls: ContractCalls = { workspace: [], productSearch: [], actions: [], unexpected: [] }
   const state = options.state ?? { actionAttempts: 0, committed: false, failNextWorkspace: false }
   await page.route(`${uatOrigin}/**`, async (route) => {
     const request = route.request()
@@ -269,6 +273,25 @@ async function installContract(page: Page, options: ContractOptions = {}): Promi
       }
       const scope = payload?.p_scope === 'QC' ? 'QC' : 'LAUNDRY'
       await json(route, scope === 'QC' ? qcWorkspace(state.committed) : laundryWorkspace(state.committed))
+      return
+    }
+    if (rpcName === 'erp_search_final_sku_products_v1') {
+      calls.productSearch.push(payload ?? {})
+      await json(route, {
+        contract_version: 'CP6_PRODUCT_SEARCH_V2620B',
+        source_laundry_receipt_batch_size_line_id: payload?.p_source_laundry_receipt_batch_size_line_id,
+        physical_at: payload?.p_physical_at,
+        query: typeof payload?.p_query === 'string' ? payload.p_query.toLowerCase() : null,
+        page_limit: 50,
+        products: [{
+          id: ids.productBeyond500, sku: '73999', name: 'Vivo Beyond 500',
+          model_id: ids.model, model_code: 'VIVO', model_name: 'Vivo Pants',
+          brand_id: ids.brand, brand_code: 'VIVO', brand_name: 'Vivo',
+          size_id: ids.sizeS, size_code: 'S', color: 'OCEAN',
+          effective_from: '2026-01-01T00:00:00Z', effective_to: null,
+        }],
+        has_more: false, next_cursor: null,
+      })
       return
     }
     if (rpcName === 'erp_save_laundry_qc_action_v1') {
@@ -623,6 +646,42 @@ test('CP6 QC binds exact receipt batch-size and lets server own stock and HPP', 
   })
   expect(JSON.stringify(calls.actions[0])).not.toContain('hpp')
   expect(JSON.stringify(calls.actions[0])).not.toContain('amount')
+  assertNoErrors()
+})
+
+test('CP6 QC finds an SKU beyond the initial catalog without hiding its source queue', async ({ page }, testInfo) => {
+  const assertNoErrors = watchErrors(page)
+  const calls = await installContract(page)
+  await signIn(page)
+  await openPage(page, testInfo.project.name, 'QC & Final SKU', 'QC & Final SKU')
+
+  const source = page.getByLabel('POTONGAN DENGAN GOOD LAUNDRY SIAP QC')
+  await source.selectOption(ids.group)
+  await page.getByRole('button', { name: 'Isi semua sebagai Good' }).click()
+  await page.getByLabel('WAKTU FISIK QC').fill('2026-09-04T08:00')
+  const product = page.getByLabel('Final SKU size S')
+  await expect(product.locator(`option[value="${ids.productBeyond500}"]`)).toHaveCount(0)
+
+  await page.getByLabel('Cari Final SKU size S').fill('73999')
+  await page.getByRole('button', { name: 'Cari SKU', exact: true }).click()
+  await expect.poll(() => calls.productSearch.length).toBe(1)
+  expect(calls.productSearch[0]).toMatchObject({
+    p_source_laundry_receipt_batch_size_line_id: ids.receiptSizeS,
+    p_physical_at: '2026-09-04T01:00:00.000Z',
+    p_query: '73999', p_after_sort_key: null, p_limit: 50,
+  })
+  await expect(product.locator(`option[value="${ids.productBeyond500}"]`))
+    .toHaveText('Vivo · 73999 · Vivo Pants · OCEAN')
+  await expect(source).toHaveValue(ids.group)
+  await expect(page.getByText(/antrean QC dan pilihan sumber tidak berubah/i)).toBeVisible()
+
+  await product.selectOption(ids.productBeyond500)
+  await page.getByLabel('WAKTU FISIK QC').fill('2026-09-04T08:01')
+  await expect(product).toHaveValue('')
+  await expect(product.locator(`option[value="${ids.productBeyond500}"]`)).toHaveCount(0)
+  expect(calls.workspace).toHaveLength(1)
+  expect(calls.actions).toEqual([])
+  expect(calls.unexpected).toEqual([])
   assertNoErrors()
 })
 

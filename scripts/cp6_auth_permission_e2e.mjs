@@ -6,16 +6,26 @@ import { randomBytes, randomUUID } from 'node:crypto'
 import { writeFileSync } from 'node:fs'
 
 const baseUrl = (process.env.SUPABASE_URL || '').replace(/\/$/, '')
+const authBaseUrl = (process.env.SUPABASE_AUTH_URL || baseUrl).replace(/\/$/, '')
+const restBaseUrl = (process.env.SUPABASE_REST_URL || baseUrl).replace(/\/$/, '')
+const restPrefix = process.env.SUPABASE_REST_PREFIX ?? '/rest/v1'
 const browserKey = process.env.SUPABASE_ANON_KEY || process.env.SUPABASE_PUBLISHABLE_KEY || ''
 const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || ''
-const pgurl = process.env.PGURL || ''
+const pgurl = process.env.CP6_AUTH_PGURL || process.env.PGURL || ''
+const authPgurl = process.env.CP6_AUTH_CONTROL_PGURL || process.env.PGURL || ''
+const disposableDatabase = process.env.CP6_AUTH_DATABASE_NAME || ''
 const reportPath = process.env.CP6_AUTH_REPORT || 'cp6-auth-permission-e2e.json'
 
 assert.ok(/^https?:\/\//.test(baseUrl), 'SUPABASE_URL is required')
+assert.ok(/^https?:\/\//.test(authBaseUrl), 'SUPABASE_AUTH_URL is invalid')
+assert.ok(/^https?:\/\//.test(restBaseUrl), 'SUPABASE_REST_URL is invalid')
 assert.ok(browserKey.length > 20, 'Supabase browser/publishable key is required')
 assert.ok(serviceKey.length > 20, 'SUPABASE_SERVICE_ROLE_KEY is required')
 assert.ok(pgurl.startsWith('postgresql://'), 'PGURL is required')
-assert.notEqual(new URL(baseUrl).hostname, 'vlxdhpkjeevubjxexnfo.supabase.co', 'Legacy is read-only forever')
+assert.ok(authPgurl.startsWith('postgresql://'), 'CP6_AUTH_CONTROL_PGURL is required')
+assert.ok(disposableDatabase, 'CP6_AUTH_DATABASE_NAME is required; positive Auth writes only run in a disposable clone')
+assert.notEqual(new URL(authBaseUrl).hostname, 'vlxdhpkjeevubjxexnfo.supabase.co', 'Legacy is read-only forever')
+assert.notEqual(new URL(restBaseUrl).hostname, 'vlxdhpkjeevubjxexnfo.supabase.co', 'Legacy is read-only forever')
 
 const runId = `${Date.now()}-${randomBytes(4).toString('hex')}`
 const safeRunId = runId.replace(/[^a-zA-Z0-9-]/g, '')
@@ -25,20 +35,45 @@ const roleIds = []
 const roleCodes = new Set()
 const requestIds = []
 const cases = []
+let positiveEvidence = null
+let privateSchemaEvidence = null
+const fixture = {
+  po: 'c8c40000-0000-4000-8000-000000000001',
+  group: 'c8c40000-0000-4000-8000-000000000003',
+  batch: 'c8c40000-0000-4000-8000-000000000008',
+  size: 'c8c10000-0000-4000-8000-000000000002',
+  vendor: 'c8c20000-0000-4000-8000-000000000002',
+  process: 'c8c20000-0000-4000-8000-000000000003',
+  location: 'c8c20000-0000-4000-8000-000000000001',
+  product: 'c8c10000-0000-4000-8000-000000000004',
+}
 
-function sql(statement) {
-  return execFileSync('psql', [pgurl, '-X', '-qAt', '-v', 'ON_ERROR_STOP=1', '-c', statement], {
+function runSql(url, statement) {
+  return execFileSync('psql', [url, '-X', '-qAt', '-v', 'ON_ERROR_STOP=1', '-c', statement], {
     encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'],
   }).trim()
 }
 
-async function request(path, { key = browserKey, token, method = 'GET', body } = {}) {
-  const response = await fetch(`${baseUrl}${path}`, {
+const sql = (statement) => runSql(pgurl, statement)
+const authSql = (statement) => runSql(authPgurl, statement)
+
+if (disposableDatabase) {
+  assert.equal(sql('select current_database()'), disposableDatabase,
+    'Positive CP6 Auth proof must target its exact disposable clone')
+  assert.notEqual(disposableDatabase, 'postgres', 'Positive CP6 Auth proof refuses the primary database')
+}
+
+async function request(path, {
+  key = browserKey, token, method = 'GET', body, headers = {},
+} = {}) {
+  const origin = path.startsWith('/auth/') ? authBaseUrl : restBaseUrl
+  const response = await fetch(`${origin}${path}`, {
     method,
     headers: {
       apikey: key,
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
       ...(body === undefined ? {} : { 'Content-Type': 'application/json' }),
+      ...headers,
     },
     body: body === undefined ? undefined : JSON.stringify(body),
   })
@@ -102,7 +137,81 @@ async function signIn(user) {
 }
 
 async function rpc(name, token, body = {}) {
-  return request(`/rest/v1/rpc/${name}`, { token, method: 'POST', body })
+  return request(`${restPrefix}/rpc/${name}`, { token, method: 'POST', body })
+}
+
+async function privateRpc(name, token, body = {}) {
+  return request(`${restPrefix}/rpc/${name}`, {
+    token,
+    method: 'POST',
+    body,
+    headers: { 'Accept-Profile': 'erp', 'Content-Profile': 'erp' },
+  })
+}
+
+async function cp6Action(session, action, payload, expectedVersion) {
+  const clientRequestId = randomUUID()
+  requestIds.push(clientRequestId)
+  const response = await rpc('erp_save_laundry_qc_action_v1', session.accessToken, {
+    p_action: action,
+    p_payload: payload,
+    p_client_request_id: clientRequestId,
+    p_expected_version: expectedVersion,
+  })
+  record(`rpc-${session.label}-${action.toLowerCase()}`, response, [200])
+  assert.equal(response.json?.contract_version, 'CP6_V2620')
+  assert.equal(response.json?.action, action)
+  assert.equal(response.json?.client_request_id, clientRequestId)
+  assert.equal(response.json?.committed, true)
+  return response.json
+}
+
+function findQueueRow(workspaceResponse) {
+  const queue = workspaceResponse.json?.qc_queue
+  assert.ok(Array.isArray(queue) && queue.length > 0, 'Real QC workspace lost its source queue')
+  const row = queue.find((candidate) => candidate.cutting_group_id === fixture.group)
+  assert.ok(row, 'Real QC source row was not returned through JWT/HTTP')
+  return row
+}
+
+function financialState() {
+  return JSON.parse(sql(`select jsonb_build_object(
+    'delivery_status',(select status from erp.laundry_deliveries
+      where po_id='${fixture.po}'::uuid order by created_at desc,id desc limit 1),
+    'receipt_status',(select r.status from erp.laundry_receipts r
+      join erp.laundry_deliveries d on d.id=r.delivery_id
+      where d.po_id='${fixture.po}'::uuid order by r.created_at desc,r.id desc limit 1),
+    'posted_qc',(select count(*) from erp.qc_inspections
+      where po_id='${fixture.po}'::uuid and status='POSTED'),
+    'reversed_qc',(select count(*) from erp.qc_inspections
+      where po_id='${fixture.po}'::uuid and status='REVERSED'),
+    'fg_qty',(select coalesce(sum(m.qty_signed),0) from erp.fg_stock_movements m
+      join erp.fg_lots l on l.id=m.lot_id where l.po_id='${fixture.po}'::uuid),
+    'active_laundry_hpp',(select coalesce(sum(
+        c.total_cost*greatest(coalesce(stock.qty,0),0)/nullif(h.qty_basis_pcs,0)
+      ),0)
+      from erp.hpp_versions h
+      join erp.hpp_version_components c on c.hpp_version_id=h.id
+        and c.component_type='LAUNDRY'
+      join erp.fg_lots l on l.id=h.lot_id
+      left join lateral(select sum(m.qty_signed)::numeric qty
+        from erp.fg_stock_movements m where m.lot_id=l.id) stock on true
+      where l.po_id='${fixture.po}'::uuid and h.is_current),
+    'wip_net',(select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
+      where l.po_id='${fixture.po}'::uuid and l.account_id=erp.account_id('WIP')),
+    'fg_net',(select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
+      where l.po_id='${fixture.po}'::uuid and l.account_id=erp.account_id('FG_INVENTORY')),
+    'accrued_net',(select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l
+      where l.po_id='${fixture.po}'::uuid and l.account_id=erp.account_id('ACCRUED_MANUFACTURING')),
+    'physical_ready',(select coalesce(unsent_ready_qty_pcs,0)
+      from erp.v_wip_control_status_v1 where cutting_group_id='${fixture.group}'::uuid),
+    'execution_context',(select count(*) from erp.cp6_laundry_qc_execution_context),
+    'unbalanced_journals',(select count(*) from(
+      select e.id from erp.journal_entries e join erp.journal_lines l
+        on l.journal_entry_id=e.id
+      where l.po_id='${fixture.po}'::uuid group by e.id having sum(l.debit)<>sum(l.credit)
+    ) x)
+  );`))
 }
 
 function bootstrapOwner(authId) {
@@ -229,7 +338,8 @@ try {
   ])
   const operatorRoleId = await createRole(ownerSession.accessToken, 'operator', [
     'production.laundry.view', 'production.laundry.create', 'production.laundry.post',
-    'production.final_sku.view', 'production.final_sku.post',
+    'production.laundry.reverse',
+    'production.final_sku.view', 'production.final_sku.post', 'production.final_sku.reverse',
   ])
   await mapUser(ownerSession.accessToken, operator, operatorRoleId)
   await mapUser(ownerSession.accessToken, viewer, viewerRoleId)
@@ -246,7 +356,9 @@ try {
   await myAccess(inactiveSession, false, 'APP_USER_INACTIVE')
   await myAccess(unmappedSession, false, 'APP_USER_NOT_FOUND')
   assert.ok(operatorAccess.permissions.includes('production.laundry.post'))
+  assert.ok(operatorAccess.permissions.includes('production.laundry.reverse'))
   assert.ok(operatorAccess.permissions.includes('production.final_sku.post'))
+  assert.ok(operatorAccess.permissions.includes('production.final_sku.reverse'))
   assert.deepEqual(
     [...viewerAccess.permissions].sort(),
     ['production.final_sku.view', 'production.laundry.view'].sort(),
@@ -259,8 +371,223 @@ try {
   const viewerQc = await workspace(viewerSession, 'QC')
   assert.equal(viewerLaundry.json?.contract_version, 'CP6_V2620')
   assert.equal(viewerQc.json?.contract_version, 'CP6_V2620')
-  await workspace(operatorSession, 'LAUNDRY')
+  const operatorLaundryBefore = await workspace(operatorSession, 'LAUNDRY')
   await workspace(operatorSession, 'QC')
+
+  // Full positive chain through a real password session, bearer JWT, HTTP,
+  // public facade, private writer, stock/HPP/journal rebuild, and the granular
+  // reverse permissions. The database is a physical disposable clone and is
+  // destroyed by the workflow after this proof.
+  const readyBatch = operatorLaundryBefore.json?.ready_batches?.find(
+    (candidate) => candidate.distribution_batch_id === fixture.batch,
+  )
+  assert.ok(readyBatch, 'Disposable Auth clone is missing the seeded CP6 ready batch')
+  const delivery = await cp6Action(operatorSession, 'POST_DELIVERY', {
+    distribution_batch_id: fixture.batch,
+    vendor_id: fixture.vendor,
+    wash_process_id: fixture.process,
+    target_dyeing_color: 'NAVY',
+    physical_at: '2026-09-01T11:00:00Z',
+    reason: `CP6 ${safeRunId} positive JWT dispatch`,
+    notes: 'Real Auth/JWT/HTTP positive chain',
+    lines: [{ size_id: fixture.size, qty_sent_pcs: 10 }],
+  }, Number(readyBatch.cutting_group_row_version))
+
+  const laundryAfterDelivery = await workspace(operatorSession, 'LAUNDRY')
+  const deliveryRow = laundryAfterDelivery.json?.deliveries?.find(
+    (candidate) => candidate.delivery_id === delivery.delivery_id,
+  )
+  assert.ok(deliveryRow, 'Posted JWT delivery did not return through the HTTP workspace')
+  const deliverySize = deliveryRow.sizes?.find((candidate) => candidate.size_id === fixture.size)
+  assert.ok(deliverySize, 'Posted JWT delivery lost exact batch/size lineage')
+  const receipt = await cp6Action(operatorSession, 'POST_RECEIPT', {
+    delivery_id: delivery.delivery_id,
+    wash_process_id: fixture.process,
+    physical_at: '2026-09-01T12:00:00Z',
+    reason: `CP6 ${safeRunId} positive JWT receipt`,
+    lines: [{
+      delivery_batch_size_line_id: deliverySize.delivery_batch_size_line_id,
+      qty_good_received: 10,
+      qty_bs_laundry: 0,
+      bs_product_id: null,
+    }],
+  }, Number(delivery.row_version))
+
+  const qcBefore = await workspace(operatorSession, 'QC')
+  const sourceBefore = findQueueRow(qcBefore)
+  assert.equal(sourceBefore.available_for_qc_qty_pcs, 10)
+  const productSearch = await rpc(
+    'erp_search_final_sku_products_v1', operatorSession.accessToken, {
+      p_source_laundry_receipt_batch_size_line_id: sourceBefore.source_batch_size_line_id,
+      p_physical_at: '2026-09-01T13:00:00Z',
+      p_query: 'CP6-RACE-SKU', p_after_sort_key: null, p_limit: 50,
+    },
+  )
+  record('rpc-operator-source-bound-product-search', productSearch, [200])
+  assert.equal(productSearch.json?.contract_version, 'CP6_PRODUCT_SEARCH_V2620B')
+  assert.equal(productSearch.json?.source_laundry_receipt_batch_size_line_id,
+    sourceBefore.source_batch_size_line_id)
+  assert.deepEqual(productSearch.json?.products?.map((product) => product.id), [fixture.product])
+  const qcAfterProductSearch = await workspace(operatorSession, 'QC')
+  assert.equal(findQueueRow(qcAfterProductSearch).source_batch_size_line_id,
+    sourceBefore.source_batch_size_line_id,
+    'Product lookup must not mutate or hide the QC source queue')
+
+  const firstQc = await cp6Action(operatorSession, 'POST_FINAL_SKU', {
+    cutting_group_id: fixture.group,
+    destination_location_id: fixture.location,
+    physical_at: '2026-09-01T13:00:00Z',
+    reason: `CP6 ${safeRunId} positive JWT partial Final SKU`,
+    good_qty_pcs: 5,
+    completion_mode: 'PARTIAL_SELECTION',
+    lines: [{
+      final_product_id: fixture.product,
+      qty_good_pcs: 5, qty_bs_pcs: 0,
+      source_laundry_receipt_line_id: sourceBefore.receipt_line_id,
+      source_laundry_receipt_batch_size_line_id: sourceBefore.source_batch_size_line_id,
+      notes: 'Exact real Auth partial lineage',
+    }],
+  }, Number(sourceBefore.cutting_group_row_version))
+  const partialState = financialState()
+  assert.deepEqual(partialState, {
+    delivery_status: 'RETURNED', receipt_status: 'POSTED',
+    posted_qc: 1, reversed_qc: 0, fg_qty: 5, active_laundry_hpp: 35,
+    wip_net: 35, fg_net: 35, accrued_net: -70, physical_ready: 0,
+    execution_context: 0, unbalanced_journals: 0,
+  })
+
+  const qcPartial = await workspace(operatorSession, 'QC')
+  const sourcePartial = findQueueRow(qcPartial)
+  assert.equal(sourcePartial.available_for_qc_qty_pcs, 5)
+  const secondQc = await cp6Action(operatorSession, 'POST_FINAL_SKU', {
+    cutting_group_id: fixture.group,
+    destination_location_id: fixture.location,
+    physical_at: '2026-09-01T14:00:00Z',
+    reason: `CP6 ${safeRunId} positive JWT remaining Final SKU`,
+    good_qty_pcs: 5,
+    completion_mode: 'ALL_READY',
+    lines: [{
+      final_product_id: fixture.product,
+      qty_good_pcs: 5, qty_bs_pcs: 0,
+      source_laundry_receipt_line_id: sourcePartial.receipt_line_id,
+      source_laundry_receipt_batch_size_line_id: sourcePartial.source_batch_size_line_id,
+      notes: 'Exact real Auth remaining lineage',
+    }],
+  }, Number(sourcePartial.cutting_group_row_version))
+  const completeState = financialState()
+  assert.deepEqual(completeState, {
+    delivery_status: 'RETURNED', receipt_status: 'POSTED',
+    posted_qc: 2, reversed_qc: 0, fg_qty: 10, active_laundry_hpp: 70,
+    wip_net: 0, fg_net: 70, accrued_net: -70, physical_ready: 0,
+    execution_context: 0, unbalanced_journals: 0,
+  })
+
+  await cp6Action(operatorSession, 'REVERSE_FINAL_SKU', {
+    qc_inspection_id: secondQc.qc_inspection_id,
+    reason: `CP6 ${safeRunId} granular reverse second Final SKU`,
+  }, Number(secondQc.qc_row_version))
+  await cp6Action(operatorSession, 'REVERSE_FINAL_SKU', {
+    qc_inspection_id: firstQc.qc_inspection_id,
+    reason: `CP6 ${safeRunId} granular reverse first Final SKU`,
+  }, Number(firstQc.qc_row_version))
+  await cp6Action(operatorSession, 'REVERSE_RECEIPT', {
+    receipt_id: receipt.receipt_id,
+    reason: `CP6 ${safeRunId} granular reverse receipt`,
+  }, Number(receipt.receipt_row_version))
+  const laundryBeforeDeliveryReverse = await workspace(operatorSession, 'LAUNDRY')
+  const reversibleDelivery = laundryBeforeDeliveryReverse.json?.deliveries?.find(
+    (candidate) => candidate.delivery_id === delivery.delivery_id,
+  )
+  assert.ok(reversibleDelivery?.reversible, 'Granular operator should see delivery reversal ready')
+  await cp6Action(operatorSession, 'REVERSE_DELIVERY', {
+    delivery_id: delivery.delivery_id,
+    reason: `CP6 ${safeRunId} granular reverse delivery`,
+  }, Number(reversibleDelivery.row_version))
+  const reversedState = financialState()
+  assert.deepEqual(reversedState, {
+    delivery_status: 'REVERSED', receipt_status: 'REVERSED',
+    posted_qc: 0, reversed_qc: 2, fg_qty: 0, active_laundry_hpp: 0,
+    wip_net: 0, fg_net: 0, accrued_net: 0, physical_ready: 10,
+    execution_context: 0, unbalanced_journals: 0,
+  })
+
+  // Exercise the seventh mutation action through the same real custom-role
+  // bearer token. A paid RETRY_AT_VENDOR attempt creates cost history without
+  // physical Good/BS/FG; reversing its charge and then its delivery must leave
+  // the complete physical and financial state balanced again.
+  const retryLaundryBefore = await workspace(operatorSession, 'LAUNDRY')
+  const retryBatch = retryLaundryBefore.json?.ready_batches?.find(
+    (candidate) => candidate.distribution_batch_id === fixture.batch,
+  )
+  assert.ok(retryBatch, 'Granular operator lost the returned batch before failed-wash proof')
+  const retryDelivery = await cp6Action(operatorSession, 'POST_DELIVERY', {
+    distribution_batch_id: fixture.batch,
+    vendor_id: fixture.vendor,
+    wash_process_id: fixture.process,
+    target_dyeing_color: 'NAVY',
+    physical_at: '2026-09-04T11:00:00Z',
+    reason: `CP6 ${safeRunId} positive JWT failed-wash dispatch`,
+    notes: 'Real Auth paid failed-wash source',
+    lines: [{ size_id: fixture.size, qty_sent_pcs: 10 }],
+  }, Number(retryBatch.cutting_group_row_version))
+  const retryLaundrySent = await workspace(operatorSession, 'LAUNDRY')
+  const retryDeliveryRow = retryLaundrySent.json?.deliveries?.find(
+    (candidate) => candidate.delivery_id === retryDelivery.delivery_id,
+  )
+  const retrySize = retryDeliveryRow?.sizes?.find(
+    (candidate) => candidate.size_id === fixture.size,
+  )
+  assert.ok(retrySize, 'Failed-wash HTTP proof lost its exact delivery batch/size')
+  const failedWash = await cp6Action(operatorSession, 'POST_FAILED_WASH', {
+    delivery_id: retryDelivery.delivery_id,
+    wash_process_id: fixture.process,
+    custody_outcome: 'RETRY_AT_VENDOR',
+    physical_at: '2026-09-04T12:00:00Z',
+    reason: `CP6 ${safeRunId} positive JWT paid failed wash`,
+    lines: [{
+      delivery_batch_size_line_id: retrySize.delivery_batch_size_line_id,
+      qty_attempted_pcs: 10,
+    }],
+  }, Number(retryDelivery.row_version))
+  const failedWashCostState = financialState()
+  assert.deepEqual(failedWashCostState, {
+    delivery_status: 'SENT', receipt_status: 'POSTED',
+    posted_qc: 0, reversed_qc: 2, fg_qty: 0, active_laundry_hpp: 0,
+    // The paid failed attempt is 70 and the still-open retry dispatch carries
+    // another 70 estimate. Both remain in WIP until the next physical result.
+    wip_net: 140, fg_net: 0, accrued_net: -140, physical_ready: 0,
+    execution_context: 0, unbalanced_journals: 0,
+  })
+  await cp6Action(operatorSession, 'REVERSE_RECEIPT', {
+    receipt_id: failedWash.receipt_id,
+    reason: `CP6 ${safeRunId} granular reverse paid failed wash`,
+  }, Number(failedWash.receipt_row_version))
+  const retryBeforeDeliveryReverse = await workspace(operatorSession, 'LAUNDRY')
+  const retryReversibleDelivery = retryBeforeDeliveryReverse.json?.deliveries?.find(
+    (candidate) => candidate.delivery_id === retryDelivery.delivery_id,
+  )
+  assert.ok(retryReversibleDelivery?.reversible,
+    'Failed-wash charge reversal did not reopen granular delivery reversal')
+  await cp6Action(operatorSession, 'REVERSE_DELIVERY', {
+    delivery_id: retryDelivery.delivery_id,
+    reason: `CP6 ${safeRunId} granular reverse failed-wash delivery`,
+  }, Number(retryReversibleDelivery.row_version))
+  const allActionsReversedState = financialState()
+  assert.deepEqual(allActionsReversedState, reversedState)
+  positiveEvidence = {
+    partial_hpp_wip: partialState,
+    completed_hpp_wip: completeState,
+    fully_reversed: reversedState,
+    failed_wash_cost_only: failedWashCostState,
+    all_actions_fully_reversed: allActionsReversedState,
+    source_queue_preserved_during_product_search: true,
+    positive_facade_actions: 12,
+    granular_reverse_actions: 6,
+    mutation_action_kinds: [
+      'POST_DELIVERY', 'POST_RECEIPT', 'POST_FAILED_WASH', 'POST_FINAL_SKU',
+      'REVERSE_DELIVERY', 'REVERSE_RECEIPT', 'REVERSE_FINAL_SKU',
+    ],
+  }
 
   const nonexistent = randomUUID()
   const validNegativePayload = {
@@ -274,14 +601,49 @@ try {
     lines: [{ size_id: randomUUID(), qty_sent_pcs: 1 }],
   }
 
-  const viewerRequestId = randomUUID()
-  requestIds.push(viewerRequestId)
-  const viewerMutation = await rpc('erp_save_laundry_qc_action_v1', viewerSession.accessToken, {
-    p_action: 'POST_DELIVERY', p_payload: validNegativePayload,
-    p_client_request_id: viewerRequestId, p_expected_version: 1,
-  })
-  record('rpc-viewer-cp6-mutation-denied', viewerMutation, [400, 401, 403])
-  assert.match(viewerMutation.text, /PERMISSION_DENIED|production\.laundry\.(create|post)/i)
+  const viewerNegativeActions = [
+    ['POST_DELIVERY', validNegativePayload],
+    ['POST_RECEIPT', {
+      delivery_id: nonexistent, wash_process_id: randomUUID(),
+      physical_at: '2026-09-01T12:00:00Z', reason: 'CP6 viewer receipt denial',
+      lines: [{ delivery_batch_size_line_id: randomUUID(), qty_good_received: 1,
+        qty_bs_laundry: 0, bs_product_id: null }],
+    }],
+    ['POST_FAILED_WASH', {
+      delivery_id: nonexistent, wash_process_id: randomUUID(),
+      custody_outcome: 'RETRY_AT_VENDOR', physical_at: '2026-09-01T12:00:00Z',
+      reason: 'CP6 viewer failed wash denial',
+      lines: [{ delivery_batch_size_line_id: randomUUID(), qty_attempted_pcs: 1 }],
+    }],
+    ['POST_FINAL_SKU', {
+      cutting_group_id: nonexistent, destination_location_id: randomUUID(),
+      physical_at: '2026-09-01T13:00:00Z', reason: 'CP6 viewer Final SKU denial',
+      good_qty_pcs: 1, completion_mode: 'ALL_READY',
+      lines: [{ final_product_id: randomUUID(), qty_good_pcs: 1, qty_bs_pcs: 0,
+        source_laundry_receipt_line_id: randomUUID(),
+        source_laundry_receipt_batch_size_line_id: randomUUID() }],
+    }],
+    ['REVERSE_DELIVERY', { delivery_id: nonexistent, reason: 'CP6 viewer delivery reversal denial' }],
+    ['REVERSE_RECEIPT', { receipt_id: nonexistent, reason: 'CP6 viewer receipt reversal denial' }],
+    ['REVERSE_FINAL_SKU', { qc_inspection_id: nonexistent, reason: 'CP6 viewer QC reversal denial' }],
+  ]
+  const viewerRequestIds = []
+  for (const [actionName, payload] of viewerNegativeActions) {
+    const viewerRequestId = randomUUID()
+    viewerRequestIds.push(viewerRequestId)
+    requestIds.push(viewerRequestId)
+    const viewerMutation = await rpc(
+      'erp_save_laundry_qc_action_v1', viewerSession.accessToken, {
+        p_action: actionName, p_payload: payload,
+        p_client_request_id: viewerRequestId, p_expected_version: 1,
+      },
+    )
+    record(`rpc-viewer-${actionName.toLowerCase()}-denied`, viewerMutation, [400, 401, 403])
+    assert.match(viewerMutation.text,
+      /PERMISSION_DENIED|production\.(laundry|final_sku)\.(create|post|reverse)/i)
+  }
+  positiveEvidence.viewer_denied_action_kinds = viewerNegativeActions
+    .map(([actionName]) => actionName)
 
   const operatorRequestId = randomUUID()
   requestIds.push(operatorRequestId)
@@ -297,7 +659,7 @@ try {
     'laundry_delivery_batch_size_lines', 'laundry_receipt_batch_size_lines',
     'laundry_failed_wash_attempts', 'laundry_failed_wash_batch_size_lines',
   ]) {
-    const direct = await request(`/rest/v1/${table}?select=id&limit=1`, {
+    const direct = await request(`${restPrefix}/${table}?select=id&limit=1`, {
       token: operatorSession.accessToken,
     })
     record(`rest-direct-${table}-denied`, direct, [401, 403, 404])
@@ -320,39 +682,90 @@ try {
     assert.match(privateInvoiceReverse.text, /OWNER|ADMIN|permission denied/i)
   }
 
+  // Expose `erp` only on the disposable proof PostgREST instance and prove
+  // that schema selection still cannot bypass private function ACLs. A 404
+  // through the public schema alone is not sufficient defense-in-depth proof.
+  const privateProfiles = [
+    ['save_laundry_qc_action_v1', {}],
+    ['reverse_laundry_delivery', {
+      p_delivery_id: randomUUID(), p_reason: 'CP6 private-schema denial',
+    }],
+    ['reverse_laundry_receipt', {
+      p_receipt_id: randomUUID(), p_reason: 'CP6 private-schema denial',
+    }],
+    ['reverse_qc', {
+      p_qc_id: randomUUID(), p_reason: 'CP6 private-schema denial',
+    }],
+    ['post_vendor_invoice', { p_invoice_id: randomUUID() }],
+    ['reverse_vendor_invoice', {
+      p_invoice_id: randomUUID(), p_reason: 'CP6 private-schema denial',
+    }],
+  ]
+  const privateProfileStatuses = {}
+  for (const [name, body] of privateProfiles) {
+    const response = await privateRpc(name, operatorSession.accessToken, body)
+    record(`rpc-explicit-erp-schema-${name}-denied`, response, [401, 403, 404, 406])
+    assert.notEqual(response.status, 200, `${name} became executable through private schema`)
+    privateProfileStatuses[name] = response.status
+  }
+  const privateAcl = JSON.parse(sql(`select jsonb_build_object(
+    'save_writer',has_function_privilege('authenticated',
+      'erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)','EXECUTE'),
+    'reverse_delivery',has_function_privilege('authenticated',
+      'erp.reverse_laundry_delivery(uuid,text)','EXECUTE'),
+    'reverse_receipt',has_function_privilege('authenticated',
+      'erp.reverse_laundry_receipt(uuid,text)','EXECUTE'),
+    'reverse_qc',has_function_privilege('authenticated',
+      'erp.reverse_qc(uuid,text)','EXECUTE'),
+    'post_invoice',has_function_privilege('authenticated',
+      'erp.post_vendor_invoice(uuid)','EXECUTE'),
+    'reverse_invoice',has_function_privilege('authenticated',
+      'erp.reverse_vendor_invoice(uuid,text)','EXECUTE')
+  );`))
+  assert.ok(Object.values(privateAcl).every((allowed) => allowed === false),
+    `Private ERP ACL unexpectedly executable: ${JSON.stringify(privateAcl)}`)
+  privateSchemaEvidence = {
+    schema_profile_requested: 'erp',
+    http_statuses: privateProfileStatuses,
+    authenticated_execute_acl: privateAcl,
+  }
+
   assert.equal(sql(`select count(*) from erp.idempotency_requests
-    where client_request_id in('${viewerRequestId}'::uuid,'${operatorRequestId}'::uuid)`), '0')
+    where client_request_id in(${[...viewerRequestIds, operatorRequestId]
+      .map((value) => `'${value}'::uuid`).join(',')})`), '0')
   assert.equal(sql('select count(*) from erp.cp6_laundry_qc_execution_context'), '0')
   assert.equal(sql(`select count(*) from erp.laundry_deliveries
     where id='${nonexistent}'::uuid or special_instruction like 'CP6 ${safeRunId}%'`), '0')
 } catch (error) {
   failure = error
 } finally {
-  try { cleanupDatabase() } catch (error) { failure ||= error }
+  // Business facts are never hand-deleted. The workflow destroys the exact
+  // physical clone and proves pg_database residue zero after this process.
+  if (!disposableDatabase) {
+    try { cleanupDatabase() } catch (error) { failure ||= error }
+  }
   try { await cleanupAuth() } catch (error) { failure ||= error }
 }
 
 let residue
 try {
-  residue = JSON.parse(sql(`select jsonb_build_object(
+  const authResidue = JSON.parse(authSql(`select jsonb_build_object(
     'auth_users',(select count(*) from auth.users where ${uuidCondition('id', users.map((u) => u.id))}),
     'auth_identities',(select count(*) from auth.identities where ${uuidCondition('user_id', users.map((u) => u.id))}),
     'auth_sessions',(select count(*) from auth.sessions where ${uuidCondition('user_id', users.map((u) => u.id))}),
-    'auth_refresh_tokens',(select count(*) from auth.refresh_tokens where ${textUuidCondition('user_id', users.map((u) => u.id))}),
-    'app_users',(select count(*) from erp.app_users where ${uuidCondition('id', appUserIds)}),
-    'custom_roles',(select count(*) from erp.app_roles where ${uuidCondition('id', roleIds)}),
-    'role_permissions',(select count(*) from erp.app_role_permissions where ${uuidCondition('role_id', roleIds)}),
-    'access_audit',(select count(*) from erp.app_access_audit
-      where ${uuidCondition('actor_app_user_id', appUserIds)}
-         or ${uuidCondition('entity_id', appUserIds)}
-         or ${uuidCondition('entity_id', roleIds)}),
-    'audit_logs',(select count(*) from erp.audit_logs
-      where ${uuidCondition('changed_by', appUserIds)}
-         or change_reason like 'CP6 ${safeRunId}%'),
-    'idempotency',(select count(*) from erp.idempotency_requests
-      where ${uuidCondition('client_request_id', requestIds)}),
-    'execution_context',(select count(*) from erp.cp6_laundry_qc_execution_context)
+    'auth_refresh_tokens',(select count(*) from auth.refresh_tokens where ${textUuidCondition('user_id', users.map((u) => u.id))})
   );`))
+  const cloneTransientResidue = JSON.parse(sql(`select jsonb_build_object(
+    'execution_context',(select count(*) from erp.cp6_laundry_qc_execution_context),
+    'in_progress_idempotency',(select count(*) from erp.idempotency_requests
+      where status='IN_PROGRESS' and ${uuidCondition('client_request_id', requestIds)}),
+    'unbalanced_journals',(select count(*) from(
+      select e.id from erp.journal_entries e join erp.journal_lines l
+        on l.journal_entry_id=e.id
+      group by e.id having sum(l.debit)<>sum(l.credit)
+    ) x)
+  );`))
+  residue = { ...authResidue, ...cloneTransientResidue }
 } catch (error) {
   failure ||= error
   residue = { residue_query_failed: true }
@@ -362,8 +775,12 @@ const residueClean = Object.values(residue).every((value) => value === 0)
 const report = {
   status: failure || !residueClean ? 'FAIL' : 'PASS',
   classification: 'LOCAL_POST_CP6_REAL_AUTH_JWT_HTTP',
-  target: 'DISPOSABLE_LOCAL_SUPABASE_AFTER_V2620A',
+  target: 'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620B',
+  disposable_database: disposableDatabase,
+  database_disposal_required: true,
   cases,
+  positive_evidence: positiveEvidence,
+  private_schema_evidence: privateSchemaEvidence,
   residue,
   secrets_persisted: false,
   real_owner_invited: false,
@@ -374,10 +791,17 @@ const report = {
     anonymous_unmapped_inactive_denial: true,
     viewer_laundry_and_qc_read_only: true,
     non_admin_operator_reaches_domain_guard: true,
+    operator_positive_delivery_receipt_partial_and_remaining_final_sku: true,
+    source_bound_product_search_preserves_qc_queue: true,
+    partial_laundry_hpp_and_wip_conservation: true,
+    granular_reverse_permissions_positive: true,
+    all_seven_mutation_actions_positive_for_granular_operator: true,
+    all_seven_mutation_actions_denied_for_viewer: true,
     direct_cp6_table_denial: true,
     private_cp6_and_invoice_writer_denial: true,
+    explicit_private_schema_and_sql_acl_denial: true,
     negative_mutation_transaction_residue_zero: true,
-    auth_app_role_audit_idempotency_context_cleanup_zero: true,
+    auth_identity_and_clone_transient_residue_zero: true,
   },
   ...(failure ? { failure: failure instanceof Error ? failure.message : String(failure) } : {}),
 }
@@ -387,4 +811,4 @@ if (report.status !== 'PASS') {
   throw failure || new Error(`CP6 Auth/JWT cleanup residue: ${JSON.stringify(residue)}`)
 }
 
-console.log(`CP6 post-install Auth/JWT/HTTP E2E passed: ${cases.length} assertions; zero targeted residue.`)
+console.log(`CP6 post-install Auth/JWT/HTTP E2E passed: ${cases.length} assertions; positive post/reverse chain balanced and transient residue zero; physical clone disposal required.`)

@@ -1,5 +1,12 @@
 # CP6 v2.6.20 independent audit handoff
 
+> **SUPERSEDED — DO NOT USE AS CURRENT CANDIDATE EVIDENCE (2026-09-05).**
+> Independent re-audit of `c32f07d9…` returned `FAIL — MERGE BLOCKED`.
+> The v2.6.20b repair is still under validation. Every PASS claim below is
+> historical only; current proof must come from the exact-SHA
+> `CP6_V2620B_RUNTIME_MANIFEST.json` artifact and an updated successor handoff.
+> `production_go:false` remains authoritative.
+
 Audit this candidate independently from the business context and your own logic
 first; only after that blind pass, use the explicit checklist below to reconcile
 anything you may have missed. Do not accept this handoff, CI color, or the

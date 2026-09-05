@@ -52,6 +52,8 @@ function workspace() {
     },
     collection_window: {
       transaction_limit: 200, product_limit: 500, query_required_for_more: true,
+      transaction_query_scope: 'SOURCE_QUEUE_AND_HISTORY',
+      product_search_contract: 'CP6_PRODUCT_SEARCH_V2620B', product_query_decoupled: true,
       products_relevant_to_live_qc: false, products_truncated: false,
       ready_batches_truncated: false, deliveries_truncated: false,
       qc_queue_truncated: false, qc_history_truncated: false, any_truncated: false,

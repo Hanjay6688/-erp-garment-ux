@@ -11,6 +11,31 @@ select set_config(
 );
 select set_config('app.change_reason','CP6 reversal concurrency seed',true);
 
+-- Eight distinct granular operators are reserved for the realistic scale
+-- proof. They are not OWNER/ADMIN and can only use the public CP6 contracts.
+insert into erp.app_roles(id,role_code,role_name,description)
+values(
+  md5('CP6-SCALE-OPERATOR-ROLE')::uuid,'CP6_SCALE_OPERATOR',
+  'CP6 Scale Operator','Disposable multi-operator write/load proof'
+);
+insert into erp.app_role_permissions(role_id,permission_key)
+select md5('CP6-SCALE-OPERATOR-ROLE')::uuid,x.permission_key
+from unnest(array[
+  'production.laundry.view','production.laundry.create',
+  'production.laundry.post','production.laundry.reverse',
+  'production.final_sku.view','production.final_sku.post',
+  'production.final_sku.reverse'
+]) x(permission_key);
+insert into erp.app_users(
+  id,auth_user_id,full_name,role,role_id,is_active
+)
+select
+  md5('CP6-SCALE-APP-'||lpad(i::text,2,'0'))::uuid,
+  md5('CP6-SCALE-AUTH-'||lpad(i::text,2,'0'))::uuid,
+  'CP6 Scale Operator '||lpad(i::text,2,'0'),
+  'CP6_SCALE_OPERATOR',md5('CP6-SCALE-OPERATOR-ROLE')::uuid,true
+from generate_series(1,8) i;
+
 do $seed$
 declare
   v_case text;
@@ -31,9 +56,12 @@ begin
   foreach v_case in array array[
     'RECEIPT_FAILED','REVDEL_RECEIPT','RECEIPT_REVDEL',
     'REVDEL_FAILED','FAILED_REVDEL','REVRECEIPT_INVOICE',
-    'REVRECEIPT_QC','REVQC_REVRECEIPT','REVQC_INVOICE',
+    'REVRECEIPT_QC','REVQC_REVRECEIPT','REVRECEIPT_REVQC',
+    'REPLACEMENT_INVERSE','REVQC_INVOICE',
     'INVOICE_REVQC','REVQC_INVOICE_REV','INVOICE_REV_REVQC',
-    'REVQC_POSTQC','POSTQC_REVQC'
+    'REVQC_POSTQC','POSTQC_REVQC',
+    'SCALE_OP_01','SCALE_OP_02','SCALE_OP_03','SCALE_OP_04',
+    'SCALE_OP_05','SCALE_OP_06','SCALE_OP_07','SCALE_OP_08'
   ] loop
     v_roll:=md5('CP6-MATRIX-ROLL-'||v_case)::uuid;
     v_po:=md5('CP6-MATRIX-PO-'||v_case)::uuid;
@@ -149,7 +177,7 @@ $seed$;
 do $guard$
 begin
   if (select count(*) from erp.production_orders
-      where po_number like 'CP6-MX-%')<>14
+      where po_number like 'CP6-MX-%')<>24
      or exists(
        select 1 from erp.production_orders po
        join erp.cutting_groups g on g.po_id=po.id

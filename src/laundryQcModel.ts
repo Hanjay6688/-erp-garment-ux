@@ -14,6 +14,16 @@ export type Cp6Product = {
   brand_code: string; brand_name: string; size_id: string; size_code: string
   color: string; effective_from: string; effective_to: string | null
 }
+export type Cp6ProductSearchPage = {
+  contract_version: 'CP6_PRODUCT_SEARCH_V2620B'
+  source_laundry_receipt_batch_size_line_id: string
+  physical_at: string
+  query: string | null
+  page_limit: number
+  products: Cp6Product[]
+  has_more: boolean
+  next_cursor: string | null
+}
 export type Cp6ReadySize = {
   size_id: string; size_code: string; sort_order: number
   allocated_qty_pcs: number; sent_qty_pcs: number; available_qty_pcs: number
@@ -77,6 +87,8 @@ export type Cp6QcHistory = {
 }
 export type Cp6CollectionWindow = {
   transaction_limit: number; product_limit: number; query_required_for_more: true
+  transaction_query_scope: 'SOURCE_QUEUE_AND_HISTORY'
+  product_search_contract: 'CP6_PRODUCT_SEARCH_V2620B'; product_query_decoupled: true
   products_relevant_to_live_qc: boolean; products_truncated: boolean
   ready_batches_truncated: boolean; deliveries_truncated: boolean
   qc_queue_truncated: boolean; qc_history_truncated: boolean; any_truncated: boolean
@@ -209,6 +221,44 @@ function parseProduct(value: unknown): Cp6Product {
   }
   assertPeriod(parsed.effective_from, parsed.effective_to, 'Final SKU')
   return parsed
+}
+
+export function parseFinalSkuProductSearch(value: unknown): Cp6ProductSearchPage {
+  const raw = record(value, 'Pencarian Final SKU')
+  if (raw.contract_version !== 'CP6_PRODUCT_SEARCH_V2620B') {
+    throw new Error('Versi kontrak pencarian Final SKU tidak cocok.')
+  }
+  const physicalAt = timestamp(raw.physical_at, 'Waktu pencarian Final SKU')
+  const products = list(raw.products, 'Hasil pencarian Final SKU').map(parseProduct)
+  const hasMore = bool(raw.has_more, 'Status halaman lanjutan Final SKU')
+  const nextCursor = nullableText(raw.next_cursor, 'Cursor Final SKU')
+  const query = nullableText(raw.query, 'Kata kunci Final SKU')
+  const pageLimit = integer(raw.page_limit, 'Batas halaman Final SKU', 1)
+  if (pageLimit > 100 || products.length > pageLimit
+    || hasMore !== (nextCursor !== null)
+    || products.some((product) => !productEffectiveAt(product, physicalAt))) {
+    throw new Error('Halaman pencarian Final SKU tidak konsisten dengan kontrak authoritative.')
+  }
+  if (products.length > 0) {
+    const modelId = products[0].model_id
+    const sizeId = products[0].size_id
+    if (products.some((product) => product.model_id !== modelId || product.size_id !== sizeId)) {
+      throw new Error('Pencarian Final SKU mencampur Model atau ukuran sumber QC.')
+    }
+  }
+  assertUnique(products, (product) => product.id, 'ID hasil pencarian Final SKU')
+  assertStableMetadata(products, (row) => row.brand_id,
+    (row) => JSON.stringify([row.brand_code, row.brand_name]), 'Metadata Merek hasil Final SKU')
+  assertStableMetadata(products, (row) => row.model_id,
+    (row) => JSON.stringify([row.model_code, row.model_name]), 'Metadata Model hasil Final SKU')
+  return {
+    contract_version: 'CP6_PRODUCT_SEARCH_V2620B',
+    source_laundry_receipt_batch_size_line_id: id(
+      raw.source_laundry_receipt_batch_size_line_id, 'ID sumber pencarian Final SKU',
+    ),
+    physical_at: physicalAt, query, page_limit: pageLimit, products,
+    has_more: hasMore, next_cursor: nextCursor,
+  }
 }
 
 function parseReadySize(value: unknown): Cp6ReadySize {
@@ -417,6 +467,9 @@ export function parseLaundryQcWorkspace(value: unknown): LaundryQcWorkspace {
     transaction_limit: integer(windowRaw.transaction_limit, 'Batas transaksi', 1),
     product_limit: integer(windowRaw.product_limit, 'Batas produk', 1),
     query_required_for_more: bool(windowRaw.query_required_for_more, 'Kewajiban pencarian lanjutan') as true,
+    transaction_query_scope: text(windowRaw.transaction_query_scope, 'Scope pencarian transaksi') as 'SOURCE_QUEUE_AND_HISTORY',
+    product_search_contract: text(windowRaw.product_search_contract, 'Kontrak pencarian produk') as 'CP6_PRODUCT_SEARCH_V2620B',
+    product_query_decoupled: bool(windowRaw.product_query_decoupled, 'Pemisahan pencarian produk') as true,
     products_relevant_to_live_qc: bool(windowRaw.products_relevant_to_live_qc, 'Scope produk QC'),
     products_truncated: bool(windowRaw.products_truncated, 'Produk terpotong'),
     ready_batches_truncated: bool(windowRaw.ready_batches_truncated, 'Batch siap terpotong'),
@@ -427,6 +480,9 @@ export function parseLaundryQcWorkspace(value: unknown): LaundryQcWorkspace {
   }
   if (collectionWindow.transaction_limit !== 200 || collectionWindow.product_limit !== 500
     || collectionWindow.query_required_for_more !== true
+    || collectionWindow.transaction_query_scope !== 'SOURCE_QUEUE_AND_HISTORY'
+    || collectionWindow.product_search_contract !== 'CP6_PRODUCT_SEARCH_V2620B'
+    || collectionWindow.product_query_decoupled !== true
     || collectionWindow.products_relevant_to_live_qc !== (scope === 'QC')) {
     throw new Error('Kontrak batas koleksi Laundry/QC tidak cocok.')
   }

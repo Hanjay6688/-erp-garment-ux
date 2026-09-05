@@ -2,7 +2,11 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useAuth } from './auth/AuthProvider'
 import { normalizeClientError } from './lib/clientError'
 import { getUatSupabaseClient } from './lib/supabase'
-import { parseLaundryQcWorkspace, type LaundryQcAction, type LaundryQcScope, type LaundryQcWorkspace } from './laundryQcModel'
+import {
+  parseFinalSkuProductSearch, parseLaundryQcWorkspace,
+  type Cp6ProductSearchPage, type LaundryQcAction, type LaundryQcScope,
+  type LaundryQcWorkspace,
+} from './laundryQcModel'
 import type { Json } from './types/database.preconnect'
 
 type PendingMutation = {
@@ -200,6 +204,29 @@ export function useLaundryQcWorkspace(scope: LaundryQcScope) {
       p_client_request_id: envelope.id,
       p_expected_version: envelope.expectedVersion,
     })
+  }, [client])
+
+  const searchFinalSkuProducts = useCallback(async (
+    sourceBatchSizeLineId: string,
+    physicalAt: string,
+    productQuery: string,
+    afterSortKey: string | null = null,
+  ): Promise<Cp6ProductSearchPage> => {
+    const { data, error: searchError } = await client.rpc('erp_search_final_sku_products_v1', {
+      p_source_laundry_receipt_batch_size_line_id: sourceBatchSizeLineId,
+      p_physical_at: physicalAt,
+      p_query: productQuery.trim() || null,
+      p_after_sort_key: afterSortKey,
+      p_limit: 50,
+    })
+    if (searchError) throw searchError
+    const page = parseFinalSkuProductSearch(data)
+    if (page.source_laundry_receipt_batch_size_line_id !== sourceBatchSizeLineId
+      || Date.parse(page.physical_at) !== Date.parse(physicalAt)
+      || page.page_limit !== 50) {
+      throw new Error('Respons pencarian Final SKU tidak cocok dengan sumber/waktu yang diminta.')
+    }
+    return page
   }, [client])
 
   const reconcile = useCallback(async () => {
@@ -455,6 +482,7 @@ export function useLaundryQcWorkspace(scope: LaundryQcScope) {
     workspace, query, loading, busy, error, notice, pending,
     corruptedEnvelope, workspaceStale, externalMutationBlocked,
     committedRefreshRequired, committedSequence, writerLocked,
-    search, load, runAction, reconcile, acknowledgeCommittedFormRetired,
+    search, load, runAction, reconcile, searchFinalSkuProducts,
+    acknowledgeCommittedFormRetired,
   }
 }

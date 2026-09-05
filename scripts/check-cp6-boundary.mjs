@@ -507,7 +507,8 @@ assert.equal(/disable\s+trigger|session_replication_role/i.test(cp5Recovery), fa
 const rpcNames = [...hook.matchAll(/\.rpc\s*\(\s*['"]([^'"]+)['"]/g)].map((match) => match[1])
 assert.deepEqual([...new Set(rpcNames)].sort(), [
   'erp_get_laundry_qc_workspace_v1', 'erp_save_laundry_qc_action_v1',
-], 'CP6 browser boundary must use exactly two public RPC facades')
+  'erp_search_final_sku_products_v1',
+], 'CP6 browser boundary must use exactly three reviewed public RPC facades')
 assert.equal(rpcNames.filter((name) => name === 'erp_save_laundry_qc_action_v1').length, 1,
   'CP6 mutations must share one exact-envelope send path')
 for (const token of [
@@ -578,8 +579,8 @@ for (const token of [
 ]) assert.ok(businessTimeTest.includes(token), `WIB conversion test missing: ${token}`)
 assert.ok(browser.includes("getByRole('button', { name: /Post pengiriman atomic/ })"), 'CP6 browser send proof missing')
 assert.ok(browser.includes('await expect(post).toBeDisabled()'), 'CP6 browser does not prove blank physical time blocks posting')
-assert.equal(occurrences(browser, "physical_at: '2026-09-04T01:00:00.000Z'"), 5,
-  'Browser contract must prove all five asserted 08:00 WIB inputs serialize to exact UTC instants')
+assert.equal(occurrences(browser, "physical_at: '2026-09-04T01:00:00.000Z'"), 6,
+  'Browser contract must prove five mutations plus source-bound SKU search serialize 08:00 WIB exactly')
 assert.ok(browser.includes('calls.workspace.length).toBe(2)'), 'CP6 browser does not prove refetch expires acknowledgement')
 for (const token of [
   'view-only role sees server facts but every mutation control starts locked',
@@ -668,7 +669,7 @@ for (const token of [
   'run_first_accrual_creation_race',
   "'first_accrual_invariants'", "'state_rows': 1", "'event_rows': 1",
   "'event_delta': 70", "'journal_rows': 1",
-  'Second first-accrual caller did not wait for the PO_HPP fence',
+  'Second first-accrual caller lacked canonical PID-blocking evidence',
   "'receipt_cost_status': 'ESTIMATED'", "'laundry_accrual': 70",
   "'wip_net': 0", "'fg_net': 70", "'vendor_ap_net': 0",
   "'unbalanced_journals': 0", "'loser_idempotency_rows': 0",
@@ -684,7 +685,7 @@ for (const token of [
   "'failed_wash_attempt_history': 1", "'failed_wash_active_receipts': 0",
   "'failed_wash_physical_lines': 0", 'POST_FAILED_WASH_VS_POST_RECEIPT',
   "'voided_hpp_history_lots': 5", "l.lot_origin='PRODUCTION'",
-  'real serialization wait', 'invoice finalization owns the receipt lock',
+  'canonical PID-blocking evidence', 'invoice finalization owns the receipt lock',
   'invoice cost/AP commits before a waiting Final-SKU reads HPP',
   'invoice reversal restores estimate before waiting Final-SKU HPP',
   'Hold Final-SKU uncommitted, then prove invoice lifecycle recosts it',
@@ -762,7 +763,7 @@ for (const token of [
 ]) assert.ok(workflow.includes(token), `CP6 rollback/final schema-residue proof missing: ${token}`)
 assert.match(browserConfig, /testMatch: 'cp6-laundry-qc\.spec\.ts'/)
 assert.match(browserConfig, /ERP_UAT_AUTH_ALLOW_MOCK_KEY: '1'/)
-assert.match(packageJson, /"check:cp6": "node scripts\/check-cp6-boundary\.mjs && node scripts\/check-cp6-audit-closure\.mjs"/)
+assert.match(packageJson, /"check:cp6": "node scripts\/check-cp6-boundary\.mjs && node scripts\/check-cp6-audit-closure\.mjs && node scripts\/check-cp6-reaudit-closure\.mjs"/)
 assert.match(packageJson, /"test:security":[^\n]*npm run check:cp6/)
 assert.match(packageJson, /"check:backend": "node scripts\/check-predecessor-backend-ownership\.mjs"/)
 for (const token of [
@@ -781,10 +782,10 @@ for (const token of [
   'CP6_POSTGRES_CLIENT_SERVER_COMPATIBILITY.txt',
   'test "$client_major" = "$server_major"',
 ]) assert.ok(workflow.includes(token), `CP6 disposable database toolchain guard missing: ${token}`)
-assert.equal(occurrences(workflow, 'scripts/clone-cp6-disposable-database.sh'), 2,
-  'Both and only the CP6 preflight/race tests must use the fenced physical clone builder')
-assert.equal(occurrences(workflow, 'dropdb -U supabase_admin --if-exists --force --maintenance-db=template1'), 2,
-  'Both CP6 physical clones must be removed by their disposable database owner')
+assert.equal(occurrences(workflow, 'scripts/clone-cp6-disposable-database.sh'), 3,
+  'The CP6 preflight, Auth, and race tests must use the fenced physical clone builder')
+assert.equal(occurrences(workflow, 'dropdb -U supabase_admin --if-exists --force --maintenance-db=template1'), 3,
+  'All three CP6 physical clones must be removed by their disposable database owner')
 for (const token of [
   'CP6_MAINTENANCE_PGURL', 'CP6_DATABASE_CONTAINER: supabase_db_cp5-local',
   'cp6-proof/CP6_PREFLIGHT_CLONE_BOUNDARY',
@@ -792,6 +793,7 @@ for (const token of [
   'CP6_PREFLIGHT_CLONE_CLEANUP.txt', 'CP6_RACE_CLONE_CLEANUP.txt',
   "select count(*) from pg_database where datname='cp6_preflight'",
   "select count(*) from pg_database where datname='cp6_race'",
+  "select count(*) from pg_database where datname='cp6_auth'",
 ]) assert.ok(workflow.includes(token), `CP6 disposable clone proof missing: ${token}`)
 for (const token of [
   "source_pg_cron_count", "clone_pg_cron_count", "test \"$source_pg_cron_count\" = '1'",

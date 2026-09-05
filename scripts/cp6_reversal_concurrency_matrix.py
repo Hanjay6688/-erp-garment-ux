@@ -166,6 +166,8 @@ def run_pair(
     waiter_operation: dict[str, Any],
     waiter_outcome: str,
     allowed_waiter_errors: tuple[str, ...] = (),
+    holder_outcome: str = 'PASS',
+    allowed_holder_errors: tuple[str, ...] = (),
 ) -> dict[str, Any]:
     """Run production operations, observe the actual blocker, then reconcile."""
     holder_done = threading.Event()
@@ -186,10 +188,21 @@ def run_pair(
             conn.commit()
             holder['status'] = 'PASS'
         except Exception as exc:  # pragma: no cover - CI evidence
-            conn.rollback()
-            holder['status'] = 'FAIL'
             holder['error'] = str(exc)
+            holder['status'] = (
+                'EXPECTED_REJECTION'
+                if holder_outcome == 'REJECT'
+                and any(token in str(exc) for token in allowed_holder_errors)
+                else 'FAIL'
+            )
             holder_done.set()
+            # An aborted PostgreSQL transaction retains transaction-level
+            # advisory/row locks until rollback. Hold those real production
+            # locks so the inverse schedule can prove its successful waiter
+            # blocked behind the rejected first intent.
+            if holder['status'] == 'EXPECTED_REJECTION':
+                time.sleep(HOLD_SECONDS)
+            conn.rollback()
         finally:
             conn.close()
 
@@ -239,10 +252,17 @@ def run_pair(
     second.join(timeout=20)
     if first.is_alive() or second.is_alive():
         raise RuntimeError(f'{name}: thread timeout')
+    expected_holder_status = (
+        'PASS' if holder_outcome == 'PASS' else 'EXPECTED_REJECTION'
+    )
     expected_waiter_status = 'PASS' if waiter_outcome == 'PASS' else 'EXPECTED_REJECTION'
-    if holder.get('status') != 'PASS' or waiter.get('status') != expected_waiter_status:
+    if (
+        holder.get('status') != expected_holder_status
+        or waiter.get('status') != expected_waiter_status
+    ):
         raise RuntimeError(
             f'{name}: outcome mismatch holder={holder}, waiter={waiter}, '
+            f'expected_holder={expected_holder_status}, '
             f'expected_waiter={expected_waiter_status}'
         )
     if waiter.get('elapsed_seconds', 0) < WAIT_FLOOR_SECONDS or not lock_observed:
@@ -251,7 +271,10 @@ def run_pair(
             f'blocker={lock_observed}, waiter={waiter}'
         )
 
-    remember_success(holder_operation)
+    if holder_outcome == 'PASS':
+        remember_success(holder_operation)
+    else:
+        remember_rejection(holder_operation)
     if waiter_outcome == 'PASS':
         remember_success(waiter_operation)
     else:
@@ -259,6 +282,7 @@ def run_pair(
     return {
         'holder': holder,
         'waiter': waiter,
+        'holder_outcome': holder_outcome,
         'waiter_outcome': waiter_outcome,
         'pg_blocking_pids_observed': lock_observed,
     }
@@ -480,6 +504,22 @@ def state(case: str) -> dict[str, Any]:
           'current_hpp',(select coalesce(sum(h.total_cost),0) from erp.hpp_versions h
             join erp.fg_lots l on l.id=h.lot_id
             where l.po_id=po.id and l.lot_origin='PRODUCTION' and h.is_current),
+          'active_laundry_hpp',(select coalesce(sum(
+              c.total_cost*greatest(coalesce(stock.qty,0),0)
+                /nullif(h.qty_basis_pcs,0)
+            ),0)
+            from erp.hpp_versions h
+            join erp.hpp_version_components c on c.hpp_version_id=h.id
+              and c.component_type='LAUNDRY'
+            join erp.fg_lots l on l.id=h.lot_id
+            left join lateral(
+              select sum(m.qty_signed)::numeric qty
+              from erp.fg_stock_movements m where m.lot_id=l.id
+            ) stock on true
+            where l.po_id=po.id and l.lot_origin='PRODUCTION' and h.is_current),
+          'current_cost_state',(select min(h.cost_state) from erp.hpp_versions h
+            join erp.fg_lots l on l.id=h.lot_id
+            where l.po_id=po.id and l.lot_origin='PRODUCTION' and h.is_current),
           'wip_net',(select coalesce(sum(j.debit-j.credit),0) from erp.journal_lines j
             where j.po_id=po.id and j.account_id=erp.account_id('WIP')),
           'fg_net',(select coalesce(sum(j.debit-j.credit),0) from erp.journal_lines j
@@ -651,6 +691,67 @@ def main():
     report['states']['reverse_qc_vs_reverse_receipt'] = state('REVQC_REVRECEIPT')
     require(report['states']['reverse_qc_vs_reverse_receipt'], reversed_receipts=1, reversed_qc=1, fg_qty=0)
 
+    item = setup_qc('REVRECEIPT_REVQC')
+    report['races']['reverse_receipt_vs_reverse_qc'] = run_pair(
+        'REVERSE_RECEIPT_VS_REVERSE_QC',
+        facade_operation('REVERSE_RECEIPT', {
+            'receipt_id': item['receipt_id'],
+            'reason': 'CP6 matrix receipt reversal rejects before QC reversal',
+        }, request_id('REVRECEIPT_REVQC:RACE:REVRECEIPT'), item['receipt_version']),
+        facade_operation('REVERSE_FINAL_SKU', {
+            'qc_inspection_id': item['qc_id'],
+            'reason': 'CP6 matrix QC reversal follows rejected receipt reversal',
+        }, request_id('REVRECEIPT_REVQC:RACE:REVQC'), item['qc_version']),
+        'PASS',
+        holder_outcome='REJECT',
+        allowed_holder_errors=('Penerimaan laundry ini sudah dipakai QC',),
+    )
+    report['states']['reverse_receipt_vs_reverse_qc'] = state('REVRECEIPT_REVQC')
+    require(
+        report['states']['reverse_receipt_vs_reverse_qc'],
+        posted_receipts=1, reversed_receipts=0, posted_qc=0, reversed_qc=1, fg_qty=0,
+    )
+
+    # The inverse invoice-replacement order is intentionally asymmetric: B
+    # cannot post while A is still active. B must reject under its real
+    # canonical locks; A's reversal then waits, succeeds, and restores the
+    # live ESTIMATED 70 receipt state. This is evidence, not a synthetic claim
+    # that both mutually exclusive invoice posts can succeed.
+    item = setup_receipt('REPLACEMENT_INVERSE')
+    invoice_a = create_invoice(item, 'REPLACEMENT_INVERSE_A', rate=9)
+    post_invoice(invoice_a)
+    invoice_b = create_invoice(item, 'REPLACEMENT_INVERSE_B', rate=10)
+    report['races']['replacement_post_vs_invoice_reversal'] = run_pair(
+        'REPLACEMENT_POST_VS_INVOICE_REVERSAL',
+        invoice_post_operation(invoice_b),
+        invoice_reverse_operation(
+            invoice_a, 'CP6 inverse replacement schedule restores estimate',
+        ),
+        'PASS',
+        holder_outcome='REJECT',
+        allowed_holder_errors=(
+            'Laundry receipt line is already billed by another active vendor invoice',
+        ),
+    )
+    report['states']['replacement_post_vs_invoice_reversal'] = scalar(
+        """
+        select jsonb_build_object(
+          'invoice_a_status',(select status from erp.vendor_invoices where id=%s::uuid),
+          'invoice_b_status',(select status from erp.vendor_invoices where id=%s::uuid),
+          'receipt_cost_status',(select actual_cost_status from erp.laundry_receipt_lines
+            where id=%s::uuid),
+          'receipt_cost',(select actual_cost from erp.laundry_receipt_lines
+            where id=%s::uuid)
+        )
+        """,
+        (invoice_a, invoice_b, item['receipt_line_id'], item['receipt_line_id']),
+    )
+    require(
+        report['states']['replacement_post_vs_invoice_reversal'],
+        invoice_a_status='REVERSED', invoice_b_status='DRAFT',
+        receipt_cost_status='ESTIMATED', receipt_cost=70,
+    )
+
     for case, race_name, qc_first in [
         ('REVQC_INVOICE', 'reverse_qc_vs_vendor_invoice', True),
         ('INVOICE_REVQC', 'vendor_invoice_vs_reverse_qc', False),
@@ -695,6 +796,14 @@ def main():
                 invoice_status='REVERSED', receipt_cost_status='ESTIMATED', receipt_cost=70)
 
     item = setup_qc('REVQC_POSTQC', quantity=5)
+    report['states']['partial_hpp_before_reverse_qc_vs_post_final_sku'] = state(
+        'REVQC_POSTQC',
+    )
+    require(
+        report['states']['partial_hpp_before_reverse_qc_vs_post_final_sku'],
+        posted_qc=1, fg_qty=5, current_hpp=35, active_laundry_hpp=35,
+        current_cost_state='ESTIMATED', fg_net=35, wip_net=35, accrued_net=-70,
+    )
     report['races']['reverse_qc_vs_post_final_sku'] = run_pair(
         'REVERSE_QC_VS_POST_FINAL_SKU',
         facade_operation('REVERSE_FINAL_SKU', {
@@ -705,13 +814,22 @@ def main():
         'PASS',
     )
     report['states']['reverse_qc_vs_post_final_sku'] = state('REVQC_POSTQC')
-    # HPP total_cost is the surviving active FG cost pool, not qty * the
-    # Laundry rate.  Exactly one 5-pcs lot remains active and owns the one
-    # 70-unit group Laundry cost; the reversed lot must not duplicate it.
+    # A reversed historical lot keeps an immutable HPP version, so current_hpp
+    # covers both historical lots. Only the active five-piece lot may remain in
+    # FG: 35 Laundry in FG and the other 35 still in WIP.
     require(report['states']['reverse_qc_vs_post_final_sku'], posted_qc=1, reversed_qc=1,
-            fg_qty=5, current_hpp=70, fg_net=70, wip_net=0, accrued_net=-70)
+            fg_qty=5, current_hpp=70, active_laundry_hpp=35,
+            fg_net=35, wip_net=35, accrued_net=-70)
 
     item = setup_qc('POSTQC_REVQC', quantity=5)
+    report['states']['partial_hpp_before_post_final_sku_vs_reverse_qc'] = state(
+        'POSTQC_REVQC',
+    )
+    require(
+        report['states']['partial_hpp_before_post_final_sku_vs_reverse_qc'],
+        posted_qc=1, fg_qty=5, current_hpp=35, active_laundry_hpp=35,
+        current_cost_state='ESTIMATED', fg_net=35, wip_net=35, accrued_net=-70,
+    )
     report['races']['post_final_sku_vs_reverse_qc'] = run_pair(
         'POST_FINAL_SKU_VS_REVERSE_QC',
         # Before the competing reversal commits, this second 5-pcs post
@@ -729,7 +847,8 @@ def main():
     )
     report['states']['post_final_sku_vs_reverse_qc'] = state('POSTQC_REVQC')
     require(report['states']['post_final_sku_vs_reverse_qc'], posted_qc=1, reversed_qc=1,
-            fg_qty=5, current_hpp=70, fg_net=70, wip_net=0, accrued_net=-70)
+            fg_qty=5, current_hpp=70, active_laundry_hpp=35,
+            fg_net=35, wip_net=35, accrued_net=-70)
 
     completed_ids = [row[0] for row in successful_facades]
     completed_operations = [row[1] for row in successful_facades]
@@ -805,4 +924,4 @@ except Exception as error:
     REPORT.write_text(json.dumps(failure, indent=2, sort_keys=True) + '\n')
     raise
 
-print('CP6 reversal matrix passed: fourteen serialized schedules; all blocker PIDs observed.')
+print('CP6 reversal matrix passed: sixteen serialized schedules in both meaningful orders; all blocker PIDs observed.')

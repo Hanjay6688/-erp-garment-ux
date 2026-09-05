@@ -307,7 +307,10 @@ export default function ConnectedLaundryPage() {
   const canReverse = hasPermission(access, SENSITIVE_ACTION_PERMISSION.reverseLaundry)
   const roleName = identity.status === 'AUTHORIZED' ? identity.profile.roleName : 'Tanpa role'
   const bridge = useLaundryQcWorkspace('LAUNDRY')
-  const collectionTruncated = bridge.workspace?.collection_window.any_truncated ?? false
+  const collectionTruncated = Boolean(bridge.workspace && (
+    bridge.workspace.collection_window.ready_batches_truncated
+    || bridge.workspace.collection_window.deliveries_truncated
+  ))
   const [tab, setTab] = useState<'SEND' | 'RETURN' | 'FAILED' | 'HISTORY'>('SEND')
   const kpis = useMemo(() => ({
     ready: bridge.workspace ? totalReadyToSend(bridge.workspace.ready_batches) : 0,

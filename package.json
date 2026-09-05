@@ -10,7 +10,7 @@
     "check:css": "node scripts/check-css-ownership.mjs",
     "check:backend": "node scripts/check-predecessor-backend-ownership.mjs",
     "check:cp5": "node scripts/check-cp5-boundary.mjs",
-    "check:cp6": "node scripts/check-cp6-boundary.mjs && node scripts/check-cp6-audit-closure.mjs",
+    "check:cp6": "node scripts/check-cp6-boundary.mjs && node scripts/check-cp6-audit-closure.mjs && node scripts/check-cp6-reaudit-closure.mjs",
     "check:cp3-backend": "node scripts/check-backend-ownership-v2.mjs --cp3-only",
     "proof:cp45:render": "node scripts/render-cp45-source-hashes.mjs",
     "proof:cp5:render": "node scripts/render-cp5-source-hashes.mjs",

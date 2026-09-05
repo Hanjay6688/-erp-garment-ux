@@ -8,6 +8,10 @@ set local timezone='UTC';
 set local statement_timeout='20s';
 
 create temporary table cp6_workspace_scale_result(result jsonb) on commit drop;
+create temporary table cp6_workspace_scale_seen_products(
+  id uuid primary key,
+  sku text not null
+) on commit drop;
 
 do $scale$
 declare
@@ -21,9 +25,22 @@ declare
   v_qc uuid;
   v_item uuid;
   v_workspace jsonb;
-  v_filtered jsonb;
+  v_workspace_after_search jsonb;
+  v_page jsonb;
+  v_exact jsonb;
+  v_post jsonb;
+  v_financial jsonb;
+  v_cursor text:=null;
+  v_next_cursor text;
+  v_pages integer:=0;
+  v_seen integer:=0;
+  v_generated_seen integer:=0;
+  v_group_version bigint;
+  v_queue_snapshot jsonb;
   v_started timestamptz;
   v_elapsed_ms numeric;
+  v_resolver_started timestamptz;
+  v_resolver_elapsed_ms numeric;
   v_plan text:='';
   v_line text;
   i integer;
@@ -112,9 +129,44 @@ begin
   v_started:=clock_timestamp();
   v_workspace:=public.erp_get_laundry_qc_workspace_v1('QC',null);
   v_elapsed_ms:=round(extract(epoch from(clock_timestamp()-v_started))*1000,3);
-  v_filtered:=public.erp_get_laundry_qc_workspace_v1(
-    'QC','CP6-SCALE-PRODUCT-0700'
+  execute 'reset role';
+  v_queue_snapshot:=v_workspace->'qc_queue';
+
+  -- Page the source-bound resolver to completion. Every product is unique in
+  -- the temporary seen set, so a repeated/omitted keyset boundary fails.
+  v_resolver_started:=clock_timestamp();
+  loop
+    execute 'set local role authenticated';
+    v_page:=public.erp_search_final_sku_products_v1(
+      v_receipt_size_line,'2026-09-03 14:00:00+00',null,v_cursor,100
+    );
+    execute 'reset role';
+    v_pages:=v_pages+1;
+    insert into cp6_workspace_scale_seen_products(id,sku)
+    select (x->>'id')::uuid,x->>'sku'
+    from jsonb_array_elements(v_page->'products') x;
+    exit when not (v_page->>'has_more')::boolean;
+    v_next_cursor:=v_page->>'next_cursor';
+    if v_next_cursor is null or v_next_cursor is not distinct from v_cursor then
+      raise exception 'CP6 product resolver returned a missing/repeated cursor: %',v_page;
+    end if;
+    v_cursor:=v_next_cursor;
+    if v_pages>100 then
+      raise exception 'CP6 product resolver paging did not terminate';
+    end if;
+  end loop;
+  v_resolver_elapsed_ms:=round(
+    extract(epoch from(clock_timestamp()-v_resolver_started))*1000,3
   );
+  select count(*),count(*) filter(where sku like 'CP6-SCALE-PRODUCT-%')
+  into v_seen,v_generated_seen from cp6_workspace_scale_seen_products;
+
+  execute 'set local role authenticated';
+  v_exact:=public.erp_search_final_sku_products_v1(
+    v_receipt_size_line,'2026-09-03 14:00:00+00',
+    'CP6-SCALE-PRODUCT-0700',null,100
+  );
+  v_workspace_after_search:=public.erp_get_laundry_qc_workspace_v1('QC',null);
   execute 'reset role';
 
   if jsonb_array_length(v_workspace#>'{lookups,products}')<>500
@@ -129,22 +181,95 @@ begin
     raise exception 'CP6 bounded workspace scale contract mismatch: %',
       v_workspace->'collection_window';
   end if;
-  if jsonb_array_length(v_filtered#>'{lookups,products}')<>1
-     or v_filtered#>>'{lookups,products,0,sku}'<>'CP6-SCALE-PRODUCT-0700'
-     or (v_filtered#>>'{collection_window,products_truncated}')::boolean then
-    raise exception 'CP6 server-side product refinement failed: %',
-      v_filtered#>'{lookups,products}';
+  if v_generated_seen<>700 or v_pages<7
+     or jsonb_array_length(v_exact->'products')<>1
+     or v_exact#>>'{products,0,sku}'<>'CP6-SCALE-PRODUCT-0700'
+     or (v_exact->>'has_more')::boolean
+     or v_workspace_after_search->'qc_queue' is distinct from v_queue_snapshot then
+    raise exception 'CP6 source-bound product paging/queue isolation failed: pages %, seen %, exact %, queue stable %',
+      v_pages,v_generated_seen,v_exact,
+      v_workspace_after_search->'qc_queue' is not distinct from v_queue_snapshot;
   end if;
 
-  perform set_config('enable_seqscan','off',true);
+  -- Prove product 0700 is operational, not merely searchable. The entire
+  -- mutation stays inside this outer rollback-only transaction.
+  select row_version into strict v_group_version
+  from erp.cutting_groups where id=v_group;
+  execute 'set local role authenticated';
+  v_post:=public.erp_save_laundry_qc_action_v1(
+    'POST_FINAL_SKU',jsonb_build_object(
+      'cutting_group_id',v_group,
+      'destination_location_id','c8c20000-0000-4000-8000-000000000001',
+      'physical_at','2026-09-03T14:00:00Z',
+      'reason','CP6 scale product 0700 real transaction proof',
+      'good_qty_pcs',1,
+      'completion_mode','PARTIAL_SELECTION',
+      'lines',jsonb_build_array(jsonb_build_object(
+        'final_product_id',md5('CP6-WORKSPACE-SCALE-PRODUCT-700')::uuid,
+        'qty_good_pcs',1,'qty_bs_pcs',0,
+        'source_laundry_receipt_line_id',v_receipt_line,
+        'source_laundry_receipt_batch_size_line_id',v_receipt_size_line,
+        'notes','Beyond-first-500 SKU posted through authoritative facade'
+      ))
+    ),'ca6e0000-0000-4000-8000-000000000700',v_group_version
+  );
+  execute 'reset role';
+  select jsonb_build_object(
+    'committed',v_post->'committed',
+    'posted_product',(select p.sku from erp.fg_lots l
+      join erp.products p on p.id=l.product_id
+      where l.qc_item_id in(select id from erp.qc_inspection_items
+        where inspection_id=(v_post->>'qc_inspection_id')::uuid)),
+    'fg_qty',(select coalesce(sum(m.qty_signed),0) from erp.fg_stock_movements m
+      join erp.fg_lots l on l.id=m.lot_id where l.po_id=v_po),
+    'active_laundry_hpp',(select coalesce(sum(c.total_cost),0)
+      from erp.hpp_versions h
+      join erp.hpp_version_components c on c.hpp_version_id=h.id
+        and c.component_type='LAUNDRY'
+      join erp.fg_lots l on l.id=h.lot_id
+      where l.po_id=v_po and l.lot_origin='PRODUCTION' and h.is_current),
+    'hpp_state',(select min(h.cost_state) from erp.hpp_versions h
+      join erp.fg_lots l on l.id=h.lot_id
+      where l.po_id=v_po and l.lot_origin='PRODUCTION' and h.is_current),
+    'wip_net',(select coalesce(sum(j.debit-j.credit),0) from erp.journal_lines j
+      where j.po_id=v_po and j.account_id=erp.account_id('WIP')),
+    'fg_net',(select coalesce(sum(j.debit-j.credit),0) from erp.journal_lines j
+      where j.po_id=v_po and j.account_id=erp.account_id('FG_INVENTORY')),
+    'accrued_net',(select coalesce(sum(j.debit-j.credit),0) from erp.journal_lines j
+      where j.po_id=v_po and j.account_id=erp.account_id('ACCRUED_MANUFACTURING')),
+    'remaining_qc',(select qty_good_received-coalesce((select sum(
+        qi.qty_good_pcs+qi.qty_bs_pcs) from erp.qc_inspection_items qi
+        join erp.qc_inspections q on q.id=qi.inspection_id
+        where qi.source_laundry_receipt_batch_size_line_id=v_receipt_size_line
+          and q.status<>'REVERSED'),0)
+      from erp.laundry_receipt_batch_size_lines where id=v_receipt_size_line),
+    'unbalanced_journals',(select count(*) from(
+      select e.id from erp.journal_entries e
+      join erp.journal_lines j on j.journal_entry_id=e.id
+      where j.po_id=v_po group by e.id having sum(j.debit)<>sum(j.credit)
+    ) bad)
+  ) into v_financial;
+  if v_financial<>jsonb_build_object(
+    'committed',true,'posted_product','CP6-SCALE-PRODUCT-0700',
+    'fg_qty',1,'active_laundry_hpp',7,'hpp_state','ESTIMATED',
+    'wip_net',63,'fg_net',7,'accrued_net',-70,'remaining_qc',9,
+    'unbalanced_journals',0
+  ) then
+    raise exception 'CP6 product 0700 mutation/HPP/WIP mismatch: %',v_financial;
+  end if;
+
+  -- Natural planner only: never disable sequential scans to manufacture an
+  -- index claim. Equality on model/size plus the native key order should own
+  -- this bounded candidate page under the representative catalog.
   for v_line in execute format(
-    'explain(costs off) select receipt_id,receipt_line_id,custody_outcome,qty_attempted_pcs,return_wip_event_id from erp.laundry_failed_wash_attempts where delivery_id=%L::uuid',
-    v_delivery
+    'explain(analyze,buffers,costs off) select id,sku from erp.products where model_id=%L::uuid and size_id=%L::uuid and is_active and is_portal_visible and effective_from<=%L::timestamptz order by effective_from,id limit 100',
+    v_model,'c8c10000-0000-4000-8000-000000000002','2026-09-03 14:00:00+00'
   ) loop
     v_plan:=v_plan||v_line||E'\n';
   end loop;
-  if position('idx_laundry_failed_wash_attempts_delivery_v2620a' in v_plan)=0 then
-    raise exception 'CP6 hot failed-wash dependency plan did not own the covering index: %',v_plan;
+  if position('idx_products_qc_model_size_effective_v2620b' in v_plan)=0
+     or current_setting('enable_seqscan')<>'on' then
+    raise exception 'CP6 natural product candidate plan did not own the v20b index: %',v_plan;
   end if;
 
   insert into cp6_workspace_scale_result(result) values(jsonb_build_object(
@@ -152,9 +277,15 @@ begin
     'dataset',jsonb_build_object('generated_products',700,'generated_qc_history',205),
     'returned',jsonb_build_object('products',500,'qc_history',200),
     'collection_window',v_workspace->'collection_window',
-    'filtered_product_count',jsonb_array_length(v_filtered#>'{lookups,products}'),
-    'elapsed_ms',v_elapsed_ms,
-    'covering_index_observed',true,
+    'resolver',jsonb_build_object(
+      'pages',v_pages,'all_seen',v_seen,'generated_seen',v_generated_seen,
+      'exact_0700_count',jsonb_array_length(v_exact->'products'),
+      'queue_preserved',true,'elapsed_ms',v_resolver_elapsed_ms
+    ),
+    'product_0700_transaction',v_financial,
+    'workspace_elapsed_ms',v_elapsed_ms,
+    'natural_index_observed',true,
+    'natural_plan',v_plan,
     'transaction','ROLLBACK_ONLY',
     'production_go',false
   ));
