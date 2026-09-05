@@ -280,7 +280,11 @@ def main():
           'unbalanced_journals',(select count(*) from(
             select e.id from erp.journal_entries e join erp.journal_lines j
               on j.journal_entry_id=e.id
-            where j.po_id in(select id from target_po)
+            where exists(
+              select 1 from erp.journal_lines scoped
+              where scoped.journal_entry_id=e.id
+                and scoped.po_id in(select id from target_po)
+            )
             group by e.id having sum(j.debit)<>sum(j.credit)
           ) bad)
         )

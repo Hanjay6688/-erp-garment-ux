@@ -186,7 +186,9 @@ for (const token of [
   "holder['canonical_fence_prelocked'] = True",
   "'rejected_request_rows': 0", "report['race_count'] = len(report['races'])",
   "value.get('pg_blocking_pids_observed') is True",
+  'where scoped.journal_entry_id=e.id and scoped.po_id=%s::uuid',
 ]) assert.ok(race.includes(token), `Temporal/main-race evidence missing: ${token}`)
+assert.equal(race.includes('where l.po_id=%s::uuid group by e.id having'), false)
 for (const token of [
   "holder_outcome: str = 'PASS'", "holder_outcome == 'REJECT'",
   'def cp6flow_prelock(group_id: str)',
@@ -224,8 +226,11 @@ for (const token of [
   'retryDeliveryPhysicalAt = physicalNow()', 'failedWashPhysicalAt = physicalNow()',
   "'Accept-Profile': 'erp'", 'explicit_private_schema_and_sql_acl_denial',
   "active_laundry_hpp: 35", 'wip_net: 35, fg_net: 35',
+  'where scoped.journal_entry_id=e.id',
+  "and scoped.po_id='${fixture.po}'::uuid",
   'Business facts are never hand-deleted',
 ]) assert.ok(auth.includes(token), `Real Auth/JWT/HTTP proof missing: ${token}`)
+assert.equal(auth.includes("where l.po_id='${fixture.po}'::uuid group by e.id having"), false)
 
 for (const token of [
   'cp6_workspace_scale_seen_products', 'v_generated_seen<>700',
@@ -247,7 +252,10 @@ for (const token of [
   "'active_transactions': 8", "'blocked_transactions': 0",
   "'posted_qc': 8", "'fg_qty': 80", "'current_hpp': 560",
   "'wip_net': 0", "'fg_net': 560", "'accrued_net': -560",
+  'where scoped.journal_entry_id=e.id',
+  'and scoped.po_id in(select id from target_po)',
 ]) assert.ok(load.includes(token), `Eight-operator write/load proof missing: ${token}`)
+assert.equal(load.includes('where j.po_id in(select id from target_po)\n            group by e.id having'), false)
 
 for (const token of [
   migrationPath, rollbackPath, 'V2620B_MIGRATION_SHA256.txt',
