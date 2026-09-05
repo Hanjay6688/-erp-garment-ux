@@ -111,6 +111,7 @@ declare
   v_receipt_count_before integer;
   v_hpp numeric;
   v_hpp_baseline numeric;
+  v_rare_flow_base timestamptz;
 begin
   if not exists(select 1 from erp.schema_migrations where version='v2.6.20')
      or not exists(select 1 from erp.schema_migrations where version='v2.6.19c')
@@ -1662,6 +1663,17 @@ begin
     raise exception 'CP6 append-only Laundry WIP reversal history is not net zero';
   end if;
 
+  select max(rv.physical_at) into v_rare_flow_base
+  from erp.wip_stage_events rv
+  join erp.wip_stage_events src
+    on src.id=rv.source_id and src.source_type='LAUNDRY_DELIVERY_LINE'
+  join erp.laundry_delivery_lines dl on dl.id=src.source_id
+  where dl.delivery_id=v_delivery
+    and rv.source_type='CP6_LAUNDRY_DELIVERY_WIP_REVERSAL';
+  if v_rare_flow_base is null then
+    raise exception 'CP6 rare-flow fixture has no linked physical delivery return';
+  end if;
+
   -- Rare but real owner flow: the vendor may charge a failed service attempt.
   -- A retry keeps custody at Laundry; a full unprocessed return moves custody
   -- back to Sewing. Neither path may manufacture Good, BS, QC, or FG facts.
@@ -1672,9 +1684,9 @@ begin
   execute 'set local role authenticated';
   v_response:=public.erp_save_laundry_qc_action_v1(
     'POST_DELIVERY',v_send_payload||jsonb_build_object(
-      'physical_at','2026-09-02T09:00:00+00',
-      'reason','CP6 redispatch before paid failed-wash proof',
-      'notes','New immutable handoff after the old dispatch was reversed'
+      'physical_at',replace((v_rare_flow_base+interval '1 second')::text,' ','T'),
+      'reason','CP6 redispatch after linked physical return',
+      'notes','New immutable handoff after the prior dispatch physically returned'
     ),v_redispatch_request,v_group_version
   );
   execute 'reset role';
@@ -1691,7 +1703,8 @@ begin
 
   v_failed_payload:=jsonb_build_object(
     'delivery_id',v_delivery,'wash_process_id',v_process,
-    'custody_outcome','RETRY_AT_VENDOR','physical_at','2026-09-02T10:00:00+00',
+    'custody_outcome','RETRY_AT_VENDOR','physical_at',
+      replace((v_rare_flow_base+interval '2 seconds')::text,' ','T'),
     'reason','CP6 chemical exhausted after paid retry attempt',
     'lines',jsonb_build_array(jsonb_build_object(
       'delivery_batch_size_line_id',v_delivery_size_line,'qty_attempted_pcs',10
@@ -1773,7 +1786,7 @@ begin
     perform public.erp_save_laundry_qc_action_v1(
       'POST_FAILED_WASH',v_failed_payload||jsonb_build_object(
         'custody_outcome','RETURN_UNPROCESSED',
-        'physical_at','2026-09-02T10:30:00+00',
+        'physical_at',replace((v_rare_flow_base+interval '3 seconds')::text,' ','T'),
         'reason','CP6 partial full return must fail atomically',
         'lines',jsonb_build_array(jsonb_build_object(
           'delivery_batch_size_line_id',v_delivery_size_line,'qty_attempted_pcs',9
@@ -1798,7 +1811,8 @@ begin
 
   v_failed_payload:=jsonb_build_object(
     'delivery_id',v_delivery,'wash_process_id',v_process,
-    'custody_outcome','RETURN_UNPROCESSED','physical_at','2026-09-02T11:00:00+00',
+    'custody_outcome','RETURN_UNPROCESSED','physical_at',
+      replace((v_rare_flow_base+interval '4 seconds')::text,' ','T'),
     'reason','CP6 vendor returns the complete PO batch unprocessed but charges attempt',
     'lines',jsonb_build_array(jsonb_build_object(
       'delivery_batch_size_line_id',v_delivery_size_line,'qty_attempted_pcs',10
