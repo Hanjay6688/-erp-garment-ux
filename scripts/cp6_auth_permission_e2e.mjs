@@ -115,10 +115,14 @@ function bootstrapOwner(authId) {
 async function createRole(ownerToken, label, permissionKeys) {
   const requestId = randomUUID()
   requestIds.push(requestId)
-  const suffix = `${label}-${safeRunId}`.replace(/[^a-zA-Z0-9]/g, '').slice(-12).toUpperCase()
+  // Keep the semantic label outside the truncated run suffix. Putting the
+  // label before `.slice(-12)` made viewer/operator collapse to the same code.
+  const suffix = safeRunId.replace(/[^a-zA-Z0-9]/g, '').slice(-12).toUpperCase()
+  const roleCode = `CP6_${label.toUpperCase()}_${suffix}`
+  assert.match(roleCode, /^[A-Z][A-Z0-9_]{1,31}$/)
   const response = await rpc('erp_save_role_v1', ownerToken, {
     p_payload: {
-      code: `CP6_${suffix}`,
+      code: roleCode,
       name: `CP6 ${label} ${safeRunId}`,
       description: `CP6 real JWT ${label}`,
       permission_keys: permissionKeys,
