@@ -37,7 +37,15 @@ begin
   join erp.laundry_receipt_lines rl on rl.delivery_line_id=dl.id
   join erp.laundry_receipts r on r.id=rl.receipt_id
   join erp.laundry_receipt_batch_size_lines rx on rx.receipt_line_id=rl.id
-  where po.po_number='CP6-RACE-PO' and r.status='POSTED'
+  where po.po_number='CP6-MX-REVQC_INVOICE_REV'
+    and r.status='POSTED'
+    and not exists(
+      select 1
+      from erp.qc_inspection_items qi
+      join erp.qc_inspections qh on qh.id=qi.inspection_id
+      where qi.source_laundry_receipt_batch_size_line_id=rx.id
+        and qh.status<>'REVERSED'
+    )
   order by r.physical_at desc,r.id desc
   limit 1;
 
