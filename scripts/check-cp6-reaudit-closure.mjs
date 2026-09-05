@@ -58,8 +58,8 @@ for (const [path, sql] of [[migrationPath, migration], [rollbackPath, rollback]]
 const migrationBytes = Buffer.from(migration)
 const migrationFileSha = sha256(migrationBytes)
 const migrationLedgerSha = sha256(migrationBytes.subarray(0, -1))
-assert.equal(migrationFileSha, '1f92f7b8f23e3b81de21a272480a9c60a48b5cdbd1c847d163f9646f15488896')
-assert.equal(migrationLedgerSha, 'd47eb1233075900c5ff128108ee8d6cc451ebb74e5f97cc1554efac4b8b9d15d')
+assert.equal(migrationFileSha, '22f912efd1621909a21954ab05219e1d15a74c0f3c8e3bede2cf278d971e2d0c')
+assert.equal(migrationLedgerSha, '1ee29e0b220a50882b567f8deb16545f8a5ffb3a8f99b0b6e7847d70277d7e8a')
 assert.equal(occurrences(rollback, migrationFileSha), 4)
 assert.equal(occurrences(rollback, migrationLedgerSha), 4)
 assert.ok(occurrences(workflow, migrationFileSha) >= 2)
@@ -119,6 +119,7 @@ for (const token of [
   'v_cp6_lineage boolean:=false', 'v_laundry_allocated numeric(24,6):=0',
   'source_laundry_receipt_batch_size_line_id',
   'v_lot_cp6_receipt_laundry', 'v_lot_cp6_attempt_laundry',
+  'from capacity cp6_capacity', 'cp6_capacity.size_cost',
   'v_laundry_allocated:=v_laundry_allocated+v_lot_laundry',
   'unfinished cost remains WIP',
   'CP6 Laundry HPP allocation violates cost conservation',

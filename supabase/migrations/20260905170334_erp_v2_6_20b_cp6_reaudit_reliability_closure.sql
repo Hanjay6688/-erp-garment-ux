@@ -572,8 +572,8 @@ begin$replacement$;
           on s.id=y.size_slot_id and s.size_id=ap.size_id
         group by ap.id,ap.size_cost
       )
-      select coalesce(sum(c.size_cost*r.initial_qty_pcs/nullif(c.capacity_qty,0)),0)
-      into v_lot_cp6_attempt_laundry from capacity c;
+      select coalesce(sum(cp6_capacity.size_cost*r.initial_qty_pcs/nullif(cp6_capacity.capacity_qty,0)),0)
+      into v_lot_cp6_attempt_laundry from capacity cp6_capacity;
     end if;
 
     if coalesce(v_pool_qty,0)>0 then v_lot_material:=v_pool_material*(r.initial_qty_pcs::numeric/v_pool_qty);$replacement$;
