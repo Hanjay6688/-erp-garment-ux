@@ -21,8 +21,8 @@ begin
     and coalesce(encode(extensions.digest(
       convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'
     ),'hex'),'') in(
-      '1ee29e0b220a50882b567f8deb16545f8a5ffb3a8f99b0b6e7847d70277d7e8a',
-      '22f912efd1621909a21954ab05219e1d15a74c0f3c8e3bede2cf278d971e2d0c'
+      '85c802d46f1651aa7c6c63cfd34583223f6f1a13d24825fa6e57f61e9a138ac9',
+      'd8cc9327d31d1bb11886f0c3f13c9f89eeaefd9cb23a9ed0352861ccec7a3156'
     );
   select count(*) into v_conflict_count
   from supabase_migrations.schema_migrations m
@@ -30,8 +30,8 @@ begin
     and coalesce(encode(extensions.digest(
       convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'
     ),'hex'),'') not in(
-      '1ee29e0b220a50882b567f8deb16545f8a5ffb3a8f99b0b6e7847d70277d7e8a',
-      '22f912efd1621909a21954ab05219e1d15a74c0f3c8e3bede2cf278d971e2d0c'
+      '85c802d46f1651aa7c6c63cfd34583223f6f1a13d24825fa6e57f61e9a138ac9',
+      'd8cc9327d31d1bb11886f0c3f13c9f89eeaefd9cb23a9ed0352861ccec7a3156'
     );
   if v_match_count<>1 or v_conflict_count<>0 then
     raise exception 'v2.6.20b rollback refused: platform ledger identity is ambiguous (match %, conflict %)',
@@ -84,8 +84,8 @@ begin
     and coalesce(encode(extensions.digest(
       convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'
     ),'hex'),'') in(
-      '1ee29e0b220a50882b567f8deb16545f8a5ffb3a8f99b0b6e7847d70277d7e8a',
-      '22f912efd1621909a21954ab05219e1d15a74c0f3c8e3bede2cf278d971e2d0c'
+      '85c802d46f1651aa7c6c63cfd34583223f6f1a13d24825fa6e57f61e9a138ac9',
+      'd8cc9327d31d1bb11886f0c3f13c9f89eeaefd9cb23a9ed0352861ccec7a3156'
     );
   if exists(
        select 1 from erp.schema_migrations m
@@ -97,7 +97,7 @@ begin
     raise exception 'v2.6.20b rollback refused: a successor migration is already installed';
   end if;
 
-  if (select count(*) from erp.cp6_v2620b_rollback_capsule)<>7
+  if (select count(*) from erp.cp6_v2620b_rollback_capsule)<>9
      or exists(
        select 1 from erp.cp6_v2620b_rollback_capsule c
        where c.definition_sha256 is distinct from encode(extensions.digest(
@@ -226,8 +226,8 @@ begin
     and coalesce(encode(extensions.digest(
       convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'
     ),'hex'),'') in(
-      '1ee29e0b220a50882b567f8deb16545f8a5ffb3a8f99b0b6e7847d70277d7e8a',
-      '22f912efd1621909a21954ab05219e1d15a74c0f3c8e3bede2cf278d971e2d0c'
+      '85c802d46f1651aa7c6c63cfd34583223f6f1a13d24825fa6e57f61e9a138ac9',
+      'd8cc9327d31d1bb11886f0c3f13c9f89eeaefd9cb23a9ed0352861ccec7a3156'
     );
   get diagnostics v_deleted=row_count;
   if v_deleted<>1 then

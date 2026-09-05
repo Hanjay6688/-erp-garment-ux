@@ -58,8 +58,8 @@ for (const [path, sql] of [[migrationPath, migration], [rollbackPath, rollback]]
 const migrationBytes = Buffer.from(migration)
 const migrationFileSha = sha256(migrationBytes)
 const migrationLedgerSha = sha256(migrationBytes.subarray(0, -1))
-assert.equal(migrationFileSha, '22f912efd1621909a21954ab05219e1d15a74c0f3c8e3bede2cf278d971e2d0c')
-assert.equal(migrationLedgerSha, '1ee29e0b220a50882b567f8deb16545f8a5ffb3a8f99b0b6e7847d70277d7e8a')
+assert.equal(migrationFileSha, 'd8cc9327d31d1bb11886f0c3f13c9f89eeaefd9cb23a9ed0352861ccec7a3156')
+assert.equal(migrationLedgerSha, '85c802d46f1651aa7c6c63cfd34583223f6f1a13d24825fa6e57f61e9a138ac9')
 assert.equal(occurrences(rollback, migrationFileSha), 4)
 assert.equal(occurrences(rollback, migrationLedgerSha), 4)
 assert.ok(occurrences(workflow, migrationFileSha) >= 2)
@@ -85,7 +85,7 @@ for (const token of [
   'Reliable data adalah dewa. Keuangan termasuk laporan, stok, dan HPP adalah raja.',
   "version='v2.6.20a'", "version='v2.6.20b'",
   'cp6_v2620b_rollback_capsule',
-  "count(*) from erp.cp6_v2620b_rollback_capsule)<>7",
+  "count(*) from erp.cp6_v2620b_rollback_capsule)<>9",
   'installed_definition_sha256',
   "'erp.require_internal()'::regprocedure",
   "'erp.rebuild_po_hpp(uuid,text)'::regprocedure",
@@ -94,6 +94,10 @@ for (const token of [
   "'erp.reverse_laundry_delivery(uuid,text)'::regprocedure",
   "'erp.reverse_laundry_receipt(uuid,text)'::regprocedure",
   "'erp.reverse_qc(uuid,text)'::regprocedure",
+  "'erp.post_vendor_invoice(uuid)'::regprocedure",
+  "'erp.reverse_vendor_invoice(uuid,text)'::regprocedure",
+  'revoke all on function erp.post_vendor_invoice(uuid)',
+  'revoke all on function erp.reverse_vendor_invoice(uuid,text)',
 ]) assert.ok(migration.includes(token), `v20b guarded-capsule contract missing: ${token}`)
 
 const timeline = migration.slice(

@@ -129,12 +129,14 @@ where p.oid in(
   'erp.get_laundry_qc_workspace_v1(text,text)'::regprocedure,
   'erp.reverse_laundry_delivery(uuid,text)'::regprocedure,
   'erp.reverse_laundry_receipt(uuid,text)'::regprocedure,
-  'erp.reverse_qc(uuid,text)'::regprocedure
+  'erp.reverse_qc(uuid,text)'::regprocedure,
+  'erp.post_vendor_invoice(uuid)'::regprocedure,
+  'erp.reverse_vendor_invoice(uuid,text)'::regprocedure
 );
 
 do $capsule_guard$
 begin
-  if (select count(*) from erp.cp6_v2620b_rollback_capsule)<>7
+  if (select count(*) from erp.cp6_v2620b_rollback_capsule)<>9
      or exists(
        select 1 from erp.cp6_v2620b_rollback_capsule c
        where c.definition_sha256 is distinct from encode(extensions.digest(
@@ -145,6 +147,15 @@ begin
   end if;
 end
 $capsule_guard$;
+
+-- Invoice lifecycle functions are private backend dependencies.  Browser
+-- callers use reviewed public facades; exposing the erp schema must never turn
+-- default function EXECUTE into a mutation side door.  The predecessor ACLs
+-- are already captured above so the reviewed pre-use rollback remains exact.
+revoke all on function erp.post_vendor_invoice(uuid)
+  from public,anon,authenticated,service_role;
+revoke all on function erp.reverse_vendor_invoice(uuid,text)
+  from public,anon,authenticated,service_role;
 
 -- Reverse actions already require the public granular permission, but the
 -- private dependency also needs a same-backend, same-transaction context.
@@ -833,6 +844,15 @@ begin
      or has_function_privilege(
        'authenticated','erp.reverse_qc(uuid,text)','EXECUTE'
      )
+     or exists(
+       select 1
+       from (values('anon'),('authenticated'),('service_role')) r(role_name)
+       cross join (values
+         ('erp.post_vendor_invoice(uuid)'),
+         ('erp.reverse_vendor_invoice(uuid,text)')
+       ) f(function_identity)
+       where has_function_privilege(r.role_name,f.function_identity,'EXECUTE')
+     )
      or not has_function_privilege(
        'authenticated',
        'public.erp_search_final_sku_products_v1(uuid,timestamp with time zone,text,text,integer)',
@@ -846,7 +866,7 @@ begin
     pg_get_functiondef(to_regprocedure(c.object_regidentity)),'UTF8'
   ),'sha256'),'hex');
   if (select count(*) from erp.cp6_v2620b_rollback_capsule
-      where installed_definition_sha256 is not null)<>7 then
+      where installed_definition_sha256 is not null)<>9 then
     raise exception 'ERP v2.6.20b installed-definition capsule is incomplete';
   end if;
 end
