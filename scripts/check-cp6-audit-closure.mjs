@@ -14,7 +14,15 @@ const migrationPath = 'supabase/migrations/20260905110913_erp_v2_6_20a_cp6_audit
 const rollbackPath = 'supabase/rollbacks/20260905110913_erp_v2_6_20a_cp6_audit_reliability_closure.rollback.sql'
 const racePath = 'scripts/cp6_laundry_qc_concurrency.py'
 const seedPath = 'supabase/tests/cp6_laundry_qc_concurrency_seed.sql'
+const authPath = 'scripts/cp6_auth_permission_e2e.mjs'
+const scalePath = 'supabase/tests/cp6_workspace_scale_rollback.sql'
+const reversalRacePath = 'scripts/cp6_reversal_concurrency_matrix.py'
+const reversalSeedPath = 'supabase/tests/cp6_reversal_concurrency_seed.sql'
 const workflowPath = '.github/workflows/cp6-full-schema-validation.yml'
+const modelPath = 'src/laundryQcModel.ts'
+const modelTestPath = 'src/laundryQcModel.test.ts'
+const laundryPagePath = 'src/ConnectedLaundryPage.tsx'
+const qcPagePath = 'src/ConnectedQcFinalPage.tsx'
 
 const oldMigration = read(oldMigrationPath)
 const oldRollback = read(oldRollbackPath)
@@ -22,7 +30,15 @@ const migration = read(migrationPath)
 const rollback = read(rollbackPath)
 const race = read(racePath)
 const seed = read(seedPath)
+const auth = read(authPath)
+const scale = read(scalePath)
+const reversalRace = read(reversalRacePath)
+const reversalSeed = read(reversalSeedPath)
 const workflow = read(workflowPath)
+const model = read(modelPath)
+const modelTest = read(modelTestPath)
+const laundryPage = read(laundryPagePath)
+const qcPage = read(qcPagePath)
 
 assert.equal(
   sha256(oldMigration),
@@ -72,12 +88,23 @@ for (const token of [
   "'b2e8ffa3e9caf72aaa101a34bded5001'",
   "'43cec1668118c4a9c30939be72cc45b5'",
   "'c03b264c3e180c5d272f310e9374021a'",
+  "'25ac6c923bc0c2ff213a09b541a26b12'",
   'cp6_v2620a_rollback_capsule',
   "count(*) from erp.cp6_v2620a_rollback_capsule)<>4",
   'installed_definition_sha256',
   'idx_laundry_failed_wash_attempts_delivery_v2620a',
   'include(receipt_id,receipt_line_id,custody_outcome,qty_attempted_pcs,return_wip_event_id)',
 ]) assert.ok(migration.includes(token), `v2.6.20a guard/index token missing: ${token}`)
+
+for (const token of [
+  'do $patch_bounded_workspace$', 'v_collection_limit constant integer:=200',
+  'v_product_limit constant integer:=500', 'limit v_collection_limit+1',
+  'limit v_product_limit+1', "'collection_window',jsonb_build_object(",
+  "'query_required_for_more',true", "'products_relevant_to_live_qc',v_scope='QC'",
+  "'any_truncated',v_products_truncated or v_ready_truncated",
+]) assert.ok(migration.includes(token), `Bounded workspace token missing: ${token}`)
+assert.ok(occurrences(migration, 'limit v_collection_limit+1') >= 4,
+  'Every large transactional workspace collection must be bounded')
 
 const invoicePatchStart = migration.indexOf('do $patch_invoice_lifecycle$')
 const invoicePatchEnd = migration.indexOf('$patch_invoice_lifecycle$;', invoicePatchStart + 10)
@@ -133,6 +160,57 @@ for (const token of ['CP6-F02-PO', 'CP6 F02 physical-prefix terminal', 'Immutabl
 }
 
 for (const token of [
+  "classification: 'LOCAL_POST_CP6_REAL_AUTH_JWT_HTTP'", 'real_password_sessions_and_bearer_jwt',
+  'anonymous_unmapped_inactive_denial', 'viewer_laundry_and_qc_read_only',
+  'non_admin_operator_reaches_domain_guard', 'direct_cp6_table_denial',
+  'negative_mutation_transaction_residue_zero', 'auth_app_role_audit_idempotency_context_cleanup_zero',
+  "assert.notEqual(new URL(baseUrl).hostname, 'vlxdhpkjeevubjxexnfo.supabase.co'",
+  'production_go: false',
+]) assert.ok(auth.includes(token), `Real post-CP6 Auth/JWT proof token missing: ${token}`)
+
+for (const token of [
+  'generated_products', 'generated_qc_history', 'jsonb_array_length(v_workspace#>',
+  '{collection_window,products_truncated}', '{collection_window,qc_history_truncated}',
+  'CP6-SCALE-PRODUCT-0700',
+  'idx_laundry_failed_wash_attempts_delivery_v2620a', "'ROLLBACK_ONLY'",
+  "'production_go',false", 'rollback;',
+]) assert.ok(scale.includes(token), `Rollback-only scale proof token missing: ${token}`)
+
+for (const token of [
+  'RECEIPT_FAILED', 'REVDEL_RECEIPT', 'RECEIPT_REVDEL',
+  'REVDEL_FAILED', 'FAILED_REVDEL', 'REVRECEIPT_INVOICE',
+  'REVRECEIPT_QC', 'REVQC_REVRECEIPT', 'REVQC_INVOICE',
+  'INVOICE_REVQC', 'REVQC_INVOICE_REV', 'INVOICE_REV_REVQC',
+  'REVQC_POSTQC', 'POSTQC_REVQC',
+  'CP6 reversal matrix physical terminal', "<>14",
+]) assert.ok(reversalSeed.includes(token), `Reversal race seed token missing: ${token}`)
+
+for (const token of [
+  'pg_blocking_pids', 'all_blockers_observed',
+  "'post_receipt_vs_failed_wash'", "'reverse_delivery_vs_post_receipt'",
+  "'post_receipt_vs_reverse_delivery'", "'reverse_delivery_vs_failed_wash'",
+  "'failed_wash_vs_reverse_delivery'", "'reverse_receipt_vs_vendor_invoice'",
+  "'reverse_receipt_vs_final_sku'", "'reverse_qc_vs_reverse_receipt'",
+  "'reverse_qc_vs_vendor_invoice'", "'vendor_invoice_vs_reverse_qc'",
+  "'reverse_qc_vs_vendor_invoice_reversal'", "'vendor_invoice_reversal_vs_reverse_qc'",
+  "'reverse_qc_vs_post_final_sku'", "'post_final_sku_vs_reverse_qc'",
+  "'rejected_rows': 0", "'execution_context_rows': 0", "'unbalanced_journals': 0",
+  "'matrix_vendor_ap': 180", "'production_go': False",
+]) assert.ok(reversalRace.includes(token), `Reversal race matrix token missing: ${token}`)
+
+for (const token of [
+  'collection_window: Cp6CollectionWindow', 'transaction_limit !== 200',
+  'product_limit !== 500', 'query_required_for_more !== true',
+  'products_relevant_to_live_qc !== (scope === \'QC\')',
+]) assert.ok(model.includes(token), `Frontend bounded collection parser token missing: ${token}`)
+for (const token of [
+  'requires explicit bounded-collection metadata and rejects silent truncation',
+  'bounded.ready_batches = Array.from({ length: 200 }',
+]) assert.ok(modelTest.includes(token), `Frontend bounded collection test missing: ${token}`)
+assert.ok(laundryPage.includes('Hasil yang tampil bukan seluruh histori.'))
+assert.ok(qcPage.includes('Merek → Nomor SKU → Model tetap berasal dari sumber QC yang cocok.'))
+
+for (const token of [
   migrationPath, rollbackPath,
   'V2620A_MIGRATION_SHA256.txt', migrationFileSha, migrationLedgerSha,
   'invoice_reversal_vs_replacement_post', 'pg_blocking_pids_observed',
@@ -140,7 +218,23 @@ for (const token of [
   'V2620A_ROLLBACK_WRONG_NAME_REJECTION.log',
   "version='20260904232442'", 'V2620_ROLLBACK_TRUE_SUCCESSOR_REJECTION.log',
   'V2620_ROLLBACK_WRONG_NAME_REJECTION.log',
+  'node scripts/cp6_auth_permission_e2e.mjs', 'CP6_AUTH_REPORT',
+  "status_env=\"$(supabase status --workdir cp5-local -o env 2>/dev/null)\"",
+  "grep -q '^SERVICE_ROLE_KEY=' <<<\"$status_env\"",
+  scalePath, 'CP6_WORKSPACE_SCALE.json', "report['transaction']=='ROLLBACK_ONLY'",
+  reversalRacePath, reversalSeedPath, 'CP6_REVERSAL_RACE_REPORT',
+  "report['race_count']==14", "report['all_blockers_observed'] is True",
+  'Run twenty-six CP6 races plus physical-prefix and scale proofs in an isolated clone',
+  "'v2620a',exists(select 1 from erp.schema_migrations where version='v2.6.20a')",
+  "'platform_v2620a',exists(select 1 from supabase_migrations.schema_migrations",
+  "to_regclass('erp.cp6_v2620a_rollback_capsule') is not null",
+  "to_regclass('erp.idx_laundry_failed_wash_attempts_delivery_v2620a') is not null",
 ]) assert.ok(workflow.includes(token), `Workflow audit-closure proof missing: ${token}`)
+assert.ok(
+  workflow.indexOf('Apply v2.6.20a audit reliability closure once and reject replay')
+    < workflow.indexOf('Run post-CP6 real Auth JWT HTTP permissions and residue-zero E2E'),
+  'Real Auth/JWT proof must execute after v2.6.20a is installed',
+)
 
 console.log(
   `CP6 audit closure passed: immutable v2.6.20 ${sha256(oldMigration).slice(0, 12)}, `
