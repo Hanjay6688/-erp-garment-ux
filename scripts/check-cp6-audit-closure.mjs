@@ -187,8 +187,10 @@ for (const token of [
   '{collection_window,products_truncated}', '{collection_window,qc_history_truncated}',
   'CP6-SCALE-PRODUCT-0700',
   'idx_laundry_failed_wash_attempts_delivery_v2620a', "'ROLLBACK_ONLY'",
-  "'production_go',false", 'rollback;',
+  "'production_go',false", "set status='REVERSED'", 'rollback;',
 ]) assert.ok(scale.includes(token), `Rollback-only scale proof token missing: ${token}`)
+assert.equal(scale.includes('session_replication_role'), false,
+  'Scale proof must not disable database triggers')
 
 for (const token of [
   'RECEIPT_FAILED', 'REVDEL_RECEIPT', 'RECEIPT_REVDEL',

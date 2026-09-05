@@ -41,10 +41,11 @@ begin
   order by r.physical_at desc,r.id desc
   limit 1;
 
-  -- This is a disposable performance fixture, not business history. Disable
-  -- row triggers only inside this rollback-only transaction while retaining
-  -- all relational constraints and exact CP6 lineage columns.
-  perform set_config('session_replication_role','replica',true);
+  -- This is a disposable performance fixture, not business history.  Keep
+  -- every row trigger enabled: products follow normal identity validation,
+  -- while each historical QC is created DRAFT, receives one valid exact
+  -- lineage item, and only then transitions to REVERSED.  The outer rollback
+  -- removes both fixture rows and their audit rows.
   for i in 1..700 loop
     v_product:=md5('CP6-WORKSPACE-SCALE-PRODUCT-'||i::text)::uuid;
     insert into erp.products(
@@ -68,7 +69,7 @@ begin
     ) values(
       v_qc,'CP6-SCALE-QC-'||lpad(i::text,4,'0'),v_po,
       '2026-09-02 13:00:00+00'::timestamptz+(i||' seconds')::interval,
-      'REVERSED','Rollback-only bounded-history scale proof',
+      'DRAFT','Rollback-only bounded-history scale proof',
       'c8c00000-0000-4000-8000-000000000001',
       'c8c20000-0000-4000-8000-000000000001'
     );
@@ -81,8 +82,10 @@ begin
       'c8c10000-0000-4000-8000-000000000004',10,0,
       'Rollback-only bounded-history scale proof'
     );
+    update erp.qc_inspections
+    set status='REVERSED'
+    where id=v_qc;
   end loop;
-  perform set_config('session_replication_role','origin',true);
 
   analyze erp.products;
   analyze erp.qc_inspections;
