@@ -186,6 +186,8 @@ for (const token of [
   'positive_facade_actions: 12', 'granular_reverse_actions: 6',
   'viewer_denied_action_kinds',
   'wip_net: 140, fg_net: 0, accrued_net: -140',
+  "retryDeliveryPhysicalAt = sql('select clock_timestamp()::text')",
+  "failedWashPhysicalAt = sql('select clock_timestamp()::text')",
   "'Accept-Profile': 'erp'", 'explicit_private_schema_and_sql_acl_denial',
   "active_laundry_hpp: 35", 'wip_net: 35, fg_net: 35',
   'Business facts are never hand-deleted',

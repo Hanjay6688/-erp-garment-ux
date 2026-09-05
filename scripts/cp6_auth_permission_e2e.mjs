@@ -520,12 +520,16 @@ try {
     (candidate) => candidate.distribution_batch_id === fixture.batch,
   )
   assert.ok(retryBatch, 'Granular operator lost the returned batch before failed-wash proof')
+  // The reversals above append their physical correction at commit time. Use
+  // an explicit operator timestamp sampled after that commit; a fixed historic
+  // timestamp here would correctly be rejected as an impossible redispatch.
+  const retryDeliveryPhysicalAt = sql('select clock_timestamp()::text')
   const retryDelivery = await cp6Action(operatorSession, 'POST_DELIVERY', {
     distribution_batch_id: fixture.batch,
     vendor_id: fixture.vendor,
     wash_process_id: fixture.process,
     target_dyeing_color: 'NAVY',
-    physical_at: '2026-09-04T11:00:00Z',
+    physical_at: retryDeliveryPhysicalAt,
     reason: `CP6 ${safeRunId} positive JWT failed-wash dispatch`,
     notes: 'Real Auth paid failed-wash source',
     lines: [{ size_id: fixture.size, qty_sent_pcs: 10 }],
@@ -538,11 +542,12 @@ try {
     (candidate) => candidate.size_id === fixture.size,
   )
   assert.ok(retrySize, 'Failed-wash HTTP proof lost its exact delivery batch/size')
+  const failedWashPhysicalAt = sql('select clock_timestamp()::text')
   const failedWash = await cp6Action(operatorSession, 'POST_FAILED_WASH', {
     delivery_id: retryDelivery.delivery_id,
     wash_process_id: fixture.process,
     custody_outcome: 'RETRY_AT_VENDOR',
-    physical_at: '2026-09-04T12:00:00Z',
+    physical_at: failedWashPhysicalAt,
     reason: `CP6 ${safeRunId} positive JWT paid failed wash`,
     lines: [{
       delivery_batch_size_line_id: retrySize.delivery_batch_size_line_id,
