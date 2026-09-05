@@ -22,6 +22,7 @@ const safeRunId = runId.replace(/[^a-zA-Z0-9-]/g, '')
 const users = []
 const appUserIds = []
 const roleIds = []
+const roleCodes = new Set()
 const requestIds = []
 const cases = []
 
@@ -117,9 +118,12 @@ async function createRole(ownerToken, label, permissionKeys) {
   requestIds.push(requestId)
   // Keep the semantic label outside the truncated run suffix. Putting the
   // label before `.slice(-12)` made viewer/operator collapse to the same code.
-  const suffix = safeRunId.replace(/[^a-zA-Z0-9]/g, '').slice(-12).toUpperCase()
-  const roleCode = `CP6_${label.toUpperCase()}_${suffix}`
+  const suffix = safeRunId.replace(/[^a-zA-Z0-9]/g, '').slice(-8).toUpperCase()
+  const roleCode = `CP6_${label.toUpperCase().slice(0, 4)}_${suffix}`
   assert.match(roleCode, /^[A-Z][A-Z0-9_]{1,31}$/)
+  assert.ok(roleCode.length <= 20, 'role code must fit legacy app_users.role varchar(20)')
+  assert.ok(!roleCodes.has(roleCode), `duplicate generated role code: ${roleCode}`)
+  roleCodes.add(roleCode)
   const response = await rpc('erp_save_role_v1', ownerToken, {
     p_payload: {
       code: roleCode,
