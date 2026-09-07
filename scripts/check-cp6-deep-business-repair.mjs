@@ -49,11 +49,11 @@ const reversalSeed = read(reversalSeedPath)
 const rollbackRace = read(rollbackRacePath)
 const rollbackRaceRunner = read(rollbackRaceRunnerPath)
 
-const expectedFileSha = '19622d833325b9739ff39c0bad0f11435c1722d99dfe0acd48a18a6fb1f74218'
-const expectedLedgerSha = '6668d496ba3fece68d121077256a30d405b2f084c1a900cd4eb20a17792dc1a1'
+const expectedFileSha = 'b90cd6c4aa535eb97226d001fdfb5a5bfed783be28ef38dc7c121a7020368aba'
+const expectedLedgerSha = '1571c09b7a36c2bed7eee35c5c964e5d0a36b1cae08c58e0c74d028911430250'
 const migrationBytes = Buffer.from(migration)
 
-assert.equal(Buffer.byteLength(migration), 78011)
+assert.equal(Buffer.byteLength(migration), 78021)
 assert.ok(migration.endsWith('\n'), 'v20c migration must retain its terminal LF')
 assert.equal(sha256(migrationBytes), expectedFileSha)
 assert.equal(sha256(migrationBytes.subarray(0, -1)), expectedLedgerSha)
@@ -134,6 +134,8 @@ requireTokens(migration, 'N01 source-owned HPP', [
   "v_lot_commission:=erp.cp6_lot_work_cost_v2620c(r.id,'COMMISSION');",
   'v_lot_rework:=erp.cp6_lot_rework_cost_v2620c(r.id);',
   'v_lot_attendance_hpp:=erp.cp6_lot_attendance_cost_v2620c(r.id);',
+  'coalesce(nullif((select total_pcs::numeric from erp.v_cutting_group_totals',
+  'where cutting_group_id=r.lineage_group_id),0),v_po_source_qty)',
   'CP6 source-owned HPP allocation violates cost conservation',
   "'po_physical_source_qty',v_po_source_qty",
 ])
@@ -400,7 +402,7 @@ requireTokens(rollback, 'v20c fail-closed rollback', [
 
 requireTokens(workflow, 'v20c exact-SHA CI proof', [
   'Apply v2.6.20c deep-business reliability repair once and reject replay',
-  "test \"$(wc -c < \"$migration_source\")\" = '78011'",
+  "test \"$(wc -c < \"$migration_source\")\" = '78021'",
   'V2620C_MIGRATION_SHA256.txt', 'V2620C_REPLAY_REJECTION.log',
   'Run thirty-four native CP6 races plus three abort qualifications',
   "report['race_count']==22", "report['race_count'] == 12",

@@ -643,8 +643,8 @@ begin
     v_lot_laundry:=case when v_cp6_lineage
       then v_lot_cp6_receipt_laundry+v_lot_cp6_attempt_laundry
       when r.lineage_group_id is not null then v_group_laundry*(r.initial_qty_pcs::numeric/nullif(
-        coalesce((select total_pcs::numeric from erp.v_cutting_group_totals
-          where cutting_group_id=r.lineage_group_id),v_po_source_qty),0))
+        coalesce(nullif((select total_pcs::numeric from erp.v_cutting_group_totals
+          where cutting_group_id=r.lineage_group_id),0),v_po_source_qty),0))
       else v_laundry*(r.initial_qty_pcs::numeric/v_po_source_qty) end;
     v_lot_rework:=erp.cp6_lot_rework_cost_v2620c(r.id);
     v_lot_attendance_hpp:=erp.cp6_lot_attendance_cost_v2620c(r.id);$replacement$;
