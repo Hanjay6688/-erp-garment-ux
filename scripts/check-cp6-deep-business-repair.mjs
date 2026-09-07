@@ -21,6 +21,7 @@ const laundryPagePath = 'src/ConnectedLaundryPage.tsx'
 const qcPagePath = 'src/ConnectedQcFinalPage.tsx'
 const domTestPath = 'src/ConnectedLaundryQcSelectors.dom.test.tsx'
 const modelTestPath = 'src/laundryQcModel.test.ts'
+const browserTestPath = 'tests/browser/cp6-laundry-qc.spec.ts'
 const preconnectPath = 'src/types/database.preconnect.ts'
 const authPath = 'scripts/cp6_auth_permission_e2e.mjs'
 const laundryRacePath = 'scripts/cp6_laundry_qc_concurrency.py'
@@ -39,6 +40,7 @@ const laundryPage = read(laundryPagePath)
 const qcPage = read(qcPagePath)
 const domTest = read(domTestPath)
 const modelTest = read(modelTestPath)
+const browserTest = read(browserTestPath)
 const preconnect = read(preconnectPath)
 const auth = read(authPath)
 const laundryRace = read(laundryRacePath)
@@ -268,6 +270,9 @@ requireTokens(domTest, 'R03/N03/N04 DOM regression', [
 requireTokens(modelTest, 'R03 parser regression', [
   'accepts only a bounded source-bound page with one Model and size',
   'rejects mixed source dimensions and contradictory pagination',
+])
+requireTokens(browserTest, 'R03 Laundry-BS browser locator identity', [
+  "page.getByLabel('SKU BS size S', { exact: true })",
 ])
 
 // R05: valid source parameters exercise each role class over HTTP, including

@@ -481,7 +481,7 @@ test('CP6 Laundry receipt records only Good and BS while Stuck stays derived', a
   await page.getByLabel('ALASAN / BUKTI PENERIMAAN').fill('Hitung fisik vendor dan QC cocok')
   await page.getByLabel('Good kembali size S').fill('3')
   await page.getByLabel('BS Laundry size S').fill('1')
-  const product = page.getByLabel('SKU BS size S')
+  const product = page.getByLabel('SKU BS size S', { exact: true })
   await expect(product.locator('option')).toHaveCount(2)
   await expect(product.locator(`option[value="${ids.wrongProduct}"]`)).toHaveCount(0)
   await expect(product.locator(`option[value="${ids.productS}"]`))
