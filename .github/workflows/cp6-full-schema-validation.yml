@@ -791,8 +791,8 @@ jobs:
         run: |
           set -euo pipefail
           migration_source='supabase/migrations/20260907190000_erp_v2_6_20c_cp6_deep_business_reliability.sql'
-          test "$(wc -c < "$migration_source")" = '77702'
-          echo '30ceee23966416da54b24387f5bc9f67407ccfa504b15d5887fe5d210d2aa89e  supabase/migrations/20260907190000_erp_v2_6_20c_cp6_deep_business_reliability.sql' | sha256sum -c - | tee cp6-proof/V2620C_MIGRATION_SHA256.txt
+          test "$(wc -c < "$migration_source")" = '78011'
+          echo '19622d833325b9739ff39c0bad0f11435c1722d99dfe0acd48a18a6fb1f74218  supabase/migrations/20260907190000_erp_v2_6_20c_cp6_deep_business_reliability.sql' | sha256sum -c - | tee cp6-proof/V2620C_MIGRATION_SHA256.txt
           psql "$PGURL" -v ON_ERROR_STOP=1 -f "$migration_source" 2>&1 | tee cp6-proof/V2620C_APPLY.log
           psql "$PGURL" -v ON_ERROR_STOP=1 <<'SQL'
           \set migration_source_b64 `python3 -c "import base64,pathlib; p=pathlib.Path('supabase/migrations/20260907190000_erp_v2_6_20c_cp6_deep_business_reliability.sql').read_bytes(); assert p.endswith(b'\\n'); print(base64.b64encode(p[:-1]).decode())"`
@@ -802,7 +802,7 @@ jobs:
             array[convert_from(decode(:'migration_source_b64','base64'),'UTF8')]
           ) on conflict(version) do nothing;
           SQL
-          test "$(psql "$PGURL" -At -c "select encode(extensions.digest(convert_to(array_to_string(statements,E'\\n'),'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations where name='erp_v2_6_20c_cp6_deep_business_reliability'")" = 'd0a13b29dc331ac91482dc689f29f07effc06498b74d150c8b0fd14f27bf6a93'
+          test "$(psql "$PGURL" -At -c "select encode(extensions.digest(convert_to(array_to_string(statements,E'\\n'),'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations where name='erp_v2_6_20c_cp6_deep_business_reliability'")" = '6668d496ba3fece68d121077256a30d405b2f084c1a900cd4eb20a17792dc1a1'
           test "$(psql "$PGURL" -At -c "select count(*) from erp.cp6_v2620c_rollback_capsule")" = '15'
           test "$(psql "$PGURL" -At -c "select to_regprocedure('public.erp_search_laundry_bs_products_v1(uuid,timestamp with time zone,text,text,integer)') is not null")" = 't'
           test "$(psql "$PGURL" -At -c "select bool_and(c.relrowsecurity) from pg_class c where c.oid in('erp.cp3_r4_rollback_capsule'::regclass,'erp.cp4_v2616_rollback_capsule'::regclass,'erp.cp45_v2617_rollback_capsule'::regclass,'erp.cp45_v2617a_rollback_capsule'::regclass)")" = 't'

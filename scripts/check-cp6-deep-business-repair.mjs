@@ -49,11 +49,11 @@ const reversalSeed = read(reversalSeedPath)
 const rollbackRace = read(rollbackRacePath)
 const rollbackRaceRunner = read(rollbackRaceRunnerPath)
 
-const expectedFileSha = '30ceee23966416da54b24387f5bc9f67407ccfa504b15d5887fe5d210d2aa89e'
-const expectedLedgerSha = 'd0a13b29dc331ac91482dc689f29f07effc06498b74d150c8b0fd14f27bf6a93'
+const expectedFileSha = '19622d833325b9739ff39c0bad0f11435c1722d99dfe0acd48a18a6fb1f74218'
+const expectedLedgerSha = '6668d496ba3fece68d121077256a30d405b2f084c1a900cd4eb20a17792dc1a1'
 const migrationBytes = Buffer.from(migration)
 
-assert.equal(Buffer.byteLength(migration), 77702)
+assert.equal(Buffer.byteLength(migration), 78011)
 assert.ok(migration.endsWith('\n'), 'v20c migration must retain its terminal LF')
 assert.equal(sha256(migrationBytes), expectedFileSha)
 assert.equal(sha256(migrationBytes.subarray(0, -1)), expectedLedgerSha)
@@ -87,12 +87,35 @@ assert.doesNotMatch(migration, /delete\s+from\s+erp\.(?:laundry_|qc_|fg_|hpp_|jo
 requireTokens(migration, 'v20c identity/capsule', [
   'Reliable data adalah DEWA. Keuangan termasuk laporan, stok, dan HPP adalah RAJA.',
   "version='v2.6.20b'", "version='v2.6.20c'",
+  '22c87dd49ba233d000bac665fae805798a9ac91458d00efa7ad0cbb8bf467cc6',
   'create table erp.cp6_v2620c_rollback_capsule(',
   'alter table erp.cp6_v2620c_rollback_capsule enable row level security;',
   '(select count(*) from erp.cp6_v2620c_rollback_capsule)<>15',
   'installed_definition_sha256',
   "values('v2.6.20c','CP6 deep-business repair: source-owned HPP, sale valuation order, exact money, historical report basis, Laundry-BS paging, capsule RLS')",
 ])
+const predecessorRuntimeHashes = new Map([
+  ['erp._release_sale_draft_reservations(uuid,text)', '71cf2f7dd6dbfdf89d1fa971f2c92687b011c77713c2ac4b09b45a3b9cdaa2ca'],
+  ['erp._reserve_sale_draft(uuid)', '6a4bc57b13f60cd7eabcc6c8baf3bc477317b04278ab3647c2c07c92e1541628'],
+  ['erp.save_sale_draft_v2(jsonb,uuid,bigint)', '6b37f148e5ab878ab291cccd4ada13d56ad234c2aaed688fdef0e92486c23391'],
+  ['erp.cancel_sale_draft_v2(uuid,text,uuid,bigint)', '4c868283f35c93cfe1579fb3a6e1c82d238602674ea346ee4ad6eb8666c17b3b'],
+  ['erp.compute_po_hpp_gl_targets(uuid)', 'b70b577c5d4f2b6676cb31fc3eb829170c0cfa9e1b1e3da49a4698e596dd4360'],
+  ['erp.get_owner_financial_snapshot_v2(date,date,date)', '90310a979ce13205ddaa93cdf59d9adc09498cb07ab1ea0c097642e894602153'],
+  ['erp.post_sale(uuid)', '8fe49a80c46a2e4c614bab8e7e00c3a5d86a1dcd1fae363b1ce92b305c2b5cad'],
+  ['erp.post_sale_v2(uuid,uuid,bigint)', '509193022c70546d7a3f6ad3da814a6f7fed43d4736526aea06283d0ed63cbb9'],
+  ['erp.post_vendor_payment(uuid)', '3438c40881e3f2afc8e571cc6aa70883c2c5c8979716409fb415d356ec23096d'],
+  ['erp.rebuild_po_hpp(uuid,text)', 'fc200d2251276d20b79120635a1c13103fad54c58fe2d1e3d6df1e60deb794bb'],
+  ['erp.refresh_po_hpp_gl_baseline(uuid)', '55e511ef6bf360a11092d494ca27f1d2d9668a1bb2f154a58a6a81dcf3e24e36'],
+  ['erp.reverse_sale(uuid,text)', '65d9a5cb7342b5a1b69417152bf7b76c48218cc1668cbbcc2e00020f722925a1'],
+  ['erp.reverse_vendor_payment(uuid,text)', 'ff12b8ee921b4ab08c43800bde403acae57d11f7d176a907b4fa8771bfe13e68'],
+  ['erp.run_v268_financial_report_checks()', '9d82ca324cc2097f2fbdf98bf20d8c63d0a2474b897cfeb39290683c8e499a44'],
+  ['erp.sync_po_hpp_to_gl(uuid,date)', '4b3912b73efdb02456128d6d3c3a2f87bd7ad69a6bdf1ba31af5e16c07cfdf39'],
+])
+for (const [identity, hash] of predecessorRuntimeHashes) {
+  assert.ok(migration.includes(`('${identity}','${hash}')`), `runtime predecessor hash missing: ${identity}`)
+}
+assert.equal(migration.includes('f76c65655360dd1f90986b8ba3df082362e9d3653bee5ecd4df744c52f8c19a7'), false)
+assert.equal(migration.includes('488a682df22fe4be03dca7d8b251e95716e6a5312ed63e15d1d079ff008407b2'), false)
 for (const table of [
   'cp3_r4_rollback_capsule', 'cp4_v2616_rollback_capsule',
   'cp45_v2617_rollback_capsule', 'cp45_v2617a_rollback_capsule',
@@ -377,7 +400,7 @@ requireTokens(rollback, 'v20c fail-closed rollback', [
 
 requireTokens(workflow, 'v20c exact-SHA CI proof', [
   'Apply v2.6.20c deep-business reliability repair once and reject replay',
-  "test \"$(wc -c < \"$migration_source\")\" = '77702'",
+  "test \"$(wc -c < \"$migration_source\")\" = '78011'",
   'V2620C_MIGRATION_SHA256.txt', 'V2620C_REPLAY_REJECTION.log',
   'Run thirty-four native CP6 races plus three abort qualifications',
   "report['race_count']==22", "report['race_count'] == 12",

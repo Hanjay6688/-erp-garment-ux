@@ -72,22 +72,27 @@ begin
       v_platform_match_count;
   end if;
 
+  -- These are pg_get_functiondef() hashes recomputed by executing against the
+  -- exact restore boundary whose SHA-256 is
+  -- 22c87dd49ba233d000bac665fae805798a9ac91458d00efa7ad0cbb8bf467cc6.
+  -- runtime-function-index.json is only a location map; its per-entry source
+  -- hashes are not runtime hashes.
   for r in select * from (values
-    ('erp._release_sale_draft_reservations(uuid,text)','f76c65655360dd1f90986b8ba3df082362e9d3653bee5ecd4df744c52f8c19a7'),
-    ('erp._reserve_sale_draft(uuid)','bc78c9734e0421ee8cda23b158e14c5c1344142b7b39a11becadb3cc95252a36'),
-    ('erp.save_sale_draft_v2(jsonb,uuid,bigint)','53343ef8eac4bebfdaa73cefd42cecd42998e4c17f74e643a2d039e428ae78a6'),
-    ('erp.cancel_sale_draft_v2(uuid,text,uuid,bigint)','5e73ea052aaf59c222eb45a3be99b89e76bb60c9c191a3637b21b07d67907a0e'),
-    ('erp.compute_po_hpp_gl_targets(uuid)','5fd2261072c18dfc8e6da63902320672b89d28caeb52e5c83b562626277845c9'),
-    ('erp.get_owner_financial_snapshot_v2(date,date,date)','7bc51c721e14552ee690eb23388d1a3ced04fbc3137d989d6a7115eedfb6ff37'),
-    ('erp.post_sale(uuid)','9b1cbb28a7c22677e96cf58001b3b903321f53562083fd09805ece98fa37f7aa'),
-    ('erp.post_sale_v2(uuid,uuid,bigint)','646321185c214fe26b7f843c76702b25d74425c0807f87b80ea80dd7990d09bb'),
-    ('erp.post_vendor_payment(uuid)','1a153ba0dcfb3cbeec1ee52c977c855c375fe26b2f22aed58f3e986cebf1ec63'),
-    ('erp.rebuild_po_hpp(uuid,text)','488a682df22fe4be03dca7d8b251e95716e6a5312ed63e15d1d079ff008407b2'),
-    ('erp.refresh_po_hpp_gl_baseline(uuid)','c91f70fb7ef8102b38ec2707e72eb6940a17f0ad6b34780f992e95152ec72d52'),
-    ('erp.reverse_sale(uuid,text)','9c2dfee8fd50ba433b890bbd778ac2efdff1be0b0e750bbc4924e1e30fb83eef'),
-    ('erp.reverse_vendor_payment(uuid,text)','95d55907ace413137a0082efeeb39d2add38862b726330f1e2ed8b5918d4683f'),
-    ('erp.run_v268_financial_report_checks()','4a3149d78a0f6f3f9f1645d867de9f8ed8386cac4fb64bd139c22f24a0e0c264'),
-    ('erp.sync_po_hpp_to_gl(uuid,date)','7a1d80d1e1f45d3812ce8ebef8b61c1704241ffc44e87793c28a0f83675ca327')
+    ('erp._release_sale_draft_reservations(uuid,text)','71cf2f7dd6dbfdf89d1fa971f2c92687b011c77713c2ac4b09b45a3b9cdaa2ca'),
+    ('erp._reserve_sale_draft(uuid)','6a4bc57b13f60cd7eabcc6c8baf3bc477317b04278ab3647c2c07c92e1541628'),
+    ('erp.save_sale_draft_v2(jsonb,uuid,bigint)','6b37f148e5ab878ab291cccd4ada13d56ad234c2aaed688fdef0e92486c23391'),
+    ('erp.cancel_sale_draft_v2(uuid,text,uuid,bigint)','4c868283f35c93cfe1579fb3a6e1c82d238602674ea346ee4ad6eb8666c17b3b'),
+    ('erp.compute_po_hpp_gl_targets(uuid)','b70b577c5d4f2b6676cb31fc3eb829170c0cfa9e1b1e3da49a4698e596dd4360'),
+    ('erp.get_owner_financial_snapshot_v2(date,date,date)','90310a979ce13205ddaa93cdf59d9adc09498cb07ab1ea0c097642e894602153'),
+    ('erp.post_sale(uuid)','8fe49a80c46a2e4c614bab8e7e00c3a5d86a1dcd1fae363b1ce92b305c2b5cad'),
+    ('erp.post_sale_v2(uuid,uuid,bigint)','509193022c70546d7a3f6ad3da814a6f7fed43d4736526aea06283d0ed63cbb9'),
+    ('erp.post_vendor_payment(uuid)','3438c40881e3f2afc8e571cc6aa70883c2c5c8979716409fb415d356ec23096d'),
+    ('erp.rebuild_po_hpp(uuid,text)','fc200d2251276d20b79120635a1c13103fad54c58fe2d1e3d6df1e60deb794bb'),
+    ('erp.refresh_po_hpp_gl_baseline(uuid)','55e511ef6bf360a11092d494ca27f1d2d9668a1bb2f154a58a6a81dcf3e24e36'),
+    ('erp.reverse_sale(uuid,text)','65d9a5cb7342b5a1b69417152bf7b76c48218cc1668cbbcc2e00020f722925a1'),
+    ('erp.reverse_vendor_payment(uuid,text)','ff12b8ee921b4ab08c43800bde403acae57d11f7d176a907b4fa8771bfe13e68'),
+    ('erp.run_v268_financial_report_checks()','9d82ca324cc2097f2fbdf98bf20d8c63d0a2474b897cfeb39290683c8e499a44'),
+    ('erp.sync_po_hpp_to_gl(uuid,date)','4b3912b73efdb02456128d6d3c3a2f87bd7ad69a6bdf1ba31af5e16c07cfdf39')
   ) expected(object_identity,sha256)
   loop
     if to_regprocedure(r.object_identity) is null then
