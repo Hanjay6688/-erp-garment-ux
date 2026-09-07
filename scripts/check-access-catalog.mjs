@@ -105,10 +105,11 @@ const cp6SensitiveActions = new Set(['reverseFinalSku'])
 const cp5SensitiveActionCount = [...actionMap.keys()].filter((action) => !cp6SensitiveActions.has(action)).length
 assert.equal(evidence.counts.sensitive_actions, cp5SensitiveActionCount)
 assert.equal(actionMap.get('reverseFinalSku'), 'production.final_sku.reverse')
-assert.equal(rpcBoundaries.size, evidence.counts.browser_rpc_boundaries + 3)
+assert.equal(rpcBoundaries.size, evidence.counts.browser_rpc_boundaries + 4)
 assert.ok(rpcBoundaries.has('src/useLaundryQcWorkspace.ts:erp_get_laundry_qc_workspace_v1'))
 assert.ok(rpcBoundaries.has('src/useLaundryQcWorkspace.ts:erp_save_laundry_qc_action_v1'))
 assert.ok(rpcBoundaries.has('src/useLaundryQcWorkspace.ts:erp_search_final_sku_products_v1'))
+assert.ok(rpcBoundaries.has('src/useLaundryQcWorkspace.ts:erp_search_laundry_bs_products_v1'))
 for (const [route, permission] of Object.entries(evidence.critical_routes)) {
   assert.equal(pageMap.get(route), permission, `Critical route evidence drift: ${route}`)
 }

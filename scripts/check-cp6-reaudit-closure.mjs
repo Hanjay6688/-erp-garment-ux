@@ -181,40 +181,51 @@ for (const token of [
 for (const token of [
   "'physical_at': '2026-09-01T10:30:00Z'",
   'before_first_rejected', 'between_dispatch_and_return_rejected',
-  'F02_CONCURRENT_BACKDATES', 'future distribution batch/size history negative',
-  "pg_advisory_xact_lock(hashtextextended('CP6FLOW:'||%s::text,0))",
-  "holder['canonical_fence_prelocked'] = True",
+  'threading.Barrier(2)', 'concurrent_backdate_qualification',
+  'REJECT_ABORT_SEMANTICS_NOT_A_RUNTIME_LOCK_RACE',
+  "'manual_prelock_used': False", "'pg_blocking_pids_claimed': False",
+  "len({call.get('backend_pid') for call in rejected_calls}) != 2",
+  'future distribution batch/size history negative',
   "'rejected_request_rows': 0", "report['race_count'] = len(report['races'])",
   "value.get('pg_blocking_pids_observed') is True",
   'where scoped.journal_entry_id=e.id and scoped.po_id=%s::uuid',
 ]) assert.ok(race.includes(token), `Temporal/main-race evidence missing: ${token}`)
 assert.equal(race.includes('where l.po_id=%s::uuid group by e.id having'), false)
+assert.doesNotMatch(race, /canonical_fence_prelocked|F02_CONCURRENT_BACKDATES/)
+assert.doesNotMatch(race, /pg_advisory_xact_lock\(hashtextextended\('CP6FLOW:/)
 for (const token of [
-  "holder_outcome: str = 'PASS'", "holder_outcome == 'REJECT'",
-  'def cp6flow_prelock(group_id: str)',
-  'def invoice_post_prelock(invoice_id: str, group_id: str)',
-  "holder_prelock_label='CP6FLOW_GROUP'",
-  "holder_prelock_label='INVOICE_HEADER_THEN_CP6FLOW'",
+  "'holder_outcome': 'PASS'",
+  'def run_reject_abort_qualification(',
+  'REJECT_ABORT_SEMANTICS_QUALIFICATION_NOT_A_RUNTIME_LOCK_RACE',
+  "'manual_prelock_used': False", "'pg_blocking_pids_claimed': False",
+  "'qualification_probes': {}",
+  "'reverse_receipt_reject_then_reverse_qc'",
+  "'replacement_post_reject_then_invoice_reversal'",
   "'reverse_receipt_vs_reverse_qc'", "'replacement_post_vs_invoice_reversal'",
   "current_cost_state='ESTIMATED', fg_net=35, wip_net=35, accrued_net=-70",
   'def require_reversed_hpp_history(actual: dict[str, Any])',
   "actual.get('reversed_lot_count') != 1",
   "actual.get('reversed_lot_hpp_rows', 0) < 1",
   "l.lot_origin='VOIDED_PRODUCTION'",
-  "report['race_count'] = len(report['races'])", 'sixteen serialized schedules',
+  "report['race_count'] = len(report['races'])",
+  "report['qualification_probe_count'] = len(report['qualification_probes'])",
+  "report['manual_prelock_count'] = 0",
+  'twenty-two native runtime-lock schedules (including eight Sales Draft/HPP/invoice schedules) plus two explicit reject/abort qualifications',
 ]) assert.ok(matrix.includes(token), `Inverse/partial race evidence missing: ${token}`)
+assert.doesNotMatch(matrix, /def cp6flow_prelock|def invoice_post_prelock|holder_prelock_label/)
+assert.doesNotMatch(matrix, /holder_outcome\s*==\s*['"]REJECT['"]/)
 assert.equal(occurrences(matrix, 'fg_qty=5, current_hpp=70'), 0,
   'Reversed historical HPP must not be counted as current stock HPP')
 assert.equal(occurrences(matrix, 'fg_qty=5, current_hpp=35, active_laundry_hpp=35'), 4,
   'Both partial starting states and both serialized final states must conserve 35 FG / 35 WIP')
 for (const token of [
   'REVRECEIPT_REVQC', 'REPLACEMENT_INVERSE',
-  'SCALE_OP_01', 'SCALE_OP_08', "'CP6_SCALE_OPERATOR'", '<>24',
+  'SCALE_OP_01', 'SCALE_OP_08', "'CP6_SCALE_OPERATOR'", '<>33',
 ]) assert.ok(matrixSeed.includes(token), `Matrix/scale seed missing: ${token}`)
 
 for (const token of [
   'SUPABASE_AUTH_URL', 'SUPABASE_REST_URL', 'CP6_AUTH_CONTROL_PGURL',
-  "target: 'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620B'",
+  "target: 'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620C'",
   'operator_positive_delivery_receipt_partial_and_remaining_final_sku',
   'partial_laundry_hpp_and_wip_conservation', 'granular_reverse_permissions_positive',
   'all_seven_mutation_actions_positive_for_granular_operator',
@@ -266,27 +277,43 @@ assert.equal(load.includes("'blocked_transactions': 0"), false)
 
 for (const token of [
   migrationPath, rollbackPath, 'V2620B_MIGRATION_SHA256.txt',
+  'supabase/migrations/20260907190000_erp_v2_6_20c_cp6_deep_business_reliability.sql',
+  'supabase/rollbacks/20260907190000_erp_v2_6_20c_cp6_deep_business_reliability.rollback.sql',
+  'V2620C_MIGRATION_SHA256.txt', 'V2620C_APPLY.log', 'V2620C_REPLAY_REJECTION.log',
   'CP6_AUTH_PGURL', "CP6_AUTH_DATABASE_NAME='cp6_auth'",
   "SUPABASE_REST_URL='http://127.0.0.1:54329'", "SUPABASE_REST_PREFIX=''",
   "PGRST_DB_SCHEMAS", 'CP6_AUTH_CLONE_CLEANUP.txt', 'remaining_databases=%s',
-  'Run twenty-eight CP6 races plus temporal, paging, and eight-operator scale proofs',
-  "report['race_count']==16", "report['race_count'] == 12",
+  'Run thirty-four native CP6 races plus three abort qualifications, temporal, paging, and scale proofs',
+  "report['race_count']==22", "report['race_count'] == 12",
+  "report['qualification_probe_count']==2", "report['manual_prelock_count']==0",
+  "qualification['classification']=='REJECT_ABORT_SEMANTICS_NOT_A_RUNTIME_LOCK_RACE'",
+  "qualification['manual_prelock_used'] is False",
+  "qualification['pg_blocking_pids_claimed'] is False",
   "report['positive_evidence']['failed_wash_cost_only']['wip_net']==140",
   "set(report['positive_evidence']['mutation_action_kinds'])==expected_actions",
   "set(report['positive_evidence']['viewer_denied_action_kinds'])==expected_actions",
+  "report['confidence_gate']=={",
+  "'hpp_state_vs_actual_book_detected':True",
+  "'wip_source_conservation_detected':True",
+  "'sale_revenue_input_detected':True",
   'scripts/cp6_workspace_operator_load.py', 'V2620B_ROLLBACK_CONCURRENCY.json',
+  'scripts/run_cp6_v2620c_live_rollback_races.sh',
+  'V2620C_LIVE_ROLLBACK_WRITER_FIRST.json',
+  'V2620C_LIVE_ROLLBACK_ROLLBACK_FIRST.json',
   "['idle_transactions']==1", "['active_writers']==7",
   "['blocked_transactions']==7", "['blocking_edges'])==7",
   'V2620B_ROLLBACK_SUCCESSOR_REJECTION.log', 'V2620B_ROLLBACK_TAMPER_REJECTION.log',
   'Bind successful CP6 proof to the exact runtime SHA',
-  "'format':'CP6_V2620B_RUNTIME_PROOF_V1'",
+  "'format':'CP6_V2620C_RUNTIME_PROOF_V1'",
   "'status':'PASS_EXACT_LOCAL_DISPOSABLE_CI'",
   'relative_path=path.relative_to(proof)', "part.startswith('.')",
   "'include_hidden_files':False",
   "'manifest_excludes_hidden_path_components':True",
   'include-hidden-files: false',
-  "'serialized_race_schedules':28", "'browser_executions':26",
-  "'uat_v2620a_v2620b_state':'NOT_TESTED_OR_APPLIED_BY_THIS_RUN'",
+  "'native_runtime_race_schedules':34", "'reject_abort_qualifications':3",
+  "'manual_prelock_count':0", "'actual_business_facade_rollback_race_orders':2",
+  "'financial_confidence_corruption_probes':3", "'browser_executions':26",
+  "'uat_v2620a_v2620b_v2620c_state':'NOT_TESTED_OR_APPLIED_BY_THIS_RUN'",
   "'legacy_state':'NOT_TESTED_OR_MUTATED_BY_THIS_RUN'",
   "'production_go':False",
 ]) assert.ok(workflow.includes(token), `CI v20b ownership missing: ${token}`)
@@ -311,5 +338,6 @@ for (const token of [
 
 console.log(
   `CP6 re-audit closure passed: v20b ${migrationFileSha.slice(0, 12)} owns full temporal prefixes, `
-  + 'partial Laundry HPP/WIP lineage, granular reverse Auth, paged SKU writes, 28 PID-observed races, and eight-operator load.',
+  + 'partial Laundry HPP/WIP lineage and granular reverse Auth; v20c CI adds 34 native runtime races, '
+  + 'three reject/abort qualifications, actual-facade rollback races, and deep financial confidence probes.',
 )

@@ -3,8 +3,9 @@ import { useAuth } from './auth/AuthProvider'
 import { normalizeClientError } from './lib/clientError'
 import { getUatSupabaseClient } from './lib/supabase'
 import {
-  parseFinalSkuProductSearch, parseLaundryQcWorkspace,
-  type Cp6ProductSearchPage, type LaundryQcAction, type LaundryQcScope,
+  parseFinalSkuProductSearch, parseLaundryBsProductSearch, parseLaundryQcWorkspace,
+  type Cp6LaundryBsProductSearchPage, type Cp6ProductSearchPage,
+  type LaundryQcAction, type LaundryQcScope,
   type LaundryQcWorkspace,
 } from './laundryQcModel'
 import type { Json } from './types/database.preconnect'
@@ -225,6 +226,29 @@ export function useLaundryQcWorkspace(scope: LaundryQcScope) {
       || Date.parse(page.physical_at) !== Date.parse(physicalAt)
       || page.page_limit !== 50) {
       throw new Error('Respons pencarian Final SKU tidak cocok dengan sumber/waktu yang diminta.')
+    }
+    return page
+  }, [client])
+
+  const searchLaundryBsProducts = useCallback(async (
+    deliveryBatchSizeLineId: string,
+    physicalAt: string,
+    productQuery: string,
+    afterSortKey: string | null = null,
+  ): Promise<Cp6LaundryBsProductSearchPage> => {
+    const { data, error: searchError } = await client.rpc('erp_search_laundry_bs_products_v1', {
+      p_delivery_batch_size_line_id: deliveryBatchSizeLineId,
+      p_physical_at: physicalAt,
+      p_query: productQuery.trim() || null,
+      p_after_sort_key: afterSortKey,
+      p_limit: 50,
+    })
+    if (searchError) throw searchError
+    const page = parseLaundryBsProductSearch(data)
+    if (page.source_delivery_batch_size_line_id !== deliveryBatchSizeLineId
+      || Date.parse(page.physical_at) !== Date.parse(physicalAt)
+      || page.page_limit !== 50) {
+      throw new Error('Respons pencarian SKU Laundry-BS tidak cocok dengan sumber/waktu yang diminta.')
     }
     return page
   }, [client])
@@ -482,7 +506,7 @@ export function useLaundryQcWorkspace(scope: LaundryQcScope) {
     workspace, query, loading, busy, error, notice, pending,
     corruptedEnvelope, workspaceStale, externalMutationBlocked,
     committedRefreshRequired, committedSequence, writerLocked,
-    search, load, runAction, reconcile, searchFinalSkuProducts,
+    search, load, runAction, reconcile, searchFinalSkuProducts, searchLaundryBsProducts,
     acknowledgeCommittedFormRetired,
   }
 }

@@ -511,8 +511,8 @@ assert.equal(/disable\s+trigger|session_replication_role/i.test(cp5Recovery), fa
 const rpcNames = [...hook.matchAll(/\.rpc\s*\(\s*['"]([^'"]+)['"]/g)].map((match) => match[1])
 assert.deepEqual([...new Set(rpcNames)].sort(), [
   'erp_get_laundry_qc_workspace_v1', 'erp_save_laundry_qc_action_v1',
-  'erp_search_final_sku_products_v1',
-], 'CP6 browser boundary must use exactly three reviewed public RPC facades')
+  'erp_search_final_sku_products_v1', 'erp_search_laundry_bs_products_v1',
+], 'CP6 browser boundary must use exactly four reviewed public RPC facades')
 assert.equal(rpcNames.filter((name) => name === 'erp_save_laundry_qc_action_v1').length, 1,
   'CP6 mutations must share one exact-envelope send path')
 for (const token of [
@@ -767,7 +767,7 @@ for (const token of [
 ]) assert.ok(workflow.includes(token), `CP6 rollback/final schema-residue proof missing: ${token}`)
 assert.match(browserConfig, /testMatch: 'cp6-laundry-qc\.spec\.ts'/)
 assert.match(browserConfig, /ERP_UAT_AUTH_ALLOW_MOCK_KEY: '1'/)
-assert.match(packageJson, /"check:cp6": "node scripts\/check-cp6-boundary\.mjs && node scripts\/check-cp6-audit-closure\.mjs && node scripts\/check-cp6-reaudit-closure\.mjs"/)
+assert.match(packageJson, /"check:cp6": "node scripts\/check-cp6-boundary\.mjs && node scripts\/check-cp6-audit-closure\.mjs && node scripts\/check-cp6-reaudit-closure\.mjs && node scripts\/check-cp6-deep-business-repair\.mjs"/)
 assert.match(packageJson, /"test:security":[^\n]*npm run check:cp6/)
 assert.match(packageJson, /"check:backend": "node scripts\/check-predecessor-backend-ownership\.mjs"/)
 for (const token of [

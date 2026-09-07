@@ -65,7 +65,7 @@ function groupQueue(rows: Cp6QcQueueRow[]): QueueGroup[] {
   return [...groups.values()]
 }
 
-function ProductSelector({ row, physicalIso, disabled, value, catalog, searchProducts, onResolved, onChange }: {
+export function ProductSelector({ row, physicalIso, disabled, value, catalog, searchProducts, onResolved, onChange }: {
   row: Cp6QcQueueRow
   physicalIso: string | null
   disabled: boolean
@@ -84,6 +84,7 @@ function ProductSelector({ row, physicalIso, disabled, value, catalog, searchPro
   const requestRef = useRef(0)
   useEffect(() => {
     requestRef.current += 1
+    setLoading(false)
     setFetched([])
     setCursor(null)
     setHasMore(false)
@@ -141,6 +142,7 @@ function ProductSelector({ row, physicalIso, disabled, value, catalog, searchPro
       disabled={disabled || !physicalIso}
       onChange={(event) => {
         requestRef.current += 1
+        setLoading(false)
         setQuery(event.target.value)
         setFetched([])
         setCursor(null)
@@ -162,6 +164,9 @@ function ProductSelector({ row, physicalIso, disabled, value, catalog, searchPro
     {error ? <small className="bad">{error}</small> : <small>Merek → Nomor SKU → Model tetap berasal dari sumber QC yang cocok. Pencarian SKU terpisah; antrean QC dan pilihan sumber tidak berubah.</small>}
   </div>
 }
+
+export const qcCompletionMode = (selectedQty: number, authoritativeRemainingQty: number) =>
+  selectedQty > 0 && selectedQty === authoritativeRemainingQty ? 'ALL_READY' : 'PARTIAL_SELECTION'
 
 function FinalSkuForm({ workspace, writerLocked, canPost, onAction, searchProducts }: {
   workspace: LaundryQcWorkspace; writerLocked: boolean; canPost: boolean; onAction: RunAction
@@ -197,7 +202,8 @@ function FinalSkuForm({ workspace, writerLocked, canPost, onAction, searchProduc
   const selected = lines.reduce((sum, row) => sum + row.qty_good_pcs + row.qty_bs_pcs, 0)
   const declaredGood = lines.reduce((sum, row) => sum + row.qty_good_pcs, 0)
   const declaredBs = lines.reduce((sum, row) => sum + row.qty_bs_pcs, 0)
-  const allReady = group?.rows.reduce((sum, row) => sum + row.available_for_qc_qty_pcs, 0) ?? 0
+  const visibleReady = group?.rows.reduce((sum, row) => sum + row.available_for_qc_qty_pcs, 0) ?? 0
+  const authoritativeRemaining = group?.remaining ?? 0
   const over = group?.rows.some((row) => {
     const key = row.source_batch_size_line_id
     return quantity(good[key] ?? '0')
@@ -246,7 +252,7 @@ function FinalSkuForm({ workspace, writerLocked, canPost, onAction, searchProduc
       const bsQty = quantity(bs[key] ?? '0')
       return <article key={key}><div><b>Batch {row.batch_no} · Ukuran {row.size_code}</b><small>{row.receipt_number} · {row.vendor_name}</small><small>Good diterima {row.qty_good_received} · sudah QC {row.qc_accounted_qty_pcs} · tersedia {row.available_for_qc_qty_pcs}</small></div><label><span>GOOD FINAL</span><input aria-label={`Good final size ${row.size_code}`} inputMode="numeric" disabled={actionLocked} value={good[key] ?? '0'} onChange={(event) => { setGood((current) => ({ ...current, [key]: event.target.value })); setConfirmed(false) }}/></label><label><span>BS QC</span><input aria-label={`BS QC size ${row.size_code}`} inputMode="numeric" disabled={actionLocked} value={bs[key] ?? '0'} onChange={(event) => { setBs((current) => ({ ...current, [key]: event.target.value })); setConfirmed(false) }}/></label><ProductSelector row={row} physicalIso={physicalIso} disabled={actionLocked || goodQty + bsQty === 0} value={products[key] ?? ''} catalog={productCatalog} searchProducts={searchProducts} onResolved={(found) => setResolvedProducts((current) => ({ ...current, ...Object.fromEntries(found.map((product) => [product.id, product])) }))} onChange={(productId) => { setProducts((current) => ({ ...current, [key]: productId })); setConfirmed(false) }}/><strong className={goodQty + bsQty > row.available_for_qc_qty_pcs ? 'bad' : ''}>Sisa {Math.max(0, row.available_for_qc_qty_pcs - goodQty - bsQty)}</strong></article>
     })}</div> : <div className="clq-empty"><PackageCheck/><strong>Pilih Potongan yang akan difinalkan</strong><small>Sumber hanya Good Laundry yang sudah tersimpan dan belum pernah dipakai QC.</small></div>}
-    <div className="clq-impact"><ShieldCheck/><span><strong>Good {declaredGood} · BS {declaredBs} · dipilih {selected} dari {allReady} pcs</strong><small>{selected > 0 && selected === allReady ? 'Semua barang siap dipilih.' : 'Sebagian barang siap dipilih.'} Server membuat lot FG, stok, kasus BS, reimbursement, HPP, jurnal, dan laporan sekaligus.</small></span></div>
+    <div className="clq-impact"><ShieldCheck/><span><strong>Good {declaredGood} · BS {declaredBs} · dipilih {selected} dari {visibleReady} pcs terlihat · sisa Potongan {authoritativeRemaining} pcs</strong><small>{selected > 0 && selected === authoritativeRemaining ? 'Seluruh sisa authoritative Potongan dipilih.' : 'Sebagian sisa authoritative Potongan dipilih.'} Server membuat lot FG, stok, kasus BS, reimbursement, HPP, jurnal, dan laporan sekaligus.</small></span></div>
     {invalidQuantity || over || invalidProduct || sourceAfterPhysical ? <div className="clq-warning"><AlertTriangle/><span>{invalidQuantity ? 'Good dan BS harus bilangan bulat pcs. Input mentah tidak diubah; tombol simpan tetap terkunci.' : over ? 'Good + BS melebihi jumlah yang tersedia pada sumber penerimaan, batch, atau ukuran.' : invalidProduct ? 'Setiap baris yang dipilih wajib punya Final SKU aktif dengan model dan ukuran yang cocok pada waktu fisik.' : 'Waktu QC tidak boleh lebih awal dari penerimaan Laundry sumber.'}</span></div> : null}
     <label className="clq-confirm"><input type="checkbox" checked={confirmed} disabled={actionLocked} onChange={(event) => setConfirmed(event.target.checked)}/><span>Saya sudah mencocokkan hasil QC fisik, ukuran, Merek/Nomor SKU/Model, jumlah Good/BS, lokasi, dan waktu.</span></label>
     <footer><button className="primary" aria-label="Post QC + Final SKU atomic" disabled={actionLocked || !valid} onClick={() => {
@@ -254,7 +260,7 @@ function FinalSkuForm({ workspace, writerLocked, canPost, onAction, searchProduc
       void onAction('POST_FINAL_SKU', {
         cutting_group_id: group.id, destination_location_id: locationId,
         physical_at: physicalIso, reason: reason.trim(), good_qty_pcs: declaredGood,
-        completion_mode: selected === allReady ? 'ALL_READY' : 'PARTIAL_SELECTION', lines,
+        completion_mode: qcCompletionMode(selected,authoritativeRemaining), lines,
       }, group.rowVersion, reset)
     }}><CheckCircle2/> Simpan hasil QC & Final SKU</button></footer>
   </section>

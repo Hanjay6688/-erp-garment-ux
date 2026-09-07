@@ -35,6 +35,7 @@ const roleIds = []
 const roleCodes = new Set()
 const requestIds = []
 const cases = []
+const facadeRoleMatrix = []
 let positiveEvidence = null
 let privateSchemaEvidence = null
 const fixture = {
@@ -89,6 +90,12 @@ async function request(path, {
 function record(name, response, expectedStatuses) {
   assert.ok(expectedStatuses.includes(response.status), `${name}: HTTP ${response.status}: ${response.text}`)
   cases.push({ name, status: response.status })
+}
+
+function recordFacadeRole(facade, role, expectation, response, expectedStatuses, detail = null) {
+  const name = `facade-${facade}-${role}-${expectation.toLowerCase()}`
+  record(name, response, expectedStatuses)
+  facadeRoleMatrix.push({ facade, role, expectation, status: response.status, ...(detail ? { detail } : {}) })
 }
 
 function quotedUuidList(values) {
@@ -161,9 +168,27 @@ async function cp6Action(session, action, payload, expectedVersion) {
     p_client_request_id: clientRequestId,
     p_expected_version: expectedVersion,
   })
-  record(`rpc-${session.label}-${action.toLowerCase()}`, response, [200])
+  recordFacadeRole('erp_save_laundry_qc_action_v1', session.label, 'ALLOW', response, [200],
+    `action=${action}`)
   assert.equal(response.json?.contract_version, 'CP6_V2620')
   assert.equal(response.json?.action, action)
+  assert.equal(response.json?.client_request_id, clientRequestId)
+  assert.equal(response.json?.committed, true)
+  return response.json
+}
+
+async function dedicatedFinalSku(session, payload, expectedVersion) {
+  const clientRequestId = randomUUID()
+  requestIds.push(clientRequestId)
+  const response = await rpc('erp_post_final_sku_allocation_v1', session.accessToken, {
+    p_payload: payload,
+    p_client_request_id: clientRequestId,
+    p_expected_version: expectedVersion,
+  })
+  recordFacadeRole('erp_post_final_sku_allocation_v1', session.label, 'ALLOW', response, [200],
+    'valid-source-positive-transaction')
+  assert.equal(response.json?.contract_version, 'CP6_V2620')
+  assert.equal(response.json?.action, 'POST_FINAL_SKU')
   assert.equal(response.json?.client_request_id, clientRequestId)
   assert.equal(response.json?.committed, true)
   return response.json
@@ -294,7 +319,11 @@ async function workspace(session, scope, expectedStatuses = [200]) {
   const response = await rpc('erp_get_laundry_qc_workspace_v1', session?.accessToken, {
     p_scope: scope, p_query: null,
   })
-  record(`rpc-${session?.label || 'anonymous'}-${scope.toLowerCase()}-workspace`, response, expectedStatuses)
+  recordFacadeRole(
+    'erp_get_laundry_qc_workspace_v1', session?.label || 'anonymous',
+    expectedStatuses.length === 1 && expectedStatuses[0] === 200 ? 'ALLOW' : 'DENY',
+    response, expectedStatuses, `scope=${scope}`,
+  )
   return response
 }
 
@@ -373,10 +402,17 @@ try {
   )
 
   await workspace(null, 'LAUNDRY', [401, 403, 404])
+  await workspace(null, 'QC', [401, 403, 404])
   await workspace(unmappedSession, 'LAUNDRY', [400, 401, 403])
+  await workspace(unmappedSession, 'QC', [400, 401, 403])
+  await workspace(inactiveSession, 'LAUNDRY', [400, 401, 403])
   await workspace(inactiveSession, 'QC', [400, 401, 403])
+  const ownerLaundry = await workspace(ownerSession, 'LAUNDRY')
+  const ownerQc = await workspace(ownerSession, 'QC')
   const viewerLaundry = await workspace(viewerSession, 'LAUNDRY')
   const viewerQc = await workspace(viewerSession, 'QC')
+  assert.equal(ownerLaundry.json?.contract_version, 'CP6_V2620')
+  assert.equal(ownerQc.json?.contract_version, 'CP6_V2620')
   assert.equal(viewerLaundry.json?.contract_version, 'CP6_V2620')
   assert.equal(viewerQc.json?.contract_version, 'CP6_V2620')
   const operatorLaundryBefore = await workspace(operatorSession, 'LAUNDRY')
@@ -408,6 +444,33 @@ try {
   assert.ok(deliveryRow, 'Posted JWT delivery did not return through the HTTP workspace')
   const deliverySize = deliveryRow.sizes?.find((candidate) => candidate.size_id === fixture.size)
   assert.ok(deliverySize, 'Posted JWT delivery lost exact batch/size lineage')
+
+  const laundrySearchBody = {
+    p_delivery_batch_size_line_id: deliverySize.delivery_batch_size_line_id,
+    p_physical_at: '2026-09-01T11:30:00Z',
+    p_query: 'CP6-RACE-SKU', p_after_sort_key: null, p_limit: 50,
+  }
+  for (const session of [ownerSession, operatorSession, viewerSession]) {
+    const response = await rpc(
+      'erp_search_laundry_bs_products_v1', session.accessToken, laundrySearchBody,
+    )
+    recordFacadeRole('erp_search_laundry_bs_products_v1', session.label, 'ALLOW', response, [200],
+      'valid-outstanding-delivery-size-source')
+    assert.equal(response.json?.contract_version, 'CP6_LAUNDRY_BS_PRODUCT_SEARCH_V2620C')
+    assert.equal(response.json?.source_delivery_batch_size_line_id,
+      deliverySize.delivery_batch_size_line_id)
+    assert.deepEqual(response.json?.products?.map((candidate) => candidate.id), [fixture.product])
+  }
+  for (const session of [null, unmappedSession, inactiveSession]) {
+    const role = session?.label || 'anonymous'
+    const response = await rpc(
+      'erp_search_laundry_bs_products_v1', session?.accessToken, laundrySearchBody,
+    )
+    recordFacadeRole('erp_search_laundry_bs_products_v1', role, 'DENY', response,
+      [400, 401, 403, 404], 'valid-outstanding-delivery-size-source')
+    assert.notEqual(response.status, 200)
+  }
+
   const receipt = await cp6Action(operatorSession, 'POST_RECEIPT', {
     delivery_id: delivery.delivery_id,
     wash_process_id: fixture.process,
@@ -424,24 +487,37 @@ try {
   const qcBefore = await workspace(operatorSession, 'QC')
   const sourceBefore = findQueueRow(qcBefore)
   assert.equal(sourceBefore.available_for_qc_qty_pcs, 10)
-  const productSearch = await rpc(
-    'erp_search_final_sku_products_v1', operatorSession.accessToken, {
-      p_source_laundry_receipt_batch_size_line_id: sourceBefore.source_batch_size_line_id,
-      p_physical_at: '2026-09-01T13:00:00Z',
-      p_query: 'CP6-RACE-SKU', p_after_sort_key: null, p_limit: 50,
-    },
-  )
-  record('rpc-operator-source-bound-product-search', productSearch, [200])
-  assert.equal(productSearch.json?.contract_version, 'CP6_PRODUCT_SEARCH_V2620B')
-  assert.equal(productSearch.json?.source_laundry_receipt_batch_size_line_id,
-    sourceBefore.source_batch_size_line_id)
-  assert.deepEqual(productSearch.json?.products?.map((product) => product.id), [fixture.product])
+  const finalSearchBody = {
+    p_source_laundry_receipt_batch_size_line_id: sourceBefore.source_batch_size_line_id,
+    p_physical_at: '2026-09-01T13:00:00Z',
+    p_query: 'CP6-RACE-SKU', p_after_sort_key: null, p_limit: 50,
+  }
+  for (const session of [ownerSession, operatorSession, viewerSession]) {
+    const response = await rpc(
+      'erp_search_final_sku_products_v1', session.accessToken, finalSearchBody,
+    )
+    recordFacadeRole('erp_search_final_sku_products_v1', session.label, 'ALLOW', response, [200],
+      'valid-live-qc-source')
+    assert.equal(response.json?.contract_version, 'CP6_PRODUCT_SEARCH_V2620B')
+    assert.equal(response.json?.source_laundry_receipt_batch_size_line_id,
+      sourceBefore.source_batch_size_line_id)
+    assert.deepEqual(response.json?.products?.map((candidate) => candidate.id), [fixture.product])
+  }
+  for (const session of [null, unmappedSession, inactiveSession]) {
+    const role = session?.label || 'anonymous'
+    const response = await rpc(
+      'erp_search_final_sku_products_v1', session?.accessToken, finalSearchBody,
+    )
+    recordFacadeRole('erp_search_final_sku_products_v1', role, 'DENY', response,
+      [400, 401, 403, 404], 'valid-live-qc-source')
+    assert.notEqual(response.status, 200)
+  }
   const qcAfterProductSearch = await workspace(operatorSession, 'QC')
   assert.equal(findQueueRow(qcAfterProductSearch).source_batch_size_line_id,
     sourceBefore.source_batch_size_line_id,
     'Product lookup must not mutate or hide the QC source queue')
 
-  const firstQc = await cp6Action(operatorSession, 'POST_FINAL_SKU', {
+  const firstFinalPayload = {
     cutting_group_id: fixture.group,
     destination_location_id: fixture.location,
     physical_at: '2026-09-01T13:00:00Z',
@@ -455,7 +531,25 @@ try {
       source_laundry_receipt_batch_size_line_id: sourceBefore.source_batch_size_line_id,
       notes: 'Exact real Auth partial lineage',
     }],
-  }, Number(sourceBefore.cutting_group_row_version))
+  }
+  const dedicatedDeniedRequestIds = []
+  for (const session of [null, unmappedSession, inactiveSession, viewerSession]) {
+    const role = session?.label || 'anonymous'
+    const deniedRequestId = randomUUID()
+    dedicatedDeniedRequestIds.push(deniedRequestId)
+    requestIds.push(deniedRequestId)
+    const response = await rpc('erp_post_final_sku_allocation_v1', session?.accessToken, {
+      p_payload: firstFinalPayload,
+      p_client_request_id: deniedRequestId,
+      p_expected_version: Number(sourceBefore.cutting_group_row_version),
+    })
+    recordFacadeRole('erp_post_final_sku_allocation_v1', role, 'DENY', response,
+      [400, 401, 403, 404], 'valid-live-qc-source-and-payload')
+    assert.notEqual(response.status, 200)
+  }
+  const firstQc = await dedicatedFinalSku(
+    operatorSession, firstFinalPayload, Number(sourceBefore.cutting_group_row_version),
+  )
   const partialState = financialState()
   assert.deepEqual(partialState, {
     delivery_status: 'RETURNED', receipt_status: 'POSTED',
@@ -651,12 +745,28 @@ try {
         p_client_request_id: viewerRequestId, p_expected_version: 1,
       },
     )
-    record(`rpc-viewer-${actionName.toLowerCase()}-denied`, viewerMutation, [400, 401, 403])
+    recordFacadeRole('erp_save_laundry_qc_action_v1', viewerSession.label, 'DENY',
+      viewerMutation, [400, 401, 403], `action=${actionName};valid-shape`)
     assert.match(viewerMutation.text,
       /PERMISSION_DENIED|production\.(laundry|final_sku)\.(create|post|reverse)/i)
   }
   positiveEvidence.viewer_denied_action_kinds = viewerNegativeActions
     .map(([actionName]) => actionName)
+
+  const unauthenticatedMutationRequestIds = []
+  for (const session of [null, unmappedSession, inactiveSession]) {
+    const role = session?.label || 'anonymous'
+    const deniedRequestId = randomUUID()
+    unauthenticatedMutationRequestIds.push(deniedRequestId)
+    requestIds.push(deniedRequestId)
+    const response = await rpc('erp_save_laundry_qc_action_v1', session?.accessToken, {
+      p_action: 'POST_DELIVERY', p_payload: validNegativePayload,
+      p_client_request_id: deniedRequestId, p_expected_version: 1,
+    })
+    recordFacadeRole('erp_save_laundry_qc_action_v1', role, 'DENY', response,
+      [400, 401, 403, 404], 'action=POST_DELIVERY;valid-shape')
+    assert.notEqual(response.status, 200)
+  }
 
   const operatorRequestId = randomUUID()
   requestIds.push(operatorRequestId)
@@ -664,7 +774,9 @@ try {
     p_action: 'POST_DELIVERY', p_payload: validNegativePayload,
     p_client_request_id: operatorRequestId, p_expected_version: 1,
   })
-  record('rpc-operator-reaches-domain-guard', operatorMutation, [400, 409])
+  recordFacadeRole('erp_save_laundry_qc_action_v1', operatorSession.label,
+    'AUTHORIZED_DOMAIN_REJECTION', operatorMutation, [400, 409],
+    'action=POST_DELIVERY;nonexistent-authoritative-source')
   assert.match(operatorMutation.text, /Authoritative POSTED distribution batch was not found/)
   assert.doesNotMatch(operatorMutation.text, /PERMISSION_DENIED|Internal ERP access required/i)
 
@@ -744,7 +856,10 @@ try {
   }
 
   assert.equal(sql(`select count(*) from erp.idempotency_requests
-    where client_request_id in(${[...viewerRequestIds, operatorRequestId]
+    where client_request_id in(${[
+      ...viewerRequestIds, ...unauthenticatedMutationRequestIds,
+      ...dedicatedDeniedRequestIds, operatorRequestId,
+    ]
       .map((value) => `'${value}'::uuid`).join(',')})`), '0')
   assert.equal(sql('select count(*) from erp.cp6_laundry_qc_execution_context'), '0')
   assert.equal(sql(`select count(*) from erp.laundry_deliveries
@@ -788,10 +903,11 @@ const residueClean = Object.values(residue).every((value) => value === 0)
 const report = {
   status: failure || !residueClean ? 'FAIL' : 'PASS',
   classification: 'LOCAL_POST_CP6_REAL_AUTH_JWT_HTTP',
-  target: 'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620B',
+  target: 'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620C',
   disposable_database: disposableDatabase,
   database_disposal_required: true,
   cases,
+  facade_role_matrix: facadeRoleMatrix,
   positive_evidence: positiveEvidence,
   private_schema_evidence: privateSchemaEvidence,
   residue,
@@ -806,6 +922,9 @@ const report = {
     non_admin_operator_reaches_domain_guard: true,
     operator_positive_delivery_receipt_partial_and_remaining_final_sku: true,
     source_bound_product_search_preserves_qc_queue: true,
+    valid_source_resolver_role_matrix_final_and_laundry_bs: true,
+    dedicated_final_sku_facade_positive_and_denial_matrix: true,
+    public_facade_matrix_records_role_expectation_and_http_status: true,
     partial_laundry_hpp_and_wip_conservation: true,
     granular_reverse_permissions_positive: true,
     all_seven_mutation_actions_positive_for_granular_operator: true,
@@ -824,4 +943,4 @@ if (report.status !== 'PASS') {
   throw failure || new Error(`CP6 Auth/JWT cleanup residue: ${JSON.stringify(residue)}`)
 }
 
-console.log(`CP6 post-install Auth/JWT/HTTP E2E passed: ${cases.length} assertions; positive post/reverse chain balanced and transient residue zero; physical clone disposal required.`)
+console.log(`CP6 post-install Auth/JWT/HTTP E2E passed: ${cases.length} assertions across ${facadeRoleMatrix.length} facade/role cases; positive post/reverse chain balanced and transient residue zero; physical clone disposal required.`)

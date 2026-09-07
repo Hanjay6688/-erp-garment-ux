@@ -19,6 +19,8 @@ declare
   v_group uuid;
   v_receipt_line uuid;
   v_receipt_size_line uuid;
+  v_laundry_source uuid;
+  v_closed_delivery_source uuid;
   v_delivery uuid;
   v_model uuid;
   v_product uuid;
@@ -28,6 +30,12 @@ declare
   v_workspace_after_search jsonb;
   v_page jsonb;
   v_exact jsonb;
+  v_laundry_exact jsonb;
+  v_laundry_closed_rejected boolean:=false;
+  v_hpp_book_gate_rejected boolean:=false;
+  v_wip_gate_rejected boolean:=false;
+  v_revenue_gate_rejected boolean:=false;
+  v_gate_issue_count bigint:=0;
   v_post jsonb;
   v_financial jsonb;
   v_cursor text:=null;
@@ -180,6 +188,47 @@ begin
   v_workspace_after_search:=public.erp_get_laundry_qc_workspace_v1('QC',null);
   execute 'reset role';
 
+  -- Laundry-BS uses its own outstanding delivery-size authority. Product
+  -- 0700 is outside the workspace's bounded first 500 but must remain
+  -- selectable through this exact source-bound endpoint.
+  select sx.id into strict v_laundry_source
+  from erp.laundry_delivery_batch_size_lines sx
+  join erp.laundry_delivery_lines dl on dl.id=sx.delivery_line_id
+  join erp.laundry_deliveries d on d.id=dl.delivery_id
+    and d.status in('SENT','PARTIAL_RETURN')
+  join erp.cutting_groups g on g.id=dl.cutting_group_id
+  join erp.production_orders po on po.id=g.po_id
+  where po.model_id=v_model and sx.size_id='c8c10000-0000-4000-8000-000000000002'
+    and sx.qty_sent_pcs>coalesce((
+      select sum(rx.qty_good_received+rx.qty_bs_laundry)
+      from erp.laundry_receipt_batch_size_lines rx
+      join erp.laundry_receipt_lines rl on rl.id=rx.receipt_line_id
+      join erp.laundry_receipts rh on rh.id=rl.receipt_id and rh.status='POSTED'
+      where rx.delivery_batch_size_line_id=sx.id
+    ),0)
+  order by d.physical_at,sx.id
+  limit 1;
+  select delivery_batch_size_line_id into strict v_closed_delivery_source
+  from erp.laundry_receipt_batch_size_lines where id=v_receipt_size_line;
+
+  execute 'set local role authenticated';
+  v_laundry_exact:=public.erp_search_laundry_bs_products_v1(
+    v_laundry_source,'2026-09-03 14:00:00+00',
+    'CP6-SCALE-PRODUCT-0700',null,100
+  );
+  begin
+    perform public.erp_search_laundry_bs_products_v1(
+      v_closed_delivery_source,'2026-09-03 14:00:00+00',null,null,100
+    );
+    raise exception 'Closed Laundry source unexpectedly remained selectable';
+  exception when others then
+    if sqlerrm not like '%no longer an authoritative outstanding delivery-size row%' then
+      raise;
+    end if;
+    v_laundry_closed_rejected:=true;
+  end;
+  execute 'reset role';
+
   if jsonb_array_length(v_workspace#>'{lookups,products}')<>500
      or jsonb_array_length(v_workspace->'qc_history')<>200
      or (v_workspace#>>'{collection_window,product_limit}')::integer<>500
@@ -196,6 +245,10 @@ begin
      or jsonb_array_length(v_exact->'products')<>1
      or v_exact#>>'{products,0,sku}'<>'CP6-SCALE-PRODUCT-0700'
      or (v_exact->>'has_more')::boolean
+     or jsonb_array_length(v_laundry_exact->'products')<>1
+     or v_laundry_exact#>>'{products,0,sku}'<>'CP6-SCALE-PRODUCT-0700'
+     or v_laundry_exact->>'source_delivery_batch_size_line_id'<>v_laundry_source::text
+     or not v_laundry_closed_rejected
      or v_workspace_after_search->'qc_queue' is distinct from v_queue_snapshot then
     raise exception 'CP6 source-bound product paging/queue isolation failed: pages %, seen %, exact %, queue stable %',
       v_pages,v_generated_seen,v_exact,
@@ -278,6 +331,88 @@ begin
     raise exception 'CP6 product 0700 mutation/HPP/WIP mismatch: %',v_financial;
   end if;
 
+  -- The confidence gate must prove actual books, not merely return an empty
+  -- list on clean data. Each deliberately corrupted state lives in an inner
+  -- exception subtransaction and is rolled back before the next probe.
+  select coalesce(sum(issue_count),0) into v_gate_issue_count
+  from erp.run_v268_financial_report_checks()
+  where severity='CRITICAL';
+  if v_gate_issue_count<>0 then
+    raise exception 'CP6 confidence gate is not clean before corruption probes: %',v_gate_issue_count;
+  end if;
+
+  begin
+    update erp.po_hpp_gl_state set fg_value=fg_value+1 where po_id=v_po;
+    if not exists(
+      select 1 from erp.run_v268_financial_report_checks()
+      where check_name='V2620C_PO_HPP_BOOK_MISMATCH' and issue_count>0
+    ) then
+      raise exception 'CP6 HPP/GL book corruption was not detected';
+    end if;
+    raise exception 'CP6_EXPECTED_HPP_BOOK_GATE_ROLLBACK';
+  exception when raise_exception then
+    if sqlerrm<>'CP6_EXPECTED_HPP_BOOK_GATE_ROLLBACK' then raise; end if;
+    v_hpp_book_gate_rejected:=true;
+  end;
+
+  begin
+    update erp.po_hpp_gl_state set hpp_total_cost=hpp_total_cost+1 where po_id=v_po;
+    if not exists(
+      select 1 from erp.run_v268_financial_report_checks()
+      where check_name='V2620C_WIP_SOURCE_CONSERVATION_MISMATCH' and issue_count>0
+    ) then
+      raise exception 'CP6 WIP/source corruption was not detected';
+    end if;
+    raise exception 'CP6_EXPECTED_WIP_GATE_ROLLBACK';
+  exception when raise_exception then
+    if sqlerrm<>'CP6_EXPECTED_WIP_GATE_ROLLBACK' then raise; end if;
+    v_wip_gate_rejected:=true;
+  end;
+
+  begin
+    insert into erp.customers(id,customer_code,customer_name,is_active)
+    values(
+      'ca6e0000-0000-4000-8000-000000009001',
+      'CP6-GATE-CUSTOMER','CP6 rollback-only gate customer',true
+    );
+    insert into erp.sales_headers(
+      id,sale_number,customer_id,sale_date,status,source_location_id,created_by
+    ) values(
+      'ca6e0000-0000-4000-8000-000000009002',
+      'CP6-GATE-UNJOURNALED-SALE',
+      'ca6e0000-0000-4000-8000-000000009001',
+      '2026-09-03 15:00:00+00','POSTED',
+      'c8c20000-0000-4000-8000-000000000001',
+      'c8c00000-0000-4000-8000-000000000001'
+    );
+    insert into erp.sales_items(
+      sale_id,product_id,qty_pcs,unit_price_snapshot,discount_amount
+    ) values(
+      'ca6e0000-0000-4000-8000-000000009002',
+      md5('CP6-WORKSPACE-SCALE-PRODUCT-700')::uuid,1,10,0
+    );
+    if not exists(
+      select 1 from erp.run_v268_financial_report_checks()
+      where check_name='V2620C_SALE_REVENUE_REPORT_INPUT_MISMATCH' and issue_count>0
+    ) then
+      raise exception 'CP6 sale/report revenue corruption was not detected';
+    end if;
+    raise exception 'CP6_EXPECTED_REVENUE_GATE_ROLLBACK';
+  exception when raise_exception then
+    if sqlerrm<>'CP6_EXPECTED_REVENUE_GATE_ROLLBACK' then raise; end if;
+    v_revenue_gate_rejected:=true;
+  end;
+
+  select coalesce(sum(issue_count),0) into v_gate_issue_count
+  from erp.run_v268_financial_report_checks()
+  where severity='CRITICAL';
+  if v_gate_issue_count<>0 or not v_hpp_book_gate_rejected
+     or not v_wip_gate_rejected or not v_revenue_gate_rejected then
+    raise exception 'CP6 confidence corruption probes left residue or skipped a gate: %, %, %, %',
+      v_gate_issue_count,v_hpp_book_gate_rejected,v_wip_gate_rejected,
+      v_revenue_gate_rejected;
+  end if;
+
   -- Natural planner only: never disable sequential scans to manufacture an
   -- index claim. Equality on model/size plus the native key order should own
   -- this bounded candidate page under the representative catalog.
@@ -305,7 +440,20 @@ begin
       'exact_0700_count',jsonb_array_length(v_exact->'products'),
       'queue_preserved',true,'elapsed_ms',v_resolver_elapsed_ms
     ),
+    'laundry_bs_resolver',jsonb_build_object(
+      'contract_version',v_laundry_exact->>'contract_version',
+      'exact_0700_count',jsonb_array_length(v_laundry_exact->'products'),
+      'outside_initial_500',true,
+      'closed_or_wrong_source_rejected',v_laundry_closed_rejected
+    ),
     'product_0700_transaction',v_financial,
+    'confidence_gate',jsonb_build_object(
+      'clean_critical_issue_count',v_gate_issue_count,
+      'hpp_state_vs_actual_book_detected',v_hpp_book_gate_rejected,
+      'wip_source_conservation_detected',v_wip_gate_rejected,
+      'sale_revenue_input_detected',v_revenue_gate_rejected,
+      'corruption_probe_residue',0
+    ),
     'workspace_elapsed_ms',v_elapsed_ms,
     'natural_index_observed',true,
     'natural_plan',v_plan,

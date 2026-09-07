@@ -206,7 +206,7 @@ for (const token of [
   'REPLACEMENT_INVERSE', 'REVQC_INVOICE',
   'INVOICE_REVQC', 'REVQC_INVOICE_REV', 'INVOICE_REV_REVQC',
   'REVQC_POSTQC', 'POSTQC_REVQC', 'SCALE_OP_01', 'SCALE_OP_08',
-  'CP6 reversal matrix physical terminal', "<>24",
+  'CP6 reversal matrix physical terminal', "<>33",
 ]) assert.ok(reversalSeed.includes(token), `Reversal race seed token missing: ${token}`)
 
 for (const token of [
@@ -256,8 +256,9 @@ for (const token of [
   "grep -q '^SERVICE_ROLE_KEY=' <<<\"$status_env\"",
   scalePath, 'CP6_WORKSPACE_SCALE.json', "report['transaction']=='ROLLBACK_ONLY'",
   reversalRacePath, reversalSeedPath, 'CP6_REVERSAL_RACE_REPORT',
-  "report['race_count']==16", "report['all_blockers_observed'] is True",
-  'Run twenty-eight CP6 races plus temporal, paging, and eight-operator scale proofs',
+  "report['race_count']==22", "report['all_blockers_observed'] is True",
+  "report['qualification_probe_count']==2", "report['manual_prelock_count']==0",
+  'Run thirty-four native CP6 races plus three abort qualifications, temporal, paging, and scale proofs',
   "'v2620a',exists(select 1 from erp.schema_migrations where version='v2.6.20a')",
   "'platform_v2620a',exists(select 1 from supabase_migrations.schema_migrations",
   "to_regclass('erp.cp6_v2620a_rollback_capsule') is not null",

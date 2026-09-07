@@ -60,6 +60,11 @@ begin
     'REPLACEMENT_INVERSE','REVQC_INVOICE',
     'INVOICE_REVQC','REVQC_INVOICE_REV','INVOICE_REV_REVQC',
     'REVQC_POSTQC','POSTQC_REVQC',
+    'PARTIAL_LABOR_COST',
+    'SALE_SAVE_INVOICE','INVOICE_SALE_SAVE',
+    'SALE_POST_INVOICE','INVOICE_SALE_POST',
+    'SALE_CANCEL_INVOICE','INVOICE_SALE_CANCEL',
+    'SALE_REVERSE_INVOICE','INVOICE_SALE_REVERSE',
     'SCALE_OP_01','SCALE_OP_02','SCALE_OP_03','SCALE_OP_04',
     'SCALE_OP_05','SCALE_OP_06','SCALE_OP_07','SCALE_OP_08'
   ] loop
@@ -145,7 +150,8 @@ begin
     insert into erp.po_work_component_snapshots(
       id,po_id,work_component_id,sequence_no,rate_per_pcs_snapshot,committed_at
     ) values(
-      v_snapshot,v_po,'a4000000-0000-0000-0000-000000000001',1,0,
+      v_snapshot,v_po,'a4000000-0000-0000-0000-000000000001',1,
+      case when v_case='PARTIAL_LABOR_COST' then 2 else 0 end,
       '2026-08-29 09:30:00+00'
     );
     insert into erp.work_completion_events(
@@ -162,7 +168,8 @@ begin
       qty_completed,qty_payable,rate_snapshot,notes
     ) values(
       v_work_line,v_work,v_snapshot,
-      'a4000000-0000-0000-0000-000000000001',10,10,0,
+      'a4000000-0000-0000-0000-000000000001',10,10,
+      case when v_case='PARTIAL_LABOR_COST' then 2 else 0 end,
       'CP6 matrix sewn capacity'
     );
     perform erp.post_work_completion(v_work);
@@ -177,7 +184,7 @@ $seed$;
 do $guard$
 begin
   if (select count(*) from erp.production_orders
-      where po_number like 'CP6-MX-%')<>24
+      where po_number like 'CP6-MX-%')<>33
      or exists(
        select 1 from erp.production_orders po
        join erp.cutting_groups g on g.po_id=po.id

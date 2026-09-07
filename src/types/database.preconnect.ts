@@ -119,6 +119,16 @@ export type PreconnectDatabase = {
         }
         Returns: Json
       }
+      erp_search_laundry_bs_products_v1: {
+        Args: {
+          p_delivery_batch_size_line_id: string
+          p_physical_at: string
+          p_query?: string | null
+          p_after_sort_key?: string | null
+          p_limit?: number
+        }
+        Returns: Json
+      }
       erp_save_laundry_qc_action_v1: {
         Args: {
           p_action: string; p_payload: Json; p_client_request_id: string

@@ -421,105 +421,59 @@ def run_f02_physical_prefix_proof() -> dict[str, Any]:
             ) from exc
         rejection_errors.append(str(exc).splitlines()[0])
 
-    # Two already-open operator transactions exercise the same rejected
-    # backdate concurrently. PostgreSQL releases transaction locks as soon as
-    # an unhandled statement error aborts the transaction, so a holder that
-    # signals only *after* its expected domain error cannot provide real
-    # pg_blocking_pids evidence. Acquire the exact CP6FLOW advisory fence that
-    # POST_DELIVERY acquires first, then invoke the facade re-entrantly after
-    # the waiter is blocked. This preserves production lock order and proves
-    # the second operator cannot evaluate the same historical prefix outside
-    # that canonical serial order. Neither rejection may leave a document or
-    # idempotency envelope.
-    holder_ready = threading.Event()
-    waiter_started = threading.Event()
-    holder: dict[str, Any] = {}
-    waiter: dict[str, Any] = {}
+    # Start two invalid historical writes on distinct native connections. Both
+    # must fail and roll back. This is deliberately an abort-semantics
+    # qualification, not a runtime-lock race: PostgreSQL releases statement
+    # locks when the unhandled domain exception aborts each transaction.
+    barrier = threading.Barrier(2)
+    rejected_calls: list[dict[str, Any]] = [{}, {}]
 
-    def rejected_holder():
+    def reject_backdate(index: int, request_key: str):
         conn = connect()
         try:
             with conn.cursor() as cur:
                 cur.execute("set local lock_timeout='10s'")
                 set_operator_context(cur)
                 cur.execute('select pg_backend_pid()')
-                holder['backend_pid'] = cur.fetchone()[0]
-                cur.execute(
-                    "select pg_advisory_xact_lock(hashtextextended('CP6FLOW:'||%s::text,0))",
-                    (F02_GROUP,),
-                )
-                holder['canonical_fence_prelocked'] = True
-                holder_ready.set()
-                if not waiter_started.wait(timeout=10):
-                    raise RuntimeError('F02 concurrent waiter did not start')
-                time.sleep(HOLD_SECONDS)
+                rejected_calls[index]['backend_pid'] = cur.fetchone()[0]
+                barrier.wait(timeout=10)
                 try:
                     action(
                         cur, 'POST_DELIVERY', before_first_payload,
-                        REQUESTS['f02_concurrent_rejected_a'], group_version,
+                        REQUESTS[request_key], group_version,
                     )
-                    holder['status'] = 'UNEXPECTED_SUCCESS'
+                    rejected_calls[index]['status'] = 'UNEXPECTED_SUCCESS'
                 except psycopg.Error as exc:
-                    holder['error'] = str(exc)
-                    holder['status'] = (
+                    rejected_calls[index]['error'] = str(exc)
+                    rejected_calls[index]['status'] = (
                         'EXPECTED_REJECTION'
                         if 'future distribution batch/size history negative' in str(exc)
                         else 'WRONG_ERROR'
                     )
             conn.rollback()
         finally:
-            holder_ready.set()
             conn.close()
 
-    def rejected_waiter():
-        holder_ready.wait(timeout=10)
-        began = time.monotonic()
-        conn = connect()
-        try:
-            with conn.cursor() as cur:
-                cur.execute("set local lock_timeout='10s'")
-                set_operator_context(cur)
-                cur.execute('select pg_backend_pid()')
-                waiter['backend_pid'] = cur.fetchone()[0]
-                waiter_started.set()
-                try:
-                    action(
-                        cur, 'POST_DELIVERY', before_first_payload,
-                        REQUESTS['f02_concurrent_rejected_b'], group_version,
-                    )
-                    waiter['status'] = 'UNEXPECTED_SUCCESS'
-                except psycopg.Error as exc:
-                    waiter['error'] = str(exc)
-                    waiter['status'] = (
-                        'EXPECTED_REJECTION'
-                        if 'future distribution batch/size history negative' in str(exc)
-                        else 'WRONG_ERROR'
-                    )
-            conn.rollback()
-        finally:
-            waiter['elapsed_seconds'] = round(time.monotonic() - began, 3)
-            conn.close()
-
-    first = threading.Thread(target=rejected_holder, daemon=True)
-    second = threading.Thread(target=rejected_waiter, daemon=True)
+    first = threading.Thread(
+        target=reject_backdate,
+        args=(0, 'f02_concurrent_rejected_a'), daemon=True,
+    )
+    second = threading.Thread(
+        target=reject_backdate,
+        args=(1, 'f02_concurrent_rejected_b'), daemon=True,
+    )
     first.start()
     second.start()
-    concurrent_blocker = observe_blocker(
-        'F02_CONCURRENT_BACKDATES', holder, waiter, waiter_started,
-    )
     first.join(timeout=20)
     second.join(timeout=20)
     if first.is_alive() or second.is_alive():
-        raise RuntimeError('F02 concurrent rejected backdate thread timeout')
+        raise RuntimeError('F02 concurrent rejected backdate qualification timeout')
     if (
-        holder.get('status') != 'EXPECTED_REJECTION'
-        or waiter.get('status') != 'EXPECTED_REJECTION'
-        or waiter.get('elapsed_seconds', 0) < WAIT_FLOOR_SECONDS
-        or not concurrent_blocker
+        any(call.get('status') != 'EXPECTED_REJECTION' for call in rejected_calls)
+        or len({call.get('backend_pid') for call in rejected_calls}) != 2
     ):
         raise RuntimeError(
-            'F02 concurrent backdate invariant mismatch: '
-            f'holder={holder}, waiter={waiter}, blocker={concurrent_blocker}'
+            f'F02 concurrent rejection qualification mismatch: {rejected_calls}'
         )
 
     later_payload = dict(before_first_payload)
@@ -598,10 +552,11 @@ def run_f02_physical_prefix_proof() -> dict[str, Any]:
         'rejection_errors': rejection_errors,
         'before_first_rejected': True,
         'between_dispatch_and_return_rejected': True,
-        'concurrent_backdates': {
-            'holder': holder,
-            'waiter': waiter,
-            'pg_blocking_pids_observed': concurrent_blocker,
+        'concurrent_backdate_qualification': {
+            'classification': 'REJECT_ABORT_SEMANTICS_NOT_A_RUNTIME_LOCK_RACE',
+            'calls': rejected_calls,
+            'manual_prelock_used': False,
+            'pg_blocking_pids_claimed': False,
         },
         'later_delivery_id': str(later_delivery['delivery_id']),
         'timeline': timeline,

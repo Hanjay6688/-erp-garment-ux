@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import {
-  findLaundryRateAt, parseLaundryQcWorkspace, productEffectiveAt, totalReadyToSend,
+  findLaundryRateAt, parseLaundryBsProductSearch, parseLaundryQcWorkspace,
+  productEffectiveAt, totalReadyToSend,
 } from './laundryQcModel'
 
 const uuid = (suffix: number) => `00000000-0000-4000-8000-${String(suffix).padStart(12, '0')}`
@@ -267,5 +268,33 @@ describe('parseLaundryQcWorkspace', () => {
       effective_from: '2026-08-01T00:00:00Z', effective_to: null,
     })
     expect(() => parseLaundryQcWorkspace(fixture)).toThrow('Versi rate Laundry bertumpuk')
+  })
+})
+
+describe('parseLaundryBsProductSearch', () => {
+  it('accepts only a bounded source-bound page with one Model and size', () => {
+    const product = lookups().products[0]
+    const parsed = parseLaundryBsProductSearch({
+      contract_version: 'CP6_LAUNDRY_BS_PRODUCT_SEARCH_V2620C',
+      source_delivery_batch_size_line_id: uuid(40),
+      physical_at: '2026-09-04T10:00:00Z', query: 'brand', page_limit: 50,
+      products: [product], has_more: false, next_cursor: null,
+    })
+    expect(parsed.products[0].id).toBe(product.id)
+  })
+
+  it('rejects mixed source dimensions and contradictory pagination', () => {
+    const product = lookups().products[0]
+    const page = {
+      contract_version: 'CP6_LAUNDRY_BS_PRODUCT_SEARCH_V2620C',
+      source_delivery_batch_size_line_id: uuid(40),
+      physical_at: '2026-09-04T10:00:00Z', query: null, page_limit: 50,
+      products: [product, { ...product, id: uuid(41), size_id: uuid(42), size_code: '32' }],
+      has_more: false, next_cursor: null,
+    }
+    expect(() => parseLaundryBsProductSearch(page)).toThrow('mencampur Model atau ukuran')
+    page.products = [product]
+    page.has_more = true
+    expect(() => parseLaundryBsProductSearch(page)).toThrow('tidak konsisten')
   })
 })

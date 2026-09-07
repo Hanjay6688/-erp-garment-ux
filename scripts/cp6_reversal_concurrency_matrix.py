@@ -8,7 +8,7 @@ import threading
 import time
 import uuid
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
 import psycopg
 
@@ -31,6 +31,7 @@ VENDOR = 'c8c20000-0000-4000-8000-000000000002'
 PROCESS = 'c8c20000-0000-4000-8000-000000000003'
 LOCATION = 'c8c20000-0000-4000-8000-000000000001'
 REQUEST_NAMESPACE = uuid.UUID('ca600000-0000-4000-8000-000000000001')
+SALES_CUSTOMER = str(uuid.uuid5(REQUEST_NAMESPACE, 'CP6:SALES:HPP:CUSTOMER'))
 
 successful_facades: list[tuple[str, str, bool]] = []
 rejected_facades: list[str] = []
@@ -160,56 +161,15 @@ def single(operation: dict[str, Any]):
     return response
 
 
-def cp6flow_prelock(group_id: str) -> Callable[[Any], None]:
-    """Acquire the exact shared Potongan fence before a rejected facade."""
-    def acquire(cur):
-        set_operator_context(cur)
-        cur.execute(
-            "select pg_advisory_xact_lock(hashtextextended('CP6FLOW:'||%s::text,0))",
-            (group_id,),
-        )
-
-    return acquire
-
-
-def invoice_post_prelock(invoice_id: str, group_id: str) -> Callable[[Any], None]:
-    """Mirror post_vendor_invoice's header -> shared Potongan lock order."""
-    def acquire(cur):
-        set_operator_claims(cur)
-        cur.execute(
-            'select id from erp.vendor_invoices where id=%s::uuid for update',
-            (invoice_id,),
-        )
-        if cur.fetchone() is None:
-            raise RuntimeError('Rejected invoice holder header disappeared before race')
-        cur.execute(
-            "select pg_advisory_xact_lock(hashtextextended('CP6FLOW:'||%s::text,0))",
-            (group_id,),
-        )
-
-    return acquire
-
-
 def run_pair(
     name: str,
     holder_operation: dict[str, Any],
     waiter_operation: dict[str, Any],
     waiter_outcome: str,
     allowed_waiter_errors: tuple[str, ...] = (),
-    holder_outcome: str = 'PASS',
-    allowed_holder_errors: tuple[str, ...] = (),
-    holder_prelock: Callable[[Any], None] | None = None,
-    holder_prelock_label: str | None = None,
+    require_advisory_lock: bool = False,
 ) -> dict[str, Any]:
-    """Run production operations, observe the actual blocker, then reconcile."""
-    if holder_outcome == 'REJECT' and (
-        holder_prelock is None or holder_prelock_label is None
-    ):
-        raise RuntimeError(
-            f'{name}: rejected holder requires an explicit production-order prelock'
-        )
-    if holder_outcome == 'PASS' and holder_prelock is not None:
-        raise RuntimeError(f'{name}: successful holder must acquire locks through runtime')
+    """Run a successful production holder and observe its actual runtime lock."""
 
     holder_ready = threading.Event()
     waiter_started = threading.Event()
@@ -223,27 +183,14 @@ def run_pair(
                 cur.execute("set local lock_timeout='10s'")
                 cur.execute('select pg_backend_pid()')
                 holder['backend_pid'] = cur.fetchone()[0]
-                if holder_prelock is not None:
-                    holder_prelock(cur)
-                    holder['canonical_prelock'] = holder_prelock_label
-                    holder_ready.set()
-                    if not waiter_started.wait(timeout=10):
-                        raise RuntimeError(f'{name}: waiter did not start behind prelock')
-                    time.sleep(HOLD_SECONDS)
                 holder['response'] = holder_operation['call'](cur)
-                if holder_prelock is None:
-                    holder_ready.set()
-                    time.sleep(HOLD_SECONDS)
+                holder_ready.set()
+                time.sleep(HOLD_SECONDS)
             conn.commit()
             holder['status'] = 'PASS'
         except Exception as exc:  # pragma: no cover - CI evidence
             holder['error'] = str(exc)
-            holder['status'] = (
-                'EXPECTED_REJECTION'
-                if holder_outcome == 'REJECT'
-                and any(token in str(exc) for token in allowed_holder_errors)
-                else 'FAIL'
-            )
+            holder['status'] = 'FAIL'
             holder_ready.set()
             conn.rollback()
         finally:
@@ -282,22 +229,37 @@ def run_pair(
     waiter_started.wait(timeout=10)
 
     lock_observed = False
+    advisory_lock_observed = False
     deadline = time.monotonic() + HOLD_SECONDS
     while time.monotonic() < deadline:
         if holder.get('backend_pid') and waiter.get('backend_pid'):
             blockers = scalar('select pg_blocking_pids(%s)', (waiter['backend_pid'],))
             if holder['backend_pid'] in blockers:
                 lock_observed = True
-                break
+                advisory_lock_observed = bool(scalar(
+                    """
+                    select exists(
+                      select 1 from pg_locks w join pg_locks h
+                        on h.locktype=w.locktype
+                       and h.database is not distinct from w.database
+                       and h.classid is not distinct from w.classid
+                       and h.objid is not distinct from w.objid
+                       and h.objsubid is not distinct from w.objsubid
+                      where w.pid=%s and not w.granted and w.locktype='advisory'
+                        and h.pid=%s and h.granted
+                    )
+                    """,
+                    (waiter['backend_pid'], holder['backend_pid']),
+                ))
+                if not require_advisory_lock or advisory_lock_observed:
+                    break
         time.sleep(0.025)
 
     first.join(timeout=20)
     second.join(timeout=20)
     if first.is_alive() or second.is_alive():
         raise RuntimeError(f'{name}: thread timeout')
-    expected_holder_status = (
-        'PASS' if holder_outcome == 'PASS' else 'EXPECTED_REJECTION'
-    )
+    expected_holder_status = 'PASS'
     expected_waiter_status = 'PASS' if waiter_outcome == 'PASS' else 'EXPECTED_REJECTION'
     if (
         holder.get('status') != expected_holder_status
@@ -313,11 +275,13 @@ def run_pair(
             f'{name}: canonical serialization was not observed; '
             f'blocker={lock_observed}, waiter={waiter}'
         )
+    if require_advisory_lock and not advisory_lock_observed:
+        raise RuntimeError(
+            f'{name}: the shared runtime advisory fence was not observed; '
+            f'holder={holder}, waiter={waiter}'
+        )
 
-    if holder_outcome == 'PASS':
-        remember_success(holder_operation)
-    else:
-        remember_rejection(holder_operation)
+    remember_success(holder_operation)
     if waiter_outcome == 'PASS':
         remember_success(waiter_operation)
     else:
@@ -325,9 +289,55 @@ def run_pair(
     return {
         'holder': holder,
         'waiter': waiter,
-        'holder_outcome': holder_outcome,
+        'holder_outcome': 'PASS',
         'waiter_outcome': waiter_outcome,
         'pg_blocking_pids_observed': lock_observed,
+        'shared_advisory_lock_observed': advisory_lock_observed,
+    }
+
+
+def run_reject_abort_qualification(
+    name: str,
+    rejected_operation: dict[str, Any],
+    successor_operation: dict[str, Any],
+    allowed_rejected_errors: tuple[str, ...],
+) -> dict[str, Any]:
+    """Prove reject/rollback semantics without pretending an aborted statement holds locks."""
+    rejected: dict[str, Any] = {}
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute("set local lock_timeout='10s'")
+        cur.execute('select pg_backend_pid()')
+        rejected['backend_pid'] = cur.fetchone()[0]
+        try:
+            rejected_operation['call'](cur)
+            raise RuntimeError(f'{name}: rejected operation unexpectedly committed')
+        except psycopg.Error as exc:
+            rejected['error'] = str(exc)
+            if not any(token in str(exc) for token in allowed_rejected_errors):
+                raise RuntimeError(f'{name}: wrong rejection: {exc}') from exc
+            rejected['status'] = 'EXPECTED_REJECTION'
+            conn.rollback()
+    remember_rejection(rejected_operation)
+
+    successor: dict[str, Any] = {}
+    with connect() as conn, conn.cursor() as cur:
+        cur.execute("set local lock_timeout='10s'")
+        cur.execute('select pg_backend_pid()')
+        successor['backend_pid'] = cur.fetchone()[0]
+        successor['response'] = successor_operation['call'](cur)
+        conn.commit()
+        successor['status'] = 'PASS'
+    remember_success(successor_operation)
+
+    if rejected['backend_pid'] == successor['backend_pid']:
+        raise RuntimeError(f'{name}: qualification must use distinct backends')
+    return {
+        'classification': 'REJECT_ABORT_SEMANTICS_QUALIFICATION_NOT_A_RUNTIME_LOCK_RACE',
+        'rejected': rejected,
+        'successor': successor,
+        'distinct_backend_pids': True,
+        'manual_prelock_used': False,
+        'pg_blocking_pids_claimed': False,
     }
 
 
@@ -449,6 +459,7 @@ def qc_payload(
     case: str,
     quantity: int,
     completion_mode_override: str | None = None,
+    product_id: str = PRODUCT,
 ) -> dict[str, Any]:
     return {
         'cutting_group_id': str(item['group_id']),
@@ -460,7 +471,7 @@ def qc_payload(
             'ALL_READY' if quantity == 10 else 'PARTIAL_SELECTION'
         ),
         'lines': [{
-            'final_product_id': PRODUCT,
+            'final_product_id': product_id,
             'qty_good_pcs': quantity,
             'qty_bs_pcs': 0,
             'source_laundry_receipt_line_id': item['receipt_line_id'],
@@ -470,10 +481,16 @@ def qc_payload(
     }
 
 
-def setup_qc(case: str, quantity: int = 10) -> dict[str, Any]:
+def setup_qc(
+    case: str,
+    quantity: int = 10,
+    product_id: str = PRODUCT,
+) -> dict[str, Any]:
     item = setup_receipt(case)
     response = single(facade_operation(
-        'POST_FINAL_SKU', qc_payload(item, case, quantity),
+        'POST_FINAL_SKU', qc_payload(
+            item, case, quantity, product_id=product_id,
+        ),
         request_id(f'{case}:SETUP:QC'), group_version(str(item['group_id'])),
     ))
     item.update({
@@ -522,6 +539,246 @@ def create_invoice(
 
 def post_invoice(invoice_id: str):
     single(invoice_post_operation(invoice_id))
+
+
+def create_isolated_sales_product(case: str) -> str:
+    product_id = str(uuid.uuid5(REQUEST_NAMESPACE, f'{case}:SALES:PRODUCT'))
+    with connect() as conn, conn.cursor() as cur:
+        set_operator_claims(cur)
+        cur.execute(
+            "select set_config('app.change_reason',%s,true)",
+            (f'CP6 {case} isolated sales/HPP product',),
+        )
+        cur.execute(
+            """
+            insert into erp.products(
+              id,sku,model_id,brand_id,color_name,size_id,product_name,
+              identity_root_id,effective_from,is_active,is_portal_visible
+            )
+            select %s::uuid,%s,model_id,brand_id,%s,size_id,%s,
+              %s::uuid,effective_from,true,true
+            from erp.products where id=%s::uuid
+            """,
+            (
+                product_id, f'CP6-SALES-{case}', f'NAVY-{case}',
+                f'CP6 isolated sales/HPP {case}', product_id, PRODUCT,
+            ),
+        )
+        cur.execute(
+            """
+            insert into erp.accessory_bom_versions(
+              product_id,version_label,effective_from,is_active,notes
+            ) values(%s::uuid,%s,'2026-01-01',true,
+              'Explicit empty BOM for CP6 sales/HPP concurrency')
+            """,
+            (product_id, f'CP6-SALES-{case}'),
+        )
+        conn.commit()
+    return product_id
+
+
+def ensure_sales_customer():
+    with connect() as conn, conn.cursor() as cur:
+        set_operator_claims(cur)
+        cur.execute(
+            "select set_config('app.change_reason','CP6 sales/HPP concurrency customer',true)"
+        )
+        cur.execute(
+            """
+            insert into erp.customers(id,customer_code,customer_name,is_active)
+            values(%s::uuid,'CP6-SALES-HPP-CUSTOMER',
+              'CP6 isolated sales/HPP concurrency customer',true)
+            on conflict(id) do nothing
+            """,
+            (SALES_CUSTOMER,),
+        )
+        conn.commit()
+
+
+def sale_number(case: str) -> str:
+    return f'CP6-SALES-{case}'
+
+
+def sale_payload(case: str, product_id: str) -> dict[str, Any]:
+    return {
+        'sale_number': sale_number(case),
+        'customer_id': SALES_CUSTOMER,
+        'source_location_id': LOCATION,
+        'sale_date': '2026-08-29T14:00:00Z',
+        'reason': f'CP6 {case} exact Draft reservation',
+        'items': [{
+            'product_id': product_id,
+            'qty_pcs': 5,
+            'unit_price_snapshot': 20,
+            'discount_amount': 0,
+        }],
+    }
+
+
+def save_sale_operation(case: str, product_id: str) -> dict[str, Any]:
+    client_request_id = request_id(f'{case}:SALE:SAVE')
+
+    def invoke(cur):
+        set_operator_claims(cur)
+        cur.execute(
+            'select erp.save_sale_draft_v2(%s::jsonb,%s::uuid,null)',
+            (json.dumps(sale_payload(case, product_id)), client_request_id),
+        )
+        return cur.fetchone()[0]
+
+    return {'kind': 'sale', 'call': invoke}
+
+
+def sale_identity(case: str) -> dict[str, Any]:
+    value = scalar(
+        """
+        select jsonb_build_object(
+          'sale_id',id,'row_version',row_version,'status',status
+        ) from erp.sales_headers where sale_number=%s
+        """,
+        (sale_number(case),),
+    )
+    if not value:
+        raise RuntimeError(f'{case}: sale was not created')
+    return value
+
+
+def post_sale_operation(case: str, sale_id: str, row_version: int) -> dict[str, Any]:
+    client_request_id = request_id(f'{case}:SALE:POST')
+
+    def invoke(cur):
+        set_operator_claims(cur)
+        cur.execute(
+            'select erp.post_sale_v2(%s::uuid,%s::uuid,%s)',
+            (sale_id, client_request_id, row_version),
+        )
+        return cur.fetchone()[0]
+
+    return {'kind': 'sale', 'call': invoke}
+
+
+def cancel_sale_operation(case: str, sale_id: str, row_version: int) -> dict[str, Any]:
+    client_request_id = request_id(f'{case}:SALE:CANCEL')
+
+    def invoke(cur):
+        set_operator_claims(cur)
+        cur.execute(
+            'select erp.cancel_sale_draft_v2(%s::uuid,%s,%s::uuid,%s)',
+            (
+                sale_id, f'CP6 {case} cancellation under invoice race',
+                client_request_id, row_version,
+            ),
+        )
+        return cur.fetchone()[0]
+
+    return {'kind': 'sale', 'call': invoke}
+
+
+def reverse_sale_operation(case: str, sale_id: str) -> dict[str, Any]:
+    def invoke(cur):
+        set_operator_claims(cur)
+        cur.execute(
+            'select erp.reverse_sale(%s::uuid,%s)',
+            (sale_id, f'CP6 {case} reversal under invoice race'),
+        )
+        return None
+
+    return {'kind': 'sale', 'call': invoke}
+
+
+def reverse_invoice(invoice_id: str, reason: str):
+    single(invoice_reverse_operation(invoice_id, reason))
+
+
+def sales_hpp_state(
+    case: str,
+    product_id: str,
+    invoice_id: str,
+) -> dict[str, Any]:
+    return scalar(
+        """
+        select jsonb_build_object(
+          'sale_status',coalesce((select h.status from erp.sales_headers h
+            where h.sale_number=%s),'MISSING'),
+          'sale_row_version',(select h.row_version from erp.sales_headers h
+            where h.sale_number=%s),
+          'invoice_status',(select status from erp.vendor_invoices where id=%s::uuid),
+          'fg_qty',(select coalesce(sum(m.qty_signed),0) from erp.fg_stock_movements m
+            join erp.fg_lots l on l.id=m.lot_id where l.po_id=po.id),
+          'cached_fg_qty',(select cached_qty_pcs from erp.fg_inventory_balances
+            where product_id=%s::uuid and location_id=%s::uuid
+              and quality_grade='GRADE_A'),
+          'hpp_total',coalesce((select hpp_total_cost from erp.po_hpp_gl_state
+            where po_id=po.id),0),
+          'fg_state',coalesce((select fg_value from erp.po_hpp_gl_state
+            where po_id=po.id),0),
+          'cogs_state',coalesce((select cogs_value from erp.po_hpp_gl_state
+            where po_id=po.id),0),
+          'other_state',coalesce((select other_out_value from erp.po_hpp_gl_state
+            where po_id=po.id),0),
+          'fg_book',(select coalesce(sum(j.debit-j.credit),0)
+            from erp.journal_lines j where j.po_id=po.id
+              and j.account_id=erp.account_id('FG_INVENTORY')),
+          'cogs_book',(select coalesce(sum(j.debit-j.credit),0)
+            from erp.journal_lines j where j.po_id=po.id
+              and j.account_id=erp.account_id('COGS')),
+          'wip_book',(select coalesce(sum(j.debit-j.credit),0)
+            from erp.journal_lines j where j.po_id=po.id
+              and j.account_id=erp.account_id('WIP')),
+          'allocation_hpp',(select coalesce(sum(a.qty_pcs*a.unit_hpp_snapshot),0)
+            from erp.sale_stock_allocations a
+            join erp.sales_items i on i.id=a.sale_item_id
+            join erp.sales_headers h on h.id=i.sale_id where h.sale_number=%s),
+          'unbalanced_journals',(select count(*) from(
+            select e.id from erp.journal_entries e
+            join erp.journal_lines j on j.journal_entry_id=e.id
+            where exists(select 1 from erp.journal_lines scoped
+              where scoped.journal_entry_id=e.id and scoped.po_id=po.id)
+            group by e.id having sum(j.debit)<>sum(j.credit)
+          ) bad)
+        )
+        from erp.production_orders po where po.po_number=%s
+        """,
+        (
+            sale_number(case), sale_number(case), invoice_id,
+            product_id, LOCATION, sale_number(case), f'CP6-MX-{case}',
+        ),
+    )
+
+
+def require_sales_hpp_state(actual: dict[str, Any], **expected):
+    require(actual, **expected)
+    if actual['hpp_total'] != actual['fg_state'] + actual['cogs_state'] + actual['other_state']:
+        raise RuntimeError(f'Sales/HPP state does not conserve total: {actual}')
+    if actual['fg_book'] != actual['fg_state'] or actual['cogs_book'] != actual['cogs_state']:
+        raise RuntimeError(f'Sales/HPP books diverge from state: {actual}')
+    if actual['unbalanced_journals'] != 0:
+        raise RuntimeError(f'Sales/HPP journal imbalance: {actual}')
+
+
+def setup_sales_hpp_fixture(
+    case: str,
+    create_draft: bool,
+    post_draft: bool = False,
+) -> dict[str, Any]:
+    product_id = create_isolated_sales_product(case)
+    item = setup_qc(case, 10, product_id)
+    sale = None
+    if create_draft:
+        single(save_sale_operation(case, product_id))
+        sale = sale_identity(case)
+        if post_draft:
+            single(post_sale_operation(
+                case, str(sale['sale_id']), int(sale['row_version']),
+            ))
+            sale = sale_identity(case)
+    invoice_id = create_invoice(item, case, rate=10)
+    return {
+        'item': item,
+        'product_id': product_id,
+        'sale': sale,
+        'invoice_id': invoice_id,
+    }
 
 
 def state(case: str) -> dict[str, Any]:
@@ -587,6 +844,9 @@ def state(case: str) -> dict[str, Any]:
             where j.po_id=po.id and j.account_id=erp.account_id('FG_INVENTORY')),
           'accrued_net',(select coalesce(sum(j.debit-j.credit),0) from erp.journal_lines j
             where j.po_id=po.id and j.account_id=erp.account_id('ACCRUED_MANUFACTURING')),
+          'contractor_payable_net',(select coalesce(sum(j.debit-j.credit),0)
+            from erp.journal_lines j
+            where j.po_id=po.id and j.account_id=erp.account_id('CONTRACTOR_PAYABLE')),
           'invoice_status',(select vi.status from erp.vendor_invoices vi
             join erp.vendor_invoice_items vii on vii.invoice_id=vi.id
             join erp.laundry_receipt_lines rl on rl.id=vii.receipt_line_id
@@ -643,6 +903,7 @@ def main():
         'database_scope': 'ISOLATED_CLONE_DESTROYED_BY_WORKFLOW',
         'production_go': False,
         'races': {},
+        'qualification_probes': {},
         'states': {},
     }
 
@@ -763,8 +1024,9 @@ def main():
     require(report['states']['reverse_qc_vs_reverse_receipt'], reversed_receipts=1, reversed_qc=1, fg_qty=0)
 
     item = setup_qc('REVRECEIPT_REVQC')
-    report['races']['reverse_receipt_vs_reverse_qc'] = run_pair(
-        'REVERSE_RECEIPT_VS_REVERSE_QC',
+    report['qualification_probes']['reverse_receipt_reject_then_reverse_qc'] = (
+      run_reject_abort_qualification(
+        'REVERSE_RECEIPT_REJECT_THEN_REVERSE_QC',
         facade_operation('REVERSE_RECEIPT', {
             'receipt_id': item['receipt_id'],
             'reason': 'CP6 matrix receipt reversal rejects before QC reversal',
@@ -773,11 +1035,8 @@ def main():
             'qc_inspection_id': item['qc_id'],
             'reason': 'CP6 matrix QC reversal follows rejected receipt reversal',
         }, request_id('REVRECEIPT_REVQC:RACE:REVQC'), item['qc_version']),
-        'PASS',
-        holder_outcome='REJECT',
-        allowed_holder_errors=('Penerimaan laundry ini sudah dipakai QC',),
-        holder_prelock=cp6flow_prelock(str(item['group_id'])),
-        holder_prelock_label='CP6FLOW_GROUP',
+        ('Penerimaan laundry ini sudah dipakai QC',),
+      )
     )
     report['states']['reverse_receipt_vs_reverse_qc'] = state('REVRECEIPT_REVQC')
     require(
@@ -794,19 +1053,17 @@ def main():
     invoice_a = create_invoice(item, 'REPLACEMENT_INVERSE_A', rate=9)
     post_invoice(invoice_a)
     invoice_b = create_invoice(item, 'REPLACEMENT_INVERSE_B', rate=10)
-    report['races']['replacement_post_vs_invoice_reversal'] = run_pair(
-        'REPLACEMENT_POST_VS_INVOICE_REVERSAL',
+    report['qualification_probes']['replacement_post_reject_then_invoice_reversal'] = (
+      run_reject_abort_qualification(
+        'REPLACEMENT_POST_REJECT_THEN_INVOICE_REVERSAL',
         invoice_post_operation(invoice_b),
         invoice_reverse_operation(
             invoice_a, 'CP6 inverse replacement schedule restores estimate',
         ),
-        'PASS',
-        holder_outcome='REJECT',
-        allowed_holder_errors=(
+        (
             'Laundry receipt line is already billed by another active vendor invoice',
         ),
-        holder_prelock=invoice_post_prelock(invoice_b, str(item['group_id'])),
-        holder_prelock_label='INVOICE_HEADER_THEN_CP6FLOW',
+      )
     )
     report['states']['replacement_post_vs_invoice_reversal'] = scalar(
         """
@@ -927,6 +1184,161 @@ def main():
             fg_net=35, wip_net=35, accrued_net=-70)
     require_reversed_hpp_history(report['states']['post_final_sku_vs_reverse_qc'])
 
+    # Deep-business acceptance: nonzero sewing labor and Laundry cost must be
+    # allocated only to the physical FG interval. The unfinished half remains
+    # WIP before and after exact invoice repricing.
+    partial_product = create_isolated_sales_product('PARTIAL_LABOR_COST')
+    item = setup_qc('PARTIAL_LABOR_COST', 5, partial_product)
+    partial = state('PARTIAL_LABOR_COST')
+    require(
+        partial, fg_qty=5, current_hpp=45, fg_net=45, wip_net=45,
+        accrued_net=-70, contractor_payable_net=-20,
+    )
+    partial_invoice = create_invoice(item, 'PARTIAL_LABOR_COST', rate=10)
+    post_invoice(partial_invoice)
+    repriced = state('PARTIAL_LABOR_COST')
+    require(
+        repriced, fg_qty=5, current_hpp=60, fg_net=60, wip_net=60,
+        accrued_net=0, contractor_payable_net=-20,
+        invoice_status='POSTED', receipt_cost_status='FINAL', receipt_cost=100,
+    )
+    single(facade_operation(
+        'POST_FINAL_SKU', qc_payload(
+            item, 'PARTIAL_LABOR_COST', 5,
+            completion_mode_override='ALL_READY', product_id=partial_product,
+        ),
+        request_id('PARTIAL_LABOR_COST:SETUP:QC:REMAINDER'),
+        group_version(str(item['group_id'])),
+    ))
+    completed = state('PARTIAL_LABOR_COST')
+    require(
+        completed, fg_qty=10, current_hpp=120, fg_net=120, wip_net=0,
+        accrued_net=0, contractor_payable_net=-20,
+    )
+    reverse_invoice(
+        partial_invoice, 'CP6 partial nonzero-cost invoice reversal symmetry',
+    )
+    invoice_reversed = state('PARTIAL_LABOR_COST')
+    require(
+        invoice_reversed, fg_qty=10, current_hpp=90, fg_net=90, wip_net=0,
+        accrued_net=-70, contractor_payable_net=-20,
+        invoice_status='REVERSED', receipt_cost_status='ESTIMATED', receipt_cost=70,
+    )
+    report['states']['partial_nonzero_labor_laundry_cost'] = {
+        'partial': partial,
+        'repriced': repriced,
+        'completed': completed,
+        'invoice_reversed': invoice_reversed,
+    }
+
+    # N07 native runtime proof. Every sales Draft lifecycle operation and the
+    # invoice-triggered HPP rebuild acquires the production global fence. Each
+    # pair is run in both holder orders and must expose the exact holder PID.
+    ensure_sales_customer()
+    sales_cases = [
+        ('INVOICE_SALE_SAVE', 'invoice_vs_save_sale_draft', 'SAVE', True),
+        ('SALE_SAVE_INVOICE', 'save_sale_draft_vs_invoice', 'SAVE', False),
+        ('INVOICE_SALE_POST', 'invoice_vs_post_sale_draft', 'POST', True),
+        ('SALE_POST_INVOICE', 'post_sale_draft_vs_invoice', 'POST', False),
+        ('INVOICE_SALE_CANCEL', 'invoice_vs_cancel_sale_draft', 'CANCEL', True),
+        ('SALE_CANCEL_INVOICE', 'cancel_sale_draft_vs_invoice', 'CANCEL', False),
+        ('INVOICE_SALE_REVERSE', 'invoice_vs_reverse_sale', 'REVERSE', True),
+        ('SALE_REVERSE_INVOICE', 'reverse_sale_vs_invoice', 'REVERSE', False),
+    ]
+    for case, race_name, sale_action, invoice_first in sales_cases:
+        fixture = setup_sales_hpp_fixture(
+            case,
+            create_draft=sale_action != 'SAVE',
+            post_draft=sale_action == 'REVERSE',
+        )
+        invoice_operation = invoice_post_operation(fixture['invoice_id'])
+        if sale_action == 'SAVE':
+            sale_operation = save_sale_operation(case, fixture['product_id'])
+        elif sale_action == 'POST':
+            sale_operation = post_sale_operation(
+                case, str(fixture['sale']['sale_id']),
+                int(fixture['sale']['row_version']),
+            )
+        elif sale_action == 'CANCEL':
+            sale_operation = cancel_sale_operation(
+                case, str(fixture['sale']['sale_id']),
+                int(fixture['sale']['row_version']),
+            )
+        else:
+            sale_operation = reverse_sale_operation(
+                case, str(fixture['sale']['sale_id']),
+            )
+        report['races'][race_name] = run_pair(
+            race_name.upper(),
+            invoice_operation if invoice_first else sale_operation,
+            sale_operation if invoice_first else invoice_operation,
+            'PASS',
+            require_advisory_lock=True,
+        )
+        observed = sales_hpp_state(
+            case, fixture['product_id'], fixture['invoice_id'],
+        )
+        expected_status = {
+            'SAVE': 'DRAFT', 'POST': 'POSTED',
+            'CANCEL': 'CANCELLED', 'REVERSE': 'REVERSED',
+        }[sale_action]
+        if sale_action == 'POST':
+            require_sales_hpp_state(
+                observed, sale_status=expected_status, invoice_status='POSTED',
+                fg_qty=5, cached_fg_qty=5, hpp_total=100,
+                fg_state=50, cogs_state=50, other_state=0,
+                fg_book=50, cogs_book=50, wip_book=0,
+            )
+        else:
+            require_sales_hpp_state(
+                observed, sale_status=expected_status, invoice_status='POSTED',
+                fg_qty=5 if sale_action == 'SAVE' else 10,
+                cached_fg_qty=5 if sale_action == 'SAVE' else 10,
+                hpp_total=100, fg_state=100, cogs_state=0, other_state=0,
+                fg_book=100, cogs_book=0, wip_book=0,
+            )
+        report['states'][race_name] = {'after_race': observed}
+
+        # A Draft reservation can carry an older provisional snapshot, but POST
+        # must freeze current HPP. Complete the SAVE schedules to prove that
+        # both invoice-first and Draft-first converge to 50 FG / 50 COGS.
+        if sale_action == 'SAVE':
+            saved = sale_identity(case)
+            single(post_sale_operation(
+                case, str(saved['sale_id']), int(saved['row_version']),
+            ))
+            after_post = sales_hpp_state(
+                case, fixture['product_id'], fixture['invoice_id'],
+            )
+            require_sales_hpp_state(
+                after_post, sale_status='POSTED', invoice_status='POSTED',
+                fg_qty=5, cached_fg_qty=5, hpp_total=100,
+                fg_state=50, cogs_state=50, other_state=0,
+                fg_book=50, cogs_book=50, wip_book=0,
+                allocation_hpp=50,
+            )
+            report['states'][race_name]['after_post'] = after_post
+
+        if sale_action in ('SAVE', 'POST'):
+            current_sale = sale_identity(case)
+            single(reverse_sale_operation(
+                f'{case}:CLEANUP', str(current_sale['sale_id']),
+            ))
+            after_sale_reversal = sales_hpp_state(
+                case, fixture['product_id'], fixture['invoice_id'],
+            )
+            require_sales_hpp_state(
+                after_sale_reversal, sale_status='REVERSED', invoice_status='POSTED',
+                fg_qty=10, cached_fg_qty=10, hpp_total=100,
+                fg_state=100, cogs_state=0, other_state=0,
+                fg_book=100, cogs_book=0, wip_book=0,
+            )
+            report['states'][race_name]['after_sale_reversal'] = after_sale_reversal
+
+        reverse_invoice(
+            fixture['invoice_id'], f'CP6 {case} invoice cleanup after exact race state',
+        )
+
     completed_ids = [row[0] for row in successful_facades]
     completed_operations = [row[1] for row in successful_facades]
     nested_ids = [row[0] for row in successful_facades if row[2]]
@@ -980,9 +1392,22 @@ def main():
     report['idempotency_and_ledger'] = idempotency
     report['idempotency_expected'] = expected_idempotency
     report['race_count'] = len(report['races'])
+    report['qualification_probe_count'] = len(report['qualification_probes'])
+    report['manual_prelock_count'] = 0
     report['all_blockers_observed'] = all(
         value['pg_blocking_pids_observed'] for value in report['races'].values()
     )
+    if (
+        report['race_count'] != 22
+        or report['qualification_probe_count'] != 2
+        or not report['all_blockers_observed']
+    ):
+        raise RuntimeError(
+            'CP6 reversal/sales native evidence count mismatch: '
+            f"races={report['race_count']}, "
+            f"qualifications={report['qualification_probe_count']}, "
+            f"blockers={report['all_blockers_observed']}"
+        )
     report['status'] = 'PASS'
     REPORT.parent.mkdir(parents=True, exist_ok=True)
     REPORT.write_text(json.dumps(report, indent=2, sort_keys=True) + '\n')
@@ -1001,4 +1426,4 @@ except Exception as error:
     REPORT.write_text(json.dumps(failure, indent=2, sort_keys=True) + '\n')
     raise
 
-print('CP6 reversal matrix passed: sixteen serialized schedules in both meaningful orders; all blocker PIDs observed.')
+print('CP6 reversal matrix passed: twenty-two native runtime-lock schedules (including eight Sales Draft/HPP/invoice schedules) plus two explicit reject/abort qualifications; no manual prelock is counted as runtime evidence.')

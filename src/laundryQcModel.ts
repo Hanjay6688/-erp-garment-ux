@@ -24,6 +24,16 @@ export type Cp6ProductSearchPage = {
   has_more: boolean
   next_cursor: string | null
 }
+export type Cp6LaundryBsProductSearchPage = {
+  contract_version: 'CP6_LAUNDRY_BS_PRODUCT_SEARCH_V2620C'
+  source_delivery_batch_size_line_id: string
+  physical_at: string
+  query: string | null
+  page_limit: number
+  products: Cp6Product[]
+  has_more: boolean
+  next_cursor: string | null
+}
 export type Cp6ReadySize = {
   size_id: string; size_code: string; sort_order: number
   allocated_qty_pcs: number; sent_qty_pcs: number; available_qty_pcs: number
@@ -255,6 +265,44 @@ export function parseFinalSkuProductSearch(value: unknown): Cp6ProductSearchPage
     contract_version: 'CP6_PRODUCT_SEARCH_V2620B',
     source_laundry_receipt_batch_size_line_id: id(
       raw.source_laundry_receipt_batch_size_line_id, 'ID sumber pencarian Final SKU',
+    ),
+    physical_at: physicalAt, query, page_limit: pageLimit, products,
+    has_more: hasMore, next_cursor: nextCursor,
+  }
+}
+
+export function parseLaundryBsProductSearch(value: unknown): Cp6LaundryBsProductSearchPage {
+  const raw = record(value, 'Pencarian SKU Laundry-BS')
+  if (raw.contract_version !== 'CP6_LAUNDRY_BS_PRODUCT_SEARCH_V2620C') {
+    throw new Error('Versi kontrak pencarian SKU Laundry-BS tidak cocok.')
+  }
+  const physicalAt = timestamp(raw.physical_at, 'Waktu pencarian SKU Laundry-BS')
+  const products = list(raw.products, 'Hasil pencarian SKU Laundry-BS').map(parseProduct)
+  const hasMore = bool(raw.has_more, 'Status halaman lanjutan SKU Laundry-BS')
+  const nextCursor = nullableText(raw.next_cursor, 'Cursor SKU Laundry-BS')
+  const query = nullableText(raw.query, 'Kata kunci SKU Laundry-BS')
+  const pageLimit = integer(raw.page_limit, 'Batas halaman SKU Laundry-BS', 1)
+  if (pageLimit > 100 || products.length > pageLimit
+    || hasMore !== (nextCursor !== null)
+    || products.some((product) => !productEffectiveAt(product, physicalAt))) {
+    throw new Error('Halaman pencarian SKU Laundry-BS tidak konsisten dengan kontrak authoritative.')
+  }
+  if (products.length > 0) {
+    const modelId = products[0].model_id
+    const sizeId = products[0].size_id
+    if (products.some((product) => product.model_id !== modelId || product.size_id !== sizeId)) {
+      throw new Error('Pencarian SKU Laundry-BS mencampur Model atau ukuran sumber pengiriman.')
+    }
+  }
+  assertUnique(products, (product) => product.id, 'ID hasil pencarian SKU Laundry-BS')
+  assertStableMetadata(products, (row) => row.brand_id,
+    (row) => JSON.stringify([row.brand_code, row.brand_name]), 'Metadata Merek hasil SKU Laundry-BS')
+  assertStableMetadata(products, (row) => row.model_id,
+    (row) => JSON.stringify([row.model_code, row.model_name]), 'Metadata Model hasil SKU Laundry-BS')
+  return {
+    contract_version: 'CP6_LAUNDRY_BS_PRODUCT_SEARCH_V2620C',
+    source_delivery_batch_size_line_id: id(
+      raw.source_delivery_batch_size_line_id, 'ID sumber pencarian SKU Laundry-BS',
     ),
     physical_at: physicalAt, query, page_limit: pageLimit, products,
     has_more: hasMore, next_cursor: nextCursor,
