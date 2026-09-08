@@ -53,10 +53,16 @@ admin_psql() {
 test "$(admin_psql -c 'select current_user')" = 'supabase_admin'
 source_database_owner="$(admin_psql \
   -c "select pg_get_userbyid(datdba) from pg_database where datname='postgres'")"
+source_database_acl_is_null="$(admin_psql \
+  -c "select datacl is null from pg_database where datname='postgres'")"
+source_database_nonowner_grantors="$(admin_psql \
+  -c "select count(*) from pg_database d cross join lateral aclexplode(d.datacl) a where d.datname='postgres' and a.grantor<>d.datdba")"
 # pg_database_owner controls CREATE on the hardened public schema.  A template
 # clone with a different database owner is therefore not privilege-identical,
 # even when every ERP row, owner, and grant byte matches.
 test "$source_database_owner" = 'postgres'
+test "$source_database_acl_is_null" = 't' || test "$source_database_acl_is_null" = 'f'
+test "$source_database_nonowner_grantors" = '0'
 
 wait_for_admin() {
   local attempt
@@ -113,6 +119,50 @@ source_fenced='0'
 test "$(psql "$source_pgurl" -X -At -v ON_ERROR_STOP=1 -c 'select current_database()')" = 'postgres'
 test "$(psql "$clone_pgurl" -X -At -v ON_ERROR_STOP=1 -c 'select current_database()')" = "$clone_name"
 
+# CREATE DATABASE ... TEMPLATE copies the physical database contents but not
+# an explicit pg_database.datacl. Replay that ACL only when the source has one.
+# The source audit above refuses foreign grantors so the database owner can
+# reproduce every grant without silently changing grant provenance.
+if [[ "$source_database_acl_is_null" = 'f' ]]; then
+  psql "$source_pgurl" -X -At -v ON_ERROR_STOP=1 -v clone_name="$clone_name" <<'SQL'
+with clone_principals as(
+  select distinct a.grantee
+  from pg_database d
+  cross join lateral aclexplode(coalesce(d.datacl,acldefault('d',d.datdba))) a
+  where d.datname=:'clone_name'
+)
+select format(
+  'revoke all privileges on database %I from %s',
+  :'clone_name',
+  case when grantee=0 then 'public' else quote_ident(pg_get_userbyid(grantee)) end
+)
+from clone_principals
+order by grantee
+\gexec
+
+with source_acl_groups as(
+  select
+    a.grantee,
+    a.is_grantable,
+    string_agg(a.privilege_type,', ' order by a.privilege_type) privileges
+  from pg_database d
+  cross join lateral aclexplode(d.datacl) a
+  where d.datname=current_database()
+  group by a.grantee,a.is_grantable
+)
+select format(
+  'grant %s on database %I to %s%s',
+  privileges,
+  :'clone_name',
+  case when grantee=0 then 'public' else quote_ident(pg_get_userbyid(grantee)) end,
+  case when is_grantable then ' with grant option' else '' end
+)
+from source_acl_groups
+order by grantee,is_grantable
+\gexec
+SQL
+fi
+
 bash scripts/verify-cp6-disposable-clone.sh "$source_pgurl" "$clone_pgurl" "$proof_prefix"
 
 {
@@ -123,6 +173,9 @@ bash scripts/verify-cp6-disposable-clone.sh "$source_pgurl" "$clone_pgurl" "$pro
   printf 'source_database_owner=%s\n' "$source_database_owner"
   printf 'clone_database_owner=%s\n' "$clone_database_owner"
   printf 'database_owner_preserved=PASS\n'
+  printf 'source_database_acl_is_null=%s\n' "$source_database_acl_is_null"
+  printf 'source_database_nonowner_grantors=%s\n' "$source_database_nonowner_grantors"
+  printf 'database_acl_replayed=PASS\n'
   printf 'clone_strategy=TEMPLATE_POSTGRES\n'
   printf 'source_restart_under_fence=PASS\n'
   printf 'terminated_source_connections=%s\n' "$terminated_connections"

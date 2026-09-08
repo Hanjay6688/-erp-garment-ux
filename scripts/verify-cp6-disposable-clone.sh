@@ -14,6 +14,7 @@ source_erp_dump="${proof_prefix}.source-erp.sql"
 clone_erp_dump="${proof_prefix}.clone-erp.sql"
 diff_file="${proof_prefix}.erp.diff"
 proof_file="${proof_prefix}.txt"
+identity_proof_file="${proof_prefix}.database-identity.txt"
 restrict_key='CP6CloneBoundary20260904'
 
 mkdir -p "$(dirname "$proof_prefix")"
@@ -28,7 +29,15 @@ database_identity() {
   psql "$pgurl" -X -At -v ON_ERROR_STOP=1 <<'SQL'
 select jsonb_build_object(
   'owner',pg_get_userbyid(d.datdba),
-  'acl',coalesce(d.datacl::text,''),
+  'acl_entries',coalesce((
+    select jsonb_agg(jsonb_build_object(
+      'grantor',pg_get_userbyid(a.grantor),
+      'grantee',case when a.grantee=0 then 'PUBLIC' else pg_get_userbyid(a.grantee) end,
+      'privilege',a.privilege_type,
+      'grantable',a.is_grantable
+    ) order by a.grantor,a.grantee,a.privilege_type,a.is_grantable)
+    from aclexplode(d.datacl) a
+  ),'[]'::jsonb),
   'allow_connections',d.datallowconn,
   'connection_limit',d.datconnlimit
 )::text
@@ -59,6 +68,13 @@ source_database_identity="$(database_identity "$source_pgurl")"
 clone_database_identity="$(database_identity "$clone_pgurl")"
 source_public_schema_identity="$(public_schema_identity "$source_pgurl")"
 clone_public_schema_identity="$(public_schema_identity "$clone_pgurl")"
+
+{
+  printf 'source_database_identity=%s\n' "$source_database_identity"
+  printf 'clone_database_identity=%s\n' "$clone_database_identity"
+  printf 'source_public_schema_identity=%s\n' "$source_public_schema_identity"
+  printf 'clone_public_schema_identity=%s\n' "$clone_public_schema_identity"
+} > "$identity_proof_file"
 
 test "$source_pg_cron_count" = '1'
 test "$clone_pg_cron_count" = '1'
