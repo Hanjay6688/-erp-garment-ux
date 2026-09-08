@@ -196,6 +196,8 @@ requireTokens(rollbackRace, 'native reusable rollback race', [
   "CP6_ROLLBACK_TARGET_REG_IDENTITY", "CP6_ROLLBACK_GATE_RELATION",
   "select public.erp_get_laundry_qc_workspace_v1('LAUNDRY',null)",
   "expected_version = int(ready_batch['cutting_group_row_version'])",
+  'ROLLBACK_FIRST_BLOCK_TIMEOUT_SECONDS = 8.0',
+  "'AUTHENTICATED_PUBLIC_WORKSPACE_BEFORE_ROLLBACK_GATE'",
   "re.fullmatch(r'erp\\.[a-z0-9_]+', GATE_RELATION)",
   "gate_cur.execute(f'lock table {GATE_RELATION} in access exclusive mode')",
 ])

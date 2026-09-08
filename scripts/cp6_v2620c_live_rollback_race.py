@@ -60,6 +60,7 @@ REQUESTS = {
     'ROLLBACK_FIRST': 'c8fa0000-0000-4000-8000-000000000002',
 }
 HOLD_SECONDS = 1.5
+ROLLBACK_FIRST_BLOCK_TIMEOUT_SECONDS = 8.0
 
 
 def connect(application_name: str):
@@ -80,8 +81,7 @@ def set_operator(cur):
     cur.execute('set local role authenticated')
 
 
-def writer_call(cur, request_id: str):
-    set_operator(cur)
+def expected_version_from_workspace(cur) -> int:
     # Resolve the optimistic version through the same authenticated public
     # workspace contract used by the client. Never grant/read the private
     # cutting_groups table merely to make a rollback harness pass.
@@ -97,6 +97,13 @@ def writer_call(cur, request_id: str):
     if ready_batch is None:
         raise RuntimeError('Authenticated workspace did not expose the seeded ready batch')
     expected_version = int(ready_batch['cutting_group_row_version'])
+    return expected_version
+
+
+def writer_call(cur, request_id: str, expected_version: int | None = None):
+    set_operator(cur)
+    if expected_version is None:
+        expected_version = expected_version_from_workspace(cur)
     payload = {
         'distribution_batch_id': BATCH,
         'vendor_id': VENDOR,
@@ -250,6 +257,16 @@ def writer_first() -> dict[str, Any]:
 
 def rollback_first() -> dict[str, Any]:
     request_id = REQUESTS[MODE]
+    # Complete the authenticated, public read-only workspace lookup before
+    # starting the rollback gate. The measured interval below therefore covers
+    # the actual mutating facade reaching a conflicting table lock, not variable
+    # CI time spent rendering its optimistic-version workspace.
+    with connect(f'cp6-{EVIDENCE_TAG.lower()}-workspace-before-rollback-gate') as preread:
+        with preread.cursor() as preread_cur:
+            set_operator(preread_cur)
+            expected_version = expected_version_from_workspace(preread_cur)
+        preread.commit()
+
     gate = connect(f'cp6-{EVIDENCE_TAG.lower()}-rollback-order-gate')
     gate_cur = gate.cursor()
     gate_cur.execute('select pg_backend_pid()')
@@ -291,7 +308,7 @@ def rollback_first() -> dict[str, Any]:
                 cur.execute('select pg_backend_pid()')
                 writer['pid'] = cur.fetchone()[0]
                 writer_started.set()
-                writer['response'] = writer_call(cur, request_id)
+                writer['response'] = writer_call(cur, request_id, expected_version)
             conn.commit()
             writer['status'] = 'PASS'
         except Exception as exc:  # pragma: no cover - CI evidence
@@ -307,7 +324,9 @@ def rollback_first() -> dict[str, Any]:
     thread.start()
     if not writer_started.wait(timeout=10):
         raise RuntimeError('Rollback-first writer did not publish its PID')
-    writer_blocked_by_rollback = observe_blocker(writer['pid'], rollback_pid, 2.0)
+    writer_blocked_by_rollback = observe_blocker(
+        writer['pid'], rollback_pid, ROLLBACK_FIRST_BLOCK_TIMEOUT_SECONDS,
+    )
     gate.rollback()
     gate_cur.close()
     gate.close()
@@ -334,6 +353,8 @@ def rollback_first() -> dict[str, Any]:
         'gate_instrumentation_pid': gate_pid,
         'rollback_blocked_by_gate_before_writer_started': True,
         'writer_blocked_by_exact_rollback_pid': writer_blocked_by_rollback,
+        'optimistic_version_source': 'AUTHENTICATED_PUBLIC_WORKSPACE_BEFORE_ROLLBACK_GATE',
+        'block_observation_timeout_seconds': ROLLBACK_FIRST_BLOCK_TIMEOUT_SECONDS,
         'pre_use_rollback_committed': True,
         'writer_committed_under_restored_predecessor': PREDECESSOR_VERSION,
         'final_state': final_state,

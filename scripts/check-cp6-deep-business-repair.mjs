@@ -361,6 +361,8 @@ requireTokens(rollbackRace, 'N05 live business rollback race', [
   "'actual_facade': 'public.erp_save_laundry_qc_action_v1'",
   "'synthetic_business_marker_used': False",
   'pg_blocking_pids_observed', 'writer_blocked_by_exact_rollback_pid',
+  "'AUTHENTICATED_PUBLIC_WORKSPACE_BEFORE_ROLLBACK_GATE'",
+  'ROLLBACK_FIRST_BLOCK_TIMEOUT_SECONDS',
   'pre_use_rollback_committed', "'production_go': False",
 ])
 requireTokens(rollbackRaceRunner, 'N05 rollback race runner', [
