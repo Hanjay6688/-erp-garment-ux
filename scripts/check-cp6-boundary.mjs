@@ -827,6 +827,7 @@ for (const token of [
   'docker restart "$database_container"', 'wait_for_admin',
   "select datallowconn from pg_database where datname='postgres'",
   'pg_terminate_backend(pid)', 'createdb -U supabase_admin', '--template=postgres',
+  '[[ "$terminated_connections" =~ ^[0-9]+$ ]]',
   '--owner="$source_database_owner"',
   'test "$clone_database_owner" = "$source_database_owner"',
   'alter database postgres with allow_connections true',

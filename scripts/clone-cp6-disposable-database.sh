@@ -94,17 +94,17 @@ admin_psql -c 'alter database postgres with allow_connections false'
 docker restart "$database_container" >/dev/null
 wait_for_admin
 test "$(admin_psql -c "select datallowconn from pg_database where datname='postgres'")" = 'f'
-terminated_connections="$(admin_psql <<'SQL'
+terminated_connections="$(admin_psql -c "
 select count(*) filter(where terminated)
 from(
   select pg_terminate_backend(pid) terminated
   from pg_stat_activity
   where datname='postgres'
 ) terminated_sessions;
-SQL
-)"
+")"
 remaining_connections="$(admin_psql \
   -c "select count(*) from pg_stat_activity where datname='postgres'")"
+[[ "$terminated_connections" =~ ^[0-9]+$ ]]
 test "$remaining_connections" = '0'
 
 docker exec "$database_container" \
