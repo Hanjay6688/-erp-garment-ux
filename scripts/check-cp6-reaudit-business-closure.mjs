@@ -33,12 +33,12 @@ const clone = read(clonePath)
 
 const migrationFileSha = 'b71bc9fc752a7f28f1813f8ae240611d477877f919b0b82abfe3d16c8ece80fb'
 const migrationLedgerSha = 'f013c65bdae0ac002557d7d165d4e0d447588e87b009c2c4e6785ef8a03abde8'
-const rollbackFileSha = '927be74679575ae52fef9370169e8dfd0bf32cc52284a2234ee8c883a8c3c319'
+const rollbackFileSha = '2535935bd2c0584fd99d6d82e80c994b8406fa48a92c3b6affb4b0ec92be629e'
 const regressionFileSha = 'd5a7e981fde1a02b9c6c8d671a44a73f3278bbe6e45f814ff26e3427d78f0bb8'
 const migrationBytes = Buffer.from(migration)
 
 assert.equal(Buffer.byteLength(migration), 85620)
-assert.equal(Buffer.byteLength(rollback), 11711)
+assert.equal(Buffer.byteLength(rollback), 12204)
 assert.equal(Buffer.byteLength(regression), 36764)
 assert.equal(sha256(migrationBytes), migrationFileSha)
 assert.equal(sha256(migrationBytes.subarray(0, -1)), migrationLedgerSha)
@@ -137,6 +137,8 @@ requireTokens(migration, 'v20d forward reconciliation', [
 requireTokens(rollback, 'v20d fail-closed executable rollback', [
   'lock table erp.schema_migrations,',
   'erp.laundry_redispatch_participant_allocations,',
+  'in access exclusive mode;',
+  'DROP cannot upgrade a weaker lock while a live facade retains AccessShare',
   'v2.6.20d rollback refused: platform ledger identity is ambiguous',
   'v2.6.20d rollback refused: a successor migration is already installed',
   'DRIFT_CONCURRENT_MUTATION_DETECTED: v2.6.20d installed object/capsule drift',

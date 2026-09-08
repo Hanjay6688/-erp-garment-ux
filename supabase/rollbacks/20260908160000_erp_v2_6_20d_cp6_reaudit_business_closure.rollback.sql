@@ -40,11 +40,20 @@ begin
 end
 $platform_guard$;
 
+-- The successor-only relations are dropped below.  Take their final
+-- ACCESS EXCLUSIVE mode before holding any other business-table lock so the
+-- DROP cannot upgrade a weaker lock while a live facade retains AccessShare.
+-- This is deliberately first: an already-running writer finishes before the
+-- rollback owns anything else, while a rollback-first writer waits without
+-- creating the AccessShare -> RowExclusive -> AccessExclusive deadlock cycle.
+lock table
+  erp.laundry_redispatch_participant_allocations,
+  erp.cp6_v2620d_rollback_capsule
+in access exclusive mode;
+
 lock table
   erp.audit_logs,
   erp.cp6_laundry_qc_execution_context,
-  erp.cp6_v2620d_rollback_capsule,
-  erp.laundry_redispatch_participant_allocations,
   erp.journal_entries,
   erp.journal_lines,
   erp.fg_lots,

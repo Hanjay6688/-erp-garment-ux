@@ -195,6 +195,7 @@ def writer_first() -> dict[str, Any]:
             conn.rollback()
             writer['status'] = 'FAIL'
             writer['error'] = str(exc)
+            writer['sqlstate'] = getattr(exc, 'sqlstate', None)
             effects_ready.set()
         finally:
             conn.close()
@@ -297,6 +298,7 @@ def rollback_first() -> dict[str, Any]:
             conn.rollback()
             writer['status'] = 'FAIL'
             writer['error'] = str(exc)
+            writer['sqlstate'] = getattr(exc, 'sqlstate', None)
             writer_started.set()
         finally:
             conn.close()
