@@ -23,8 +23,47 @@ source_pg_cron_count="$(psql "$source_pgurl" -X -At -v ON_ERROR_STOP=1 \
 clone_pg_cron_count="$(psql "$clone_pgurl" -X -At -v ON_ERROR_STOP=1 \
   -c "select count(*) from pg_extension where extname='pg_cron'")"
 
+database_identity() {
+  local pgurl="$1"
+  psql "$pgurl" -X -At -v ON_ERROR_STOP=1 <<'SQL'
+select jsonb_build_object(
+  'owner',pg_get_userbyid(d.datdba),
+  'acl',coalesce(d.datacl::text,''),
+  'allow_connections',d.datallowconn,
+  'connection_limit',d.datconnlimit
+)::text
+from pg_database d where d.datname=current_database();
+SQL
+}
+
+public_schema_identity() {
+  local pgurl="$1"
+  psql "$pgurl" -X -At -v ON_ERROR_STOP=1 <<'SQL'
+select jsonb_build_object(
+  'owner',pg_get_userbyid(n.nspowner),
+  'acl',coalesce(n.nspacl::text,''),
+  'postgres_usage',has_schema_privilege('postgres','public','USAGE'),
+  'postgres_create',has_schema_privilege('postgres','public','CREATE'),
+  'anon_usage',has_schema_privilege('anon','public','USAGE'),
+  'anon_create',has_schema_privilege('anon','public','CREATE'),
+  'authenticated_usage',has_schema_privilege('authenticated','public','USAGE'),
+  'authenticated_create',has_schema_privilege('authenticated','public','CREATE'),
+  'service_role_usage',has_schema_privilege('service_role','public','USAGE'),
+  'service_role_create',has_schema_privilege('service_role','public','CREATE')
+)::text
+from pg_namespace n where n.nspname='public';
+SQL
+}
+
+source_database_identity="$(database_identity "$source_pgurl")"
+clone_database_identity="$(database_identity "$clone_pgurl")"
+source_public_schema_identity="$(public_schema_identity "$source_pgurl")"
+clone_public_schema_identity="$(public_schema_identity "$clone_pgurl")"
+
 test "$source_pg_cron_count" = '1'
 test "$clone_pg_cron_count" = '1'
+test "$source_database_identity" = "$clone_database_identity"
+test "$source_public_schema_identity" = "$clone_public_schema_identity"
 
 # PostgreSQL 17 emits a random psql restrict key unless one is supplied. A fixed
 # alphanumeric key makes these local, disposable ERP extracts byte-comparable.
@@ -55,5 +94,7 @@ erp_bytes="$(wc -c < "$source_erp_dump")"
   printf 'erp_dump_sha256=%s\n' "$erp_sha256"
   printf 'erp_dump_bytes=%s\n' "$erp_bytes"
   printf 'erp_schema_owners_grants_sequences_rows=IDENTICAL\n'
+  printf 'database_owner_acl_connectivity=IDENTICAL\n'
+  printf 'public_schema_owner_acl_role_privileges=IDENTICAL\n'
   printf 'status=PASS\n'
 } | tee "$proof_file"

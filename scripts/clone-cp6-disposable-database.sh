@@ -51,6 +51,12 @@ admin_psql() {
     psql -U supabase_admin -d template1 -X -At -v ON_ERROR_STOP=1 "$@"
 }
 test "$(admin_psql -c 'select current_user')" = 'supabase_admin'
+source_database_owner="$(admin_psql \
+  -c "select pg_get_userbyid(datdba) from pg_database where datname='postgres'")"
+# pg_database_owner controls CREATE on the hardened public schema.  A template
+# clone with a different database owner is therefore not privilege-identical,
+# even when every ERP row, owner, and grant byte matches.
+test "$source_database_owner" = 'postgres'
 
 wait_for_admin() {
   local attempt
@@ -96,7 +102,11 @@ remaining_connections="$(admin_psql \
 test "$remaining_connections" = '0'
 
 docker exec "$database_container" \
-  createdb -U supabase_admin --maintenance-db=template1 --template=postgres "$clone_name"
+  createdb -U supabase_admin --maintenance-db=template1 --template=postgres \
+    --owner="$source_database_owner" "$clone_name"
+clone_database_owner="$(admin_psql \
+  -c "select pg_get_userbyid(datdba) from pg_database where datname='$clone_name'")"
+test "$clone_database_owner" = "$source_database_owner"
 
 admin_psql -c 'alter database postgres with allow_connections true'
 source_fenced='0'
@@ -110,6 +120,9 @@ bash scripts/verify-cp6-disposable-clone.sh "$source_pgurl" "$clone_pgurl" "$pro
   printf 'clone_database=%s\n' "$clone_name"
   printf 'database_container=%s\n' "$database_container"
   printf 'database_admin=supabase_admin\n'
+  printf 'source_database_owner=%s\n' "$source_database_owner"
+  printf 'clone_database_owner=%s\n' "$clone_database_owner"
+  printf 'database_owner_preserved=PASS\n'
   printf 'clone_strategy=TEMPLATE_POSTGRES\n'
   printf 'source_restart_under_fence=PASS\n'
   printf 'terminated_source_connections=%s\n' "$terminated_connections"
