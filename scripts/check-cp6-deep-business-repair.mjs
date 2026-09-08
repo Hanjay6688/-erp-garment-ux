@@ -415,11 +415,11 @@ requireTokens(workflow, 'v20c exact-SHA CI proof', [
   "report['qualification_probe_count']==2", "report['manual_prelock_count']==0",
   "assert report['confidence_gate']=={",
   'bash scripts/run_cp6_v2620c_live_rollback_races.sh',
-  "'format':'CP6_V2620C_RUNTIME_PROOF_V1'",
+  "'format':'CP6_V2620D_RUNTIME_PROOF_V1'",
   "'native_runtime_race_schedules':34", "'reject_abort_qualifications':3",
-  "'actual_business_facade_rollback_race_orders':2",
+  "'actual_business_facade_rollback_race_orders':4",
   "'financial_confidence_corruption_probes':3",
-  "'uat_v2620a_v2620b_v2620c_state':'NOT_TESTED_OR_APPLIED_BY_THIS_RUN'",
+  "'uat_v2620a_v2620b_v2620c_v2620d_state':'NOT_TESTED_OR_APPLIED_BY_THIS_RUN'",
   "'production_go':False",
 ])
 assert.ok(

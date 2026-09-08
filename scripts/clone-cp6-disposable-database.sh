@@ -17,7 +17,7 @@ fence_proof="${proof_prefix}.connection-fence.txt"
 source_fenced='0'
 
 case "$clone_name" in
-  cp6_preflight|cp6_race|cp6_auth) ;;
+  cp6_preflight|cp6_race|cp6_auth|cp6_rollback) ;;
   *)
     echo "refusing non-CP6 disposable clone target: $clone_name" >&2
     exit 64
@@ -33,7 +33,8 @@ test "$maintenance_pgurl" = 'postgresql://postgres:postgres@127.0.0.1:54322/temp
 case "$clone_name|$clone_pgurl" in
   'cp6_preflight|postgresql://postgres:postgres@127.0.0.1:54322/cp6_preflight'|\
   'cp6_race|postgresql://postgres:postgres@127.0.0.1:54322/cp6_race'|\
-  'cp6_auth|postgresql://postgres:postgres@127.0.0.1:54322/cp6_auth') ;;
+  'cp6_auth|postgresql://postgres:postgres@127.0.0.1:54322/cp6_auth'|\
+  'cp6_rollback|postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback') ;;
   *)
     echo 'refusing a clone URL outside the exact loopback CP6 disposable allowlist' >&2
     exit 64

@@ -223,7 +223,7 @@ jobs:
               (select count(*) from auth.users)=0
               and (select count(*) from erp.app_users)=0
               and not exists(select 1 from pg_database
-                where datname in('cp6_preflight','cp6_race','cp6_auth'))
+                where datname in('cp6_preflight','cp6_race','cp6_auth','cp6_rollback'))
               and (select count(*) from erp.audit_logs)=0
               and (select count(*) from erp.schema_migrations)=48
               and (select count(*) from erp.schema_migrations where version='v2.6.17a')=1
@@ -664,15 +664,29 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          preflight_remaining='UNKNOWN'
           cleanup_preflight() {
+            prior_status=$?
+            trap - EXIT
+            set +e
             docker exec "$CP6_DATABASE_CONTAINER" \
               dropdb -U supabase_admin --if-exists --force --maintenance-db=template1 cp6_preflight
-            remaining="$(docker exec "$CP6_DATABASE_CONTAINER" \
-              psql -U supabase_admin -d template1 -X -At -v ON_ERROR_STOP=1 \
-              -c "select count(*) from pg_database where datname='cp6_preflight'")"
-            test "$remaining" = '0'
-            printf 'clone_database=cp6_preflight\nremaining_databases=%s\nstatus=PASS\n' "$remaining" \
+            drop_status=$?
+            if test "$drop_status" -eq 0; then
+              preflight_remaining="$(docker exec "$CP6_DATABASE_CONTAINER" \
+                psql -U supabase_admin -d template1 -X -At -v ON_ERROR_STOP=1 \
+                -c "select count(*) from pg_database where datname='cp6_preflight'")"
+              query_status=$?
+            else
+              query_status=1
+            fi
+            if test "$drop_status" -ne 0 || test "$query_status" -ne 0 \
+              || test "$preflight_remaining" != '0'; then prior_status=1; fi
+            set -e
+            printf 'clone_database=cp6_preflight\nremaining_databases=%s\nstatus=%s\n' \
+              "$preflight_remaining" "$(test "$prior_status" -eq 0 && echo PASS || echo FAIL)" \
               | tee cp6-proof/CP6_PREFLIGHT_CLONE_CLEANUP.txt
+            exit "$prior_status"
           }
           trap cleanup_preflight EXIT
           bash scripts/clone-cp6-disposable-database.sh \
@@ -813,6 +827,35 @@ jobs:
           test "$replay_status" -ne 0
           grep -F 'ERP v2.6.20c is already recorded' cp6-proof/V2620C_REPLAY_REJECTION.log >/dev/null
 
+      - name: Apply v2.6.20d independent re-audit business closure once and reject replay
+        shell: bash
+        run: |
+          set -euo pipefail
+          migration_source='supabase/migrations/20260908160000_erp_v2_6_20d_cp6_reaudit_business_closure.sql'
+          test "$(wc -c < "$migration_source")" = '85620'
+          echo 'b71bc9fc752a7f28f1813f8ae240611d477877f919b0b82abfe3d16c8ece80fb  supabase/migrations/20260908160000_erp_v2_6_20d_cp6_reaudit_business_closure.sql' | sha256sum -c - | tee cp6-proof/V2620D_MIGRATION_SHA256.txt
+          psql "$PGURL" -X -v ON_ERROR_STOP=1 -f "$migration_source" \
+            2>&1 | tee cp6-proof/V2620D_APPLY.log
+          psql "$PGURL" -X -v ON_ERROR_STOP=1 <<'SQL'
+          \set migration_source_b64 `python3 -c "import base64,pathlib; p=pathlib.Path('supabase/migrations/20260908160000_erp_v2_6_20d_cp6_reaudit_business_closure.sql').read_bytes(); assert p.endswith(b'\\n'); print(base64.b64encode(p[:-1]).decode())"`
+          insert into supabase_migrations.schema_migrations(version,name,statements)
+          values(
+            '20260908160000','erp_v2_6_20d_cp6_reaudit_business_closure',
+            array[convert_from(decode(:'migration_source_b64','base64'),'UTF8')]
+          ) on conflict(version) do nothing;
+          SQL
+          test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select encode(extensions.digest(convert_to(array_to_string(statements,E'\\n'),'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations where name='erp_v2_6_20d_cp6_reaudit_business_closure'")" = 'f013c65bdae0ac002557d7d165d4e0d447588e87b009c2c4e6785ef8a03abde8'
+          test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select count(*) from erp.cp6_v2620d_rollback_capsule")" = '10'
+          test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select relrowsecurity and not exists(select 1 from pg_policy where polrelid=c.oid) from pg_class c where c.oid='erp.laundry_redispatch_participant_allocations'::regclass")" = 't'
+          test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select not has_table_privilege('authenticated','erp.laundry_redispatch_participant_allocations','SELECT') and not has_function_privilege('authenticated','erp.allocate_laundry_redispatch_participants_v2620d(uuid)','EXECUTE') and not has_function_privilege('authenticated','erp.compute_po_hpp_gl_book_v2620d(uuid)','EXECUTE')")" = 't'
+          set +e
+          psql "$PGURL" -X -v ON_ERROR_STOP=1 -f "$migration_source" \
+            > cp6-proof/V2620D_REPLAY_REJECTION.log 2>&1
+          replay_status=$?
+          set -e
+          test "$replay_status" -ne 0
+          grep -F 'ERP v2.6.20d is already recorded' cp6-proof/V2620D_REPLAY_REJECTION.log >/dev/null
+
       - name: Run post-CP6 real Auth JWT HTTP permissions and residue-zero E2E
         shell: bash
         run: |
@@ -825,15 +868,41 @@ jobs:
             trap - EXIT
             set +e
             docker rm -f "$auth_rest_name" >/dev/null 2>&1
+            rest_remove_status=$?
+            if docker inspect "$auth_rest_name" >/dev/null 2>&1; then
+              postgrest_container_remaining=1
+            else
+              postgrest_container_remaining=0
+            fi
             rm -f "$auth_rest_env" "$auth_rest_json"
             docker exec "$CP6_DATABASE_CONTAINER" \
               dropdb -U supabase_admin --if-exists --force --maintenance-db=template1 cp6_auth
-            remaining="$(docker exec "$CP6_DATABASE_CONTAINER" \
+            drop_status=$?
+            remaining_databases=UNKNOWN
+            queried_remaining="$(docker exec "$CP6_DATABASE_CONTAINER" \
               psql -U supabase_admin -d template1 -X -At -v ON_ERROR_STOP=1 \
               -c "select count(*) from pg_database where datname='cp6_auth'")"
-            if test "$remaining" != '0'; then prior_status=1; fi
-            printf 'clone_database=cp6_auth\nremaining_databases=%s\npostgrest_container_removed=true\nsecrets_persisted=false\nstatus=%s\n' \
-              "$remaining" "$(test "$remaining" = '0' && echo PASS || echo FAIL)" \
+            query_status=$?
+            if test "$query_status" -eq 0 && [[ "$queried_remaining" =~ ^[0-9]+$ ]]; then
+              remaining_databases="$queried_remaining"
+            fi
+            postgrest_container_removed=false
+            if test "$postgrest_container_remaining" -eq 0; then
+              postgrest_container_removed=true
+            fi
+            cleanup_status=FAIL
+            if { test "$rest_remove_status" -eq 0 || test "$postgrest_container_remaining" -eq 0; } \
+              && test "$drop_status" -eq 0 \
+              && test "$query_status" -eq 0 \
+              && test "$remaining_databases" = '0' \
+              && test "$postgrest_container_remaining" -eq 0; then
+              cleanup_status=PASS
+            else
+              prior_status=1
+            fi
+            printf 'clone_database=cp6_auth\nremaining_databases=%s\npostgrest_container_remaining=%s\npostgrest_container_removed=%s\nsecrets_persisted=false\nstatus=%s\n' \
+              "$remaining_databases" "$postgrest_container_remaining" \
+              "$postgrest_container_removed" "$cleanup_status" \
               | tee cp6-proof/CP6_AUTH_CLONE_CLEANUP.txt
             exit "$prior_status"
           }
@@ -931,16 +1000,18 @@ jobs:
           report=json.loads(Path(os.environ['CP6_AUTH_REPORT']).read_text())
           assert report['status']=='PASS',report
           assert report['classification']=='LOCAL_POST_CP6_REAL_AUTH_JWT_HTTP',report
-          assert report['target']=='PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620C',report
+          assert report['target']=='PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620D',report
           assert report['disposable_database']=='cp6_auth',report
           assert report['database_disposal_required'] is True,report
-          assert report['positive_evidence']['partial_hpp_wip']['active_laundry_hpp']==35,report
-          assert report['positive_evidence']['partial_hpp_wip']['wip_net']==35,report
+          assert report['positive_evidence']['partial_hpp_wip']['active_laundry_hpp']==28,report
+          assert report['positive_evidence']['partial_hpp_wip']['wip_net']==42,report
+          assert report['positive_evidence']['owner_dedicated_final_sku']['active_laundry_hpp']==35,report
+          assert report['positive_evidence']['owner_dedicated_final_sku']['wip_net']==35,report
           assert report['positive_evidence']['fully_reversed']['fg_net']==0,report
           assert report['positive_evidence']['failed_wash_cost_only']['wip_net']==140,report
           assert report['positive_evidence']['failed_wash_cost_only']['accrued_net']==-140,report
-          assert report['positive_evidence']['positive_facade_actions']==12,report
-          assert report['positive_evidence']['granular_reverse_actions']==6,report
+          assert report['positive_evidence']['positive_facade_actions']==14,report
+          assert report['positive_evidence']['granular_reverse_actions']==7,report
           expected_actions={
             'POST_DELIVERY','POST_RECEIPT','POST_FAILED_WASH','POST_FINAL_SKU',
             'REVERSE_DELIVERY','REVERSE_RECEIPT','REVERSE_FINAL_SKU',
@@ -949,7 +1020,8 @@ jobs:
           assert set(report['positive_evidence']['viewer_denied_action_kinds'])==expected_actions,report
           assert report['positive_evidence']['all_actions_fully_reversed']==report['positive_evidence']['fully_reversed'],report
           assert report['facade_role_matrix'],report
-          assert any(row['facade']=='erp_post_final_sku_allocation_v1' and row['expectation']=='ALLOW' for row in report['facade_role_matrix']),report
+          assert any(row['facade']=='erp_post_final_sku_allocation_v1' and row['role']=='owner' and row['expectation']=='ALLOW' and row['status']==200 for row in report['facade_role_matrix']),report
+          assert any(row['facade']=='erp_post_final_sku_allocation_v1' and row['role']=='operator' and row['expectation']=='ALLOW' and row['status']==200 for row in report['facade_role_matrix']),report
           assert any(row['facade']=='erp_post_final_sku_allocation_v1' and row['expectation']=='DENY' for row in report['facade_role_matrix']),report
           for facade in ('erp_search_final_sku_products_v1','erp_search_laundry_bs_products_v1'):
             rows=[row for row in report['facade_role_matrix'] if row['facade']==facade]
@@ -980,15 +1052,29 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          race_remaining='UNKNOWN'
           cleanup_race() {
+            prior_status=$?
+            trap - EXIT
+            set +e
             docker exec "$CP6_DATABASE_CONTAINER" \
               dropdb -U supabase_admin --if-exists --force --maintenance-db=template1 cp6_race
-            remaining="$(docker exec "$CP6_DATABASE_CONTAINER" \
-              psql -U supabase_admin -d template1 -X -At -v ON_ERROR_STOP=1 \
-              -c "select count(*) from pg_database where datname='cp6_race'")"
-            test "$remaining" = '0'
-            printf 'clone_database=cp6_race\nremaining_databases=%s\nstatus=PASS\n' "$remaining" \
+            drop_status=$?
+            if test "$drop_status" -eq 0; then
+              race_remaining="$(docker exec "$CP6_DATABASE_CONTAINER" \
+                psql -U supabase_admin -d template1 -X -At -v ON_ERROR_STOP=1 \
+                -c "select count(*) from pg_database where datname='cp6_race'")"
+              query_status=$?
+            else
+              query_status=1
+            fi
+            if test "$drop_status" -ne 0 || test "$query_status" -ne 0 \
+              || test "$race_remaining" != '0'; then prior_status=1; fi
+            set -e
+            printf 'clone_database=cp6_race\nremaining_databases=%s\nstatus=%s\n' \
+              "$race_remaining" "$(test "$prior_status" -eq 0 && echo PASS || echo FAIL)" \
               | tee cp6-proof/CP6_RACE_CLONE_CLEANUP.txt
+            exit "$prior_status"
           }
           trap cleanup_race EXIT
           bash scripts/clone-cp6-disposable-database.sh \
@@ -1000,6 +1086,17 @@ jobs:
           psql "$CP6_RACE_PGURL" -v ON_ERROR_STOP=1 \
             -f supabase/tests/cp6_laundry_qc_concurrency_seed.sql \
             2>&1 | tee cp6-proof/CP6_RACE_SEED.log
+          psql "$CP6_RACE_PGURL" -X -v ON_ERROR_STOP=1 \
+            -f supabase/tests/cp6_v2620d_reaudit_business_closure_rollback.sql \
+            2>&1 | tee cp6-proof/CP6_V2620D_REAUDIT_REGRESSION.log
+          grep -F 'CP6_V2620D_B01_REDISPATCH_COST_PASS' \
+            cp6-proof/CP6_V2620D_REAUDIT_REGRESSION.log >/dev/null
+          grep -F 'CP6_V2620D_ADJACENT_MULTICYCLE_PASS' \
+            cp6-proof/CP6_V2620D_REAUDIT_REGRESSION.log >/dev/null
+          grep -F 'CP6_V2620D_B02_B03_LIFECYCLE_PASS' \
+            cp6-proof/CP6_V2620D_REAUDIT_REGRESSION.log >/dev/null
+          grep -F 'CP6_V2620D_REAUDIT_RESIDUE_ZERO' \
+            cp6-proof/CP6_V2620D_REAUDIT_REGRESSION.log >/dev/null
           python scripts/cp6_laundry_qc_concurrency.py \
             2>&1 | tee cp6-proof/CP6_LAUNDRY_QC_CONCURRENCY.log
           psql "$CP6_RACE_PGURL" -v ON_ERROR_STOP=1 \
@@ -1254,10 +1351,82 @@ jobs:
           psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/cp4_hpp_route_auth_rollback.sql 2>&1 | tee cp6-proof/HPP_UNDER_CP6_REGRESSION.log
           psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/attendance_hpp_r4_full_schema_rollback.sql 2>&1 | tee cp6-proof/ACCOUNTING_UNDER_CP6_REGRESSION.log
 
-      - name: Prove v2.6.20c rollback in both orders against an actual business facade
+      - name: Prove v2.6.20d guards and both rollback orders, then release v2.6.20c
         shell: bash
         run: |
           set -euo pipefail
+
+          set +e
+          psql "$PGURL" -X -v ON_ERROR_STOP=1 <<'SQL' \
+            > cp6-proof/V2620D_ROLLBACK_SUCCESSOR_REJECTION.log 2>&1
+          begin;
+          insert into erp.schema_migrations(version,description)
+          values('v2.6.20d-test-successor','Disposable v20d successor guard proof');
+          \i supabase/rollbacks/20260908160000_erp_v2_6_20d_cp6_reaudit_business_closure.rollback.sql
+          SQL
+          successor_status=$?
+          set -e
+          test "$successor_status" -ne 0
+          grep -F 'v2.6.20d rollback refused: a successor migration is already installed' \
+            cp6-proof/V2620D_ROLLBACK_SUCCESSOR_REJECTION.log >/dev/null
+          test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select count(*) from erp.schema_migrations where version='v2.6.20d-test-successor'")" = '0'
+
+          set +e
+          psql "$PGURL" -X -v ON_ERROR_STOP=1 <<'SQL' \
+            > cp6-proof/V2620D_ROLLBACK_WRONG_NAME_REJECTION.log 2>&1
+          begin;
+          update supabase_migrations.schema_migrations
+          set name='erp_v2_6_20d_wrong_name'
+          where name='erp_v2_6_20d_cp6_reaudit_business_closure';
+          \i supabase/rollbacks/20260908160000_erp_v2_6_20d_cp6_reaudit_business_closure.rollback.sql
+          SQL
+          wrong_name_status=$?
+          set -e
+          test "$wrong_name_status" -ne 0
+          grep -F 'v2.6.20d rollback refused: platform ledger identity is ambiguous' \
+            cp6-proof/V2620D_ROLLBACK_WRONG_NAME_REJECTION.log >/dev/null
+          test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select count(*) from supabase_migrations.schema_migrations where name='erp_v2_6_20d_cp6_reaudit_business_closure'")" = '1'
+
+          set +e
+          psql "$PGURL" -X -v ON_ERROR_STOP=1 <<'SQL' \
+            > cp6-proof/V2620D_ROLLBACK_TAMPER_REJECTION.log 2>&1
+          begin;
+          update supabase_migrations.schema_migrations
+          set statements=array['select 1 -- tampered v20d proof']
+          where name='erp_v2_6_20d_cp6_reaudit_business_closure';
+          \i supabase/rollbacks/20260908160000_erp_v2_6_20d_cp6_reaudit_business_closure.rollback.sql
+          SQL
+          tamper_status=$?
+          set -e
+          test "$tamper_status" -ne 0
+          grep -F 'v2.6.20d rollback refused: platform ledger identity is ambiguous' \
+            cp6-proof/V2620D_ROLLBACK_TAMPER_REJECTION.log >/dev/null
+          test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select encode(extensions.digest(convert_to(array_to_string(statements,E'\\n'),'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations where name='erp_v2_6_20d_cp6_reaudit_business_closure'")" = 'f013c65bdae0ac002557d7d165d4e0d447588e87b009c2c4e6785ef8a03abde8'
+
+          set +e
+          psql "$PGURL" -X -v ON_ERROR_STOP=1 <<'SQL' \
+            > cp6-proof/V2620D_ROLLBACK_CAPSULE_DRIFT_REJECTION.log 2>&1
+          begin;
+          update erp.cp6_v2620d_rollback_capsule
+          set installed_definition_sha256=repeat('0',64)
+          where object_regidentity='erp.post_sale(uuid)';
+          \i supabase/rollbacks/20260908160000_erp_v2_6_20d_cp6_reaudit_business_closure.rollback.sql
+          SQL
+          drift_status=$?
+          set -e
+          test "$drift_status" -ne 0
+          grep -F 'DRIFT_CONCURRENT_MUTATION_DETECTED: v2.6.20d installed object/capsule drift' \
+            cp6-proof/V2620D_ROLLBACK_CAPSULE_DRIFT_REJECTION.log >/dev/null
+          test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select count(*) from erp.cp6_v2620d_rollback_capsule where installed_definition_sha256=repeat('0',64)")" = '0'
+
+          bash scripts/run_cp6_v2620d_live_rollback_races.sh
+          psql "$PGURL" -X -v ON_ERROR_STOP=1 \
+            -f supabase/rollbacks/20260908160000_erp_v2_6_20d_cp6_reaudit_business_closure.rollback.sql \
+            2>&1 | tee cp6-proof/V2620D_MAIN_PRE_USE_ROLLBACK.log
+          test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select count(*) from erp.schema_migrations where version='v2.6.20d'")" = '0'
+          test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select count(*) from erp.schema_migrations where version='v2.6.20c'")" = '1'
+          test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select to_regclass('erp.laundry_redispatch_participant_allocations') is null and to_regclass('erp.cp6_v2620d_rollback_capsule') is null")" = 't'
+
           bash scripts/run_cp6_v2620c_live_rollback_races.sh
           psql "$PGURL" -X -v ON_ERROR_STOP=1 \
             -f supabase/rollbacks/20260907190000_erp_v2_6_20c_cp6_deep_business_reliability.rollback.sql \
@@ -2543,10 +2712,10 @@ jobs:
           select jsonb_build_object(
             'status',case when
               exists(select 1 from erp.schema_migrations where version='v2.6.17a')
-              and not exists(select 1 from erp.schema_migrations where version in('v2.6.18','v2.6.18a','v2.6.19','v2.6.19a','v2.6.19b','v2.6.19c','v2.6.20','v2.6.20a','v2.6.20b','v2.6.20c'))
+              and not exists(select 1 from erp.schema_migrations where version in('v2.6.18','v2.6.18a','v2.6.19','v2.6.19a','v2.6.19b','v2.6.19c','v2.6.20','v2.6.20a','v2.6.20b','v2.6.20c','v2.6.20d'))
               and not exists(select 1 from supabase_migrations.schema_migrations
-                where version in('20260903022604','20260903060213','20260903070931','20260903070932','20260903080931','20260903080932','20260903151034','20260903161034','20260904012525','20260904022525','20260904061346','20260904071346','20260904111157','20260905110913','20260905170334','20260907190000')
-                   or name in('erp_v2_6_18_cutting_persistence_pickup_wip','erp_v2_6_18a_cutting_bridge_reconciliation','erp_v2_6_19_cp5_bs_resolution_recovery','erp_v2_6_19a_cp5_rework_accessory_lineage','erp_v2_6_19b_cp5_reliability_closure','erp_v2_6_19c_cp5_atomic_reversal_reconciliation','erp_v2_6_20_cp6_laundry_qc_fg_authoritative','erp_v2_6_20a_cp6_audit_reliability_closure','erp_v2_6_20b_cp6_reaudit_reliability_closure','erp_v2_6_20c_cp6_deep_business_reliability'))
+                where version in('20260903022604','20260903060213','20260903070931','20260903070932','20260903080931','20260903080932','20260903151034','20260903161034','20260904012525','20260904022525','20260904061346','20260904071346','20260904111157','20260905110913','20260905170334','20260907190000','20260908160000')
+                   or name in('erp_v2_6_18_cutting_persistence_pickup_wip','erp_v2_6_18a_cutting_bridge_reconciliation','erp_v2_6_19_cp5_bs_resolution_recovery','erp_v2_6_19a_cp5_rework_accessory_lineage','erp_v2_6_19b_cp5_reliability_closure','erp_v2_6_19c_cp5_atomic_reversal_reconciliation','erp_v2_6_20_cp6_laundry_qc_fg_authoritative','erp_v2_6_20a_cp6_audit_reliability_closure','erp_v2_6_20b_cp6_reaudit_reliability_closure','erp_v2_6_20c_cp6_deep_business_reliability','erp_v2_6_20d_cp6_reaudit_business_closure'))
               and to_regclass('erp.cutting_bridge_v2618_rollback_capsule') is null
               and to_regclass('erp.cutting_bridge_v2618a_rollback_capsule') is null
               and to_regclass('erp.cutting_bridge_execution_context') is null
@@ -2603,6 +2772,15 @@ jobs:
               and to_regclass('erp.cp6_v2620a_rollback_capsule') is null
               and to_regclass('erp.cp6_v2620b_rollback_capsule') is null
               and to_regclass('erp.cp6_v2620c_rollback_capsule') is null
+              and to_regclass('erp.cp6_v2620d_rollback_capsule') is null
+              and to_regclass('erp.laundry_redispatch_participant_allocations') is null
+              and to_regprocedure('erp.guard_laundry_redispatch_participant_v2620d()') is null
+              and to_regprocedure('erp.allocate_laundry_redispatch_participants_v2620d(uuid)') is null
+              and to_regprocedure('erp.cp6_lot_failed_wash_cost_v2620d(uuid)') is null
+              and to_regprocedure('erp.compute_po_hpp_gl_targets_v2620d(uuid)') is null
+              and to_regprocedure('erp.sale_lifecycle_po_hpp_amount_v2620d(uuid,uuid)') is null
+              and to_regprocedure('erp.compute_po_hpp_gl_book_v2620d(uuid)') is null
+              and to_regprocedure('erp.assert_po_hpp_target_book_v2620d(uuid)') is null
               and to_regprocedure('erp.cp6_po_source_qty_v2620c(uuid)') is null
               and to_regprocedure('erp.cp6_lot_work_cost_v2620c(uuid,text)') is null
               and to_regprocedure('erp.cp6_lot_attendance_cost_v2620c(uuid)') is null
@@ -2682,18 +2860,44 @@ jobs:
             'v2620a_application',exists(select 1 from erp.schema_migrations where version='v2.6.20a'),
             'v2620b_application',exists(select 1 from erp.schema_migrations where version='v2.6.20b'),
             'v2620c_application',exists(select 1 from erp.schema_migrations where version='v2.6.20c'),
+            'v2620d_application',exists(select 1 from erp.schema_migrations where version='v2.6.20d'),
             'v2620a_platform',exists(select 1 from supabase_migrations.schema_migrations
               where name='erp_v2_6_20a_cp6_audit_reliability_closure'),
             'v2620b_platform',exists(select 1 from supabase_migrations.schema_migrations
               where name='erp_v2_6_20b_cp6_reaudit_reliability_closure'),
             'v2620c_platform',exists(select 1 from supabase_migrations.schema_migrations
               where name='erp_v2_6_20c_cp6_deep_business_reliability'),
+            'v2620d_platform',exists(select 1 from supabase_migrations.schema_migrations
+              where name='erp_v2_6_20d_cp6_reaudit_business_closure'),
             'disposable_database_residue',(select count(*) from pg_database
               where datname in('cp6_preflight','cp6_race','cp6_auth','cp6_rollback')),
             'production_go',false
           );
           SQL
           test "$(python -c "import json;print(json.load(open('cp6-proof/FINAL_RECONCILIATION.json'))['status'])")" = 'PASS'
+
+      - name: Stop disposable stack and prove physical cleanup
+        shell: bash
+        run: |
+          set -uo pipefail
+          set +e
+          supabase stop --workdir cp5-local --no-backup \
+            2>&1 | tee cp6-proof/CP6_STACK_STOP.log
+          stop_status=${PIPESTATUS[0]}
+          if docker inspect "$CP6_DATABASE_CONTAINER" >/dev/null 2>&1; then
+            remaining_database_container=1
+          else
+            remaining_database_container=0
+          fi
+          if test "$stop_status" -eq 0 && test "$remaining_database_container" -eq 0; then
+            cleanup_status=PASS
+          else
+            cleanup_status=FAIL
+          fi
+          printf 'stop_exit=%s\nremaining_database_container=%s\nstatus=%s\nproduction_go=false\n' \
+            "$stop_status" "$remaining_database_container" "$cleanup_status" \
+            | tee cp6-proof/CP6_STACK_CLEANUP.txt
+          test "$cleanup_status" = 'PASS'
 
       - name: Bind successful CP6 proof to the exact runtime SHA
         shell: bash
@@ -2716,12 +2920,23 @@ jobs:
             'CP6_WORKSPACE_SCALE.json','CP6_WORKSPACE_OPERATOR_LOAD.log',
             'cp6-workspace-operator-load.json',
             'V2620C_MIGRATION_SHA256.txt','V2620C_APPLY.log','V2620C_REPLAY_REJECTION.log',
+            'V2620D_MIGRATION_SHA256.txt','V2620D_APPLY.log','V2620D_REPLAY_REJECTION.log',
+            'CP6_V2620D_REAUDIT_REGRESSION.log',
+            'V2620D_ROLLBACK_SUCCESSOR_REJECTION.log',
+            'V2620D_ROLLBACK_WRONG_NAME_REJECTION.log',
+            'V2620D_ROLLBACK_TAMPER_REJECTION.log',
+            'V2620D_ROLLBACK_CAPSULE_DRIFT_REJECTION.log',
+            'V2620D_LIVE_ROLLBACK_WRITER_FIRST.json',
+            'V2620D_LIVE_ROLLBACK_ROLLBACK_FIRST.json',
+            'V2620D_LIVE_ROLLBACK_CLONE_CLEANUP.txt',
+            'V2620D_MAIN_PRE_USE_ROLLBACK.log',
             'V2620C_LIVE_ROLLBACK_WRITER_FIRST.json','V2620C_LIVE_ROLLBACK_ROLLBACK_FIRST.json',
             'V2620C_LIVE_ROLLBACK_CLONE_CLEANUP.txt','V2620C_MAIN_PRE_USE_ROLLBACK.log',
             'V2620B_ROLLBACK_CONCURRENCY.json',
             'V2620B_ROLLBACK.log','FINAL_RECONCILIATION.json',
             'CP6_AUTH_CLONE_CLEANUP.txt','CP6_RACE_CLONE_CLEANUP.txt',
             'CP6_PREFLIGHT_CLONE_CLEANUP.txt','cp6-browser-contract/results.json',
+            'CP6_STACK_STOP.log','CP6_STACK_CLEANUP.txt',
           ]
           missing=[name for name in required if not (proof/name).is_file()]
           assert not missing,missing
@@ -2744,6 +2959,9 @@ jobs:
             'supabase/rollbacks/20260905170334_erp_v2_6_20b_cp6_reaudit_reliability_closure.rollback.sql',
             'supabase/migrations/20260907190000_erp_v2_6_20c_cp6_deep_business_reliability.sql',
             'supabase/rollbacks/20260907190000_erp_v2_6_20c_cp6_deep_business_reliability.rollback.sql',
+            'supabase/migrations/20260908160000_erp_v2_6_20d_cp6_reaudit_business_closure.sql',
+            'supabase/rollbacks/20260908160000_erp_v2_6_20d_cp6_reaudit_business_closure.rollback.sql',
+            'supabase/tests/cp6_v2620d_reaudit_business_closure_rollback.sql',
           ]
           sources={}
           for name in source_paths:
@@ -2756,7 +2974,7 @@ jobs:
           for path in sorted(item for item in proof.rglob('*') if item.is_file()):
               relative_path=path.relative_to(proof)
               relative=str(relative_path)
-              if relative=='CP6_V2620C_RUNTIME_MANIFEST.json': continue
+              if relative=='CP6_V2620D_RUNTIME_MANIFEST.json': continue
               # actions/upload-artifact excludes hidden path components when
               # include-hidden-files is false.  The manifest must describe
               # exactly the files an independent reviewer can download.
@@ -2771,7 +2989,7 @@ jobs:
           head=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()
           assert head==os.environ['GITHUB_SHA']
           manifest={
-            'format':'CP6_V2620C_RUNTIME_PROOF_V1',
+            'format':'CP6_V2620D_RUNTIME_PROOF_V1',
             'status':'PASS_EXACT_LOCAL_DISPOSABLE_CI',
             'observed_at_utc':datetime.now(timezone.utc).isoformat().replace('+00:00','Z'),
             'identity':{
@@ -2797,14 +3015,21 @@ jobs:
               'native_runtime_race_schedules':34,
               'reject_abort_qualifications':3,
               'manual_prelock_count':0,
-              'actual_business_facade_rollback_race_orders':2,
+              'actual_business_facade_rollback_race_orders':4,
+              'v2620c_rollback_race_orders':2,
+              'v2620d_rollback_race_orders':2,
               'financial_confidence_corruption_probes':3,
               'full_future_temporal_prefixes':True,
               'partial_hpp_wip_conservation':True,
+              'reaudit_business_counterexamples':3,
+              'adjacent_multicycle_redispatch':True,
+              'mixed_outflow_cumulative_rounding':True,
+              'owner_positive_dedicated_final_sku':True,
               'source_bound_sku_paging':True,
               'simultaneous_operators':8,
               'rollback_and_complete_ladder':True,
               'physical_clone_residue_zero':True,
+              'physical_stack_cleanup':True,
             },
             'archive_policy':{
               'include_hidden_files':False,
@@ -2814,13 +3039,13 @@ jobs:
               'uat_project_ref':'siimvrusnzxexizpyoib',
               'legacy_project_ref':'vlxdhpkjeevubjxexnfo',
               'mutated_by_this_workflow':False,
-              'uat_v2620a_v2620b_v2620c_state':'NOT_TESTED_OR_APPLIED_BY_THIS_RUN',
+              'uat_v2620a_v2620b_v2620c_v2620d_state':'NOT_TESTED_OR_APPLIED_BY_THIS_RUN',
               'legacy_state':'NOT_TESTED_OR_MUTATED_BY_THIS_RUN',
             },
             'proof_files':proof_files,
             'production_go':False,
           }
-          (proof/'CP6_V2620C_RUNTIME_MANIFEST.json').write_text(
+          (proof/'CP6_V2620D_RUNTIME_MANIFEST.json').write_text(
               json.dumps(manifest,indent=2,sort_keys=True)+'\n',encoding='utf8',
           )
           print(json.dumps({
@@ -2833,7 +3058,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: cp6-r1-full-schema-auth-browser-proof
+          name: cp6-r1-v2620d-full-schema-auth-browser-proof
           path: cp6-proof
           if-no-files-found: warn
           include-hidden-files: false
@@ -2843,5 +3068,21 @@ jobs:
         if: always()
         shell: bash
         run: |
-          supabase stop --workdir cp5-local --no-backup 2>/dev/null || true
+          set -uo pipefail
+          set +e
+          supabase stop --workdir cp5-local --no-backup
+          stop_exit=$?
+          if docker inspect "$CP6_DATABASE_CONTAINER" >/dev/null 2>&1; then
+            remaining_database_container=1
+          else
+            remaining_database_container=0
+          fi
           rm -rf cp5-local supabase/.temp
+          if test "$remaining_database_container" -eq 0; then
+            cleanup_status=PASS
+          else
+            cleanup_status=FAIL
+          fi
+          printf 'stop_exit=%s\nremaining_database_container=%s\nstatus=%s\n' \
+            "$stop_exit" "$remaining_database_container" "$cleanup_status"
+          test "$cleanup_status" = 'PASS'

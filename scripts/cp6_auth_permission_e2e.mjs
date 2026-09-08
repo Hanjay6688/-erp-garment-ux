@@ -521,15 +521,15 @@ try {
     cutting_group_id: fixture.group,
     destination_location_id: fixture.location,
     physical_at: '2026-09-01T13:00:00Z',
-    reason: `CP6 ${safeRunId} positive JWT partial Final SKU`,
-    good_qty_pcs: 5,
+    reason: `CP6 ${safeRunId} positive JWT operator partial Final SKU`,
+    good_qty_pcs: 4,
     completion_mode: 'PARTIAL_SELECTION',
     lines: [{
       final_product_id: fixture.product,
-      qty_good_pcs: 5, qty_bs_pcs: 0,
+      qty_good_pcs: 4, qty_bs_pcs: 0,
       source_laundry_receipt_line_id: sourceBefore.receipt_line_id,
       source_laundry_receipt_batch_size_line_id: sourceBefore.source_batch_size_line_id,
-      notes: 'Exact real Auth partial lineage',
+      notes: 'Exact real Auth operator partial lineage',
     }],
   }
   const dedicatedDeniedRequestIds = []
@@ -553,14 +553,43 @@ try {
   const partialState = financialState()
   assert.deepEqual(partialState, {
     delivery_status: 'RETURNED', receipt_status: 'POSTED',
-    posted_qc: 1, reversed_qc: 0, fg_qty: 5, active_laundry_hpp: 35,
-    wip_net: 35, fg_net: 35, accrued_net: -70, physical_ready: 0,
+    posted_qc: 1, reversed_qc: 0, fg_qty: 4, active_laundry_hpp: 28,
+    wip_net: 42, fg_net: 28, accrued_net: -70, physical_ready: 0,
     execution_context: 0, unbalanced_journals: 0,
   })
 
   const qcPartial = await workspace(operatorSession, 'QC')
   const sourcePartial = findQueueRow(qcPartial)
-  assert.equal(sourcePartial.available_for_qc_qty_pcs, 5)
+  assert.equal(sourcePartial.available_for_qc_qty_pcs, 6)
+  const ownerFinalPayload = {
+    cutting_group_id: fixture.group,
+    destination_location_id: fixture.location,
+    physical_at: '2026-09-01T13:30:00Z',
+    reason: `CP6 ${safeRunId} positive owner dedicated Final SKU`,
+    good_qty_pcs: 1,
+    completion_mode: 'PARTIAL_SELECTION',
+    lines: [{
+      final_product_id: fixture.product,
+      qty_good_pcs: 1, qty_bs_pcs: 0,
+      source_laundry_receipt_line_id: sourcePartial.receipt_line_id,
+      source_laundry_receipt_batch_size_line_id: sourcePartial.source_batch_size_line_id,
+      notes: 'Exact real Auth owner-positive dedicated lineage',
+    }],
+  }
+  const ownerQcPosted = await dedicatedFinalSku(
+    ownerSession, ownerFinalPayload, Number(sourcePartial.cutting_group_row_version),
+  )
+  const ownerPositiveState = financialState()
+  assert.deepEqual(ownerPositiveState, {
+    delivery_status: 'RETURNED', receipt_status: 'POSTED',
+    posted_qc: 2, reversed_qc: 0, fg_qty: 5, active_laundry_hpp: 35,
+    wip_net: 35, fg_net: 35, accrued_net: -70, physical_ready: 0,
+    execution_context: 0, unbalanced_journals: 0,
+  })
+
+  const qcAfterOwner = await workspace(operatorSession, 'QC')
+  const sourceAfterOwner = findQueueRow(qcAfterOwner)
+  assert.equal(sourceAfterOwner.available_for_qc_qty_pcs, 5)
   const secondQc = await cp6Action(operatorSession, 'POST_FINAL_SKU', {
     cutting_group_id: fixture.group,
     destination_location_id: fixture.location,
@@ -571,15 +600,15 @@ try {
     lines: [{
       final_product_id: fixture.product,
       qty_good_pcs: 5, qty_bs_pcs: 0,
-      source_laundry_receipt_line_id: sourcePartial.receipt_line_id,
-      source_laundry_receipt_batch_size_line_id: sourcePartial.source_batch_size_line_id,
+      source_laundry_receipt_line_id: sourceAfterOwner.receipt_line_id,
+      source_laundry_receipt_batch_size_line_id: sourceAfterOwner.source_batch_size_line_id,
       notes: 'Exact real Auth remaining lineage',
     }],
-  }, Number(sourcePartial.cutting_group_row_version))
+  }, Number(sourceAfterOwner.cutting_group_row_version))
   const completeState = financialState()
   assert.deepEqual(completeState, {
     delivery_status: 'RETURNED', receipt_status: 'POSTED',
-    posted_qc: 2, reversed_qc: 0, fg_qty: 10, active_laundry_hpp: 70,
+    posted_qc: 3, reversed_qc: 0, fg_qty: 10, active_laundry_hpp: 70,
     wip_net: 0, fg_net: 70, accrued_net: -70, physical_ready: 0,
     execution_context: 0, unbalanced_journals: 0,
   })
@@ -588,6 +617,10 @@ try {
     qc_inspection_id: secondQc.qc_inspection_id,
     reason: `CP6 ${safeRunId} granular reverse second Final SKU`,
   }, Number(secondQc.qc_row_version))
+  await cp6Action(ownerSession, 'REVERSE_FINAL_SKU', {
+    qc_inspection_id: ownerQcPosted.qc_inspection_id,
+    reason: `CP6 ${safeRunId} owner reverse dedicated Final SKU`,
+  }, Number(ownerQcPosted.qc_row_version))
   await cp6Action(operatorSession, 'REVERSE_FINAL_SKU', {
     qc_inspection_id: firstQc.qc_inspection_id,
     reason: `CP6 ${safeRunId} granular reverse first Final SKU`,
@@ -608,7 +641,7 @@ try {
   const reversedState = financialState()
   assert.deepEqual(reversedState, {
     delivery_status: 'REVERSED', receipt_status: 'REVERSED',
-    posted_qc: 0, reversed_qc: 2, fg_qty: 0, active_laundry_hpp: 0,
+    posted_qc: 0, reversed_qc: 3, fg_qty: 0, active_laundry_hpp: 0,
     wip_net: 0, fg_net: 0, accrued_net: 0, physical_ready: 10,
     execution_context: 0, unbalanced_journals: 0,
   })
@@ -659,7 +692,7 @@ try {
   const failedWashCostState = financialState()
   assert.deepEqual(failedWashCostState, {
     delivery_status: 'SENT', receipt_status: 'POSTED',
-    posted_qc: 0, reversed_qc: 2, fg_qty: 0, active_laundry_hpp: 0,
+    posted_qc: 0, reversed_qc: 3, fg_qty: 0, active_laundry_hpp: 0,
     // The paid failed attempt is 70 and the still-open retry dispatch carries
     // another 70 estimate. Both remain in WIP until the next physical result.
     wip_net: 140, fg_net: 0, accrued_net: -140, physical_ready: 0,
@@ -683,13 +716,14 @@ try {
   assert.deepEqual(allActionsReversedState, reversedState)
   positiveEvidence = {
     partial_hpp_wip: partialState,
+    owner_dedicated_final_sku: ownerPositiveState,
     completed_hpp_wip: completeState,
     fully_reversed: reversedState,
     failed_wash_cost_only: failedWashCostState,
     all_actions_fully_reversed: allActionsReversedState,
     source_queue_preserved_during_product_search: true,
-    positive_facade_actions: 12,
-    granular_reverse_actions: 6,
+    positive_facade_actions: 14,
+    granular_reverse_actions: 7,
     mutation_action_kinds: [
       'POST_DELIVERY', 'POST_RECEIPT', 'POST_FAILED_WASH', 'POST_FINAL_SKU',
       'REVERSE_DELIVERY', 'REVERSE_RECEIPT', 'REVERSE_FINAL_SKU',
@@ -790,7 +824,17 @@ try {
     record(`rest-direct-${table}-denied`, direct, [401, 403, 404])
   }
 
-  const privateWriter = await rpc('save_laundry_qc_action_v1', operatorSession.accessToken, {})
+  const privateWriterRequestId = randomUUID()
+  requestIds.push(privateWriterRequestId)
+  const privateWriterBody = {
+    p_action: 'POST_DELIVERY',
+    p_payload: validNegativePayload,
+    p_client_request_id: privateWriterRequestId,
+    p_expected_version: 1,
+  }
+  const privateWriter = await rpc(
+    'save_laundry_qc_action_v1', operatorSession.accessToken, privateWriterBody,
+  )
   record('rpc-private-cp6-writer-denied', privateWriter, [401, 403, 404])
   const privateInvoicePost = await rpc('post_vendor_invoice', operatorSession.accessToken, {
     p_invoice_id: randomUUID(),
@@ -811,7 +855,7 @@ try {
   // that schema selection still cannot bypass private function ACLs. A 404
   // through the public schema alone is not sufficient defense-in-depth proof.
   const privateProfiles = [
-    ['save_laundry_qc_action_v1', {}],
+    ['save_laundry_qc_action_v1', privateWriterBody],
     ['reverse_laundry_delivery', {
       p_delivery_id: randomUUID(), p_reason: 'CP6 private-schema denial',
     }],
@@ -903,7 +947,7 @@ const residueClean = Object.values(residue).every((value) => value === 0)
 const report = {
   status: failure || !residueClean ? 'FAIL' : 'PASS',
   classification: 'LOCAL_POST_CP6_REAL_AUTH_JWT_HTTP',
-  target: 'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620C',
+  target: 'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620D',
   disposable_database: disposableDatabase,
   database_disposal_required: true,
   cases,
@@ -921,6 +965,7 @@ const report = {
     viewer_laundry_and_qc_read_only: true,
     non_admin_operator_reaches_domain_guard: true,
     operator_positive_delivery_receipt_partial_and_remaining_final_sku: true,
+    owner_positive_dedicated_final_sku_and_reverse: true,
     source_bound_product_search_preserves_qc_queue: true,
     valid_source_resolver_role_matrix_final_and_laundry_bs: true,
     dedicated_final_sku_facade_positive_and_denial_matrix: true,

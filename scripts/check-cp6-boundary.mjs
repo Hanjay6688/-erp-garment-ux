@@ -767,7 +767,7 @@ for (const token of [
 ]) assert.ok(workflow.includes(token), `CP6 rollback/final schema-residue proof missing: ${token}`)
 assert.match(browserConfig, /testMatch: 'cp6-laundry-qc\.spec\.ts'/)
 assert.match(browserConfig, /ERP_UAT_AUTH_ALLOW_MOCK_KEY: '1'/)
-assert.match(packageJson, /"check:cp6": "node scripts\/check-cp6-boundary\.mjs && node scripts\/check-cp6-audit-closure\.mjs && node scripts\/check-cp6-reaudit-closure\.mjs && node scripts\/check-cp6-deep-business-repair\.mjs"/)
+assert.match(packageJson, /"check:cp6": "node scripts\/check-cp6-boundary\.mjs && node scripts\/check-cp6-audit-closure\.mjs && node scripts\/check-cp6-reaudit-closure\.mjs && node scripts\/check-cp6-deep-business-repair\.mjs && node scripts\/check-cp6-reaudit-business-closure\.mjs"/)
 assert.match(packageJson, /"test:security":[^\n]*npm run check:cp6/)
 assert.match(packageJson, /"check:backend": "node scripts\/check-predecessor-backend-ownership\.mjs"/)
 for (const token of [

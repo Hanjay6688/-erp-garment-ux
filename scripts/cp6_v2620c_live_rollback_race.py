@@ -1,9 +1,15 @@
 #!/usr/bin/env python3
-"""Prove v2.6.20c rollback ordering against an actual uncommitted CP6 facade."""
+"""Prove an exact CP6 rollback ordering against an actual uncommitted facade.
+
+The default target remains v2.6.20c for the historical proof. Environment
+overrides let a forward successor reuse the same native two-connection test
+without weakening it into a synthetic marker check.
+"""
 from __future__ import annotations
 
 import json
 import os
+import re
 import subprocess
 import threading
 import time
@@ -18,14 +24,31 @@ PGURL = os.environ.get(
     'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback',
 )
 MODE = os.environ.get('CP6_ROLLBACK_RACE_MODE', 'WRITER_FIRST')
+TARGET_VERSION = os.environ.get('CP6_ROLLBACK_TARGET_VERSION', 'v2.6.20c')
+PLATFORM_NAME = os.environ.get(
+    'CP6_ROLLBACK_PLATFORM_NAME',
+    'erp_v2_6_20c_cp6_deep_business_reliability',
+)
+PREDECESSOR_VERSION = os.environ.get('CP6_ROLLBACK_PREDECESSOR_VERSION', 'v2.6.20b')
+TARGET_REG_KIND = os.environ.get('CP6_ROLLBACK_TARGET_REG_KIND', 'procedure')
+TARGET_REG_IDENTITY = os.environ.get(
+    'CP6_ROLLBACK_TARGET_REG_IDENTITY',
+    'public.erp_search_laundry_bs_products_v1(uuid,timestamp with time zone,text,text,integer)',
+)
+REFUSAL = os.environ.get(
+    'CP6_ROLLBACK_POST_USE_REFUSAL',
+    'v2.6.20c rollback refused: post-install business/HPP history exists',
+)
+EVIDENCE_TAG = os.environ.get('CP6_ROLLBACK_EVIDENCE_TAG', 'V2620C')
+GATE_RELATION = os.environ.get('CP6_ROLLBACK_GATE_RELATION', 'erp.qc_inspection_items')
 REPORT = Path(os.environ.get(
     'CP6_ROLLBACK_RACE_REPORT',
-    f'cp6-v2620c-live-rollback-{MODE.lower()}.json',
+    f'cp6-{EVIDENCE_TAG.lower()}-live-rollback-{MODE.lower()}.json',
 ))
-ROLLBACK = Path(
-    'supabase/rollbacks/'
-    '20260907190000_erp_v2_6_20c_cp6_deep_business_reliability.rollback.sql'
-)
+ROLLBACK = Path(os.environ.get(
+    'CP6_ROLLBACK_SQL_PATH',
+    'supabase/rollbacks/20260907190000_erp_v2_6_20c_cp6_deep_business_reliability.rollback.sql',
+))
 OPERATOR_AUTH = 'c8c00000-0000-4000-8000-000000000101'
 GROUP = 'c8c40000-0000-4000-8000-000000000003'
 BATCH = 'c8c40000-0000-4000-8000-000000000008'
@@ -44,7 +67,7 @@ def connect(application_name: str):
 
 
 def scalar(query: str, params=()):
-    with connect('cp6-v2620c-rollback-probe') as conn, conn.cursor() as cur:
+    with connect(f'cp6-{EVIDENCE_TAG.lower()}-rollback-probe') as conn, conn.cursor() as cur:
         cur.execute(query, params)
         row = cur.fetchone()
         conn.commit()
@@ -59,15 +82,28 @@ def set_operator(cur):
 
 def writer_call(cur, request_id: str):
     set_operator(cur)
-    cur.execute('select row_version from erp.cutting_groups where id=%s::uuid', (GROUP,))
-    expected_version = cur.fetchone()[0]
+    # Resolve the optimistic version through the same authenticated public
+    # workspace contract used by the client. Never grant/read the private
+    # cutting_groups table merely to make a rollback harness pass.
+    cur.execute("select public.erp_get_laundry_qc_workspace_v1('LAUNDRY',null)")
+    workspace = cur.fetchone()[0]
+    ready_batch = next(
+        (
+            row for row in workspace.get('ready_batches', [])
+            if row.get('distribution_batch_id') == BATCH
+        ),
+        None,
+    )
+    if ready_batch is None:
+        raise RuntimeError('Authenticated workspace did not expose the seeded ready batch')
+    expected_version = int(ready_batch['cutting_group_row_version'])
     payload = {
         'distribution_batch_id': BATCH,
         'vendor_id': VENDOR,
         'wash_process_id': PROCESS,
         'target_dyeing_color': 'NAVY',
         'physical_at': '2026-09-05T11:00:00Z',
-        'reason': f'CP6 v20c live rollback {MODE.lower()}',
+        'reason': f'CP6 {EVIDENCE_TAG} live rollback {MODE.lower()}',
         'notes': 'Actual public business facade; no synthetic marker',
         'lines': [{'size_id': SIZE, 'qty_sent_pcs': 10}],
     }
@@ -107,16 +143,20 @@ def observe_blocker(waiter_pid: int, holder_pid: int, timeout: float = 2.0) -> b
 
 
 def state(request_id: str) -> dict[str, Any]:
+    if TARGET_REG_KIND == 'procedure':
+        target_presence = 'to_regprocedure(%s) is not null'
+    elif TARGET_REG_KIND == 'class':
+        target_presence = 'to_regclass(%s) is not null'
+    else:
+        raise RuntimeError(f'Unsupported CP6_ROLLBACK_TARGET_REG_KIND: {TARGET_REG_KIND}')
     return scalar(
-        """
+        f"""
         select jsonb_build_object(
           'application_marker',(select count(*) from erp.schema_migrations
-            where version='v2.6.20c'),
+            where version=%s),
           'platform_marker',(select count(*) from supabase_migrations.schema_migrations
-            where name='erp_v2_6_20c_cp6_deep_business_reliability'),
-          'laundry_bs_resolver',to_regprocedure(
-            'public.erp_search_laundry_bs_products_v1(uuid,timestamp with time zone,text,text,integer)'
-          ) is not null,
+            where name=%s),
+          'target_object',{target_presence},
           'delivery_rows',(select count(*) from erp.laundry_deliveries
             where special_instruction='Actual public business facade; no synthetic marker'),
           'request_status',(select status from erp.idempotency_requests
@@ -130,7 +170,7 @@ def state(request_id: str) -> dict[str, Any]:
           ) bad)
         )
         """,
-        (request_id,),
+        (TARGET_VERSION, PLATFORM_NAME, TARGET_REG_IDENTITY, request_id),
     )
 
 
@@ -140,7 +180,7 @@ def writer_first() -> dict[str, Any]:
     writer: dict[str, Any] = {}
 
     def work():
-        conn = connect('cp6-v2620c-business-writer-first')
+        conn = connect(f'cp6-{EVIDENCE_TAG.lower()}-business-writer-first')
         try:
             with conn.cursor() as cur:
                 cur.execute("set local lock_timeout='10s'")
@@ -164,7 +204,7 @@ def writer_first() -> dict[str, Any]:
     if not effects_ready.wait(timeout=20) or writer.get('response') is None:
         raise RuntimeError(f'Business writer did not reach uncommitted facade completion: {writer}')
 
-    app_name = 'cp6-v2620c-rollback-after-writer'
+    app_name = f'cp6-{EVIDENCE_TAG.lower()}-rollback-after-writer'
     started = time.monotonic()
     rollback = rollback_process(app_name)
     rollback_pid = None
@@ -187,12 +227,12 @@ def writer_first() -> dict[str, Any]:
             f'Rollback did not block behind actual facade: rc={rollback.returncode}, '
             f'blocker={blocker_observed}, output={combined}'
         )
-    if 'v2.6.20c rollback refused: post-install business/HPP history exists' not in combined:
+    if REFUSAL not in combined:
         raise RuntimeError(f'Rollback returned the wrong post-use decision: {combined}')
     final_state = state(request_id)
     expected = {
         'application_marker': 1, 'platform_marker': 1,
-        'laundry_bs_resolver': True, 'delivery_rows': 1,
+        'target_object': True, 'delivery_rows': 1,
         'request_status': 'COMPLETED', 'execution_context_rows': 0,
         'unbalanced_journals': 0,
     }
@@ -209,16 +249,18 @@ def writer_first() -> dict[str, Any]:
 
 def rollback_first() -> dict[str, Any]:
     request_id = REQUESTS[MODE]
-    gate = connect('cp6-v2620c-rollback-order-gate')
+    gate = connect(f'cp6-{EVIDENCE_TAG.lower()}-rollback-order-gate')
     gate_cur = gate.cursor()
     gate_cur.execute('select pg_backend_pid()')
     gate_pid = gate_cur.fetchone()[0]
     # Instrumentation only: pause the exact rollback on its final listed table
     # after it has acquired the earlier business-table locks. The business
     # blocker asserted below must be the rollback PID, never this gate PID.
-    gate_cur.execute('lock table erp.qc_inspection_items in access exclusive mode')
+    if not re.fullmatch(r'erp\.[a-z0-9_]+', GATE_RELATION):
+        raise RuntimeError(f'Unsafe CP6_ROLLBACK_GATE_RELATION: {GATE_RELATION}')
+    gate_cur.execute(f'lock table {GATE_RELATION} in access exclusive mode')
 
-    app_name = 'cp6-v2620c-rollback-before-writer'
+    app_name = f'cp6-{EVIDENCE_TAG.lower()}-rollback-before-writer'
     rollback = rollback_process(app_name)
     rollback_pid = None
     rollback_blocked_by_gate = False
@@ -241,7 +283,7 @@ def rollback_first() -> dict[str, Any]:
     writer_started = threading.Event()
 
     def work():
-        conn = connect('cp6-v2620c-business-writer-after-rollback-lock')
+        conn = connect(f'cp6-{EVIDENCE_TAG.lower()}-business-writer-after-rollback-lock')
         try:
             with conn.cursor() as cur:
                 cur.execute("set local lock_timeout='10s'")
@@ -278,7 +320,7 @@ def rollback_first() -> dict[str, Any]:
     final_state = state(request_id)
     expected = {
         'application_marker': 0, 'platform_marker': 0,
-        'laundry_bs_resolver': False, 'delivery_rows': 1,
+        'target_object': False, 'delivery_rows': 1,
         'request_status': 'COMPLETED', 'execution_context_rows': 0,
         'unbalanced_journals': 0,
     }
@@ -291,7 +333,7 @@ def rollback_first() -> dict[str, Any]:
         'rollback_blocked_by_gate_before_writer_started': True,
         'writer_blocked_by_exact_rollback_pid': writer_blocked_by_rollback,
         'pre_use_rollback_committed': True,
-        'writer_committed_under_restored_v2620b': True,
+        'writer_committed_under_restored_predecessor': PREDECESSOR_VERSION,
         'final_state': final_state,
     }
 
@@ -301,7 +343,7 @@ def main():
         raise RuntimeError(f'Unsupported CP6_ROLLBACK_RACE_MODE: {MODE}')
     result = writer_first() if MODE == 'WRITER_FIRST' else rollback_first()
     report = {
-        'classification': 'DISPOSABLE_V2620C_ACTUAL_BUSINESS_FACADE_ROLLBACK_RACE',
+        'classification': f'DISPOSABLE_{EVIDENCE_TAG}_ACTUAL_BUSINESS_FACADE_ROLLBACK_RACE',
         'database_scope': 'ISOLATED_CLONE_DESTROYED_BY_WORKFLOW',
         'actual_facade': 'public.erp_save_laundry_qc_action_v1',
         'synthetic_business_marker_used': False,
@@ -319,7 +361,7 @@ except Exception as error:
     REPORT.parent.mkdir(parents=True, exist_ok=True)
     REPORT.write_text(json.dumps({
         'status': 'FAIL',
-        'classification': 'DISPOSABLE_V2620C_ACTUAL_BUSINESS_FACADE_ROLLBACK_RACE',
+        'classification': f'DISPOSABLE_{EVIDENCE_TAG}_ACTUAL_BUSINESS_FACADE_ROLLBACK_RACE',
         'mode': MODE, 'error': str(error), 'production_go': False,
     }, indent=2, sort_keys=True) + '\n')
     raise
