@@ -31,13 +31,13 @@ const v20cRunner = read(v20cRunnerPath)
 const v20dRunner = read(v20dRunnerPath)
 const clone = read(clonePath)
 
-const migrationFileSha = 'b71bc9fc752a7f28f1813f8ae240611d477877f919b0b82abfe3d16c8ece80fb'
-const migrationLedgerSha = 'f013c65bdae0ac002557d7d165d4e0d447588e87b009c2c4e6785ef8a03abde8'
-const rollbackFileSha = 'f069a5f9a503dbe2c92c72b6bca8ae8ad00d9ce1a8b38b786b1847fc6ed105a0'
+const migrationFileSha = 'eab866385d3a462aea5815dc5069d5d7a774f7aa88c43d983c665469f4469465'
+const migrationLedgerSha = 'f3f1ba8f889440c8694ba2932fc787ea5bdfab980b2d94f24cd9bfabf1bbf222'
+const rollbackFileSha = '793cd96c44c4babcf78789ab01e3e932c04c1598cdc1dbe73afeedba18640fb7'
 const regressionFileSha = 'd5a7e981fde1a02b9c6c8d671a44a73f3278bbe6e45f814ff26e3427d78f0bb8'
 const migrationBytes = Buffer.from(migration)
 
-assert.equal(Buffer.byteLength(migration), 85620)
+assert.equal(Buffer.byteLength(migration), 85944)
 assert.equal(Buffer.byteLength(rollback), 12395)
 assert.equal(Buffer.byteLength(regression), 36764)
 assert.equal(sha256(migrationBytes), migrationFileSha)
@@ -94,6 +94,8 @@ requireTokens(migration, 'B01 physical redispatch cost lineage', [
   '<(d.successor_at,d.successor_created_at,d.successor_delivery_id)',
   'order by ld.physical_at,ld.created_at,ld.id,sx.size_id,sx.id',
   'create function erp.allocate_laundry_redispatch_participants_v2620d(p_delivery_line_id uuid)',
+  "where version='v2.6.20d'",
+  "DRIFT_CONCURRENT_MUTATION_DETECTED: v2.6.20d redispatch allocator is missing",
   'perform erp.allocate_laundry_redispatch_participants_v2620d(v_delivery_line_id);',
   'create function erp.cp6_lot_failed_wash_cost_v2620d(p_lot_id uuid)',
   'not a.source_delivery_batch_size_line_id=any(m.path)',
@@ -224,7 +226,7 @@ requireTokens(v20dRunner, 'v20d two-order facade rollback proof', [
 
 requireTokens(workflow, 'v20d exact-SHA native evidence contract', [
   'Apply v2.6.20d independent re-audit business closure once and reject replay',
-  "test \"$(wc -c < \"$migration_source\")\" = '85620'",
+  "test \"$(wc -c < \"$migration_source\")\" = '85944'",
   'V2620D_MIGRATION_SHA256.txt', 'V2620D_REPLAY_REJECTION.log',
   'CP6_V2620D_REAUDIT_REGRESSION.log',
   'CP6_V2620D_B01_REDISPATCH_COST_PASS',

@@ -435,7 +435,14 @@ do $patch_laundry_writer$
 declare
   v_definition text;
   v_anchor constant text:='    perform erp.post_laundry_delivery(v_delivery_id);';
-  v_replacement constant text:=$replacement$    perform erp.allocate_laundry_redispatch_participants_v2620d(v_delivery_line_id);
+  v_replacement constant text:=$replacement$    if exists(
+      select 1 from erp.schema_migrations where version='v2.6.20d'
+    ) then
+      if to_regprocedure('erp.allocate_laundry_redispatch_participants_v2620d(uuid)') is null then
+        raise exception 'DRIFT_CONCURRENT_MUTATION_DETECTED: v2.6.20d redispatch allocator is missing';
+      end if;
+      perform erp.allocate_laundry_redispatch_participants_v2620d(v_delivery_line_id);
+    end if;
     perform erp.post_laundry_delivery(v_delivery_id);$replacement$;
 begin
   select pg_get_functiondef('erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)'::regprocedure)
