@@ -33,12 +33,12 @@ const clone = read(clonePath)
 
 const migrationFileSha = 'b71bc9fc752a7f28f1813f8ae240611d477877f919b0b82abfe3d16c8ece80fb'
 const migrationLedgerSha = 'f013c65bdae0ac002557d7d165d4e0d447588e87b009c2c4e6785ef8a03abde8'
-const rollbackFileSha = '2535935bd2c0584fd99d6d82e80c994b8406fa48a92c3b6affb4b0ec92be629e'
+const rollbackFileSha = 'f069a5f9a503dbe2c92c72b6bca8ae8ad00d9ce1a8b38b786b1847fc6ed105a0'
 const regressionFileSha = 'd5a7e981fde1a02b9c6c8d671a44a73f3278bbe6e45f814ff26e3427d78f0bb8'
 const migrationBytes = Buffer.from(migration)
 
 assert.equal(Buffer.byteLength(migration), 85620)
-assert.equal(Buffer.byteLength(rollback), 12204)
+assert.equal(Buffer.byteLength(rollback), 12395)
 assert.equal(Buffer.byteLength(regression), 36764)
 assert.equal(sha256(migrationBytes), migrationFileSha)
 assert.equal(sha256(migrationBytes.subarray(0, -1)), migrationLedgerSha)
@@ -137,8 +137,10 @@ requireTokens(migration, 'v20d forward reconciliation', [
 requireTokens(rollback, 'v20d fail-closed executable rollback', [
   'lock table erp.schema_migrations,',
   'erp.laundry_redispatch_participant_allocations,',
+  'erp.laundry_delivery_batch_size_lines,',
+  'erp.app_users',
   'in access exclusive mode;',
-  'DROP cannot upgrade a weaker lock while a live facade retains AccessShare',
+  'DROP TABLE removes those FK triggers from the referenced relations',
   'v2.6.20d rollback refused: platform ledger identity is ambiguous',
   'v2.6.20d rollback refused: a successor migration is already installed',
   'DRIFT_CONCURRENT_MUTATION_DETECTED: v2.6.20d installed object/capsule drift',
@@ -150,6 +152,11 @@ requireTokens(rollback, 'v20d fail-closed executable rollback', [
   'drop table erp.cp6_v2620d_rollback_capsule;',
   'v2.6.20d rollback left schema or ledger residue',
 ])
+assert.match(
+  rollback,
+  /lock table\s+erp\.laundry_redispatch_participant_allocations,\s+erp\.cp6_v2620d_rollback_capsule,\s+erp\.laundry_delivery_batch_size_lines,\s+erp\.app_users\s+in access exclusive mode;/,
+  'v20d rollback must acquire final locks for the dropped tables and every FK dependency first',
+)
 
 requireTokens(regression, 'independent re-audit counterexample regression', [
   "raise notice 'CP6_V2620D_B01_REDISPATCH_COST_PASS %'",

@@ -41,14 +41,19 @@ end
 $platform_guard$;
 
 -- The successor-only relations are dropped below.  Take their final
--- ACCESS EXCLUSIVE mode before holding any other business-table lock so the
--- DROP cannot upgrade a weaker lock while a live facade retains AccessShare.
+-- ACCESS EXCLUSIVE mode, plus the same mode on every relation referenced by
+-- the participant table's foreign keys, before holding any other business
+-- lock.  DROP TABLE removes those FK triggers from the referenced relations
+-- and otherwise tries to upgrade their weaker locks while a live facade may
+-- retain AccessShare.
 -- This is deliberately first: an already-running writer finishes before the
 -- rollback owns anything else, while a rollback-first writer waits without
 -- creating the AccessShare -> RowExclusive -> AccessExclusive deadlock cycle.
 lock table
   erp.laundry_redispatch_participant_allocations,
-  erp.cp6_v2620d_rollback_capsule
+  erp.cp6_v2620d_rollback_capsule,
+  erp.laundry_delivery_batch_size_lines,
+  erp.app_users
 in access exclusive mode;
 
 lock table
@@ -72,7 +77,6 @@ lock table
   erp.sales_payments,
   erp.laundry_deliveries,
   erp.laundry_delivery_lines,
-  erp.laundry_delivery_batch_size_lines,
   erp.laundry_receipts,
   erp.laundry_receipt_lines,
   erp.laundry_receipt_batch_size_lines,
