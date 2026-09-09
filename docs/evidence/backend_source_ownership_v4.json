@@ -8,7 +8,7 @@
   "public_hardening_manifest": {
     "path": "docs/evidence/public_github_hardening_source_hashes.json",
     "bytes": 2168,
-    "sha256": "c0761980db5b9729c6147a539e2c33a9091ba30ab09464c04c194df187714c6d"
+    "sha256": "8a207d3f8a93c976f1955c38ac035f285383fc7d3f6235822fdce80de08a4b08"
   },
   "target_project_ref": "siimvrusnzxexizpyoib",
   "legacy_project_ref": "vlxdhpkjeevubjxexnfo",

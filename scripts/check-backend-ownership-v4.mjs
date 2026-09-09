@@ -111,6 +111,11 @@ for (const path of workflowPaths) {
     assert.equal(current.split(permissionBlock).length - 1, 1, 'Build workflow must declare one top-level read-only permission block')
     normalized = normalized.replace(permissionBlock, '\njobs:\n')
   }
+  if (path === '.github/workflows/cutting-bridge-full-schema-validation.yml') {
+    const branchGuard = "    if: github.event_name == 'workflow_dispatch' || github.head_ref == 'pre-cp5/cutting-persistence-pickup-wip-r1-20260903'\n"
+    assert.equal(current.split(branchGuard).length - 1, 1, 'Cutting Bridge workflow must skip unrelated pull requests')
+    normalized = normalized.replace(branchGuard, '')
+  }
   const baseline = gitBytes('show', `${baseSha}:${path}`).toString('utf8')
   assert.equal(normalized, baseline, `Workflow changed beyond approved SHA pins/permissions: ${path}`)
 }

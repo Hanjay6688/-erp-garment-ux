@@ -33,8 +33,8 @@
       "sha256": "866a72ff9ee1ff18cbfb5262d08c3581eeb55f161c59ad9e24fd87efada6faf1"
     },
     ".github/workflows/cutting-bridge-full-schema-validation.yml": {
-      "bytes": 26877,
-      "sha256": "8d8f44b8b77de37a30aefc0e03831f363a5474a5031551ca1392f3bcadb15b29"
+      "bytes": 27001,
+      "sha256": "77d1094cd658b64c8e4063d149a419720ada7c812ee6c28f03e96bd81dbf4b5f"
     },
     "package-lock.json": {
       "bytes": 126074,
@@ -45,8 +45,8 @@
       "sha256": "d5397cf728c5d051effffc92ac33610ab9badbb6d45a86e7b44f725acbcf5d7d"
     },
     "scripts/check-backend-ownership-v4.mjs": {
-      "bytes": 7570,
-      "sha256": "c0aedad7623c0fd2b9a56949792e2077a07105f67ee4dd5c76fba8485abed101"
+      "bytes": 7979,
+      "sha256": "b6406c701fa1563fbf3a7b1b299668096f0c676970b137e4266f57d61cd336f7"
     },
     "scripts/render-public-github-hardening-source-hashes.mjs": {
       "bytes": 3685,
