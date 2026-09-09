@@ -23,11 +23,11 @@ const workflow = read(workflowPath)
 const migrationFileSha = '7937cde99aa9d77e5e3d987a803fd9c11f9a4aedc61e16fdd8307849c4fe3ad2'
 const migrationLedgerSha = '8afd32e941cca025be6d68b70e1a483d98984d697b7d1da0e3d6722c423ecfdc'
 const rollbackFileSha = '8e7e1e1678e32a9cd66b630f0596fed9074f97846c2cce8fc41e49b06cd8b6de'
-const regressionFileSha = 'e31ad02f3a9834d45960427a2c257550fc7443af2ec39a0ad8a1f2317240b326'
+const regressionFileSha = '267cd62729234c7e1132a0e02d6b1d66ca20bde0c80bbb0ea9c7fed27bcca8b8'
 
 assert.equal(Buffer.byteLength(migration), 80208)
 assert.equal(Buffer.byteLength(rollback), 11703)
-assert.equal(Buffer.byteLength(regression), 31900)
+assert.equal(Buffer.byteLength(regression), 32842)
 assert.equal(sha256(migration), migrationFileSha)
 assert.equal(sha256(Buffer.from(migration).subarray(0, -1)), migrationLedgerSha)
 assert.equal(sha256(rollback), rollbackFileSha)
@@ -148,6 +148,7 @@ requireTokens(regression, 'native C01-C06 regression', [
   "expected = (Decimal('0'), Decimal('0.06'), Decimal('0.05'))",
   "raw_last_hpp != Decimal('0.008')",
   "opening_report['data_confidence']['status'] != 'READY'",
+  'load_fixture_foundation(cur)',
   "cur.execute(f'rollback to savepoint {savepoint}')",
   "'production_go': False",
 ])

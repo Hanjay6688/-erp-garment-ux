@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import uuid
 from decimal import Decimal
 from pathlib import Path
@@ -40,6 +41,33 @@ FIXTURE_BLOCK = SEED[
     SEED.index('insert into erp.production_orders('):
     SEED.index('-- Independent-audit F02 owns')
 ]
+
+
+def read_psql_seed(path: Path) -> str:
+    """Resolve the fixture's local includes without allowing transaction commits."""
+    chunks: list[str] = []
+    for line in path.read_text().splitlines(keepends=True):
+        include = re.match(r'^\\ir\s+(.+?)\s*$', line)
+        if include:
+            chunks.append(read_psql_seed(path.parent / include.group(1)))
+        elif re.match(r'^\\set\b', line):
+            continue
+        elif line.strip().lower() in {'begin;', 'commit;'}:
+            continue
+        else:
+            chunks.append(line)
+    return ''.join(chunks)
+
+
+def load_fixture_foundation(cur: psycopg.Cursor) -> None:
+    cur.execute(
+        read_psql_seed(Path('supabase/tests/cp3_r4_full_schema_seed.sql')),
+        prepare=False,
+    )
+    cur.execute(
+        read_psql_seed(Path('supabase/tests/cp6_laundry_qc_concurrency_seed.sql')),
+        prepare=False,
+    )
 
 
 def one(cur: psycopg.Cursor, query: str, params: tuple[Any, ...] = ()) -> Any:
@@ -859,6 +887,7 @@ def run() -> dict[str, Any]:
             )):
                 raise AssertionError('v2.6.20e Sale runtime patch is absent')
 
+            load_fixture_foundation(cur)
             baseline_events = int(one(
                 cur, 'select count(*) from erp.laundry_redispatch_participant_events'
             ))
