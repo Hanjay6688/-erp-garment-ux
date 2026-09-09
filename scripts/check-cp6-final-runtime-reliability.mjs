@@ -32,7 +32,7 @@ const auth = read(authPath)
 const packageSource = read(packagePath)
 
 const migrationBytes = 64730
-const rollbackBytes = 10208
+const rollbackBytes = 10780
 const regressionBytes = 18075
 const rollbackRaceBytes = 5564
 const migrationFileSha =
@@ -40,7 +40,7 @@ const migrationFileSha =
 const migrationLedgerSha =
   '5ffdf1e5c12ccc964cf41820a78a790f33b10bbe087397d41b62f6e315c928ae'
 const rollbackFileSha =
-  '2466aa870cf9b32b368fe06a394dc9b76d9ad4f1ca5df760d9c1f15118e77ad1'
+  '83819e093d1489af70431704c59e2cb50a0149e1adc8520d5b9536510572a23d'
 const regressionFileSha =
   '4656b11baaa1b14808d9fc5dbefeb262be58027bcc11bf64307df311a46e1c49'
 const rollbackRaceFileSha =
@@ -190,6 +190,9 @@ requireTokens(rollback, 'reviewed F rollback', [
   'v2.6.20f rollback refused: a successor migration is already installed',
   'DRIFT_CONCURRENT_MUTATION_DETECTED: v2.6.20f installed object/capsule drift',
   'v2.6.20f rollback refused: post-install reconciliation or business history exists',
+  'lock table erp.app_users in access exclusive mode;',
+  'lock table erp.idempotency_requests in share row exclusive mode;',
+  'lock table erp.products, erp.journal_entries in access exclusive mode;',
   'select * from erp.cp6_v2620f_rollback_capsule order by object_identity',
   "execute format('alter function %s owner to %I'",
   "execute format('grant execute on function %s to %s%s'",

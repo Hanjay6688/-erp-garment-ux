@@ -40,6 +40,15 @@ begin
 end
 $platform_guard$;
 
+-- Every authenticated business facade resolves app_users before it opens its
+-- idempotency envelope.  Acquire that same leading fence before the bulk
+-- business locks, then take the three referenced relations strongly enough
+-- for DROP TABLE to remove the F event-table foreign keys without a late lock
+-- escalation.  This preserves one lock order in both writer/rollback races.
+lock table erp.app_users in access exclusive mode;
+lock table erp.idempotency_requests in share row exclusive mode;
+lock table erp.products, erp.journal_entries in access exclusive mode;
+
 lock table
   erp.non_po_hpp_gl_sync_events_v2620f,
   erp.cp6_v2620f_rollback_capsule
