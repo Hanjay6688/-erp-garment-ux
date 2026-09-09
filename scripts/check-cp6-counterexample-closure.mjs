@@ -13,24 +13,35 @@ const requireTokens = (source, label, tokens) => {
 
 const migrationPath = 'supabase/migrations/20260909113933_erp_v2_6_20e_cp6_counterexample_closure.sql'
 const rollbackPath = 'supabase/rollbacks/20260909113933_erp_v2_6_20e_cp6_counterexample_closure.rollback.sql'
+const regressionPath = 'scripts/cp6_v2620e_counterexample_regression.py'
 const workflowPath = '.github/workflows/cp6-full-schema-validation.yml'
 const migration = read(migrationPath)
 const rollback = read(rollbackPath)
+const regression = read(regressionPath)
 const workflow = read(workflowPath)
 
 const migrationFileSha = '7937cde99aa9d77e5e3d987a803fd9c11f9a4aedc61e16fdd8307849c4fe3ad2'
 const migrationLedgerSha = '8afd32e941cca025be6d68b70e1a483d98984d697b7d1da0e3d6722c423ecfdc'
 const rollbackFileSha = '8e7e1e1678e32a9cd66b630f0596fed9074f97846c2cce8fc41e49b06cd8b6de'
+const regressionFileSha = 'e31ad02f3a9834d45960427a2c257550fc7443af2ec39a0ad8a1f2317240b326'
 
 assert.equal(Buffer.byteLength(migration), 80208)
 assert.equal(Buffer.byteLength(rollback), 11703)
+assert.equal(Buffer.byteLength(regression), 31900)
 assert.equal(sha256(migration), migrationFileSha)
 assert.equal(sha256(Buffer.from(migration).subarray(0, -1)), migrationLedgerSha)
 assert.equal(sha256(rollback), rollbackFileSha)
+assert.equal(sha256(regression), regressionFileSha)
 assert.equal(occurrences(rollback, migrationFileSha), 4)
 assert.equal(occurrences(rollback, migrationLedgerSha), 4)
 assert.ok(occurrences(workflow, migrationFileSha) >= 1)
 assert.ok(occurrences(workflow, migrationLedgerSha) >= 1)
+requireTokens(workflow, 'exact-SHA native regression workflow', [
+  'python -m py_compile scripts/cp6_v2620e_counterexample_regression.py',
+  'python scripts/cp6_v2620e_counterexample_regression.py',
+  'V2620E_C01_C06_NATIVE.log',
+  "test \"$(jq -r '.production_go' \"$CP6_V2620E_COUNTEREXAMPLE_REPORT\")\" = 'false'",
+])
 
 for (const [path, sql] of [[migrationPath, migration], [rollbackPath, rollback]]) {
   assert.ok(sql.endsWith('\n'), `${path} must retain its terminal LF`)
@@ -129,10 +140,23 @@ requireTokens(rollback, 'reviewed rollback', [
   "delete from erp.schema_migrations where version='v2.6.20e';",
 ])
 
+requireTokens(regression, 'native C01-C06 regression', [
+  "'boundary': 'CP6_V2620E_C01_C06_NATIVE_POSTGRESQL'",
+  'def case_c01(', 'def case_c02_c04_c06(', 'def case_c03(', 'def case_c05(',
+  "Decimal('140'), Decimal('0'), Decimal('140'), Decimal('140')",
+  "'Refund exceeds original net sale value for product'",
+  "expected = (Decimal('0'), Decimal('0.06'), Decimal('0.05'))",
+  "raw_last_hpp != Decimal('0.008')",
+  "opening_report['data_confidence']['status'] != 'READY'",
+  "cur.execute(f'rollback to savepoint {savepoint}')",
+  "'production_go': False",
+])
+
 console.log(JSON.stringify({
   status: 'PASS',
   boundary: 'CP6_V2620E_C01_C06_COUNTEREXAMPLE_CLOSURE',
   migration_sha256: migrationFileSha,
   rollback_sha256: rollbackFileSha,
+  regression_sha256: regressionFileSha,
   production_go: false,
 }))
