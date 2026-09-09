@@ -149,6 +149,30 @@ def observe_blocker(waiter_pid: int, holder_pid: int, timeout: float = 2.0) -> b
     return False
 
 
+def relation_lock_snapshot(*pids: int) -> list[dict[str, Any]]:
+    """Resolve the exact relation locks without relying on ephemeral OIDs."""
+    return scalar(
+        """
+        select coalesce(jsonb_agg(jsonb_build_object(
+          'pid',l.pid,'relation_oid',l.relation,
+          'relation_name',coalesce(l.relation::regclass::text,'UNKNOWN'),
+          'mode',l.mode,'granted',l.granted
+        ) order by l.pid,l.granted,l.relation,l.mode),'[]'::jsonb)
+        from pg_locks l
+        where l.locktype='relation' and l.pid=any(%s::integer[])
+        """,
+        (list(pids),),
+    )
+
+
+def relation_names_from_error(error: str) -> dict[str, str]:
+    relation_oids = sorted({int(value) for value in re.findall(r'relation (\d+)', error)})
+    return {
+        str(oid): scalar('select %s::oid::regclass::text', (oid,))
+        for oid in relation_oids
+    }
+
+
 def state(request_id: str) -> dict[str, Any]:
     if TARGET_REG_KIND == 'procedure':
         target_presence = 'to_regprocedure(%s) is not null'
@@ -327,6 +351,7 @@ def rollback_first() -> dict[str, Any]:
     writer_blocked_by_rollback = observe_blocker(
         writer['pid'], rollback_pid, ROLLBACK_FIRST_BLOCK_TIMEOUT_SECONDS,
     )
+    pre_release_locks = relation_lock_snapshot(rollback_pid, writer['pid'])
     gate.rollback()
     gate_cur.close()
     gate.close()
@@ -335,7 +360,13 @@ def rollback_first() -> dict[str, Any]:
     if rollback.returncode != 0:
         raise RuntimeError(f'Pre-use rollback failed: {stdout + stderr}')
     if thread.is_alive() or writer.get('status') != 'PASS':
-        raise RuntimeError(f'Post-rollback predecessor writer failed: {writer}')
+        relation_names = relation_names_from_error(writer.get('error', ''))
+        raise RuntimeError(
+            'Post-rollback predecessor writer failed: '
+            f'writer={writer}, relation_names={relation_names}, '
+            f'pre_release_locks={pre_release_locks}, '
+            f'rollback_returncode={rollback.returncode}, rollback_output={stdout + stderr}'
+        )
     if not writer_blocked_by_rollback:
         raise RuntimeError(f'Actual writer was not blocked by rollback PID: {writer}')
     final_state = state(request_id)
