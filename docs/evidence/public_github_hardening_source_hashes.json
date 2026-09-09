@@ -1,0 +1,56 @@
+{
+  "format": "PUBLIC_GITHUB_HARDENING_SOURCE_HASHES_V1",
+  "candidate_branch": "security/public-github-hardening-20260909",
+  "source_base_sha": "6d4cda118f5d28d1f039cc0ecf318d0866f55c2c",
+  "source_base_tree": "6d90546ecd7e55e16a9e6062599ee09b2e9b505d",
+  "scope": "PUBLIC_GITHUB_SECURITY_HARDENING",
+  "hosted_database_mutated": false,
+  "legacy_mutated": false,
+  "production_go": false,
+  "files": {
+    ".github/SECURITY.md": {
+      "bytes": 776,
+      "sha256": "f3907e3856c4a0d89e88cae6c84a23af7ea91a039823cbdddf545793b74c43cb"
+    },
+    ".github/workflows/ci.yml": {
+      "bytes": 2068,
+      "sha256": "409d64a179e6e9490d37d627ff341a2c8da530e0cee0df1d37cd13e084363e10"
+    },
+    ".github/workflows/cp3-r4-full-schema-validation.yml": {
+      "bytes": 35976,
+      "sha256": "062f794053c2f857636a664035ae1305d2e38117b7bc05ae7cec99420c0422a9"
+    },
+    ".github/workflows/cp4-full-schema-validation.yml": {
+      "bytes": 27742,
+      "sha256": "f9c82244078704e03076d255990d10f1953ab89685a008726f0fdfbf9ada7f5c"
+    },
+    ".github/workflows/cp45-full-schema-validation.yml": {
+      "bytes": 47337,
+      "sha256": "09c2ba6b5041a6854de36ccfb50617d0b3b586fdb8df7a6582396b5a4457cc93"
+    },
+    ".github/workflows/cp5-full-schema-validation.yml": {
+      "bytes": 81616,
+      "sha256": "866a72ff9ee1ff18cbfb5262d08c3581eeb55f161c59ad9e24fd87efada6faf1"
+    },
+    ".github/workflows/cutting-bridge-full-schema-validation.yml": {
+      "bytes": 26877,
+      "sha256": "8d8f44b8b77de37a30aefc0e03831f363a5474a5031551ca1392f3bcadb15b29"
+    },
+    "package-lock.json": {
+      "bytes": 126074,
+      "sha256": "9f26d9d08d3ab4df8d6603c3d01a4fed96405dd467010647aba892e9036859c3"
+    },
+    "package.json": {
+      "bytes": 3108,
+      "sha256": "d5397cf728c5d051effffc92ac33610ab9badbb6d45a86e7b44f725acbcf5d7d"
+    },
+    "scripts/check-backend-ownership-v4.mjs": {
+      "bytes": 7570,
+      "sha256": "c0aedad7623c0fd2b9a56949792e2077a07105f67ee4dd5c76fba8485abed101"
+    },
+    "scripts/render-public-github-hardening-source-hashes.mjs": {
+      "bytes": 3685,
+      "sha256": "2030dcd619830197654e1e257f9bcc1e200f902da1d453c0375f1092b3c9be46"
+    }
+  }
+}

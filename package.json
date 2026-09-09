@@ -8,7 +8,7 @@
     "check:source": "node scripts/check-source-ownership.mjs",
     "check:access": "node scripts/check-access-catalog.mjs",
     "check:css": "node scripts/check-css-ownership.mjs",
-    "check:backend": "node scripts/check-backend-ownership-v3.mjs",
+    "check:backend": "node scripts/check-backend-ownership-v4.mjs",
     "check:cp5": "node scripts/check-cp5-boundary.mjs",
     "check:cp3-backend": "node scripts/check-backend-ownership-v2.mjs --cp3-only",
     "proof:cp45:render": "node scripts/render-cp45-source-hashes.mjs",
@@ -52,5 +52,8 @@
     "vite": "8.2.2",
     "vitest": "4.1.11",
     "wrangler": "4.127.1"
+  },
+  "overrides": {
+    "sharp": "0.35.4"
   }
 }
