@@ -56,6 +56,7 @@ jobs:
           test "$remote_head" = "$GITHUB_SHA"
           npm ci
           npm run check:cp6
+          npm run check:cp6:counterexamples
           npm run check:backend
           npm run check:access
           node --check scripts/cp5_auth_permission_e2e.mjs
@@ -1350,6 +1351,47 @@ jobs:
           psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/fg_partial_completion_rollback.sql 2>&1 | tee cp6-proof/FG_PARTIAL_UNDER_CP6_REGRESSION.log
           psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/cp4_hpp_route_auth_rollback.sql 2>&1 | tee cp6-proof/HPP_UNDER_CP6_REGRESSION.log
           psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/attendance_hpp_r4_full_schema_rollback.sql 2>&1 | tee cp6-proof/ACCOUNTING_UNDER_CP6_REGRESSION.log
+
+      - name: Apply v2.6.20e C01-C06 counterexample closure once and reject replay
+        shell: bash
+        run: |
+          set -euo pipefail
+          migration_source='supabase/migrations/20260909113933_erp_v2_6_20e_cp6_counterexample_closure.sql'
+          test "$(wc -c < "$migration_source")" = '79924'
+          echo '488090981e73e9bcd122f67bf10ec1247f8a403179839bd9552c33fbebdaaa0f  supabase/migrations/20260909113933_erp_v2_6_20e_cp6_counterexample_closure.sql' | sha256sum -c - | tee cp6-proof/V2620E_MIGRATION_SHA256.txt
+          psql "$PGURL" -X -v ON_ERROR_STOP=1 -f "$migration_source" \
+            2>&1 | tee cp6-proof/V2620E_APPLY.log
+          psql "$PGURL" -X -v ON_ERROR_STOP=1 <<'SQL'
+          \set migration_source_b64 `python3 -c "import base64,pathlib; p=pathlib.Path('supabase/migrations/20260909113933_erp_v2_6_20e_cp6_counterexample_closure.sql').read_bytes(); assert p.endswith(b'\\n'); print(base64.b64encode(p[:-1]).decode())"`
+          insert into supabase_migrations.schema_migrations(version,name,statements)
+          values(
+            '20260909113933','erp_v2_6_20e_cp6_counterexample_closure',
+            array[convert_from(decode(:'migration_source_b64','base64'),'UTF8')]
+          ) on conflict(version) do nothing;
+          SQL
+          test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select encode(extensions.digest(convert_to(array_to_string(statements,E'\\n'),'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations where name='erp_v2_6_20e_cp6_counterexample_closure'")" = 'd83bcd12f26ec00f596c0ff3a3755d981b62892a97c6bbb48c0b4c561eae0a71'
+          test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select count(*) from erp.cp6_v2620e_rollback_capsule")" = '8'
+          test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select relrowsecurity and not exists(select 1 from pg_policy where polrelid=c.oid) from pg_class c where c.oid='erp.laundry_redispatch_participant_events'::regclass")" = 't'
+          test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select not has_table_privilege('authenticated','erp.laundry_redispatch_participant_events','SELECT') and not has_function_privilege('authenticated','erp.allocate_laundry_redispatch_participants_v2620e(uuid)','EXECUTE') and not has_function_privilege('authenticated','erp.compute_po_hpp_gl_book_v2620e(uuid)','EXECUTE')")" = 't'
+          set +e
+          psql "$PGURL" -X -v ON_ERROR_STOP=1 -f "$migration_source" \
+            > cp6-proof/V2620E_REPLAY_REJECTION.log 2>&1
+          replay_status=$?
+          set -e
+          test "$replay_status" -ne 0
+          grep -F 'ERP v2.6.20e is already recorded' cp6-proof/V2620E_REPLAY_REJECTION.log >/dev/null
+
+      - name: Prove v2.6.20e pre-use rollback before the v2.6.20d ladder
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo 'ef7188ae26b9ef20fc5beb8db3a3acae0457839b326ea6dc0d9dfa0b651a52e3  supabase/rollbacks/20260909113933_erp_v2_6_20e_cp6_counterexample_closure.rollback.sql' | sha256sum -c - | tee cp6-proof/V2620E_ROLLBACK_SHA256.txt
+          psql "$PGURL" -X -v ON_ERROR_STOP=1 \
+            -f supabase/rollbacks/20260909113933_erp_v2_6_20e_cp6_counterexample_closure.rollback.sql \
+            2>&1 | tee cp6-proof/V2620E_MAIN_PRE_USE_ROLLBACK.log
+          test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select count(*) from erp.schema_migrations where version='v2.6.20e'")" = '0'
+          test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select count(*) from erp.schema_migrations where version='v2.6.20d'")" = '1'
+          test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select to_regclass('erp.laundry_redispatch_participant_events') is null and to_regclass('erp.cp6_v2620e_rollback_capsule') is null")" = 't'
 
       - name: Prove v2.6.20d guards and both rollback orders, then release v2.6.20c
         shell: bash
