@@ -150,7 +150,7 @@ def finalize_laundry_invoice(
 
 
 def case_a01(cur: psycopg.Cursor) -> dict[str, Any]:
-    fixture = base.fresh(cur, 'a1')
+    fixture = base.fresh(cur, 'a')
     source_product = base.create_product(cur, 'F-A01-SOURCE')
     target_product = base.create_product(cur, 'F-A01-TARGET')
     customer_id = base.create_customer(cur, 'F-A01')
@@ -311,7 +311,7 @@ def case_a02(cur: psycopg.Cursor) -> dict[str, Any]:
 
 
 def case_a03(cur: psycopg.Cursor) -> dict[str, Any]:
-    fixture = base.fresh(cur, 'a3')
+    fixture = base.fresh(cur, 'b')
     first = base.post_delivery(
         cur, fixture, base.BASE_PROCESS, '2026-09-01T11:00:00Z'
     )

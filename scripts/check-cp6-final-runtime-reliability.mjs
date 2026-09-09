@@ -33,7 +33,7 @@ const packageSource = read(packagePath)
 
 const migrationBytes = 64730
 const rollbackBytes = 10208
-const regressionBytes = 17628
+const regressionBytes = 17626
 const rollbackRaceBytes = 5584
 const migrationFileSha =
   '48f0431ca57abc99906d3f578b53ef59f9072fef3fc3e11c0b50a5c3a581279c'
@@ -42,7 +42,7 @@ const migrationLedgerSha =
 const rollbackFileSha =
   '2466aa870cf9b32b368fe06a394dc9b76d9ad4f1ca5df760d9c1f15118e77ad1'
 const regressionFileSha =
-  'ae1b683dde28b3eaa4c82fa18099744ffc6f078601418775120fc0ca03b89a0e'
+  '823a7b60f95485d9dc4fd5938917431684cb4cd287866768da87bbe1dd56e98d'
 const rollbackRaceFileSha =
   '41b71fc37efadc0b9910a9dfd6d2a529cdf5668a1413a8a9df67faa779fb04b5'
 
@@ -209,6 +209,7 @@ requireTokens(regression, 'native A01-A03 regression', [
   "'classification': 'DISPOSABLE_NATIVE_POSTGRESQL_REGRESSION_AFTER_E_AND_F'",
   "'runtime_versions': ['v2.6.20e', 'v2.6.20f']",
   'def case_a01(', 'def case_a02(', 'def case_a03(',
+  "base.fresh(cur, 'a')", "base.fresh(cur, 'b')",
   "Decimal('60'), Decimal('40'), Decimal('0')",
   "Decimal('0.11'), Decimal('0'), Decimal('0.11'), Decimal('0')",
   "'sale_reversal_order': [4, 0, 8, 2, 6, 1, 9, 3, 7, 5]",
@@ -217,6 +218,11 @@ requireTokens(regression, 'native A01-A03 regression', [
   "cur.execute(f'rollback to savepoint {savepoint}')",
   "'production_go': False",
 ])
+assert.doesNotMatch(
+  regression,
+  /base\.fresh\(cur,\s*'[0-9a-f]{2,}'\)/i,
+  'Native fixture tags must keep generated UUID prefixes exactly eight characters',
+)
 
 requireTokens(rollbackRace, 'actual F rollback races', [
   'prepare_clone V2620F_WRITER_FIRST_BOUNDARY',
