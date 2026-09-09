@@ -887,7 +887,10 @@ begin
     join erp.sales_items i on i.id=a.sale_item_id
     join erp.fg_lots fl on fl.id=a.lot_id
     where i.sale_id=h.id and fl.po_id is not null
-    order by fl.po_id$anchor$;
+    order by fl.po_id
+  loop
+    perform erp.refresh_po_hpp_gl_baseline(r.po_id);
+    select$anchor$;
   v_replacement:=$replacement$  end if;
 
   -- Opening and any future non-PO FG origin keeps its frozen transaction HPP.
@@ -925,7 +928,10 @@ begin
     join erp.sales_items i on i.id=a.sale_item_id
     join erp.fg_lots fl on fl.id=a.lot_id
     where i.sale_id=h.id and fl.po_id is not null
-    order by fl.po_id$replacement$;
+    order by fl.po_id
+  loop
+    perform erp.refresh_po_hpp_gl_baseline(r.po_id);
+    select$replacement$;
   if (length(v_definition)-length(replace(v_definition,v_anchor,'')))/length(v_anchor)<>1 then
     raise exception 'DRIFT_CONCURRENT_MUTATION_DETECTED: Sale non-PO HPP anchor is not exact';
   end if;
@@ -1035,7 +1041,10 @@ begin
   for r in
     select distinct fl.po_id
     from erp.sales_return_items i join erp.fg_lots fl on fl.id=i.lot_id
-    where i.return_id=h.id and fl.po_id is not null order by fl.po_id$anchor$;
+    where i.return_id=h.id and fl.po_id is not null order by fl.po_id
+  loop
+    perform erp.refresh_po_hpp_gl_baseline(r.po_id);
+    select$anchor$;
   v_replacement:=$replacement$  end if;
 
   for r in
@@ -1067,7 +1076,10 @@ begin
   for r in
     select distinct fl.po_id
     from erp.sales_return_items i join erp.fg_lots fl on fl.id=i.lot_id
-    where i.return_id=h.id and fl.po_id is not null order by fl.po_id$replacement$;
+    where i.return_id=h.id and fl.po_id is not null order by fl.po_id
+  loop
+    perform erp.refresh_po_hpp_gl_baseline(r.po_id);
+    select$replacement$;
   if (length(v_definition)-length(replace(v_definition,v_anchor,'')))/length(v_anchor)<>1 then
     raise exception 'DRIFT_CONCURRENT_MUTATION_DETECTED: return non-PO HPP anchor is not exact';
   end if;

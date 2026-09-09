@@ -18,11 +18,11 @@ const migration = read(migrationPath)
 const rollback = read(rollbackPath)
 const workflow = read(workflowPath)
 
-const migrationFileSha = '488090981e73e9bcd122f67bf10ec1247f8a403179839bd9552c33fbebdaaa0f'
-const migrationLedgerSha = 'd83bcd12f26ec00f596c0ff3a3755d981b62892a97c6bbb48c0b4c561eae0a71'
-const rollbackFileSha = 'ef7188ae26b9ef20fc5beb8db3a3acae0457839b326ea6dc0d9dfa0b651a52e3'
+const migrationFileSha = '7937cde99aa9d77e5e3d987a803fd9c11f9a4aedc61e16fdd8307849c4fe3ad2'
+const migrationLedgerSha = '8afd32e941cca025be6d68b70e1a483d98984d697b7d1da0e3d6722c423ecfdc'
+const rollbackFileSha = '8e7e1e1678e32a9cd66b630f0596fed9074f97846c2cce8fc41e49b06cd8b6de'
 
-assert.equal(Buffer.byteLength(migration), 79924)
+assert.equal(Buffer.byteLength(migration), 80208)
 assert.equal(Buffer.byteLength(rollback), 11703)
 assert.equal(sha256(migration), migrationFileSha)
 assert.equal(sha256(Buffer.from(migration).subarray(0, -1)), migrationLedgerSha)
