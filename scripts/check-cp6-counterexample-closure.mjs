@@ -23,11 +23,11 @@ const workflow = read(workflowPath)
 const migrationFileSha = '7937cde99aa9d77e5e3d987a803fd9c11f9a4aedc61e16fdd8307849c4fe3ad2'
 const migrationLedgerSha = '8afd32e941cca025be6d68b70e1a483d98984d697b7d1da0e3d6722c423ecfdc'
 const rollbackFileSha = '8e7e1e1678e32a9cd66b630f0596fed9074f97846c2cce8fc41e49b06cd8b6de'
-const regressionFileSha = '267cd62729234c7e1132a0e02d6b1d66ca20bde0c80bbb0ea9c7fed27bcca8b8'
+const regressionFileSha = '63f14f6547eeef12b2deb443268c9a02c5dc3bffdea60254fe719c9eb38897ad'
 
 assert.equal(Buffer.byteLength(migration), 80208)
 assert.equal(Buffer.byteLength(rollback), 11703)
-assert.equal(Buffer.byteLength(regression), 32842)
+assert.equal(Buffer.byteLength(regression), 33478)
 assert.equal(sha256(migration), migrationFileSha)
 assert.equal(sha256(Buffer.from(migration).subarray(0, -1)), migrationLedgerSha)
 assert.equal(sha256(rollback), rollbackFileSha)
@@ -41,6 +41,10 @@ requireTokens(workflow, 'exact-SHA native regression workflow', [
   'python scripts/cp6_v2620e_counterexample_regression.py',
   'V2620E_C01_C06_NATIVE.log',
   "test \"$(jq -r '.production_go' \"$CP6_V2620E_COUNTEREXAMPLE_REPORT\")\" = 'false'",
+  "'format':'CP6_V2620E_RUNTIME_PROOF_V1'",
+  "'v2620e_counterexamples_c01_c06':6",
+  "proof/'CP6_V2620E_RUNTIME_MANIFEST.json'",
+  'name: cp6-r1-v2620e-full-schema-auth-browser-proof',
 ])
 
 for (const [path, sql] of [[migrationPath, migration], [rollbackPath, rollback]]) {

@@ -2984,6 +2984,9 @@ jobs:
             'V2620D_LIVE_ROLLBACK_ROLLBACK_FIRST.json',
             'V2620D_LIVE_ROLLBACK_CLONE_CLEANUP.txt',
             'V2620D_MAIN_PRE_USE_ROLLBACK.log',
+            'V2620E_MIGRATION_SHA256.txt','V2620E_APPLY.log','V2620E_REPLAY_REJECTION.log',
+            'V2620E_C01_C06_NATIVE.log','CP6_V2620E_COUNTEREXAMPLE_REGRESSION.json',
+            'V2620E_ROLLBACK_SHA256.txt','V2620E_MAIN_PRE_USE_ROLLBACK.log',
             'V2620C_LIVE_ROLLBACK_WRITER_FIRST.json','V2620C_LIVE_ROLLBACK_ROLLBACK_FIRST.json',
             'V2620C_LIVE_ROLLBACK_CLONE_CLEANUP.txt','V2620C_MAIN_PRE_USE_ROLLBACK.log',
             'V2620B_ROLLBACK_CONCURRENCY.json',
@@ -3016,6 +3019,10 @@ jobs:
             'supabase/migrations/20260908160000_erp_v2_6_20d_cp6_reaudit_business_closure.sql',
             'supabase/rollbacks/20260908160000_erp_v2_6_20d_cp6_reaudit_business_closure.rollback.sql',
             'supabase/tests/cp6_v2620d_reaudit_business_closure_rollback.sql',
+            'supabase/migrations/20260909113933_erp_v2_6_20e_cp6_counterexample_closure.sql',
+            'supabase/rollbacks/20260909113933_erp_v2_6_20e_cp6_counterexample_closure.rollback.sql',
+            'scripts/cp6_v2620e_counterexample_regression.py',
+            'scripts/check-cp6-counterexample-closure.mjs',
           ]
           sources={}
           for name in source_paths:
@@ -3028,7 +3035,7 @@ jobs:
           for path in sorted(item for item in proof.rglob('*') if item.is_file()):
               relative_path=path.relative_to(proof)
               relative=str(relative_path)
-              if relative=='CP6_V2620D_RUNTIME_MANIFEST.json': continue
+              if relative=='CP6_V2620E_RUNTIME_MANIFEST.json': continue
               # actions/upload-artifact excludes hidden path components when
               # include-hidden-files is false.  The manifest must describe
               # exactly the files an independent reviewer can download.
@@ -3043,7 +3050,8 @@ jobs:
           head=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()
           assert head==os.environ['GITHUB_SHA']
           manifest={
-            'format':'CP6_V2620D_RUNTIME_PROOF_V1',
+            'format':'CP6_V2620E_RUNTIME_PROOF_V1',
+            'predecessor_proof':{'format':'CP6_V2620D_RUNTIME_PROOF_V1'},
             'status':'PASS_EXACT_LOCAL_DISPOSABLE_CI',
             'observed_at_utc':datetime.now(timezone.utc).isoformat().replace('+00:00','Z'),
             'identity':{
@@ -3076,6 +3084,10 @@ jobs:
               'full_future_temporal_prefixes':True,
               'partial_hpp_wip_conservation':True,
               'reaudit_business_counterexamples':3,
+              'v2620e_counterexamples_c01_c06':6,
+              'v2620e_append_only_redispatch_events':True,
+              'v2620e_opening_and_mixed_origin_hpp':True,
+              'v2620e_exact_refund_and_zero_journal_inverse':True,
               'adjacent_multicycle_redispatch':True,
               'mixed_outflow_cumulative_rounding':True,
               'owner_positive_dedicated_final_sku':True,
@@ -3094,12 +3106,13 @@ jobs:
               'legacy_project_ref':'vlxdhpkjeevubjxexnfo',
               'mutated_by_this_workflow':False,
               'uat_v2620a_v2620b_v2620c_v2620d_state':'NOT_TESTED_OR_APPLIED_BY_THIS_RUN',
+              'uat_v2620e_state':'NOT_TESTED_OR_APPLIED_BY_THIS_RUN',
               'legacy_state':'NOT_TESTED_OR_MUTATED_BY_THIS_RUN',
             },
             'proof_files':proof_files,
             'production_go':False,
           }
-          (proof/'CP6_V2620D_RUNTIME_MANIFEST.json').write_text(
+          (proof/'CP6_V2620E_RUNTIME_MANIFEST.json').write_text(
               json.dumps(manifest,indent=2,sort_keys=True)+'\n',encoding='utf8',
           )
           print(json.dumps({
@@ -3112,7 +3125,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: cp6-r1-v2620d-full-schema-auth-browser-proof
+          name: cp6-r1-v2620e-full-schema-auth-browser-proof
           path: cp6-proof
           if-no-files-found: warn
           include-hidden-files: false

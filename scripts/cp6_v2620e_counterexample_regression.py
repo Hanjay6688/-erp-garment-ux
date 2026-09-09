@@ -60,9 +60,22 @@ def read_psql_seed(path: Path) -> str:
 
 
 def load_fixture_foundation(cur: psycopg.Cursor) -> None:
+    # CP3 is a frozen predecessor fixture.  Its historical cutting rows predate
+    # Master Pola and intentionally have no pattern_id, while the seed must use
+    # an authenticated JWT for its public RPCs.  Recreate that predecessor
+    # boundary narrowly: suspend only the later app-write compatibility trigger
+    # for the CP3 load, then restore it before any CP6 fixture is inserted.
+    cur.execute(
+        'alter table erp.cutting_groups '
+        'disable trigger trg_06_require_pattern_identity'
+    )
     cur.execute(
         read_psql_seed(Path('supabase/tests/cp3_r4_full_schema_seed.sql')),
         prepare=False,
+    )
+    cur.execute(
+        'alter table erp.cutting_groups '
+        'enable trigger trg_06_require_pattern_identity'
     )
     cur.execute(
         read_psql_seed(Path('supabase/tests/cp6_laundry_qc_concurrency_seed.sql')),
