@@ -130,12 +130,20 @@ begin
   where d.id=v_second_delivery;
 
   if (select count(*)
-      from erp.laundry_redispatch_participant_allocations a
-      where a.source_delivery_batch_size_line_id=v_first_size_line
+      from erp.laundry_redispatch_participant_events a
+      where a.event_type='ALLOCATE'
+        and a.source_delivery_batch_size_line_id=v_first_size_line
         and a.successor_delivery_batch_size_line_id=v_second_size_line
         and a.source_offset_pcs=0 and a.successor_offset_pcs=0
-        and a.qty_pcs=10 and a.allocation_basis='LIVE_FIFO')<>1 then
-    raise exception 'v20d B01 did not persist the exact returned participant interval';
+        and a.qty_pcs=10 and a.event_basis='LIVE_FIFO'
+        and not exists(select 1
+          from erp.laundry_redispatch_participant_events x
+          where x.event_type='RELEASE' and x.releases_allocation_event_id=a.id))<>1
+     or exists(select 1
+       from erp.laundry_redispatch_participant_allocations a
+       where a.source_delivery_batch_size_line_id=v_first_size_line
+         and a.successor_delivery_batch_size_line_id=v_second_size_line) then
+    raise exception 'v20d B01 did not persist the exact active E-ledger participant interval';
   end if;
 
   execute 'set local role authenticated';
@@ -420,12 +428,21 @@ begin
   where l.po_id=v_po and l.account_id=erp.account_id('FG_INVENTORY');
   select accrued_amount into v_accrual from erp.laundry_cost_accrual_state where po_id=v_po;
   if v_hpp<>182 or v_wip<>0 or v_fg<>182 or v_accrual<>182
-     or (select count(*) from erp.laundry_redispatch_participant_allocations a
-       where a.successor_delivery_batch_size_line_id in(v_x2,v_x3))<>3
-     or (select coalesce(sum(a.qty_pcs),0) from erp.laundry_redispatch_participant_allocations a
-       where a.successor_delivery_batch_size_line_id=v_x2)<>6
-     or (select coalesce(sum(a.qty_pcs),0) from erp.laundry_redispatch_participant_allocations a
-       where a.successor_delivery_batch_size_line_id=v_x3)<>10
+     or (select count(*) from erp.laundry_redispatch_participant_events a
+       where a.event_type='ALLOCATE'
+         and a.successor_delivery_batch_size_line_id in(v_x2,v_x3)
+         and not exists(select 1 from erp.laundry_redispatch_participant_events x
+           where x.event_type='RELEASE' and x.releases_allocation_event_id=a.id))<>3
+     or (select coalesce(sum(a.qty_pcs),0) from erp.laundry_redispatch_participant_events a
+       where a.event_type='ALLOCATE' and a.successor_delivery_batch_size_line_id=v_x2
+         and not exists(select 1 from erp.laundry_redispatch_participant_events x
+           where x.event_type='RELEASE' and x.releases_allocation_event_id=a.id))<>6
+     or (select coalesce(sum(a.qty_pcs),0) from erp.laundry_redispatch_participant_events a
+       where a.event_type='ALLOCATE' and a.successor_delivery_batch_size_line_id=v_x3
+         and not exists(select 1 from erp.laundry_redispatch_participant_events x
+           where x.event_type='RELEASE' and x.releases_allocation_event_id=a.id))<>10
+     or exists(select 1 from erp.laundry_redispatch_participant_allocations a
+       where a.successor_delivery_batch_size_line_id in(v_x2,v_x3))
      or exists(select 1 from erp.run_v268_financial_report_checks()
        where issue_count>0 and severity='CRITICAL') then
     raise exception 'v20d adjacent multi-cycle cost continuity failed: HPP %, WIP %, FG %, accrual %',
@@ -789,6 +806,7 @@ begin
      or exists(select 1 from erp.sales_returns where id='c8f10000-0000-4000-8000-000000000003')
      or exists(select 1 from erp.wash_processes where id='c8f20000-0000-4000-8000-000000000001')
      or exists(select 1 from erp.laundry_redispatch_participant_allocations)
+     or exists(select 1 from erp.laundry_redispatch_participant_events)
      or exists(select 1 from erp.cp6_laundry_qc_execution_context) then
     raise exception 'CP6 v20d re-audit regression left transactional residue';
   end if;

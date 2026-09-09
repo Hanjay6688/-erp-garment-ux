@@ -34,12 +34,12 @@ const clone = read(clonePath)
 const migrationFileSha = 'eab866385d3a462aea5815dc5069d5d7a774f7aa88c43d983c665469f4469465'
 const migrationLedgerSha = 'f3f1ba8f889440c8694ba2932fc787ea5bdfab980b2d94f24cd9bfabf1bbf222'
 const rollbackFileSha = '793cd96c44c4babcf78789ab01e3e932c04c1598cdc1dbe73afeedba18640fb7'
-const regressionFileSha = 'd5a7e981fde1a02b9c6c8d671a44a73f3278bbe6e45f814ff26e3427d78f0bb8'
+const regressionFileSha = '4fabe97f112ff8afae94b4e929f4976356edd51fcb8b86b93533ad4ec433fd2a'
 const migrationBytes = Buffer.from(migration)
 
 assert.equal(Buffer.byteLength(migration), 85944)
 assert.equal(Buffer.byteLength(rollback), 12395)
-assert.equal(Buffer.byteLength(regression), 36764)
+assert.equal(Buffer.byteLength(regression), 37979)
 assert.equal(sha256(migrationBytes), migrationFileSha)
 assert.equal(sha256(migrationBytes.subarray(0, -1)), migrationLedgerSha)
 assert.equal(sha256(rollback), rollbackFileSha)
@@ -161,6 +161,11 @@ assert.match(
 )
 
 requireTokens(regression, 'independent re-audit counterexample regression', [
+  'from erp.laundry_redispatch_participant_events a',
+  "where a.event_type='ALLOCATE'",
+  "x.event_type='RELEASE' and x.releases_allocation_event_id=a.id",
+  'or exists(select 1 from erp.laundry_redispatch_participant_allocations a',
+  "raise exception 'v20d B01 did not persist the exact active E-ledger participant interval'",
   "raise notice 'CP6_V2620D_B01_REDISPATCH_COST_PASS %'",
   'if v_hpp<>140 or v_wip<>0 or v_fg<>140 or v_accrual<>140',
   "raise notice 'CP6_V2620D_ADJACENT_MULTICYCLE_PASS %'",
@@ -172,6 +177,7 @@ requireTokens(regression, 'independent re-audit counterexample regression', [
   'if v_fg<>0 or v_cogs<>0.06 or v_other<>0.05',
   "(v_report#>>'{performance,sales_revenue_bridge_delta}')::numeric<>0",
   "raise notice 'CP6_V2620D_B02_B03_LIFECYCLE_PASS %'",
+  'or exists(select 1 from erp.laundry_redispatch_participant_events)',
   "raise notice 'CP6_V2620D_REAUDIT_RESIDUE_ZERO'",
   'rollback;',
 ])
