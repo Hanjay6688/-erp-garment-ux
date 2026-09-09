@@ -34,7 +34,7 @@ const packageSource = read(packagePath)
 const migrationBytes = 64730
 const rollbackBytes = 10208
 const regressionBytes = 18075
-const rollbackRaceBytes = 5584
+const rollbackRaceBytes = 5564
 const migrationFileSha =
   '48f0431ca57abc99906d3f578b53ef59f9072fef3fc3e11c0b50a5c3a581279c'
 const migrationLedgerSha =
@@ -44,7 +44,7 @@ const rollbackFileSha =
 const regressionFileSha =
   '4656b11baaa1b14808d9fc5dbefeb262be58027bcc11bf64307df311a46e1c49'
 const rollbackRaceFileSha =
-  '41b71fc37efadc0b9910a9dfd6d2a529cdf5668a1413a8a9df67faa779fb04b5'
+  '41a612d39862c9254f6f555028e46f8e8acb242869d9c75e6efb5336c8e71006'
 
 assert.equal(Buffer.byteLength(migration), migrationBytes)
 assert.equal(Buffer.byteLength(rollback), rollbackBytes)
@@ -232,7 +232,7 @@ requireTokens(rollbackRace, 'actual F rollback races', [
   "CP6_ROLLBACK_TARGET_VERSION='v2.6.20f'",
   "CP6_ROLLBACK_PREDECESSOR_VERSION='v2.6.20e'",
   "CP6_ROLLBACK_TARGET_REG_IDENTITY='erp.non_po_hpp_gl_sync_events_v2620f'",
-  "CP6_ROLLBACK_GATE_RELATION='erp.laundry_failed_wash_batch_size_lines'",
+  "CP6_ROLLBACK_GATE_RELATION='erp.wip_stage_events'",
   "assert writer['actual_facade']=='public.erp_save_laundry_qc_action_v1'",
   "assert writer['rollback_refused_post_use'] is True",
   "assert rollback['writer_blocked_by_exact_rollback_pid'] is True",
@@ -240,6 +240,11 @@ requireTokens(rollbackRace, 'actual F rollback races', [
   "assert rollback['writer_committed_under_restored_predecessor']=='v2.6.20e'",
   'V2620F_LIVE_ROLLBACK_CLONE_CLEANUP.txt',
 ])
+assert.match(
+  rollback,
+  /erp\.laundry_failed_wash_batch_size_lines,\s*erp\.wip_stage_events\s*in share row exclusive mode;/,
+  'Rollback race gate must remain the final table after every earlier business lock',
+)
 
 const orderedWorkflowTokens = [
   'Apply v2.6.20e C01-C06 counterexample closure before final-runtime tests',

@@ -92,7 +92,7 @@ run_race() {
   CP6_ROLLBACK_TARGET_REG_IDENTITY='erp.non_po_hpp_gl_sync_events_v2620f' \
   CP6_ROLLBACK_POST_USE_REFUSAL='v2.6.20f rollback refused: post-install reconciliation or business history exists' \
   CP6_ROLLBACK_EVIDENCE_TAG='V2620F' \
-  CP6_ROLLBACK_GATE_RELATION='erp.laundry_failed_wash_batch_size_lines' \
+  CP6_ROLLBACK_GATE_RELATION='erp.wip_stage_events' \
   CP6_ROLLBACK_SQL_PATH="$rollback" \
   python scripts/cp6_v2620c_live_rollback_race.py
 }
