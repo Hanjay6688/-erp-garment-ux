@@ -27,6 +27,7 @@ env:
   CP6_REVERSAL_RACE_REPORT: cp6-proof/cp6-reversal-concurrency-matrix.json
   CP6_SCALE_LOAD_REPORT: cp6-proof/cp6-workspace-operator-load.json
   CP6_V2620E_COUNTEREXAMPLE_REPORT: cp6-proof/CP6_V2620E_COUNTEREXAMPLE_REGRESSION.json
+  CP6_V2620F_RELIABILITY_REPORT: cp6-proof/CP6_V2620F_FINAL_RUNTIME_REGRESSION.json
   CP6_MAINTENANCE_PGURL: postgresql://postgres:postgres@127.0.0.1:54322/template1
   CP6_DATABASE_CONTAINER: supabase_db_cp5-local
   CP6_RACE_PGURL: postgresql://postgres:postgres@127.0.0.1:54322/cp6_race
@@ -68,6 +69,8 @@ jobs:
           python -m py_compile scripts/cp6_workspace_operator_load.py
           python -m py_compile scripts/cp6_v2620c_live_rollback_race.py
           python -m py_compile scripts/cp6_v2620e_counterexample_regression.py
+          python -m py_compile scripts/cp6_v2620f_final_runtime_regression.py
+          bash -n scripts/run_cp6_v2620f_live_rollback_races.sh
           npx playwright test --list --config playwright.cp5.config.ts
           npx playwright test --list --config playwright.cp6.config.ts
           npx playwright test tests/browser/cutting-bridge.spec.ts --list
@@ -859,6 +862,65 @@ jobs:
           test "$replay_status" -ne 0
           grep -F 'ERP v2.6.20d is already recorded' cp6-proof/V2620D_REPLAY_REJECTION.log >/dev/null
 
+      - name: Apply v2.6.20e C01-C06 counterexample closure before final-runtime tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          migration_source='supabase/migrations/20260909113933_erp_v2_6_20e_cp6_counterexample_closure.sql'
+          test "$(wc -c < "$migration_source")" = '80208'
+          echo '7937cde99aa9d77e5e3d987a803fd9c11f9a4aedc61e16fdd8307849c4fe3ad2  supabase/migrations/20260909113933_erp_v2_6_20e_cp6_counterexample_closure.sql' | sha256sum -c - | tee cp6-proof/V2620E_MIGRATION_SHA256.txt
+          psql "$PGURL" -X -v ON_ERROR_STOP=1 -f "$migration_source" \
+            2>&1 | tee cp6-proof/V2620E_APPLY.log
+          psql "$PGURL" -X -v ON_ERROR_STOP=1 <<'SQL'
+          \set migration_source_b64 `python3 -c "import base64,pathlib; p=pathlib.Path('supabase/migrations/20260909113933_erp_v2_6_20e_cp6_counterexample_closure.sql').read_bytes(); assert p.endswith(b'\\n'); print(base64.b64encode(p[:-1]).decode())"`
+          insert into supabase_migrations.schema_migrations(version,name,statements)
+          values(
+            '20260909113933','erp_v2_6_20e_cp6_counterexample_closure',
+            array[convert_from(decode(:'migration_source_b64','base64'),'UTF8')]
+          ) on conflict(version) do nothing;
+          SQL
+          test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select encode(extensions.digest(convert_to(array_to_string(statements,E'\\n'),'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations where name='erp_v2_6_20e_cp6_counterexample_closure'")" = '8afd32e941cca025be6d68b70e1a483d98984d697b7d1da0e3d6722c423ecfdc'
+          test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select count(*) from erp.cp6_v2620e_rollback_capsule")" = '8'
+          set +e
+          psql "$PGURL" -X -v ON_ERROR_STOP=1 -f "$migration_source" \
+            > cp6-proof/V2620E_REPLAY_REJECTION.log 2>&1
+          replay_status=$?
+          set -e
+          test "$replay_status" -ne 0
+          grep -F 'ERP v2.6.20e is already recorded' cp6-proof/V2620E_REPLAY_REJECTION.log >/dev/null
+
+      - name: Apply v2.6.20f A01-A04 final-runtime reliability closure once and reject replay
+        shell: bash
+        run: |
+          set -euo pipefail
+          migration_source='supabase/migrations/20260909174713_erp_v2_6_20f_cp6_final_runtime_reliability.sql'
+          test "$(wc -c < "$migration_source")" = '64730'
+          echo '48f0431ca57abc99906d3f578b53ef59f9072fef3fc3e11c0b50a5c3a581279c  supabase/migrations/20260909174713_erp_v2_6_20f_cp6_final_runtime_reliability.sql' | sha256sum -c - | tee cp6-proof/V2620F_MIGRATION_SHA256.txt
+          psql "$PGURL" -X -v ON_ERROR_STOP=1 -f "$migration_source" \
+            2>&1 | tee cp6-proof/V2620F_APPLY.log
+          psql "$PGURL" -X -v ON_ERROR_STOP=1 <<'SQL'
+          \set migration_source_b64 `python3 -c "import base64,pathlib; p=pathlib.Path('supabase/migrations/20260909174713_erp_v2_6_20f_cp6_final_runtime_reliability.sql').read_bytes(); assert p.endswith(b'\\n'); print(base64.b64encode(p[:-1]).decode())"`
+          insert into supabase_migrations.schema_migrations(version,name,statements)
+          values(
+            '20260909174713','erp_v2_6_20f_cp6_final_runtime_reliability',
+            array[convert_from(decode(:'migration_source_b64','base64'),'UTF8')]
+          ) on conflict(version) do nothing;
+          SQL
+          test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select encode(extensions.digest(convert_to(array_to_string(statements,E'\\n'),'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations where name='erp_v2_6_20f_cp6_final_runtime_reliability'")" = '5ffdf1e5c12ccc964cf41820a78a790f33b10bbe087397d41b62f6e315c928ae'
+          test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select count(*) from erp.cp6_v2620f_rollback_capsule where installed_definition_sha256 is not null")" = '8'
+          test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select relrowsecurity and not exists(select 1 from pg_policy where polrelid=c.oid) from pg_class c where c.oid='erp.non_po_hpp_gl_sync_events_v2620f'::regclass")" = 't'
+          test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select not has_table_privilege('authenticated','erp.non_po_hpp_gl_sync_events_v2620f','SELECT') and not has_function_privilege('authenticated','erp.compute_non_po_product_hpp_targets_v2620f(uuid)','EXECUTE') and not has_function_privilege('service_role','erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)','EXECUTE')")" = 't'
+          psql "$PGURL" -X -At -F '|' -v ON_ERROR_STOP=1 \
+            -c "select object_regidentity,definition_sha256,installed_definition_sha256 from erp.cp6_v2620f_rollback_capsule order by object_regidentity" \
+            | tee cp6-proof/V2620F_INSTALLED_FUNCTION_SHA256.txt
+          set +e
+          psql "$PGURL" -X -v ON_ERROR_STOP=1 -f "$migration_source" \
+            > cp6-proof/V2620F_REPLAY_REJECTION.log 2>&1
+          replay_status=$?
+          set -e
+          test "$replay_status" -ne 0
+          grep -F 'ERP v2.6.20f is already recorded' cp6-proof/V2620F_REPLAY_REJECTION.log >/dev/null
+
       - name: Run post-CP6 real Auth JWT HTTP permissions and residue-zero E2E
         shell: bash
         run: |
@@ -1003,7 +1065,7 @@ jobs:
           report=json.loads(Path(os.environ['CP6_AUTH_REPORT']).read_text())
           assert report['status']=='PASS',report
           assert report['classification']=='LOCAL_POST_CP6_REAL_AUTH_JWT_HTTP',report
-          assert report['target']=='PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620D',report
+          assert report['target']=='PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620F',report
           assert report['disposable_database']=='cp6_auth',report
           assert report['database_disposal_required'] is True,report
           assert report['positive_evidence']['partial_hpp_wip']['active_laundry_hpp']==28,report
@@ -1354,36 +1416,16 @@ jobs:
           psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/cp4_hpp_route_auth_rollback.sql 2>&1 | tee cp6-proof/HPP_UNDER_CP6_REGRESSION.log
           psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/attendance_hpp_r4_full_schema_rollback.sql 2>&1 | tee cp6-proof/ACCOUNTING_UNDER_CP6_REGRESSION.log
 
-      - name: Apply v2.6.20e C01-C06 counterexample closure once and reject replay
+      - name: Confirm every broad regression ran on the installed E plus F runtime
         shell: bash
         run: |
           set -euo pipefail
-          migration_source='supabase/migrations/20260909113933_erp_v2_6_20e_cp6_counterexample_closure.sql'
-          test "$(wc -c < "$migration_source")" = '80208'
-          echo '7937cde99aa9d77e5e3d987a803fd9c11f9a4aedc61e16fdd8307849c4fe3ad2  supabase/migrations/20260909113933_erp_v2_6_20e_cp6_counterexample_closure.sql' | sha256sum -c - | tee cp6-proof/V2620E_MIGRATION_SHA256.txt
-          psql "$PGURL" -X -v ON_ERROR_STOP=1 -f "$migration_source" \
-            2>&1 | tee cp6-proof/V2620E_APPLY.log
-          psql "$PGURL" -X -v ON_ERROR_STOP=1 <<'SQL'
-          \set migration_source_b64 `python3 -c "import base64,pathlib; p=pathlib.Path('supabase/migrations/20260909113933_erp_v2_6_20e_cp6_counterexample_closure.sql').read_bytes(); assert p.endswith(b'\\n'); print(base64.b64encode(p[:-1]).decode())"`
-          insert into supabase_migrations.schema_migrations(version,name,statements)
-          values(
-            '20260909113933','erp_v2_6_20e_cp6_counterexample_closure',
-            array[convert_from(decode(:'migration_source_b64','base64'),'UTF8')]
-          ) on conflict(version) do nothing;
-          SQL
-          test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select encode(extensions.digest(convert_to(array_to_string(statements,E'\\n'),'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations where name='erp_v2_6_20e_cp6_counterexample_closure'")" = '8afd32e941cca025be6d68b70e1a483d98984d697b7d1da0e3d6722c423ecfdc'
-          test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select count(*) from erp.cp6_v2620e_rollback_capsule")" = '8'
-          test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select relrowsecurity and not exists(select 1 from pg_policy where polrelid=c.oid) from pg_class c where c.oid='erp.laundry_redispatch_participant_events'::regclass")" = 't'
-          test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select not has_table_privilege('authenticated','erp.laundry_redispatch_participant_events','SELECT') and not has_function_privilege('authenticated','erp.allocate_laundry_redispatch_participants_v2620e(uuid)','EXECUTE') and not has_function_privilege('authenticated','erp.compute_po_hpp_gl_book_v2620e(uuid)','EXECUTE')")" = 't'
-          set +e
-          psql "$PGURL" -X -v ON_ERROR_STOP=1 -f "$migration_source" \
-            > cp6-proof/V2620E_REPLAY_REJECTION.log 2>&1
-          replay_status=$?
-          set -e
-          test "$replay_status" -ne 0
-          grep -F 'ERP v2.6.20e is already recorded' cp6-proof/V2620E_REPLAY_REJECTION.log >/dev/null
+          test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select count(*) from erp.schema_migrations where version in('v2.6.20e','v2.6.20f')")" = '2'
+          test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select count(*) from supabase_migrations.schema_migrations where name in('erp_v2_6_20e_cp6_counterexample_closure','erp_v2_6_20f_cp6_final_runtime_reliability')")" = '2'
+          printf 'runtime=v2.6.20e+v2.6.20f\nauth=completed\nacceptance=completed\nnative_races=34\ncp5_regression=completed\nproduction_go=false\n' \
+            | tee cp6-proof/V2620F_FINAL_RUNTIME_COVERAGE.txt
 
-      - name: Prove native C01-C06 business closure under v2.6.20e
+      - name: Re-prove native C01-C06 business closure under final E plus F runtime
         shell: bash
         run: |
           set -euo pipefail
@@ -1392,6 +1434,66 @@ jobs:
           test "$(jq -r '.status' "$CP6_V2620E_COUNTEREXAMPLE_REPORT")" = 'PASS'
           test "$(jq -r '.head' "$CP6_V2620E_COUNTEREXAMPLE_REPORT")" = "$GITHUB_SHA"
           test "$(jq -r '.production_go' "$CP6_V2620E_COUNTEREXAMPLE_REPORT")" = 'false'
+
+      - name: Prove native A01-A03 closure under the exact final E plus F runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/cp6_v2620f_final_runtime_regression.py \
+            2>&1 | tee cp6-proof/V2620F_A01_A03_NATIVE.log
+          test "$(jq -r '.status' "$CP6_V2620F_RELIABILITY_REPORT")" = 'PASS'
+          test "$(jq -r '.head' "$CP6_V2620F_RELIABILITY_REPORT")" = "$GITHUB_SHA"
+          test "$(jq -r '.classification' "$CP6_V2620F_RELIABILITY_REPORT")" = 'DISPOSABLE_NATIVE_POSTGRESQL_REGRESSION_AFTER_E_AND_F'
+          test "$(jq -r '.production_go' "$CP6_V2620F_RELIABILITY_REPORT")" = 'false'
+
+      - name: Prove both live v2.6.20f rollback and business-writer lock orders
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash scripts/run_cp6_v2620f_live_rollback_races.sh \
+            2>&1 | tee cp6-proof/V2620F_LIVE_ROLLBACK_RACES.log
+
+      - name: Prove v2.6.20f guards and exact pre-use rollback before v2.6.20e
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo '2466aa870cf9b32b368fe06a394dc9b76d9ad4f1ca5df760d9c1f15118e77ad1  supabase/rollbacks/20260909174713_erp_v2_6_20f_cp6_final_runtime_reliability.rollback.sql' | sha256sum -c - | tee cp6-proof/V2620F_ROLLBACK_SHA256.txt
+
+          set +e
+          psql "$PGURL" -X -v ON_ERROR_STOP=1 <<'SQL' \
+            > cp6-proof/V2620F_ROLLBACK_SUCCESSOR_REJECTION.log 2>&1
+          begin;
+          insert into erp.schema_migrations(version,description)
+          values('v2.6.20f-test-successor','Disposable v20f successor guard proof');
+          \i supabase/rollbacks/20260909174713_erp_v2_6_20f_cp6_final_runtime_reliability.rollback.sql
+          SQL
+          successor_status=$?
+          set -e
+          test "$successor_status" -ne 0
+          grep -F 'v2.6.20f rollback refused: a successor migration is already installed' \
+            cp6-proof/V2620F_ROLLBACK_SUCCESSOR_REJECTION.log >/dev/null
+
+          set +e
+          psql "$PGURL" -X -v ON_ERROR_STOP=1 <<'SQL' \
+            > cp6-proof/V2620F_ROLLBACK_TAMPER_REJECTION.log 2>&1
+          begin;
+          update supabase_migrations.schema_migrations
+          set statements=array[array_to_string(statements,E'\n')||E'\n-- TAMPERED V2620F']
+          where name='erp_v2_6_20f_cp6_final_runtime_reliability';
+          \i supabase/rollbacks/20260909174713_erp_v2_6_20f_cp6_final_runtime_reliability.rollback.sql
+          SQL
+          tamper_status=$?
+          set -e
+          test "$tamper_status" -ne 0
+          grep -F 'v2.6.20f rollback refused: platform ledger identity is ambiguous' \
+            cp6-proof/V2620F_ROLLBACK_TAMPER_REJECTION.log >/dev/null
+
+          psql "$PGURL" -X -v ON_ERROR_STOP=1 \
+            -f supabase/rollbacks/20260909174713_erp_v2_6_20f_cp6_final_runtime_reliability.rollback.sql \
+            2>&1 | tee cp6-proof/V2620F_MAIN_PRE_USE_ROLLBACK.log
+          test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select count(*) from erp.schema_migrations where version='v2.6.20f'")" = '0'
+          test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select count(*) from erp.schema_migrations where version='v2.6.20e'")" = '1'
+          test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select to_regclass('erp.non_po_hpp_gl_sync_events_v2620f') is null and to_regclass('erp.cp6_v2620f_rollback_capsule') is null")" = 't'
 
       - name: Prove v2.6.20e pre-use rollback before the v2.6.20d ladder
         shell: bash
@@ -2766,10 +2868,10 @@ jobs:
           select jsonb_build_object(
             'status',case when
               exists(select 1 from erp.schema_migrations where version='v2.6.17a')
-              and not exists(select 1 from erp.schema_migrations where version in('v2.6.18','v2.6.18a','v2.6.19','v2.6.19a','v2.6.19b','v2.6.19c','v2.6.20','v2.6.20a','v2.6.20b','v2.6.20c','v2.6.20d'))
+              and not exists(select 1 from erp.schema_migrations where version in('v2.6.18','v2.6.18a','v2.6.19','v2.6.19a','v2.6.19b','v2.6.19c','v2.6.20','v2.6.20a','v2.6.20b','v2.6.20c','v2.6.20d','v2.6.20e','v2.6.20f'))
               and not exists(select 1 from supabase_migrations.schema_migrations
-                where version in('20260903022604','20260903060213','20260903070931','20260903070932','20260903080931','20260903080932','20260903151034','20260903161034','20260904012525','20260904022525','20260904061346','20260904071346','20260904111157','20260905110913','20260905170334','20260907190000','20260908160000')
-                   or name in('erp_v2_6_18_cutting_persistence_pickup_wip','erp_v2_6_18a_cutting_bridge_reconciliation','erp_v2_6_19_cp5_bs_resolution_recovery','erp_v2_6_19a_cp5_rework_accessory_lineage','erp_v2_6_19b_cp5_reliability_closure','erp_v2_6_19c_cp5_atomic_reversal_reconciliation','erp_v2_6_20_cp6_laundry_qc_fg_authoritative','erp_v2_6_20a_cp6_audit_reliability_closure','erp_v2_6_20b_cp6_reaudit_reliability_closure','erp_v2_6_20c_cp6_deep_business_reliability','erp_v2_6_20d_cp6_reaudit_business_closure'))
+                where version in('20260903022604','20260903060213','20260903070931','20260903070932','20260903080931','20260903080932','20260903151034','20260903161034','20260904012525','20260904022525','20260904061346','20260904071346','20260904111157','20260905110913','20260905170334','20260907190000','20260908160000','20260909113933','20260909174713')
+                   or name in('erp_v2_6_18_cutting_persistence_pickup_wip','erp_v2_6_18a_cutting_bridge_reconciliation','erp_v2_6_19_cp5_bs_resolution_recovery','erp_v2_6_19a_cp5_rework_accessory_lineage','erp_v2_6_19b_cp5_reliability_closure','erp_v2_6_19c_cp5_atomic_reversal_reconciliation','erp_v2_6_20_cp6_laundry_qc_fg_authoritative','erp_v2_6_20a_cp6_audit_reliability_closure','erp_v2_6_20b_cp6_reaudit_reliability_closure','erp_v2_6_20c_cp6_deep_business_reliability','erp_v2_6_20d_cp6_reaudit_business_closure','erp_v2_6_20e_cp6_counterexample_closure','erp_v2_6_20f_cp6_final_runtime_reliability'))
               and to_regclass('erp.cutting_bridge_v2618_rollback_capsule') is null
               and to_regclass('erp.cutting_bridge_v2618a_rollback_capsule') is null
               and to_regclass('erp.cutting_bridge_execution_context') is null
@@ -2811,10 +2913,10 @@ jobs:
               and (select count(*) from erp.app_users)=0
               and not exists(select 1 from pg_database
                 where datname in('cp6_preflight','cp6_race','cp6_auth','cp6_rollback'))
-              and not exists(select 1 from erp.schema_migrations where version in('v2.6.18','v2.6.18a','v2.6.19','v2.6.19a','v2.6.19b','v2.6.19c','v2.6.20','v2.6.20a','v2.6.20b','v2.6.20c'))
+              and not exists(select 1 from erp.schema_migrations where version in('v2.6.18','v2.6.18a','v2.6.19','v2.6.19a','v2.6.19b','v2.6.19c','v2.6.20','v2.6.20a','v2.6.20b','v2.6.20c','v2.6.20d','v2.6.20e','v2.6.20f'))
               and not exists(select 1 from supabase_migrations.schema_migrations
-                where version in('20260903022604','20260903060213','20260903070931','20260903070932','20260903080931','20260903080932','20260903151034','20260903161034','20260904012525','20260904022525','20260904061346','20260904071346','20260904111157','20260905110913','20260905170334','20260907190000')
-                   or name in('erp_v2_6_18_cutting_persistence_pickup_wip','erp_v2_6_18a_cutting_bridge_reconciliation','erp_v2_6_19_cp5_bs_resolution_recovery','erp_v2_6_19a_cp5_rework_accessory_lineage','erp_v2_6_19b_cp5_reliability_closure','erp_v2_6_19c_cp5_atomic_reversal_reconciliation','erp_v2_6_20_cp6_laundry_qc_fg_authoritative','erp_v2_6_20a_cp6_audit_reliability_closure','erp_v2_6_20b_cp6_reaudit_reliability_closure','erp_v2_6_20c_cp6_deep_business_reliability'))
+                where version in('20260903022604','20260903060213','20260903070931','20260903070932','20260903080931','20260903080932','20260903151034','20260903161034','20260904012525','20260904022525','20260904061346','20260904071346','20260904111157','20260905110913','20260905170334','20260907190000','20260908160000','20260909113933','20260909174713')
+                   or name in('erp_v2_6_18_cutting_persistence_pickup_wip','erp_v2_6_18a_cutting_bridge_reconciliation','erp_v2_6_19_cp5_bs_resolution_recovery','erp_v2_6_19a_cp5_rework_accessory_lineage','erp_v2_6_19b_cp5_reliability_closure','erp_v2_6_19c_cp5_atomic_reversal_reconciliation','erp_v2_6_20_cp6_laundry_qc_fg_authoritative','erp_v2_6_20a_cp6_audit_reliability_closure','erp_v2_6_20b_cp6_reaudit_reliability_closure','erp_v2_6_20c_cp6_deep_business_reliability','erp_v2_6_20d_cp6_reaudit_business_closure','erp_v2_6_20e_cp6_counterexample_closure','erp_v2_6_20f_cp6_final_runtime_reliability'))
               and to_regclass('erp.cutting_bridge_v2618a_rollback_capsule') is null
               and to_regclass('erp.cutting_bridge_execution_context') is null
               and to_regclass('erp.bs_resolution_execution_context') is null
@@ -2827,6 +2929,22 @@ jobs:
               and to_regclass('erp.cp6_v2620b_rollback_capsule') is null
               and to_regclass('erp.cp6_v2620c_rollback_capsule') is null
               and to_regclass('erp.cp6_v2620d_rollback_capsule') is null
+              and to_regclass('erp.cp6_v2620e_rollback_capsule') is null
+              and to_regclass('erp.cp6_v2620f_rollback_capsule') is null
+              and to_regclass('erp.laundry_redispatch_participant_events') is null
+              and to_regprocedure('erp._allocate_laundry_redispatch_participants_v2620e(uuid,boolean)') is null
+              and to_regprocedure('erp.allocate_laundry_redispatch_participants_v2620e(uuid)') is null
+              and to_regprocedure('erp.guard_laundry_redispatch_participant_event_v2620e()') is null
+              and to_regprocedure('erp.record_laundry_redispatch_release_v2620e()') is null
+              and to_regprocedure('erp.cp6_lot_failed_wash_cost_v2620e(uuid)') is null
+              and to_regprocedure('erp.compute_po_hpp_gl_book_v2620e(uuid)') is null
+              and to_regprocedure('erp.assert_po_hpp_target_book_v2620e(uuid)') is null
+              and to_regclass('erp.non_po_hpp_gl_sync_events_v2620f') is null
+              and to_regprocedure('erp.guard_non_po_hpp_gl_sync_event_v2620f()') is null
+              and to_regprocedure('erp.compute_non_po_product_hpp_targets_v2620f(uuid)') is null
+              and to_regprocedure('erp.compute_non_po_product_hpp_book_v2620f(uuid)') is null
+              and to_regprocedure('erp.assert_non_po_product_hpp_target_book_v2620f(uuid)') is null
+              and to_regprocedure('erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)') is null
               and to_regclass('erp.laundry_redispatch_participant_allocations') is null
               and to_regprocedure('erp.guard_laundry_redispatch_participant_v2620d()') is null
               and to_regprocedure('erp.allocate_laundry_redispatch_participants_v2620d(uuid)') is null
@@ -2881,6 +2999,10 @@ jobs:
                 'trg_guard_cp6_receipt_batch_size_v2620',
                 'trg_guard_cp6_failed_wash_attempt_v2620',
                 'trg_guard_cp6_failed_wash_size_v2620',
+                'trg_guard_non_po_hpp_gl_sync_event_v2620f',
+                'trg_guard_laundry_redispatch_participant_event_v2620e',
+                'trg_audit_laundry_redispatch_participant_event_v2620e',
+                'trg_release_laundry_redispatch_participant_v2620e',
                 'trg_audit_cp6_delivery_batch_size_v2620',
                 'trg_audit_cp6_receipt_batch_size_v2620',
                 'trg_audit_cp6_failed_wash_attempt_v2620',
@@ -2915,6 +3037,8 @@ jobs:
             'v2620b_application',exists(select 1 from erp.schema_migrations where version='v2.6.20b'),
             'v2620c_application',exists(select 1 from erp.schema_migrations where version='v2.6.20c'),
             'v2620d_application',exists(select 1 from erp.schema_migrations where version='v2.6.20d'),
+            'v2620e_application',exists(select 1 from erp.schema_migrations where version='v2.6.20e'),
+            'v2620f_application',exists(select 1 from erp.schema_migrations where version='v2.6.20f'),
             'v2620a_platform',exists(select 1 from supabase_migrations.schema_migrations
               where name='erp_v2_6_20a_cp6_audit_reliability_closure'),
             'v2620b_platform',exists(select 1 from supabase_migrations.schema_migrations
@@ -2923,6 +3047,10 @@ jobs:
               where name='erp_v2_6_20c_cp6_deep_business_reliability'),
             'v2620d_platform',exists(select 1 from supabase_migrations.schema_migrations
               where name='erp_v2_6_20d_cp6_reaudit_business_closure'),
+            'v2620e_platform',exists(select 1 from supabase_migrations.schema_migrations
+              where name='erp_v2_6_20e_cp6_counterexample_closure'),
+            'v2620f_platform',exists(select 1 from supabase_migrations.schema_migrations
+              where name='erp_v2_6_20f_cp6_final_runtime_reliability'),
             'disposable_database_residue',(select count(*) from pg_database
               where datname in('cp6_preflight','cp6_race','cp6_auth','cp6_rollback')),
             'production_go',false
@@ -2987,6 +3115,15 @@ jobs:
             'V2620E_MIGRATION_SHA256.txt','V2620E_APPLY.log','V2620E_REPLAY_REJECTION.log',
             'V2620E_C01_C06_NATIVE.log','CP6_V2620E_COUNTEREXAMPLE_REGRESSION.json',
             'V2620E_ROLLBACK_SHA256.txt','V2620E_MAIN_PRE_USE_ROLLBACK.log',
+            'V2620F_MIGRATION_SHA256.txt','V2620F_APPLY.log','V2620F_REPLAY_REJECTION.log',
+            'V2620F_INSTALLED_FUNCTION_SHA256.txt','V2620F_FINAL_RUNTIME_COVERAGE.txt',
+            'V2620F_A01_A03_NATIVE.log','CP6_V2620F_FINAL_RUNTIME_REGRESSION.json',
+            'V2620F_LIVE_ROLLBACK_RACES.log',
+            'V2620F_LIVE_ROLLBACK_WRITER_FIRST.json',
+            'V2620F_LIVE_ROLLBACK_ROLLBACK_FIRST.json',
+            'V2620F_LIVE_ROLLBACK_CLONE_CLEANUP.txt',
+            'V2620F_ROLLBACK_SHA256.txt','V2620F_ROLLBACK_SUCCESSOR_REJECTION.log',
+            'V2620F_ROLLBACK_TAMPER_REJECTION.log','V2620F_MAIN_PRE_USE_ROLLBACK.log',
             'V2620C_LIVE_ROLLBACK_WRITER_FIRST.json','V2620C_LIVE_ROLLBACK_ROLLBACK_FIRST.json',
             'V2620C_LIVE_ROLLBACK_CLONE_CLEANUP.txt','V2620C_MAIN_PRE_USE_ROLLBACK.log',
             'V2620B_ROLLBACK_CONCURRENCY.json',
@@ -3023,6 +3160,11 @@ jobs:
             'supabase/rollbacks/20260909113933_erp_v2_6_20e_cp6_counterexample_closure.rollback.sql',
             'scripts/cp6_v2620e_counterexample_regression.py',
             'scripts/check-cp6-counterexample-closure.mjs',
+            'supabase/migrations/20260909174713_erp_v2_6_20f_cp6_final_runtime_reliability.sql',
+            'supabase/rollbacks/20260909174713_erp_v2_6_20f_cp6_final_runtime_reliability.rollback.sql',
+            'scripts/cp6_v2620f_final_runtime_regression.py',
+            'scripts/run_cp6_v2620f_live_rollback_races.sh',
+            'scripts/check-cp6-final-runtime-reliability.mjs',
           ]
           sources={}
           for name in source_paths:
@@ -3035,7 +3177,7 @@ jobs:
           for path in sorted(item for item in proof.rglob('*') if item.is_file()):
               relative_path=path.relative_to(proof)
               relative=str(relative_path)
-              if relative=='CP6_V2620E_RUNTIME_MANIFEST.json': continue
+              if relative=='CP6_V2620F_RUNTIME_MANIFEST.json': continue
               # actions/upload-artifact excludes hidden path components when
               # include-hidden-files is false.  The manifest must describe
               # exactly the files an independent reviewer can download.
@@ -3050,8 +3192,11 @@ jobs:
           head=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()
           assert head==os.environ['GITHUB_SHA']
           manifest={
-            'format':'CP6_V2620E_RUNTIME_PROOF_V1',
-            'predecessor_proof':{'format':'CP6_V2620D_RUNTIME_PROOF_V1'},
+            'format':'CP6_V2620F_RUNTIME_PROOF_V1',
+            'predecessor_proof':{
+              'format':'CP6_V2620E_RUNTIME_PROOF_V1',
+              'predecessor_proof':{'format':'CP6_V2620D_RUNTIME_PROOF_V1'},
+            },
             'status':'PASS_EXACT_LOCAL_DISPOSABLE_CI',
             'observed_at_utc':datetime.now(timezone.utc).isoformat().replace('+00:00','Z'),
             'identity':{
@@ -3077,14 +3222,18 @@ jobs:
               'native_runtime_race_schedules':34,
               'reject_abort_qualifications':3,
               'manual_prelock_count':0,
-              'actual_business_facade_rollback_race_orders':4,
+              'actual_business_facade_rollback_race_orders':6,
               'v2620c_rollback_race_orders':2,
               'v2620d_rollback_race_orders':2,
+              'v2620f_rollback_race_orders':2,
               'financial_confidence_corruption_probes':3,
               'full_future_temporal_prefixes':True,
               'partial_hpp_wip_conservation':True,
               'reaudit_business_counterexamples':3,
               'v2620e_counterexamples_c01_c06':6,
+              'v2620f_counterexamples_a01_a03':3,
+              'v2620f_auth_acceptance_races_and_cp5_after_final_runtime':True,
+              'v2620f_installed_function_hashes_bound':True,
               'v2620e_append_only_redispatch_events':True,
               'v2620e_opening_and_mixed_origin_hpp':True,
               'v2620e_exact_refund_and_zero_journal_inverse':True,
@@ -3106,13 +3255,13 @@ jobs:
               'legacy_project_ref':'vlxdhpkjeevubjxexnfo',
               'mutated_by_this_workflow':False,
               'uat_v2620a_v2620b_v2620c_v2620d_state':'NOT_TESTED_OR_APPLIED_BY_THIS_RUN',
-              'uat_v2620e_state':'NOT_TESTED_OR_APPLIED_BY_THIS_RUN',
+              'uat_v2620e_v2620f_state':'NOT_TESTED_OR_APPLIED_BY_THIS_RUN',
               'legacy_state':'NOT_TESTED_OR_MUTATED_BY_THIS_RUN',
             },
             'proof_files':proof_files,
             'production_go':False,
           }
-          (proof/'CP6_V2620E_RUNTIME_MANIFEST.json').write_text(
+          (proof/'CP6_V2620F_RUNTIME_MANIFEST.json').write_text(
               json.dumps(manifest,indent=2,sort_keys=True)+'\n',encoding='utf8',
           )
           print(json.dumps({
@@ -3125,7 +3274,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: cp6-r1-v2620e-full-schema-auth-browser-proof
+          name: cp6-r1-v2620f-full-schema-auth-browser-proof
           path: cp6-proof
           if-no-files-found: warn
           include-hidden-files: false

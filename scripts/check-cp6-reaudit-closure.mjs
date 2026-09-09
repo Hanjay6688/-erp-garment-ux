@@ -225,7 +225,7 @@ for (const token of [
 
 for (const token of [
   'SUPABASE_AUTH_URL', 'SUPABASE_REST_URL', 'CP6_AUTH_CONTROL_PGURL',
-  "target: 'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620D'",
+  "target: 'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620F'",
   'operator_positive_delivery_receipt_partial_and_remaining_final_sku',
   'owner_positive_dedicated_final_sku_and_reverse',
   'partial_laundry_hpp_and_wip_conservation', 'granular_reverse_permissions_positive',
@@ -314,7 +314,7 @@ for (const token of [
   "'manifest_excludes_hidden_path_components':True",
   'include-hidden-files: false',
   "'native_runtime_race_schedules':34", "'reject_abort_qualifications':3",
-  "'manual_prelock_count':0", "'actual_business_facade_rollback_race_orders':4",
+  "'manual_prelock_count':0", "'actual_business_facade_rollback_race_orders':6",
   "'financial_confidence_corruption_probes':3", "'browser_executions':26",
   "'uat_v2620a_v2620b_v2620c_v2620d_state':'NOT_TESTED_OR_APPLIED_BY_THIS_RUN'",
   "'legacy_state':'NOT_TESTED_OR_MUTATED_BY_THIS_RUN'",

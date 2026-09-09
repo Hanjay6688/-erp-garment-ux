@@ -177,7 +177,7 @@ requireTokens(regression, 'independent re-audit counterexample regression', [
 ])
 
 requireTokens(auth, 'real owner and operator Auth proof', [
-  "target: 'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620D'",
+  "target: 'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620F'",
   'const validNegativePayload = {',
   "headers: { 'Accept-Profile': 'erp', 'Content-Profile': 'erp' }",
   'owner_dedicated_final_sku: ownerPositiveState',
@@ -241,7 +241,7 @@ requireTokens(workflow, 'v20d exact-SHA native evidence contract', [
   "remaining_databases=UNKNOWN",
   'postgrest_container_remaining=%s',
   "'format':'CP6_V2620D_RUNTIME_PROOF_V1'",
-  "'actual_business_facade_rollback_race_orders':4",
+  "'actual_business_facade_rollback_race_orders':6",
   "'reaudit_business_counterexamples':3",
   "'adjacent_multicycle_redispatch':True",
   "'mixed_outflow_cumulative_rounding':True",

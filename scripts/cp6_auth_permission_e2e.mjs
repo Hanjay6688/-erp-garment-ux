@@ -947,7 +947,7 @@ const residueClean = Object.values(residue).every((value) => value === 0)
 const report = {
   status: failure || !residueClean ? 'FAIL' : 'PASS',
   classification: 'LOCAL_POST_CP6_REAL_AUTH_JWT_HTTP',
-  target: 'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620D',
+  target: 'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620F',
   disposable_database: disposableDatabase,
   database_disposal_required: true,
   cases,
