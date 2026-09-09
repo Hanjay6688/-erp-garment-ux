@@ -252,32 +252,36 @@ def case_a02(cur: psycopg.Cursor) -> dict[str, Any]:
         )
     after_sale_reversals = non_po_state(cur, product_id)
 
+    return_product_id = base.create_product(cur, 'F-A02-RETURNS')
+    return_customer_id = base.create_customer(cur, 'F-A02-RETURNS')
+    return_opening_id = create_opening(cur, return_product_id)
+    return_initial = non_po_state(cur, return_product_id)
     lumped = base.create_sale(
-        cur, product_id, customer_id, 10, Decimal('0')
+        cur, return_product_id, return_customer_id, 10, Decimal('0')
     )
     lumped_id = str(lumped['sale_id'])
     base.one(cur, 'select erp.post_sale(%s)', (lumped_id,))
     split_returns: list[str] = []
     for sequence in range(10):
         return_id = base.insert_return(
-            cur, lumped_id, customer_id, 1, Decimal('0'), sequence
+            cur, lumped_id, return_customer_id, 1, Decimal('0'), sequence
         )
         base.one(cur, 'select erp.post_sales_return(%s)', (return_id,))
         split_returns.append(return_id)
-    after_split_returns = non_po_state(cur, product_id)
+    after_split_returns = non_po_state(cur, return_product_id)
     for index in (5, 1, 9, 3, 7, 0, 8, 2, 6, 4):
         base.one(
             cur,
             "select erp.reverse_sales_return(%s,'CP6 F non-FIFO return reversal')",
             (split_returns[index],),
         )
-    after_return_reversals = non_po_state(cur, product_id)
+    after_return_reversals = non_po_state(cur, return_product_id)
     base.one(
         cur,
         "select erp.reverse_sale(%s,'CP6 F final lumped-Sale reversal')",
         (lumped_id,),
     )
-    final = non_po_state(cur, product_id)
+    final = non_po_state(cur, return_product_id)
 
     expected_owned = (
         Decimal('0.11'), Decimal('0.11'), Decimal('0'), Decimal('0')
@@ -285,9 +289,11 @@ def case_a02(cur: psycopg.Cursor) -> dict[str, Any]:
     expected_sold = (
         Decimal('0.11'), Decimal('0'), Decimal('0.11'), Decimal('0')
     )
-    if initial != expected_owned or after_sale_reversals != expected_owned:
+    if (initial != expected_owned or after_sale_reversals != expected_owned
+            or return_initial != expected_owned):
         raise AssertionError(
-            f'A02 owned states mismatch: initial={initial}, reversed={after_sale_reversals}'
+            f'A02 owned states mismatch: initial={initial}, '
+            f'reversed={after_sale_reversals}, return_initial={return_initial}'
         )
     if after_split_sales != expected_sold or after_return_reversals != expected_sold:
         raise AssertionError(
@@ -301,7 +307,8 @@ def case_a02(cur: psycopg.Cursor) -> dict[str, Any]:
     if targeted_issue_count(cur) != 0:
         raise AssertionError('A02 left a targeted report issue')
     return {
-        'status': 'PASS', 'opening_id': opening_id,
+        'status': 'PASS', 'sale_opening_id': opening_id,
+        'return_opening_id': return_opening_id,
         'after_split_sales': [str(value) for value in after_split_sales],
         'after_split_returns': [str(value) for value in after_split_returns],
         'final': [str(value) for value in final],

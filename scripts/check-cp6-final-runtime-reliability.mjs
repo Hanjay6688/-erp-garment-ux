@@ -33,7 +33,7 @@ const packageSource = read(packagePath)
 
 const migrationBytes = 64730
 const rollbackBytes = 10208
-const regressionBytes = 17626
+const regressionBytes = 18075
 const rollbackRaceBytes = 5584
 const migrationFileSha =
   '48f0431ca57abc99906d3f578b53ef59f9072fef3fc3e11c0b50a5c3a581279c'
@@ -42,7 +42,7 @@ const migrationLedgerSha =
 const rollbackFileSha =
   '2466aa870cf9b32b368fe06a394dc9b76d9ad4f1ca5df760d9c1f15118e77ad1'
 const regressionFileSha =
-  '823a7b60f95485d9dc4fd5938917431684cb4cd287866768da87bbe1dd56e98d'
+  '4656b11baaa1b14808d9fc5dbefeb262be58027bcc11bf64307df311a46e1c49'
 const rollbackRaceFileSha =
   '41b71fc37efadc0b9910a9dfd6d2a529cdf5668a1413a8a9df67faa779fb04b5'
 
@@ -210,6 +210,8 @@ requireTokens(regression, 'native A01-A03 regression', [
   "'runtime_versions': ['v2.6.20e', 'v2.6.20f']",
   'def case_a01(', 'def case_a02(', 'def case_a03(',
   "base.fresh(cur, 'a')", "base.fresh(cur, 'b')",
+  "return_product_id = base.create_product(cur, 'F-A02-RETURNS')",
+  'return_opening_id = create_opening(cur, return_product_id)',
   "Decimal('60'), Decimal('40'), Decimal('0')",
   "Decimal('0.11'), Decimal('0'), Decimal('0.11'), Decimal('0')",
   "'sale_reversal_order': [4, 0, 8, 2, 6, 1, 9, 3, 7, 5]",
