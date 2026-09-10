@@ -111,6 +111,13 @@ class MaintenanceRollbackError(RuntimeError):
     """A fail-closed maintenance boundary refused or could not finish."""
 
 
+def _public_failure_code(exc: Exception) -> str:
+    """Return a non-sensitive serialization code; never persist exception text."""
+    if isinstance(exc, MaintenanceRollbackError):
+        return 'MAINTENANCE_ROLLBACK_REJECTED'
+    return 'MAINTENANCE_RUNTIME_FAILED'
+
+
 def _scalar(conn: psycopg.Connection, query: Any, params: tuple[Any, ...] = ()) -> Any:
     with conn.cursor() as cur:
         cur.execute(query, params)
@@ -350,7 +357,7 @@ def run_maintenance_rollback(
         'rollback_committed': False,
         'admission_reopened': False,
         'status': 'RUNNING',
-        'trusted_predecessor_expectations': TRUSTED_FUNCTIONS[target_name],
+        'trusted_predecessor_identity_count': len(TRUSTED_FUNCTIONS[target_name]),
     }
     _phase(report_path, report, 'PREFLIGHT')
 
@@ -508,7 +515,7 @@ def run_maintenance_rollback(
         return report
     except Exception as exc:
         report['status'] = 'FAIL'
-        report['error'] = str(exc)
+        report['error_code'] = _public_failure_code(exc)
         report['error_type'] = type(exc).__name__
         # Fail closed: do not reopen admission here. The structured state and
         # exact database flag remain available for explicit recovery.
@@ -519,8 +526,10 @@ def run_maintenance_rollback(
                     'select datallowconn from pg_database where datname=%s',
                     (database,),
                 ))
-            except Exception as observation_error:
-                report['admission_observation_error'] = str(observation_error)
+            except Exception:
+                report['admission_observation_error_code'] = (
+                    'ADMISSION_STATE_OBSERVATION_FAILED'
+                )
         _phase(report_path, report, 'FAILED_CLOSED')
         raise
     finally:
@@ -571,7 +580,11 @@ def main() -> None:
             continue_file=args.continue_file,
         )
     except Exception as exc:
-        print(json.dumps({'status': 'FAIL', 'error': str(exc)}, sort_keys=True))
+        print(json.dumps({
+            'status': 'FAIL',
+            'error_code': _public_failure_code(exc),
+            'error_type': type(exc).__name__,
+        }, sort_keys=True))
         raise SystemExit(1) from exc
     print(json.dumps({'status': 'PASS', 'target': args.target}, sort_keys=True))
 

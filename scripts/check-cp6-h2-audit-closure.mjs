@@ -120,6 +120,9 @@ assert.doesNotMatch(rollback, /delete from erp\.(?:fg_|sales_|sale_|journal_|hpp
 requireTokens(maintenance, 'independent capsule trust and endpoint allowlist', [
   "'contract': 'CP6_PREUSE_ROLLBACK_MAINTENANCE_V2'",
   "'I': {", 'TRUSTED_FUNCTIONS', 'TRUSTED_PREDECESSOR_PIN_MISMATCH',
+  'def _public_failure_code(exc: Exception) -> str:',
+  "'trusted_predecessor_identity_count': len(TRUSTED_FUNCTIONS[target_name])",
+  "report['error_code'] = _public_failure_code(exc)",
   "allowed_conninfo = {'dbname', 'host', 'password', 'port', 'user'}",
   'connection parameters outside allowlist', 'endpoint without password',
   "'host': '127.0.0.1'", "'port': '54322'",
@@ -130,6 +133,8 @@ requireTokens(maintenance, 'independent capsule trust and endpoint allowlist', [
   "_phase(report_path, report, 'CAPSULE_VERIFIED'",
   "_phase(report_path, report, 'ADMISSION_CLOSED'",
 ])
+assert.ok(!maintenance.includes("'trusted_predecessor_expectations': TRUSTED_FUNCTIONS[target_name]"))
+assert.ok(!maintenance.includes("report['error'] = str(exc)"))
 assert.ok(maintenance.indexOf("'ENDPOINT_VERIFIED'") < maintenance.indexOf("'CAPSULE_VERIFIED'"))
 assert.ok(maintenance.indexOf("'CAPSULE_VERIFIED'") < maintenance.indexOf("'ADMISSION_CLOSED'"))
 requireTokens(maintenanceUnit, 'endpoint negative matrix', [
@@ -155,6 +160,9 @@ requireTokens(guards, 'trusted coherent-capsule fault proof', [
   'def disposable_clone_confirmation(pgurl: str):',
   "if database != 'cp6_rollback':",
   'with disposable_clone_confirmation(matrix.CLONE):',
+  "'error_code': 'V2620I_ROLLBACK_GUARD_FAILED'",
+  "'expected_rejection_observed': True",
+  "'admission_reopened_after_success': True",
   "if report.get('admission_closed') or report.get('rollback_started')",
   "target_name='I'", 'V2620I_MAIN_MAINTENANCE_ROLLBACK.json',
 ])
