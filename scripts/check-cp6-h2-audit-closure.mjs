@@ -200,6 +200,7 @@ requireTokens(workflow, 'exact-I artifact contract', [
   "('F','G','H','I')", "len(schedules['cases'])==80",
   "'writer_first_backend_body_entries':20",
   "'writer_first_compilation_only_contexts':0",
+  "iguard['maintenance']['admission_reopened_after_success']",
   "'format':'CP6_V2620I_RUNTIME_PROOF_V1'",
   "proof/'CP6_V2620I_RUNTIME_MANIFEST.json'",
   'name: cp6-r1-v2620i-full-schema-auth-browser-proof',
@@ -207,6 +208,7 @@ requireTokens(workflow, 'exact-I artifact contract', [
   "'uat_v2620i_state':'NOT_TESTED_OR_APPLIED_BY_THIS_RUN'",
   "'production_go':False",
 ])
+assert.ok(!workflow.includes("iguard['maintenance']['admission_reopened']"))
 assert.ok(read('scripts/cp6_auth_permission_e2e.mjs').includes('AFTER_V2620I'))
 assert.ok(read('package.json').includes('node scripts/check-cp6-h2-audit-closure.mjs'))
 

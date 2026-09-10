@@ -3427,7 +3427,7 @@ jobs:
           assert iguard['head']==os.environ['GITHUB_SHA'] and iguard['status']=='PASS',iguard
           assert len(iguard['trusted_capsule_guards'])==4 and len(iguard['guards'])==6,iguard
           assert all(x['status']=='PASS' and not x['admission_closed'] and not x['rollback_started'] for x in iguard['trusted_capsule_guards']),iguard
-          assert iguard['metadata_residue']==0 and iguard['maintenance']['rollback_committed'] and iguard['maintenance']['admission_reopened'],iguard
+          assert iguard['metadata_residue']==0 and iguard['maintenance']['rollback_committed'] and iguard['maintenance']['admission_reopened_after_success'],iguard
 
           schedules=json.loads((proof/'H_MAINTENANCE_ROLLBACK/manifest.json').read_text())
           assert schedules['head']==os.environ['GITHUB_SHA'] and schedules['status']=='PASS',schedules
