@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Native F/G/H rollback qualification under a closed-admission contract.
+"""Native F/G/H/I rollback qualification under a closed-admission contract.
 
-Three target generations x five real backend paths x four schedules = 60
+Four target generations x five real backend paths x four schedules = 80
 fresh-clone cases. Unlike the superseded live-DDL matrix, no reviewed rollback
 runs while an old invocation can resume: database admission closes first and
 all old sessions must drain. Every case is persisted, even after a failure.
@@ -35,15 +35,16 @@ TARGETS = {
     'F': ('20260909174713', 'erp_v2_6_20f_cp6_final_runtime_reliability', 'v2.6.20f', 'v2.6.20e', 8),
     'G': ('20260910031103', 'erp_v2_6_20g_cp6_independent_audit_closure', 'v2.6.20g', 'v2.6.20f', 7),
     'H': ('20260910061516', 'erp_v2_6_20h_cp6_expanded_audit_closure', 'v2.6.20h', 'v2.6.20g', 6),
+    'I': ('20260910100051', 'erp_v2_6_20i_cp6_h2_audit_closure', 'v2.6.20i', 'v2.6.20h', 1),
 }
 OPERATIONS = ('SALE', 'RETURN', 'CONVERSION', 'REPORT', 'FK_SYNC')
 MODES = ('WRITER_FIRST', 'ADMISSION_FIRST', 'WRITER_ABORT', 'DRAIN_TIMEOUT')
-BLOCKING_RELATIONS = {
-    'SALE': 'erp.sales_headers',
-    'RETURN': 'erp.sales_returns',
-    'CONVERSION': 'erp.product_conversions',
-    'REPORT': 'erp.journal_entries',
-    'FK_SYNC': 'erp.sales_headers',
+BODY_GATES = {
+    'SALE': ('erp.sales_headers', 'sale'),
+    'RETURN': ('erp.sales_returns', 'return'),
+    'CONVERSION': ('erp.product_conversions', 'conversion'),
+    'REPORT': ('erp.journal_entries', None),
+    'FK_SYNC': ('erp.sales_headers', 'next_sale'),
 }
 
 
@@ -112,9 +113,11 @@ def prepare(target: str, operation: str, folder: Path) -> tuple[dict[str, Any], 
         ],
         folder / 'clone.log',
     )
-    # The workflow source is exact H. Restore only as far as the requested
+    # The workflow source is exact I. Restore only as far as the requested
     # predecessor, always through the same fail-closed maintenance executor.
-    maintenance_strip('H', folder)
+    maintenance_strip('I', folder)
+    if target in ('F', 'G', 'H'):
+        maintenance_strip('H', folder)
     if target in ('F', 'G'):
         maintenance_strip('G', folder)
     if target == 'F':
@@ -189,6 +192,8 @@ def run_case(target: str, operation: str, mode: str, folder: Path) -> dict[str, 
     before = legacy.facts(fixture)
     writer_ready = threading.Event()
     writer_pid_ready = threading.Event()
+    writer_warmup_ready = threading.Event()
+    writer_after_gate = threading.Event()
     writer_release = threading.Event()
     writer: dict[str, Any] = {'started': False}
     rollback_outcome: dict[str, Any] = {}
@@ -200,6 +205,9 @@ def run_case(target: str, operation: str, mode: str, folder: Path) -> dict[str, 
     gate: psycopg.Connection | None = None
     gate_pid: int | None = None
     inflight_lock_observation: Any = None
+    body_gate: dict[str, Any] | None = None
+    writer_at_close: dict[str, Any] | None = None
+    writer_body_entry_proven: bool | None = None
     controller_result: dict[str, Any] | None = None
     after_boundary: dict[str, Any] | None = None
     sentinel: Any = None
@@ -211,6 +219,16 @@ def run_case(target: str, operation: str, mode: str, folder: Path) -> dict[str, 
                 cur.execute("set local lock_timeout='20s'; set local statement_timeout='45s'")
                 writer['pid'] = legacy.base.one(cur, 'select pg_backend_pid()')
                 writer_pid_ready.set()
+                if mode == 'WRITER_FIRST':
+                    cur.execute('savepoint cp6_writer_body_warmup')
+                    legacy.business(cur, operation, fixture)
+                    cur.execute('rollback to savepoint cp6_writer_body_warmup')
+                    cur.execute('release savepoint cp6_writer_body_warmup')
+                    writer['warmup_body_completed'] = True
+                    writer['warmup_effects_rolled_back'] = True
+                    writer_warmup_ready.set()
+                    if not writer_after_gate.wait(20):
+                        raise AssertionError('Writer body gate did not arrive after warm-up')
                 writer['response'] = legacy.business(cur, operation, fixture)
                 writer['entered_and_returned'] = True
                 writer_ready.set()
@@ -223,10 +241,15 @@ def run_case(target: str, operation: str, mode: str, folder: Path) -> dict[str, 
                     conn.commit()
                     writer['outcome'] = 'COMMITTED'
         except Exception as exc:
+            diag = getattr(exc, 'diag', None)
             writer.update(
-                outcome='ERROR', error=str(exc), sqlstate=getattr(exc, 'sqlstate', None)
+                outcome='ERROR', error=str(exc), sqlstate=getattr(exc, 'sqlstate', None),
+                message_primary=getattr(diag, 'message_primary', None),
+                diagnostic_context=getattr(diag, 'context', None),
             )
             writer_pid_ready.set()
+            writer_warmup_ready.set()
+            writer_after_gate.set()
             writer_ready.set()
 
     def controller() -> None:
@@ -248,20 +271,48 @@ def run_case(target: str, operation: str, mode: str, folder: Path) -> dict[str, 
 
     try:
         if mode != 'ADMISSION_FIRST':
-            if mode == 'WRITER_FIRST':
-                gate = legacy.connect('h-inflight-body-gate-' + operation.lower())
-                with gate.cursor() as cur:
-                    gate_pid = int(legacy.base.one(cur, 'select pg_backend_pid()'))
-                    cur.execute(
-                        sql.SQL('lock table {} in access exclusive mode').format(
-                            sql.Identifier(*BLOCKING_RELATIONS[operation].split('.'))
-                        )
-                    )
             writer_thread = threading.Thread(target=old_writer, daemon=True)
             writer_thread.start()
             if not writer_pid_ready.wait(20) or writer.get('outcome') == 'ERROR':
                 raise AssertionError(f'Old-generation writer failed before backend entry: {writer}')
             if mode == 'WRITER_FIRST':
+                if not writer_warmup_ready.wait(20) or writer.get('outcome') == 'ERROR':
+                    raise AssertionError(
+                        f'Old-generation writer did not complete rollback-only body warm-up: {writer}'
+                    )
+                gate = legacy.connect('h-inflight-body-gate-' + operation.lower())
+                with gate.cursor() as cur:
+                    cur.execute("set local lock_timeout='12s'")
+                    gate_pid = int(legacy.base.one(cur, 'select pg_backend_pid()'))
+                    relation, fixture_key = BODY_GATES[operation]
+                    if fixture_key is None:
+                        cur.execute(
+                            sql.SQL('lock table {} in access exclusive mode').format(
+                                sql.Identifier(*relation.split('.'))
+                            )
+                        )
+                        body_gate = {
+                            'kind': 'TABLE_ACCESS_EXCLUSIVE', 'relation': relation,
+                            'fixture_key': None,
+                        }
+                    else:
+                        cur.execute(
+                            sql.SQL('select id from {} where id=%s for update').format(
+                                sql.Identifier(*relation.split('.'))
+                            ),
+                            (fixture[fixture_key],),
+                        )
+                        if cur.fetchone() is None:
+                            raise AssertionError(
+                                f'Body row gate fixture absent: {relation}/{fixture_key}'
+                            )
+                        body_gate = {
+                            'kind': 'ROW_FOR_UPDATE', 'relation': relation,
+                            'fixture_key': fixture_key, 'fixture_id': fixture[fixture_key],
+                        }
+                body_gate['writer_warmup_body_completed'] = True
+                body_gate['writer_warmup_effects_rolled_back'] = True
+                writer_after_gate.set()
                 wait_for(lambda: legacy.blocked(writer['pid'], gate_pid))
                 writer['blocked_inside_backend'] = True
                 inflight_lock_observation = legacy.lock_snapshot([gate_pid, writer['pid']])
@@ -370,6 +421,31 @@ def run_case(target: str, operation: str, mode: str, folder: Path) -> dict[str, 
                     raise AssertionError(
                         f'Writer was not proven inside the actual backend body: {writer_at_close}'
                     )
+                diagnostic_context = writer.get('diagnostic_context') or ''
+                expected_context = {
+                    'SALE': ('post_sale_v2',),
+                    'RETURN': ('post_sales_return',),
+                    'CONVERSION': ('post_product_conversion',),
+                    'REPORT': (
+                        'get_owner_financial_snapshot_v2',
+                        'run_v268_financial_report_checks',
+                    ),
+                    'FK_SYNC': ('post_sale_v2',),
+                }[operation]
+                if (
+                    writer.get('warmup_body_completed') is not True
+                    or writer.get('warmup_effects_rolled_back') is not True
+                    or 'compilation of PL/pgSQL function' in diagnostic_context
+                    or 'PL/pgSQL function' not in diagnostic_context
+                    or 'at SQL statement' not in diagnostic_context
+                    or not any(name in diagnostic_context for name in expected_context)
+                ):
+                    raise AssertionError(
+                        'Writer termination did not prove body SQL entry: '
+                        + repr(diagnostic_context)
+                    )
+                writer_body_entry_proven = True
+                writer['wait_stage'] = 'BODY_SQL_STATEMENT'
             expected_installed = False
             safe_phase_order = all(
                 phase_names.index(left) < phase_names.index(right)
@@ -381,6 +457,13 @@ def run_case(target: str, operation: str, mode: str, folder: Path) -> dict[str, 
                     ('PREDECESSOR_VERIFIED', 'ADMISSION_REOPENED'),
                 )
             )
+        safe_phase_order = safe_phase_order and all(
+            phase_names.index(left) < phase_names.index(right)
+            for left, right in (
+                ('ENDPOINT_VERIFIED', 'CAPSULE_VERIFIED'),
+                ('CAPSULE_VERIFIED', 'ADMISSION_CLOSED'),
+            )
+        )
         if not safe_phase_order:
             raise AssertionError(f'Unsafe maintenance phase order: {phase_names}')
 
@@ -443,6 +526,11 @@ def run_case(target: str, operation: str, mode: str, folder: Path) -> dict[str, 
                 mode == 'WRITER_FIRST'
             ),
             'inflight_lock_observation': inflight_lock_observation,
+            'body_gate': body_gate,
+            'writer_at_close': writer_at_close,
+            'writer_body_entry_proven': writer_body_entry_proven,
+            'writer_warmup_body_completed': writer.get('warmup_body_completed'),
+            'writer_warmup_effects_rolled_back': writer.get('warmup_effects_rolled_back'),
             'new_admission_attempt': admission_attempt,
             'rollback_expected': mode != 'DRAIN_TIMEOUT',
             'rollback_committed': bool(controller_result.get('rollback_committed')),
@@ -467,6 +555,7 @@ def run_case(target: str, operation: str, mode: str, folder: Path) -> dict[str, 
         }
     finally:
         writer_release.set()
+        writer_after_gate.set()
         if pause_file.exists() and not continue_file.exists():
             continue_file.write_text('CLEANUP_CONTINUE\n')
         if gate is not None:
@@ -492,6 +581,11 @@ def run_case(target: str, operation: str, mode: str, folder: Path) -> dict[str, 
             'writer': writer,
             'gate_pid': gate_pid,
             'inflight_lock_observation': inflight_lock_observation,
+            'body_gate': body_gate,
+            'writer_at_close': writer_at_close,
+            'writer_body_entry_proven': writer_body_entry_proven,
+            'writer_warmup_body_completed': writer.get('warmup_body_completed'),
+            'writer_warmup_effects_rolled_back': writer.get('warmup_effects_rolled_back'),
             'rollback_outcome': rollback_outcome,
             'controller_report': controller_result,
             'controller_thread_alive_after_cleanup': bool(
@@ -538,7 +632,7 @@ def main() -> None:
         'head': os.environ.get('GITHUB_SHA', 'LOCAL_UNBOUND'),
         'production_go': False,
         'classification': 'NATIVE_POSTGRESQL_CLOSED_ADMISSION_ROLLBACK_MATRIX',
-        'expected_case_count': 60,
+        'expected_case_count': 80,
         'cases': [],
     }
     for target in TARGETS:
@@ -576,10 +670,30 @@ def main() -> None:
                 }), flush=True)
 
     report['failed_case_count'] = sum(case['status'] != 'PASS' for case in report['cases'])
+    writer_first = [case for case in report['cases'] if case['mode'] == 'WRITER_FIRST']
+    writer_first_body_entry = sum(
+        case.get('writer_body_entry_proven') is True for case in writer_first
+    )
+    compilation_only_contexts = sum(
+        'compilation of PL/pgSQL function'
+        in str(
+            (case.get('writer') or (case.get('context') or {}).get('writer') or {}).get(
+                'diagnostic_context', ''
+            )
+        )
+        for case in writer_first
+    )
+    report['writer_first_body_entry'] = {
+        'expected': 20,
+        'observed': writer_first_body_entry,
+        'compilation_only_contexts': compilation_only_contexts,
+    }
     report['status'] = (
         'PASS'
         if len(report['cases']) == report['expected_case_count']
         and report['failed_case_count'] == 0
+        and writer_first_body_entry == 20
+        and compilation_only_contexts == 0
         else 'FAIL'
     )
     (ROOT / 'manifest.json').write_text(json.dumps(report, indent=2, default=str) + '\n')

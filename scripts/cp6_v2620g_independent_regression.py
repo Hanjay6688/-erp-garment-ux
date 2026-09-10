@@ -21,20 +21,32 @@ REPORT = Path(os.environ.get('CP6_G_REPORT', 'cp6-proof/CP6_V2620G_INDEPENDENT_R
 def runtime(cur):
     cur.execute("select version()")
     engine = cur.fetchone()[0]
-    cur.execute("select version from erp.schema_migrations where version in('v2.6.20e','v2.6.20f','v2.6.20g','v2.6.20h') order by version")
+    cur.execute("select version from erp.schema_migrations where version in('v2.6.20e','v2.6.20f','v2.6.20g','v2.6.20h','v2.6.20i') order by version")
     versions = [r[0] for r in cur.fetchall()]
     if versions not in (
         ['v2.6.20e', 'v2.6.20f', 'v2.6.20g'],
         ['v2.6.20e', 'v2.6.20f', 'v2.6.20g', 'v2.6.20h'],
+        ['v2.6.20e', 'v2.6.20f', 'v2.6.20g', 'v2.6.20h', 'v2.6.20i'],
     ):
-        raise AssertionError(f'Final E+F+G with optional forward H runtime not present: {versions}')
-    has_h = versions[-1] == 'v2.6.20h'
+        raise AssertionError(f'Final E+F+G with optional forward H/I runtime not present: {versions}')
+    has_h = 'v2.6.20h' in versions
+    has_i = 'v2.6.20i' in versions
     cur.execute("""select object_regidentity,installed_definition_sha256,
       encode(extensions.digest(convert_to(pg_get_functiondef(to_regprocedure(object_regidentity)),
         'UTF8'),'sha256'),'hex') actual from erp.cp6_v2620g_rollback_capsule
       order by object_regidentity""")
     definitions = [dict(zip(('identity', 'installed_sha256', 'actual_sha256'), r)) for r in cur.fetchall()]
     successor = []
+    successor_i = []
+    i_by_identity = {}
+    if has_i:
+        cur.execute("""select object_regidentity,definition_sha256,installed_definition_sha256,
+          encode(extensions.digest(convert_to(pg_get_functiondef(to_regprocedure(object_regidentity)),
+            'UTF8'),'sha256'),'hex') actual from erp.cp6_v2620i_rollback_capsule""")
+        successor_i = [dict(zip(
+            ('identity', 'predecessor_sha256', 'installed_sha256', 'actual_sha256'), r
+        )) for r in cur.fetchall()]
+        i_by_identity = {item['identity']: item['installed_sha256'] for item in successor_i}
     if has_h:
         cur.execute("""select object_regidentity,installed_definition_sha256,
           encode(extensions.digest(convert_to(pg_get_functiondef(to_regprocedure(object_regidentity)),
@@ -42,6 +54,11 @@ def runtime(cur):
           order by object_regidentity""")
         successor = [dict(zip(('identity', 'installed_sha256', 'actual_sha256'), r)) for r in cur.fetchall()]
         h_by_identity = {item['identity']: item['installed_sha256'] for item in successor}
+        for item in successor:
+            if item['identity'] in i_by_identity:
+                item['h_installed_sha256'] = item['installed_sha256']
+                item['installed_sha256'] = i_by_identity[item['identity']]
+                item['expected_generation'] = 'I'
         for item in definitions:
             item['g_installed_sha256'] = item['installed_sha256']
             if item['identity'] in h_by_identity:
@@ -49,15 +66,24 @@ def runtime(cur):
                 item['expected_generation'] = 'H'
             else:
                 item['expected_generation'] = 'G'
+            if item['identity'] in i_by_identity:
+                item['installed_sha256'] = i_by_identity[item['identity']]
+                item['expected_generation'] = 'I'
     if len(definitions) != 7 or any(
         r['installed_sha256'] != r['actual_sha256'] for r in definitions
     ):
-        raise AssertionError('Effective G functions differ from G/H capsule lineage')
+        raise AssertionError('Effective G functions differ from G/H/I capsule lineage')
     if has_h and (
         len(successor) != 6
         or any(r['installed_sha256'] != r['actual_sha256'] for r in successor)
     ):
-        raise AssertionError('H successor functions differ from H capsule')
+        raise AssertionError('H successor functions differ from effective H/I capsule lineage')
+    if has_i and (
+        len(successor_i) != 1
+        or successor_i[0]['predecessor_sha256'] != '3afc0bef1136bafb14d4fdde69fa0cdf79fff0883c35c65607bdfa624d8cf65f'
+        or successor_i[0]['installed_sha256'] != successor_i[0]['actual_sha256']
+    ):
+        raise AssertionError('I successor report differs from I capsule')
     cur.execute("""select encode(extensions.digest(convert_to(array_to_string(statements,E'\n'),
       'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations
       where name='erp_v2_6_20g_cp6_independent_audit_closure'""")
@@ -68,13 +94,14 @@ def runtime(cur):
         raise AssertionError(f'G source/platform drift: {platform}')
     return {'engine': engine, 'versions': versions, 'capsule': definitions,
             'successor_capsule': successor,
+            'successor_i_capsule': successor_i,
             'migration_bytes': len(source), 'migration_sha256': digests[0],
             'platform_sha256': platform[0]}
 
 
 def run():
     result = {'head': os.environ.get('GITHUB_SHA', 'LOCAL_UNBOUND'),
-              'classification': 'DISPOSABLE_NATIVE_POSTGRESQL_AFTER_E_F_G_WITH_OPTIONAL_FORWARD_H',
+              'classification': 'DISPOSABLE_NATIVE_POSTGRESQL_AFTER_E_F_G_WITH_OPTIONAL_FORWARD_H_I',
               'production_go': False, 'cases': {}}
     with psycopg.connect(os.environ['PGURL'], autocommit=False) as conn:
         with conn.cursor() as cur:

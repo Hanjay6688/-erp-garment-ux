@@ -18,6 +18,9 @@ import cp6_v2620e_counterexample_regression as base
 MIGRATION = Path(
     'supabase/migrations/20260910061516_erp_v2_6_20h_cp6_expanded_audit_closure.sql'
 )
+SUCCESSOR_I = Path(
+    'supabase/migrations/20260910100051_erp_v2_6_20i_cp6_h2_audit_closure.sql'
+)
 REPORT = Path(
     os.environ.get(
         'CP6_H_REPORT', 'cp6-proof/CP6_V2620H_EXPANDED_AUDIT_REGRESSION.json'
@@ -31,10 +34,14 @@ def exact_runtime(cur: psycopg.Cursor) -> dict[str, Any]:
     versions = base.one(
         cur,
         """select jsonb_agg(version order by version) from erp.schema_migrations
-           where version in('v2.6.20e','v2.6.20f','v2.6.20g','v2.6.20h')""",
+           where version in('v2.6.20e','v2.6.20f','v2.6.20g','v2.6.20h','v2.6.20i')""",
     )
-    if versions != ['v2.6.20e', 'v2.6.20f', 'v2.6.20g', 'v2.6.20h']:
-        raise AssertionError(f'Final E+F+G+H runtime not present: {versions}')
+    if versions != ['v2.6.20e', 'v2.6.20f', 'v2.6.20g', 'v2.6.20h', 'v2.6.20i']:
+        raise AssertionError(f'Final E+F+G+H+I runtime not present: {versions}')
+    i_installed = base.one(
+        cur,
+        "select installed_definition_sha256 from erp.cp6_v2620i_rollback_capsule",
+    )
     cur.execute(
         """select object_regidentity,installed_definition_sha256,
           encode(extensions.digest(convert_to(pg_get_functiondef(
@@ -46,9 +53,25 @@ def exact_runtime(cur: psycopg.Cursor) -> dict[str, Any]:
         for row in cur.fetchall()
     ]
     if len(functions) != 6 or any(
-        item['installed_sha256'] != item['actual_sha256'] for item in functions
+        (i_installed if item['identity'] == 'erp.run_v268_financial_report_checks()'
+         else item['installed_sha256']) != item['actual_sha256']
+        for item in functions
     ):
-        raise AssertionError('H installed definition differs from capsule')
+        raise AssertionError('H installed definition differs from effective H/I runtime')
+    cur.execute(
+        """select object_regidentity,definition_sha256,installed_definition_sha256,
+          encode(extensions.digest(convert_to(pg_get_functiondef(
+            to_regprocedure(object_regidentity)),'UTF8'),'sha256'),'hex') actual
+          from erp.cp6_v2620i_rollback_capsule"""
+    )
+    i_row = cur.fetchone()
+    if (
+        i_row is None
+        or i_row[0] != 'erp.run_v268_financial_report_checks()'
+        or i_row[1] != '3afc0bef1136bafb14d4fdde69fa0cdf79fff0883c35c65607bdfa624d8cf65f'
+        or i_row[2] != i_row[3]
+    ):
+        raise AssertionError(f'I capsule/effective report mismatch: {i_row}')
     source = MIGRATION.read_bytes()
     file_sha = hashlib.sha256(source).hexdigest()
     platform = base.one(
@@ -59,6 +82,16 @@ def exact_runtime(cur: psycopg.Cursor) -> dict[str, Any]:
     )
     if platform not in (file_sha, hashlib.sha256(source[:-1]).hexdigest()):
         raise AssertionError(f'H source/platform drift: {platform} != {file_sha}')
+    i_source = SUCCESSOR_I.read_bytes()
+    i_file_sha = hashlib.sha256(i_source).hexdigest()
+    i_platform = base.one(
+        cur,
+        """select encode(extensions.digest(convert_to(array_to_string(statements,E'\n'),
+          'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations
+          where name='erp_v2_6_20i_cp6_h2_audit_closure'""",
+    )
+    if i_platform not in (i_file_sha, hashlib.sha256(i_source[:-1]).hexdigest()):
+        raise AssertionError(f'I source/platform drift: {i_platform} != {i_file_sha}')
     return {
         'engine': base.one(cur, 'select version()'),
         'versions': versions,
@@ -66,6 +99,15 @@ def exact_runtime(cur: psycopg.Cursor) -> dict[str, Any]:
         'migration_bytes': len(source),
         'migration_sha256': file_sha,
         'platform_sha256': platform,
+        'successor_i_capsule': {
+            'identity': i_row[0],
+            'predecessor_sha256': i_row[1],
+            'installed_sha256': i_row[2],
+            'actual_sha256': i_row[3],
+        },
+        'successor_i_migration_bytes': len(i_source),
+        'successor_i_migration_sha256': i_file_sha,
+        'successor_i_platform_sha256': i_platform,
     }
 
 
@@ -93,6 +135,7 @@ def targeted_issues(cur: psycopg.Cursor) -> int:
              'V2620H_FAILED_WASH_RETURN_TIME_MISMATCH',
              'V2620H_CUSTOMER_AR_STATUS_MISMATCH',
              'V2620H_CUSTOMER_AR_BY_CUSTOMER_MISMATCH',
+             'V2620I_SALES_PAYMENT_JOURNAL_LINEAGE_MISMATCH',
              'V268_AR_GL_SUBLEDGER_MISMATCH'
            )""",
     ))
@@ -429,7 +472,7 @@ def case_r03_detectors(cur: psycopg.Cursor) -> dict[str, Any]:
 def run() -> dict[str, Any]:
     result: dict[str, Any] = {
         'head': HEAD,
-        'classification': 'DISPOSABLE_NATIVE_POSTGRESQL_AFTER_E_F_G_H',
+        'classification': 'DISPOSABLE_NATIVE_POSTGRESQL_AFTER_E_F_G_H_I',
         'production_go': False,
         'cases': {},
     }

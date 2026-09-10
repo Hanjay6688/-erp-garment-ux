@@ -945,10 +945,10 @@ try {
 
 const residueClean = Object.values(residue).every((value) => value === 0)
 const report = {
-  // H retains its proven predecessor: target: 'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620G'
+  // I retains H's proven Auth boundary while testing the complete final runtime.
   status: failure || !residueClean ? 'FAIL' : 'PASS',
   classification: 'LOCAL_POST_CP6_REAL_AUTH_JWT_HTTP',
-  target: 'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620H',
+  target: 'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620I',
   disposable_database: disposableDatabase,
   database_disposal_required: true,
   cases,

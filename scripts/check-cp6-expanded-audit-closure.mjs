@@ -27,9 +27,9 @@ const workflow = read(workflowPath)
 const expected = {
   migration: ['e16dbb655164595be273c03582d35c9ac33593136bd418fdd87156e592f292b8', 19733],
   rollback: ['0d0318e3848344c3642f1796a205d25bcf1cc2d2091ce28d1fc9cf6d186ecbe5', 6876],
-  maintenance: ['833926e1fa88a3af7e84117a09376d7f2173bbb5def43c02cec21e066659c216', 18553],
-  regression: ['f0ccc1eec7d99519f118325630a33d5a0e24be6d1987dab7a9c414aab8e545b8', 20147],
-  matrix: ['eac1149f9351ef8ce88bbd766800203bb67eb151499a624723f5c9c4c8b60475', 24947],
+  maintenance: ['dd011b8152692cb9ab32cdbc97047d6943cae1531651eb8b1b34e5cbf7696e89', 30911],
+  regression: ['c9f5e221fe260445852bb04cbbd0ffa60945a053c1f03861a50e21cc162eaac9', 22111],
+  matrix: ['7037995e7e64148cc9c93457adce5dcb10a78197cab0137a9ef5f11c8a78fe4e', 30894],
   guard: ['621f51b187138750646f38c7464a959713ba3c78bcbcd5031ac9841a288aca68', 6649],
 }
 for (const [name, source] of Object.entries({ migration, rollback, maintenance, regression, matrix, guard })) {
@@ -133,10 +133,10 @@ requireTokens(regression, 'native R02/R03 regression', [
 ])
 
 requireTokens(matrix, 'complete native maintenance matrix', [
-  "'F':", "'G':", "'H':",
+  "'F':", "'G':", "'H':", "'I':",
   "OPERATIONS = ('SALE', 'RETURN', 'CONVERSION', 'REPORT', 'FK_SYNC')",
   "MODES = ('WRITER_FIRST', 'ADMISSION_FIRST', 'WRITER_ABORT', 'DRAIN_TIMEOUT')",
-  "'expected_case_count': 60", "report['cases'].append(case)",
+  "'expected_case_count': 80", "report['cases'].append(case)",
   "report['failed_case_count']", 'missing_helper_error_absent',
   'database_admission_closed_before_ddl', 'failure_kept_admission_closed',
   'blocked_inside_backend', 'inflight_inside_backend_before_admission_close',
@@ -146,6 +146,10 @@ requireTokens(matrix, 'complete native maintenance matrix', [
   "ADMISSION_CONTROL = os.environ.get('CP6_ADMISSION_CONTROL_PGURL', '')",
   "'user': 'cp6_maintenance_admission'",
   'Refusing non-allowlisted admission-control authority',
+  'savepoint cp6_writer_body_warmup',
+  "writer['warmup_body_completed'] = True",
+  "'compilation of PL/pgSQL function' in diagnostic_context",
+  'writer_first_body_entry == 20', 'compilation_only_contexts == 0',
 ])
 assert.doesNotMatch(matrix, /raise AssertionError\('Native expanded rollback schedule failed'\)/)
 requireTokens(guard, 'H guards and maintenance restore', [
@@ -157,10 +161,13 @@ requireTokens(guard, 'H guards and maintenance restore', [
 const order = [
   'Apply v2.6.20g independent N01-N03 closure',
   'Apply v2.6.20h expanded R01-R03 closure',
+  'Apply v2.6.20i H2 audit closure',
   'Run post-CP6 real Auth JWT HTTP permissions',
   'Prove native G N01-N03',
   'Prove native H R02-R03',
-  'Qualify exact F G and H rollback under closed admission',
+  'Prove native I H2 payment lineage',
+  'Qualify exact F G H and I rollback under closed admission',
+  'Prove trusted F G H I capsules and maintenance-only exact I restore to H',
   'Prove H guards and maintenance-only exact six-function restore to G',
   'Prove G guards and exact seven-function pre-use restore to F',
   'Prove v2.6.20f guards and exact pre-use rollback before v2.6.20e',
@@ -176,12 +183,12 @@ requireTokens(workflow, 'exact-H proof wiring', [
   'python scripts/cp6_v2620h_maintenance_rollback_matrix.py',
   'python scripts/cp6_v2620h_rollback_guards.py',
   'python scripts/cp6_preuse_rollback_maintenance.py',
-  'H_MAINTENANCE_ROLLBACK/manifest.json', "= '60'",
+  'H_MAINTENANCE_ROLLBACK/manifest.json', "= '80'",
   'V2620H_ROLLBACK_SHA256.txt',
   "('F','RETURN','WRITER_FIRST')",
-  'CP6_V2620H_RUNTIME_PROOF_V1',
-  'cp6-r1-v2620h-full-schema-auth-browser-proof',
-  'runtime=v2.6.20e+v2.6.20f+v2.6.20g+v2.6.20h',
+  'CP6_V2620I_RUNTIME_PROOF_V1',
+  'cp6-r1-v2620i-full-schema-auth-browser-proof',
+  'runtime=v2.6.20e+v2.6.20f+v2.6.20g+v2.6.20h+v2.6.20i',
   'CP6_ROLLBACK_TARGET_PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres',
   'Provision isolated rollback admission-control authority',
   'create role cp6_maintenance_admission',
@@ -192,7 +199,7 @@ requireTokens(workflow, 'exact-H proof wiring', [
   expected.migration[0],
 ])
 assert.ok(!workflow.includes('bash scripts/run_cp6_v2620f_live_rollback_races.sh'))
-assert.ok(read('scripts/cp6_auth_permission_e2e.mjs').includes('AFTER_V2620H'))
+assert.ok(read('scripts/cp6_auth_permission_e2e.mjs').includes('AFTER_V2620I'))
 assert.ok(read('package.json').includes('node scripts/check-cp6-expanded-audit-closure.mjs'))
 
 console.log(JSON.stringify({
@@ -200,6 +207,6 @@ console.log(JSON.stringify({
   boundary: 'CP6_V2620H_R01_R03_EXPANDED_AUDIT_CLOSURE',
   migration_sha256: expected.migration[0],
   rollback_sha256: expected.rollback[0],
-  maintenance_matrix_schedules: 60,
+  maintenance_matrix_schedules: 80,
   production_go: false,
 }))
