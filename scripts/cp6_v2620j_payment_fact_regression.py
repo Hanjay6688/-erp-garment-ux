@@ -249,7 +249,7 @@ def case_linked_replacement(cur: psycopg.Cursor) -> dict[str, Any]:
     customer = base.create_customer(cur, 'J-LINKED-REPLACEMENT')
     source = h.opening_sale(cur, 'J-LINK-SOURCE', customer)
     destination = h.opening_sale(cur, 'J-LINK-DESTINATION', customer)
-    foreign = h.opening_sale(cur, 'J-LINK-FOREIGN-CUSTOMER')
+    foreign = h.opening_sale(cur, 'J-LINK-OTHER')
 
     def inventory_book() -> tuple:
         return base.row(cur, """select

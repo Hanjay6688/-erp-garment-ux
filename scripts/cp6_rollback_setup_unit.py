@@ -104,6 +104,33 @@ def structural_restore_summary() -> None:
     assert database_value not in json.dumps(observed)
 
 
+def structural_capsule_summary() -> None:
+    conn, cur = MagicMock(), MagicMock()
+    conn.__enter__.return_value = conn
+    conn.cursor.return_value.__enter__.return_value = cur
+    cur.fetchone.return_value = (1,)
+    database_value = 'DATABASE_VALUE_MUST_NOT_BE_SERIALIZED'
+    with ExitStack() as stack:
+        stack.enter_context(patch.object(jguards, 'CLONE_ROOT', MagicMock()))
+        stack.enter_context(patch.object(matrix, 'prepare'))
+        stack.enter_context(patch.object(jguards, 'coherent_capsule_fault', return_value=(database_value,) * 3))
+        stack.enter_context(patch.object(jguards.psycopg, 'connect', return_value=conn))
+        stack.enter_context(patch.object(matrix, 'read_json_if_present', return_value={
+            'admission_closed': False, 'rollback_started': False,
+        }))
+        stack.enter_context(patch.object(jguards.maintenance, 'run_maintenance_rollback', side_effect=
+            jguards.maintenance.MaintenanceRollbackError('TRUSTED_PREDECESSOR_PIN_MISMATCH')))
+        stack.enter_context(patch.object(matrix, 'reopen_clone'))
+        stack.enter_context(patch.object(matrix.legacy, 'drop_clone'))
+        observed = jguards.trusted_j_capsule_guard()
+    assert set(observed) == {
+        'target', 'status', 'coherent_checksum_changed', 'trusted_pin_rejected',
+        'admission_closed', 'rollback_started', 'installed_generation_preserved',
+    }
+    assert observed['status'] == 'PASS' and observed['trusted_pin_rejected'] is True
+    assert database_value not in json.dumps(observed)
+
+
 def run() -> dict:
     cases = []
     for source, target in PLANS:
@@ -117,6 +144,8 @@ def run() -> dict:
         cases.append({'case': fault, 'status': 'PASS'})
     structural_restore_summary()
     cases.append({'case': 'STRUCTURAL_RESTORE_SUMMARY', 'status': 'PASS'})
+    structural_capsule_summary()
+    cases.append({'case': 'STRUCTURAL_CAPSULE_SUMMARY', 'status': 'PASS'})
 
     # Reintroduce the actual #120 defect. This oracle must reject it even
     # when every mocked maintenance operation itself returns successfully.
@@ -135,11 +164,11 @@ def run() -> dict:
             pass
         else:
             raise AssertionError('Permissive-source negative control unexpectedly passed')
-    assert len(cases) == 18
+    assert len(cases) == 19
     return {
         'head': os.environ.get('GITHUB_SHA', 'LOCAL_UNBOUND'),
         'classification': 'MOCKED_FIXTURE_ORCHESTRATION_NOT_NATIVE_DATABASE_PROOF',
-        'status': 'PASS', 'expected_case_count': 18, 'completed_case_count': len(cases),
+        'status': 'PASS', 'expected_case_count': 19, 'completed_case_count': len(cases),
         'cases': cases,
         'unconditional_j_negative_control_rejected': True,
         'permissive_source_negative_control_rejected': True,

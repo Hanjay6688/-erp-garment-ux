@@ -163,6 +163,7 @@ requireTokens(guards, 'J trusted rollback guards', [
   "'post_install_boundary_history'", "'coherent_capsule_and_checksum'",
   "target_name='J'", "'error_code': 'V2620J_ROLLBACK_GUARD_FAILED'",
   "'restored_function_count': len(actual)",
+  'for name in DIRECT_J_GUARD_NAMES',
   "'admission_reopened_after_success': True",
 ])
 requireTokens(matrix, '100 native schedules and body-entry proof', [
@@ -179,8 +180,8 @@ assert.ok(read('scripts/cp6_v2620i_rollback_guards.py').includes("source_generat
 assert.ok(!guards.includes("'functions': actual"))
 requireTokens(setupUnit, 'generation setup failure regressions', [
   'MOCKED_FIXTURE_ORCHESTRATION_NOT_NATIVE_DATABASE_PROOF',
-  "'expected_case_count': 18", 'unconditional_j_negative_control_rejected',
-  'permissive_source_negative_control_rejected', 'STRUCTURAL_RESTORE_SUMMARY',
+  "'expected_case_count': 19", 'unconditional_j_negative_control_rejected',
+  'permissive_source_negative_control_rejected', 'STRUCTURAL_RESTORE_SUMMARY', 'STRUCTURAL_CAPSULE_SUMMARY',
 ])
 
 const order = [
@@ -201,7 +202,7 @@ for (const token of order) {
 }
 requireTokens(workflow, 'exact-J artifact contract', [
   'python scripts/cp6_rollback_setup_unit.py', 'CP6_ROLLBACK_SETUP_UNIT.json',
-  "setup_unit['completed_case_count']==setup_unit['expected_case_count']==18",
+  "setup_unit['completed_case_count']==setup_unit['expected_case_count']==19",
   'CP6_PREUSE_ROLLBACK_MAINTENANCE_UNIT.json', "= '31'",
   'permissive_validator_negative_control.suite_failed_closed',
   'V2620J_MIGRATION_SHA256.txt', 'V2620J_ROLLBACK_SHA256.txt',

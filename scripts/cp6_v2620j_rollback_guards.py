@@ -105,7 +105,7 @@ def trusted_j_capsule_guard() -> dict[str, Any]:
     with disposable_clone_confirmation(matrix.CLONE):
         try:
             matrix.prepare('J', 'REPORT', CLONE_ROOT)
-            identity, original_sha, tampered_sha = coherent_capsule_fault(matrix.CLONE)
+            coherent_capsule_fault(matrix.CLONE)
             rejection = None
             try:
                 maintenance.run_maintenance_rollback(
@@ -135,9 +135,6 @@ def trusted_j_capsule_guard() -> dict[str, Any]:
             return {
                 'target': 'J',
                 'status': 'PASS',
-                'identity': identity,
-                'original_sha256': original_sha,
-                'tampered_sha256': tampered_sha,
                 'coherent_checksum_changed': True,
                 'trusted_pin_rejected': True,
                 'admission_closed': False,
@@ -211,7 +208,6 @@ def direct_j_guards(target_pgurl: str) -> list[dict[str, Any]]:
         )
         if tuple(case[0] for case in cases) != DIRECT_J_GUARD_NAMES:
             raise AssertionError('Direct J guard case manifest drift')
-        result = []
         for name, mutation, expected_error, coherent_definition in cases:
             error = None
             try:
@@ -238,12 +234,13 @@ def direct_j_guards(target_pgurl: str) -> list[dict[str, Any]]:
                 if function_catalog(cur) != before:
                     raise AssertionError(f'{name}: guard left function/ACL residue')
             conn.commit()
-            result.append({
-                'case': name,
-                'status': 'PASS',
-                'expected_rejection_observed': True,
-            })
-    return result
+    # Build public labels from the fixed case manifest only after every guard
+    # has rejected its fault and its transaction/catalog residue was checked.
+    # Do not propagate fields from tuples that also carry database definitions.
+    return [
+        {'case': name, 'status': 'PASS', 'expected_rejection_observed': True}
+        for name in DIRECT_J_GUARD_NAMES
+    ]
 
 
 def verify_exact_i_restore(target_pgurl: str) -> dict[str, Any]:

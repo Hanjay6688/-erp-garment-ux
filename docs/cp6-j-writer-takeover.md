@@ -20,6 +20,14 @@ rollback levels, final no-residue verification and the final manifest did not ru
 The two High CodeQL annotations on J guard JSON storage/logging also remained
 open. The successful matrix does not make that run a complete proof.
 
+The first follow-up run #121 at `0f44170f8c5be57a460046fe50ac0160a4214517`
+passed native predecessor/business gates through I, but its new foreign-customer
+fixture exceeded the existing 30-character product code bound. The fixture label
+was shortened without changing that schema bound. CodeQL also still rejected the
+J guard summaries; the follow-up removes database-derived capsule fields and
+constructs direct-guard result labels from the fixed case manifest after all
+actual rejection/residue assertions finish. Preserve #121 as FAIL, not acceptance.
+
 ## Root cause and repair
 
 The shared matrix fixture helper unconditionally stripped J from every clone.
@@ -39,8 +47,8 @@ CodeQL clearance requires a fresh scan of the successor commit.
 
 ## Evidence requirements
 
-- 18 mocked orchestration checks exercise all nine supported J/I source-target
-  plans, four invalid requests, four source-state faults and summary projection.
+- 19 mocked orchestration checks exercise all nine supported J/I source-target
+  plans, four invalid requests, four source-state faults and both public summary projections.
   Reintroducing the unconditional J strip or a permissive source verifier must
   fail the oracle. These checks are explicitly not native PostgreSQL proof.
 - The 31 endpoint tests and permissive-validator negative control remain intact.
