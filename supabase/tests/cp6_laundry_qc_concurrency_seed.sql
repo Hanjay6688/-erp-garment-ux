@@ -357,9 +357,30 @@ insert into erp.laundry_delivery_batch_size_lines(
 update erp.laundry_deliveries set status='SENT'
 where id='c8d50000-0000-4000-8000-000000000001';
 
+-- The first-accrual race intentionally starts before financial synchronization,
+-- not before physical dispatch. Its old SENT-only seed omitted this source
+-- fact, which the independent G custody detector correctly rejects. Reproduce
+-- the physical row emitted by post_laundry_delivery, retaining the untouched
+-- zero-accrual precondition below. This is disposable fixture data only.
+insert into erp.wip_stage_events(
+  po_id,cutting_group_id,stage_from,stage_to,qty_pcs,contractor_id,
+  source_type,source_id,physical_at,created_by,notes
+)
+select d.po_id,l.cutting_group_id,'SEWING','LAUNDRY',l.qty_sent_pcs,
+  po.contractor_id,'LAUNDRY_DELIVERY_LINE',l.id,d.physical_at,d.created_by,
+  'First-row accrual fixture: physically dispatched, financial sync not run'
+from erp.laundry_delivery_lines l
+join erp.laundry_deliveries d on d.id=l.delivery_id
+join erp.production_orders po on po.id=d.po_id
+where l.id='c8d50000-0000-4000-8000-000000000002';
+
 do $first_accrual_seed_guard$
 begin
   if erp.desired_laundry_accrual('c8d40000-0000-4000-8000-000000000001')<>70
+     or (select count(*) from erp.wip_stage_events
+       where source_type='LAUNDRY_DELIVERY_LINE'
+         and source_id='c8d50000-0000-4000-8000-000000000002'
+         and qty_pcs=10 and stage_from='SEWING' and stage_to='LAUNDRY')<>1
      or exists(select 1 from erp.laundry_cost_accrual_state
        where po_id='c8d40000-0000-4000-8000-000000000001')
      or exists(select 1 from erp.laundry_cost_accrual_events

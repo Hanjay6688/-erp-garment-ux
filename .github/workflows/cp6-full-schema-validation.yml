@@ -70,6 +70,7 @@ jobs:
           python -m py_compile scripts/cp6_v2620c_live_rollback_race.py
           python -m py_compile scripts/cp6_v2620e_counterexample_regression.py
           python -m py_compile scripts/cp6_v2620f_final_runtime_regression.py
+          python -m py_compile scripts/cp6_v2620g_independent_regression.py scripts/cp6_v2620g_rollback_guards.py scripts/cp6_v2620g_expanded_rollback_races.py
           bash -n scripts/run_cp6_v2620f_live_rollback_races.sh
           npx playwright test --list --config playwright.cp5.config.ts
           npx playwright test --list --config playwright.cp6.config.ts
@@ -921,6 +922,35 @@ jobs:
           test "$replay_status" -ne 0
           grep -F 'ERP v2.6.20f is already recorded' cp6-proof/V2620F_REPLAY_REJECTION.log >/dev/null
 
+      - name: Apply v2.6.20g independent N01-N03 closure before all final-runtime evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          migration_source='supabase/migrations/20260910031103_erp_v2_6_20g_cp6_independent_audit_closure.sql'
+          test "$(wc -c < "$migration_source")" = '23916'
+          echo '645623b047e6c762cf078507450d260d712427ccd0b2c314113de856c4aff726  supabase/migrations/20260910031103_erp_v2_6_20g_cp6_independent_audit_closure.sql' | sha256sum -c - | tee cp6-proof/V2620G_MIGRATION_SHA256.txt
+          psql "$PGURL" -X -v ON_ERROR_STOP=1 -f "$migration_source" 2>&1 | tee cp6-proof/V2620G_APPLY.log
+          python - <<'PY'
+          import os,pathlib,psycopg
+          source=pathlib.Path('supabase/migrations/20260910031103_erp_v2_6_20g_cp6_independent_audit_closure.sql').read_text()
+          with psycopg.connect(os.environ['PGURL']) as conn:
+              conn.execute('insert into supabase_migrations.schema_migrations(version,name,statements) values(%s,%s,%s)',
+                ('20260910031103','erp_v2_6_20g_cp6_independent_audit_closure',[source]))
+          PY
+          test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select count(*) from erp.cp6_v2620g_rollback_capsule where installed_definition_sha256 is not null")" = '7'
+          psql "$PGURL" -X -At -F '|' -v ON_ERROR_STOP=1 \
+            -c "select object_regidentity,definition_sha256,installed_definition_sha256 from erp.cp6_v2620g_rollback_capsule order by object_regidentity" \
+            | tee cp6-proof/V2620G_INSTALLED_FUNCTION_SHA256.txt
+          psql "$PGURL" -X -At -F '|' -v ON_ERROR_STOP=1 \
+            -c "select p.oid::regprocedure::text,encode(extensions.digest(convert_to(pg_get_functiondef(p.oid),'UTF8'),'sha256'),'hex') from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='erp' and p.prokind='f' order by 1" \
+            | tee cp6-proof/V2620G_ALL_ERP_FUNCTION_SHA256.txt
+          set +e
+          psql "$PGURL" -X -v ON_ERROR_STOP=1 -f "$migration_source" > cp6-proof/V2620G_REPLAY_REJECTION.log 2>&1
+          replay_status=$?
+          set -e
+          test "$replay_status" -ne 0
+          grep -F 'ERP v2.6.20g already recorded' cp6-proof/V2620G_REPLAY_REJECTION.log >/dev/null
+
       - name: Run post-CP6 real Auth JWT HTTP permissions and residue-zero E2E
         shell: bash
         run: |
@@ -1065,7 +1095,7 @@ jobs:
           report=json.loads(Path(os.environ['CP6_AUTH_REPORT']).read_text())
           assert report['status']=='PASS',report
           assert report['classification']=='LOCAL_POST_CP6_REAL_AUTH_JWT_HTTP',report
-          assert report['target']=='PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620F',report
+          assert report['target']=='PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620G',report
           assert report['disposable_database']=='cp6_auth',report
           assert report['database_disposal_required'] is True,report
           assert report['positive_evidence']['partial_hpp_wip']['active_laundry_hpp']==28,report
@@ -1421,8 +1451,9 @@ jobs:
         run: |
           set -euo pipefail
           test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select count(*) from erp.schema_migrations where version in('v2.6.20e','v2.6.20f')")" = '2'
+          test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select count(*) from erp.schema_migrations where version='v2.6.20g'")" = '1'
           test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select count(*) from supabase_migrations.schema_migrations where name in('erp_v2_6_20e_cp6_counterexample_closure','erp_v2_6_20f_cp6_final_runtime_reliability')")" = '2'
-          printf 'runtime=v2.6.20e+v2.6.20f\nauth=completed\nacceptance=completed\nnative_races=34\ncp5_regression=completed\nproduction_go=false\n' \
+          printf 'runtime=v2.6.20e+v2.6.20f+v2.6.20g\nauth=completed\nacceptance=completed\nnative_races=34\ncp5_regression=completed\nproduction_go=false\n' \
             | tee cp6-proof/V2620F_FINAL_RUNTIME_COVERAGE.txt
 
       - name: Re-prove native C01-C06 business closure under final E plus F runtime
@@ -1445,6 +1476,29 @@ jobs:
           test "$(jq -r '.head' "$CP6_V2620F_RELIABILITY_REPORT")" = "$GITHUB_SHA"
           test "$(jq -r '.classification' "$CP6_V2620F_RELIABILITY_REPORT")" = 'DISPOSABLE_NATIVE_POSTGRESQL_REGRESSION_AFTER_E_AND_F'
           test "$(jq -r '.production_go' "$CP6_V2620F_RELIABILITY_REPORT")" = 'false'
+
+      - name: Prove native G N01-N03 and extended cent-boundary regressions
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/cp6_v2620g_independent_regression.py 2>&1 | tee cp6-proof/V2620G_NATIVE_REGRESSION.log
+          test "$(jq -r '.status' cp6-proof/CP6_V2620G_INDEPENDENT_REGRESSION.json)" = 'PASS'
+          test "$(jq -r '.head' cp6-proof/CP6_V2620G_INDEPENDENT_REGRESSION.json)" = "$GITHUB_SHA"
+
+      - name: Qualify exact F and G rollback against five actual backend paths in four orders
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/cp6_v2620g_expanded_rollback_races.py 2>&1 | tee cp6-proof/V2620G_EXPANDED_ROLLBACK_RACES.log
+          test "$(jq -r '.status' cp6-proof/G_EXPANDED_ROLLBACK/manifest.json)" = 'PASS'
+          test "$(jq '.cases | length' cp6-proof/G_EXPANDED_ROLLBACK/manifest.json)" = '40'
+
+      - name: Prove G guards and exact seven-function pre-use restore to F
+        shell: bash
+        run: |
+          set -euo pipefail
+          python scripts/cp6_v2620g_rollback_guards.py 2>&1 | tee cp6-proof/V2620G_ROLLBACK_GUARDS.log
+          test "$(jq -r '.status' cp6-proof/CP6_V2620G_ROLLBACK_GUARDS.json)" = 'PASS'
 
       - name: Prove both live v2.6.20f rollback and business-writer lock orders
         shell: bash
@@ -3124,6 +3178,10 @@ jobs:
             'V2620F_LIVE_ROLLBACK_CLONE_CLEANUP.txt',
             'V2620F_ROLLBACK_SHA256.txt','V2620F_ROLLBACK_SUCCESSOR_REJECTION.log',
             'V2620F_ROLLBACK_TAMPER_REJECTION.log','V2620F_MAIN_PRE_USE_ROLLBACK.log',
+            'V2620G_MIGRATION_SHA256.txt','V2620G_APPLY.log','V2620G_REPLAY_REJECTION.log',
+            'V2620G_INSTALLED_FUNCTION_SHA256.txt','V2620G_ALL_ERP_FUNCTION_SHA256.txt',
+            'CP6_V2620G_INDEPENDENT_REGRESSION.json','CP6_V2620G_ROLLBACK_GUARDS.json',
+            'G_EXPANDED_ROLLBACK/manifest.json',
             'V2620C_LIVE_ROLLBACK_WRITER_FIRST.json','V2620C_LIVE_ROLLBACK_ROLLBACK_FIRST.json',
             'V2620C_LIVE_ROLLBACK_CLONE_CLEANUP.txt','V2620C_MAIN_PRE_USE_ROLLBACK.log',
             'V2620B_ROLLBACK_CONCURRENCY.json',
@@ -3135,6 +3193,34 @@ jobs:
           missing=[name for name in required if not (proof/name).is_file()]
           assert not missing,missing
           assert json.loads((proof/'FINAL_RECONCILIATION.json').read_text())['status']=='PASS'
+
+          g=json.loads((proof/'CP6_V2620G_INDEPENDENT_REGRESSION.json').read_text())
+          assert g['head']==os.environ['GITHUB_SHA'] and g['status']=='PASS' and g['production_go'] is False,g
+          assert g['runtime']['versions']==['v2.6.20e','v2.6.20f','v2.6.20g'],g
+          assert len(g['runtime']['capsule'])==7 and all(x['installed_sha256']==x['actual_sha256'] for x in g['runtime']['capsule']),g
+          assert len(g['cases'])==8 and all(x['status']=='PASS' for x in g['cases'].values()),g
+          assert g['cases']['g_n01_threshold_matrix']['independent_unit_cost_boundaries']==10,g
+          faults=g['cases']['g_n03_source_detector']['faults']
+          assert len(faults)==12 and all(x['status']=='BLOCKED' for x in faults),faults
+          assert g['cases']['g_n03_source_detector']['restored']=='READY',g
+          assert g['cases']['g_n02_reserved_reprice']['post_stock_delta']==0,g
+          gguard=json.loads((proof/'CP6_V2620G_ROLLBACK_GUARDS.json').read_text())
+          assert gguard['head']==os.environ['GITHUB_SHA'] and gguard['status']=='PASS',gguard
+          assert len(gguard['exact_pre_use_restore'])==7 and gguard['metadata_residue']==0,gguard
+          graces=json.loads((proof/'G_EXPANDED_ROLLBACK/manifest.json').read_text())
+          assert graces['head']==os.environ['GITHUB_SHA'] and graces['status']=='PASS',graces
+          expected={(target,op,mode) for target in ('v2.6.20f','v2.6.20g')
+            for op in ('SALE','RETURN','CONVERSION','REPORT','FK_SYNC')
+            for mode in ('WRITER_FIRST','ROLLBACK_FIRST','WRITER_ABORT','ROLLBACK_LOCK_TIMEOUT')}
+          assert len(graces['cases'])==40 and {(c['target'],c['operation'],c['mode']) for c in graces['cases']}==expected
+          for c in graces['cases']:
+              assert c['status']=='PASS' and c['remaining_clone_databases']==0,c
+              assert not c['manual_writer_prelock'] and not c['synthetic_business_marker'],c
+              assert c['function_hash_observations'] and all(x['expected']==x['actual'] for x in c['function_hash_observations']),c
+              assert c['lock_observation'],c
+              assert c['exact_rollback_pid_is_writer_blocker'] if c['mode']=='ROLLBACK_FIRST' else c['exact_writer_pid_is_rollback_blocker'],c
+              if c['operation']=='FK_SYNC' and not (c['target']=='v2.6.20f' and c['mode']=='ROLLBACK_FIRST'):
+                  assert c['writer']['response']['fk_event_rows']>=1,c
 
           browser=json.loads((proof/'cp6-browser-contract/results.json').read_text())
           tests=[]
@@ -3165,6 +3251,16 @@ jobs:
             'scripts/cp6_v2620f_final_runtime_regression.py',
             'scripts/run_cp6_v2620f_live_rollback_races.sh',
             'scripts/check-cp6-final-runtime-reliability.mjs',
+            'supabase/migrations/20260910031103_erp_v2_6_20g_cp6_independent_audit_closure.sql',
+            'supabase/rollbacks/20260910031103_erp_v2_6_20g_cp6_independent_audit_closure.rollback.sql',
+            'supabase/tests/cp6_independent_n_regression.sql',
+            'supabase/tests/cp6_laundry_qc_concurrency_seed.sql',
+            'scripts/cp6_v2620g_independent_regression.py',
+            'scripts/cp6_v2620g_rollback_guards.py',
+            'scripts/cp6_v2620g_expanded_rollback_races.py',
+            'scripts/check-cp6-independent-closure.mjs',
+            'scripts/cp6_auth_permission_e2e.mjs',
+            '.github/workflows/cp6-full-schema-validation.yml',
           ]
           sources={}
           for name in source_paths:
@@ -3177,7 +3273,7 @@ jobs:
           for path in sorted(item for item in proof.rglob('*') if item.is_file()):
               relative_path=path.relative_to(proof)
               relative=str(relative_path)
-              if relative=='CP6_V2620F_RUNTIME_MANIFEST.json': continue
+              if relative=='CP6_V2620G_RUNTIME_MANIFEST.json': continue
               # actions/upload-artifact excludes hidden path components when
               # include-hidden-files is false.  The manifest must describe
               # exactly the files an independent reviewer can download.
@@ -3192,10 +3288,13 @@ jobs:
           head=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()
           assert head==os.environ['GITHUB_SHA']
           manifest={
-            'format':'CP6_V2620F_RUNTIME_PROOF_V1',
+            'format':'CP6_V2620G_RUNTIME_PROOF_V1',
             'predecessor_proof':{
+              'format':'CP6_V2620F_RUNTIME_PROOF_V1',
+              'predecessor_proof':{
               'format':'CP6_V2620E_RUNTIME_PROOF_V1',
               'predecessor_proof':{'format':'CP6_V2620D_RUNTIME_PROOF_V1'},
+              },
             },
             'status':'PASS_EXACT_LOCAL_DISPOSABLE_CI',
             'observed_at_utc':datetime.now(timezone.utc).isoformat().replace('+00:00','Z'),
@@ -3234,6 +3333,13 @@ jobs:
               'v2620f_counterexamples_a01_a03':3,
               'v2620f_auth_acceptance_races_and_cp5_after_final_runtime':True,
               'v2620f_installed_function_hashes_bound':True,
+              'final_runtime':'v2.6.20e+v2.6.20f+v2.6.20g',
+              'v2620g_n01_n03_extended_case_groups':8,
+              'v2620g_wip_fault_variations':12,
+              'v2620g_minor_unit_price_boundaries':10,
+              'v2620g_restored_function_owner_acl_count':7,
+              'v2620f_and_g_native_backend_rollback_schedules':40,
+              'backend_rollback_qualification_is_http_auth_proof':False,
               'v2620e_append_only_redispatch_events':True,
               'v2620e_opening_and_mixed_origin_hpp':True,
               'v2620e_exact_refund_and_zero_journal_inverse':True,
@@ -3256,12 +3362,13 @@ jobs:
               'mutated_by_this_workflow':False,
               'uat_v2620a_v2620b_v2620c_v2620d_state':'NOT_TESTED_OR_APPLIED_BY_THIS_RUN',
               'uat_v2620e_v2620f_state':'NOT_TESTED_OR_APPLIED_BY_THIS_RUN',
+              'uat_v2620g_state':'NOT_TESTED_OR_APPLIED_BY_THIS_RUN',
               'legacy_state':'NOT_TESTED_OR_MUTATED_BY_THIS_RUN',
             },
             'proof_files':proof_files,
             'production_go':False,
           }
-          (proof/'CP6_V2620F_RUNTIME_MANIFEST.json').write_text(
+          (proof/'CP6_V2620G_RUNTIME_MANIFEST.json').write_text(
               json.dumps(manifest,indent=2,sort_keys=True)+'\n',encoding='utf8',
           )
           print(json.dumps({
@@ -3274,7 +3381,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: cp6-r1-v2620f-full-schema-auth-browser-proof
+          name: cp6-r1-v2620g-full-schema-auth-browser-proof
           path: cp6-proof
           if-no-files-found: warn
           include-hidden-files: false

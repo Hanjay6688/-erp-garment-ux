@@ -290,8 +290,8 @@ requireTokens(workflow, 'A04 exact final-runtime proof', [
   "'v2620f_counterexamples_a01_a03':3",
   "'v2620f_auth_acceptance_races_and_cp5_after_final_runtime':True",
   "'v2620f_installed_function_hashes_bound':True",
-  "proof/'CP6_V2620F_RUNTIME_MANIFEST.json'",
-  'name: cp6-r1-v2620f-full-schema-auth-browser-proof',
+  "proof/'CP6_V2620G_RUNTIME_MANIFEST.json'",
+  'name: cp6-r1-v2620g-full-schema-auth-browser-proof',
   "'uat_v2620e_v2620f_state':'NOT_TESTED_OR_APPLIED_BY_THIS_RUN'",
   "'production_go':False",
 ])
@@ -305,7 +305,7 @@ requireTokens(workflow, 'F source and residue binding', [
 ])
 
 requireTokens(auth, 'Auth proof target', [
-  "target: 'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620F'",
+  "target: 'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620G'",
   'production_go: false',
 ])
 requireTokens(packageSource, 'static gate wiring', [
