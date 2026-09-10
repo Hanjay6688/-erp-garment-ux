@@ -48,10 +48,12 @@ const order = [
   'Apply v2.6.20f A01-A04', 'Apply v2.6.20g independent N01-N03',
   'Apply v2.6.20h expanded R01-R03',
   'Apply v2.6.20i H2 audit closure',
+  'Apply v2.6.20j immutable payment facts',
   'Run post-CP6 real Auth', 'Run thirty-four native CP6 races',
   'Prove native G N01-N03', 'Prove native H R02-R03',
   'Prove native I H2 payment lineage',
-  'Qualify exact F G H and I rollback under closed admission',
+  'Qualify exact F G H I and J rollback under closed admission',
+  'Prove trusted J capsule and maintenance-only exact J restore to I',
   'Prove trusted F G H I capsules and maintenance-only exact I restore to H',
   'Prove H guards and maintenance-only exact six-function',
   'Prove G guards and exact seven-function',
@@ -62,10 +64,10 @@ for (const token of order) {
   assert.ok(position > previous, 'Wrong installed-runtime order: ' + token)
   previous = position
 }
-assert.ok(workflow.includes('CP6_V2620I_RUNTIME_MANIFEST.json'))
-assert.ok(workflow.includes("runtime=v2.6.20e+v2.6.20f+v2.6.20g+v2.6.20h+v2.6.20i"))
-assert.ok(workflow.includes("name: cp6-r1-v2620i-full-schema-auth-browser-proof"))
-assert.ok(read('scripts/cp6_auth_permission_e2e.mjs').includes('AFTER_V2620I'))
+assert.ok(workflow.includes('CP6_V2620J_RUNTIME_MANIFEST.json'))
+assert.ok(workflow.includes("runtime=v2.6.20e+v2.6.20f+v2.6.20g+v2.6.20h+v2.6.20i+v2.6.20j"))
+assert.ok(workflow.includes("name: cp6-r1-v2620j-full-schema-auth-browser-proof"))
+assert.ok(read('scripts/cp6_auth_permission_e2e.mjs').includes('AFTER_V2620J'))
 const races = read('scripts/cp6_v2620g_expanded_rollback_races.py')
 for (const token of ['pg_blocking_pids', 'WRITER_FIRST', 'ROLLBACK_FIRST', 'WRITER_ABORT',
   'ROLLBACK_LOCK_TIMEOUT', 'SALE', 'RETURN', 'CONVERSION', 'REPORT', 'FK_SYNC',

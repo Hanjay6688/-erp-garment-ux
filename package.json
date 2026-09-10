@@ -10,7 +10,7 @@
     "check:css": "node scripts/check-css-ownership.mjs",
     "check:backend": "node scripts/check-predecessor-backend-ownership.mjs",
     "check:cp5": "node scripts/check-cp5-boundary.mjs",
-    "check:cp6": "node scripts/check-cp6-boundary.mjs && node scripts/check-cp6-audit-closure.mjs && node scripts/check-cp6-reaudit-closure.mjs && node scripts/check-cp6-deep-business-repair.mjs && node scripts/check-cp6-reaudit-business-closure.mjs && node scripts/check-cp6-final-runtime-reliability.mjs && node scripts/check-cp6-independent-closure.mjs && node scripts/check-cp6-expanded-audit-closure.mjs && node scripts/check-cp6-h2-audit-closure.mjs",
+    "check:cp6": "node scripts/check-cp6-boundary.mjs && node scripts/check-cp6-audit-closure.mjs && node scripts/check-cp6-reaudit-closure.mjs && node scripts/check-cp6-deep-business-repair.mjs && node scripts/check-cp6-reaudit-business-closure.mjs && node scripts/check-cp6-final-runtime-reliability.mjs && node scripts/check-cp6-independent-closure.mjs && node scripts/check-cp6-expanded-audit-closure.mjs && node scripts/check-cp6-h2-audit-closure.mjs && node scripts/check-cp6-payment-fact-closure.mjs",
     "check:cp6:counterexamples": "node scripts/check-cp6-counterexample-closure.mjs",
     "check:cp6:final-runtime": "node scripts/check-cp6-final-runtime-reliability.mjs",
     "check:cp3-backend": "node scripts/check-backend-ownership-v2.mjs --cp3-only",

@@ -21,6 +21,9 @@ MIGRATION = Path(
 SUCCESSOR_I = Path(
     'supabase/migrations/20260910100051_erp_v2_6_20i_cp6_h2_audit_closure.sql'
 )
+SUCCESSOR_J = Path(
+    'supabase/migrations/20260910170556_erp_v2_6_20j_cp6_payment_fact_closure.sql'
+)
 REPORT = Path(
     os.environ.get(
         'CP6_H_REPORT', 'cp6-proof/CP6_V2620H_EXPANDED_AUDIT_REGRESSION.json'
@@ -34,14 +37,29 @@ def exact_runtime(cur: psycopg.Cursor) -> dict[str, Any]:
     versions = base.one(
         cur,
         """select jsonb_agg(version order by version) from erp.schema_migrations
-           where version in('v2.6.20e','v2.6.20f','v2.6.20g','v2.6.20h','v2.6.20i')""",
+           where version in(
+             'v2.6.20e','v2.6.20f','v2.6.20g','v2.6.20h','v2.6.20i','v2.6.20j'
+           )""",
     )
-    if versions != ['v2.6.20e', 'v2.6.20f', 'v2.6.20g', 'v2.6.20h', 'v2.6.20i']:
-        raise AssertionError(f'Final E+F+G+H+I runtime not present: {versions}')
+    if versions != [
+        'v2.6.20e', 'v2.6.20f', 'v2.6.20g',
+        'v2.6.20h', 'v2.6.20i', 'v2.6.20j',
+    ]:
+        raise AssertionError(f'Final E+F+G+H+I+J runtime not present: {versions}')
     i_installed = base.one(
         cur,
         "select installed_definition_sha256 from erp.cp6_v2620i_rollback_capsule",
     )
+    cur.execute(
+        """select object_regidentity,definition_sha256,installed_definition_sha256,
+          encode(extensions.digest(convert_to(pg_get_functiondef(
+            to_regprocedure(object_regidentity)),'UTF8'),'sha256'),'hex') actual
+          from erp.cp6_v2620j_rollback_capsule order by object_regidentity"""
+    )
+    j_rows = cur.fetchall()
+    if len(j_rows) != 3 or any(item[2] != item[3] for item in j_rows):
+        raise AssertionError(f'J successor capsule/function mismatch: {j_rows}')
+    j_by_identity = {item[0]: item[2] for item in j_rows}
     cur.execute(
         """select object_regidentity,installed_definition_sha256,
           encode(extensions.digest(convert_to(pg_get_functiondef(
@@ -52,12 +70,20 @@ def exact_runtime(cur: psycopg.Cursor) -> dict[str, Any]:
         {'identity': row[0], 'installed_sha256': row[1], 'actual_sha256': row[2]}
         for row in cur.fetchall()
     ]
+    for item in functions:
+        item['h_installed_sha256'] = item['installed_sha256']
+        if item['identity'] in j_by_identity:
+            item['installed_sha256'] = j_by_identity[item['identity']]
+            item['expected_generation'] = 'J'
+        elif item['identity'] == 'erp.run_v268_financial_report_checks()':
+            item['installed_sha256'] = i_installed
+            item['expected_generation'] = 'I'
+        else:
+            item['expected_generation'] = 'H'
     if len(functions) != 6 or any(
-        (i_installed if item['identity'] == 'erp.run_v268_financial_report_checks()'
-         else item['installed_sha256']) != item['actual_sha256']
-        for item in functions
+        item['installed_sha256'] != item['actual_sha256'] for item in functions
     ):
-        raise AssertionError('H installed definition differs from effective H/I runtime')
+        raise AssertionError('H installed definition differs from effective H/I/J runtime')
     cur.execute(
         """select object_regidentity,definition_sha256,installed_definition_sha256,
           encode(extensions.digest(convert_to(pg_get_functiondef(
@@ -69,7 +95,7 @@ def exact_runtime(cur: psycopg.Cursor) -> dict[str, Any]:
         i_row is None
         or i_row[0] != 'erp.run_v268_financial_report_checks()'
         or i_row[1] != '3afc0bef1136bafb14d4fdde69fa0cdf79fff0883c35c65607bdfa624d8cf65f'
-        or i_row[2] != i_row[3]
+        or i_row[3] != j_by_identity['erp.run_v268_financial_report_checks()']
     ):
         raise AssertionError(f'I capsule/effective report mismatch: {i_row}')
     source = MIGRATION.read_bytes()
@@ -92,6 +118,16 @@ def exact_runtime(cur: psycopg.Cursor) -> dict[str, Any]:
     )
     if i_platform not in (i_file_sha, hashlib.sha256(i_source[:-1]).hexdigest()):
         raise AssertionError(f'I source/platform drift: {i_platform} != {i_file_sha}')
+    j_source = SUCCESSOR_J.read_bytes()
+    j_file_sha = hashlib.sha256(j_source).hexdigest()
+    j_platform = base.one(
+        cur,
+        """select encode(extensions.digest(convert_to(array_to_string(statements,E'\n'),
+          'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations
+          where name='erp_v2_6_20j_cp6_payment_fact_closure'""",
+    )
+    if j_platform not in (j_file_sha, hashlib.sha256(j_source[:-1]).hexdigest()):
+        raise AssertionError(f'J source/platform drift: {j_platform} != {j_file_sha}')
     return {
         'engine': base.one(cur, 'select version()'),
         'versions': versions,
@@ -108,6 +144,16 @@ def exact_runtime(cur: psycopg.Cursor) -> dict[str, Any]:
         'successor_i_migration_bytes': len(i_source),
         'successor_i_migration_sha256': i_file_sha,
         'successor_i_platform_sha256': i_platform,
+        'successor_j_capsule': [
+            {
+                'identity': item[0], 'predecessor_sha256': item[1],
+                'installed_sha256': item[2], 'actual_sha256': item[3],
+            }
+            for item in j_rows
+        ],
+        'successor_j_migration_bytes': len(j_source),
+        'successor_j_migration_sha256': j_file_sha,
+        'successor_j_platform_sha256': j_platform,
     }
 
 

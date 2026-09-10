@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 import os
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 
 import cp6_preuse_rollback_maintenance as maintenance
 
@@ -17,14 +17,10 @@ CONTROL = (
 )
 
 
-def run() -> dict[str, Any]:
-    result: dict[str, Any] = {
-        'classification': 'PURE_MAINTENANCE_ENDPOINT_ALLOWLIST_UNIT',
-        'production_go': False,
-        'expected_case_count': 23,
-        'cases': [],
-    }
-
+def _run_cases(
+    validator: Callable[[str, str], tuple[str, str]],
+) -> list[dict[str, Any]]:
+    cases: list[dict[str, Any]] = []
     def case(
         name: str,
         target: str = TARGET,
@@ -42,17 +38,18 @@ def run() -> dict[str, Any]:
         else:
             os.environ.pop('CP6_MAINTENANCE_ALLOW_SYSTEM_DATABASE', None)
         try:
-            observed = maintenance._validate_connections(target, control)
-            if not accepted:
-                raise AssertionError('endpoint unexpectedly accepted')
-            result['cases'].append(
-                {'case': name, 'status': 'PASS', 'accepted': True, 'observed': observed}
-            )
-        except Exception as exc:
+            observed = validator(target, control)
+        except maintenance.MaintenanceRollbackError as exc:
             if accepted:
-                raise
-            result['cases'].append(
+                raise AssertionError(f'{name}: expected endpoint was rejected') from exc
+            cases.append(
                 {'case': name, 'status': 'PASS', 'accepted': False, 'rejection': str(exc)}
+            )
+        else:
+            if not accepted:
+                raise AssertionError(f'{name}: endpoint unexpectedly accepted')
+            cases.append(
+                {'case': name, 'status': 'PASS', 'accepted': True, 'observed': observed}
             )
         finally:
             if old_confirm is None:
@@ -76,6 +73,21 @@ def run() -> dict[str, Any]:
         'postgres_without_explicit_opt_in',
         TARGET.replace('/cp6_rollback', '/postgres'),
         confirmation='postgres',
+    )
+    case('duplicate_target_host_same', TARGET + '?host=127.0.0.1')
+    case(
+        'duplicate_target_host_overrides_wrong',
+        TARGET.replace('127.0.0.1', 'audit-invalid.invalid') + '?host=127.0.0.1',
+    )
+    case('duplicate_target_port', TARGET + '?port=54322')
+    case('duplicate_target_user', TARGET + '?user=postgres')
+    case('duplicate_target_database', TARGET + '?dbname=cp6_rollback')
+    case('duplicate_target_password', TARGET + '?password=synthetic-second')
+    case('duplicate_control_host', control=CONTROL + '?host=127.0.0.1')
+    case(
+        'conninfo_duplicate_host',
+        'host=audit-invalid.invalid host=127.0.0.1 port=54322 '
+        'dbname=cp6_rollback user=postgres password=synthetic',
     )
     case('external_target_host', TARGET.replace('127.0.0.1', 'db.example.invalid'))
     case('wrong_target_port', TARGET.replace('54322', '5432'))
@@ -110,11 +122,36 @@ def run() -> dict[str, Any]:
     )
     case('confirmation_mismatch', confirmation='postgres')
 
+    return cases
+
+
+def run() -> dict[str, Any]:
+    result: dict[str, Any] = {
+        'classification': 'PURE_MAINTENANCE_ENDPOINT_ALLOWLIST_UNIT',
+        'production_go': False,
+        'expected_case_count': 31,
+        'cases': _run_cases(maintenance._validate_connections),
+    }
+
+    # Fail-closed proof of the test oracle itself. A deliberately permissive
+    # validator must make the same negative matrix raise, never report PASS.
+    try:
+        _run_cases(lambda _target, _control: ('cp6_rollback', 'template1'))
+    except AssertionError as exc:
+        result['permissive_validator_negative_control'] = {
+            'status': 'PASS',
+            'suite_failed_closed': True,
+            'failure_type': type(exc).__name__,
+        }
+    else:
+        raise AssertionError('Permissive validator negative control unexpectedly passed')
+
     result['completed_case_count'] = len(result['cases'])
     result['status'] = (
         'PASS'
         if result['completed_case_count'] == result['expected_case_count']
         and all(item['status'] == 'PASS' for item in result['cases'])
+        and result['permissive_validator_negative_control']['suite_failed_closed'] is True
         else 'FAIL'
     )
     return result

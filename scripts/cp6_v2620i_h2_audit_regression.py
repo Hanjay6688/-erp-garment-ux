@@ -19,6 +19,9 @@ import cp6_v2620h_adversarial_regression as h
 MIGRATION = Path(
     'supabase/migrations/20260910100051_erp_v2_6_20i_cp6_h2_audit_closure.sql'
 )
+SUCCESSOR_J = Path(
+    'supabase/migrations/20260910170556_erp_v2_6_20j_cp6_payment_fact_closure.sql'
+)
 REPORT = Path(
     os.environ.get(
         'CP6_V2620I_H2_REPORT', 'cp6-proof/CP6_V2620I_H2_AUDIT_REGRESSION.json'
@@ -51,13 +54,16 @@ def exact_runtime(cur: psycopg.Cursor) -> dict[str, Any]:
     versions = base.one(
         cur,
         """select jsonb_agg(version order by version) from erp.schema_migrations
-           where version in('v2.6.20e','v2.6.20f','v2.6.20g','v2.6.20h','v2.6.20i')""",
+           where version in(
+             'v2.6.20e','v2.6.20f','v2.6.20g','v2.6.20h','v2.6.20i','v2.6.20j'
+           )""",
     )
     expected_versions = [
-        'v2.6.20e', 'v2.6.20f', 'v2.6.20g', 'v2.6.20h', 'v2.6.20i',
+        'v2.6.20e', 'v2.6.20f', 'v2.6.20g',
+        'v2.6.20h', 'v2.6.20i', 'v2.6.20j',
     ]
     if versions != expected_versions:
-        raise AssertionError(f'Final E+F+G+H+I runtime not present: {versions}')
+        raise AssertionError(f'Final E+F+G+H+I+J runtime not present: {versions}')
     cur.execute(
         """select object_regidentity,definition_sha256,installed_definition_sha256,
           encode(extensions.digest(convert_to(pg_get_functiondef(
@@ -71,7 +77,6 @@ def exact_runtime(cur: psycopg.Cursor) -> dict[str, Any]:
         or row[0] != 'erp.run_v268_financial_report_checks()'
         or row[1] != '3afc0bef1136bafb14d4fdde69fa0cdf79fff0883c35c65607bdfa624d8cf65f'
         or row[2] != 'c25defe6a1403a7199e71f92fd3799f941b7748f6228671e78586ba1ede5f8e1'
-        or row[2] != row[3]
         or row[4] != 'postgres'
         or row[5] != [
             'authenticated=X/postgres',
@@ -79,7 +84,23 @@ def exact_runtime(cur: psycopg.Cursor) -> dict[str, Any]:
             'service_role=X/postgres',
         ]
     ):
-        raise AssertionError(f'I capsule/function mismatch: {row}')
+        raise AssertionError(f'I predecessor capsule mismatch: {row}')
+    cur.execute(
+        """select object_regidentity,definition_sha256,installed_definition_sha256,
+          encode(extensions.digest(convert_to(pg_get_functiondef(
+            to_regprocedure(object_regidentity)),'UTF8'),'sha256'),'hex') actual,
+          owner_snapshot,acl_snapshot
+          from erp.cp6_v2620j_rollback_capsule order by object_regidentity"""
+    )
+    j_rows = cur.fetchall()
+    if len(j_rows) != 3 or any(item[2] != item[3] for item in j_rows):
+        raise AssertionError(f'J successor capsule/function mismatch: {j_rows}')
+    j_report = next(
+        (item for item in j_rows if item[0] == 'erp.run_v268_financial_report_checks()'),
+        None,
+    )
+    if j_report is None or row[3] != j_report[2]:
+        raise AssertionError(f'I-to-J report lineage mismatch: I={row}, J={j_report}')
     source = MIGRATION.read_bytes()
     file_sha = hashlib.sha256(source).hexdigest()
     ledger_sha = base.one(
@@ -91,17 +112,38 @@ def exact_runtime(cur: psycopg.Cursor) -> dict[str, Any]:
     accepted = (file_sha, hashlib.sha256(source[:-1]).hexdigest())
     if ledger_sha not in accepted:
         raise AssertionError(f'I source/platform drift: {ledger_sha} not in {accepted}')
+    j_source = SUCCESSOR_J.read_bytes()
+    j_file_sha = hashlib.sha256(j_source).hexdigest()
+    j_ledger_sha = base.one(
+        cur,
+        """select encode(extensions.digest(convert_to(array_to_string(statements,E'\n'),
+          'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations
+          where name='erp_v2_6_20j_cp6_payment_fact_closure'""",
+    )
+    if j_ledger_sha not in (j_file_sha, hashlib.sha256(j_source[:-1]).hexdigest()):
+        raise AssertionError(f'J source/platform drift: {j_ledger_sha} != {j_file_sha}')
     return {
         'engine': base.one(cur, 'select version()'),
         'versions': versions,
         'capsule': {
             'identity': row[0], 'predecessor_sha256': row[1],
             'installed_sha256': row[2], 'actual_sha256': row[3],
-            'owner': row[4], 'acl': row[5],
+            'owner': row[4], 'acl': row[5], 'effective_generation': 'J',
         },
+        'successor_j_capsule': [
+            {
+                'identity': item[0], 'predecessor_sha256': item[1],
+                'installed_sha256': item[2], 'actual_sha256': item[3],
+                'owner': item[4], 'acl': item[5],
+            }
+            for item in j_rows
+        ],
         'migration_bytes': len(source),
         'migration_sha256': file_sha,
         'platform_sha256': ledger_sha,
+        'successor_j_migration_bytes': len(j_source),
+        'successor_j_migration_sha256': j_file_sha,
+        'successor_j_platform_sha256': j_ledger_sha,
     }
 
 

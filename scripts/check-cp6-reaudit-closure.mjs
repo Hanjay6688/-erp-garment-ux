@@ -225,7 +225,7 @@ for (const token of [
 
 for (const token of [
   'SUPABASE_AUTH_URL', 'SUPABASE_REST_URL', 'CP6_AUTH_CONTROL_PGURL',
-  "target: 'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620I'",
+  "target: 'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620J'",
   'operator_positive_delivery_receipt_partial_and_remaining_final_sku',
   'owner_positive_dedicated_final_sku_and_reverse',
   'partial_laundry_hpp_and_wip_conservation', 'granular_reverse_permissions_positive',

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Native F/G/H/I rollback qualification under a closed-admission contract.
+"""Native F/G/H/I/J rollback qualification under a closed-admission contract.
 
-Four target generations x five real backend paths x four schedules = 80
+Five target generations x five real backend paths x four schedules = 100
 fresh-clone cases. Unlike the superseded live-DDL matrix, no reviewed rollback
 runs while an old invocation can resume: database admission closes first and
 all old sessions must drain. Every case is persisted, even after a failure.
@@ -36,6 +36,7 @@ TARGETS = {
     'G': ('20260910031103', 'erp_v2_6_20g_cp6_independent_audit_closure', 'v2.6.20g', 'v2.6.20f', 7),
     'H': ('20260910061516', 'erp_v2_6_20h_cp6_expanded_audit_closure', 'v2.6.20h', 'v2.6.20g', 6),
     'I': ('20260910100051', 'erp_v2_6_20i_cp6_h2_audit_closure', 'v2.6.20i', 'v2.6.20h', 1),
+    'J': ('20260910170556', 'erp_v2_6_20j_cp6_payment_fact_closure', 'v2.6.20j', 'v2.6.20i', 3),
 }
 OPERATIONS = ('SALE', 'RETURN', 'CONVERSION', 'REPORT', 'FK_SYNC')
 MODES = ('WRITER_FIRST', 'ADMISSION_FIRST', 'WRITER_ABORT', 'DRAIN_TIMEOUT')
@@ -113,9 +114,11 @@ def prepare(target: str, operation: str, folder: Path) -> tuple[dict[str, Any], 
         ],
         folder / 'clone.log',
     )
-    # The workflow source is exact I. Restore only as far as the requested
+    # The workflow source is exact J. Restore only as far as the requested
     # predecessor, always through the same fail-closed maintenance executor.
-    maintenance_strip('I', folder)
+    maintenance_strip('J', folder)
+    if target in ('F', 'G', 'H', 'I'):
+        maintenance_strip('I', folder)
     if target in ('F', 'G', 'H'):
         maintenance_strip('H', folder)
     if target in ('F', 'G'):
@@ -632,7 +635,7 @@ def main() -> None:
         'head': os.environ.get('GITHUB_SHA', 'LOCAL_UNBOUND'),
         'production_go': False,
         'classification': 'NATIVE_POSTGRESQL_CLOSED_ADMISSION_ROLLBACK_MATRIX',
-        'expected_case_count': 80,
+        'expected_case_count': 100,
         'cases': [],
     }
     for target in TARGETS:
@@ -684,7 +687,7 @@ def main() -> None:
         for case in writer_first
     )
     report['writer_first_body_entry'] = {
-        'expected': 20,
+        'expected': 25,
         'observed': writer_first_body_entry,
         'compilation_only_contexts': compilation_only_contexts,
     }
@@ -692,7 +695,7 @@ def main() -> None:
         'PASS'
         if len(report['cases']) == report['expected_case_count']
         and report['failed_case_count'] == 0
-        and writer_first_body_entry == 20
+        and writer_first_body_entry == 25
         and compilation_only_contexts == 0
         else 'FAIL'
     )

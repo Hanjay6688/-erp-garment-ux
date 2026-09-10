@@ -20,6 +20,7 @@ import os
 import time
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlsplit
 
 import psycopg
 from psycopg import sql
@@ -63,6 +64,15 @@ TARGETS: dict[str, dict[str, Any]] = {
         'capsule': 'erp.cp6_v2620i_rollback_capsule',
         'capsule_count': 1,
     },
+    'J': {
+        'rollback': Path('supabase/rollbacks/20260910170556_erp_v2_6_20j_cp6_payment_fact_closure.rollback.sql'),
+        'rollback_sha256': 'b0def9ada0670e9cdfd9c33ee4c507b8be628fed17027651d4df4b3038264f6d',
+        'marker': 'v2.6.20j',
+        'platform': 'erp_v2_6_20j_cp6_payment_fact_closure',
+        'predecessor': 'v2.6.20i',
+        'capsule': 'erp.cp6_v2620j_rollback_capsule',
+        'capsule_count': 3,
+    },
 }
 
 
@@ -103,6 +113,11 @@ TRUSTED_FUNCTIONS: dict[str, list[dict[str, Any]]] = {
     ],
     'I': [
         {'identity': 'erp.run_v268_financial_report_checks()', 'predecessor_sha256': '3afc0bef1136bafb14d4fdde69fa0cdf79fff0883c35c65607bdfa624d8cf65f', 'installed_sha256': 'c25defe6a1403a7199e71f92fd3799f941b7748f6228671e78586ba1ede5f8e1', 'owner': 'postgres', 'acl': _acl('authenticated', 'postgres', 'service_role')},
+    ],
+    'J': [
+        {'identity': 'erp.post_sales_payment(uuid)', 'predecessor_sha256': '010de4bae594258ba73348463ba90305a01485ed30b9c11918583be198c1f6df', 'installed_sha256': '5634d6fa8fa613e455b9de57b2bd186ac6424815ea2a0aa33866c7c235918e5a', 'owner': 'postgres', 'acl': _acl('authenticated', 'postgres', 'service_role')},
+        {'identity': 'erp.reverse_sales_payment(uuid,text)', 'predecessor_sha256': '09c33e1cfbc673f9118878bd6da55e0df9c433252f0ecb099ef547895cab3ef6', 'installed_sha256': '00d2c2e0dea82508840c06a9aa7ddade503df9a552a29b664beeb32cd081e5b6', 'owner': 'postgres', 'acl': _acl('authenticated', 'postgres')},
+        {'identity': 'erp.run_v268_financial_report_checks()', 'predecessor_sha256': 'c25defe6a1403a7199e71f92fd3799f941b7748f6228671e78586ba1ede5f8e1', 'installed_sha256': '3ab1c4e42616eadac12dd0d37811703fdd0436690a57ebe962c651af56e3588f', 'owner': 'postgres', 'acl': _acl('authenticated', 'postgres', 'service_role')},
     ],
 }
 
@@ -256,9 +271,53 @@ def _function_snapshot(
     return observed
 
 
+def _reject_ambiguous_conninfo(value: str, label: str) -> None:
+    """Accept one closed, authority-based URI shape before libpq normalization.
+
+    ``conninfo_to_dict`` intentionally applies libpq's last-key-wins behavior.
+    That is useful for ordinary clients but unsafe at this maintenance boundary:
+    a duplicate host/user/database/password key must be rejected, not silently
+    normalized.  The reviewed executor needs no keyword conninfo and no query
+    parameters, so this deliberately narrow grammar removes both ambiguity
+    classes before any connection attempt.
+    """
+    if not isinstance(value, str) or not value.startswith('postgresql://'):
+        raise MaintenanceRollbackError(
+            f'Refusing {label} conninfo outside canonical postgresql URI grammar'
+        )
+    if '?' in value or '#' in value:
+        raise MaintenanceRollbackError(
+            f'Refusing ambiguous {label} conninfo query/fragment parameters'
+        )
+    try:
+        parsed = urlsplit(value)
+        port = parsed.port
+    except (TypeError, ValueError):
+        raise MaintenanceRollbackError(f'Refusing malformed {label} endpoint') from None
+    if (
+        parsed.scheme != 'postgresql'
+        or not parsed.netloc
+        or parsed.query
+        or parsed.fragment
+        or parsed.hostname is None
+        or parsed.username is None
+        or parsed.password is None
+        or port is None
+        or not parsed.path.startswith('/')
+        or parsed.path.count('/') != 1
+        or not parsed.path[1:]
+    ):
+        raise MaintenanceRollbackError(f'Refusing malformed {label} endpoint')
+
+
 def _validate_connections(target_pgurl: str, maintenance_pgurl: str) -> tuple[str, str]:
-    target_info = conninfo_to_dict(target_pgurl)
-    maintenance_info = conninfo_to_dict(maintenance_pgurl)
+    _reject_ambiguous_conninfo(target_pgurl, 'rollback')
+    _reject_ambiguous_conninfo(maintenance_pgurl, 'admission-control')
+    try:
+        target_info = conninfo_to_dict(target_pgurl)
+        maintenance_info = conninfo_to_dict(maintenance_pgurl)
+    except Exception:
+        raise MaintenanceRollbackError('Refusing invalid maintenance conninfo') from None
     allowed_conninfo = {'dbname', 'host', 'password', 'port', 'user'}
     for label, info in (('rollback', target_info), ('admission-control', maintenance_info)):
         unexpected = sorted(set(info) - allowed_conninfo)
