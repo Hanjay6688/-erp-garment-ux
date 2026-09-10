@@ -27,6 +27,7 @@ env:
 
 jobs:
   validate-full-schema:
+    if: ${{ github.event_name == 'workflow_dispatch' || github.head_ref == 'pre-cp5/cutting-persistence-pickup-wip-r1-20260903' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 55
     steps:

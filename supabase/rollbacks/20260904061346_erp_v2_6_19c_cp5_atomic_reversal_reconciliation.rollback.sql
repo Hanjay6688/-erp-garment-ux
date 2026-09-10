@@ -5,9 +5,10 @@ begin;
 set local lock_timeout='10s';
 set local statement_timeout='180s';
 
--- Platform identity is the first rollback gate. A wrong name or altered
--- statement array must never be masked by a later post-use refusal: operators
--- need the failure to identify the corrupt/ambiguous ledger itself.
+-- Platform identity is the first rollback gate. Hosted apply_migration has
+-- emitted both exact source bytes and the same source without its one terminal
+-- LF. Those are the only two reviewed byte identities accepted. A wrong name
+-- or altered statement array must never be masked by a later post-use refusal.
 do $platform_ledger_guard$
 declare
   v_match_count integer;
@@ -18,7 +19,10 @@ begin
   where m.name='erp_v2_6_19c_cp5_atomic_reversal_reconciliation'
     and coalesce(encode(extensions.digest(
       convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'
-    ),'hex'),'')='70bafe4f4c690c6ef1548f712ee2035a78c9137e153c92c69fc57decba58e3cc';
+    ),'hex'),'') in(
+      '70bafe4f4c690c6ef1548f712ee2035a78c9137e153c92c69fc57decba58e3cc',
+      'b11014081391f3d72e242813b09bb64c53e2aefe0f4eb42cc20e8089a57ef8ba'
+    );
 
   select count(*) into v_conflict_count
   from supabase_migrations.schema_migrations m
@@ -29,7 +33,10 @@ begin
     m.name='erp_v2_6_19c_cp5_atomic_reversal_reconciliation'
     and coalesce(encode(extensions.digest(
       convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'
-    ),'hex'),'')='70bafe4f4c690c6ef1548f712ee2035a78c9137e153c92c69fc57decba58e3cc'
+    ),'hex'),'') in(
+      '70bafe4f4c690c6ef1548f712ee2035a78c9137e153c92c69fc57decba58e3cc',
+      'b11014081391f3d72e242813b09bb64c53e2aefe0f4eb42cc20e8089a57ef8ba'
+    )
   );
   if v_match_count<>1 or v_conflict_count<>0 then
     raise exception 'v2.6.19c rollback refused: platform ledger statement digest is ambiguous (match %, conflict %)',
@@ -201,7 +208,10 @@ delete from supabase_migrations.schema_migrations m
 where m.name='erp_v2_6_19c_cp5_atomic_reversal_reconciliation'
   and coalesce(encode(extensions.digest(
     convert_to(array_to_string(m.statements,E'\n'),'UTF8'),'sha256'
-  ),'hex'),'')='70bafe4f4c690c6ef1548f712ee2035a78c9137e153c92c69fc57decba58e3cc';
+  ),'hex'),'') in(
+    '70bafe4f4c690c6ef1548f712ee2035a78c9137e153c92c69fc57decba58e3cc',
+    'b11014081391f3d72e242813b09bb64c53e2aefe0f4eb42cc20e8089a57ef8ba'
+  );
 
 drop table erp.bs_resolution_v2619c_rollback_capsule;
 select pg_notify('pgrst','reload schema');

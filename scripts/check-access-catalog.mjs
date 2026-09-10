@@ -8,6 +8,8 @@ const migration = readFileSync(resolve(root, 'supabase/migrations/20260902104937
 const integrityCorrection = readFileSync(resolve(root, 'supabase/migrations/20260902180726_erp_v2_6_17a_cp45_pattern_assignment_immutability.sql'), 'utf8')
 const catalog = readFileSync(resolve(root, 'src/auth/accessCatalog.ts'), 'utf8')
 const app = readFileSync(resolve(root, 'src/App.tsx'), 'utf8')
+const accessPage = readFileSync(resolve(root, 'src/AccessControlPage.tsx'), 'utf8')
+const accessCss = readFileSync(resolve(root, 'src/access-control-cp45.css'), 'utf8')
 const cp45EvidencePath = resolve(root, 'docs/evidence/cp45_access_route_action_ownership.json')
 const cp45EvidenceBytes = readFileSync(cp45EvidencePath)
 const cp45Evidence = JSON.parse(cp45EvidenceBytes)
@@ -99,8 +101,15 @@ assert.equal(evidence.production_go, false)
 assert.equal(evidence.counts.backend_permissions, permissionRows.length)
 assert.equal(evidence.counts.navigation_labels, navMap.size)
 assert.equal(evidence.counts.protected_routes, pageMap.size)
-assert.equal(evidence.counts.sensitive_actions, actionMap.size)
-assert.equal(evidence.counts.browser_rpc_boundaries, rpcBoundaries.size)
+const cp6SensitiveActions = new Set(['reverseFinalSku'])
+const cp5SensitiveActionCount = [...actionMap.keys()].filter((action) => !cp6SensitiveActions.has(action)).length
+assert.equal(evidence.counts.sensitive_actions, cp5SensitiveActionCount)
+assert.equal(actionMap.get('reverseFinalSku'), 'production.final_sku.reverse')
+assert.equal(rpcBoundaries.size, evidence.counts.browser_rpc_boundaries + 4)
+assert.ok(rpcBoundaries.has('src/useLaundryQcWorkspace.ts:erp_get_laundry_qc_workspace_v1'))
+assert.ok(rpcBoundaries.has('src/useLaundryQcWorkspace.ts:erp_save_laundry_qc_action_v1'))
+assert.ok(rpcBoundaries.has('src/useLaundryQcWorkspace.ts:erp_search_final_sku_products_v1'))
+assert.ok(rpcBoundaries.has('src/useLaundryQcWorkspace.ts:erp_search_laundry_bs_products_v1'))
 for (const [route, permission] of Object.entries(evidence.critical_routes)) {
   assert.equal(pageMap.get(route), permission, `Critical route evidence drift: ${route}`)
 }
@@ -140,6 +149,21 @@ assert.match(app, /runtime\.cuttingMode === 'CONNECTED'/)
 assert.match(app, /runtime\.distributionMode === 'CONNECTED'/)
 assert.match(app, /runtime\.wipStatusMode === 'CONNECTED'/)
 assert.match(app, /runtime\.bsResolutionMode === 'CONNECTED'/)
+assert.match(app, /runtime\.laundryMode === 'CONNECTED'/)
+assert.match(app, /runtime\.qcFinalMode === 'CONNECTED'/)
+assert.match(app, /runtime\.fgHandoffMode === 'BLOCKED_UNTIL_AUTHORITATIVE'/)
+assert.match(app, /firstAllowedPageId\(accessBundle\)/,
+  'A restricted role still lands on an implicitly forbidden dashboard')
+assert.match(app, /!accessBundle \|\| isPageAllowed\(accessBundle, page\)/,
+  'App does not re-evaluate the active route after role/identity changes')
+for (const token of [
+  'Mode kelola hak akses', 'Mode lihat saja', 'permission-dependency-warning',
+  'disabled={!canManage}', 'Template tetap',
+]) assert.ok(accessPage.includes(token), `Access-control UX invariant missing: ${token}`)
+for (const token of [
+  '.access-panel,', 'color: #352b26;', '.role-title > span > strong,',
+  'color: #2f2723;', '.access-mode-banner.view', 'min-height: 40px;',
+]) assert.ok(accessCss.includes(token), `Access-control readability invariant missing: ${token}`)
 assert.equal(evidence.invariants.connected_pattern_filter_cutting_pickup, true)
 assert.match(readFileSync(resolve(root, 'src/ConnectedPickupPage.tsx'), 'utf8'), /ConnectedPatternFilter/)
 assert.equal(evidence.invariants.connected_pattern_filter_wip, true)
@@ -219,4 +243,4 @@ assert.equal(v2619cEvidence.legacy_mutated, false)
 assert.equal(v2619cEvidence.production_go, false)
 assert.equal(v2619cEvidence.independent_audit_verdict, 'PENDING')
 
-console.log(`Access ownership passed: frozen CP4.5 proof intact; CP5 owns ${permissionRows.length} backend permissions, ${navMap.size} nav labels, ${pageMap.size} routes, ${actionMap.size} sensitive actions, and ${rpcBoundaries.size} browser RPC boundaries.`)
+console.log(`Access ownership passed: frozen CP4.5/CP5 proofs intact; current code owns ${permissionRows.length} backend permissions, ${navMap.size} nav labels, ${pageMap.size} routes, ${actionMap.size} sensitive actions, and ${rpcBoundaries.size} browser RPC boundaries.`)

@@ -1,0 +1,216 @@
+{
+  "format": "CP6_R1_SOURCE_HASHES_V1",
+  "repository": "Hanjay6688/-erp-garment-ux",
+  "pull_request": 24,
+  "candidate_branch": "cp6/laundry-qc-fg-authoritative-r1-20260904",
+  "base_sha": "6d4cda118f5d28d1f039cc0ecf318d0866f55c2c",
+  "base_tree": "6d90546ecd7e55e16a9e6062599ee09b2e9b505d",
+  "runtime_head_sha": "9509bee8525ff9ba8e422eae7c9665ed76c506c4",
+  "runtime_head_parent_sha": "ae488ee2bd96706c3ec7f4b1b23f00977e0ba8e1",
+  "runtime_head_tree": "cb299396eac081a300a8062950089ba5dad8ba24",
+  "target_project_ref": "siimvrusnzxexizpyoib",
+  "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
+  "migration": {
+    "application_version": "v2.6.20",
+    "source_version": "20260904111157",
+    "name": "erp_v2_6_20_cp6_laundry_qc_fg_authoritative",
+    "path": "supabase/migrations/20260904111157_erp_v2_6_20_cp6_laundry_qc_fg_authoritative.sql",
+    "bytes": 251923,
+    "sha256": "52e51f56f4b8b08b7797b1a92ca9b9e26cbe611e81615c3379c728b95877ada1",
+    "uat_platform_version": "20260904232442",
+    "uat_statement_count": 1,
+    "uat_statement_bytes": 251923,
+    "uat_statement_sha256": "52e51f56f4b8b08b7797b1a92ca9b9e26cbe611e81615c3379c728b95877ada1",
+    "uat_applied": true
+  },
+  "rollback": {
+    "path": "supabase/rollbacks/20260904111157_erp_v2_6_20_cp6_laundry_qc_fg_authoritative.rollback.sql",
+    "bytes": 22949,
+    "sha256": "da7e70713ce960bf578365d1addf870dfe9445e3a2e61e99cbf6eea912a29413",
+    "statement_digest_bound": true,
+    "post_use_refusal_proved": true,
+    "successor_refusal_proved": true,
+    "product_identity_history_refusal_proved": true,
+    "concurrent_writer_serialization_proved": true,
+    "complete_ladder_to_cp45_proved": true,
+    "final_schema_and_business_residue_zero": true
+  },
+  "ci": {
+    "status": "PASS_EXACT_RUNTIME_HEAD",
+    "unit": {
+      "files": 29,
+      "tests": 201
+    },
+    "browser": {
+      "cp45": 2,
+      "pre_cp5": 2,
+      "cp5": 12,
+      "cp6": 24,
+      "cp6_business_scenarios": 12,
+      "cp6_form_factor_multiplier": 2
+    },
+    "source_ownership": {
+      "runtime_files": 94,
+      "rpc_boundaries": 21,
+      "orphan_or_direct_table_access": 0
+    },
+    "backend_ownership": {
+      "effective_unique": 89,
+      "cp5_source_byte_bound": 66,
+      "unowned": 0
+    },
+    "access_ownership": {
+      "permissions": 111,
+      "navigation_entries": 46,
+      "routes": 46,
+      "sensitive_actions": 20,
+      "rpc_boundaries": 21
+    },
+    "css_stylesheets": 36,
+    "build": {
+      "run_id": 33928921418,
+      "job_id": 101203330653,
+      "dist_artifact_id": 9957874743,
+      "dist_artifact_digest_sha256": "14a7d3a13c592731284aa0a2e2002a881f24d2a967ab158a9aae140769979c3f",
+      "browser_artifact_id": 9957873747,
+      "browser_artifact_digest_sha256": "e7cd81252883f076bbfbb99523279dd94073b6159ab9568a389d514d612e3ee9"
+    },
+    "full_schema": {
+      "run_id": 33928918805,
+      "job_id": 101203322910,
+      "artifact_id": 9957936799,
+      "artifact_name": "cp6-r1-full-schema-auth-browser-proof",
+      "artifact_size_bytes": 2354296,
+      "artifact_digest_sha256": "04caf9d3f8ebfa2ede07e974b9f84b3fcda2f9c9c31e8e17c5e50575018c0942",
+      "artifact_expires_at": "2026-10-04T23:22:46Z",
+      "artifact_zip_files": 132,
+      "artifact_zip_integrity": "PASS"
+    },
+    "serialized_race_families": 11,
+    "authoritative_acceptance": "PASS",
+    "authoritative_residue": 0,
+    "auth_jwt": "PASS",
+    "rollback_ladder": "PASS",
+    "rollback_final_residue": 0
+  },
+  "critical_files": {
+    ".github/workflows/ci.yml": {
+      "bytes": 1942,
+      "sha256": "a9db90d1ae5cd0c7ce9dc81ec9eb04cee912e365fdfbd68f5e95dd02524ba78c"
+    },
+    ".github/workflows/cp6-full-schema-validation.yml": {
+      "bytes": 126731,
+      "sha256": "8f276cf1063cc2dbdade689c04e07c9affccd741c32d796446b1ca7485cc67ed"
+    },
+    "docs/erp-reliability-invariants.md": {
+      "bytes": 9412,
+      "sha256": "0d80d3fbaf4880424e9db89b559323dfd7553d352eef100ba6e4b7e80a099dcc"
+    },
+    "playwright.cp6.config.ts": {
+      "bytes": 1391,
+      "sha256": "addea34bde5a6af9bcc2d9c47d3747a63feaa8d434d05592e54e7035afedd2ec"
+    },
+    "scripts/check-cp6-boundary.mjs": {
+      "bytes": 55123,
+      "sha256": "f1d723e5f409e2ac51a0374809f3050b89fd891079578e5c636a63b7253ecaa6"
+    },
+    "scripts/check-predecessor-backend-ownership.mjs": {
+      "bytes": 1575,
+      "sha256": "458e03ba602e351139d3b023f11054121acc1e305a44b5894d2b01666e5747d1"
+    },
+    "scripts/clone-cp6-disposable-database.sh": {
+      "bytes": 4342,
+      "sha256": "fffd26bf42fdaeed5956abfde84f1b5c224b2b7d1ef98d34b8853300d3394996"
+    },
+    "scripts/cp6_laundry_qc_concurrency.py": {
+      "bytes": 54926,
+      "sha256": "9114d622158b42e7b66af87f357607f2060c1408857fd45b321504327950b9d0"
+    },
+    "scripts/verify-cp6-disposable-clone.sh": {
+      "bytes": 2006,
+      "sha256": "ba9ba527098bc96b012ee45f40a1fb7925d94ea7bd483083aa3ed9cc54196fb3"
+    },
+    "src/ConnectedFgHandoffBoundary.tsx": {
+      "bytes": 1435,
+      "sha256": "09164cc47373bfe184359f7c8385f5839a096d3ff587faec8689791673164f95"
+    },
+    "src/ConnectedLaundryPage.tsx": {
+      "bytes": 38992,
+      "sha256": "d5cce9a56641e091893fb875be02658776ecf68c4a4f46171e31cafeb1536153"
+    },
+    "src/ConnectedQcFinalPage.tsx": {
+      "bytes": 19302,
+      "sha256": "cff45dee4e0a45366bda841eca43068193ac5b88bf4c9cc5067e7b9113b0ce35"
+    },
+    "src/Cp6PermissionNotice.tsx": {
+      "bytes": 1278,
+      "sha256": "f3620a063d314bfbdf53cc3b86d8bf00e54906897b18ca82cf366dec1bc443c6"
+    },
+    "src/MasterDataPages.dom.test.tsx": {
+      "bytes": 1460,
+      "sha256": "2b8fa451dea93a70681aaf5150ba8878709c6ca9b80caf7009f4ba2bc382f0ae"
+    },
+    "src/MasterDataPages.tsx": {
+      "bytes": 50847,
+      "sha256": "27e5f6b5e2eb09fabad85e6401ab0f0c7f506123823a37f3af8ea66935cc0291"
+    },
+    "src/connected-laundry-qc.css": {
+      "bytes": 16404,
+      "sha256": "f4a4e03a2c2c3ec54929e71335c1620ad56d182530a2682cd796aa8da15ab0c9"
+    },
+    "src/cp6BusinessTime.test.ts": {
+      "bytes": 914,
+      "sha256": "e32523e277ad4b5e1ce0c84ca9ad8be34393d7dec86d35181df9025cf927f1f6"
+    },
+    "src/cp6BusinessTime.ts": {
+      "bytes": 1524,
+      "sha256": "79ccbba8606ee72ae9466d285c023be62829b4c34ffc3b2644969baf818398db"
+    },
+    "src/laundryQcModel.test.ts": {
+      "bytes": 12484,
+      "sha256": "ed6f8aff00af9f54d4c5cd39de56bc1ef7a60ee2ddcc82e31b497668ccea0e10"
+    },
+    "src/laundryQcModel.ts": {
+      "bytes": 32021,
+      "sha256": "9a947a6c0d3ba1810b12746aa6cc0f15ccc34118b53f6ddee11ae0521c5f0031"
+    },
+    "src/useLaundryQcWorkspace.dom.test.tsx": {
+      "bytes": 15684,
+      "sha256": "c67dfa18f0b59c5945687f195e4e52b30ef25634f5026e976e18511d73ce7afe"
+    },
+    "src/useLaundryQcWorkspace.ts": {
+      "bytes": 20315,
+      "sha256": "40a0859e192a51860485f7f398e9e154feaa99d76545dd36d916da6893feea57"
+    },
+    "supabase/migrations/20260904111157_erp_v2_6_20_cp6_laundry_qc_fg_authoritative.sql": {
+      "bytes": 251923,
+      "sha256": "52e51f56f4b8b08b7797b1a92ca9b9e26cbe611e81615c3379c728b95877ada1"
+    },
+    "supabase/rollbacks/20260904061346_erp_v2_6_19c_cp5_atomic_reversal_reconciliation.rollback.sql": {
+      "bytes": 8996,
+      "sha256": "c25f70e6c8371d972a01e4a365c22cc1789615c6fc141926c48dfc7c6d573db2"
+    },
+    "supabase/rollbacks/20260904111157_erp_v2_6_20_cp6_laundry_qc_fg_authoritative.rollback.sql": {
+      "bytes": 22949,
+      "sha256": "da7e70713ce960bf578365d1addf870dfe9445e3a2e61e99cbf6eea912a29413"
+    },
+    "supabase/tests/cp6_laundry_qc_concurrency_seed.sql": {
+      "bytes": 13108,
+      "sha256": "4b3cf26c2b5e53fe25469af7a802d3c8e31ff57666c7f9df645e7ad10cf4b51a"
+    },
+    "supabase/tests/cp6_laundry_qc_fg_authoritative_rollback.sql": {
+      "bytes": 113464,
+      "sha256": "eb7540e6c74d2283caaef3e1e24f146ae7261c54496e4a6cc01ebe0bd0aebc60"
+    },
+    "tests/browser/cp6-laundry-qc.spec.ts": {
+      "bytes": 36819,
+      "sha256": "3c3dc6b0803cbe1b166dba47ee0933391c7df1831b642bd04a4950aacf8c91d7"
+    }
+  },
+  "evidence": {
+    "uat_path": "docs/evidence/cp6_v2620_uat_acceptance.json",
+    "independent_audit_handoff_path": "docs/evidence/cp6_independent_audit_handoff.md",
+    "whole_tree_rehash_required_by_reviewer": true
+  },
+  "production_go": false
+}

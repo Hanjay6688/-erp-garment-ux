@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { SENSITIVE_ACTION_PERMISSION, hasPermission, isNavLabelAllowed, isPageAllowed } from './accessCatalog'
+import { SENSITIVE_ACTION_PERMISSION, firstAllowedPageId, hasPermission, isNavLabelAllowed, isPageAllowed } from './accessCatalog'
 
 describe('frontend access ownership', () => {
   const custom = {
@@ -22,5 +22,15 @@ describe('frontend access ownership', () => {
   it('fails closed for unknown and unowned routes', () => {
     expect(isPageAllowed(custom, 'missing-route')).toBe(false)
     expect(isNavLabelAllowed(custom, 'Missing label')).toBe(false)
+  })
+
+  it('lands a custom role on its first visible workspace instead of a forbidden dashboard', () => {
+    const productionOnly = {
+      permissions: ['production.wip.view', 'master.pattern.view'],
+    }
+
+    expect(firstAllowedPageId(productionOnly)).toBe('sewing-wip')
+    expect(firstAllowedPageId(productionOnly, ['dashboard', 'master-pattern', 'sewing-wip'])).toBe('master-pattern')
+    expect(firstAllowedPageId({ permissions: ['production.wip.post'] })).toBeNull()
   })
 })

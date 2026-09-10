@@ -14,6 +14,9 @@ export type DemoRuntimeConfig = {
   distributionMode: 'SIMULATION'
   wipStatusMode: 'SIMULATION'
   bsResolutionMode: 'SIMULATION'
+  laundryMode: 'SIMULATION'
+  qcFinalMode: 'SIMULATION'
+  fgHandoffMode: 'SIMULATION'
 }
 
 export type UatRuntimeConfig = {
@@ -27,6 +30,9 @@ export type UatRuntimeConfig = {
   distributionMode: 'CONNECTED'
   wipStatusMode: 'CONNECTED'
   bsResolutionMode: 'CONNECTED'
+  laundryMode: 'CONNECTED'
+  qcFinalMode: 'CONNECTED'
+  fgHandoffMode: 'BLOCKED_UNTIL_AUTHORITATIVE'
   projectRef: typeof ERP_ENTENG_UAT_PROJECT_REF
   supabaseUrl: string
   browserKey: string
@@ -168,6 +174,9 @@ export function parseRuntimeConfig(environment: RuntimeEnvironment): RuntimeConf
       distributionMode: 'SIMULATION',
       wipStatusMode: 'SIMULATION',
       bsResolutionMode: 'SIMULATION',
+      laundryMode: 'SIMULATION',
+      qcFinalMode: 'SIMULATION',
+      fgHandoffMode: 'SIMULATION',
     }
   }
 
@@ -213,6 +222,9 @@ export function parseRuntimeConfig(environment: RuntimeEnvironment): RuntimeConf
     distributionMode: 'CONNECTED',
     wipStatusMode: 'CONNECTED',
     bsResolutionMode: 'CONNECTED',
+    laundryMode: 'CONNECTED',
+    qcFinalMode: 'CONNECTED',
+    fgHandoffMode: 'BLOCKED_UNTIL_AUTHORITATIVE',
     projectRef: ERP_ENTENG_UAT_PROJECT_REF,
     supabaseUrl,
     browserKey,

@@ -26,7 +26,7 @@ npm run dev
 ## Runtime contract
 
 - With no environment variables the app runs as `DEMO_SIMULATION`.
-- `UAT_AUTH_SIMULATION` connects Auth, access control, Master Pola, Potongan, Pickup/Distribusi, WIP, and Barang BS/Rework to ERP Enteng (`siimvrusnzxexizpyoib`). Laundry and QC remain explicitly labelled simulation until CP6 connects their canonical data paths.
+- `UAT_AUTH_SIMULATION` connects Auth, access control, Master Pola, Potongan, Pickup/Distribusi, WIP, Barang BS/Rework, and the CP6 Laundry → QC → exact-size Final SKU candidate to ERP Enteng (`siimvrusnzxexizpyoib`). The legacy Nota FG handoff remains blocked until its authoritative replacement is separately proven; there is no fixture fallback.
 - The dedicated UAT release accepts the pinned browser-safe modern publishable key. A production project URL, secret key, service-role key, missing variable, or unknown mode blocks startup; there is no fallback.
 - The UAT gate resolves each active mapped user through canonical public facades and the permission catalog. The `erp` schema, domain tables, and private writer functions remain inaccessible from the browser; there is no in-app signup.
 - Browser traffic is limited to the source-owned canonical RPC allowlist. Connected reads and writes are server-authoritative, including server-side Pattern filters and optimistic row-version guards.
