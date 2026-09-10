@@ -46,9 +46,12 @@ assert.ok(test.includes('source_and_inverse_qty'))
 assert.ok(test.includes('post deducted reserved stock twice'))
 const order = [
   'Apply v2.6.20f A01-A04', 'Apply v2.6.20g independent N01-N03',
+  'Apply v2.6.20h expanded R01-R03',
   'Run post-CP6 real Auth', 'Run thirty-four native CP6 races',
-  'Prove native G N01-N03', 'Qualify exact F and G rollback',
-  'Prove G guards and exact seven-function', 'Prove both live v2.6.20f rollback',
+  'Prove native G N01-N03', 'Prove native H R02-R03',
+  'Qualify exact F G and H rollback under closed admission',
+  'Prove H guards and maintenance-only exact six-function',
+  'Prove G guards and exact seven-function',
 ]
 let previous = -1
 for (const token of order) {
@@ -56,10 +59,10 @@ for (const token of order) {
   assert.ok(position > previous, 'Wrong installed-runtime order: ' + token)
   previous = position
 }
-assert.ok(workflow.includes('CP6_V2620G_RUNTIME_MANIFEST.json'))
-assert.ok(workflow.includes("runtime=v2.6.20e+v2.6.20f+v2.6.20g"))
-assert.ok(workflow.includes("name: cp6-r1-v2620g-full-schema-auth-browser-proof"))
-assert.ok(read('scripts/cp6_auth_permission_e2e.mjs').includes('AFTER_V2620G'))
+assert.ok(workflow.includes('CP6_V2620H_RUNTIME_MANIFEST.json'))
+assert.ok(workflow.includes("runtime=v2.6.20e+v2.6.20f+v2.6.20g+v2.6.20h"))
+assert.ok(workflow.includes("name: cp6-r1-v2620h-full-schema-auth-browser-proof"))
+assert.ok(read('scripts/cp6_auth_permission_e2e.mjs').includes('AFTER_V2620H'))
 const races = read('scripts/cp6_v2620g_expanded_rollback_races.py')
 for (const token of ['pg_blocking_pids', 'WRITER_FIRST', 'ROLLBACK_FIRST', 'WRITER_ABORT',
   'ROLLBACK_LOCK_TIMEOUT', 'SALE', 'RETURN', 'CONVERSION', 'REPORT', 'FK_SYNC',

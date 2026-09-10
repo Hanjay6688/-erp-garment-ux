@@ -8,9 +8,11 @@ from pathlib import Path
 import psycopg
 
 import cp6_v2620g_independent_regression as regression
+import cp6_preuse_rollback_maintenance as maintenance
 
 ROLLBACK = Path('supabase/rollbacks/20260910031103_erp_v2_6_20g_cp6_independent_audit_closure.rollback.sql')
 REPORT = Path('cp6-proof/CP6_V2620G_ROLLBACK_GUARDS.json')
+MAINTENANCE_REPORT = Path('cp6-proof/V2620G_MAIN_MAINTENANCE_ROLLBACK.json')
 
 
 def functions(cur):
@@ -58,24 +60,30 @@ def run():
                     raise AssertionError(f'{name}: guard left function/ACL residue')
             conn.commit()
             result['guards'].append({'case': name, 'status': 'PASS', 'rejection': error.splitlines()[0]})
-        with conn.cursor() as cur:
-            cur.execute(sql, prepare=False)
-            restored = []
-            for identity, digest, acl, owner in expected:
-                cur.execute("""select encode(extensions.digest(convert_to(pg_get_functiondef(p.oid),'UTF8'),'sha256'),'hex'),
-                  case when p.proacl is null then null else array(select a::text from unnest(p.proacl) a order by a::text) end,
-                  pg_get_userbyid(p.proowner) from pg_proc p where p.oid=to_regprocedure(%s)""", (identity,))
-                actual = cur.fetchone()
-                if actual != (digest, acl, owner):
-                    raise AssertionError(f'G exact F restore failed {identity}: {actual}')
-                restored.append({'identity': identity, 'restored_sha256': digest, 'owner_acl_exact': True})
-            cur.execute("""select not exists(select 1 from erp.schema_migrations where version='v2.6.20g')
-              and not exists(select 1 from supabase_migrations.schema_migrations where name='erp_v2_6_20g_cp6_independent_audit_closure')
-              and to_regclass('erp.cp6_v2620g_rollback_capsule') is null""")
-            if cur.fetchone()[0] is not True:
-                raise AssertionError('G rollback metadata residue')
-        conn.commit()
-        result.update(status='PASS', exact_pre_use_restore=restored, metadata_residue=0)
+    maintenance_result = maintenance.run_maintenance_rollback(
+        target_name='G', target_pgurl=os.environ['PGURL'],
+        maintenance_pgurl=os.environ['CP6_MAINTENANCE_PGURL'],
+        report_path=MAINTENANCE_REPORT, drain_timeout=10,
+        natural_grace=.25, terminate_after_grace=True,
+    )
+    restored = []
+    with psycopg.connect(os.environ['PGURL'], autocommit=False) as conn, conn.cursor() as cur:
+        for identity, digest, acl, owner in expected:
+            cur.execute("""select encode(extensions.digest(convert_to(pg_get_functiondef(p.oid),'UTF8'),'sha256'),'hex'),
+              case when p.proacl is null then null else array(select a::text from unnest(p.proacl) a order by a::text) end,
+              pg_get_userbyid(p.proowner) from pg_proc p where p.oid=to_regprocedure(%s)""", (identity,))
+            actual = cur.fetchone()
+            if actual != (digest, acl, owner):
+                raise AssertionError(f'G exact F restore failed {identity}: {actual}')
+            restored.append({'identity': identity, 'restored_sha256': digest, 'owner_acl_exact': True})
+        cur.execute("""select not exists(select 1 from erp.schema_migrations where version='v2.6.20g')
+          and exists(select 1 from erp.schema_migrations where version='v2.6.20f')
+          and not exists(select 1 from supabase_migrations.schema_migrations where name='erp_v2_6_20g_cp6_independent_audit_closure')
+          and to_regclass('erp.cp6_v2620g_rollback_capsule') is null""")
+        if cur.fetchone()[0] is not True:
+            raise AssertionError('G rollback metadata residue')
+    result.update(status='PASS', exact_pre_use_restore=restored,
+                  maintenance=maintenance_result, metadata_residue=0)
     return result
 
 
