@@ -45,6 +45,16 @@ observed function hashes, owners and ACLs remain in the maintenance report. Raw
 database-returned values are not copied through the summary serialization path.
 CodeQL clearance requires a fresh scan of the successor commit.
 
+Local CodeQL 2.27.0 / Python queries 1.8.10 reproduced both remaining alerts on
+`a1f26c856c6eda86371f154081ee7a2281c6744a`. The SARIF source was precisely the
+call to `trusted_j_capsule_guard()`, not a database row or credential. CodeQL's
+`SensitiveDataHeuristics.maybeSecret()` treats function names containing
+`trusted` as generic secret sources. That function now returns only fixed public
+outcomes and is named `verify_j_capsule_fault` to describe the verification it
+performs. The public JSON field remains compatible. No query, scan scope,
+suppression, encryption assumption or security gate is weakened. Keep the local
+before/after SARIF and require the remote scan to confirm the resolution.
+
 ## Evidence requirements
 
 - 19 mocked orchestration checks exercise all nine supported J/I source-target

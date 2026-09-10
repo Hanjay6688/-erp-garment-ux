@@ -122,7 +122,7 @@ def structural_capsule_summary() -> None:
             jguards.maintenance.MaintenanceRollbackError('TRUSTED_PREDECESSOR_PIN_MISMATCH')))
         stack.enter_context(patch.object(matrix, 'reopen_clone'))
         stack.enter_context(patch.object(matrix.legacy, 'drop_clone'))
-        observed = jguards.trusted_j_capsule_guard()
+        observed = jguards.verify_j_capsule_fault()
     assert set(observed) == {
         'target', 'status', 'coherent_checksum_changed', 'trusted_pin_rejected',
         'admission_closed', 'rollback_started', 'installed_generation_preserved',

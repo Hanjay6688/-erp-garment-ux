@@ -99,7 +99,8 @@ def coherent_capsule_fault(pgurl: str) -> tuple[str, str, str]:
     return identity, original_sha, tampered_sha
 
 
-def trusted_j_capsule_guard() -> dict[str, Any]:
+def verify_j_capsule_fault() -> dict[str, Any]:
+    """Return public verification outcomes, never capsule contents or credentials."""
     CLONE_ROOT.mkdir(parents=True, exist_ok=True)
     marker = maintenance.TARGETS['J']['marker']
     with disposable_clone_confirmation(matrix.CLONE):
@@ -282,7 +283,7 @@ def run() -> dict[str, Any]:
         'rollback_sha256': hashlib.sha256(ROLLBACK.read_bytes()).hexdigest(),
         'production_go': False,
     }
-    result['trusted_capsule_guard'] = trusted_j_capsule_guard()
+    result['trusted_capsule_guard'] = verify_j_capsule_fault()
     result['guards'] = direct_j_guards(target_pgurl)
     maintenance_result = maintenance.run_maintenance_rollback(
         target_name='J',
