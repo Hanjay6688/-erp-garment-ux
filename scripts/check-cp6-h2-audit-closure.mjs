@@ -152,6 +152,9 @@ requireTokens(regression, 'native H2-01 and valid payment lifecycle proof', [
 requireTokens(guards, 'trusted coherent-capsule fault proof', [
   "for target in ('F', 'G', 'H', 'I')", 'canonical_cost_tamper',
   'coherent_capsule_fault', 'TRUSTED_PREDECESSOR_PIN_MISMATCH',
+  'def disposable_clone_confirmation(pgurl: str):',
+  "if database != 'cp6_rollback':",
+  'with disposable_clone_confirmation(matrix.CLONE):',
   "if report.get('admission_closed') or report.get('rollback_started')",
   "target_name='I'", 'V2620I_MAIN_MAINTENANCE_ROLLBACK.json',
 ])

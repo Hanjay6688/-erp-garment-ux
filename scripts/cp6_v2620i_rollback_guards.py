@@ -6,10 +6,12 @@ import hashlib
 import json
 import os
 import re
+from contextlib import contextmanager
 from pathlib import Path
 from typing import Any
 
 import psycopg
+from psycopg.conninfo import conninfo_to_dict
 
 import cp6_preuse_rollback_maintenance as maintenance
 import cp6_v2620h_maintenance_rollback_matrix as matrix
@@ -21,6 +23,23 @@ ROLLBACK = Path(
 REPORT = Path('cp6-proof/CP6_V2620I_ROLLBACK_GUARDS.json')
 MAINTENANCE_REPORT = Path('cp6-proof/V2620I_MAIN_MAINTENANCE_ROLLBACK.json')
 CLONE_ROOT = Path('cp6-proof/I_TRUSTED_CAPSULE_GUARDS')
+
+
+@contextmanager
+def disposable_clone_confirmation(pgurl: str):
+    """Temporarily confirm only the fixed disposable rollback clone."""
+    database = conninfo_to_dict(pgurl).get('dbname', '')
+    if database != 'cp6_rollback':
+        raise AssertionError(f'Refusing non-disposable guard database: {database}')
+    previous = os.environ.get('CP6_MAINTENANCE_CONFIRM_DATABASE')
+    os.environ['CP6_MAINTENANCE_CONFIRM_DATABASE'] = database
+    try:
+        yield
+    finally:
+        if previous is None:
+            os.environ.pop('CP6_MAINTENANCE_CONFIRM_DATABASE', None)
+        else:
+            os.environ['CP6_MAINTENANCE_CONFIRM_DATABASE'] = previous
 
 
 def function_catalog(cur: psycopg.Cursor) -> list[tuple[Any, ...]]:
@@ -80,54 +99,55 @@ def trusted_capsule_guards() -> list[dict[str, Any]]:
         folder.mkdir(exist_ok=True)
         marker = maintenance.TARGETS[target]['marker']
         capsule = maintenance.TARGETS[target]['capsule']
-        try:
-            matrix.prepare(target, 'REPORT', folder)
-            identity, original_sha, tampered_sha = coherent_capsule_fault(
-                matrix.CLONE, capsule
-            )
-            rejection = None
+        with disposable_clone_confirmation(matrix.CLONE):
             try:
-                maintenance.run_maintenance_rollback(
-                    target_name=target,
-                    target_pgurl=matrix.CLONE,
-                    maintenance_pgurl=matrix.ADMISSION_CONTROL,
-                    report_path=folder / 'maintenance.json',
-                    drain_timeout=5,
-                    natural_grace=0,
-                    terminate_after_grace=True,
+                matrix.prepare(target, 'REPORT', folder)
+                identity, original_sha, tampered_sha = coherent_capsule_fault(
+                    matrix.CLONE, capsule
                 )
-            except maintenance.MaintenanceRollbackError as exc:
-                rejection = str(exc)
-            if rejection is None or 'TRUSTED_PREDECESSOR_PIN_MISMATCH' not in rejection:
-                raise AssertionError(f'{target} coherent capsule fault was not rejected: {rejection}')
-            report = matrix.read_json_if_present(folder / 'maintenance.json') or {}
-            if report.get('admission_closed') or report.get('rollback_started'):
-                raise AssertionError(f'{target} trust failure occurred after mutation boundary: {report}')
-            with psycopg.connect(matrix.CLONE, autocommit=True) as conn, conn.cursor() as cur:
-                cur.execute(
-                    'select count(*) from erp.schema_migrations where version=%s',
-                    (marker,),
-                )
-                marker_count = cur.fetchone()[0]
-            if marker_count != 1:
-                raise AssertionError(f'{target} trusted guard changed installed generation')
-            results.append({
-                'target': target,
-                'status': 'PASS',
-                'identity': identity,
-                'original_predecessor_sha256': original_sha,
-                'coherently_tampered_sha256': tampered_sha,
-                'rejection': rejection,
-                'admission_closed': False,
-                'rollback_started': False,
-                'installed_generation_preserved': True,
-            })
-        finally:
-            try:
-                matrix.reopen_clone()
-            except Exception:
-                pass
-            matrix.legacy.drop_clone()
+                rejection = None
+                try:
+                    maintenance.run_maintenance_rollback(
+                        target_name=target,
+                        target_pgurl=matrix.CLONE,
+                        maintenance_pgurl=matrix.ADMISSION_CONTROL,
+                        report_path=folder / 'maintenance.json',
+                        drain_timeout=5,
+                        natural_grace=0,
+                        terminate_after_grace=True,
+                    )
+                except maintenance.MaintenanceRollbackError as exc:
+                    rejection = str(exc)
+                if rejection is None or 'TRUSTED_PREDECESSOR_PIN_MISMATCH' not in rejection:
+                    raise AssertionError(f'{target} coherent capsule fault was not rejected: {rejection}')
+                report = matrix.read_json_if_present(folder / 'maintenance.json') or {}
+                if report.get('admission_closed') or report.get('rollback_started'):
+                    raise AssertionError(f'{target} trust failure occurred after mutation boundary: {report}')
+                with psycopg.connect(matrix.CLONE, autocommit=True) as conn, conn.cursor() as cur:
+                    cur.execute(
+                        'select count(*) from erp.schema_migrations where version=%s',
+                        (marker,),
+                    )
+                    marker_count = cur.fetchone()[0]
+                if marker_count != 1:
+                    raise AssertionError(f'{target} trusted guard changed installed generation')
+                results.append({
+                    'target': target,
+                    'status': 'PASS',
+                    'identity': identity,
+                    'original_predecessor_sha256': original_sha,
+                    'coherently_tampered_sha256': tampered_sha,
+                    'rejection': rejection,
+                    'admission_closed': False,
+                    'rollback_started': False,
+                    'installed_generation_preserved': True,
+                })
+            finally:
+                try:
+                    matrix.reopen_clone()
+                except Exception:
+                    pass
+                matrix.legacy.drop_clone()
     return results
 
 
