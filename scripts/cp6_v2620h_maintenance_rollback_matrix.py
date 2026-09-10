@@ -106,7 +106,42 @@ def maintenance_strip(target: str, folder: Path) -> dict[str, Any]:
     )
 
 
-def prepare(target: str, operation: str, folder: Path) -> tuple[dict[str, Any], list[dict[str, Any]]]:
+def setup_rollback_plan(target: str, source_generation: str) -> tuple[str, ...]:
+    # The full matrix clones J; the I guard clones I after the main J restore.
+    # An absent successor is valid only when the caller explicitly expects I.
+    if source_generation not in ('I', 'J') or target not in TARGETS:
+        raise AssertionError('Unsupported rollback fixture generation')
+    generations = tuple(TARGETS)
+    start, stop = generations.index(source_generation), generations.index(target)
+    if stop > start:
+        raise AssertionError('Rollback fixture target is newer than its source')
+    return tuple(reversed(generations[stop:start + 1]))
+
+
+def verify_setup_source(source_generation: str) -> None:
+    stamp, name, _, _, _ = TARGETS[source_generation]
+    with legacy.connect('h-maintenance-source-generation') as conn, conn.cursor() as cur:
+        cur.execute(
+            'select version,name from supabase_migrations.schema_migrations '
+            'order by version desc limit 1'
+        )
+        if cur.fetchone() != (stamp, name):
+            raise AssertionError('Rollback fixture source platform generation mismatch')
+        for generation, (_, _, marker, _, _) in TARGETS.items():
+            cur.execute(
+                'select (select count(*) from erp.schema_migrations where version=%s), '
+                'to_regclass(%s) is not null',
+                (marker, maintenance.TARGETS[generation]['capsule']),
+            )
+            installed = generation <= source_generation
+            if cur.fetchone() != (int(installed), installed):
+                raise AssertionError('Rollback fixture source marker/capsule mismatch')
+
+
+def prepare(
+    target: str, operation: str, folder: Path, *, source_generation: str = 'J',
+) -> tuple[dict[str, Any], list[dict[str, Any]]]:
+    rollback_plan = setup_rollback_plan(target, source_generation)
     command(
         [
             'bash', 'scripts/clone-cp6-disposable-database.sh', SOURCE, MAINTENANCE,
@@ -114,17 +149,11 @@ def prepare(target: str, operation: str, folder: Path) -> tuple[dict[str, Any], 
         ],
         folder / 'clone.log',
     )
-    # The workflow source is exact J. Restore only as far as the requested
-    # predecessor, always through the same fail-closed maintenance executor.
-    maintenance_strip('J', folder)
-    if target in ('F', 'G', 'H', 'I'):
-        maintenance_strip('I', folder)
-    if target in ('F', 'G', 'H'):
-        maintenance_strip('H', folder)
-    if target in ('F', 'G'):
-        maintenance_strip('G', folder)
-    if target == 'F':
-        maintenance_strip('F', folder)
+    # Validate the physical clone before the first rollback or fixture write.
+    # Every installed generation still uses the full maintenance executor.
+    verify_setup_source(source_generation)
+    for generation in rollback_plan:
+        maintenance_strip(generation, folder)
 
     with legacy.connect('h-maintenance-predecessor-fixture') as conn, conn.cursor() as cur:
         fixture = legacy.seed(cur, operation)

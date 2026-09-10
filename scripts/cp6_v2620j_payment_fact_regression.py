@@ -249,8 +249,57 @@ def case_linked_replacement(cur: psycopg.Cursor) -> dict[str, Any]:
     customer = base.create_customer(cur, 'J-LINKED-REPLACEMENT')
     source = h.opening_sale(cur, 'J-LINK-SOURCE', customer)
     destination = h.opening_sale(cur, 'J-LINK-DESTINATION', customer)
+    foreign = h.opening_sale(cur, 'J-LINK-FOREIGN-CUSTOMER')
+
+    def inventory_book() -> tuple:
+        return base.row(cur, """select
+          (select count(*) from erp.fg_stock_movements),
+          (select coalesce(sum(cached_qty_pcs),0) from erp.fg_lots),
+          coalesce(sum(l.debit-l.credit) filter(where l.account_id=erp.account_id('FG_INVENTORY')),0),
+          coalesce(sum(l.debit-l.credit) filter(where l.account_id=erp.account_id('COGS')),0)
+          from erp.journal_lines l join erp.journal_entries e on e.id=l.journal_entry_id
+          where e.status in('POSTED','REVERSED')""")
+
+    inventory_before = inventory_book()
+    ar_before = h.ar_for_customer(cur, customer)
     payment = h.post_payment(cur, source['sale'], Decimal('40'))
+
+    def cash_balance() -> Decimal:
+        return Decimal(str(base.one(cur, """select coalesce(sum(l.debit-l.credit),0)
+          from erp.journal_lines l join erp.journal_entries e on e.id=l.journal_entry_id
+          where e.status in('POSTED','REVERSED') and l.account_id=(
+            select a.coa_account_id from erp.cash_accounts a
+            join erp.sales_payments p on p.cash_account_id=a.id where p.id=%s)""", (payment,))))
+
+    cash_after_payment = cash_balance()
+
+    def attempt_replacement(sale: str, amount_delta: Decimal = Decimal(0), days: int = 0) -> None:
+        attempt = str(uuid.uuid4())
+        cur.execute("""insert into erp.sales_payments(
+          id,sale_id,payment_number,payment_date,amount,cash_account_id,
+          status,created_by,replaces_payment_id
+        ) select %s,%s,%s,payment_date+(%s)*interval '1 day',amount+(%s),cash_account_id,
+          'DRAFT',created_by,id from erp.sales_payments where id=%s""",
+          (attempt, sale, f'J-INVALID-{uuid.uuid4()}', days, amount_delta, payment))
+        base.one(cur, 'select erp.post_sales_payment(%s)', (attempt,))
+
+    invalid_replacements = [expected_rejection(
+        cur, 'replacement_before_original_reversal',
+        lambda: attempt_replacement(destination['sale']),
+        sqlstates=('P0001',), message='Replacement requires one fully reversed posted payment',
+    )]
     base.one(cur, "select erp.reverse_sales_payment(%s,'J allocation correction')", (payment,))
+    for label, sale, delta, days in (
+        ('replacement_wrong_customer', foreign['sale'], Decimal(0), 0),
+        ('replacement_same_invoice', source['sale'], Decimal(0), 0),
+        ('replacement_amount_drift', destination['sale'], Decimal('.01'), 0),
+        ('replacement_original_clock_drift', destination['sale'], Decimal(0), -1),
+    ):
+        invalid_replacements.append(expected_rejection(
+            cur, label,
+            lambda sale=sale, delta=delta, days=days: attempt_replacement(sale, delta, days),
+            sqlstates=('P0001',), message='Allocation replacement must preserve customer',
+        ))
     replacement = str(uuid.uuid4())
     cur.execute(
         """insert into erp.sales_payments(
@@ -298,9 +347,35 @@ def case_linked_replacement(cur: psycopg.Cursor) -> dict[str, Any]:
         sqlstates=('23505',),
         message='uq_sales_payments_one_replacement',
     )
+    # Lost-response replay must not undo the replacement or issue another cash inverse.
+    before_replay = base.row(cur, """select
+      (select count(*) from erp.journal_entries),
+      (select count(*) from erp.sales_payment_posting_facts),
+      (select count(*) from erp.sales_payment_reversal_facts)""")
+    base.one(cur, "select erp.reverse_sales_payment(%s,'J duplicate reversal delivery')", (payment,))
+    after_replay = base.row(cur, """select
+      (select count(*) from erp.journal_entries),
+      (select count(*) from erp.sales_payment_posting_facts),
+      (select count(*) from erp.sales_payment_reversal_facts)""")
+    invoice_allocations = base.row(cur, """select
+      coalesce(sum(amount) filter(where sale_id=%s),0),
+      coalesce(sum(amount) filter(where sale_id=%s),0)
+      from erp.sales_payments where status='POSTED'""", (source['sale'], destination['sale']))
+    if before_replay != after_replay or invoice_allocations != (Decimal(0), Decimal(40)):
+        raise AssertionError('Replacement/reversal replay changed invoice lineage or duplicated facts')
+    if inventory_book() != inventory_before:
+        raise AssertionError('Payment allocation correction changed stock, FG valuation or COGS')
+    if cash_balance() != cash_after_payment or h.ar_for_customer(cur, customer) != ar_before - Decimal(40):
+        raise AssertionError('Payment allocation correction changed net cash or customer receivable')
+    assert_clean(cur, 'J linked replacement and duplicate reversal')
     return {
         'status': 'PASS', 'states': states,
         'duplicate_rejection': duplicate_rejection, 'report': 'READY',
+        'invalid_replacements': invalid_replacements,
+        'duplicate_reversal_no_new_facts': True,
+        'invoice_allocations': [str(value) for value in invoice_allocations],
+        'net_cash_and_receivable_conserved': True,
+        'stock_fg_value_cogs_unchanged': True,
     }
 
 

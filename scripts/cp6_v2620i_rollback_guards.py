@@ -104,7 +104,7 @@ def trusted_capsule_guards() -> None:
         capsule = maintenance.TARGETS[target]['capsule']
         with disposable_clone_confirmation(matrix.CLONE):
             try:
-                matrix.prepare(target, 'REPORT', folder)
+                matrix.prepare(target, 'REPORT', folder, source_generation='I')
                 coherent_capsule_fault(matrix.CLONE, capsule)
                 rejection = None
                 try:

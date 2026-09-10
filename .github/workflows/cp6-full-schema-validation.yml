@@ -117,6 +117,9 @@ jobs:
           echo '/usr/lib/postgresql/17/bin' >> "$GITHUB_PATH"
           python -m pip install --quiet 'psycopg[binary]==3.2.10'
           python scripts/cp6_preuse_rollback_maintenance_unit.py
+          python scripts/cp6_rollback_setup_unit.py
+          test "$(jq -r '.status' cp6-proof/CP6_ROLLBACK_SETUP_UNIT.json)" = 'PASS'
+          test "$(jq '.completed_case_count' cp6-proof/CP6_ROLLBACK_SETUP_UNIT.json)" = '18'
           test "$(jq -r '.status' cp6-proof/CP6_PREUSE_ROLLBACK_MAINTENANCE_UNIT.json)" = 'PASS'
           test "$(jq '.completed_case_count' cp6-proof/CP6_PREUSE_ROLLBACK_MAINTENANCE_UNIT.json)" = '31'
           test "$(jq -r '.permissive_validator_negative_control.status' cp6-proof/CP6_PREUSE_ROLLBACK_MAINTENANCE_UNIT.json)" = 'PASS'
@@ -3502,6 +3505,10 @@ jobs:
           assert len(iguard['trusted_capsule_guards'])==4 and len(iguard['guards'])==6,iguard
           assert all(x['status']=='PASS' and not x['admission_closed'] and not x['rollback_started'] for x in iguard['trusted_capsule_guards']),iguard
           assert iguard['metadata_residue']==0 and iguard['maintenance']['rollback_committed'] and iguard['maintenance']['admission_reopened_after_success'],iguard
+          for target in ('F','G','H','I'):
+              folder=proof/'I_TRUSTED_CAPSULE_GUARDS'/target
+              expected_strips={f'setup_strip_{generation}.json' for generation in ('F','G','H','I') if generation>=target}
+              assert {p.name for p in folder.glob('setup_strip_*.json')}==expected_strips,target
 
           j=json.loads((proof/'CP6_V2620J_PAYMENT_FACT_REGRESSION.json').read_text())
           assert j['head']==os.environ['GITHUB_SHA'] and j['status']=='PASS' and j['production_go'] is False,j
@@ -3512,11 +3519,19 @@ jobs:
           assert j['cases']['I01_INVOICE_IDENTITY_GUARD_AND_DETECTOR']['detector_after_trigger_bypass']['report']=='BLOCKED',j
           assert all(x['report']=='BLOCKED' for x in j['cases']['I02_AUTHORITATIVE_INVERSE_DATES']['probes']),j
           assert j['cases']['LINKED_ALLOCATION_REPLACEMENT']['report']=='READY',j
+          replacement=j['cases']['LINKED_ALLOCATION_REPLACEMENT']
+          assert len(replacement['invalid_replacements'])==5 and all(x['rejected'] for x in replacement['invalid_replacements']),replacement
+          assert replacement['duplicate_reversal_no_new_facts'] and replacement['net_cash_and_receivable_conserved'],replacement
+          assert replacement['stock_fg_value_cogs_unchanged'],replacement
           jguard=json.loads((proof/'CP6_V2620J_ROLLBACK_GUARDS.json').read_text())
           assert jguard['head']==os.environ['GITHUB_SHA'] and jguard['status']=='PASS',jguard
           assert jguard['trusted_capsule_guard']['status']=='PASS' and not jguard['trusted_capsule_guard']['admission_closed'] and not jguard['trusted_capsule_guard']['rollback_started'],jguard
           assert len(jguard['guards'])==7 and jguard['exact_pre_use_restore']['restored_function_count']==3,jguard
           assert jguard['maintenance']['rollback_committed'] and jguard['maintenance']['admission_reopened_after_success'],jguard
+          setup_unit=json.loads((proof/'CP6_ROLLBACK_SETUP_UNIT.json').read_text())
+          assert setup_unit['head']==os.environ['GITHUB_SHA'] and setup_unit['status']=='PASS',setup_unit
+          assert setup_unit['completed_case_count']==setup_unit['expected_case_count']==18,setup_unit
+          assert setup_unit['unconditional_j_negative_control_rejected'] and setup_unit['permissive_source_negative_control_rejected'],setup_unit
 
           schedules=json.loads((proof/'H_MAINTENANCE_ROLLBACK/manifest.json').read_text())
           assert schedules['head']==os.environ['GITHUB_SHA'] and schedules['status']=='PASS',schedules
@@ -3595,6 +3610,8 @@ jobs:
             'supabase/migrations/20260910100051_erp_v2_6_20i_cp6_h2_audit_closure.sql',
             'supabase/rollbacks/20260910100051_erp_v2_6_20i_cp6_h2_audit_closure.rollback.sql',
             'scripts/cp6_preuse_rollback_maintenance_unit.py',
+            'scripts/cp6_rollback_setup_unit.py',
+            'docs/cp6-j-writer-takeover.md',
             'scripts/cp6_v2620i_h2_audit_regression.py',
             'scripts/cp6_v2620i_rollback_guards.py',
             'scripts/check-cp6-h2-audit-closure.mjs',

@@ -29,7 +29,7 @@ const expected = {
   rollback: ['0d0318e3848344c3642f1796a205d25bcf1cc2d2091ce28d1fc9cf6d186ecbe5', 6876],
   maintenance: ['84f18953a34db299aa1bac412a9ca47099da2dcad5e87eb17f038bfaf3413c98', 34642],
   regression: ['2e56d61d85f35ad62334286ba8c7f42e03c0ab08b2ae6a86cb47972fd61b7633', 24233],
-  matrix: ['d70799ceda37a4a2e872cd67e8e6265251582fb594b091f9962ab0e9c5022dd1', 31073],
+  matrix: ['84daecb792db6c7c465aca689876755f1cd513a0da59bc352b5191c5b35f26ed', 32651],
   guard: ['621f51b187138750646f38c7464a959713ba3c78bcbcd5031ac9841a288aca68', 6649],
 }
 for (const [name, source] of Object.entries({ migration, rollback, maintenance, regression, matrix, guard })) {

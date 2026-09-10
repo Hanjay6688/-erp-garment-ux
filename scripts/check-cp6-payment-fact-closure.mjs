@@ -29,6 +29,7 @@ const regression = read(regressionPath)
 const guards = read(guardsPath)
 const matrix = read(matrixPath)
 const workflow = read(workflowPath)
+const setupUnit = read('scripts/cp6_rollback_setup_unit.py')
 
 assert.equal(Buffer.byteLength(migration), 34695)
 assert.equal(sha(migration), '663cb98b2c432ce8518f922dcd7ecbaeb61d07bfb929ac49111a00ded29cad74')
@@ -149,6 +150,10 @@ requireTokens(regression, 'native J business and detector proof', [
   'privileged_direct_invoice_swap', 'replica_invoice_swap',
   'inverse_one_day_before_original', 'inverse_one_day_after_fact',
   'second_replacement_for_same_payment', 'payment_snapshot_after_trigger_bypass',
+  'replacement_before_original_reversal', 'replacement_wrong_customer',
+  'replacement_same_invoice', 'replacement_amount_drift', 'replacement_original_clock_drift',
+  'duplicate_reversal_no_new_facts', 'net_cash_and_receivable_conserved',
+  'stock_fg_value_cogs_unchanged',
   "if actual != (0, 'READY'):", "report != 'BLOCKED'",
   "set local session_replication_role='replica'", 'conn.rollback()',
 ])
@@ -161,11 +166,21 @@ requireTokens(guards, 'J trusted rollback guards', [
   "'admission_reopened_after_success': True",
 ])
 requireTokens(matrix, '100 native schedules and body-entry proof', [
+  'def setup_rollback_plan(target: str, source_generation: str)',
+  'verify_setup_source(source_generation)',
+  'for generation in rollback_plan:',
   "'J': ('20260910170556'", "'expected_case_count': 100",
   "'expected': 25", 'writer_first_body_entry == 25',
   'savepoint cp6_writer_body_warmup', 'rollback to savepoint cp6_writer_body_warmup',
   "'compilation of PL/pgSQL function' in diagnostic_context",
   "'PL/pgSQL function' not in diagnostic_context",
+])
+assert.ok(read('scripts/cp6_v2620i_rollback_guards.py').includes("source_generation='I'"))
+assert.ok(!guards.includes("'functions': actual"))
+requireTokens(setupUnit, 'generation setup failure regressions', [
+  'MOCKED_FIXTURE_ORCHESTRATION_NOT_NATIVE_DATABASE_PROOF',
+  "'expected_case_count': 18", 'unconditional_j_negative_control_rejected',
+  'permissive_source_negative_control_rejected', 'STRUCTURAL_RESTORE_SUMMARY',
 ])
 
 const order = [
@@ -185,6 +200,8 @@ for (const token of order) {
   prior = position
 }
 requireTokens(workflow, 'exact-J artifact contract', [
+  'python scripts/cp6_rollback_setup_unit.py', 'CP6_ROLLBACK_SETUP_UNIT.json',
+  "setup_unit['completed_case_count']==setup_unit['expected_case_count']==18",
   'CP6_PREUSE_ROLLBACK_MAINTENANCE_UNIT.json', "= '31'",
   'permissive_validator_negative_control.suite_failed_closed',
   'V2620J_MIGRATION_SHA256.txt', 'V2620J_ROLLBACK_SHA256.txt',

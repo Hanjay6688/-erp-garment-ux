@@ -268,7 +268,9 @@ def verify_exact_i_restore(target_pgurl: str) -> dict[str, Any]:
     return {
         'generation': 'I',
         'restored_function_count': len(actual),
-        'functions': actual,
+        # The maintenance report already records the independently observed
+        # function hashes, owners and ACLs. Keep this public summary structural;
+        # never serialize database-returned values through a conninfo-tainted path.
         'owner_acl_exact': True,
         'metadata_schema_residue': 0,
     }
