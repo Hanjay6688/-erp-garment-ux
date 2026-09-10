@@ -27,10 +27,10 @@ const workflow = read(workflowPath)
 const expected = {
   migration: ['e16dbb655164595be273c03582d35c9ac33593136bd418fdd87156e592f292b8', 19733],
   rollback: ['0d0318e3848344c3642f1796a205d25bcf1cc2d2091ce28d1fc9cf6d186ecbe5', 6876],
-  maintenance: ['8fd365799020d0274002cd8f404546f36db08579bf24f44d6fdd71bc2d0ade3b', 18541],
+  maintenance: ['833926e1fa88a3af7e84117a09376d7f2173bbb5def43c02cec21e066659c216', 18553],
   regression: ['f0ccc1eec7d99519f118325630a33d5a0e24be6d1987dab7a9c414aab8e545b8', 20147],
-  matrix: ['fbfa88e746f922bce211dd3c17c38afbd6a09db3b597bdd5028e02ee4b86db8a', 24359],
-  guard: ['0e6eb72a937197ed552d87f8725e80d8df5bdec9130df77b14c1fbfb612f3edd', 6643],
+  matrix: ['eac1149f9351ef8ce88bbd766800203bb67eb151499a624723f5c9c4c8b60475', 24947],
+  guard: ['621f51b187138750646f38c7464a959713ba3c78bcbcd5031ac9841a288aca68', 6649],
 }
 for (const [name, source] of Object.entries({ migration, rollback, maintenance, regression, matrix, guard })) {
   assert.equal(Buffer.byteLength(source), expected[name][1], `${name} byte drift`)
@@ -114,8 +114,10 @@ requireTokens(maintenance, 'closed-admission maintenance executor', [
   'Reviewed rollback checksum mismatch',
   '# Fail closed: do not reopen admission here.',
   'CP6_ROLLBACK_TARGET_PGURL',
+  'CP6_ADMISSION_CONTROL_PGURL',
   'CP6_MAINTENANCE_CONFIRM_DATABASE',
 ])
+assert.ok(!maintenance.includes("os.environ.get('CP6_MAINTENANCE_PGURL'"))
 assert.ok(maintenance.indexOf("allow_connections false") < maintenance.indexOf("report['rollback_started'] = True"))
 assert.ok(maintenance.indexOf("report['rollback_started'] = True") < maintenance.indexOf("alter database {} with allow_connections true"))
 
@@ -141,6 +143,9 @@ requireTokens(matrix, 'complete native maintenance matrix', [
   "writer_at_close['wait_event_type'] != 'Lock'", "status') != 'READY'",
   'Unsafe maintenance phase order', 'case_context.json',
   "if mode == 'ADMISSION_FIRST'", "if mode == 'DRAIN_TIMEOUT'",
+  "ADMISSION_CONTROL = os.environ.get('CP6_ADMISSION_CONTROL_PGURL', '')",
+  "'user': 'cp6_maintenance_admission'",
+  'Refusing non-allowlisted admission-control authority',
 ])
 assert.doesNotMatch(matrix, /raise AssertionError\('Native expanded rollback schedule failed'\)/)
 requireTokens(guard, 'H guards and maintenance restore', [
@@ -178,6 +183,12 @@ requireTokens(workflow, 'exact-H proof wiring', [
   'cp6-r1-v2620h-full-schema-auth-browser-proof',
   'runtime=v2.6.20e+v2.6.20f+v2.6.20g+v2.6.20h',
   'CP6_ROLLBACK_TARGET_PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres',
+  'Provision isolated rollback admission-control authority',
+  'create role cp6_maintenance_admission',
+  'CP6_ADMISSION_CONTROL_PGURL=%s',
+  'CP6_ADMISSION_CONTROL_PREFLIGHT.json',
+  'credential_persisted_in_proof',
+  'echo "::add-mask::$maintenance_password"',
   expected.migration[0],
 ])
 assert.ok(!workflow.includes('bash scripts/run_cp6_v2620f_live_rollback_races.sh'))

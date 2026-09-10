@@ -407,11 +407,11 @@ def main() -> None:
         os.environ.get('CP6_ROLLBACK_TARGET_PGURL')
         or os.environ.get('CP6_ROLLBACK_RACE_PGURL', '')
     )
-    maintenance_pgurl = os.environ.get('CP6_MAINTENANCE_PGURL', '')
+    maintenance_pgurl = os.environ.get('CP6_ADMISSION_CONTROL_PGURL', '')
     if not target_pgurl or not maintenance_pgurl:
         raise SystemExit(
             'CP6_ROLLBACK_TARGET_PGURL (or CP6_ROLLBACK_RACE_PGURL) '
-            'and CP6_MAINTENANCE_PGURL are required'
+            'and CP6_ADMISSION_CONTROL_PGURL are required'
         )
     try:
         run_maintenance_rollback(

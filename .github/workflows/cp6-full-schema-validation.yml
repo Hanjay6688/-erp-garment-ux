@@ -202,6 +202,42 @@ jobs:
           supabase start --workdir cp5-local \
             -x realtime,imgproxy,studio,postgres-meta,edge-runtime,logflare,vector,supavisor
 
+      - name: Provision isolated rollback admission-control authority
+        shell: bash
+        run: |
+          set -euo pipefail
+          maintenance_password="$(openssl rand -hex 32)"
+          maintenance_pgurl="postgresql://cp6_maintenance_admission:${maintenance_password}@127.0.0.1:54322/template1"
+          echo "::add-mask::$maintenance_password"
+          echo "::add-mask::$maintenance_pgurl"
+          test "$(docker exec "$CP6_DATABASE_CONTAINER" \
+            psql -U supabase_admin -d template1 -X -At -v ON_ERROR_STOP=1 \
+              -c "select count(*) from pg_roles where rolname='cp6_maintenance_admission'")" = '0'
+          docker exec -i "$CP6_DATABASE_CONTAINER" \
+            psql -U supabase_admin -d template1 -X -v ON_ERROR_STOP=1 \
+              -v cp6_password="$maintenance_password" <<'SQL'
+          create role cp6_maintenance_admission
+            login superuser noinherit nocreatedb nocreaterole noreplication
+            connection limit 4 password :'cp6_password';
+          SQL
+          printf 'CP6_ADMISSION_CONTROL_PGURL=%s\n' "$maintenance_pgurl" >> "$GITHUB_ENV"
+          psql "$maintenance_pgurl" -X -At -v ON_ERROR_STOP=1 <<'SQL' \
+            | tee cp6-proof/CP6_ADMISSION_CONTROL_PREFLIGHT.json
+          select jsonb_pretty(jsonb_build_object(
+            'status','PASS',
+            'role',current_user,
+            'database',current_database(),
+            'superuser',(select rolsuper from pg_roles where rolname=current_user),
+            'ephemeral_disposable_ci',true,
+            'credential_persisted_in_proof',false,
+            'production_go',false
+          ));
+          SQL
+          test "$(jq -r '.status' cp6-proof/CP6_ADMISSION_CONTROL_PREFLIGHT.json)" = 'PASS'
+          test "$(jq -r '.role' cp6-proof/CP6_ADMISSION_CONTROL_PREFLIGHT.json)" = 'cp6_maintenance_admission'
+          test "$(jq -r '.database' cp6-proof/CP6_ADMISSION_CONTROL_PREFLIGHT.json)" = 'template1'
+          test "$(jq -r '.superuser' cp6-proof/CP6_ADMISSION_CONTROL_PREFLIGHT.json)" = 'true'
+
       - name: Verify PostgreSQL dump and server compatibility
         shell: bash
         run: |
@@ -3256,11 +3292,19 @@ jobs:
             'V2620B_ROLLBACK.log','FINAL_RECONCILIATION.json',
             'CP6_AUTH_CLONE_CLEANUP.txt','CP6_RACE_CLONE_CLEANUP.txt',
             'CP6_PREFLIGHT_CLONE_CLEANUP.txt','cp6-browser-contract/results.json',
+            'CP6_ADMISSION_CONTROL_PREFLIGHT.json',
             'CP6_STACK_STOP.log','CP6_STACK_CLEANUP.txt',
           ]
           missing=[name for name in required if not (proof/name).is_file()]
           assert not missing,missing
           assert json.loads((proof/'FINAL_RECONCILIATION.json').read_text())['status']=='PASS'
+
+          admission=json.loads((proof/'CP6_ADMISSION_CONTROL_PREFLIGHT.json').read_text())
+          assert admission=={
+            'status':'PASS','role':'cp6_maintenance_admission','database':'template1',
+            'superuser':True,'ephemeral_disposable_ci':True,
+            'credential_persisted_in_proof':False,'production_go':False,
+          },admission
 
           g=json.loads((proof/'CP6_V2620G_INDEPENDENT_REGRESSION.json').read_text())
           assert g['head']==os.environ['GITHUB_SHA'] and g['status']=='PASS' and g['production_go'] is False,g

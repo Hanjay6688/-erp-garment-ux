@@ -62,7 +62,7 @@ def run():
             result['guards'].append({'case': name, 'status': 'PASS', 'rejection': error.splitlines()[0]})
     maintenance_result = maintenance.run_maintenance_rollback(
         target_name='G', target_pgurl=os.environ['PGURL'],
-        maintenance_pgurl=os.environ['CP6_MAINTENANCE_PGURL'],
+        maintenance_pgurl=os.environ['CP6_ADMISSION_CONTROL_PGURL'],
         report_path=MAINTENANCE_REPORT, drain_timeout=10,
         natural_grace=.25, terminate_after_grace=True,
     )

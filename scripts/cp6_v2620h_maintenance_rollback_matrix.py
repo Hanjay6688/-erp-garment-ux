@@ -19,6 +19,7 @@ from typing import Any
 
 import psycopg
 from psycopg import sql
+from psycopg.conninfo import conninfo_to_dict
 
 import cp6_v2620g_expanded_rollback_races as legacy
 import cp6_preuse_rollback_maintenance as maintenance
@@ -27,6 +28,7 @@ import cp6_preuse_rollback_maintenance as maintenance
 ROOT = Path('cp6-proof/H_MAINTENANCE_ROLLBACK')
 SOURCE = legacy.SOURCE
 MAINTENANCE = legacy.MAINTENANCE
+ADMISSION_CONTROL = os.environ.get('CP6_ADMISSION_CONTROL_PGURL', '')
 CLONE = legacy.CLONE
 CONTAINER = legacy.CONTAINER
 TARGETS = {
@@ -81,7 +83,7 @@ def read_json_if_present(path_value: Path) -> dict[str, Any] | None:
 
 
 def reopen_clone() -> None:
-    with psycopg.connect(MAINTENANCE, autocommit=True) as conn, conn.cursor() as cur:
+    with psycopg.connect(ADMISSION_CONTROL, autocommit=True) as conn, conn.cursor() as cur:
         cur.execute(
             sql.SQL('alter database {} with allow_connections true').format(
                 sql.Identifier('cp6_rollback')
@@ -94,7 +96,7 @@ def maintenance_strip(target: str, folder: Path) -> dict[str, Any]:
     return maintenance.run_maintenance_rollback(
         target_name=target,
         target_pgurl=CLONE,
-        maintenance_pgurl=MAINTENANCE,
+        maintenance_pgurl=ADMISSION_CONTROL,
         report_path=report_path,
         drain_timeout=5,
         natural_grace=0,
@@ -232,7 +234,7 @@ def run_case(target: str, operation: str, mode: str, folder: Path) -> dict[str, 
             rollback_outcome['result'] = maintenance.run_maintenance_rollback(
                 target_name=target,
                 target_pgurl=CLONE,
-                maintenance_pgurl=MAINTENANCE,
+                maintenance_pgurl=ADMISSION_CONTROL,
                 report_path=controller_report_path,
                 drain_timeout=.75 if mode == 'DRAIN_TIMEOUT' else 8,
                 natural_grace=.1,
@@ -519,6 +521,18 @@ def main() -> None:
     )
     if actual_environment != expected_environment:
         raise SystemExit('Refusing non-allowlisted disposable maintenance target')
+    admission_info = conninfo_to_dict(ADMISSION_CONTROL)
+    expected_admission = {
+        'dbname': 'template1',
+        'host': '127.0.0.1',
+        'port': '54322',
+        'user': 'cp6_maintenance_admission',
+    }
+    if (
+        any(admission_info.get(key) != value for key, value in expected_admission.items())
+        or not admission_info.get('password')
+    ):
+        raise SystemExit('Refusing non-allowlisted admission-control authority')
     ROOT.mkdir(parents=True, exist_ok=True)
     report: dict[str, Any] = {
         'head': os.environ.get('GITHUB_SHA', 'LOCAL_UNBOUND'),

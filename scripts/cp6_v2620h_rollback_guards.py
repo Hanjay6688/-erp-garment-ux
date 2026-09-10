@@ -32,7 +32,7 @@ def functions(cur: psycopg.Cursor) -> list[tuple[Any, ...]]:
 
 def run() -> dict[str, Any]:
     target_pgurl = os.environ['PGURL']
-    maintenance_pgurl = os.environ['CP6_MAINTENANCE_PGURL']
+    maintenance_pgurl = os.environ['CP6_ADMISSION_CONTROL_PGURL']
     rollback_sql = ROLLBACK.read_text()
     result: dict[str, Any] = {
         'head': os.environ.get('GITHUB_SHA', 'LOCAL_UNBOUND'),
