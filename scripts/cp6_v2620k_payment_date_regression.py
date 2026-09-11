@@ -30,6 +30,28 @@ def run():
         result['runtime']={'function_count':4,'all_source_pins_owner_acl_exact':True,
           'migration_sha256':hashlib.sha256(runtime.MIGRATION.read_bytes()).hexdigest(),
           'engine':base.one(cur,'select version()')}
+        # Diagnose the original fault-harness permission mismatch without
+        # logging raw exceptions or granting any additional privilege.
+        role_before=base.one(cur,"select jsonb_build_object('role',current_user,'superuser',rolsuper) from pg_roles where rolname=current_user")
+        control={'set_config_accepted':False,'set_config_sqlstate':None}
+        cur.execute('savepoint k_replication_control')
+        try:
+            cur.execute("select set_config('session_replication_role','replica',true)")
+            control['set_config_accepted']=True
+        except psycopg.Error as exc:
+            if exc.sqlstate!='42501': raise
+            control['set_config_sqlstate']=exc.sqlstate
+        finally:
+            cur.execute('rollback to savepoint k_replication_control')
+            cur.execute('release savepoint k_replication_control')
+        cur.execute("set local session_replication_role='replica'")
+        if base.one(cur,"select current_setting('session_replication_role')")!='replica':
+            raise AssertionError('K_FAULT_UTILITY_CONTROL_FAILED')
+        cur.execute("set local session_replication_role='origin'")
+        role_after=base.one(cur,"select jsonb_build_object('role',current_user,'superuser',rolsuper) from pg_roles where rolname=current_user")
+        if role_before!=role_after: raise AssertionError('K_FAULT_CONTROL_CHANGED_ROLE')
+        result['fault_harness_permission_control']={**control,**role_after,
+          'utility_set_accepted':True,'origin_restored':True,'role_privileges_unchanged':True}
         cur.execute("select set_config('request.jwt.claims',%s,true)",
           (json.dumps({'sub':base.OPERATOR_AUTH,'role':'authenticated'}),))
         cur.execute("select set_config('app.change_reason','CP6 K competition oracles',true)")

@@ -106,7 +106,10 @@ begin
       select original_journal_entry_id,journal_economic_date into journal,inverse_day
         from erp.sales_payment_posting_facts where payment_id=replacement;
       for delta in select unnest(array[-1,1]) loop
-        perform set_config('session_replication_role','replica',true);
+        -- Use the allowlisted utility statement, as the native J fault runner
+        -- does. Supabase's postgres role need not be a superuser and its
+        -- utility permission does not imply permission for set_config().
+        set local session_replication_role='replica';
         update erp.journal_entries set economic_date=inverse_day+delta where id=journal;
         update erp.sales_payment_posting_facts set journal_economic_date=inverse_day+delta
           where payment_id=replacement;
@@ -131,7 +134,7 @@ begin
           f.journal_economic_date,f.journal_transaction_date,f.journal_posting_at,
           f.replaces_payment_id,f.predecessor_reversal_journal_id,f.payment_snapshot)::text,'UTF8'),
         'sha256'),'hex') where payment_id=replacement;
-      perform set_config('session_replication_role','origin',true);
+      set local session_replication_role='origin';
     end if;
     if pg_temp.k_confidence()<>'READY' then raise exception 'K_RESTORATION_NOT_READY'; end if;
     return jsonb_build_object('status','PASS','amount',amount,'before',before_book,'after',after_book,
