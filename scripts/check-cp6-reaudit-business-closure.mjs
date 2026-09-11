@@ -183,7 +183,7 @@ requireTokens(regression, 'independent re-audit counterexample regression', [
 ])
 
 requireTokens(auth, 'real owner and operator Auth proof', [
-  "target: 'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620J'",
+  "target: 'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620K'",
   'const validNegativePayload = {',
   "headers: { 'Accept-Profile': 'erp', 'Content-Profile': 'erp' }",
   'owner_dedicated_final_sku: ownerPositiveState',

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Trusted J capsule guards plus maintenance-only exact J-to-I restore."""
+"""Trusted K capsule guards plus maintenance-only exact K-to-J restore."""
 from __future__ import annotations
 
 import hashlib
@@ -18,12 +18,12 @@ import cp6_v2620h_maintenance_rollback_matrix as matrix
 
 
 ROLLBACK = Path(
-    'supabase/rollbacks/20260910170556_erp_v2_6_20j_cp6_payment_fact_closure.rollback.sql'
+    'supabase/rollbacks/20260911023222_erp_v2_6_20k_cp6_payment_date_conservation.rollback.sql'
 )
-REPORT = Path('cp6-proof/CP6_V2620J_ROLLBACK_GUARDS.json')
-MAINTENANCE_REPORT = Path('cp6-proof/V2620J_MAIN_MAINTENANCE_ROLLBACK.json')
-CLONE_ROOT = Path('cp6-proof/J_TRUSTED_CAPSULE_GUARD')
-DIRECT_J_GUARD_NAMES = (
+REPORT = Path('cp6-proof/CP6_V2620K_ROLLBACK_GUARDS.json')
+MAINTENANCE_REPORT = Path('cp6-proof/V2620K_MAIN_MAINTENANCE_ROLLBACK.json')
+CLONE_ROOT = Path('cp6-proof/K_TRUSTED_CAPSULE_GUARD')
+DIRECT_K_GUARD_NAMES = (
     'platform_bytes', 'successor', 'definition_drift', 'acl_drift',
     'boundary_drift', 'post_install_boundary_history',
     'coherent_capsule_and_checksum',
@@ -73,13 +73,13 @@ def coherent_capsule_fault(pgurl: str) -> tuple[str, str, str]:
     with psycopg.connect(pgurl, autocommit=False) as conn, conn.cursor() as cur:
         cur.execute(
             """select object_regidentity,object_definition,definition_sha256
-               from erp.cp6_v2620j_rollback_capsule
+               from erp.cp6_v2620k_rollback_capsule
                order by object_regidentity limit 1"""
         )
         identity, definition, original_sha = cur.fetchone()
         tampered = canonical_cost_tamper(definition)
         cur.execute(
-            """update erp.cp6_v2620j_rollback_capsule
+            """update erp.cp6_v2620k_rollback_capsule
                set object_definition=%s,
                  definition_sha256=encode(extensions.digest(
                    convert_to(%s,'UTF8'),'sha256'),'hex')
@@ -88,7 +88,7 @@ def coherent_capsule_fault(pgurl: str) -> tuple[str, str, str]:
         )
         cur.execute(
             """select definition_sha256
-               from erp.cp6_v2620j_rollback_capsule
+               from erp.cp6_v2620k_rollback_capsule
                where object_regidentity=%s""",
             (identity,),
         )
@@ -99,18 +99,18 @@ def coherent_capsule_fault(pgurl: str) -> tuple[str, str, str]:
     return identity, original_sha, tampered_sha
 
 
-def verify_j_capsule_fault() -> dict[str, Any]:
+def verify_k_capsule_fault() -> dict[str, Any]:
     """Return public verification outcomes, never capsule contents or credentials."""
     CLONE_ROOT.mkdir(parents=True, exist_ok=True)
-    marker = maintenance.TARGETS['J']['marker']
+    marker = maintenance.TARGETS['K']['marker']
     with disposable_clone_confirmation(matrix.CLONE):
         try:
-            matrix.prepare('J', 'REPORT', CLONE_ROOT, source_generation='J')
+            matrix.prepare('K', 'REPORT', CLONE_ROOT, source_generation='K')
             coherent_capsule_fault(matrix.CLONE)
             rejection = None
             try:
                 maintenance.run_maintenance_rollback(
-                    target_name='J',
+                    target_name='K',
                     target_pgurl=matrix.CLONE,
                     maintenance_pgurl=matrix.ADMISSION_CONTROL,
                     report_path=CLONE_ROOT / 'maintenance.json',
@@ -121,10 +121,10 @@ def verify_j_capsule_fault() -> dict[str, Any]:
             except maintenance.MaintenanceRollbackError as exc:
                 rejection = str(exc)
             if rejection is None or 'TRUSTED_PREDECESSOR_PIN_MISMATCH' not in rejection:
-                raise AssertionError(f'J coherent capsule fault was not rejected: {rejection}')
+                raise AssertionError(f'K coherent capsule fault was not rejected: {rejection}')
             observed = matrix.read_json_if_present(CLONE_ROOT / 'maintenance.json') or {}
             if observed.get('admission_closed') or observed.get('rollback_started'):
-                raise AssertionError(f'J trust failure crossed mutation boundary: {observed}')
+                raise AssertionError(f'K trust failure crossed mutation boundary: {observed}')
             with psycopg.connect(matrix.CLONE, autocommit=True) as conn, conn.cursor() as cur:
                 cur.execute(
                     'select count(*) from erp.schema_migrations where version=%s',
@@ -132,9 +132,9 @@ def verify_j_capsule_fault() -> dict[str, Any]:
                 )
                 marker_count = cur.fetchone()[0]
             if marker_count != 1:
-                raise AssertionError('J trusted guard changed installed generation')
+                raise AssertionError('K trusted guard changed installed generation')
             return {
-                'target': 'J',
+                'target': 'K',
                 'status': 'PASS',
                 'coherent_checksum_changed': True,
                 'trusted_pin_rejected': True,
@@ -150,14 +150,14 @@ def verify_j_capsule_fault() -> dict[str, Any]:
             matrix.legacy.drop_clone()
 
 
-def direct_j_guards(target_pgurl: str) -> list[dict[str, Any]]:
+def direct_k_guards(target_pgurl: str) -> list[dict[str, Any]]:
     rollback_sql = ROLLBACK.read_text()
     with psycopg.connect(target_pgurl, autocommit=False) as conn:
         with conn.cursor() as cur:
             before = function_catalog(cur)
             cur.execute(
                 """select object_regidentity,object_definition
-                   from erp.cp6_v2620j_rollback_capsule
+                   from erp.cp6_v2620k_rollback_capsule
                    order by object_regidentity limit 1"""
             )
             identity, definition = cur.fetchone()
@@ -166,7 +166,7 @@ def direct_j_guards(target_pgurl: str) -> list[dict[str, Any]]:
         cases = (
             (
                 'platform_bytes',
-                "update supabase_migrations.schema_migrations set statements=array['tampered J'] where name='erp_v2_6_20j_cp6_payment_fact_closure'",
+                "update supabase_migrations.schema_migrations set statements=array['tampered J'] where name='erp_v2_6_20k_cp6_payment_date_conservation'",
                 'exact platform ledger identity',
                 None,
             ),
@@ -190,7 +190,7 @@ def direct_j_guards(target_pgurl: str) -> list[dict[str, Any]]:
             ),
             (
                 'boundary_drift',
-                "update erp.cp6_v2620j_rollback_capsule set boundary_snapshot=boundary_snapshot-'sales_payments'",
+                "update erp.cp6_v2620k_rollback_capsule set boundary_snapshot=boundary_snapshot-'sales_payments'",
                 'incomplete business boundary',
                 None,
             ),
@@ -207,8 +207,8 @@ def direct_j_guards(target_pgurl: str) -> list[dict[str, Any]]:
                 coherent,
             ),
         )
-        if tuple(case[0] for case in cases) != DIRECT_J_GUARD_NAMES:
-            raise AssertionError('Direct J guard case manifest drift')
+        if tuple(case[0] for case in cases) != DIRECT_K_GUARD_NAMES:
+            raise AssertionError('Direct K guard case manifest drift')
         for name, mutation, expected_error, coherent_definition in cases:
             error = None
             try:
@@ -217,7 +217,7 @@ def direct_j_guards(target_pgurl: str) -> list[dict[str, Any]]:
                         cur.execute(mutation, prepare=False)
                     else:
                         cur.execute(
-                            """update erp.cp6_v2620j_rollback_capsule
+                            """update erp.cp6_v2620k_rollback_capsule
                                set object_definition=%s,
                                  definition_sha256=encode(extensions.digest(
                                    convert_to(%s,'UTF8'),'sha256'),'hex')
@@ -240,31 +240,31 @@ def direct_j_guards(target_pgurl: str) -> list[dict[str, Any]]:
     # Do not propagate fields from tuples that also carry database definitions.
     return [
         {'case': name, 'status': 'PASS', 'expected_rejection_observed': True}
-        for name in DIRECT_J_GUARD_NAMES
+        for name in DIRECT_K_GUARD_NAMES
     ]
 
 
-def verify_exact_i_restore(target_pgurl: str) -> dict[str, Any]:
-    expected = maintenance.TRUSTED_FUNCTIONS['J']
+def verify_exact_j_restore(target_pgurl: str) -> dict[str, Any]:
+    expected = maintenance.TRUSTED_FUNCTIONS['K']
     with psycopg.connect(target_pgurl, autocommit=False) as conn, conn.cursor() as cur:
         actual = maintenance._function_snapshot(conn, expected)
         cur.execute(
-            """select not exists(select 1 from erp.schema_migrations where version='v2.6.20j')
-              and exists(select 1 from erp.schema_migrations where version='v2.6.20i')
+            """select not exists(select 1 from erp.schema_migrations where version='v2.6.20k')
+              and exists(select 1 from erp.schema_migrations where version='v2.6.20j')
               and not exists(select 1 from supabase_migrations.schema_migrations
-                where name='erp_v2_6_20j_cp6_payment_fact_closure')
-              and to_regclass('erp.cp6_v2620j_rollback_capsule') is null
-              and to_regclass('erp.sales_payment_posting_facts') is null
-              and to_regclass('erp.sales_payment_reversal_facts') is null
-              and not exists(select 1 from information_schema.columns
+                where name='erp_v2_6_20k_cp6_payment_date_conservation')
+              and to_regclass('erp.cp6_v2620k_rollback_capsule') is null
+              and to_regclass('erp.sales_payment_posting_facts') is not null
+              and to_regclass('erp.sales_payment_reversal_facts') is not null
+              and exists(select 1 from information_schema.columns
                 where table_schema='erp' and table_name='sales_payments'
                   and column_name='replaces_payment_id')
-              and to_regclass('erp.cp6_v2620i_rollback_capsule') is not null"""
+              and to_regclass('erp.cp6_v2620j_rollback_capsule') is not null"""
         )
         if cur.fetchone()[0] is not True:
-            raise AssertionError('J rollback metadata/schema residue')
+            raise AssertionError('K rollback metadata/schema residue')
     return {
-        'generation': 'I',
+        'generation': 'J',
         'restored_function_count': len(actual),
         # The maintenance report already records the independently observed
         # function hashes, owners and ACLs. Keep this public summary structural;
@@ -277,16 +277,17 @@ def verify_exact_i_restore(target_pgurl: str) -> dict[str, Any]:
 def run() -> dict[str, Any]:
     target_pgurl = os.environ['PGURL']
     maintenance_pgurl = os.environ['CP6_ADMISSION_CONTROL_PGURL']
+    maintenance._validate_connections(target_pgurl, maintenance_pgurl)
     result: dict[str, Any] = {
         'head': os.environ.get('GITHUB_SHA', 'LOCAL_UNBOUND'),
-        'classification': 'DISPOSABLE_NATIVE_J_TRUSTED_GUARDS_AND_CLOSED_ADMISSION_RESTORE',
+        'classification': 'DISPOSABLE_NATIVE_K_TRUSTED_GUARDS_AND_CLOSED_ADMISSION_RESTORE',
         'rollback_sha256': hashlib.sha256(ROLLBACK.read_bytes()).hexdigest(),
         'production_go': False,
     }
-    result['trusted_capsule_guard'] = verify_j_capsule_fault()
-    result['guards'] = direct_j_guards(target_pgurl)
+    result['trusted_capsule_guard'] = verify_k_capsule_fault()
+    result['guards'] = direct_k_guards(target_pgurl)
     maintenance_result = maintenance.run_maintenance_rollback(
-        target_name='J',
+        target_name='K',
         target_pgurl=target_pgurl,
         maintenance_pgurl=maintenance_pgurl,
         report_path=MAINTENANCE_REPORT,
@@ -295,7 +296,7 @@ def run() -> dict[str, Any]:
         terminate_after_grace=True,
     )
     if maintenance_result['status'] != 'PASS':
-        raise AssertionError(f'J maintenance rollback failed: {maintenance_result}')
+        raise AssertionError(f'K maintenance rollback failed: {maintenance_result}')
     required_phases = {
         'ENDPOINT_VERIFIED', 'CAPSULE_VERIFIED', 'ADMISSION_CLOSED',
         'DRAINED', 'ROLLBACK_STARTED', 'ROLLBACK_COMMITTED',
@@ -305,13 +306,13 @@ def run() -> dict[str, Any]:
         item.get('phase') for item in maintenance_result.get('phases', [])
     }
     if not required_phases.issubset(observed_phases):
-        raise AssertionError('J maintenance phase evidence incomplete')
+        raise AssertionError('K maintenance phase evidence incomplete')
     result.update(
         status='PASS',
-        exact_pre_use_restore=verify_exact_i_restore(target_pgurl),
+        exact_pre_use_restore=verify_exact_j_restore(target_pgurl),
         maintenance={
             'status': 'PASS',
-            'target': 'J',
+            'target': 'K',
             'endpoint_verified': True,
             'capsule_verified': True,
             'admission_closed_before_rollback': True,
@@ -332,7 +333,7 @@ def main() -> None:
         result = {
             'head': os.environ.get('GITHUB_SHA', 'LOCAL_UNBOUND'),
             'status': 'FAIL',
-            'error_code': 'V2620J_ROLLBACK_GUARD_FAILED',
+            'error_code': 'V2620K_ROLLBACK_GUARD_FAILED',
             'error_type': type(exc).__name__,
             'production_go': False,
         }

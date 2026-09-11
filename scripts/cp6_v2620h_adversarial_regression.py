@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import Any, Callable
 
 import psycopg
+import cp6_v2620k_runtime as k_runtime
 
 import cp6_v2620e_counterexample_regression as base
 
@@ -34,6 +35,7 @@ HEAD = os.environ.get('GITHUB_SHA', 'LOCAL_UNBOUND')
 
 
 def exact_runtime(cur: psycopg.Cursor) -> dict[str, Any]:
+    k_successor = k_runtime.verified_successor(cur)
     versions = base.one(
         cur,
         """select jsonb_agg(version order by version) from erp.schema_migrations
@@ -56,7 +58,7 @@ def exact_runtime(cur: psycopg.Cursor) -> dict[str, Any]:
             to_regprocedure(object_regidentity)),'UTF8'),'sha256'),'hex') actual
           from erp.cp6_v2620j_rollback_capsule order by object_regidentity"""
     )
-    j_rows = cur.fetchall()
+    j_rows = k_runtime.extend_rows(k_successor, cur.fetchall())
     if len(j_rows) != 3 or any(item[2] != item[3] for item in j_rows):
         raise AssertionError(f'J successor capsule/function mismatch: {j_rows}')
     j_by_identity = {item[0]: item[2] for item in j_rows}
@@ -74,7 +76,7 @@ def exact_runtime(cur: psycopg.Cursor) -> dict[str, Any]:
         item['h_installed_sha256'] = item['installed_sha256']
         if item['identity'] in j_by_identity:
             item['installed_sha256'] = j_by_identity[item['identity']]
-            item['expected_generation'] = 'J'
+            item['expected_generation'] = 'K' if k_successor else 'J'
         elif item['identity'] == 'erp.run_v268_financial_report_checks()':
             item['installed_sha256'] = i_installed
             item['expected_generation'] = 'I'
@@ -130,7 +132,7 @@ def exact_runtime(cur: psycopg.Cursor) -> dict[str, Any]:
         raise AssertionError(f'J source/platform drift: {j_platform} != {j_file_sha}')
     return {
         'engine': base.one(cur, 'select version()'),
-        'versions': versions,
+        'versions': versions + (['v2.6.20k'] if k_successor else []),
         'functions': functions,
         'migration_bytes': len(source),
         'migration_sha256': file_sha,
@@ -148,6 +150,8 @@ def exact_runtime(cur: psycopg.Cursor) -> dict[str, Any]:
             {
                 'identity': item[0], 'predecessor_sha256': item[1],
                 'installed_sha256': item[2], 'actual_sha256': item[3],
+                'j_installed_sha256': k_successor[item[0]]['predecessor_sha256'] if k_successor else item[2],
+                'expected_generation': 'K' if k_successor else 'J',
             }
             for item in j_rows
         ],

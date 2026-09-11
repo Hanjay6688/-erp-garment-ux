@@ -14,6 +14,12 @@ import cp6_v2620j_rollback_guards as jguards
 
 REPORT = Path('cp6-proof/CP6_ROLLBACK_SETUP_UNIT.json')
 PLANS = {
+    ('K', 'F'): ('K', 'J', 'I', 'H', 'G', 'F'),
+    ('K', 'G'): ('K', 'J', 'I', 'H', 'G'),
+    ('K', 'H'): ('K', 'J', 'I', 'H'),
+    ('K', 'I'): ('K', 'J', 'I'),
+    ('K', 'J'): ('K', 'J'),
+    ('K', 'K'): ('K',),
     ('J', 'F'): ('J', 'I', 'H', 'G', 'F'),
     ('J', 'G'): ('J', 'I', 'H', 'G'),
     ('J', 'H'): ('J', 'I', 'H'),
@@ -136,7 +142,7 @@ def run() -> dict:
     for source, target in PLANS:
         exercise_prepare(source, target)
         cases.append({'case': f'{source}_SOURCE_FOR_{target}', 'status': 'PASS'})
-    for source, target in (('I', 'J'), ('H', 'F'), ('K', 'J'), ('J', 'K')):
+    for source, target in (('I', 'J'), ('H', 'F'), ('L', 'J'), ('J', 'K')):
         invalid_request(source, target)
         cases.append({'case': f'REJECT_{source}_SOURCE_FOR_{target}', 'status': 'PASS'})
     for fault in ('wrong_platform', 'missing_marker', 'missing_capsule', 'unexpected_j_capsule'):
@@ -164,11 +170,11 @@ def run() -> dict:
             pass
         else:
             raise AssertionError('Permissive-source negative control unexpectedly passed')
-    assert len(cases) == 19
+    assert len(cases) == 25
     return {
         'head': os.environ.get('GITHUB_SHA', 'LOCAL_UNBOUND'),
         'classification': 'MOCKED_FIXTURE_ORCHESTRATION_NOT_NATIVE_DATABASE_PROOF',
-        'status': 'PASS', 'expected_case_count': 19, 'completed_case_count': len(cases),
+        'status': 'PASS', 'expected_case_count': 25, 'completed_case_count': len(cases),
         'cases': cases,
         'unconditional_j_negative_control_rejected': True,
         'permissive_source_negative_control_rejected': True,

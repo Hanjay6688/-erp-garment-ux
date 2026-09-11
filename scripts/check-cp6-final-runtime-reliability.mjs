@@ -256,10 +256,10 @@ const orderedWorkflowTokens = [
   'Run CP6 physical lineage, finance, stock, HPP, idempotency, and reversal acceptance',
   'Run thirty-four native CP6 races plus three abort qualifications, temporal, paging, and scale proofs',
   'Re-run affected CP5, Cutting, partial-FG, HPP, and accounting behavior under CP6',
-  'Confirm every broad regression ran on the installed E through J runtime',
+  'Confirm every broad regression ran on the installed E through K runtime',
   'Re-prove native C01-C06 business closure under final E plus F runtime',
   'Prove native A01-A03 closure under the exact final E plus F runtime',
-  'Qualify exact F G H I and J rollback under closed admission across one hundred native schedules',
+  'Qualify exact F G H I J and K rollback under closed admission across one hundred twenty native schedules',
   'Prove v2.6.20f guards and exact pre-use rollback before v2.6.20e',
   'Prove v2.6.20e pre-use rollback before the v2.6.20d ladder',
 ]
@@ -283,14 +283,14 @@ requireTokens(workflow, 'A04 exact final-runtime proof', [
   'V2620F_INSTALLED_FUNCTION_SHA256.txt',
   'V2620H_MAINTENANCE_ROLLBACK_MATRIX.log',
   'H_MAINTENANCE_ROLLBACK/manifest.json',
-  "'format':'CP6_V2620J_RUNTIME_PROOF_V1'",
+  "'format':'CP6_V2620K_RUNTIME_PROOF_V1'",
   "'actual_business_facade_rollback_race_orders':6",
   "'v2620f_rollback_race_orders':20",
   "'v2620f_counterexamples_a01_a03':3",
   "'v2620f_auth_acceptance_races_and_cp5_after_final_runtime':True",
   "'v2620f_installed_function_hashes_bound':True",
-  "proof/'CP6_V2620J_RUNTIME_MANIFEST.json'",
-  'name: cp6-r1-v2620j-full-schema-auth-browser-proof',
+  "proof/'CP6_V2620K_RUNTIME_MANIFEST.json'",
+  'name: cp6-r1-v2620k-full-schema-auth-browser-proof',
   "'uat_v2620e_v2620f_state':'NOT_TESTED_OR_APPLIED_BY_THIS_RUN'",
   "'production_go':False",
 ])
@@ -304,7 +304,7 @@ requireTokens(workflow, 'F source and residue binding', [
 ])
 
 requireTokens(auth, 'Auth proof target', [
-  "target: 'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620J'",
+  "target: 'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620K'",
   'production_go: false',
 ])
 requireTokens(packageSource, 'static gate wiring', [

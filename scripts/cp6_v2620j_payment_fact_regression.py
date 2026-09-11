@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import Any, Callable
 
 import psycopg
+import cp6_v2620k_runtime as k_runtime
 
 import cp6_v2620e_counterexample_regression as base
 import cp6_v2620h_adversarial_regression as h
@@ -49,6 +50,7 @@ def assert_clean(cur: psycopg.Cursor, label: str) -> None:
 
 
 def exact_runtime(cur: psycopg.Cursor) -> dict[str, Any]:
+    k_successor = k_runtime.verified_successor(cur)
     versions = base.one(
         cur,
         """select jsonb_agg(version order by version) from erp.schema_migrations
@@ -93,7 +95,7 @@ def exact_runtime(cur: psycopg.Cursor) -> dict[str, Any]:
         wanted = expected.get(row[0])
         if wanted is None or row[1] != wanted[0] or row[2] != wanted[1]:
             raise AssertionError(f'J capsule hash mismatch: {row}')
-        if row[2] != row[3] or row[4] != 'postgres' or row[5] != wanted[2]:
+        if k_runtime.effective_hash(k_successor, row[0], row[2]) != row[3] or row[4] != 'postgres' or row[5] != wanted[2]:
             raise AssertionError(f'J installed function owner/ACL mismatch: {row}')
     source = MIGRATION.read_bytes()
     file_sha = hashlib.sha256(source).hexdigest()
@@ -123,11 +125,12 @@ def exact_runtime(cur: psycopg.Cursor) -> dict[str, Any]:
         raise AssertionError(f'J immutable fact relations incomplete: {rels}')
     return {
         'engine': base.one(cur, 'select version()'),
-        'versions': versions,
+        'versions': versions + (['v2.6.20k'] if k_successor else []),
         'capsule': [
             {
                 'identity': row[0], 'predecessor_sha256': row[1],
-                'installed_sha256': row[2], 'actual_sha256': row[3],
+                'installed_sha256': k_runtime.effective_hash(k_successor, row[0], row[2]),
+                'j_installed_sha256': row[2], 'actual_sha256': row[3],
                 'owner': row[4], 'acl': row[5],
             }
             for row in rows

@@ -73,6 +73,15 @@ TARGETS: dict[str, dict[str, Any]] = {
         'capsule': 'erp.cp6_v2620j_rollback_capsule',
         'capsule_count': 3,
     },
+    'K': {
+        'rollback': Path('supabase/rollbacks/20260911023222_erp_v2_6_20k_cp6_payment_date_conservation.rollback.sql'),
+        'rollback_sha256': '9c08f543e4635d59f5e65857a0e3c13f76f52af019eccbe249acc313aac8f01d',
+        'marker': 'v2.6.20k',
+        'platform': 'erp_v2_6_20k_cp6_payment_date_conservation',
+        'predecessor': 'v2.6.20j',
+        'capsule': 'erp.cp6_v2620k_rollback_capsule',
+        'capsule_count': 4,
+    },
 }
 
 
@@ -118,6 +127,12 @@ TRUSTED_FUNCTIONS: dict[str, list[dict[str, Any]]] = {
         {'identity': 'erp.post_sales_payment(uuid)', 'predecessor_sha256': '010de4bae594258ba73348463ba90305a01485ed30b9c11918583be198c1f6df', 'installed_sha256': '5634d6fa8fa613e455b9de57b2bd186ac6424815ea2a0aa33866c7c235918e5a', 'owner': 'postgres', 'acl': _acl('authenticated', 'postgres', 'service_role')},
         {'identity': 'erp.reverse_sales_payment(uuid,text)', 'predecessor_sha256': '09c33e1cfbc673f9118878bd6da55e0df9c433252f0ecb099ef547895cab3ef6', 'installed_sha256': '00d2c2e0dea82508840c06a9aa7ddade503df9a552a29b664beeb32cd081e5b6', 'owner': 'postgres', 'acl': _acl('authenticated', 'postgres')},
         {'identity': 'erp.run_v268_financial_report_checks()', 'predecessor_sha256': 'c25defe6a1403a7199e71f92fd3799f941b7748f6228671e78586ba1ede5f8e1', 'installed_sha256': '3ab1c4e42616eadac12dd0d37811703fdd0436690a57ebe962c651af56e3588f', 'owner': 'postgres', 'acl': _acl('authenticated', 'postgres', 'service_role')},
+    ],
+    'K': [
+        {'identity': 'erp.post_sales_payment(uuid)', 'predecessor_sha256': '5634d6fa8fa613e455b9de57b2bd186ac6424815ea2a0aa33866c7c235918e5a', 'installed_sha256': '362e4266718275af5af6efcded3c85cd7a7a7f1faba7241979114fe6e57ffd6c', 'owner': 'postgres', 'acl': ['authenticated=X/postgres', 'postgres=X/postgres', 'service_role=X/postgres']},
+        {'identity': 'erp.reverse_sales_payment(uuid,text)', 'predecessor_sha256': '00d2c2e0dea82508840c06a9aa7ddade503df9a552a29b664beeb32cd081e5b6', 'installed_sha256': 'e5f48784389148a40b2f71fbe9a3e133ff9a7bc95ec969da74e27163b0c5b069', 'owner': 'postgres', 'acl': ['authenticated=X/postgres', 'postgres=X/postgres']},
+        {'identity': 'erp.run_v268_financial_report_checks()', 'predecessor_sha256': '3ab1c4e42616eadac12dd0d37811703fdd0436690a57ebe962c651af56e3588f', 'installed_sha256': '2bffd2d8f33ad2d918d1fb2f767676dc403ac777ad9a8ff69d4f32bf74067eff', 'owner': 'postgres', 'acl': ['authenticated=X/postgres', 'postgres=X/postgres', 'service_role=X/postgres']},
+        {'identity': 'erp.guard_sales_payment_posted_identity_v2620j()', 'predecessor_sha256': '3849af0c4d17fa6fba90d87ff923dd82bf942f922d792ab5c2901f069b42a5d0', 'installed_sha256': 'bc2f8539173958e7c8c8dd8287e193131598ee71286146e7d76d258d700e1617', 'owner': 'postgres', 'acl': ['postgres=X/postgres']},
     ],
 }
 
