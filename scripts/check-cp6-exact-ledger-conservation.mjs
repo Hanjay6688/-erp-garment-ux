@@ -17,6 +17,10 @@ assert.doesNotMatch(migration,/\b(?:delete from|truncate|drop table)\b/i)
 assert.doesNotMatch(rollback,/\b(?:delete from|drop table|truncate) erp\.(?:sales_|journal_|wip_|fg_|laundry_)/i)
 assert.ok(rollback.includes('(select count(*) from jsonb_object_keys(v_expected))<>37'))
 const workflow=read('.github/workflows/cp6-full-schema-validation.yml')
+const authTarget=read('scripts/cp6_auth_permission_e2e.mjs').match(/target: '([^']+)'/)?.[1]
+assert.equal(authTarget,'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620L')
+assert.equal(workflow.match(/assert report\['target'\]=='([^']+)'/)?.[1],authTarget,
+ 'Native Auth producer and workflow validator must bind the same generation')
 let previous=-1
 for(const label of ['Apply v2.6.20k payment date','Reproduce independent K ledger',
  'Apply v2.6.20l exact ledger','Run post-CP6 real Auth','Prove native L exact money',

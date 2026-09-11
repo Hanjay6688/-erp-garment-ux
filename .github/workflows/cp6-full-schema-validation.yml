@@ -1302,7 +1302,7 @@ jobs:
           report=json.loads(Path(os.environ['CP6_AUTH_REPORT']).read_text())
           assert report['status']=='PASS',report
           assert report['classification']=='LOCAL_POST_CP6_REAL_AUTH_JWT_HTTP',report
-          assert report['target']=='PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620K',report
+          assert report['target']=='PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620L',report
           assert report['disposable_database']=='cp6_auth',report
           assert report['database_disposal_required'] is True,report
           assert report['positive_evidence']['partial_hpp_wip']['active_laundry_hpp']==28,report
@@ -3750,6 +3750,8 @@ jobs:
             'scripts/cp6_v2620l_ledger_regression.py',
             'scripts/cp6_v2620l_rollback_guards.py',
             'scripts/check-cp6-exact-ledger-conservation.mjs',
+            'scripts/check-cp6-reaudit-business-closure.mjs',
+            'scripts/check-cp6-reaudit-closure.mjs',
             'supabase/migrations/20260911023222_erp_v2_6_20k_cp6_payment_date_conservation.sql',
             'supabase/rollbacks/20260911023222_erp_v2_6_20k_cp6_payment_date_conservation.rollback.sql',
             'supabase/tests/cp6_payment_date_conservation.sql',
