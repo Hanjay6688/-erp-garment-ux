@@ -26,9 +26,12 @@ const candidates = [...new Set([...trackedDelta, ...untracked])]
   .filter((path) => existsSync(resolve(root, path)) && statSync(resolve(root, path)).isFile())
   .sort()
 
-const previous = existsSync(manifestPath)
-  ? JSON.parse(readFileSync(manifestPath, 'utf8'))
-  : {}
+let previous = {}
+try {
+  previous = JSON.parse(readFileSync(manifestPath, 'utf8'))
+} catch (error) {
+  if (error.code !== 'ENOENT') throw error
+}
 const files = Object.fromEntries(candidates.map((path) => {
   const bytes = readFileSync(resolve(root, path))
   return [path, { bytes: bytes.length, sha256: sha256(bytes) }]

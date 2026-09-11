@@ -51,7 +51,12 @@ assert.equal(
   'Frozen Cutting Bridge manifest SHA-256 drift',
 )
 
-const previous = existsSync(manifestPath) ? JSON.parse(readFileSync(manifestPath, 'utf8')) : null
+let previous = null
+try {
+  previous = JSON.parse(readFileSync(manifestPath, 'utf8'))
+} catch (error) {
+  if (error.code !== 'ENOENT') throw error
+}
 const hostedEvidence = JSON.parse(readFileSync(resolve(root, hostedEvidenceRelative), 'utf8'))
 const lineageEvidence = JSON.parse(readFileSync(resolve(root, lineageEvidenceRelative), 'utf8'))
 const reliabilityEvidence = existsSync(resolve(root, reliabilityEvidenceRelative))

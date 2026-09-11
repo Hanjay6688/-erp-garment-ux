@@ -47,14 +47,18 @@ def run():
         cur.execute(SOURCE.read_text(),prepare=False)
         for name in (CASES if fixed else BEFORE_CASES):
             cur.execute('savepoint l_case')
+            stage='FIXTURE'
             try:
                 delivery=None
                 if name.startswith('CLAIM_'):
                     fixture=base.fresh(cur,'a')
-                    delivery=base.post_delivery(cur,fixture,base.BASE_PROCESS,'2026-08-31 09:00+00')['delivery_id']
+                    stage='CLAIM_DELIVERY_AFTER_SEWING'
+                    delivery=base.post_delivery(cur,fixture,base.BASE_PROCESS,'2026-09-01 11:00+00')['delivery_id']
+                stage='BUSINESS_ORACLE'
                 result['cases'][name]=base.one(cur,'select pg_temp.l_case(%s,%s,%s,%s)',
                     (name,fixed,base.VENDOR,delivery))
                 if not fixed:
+                    stage='UNSAFE_HISTORY_UPGRADE_REFUSAL'
                     boundary=base.one(cur,'select pg_temp.l_boundary()')
                     cur.execute('savepoint l_upgrade_guard')
                     rejection=None
@@ -73,7 +77,7 @@ def run():
                     if l_runtime.verified_successor(cur):raise AssertionError('L_REJECTED_UPGRADE_RESIDUE')
                     result['cases'][name]['upgrade_refused_atomically']=True
             except Exception as exc:
-                result['cases'][name]={'status':'FAIL','code':getattr(exc,'sqlstate',None) or 'ORACLE_FAILED'}
+                result['cases'][name]={'status':'FAIL','stage':stage,'code':getattr(exc,'sqlstate',None) or 'ORACLE_FAILED'}
             finally:
                 cur.execute('rollback to savepoint l_case');cur.execute('release savepoint l_case')
             if base.one(cur,'select pg_temp.l_report()')!='READY':raise AssertionError('L_RESTORE_NOT_READY')

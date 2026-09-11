@@ -37,9 +37,7 @@ try {
     if (leaked) throw new Error('Forbidden canary reached a client artifact.')
   }
 
-  if (existsSync(environmentCanaryFile)) {
-    throw new Error(`Refusing to overwrite existing regression fixture: ${environmentCanaryFile}`)
-  }
+  // Exclusive creation is the atomic existence check.
   writeFileSync(
     environmentCanaryFile,
     `VITE_SUPABASE_PUBLISHABLE_KEY=${canary}\n`,

@@ -88,14 +88,17 @@ async function request(path, {
 }
 
 function record(name, response, expectedStatuses) {
-  assert.ok(expectedStatuses.includes(response.status), `${name}: HTTP ${response.status}: ${response.text}`)
-  cases.push({ name, status: response.status })
+  const observedStatus = expectedStatuses.find((status) => status === response.status)
+  assert.notEqual(observedStatus, undefined, `${name}: unexpected HTTP status`)
+  // Persist only the independently matched numeric status, never response text.
+  cases.push({ name, status: observedStatus })
+  return observedStatus
 }
 
 function recordFacadeRole(facade, role, expectation, response, expectedStatuses, detail = null) {
   const name = `facade-${facade}-${role}-${expectation.toLowerCase()}`
-  record(name, response, expectedStatuses)
-  facadeRoleMatrix.push({ facade, role, expectation, status: response.status, ...(detail ? { detail } : {}) })
+  const observedStatus = record(name, response, expectedStatuses)
+  facadeRoleMatrix.push({ facade, role, expectation, status: observedStatus, ...(detail ? { detail } : {}) })
 }
 
 function quotedUuidList(values) {
@@ -873,9 +876,9 @@ try {
   const privateProfileStatuses = {}
   for (const [name, body] of privateProfiles) {
     const response = await privateRpc(name, operatorSession.accessToken, body)
-    record(`rpc-explicit-erp-schema-${name}-denied`, response, [401, 403, 404, 406])
+    const observedStatus = record(`rpc-explicit-erp-schema-${name}-denied`, response, [401, 403, 404, 406])
     assert.notEqual(response.status, 200, `${name} became executable through private schema`)
-    privateProfileStatuses[name] = response.status
+    privateProfileStatuses[name] = observedStatus
   }
   const privateAcl = JSON.parse(sql(`select jsonb_build_object(
     'save_writer',has_function_privilege('authenticated',

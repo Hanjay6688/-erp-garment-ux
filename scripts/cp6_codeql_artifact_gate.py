@@ -26,8 +26,11 @@ for path in files:
         findings=run.get('results',[])
         observations.append({'file':str(path.relative_to(root)),
             'sha256':hashlib.sha256(data).hexdigest(),'bytes':len(data),
-            'tool':run['tool']['driver']['name'],'version':run['tool']['driver'].get('version'),
-            'rule_count':len(run['tool']['driver'].get('rules',[])),
+            'tool':run['tool']['driver']['name'],'version':run['tool']['driver'].get('semanticVersion',run['tool']['driver'].get('version')),
+            'rule_count':sum(len(component.get('rules',[])) for component in
+                [run['tool']['driver'],*run['tool'].get('extensions',[])]),
+            'query_packs':[{'name':x['name'],'version':x.get('semanticVersion'),
+                'rule_count':len(x.get('rules',[]))} for x in run['tool'].get('extensions',[])],
             'result_count':len(findings),'execution_successful':True})
 result={'head':head,'tree':subprocess.check_output(['git','rev-parse','HEAD^{tree}'],text=True).strip(),
     'run_id':int(os.environ['GITHUB_RUN_ID']),'attempt':int(os.environ['GITHUB_RUN_ATTEMPT']),

@@ -1,4 +1,4 @@
-import { lstatSync, readFileSync, readdirSync } from 'node:fs'
+import { closeSync, constants, fstatSync, lstatSync, openSync, readFileSync, readdirSync } from 'node:fs'
 import { relative, resolve, sep } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { JSDOM } from 'jsdom'
@@ -38,6 +38,25 @@ function javascriptFilesUnder(path, root) {
   if (entry.isFile()) return path.endsWith('.js') ? [path] : []
   if (!entry.isDirectory()) return []
   return readdirSync(path).flatMap((name) => javascriptFilesUnder(resolve(path, name), root))
+}
+
+function readArtifactFile(path, invalidCode) {
+  let descriptor
+  try {
+    descriptor = openSync(path, constants.O_RDONLY | constants.O_NOFOLLOW)
+    if (!fstatSync(descriptor).isFile()) {
+      fail(invalidCode, 'UAT Auth artifact content must be a regular file.')
+    }
+    // Validate and read the same opened file, even if the pathname changes.
+    return readFileSync(descriptor, 'utf8')
+  } catch (error) {
+    if (error.code === 'ELOOP') {
+      fail(invalidCode, 'Symbolic links are forbidden in UAT Auth artifact content.')
+    }
+    throw error
+  } finally {
+    if (descriptor !== undefined) closeSync(descriptor)
+  }
 }
 
 function moduleEntrypoints(indexHtml, root) {
@@ -109,11 +128,7 @@ export function assertUatAuthArtifact(rootPath, environment = process.env) {
     }
     javascriptFiles = javascriptFilesUnder(resolvedRoot, resolvedRoot)
     const indexPath = resolve(resolvedRoot, 'index.html')
-    const indexEntry = lstatSync(indexPath)
-    if (indexEntry.isSymbolicLink() || !indexEntry.isFile()) {
-      fail('UAT_ARTIFACT_INDEX_INVALID', 'UAT Auth artifact requires a regular, non-symlink index.html.')
-    }
-    indexHtml = readFileSync(indexPath, 'utf8')
+    indexHtml = readArtifactFile(indexPath, 'UAT_ARTIFACT_INDEX_INVALID')
   } catch (error) {
     if (error instanceof UatAuthArtifactError) throw error
     fail('UAT_ARTIFACT_UNREADABLE', 'UAT Auth artifact directory is missing or unreadable.')
@@ -122,7 +137,7 @@ export function assertUatAuthArtifact(rootPath, environment = process.env) {
     fail('UAT_ARTIFACT_JS_MISSING', 'UAT Auth artifact contains no JavaScript bundle.')
   }
 
-  const bundles = javascriptFiles.map((file) => ({ file, content: readFileSync(file, 'utf8') }))
+  const bundles = javascriptFiles.map((file) => ({ file, content: readArtifactFile(file, 'UAT_ARTIFACT_SYMLINK_FORBIDDEN') }))
   const runtimeBundles = bundles.filter(({ content }) => runtimeMarkers.every((marker) => content.includes(marker)))
   if (runtimeBundles.length !== 1) {
     fail('UAT_ARTIFACT_RUNTIME_AMBIGUOUS', 'Expected exactly one bundle containing the four explicit runtime inputs.')
