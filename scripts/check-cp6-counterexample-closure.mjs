@@ -43,8 +43,8 @@ requireTokens(workflow, 'exact-SHA native regression workflow', [
   "test \"$(jq -r '.production_go' \"$CP6_V2620E_COUNTEREXAMPLE_REPORT\")\" = 'false'",
   "'format':'CP6_V2620E_RUNTIME_PROOF_V1'",
   "'v2620e_counterexamples_c01_c06':6",
-  "proof/'CP6_V2620N_RUNTIME_MANIFEST.json'",
-  'name: cp6-r1-v2620n-full-schema-auth-browser-proof',
+  "proof/'CP6_V2620O_RUNTIME_MANIFEST.json'",
+  'name: cp6-r1-v2620o-full-schema-auth-browser-proof',
 ])
 
 for (const [path, sql] of [[migrationPath, migration], [rollbackPath, rollback]]) {

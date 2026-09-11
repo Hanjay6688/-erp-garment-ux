@@ -14,6 +14,16 @@ import cp6_v2620j_rollback_guards as jguards
 
 REPORT = Path('cp6-proof/CP6_ROLLBACK_SETUP_UNIT.json')
 PLANS = {
+    ('O', 'F'): ('O', 'N', 'M', 'L', 'K', 'J', 'I', 'H', 'G', 'F'),
+    ('O', 'G'): ('O', 'N', 'M', 'L', 'K', 'J', 'I', 'H', 'G'),
+    ('O', 'H'): ('O', 'N', 'M', 'L', 'K', 'J', 'I', 'H'),
+    ('O', 'I'): ('O', 'N', 'M', 'L', 'K', 'J', 'I'),
+    ('O', 'J'): ('O', 'N', 'M', 'L', 'K', 'J'),
+    ('O', 'K'): ('O', 'N', 'M', 'L', 'K'),
+    ('O', 'L'): ('O', 'N', 'M', 'L'),
+    ('O', 'M'): ('O', 'N', 'M'),
+    ('O', 'N'): ('O', 'N'),
+    ('O', 'O'): ('O',),
     ('N', 'F'): ('N', 'M', 'L', 'K', 'J', 'I', 'H', 'G', 'F'),
     ('N', 'G'): ('N', 'M', 'L', 'K', 'J', 'I', 'H', 'G'),
     ('N', 'H'): ('N', 'M', 'L', 'K', 'J', 'I', 'H'),
@@ -170,7 +180,7 @@ def run() -> dict:
     for source, target in PLANS:
         exercise_prepare(source, target)
         cases.append({'case': f'{source}_SOURCE_FOR_{target}', 'status': 'PASS'})
-    for source, target in (('I', 'J'), ('H', 'F'), ('O', 'J'), ('J', 'K'), ('K', 'L'), ('L', 'M'), ('M', 'N')):
+    for source, target in (('I', 'J'), ('H', 'F'), ('N', 'O'), ('J', 'K'), ('K', 'L'), ('L', 'M'), ('M', 'N')):
         invalid_request(source, target)
         cases.append({'case': f'REJECT_{source}_SOURCE_FOR_{target}', 'status': 'PASS'})
     for fault in ('wrong_platform', 'missing_marker', 'missing_capsule', 'unexpected_j_capsule'):
@@ -202,11 +212,11 @@ def run() -> dict:
             pass
         else:
             raise AssertionError('Permissive-source negative control unexpectedly passed')
-    assert len(cases) == 54
+    assert len(cases) == 64
     return {
         'head': os.environ.get('GITHUB_SHA', 'LOCAL_UNBOUND'),
         'classification': 'MOCKED_FIXTURE_ORCHESTRATION_NOT_NATIVE_DATABASE_PROOF',
-        'status': 'PASS', 'expected_case_count': 54, 'completed_case_count': len(cases),
+        'status': 'PASS', 'expected_case_count': 64, 'completed_case_count': len(cases),
         'cases': cases,
         'unconditional_j_negative_control_rejected': True,
         'permissive_source_negative_control_rejected': True,

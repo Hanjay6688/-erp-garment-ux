@@ -111,6 +111,16 @@ TARGETS: dict[str, dict[str, Any]] = {
         'capsule_count': 7,
     },
 
+    'O': {
+        'rollback': Path('supabase/rollbacks/20260911165255_erp_v2_6_20o_cp6_supplier_return_document_allocation.rollback.sql'),
+        'rollback_sha256': 'a26c3d9869337d874daef0292081a150f543b6f754b899f214ba45cf57c46003',
+        'marker': 'v2.6.20o',
+        'platform': 'erp_v2_6_20o_cp6_supplier_return_document_allocation',
+        'predecessor': 'v2.6.20n',
+        'capsule': 'erp.cp6_v2620o_rollback_capsule',
+        'capsule_count': 2,
+    },
+
 }
 
 
@@ -222,6 +232,19 @@ TRUSTED_FUNCTIONS: dict[str, list[dict[str, Any]]] = {
       'owner': 'postgres',
       'acl': ['authenticated=X/postgres', 'postgres=X/postgres', 'service_role=X/postgres']}],
 
+    'O': [
+      {'identity': 'erp.post_material_supplier_return(uuid)',
+       'predecessor_sha256': 'b4ac34b5df0e35f0cf1afe85d4a92e0b369922f91d0ce9eb4e2589a71367d607',
+       'installed_sha256': 'eff9b9a2a19eca7f51d51ac0fc73983d53f7fa5e4c699407813580dac91bbace',
+       'owner': 'postgres',
+       'acl': ['postgres=X/postgres', 'service_role=X/postgres']},
+      {'identity': 'erp.run_v267_financial_truth_checks()',
+       'predecessor_sha256': 'f50decac0d38f9ddc2cfc5a28af53607fb8c1cf38cde5a65f13b38ec748a6fda',
+       'installed_sha256': 'fc3edcc094fb4843886206466801f96441907d83efeed01c92c5604f658a96d0',
+       'owner': 'postgres',
+       'acl': ['authenticated=X/postgres', 'postgres=X/postgres', 'service_role=X/postgres']},
+    ],
+
 }
 
 
@@ -277,10 +300,13 @@ def _sessions(control: psycopg.Connection, database: str, keep_pid: int) -> list
 def _capsule_snapshot(
     target_conn: psycopg.Connection, target_name: str, target: dict[str, Any]
 ) -> list[dict[str, Any]]:
-    # N adds helper and fact objects outside the predecessor capsule.
+    # N adds helper and fact objects inherited by O outside their predecessor capsules.
     # Verify them before any admission mutation; F through M follow their original path.
-    if target_name == 'N':
-        from cp6_v2620n_runtime import verify_extra_objects
+    if target_name in {'N', 'O'}:
+        if target_name == 'O':
+            from cp6_v2620o_runtime import verify_extra_objects
+        else:
+            from cp6_v2620n_runtime import verify_extra_objects
         with target_conn.cursor() as extra_cur:
             verify_extra_objects(extra_cur)
     capsule = sql.Identifier(*target['capsule'].split('.'))

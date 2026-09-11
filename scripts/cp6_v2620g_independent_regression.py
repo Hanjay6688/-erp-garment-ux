@@ -143,7 +143,7 @@ def runtime(cur):
             hashlib.sha256(j_source).hexdigest(), hashlib.sha256(j_source[:-1]).hexdigest()
         ):
             raise AssertionError(f'J source/platform drift: {j_platform}')
-    return {'engine': engine, 'versions': versions + (['v2.6.20k'] if k_successor else []) + (['v2.6.20l'] if l_successor else []) + (['v2.6.20m'] if m_successor else []) + (['v2.6.20n'] if any('pre_n_installed_sha256' in x for x in m_successor.values()) else []), 'capsule': definitions,
+    return {'engine': engine, 'versions': versions + (['v2.6.20k'] if k_successor else []) + (['v2.6.20l'] if l_successor else []) + (['v2.6.20m'] if m_successor else []) + (['v2.6.20n'] if any('pre_n_installed_sha256' in x for x in m_successor.values()) else []) + (['v2.6.20o'] if any('pre_o_installed_sha256' in x for x in m_successor.values()) else []), 'capsule': definitions,
             'successor_capsule': successor,
             'successor_i_capsule': successor_i,
             'successor_j_capsule': successor_j,

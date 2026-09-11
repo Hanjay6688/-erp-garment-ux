@@ -7,6 +7,7 @@ import hashlib
 from pathlib import Path
 from psycopg import sql
 import cp6_preuse_rollback_maintenance as maintenance
+import cp6_v2620o_runtime as o_runtime
 
 MIGRATION = Path('supabase/migrations/20260911124328_erp_v2_6_20n_cp6_supplier_cent_lifecycle.sql')
 
@@ -27,7 +28,9 @@ def verified_successor(cur):
         hashlib.sha256(data).hexdigest(), hashlib.sha256(data[:-1]).hexdigest(),
     }:
         raise AssertionError('N_SOURCE_PLATFORM_MISMATCH')
-    observations = maintenance._capsule_snapshot(cur.connection, 'N', maintenance.TARGETS['N'])
+    successor = o_runtime.verified_successor(cur)
+    observations = o_runtime.predecessor_snapshot(cur, 'N', successor)
+    o_runtime.extend_items(successor, observations)
     return {item['identity']: item for item in observations}
 
 def effective_hash(successor, identity, predecessor):
@@ -72,6 +75,8 @@ def extend_items(successor, items):
             old = item['installed_sha256']
             item['installed_sha256'] = effective_hash(successor,item['identity'],old)
             item['pre_n_installed_sha256'] = old
+            if 'pre_o_installed_sha256' in successor[item['identity']]:
+                item['pre_o_installed_sha256'] = successor[item['identity']]['pre_o_installed_sha256']
             item['expected_generation'] = 'N'
 
 def extend_rows(successor, rows):
