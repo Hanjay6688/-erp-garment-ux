@@ -14,6 +14,15 @@ import cp6_v2620j_rollback_guards as jguards
 
 REPORT = Path('cp6-proof/CP6_ROLLBACK_SETUP_UNIT.json')
 PLANS = {
+    ('N', 'F'): ('N', 'M', 'L', 'K', 'J', 'I', 'H', 'G', 'F'),
+    ('N', 'G'): ('N', 'M', 'L', 'K', 'J', 'I', 'H', 'G'),
+    ('N', 'H'): ('N', 'M', 'L', 'K', 'J', 'I', 'H'),
+    ('N', 'I'): ('N', 'M', 'L', 'K', 'J', 'I'),
+    ('N', 'J'): ('N', 'M', 'L', 'K', 'J'),
+    ('N', 'K'): ('N', 'M', 'L', 'K'),
+    ('N', 'L'): ('N', 'M', 'L'),
+    ('N', 'M'): ('N', 'M'),
+    ('N', 'N'): ('N',),
     ('M', 'F'): ('M', 'L', 'K', 'J', 'I', 'H', 'G', 'F'),
     ('M', 'G'): ('M', 'L', 'K', 'J', 'I', 'H', 'G'),
     ('M', 'H'): ('M', 'L', 'K', 'J', 'I', 'H'),
@@ -161,7 +170,7 @@ def run() -> dict:
     for source, target in PLANS:
         exercise_prepare(source, target)
         cases.append({'case': f'{source}_SOURCE_FOR_{target}', 'status': 'PASS'})
-    for source, target in (('I', 'J'), ('H', 'F'), ('N', 'J'), ('J', 'K'), ('K', 'L'), ('L', 'M')):
+    for source, target in (('I', 'J'), ('H', 'F'), ('O', 'J'), ('J', 'K'), ('K', 'L'), ('L', 'M'), ('M', 'N')):
         invalid_request(source, target)
         cases.append({'case': f'REJECT_{source}_SOURCE_FOR_{target}', 'status': 'PASS'})
     for fault in ('wrong_platform', 'missing_marker', 'missing_capsule', 'unexpected_j_capsule'):
@@ -193,11 +202,11 @@ def run() -> dict:
             pass
         else:
             raise AssertionError('Permissive-source negative control unexpectedly passed')
-    assert len(cases) == 44
+    assert len(cases) == 54
     return {
         'head': os.environ.get('GITHUB_SHA', 'LOCAL_UNBOUND'),
         'classification': 'MOCKED_FIXTURE_ORCHESTRATION_NOT_NATIVE_DATABASE_PROOF',
-        'status': 'PASS', 'expected_case_count': 44, 'completed_case_count': len(cases),
+        'status': 'PASS', 'expected_case_count': 54, 'completed_case_count': len(cases),
         'cases': cases,
         'unconditional_j_negative_control_rejected': True,
         'permissive_source_negative_control_rejected': True,

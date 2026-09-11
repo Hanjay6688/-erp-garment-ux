@@ -130,7 +130,7 @@ def exact_runtime(cur: psycopg.Cursor) -> dict[str, Any]:
         raise AssertionError(f'J source/platform drift: {j_ledger_sha} != {j_file_sha}')
     return {
         'engine': base.one(cur, 'select version()'),
-        'versions': versions + (['v2.6.20k'] if k_successor else []) + (['v2.6.20l'] if l_successor else []) + (['v2.6.20m'] if m_successor else []),
+        'versions': versions + (['v2.6.20k'] if k_successor else []) + (['v2.6.20l'] if l_successor else []) + (['v2.6.20m'] if m_successor else []) + (['v2.6.20n'] if any('pre_n_installed_sha256' in x for x in m_successor.values()) else []),
         'capsule': {
             'identity': row[0], 'predecessor_sha256': row[1],
             'installed_sha256': row[2], 'actual_sha256': row[3],

@@ -101,6 +101,16 @@ TARGETS: dict[str, dict[str, Any]] = {
         'capsule_count': 15,
     },
 
+    'N': {
+        'rollback': Path('supabase/rollbacks/20260911124328_erp_v2_6_20n_cp6_supplier_cent_lifecycle.rollback.sql'),
+        'rollback_sha256': 'b42378379dac4c5d0571f85b5c0f5b0a9d29bd162742903d5b55bc6d0d8d39cc',
+        'marker': 'v2.6.20n',
+        'platform': 'erp_v2_6_20n_cp6_supplier_cent_lifecycle',
+        'predecessor': 'v2.6.20m',
+        'capsule': 'erp.cp6_v2620n_rollback_capsule',
+        'capsule_count': 7,
+    },
+
 }
 
 
@@ -176,6 +186,42 @@ TRUSTED_FUNCTIONS: dict[str, list[dict[str, Any]]] = {
         {'identity': 'erp.run_v268_financial_report_checks()', 'predecessor_sha256': '2bffd2d8f33ad2d918d1fb2f767676dc403ac777ad9a8ff69d4f32bf74067eff', 'installed_sha256': '48d60613970b015d1afb30a2f8a7cec0e5d56d1f692c6a1acfa0ffd48684fda1', 'owner': 'postgres', 'acl': ['authenticated=X/postgres', 'postgres=X/postgres', 'service_role=X/postgres']},
     ],
 
+    'N': [{'identity': 'erp.post_material_purchase_cost_correction(uuid)',
+      'predecessor_sha256': '9542acde669945e633d5929cb5b441a2119b8f3bf9a69919ae46725d598e8ba9',
+      'installed_sha256': '5839dee0ab9db69ebabf5f08894b5c6603c851c1d55aa9eff30a12dd0331dff9',
+      'owner': 'postgres',
+      'acl': ['authenticated=X/postgres', 'postgres=X/postgres']},
+     {'identity': 'erp.post_material_supplier_invoice(uuid)',
+      'predecessor_sha256': '65ae76bce50952c2ced64ad7ec25c1039a1e3086048e5ea39eae71ec4c8b7d69',
+      'installed_sha256': 'da4ce12c6f41625933511e6fd59246c2410b80ce02ddf865c489803070f7b8b0',
+      'owner': 'postgres',
+      'acl': ['postgres=X/postgres', 'service_role=X/postgres']},
+     {'identity': 'erp.post_material_supplier_return(uuid)',
+      'predecessor_sha256': 'f5f6603b258eeda0b34a10f06a301b94c488525dfddfe0863e5ded8f56244ad1',
+      'installed_sha256': 'b4ac34b5df0e35f0cf1afe85d4a92e0b369922f91d0ce9eb4e2589a71367d607',
+      'owner': 'postgres',
+      'acl': ['postgres=X/postgres', 'service_role=X/postgres']},
+     {'identity': 'erp.reverse_material_purchase_cost_correction(uuid,text)',
+      'predecessor_sha256': 'dc17e41110f001f6f16d18d065745dc8e85bb9e58ef28e162522976da45c4a6f',
+      'installed_sha256': '9913ee82901495aa850712c29d21ab8a8b96a5d71c29fca20fb0844b1af1dddd',
+      'owner': 'postgres',
+      'acl': ['authenticated=X/postgres', 'postgres=X/postgres']},
+     {'identity': 'erp.reverse_material_supplier_invoice(uuid,text)',
+      'predecessor_sha256': '76ee31ad50c747b5a9f5730a5a3e81ba79c1685f57f716ac211197f11aa7080e',
+      'installed_sha256': 'b4b10a9021e4360a25327656217fac0ed8a171748c215af2291ed00539684cb2',
+      'owner': 'postgres',
+      'acl': ['postgres=X/postgres', 'service_role=X/postgres']},
+     {'identity': 'erp.reverse_material_supplier_return(uuid,text)',
+      'predecessor_sha256': 'ac2504b1f04d5eaf8bf63b13ce945adf17fda0104ac6e4f6c44ac831c255706b',
+      'installed_sha256': '5659d9755c81ae4134a494d1ebd0aaaec29ed82b75a5a32bdfd6d048e6ebaca3',
+      'owner': 'postgres',
+      'acl': ['postgres=X/postgres', 'service_role=X/postgres']},
+     {'identity': 'erp.run_v267_financial_truth_checks()',
+      'predecessor_sha256': 'efde954275e89f01793f405e2b000c6c599bae0be731869802f288994dd154fa',
+      'installed_sha256': '5733ea3b2fa846e0a39a7a0c7951bf2bbd95284a6454ea8cbc43e26475ed58eb',
+      'owner': 'postgres',
+      'acl': ['authenticated=X/postgres', 'postgres=X/postgres', 'service_role=X/postgres']}],
+
 }
 
 
@@ -231,6 +277,12 @@ def _sessions(control: psycopg.Connection, database: str, keep_pid: int) -> list
 def _capsule_snapshot(
     target_conn: psycopg.Connection, target_name: str, target: dict[str, Any]
 ) -> list[dict[str, Any]]:
+    # N adds helper and fact objects outside the predecessor capsule.
+    # Verify them before any admission mutation; F through M follow their original path.
+    if target_name == 'N':
+        from cp6_v2620n_runtime import verify_extra_objects
+        with target_conn.cursor() as extra_cur:
+            verify_extra_objects(extra_cur)
     capsule = sql.Identifier(*target['capsule'].split('.'))
     query = sql.SQL(
         """select c.object_regidentity,c.definition_sha256,

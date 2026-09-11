@@ -22,13 +22,13 @@ let previous = -1
 for (const name of ['Apply v2.6.20l exact ledger', 'Reproduce independent L supplier',
   'Apply v2.6.20m exact supplier', 'Run post-CP6 real Auth', 'Prove native L exact money',
   'Prove native M exact supplier', 'Prove native M supplier payment',
-  'Qualify exact F G H I J K L and M rollback', 'Prove trusted M capsule', 'Prove trusted L capsule']) {
+  'Qualify exact F G H I J K L M and N rollback', 'Prove trusted M capsule', 'Prove trusted L capsule']) {
   const position = workflow.indexOf(name)
   assert.ok(position > previous, name); previous = position
 }
-for (const token of ['CP6_V2620M_RUNTIME_PROOF_V1', "len(m_before['cases'])==12",
-  "len(m['cases'])==20", "len(mr['cases'])==3", "len(schedules['cases'])==160",
-  "'expected':40,'observed':40", "'production_go':False"]) assert.ok(workflow.includes(token), token)
+for (const token of ['CP6_V2620N_RUNTIME_PROOF_V1', "len(m_before['cases'])==12",
+  "len(m['cases'])==20", "len(mr['cases'])==3", "len(schedules['cases'])==180",
+  "'expected':45,'observed':45", "'production_go':False"]) assert.ok(workflow.includes(token), token)
 const runner = read('scripts/cp6_v2620m_subledger_races.py')
 assert.ok(runner.includes('pg_blocking_pids(pid)'))
 assert.ok(runner.includes("'select erp.post_supplier_payment(%s)'"))
