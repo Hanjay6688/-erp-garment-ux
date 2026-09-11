@@ -47,6 +47,8 @@ for (const token of ["len(n_before['cases'])==5", "len(n['cases'])==14",
   'CP6_V2620N_RUNTIME_MANIFEST.json', 'cp6-r1-v2620n-full-schema-auth-browser-proof']) {
   assert.ok(workflow.includes(token), token)
 }
+const install = workflow.slice(workflow.indexOf('- name: Install validation runtime'), workflow.indexOf('- name:', workflow.indexOf('- name: Install validation runtime') + 8))
+assert.ok(install.includes(`test "$(jq '.completed_case_count' cp6-proof/CP6_ROLLBACK_SETUP_UNIT.json)" = '54'`))
 const auth = read('scripts/cp6_auth_permission_e2e.mjs')
 assert.ok(auth.includes('PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620N'))
 assert.ok(workflow.includes("report['target']=='PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620N'"))

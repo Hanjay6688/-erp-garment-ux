@@ -74,6 +74,7 @@ jobs:
           python -m py_compile scripts/cp6_v2620f_final_runtime_regression.py
           python -m py_compile scripts/cp6_v2620g_independent_regression.py scripts/cp6_v2620g_rollback_guards.py scripts/cp6_v2620g_expanded_rollback_races.py
           python -m py_compile scripts/cp6_preuse_rollback_maintenance.py scripts/cp6_preuse_rollback_maintenance_unit.py scripts/cp6_v2620h_adversarial_regression.py scripts/cp6_v2620h_maintenance_rollback_matrix.py scripts/cp6_v2620h_rollback_guards.py scripts/cp6_v2620i_h2_audit_regression.py scripts/cp6_v2620i_rollback_guards.py scripts/cp6_v2620j_payment_fact_regression.py scripts/cp6_v2620j_rollback_guards.py
+          python -m py_compile scripts/cp6_v2620n_runtime.py scripts/cp6_v2620n_supplier_cent_regression.py scripts/cp6_v2620n_rollback_guards.py
           bash -n scripts/run_cp6_v2620f_live_rollback_races.sh
           npx playwright test --list --config playwright.cp5.config.ts
           npx playwright test --list --config playwright.cp6.config.ts
@@ -120,7 +121,7 @@ jobs:
           python scripts/cp6_preuse_rollback_maintenance_unit.py
           python scripts/cp6_rollback_setup_unit.py
           test "$(jq -r '.status' cp6-proof/CP6_ROLLBACK_SETUP_UNIT.json)" = 'PASS'
-          test "$(jq '.completed_case_count' cp6-proof/CP6_ROLLBACK_SETUP_UNIT.json)" = '44'
+          test "$(jq '.completed_case_count' cp6-proof/CP6_ROLLBACK_SETUP_UNIT.json)" = '54'
           test "$(jq -r '.status' cp6-proof/CP6_PREUSE_ROLLBACK_MAINTENANCE_UNIT.json)" = 'PASS'
           test "$(jq '.completed_case_count' cp6-proof/CP6_PREUSE_ROLLBACK_MAINTENANCE_UNIT.json)" = '31'
           test "$(jq -r '.permissive_validator_negative_control.status' cp6-proof/CP6_PREUSE_ROLLBACK_MAINTENANCE_UNIT.json)" = 'PASS'
