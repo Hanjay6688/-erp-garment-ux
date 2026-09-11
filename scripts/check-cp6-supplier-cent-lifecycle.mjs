@@ -7,12 +7,12 @@ const hash = source => createHash('sha256').update(source).digest('hex')
 const name = '20260911124328_erp_v2_6_20n_cp6_supplier_cent_lifecycle'
 const migration = read(`supabase/migrations/${name}.sql`)
 const rollback = read(`supabase/rollbacks/${name}.rollback.sql`)
-assert.equal(hash(migration), 'fdc84ec6803840b48f370d468fa191b41db77f388313b8462a07e5b84467a373')
-assert.equal(hash(rollback), 'b42378379dac4c5d0571f85b5c0f5b0a9d29bd162742903d5b55bc6d0d8d39cc')
+assert.equal(hash(migration), '4b351432f4ddd8781f42c3c194b78fc575257e3a5fd60753e310c9928590b21e')
+assert.equal(hash(rollback), '29f52100d28779112638bd7bc95b0ffb7dd5ec17c83dc140e79b2f18e2fe3dda')
 assert.equal((migration.match(/CREATE OR REPLACE FUNCTION erp\./g) ?? []).length, 7)
 assert.equal((migration.match(/create function erp\._cp6_/g) ?? []).length, 3)
 for (const token of ['N_PREDECESSOR_M_CAPSULE_MISMATCH', 'N_PREEXISTING_SUPPLIER_REVIEW_REQUIRED',
-  'supplier_cent_posting_facts', 'SUPPLIER_CENT_REVERSAL_ADJUSTMENT',
+  'supplier_cent_posting_facts', 'CENT_INVERSE:',
   'V2620N_SUPPLIER_CENT_FACT_LEDGER', 'N_INHERITED_FACT_GUARD_MISMATCH']) {
   assert.ok(migration.includes(token), token)
 }
@@ -41,7 +41,7 @@ for (const token of ['Apply v2.6.20m exact supplier', 'Reproduce independent M s
   const position = workflow.indexOf(token)
   assert.ok(position > previous, token); previous = position
 }
-for (const token of ["len(n_before['cases'])==5", "len(n['cases'])==14",
+for (const token of ["len(n_before['cases'])==5", "len(n['cases'])==15",
   "len(ng['guards'])==12", "len(ng['extra_object_preflight_guards'])==5",
   "len(schedules['cases'])==180", "'expected':45,'observed':45",
   'CP6_V2620N_RUNTIME_MANIFEST.json', 'cp6-r1-v2620n-full-schema-auth-browser-proof']) {
@@ -49,6 +49,8 @@ for (const token of ["len(n_before['cases'])==5", "len(n['cases'])==14",
 }
 const install = workflow.slice(workflow.indexOf('- name: Install validation runtime'), workflow.indexOf('- name:', workflow.indexOf('- name: Install validation runtime') + 8))
 assert.ok(install.includes(`test "$(jq '.completed_case_count' cp6-proof/CP6_ROLLBACK_SETUP_UNIT.json)" = '54'`))
+assert.ok(workflow.includes('CP6_M_RACE_SOURCE_GENERATION: N'))
+assert.ok(workflow.includes("mr['source_generation']=='N'"))
 const auth = read('scripts/cp6_auth_permission_e2e.mjs')
 assert.ok(auth.includes('PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620N'))
 assert.ok(workflow.includes("report['target']=='PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620N'"))

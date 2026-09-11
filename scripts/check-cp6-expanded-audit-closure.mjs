@@ -27,7 +27,7 @@ const workflow = read(workflowPath)
 const expected = {
   migration: ['e16dbb655164595be273c03582d35c9ac33593136bd418fdd87156e592f292b8', 19733],
   rollback: ['0d0318e3848344c3642f1796a205d25bcf1cc2d2091ce28d1fc9cf6d186ecbe5', 6876],
-  maintenance: ['2e6439a5a4284e3655de13ae559301c058421cf82edcbcc577c98071be119f69', 46629],
+  maintenance: ['15afe267ddf3dd86b2b8d1fffc8f14f4ee8ec914196a7d1c465ba9da32742133', 46629],
   regression: ['d8dc33a15b1c66942d39f25eff5e607009e19eccb7e5869c6e3ff5be44e969d7', 25203],
   matrix: ['32bc4b086bdb2d336557295ddf2197bce20aabf3fcd17aff1fe5e0fdc6e1e71c', 33256],
   guard: ['621f51b187138750646f38c7464a959713ba3c78bcbcd5031ac9841a288aca68', 6649],

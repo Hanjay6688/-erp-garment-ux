@@ -16,6 +16,7 @@ from cp6_v2620m_subledger_regression import SOURCE
 
 ROOT = Path('cp6-proof/M_SUBLEDGER_NATIVE_RACES')
 CASES = ('SUPPLIER_CAPACITY', 'OPENING_LAST_CENT', 'OPENING_CORRECTION_VS_SETTLEMENT')
+SOURCE_GENERATION = os.environ.get('CP6_M_RACE_SOURCE_GENERATION', 'M')
 
 
 def session(name):
@@ -36,7 +37,7 @@ def run_case(name, folder):
     matrix.command(['bash', 'scripts/clone-cp6-disposable-database.sh', matrix.SOURCE,
         matrix.MAINTENANCE, matrix.CLONE, 'cp6_rollback', matrix.CONTAINER,
         str(folder / 'PHYSICAL_BOUNDARY')], folder / 'clone.log')
-    matrix.verify_setup_source('M')
+    matrix.verify_setup_source(SOURCE_GENERATION)
     with session('fixture') as conn, conn.cursor() as cur:
         if len(runtime.verified_successor(cur)) != 15:
             raise AssertionError('M_RACE_RUNTIME_MISMATCH')
@@ -134,13 +135,16 @@ def run_case(name, folder):
 
 
 def main():
+    if SOURCE_GENERATION not in ('M', 'N'):
+        raise SystemExit('M_RACE_UNSUPPORTED_SOURCE_GENERATION')
     expected = (matrix.SOURCE, matrix.MAINTENANCE, matrix.CLONE, matrix.CONTAINER, 'cp6_rollback')
     if tuple(os.environ.get(k) for k in ('PGURL', 'CP6_MAINTENANCE_PGURL', 'CP6_ROLLBACK_RACE_PGURL',
         'CP6_DATABASE_CONTAINER', 'CP6_MAINTENANCE_CONFIRM_DATABASE')) != expected:
         raise SystemExit('M_RACE_DISPOSABLE_ENDPOINT_CONFIRMATION_REQUIRED')
     ROOT.mkdir(parents=True, exist_ok=True)
     report = {'head': os.environ.get('GITHUB_SHA', 'LOCAL_UNBOUND'), 'production_go': False,
-        'classification': 'NATIVE_POSTGRESQL_REAL_SUBLEDGER_BUSINESS_LOCKS', 'cases': []}
+        'classification': 'NATIVE_POSTGRESQL_REAL_SUBLEDGER_BUSINESS_LOCKS',
+        'source_generation': SOURCE_GENERATION, 'cases': []}
     for name in CASES:
         folder = ROOT / name; folder.mkdir()
         try:

@@ -78,6 +78,28 @@ begin
    foreach n in array array[1,2] loop perform erp.reverse_material_supplier_return(ids[n],'Independent subcent return inverse');perform pg_temp.n_assert_ready();end loop;
    expected_ap:=.01;expected_inventory:=.01;
   end if;
+ elsif p_case='CROSS_SOURCE_INVERSE_IDENTITY' then
+  p:=pg_temp.m_purchase(3,.01,false);before:=pg_temp.n_ledger();
+  for n in 1..3 loop ids:=array_append(ids,pg_temp.n_invoice(array[p],1,.015));end loop;
+  perform erp.reverse_material_supplier_invoice(ids[2],'Independent invoice inverse with shared document UUID');
+  perform pg_temp.n_assert_ready();
+  q:=pg_temp.m_purchase(3,.015);
+  for n in 1..3 loop
+   r:=case when n=2 then ids[2] else gen_random_uuid() end;
+   insert into erp.material_supplier_returns(id,return_number,supplier_id,location_id,physical_at,status,reason)
+   select r,'N-CROSS-'||r,h.supplier_id,h.location_id,'2026-09-03T12:00:00Z','DRAFT','Independent shared document UUID'
+   from erp.material_purchase_headers h where h.id=q;
+   insert into erp.material_supplier_return_items(return_id,material_id,roll_id,qty,purchase_item_id,supplier_credit_unit_price)
+   select r,i.material_id,roll.id,1,i.id,erp.material_purchase_current_unit_cost(i.id)
+   from erp.material_purchase_items i join erp.material_rolls roll on roll.purchase_item_id=i.id where i.purchase_id=q;
+   perform erp.post_material_supplier_return(r);
+  end loop;
+  perform erp.reverse_material_supplier_return(ids[2],'Independent return inverse with shared document UUID');
+  if (select count(distinct j.source_type) from erp.supplier_cent_posting_facts f
+    join erp.journal_entries j on j.id=f.adjustment_journal_entry_id
+    where f.source_id=ids[2] and f.phase='REVERSE')<>2 then
+   raise exception 'N_CROSS_SOURCE_ADJUSTMENT_IDENTITY_COLLISION';end if;
+  expected_ap:=.05;expected_grni:=.01;expected_inventory:=.06;
  elsif p_case='ZERO_CENT_POSTING_FACT' then
   p:=pg_temp.m_purchase(1,.005);c:=pg_temp.m_correct(p,.014);
   if not exists(select 1 from erp.supplier_cent_posting_facts where source_id=c and phase='POST' and journal_entry_id is null and ledger_delta='{}') then raise exception 'N_ZERO_CENT_FACT_MISSING';end if;

@@ -1215,10 +1215,10 @@ jobs:
           set -euo pipefail
           migration_source='supabase/migrations/20260911124328_erp_v2_6_20n_cp6_supplier_cent_lifecycle.sql'
           rollback_source='supabase/rollbacks/20260911124328_erp_v2_6_20n_cp6_supplier_cent_lifecycle.rollback.sql'
-          test "$(wc -c < "$migration_source")" = '70486'
+          test "$(wc -c < "$migration_source")" = '70863'
           test "$(wc -c < "$rollback_source")" = '11412'
-          echo 'fdc84ec6803840b48f370d468fa191b41db77f388313b8462a07e5b84467a373  supabase/migrations/20260911124328_erp_v2_6_20n_cp6_supplier_cent_lifecycle.sql' | sha256sum -c - | tee cp6-proof/V2620N_MIGRATION_SHA256.txt
-          echo 'b42378379dac4c5d0571f85b5c0f5b0a9d29bd162742903d5b55bc6d0d8d39cc  supabase/rollbacks/20260911124328_erp_v2_6_20n_cp6_supplier_cent_lifecycle.rollback.sql' | sha256sum -c - | tee cp6-proof/V2620N_ROLLBACK_SHA256.txt
+          echo '4b351432f4ddd8781f42c3c194b78fc575257e3a5fd60753e310c9928590b21e  supabase/migrations/20260911124328_erp_v2_6_20n_cp6_supplier_cent_lifecycle.sql' | sha256sum -c - | tee cp6-proof/V2620N_MIGRATION_SHA256.txt
+          echo '29f52100d28779112638bd7bc95b0ffb7dd5ec17c83dc140e79b2f18e2fe3dda  supabase/rollbacks/20260911124328_erp_v2_6_20n_cp6_supplier_cent_lifecycle.rollback.sql' | sha256sum -c - | tee cp6-proof/V2620N_ROLLBACK_SHA256.txt
           psql "$PGURL" -X -v ON_ERROR_STOP=1 -f "$migration_source" 2>&1 | tee cp6-proof/V2620N_APPLY.log
           python - <<'PY'
           import os,pathlib,psycopg
@@ -1228,7 +1228,7 @@ jobs:
                 ('20260911124328','erp_v2_6_20n_cp6_supplier_cent_lifecycle',[source]))
           PY
           test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select count(*) from erp.cp6_v2620n_rollback_capsule where installed_definition_sha256 is not null")" = '7'
-          test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select encode(extensions.digest(convert_to(array_to_string(statements,E'\\n'),'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations where name='erp_v2_6_20n_cp6_supplier_cent_lifecycle'")" = 'fdc84ec6803840b48f370d468fa191b41db77f388313b8462a07e5b84467a373'
+          test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select encode(extensions.digest(convert_to(array_to_string(statements,E'\\n'),'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations where name='erp_v2_6_20n_cp6_supplier_cent_lifecycle'")" = '4b351432f4ddd8781f42c3c194b78fc575257e3a5fd60753e310c9928590b21e'
           psql "$PGURL" -X -At -F '|' -v ON_ERROR_STOP=1 \
             -c "select object_regidentity,definition_sha256,installed_definition_sha256 from erp.cp6_v2620n_rollback_capsule order by object_regidentity" \
             | tee cp6-proof/V2620N_INSTALLED_FUNCTION_SHA256.txt
@@ -1834,6 +1834,7 @@ jobs:
 
       - name: Prove native M supplier payment and opening correction business locks
         env:
+          CP6_M_RACE_SOURCE_GENERATION: N
           CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
         run: |
           set -euo pipefail
@@ -1849,7 +1850,7 @@ jobs:
           set -euo pipefail
           python scripts/cp6_v2620n_supplier_cent_regression.py | tee cp6-proof/V2620N_NATIVE_REGRESSION.log
           test "$(jq -r '.status' cp6-proof/CP6_V2620N_SUPPLIER_CENT_REGRESSION.json)" = 'PASS'
-          test "$(jq '.cases | length' cp6-proof/CP6_V2620N_SUPPLIER_CENT_REGRESSION.json)" = '14'
+          test "$(jq '.cases | length' cp6-proof/CP6_V2620N_SUPPLIER_CENT_REGRESSION.json)" = '15'
 
       - name: Qualify exact F G H I J K L M and N rollback under closed admission across one hundred eighty native schedules
         shell: bash
@@ -3871,7 +3872,7 @@ jobs:
           assert mg['trusted_capsule_guard']['status']=='PASS' and not mg['trusted_capsule_guard']['admission_closed'] and not mg['trusted_capsule_guard']['rollback_started']
           assert mg['maintenance']['rollback_committed'] and mg['maintenance']['admission_reopened_after_success']
           mr=json.loads((proof/'M_SUBLEDGER_NATIVE_RACES/manifest.json').read_text())
-          assert mr['head']==head_for_m and mr['status']=='PASS' and len(mr['cases'])==3
+          assert mr['head']==head_for_m and mr['status']=='PASS' and len(mr['cases'])==3 and mr['source_generation']=='N'
           for c in mr['cases']:
               assert c['status']=='PASS' and c['remaining_clone_databases']==0 and c['unexpected_draft_residue']==0
               assert c['manual_prelock_count']==0 and c['retry_count']==0 and c['first_pid']!=c['second_pid']
@@ -3885,7 +3886,7 @@ jobs:
           assert sum(c['upgrade_guard']['valid_history_accepted'] for c in n_before['cases'].values())==1
           n=json.loads((proof/'CP6_V2620N_SUPPLIER_CENT_REGRESSION.json').read_text())
           assert n['head']==os.environ['GITHUB_SHA'] and n['status']=='PASS' and n['production_go'] is False
-          assert len(n['cases'])==14 and all(c['status']=='PASS' and c['rolled_back_to_ready'] for c in n['cases'].values())
+          assert len(n['cases'])==15 and all(c['status']=='PASS' and c['rolled_back_to_ready'] for c in n['cases'].values())
           assert n['oracle_sha256']==n_before['oracle_sha256'] and n['runtime']['verified_n_functions']==7 and n['runtime']['extra_objects_verified']==3
           ng=json.loads((proof/'CP6_V2620N_ROLLBACK_GUARDS.json').read_text())
           assert ng['head']==os.environ['GITHUB_SHA'] and ng['status']=='PASS' and len(ng['guards'])==12
@@ -4133,7 +4134,7 @@ jobs:
               'v2620m_closed_admission_rollback_schedules':20,
               'v2620m_native_case_groups':20,
               'v2620n_closed_admission_rollback_schedules':20,
-              'v2620n_native_case_groups':14,
+              'v2620n_native_case_groups':15,
               'v2620n_m_native_counterexamples':5,
               'v2620n_restored_function_owner_acl_count':7,
               'v2620n_private_helpers':3,

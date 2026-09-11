@@ -155,7 +155,7 @@ begin
  into v_lines from jsonb_each_text(v_adjust);
  if jsonb_array_length(v_lines)>0 then
   if p_reverse then
-   v_adjustment:=erp.post_journal('SUPPLIER_CENT_REVERSAL_ADJUSTMENT',p_id,
+   v_adjustment:=erp.post_journal('CENT_INVERSE:'||p_source,p_id,
     coalesce((select economic_date from erp.journal_entries where id=v_journal),current_date),
     'Linked cumulative-cent adjustment: '||p_description,v_lines);
   else
@@ -1056,7 +1056,12 @@ AS $function$
     or(f.journal_entry_id is not null and not exists(select 1 from erp.journal_entries j
       where j.id=f.journal_entry_id and(
         (f.phase='POST' and j.source_type=f.source_type and j.source_id=f.source_id)
-        or(f.phase='REVERSE' and j.source_type='JOURNAL_REVERSAL' and j.reversal_of_id is not null))))
+        or(f.phase='REVERSE' and j.source_type='JOURNAL_REVERSAL' and exists(select 1
+          from erp.journal_entries original where original.id=j.reversal_of_id
+            and original.source_type=f.source_type and original.source_id=f.source_id)))))
+    or(f.adjustment_journal_entry_id is not null and not exists(select 1 from erp.journal_entries j
+      where j.id=f.adjustment_journal_entry_id and j.source_type='CENT_INVERSE:'||f.source_type
+        and j.source_id=f.source_id))
 ;
 
 $function$;
@@ -1072,12 +1077,12 @@ begin
 ('erp.reverse_material_purchase_cost_correction(uuid,text)','dc17e41110f001f6f16d18d065745dc8e85bb9e58ef28e162522976da45c4a6f','9913ee82901495aa850712c29d21ab8a8b96a5d71c29fca20fb0844b1af1dddd',array['authenticated=X/postgres','postgres=X/postgres']::text[]),
 ('erp.reverse_material_supplier_invoice(uuid,text)','76ee31ad50c747b5a9f5730a5a3e81ba79c1685f57f716ac211197f11aa7080e','b4b10a9021e4360a25327656217fac0ed8a171748c215af2291ed00539684cb2',array['postgres=X/postgres','service_role=X/postgres']::text[]),
 ('erp.reverse_material_supplier_return(uuid,text)','ac2504b1f04d5eaf8bf63b13ce945adf17fda0104ac6e4f6c44ac831c255706b','5659d9755c81ae4134a494d1ebd0aaaec29ed82b75a5a32bdfd6d048e6ebaca3',array['postgres=X/postgres','service_role=X/postgres']::text[]),
-('erp.run_v267_financial_truth_checks()','efde954275e89f01793f405e2b000c6c599bae0be731869802f288994dd154fa','5733ea3b2fa846e0a39a7a0c7951bf2bbd95284a6454ea8cbc43e26475ed58eb',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[])
+('erp.run_v267_financial_truth_checks()','efde954275e89f01793f405e2b000c6c599bae0be731869802f288994dd154fa','f50decac0d38f9ddc2cfc5a28af53607fb8c1cf38cde5a65f13b38ec748a6fda',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[])
  ) expected(identity,predecessor_sha256,installed_sha256,acl) loop
  if encode(extensions.digest(convert_to(pg_get_functiondef(to_regprocedure(r.identity)),'UTF8'),'sha256'),'hex') is distinct from r.installed_sha256 or (select pg_get_userbyid(proowner) from pg_proc where oid=to_regprocedure(r.identity)) is distinct from 'postgres' or (select array(select a::text from unnest(proacl) a order by a::text) from pg_proc where oid=to_regprocedure(r.identity)) is distinct from r.acl then raise exception 'N_INSTALLED_FUNCTION_OWNER_ACL_MISMATCH';end if;
  end loop;
  for r in select * from(values
-('erp._cp6_apply_supplier_cent_event(text,uuid,date,text,jsonb,boolean)','a27812c3ef49d32888f5e39e02c8d340fd67dadbbecefb6089044c15b8bdf9c3',array['postgres=X/postgres']::text[]),
+('erp._cp6_apply_supplier_cent_event(text,uuid,date,text,jsonb,boolean)','390fc3fae9bf59cf35fbc699f988521b3bde572e266937fdce99e0854c1756a3',array['postgres=X/postgres']::text[]),
 ('erp._cp6_supplier_cent_ledger(uuid[])','43572de7870afb9050d5af24a05ff6f5b91063d9a46de2cf6616f1f1edb0e49c',array['postgres=X/postgres']::text[]),
 ('erp._cp6_supplier_cent_state(uuid[])','19d43e3e32d94c6aaaf0acbb1f6e55946701fa10b9f53df7a990ea9375fad191',array['postgres=X/postgres']::text[])) expected(identity,installed_sha256,acl) loop
  if encode(extensions.digest(convert_to(pg_get_functiondef(to_regprocedure(r.identity)),'UTF8'),'sha256'),'hex') is distinct from r.installed_sha256 or (select pg_get_userbyid(proowner) from pg_proc where oid=to_regprocedure(r.identity)) is distinct from 'postgres' or (select array(select a::text from unnest(proacl) a order by a::text) from pg_proc where oid=to_regprocedure(r.identity)) is distinct from r.acl then raise exception 'N_EXTRA_FUNCTION_OWNER_ACL_MISMATCH';end if;

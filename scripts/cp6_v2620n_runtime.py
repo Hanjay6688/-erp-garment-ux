@@ -78,7 +78,7 @@ def extend_rows(successor, rows):
     return [tuple([r[0],r[1],effective_hash(successor,r[0],r[2]),*r[3:]]) for r in rows]
 
 EXTRA_FUNCTIONS = [{'identity': 'erp._cp6_apply_supplier_cent_event(text,uuid,date,text,jsonb,boolean)',
-  'sha256': 'a27812c3ef49d32888f5e39e02c8d340fd67dadbbecefb6089044c15b8bdf9c3',
+  'sha256': '390fc3fae9bf59cf35fbc699f988521b3bde572e266937fdce99e0854c1756a3',
   'owner': 'postgres',
   'acl': ['postgres=X/postgres']},
  {'identity': 'erp._cp6_supplier_cent_ledger(uuid[])',

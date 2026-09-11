@@ -16,7 +16,9 @@ three private helpers; no public RPC or UI route is introduced.
 explicit zero-cent event without a journal. Facts reject updates, deletes and
 truncate, have RLS, and grant no application role access. Non-FIFO reversals
 preserve the exact original inverse and add a linked cent adjustment atomically
-when the current cumulative balance requires it. V267 reconciles each fact's
+when the current cumulative balance requires it. Adjustment identity includes
+the source document type so a legal shared UUID across document tables cannot
+collide. V267 reconciles each fact's
 account vector to its journals, including an injected offsetting-journal fault.
 
 The migration refuses pre-existing critical supplier inconsistencies without
@@ -26,7 +28,7 @@ and the unchanged 64-table boundary. It restores seven M definitions and
 removes only the unused N objects. The maintenance controller checks the new
 objects before closing admission; existing F–M admission behavior is retained.
 
-The shared SQL oracle runs five counterexamples before N and fourteen groups
+The shared SQL oracle runs five counterexamples before N and fifteen groups
 after N. Existing M groups, Auth, races, frontend and security gates remain.
 The native workflow qualifies nine generations through 180 schedules with
 45 actual backend body entries, exercises direct and pre-admission fault

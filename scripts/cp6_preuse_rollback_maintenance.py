@@ -103,7 +103,7 @@ TARGETS: dict[str, dict[str, Any]] = {
 
     'N': {
         'rollback': Path('supabase/rollbacks/20260911124328_erp_v2_6_20n_cp6_supplier_cent_lifecycle.rollback.sql'),
-        'rollback_sha256': 'b42378379dac4c5d0571f85b5c0f5b0a9d29bd162742903d5b55bc6d0d8d39cc',
+        'rollback_sha256': '29f52100d28779112638bd7bc95b0ffb7dd5ec17c83dc140e79b2f18e2fe3dda',
         'marker': 'v2.6.20n',
         'platform': 'erp_v2_6_20n_cp6_supplier_cent_lifecycle',
         'predecessor': 'v2.6.20m',
@@ -218,7 +218,7 @@ TRUSTED_FUNCTIONS: dict[str, list[dict[str, Any]]] = {
       'acl': ['postgres=X/postgres', 'service_role=X/postgres']},
      {'identity': 'erp.run_v267_financial_truth_checks()',
       'predecessor_sha256': 'efde954275e89f01793f405e2b000c6c599bae0be731869802f288994dd154fa',
-      'installed_sha256': '5733ea3b2fa846e0a39a7a0c7951bf2bbd95284a6454ea8cbc43e26475ed58eb',
+      'installed_sha256': 'f50decac0d38f9ddc2cfc5a28af53607fb8c1cf38cde5a65f13b38ec748a6fda',
       'owner': 'postgres',
       'acl': ['authenticated=X/postgres', 'postgres=X/postgres', 'service_role=X/postgres']}],
 
