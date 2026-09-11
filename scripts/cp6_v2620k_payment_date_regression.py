@@ -10,6 +10,7 @@ import cp6_v2620e_counterexample_regression as base
 import cp6_v2620h_adversarial_regression as h
 import cp6_v2620k_runtime as runtime
 import cp6_v2620l_runtime as l_runtime
+import cp6_v2620m_runtime as m_runtime
 
 REPORT = Path('cp6-proof/CP6_V2620K_PAYMENT_DATE_REGRESSION.json')
 CASES = ('LATE_ALLOCATION','MULTI_HOP','COHERENT_DATE_FAULT','ATOMIC_INVALID','CLOSED_PERIOD','TIMEZONE')
@@ -31,9 +32,12 @@ def run():
         result['runtime']={'function_count':4,'all_source_pins_owner_acl_exact':True,
           'migration_sha256':hashlib.sha256(runtime.MIGRATION.read_bytes()).hexdigest(),
           'engine':base.one(cur,'select version()'),
-          'verified_l_successor_function_count':len(l_runtime.verified_successor(cur))}
+          'verified_l_successor_function_count':len(l_runtime.verified_successor(cur)),
+          'verified_m_successor_function_count':len(m_runtime.verified_successor(cur))}
         if result['runtime']['verified_l_successor_function_count']:
             result['classification'] += '_L'
+        if result['runtime']['verified_m_successor_function_count']:
+            result['classification'] += '_M'
         # Diagnose the original fault-harness permission mismatch without
         # logging raw exceptions or granting any additional privilege.
         role_before=base.one(cur,"select jsonb_build_object('role',current_user,'superuser',rolsuper) from pg_roles where rolname=current_user")

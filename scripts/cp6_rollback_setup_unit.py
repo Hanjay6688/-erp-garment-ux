@@ -14,6 +14,14 @@ import cp6_v2620j_rollback_guards as jguards
 
 REPORT = Path('cp6-proof/CP6_ROLLBACK_SETUP_UNIT.json')
 PLANS = {
+    ('M', 'F'): ('M', 'L', 'K', 'J', 'I', 'H', 'G', 'F'),
+    ('M', 'G'): ('M', 'L', 'K', 'J', 'I', 'H', 'G'),
+    ('M', 'H'): ('M', 'L', 'K', 'J', 'I', 'H'),
+    ('M', 'I'): ('M', 'L', 'K', 'J', 'I'),
+    ('M', 'J'): ('M', 'L', 'K', 'J'),
+    ('M', 'K'): ('M', 'L', 'K'),
+    ('M', 'L'): ('M', 'L'),
+    ('M', 'M'): ('M',),
     ('L', 'F'): ('L', 'K', 'J', 'I', 'H', 'G', 'F'),
     ('L', 'G'): ('L', 'K', 'J', 'I', 'H', 'G'),
     ('L', 'H'): ('L', 'K', 'J', 'I', 'H'),
@@ -57,6 +65,8 @@ def exercise_prepare(source: str, target: str, *, fault: str | None = None) -> N
         rows[5] = (0, True)
     elif fault == 'missing_l_capsule':
         rows[1+tuple(matrix.TARGETS).index('L')] = (1, False)
+    elif fault == 'missing_m_capsule':
+        rows[1+tuple(matrix.TARGETS).index('M')] = (1, False)
     cur.fetchone.side_effect = rows
     capsule = [{} for _ in range(matrix.TARGETS[target][4])]
     with ExitStack() as stack:
@@ -151,7 +161,7 @@ def run() -> dict:
     for source, target in PLANS:
         exercise_prepare(source, target)
         cases.append({'case': f'{source}_SOURCE_FOR_{target}', 'status': 'PASS'})
-    for source, target in (('I', 'J'), ('H', 'F'), ('M', 'J'), ('J', 'K'), ('K', 'L')):
+    for source, target in (('I', 'J'), ('H', 'F'), ('N', 'J'), ('J', 'K'), ('K', 'L'), ('L', 'M')):
         invalid_request(source, target)
         cases.append({'case': f'REJECT_{source}_SOURCE_FOR_{target}', 'status': 'PASS'})
     for fault in ('wrong_platform', 'missing_marker', 'missing_capsule', 'unexpected_j_capsule'):
@@ -159,6 +169,8 @@ def run() -> dict:
         cases.append({'case': fault, 'status': 'PASS'})
     exercise_prepare('L', 'F', fault='missing_l_capsule')
     cases.append({'case': 'MISSING_L_CAPSULE', 'status': 'PASS'})
+    exercise_prepare('M', 'F', fault='missing_m_capsule')
+    cases.append({'case': 'MISSING_M_CAPSULE', 'status': 'PASS'})
     structural_restore_summary()
     cases.append({'case': 'STRUCTURAL_RESTORE_SUMMARY', 'status': 'PASS'})
     structural_capsule_summary()
@@ -181,11 +193,11 @@ def run() -> dict:
             pass
         else:
             raise AssertionError('Permissive-source negative control unexpectedly passed')
-    assert len(cases) == 34
+    assert len(cases) == 44
     return {
         'head': os.environ.get('GITHUB_SHA', 'LOCAL_UNBOUND'),
         'classification': 'MOCKED_FIXTURE_ORCHESTRATION_NOT_NATIVE_DATABASE_PROOF',
-        'status': 'PASS', 'expected_case_count': 34, 'completed_case_count': len(cases),
+        'status': 'PASS', 'expected_case_count': 44, 'completed_case_count': len(cases),
         'cases': cases,
         'unconditional_j_negative_control_rejected': True,
         'permissive_source_negative_control_rejected': True,

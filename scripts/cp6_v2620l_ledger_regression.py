@@ -10,6 +10,7 @@ from psycopg.conninfo import conninfo_to_dict
 import cp6_v2620e_counterexample_regression as base
 import cp6_v2620k_runtime as k_runtime
 import cp6_v2620l_runtime as l_runtime
+import cp6_v2620m_runtime as m_runtime
 import cp6_preuse_rollback_maintenance as maintenance
 
 SOURCE = Path('supabase/tests/cp6_exact_ledger_conservation.sql')
@@ -39,6 +40,7 @@ def run():
         expected=maintenance.TRUSTED_FUNCTIONS['L']
         if not fixed: maintenance._function_snapshot(conn,expected)
         result['runtime']={'verified_k_functions':4,'verified_l_functions':len(successor),
+          'verified_m_functions':len(m_runtime.verified_successor(cur)),
           'l_predecessor_source_pins_exact':not fixed,'engine':base.one(cur,'select version()')}
         cur.execute("select set_config('request.jwt.claims',%s,true)",
           (json.dumps({'sub':base.OPERATOR_AUTH,'role':'authenticated'}),))

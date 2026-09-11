@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Native F/G/H/I/J/K/L rollback qualification under a closed-admission contract.
+"""Native F/G/H/I/J/K/L/M rollback qualification under a closed-admission contract.
 
-Seven target generations x five real backend paths x four schedules = 140
+Eight target generations x five real backend paths x four schedules = 160
 fresh-clone cases. Unlike the superseded live-DDL matrix, no reviewed rollback
 runs while an old invocation can resume: database admission closes first and
 all old sessions must drain. Every case is persisted, even after a failure.
@@ -39,6 +39,7 @@ TARGETS = {
     'J': ('20260910170556', 'erp_v2_6_20j_cp6_payment_fact_closure', 'v2.6.20j', 'v2.6.20i', 3),
     'K': ('20260911023222', 'erp_v2_6_20k_cp6_payment_date_conservation', 'v2.6.20k', 'v2.6.20j', 4),
     'L': ('20260911070622', 'erp_v2_6_20l_cp6_exact_ledger_conservation', 'v2.6.20l', 'v2.6.20k', 3),
+    'M': ('20260911092622', 'erp_v2_6_20m_cp6_subledger_exact_cent_closure', 'v2.6.20m', 'v2.6.20l', 15),
 }
 OPERATIONS = ('SALE', 'RETURN', 'CONVERSION', 'REPORT', 'FK_SYNC')
 MODES = ('WRITER_FIRST', 'ADMISSION_FIRST', 'WRITER_ABORT', 'DRAIN_TIMEOUT')
@@ -111,7 +112,7 @@ def maintenance_strip(target: str, folder: Path) -> dict[str, Any]:
 def setup_rollback_plan(target: str, source_generation: str) -> tuple[str, ...]:
     # The full matrix clones L; each older guard names its restored source.
     # Missing or unexpected successors are checked before fixture writes.
-    if source_generation not in ('I', 'J', 'K', 'L') or target not in TARGETS:
+    if source_generation not in ('I', 'J', 'K', 'L', 'M') or target not in TARGETS:
         raise AssertionError('Unsupported rollback fixture generation')
     generations = tuple(TARGETS)
     start, stop = generations.index(source_generation), generations.index(target)
@@ -141,7 +142,7 @@ def verify_setup_source(source_generation: str) -> None:
 
 
 def prepare(
-    target: str, operation: str, folder: Path, *, source_generation: str = 'L',
+    target: str, operation: str, folder: Path, *, source_generation: str = 'M',
 ) -> tuple[dict[str, Any], list[dict[str, Any]]]:
     rollback_plan = setup_rollback_plan(target, source_generation)
     command(
@@ -666,7 +667,7 @@ def main() -> None:
         'head': os.environ.get('GITHUB_SHA', 'LOCAL_UNBOUND'),
         'production_go': False,
         'classification': 'NATIVE_POSTGRESQL_CLOSED_ADMISSION_ROLLBACK_MATRIX',
-        'expected_case_count': 140,
+        'expected_case_count': 160,
         'cases': [],
     }
     for target in TARGETS:
@@ -682,7 +683,9 @@ def main() -> None:
                         'target': target,
                         'operation': operation,
                         'mode': mode,
-                        'error': str(exc),
+                        'error_code': 'MATRIX_CASE_FAILED',
+                        'error_type': type(exc).__name__,
+                        'sqlstate': getattr(exc, 'sqlstate', None),
                         'maintenance': read_json_if_present(folder / 'maintenance.json'),
                         'context': read_json_if_present(folder / 'case_context.json'),
                     }
@@ -699,7 +702,7 @@ def main() -> None:
                 (ROOT / 'progress.json').write_text(json.dumps(report, indent=2, default=str) + '\n')
                 print(json.dumps({
                     key: case.get(key)
-                    for key in ('status', 'target', 'operation', 'mode', 'error')
+                    for key in ('status', 'target', 'operation', 'mode', 'error_code', 'error_type', 'sqlstate')
                     if case.get(key) is not None
                 }), flush=True)
 
@@ -718,7 +721,7 @@ def main() -> None:
         for case in writer_first
     )
     report['writer_first_body_entry'] = {
-        'expected': 35,
+        'expected': 40,
         'observed': writer_first_body_entry,
         'compilation_only_contexts': compilation_only_contexts,
     }
@@ -726,7 +729,7 @@ def main() -> None:
         'PASS'
         if len(report['cases']) == report['expected_case_count']
         and report['failed_case_count'] == 0
-        and writer_first_body_entry == 35
+        and writer_first_body_entry == 40
         and compilation_only_contexts == 0
         else 'FAIL'
     )

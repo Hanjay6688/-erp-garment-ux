@@ -6,6 +6,7 @@ hash from the effective successor hash instead of treating metadata as runtime.
 import hashlib
 from pathlib import Path
 import cp6_preuse_rollback_maintenance as maintenance
+import cp6_v2620m_runtime as m_runtime
 
 MIGRATION = Path('supabase/migrations/20260911023222_erp_v2_6_20k_cp6_payment_date_conservation.sql')
 
@@ -26,7 +27,8 @@ def verified_successor(cur):
         hashlib.sha256(data).hexdigest(), hashlib.sha256(data[:-1]).hexdigest(),
     }:
         raise AssertionError('K_SOURCE_PLATFORM_MISMATCH')
-    observations = maintenance._capsule_snapshot(cur.connection, 'K', maintenance.TARGETS['K'])
+    successor = m_runtime.verified_successor(cur)
+    observations = m_runtime.predecessor_snapshot(cur, 'K', successor)
     return {item['identity']: item for item in observations}
 
 def effective_hash(successor, identity, predecessor):

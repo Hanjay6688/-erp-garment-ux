@@ -13,6 +13,7 @@ from typing import Any, Callable
 import psycopg
 import cp6_v2620k_runtime as k_runtime
 import cp6_v2620l_runtime as l_runtime
+import cp6_v2620m_runtime as m_runtime
 
 import cp6_v2620e_counterexample_regression as base
 
@@ -38,6 +39,7 @@ HEAD = os.environ.get('GITHUB_SHA', 'LOCAL_UNBOUND')
 def exact_runtime(cur: psycopg.Cursor) -> dict[str, Any]:
     k_successor = k_runtime.verified_successor(cur)
     l_successor = l_runtime.verified_successor(cur)
+    m_successor = m_runtime.verified_successor(cur)
     versions = base.one(
         cur,
         """select jsonb_agg(version order by version) from erp.schema_migrations
@@ -60,10 +62,12 @@ def exact_runtime(cur: psycopg.Cursor) -> dict[str, Any]:
             to_regprocedure(object_regidentity)),'UTF8'),'sha256'),'hex') actual
           from erp.cp6_v2620j_rollback_capsule order by object_regidentity"""
     )
-    j_rows = k_runtime.extend_rows(k_successor, cur.fetchall())
+    j_pre_m_rows = k_runtime.extend_rows(k_successor, cur.fetchall())
+    j_rows = m_runtime.extend_rows(m_successor, j_pre_m_rows)
     if len(j_rows) != 3 or any(item[2] != item[3] for item in j_rows):
         raise AssertionError(f'J successor capsule/function mismatch: {j_rows}')
     j_by_identity = {item[0]: item[2] for item in j_rows}
+    j_pre_m_by_identity = {item[0]: item[2] for item in j_pre_m_rows}
     cur.execute(
         """select object_regidentity,installed_definition_sha256,
           encode(extensions.digest(convert_to(pg_get_functiondef(
@@ -77,7 +81,7 @@ def exact_runtime(cur: psycopg.Cursor) -> dict[str, Any]:
     for item in functions:
         item['h_installed_sha256'] = item['installed_sha256']
         if item['identity'] in j_by_identity:
-            item['installed_sha256'] = j_by_identity[item['identity']]
+            item['installed_sha256'] = j_pre_m_by_identity[item['identity']]
             item['expected_generation'] = 'K' if k_successor else 'J'
         elif item['identity'] == 'erp.run_v268_financial_report_checks()':
             item['installed_sha256'] = i_installed
@@ -85,6 +89,7 @@ def exact_runtime(cur: psycopg.Cursor) -> dict[str, Any]:
         else:
             item['expected_generation'] = 'H'
     l_runtime.extend_items(l_successor, functions)
+    m_runtime.extend_items(m_successor, functions)
     if len(functions) != 6 or any(
         item['installed_sha256'] != item['actual_sha256'] for item in functions
     ):
@@ -135,7 +140,7 @@ def exact_runtime(cur: psycopg.Cursor) -> dict[str, Any]:
         raise AssertionError(f'J source/platform drift: {j_platform} != {j_file_sha}')
     return {
         'engine': base.one(cur, 'select version()'),
-        'versions': versions + (['v2.6.20k'] if k_successor else []) + (['v2.6.20l'] if l_successor else []),
+        'versions': versions + (['v2.6.20k'] if k_successor else []) + (['v2.6.20l'] if l_successor else []) + (['v2.6.20m'] if m_successor else []),
         'functions': functions,
         'migration_bytes': len(source),
         'migration_sha256': file_sha,

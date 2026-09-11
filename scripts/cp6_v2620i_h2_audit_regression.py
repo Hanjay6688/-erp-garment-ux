@@ -13,6 +13,7 @@ from typing import Any, Callable
 import psycopg
 import cp6_v2620k_runtime as k_runtime
 import cp6_v2620l_runtime as l_runtime
+import cp6_v2620m_runtime as m_runtime
 
 import cp6_v2620e_counterexample_regression as base
 import cp6_v2620h_adversarial_regression as h
@@ -55,6 +56,7 @@ def assert_clean(cur: psycopg.Cursor, label: str) -> None:
 def exact_runtime(cur: psycopg.Cursor) -> dict[str, Any]:
     k_successor = k_runtime.verified_successor(cur)
     l_successor = l_runtime.verified_successor(cur)
+    m_successor = m_runtime.verified_successor(cur)
     versions = base.one(
         cur,
         """select jsonb_agg(version order by version) from erp.schema_migrations
@@ -96,7 +98,7 @@ def exact_runtime(cur: psycopg.Cursor) -> dict[str, Any]:
           owner_snapshot,acl_snapshot
           from erp.cp6_v2620j_rollback_capsule order by object_regidentity"""
     )
-    j_rows = k_runtime.extend_rows(k_successor, cur.fetchall())
+    j_rows = m_runtime.extend_rows(m_successor, k_runtime.extend_rows(k_successor, cur.fetchall()))
     if len(j_rows) != 3 or any(item[2] != item[3] for item in j_rows):
         raise AssertionError(f'J successor capsule/function mismatch: {j_rows}')
     j_report = next(
@@ -128,11 +130,11 @@ def exact_runtime(cur: psycopg.Cursor) -> dict[str, Any]:
         raise AssertionError(f'J source/platform drift: {j_ledger_sha} != {j_file_sha}')
     return {
         'engine': base.one(cur, 'select version()'),
-        'versions': versions + (['v2.6.20k'] if k_successor else []) + (['v2.6.20l'] if l_successor else []),
+        'versions': versions + (['v2.6.20k'] if k_successor else []) + (['v2.6.20l'] if l_successor else []) + (['v2.6.20m'] if m_successor else []),
         'capsule': {
             'identity': row[0], 'predecessor_sha256': row[1],
             'installed_sha256': row[2], 'actual_sha256': row[3],
-            'owner': row[4], 'acl': row[5], 'effective_generation': 'K' if k_successor else 'J',
+            'owner': row[4], 'acl': row[5], 'effective_generation': 'M' if m_successor else 'K' if k_successor else 'J',
         },
         'successor_j_capsule': [
             {

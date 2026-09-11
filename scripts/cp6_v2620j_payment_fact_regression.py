@@ -13,6 +13,7 @@ from typing import Any, Callable
 import psycopg
 import cp6_v2620k_runtime as k_runtime
 import cp6_v2620l_runtime as l_runtime
+import cp6_v2620m_runtime as m_runtime
 
 import cp6_v2620e_counterexample_regression as base
 import cp6_v2620h_adversarial_regression as h
@@ -53,6 +54,7 @@ def assert_clean(cur: psycopg.Cursor, label: str) -> None:
 def exact_runtime(cur: psycopg.Cursor) -> dict[str, Any]:
     k_successor = k_runtime.verified_successor(cur)
     l_successor = l_runtime.verified_successor(cur)
+    m_successor = m_runtime.verified_successor(cur)
     versions = base.one(
         cur,
         """select jsonb_agg(version order by version) from erp.schema_migrations
@@ -97,7 +99,7 @@ def exact_runtime(cur: psycopg.Cursor) -> dict[str, Any]:
         wanted = expected.get(row[0])
         if wanted is None or row[1] != wanted[0] or row[2] != wanted[1]:
             raise AssertionError(f'J capsule hash mismatch: {row}')
-        if k_runtime.effective_hash(k_successor, row[0], row[2]) != row[3] or row[4] != 'postgres' or row[5] != wanted[2]:
+        if m_runtime.effective_hash(m_successor, row[0], k_runtime.effective_hash(k_successor, row[0], row[2])) != row[3] or row[4] != 'postgres' or row[5] != wanted[2]:
             raise AssertionError(f'J installed function owner/ACL mismatch: {row}')
     source = MIGRATION.read_bytes()
     file_sha = hashlib.sha256(source).hexdigest()
@@ -127,11 +129,11 @@ def exact_runtime(cur: psycopg.Cursor) -> dict[str, Any]:
         raise AssertionError(f'J immutable fact relations incomplete: {rels}')
     return {
         'engine': base.one(cur, 'select version()'),
-        'versions': versions + (['v2.6.20k'] if k_successor else []) + (['v2.6.20l'] if l_successor else []),
+        'versions': versions + (['v2.6.20k'] if k_successor else []) + (['v2.6.20l'] if l_successor else []) + (['v2.6.20m'] if m_successor else []),
         'capsule': [
             {
                 'identity': row[0], 'predecessor_sha256': row[1],
-                'installed_sha256': k_runtime.effective_hash(k_successor, row[0], row[2]),
+                'installed_sha256': m_runtime.effective_hash(m_successor, row[0], k_runtime.effective_hash(k_successor, row[0], row[2])),
                 'j_installed_sha256': row[2], 'actual_sha256': row[3],
                 'owner': row[4], 'acl': row[5],
             }
