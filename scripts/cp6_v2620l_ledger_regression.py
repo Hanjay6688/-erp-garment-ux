@@ -52,8 +52,19 @@ def run():
                 delivery=None
                 if name.startswith('CLAIM_'):
                     fixture=base.fresh(cur,'a')
+                    if name=='CLAIM_OVERDRAW':
+                        stage='CLAIM_PHYSICAL_TIME_FORMAT_CONTROL'
+                        boundary=base.one(cur,'select pg_temp.l_boundary()')
+                        base.expect_error(cur,
+                            lambda:base.post_delivery(cur,fixture,base.BASE_PROCESS,'2026-09-01 11:00+00'),
+                            'An explicit timezone-qualified physical_at is required')
+                        if base.one(cur,'select pg_temp.l_boundary()')!=boundary:
+                            raise AssertionError('L_INVALID_DELIVERY_MUTATED_BOUNDARY')
+                        result['claim_fixture_control']={
+                            'noncanonical_physical_at_rejected_atomically':True,
+                            'accepted_physical_at':'2026-09-01T11:00:00Z'}
                     stage='CLAIM_DELIVERY_AFTER_SEWING'
-                    delivery=base.post_delivery(cur,fixture,base.BASE_PROCESS,'2026-09-01 11:00+00')['delivery_id']
+                    delivery=base.post_delivery(cur,fixture,base.BASE_PROCESS,'2026-09-01T11:00:00Z')['delivery_id']
                 stage='BUSINESS_ORACLE'
                 result['cases'][name]=base.one(cur,'select pg_temp.l_case(%s,%s,%s,%s)',
                     (name,fixed,base.VENDOR,delivery))

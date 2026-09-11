@@ -44,6 +44,3 @@ def extend_items(successor, items):
             item['installed_sha256'] = effective_hash(successor, item['identity'], old)
             item['pre_l_installed_sha256'] = old
             item['expected_generation'] = 'L'
-
-def extend_rows(successor, rows):
-    return [tuple([r[0], r[1], effective_hash(successor, r[0], r[2]), *r[3:]]) for r in rows]
