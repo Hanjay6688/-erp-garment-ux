@@ -9,6 +9,7 @@ from pathlib import Path
 
 import psycopg
 import cp6_v2620k_runtime as k_runtime
+import cp6_v2620l_runtime as l_runtime
 
 import cp6_v2620e_counterexample_regression as base
 
@@ -22,6 +23,7 @@ REPORT = Path(os.environ.get('CP6_G_REPORT', 'cp6-proof/CP6_V2620G_INDEPENDENT_R
 
 def runtime(cur):
     k_successor = k_runtime.verified_successor(cur)
+    l_successor = l_runtime.verified_successor(cur)
     cur.execute("select version()")
     engine = cur.fetchone()[0]
     cur.execute("select version from erp.schema_migrations where version in('v2.6.20e','v2.6.20f','v2.6.20g','v2.6.20h','v2.6.20i','v2.6.20j') order by version")
@@ -98,6 +100,7 @@ def runtime(cur):
                 item['expected_generation'] = 'J'
     for collection in (definitions, successor, successor_i, successor_j):
         k_runtime.extend_items(k_successor, collection)
+        l_runtime.extend_items(l_successor, collection)
     if len(definitions) != 7 or any(
         r['installed_sha256'] != r['actual_sha256'] for r in definitions
     ):
@@ -137,7 +140,7 @@ def runtime(cur):
             hashlib.sha256(j_source).hexdigest(), hashlib.sha256(j_source[:-1]).hexdigest()
         ):
             raise AssertionError(f'J source/platform drift: {j_platform}')
-    return {'engine': engine, 'versions': versions + (['v2.6.20k'] if k_successor else []), 'capsule': definitions,
+    return {'engine': engine, 'versions': versions + (['v2.6.20k'] if k_successor else []) + (['v2.6.20l'] if l_successor else []), 'capsule': definitions,
             'successor_capsule': successor,
             'successor_i_capsule': successor_i,
             'successor_j_capsule': successor_j,

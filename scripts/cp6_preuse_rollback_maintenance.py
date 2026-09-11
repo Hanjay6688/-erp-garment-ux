@@ -82,6 +82,15 @@ TARGETS: dict[str, dict[str, Any]] = {
         'capsule': 'erp.cp6_v2620k_rollback_capsule',
         'capsule_count': 4,
     },
+    'L': {
+        'rollback': Path('supabase/rollbacks/20260911070622_erp_v2_6_20l_cp6_exact_ledger_conservation.rollback.sql'),
+        'rollback_sha256': 'd6aa1e6bf6aa0dc4d2fffc7cf2432dd1f6e8eed89bfe0471cad0ebbfb7e58531',
+        'marker': 'v2.6.20l',
+        'platform': 'erp_v2_6_20l_cp6_exact_ledger_conservation',
+        'predecessor': 'v2.6.20k',
+        'capsule': 'erp.cp6_v2620l_rollback_capsule',
+        'capsule_count': 3,
+    },
 }
 
 
@@ -133,6 +142,11 @@ TRUSTED_FUNCTIONS: dict[str, list[dict[str, Any]]] = {
         {'identity': 'erp.reverse_sales_payment(uuid,text)', 'predecessor_sha256': '00d2c2e0dea82508840c06a9aa7ddade503df9a552a29b664beeb32cd081e5b6', 'installed_sha256': 'e5f48784389148a40b2f71fbe9a3e133ff9a7bc95ec969da74e27163b0c5b069', 'owner': 'postgres', 'acl': ['authenticated=X/postgres', 'postgres=X/postgres']},
         {'identity': 'erp.run_v268_financial_report_checks()', 'predecessor_sha256': '3ab1c4e42616eadac12dd0d37811703fdd0436690a57ebe962c651af56e3588f', 'installed_sha256': '2bffd2d8f33ad2d918d1fb2f767676dc403ac777ad9a8ff69d4f32bf74067eff', 'owner': 'postgres', 'acl': ['authenticated=X/postgres', 'postgres=X/postgres', 'service_role=X/postgres']},
         {'identity': 'erp.guard_sales_payment_posted_identity_v2620j()', 'predecessor_sha256': '3849af0c4d17fa6fba90d87ff923dd82bf942f922d792ab5c2901f069b42a5d0', 'installed_sha256': 'bc2f8539173958e7c8c8dd8287e193131598ee71286146e7d76d258d700e1617', 'owner': 'postgres', 'acl': ['postgres=X/postgres']},
+    ],
+    'L': [
+        {'identity': 'erp.post_journal(text,uuid,date,text,jsonb)', 'predecessor_sha256': 'c9bfb4804246a2c7b2352ef0a67db5e035939e29f292f2dff34e0b2b590d4e76', 'installed_sha256': '1ae479c9c32b9489e659d83d99a9829ef88876643f3e8f8aa276fee6d96a9cdf', 'owner': 'postgres', 'acl': ['postgres=X/postgres', 'service_role=X/postgres']},
+        {'identity': 'erp._v268_financial_report_checks_pre_scope()', 'predecessor_sha256': '4eb19d881f47dbbf57bc69f4f49ffdbb5c3071b4b126d2398d26dd2e980b2bf7', 'installed_sha256': 'dc4ed2384dda4b34a30093cad8cb13fa80db26201371569a88dbaee790a24108', 'owner': 'postgres', 'acl': ['postgres=X/postgres', 'service_role=X/postgres']},
+        {'identity': 'erp.resolve_laundry_claim(uuid,text,text)', 'predecessor_sha256': '51ebcf8c01d7d47279112808424d7c18e2ea637d9fa7a41472a21de15b17b54b', 'installed_sha256': '20eba16640912f04220437c21df018a6799dc48b06d8147abfbd2454e2d60425', 'owner': 'postgres', 'acl': ['postgres=X/postgres', 'service_role=X/postgres']},
     ],
 }
 

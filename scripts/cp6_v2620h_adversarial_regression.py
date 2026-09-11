@@ -12,6 +12,7 @@ from typing import Any, Callable
 
 import psycopg
 import cp6_v2620k_runtime as k_runtime
+import cp6_v2620l_runtime as l_runtime
 
 import cp6_v2620e_counterexample_regression as base
 
@@ -36,6 +37,7 @@ HEAD = os.environ.get('GITHUB_SHA', 'LOCAL_UNBOUND')
 
 def exact_runtime(cur: psycopg.Cursor) -> dict[str, Any]:
     k_successor = k_runtime.verified_successor(cur)
+    l_successor = l_runtime.verified_successor(cur)
     versions = base.one(
         cur,
         """select jsonb_agg(version order by version) from erp.schema_migrations
@@ -82,6 +84,7 @@ def exact_runtime(cur: psycopg.Cursor) -> dict[str, Any]:
             item['expected_generation'] = 'I'
         else:
             item['expected_generation'] = 'H'
+    l_runtime.extend_items(l_successor, functions)
     if len(functions) != 6 or any(
         item['installed_sha256'] != item['actual_sha256'] for item in functions
     ):
@@ -132,7 +135,7 @@ def exact_runtime(cur: psycopg.Cursor) -> dict[str, Any]:
         raise AssertionError(f'J source/platform drift: {j_platform} != {j_file_sha}')
     return {
         'engine': base.one(cur, 'select version()'),
-        'versions': versions + (['v2.6.20k'] if k_successor else []),
+        'versions': versions + (['v2.6.20k'] if k_successor else []) + (['v2.6.20l'] if l_successor else []),
         'functions': functions,
         'migration_bytes': len(source),
         'migration_sha256': file_sha,
