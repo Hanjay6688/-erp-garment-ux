@@ -1,0 +1,15 @@
+# CP6 S — canonical supplier payment business dates
+
+R `ed0bfccdd897167cf8c4a173e396c8d30f4f7172` has one independently reproduced P2 backend finding. A supplier payment at `2026-09-03T00:30:00+07:00` creates an original journal dated September 2 in a UTC or New York SQL session, and September 3 in Jakarta or Tokyo. The draft UUID, timestamp and amount are identical. The authoritative report is READY in both cases. Total money remains correct; daily accounting is attributed to a different business day. The canonical ERP helper `_cp3_business_date(timestamptz)` already defines Jakarta business dates.
+
+This is a trusted SQL backend finding. The isolated PGlite replay does not establish HTTP/UI reachability, native Auth, or concurrency. The workflow reproduces the same oracle on native PostgreSQL before S, then runs it after S. Existing R receipt/invoice protection remains required.
+
+S replaces three function definitions: `post_supplier_payment(uuid)` uses the canonical date helper; `run_v267_financial_truth_checks()` detects original supplier-payment journals whose economic date differs from that helper, including originals retained after payment reversal; the report scope forwards `V2620S_SUPPLIER_PAYMENT_BUSINESS_DATE` into the authoritative report.
+
+S preserves money, authorization, source locks and reversal-date policy. No existing posted journal is rewritten. Installation refuses inconsistent original dates with `S_PREEXISTING_PAYMENT_DATE_REVIEW_REQUIRED`. It verifies exact R source ledger, installed definitions, owners, ACLs, capsule, inherited security, and the unchanged date helper. The pre-use rollback capsule restores the three exact R definitions under closed admission and verifies 69 protected tables. It refuses post-use rollback or successor state.
+
+The twelve before/after cases comprise four persisted counterexamples, two privileged detector faults rolled back inside their own subtransactions, and six controls. Controls cover Jakarta/Tokyo boundary timestamps, midday UTC, equivalent timestamp offsets, inert drafts, and atomic overpayment refusal. Six paths are evidence for one date-conservation defect, not six independent bugs. Wrong original dates remain detectable after reversal; the inverse journal's date is outside this change.
+
+The inherited proof contract expands to 280 native maintenance schedules and 70 real writer-body entries. Existing native business suites, Auth95, two receipt/invoice races, three money races, rollback guards, physical clone boundaries, browser evidence, cleanup, source pins, build and frontend tests remain mandatory. Runtime chain verification explicitly carries S's M-owned payment function across the intervening capsules; no historical cardinality or rollback admission is relaxed.
+
+Local replay results and CI results are separate evidence. Writer CI PASS is not independent approval of S. `production_go:false`; DO NOT MERGE. Main, PR24/25, hosted UAT, legacy, production, CP7 rev3 and the owner roadmap remain under their existing controls.

@@ -170,8 +170,8 @@ requireTokens(matrix, '200 native schedules and body-entry proof', [
   'def setup_rollback_plan(target: str, source_generation: str)',
   'verify_setup_source(source_generation)',
   'for generation in rollback_plan:',
-  "'J': ('20260910170556'", "'expected_case_count': 260",
-  "'expected': 65", 'writer_first_body_entry == 65',
+  "'J': ('20260910170556'", "'expected_case_count': 280",
+  "'expected': 70", 'writer_first_body_entry == 70',
   'savepoint cp6_writer_body_warmup', 'rollback to savepoint cp6_writer_body_warmup',
   "'compilation of PL/pgSQL function' in diagnostic_context",
   "'PL/pgSQL function' not in diagnostic_context",
@@ -180,7 +180,7 @@ assert.ok(read('scripts/cp6_v2620i_rollback_guards.py').includes("source_generat
 assert.ok(!guards.includes("'functions': actual"))
 requireTokens(setupUnit, 'generation setup failure regressions', [
   'MOCKED_FIXTURE_ORCHESTRATION_NOT_NATIVE_DATABASE_PROOF',
-  "'expected_case_count': 103", 'unconditional_j_negative_control_rejected',
+  "'expected_case_count': 118", 'unconditional_j_negative_control_rejected',
   'permissive_source_negative_control_rejected', 'STRUCTURAL_RESTORE_SUMMARY', 'STRUCTURAL_CAPSULE_SUMMARY',
 ])
 
@@ -190,7 +190,7 @@ const order = [
   'Run post-CP6 real Auth JWT HTTP permissions',
   'Prove native I H2 payment lineage',
   'Prove native J immutable payment allocation',
-  'Qualify exact F G H I J K L M N O P Q and R rollback under closed admission across two hundred sixty native schedules',
+  'Qualify exact F G H I J K L M N O P Q R and S rollback under closed admission across two hundred eighty native schedules',
   'Prove trusted J capsule and maintenance-only exact J restore to I',
   'Prove trusted F G H I capsules and maintenance-only exact I restore to H',
 ]
@@ -202,23 +202,23 @@ for (const token of order) {
 }
 requireTokens(workflow, 'exact-J artifact contract', [
   'python scripts/cp6_rollback_setup_unit.py', 'CP6_ROLLBACK_SETUP_UNIT.json',
-  "setup_unit['completed_case_count']==setup_unit['expected_case_count']==103",
+  "setup_unit['completed_case_count']==setup_unit['expected_case_count']==118",
   'CP6_PREUSE_ROLLBACK_MAINTENANCE_UNIT.json', "= '31'",
   'permissive_validator_negative_control.suite_failed_closed',
   'V2620J_MIGRATION_SHA256.txt', 'V2620J_ROLLBACK_SHA256.txt',
   'V2620J_NATIVE_REGRESSION.log', 'CP6_V2620J_PAYMENT_FACT_REGRESSION.json',
   'CP6_V2620J_ROLLBACK_GUARDS.json', 'V2620J_MAIN_MAINTENANCE_ROLLBACK.json',
-  "('F','G','H','I','J','K','L','M','N','O','P','Q','R')", "len(schedules['cases'])==260",
-  "'writer_first_backend_body_entries':65",
+  "('F','G','H','I','J','K','L','M','N','O','P','Q','R','S')", "len(schedules['cases'])==280",
+  "'writer_first_backend_body_entries':70",
   "'writer_first_compilation_only_contexts':0",
   "'format':'CP6_V2620N_RUNTIME_PROOF_V1'",
-  "proof/'CP6_V2620R_RUNTIME_MANIFEST.json'",
-  'name: cp6-r1-v2620r-full-schema-auth-browser-proof',
+  "proof/'CP6_V2620S_RUNTIME_MANIFEST.json'",
+  'name: cp6-r1-v2620s-full-schema-auth-browser-proof',
   'runtime=v2.6.20e+v2.6.20f+v2.6.20g+v2.6.20h+v2.6.20i+v2.6.20j',
   "'uat_v2620j_state':'NOT_TESTED_OR_APPLIED_BY_THIS_RUN'",
   "'production_go':False",
 ])
-assert.ok(read('scripts/cp6_auth_permission_e2e.mjs').includes('AFTER_V2620R'))
+assert.ok(read('scripts/cp6_auth_permission_e2e.mjs').includes('AFTER_V2620S'))
 assert.ok(read('package.json').includes('node scripts/check-cp6-payment-fact-closure.mjs'))
 
 console.log(JSON.stringify({
@@ -227,7 +227,7 @@ console.log(JSON.stringify({
   migration_sha256: sha(migration),
   rollback_sha256: sha(rollback),
   maintenance_endpoint_cases: 31,
-  maintenance_matrix_schedules: 260,
-  writer_first_backend_body_entries: 55,
+  maintenance_matrix_schedules: 280,
+  writer_first_backend_body_entries: 70,
   production_go: false,
 }))

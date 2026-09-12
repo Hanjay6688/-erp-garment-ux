@@ -167,13 +167,13 @@ requireTokens(guards, 'trusted coherent-capsule fault proof', [
   "target_name='I'", 'V2620I_MAIN_MAINTENANCE_ROLLBACK.json',
 ])
 requireTokens(matrix, '200 successor-aware native schedules and body-entry proof', [
-  "'I': ('20260910100051'", "'J': ('20260910170556'", "'expected_case_count': 260",
+  "'I': ('20260910100051'", "'J': ('20260910170556'", "'expected_case_count': 280",
   'savepoint cp6_writer_body_warmup', 'rollback to savepoint cp6_writer_body_warmup',
   "writer['warmup_body_completed'] = True",
   "writer['warmup_effects_rolled_back'] = True",
   "'compilation of PL/pgSQL function' in diagnostic_context",
   "'PL/pgSQL function' not in diagnostic_context", "'at SQL statement' not in diagnostic_context",
-  "'expected': 65", 'writer_first_body_entry == 65', 'compilation_only_contexts == 0',
+  "'expected': 70", 'writer_first_body_entry == 70', 'compilation_only_contexts == 0',
 ])
 
 const order = [
@@ -183,7 +183,7 @@ const order = [
   'Run post-CP6 real Auth JWT HTTP permissions',
   'Prove native H R02-R03',
   'Prove native I H2 payment lineage',
-  'Qualify exact F G H I J K L M N O P Q and R rollback under closed admission across two hundred sixty native schedules',
+  'Qualify exact F G H I J K L M N O P Q R and S rollback under closed admission across two hundred eighty native schedules',
   'Prove trusted J capsule and maintenance-only exact J restore to I',
   'Prove trusted F G H I capsules and maintenance-only exact I restore to H',
   'Prove H guards and maintenance-only exact six-function restore to G',
@@ -199,19 +199,19 @@ requireTokens(workflow, 'exact-I proof retained inside exact-J artifact contract
   'V2620I_MIGRATION_SHA256.txt', 'V2620I_ROLLBACK_SHA256.txt',
   'V2620I_NATIVE_REGRESSION.log', 'CP6_V2620I_H2_AUDIT_REGRESSION.json',
   'CP6_V2620I_ROLLBACK_GUARDS.json', 'V2620I_MAIN_MAINTENANCE_ROLLBACK.json',
-  "('F','G','H','I','J','K','L','M','N','O','P','Q','R')", "len(schedules['cases'])==260",
-  "'writer_first_backend_body_entries':65",
+  "('F','G','H','I','J','K','L','M','N','O','P','Q','R','S')", "len(schedules['cases'])==280",
+  "'writer_first_backend_body_entries':70",
   "'writer_first_compilation_only_contexts':0",
   "iguard['maintenance']['admission_reopened_after_success']",
   "'format':'CP6_V2620N_RUNTIME_PROOF_V1'",
-  "proof/'CP6_V2620R_RUNTIME_MANIFEST.json'",
-  'name: cp6-r1-v2620r-full-schema-auth-browser-proof',
+  "proof/'CP6_V2620S_RUNTIME_MANIFEST.json'",
+  'name: cp6-r1-v2620s-full-schema-auth-browser-proof',
   'runtime=v2.6.20e+v2.6.20f+v2.6.20g+v2.6.20h+v2.6.20i+v2.6.20j',
   "'uat_v2620i_state':'NOT_TESTED_OR_APPLIED_BY_THIS_RUN'",
   "'production_go':False",
 ])
 assert.ok(!workflow.includes("iguard['maintenance']['admission_reopened']"))
-assert.ok(read('scripts/cp6_auth_permission_e2e.mjs').includes('AFTER_V2620R'))
+assert.ok(read('scripts/cp6_auth_permission_e2e.mjs').includes('AFTER_V2620S'))
 assert.ok(read('package.json').includes('node scripts/check-cp6-h2-audit-closure.mjs'))
 
 console.log(JSON.stringify({
@@ -219,7 +219,7 @@ console.log(JSON.stringify({
   boundary: 'CP6_V2620I_H2_AUDIT_CLOSURE',
   migration_sha256: sha(migration),
   rollback_sha256: sha(rollback),
-  maintenance_matrix_schedules: 260,
-  writer_first_backend_body_entries: 55,
+  maintenance_matrix_schedules: 280,
+  writer_first_backend_body_entries: 70,
   production_go: false,
 }))

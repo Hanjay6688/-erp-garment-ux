@@ -9,6 +9,7 @@ from psycopg import sql
 import cp6_preuse_rollback_maintenance as maintenance
 import cp6_v2620n_runtime as n_runtime
 import cp6_v2620p_runtime as p_runtime
+import cp6_v2620s_runtime as s_runtime
 
 MIGRATION = Path('supabase/migrations/20260911092622_erp_v2_6_20m_cp6_subledger_exact_cent_closure.sql')
 
@@ -38,6 +39,11 @@ def verified_successor(cur):
     validation_successor = dict(successor)
     if scope_identity in p_successor:
         validation_successor[scope_identity] = p_successor[scope_identity]
+    # S changes M-owned supplier payment outside the N/O/P/Q/R capsules.
+    s_successor = s_runtime.verified_successor(cur)
+    payment_identity = 'erp.post_supplier_payment(uuid)'
+    if payment_identity in s_successor:
+        validation_successor[payment_identity] = s_successor[payment_identity]
     observations = n_runtime.predecessor_snapshot(cur, 'M', validation_successor)
     n_runtime.extend_items(successor, observations)
     if scope_identity in p_successor:
@@ -52,7 +58,17 @@ def verified_successor(cur):
                     item['pre_q_installed_sha256'] = p_successor[scope_identity]['pre_q_installed_sha256']
                 if 'pre_r_installed_sha256' in p_successor[scope_identity]:
                     item['pre_r_installed_sha256'] = p_successor[scope_identity]['pre_r_installed_sha256']
+                if 'pre_s_installed_sha256' in p_successor[scope_identity]:
+                    item['pre_s_installed_sha256'] = p_successor[scope_identity]['pre_s_installed_sha256']
                 item['expected_generation'] = 'P'
+                break
+    if payment_identity in s_successor:
+        for item in observations:
+            if item['identity'] == payment_identity:
+                old = item['installed_sha256']
+                item['installed_sha256'] = s_runtime.effective_hash(s_successor, payment_identity, old)
+                item['pre_s_installed_sha256'] = old
+                item['expected_generation'] = 'S'
                 break
     return {item['identity']: item for item in observations}
 

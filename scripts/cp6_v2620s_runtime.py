@@ -1,4 +1,4 @@
-"""Verify Q and historical capsules without weakening rollback admission."""
+"""Verify S and historical capsules without weakening rollback admission."""
 import hashlib
 from pathlib import Path
 
@@ -8,33 +8,32 @@ import cp6_preuse_rollback_maintenance as maintenance
 
 
 MIGRATION = Path(
-    'supabase/migrations/20260912084719_erp_v2_6_20q_cp6_supplier_invoice_exact_quantity.sql'
+    'supabase/migrations/20260912132445_erp_v2_6_20s_cp6_supplier_payment_business_date.sql'
 )
 
 
 def verified_successor(cur):
     cur.execute("""select exists(select 1 from erp.schema_migrations
-        where version='v2.6.20q'),
-      to_regclass('erp.cp6_v2620q_rollback_capsule') is not null""")
+        where version='v2.6.20s'),
+      to_regclass('erp.cp6_v2620s_rollback_capsule') is not null""")
     marker, capsule = cur.fetchone()
     if not marker and not capsule:
         return {}
     if not marker or not capsule:
-        raise AssertionError('Q_MARKER_CAPSULE_MISMATCH')
+        raise AssertionError('S_MARKER_CAPSULE_MISMATCH')
     data = MIGRATION.read_bytes()
     cur.execute("""select version,encode(extensions.digest(convert_to(
       array_to_string(statements,E'\n'),'UTF8'),'sha256'),'hex')
       from supabase_migrations.schema_migrations
-      where name='erp_v2_6_20q_cp6_supplier_invoice_exact_quantity'""")
+      where name='erp_v2_6_20s_cp6_supplier_payment_business_date'""")
     rows = cur.fetchall()
-    if len(rows) != 1 or rows[0][0] != '20260912084719' or rows[0][1] not in {
+    if len(rows) != 1 or rows[0][0] != '20260912132445' or rows[0][1] not in {
         hashlib.sha256(data).hexdigest(), hashlib.sha256(data[:-1]).hexdigest(),
     }:
-        raise AssertionError('Q_SOURCE_PLATFORM_MISMATCH')
-    import cp6_v2620r_runtime as r_runtime
-    successor = r_runtime.verified_successor(cur)
-    observations = r_runtime.predecessor_snapshot(cur, 'Q', successor)
-    r_runtime.extend_items(successor, observations)
+        raise AssertionError('S_SOURCE_PLATFORM_MISMATCH')
+    observations = maintenance._capsule_snapshot(
+        cur.connection, 'S', maintenance.TARGETS['S']
+    )
     return {item['identity']: item for item in observations}
 
 
@@ -43,7 +42,7 @@ def effective_hash(successor, identity, predecessor):
     if item is None:
         return predecessor
     if predecessor != item['predecessor_sha256']:
-        raise AssertionError('Q_PREDECESSOR_CHAIN_MISMATCH')
+        raise AssertionError('S_PREDECESSOR_CHAIN_MISMATCH')
     return item['installed_sha256']
 
 
@@ -70,7 +69,7 @@ def predecessor_snapshot(cur, generation, successor):
     rows = [dict(zip(columns, row, strict=True)) for row in cur.fetchall()]
     wanted = {x['identity']: x for x in maintenance.TRUSTED_FUNCTIONS[generation]}
     if len(rows) != len(wanted) or {r['identity'] for r in rows} != set(wanted):
-        raise AssertionError('Q_HISTORICAL_CAPSULE_CARDINALITY_MISMATCH')
+        raise AssertionError('S_HISTORICAL_CAPSULE_CARDINALITY_MISMATCH')
     for row in rows:
         expected = wanted[row['identity']]
         if (
@@ -84,7 +83,7 @@ def predecessor_snapshot(cur, generation, successor):
             or row['observed_installed_owner'] != expected['owner']
             or row['observed_installed_acl'] != expected['acl']
         ):
-            raise AssertionError('Q_HISTORICAL_CAPSULE_SOURCE_PIN_MISMATCH')
+            raise AssertionError('S_HISTORICAL_CAPSULE_SOURCE_PIN_MISMATCH')
     return rows
 
 
@@ -95,12 +94,8 @@ def extend_items(successor, items):
             item['installed_sha256'] = effective_hash(
                 successor, item['identity'], old
             )
-            item['pre_q_installed_sha256'] = old
-            if 'pre_r_installed_sha256' in successor[item['identity']]:
-                item['pre_r_installed_sha256'] = successor[item['identity']]['pre_r_installed_sha256']
-            if 'pre_s_installed_sha256' in successor[item['identity']]:
-                item['pre_s_installed_sha256'] = successor[item['identity']]['pre_s_installed_sha256']
-            item['expected_generation'] = 'Q'
+            item['pre_s_installed_sha256'] = old
+            item['expected_generation'] = 'S'
 
 
 def extend_rows(successor, rows):
@@ -111,6 +106,7 @@ def extend_rows(successor, rows):
 
 
 EXTRA_FUNCTIONS = [
+    {'identity': 'erp._cp3_business_date(timestamp with time zone)', 'sha256': 'adf1fb87dd9f0b6a856bcb109b5118f9c4aac5da0ac32554ecbbc009f6d88248', 'owner': 'postgres', 'acl': ['postgres=X/postgres']},
     {'identity': 'erp._cp6_apply_supplier_cent_event(text,uuid,date,text,jsonb,boolean)',
      'sha256': '390fc3fae9bf59cf35fbc699f988521b3bde572e266937fdce99e0854c1756a3',
      'owner': 'postgres', 'acl': ['postgres=X/postgres']},
@@ -129,7 +125,7 @@ INHERITED_FACT_GUARD = {
 
 
 def verify_extra_objects(cur):
-    """Verify N helper/fact security inherited unchanged by P."""
+    """Verify inherited helper/fact security and the canonical business-date helper."""
     maintenance._function_snapshot(cur.connection, EXTRA_FUNCTIONS)
     maintenance._function_snapshot(cur.connection, [INHERITED_FACT_GUARD])
     cur.execute("""select c.relrowsecurity,pg_get_userbyid(c.relowner),
@@ -143,5 +139,5 @@ def verify_extra_objects(cur):
           'trg_supplier_cent_fact_no_truncate'))
       from pg_class c where c.oid=to_regclass('erp.supplier_cent_posting_facts')""")
     if cur.fetchone() != (True, 'postgres', False, 2):
-        raise AssertionError('Q_CENT_FACT_SECURITY_MISMATCH')
+        raise AssertionError('S_CENT_FACT_SECURITY_MISMATCH')
     return len(EXTRA_FUNCTIONS)

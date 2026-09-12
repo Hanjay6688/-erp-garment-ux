@@ -149,6 +149,15 @@ TARGETS: dict[str, dict[str, Any]] = {
     },
 
 
+    'S': {
+        'rollback': Path('supabase/rollbacks/20260912132445_erp_v2_6_20s_cp6_supplier_payment_business_date.rollback.sql'),
+        'rollback_sha256': '0711ddf3bb3fff97b27e3f576c1875aa34d7d16a4a018155a5ea2f24cbb2f66e',
+        'marker': 'v2.6.20s', 'platform': 'erp_v2_6_20s_cp6_supplier_payment_business_date',
+        'predecessor': 'v2.6.20r', 'capsule': 'erp.cp6_v2620s_rollback_capsule',
+        'capsule_count': 3,
+    },
+
+
 }
 
 
@@ -291,6 +300,12 @@ TRUSTED_FUNCTIONS: dict[str, list[dict[str, Any]]] = {
         {'identity': 'erp.run_v267_financial_truth_checks()', 'predecessor_sha256': '04115f87a2dd4777a56ed3667b461f71fb972887eccd1c9b5281878660a3acc3', 'installed_sha256': 'ce489ade327609230a40a0e804b1b67a9cecb11bb08a42bb470b9ba556183066', 'owner': 'postgres', 'acl': ['authenticated=X/postgres', 'postgres=X/postgres', 'service_role=X/postgres']},
     ],
 
+    'S': [
+        {'identity': 'erp._v268_financial_report_checks_pre_scope()', 'predecessor_sha256': '8b3617725cd9061137dc55d6e2b5af75a87453929c93918b9e0acddea34f3cb2', 'installed_sha256': '2eb47603dcfefe58ea89e8f3cf832aca187f397d66b99bd7a4ab3bb5d6c428ad', 'owner': 'postgres', 'acl': ['postgres=X/postgres', 'service_role=X/postgres']},
+        {'identity': 'erp.post_supplier_payment(uuid)', 'predecessor_sha256': '231d2e8132d966e3b539015e3e9fc463e758c2e0bcfe4ecdb89414fc5c0b97f8', 'installed_sha256': 'ad780c4b00261b6ee1890391cac1c459c23d06b041859399e6ccc2f73d67f421', 'owner': 'postgres', 'acl': ['authenticated=X/postgres', 'postgres=X/postgres', 'service_role=X/postgres']},
+        {'identity': 'erp.run_v267_financial_truth_checks()', 'predecessor_sha256': 'ce489ade327609230a40a0e804b1b67a9cecb11bb08a42bb470b9ba556183066', 'installed_sha256': 'e5f4d8749851824e11bb7b76bb3614963aa26feca7034962f47cc198a7962e89', 'owner': 'postgres', 'acl': ['authenticated=X/postgres', 'postgres=X/postgres', 'service_role=X/postgres']},
+    ],
+
 }
 
 
@@ -348,8 +363,10 @@ def _capsule_snapshot(
 ) -> list[dict[str, Any]]:
     # N adds helper and fact objects inherited by O/P outside their predecessor capsules.
     # Verify them before any admission mutation; F through M follow their original path.
-    if target_name in {'N', 'O', 'P', 'Q', 'R'}:
-        if target_name == 'R':
+    if target_name in {'N', 'O', 'P', 'Q', 'R', 'S'}:
+        if target_name == 'S':
+            from cp6_v2620s_runtime import verify_extra_objects
+        elif target_name == 'R':
             from cp6_v2620r_runtime import verify_extra_objects
         elif target_name == 'Q':
             from cp6_v2620q_runtime import verify_extra_objects
