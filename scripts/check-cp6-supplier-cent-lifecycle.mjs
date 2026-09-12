@@ -37,23 +37,23 @@ let previous = -1
 for (const token of ['Apply v2.6.20m exact supplier', 'Reproduce independent M supplier cent',
   'Apply v2.6.20n cumulative supplier cent', 'Run post-CP6 real Auth',
   'Prove native M exact supplier', 'Prove native N supplier cumulative cents',
-  'Qualify exact F G H I J K L M N and O rollback', 'Prove trusted N capsule', 'Prove trusted M capsule']) {
+  'Qualify exact F G H I J K L M N O and P rollback', 'Prove trusted N capsule', 'Prove trusted M capsule']) {
   const position = workflow.indexOf(token)
   assert.ok(position > previous, token); previous = position
 }
 for (const token of ["len(n_before['cases'])==5", "len(n['cases'])==15",
   "len(ng['guards'])==12", "len(ng['extra_object_preflight_guards'])==5",
-  "len(schedules['cases'])==200", "'expected':50,'observed':50",
-  'CP6_V2620O_RUNTIME_MANIFEST.json', 'cp6-r1-v2620o-full-schema-auth-browser-proof']) {
+  "len(schedules['cases'])==220", "'expected':55,'observed':55",
+  'CP6_V2620P_RUNTIME_MANIFEST.json', 'cp6-r1-v2620p-full-schema-auth-browser-proof']) {
   assert.ok(workflow.includes(token), token)
 }
 const install = workflow.slice(workflow.indexOf('- name: Install validation runtime'), workflow.indexOf('- name:', workflow.indexOf('- name: Install validation runtime') + 8))
-assert.ok(install.includes(`test "$(jq '.completed_case_count' cp6-proof/CP6_ROLLBACK_SETUP_UNIT.json)" = '64'`))
-assert.ok(workflow.includes('CP6_M_RACE_SOURCE_GENERATION: O'))
-assert.ok(workflow.includes("mr['source_generation']=='O'"))
+assert.ok(install.includes(`test "$(jq '.completed_case_count' cp6-proof/CP6_ROLLBACK_SETUP_UNIT.json)" = '76'`))
+assert.ok(workflow.includes('CP6_M_RACE_SOURCE_GENERATION: P'))
+assert.ok(workflow.includes("mr['source_generation']=='P'"))
 const auth = read('scripts/cp6_auth_permission_e2e.mjs')
-assert.ok(auth.includes('PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620O'))
-assert.ok(workflow.includes("report['target']=='PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620O'"))
+assert.ok(auth.includes('PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620P'))
+assert.ok(workflow.includes("report['target']=='PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620P'"))
 for (const path of [`supabase/migrations/${name}.sql`, `supabase/rollbacks/${name}.rollback.sql`,
   'supabase/tests/cp6_supplier_cent_lifecycle.sql', 'scripts/cp6_v2620n_runtime.py',
   'scripts/cp6_v2620n_supplier_cent_regression.py', 'scripts/cp6_v2620n_rollback_guards.py',

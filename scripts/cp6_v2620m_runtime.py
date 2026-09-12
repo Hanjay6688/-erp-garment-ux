@@ -8,6 +8,7 @@ from pathlib import Path
 from psycopg import sql
 import cp6_preuse_rollback_maintenance as maintenance
 import cp6_v2620n_runtime as n_runtime
+import cp6_v2620p_runtime as p_runtime
 
 MIGRATION = Path('supabase/migrations/20260911092622_erp_v2_6_20m_cp6_subledger_exact_cent_closure.sql')
 
@@ -31,6 +32,21 @@ def verified_successor(cur):
     successor = n_runtime.verified_successor(cur)
     observations = n_runtime.predecessor_snapshot(cur, 'M', successor)
     n_runtime.extend_items(successor, observations)
+    # P also changes the M-owned report-scope function, an identity absent
+    # from the intervening N/O capsules. Preserve exact cardinalities while
+    # carrying that non-overlapping successor edge into historical evidence.
+    p_successor = p_runtime.verified_successor(cur)
+    scope_identity = 'erp._v268_financial_report_checks_pre_scope()'
+    if scope_identity in p_successor:
+        for item in observations:
+            if item['identity'] == scope_identity:
+                old = item['installed_sha256']
+                item['installed_sha256'] = p_runtime.effective_hash(
+                    p_successor, scope_identity, old
+                )
+                item['pre_p_installed_sha256'] = old
+                item['expected_generation'] = 'P'
+                break
     return {item['identity']: item for item in observations}
 
 def effective_hash(successor, identity, predecessor):

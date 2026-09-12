@@ -121,6 +121,16 @@ TARGETS: dict[str, dict[str, Any]] = {
         'capsule_count': 2,
     },
 
+    'P': {
+        'rollback': Path('supabase/rollbacks/20260912051922_erp_v2_6_20p_cp6_supplier_return_match_state.rollback.sql'),
+        'rollback_sha256': '02f269e031dc6a930c29452742ae13caf81a6c537d999e13d972731b3597290f',
+        'marker': 'v2.6.20p',
+        'platform': 'erp_v2_6_20p_cp6_supplier_return_match_state',
+        'predecessor': 'v2.6.20o',
+        'capsule': 'erp.cp6_v2620p_rollback_capsule',
+        'capsule_count': 3,
+    },
+
 }
 
 
@@ -244,6 +254,11 @@ TRUSTED_FUNCTIONS: dict[str, list[dict[str, Any]]] = {
        'owner': 'postgres',
        'acl': ['authenticated=X/postgres', 'postgres=X/postgres', 'service_role=X/postgres']},
     ],
+    'P': [
+        {'identity': 'erp._v268_financial_report_checks_pre_scope()', 'predecessor_sha256': '98fac1a865982d5c60fc5e6a5caae9033755ff915b7e53d22213c0d1d1765ca1', 'installed_sha256': '17a07e10665756088f2faa0570c055efae4513abf1c5985afacf86bf8467e056', 'owner': 'postgres', 'acl': ['postgres=X/postgres', 'service_role=X/postgres']},
+        {'identity': 'erp.post_material_supplier_return(uuid)', 'predecessor_sha256': 'eff9b9a2a19eca7f51d51ac0fc73983d53f7fa5e4c699407813580dac91bbace', 'installed_sha256': '541ce87729dd47bffd536847e71271c1e0b968d199e2fe24fd671a025cee027a', 'owner': 'postgres', 'acl': ['postgres=X/postgres', 'service_role=X/postgres']},
+        {'identity': 'erp.run_v267_financial_truth_checks()', 'predecessor_sha256': 'fc3edcc094fb4843886206466801f96441907d83efeed01c92c5604f658a96d0', 'installed_sha256': '2c546026b1325e265c62828c13f2eea63aaff302c9a359d5f49c18d5fb7a492e', 'owner': 'postgres', 'acl': ['authenticated=X/postgres', 'postgres=X/postgres', 'service_role=X/postgres']},
+    ],
 
 }
 
@@ -300,10 +315,12 @@ def _sessions(control: psycopg.Connection, database: str, keep_pid: int) -> list
 def _capsule_snapshot(
     target_conn: psycopg.Connection, target_name: str, target: dict[str, Any]
 ) -> list[dict[str, Any]]:
-    # N adds helper and fact objects inherited by O outside their predecessor capsules.
+    # N adds helper and fact objects inherited by O/P outside their predecessor capsules.
     # Verify them before any admission mutation; F through M follow their original path.
-    if target_name in {'N', 'O'}:
-        if target_name == 'O':
+    if target_name in {'N', 'O', 'P'}:
+        if target_name == 'P':
+            from cp6_v2620p_runtime import verify_extra_objects
+        elif target_name == 'O':
             from cp6_v2620o_runtime import verify_extra_objects
         else:
             from cp6_v2620n_runtime import verify_extra_objects

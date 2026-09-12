@@ -13,56 +13,14 @@ import cp6_v2620j_rollback_guards as jguards
 
 
 REPORT = Path('cp6-proof/CP6_ROLLBACK_SETUP_UNIT.json')
+GENERATIONS = tuple(matrix.TARGETS)
+SOURCE_GENERATIONS = ('I', 'J', 'K', 'L', 'M', 'N', 'O', 'P')
 PLANS = {
-    ('O', 'F'): ('O', 'N', 'M', 'L', 'K', 'J', 'I', 'H', 'G', 'F'),
-    ('O', 'G'): ('O', 'N', 'M', 'L', 'K', 'J', 'I', 'H', 'G'),
-    ('O', 'H'): ('O', 'N', 'M', 'L', 'K', 'J', 'I', 'H'),
-    ('O', 'I'): ('O', 'N', 'M', 'L', 'K', 'J', 'I'),
-    ('O', 'J'): ('O', 'N', 'M', 'L', 'K', 'J'),
-    ('O', 'K'): ('O', 'N', 'M', 'L', 'K'),
-    ('O', 'L'): ('O', 'N', 'M', 'L'),
-    ('O', 'M'): ('O', 'N', 'M'),
-    ('O', 'N'): ('O', 'N'),
-    ('O', 'O'): ('O',),
-    ('N', 'F'): ('N', 'M', 'L', 'K', 'J', 'I', 'H', 'G', 'F'),
-    ('N', 'G'): ('N', 'M', 'L', 'K', 'J', 'I', 'H', 'G'),
-    ('N', 'H'): ('N', 'M', 'L', 'K', 'J', 'I', 'H'),
-    ('N', 'I'): ('N', 'M', 'L', 'K', 'J', 'I'),
-    ('N', 'J'): ('N', 'M', 'L', 'K', 'J'),
-    ('N', 'K'): ('N', 'M', 'L', 'K'),
-    ('N', 'L'): ('N', 'M', 'L'),
-    ('N', 'M'): ('N', 'M'),
-    ('N', 'N'): ('N',),
-    ('M', 'F'): ('M', 'L', 'K', 'J', 'I', 'H', 'G', 'F'),
-    ('M', 'G'): ('M', 'L', 'K', 'J', 'I', 'H', 'G'),
-    ('M', 'H'): ('M', 'L', 'K', 'J', 'I', 'H'),
-    ('M', 'I'): ('M', 'L', 'K', 'J', 'I'),
-    ('M', 'J'): ('M', 'L', 'K', 'J'),
-    ('M', 'K'): ('M', 'L', 'K'),
-    ('M', 'L'): ('M', 'L'),
-    ('M', 'M'): ('M',),
-    ('L', 'F'): ('L', 'K', 'J', 'I', 'H', 'G', 'F'),
-    ('L', 'G'): ('L', 'K', 'J', 'I', 'H', 'G'),
-    ('L', 'H'): ('L', 'K', 'J', 'I', 'H'),
-    ('L', 'I'): ('L', 'K', 'J', 'I'),
-    ('L', 'J'): ('L', 'K', 'J'),
-    ('L', 'K'): ('L', 'K'),
-    ('L', 'L'): ('L',),
-    ('K', 'F'): ('K', 'J', 'I', 'H', 'G', 'F'),
-    ('K', 'G'): ('K', 'J', 'I', 'H', 'G'),
-    ('K', 'H'): ('K', 'J', 'I', 'H'),
-    ('K', 'I'): ('K', 'J', 'I'),
-    ('K', 'J'): ('K', 'J'),
-    ('K', 'K'): ('K',),
-    ('J', 'F'): ('J', 'I', 'H', 'G', 'F'),
-    ('J', 'G'): ('J', 'I', 'H', 'G'),
-    ('J', 'H'): ('J', 'I', 'H'),
-    ('J', 'I'): ('J', 'I'),
-    ('J', 'J'): ('J',),
-    ('I', 'F'): ('I', 'H', 'G', 'F'),
-    ('I', 'G'): ('I', 'H', 'G'),
-    ('I', 'H'): ('I', 'H'),
-    ('I', 'I'): ('I',),
+    (source, target): tuple(reversed(
+        GENERATIONS[GENERATIONS.index(target):GENERATIONS.index(source) + 1]
+    ))
+    for source in SOURCE_GENERATIONS
+    for target in GENERATIONS[:GENERATIONS.index(source) + 1]
 }
 
 
@@ -180,7 +138,7 @@ def run() -> dict:
     for source, target in PLANS:
         exercise_prepare(source, target)
         cases.append({'case': f'{source}_SOURCE_FOR_{target}', 'status': 'PASS'})
-    for source, target in (('I', 'J'), ('H', 'F'), ('N', 'O'), ('J', 'K'), ('K', 'L'), ('L', 'M'), ('M', 'N')):
+    for source, target in (('I', 'J'), ('H', 'F'), ('N', 'O'), ('O', 'P'), ('J', 'K'), ('K', 'L'), ('L', 'M'), ('M', 'N')):
         invalid_request(source, target)
         cases.append({'case': f'REJECT_{source}_SOURCE_FOR_{target}', 'status': 'PASS'})
     for fault in ('wrong_platform', 'missing_marker', 'missing_capsule', 'unexpected_j_capsule'):
@@ -212,11 +170,11 @@ def run() -> dict:
             pass
         else:
             raise AssertionError('Permissive-source negative control unexpectedly passed')
-    assert len(cases) == 64
+    assert len(cases) == 76
     return {
         'head': os.environ.get('GITHUB_SHA', 'LOCAL_UNBOUND'),
         'classification': 'MOCKED_FIXTURE_ORCHESTRATION_NOT_NATIVE_DATABASE_PROOF',
-        'status': 'PASS', 'expected_case_count': 64, 'completed_case_count': len(cases),
+        'status': 'PASS', 'expected_case_count': 76, 'completed_case_count': len(cases),
         'cases': cases,
         'unconditional_j_negative_control_rejected': True,
         'permissive_source_negative_control_rejected': True,
