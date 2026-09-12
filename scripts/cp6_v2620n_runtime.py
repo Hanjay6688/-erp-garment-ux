@@ -29,8 +29,20 @@ def verified_successor(cur):
     }:
         raise AssertionError('N_SOURCE_PLATFORM_MISMATCH')
     successor = o_runtime.verified_successor(cur)
-    observations = o_runtime.predecessor_snapshot(cur, 'N', successor)
+    import cp6_v2620q_runtime as q_runtime
+    q_successor = q_runtime.verified_successor(cur)
+    # Q also changes N's invoice writer, absent from the intervening O/P
+    # capsules. Keep their cardinalities exact and validate this direct edge.
+    invoice_identity = 'erp.post_material_supplier_invoice(uuid)'
+    validation_successor = dict(successor)
+    if invoice_identity in q_successor:
+        validation_successor[invoice_identity] = q_successor[invoice_identity]
+    observations = o_runtime.predecessor_snapshot(cur, 'N', validation_successor)
     o_runtime.extend_items(successor, observations)
+    q_runtime.extend_items(
+        {invoice_identity: q_successor[invoice_identity]} if invoice_identity in q_successor else {},
+        observations,
+    )
     return {item['identity']: item for item in observations}
 
 def effective_hash(successor, identity, predecessor):
@@ -79,6 +91,8 @@ def extend_items(successor, items):
                 item['pre_o_installed_sha256'] = successor[item['identity']]['pre_o_installed_sha256']
             if 'pre_p_installed_sha256' in successor[item['identity']]:
                 item['pre_p_installed_sha256'] = successor[item['identity']]['pre_p_installed_sha256']
+            if 'pre_q_installed_sha256' in successor[item['identity']]:
+                item['pre_q_installed_sha256'] = successor[item['identity']]['pre_q_installed_sha256']
             item['expected_generation'] = 'N'
 
 def extend_rows(successor, rows):

@@ -18,17 +18,17 @@ assert.doesNotMatch(rollback,/\b(?:delete from|drop table|truncate) erp\.(?:sale
 assert.ok(rollback.includes('(select count(*) from jsonb_object_keys(v_expected))<>37'))
 const workflow=read('.github/workflows/cp6-full-schema-validation.yml')
 const authTarget=read('scripts/cp6_auth_permission_e2e.mjs').match(/target: '([^']+)'/)?.[1]
-assert.equal(authTarget,'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620P')
+assert.equal(authTarget,'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620Q')
 assert.equal(workflow.match(/assert report\['target'\]=='([^']+)'/)?.[1],authTarget,
  'Native Auth producer and workflow validator must bind the same generation')
 let previous=-1
 for(const label of ['Apply v2.6.20k payment date','Reproduce independent K ledger',
  'Apply v2.6.20l exact ledger','Run post-CP6 real Auth','Prove native L exact money',
- 'Qualify exact F G H I J K L M N O and P rollback','Prove trusted L capsule','Prove trusted K capsule']) {
+ 'Qualify exact F G H I J K L M N O P and Q rollback','Prove trusted L capsule','Prove trusted K capsule']) {
  const position=workflow.indexOf(label);assert.ok(position>previous,label);previous=position
 }
-for(const token of ['CP6_V2620P_RUNTIME_PROOF_V1',"len(schedules['cases'])==220",
- "'expected':55,'observed':55",'CP6_V2620L_K_COUNTEREXAMPLES.json',
+for(const token of ['CP6_V2620P_RUNTIME_PROOF_V1',"len(schedules['cases'])==240",
+ "'expected':60,'observed':60",'CP6_V2620L_K_COUNTEREXAMPLES.json',
  'CP6_V2620L_LEDGER_REGRESSION.json',"len(l['cases'])==15", "'v2620l_restored_function_owner_acl_count':3"])
  assert.ok(workflow.includes(token),token)
 const sql=read('supabase/tests/cp6_exact_ledger_conservation.sql')

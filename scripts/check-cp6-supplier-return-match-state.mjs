@@ -51,7 +51,7 @@ assert.ok(oRuntime.includes('cp6_v2620p_runtime'))
 assert.ok(oRuntime.includes('pre_p_installed_sha256'))
 assert.ok(mRuntime.includes('non-overlapping successor edge'))
 assert.ok(mRuntime.includes("predecessor_snapshot(cur, 'M', validation_successor)"))
-for (const token of ["'P': {", "'P': [", "target_name in {'N', 'O', 'P'}"])
+for (const token of ["'P': {", "'P': [", "target_name in {'N', 'O', 'P', 'Q'}"])
   assert.ok(maintenance.includes(token), token)
 
 const guards = read('scripts/cp6_v2620p_rollback_guards.py')
@@ -68,7 +68,7 @@ for (const token of [
   'Run post-CP6 real Auth',
   'Prove native O supplier return document allocation',
   'Prove native P supplier return match state',
-  'Qualify exact F G H I J K L M N O and P rollback',
+  'Qualify exact F G H I J K L M N O P and Q rollback',
   'Prove trusted P capsule', 'Prove trusted O capsule',
 ]) {
   const position = workflow.indexOf(token)
@@ -76,16 +76,16 @@ for (const token of [
   previous = position
 }
 for (const token of [
-  "len(schedules['cases'])==220", "'expected':55,'observed':55",
-  "setup_unit['completed_case_count']==setup_unit['expected_case_count']==76",
+  "len(schedules['cases'])==240", "'expected':60,'observed':60",
+  "setup_unit['completed_case_count']==setup_unit['expected_case_count']==89",
   "p['runtime']['verified_m_functions']==p_before['runtime']['verified_m_functions']==15",
   "sum(c['upgrade_guard']['invalid_history_refused'] for c in p_before['cases'].values())==3",
   'CP6_V2620P_SUPPLIER_RETURN_MATCH_STATE_REGRESSION.json',
   'CP6_V2620P_ROLLBACK_GUARDS.json',
-  'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620P',
-  'CP6_M_RACE_SOURCE_GENERATION: P',
-  "'format':'CP6_V2620P_RUNTIME_PROOF_V1'",
-  'name: cp6-r1-v2620p-full-schema-auth-browser-proof',
+  'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620Q',
+  'CP6_M_RACE_SOURCE_GENERATION: Q',
+  "'format':'CP6_V2620Q_RUNTIME_PROOF_V1'",
+  'name: cp6-r1-v2620q-full-schema-auth-browser-proof',
 ]) assert.ok(workflow.includes(token), token)
 
 for (const path of [
@@ -103,6 +103,6 @@ console.log(JSON.stringify({
   status: 'PASS', classification: 'STATIC_SOURCE_CONTRACT_NOT_NATIVE_PROOF',
   replaced_functions: 3, boundary_tables: 66,
   native_cases: 9, known_o_failures: 5, controls: 4,
-  maintenance_schedules: 220, writer_body_entries: 55,
+  maintenance_schedules: 240, writer_body_entries: 60,
   production_go: false,
 }))

@@ -48,6 +48,8 @@ def verified_successor(cur):
                     p_successor, scope_identity, old
                 )
                 item['pre_p_installed_sha256'] = old
+                if 'pre_q_installed_sha256' in p_successor[scope_identity]:
+                    item['pre_q_installed_sha256'] = p_successor[scope_identity]['pre_q_installed_sha256']
                 item['expected_generation'] = 'P'
                 break
     return {item['identity']: item for item in observations}
