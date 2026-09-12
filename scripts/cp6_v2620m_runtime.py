@@ -30,13 +30,16 @@ def verified_successor(cur):
     }:
         raise AssertionError('M_SOURCE_PLATFORM_MISMATCH')
     successor = n_runtime.verified_successor(cur)
-    observations = n_runtime.predecessor_snapshot(cur, 'M', successor)
-    n_runtime.extend_items(successor, observations)
     # P also changes the M-owned report-scope function, an identity absent
     # from the intervening N/O capsules. Preserve exact cardinalities while
     # carrying that non-overlapping successor edge into historical evidence.
     p_successor = p_runtime.verified_successor(cur)
     scope_identity = 'erp._v268_financial_report_checks_pre_scope()'
+    validation_successor = dict(successor)
+    if scope_identity in p_successor:
+        validation_successor[scope_identity] = p_successor[scope_identity]
+    observations = n_runtime.predecessor_snapshot(cur, 'M', validation_successor)
+    n_runtime.extend_items(successor, observations)
     if scope_identity in p_successor:
         for item in observations:
             if item['identity'] == scope_identity:

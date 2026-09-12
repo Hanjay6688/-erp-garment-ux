@@ -11,6 +11,7 @@ from psycopg.conninfo import conninfo_to_dict
 
 import cp6_preuse_rollback_maintenance as maintenance
 import cp6_v2620e_counterexample_regression as base
+import cp6_v2620m_runtime as m_runtime
 import cp6_v2620o_runtime as o_runtime
 import cp6_v2620p_runtime as p_runtime
 
@@ -69,11 +70,15 @@ def run():
         successor = p_runtime.verified_successor(cur)
         if len(successor) != (3 if fixed else 0):
             raise AssertionError('P_PHASE_RUNTIME_MISMATCH')
+        m_successor = m_runtime.verified_successor(cur)
+        if len(m_successor) != 15:
+            raise AssertionError('P_HISTORICAL_M_CHAIN_MISMATCH')
         if not fixed:
             maintenance._function_snapshot(conn, maintenance.TRUSTED_FUNCTIONS['P'])
         result['runtime'] = {
             'verified_o_functions': len(o_successor),
             'verified_p_functions': len(successor),
+            'verified_m_functions': len(m_successor),
             'extra_objects_verified': p_runtime.verify_extra_objects(cur),
             'engine': base.one(cur, 'select version()'),
         }

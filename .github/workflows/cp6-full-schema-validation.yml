@@ -4088,6 +4088,7 @@ jobs:
           assert p['head']==os.environ['GITHUB_SHA'] and p['status']=='PASS' and p['production_go'] is False
           assert len(p['cases'])==9 and all(c['status']=='PASS' and c['rolled_back_to_ready'] for c in p['cases'].values())
           assert p['oracle_sha256']==p_before['oracle_sha256'] and p['runtime']['verified_p_functions']==3
+          assert p['runtime']['verified_m_functions']==p_before['runtime']['verified_m_functions']==15
           closed=p['cases']['ONE_DOCUMENT_CLOSES_REMAINING_GRNI']['after']
           assert closed['match_state']=='MATCHED' and closed['price_state']=='FINAL' and closed['capacity']==5 and closed['invoiced']==5
           assert closed['ap']==0 and closed['grni']==0 and closed['report']=='READY'

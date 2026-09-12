@@ -50,6 +50,7 @@ for (const token of ['P_SOURCE_PLATFORM_MISMATCH', 'verify_extra_objects',
 assert.ok(oRuntime.includes('cp6_v2620p_runtime'))
 assert.ok(oRuntime.includes('pre_p_installed_sha256'))
 assert.ok(mRuntime.includes('non-overlapping successor edge'))
+assert.ok(mRuntime.includes("predecessor_snapshot(cur, 'M', validation_successor)"))
 for (const token of ["'P': {", "'P': [", "target_name in {'N', 'O', 'P'}"])
   assert.ok(maintenance.includes(token), token)
 
@@ -77,6 +78,7 @@ for (const token of [
 for (const token of [
   "len(schedules['cases'])==220", "'expected':55,'observed':55",
   "setup_unit['completed_case_count']==setup_unit['expected_case_count']==76",
+  "p['runtime']['verified_m_functions']==p_before['runtime']['verified_m_functions']==15",
   'CP6_V2620P_SUPPLIER_RETURN_MATCH_STATE_REGRESSION.json',
   'CP6_V2620P_ROLLBACK_GUARDS.json',
   'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620P',
