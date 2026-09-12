@@ -135,7 +135,7 @@ def run_case(name, folder):
 
 
 def main():
-    if SOURCE_GENERATION not in ('M', 'N', 'O', 'P', 'Q', 'R', 'S'):
+    if SOURCE_GENERATION not in ('M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T'):
         raise SystemExit('M_RACE_UNSUPPORTED_SOURCE_GENERATION')
     expected = (matrix.SOURCE, matrix.MAINTENANCE, matrix.CLONE, matrix.CONTAINER, 'cp6_rollback')
     if tuple(os.environ.get(k) for k in ('PGURL', 'CP6_MAINTENANCE_PGURL', 'CP6_ROLLBACK_RACE_PGURL',

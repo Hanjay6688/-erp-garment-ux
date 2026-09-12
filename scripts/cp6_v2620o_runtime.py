@@ -101,6 +101,8 @@ def extend_items(successor, items):
                 item['pre_r_installed_sha256'] = successor[item['identity']]['pre_r_installed_sha256']
             if 'pre_s_installed_sha256' in successor[item['identity']]:
                 item['pre_s_installed_sha256'] = successor[item['identity']]['pre_s_installed_sha256']
+            if 'pre_t_installed_sha256' in successor[item['identity']]:
+                item['pre_t_installed_sha256'] = successor[item['identity']]['pre_t_installed_sha256']
             item['expected_generation'] = 'O'
 
 
