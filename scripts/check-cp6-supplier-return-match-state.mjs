@@ -103,6 +103,6 @@ console.log(JSON.stringify({
   status: 'PASS', classification: 'STATIC_SOURCE_CONTRACT_NOT_NATIVE_PROOF',
   replaced_functions: 3, boundary_tables: 66,
   native_cases: 9, known_o_failures: 5, controls: 4,
-  maintenance_schedules: 300, writer_body_entries: 70,
+  maintenance_schedules: 300, writer_body_entries: 75,
   production_go: false,
 }))

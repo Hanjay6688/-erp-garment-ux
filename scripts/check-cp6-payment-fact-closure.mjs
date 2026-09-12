@@ -228,6 +228,6 @@ console.log(JSON.stringify({
   rollback_sha256: sha(rollback),
   maintenance_endpoint_cases: 31,
   maintenance_matrix_schedules: 300,
-  writer_first_backend_body_entries: 70,
+  writer_first_backend_body_entries: 75,
   production_go: false,
 }))
