@@ -140,6 +140,15 @@ TARGETS: dict[str, dict[str, Any]] = {
     },
 
 
+    'R': {
+        'rollback': Path('supabase/rollbacks/20260912114635_erp_v2_6_20r_cp6_receipt_invoice_dependency.rollback.sql'),
+        'rollback_sha256': 'ec3663694758cffef6509a4bc560aad257dd30b46be236c38abd4bf7c0e7e33e',
+        'marker': 'v2.6.20r', 'platform': 'erp_v2_6_20r_cp6_receipt_invoice_dependency',
+        'predecessor': 'v2.6.20q', 'capsule': 'erp.cp6_v2620r_rollback_capsule',
+        'capsule_count': 3,
+    },
+
+
 }
 
 
@@ -276,6 +285,12 @@ TRUSTED_FUNCTIONS: dict[str, list[dict[str, Any]]] = {
         {'identity': 'erp.run_v267_financial_truth_checks()', 'predecessor_sha256': '2c546026b1325e265c62828c13f2eea63aaff302c9a359d5f49c18d5fb7a492e', 'installed_sha256': '04115f87a2dd4777a56ed3667b461f71fb972887eccd1c9b5281878660a3acc3', 'owner': 'postgres', 'acl': ['authenticated=X/postgres', 'postgres=X/postgres', 'service_role=X/postgres']},
     ],
 
+    'R': [
+        {'identity': 'erp._v268_financial_report_checks_pre_scope()', 'predecessor_sha256': 'edefb0fa134200d5d541bfdb6ab1b4b81e28b8cd912eff0a7c1ef59106744917', 'installed_sha256': '8b3617725cd9061137dc55d6e2b5af75a87453929c93918b9e0acddea34f3cb2', 'owner': 'postgres', 'acl': ['postgres=X/postgres', 'service_role=X/postgres']},
+        {'identity': 'erp.reverse_material_purchase(uuid,text)', 'predecessor_sha256': '9b637facd36bcf810e11350fc97a1e0da68cbb77b67aec54697b3ae52cd820b3', 'installed_sha256': '5ed3d75116f42f558829e1707f58c28fd1c81a2c66004ae54cf52069b147d4e1', 'owner': 'postgres', 'acl': ['authenticated=X/postgres', 'postgres=X/postgres']},
+        {'identity': 'erp.run_v267_financial_truth_checks()', 'predecessor_sha256': '04115f87a2dd4777a56ed3667b461f71fb972887eccd1c9b5281878660a3acc3', 'installed_sha256': 'ce489ade327609230a40a0e804b1b67a9cecb11bb08a42bb470b9ba556183066', 'owner': 'postgres', 'acl': ['authenticated=X/postgres', 'postgres=X/postgres', 'service_role=X/postgres']},
+    ],
+
 }
 
 
@@ -333,8 +348,10 @@ def _capsule_snapshot(
 ) -> list[dict[str, Any]]:
     # N adds helper and fact objects inherited by O/P outside their predecessor capsules.
     # Verify them before any admission mutation; F through M follow their original path.
-    if target_name in {'N', 'O', 'P', 'Q'}:
-        if target_name == 'Q':
+    if target_name in {'N', 'O', 'P', 'Q', 'R'}:
+        if target_name == 'R':
+            from cp6_v2620r_runtime import verify_extra_objects
+        elif target_name == 'Q':
             from cp6_v2620q_runtime import verify_extra_objects
         elif target_name == 'P':
             from cp6_v2620p_runtime import verify_extra_objects

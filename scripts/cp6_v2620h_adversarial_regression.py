@@ -140,7 +140,7 @@ def exact_runtime(cur: psycopg.Cursor) -> dict[str, Any]:
         raise AssertionError(f'J source/platform drift: {j_platform} != {j_file_sha}')
     return {
         'engine': base.one(cur, 'select version()'),
-        'versions': versions + (['v2.6.20k'] if k_successor else []) + (['v2.6.20l'] if l_successor else []) + (['v2.6.20m'] if m_successor else []) + (['v2.6.20n'] if any('pre_n_installed_sha256' in x for x in m_successor.values()) else []) + (['v2.6.20o'] if any('pre_o_installed_sha256' in x for x in m_successor.values()) else []) + (['v2.6.20p'] if any('pre_p_installed_sha256' in x for x in m_successor.values()) else []) + (['v2.6.20q'] if any('pre_q_installed_sha256' in x for x in m_successor.values()) else []),
+        'versions': versions + (['v2.6.20k'] if k_successor else []) + (['v2.6.20l'] if l_successor else []) + (['v2.6.20m'] if m_successor else []) + (['v2.6.20n'] if any('pre_n_installed_sha256' in x for x in m_successor.values()) else []) + (['v2.6.20o'] if any('pre_o_installed_sha256' in x for x in m_successor.values()) else []) + (['v2.6.20p'] if any('pre_p_installed_sha256' in x for x in m_successor.values()) else []) + (['v2.6.20q'] if any('pre_q_installed_sha256' in x for x in m_successor.values()) else []) + (['v2.6.20r'] if any('pre_r_installed_sha256' in x for x in m_successor.values()) else []),
         'functions': functions,
         'migration_bytes': len(source),
         'migration_sha256': file_sha,

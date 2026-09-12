@@ -46,7 +46,7 @@ for (const token of ['O_SOURCE_PLATFORM_MISMATCH', 'verify_extra_objects',
   'O_CENT_FACT_SECURITY_MISMATCH']) assert.ok(runtime.includes(token), token)
 assert.ok(nRuntime.includes('cp6_v2620o_runtime'))
 assert.ok(nRuntime.includes('pre_o_installed_sha256'))
-for (const token of ["'O': {", "'O': [", "target_name in {'N', 'O', 'P', 'Q'}"])
+for (const token of ["'O': {", "'O': [", "target_name in {'N', 'O', 'P', 'Q', 'R'}"])
   assert.ok(maintenance.includes(token), token)
 
 const guards = read('scripts/cp6_v2620o_rollback_guards.py')
@@ -63,7 +63,7 @@ for (const token of [
   'Run post-CP6 real Auth',
   'Prove native N supplier cumulative cents',
   'Prove native O supplier return document allocation',
-  'Qualify exact F G H I J K L M N O P and Q rollback',
+  'Qualify exact F G H I J K L M N O P Q and R rollback',
   'Prove trusted O capsule', 'Prove trusted N capsule',
 ]) {
   const position = workflow.indexOf(token)
@@ -71,12 +71,12 @@ for (const token of [
   previous = position
 }
 for (const token of [
-  "len(schedules['cases'])==240", "'expected':60,'observed':60",
-  "setup_unit['completed_case_count']==setup_unit['expected_case_count']==89",
+  "len(schedules['cases'])==260", "'expected':65,'observed':65",
+  "setup_unit['completed_case_count']==setup_unit['expected_case_count']==103",
   'CP6_V2620O_SUPPLIER_RETURN_REGRESSION.json',
   'CP6_V2620O_ROLLBACK_GUARDS.json',
-  'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620Q',
-  'CP6_M_RACE_SOURCE_GENERATION: Q',
+  'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620R',
+  'CP6_M_RACE_SOURCE_GENERATION: R',
 ]) assert.ok(workflow.includes(token), token)
 
 for (const path of [

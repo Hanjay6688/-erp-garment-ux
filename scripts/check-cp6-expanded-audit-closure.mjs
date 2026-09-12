@@ -27,9 +27,9 @@ const workflow = read(workflowPath)
 const expected = {
   migration: ['e16dbb655164595be273c03582d35c9ac33593136bd418fdd87156e592f292b8', 19733],
   rollback: ['0d0318e3848344c3642f1796a205d25bcf1cc2d2091ce28d1fc9cf6d186ecbe5', 6876],
-  maintenance: ['ad5f33963a63a0775cc705698ebd3f3008d5399e657588d99832ecc78c193218', 51451],
-  regression: ['a7cb24a2c8d008ebf92a4f5c73a429b79303f9530d33c800fe3705fb93d99475', 25482],
-  matrix: ['c89e38a4d1c14b3f58f66e92e5441367a1890091bf9ef0a980ff39e146891611', 33592],
+  maintenance: ['cc5c14d233480a95f8bf54bbcffe07127ee881a2332e38ba845a216fec1fdf82', 53008],
+  regression: ['6da5c617b307b20a8e6c6639ebf991d224a503f82cca59971d9efcb7f2d8f8a4', 25575],
+  matrix: ['3a1f041335697d9632c7ec4d4f5a21eb26de1cc4a9941eb383e4584cb87b89bd', 33704],
   guard: ['621f51b187138750646f38c7464a959713ba3c78bcbcd5031ac9841a288aca68', 6649],
 }
 for (const [name, source] of Object.entries({ migration, rollback, maintenance, regression, matrix, guard })) {
@@ -136,7 +136,7 @@ requireTokens(matrix, 'complete native maintenance matrix', [
   "'F':", "'G':", "'H':", "'I':", "'J':", "'O':",
   "OPERATIONS = ('SALE', 'RETURN', 'CONVERSION', 'REPORT', 'FK_SYNC')",
   "MODES = ('WRITER_FIRST', 'ADMISSION_FIRST', 'WRITER_ABORT', 'DRAIN_TIMEOUT')",
-  "'expected_case_count': 240", "report['cases'].append(case)",
+  "'expected_case_count': 260", "report['cases'].append(case)",
   "report['failed_case_count']", 'missing_helper_error_absent',
   'database_admission_closed_before_ddl', 'failure_kept_admission_closed',
   'blocked_inside_backend', 'inflight_inside_backend_before_admission_close',
@@ -149,7 +149,7 @@ requireTokens(matrix, 'complete native maintenance matrix', [
   'savepoint cp6_writer_body_warmup',
   "writer['warmup_body_completed'] = True",
   "'compilation of PL/pgSQL function' in diagnostic_context",
-  'writer_first_body_entry == 60', 'compilation_only_contexts == 0',
+  'writer_first_body_entry == 65', 'compilation_only_contexts == 0',
 ])
 assert.doesNotMatch(matrix, /raise AssertionError\('Native expanded rollback schedule failed'\)/)
 requireTokens(guard, 'H guards and maintenance restore', [
@@ -167,7 +167,7 @@ const order = [
   'Prove native G N01-N03',
   'Prove native H R02-R03',
   'Prove native I H2 payment lineage',
-  'Qualify exact F G H I J K L M N O P and Q rollback under closed admission',
+  'Qualify exact F G H I J K L M N O P Q and R rollback under closed admission',
   'Prove trusted J capsule and maintenance-only exact J restore to I',
   'Prove trusted F G H I capsules and maintenance-only exact I restore to H',
   'Prove H guards and maintenance-only exact six-function restore to G',
@@ -185,11 +185,11 @@ requireTokens(workflow, 'exact-H proof wiring', [
   'python scripts/cp6_v2620h_maintenance_rollback_matrix.py',
   'python scripts/cp6_v2620h_rollback_guards.py',
   'python scripts/cp6_preuse_rollback_maintenance.py',
-  'H_MAINTENANCE_ROLLBACK/manifest.json', "= '240'",
+  'H_MAINTENANCE_ROLLBACK/manifest.json', "= '260'",
   'V2620H_ROLLBACK_SHA256.txt',
   "('F','RETURN','WRITER_FIRST')",
   'CP6_V2620N_RUNTIME_PROOF_V1',
-  'cp6-r1-v2620q-full-schema-auth-browser-proof',
+  'cp6-r1-v2620r-full-schema-auth-browser-proof',
   'runtime=v2.6.20e+v2.6.20f+v2.6.20g+v2.6.20h+v2.6.20i+v2.6.20j',
   'CP6_ROLLBACK_TARGET_PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres',
   'Provision isolated rollback admission-control authority',
@@ -201,7 +201,7 @@ requireTokens(workflow, 'exact-H proof wiring', [
   expected.migration[0],
 ])
 assert.ok(!workflow.includes('bash scripts/run_cp6_v2620f_live_rollback_races.sh'))
-assert.ok(read('scripts/cp6_auth_permission_e2e.mjs').includes('AFTER_V2620Q'))
+assert.ok(read('scripts/cp6_auth_permission_e2e.mjs').includes('AFTER_V2620R'))
 assert.ok(read('package.json').includes('node scripts/check-cp6-expanded-audit-closure.mjs'))
 
 console.log(JSON.stringify({
@@ -209,6 +209,6 @@ console.log(JSON.stringify({
   boundary: 'CP6_V2620H_R01_R03_EXPANDED_AUDIT_CLOSURE',
   migration_sha256: expected.migration[0],
   rollback_sha256: expected.rollback[0],
-  maintenance_matrix_schedules: 240,
+  maintenance_matrix_schedules: 260,
   production_go: false,
 }))

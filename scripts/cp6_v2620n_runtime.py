@@ -93,6 +93,8 @@ def extend_items(successor, items):
                 item['pre_p_installed_sha256'] = successor[item['identity']]['pre_p_installed_sha256']
             if 'pre_q_installed_sha256' in successor[item['identity']]:
                 item['pre_q_installed_sha256'] = successor[item['identity']]['pre_q_installed_sha256']
+            if 'pre_r_installed_sha256' in successor[item['identity']]:
+                item['pre_r_installed_sha256'] = successor[item['identity']]['pre_r_installed_sha256']
             item['expected_generation'] = 'N'
 
 def extend_rows(successor, rows):
