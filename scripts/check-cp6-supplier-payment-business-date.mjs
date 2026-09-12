@@ -6,7 +6,7 @@ const hash=s=>createHash('sha256').update(s).digest('hex')
 const pinned={
   "supabase/migrations/20260912132445_erp_v2_6_20s_cp6_supplier_payment_business_date.sql": "c9e35612100f0e387a7fdb80fda382ea1212df0cf5200ebceeaf67df9f77cf1f",
   "supabase/rollbacks/20260912132445_erp_v2_6_20s_cp6_supplier_payment_business_date.rollback.sql": "0711ddf3bb3fff97b27e3f576c1875aa34d7d16a4a018155a5ea2f24cbb2f66e",
-  "supabase/tests/cp6_supplier_payment_business_date.sql": "a8b6d81de9b4d2977fe15baf258b8e3d3242e03a2d9a6cf493a968d8b043c5a7",
+  "supabase/tests/cp6_supplier_payment_business_date.sql": "49891a24dc73cc77d49e603fc550a6ecb284164b5d24074b7684fa29eb78622f",
   "supabase/migrations/20260912114635_erp_v2_6_20r_cp6_receipt_invoice_dependency.sql": "0c5551ef49da417310e0bcf8c8aa9d655f551ff66ca6e7ca79679ffd331f788b",
   "supabase/rollbacks/20260912114635_erp_v2_6_20r_cp6_receipt_invoice_dependency.rollback.sql": "ec3663694758cffef6509a4bc560aad257dd30b46be236c38abd4bf7c0e7e33e"
 }

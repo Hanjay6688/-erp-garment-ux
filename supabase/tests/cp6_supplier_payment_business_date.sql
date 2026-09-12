@@ -1,6 +1,7 @@
 -- The same timestamp must book to the canonical Jakarta business date.
--- Requires m_* / o_* disposable helpers. Privileged date faults are explicitly
--- detector-only corruption probes, rolled back inside their own subtransaction.
+-- Requires m_* / o_* disposable helpers. Detector probes replay the recorded
+-- predecessor payment function in an owned tester subtransaction, then restore
+-- S before reading its detector. All fixture facts and DDL are rolled back.
 create function pg_temp.s_payment_draft(p_purchase uuid,p_date timestamptz,p_amount numeric default 40)
 returns uuid language plpgsql as $$
 declare v_id uuid:=gen_random_uuid();begin
@@ -27,7 +28,8 @@ create function pg_temp.s_case(p_case text,p_fixed boolean) returns jsonb langua
 declare v_purchase uuid;v_pay uuid;v_second uuid;v_date timestamptz:='2026-09-03T00:30:00+07';
  v_zone text:='UTC';v_expected text:='2026-09-03';v_state jsonb;v_after jsonb;v_before jsonb;
  v_detector bigint;v_report text;v_affected boolean:=false;v_fault boolean:=false;v_reversed boolean:=false;
- v_rejected boolean:=false;v_result jsonb;
+ v_rejected boolean:=false;v_result jsonb;v_fault_pay uuid;
+ v_current_definition text;v_predecessor_definition text;
 begin
  if pg_temp.m_report()<>'READY' then raise exception 'S_BASELINE_NOT_READY';end if;
  if p_case in('UTC_LOCAL_MIDNIGHT','NEW_YORK_LOCAL_MIDNIGHT','UTC_EVENING','REVERSED_WRONG_ORIGINAL') then
@@ -78,16 +80,33 @@ begin
    if v_fault then
      v_before:=pg_temp.o_boundary();
      begin
-       perform set_config('session_replication_role','replica',true);
-       update erp.journal_entries set economic_date=economic_date-1
-         where source_type='SUPPLIER_PAYMENT' and source_id=v_pay;
-       perform set_config('session_replication_role','origin',true);
+       v_fault_pay:=pg_temp.s_payment_draft(v_purchase,v_date,40);
+       if p_fixed then
+         select pg_get_functiondef('erp.post_supplier_payment(uuid)'::regprocedure)
+           into v_current_definition;
+         select object_definition into v_predecessor_definition
+           from erp.cp6_v2620s_rollback_capsule
+           where object_regidentity='erp.post_supplier_payment(uuid)';
+         if encode(extensions.digest(convert_to(v_predecessor_definition,'UTF8'),'sha256'),'hex')
+           is distinct from '231d2e8132d966e3b539015e3e9fc463e758c2e0bcfe4ecdb89414fc5c0b97f8' then
+           raise exception 'S_DETECTOR_PREDECESSOR_PIN_MISMATCH';
+         end if;
+         execute v_predecessor_definition;
+       end if;
+       perform set_config('TimeZone','UTC',true);
+       perform erp.post_supplier_payment(v_fault_pay);
+       if p_fixed then execute v_current_definition;end if;
+       if v_reversed then
+         perform erp.reverse_supplier_payment(v_fault_pay,'S historical original-date detector fixture');
+       end if;
        select coalesce(sum(issue_count),0) into v_detector from erp.run_v267_financial_truth_checks()
          where check_name='V2620S_SUPPLIER_PAYMENT_BUSINESS_DATE';
-       v_report:=pg_temp.m_report();v_after:=pg_temp.s_payment_state(v_pay);
+       v_report:=pg_temp.m_report();v_after:=pg_temp.s_payment_state(v_fault_pay);
        raise exception using errcode='ZX001',message='S_FAULT_ROLLBACK';
      exception when sqlstate 'ZX001' then null;
      end;
+     if p_fixed and pg_get_functiondef('erp.post_supplier_payment(uuid)'::regprocedure)
+       is distinct from v_current_definition then raise exception 'S_DETECTOR_RUNTIME_NOT_RESTORED';end if;
      if v_detector<>(case when p_fixed then 1 else 0 end)
        or v_report<>(case when p_fixed then 'BLOCKED' else 'READY' end)
        or pg_temp.o_boundary() is distinct from v_before or pg_temp.m_report()<>'READY' then
