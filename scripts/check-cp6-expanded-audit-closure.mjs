@@ -29,7 +29,7 @@ const expected = {
   rollback: ['0d0318e3848344c3642f1796a205d25bcf1cc2d2091ce28d1fc9cf6d186ecbe5', 6876],
   maintenance: ['5310d714cae9d9ca1711678859a34e7c32391e6cd5ed2fcfe7771ec34ca7a46c', 57067],
   regression: ['6e8a9ca33bc98f35286a5bbf491707877e77d78b3ec91146db28a7b8337c6938', 25761],
-  matrix: ['5747584d6d54d1bf8f54468a3bf953e11a157340381759a7d1454c23304d917a', 33930],
+  matrix: ['da1671b3a9fad64b5c8bef2c07491521c35c87fafe3f9f4c4a8401a3d702c1be', 34029],
   guard: ['621f51b187138750646f38c7464a959713ba3c78bcbcd5031ac9841a288aca68', 6649],
 }
 for (const [name, source] of Object.entries({ migration, rollback, maintenance, regression, matrix, guard })) {
@@ -149,7 +149,7 @@ requireTokens(matrix, 'complete native maintenance matrix', [
   'savepoint cp6_writer_body_warmup',
   "writer['warmup_body_completed'] = True",
   "'compilation of PL/pgSQL function' in diagnostic_context",
-  'writer_first_body_entry == 70', 'compilation_only_contexts == 0',
+  'writer_first_body_entry == expected_body_entries', 'compilation_only_contexts == 0',
 ])
 assert.doesNotMatch(matrix, /raise AssertionError\('Native expanded rollback schedule failed'\)/)
 requireTokens(guard, 'H guards and maintenance restore', [

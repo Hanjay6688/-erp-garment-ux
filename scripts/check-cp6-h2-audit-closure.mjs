@@ -173,7 +173,7 @@ requireTokens(matrix, '200 successor-aware native schedules and body-entry proof
   "writer['warmup_effects_rolled_back'] = True",
   "'compilation of PL/pgSQL function' in diagnostic_context",
   "'PL/pgSQL function' not in diagnostic_context", "'at SQL statement' not in diagnostic_context",
-  "'expected': 70", 'writer_first_body_entry == 70', 'compilation_only_contexts == 0',
+  "'expected': expected_body_entries", 'writer_first_body_entry == expected_body_entries', 'compilation_only_contexts == 0',
 ])
 
 const order = [

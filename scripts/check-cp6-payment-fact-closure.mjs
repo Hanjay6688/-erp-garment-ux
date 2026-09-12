@@ -171,7 +171,7 @@ requireTokens(matrix, '200 native schedules and body-entry proof', [
   'verify_setup_source(source_generation)',
   'for generation in rollback_plan:',
   "'J': ('20260910170556'", "'expected_case_count': 300",
-  "'expected': 70", 'writer_first_body_entry == 70',
+  "'expected': expected_body_entries", 'writer_first_body_entry == expected_body_entries',
   'savepoint cp6_writer_body_warmup', 'rollback to savepoint cp6_writer_body_warmup',
   "'compilation of PL/pgSQL function' in diagnostic_context",
   "'PL/pgSQL function' not in diagnostic_context",

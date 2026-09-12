@@ -35,6 +35,10 @@ assert.ok(read('scripts/cp6_v2620s_runtime.py').includes("t_runtime.predecessor_
 const races=read('scripts/cp6_v2620t_material_adjustment_races.py')
 for(const token of ['MATERIAL_A_FIRST','MATERIAL_B_FIRST','MATERIAL_A_ABORT','pg_blocking_pids(pid)',
   "matrix.verify_setup_source('T')",'first.rollback()','idempotent_replay']) assert.ok(races.includes(token),token)
+const matrix=read('scripts/cp6_v2620h_maintenance_rollback_matrix.py')
+for(const token of ['expected_body_entries = len(TARGETS) * len(OPERATIONS)',
+  "'expected': expected_body_entries",'writer_first_body_entry == expected_body_entries'])
+  assert.ok(matrix.includes(token),`matrix aggregate count contract: ${token}`)
 const workflow=read('.github/workflows/cp6-full-schema-validation.yml')
 let previous=-1
 for(const token of ['Apply v2.6.20s supplier payment canonical business date',

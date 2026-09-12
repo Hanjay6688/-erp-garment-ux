@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Native F/G/H/I/J/K/L/M/N/O/P/Q/R/S rollback qualification under closed admission.
+"""Native F/G/H/I/J/K/L/M/N/O/P/Q/R/S/T rollback qualification under closed admission.
 
 Fifteen target generations x five real backend paths x four schedules = 300
 fresh-clone cases. Unlike the superseded live-DDL matrix, no reviewed rollback
@@ -727,8 +727,9 @@ def main() -> None:
         )
         for case in writer_first
     )
+    expected_body_entries = len(TARGETS) * len(OPERATIONS)
     report['writer_first_body_entry'] = {
-        'expected': 70,
+        'expected': expected_body_entries,
         'observed': writer_first_body_entry,
         'compilation_only_contexts': compilation_only_contexts,
     }
@@ -736,7 +737,7 @@ def main() -> None:
         'PASS'
         if len(report['cases']) == report['expected_case_count']
         and report['failed_case_count'] == 0
-        and writer_first_body_entry == 70
+        and writer_first_body_entry == expected_body_entries
         and compilation_only_contexts == 0
         else 'FAIL'
     )
