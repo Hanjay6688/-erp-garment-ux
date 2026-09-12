@@ -34,6 +34,9 @@ CASES = AFFECTED_CASES + CONTROL_CASES
 UNSAFE_POSTED_HISTORY = {
     'ONE_DOCUMENT_CLOSES_REMAINING_GRNI',
     'TWO_DOCUMENTS_CLOSE_REMAINING_GRNI',
+    # The follow-up invoice is refused correctly, but its preceding posted
+    # O return still leaves the same stale derived state as the first case.
+    'FOLLOWUP_INVOICE_CAPACITY_REFUSAL',
 }
 
 

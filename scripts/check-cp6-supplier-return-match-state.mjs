@@ -79,6 +79,7 @@ for (const token of [
   "len(schedules['cases'])==220", "'expected':55,'observed':55",
   "setup_unit['completed_case_count']==setup_unit['expected_case_count']==76",
   "p['runtime']['verified_m_functions']==p_before['runtime']['verified_m_functions']==15",
+  "sum(c['upgrade_guard']['invalid_history_refused'] for c in p_before['cases'].values())==3",
   'CP6_V2620P_SUPPLIER_RETURN_MATCH_STATE_REGRESSION.json',
   'CP6_V2620P_ROLLBACK_GUARDS.json',
   'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620P',

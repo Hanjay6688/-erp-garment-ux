@@ -4082,7 +4082,7 @@ jobs:
           assert len(p_before['cases'])==9 and sum(c['status']=='CONTROL_PASS' for c in p_before['cases'].values())==4
           assert sum(c['status']=='KNOWN_O_BUG_REPRODUCED' for c in p_before['cases'].values())==5
           assert all(c['rolled_back_to_ready'] for c in p_before['cases'].values())
-          assert sum(c['upgrade_guard']['invalid_history_refused'] for c in p_before['cases'].values())==2
+          assert sum(c['upgrade_guard']['invalid_history_refused'] for c in p_before['cases'].values())==3
           assert all(c['upgrade_guard']['business_facts_unchanged'] and c['upgrade_guard']['runtime_restored'] for c in p_before['cases'].values())
           p=json.loads((proof/'CP6_V2620P_SUPPLIER_RETURN_MATCH_STATE_REGRESSION.json').read_text())
           assert p['head']==os.environ['GITHUB_SHA'] and p['status']=='PASS' and p['production_go'] is False

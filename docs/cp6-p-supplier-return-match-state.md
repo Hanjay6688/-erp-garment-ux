@@ -23,6 +23,11 @@ post/reverse symmetry, partial and direct-final controls, over-invoice atomic
 refusal, the new match-state detector, and the previously disconnected O
 detector.
 
+Upgrade qualification covers all nine final fixture histories: three stale
+histories must be refused and six consistent histories may upgrade. The
+follow-up over-invoice refusal is a lawful control, but its preceding O return
+still leaves stale match state; a refused later action does not repair it.
+
 ## Repair
 
 - `post_material_supplier_return(uuid)` refreshes invoice match state after
