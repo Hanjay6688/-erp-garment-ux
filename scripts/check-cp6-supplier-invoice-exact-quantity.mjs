@@ -15,6 +15,10 @@ for(const token of ['jsonb_object_keys(v_expected))<>67','Q_POST_USE_ROLLBACK_RE
 const runner=read('scripts/cp6_v2620q_supplier_invoice_exact_quantity_regression.py')
 for(const name of ["OVER_ONE_MICRO", "SPLIT_OVER_ONE_MICRO", "RETURN_ADJUSTED_OVER_ONE_MICRO", "MICRO_REMAINDER_STATUS", "REVERSED_COMPLETION_STATUS", "DETECTOR_MICRO_OVER", "DETECTOR_MICRO_STATUS", "EXACT_CAPACITY", "EXACT_SPLIT_COMPLETION", "OVER_TWO_MICRO_REFUSED", "FULL_RETURN_MICRO_SPLIT"]) { assert.ok(oracle.includes(name),name); assert.ok(runner.includes(name),name) }
 const workflow=read('.github/workflows/cp6-full-schema-validation.yml')
+const runtimeCoverage=workflow.slice(workflow.indexOf('      - name: Confirm every broad regression'),workflow.indexOf('      - name: Re-prove native C01-C06'))
+const ledgerCounts=[...runtimeCoverage.matchAll(/where (?:version|name) in\(([^)]+)\).* = '(\d+)'/g)]
+assert.equal(ledgerCounts.length,3,'all three runtime ledger checks are required')
+for(const [,names,count] of ledgerCounts) assert.equal(names.split(',').length,Number(count),'runtime ledger count must match its pinned generations')
 let previous=-1
 for(const token of ["Apply v2.6.20p supplier return match", "Reproduce independent P exact supplier invoice quantity", "Apply v2.6.20q exact supplier invoice quantity", "Run post-CP6 real Auth", "Prove native Q exact supplier invoice quantity", "Qualify exact F G H I J K L M N O P and Q rollback", "Prove trusted Q capsule", "Prove trusted P capsule"]) {const at=workflow.indexOf(token);assert.ok(at>previous,token);previous=at}
 for(const token of ["len(schedules['cases'])==240", "'expected':60,'observed':60", "setup_unit['completed_case_count']==setup_unit['expected_case_count']==89", "sum(c['upgrade_guard']['invalid_history_refused'] for c in q_before['cases'].values())==5", "CP6_V2620Q_RUNTIME_MANIFEST.json", "CP6_V2620Q_SUPPLIER_INVOICE_QUANTITY_REGRESSION.json", "PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620Q", "CP6_M_RACE_SOURCE_GENERATION: Q"]) assert.ok(workflow.includes(token),token)

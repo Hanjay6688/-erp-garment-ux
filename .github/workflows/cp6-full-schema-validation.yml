@@ -1862,12 +1862,12 @@ jobs:
           psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/cp4_hpp_route_auth_rollback.sql 2>&1 | tee cp6-proof/HPP_UNDER_CP6_REGRESSION.log
           psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/attendance_hpp_r4_full_schema_rollback.sql 2>&1 | tee cp6-proof/ACCOUNTING_UNDER_CP6_REGRESSION.log
 
-      - name: Confirm every broad regression ran on the installed E through P runtime
+      - name: Confirm every broad regression ran on the installed E through Q runtime
         shell: bash
         run: |
           set -euo pipefail
           test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select count(*) from erp.schema_migrations where version in('v2.6.20e','v2.6.20f')")" = '2'
-          test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select count(*) from erp.schema_migrations where version in('v2.6.20g','v2.6.20h','v2.6.20i','v2.6.20j','v2.6.20k','v2.6.20l','v2.6.20m','v2.6.20n','v2.6.20o','v2.6.20p','v2.6.20q')")" = '10'
+          test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select count(*) from erp.schema_migrations where version in('v2.6.20g','v2.6.20h','v2.6.20i','v2.6.20j','v2.6.20k','v2.6.20l','v2.6.20m','v2.6.20n','v2.6.20o','v2.6.20p','v2.6.20q')")" = '11'
           test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select count(*) from supabase_migrations.schema_migrations where name in('erp_v2_6_20e_cp6_counterexample_closure','erp_v2_6_20f_cp6_final_runtime_reliability','erp_v2_6_20g_cp6_independent_audit_closure','erp_v2_6_20h_cp6_expanded_audit_closure','erp_v2_6_20i_cp6_h2_audit_closure','erp_v2_6_20j_cp6_payment_fact_closure','erp_v2_6_20k_cp6_payment_date_conservation','erp_v2_6_20l_cp6_exact_ledger_conservation','erp_v2_6_20m_cp6_subledger_exact_cent_closure','erp_v2_6_20n_cp6_supplier_cent_lifecycle','erp_v2_6_20o_cp6_supplier_return_document_allocation','erp_v2_6_20p_cp6_supplier_return_match_state','erp_v2_6_20q_cp6_supplier_invoice_exact_quantity')")" = '13'
           printf 'runtime=v2.6.20e+v2.6.20f+v2.6.20g+v2.6.20h+v2.6.20i+v2.6.20j+v2.6.20k+v2.6.20l+v2.6.20m+v2.6.20n+v2.6.20o+v2.6.20p+v2.6.20q\nauth=completed\nacceptance=completed\nnative_races=34\nmaintenance_rollback_schedules=pending_exact_sha_native_gate\ncp5_regression=completed\nproduction_go=false\n' \
             | tee cp6-proof/V2620F_FINAL_RUNTIME_COVERAGE.txt
