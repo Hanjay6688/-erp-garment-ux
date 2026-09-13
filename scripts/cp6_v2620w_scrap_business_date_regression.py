@@ -162,7 +162,9 @@ def extra(cur,cash,name):
     before_reports=reports(cur,('2026-09-02','2026-09-03'))
     transaction=draft(cur,cash,physical=physical,amount='0' if name=='ZERO_AMOUNT' else '.03',weight='1' if name=='FULL_WEIGHT_REVERSE' else '.5')
     if name in ('FUTURE_POST_REFUSAL','NON_OWNER_POST_DENIED'):
-        if name=='NON_OWNER_POST_DENIED':cur.execute("select set_config('request.jwt.claims',%s,true)",(json.dumps(dict(sub=str(uuid.uuid4()),role='authenticated')),))
+        if name=='NON_OWNER_POST_DENIED':
+            cur.execute("select set_config('request.jwt.claims',%s,true)",(json.dumps(dict(sub=str(uuid.uuid4()),role='authenticated')),))
+            if one(cur,'select erp.current_app_role()') is not None:raise AssertionError('W_UNMAPPED_SUBJECT_ORACLE')
         error=refusal(cur,'select erp.post_scrap_sale(%s)',(transaction,));identity(cur,False)
         if one(cur,'select status from erp.scrap_sales where id=%s',(transaction,))!='DRAFT' or book(cur,transaction):raise AssertionError('W_REFUSAL_CHANGED_LEDGER')
         return dict(refusal=error,atomic=True)

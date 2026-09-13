@@ -16,7 +16,7 @@ import cp6_v2620w_scrap_business_date_regression as proof
 
 ROOT = Path('cp6-proof/W_SCRAP_NATIVE_RACES')
 CASES = ('POST_THEN_REVERSE', 'POST_THEN_POST', 'POST_ABORT_THEN_POST')
-SOURCE_GENERATION = 'W'
+SOURCE_GENERATION = 'X'
 
 
 def session(name):

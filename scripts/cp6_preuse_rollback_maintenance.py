@@ -188,6 +188,14 @@ TARGETS: dict[str, dict[str, Any]] = {
         'predecessor': 'v2.6.20v', 'capsule': 'erp.cp6_v2620w_rollback_capsule',
         'capsule_count': 3,
     },
+
+    'X': {
+        'rollback': Path('supabase/rollbacks/20260913202948_erp_v2_6_20x_cp6_internal_role_fail_closed.rollback.sql'),
+        'rollback_sha256': '3fd2ccd1ec8ddddb200f339968f564a9f6ecd9f4a469ba51e80c31f6b9afb786',
+        'marker': 'v2.6.20x', 'platform': 'erp_v2_6_20x_cp6_internal_role_fail_closed',
+        'predecessor': 'v2.6.20w', 'capsule': 'erp.cp6_v2620x_rollback_capsule',
+        'capsule_count': 1,
+    },
 }
 
 
@@ -425,6 +433,8 @@ TRUSTED_FUNCTIONS: dict[str, list[dict[str, Any]]] = {
     "predecessor_sha256": "bdce68bf47700519d663e63302b5d48a720959d1c9995fcb9d8599a9516c2eef"
   }
 ],
+    'X': [{'identity': 'erp.require_internal()', 'predecessor_sha256': 'da4bc536f6a9b4f882c6985ee981bd4f1ea63cf3575390389d8798e3654fa91f', 'installed_sha256': '5dffcd53c0a5de609ae41482ca246d2afc806b9d92241253d680cf5c7fe1612e', 'owner': 'postgres', 'acl': ['postgres=X/postgres', 'service_role=X/postgres']}],
+
 }
 
 
@@ -482,8 +492,10 @@ def _capsule_snapshot(
 ) -> list[dict[str, Any]]:
     # N adds helper and fact objects inherited by O/P outside their predecessor capsules.
     # Verify them before any admission mutation; F through M follow their original path.
-    if target_name in {'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W'}:
-        if target_name == 'W':
+    if target_name in {'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X'}:
+        if target_name == 'X':
+            from cp6_v2620x_runtime import verify_extra_objects
+        elif target_name == 'W':
             from cp6_v2620w_runtime import verify_extra_objects
         elif target_name == 'V':
             from cp6_v2620v_runtime import verify_extra_objects

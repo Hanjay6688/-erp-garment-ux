@@ -14,6 +14,7 @@ import psycopg
 import cp6_v2620k_runtime as k_runtime
 import cp6_v2620l_runtime as l_runtime
 import cp6_v2620m_runtime as m_runtime
+import cp6_v2620x_runtime as x_runtime
 
 import cp6_v2620e_counterexample_regression as base
 import cp6_v2620h_adversarial_regression as h
@@ -129,7 +130,7 @@ def exact_runtime(cur: psycopg.Cursor) -> dict[str, Any]:
         raise AssertionError(f'J immutable fact relations incomplete: {rels}')
     return {
         'engine': base.one(cur, 'select version()'),
-        'versions': versions + (['v2.6.20k'] if k_successor else []) + (['v2.6.20l'] if l_successor else []) + (['v2.6.20m'] if m_successor else []) + (['v2.6.20n'] if any('pre_n_installed_sha256' in x for x in m_successor.values()) else []) + (['v2.6.20o'] if any('pre_o_installed_sha256' in x for x in m_successor.values()) else []) + (['v2.6.20p'] if any('pre_p_installed_sha256' in x for x in m_successor.values()) else []) + (['v2.6.20q'] if any('pre_q_installed_sha256' in x for x in m_successor.values()) else []) + (['v2.6.20r'] if any('pre_r_installed_sha256' in x for x in m_successor.values()) else []) + (['v2.6.20s'] if any('pre_s_installed_sha256' in x for x in m_successor.values()) else []) + (['v2.6.20t'] if any('pre_t_installed_sha256' in x for x in m_successor.values()) else []) + (['v2.6.20u'] if any('pre_u_installed_sha256' in x for x in m_successor.values()) else []) + (['v2.6.20v'] if any('pre_v_installed_sha256' in x for x in m_successor.values()) else []) + (['v2.6.20w'] if any('pre_w_installed_sha256' in x for x in m_successor.values()) else []),
+        'versions': versions + (['v2.6.20k'] if k_successor else []) + (['v2.6.20l'] if l_successor else []) + (['v2.6.20m'] if m_successor else []) + (['v2.6.20n'] if any('pre_n_installed_sha256' in x for x in m_successor.values()) else []) + (['v2.6.20o'] if any('pre_o_installed_sha256' in x for x in m_successor.values()) else []) + (['v2.6.20p'] if any('pre_p_installed_sha256' in x for x in m_successor.values()) else []) + (['v2.6.20q'] if any('pre_q_installed_sha256' in x for x in m_successor.values()) else []) + (['v2.6.20r'] if any('pre_r_installed_sha256' in x for x in m_successor.values()) else []) + (['v2.6.20s'] if any('pre_s_installed_sha256' in x for x in m_successor.values()) else []) + (['v2.6.20t'] if any('pre_t_installed_sha256' in x for x in m_successor.values()) else []) + (['v2.6.20u'] if any('pre_u_installed_sha256' in x for x in m_successor.values()) else []) + (['v2.6.20v'] if any('pre_v_installed_sha256' in x for x in m_successor.values()) else []) + (['v2.6.20w'] if any('pre_w_installed_sha256' in x for x in m_successor.values()) else []) + (['v2.6.20x'] if x_runtime.verified_successor(cur) else []),
         'capsule': [
             {
                 'identity': row[0], 'predecessor_sha256': row[1],

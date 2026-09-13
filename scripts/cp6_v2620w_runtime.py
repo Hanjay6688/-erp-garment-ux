@@ -31,6 +31,8 @@ def verified_successor(cur):
         hashlib.sha256(data).hexdigest(), hashlib.sha256(data[:-1]).hexdigest(),
     }:
         raise AssertionError('W_SOURCE_PLATFORM_MISMATCH')
+    import cp6_v2620x_runtime as x_runtime
+    x_runtime.verified_successor(cur)
     observations = maintenance._capsule_snapshot(
         cur.connection, 'W', maintenance.TARGETS['W']
     )

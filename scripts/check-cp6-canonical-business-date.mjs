@@ -90,11 +90,11 @@ assert.ok(read('scripts/cp6_v2620t_runtime.py').includes(
 ))
 const matrix = read('scripts/cp6_v2620h_maintenance_rollback_matrix.py')
 for (const token of [
-  "'U': ('20260913070000'", "'expected_case_count': 360",
-  "source_generation: str = 'W'",
+  "'U': ('20260913070000'", "'expected_case_count': 380",
+  "source_generation: str = 'X'",
 ]) assert.ok(matrix.includes(token), token)
 const setup = read('scripts/cp6_rollback_setup_unit.py')
-for (const token of ["'T', 'U'", 'assert len(cases) == 188', "'expected_case_count': 188"]) {
+for (const token of ["'T', 'U'", 'assert len(cases) == 208', "'expected_case_count': 208"]) {
   assert.ok(setup.includes(token), token)
 }
 
@@ -104,7 +104,7 @@ for (const path of [
   'scripts/cp6_v2620t_material_adjustment_races.py',
 ]) {
   const source = read(path)
-  for (const token of ["SOURCE_GENERATION = 'W'",
+  for (const token of ["SOURCE_GENERATION = 'X'",
     'matrix.verify_setup_source(SOURCE_GENERATION)',
     "'source_generation': SOURCE_GENERATION"])
     assert.ok(source.includes(token), `${path}: verified and reported generation must agree`)
@@ -114,7 +114,7 @@ const uRestoreCountCommand = `test "$(jq '.exact_pre_use_restore.restored_functi
 assert.equal(workflow.split(uRestoreCountCommand).length - 1, 1,
   'U shell restore-count gate must require exactly seven functions')
 for (const folder of ['R_RECEIPT_INVOICE_NATIVE_RACES', 'T_MATERIAL_ADJUSTMENT_NATIVE_RACES']) {
-  const command = `test "$(jq -r '.source_generation' cp6-proof/${folder}/manifest.json)" = 'W'`
+  const command = `test "$(jq -r '.source_generation' cp6-proof/${folder}/manifest.json)" = 'X'`
   assert.equal(workflow.split(command).length - 1, 1, folder)
 }
 const binding = workflow.indexOf('Bind successful CP6 proof to the exact runtime SHA')
@@ -128,7 +128,7 @@ for (const token of [
   'Apply v2.6.20u canonical material, reversal and owner-report business dates',
   'Prove native U canonical material, reversal and owner-report business dates',
   'Run post-CP6 real Auth',
-  'Qualify exact F G H I J K L M N O P Q R S T U V and W rollback',
+  'Qualify exact F G H I J K L M N O P Q R S T U V W and X rollback',
   'Prove trusted U capsule before exact U restore to T',
   'Prove trusted T capsule',
 ]) {
@@ -137,12 +137,12 @@ for (const token of [
   previous = at
 }
 for (const token of [
-  "len(schedules['cases'])==360", "'expected':90,'observed':90",
-  "setup_unit['completed_case_count']==setup_unit['expected_case_count']==188",
-  'CP6_V2620W_RUNTIME_MANIFEST.json',
+  "len(schedules['cases'])==380", "'expected':95,'observed':95",
+  "setup_unit['completed_case_count']==setup_unit['expected_case_count']==208",
+  'CP6_V2620X_RUNTIME_MANIFEST.json',
   'CP6_V2620U_CANONICAL_BUSINESS_DATE_REGRESSION.json',
-  'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620W',
-  'CP6_M_RACE_SOURCE_GENERATION: W',
+  'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620X',
+  'CP6_M_RACE_SOURCE_GENERATION: X',
   'U_COMPLETE_T_CATALOG_RESTORE_MISMATCH',
   "to_regclass('erp.cp6_v2620u_rollback_capsule') is null",
 ]) assert.ok(workflow.includes(token), token)
@@ -159,6 +159,6 @@ for (const path of [
 console.log(JSON.stringify({
   status: 'PASS', classification: 'STATIC_SOURCE_CONTRACT_NOT_NATIVE_PROOF',
   replaced_functions: 7, boundary_tables: 74, native_cases: 5, expanded_native_cases: 20,
-  known_t_paths: 4, controls: 1, maintenance_schedules: 360,
-  writer_body_entries: 90, rollback_setup_units: 188, production_go: false,
+  known_t_paths: 4, controls: 1, maintenance_schedules: 380,
+  writer_body_entries: 95, rollback_setup_units: 208, production_go: false,
 }))
