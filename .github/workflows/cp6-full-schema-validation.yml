@@ -4019,7 +4019,7 @@ jobs:
             'v2620s_application',exists(select 1 from erp.schema_migrations where version='v2.6.20s'),
             'v2620t_application',exists(select 1 from erp.schema_migrations where version='v2.6.20t'),
             'v2620k_application',exists(select 1 from erp.schema_migrations where version='v2.6.20k'),
-            'v2620j_application',exists(select 1 from erp.schema_migrations where version='v2.6.20j'),
+            'v2620j_application',exists(select 1 from erp.schema_migrations where version='v2.6.20j')
           ) || jsonb_build_object(
             'v2620a_platform',exists(select 1 from supabase_migrations.schema_migrations
               where name='erp_v2_6_20a_cp6_audit_reliability_closure'),

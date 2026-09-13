@@ -40,6 +40,38 @@ for(const token of ['expected_body_entries = len(TARGETS) * len(OPERATIONS)',
   "'expected': expected_body_entries",'writer_first_body_entry == expected_body_entries'])
   assert.ok(matrix.includes(token),`matrix aggregate count contract: ${token}`)
 const workflow=read('.github/workflows/cp6-full-schema-validation.yml')
+const countJsonbBuildObjectArgs=(source,callAt)=>{
+  const open=source.indexOf('(',callAt)
+  assert.ok(open>=0,'jsonb_build_object opening parenthesis')
+  let depth=0,inString=false,args=1
+  for(let i=open+1;i<source.length;i++){
+    const char=source[i]
+    if(inString){
+      if(char==="'"&&source[i+1]==="'"){i++;continue}
+      if(char==="'") inString=false
+      continue
+    }
+    if(char==="'"){inString=true;continue}
+    if(char==='('){depth++;continue}
+    if(char===')'){
+      if(depth===0) return {args,end:i}
+      depth--;continue
+    }
+    if(char===','&&depth===0) args++
+  }
+  assert.fail('unterminated jsonb_build_object call')
+}
+const finalGate=workflow.indexOf('Record final no-residue and no-production-GO boundary')
+const firstBuilderAt=workflow.indexOf('jsonb_build_object(',finalGate)
+const firstBuilder=countJsonbBuildObjectArgs(workflow,firstBuilderAt)
+const secondBuilderAt=workflow.indexOf('jsonb_build_object(',firstBuilder.end)
+const secondBuilder=countJsonbBuildObjectArgs(workflow,secondBuilderAt)
+for(const [name,builder] of [['first',firstBuilder],['second',secondBuilder]]){
+  assert.ok(builder.args<=100,`${name} final JSON builder exceeds PostgreSQL argument limit`)
+  assert.equal(builder.args%2,0,`${name} final JSON builder has an unmatched key/value argument`)
+}
+assert.deepEqual([firstBuilder.args,secondBuilder.args],[60,60],
+  'final reconciliation JSON split drifted')
 let previous=-1
 for(const token of ['Apply v2.6.20s supplier payment canonical business date',
   'Reproduce independent S material adjustment and accounting-day',
