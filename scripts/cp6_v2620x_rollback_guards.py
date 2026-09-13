@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import Any
 
 import psycopg
+from psycopg import sql
 
 import cp6_preuse_rollback_maintenance as maintenance
 import cp6_v2620h_maintenance_rollback_matrix as matrix
@@ -18,6 +19,7 @@ ROLLBACK = Path(
     'supabase/rollbacks/20260913202948_erp_v2_6_20x_cp6_internal_role_fail_closed.rollback.sql'
 )
 REPORT = Path('cp6-proof/CP6_V2620X_ROLLBACK_GUARDS.json')
+DIRECT_REPORT = Path('cp6-proof/CP6_V2620X_DIRECT_GUARD_DIAGNOSTICS.json')
 MAINTENANCE_REPORT = Path('cp6-proof/V2620X_MAIN_MAINTENANCE_ROLLBACK.json')
 CLONE_ROOT = Path('cp6-proof/X_TRUSTED_CAPSULE_GUARD')
 DIRECT_GUARD_NAMES = (
@@ -122,8 +124,40 @@ def verify_capsule_fault() -> dict[str, Any]:
             matrix.legacy.drop_clone()
 
 
+def table_boundary(cur: psycopg.Cursor) -> dict[str, Any]:
+    cur.execute("""select c.relname from pg_class c
+      join pg_namespace n on n.oid=c.relnamespace
+      where n.nspname='erp' and c.relkind in('r','p')
+        and c.relname not in('schema_migrations','cp6_v2620x_rollback_capsule')
+      order by c.relname""")
+    names = [row[0] for row in cur.fetchall()]
+    if len(names) != 209:
+        raise AssertionError(f'X_DIRECT_BOUNDARY_CARDINALITY:{len(names)}')
+    result = {}
+    for name in names:
+        cur.execute(sql.SQL("""select count(*),
+          encode(extensions.digest(convert_to(
+            coalesce(string_agg(row_hash,',' order by row_hash),''),'UTF8'),
+            'sha256'),'hex')
+          from(select encode(extensions.digest(convert_to(to_jsonb(t)::text,
+            'UTF8'),'sha256'),'hex') row_hash from {} t) rows""").format(
+                sql.Identifier('erp', name)))
+        count, digest = cur.fetchone()
+        result[name] = {'rows': count, 'sha256': digest}
+    return result
+
+
 def direct_guards(target_pgurl: str) -> list[dict[str, Any]]:
     rollback_sql = ROLLBACK.read_text()
+    results: list[dict[str, Any]] = []
+
+    def persist(status: str) -> None:
+        DIRECT_REPORT.parent.mkdir(parents=True, exist_ok=True)
+        DIRECT_REPORT.write_text(json.dumps({
+            'head': os.environ.get('GITHUB_SHA', 'LOCAL_UNBOUND'),
+            'status': status, 'guards': results, 'production_go': False,
+        }, indent=2) + '\n')
+
     with psycopg.connect(target_pgurl, autocommit=False) as conn:
         with conn.cursor() as cur:
             before = n_guards.function_catalog(cur)
@@ -153,8 +187,8 @@ def direct_guards(target_pgurl: str) -> list[dict[str, Any]]:
              "update erp.cp6_v2620w_rollback_capsule set boundary_snapshot=boundary_snapshot||'{\"w_post_use_probe\":true}'::jsonb",
              'X_POST_USE_ROLLBACK_REFUSED', None),
             ('post_install_other_module_history',
-             'update erp.sizes set sort_order=sort_order+1 where id=(select id from erp.sizes order by id limit 1)',
-             'X_POST_USE_ROLLBACK_REFUSED', None),
+             "update erp.app_permissions set description=description||' [CP6 X boundary probe]' where permission_key=(select permission_key from erp.app_permissions order by permission_key limit 1)",
+             'X_POST_USE_ROLLBACK_REFUSED: app_permissions', None),
             ('coherent_capsule_and_checksum', None,
              'X_TRUSTED_PREDECESSOR_PIN_MISMATCH', coherent),
         )
@@ -162,32 +196,87 @@ def direct_guards(target_pgurl: str) -> list[dict[str, Any]]:
             raise AssertionError('Direct X guard case manifest drift')
         for name, mutation, expected_error, coherent_definition in cases:
             error = None
+            detail: dict[str, Any] = {'case': name, 'status': 'PENDING',
+                                      'expected_error': expected_error}
+            results.append(detail)
+            persist('IN_PROGRESS')
             try:
+                try:
+                    with conn.cursor() as cur:
+                        if name == 'post_install_other_module_history':
+                            original_boundary = table_boundary(cur)
+                            cur.execute('update erp.sizes set sort_order=sort_order+1 where id=(select id from erp.sizes order by id limit 1)')
+                            detail['legacy_empty_update'] = {
+                                'table': 'sizes', 'before_rows': original_boundary['sizes']['rows'],
+                                'affected_rows': cur.rowcount,
+                                'full_boundary_unchanged': table_boundary(cur) == original_boundary,
+                                'rollback_invoked': False,
+                            }
+                            if detail['legacy_empty_update'] != {
+                                'table': 'sizes', 'before_rows': 0, 'affected_rows': 0,
+                                'full_boundary_unchanged': True, 'rollback_invoked': False,
+                            }:
+                                raise AssertionError('X_LEGACY_EMPTY_UPDATE_CONTROL_DRIFT')
+                            cur.execute("""select
+                              (select bool_or(boundary_snapshot ? 'app_permissions') from erp.cp6_v2620w_rollback_capsule),
+                              (select bool_and(boundary_snapshot ? 'app_permissions') from erp.cp6_v2620x_rollback_capsule)""")
+                            in_w, in_x = cur.fetchone()
+                            detail['boundary_membership'] = {'table': 'app_permissions', 'in_w': in_w, 'in_x': in_x}
+                            if (in_w, in_x) != (False, True):
+                                raise AssertionError('X_OTHER_MODULE_BOUNDARY_MEMBERSHIP')
+                            detail['before_boundary'] = original_boundary
+                        if coherent_definition is None:
+                            cur.execute(mutation, prepare=False)
+                            if mutation.lstrip().lower().startswith(('update ', 'insert ', 'delete ')):
+                                detail['affected_rows'] = cur.rowcount
+                                if cur.rowcount <= 0:
+                                    raise AssertionError(f'X_EMPTY_GUARD_MUTATION:{name}:{cur.rowcount}')
+                        else:
+                            cur.execute("""update erp.cp6_v2620x_rollback_capsule
+                              set object_definition=%s,
+                                definition_sha256=encode(extensions.digest(
+                                  convert_to(%s,'UTF8'),'sha256'),'hex')
+                              where object_regidentity=%s""",
+                              (coherent_definition,coherent_definition,identity))
+                            detail['affected_rows'] = cur.rowcount
+                            if cur.rowcount != 1:
+                                raise AssertionError(f'X_COHERENT_GUARD_CARDINALITY:{cur.rowcount}')
+                        if name == 'post_install_other_module_history':
+                            mutated = table_boundary(cur)
+                            detail['mutated_boundary'] = mutated
+                            detail['changed_tables'] = [t for t in original_boundary if original_boundary[t] != mutated[t]]
+                            if detail['affected_rows'] != 1 or detail['changed_tables'] != ['app_permissions']:
+                                raise AssertionError('X_OTHER_MODULE_MUTATION_NOT_ISOLATED')
+                            if mutated['app_permissions']['rows'] != original_boundary['app_permissions']['rows']:
+                                raise AssertionError('X_PERMISSION_DESCRIPTION_CHANGED_ROW_COUNT')
+                        cur.execute(rollback_sql, prepare=False)
+                except psycopg.Error as exc:
+                    error = str(exc)
+                    detail['actual_sqlstate'] = exc.sqlstate
+                finally:
+                    conn.rollback()
+                detail['actual_error'] = error
+                if error is None or expected_error not in error:
+                    raise AssertionError(f'{name}: wrong/missing rejection {error}')
                 with conn.cursor() as cur:
-                    if coherent_definition is None:
-                        cur.execute(mutation, prepare=False)
-                    else:
-                        cur.execute("""update erp.cp6_v2620x_rollback_capsule
-                          set object_definition=%s,
-                            definition_sha256=encode(extensions.digest(
-                              convert_to(%s,'UTF8'),'sha256'),'hex')
-                          where object_regidentity=%s""",
-                          (coherent_definition,coherent_definition,identity))
-                    cur.execute(rollback_sql, prepare=False)
-            except psycopg.Error as exc:
-                error = str(exc)
-            finally:
+                    if n_guards.function_catalog(cur) != before:
+                        raise AssertionError(f'{name}: guard left function/ACL residue')
+                    if name == 'post_install_other_module_history':
+                        restored = table_boundary(cur)
+                        detail['restored_boundary'] = restored
+                        detail['full_boundary_restored'] = restored == original_boundary
+                        if not detail['full_boundary_restored']:
+                            raise AssertionError('X_OTHER_MODULE_GUARD_LEFT_TABLE_RESIDUE')
+                conn.commit()
+                detail.update(status='PASS', expected_rejection_observed=True)
+                persist('IN_PROGRESS')
+            except Exception as exc:
                 conn.rollback()
-            if error is None or expected_error not in error:
-                raise AssertionError(f'{name}: wrong/missing rejection {error}')
-            with conn.cursor() as cur:
-                if n_guards.function_catalog(cur) != before:
-                    raise AssertionError(f'{name}: guard left function/ACL residue')
-            conn.commit()
-    return [
-        {'case': name, 'status': 'PASS', 'expected_rejection_observed': True}
-        for name in DIRECT_GUARD_NAMES
-    ]
+                detail.update(status='FAIL', error_type=type(exc).__name__, error_message=str(exc))
+                persist('FAIL')
+                raise
+    persist('PASS')
+    return results
 
 
 def verify_extra_preflight_guards() -> list[dict[str, Any]]:
@@ -336,6 +425,7 @@ def main() -> None:
             'status': 'FAIL',
             'error_code': 'V2620X_ROLLBACK_GUARD_FAILED',
             'error_type': type(exc).__name__,
+            'error_message': str(exc),
             'production_go': False,
         }
     REPORT.write_text(json.dumps(result, indent=2, default=str) + '\n')

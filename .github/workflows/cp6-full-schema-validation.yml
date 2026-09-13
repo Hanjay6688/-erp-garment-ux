@@ -4708,6 +4708,7 @@ jobs:
             'CP6_V2620X_INTERNAL_ROLE_REGRESSION.json',
             'V2620X_ROLLBACK_GUARDS.log',
             'CP6_V2620X_ROLLBACK_GUARDS.json',
+            'CP6_V2620X_DIRECT_GUARD_DIAGNOSTICS.json',
             'V2620X_MAIN_MAINTENANCE_ROLLBACK.json',
             'V2620X_COMPLETE_W_CATALOG.json',
             'V2620X_TABLE_BOUNDARY.json',
@@ -5236,7 +5237,7 @@ jobs:
           assert w_restore['complete_function_count']==533
 
           xt=json.loads((proof/'V2620X_TABLE_BOUNDARY.json').read_text())
-          date_oracle=json.loads((proof/'CP6_V2620D_REVERSAL_PERIOD_ORACLE.json').read_text())
+          date_oracle=json.loads((proof/'CP6_V2620D_REVERSAL_PERIOD_ORACLE.json').read_text(),parse_float=Decimal)
           closed_case=json.loads((proof/'CP6_V2620K_PAYMENT_DATE_REGRESSION.json').read_text())['cases']['CLOSED_PERIOD'];period=closed_case['period_oracle']
           from datetime import date as Date,timedelta
           assert closed_case['rejected'] and closed_case['before']==closed_case['after'] and closed_case['code']=='P0001'
@@ -5258,6 +5259,11 @@ jobs:
               assert all(period['legacy_after'][key]==period['legacy_before'][key] for key in ('qty','inverses','stock_movements'))
           assert date_oracle['head']==os.environ['GITHUB_SHA'] and date_oracle['status']=='PASS' and date_oracle['production_go'] is False
           observed=date_oracle['observation']
+          oracle_marker='CP6_V2620D_REVERSAL_PERIOD_ORACLE '
+          native_observations=[json.loads(line.split(oracle_marker,1)[1],parse_float=Decimal) for line in (proof/'CP6_V2620D_REAUDIT_REGRESSION.log').read_text().splitlines() if oracle_marker in line]
+          assert len(native_observations)==1 and native_observations[0]==observed
+          oracle_money=('canonical_sales_revenue_gl','canonical_operational_net_sales','legacy_period_sales_revenue_gl','legacy_period_operational_net_sales')
+          assert all(type(observed[key]) in (int,Decimal) and Decimal(observed[key]).is_finite() for key in oracle_money)
           from datetime import datetime
           from zoneinfo import ZoneInfo
           instant=datetime.fromisoformat(observed['transaction_instant'])
@@ -5268,9 +5274,9 @@ jobs:
           inverse=observed['journals'][0]
           assert inverse['economic_date']==inverse['transaction_date']==observed['expected_jakarta_date']
           assert inverse['original_id']==inverse['reversal_of_id'] and inverse['inverse_id']!=inverse['original_id'] and inverse['source_type']=='JOURNAL_REVERSAL'
-          assert cash_delta_equal(20,observed['canonical_sales_revenue_gl']) and cash_delta_equal(20,observed['canonical_operational_net_sales'])
-          legacy_expected=0 if observed['dates_differ'] else 20
-          assert cash_delta_equal(legacy_expected,observed['legacy_period_sales_revenue_gl']) and cash_delta_equal(legacy_expected,observed['legacy_period_operational_net_sales'])
+          assert observed['canonical_sales_revenue_gl']==Decimal('20') and observed['canonical_operational_net_sales']==Decimal('20')
+          legacy_expected=Decimal('0') if observed['dates_differ'] else Decimal('20')
+          assert observed['legacy_period_sales_revenue_gl']==legacy_expected and observed['legacy_period_operational_net_sales']==legacy_expected
           assert xt['head']==os.environ['GITHUB_SHA'] and xt['status']=='PASS' and xt['production_go'] is False
           assert xt['baseline_total']==208 and xt['baseline_erp']==207 and xt['baseline_platform']==1
           assert xt['erp_tables']==210 and xt['boundary_count']==209 and xt['exact_names'] and xt['x_capsule_absent'] and xt['installed_snapshot_names_exact']
@@ -5315,6 +5321,19 @@ jobs:
           xg=json.loads((proof/'CP6_V2620X_ROLLBACK_GUARDS.json').read_text())
           assert xg['head']==os.environ['GITHUB_SHA'] and xg['status']=='PASS'
           assert len(xg['guards'])==8 and all(c['status']=='PASS' and c['expected_rejection_observed'] for c in xg['guards'])
+          x_direct=json.loads((proof/'CP6_V2620X_DIRECT_GUARD_DIAGNOSTICS.json').read_text())
+          assert x_direct['head']==os.environ['GITHUB_SHA'] and x_direct['status']=='PASS' and x_direct['production_go'] is False
+          assert x_direct['guards']==xg['guards']
+          x_outside=next(c for c in xg['guards'] if c['case']=='post_install_other_module_history')
+          assert x_outside['legacy_empty_update']=={'table':'sizes','before_rows':0,'affected_rows':0,'full_boundary_unchanged':True,'rollback_invoked':False}
+          assert x_outside['boundary_membership']=={'table':'app_permissions','in_w':False,'in_x':True}
+          assert x_outside['affected_rows']==1 and x_outside['changed_tables']==['app_permissions']
+          assert x_outside['actual_sqlstate']=='P0001' and 'X_POST_USE_ROLLBACK_REFUSED: app_permissions' in x_outside['actual_error']
+          assert x_outside['full_boundary_restored'] and x_outside['before_boundary']==x_outside['restored_boundary']
+          assert set(x_outside['before_boundary'])==set(x_outside['mutated_boundary'])==set(xt['expected_boundary'])
+          assert [t for t in x_outside['before_boundary'] if x_outside['before_boundary'][t]!=x_outside['mutated_boundary'][t]]==['app_permissions']
+          assert x_outside['before_boundary']['app_permissions']['rows']==x_outside['mutated_boundary']['app_permissions']['rows']>0
+          assert all(c['affected_rows']>0 for c in xg['guards'] if 'affected_rows' in c)
           assert len(xg['extra_object_preflight_guards'])==11 and all(c['status']=='PASS' and not c['admission_closed'] and not c['rollback_started'] for c in xg['extra_object_preflight_guards'])
           assert xg['trusted_capsule_guard']['status']=='PASS' and not xg['trusted_capsule_guard']['admission_closed'] and not xg['trusted_capsule_guard']['rollback_started']
           assert xg['exact_pre_use_restore']=={'generation':'W','restored_function_count':1,'owner_acl_exact':True,'metadata_schema_residue':0}
@@ -5361,6 +5380,7 @@ jobs:
 
           digest=lambda value:hashlib.sha256(value).hexdigest()
           source_paths=[
+            '.github/workflows/cp6-failed169-forensics.yml',
             'supabase/migrations/20260913202948_erp_v2_6_20x_cp6_internal_role_fail_closed.sql',
             'supabase/rollbacks/20260913202948_erp_v2_6_20x_cp6_internal_role_fail_closed.rollback.sql',
             'scripts/cp6_v2620x_runtime.py',

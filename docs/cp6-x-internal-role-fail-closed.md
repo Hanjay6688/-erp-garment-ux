@@ -157,6 +157,45 @@ recovery10326635330,4,263,766 bytes,SHA256
 CodeQL43 passed three languages and all original artifact bytes were verified
 on the failed native HEAD. Native168 remains writer FAIL; new native proof required.
 
+## Failed169 and evidence controls awaiting new native qualification
+
+Native169 run34785408617/job103799867689 on4ff892364f70a4e11b90544e6deb3d17b36df40f
+passed the business and race gates through step99, including K6 and eight
+timezone subcases. Step100 then failed: all380 matrix cases report UndefinedColumn,
+SQLSTATE42703. No matrix case or backend body entry is claimed as PASS. Later
+X guards and the final binder were not reached. The job is FAIL.
+Original artifact10327086710 is600,545,460 bytes,SHA256
+89ff12a1063329bb500c0c3bf4854cd9824f90687d29061bb46cbe280a7c30a6;
+it exceeds the connector's536,870,912-byte limit. The dedicated forensic workflow
+verifies that original ZIP and preserves every payload through lossless transport.
+It separately qualifies the suspected PL/pgSQL record/SQL-alias collision on
+disposable native PostgreSQL17.6. This checkpoint does not claim a corrected
+full-schema run; the exact matrix cause and its forward correction remain pending.
+CodeQL44's three authentic zero-finding artifacts do not override native169 FAIL.
+
+Read-only replay of native168's D report proves a final-binder type mismatch:
+the new D fields are numeric JSON20.0/0.0, but cash_delta_equal accepts strings
+only and was called with integer20/0. All four old predicates return false.
+The correction parses this report as exact Decimal, requires finite numeric
+types and compares exact20/0; it also matches the complete observation against
+the original SQL NOTICE. The existing strict string comparator and all other
+cash predicates are unchanged. Original evidence passes both corrected binder
+implementations; ten negative controls each reject cent/subcent differences,
+strings, booleans, non-finite numbers, log mismatch, dates and lineage changes.
+This is an offline qualification, not a claim that native169 reached that gate.
+
+Native168's frozen pre-U snapshot records zero sizes rows and111 app_permissions
+rows. Updating the first sizes row is therefore a no-op on that baseline. The
+corrected X direct-guard fixture records that old zero-row control explicitly,
+then changes one existing app_permissions description. That table is outside W's
+80-table capsule boundary, inside X's209, and has no DML triggers. The runner
+requires exactly one affected row and exactly that table's hash to change across
+all209 tables, an X_POST_USE_ROLLBACK_REFUSED: app_permissions refusal, and exact
+restoration of every table. This guard still requires fresh native execution.
+All DML guard mutations must affect rows before attempting rollback. Incremental
+per-guard diagnostics preserve operands and error messages even if a later guard
+fails. No migration, rollback or installed business function changes.
+
 VENI. VIDI. VICI. ERP. — I CONQUERED ERP.
 Reliable data adalah dewa. Keuangan termasuk laporan, stok, dan HPP adalah raja.
 CP6 closure → CP7 rev3 WIP-first → CP7.5 → CP7C → CP8. CP9 obsolete.

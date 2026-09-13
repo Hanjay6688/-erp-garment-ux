@@ -1,0 +1,160 @@
+name: CP6 Failed169 Original Evidence and Native Alias Qualification
+
+on:
+  push:
+    branches:
+      - competition/cp6-j-closure-20260911
+    paths:
+      - .github/workflows/cp6-failed169-forensics.yml
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: cp6-failed169-forensics
+  cancel-in-progress: false
+
+jobs:
+  recover-original:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify and recover every original failed169 payload
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10327086710 > "$RUNNER_TEMP/failed169-api.json"
+          gh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10327086710/zip > "$RUNNER_TEMP/failed169.zip"
+          python - <<'PY'
+          import ast,hashlib,json,lzma,os,stat,subprocess,tarfile,textwrap,zipfile
+          from pathlib import Path,PurePosixPath
+          head='4ff892364f70a4e11b90544e6deb3d17b36df40f'
+          tree='a41debab15f49619632707e6795c6dd7fcc17fcf'
+          raw_sha='89ff12a1063329bb500c0c3bf4854cd9824f90687d29061bb46cbe280a7c30a6'
+          raw_bytes=600545460
+          raw=Path(os.environ['RUNNER_TEMP'])/'failed169.zip'
+          api=json.loads((raw.parent/'failed169-api.json').read_text())
+          assert api['id']==10327086710 and api['size_in_bytes']==raw_bytes and api['digest']=='sha256:'+raw_sha
+          assert api['workflow_run']['id']==34785408617 and api['workflow_run']['head_sha']==head
+          assert not api['expired'] and api['name']=='cp6-r1-v2620x-full-schema-auth-browser-proof'
+          with raw.open('rb') as f:assert raw.stat().st_size==raw_bytes and hashlib.file_digest(f,'sha256').hexdigest()==raw_sha
+          git=lambda *args:subprocess.check_output(['git',*args],text=True).strip()
+          assert git('rev-parse',head+'^{tree}')==tree
+          workflow=subprocess.check_output(['git','show',head+':.github/workflows/cp6-full-schema-validation.yml']).decode()
+          binder=textwrap.dedent(workflow.split('      - name: Bind successful CP6 proof to the exact runtime SHA\n',1)[1].split("          python - <<'PY'\n",1)[1].split('\n          PY',1)[0])
+          node=next(n for n in ast.parse(binder).body if isinstance(n,ast.Assign) and any(isinstance(t,ast.Name) and t.id=='source_paths' for t in n.targets))
+          paths=ast.literal_eval(node.value)
+          assert len(paths)==len(set(paths))==183
+          pins={}
+          for name in paths:
+              data=subprocess.check_output(['git','show',head+':'+name])
+              pins[name]={'bytes':len(data),'sha256':hashlib.sha256(data).hexdigest()}
+          output=Path('failed169-recovery');output.mkdir()
+          (output/'ORIGINAL_ARTIFACT_API.json').write_text(json.dumps(api,indent=2)+'\n')
+          archive_path=output/'CP6_FAILED169_PROOF.tar.xz'
+          files={};seen=set();selected=[]
+          class HashedReader:
+              def __init__(self,stream):self.stream=stream;self.h=hashlib.sha256();self.size=0
+              def read(self,count=-1):
+                  data=self.stream.read(count);self.h.update(data);self.size+=len(data);return data
+          filters=[{'id':lzma.FILTER_LZMA2,'preset':1,'dict_size':16*1024*1024}]
+          with zipfile.ZipFile(raw) as z,lzma.open(archive_path,'wb',filters=filters) as compressed,tarfile.open(fileobj=compressed,mode='w',format=tarfile.PAX_FORMAT) as tar:
+              for entry in z.infolist():
+                  name=entry.filename;p=PurePosixPath(name)
+                  assert name not in seen;seen.add(name)
+                  assert not p.is_absolute() and '..' not in p.parts and '\\' not in name
+                  assert not any(part.startswith('.') for part in p.parts) and not stat.S_ISLNK(entry.external_attr>>16)
+                  if entry.is_dir():continue
+                  assert name!='CP6_V2620X_RUNTIME_MANIFEST.json'
+                  info=tarfile.TarInfo(name);info.size=entry.file_size;info.mode=0o644;info.mtime=0
+                  with z.open(entry) as stream:
+                      reader=HashedReader(stream);tar.addfile(info,reader)
+                      assert reader.read(1)==b'' and reader.size==entry.file_size
+                  files[name]={'bytes':reader.size,'sha256':reader.h.hexdigest()}
+                  if name in ('H_MAINTENANCE_ROLLBACK/manifest.json','CP6_V2620D_REVERSAL_PERIOD_ORACLE.json','CP6_V2620D_REAUDIT_REGRESSION.log','CP6_V2620K_PAYMENT_DATE_REGRESSION.json','CP6_V2620X_INTERNAL_ROLE_REGRESSION.json','CP6_V2620X_W_COUNTEREXAMPLES.json','V2620X_TABLE_BOUNDARY.json') or name.startswith(('H_MAINTENANCE_ROLLBACK/F_SALE_WRITER_FIRST/','H_MAINTENANCE_ROLLBACK/X_REPORT_WRITER_FIRST/')) and name.endswith(('.json','.log','.txt')):
+                      target=output/'selected'/name;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(z.read(entry));selected.append(name)
+          with archive_path.open('rb') as f:archive_sha=hashlib.file_digest(f,'sha256').hexdigest()
+          assert archive_path.stat().st_size<500*1024*1024
+          matrix=json.loads((output/'selected/H_MAINTENANCE_ROLLBACK/manifest.json').read_text())
+          assert matrix['head']==head and matrix['status']=='FAIL' and len(matrix['cases'])==380
+          report={'format':'CP6_FAILED169_LOSSLESS_RECOVERY_V1','status':'RECOVERED_FAILED_RUN_NOT_ACCEPTANCE','production_go':False,
+              'source_failed_head':head,'source_failed_tree':tree,'source_failed_run':34785408617,'source_failed_job':103799867689,
+              'source_artifact_id':10327086710,'source_zip_bytes':raw_bytes,'source_zip_sha256':raw_sha,'source_zip_verified':True,
+              'recovery_head':os.environ['GITHUB_SHA'],'recovery_tree':git('rev-parse','HEAD^{tree}'),'recovery_run':int(os.environ['GITHUB_RUN_ID']),
+              'all_recovered_payload_bytes_unchanged':True,'success_runtime_manifest_created':False,'files':files,'source_pins':pins,
+              'selected_files':selected,'archive':{'name':archive_path.name,'bytes':archive_path.stat().st_size,'sha256':archive_sha},
+              'matrix_status':matrix['status'],'matrix_cases':len(matrix['cases']),'failed_case_count':matrix['failed_case_count'],'writer_first_body_entry':matrix['writer_first_body_entry']}
+          (output/'CP6_FAILED169_RECOVERY.json').write_text(json.dumps(report,indent=2)+'\n')
+          print(json.dumps({k:report[k] for k in ('status','source_zip_verified','archive','matrix_cases','failed_case_count','writer_first_body_entry')}))
+          PY
+      - name: Preserve complete failed169 recovery
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cp6-x-failed169-lossless-recovery
+          path: failed169-recovery
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
+
+  qualify-record-alias:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    services:
+      postgres:
+        image: postgres:17.6
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Native record-name collision and qualified SQL-alias control
+        env:
+          PG_CONTAINER: ${{ job.services.postgres.id }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p alias-qualification
+          echo '8107dc0d884ee624328b2a0a4c7fd03bed4e8d88f428282a7c00660c43b4200a  supabase/rollbacks/20260913202948_erp_v2_6_20x_cp6_internal_role_fail_closed.rollback.sql' | sha256sum -c | tee alias-qualification/FROZEN_X_ROLLBACK_SHA256.txt
+          docker exec -i "$PG_CONTAINER" psql -U postgres -d postgres -X -v ON_ERROR_STOP=1 2>&1 <<'SQL' | tee alias-qualification/NATIVE_ALIAS_QUALIFICATION.log
+          select current_setting('server_version'),current_user,current_database();
+          create schema erp;
+          create table erp.cp6_alias_control(id integer);
+          do $probe$
+          declare c record;v_count bigint;v_error text;v_code text;
+          begin
+            if current_setting('server_version') not like '17.6%' then raise exception 'WRONG_NATIVE_ENGINE';end if;
+            select 'erp.require_internal()'::text as object_regidentity into c;
+            begin
+              select count(*) into v_count from(select c.relname from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='erp' and c.relkind in('r','p') and c.relname not in('schema_migrations','cp6_v2620x_rollback_capsule') order by c.relname) all_erp_tables;
+              raise exception 'ORIGINAL_ALIAS_UNEXPECTEDLY_ACCEPTED';
+            exception when undefined_column then
+              get stacked diagnostics v_error=MESSAGE_TEXT,v_code=RETURNED_SQLSTATE;
+            end;
+            if v_code is distinct from '42703' or v_error not like '%record "c" has no field%' then raise exception 'WRONG_ALIAS_FAILURE: % %',v_code,v_error;end if;
+            select count(*) into v_count from(select relation.relname from pg_class relation join pg_namespace namespace on namespace.oid=relation.relnamespace where namespace.nspname='erp' and relation.relkind in('r','p') and relation.relname not in('schema_migrations','cp6_v2620x_rollback_capsule') order by relation.relname) all_erp_tables;
+            if v_count<>1 then raise exception 'QUALIFIED_ALIAS_CONTROL_COUNT: %',v_count;end if;
+            raise notice 'CP6_X_ALIAS_QUALIFICATION %',jsonb_build_object('status','PASS','engine',current_setting('server_version'),'original_sqlstate',v_code,'original_message',v_error,'qualified_control_count',v_count,'full_erp_rollback_proven',false,'production_go',false);
+          end
+          $probe$;
+          drop schema erp cascade;
+          select not exists(select 1 from pg_namespace where nspname='erp') as residue_zero;
+          SQL
+      - name: Preserve native alias qualification
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cp6-x-native-record-alias-qualification
+          path: alias-qualification
+          if-no-files-found: error
+          retention-days: 30
