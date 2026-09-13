@@ -2289,7 +2289,7 @@ jobs:
           set -euo pipefail
           python scripts/cp6_v2620u_rollback_guards.py | tee cp6-proof/V2620U_ROLLBACK_GUARDS.log
           test "$(jq -r '.status' cp6-proof/CP6_V2620U_ROLLBACK_GUARDS.json)" = 'PASS'
-          test "$(jq '.exact_pre_use_restore.restored_function_count' cp6-proof/CP6_V2620U_ROLLBACK_GUARDS.json)" = '5'
+          test "$(jq '.exact_pre_use_restore.restored_function_count' cp6-proof/CP6_V2620U_ROLLBACK_GUARDS.json)" = '7'
           test "$(jq '.extra_object_preflight_guards | length' cp6-proof/CP6_V2620U_ROLLBACK_GUARDS.json)" = '9'
           test "$(jq -r '.status' cp6-proof/V2620U_MAIN_MAINTENANCE_ROLLBACK.json)" = 'PASS'
 

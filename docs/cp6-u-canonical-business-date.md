@@ -134,3 +134,27 @@ stress/automation/backup → CP8 final independent audit/cutover. CP9 is obsolet
 
 Reliable data adalah dewa. Keuangan—termasuk laporan—stok, dan HPP adalah raja.
 VENI. VIDI. VICI. ERP. — I CONQUERED ERP.
+
+## Corrective native #153: stale shell acceptance count
+
+Corrective commit `e8c4c75caa923485db9e6f51f6c19f79c4123d5c`, native #153
+(run 34749016850, job 103702029238), installed U successfully. Both 25-case
+phases, Auth95, broad regression, native races and 320/320 maintenance schedules
+with 80 body entries passed. The U rollback runner then reported PASS: seven
+direct guards, nine extra-object guards, closed-admission restore of seven
+functions to T, unchanged owners/ACLs and zero U metadata residue.
+
+Step 88 nevertheless failed because one shell acceptance assertion still
+required `restored_function_count == 5`. This was a corrective-writer workflow
+pin omission, not a new ERP posting defect or a SQL rollback failure. The full
+catalog comparison after that shell line and the later rollback ladder were
+skipped, so the candidate remains FAIL. Disposable destroy cleanup succeeded.
+
+The next fast-forward correction updates that exact count to seven and adds an
+early static assertion for the command. The static assertion was first run
+against the stale command and rejected it, then passed after its correction.
+All U migration/rollback bytes and all business SQL stay unchanged from e8c4c75c.
+The failed native ZIP is preserved: artifact 10315670731, 509450340 bytes,
+SHA-256 `ad8ffb765f336f09744a6398a35048e3c136e945aeefb076758817a137e7be04`.
+The full exact-SHA workflow must run again; no successful stage from #153 waives
+any gate on the new candidate.

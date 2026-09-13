@@ -99,6 +99,9 @@ for (const token of ["'T', 'U'", 'assert len(cases) == 151', "'expected_case_cou
 }
 
 const workflow = read('.github/workflows/cp6-full-schema-validation.yml')
+const uRestoreCountCommand = `test "$(jq '.exact_pre_use_restore.restored_function_count' cp6-proof/CP6_V2620U_ROLLBACK_GUARDS.json)" = '7'`
+assert.equal(workflow.split(uRestoreCountCommand).length - 1, 1,
+  'U shell restore-count gate must require exactly seven functions')
 let previous = -1
 for (const token of [
   'Reproduce independent T canonical business-date counterexamples before U',
