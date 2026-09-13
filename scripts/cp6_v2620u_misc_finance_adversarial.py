@@ -44,8 +44,15 @@ def run():
     result = dict(head=os.environ.get('GITHUB_SHA'), audited_business_head=U_HEAD,
         classification='NATIVE_POSTGRESQL_AUTHENTICATED_SESSION_U_ADVERSARIAL',
         production_go=False, cases=[], status='FAIL', http_ui_reachability_proven=False)
-    with psycopg.connect(**params, autocommit=False) as conn, conn.cursor() as cur:
+    # Supabase's postgres role is not a superuser. Use the existing local
+    # bootstrap administrator solely to establish real authenticated sessions.
+    # No role attributes, grants, schema, or hosted credentials are changed.
+    audit_params = dict(params, user='supabase_admin')
+    with psycopg.connect(**audit_params, autocommit=False) as conn, conn.cursor() as cur:
         cur.execute("set local timezone='UTC';set local statement_timeout='180s';set local lock_timeout='8s'")
+        cur.execute("select current_user,session_user,rolsuper from pg_roles where rolname=current_user")
+        if cur.fetchone() != ('supabase_admin','supabase_admin',True):
+            raise AssertionError('MISC_EXISTING_DISPOSABLE_ADMIN_REQUIRED')
         untouched = snapshot(cur)
         if len(runtime.verified_successor(cur)) != 7:
             raise AssertionError('MISC_EXACT_U_RUNTIME_REQUIRED')
@@ -95,7 +102,10 @@ def run():
                         raise AssertionError('MISC_DRAFT_CHANGED_AUTHORITATIVE_REPORT')
                     cur.execute('select erp.post_misc_finance(%s)', (transaction,))
                     after = reports(cur)
-                    cur.execute('reset session authorization')
+                    cur.execute('set session authorization supabase_admin')
+                    cur.execute('select current_user,session_user')
+                    if cur.fetchone() != ('supabase_admin','supabase_admin'):
+                        raise AssertionError('MISC_MEASUREMENT_IDENTITY_NOT_RESTORED')
                     cur.execute("select j.id,j.economic_date::text,j.transaction_date::text,"
                         "(select sum(l.debit)::text from erp.journal_lines l where l.journal_entry_id=j.id),"
                         "(select sum(l.credit)::text from erp.journal_lines l where l.journal_entry_id=j.id)"
@@ -123,7 +133,7 @@ def run():
                 finally:
                     # Roll back the failed subtransaction before RESET if SQL errored.
                     cur.execute('rollback to savepoint misc_case')
-                    cur.execute('reset session authorization')
+                    cur.execute('set session authorization supabase_admin')
                     cur.execute('release savepoint misc_case')
                 case['full_boundary_restored'] = snapshot(cur) == before_case
                 result['cases'].append(case)
