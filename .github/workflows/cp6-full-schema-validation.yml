@@ -1576,6 +1576,13 @@ jobs:
           test "$(jq '.runtime.verified_u_functions' cp6-proof/CP6_V2620U_CANONICAL_BUSINESS_DATE_REGRESSION.json)" = '7'
           test "$(jq '.runtime.installed_function_hashes | length' cp6-proof/CP6_V2620U_CANONICAL_BUSINESS_DATE_REGRESSION.json)" = '7'
 
+      - name: Independently attack U misc cash dates under real authenticated sessions
+        env:
+          CP6_U_DISPOSABLE_CONFIRM: postgres
+        run: |
+          set -euo pipefail
+          python scripts/cp6_v2620u_misc_finance_adversarial.py | tee cp6-proof/U_MISC_FINANCE_ADVERSARIAL.log
+
       - name: Run post-CP6 real Auth JWT HTTP permissions and residue-zero E2E
         shell: bash
         run: |
@@ -4797,6 +4804,7 @@ jobs:
             'scripts/cp6_v2620u_install_diagnostic.py',
             'scripts/package_cp6_native_evidence.py',
             'scripts/cp6_v2620u_canonical_business_date_regression.py',
+            'scripts/cp6_v2620u_misc_finance_adversarial.py',
             'scripts/cp6_v2620u_rollback_guards.py',
             'supabase/tests/cp6_canonical_business_date.sql',
             'supabase/tests/cp6_u_expanded_dates.sql',
