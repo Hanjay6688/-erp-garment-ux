@@ -75,7 +75,8 @@ def run():
                 result['cases'][name]=base.one(cur,'select pg_temp.k_case(%s,%s,%s,%s,%s)',
                   (name,first['sale'],second['sale'],foreign['sale'],customer))
             except Exception as exc:
-                result['cases'][name]={'status':'FAIL','code':getattr(exc,'sqlstate',None) or 'ORACLE_FAILED'}
+                result['cases'][name]={'status':'FAIL','code':getattr(exc,'sqlstate',None) or 'ORACLE_FAILED',
+                  'message':getattr(getattr(exc,'diag',None),'message_primary',None) or str(exc)}
             finally:
                 cur.execute('rollback to savepoint k_case');cur.execute('release savepoint k_case')
         conn.rollback()

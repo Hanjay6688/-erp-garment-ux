@@ -51,6 +51,10 @@ declare
   zone text; observations jsonb:='[]'; rejected boolean; safe_code text;
   quantity_before numeric; journal uuid; inverse_day date; delta integer;
   old_period date; amount numeric; issues bigint;
+  business_today date:=(current_timestamp at time zone 'Asia/Jakarta')::date;
+  inverse_economic_day date; inverse_posting_day date;
+  legacy_rejected boolean; legacy_code text; legacy_after jsonb;
+  legacy_probe_rolled_back boolean;
 begin
   perform set_config('TimeZone','UTC',true);
   original_clock:=((current_date-1)+time '12:00') at time zone 'UTC';
@@ -143,9 +147,34 @@ begin
     payment:=pg_temp.k_payment(a,40,original_clock);
     perform erp.reverse_sales_payment(payment,'K period boundary before replacement');
     select closed_through into old_period from erp.accounting_period_control where singleton_id=1;
+    select reversal_economic_date,reversal_transaction_date
+      into inverse_economic_day,inverse_posting_day
+      from erp.sales_payment_reversal_facts where payment_id=payment;
+    if inverse_economic_day is distinct from business_today
+       or inverse_posting_day is distinct from greatest(business_today,old_period+1) then
+      raise exception 'K_INVERSE_BUSINESS_DATE_FIXTURE_MISMATCH';
+    end if;
+    -- Reproduce the old UTC-period control, then roll its effects back. Once
+    -- Jakarta has advanced a day, closing UTC today does not close the inverse.
+    update erp.accounting_period_control set closed_through=current_date where singleton_id=1;
+    before_boundary:=pg_temp.k_boundary();legacy_rejected:=false;
+    begin
+      begin
+        perform pg_temp.k_payment(b,40,original_clock,payment);
+      exception when raise_exception then
+        legacy_rejected:=true;get stacked diagnostics legacy_code=returned_sqlstate;
+      end;
+      legacy_after:=pg_temp.k_boundary();
+      raise exception using errcode='ZX001',message='K_DISPOSABLE_LEGACY_PERIOD_PROBE_ROLLBACK';
+    exception when sqlstate 'ZX001' then null;
+    end;
+    legacy_probe_rolled_back:=pg_temp.k_boundary()=before_boundary;
+    if not legacy_probe_rolled_back or legacy_rejected is distinct from (greatest(business_today,current_date+1)<>inverse_posting_day) then
+      raise exception 'K_LEGACY_PERIOD_CONTROL_ORACLE_FAILED';
+    end if;
     -- An isolated period-state control. The accounting resolver must not be
     -- bypassed to force a replacement into the predecessor inverse's GL date.
-    update erp.accounting_period_control set closed_through=current_date where singleton_id=1;
+    update erp.accounting_period_control set closed_through=inverse_posting_day where singleton_id=1;
     before_boundary:=pg_temp.k_boundary();rejected:=false;
     begin
       perform pg_temp.k_payment(b,40,original_clock,payment);
@@ -158,7 +187,16 @@ begin
     update erp.accounting_period_control set closed_through=old_period where singleton_id=1;
     if pg_temp.k_confidence()<>'READY' then raise exception 'K_PERIOD_RESTORE_NOT_READY'; end if;
     return jsonb_build_object('status','PASS','classification','ISOLATED_PERIOD_STATE_CONTROL',
-      'rejected',true,'code',safe_code,'before',before_boundary,'after',after_boundary,'report','READY');
+      'rejected',true,'code',safe_code,'before',before_boundary,'after',after_boundary,'report','READY',
+      'period_oracle',jsonb_build_object('session_timezone',current_setting('TimeZone'),
+        'transaction_instant',current_timestamp,'session_date',current_date,
+        'business_today',business_today,'old_closed_through',old_period,
+        'inverse_economic_date',inverse_economic_day,'inverse_transaction_date',inverse_posting_day,
+        'closed_through_for_refusal',inverse_posting_day,'legacy_closed_through',current_date,
+        'legacy_resolved_posting_day',greatest(business_today,current_date+1),
+        'legacy_rejected',legacy_rejected,'legacy_code',legacy_code,
+        'legacy_before',before_boundary,'legacy_after',legacy_after,
+        'legacy_probe_rolled_back',legacy_probe_rolled_back));
   elsif kind='TIMEZONE' then
     foreach zone in array array['UTC','Asia/Jakarta','Europe/Paris','Asia/Kolkata',
       'Pacific/Kiritimati','Etc/GMT+12','America/New_York','Australia/Lord_Howe'] loop

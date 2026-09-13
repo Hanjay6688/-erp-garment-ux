@@ -135,6 +135,28 @@ The race clone was physically removed, while its cleanup report correctly remain
 FAIL because the step failed. CodeQL42 on the same SHA passed and was independently
 verified in all three languages, zero findings. Native167 remains writer FAIL.
 
+## Preserved failed168 and K period control
+
+Native168 run34784660879/job103797825862 onf726c52c387a27a743cc7970f92f0c117eebc5bf
+proved the corrected reversal oracle: UTC Sep13, Jakarta Sep14, actual inverse
+journal economic/posting dates Sep14, canonical revenue20 and UTC-period0.
+The complete34 races/three qualifications and E through J regressions passed.
+Step85 K then passed5/6 cases, including all8 timezones, and failed CLOSED_PERIOD
+with P0001. That old control also closes current_date UTC; after Jakarta advances,
+the predecessor inverse's GL date is still open, so lawful replacement can succeed.
+The test-only successor records both dates and the inverse fact, probes the old
+period in a deliberately rolled-back subtransaction, then closes through the
+actual inverse GL date and requires atomic refusal. It independently checks the
+canonical date and greatest(business_today,closed_through+1) policy. No amount,
+scope or prior assertion is dropped; all79 admitted SQL remain byte-identical.
+Case failures now retain their primary error message as well as SQLSTATE.
+Original artifact10326740326,6,107,436 bytes,SHA256
+73bae8d72550bbf840b373d1ce25f86af4f9d0b4bee57b8bade5ead579c84fd7;
+recovery10326635330,4,263,766 bytes,SHA256
+781d64b932127c77b8435d2438c7b699759e439454d81e8cf13b304a5eb38d11.
+CodeQL43 passed three languages and all original artifact bytes were verified
+on the failed native HEAD. Native168 remains writer FAIL; new native proof required.
+
 VENI. VIDI. VICI. ERP. — I CONQUERED ERP.
 Reliable data adalah dewa. Keuangan termasuk laporan, stok, dan HPP adalah raja.
 CP6 closure → CP7 rev3 WIP-first → CP7.5 → CP7C → CP8. CP9 obsolete.

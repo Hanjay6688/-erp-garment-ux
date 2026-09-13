@@ -5237,6 +5237,25 @@ jobs:
 
           xt=json.loads((proof/'V2620X_TABLE_BOUNDARY.json').read_text())
           date_oracle=json.loads((proof/'CP6_V2620D_REVERSAL_PERIOD_ORACLE.json').read_text())
+          closed_case=json.loads((proof/'CP6_V2620K_PAYMENT_DATE_REGRESSION.json').read_text())['cases']['CLOSED_PERIOD'];period=closed_case['period_oracle']
+          from datetime import date as Date,timedelta
+          assert closed_case['rejected'] and closed_case['before']==closed_case['after'] and closed_case['code']=='P0001'
+          assert period['session_timezone']=='UTC' and period['legacy_probe_rolled_back']
+          from datetime import datetime
+          from zoneinfo import ZoneInfo
+          period_instant=datetime.fromisoformat(period['transaction_instant'])
+          assert period['session_date']==period_instant.astimezone(ZoneInfo('UTC')).date().isoformat()
+          assert period['business_today']==period_instant.astimezone(ZoneInfo('Asia/Jakarta')).date().isoformat()
+          expected_inverse=max(Date.fromisoformat(period['business_today']),Date.fromisoformat(period['old_closed_through'])+timedelta(days=1) if period['old_closed_through'] else Date.min)
+          expected_legacy=max(Date.fromisoformat(period['business_today']),Date.fromisoformat(period['session_date'])+timedelta(days=1))
+          assert period['inverse_economic_date']==period['business_today'] and period['inverse_transaction_date']==expected_inverse.isoformat()
+          assert period['closed_through_for_refusal']==period['inverse_transaction_date'] and period['legacy_closed_through']==period['session_date']
+          assert period['legacy_resolved_posting_day']==expected_legacy.isoformat() and period['legacy_rejected']==(expected_legacy!=expected_inverse)
+          if period['legacy_rejected']: assert period['legacy_before']==period['legacy_after'] and period['legacy_code']=='P0001'
+          else:
+              assert period['legacy_after']['payments']==period['legacy_before']['payments']+1 and period['legacy_after']['facts']==period['legacy_before']['facts']+1
+              assert period['legacy_after']['journals']==period['legacy_before']['journals']+1 and period['legacy_after']['lines']==period['legacy_before']['lines']+2
+              assert all(period['legacy_after'][key]==period['legacy_before'][key] for key in ('qty','inverses','stock_movements'))
           assert date_oracle['head']==os.environ['GITHUB_SHA'] and date_oracle['status']=='PASS' and date_oracle['production_go'] is False
           observed=date_oracle['observation']
           from datetime import datetime
