@@ -66,6 +66,8 @@ def verified_successor(cur):
                     item['pre_u_installed_sha256'] = p_successor[scope_identity]['pre_u_installed_sha256']
                 if 'pre_v_installed_sha256' in p_successor[scope_identity]:
                     item['pre_v_installed_sha256'] = p_successor[scope_identity]['pre_v_installed_sha256']
+                if 'pre_w_installed_sha256' in p_successor[scope_identity]:
+                    item['pre_w_installed_sha256'] = p_successor[scope_identity]['pre_w_installed_sha256']
                 item['expected_generation'] = 'P'
                 break
     if payment_identity in s_successor:

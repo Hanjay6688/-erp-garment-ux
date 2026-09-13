@@ -181,6 +181,13 @@ TARGETS: dict[str, dict[str, Any]] = {
         'capsule_count': 3,
     },
 
+    'W': {
+        'rollback': Path('supabase/rollbacks/20260913173840_erp_v2_6_20w_cp6_scrap_business_date.rollback.sql'),
+        'rollback_sha256': '2f48c391e95a361fcc4d45ce0965c828d07587ddb39b19633959bbd6785da5bc',
+        'marker': 'v2.6.20w', 'platform': 'erp_v2_6_20w_cp6_scrap_business_date',
+        'predecessor': 'v2.6.20v', 'capsule': 'erp.cp6_v2620w_rollback_capsule',
+        'capsule_count': 3,
+    },
 }
 
 
@@ -384,6 +391,40 @@ TRUSTED_FUNCTIONS: dict[str, list[dict[str, Any]]] = {
   'owner': 'postgres',
   'predecessor_sha256': '3a8af1f92f85ddbebf697b681e16f42b9c48b2cdb543b6ab2daa2a928a5bc775'}],
 
+    'W': [
+  {
+    "acl": [
+      "authenticated=X/postgres",
+      "postgres=X/postgres",
+      "service_role=X/postgres"
+    ],
+    "identity": "erp.post_scrap_sale(uuid)",
+    "installed_sha256": "cb573efa942bbf65e770dd645cc0636ea4142633241af16842b532f36ce32131",
+    "owner": "postgres",
+    "predecessor_sha256": "53e2b8c582b342b2b4391a3fdcf91308c0e0e0f08e021c9f800b99212f64d39c"
+  },
+  {
+    "acl": [
+      "authenticated=X/postgres",
+      "postgres=X/postgres",
+      "service_role=X/postgres"
+    ],
+    "identity": "erp.run_v267_financial_truth_checks()",
+    "installed_sha256": "845b9868bb0b0e25443c4e75c77cfcf815e34c4fac78b8bd38038b0476e2944a",
+    "owner": "postgres",
+    "predecessor_sha256": "13e1c0b7e3a9262aecd18504cb70890eeaeb61190c12e2cc7bb16f2e2d9ddfb2"
+  },
+  {
+    "acl": [
+      "postgres=X/postgres",
+      "service_role=X/postgres"
+    ],
+    "identity": "erp._v268_financial_report_checks_pre_scope()",
+    "installed_sha256": "c77df75873558f96425b8e6b9591903259e5d985a9bd534ab96466799610e507",
+    "owner": "postgres",
+    "predecessor_sha256": "bdce68bf47700519d663e63302b5d48a720959d1c9995fcb9d8599a9516c2eef"
+  }
+],
 }
 
 
@@ -441,8 +482,10 @@ def _capsule_snapshot(
 ) -> list[dict[str, Any]]:
     # N adds helper and fact objects inherited by O/P outside their predecessor capsules.
     # Verify them before any admission mutation; F through M follow their original path.
-    if target_name in {'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V'}:
-        if target_name == 'V':
+    if target_name in {'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W'}:
+        if target_name == 'W':
+            from cp6_v2620w_runtime import verify_extra_objects
+        elif target_name == 'V':
             from cp6_v2620v_runtime import verify_extra_objects
         elif target_name == 'U':
             from cp6_v2620u_runtime import verify_extra_objects

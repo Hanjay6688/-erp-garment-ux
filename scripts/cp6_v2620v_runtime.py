@@ -31,9 +31,10 @@ def verified_successor(cur):
         hashlib.sha256(data).hexdigest(), hashlib.sha256(data[:-1]).hexdigest(),
     }:
         raise AssertionError('V_SOURCE_PLATFORM_MISMATCH')
-    observations = maintenance._capsule_snapshot(
-        cur.connection, 'V', maintenance.TARGETS['V']
-    )
+    import cp6_v2620w_runtime as w_runtime
+    successor = w_runtime.verified_successor(cur)
+    observations = w_runtime.predecessor_snapshot(cur, 'V', successor)
+    w_runtime.extend_items(successor, observations)
     return {item['identity']: item for item in observations}
 
 
@@ -95,6 +96,8 @@ def extend_items(successor, items):
                 successor, item['identity'], old
             )
             item['pre_v_installed_sha256'] = old
+            if 'pre_w_installed_sha256' in successor[item['identity']]:
+                item['pre_w_installed_sha256'] = successor[item['identity']]['pre_w_installed_sha256']
             item['expected_generation'] = 'V'
 
 

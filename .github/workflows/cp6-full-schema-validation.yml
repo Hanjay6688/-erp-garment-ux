@@ -81,6 +81,7 @@ jobs:
           python -m py_compile scripts/cp6_v_failed159_recovery.py
           python scripts/cp6_v_failed159_recovery.py --unit
           python -m py_compile scripts/cp6_v2620v_runtime.py scripts/cp6_v2620v_misc_finance_business_date_regression.py scripts/cp6_v2620v_misc_finance_races.py scripts/cp6_v2620v_rollback_guards.py
+          python -m py_compile scripts/cp6_v2620w_runtime.py scripts/cp6_v2620w_scrap_business_date_regression.py scripts/cp6_v2620w_scrap_races.py scripts/cp6_v2620w_rollback_guards.py
           python -m py_compile scripts/cp6_v2620s_runtime.py scripts/cp6_v2620s_supplier_payment_business_date_regression.py scripts/cp6_v2620s_rollback_guards.py
           python -m py_compile scripts/cp6_v2620r_runtime.py scripts/cp6_v2620r_receipt_invoice_dependency_regression.py scripts/cp6_v2620r_rollback_guards.py scripts/cp6_v2620r_receipt_invoice_races.py
           python -m py_compile scripts/cp6_v2620q_runtime.py scripts/cp6_v2620q_supplier_invoice_exact_quantity_regression.py scripts/cp6_v2620q_rollback_guards.py
@@ -131,7 +132,7 @@ jobs:
           python scripts/cp6_preuse_rollback_maintenance_unit.py
           python scripts/cp6_rollback_setup_unit.py
           test "$(jq -r '.status' cp6-proof/CP6_ROLLBACK_SETUP_UNIT.json)" = 'PASS'
-          test "$(jq '.completed_case_count' cp6-proof/CP6_ROLLBACK_SETUP_UNIT.json)" = '169'
+          test "$(jq '.completed_case_count' cp6-proof/CP6_ROLLBACK_SETUP_UNIT.json)" = '188'
           test "$(jq -r '.status' cp6-proof/CP6_PREUSE_ROLLBACK_MAINTENANCE_UNIT.json)" = 'PASS'
           test "$(jq '.completed_case_count' cp6-proof/CP6_PREUSE_ROLLBACK_MAINTENANCE_UNIT.json)" = '31'
           test "$(jq -r '.permissive_validator_negative_control.status' cp6-proof/CP6_PREUSE_ROLLBACK_MAINTENANCE_UNIT.json)" = 'PASS'
@@ -1631,6 +1632,67 @@ jobs:
           test "$replay_status" -ne 0
           grep -F 'V_REQUIRES_EXACT_U_WITHOUT_V_RESIDUE' cp6-proof/V2620V_REPLAY_REJECTION.log >/dev/null
 
+      - name: Reproduce native V paid scrap counterexamples before W
+        env:
+          CP6_W_DISPOSABLE_CONFIRM: postgres
+          CP6_W_PHASE: BEFORE_W
+        run: |
+          set -euo pipefail
+          python scripts/cp6_v2620w_scrap_business_date_regression.py | tee cp6-proof/V2620W_V_COUNTEREXAMPLES.log
+          test "$(jq -r '.status' cp6-proof/CP6_V2620W_V_COUNTEREXAMPLES.json)" = 'PASS'
+          test "$(jq '[.cases[] | select(.status == "KNOWN_V_BUG_REPRODUCED")] | length' cp6-proof/CP6_V2620W_V_COUNTEREXAMPLES.json)" = '2'
+          test "$(jq '[.cases[] | select(.status == "CONTROL_PASS")] | length' cp6-proof/CP6_V2620W_V_COUNTEREXAMPLES.json)" = '2'
+
+      - name: Apply v2.6.20w canonical paid scrap business dates before every final-runtime proof
+        shell: bash
+        run: |
+          set -euo pipefail
+          PYTHONPATH=scripts python - <<'PYCODE'
+          import json,os,pathlib,psycopg
+          from cp6_v2620n_rollback_guards import function_catalog
+          with psycopg.connect(os.environ['PGURL']) as conn,conn.cursor() as cur:
+              catalog=function_catalog(cur)
+          pathlib.Path('cp6-proof/V2620W_COMPLETE_V_CATALOG.json').write_text(json.dumps(catalog,indent=2)+'\n')
+          PYCODE
+          migration_source='supabase/migrations/20260913173840_erp_v2_6_20w_cp6_scrap_business_date.sql'
+          rollback_source='supabase/rollbacks/20260913173840_erp_v2_6_20w_cp6_scrap_business_date.rollback.sql'
+          test "$(wc -c < "$migration_source")" = '21928'
+          test "$(wc -c < "$rollback_source")" = '12904'
+          echo '1f902ac8bdaddea9c6b041781d5d7f7e3fc7fbbdb517fba786010fa17326672b  supabase/migrations/20260913173840_erp_v2_6_20w_cp6_scrap_business_date.sql' | sha256sum -c - | tee cp6-proof/V2620W_MIGRATION_SHA256.txt
+          echo '2f48c391e95a361fcc4d45ce0965c828d07587ddb39b19633959bbd6785da5bc  supabase/rollbacks/20260913173840_erp_v2_6_20w_cp6_scrap_business_date.rollback.sql' | sha256sum -c - | tee cp6-proof/V2620W_ROLLBACK_SHA256.txt
+          psql "$PGURL" -X -v ON_ERROR_STOP=1 -f "$migration_source" 2>&1 | tee cp6-proof/V2620W_APPLY.log
+          python - <<'PY'
+          import os,pathlib,psycopg
+          source=pathlib.Path('supabase/migrations/20260913173840_erp_v2_6_20w_cp6_scrap_business_date.sql').read_text()
+          with psycopg.connect(os.environ['PGURL']) as conn:
+              conn.execute('insert into supabase_migrations.schema_migrations(version,name,statements) values(%s,%s,%s)',
+                ('20260913173840','erp_v2_6_20w_cp6_scrap_business_date',[source]))
+          PY
+          test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select count(*) from erp.cp6_v2620w_rollback_capsule where installed_definition_sha256 is not null")" = '3'
+          test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select encode(extensions.digest(convert_to(array_to_string(statements,E'\\n'),'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations where name='erp_v2_6_20w_cp6_scrap_business_date'")" = '1f902ac8bdaddea9c6b041781d5d7f7e3fc7fbbdb517fba786010fa17326672b'
+          psql "$PGURL" -X -At -F '|' -v ON_ERROR_STOP=1 \
+            -c "select object_regidentity,definition_sha256,installed_definition_sha256 from erp.cp6_v2620w_rollback_capsule order by object_regidentity" \
+            | tee cp6-proof/V2620W_INSTALLED_FUNCTION_SHA256.txt
+          set +e
+          psql "$PGURL" -X -v ON_ERROR_STOP=1 -f "$migration_source" > cp6-proof/V2620W_REPLAY_REJECTION.log 2>&1
+          replay_status=$?
+          set -e
+          test "$replay_status" -ne 0
+          grep -F 'W_REQUIRES_EXACT_V_WITHOUT_W_RESIDUE' cp6-proof/V2620W_REPLAY_REJECTION.log >/dev/null
+
+      - name: Prove native W paid scrap dates and complete authenticated SQL lifecycle
+        env:
+          CP6_W_DISPOSABLE_CONFIRM: postgres
+          CP6_W_PHASE: AFTER_W
+        run: |
+          set -euo pipefail
+          python scripts/cp6_v2620w_scrap_business_date_regression.py | tee cp6-proof/V2620W_NATIVE_REGRESSION.log
+          test "$(jq -r '.status' cp6-proof/CP6_V2620W_SCRAP_BUSINESS_DATE_REGRESSION.json)" = 'PASS'
+          test "$(jq '.cases | length' cp6-proof/CP6_V2620W_SCRAP_BUSINESS_DATE_REGRESSION.json)" = '4'
+          test "$(jq '.expanded_cases | length' cp6-proof/CP6_V2620W_SCRAP_BUSINESS_DATE_REGRESSION.json)" = '21'
+          test "$(jq '[.cases[],.expanded_cases[] | select(.status != "PASS" or .full_boundary_restored != true)] | length' cp6-proof/CP6_V2620W_SCRAP_BUSINESS_DATE_REGRESSION.json)" = '0'
+          test "$(jq -r '.entire_unseeded_runtime_restored' cp6-proof/CP6_V2620W_SCRAP_BUSINESS_DATE_REGRESSION.json)" = 'true'
+
       - name: Prove native V cash dates and complete authenticated SQL lifecycle
         env:
           CP6_V_DISPOSABLE_CONFIRM: postgres
@@ -1643,13 +1705,6 @@ jobs:
           test "$(jq '.expanded_cases | length' cp6-proof/CP6_V2620V_MISC_FINANCE_BUSINESS_DATE_REGRESSION.json)" = '21'
           test "$(jq '[.cases[],.expanded_cases[] | select(.status != "PASS" or .full_boundary_restored != true)] | length' cp6-proof/CP6_V2620V_MISC_FINANCE_BUSINESS_DATE_REGRESSION.json)" = '0'
           test "$(jq -r '.entire_unseeded_runtime_restored' cp6-proof/CP6_V2620V_MISC_FINANCE_BUSINESS_DATE_REGRESSION.json)" = 'true'
-
-      - name: Independent V paid scrap business-date attack (qualified defects must fail)
-        env:
-          CP6_V_SCRAP_DISPOSABLE_CONFIRM: postgres
-        run: |
-          set -euo pipefail
-          python scripts/cp6_v2620v_scrap_adversarial.py | tee cp6-proof/V_SCRAP_ADVERSARIAL.log
 
       - name: Prove native U canonical material, reversal and owner-report business dates
         env:
@@ -1811,7 +1866,7 @@ jobs:
           report=json.loads(Path(os.environ['CP6_AUTH_REPORT']).read_text())
           assert report['status']=='PASS',report
           assert report['classification']=='LOCAL_POST_CP6_REAL_AUTH_JWT_HTTP',report
-          assert report['target']=='PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620V',report
+          assert report['target']=='PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620W',report
           assert report['disposable_database']=='cp6_auth',report
           assert report['database_disposal_required'] is True,report
           assert report['positive_evidence']['partial_hpp_wip']['active_laundry_hpp']==28,report
@@ -2167,7 +2222,7 @@ jobs:
         run: |
           set -euo pipefail
           test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select count(*) from erp.schema_migrations where version in('v2.6.20e','v2.6.20f')")" = '2'
-          test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select count(*) from erp.schema_migrations where version in('v2.6.20g','v2.6.20h','v2.6.20i','v2.6.20j','v2.6.20k','v2.6.20l','v2.6.20m','v2.6.20n','v2.6.20o','v2.6.20p','v2.6.20q','v2.6.20r','v2.6.20s','v2.6.20t','v2.6.20u','v2.6.20v')")" = '16'
+          test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select count(*) from erp.schema_migrations where version in('v2.6.20g','v2.6.20h','v2.6.20i','v2.6.20j','v2.6.20k','v2.6.20l','v2.6.20m','v2.6.20n','v2.6.20o','v2.6.20p','v2.6.20q','v2.6.20r','v2.6.20s','v2.6.20t','v2.6.20u','v2.6.20v','v2.6.20w')")" = '17'
           test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select count(*) from supabase_migrations.schema_migrations where name in('erp_v2_6_20e_cp6_counterexample_closure','erp_v2_6_20f_cp6_final_runtime_reliability','erp_v2_6_20g_cp6_independent_audit_closure','erp_v2_6_20h_cp6_expanded_audit_closure','erp_v2_6_20i_cp6_h2_audit_closure','erp_v2_6_20j_cp6_payment_fact_closure','erp_v2_6_20k_cp6_payment_date_conservation','erp_v2_6_20l_cp6_exact_ledger_conservation','erp_v2_6_20m_cp6_subledger_exact_cent_closure','erp_v2_6_20n_cp6_supplier_cent_lifecycle','erp_v2_6_20o_cp6_supplier_return_document_allocation','erp_v2_6_20p_cp6_supplier_return_match_state','erp_v2_6_20q_cp6_supplier_invoice_exact_quantity','erp_v2_6_20r_cp6_receipt_invoice_dependency','erp_v2_6_20s_cp6_supplier_payment_business_date','erp_v2_6_20t_cp6_material_adjustment_revaluation','erp_v2_6_20u_cp6_canonical_business_date','erp_v2_6_20v_cp6_misc_finance_business_date')")" = '18'
           printf 'runtime=v2.6.20e+v2.6.20f+v2.6.20g+v2.6.20h+v2.6.20i+v2.6.20j+v2.6.20k+v2.6.20l+v2.6.20m+v2.6.20n+v2.6.20o+v2.6.20p+v2.6.20q+v2.6.20r+v2.6.20s+v2.6.20t+v2.6.20u+v2.6.20v\nauth=completed\nacceptance=completed\nnative_races=34\nmaintenance_rollback_schedules=pending_exact_sha_native_gate\ncp5_regression=completed\nproduction_go=false\n' \
             | tee cp6-proof/V2620F_FINAL_RUNTIME_COVERAGE.txt
@@ -2262,7 +2317,7 @@ jobs:
 
       - name: Prove native M supplier payment and opening correction business locks
         env:
-          CP6_M_RACE_SOURCE_GENERATION: V
+          CP6_M_RACE_SOURCE_GENERATION: W
           CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
         run: |
           set -euo pipefail
@@ -2338,7 +2393,7 @@ jobs:
           python scripts/cp6_v2620r_receipt_invoice_races.py | tee cp6-proof/V2620R_RECEIPT_INVOICE_NATIVE_RACES.log
           test "$(jq -r '.status' cp6-proof/R_RECEIPT_INVOICE_NATIVE_RACES/manifest.json)" = 'PASS'
           test "$(jq '.cases | length' cp6-proof/R_RECEIPT_INVOICE_NATIVE_RACES/manifest.json)" = '2'
-          test "$(jq -r '.source_generation' cp6-proof/R_RECEIPT_INVOICE_NATIVE_RACES/manifest.json)" = 'V'
+          test "$(jq -r '.source_generation' cp6-proof/R_RECEIPT_INVOICE_NATIVE_RACES/manifest.json)" = 'W'
 
       - name: Prove native T material adjustment document cents, linked inverses and accounting day
         env:
@@ -2358,7 +2413,7 @@ jobs:
           python scripts/cp6_v2620t_material_adjustment_races.py | tee cp6-proof/V2620T_MATERIAL_ADJUSTMENT_NATIVE_RACES.log
           test "$(jq -r '.status' cp6-proof/T_MATERIAL_ADJUSTMENT_NATIVE_RACES/manifest.json)" = 'PASS'
           test "$(jq '.cases | length' cp6-proof/T_MATERIAL_ADJUSTMENT_NATIVE_RACES/manifest.json)" = '3'
-          test "$(jq -r '.source_generation' cp6-proof/T_MATERIAL_ADJUSTMENT_NATIVE_RACES/manifest.json)" = 'V'
+          test "$(jq -r '.source_generation' cp6-proof/T_MATERIAL_ADJUSTMENT_NATIVE_RACES/manifest.json)" = 'W'
 
       - name: Prove native V misc cash document races and writer abort
         env:
@@ -2368,9 +2423,19 @@ jobs:
           python scripts/cp6_v2620v_misc_finance_races.py | tee cp6-proof/V2620V_MISC_FINANCE_RACES.log
           test "$(jq -r '.status' cp6-proof/V_MISC_FINANCE_NATIVE_RACES/manifest.json)" = 'PASS'
           test "$(jq '.cases | length' cp6-proof/V_MISC_FINANCE_NATIVE_RACES/manifest.json)" = '3'
-          test "$(jq -r '.source_generation' cp6-proof/V_MISC_FINANCE_NATIVE_RACES/manifest.json)" = 'V'
+          test "$(jq -r '.source_generation' cp6-proof/V_MISC_FINANCE_NATIVE_RACES/manifest.json)" = 'W'
 
-      - name: Qualify exact F G H I J K L M N O P Q R S T U and V rollback under closed admission across three hundred twenty native schedules
+      - name: Prove native W paid scrap document races and writer abort
+        env:
+          CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
+        run: |
+          set -euo pipefail
+          python scripts/cp6_v2620w_scrap_races.py | tee cp6-proof/V2620W_SCRAP_RACES.log
+          test "$(jq -r '.status' cp6-proof/W_SCRAP_NATIVE_RACES/manifest.json)" = 'PASS'
+          test "$(jq '.cases | length' cp6-proof/W_SCRAP_NATIVE_RACES/manifest.json)" = '3'
+          test "$(jq -r '.source_generation' cp6-proof/W_SCRAP_NATIVE_RACES/manifest.json)" = 'W'
+
+      - name: Qualify exact F G H I J K L M N O P Q R S T U V and W rollback under closed admission across three hundred sixty native schedules
         shell: bash
         env:
           CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
@@ -2378,11 +2443,36 @@ jobs:
           set -euo pipefail
           python scripts/cp6_v2620h_maintenance_rollback_matrix.py 2>&1 | tee cp6-proof/V2620H_MAINTENANCE_ROLLBACK_MATRIX.log
           test "$(jq -r '.status' cp6-proof/H_MAINTENANCE_ROLLBACK/manifest.json)" = 'PASS'
-          test "$(jq '.cases | length' cp6-proof/H_MAINTENANCE_ROLLBACK/manifest.json)" = '340'
+          test "$(jq '.cases | length' cp6-proof/H_MAINTENANCE_ROLLBACK/manifest.json)" = '360'
           test "$(jq '[.cases[] | select(.status != "PASS")] | length' cp6-proof/H_MAINTENANCE_ROLLBACK/manifest.json)" = '0'
-          test "$(jq '.writer_first_body_entry.expected' cp6-proof/H_MAINTENANCE_ROLLBACK/manifest.json)" = '85'
-          test "$(jq '.writer_first_body_entry.observed' cp6-proof/H_MAINTENANCE_ROLLBACK/manifest.json)" = '85'
+          test "$(jq '.writer_first_body_entry.expected' cp6-proof/H_MAINTENANCE_ROLLBACK/manifest.json)" = '90'
+          test "$(jq '.writer_first_body_entry.observed' cp6-proof/H_MAINTENANCE_ROLLBACK/manifest.json)" = '90'
           test "$(jq '.writer_first_body_entry.compilation_only_contexts' cp6-proof/H_MAINTENANCE_ROLLBACK/manifest.json)" = '0'
+
+      - name: Prove trusted W capsule before exact W restore to V
+        shell: bash
+        env:
+          CP6_MAINTENANCE_CONFIRM_DATABASE: postgres
+          CP6_MAINTENANCE_ALLOW_SYSTEM_DATABASE: postgres
+        run: |
+          set -euo pipefail
+          python scripts/cp6_v2620w_rollback_guards.py | tee cp6-proof/V2620W_ROLLBACK_GUARDS.log
+          test "$(jq -r '.status' cp6-proof/CP6_V2620W_ROLLBACK_GUARDS.json)" = 'PASS'
+          test "$(jq '.exact_pre_use_restore.restored_function_count' cp6-proof/CP6_V2620W_ROLLBACK_GUARDS.json)" = '3'
+          test "$(jq '.extra_object_preflight_guards | length' cp6-proof/CP6_V2620W_ROLLBACK_GUARDS.json)" = '9'
+          test "$(jq -r '.status' cp6-proof/V2620W_MAIN_MAINTENANCE_ROLLBACK.json)" = 'PASS'
+
+          PYTHONPATH=scripts python - <<'PY'
+          import json,os,pathlib,psycopg
+          from cp6_v2620n_rollback_guards import function_catalog
+          before=json.loads(pathlib.Path('cp6-proof/V2620W_COMPLETE_V_CATALOG.json').read_text())
+          with psycopg.connect(os.environ['PGURL']) as conn,conn.cursor() as cur:
+              after=json.loads(json.dumps(function_catalog(cur)))
+          assert before==after,'W_COMPLETE_V_CATALOG_RESTORE_MISMATCH'
+          pathlib.Path('cp6-proof/V2620W_COMPLETE_V_RESTORE.json').write_text(json.dumps({
+              'head':os.environ['GITHUB_SHA'],'status':'PASS','complete_function_count':len(after),
+              'definitions_owners_acls_exact':True,'production_go':False},indent=2)+'\n')
+          PY
 
       - name: Prove trusted V capsule before exact V restore to U
         shell: bash
@@ -4034,10 +4124,10 @@ jobs:
           select jsonb_build_object(
             'status',case when
               exists(select 1 from erp.schema_migrations where version='v2.6.17a')
-              and not exists(select 1 from erp.schema_migrations where version in('v2.6.18','v2.6.18a','v2.6.19','v2.6.19a','v2.6.19b','v2.6.19c','v2.6.20','v2.6.20a','v2.6.20b','v2.6.20c','v2.6.20d','v2.6.20e','v2.6.20f','v2.6.20g','v2.6.20h','v2.6.20i','v2.6.20j','v2.6.20k','v2.6.20l','v2.6.20m','v2.6.20n','v2.6.20o','v2.6.20p','v2.6.20q','v2.6.20r','v2.6.20s','v2.6.20t','v2.6.20u','v2.6.20v'))
+              and not exists(select 1 from erp.schema_migrations where version in('v2.6.18','v2.6.18a','v2.6.19','v2.6.19a','v2.6.19b','v2.6.19c','v2.6.20','v2.6.20a','v2.6.20b','v2.6.20c','v2.6.20d','v2.6.20e','v2.6.20f','v2.6.20g','v2.6.20h','v2.6.20i','v2.6.20j','v2.6.20k','v2.6.20l','v2.6.20m','v2.6.20n','v2.6.20o','v2.6.20p','v2.6.20q','v2.6.20r','v2.6.20s','v2.6.20t','v2.6.20u','v2.6.20v','v2.6.20w'))
               and not exists(select 1 from supabase_migrations.schema_migrations
-                where version in('20260903022604','20260903060213','20260903070931','20260903070932','20260903080931','20260903080932','20260903151034','20260903161034','20260904012525','20260904022525','20260904061346','20260904071346','20260904111157','20260905110913','20260905170334','20260907190000','20260908160000','20260909113933','20260909174713','20260910031103','20260910061516','20260910100051','20260910170556','20260911023222','20260911070622','20260911092622','20260911124328','20260911165255','20260912051922','20260912084719','20260912114635','20260912132445','20260912171034','20260913070000','20260913135850')
-                   or name in('erp_v2_6_18_cutting_persistence_pickup_wip','erp_v2_6_18a_cutting_bridge_reconciliation','erp_v2_6_19_cp5_bs_resolution_recovery','erp_v2_6_19a_cp5_rework_accessory_lineage','erp_v2_6_19b_cp5_reliability_closure','erp_v2_6_19c_cp5_atomic_reversal_reconciliation','erp_v2_6_20_cp6_laundry_qc_fg_authoritative','erp_v2_6_20a_cp6_audit_reliability_closure','erp_v2_6_20b_cp6_reaudit_reliability_closure','erp_v2_6_20c_cp6_deep_business_reliability','erp_v2_6_20d_cp6_reaudit_business_closure','erp_v2_6_20e_cp6_counterexample_closure','erp_v2_6_20f_cp6_final_runtime_reliability','erp_v2_6_20g_cp6_independent_audit_closure','erp_v2_6_20h_cp6_expanded_audit_closure','erp_v2_6_20i_cp6_h2_audit_closure','erp_v2_6_20j_cp6_payment_fact_closure','erp_v2_6_20k_cp6_payment_date_conservation','erp_v2_6_20l_cp6_exact_ledger_conservation','erp_v2_6_20m_cp6_subledger_exact_cent_closure','erp_v2_6_20n_cp6_supplier_cent_lifecycle','erp_v2_6_20o_cp6_supplier_return_document_allocation','erp_v2_6_20p_cp6_supplier_return_match_state','erp_v2_6_20q_cp6_supplier_invoice_exact_quantity','erp_v2_6_20r_cp6_receipt_invoice_dependency','erp_v2_6_20s_cp6_supplier_payment_business_date','erp_v2_6_20t_cp6_material_adjustment_revaluation','erp_v2_6_20u_cp6_canonical_business_date','erp_v2_6_20v_cp6_misc_finance_business_date'))
+                where version in('20260903022604','20260903060213','20260903070931','20260903070932','20260903080931','20260903080932','20260903151034','20260903161034','20260904012525','20260904022525','20260904061346','20260904071346','20260904111157','20260905110913','20260905170334','20260907190000','20260908160000','20260909113933','20260909174713','20260910031103','20260910061516','20260910100051','20260910170556','20260911023222','20260911070622','20260911092622','20260911124328','20260911165255','20260912051922','20260912084719','20260912114635','20260912132445','20260912171034','20260913070000','20260913135850','20260913173840')
+                   or name in('erp_v2_6_18_cutting_persistence_pickup_wip','erp_v2_6_18a_cutting_bridge_reconciliation','erp_v2_6_19_cp5_bs_resolution_recovery','erp_v2_6_19a_cp5_rework_accessory_lineage','erp_v2_6_19b_cp5_reliability_closure','erp_v2_6_19c_cp5_atomic_reversal_reconciliation','erp_v2_6_20_cp6_laundry_qc_fg_authoritative','erp_v2_6_20a_cp6_audit_reliability_closure','erp_v2_6_20b_cp6_reaudit_reliability_closure','erp_v2_6_20c_cp6_deep_business_reliability','erp_v2_6_20d_cp6_reaudit_business_closure','erp_v2_6_20e_cp6_counterexample_closure','erp_v2_6_20f_cp6_final_runtime_reliability','erp_v2_6_20g_cp6_independent_audit_closure','erp_v2_6_20h_cp6_expanded_audit_closure','erp_v2_6_20i_cp6_h2_audit_closure','erp_v2_6_20j_cp6_payment_fact_closure','erp_v2_6_20k_cp6_payment_date_conservation','erp_v2_6_20l_cp6_exact_ledger_conservation','erp_v2_6_20m_cp6_subledger_exact_cent_closure','erp_v2_6_20n_cp6_supplier_cent_lifecycle','erp_v2_6_20o_cp6_supplier_return_document_allocation','erp_v2_6_20p_cp6_supplier_return_match_state','erp_v2_6_20q_cp6_supplier_invoice_exact_quantity','erp_v2_6_20r_cp6_receipt_invoice_dependency','erp_v2_6_20s_cp6_supplier_payment_business_date','erp_v2_6_20t_cp6_material_adjustment_revaluation','erp_v2_6_20u_cp6_canonical_business_date','erp_v2_6_20v_cp6_misc_finance_business_date','erp_v2_6_20w_cp6_scrap_business_date'))
               and to_regclass('erp.cutting_bridge_v2618_rollback_capsule') is null
               and to_regclass('erp.cutting_bridge_v2618a_rollback_capsule') is null
               and to_regclass('erp.cutting_bridge_execution_context') is null
@@ -4079,10 +4169,10 @@ jobs:
               and (select count(*) from erp.app_users)=0
               and not exists(select 1 from pg_database
                 where datname in('cp6_preflight','cp6_race','cp6_auth','cp6_rollback'))
-              and not exists(select 1 from erp.schema_migrations where version in('v2.6.18','v2.6.18a','v2.6.19','v2.6.19a','v2.6.19b','v2.6.19c','v2.6.20','v2.6.20a','v2.6.20b','v2.6.20c','v2.6.20d','v2.6.20e','v2.6.20f','v2.6.20g','v2.6.20h','v2.6.20i','v2.6.20j','v2.6.20k','v2.6.20l','v2.6.20m','v2.6.20n','v2.6.20o','v2.6.20p','v2.6.20q','v2.6.20r','v2.6.20s','v2.6.20t','v2.6.20u','v2.6.20v'))
+              and not exists(select 1 from erp.schema_migrations where version in('v2.6.18','v2.6.18a','v2.6.19','v2.6.19a','v2.6.19b','v2.6.19c','v2.6.20','v2.6.20a','v2.6.20b','v2.6.20c','v2.6.20d','v2.6.20e','v2.6.20f','v2.6.20g','v2.6.20h','v2.6.20i','v2.6.20j','v2.6.20k','v2.6.20l','v2.6.20m','v2.6.20n','v2.6.20o','v2.6.20p','v2.6.20q','v2.6.20r','v2.6.20s','v2.6.20t','v2.6.20u','v2.6.20v','v2.6.20w'))
               and not exists(select 1 from supabase_migrations.schema_migrations
-                where version in('20260903022604','20260903060213','20260903070931','20260903070932','20260903080931','20260903080932','20260903151034','20260903161034','20260904012525','20260904022525','20260904061346','20260904071346','20260904111157','20260905110913','20260905170334','20260907190000','20260908160000','20260909113933','20260909174713','20260910031103','20260910061516','20260910100051','20260910170556','20260911023222','20260911070622','20260911092622','20260911124328','20260911165255','20260912051922','20260912084719','20260912114635','20260912132445','20260912171034','20260913070000','20260913135850')
-                   or name in('erp_v2_6_18_cutting_persistence_pickup_wip','erp_v2_6_18a_cutting_bridge_reconciliation','erp_v2_6_19_cp5_bs_resolution_recovery','erp_v2_6_19a_cp5_rework_accessory_lineage','erp_v2_6_19b_cp5_reliability_closure','erp_v2_6_19c_cp5_atomic_reversal_reconciliation','erp_v2_6_20_cp6_laundry_qc_fg_authoritative','erp_v2_6_20a_cp6_audit_reliability_closure','erp_v2_6_20b_cp6_reaudit_reliability_closure','erp_v2_6_20c_cp6_deep_business_reliability','erp_v2_6_20d_cp6_reaudit_business_closure','erp_v2_6_20e_cp6_counterexample_closure','erp_v2_6_20f_cp6_final_runtime_reliability','erp_v2_6_20g_cp6_independent_audit_closure','erp_v2_6_20h_cp6_expanded_audit_closure','erp_v2_6_20i_cp6_h2_audit_closure','erp_v2_6_20j_cp6_payment_fact_closure','erp_v2_6_20k_cp6_payment_date_conservation','erp_v2_6_20l_cp6_exact_ledger_conservation','erp_v2_6_20m_cp6_subledger_exact_cent_closure','erp_v2_6_20n_cp6_supplier_cent_lifecycle','erp_v2_6_20o_cp6_supplier_return_document_allocation','erp_v2_6_20p_cp6_supplier_return_match_state','erp_v2_6_20q_cp6_supplier_invoice_exact_quantity','erp_v2_6_20r_cp6_receipt_invoice_dependency','erp_v2_6_20s_cp6_supplier_payment_business_date','erp_v2_6_20t_cp6_material_adjustment_revaluation','erp_v2_6_20u_cp6_canonical_business_date','erp_v2_6_20v_cp6_misc_finance_business_date'))
+                where version in('20260903022604','20260903060213','20260903070931','20260903070932','20260903080931','20260903080932','20260903151034','20260903161034','20260904012525','20260904022525','20260904061346','20260904071346','20260904111157','20260905110913','20260905170334','20260907190000','20260908160000','20260909113933','20260909174713','20260910031103','20260910061516','20260910100051','20260910170556','20260911023222','20260911070622','20260911092622','20260911124328','20260911165255','20260912051922','20260912084719','20260912114635','20260912132445','20260912171034','20260913070000','20260913135850','20260913173840')
+                   or name in('erp_v2_6_18_cutting_persistence_pickup_wip','erp_v2_6_18a_cutting_bridge_reconciliation','erp_v2_6_19_cp5_bs_resolution_recovery','erp_v2_6_19a_cp5_rework_accessory_lineage','erp_v2_6_19b_cp5_reliability_closure','erp_v2_6_19c_cp5_atomic_reversal_reconciliation','erp_v2_6_20_cp6_laundry_qc_fg_authoritative','erp_v2_6_20a_cp6_audit_reliability_closure','erp_v2_6_20b_cp6_reaudit_reliability_closure','erp_v2_6_20c_cp6_deep_business_reliability','erp_v2_6_20d_cp6_reaudit_business_closure','erp_v2_6_20e_cp6_counterexample_closure','erp_v2_6_20f_cp6_final_runtime_reliability','erp_v2_6_20g_cp6_independent_audit_closure','erp_v2_6_20h_cp6_expanded_audit_closure','erp_v2_6_20i_cp6_h2_audit_closure','erp_v2_6_20j_cp6_payment_fact_closure','erp_v2_6_20k_cp6_payment_date_conservation','erp_v2_6_20l_cp6_exact_ledger_conservation','erp_v2_6_20m_cp6_subledger_exact_cent_closure','erp_v2_6_20n_cp6_supplier_cent_lifecycle','erp_v2_6_20o_cp6_supplier_return_document_allocation','erp_v2_6_20p_cp6_supplier_return_match_state','erp_v2_6_20q_cp6_supplier_invoice_exact_quantity','erp_v2_6_20r_cp6_receipt_invoice_dependency','erp_v2_6_20s_cp6_supplier_payment_business_date','erp_v2_6_20t_cp6_material_adjustment_revaluation','erp_v2_6_20u_cp6_canonical_business_date','erp_v2_6_20v_cp6_misc_finance_business_date','erp_v2_6_20w_cp6_scrap_business_date'))
               and to_regclass('erp.cutting_bridge_v2618a_rollback_capsule') is null
               and to_regclass('erp.cutting_bridge_execution_context') is null
               and to_regclass('erp.bs_resolution_execution_context') is null
@@ -4113,6 +4203,7 @@ jobs:
               and to_regclass('erp.cp6_v2620t_rollback_capsule') is null
               and to_regclass('erp.cp6_v2620u_rollback_capsule') is null
               and to_regclass('erp.cp6_v2620v_rollback_capsule') is null
+              and to_regclass('erp.cp6_v2620w_rollback_capsule') is null
               and to_regclass('erp.material_adjustment_revaluation_facts') is null
               and to_regprocedure('erp._cp6_material_adjustment_revaluation_state(uuid)') is null
               and to_regprocedure('erp._cp6_sync_material_adjustment_revaluation(uuid,uuid)') is null
@@ -4296,6 +4387,10 @@ jobs:
             'disposable_database_residue',(select count(*) from pg_database
               where datname in('cp6_preflight','cp6_race','cp6_auth','cp6_rollback')),
             'production_go',false
+          ) || jsonb_build_object(
+            'v2620w_application',exists(select 1 from erp.schema_migrations where version='v2.6.20w'),
+            'v2620w_platform',exists(select 1 from supabase_migrations.schema_migrations where name='erp_v2_6_20w_cp6_scrap_business_date'),
+            'v2620w_capsule',to_regclass('erp.cp6_v2620w_rollback_capsule') is not null
           );
           SQL
           test "$(python -c "import json;print(json.load(open('cp6-proof/FINAL_RECONCILIATION.json'))['status'])")" = 'PASS'
@@ -4481,6 +4576,22 @@ jobs:
             'V2620V_MAIN_MAINTENANCE_ROLLBACK.json',
             'V2620V_COMPLETE_U_CATALOG.json',
             'V2620V_COMPLETE_U_RESTORE.json',
+            'V2620W_V_COUNTEREXAMPLES.log',
+            'CP6_V2620W_V_COUNTEREXAMPLES.json',
+            'V2620W_MIGRATION_SHA256.txt',
+            'V2620W_ROLLBACK_SHA256.txt',
+            'V2620W_APPLY.log',
+            'V2620W_REPLAY_REJECTION.log',
+            'V2620W_INSTALLED_FUNCTION_SHA256.txt',
+            'V2620W_NATIVE_REGRESSION.log',
+            'CP6_V2620W_SCRAP_BUSINESS_DATE_REGRESSION.json',
+            'V2620W_SCRAP_RACES.log',
+            'W_SCRAP_NATIVE_RACES/manifest.json',
+            'V2620W_ROLLBACK_GUARDS.log',
+            'CP6_V2620W_ROLLBACK_GUARDS.json',
+            'V2620W_MAIN_MAINTENANCE_ROLLBACK.json',
+            'V2620W_COMPLETE_V_CATALOG.json',
+            'V2620W_COMPLETE_V_RESTORE.json',
             'V2620S_R_COUNTEREXAMPLES.log',
             'CP6_V2620P_O_COUNTEREXAMPLES.json',
             'CP6_V2620Q_P_COUNTEREXAMPLES.json',
@@ -4556,7 +4667,7 @@ jobs:
 
           g=json.loads((proof/'CP6_V2620G_INDEPENDENT_REGRESSION.json').read_text())
           assert g['head']==os.environ['GITHUB_SHA'] and g['status']=='PASS' and g['production_go'] is False,g
-          assert g['runtime']['versions']==['v2.6.20e','v2.6.20f','v2.6.20g','v2.6.20h','v2.6.20i','v2.6.20j','v2.6.20k','v2.6.20l','v2.6.20m','v2.6.20n','v2.6.20o','v2.6.20p','v2.6.20q','v2.6.20r','v2.6.20s','v2.6.20t','v2.6.20u','v2.6.20v'],g
+          assert g['runtime']['versions']==['v2.6.20e','v2.6.20f','v2.6.20g','v2.6.20h','v2.6.20i','v2.6.20j','v2.6.20k','v2.6.20l','v2.6.20m','v2.6.20n','v2.6.20o','v2.6.20p','v2.6.20q','v2.6.20r','v2.6.20s','v2.6.20t','v2.6.20u','v2.6.20v','v2.6.20w'],g
           assert len(g['runtime']['capsule'])==7 and all(x['installed_sha256']==x['actual_sha256'] for x in g['runtime']['capsule']),g
           assert len(g['runtime']['successor_capsule'])==6 and all(x['installed_sha256']==x['actual_sha256'] for x in g['runtime']['successor_capsule']),g
           assert len(g['runtime']['successor_i_capsule'])==1 and all(x['installed_sha256']==x['actual_sha256'] for x in g['runtime']['successor_i_capsule']),g
@@ -4574,7 +4685,7 @@ jobs:
 
           h=json.loads((proof/'CP6_V2620H_EXPANDED_AUDIT_REGRESSION.json').read_text())
           assert h['head']==os.environ['GITHUB_SHA'] and h['status']=='PASS' and h['production_go'] is False,h
-          assert h['runtime']['versions']==['v2.6.20e','v2.6.20f','v2.6.20g','v2.6.20h','v2.6.20i','v2.6.20j','v2.6.20k','v2.6.20l','v2.6.20m','v2.6.20n','v2.6.20o','v2.6.20p','v2.6.20q','v2.6.20r','v2.6.20s','v2.6.20t','v2.6.20u','v2.6.20v'],h
+          assert h['runtime']['versions']==['v2.6.20e','v2.6.20f','v2.6.20g','v2.6.20h','v2.6.20i','v2.6.20j','v2.6.20k','v2.6.20l','v2.6.20m','v2.6.20n','v2.6.20o','v2.6.20p','v2.6.20q','v2.6.20r','v2.6.20s','v2.6.20t','v2.6.20u','v2.6.20v','v2.6.20w'],h
           assert len(h['runtime']['functions'])==6,h
           assert all(x['installed_sha256']==x['actual_sha256'] for x in h['runtime']['functions']),h
           assert len(h['runtime']['successor_j_capsule'])==3 and all(x['installed_sha256']==x['actual_sha256'] for x in h['runtime']['successor_j_capsule']),h
@@ -4595,7 +4706,7 @@ jobs:
 
           i=json.loads((proof/'CP6_V2620I_H2_AUDIT_REGRESSION.json').read_text())
           assert i['head']==os.environ['GITHUB_SHA'] and i['status']=='PASS' and i['production_go'] is False,i
-          assert i['runtime']['versions']==['v2.6.20e','v2.6.20f','v2.6.20g','v2.6.20h','v2.6.20i','v2.6.20j','v2.6.20k','v2.6.20l','v2.6.20m','v2.6.20n','v2.6.20o','v2.6.20p','v2.6.20q','v2.6.20r','v2.6.20s','v2.6.20t','v2.6.20u','v2.6.20v'],i
+          assert i['runtime']['versions']==['v2.6.20e','v2.6.20f','v2.6.20g','v2.6.20h','v2.6.20i','v2.6.20j','v2.6.20k','v2.6.20l','v2.6.20m','v2.6.20n','v2.6.20o','v2.6.20p','v2.6.20q','v2.6.20r','v2.6.20s','v2.6.20t','v2.6.20u','v2.6.20v','v2.6.20w'],i
           assert i['runtime']['capsule']['effective_generation']=='M',i
           assert len(i['runtime']['successor_j_capsule'])==3 and all(x['installed_sha256']==x['actual_sha256'] for x in i['runtime']['successor_j_capsule']),i
           assert i['runtime']['capsule']['actual_sha256']==next(x['installed_sha256'] for x in i['runtime']['successor_j_capsule'] if x['identity']=='erp.run_v268_financial_report_checks()'),i
@@ -4616,7 +4727,7 @@ jobs:
 
           j=json.loads((proof/'CP6_V2620J_PAYMENT_FACT_REGRESSION.json').read_text())
           assert j['head']==os.environ['GITHUB_SHA'] and j['status']=='PASS' and j['production_go'] is False,j
-          assert j['runtime']['versions']==['v2.6.20e','v2.6.20f','v2.6.20g','v2.6.20h','v2.6.20i','v2.6.20j','v2.6.20k','v2.6.20l','v2.6.20m','v2.6.20n','v2.6.20o','v2.6.20p','v2.6.20q','v2.6.20r','v2.6.20s','v2.6.20t','v2.6.20u','v2.6.20v'],j
+          assert j['runtime']['versions']==['v2.6.20e','v2.6.20f','v2.6.20g','v2.6.20h','v2.6.20i','v2.6.20j','v2.6.20k','v2.6.20l','v2.6.20m','v2.6.20n','v2.6.20o','v2.6.20p','v2.6.20q','v2.6.20r','v2.6.20s','v2.6.20t','v2.6.20u','v2.6.20v','v2.6.20w'],j
           assert len(j['runtime']['capsule'])==3 and all(x['installed_sha256']==x['actual_sha256'] for x in j['runtime']['capsule']),j
           assert len(j['cases'])==5 and all(x['status']=='PASS' for x in j['cases'].values()),j
           assert j['cases']['I01_INVOICE_IDENTITY_GUARD_AND_DETECTOR']['direct_guard']['rejected'] is True,j
@@ -4634,7 +4745,7 @@ jobs:
           assert jguard['maintenance']['rollback_committed'] and jguard['maintenance']['admission_reopened_after_success'],jguard
           setup_unit=json.loads((proof/'CP6_ROLLBACK_SETUP_UNIT.json').read_text())
           assert setup_unit['head']==os.environ['GITHUB_SHA'] and setup_unit['status']=='PASS',setup_unit
-          assert setup_unit['completed_case_count']==setup_unit['expected_case_count']==169,setup_unit
+          assert setup_unit['completed_case_count']==setup_unit['expected_case_count']==188,setup_unit
           assert setup_unit['unconditional_j_negative_control_rejected'] and setup_unit['permissive_source_negative_control_rejected'],setup_unit
 
           k=json.loads((proof/'CP6_V2620K_PAYMENT_DATE_REGRESSION.json').read_text())
@@ -4680,7 +4791,7 @@ jobs:
           assert mg['trusted_capsule_guard']['status']=='PASS' and not mg['trusted_capsule_guard']['admission_closed'] and not mg['trusted_capsule_guard']['rollback_started']
           assert mg['maintenance']['rollback_committed'] and mg['maintenance']['admission_reopened_after_success']
           mr=json.loads((proof/'M_SUBLEDGER_NATIVE_RACES/manifest.json').read_text())
-          assert mr['head']==head_for_m and mr['status']=='PASS' and len(mr['cases'])==3 and mr['source_generation']=='V'
+          assert mr['head']==head_for_m and mr['status']=='PASS' and len(mr['cases'])==3 and mr['source_generation']=='W'
           for c in mr['cases']:
               assert c['status']=='PASS' and c['remaining_clone_databases']==0 and c['unexpected_draft_residue']==0
               assert c['manual_prelock_count']==0 and c['retry_count']==0 and c['first_pid']!=c['second_pid']
@@ -4804,7 +4915,7 @@ jobs:
           assert len(rg['extra_object_preflight_guards'])==5 and all(c['status']=='PASS' and not c['admission_closed'] and not c['rollback_started'] for c in rg['extra_object_preflight_guards'])
           assert rg['maintenance']['rollback_committed'] and rg['maintenance']['admission_reopened_after_success']
           rr=json.loads((proof/'R_RECEIPT_INVOICE_NATIVE_RACES/manifest.json').read_text())
-          assert rr['head']==os.environ['GITHUB_SHA'] and rr['status']=='PASS' and len(rr['cases'])==2 and rr['source_generation']=='V'
+          assert rr['head']==os.environ['GITHUB_SHA'] and rr['status']=='PASS' and len(rr['cases'])==2 and rr['source_generation']=='W'
           assert {c['case'] for c in rr['cases']}=={'INVOICE_POST_FIRST','RECEIPT_REVERSE_FIRST'}
           for c in rr['cases']:
               assert c['status']=='PASS' and c['remaining_clone_databases']==0 and c['contender_business_boundary_unchanged']
@@ -4897,7 +5008,7 @@ jobs:
           t_restore=json.loads((proof/'V2620T_COMPLETE_S_RESTORE.json').read_text())
           assert t_restore['head']==os.environ['GITHUB_SHA'] and t_restore['status']=='PASS' and t_restore['definitions_owners_acls_exact']
           tr=json.loads((proof/'T_MATERIAL_ADJUSTMENT_NATIVE_RACES/manifest.json').read_text())
-          assert tr['head']==os.environ['GITHUB_SHA'] and tr['status']=='PASS' and tr['source_generation']=='V'
+          assert tr['head']==os.environ['GITHUB_SHA'] and tr['status']=='PASS' and tr['source_generation']=='W'
           assert len(tr['cases'])==3 and {c['case'] for c in tr['cases']}=={'MATERIAL_A_FIRST','MATERIAL_B_FIRST','MATERIAL_A_ABORT'}
           for c in tr['cases']:
               assert c['status']=='PASS' and c['remaining_clone_databases']==0 and c['actual']==c['expected'] and c['report']=='READY'
@@ -4935,7 +5046,7 @@ jobs:
           assert v_restore['head']==os.environ['GITHUB_SHA'] and v_restore['status']=='PASS' and v_restore['definitions_owners_acls_exact']
 
           vr=json.loads((proof/'V_MISC_FINANCE_NATIVE_RACES/manifest.json').read_text())
-          assert vr['head']==os.environ['GITHUB_SHA'] and vr['status']=='PASS' and vr['source_generation']=='V'
+          assert vr['head']==os.environ['GITHUB_SHA'] and vr['status']=='PASS' and vr['source_generation']=='W'
           assert len(vr['cases'])==3 and {c['case'] for c in vr['cases']}=={'POST_THEN_REVERSE','POST_THEN_POST','POST_ABORT_THEN_POST'}
           assert sum(c['first_aborted'] for c in vr['cases'])==1
           for c in vr['cases']:
@@ -4945,14 +5056,56 @@ jobs:
               assert c['authority']=='REAL_AUTHENTICATED_SESSION_OWNER' and not c['http_ui_reachability_proven']
               assert all(cash_delta_equal(d['expected'],d['actual']) for d in c['per_date_cash'].values()),c['per_date_cash']
 
+          wb=json.loads((proof/'CP6_V2620W_V_COUNTEREXAMPLES.json').read_text())
+          wp=json.loads((proof/'CP6_V2620W_SCRAP_BUSINESS_DATE_REGRESSION.json').read_text())
+          assert wb['head']==wp['head']==os.environ['GITHUB_SHA'] and wb['status']==wp['status']=='PASS'
+          assert wb['phase']=='BEFORE_W' and wp['phase']=='AFTER_W' and wp['production_go'] is False
+          assert len(wb['cases'])==len(wp['cases'])==4
+          assert sum(c['status']=='KNOWN_V_BUG_REPRODUCED' for c in wb['cases'].values())==2
+          assert sum(c['status']=='CONTROL_PASS' for c in wb['cases'].values())==2
+          assert sum(c['upgrade_guard']['invalid_history_refused'] for c in wb['cases'].values())==2
+          assert sum(c['upgrade_guard']['lawful_history_accepted'] for c in wb['cases'].values())==2
+          assert all(c['full_boundary_restored'] and c['upgrade_guard']['full_boundary_exact'] for c in wb['cases'].values())
+          assert len(wp['expanded_cases'])==21
+          assert all(c['status']=='PASS' and c['full_boundary_restored'] for c in list(wp['cases'].values())+list(wp['expanded_cases'].values()))
+          assert wb['entire_unseeded_runtime_restored'] and wp['entire_unseeded_runtime_restored']
+          assert wb['runtime']['verified_w_functions']==0 and wp['runtime']['verified_w_functions']==3
+          assert len(wp['runtime']['installed_function_hashes'])==3
+          for c in wp['cases'].values():
+              assert c['identity']==dict(current_user='authenticated',session_user='authenticated',app_role='OWNER')
+              assert c['draft_inert'] and c['document_cents_conserved']
+              assert all(cash_delta_equal(d['expected_cash_delta'],d['actual_cash_delta']) for d in c['daily_evidence'].values()),c['daily_evidence']
+          wg=json.loads((proof/'CP6_V2620W_ROLLBACK_GUARDS.json').read_text())
+          assert wg['head']==os.environ['GITHUB_SHA'] and wg['status']=='PASS' and len(wg['guards'])==7
+          assert wg['exact_pre_use_restore']=={'generation':'V','restored_function_count':3,'owner_acl_exact':True,'metadata_schema_residue':0}
+          assert wg['trusted_capsule_guard']['status']=='PASS' and not wg['trusted_capsule_guard']['admission_closed'] and not wg['trusted_capsule_guard']['rollback_started']
+          assert len(wg['extra_object_preflight_guards'])==9 and all(c['status']=='PASS' and not c['admission_closed'] and not c['rollback_started'] for c in wg['extra_object_preflight_guards'])
+          assert wg['maintenance']['rollback_committed'] and wg['maintenance']['admission_reopened_after_success']
+          w_restore=json.loads((proof/'V2620W_COMPLETE_V_RESTORE.json').read_text())
+          assert w_restore['head']==os.environ['GITHUB_SHA'] and w_restore['status']=='PASS' and w_restore['definitions_owners_acls_exact']
+
+          wr=json.loads((proof/'W_SCRAP_NATIVE_RACES/manifest.json').read_text())
+          assert wr['head']==os.environ['GITHUB_SHA'] and wr['status']=='PASS' and wr['source_generation']=='W'
+          assert len(wr['cases'])==3 and {c['case'] for c in wr['cases']}=={'POST_THEN_REVERSE','POST_THEN_POST','POST_ABORT_THEN_POST'}
+          assert sum(c['first_aborted'] for c in wr['cases'])==1
+          for c in wr['cases']:
+              assert c['status']=='PASS' and c['remaining_clone_databases']==0 and c['report']=='READY'
+              assert c['manual_prelock_count']==c['retry_count']==0 and c['first_pid']!=c['second_pid']
+              assert c['first_pid'] in c['blocking_observation']['blocking_pids'] and c['blocking_observation']['real_business_query_observed']
+              assert c['authority']=='REAL_AUTHENTICATED_SESSION_OWNER' and not c['http_ui_reachability_proven']
+              assert all(cash_delta_equal(d['expected'],d['actual']) for d in c['per_date_cash'].values()),c['per_date_cash']
+
+          assert wb['schema_usage_restored'] and wp['schema_usage_restored']
+          assert w_restore['complete_function_count']==533
+
           schedules=json.loads((proof/'H_MAINTENANCE_ROLLBACK/manifest.json').read_text())
           assert schedules['head']==os.environ['GITHUB_SHA'] and schedules['status']=='PASS',schedules
-          expected={(target,op,mode) for target in ('F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V')
+          expected={(target,op,mode) for target in ('F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W')
             for op in ('SALE','RETURN','CONVERSION','REPORT','FK_SYNC')
             for mode in ('WRITER_FIRST','ADMISSION_FIRST','WRITER_ABORT','DRAIN_TIMEOUT')}
-          assert len(schedules['cases'])==340 and {(c['target'],c['operation'],c['mode']) for c in schedules['cases']}==expected
+          assert len(schedules['cases'])==360 and {(c['target'],c['operation'],c['mode']) for c in schedules['cases']}==expected
           assert schedules['writer_first_body_entry']=={
-            'expected':85,'observed':85,'compilation_only_contexts':0,
+            'expected':90,'observed':90,'compilation_only_contexts':0,
           },schedules
           for c in schedules['cases']:
               assert c['status']=='PASS' and c['remaining_clone_databases']==0,c
@@ -4984,6 +5137,15 @@ jobs:
 
           digest=lambda value:hashlib.sha256(value).hexdigest()
           source_paths=[
+            'supabase/migrations/20260913173840_erp_v2_6_20w_cp6_scrap_business_date.sql',
+            'supabase/rollbacks/20260913173840_erp_v2_6_20w_cp6_scrap_business_date.rollback.sql',
+            'docs/cp6-w-scrap-business-date.md',
+            'scripts/check-cp6-scrap-business-date.mjs',
+            'scripts/cp6_v2620w_runtime.py',
+            'scripts/cp6_v2620w_scrap_races.py',
+            'scripts/cp6_v2620w_scrap_business_date_regression.py',
+            'scripts/cp6_v2620w_rollback_guards.py',
+            'scripts/cp6_v2620v_scrap_adversarial.py',
             'supabase/migrations/20260913135850_erp_v2_6_20v_cp6_misc_finance_business_date.sql',
             'supabase/rollbacks/20260913135850_erp_v2_6_20v_cp6_misc_finance_business_date.rollback.sql',
             'docs/cp6-v-misc-finance-business-date.md',
@@ -5163,7 +5325,7 @@ jobs:
           for path in sorted(item for item in proof.rglob('*') if item.is_file()):
               relative_path=path.relative_to(proof)
               relative=str(relative_path)
-              if relative=='CP6_V2620V_RUNTIME_MANIFEST.json': continue
+              if relative=='CP6_V2620W_RUNTIME_MANIFEST.json': continue
               # actions/upload-artifact excludes hidden path components when
               # include-hidden-files is false.  The manifest must describe
               # exactly the files an independent reviewer can download.
@@ -5178,7 +5340,7 @@ jobs:
           head=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()
           assert head==os.environ['GITHUB_SHA']
           manifest={
-            'format':'CP6_V2620V_RUNTIME_PROOF_V1',
+            'format':'CP6_V2620W_RUNTIME_PROOF_V1',
             'audited_predecessor':{
               'format':'CP6_V2620T_RUNTIME_PROOF_V1',
               'head':'a333672509212467159104e5b7b52d573e13c9d1',
@@ -5282,12 +5444,12 @@ jobs:
               'v2620f_counterexamples_a01_a03':3,
               'v2620f_auth_acceptance_races_and_cp5_after_final_runtime':True,
               'v2620f_installed_function_hashes_bound':True,
-              'final_runtime':'v2.6.20e+v2.6.20f+v2.6.20g+v2.6.20h+v2.6.20i+v2.6.20j+v2.6.20k+v2.6.20l+v2.6.20m+v2.6.20n+v2.6.20o+v2.6.20p+v2.6.20q+v2.6.20r+v2.6.20s+v2.6.20t+v2.6.20u+v2.6.20v',
+              'final_runtime':'v2.6.20e+v2.6.20f+v2.6.20g+v2.6.20h+v2.6.20i+v2.6.20j+v2.6.20k+v2.6.20l+v2.6.20m+v2.6.20n+v2.6.20o+v2.6.20p+v2.6.20q+v2.6.20r+v2.6.20s+v2.6.20t+v2.6.20u+v2.6.20v+v2.6.20w',
               'v2620g_n01_n03_extended_case_groups':8,
               'v2620g_wip_fault_variations':12,
               'v2620g_minor_unit_price_boundaries':10,
               'v2620g_restored_function_owner_acl_count':7,
-              'v2620f_g_h_i_j_k_l_m_n_o_p_q_r_s_t_u_v_closed_admission_rollback_schedules':340,
+              'v2620f_g_h_i_j_k_l_m_n_o_p_q_r_s_t_u_v_w_closed_admission_rollback_schedules':360,
               'v2620f_closed_admission_rollback_schedules':20,
               'v2620g_closed_admission_rollback_schedules':20,
               'v2620h_closed_admission_rollback_schedules':20,
@@ -5332,6 +5494,17 @@ jobs:
               'v2620v_u_misc_date_controls':4,
               'v2620v_native_case_groups':8,
               'v2620v_expanded_native_case_groups':21,
+              'v2620w_closed_admission_rollback_schedules':20,
+              'v2620w_native_case_groups':4,
+              'v2620w_expanded_native_cases':21,
+              'v2620w_v_native_counterexamples':2,
+              'v2620w_v_native_controls':2,
+              'v2620w_document_native_races':3,
+              'v2620w_direct_rollback_guards':7,
+              'v2620w_extra_object_preflight_guards':9,
+              'v2620w_restored_function_owner_acl_count':3,
+              'v2620w_complete_v_function_restore':533,
+              'v2620w_new_path_http_ui_proven':False,
               'v2620v_closed_admission_rollback_schedules':20,
               'v2620v_restored_function_owner_acl_count':3,
               'v2620v_direct_rollback_guards':7,
@@ -5376,7 +5549,7 @@ jobs:
               'v2620l_restored_function_owner_acl_count':3,
               'v2620k_payment_date_native_case_groups':6,
               'v2620k_restored_function_owner_acl_count':4,
-              'writer_first_backend_body_entries':85,
+              'writer_first_backend_body_entries':90,
               'writer_first_compilation_only_contexts':0,
               'v2620h_r02_r03_native_case_groups':5,
               'v2620i_h2_native_case_groups':4,
@@ -5428,6 +5601,7 @@ jobs:
               'uat_v2620t_state':'NOT_TESTED_OR_APPLIED_BY_THIS_RUN',
               'uat_v2620s_state':'NOT_TESTED_OR_APPLIED_BY_THIS_RUN',
               'uat_v2620u_state':'NOT_TESTED_OR_APPLIED_BY_THIS_RUN',
+              'uat_v2620w_state':'NOT_TESTED_OR_APPLIED_BY_THIS_RUN',
               'uat_v2620v_state':'NOT_TESTED_OR_APPLIED_BY_THIS_RUN',
               'legacy_state':'NOT_TESTED_OR_MUTATED_BY_THIS_RUN',
             },
@@ -5447,7 +5621,22 @@ jobs:
             'previous_writer_verdict':'PASS_PENDING_INDEPENDENT_AUDIT',
             'audited_predecessor':manifest['audited_predecessor'],
           }
-          (proof/'CP6_V2620V_RUNTIME_MANIFEST.json').write_text(
+          manifest['audited_predecessor']={
+            'format':'CP6_V2620V_RUNTIME_PROOF_V1',
+            'head':'7be634e663a61545b909cf0367d12461ae7aa798',
+            'tree':'a29235ba5386cc905cb4fb9ee784e16db4a5ce7a',
+            'native_run_id':34766801913,'native_job_id':103749099359,
+            'independent_test_head':'bf0075826177b43034f3fa73594d5f0525a03b1c',
+            'independent_native_run_id':34771815011,'independent_native_job_id':103762657743,
+            'independent_oracle_step':67,
+            'independent_artifact_id':10322770123,
+            'independent_artifact_bytes':2453379,
+            'independent_artifact_sha256':'bc44b878844b6f7f31a87510d54cc9fe14f16e703bbbfe50c1584624844e25d5',
+            'competition_verdict':'FAIL_P2_SCRAP_CASH_BUSINESS_DATE',
+            'previous_writer_verdict':'PASS_PENDING_INDEPENDENT_AUDIT',
+            'audited_predecessor':manifest['audited_predecessor'],
+          }
+          (proof/'CP6_V2620W_RUNTIME_MANIFEST.json').write_text(
               json.dumps(manifest,indent=2,sort_keys=True)+'\n',encoding='utf8',
           )
           print(json.dumps({
@@ -5462,7 +5651,7 @@ jobs:
       - name: Upload complete native evidence transfer
         uses: actions/upload-artifact@v4
         with:
-          name: cp6-r1-v2620v-lossless-native-transfer
+          name: cp6-r1-v2620w-lossless-native-transfer
           path: cp6-native-transfer
           if-no-files-found: error
           compression-level: 0
@@ -5472,7 +5661,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: cp6-r1-v2620v-full-schema-auth-browser-proof
+          name: cp6-r1-v2620w-full-schema-auth-browser-proof
           path: cp6-proof
           if-no-files-found: warn
           include-hidden-files: false

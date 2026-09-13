@@ -1,4 +1,4 @@
-"""Verify U and historical capsules without weakening rollback admission."""
+"""Verify W and historical capsules without weakening rollback admission."""
 import hashlib
 from pathlib import Path
 
@@ -8,33 +8,32 @@ import cp6_preuse_rollback_maintenance as maintenance
 
 
 MIGRATION = Path(
-    'supabase/migrations/20260913070000_erp_v2_6_20u_cp6_canonical_business_date.sql'
+    'supabase/migrations/20260913173840_erp_v2_6_20w_cp6_scrap_business_date.sql'
 )
 
 
 def verified_successor(cur):
     cur.execute("""select exists(select 1 from erp.schema_migrations
-        where version='v2.6.20u'),
-      to_regclass('erp.cp6_v2620u_rollback_capsule') is not null""")
+        where version='v2.6.20w'),
+      to_regclass('erp.cp6_v2620w_rollback_capsule') is not null""")
     marker, capsule = cur.fetchone()
     if not marker and not capsule:
         return {}
     if not marker or not capsule:
-        raise AssertionError('U_MARKER_CAPSULE_MISMATCH')
+        raise AssertionError('W_MARKER_CAPSULE_MISMATCH')
     data = MIGRATION.read_bytes()
     cur.execute("""select version,encode(extensions.digest(convert_to(
       array_to_string(statements,E'\n'),'UTF8'),'sha256'),'hex')
       from supabase_migrations.schema_migrations
-      where name='erp_v2_6_20u_cp6_canonical_business_date'""")
+      where name='erp_v2_6_20w_cp6_scrap_business_date'""")
     rows = cur.fetchall()
-    if len(rows) != 1 or rows[0][0] != '20260913070000' or rows[0][1] not in {
+    if len(rows) != 1 or rows[0][0] != '20260913173840' or rows[0][1] not in {
         hashlib.sha256(data).hexdigest(), hashlib.sha256(data[:-1]).hexdigest(),
     }:
-        raise AssertionError('U_SOURCE_PLATFORM_MISMATCH')
-    import cp6_v2620v_runtime as v_runtime
-    successor = v_runtime.verified_successor(cur)
-    observations = v_runtime.predecessor_snapshot(cur, 'U', successor)
-    v_runtime.extend_items(successor, observations)
+        raise AssertionError('W_SOURCE_PLATFORM_MISMATCH')
+    observations = maintenance._capsule_snapshot(
+        cur.connection, 'W', maintenance.TARGETS['W']
+    )
     return {item['identity']: item for item in observations}
 
 
@@ -43,7 +42,7 @@ def effective_hash(successor, identity, predecessor):
     if item is None:
         return predecessor
     if predecessor != item['predecessor_sha256']:
-        raise AssertionError('U_PREDECESSOR_CHAIN_MISMATCH')
+        raise AssertionError('W_PREDECESSOR_CHAIN_MISMATCH')
     return item['installed_sha256']
 
 
@@ -70,7 +69,7 @@ def predecessor_snapshot(cur, generation, successor):
     rows = [dict(zip(columns, row, strict=True)) for row in cur.fetchall()]
     wanted = {x['identity']: x for x in maintenance.TRUSTED_FUNCTIONS[generation]}
     if len(rows) != len(wanted) or {r['identity'] for r in rows} != set(wanted):
-        raise AssertionError('U_HISTORICAL_CAPSULE_CARDINALITY_MISMATCH')
+        raise AssertionError('W_HISTORICAL_CAPSULE_CARDINALITY_MISMATCH')
     for row in rows:
         expected = wanted[row['identity']]
         if (
@@ -84,7 +83,7 @@ def predecessor_snapshot(cur, generation, successor):
             or row['observed_installed_owner'] != expected['owner']
             or row['observed_installed_acl'] != expected['acl']
         ):
-            raise AssertionError('U_HISTORICAL_CAPSULE_SOURCE_PIN_MISMATCH')
+            raise AssertionError('W_HISTORICAL_CAPSULE_SOURCE_PIN_MISMATCH')
     return rows
 
 
@@ -95,12 +94,8 @@ def extend_items(successor, items):
             item['installed_sha256'] = effective_hash(
                 successor, item['identity'], old
             )
-            item['pre_u_installed_sha256'] = old
-            if 'pre_v_installed_sha256' in successor[item['identity']]:
-                item['pre_v_installed_sha256'] = successor[item['identity']]['pre_v_installed_sha256']
-            if 'pre_w_installed_sha256' in successor[item['identity']]:
-                item['pre_w_installed_sha256'] = successor[item['identity']]['pre_w_installed_sha256']
-            item['expected_generation'] = 'U'
+            item['pre_w_installed_sha256'] = old
+            item['expected_generation'] = 'W'
 
 
 def extend_rows(successor, rows):
@@ -110,11 +105,11 @@ def extend_rows(successor, rows):
     ]
 
 
-import cp6_v2620t_runtime as t_runtime
+import cp6_v2620u_runtime as u_runtime
 
-EXTRA_FUNCTIONS = t_runtime.EXTRA_FUNCTIONS
+EXTRA_FUNCTIONS = u_runtime.EXTRA_FUNCTIONS
 
 
 def verify_extra_objects(cur):
-    """U creates no compatibility object; verify the complete inherited T set."""
-    return t_runtime.verify_extra_objects(cur)
+    """W creates no compatibility object; verify the complete inherited T set."""
+    return u_runtime.verify_extra_objects(cur)
