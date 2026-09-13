@@ -16,7 +16,7 @@ import cp6_v2620h_maintenance_rollback_matrix as matrix
 import cp6_v2620n_rollback_guards as n_guards
 
 ROLLBACK = Path(
-    'supabase/rollbacks/20260913202948_erp_v2_6_20x_cp6_internal_role_fail_closed.rollback.sql'
+    'supabase/rollbacks/20260913224854_erp_v2_6_20x_cp6_internal_role_fail_closed_rollback_r2.rollback.sql'
 )
 REPORT = Path('cp6-proof/CP6_V2620X_ROLLBACK_GUARDS.json')
 DIRECT_REPORT = Path('cp6-proof/CP6_V2620X_DIRECT_GUARD_DIAGNOSTICS.json')

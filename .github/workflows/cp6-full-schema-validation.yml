@@ -1722,11 +1722,11 @@ jobs:
           assert valid,report
           PYCODE
           migration_source='supabase/migrations/20260913202948_erp_v2_6_20x_cp6_internal_role_fail_closed.sql'
-          rollback_source='supabase/rollbacks/20260913202948_erp_v2_6_20x_cp6_internal_role_fail_closed.rollback.sql'
+          rollback_source='supabase/rollbacks/20260913224854_erp_v2_6_20x_cp6_internal_role_fail_closed_rollback_r2.rollback.sql'
           test "$(wc -c < "$migration_source")" = '22114'
-          test "$(wc -c < "$rollback_source")" = '10723'
+          test "$(wc -c < "$rollback_source")" = '11356'
           echo '53af147202671e5919a49080ed135ab9896399867bbb71065ef2da57f6543117  supabase/migrations/20260913202948_erp_v2_6_20x_cp6_internal_role_fail_closed.sql' | sha256sum -c - | tee cp6-proof/V2620X_MIGRATION_SHA256.txt
-          echo '8107dc0d884ee624328b2a0a4c7fd03bed4e8d88f428282a7c00660c43b4200a  supabase/rollbacks/20260913202948_erp_v2_6_20x_cp6_internal_role_fail_closed.rollback.sql' | sha256sum -c - | tee cp6-proof/V2620X_ROLLBACK_SHA256.txt
+          echo '915fbba9398885e1ce4deef0650c38d6237729781c5985beb2acdec0c911e43a  supabase/rollbacks/20260913224854_erp_v2_6_20x_cp6_internal_role_fail_closed_rollback_r2.rollback.sql' | sha256sum -c - | tee cp6-proof/V2620X_ROLLBACK_SHA256.txt
           psql "$PGURL" -X -v ON_ERROR_STOP=1 -f "$migration_source" 2>&1 | tee cp6-proof/V2620X_APPLY.log
           python - <<'PY'
           import json,os,pathlib,psycopg
@@ -5320,6 +5320,7 @@ jobs:
           assert all(c['installed_sha256']==c['observed_installed_sha256'] and c['owner']==c['observed_installed_owner']=='postgres' and c['acl']==c['observed_installed_acl'] for c in xp['runtime']['installed_function_hashes'])
           xg=json.loads((proof/'CP6_V2620X_ROLLBACK_GUARDS.json').read_text())
           assert xg['head']==os.environ['GITHUB_SHA'] and xg['status']=='PASS'
+          assert xg['rollback_sha256']=='915fbba9398885e1ce4deef0650c38d6237729781c5985beb2acdec0c911e43a'
           assert len(xg['guards'])==8 and all(c['status']=='PASS' and c['expected_rejection_observed'] for c in xg['guards'])
           x_direct=json.loads((proof/'CP6_V2620X_DIRECT_GUARD_DIAGNOSTICS.json').read_text())
           assert x_direct['head']==os.environ['GITHUB_SHA'] and x_direct['status']=='PASS' and x_direct['production_go'] is False
@@ -5352,6 +5353,7 @@ jobs:
           },schedules
           for c in schedules['cases']:
               assert c['status']=='PASS' and c['remaining_clone_databases']==0,c
+              if c['target']=='X': assert c['rollback_sha256']=='915fbba9398885e1ce4deef0650c38d6237729781c5985beb2acdec0c911e43a'
               assert c['database_admission_closed_before_ddl'] and c['missing_helper_error_absent'],c
               if c['mode']=='DRAIN_TIMEOUT':
                   assert not c['rollback_committed'] and c['failure_kept_admission_closed'] and not c['old_generation_drained'],c
@@ -5383,6 +5385,7 @@ jobs:
             '.github/workflows/cp6-failed169-forensics.yml',
             'supabase/migrations/20260913202948_erp_v2_6_20x_cp6_internal_role_fail_closed.sql',
             'supabase/rollbacks/20260913202948_erp_v2_6_20x_cp6_internal_role_fail_closed.rollback.sql',
+            'supabase/rollbacks/20260913224854_erp_v2_6_20x_cp6_internal_role_fail_closed_rollback_r2.rollback.sql',
             'scripts/cp6_v2620x_runtime.py',
             'scripts/cp6_v2620x_internal_role_regression.py',
             'scripts/cp6_v2620x_rollback_guards.py',
@@ -5901,6 +5904,10 @@ jobs:
           manifest['x_internal_role']={'paired_cases':10,'known_null_role_paths':6,'controls':4,
             'after_denials':7,'authorized_controls':3,'guard_count':8,'extra_preflight_guards':11,
             'capsule_functions':1,'boundary_tables':209,'complete_w_restore':533,'http_ui_reachability_proven':False}
+          manifest['x_rollback_revision']={'revision':'R2','original_path':'supabase/rollbacks/20260913202948_erp_v2_6_20x_cp6_internal_role_fail_closed.rollback.sql',
+            'original_sha256':'8107dc0d884ee624328b2a0a4c7fd03bed4e8d88f428282a7c00660c43b4200a','effective_path':'supabase/rollbacks/20260913224854_erp_v2_6_20x_cp6_internal_role_fail_closed_rollback_r2.rollback.sql',
+            'effective_sha256':'915fbba9398885e1ce4deef0650c38d6237729781c5985beb2acdec0c911e43a','effective_bytes':11356,'qualified_catalog_aliases':3,
+            'original_frozen_bytes_preserved':True,'all_other_rollback_bytes_preserved':True}
           (proof/'CP6_V2620X_RUNTIME_MANIFEST.json').write_text(
               json.dumps(manifest,indent=2,sort_keys=True)+'\n',encoding='utf8',
           )

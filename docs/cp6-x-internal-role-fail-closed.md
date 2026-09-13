@@ -166,12 +166,39 @@ SQLSTATE42703. No matrix case or backend body entry is claimed as PASS. Later
 X guards and the final binder were not reached. The job is FAIL.
 Original artifact10327086710 is600,545,460 bytes,SHA256
 89ff12a1063329bb500c0c3bf4854cd9824f90687d29061bb46cbe280a7c30a6;
-it exceeds the connector's536,870,912-byte limit. The dedicated forensic workflow
-verifies that original ZIP and preserves every payload through lossless transport.
-It separately qualifies the suspected PL/pgSQL record/SQL-alias collision on
-disposable native PostgreSQL17.6. This checkpoint does not claim a corrected
-full-schema run; the exact matrix cause and its forward correction remain pending.
+it exceeds the connector's536,870,912-byte limit. Forensic run34787739396 on
+20e9630ce42b76b7521fe004c545051d8d9ec5f6 verified the original ZIP and recovered
+all3,442 payloads/3,963,938,212 bytes and183 frozen source pins. Every source and
+payload hash was then verified offline. Recovery artifact10327107527 is2,565,126
+bytes,SHA2566e96521db4dcfa0155e67f28686a20fdacc1de05520e2bf4ea40fb0f8b796fbb.
+The representative X setup report proves endpoint/capsule verification, admission
+closure and drain passed; rollback started but did not commit, and admission stayed
+closed. All380 schedules failed with zero actual backend body entries.
+The separate native PostgreSQL17.6 job103806188374 reproduced SQLSTATE42703,
+record "c" has no field "relnamespace", and its qualified-alias control passed.
+Artifact10326568594 is766 bytes,SHA256
+ed6057746269493b6c3466bfc90898c9d0ea2096dcc824a86f7fadb8823ae668.
+This minimal reproduction is not full ERP rollback acceptance.
 CodeQL44's three authentic zero-finding artifacts do not override native169 FAIL.
+
+### Versioned X rollback R2
+
+The PL/pgSQL restore block declares record c. Its new all-table selectors also
+used pg_class alias c, so record-field resolution failed on c.relnamespace before
+the boundary predicate could run. The original admitted rollback remains intact.
+The forward artifact is
+supabase/rollbacks/20260913224854_erp_v2_6_20x_cp6_internal_role_fail_closed_rollback_r2.rollback.sql,
+11,356 bytes,SHA256915fbba9398885e1ce4deef0650c38d6237729781c5985beb2acdec0c911e43a.
+Only three catalog-selector aliases become relation/namespace; reversing those
+three replacements after the explanatory header yields the original rollback
+byte-for-byte. Static and offline gates require this equivalence and both hashes.
+The maintenance executor, direct guards, matrix proof hashes and native workflow
+explicitly select R2. Every predicate,209-table scope,lock,source pin,function
+restore and transaction boundary is preserved. Installed generation remains X;
+there is no replacement migration or modification of its business functions.
+All79 admitted SQL files remain immutable; R2 is a new versioned rollback artifact.
+R2 still requires a full successful native matrix,guards,533-function restore,
+older rollback ladder and physical cleanup before writer acceptance.
 
 Read-only replay of native168's D report proves a final-binder type mismatch:
 the new D fields are numeric JSON20.0/0.0, but cash_delta_equal accepts strings

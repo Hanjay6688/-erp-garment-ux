@@ -3,11 +3,20 @@ import {readFileSync} from 'node:fs'
 import {createHash} from 'node:crypto'
 const read=p=>readFileSync(p,'utf8'),sha=s=>createHash('sha256').update(s).digest('hex')
 const migrationPath='supabase/migrations/20260913202948_erp_v2_6_20x_cp6_internal_role_fail_closed.sql'
-const rollbackPath='supabase/rollbacks/20260913202948_erp_v2_6_20x_cp6_internal_role_fail_closed.rollback.sql'
+const rollbackPath='supabase/rollbacks/20260913224854_erp_v2_6_20x_cp6_internal_role_fail_closed_rollback_r2.rollback.sql'
+const frozenRollbackPath='supabase/rollbacks/20260913202948_erp_v2_6_20x_cp6_internal_role_fail_closed.rollback.sql'
 const migration=read(migrationPath),rollback=read(rollbackPath)
+const frozenRollback=read(frozenRollbackPath)
+const originalSelector="select c.relname from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='erp' and c.relkind in('r','p') and c.relname not in('schema_migrations','cp6_v2620x_rollback_capsule') order by c.relname"
+const qualifiedSelector="select relation.relname from pg_class relation join pg_namespace namespace on namespace.oid=relation.relnamespace where namespace.nspname='erp' and relation.relkind in('r','p') and relation.relname not in('schema_migrations','cp6_v2620x_rollback_capsule') order by relation.relname"
+const originalBody=rollback.slice(rollback.indexOf('-- REVIEWED PRE-USE ROLLBACK:'))
+assert.equal(frozenRollback.split(originalSelector).length-1,3)
+assert.equal(originalBody.split(qualifiedSelector).length-1,3)
+assert.equal(originalBody.replaceAll(qualifiedSelector,originalSelector),frozenRollback,'R2 must preserve every other rollback byte')
 for(const [p,h,n] of [
  [migrationPath,'53af147202671e5919a49080ed135ab9896399867bbb71065ef2da57f6543117',22114],
- [rollbackPath,'8107dc0d884ee624328b2a0a4c7fd03bed4e8d88f428282a7c00660c43b4200a',10723],
+ [frozenRollbackPath,'8107dc0d884ee624328b2a0a4c7fd03bed4e8d88f428282a7c00660c43b4200a',10723],
+ [rollbackPath,'915fbba9398885e1ce4deef0650c38d6237729781c5985beb2acdec0c911e43a',11356],
  ['supabase/migrations/20260913173840_erp_v2_6_20w_cp6_scrap_business_date.sql','ed858948f60990578ceeb9cbc94a3748b928fae0dcf32a8474079cd7ce31fe08',21930],
  ['supabase/rollbacks/20260913173840_erp_v2_6_20w_cp6_scrap_business_date.rollback.sql','07fcf6c91efe03eea30fb4c1ed3635c6d63421f73407e4d2054ee92861b31153',12904],
 ]){assert.equal(sha(read(p)),h,p);assert.equal(Buffer.byteLength(read(p)),n,p)}
@@ -38,8 +47,9 @@ for(const t of ["len(schedules['cases'])==380","'expected':95,'observed':95",'CP
  "x_restore['complete_function_count']==533",'X_COMPLETE_W_CATALOG_RESTORE_MISMATCH','PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620X',
  "'v2620x_application'","'v2620x_platform'","'v2620x_capsule'",'FAIL_P2_NULL_INTERNAL_ROLE_AUTHORIZATION',
  '2a0781380132b2967a34017c4743727ed5ab24e332dba0051802f139ffa27606'])assert.ok(workflow.includes(t),t)
-for(const p of [migrationPath,rollbackPath,'scripts/cp6_v2620x_runtime.py','scripts/cp6_v2620x_internal_role_regression.py',
+for(const p of [migrationPath,rollbackPath,frozenRollbackPath,'scripts/cp6_v2620x_runtime.py','scripts/cp6_v2620x_internal_role_regression.py',
  'scripts/cp6_v2620x_rollback_guards.py','scripts/check-cp6-internal-role-fail-closed.mjs','docs/cp6-x-internal-role-fail-closed.md'])assert.ok(workflow.includes(`            '${p}',`),p)
 console.log(JSON.stringify({status:'PASS',classification:'STATIC_SOURCE_CONTRACT_NOT_NATIVE_PROOF',replaced_functions:1,
+ rollback_revision:'R2',frozen_original_rollback_preserved:true,qualified_catalog_aliases:3,
  boundary_tables:209,paired_cases:10,known_null_role_paths:6,controls:4,after_denials:7,authorized_controls:3,
  maintenance_schedules:380,writer_body_entries:95,rollback_setup_units:208,production_go:false}))

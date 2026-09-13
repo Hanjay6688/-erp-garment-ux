@@ -190,8 +190,8 @@ TARGETS: dict[str, dict[str, Any]] = {
     },
 
     'X': {
-        'rollback': Path('supabase/rollbacks/20260913202948_erp_v2_6_20x_cp6_internal_role_fail_closed.rollback.sql'),
-        'rollback_sha256': '8107dc0d884ee624328b2a0a4c7fd03bed4e8d88f428282a7c00660c43b4200a',
+        'rollback': Path('supabase/rollbacks/20260913224854_erp_v2_6_20x_cp6_internal_role_fail_closed_rollback_r2.rollback.sql'),
+        'rollback_sha256': '915fbba9398885e1ce4deef0650c38d6237729781c5985beb2acdec0c911e43a',
         'marker': 'v2.6.20x', 'platform': 'erp_v2_6_20x_cp6_internal_role_fail_closed',
         'predecessor': 'v2.6.20w', 'capsule': 'erp.cp6_v2620x_rollback_capsule',
         'capsule_count': 1,

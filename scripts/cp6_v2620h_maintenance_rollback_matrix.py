@@ -64,6 +64,8 @@ BODY_GATES = {
 
 
 def path(target: str, rollback: bool = False) -> Path:
+    if target == 'X' and rollback:
+        return maintenance.TARGETS['X']['rollback']
     stamp, name, _, _, _ = TARGETS[target]
     folder, suffix = ('rollbacks', '.rollback.sql') if rollback else ('migrations', '.sql')
     return Path(f'supabase/{folder}/{stamp}_{name}{suffix}')
