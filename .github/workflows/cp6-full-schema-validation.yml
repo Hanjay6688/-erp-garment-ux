@@ -75,7 +75,7 @@ jobs:
           python -m py_compile scripts/cp6_v2620g_independent_regression.py scripts/cp6_v2620g_rollback_guards.py scripts/cp6_v2620g_expanded_rollback_races.py
           python -m py_compile scripts/cp6_preuse_rollback_maintenance.py scripts/cp6_preuse_rollback_maintenance_unit.py scripts/cp6_v2620h_adversarial_regression.py scripts/cp6_v2620h_maintenance_rollback_matrix.py scripts/cp6_v2620h_rollback_guards.py scripts/cp6_v2620i_h2_audit_regression.py scripts/cp6_v2620i_rollback_guards.py scripts/cp6_v2620j_payment_fact_regression.py scripts/cp6_v2620j_rollback_guards.py
           python -m py_compile scripts/cp6_v2620n_runtime.py scripts/cp6_v2620n_supplier_cent_regression.py scripts/cp6_v2620n_rollback_guards.py scripts/cp6_v2620o_runtime.py scripts/cp6_v2620o_supplier_return_regression.py scripts/cp6_v2620o_rollback_guards.py
-          python -m py_compile scripts/cp6_v2620t_runtime.py scripts/cp6_v2620t_material_adjustment_revaluation_regression.py scripts/cp6_v2620t_rollback_guards.py scripts/cp6_v2620t_material_adjustment_races.py
+          python -m py_compile scripts/cp6_v2620t_runtime.py scripts/cp6_v2620t_material_adjustment_revaluation_regression.py scripts/cp6_v2620t_rollback_guards.py scripts/cp6_v2620t_material_adjustment_races.py scripts/cp6_v2620u_canonical_business_date_regression.py
           python -m py_compile scripts/cp6_v2620s_runtime.py scripts/cp6_v2620s_supplier_payment_business_date_regression.py scripts/cp6_v2620s_rollback_guards.py
           python -m py_compile scripts/cp6_v2620r_runtime.py scripts/cp6_v2620r_receipt_invoice_dependency_regression.py scripts/cp6_v2620r_rollback_guards.py scripts/cp6_v2620r_receipt_invoice_races.py
           python -m py_compile scripts/cp6_v2620q_runtime.py scripts/cp6_v2620q_supplier_invoice_exact_quantity_regression.py scripts/cp6_v2620q_rollback_guards.py
@@ -1502,6 +1502,20 @@ jobs:
           set -e
           test "$replay_status" -ne 0
           grep -F 'T_REQUIRES_EXACT_S_WITHOUT_T_RESIDUE' cp6-proof/V2620T_REPLAY_REJECTION.log >/dev/null
+
+      - name: Reproduce independent T canonical business-date counterexamples before U
+        env:
+          CP6_U_DISPOSABLE_CONFIRM: postgres
+          CP6_U_PHASE: BEFORE_U
+        run: |
+          set -euo pipefail
+          python scripts/cp6_v2620u_canonical_business_date_regression.py | tee cp6-proof/V2620U_T_COUNTEREXAMPLES.log
+          test "$(jq -r '.status' cp6-proof/CP6_V2620U_T_COUNTEREXAMPLES.json)" = 'PASS'
+          test "$(jq '.cases | length' cp6-proof/CP6_V2620U_T_COUNTEREXAMPLES.json)" = '5'
+          test "$(jq '[.cases[] | select(.status == "KNOWN_T_BUG_REPRODUCED")] | length' cp6-proof/CP6_V2620U_T_COUNTEREXAMPLES.json)" = '4'
+          test "$(jq '[.cases[] | select(.status == "CONTROL_PASS")] | length' cp6-proof/CP6_V2620U_T_COUNTEREXAMPLES.json)" = '1'
+          test "$(jq '[.cases[] | select(.rolled_back_to_ready != true)] | length' cp6-proof/CP6_V2620U_T_COUNTEREXAMPLES.json)" = '0'
+          test "$(jq '.runtime.hypothetical_function_hashes | length' cp6-proof/CP6_V2620U_T_COUNTEREXAMPLES.json)" = '5'
 
       - name: Run post-CP6 real Auth JWT HTTP permissions and residue-zero E2E
         shell: bash
@@ -4581,6 +4595,13 @@ jobs:
           assert tp['cases']['COST_HALF_YARD']['corrected']==tp['cases']['COST_HALF_YARD']['expected_corrected']
           assert tp['cases']['ZERO_NET_CORRECTED_INVERSE']['status']=='PASS' and not tp['cases']['ZERO_NET_CORRECTED_INVERSE']['inverse_refused']
           assert tp['cases']['DETECTOR_COST']['detector_count']==1 and tp['cases']['DETECTOR_COST']['report_at_correction']=='BLOCKED'
+          u_before=json.loads((proof/'CP6_V2620U_T_COUNTEREXAMPLES.json').read_text())
+          assert u_before['head']==os.environ['GITHUB_SHA'] and u_before['status']=='PASS' and u_before['production_go'] is False
+          assert u_before['phase']=='BEFORE_U' and u_before['runtime']['verified_t_functions']==6
+          assert len(u_before['runtime']['hypothetical_function_hashes'])==5
+          assert len(u_before['cases'])==5 and sum(c['status']=='KNOWN_T_BUG_REPRODUCED' for c in u_before['cases'].values())==4
+          assert sum(c['status']=='CONTROL_PASS' for c in u_before['cases'].values())==1
+          assert all(c['rolled_back_to_ready'] for c in u_before['cases'].values()) and u_before['all_case_effects_rolled_back']
           tg=json.loads((proof/'CP6_V2620T_ROLLBACK_GUARDS.json').read_text())
           assert tg['head']==os.environ['GITHUB_SHA'] and tg['status']=='PASS' and len(tg['guards'])==7
           assert tg['exact_pre_use_restore']=={'generation':'S','restored_function_count':6,'owner_acl_exact':True,'metadata_schema_residue':0}
@@ -4638,6 +4659,8 @@ jobs:
 
           digest=lambda value:hashlib.sha256(value).hexdigest()
           source_paths=[
+            'scripts/cp6_v2620u_canonical_business_date_regression.py',
+            'supabase/tests/cp6_canonical_business_date.sql',
             'docs/cp6-t-material-adjustment-revaluation.md',
             'scripts/check-cp6-material-adjustment-revaluation.mjs',
             'scripts/cp6_v2620t_runtime.py',
@@ -4942,6 +4965,8 @@ jobs:
               'v2620t_extra_object_preflight_guards':9,
               'v2620t_material_adjustment_native_races':3,
               'v2620t_material_adjustment_writer_abort_cases':1,
+              'v2620u_t_canonical_business_date_counterexamples':4,
+              'v2620u_t_canonical_business_date_controls':1,
               'v2620s_closed_admission_rollback_schedules':20,
               'v2620s_native_case_groups':12,
               'v2620s_r_native_counterexamples':6,
