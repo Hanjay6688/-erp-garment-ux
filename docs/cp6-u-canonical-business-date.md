@@ -154,7 +154,48 @@ The next fast-forward correction updates that exact count to seven and adds an
 early static assertion for the command. The static assertion was first run
 against the stale command and rejected it, then passed after its correction.
 All U migration/rollback bytes and all business SQL stay unchanged from e8c4c75c.
-The failed native ZIP is preserved: artifact 10315670731, 509450340 bytes,
+The failed native ZIP remains in GitHub: artifact 10315670731, 509450340 bytes,
 SHA-256 `ad8ffb765f336f09744a6398a35048e3c136e945aeefb076758817a137e7be04`.
+Its complete local transfer has not been verified; connector transport failed.
 The full exact-SHA workflow must run again; no successful stage from #153 waives
 any gate on the new candidate.
+
+## Corrective native #154: race report generation and artifact transport
+
+Commit `517b0af9e6dc5df88966f9abe7e6263ee66db5cd`, native #154
+(run 34750564635, job 103706255999), passed all business tests, 320 schedules,
+U→T complete catalog restore, the old rollback ladder, frontend/build, final
+reconciliation and physical cleanup. Step 131 then failed at embedded Python
+line 451: the R race manifest's source generation was required to be U.
+
+The frozen R runner called `matrix.verify_setup_source('U')` before every race,
+but its manifest initializer still wrote `source_generation: T`. The T race
+runner contained the same latent mismatch. Native setup verification checked
+the exact platform marker and F–U marker/capsule presence. This is evidence
+metadata drift, not proof of a ledger defect or races on an old database.
+The full manifest was not produced, so #154 remains FAIL. The final binding
+assertion stays unchanged. Both runners now use one U constant for setup and
+reported generation. Local negative controls reject each frozen runner; early
+native shell assertions check both reports before the long rollback matrix.
+
+Failed #154 artifact 10316526664 is 588060924 bytes, API SHA-256
+`1a137122b0bf6dc813ad0bb4d06a90336027a565a50667ca2bd327b29cc705c5`.
+The download connector explicitly refused it because its maximum is 536870912
+bytes. That digest is API-sourced, not a claimed local verification.
+
+`package_cp6_native_evidence.py` adds a complete lossless transfer archive after
+the existing final proof binding gate. It checks the exact runtime identity,
+every payload name, size and hash, then compresses all the same published files
+as one XZ stream. The original runtime manifest and all payload bytes remain
+unchanged. A transfer manifest records the archive hash, size, inventory count,
+source count and exact identity. Oversized output fails closed; the original
+raw proof upload remains unchanged and still runs on failure.
+
+Independent verification must check the GitHub ZIP digest, the inner archive
+digest, safe unique regular-file paths, the full runtime manifest, and every
+source/payload pin. Eleven local transport controls cover lossless binary/JSON
+roundtrip, deterministic bytes, tamper, missing/extra files, symlinks, identity,
+failed proof status, wrong length, existing output and size-boundary refusal.
+They are transport tests, not native business proof. All native gates must run
+again on the next exact SHA. All migration, rollback and business SQL remains
+byte-identical to e8c4c75c.

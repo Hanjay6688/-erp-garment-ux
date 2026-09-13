@@ -13,6 +13,7 @@ import cp6_v2620t_runtime as runtime
 
 ROOT = Path('cp6-proof/T_MATERIAL_ADJUSTMENT_NATIVE_RACES')
 CASES = ('MATERIAL_A_FIRST', 'MATERIAL_B_FIRST', 'MATERIAL_A_ABORT')
+SOURCE_GENERATION = 'U'
 HELPERS = tuple(Path('supabase/tests') / name for name in (
     'cp6_subledger_exact_cent.sql', 'cp6_supplier_cent_lifecycle.sql',
     'cp6_supplier_return_document_allocation.sql',
@@ -39,7 +40,7 @@ def run_case(name, folder):
     matrix.command(['bash', 'scripts/clone-cp6-disposable-database.sh', matrix.SOURCE,
         matrix.MAINTENANCE, matrix.CLONE, 'cp6_rollback', matrix.CONTAINER,
         str(folder / 'PHYSICAL_BOUNDARY')], folder / 'clone.log')
-    matrix.verify_setup_source('U')
+    matrix.verify_setup_source(SOURCE_GENERATION)
     with session('fixture') as conn, conn.cursor() as cur:
         if len(runtime.verified_successor(cur)) != 6:
             raise AssertionError('T_RACE_RUNTIME_MISMATCH')
@@ -133,7 +134,7 @@ def main():
     ROOT.mkdir(parents=True, exist_ok=True)
     report = {'head': os.environ.get('GITHUB_SHA', 'LOCAL_UNBOUND'), 'production_go': False,
         'classification': 'NATIVE_POSTGRESQL_REAL_SHARED_ADJUSTMENT_LOCKS',
-        'source_generation': 'T', 'cases': []}
+        'source_generation': SOURCE_GENERATION, 'cases': []}
     for name in CASES:
         folder = ROOT / name; folder.mkdir()
         try:

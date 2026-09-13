@@ -34,7 +34,7 @@ for(const gen of ['m','n','o','p','q','r','s','t']) assert.ok(read(`scripts/cp6_
 assert.ok(read('scripts/cp6_v2620s_runtime.py').includes("t_runtime.predecessor_snapshot(cur, 'S', successor)"))
 const races=read('scripts/cp6_v2620t_material_adjustment_races.py')
 for(const token of ['MATERIAL_A_FIRST','MATERIAL_B_FIRST','MATERIAL_A_ABORT','pg_blocking_pids(pid)',
-  "matrix.verify_setup_source('U')",'first.rollback()','idempotent_replay']) assert.ok(races.includes(token),token)
+  "SOURCE_GENERATION = 'U'", 'matrix.verify_setup_source(SOURCE_GENERATION)', "'source_generation': SOURCE_GENERATION",'first.rollback()','idempotent_replay']) assert.ok(races.includes(token),token)
 const matrix=read('scripts/cp6_v2620h_maintenance_rollback_matrix.py')
 for(const token of ['expected_body_entries = len(TARGETS) * len(OPERATIONS)',
   "'expected': expected_body_entries",'writer_first_body_entry == expected_body_entries'])

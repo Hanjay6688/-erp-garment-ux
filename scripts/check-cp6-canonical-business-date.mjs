@@ -99,9 +99,29 @@ for (const token of ["'T', 'U'", 'assert len(cases) == 151', "'expected_case_cou
 }
 
 const workflow = read('.github/workflows/cp6-full-schema-validation.yml')
+for (const path of [
+  'scripts/cp6_v2620r_receipt_invoice_races.py',
+  'scripts/cp6_v2620t_material_adjustment_races.py',
+]) {
+  const source = read(path)
+  for (const token of ["SOURCE_GENERATION = 'U'",
+    'matrix.verify_setup_source(SOURCE_GENERATION)',
+    "'source_generation': SOURCE_GENERATION"])
+    assert.ok(source.includes(token), `${path}: verified and reported generation must agree`)
+  assert.ok(!source.includes("'source_generation': 'T'"), path)
+}
 const uRestoreCountCommand = `test "$(jq '.exact_pre_use_restore.restored_function_count' cp6-proof/CP6_V2620U_ROLLBACK_GUARDS.json)" = '7'`
 assert.equal(workflow.split(uRestoreCountCommand).length - 1, 1,
   'U shell restore-count gate must require exactly seven functions')
+for (const folder of ['R_RECEIPT_INVOICE_NATIVE_RACES', 'T_MATERIAL_ADJUSTMENT_NATIVE_RACES']) {
+  const command = `test "$(jq -r '.source_generation' cp6-proof/${folder}/manifest.json)" = 'U'`
+  assert.equal(workflow.split(command).length - 1, 1, folder)
+}
+const binding = workflow.indexOf('Bind successful CP6 proof to the exact runtime SHA')
+const packaging = workflow.indexOf('Package complete native evidence for lossless transfer')
+assert.ok(packaging > binding)
+assert.ok(workflow.indexOf('Upload complete native evidence transfer') > packaging)
+assert.ok(workflow.includes('run: python scripts/package_cp6_native_evidence.py cp6-proof cp6-native-transfer'))
 let previous = -1
 for (const token of [
   'Reproduce independent T canonical business-date counterexamples before U',
@@ -131,6 +151,7 @@ for (const path of [
   'scripts/check-cp6-canonical-business-date.mjs',
   'scripts/cp6_v2620u_runtime.py',
   'scripts/cp6_v2620u_install_diagnostic.py',
+  'scripts/package_cp6_native_evidence.py',
   'scripts/cp6_v2620u_canonical_business_date_regression.py',
   'scripts/cp6_v2620u_rollback_guards.py',
 ]) assert.ok(workflow.includes(`            '${path}',`), path)
