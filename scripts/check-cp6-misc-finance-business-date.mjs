@@ -33,6 +33,10 @@ const maintenance=read('scripts/cp6_preuse_rollback_maintenance.py')
 for(const token of ["'V': {","'capsule_count': 3","'predecessor': 'v2.6.20u'",sha(rollback),
  'from cp6_v2620v_runtime import verify_extra_objects'])assert.ok(maintenance.includes(token),token)
 const workflow=read('.github/workflows/cp6-full-schema-validation.yml')
+for(const token of ['def cash_delta_equal(expected, actual):','left.is_finite() and right.is_finite() and left == right',
+ "cash_delta_equal(d['expected_cash_delta'],d['actual_cash_delta'])",
+ "cash_delta_equal(d['expected'],d['actual'])",'cp6_v_failed159_recovery.py --unit',
+ 'Recover immutable failed159 evidence'])assert.ok(workflow.includes(token),token)
 let previous=-1
 for(const token of ['Apply v2.6.20u canonical','Reproduce native U misc cash counterexamples before V',
  'Apply v2.6.20v canonical miscellaneous cash','Prove native V cash dates','Prove native U canonical',
@@ -47,7 +51,7 @@ for(const token of ["len(schedules['cases'])==340","'expected':85,'observed':85"
 for(const path of [migrationPath,rollbackPath,'docs/cp6-v-misc-finance-business-date.md',
  'scripts/check-cp6-misc-finance-business-date.mjs','scripts/cp6_v2620v_runtime.py',
  'scripts/cp6_v2620v_misc_finance_business_date_regression.py','scripts/cp6_v2620v_misc_finance_races.py',
- 'scripts/cp6_v2620v_rollback_guards.py'])assert.ok(workflow.includes(`            '${path}',`),path)
+ 'scripts/cp6_v2620v_rollback_guards.py','scripts/cp6_v_failed159_recovery.py'])assert.ok(workflow.includes(`            '${path}',`),path)
 console.log(JSON.stringify({status:'PASS',classification:'STATIC_SOURCE_CONTRACT_NOT_NATIVE_PROOF',replaced_functions:3,
  boundary_tables:77,native_cases:8,expanded_native_cases:21,known_u_paths:4,controls:4,native_document_races:3,
  maintenance_schedules:340,writer_body_entries:85,rollback_setup_units:169,production_go:false}))

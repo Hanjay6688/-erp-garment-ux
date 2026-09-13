@@ -132,3 +132,33 @@ Run #158 (`34763104719`, job `103739249075`) and its artifact are preserved:
 `cp6-r1-v2620v-full-schema-auth-browser-proof`, ID `10318859445`, 5,463,874 bytes,
 ZIP SHA-256 `30116f3975b0fd5a3bcc60391d3b556791675e6308eb20832fac7b93b0766d6a`.
 Its three CodeQL artifacts passed; those do not waive the failed native gate.
+
+## Preserved corrective V run #159
+
+Commit `1a1a6b9dd3f572cb9aa23b4bbd6ab92e7a597e2a`, native run `34763643963`,
+job `103740677147`, passed every database/business, Auth, race, 340-schedule matrix,
+V/U/T and historical restore, frontend/security/build, no-residue and physical
+cleanup step. It then failed the final binding step at Python line 587: raw text
+comparison of V expected_cash_delta and actual_cash_delta. The retained native
+#158 case report reproduces eight zero values encoded as `"0"` versus `"0.0"`;
+the backend oracle had correctly compared Decimal values. V race cash comparisons
+have the same presentation-sensitive pattern. This is an evidence binding defect,
+not an identified unequal-money transaction. Candidate #159 remains FAIL.
+
+The next corrective revision uses finite, exact Decimal equality for both sites,
+with no tolerance or rounding. Eighteen checks exercise the actual workflow
+predicate: eight equivalent finite representations and ten unequal/invalid cases,
+including sub-cent drift, large exact cents, NaN/infinity and numeric-type refusal.
+No migration, rollback or business runtime SQL changes.
+
+Failed #159 raw artifact `cp6-r1-v2620v-full-schema-auth-browser-proof`, ID
+`10320611163`, 643,619,414 bytes, SHA-256
+`f9f10a20720f9661d0413d69b09007ba29dc97a6528d099f6635182e6ccf3b4e`, exceeds the
+connector's 512 MiB download limit. The corrective workflow therefore recovers
+this exact artifact through GitHub's existing read-only Actions permission,
+verifies the original ZIP bytes/digest before extraction, and preserves every
+payload in a separate lossless FAILED-RUN archive. It replays the frozen assertion
+to record exact operands and checks the corrected semantic predicates against
+the same native files before starting the new disposable stack. It creates no
+successful runtime manifest for #159 and cannot promote that failed run to PASS.
+All fresh exact-SHA native acceptance gates still run afterward.

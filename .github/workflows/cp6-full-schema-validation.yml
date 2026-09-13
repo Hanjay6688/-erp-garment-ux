@@ -78,6 +78,8 @@ jobs:
           python -m py_compile scripts/cp6_v2620t_runtime.py scripts/cp6_v2620t_material_adjustment_revaluation_regression.py scripts/cp6_v2620t_rollback_guards.py scripts/cp6_v2620t_material_adjustment_races.py
           python -m py_compile scripts/cp6_v2620u_runtime.py scripts/cp6_v2620u_canonical_business_date_regression.py scripts/cp6_v2620u_rollback_guards.py
           python -m py_compile scripts/package_cp6_native_evidence.py
+          python -m py_compile scripts/cp6_v_failed159_recovery.py
+          python scripts/cp6_v_failed159_recovery.py --unit
           python -m py_compile scripts/cp6_v2620v_runtime.py scripts/cp6_v2620v_misc_finance_business_date_regression.py scripts/cp6_v2620v_misc_finance_races.py scripts/cp6_v2620v_rollback_guards.py
           python -m py_compile scripts/cp6_v2620s_runtime.py scripts/cp6_v2620s_supplier_payment_business_date_regression.py scripts/cp6_v2620s_rollback_guards.py
           python -m py_compile scripts/cp6_v2620r_runtime.py scripts/cp6_v2620r_receipt_invoice_dependency_regression.py scripts/cp6_v2620r_rollback_guards.py scripts/cp6_v2620r_receipt_invoice_races.py
@@ -198,6 +200,26 @@ jobs:
           }
           Path('cp6-proof/CP45A_CATALOG_BOOTSTRAP_VERIFICATION.json').write_text(json.dumps(report,indent=2)+'\n')
           PY
+
+      - name: Recover immutable failed159 evidence and qualify exact numeric cash predicates
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10320611163/zip > "$RUNNER_TEMP/cp6-failed159.zip"
+          python scripts/cp6_v_failed159_recovery.py "$RUNNER_TEMP/cp6-failed159.zip" "$RUNNER_TEMP/cp6-failed159-recovery"
+          rm "$RUNNER_TEMP/cp6-failed159.zip"
+
+      - name: Preserve complete failed159 native recovery
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cp6-v-failed159-native-recovery
+          path: ${{ runner.temp }}/cp6-failed159-recovery
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
 
       - name: Start free disposable local Supabase
         shell: bash
@@ -4303,8 +4325,18 @@ jobs:
           import json
           import os
           import subprocess
+          from decimal import Decimal, InvalidOperation
           from datetime import datetime, timezone
           from pathlib import Path
+
+          def cash_delta_equal(expected, actual):
+              if not isinstance(expected, str) or not isinstance(actual, str):
+                  return False
+              try:
+                  left, right = Decimal(expected), Decimal(actual)
+              except InvalidOperation:
+                  return False
+              return left.is_finite() and right.is_finite() and left == right
 
           root=Path('.')
           proof=root/'cp6-proof'
@@ -4885,7 +4917,7 @@ jobs:
           for c in vp['cases'].values():
               assert c['identity']==dict(current_user='authenticated',session_user='authenticated',app_role='OWNER')
               assert c['draft_inert'] and c['document_cents_conserved']
-              assert all(d['expected_cash_delta']==d['actual_cash_delta'] for d in c['daily_evidence'].values())
+              assert all(cash_delta_equal(d['expected_cash_delta'],d['actual_cash_delta']) for d in c['daily_evidence'].values()),c['daily_evidence']
           vg=json.loads((proof/'CP6_V2620V_ROLLBACK_GUARDS.json').read_text())
           assert vg['head']==os.environ['GITHUB_SHA'] and vg['status']=='PASS' and len(vg['guards'])==7
           assert vg['exact_pre_use_restore']=={'generation':'U','restored_function_count':3,'owner_acl_exact':True,'metadata_schema_residue':0}
@@ -4904,7 +4936,7 @@ jobs:
               assert c['manual_prelock_count']==c['retry_count']==0 and c['first_pid']!=c['second_pid']
               assert c['first_pid'] in c['blocking_observation']['blocking_pids'] and c['blocking_observation']['real_business_query_observed']
               assert c['authority']=='REAL_AUTHENTICATED_SESSION_OWNER' and not c['http_ui_reachability_proven']
-              assert all(d['actual']==d['expected'] for d in c['per_date_cash'].values())
+              assert all(cash_delta_equal(d['expected'],d['actual']) for d in c['per_date_cash'].values()),c['per_date_cash']
 
           schedules=json.loads((proof/'H_MAINTENANCE_ROLLBACK/manifest.json').read_text())
           assert schedules['head']==os.environ['GITHUB_SHA'] and schedules['status']=='PASS',schedules
@@ -4960,6 +4992,7 @@ jobs:
             'scripts/cp6_v2620u_runtime.py',
             'scripts/cp6_v2620u_install_diagnostic.py',
             'scripts/package_cp6_native_evidence.py',
+            'scripts/cp6_v_failed159_recovery.py',
             'scripts/cp6_v2620u_canonical_business_date_regression.py',
             'scripts/cp6_v2620u_misc_finance_adversarial.py',
             'scripts/cp6_v2620u_rollback_guards.py',
@@ -5393,6 +5426,19 @@ jobs:
             },
             'proof_files':proof_files,
             'production_go':False,
+          }
+          manifest['audited_predecessor']={
+            'format':'CP6_V2620U_RUNTIME_PROOF_V1',
+            'head':'61ae2c98ca1ddfc4957dfe34bbd6a4f201c701bc',
+            'tree':'f59b421c5db60ef4570f214d223fd2411268bd5b',
+            'native_run_id':34752854970,
+            'native_job_id':103712200224,
+            'independent_native_run_id':34761015794,
+            'independent_native_job_id':103733742216,
+            'independent_oracle_step':62,
+            'competition_verdict':'FAIL_P2_MISC_CASH_BUSINESS_DATE',
+            'previous_writer_verdict':'PASS_PENDING_INDEPENDENT_AUDIT',
+            'audited_predecessor':manifest['audited_predecessor'],
           }
           (proof/'CP6_V2620V_RUNTIME_MANIFEST.json').write_text(
               json.dumps(manifest,indent=2,sort_keys=True)+'\n',encoding='utf8',
