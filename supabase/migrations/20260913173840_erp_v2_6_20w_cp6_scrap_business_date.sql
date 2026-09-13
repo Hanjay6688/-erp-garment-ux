@@ -85,10 +85,10 @@ begin
        or c.acl_snapshot is distinct from r.acl
        or encode(extensions.digest(convert_to(pg_get_functiondef(
             to_regprocedure(r.identity)),'UTF8'),'sha256'),'hex')
-            is distinct from case r.identity
+            is distinct from (case r.identity
               when 'erp.run_v267_financial_truth_checks()' then '13e1c0b7e3a9262aecd18504cb70890eeaeb61190c12e2cc7bb16f2e2d9ddfb2'
               when 'erp._v268_financial_report_checks_pre_scope()' then 'bdce68bf47700519d663e63302b5d48a720959d1c9995fcb9d8599a9516c2eef'
-              else r.installed_sha256 end
+              else r.installed_sha256 end)
        or (select pg_get_userbyid(proowner) from pg_proc
             where oid=to_regprocedure(r.identity)) is distinct from 'postgres'
        or (select array(select a::text from unnest(proacl) a order by a::text)

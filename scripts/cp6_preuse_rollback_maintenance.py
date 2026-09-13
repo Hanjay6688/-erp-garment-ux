@@ -183,7 +183,7 @@ TARGETS: dict[str, dict[str, Any]] = {
 
     'W': {
         'rollback': Path('supabase/rollbacks/20260913173840_erp_v2_6_20w_cp6_scrap_business_date.rollback.sql'),
-        'rollback_sha256': '2f48c391e95a361fcc4d45ce0965c828d07587ddb39b19633959bbd6785da5bc',
+        'rollback_sha256': '07fcf6c91efe03eea30fb4c1ed3635c6d63421f73407e4d2054ee92861b31153',
         'marker': 'v2.6.20w', 'platform': 'erp_v2_6_20w_cp6_scrap_business_date',
         'predecessor': 'v2.6.20v', 'capsule': 'erp.cp6_v2620w_rollback_capsule',
         'capsule_count': 3,

@@ -6,8 +6,8 @@ const migrationPath='supabase/migrations/20260913173840_erp_v2_6_20w_cp6_scrap_b
 const rollbackPath='supabase/rollbacks/20260913173840_erp_v2_6_20w_cp6_scrap_business_date.rollback.sql'
 const migration=read(migrationPath),rollback=read(rollbackPath)
 for(const [path,hash,bytes] of [
- [migrationPath,'1f902ac8bdaddea9c6b041781d5d7f7e3fc7fbbdb517fba786010fa17326672b',21928],
- [rollbackPath,'2f48c391e95a361fcc4d45ce0965c828d07587ddb39b19633959bbd6785da5bc',12904],
+ [migrationPath,'ed858948f60990578ceeb9cbc94a3748b928fae0dcf32a8474079cd7ce31fe08',21930],
+ [rollbackPath,'07fcf6c91efe03eea30fb4c1ed3635c6d63421f73407e4d2054ee92861b31153',12904],
  ['supabase/migrations/20260913135850_erp_v2_6_20v_cp6_misc_finance_business_date.sql','3bd29c1280e09bd8d36e8303c4e5e4cfdd2be951c3f852c8ce38fe170ab3648d',19196],
  ['supabase/rollbacks/20260913135850_erp_v2_6_20v_cp6_misc_finance_business_date.rollback.sql','4fb8f0ded3e452dca1d44214711bd79ffcf0f3b68d956283da9bbce5e4444f7b',12741],
  ['scripts/cp6_v2620v_scrap_adversarial.py','8e1e2ceee9cdf71fb7d0c670d2097fafa4185b4548e786a8b2370aad611c67c5',13100],

@@ -14,6 +14,22 @@ semantic assertion and continuing to reproduce the original159 string-comparison
 failure. W still uses its own complete current binder at the final proof gate.
 Both failed162 artifacts and its log are retained; no migration bytes change.
 
+Native163 (run34779482518, job103783740872, commit
+`8d0b2da606110983d0e944926d831a973d703bcd`) passed historical recovery,
+then failed step66 during all four BEFORE_W upgrade probes. An unparenthesized
+SQL CASE expression inside the predecessor-check PL/pgSQL IF condition caused
+`syntax error at end of input`. W was never installed. All four probes restored
+the full boundary, the unseeded runtime and schema USAGE. The forward correction
+parenthesizes that CASE expression and updates its migration/rollback digest
+pins; it does not change any installed function body, owner or ACL. Local
+pglast8.4 reproduced the original parser failure and accepted all seven
+migration/rollback PL/pgSQL blocks after correction. This is parser evidence,
+not native runtime success. The original failed163 ZIP and log are retained:
+artifact10325270090, 2,436,063 bytes, SHA256
+`e4f162d2320976f9f38b0935173872b6545f5b22ada044c996a31b18c1982d4f`.
+Published V and earlier SQL remain byte-identical; failed W commits remain in
+history. W writer and independent verdicts remain pending until their gates pass.
+
 ## Immutable independent finding
 
 V business source: `7be634e663a61545b909cf0367d12461ae7aa798`;

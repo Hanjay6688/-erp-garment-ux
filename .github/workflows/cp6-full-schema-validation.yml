@@ -1656,10 +1656,10 @@ jobs:
           PYCODE
           migration_source='supabase/migrations/20260913173840_erp_v2_6_20w_cp6_scrap_business_date.sql'
           rollback_source='supabase/rollbacks/20260913173840_erp_v2_6_20w_cp6_scrap_business_date.rollback.sql'
-          test "$(wc -c < "$migration_source")" = '21928'
+          test "$(wc -c < "$migration_source")" = '21930'
           test "$(wc -c < "$rollback_source")" = '12904'
-          echo '1f902ac8bdaddea9c6b041781d5d7f7e3fc7fbbdb517fba786010fa17326672b  supabase/migrations/20260913173840_erp_v2_6_20w_cp6_scrap_business_date.sql' | sha256sum -c - | tee cp6-proof/V2620W_MIGRATION_SHA256.txt
-          echo '2f48c391e95a361fcc4d45ce0965c828d07587ddb39b19633959bbd6785da5bc  supabase/rollbacks/20260913173840_erp_v2_6_20w_cp6_scrap_business_date.rollback.sql' | sha256sum -c - | tee cp6-proof/V2620W_ROLLBACK_SHA256.txt
+          echo 'ed858948f60990578ceeb9cbc94a3748b928fae0dcf32a8474079cd7ce31fe08  supabase/migrations/20260913173840_erp_v2_6_20w_cp6_scrap_business_date.sql' | sha256sum -c - | tee cp6-proof/V2620W_MIGRATION_SHA256.txt
+          echo '07fcf6c91efe03eea30fb4c1ed3635c6d63421f73407e4d2054ee92861b31153  supabase/rollbacks/20260913173840_erp_v2_6_20w_cp6_scrap_business_date.rollback.sql' | sha256sum -c - | tee cp6-proof/V2620W_ROLLBACK_SHA256.txt
           psql "$PGURL" -X -v ON_ERROR_STOP=1 -f "$migration_source" 2>&1 | tee cp6-proof/V2620W_APPLY.log
           python - <<'PY'
           import os,pathlib,psycopg
@@ -1669,7 +1669,7 @@ jobs:
                 ('20260913173840','erp_v2_6_20w_cp6_scrap_business_date',[source]))
           PY
           test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select count(*) from erp.cp6_v2620w_rollback_capsule where installed_definition_sha256 is not null")" = '3'
-          test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select encode(extensions.digest(convert_to(array_to_string(statements,E'\\n'),'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations where name='erp_v2_6_20w_cp6_scrap_business_date'")" = '1f902ac8bdaddea9c6b041781d5d7f7e3fc7fbbdb517fba786010fa17326672b'
+          test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select encode(extensions.digest(convert_to(array_to_string(statements,E'\\n'),'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations where name='erp_v2_6_20w_cp6_scrap_business_date'")" = 'ed858948f60990578ceeb9cbc94a3748b928fae0dcf32a8474079cd7ce31fe08'
           psql "$PGURL" -X -At -F '|' -v ON_ERROR_STOP=1 \
             -c "select object_regidentity,definition_sha256,installed_definition_sha256 from erp.cp6_v2620w_rollback_capsule order by object_regidentity" \
             | tee cp6-proof/V2620W_INSTALLED_FUNCTION_SHA256.txt
