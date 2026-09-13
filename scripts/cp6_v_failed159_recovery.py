@@ -25,6 +25,9 @@ ARTIFACT = 10320611163
 RAW_BYTES = 643619414
 RAW_SHA = 'f9f10a20720f9661d0413d69b09007ba29dc97a6528d099f6635182e6ccf3b4e'
 WORKFLOW = '.github/workflows/cp6-full-schema-validation.yml'
+SEMANTIC_HEAD = '7be634e663a61545b909cf0367d12461ae7aa798'
+SEMANTIC_TREE = 'a29235ba5386cc905cb4fb9ee784e16db4a5ce7a'
+SEMANTIC_WORKFLOW_SHA = '848d7bfc1eae21a05442b971068a7994fd088b2477af8a3f9f1703f6c7d2b1cf'
 
 
 def digest(path):
@@ -48,6 +51,15 @@ def semantic_prefix(source):
     stop = next(i for i, node in enumerate(tree.body) if isinstance(node, ast.Assign)
         and any(isinstance(t, ast.Name) and t.id == 'source_paths' for t in node.targets))
     return ast.Module(body=tree.body[:stop], type_ignores=[])
+
+
+def corrected_historical_binder():
+    """The corrected V contract is immutable; successors must not rewrite history."""
+    tree = subprocess.check_output(['git', 'rev-parse', SEMANTIC_HEAD + '^{tree}'], text=True).strip()
+    source = subprocess.check_output(['git', 'show', SEMANTIC_HEAD + ':' + WORKFLOW])
+    if tree != SEMANTIC_TREE or hashlib.sha256(source).hexdigest() != SEMANTIC_WORKFLOW_SHA:
+        raise ValueError('FAILED159_CORRECTED_CONTRACT_IDENTITY_MISMATCH')
+    return binder(source.decode('utf8'))
 
 
 def unit():
@@ -128,8 +140,8 @@ def main():
     if recovery_head != os.environ['GITHUB_SHA']:
         raise ValueError('FAILED159_RECOVERY_CHECKOUT_MISMATCH')
     old_source = binder(git('show', HEAD + ':' + WORKFLOW))
-    new_source = binder((repo / WORKFLOW).read_text())
-    # The exact old gate must fail; the current gate's existing semantic assertions
+    new_source = corrected_historical_binder()
+    # The exact old gate must fail; the pinned corrected V semantic assertions
     # must all pass against the same frozen native inputs. Neither prefix writes
     # a runtime manifest, changes proof files, or runs a database command.
     worktree = output.parent / 'cp6-failed159-frozen-source'
@@ -206,6 +218,8 @@ def main():
             source_failed_head=HEAD, source_failed_tree=TREE, source_artifact_id=ARTIFACT,
             source_zip_bytes=RAW_BYTES, source_zip_sha256=RAW_SHA, source_zip_verified=True,
             recovery_head=recovery_head, recovery_tree=recovery_tree,
+            corrected_contract_head=SEMANTIC_HEAD, corrected_contract_tree=SEMANTIC_TREE,
+            corrected_contract_workflow_sha256=SEMANTIC_WORKFLOW_SHA,
             recovery_run=int(os.environ['GITHUB_RUN_ID']), original_failure=failure,
             numeric_operands=pairs, all_existing_semantic_assertions_after_numeric_fix_pass=semantic_error is None,
             corrected_semantic_error=semantic_error,

@@ -4,6 +4,16 @@ Status at authoring: V independently FAIL P2; W writer verification pending.
 `production_go:false`. Independent final W audit and new-path HTTP/UI remain pending.
 No main, UAT, legacy, production, deployment, merge, or CP7 authorization is implied.
 
+First W native162 (run34773703073, job103767815801, commit
+`b64ee3b4c12f185c2febd5fe53b0cd7e35e26d50`) failed at historical-evidence
+recovery step9, before database startup or W business tests. The recovery helper
+incorrectly selected the current W workflow's semantic binder for frozen V159
+payloads, requiring nonexistent W reports. The correction pins the already
+verified V160 binder by commit, tree and SHA256, preserving every historical
+semantic assertion and continuing to reproduce the original159 string-comparison
+failure. W still uses its own complete current binder at the final proof gate.
+Both failed162 artifacts and its log are retained; no migration bytes change.
+
 ## Immutable independent finding
 
 V business source: `7be634e663a61545b909cf0367d12461ae7aa798`;
