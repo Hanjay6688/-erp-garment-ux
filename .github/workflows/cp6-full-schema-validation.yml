@@ -3881,6 +3881,14 @@ jobs:
               and to_regclass('erp.cp6_v2620n_rollback_capsule') is null
               and to_regclass('erp.cp6_v2620o_rollback_capsule') is null
               and to_regclass('erp.cp6_v2620p_rollback_capsule') is null
+              and to_regclass('erp.cp6_v2620q_rollback_capsule') is null
+              and to_regclass('erp.cp6_v2620r_rollback_capsule') is null
+              and to_regclass('erp.cp6_v2620s_rollback_capsule') is null
+              and to_regclass('erp.cp6_v2620t_rollback_capsule') is null
+              and to_regclass('erp.material_adjustment_revaluation_facts') is null
+              and to_regprocedure('erp._cp6_material_adjustment_revaluation_state(uuid)') is null
+              and to_regprocedure('erp._cp6_sync_material_adjustment_revaluation(uuid,uuid)') is null
+              and to_regprocedure('erp.guard_material_adjustment_revaluation_fact_v2620t()') is null
               and to_regclass('erp.supplier_cent_posting_facts') is null
               and to_regprocedure('erp._cp6_supplier_cent_state(uuid[])') is null
               and to_regprocedure('erp._cp6_supplier_cent_ledger(uuid[])') is null
@@ -4012,6 +4020,7 @@ jobs:
             'v2620t_application',exists(select 1 from erp.schema_migrations where version='v2.6.20t'),
             'v2620k_application',exists(select 1 from erp.schema_migrations where version='v2.6.20k'),
             'v2620j_application',exists(select 1 from erp.schema_migrations where version='v2.6.20j'),
+          ) || jsonb_build_object(
             'v2620a_platform',exists(select 1 from supabase_migrations.schema_migrations
               where name='erp_v2_6_20a_cp6_audit_reliability_closure'),
             'v2620b_platform',exists(select 1 from supabase_migrations.schema_migrations
@@ -4042,6 +4051,14 @@ jobs:
             'v2620k_platform',exists(select 1 from supabase_migrations.schema_migrations where name='erp_v2_6_20k_cp6_payment_date_conservation'),
             'v2620j_platform',exists(select 1 from supabase_migrations.schema_migrations
               where name='erp_v2_6_20j_cp6_payment_fact_closure'),
+            'v2620q_capsule',to_regclass('erp.cp6_v2620q_rollback_capsule') is not null,
+            'v2620r_capsule',to_regclass('erp.cp6_v2620r_rollback_capsule') is not null,
+            'v2620s_capsule',to_regclass('erp.cp6_v2620s_rollback_capsule') is not null,
+            'v2620t_capsule',to_regclass('erp.cp6_v2620t_rollback_capsule') is not null,
+            'v2620t_revaluation_facts',to_regclass('erp.material_adjustment_revaluation_facts') is not null,
+            'v2620t_state_function',to_regprocedure('erp._cp6_material_adjustment_revaluation_state(uuid)') is not null,
+            'v2620t_sync_function',to_regprocedure('erp._cp6_sync_material_adjustment_revaluation(uuid,uuid)') is not null,
+            'v2620t_fact_guard',to_regprocedure('erp.guard_material_adjustment_revaluation_fact_v2620t()') is not null,
             'disposable_database_residue',(select count(*) from pg_database
               where datname in('cp6_preflight','cp6_race','cp6_auth','cp6_rollback')),
             'production_go',false
@@ -5035,6 +5052,7 @@ jobs:
           path: cp6-proof
           if-no-files-found: warn
           include-hidden-files: false
+          compression-level: 9
           retention-days: 30
 
       - name: Destroy disposable stack

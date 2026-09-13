@@ -54,7 +54,15 @@ for(const token of ["len(schedules['cases'])==300","'expected':75,'observed':75"
   'CP6_V2620T_RUNTIME_MANIFEST.json','CP6_V2620T_MATERIAL_ADJUSTMENT_REVALUATION_REGRESSION.json',
   'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620T','CP6_M_RACE_SOURCE_GENERATION: T',
   "len(tr['cases'])==3","len(tp['cases'])==21","len(tg['extra_object_preflight_guards'])==9",
-  'T_COMPLETE_S_CATALOG_RESTORE_MISMATCH']) assert.ok(workflow.includes(token),token)
+  'T_COMPLETE_S_CATALOG_RESTORE_MISMATCH',') || jsonb_build_object(',
+  "to_regclass('erp.cp6_v2620t_rollback_capsule') is null",
+  "to_regclass('erp.material_adjustment_revaluation_facts') is null",
+  "to_regprocedure('erp._cp6_material_adjustment_revaluation_state(uuid)') is null",
+  "to_regprocedure('erp._cp6_sync_material_adjustment_revaluation(uuid,uuid)') is null",
+  "to_regprocedure('erp.guard_material_adjustment_revaluation_fact_v2620t()') is null",
+  "'v2620t_fact_guard',to_regprocedure('erp.guard_material_adjustment_revaluation_fact_v2620t()') is not null",
+  'compression-level: 9'])
+  assert.ok(workflow.includes(token),token)
 for(const p of [...Object.keys(pinned),'docs/cp6-t-material-adjustment-revaluation.md',
   'scripts/check-cp6-material-adjustment-revaluation.mjs','scripts/cp6_v2620t_runtime.py',
   'scripts/cp6_v2620t_material_adjustment_revaluation_regression.py','scripts/cp6_v2620t_rollback_guards.py',
