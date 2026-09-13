@@ -1516,6 +1516,8 @@ jobs:
           test "$(jq '[.cases[] | select(.status == "CONTROL_PASS")] | length' cp6-proof/CP6_V2620U_T_COUNTEREXAMPLES.json)" = '1'
           test "$(jq '[.cases[] | select(.rolled_back_to_ready != true)] | length' cp6-proof/CP6_V2620U_T_COUNTEREXAMPLES.json)" = '0'
           test "$(jq '.runtime.hypothetical_function_hashes | length' cp6-proof/CP6_V2620U_T_COUNTEREXAMPLES.json)" = '5'
+          test "$(jq '[.runtime.authenticated_contract.function_execute_grants[] | select(. != true)] | length' cp6-proof/CP6_V2620U_T_COUNTEREXAMPLES.json)" = '0'
+          test "$(jq -r '.runtime.authenticated_contract.schema_usage_after_alignment' cp6-proof/CP6_V2620U_T_COUNTEREXAMPLES.json)" = 'true'
 
       - name: Run post-CP6 real Auth JWT HTTP permissions and residue-zero E2E
         shell: bash
@@ -4599,6 +4601,8 @@ jobs:
           assert u_before['head']==os.environ['GITHUB_SHA'] and u_before['status']=='PASS' and u_before['production_go'] is False
           assert u_before['phase']=='BEFORE_U' and u_before['runtime']['verified_t_functions']==6
           assert len(u_before['runtime']['hypothetical_function_hashes'])==5
+          assert u_before['runtime']['authenticated_contract']['schema_usage_after_alignment']
+          assert all(u_before['runtime']['authenticated_contract']['function_execute_grants'].values())
           assert len(u_before['cases'])==5 and sum(c['status']=='KNOWN_T_BUG_REPRODUCED' for c in u_before['cases'].values())==4
           assert sum(c['status']=='CONTROL_PASS' for c in u_before['cases'].values())==1
           assert all(c['rolled_back_to_ready'] for c in u_before['cases'].values()) and u_before['all_case_effects_rolled_back']
@@ -4661,6 +4665,7 @@ jobs:
           source_paths=[
             'scripts/cp6_v2620u_canonical_business_date_regression.py',
             'supabase/tests/cp6_canonical_business_date.sql',
+            'ops/supabase/uat/applied/20260831032949_erp_v2_6_13b_auth_profile_facade_tracking.sql',
             'docs/cp6-t-material-adjustment-revaluation.md',
             'scripts/check-cp6-material-adjustment-revaluation.mjs',
             'scripts/cp6_v2620t_runtime.py',

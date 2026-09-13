@@ -13,6 +13,10 @@ import cp6_v2620t_runtime as t_runtime
 
 
 SOURCE = Path('supabase/tests/cp6_canonical_business_date.sql')
+AUTH_SCHEMA_SOURCE = Path(
+    'ops/supabase/uat/applied/'
+    '20260831032949_erp_v2_6_13b_auth_profile_facade_tracking.sql'
+)
 CASES = (
     'MATERIAL_ORIGINAL_UTC',
     'MATERIAL_REVERSAL_REAL_ZONE',
@@ -126,9 +130,48 @@ def run() -> dict[str, object]:
         u_capsule = cur.fetchone()[0]
         if u_capsule is not None and not fixed:
             raise AssertionError('U_BEFORE_PHASE_HAS_U_RESIDUE')
+        auth_source = AUTH_SCHEMA_SOURCE.read_text()
+        auth_grant = 'grant usage on schema public, erp to authenticated;'
+        if auth_source.count(auth_grant) != 1:
+            raise AssertionError('U_AUTH_SCHEMA_SOURCE_CONTRACT_MISMATCH')
+        cur.execute("""select
+          has_schema_privilege('authenticated','erp','USAGE'),
+          has_function_privilege('authenticated',
+            'erp.post_material_adjustment_v2(uuid,uuid,bigint,text)','EXECUTE'),
+          has_function_privilege('authenticated',
+            'erp.reverse_material_adjustment_v2(uuid,text,uuid,bigint)','EXECUTE'),
+          has_function_privilege('authenticated',
+            'erp.get_owner_financial_snapshot_v2(date,date,date)','EXECUTE')""")
+        usage_before, post_execute, reverse_execute, report_execute = cur.fetchone()
+        if not all((post_execute, reverse_execute, report_execute)):
+            raise AssertionError('U_AUTHENTICATED_FUNCTION_EXECUTE_CONTRACT_MISSING')
+        # pg_dump/restore intentionally omits ACLs in this disposable workflow,
+        # while the frozen UAT auth migration grants this exact schema usage.
+        # Align only that source-owned grant inside this rollback-only transaction.
+        if not usage_before:
+            cur.execute('grant usage on schema erp to authenticated')
+        usage_after = base.one(
+            cur, "select has_schema_privilege('authenticated','erp','USAGE')"
+        )
+        if not usage_after:
+            raise AssertionError('U_AUTHENTICATED_SCHEMA_USAGE_ALIGNMENT_FAILED')
         result['runtime'] = {
             'verified_t_functions': len(t_successor),
             'hypothetical_function_hashes': hypothetical_hashes(cur),
+            'authenticated_contract': {
+                'schema_usage_before_alignment': usage_before,
+                'schema_usage_after_alignment': usage_after,
+                'transactional_alignment_applied': not usage_before,
+                'function_execute_grants': {
+                    'post_material_adjustment_v2': post_execute,
+                    'reverse_material_adjustment_v2': reverse_execute,
+                    'get_owner_financial_snapshot_v2': report_execute,
+                },
+                'source_path': str(AUTH_SCHEMA_SOURCE),
+                'source_sha256': hashlib.sha256(
+                    AUTH_SCHEMA_SOURCE.read_bytes()
+                ).hexdigest(),
+            },
             'engine': base.one(cur, 'select version()'),
         }
         cur.execute("select set_config('request.jwt.claims',%s,true)", (
