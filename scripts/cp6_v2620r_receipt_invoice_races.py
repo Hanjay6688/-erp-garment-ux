@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Two real receipt/invoice serialization orders on fresh native U clones."""
+"""Two real receipt/invoice serialization orders on fresh native V clones."""
 import json
 import os
 import threading
@@ -14,7 +14,7 @@ import cp6_v2620r_runtime as runtime
 
 ROOT = Path('cp6-proof/R_RECEIPT_INVOICE_NATIVE_RACES')
 CASES = ('INVOICE_POST_FIRST', 'RECEIPT_REVERSE_FIRST')
-SOURCE_GENERATION = 'U'
+SOURCE_GENERATION = 'V'
 HELPERS = tuple(Path('supabase/tests') / name for name in (
     'cp6_subledger_exact_cent.sql', 'cp6_supplier_cent_lifecycle.sql',
     'cp6_supplier_return_document_allocation.sql',

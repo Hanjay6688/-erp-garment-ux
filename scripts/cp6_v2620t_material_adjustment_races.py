@@ -13,7 +13,7 @@ import cp6_v2620t_runtime as runtime
 
 ROOT = Path('cp6-proof/T_MATERIAL_ADJUSTMENT_NATIVE_RACES')
 CASES = ('MATERIAL_A_FIRST', 'MATERIAL_B_FIRST', 'MATERIAL_A_ABORT')
-SOURCE_GENERATION = 'U'
+SOURCE_GENERATION = 'V'
 HELPERS = tuple(Path('supabase/tests') / name for name in (
     'cp6_subledger_exact_cent.sql', 'cp6_supplier_cent_lifecycle.sql',
     'cp6_supplier_return_document_allocation.sql',
