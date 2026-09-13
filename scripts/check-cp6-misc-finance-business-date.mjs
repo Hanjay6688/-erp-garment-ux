@@ -23,6 +23,7 @@ const runner=read('scripts/cp6_v2620v_misc_finance_business_date_regression.py')
 for(const token of ["phase not in ('BEFORE_V','AFTER_V')","'KNOWN_U_BUG_REPRODUCED'",'set session authorization authenticated',
  'full_boundary_restored','entire_unseeded_runtime_restored','V_UPGRADE_PROBE_LEFT_RESIDUE','CLOSED_PERIOD_ECONOMIC_DATE',
  'DETECTOR_REVERSED','ACL_CONTRACT','REVERSE_REPLAY_EXPENSE','NON_OWNER_POST_DENIED','supabase_admin','V_CANONICAL_DISPOSABLE_ENDPOINT_REQUIRED'])assert.ok(runner.includes(token),token)
+assert.ok(read('scripts/cp6_v2620m_subledger_races.py').includes("SOURCE_GENERATION not in ('M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V')"), 'M race source admission must include exact verified V')
 const races=read('scripts/cp6_v2620v_misc_finance_races.py')
 for(const token of ['POST_THEN_REVERSE','POST_THEN_POST','POST_ABORT_THEN_POST','pg_blocking_pids(pid)',
  "SOURCE_GENERATION = 'V'",'matrix.verify_setup_source(SOURCE_GENERATION)','first.rollback()',"manual_prelock_count=0,retry_count=0",'REAL_AUTHENTICATED_SESSION_OWNER'])assert.ok(races.includes(token),token)

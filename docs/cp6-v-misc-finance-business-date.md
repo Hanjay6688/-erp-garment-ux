@@ -113,3 +113,22 @@ Main, PR24/25 states, hosted UAT, legacy, production, deploy and merge are outsi
 this writer's mutation scope. CP7 is not started. The locked roadmap remains
 CP7 rev3 WIP-first → CP7.5 cleanup/rebaseline/archive/fresh-restore equivalence →
 CP7C stress/automation/backup → CP8 independent audit/cutover. CP9 is obsolete.
+
+## Preserved first V run #158
+
+V commit `9a7ce061c613e70fbd859771e3f20d56af248aa9` installed successfully in
+native PostgreSQL. The paired 8-case U oracle, 29 V cases, U25, Auth95, physical
+acceptance, 34 native CP6 races/three abort qualifications and broad regressions
+through M passed. Step 80 then refused `M_RACE_UNSUPPORTED_SOURCE_GENERATION`:
+the workflow supplied V, but M's separate startup allowlist still ended at U.
+No M race case started. The remaining races, 340 matrix and rollback ladder were
+skipped; cleanup passed. This candidate is FAIL, not writer PASS.
+
+The corrective commit only adds V to that supported-generation allowlist and
+pins it in the V source gate. M still verifies the exact source marker/capsules
+before fixture writes and retains endpoint admission, actual locks, cents,
+rejection and cleanup assertions. All V migration/rollback bytes stay unchanged.
+Run #158 (`34763104719`, job `103739249075`) and its artifact are preserved:
+`cp6-r1-v2620v-full-schema-auth-browser-proof`, ID `10318859445`, 5,463,874 bytes,
+ZIP SHA-256 `30116f3975b0fd5a3bcc60391d3b556791675e6308eb20832fac7b93b0766d6a`.
+Its three CodeQL artifacts passed; those do not waive the failed native gate.
