@@ -40,7 +40,7 @@ def run_case(name, folder):
     matrix.command(['bash', 'scripts/clone-cp6-disposable-database.sh', matrix.SOURCE,
         matrix.MAINTENANCE, matrix.CLONE, 'cp6_rollback', matrix.CONTAINER,
         str(folder / 'PHYSICAL_BOUNDARY')], folder / 'clone.log')
-    matrix.verify_setup_source('T')
+    matrix.verify_setup_source('U')
     with session('fixture') as conn, conn.cursor() as cur:
         if len(runtime.verified_successor(cur)) != 3:
             raise AssertionError('R_RACE_RUNTIME_MISMATCH')

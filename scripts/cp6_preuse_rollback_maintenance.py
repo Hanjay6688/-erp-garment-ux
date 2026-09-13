@@ -165,6 +165,14 @@ TARGETS: dict[str, dict[str, Any]] = {
         'capsule_count': 6,
     },
 
+    'U': {
+        'rollback': Path('supabase/rollbacks/20260913070000_erp_v2_6_20u_cp6_canonical_business_date.rollback.sql'),
+        'rollback_sha256': 'f7802f51292af6805397e8672bbb1c3a443f5312a4fb60fd0b739e3b30081f69',
+        'marker': 'v2.6.20u', 'platform': 'erp_v2_6_20u_cp6_canonical_business_date',
+        'predecessor': 'v2.6.20t', 'capsule': 'erp.cp6_v2620u_rollback_capsule',
+        'capsule_count': 5,
+    },
+
 }
 
 
@@ -342,6 +350,13 @@ TRUSTED_FUNCTIONS: dict[str, list[dict[str, Any]]] = {
   'installed_sha256': '3334800b5888000a4388dda4362ebd0db4c5f0dcdc0bbf3e41acfcf629d720f0',
   'owner': 'postgres',
   'predecessor_sha256': '57b213f5b7adb8abc78eafd8639cbc1907fd49319027534166a10365cfb69b83'}],
+    'U': [
+        {'identity': 'erp._cp3_r4_reverse_journal_internal(uuid,text)', 'predecessor_sha256': '9b60fcd88852337ad0956d471e54c1c04bcccd35f5e85a8e5093469cc1c37249', 'installed_sha256': '2d54bfdf9bf0912e6b13e558ddbc4cb419020f191c3ce626a26f2c27b814b20c', 'owner': 'postgres', 'acl': ['postgres=X/postgres']},
+        {'identity': 'erp.post_material_adjustment(uuid)', 'predecessor_sha256': 'be5a163932f0678667d94095f3db519abb7e5df4ea2c4c95204e42620ee27d83', 'installed_sha256': 'b32962d12adde0ca4ae659f2dd83a02a0a3111c3a9060d845ed2e82025696201', 'owner': 'postgres', 'acl': ['postgres=X/postgres', 'service_role=X/postgres']},
+        {'identity': 'erp.get_owner_financial_snapshot_v2(date,date,date)', 'predecessor_sha256': 'e51dbe224d112f523e51bddc609ee0f0036ecae2ef5d328b865326781aa8780c', 'installed_sha256': '78210a408d3cf6bf48e3e86200c3a429adacff19a339b11669598accceaaf9cb', 'owner': 'postgres', 'acl': ['authenticated=X/postgres', 'postgres=X/postgres', 'service_role=X/postgres']},
+        {'identity': 'erp.run_v267_financial_truth_checks()', 'predecessor_sha256': 'acd6f623c83f1ce74323a11b9224955ea922b10788ed631b9973aa9345698af8', 'installed_sha256': '61819c08662b2a493212035792333006737d2fa158259dc9ce045ca2cf9b55e9', 'owner': 'postgres', 'acl': ['authenticated=X/postgres', 'postgres=X/postgres', 'service_role=X/postgres']},
+        {'identity': 'erp._v268_financial_report_checks_pre_scope()', 'predecessor_sha256': '8e0e303066c23476223089e2705b8ad0861b34faa2efb12c58663677f454b196', 'installed_sha256': '3a8af1f92f85ddbebf697b681e16f42b9c48b2cdb543b6ab2daa2a928a5bc775', 'owner': 'postgres', 'acl': ['postgres=X/postgres', 'service_role=X/postgres']},
+    ],
 
 }
 
@@ -400,8 +415,10 @@ def _capsule_snapshot(
 ) -> list[dict[str, Any]]:
     # N adds helper and fact objects inherited by O/P outside their predecessor capsules.
     # Verify them before any admission mutation; F through M follow their original path.
-    if target_name in {'N', 'O', 'P', 'Q', 'R', 'S', 'T'}:
-        if target_name == 'T':
+    if target_name in {'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U'}:
+        if target_name == 'U':
+            from cp6_v2620u_runtime import verify_extra_objects
+        elif target_name == 'T':
             from cp6_v2620t_runtime import verify_extra_objects
         elif target_name == 'S':
             from cp6_v2620s_runtime import verify_extra_objects

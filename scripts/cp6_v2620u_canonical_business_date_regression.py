@@ -10,6 +10,7 @@ from psycopg.conninfo import conninfo_to_dict
 
 import cp6_v2620e_counterexample_regression as base
 import cp6_v2620t_runtime as t_runtime
+import cp6_v2620u_runtime as u_runtime
 
 
 SOURCE = Path('supabase/tests/cp6_canonical_business_date.sql')
@@ -126,10 +127,11 @@ def run() -> dict[str, object]:
         t_successor = t_runtime.verified_successor(cur)
         if len(t_successor) != 6:
             raise AssertionError('U_EXACT_T_REQUIRED')
-        cur.execute("select to_regclass('erp.cp6_v2620u_rollback_capsule')")
-        u_capsule = cur.fetchone()[0]
-        if u_capsule is not None and not fixed:
+        u_successor = u_runtime.verified_successor(cur)
+        if u_successor and not fixed:
             raise AssertionError('U_BEFORE_PHASE_HAS_U_RESIDUE')
+        if fixed and len(u_successor) != 5:
+            raise AssertionError('U_AFTER_PHASE_REQUIRES_EXACT_U')
         auth_source = AUTH_SCHEMA_SOURCE.read_text()
         auth_grant = 'grant usage on schema public, erp to authenticated;'
         if auth_source.count(auth_grant) != 1:
@@ -155,9 +157,8 @@ def run() -> dict[str, object]:
         )
         if not usage_after:
             raise AssertionError('U_AUTHENTICATED_SCHEMA_USAGE_ALIGNMENT_FAILED')
-        result['runtime'] = {
+        runtime = {
             'verified_t_functions': len(t_successor),
-            'hypothetical_function_hashes': hypothetical_hashes(cur),
             'authenticated_contract': {
                 'schema_usage_before_alignment': usage_before,
                 'schema_usage_after_alignment': usage_after,
@@ -174,6 +175,22 @@ def run() -> dict[str, object]:
             },
             'engine': base.one(cur, 'select version()'),
         }
+        if fixed:
+            runtime['verified_u_functions'] = len(u_successor)
+            runtime['installed_function_hashes'] = [
+                {
+                    'identity': identity,
+                    'predecessor_sha256': item['predecessor_sha256'],
+                    'installed_sha256': item['installed_sha256'],
+                    'observed_installed_sha256': item['observed_installed_sha256'],
+                    'owner': item['owner'],
+                    'acl': item['acl'],
+                }
+                for identity, item in sorted(u_successor.items())
+            ]
+        else:
+            runtime['hypothetical_function_hashes'] = hypothetical_hashes(cur)
+        result['runtime'] = runtime
         cur.execute("select set_config('request.jwt.claims',%s,true)", (
             json.dumps({'sub': base.OPERATOR_AUTH, 'role': 'authenticated'}),
         ))

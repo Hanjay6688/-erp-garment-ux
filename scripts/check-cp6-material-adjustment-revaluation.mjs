@@ -34,7 +34,7 @@ for(const gen of ['m','n','o','p','q','r','s','t']) assert.ok(read(`scripts/cp6_
 assert.ok(read('scripts/cp6_v2620s_runtime.py').includes("t_runtime.predecessor_snapshot(cur, 'S', successor)"))
 const races=read('scripts/cp6_v2620t_material_adjustment_races.py')
 for(const token of ['MATERIAL_A_FIRST','MATERIAL_B_FIRST','MATERIAL_A_ABORT','pg_blocking_pids(pid)',
-  "matrix.verify_setup_source('T')",'first.rollback()','idempotent_replay']) assert.ok(races.includes(token),token)
+  "matrix.verify_setup_source('U')",'first.rollback()','idempotent_replay']) assert.ok(races.includes(token),token)
 const matrix=read('scripts/cp6_v2620h_maintenance_rollback_matrix.py')
 for(const token of ['expected_body_entries = len(TARGETS) * len(OPERATIONS)',
   "'expected': expected_body_entries",'writer_first_body_entry == expected_body_entries'])
@@ -70,21 +70,21 @@ for(const [name,builder] of [['first',firstBuilder],['second',secondBuilder]]){
   assert.ok(builder.args<=100,`${name} final JSON builder exceeds PostgreSQL argument limit`)
   assert.equal(builder.args%2,0,`${name} final JSON builder has an unmatched key/value argument`)
 }
-assert.deepEqual([firstBuilder.args,secondBuilder.args],[60,60],
+assert.deepEqual([firstBuilder.args,secondBuilder.args],[62,64],
   'final reconciliation JSON split drifted')
 let previous=-1
 for(const token of ['Apply v2.6.20s supplier payment canonical business date',
   'Reproduce independent S material adjustment and accounting-day',
   'Apply v2.6.20t material adjustment document cents','Run post-CP6 real Auth',
   'Prove native T material adjustment document cents','Prove native T shared adjustment',
-  'Qualify exact F G H I J K L M N O P Q R S and T rollback',
+  'Qualify exact F G H I J K L M N O P Q R S T and U rollback',
   'Prove trusted T capsule','Prove trusted S capsule']){
   const at=workflow.indexOf(token);assert.ok(at>previous,token);previous=at
 }
-for(const token of ["len(schedules['cases'])==300","'expected':75,'observed':75",
-  "setup_unit['completed_case_count']==setup_unit['expected_case_count']==134",
-  'CP6_V2620T_RUNTIME_MANIFEST.json','CP6_V2620T_MATERIAL_ADJUSTMENT_REVALUATION_REGRESSION.json',
-  'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620T','CP6_M_RACE_SOURCE_GENERATION: T',
+for(const token of ["len(schedules['cases'])==320","'expected':80,'observed':80",
+  "setup_unit['completed_case_count']==setup_unit['expected_case_count']==151",
+  'CP6_V2620U_RUNTIME_MANIFEST.json','CP6_V2620T_MATERIAL_ADJUSTMENT_REVALUATION_REGRESSION.json',
+  'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620U','CP6_M_RACE_SOURCE_GENERATION: U',
   "len(tr['cases'])==3","len(tp['cases'])==21","len(tg['extra_object_preflight_guards'])==9",
   'T_COMPLETE_S_CATALOG_RESTORE_MISMATCH',') || jsonb_build_object(',
   "to_regclass('erp.cp6_v2620t_rollback_capsule') is null",
@@ -101,5 +101,5 @@ for(const p of [...Object.keys(pinned),'docs/cp6-t-material-adjustment-revaluati
   'scripts/cp6_v2620t_material_adjustment_races.py']) assert.ok(workflow.includes("            '"+p+"',"),p)
 console.log(JSON.stringify({status:'PASS',classification:'STATIC_SOURCE_CONTRACT_NOT_NATIVE_PROOF',
   replaced_functions:6,new_private_functions:3,boundary_tables:73,native_cases:21,
-  known_s_paths:15,controls:6,shared_document_native_races:3,maintenance_schedules:300,
-  writer_body_entries:75,production_go:false}))
+  known_s_paths:15,controls:6,shared_document_native_races:3,maintenance_schedules:320,
+  writer_body_entries:80,production_go:false}))

@@ -27,9 +27,9 @@ const workflow = read(workflowPath)
 const expected = {
   migration: ['e16dbb655164595be273c03582d35c9ac33593136bd418fdd87156e592f292b8', 19733],
   rollback: ['0d0318e3848344c3642f1796a205d25bcf1cc2d2091ce28d1fc9cf6d186ecbe5', 6876],
-  maintenance: ['5310d714cae9d9ca1711678859a34e7c32391e6cd5ed2fcfe7771ec34ca7a46c', 57067],
-  regression: ['6e8a9ca33bc98f35286a5bbf491707877e77d78b3ec91146db28a7b8337c6938', 25761],
-  matrix: ['da1671b3a9fad64b5c8bef2c07491521c35c87fafe3f9f4c4a8401a3d702c1be', 34029],
+  maintenance: ['aaa1158d6b2a2bb226e509c94fbe4c129af746cd0f103441976945953b61f4d7', 59276],
+  regression: ['6ea71f4d4e920f2c136389a506394002dff7c747a23d974741d2e1fbfab34881', 25854],
+  matrix: ['26b8311b08c4e8d5f54dd544c493ffe56a44822c925ed27468cd89cafd5bc627', 34136],
   guard: ['621f51b187138750646f38c7464a959713ba3c78bcbcd5031ac9841a288aca68', 6649],
 }
 for (const [name, source] of Object.entries({ migration, rollback, maintenance, regression, matrix, guard })) {
@@ -136,7 +136,7 @@ requireTokens(matrix, 'complete native maintenance matrix', [
   "'F':", "'G':", "'H':", "'I':", "'J':", "'O':",
   "OPERATIONS = ('SALE', 'RETURN', 'CONVERSION', 'REPORT', 'FK_SYNC')",
   "MODES = ('WRITER_FIRST', 'ADMISSION_FIRST', 'WRITER_ABORT', 'DRAIN_TIMEOUT')",
-  "'expected_case_count': 300", "report['cases'].append(case)",
+  "'expected_case_count': 320", "report['cases'].append(case)",
   "report['failed_case_count']", 'missing_helper_error_absent',
   'database_admission_closed_before_ddl', 'failure_kept_admission_closed',
   'blocked_inside_backend', 'inflight_inside_backend_before_admission_close',
@@ -167,7 +167,7 @@ const order = [
   'Prove native G N01-N03',
   'Prove native H R02-R03',
   'Prove native I H2 payment lineage',
-  'Qualify exact F G H I J K L M N O P Q R S and T rollback under closed admission',
+  'Qualify exact F G H I J K L M N O P Q R S T and U rollback under closed admission',
   'Prove trusted J capsule and maintenance-only exact J restore to I',
   'Prove trusted F G H I capsules and maintenance-only exact I restore to H',
   'Prove H guards and maintenance-only exact six-function restore to G',
@@ -185,11 +185,11 @@ requireTokens(workflow, 'exact-H proof wiring', [
   'python scripts/cp6_v2620h_maintenance_rollback_matrix.py',
   'python scripts/cp6_v2620h_rollback_guards.py',
   'python scripts/cp6_preuse_rollback_maintenance.py',
-  'H_MAINTENANCE_ROLLBACK/manifest.json', "= '300'",
+  'H_MAINTENANCE_ROLLBACK/manifest.json', "= '320'",
   'V2620H_ROLLBACK_SHA256.txt',
   "('F','RETURN','WRITER_FIRST')",
   'CP6_V2620N_RUNTIME_PROOF_V1',
-  'cp6-r1-v2620t-full-schema-auth-browser-proof',
+  'cp6-r1-v2620u-full-schema-auth-browser-proof',
   'runtime=v2.6.20e+v2.6.20f+v2.6.20g+v2.6.20h+v2.6.20i+v2.6.20j',
   'CP6_ROLLBACK_TARGET_PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres',
   'Provision isolated rollback admission-control authority',
@@ -201,7 +201,7 @@ requireTokens(workflow, 'exact-H proof wiring', [
   expected.migration[0],
 ])
 assert.ok(!workflow.includes('bash scripts/run_cp6_v2620f_live_rollback_races.sh'))
-assert.ok(read('scripts/cp6_auth_permission_e2e.mjs').includes('AFTER_V2620T'))
+assert.ok(read('scripts/cp6_auth_permission_e2e.mjs').includes('AFTER_V2620U'))
 assert.ok(read('package.json').includes('node scripts/check-cp6-expanded-audit-closure.mjs'))
 
 console.log(JSON.stringify({
@@ -209,6 +209,6 @@ console.log(JSON.stringify({
   boundary: 'CP6_V2620H_R01_R03_EXPANDED_AUDIT_CLOSURE',
   migration_sha256: expected.migration[0],
   rollback_sha256: expected.rollback[0],
-  maintenance_matrix_schedules: 300,
+  maintenance_matrix_schedules: 320,
   production_go: false,
 }))
