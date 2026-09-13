@@ -48,7 +48,7 @@ X guard SHA256 `5dffcd53c0a5de609ae41482ca246d2afc806b9d92241253d680cf5c7fe1612e
 Owner postgres; EXECUTE only postgres/service_role on the private guard itself.
 Admission verifies all U/V/W capsules, four authorization helper definitions/ACLs
 and inherited T helper/fact security. Because this guard spans modules, locked
-post-use snapshots cover all210 ERP business/control tables, including W capsule,
+post-use snapshots cover all209 ERP business/control tables, including W capsule,
 roles, permissions and execution contexts. Only X's own capsule and the separately
 validated migration ledger are excluded. Added or missing tables refuse rollback.
 
@@ -94,6 +94,24 @@ is changed. Original failed artifact10325860121,2,730,493 bytes,SHA256
 recovery artifact10325775162,4,263,766 bytes,SHA256
 `ddd4abebd5f6abc6ca95878e88b07ac336a764bebcafc9b85594eedb7df3894c`.
 CodeQL40 passed three languages with zero findings on the failed native HEAD.
+
+## Preserved failed X attempt166
+
+Native166 run34783132979/job103793659074 on5f7f2de72492708312cf10512883de0a88fa961f
+passed all10 before-X cases, then failed migration step69 at
+X_FULL_ERP_BOUNDARY_CARDINALITY. The expected210 confused two schema scopes:
+the frozen native pre-U snapshot has208 tables,207 ERP plus1 platform ledger.
+U/V/W add3 ERP capsules, giving210 ERP tables before X; excluding ERP's separately
+verified migration ledger leaves209 boundary tables. X's own capsule is excluded.
+The forward unadmitted SQL correction keeps the exact same all-ERP selector,
+fixes only the cardinality and emits actual count on failure. Function body,
+owner and ACL pins remain unchanged. Native must also prove the exact209 names
+against the frozen baseline plus U/V/W additions, then match the installed capsule.
+No business table is removed from the snapshot. Failed artifact10325841490,
+3,023,501 bytes,SHA25642e43e85b6a1c69040ad3d71c4f572d294ce952bedf58ec3ec75d3290be1809e;
+recovery10324544485,4,263,766 bytes,SHA256752b4dce461e10151fdd08107c8ba8d6a168398724c620599cd84604bdd52ef4.
+Original ZIPs/logs and all previous failures remain. CodeQL41 passed three languages
+with zero findings on this failed native HEAD; it is not X writer acceptance.
 
 VENI. VIDI. VICI. ERP. — I CONQUERED ERP.
 Reliable data adalah dewa. Keuangan termasuk laporan, stok, dan HPP adalah raja.

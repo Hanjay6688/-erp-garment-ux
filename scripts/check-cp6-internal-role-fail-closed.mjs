@@ -6,8 +6,8 @@ const migrationPath='supabase/migrations/20260913202948_erp_v2_6_20x_cp6_interna
 const rollbackPath='supabase/rollbacks/20260913202948_erp_v2_6_20x_cp6_internal_role_fail_closed.rollback.sql'
 const migration=read(migrationPath),rollback=read(rollbackPath)
 for(const [p,h,n] of [
- [migrationPath,'6fe8185a4b2fbc2da0fe1ae04d0a1da540c41c3c1890f0a5a605e3194eb84187',22034],
- [rollbackPath,'3fd2ccd1ec8ddddb200f339968f564a9f6ecd9f4a469ba51e80c31f6b9afb786',10723],
+ [migrationPath,'53af147202671e5919a49080ed135ab9896399867bbb71065ef2da57f6543117',22114],
+ [rollbackPath,'8107dc0d884ee624328b2a0a4c7fd03bed4e8d88f428282a7c00660c43b4200a',10723],
  ['supabase/migrations/20260913173840_erp_v2_6_20w_cp6_scrap_business_date.sql','ed858948f60990578ceeb9cbc94a3748b928fae0dcf32a8474079cd7ce31fe08',21930],
  ['supabase/rollbacks/20260913173840_erp_v2_6_20w_cp6_scrap_business_date.rollback.sql','07fcf6c91efe03eea30fb4c1ed3635c6d63421f73407e4d2054ee92861b31153',12904],
 ]){assert.equal(sha(read(p)),h,p);assert.equal(Buffer.byteLength(read(p)),n,p)}
@@ -15,7 +15,7 @@ for(const t of ['X_REQUIRES_EXACT_W_WITHOUT_X_RESIDUE','X_INTERNAL_ROLE_GUARD_AN
  "if coalesce(v_app_role,'') not in('OWNER','ADMIN','STAFF') then",'X_INSTALLED_FUNCTION_OWNER_ACL_MISMATCH',
  'count(*) from erp.cp6_v2620x_rollback_capsule)<>1',
  'revoke all on erp.cp6_v2620x_rollback_capsule from public,anon,authenticated,service_role;'])assert.ok(migration.includes(t),t)
-for(const t of ['jsonb_object_keys(v_expected))<>210','X_POST_USE_ROLLBACK_REFUSED','X_TRUSTED_PREDECESSOR_PIN_MISMATCH',
+for(const t of ['jsonb_object_keys(v_expected))<>209','X_POST_USE_ROLLBACK_REFUSED','X_TRUSTED_PREDECESSOR_PIN_MISMATCH',
  'X_ROLLBACK_RESTORE_HASH_MISMATCH','X_ROLLBACK_POSTCONDITION_FUNCTION_MISMATCH',
  'drop table erp.cp6_v2620x_rollback_capsule;'])assert.ok(rollback.includes(t),t)
 for(const p of ['erp.current_app_role()','erp.current_app_user_id()','erp.has_permission(text)','erp._idempotency_actor_key()'])assert.ok(migration.includes(p),p)
@@ -41,5 +41,5 @@ for(const t of ["len(schedules['cases'])==380","'expected':95,'observed':95",'CP
 for(const p of [migrationPath,rollbackPath,'scripts/cp6_v2620x_runtime.py','scripts/cp6_v2620x_internal_role_regression.py',
  'scripts/cp6_v2620x_rollback_guards.py','scripts/check-cp6-internal-role-fail-closed.mjs','docs/cp6-x-internal-role-fail-closed.md'])assert.ok(workflow.includes(`            '${p}',`),p)
 console.log(JSON.stringify({status:'PASS',classification:'STATIC_SOURCE_CONTRACT_NOT_NATIVE_PROOF',replaced_functions:1,
- boundary_tables:210,paired_cases:10,known_null_role_paths:6,controls:4,after_denials:7,authorized_controls:3,
+ boundary_tables:209,paired_cases:10,known_null_role_paths:6,controls:4,after_denials:7,authorized_controls:3,
  maintenance_schedules:380,writer_body_entries:95,rollback_setup_units:208,production_go:false}))

@@ -310,8 +310,9 @@ begin
         'sha256'),'hex') row_hash from erp.%I t) rows$sql$,v_table) into v_hash;
     v_snapshot:=v_snapshot||jsonb_build_object(v_table,v_hash);
   end loop;
-  if (select count(*) from jsonb_object_keys(v_snapshot))<>210 then
-    raise exception 'X_FULL_ERP_BOUNDARY_CARDINALITY';
+  if (select count(*) from jsonb_object_keys(v_snapshot))<>209 then
+    raise exception 'X_FULL_ERP_BOUNDARY_CARDINALITY expected209 actual%',
+      (select count(*) from jsonb_object_keys(v_snapshot));
   end if;
   update erp.cp6_v2620x_rollback_capsule set boundary_snapshot=v_snapshot;
 end

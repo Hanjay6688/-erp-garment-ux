@@ -1701,23 +1701,47 @@ jobs:
           with psycopg.connect(os.environ['PGURL']) as conn,conn.cursor() as cur:
               catalog=function_catalog(cur)
           pathlib.Path('cp6-proof/V2620X_COMPLETE_W_CATALOG.json').write_text(json.dumps(catalog,indent=2)+'\n')
+          baseline=json.loads(pathlib.Path('cp6-proof/CP6_V2620U_FAILED150_PREDICATES.json').read_text())['baseline']['tables']
+          inherited={row[1] for row in baseline if row[0]=='erp'}
+          added={'cp6_v2620u_rollback_capsule','cp6_v2620v_rollback_capsule','cp6_v2620w_rollback_capsule'}
+          expected=sorted((inherited|added)-{'schema_migrations'})
+          with psycopg.connect(os.environ['PGURL']) as conn,conn.cursor() as cur:
+              cur.execute("select n.nspname,c.relname from pg_class c join pg_namespace n on n.oid=c.relnamespace where c.relkind in('r','p') and n.nspname in('erp','supabase_migrations') order by 1,2")
+              actual=cur.fetchall()
+          erp=[name for schema,name in actual if schema=='erp']
+          observed=[name for name in erp if name!='schema_migrations']
+          report=dict(head=os.environ['GITHUB_SHA'],status='FAIL',production_go=False,
+              baseline_total=len(baseline),baseline_erp=len(inherited),baseline_platform=sum(row[0]=='supabase_migrations' for row in baseline),
+              added_capsules=sorted(added),actual_tables=actual,erp_tables=len(erp),
+              expected_boundary=expected,observed_boundary=observed,boundary_count=len(observed),
+              exact_names=expected==observed,x_capsule_absent='cp6_v2620x_rollback_capsule' not in erp)
+          valid=(report['baseline_total']==208 and report['baseline_erp']==207 and report['baseline_platform']==1
+              and report['erp_tables']==210 and report['boundary_count']==209 and report['exact_names'] and report['x_capsule_absent'])
+          report['status']='PASS' if valid else 'FAIL'
+          pathlib.Path('cp6-proof/V2620X_TABLE_BOUNDARY.json').write_text(json.dumps(report,indent=2)+'\n')
+          assert valid,report
           PYCODE
           migration_source='supabase/migrations/20260913202948_erp_v2_6_20x_cp6_internal_role_fail_closed.sql'
           rollback_source='supabase/rollbacks/20260913202948_erp_v2_6_20x_cp6_internal_role_fail_closed.rollback.sql'
-          test "$(wc -c < "$migration_source")" = '22034'
+          test "$(wc -c < "$migration_source")" = '22114'
           test "$(wc -c < "$rollback_source")" = '10723'
-          echo '6fe8185a4b2fbc2da0fe1ae04d0a1da540c41c3c1890f0a5a605e3194eb84187  supabase/migrations/20260913202948_erp_v2_6_20x_cp6_internal_role_fail_closed.sql' | sha256sum -c - | tee cp6-proof/V2620X_MIGRATION_SHA256.txt
-          echo '3fd2ccd1ec8ddddb200f339968f564a9f6ecd9f4a469ba51e80c31f6b9afb786  supabase/rollbacks/20260913202948_erp_v2_6_20x_cp6_internal_role_fail_closed.rollback.sql' | sha256sum -c - | tee cp6-proof/V2620X_ROLLBACK_SHA256.txt
+          echo '53af147202671e5919a49080ed135ab9896399867bbb71065ef2da57f6543117  supabase/migrations/20260913202948_erp_v2_6_20x_cp6_internal_role_fail_closed.sql' | sha256sum -c - | tee cp6-proof/V2620X_MIGRATION_SHA256.txt
+          echo '8107dc0d884ee624328b2a0a4c7fd03bed4e8d88f428282a7c00660c43b4200a  supabase/rollbacks/20260913202948_erp_v2_6_20x_cp6_internal_role_fail_closed.rollback.sql' | sha256sum -c - | tee cp6-proof/V2620X_ROLLBACK_SHA256.txt
           psql "$PGURL" -X -v ON_ERROR_STOP=1 -f "$migration_source" 2>&1 | tee cp6-proof/V2620X_APPLY.log
           python - <<'PY'
-          import os,pathlib,psycopg
+          import json,os,pathlib,psycopg
           source=pathlib.Path('supabase/migrations/20260913202948_erp_v2_6_20x_cp6_internal_role_fail_closed.sql').read_text()
           with psycopg.connect(os.environ['PGURL']) as conn:
               conn.execute('insert into supabase_migrations.schema_migrations(version,name,statements) values(%s,%s,%s)',
                 ('20260913202948','erp_v2_6_20x_cp6_internal_role_fail_closed',[source]))
+              rows=conn.execute('select boundary_snapshot from erp.cp6_v2620x_rollback_capsule').fetchall()
+              report=json.loads(pathlib.Path('cp6-proof/V2620X_TABLE_BOUNDARY.json').read_text())
+              assert len(rows)==1 and sorted(rows[0][0])==report['expected_boundary'] and len(rows[0][0])==209
+              report['installed_snapshot_names_exact']=True
+              pathlib.Path('cp6-proof/V2620X_TABLE_BOUNDARY.json').write_text(json.dumps(report,indent=2)+'\n')
           PY
           test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select count(*) from erp.cp6_v2620x_rollback_capsule where installed_definition_sha256 is not null")" = '1'
-          test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select encode(extensions.digest(convert_to(array_to_string(statements,E'\\n'),'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations where name='erp_v2_6_20x_cp6_internal_role_fail_closed'")" = '6fe8185a4b2fbc2da0fe1ae04d0a1da540c41c3c1890f0a5a605e3194eb84187'
+          test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select encode(extensions.digest(convert_to(array_to_string(statements,E'\\n'),'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations where name='erp_v2_6_20x_cp6_internal_role_fail_closed'")" = '53af147202671e5919a49080ed135ab9896399867bbb71065ef2da57f6543117'
           psql "$PGURL" -X -At -F '|' -v ON_ERROR_STOP=1 \
             -c "select object_regidentity,definition_sha256,installed_definition_sha256 from erp.cp6_v2620x_rollback_capsule order by object_regidentity" \
             | tee cp6-proof/V2620X_INSTALLED_FUNCTION_SHA256.txt
@@ -4678,6 +4702,7 @@ jobs:
             'CP6_V2620X_ROLLBACK_GUARDS.json',
             'V2620X_MAIN_MAINTENANCE_ROLLBACK.json',
             'V2620X_COMPLETE_W_CATALOG.json',
+            'V2620X_TABLE_BOUNDARY.json',
             'V2620X_COMPLETE_W_RESTORE.json',
             'V2620W_V_COUNTEREXAMPLES.log',
             'CP6_V2620W_V_COUNTEREXAMPLES.json',
@@ -5201,6 +5226,12 @@ jobs:
           assert wb['schema_usage_restored'] and wp['schema_usage_restored']
           assert w_restore['complete_function_count']==533
 
+          xt=json.loads((proof/'V2620X_TABLE_BOUNDARY.json').read_text())
+          assert xt['head']==os.environ['GITHUB_SHA'] and xt['status']=='PASS' and xt['production_go'] is False
+          assert xt['baseline_total']==208 and xt['baseline_erp']==207 and xt['baseline_platform']==1
+          assert xt['erp_tables']==210 and xt['boundary_count']==209 and xt['exact_names'] and xt['x_capsule_absent'] and xt['installed_snapshot_names_exact']
+          assert len(xt['expected_boundary'])==len(set(xt['expected_boundary']))==209 and xt['expected_boundary']==xt['observed_boundary']
+          assert set(xt['added_capsules'])=={'cp6_v2620u_rollback_capsule','cp6_v2620v_rollback_capsule','cp6_v2620w_rollback_capsule'}
           xb=json.loads((proof/'CP6_V2620X_W_COUNTEREXAMPLES.json').read_text())
           xp=json.loads((proof/'CP6_V2620X_INTERNAL_ROLE_REGRESSION.json').read_text())
           x_names={'UNMAPPED_SUBJECT','MISSING_SUBJECT','INACTIVE_USER','INACTIVE_ROLE','SPOOFED_APP_ROLE','INACTIVE_LEGACY_STAFF','EXTERNAL_ROLE','OWNER_CONTROL','ADMIN_CONTROL','STAFF_CONTROL'}
@@ -5805,7 +5836,7 @@ jobs:
           }
           manifest['x_internal_role']={'paired_cases':10,'known_null_role_paths':6,'controls':4,
             'after_denials':7,'authorized_controls':3,'guard_count':8,'extra_preflight_guards':11,
-            'capsule_functions':1,'boundary_tables':210,'complete_w_restore':533,'http_ui_reachability_proven':False}
+            'capsule_functions':1,'boundary_tables':209,'complete_w_restore':533,'http_ui_reachability_proven':False}
           (proof/'CP6_V2620X_RUNTIME_MANIFEST.json').write_text(
               json.dumps(manifest,indent=2,sort_keys=True)+'\n',encoding='utf8',
           )

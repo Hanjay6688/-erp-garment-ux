@@ -191,7 +191,7 @@ TARGETS: dict[str, dict[str, Any]] = {
 
     'X': {
         'rollback': Path('supabase/rollbacks/20260913202948_erp_v2_6_20x_cp6_internal_role_fail_closed.rollback.sql'),
-        'rollback_sha256': '3fd2ccd1ec8ddddb200f339968f564a9f6ecd9f4a469ba51e80c31f6b9afb786',
+        'rollback_sha256': '8107dc0d884ee624328b2a0a4c7fd03bed4e8d88f428282a7c00660c43b4200a',
         'marker': 'v2.6.20x', 'platform': 'erp_v2_6_20x_cp6_internal_role_fail_closed',
         'predecessor': 'v2.6.20w', 'capsule': 'erp.cp6_v2620x_rollback_capsule',
         'capsule_count': 1,

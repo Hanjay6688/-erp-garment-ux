@@ -13,8 +13,8 @@ begin
        where version='20260913202948'
          and name='erp_v2_6_20x_cp6_internal_role_fail_closed'
          and encode(extensions.digest(convert_to(array_to_string(statements,E'\n'),'UTF8'),'sha256'),'hex')
-           in('6fe8185a4b2fbc2da0fe1ae04d0a1da540c41c3c1890f0a5a605e3194eb84187',
-              '46c027f36e0afe8fd973e0e7c4ae767b7f1cabf4d683f088218b90882e7bedc5'))
+           in('53af147202671e5919a49080ed135ab9896399867bbb71065ef2da57f6543117',
+              'ae81dc594310794596a32d5719aa76068eb2b47f3898bc2780c48cc2419dccac'))
      or exists(select 1 from supabase_migrations.schema_migrations
        where version>'20260913202948') then
     raise exception 'X_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR';
@@ -113,9 +113,9 @@ begin
 
   select boundary_snapshot into v_expected
   from erp.cp6_v2620x_rollback_capsule limit 1;
-  if (select count(*) from (select c.relname from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='erp' and c.relkind in('r','p') and c.relname not in('schema_migrations','cp6_v2620x_rollback_capsule') order by c.relname) all_erp_tables)<>210
+  if (select count(*) from (select c.relname from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname='erp' and c.relkind in('r','p') and c.relname not in('schema_migrations','cp6_v2620x_rollback_capsule') order by c.relname) all_erp_tables)<>209
      or v_expected is null
-     or (select count(*) from jsonb_object_keys(v_expected))<>210
+     or (select count(*) from jsonb_object_keys(v_expected))<>209
      or exists(select 1 from erp.cp6_v2620x_rollback_capsule
        where boundary_snapshot is distinct from v_expected) then
     raise exception 'X_BOUNDARY_SNAPSHOT_MISMATCH';
@@ -155,8 +155,8 @@ delete from supabase_migrations.schema_migrations
 where version='20260913202948'
   and name='erp_v2_6_20x_cp6_internal_role_fail_closed'
   and encode(extensions.digest(convert_to(array_to_string(statements,E'\n'),'UTF8'),'sha256'),'hex')
-    in('6fe8185a4b2fbc2da0fe1ae04d0a1da540c41c3c1890f0a5a605e3194eb84187',
-       '46c027f36e0afe8fd973e0e7c4ae767b7f1cabf4d683f088218b90882e7bedc5');
+    in('53af147202671e5919a49080ed135ab9896399867bbb71065ef2da57f6543117',
+       'ae81dc594310794596a32d5719aa76068eb2b47f3898bc2780c48cc2419dccac');
 
 do $postcheck_v2620x$
 declare r record;v_actual text;
