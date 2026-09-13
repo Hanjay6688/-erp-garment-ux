@@ -111,6 +111,9 @@ def run() -> dict[str, object]:
     if phase not in ('BEFORE_U', 'AFTER_U'):
         raise AssertionError('U_UNKNOWN_PHASE')
     fixed = phase == 'AFTER_U'
+    if not fixed:
+        from cp6_v2620u_install_diagnostic import run as diagnose_failed_install
+        diagnose_failed_install()
     result: dict[str, object] = {
         'head': os.environ.get('GITHUB_SHA', 'LOCAL_UNBOUND'),
         'production_go': False,

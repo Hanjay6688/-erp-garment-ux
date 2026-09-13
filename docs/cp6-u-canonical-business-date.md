@@ -62,3 +62,16 @@ CodeQL. Static checks and mocked setup tests do not substitute for native proof.
 No migration in this branch is applied to hosted UAT or production. Merge,
 deployment and production GO remain owner-only decisions. CP7 rev3 stays next:
 WIP-first, then CP7.5, CP7C and CP8.
+
+## Frozen U #150 failure and diagnostic publication
+
+Remote U `ce6df43ee4115b83dd921eb06a726356c278bb09` failed native
+run #150 at installation. The candidate is FAIL; all later U proof was skipped.
+The first follow-up commit adds a disposable diagnostic only. It replays the
+exact failed migration twice, once byte-identically and once with an added
+NOTICE that records every installed-gate operand. All original rejection
+assertions and the published U migration/rollback bytes remain unchanged.
+It checks the full ERP function/owner/ACL catalog and every ERP/platform table
+before and after each rejected transaction. No grant is added by this diagnostic.
+A successful diagnostic does not make U pass: the original apply step still runs
+and must still fail until a separate evidence-based correction is committed.

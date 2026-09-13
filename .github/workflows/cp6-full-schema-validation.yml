@@ -4778,6 +4778,7 @@ jobs:
             'docs/cp6-u-canonical-business-date.md',
             'scripts/check-cp6-canonical-business-date.mjs',
             'scripts/cp6_v2620u_runtime.py',
+            'scripts/cp6_v2620u_install_diagnostic.py',
             'scripts/cp6_v2620u_canonical_business_date_regression.py',
             'scripts/cp6_v2620u_rollback_guards.py',
             'supabase/tests/cp6_canonical_business_date.sql',
