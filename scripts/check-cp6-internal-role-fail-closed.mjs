@@ -21,7 +21,8 @@ for(const t of ['jsonb_object_keys(v_expected))<>210','X_POST_USE_ROLLBACK_REFUS
 for(const p of ['erp.current_app_role()','erp.current_app_user_id()','erp.has_permission(text)','erp._idempotency_actor_key()'])assert.ok(migration.includes(p),p)
 const runner=read('scripts/cp6_v2620x_internal_role_regression.py')
 for(const t of ['BEFORE_X','AFTER_X','KNOWN_W_AUTH_BUG_REPRODUCED','UNMAPPED_SUBJECT','MISSING_SUBJECT','INACTIVE_USER','INACTIVE_ROLE',
- 'SPOOFED_APP_ROLE','EXTERNAL_ROLE','OWNER_CONTROL','ADMIN_CONTROL','STAFF_CONTROL','X_ACTOR_ORACLE',
+ 'SPOOFED_APP_ROLE','INACTIVE_LEGACY_STAFF','EXTERNAL_ROLE','OWNER_CONTROL','ADMIN_CONTROL','STAFF_CONTROL','X_ACTOR_ORACLE',
+ 'X_EXPECTED_INACTIVE_LEGACY_STAFF_BASELINE','X_ROLE_FIXTURE_ACTIVITY_MISMATCH','conditional_disposable_role_activation',
  'X_REFUSAL_NOT_ATOMIC','entire_unseeded_runtime_restored','schema_usage_restored','X_EXACT_DISPOSABLE_ENDPOINT_REQUIRED'])assert.ok(runner.includes(t),t)
 const maintenance=read('scripts/cp6_preuse_rollback_maintenance.py')
 for(const t of ["'X': {","'capsule_count': 1",sha(rollback),'from cp6_v2620x_runtime import verify_extra_objects'])assert.ok(maintenance.includes(t),t)
@@ -40,5 +41,5 @@ for(const t of ["len(schedules['cases'])==380","'expected':95,'observed':95",'CP
 for(const p of [migrationPath,rollbackPath,'scripts/cp6_v2620x_runtime.py','scripts/cp6_v2620x_internal_role_regression.py',
  'scripts/cp6_v2620x_rollback_guards.py','scripts/check-cp6-internal-role-fail-closed.mjs','docs/cp6-x-internal-role-fail-closed.md'])assert.ok(workflow.includes(`            '${p}',`),p)
 console.log(JSON.stringify({status:'PASS',classification:'STATIC_SOURCE_CONTRACT_NOT_NATIVE_PROOF',replaced_functions:1,
- boundary_tables:210,paired_cases:9,known_null_role_paths:5,controls:4,after_denials:6,authorized_controls:3,
+ boundary_tables:210,paired_cases:10,known_null_role_paths:6,controls:4,after_denials:7,authorized_controls:3,
  maintenance_schedules:380,writer_body_entries:95,rollback_setup_units:208,production_go:false}))

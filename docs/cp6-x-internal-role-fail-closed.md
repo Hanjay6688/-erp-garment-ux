@@ -28,8 +28,10 @@ SQL NOT IN then evaluates to NULL and the PL/pgSQL IF does not enter its refusal
 The X migration changes only that expression to
 `if coalesce(v_app_role,'') not in('OWNER','ADMIN','STAFF') then ...`.
 
-OWNER, ADMIN and STAFF are the existing internal-role allowlist. This is not an
-owner-only posting rule. Existing database administration, trusted service-role
+OWNER, ADMIN and STAFF are the existing function's internal-role allowlist.
+The baseline STAFF role is intentionally inactive; its real mapped role is NULL.
+An active STAFF case below is only a conditional compatibility fixture, not a
+claim that baseline STAFF has access. Existing administration, trusted service-role
 and permission-scoped execution-context branches remain exact. Owner, ACL,
 SECURITY DEFINER attributes and search_path remain exact; no grant is widened.
 Posted history is never rewritten, and X does not claim to repair any historical
@@ -52,15 +54,19 @@ validated migration ledger are excluded. Added or missing tables refuse rollback
 
 ## Required native evidence, not results claimed by this document
 
-Nine paired cases use actual current_user=session_user=authenticated and explicit
+Ten paired cases use actual current_user=session_user=authenticated and explicit
 auth.uid/current_app_role/JWT-role assertions. JWT context is a synthetic SQL
 fixture; new-path HTTP/UI reachability is not yet proven.
 
-- Five NULL-role cases: unmapped subject, missing subject, inactive user,
-  inactive role and spoofed app-role claims. Before X each must reproduce the W
+- Six NULL-role cases: unmapped subject, missing subject, inactive user,
+  inactive role, spoofed app-role claims and baseline inactive legacy STAFF. Before X each must reproduce the W
   acceptance with POSTED scrap, one journal and exact0.03 cash. After X all deny.
-- Four controls: external mapped role refuses on both versions; OWNER, ADMIN and
-  STAFF continue to post. After X: six atomic denials, three lawful acceptances.
+- Four controls: external mapped role refuses on both versions; OWNER and ADMIN
+  post. STAFF posts only after an explicitly reported activation inside that
+  disposable case, which is rolled back completely. After X: seven atomic
+  denials, two baseline-role acceptances and one conditional STAFF acceptance.
+- The inactive-user case uses active ADMIN to isolate user inactivity from role
+  inactivity. Both role and user activity are recorded and asserted.
 - Every case restores the entire catalog/table boundary, runtime and schema USAGE.
 - W25, V29, U25, Auth95, all earlier business/permission/race/browser proofs remain
   mandatory on X. No W acceptance gate is deleted to accommodate native164.
@@ -71,6 +77,23 @@ fixture; new-path HTTP/UI reachability is not yet proven.
   X-to-W definitions/owners/ACLs restoration; complete older rollback ladder.
 - Final X application/platform/capsule absence, zero clone databases, physical
   cleanup, lossless artifact inventory and all183 source pins remain required.
+
+## Preserved failed X attempt165
+
+Native165 run34782307500/job103791417598 on
+`0a9f7568d9da80d64ea7de7268c1863d18890472` failed step68 before X admission.
+Five W NULL-role posting paths reproduced with actual authenticated identities,
+POSTED documents, balanced0.03 journals and exact cash effects; external, OWNER
+and ADMIN controls passed. STAFF_CONTROL failed its actor oracle because the
+baseline STAFF role is inactive in admitted v2.6.17. This was a fixture assumption
+error. Every case, the unseeded runtime and schema USAGE restored exactly.
+The forward fixture correction retains that baseline as a new NULL-role case and
+labels active STAFF as a conditional disposable control. No SQL or deployed role
+is changed. Original failed artifact10325860121,2,730,493 bytes,SHA256
+`946ab47f4cacfcb5cef7230e7c1cfb41d1363f207732b2e70bb2ffc55a1f94a9`;
+recovery artifact10325775162,4,263,766 bytes,SHA256
+`ddd4abebd5f6abc6ca95878e88b07ac336a764bebcafc9b85594eedb7df3894c`.
+CodeQL40 passed three languages with zero findings on the failed native HEAD.
 
 VENI. VIDI. VICI. ERP. — I CONQUERED ERP.
 Reliable data adalah dewa. Keuangan termasuk laporan, stok, dan HPP adalah raja.

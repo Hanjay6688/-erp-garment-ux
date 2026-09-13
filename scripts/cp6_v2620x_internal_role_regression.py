@@ -12,8 +12,8 @@ import cp6_v2620w_runtime as w_runtime
 import cp6_v2620x_runtime as x_runtime
 
 CASES=('UNMAPPED_SUBJECT','MISSING_SUBJECT','INACTIVE_USER','INACTIVE_ROLE',
-    'SPOOFED_APP_ROLE','EXTERNAL_ROLE','OWNER_CONTROL','ADMIN_CONTROL','STAFF_CONTROL')
-NULL_CASES=set(CASES[:5])
+    'SPOOFED_APP_ROLE','INACTIVE_LEGACY_STAFF','EXTERNAL_ROLE','OWNER_CONTROL','ADMIN_CONTROL','STAFF_CONTROL')
+NULL_CASES=set(CASES[:6])
 one,boundary=base.one,scrap.boundary
 
 
@@ -30,15 +30,17 @@ def session(cur,name):
 
 
 def actor(cur,name):
-    subject=str(uuid.uuid4());expected_role=None
+    subject=str(uuid.uuid4());expected_role=None;fixture={}
     payload=dict(sub=subject,role='authenticated')
     if name=='MISSING_SUBJECT':payload.pop('sub');subject=None
     if name=='SPOOFED_APP_ROLE':payload.update(app_role='OWNER',role_code='OWNER')
     if name=='OWNER_CONTROL':subject=base.OPERATOR_AUTH;payload['sub']=subject;expected_role='OWNER'
-    elif name in ('INACTIVE_USER','INACTIVE_ROLE','EXTERNAL_ROLE','ADMIN_CONTROL','STAFF_CONTROL'):
-        code={'INACTIVE_USER':'STAFF','INACTIVE_ROLE':'X_INACTIVE','EXTERNAL_ROLE':'X_EXTERNAL',
+    elif name in ('INACTIVE_USER','INACTIVE_ROLE','INACTIVE_LEGACY_STAFF','EXTERNAL_ROLE','ADMIN_CONTROL','STAFF_CONTROL'):
+        code={'INACTIVE_USER':'ADMIN','INACTIVE_ROLE':'X_INACTIVE','EXTERNAL_ROLE':'X_EXTERNAL','INACTIVE_LEGACY_STAFF':'STAFF',
             'ADMIN_CONTROL':'ADMIN','STAFF_CONTROL':'STAFF'}[name]
         rid=one(cur,'select id from erp.app_roles where role_code=%s',(code,))
+        role_active_before=one(cur,'select is_active from erp.app_roles where id=%s',(rid,)) if rid else None
+        if code=='STAFF' and role_active_before is not False:raise AssertionError('X_EXPECTED_INACTIVE_LEGACY_STAFF_BASELINE')
         if rid is None:
             rid=uuid.uuid4()
             cur.execute("insert into erp.app_roles select (jsonb_populate_record(null::erp.app_roles,"
@@ -46,19 +48,27 @@ def actor(cur,name):
                 "'is_protected',false,'is_active',%s::boolean))).* from erp.app_roles r where role_code='OWNER'",
                 (str(rid),code,'X disposable '+code,name!='INACTIVE_ROLE'))
         if name=='INACTIVE_ROLE':cur.execute('update erp.app_roles set is_active=false where id=%s',(rid,))
+        # Conditional allowlist control only: baseline STAFF is disabled. This
+        # activation exists inside this disposable case and is rolled back.
+        if name=='STAFF_CONTROL':cur.execute('update erp.app_roles set is_active=true where id=%s',(rid,))
+        role_active=one(cur,'select is_active from erp.app_roles where id=%s',(rid,))
+        if role_active is not (name not in ('INACTIVE_ROLE','INACTIVE_LEGACY_STAFF')):
+            raise AssertionError('X_ROLE_FIXTURE_ACTIVITY_MISMATCH')
         cur.execute("insert into erp.app_users select (jsonb_populate_record(null::erp.app_users,"
             "to_jsonb(u)||jsonb_build_object('id',%s::text,'auth_user_id',%s::text,'full_name','X disposable actor',"
             "'role','STAFF','role_id',%s::text,'is_active',%s::boolean))).* from erp.app_users u where id=%s",
             (str(uuid.uuid4()),subject,str(rid),name!='INACTIVE_USER',base.OPERATOR_APP))
-        expected_role=None if name in ('INACTIVE_USER','INACTIVE_ROLE') else code
+        expected_role=None if name in ('INACTIVE_USER','INACTIVE_ROLE','INACTIVE_LEGACY_STAFF') else code
+        fixture=dict(role_code=code,role_active_before=role_active_before,role_active_for_case=role_active,
+            user_active_for_case=name!='INACTIVE_USER',conditional_disposable_role_activation=name=='STAFF_CONTROL')
     claims(cur,payload)
-    return subject,expected_role
+    return subject,expected_role,fixture
 
 
 def exercise(cur,cash,name,fixed):
     claims(cur,dict(sub=base.OPERATOR_AUTH,role='authenticated'))
     session(cur,'authenticated');transaction=scrap.draft(cur,cash)
-    session(cur,'supabase_admin');subject,expected_role=actor(cur,name)
+    session(cur,'supabase_admin');subject,expected_role,fixture=actor(cur,name)
     before_reports=scrap.reports(cur,('2026-09-02','2026-09-03'));before=boundary(cur)
     session(cur,'authenticated')
     cur.execute("select current_user,session_user,auth.uid()::text,erp.current_app_role(),auth.jwt()->>'role'")
@@ -88,7 +98,7 @@ def exercise(cur,cash,name,fixed):
     if error and boundary(cur)!=before:raise AssertionError('X_REFUSAL_NOT_ATOMIC')
     return dict(status='PASS' if fixed else 'KNOWN_W_AUTH_BUG_REPRODUCED' if name in NULL_CASES else 'CONTROL_PASS',
         identity=dict(current_user=observed[0],session_user=observed[1],auth_uid=observed[2],app_role=observed[3],jwt_role=observed[4]),
-        authorized_by_internal_role=allowed,accepted=error is None,refusal=error,document_status=document,
+        fixture=fixture,authorized_by_internal_role=allowed,accepted=error is None,refusal=error,document_status=document,
         journals=books,per_date_cash=deltas,refusal_boundary_exact=bool(error),
         synthetic_jwt_context=True,http_ui_reachability_proven=False)
 
@@ -125,8 +135,8 @@ def run():
         conn.rollback();result['entire_unseeded_runtime_restored']=boundary(cur)==untouched
         result['schema_usage_restored']=one(cur,"select has_schema_privilege('authenticated','erp','USAGE')")==usage;conn.rollback()
     expected={'PASS'} if fixed else {'KNOWN_W_AUTH_BUG_REPRODUCED','CONTROL_PASS'}
-    valid=len(result['cases'])==9 and all(c['status'] in expected and c['full_boundary_restored'] for c in result['cases'].values())
-    if not fixed:valid=valid and sum(c['status']=='KNOWN_W_AUTH_BUG_REPRODUCED' for c in result['cases'].values())==5
+    valid=len(result['cases'])==10 and all(c['status'] in expected and c['full_boundary_restored'] for c in result['cases'].values())
+    if not fixed:valid=valid and sum(c['status']=='KNOWN_W_AUTH_BUG_REPRODUCED' for c in result['cases'].values())==6
     result['status']='PASS' if valid and result['entire_unseeded_runtime_restored'] and result['schema_usage_restored'] else 'FAIL'
     return result
 

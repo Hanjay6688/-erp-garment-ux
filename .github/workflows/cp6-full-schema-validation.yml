@@ -1688,7 +1688,7 @@ jobs:
           set -euo pipefail
           python scripts/cp6_v2620x_internal_role_regression.py | tee cp6-proof/V2620X_W_COUNTEREXAMPLES.log
           test "$(jq -r '.status' cp6-proof/CP6_V2620X_W_COUNTEREXAMPLES.json)" = 'PASS'
-          test "$(jq '[.cases[] | select(.status == "KNOWN_W_AUTH_BUG_REPRODUCED")] | length' cp6-proof/CP6_V2620X_W_COUNTEREXAMPLES.json)" = '5'
+          test "$(jq '[.cases[] | select(.status == "KNOWN_W_AUTH_BUG_REPRODUCED")] | length' cp6-proof/CP6_V2620X_W_COUNTEREXAMPLES.json)" = '6'
           test "$(jq '[.cases[] | select(.status == "CONTROL_PASS")] | length' cp6-proof/CP6_V2620X_W_COUNTEREXAMPLES.json)" = '4'
 
       - name: Apply v2.6.20x fail-closed internal role before every final-runtime proof
@@ -1736,9 +1736,9 @@ jobs:
           set -euo pipefail
           python scripts/cp6_v2620x_internal_role_regression.py | tee cp6-proof/V2620X_NATIVE_REGRESSION.log
           test "$(jq -r '.status' cp6-proof/CP6_V2620X_INTERNAL_ROLE_REGRESSION.json)" = 'PASS'
-          test "$(jq '.cases | length' cp6-proof/CP6_V2620X_INTERNAL_ROLE_REGRESSION.json)" = '9'
+          test "$(jq '.cases | length' cp6-proof/CP6_V2620X_INTERNAL_ROLE_REGRESSION.json)" = '10'
           test "$(jq '[.cases[] | select(.accepted == true)] | length' cp6-proof/CP6_V2620X_INTERNAL_ROLE_REGRESSION.json)" = '3'
-          test "$(jq '[.cases[] | select(.refusal_boundary_exact == true)] | length' cp6-proof/CP6_V2620X_INTERNAL_ROLE_REGRESSION.json)" = '6'
+          test "$(jq '[.cases[] | select(.refusal_boundary_exact == true)] | length' cp6-proof/CP6_V2620X_INTERNAL_ROLE_REGRESSION.json)" = '7'
 
       - name: Prove native W paid scrap dates and complete authenticated SQL lifecycle
         env:
@@ -5203,8 +5203,8 @@ jobs:
 
           xb=json.loads((proof/'CP6_V2620X_W_COUNTEREXAMPLES.json').read_text())
           xp=json.loads((proof/'CP6_V2620X_INTERNAL_ROLE_REGRESSION.json').read_text())
-          x_names={'UNMAPPED_SUBJECT','MISSING_SUBJECT','INACTIVE_USER','INACTIVE_ROLE','SPOOFED_APP_ROLE','EXTERNAL_ROLE','OWNER_CONTROL','ADMIN_CONTROL','STAFF_CONTROL'}
-          null_names={'UNMAPPED_SUBJECT','MISSING_SUBJECT','INACTIVE_USER','INACTIVE_ROLE','SPOOFED_APP_ROLE'}
+          x_names={'UNMAPPED_SUBJECT','MISSING_SUBJECT','INACTIVE_USER','INACTIVE_ROLE','SPOOFED_APP_ROLE','INACTIVE_LEGACY_STAFF','EXTERNAL_ROLE','OWNER_CONTROL','ADMIN_CONTROL','STAFF_CONTROL'}
+          null_names={'UNMAPPED_SUBJECT','MISSING_SUBJECT','INACTIVE_USER','INACTIVE_ROLE','SPOOFED_APP_ROLE','INACTIVE_LEGACY_STAFF'}
           assert xb['head']==xp['head']==os.environ['GITHUB_SHA'] and xb['status']==xp['status']=='PASS'
           assert xb['phase']=='BEFORE_X' and xp['phase']=='AFTER_X'
           assert set(xb['cases'])==set(xp['cases'])==x_names
@@ -5225,6 +5225,15 @@ jobs:
               assert b['document_status']==('POSTED' if allowed else 'DRAFT') and len(b['journals'])==int(allowed)
               if not allowed: assert b['refusal_boundary_exact'] and b['refusal']['sqlstate']=='P0001' and 'Internal ERP access required' in b['refusal']['message']
               assert all(cash_delta_equal(d['expected'],d['actual']) for c in (a,b) for d in c['per_date_cash'].values())
+          for report in (xb,xp):
+              cases=report['cases']
+              inactive=cases['INACTIVE_LEGACY_STAFF']['fixture']
+              active=cases['STAFF_CONTROL']['fixture']
+              assert inactive==dict(role_code='STAFF',role_active_before=False,role_active_for_case=False,user_active_for_case=True,conditional_disposable_role_activation=False)
+              assert active==dict(role_code='STAFF',role_active_before=False,role_active_for_case=True,user_active_for_case=True,conditional_disposable_role_activation=True)
+              inactive_user=cases['INACTIVE_USER']['fixture']
+              assert inactive_user['role_code']=='ADMIN' and inactive_user['role_active_for_case'] and not inactive_user['user_active_for_case']
+              assert sum(c['fixture'].get('conditional_disposable_role_activation',False) for c in cases.values())==1
           assert xb['runtime']['verified_x_functions']==0 and xp['runtime']['verified_x_functions']==1
           assert len(xp['runtime']['installed_function_hashes'])==1
           assert all(c['installed_sha256']==c['observed_installed_sha256'] and c['owner']==c['observed_installed_owner']=='postgres' and c['acl']==c['observed_installed_acl'] for c in xp['runtime']['installed_function_hashes'])
@@ -5794,8 +5803,8 @@ jobs:
             'previous_writer_verdict':'FAIL_24_OF_25_W_CASES',
             'audited_predecessor':manifest['audited_predecessor'],
           }
-          manifest['x_internal_role']={'paired_cases':9,'known_null_role_paths':5,'controls':4,
-            'after_denials':6,'authorized_controls':3,'guard_count':8,'extra_preflight_guards':11,
+          manifest['x_internal_role']={'paired_cases':10,'known_null_role_paths':6,'controls':4,
+            'after_denials':7,'authorized_controls':3,'guard_count':8,'extra_preflight_guards':11,
             'capsule_functions':1,'boundary_tables':210,'complete_w_restore':533,'http_ui_reachability_proven':False}
           (proof/'CP6_V2620X_RUNTIME_MANIFEST.json').write_text(
               json.dumps(manifest,indent=2,sort_keys=True)+'\n',encoding='utf8',
