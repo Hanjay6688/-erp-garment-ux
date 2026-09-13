@@ -1644,6 +1644,13 @@ jobs:
           test "$(jq '[.cases[],.expanded_cases[] | select(.status != "PASS" or .full_boundary_restored != true)] | length' cp6-proof/CP6_V2620V_MISC_FINANCE_BUSINESS_DATE_REGRESSION.json)" = '0'
           test "$(jq -r '.entire_unseeded_runtime_restored' cp6-proof/CP6_V2620V_MISC_FINANCE_BUSINESS_DATE_REGRESSION.json)" = 'true'
 
+      - name: Independent V paid scrap business-date attack (qualified defects must fail)
+        env:
+          CP6_V_SCRAP_DISPOSABLE_CONFIRM: postgres
+        run: |
+          set -euo pipefail
+          python scripts/cp6_v2620v_scrap_adversarial.py | tee cp6-proof/V_SCRAP_ADVERSARIAL.log
+
       - name: Prove native U canonical material, reversal and owner-report business dates
         env:
           CP6_U_DISPOSABLE_CONFIRM: postgres
