@@ -61,23 +61,23 @@ def instrument_notices(source):
   select jsonb_agg(jsonb_build_object(
     'identity',e.identity,'expected_predecessor_sha256',e.predecessor_sha256,
     'expected_installed_sha256',e.installed_sha256,'expected_owner','postgres',
-    'expected_acl',e.acl,'capsule_identity',c.object_regidentity,
-    'capsule_definition_sha256',c.definition_sha256,
+    'expected_acl',e.acl,'capsule_identity',observed_cap.object_regidentity,
+    'capsule_definition_sha256',observed_cap.definition_sha256,
     'capsule_definition_actual_sha256',encode(extensions.digest(
-      convert_to(c.object_definition,'UTF8'),'sha256'),'hex'),
-    'capsule_installed_sha256',c.installed_definition_sha256,
-    'owner_before',c.owner_snapshot,'acl_before',c.acl_snapshot,
+      convert_to(observed_cap.object_definition,'UTF8'),'sha256'),'hex'),
+    'capsule_installed_sha256',observed_cap.installed_definition_sha256,
+    'owner_before',observed_cap.owner_snapshot,'acl_before',observed_cap.acl_snapshot,
     'owner_after',pg_get_userbyid(p.proowner),
     'acl_after',array(select a::text from unnest(p.proacl) a order by a::text),
     'actual_live_sha256',encode(extensions.digest(
       convert_to(pg_get_functiondef(p.oid),'UTF8'),'sha256'),'hex'),
-    'predecessor_definition',c.object_definition,
+    'predecessor_definition',observed_cap.object_definition,
     'normalized_installed_definition',pg_get_functiondef(p.oid)
   ) order by e.identity) into diagnostic
   from(values
 """ + match.group(1) + """
   ) e(identity,predecessor_sha256,installed_sha256,acl)
-  left join erp.cp6_v2620u_rollback_capsule c on c.object_regidentity=e.identity
+  left join erp.cp6_v2620u_rollback_capsule observed_cap on observed_cap.object_regidentity=e.identity
   left join pg_proc p on p.oid=to_regprocedure(e.identity);
   raise notice 'U_DIAGNOSTIC:%',diagnostic::text;
 """
@@ -128,6 +128,12 @@ def run():
                 conn.rollback()
             restored = snapshot(cur)
             conn.rollback()
+            REPORT.parent.mkdir(parents=True, exist_ok=True)
+            REPORT.write_text(json.dumps(dict(
+                status='DIAGNOSTIC_IN_PROGRESS', failed_source_head=FROZEN_HEAD,
+                observations=observations, current_case=name, current_error=error,
+                current_rollback_exact=restored == baseline, production_go=False
+            ), indent=2) + '\n')
             if error is None or error['message'] != ERROR:
                 raise AssertionError('U_DIAGNOSTIC_ORIGINAL_REJECTION_NOT_REPRODUCED:' + str(error))
             if restored != baseline:

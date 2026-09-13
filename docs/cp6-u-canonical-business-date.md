@@ -75,3 +75,9 @@ It checks the full ERP function/owner/ACL catalog and every ERP/platform table
 before and after each rejected transaction. No grant is added by this diagnostic.
 A successful diagnostic does not make U pass: the original apply step still runs
 and must still fail until a separate evidence-based correction is committed.
+
+Diagnostic commit `67d7e4bf` / native #151 reached the frozen rejection but its
+NOTICE query failed with SQLSTATE 55000: alias `c` shadowed the enclosing record.
+This was a tester defect, not an ERP finding. The corrective diagnostic uses a
+distinct alias and was replayed locally before the second native attempt. The
+original U assertions and all migration/rollback bytes remain unchanged.
