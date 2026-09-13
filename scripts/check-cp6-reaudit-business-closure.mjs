@@ -34,12 +34,12 @@ const clone = read(clonePath)
 const migrationFileSha = 'eab866385d3a462aea5815dc5069d5d7a774f7aa88c43d983c665469f4469465'
 const migrationLedgerSha = 'f3f1ba8f889440c8694ba2932fc787ea5bdfab980b2d94f24cd9bfabf1bbf222'
 const rollbackFileSha = '793cd96c44c4babcf78789ab01e3e932c04c1598cdc1dbe73afeedba18640fb7'
-const regressionFileSha = '4fabe97f112ff8afae94b4e929f4976356edd51fcb8b86b93533ad4ec433fd2a'
+const regressionFileSha = '1a0e9a7774857529e84291bdc9c4b5fbb2f4bb93464527d738de66304d293076'
 const migrationBytes = Buffer.from(migration)
 
 assert.equal(Buffer.byteLength(migration), 85944)
 assert.equal(Buffer.byteLength(rollback), 12395)
-assert.equal(Buffer.byteLength(regression), 37979)
+assert.equal(Buffer.byteLength(regression), 40170)
 assert.equal(sha256(migrationBytes), migrationFileSha)
 assert.equal(sha256(migrationBytes.subarray(0, -1)), migrationLedgerSha)
 assert.equal(sha256(rollback), rollbackFileSha)

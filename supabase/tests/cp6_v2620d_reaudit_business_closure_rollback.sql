@@ -481,7 +481,12 @@ declare
   v_return_allocation uuid;
   v_return_item uuid:='c8f10000-0000-4000-8000-000000000004';
   v_report jsonb;
-  v_today date:=current_date;
+  -- The inherited reversal posts on the Jakarta date of this transaction.
+  -- Keep caller UTC to expose date-scope mistakes; do not call the tested helper
+  -- to derive the independent expected period.
+  v_today date:=(current_timestamp at time zone 'Asia/Jakarta')::date;
+  v_legacy_report jsonb;
+  v_reversal_dates jsonb;
   v_sales uuid[]:='{}'::uuid[];
   v_adjustment uuid;
   v_book record;
@@ -681,6 +686,34 @@ begin
 
   perform erp.reverse_sales_return(v_return,'CP6 v20d cross-period return reversal');
   v_report:=erp.get_owner_financial_snapshot_v2(v_today,v_today,v_today);
+  v_legacy_report:=erp.get_owner_financial_snapshot_v2(current_date,current_date,current_date);
+  select jsonb_agg(jsonb_build_object(
+    'original_id',original.id,'inverse_id',inverse.id,
+    'economic_date',inverse.economic_date,'transaction_date',inverse.transaction_date,
+    'reversal_of_id',inverse.reversal_of_id,'source_type',inverse.source_type
+  ) order by inverse.id) into v_reversal_dates
+  from erp.journal_entries original
+  join erp.journal_entries inverse on inverse.reversal_of_id=original.id
+  where original.source_type='SALES_RETURN' and original.source_id=v_return;
+  raise notice 'CP6_V2620D_REVERSAL_PERIOD_ORACLE %',jsonb_build_object(
+    'session_timezone',current_setting('TimeZone'),'transaction_instant',current_timestamp,
+    'session_date',current_date,'expected_jakarta_date',v_today,
+    'dates_differ',current_date<>v_today,'journals',v_reversal_dates,
+    'canonical_sales_revenue_gl',v_report#>'{performance,sales_revenue_gl}',
+    'canonical_operational_net_sales',v_report#>'{performance,operational_net_sales}',
+    'legacy_period_sales_revenue_gl',v_legacy_report#>'{performance,sales_revenue_gl}',
+    'legacy_period_operational_net_sales',v_legacy_report#>'{performance,operational_net_sales}',
+    'production_go',false
+  );
+  if jsonb_array_length(v_reversal_dates) is distinct from 1
+     or (v_reversal_dates#>>'{0,economic_date}')::date is distinct from v_today
+     or (v_reversal_dates#>>'{0,transaction_date}')::date is distinct from v_today
+     or (v_legacy_report#>>'{performance,sales_revenue_gl}')::numeric
+        is distinct from (case when current_date=v_today then 20 else 0 end)
+     or (v_legacy_report#>>'{performance,operational_net_sales}')::numeric
+        is distinct from (case when current_date=v_today then 20 else 0 end) then
+    raise exception 'v20d reversal period date oracle disagrees with native journals';
+  end if;
   if (v_report#>>'{performance,sales_revenue_gl}')::numeric<>20
      or (v_report#>>'{performance,operational_net_sales}')::numeric<>20
      or (v_report#>>'{performance,sales_revenue_bridge_delta}')::numeric<>0 then

@@ -2047,6 +2047,14 @@ jobs:
             cp6-proof/CP6_V2620D_REAUDIT_REGRESSION.log >/dev/null
           grep -F 'CP6_V2620D_REAUDIT_RESIDUE_ZERO' \
             cp6-proof/CP6_V2620D_REAUDIT_REGRESSION.log >/dev/null
+          python - <<'PY'
+          import json,os,pathlib
+          marker='CP6_V2620D_REVERSAL_PERIOD_ORACLE '
+          rows=[json.loads(line.split(marker,1)[1]) for line in pathlib.Path('cp6-proof/CP6_V2620D_REAUDIT_REGRESSION.log').read_text().splitlines() if marker in line]
+          assert len(rows)==1,rows
+          report={'head':os.environ['GITHUB_SHA'],'status':'PASS','production_go':False,'observation':rows[0]}
+          pathlib.Path('cp6-proof/CP6_V2620D_REVERSAL_PERIOD_ORACLE.json').write_text(json.dumps(report,indent=2)+'\n')
+          PY
           python scripts/cp6_laundry_qc_concurrency.py \
             2>&1 | tee cp6-proof/CP6_LAUNDRY_QC_CONCURRENCY.log
           psql "$CP6_RACE_PGURL" -v ON_ERROR_STOP=1 \
@@ -4703,6 +4711,7 @@ jobs:
             'V2620X_MAIN_MAINTENANCE_ROLLBACK.json',
             'V2620X_COMPLETE_W_CATALOG.json',
             'V2620X_TABLE_BOUNDARY.json',
+            'CP6_V2620D_REVERSAL_PERIOD_ORACLE.json',
             'V2620X_COMPLETE_W_RESTORE.json',
             'V2620W_V_COUNTEREXAMPLES.log',
             'CP6_V2620W_V_COUNTEREXAMPLES.json',
@@ -5227,6 +5236,22 @@ jobs:
           assert w_restore['complete_function_count']==533
 
           xt=json.loads((proof/'V2620X_TABLE_BOUNDARY.json').read_text())
+          date_oracle=json.loads((proof/'CP6_V2620D_REVERSAL_PERIOD_ORACLE.json').read_text())
+          assert date_oracle['head']==os.environ['GITHUB_SHA'] and date_oracle['status']=='PASS' and date_oracle['production_go'] is False
+          observed=date_oracle['observation']
+          from datetime import datetime
+          from zoneinfo import ZoneInfo
+          instant=datetime.fromisoformat(observed['transaction_instant'])
+          assert observed['session_timezone']=='UTC' and observed['session_date']==instant.astimezone(ZoneInfo('UTC')).date().isoformat()
+          assert observed['expected_jakarta_date']==instant.astimezone(ZoneInfo('Asia/Jakarta')).date().isoformat()
+          assert observed['dates_differ']==(observed['session_date']!=observed['expected_jakarta_date'])
+          assert observed['production_go'] is False and len(observed['journals'])==1
+          inverse=observed['journals'][0]
+          assert inverse['economic_date']==inverse['transaction_date']==observed['expected_jakarta_date']
+          assert inverse['original_id']==inverse['reversal_of_id'] and inverse['inverse_id']!=inverse['original_id'] and inverse['source_type']=='JOURNAL_REVERSAL'
+          assert cash_delta_equal(20,observed['canonical_sales_revenue_gl']) and cash_delta_equal(20,observed['canonical_operational_net_sales'])
+          legacy_expected=0 if observed['dates_differ'] else 20
+          assert cash_delta_equal(legacy_expected,observed['legacy_period_sales_revenue_gl']) and cash_delta_equal(legacy_expected,observed['legacy_period_operational_net_sales'])
           assert xt['head']==os.environ['GITHUB_SHA'] and xt['status']=='PASS' and xt['production_go'] is False
           assert xt['baseline_total']==208 and xt['baseline_erp']==207 and xt['baseline_platform']==1
           assert xt['erp_tables']==210 and xt['boundary_count']==209 and xt['exact_names'] and xt['x_capsule_absent'] and xt['installed_snapshot_names_exact']

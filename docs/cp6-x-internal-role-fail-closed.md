@@ -113,6 +113,28 @@ recovery10324544485,4,263,766 bytes,SHA256752b4dce461e10151fdd08107c8ba8d6a16839
 Original ZIPs/logs and all previous failures remain. CodeQL41 passed three languages
 with zero findings on this failed native HEAD; it is not X writer acceptance.
 
+## X admitted167; inherited UTC report-fixture failure
+
+Native167 run34783920877/job103795821147 onabaa15a5c1c6f415045a1a04ed5754eb21a98ee5
+admitted X (step69); exact209 table-name/capsule proof and X10,W25,V29,U25,Auth95
+and core acceptance passed. All79 migration/rollback files through X are now
+frozen. Step76 failed the old v20d reversal-only report fixture: it sets UTC,
+then asks for current_date Sep13, expecting20 revenue, observing0. The inherited
+native reversal calls _cp3_business_date(current_timestamp), whose Jakarta date
+at21:35UTC is Sep14. This is a date-scope mismatch in the test oracle; the next
+native run must substantiate actual journal dates and both period values.
+The forward test-only correction keeps the UTC caller, independently derives
+the expected Jakarta transaction date, and asserts inverse lineage/date plus
+canonical20 and legacy-period0 when the dates differ. All previous amounts,
+lifecycle assertions and residue checks remain; no business SQL changes.
+Original artifact10325617682,6,064,661 bytes,SHA256
+8d294c5798bcde1326266cfb3d4a7a23cfae44816d092ac203368b1ded02960d;
+recovery10325628340,4,263,766 bytes,SHA256
+7664d7e08607b0f837604a1b3134c8b9123c18a90e98d9f9b05576aa87a1a54e.
+The race clone was physically removed, while its cleanup report correctly remains
+FAIL because the step failed. CodeQL42 on the same SHA passed and was independently
+verified in all three languages, zero findings. Native167 remains writer FAIL.
+
 VENI. VIDI. VICI. ERP. — I CONQUERED ERP.
 Reliable data adalah dewa. Keuangan termasuk laporan, stok, dan HPP adalah raja.
 CP6 closure → CP7 rev3 WIP-first → CP7.5 → CP7C → CP8. CP9 obsolete.
