@@ -92,6 +92,8 @@ begin
   end loop;
   -- Pin the additional U inputs and T's inherited private helpers/facts.
   for r in select * from(values
+    ('erp.post_material_purchase(uuid)','83f51a14eef3b2942b7158e81c2db1ee1e7ec401368fd8abb6bc013bf1be95de',array['postgres=X/postgres','service_role=X/postgres']::text[]),
+    ('erp.sync_material_purchase_grni_on_status()','7537c077a003924fce425c9db9769824fc5ffdd0e761e7b292508b1e248ad870',array['postgres=X/postgres','service_role=X/postgres']::text[]),
     ('erp._cp3_r4_reverse_journal_internal(uuid,text)','9b60fcd88852337ad0956d471e54c1c04bcccd35f5e85a8e5093469cc1c37249',array['postgres=X/postgres']::text[]),
     ('erp.post_material_adjustment(uuid)','be5a163932f0678667d94095f3db519abb7e5df4ea2c4c95204e42620ee27d83',array['postgres=X/postgres','service_role=X/postgres']::text[]),
     ('erp.get_owner_financial_snapshot_v2(date,date,date)','e51dbe224d112f523e51bddc609ee0f0036ecae2ef5d328b865326781aa8780c',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),
@@ -133,6 +135,12 @@ begin
     select 1 from erp.journal_entries j
     where j.source_type='JOURNAL_REVERSAL' and j.status='POSTED'
       and j.economic_date is distinct from erp._cp3_business_date(j.posting_at)
+  ) or exists(
+    select 1 from erp.journal_entries j
+    join erp.material_purchase_headers h on h.id=j.source_id
+    where j.source_type in('MATERIAL_PURCHASE','MATERIAL_PURCHASE_GRNI_RECLASS')
+      and j.status in('POSTED','REVERSED') and h.status in('POSTED','REVERSED')
+      and j.economic_date is distinct from erp._cp3_business_date(h.physical_at)
   ) then
     raise exception 'U_PREEXISTING_CANONICAL_DATE_REVIEW_REQUIRED';
   end if;
@@ -156,6 +164,8 @@ select format('%I.%I(%s)',n.nspname,p.proname,
   pg_get_userbyid(p.proowner)
 from pg_proc p join pg_namespace n on n.oid=p.pronamespace
 where p.oid in(
+  'erp.post_material_purchase(uuid)'::regprocedure,
+  'erp.sync_material_purchase_grni_on_status()'::regprocedure,
   'erp._cp3_r4_reverse_journal_internal(uuid,text)'::regprocedure,
   'erp.post_material_adjustment(uuid)'::regprocedure,
   'erp.get_owner_financial_snapshot_v2(date,date,date)'::regprocedure,
@@ -179,6 +189,19 @@ begin
     raise exception 'U_MATERIAL_ADJUSTMENT_DAY_ANCHOR';
   end if;
   execute replace(d,anchor,replacement);
+  select pg_get_functiondef('erp.post_material_purchase(uuid)'::regprocedure) into d;
+  anchor:='h.physical_at::date';replacement:='erp._cp3_business_date(h.physical_at)';
+  if (length(d)-length(replace(d,anchor,'')))/length(anchor)<>1 then
+    raise exception 'U_MATERIAL_RECEIPT_DAY_ANCHOR';
+  end if;
+  execute replace(d,anchor,replacement);
+
+  select pg_get_functiondef('erp.sync_material_purchase_grni_on_status()'::regprocedure) into d;
+  anchor:='new.physical_at::date';replacement:='erp._cp3_business_date(new.physical_at)';
+  if (length(d)-length(replace(d,anchor,'')))/length(anchor)<>1 then
+    raise exception 'U_MATERIAL_GRNI_DAY_ANCHOR';
+  end if;
+  execute replace(d,anchor,replacement);
 end
 $canonical_material$;
 
@@ -187,7 +210,8 @@ declare d text;anchor text;replacement text;
 begin
   select pg_get_functiondef('erp.get_owner_financial_snapshot_v2(date,date,date)'::regprocedure) into d;
   anchor:='p_as_of date DEFAULT CURRENT_DATE';
-  replacement:='p_as_of date DEFAULT erp._cp3_business_date(current_timestamp)';
+  -- Defaults execute in the caller context; keep the private helper private.
+  replacement:='p_as_of date DEFAULT ((CURRENT_TIMESTAMP AT TIME ZONE ''Asia/Jakarta'')::date)';
   if (length(d)-length(replace(d,anchor,'')))/length(anchor)<>1 then
     raise exception 'U_OWNER_DEFAULT_AS_OF_ANCHOR';
   end if;
@@ -228,6 +252,15 @@ begin
     and j.economic_date is distinct from erp._cp3_business_date(j.posting_at)
 
   union all
+  select 'V2620U_MATERIAL_RECEIPT_BUSINESS_DATE','CRITICAL',count(*)::bigint,
+    'Material receipt and GRNI journals must use the canonical Jakarta date of physical_at'
+  from erp.journal_entries j
+  join erp.material_purchase_headers h on h.id=j.source_id
+  where j.source_type in('MATERIAL_PURCHASE','MATERIAL_PURCHASE_GRNI_RECLASS')
+    and j.status in('POSTED','REVERSED') and h.status in('POSTED','REVERSED')
+    and j.economic_date is distinct from erp._cp3_business_date(h.physical_at)
+
+  union all
   select 'V2620T_JOURNAL_FUTURE_BUSINESS_DATE'$r$;
   if (length(d)-length(replace(d,anchor,'')))/length(anchor)<>1 then
     raise exception 'U_CANONICAL_DATE_DETECTOR_ANCHOR';
@@ -247,17 +280,19 @@ $detector_v2620u$;
 do $installed_v2620u$
 declare r record;c record;
 begin
-  if (select count(*) from erp.cp6_v2620u_rollback_capsule)<>5 then
+  if (select count(*) from erp.cp6_v2620u_rollback_capsule)<>7 then
     raise exception 'U_CAPSULE_CARDINALITY_MISMATCH';
   end if;
   update erp.cp6_v2620u_rollback_capsule cap set installed_definition_sha256=
     encode(extensions.digest(convert_to(pg_get_functiondef(
       to_regprocedure(cap.object_regidentity)),'UTF8'),'sha256'),'hex');
   for r in select * from(values
+    ('erp.post_material_purchase(uuid)','83f51a14eef3b2942b7158e81c2db1ee1e7ec401368fd8abb6bc013bf1be95de','17547ee019fca617bf67100d9b3b899b96781a2fa62cc47c57bb2dbafe358082',array['postgres=X/postgres','service_role=X/postgres']::text[]),
+    ('erp.sync_material_purchase_grni_on_status()','7537c077a003924fce425c9db9769824fc5ffdd0e761e7b292508b1e248ad870','e39d7cc4b457a58b929894f4fd5a9c7f47aa0da678853a3ddbee65f9630d676c',array['postgres=X/postgres','service_role=X/postgres']::text[]),
     ('erp._cp3_r4_reverse_journal_internal(uuid,text)','9b60fcd88852337ad0956d471e54c1c04bcccd35f5e85a8e5093469cc1c37249','2d54bfdf9bf0912e6b13e558ddbc4cb419020f191c3ce626a26f2c27b814b20c',array['postgres=X/postgres']::text[]),
     ('erp.post_material_adjustment(uuid)','be5a163932f0678667d94095f3db519abb7e5df4ea2c4c95204e42620ee27d83','b32962d12adde0ca4ae659f2dd83a02a0a3111c3a9060d845ed2e82025696201',array['postgres=X/postgres','service_role=X/postgres']::text[]),
-    ('erp.get_owner_financial_snapshot_v2(date,date,date)','e51dbe224d112f523e51bddc609ee0f0036ecae2ef5d328b865326781aa8780c','78210a408d3cf6bf48e3e86200c3a429adacff19a339b11669598accceaaf9cb',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),
-    ('erp.run_v267_financial_truth_checks()','acd6f623c83f1ce74323a11b9224955ea922b10788ed631b9973aa9345698af8','61819c08662b2a493212035792333006737d2fa158259dc9ce045ca2cf9b55e9',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),
+    ('erp.get_owner_financial_snapshot_v2(date,date,date)','e51dbe224d112f523e51bddc609ee0f0036ecae2ef5d328b865326781aa8780c','0afb94d932b1c7488c1a787de7f734133c1674e0a43100d366c6f3f129ffb9bb',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),
+    ('erp.run_v267_financial_truth_checks()','acd6f623c83f1ce74323a11b9224955ea922b10788ed631b9973aa9345698af8','f32dcd6d6be2ef1f2762bce1dac463aeeed8965f4ef94f8e7a31f8da4451e6ce',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),
     ('erp._v268_financial_report_checks_pre_scope()','8e0e303066c23476223089e2705b8ad0861b34faa2efb12c58663677f454b196','3a8af1f92f85ddbebf697b681e16f42b9c48b2cdb543b6ab2daa2a928a5bc775',array['postgres=X/postgres','service_role=X/postgres']::text[])
   ) expected(identity,predecessor_sha256,installed_sha256,acl)
   loop
@@ -284,8 +319,8 @@ begin
   end if;
   if (select count(*) from erp.run_v268_financial_report_checks()
       where check_name in('V2620U_MATERIAL_ADJUSTMENT_BUSINESS_DATE',
-        'V2620U_JOURNAL_REVERSAL_BUSINESS_DATE')
-        and severity='CRITICAL' and issue_count=0)<>2 then
+        'V2620U_JOURNAL_REVERSAL_BUSINESS_DATE','V2620U_MATERIAL_RECEIPT_BUSINESS_DATE')
+        and severity='CRITICAL' and issue_count=0)<>3 then
     raise exception 'U_FINANCIAL_REPORT_SCOPE_NOT_CONNECTED';
   end if;
 end

@@ -6,11 +6,13 @@ const read = path => readFileSync(path, 'utf8')
 const hash = source => createHash('sha256').update(source).digest('hex')
 const pinned = {
   'supabase/migrations/20260913070000_erp_v2_6_20u_cp6_canonical_business_date.sql':
-    '83878cf18de9fad9bbaf4a306ad1a6d2527dbd6f45ecd85cd388f53a476bba85',
+    '972b5189a065e078590c0742f67722684eb14a1d0df21f5fb1ebd42bf7f3bbaa',
   'supabase/rollbacks/20260913070000_erp_v2_6_20u_cp6_canonical_business_date.rollback.sql':
-    'f7802f51292af6805397e8672bbb1c3a443f5312a4fb60fd0b739e3b30081f69',
+    'e69035e7402c1d04ee3771145ad19bf3e83d6f303076dabdb8e05b1b251dcd76',
   'supabase/tests/cp6_canonical_business_date.sql':
     '84ff9b521fc40ca435b445c5db84cb617c02d6c3973ef432fd7b025c2ad45967',
+  'supabase/tests/cp6_u_expanded_dates.sql':
+    'ce4a81878509533cedf0b9ca6a8c04175871f6c8e25226cc08334250dd0388e9',
 }
 for (const [path, sha256] of Object.entries(pinned)) {
   assert.equal(hash(read(path)), sha256, path)
@@ -28,6 +30,8 @@ for (const token of [
   'U_MATERIAL_ADJUSTMENT_DAY_ANCHOR',
   'U_OWNER_DEFAULT_AS_OF_ANCHOR',
   'U_OWNER_WIP_CUTOFF_ANCHOR',
+  'U_MATERIAL_RECEIPT_DAY_ANCHOR', 'U_MATERIAL_GRNI_DAY_ANCHOR',
+  'V2620U_MATERIAL_RECEIPT_BUSINESS_DATE',
   'V2620U_MATERIAL_ADJUSTMENT_BUSINESS_DATE',
   'V2620U_JOURNAL_REVERSAL_BUSINESS_DATE',
   "or r.check_name like 'V2620T_%' or r.check_name like 'V2620U_%'",
@@ -36,8 +40,8 @@ for (const token of [
 for (const sha256 of [
   '2d54bfdf9bf0912e6b13e558ddbc4cb419020f191c3ce626a26f2c27b814b20c',
   'b32962d12adde0ca4ae659f2dd83a02a0a3111c3a9060d845ed2e82025696201',
-  '78210a408d3cf6bf48e3e86200c3a429adacff19a339b11669598accceaaf9cb',
-  '61819c08662b2a493212035792333006737d2fa158259dc9ce045ca2cf9b55e9',
+  '0afb94d932b1c7488c1a787de7f734133c1674e0a43100d366c6f3f129ffb9bb',
+  'f32dcd6d6be2ef1f2762bce1dac463aeeed8965f4ef94f8e7a31f8da4451e6ce',
   '3a8af1f92f85ddbebf697b681e16f42b9c48b2cdb543b6ab2daa2a928a5bc775',
 ]) assert.ok(migration.includes(sha256), sha256)
 for (const token of [
@@ -56,13 +60,16 @@ const runner = read('scripts/cp6_v2620u_canonical_business_date_regression.py')
 for (const token of [
   "phase not in ('BEFORE_U', 'AFTER_U')", "fixed = phase == 'AFTER_U'",
   "'hypothetical_function_hashes'", "'installed_function_hashes'",
+  'POSTGRES_CREATE_AND_PG_GET_FUNCTIONDEF_ROUNDTRIP',
+  'U_ROUNDTRIP_CHANGED_OWNER_ACL', 'U_UPGRADE_HISTORY_LEFT_RESIDUE',
+  'EXPANDED_CASES', 'DETECTOR_REVERSAL_DATE', 'FROZEN_DEFAULT_PRIVILEGE',
   "'verified_u_functions'", 'AUTH_SCHEMA_SOURCE',
   "grant usage on schema public, erp to authenticated;",
 ]) assert.ok(runner.includes(token), token)
 
 const maintenance = read('scripts/cp6_preuse_rollback_maintenance.py')
 for (const token of [
-  "'U': {", "'capsule_count': 5", "'predecessor': 'v2.6.20t'",
+  "'U': {", "'capsule_count': 7", "'predecessor': 'v2.6.20t'",
   "from cp6_v2620u_runtime import verify_extra_objects",
 ]) assert.ok(maintenance.includes(token), token)
 for (const generation of ['m', 'n', 'o', 'p', 'q', 'r', 's', 't']) {
@@ -120,13 +127,14 @@ for (const path of [
   ...Object.keys(pinned), 'docs/cp6-u-canonical-business-date.md',
   'scripts/check-cp6-canonical-business-date.mjs',
   'scripts/cp6_v2620u_runtime.py',
+  'scripts/cp6_v2620u_install_diagnostic.py',
   'scripts/cp6_v2620u_canonical_business_date_regression.py',
   'scripts/cp6_v2620u_rollback_guards.py',
 ]) assert.ok(workflow.includes(`            '${path}',`), path)
 
 console.log(JSON.stringify({
   status: 'PASS', classification: 'STATIC_SOURCE_CONTRACT_NOT_NATIVE_PROOF',
-  replaced_functions: 5, boundary_tables: 74, native_cases: 5,
+  replaced_functions: 7, boundary_tables: 74, native_cases: 5, expanded_native_cases: 20,
   known_t_paths: 4, controls: 1, maintenance_schedules: 320,
   writer_body_entries: 80, rollback_setup_units: 151, production_go: false,
 }))

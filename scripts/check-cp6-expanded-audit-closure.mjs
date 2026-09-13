@@ -27,9 +27,9 @@ const workflow = read(workflowPath)
 const expected = {
   migration: ['e16dbb655164595be273c03582d35c9ac33593136bd418fdd87156e592f292b8', 19733],
   rollback: ['0d0318e3848344c3642f1796a205d25bcf1cc2d2091ce28d1fc9cf6d186ecbe5', 6876],
-  maintenance: ['aaa1158d6b2a2bb226e509c94fbe4c129af746cd0f103441976945953b61f4d7', 59276],
+  maintenance: ['083b9af139c75d0f462f419812b17cc9def921e594a2bc428cf7a070c324c3e0', 59919],
   regression: ['6ea71f4d4e920f2c136389a506394002dff7c747a23d974741d2e1fbfab34881', 25854],
-  matrix: ['26b8311b08c4e8d5f54dd544c493ffe56a44822c925ed27468cd89cafd5bc627', 34136],
+  matrix: ['db076c67c081f8c104be41cefb0d9c00dc55f75c2a34ad647b916c0a3d18d209', 34136],
   guard: ['621f51b187138750646f38c7464a959713ba3c78bcbcd5031ac9841a288aca68', 6649],
 }
 for (const [name, source] of Object.entries({ migration, rollback, maintenance, regression, matrix, guard })) {

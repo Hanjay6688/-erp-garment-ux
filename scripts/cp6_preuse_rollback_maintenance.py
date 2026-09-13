@@ -167,10 +167,10 @@ TARGETS: dict[str, dict[str, Any]] = {
 
     'U': {
         'rollback': Path('supabase/rollbacks/20260913070000_erp_v2_6_20u_cp6_canonical_business_date.rollback.sql'),
-        'rollback_sha256': 'f7802f51292af6805397e8672bbb1c3a443f5312a4fb60fd0b739e3b30081f69',
+        'rollback_sha256': 'e69035e7402c1d04ee3771145ad19bf3e83d6f303076dabdb8e05b1b251dcd76',
         'marker': 'v2.6.20u', 'platform': 'erp_v2_6_20u_cp6_canonical_business_date',
         'predecessor': 'v2.6.20t', 'capsule': 'erp.cp6_v2620u_rollback_capsule',
-        'capsule_count': 5,
+        'capsule_count': 7,
     },
 
 }
@@ -352,10 +352,12 @@ TRUSTED_FUNCTIONS: dict[str, list[dict[str, Any]]] = {
   'predecessor_sha256': '57b213f5b7adb8abc78eafd8639cbc1907fd49319027534166a10365cfb69b83'}],
     'U': [
         {'identity': 'erp._cp3_r4_reverse_journal_internal(uuid,text)', 'predecessor_sha256': '9b60fcd88852337ad0956d471e54c1c04bcccd35f5e85a8e5093469cc1c37249', 'installed_sha256': '2d54bfdf9bf0912e6b13e558ddbc4cb419020f191c3ce626a26f2c27b814b20c', 'owner': 'postgres', 'acl': ['postgres=X/postgres']},
-        {'identity': 'erp.post_material_adjustment(uuid)', 'predecessor_sha256': 'be5a163932f0678667d94095f3db519abb7e5df4ea2c4c95204e42620ee27d83', 'installed_sha256': 'b32962d12adde0ca4ae659f2dd83a02a0a3111c3a9060d845ed2e82025696201', 'owner': 'postgres', 'acl': ['postgres=X/postgres', 'service_role=X/postgres']},
-        {'identity': 'erp.get_owner_financial_snapshot_v2(date,date,date)', 'predecessor_sha256': 'e51dbe224d112f523e51bddc609ee0f0036ecae2ef5d328b865326781aa8780c', 'installed_sha256': '78210a408d3cf6bf48e3e86200c3a429adacff19a339b11669598accceaaf9cb', 'owner': 'postgres', 'acl': ['authenticated=X/postgres', 'postgres=X/postgres', 'service_role=X/postgres']},
-        {'identity': 'erp.run_v267_financial_truth_checks()', 'predecessor_sha256': 'acd6f623c83f1ce74323a11b9224955ea922b10788ed631b9973aa9345698af8', 'installed_sha256': '61819c08662b2a493212035792333006737d2fa158259dc9ce045ca2cf9b55e9', 'owner': 'postgres', 'acl': ['authenticated=X/postgres', 'postgres=X/postgres', 'service_role=X/postgres']},
         {'identity': 'erp._v268_financial_report_checks_pre_scope()', 'predecessor_sha256': '8e0e303066c23476223089e2705b8ad0861b34faa2efb12c58663677f454b196', 'installed_sha256': '3a8af1f92f85ddbebf697b681e16f42b9c48b2cdb543b6ab2daa2a928a5bc775', 'owner': 'postgres', 'acl': ['postgres=X/postgres', 'service_role=X/postgres']},
+        {'identity': 'erp.get_owner_financial_snapshot_v2(date,date,date)', 'predecessor_sha256': 'e51dbe224d112f523e51bddc609ee0f0036ecae2ef5d328b865326781aa8780c', 'installed_sha256': '0afb94d932b1c7488c1a787de7f734133c1674e0a43100d366c6f3f129ffb9bb', 'owner': 'postgres', 'acl': ['authenticated=X/postgres', 'postgres=X/postgres', 'service_role=X/postgres']},
+        {'identity': 'erp.post_material_adjustment(uuid)', 'predecessor_sha256': 'be5a163932f0678667d94095f3db519abb7e5df4ea2c4c95204e42620ee27d83', 'installed_sha256': 'b32962d12adde0ca4ae659f2dd83a02a0a3111c3a9060d845ed2e82025696201', 'owner': 'postgres', 'acl': ['postgres=X/postgres', 'service_role=X/postgres']},
+        {'identity': 'erp.post_material_purchase(uuid)', 'predecessor_sha256': '83f51a14eef3b2942b7158e81c2db1ee1e7ec401368fd8abb6bc013bf1be95de', 'installed_sha256': '17547ee019fca617bf67100d9b3b899b96781a2fa62cc47c57bb2dbafe358082', 'owner': 'postgres', 'acl': ['postgres=X/postgres', 'service_role=X/postgres']},
+        {'identity': 'erp.run_v267_financial_truth_checks()', 'predecessor_sha256': 'acd6f623c83f1ce74323a11b9224955ea922b10788ed631b9973aa9345698af8', 'installed_sha256': 'f32dcd6d6be2ef1f2762bce1dac463aeeed8965f4ef94f8e7a31f8da4451e6ce', 'owner': 'postgres', 'acl': ['authenticated=X/postgres', 'postgres=X/postgres', 'service_role=X/postgres']},
+        {'identity': 'erp.sync_material_purchase_grni_on_status()', 'predecessor_sha256': '7537c077a003924fce425c9db9769824fc5ffdd0e761e7b292508b1e248ad870', 'installed_sha256': 'e39d7cc4b457a58b929894f4fd5a9c7f47aa0da678853a3ddbee65f9630d676c', 'owner': 'postgres', 'acl': ['postgres=X/postgres', 'service_role=X/postgres']},
     ],
 
 }

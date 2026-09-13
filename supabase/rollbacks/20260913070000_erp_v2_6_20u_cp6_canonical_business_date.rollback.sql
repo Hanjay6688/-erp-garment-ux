@@ -13,8 +13,8 @@ begin
        where version='20260913070000'
          and name='erp_v2_6_20u_cp6_canonical_business_date'
          and encode(extensions.digest(convert_to(array_to_string(statements,E'\n'),'UTF8'),'sha256'),'hex')
-           in('83878cf18de9fad9bbaf4a306ad1a6d2527dbd6f45ecd85cd388f53a476bba85',
-              'abfb7356af6a9b1822c3b2c582b15586723c4a28dd65ec4f9346d4e4c87a05c7'))
+           in('972b5189a065e078590c0742f67722684eb14a1d0df21f5fb1ebd42bf7f3bbaa',
+              'ca2759018e86597da6ebdc4d5e2c577095a44ecbffe0bbd549a75ceb02f7ceac'))
      or exists(select 1 from supabase_migrations.schema_migrations
        where version>'20260913070000') then
     raise exception 'U_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR';
@@ -69,15 +69,17 @@ begin
        where version not in('v2.6.20t','v2.6.20u')
          and installed_at>(select installed_at from erp.schema_migrations
            where version='v2.6.20u'))
-     or (select count(*) from erp.cp6_v2620u_rollback_capsule)<>5 then
+     or (select count(*) from erp.cp6_v2620u_rollback_capsule)<>7 then
     raise exception 'U_ROLLBACK_MARKER_CAPSULE_OR_SUCCESSOR';
   end if;
   for r in select * from(values
     ('erp._cp3_r4_reverse_journal_internal(uuid,text)','9b60fcd88852337ad0956d471e54c1c04bcccd35f5e85a8e5093469cc1c37249','2d54bfdf9bf0912e6b13e558ddbc4cb419020f191c3ce626a26f2c27b814b20c',array['postgres=X/postgres']::text[]),
+    ('erp._v268_financial_report_checks_pre_scope()','8e0e303066c23476223089e2705b8ad0861b34faa2efb12c58663677f454b196','3a8af1f92f85ddbebf697b681e16f42b9c48b2cdb543b6ab2daa2a928a5bc775',array['postgres=X/postgres','service_role=X/postgres']::text[]),
+    ('erp.get_owner_financial_snapshot_v2(date,date,date)','e51dbe224d112f523e51bddc609ee0f0036ecae2ef5d328b865326781aa8780c','0afb94d932b1c7488c1a787de7f734133c1674e0a43100d366c6f3f129ffb9bb',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),
     ('erp.post_material_adjustment(uuid)','be5a163932f0678667d94095f3db519abb7e5df4ea2c4c95204e42620ee27d83','b32962d12adde0ca4ae659f2dd83a02a0a3111c3a9060d845ed2e82025696201',array['postgres=X/postgres','service_role=X/postgres']::text[]),
-    ('erp.get_owner_financial_snapshot_v2(date,date,date)','e51dbe224d112f523e51bddc609ee0f0036ecae2ef5d328b865326781aa8780c','78210a408d3cf6bf48e3e86200c3a429adacff19a339b11669598accceaaf9cb',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),
-    ('erp.run_v267_financial_truth_checks()','acd6f623c83f1ce74323a11b9224955ea922b10788ed631b9973aa9345698af8','61819c08662b2a493212035792333006737d2fa158259dc9ce045ca2cf9b55e9',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),
-    ('erp._v268_financial_report_checks_pre_scope()','8e0e303066c23476223089e2705b8ad0861b34faa2efb12c58663677f454b196','3a8af1f92f85ddbebf697b681e16f42b9c48b2cdb543b6ab2daa2a928a5bc775',array['postgres=X/postgres','service_role=X/postgres']::text[])
+    ('erp.post_material_purchase(uuid)','83f51a14eef3b2942b7158e81c2db1ee1e7ec401368fd8abb6bc013bf1be95de','17547ee019fca617bf67100d9b3b899b96781a2fa62cc47c57bb2dbafe358082',array['postgres=X/postgres','service_role=X/postgres']::text[]),
+    ('erp.run_v267_financial_truth_checks()','acd6f623c83f1ce74323a11b9224955ea922b10788ed631b9973aa9345698af8','f32dcd6d6be2ef1f2762bce1dac463aeeed8965f4ef94f8e7a31f8da4451e6ce',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),
+    ('erp.sync_material_purchase_grni_on_status()','7537c077a003924fce425c9db9769824fc5ffdd0e761e7b292508b1e248ad870','e39d7cc4b457a58b929894f4fd5a9c7f47aa0da678853a3ddbee65f9630d676c',array['postgres=X/postgres','service_role=X/postgres']::text[])
   ) expected(identity,predecessor_sha256,installed_sha256,acl)
   loop
     select cap.*,
@@ -155,10 +157,12 @@ begin
   end loop;
   for r in select * from(values
     ('erp._cp3_r4_reverse_journal_internal(uuid,text)','9b60fcd88852337ad0956d471e54c1c04bcccd35f5e85a8e5093469cc1c37249'),
-    ('erp.post_material_adjustment(uuid)','be5a163932f0678667d94095f3db519abb7e5df4ea2c4c95204e42620ee27d83'),
+    ('erp._v268_financial_report_checks_pre_scope()','8e0e303066c23476223089e2705b8ad0861b34faa2efb12c58663677f454b196'),
     ('erp.get_owner_financial_snapshot_v2(date,date,date)','e51dbe224d112f523e51bddc609ee0f0036ecae2ef5d328b865326781aa8780c'),
+    ('erp.post_material_adjustment(uuid)','be5a163932f0678667d94095f3db519abb7e5df4ea2c4c95204e42620ee27d83'),
+    ('erp.post_material_purchase(uuid)','83f51a14eef3b2942b7158e81c2db1ee1e7ec401368fd8abb6bc013bf1be95de'),
     ('erp.run_v267_financial_truth_checks()','acd6f623c83f1ce74323a11b9224955ea922b10788ed631b9973aa9345698af8'),
-    ('erp._v268_financial_report_checks_pre_scope()','8e0e303066c23476223089e2705b8ad0861b34faa2efb12c58663677f454b196')
+    ('erp.sync_material_purchase_grni_on_status()','7537c077a003924fce425c9db9769824fc5ffdd0e761e7b292508b1e248ad870')
   ) expected(identity,sha256)
   loop
     select encode(extensions.digest(convert_to(
@@ -177,18 +181,20 @@ delete from supabase_migrations.schema_migrations
 where version='20260913070000'
   and name='erp_v2_6_20u_cp6_canonical_business_date'
   and encode(extensions.digest(convert_to(array_to_string(statements,E'\n'),'UTF8'),'sha256'),'hex')
-    in('83878cf18de9fad9bbaf4a306ad1a6d2527dbd6f45ecd85cd388f53a476bba85',
-       'abfb7356af6a9b1822c3b2c582b15586723c4a28dd65ec4f9346d4e4c87a05c7');
+    in('972b5189a065e078590c0742f67722684eb14a1d0df21f5fb1ebd42bf7f3bbaa',
+       'ca2759018e86597da6ebdc4d5e2c577095a44ecbffe0bbd549a75ceb02f7ceac');
 
 do $postcheck_v2620u$
 declare r record;v_actual text;
 begin
   for r in select * from(values
     ('erp._cp3_r4_reverse_journal_internal(uuid,text)','9b60fcd88852337ad0956d471e54c1c04bcccd35f5e85a8e5093469cc1c37249',array['postgres=X/postgres']::text[]),
-    ('erp.post_material_adjustment(uuid)','be5a163932f0678667d94095f3db519abb7e5df4ea2c4c95204e42620ee27d83',array['postgres=X/postgres','service_role=X/postgres']::text[]),
+    ('erp._v268_financial_report_checks_pre_scope()','8e0e303066c23476223089e2705b8ad0861b34faa2efb12c58663677f454b196',array['postgres=X/postgres','service_role=X/postgres']::text[]),
     ('erp.get_owner_financial_snapshot_v2(date,date,date)','e51dbe224d112f523e51bddc609ee0f0036ecae2ef5d328b865326781aa8780c',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),
+    ('erp.post_material_adjustment(uuid)','be5a163932f0678667d94095f3db519abb7e5df4ea2c4c95204e42620ee27d83',array['postgres=X/postgres','service_role=X/postgres']::text[]),
+    ('erp.post_material_purchase(uuid)','83f51a14eef3b2942b7158e81c2db1ee1e7ec401368fd8abb6bc013bf1be95de',array['postgres=X/postgres','service_role=X/postgres']::text[]),
     ('erp.run_v267_financial_truth_checks()','acd6f623c83f1ce74323a11b9224955ea922b10788ed631b9973aa9345698af8',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),
-    ('erp._v268_financial_report_checks_pre_scope()','8e0e303066c23476223089e2705b8ad0861b34faa2efb12c58663677f454b196',array['postgres=X/postgres','service_role=X/postgres']::text[])
+    ('erp.sync_material_purchase_grni_on_status()','7537c077a003924fce425c9db9769824fc5ffdd0e761e7b292508b1e248ad870',array['postgres=X/postgres','service_role=X/postgres']::text[])
   ) expected(identity,sha256,acl)
   loop
     select encode(extensions.digest(convert_to(pg_get_functiondef(p.oid),'UTF8'),'sha256'),'hex')

@@ -47,7 +47,7 @@ TARGETS = {
     'R': ('20260912114635', 'erp_v2_6_20r_cp6_receipt_invoice_dependency', 'v2.6.20r', 'v2.6.20q', 3),
     'S': ('20260912132445', 'erp_v2_6_20s_cp6_supplier_payment_business_date', 'v2.6.20s', 'v2.6.20r', 3),
     'T': ('20260912171034', 'erp_v2_6_20t_cp6_material_adjustment_revaluation', 'v2.6.20t', 'v2.6.20s', 6),
-    'U': ('20260913070000', 'erp_v2_6_20u_cp6_canonical_business_date', 'v2.6.20u', 'v2.6.20t', 5),
+    'U': ('20260913070000', 'erp_v2_6_20u_cp6_canonical_business_date', 'v2.6.20u', 'v2.6.20t', 7),
 }
 OPERATIONS = ('SALE', 'RETURN', 'CONVERSION', 'REPORT', 'FK_SYNC')
 MODES = ('WRITER_FIRST', 'ADMISSION_FIRST', 'WRITER_ABORT', 'DRAIN_TIMEOUT')

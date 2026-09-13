@@ -1513,10 +1513,12 @@ jobs:
           python scripts/cp6_v2620u_canonical_business_date_regression.py | tee cp6-proof/V2620U_T_COUNTEREXAMPLES.log
           test "$(jq -r '.status' cp6-proof/CP6_V2620U_T_COUNTEREXAMPLES.json)" = 'PASS'
           test "$(jq '.cases | length' cp6-proof/CP6_V2620U_T_COUNTEREXAMPLES.json)" = '5'
+          test "$(jq '.expanded_cases | length' cp6-proof/CP6_V2620U_T_COUNTEREXAMPLES.json)" = '20'
+          test "$(jq '[.expanded_cases[] | select(.status != "PASS" or .rolled_back_to_ready != true)] | length' cp6-proof/CP6_V2620U_T_COUNTEREXAMPLES.json)" = '0'
           test "$(jq '[.cases[] | select(.status == "KNOWN_T_BUG_REPRODUCED")] | length' cp6-proof/CP6_V2620U_T_COUNTEREXAMPLES.json)" = '4'
           test "$(jq '[.cases[] | select(.status == "CONTROL_PASS")] | length' cp6-proof/CP6_V2620U_T_COUNTEREXAMPLES.json)" = '1'
           test "$(jq '[.cases[] | select(.rolled_back_to_ready != true)] | length' cp6-proof/CP6_V2620U_T_COUNTEREXAMPLES.json)" = '0'
-          test "$(jq '.runtime.hypothetical_function_hashes | length' cp6-proof/CP6_V2620U_T_COUNTEREXAMPLES.json)" = '5'
+          test "$(jq '.runtime.hypothetical_function_hashes | length' cp6-proof/CP6_V2620U_T_COUNTEREXAMPLES.json)" = '7'
           test "$(jq '[.runtime.authenticated_contract.function_execute_grants[] | select(. != true)] | length' cp6-proof/CP6_V2620U_T_COUNTEREXAMPLES.json)" = '0'
           test "$(jq -r '.runtime.authenticated_contract.schema_usage_after_alignment' cp6-proof/CP6_V2620U_T_COUNTEREXAMPLES.json)" = 'true'
           PYTHONPATH=scripts python - <<'PY'
@@ -1533,10 +1535,10 @@ jobs:
           set -euo pipefail
           migration_source='supabase/migrations/20260913070000_erp_v2_6_20u_cp6_canonical_business_date.sql'
           rollback_source='supabase/rollbacks/20260913070000_erp_v2_6_20u_cp6_canonical_business_date.rollback.sql'
-          test "$(wc -c < "$migration_source")" = '20907'
-          test "$(wc -c < "$rollback_source")" = '13658'
-          echo '83878cf18de9fad9bbaf4a306ad1a6d2527dbd6f45ecd85cd388f53a476bba85  supabase/migrations/20260913070000_erp_v2_6_20u_cp6_canonical_business_date.sql' | sha256sum -c - | tee cp6-proof/V2620U_MIGRATION_SHA256.txt
-          echo 'f7802f51292af6805397e8672bbb1c3a443f5312a4fb60fd0b739e3b30081f69  supabase/rollbacks/20260913070000_erp_v2_6_20u_cp6_canonical_business_date.rollback.sql' | sha256sum -c - | tee cp6-proof/V2620U_ROLLBACK_SHA256.txt
+          test "$(wc -c < "$migration_source")" = '23568'
+          test "$(wc -c < "$rollback_source")" = '14731'
+          echo '972b5189a065e078590c0742f67722684eb14a1d0df21f5fb1ebd42bf7f3bbaa  supabase/migrations/20260913070000_erp_v2_6_20u_cp6_canonical_business_date.sql' | sha256sum -c - | tee cp6-proof/V2620U_MIGRATION_SHA256.txt
+          echo 'e69035e7402c1d04ee3771145ad19bf3e83d6f303076dabdb8e05b1b251dcd76  supabase/rollbacks/20260913070000_erp_v2_6_20u_cp6_canonical_business_date.rollback.sql' | sha256sum -c - | tee cp6-proof/V2620U_ROLLBACK_SHA256.txt
           psql "$PGURL" -X -v ON_ERROR_STOP=1 -f "$migration_source" 2>&1 | tee cp6-proof/V2620U_APPLY.log
           python - <<'PY'
           import os,pathlib,psycopg
@@ -1545,8 +1547,8 @@ jobs:
               conn.execute('insert into supabase_migrations.schema_migrations(version,name,statements) values(%s,%s,%s)',
                 ('20260913070000','erp_v2_6_20u_cp6_canonical_business_date',[source]))
           PY
-          test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select count(*) from erp.cp6_v2620u_rollback_capsule where installed_definition_sha256 is not null")" = '5'
-          test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select encode(extensions.digest(convert_to(array_to_string(statements,E'\\n'),'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations where name='erp_v2_6_20u_cp6_canonical_business_date'")" = '83878cf18de9fad9bbaf4a306ad1a6d2527dbd6f45ecd85cd388f53a476bba85'
+          test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select count(*) from erp.cp6_v2620u_rollback_capsule where installed_definition_sha256 is not null")" = '7'
+          test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select encode(extensions.digest(convert_to(array_to_string(statements,E'\\n'),'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations where name='erp_v2_6_20u_cp6_canonical_business_date'")" = '972b5189a065e078590c0742f67722684eb14a1d0df21f5fb1ebd42bf7f3bbaa'
           psql "$PGURL" -X -At -F '|' -v ON_ERROR_STOP=1 \
             -c "select object_regidentity,definition_sha256,installed_definition_sha256 from erp.cp6_v2620u_rollback_capsule order by object_regidentity" \
             | tee cp6-proof/V2620U_INSTALLED_FUNCTION_SHA256.txt
@@ -1566,10 +1568,12 @@ jobs:
           python scripts/cp6_v2620u_canonical_business_date_regression.py | tee cp6-proof/V2620U_NATIVE_REGRESSION.log
           test "$(jq -r '.status' cp6-proof/CP6_V2620U_CANONICAL_BUSINESS_DATE_REGRESSION.json)" = 'PASS'
           test "$(jq '.cases | length' cp6-proof/CP6_V2620U_CANONICAL_BUSINESS_DATE_REGRESSION.json)" = '5'
+          test "$(jq '.expanded_cases | length' cp6-proof/CP6_V2620U_CANONICAL_BUSINESS_DATE_REGRESSION.json)" = '20'
+          test "$(jq '[.expanded_cases[] | select(.status != "PASS" or .rolled_back_to_ready != true)] | length' cp6-proof/CP6_V2620U_CANONICAL_BUSINESS_DATE_REGRESSION.json)" = '0'
           test "$(jq '[.cases[] | select(.status != "PASS")] | length' cp6-proof/CP6_V2620U_CANONICAL_BUSINESS_DATE_REGRESSION.json)" = '0'
           test "$(jq '[.cases[] | select(.rolled_back_to_ready != true)] | length' cp6-proof/CP6_V2620U_CANONICAL_BUSINESS_DATE_REGRESSION.json)" = '0'
-          test "$(jq '.runtime.verified_u_functions' cp6-proof/CP6_V2620U_CANONICAL_BUSINESS_DATE_REGRESSION.json)" = '5'
-          test "$(jq '.runtime.installed_function_hashes | length' cp6-proof/CP6_V2620U_CANONICAL_BUSINESS_DATE_REGRESSION.json)" = '5'
+          test "$(jq '.runtime.verified_u_functions' cp6-proof/CP6_V2620U_CANONICAL_BUSINESS_DATE_REGRESSION.json)" = '7'
+          test "$(jq '.runtime.installed_function_hashes | length' cp6-proof/CP6_V2620U_CANONICAL_BUSINESS_DATE_REGRESSION.json)" = '7'
 
       - name: Run post-CP6 real Auth JWT HTTP permissions and residue-zero E2E
         shell: bash
@@ -4695,7 +4699,7 @@ jobs:
           u_before=json.loads((proof/'CP6_V2620U_T_COUNTEREXAMPLES.json').read_text())
           assert u_before['head']==os.environ['GITHUB_SHA'] and u_before['status']=='PASS' and u_before['production_go'] is False
           assert u_before['phase']=='BEFORE_U' and u_before['runtime']['verified_t_functions']==6
-          assert len(u_before['runtime']['hypothetical_function_hashes'])==5
+          assert len(u_before['runtime']['hypothetical_function_hashes'])==7
           assert u_before['runtime']['authenticated_contract']['schema_usage_after_alignment']
           assert all(u_before['runtime']['authenticated_contract']['function_execute_grants'].values())
           assert len(u_before['cases'])==5 and sum(c['status']=='KNOWN_T_BUG_REPRODUCED' for c in u_before['cases'].values())==4
@@ -4706,11 +4710,20 @@ jobs:
           assert up['phase']=='AFTER_U' and up['oracle_sha256']==u_before['oracle_sha256']
           assert len(up['cases'])==5 and all(c['status']=='PASS' and c['rolled_back_to_ready'] for c in up['cases'].values())
           assert up['all_case_effects_rolled_back'] and up['runtime']['verified_t_functions']==6
-          assert up['runtime']['verified_u_functions']==5 and len(up['runtime']['installed_function_hashes'])==5
+          assert up['runtime']['verified_u_functions']==7 and len(up['runtime']['installed_function_hashes'])==7
+          for report in (u_before,up):
+              assert len(report['expanded_cases'])==20
+              assert all(c['status']=='PASS' and c['rolled_back_to_ready'] for c in report['expanded_cases'].values())
+          upgrade=[c['upgrade_guard'] for c in u_before['expanded_cases'].values() if 'upgrade_guard' in c]
+          assert len(upgrade)==14 and sum(c['refused_invalid_history'] for c in upgrade)==8
+          assert sum(c['accepted_valid_history'] for c in upgrade)==6 and all(c['full_catalog_tables_owner_acl_restored'] for c in upgrade)
+          diagnostic=json.loads((proof/'CP6_V2620U_FAILED150_PREDICATES.json').read_text())
+          assert diagnostic['status']=='PASS_REPRODUCED_FROZEN_U_FAILURE' and diagnostic['original_assertions_unchanged']
+          assert len(diagnostic['functions'])==5 and all(x['full_functions_owner_acl_tables_restored'] for x in diagnostic['observations'])
           assert all(c['installed_sha256']==c['observed_installed_sha256'] for c in up['runtime']['installed_function_hashes'])
           ug=json.loads((proof/'CP6_V2620U_ROLLBACK_GUARDS.json').read_text())
           assert ug['head']==os.environ['GITHUB_SHA'] and ug['status']=='PASS' and len(ug['guards'])==7
-          assert ug['exact_pre_use_restore']=={'generation':'T','restored_function_count':5,'owner_acl_exact':True,'metadata_schema_residue':0}
+          assert ug['exact_pre_use_restore']=={'generation':'T','restored_function_count':7,'owner_acl_exact':True,'metadata_schema_residue':0}
           assert ug['trusted_capsule_guard']['status']=='PASS' and not ug['trusted_capsule_guard']['admission_closed'] and not ug['trusted_capsule_guard']['rollback_started']
           assert len(ug['extra_object_preflight_guards'])==9 and all(c['status']=='PASS' and not c['admission_closed'] and not c['rollback_started'] for c in ug['extra_object_preflight_guards'])
           assert ug['maintenance']['rollback_committed'] and ug['maintenance']['admission_reopened_after_success']
@@ -4782,6 +4795,7 @@ jobs:
             'scripts/cp6_v2620u_canonical_business_date_regression.py',
             'scripts/cp6_v2620u_rollback_guards.py',
             'supabase/tests/cp6_canonical_business_date.sql',
+            'supabase/tests/cp6_u_expanded_dates.sql',
             'ops/supabase/uat/applied/20260831032949_erp_v2_6_13b_auth_profile_facade_tracking.sql',
             'docs/cp6-t-material-adjustment-revaluation.md',
             'scripts/check-cp6-material-adjustment-revaluation.mjs',
@@ -5101,7 +5115,8 @@ jobs:
               'v2620u_t_canonical_business_date_controls':1,
               'v2620u_closed_admission_rollback_schedules':20,
               'v2620u_native_case_groups':5,
-              'v2620u_restored_function_owner_acl_count':5,
+              'v2620u_expanded_native_case_groups':20,
+              'v2620u_restored_function_owner_acl_count':7,
               'v2620u_direct_rollback_guards':7,
               'v2620u_extra_object_preflight_guards':9,
               'v2620s_closed_admission_rollback_schedules':20,

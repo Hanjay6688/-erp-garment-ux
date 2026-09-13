@@ -3,6 +3,7 @@
 import hashlib
 import json
 import os
+import re
 from pathlib import Path
 
 import psycopg
@@ -26,6 +27,8 @@ CASES = (
     'MATERIAL_ORIGINAL_JAKARTA',
 )
 AFFECTED_CASES = CASES[:-1]
+EXPANDED_SOURCE = Path('supabase/tests/cp6_u_expanded_dates.sql')
+EXPANDED_CASES = ('RECEIPT_EST_UTC', 'RECEIPT_FINAL_UTC', 'RECEIPT_EST_NEW_YORK', 'RECEIPT_FINAL_NEW_YORK', 'RECEIPT_EST_JAKARTA', 'RECEIPT_FINAL_JAKARTA', 'RECEIPT_EST_TOKYO', 'RECEIPT_FINAL_TOKYO', 'RECEIPT_EDGE_BEFORE', 'RECEIPT_EDGE_AT', 'FROZEN_DEFAULT_PRIVILEGE', 'REPORT_EXPLICIT_NULL', 'REPORT_INVALID_RANGE', 'DEFAULT_ZONE_ROUNDTRIP', 'ADJUSTMENT_IDEMPOTENCY', 'ADJUSTMENT_FUTURE_ATOMIC', 'ADJUSTMENT_LINKED_REVERSE', 'DETECTOR_RECEIPT_DATE', 'DETECTOR_ADJUSTMENT_DATE', 'DETECTOR_REVERSAL_DATE')
 
 
 def replace_exact(definition: str, old: str, new: str, count: int) -> str:
@@ -52,8 +55,19 @@ def hypothetical_hashes(cur: psycopg.Cursor) -> list[dict[str, object]]:
   where j.source_type='JOURNAL_REVERSAL' and j.status='POSTED'
     and j.economic_date is distinct from erp._cp3_business_date(j.posting_at)
 
+  union all
+  select 'V2620U_MATERIAL_RECEIPT_BUSINESS_DATE','CRITICAL',count(*)::bigint,
+    'Material receipt and GRNI journals must use the canonical Jakarta date of physical_at'
+  from erp.journal_entries j
+  join erp.material_purchase_headers h on h.id=j.source_id
+  where j.source_type in('MATERIAL_PURCHASE','MATERIAL_PURCHASE_GRNI_RECLASS')
+    and j.status in('POSTED','REVERSED') and h.status in('POSTED','REVERSED')
+    and j.economic_date is distinct from erp._cp3_business_date(h.physical_at)
+
 """ + detector_anchor
     transforms = {
+        'erp.post_material_purchase(uuid)': [('h.physical_at::date', 'erp._cp3_business_date(h.physical_at)', 1)],
+        'erp.sync_material_purchase_grni_on_status()': [('new.physical_at::date', 'erp._cp3_business_date(new.physical_at)', 1)],
         'erp._cp3_r4_reverse_journal_internal(uuid,text)': [
             ('CURRENT_DATE', 'erp._cp3_business_date(current_timestamp)', 1),
         ],
@@ -63,7 +77,7 @@ def hypothetical_hashes(cur: psycopg.Cursor) -> list[dict[str, object]]:
         'erp.get_owner_financial_snapshot_v2(date,date,date)': [
             (
                 'p_as_of date DEFAULT CURRENT_DATE',
-                'p_as_of date DEFAULT erp._cp3_business_date(current_timestamp)',
+                "p_as_of date DEFAULT ((CURRENT_TIMESTAMP AT TIME ZONE 'Asia/Jakarta')::date)",
                 1,
             ),
             ('h.physical_at::date', 'erp._cp3_business_date(h.physical_at)', 2),
@@ -86,13 +100,29 @@ def hypothetical_hashes(cur: psycopg.Cursor) -> list[dict[str, object]]:
         transformed = definition
         for old, new, count in replacements:
             transformed = replace_exact(transformed, old, new, count)
+        before_acl = base.one(cur, 'select proacl::text from pg_proc where oid=%s::regprocedure', (identity,))
+        before_owner = base.one(cur, 'select pg_get_userbyid(proowner) from pg_proc where oid=%s::regprocedure', (identity,))
+        cur.execute('savepoint u_definition_roundtrip')
+        try:
+            cur.execute(transformed, prepare=False)
+            normalized = base.one(cur, 'select pg_get_functiondef(%s::regprocedure)', (identity,))
+            after_acl = base.one(cur, 'select proacl::text from pg_proc where oid=%s::regprocedure', (identity,))
+            after_owner = base.one(cur, 'select pg_get_userbyid(proowner) from pg_proc where oid=%s::regprocedure', (identity,))
+            if (before_acl, before_owner) != (after_acl, after_owner):
+                raise AssertionError('U_ROUNDTRIP_CHANGED_OWNER_ACL')
+        finally:
+            cur.execute('rollback to savepoint u_definition_roundtrip')
+            cur.execute('release savepoint u_definition_roundtrip')
+        if base.one(cur, 'select pg_get_functiondef(%s::regprocedure)', (identity,)) != definition:
+            raise AssertionError('U_ROUNDTRIP_LEFT_DEFINITION_RESIDUE')
         output.append({
             'identity': identity,
             'predecessor_sha256': hashlib.sha256(definition.encode()).hexdigest(),
-            'hypothetical_installed_sha256': hashlib.sha256(
-                transformed.encode()
-            ).hexdigest(),
-            'changed': transformed != definition,
+            'text_prediction_sha256': hashlib.sha256(transformed.encode()).hexdigest(),
+            'hypothetical_installed_sha256': hashlib.sha256(normalized.encode()).hexdigest(),
+            'derivation': 'POSTGRES_CREATE_AND_PG_GET_FUNCTIONDEF_ROUNDTRIP',
+            'owner_acl_unchanged': True, 'roundtrip_rolled_back_exactly': True,
+            'changed': normalized != definition,
         })
     return output
 
@@ -120,6 +150,8 @@ def run() -> dict[str, object]:
         'classification': 'DISPOSABLE_NATIVE_' + phase,
         'phase': phase,
         'oracle_sha256': hashlib.sha256(SOURCE.read_bytes()).hexdigest(),
+        'expanded_oracle_sha256': hashlib.sha256(EXPANDED_SOURCE.read_bytes()).hexdigest(),
+        'expanded_cases': {},
         'cases': {},
     }
     with psycopg.connect(**params, autocommit=False) as conn, conn.cursor() as cur:
@@ -133,7 +165,7 @@ def run() -> dict[str, object]:
         u_successor = u_runtime.verified_successor(cur)
         if u_successor and not fixed:
             raise AssertionError('U_BEFORE_PHASE_HAS_U_RESIDUE')
-        if fixed and len(u_successor) != 5:
+        if fixed and len(u_successor) != 7:
             raise AssertionError('U_AFTER_PHASE_REQUIRES_EXACT_U')
         auth_source = AUTH_SCHEMA_SOURCE.read_text()
         auth_grant = 'grant usage on schema public, erp to authenticated;'
@@ -208,7 +240,7 @@ def run() -> dict[str, object]:
             Path('supabase/tests/cp6_supplier_invoice_exact_quantity.sql'),
             Path('supabase/tests/cp6_material_adjustment_revaluation.sql'),
             Path('supabase/tests/cp6_independent_n_regression.sql'),
-            SOURCE,
+            SOURCE, EXPANDED_SOURCE,
         ):
             cur.execute(source.read_text(), prepare=False)
         for name in CASES:
@@ -235,12 +267,57 @@ def run() -> dict[str, object]:
             if base.one(cur, 'select pg_temp.m_report()') != 'READY':
                 raise AssertionError('U_CASE_RESTORE_NOT_READY')
             result['cases'][name]['rolled_back_to_ready'] = True
+        for name in EXPANDED_CASES:
+            cur.execute('savepoint u_expanded_case')
+            try:
+                case = base.one(cur, 'select pg_temp.u_extra_case(%s,%s)', (name, fixed))
+                if case['status'] != 'PASS':
+                    raise AssertionError('U_EXPANDED_ORACLE_STATUS_MISMATCH')
+                if not fixed and (name.startswith(('RECEIPT_', 'DETECTOR_'))
+                                  or name == 'ADJUSTMENT_FUTURE_ATOMIC'):
+                    from cp6_v2620u_install_diagnostic import snapshot
+                    before_upgrade = snapshot(cur)
+                    must_refuse = case.get('predecessor_wrong_day_observed', False) or name.startswith('DETECTOR_')
+                    cur.execute('savepoint u_upgrade_probe')
+                    error = None
+                    try:
+                        body = re.sub(r'(?im)^(begin|commit);\s*$', '', u_runtime.MIGRATION.read_text())
+                        cur.execute(body, prepare=False)
+                    except psycopg.Error as exc:
+                        error = exc.diag.message_primary
+                    finally:
+                        cur.execute('rollback to savepoint u_upgrade_probe')
+                        cur.execute('release savepoint u_upgrade_probe')
+                    if (error is not None) != must_refuse or (error is not None
+                            and error != 'U_PREEXISTING_CANONICAL_DATE_REVIEW_REQUIRED'):
+                        raise AssertionError('U_UPGRADE_HISTORY_WRONG_RESULT:' + str(error))
+                    if snapshot(cur) != before_upgrade:
+                        raise AssertionError('U_UPGRADE_HISTORY_LEFT_RESIDUE')
+                    case['upgrade_guard'] = dict(
+                        refused_invalid_history=must_refuse, accepted_valid_history=not must_refuse,
+                        error=error, full_catalog_tables_owner_acl_restored=True,
+                    )
+                result['expanded_cases'][name] = case
+            except Exception as exc:
+                result['expanded_cases'][name] = {
+                    'status': 'FAIL', 'code': getattr(exc, 'sqlstate', None),
+                    'message': str(exc),
+                }
+            finally:
+                cur.execute('rollback to savepoint u_expanded_case')
+                cur.execute('release savepoint u_expanded_case')
+                cur.execute("select set_config('TimeZone','UTC',true)")
+            if base.one(cur, 'select pg_temp.m_report()') != 'READY':
+                raise AssertionError('U_EXPANDED_CASE_RESTORE_NOT_READY')
+            result['expanded_cases'][name]['rolled_back_to_ready'] = True
         conn.rollback()
     acceptable = {'PASS'} if fixed else {'CONTROL_PASS', 'KNOWN_T_BUG_REPRODUCED'}
     result['all_case_effects_rolled_back'] = True
     result['status'] = (
         'PASS'
-        if all(c['status'] in acceptable for c in result['cases'].values())
+        if (all(c['status'] in acceptable for c in result['cases'].values())
+            and len(result['expanded_cases']) == 20
+            and all(c['status'] == 'PASS' for c in result['expanded_cases'].values()))
         else 'FAIL'
     )
     return result
