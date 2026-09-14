@@ -176,7 +176,9 @@ def audit():
                         caller_today=str(instant.astimezone(ZoneInfo(zone)).date()),
                         source='erp.close_accounting_through(date,text)',
                         classification='CONTROL', status='CONTROL_PASS')
-        if baseline['ok'] != expected_ok:
+        accepted_state_valid = (not baseline['ok'] or baseline['period_state']['closed_through'] == str(target))
+        observed_state_valid = (not observed['ok'] or observed['period_state']['closed_through'] == str(target))
+        if baseline['ok'] != expected_ok or not accepted_state_valid or not observed_state_valid:
             evidence.update(status='INCOMPLETE', classification='CLOSE_CONTROL_PRECONDITION_NOT_QUALIFIED')
         elif observed['ok'] != baseline['ok']:
             evidence.update(status='NEW_Y_BUG_REPRODUCED', severity='P2',
@@ -204,31 +206,37 @@ def audit():
             if got != want or after[day]['data_confidence']['status'] != 'READY':
                 raise AssertionError('Y_DEFAULT_CASH_FIXTURE_CASH_OR_REPORT_NOT_QUALIFIED')
         prior.zone(cur, zone)
-        cur.execute('select * from erp.report_cash_balance(%s)', (today,))
-        explicit = cur.fetchall()
-        cur.execute('select * from erp.report_cash_balance()')
-        default = cur.fetchall()
+        # Only the real RPC's p_as_of default is under test. Keep the same
+        # explicit income period so date-only position results are comparable.
+        period_from = today.replace(day=1)
+        explicit = prior.one(cur, 'select erp.get_owner_financial_snapshot_v2(%s,%s,%s)',
+                             (period_from, today, today))
+        default = prior.one(cur, 'select erp.get_owner_financial_snapshot_v2(%s,%s)',
+                            (period_from, today))
         caller_day = instant.astimezone(ZoneInfo(zone)).date()
-        cur.execute('select * from erp.report_cash_balance(%s)', (caller_day,))
-        caller_explicit = cur.fetchall()
+        caller_explicit = prior.one(cur, 'select erp.get_owner_financial_snapshot_v2(%s,%s,%s)',
+                                    (period_from, today, caller_day))
+        if any(r['data_confidence']['status'] != 'READY' for r in (explicit, default, caller_explicit)):
+            raise AssertionError('OWNER_DEFAULT_REPORT_NOT_READY')
         prior.admin(cur)
         cur.execute("select economic_date,transaction_date from erp.journal_entries "
                     "where source_type='OPENING_SUBLEDGER_SETTLEMENT' and source_id=%s", (ident,))
         journals = cur.fetchall()
         if journals != [(today, today)]:
             raise AssertionError('Y_DEFAULT_CASH_SOURCE_POSTING_NOT_QUALIFIED')
-        mismatch = default != explicit
-        qualified = mismatch and default == caller_explicit and explicit != caller_explicit
+        mismatch = default['financial_position'] != explicit['financial_position']
+        qualified = (mismatch and default['financial_position'] == caller_explicit['financial_position']
+                     and explicit['financial_position'] != caller_explicit['financial_position'])
         if mismatch and not qualified:
             raise AssertionError('Y_DEFAULT_CASH_DIFFERENCE_NOT_ATTRIBUTABLE_TO_CALLER_DATE')
         return dict(status='NEW_Y_BUG_REPRODUCED' if qualified else 'CONTROL_PASS',
                     severity='P2' if qualified else None,
-                    classification='DIRECT_CASH_DEFAULT_WRONG_BUSINESS_DAY' if qualified else 'CONTROL',
+                    classification='OWNER_REPORT_DEFAULT_WRONG_BUSINESS_DAY' if qualified else 'CONTROL',
                     zone=zone, expected_as_of=str(today), caller_as_of=str(caller_day),
                     explicit_today=explicit, default_actual=default, explicit_caller_day=caller_explicit,
                     source_journals=journals, amount='0.03', settlement_id=str(ident),
                     owner_reports_before=before, owner_reports_after=after,
-                    source_posting_correct=True, source='erp.report_cash_balance(date)')
+                    source_posting_correct=True, source='erp.get_owner_financial_snapshot_v2(date,date,date)')
 
     with psycopg.connect(**dict(params, user='supabase_admin'), autocommit=False) as conn, conn.cursor() as cur:
         cur.execute("set local timezone='UTC';set local statement_timeout='180s';set local lock_timeout='8s'")
@@ -239,7 +247,7 @@ def audit():
             raise AssertionError('Y_AUDIT_VERIFIED_RUNTIME_REQUIRED')
         catalog = function_catalog(cur)
         save('Y_FULL_FUNCTION_CATALOG.json', catalog)
-        target_names = ('report_cash_balance', 'close_accounting_through', 'finish_production_order',
+        target_names = ('get_owner_financial_snapshot_v2', 'close_accounting_through', 'finish_production_order',
                         '_post_cutting_qty_correction', '_recalculate_material_cost_core',
                         '_cp3_r4_reverse_journal_internal', 'resolve_accounting_transaction_date',
                         'reverse_sales_payment', 'reverse_vendor_payment', 'reverse_opening_subledger_settlement')
@@ -247,6 +255,16 @@ def audit():
         save('Y_TARGET_FUNCTIONS.json', selected)
         for row in selected:
             print('Y_AUDIT_TARGET_SOURCE ' + json.dumps(row, default=str), flush=True)
+            if row[0] == 'erp.close_accounting_through(date,text)':
+                anchor = 'p_closed_through>=current_date'
+                if row[1].count(anchor) != 1:
+                    raise AssertionError('Y_CLOSE_SOURCE_ANCHOR')
+                successor = row[1].replace(anchor, 'p_closed_through>=erp._cp3_business_date(current_timestamp)')
+                pins = dict(identity=row[0], predecessor_sha256=hashlib.sha256(row[1].encode()).hexdigest(),
+                            proposed_installed_sha256=hashlib.sha256(successor.encode()).hexdigest(),
+                            acl=row[2], owner=row[3], exact_anchor_count=1)
+                save('Y_CLOSE_SOURCE_PINS.json', pins)
+                print('Y_CLOSE_SOURCE_PINS ' + json.dumps(pins), flush=True)
         usage = prior.one(cur, "select has_schema_privilege('authenticated','erp','USAGE')")
         if not usage:
             cur.execute('grant usage on schema erp to authenticated')

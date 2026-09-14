@@ -1847,6 +1847,23 @@ jobs:
           test "$(jq '.controls_passed' cp6-proof/CP6_V2620Y_CASH_BUSINESS_DATE_REGRESSION.json)" = '45'
           test "$(jq '.qualified_counterexamples + .incomplete_cases' cp6-proof/CP6_V2620Y_CASH_BUSINESS_DATE_REGRESSION.json)" = '0'
 
+      - name: Generate the successor filename with the pinned Supabase CLI
+        run: |
+          set -euo pipefail
+          supabase migration --help > cp6-proof/independent-y/SUPABASE_MIGRATION_HELP.txt
+          supabase migration new --help > cp6-proof/independent-y/SUPABASE_MIGRATION_NEW_HELP.txt
+          supabase migration new erp_v2_6_20z_cp6_accounting_close_business_date | tee cp6-proof/independent-y/Z_SCAFFOLD_CLI.txt
+          python - <<'PY'
+          import hashlib,json,pathlib
+          paths=list(pathlib.Path('supabase/migrations').glob('*_erp_v2_6_20z_cp6_accounting_close_business_date.sql'))
+          assert len(paths)==1
+          data=paths[0].read_bytes()
+          report={'status':'CLI_GENERATED_EMPTY_SCAFFOLD','path':str(paths[0]),'bytes':len(data),'sha256':hashlib.sha256(data).hexdigest()}
+          assert len(data)==0
+          pathlib.Path('cp6-proof/independent-y/Z_SCAFFOLD_IDENTITY.json').write_text(json.dumps(report,indent=2)+'\n')
+          print('Z_SCAFFOLD_IDENTITY '+json.dumps(report))
+          PY
+
       - name: Independently audit Y report defaults and accounting close boundaries
         env:
           CP6_Y_INDEPENDENT_CONFIRM: postgres

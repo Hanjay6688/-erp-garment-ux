@@ -32,3 +32,10 @@ change main, PR state, hosted databases, deployment, or the locked CP7 roadmap.
 
 Owner: “Reliable data adalah dewa. Keuangan—termasuk laporan—stok, dan HPP adalah raja.”
 VENI. VIDI. VICI. ERP. — I CONQUERED ERP.
+
+
+## Qualification correction after native #176
+
+Run 34823498503 on 9a3ffb18f1d7370677afa777853cd303ced91b9f is retained as INCOMPLETE: 1 qualified accounting-close false refusal, 15 controls and 4 harness errors. The four errors called a nonexistent report_cash_balance(date) function. They are not ERP defects. The corrected tests use the existing get_owner_financial_snapshot_v2(date,date,date) RPC, omit only its p_as_of argument, and compare the financial_position against explicit Jakarta and caller-date controls after an ordinary 0.03 settlement. No report implementation is added or modified.
+
+The accounting-close controls now also assert the accepted persisted date. This audit revision changes no admitted migration or rollback. Native evidence records the CLI-generated empty Z migration filename and exact proposed close-function hashes for the subsequent writer, while this revision still exits nonzero on a qualified Y counterexample.
