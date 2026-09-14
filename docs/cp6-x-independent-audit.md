@@ -28,7 +28,16 @@ permission controls, not evidence of concurrent revocation behavior. A final
 catalog control verifies 30 table privileges across the three private execution
 context tables and the anon/authenticated database roles.
 
-The 23 cases each restore the complete ERP function/owner/ACL/table snapshot.
+Twelve additional cases cover four vendor payments at Jakarta midnight, four
+customer sales payments at Jakarta midnight, and four midday sales controls,
+each group using the same four caller timezones. Their payment
+dates follow the source invoice. Existing fixture helpers prepare legitimate
+posted opening-FG/sales or laundry receipt/invoice state as disposable admin;
+the tested drafts and payments execute as an authenticated OWNER. Sales payment
+facts are captured without modification. This distinguishes a fixed UTC
+function setting from timezone-dependent caller behavior.
+
+The 35 cases each restore the complete ERP function/owner/ACL/table snapshot.
 The outer transaction restores the unseeded runtime, including any disposable
 schema-usage alignment taken from the existing Auth foundation. Role activity
 changes and initial fixture loading are explicitly privileged test setup.
@@ -44,3 +53,19 @@ Source inspection also identified remaining `CURRENT_DATE` and timestamp-to-date
 casts in other financial, stock, and payroll paths. They require type, wrapper,
 and native reachability analysis; this audit does not certify all such paths.
 Independent final PASS remains pending. `production_go:false`; CP7 is untouched.
+
+Native #172 (34805036582), audit commit
+`d9be2f4cddb80f53ffc9b9687ce2acb9518171e3`, failed at step 71 with overall
+INCOMPLETE: eight qualified settlement counterexamples, eleven passing controls,
+and four CUSTOMER_RECEIVABLE fixture errors (customer code exceeded varchar(30)).
+The fixture is now bounded to 24 characters; no business source was patched.
+Every case and the entire unseeded runtime restored exactly: 533 ERP functions
+with owner/ACL plus 212 ERP/platform tables. Counterexamples recorded three-cent
+cash movement on September 2 instead of September 3 while reports stayed READY.
+The failed run and both original artifacts remain evidence, not a PASS:
+
+- `cp6-x-independent-audit`, artifact 10332713766, 19,997 bytes,
+  SHA-256 `cd1c40e7605234f9c2a375882952c19625021a2fc42c72ee0261005420dc6281`.
+- `cp6-r1-v2620x-full-schema-auth-browser-proof`, artifact 10333132490,
+  3,048,311 bytes, SHA-256
+  `9749c5530f1732d333af0a681c5f0f2008ab19b338b88b32dea2dac5c447af1d`.

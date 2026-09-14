@@ -1771,7 +1771,7 @@ jobs:
           set -euo pipefail
           python scripts/cp6_x_independent_audit.py | tee cp6-proof/CP6_X_INDEPENDENT_AUDIT.log
           test "$(jq -r '.status' cp6-proof/CP6_X_INDEPENDENT_AUDIT.json)" = 'PASS_BOUNDED_AUDIT'
-          test "$(jq '.cases | length' cp6-proof/CP6_X_INDEPENDENT_AUDIT.json)" = '23'
+          test "$(jq '.cases | length' cp6-proof/CP6_X_INDEPENDENT_AUDIT.json)" = '35'
           test "$(jq -r '.entire_unseeded_runtime_restored' cp6-proof/CP6_X_INDEPENDENT_AUDIT.json)" = 'true'
 
       - name: Prove native W paid scrap dates and complete authenticated SQL lifecycle
@@ -5922,11 +5922,11 @@ jobs:
             'original_frozen_bytes_preserved':True,'all_other_rollback_bytes_preserved':True}
           independent=json.loads((proof/'CP6_X_INDEPENDENT_AUDIT.json').read_text())
           assert independent['head']==head and independent['tree']==manifest['identity']['head_tree']
-          assert independent['status']=='PASS_BOUNDED_AUDIT' and len(independent['cases'])==23
+          assert independent['status']=='PASS_BOUNDED_AUDIT' and len(independent['cases'])==35
           assert independent['qualified_counterexamples']==0 and independent['incomplete_cases']==0
           assert independent['entire_unseeded_runtime_restored'] and independent['schema_usage_restored']
           assert all(c['status']=='CONTROL_PASS' and c['full_boundary_restored'] for c in independent['cases'].values())
-          manifest['x_independent_audit']={'report':'CP6_X_INDEPENDENT_AUDIT.json','cases':23,
+          manifest['x_independent_audit']={'report':'CP6_X_INDEPENDENT_AUDIT.json','cases':35,
             'audited_business_head':independent['audited_business_head'],
             'audited_business_tree':independent['audited_business_tree'],
             'status':independent['status'],'http_ui_reachability_proven':False}
