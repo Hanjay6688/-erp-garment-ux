@@ -1764,6 +1764,16 @@ jobs:
           test "$(jq '[.cases[] | select(.accepted == true)] | length' cp6-proof/CP6_V2620X_INTERNAL_ROLE_REGRESSION.json)" = '3'
           test "$(jq '[.cases[] | select(.refusal_boundary_exact == true)] | length' cp6-proof/CP6_V2620X_INTERNAL_ROLE_REGRESSION.json)" = '7'
 
+      - name: Independently attack frozen X settlement dates and revoked authorization
+        env:
+          CP6_X_INDEPENDENT_DISPOSABLE_CONFIRM: postgres
+        run: |
+          set -euo pipefail
+          python scripts/cp6_x_independent_audit.py | tee cp6-proof/CP6_X_INDEPENDENT_AUDIT.log
+          test "$(jq -r '.status' cp6-proof/CP6_X_INDEPENDENT_AUDIT.json)" = 'PASS_BOUNDED_AUDIT'
+          test "$(jq '.cases | length' cp6-proof/CP6_X_INDEPENDENT_AUDIT.json)" = '23'
+          test "$(jq -r '.entire_unseeded_runtime_restored' cp6-proof/CP6_X_INDEPENDENT_AUDIT.json)" = 'true'
+
       - name: Prove native W paid scrap dates and complete authenticated SQL lifecycle
         env:
           CP6_W_DISPOSABLE_CONFIRM: postgres
@@ -5388,6 +5398,8 @@ jobs:
             'supabase/rollbacks/20260913224854_erp_v2_6_20x_cp6_internal_role_fail_closed_rollback_r2.rollback.sql',
             'scripts/cp6_v2620x_runtime.py',
             'scripts/cp6_v2620x_internal_role_regression.py',
+            'scripts/cp6_x_independent_audit.py',
+            'docs/cp6-x-independent-audit.md',
             'scripts/cp6_v2620x_rollback_guards.py',
             'scripts/check-cp6-internal-role-fail-closed.mjs',
             'docs/cp6-x-internal-role-fail-closed.md',
@@ -5908,6 +5920,16 @@ jobs:
             'original_sha256':'8107dc0d884ee624328b2a0a4c7fd03bed4e8d88f428282a7c00660c43b4200a','effective_path':'supabase/rollbacks/20260913224854_erp_v2_6_20x_cp6_internal_role_fail_closed_rollback_r2.rollback.sql',
             'effective_sha256':'915fbba9398885e1ce4deef0650c38d6237729781c5985beb2acdec0c911e43a','effective_bytes':11356,'qualified_catalog_aliases':3,
             'original_frozen_bytes_preserved':True,'all_other_rollback_bytes_preserved':True}
+          independent=json.loads((proof/'CP6_X_INDEPENDENT_AUDIT.json').read_text())
+          assert independent['head']==head and independent['tree']==manifest['identity']['head_tree']
+          assert independent['status']=='PASS_BOUNDED_AUDIT' and len(independent['cases'])==23
+          assert independent['qualified_counterexamples']==0 and independent['incomplete_cases']==0
+          assert independent['entire_unseeded_runtime_restored'] and independent['schema_usage_restored']
+          assert all(c['status']=='CONTROL_PASS' and c['full_boundary_restored'] for c in independent['cases'].values())
+          manifest['x_independent_audit']={'report':'CP6_X_INDEPENDENT_AUDIT.json','cases':23,
+            'audited_business_head':independent['audited_business_head'],
+            'audited_business_tree':independent['audited_business_tree'],
+            'status':independent['status'],'http_ui_reachability_proven':False}
           (proof/'CP6_V2620X_RUNTIME_MANIFEST.json').write_text(
               json.dumps(manifest,indent=2,sort_keys=True)+'\n',encoding='utf8',
           )
@@ -5927,6 +5949,15 @@ jobs:
           path: cp6-native-transfer
           if-no-files-found: error
           compression-level: 0
+          retention-days: 30
+
+      - name: Preserve independent X audit even on failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cp6-x-independent-audit
+          path: cp6-proof/CP6_X_INDEPENDENT_AUDIT.*
+          if-no-files-found: warn
           retention-days: 30
 
       - name: Upload non-secret CP6 proof
