@@ -18,8 +18,11 @@ from zoneinfo import ZoneInfo
 
 HEAD_Y = 'bde9da786e3cde94cdb96e953310e5fac46f8574'
 TREE_Y = '81f5d1c57622c59d36409e70032a632ae9af0157'
-OUT = Path('cp6-proof/independent-y')
-REPORT = OUT / 'Y_INDEPENDENT_AUDIT.json'
+PHASE = os.environ.get('CP6_Z_PHASE', 'BEFORE_Z')
+if PHASE not in ('BEFORE_Z', 'AFTER_Z'):
+    raise AssertionError('UNKNOWN_Z_AUDIT_PHASE')
+OUT = Path('cp6-proof/independent-y' if PHASE == 'BEFORE_Z' else 'cp6-proof/independent-z')
+REPORT = OUT / ('Y_INDEPENDENT_AUDIT.json' if PHASE == 'BEFORE_Z' else 'Z_CLOSE_REGRESSION.json')
 ZONES = ('Asia/Jakarta', 'UTC', 'Pacific/Kiritimati', 'Etc/GMT+12')
 OLD_ARTIFACT = 10335276559
 OLD_DIGEST = '88c66cf64909e246fe41b8b71cd03631d4eba10bf7451c69186e95c79fc2b871'
@@ -118,9 +121,48 @@ def incoming():
                       auth_case_count=len(selected['cp6-auth-permission-e2e.json']['cases']),
                       y_writer_case_count=len(selected['CP6_V2620Y_CASH_BUSINESS_DATE_REGRESSION.json']['cases']),
                       independent_business_audit=False, production_go=False)
+    preserve_failed_audits()
     save('Y_INCOMING_INTEGRITY.json', result)
     print(json.dumps(result), flush=True)
     return 0
+
+
+def preserve_failed_audits():
+    """Retain entire failed native artifacts with independent GitHub API pins."""
+    root = OUT / 'history'
+    root.mkdir(parents=True, exist_ok=True)
+    specs = (
+        (10338979607, '9a3ffb18f1d7370677afa777853cd303ced91b9f', 3721849,
+         '885d90b4bde5b411c11736786e87704769c79254184faff1ebd33b5c6a83b03e', 'FAILED176_FULL_NATIVE.zip', (1, 15, 4)),
+        (10340511221, 'c978ea1c0d5a1185fca2c29d0db406777fed3aa5', 3732885,
+         '9b9d1445c5ca9e96e58472ecd87ab94033b0c3614fa473ab14b9df54e9243571', 'FAILED177_FULL_NATIVE.zip', (1, 18, 1)),
+    )
+    observations = []
+    for artifact, head, size, digest, name, expected in specs:
+        api_path = 'repos/Hanjay6688/-erp-garment-ux/actions/artifacts/' + str(artifact)
+        meta = json.loads(subprocess.check_output(['gh', 'api', api_path], text=True))
+        if (meta['id'], meta['workflow_run']['head_sha'], meta['size_in_bytes'], meta['digest'], meta['expired']) != (
+                artifact, head, size, 'sha256:' + digest, False):
+            raise AssertionError('Y_FAILED_AUDIT_ARTIFACT_IDENTITY:' + str(artifact))
+        archive = root / name
+        with archive.open('wb') as stream:
+            subprocess.run(['gh', 'api', api_path + '/zip'], stdout=stream, check=True)
+        with archive.open('rb') as stream:
+            actual = hashlib.file_digest(stream, 'sha256').hexdigest()
+        if archive.stat().st_size != size or actual != digest:
+            raise AssertionError('Y_FAILED_AUDIT_ARTIFACT_BYTES:' + str(artifact))
+        with zipfile.ZipFile(archive) as z:
+            target = [n for n in z.namelist() if n.endswith('independent-y/Y_INDEPENDENT_AUDIT.json')]
+            if len(target) != 1:
+                raise AssertionError('Y_FAILED_AUDIT_SUMMARY_MEMBER')
+            summary = json.loads(z.read(target[0]))
+        if summary['head'] != head or summary['status'] != 'INCOMPLETE' or (
+                summary['qualified_counterexamples'], summary['controls_passed'], summary['incomplete_cases']) != expected:
+            raise AssertionError('Y_FAILED_AUDIT_REPORTED_COUNTS')
+        observations.append(dict(artifact_id=artifact, head=head, bytes=size, sha256=digest,
+                                 path=str(archive), status='PRESERVED_FAILED_NATIVE_EVIDENCE',
+                                 qualified_counterexamples=expected[0], controls=expected[1], incomplete=expected[2]))
+    save('Y_FAILED_AUDITS_PRESERVED.json', dict(status='PASS', files=observations, production_go=False))
 
 
 def audit():
@@ -135,8 +177,13 @@ def audit():
         raise AssertionError('Y_AUDIT_EXACT_DISPOSABLE_ENDPOINT_REQUIRED')
     if os.environ.get('CP6_Y_INDEPENDENT_CONFIRM') != 'postgres':
         raise AssertionError('Y_AUDIT_DISPOSABLE_CONFIRMATION_REQUIRED')
-    if git('diff', '--name-only', HEAD_Y, 'HEAD', '--', 'supabase/migrations', 'supabase/rollbacks'):
-        raise AssertionError('Y_AUDIT_REQUIRES_UNCHANGED_Y_BUSINESS_SQL')
+    import cp6_v2620z_runtime as z_runtime
+    if git('diff', '--diff-filter=MDRTCUXB', '--name-only', HEAD_Y, 'HEAD', '--', 'supabase/migrations', 'supabase/rollbacks'):
+        raise AssertionError('Y_ADMITTED_SQL_MUST_REMAIN_IMMUTABLE')
+    added = set(git('diff', '--diff-filter=A', '--name-only', HEAD_Y, 'HEAD', '--',
+                    'supabase/migrations', 'supabase/rollbacks').splitlines())
+    if added != {str(z_runtime.MIGRATION), str(z_runtime.ROLLBACK)}:
+        raise AssertionError('Z_ONLY_EXPLICIT_SUCCESSOR_SQL_ALLOWED')
     if os.environ.get('GITHUB_SHA') != git('rev-parse', 'HEAD'):
         raise AssertionError('Y_AUDIT_EXACT_CHECKOUT')
     result = dict(format='CP6_Y_INDEPENDENT_AUDIT_V1', status='INCOMPLETE',
@@ -144,7 +191,8 @@ def audit():
                   parents=git('show', '-s', '--format=%P', 'HEAD').split(),
                   audited_business_head=HEAD_Y, audited_business_tree=TREE_Y,
                   run_id=os.environ.get('GITHUB_RUN_ID'), run_attempt=os.environ.get('GITHUB_RUN_ATTEMPT'),
-                  source_sql_unchanged=True, production_go=False,
+                  admitted_y_source_sql_unchanged=True, phase=PHASE,
+                  runtime_generation='Y' if PHASE == 'BEFORE_Z' else 'Z', production_go=False,
                   real_authenticated_session=True, synthetic_jwt_context=True,
                   http_ui_reachability_proven=False, cases={})
     save(REPORT.name, result)
@@ -208,14 +256,15 @@ def audit():
         prior.zone(cur, zone)
         # Only the real RPC's p_as_of default is under test. Keep the same
         # explicit income period so date-only position results are comparable.
-        period_from = today.replace(day=1)
-        explicit = prior.one(cur, 'select erp.get_owner_financial_snapshot_v2(%s,%s,%s)',
-                             (period_from, today, today))
-        default = prior.one(cur, 'select erp.get_owner_financial_snapshot_v2(%s,%s)',
-                            (period_from, today))
         caller_day = instant.astimezone(ZoneInfo(zone)).date()
+        period_to = min(today, caller_day)
+        period_from = period_to.replace(day=1)
+        explicit = prior.one(cur, 'select erp.get_owner_financial_snapshot_v2(%s,%s,%s)',
+                             (period_from, period_to, today))
+        default = prior.one(cur, 'select erp.get_owner_financial_snapshot_v2(%s,%s)',
+                            (period_from, period_to))
         caller_explicit = prior.one(cur, 'select erp.get_owner_financial_snapshot_v2(%s,%s,%s)',
-                                    (period_from, today, caller_day))
+                                    (period_from, period_to, caller_day))
         if any(r['data_confidence']['status'] != 'READY' for r in (explicit, default, caller_explicit)):
             raise AssertionError('OWNER_DEFAULT_REPORT_NOT_READY')
         prior.admin(cur)
@@ -245,6 +294,10 @@ def audit():
         result['engine'] = prior.one(cur, 'select version()')
         if len(runtime.verified_successor(cur)) != 6:
             raise AssertionError('Y_AUDIT_VERIFIED_RUNTIME_REQUIRED')
+        observed_z = z_runtime.verified_successor(cur)
+        if len(observed_z) != (0 if PHASE == 'BEFORE_Z' else 1):
+            raise AssertionError('Y_Z_AUDIT_EXACT_PHASE_RUNTIME_REQUIRED')
+        result['verified_z_functions'] = observed_z
         catalog = function_catalog(cur)
         save('Y_FULL_FUNCTION_CATALOG.json', catalog)
         target_names = ('get_owner_financial_snapshot_v2', 'close_accounting_through', 'finish_production_order',
@@ -255,7 +308,7 @@ def audit():
         save('Y_TARGET_FUNCTIONS.json', selected)
         for row in selected:
             print('Y_AUDIT_TARGET_SOURCE ' + json.dumps(row, default=str), flush=True)
-            if row[0] == 'erp.close_accounting_through(date,text)':
+            if row[0] == 'erp.close_accounting_through(date,text)' and PHASE == 'BEFORE_Z':
                 anchor = 'p_closed_through>=current_date'
                 if row[1].count(anchor) != 1:
                     raise AssertionError('Y_CLOSE_SOURCE_ANCHOR')

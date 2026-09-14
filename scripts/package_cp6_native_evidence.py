@@ -15,7 +15,7 @@ import tarfile
 from pathlib import Path, PurePosixPath
 
 
-MANIFEST = 'CP6_V2620Y_RUNTIME_MANIFEST.json'
+MANIFEST = 'CP6_V2620Z_RUNTIME_MANIFEST.json'
 ARCHIVE = 'CP6_NATIVE_PROOF.tar.xz'
 TRANSFER = 'CP6_NATIVE_TRANSFER.json'
 MAX_BYTES = 500 * 1024 * 1024  # Leave ZIP overhead below the connector's 512 MiB limit.

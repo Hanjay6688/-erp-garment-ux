@@ -38,13 +38,13 @@ for(const t of ["'X': {","'capsule_count': 1",sha(rollback),'from cp6_v2620x_run
 const workflow=read('.github/workflows/cp6-full-schema-validation.yml');let previous=-1
 for(const t of ['Apply v2.6.20w canonical','Reproduce W NULL-role posting before X','Apply v2.6.20x fail-closed internal role',
  'Prove X internal-role denial','Prove native W paid scrap dates','Prove native V cash dates','Prove native U canonical',
- 'Run post-CP6 real Auth','Qualify exact F G H I J K L M N O P Q R S T U V W X and Y rollback',
+ 'Run post-CP6 real Auth','Qualify exact F G H I J K L M N O P Q R S T U V W X Y and Z rollback',
  'Prove trusted X capsule before exact X restore to W','Prove trusted W capsule before exact W restore to V']){
  const at=workflow.indexOf(t);assert.ok(at>previous,t);previous=at
 }
-for(const t of ["len(schedules['cases'])==400","'expected':100,'observed':100",'CP6_V2620Y_RUNTIME_MANIFEST.json',
- "setup_unit['completed_case_count']==setup_unit['expected_case_count']==229","len(xg['guards'])==8","len(xg['extra_object_preflight_guards'])==11",
- "x_restore['complete_function_count']==533",'X_COMPLETE_W_CATALOG_RESTORE_MISMATCH','PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620Y',
+for(const t of ["len(schedules['cases'])==420","'expected':105,'observed':105",'CP6_V2620Z_RUNTIME_MANIFEST.json',
+ "setup_unit['completed_case_count']==setup_unit['expected_case_count']==251","len(xg['guards'])==8","len(xg['extra_object_preflight_guards'])==11",
+ "x_restore['complete_function_count']==533",'X_COMPLETE_W_CATALOG_RESTORE_MISMATCH','PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620Z',
  "'v2620x_application'","'v2620x_platform'","'v2620x_capsule'",'FAIL_P2_NULL_INTERNAL_ROLE_AUTHORIZATION',
  '2a0781380132b2967a34017c4743727ed5ab24e332dba0051802f139ffa27606'])assert.ok(workflow.includes(t),t)
 for(const p of [migrationPath,rollbackPath,frozenRollbackPath,'scripts/cp6_v2620x_runtime.py','scripts/cp6_v2620x_internal_role_regression.py',
@@ -52,4 +52,4 @@ for(const p of [migrationPath,rollbackPath,frozenRollbackPath,'scripts/cp6_v2620
 console.log(JSON.stringify({status:'PASS',classification:'STATIC_SOURCE_CONTRACT_NOT_NATIVE_PROOF',replaced_functions:1,
  rollback_revision:'R2',frozen_original_rollback_preserved:true,qualified_catalog_aliases:3,
  boundary_tables:209,paired_cases:10,known_null_role_paths:6,controls:4,after_denials:7,authorized_controls:3,
- maintenance_schedules:400,writer_body_entries:100,rollback_setup_units:229,production_go:false}))
+ maintenance_schedules:420,writer_body_entries:105,rollback_setup_units:251,production_go:false}))

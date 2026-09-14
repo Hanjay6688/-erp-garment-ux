@@ -23,10 +23,10 @@ const runner=read('scripts/cp6_v2620v_misc_finance_business_date_regression.py')
 for(const token of ["phase not in ('BEFORE_V','AFTER_V')","'KNOWN_U_BUG_REPRODUCED'",'set session authorization authenticated',
  'full_boundary_restored','entire_unseeded_runtime_restored','V_UPGRADE_PROBE_LEFT_RESIDUE','CLOSED_PERIOD_ECONOMIC_DATE',
  'DETECTOR_REVERSED','ACL_CONTRACT','REVERSE_REPLAY_EXPENSE','NON_OWNER_POST_DENIED','supabase_admin','V_CANONICAL_DISPOSABLE_ENDPOINT_REQUIRED'])assert.ok(runner.includes(token),token)
-assert.ok(read('scripts/cp6_v2620m_subledger_races.py').includes("SOURCE_GENERATION not in ('M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y')"), 'M race source admission must include exact verified Y')
+assert.ok(read('scripts/cp6_v2620m_subledger_races.py').includes("SOURCE_GENERATION not in ('M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z')"), 'M race source admission must include exact verified Y')
 const races=read('scripts/cp6_v2620v_misc_finance_races.py')
 for(const token of ['POST_THEN_REVERSE','POST_THEN_POST','POST_ABORT_THEN_POST','pg_blocking_pids(pid)',
- "SOURCE_GENERATION = 'Y'",'matrix.verify_setup_source(SOURCE_GENERATION)','first.rollback()',"manual_prelock_count=0,retry_count=0",'REAL_AUTHENTICATED_SESSION_OWNER'])assert.ok(races.includes(token),token)
+ "SOURCE_GENERATION = 'Z'",'matrix.verify_setup_source(SOURCE_GENERATION)','first.rollback()',"manual_prelock_count=0,retry_count=0",'REAL_AUTHENTICATED_SESSION_OWNER'])assert.ok(races.includes(token),token)
 for(const g of ['m','n','o','p','q','r','s','t','u'])assert.ok(read(`scripts/cp6_v2620${g}_runtime.py`).includes('pre_v_installed_sha256'),g)
 assert.ok(read('scripts/cp6_v2620u_runtime.py').includes("v_runtime.predecessor_snapshot(cur, 'U', successor)"))
 const maintenance=read('scripts/cp6_preuse_rollback_maintenance.py')
@@ -40,18 +40,18 @@ for(const token of ['def cash_delta_equal(expected, actual):','left.is_finite() 
 let previous=-1
 for(const token of ['Apply v2.6.20u canonical','Reproduce native U misc cash counterexamples before V',
  'Apply v2.6.20v canonical miscellaneous cash','Prove native V cash dates','Prove native U canonical',
- 'Run post-CP6 real Auth','Prove native V misc cash document races','Qualify exact F G H I J K L M N O P Q R S T U V W X and Y rollback',
+ 'Run post-CP6 real Auth','Prove native V misc cash document races','Qualify exact F G H I J K L M N O P Q R S T U V W X Y and Z rollback',
  'Prove trusted V capsule before exact V restore to U','Prove trusted U capsule before exact U restore to T']){
  const at=workflow.indexOf(token);assert.ok(at>previous,token);previous=at
 }
-for(const token of ["len(schedules['cases'])==400","'expected':100,'observed':100",'CP6_V2620Y_RUNTIME_MANIFEST.json',
+for(const token of ["len(schedules['cases'])==420","'expected':105,'observed':105",'CP6_V2620Z_RUNTIME_MANIFEST.json',
  "len(vp['expanded_cases'])==21","len(vr['cases'])==3","len(vg['guards'])==7","len(vg['extra_object_preflight_guards'])==9",
- 'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620Y','V_COMPLETE_U_CATALOG_RESTORE_MISMATCH',
- 'setup_unit[\'completed_case_count\']==setup_unit[\'expected_case_count\']==229'])assert.ok(workflow.includes(token),token)
+ 'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620Z','V_COMPLETE_U_CATALOG_RESTORE_MISMATCH',
+ 'setup_unit[\'completed_case_count\']==setup_unit[\'expected_case_count\']==251'])assert.ok(workflow.includes(token),token)
 for(const path of [migrationPath,rollbackPath,'docs/cp6-v-misc-finance-business-date.md',
  'scripts/check-cp6-misc-finance-business-date.mjs','scripts/cp6_v2620v_runtime.py',
  'scripts/cp6_v2620v_misc_finance_business_date_regression.py','scripts/cp6_v2620v_misc_finance_races.py',
  'scripts/cp6_v2620v_rollback_guards.py','scripts/cp6_v_failed159_recovery.py'])assert.ok(workflow.includes(`            '${path}',`),path)
 console.log(JSON.stringify({status:'PASS',classification:'STATIC_SOURCE_CONTRACT_NOT_NATIVE_PROOF',replaced_functions:3,
  boundary_tables:77,native_cases:8,expanded_native_cases:21,known_u_paths:4,controls:4,native_document_races:3,
- maintenance_schedules:400,writer_body_entries:100,rollback_setup_units:229,production_go:false}))
+ maintenance_schedules:420,writer_body_entries:105,rollback_setup_units:251,production_go:false}))

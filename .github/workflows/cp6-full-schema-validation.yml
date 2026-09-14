@@ -60,6 +60,7 @@ jobs:
           test "$remote_head" = "$GITHUB_SHA"
           npm ci
           npm run check:cp6
+          python -m py_compile scripts/cp6_v2620z_runtime.py scripts/cp6_v2620z_install_qualification.py scripts/cp6_v2620z_rollback_guards.py
           npm run check:cp6:counterexamples
           npm run check:backend
           npm run check:access
@@ -133,7 +134,7 @@ jobs:
           python scripts/cp6_preuse_rollback_maintenance_unit.py
           python scripts/cp6_rollback_setup_unit.py
           test "$(jq -r '.status' cp6-proof/CP6_ROLLBACK_SETUP_UNIT.json)" = 'PASS'
-          test "$(jq '.completed_case_count' cp6-proof/CP6_ROLLBACK_SETUP_UNIT.json)" = '229'
+          test "$(jq '.completed_case_count' cp6-proof/CP6_ROLLBACK_SETUP_UNIT.json)" = '251'
           test "$(jq -r '.status' cp6-proof/CP6_PREUSE_ROLLBACK_MAINTENANCE_UNIT.json)" = 'PASS'
           test "$(jq '.completed_case_count' cp6-proof/CP6_PREUSE_ROLLBACK_MAINTENANCE_UNIT.json)" = '31'
           test "$(jq -r '.permissive_validator_negative_control.status' cp6-proof/CP6_PREUSE_ROLLBACK_MAINTENANCE_UNIT.json)" = 'PASS'
@@ -1836,6 +1837,87 @@ jobs:
           test "$replay_status" -ne 0
           grep -F 'Y_REQUIRES_EXACT_X_WITHOUT_Y_RESIDUE' cp6-proof/V2620Y_REPLAY_REJECTION.log >/dev/null
 
+      - name: Reproduce independent Y close counterexamples before installing Z
+        env:
+          CP6_Y_INDEPENDENT_CONFIRM: postgres
+          CP6_Z_PHASE: BEFORE_Z
+        run: |
+          set -euo pipefail
+          set +e
+          python scripts/cp6_y_independent_audit.py | tee cp6-proof/independent-y/Y_INDEPENDENT_AUDIT.log
+          oracle_status=${PIPESTATUS[0]}
+          set -e
+          test "$oracle_status" = '1'
+          python - <<'PY'
+          import json
+          r=json.load(open('cp6-proof/independent-y/Y_INDEPENDENT_AUDIT.json'))
+          assert r['status']=='FAIL_NEW_COUNTEREXAMPLE' and len(r['cases'])==20
+          assert r['incomplete_cases']==0 and 1<=r['qualified_counterexamples']<=2
+          assert r['controls_passed']+r['qualified_counterexamples']==20
+          assert r['runtime_generation']=='Y' and not r['verified_z_functions']
+          assert r['entire_unseeded_runtime_restored'] and r['schema_usage_restored']
+          assert all(c['full_boundary_restored'] for c in r['cases'].values())
+          assert all(name.startswith('CLOSE:') and c['classification'] in ('LAWFUL_PRIOR_DAY_CLOSE_FALSE_REFUSAL','PREMATURE_PERIOD_CLOSE') for name,c in r['cases'].items() if c['status']=='NEW_Y_BUG_REPRODUCED')
+          PY
+
+      - name: Qualify Z atomic admission refusals without runtime residue
+        env:
+          CP6_Z_DISPOSABLE_CONFIRM: postgres
+        run: |
+          set -euo pipefail
+          python scripts/cp6_v2620z_install_qualification.py | tee cp6-proof/V2620Z_INSTALL_QUALIFICATION.log
+          test "$(jq -r '.status' cp6-proof/CP6_V2620Z_INSTALL_QUALIFICATION.json)" = 'PASS'
+          test "$(jq '.cases | length' cp6-proof/CP6_V2620Z_INSTALL_QUALIFICATION.json)" = '10'
+
+      - name: Apply Z canonical accounting-close day before every final-runtime proof
+        run: |
+          set -euo pipefail
+          PYTHONPATH=scripts python - <<'PY'
+          import json,pathlib,os,psycopg
+          from cp6_v2620n_rollback_guards import function_catalog
+          from cp6_v2620u_install_diagnostic import snapshot
+          with psycopg.connect(os.environ['PGURL']) as conn,conn.cursor() as cur:
+              catalog=function_catalog(cur)
+              boundary=snapshot(cur)
+          assert len(catalog)==533 and len(boundary['tables'])==213
+          pathlib.Path('cp6-proof/V2620Z_COMPLETE_Y_CATALOG.json').write_text(json.dumps(catalog,indent=2)+'\n')
+          pathlib.Path('cp6-proof/V2620Z_COMPLETE_Y_BOUNDARY.json').write_text(json.dumps(boundary,indent=2)+'\n')
+          PY
+          echo '4811f4ea21b35aac10da02da96bdec34505c619d3daa0b53f64fe22205a2f4a3  supabase/migrations/20260914085912_erp_v2_6_20z_cp6_accounting_close_business_date.sql' | sha256sum -c - | tee cp6-proof/V2620Z_MIGRATION_SHA256.txt
+          echo 'c00029564f0092ebfb8afa9daeb566961af7fe2b6fe8eb800550d1b045896f2f  supabase/rollbacks/20260914085912_erp_v2_6_20z_cp6_accounting_close_business_date.rollback.sql' | sha256sum -c - | tee cp6-proof/V2620Z_ROLLBACK_SHA256.txt
+          psql "$PGURL" -X -v ON_ERROR_STOP=1 -f 'supabase/migrations/20260914085912_erp_v2_6_20z_cp6_accounting_close_business_date.sql' 2>&1 | tee cp6-proof/V2620Z_APPLY.log
+          PYTHONPATH=scripts python - <<'PY'
+          import json,os,pathlib,psycopg
+          import cp6_v2620z_runtime as runtime
+          with psycopg.connect(os.environ['PGURL']) as conn,conn.cursor() as cur:
+              cur.execute('insert into supabase_migrations.schema_migrations(version,name,statements) values(%s,%s,%s)',('20260914085912','erp_v2_6_20z_cp6_accounting_close_business_date',[runtime.MIGRATION.read_text()]))
+              functions=runtime.verified_successor(cur)
+              rows=cur.execute('select boundary_snapshot from erp.cp6_v2620z_rollback_capsule').fetchall()
+              before=json.loads(pathlib.Path('cp6-proof/V2620Z_COMPLETE_Y_BOUNDARY.json').read_text())
+              expected=sorted(r[1] for r in before['tables'] if r[0]=='erp' and r[1]!='schema_migrations')
+              assert len(functions)==1 and len(rows)==1 and len(expected)==211
+              assert sorted(rows[0][0])==expected
+              pathlib.Path('cp6-proof/V2620Z_INSTALLED_RUNTIME.json').write_text(json.dumps(dict(head=os.environ['GITHUB_SHA'],status='PASS',functions=list(functions.values()),expected_boundary=expected,boundary_count=211,production_go=False),indent=2)+'\n')
+          PY
+          set +e
+          psql "$PGURL" -X -v ON_ERROR_STOP=1 -f 'supabase/migrations/20260914085912_erp_v2_6_20z_cp6_accounting_close_business_date.sql' > cp6-proof/V2620Z_REPLAY_REJECTION.log 2>&1
+          replay_status=$?
+          set -e
+          test "$replay_status" -ne 0
+          grep -F 'Z_REQUIRES_EXACT_Y_WITHOUT_Z_RESIDUE' cp6-proof/V2620Z_REPLAY_REJECTION.log >/dev/null
+
+      - name: Prove Z closes correct business days and preserves owner report defaults
+        env:
+          CP6_Y_INDEPENDENT_CONFIRM: postgres
+          CP6_Z_PHASE: AFTER_Z
+        run: |
+          set -euo pipefail
+          mkdir -p cp6-proof/independent-z
+          python scripts/cp6_y_independent_audit.py | tee cp6-proof/independent-z/Z_CLOSE_REGRESSION.log
+          test "$(jq -r '.status' cp6-proof/independent-z/Z_CLOSE_REGRESSION.json)" = 'PASS_BOUNDED_AUDIT'
+          test "$(jq '.controls_passed' cp6-proof/independent-z/Z_CLOSE_REGRESSION.json)" = '20'
+          test "$(jq '.qualified_counterexamples + .incomplete_cases' cp6-proof/independent-z/Z_CLOSE_REGRESSION.json)" = '0'
+
       - name: Prove Y canonical cash dates replay linked inverses and report detectors
         env:
           CP6_X_INDEPENDENT_DISPOSABLE_CONFIRM: postgres
@@ -1846,30 +1928,6 @@ jobs:
           test "$(jq '.cases | length' cp6-proof/CP6_V2620Y_CASH_BUSINESS_DATE_REGRESSION.json)" = '45'
           test "$(jq '.controls_passed' cp6-proof/CP6_V2620Y_CASH_BUSINESS_DATE_REGRESSION.json)" = '45'
           test "$(jq '.qualified_counterexamples + .incomplete_cases' cp6-proof/CP6_V2620Y_CASH_BUSINESS_DATE_REGRESSION.json)" = '0'
-
-      - name: Generate the successor filename with the pinned Supabase CLI
-        run: |
-          set -euo pipefail
-          supabase migration --help > cp6-proof/independent-y/SUPABASE_MIGRATION_HELP.txt
-          supabase migration new --help > cp6-proof/independent-y/SUPABASE_MIGRATION_NEW_HELP.txt
-          supabase migration new erp_v2_6_20z_cp6_accounting_close_business_date | tee cp6-proof/independent-y/Z_SCAFFOLD_CLI.txt
-          python - <<'PY'
-          import hashlib,json,pathlib
-          paths=list(pathlib.Path('supabase/migrations').glob('*_erp_v2_6_20z_cp6_accounting_close_business_date.sql'))
-          assert len(paths)==1
-          data=paths[0].read_bytes()
-          report={'status':'CLI_GENERATED_EMPTY_SCAFFOLD','path':str(paths[0]),'bytes':len(data),'sha256':hashlib.sha256(data).hexdigest()}
-          assert len(data)==0
-          pathlib.Path('cp6-proof/independent-y/Z_SCAFFOLD_IDENTITY.json').write_text(json.dumps(report,indent=2)+'\n')
-          print('Z_SCAFFOLD_IDENTITY '+json.dumps(report))
-          PY
-
-      - name: Independently audit Y report defaults and accounting close boundaries
-        env:
-          CP6_Y_INDEPENDENT_CONFIRM: postgres
-        run: |
-          set -euo pipefail
-          python scripts/cp6_y_independent_audit.py | tee cp6-proof/independent-y/Y_INDEPENDENT_AUDIT.log
 
       - name: Prove X internal-role denial and authorized controls
         env:
@@ -2069,7 +2127,7 @@ jobs:
           report=json.loads(Path(os.environ['CP6_AUTH_REPORT']).read_text())
           assert report['status']=='PASS',report
           assert report['classification']=='LOCAL_POST_CP6_REAL_AUTH_JWT_HTTP',report
-          assert report['target']=='PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620Y',report
+          assert report['target']=='PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620Z',report
           assert report['disposable_database']=='cp6_auth',report
           assert report['database_disposal_required'] is True,report
           assert report['positive_evidence']['partial_hpp_wip']['active_laundry_hpp']==28,report
@@ -2428,14 +2486,20 @@ jobs:
           psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/cp4_hpp_route_auth_rollback.sql 2>&1 | tee cp6-proof/HPP_UNDER_CP6_REGRESSION.log
           psql "$PGURL" -v ON_ERROR_STOP=1 -f supabase/tests/attendance_hpp_r4_full_schema_rollback.sql 2>&1 | tee cp6-proof/ACCOUNTING_UNDER_CP6_REGRESSION.log
 
-      - name: Confirm every broad regression ran on the installed E through U runtime
+      - name: Confirm every broad regression ran on the installed E through Z runtime
         shell: bash
         run: |
           set -euo pipefail
           test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select count(*) from erp.schema_migrations where version in('v2.6.20e','v2.6.20f')")" = '2'
           test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select count(*) from erp.schema_migrations where version in('v2.6.20g','v2.6.20h','v2.6.20i','v2.6.20j','v2.6.20k','v2.6.20l','v2.6.20m','v2.6.20n','v2.6.20o','v2.6.20p','v2.6.20q','v2.6.20r','v2.6.20s','v2.6.20t','v2.6.20u','v2.6.20v','v2.6.20w','v2.6.20x','v2.6.20y')")" = '19'
           test "$(psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select count(*) from supabase_migrations.schema_migrations where name in('erp_v2_6_20e_cp6_counterexample_closure','erp_v2_6_20f_cp6_final_runtime_reliability','erp_v2_6_20g_cp6_independent_audit_closure','erp_v2_6_20h_cp6_expanded_audit_closure','erp_v2_6_20i_cp6_h2_audit_closure','erp_v2_6_20j_cp6_payment_fact_closure','erp_v2_6_20k_cp6_payment_date_conservation','erp_v2_6_20l_cp6_exact_ledger_conservation','erp_v2_6_20m_cp6_subledger_exact_cent_closure','erp_v2_6_20n_cp6_supplier_cent_lifecycle','erp_v2_6_20o_cp6_supplier_return_document_allocation','erp_v2_6_20p_cp6_supplier_return_match_state','erp_v2_6_20q_cp6_supplier_invoice_exact_quantity','erp_v2_6_20r_cp6_receipt_invoice_dependency','erp_v2_6_20s_cp6_supplier_payment_business_date','erp_v2_6_20t_cp6_material_adjustment_revaluation','erp_v2_6_20u_cp6_canonical_business_date','erp_v2_6_20v_cp6_misc_finance_business_date')")" = '18'
-          printf 'runtime=v2.6.20e+v2.6.20f+v2.6.20g+v2.6.20h+v2.6.20i+v2.6.20j+v2.6.20k+v2.6.20l+v2.6.20m+v2.6.20n+v2.6.20o+v2.6.20p+v2.6.20q+v2.6.20r+v2.6.20s+v2.6.20t+v2.6.20u+v2.6.20v\nauth=completed\nacceptance=completed\nnative_races=34\nmaintenance_rollback_schedules=pending_exact_sha_native_gate\ncp5_regression=completed\nproduction_go=false\n' \
+          PYTHONPATH=scripts python - <<'PY'
+          import os,psycopg
+          from cp6_v2620z_runtime import verified_successor
+          with psycopg.connect(os.environ['PGURL']) as conn,conn.cursor() as cur:
+              assert len(verified_successor(cur))==1,'FINAL_BROAD_REGRESSIONS_REQUIRE_Z'
+          PY
+          printf 'runtime=v2.6.20e+v2.6.20f+v2.6.20g+v2.6.20h+v2.6.20i+v2.6.20j+v2.6.20k+v2.6.20l+v2.6.20m+v2.6.20n+v2.6.20o+v2.6.20p+v2.6.20q+v2.6.20r+v2.6.20s+v2.6.20t+v2.6.20u+v2.6.20v+v2.6.20w+v2.6.20x+v2.6.20y+v2.6.20z\nauth=completed\nacceptance=completed\nnative_races=34\nmaintenance_rollback_schedules=pending_exact_sha_native_gate\ncp5_regression=completed\nproduction_go=false\n' \
             | tee cp6-proof/V2620F_FINAL_RUNTIME_COVERAGE.txt
 
       - name: Re-prove native C01-C06 business closure under final E plus F runtime
@@ -2528,7 +2592,7 @@ jobs:
 
       - name: Prove native M supplier payment and opening correction business locks
         env:
-          CP6_M_RACE_SOURCE_GENERATION: Y
+          CP6_M_RACE_SOURCE_GENERATION: Z
           CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
         run: |
           set -euo pipefail
@@ -2604,7 +2668,7 @@ jobs:
           python scripts/cp6_v2620r_receipt_invoice_races.py | tee cp6-proof/V2620R_RECEIPT_INVOICE_NATIVE_RACES.log
           test "$(jq -r '.status' cp6-proof/R_RECEIPT_INVOICE_NATIVE_RACES/manifest.json)" = 'PASS'
           test "$(jq '.cases | length' cp6-proof/R_RECEIPT_INVOICE_NATIVE_RACES/manifest.json)" = '2'
-          test "$(jq -r '.source_generation' cp6-proof/R_RECEIPT_INVOICE_NATIVE_RACES/manifest.json)" = 'Y'
+          test "$(jq -r '.source_generation' cp6-proof/R_RECEIPT_INVOICE_NATIVE_RACES/manifest.json)" = 'Z'
 
       - name: Prove native T material adjustment document cents, linked inverses and accounting day
         env:
@@ -2624,7 +2688,7 @@ jobs:
           python scripts/cp6_v2620t_material_adjustment_races.py | tee cp6-proof/V2620T_MATERIAL_ADJUSTMENT_NATIVE_RACES.log
           test "$(jq -r '.status' cp6-proof/T_MATERIAL_ADJUSTMENT_NATIVE_RACES/manifest.json)" = 'PASS'
           test "$(jq '.cases | length' cp6-proof/T_MATERIAL_ADJUSTMENT_NATIVE_RACES/manifest.json)" = '3'
-          test "$(jq -r '.source_generation' cp6-proof/T_MATERIAL_ADJUSTMENT_NATIVE_RACES/manifest.json)" = 'Y'
+          test "$(jq -r '.source_generation' cp6-proof/T_MATERIAL_ADJUSTMENT_NATIVE_RACES/manifest.json)" = 'Z'
 
       - name: Prove native V misc cash document races and writer abort
         env:
@@ -2634,7 +2698,7 @@ jobs:
           python scripts/cp6_v2620v_misc_finance_races.py | tee cp6-proof/V2620V_MISC_FINANCE_RACES.log
           test "$(jq -r '.status' cp6-proof/V_MISC_FINANCE_NATIVE_RACES/manifest.json)" = 'PASS'
           test "$(jq '.cases | length' cp6-proof/V_MISC_FINANCE_NATIVE_RACES/manifest.json)" = '3'
-          test "$(jq -r '.source_generation' cp6-proof/V_MISC_FINANCE_NATIVE_RACES/manifest.json)" = 'Y'
+          test "$(jq -r '.source_generation' cp6-proof/V_MISC_FINANCE_NATIVE_RACES/manifest.json)" = 'Z'
 
       - name: Prove native W paid scrap document races and writer abort
         env:
@@ -2644,9 +2708,9 @@ jobs:
           python scripts/cp6_v2620w_scrap_races.py | tee cp6-proof/V2620W_SCRAP_RACES.log
           test "$(jq -r '.status' cp6-proof/W_SCRAP_NATIVE_RACES/manifest.json)" = 'PASS'
           test "$(jq '.cases | length' cp6-proof/W_SCRAP_NATIVE_RACES/manifest.json)" = '3'
-          test "$(jq -r '.source_generation' cp6-proof/W_SCRAP_NATIVE_RACES/manifest.json)" = 'Y'
+          test "$(jq -r '.source_generation' cp6-proof/W_SCRAP_NATIVE_RACES/manifest.json)" = 'Z'
 
-      - name: Qualify exact F G H I J K L M N O P Q R S T U V W X and Y rollback under closed admission across four hundred native schedules
+      - name: Qualify exact F G H I J K L M N O P Q R S T U V W X Y and Z rollback under closed admission across four hundred twenty native schedules
         shell: bash
         env:
           CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
@@ -2654,11 +2718,40 @@ jobs:
           set -euo pipefail
           python scripts/cp6_v2620h_maintenance_rollback_matrix.py 2>&1 | tee cp6-proof/V2620H_MAINTENANCE_ROLLBACK_MATRIX.log
           test "$(jq -r '.status' cp6-proof/H_MAINTENANCE_ROLLBACK/manifest.json)" = 'PASS'
-          test "$(jq '.cases | length' cp6-proof/H_MAINTENANCE_ROLLBACK/manifest.json)" = '400'
+          test "$(jq '.cases | length' cp6-proof/H_MAINTENANCE_ROLLBACK/manifest.json)" = '420'
           test "$(jq '[.cases[] | select(.status != "PASS")] | length' cp6-proof/H_MAINTENANCE_ROLLBACK/manifest.json)" = '0'
-          test "$(jq '.writer_first_body_entry.expected' cp6-proof/H_MAINTENANCE_ROLLBACK/manifest.json)" = '100'
-          test "$(jq '.writer_first_body_entry.observed' cp6-proof/H_MAINTENANCE_ROLLBACK/manifest.json)" = '100'
+          test "$(jq '.writer_first_body_entry.expected' cp6-proof/H_MAINTENANCE_ROLLBACK/manifest.json)" = '105'
+          test "$(jq '.writer_first_body_entry.observed' cp6-proof/H_MAINTENANCE_ROLLBACK/manifest.json)" = '105'
           test "$(jq '.writer_first_body_entry.compilation_only_contexts' cp6-proof/H_MAINTENANCE_ROLLBACK/manifest.json)" = '0'
+
+      - name: Prove trusted Z capsule before exact Z restore to Y
+        shell: bash
+        env:
+          CP6_MAINTENANCE_CONFIRM_DATABASE: postgres
+          CP6_MAINTENANCE_ALLOW_SYSTEM_DATABASE: postgres
+        run: |
+          set -euo pipefail
+          python scripts/cp6_v2620z_rollback_guards.py | tee cp6-proof/V2620Z_ROLLBACK_GUARDS.log
+          test "$(jq -r '.status' cp6-proof/CP6_V2620Z_ROLLBACK_GUARDS.json)" = 'PASS'
+          test "$(jq '.exact_pre_use_restore.restored_function_count' cp6-proof/CP6_V2620Z_ROLLBACK_GUARDS.json)" = '1'
+          test "$(jq '.extra_object_preflight_guards | length' cp6-proof/CP6_V2620Z_ROLLBACK_GUARDS.json)" = '11'
+          test "$(jq -r '.status' cp6-proof/V2620Z_MAIN_MAINTENANCE_ROLLBACK.json)" = 'PASS'
+
+          PYTHONPATH=scripts python - <<'PY'
+          import json,os,pathlib,psycopg
+          from cp6_v2620n_rollback_guards import function_catalog
+          from cp6_v2620u_install_diagnostic import snapshot
+          before=json.loads(pathlib.Path('cp6-proof/V2620Z_COMPLETE_Y_CATALOG.json').read_text())
+          before_boundary=json.loads(pathlib.Path('cp6-proof/V2620Z_COMPLETE_Y_BOUNDARY.json').read_text())
+          with psycopg.connect(os.environ['PGURL']) as conn,conn.cursor() as cur:
+              after=json.loads(json.dumps(function_catalog(cur)))
+              after_boundary=snapshot(cur)
+          assert before_boundary==after_boundary,'Z_COMPLETE_Y_TABLE_BOUNDARY_RESTORE_MISMATCH'
+          assert before==after,'Z_COMPLETE_Y_CATALOG_RESTORE_MISMATCH'
+          pathlib.Path('cp6-proof/V2620Z_COMPLETE_Y_RESTORE.json').write_text(json.dumps({
+              'head':os.environ['GITHUB_SHA'],'status':'PASS','complete_function_count':len(after),
+              'definitions_owners_acls_exact':True,'full_table_boundary_exact':True,'restored_table_count':len(after_boundary['tables']),'production_go':False},indent=2)+'\n')
+          PY
 
       - name: Prove trusted Y capsule before exact Y restore to X
         shell: bash
@@ -4471,6 +4564,9 @@ jobs:
               and to_regclass('erp.cp6_v2620w_rollback_capsule') is null
               and to_regclass('erp.cp6_v2620x_rollback_capsule') is null
               and to_regclass('erp.cp6_v2620y_rollback_capsule') is null
+              and to_regclass('erp.cp6_v2620z_rollback_capsule') is null
+              and not exists(select 1 from erp.schema_migrations where version='v2.6.20z')
+              and not exists(select 1 from supabase_migrations.schema_migrations where name='erp_v2_6_20z_cp6_accounting_close_business_date')
               and to_regclass('erp.material_adjustment_revaluation_facts') is null
               and to_regprocedure('erp._cp6_material_adjustment_revaluation_state(uuid)') is null
               and to_regprocedure('erp._cp6_sync_material_adjustment_revaluation(uuid,uuid)') is null
@@ -4716,12 +4812,29 @@ jobs:
           root=Path('.')
           proof=root/'cp6-proof'
           y_independent=json.loads((proof/'independent-y/Y_INDEPENDENT_AUDIT.json').read_text())
-          assert y_independent['status']=='PASS_BOUNDED_AUDIT'
-          assert y_independent['controls_passed']==20 and y_independent['incomplete_cases']==0
-          assert y_independent['qualified_counterexamples']==0
+          assert y_independent['status']=='FAIL_NEW_COUNTEREXAMPLE'
+          assert 1<=y_independent['qualified_counterexamples']<=2 and y_independent['incomplete_cases']==0
+          assert y_independent['controls_passed']+y_independent['qualified_counterexamples']==20
+          z_after=json.loads((proof/'independent-z/Z_CLOSE_REGRESSION.json').read_text())
+          assert z_after['status']=='PASS_BOUNDED_AUDIT' and z_after['controls_passed']==20
+          assert z_after['incomplete_cases']==z_after['qualified_counterexamples']==0
+          assert z_after['head']==os.environ['GITHUB_SHA'] and z_after['runtime_generation']=='Z'
+          assert z_after['entire_unseeded_runtime_restored'] and z_after['schema_usage_restored']
+          assert len(z_after['verified_z_functions'])==1 and all(c['full_boundary_restored'] for c in z_after['cases'].values())
           assert y_independent['entire_unseeded_runtime_restored'] and y_independent['schema_usage_restored']
           assert y_independent['head']==os.environ['GITHUB_SHA']
           required=[
+            'independent-z/Z_CLOSE_REGRESSION.json',
+            'independent-y/Y_FAILED_AUDITS_PRESERVED.json',
+            'independent-y/history/FAILED176_FULL_NATIVE.zip',
+            'independent-y/history/FAILED177_FULL_NATIVE.zip',
+            'CP6_V2620Z_INSTALL_QUALIFICATION.json',
+            'V2620Z_INSTALLED_RUNTIME.json',
+            'V2620Z_COMPLETE_Y_CATALOG.json',
+            'V2620Z_COMPLETE_Y_BOUNDARY.json',
+            'V2620Z_COMPLETE_Y_RESTORE.json',
+            'CP6_V2620Z_ROLLBACK_GUARDS.json',
+            'V2620Z_MAIN_MAINTENANCE_ROLLBACK.json',
             'independent-y/Y_INCOMING_INTEGRITY.json',
             'independent-y/Y_INDEPENDENT_AUDIT.json',
             'CP6_PREUSE_ROLLBACK_MAINTENANCE_UNIT.json',
@@ -5061,7 +5174,7 @@ jobs:
           assert jguard['maintenance']['rollback_committed'] and jguard['maintenance']['admission_reopened_after_success'],jguard
           setup_unit=json.loads((proof/'CP6_ROLLBACK_SETUP_UNIT.json').read_text())
           assert setup_unit['head']==os.environ['GITHUB_SHA'] and setup_unit['status']=='PASS',setup_unit
-          assert setup_unit['completed_case_count']==setup_unit['expected_case_count']==229,setup_unit
+          assert setup_unit['completed_case_count']==setup_unit['expected_case_count']==251,setup_unit
           assert setup_unit['unconditional_j_negative_control_rejected'] and setup_unit['permissive_source_negative_control_rejected'],setup_unit
 
           k=json.loads((proof/'CP6_V2620K_PAYMENT_DATE_REGRESSION.json').read_text())
@@ -5107,7 +5220,7 @@ jobs:
           assert mg['trusted_capsule_guard']['status']=='PASS' and not mg['trusted_capsule_guard']['admission_closed'] and not mg['trusted_capsule_guard']['rollback_started']
           assert mg['maintenance']['rollback_committed'] and mg['maintenance']['admission_reopened_after_success']
           mr=json.loads((proof/'M_SUBLEDGER_NATIVE_RACES/manifest.json').read_text())
-          assert mr['head']==head_for_m and mr['status']=='PASS' and len(mr['cases'])==3 and mr['source_generation']=='Y'
+          assert mr['head']==head_for_m and mr['status']=='PASS' and len(mr['cases'])==3 and mr['source_generation']=='Z'
           for c in mr['cases']:
               assert c['status']=='PASS' and c['remaining_clone_databases']==0 and c['unexpected_draft_residue']==0
               assert c['manual_prelock_count']==0 and c['retry_count']==0 and c['first_pid']!=c['second_pid']
@@ -5231,7 +5344,7 @@ jobs:
           assert len(rg['extra_object_preflight_guards'])==5 and all(c['status']=='PASS' and not c['admission_closed'] and not c['rollback_started'] for c in rg['extra_object_preflight_guards'])
           assert rg['maintenance']['rollback_committed'] and rg['maintenance']['admission_reopened_after_success']
           rr=json.loads((proof/'R_RECEIPT_INVOICE_NATIVE_RACES/manifest.json').read_text())
-          assert rr['head']==os.environ['GITHUB_SHA'] and rr['status']=='PASS' and len(rr['cases'])==2 and rr['source_generation']=='Y'
+          assert rr['head']==os.environ['GITHUB_SHA'] and rr['status']=='PASS' and len(rr['cases'])==2 and rr['source_generation']=='Z'
           assert {c['case'] for c in rr['cases']}=={'INVOICE_POST_FIRST','RECEIPT_REVERSE_FIRST'}
           for c in rr['cases']:
               assert c['status']=='PASS' and c['remaining_clone_databases']==0 and c['contender_business_boundary_unchanged']
@@ -5324,7 +5437,7 @@ jobs:
           t_restore=json.loads((proof/'V2620T_COMPLETE_S_RESTORE.json').read_text())
           assert t_restore['head']==os.environ['GITHUB_SHA'] and t_restore['status']=='PASS' and t_restore['definitions_owners_acls_exact']
           tr=json.loads((proof/'T_MATERIAL_ADJUSTMENT_NATIVE_RACES/manifest.json').read_text())
-          assert tr['head']==os.environ['GITHUB_SHA'] and tr['status']=='PASS' and tr['source_generation']=='Y'
+          assert tr['head']==os.environ['GITHUB_SHA'] and tr['status']=='PASS' and tr['source_generation']=='Z'
           assert len(tr['cases'])==3 and {c['case'] for c in tr['cases']}=={'MATERIAL_A_FIRST','MATERIAL_B_FIRST','MATERIAL_A_ABORT'}
           for c in tr['cases']:
               assert c['status']=='PASS' and c['remaining_clone_databases']==0 and c['actual']==c['expected'] and c['report']=='READY'
@@ -5362,7 +5475,7 @@ jobs:
           assert v_restore['head']==os.environ['GITHUB_SHA'] and v_restore['status']=='PASS' and v_restore['definitions_owners_acls_exact']
 
           vr=json.loads((proof/'V_MISC_FINANCE_NATIVE_RACES/manifest.json').read_text())
-          assert vr['head']==os.environ['GITHUB_SHA'] and vr['status']=='PASS' and vr['source_generation']=='Y'
+          assert vr['head']==os.environ['GITHUB_SHA'] and vr['status']=='PASS' and vr['source_generation']=='Z'
           assert len(vr['cases'])==3 and {c['case'] for c in vr['cases']}=={'POST_THEN_REVERSE','POST_THEN_POST','POST_ABORT_THEN_POST'}
           assert sum(c['first_aborted'] for c in vr['cases'])==1
           for c in vr['cases']:
@@ -5401,7 +5514,7 @@ jobs:
           assert w_restore['head']==os.environ['GITHUB_SHA'] and w_restore['status']=='PASS' and w_restore['definitions_owners_acls_exact']
 
           wr=json.loads((proof/'W_SCRAP_NATIVE_RACES/manifest.json').read_text())
-          assert wr['head']==os.environ['GITHUB_SHA'] and wr['status']=='PASS' and wr['source_generation']=='Y'
+          assert wr['head']==os.environ['GITHUB_SHA'] and wr['status']=='PASS' and wr['source_generation']=='Z'
           assert len(wr['cases'])==3 and {c['case'] for c in wr['cases']}=={'POST_THEN_REVERSE','POST_THEN_POST','POST_ABORT_THEN_POST'}
           assert sum(c['first_aborted'] for c in wr['cases'])==1
           for c in wr['cases']:
@@ -5522,12 +5635,12 @@ jobs:
 
           schedules=json.loads((proof/'H_MAINTENANCE_ROLLBACK/manifest.json').read_text())
           assert schedules['head']==os.environ['GITHUB_SHA'] and schedules['status']=='PASS',schedules
-          expected={(target,op,mode) for target in ('F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y')
+          expected={(target,op,mode) for target in ('F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z')
             for op in ('SALE','RETURN','CONVERSION','REPORT','FK_SYNC')
             for mode in ('WRITER_FIRST','ADMISSION_FIRST','WRITER_ABORT','DRAIN_TIMEOUT')}
-          assert len(schedules['cases'])==400 and {(c['target'],c['operation'],c['mode']) for c in schedules['cases']}==expected
+          assert len(schedules['cases'])==420 and {(c['target'],c['operation'],c['mode']) for c in schedules['cases']}==expected
           assert schedules['writer_first_body_entry']=={
-            'expected':100,'observed':100,'compilation_only_contexts':0,
+            'expected':105,'observed':105,'compilation_only_contexts':0,
           },schedules
           for c in schedules['cases']:
               assert c['status']=='PASS' and c['remaining_clone_databases']==0,c
@@ -5575,6 +5688,13 @@ jobs:
             'scripts/cp6_v2620x_runtime.py',
             'scripts/cp6_v2620x_internal_role_regression.py',
             'scripts/cp6_x_independent_audit.py',
+            'supabase/migrations/20260914085912_erp_v2_6_20z_cp6_accounting_close_business_date.sql',
+            'supabase/rollbacks/20260914085912_erp_v2_6_20z_cp6_accounting_close_business_date.rollback.sql',
+            'scripts/cp6_v2620z_runtime.py',
+            'scripts/cp6_v2620z_install_qualification.py',
+            'scripts/cp6_v2620z_rollback_guards.py',
+            'scripts/check-cp6-accounting-close-business-date.mjs',
+            'docs/cp6-z-accounting-close-business-date.md',
             'scripts/cp6_y_independent_audit.py',
             'docs/cp6-y-independent-audit.md',
             'docs/cp6-x-independent-audit.md',
@@ -5769,7 +5889,7 @@ jobs:
           for path in sorted(item for item in proof.rglob('*') if item.is_file()):
               relative_path=path.relative_to(proof)
               relative=str(relative_path)
-              if relative=='CP6_V2620Y_RUNTIME_MANIFEST.json': continue
+              if relative=='CP6_V2620Z_RUNTIME_MANIFEST.json': continue
               # actions/upload-artifact excludes hidden path components when
               # include-hidden-files is false.  The manifest must describe
               # exactly the files an independent reviewer can download.
@@ -5784,7 +5904,7 @@ jobs:
           head=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()
           assert head==os.environ['GITHUB_SHA']
           manifest={
-            'format':'CP6_V2620Y_RUNTIME_PROOF_V1',
+            'format':'CP6_V2620Z_RUNTIME_PROOF_V1',
             'audited_predecessor':{
               'format':'CP6_V2620T_RUNTIME_PROOF_V1',
               'head':'a333672509212467159104e5b7b52d573e13c9d1',
@@ -5893,7 +6013,7 @@ jobs:
               'v2620g_wip_fault_variations':12,
               'v2620g_minor_unit_price_boundaries':10,
               'v2620g_restored_function_owner_acl_count':7,
-              'v2620f_g_h_i_j_k_l_m_n_o_p_q_r_s_t_u_v_w_x_y_closed_admission_rollback_schedules':400,
+              'v2620f_g_h_i_j_k_l_m_n_o_p_q_r_s_t_u_v_w_x_y_z_closed_admission_rollback_schedules':420,
               'v2620f_closed_admission_rollback_schedules':20,
               'v2620g_closed_admission_rollback_schedules':20,
               'v2620h_closed_admission_rollback_schedules':20,
@@ -6155,7 +6275,25 @@ jobs:
             'classification':'ATOMIC_REFUSAL_WRONG_PREDECESSOR_ANCHOR',
             'frozen_native_reproduction':True,'six_function_security_exact':True,
             'full_boundary_restored':True,'corrected_unadmitted_source_in_fast_forward_commit':True}
-          (proof/'CP6_V2620Y_RUNTIME_MANIFEST.json').write_text(
+          z_install=json.loads((proof/'CP6_V2620Z_INSTALL_QUALIFICATION.json').read_text())
+          z_runtime=json.loads((proof/'V2620Z_INSTALLED_RUNTIME.json').read_text())
+          z_guards=json.loads((proof/'CP6_V2620Z_ROLLBACK_GUARDS.json').read_text())
+          z_restore=json.loads((proof/'V2620Z_COMPLETE_Y_RESTORE.json').read_text())
+          for r in (z_install,z_runtime,z_guards,z_restore):
+              assert r['head']==head and r['status']=='PASS' and r['production_go'] is False
+          assert len(z_install['cases'])==10 and z_install['entire_unseeded_runtime_restored'] and z_install['schema_usage_restored']
+          assert all(c['status']=='CONTROL_PASS' and c['refusal_boundary_exact'] and c['full_boundary_restored'] and c['z_capsule_absent'] for c in z_install['cases'].values())
+          assert len(z_runtime['functions'])==1 and z_runtime['boundary_count']==211
+          assert z_guards['rollback_sha256']=='c00029564f0092ebfb8afa9daeb566961af7fe2b6fe8eb800550d1b045896f2f'
+          assert len(z_guards['guards'])==8 and all(c['status']=='PASS' and c['expected_rejection_observed'] for c in z_guards['guards'])
+          assert len(z_guards['extra_object_preflight_guards'])==11 and all(c['status']=='PASS' and not c['admission_closed'] and not c['rollback_started'] for c in z_guards['extra_object_preflight_guards'])
+          assert z_guards['trusted_capsule_guard']['status']=='PASS' and not z_guards['trusted_capsule_guard']['admission_closed']
+          assert z_guards['exact_pre_use_restore']==dict(generation='Y',restored_function_count=1,owner_acl_exact=True,metadata_schema_residue=0)
+          assert z_restore['complete_function_count']==533 and z_restore['definitions_owners_acls_exact']
+          assert z_restore['full_table_boundary_exact'] and z_restore['restored_table_count']==213
+          manifest['audited_predecessor']={'head':'bde9da786e3cde94cdb96e953310e5fac46f8574','tree':'81f5d1c57622c59d36409e70032a632ae9af0157','native_writer_run':34809413932,'independent_failed_runs':[34823498503,34824845423],'competition_verdict':'FAIL_P2_ACCOUNTING_CLOSE_CALLER_TIMEZONE','qualified_counterexamples':y_independent['qualified_counterexamples'],'incomplete':0,'previous_audit_chain':manifest['audited_predecessor']}
+          manifest['z_close_closure']={'before_report':'independent-y/Y_INDEPENDENT_AUDIT.json','after_report':'independent-z/Z_CLOSE_REGRESSION.json','before_cases':20,'after_cases':20,'atomic_install_qualification_cases':10,'functions':1,'boundary_tables':211,'complete_y_restore':533,'maintenance_schedules':420,'http_ui_reachability_proven':False,'long_transaction_midnight_clock_test':'NOT_EXECUTED'}
+          (proof/'CP6_V2620Z_RUNTIME_MANIFEST.json').write_text(
               json.dumps(manifest,indent=2,sort_keys=True)+'\n',encoding='utf8',
           )
           print(json.dumps({
@@ -6170,10 +6308,22 @@ jobs:
       - name: Upload complete native evidence transfer
         uses: actions/upload-artifact@v4
         with:
-          name: cp6-r1-v2620y-lossless-native-transfer
+          name: cp6-r1-v2620z-lossless-native-transfer
           path: cp6-native-transfer
           if-no-files-found: error
           compression-level: 0
+          retention-days: 30
+
+      - name: Preserve Z close qualification even on failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cp6-z-close-qualification
+          path: |
+            cp6-proof/independent-z
+            cp6-proof/CP6_V2620Z_*.json
+            cp6-proof/V2620Z_*
+          if-no-files-found: warn
           retention-days: 30
 
       - name: Preserve independent Y evidence even on qualified failure or fixture error
@@ -6201,7 +6351,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: cp6-r1-v2620y-full-schema-auth-browser-proof
+          name: cp6-r1-v2620z-full-schema-auth-browser-proof
           path: cp6-proof
           if-no-files-found: warn
           include-hidden-files: false
