@@ -60,7 +60,7 @@ jobs:
           test "$remote_head" = "$GITHUB_SHA"
           npm ci
           npm run check:cp6
-          python -m py_compile scripts/cp6_v2620z_runtime.py scripts/cp6_v2620z_install_qualification.py scripts/cp6_v2620z_rollback_guards.py
+          python -m py_compile scripts/cp6_v2620z_runtime.py scripts/cp6_v2620z_install_qualification.py scripts/cp6_v2620z_rollback_guards.py scripts/cp6_z_expanded_integrity_audit.py
           npm run check:cp6:counterexamples
           npm run check:backend
           npm run check:access
@@ -1917,6 +1917,36 @@ jobs:
           test "$(jq -r '.status' cp6-proof/independent-z/Z_CLOSE_REGRESSION.json)" = 'PASS_BOUNDED_AUDIT'
           test "$(jq '.controls_passed' cp6-proof/independent-z/Z_CLOSE_REGRESSION.json)" = '20'
           test "$(jq '.qualified_counterexamples + .incomplete_cases' cp6-proof/independent-z/Z_CLOSE_REGRESSION.json)" = '0'
+
+      - name: Independently exercise Z material-day and late-cost boundaries
+        env:
+          CP6_Z_EXPANDED_CONFIRM: postgres
+        run: |
+          set -uo pipefail
+          mkdir -p cp6-proof/independent-z
+          set +e
+          python scripts/cp6_z_expanded_integrity_audit.py | tee cp6-proof/independent-z/Z_EXPANDED_INTEGRITY_AUDIT.log
+          audit_status=${PIPESTATUS[0]}
+          set -e
+          python - <<'PY'
+          import json
+          report=json.load(open('cp6-proof/independent-z/Z_EXPANDED_INTEGRITY_AUDIT.json'))
+          assert report['expected_case_count']==8,report
+          assert len(report['cases'])==8,report
+          assert report['all_attempted_cases_accounted'],report
+          assert report['entire_unseeded_runtime_restored'],report
+          assert report['schema_usage_restored'],report
+          assert all(row['full_boundary_restored'] for row in report['cases'].values()),report
+          assert report['synthetic_fixture_only'] and not report['hosted_database_used'],report
+          assert not report['contains_business_rows'] and not report['contains_credentials'],report
+          assert report['production_go'] is False,report
+          if report['status']=='FAIL_NEW_COUNTEREXAMPLE':
+              assert report['qualified_counterexamples']>=1,report
+              assert report['incomplete_attempted_cases']==0,report
+          else:
+              assert report['status']=='INCOMPLETE',report
+          PY
+          exit "$audit_status"
 
       - name: Prove Y canonical cash dates replay linked inverses and report detectors
         env:
