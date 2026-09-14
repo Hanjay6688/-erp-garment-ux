@@ -290,7 +290,12 @@ def context_acl(cur):
                 runtime_permission_context_spoofing_proven=False)
 
 
-def run():
+def run(phase='X_AUDIT', extensions=None):
+    global REPORT
+    if phase not in ('X_AUDIT', 'BEFORE_Y', 'AFTER_Y'):
+        raise AssertionError('INDEPENDENT_UNKNOWN_RUNTIME_PHASE')
+    if phase != 'X_AUDIT':
+        REPORT = Path('cp6-proof/CP6_V2620Y_' + ('X_COUNTEREXAMPLES' if phase == 'BEFORE_Y' else 'CASH_BUSINESS_DATE_REGRESSION') + '.json')
     params = conninfo_to_dict(os.environ.get('PGURL', ''))
     if params != dict(user='postgres', password='postgres', host='127.0.0.1', port='54322', dbname='postgres'):
         raise AssertionError('INDEPENDENT_EXACT_DISPOSABLE_ENDPOINT_REQUIRED')
@@ -298,7 +303,13 @@ def run():
         raise AssertionError('INDEPENDENT_DISPOSABLE_CONFIRMATION_REQUIRED')
     if git('rev-parse', HEAD_X + '^{tree}') != TREE_X:
         raise AssertionError('INDEPENDENT_FROZEN_X_TREE_MISMATCH')
-    if git('diff', '--name-only', HEAD_X, 'HEAD', '--', 'supabase/migrations', 'supabase/rollbacks'):
+    changed = set(git('diff', '--name-only', HEAD_X, 'HEAD', '--', 'supabase/migrations', 'supabase/rollbacks').splitlines())
+    allowed = set() if phase == 'X_AUDIT' else {
+        'supabase/migrations/20260914043146_erp_v2_6_20y_cp6_cash_business_dates.sql',
+        'supabase/rollbacks/20260914043146_erp_v2_6_20y_cp6_cash_business_dates.rollback.sql',
+    }
+    modified_history = git('diff', '--diff-filter=MDRTCUXB', '--name-only', HEAD_X, 'HEAD', '--', 'supabase/migrations', 'supabase/rollbacks')
+    if changed - allowed or modified_history:
         raise AssertionError('INDEPENDENT_REQUIRES_UNCHANGED_X_BUSINESS_SQL')
     head = git('rev-parse', 'HEAD')
     if os.environ.get('GITHUB_SHA') != head:
@@ -308,7 +319,7 @@ def run():
                   audited_business_head=HEAD_X, audited_business_tree=TREE_X,
                   run_id=os.environ.get('GITHUB_RUN_ID'), run_attempt=os.environ.get('GITHUB_RUN_ATTEMPT'),
                   production_go=False, synthetic_jwt_context=True, http_ui_reachability_proven=False,
-                  cases={}, sources={})
+                  cases={}, sources={}, phase=phase, original_independent_run=34805891046)
     for name in (Path(__file__).resolve().relative_to(Path.cwd()), runtime.MIGRATION):
         data = name.read_bytes()
         result['sources'][str(name)] = dict(bytes=len(data), sha256=hashlib.sha256(data).hexdigest())
@@ -317,6 +328,12 @@ def run():
         untouched = boundary(cur)
         if len(runtime.verified_successor(cur)) != 1:
             raise AssertionError('INDEPENDENT_VERIFIED_X_RUNTIME_REQUIRED')
+        import cp6_v2620y_runtime as y_runtime
+        successor = y_runtime.verified_successor(cur)
+        if bool(successor) != (phase == 'AFTER_Y') or (successor and len(successor) != 6):
+            raise AssertionError('INDEPENDENT_Y_RUNTIME_PHASE_MISMATCH')
+        result['verified_y_functions'] = list(successor.values())
+        result['runtime_generation'] = 'Y' if successor else 'X'
         result['engine'] = one(cur, 'select version()')
         result['runtime_before'] = untouched
         usage = one(cur, "select has_schema_privilege('authenticated','erp','USAGE')")
@@ -335,11 +352,16 @@ def run():
         cases += [('USER_REVOKED_AFTER_DRAFT', lambda: revoked_actor(cur, cash, False)),
                   ('ROLE_REVOKED_AFTER_DRAFT', lambda: revoked_actor(cur, cash, True)),
                   ('PRIVATE_EXECUTION_CONTEXT_ACL', lambda: context_acl(cur))]
+        if extensions:
+            cases += extensions(cur, cash)
+        result['expected_case_count'] = len(cases)
         for name, operation in cases:
             cur.execute('savepoint independent_case')
             before = boundary(cur)
             try:
                 evidence = operation()
+                if phase == 'AFTER_Y' and any(d['confidence'] != 'READY' for d in evidence.get('daily_evidence', {}).values()):
+                    raise AssertionError('Y_CORRECT_CANONICAL_EVENT_FALSE_BLOCKED')
             except Exception as exc:
                 evidence = dict(status='INCOMPLETE', classification='FIXTURE_OR_ORACLE_ERROR',
                                 error=str(exc), sqlstate=getattr(exc, 'sqlstate', None))
@@ -362,7 +384,7 @@ def run():
     result['qualified_counterexamples'] = sum(c['status'] == 'NEW_X_BUG_REPRODUCED' for c in result['cases'].values())
     result['controls_passed'] = sum(c['status'] == 'CONTROL_PASS' for c in result['cases'].values())
     result['incomplete_cases'] = sum(c['status'] == 'INCOMPLETE' for c in result['cases'].values())
-    complete = (len(result['cases']) == 35 and result['incomplete_cases'] == 0
+    complete = (len(result['cases']) == result['expected_case_count'] and result['incomplete_cases'] == 0
                 and result['entire_unseeded_runtime_restored'] and result['schema_usage_restored'])
     result['status'] = ('FAIL_NEW_COUNTEREXAMPLE' if result['qualified_counterexamples'] else 'PASS_BOUNDED_AUDIT') if complete else 'INCOMPLETE'
     return result
@@ -370,7 +392,7 @@ def run():
 
 if __name__ == '__main__':
     try:
-        report = run()
+        report = run(os.environ.get('CP6_Y_PHASE', 'X_AUDIT'))
     except Exception as exc:
         report = json.loads(REPORT.read_text()) if REPORT.exists() else {}
         report.update(status='INCOMPLETE', error=str(exc), production_go=False)

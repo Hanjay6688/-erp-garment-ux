@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Native F/G/H/I/J/K/L/M/N/O/P/Q/R/S/T/U/V/W/X rollback qualification under closed admission.
+"""Native F/G/H/I/J/K/L/M/N/O/P/Q/R/S/T/U/V/W/X/Y rollback qualification under closed admission.
 
-Nineteen target generations x five real backend paths x four schedules = 380
+Twenty target generations x five real backend paths x four schedules = 400
 fresh-clone cases. Unlike the superseded live-DDL matrix, no reviewed rollback
 runs while an old invocation can resume: database admission closes first and
 all old sessions must drain. Every case is persisted, even after a failure.
@@ -51,6 +51,7 @@ TARGETS = {
     'V': ('20260913135850', 'erp_v2_6_20v_cp6_misc_finance_business_date', 'v2.6.20v', 'v2.6.20u', 3),
     'W': ('20260913173840', 'erp_v2_6_20w_cp6_scrap_business_date', 'v2.6.20w', 'v2.6.20v', 3),
     'X': ('20260913202948', 'erp_v2_6_20x_cp6_internal_role_fail_closed', 'v2.6.20x', 'v2.6.20w', 1),
+    'Y': ('20260914043146', 'erp_v2_6_20y_cp6_cash_business_dates', 'v2.6.20y', 'v2.6.20x', 6),
 }
 OPERATIONS = ('SALE', 'RETURN', 'CONVERSION', 'REPORT', 'FK_SYNC')
 MODES = ('WRITER_FIRST', 'ADMISSION_FIRST', 'WRITER_ABORT', 'DRAIN_TIMEOUT')
@@ -123,9 +124,9 @@ def maintenance_strip(target: str, folder: Path) -> dict[str, Any]:
 
 
 def setup_rollback_plan(target: str, source_generation: str) -> tuple[str, ...]:
-    # The full matrix clones X; each older guard names its restored source.
+    # The full matrix clones Y; each older guard names its restored source.
     # Missing or unexpected successors are checked before fixture writes.
-    if source_generation not in ('I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X') or target not in TARGETS:
+    if source_generation not in ('I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y') or target not in TARGETS:
         raise AssertionError('Unsupported rollback fixture generation')
     generations = tuple(TARGETS)
     start, stop = generations.index(source_generation), generations.index(target)
@@ -155,7 +156,7 @@ def verify_setup_source(source_generation: str) -> None:
 
 
 def prepare(
-    target: str, operation: str, folder: Path, *, source_generation: str = 'X',
+    target: str, operation: str, folder: Path, *, source_generation: str = 'Y',
 ) -> tuple[dict[str, Any], list[dict[str, Any]]]:
     rollback_plan = setup_rollback_plan(target, source_generation)
     command(
@@ -680,7 +681,7 @@ def main() -> None:
         'head': os.environ.get('GITHUB_SHA', 'LOCAL_UNBOUND'),
         'production_go': False,
         'classification': 'NATIVE_POSTGRESQL_CLOSED_ADMISSION_ROLLBACK_MATRIX',
-        'expected_case_count': 380,
+        'expected_case_count': 400,
         'cases': [],
     }
     for target in TARGETS:

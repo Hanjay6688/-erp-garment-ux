@@ -44,6 +44,14 @@ def verified_successor(cur):
     payment_identity = 'erp.post_supplier_payment(uuid)'
     if payment_identity in s_successor:
         validation_successor[payment_identity] = s_successor[payment_identity]
+    # Y changes opening settlement and the main report outside N through X.
+    import cp6_v2620y_runtime as y_runtime
+    y_successor = y_runtime.verified_successor(cur)
+    direct_y = {identity: item for identity, item in y_successor.items() if identity in (
+        'erp.post_opening_subledger_settlement(uuid)',
+        'erp.run_v268_financial_report_checks()',
+    )}
+    validation_successor.update(direct_y)
     observations = n_runtime.predecessor_snapshot(cur, 'M', validation_successor)
     n_runtime.extend_items(successor, observations)
     if scope_identity in p_successor:
@@ -68,6 +76,8 @@ def verified_successor(cur):
                     item['pre_v_installed_sha256'] = p_successor[scope_identity]['pre_v_installed_sha256']
                 if 'pre_w_installed_sha256' in p_successor[scope_identity]:
                     item['pre_w_installed_sha256'] = p_successor[scope_identity]['pre_w_installed_sha256']
+                if 'pre_y_installed_sha256' in p_successor[scope_identity]:
+                    item['pre_y_installed_sha256'] = p_successor[scope_identity]['pre_y_installed_sha256']
                 item['expected_generation'] = 'P'
                 break
     if payment_identity in s_successor:
@@ -78,6 +88,7 @@ def verified_successor(cur):
                 item['pre_s_installed_sha256'] = old
                 item['expected_generation'] = 'S'
                 break
+    y_runtime.extend_items(direct_y, observations)
     return {item['identity']: item for item in observations}
 
 def effective_hash(successor, identity, predecessor):

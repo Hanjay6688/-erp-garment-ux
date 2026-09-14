@@ -28,7 +28,14 @@ def verified_successor(cur):
     }:
         raise AssertionError('K_SOURCE_PLATFORM_MISMATCH')
     successor = m_runtime.verified_successor(cur)
-    observations = m_runtime.predecessor_snapshot(cur, 'K', successor)
+    import cp6_v2620y_runtime as y_runtime
+    y_successor = y_runtime.verified_successor(cur)
+    direct_y = {identity: item for identity, item in y_successor.items()
+                if identity == 'erp.post_sales_payment(uuid)'}
+    observations = m_runtime.predecessor_snapshot(cur, 'K', dict(successor, **direct_y))
+    # Preserve the existing K-to-M report edge; only the non-overlapping payment
+    # identity advances directly to Y here. Old callers still extend M exactly once.
+    y_runtime.extend_items(direct_y, observations)
     return {item['identity']: item for item in observations}
 
 def effective_hash(successor, identity, predecessor):

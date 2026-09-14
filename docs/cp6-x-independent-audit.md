@@ -69,3 +69,5 @@ The failed run and both original artifacts remain evidence, not a PASS:
 - `cp6-r1-v2620x-full-schema-auth-browser-proof`, artifact 10333132490,
   3,048,311 bytes, SHA-256
   `9749c5530f1732d333af0a681c5f0f2008ab19b338b88b32dea2dac5c447af1d`.
+
+Y continuation: native #173 qualified 16 cash-date counterexamples and 19 controls, with zero incomplete cases and complete rollback. The original failed run and its frozen source remain evidence. The oracle now accepts only the two added Y SQL paths; all admitted X SQL must remain byte-identical. BEFORE_Y requires the exact 16/19 result, and AFTER_Y requires all original 35 cases to pass with READY reports. Writer extensions are labelled separately and do not retroactively become independent X evidence.
