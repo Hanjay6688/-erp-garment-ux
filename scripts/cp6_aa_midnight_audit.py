@@ -278,6 +278,9 @@ def run():
             result['source_postgres_sha256' if target == SOURCE_CONTAINER else 'copy_postgres_sha256'] = digest
         if result['source_postgres_sha256'] != result['copy_postgres_sha256']:
             raise AssertionError('AA_CLOCK_POSTGRES_EXECUTABLE_CHANGED')
+        result['copied_postgres_clock_library_load_control'] = command([
+            'docker', 'exec', '-u', 'postgres', '-e', 'LD_PRELOAD=/tmp/cp6-aa-clock.so',
+            '-e', 'CP6_CLOCK_OFFSET_FILE='+OFFSET_FILE, TARGET_CONTAINER, 'postgres', '--version'])
         command(['docker', 'exec', '-u', 'postgres', '-e', 'LD_PRELOAD=/tmp/cp6-aa-clock.so',
                  '-e', 'CP6_CLOCK_OFFSET_FILE='+OFFSET_FILE, TARGET_CONTAINER, 'pg_ctl', '-D', DATA,
                  '-l', '/tmp/cp6-aa-clock-postgres.log', '-o', '-c config_file=/tmp/cp6-aa-clock-postgresql.conf', '-w', 'start'], timeout=90)

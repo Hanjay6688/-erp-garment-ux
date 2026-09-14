@@ -9,8 +9,11 @@ The frozen Z candidate is **FAIL_NEW_COUNTEREXAMPLE** after Native 183 proved
 two material business defects. Successor AA is **WRITER PASS** after Native 185
 and CodeQL 60, with all 12,203 payloads and 213 source pins verified. Its first
 native attempt, 184, stopped at an inherited source gate before AA installation.
-The broader independent audit remains **INCOMPLETE**. Admitted SQL through Z
-is unchanged; AA adds a new migration and its matching rollback.
+Native 186 now rejects AA with **FAIL_NEW_COUNTEREXAMPLE**: four late-invoice
+partial-production date failures, twelve passing cost controls, and three
+passing authorization-order controls. Four midnight cases remain **INCOMPLETE**
+because the test clock library could not load. Admitted SQL through Z is
+unchanged; AA adds a new migration and its matching rollback.
 
 ## Executed attempts
 
@@ -166,3 +169,53 @@ function, preserves monotonic time, and verifies original-server restoration
 and clock continuity. It proves a controlled clock experiment only. HTTP/UI
 reachability, an overnight soak, other permission paths, other source types,
 and the remaining expanded ledger rows stay open.
+
+## Native 186: qualified AA recost date defect and clock-fixture failure
+
+Native [186](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/34881571969)
+ran on `9aa8c3992128e1ddb8b25938619b230e85e856ad`, with AA business SQL unchanged.
+The downloaded qualification artifact `10363353256` is 5,530,716 bytes,
+SHA-256 `8baf54b6e2eb3cb280d5eb40a9df049731d1daf9d5d9fc3f9224a9f05e1dda29`.
+Its ZIP CRC and all seven audit-input source pins matched the exact checkout.
+
+The invoice/partial group executed all sixteen cases: **twelve controls and
+four qualified P2 counterexamples**, with no incomplete case and exact rollback
+of every case and the whole fixture. In UTC and UTC−12, both final prices
+produced correct current-day totals and exact cents, but material and HPP
+revaluation events used September 14 instead of the current Jakarta business
+day, September 15. Yesterday's report changed: for the integer-price case,
+material inventory became −100, FG changed from 51 to 81, and COGS from 34 to
+54. It still returned `READY`. Jakarta and UTC+14 partial controls, and all
+eight receipt-only controls, passed. The native sixteen-case JSON is preserved
+byte for byte in `docs/evidence/cp6-aa186-qualified-audit.json`.
+
+All three authorization-order cases passed. Both deactivated-owner postings
+were refused with `Internal ERP access required`, with no new movement,
+idempotency row, or other business-table residue. The waiting case proved
+committed deactivation while ordinary posting waited on an ordinary draft
+edit's row lock. Each clone was removed and the source remained unchanged.
+This is authenticated SQL evidence; it does not claim HTTP/UI coverage.
+
+The midnight group executed **zero of four cases**. The host-built clock
+library referenced `__isoc23_strtoll`, unavailable in the copied PostgreSQL
+image. The source and copied executable hashes matched, but the library failed
+before the copied server could start. The copy was removed, the source boundary
+and real clock remained intact, and final stack cleanup passed. This is a
+fixture failure, not a business verdict. The repair parses the bounded decimal
+offset without the incompatible host-libc symbol and records an explicit
+copied-executable load control before startup. Fourteen local clock/parser
+controls passed; native execution is still required.
+
+[CodeQL 61](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/34881571955)
+passed Actions, JavaScript/TypeScript, and Python. C/C++ completed its 95-rule
+analysis and reported one `cpp/path-injection` finding at the test library's
+file open call. The existing path equality guard is retained and the file
+open now uses the constant path directly. The zero-findings gate remains
+required on the next checkout. Its failed SARIF ZIP and payload were verified.
+
+The verification record is `docs/evidence/cp6-aa186-audit-verification.json`.
+The qualified recost date defect activates successor writer AB under the
+standing instruction. First complete the missing midnight observations on
+unchanged AA, then add the successor migration, rollback, and regressions for
+the qualified findings. No admitted business SQL changes in this fixture
+repair; `production_go:false` and the remaining ledger stays open.

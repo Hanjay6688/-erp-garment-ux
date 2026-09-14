@@ -1,0 +1,92 @@
+{
+  "format": "CP6_AA186_INDEPENDENT_VERIFICATION_V1",
+  "status": "FAIL_NEW_COUNTEREXAMPLE",
+  "audited_business_candidate": "AA",
+  "audited_business_head": "7d824f780fa06fc16385c347759a9b96d0138e9d",
+  "audited_business_tree": "0bfda3d552a3a3c37b4563d895a9eb387f64acb4",
+  "head": "9aa8c3992128e1ddb8b25938619b230e85e856ad",
+  "tree": "c002b2816485043889ab9f6d39999d46485b816b",
+  "native_run_id": 34881571969,
+  "native_run_number": 186,
+  "native_conclusion": "failure",
+  "native_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/34881571969",
+  "qualification_artifact": {
+    "id": 10363353256,
+    "bytes": 5530716,
+    "zip_sha256": "8baf54b6e2eb3cb280d5eb40a9df049731d1daf9d5d9fc3f9224a9f05e1dda29",
+    "zip_crc_verified": true,
+    "members": 49
+  },
+  "audit_input_sources": 7,
+  "all_audit_input_sources_verified_against_exact_git_commit": true,
+  "invoice_partial": {
+    "expected_cases": 16,
+    "controls": 12,
+    "counterexamples": 4,
+    "incomplete": 0,
+    "sha256": "3b769c9d93bd1aea8930b80531b1f911e8560ab3f3546740742d51fe05cbdca9",
+    "byte_preserved_report": "docs/evidence/cp6-aa186-qualified-audit.json",
+    "full_boundary_restored_for_every_case": true,
+    "entire_unseeded_runtime_restored": true,
+    "schema_usage_restored": true,
+    "finding": "P2: material and HPP recost events use caller current_date. UTC and UTC-12 changed yesterday's report, including negative material inventory, while report confidence remained READY. Independent current-day totals and exact cents passed."
+  },
+  "revocation": {
+    "expected_cases": 3,
+    "controls": 3,
+    "counterexamples": 0,
+    "incomplete": 0,
+    "sha256": "b33858f85dc9358000e009982a6723cab88538953df2d1644bd735d131780aba",
+    "source_boundary_unchanged": true,
+    "remaining_clones": 0,
+    "denials_have_exact_business_boundaries": true,
+    "scope": "READ COMMITTED authenticated SQL: active control, deactivation after transaction start, deactivation committed during natural receipt-post row-lock wait. HTTP/UI not proved."
+  },
+  "midnight": {
+    "expected_cases": 4,
+    "executed_cases": 0,
+    "status": "INCOMPLETE",
+    "sha256": "4fd2179e8b44c1e2fbf00c293ce8895ea6734f6b24910c95c9deb79fa66f98b1",
+    "cause": "Host-built test clock library required __isoc23_strtoll, unavailable in the copied PostgreSQL image. No clock business case executed.",
+    "same_postgres_executable_sha256": "7a0236683edf49238c4a1a77b1ada0befd91b9f82478e0ed9a4b54750ef9e6e7",
+    "remaining_clock_containers": 0,
+    "source_boundary_unchanged": true,
+    "source_clock_still_real": true,
+    "cleanup_errors": []
+  },
+  "codeql": {
+    "run_id": 34881571955,
+    "run_number": 61,
+    "conclusion": "failure",
+    "passed_languages": [
+      "actions",
+      "javascript-typescript",
+      "python"
+    ],
+    "failed_language": "c-cpp",
+    "finding": "cpp/path-injection",
+    "cpp_artifact": {
+      "id": 10362109241,
+      "bytes": 69661,
+      "zip_sha256": "672f27ade03c843d6b633cfcd1086c49e790f069a7f05bd317273fc57ac1753d",
+      "zip_crc_verified": true,
+      "sarif_sha256": "24fc4a0fc090785b5bd5330357b8498f59c90f59c7b6564710d3c6d80db91c2c",
+      "rule_count": 95,
+      "result_count": 1,
+      "execution_successful": true
+    },
+    "repair": "Open the constant controller path directly; retain exact environment-path validation and the zero-findings gate."
+  },
+  "cleanup": {
+    "stop_exit": 0,
+    "remaining_database_container": 0,
+    "status": "PASS"
+  },
+  "successor_writer_authorized_by_standing_instruction": true,
+  "next": "Qualify the four midnight cases after repairing test-library ABI compatibility; implement successor AB for qualified material findings with before/after and rollback proof.",
+  "cp": "CP6",
+  "only_writable_branch": "competition/cp6-j-closure-20260911",
+  "production_go": false,
+  "independent_acceptance_complete": false,
+  "hosted_database_used": false
+}

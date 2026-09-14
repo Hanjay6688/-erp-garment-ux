@@ -18,20 +18,29 @@ static int64_t offset_us(void) {
     if (path == NULL) return 0;
     if (strcmp(path, "/tmp/cp6-aa-clock.offset") != 0) _exit(78);
     int saved_errno = errno;
-    int fd = open(path, O_RDONLY | O_CLOEXEC);
+    int fd = open("/tmp/cp6-aa-clock.offset", O_RDONLY | O_CLOEXEC);
     if (fd < 0) _exit(78);
     char buf[64];
     ssize_t n = read(fd, buf, sizeof(buf) - 1);
     close(fd);
     if (n <= 0 || n >= (ssize_t)sizeof(buf) - 1) _exit(78);
     buf[n] = '\0';
-    char *end;
-    errno = 0;
-    long long value = strtoll(buf, &end, 10);
-    if (errno != 0 || end == buf || (*end != '\0' && !(*end == '\n' && end[1] == '\0'))
-        || value < -172800000000LL || value > 172800000000LL) _exit(78);
+    /* Parse the controller's canonical decimal without a host-libc C23
+     * strtoll symbol: the copied PostgreSQL image has a different libc.
+     * Bound every digit before multiplication, including both signed limits.
+     */
+    int negative = buf[0] == '-';
+    size_t pos = negative ? 1 : 0;
+    int64_t value = 0;
+    if (buf[pos] < '0' || buf[pos] > '9') _exit(78);
+    while (buf[pos] >= '0' && buf[pos] <= '9') {
+        int digit = buf[pos++] - '0';
+        if (value > (172800000000LL - digit) / 10) _exit(78);
+        value = value * 10 + digit;
+    }
+    if (buf[pos] != '\0' && !(buf[pos] == '\n' && buf[pos + 1] == '\0')) _exit(78);
     errno = saved_errno;
-    return (int64_t)value;
+    return negative ? -value : value;
 }
 
 int gettimeofday(struct timeval *tv, void *tz) {

@@ -2049,6 +2049,7 @@ jobs:
           paths=['scripts/cp6_aa_invoice_partial_audit.py','scripts/cp6_aa_revocation_audit.py',
             'scripts/cp6_aa_midnight_audit.py','supabase/tests/support/cp6_clock_offset.c',
             '.github/workflows/cp6-full-schema-validation.yml','docs/cp6-competition-mode-audit-protocol.md',
+            'docs/evidence/cp6-aa186-audit-verification.json','docs/evidence/cp6-aa186-qualified-audit.json',
             'docs/evidence/cp6-aa185-writer-verification.json']
           writer=json.loads(Path(paths[-1]).read_text())
           assert writer['head']=='7d824f780fa06fc16385c347759a9b96d0138e9d' and writer['native_run_id']==34873186373
@@ -5912,6 +5913,8 @@ jobs:
             'scripts/cp6_aa_midnight_audit.py',
             'supabase/tests/support/cp6_clock_offset.c',
             'docs/evidence/cp6-aa185-writer-verification.json',
+            'docs/evidence/cp6-aa186-audit-verification.json',
+            'docs/evidence/cp6-aa186-qualified-audit.json',
             'scripts/cp6_v2620aa_rollback_guards.py',
             'scripts/cp6_z_expanded_integrity_audit.py',
             'docs/cp6-competition-mode-audit-protocol.md',
