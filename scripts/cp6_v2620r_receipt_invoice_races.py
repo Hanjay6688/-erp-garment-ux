@@ -14,7 +14,7 @@ import cp6_v2620r_runtime as runtime
 
 ROOT = Path('cp6-proof/R_RECEIPT_INVOICE_NATIVE_RACES')
 CASES = ('INVOICE_POST_FIRST', 'RECEIPT_REVERSE_FIRST')
-SOURCE_GENERATION = 'Z'
+SOURCE_GENERATION = 'AA'
 HELPERS = tuple(Path('supabase/tests') / name for name in (
     'cp6_subledger_exact_cent.sql', 'cp6_supplier_cent_lifecycle.sql',
     'cp6_supplier_return_document_allocation.sql',

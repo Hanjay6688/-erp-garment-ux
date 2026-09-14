@@ -28,7 +28,7 @@ for(const token of ["phase not in ('BEFORE_W','AFTER_W')","'KNOWN_V_BUG_REPRODUC
  'FULL_WEIGHT_REVERSE','supabase_admin','W_EXACT_DISPOSABLE_ENDPOINT_REQUIRED'])assert.ok(runner.includes(token),token)
 const races=read('scripts/cp6_v2620w_scrap_races.py')
 for(const token of ['POST_THEN_REVERSE','POST_THEN_POST','POST_ABORT_THEN_POST','pg_blocking_pids(pid)',
- "SOURCE_GENERATION = 'Z'",'matrix.verify_setup_source(SOURCE_GENERATION)','first.rollback()',
+ "SOURCE_GENERATION = 'AA'",'matrix.verify_setup_source(SOURCE_GENERATION)','first.rollback()',
  'manual_prelock_count=0,retry_count=0','REAL_AUTHENTICATED_SESSION_OWNER'])assert.ok(races.includes(token),token)
 for(const g of ['m','n','o','p','q','r','s','t','u','v'])assert.ok(read(`scripts/cp6_v2620${g}_runtime.py`).includes('pre_w_installed_sha256'),g)
 assert.ok(read('scripts/cp6_v2620v_runtime.py').includes("w_runtime.predecessor_snapshot(cur, 'V', successor)"))
@@ -40,14 +40,14 @@ let previous=-1
 for(const token of ['Apply v2.6.20v canonical','Reproduce native V paid scrap counterexamples before W',
  'Apply v2.6.20w canonical paid scrap','Prove native W paid scrap dates','Prove native V cash dates',
  'Prove native U canonical','Run post-CP6 real Auth','Prove native W paid scrap document races',
- 'Qualify exact F G H I J K L M N O P Q R S T U V W X Y and Z rollback',
+ 'Qualify exact F G H I J K L M N O P Q R S T U V W X Y Z and AA rollback',
  'Prove trusted W capsule before exact W restore to V','Prove trusted V capsule before exact V restore to U']){
  const at=workflow.indexOf(token);assert.ok(at>previous,token);previous=at
 }
-for(const token of ["len(schedules['cases'])==420","'expected':105,'observed':105",'CP6_V2620Z_RUNTIME_MANIFEST.json',
+for(const token of ["len(schedules['cases'])==440","'expected':110,'observed':110",'CP6_V2620AA_RUNTIME_MANIFEST.json',
  "len(wp['expanded_cases'])==21","len(wr['cases'])==3","len(wg['guards'])==7","len(wg['extra_object_preflight_guards'])==9",
- 'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620Z','W_COMPLETE_V_CATALOG_RESTORE_MISMATCH',
- "setup_unit['completed_case_count']==setup_unit['expected_case_count']==251",
+ 'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620AA','W_COMPLETE_V_CATALOG_RESTORE_MISMATCH',
+ "setup_unit['completed_case_count']==setup_unit['expected_case_count']==276",
  "sum(c['status']=='KNOWN_V_BUG_REPRODUCED' for c in wb['cases'].values())==2",
  "w_restore['complete_function_count']==533","'v2620w_application'","'v2620w_platform'","'v2620w_capsule'",
  "and to_regclass('erp.cp6_v2620w_rollback_capsule') is null",'FAIL_P2_SCRAP_CASH_BUSINESS_DATE',
@@ -58,4 +58,4 @@ for(const path of [migrationPath,rollbackPath,'docs/cp6-w-scrap-business-date.md
  'scripts/cp6_v2620w_rollback_guards.py','scripts/cp6_v2620v_scrap_adversarial.py'])assert.ok(workflow.includes(`            '${path}',`),path)
 console.log(JSON.stringify({status:'PASS',classification:'STATIC_SOURCE_CONTRACT_NOT_NATIVE_PROOF',replaced_functions:3,
  boundary_tables:80,native_cases:4,expanded_native_cases:21,known_v_paths:2,controls:2,native_document_races:3,
- maintenance_schedules:420,writer_body_entries:105,rollback_setup_units:251,production_go:false}))
+ maintenance_schedules:440,writer_body_entries:110,rollback_setup_units:276,production_go:false}))

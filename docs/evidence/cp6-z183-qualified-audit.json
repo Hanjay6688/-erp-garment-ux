@@ -1,0 +1,502 @@
+{
+  "all_attempted_cases_accounted": true,
+  "audited_business_head": "134774825dbe5ff6ffba5b82f629c1dac2a3ce8d",
+  "audited_business_tree": "3afeddbbca86f28285b1b24a002a572b34be54b7",
+  "cases": {
+    "CHECKPOINT:Asia/Jakarta": {
+      "actor": {
+        "app_role": "OWNER",
+        "current_user": "authenticated"
+      },
+      "actual": {
+        "checkpoint_date": "2026-09-12",
+        "last_movement_id": "ca0f07d8-6095-4ed1-931d-66e6d5f7daef",
+        "last_physical_at": "2026-09-12 23:00:00+07",
+        "moving_average_cost": "10.000000",
+        "stock_qty": "10.000000"
+      },
+      "canonical_today": "2026-09-14",
+      "checkpoint_day": "2026-09-12",
+      "classification": "LAWFUL_CHECKPOINT_CONTROL",
+      "expected": {
+        "checkpoint_date": "2026-09-12",
+        "last_movement_id": "ca0f07d8-6095-4ed1-931d-66e6d5f7daef",
+        "last_physical_at": "2026-09-12 23:00:00+07:00",
+        "moving_average_cost": "10.000000",
+        "stock_qty": "10.000000"
+      },
+      "first_business_movement": {
+        "cost": "10",
+        "id": "ca0f07d8-6095-4ed1-931d-66e6d5f7daef",
+        "physical_at": "2026-09-12T23:00:00+07:00"
+      },
+      "fixture_source": "TWO_POSTED_MATERIAL_PURCHASE_V2_RECEIPTS",
+      "following_business_movement": {
+        "cost": "20",
+        "id": "b65f8c1e-514e-4ebf-b5bd-c10f8190d829",
+        "physical_at": "2026-09-13T01:00:00+07:00"
+      },
+      "full_boundary_restored": true,
+      "ordinary_owner_close_path": true,
+      "production_go": false,
+      "purchase_ids": [
+        "f01663ec-3e79-48b8-a15f-5d01384035e5",
+        "8f5f78dd-1dc1-47ea-a04c-338496ec6d7b"
+      ],
+      "severity": null,
+      "status": "CONTROL_PASS",
+      "zone": "Asia/Jakarta"
+    },
+    "CHECKPOINT:Etc/GMT+12": {
+      "actor": {
+        "app_role": "OWNER",
+        "current_user": "authenticated"
+      },
+      "actual": {
+        "checkpoint_date": "2026-09-12",
+        "last_movement_id": "d6288438-976c-4991-a74d-814c0b442226",
+        "last_physical_at": "2026-09-12 06:00:00-12",
+        "moving_average_cost": "15.000000",
+        "stock_qty": "20.000000"
+      },
+      "canonical_today": "2026-09-14",
+      "checkpoint_day": "2026-09-12",
+      "classification": "MATERIAL_CHECKPOINT_CROSSES_BUSINESS_DAY",
+      "expected": {
+        "checkpoint_date": "2026-09-12",
+        "last_movement_id": "d1c17aaa-e2c0-4f8c-8f49-8a1462dc87f6",
+        "last_physical_at": "2026-09-12 23:00:00+07:00",
+        "moving_average_cost": "10.000000",
+        "stock_qty": "10.000000"
+      },
+      "first_business_movement": {
+        "cost": "10",
+        "id": "d1c17aaa-e2c0-4f8c-8f49-8a1462dc87f6",
+        "physical_at": "2026-09-12T23:00:00+07:00"
+      },
+      "fixture_source": "TWO_POSTED_MATERIAL_PURCHASE_V2_RECEIPTS",
+      "following_business_movement": {
+        "cost": "20",
+        "id": "d6288438-976c-4991-a74d-814c0b442226",
+        "physical_at": "2026-09-13T01:00:00+07:00"
+      },
+      "full_boundary_restored": true,
+      "ordinary_owner_close_path": true,
+      "production_go": false,
+      "purchase_ids": [
+        "a0a53f1a-2372-4297-b8ae-1c8681fc82a5",
+        "e3240181-75b1-42be-9156-9f231e8efefc"
+      ],
+      "severity": "P1",
+      "status": "NEW_Z_BUG_REPRODUCED",
+      "zone": "Etc/GMT+12"
+    },
+    "CHECKPOINT:Pacific/Kiritimati": {
+      "actor": {
+        "app_role": "OWNER",
+        "current_user": "authenticated"
+      },
+      "actual": {
+        "checkpoint_date": "2026-09-12",
+        "last_movement_id": null,
+        "last_physical_at": null,
+        "moving_average_cost": "0.000000",
+        "stock_qty": "0.000000"
+      },
+      "canonical_today": "2026-09-14",
+      "checkpoint_day": "2026-09-12",
+      "classification": "MATERIAL_CHECKPOINT_CROSSES_BUSINESS_DAY",
+      "expected": {
+        "checkpoint_date": "2026-09-12",
+        "last_movement_id": "a9f06917-c25b-476d-9555-6e980f022095",
+        "last_physical_at": "2026-09-12 23:00:00+07:00",
+        "moving_average_cost": "10.000000",
+        "stock_qty": "10.000000"
+      },
+      "first_business_movement": {
+        "cost": "10",
+        "id": "a9f06917-c25b-476d-9555-6e980f022095",
+        "physical_at": "2026-09-12T23:00:00+07:00"
+      },
+      "fixture_source": "TWO_POSTED_MATERIAL_PURCHASE_V2_RECEIPTS",
+      "following_business_movement": {
+        "cost": "20",
+        "id": "90632674-e03e-4dcf-9583-d8627236e667",
+        "physical_at": "2026-09-13T01:00:00+07:00"
+      },
+      "full_boundary_restored": true,
+      "ordinary_owner_close_path": true,
+      "production_go": false,
+      "purchase_ids": [
+        "5a1f265e-87e8-4105-9313-cda80226e0e3",
+        "68b138c9-5021-424b-887e-727e6c62048f"
+      ],
+      "severity": "P1",
+      "status": "NEW_Z_BUG_REPRODUCED",
+      "zone": "Pacific/Kiritimati"
+    },
+    "CHECKPOINT:UTC": {
+      "actor": {
+        "app_role": "OWNER",
+        "current_user": "authenticated"
+      },
+      "actual": {
+        "checkpoint_date": "2026-09-12",
+        "last_movement_id": "1111f07b-2ee7-4b0d-ac7e-3b3b5c55a0f6",
+        "last_physical_at": "2026-09-12 18:00:00+00",
+        "moving_average_cost": "15.000000",
+        "stock_qty": "20.000000"
+      },
+      "canonical_today": "2026-09-14",
+      "checkpoint_day": "2026-09-12",
+      "classification": "MATERIAL_CHECKPOINT_CROSSES_BUSINESS_DAY",
+      "expected": {
+        "checkpoint_date": "2026-09-12",
+        "last_movement_id": "c6a89410-909a-4c6f-909f-83bba887ef9b",
+        "last_physical_at": "2026-09-12 23:00:00+07:00",
+        "moving_average_cost": "10.000000",
+        "stock_qty": "10.000000"
+      },
+      "first_business_movement": {
+        "cost": "10",
+        "id": "c6a89410-909a-4c6f-909f-83bba887ef9b",
+        "physical_at": "2026-09-12T23:00:00+07:00"
+      },
+      "fixture_source": "TWO_POSTED_MATERIAL_PURCHASE_V2_RECEIPTS",
+      "following_business_movement": {
+        "cost": "20",
+        "id": "1111f07b-2ee7-4b0d-ac7e-3b3b5c55a0f6",
+        "physical_at": "2026-09-13T01:00:00+07:00"
+      },
+      "full_boundary_restored": true,
+      "ordinary_owner_close_path": true,
+      "production_go": false,
+      "purchase_ids": [
+        "b94b352b-cb1b-48b0-80ad-cb4ceab82046",
+        "0ad6e447-8d38-4041-96f0-3622bff1d016"
+      ],
+      "severity": "P1",
+      "status": "NEW_Z_BUG_REPRODUCED",
+      "zone": "UTC"
+    },
+    "LATE_RECOST:Asia/Jakarta": {
+      "actor": {
+        "app_role": "OWNER",
+        "current_user": "authenticated"
+      },
+      "actual": {
+        "correction_status": "POSTED",
+        "history_average_after": "20.000000",
+        "history_stock_after": "10.000000",
+        "history_unit_cost": "20.000000",
+        "input_unit_cost": "20.000000",
+        "inventory_value": "200.000000000000",
+        "is_cost_recalculated": true,
+        "moving_average_cost": "20.000000",
+        "payable_total": "200.000000000000",
+        "stock_qty": "10.000000",
+        "unit_cost_snapshot": "20.000000"
+      },
+      "checkpoint_before": {
+        "average": 10.0,
+        "date": "2026-09-13",
+        "last_movement_id": "ee30e3c8-7096-4fcc-a94a-9c8ec0ea9820",
+        "stock": 10.0
+      },
+      "classification": "LAWFUL_LATE_RECOST_CONTROL",
+      "expected": {
+        "correction_status": "POSTED",
+        "inventory_value": "200",
+        "moving_average_cost": "20",
+        "payable_total": "200",
+        "stock_qty": "10",
+        "unit_cost_snapshot": "20"
+      },
+      "full_boundary_restored": true,
+      "ordinary_owner_purchase_close_and_correction_path": true,
+      "production_go": false,
+      "purchase_business_day": "2026-09-13",
+      "purchase_physical_at": "2026-09-13T23:30:00+07:00",
+      "report_confidence_after": "READY",
+      "report_confidence_before": "READY",
+      "severity": null,
+      "silent_if_ready": false,
+      "status": "CONTROL_PASS",
+      "zone": "Asia/Jakarta",
+      "zone_interpreted_date": "2026-09-13"
+    },
+    "LATE_RECOST:Etc/GMT+12": {
+      "actor": {
+        "app_role": "OWNER",
+        "current_user": "authenticated"
+      },
+      "actual": {
+        "correction_status": "POSTED",
+        "history_average_after": "20.000000",
+        "history_stock_after": "10.000000",
+        "history_unit_cost": "20.000000",
+        "input_unit_cost": "20.000000",
+        "inventory_value": "200.000000000000",
+        "is_cost_recalculated": true,
+        "moving_average_cost": "20.000000",
+        "payable_total": "200.000000000000",
+        "stock_qty": "10.000000",
+        "unit_cost_snapshot": "20.000000"
+      },
+      "checkpoint_before": {
+        "average": 10.0,
+        "date": "2026-09-13",
+        "last_movement_id": "07cd096c-240a-490a-81fe-bee1fd88f640",
+        "stock": 10.0
+      },
+      "classification": "LAWFUL_LATE_RECOST_CONTROL",
+      "expected": {
+        "correction_status": "POSTED",
+        "inventory_value": "200",
+        "moving_average_cost": "20",
+        "payable_total": "200",
+        "stock_qty": "10",
+        "unit_cost_snapshot": "20"
+      },
+      "full_boundary_restored": true,
+      "ordinary_owner_purchase_close_and_correction_path": true,
+      "production_go": false,
+      "purchase_business_day": "2026-09-13",
+      "purchase_physical_at": "2026-09-13T23:30:00+07:00",
+      "report_confidence_after": "READY",
+      "report_confidence_before": "READY",
+      "severity": null,
+      "silent_if_ready": false,
+      "status": "CONTROL_PASS",
+      "zone": "Etc/GMT+12",
+      "zone_interpreted_date": "2026-09-13"
+    },
+    "LATE_RECOST:Pacific/Kiritimati": {
+      "actor": {
+        "app_role": "OWNER",
+        "current_user": "authenticated"
+      },
+      "actual": {
+        "correction_status": "POSTED",
+        "history_average_after": "10.000000",
+        "history_stock_after": "10.000000",
+        "history_unit_cost": "10.000000",
+        "input_unit_cost": "20.000000",
+        "inventory_value": "100.000000000000",
+        "is_cost_recalculated": true,
+        "moving_average_cost": "10.000000",
+        "payable_total": "200.000000000000",
+        "stock_qty": "10.000000",
+        "unit_cost_snapshot": "10.000000"
+      },
+      "checkpoint_before": {
+        "average": 10.0,
+        "date": "2026-09-13",
+        "last_movement_id": "274cab39-10c7-42df-b3fd-53230f3b7c3e",
+        "stock": 10.0
+      },
+      "classification": "LATE_INVOICE_MATERIAL_COST_RECALCULATION_SKIPPED",
+      "expected": {
+        "correction_status": "POSTED",
+        "inventory_value": "200",
+        "moving_average_cost": "20",
+        "payable_total": "200",
+        "stock_qty": "10",
+        "unit_cost_snapshot": "20"
+      },
+      "full_boundary_restored": true,
+      "ordinary_owner_purchase_close_and_correction_path": true,
+      "production_go": false,
+      "purchase_business_day": "2026-09-13",
+      "purchase_physical_at": "2026-09-13T23:30:00+07:00",
+      "report_confidence_after": "READY",
+      "report_confidence_before": "READY",
+      "severity": "P1",
+      "silent_if_ready": true,
+      "status": "NEW_Z_BUG_REPRODUCED",
+      "zone": "Pacific/Kiritimati",
+      "zone_interpreted_date": "2026-09-14"
+    },
+    "LATE_RECOST:UTC": {
+      "actor": {
+        "app_role": "OWNER",
+        "current_user": "authenticated"
+      },
+      "actual": {
+        "correction_status": "POSTED",
+        "history_average_after": "20.000000",
+        "history_stock_after": "10.000000",
+        "history_unit_cost": "20.000000",
+        "input_unit_cost": "20.000000",
+        "inventory_value": "200.000000000000",
+        "is_cost_recalculated": true,
+        "moving_average_cost": "20.000000",
+        "payable_total": "200.000000000000",
+        "stock_qty": "10.000000",
+        "unit_cost_snapshot": "20.000000"
+      },
+      "checkpoint_before": {
+        "average": 10.0,
+        "date": "2026-09-13",
+        "last_movement_id": "cd0beb0f-534f-4a46-a97e-98e6e409015b",
+        "stock": 10.0
+      },
+      "classification": "LAWFUL_LATE_RECOST_CONTROL",
+      "expected": {
+        "correction_status": "POSTED",
+        "inventory_value": "200",
+        "moving_average_cost": "20",
+        "payable_total": "200",
+        "stock_qty": "10",
+        "unit_cost_snapshot": "20"
+      },
+      "full_boundary_restored": true,
+      "ordinary_owner_purchase_close_and_correction_path": true,
+      "production_go": false,
+      "purchase_business_day": "2026-09-13",
+      "purchase_physical_at": "2026-09-13T23:30:00+07:00",
+      "report_confidence_after": "READY",
+      "report_confidence_before": "READY",
+      "severity": null,
+      "silent_if_ready": false,
+      "status": "CONTROL_PASS",
+      "zone": "UTC",
+      "zone_interpreted_date": "2026-09-13"
+    }
+  },
+  "contains_business_rows": false,
+  "contains_credentials": false,
+  "controls_passed": 4,
+  "coverage": {
+    "admission_rollback_orphans": {
+      "inherited_evidence": "Z 420/420 matrix passed; expanded independent cases remain required",
+      "required_level": "NATIVE_ACCEPTED",
+      "status": "INCOMPLETE"
+    },
+    "business_day_checkpoint": {
+      "case_prefix": "CHECKPOINT:",
+      "evidence_level": "NATIVE_QUALIFIED",
+      "executed_cases": 4,
+      "required_level": "NATIVE_ACCEPTED",
+      "status": "FAIL"
+    },
+    "concurrent_submit_reservation": {
+      "reason": "expanded multi-session matrix remains required",
+      "required_level": "NATIVE_ACCEPTED",
+      "status": "INCOMPLETE"
+    },
+    "late_material_recost": {
+      "case_prefix": "LATE_RECOST:",
+      "evidence_level": "NATIVE_QUALIFIED",
+      "executed_cases": 4,
+      "required_level": "NATIVE_ACCEPTED",
+      "status": "FAIL"
+    },
+    "late_recost_wip_fg_cogs": {
+      "reason": "downstream WIP/FG/COGS propagation remains required",
+      "required_level": "NATIVE_ACCEPTED",
+      "status": "INCOMPLETE"
+    },
+    "linked_corrections_and_report_confidence": {
+      "reason": "expanded linked-correction matrix remains required",
+      "required_level": "NATIVE_ACCEPTED",
+      "status": "INCOMPLETE"
+    },
+    "long_transaction_midnight": {
+      "reason": "not executed by this bounded run",
+      "required_level": "NATIVE_ACCEPTED",
+      "status": "INCOMPLETE"
+    },
+    "partial_laundry_fg_conservation": {
+      "inherited_evidence": "Z Auth95 and full CP6 matrix passed; expanded independent cases remain required",
+      "required_level": "NATIVE_ACCEPTED",
+      "status": "INCOMPLETE"
+    },
+    "permission_state_changes": {
+      "reason": "expanded null/inactive/revocation matrix remains required",
+      "required_level": "NATIVE_ACCEPTED",
+      "status": "INCOMPLETE"
+    }
+  },
+  "engine": "PostgreSQL 17.6 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 15.2.0, 64-bit",
+  "entire_unseeded_runtime_restored": true,
+  "expected_case_count": 8,
+  "format": "CP6_Z_EXPANDED_INTEGRITY_AUDIT_V1",
+  "frozen_z_business_sql_unchanged": true,
+  "head": "bb0779ac26c038dbafd8ed29ab453f0acc8b9468",
+  "hosted_database_used": false,
+  "incomplete_attempted_cases": 0,
+  "parents": [
+    "69e7ce4594d5e3423fe53a73c268585a7b61e2f9"
+  ],
+  "production_go": false,
+  "qualified_counterexamples": 4,
+  "real_authenticated_owner_session": true,
+  "run_attempt": "1",
+  "run_id": "34868697161",
+  "schema_usage_restored": true,
+  "server_version": "17.6",
+  "source_anchors": {
+    "checkpoint_session_cutoff": "v_cutoff:=(p_checkpoint_date+1)::timestamptz",
+    "close_canonical_guard": "p_closed_through>=erp._cp3_business_date(current_timestamp)",
+    "cutting_session_date": "erp.sync_po_hpp_to_gl(v_po_id,COALESCE(p_physical_at,now())::date)",
+    "finish_session_date": "perform erp.sync_po_hpp_to_gl(p_po_id,current_date)",
+    "late_recost_call": "perform erp.recalculate_material_cost(m.material_id,p.physical_at)",
+    "recalc_session_date": "p_recalc_from::date>v_cp.checkpoint_date"
+  },
+  "source_observations": [
+    {
+      "acl": "{postgres=X/postgres}",
+      "definition_sha256": "c5cf72c4dc2c2c2ece44d7e2a0686b1ad167677882952ab611f24f11f40f6710",
+      "identity": "erp._post_cutting_qty_correction(uuid,text,text,text,jsonb,timestamp with time zone,uuid)",
+      "owner": "postgres"
+    },
+    {
+      "acl": "{postgres=X/postgres}",
+      "definition_sha256": "e70bce5bc64114ac0dad5c0ccbc374a63590089d9f481007d6c609f82f323399",
+      "identity": "erp._recalculate_material_cost_core(uuid,timestamp with time zone,boolean)",
+      "owner": "postgres"
+    },
+    {
+      "acl": "{postgres=X/postgres,authenticated=X/postgres}",
+      "definition_sha256": "7f20b0a381b049391fc3e33dce00b3b8c517b0b77ae8f2b2756cac5e0a021b42",
+      "identity": "erp.close_accounting_through(date,text)",
+      "owner": "postgres"
+    },
+    {
+      "acl": "{postgres=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+      "definition_sha256": "da17dbfb6353616cc07c3020f18c8847e36d4850c2815c275bb02d731ad11c07",
+      "identity": "erp.finish_production_order(uuid)",
+      "owner": "postgres"
+    },
+    {
+      "acl": "{postgres=X/postgres,authenticated=X/postgres}",
+      "definition_sha256": "5839dee0ab9db69ebabf5f08894b5c6603c851c1d55aa9eff30a12dd0331dff9",
+      "identity": "erp.post_material_purchase_cost_correction(uuid)",
+      "owner": "postgres"
+    },
+    {
+      "acl": "{postgres=X/postgres}",
+      "definition_sha256": "cbb3d27608c720380b099a020a2f54b639ffc9626d3a09fd258402eb15511978",
+      "identity": "erp.refresh_material_cost_checkpoint(uuid,date)",
+      "owner": "postgres"
+    }
+  ],
+  "sources": {
+    ".github/workflows/cp6-full-schema-validation.yml": {
+      "bytes": 457399,
+      "sha256": "9e649c909c528c3c1280ac11d2b9ff788dcca88a10b3701612691b5d4e6ab326"
+    },
+    "/home/runner/work/-erp-garment-ux/-erp-garment-ux/scripts/cp6_z_expanded_integrity_audit.py": {
+      "bytes": 30026,
+      "sha256": "f478e6d49dff6086d535c6d221df679359bdac33210ea27fffab9f05e6c902e6"
+    },
+    "docs/cp6-competition-mode-audit-protocol.md": {
+      "bytes": 3310,
+      "sha256": "fd479eadcde4558fae0dde56cb06693f37132ae47b20a1b1d690fb69b9169ff6"
+    }
+  },
+  "status": "FAIL_NEW_COUNTEREXAMPLE",
+  "synthetic_fixture_only": true,
+  "tree": "83e35e7e91483ee3245f70c430e19bc25fbb9f59"
+}

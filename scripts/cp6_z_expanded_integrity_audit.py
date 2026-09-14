@@ -26,14 +26,18 @@ from psycopg.conninfo import conninfo_to_dict
 import cp6_v2620e_counterexample_regression as base
 import cp6_v2620x_internal_role_regression as actors
 import cp6_v2620z_runtime as z_runtime
+import cp6_v2620aa_runtime as aa_runtime
 from cp6_v2620n_rollback_guards import function_catalog
 from cp6_v2620u_install_diagnostic import snapshot
 
 
 HEAD_Z = '134774825dbe5ff6ffba5b82f629c1dac2a3ce8d'
 TREE_Z = '3afeddbbca86f28285b1b24a002a572b34be54b7'
-REPORT_DIR = Path('cp6-proof/independent-z')
-REPORT = REPORT_DIR / 'Z_EXPANDED_INTEGRITY_AUDIT.json'
+PHASE = os.environ.get('CP6_AA_PHASE', 'BEFORE_AA')
+if PHASE not in ('BEFORE_AA', 'AFTER_AA'):
+    raise AssertionError('UNKNOWN_AA_AUDIT_PHASE')
+REPORT_DIR = Path('cp6-proof/independent-z' if PHASE == 'BEFORE_AA' else 'cp6-proof/independent-aa')
+REPORT = REPORT_DIR / ('Z_EXPANDED_INTEGRITY_AUDIT.json' if PHASE == 'BEFORE_AA' else 'AA_MATERIAL_DAY_REGRESSION.json')
 PROTOCOL = Path('docs/cp6-competition-mode-audit-protocol.md')
 ZONES = ('Asia/Jakarta', 'UTC', 'Etc/GMT+12', 'Pacific/Kiritimati')
 JAKARTA = ZoneInfo('Asia/Jakarta')
@@ -480,20 +484,28 @@ def audit() -> int:
         raise AssertionError('Z_EXPANDED_FROZEN_Z_TREE_MISMATCH')
     if git('merge-base', HEAD_Z, 'HEAD') != HEAD_Z:
         raise AssertionError('Z_EXPANDED_HEAD_NOT_DESCENDED_FROM_Z')
-    if git('diff', '--name-only', HEAD_Z, 'HEAD', '--',
+    if git('diff', '--diff-filter=MDRTCUXB', '--name-only', HEAD_Z, 'HEAD', '--',
            'supabase/migrations', 'supabase/rollbacks'):
         raise AssertionError('Z_EXPANDED_FROZEN_BUSINESS_SQL_CHANGED')
+    added = set(git('diff', '--diff-filter=A', '--name-only', HEAD_Z, 'HEAD', '--',
+                    'supabase/migrations', 'supabase/rollbacks').splitlines())
+    if added != {str(aa_runtime.MIGRATION), str(aa_runtime.ROLLBACK)}:
+        raise AssertionError('Z_EXPANDED_ONLY_REVIEWED_AA_SUCCESSOR_ALLOWED')
     if os.environ.get('GITHUB_SHA') != git('rev-parse', 'HEAD'):
         raise AssertionError('Z_EXPANDED_EXACT_CHECKOUT_REQUIRED')
 
     result: dict[str, Any] = {
-        'format': 'CP6_Z_EXPANDED_INTEGRITY_AUDIT_V1',
+        'format': 'CP6_Z_AA_MATERIAL_DAY_AUDIT_V2',
+        'phase': PHASE,
+        'runtime_generation': 'Z' if PHASE == 'BEFORE_AA' else 'AA',
         'status': 'INCOMPLETE',
         'head': git('rev-parse', 'HEAD'),
         'tree': git('rev-parse', 'HEAD^{tree}'),
         'parents': git('show', '-s', '--format=%P', 'HEAD').split(),
-        'audited_business_head': HEAD_Z,
-        'audited_business_tree': TREE_Z,
+        'audited_business_head': HEAD_Z if PHASE == 'BEFORE_AA' else git('rev-parse', 'HEAD'),
+        'audited_business_tree': TREE_Z if PHASE == 'BEFORE_AA' else git('rev-parse', 'HEAD^{tree}'),
+        'frozen_predecessor_head': HEAD_Z,
+        'frozen_predecessor_tree': TREE_Z,
         'run_id': os.environ.get('GITHUB_RUN_ID'),
         'run_attempt': os.environ.get('GITHUB_RUN_ATTEMPT'),
         'frozen_z_business_sql_unchanged': True,
@@ -527,6 +539,10 @@ def audit() -> int:
             raise AssertionError('Z_EXPANDED_PINNED_POSTGRES_17_6_REQUIRED')
         if len(z_runtime.verified_successor(cur)) != 1:
             raise AssertionError('Z_EXPANDED_EXACT_Z_RUNTIME_REQUIRED')
+        installed_aa = aa_runtime.verified_successor(cur)
+        if len(installed_aa) != (0 if PHASE == 'BEFORE_AA' else 2):
+            raise AssertionError('Z_AA_EXACT_PHASE_RUNTIME_REQUIRED')
+        result['verified_aa_functions'] = list(installed_aa.values())
 
         catalog = function_catalog(cur)
         selected_names = {
@@ -557,6 +573,9 @@ def audit() -> int:
             'finish_session_date': 'erp.finish_production_order(uuid)',
             'cutting_session_date': 'erp._post_cutting_qty_correction(uuid,text,text,text,jsonb,timestamp with time zone,uuid)',
         }
+        if PHASE == 'AFTER_AA':
+            anchors['checkpoint_session_cutoff'] = "v_cutoff:=((p_checkpoint_date+1)::timestamp at time zone 'Asia/Jakarta');"
+            anchors['recalc_session_date'] = 'erp._cp3_business_date(p_recalc_from)>v_cp.checkpoint_date'
         for key, anchor in anchors.items():
             if source_by_name[anchor_owners[key]].count(anchor) != 1:
                 raise AssertionError('Z_EXPANDED_SOURCE_ANCHOR:' + key)
@@ -666,9 +685,11 @@ def audit() -> int:
     )
     if qualified and attempted_incomplete == 0 and restoration_ok:
         result['status'] = 'FAIL_NEW_COUNTEREXAMPLE'
+    elif controls == result['expected_case_count'] and attempted_incomplete == 0 and restoration_ok:
+        # This passes only the bounded eight-case regression. Every wider
+        # independent ledger row remains open until separately executed.
+        result['status'] = 'PASS_BOUNDED_AUDIT'
     else:
-        # This bounded run can never establish a complete CP6 pass because the
-        # remaining fail-closed ledger rows intentionally stay visible.
         result['status'] = 'INCOMPLETE'
     result['sources'] = {
         str(path): digest(path)
@@ -683,6 +704,8 @@ def audit() -> int:
         'entire_unseeded_runtime_restored': result['entire_unseeded_runtime_restored'],
         'production_go': False,
     }, sort_keys=True), flush=True)
+    if result['status'] == 'PASS_BOUNDED_AUDIT':
+        return 0
     return 1 if result['status'] == 'FAIL_NEW_COUNTEREXAMPLE' else 2
 
 

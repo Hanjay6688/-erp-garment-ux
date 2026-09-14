@@ -52,3 +52,42 @@ Workspace maintenance removed the older checkout during the audit. The
 repository was recovered from the exact remote branch into the current
 workspace, and the uncommitted fixture correction was reapplied. Git-backed
 checkpoints and Actions artifacts are the recovery record.
+
+## Authoritative correction after Native 183
+
+The earlier INCOMPLETE verdict describes runs 180–182. Native
+[183](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/34868697161),
+checkout `bb0779ac26c038dbafd8ed29ab453f0acc8b9468`, now rejects Z with
+**two qualified P1 business defects across four counterexamples**. Four controls
+passed, zero cases were incomplete, all eight savepoints restored exactly,
+the entire unseeded runtime restored, and the temporary schema grant restored.
+
+1. Closing the same Jakarta business day as UTC or UTC−12 included the next
+   day's receipt: quantity 20 at average 15 instead of quantity 10 at average
+   10. UTC+14 excluded both receipts and saved a zero checkpoint.
+2. Posting a final-price correction as UTC+14 changed the receipt input price
+   and payable to 200, while material history and inventory remained at 100.
+   The owner report still returned `READY`. The Jakarta, UTC, and UTC−12
+   controls correctly recosted inventory to 200.
+
+The qualified native JSON is preserved byte for byte in
+`docs/evidence/cp6-z183-qualified-audit.json`. GitHub artifact `10357774610`
+contains the report and diagnostics; its ZIP is 637112 bytes with SHA-256
+`5538f22dd7b378b320e0c881c9881cd78f44f950b19e7698720109cf3d40e4e0`.
+The downloaded ZIP matched this digest and passed its CRC check.
+
+This material finding activates the owner's standing auditor-to-writer
+instruction. Successor **AA**, still CP6, changes only the two proven date
+expressions. The admitted SQL through Z remains immutable. AA adds a private
+two-function rollback capsule, exact Z input/output pins, thirteen atomic
+admission cases, before/after eight-case business regressions, twenty inherited
+close cases under AA, and twenty additional rollback schedules (440 total,
+110 expected writer-first backend body entries). Existing checkpoints require
+explicit historical review before installation; AA must not silently bless an
+already incorrect checkpoint.
+
+AA is **WRITER IN PROGRESS**, with native acceptance still pending. The wider
+independent ledger above remains open, including true late supplier invoices
+through WIP/FG/COGS; the proven final-price correction must not be reported as
+that broader invoice coverage. `production_go:false`; no merge or deployment
+is authorized.

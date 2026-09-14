@@ -41,17 +41,17 @@ let previous = -1
 for (const token of ['Reproduce all sixteen independent X cash-date failures before Y',
   'Qualify Y atomic admission refusal', 'Apply v2.6.20y canonical cash dates',
   'Prove Y canonical cash dates', 'Prove X internal-role denial',
-  'Run post-CP6 real Auth', 'four hundred twenty native schedules',
+  'Run post-CP6 real Auth', 'four hundred forty native schedules',
   'Prove trusted Y capsule before exact Y restore to X', 'Prove trusted X capsule before exact X restore to W']) {
   const at = workflow.indexOf(token)
   assert.ok(at > previous, token)
   previous = at
 }
-for (const token of ["len(schedules['cases'])==420", "'expected':105,'observed':105",
+for (const token of ["len(schedules['cases'])==440", "'expected':110,'observed':110",
   "len(y_after['cases'])==45", "len(y_install['cases'])==10", "y_before['qualified_counterexamples']==16",
-  "y_before['controls_passed']==19", "y_after['controls_passed']==45", 'CP6_V2620Z_RUNTIME_MANIFEST.json',
+  "y_before['controls_passed']==19", "y_after['controls_passed']==45", 'CP6_V2620AA_RUNTIME_MANIFEST.json',
   'Y_COMPLETE_X_TABLE_BOUNDARY_RESTORE_MISMATCH', "y_restore['complete_function_count']==533",
-  'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620Z']) assert.ok(workflow.includes(token), token)
+  'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620AA']) assert.ok(workflow.includes(token), token)
 assert.ok(workflow.includes("y_install['failed174_reproduction']['status']=='PASS'"))
 for (const path of [migrationPath, rollbackPath, 'scripts/cp6_v2620y_runtime.py',
   'scripts/cp6_v2620y_cash_business_date_regression.py', 'scripts/cp6_v2620y_install_qualification.py',
@@ -59,4 +59,4 @@ for (const path of [migrationPath, rollbackPath, 'scripts/cp6_v2620y_runtime.py'
   'docs/cp6-y-cash-business-dates.md']) assert.ok(workflow.includes(`            '${path}',`), path)
 console.log(JSON.stringify({ status: 'PASS', classification: 'STATIC_SOURCE_CONTRACT_NOT_NATIVE_PROOF',
   replaced_functions: 6, boundary_tables: 210, before_cases: 35, after_cases: 45,
-  admission_refusals: 10, maintenance_schedules: 420, writer_body_entries: 105, production_go: false }))
+  admission_refusals: 10, maintenance_schedules: 440, writer_body_entries: 110, production_go: false }))
