@@ -22,6 +22,10 @@ The audit is invoked before and after Z in the native workflow. The new migratio
 
 The new source gate is called by `npm run check:cp6`; its static result never substitutes for native proof. The final manifest binds both the failing Y oracle and the passing Z controls to the exact writer head. The generic reversal/long-transaction Jakarta-midnight hypothesis is **not executed or qualified** by this patch. It remains an adversarial follow-up target, alongside production completion/HPP cutoffs and material checkpoint boundaries. Do not claim exhaustive safety or CP7 readiness from this bounded closure.
 
+Writer review caught a stale summary literal of 100 backend entries while the executable matrix and its acceptance gates already required 105. The summary now reads the independently gated observed count directly from the matrix. This corrects proof metadata; it does not change business SQL or reduce any native gate.
+
+Native #178 (`34829741628`, head `2a69ef0186576ef66c831790a0d3c8f0520d9cb5`) stopped at the inherited pre-Y X oracle before Y or Z installation: its repository-path gate allowed only the two Y additions and rejected the two new Z files. No Z business test ran. The correction adds only those two exact Z paths for the Y regression phases and additionally freezes all admitted Y SQL; the original X audit phase still allows no added SQL. The failure remains INCOMPLETE harness evidence, with its full archive retained. No historical business SQL or rollback is changed.
+
 Only `competition/cp6-j-closure-20260911` is writable. Main, PR24/25, hosted UAT and legacy stay outside this change. CP7 remains unstarted pending independent CP6 PASS and owner direction.
 
 “Reliable data adalah dewa.” “Keuangan—termasuk laporan—stok, dan HPP adalah raja.”

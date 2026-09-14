@@ -200,7 +200,7 @@ requireTokens(workflow, 'exact-I proof retained inside exact-J artifact contract
   'V2620I_NATIVE_REGRESSION.log', 'CP6_V2620I_H2_AUDIT_REGRESSION.json',
   'CP6_V2620I_ROLLBACK_GUARDS.json', 'V2620I_MAIN_MAINTENANCE_ROLLBACK.json',
   "('F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z')", "len(schedules['cases'])==420",
-  "'writer_first_backend_body_entries':100",
+  "'writer_first_backend_body_entries':schedules['writer_first_body_entry']['observed']",
   "'writer_first_compilation_only_contexts':0",
   "iguard['maintenance']['admission_reopened_after_success']",
   "'format':'CP6_V2620N_RUNTIME_PROOF_V1'",
@@ -220,6 +220,6 @@ console.log(JSON.stringify({
   migration_sha256: sha(migration),
   rollback_sha256: sha(rollback),
   maintenance_matrix_schedules: 420,
-  writer_first_backend_body_entries: 100,
+  writer_first_backend_body_entries: 105,
   production_go: false,
 }))

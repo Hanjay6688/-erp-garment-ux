@@ -36,6 +36,10 @@ for (const token of ["len(schedules['cases'])==420", "'expected':105,'observed':
   "len(z_install['cases'])==10", "z_restore['restored_table_count']==213", 'CP6_V2620Z_RUNTIME_MANIFEST.json',
   'Z_COMPLETE_Y_TABLE_BOUNDARY_RESTORE_MISMATCH', "z_restore['complete_function_count']==533",
   'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620Z']) assert.ok(workflow.includes(token), token)
+assert.ok(workflow.includes("'writer_first_backend_body_entries':schedules['writer_first_body_entry']['observed']"))
+const xOracle = read('scripts/cp6_x_independent_audit.py')
+for (const token of [migrationPath, rollbackPath, 'INDEPENDENT_REQUIRES_UNCHANGED_ADMITTED_Y_SQL',
+  "'--diff-filter=MDRTCUXB'", "phase != 'X_AUDIT'", 'changed - allowed or modified_history']) assert.ok(xOracle.includes(token), token)
 for (const path of [migrationPath, rollbackPath, 'scripts/cp6_v2620z_runtime.py', 'scripts/cp6_y_independent_audit.py',
   'scripts/cp6_v2620z_install_qualification.py', 'scripts/cp6_v2620z_rollback_guards.py',
   'scripts/check-cp6-accounting-close-business-date.mjs', 'docs/cp6-z-accounting-close-business-date.md']) assert.ok(workflow.includes(`            '${path}',`), path)

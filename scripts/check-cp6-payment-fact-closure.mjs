@@ -209,7 +209,7 @@ requireTokens(workflow, 'exact-J artifact contract', [
   'V2620J_NATIVE_REGRESSION.log', 'CP6_V2620J_PAYMENT_FACT_REGRESSION.json',
   'CP6_V2620J_ROLLBACK_GUARDS.json', 'V2620J_MAIN_MAINTENANCE_ROLLBACK.json',
   "('F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z')", "len(schedules['cases'])==420",
-  "'writer_first_backend_body_entries':100",
+  "'writer_first_backend_body_entries':schedules['writer_first_body_entry']['observed']",
   "'writer_first_compilation_only_contexts':0",
   "'format':'CP6_V2620N_RUNTIME_PROOF_V1'",
   "proof/'CP6_V2620Z_RUNTIME_MANIFEST.json'",
@@ -228,6 +228,6 @@ console.log(JSON.stringify({
   rollback_sha256: sha(rollback),
   maintenance_endpoint_cases: 31,
   maintenance_matrix_schedules: 420,
-  writer_first_backend_body_entries: 100,
+  writer_first_backend_body_entries: 105,
   production_go: false,
 }))

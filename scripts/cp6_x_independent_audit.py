@@ -308,6 +308,18 @@ def run(phase='X_AUDIT', extensions=None):
         'supabase/migrations/20260914043146_erp_v2_6_20y_cp6_cash_business_dates.sql',
         'supabase/rollbacks/20260914043146_erp_v2_6_20y_cp6_cash_business_dates.rollback.sql',
     }
+    z_additions = {
+        'supabase/migrations/20260914085912_erp_v2_6_20z_cp6_accounting_close_business_date.sql',
+        'supabase/rollbacks/20260914085912_erp_v2_6_20z_cp6_accounting_close_business_date.rollback.sql',
+    }
+    if phase != 'X_AUDIT' and changed & z_additions:
+        # Repository additions do not mean Z is installed in the pre-Y runtime.
+        # Preserve the admitted Y bytes as well as the original X history.
+        frozen_y = 'bde9da786e3cde94cdb96e953310e5fac46f8574'
+        if git('diff', '--diff-filter=MDRTCUXB', '--name-only', frozen_y, 'HEAD',
+               '--', 'supabase/migrations', 'supabase/rollbacks'):
+            raise AssertionError('INDEPENDENT_REQUIRES_UNCHANGED_ADMITTED_Y_SQL')
+        allowed |= z_additions
     modified_history = git('diff', '--diff-filter=MDRTCUXB', '--name-only', HEAD_X, 'HEAD', '--', 'supabase/migrations', 'supabase/rollbacks')
     if changed - allowed or modified_history:
         raise AssertionError('INDEPENDENT_REQUIRES_UNCHANGED_X_BUSINESS_SQL')

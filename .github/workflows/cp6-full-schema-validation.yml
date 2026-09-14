@@ -6113,7 +6113,7 @@ jobs:
               'v2620l_restored_function_owner_acl_count':3,
               'v2620k_payment_date_native_case_groups':6,
               'v2620k_restored_function_owner_acl_count':4,
-              'writer_first_backend_body_entries':100,
+              'writer_first_backend_body_entries':schedules['writer_first_body_entry']['observed'],
               'writer_first_compilation_only_contexts':0,
               'v2620h_r02_r03_native_case_groups':5,
               'v2620i_h2_native_case_groups':4,
