@@ -154,6 +154,14 @@ jobs:
           pg_restore --version | tee cp6-proof/PG_RESTORE_VERSION.txt
           node --version | tee cp6-proof/NODE_VERSION.txt
 
+      - name: Independently verify incoming Y native bytes and source pins
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python -m py_compile scripts/cp6_y_independent_audit.py
+          python scripts/cp6_y_independent_audit.py --verify-incoming
+
       - name: Verify immutable CP4.5a catalog/config bootstrap
         shell: bash
         run: |
@@ -1838,6 +1846,13 @@ jobs:
           test "$(jq '.cases | length' cp6-proof/CP6_V2620Y_CASH_BUSINESS_DATE_REGRESSION.json)" = '45'
           test "$(jq '.controls_passed' cp6-proof/CP6_V2620Y_CASH_BUSINESS_DATE_REGRESSION.json)" = '45'
           test "$(jq '.qualified_counterexamples + .incomplete_cases' cp6-proof/CP6_V2620Y_CASH_BUSINESS_DATE_REGRESSION.json)" = '0'
+
+      - name: Independently audit Y report defaults and accounting close boundaries
+        env:
+          CP6_Y_INDEPENDENT_CONFIRM: postgres
+        run: |
+          set -euo pipefail
+          python scripts/cp6_y_independent_audit.py | tee cp6-proof/independent-y/Y_INDEPENDENT_AUDIT.log
 
       - name: Prove X internal-role denial and authorized controls
         env:
@@ -4683,7 +4698,15 @@ jobs:
 
           root=Path('.')
           proof=root/'cp6-proof'
+          y_independent=json.loads((proof/'independent-y/Y_INDEPENDENT_AUDIT.json').read_text())
+          assert y_independent['status']=='PASS_BOUNDED_AUDIT'
+          assert y_independent['controls_passed']==20 and y_independent['incomplete_cases']==0
+          assert y_independent['qualified_counterexamples']==0
+          assert y_independent['entire_unseeded_runtime_restored'] and y_independent['schema_usage_restored']
+          assert y_independent['head']==os.environ['GITHUB_SHA']
           required=[
+            'independent-y/Y_INCOMING_INTEGRITY.json',
+            'independent-y/Y_INDEPENDENT_AUDIT.json',
             'CP6_PREUSE_ROLLBACK_MAINTENANCE_UNIT.json',
             'CP6_AUTH_PERMISSION_E2E.log','cp6-auth-permission-e2e.json',
             'CP6_LAUNDRY_QC_CONCURRENCY.log','cp6-laundry-qc-concurrency.json',
@@ -5535,6 +5558,8 @@ jobs:
             'scripts/cp6_v2620x_runtime.py',
             'scripts/cp6_v2620x_internal_role_regression.py',
             'scripts/cp6_x_independent_audit.py',
+            'scripts/cp6_y_independent_audit.py',
+            'docs/cp6-y-independent-audit.md',
             'docs/cp6-x-independent-audit.md',
             'scripts/cp6_v2620x_rollback_guards.py',
             'scripts/check-cp6-internal-role-fail-closed.mjs',
@@ -6132,6 +6157,15 @@ jobs:
           path: cp6-native-transfer
           if-no-files-found: error
           compression-level: 0
+          retention-days: 30
+
+      - name: Preserve independent Y evidence even on qualified failure or fixture error
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cp6-y-independent-audit
+          path: cp6-proof/independent-y
+          if-no-files-found: error
           retention-days: 30
 
       - name: Preserve independent X audit even on failure
