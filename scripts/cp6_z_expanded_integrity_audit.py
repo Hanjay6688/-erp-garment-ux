@@ -529,7 +529,12 @@ def audit() -> int:
     }
     save(result)
 
-    with psycopg.connect(os.environ['PGURL'], autocommit=False) as conn, conn.cursor() as cur:
+    # Supabase's disposable postgres login is intentionally not the session
+    # authorization owner.  Match the established native harnesses by opening
+    # the local connection as supabase_admin after validating the fixed PGURL.
+    with psycopg.connect(
+        **dict(params, user='supabase_admin'), autocommit=False
+    ) as conn, conn.cursor() as cur:
         cur.execute(
             "set local timezone='UTC';"
             "set local statement_timeout='180s';"
