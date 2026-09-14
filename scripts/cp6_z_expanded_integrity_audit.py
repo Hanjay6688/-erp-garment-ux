@@ -92,8 +92,8 @@ def clone_material(cur: psycopg.Cursor, label: str) -> uuid.UUID:
           null::erp.materials,
           to_jsonb(m)||jsonb_build_object(
             'id',%s::uuid,
-            'material_sku',%s,
-            'material_name',%s,
+            'material_sku',%s::text,
+            'material_name',%s::text,
             'cached_stock_qty',0,
             'moving_average_cost',0,
             'created_at',clock_timestamp(),
