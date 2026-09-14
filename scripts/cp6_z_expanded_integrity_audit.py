@@ -12,6 +12,7 @@ import hashlib
 import json
 import os
 import subprocess
+import traceback
 import uuid
 from datetime import date, datetime, time, timedelta
 from decimal import Decimal
@@ -109,44 +110,6 @@ def clone_material(cur: psycopg.Cursor, label: str) -> uuid.UUID:
     return material_id
 
 
-def seed_checkpoint_history(
-    cur: psycopg.Cursor, material_id: uuid.UUID, checkpoint_day: date
-) -> tuple[uuid.UUID, uuid.UUID, datetime, datetime]:
-    first_id, second_id = uuid.uuid4(), uuid.uuid4()
-    first_at = datetime.combine(checkpoint_day, time(23, 0), tzinfo=JAKARTA)
-    second_at = datetime.combine(checkpoint_day + timedelta(days=1), time(1, 0), tzinfo=JAKARTA)
-    cur.executemany(
-        """
-        insert into erp.material_stock_movements(
-          id,material_id,movement_type,qty_signed,input_unit_cost,
-          unit_cost_snapshot,source_type,physical_at,system_created_at,
-          is_cost_recalculated,original_unit_cost_snapshot,note
-        ) values(%s,%s,'OPENING',10,%s,%s,'Z_AUDIT_CHECKPOINT',%s,%s,true,%s,%s)
-        """,
-        [
-            (first_id, material_id, Decimal('10'), Decimal('10'), first_at,
-             first_at + timedelta(minutes=1), Decimal('10'), 'last movement of checkpoint day'),
-            (second_id, material_id, Decimal('20'), Decimal('20'), second_at,
-             second_at + timedelta(minutes=1), Decimal('20'), 'first movement of following day'),
-        ],
-    )
-    cur.executemany(
-        """
-        insert into erp.material_cost_history(
-          material_id,movement_id,physical_at,stock_before,average_before,
-          movement_qty,movement_unit_cost,stock_after,average_after
-        ) values(%s,%s,%s,%s,%s,10,%s,%s,%s)
-        """,
-        [
-            (material_id, first_id, first_at, Decimal('0'), Decimal('0'),
-             Decimal('10'), Decimal('10'), Decimal('10')),
-            (material_id, second_id, second_at, Decimal('10'), Decimal('10'),
-             Decimal('20'), Decimal('20'), Decimal('15')),
-        ],
-    )
-    return first_id, second_id, first_at, second_at
-
-
 def set_open_period(cur: psycopg.Cursor, through: date) -> None:
     as_admin(cur)
     cur.execute(
@@ -163,14 +126,23 @@ def set_open_period(cur: psycopg.Cursor, through: date) -> None:
 
 
 def checkpoint_case(cur: psycopg.Cursor, zone: str, canonical_today: date) -> dict[str, Any]:
-    checkpoint_day = canonical_today - timedelta(days=1)
+    checkpoint_day = canonical_today - timedelta(days=2)
     set_zone(cur, 'Asia/Jakarta')
     as_admin(cur)
     material_id = clone_material(cur, 'checkpoint')
-    first_id, second_id, first_at, second_at = seed_checkpoint_history(
-        cur, material_id, checkpoint_day
-    )
     set_open_period(cur, checkpoint_day - timedelta(days=1))
+    first_at = datetime.combine(checkpoint_day, time(23, 0), tzinfo=JAKARTA)
+    second_at = datetime.combine(checkpoint_day + timedelta(days=1), time(1, 0), tzinfo=JAKARTA)
+    first_purchase, _, first_id = post_purchase(cur, material_id, first_at, unit_price=10)
+    second_purchase, _, second_id = post_purchase(cur, material_id, second_at, unit_price=20)
+    as_admin(cur)
+    history = cur.execute("""
+      select movement_id,stock_after,average_after from erp.material_cost_history
+      where material_id=%s order by physical_at
+      """, (material_id,)).fetchall()
+    if history != [(first_id, Decimal('10'), Decimal('10')),
+                   (second_id, Decimal('20'), Decimal('15'))]:
+        raise AssertionError('Z_EXPANDED_PURCHASE_HISTORY_NOT_QUALIFIED:' + str(history))
 
     set_zone(cur, zone)
     as_owner(cur)
@@ -229,13 +201,16 @@ def checkpoint_case(cur: psycopg.Cursor, zone: str, canonical_today: date) -> di
         'expected': expected,
         'actual': actual,
         'ordinary_owner_close_path': True,
+        'fixture_source': 'TWO_POSTED_MATERIAL_PURCHASE_V2_RECEIPTS',
+        'purchase_ids': [str(first_purchase), str(second_purchase)],
         'actor': {'current_user': 'authenticated', 'app_role': 'OWNER'},
         'production_go': False,
     }
 
 
 def post_purchase(
-    cur: psycopg.Cursor, material_id: uuid.UUID, physical_at: datetime
+    cur: psycopg.Cursor, material_id: uuid.UUID, physical_at: datetime,
+    unit_price: int = 10,
 ) -> tuple[uuid.UUID, uuid.UUID, uuid.UUID]:
     location_id = uuid.uuid4()
     as_admin(cur)
@@ -245,7 +220,7 @@ def post_purchase(
           id,location_code,location_name,location_type,is_active
         ) values(%s,%s,%s,'RAW_MATERIAL_WAREHOUSE',true)
         """,
-        (location_id, f'Z-AUD-LOC-{location_id}', 'Z disposable material location'),
+        (location_id, f'Z-LOC-{location_id.hex[:20]}', 'Z disposable material location'),
     )
     as_owner(cur)
     draft = one(
@@ -261,7 +236,7 @@ def post_purchase(
                 'lines': [{
                     'material_id': str(material_id),
                     'qty': 10,
-                    'unit_price': 10,
+                    'unit_price': unit_price,
                     # This correction path is lawful only for a receipt
                     # already tied directly to a final supplier invoice. An
                     # estimated receipt must use the separate invoice flow.
@@ -283,6 +258,9 @@ def post_purchase(
         (purchase_id, uuid.uuid4(), int(draft['row_version']),
          'Z expanded direct-final material receipt'),
     )
+    # The application owner can post through V2; movement observation uses the
+    # disposable administrator because the movement table is private.
+    as_admin(cur)
     cur.execute(
         """
         select i.id,m.id
@@ -294,13 +272,14 @@ def post_purchase(
              select r.id from erp.material_rolls r where r.purchase_item_id=i.id
            )))
         where i.purchase_id=%s
-        order by m.id limit 1
+        order by m.id
         """,
         (purchase_id,),
     )
-    found = cur.fetchone()
-    if found is None:
-        raise AssertionError('Z_EXPANDED_PURCHASE_MOVEMENT_MISSING')
+    rows = cur.fetchall()
+    if len(rows) != 1:
+        raise AssertionError('Z_EXPANDED_PURCHASE_MOVEMENT_CARDINALITY:' + str(len(rows)))
+    found = rows[0]
     return purchase_id, found[0], found[1]
 
 
@@ -316,7 +295,7 @@ def late_recost_case(cur: psycopg.Cursor, zone: str, canonical_today: date) -> d
     )
 
     # The ordinary owner closes the day in Jakarta first, producing a valid
-    # checkpoint with the original estimate.
+    # checkpoint with the original final price.
     set_zone(cur, 'Asia/Jakarta')
     as_owner(cur)
     cur.execute(
@@ -465,8 +444,8 @@ def initial_coverage() -> dict[str, dict[str, Any]]:
             'reason': 'downstream WIP/FG/COGS propagation remains required',
         },
         'partial_laundry_fg_conservation': {
-            'status': 'PASS', 'required_level': 'NATIVE_ACCEPTED',
-            'evidence': 'inherited Z Auth95 and full CP6 matrix; must be rerun by any successor',
+            'status': 'INCOMPLETE', 'required_level': 'NATIVE_ACCEPTED',
+            'inherited_evidence': 'Z Auth95 and full CP6 matrix passed; expanded independent cases remain required',
         },
         'linked_corrections_and_report_confidence': {
             'status': 'INCOMPLETE', 'required_level': 'NATIVE_ACCEPTED',
@@ -481,8 +460,8 @@ def initial_coverage() -> dict[str, dict[str, Any]]:
             'reason': 'expanded multi-session matrix remains required',
         },
         'admission_rollback_orphans': {
-            'status': 'PASS', 'required_level': 'NATIVE_ACCEPTED',
-            'evidence': 'inherited Z 420/420 matrix; must be rerun by any successor',
+            'status': 'INCOMPLETE', 'required_level': 'NATIVE_ACCEPTED',
+            'inherited_evidence': 'Z 420/420 matrix passed; expanded independent cases remain required',
         },
     }
 
@@ -620,6 +599,7 @@ def audit() -> int:
                     'status': 'INCOMPLETE',
                     'classification': 'FIXTURE_OR_ORACLE_ERROR',
                     'error': str(exc),
+                    'traceback': traceback.format_exc(),
                     'sqlstate': getattr(exc, 'sqlstate', None),
                     'production_go': False,
                 }
@@ -661,11 +641,11 @@ def audit() -> int:
         rows = [v for k, v in result['cases'].items() if k.startswith(prefix)]
         if any(row['status'] == 'NEW_Z_BUG_REPRODUCED' for row in rows):
             result['coverage'][area].update(
-                status='FAIL', executed_cases=len(rows), evidence_level='NATIVE_ACCEPTED'
+                status='FAIL', executed_cases=len(rows), evidence_level='NATIVE_QUALIFIED'
             )
         elif rows and all(row['status'] == 'CONTROL_PASS' for row in rows):
             result['coverage'][area].update(
-                status='PASS', executed_cases=len(rows), evidence_level='NATIVE_ACCEPTED'
+                status='PASS', executed_cases=len(rows), evidence_level='NATIVE_QUALIFIED'
             )
         else:
             result['coverage'][area].update(

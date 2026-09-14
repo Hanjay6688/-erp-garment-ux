@@ -9,7 +9,11 @@ acceptance contract, not a claim that a particular candidate has passed.
    oracle. It is never a runtime pass.
 2. `LOCAL_QUALIFIED` reproduces an observation in an isolated local database.
    It is never the final candidate pass.
-3. `NATIVE_ACCEPTED` requires the exact Git candidate, the pinned disposable
+3. `NATIVE_QUALIFIED` establishes a bounded observation on the exact Git
+   candidate and pinned disposable native runtime. A qualified counterexample
+   can reject a candidate even when subsequent regression steps were skipped.
+   It cannot establish complete candidate acceptance.
+4. `NATIVE_ACCEPTED` requires the exact Git candidate, the pinned disposable
    Supabase/PostgreSQL runtime, the full inherited suite, and downloadable
    evidence bound to the commit and tree.
 
