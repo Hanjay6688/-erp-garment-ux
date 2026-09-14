@@ -28,7 +28,10 @@ def verified_successor(cur):
     }:
         raise AssertionError('L_SOURCE_PLATFORM_MISMATCH')
     successor = m_runtime.verified_successor(cur)
-    observations = m_runtime.predecessor_snapshot(cur, 'L', successor)
+    import cp6_v2620ab_runtime as ab_runtime
+    validation_successor, direct_ab = ab_runtime.historical_overlay(cur, 'L', successor)
+    observations = m_runtime.predecessor_snapshot(cur, 'L', validation_successor)
+    ab_runtime.extend_historical_items(direct_ab, observations)
     return {item['identity']: item for item in observations}
 
 def effective_hash(successor, identity, predecessor):

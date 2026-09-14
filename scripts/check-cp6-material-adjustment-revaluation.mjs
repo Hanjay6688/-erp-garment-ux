@@ -34,7 +34,7 @@ for(const gen of ['m','n','o','p','q','r','s','t']) assert.ok(read(`scripts/cp6_
 assert.ok(read('scripts/cp6_v2620s_runtime.py').includes("t_runtime.predecessor_snapshot(cur, 'S', successor)"))
 const races=read('scripts/cp6_v2620t_material_adjustment_races.py')
 for(const token of ['MATERIAL_A_FIRST','MATERIAL_B_FIRST','MATERIAL_A_ABORT','pg_blocking_pids(pid)',
-  "SOURCE_GENERATION = 'AA'", 'matrix.verify_setup_source(SOURCE_GENERATION)', "'source_generation': SOURCE_GENERATION",'first.rollback()','idempotent_replay']) assert.ok(races.includes(token),token)
+  "SOURCE_GENERATION = 'AB'", 'matrix.verify_setup_source(SOURCE_GENERATION)', "'source_generation': SOURCE_GENERATION",'first.rollback()','idempotent_replay']) assert.ok(races.includes(token),token)
 const matrix=read('scripts/cp6_v2620h_maintenance_rollback_matrix.py')
 for(const token of ['expected_body_entries = len(TARGETS) * len(OPERATIONS)',
   "'expected': expected_body_entries",'writer_first_body_entry == expected_body_entries'])
@@ -77,14 +77,14 @@ for(const token of ['Apply v2.6.20s supplier payment canonical business date',
   'Reproduce independent S material adjustment and accounting-day',
   'Apply v2.6.20t material adjustment document cents','Run post-CP6 real Auth',
   'Prove native T material adjustment document cents','Prove native T shared adjustment',
-  'Qualify exact F G H I J K L M N O P Q R S T U V W X Y Z and AA rollback',
+  'Qualify exact F G H I J K L M N O P Q R S T U V W X Y Z AA and AB rollback',
   'Prove trusted T capsule','Prove trusted S capsule']){
   const at=workflow.indexOf(token);assert.ok(at>previous,token);previous=at
 }
-for(const token of ["len(schedules['cases'])==440","'expected':110,'observed':110",
-  "setup_unit['completed_case_count']==setup_unit['expected_case_count']==276",
-  'CP6_V2620AA_RUNTIME_MANIFEST.json','CP6_V2620T_MATERIAL_ADJUSTMENT_REVALUATION_REGRESSION.json',
-  'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620AA','CP6_M_RACE_SOURCE_GENERATION: AA',
+for(const token of ["len(schedules['cases'])==460","'expected':115,'observed':115",
+  "setup_unit['completed_case_count']==setup_unit['expected_case_count']==302",
+  'CP6_V2620AB_RUNTIME_MANIFEST.json','CP6_V2620T_MATERIAL_ADJUSTMENT_REVALUATION_REGRESSION.json',
+  'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620AB','CP6_M_RACE_SOURCE_GENERATION: AB',
   "len(tr['cases'])==3","len(tp['cases'])==21","len(tg['extra_object_preflight_guards'])==9",
   'T_COMPLETE_S_CATALOG_RESTORE_MISMATCH',') || jsonb_build_object(',
   "to_regclass('erp.cp6_v2620t_rollback_capsule') is null",
@@ -101,5 +101,5 @@ for(const p of [...Object.keys(pinned),'docs/cp6-t-material-adjustment-revaluati
   'scripts/cp6_v2620t_material_adjustment_races.py']) assert.ok(workflow.includes("            '"+p+"',"),p)
 console.log(JSON.stringify({status:'PASS',classification:'STATIC_SOURCE_CONTRACT_NOT_NATIVE_PROOF',
   replaced_functions:6,new_private_functions:3,boundary_tables:73,native_cases:21,
-  known_s_paths:15,controls:6,shared_document_native_races:3,maintenance_schedules:440,
-  writer_body_entries:110,production_go:false}))
+  known_s_paths:15,controls:6,shared_document_native_races:3,maintenance_schedules:460,
+  writer_body_entries:115,production_go:false}))

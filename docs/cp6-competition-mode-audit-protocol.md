@@ -81,3 +81,26 @@ date. Limit the wall-clock adjustment to the copied server processes, preserve
 monotonic time, dispose the copy, and verify the original boundary and clock.
 Label this evidence as a controlled native clock experiment. It does not
 establish an overnight soak or coverage of other business entrypoints.
+
+## Operational clock and before/after evidence
+
+For the AB correction, a processing command uses its statement timestamp for
+the current Jakarta business day. Successive commands in one transaction must
+advance with the day; transaction-start time must not backdate a later inverse
+or reject a lawful current-day source. The journal posting timestamp and
+operational economic dates must remain consistent with the existing report
+detectors. Explicit document dates retain their business meaning.
+
+Keep the original AA invoice, partial-production, revocation, and midnight
+oracles for both phases. Verify the exact predecessor before changing runtime,
+preserve its counterexamples, then require every case to pass on the successor.
+Derive timezone-specific predecessor expectations from recorded clocks, so
+runner start time cannot hide an affected zone or fabricate a failure.
+Validate case identities as well as counts, and keep collecting independent
+groups when one fails. Never treat an expected predecessor failure as a
+passing business outcome; label it a reproduced counterexample.
+
+The current midnight evidence covers separate commands crossing midnight in
+one transaction. It does not prove a single command running across midnight,
+an overnight soak, every source type, or every HTTP/UI route. These distinctions
+remain visible in the coverage ledger used by subsequent writers and auditors.

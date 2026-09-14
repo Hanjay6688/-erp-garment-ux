@@ -32,7 +32,7 @@ prior, one, base = invoice.prior, invoice.one, invoice.base
 SOURCE_CONTAINER = 'supabase_db_cp5-local'
 TARGET_CONTAINER = 'cp6-aa-midnight'
 TARGET = 'postgresql://supabase_admin:postgres@127.0.0.1:54323/postgres'
-ROOT = Path('cp6-proof/independent-aa/midnight')
+ROOT = invoice.AUDIT_ROOT / 'midnight'
 REPORT = ROOT / 'AA_MIDNIGHT_AUDIT.json'
 C_SOURCE = Path('supabase/tests/support/cp6_clock_offset.c')
 OFFSET_FILE = '/tmp/cp6-aa-clock.offset'
@@ -191,11 +191,7 @@ def run():
         raise AssertionError('AA_CLOCK_EXACT_SOURCE_REQUIRED')
     if os.environ.get('CP6_AA_MIDNIGHT_AUDIT_CONFIRM') != 'postgres':
         raise AssertionError('AA_CLOCK_EXPLICIT_DISPOSABLE_CONFIRM_REQUIRED')
-    head = prior.git('rev-parse', 'HEAD')
-    if os.environ.get('GITHUB_SHA') != head or prior.git('rev-parse', invoice.HEAD_AA+'^{tree}') != invoice.TREE_AA:
-        raise AssertionError('AA_CLOCK_EXACT_NATIVE_SOURCE_REQUIRED')
-    if prior.git('diff', '--name-only', invoice.HEAD_AA, 'HEAD', '--', 'supabase/migrations', 'supabase/rollbacks'):
-        raise AssertionError('AA_CLOCK_REQUIRES_FROZEN_AA_SQL')
+    phase, head, tree = invoice.ab_runtime.verify_audit_source()
     if command(['docker', 'ps', '-aq', '--filter', 'name=^/' + TARGET_CONTAINER + '$']):
         raise AssertionError('AA_CLOCK_TARGET_ALREADY_EXISTS')
     ROOT.mkdir(parents=True, exist_ok=True)
@@ -204,8 +200,11 @@ def run():
     source_before = None
     restart_source = False
     result = dict(format='CP6_AA_MIDNIGHT_AUDIT_V1', status='INCOMPLETE', head=head,
-                  tree=prior.git('rev-parse', 'HEAD^{tree}'), audited_business_head=invoice.HEAD_AA,
-                  audited_business_tree=invoice.TREE_AA, source_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+                  tree=tree, phase=phase, runtime_generation='AB' if phase == 'AB_REGRESSION' else 'AA',
+                  audited_business_head=head if phase == 'AB_REGRESSION' else invoice.HEAD_AA,
+                  audited_business_tree=tree if phase == 'AB_REGRESSION' else invoice.TREE_AA,
+                  business_predecessor_head=invoice.HEAD_AA,
+                  source_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
                   run_id=os.environ.get('GITHUB_RUN_ID'), production_go=False, independent_acceptance_complete=False,
                   evidence_kind='CONTROLLED_WALL_CLOCK_NATIVE_POSTGRESQL_NOT_OVERNIGHT_SOAK',
                   synthetic_fixture_only=True, hosted_database_used=False, expected_cases=4, cases={},
@@ -221,6 +220,7 @@ def run():
             source_before = prior.stable_boundary(cur)
             if len(invoice.runtime.verified_successor(cur)) != 2:
                 raise AssertionError('AA_CLOCK_EXACT_SOURCE_AA_REQUIRED')
+            result['verified_ab_functions'] = list(invoice.ab_runtime.verify_audit_runtime(cur).values())
             result['source_engine'] = one(cur, 'select version()')
             source_data = one(cur, "select current_setting('data_directory')")
             if (not source_data.startswith('/var/lib/postgresql/') or '..' in Path(source_data).parts
@@ -291,6 +291,7 @@ def run():
                 raise AssertionError('AA_CLOCK_PHYSICAL_COPY_NOT_EXACT')
             if len(invoice.runtime.verified_successor(cur)) != 2:
                 raise AssertionError('AA_CLOCK_COPY_RUNTIME_NOT_AA')
+            invoice.ab_runtime.verify_audit_runtime(cur)
         old_day = datetime.now(prior.JAKARTA).date()-timedelta(days=1)
         set_clock(datetime.combine(old_day, daytime(23, 0), tzinfo=prior.JAKARTA))
         with connect() as conn, conn.cursor() as cur:

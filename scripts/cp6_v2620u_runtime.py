@@ -33,8 +33,11 @@ def verified_successor(cur):
         raise AssertionError('U_SOURCE_PLATFORM_MISMATCH')
     import cp6_v2620v_runtime as v_runtime
     successor = v_runtime.verified_successor(cur)
-    observations = v_runtime.predecessor_snapshot(cur, 'U', successor)
+    import cp6_v2620ab_runtime as ab_runtime
+    validation_successor, direct_ab = ab_runtime.historical_overlay(cur, 'U', successor)
+    observations = v_runtime.predecessor_snapshot(cur, 'U', validation_successor)
     v_runtime.extend_items(successor, observations)
+    ab_runtime.extend_historical_items(direct_ab, observations)
     return {item['identity']: item for item in observations}
 
 

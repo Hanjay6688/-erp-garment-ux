@@ -1,0 +1,123 @@
+{
+  "format": "CP6_AA187_INDEPENDENT_AUDIT_VERIFICATION_V1",
+  "status": "FAIL_NEW_COUNTEREXAMPLE",
+  "head": "86351dbc11e5525e35c645178776c2f7dae955f6",
+  "tree": "b3b949af964a76d2203d00ed41e0126211a2cc50",
+  "business_head": "7d824f780fa06fc16385c347759a9b96d0138e9d",
+  "business_tree": "0bfda3d552a3a3c37b4563d895a9eb387f64acb4",
+  "native_run_id": 34883270346,
+  "native_job_id": 104107516256,
+  "native_conclusion": "failure",
+  "failed_gate": "Independently audit AA late invoices partial costs revocation and Jakarta midnight",
+  "case_count": 23,
+  "controls": 17,
+  "counterexamples": 6,
+  "incomplete": 0,
+  "artifact": {
+    "id": 10363996744,
+    "name": "cp6-aa-material-day-qualification",
+    "bytes": 5552219,
+    "sha256": "f730708e147438297d8ad5053b2f6147b5d3d3e43213a99d16c94dcec2047ab3",
+    "crc": "PASS",
+    "members": 51
+  },
+  "audit_input_source_pins": 9,
+  "all_audit_input_pins_verified_against_exact_git_commit": true,
+  "reports": {
+    "invoice_partial": {
+      "path": "AA_INVOICE_PARTIAL_AUDIT.json",
+      "sha256": "11ecb3b30e454664e4fa027a791a33f82fbc0e849d69c8ab5a09fbd8a0480338",
+      "bytes": 349103,
+      "status": "FAIL_NEW_COUNTEREXAMPLE",
+      "cases": 16,
+      "controls": 12,
+      "counterexamples": 4,
+      "incomplete": 0
+    },
+    "revocation": {
+      "path": "revocation/AA_REVOCATION_AUDIT.json",
+      "sha256": "947d5fdaca7a4c684eff6e3df4d89209f7075bea4c94fa7dcb003dfef49e9196",
+      "bytes": 4876,
+      "status": "PASS_BOUNDED_AUDIT",
+      "cases": 3,
+      "controls": 3,
+      "counterexamples": 0,
+      "incomplete": 0
+    },
+    "midnight": {
+      "path": "midnight/AA_MIDNIGHT_AUDIT.json",
+      "sha256": "c009e814733b3a10d6dfd425840d6ea0e552f0656b54c3d3bc0eb477c333c0f7",
+      "bytes": 60653,
+      "status": "FAIL_NEW_COUNTEREXAMPLE",
+      "cases": 4,
+      "controls": 2,
+      "counterexamples": 2,
+      "incomplete": 0
+    }
+  },
+  "midnight": {
+    "evidence_kind": "CONTROLLED_WALL_CLOCK_NATIVE_POSTGRESQL_NOT_OVERNIGHT_SOAK",
+    "source_postgres_sha256": "7a0236683edf49238c4a1a77b1ada0befd91b9f82478e0ed9a4b54750ef9e6e7",
+    "copy_postgres_sha256": "7a0236683edf49238c4a1a77b1ada0befd91b9f82478e0ed9a4b54750ef9e6e7",
+    "physical_copy_boundary_exact": true,
+    "application_function_modifications": 0,
+    "all_case_boundaries_restored": true,
+    "source_boundary_unchanged": true,
+    "source_clock_still_real": true,
+    "remaining_clock_containers": 0,
+    "cleanup_errors": []
+  },
+  "codeql": {
+    "run_id": 34883270071,
+    "conclusion": "success",
+    "languages": [
+      {
+        "language": "actions",
+        "status": "PASS_VERIFIED_SARIF",
+        "artifact_id": 10364540431,
+        "zip_sha256": "18880f03adb6bcae4ebea0b85f7ac5ba27bdc6280ba71d4dcd5ce364b22dd9ff",
+        "rules": 23,
+        "findings": 0
+      },
+      {
+        "language": "c-cpp",
+        "status": "PASS_VERIFIED_SARIF",
+        "artifact_id": 10364320825,
+        "zip_sha256": "afbe6648dc1258e63e60a95eeea0cf705766789c275a8d014e6f5710d438f7e6",
+        "rules": 95,
+        "findings": 0
+      },
+      {
+        "language": "javascript-typescript",
+        "status": "PASS_VERIFIED_SARIF",
+        "artifact_id": 10363696260,
+        "zip_sha256": "80ed2ab7ca15d193e5c9539864b9314d3013f906df17ef525b1dbc44950f2305",
+        "rules": 103,
+        "findings": 0
+      },
+      {
+        "language": "python",
+        "status": "PASS_VERIFIED_SARIF",
+        "artifact_id": 10363433796,
+        "zip_sha256": "cb4b0089f318433cc0ca1378c7f7499de2b1655675c9e9fc6c98304adc26f08e",
+        "rules": 50,
+        "findings": 0
+      }
+    ]
+  },
+  "stack_cleanup": {
+    "stop_exit": 0,
+    "remaining_database_container": 0,
+    "status": "PASS"
+  },
+  "successor_writer": "AB",
+  "successor_writer_status": "IN_PROGRESS_NOT_NATIVE_QUALIFIED",
+  "admitted_sql_through_aa_immutable": true,
+  "production_go": false,
+  "independent_acceptance_complete": false,
+  "limitations": [
+    "Controlled native clock experiment, not overnight soak",
+    "New wave uses authenticated SQL, not complete HTTP/UI coverage",
+    "Additional linked payments, returns, opening balance, authorization and orphan paths remain open"
+  ]
+}

@@ -17,11 +17,11 @@ assert.doesNotMatch(rollback,/\b(?:delete from|drop table|truncate) erp\.(?:sale
 assert.ok(rollback.includes('(select count(*) from jsonb_object_keys(v_expected))<>30'))
 const workflow=read('.github/workflows/cp6-full-schema-validation.yml')
 const order=['Apply v2.6.20j immutable','Apply v2.6.20k payment date','Run post-CP6 real Auth',
- 'Prove native K per-date','Qualify exact F G H I J K L M N O P Q R S T U V W X Y Z and AA rollback','Prove trusted K capsule','Prove trusted J capsule']
+ 'Prove native K per-date','Qualify exact F G H I J K L M N O P Q R S T U V W X Y Z AA and AB rollback','Prove trusted K capsule','Prove trusted J capsule']
 let position=-1
 for(const label of order){const next=workflow.indexOf(label);assert.ok(next>position,label);position=next}
 for(const token of ['CP6_V2620N_RUNTIME_PROOF_V1','CP6_V2620K_PAYMENT_DATE_REGRESSION.json',
- 'CP6_V2620K_ROLLBACK_GUARDS.json',"len(schedules['cases'])==440","'expected':110,'observed':110"])
+ 'CP6_V2620K_ROLLBACK_GUARDS.json',"len(schedules['cases'])==460","'expected':115,'observed':115"])
  assert.ok(workflow.includes(token),token)
 for(const token of ['LATE_ALLOCATION','MULTI_HOP','COHERENT_DATE_FAULT','ATOMIC_INVALID','CLOSED_PERIOD','TIMEZONE'])
  assert.ok(read('supabase/tests/cp6_payment_date_conservation.sql').includes(token),token)

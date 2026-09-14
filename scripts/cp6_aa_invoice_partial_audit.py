@@ -22,11 +22,14 @@ from psycopg.conninfo import conninfo_to_dict
 
 import cp6_z_expanded_integrity_audit as prior
 import cp6_v2620aa_runtime as runtime
+import cp6_v2620ab_runtime as ab_runtime
 
 
 HEAD_AA = '7d824f780fa06fc16385c347759a9b96d0138e9d'
 TREE_AA = '0bfda3d552a3a3c37b4563d895a9eb387f64acb4'
-REPORT = Path('cp6-proof/independent-aa/AA_INVOICE_PARTIAL_AUDIT.json')
+PHASE = os.environ.get('CP6_AB_PHASE', 'AA_AUDIT')
+AUDIT_ROOT = Path('cp6-proof/independent-ab' if PHASE == 'AB_REGRESSION' else 'cp6-proof/independent-aa')
+REPORT = AUDIT_ROOT / 'AA_INVOICE_PARTIAL_AUDIT.json'
 base, one = prior.base, prior.one
 admin, owner, zone = prior.as_admin, prior.as_owner, prior.set_zone
 boundary = prior.stable_boundary
@@ -413,16 +416,12 @@ def run():
         raise AssertionError('AA_INVOICE_EXACT_DISPOSABLE_ENDPOINT_REQUIRED')
     if os.environ.get('CP6_AA_INVOICE_AUDIT_CONFIRM') != 'postgres':
         raise AssertionError('AA_INVOICE_DISPOSABLE_CONFIRM_REQUIRED')
-    if prior.git('rev-parse', HEAD_AA + '^{tree}') != TREE_AA or prior.git('merge-base', HEAD_AA, 'HEAD') != HEAD_AA:
-        raise AssertionError('AA_INVOICE_FROZEN_SOURCE_ANCESTRY')
-    if prior.git('diff', '--name-only', HEAD_AA, 'HEAD', '--', 'supabase/migrations', 'supabase/rollbacks'):
-        raise AssertionError('AA_INVOICE_REQUIRES_UNCHANGED_AA_BUSINESS_SQL')
-    head = prior.git('rev-parse', 'HEAD')
-    if os.environ.get('GITHUB_SHA') != head:
-        raise AssertionError('AA_INVOICE_EXACT_NATIVE_CHECKOUT_REQUIRED')
+    phase, head, tree = ab_runtime.verify_audit_source()
     result = dict(format='CP6_AA_INVOICE_PARTIAL_AUDIT_V1', status='INCOMPLETE', head=head,
-                  tree=prior.git('rev-parse', 'HEAD^{tree}'), audited_business_head=HEAD_AA,
-                  audited_business_tree=TREE_AA, run_id=os.environ.get('GITHUB_RUN_ID'),
+                  tree=tree, phase=phase, runtime_generation='AB' if phase == 'AB_REGRESSION' else 'AA',
+                  audited_business_head=head if phase == 'AB_REGRESSION' else HEAD_AA,
+                  audited_business_tree=tree if phase == 'AB_REGRESSION' else TREE_AA,
+                  business_predecessor_head=HEAD_AA, run_id=os.environ.get('GITHUB_RUN_ID'),
                   synthetic_fixture_only=True, hosted_database_used=False, production_go=False,
                   independent_acceptance_complete=False, expected_cases=16, cases={},
                   source_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest())
@@ -437,6 +436,7 @@ def run():
         if len(installed) != 2:
             raise AssertionError('AA_INVOICE_EXACT_INSTALLED_AA_REQUIRED')
         result['installed_functions'] = list(installed.values())
+        result['verified_ab_functions'] = list(ab_runtime.verify_audit_runtime(cur).values())
         usage = one(cur, "select has_schema_privilege('authenticated','erp','USAGE')")
         if not usage:
             cur.execute('grant usage on schema erp to authenticated')

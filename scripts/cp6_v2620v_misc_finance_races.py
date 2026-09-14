@@ -16,7 +16,7 @@ import cp6_v2620v_misc_finance_business_date_regression as proof
 
 ROOT = Path('cp6-proof/V_MISC_FINANCE_NATIVE_RACES')
 CASES = ('POST_THEN_REVERSE', 'POST_THEN_POST', 'POST_ABORT_THEN_POST')
-SOURCE_GENERATION = 'AA'
+SOURCE_GENERATION = 'AB'
 
 
 def session(name):

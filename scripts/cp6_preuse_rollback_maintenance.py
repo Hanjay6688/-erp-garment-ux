@@ -28,6 +28,7 @@ from psycopg.conninfo import conninfo_to_dict
 
 
 TARGETS: dict[str, dict[str, Any]] = {
+    'AB': {'rollback': Path('supabase/rollbacks/20260914190500_erp_v2_6_20ab_cp6_operational_business_clock.rollback.sql'), 'rollback_sha256': '5602fefc1b29935ccfb485635ec14e6fdea7468bd726ed440d6c5d93d12b1262', 'marker': 'v2.6.20ab', 'platform': 'erp_v2_6_20ab_cp6_operational_business_clock', 'predecessor': 'v2.6.20aa', 'capsule': 'erp.cp6_v2620ab_rollback_capsule', 'capsule_count': 5},
     'F': {
         'rollback': Path('supabase/rollbacks/20260909174713_erp_v2_6_20f_cp6_final_runtime_reliability.rollback.sql'),
         'rollback_sha256': '83819e093d1489af70431704c59e2cb50a0149e1adc8520d5b9536510572a23d',
@@ -442,6 +443,13 @@ TRUSTED_FUNCTIONS: dict[str, list[dict[str, Any]]] = {
     "predecessor_sha256": "bdce68bf47700519d663e63302b5d48a720959d1c9995fcb9d8599a9516c2eef"
   }
 ],
+    'AB': [
+        {"acl":["postgres=X/postgres"],"identity":"erp.sync_material_cost_revaluation(uuid)","installed_sha256":"af752a5cb068d71af90c646718b55ef2b6eabd9319021202a0d8f92042892f91","owner":"postgres","predecessor_sha256":"3334800b5888000a4388dda4362ebd0db4c5f0dcdc0bbf3e41acfcf629d720f0"},
+        {"acl":["authenticated=X/postgres","postgres=X/postgres","service_role=X/postgres"],"identity":"erp.process_cost_recalc_queue(integer)","installed_sha256":"7fe85b6739fa5684171cffd26d028eabd35efe3bb2691e2daa9e52cf40892a13","owner":"postgres","predecessor_sha256":"4b0b4841ad3a6b4d72b86f8e4fb1958ba2dda0dad4ddb65c9c085c7c2358cc3f"},
+        {"acl":["postgres=X/postgres"],"identity":"erp.resolve_accounting_transaction_date(date)","installed_sha256":"656ac4cd3ae6a2df24bd11f4c1c044c3e9bf423cc6c7343ab863bad16eee6803","owner":"postgres","predecessor_sha256":"92e6c30c60bce3406178bd661ca5df2e5d12e17380fad2a8730be0c91d86bf48"},
+        {"acl":["postgres=X/postgres"],"identity":"erp._cp3_r4_reverse_journal_internal(uuid,text)","installed_sha256":"2996d1c16396768097306556b5916ba93996d2ff451f3c5e7cd35deea7a3ac6f","owner":"postgres","predecessor_sha256":"2d54bfdf9bf0912e6b13e558ddbc4cb419020f191c3ce626a26f2c27b814b20c"},
+        {"acl":["postgres=X/postgres","service_role=X/postgres"],"identity":"erp.post_journal(text,uuid,date,text,jsonb)","installed_sha256":"0a84003a5e6a27cc445e835673d4f5030cbc19cb6b130037eaed922340d34d77","owner":"postgres","predecessor_sha256":"1ae479c9c32b9489e659d83d99a9829ef88876643f3e8f8aa276fee6d96a9cdf"},
+    ],
     'AA': [
         dict(identity='erp.refresh_material_cost_checkpoint(uuid,date)', predecessor_sha256='cbb3d27608c720380b099a020a2f54b639ffc9626d3a09fd258402eb15511978', installed_sha256='7eea402dec46b03d5425ef9c1c052ca409de7fafa72000b7abef5fda6849b30a', owner='postgres', acl=_acl('postgres')),
         dict(identity='erp._recalculate_material_cost_core(uuid,timestamp with time zone,boolean)', predecessor_sha256='e70bce5bc64114ac0dad5c0ccbc374a63590089d9f481007d6c609f82f323399', installed_sha256='c1f74ab9e855bf354d62f0e9053883c7cc0efdfeb329de8f2e081e46852f50b6', owner='postgres', acl=_acl('postgres')),
@@ -507,8 +515,10 @@ def _capsule_snapshot(
 ) -> list[dict[str, Any]]:
     # N adds helper and fact objects inherited by O/P outside their predecessor capsules.
     # Verify them before any admission mutation; F through M follow their original path.
-    if target_name in {'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'AA'}:
-        if target_name == 'AA':
+    if target_name in {'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'AA', 'AB'}:
+        if target_name == 'AB':
+            from cp6_v2620ab_runtime import verify_extra_objects
+        elif target_name == 'AA':
             from cp6_v2620aa_runtime import verify_extra_objects
         elif target_name == 'Z':
             from cp6_v2620z_runtime import verify_extra_objects

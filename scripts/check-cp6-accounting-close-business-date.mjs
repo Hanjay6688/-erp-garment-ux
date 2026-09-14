@@ -26,16 +26,16 @@ let previous = -1
 for (const token of ['Apply v2.6.20y canonical cash dates', 'Reproduce independent Y close counterexamples before installing Z',
   'Qualify Z atomic admission refusals', 'Apply Z canonical accounting-close day',
   'Prove Z closes correct business days', 'Prove Y canonical cash dates', 'Prove X internal-role denial',
-  'Run post-CP6 real Auth', 'four hundred forty native schedules', 'Prove trusted Z capsule before exact Z restore to Y',
+  'Run post-CP6 real Auth', 'four hundred sixty native schedules', 'Prove trusted Z capsule before exact Z restore to Y',
   'Prove trusted Y capsule before exact Y restore to X']) {
   const at = workflow.indexOf(token)
   assert.ok(at > previous, token)
   previous = at
 }
-for (const token of ["len(schedules['cases'])==440", "'expected':110,'observed':110", "z_after['controls_passed']==20",
-  "len(z_install['cases'])==10", "z_restore['restored_table_count']==213", 'CP6_V2620AA_RUNTIME_MANIFEST.json',
+for (const token of ["len(schedules['cases'])==460", "'expected':115,'observed':115", "z_after['controls_passed']==20",
+  "len(z_install['cases'])==10", "z_restore['restored_table_count']==213", 'CP6_V2620AB_RUNTIME_MANIFEST.json',
   'Z_COMPLETE_Y_TABLE_BOUNDARY_RESTORE_MISMATCH', "z_restore['complete_function_count']==533",
-  'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620AA']) assert.ok(workflow.includes(token), token)
+  'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620AB']) assert.ok(workflow.includes(token), token)
 assert.ok(workflow.includes("'writer_first_backend_body_entries':schedules['writer_first_body_entry']['observed']"))
 const xOracle = read('scripts/cp6_x_independent_audit.py')
 for (const token of [migrationPath, rollbackPath, 'INDEPENDENT_REQUIRES_UNCHANGED_ADMITTED_Y_SQL',
@@ -45,4 +45,4 @@ for (const path of [migrationPath, rollbackPath, 'scripts/cp6_v2620z_runtime.py'
   'scripts/check-cp6-accounting-close-business-date.mjs', 'docs/cp6-z-accounting-close-business-date.md']) assert.ok(workflow.includes(`            '${path}',`), path)
 console.log(JSON.stringify({status: 'PASS', classification: 'STATIC_SOURCE_CONTRACT_NOT_NATIVE_PROOF',
   replaced_functions: 1, boundary_tables: 211, before_cases: 20, after_cases: 20,
-  admission_refusals: 10, maintenance_schedules: 440, writer_body_entries: 110, production_go: false}))
+  admission_refusals: 10, maintenance_schedules: 460, writer_body_entries: 115, production_go: false}))

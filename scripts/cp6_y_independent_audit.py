@@ -19,13 +19,16 @@ from zoneinfo import ZoneInfo
 HEAD_Y = 'bde9da786e3cde94cdb96e953310e5fac46f8574'
 TREE_Y = '81f5d1c57622c59d36409e70032a632ae9af0157'
 PHASE = os.environ.get('CP6_Z_PHASE', 'BEFORE_Z')
-if PHASE not in ('BEFORE_Z', 'AFTER_Z', 'AFTER_AA'):
+if PHASE not in ('BEFORE_Z', 'AFTER_Z', 'AFTER_AA', 'AFTER_AB'):
     raise AssertionError('UNKNOWN_Z_AUDIT_PHASE')
 OUT = Path('cp6-proof/independent-y' if PHASE == 'BEFORE_Z' else 'cp6-proof/independent-z')
 REPORT = OUT / ('Y_INDEPENDENT_AUDIT.json' if PHASE == 'BEFORE_Z' else 'Z_CLOSE_REGRESSION.json')
 if PHASE == 'AFTER_AA':
     OUT = Path('cp6-proof/independent-aa')
     REPORT = OUT / 'AA_CLOSE_REGRESSION.json'
+if PHASE == 'AFTER_AB':
+    OUT = Path('cp6-proof/independent-ab')
+    REPORT = OUT / 'AB_CLOSE_REGRESSION.json'
 ZONES = ('Asia/Jakarta', 'UTC', 'Pacific/Kiritimati', 'Etc/GMT+12')
 OLD_ARTIFACT = 10335276559
 OLD_DIGEST = '88c66cf64909e246fe41b8b71cd03631d4eba10bf7451c69186e95c79fc2b871'
@@ -182,13 +185,16 @@ def audit():
         raise AssertionError('Y_AUDIT_DISPOSABLE_CONFIRMATION_REQUIRED')
     import cp6_v2620z_runtime as z_runtime
     import cp6_v2620aa_runtime as aa_runtime
+    import cp6_v2620ab_runtime as ab_runtime
     if git('diff', '--diff-filter=MDRTCUXB', '--name-only', HEAD_Y, 'HEAD', '--', 'supabase/migrations', 'supabase/rollbacks'):
         raise AssertionError('Y_ADMITTED_SQL_MUST_REMAIN_IMMUTABLE')
     added = set(git('diff', '--diff-filter=A', '--name-only', HEAD_Y, 'HEAD', '--',
                     'supabase/migrations', 'supabase/rollbacks').splitlines())
     if added != {str(z_runtime.MIGRATION), str(z_runtime.ROLLBACK),
-                 str(aa_runtime.MIGRATION), str(aa_runtime.ROLLBACK)}:
-        raise AssertionError('Y_ONLY_EXPLICIT_Z_AND_AA_SUCCESSOR_SQL_ALLOWED')
+                 str(aa_runtime.MIGRATION), str(aa_runtime.ROLLBACK),
+                 str(ab_runtime.MIGRATION), str(ab_runtime.ROLLBACK)}:
+        raise AssertionError('Y_ONLY_EXPLICIT_Z_AA_AB_SUCCESSOR_SQL_ALLOWED')
+    ab_runtime.verify_audit_source()
     if os.environ.get('GITHUB_SHA') != git('rev-parse', 'HEAD'):
         raise AssertionError('Y_AUDIT_EXACT_CHECKOUT')
     result = dict(format='CP6_Y_INDEPENDENT_AUDIT_V1', status='INCOMPLETE',
@@ -197,7 +203,7 @@ def audit():
                   audited_business_head=HEAD_Y, audited_business_tree=TREE_Y,
                   run_id=os.environ.get('GITHUB_RUN_ID'), run_attempt=os.environ.get('GITHUB_RUN_ATTEMPT'),
                   admitted_y_source_sql_unchanged=True, phase=PHASE,
-                  runtime_generation={'BEFORE_Z': 'Y', 'AFTER_Z': 'Z', 'AFTER_AA': 'AA'}[PHASE], production_go=False,
+                  runtime_generation={'BEFORE_Z': 'Y', 'AFTER_Z': 'Z', 'AFTER_AA': 'AA', 'AFTER_AB': 'AB'}[PHASE], production_go=False,
                   real_authenticated_session=True, synthetic_jwt_context=True,
                   http_ui_reachability_proven=False, cases={})
     save(REPORT.name, result)
@@ -303,9 +309,13 @@ def audit():
         if len(observed_z) != (0 if PHASE == 'BEFORE_Z' else 1):
             raise AssertionError('Y_Z_AUDIT_EXACT_PHASE_RUNTIME_REQUIRED')
         observed_aa = aa_runtime.verified_successor(cur)
-        if len(observed_aa) != (2 if PHASE == 'AFTER_AA' else 0):
+        if len(observed_aa) != (2 if PHASE in ('AFTER_AA', 'AFTER_AB') else 0):
             raise AssertionError('Y_AA_AUDIT_EXACT_PHASE_RUNTIME_REQUIRED')
         result['verified_aa_functions'] = list(observed_aa.values())
+        observed_ab = ab_runtime.verified_successor(cur)
+        if len(observed_ab) != (5 if PHASE == 'AFTER_AB' else 0):
+            raise AssertionError('Y_AB_AUDIT_EXACT_PHASE_RUNTIME_REQUIRED')
+        result['verified_ab_functions'] = list(observed_ab.values())
         result['verified_z_functions'] = observed_z
         catalog = function_catalog(cur)
         save('Y_FULL_FUNCTION_CATALOG.json', catalog)

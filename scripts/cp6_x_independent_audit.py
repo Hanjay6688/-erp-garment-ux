@@ -332,6 +332,11 @@ def run(phase='X_AUDIT', extensions=None):
                '--', 'supabase/migrations', 'supabase/rollbacks'):
             raise AssertionError('INDEPENDENT_REQUIRES_UNCHANGED_ADMITTED_Z_SQL')
         allowed |= aa_additions
+    import cp6_v2620ab_runtime as ab_runtime
+    ab_additions = {str(ab_runtime.MIGRATION), str(ab_runtime.ROLLBACK)}
+    if phase != 'X_AUDIT' and changed & ab_additions:
+        ab_runtime.verify_audit_source()
+        allowed |= ab_additions
     modified_history = git('diff', '--diff-filter=MDRTCUXB', '--name-only', HEAD_X, 'HEAD', '--', 'supabase/migrations', 'supabase/rollbacks')
     if changed - allowed or modified_history:
         raise AssertionError('INDEPENDENT_REQUIRES_UNCHANGED_X_BUSINESS_SQL')

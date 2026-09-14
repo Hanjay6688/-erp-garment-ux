@@ -9,11 +9,12 @@ The frozen Z candidate is **FAIL_NEW_COUNTEREXAMPLE** after Native 183 proved
 two material business defects. Successor AA is **WRITER PASS** after Native 185
 and CodeQL 60, with all 12,203 payloads and 213 source pins verified. Its first
 native attempt, 184, stopped at an inherited source gate before AA installation.
-Native 186 now rejects AA with **FAIL_NEW_COUNTEREXAMPLE**: four late-invoice
-partial-production date failures, twelve passing cost controls, and three
-passing authorization-order controls. Four midnight cases remain **INCOMPLETE**
-because the test clock library could not load. Admitted SQL through Z is
-unchanged; AA adds a new migration and its matching rollback.
+Native 187 rejects AA with **FAIL_NEW_COUNTEREXAMPLE**: all 23 cases executed,
+17 controls passed, six qualified P2 counterexamples, and zero incomplete cases.
+The repaired clock fixture now qualifies both long-transaction date failures.
+CodeQL 62 passed all four languages with verified SARIF payloads. Successor
+**AB is in progress, not yet native-qualified**. Admitted SQL through AA remains
+unchanged; AB adds one migration and its matching rollback.
 
 ## Executed attempts
 
@@ -142,7 +143,7 @@ The new audit modules pin business source
 `0bfda3d552a3a3c37b4563d895a9eb387f64acb4`. Native
 [185](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/34873186373)
 was already running when this wave was prepared. These additional cases are
-not part of run 185 and have not yet been executed natively.
+not part of run 185. Their native outcomes are recorded in runs 186 and 187 below.
 
 | Group | Cases | Independent oracle |
 | --- | --- | --- |
@@ -219,3 +220,70 @@ standing instruction. First complete the missing midnight observations on
 unchanged AA, then add the successor migration, rollback, and regressions for
 the qualified findings. No admitted business SQL changes in this fixture
 repair; `production_go:false` and the remaining ledger stays open.
+
+## Native 187: all AA independent groups qualified
+
+Native [187](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/34883270346)
+ran on `86351dbc11e5525e35c645178776c2f7dae955f6`, tree
+`b3b949af964a76d2203d00ed41e0126211a2cc50`, with AA business SQL unchanged.
+Artifact `10363996744` contains 51 members in 5,552,219 bytes, SHA-256
+`f730708e147438297d8ad5053b2f6147b5d3d3e43213a99d16c94dcec2047ab3`.
+The downloaded archive's digest, CRC, and all nine audit-input source pins
+matched the exact checkout. The verification record is
+`docs/evidence/cp6-aa187-audit-verification.json`.
+
+| Group | Controls | Qualified counterexamples | Incomplete |
+| --- | ---: | ---: | ---: |
+| True late invoice and partial production | 12 | 4 | 0 |
+| Authorization ordering | 3 | 0 | 0 |
+| Jakarta midnight | 2 | 2 | 0 |
+
+The four invoice failures reproduce the prior-day recost defect from 186.
+The midnight experiment now also proves:
+
+1. A transaction starts at Jakarta 23:59:50. After the clock advances to
+   00:00:05, posting a source dated 00:00:01 is refused as future-dated. The
+   same source succeeds in the fresh-transaction control.
+2. Posting and reversing the prior-day source after midnight in a long
+   transaction assigns the inverse to the prior day. Prior-day cash becomes
+   zero instead of 0.03 while the report remains `READY`. The fresh-transaction
+   control correctly dates the inverse on the new day.
+
+Every case boundary restored. The copied PostgreSQL executable matched the
+source binary; no ERP function changed for the experiment. The copy was
+removed, the original boundary and real clock stayed intact, and stack cleanup
+passed. The midnight JSON is preserved byte for byte in
+`docs/evidence/cp6-aa187-midnight-audit.json`. This is controlled-clock native
+evidence, not an overnight soak or complete HTTP/UI evidence.
+
+[CodeQL 62](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/34883270071)
+passed Actions, C/C++, JavaScript/TypeScript, and Python. All four downloaded
+SARIF packages were verified; 23, 95, 103, and 50 rules respectively reported
+zero findings. The fixture repair resolved the previous C/C++ finding without
+removing the rule or suppressing its result.
+
+## AB successor under preparation
+
+AB changes five functions to use the current statement's clock for operational
+Jakarta dates: material revaluation, queued HPP processing, accounting date
+validation, generic linked reversal, and journal `posting_at`. Posting dates,
+inverse dates, and report detectors must agree when successive commands span
+midnight inside one transaction. Document economic dates remain explicit.
+
+The 23 original audit cases run both before and after AB. The predecessor
+invoice gate derives the affected zones from recorded transaction clocks;
+the successor requires all 23 controls to pass. Eight inherited material-day
+and twenty accounting-close cases also rerun under AB. No missing or incomplete
+case can count as a pass.
+
+AB adds 26 atomic admission cases, a five-function private rollback capsule,
+eight direct and 22 additional rollback guards, and twenty new maintenance
+schedules: 460 total with 115 expected actual backend entries. Before-use
+rollback must restore all 533 functions and the complete 215-table AA snapshot.
+Existing material recost or generic reversal history requires review; AB does
+not rewrite or certify it. A lawful AA checkpoint history must still install.
+These are required gates, not results: AB has not yet passed a native run.
+
+Remaining independent scope includes other linked payment, return, and opening
+balance paths; other authorization and `search_path` paths; and complete
+HTTP/UI, reservation, and orphan-code lifecycles. `production_go:false`.

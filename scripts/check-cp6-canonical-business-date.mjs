@@ -85,16 +85,19 @@ for (const path of [
 ]) assert.ok(read(path).includes(
   "(['v2.6.20u'] if any('pre_u_installed_sha256' in x for x in m_successor.values()) else [])"
 ), path)
-assert.ok(read('scripts/cp6_v2620t_runtime.py').includes(
-  "u_runtime.predecessor_snapshot(cur, 'T', successor)"
-))
+for (const token of [
+  "ab_runtime.historical_overlay(cur, 'T', successor)",
+  "u_runtime.predecessor_snapshot(cur, 'T', validation_successor)",
+  'u_runtime.extend_items(successor, observations)',
+  'ab_runtime.extend_historical_items(direct_ab, observations)',
+]) assert.ok(read('scripts/cp6_v2620t_runtime.py').includes(token), token)
 const matrix = read('scripts/cp6_v2620h_maintenance_rollback_matrix.py')
 for (const token of [
-  "'U': ('20260913070000'", "'expected_case_count': 440",
-  "source_generation: str = 'AA'",
+  "'U': ('20260913070000'", "'expected_case_count': 460",
+  "source_generation: str = 'AB'",
 ]) assert.ok(matrix.includes(token), token)
 const setup = read('scripts/cp6_rollback_setup_unit.py')
-for (const token of ["'T', 'U'", 'assert len(cases) == 276', "'expected_case_count': 276"]) {
+for (const token of ["'T', 'U'", 'assert len(cases) == 302', "'expected_case_count': 302"]) {
   assert.ok(setup.includes(token), token)
 }
 
@@ -104,7 +107,7 @@ for (const path of [
   'scripts/cp6_v2620t_material_adjustment_races.py',
 ]) {
   const source = read(path)
-  for (const token of ["SOURCE_GENERATION = 'AA'",
+  for (const token of ["SOURCE_GENERATION = 'AB'",
     'matrix.verify_setup_source(SOURCE_GENERATION)',
     "'source_generation': SOURCE_GENERATION"])
     assert.ok(source.includes(token), `${path}: verified and reported generation must agree`)
@@ -114,7 +117,7 @@ const uRestoreCountCommand = `test "$(jq '.exact_pre_use_restore.restored_functi
 assert.equal(workflow.split(uRestoreCountCommand).length - 1, 1,
   'U shell restore-count gate must require exactly seven functions')
 for (const folder of ['R_RECEIPT_INVOICE_NATIVE_RACES', 'T_MATERIAL_ADJUSTMENT_NATIVE_RACES']) {
-  const command = `test "$(jq -r '.source_generation' cp6-proof/${folder}/manifest.json)" = 'AA'`
+  const command = `test "$(jq -r '.source_generation' cp6-proof/${folder}/manifest.json)" = 'AB'`
   assert.equal(workflow.split(command).length - 1, 1, folder)
 }
 const binding = workflow.indexOf('Bind successful CP6 proof to the exact runtime SHA')
@@ -128,7 +131,7 @@ for (const token of [
   'Apply v2.6.20u canonical material, reversal and owner-report business dates',
   'Prove native U canonical material, reversal and owner-report business dates',
   'Run post-CP6 real Auth',
-  'Qualify exact F G H I J K L M N O P Q R S T U V W X Y Z and AA rollback',
+  'Qualify exact F G H I J K L M N O P Q R S T U V W X Y Z AA and AB rollback',
   'Prove trusted U capsule before exact U restore to T',
   'Prove trusted T capsule',
 ]) {
@@ -137,12 +140,12 @@ for (const token of [
   previous = at
 }
 for (const token of [
-  "len(schedules['cases'])==440", "'expected':110,'observed':110",
-  "setup_unit['completed_case_count']==setup_unit['expected_case_count']==276",
-  'CP6_V2620AA_RUNTIME_MANIFEST.json',
+  "len(schedules['cases'])==460", "'expected':115,'observed':115",
+  "setup_unit['completed_case_count']==setup_unit['expected_case_count']==302",
+  'CP6_V2620AB_RUNTIME_MANIFEST.json',
   'CP6_V2620U_CANONICAL_BUSINESS_DATE_REGRESSION.json',
-  'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620AA',
-  'CP6_M_RACE_SOURCE_GENERATION: AA',
+  'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620AB',
+  'CP6_M_RACE_SOURCE_GENERATION: AB',
   'U_COMPLETE_T_CATALOG_RESTORE_MISMATCH',
   "to_regclass('erp.cp6_v2620u_rollback_capsule') is null",
 ]) assert.ok(workflow.includes(token), token)
@@ -159,6 +162,6 @@ for (const path of [
 console.log(JSON.stringify({
   status: 'PASS', classification: 'STATIC_SOURCE_CONTRACT_NOT_NATIVE_PROOF',
   replaced_functions: 7, boundary_tables: 74, native_cases: 5, expanded_native_cases: 20,
-  known_t_paths: 4, controls: 1, maintenance_schedules: 440,
-  writer_body_entries: 110, rollback_setup_units: 276, production_go: false,
+  known_t_paths: 4, controls: 1, maintenance_schedules: 460,
+  writer_body_entries: 115, rollback_setup_units: 302, production_go: false,
 }))

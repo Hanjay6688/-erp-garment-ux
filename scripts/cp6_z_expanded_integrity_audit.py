@@ -27,6 +27,7 @@ import cp6_v2620e_counterexample_regression as base
 import cp6_v2620x_internal_role_regression as actors
 import cp6_v2620z_runtime as z_runtime
 import cp6_v2620aa_runtime as aa_runtime
+import cp6_v2620ab_runtime as ab_runtime
 from cp6_v2620n_rollback_guards import function_catalog
 from cp6_v2620u_install_diagnostic import snapshot
 
@@ -34,10 +35,13 @@ from cp6_v2620u_install_diagnostic import snapshot
 HEAD_Z = '134774825dbe5ff6ffba5b82f629c1dac2a3ce8d'
 TREE_Z = '3afeddbbca86f28285b1b24a002a572b34be54b7'
 PHASE = os.environ.get('CP6_AA_PHASE', 'BEFORE_AA')
-if PHASE not in ('BEFORE_AA', 'AFTER_AA'):
+if PHASE not in ('BEFORE_AA', 'AFTER_AA', 'AFTER_AB'):
     raise AssertionError('UNKNOWN_AA_AUDIT_PHASE')
 REPORT_DIR = Path('cp6-proof/independent-z' if PHASE == 'BEFORE_AA' else 'cp6-proof/independent-aa')
 REPORT = REPORT_DIR / ('Z_EXPANDED_INTEGRITY_AUDIT.json' if PHASE == 'BEFORE_AA' else 'AA_MATERIAL_DAY_REGRESSION.json')
+if PHASE == 'AFTER_AB':
+    REPORT_DIR = Path('cp6-proof/independent-ab')
+    REPORT = REPORT_DIR / 'AB_MATERIAL_DAY_REGRESSION.json'
 PROTOCOL = Path('docs/cp6-competition-mode-audit-protocol.md')
 ZONES = ('Asia/Jakarta', 'UTC', 'Etc/GMT+12', 'Pacific/Kiritimati')
 JAKARTA = ZoneInfo('Asia/Jakarta')
@@ -489,15 +493,16 @@ def audit() -> int:
         raise AssertionError('Z_EXPANDED_FROZEN_BUSINESS_SQL_CHANGED')
     added = set(git('diff', '--diff-filter=A', '--name-only', HEAD_Z, 'HEAD', '--',
                     'supabase/migrations', 'supabase/rollbacks').splitlines())
-    if added != {str(aa_runtime.MIGRATION), str(aa_runtime.ROLLBACK)}:
-        raise AssertionError('Z_EXPANDED_ONLY_REVIEWED_AA_SUCCESSOR_ALLOWED')
+    if added != {str(aa_runtime.MIGRATION), str(aa_runtime.ROLLBACK), str(ab_runtime.MIGRATION), str(ab_runtime.ROLLBACK)}:
+        raise AssertionError('Z_EXPANDED_ONLY_REVIEWED_AA_AB_SUCCESSORS_ALLOWED')
+    ab_runtime.verify_audit_source()
     if os.environ.get('GITHUB_SHA') != git('rev-parse', 'HEAD'):
         raise AssertionError('Z_EXPANDED_EXACT_CHECKOUT_REQUIRED')
 
     result: dict[str, Any] = {
         'format': 'CP6_Z_AA_MATERIAL_DAY_AUDIT_V2',
         'phase': PHASE,
-        'runtime_generation': 'Z' if PHASE == 'BEFORE_AA' else 'AA',
+        'runtime_generation': {'BEFORE_AA': 'Z', 'AFTER_AA': 'AA', 'AFTER_AB': 'AB'}[PHASE],
         'status': 'INCOMPLETE',
         'head': git('rev-parse', 'HEAD'),
         'tree': git('rev-parse', 'HEAD^{tree}'),
@@ -543,6 +548,10 @@ def audit() -> int:
         if len(installed_aa) != (0 if PHASE == 'BEFORE_AA' else 2):
             raise AssertionError('Z_AA_EXACT_PHASE_RUNTIME_REQUIRED')
         result['verified_aa_functions'] = list(installed_aa.values())
+        installed_ab = ab_runtime.verified_successor(cur)
+        if len(installed_ab) != (5 if PHASE == 'AFTER_AB' else 0):
+            raise AssertionError('Z_AB_EXACT_PHASE_RUNTIME_REQUIRED')
+        result['verified_ab_functions'] = list(installed_ab.values())
 
         catalog = function_catalog(cur)
         selected_names = {
@@ -573,7 +582,7 @@ def audit() -> int:
             'finish_session_date': 'erp.finish_production_order(uuid)',
             'cutting_session_date': 'erp._post_cutting_qty_correction(uuid,text,text,text,jsonb,timestamp with time zone,uuid)',
         }
-        if PHASE == 'AFTER_AA':
+        if PHASE in ('AFTER_AA', 'AFTER_AB'):
             anchors['checkpoint_session_cutoff'] = "v_cutoff:=((p_checkpoint_date+1)::timestamp at time zone 'Asia/Jakarta');"
             anchors['recalc_session_date'] = 'erp._cp3_business_date(p_recalc_from)>v_cp.checkpoint_date'
         for key, anchor in anchors.items():

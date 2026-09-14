@@ -24,7 +24,7 @@ import cp6_aa_invoice_partial_audit as invoice
 import cp6_v2620h_maintenance_rollback_matrix as matrix
 
 
-ROOT = Path('cp6-proof/independent-aa/revocation')
+ROOT = invoice.AUDIT_ROOT / 'revocation'
 REPORT = ROOT / 'AA_REVOCATION_AUDIT.json'
 CASES = ('ACTIVE_CONTROL', 'REVOKED_AFTER_TRANSACTION_START', 'REVOKED_WHILE_POST_WAITS')
 one, base, prior = invoice.one, invoice.base, invoice.prior
@@ -55,6 +55,7 @@ def operator(cur, subject):
 def setup(cur):
     if len(invoice.runtime.verified_successor(cur)) != 2:
         raise AssertionError('AA_REVOCATION_EXACT_AA_REQUIRED')
+    invoice.ab_runtime.verify_audit_runtime(cur)
     cur.execute('grant usage on schema erp to authenticated')
     prior.actors.claims(cur, dict(sub=base.OPERATOR_AUTH, role='authenticated'))
     base.load_fixture_foundation(cur)
@@ -111,7 +112,7 @@ def posted_state(cur, fixture, request_id):
 def run_case(name, folder):
     matrix.command(['bash', 'scripts/clone-cp6-disposable-database.sh', matrix.SOURCE, matrix.MAINTENANCE,
                     matrix.CLONE, 'cp6_rollback', matrix.CONTAINER, str(folder / 'CLONE_BOUNDARY')], folder / 'clone.log')
-    matrix.verify_setup_source('AA')
+    matrix.verify_setup_source('AB' if invoice.PHASE == 'AB_REGRESSION' else 'AA')
     with connect('setup') as conn, conn.cursor() as cur:
         fixture = setup(cur)
         conn.commit()
@@ -225,15 +226,14 @@ def main():
         raise AssertionError('AA_REVOCATION_DISPOSABLE_CONFIRM_REQUIRED')
     if os.environ.get('CP6_AA_REVOCATION_AUDIT_CONFIRM') != 'postgres':
         raise AssertionError('AA_REVOCATION_EXPLICIT_NATIVE_TARGET_REQUIRED')
-    head = prior.git('rev-parse', 'HEAD')
-    if os.environ.get('GITHUB_SHA') != head or prior.git('rev-parse', invoice.HEAD_AA + '^{tree}') != invoice.TREE_AA:
-        raise AssertionError('AA_REVOCATION_EXACT_SOURCE_PIN')
-    if prior.git('diff', '--name-only', invoice.HEAD_AA, 'HEAD', '--', 'supabase/migrations', 'supabase/rollbacks'):
-        raise AssertionError('AA_REVOCATION_REQUIRES_FROZEN_AA_SQL')
+    phase, head, tree = invoice.ab_runtime.verify_audit_source()
     ROOT.mkdir(parents=True, exist_ok=True)
     result = dict(format='CP6_AA_REVOCATION_AUDIT_V1', status='INCOMPLETE', head=head,
-                  tree=prior.git('rev-parse', 'HEAD^{tree}'), run_id=os.environ.get('GITHUB_RUN_ID'),
-                  audited_business_head=invoice.HEAD_AA, audited_business_tree=invoice.TREE_AA, expected_cases=3, cases={},
+                  tree=tree, phase=phase, runtime_generation='AB' if phase == 'AB_REGRESSION' else 'AA',
+                  run_id=os.environ.get('GITHUB_RUN_ID'),
+                  audited_business_head=head if phase == 'AB_REGRESSION' else invoice.HEAD_AA,
+                  audited_business_tree=tree if phase == 'AB_REGRESSION' else invoice.TREE_AA,
+                  business_predecessor_head=invoice.HEAD_AA, expected_cases=3, cases={},
                   production_go=False, independent_acceptance_complete=False, synthetic_fixture_only=True, hosted_database_used=False,
                   source_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest())
     with connect('source-before', source=True) as conn, conn.cursor() as cur:
