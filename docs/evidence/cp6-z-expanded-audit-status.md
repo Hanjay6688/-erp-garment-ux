@@ -6,7 +6,8 @@
 `3afeddbbca86f28285b1b24a002a572b34be54b7`.
 
 The frozen Z candidate is **FAIL_NEW_COUNTEREXAMPLE** after Native 183 proved
-two material business defects. Successor AA is **WRITER IN PROGRESS**; its first
+two material business defects. Successor AA is **WRITER PASS** after Native 185
+and CodeQL 60, with all 12,203 payloads and 213 source pins verified. Its first
 native attempt, 184, stopped at an inherited source gate before AA installation.
 The broader independent audit remains **INCOMPLETE**. Admitted SQL through Z
 is unchanged; AA adds a new migration and its matching rollback.
@@ -39,10 +40,9 @@ it does not fill the new independent coverage ledger.
 
 ## Open work
 
-The source review identified two hypotheses: session-dependent checkpoint
-midnight and session-dependent recost checkpoint selection. Native business
-reproduction remains required. Only a qualified material finding authorizes
-the auditor-to-successor transition.
+The initial checkpoint and recost hypotheses were qualified by Native 183,
+as recorded below. That finding authorized the successor-writer transition;
+the additional independent scenarios still require their own evidence.
 
 The broader independent ledger also remains open: long transactions across
 Jakarta midnight; true late supplier invoices through WIP/FG/COGS; partial
@@ -88,8 +88,8 @@ close cases under AA, and twenty additional rollback schedules (440 total,
 explicit historical review before installation; AA must not silently bless an
 already incorrect checkpoint.
 
-AA is **WRITER IN PROGRESS**, with native acceptance still pending. The wider
-independent ledger above remains open, including true late supplier invoices
+AA subsequently reached **WRITER PASS** in Native 185. The wider independent
+ledger above remains open, including true late supplier invoices
 through WIP/FG/COGS; the proven final-price correction must not be reported as
 that broader invoice coverage. `production_go:false`; no merge or deployment
 is authorized.
@@ -111,3 +111,58 @@ admitted Z SQL file remains unchanged, retaining the existing X and Y history
 guards. AA migration and rollback bytes, business assertions, expected case
 counts, and runtime checks remain unchanged. Native acceptance requires a new
 complete run; source-gate repair is not a substitute for execution.
+
+## Native 185: AA writer evidence verified
+
+Native [185](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/34873186373)
+and [CodeQL 60](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/34873186641)
+completed successfully on `7d824f780fa06fc16385c347759a9b96d0138e9d`.
+Independent download verification checked all 12,203 payloads, all 213 source
+pins against that exact Git commit, ZIP digests and CRC, the nested XZ archive,
+and all three CodeQL SARIF manifests and payloads.
+
+AA has eight passing business controls, twenty inherited close controls,
+thirteen admission cases, eight direct and thirteen extra rollback guards,
+440 distinct successful schedules, and 110 actual writer-first backend
+entries with zero compilation-only contexts. All 440 disposable clones were
+removed. The exact AA rollback restored 533 ERP functions and 214 tables;
+Auth95 and final stack cleanup passed. The evidence verification record is
+`docs/evidence/cp6-aa185-writer-verification.json`.
+
+This establishes writer AA's result. It does not execute any of the new
+independent cases below or close the broader competition ledger.
+
+## Prepared AA independent audit wave
+
+The new audit modules pin business source
+`7d824f780fa06fc16385c347759a9b96d0138e9d`, tree
+`0bfda3d552a3a3c37b4563d895a9eb387f64acb4`. Native
+[185](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/34873186373)
+was already running when this wave was prepared. These additional cases are
+not part of run 185 and have not yet been executed natively.
+
+| Group | Cases | Independent oracle |
+| --- | --- | --- |
+| True late invoice and partial production | 16 | Four caller zones, two final prices, estimated receipt alone or ten cut/sewn/sent pieces, eight received, five FG, two sold; raw stock, WIP, FG, COGS, AP, GRNI, exact cents, replay, current and prior-day GL reports |
+| Authorization ordering | 3 | Active owner control, user deactivated after transaction start, and user deactivated while ordinary posting waits on an ordinary draft edit's row lock; real authenticated SQL sessions, committed ordering, exact denial boundary |
+| Jakarta midnight | 4 | Fresh versus long transactions and prior-day versus current-day scrap source; controlled native wall clock on a separate physical copy, ordinary post and linked reversal, per-day cash and report confidence |
+
+Each group persists individual case outcomes and cleanup evidence. The combined
+step collects all three groups before deciding whether it passed. It preserves
+the audit source bytes even when the later acceptance ladder does not run.
+Date-related invoice or posting refusals need a passing corresponding control
+before they can become a qualified counterexample. Other setup or execution
+errors remain `INCOMPLETE` with diagnostics.
+
+Local preparation verified Python/C compilation, workflow shell and embedded
+Python syntax, all five CP6 check commands, six independent arithmetic examples,
+and six one-cent error controls. These are local harness checks, not PostgreSQL
+business passes. CodeQL gains a fourth C/C++ analysis job for the new test-only
+clock library; the original three analyses remain required.
+
+The copied clock experiment uses the same PostgreSQL image and executable,
+requires an exact ERP table/function boundary before fixtures, changes no ERP
+function, preserves monotonic time, and verifies original-server restoration
+and clock continuity. It proves a controlled clock experiment only. HTTP/UI
+reachability, an overnight soak, other permission paths, other source types,
+and the remaining expanded ledger rows stay open.

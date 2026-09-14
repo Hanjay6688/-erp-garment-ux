@@ -15,7 +15,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [actions, javascript-typescript, python]
+        include:
+          - language: actions
+            build_mode: none
+          - language: javascript-typescript
+            build_mode: none
+          - language: python
+            build_mode: none
+          - language: c-cpp
+            build_mode: manual
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
@@ -23,8 +31,11 @@ jobs:
       - uses: github/codeql-action/init@b96794f015dfd88f77b49b1c93e0fa7110f94c63
         with:
           languages: ${{ matrix.language }}
-          build-mode: none
+          build-mode: ${{ matrix.build_mode }}
           queries: security-extended
+      - name: Compile isolated PostgreSQL clock fixture for analysis
+        if: matrix.language == 'c-cpp'
+        run: cc -std=c11 -shared -fPIC -O2 -Wall -Wextra -Werror supabase/tests/support/cp6_clock_offset.c -o /tmp/cp6-aa-clock-codeql.so
       - uses: github/codeql-action/analyze@b96794f015dfd88f77b49b1c93e0fa7110f94c63
         with:
           output: cp6-codeql/sarif

@@ -62,3 +62,22 @@ A candidate is accepted only when every required ledger row is `PASS` at its
 required evidence level, the inherited suite remains green, the exact commit
 and tree are pinned, rollback restores the predecessor exactly, and
 `production_go` remains `false` until the owner separately authorizes release.
+
+## Resumable independent audit groups
+
+Every group writes a report containing the exact candidate commit and tree,
+its business-source predecessor, expected case count, per-case outcome, and
+cleanup result. Persist a case as soon as it finishes. Keep collecting the
+remaining independent groups after a failure, then fail the combined gate.
+Missing reports and cases remain `INCOMPLETE`; a green preceding writer run
+does not close them. A new push waits for the current run to finish because
+the competition workflows cancel earlier runs on the same branch.
+
+For a controlled midnight case, run an unchanged PostgreSQL executable and
+unchanged ERP functions in a separate physical copy. Record matching source
+and copied boundaries before fixtures, transaction/statement/wall clocks,
+transaction identity, and a fresh-transaction control for the same source
+date. Limit the wall-clock adjustment to the copied server processes, preserve
+monotonic time, dispose the copy, and verify the original boundary and clock.
+Label this evidence as a controlled native clock experiment. It does not
+establish an overnight soak or coverage of other business entrypoints.

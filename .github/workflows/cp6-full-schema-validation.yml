@@ -61,6 +61,8 @@ jobs:
           npm ci
           npm run check:cp6
           python -m py_compile scripts/cp6_v2620aa_runtime.py scripts/cp6_v2620aa_install_qualification.py scripts/cp6_v2620aa_rollback_guards.py
+          python -m py_compile scripts/cp6_aa_invoice_partial_audit.py scripts/cp6_aa_revocation_audit.py scripts/cp6_aa_midnight_audit.py
+          cc -std=c11 -shared -fPIC -O2 -Wall -Wextra -Werror supabase/tests/support/cp6_clock_offset.c -o /tmp/cp6-aa-clock.so
           python -m py_compile scripts/cp6_v2620z_runtime.py scripts/cp6_v2620z_install_qualification.py scripts/cp6_v2620z_rollback_guards.py scripts/cp6_z_expanded_integrity_audit.py
           npm run check:cp6:counterexamples
           npm run check:backend
@@ -2030,6 +2032,75 @@ jobs:
           test "$(jq -r '.status' cp6-proof/independent-aa/AA_CLOSE_REGRESSION.json)" = 'PASS_BOUNDED_AUDIT'
           test "$(jq '.controls_passed' cp6-proof/independent-aa/AA_CLOSE_REGRESSION.json)" = '20'
           test "$(jq '.qualified_counterexamples + .incomplete_cases' cp6-proof/independent-aa/AA_CLOSE_REGRESSION.json)" = '0'
+
+      - name: Independently audit AA late invoices partial costs revocation and Jakarta midnight
+        env:
+          CP6_AA_INVOICE_AUDIT_CONFIRM: postgres
+          CP6_AA_REVOCATION_AUDIT_CONFIRM: postgres
+          CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
+          CP6_AA_MIDNIGHT_AUDIT_CONFIRM: postgres
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib,json,os,subprocess
+          from pathlib import Path
+          root=Path('cp6-proof/independent-aa/audit-source')
+          pins={}
+          paths=['scripts/cp6_aa_invoice_partial_audit.py','scripts/cp6_aa_revocation_audit.py',
+            'scripts/cp6_aa_midnight_audit.py','supabase/tests/support/cp6_clock_offset.c',
+            '.github/workflows/cp6-full-schema-validation.yml','docs/cp6-competition-mode-audit-protocol.md',
+            'docs/evidence/cp6-aa185-writer-verification.json']
+          writer=json.loads(Path(paths[-1]).read_text())
+          assert writer['head']=='7d824f780fa06fc16385c347759a9b96d0138e9d' and writer['native_run_id']==34873186373
+          assert writer['status']=='WRITER_PASS_PENDING_EXPANDED_INDEPENDENT_AUDIT' and writer['native_conclusion']=='success'
+          assert writer['all_payload_hashes_verified'] and writer['all_source_pins_verified_against_exact_git_commit']
+          for name in paths:
+            data=Path(name).read_bytes()
+            out=root/('workflows/'+Path(name).name if name.startswith('.github/') else name)
+            out.parent.mkdir(parents=True,exist_ok=True)
+            out.write_bytes(data)
+            pins[name]={'sha256':hashlib.sha256(data).hexdigest(),'bytes':len(data),'payload':str(out.relative_to(root))}
+          result={'head':os.environ['GITHUB_SHA'],'tree':subprocess.check_output(['git','rev-parse','HEAD^{tree}'],text=True).strip(),
+            'run_id':os.environ['GITHUB_RUN_ID'],'source_pins':pins,'expected_cases':{'invoice_partial':16,'revocation':3,'midnight':4},
+            'status':'INPUTS_CAPTURED_NOT_A_RUNTIME_PASS','production_go':False}
+          (root/'INPUTS.json').write_text(json.dumps(result,indent=2)+'\n')
+          PY
+          set -uo pipefail
+          set +e
+          python scripts/cp6_aa_invoice_partial_audit.py | tee cp6-proof/independent-aa/AA_INVOICE_PARTIAL_AUDIT.log
+          invoice_status=${PIPESTATUS[0]}
+          python scripts/cp6_aa_revocation_audit.py | tee cp6-proof/independent-aa/AA_REVOCATION_AUDIT.log
+          revocation_status=${PIPESTATUS[0]}
+          python scripts/cp6_aa_midnight_audit.py | tee cp6-proof/independent-aa/AA_MIDNIGHT_AUDIT.log
+          midnight_status=${PIPESTATUS[0]}
+          set -e
+          python - <<'PY'
+          import json,os
+          r=json.load(open('cp6-proof/independent-aa/AA_INVOICE_PARTIAL_AUDIT.json'))
+          assert r['head']==os.environ['GITHUB_SHA'] and r['status']=='PASS_BOUNDED_AUDIT'
+          assert r['expected_cases']==r['controls']==len(r['cases'])==16
+          assert r['counterexamples']==r['incomplete']==0
+          assert r['entire_unseeded_runtime_restored'] and r['schema_usage_restored']
+          assert all(c['status']=='CONTROL_PASS' and c['full_boundary_restored'] and c['replay_boundary_exact'] for c in r['cases'].values())
+          assert not r['production_go'] and not r['independent_acceptance_complete'] and not r['hosted_database_used']
+          r=json.load(open('cp6-proof/independent-aa/revocation/AA_REVOCATION_AUDIT.json'))
+          assert r['head']==os.environ['GITHUB_SHA'] and r['status']=='PASS_BOUNDED_AUDIT'
+          assert r['expected_cases']==r['controls']==len(r['cases'])==3
+          assert r['counterexamples']==r['incomplete']==0 and r['source_boundary_unchanged']
+          assert all(c['status']=='CONTROL_PASS' and c['remaining_clone_databases']==0 for c in r['cases'].values())
+          assert not r['production_go'] and not r['independent_acceptance_complete']
+          r=json.load(open('cp6-proof/independent-aa/midnight/AA_MIDNIGHT_AUDIT.json'))
+          assert r['head']==os.environ['GITHUB_SHA'] and r['status']=='PASS_BOUNDED_AUDIT'
+          assert r['expected_cases']==r['controls']==len(r['cases'])==4
+          assert r['counterexamples']==r['incomplete']==0 and not r['cleanup_errors']
+          assert r['remaining_clock_containers']==0 and r['source_boundary_unchanged'] and r['source_clock_still_real']
+          assert r['physical_copy_boundary_exact'] and r['application_function_modifications']==0
+          assert all(c['status']=='CONTROL_PASS' and c['full_boundary_restored'] for c in r['cases'].values())
+          assert not r['production_go'] and not r['independent_acceptance_complete'] and not r['hosted_database_used']
+          PY
+          test "$invoice_status" = '0'
+          test "$revocation_status" = '0'
+          test "$midnight_status" = '0'
 
       - name: Prove Y canonical cash dates replay linked inverses and report detectors
         env:
@@ -4973,6 +5044,9 @@ jobs:
             'independent-z/Z_EXPANDED_INTEGRITY_AUDIT.json',
             'independent-aa/AA_MATERIAL_DAY_REGRESSION.json',
             'independent-aa/AA_CLOSE_REGRESSION.json',
+            'independent-aa/AA_INVOICE_PARTIAL_AUDIT.json',
+            'independent-aa/revocation/AA_REVOCATION_AUDIT.json',
+            'independent-aa/midnight/AA_MIDNIGHT_AUDIT.json',
             'CP6_V2620AA_INSTALL_QUALIFICATION.json',
             'V2620AA_INSTALLED_RUNTIME.json',
             'V2620AA_COMPLETE_Z_CATALOG.json',
@@ -5833,6 +5907,11 @@ jobs:
             'supabase/rollbacks/20260914163608_erp_v2_6_20aa_cp6_material_cost_business_day.rollback.sql',
             'scripts/cp6_v2620aa_runtime.py',
             'scripts/cp6_v2620aa_install_qualification.py',
+            'scripts/cp6_aa_invoice_partial_audit.py',
+            'scripts/cp6_aa_revocation_audit.py',
+            'scripts/cp6_aa_midnight_audit.py',
+            'supabase/tests/support/cp6_clock_offset.c',
+            'docs/evidence/cp6-aa185-writer-verification.json',
             'scripts/cp6_v2620aa_rollback_guards.py',
             'scripts/cp6_z_expanded_integrity_audit.py',
             'docs/cp6-competition-mode-audit-protocol.md',
@@ -6492,6 +6571,29 @@ jobs:
           manifest['proof_contract']['final_runtime'] += '+v2.6.20z+v2.6.20aa'
           manifest['competition_verdict']='WRITER_PASS_PENDING_EXPANDED_INDEPENDENT_AUDIT'
           manifest['expanded_independent_coverage']=aa_after['coverage']
+          aa_invoice=json.loads((proof/'independent-aa/AA_INVOICE_PARTIAL_AUDIT.json').read_text())
+          assert aa_invoice['head']==head and aa_invoice['status']=='PASS_BOUNDED_AUDIT'
+          assert aa_invoice['expected_cases']==aa_invoice['controls']==len(aa_invoice['cases'])==16
+          assert aa_invoice['counterexamples']==aa_invoice['incomplete']==0
+          assert aa_invoice['entire_unseeded_runtime_restored'] and aa_invoice['schema_usage_restored']
+          assert all(c['status']=='CONTROL_PASS' and c['full_boundary_restored'] and c['replay_boundary_exact'] for c in aa_invoice['cases'].values())
+          assert aa_invoice['production_go'] is False and aa_invoice['independent_acceptance_complete'] is False
+          manifest['aa_independent_invoice_partial']={'report':'independent-aa/AA_INVOICE_PARTIAL_AUDIT.json','cases':16,'session_zones':4,'final_unit_costs':['20','20.003'],'sewn_qty':10,'laundry_received_qty':8,'fg_completed_qty':5,'sold_qty':2,'remaining_wip_qty':5,'remaining_fg_qty':3,'includes_true_estimated_receipt_invoice':True,'includes_current_report_and_journal_oracles':True,'other_expanded_ledger_rows_remain_open':True}
+          aa_revocation=json.loads((proof/'independent-aa/revocation/AA_REVOCATION_AUDIT.json').read_text())
+          assert aa_revocation['head']==head and aa_revocation['status']=='PASS_BOUNDED_AUDIT'
+          assert aa_revocation['expected_cases']==aa_revocation['controls']==len(aa_revocation['cases'])==3
+          assert aa_revocation['counterexamples']==aa_revocation['incomplete']==0 and aa_revocation['source_boundary_unchanged']
+          assert all(c['status']=='CONTROL_PASS' and c['remaining_clone_databases']==0 for c in aa_revocation['cases'].values())
+          manifest['aa_independent_revocation']={'report':'independent-aa/revocation/AA_REVOCATION_AUDIT.json','cases':3,'ordinary_draft_edit_natural_lock':True,'real_authenticated_sessions':True,'http_ui_reachability_proven':False,'other_permission_paths_remain_open':True}
+          aa_midnight=json.loads((proof/'independent-aa/midnight/AA_MIDNIGHT_AUDIT.json').read_text())
+          assert aa_midnight['head']==head and aa_midnight['status']=='PASS_BOUNDED_AUDIT'
+          assert aa_midnight['expected_cases']==aa_midnight['controls']==len(aa_midnight['cases'])==4
+          assert aa_midnight['counterexamples']==aa_midnight['incomplete']==0 and not aa_midnight['cleanup_errors']
+          assert aa_midnight['physical_copy_boundary_exact'] and aa_midnight['application_function_modifications']==0
+          assert aa_midnight['source_boundary_unchanged'] and aa_midnight['source_clock_still_real'] and aa_midnight['remaining_clock_containers']==0
+          assert all(c['status']=='CONTROL_PASS' and c['full_boundary_restored'] for c in aa_midnight['cases'].values())
+          assert aa_midnight['production_go'] is False and aa_midnight['independent_acceptance_complete'] is False
+          manifest['aa_independent_midnight']={'report':'independent-aa/midnight/AA_MIDNIGHT_AUDIT.json','cases':4,'fresh_and_long_transactions':True,'ordinary_scrap_post_and_linked_inverse':True,'native_controlled_clock':True,'overnight_soak_proven':False,'source_clock_unchanged':True,'other_source_paths_remain_open':True}
           manifest['independent_acceptance_complete']=False
           (proof/'CP6_V2620AA_RUNTIME_MANIFEST.json').write_text(
               json.dumps(manifest,indent=2,sort_keys=True)+'\n',encoding='utf8',

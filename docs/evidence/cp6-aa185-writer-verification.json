@@ -1,0 +1,131 @@
+{
+  "format": "CP6_AA_WRITER_NATIVE_VERIFICATION_V1",
+  "status": "WRITER_PASS_PENDING_EXPANDED_INDEPENDENT_AUDIT",
+  "verified_at_utc": "2026-09-14T18:29:08.124667+00:00",
+  "head": "7d824f780fa06fc16385c347759a9b96d0138e9d",
+  "tree": "0bfda3d552a3a3c37b4563d895a9eb387f64acb4",
+  "native_run_id": 34873186373,
+  "native_run_number": 185,
+  "native_job_id": 104073870026,
+  "native_conclusion": "success",
+  "payload_files": 12203,
+  "source_pins": 213,
+  "archive_files": 12204,
+  "uncompressed_bytes": 6231583354,
+  "native_manifest_sha256": "cdb7a871ffb7f4e5044a2c93607593898602cc3c685414c0ecf0d3cfeed8c809",
+  "archive_sha256": "cfb0f906d1e35051ae40017683e6a957caac59a4cba54e67f8d35b6960a251d8",
+  "artifacts": [
+    {
+      "id": 10362166804,
+      "name": "cp6-aa-material-day-qualification",
+      "size_in_bytes": 1027368,
+      "digest": "sha256:ab2c052d2bc73604503b5ebcfcb81c45b82e521f1d3220266afb78b8a343b1fc"
+    },
+    {
+      "id": 10362106937,
+      "name": "cp6-r1-v2620aa-lossless-native-transfer",
+      "size_in_bytes": 7256138,
+      "digest": "sha256:e003db83cd2ffb7a829724fccdea9a4291de3509e036139efd9e613f01bf6472"
+    }
+  ],
+  "codeql": {
+    "status": "PASS",
+    "head": "7d824f780fa06fc16385c347759a9b96d0138e9d",
+    "tree": "0bfda3d552a3a3c37b4563d895a9eb387f64acb4",
+    "run_id": 34873186641,
+    "run_number": 60,
+    "production_go": false,
+    "languages": [
+      {
+        "language": "javascript-typescript",
+        "artifact_id": 10360070892,
+        "zip_sha256": "97a9a6c07eeb6d5e3830bb782f8f1ab985763440a79e9c4d53faa23a63b7db8f",
+        "rules": 103,
+        "result_count": 0,
+        "status": "PASS_VERIFIED_SARIF"
+      },
+      {
+        "language": "actions",
+        "artifact_id": 10360060903,
+        "zip_sha256": "31cfd08b9fa903d070f7b7dc565b5860a1c71cf332172d1bb6967dea6f495280",
+        "rules": 23,
+        "result_count": 0,
+        "status": "PASS_VERIFIED_SARIF"
+      },
+      {
+        "language": "python",
+        "artifact_id": 10359293722,
+        "zip_sha256": "f03a5010f2e678bb8382934611fef08b5c60bcd5d3150c0a8d221025bbf62d1a",
+        "rules": 50,
+        "result_count": 0,
+        "status": "PASS_VERIFIED_SARIF"
+      }
+    ]
+  },
+  "verified_counts": {
+    "aa_business_controls": 8,
+    "inherited_close_controls": 20,
+    "atomic_admission_cases": 13,
+    "direct_rollback_guards": 8,
+    "extra_rollback_guards": 13,
+    "rollback_schedules": 440,
+    "writer_first_backend_entries": 110,
+    "compilation_only_contexts": 0,
+    "restored_erp_functions": 533,
+    "restored_tables": 214,
+    "auth_cases": 95
+  },
+  "proof_references": {
+    "independent-aa/AA_MATERIAL_DAY_REGRESSION.json": {
+      "bytes": 19739,
+      "sha256": "e54bb9b603e744b1a25484e246214b2679377f40be2cc9963135abb94b7c1b2c"
+    },
+    "independent-aa/AA_CLOSE_REGRESSION.json": {
+      "bytes": 204440,
+      "sha256": "65f423806a30eb1c967f87e238ef0f9ac3ef5a33618b4d9dd55550a3a356a4aa"
+    },
+    "CP6_V2620AA_INSTALL_QUALIFICATION.json": {
+      "bytes": 5980,
+      "sha256": "0cb60435d1cf0c581034a3c3dba95d7a8dae06940156c5bb119de12e9aa5e6a4"
+    },
+    "CP6_V2620AA_ROLLBACK_GUARDS.json": {
+      "bytes": 106122,
+      "sha256": "1eb6519165a25cae9c77cb335cec03778f4305f13bfdcdacbcf19448b7cd6bc5"
+    },
+    "V2620AA_COMPLETE_Z_RESTORE.json": {
+      "bytes": 246,
+      "sha256": "9c7f87b4247701268977201797aaa93c2fbaa34492cba2a3e685726e5302e085"
+    },
+    "H_MAINTENANCE_ROLLBACK/manifest.json": {
+      "bytes": 5910443,
+      "sha256": "9432c363bd943c6159f9df1622bb59cfced63949b6f8b9c6ca9e262557178a0f"
+    },
+    "cp6-auth-permission-e2e.json": {
+      "bytes": 25363,
+      "sha256": "466f0f1905d857339ef84dcf8c5eb000ed01e9d8378e75b40823ec0de5b13c6a"
+    },
+    "CP6_STACK_CLEANUP.txt": {
+      "bytes": 75,
+      "sha256": "ce09b7d214a79f39addad2a124d8606da49de08f76370fa114950ce681221daf"
+    }
+  },
+  "migration": {
+    "bytes": 19040,
+    "platform_ledger_sha256": "63c1b52a4e1ab8c329135ba0c4502c303be0cde0bb28bbc9f34413f191eb13fc",
+    "sha256": "2ada33f0d04da6589b92646652a482290ef614e500c6abb026011823f6ebcfc7"
+  },
+  "rollback": {
+    "bytes": 11642,
+    "sha256": "95af278ecdb285423ce07160fb8697cd0854599a9c8d8c091cd2c33b075d2306"
+  },
+  "all_payload_hashes_verified": true,
+  "all_source_pins_verified_against_exact_git_commit": true,
+  "zip_crc_verified": true,
+  "full_restore_verified": true,
+  "remaining_disposable_databases": 0,
+  "cleanup": "PASS",
+  "production_go": false,
+  "independent_acceptance_complete": false,
+  "expanded_audit_cases_executed_by_this_run": 0,
+  "only_writable_branch": "competition/cp6-j-closure-20260911"
+}
