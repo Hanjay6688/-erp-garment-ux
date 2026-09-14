@@ -256,7 +256,7 @@ const orderedWorkflowTokens = [
   'Run CP6 physical lineage, finance, stock, HPP, idempotency, and reversal acceptance',
   'Run thirty-four native CP6 races plus three abort qualifications, temporal, paging, and scale proofs',
   'Re-run affected CP5, Cutting, partial-FG, HPP, and accounting behavior under CP6',
-  'Confirm every broad regression ran on the installed E through U runtime',
+  'Confirm every broad regression ran on the installed E through Z runtime',
   'Re-prove native C01-C06 business closure under final E plus F runtime',
   'Prove native A01-A03 closure under the exact final E plus F runtime',
   'Qualify exact F G H I J K L M N O P Q R S T U V W X Y and Z rollback under closed admission across four hundred twenty native schedules',
