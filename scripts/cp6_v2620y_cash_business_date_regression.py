@@ -58,6 +58,9 @@ def lifecycle(cur, cash, kind):
     audit.admin(cur)
     if audit.boundary(cur) != before:
         raise AssertionError('Y_POST_REPLAY_CHANGED_BOUNDARY')
+    # JSON serializes timestamptz in the observer's timezone. Pin observation
+    # to UTC while leaving the tested reversal call in Honolulu below.
+    audit.zone(cur, 'UTC')
     fact_before = audit.one(cur, 'select to_jsonb(f) from erp.sales_payment_posting_facts f where payment_id=%s', (ident,)) if kind == 'SALES_PAYMENT' else None
     journal_before = audit.one(cur, 'select to_jsonb(j) from erp.journal_entries j where id=%s', (source,))
     audit.owner(cur)
@@ -68,6 +71,7 @@ def lifecycle(cur, cash, kind):
         if after_reports[day]['data_confidence']['status'] != 'READY' or after_reports[day]['financial_position'] != original['after']['financial_position']:
             raise AssertionError('Y_REVERSAL_REWROTE_EARLIER_AS_OF')
     audit.admin(cur)
+    audit.zone(cur, 'UTC')
     if kind == 'SALES_PAYMENT' and audit.one(cur, 'select to_jsonb(f) from erp.sales_payment_posting_facts f where payment_id=%s', (ident,)) != fact_before:
         raise AssertionError('Y_REVERSAL_MUTATED_POSTING_FACT')
     journal_after = audit.one(cur, 'select to_jsonb(j) from erp.journal_entries j where id=%s', (source,))

@@ -363,8 +363,8 @@ begin
   end if;
   execute replace(d,anchor,replacement);
   select pg_get_functiondef('erp._v268_financial_report_checks_pre_scope()'::regprocedure) into d;
-  anchor:=$a$or r.check_name like 'V2620Y_%'$a$;
-  replacement:=$r$or r.check_name like 'V2620Y_%' or r.check_name like 'V2620Y_%'$r$;
+  anchor:=$a$or r.check_name like 'V2620W_%'$a$;
+  replacement:=$r$or r.check_name like 'V2620W_%' or r.check_name like 'V2620Y_%'$r$;
   if (length(d)-length(replace(d,anchor,'')))/length(anchor)<>1 then
     raise exception 'Y_CANONICAL_DATE_ANCHOR: erp._v268_financial_report_checks_pre_scope() operand 0';
   end if;

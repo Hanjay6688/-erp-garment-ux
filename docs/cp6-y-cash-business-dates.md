@@ -2,6 +2,30 @@
 
 Status: writer candidate, not yet admitted or independently passed. `production_go:false`.
 
+The first Y candidate `9410467d3a4ced7dc0cd28d87db8ca0fa9e31e6c` failed
+native [#174](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/34808218862),
+job `103864188108`, at step 72. All sixteen pre-Y counterexamples, nineteen controls,
+and ten admission refusals passed first. An overly broad source-generation replacement
+changed the report-scope predecessor anchor from `V2620W_%` to `V2620Y_%`.
+The X definition contains the W anchor once and the Y anchor zero times. The expected
+anchor count is one, so the original gate correctly refused installation. This is
+an atomic installation failure, not a money write or an owner/ACL regression.
+
+Y remains the same unadmitted generation. A new fast-forward correction restores the
+W anchor and appends Y while retaining W. No assertion is relaxed and all six expected
+installed function hashes remain unchanged. Source and rollback hashes are repinned.
+The qualification script replays the frozen failed source with observation-only
+instrumentation, proves the exact failing predicate and six owner/ACL snapshots,
+and requires restoration of all 533 functions and 212 tables without a Y capsule.
+The failed full artifact is retained: ID `10333349214`, 3,352,350 bytes, SHA-256
+`e4ac2872e76cfc2d81d2722188c0b5073c59f58b4998864b15bc2155384d0adb`.
+
+The linked-inverse test also normalizes JSON observation queries to UTC before
+comparing immutable timestamp facts. Calls still execute under the attack timezone;
+the observer change prevents equivalent timestamp offsets from becoming a fixture
+error. Run #174 never reached that suite, so this is a reviewed oracle correction,
+not an additional native bug claim.
+
 The independent audit on commit `81b23247f4673d5d01d57ee81543d1b5b9886ea4`
 kept all X business SQL byte-identical to `fa3f76c74b169d4869721a203650be60cd866160`.
 Native [#173](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/34805891046)

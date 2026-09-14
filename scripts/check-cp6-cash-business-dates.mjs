@@ -8,10 +8,13 @@ const hash = s => createHash('sha256').update(s).digest('hex')
 const migrationPath = 'supabase/migrations/20260914043146_erp_v2_6_20y_cp6_cash_business_dates.sql'
 const rollbackPath = 'supabase/rollbacks/20260914043146_erp_v2_6_20y_cp6_cash_business_dates.rollback.sql'
 const migration = read(migrationPath), rollback = read(rollbackPath)
-assert.equal(hash(migration), 'ac67472cc35a0a8f9e26e29887055711e3b836491c2f3b11354068844d04bffa')
+assert.equal(hash(migration), '99bd8ca086464c4473f32f9c249f8bd308719f3b931930b091b876b554e28fed')
 assert.equal(Buffer.byteLength(migration), 32021)
-assert.equal(hash(rollback), '7af2d56c8df366cb117e90edc970c012c736bc31ba4d53c9110d127953d63520')
+assert.equal(hash(rollback), '63d636288dcd1f25a844721a3429ac0966769465eb2ffd9a9772b4fffb92d679')
 assert.equal(Buffer.byteLength(rollback), 13892)
+assert.ok(migration.includes("anchor:=$a$or r.check_name like 'V2620W_%'$a$;"))
+assert.ok(migration.includes("replacement:=$r$or r.check_name like 'V2620W_%' or r.check_name like 'V2620Y_%'$r$;"))
+assert.ok(!migration.includes("anchor:=$a$or r.check_name like 'V2620Y_%'$a$;"))
 const frozen = execFileSync('git', ['diff', '--diff-filter=MDRTCUXB', '--name-only',
   'fa3f76c74b169d4869721a203650be60cd866160', '--', 'supabase/migrations', 'supabase/rollbacks'], { encoding: 'utf8' }).trim()
 assert.equal(frozen, '', 'All admitted X business SQL and historical rollbacks must remain byte-identical')
@@ -49,6 +52,7 @@ for (const token of ["len(schedules['cases'])==400", "'expected':100,'observed':
   "y_before['controls_passed']==19", "y_after['controls_passed']==45", 'CP6_V2620Y_RUNTIME_MANIFEST.json',
   'Y_COMPLETE_X_TABLE_BOUNDARY_RESTORE_MISMATCH', "y_restore['complete_function_count']==533",
   'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620Y']) assert.ok(workflow.includes(token), token)
+assert.ok(workflow.includes("y_install['failed174_reproduction']['status']=='PASS'"))
 for (const path of [migrationPath, rollbackPath, 'scripts/cp6_v2620y_runtime.py',
   'scripts/cp6_v2620y_cash_business_date_regression.py', 'scripts/cp6_v2620y_install_qualification.py',
   'scripts/cp6_v2620y_rollback_guards.py', 'scripts/check-cp6-cash-business-dates.mjs',

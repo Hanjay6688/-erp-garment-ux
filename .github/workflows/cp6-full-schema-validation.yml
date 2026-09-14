@@ -1779,6 +1779,7 @@ jobs:
           python scripts/cp6_v2620y_install_qualification.py | tee cp6-proof/V2620Y_INSTALL_QUALIFICATION.log
           test "$(jq -r '.status' cp6-proof/CP6_V2620Y_INSTALL_QUALIFICATION.json)" = 'PASS'
           test "$(jq '.cases | length' cp6-proof/CP6_V2620Y_INSTALL_QUALIFICATION.json)" = '10'
+          test "$(jq -r '.failed174_reproduction.status' cp6-proof/CP6_V2620Y_INSTALL_QUALIFICATION.json)" = 'PASS'
 
       - name: Apply v2.6.20y canonical cash dates before every final-runtime proof
         shell: bash
@@ -1799,8 +1800,8 @@ jobs:
           rollback_source='supabase/rollbacks/20260914043146_erp_v2_6_20y_cp6_cash_business_dates.rollback.sql'
           test "$(wc -c < "$migration_source")" = '32021'
           test "$(wc -c < "$rollback_source")" = '13892'
-          echo 'ac67472cc35a0a8f9e26e29887055711e3b836491c2f3b11354068844d04bffa  supabase/migrations/20260914043146_erp_v2_6_20y_cp6_cash_business_dates.sql' | sha256sum -c - | tee cp6-proof/V2620Y_MIGRATION_SHA256.txt
-          echo '7af2d56c8df366cb117e90edc970c012c736bc31ba4d53c9110d127953d63520  supabase/rollbacks/20260914043146_erp_v2_6_20y_cp6_cash_business_dates.rollback.sql' | sha256sum -c - | tee cp6-proof/V2620Y_ROLLBACK_SHA256.txt
+          echo '99bd8ca086464c4473f32f9c249f8bd308719f3b931930b091b876b554e28fed  supabase/migrations/20260914043146_erp_v2_6_20y_cp6_cash_business_dates.sql' | sha256sum -c - | tee cp6-proof/V2620Y_MIGRATION_SHA256.txt
+          echo '63d636288dcd1f25a844721a3429ac0966769465eb2ffd9a9772b4fffb92d679  supabase/rollbacks/20260914043146_erp_v2_6_20y_cp6_cash_business_dates.rollback.sql' | sha256sum -c - | tee cp6-proof/V2620Y_ROLLBACK_SHA256.txt
           psql "$PGURL" -X -v ON_ERROR_STOP=1 -f "$migration_source" 2>&1 | tee cp6-proof/V2620Y_APPLY.log
           PYTHONPATH=scripts python - <<'PY'
           import json,os,pathlib,psycopg
@@ -6074,10 +6075,18 @@ jobs:
               assert r['entire_unseeded_runtime_restored'] and r['schema_usage_restored']
               assert all(c['full_boundary_restored'] for c in r['cases'].values())
           assert y_install['status']=='PASS' and len(y_install['cases'])==10
+          assert y_install['failed174_reproduction']['status']=='PASS'
+          y174=y_install['failed174_reproduction']
+          assert y174['frozen_head']=='9410467d3a4ced7dc0cd28d87db8ca0fa9e31e6c'
+          assert y174['source_sha256']=='ac67472cc35a0a8f9e26e29887055711e3b836491c2f3b11354068844d04bffa'
+          assert y174['original_assertions_preserved'] and y174['full_boundary_restored'] and y174['y_capsule_absent']
+          assert y174['security_exact'] and y174['partial_hashes_exact'] and y174['function_count']==533 and y174['table_count']==212
+          assert y174['observation']['actual_count']==0 and y174['observation']['expected_count']==1
+          assert y174['observation']['count_predicate'] is False and y174['observation']['w_predecessor_count']==1
           assert all(c['status']=='CONTROL_PASS' and c['refusal_boundary_exact'] and c['y_capsule_absent'] for c in y_install['cases'].values())
           assert y_runtime['status']=='PASS' and len(y_runtime['functions'])==6 and y_runtime['boundary_count']==210
           assert len(y_runtime['expected_boundary'])==210 and len(set(y_runtime['expected_boundary']))==210
-          assert y_guards['status']=='PASS' and y_guards['rollback_sha256']=='7af2d56c8df366cb117e90edc970c012c736bc31ba4d53c9110d127953d63520'
+          assert y_guards['status']=='PASS' and y_guards['rollback_sha256']=='63d636288dcd1f25a844721a3429ac0966769465eb2ffd9a9772b4fffb92d679'
           assert len(y_guards['guards'])==8 and all(c['status']=='PASS' and c['expected_rejection_observed'] for c in y_guards['guards'])
           assert len(y_guards['extra_object_preflight_guards'])==11 and all(c['status']=='PASS' and not c['admission_closed'] and not c['rollback_started'] for c in y_guards['extra_object_preflight_guards'])
           assert y_guards['exact_pre_use_restore']==dict(generation='X',restored_function_count=6,owner_acl_exact=True,metadata_schema_residue=0)
@@ -6097,6 +6106,13 @@ jobs:
             'after_report':'CP6_V2620Y_CASH_BUSINESS_DATE_REGRESSION.json','before_cases':35,'after_cases':45,
             'atomic_install_qualification_cases':10,'functions':6,'boundary_tables':210,
             'complete_x_restore':533,'http_ui_reachability_proven':False}
+          manifest['y_failed174']={'head':y174['frozen_head'],'native_run_id':34808218862,
+            'native_job_id':103864188108,'native_step':72,'source_sha256':y174['source_sha256'],
+            'artifact_id':10333349214,'artifact_bytes':3352350,
+            'artifact_sha256':'e4ac2872e76cfc2d81d2722188c0b5073c59f58b4998864b15bc2155384d0adb',
+            'classification':'ATOMIC_REFUSAL_WRONG_PREDECESSOR_ANCHOR',
+            'frozen_native_reproduction':True,'six_function_security_exact':True,
+            'full_boundary_restored':True,'corrected_unadmitted_source_in_fast_forward_commit':True}
           (proof/'CP6_V2620Y_RUNTIME_MANIFEST.json').write_text(
               json.dumps(manifest,indent=2,sort_keys=True)+'\n',encoding='utf8',
           )

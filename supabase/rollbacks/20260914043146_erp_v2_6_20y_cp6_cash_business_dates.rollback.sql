@@ -13,8 +13,8 @@ begin
        where version='20260914043146'
          and name='erp_v2_6_20y_cp6_cash_business_dates'
          and encode(extensions.digest(convert_to(array_to_string(statements,E'\n'),'UTF8'),'sha256'),'hex')
-           in('ac67472cc35a0a8f9e26e29887055711e3b836491c2f3b11354068844d04bffa',
-              '5900ad18fe4978a477a5753a23f9dde1210441031fb7eb09fc3073a828c8a796'))
+           in('99bd8ca086464c4473f32f9c249f8bd308719f3b931930b091b876b554e28fed',
+              'cf96b99b3cf6ce3ef69c1358997f875e4d13ab2acaff4a1cb5ad1b40aeb1ce5a'))
      or exists(select 1 from supabase_migrations.schema_migrations
        where version>'20260914043146') then
     raise exception 'Y_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR';
@@ -165,8 +165,8 @@ delete from supabase_migrations.schema_migrations
 where version='20260914043146'
   and name='erp_v2_6_20y_cp6_cash_business_dates'
   and encode(extensions.digest(convert_to(array_to_string(statements,E'\n'),'UTF8'),'sha256'),'hex')
-    in('ac67472cc35a0a8f9e26e29887055711e3b836491c2f3b11354068844d04bffa',
-       '5900ad18fe4978a477a5753a23f9dde1210441031fb7eb09fc3073a828c8a796');
+    in('99bd8ca086464c4473f32f9c249f8bd308719f3b931930b091b876b554e28fed',
+       'cf96b99b3cf6ce3ef69c1358997f875e4d13ab2acaff4a1cb5ad1b40aeb1ce5a');
 
 do $postcheck_v2620y$
 declare r record;v_actual text;
