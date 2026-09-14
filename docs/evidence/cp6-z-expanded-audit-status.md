@@ -5,9 +5,11 @@
 `134774825dbe5ff6ffba5b82f629c1dac2a3ce8d`, tree
 `3afeddbbca86f28285b1b24a002a572b34be54b7`.
 
-The independent audit is **INCOMPLETE**, not a pass or a confirmed business
-failure. All changes after Z so far are audit code, workflow wiring, and audit
-documentation. No business migration or rollback has been changed.
+The frozen Z candidate is **FAIL_NEW_COUNTEREXAMPLE** after Native 183 proved
+two material business defects. Successor AA is **WRITER IN PROGRESS**; its first
+native attempt, 184, stopped at an inherited source gate before AA installation.
+The broader independent audit remains **INCOMPLETE**. Admitted SQL through Z
+is unchanged; AA adds a new migration and its matching rollback.
 
 ## Executed attempts
 
@@ -91,3 +93,21 @@ independent ledger above remains open, including true late supplier invoices
 through WIP/FG/COGS; the proven final-price correction must not be reported as
 that broader invoice coverage. `production_go:false`; no merge or deployment
 is authorized.
+
+## Native 184: inherited source gate stopped before AA
+
+Native [184](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/34871809182),
+checkout `27f165ac106d3b1ad97471ab3c5b7488dd75822a`, failed at step 71 with
+`INDEPENDENT_REQUIRES_UNCHANGED_X_BUSINESS_SQL`. The inherited X oracle's
+repository allowlist named Y and Z additions but omitted the two new AA files.
+No AA admission, installation, business regression, or rollback case ran.
+This attempt is **INCOMPLETE**, with no AA business verdict. CodeQL 59 passed
+on the same checkout. Failure cleanup reported `stop_exit=0`,
+`remaining_database_container=0`, and `status=PASS`.
+
+The follow-up changes the X oracle to admit only the exact AA migration and
+rollback paths outside the original `X_AUDIT` phase. It also checks that every
+admitted Z SQL file remains unchanged, retaining the existing X and Y history
+guards. AA migration and rollback bytes, business assertions, expected case
+counts, and runtime checks remain unchanged. Native acceptance requires a new
+complete run; source-gate repair is not a substitute for execution.

@@ -320,6 +320,18 @@ def run(phase='X_AUDIT', extensions=None):
                '--', 'supabase/migrations', 'supabase/rollbacks'):
             raise AssertionError('INDEPENDENT_REQUIRES_UNCHANGED_ADMITTED_Y_SQL')
         allowed |= z_additions
+    aa_additions = {
+        'supabase/migrations/20260914163608_erp_v2_6_20aa_cp6_material_cost_business_day.sql',
+        'supabase/rollbacks/20260914163608_erp_v2_6_20aa_cp6_material_cost_business_day.rollback.sql',
+    }
+    if phase != 'X_AUDIT' and changed & aa_additions:
+        # AA files may be present while this step still runs the frozen X/Y runtime.
+        # Admit only the named additions; every admitted Z SQL byte stays frozen.
+        frozen_z = '134774825dbe5ff6ffba5b82f629c1dac2a3ce8d'
+        if git('diff', '--diff-filter=MDRTCUXB', '--name-only', frozen_z, 'HEAD',
+               '--', 'supabase/migrations', 'supabase/rollbacks'):
+            raise AssertionError('INDEPENDENT_REQUIRES_UNCHANGED_ADMITTED_Z_SQL')
+        allowed |= aa_additions
     modified_history = git('diff', '--diff-filter=MDRTCUXB', '--name-only', HEAD_X, 'HEAD', '--', 'supabase/migrations', 'supabase/rollbacks')
     if changed - allowed or modified_history:
         raise AssertionError('INDEPENDENT_REQUIRES_UNCHANGED_X_BUSINESS_SQL')
