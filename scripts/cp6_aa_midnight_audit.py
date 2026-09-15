@@ -73,6 +73,17 @@ def clocks(cur):
     return dict(transaction=row[0], statement=row[1], wall=row[2], transaction_id=row[3], host_monotonic=time.monotonic())
 
 
+def verify_repository_source():
+    """Overridable successor hook; AA/AB behavior stays byte-for-byte semantic."""
+    return invoice.ab_runtime.verify_audit_source()
+
+
+def verify_source_runtime(cur):
+    if len(invoice.runtime.verified_successor(cur)) != 2:
+        raise AssertionError('AA_CLOCK_EXACT_SOURCE_AA_REQUIRED')
+    return invoice.ab_runtime.verify_audit_runtime(cur)
+
+
 def wait_for_source():
     deadline = time.monotonic() + 60
     while time.monotonic() < deadline:
@@ -191,7 +202,12 @@ def run():
         raise AssertionError('AA_CLOCK_EXACT_SOURCE_REQUIRED')
     if os.environ.get('CP6_AA_MIDNIGHT_AUDIT_CONFIRM') != 'postgres':
         raise AssertionError('AA_CLOCK_EXPLICIT_DISPOSABLE_CONFIRM_REQUIRED')
-    phase, head, tree = invoice.ab_runtime.verify_audit_source()
+    phase, head, tree = verify_repository_source()
+    runtime_generation = {
+        'AA_AUDIT': 'AA', 'AB_REGRESSION': 'AB', 'AC_REGRESSION': 'AC',
+    }.get(phase)
+    if runtime_generation is None:
+        raise AssertionError('AA_CLOCK_UNKNOWN_SUCCESSOR_PHASE')
     if command(['docker', 'ps', '-aq', '--filter', 'name=^/' + TARGET_CONTAINER + '$']):
         raise AssertionError('AA_CLOCK_TARGET_ALREADY_EXISTS')
     ROOT.mkdir(parents=True, exist_ok=True)
@@ -200,9 +216,9 @@ def run():
     source_before = None
     restart_source = False
     result = dict(format='CP6_AA_MIDNIGHT_AUDIT_V1', status='INCOMPLETE', head=head,
-                  tree=tree, phase=phase, runtime_generation='AB' if phase == 'AB_REGRESSION' else 'AA',
-                  audited_business_head=head if phase == 'AB_REGRESSION' else invoice.HEAD_AA,
-                  audited_business_tree=tree if phase == 'AB_REGRESSION' else invoice.TREE_AA,
+                  tree=tree, phase=phase, runtime_generation=runtime_generation,
+                  audited_business_head=head if phase != 'AA_AUDIT' else invoice.HEAD_AA,
+                  audited_business_tree=tree if phase != 'AA_AUDIT' else invoice.TREE_AA,
                   business_predecessor_head=invoice.HEAD_AA,
                   source_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
                   run_id=os.environ.get('GITHUB_RUN_ID'), production_go=False, independent_acceptance_complete=False,
@@ -218,9 +234,13 @@ def run():
     try:
         with connect(source=True) as conn, conn.cursor() as cur:
             source_before = prior.stable_boundary(cur)
-            if len(invoice.runtime.verified_successor(cur)) != 2:
-                raise AssertionError('AA_CLOCK_EXACT_SOURCE_AA_REQUIRED')
-            result['verified_ab_functions'] = list(invoice.ab_runtime.verify_audit_runtime(cur).values())
+            verified = verify_source_runtime(cur)
+            result['verified_ab_functions'] = (
+                list(verified.values()) if phase != 'AC_REGRESSION' else []
+            )
+            result['verified_ac_objects'] = (
+                list(verified.values()) if phase == 'AC_REGRESSION' else []
+            )
             result['source_engine'] = one(cur, 'select version()')
             source_data = one(cur, "select current_setting('data_directory')")
             if (not source_data.startswith('/var/lib/postgresql/') or '..' in Path(source_data).parts
@@ -289,9 +309,7 @@ def run():
             result['physical_copy_boundary_exact'] = prior.stable_boundary(cur) == source_before
             if result['copy_engine'] != result['source_engine'] or not result['physical_copy_boundary_exact']:
                 raise AssertionError('AA_CLOCK_PHYSICAL_COPY_NOT_EXACT')
-            if len(invoice.runtime.verified_successor(cur)) != 2:
-                raise AssertionError('AA_CLOCK_COPY_RUNTIME_NOT_AA')
-            invoice.ab_runtime.verify_audit_runtime(cur)
+            verify_source_runtime(cur)
         old_day = datetime.now(prior.JAKARTA).date()-timedelta(days=1)
         set_clock(datetime.combine(old_day, daytime(23, 0), tzinfo=prior.JAKARTA))
         with connect() as conn, conn.cursor() as cur:

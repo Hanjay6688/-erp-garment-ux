@@ -28,6 +28,16 @@ from psycopg.conninfo import conninfo_to_dict
 
 
 TARGETS: dict[str, dict[str, Any]] = {
+    'AC': {
+        'rollback': Path('supabase/rollbacks/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.rollback.sql'),
+        'rollback_sha256': '076ace8e6817dd6c8d79347aa8bd2e7c3d1dcb061a4b19f2519460615745eb4d',
+        'marker': 'v2.6.20ac',
+        'platform': 'erp_v2_6_20ac_cp6_temporal_surface_closure',
+        'predecessor': 'v2.6.20ab',
+        'capsule': 'erp.cp6_v2620ac_rollback_capsule',
+        'extra_capsules': ['erp.cp6_v2620ac_relation_rollback_capsule'],
+        'capsule_count': 115,
+    },
     'AB': {'rollback': Path('supabase/rollbacks/20260914190500_erp_v2_6_20ab_cp6_operational_business_clock.rollback.sql'), 'rollback_sha256': '5602fefc1b29935ccfb485635ec14e6fdea7468bd726ed440d6c5d93d12b1262', 'marker': 'v2.6.20ab', 'platform': 'erp_v2_6_20ab_cp6_operational_business_clock', 'predecessor': 'v2.6.20aa', 'capsule': 'erp.cp6_v2620ab_rollback_capsule', 'capsule_count': 5},
     'F': {
         'rollback': Path('supabase/rollbacks/20260909174713_erp_v2_6_20f_cp6_final_runtime_reliability.rollback.sql'),
@@ -460,6 +470,22 @@ TRUSTED_FUNCTIONS: dict[str, list[dict[str, Any]]] = {
 
 }
 
+# AC has a deliberately broad generated capsule. Keep its independent trust
+# roots in the reviewed JSON pin set instead of duplicating 115 hashes here.
+_ac_pin_payload = json.loads(
+    Path('docs/evidence/cp6-ac-runtime-pins.json').read_text(encoding='utf-8')
+)
+TRUSTED_FUNCTIONS['AC'] = [
+    {
+        'identity': item['identity'],
+        'predecessor_sha256': item['before_sha'],
+        'installed_sha256': item['after_sha'],
+        'owner': item['owner'],
+        'acl': item['acl'],
+    }
+    for item in _ac_pin_payload['functions']
+]
+
 
 class MaintenanceRollbackError(RuntimeError):
     """A fail-closed maintenance boundary refused or could not finish."""
@@ -513,6 +539,29 @@ def _sessions(control: psycopg.Connection, database: str, keep_pid: int) -> list
 def _capsule_snapshot(
     target_conn: psycopg.Connection, target_name: str, target: dict[str, Any]
 ) -> list[dict[str, Any]]:
+    if target_name == 'AC':
+        from cp6_v2620ac_runtime import verified_successor
+        with target_conn.cursor() as ac_cur:
+            all_objects = verified_successor(ac_cur)
+        functions = [
+            item for item in all_objects.values() if item['kind'] == 'FUNCTION'
+        ]
+        if len(functions) != target['capsule_count']:
+            raise MaintenanceRollbackError('AC_TRUSTED_RUNTIME_CARDINALITY_MISMATCH')
+        return [
+            {
+                'identity': item['identity'],
+                'predecessor_sha256': item['predecessor_sha256'],
+                'predecessor_definition_sha256': item['predecessor_sha256'],
+                'installed_sha256': item['installed_sha256'],
+                'owner': item['owner'],
+                'acl': item['acl'],
+                'observed_installed_sha256': item['installed_sha256'],
+                'observed_installed_owner': item['owner'],
+                'observed_installed_acl': item['acl'],
+            }
+            for item in functions
+        ]
     # N adds helper and fact objects inherited by O/P outside their predecessor capsules.
     # Verify them before any admission mutation; F through M follow their original path.
     if target_name in {'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'AA', 'AB'}:
@@ -922,7 +971,17 @@ def run_maintenance_rollback(
         capsule_present = bool(_scalar(
             rollback_conn, 'select to_regclass(%s) is not null', (target['capsule'],)
         ))
-        if (marker_count, predecessor_count, platform_count, capsule_present) != (0, 1, 0, False):
+        extra_capsules_present = {
+            identity: bool(_scalar(
+                rollback_conn, 'select to_regclass(%s) is not null', (identity,)
+            ))
+            for identity in target.get('extra_capsules', [])
+        }
+        if (
+            (marker_count, predecessor_count, platform_count, capsule_present)
+            != (0, 1, 0, False)
+            or any(extra_capsules_present.values())
+        ):
             raise MaintenanceRollbackError('Exact predecessor marker/capsule postcondition failed')
         report['restored_functions'] = _function_snapshot(rollback_conn, capsule)
         report['postconditions'] = {
@@ -930,6 +989,7 @@ def run_maintenance_rollback(
             'predecessor_marker_count': predecessor_count,
             'target_platform_count': platform_count,
             'target_capsule_present': capsule_present,
+            'extra_capsules_present': extra_capsules_present,
             'functions_owner_acl_exact': True,
         }
         _phase(report_path, report, 'PREDECESSOR_VERIFIED')

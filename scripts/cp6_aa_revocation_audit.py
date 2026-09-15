@@ -30,6 +30,21 @@ CASES = ('ACTIVE_CONTROL', 'REVOKED_AFTER_TRANSACTION_START', 'REVOKED_WHILE_POS
 one, base, prior = invoice.one, invoice.base, invoice.prior
 
 
+def verify_repository_source():
+    """Overridable successor hook; AA/AB behavior remains the default."""
+    return invoice.ab_runtime.verify_audit_source()
+
+
+def verify_source_runtime(cur):
+    if len(invoice.runtime.verified_successor(cur)) != 2:
+        raise AssertionError('AA_REVOCATION_EXACT_AA_REQUIRED')
+    return invoice.ab_runtime.verify_audit_runtime(cur)
+
+
+def verify_clone_source():
+    matrix.verify_setup_source('AB' if invoice.PHASE == 'AB_REGRESSION' else 'AA')
+
+
 def connect(label, source=False):
     target = matrix.SOURCE if source else matrix.CLONE
     params = conninfo_to_dict(target)
@@ -53,9 +68,7 @@ def operator(cur, subject):
 
 
 def setup(cur):
-    if len(invoice.runtime.verified_successor(cur)) != 2:
-        raise AssertionError('AA_REVOCATION_EXACT_AA_REQUIRED')
-    invoice.ab_runtime.verify_audit_runtime(cur)
+    verify_source_runtime(cur)
     cur.execute('grant usage on schema erp to authenticated')
     prior.actors.claims(cur, dict(sub=base.OPERATOR_AUTH, role='authenticated'))
     base.load_fixture_foundation(cur)
@@ -112,7 +125,7 @@ def posted_state(cur, fixture, request_id):
 def run_case(name, folder):
     matrix.command(['bash', 'scripts/clone-cp6-disposable-database.sh', matrix.SOURCE, matrix.MAINTENANCE,
                     matrix.CLONE, 'cp6_rollback', matrix.CONTAINER, str(folder / 'CLONE_BOUNDARY')], folder / 'clone.log')
-    matrix.verify_setup_source('AB' if invoice.PHASE == 'AB_REGRESSION' else 'AA')
+    verify_clone_source()
     with connect('setup') as conn, conn.cursor() as cur:
         fixture = setup(cur)
         conn.commit()
@@ -226,18 +239,24 @@ def main():
         raise AssertionError('AA_REVOCATION_DISPOSABLE_CONFIRM_REQUIRED')
     if os.environ.get('CP6_AA_REVOCATION_AUDIT_CONFIRM') != 'postgres':
         raise AssertionError('AA_REVOCATION_EXPLICIT_NATIVE_TARGET_REQUIRED')
-    phase, head, tree = invoice.ab_runtime.verify_audit_source()
+    phase, head, tree = verify_repository_source()
+    runtime_generation = {
+        'AA_AUDIT': 'AA', 'AB_REGRESSION': 'AB', 'AC_REGRESSION': 'AC',
+    }.get(phase)
+    if runtime_generation is None:
+        raise AssertionError('AA_REVOCATION_UNKNOWN_SUCCESSOR_PHASE')
     ROOT.mkdir(parents=True, exist_ok=True)
     result = dict(format='CP6_AA_REVOCATION_AUDIT_V1', status='INCOMPLETE', head=head,
-                  tree=tree, phase=phase, runtime_generation='AB' if phase == 'AB_REGRESSION' else 'AA',
+                  tree=tree, phase=phase, runtime_generation=runtime_generation,
                   run_id=os.environ.get('GITHUB_RUN_ID'),
-                  audited_business_head=head if phase == 'AB_REGRESSION' else invoice.HEAD_AA,
-                  audited_business_tree=tree if phase == 'AB_REGRESSION' else invoice.TREE_AA,
+                  audited_business_head=head if phase != 'AA_AUDIT' else invoice.HEAD_AA,
+                  audited_business_tree=tree if phase != 'AA_AUDIT' else invoice.TREE_AA,
                   business_predecessor_head=invoice.HEAD_AA, expected_cases=3, cases={},
                   production_go=False, independent_acceptance_complete=False, synthetic_fixture_only=True, hosted_database_used=False,
                   source_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest())
     with connect('source-before', source=True) as conn, conn.cursor() as cur:
         source_before = prior.stable_boundary(cur)
+        result['verified_runtime_object_count'] = len(verify_source_runtime(cur))
     for name in CASES:
         folder = ROOT / name
         folder.mkdir(parents=True, exist_ok=True)

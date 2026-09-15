@@ -27,9 +27,9 @@ const workflow = read(workflowPath)
 const expected = {
   migration: ['e16dbb655164595be273c03582d35c9ac33593136bd418fdd87156e592f292b8', 19733],
   rollback: ['0d0318e3848344c3642f1796a205d25bcf1cc2d2091ce28d1fc9cf6d186ecbe5', 6876],
-  maintenance: ['7ca9b7816088489808867eb7bfd011d3059e9adc540b41658d212dd0afe6a091', 70474],
+  maintenance: ['1383a6e5384af0b574325ab4dd5666e06b24ddebfbab63fd037be41a5c322449', 72971],
   regression: ['1cf7eb7d52add419ef0a90e103d7512105858fb29b465c73a82f26e9234a3844', 26141],
-  matrix: ['e229e2f6c856a754dffceb98402f4faa27cb48bad11f9a3d732285788dcb67be', 35009],
+  matrix: ['a9da389f7a847454da87f96f4dd271cb977c0ed4e238823f786e95a05c231bbe', 35127],
   guard: ['621f51b187138750646f38c7464a959713ba3c78bcbcd5031ac9841a288aca68', 6649],
 }
 for (const [name, source] of Object.entries({ migration, rollback, maintenance, regression, matrix, guard })) {
@@ -182,10 +182,12 @@ for (const token of order) {
 }
 requireTokens(workflow, 'exact-H proof wiring', [
   'python scripts/cp6_v2620h_adversarial_regression.py',
-  'python scripts/cp6_v2620h_maintenance_rollback_matrix.py',
+  'CP6_AB189_MATRIX_CARRY_FORWARD.json',
+  'run-id: 34914301835',
+  "'scripts/cp6_v2620h_maintenance_rollback_matrix.py':'e229e2f6c856a754dffceb98402f4faa27cb48bad11f9a3d732285788dcb67be'",
   'python scripts/cp6_v2620h_rollback_guards.py',
   'python scripts/cp6_preuse_rollback_maintenance.py',
-  'H_MAINTENANCE_ROLLBACK/manifest.json', "= '460'",
+  'H_MAINTENANCE_ROLLBACK/manifest.json', "len(matrix['cases'])==460",
   'V2620H_ROLLBACK_SHA256.txt',
   "('F','RETURN','WRITER_FIRST')",
   'CP6_V2620N_RUNTIME_PROOF_V1',

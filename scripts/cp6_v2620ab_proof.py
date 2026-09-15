@@ -53,7 +53,20 @@ def extend_manifest(proof, manifest, head):
     assert guards['maintenance']['rollback_committed'] and guards['maintenance']['admission_reopened_after_success']
     assert restore['complete_function_count'] == 533 and restore['definitions_owners_acls_exact']
     assert restore['full_table_boundary_exact'] and restore['restored_table_count'] == 215
-    schedules = read('H_MAINTENANCE_ROLLBACK/manifest.json')
+    carry_path = proof / 'CP6_AB189_MATRIX_CARRY_FORWARD.json'
+    matrix_carry = None
+    if carry_path.exists():
+        matrix_carry = read('CP6_AB189_MATRIX_CARRY_FORWARD.json')
+        assert matrix_carry['status'] == 'QUALIFIED_PREDECESSOR_EVIDENCE_CARRIED_FORWARD'
+        assert matrix_carry['predecessor_head'] == 'e2aa399cfc787d848c1f136e8e563c5304d09a87'
+        assert matrix_carry['predecessor_tree'] == '5bddd7add3296f27087ed30062c998bf20e53ac1'
+        schedules = json.loads(
+            (proof / 'H_MAINTENANCE_ROLLBACK/manifest.json').read_text()
+        )
+        assert schedules['head'] == matrix_carry['predecessor_head']
+        assert matrix_carry['manifest_sha256'] == matrix_carry['observed_manifest_sha256']
+    else:
+        schedules = read('H_MAINTENANCE_ROLLBACK/manifest.json')
     assert schedules['status'] == 'PASS' and len(schedules['cases']) == 460
     assert schedules['writer_first_body_entry'] == dict(expected=115, observed=115, compilation_only_contexts=0)
     assert len([c for c in schedules['cases'] if c['target'] == 'AB' and c['status'] == 'PASS']) == 20
@@ -69,6 +82,9 @@ def extend_manifest(proof, manifest, head):
         atomic_install_cases=26, refusal_cases=25, lawful_checkpoint_history_control=1,
         boundary_tables=213, complete_aa_restore=533, restored_tables=215,
         direct_rollback_guards=8, extra_rollback_guards=22, maintenance_schedules=460,
+        maintenance_matrix_evidence=(
+            'AB_NATIVE_189_CARRY_FORWARD' if matrix_carry else 'CURRENT_RUN'
+        ),
         writer_first_body_entries=115, command_clock='statement_timestamp',
         single_statement_midnight_crossing_proven=False, overnight_soak_proven=False,
         new_wave_http_ui_reachability_proven=False,

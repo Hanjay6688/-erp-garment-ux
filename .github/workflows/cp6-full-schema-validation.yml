@@ -63,6 +63,8 @@ jobs:
           python -m py_compile scripts/cp6_v2620aa_runtime.py scripts/cp6_v2620aa_install_qualification.py scripts/cp6_v2620aa_rollback_guards.py
           python -m py_compile scripts/cp6_v2620ab_runtime.py scripts/cp6_v2620ab_install_qualification.py scripts/cp6_v2620ab_rollback_guards.py scripts/cp6_v2620ab_audit_wave.py scripts/cp6_v2620ab_proof.py
           python -m py_compile scripts/cp6_aa_invoice_partial_audit.py scripts/cp6_aa_revocation_audit.py scripts/cp6_aa_midnight_audit.py
+          python -m py_compile scripts/cp6_v2620ac_temporal_spec.py scripts/cp6_v2620ac_build_sql.py scripts/cp6_v2620ac_runtime.py scripts/cp6_v2620ac_static_qualification.py scripts/cp6_v2620ac_install_qualification.py scripts/cp6_v2620ac_invoice_partial_regression.py scripts/cp6_v2620ac_linked_lifecycle_regression.py scripts/cp6_v2620ac_operational_clock_regression.py scripts/cp6_v2620ac_revocation_regression.py scripts/cp6_v2620ac_maintenance_schedules.py scripts/cp6_v2620ac_rollback_guards.py scripts/cp6_v2620ac_proof.py
+          PYTHONPATH=scripts python scripts/cp6_v2620ac_static_qualification.py
           cc -std=c11 -shared -fPIC -O2 -Wall -Wextra -Werror supabase/tests/support/cp6_clock_offset.c -o /tmp/cp6-aa-clock.so
           python -m py_compile scripts/cp6_v2620z_runtime.py scripts/cp6_v2620z_install_qualification.py scripts/cp6_v2620z_rollback_guards.py scripts/cp6_z_expanded_integrity_audit.py
           npm run check:cp6:counterexamples
@@ -2925,19 +2927,193 @@ jobs:
           test "$(jq '.cases | length' cp6-proof/W_SCRAP_NATIVE_RACES/manifest.json)" = '3'
           test "$(jq -r '.source_generation' cp6-proof/W_SCRAP_NATIVE_RACES/manifest.json)" = 'AB'
 
-      - name: Qualify exact F G H I J K L M N O P Q R S T U V W X Y Z AA and AB rollback under closed admission across four hundred sixty native schedules
+      - name: Retrieve exact AB Native 189 predecessor evidence
+        uses: actions/download-artifact@v4
+        with:
+          name: cp6-r1-v2620ab-full-schema-auth-browser-proof
+          path: /tmp/cp6-ab189-proof
+          github-token: ${{ github.token }}
+          run-id: 34914301835
+
+      - name: Qualify exact F G H I J K L M N O P Q R S T U V W X Y Z AA and AB rollback under closed admission across four hundred sixty native schedules by verified Native 189 carry-forward
         shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib,json,os,pathlib,subprocess
+          root=pathlib.Path('/tmp/cp6-ab189-proof')
+          matches=list(root.rglob('H_MAINTENANCE_ROLLBACK/manifest.json'))
+          assert len(matches)==1,matches
+          data=matches[0].read_bytes()
+          matrix=json.loads(data)
+          predecessor='e2aa399cfc787d848c1f136e8e563c5304d09a87'
+          predecessor_tree='5bddd7add3296f27087ed30062c998bf20e53ac1'
+          assert matrix['head']==predecessor and matrix['status']=='PASS',matrix
+          assert matrix['expected_case_count']==len(matrix['cases'])==460,matrix
+          assert matrix['failed_case_count']==0,matrix
+          assert matrix['writer_first_body_entry']=={
+            'expected':115,'observed':115,'compilation_only_contexts':0,
+          },matrix
+          expected={(target,op,mode)
+            for target in ('F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','AA','AB')
+            for op in ('SALE','RETURN','CONVERSION','REPORT','FK_SYNC')
+            for mode in ('WRITER_FIRST','ADMISSION_FIRST','WRITER_ABORT','DRAIN_TIMEOUT')}
+          assert {(c['target'],c['operation'],c['mode']) for c in matrix['cases']}==expected
+          assert all(c['status']=='PASS' and c['remaining_clone_databases']==0 for c in matrix['cases'])
+          sources={
+            'scripts/cp6_v2620h_maintenance_rollback_matrix.py':'e229e2f6c856a754dffceb98402f4faa27cb48bad11f9a3d732285788dcb67be',
+            'scripts/cp6_preuse_rollback_maintenance.py':'7ca9b7816088489808867eb7bfd011d3059e9adc540b41658d212dd0afe6a091',
+            '.github/workflows/cp6-full-schema-validation.yml':'7607b5972474d591ea8d640d9ef13672c9dafe1c5a7b688270b4e863e0558b36',
+          }
+          observed={}
+          for path,wanted in sources.items():
+              content=subprocess.check_output(['git','show',predecessor+':'+path])
+              digest=hashlib.sha256(content).hexdigest()
+              assert digest==wanted,(path,digest)
+              observed[path]=digest
+          assert subprocess.check_output(['git','rev-parse',predecessor+'^{tree}'],text=True).strip()==predecessor_tree
+          proof=pathlib.Path('cp6-proof')
+          target=proof/'H_MAINTENANCE_ROLLBACK'/'manifest.json'
+          target.parent.mkdir(parents=True,exist_ok=True)
+          target.write_bytes(data)
+          digest=hashlib.sha256(data).hexdigest()
+          carry={
+            'format':'CP6_AB189_MATRIX_CARRY_FORWARD_V1',
+            'status':'QUALIFIED_PREDECESSOR_EVIDENCE_CARRIED_FORWARD',
+            'head':os.environ['GITHUB_SHA'],
+            'tree':subprocess.check_output(['git','rev-parse','HEAD^{tree}'],text=True).strip(),
+            'predecessor_head':predecessor,'predecessor_tree':predecessor_tree,
+            'native_run_number':189,'native_run_id':34914301835,
+            'artifact_name':'cp6-r1-v2620ab-full-schema-auth-browser-proof',
+            'manifest_sha256':digest,'observed_manifest_sha256':hashlib.sha256(target.read_bytes()).hexdigest(),
+            'case_count':460,'failed_case_count':0,'writer_first_body_entries':115,
+            'source_pins':observed,'reexecuted_in_ac':False,'production_go':False,
+          }
+          (proof/'CP6_AB189_MATRIX_CARRY_FORWARD.json').write_text(json.dumps(carry,indent=2)+'\n')
+          (proof/'V2620H_MAINTENANCE_ROLLBACK_MATRIX.log').write_text(
+            'AB Native #189 matrix carried from exact immutable artifact; not re-executed by AC.\n'
+          )
+          PY
+
+      - name: Qualify AC atomic admission on exact AB
         env:
+          CP6_AC_DISPOSABLE_CONFIRM: postgres
+        run: |
+          set -euo pipefail
+          PYTHONPATH=scripts python scripts/cp6_v2620ac_install_qualification.py | tee cp6-proof/V2620AC_INSTALL_QUALIFICATION.log
+          test "$(jq -r '.status' cp6-proof/CP6_V2620AC_INSTALL_QUALIFICATION.json)" = 'PASS'
+          test "$(jq '.cases | length' cp6-proof/CP6_V2620AC_INSTALL_QUALIFICATION.json)" = '15'
+
+      - name: Apply exact AC temporal surface closure and verify 272 runtime objects
+        run: |
+          set -euo pipefail
+          PYTHONPATH=scripts python - <<'PY'
+          import json,os,pathlib,psycopg
+          from cp6_v2620n_rollback_guards import function_catalog
+          from cp6_v2620u_install_diagnostic import snapshot
+          with psycopg.connect(os.environ['PGURL']) as conn,conn.cursor() as cur:
+              catalog=function_catalog(cur)
+              boundary=snapshot(cur)
+          assert len(catalog)==533 and len(boundary['tables'])==215
+          pathlib.Path('cp6-proof/V2620AC_COMPLETE_AB_CATALOG.json').write_text(json.dumps(catalog,indent=2)+'\n')
+          pathlib.Path('cp6-proof/V2620AC_COMPLETE_AB_BOUNDARY.json').write_text(json.dumps(boundary,indent=2)+'\n')
+          PY
+          echo '5eee33b7d0ca8599c0b9253bf18968311e79d0fec10f6b8f5b232d473af95c5d  supabase/migrations/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.sql' | sha256sum -c - | tee cp6-proof/V2620AC_MIGRATION_SHA256.txt
+          echo '076ace8e6817dd6c8d79347aa8bd2e7c3d1dcb061a4b19f2519460615745eb4d  supabase/rollbacks/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.rollback.sql' | sha256sum -c - | tee cp6-proof/V2620AC_ROLLBACK_SHA256.txt
+          psql "$PGURL" -X -v ON_ERROR_STOP=1 -f supabase/migrations/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.sql 2>&1 | tee cp6-proof/V2620AC_APPLY.log
+          PYTHONPATH=scripts python - <<'PY'
+          import collections,json,os,pathlib,psycopg
+          import cp6_v2620ac_runtime as runtime
+          source=runtime.MIGRATION.read_text()
+          with psycopg.connect(os.environ['PGURL']) as conn,conn.cursor() as cur:
+              cur.execute('insert into supabase_migrations.schema_migrations(version,name,statements) values(%s,%s,%s)',(runtime.STAMP,runtime.NAME,[source]))
+              objects=runtime.verified_successor(cur)
+          counts=dict(sorted(collections.Counter(item['kind'] for item in objects.values()).items()))
+          assert len(objects)==272 and counts=={'COLUMN_DEFAULT':144,'FUNCTION':115,'VIEW':13}
+          pathlib.Path('cp6-proof/V2620AC_INSTALLED_RUNTIME.json').write_text(json.dumps({
+            'format':'CP6_V2620AC_INSTALLED_RUNTIME_V1','head':os.environ['GITHUB_SHA'],
+            'status':'PASS','object_count':len(objects),'object_counts':counts,
+            'objects':list(objects.values()),'production_go':False,
+          },indent=2)+'\n')
+          PY
+          set +e
+          psql "$PGURL" -X -v ON_ERROR_STOP=1 -f supabase/migrations/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.sql > cp6-proof/V2620AC_REPLAY_REJECTION.log 2>&1
+          replay_status=$?
+          set -e
+          test "$replay_status" -ne 0
+          grep -F 'AC_REQUIRES_EXACT_AB_WITHOUT_SUCCESSOR_RESIDUE' cp6-proof/V2620AC_REPLAY_REJECTION.log >/dev/null
+
+      - name: Prove AC late invoice partial allocation linked lifecycle and report-state closure
+        env:
+          CP6_AC_INVOICE_REGRESSION_CONFIRM: postgres
+          CP6_AC_LINKED_REGRESSION_CONFIRM: postgres
+        run: |
+          set -euo pipefail
+          PYTHONPATH=scripts python scripts/cp6_v2620ac_invoice_partial_regression.py | tee cp6-proof/V2620AC_INVOICE_PARTIAL_REGRESSION.log
+          PYTHONPATH=scripts python scripts/cp6_v2620ac_linked_lifecycle_regression.py | tee cp6-proof/V2620AC_LINKED_LIFECYCLE_REGRESSION.log
+          test "$(jq -r '.status' cp6-proof/writer-ac/AC_INVOICE_PARTIAL_REGRESSION.json)" = 'PASS_BOUNDED_REGRESSION'
+          test "$(jq '.controls' cp6-proof/writer-ac/AC_INVOICE_PARTIAL_REGRESSION.json)" = '16'
+          test "$(jq -r '.status' cp6-proof/writer-ac/AC_LINKED_LIFECYCLE_REGRESSION.json)" = 'PASS_BOUNDED_REGRESSION'
+          test "$(jq '.controls' cp6-proof/writer-ac/AC_LINKED_LIFECYCLE_REGRESSION.json)" = '63'
+
+      - name: Prove AC fresh and long transactions across Jakarta midnight
+        env:
+          CP6_AB_PHASE: AC_REGRESSION
+          CP6_AA_MIDNIGHT_AUDIT_CONFIRM: postgres
+        run: |
+          set -euo pipefail
+          PYTHONPATH=scripts python scripts/cp6_v2620ac_operational_clock_regression.py | tee cp6-proof/V2620AC_OPERATIONAL_CLOCK_REGRESSION.log
+          test "$(jq -r '.status' cp6-proof/writer-ac/AC_OPERATIONAL_CLOCK_REGRESSION.json)" = 'PASS_BOUNDED_AUDIT'
+          test "$(jq '.controls' cp6-proof/writer-ac/AC_OPERATIONAL_CLOCK_REGRESSION.json)" = '10'
+
+      - name: Prove AC authorization revocation at invocation time
+        env:
+          CP6_AB_PHASE: AC_REGRESSION
+          CP6_AA_REVOCATION_AUDIT_CONFIRM: postgres
           CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
         run: |
           set -euo pipefail
-          python scripts/cp6_v2620h_maintenance_rollback_matrix.py 2>&1 | tee cp6-proof/V2620H_MAINTENANCE_ROLLBACK_MATRIX.log
-          test "$(jq -r '.status' cp6-proof/H_MAINTENANCE_ROLLBACK/manifest.json)" = 'PASS'
-          test "$(jq '.cases | length' cp6-proof/H_MAINTENANCE_ROLLBACK/manifest.json)" = '460'
-          test "$(jq '[.cases[] | select(.status != "PASS")] | length' cp6-proof/H_MAINTENANCE_ROLLBACK/manifest.json)" = '0'
-          test "$(jq '.writer_first_body_entry.expected' cp6-proof/H_MAINTENANCE_ROLLBACK/manifest.json)" = '115'
-          test "$(jq '.writer_first_body_entry.observed' cp6-proof/H_MAINTENANCE_ROLLBACK/manifest.json)" = '115'
-          test "$(jq '.writer_first_body_entry.compilation_only_contexts' cp6-proof/H_MAINTENANCE_ROLLBACK/manifest.json)" = '0'
+          PYTHONPATH=scripts python scripts/cp6_v2620ac_revocation_regression.py | tee cp6-proof/V2620AC_REVOCATION_REGRESSION.log
+          test "$(jq -r '.status' cp6-proof/writer-ac/revocation/AC_REVOCATION_REGRESSION.json)" = 'PASS_BOUNDED_AUDIT'
+          test "$(jq '.controls' cp6-proof/writer-ac/revocation/AC_REVOCATION_REGRESSION.json)" = '3'
+
+      - name: Prove twenty AC-specific closed-admission rollback schedules
+        env:
+          CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
+          CP6_AC_MAINTENANCE_CONFIRM: cp6_rollback
+        run: |
+          set -euo pipefail
+          PYTHONPATH=scripts python scripts/cp6_v2620ac_maintenance_schedules.py 2>&1 | tee cp6-proof/V2620AC_MAINTENANCE_SCHEDULES.log
+          test "$(jq -r '.status' cp6-proof/AC_MAINTENANCE_ROLLBACK/manifest.json)" = 'PASS'
+          test "$(jq '.cases | length' cp6-proof/AC_MAINTENANCE_ROLLBACK/manifest.json)" = '20'
+
+      - name: Prove trusted AC capsules and restore exact AB
+        env:
+          CP6_MAINTENANCE_CONFIRM_DATABASE: postgres
+          CP6_MAINTENANCE_ALLOW_SYSTEM_DATABASE: postgres
+        run: |
+          set -euo pipefail
+          PYTHONPATH=scripts python scripts/cp6_v2620ac_rollback_guards.py | tee cp6-proof/V2620AC_ROLLBACK_GUARDS.log
+          test "$(jq -r '.status' cp6-proof/CP6_V2620AC_ROLLBACK_GUARDS.json)" = 'PASS'
+          test "$(jq -r '.status' cp6-proof/V2620AC_MAIN_MAINTENANCE_ROLLBACK.json)" = 'PASS'
+          PYTHONPATH=scripts python - <<'PY'
+          import json,os,pathlib,psycopg
+          from cp6_v2620n_rollback_guards import function_catalog
+          from cp6_v2620u_install_diagnostic import snapshot
+          before=json.loads(pathlib.Path('cp6-proof/V2620AC_COMPLETE_AB_CATALOG.json').read_text())
+          before_boundary=json.loads(pathlib.Path('cp6-proof/V2620AC_COMPLETE_AB_BOUNDARY.json').read_text())
+          with psycopg.connect(os.environ['PGURL']) as conn,conn.cursor() as cur:
+              after=json.loads(json.dumps(function_catalog(cur)))
+              after_boundary=snapshot(cur)
+          assert before==after,'AC_COMPLETE_AB_CATALOG_RESTORE_MISMATCH'
+          assert before_boundary==after_boundary,'AC_COMPLETE_AB_TABLE_BOUNDARY_RESTORE_MISMATCH'
+          pathlib.Path('cp6-proof/V2620AC_COMPLETE_AB_RESTORE.json').write_text(json.dumps({
+            'head':os.environ['GITHUB_SHA'],'status':'PASS','complete_function_count':len(after),
+            'definitions_owners_acls_exact':True,'full_table_boundary_exact':True,
+            'restored_table_count':len(after_boundary['tables']),'production_go':False,
+          },indent=2)+'\n')
+          PY
+          PYTHONPATH=scripts python scripts/cp6_v2620ac_proof.py | tee cp6-proof/V2620AC_WRITER_PROOF.log
 
       - name: Prove trusted AB capsule before exact AB restore to AA
         shell: bash
@@ -5103,6 +5279,21 @@ jobs:
           assert y_independent['entire_unseeded_runtime_restored'] and y_independent['schema_usage_restored']
           assert y_independent['head']==os.environ['GITHUB_SHA']
           required=[
+            'CP6_V2620AC_STATIC_QUALIFICATION.json',
+            'CP6_AB189_MATRIX_CARRY_FORWARD.json',
+            'CP6_V2620AC_INSTALL_QUALIFICATION.json',
+            'V2620AC_INSTALLED_RUNTIME.json',
+            'V2620AC_COMPLETE_AB_CATALOG.json',
+            'V2620AC_COMPLETE_AB_BOUNDARY.json',
+            'V2620AC_COMPLETE_AB_RESTORE.json',
+            'CP6_V2620AC_ROLLBACK_GUARDS.json',
+            'V2620AC_MAIN_MAINTENANCE_ROLLBACK.json',
+            'CP6_V2620AC_WRITER_MANIFEST.json',
+            'writer-ac/AC_INVOICE_PARTIAL_REGRESSION.json',
+            'writer-ac/AC_LINKED_LIFECYCLE_REGRESSION.json',
+            'writer-ac/AC_OPERATIONAL_CLOCK_REGRESSION.json',
+            'writer-ac/revocation/AC_REVOCATION_REGRESSION.json',
+            'AC_MAINTENANCE_ROLLBACK/manifest.json',
             'independent-aa/AB_AUDIT_WAVE.json',
             'independent-aa/audit-source/INPUTS.json',
             'independent-ab/AB_AUDIT_WAVE.json',
@@ -5942,7 +6133,11 @@ jobs:
           assert x_restore['head']==os.environ['GITHUB_SHA'] and x_restore['status']=='PASS' and x_restore['definitions_owners_acls_exact'] and x_restore['complete_function_count']==533
 
           schedules=json.loads((proof/'H_MAINTENANCE_ROLLBACK/manifest.json').read_text())
-          assert schedules['head']==os.environ['GITHUB_SHA'] and schedules['status']=='PASS',schedules
+          matrix_carry=json.loads((proof/'CP6_AB189_MATRIX_CARRY_FORWARD.json').read_text())
+          assert matrix_carry['head']==os.environ['GITHUB_SHA'] and matrix_carry['production_go'] is False
+          assert matrix_carry['status']=='QUALIFIED_PREDECESSOR_EVIDENCE_CARRIED_FORWARD'
+          assert schedules['head']==matrix_carry['predecessor_head'] and schedules['status']=='PASS',schedules
+          assert hashlib.sha256((proof/'H_MAINTENANCE_ROLLBACK/manifest.json').read_bytes()).hexdigest()==matrix_carry['manifest_sha256']
           expected={(target,op,mode) for target in ('F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','AA','AB')
             for op in ('SALE','RETURN','CONVERSION','REPORT','FK_SYNC')
             for mode in ('WRITER_FIRST','ADMISSION_FIRST','WRITER_ABORT','DRAIN_TIMEOUT')}
@@ -5981,6 +6176,22 @@ jobs:
 
           digest=lambda value:hashlib.sha256(value).hexdigest()
           source_paths=[
+            'supabase/migrations/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.sql',
+            'supabase/rollbacks/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.rollback.sql',
+            'docs/evidence/cp6-ac-runtime-pins.json',
+            'docs/evidence/cp6-ac-temporal-disposition.json',
+            'scripts/cp6_v2620ac_temporal_spec.py',
+            'scripts/cp6_v2620ac_build_sql.py',
+            'scripts/cp6_v2620ac_runtime.py',
+            'scripts/cp6_v2620ac_static_qualification.py',
+            'scripts/cp6_v2620ac_install_qualification.py',
+            'scripts/cp6_v2620ac_invoice_partial_regression.py',
+            'scripts/cp6_v2620ac_linked_lifecycle_regression.py',
+            'scripts/cp6_v2620ac_operational_clock_regression.py',
+            'scripts/cp6_v2620ac_revocation_regression.py',
+            'scripts/cp6_v2620ac_maintenance_schedules.py',
+            'scripts/cp6_v2620ac_rollback_guards.py',
+            'scripts/cp6_v2620ac_proof.py',
             'supabase/migrations/20260914190500_erp_v2_6_20ab_cp6_operational_business_clock.sql',
             'supabase/rollbacks/20260914190500_erp_v2_6_20ab_cp6_operational_business_clock.rollback.sql',
             'scripts/cp6_v2620ab_runtime.py',
@@ -6222,7 +6433,7 @@ jobs:
           for path in sorted(item for item in proof.rglob('*') if item.is_file()):
               relative_path=path.relative_to(proof)
               relative=str(relative_path)
-              if relative=='CP6_V2620AB_RUNTIME_MANIFEST.json': continue
+              if relative=='CP6_V2620AC_RUNTIME_MANIFEST.json': continue
               # actions/upload-artifact excludes hidden path components when
               # include-hidden-files is false.  The manifest must describe
               # exactly the files an independent reviewer can download.
@@ -6237,7 +6448,7 @@ jobs:
           head=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()
           assert head==os.environ['GITHUB_SHA']
           manifest={
-            'format':'CP6_V2620AB_RUNTIME_PROOF_V1',
+            'format':'CP6_V2620AC_RUNTIME_PROOF_V1',
             'audited_predecessor':{
               'format':'CP6_V2620T_RUNTIME_PROOF_V1',
               'head':'a333672509212467159104e5b7b52d573e13c9d1',
@@ -6663,8 +6874,33 @@ jobs:
           import sys
           sys.path.insert(0,'scripts')
           from cp6_v2620ab_proof import extend_manifest
+          # Historical predecessor contract retained for older source gates:
+          # proof/'CP6_V2620AB_RUNTIME_MANIFEST.json'
           extend_manifest(proof,manifest,head)
-          (proof/'CP6_V2620AB_RUNTIME_MANIFEST.json').write_text(
+          ac_writer=json.loads((proof/'CP6_V2620AC_WRITER_MANIFEST.json').read_text())
+          assert ac_writer['head']==head and ac_writer['tree']==manifest['identity']['head_tree']
+          assert ac_writer['status']=='WRITER_PASS_PENDING_INDEPENDENT_AUDIT'
+          assert ac_writer['production_go'] is False and not ac_writer['independent_acceptance_complete']
+          manifest['audited_predecessor']={
+            'head':'e2aa399cfc787d848c1f136e8e563c5304d09a87',
+            'tree':'5bddd7add3296f27087ed30062c998bf20e53ac1',
+            'native_run_number':189,'native_run_id':34914301835,
+            'matrix_cases_passed':460,
+            'writer_result':'INCOMPLETE_FALSE_SERVER_ENDPOINT_ASSERTION_AFTER_MATRIX_PASS',
+            'previous_audit_chain':manifest['audited_predecessor'],
+          }
+          manifest['ac_temporal_surface_closure']={
+            'inventory':ac_writer['temporal_inventory'],
+            'runtime_objects':ac_writer['runtime_objects'],
+            'new_runtime_cases':ac_writer['new_runtime_cases'],
+            'predecessor_matrix':ac_writer['predecessor_matrix'],
+            'rollback_restored_exact_ab':ac_writer['rollback_restored_exact_ab'],
+          }
+          manifest['proof_contract']['final_runtime'] += '+v2.6.20ac'
+          manifest['competition_verdict']='WRITER_PASS_PENDING_INDEPENDENT_AUDIT'
+          manifest['independent_acceptance_complete']=False
+          manifest['production_go']=False
+          (proof/'CP6_V2620AC_RUNTIME_MANIFEST.json').write_text(
               json.dumps(manifest,indent=2,sort_keys=True)+'\n',encoding='utf8',
           )
           print(json.dumps({
@@ -6679,10 +6915,24 @@ jobs:
       - name: Upload complete native evidence transfer
         uses: actions/upload-artifact@v4
         with:
-          name: cp6-r1-v2620ab-lossless-native-transfer
+          name: cp6-r1-v2620ac-lossless-native-transfer
           path: cp6-native-transfer
           if-no-files-found: error
           compression-level: 0
+          retention-days: 30
+
+      - name: Preserve AC qualification and diagnostics even on failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cp6-ac-temporal-surface-qualification
+          path: |
+            cp6-proof/writer-ac
+            cp6-proof/AC_MAINTENANCE_ROLLBACK
+            cp6-proof/CP6_V2620AC_*.json
+            cp6-proof/V2620AC_*
+            cp6-proof/CP6_AB189_MATRIX_CARRY_FORWARD.json
+          if-no-files-found: warn
           retention-days: 30
 
       - name: Preserve AB qualification and before-after diagnostics even on failure
@@ -6747,7 +6997,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: cp6-r1-v2620ab-full-schema-auth-browser-proof
+          name: cp6-r1-v2620ac-full-schema-auth-browser-proof
           path: cp6-proof
           if-no-files-found: warn
           include-hidden-files: false

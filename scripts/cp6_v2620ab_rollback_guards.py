@@ -150,8 +150,14 @@ def apply_extra_fault(mutation: str) -> None:
               inet_server_addr()::text,inet_server_port(),
               (select rolsuper from pg_roles where rolname=current_user)"""
         ).fetchone()
-        if identity != ('cp6_rollback', 'supabase_admin', 'supabase_admin',
-                        '127.0.0.1', 54322, True):
+        # The client must still use the exact fixed forwarded endpoint above.
+        # PostgreSQL may legitimately report its container/internal listener
+        # address and port, so server-side endpoint telemetry is diagnostic,
+        # not an equality proof for the client connection string.
+        if (
+            identity[:3] != ('cp6_rollback', 'supabase_admin', 'supabase_admin')
+            or identity[5] is not True
+        ):
             raise AssertionError('AB_EXTRA_FAULT_ENDPOINT_IDENTITY_MISMATCH')
         conn.execute(mutation, prepare=False)
 

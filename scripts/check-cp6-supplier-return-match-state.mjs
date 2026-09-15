@@ -84,7 +84,7 @@ for (const token of [
   'CP6_V2620P_ROLLBACK_GUARDS.json',
   'PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620AB',
   'CP6_M_RACE_SOURCE_GENERATION: AB',
-  "'format':'CP6_V2620AB_RUNTIME_PROOF_V1'",
+  "'format':'CP6_V2620AC_RUNTIME_PROOF_V1'",
   'name: cp6-r1-v2620ab-full-schema-auth-browser-proof',
 ]) assert.ok(workflow.includes(token), token)
 
