@@ -1,0 +1,723 @@
+{
+  "format": "CP6_AD_FAMILY_DISPOSITION_V1",
+  "predecessor_head": "1bdca3766f7c9800d68295ff5122798060b8a05d",
+  "candidate": "AD",
+  "scope": "Date-only document to absolute stock time and downstream date partitions",
+  "native_original_counterexample": {
+    "run": 34963873816,
+    "artifact": 10395045204,
+    "sha256": "1ccd14a4b18e8f74451f269dfd5e3c125e1e5426858e034841dba692142df466",
+    "qualified_day_drift_cases": 4,
+    "unresolved_attendance_fixture_cases": 5
+  },
+  "family_paths": [
+    {
+      "path": "Direct fabric without roll, fabric per roll, accessory",
+      "disposition": "FIX_SHARED_POST_OPENING",
+      "native_cases": 15
+    },
+    {
+      "path": "Imported OPENING_BALANCE_ITEM and MATERIAL_ROLL -> prepare -> post -> finalize",
+      "disposition": "FIX_SHARED_POST_OPENING",
+      "native_cases": 15,
+      "fixture_limit": "Already validated normalized staging; CSV validation not re-proven"
+    },
+    {
+      "path": "FG manual / price percentage; BS with / without product",
+      "disposition": "EXPLICIT_JAKARTA_PRESERVED_CONTROL",
+      "native_cases": 20
+    },
+    {
+      "path": "Attendance date-domain series through public ERP RPC facade",
+      "disposition": "DATE_DOMAIN_ROUND_TRIP_CONTROL",
+      "native_cases": 5
+    },
+    {
+      "path": "Material stock prior end / opening start / opening end",
+      "disposition": "VERIFY_ALL_30_MATERIAL_CASES"
+    },
+    {
+      "path": "Previous-day and same-day material cost checkpoints",
+      "disposition": "VERIFY_ALL_30_MATERIAL_CASES"
+    },
+    {
+      "path": "Opening GL exact cents; document replay",
+      "disposition": "VERIFY_ALL_30_MATERIAL_CASES"
+    },
+    {
+      "path": "Financial integrity -> owner snapshot READY/BLOCKED",
+      "disposition": "ADD_SHARED_DETECTOR_AND_SIX_OLD_WRITER_NEGATIVE_CONTROLS"
+    },
+    {
+      "path": "Admission / post-use refusal / exact AC restoration / old report locks",
+      "disposition": "NEW_AD_ATOMIC_AND_20_MAINTENANCE_CASES"
+    }
+  ],
+  "unchanged_families": {
+    "INFINITY_RANGE_SENTINEL": "Typed infinity is an absolute unbounded sentinel, not a document date",
+    "TIMESTAMP_INPUT_PARSE_SEPARATE_CONTRACT": "Explicit timestamp payload contract; not silently reinterpreted as date-only input",
+    "TYPED_NULL_PARAMETER": "Typed null default has no date to convert",
+    "TIMESTAMP_WITHOUT_TIMEZONE_DATE_SERIES": "DATE -> timestamp without time zone -> DATE for deterministic iteration"
+  },
+  "source_map_sha256": "97f38af9e2fd9d3835d02b05ef8177193db9e2c8a27447801220c5c8c462c122",
+  "source_map": {
+    "status": "STATIC_FAMILY_MAP_NOT_RUNTIME_PASS",
+    "head": "1bdca3766f7c9800d68295ff5122798060b8a05d",
+    "catalog_functions": 533,
+    "ac_function_overlays": 115,
+    "source": "AB native catalog plus exact admitted AC SQL definitions",
+    "scope": "Explicit date/timestamp conversion family; timestamp input parsing is separately classified, not presumed wrong",
+    "occurrences": [
+      {
+        "identity": "erp._cp3_lock_business_period(date,date)",
+        "line": 16,
+        "source_sha256": "8094917f40b53218281a986797d9c196f0469aea21d14fc51dc23119a5a90d6c",
+        "category": "TIMESTAMP_WITHOUT_TIMEZONE_DATE_SERIES",
+        "text": "select d::date from generate_series(p_period_start::timestamp, p_period_end::timestamp, interval '1 day') d order by 1"
+      },
+      {
+        "identity": "erp.append_cp6_laundry_wip_reversal_v2620()",
+        "line": 13,
+        "source_sha256": "a613230714e66a78882063de40d60418dac4f8891993403290ff56b3f9138411",
+        "category": "TIMESTAMP_INPUT_PARSE_SEPARATE_CONTRACT",
+        "text": "nullif(current_setting('app.physical_at',true),'')::timestamptz,"
+      },
+      {
+        "identity": "erp.apply_migration_open_pos(uuid)",
+        "line": 6,
+        "source_sha256": "dd466e1469c5747d9fe856631740ac7669cdcb8ab68aaf2065265ad0b4941159",
+        "category": "TIMESTAMP_INPUT_PARSE_SEPARATE_CONTRACT",
+        "text": "AS $function$ DECLARE b erp.migration_batches%ROWTYPE;r record;j jsonb;v_model uuid;v_contractor uuid;v_id uuid;v_count integer:=0; BEGIN PERFORM erp.require_owner_admin();SELECT * INTO b FROM erp.migration_batches WHERE id=p_batch_id FOR UPDATE; IF b.id IS NULL THEN RAISE EXCEPTION 'Migration batch not found'; END IF; IF b.status NOT IN ('READY','POSTING') THEN RAISE EXCEPTION 'Migration batch must be READY/POSTING'; END IF; FOR r IN SELECT * FROM erp.migration_staging_rows WHERE batch_id=p_batch_id AND entity_type='OPEN_PO' AND validation_status='VALID' ORDER BY source_row_no LOOP j:=r.normalized_payload;SELECT id INTO v_model FROM erp.product_models WHERE model_code=j->>'model_code'; IF v_model IS NULL THEN RAISE EXCEPTION 'OPEN_PO row %: unknown model %',r.source_row_no,j->>'model_code'; END IF;v_contractor:=NULL; IF NULLIF(trim(COALESCE(j->>'contractor_code','')),'') IS NOT NULL THEN SELECT id INTO v_contractor FROM erp.contractors WHERE contractor_code=j->>'contractor_code'; IF v_contractor IS NULL THEN RAISE EXCEPTION 'OPEN_PO row %: unknown contractor %',r.source_row_no,j->>'contractor_code'; END IF; END IF;SELECT id INTO v_id FROM erp.production_orders WHERE po_number=j->>'po_number'; IF v_id IS NOT NULL AND NOT EXISTS (SELECT 1 FROM erp.production_orders WHERE id=v_id AND is_legacy=true AND migration_batch_id=p_batch_id) THEN RAISE EXCEPTION 'OPEN_PO row % conflicts with an existing non-migration PO number %',r.source_row_no,j->>'po_number'; END IF;v_id:=NULL;INSERT INTO erp.production_orders(po_number,model_id,contractor_id,target_qty_pcs,target_dozens,status,current_stage,physical_start_at,notes,migration_batch_id,is_legacy,legacy_reference,created_by) VALUES (j->>'po_number',v_model,v_contractor,NULLIF(j->>'target_qty_pcs','')::integer,NULLIF(j->>'target_dozens','')::numeric,upper(j->>'status'),upper(j->>'current_stage'),NULLIF(j->>'physical_start_at','')::timestamptz,COALESCE(j->>'notes','Migrated open PO'),p_batch_id,true,COALESCE(r.legacy_key,j->>'po_number'),erp.current_app_user_id()) ON CONFLICT (po_number) DO UPDATE SET contractor_id=EXCLUDED.contractor_id,target_qty_pcs=EXCLUDED.target_qty_pcs,target_dozens=EXCLUDED.target_dozens,status=EXCLUDED.status,current_stage=EXCLUDED.current_stage,physical_start_at=EXCLUDED.physical_start_at,notes=EXCLUDED.notes,migration_batch_id=EXCLUDED.migration_batch_id,is_legacy=true,legacy_reference=EXCLUDED.legacy_reference,updated_at=statement_timestamp() WHERE production_orders.is_legacy=true AND production_orders.migration_batch_id=p_batch_id RETURNING id INTO v_id; IF v_id IS NULL THEN RAISE EXCEPTION 'OPEN_PO row % could not be applied safely',r.source_row_no; END IF;UPDATE erp.migration_staging_rows SET posted_entity_type='PRODUCTION_ORDER',posted_entity_id=v_id,posted_at=statement_timestamp(),updated_at=statement_timestamp() WHERE id=r.id;v_count:=v_count+1; END LOOP;RETURN v_count;END; $function$;"
+      },
+      {
+        "identity": "erp.create_manual_bs_case_v2(jsonb,uuid)",
+        "line": 13,
+        "source_sha256": "5d849af16faa38964046e72d3f8582d11d35612de2a9257c2ba584c329a71464",
+        "category": "TIMESTAMP_INPUT_PARSE_SEPARATE_CONTRACT",
+        "text": "v_physical timestamptz:=nullif(p_payload->>'physical_at','')::timestamptz;"
+      },
+      {
+        "identity": "erp.customer_purchase_history(timestamp with time zone,timestamp with time zone)",
+        "line": 1,
+        "source_sha256": "0564d1b18a187aacd4fc9626460f0aaf6da3a807c6ec28f09cfedf4480a6633f",
+        "category": "TYPED_NULL_PARAMETER",
+        "text": "CREATE OR REPLACE FUNCTION erp.customer_purchase_history(p_from timestamp with time zone DEFAULT NULL::timestamp with time zone, p_to timestamp with time zone DEFAULT NULL::timestamp with time zone)"
+      },
+      {
+        "identity": "erp.finalize_material_purchase_invoice_v2(jsonb,uuid,bigint)",
+        "line": 38,
+        "source_sha256": "374964cc18cfd0c96bc68bc759e5580a6598016af3adf4d0d9baff27049e075d",
+        "category": "TIMESTAMP_INPUT_PARSE_SEPARATE_CONTRACT",
+        "text": "coalesce(nullif(p_payload->>'received_at','')::timestamptz,clock_timestamp()),"
+      },
+      {
+        "identity": "erp.get_fg_mutation_book(timestamp with time zone,timestamp with time zone,uuid[],uuid[],text[],uuid[],uuid[],uuid[])",
+        "line": 1,
+        "source_sha256": "9a68e54de890726fb55164d1c00ab66ed00ae6899632cc590d43c06e5582fd45",
+        "category": "TYPED_NULL_PARAMETER",
+        "text": "CREATE OR REPLACE FUNCTION erp.get_fg_mutation_book(p_from timestamp with time zone DEFAULT NULL::timestamp with time zone, p_to timestamp with time zone DEFAULT NULL::timestamp with time zone, p_product_ids uuid[] DEFAULT NULL::uuid[], p_customer_ids uuid[] DEFAULT NULL::uuid[], p_movement_types text[] DEFAULT NULL::text[], p_location_ids uuid[] DEFAULT NULL::uuid[], p_brand_ids uuid[] DEFAULT NULL::uuid[], p_size_ids uuid[] DEFAULT NULL::uuid[])"
+      },
+      {
+        "identity": "erp.guard_accessory_bom_overlap()",
+        "line": 11,
+        "source_sha256": "a7f3b3cc91bc1b67bdf3f25d4d6f6e1de9c76f11c1f915b71383841568392c01",
+        "category": "INFINITY_RANGE_SENTINEL",
+        "text": "and x.effective_from<coalesce(new.effective_to,'infinity'::timestamptz)"
+      },
+      {
+        "identity": "erp.guard_accessory_bom_overlap()",
+        "line": 12,
+        "source_sha256": "a7f3b3cc91bc1b67bdf3f25d4d6f6e1de9c76f11c1f915b71383841568392c01",
+        "category": "INFINITY_RANGE_SENTINEL",
+        "text": "and coalesce(x.effective_to,'infinity'::timestamptz)>new.effective_from"
+      },
+      {
+        "identity": "erp.guard_accessory_uom_overlap()",
+        "line": 5,
+        "source_sha256": "7b92b01499c070d3fda5b4f305065e100e390db20a93086c8d0d55839d0d1cf1",
+        "category": "INFINITY_RANGE_SENTINEL",
+        "text": "AS $function$ BEGIN IF EXISTS (SELECT 1 FROM erp.accessory_category_uom_conversions x WHERE x.category_id=NEW.category_id AND x.uom_code=NEW.uom_code AND x.id<>NEW.id AND x.effective_from<COALESCE(NEW.effective_to,'infinity'::timestamptz) AND COALESCE(x.effective_to,'infinity'::timestamptz)>NEW.effective_from) THEN RAISE EXCEPTION 'Overlapping accessory category UOM conversion effective range'; END IF;RETURN NEW;END; $function$"
+      },
+      {
+        "identity": "erp.guard_contractor_accessory_price_overlap()",
+        "line": 11,
+        "source_sha256": "62ba6609dd0d792d049648e6a5ec6a38cc9c6d5bdafc329749b77f3a524b451f",
+        "category": "INFINITY_RANGE_SENTINEL",
+        "text": "and x.effective_from<coalesce(new.effective_to,'infinity'::timestamptz)"
+      },
+      {
+        "identity": "erp.guard_contractor_accessory_price_overlap()",
+        "line": 12,
+        "source_sha256": "62ba6609dd0d792d049648e6a5ec6a38cc9c6d5bdafc329749b77f3a524b451f",
+        "category": "INFINITY_RANGE_SENTINEL",
+        "text": "and coalesce(x.effective_to,'infinity'::timestamptz)>new.effective_from"
+      },
+      {
+        "identity": "erp.guard_contractor_material_price_overlap()",
+        "line": 11,
+        "source_sha256": "8d9ccabbb72754117d24e80c8ff7dec6a5c4a687c57b108f3052b69e527ad99a",
+        "category": "INFINITY_RANGE_SENTINEL",
+        "text": "and x.effective_from<coalesce(new.effective_to,'infinity'::timestamptz)"
+      },
+      {
+        "identity": "erp.guard_contractor_material_price_overlap()",
+        "line": 12,
+        "source_sha256": "8d9ccabbb72754117d24e80c8ff7dec6a5c4a687c57b108f3052b69e527ad99a",
+        "category": "INFINITY_RANGE_SENTINEL",
+        "text": "and coalesce(x.effective_to,'infinity'::timestamptz)>new.effective_from"
+      },
+      {
+        "identity": "erp.guard_contractor_work_rate_overlap()",
+        "line": 11,
+        "source_sha256": "7c580efbf4f50ff23ea425989e38b629568f53686cda538810f6fb08155dd4f6",
+        "category": "INFINITY_RANGE_SENTINEL",
+        "text": "and x.effective_from<coalesce(new.effective_to,'infinity'::timestamptz)"
+      },
+      {
+        "identity": "erp.guard_contractor_work_rate_overlap()",
+        "line": 12,
+        "source_sha256": "7c580efbf4f50ff23ea425989e38b629568f53686cda538810f6fb08155dd4f6",
+        "category": "INFINITY_RANGE_SENTINEL",
+        "text": "and coalesce(x.effective_to,'infinity'::timestamptz)>new.effective_from"
+      },
+      {
+        "identity": "erp.guard_laundry_rate_overlap()",
+        "line": 11,
+        "source_sha256": "41a8b6708f8d8ca6f105c941b3a38bffb65433e1bdbaf54a895f0bb7fdca696e",
+        "category": "INFINITY_RANGE_SENTINEL",
+        "text": "and x.effective_from<coalesce(new.effective_to,'infinity'::timestamptz)"
+      },
+      {
+        "identity": "erp.guard_laundry_rate_overlap()",
+        "line": 12,
+        "source_sha256": "41a8b6708f8d8ca6f105c941b3a38bffb65433e1bdbaf54a895f0bb7fdca696e",
+        "category": "INFINITY_RANGE_SENTINEL",
+        "text": "and coalesce(x.effective_to,'infinity'::timestamptz)>new.effective_from"
+      },
+      {
+        "identity": "erp.guard_product_price_overlap()",
+        "line": 11,
+        "source_sha256": "1373a3edd49b6a4df0eea221a908d83392043dad9de87f06f563bdb83f4f25ea",
+        "category": "INFINITY_RANGE_SENTINEL",
+        "text": "and x.effective_from<coalesce(new.effective_to,'infinity'::timestamptz)"
+      },
+      {
+        "identity": "erp.guard_product_price_overlap()",
+        "line": 12,
+        "source_sha256": "1373a3edd49b6a4df0eea221a908d83392043dad9de87f06f563bdb83f4f25ea",
+        "category": "INFINITY_RANGE_SENTINEL",
+        "text": "and coalesce(x.effective_to,'infinity'::timestamptz)>new.effective_from"
+      },
+      {
+        "identity": "erp.guard_work_bom_overlap()",
+        "line": 11,
+        "source_sha256": "f85f168ef09da4ac6e9fa223a4c55712e6f7984ddd46c03d01070607afae973c",
+        "category": "INFINITY_RANGE_SENTINEL",
+        "text": "and x.effective_from<coalesce(new.effective_to,'infinity'::timestamptz)"
+      },
+      {
+        "identity": "erp.guard_work_bom_overlap()",
+        "line": 12,
+        "source_sha256": "f85f168ef09da4ac6e9fa223a4c55712e6f7984ddd46c03d01070607afae973c",
+        "category": "INFINITY_RANGE_SENTINEL",
+        "text": "and coalesce(x.effective_to,'infinity'::timestamptz)>new.effective_from"
+      },
+      {
+        "identity": "erp.post_attendance_period_v1(uuid,text,uuid,bigint)",
+        "line": 59,
+        "source_sha256": "1fd30916d3e20ef6188defa8278f5d6f0816773d5168b9433bc922fdfd5eaab0",
+        "category": "DATE_SERIES_ROUND_TRIP_NATIVE_CONTROL",
+        "text": "v_period.period_start::timestamptz,"
+      },
+      {
+        "identity": "erp.post_attendance_period_v1(uuid,text,uuid,bigint)",
+        "line": 60,
+        "source_sha256": "1fd30916d3e20ef6188defa8278f5d6f0816773d5168b9433bc922fdfd5eaab0",
+        "category": "DATE_SERIES_ROUND_TRIP_NATIVE_CONTROL",
+        "text": "v_period.period_end::timestamptz,"
+      },
+      {
+        "identity": "erp.post_attendance_period_v1(uuid,text,uuid,bigint)",
+        "line": 83,
+        "source_sha256": "1fd30916d3e20ef6188defa8278f5d6f0816773d5168b9433bc922fdfd5eaab0",
+        "category": "DATE_SERIES_ROUND_TRIP_NATIVE_CONTROL",
+        "text": "v_period.period_start::timestamptz,"
+      },
+      {
+        "identity": "erp.post_attendance_period_v1(uuid,text,uuid,bigint)",
+        "line": 84,
+        "source_sha256": "1fd30916d3e20ef6188defa8278f5d6f0816773d5168b9433bc922fdfd5eaab0",
+        "category": "DATE_SERIES_ROUND_TRIP_NATIVE_CONTROL",
+        "text": "v_period.period_end::timestamptz,"
+      },
+      {
+        "identity": "erp.post_cutting_qty_correction_v2(jsonb,uuid,bigint)",
+        "line": 54,
+        "source_sha256": "c82beef848aa183e9965d49f62f7e9dfd10aa0f5e11fc02dd6c5cdf744628a98",
+        "category": "TIMESTAMP_INPUT_PARSE_SEPARATE_CONTRACT",
+        "text": "nullif(p_payload->>'physical_at', '')::timestamptz,"
+      },
+      {
+        "identity": "erp.post_fg_partial_completion_v2_legacy_v2610(jsonb,uuid,bigint)",
+        "line": 17,
+        "source_sha256": "feddc84f91869f74a3babf360e91e6bcb5473037daaf0d99a85cb38110e79f45",
+        "category": "TIMESTAMP_INPUT_PARSE_SEPARATE_CONTRACT",
+        "text": "nullif(p_payload->>'physical_at', '')::timestamptz,"
+      },
+      {
+        "identity": "erp.post_final_sku_allocation_v1(jsonb,uuid,bigint)",
+        "line": 8,
+        "source_sha256": "a26a5099a01f0b300d5f89a2647828003c9204f5089f7b2bd578e6a9f98e4378",
+        "category": "TIMESTAMP_INPUT_PARSE_SEPARATE_CONTRACT",
+        "text": "v_allocated bigint;v_physical_at timestamptz:=coalesce(nullif(p_payload->>'physical_at','')::timestamptz,clock_timestamp());"
+      },
+      {
+        "identity": "erp.post_opening_balance(uuid)",
+        "line": 24,
+        "source_sha256": "d73391c79e725c14aab7370cf5f5dfc0bd2134a02480e5693c37dc9c25bf5829",
+        "category": "CANDIDATE_IMPLICIT_DOCUMENT_DATE_TO_INSTANT",
+        "text": "values(r.material_id,r.roll_id,r.location_id,'OPENING',r.qty,r.unit_cost_snapshot,r.unit_cost_snapshot,'OPENING_BALANCE_ITEM',r.id,h.opening_date::timestamptz,erp.current_app_user_id());"
+      },
+      {
+        "identity": "erp.post_opening_balance(uuid)",
+        "line": 43,
+        "source_sha256": "d73391c79e725c14aab7370cf5f5dfc0bd2134a02480e5693c37dc9c25bf5829",
+        "category": "EXPLICIT_JAKARTA_DATE_TO_INSTANT",
+        "text": "if r.product_id is not null then v_product_at:=erp.product_opening_physical_at(r.product_id,h.opening_date); else v_product_at:=h.opening_date::timestamp at time zone 'Asia/Jakarta'; end if;"
+      },
+      {
+        "identity": "erp.product_opening_physical_at(uuid,date)",
+        "line": 17,
+        "source_sha256": "a30d815ad4b833697b04f209422a7c36783041a138be728f70547665c5fca25a",
+        "category": "EXPLICIT_JAKARTA_DATE_TO_INSTANT",
+        "text": "v_day_start:=p_opening_date::timestamp at time zone 'Asia/Jakarta';"
+      },
+      {
+        "identity": "erp.product_opening_physical_at(uuid,date)",
+        "line": 18,
+        "source_sha256": "a30d815ad4b833697b04f209422a7c36783041a138be728f70547665c5fca25a",
+        "category": "EXPLICIT_JAKARTA_DATE_TO_INSTANT",
+        "text": "v_day_end:=(p_opening_date+1)::timestamp at time zone 'Asia/Jakarta';"
+      },
+      {
+        "identity": "erp.refresh_material_cost_checkpoint(uuid,date)",
+        "line": 18,
+        "source_sha256": "7eea402dec46b03d5425ef9c1c052ca409de7fafa72000b7abef5fda6849b30a",
+        "category": "EXPLICIT_JAKARTA_DATE_TO_INSTANT",
+        "text": "v_cutoff:=((p_checkpoint_date+1)::timestamp at time zone 'Asia/Jakarta');"
+      },
+      {
+        "identity": "erp.run_v259_integrity_checks()",
+        "line": 14,
+        "source_sha256": "41d4951690d9d249a9c3b61e8626238aa5938b86f856096ee8d4dbcab5db10af",
+        "category": "INFINITY_RANGE_SENTINEL",
+        "text": "and tstzrange(a.effective_from,coalesce(a.effective_to,'infinity'::timestamptz),'[)')"
+      },
+      {
+        "identity": "erp.run_v259_integrity_checks()",
+        "line": 15,
+        "source_sha256": "41d4951690d9d249a9c3b61e8626238aa5938b86f856096ee8d4dbcab5db10af",
+        "category": "INFINITY_RANGE_SENTINEL",
+        "text": "&& tstzrange(b.effective_from,coalesce(b.effective_to,'infinity'::timestamptz),'[)');"
+      },
+      {
+        "identity": "erp.run_v259_integrity_checks()",
+        "line": 22,
+        "source_sha256": "41d4951690d9d249a9c3b61e8626238aa5938b86f856096ee8d4dbcab5db10af",
+        "category": "INFINITY_RANGE_SENTINEL",
+        "text": "and tstzrange(a.effective_from,coalesce(a.effective_to,'infinity'::timestamptz),'[)')"
+      },
+      {
+        "identity": "erp.run_v259_integrity_checks()",
+        "line": 23,
+        "source_sha256": "41d4951690d9d249a9c3b61e8626238aa5938b86f856096ee8d4dbcab5db10af",
+        "category": "INFINITY_RANGE_SENTINEL",
+        "text": "&& tstzrange(b.effective_from,coalesce(b.effective_to,'infinity'::timestamptz),'[)');"
+      },
+      {
+        "identity": "erp.run_v259_integrity_checks()",
+        "line": 32,
+        "source_sha256": "41d4951690d9d249a9c3b61e8626238aa5938b86f856096ee8d4dbcab5db10af",
+        "category": "INFINITY_RANGE_SENTINEL",
+        "text": "and tstzrange(a.effective_from,coalesce(a.effective_to,'infinity'::timestamptz),'[)')"
+      },
+      {
+        "identity": "erp.run_v259_integrity_checks()",
+        "line": 33,
+        "source_sha256": "41d4951690d9d249a9c3b61e8626238aa5938b86f856096ee8d4dbcab5db10af",
+        "category": "INFINITY_RANGE_SENTINEL",
+        "text": "&& tstzrange(b.effective_from,coalesce(b.effective_to,'infinity'::timestamptz),'[)');"
+      },
+      {
+        "identity": "erp.run_v259_integrity_checks()",
+        "line": 41,
+        "source_sha256": "41d4951690d9d249a9c3b61e8626238aa5938b86f856096ee8d4dbcab5db10af",
+        "category": "INFINITY_RANGE_SENTINEL",
+        "text": "and tstzrange(a.effective_from,coalesce(a.effective_to,'infinity'::timestamptz),'[)')"
+      },
+      {
+        "identity": "erp.run_v259_integrity_checks()",
+        "line": 42,
+        "source_sha256": "41d4951690d9d249a9c3b61e8626238aa5938b86f856096ee8d4dbcab5db10af",
+        "category": "INFINITY_RANGE_SENTINEL",
+        "text": "&& tstzrange(b.effective_from,coalesce(b.effective_to,'infinity'::timestamptz),'[)');"
+      },
+      {
+        "identity": "erp.run_v259_integrity_checks()",
+        "line": 72,
+        "source_sha256": "41d4951690d9d249a9c3b61e8626238aa5938b86f856096ee8d4dbcab5db10af",
+        "category": "INFINITY_RANGE_SENTINEL",
+        "text": "and tstzrange(a.effective_from,coalesce(a.effective_to,'infinity'::timestamptz),'[)')"
+      },
+      {
+        "identity": "erp.run_v259_integrity_checks()",
+        "line": 73,
+        "source_sha256": "41d4951690d9d249a9c3b61e8626238aa5938b86f856096ee8d4dbcab5db10af",
+        "category": "INFINITY_RANGE_SENTINEL",
+        "text": "&& tstzrange(b.effective_from,coalesce(b.effective_to,'infinity'::timestamptz),'[)');"
+      },
+      {
+        "identity": "erp.run_v259_integrity_checks()",
+        "line": 80,
+        "source_sha256": "41d4951690d9d249a9c3b61e8626238aa5938b86f856096ee8d4dbcab5db10af",
+        "category": "INFINITY_RANGE_SENTINEL",
+        "text": "and tstzrange(a.effective_from,coalesce(a.effective_to,'infinity'::timestamptz),'[)')"
+      },
+      {
+        "identity": "erp.run_v259_integrity_checks()",
+        "line": 81,
+        "source_sha256": "41d4951690d9d249a9c3b61e8626238aa5938b86f856096ee8d4dbcab5db10af",
+        "category": "INFINITY_RANGE_SENTINEL",
+        "text": "&& tstzrange(b.effective_from,coalesce(b.effective_to,'infinity'::timestamptz),'[)');"
+      },
+      {
+        "identity": "erp.run_v259_integrity_checks()",
+        "line": 89,
+        "source_sha256": "41d4951690d9d249a9c3b61e8626238aa5938b86f856096ee8d4dbcab5db10af",
+        "category": "INFINITY_RANGE_SENTINEL",
+        "text": "and tstzrange(a.effective_from,coalesce(a.effective_to,'infinity'::timestamptz),'[)')"
+      },
+      {
+        "identity": "erp.run_v259_integrity_checks()",
+        "line": 90,
+        "source_sha256": "41d4951690d9d249a9c3b61e8626238aa5938b86f856096ee8d4dbcab5db10af",
+        "category": "INFINITY_RANGE_SENTINEL",
+        "text": "&& tstzrange(b.effective_from,coalesce(b.effective_to,'infinity'::timestamptz),'[)');"
+      },
+      {
+        "identity": "erp.run_v259_integrity_checks()",
+        "line": 98,
+        "source_sha256": "41d4951690d9d249a9c3b61e8626238aa5938b86f856096ee8d4dbcab5db10af",
+        "category": "INFINITY_RANGE_SENTINEL",
+        "text": "and tstzrange(a.effective_from,coalesce(a.effective_to,'infinity'::timestamptz),'[)')"
+      },
+      {
+        "identity": "erp.run_v259_integrity_checks()",
+        "line": 99,
+        "source_sha256": "41d4951690d9d249a9c3b61e8626238aa5938b86f856096ee8d4dbcab5db10af",
+        "category": "INFINITY_RANGE_SENTINEL",
+        "text": "&& tstzrange(b.effective_from,coalesce(b.effective_to,'infinity'::timestamptz),'[)');"
+      },
+      {
+        "identity": "erp.run_v259_integrity_checks()",
+        "line": 105,
+        "source_sha256": "41d4951690d9d249a9c3b61e8626238aa5938b86f856096ee8d4dbcab5db10af",
+        "category": "INFINITY_RANGE_SENTINEL",
+        "text": "and tstzrange(a.effective_from,coalesce(a.effective_to,'infinity'::timestamptz),'[)')"
+      },
+      {
+        "identity": "erp.run_v259_integrity_checks()",
+        "line": 106,
+        "source_sha256": "41d4951690d9d249a9c3b61e8626238aa5938b86f856096ee8d4dbcab5db10af",
+        "category": "INFINITY_RANGE_SENTINEL",
+        "text": "&& tstzrange(b.effective_from,coalesce(b.effective_to,'infinity'::timestamptz),'[)');"
+      },
+      {
+        "identity": "erp.run_v259_integrity_checks()",
+        "line": 112,
+        "source_sha256": "41d4951690d9d249a9c3b61e8626238aa5938b86f856096ee8d4dbcab5db10af",
+        "category": "INFINITY_RANGE_SENTINEL",
+        "text": "and tstzrange(a.effective_from,coalesce(a.effective_to,'infinity'::timestamptz),'[)')"
+      },
+      {
+        "identity": "erp.run_v259_integrity_checks()",
+        "line": 113,
+        "source_sha256": "41d4951690d9d249a9c3b61e8626238aa5938b86f856096ee8d4dbcab5db10af",
+        "category": "INFINITY_RANGE_SENTINEL",
+        "text": "&& tstzrange(b.effective_from,coalesce(b.effective_to,'infinity'::timestamptz),'[)');"
+      },
+      {
+        "identity": "erp.run_v259_integrity_checks()",
+        "line": 119,
+        "source_sha256": "41d4951690d9d249a9c3b61e8626238aa5938b86f856096ee8d4dbcab5db10af",
+        "category": "INFINITY_RANGE_SENTINEL",
+        "text": "and tstzrange(a.effective_from,coalesce(a.effective_to,'infinity'::timestamptz),'[)')"
+      },
+      {
+        "identity": "erp.run_v259_integrity_checks()",
+        "line": 120,
+        "source_sha256": "41d4951690d9d249a9c3b61e8626238aa5938b86f856096ee8d4dbcab5db10af",
+        "category": "INFINITY_RANGE_SENTINEL",
+        "text": "&& tstzrange(b.effective_from,coalesce(b.effective_to,'infinity'::timestamptz),'[)');"
+      },
+      {
+        "identity": "erp.save_bs_resolution_action_v1(text,jsonb,uuid,bigint)",
+        "line": 15,
+        "source_sha256": "6c2b5d5fa26f340df97db2a6e98f8a64b70a9978f4163d8592844fd8b9a9a057",
+        "category": "TIMESTAMP_INPUT_PARSE_SEPARATE_CONTRACT",
+        "text": "v_physical_at timestamptz:=nullif(p_payload->>'physical_at','')::timestamptz;"
+      },
+      {
+        "identity": "erp.save_bs_resolution_action_v1(text,jsonb,uuid,bigint)",
+        "line": 84,
+        "source_sha256": "6c2b5d5fa26f340df97db2a6e98f8a64b70a9978f4163d8592844fd8b9a9a057",
+        "category": "TIMESTAMP_INPUT_PARSE_SEPARATE_CONTRACT",
+        "text": "nullif(p_payload->>'completed_at','')::timestamptz,"
+      },
+      {
+        "identity": "erp.save_bs_resolution_action_v1(text,jsonb,uuid,bigint)",
+        "line": 105,
+        "source_sha256": "6c2b5d5fa26f340df97db2a6e98f8a64b70a9978f4163d8592844fd8b9a9a057",
+        "category": "TIMESTAMP_INPUT_PARSE_SEPARATE_CONTRACT",
+        "text": "nullif(p_payload->>'physical_at','')::timestamptz,"
+      },
+      {
+        "identity": "erp.save_contractor_material_issue_draft_v2(jsonb,uuid,bigint)",
+        "line": 29,
+        "source_sha256": "59395cfcdb7e13f47ac083b48921dbaddb97db2c09f17cf9e22b383fd97cfa3f",
+        "category": "TIMESTAMP_INPUT_PARSE_SEPARATE_CONTRACT",
+        "text": "nullif(p_payload->>'po_id','')::uuid,(p_payload->>'physical_at')::timestamptz,"
+      },
+      {
+        "identity": "erp.save_contractor_material_issue_draft_v2(jsonb,uuid,bigint)",
+        "line": 48,
+        "source_sha256": "59395cfcdb7e13f47ac083b48921dbaddb97db2c09f17cf9e22b383fd97cfa3f",
+        "category": "TIMESTAMP_INPUT_PARSE_SEPARATE_CONTRACT",
+        "text": "physical_at=coalesce(nullif(p_payload->>'physical_at','')::timestamptz,h.physical_at),"
+      },
+      {
+        "identity": "erp.save_cutting_batch_v2(jsonb,uuid,bigint)",
+        "line": 30,
+        "source_sha256": "b5ff54418bf8e24e1b1330ac0e6978d219a36fd5755bd13f037d433e0e788d74",
+        "category": "TIMESTAMP_INPUT_PARSE_SEPARATE_CONTRACT",
+        "text": "if nullif(p_payload->>'cut_at', '')::timestamptz is null then raise exception 'cut_at is required'; end if;"
+      },
+      {
+        "identity": "erp.save_cutting_batch_v2(jsonb,uuid,bigint)",
+        "line": 35,
+        "source_sha256": "b5ff54418bf8e24e1b1330ac0e6978d219a36fd5755bd13f037d433e0e788d74",
+        "category": "TIMESTAMP_INPUT_PARSE_SEPARATE_CONTRACT",
+        "text": "(p_payload->>'cut_at')::timestamptz,"
+      },
+      {
+        "identity": "erp.save_cutting_batch_v2(jsonb,uuid,bigint)",
+        "line": 61,
+        "source_sha256": "b5ff54418bf8e24e1b1330ac0e6978d219a36fd5755bd13f037d433e0e788d74",
+        "category": "TIMESTAMP_INPUT_PARSE_SEPARATE_CONTRACT",
+        "text": "cut_at = coalesce(nullif(p_payload->>'cut_at', '')::timestamptz, v_batch.cut_at),"
+      },
+      {
+        "identity": "erp.save_cutting_group_before_sewing_v2(jsonb,uuid,bigint)",
+        "line": 17,
+        "source_sha256": "9d829a24fb8664bb5f64c7e05fea530ecbc504a6350d85650c6e28f1dc1bd773",
+        "category": "TIMESTAMP_INPUT_PARSE_SEPARATE_CONTRACT",
+        "text": "v_cut_at timestamptz:=nullif(p_payload->>'cut_at','')::timestamptz;"
+      },
+      {
+        "identity": "erp.save_cutting_pickup_v1(jsonb,uuid,bigint)",
+        "line": 11,
+        "source_sha256": "aefa3273cf19b9281373f4e387603436972803da6e099e18ac5c27aad09239f7",
+        "category": "TIMESTAMP_INPUT_PARSE_SEPARATE_CONTRACT",
+        "text": "v_picked_up_at timestamptz:=nullif(p_payload->>'picked_up_at','')::timestamptz;"
+      },
+      {
+        "identity": "erp.save_fg_adjustment_draft_v2(jsonb,uuid,bigint)",
+        "line": 34,
+        "source_sha256": "bf74e9d5f05cdafc1b18b44fbb1518ceadd54fc9f7786af78aaa82bc0378642b",
+        "category": "TIMESTAMP_INPUT_PARSE_SEPARATE_CONTRACT",
+        "text": "(p_payload->>'physical_at')::timestamptz,upper(btrim(p_payload->>'reason_code')),"
+      },
+      {
+        "identity": "erp.save_fg_adjustment_draft_v2(jsonb,uuid,bigint)",
+        "line": 55,
+        "source_sha256": "bf74e9d5f05cdafc1b18b44fbb1518ceadd54fc9f7786af78aaa82bc0378642b",
+        "category": "TIMESTAMP_INPUT_PARSE_SEPARATE_CONTRACT",
+        "text": "physical_at=coalesce(nullif(p_payload->>'physical_at','')::timestamptz,v_header.physical_at),"
+      },
+      {
+        "identity": "erp.save_laundry_claim_v2(jsonb,uuid,bigint)",
+        "line": 44,
+        "source_sha256": "ae199dafadbdd58daacf3d7b0f842179455daf91d142178ae26bda1622dc4011",
+        "category": "TIMESTAMP_INPUT_PARSE_SEPARATE_CONTRACT",
+        "text": "and nullif(p_payload->>'opened_at','')::timestamptz>clock_timestamp()+interval '5 minutes' then"
+      },
+      {
+        "identity": "erp.save_laundry_claim_v2(jsonb,uuid,bigint)",
+        "line": 68,
+        "source_sha256": "ae199dafadbdd58daacf3d7b0f842179455daf91d142178ae26bda1622dc4011",
+        "category": "TIMESTAMP_INPUT_PARSE_SEPARATE_CONTRACT",
+        "text": "coalesce(nullif(p_payload->>'opened_at','')::timestamptz,statement_timestamp()),"
+      },
+      {
+        "identity": "erp.save_laundry_claim_v2(jsonb,uuid,bigint)",
+        "line": 109,
+        "source_sha256": "ae199dafadbdd58daacf3d7b0f842179455daf91d142178ae26bda1622dc4011",
+        "category": "TIMESTAMP_INPUT_PARSE_SEPARATE_CONTRACT",
+        "text": "opened_at=case when p_payload?'opened_at' then (p_payload->>'opened_at')::timestamptz else v_claim.opened_at end,"
+      },
+      {
+        "identity": "erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)",
+        "line": 66,
+        "source_sha256": "9d6f9a5eabb30e94386f4f9f6bbbcce84f7409dcf872fd7787b00f7a42fdf486",
+        "category": "TIMESTAMP_INPUT_PARSE_SEPARATE_CONTRACT",
+        "text": "v_physical_at:=v_physical_raw::timestamptz;"
+      },
+      {
+        "identity": "erp.save_laundry_receipt_draft_v2(jsonb,uuid,bigint)",
+        "line": 37,
+        "source_sha256": "6ae5f21dda194e764c21ed0c34e0db2a6ddfcd5ae536966af4c823c5cd288654",
+        "category": "TIMESTAMP_INPUT_PARSE_SEPARATE_CONTRACT",
+        "text": "(p_payload->>'physical_at')::timestamptz,'DRAFT',erp.current_app_user_id()"
+      },
+      {
+        "identity": "erp.save_laundry_receipt_draft_v2(jsonb,uuid,bigint)",
+        "line": 56,
+        "source_sha256": "6ae5f21dda194e764c21ed0c34e0db2a6ddfcd5ae536966af4c823c5cd288654",
+        "category": "TIMESTAMP_INPUT_PARSE_SEPARATE_CONTRACT",
+        "text": "physical_at=case when p_payload?'physical_at' then (p_payload->>'physical_at')::timestamptz else v_receipt.physical_at end,"
+      },
+      {
+        "identity": "erp.save_material_adjustment_draft_v2(jsonb,uuid,bigint)",
+        "line": 37,
+        "source_sha256": "99b035ebb70c711854db7cfbbe56dc74edd47f9b67986c9482abe9893e6beae5",
+        "category": "TIMESTAMP_INPUT_PARSE_SEPARATE_CONTRACT",
+        "text": "(p_payload->>'physical_at')::timestamptz, 'DRAFT',"
+      },
+      {
+        "identity": "erp.save_material_adjustment_draft_v2(jsonb,uuid,bigint)",
+        "line": 63,
+        "source_sha256": "99b035ebb70c711854db7cfbbe56dc74edd47f9b67986c9482abe9893e6beae5",
+        "category": "TIMESTAMP_INPUT_PARSE_SEPARATE_CONTRACT",
+        "text": "nullif(p_payload->>'physical_at', '')::timestamptz, v_header.physical_at"
+      },
+      {
+        "identity": "erp.save_material_purchase_draft_v2(jsonb,uuid,bigint)",
+        "line": 28,
+        "source_sha256": "f74692eb133503f53517b32afb64014b1dff44cf5f5c6e42f7a8015b47754ccf",
+        "category": "TIMESTAMP_INPUT_PARSE_SEPARATE_CONTRACT",
+        "text": "v_physical_at timestamptz := nullif(p_payload->>'physical_at', '')::timestamptz;"
+      },
+      {
+        "identity": "erp.save_material_supplier_invoice_draft_v2(jsonb,uuid,bigint)",
+        "line": 48,
+        "source_sha256": "22980907e5c43f13beb3ab0ecd963ddf3da4fa555415dc118da2aefea47e7890",
+        "category": "TIMESTAMP_INPUT_PARSE_SEPARATE_CONTRACT",
+        "text": "coalesce(nullif(p_payload->>'received_at','')::timestamptz,clock_timestamp()),"
+      },
+      {
+        "identity": "erp.save_material_supplier_invoice_draft_v2(jsonb,uuid,bigint)",
+        "line": 61,
+        "source_sha256": "22980907e5c43f13beb3ab0ecd963ddf3da4fa555415dc118da2aefea47e7890",
+        "category": "TIMESTAMP_INPUT_PARSE_SEPARATE_CONTRACT",
+        "text": "received_at=coalesce(nullif(p_payload->>'received_at','')::timestamptz,received_at),"
+      },
+      {
+        "identity": "erp.save_material_supplier_return_draft_v2(jsonb,uuid,bigint)",
+        "line": 29,
+        "source_sha256": "94d291055faf13836767546fee6304b1732bc78a29b211a839aeb0732014a77e",
+        "category": "TIMESTAMP_INPUT_PARSE_SEPARATE_CONTRACT",
+        "text": "(p_payload->>'location_id')::uuid,(p_payload->>'physical_at')::timestamptz,"
+      },
+      {
+        "identity": "erp.save_material_supplier_return_draft_v2(jsonb,uuid,bigint)",
+        "line": 47,
+        "source_sha256": "94d291055faf13836767546fee6304b1732bc78a29b211a839aeb0732014a77e",
+        "category": "TIMESTAMP_INPUT_PARSE_SEPARATE_CONTRACT",
+        "text": "physical_at=coalesce(nullif(p_payload->>'physical_at','')::timestamptz,h.physical_at),"
+      },
+      {
+        "identity": "erp.save_material_transfer_draft_v2(jsonb,uuid,bigint)",
+        "line": 48,
+        "source_sha256": "68f54f8255c63943ae8ba48930506f748c7398f9888edec6e89f86ccf89f3a3b",
+        "category": "TIMESTAMP_INPUT_PARSE_SEPARATE_CONTRACT",
+        "text": "(p_payload->>'physical_at')::timestamptz,"
+      },
+      {
+        "identity": "erp.save_material_transfer_draft_v2(jsonb,uuid,bigint)",
+        "line": 78,
+        "source_sha256": "68f54f8255c63943ae8ba48930506f748c7398f9888edec6e89f86ccf89f3a3b",
+        "category": "TIMESTAMP_INPUT_PARSE_SEPARATE_CONTRACT",
+        "text": "nullif(p_payload->>'physical_at', '')::timestamptz, v_header.physical_at"
+      },
+      {
+        "identity": "erp.save_my_reminder_v1(jsonb,uuid,bigint)",
+        "line": 68,
+        "source_sha256": "1bbfc46bf702c302e8d70239d519c3ec236feaf560cc8cda592fabd340eae2c5",
+        "category": "TIMESTAMP_INPUT_PARSE_SEPARATE_CONTRACT",
+        "text": "v_due_at := v_due_text::timestamptz;"
+      },
+      {
+        "identity": "erp.save_rework_order_v2(jsonb,uuid,bigint)",
+        "line": 77,
+        "source_sha256": "4f0c48b1a30f397cc856530d3a5c84fdb1db2f5025b224471bc4e997d346be14",
+        "category": "TIMESTAMP_INPUT_PARSE_SEPARATE_CONTRACT",
+        "text": "0,0,(p_payload->>'physical_sent_at')::timestamptz,"
+      },
+      {
+        "identity": "erp.save_sale_draft_v2(jsonb,uuid,bigint)",
+        "line": 16,
+        "source_sha256": "c02ed22cee0f3c8124986a7ef8e7be71c716bf1c9b00b169e18ccbb9892fb239",
+        "category": "TIMESTAMP_INPUT_PARSE_SEPARATE_CONTRACT",
+        "text": "v_sale_date timestamptz := nullif(p_payload->>'sale_date','')::timestamptz;"
+      },
+      {
+        "identity": "erp.validate_product_identity_period()",
+        "line": 8,
+        "source_sha256": "84d4e9ec250aedf192877be6a12e9c789dbd883e954086004c7f43152fc01298",
+        "category": "INFINITY_RANGE_SENTINEL",
+        "text": "v_end timestamptz:=coalesce(new.effective_to,'infinity'::timestamptz);"
+      },
+      {
+        "identity": "erp.validate_product_identity_period()",
+        "line": 84,
+        "source_sha256": "84d4e9ec250aedf192877be6a12e9c789dbd883e954086004c7f43152fc01298",
+        "category": "INFINITY_RANGE_SENTINEL",
+        "text": "and tstzrange(p.effective_from,coalesce(p.effective_to,'infinity'::timestamptz),'[)')"
+      },
+      {
+        "identity": "erp.validate_product_identity_period()",
+        "line": 96,
+        "source_sha256": "84d4e9ec250aedf192877be6a12e9c789dbd883e954086004c7f43152fc01298",
+        "category": "INFINITY_RANGE_SENTINEL",
+        "text": "and tstzrange(p.effective_from,coalesce(p.effective_to,'infinity'::timestamptz),'[)')"
+      },
+      {
+        "identity": "erp.validate_product_identity_period()",
+        "line": 109,
+        "source_sha256": "84d4e9ec250aedf192877be6a12e9c789dbd883e954086004c7f43152fc01298",
+        "category": "INFINITY_RANGE_SENTINEL",
+        "text": "and tstzrange(p.effective_from,coalesce(p.effective_to,'infinity'::timestamptz),'[)')"
+      },
+      {
+        "identity": "erp.validate_product_identity_period()",
+        "line": 121,
+        "source_sha256": "84d4e9ec250aedf192877be6a12e9c789dbd883e954086004c7f43152fc01298",
+        "category": "INFINITY_RANGE_SENTINEL",
+        "text": "and tstzrange(p.effective_from,coalesce(p.effective_to,'infinity'::timestamptz),'[)')"
+      }
+    ],
+    "follow_up_entrypoints": [
+      "erp.prepare_migration_opening_balance(uuid,text)",
+      "erp.finalize_migration_batch(uuid)",
+      "erp.post_opening_balance(uuid)"
+    ],
+    "typed_comparison_exclusions": [
+      {
+        "identity": "erp.validate_attendance_hpp_pool_v1(uuid)",
+        "reason": "contractor_hpp_policy_versions.effective_from/effective_to and pool period boundaries are all DATE in frozen schema."
+      }
+    ],
+    "production_go": false
+  },
+  "production_go": false
+}

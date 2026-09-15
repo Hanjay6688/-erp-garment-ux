@@ -129,7 +129,7 @@ def maintenance_strip(target: str, folder: Path) -> dict[str, Any]:
 def setup_rollback_plan(target: str, source_generation: str) -> tuple[str, ...]:
     # The full matrix clones AB; each older guard names its restored source.
     # Missing or unexpected successors are checked before fixture writes.
-    if source_generation not in ('I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'AA', 'AB', 'AC') or target not in TARGETS:
+    if source_generation not in ('I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'AA', 'AB', 'AC', 'AD') or target not in TARGETS:
         raise AssertionError('Unsupported rollback fixture generation')
     generations = tuple(TARGETS)
     start, stop = generations.index(source_generation), generations.index(target)

@@ -1,4 +1,4 @@
-name: CP6 AC Independent Date Family Audit
+name: CP6 AD Whole Family Qualification
 
 on:
   push:
@@ -7,6 +7,12 @@ on:
       - .github/workflows/cp6-ac-independent-audit.yml
       - scripts/cp6_ac_independent_audit.py
       - scripts/cp6_ac_audit_bootstrap.py
+      - scripts/cp6_v2620ad_*.py
+      - scripts/cp6_preuse_rollback_maintenance.py
+      - scripts/cp6_v2620h_maintenance_rollback_matrix.py
+      - supabase/migrations/*_erp_v2_6_20ad_*.sql
+      - supabase/rollbacks/*_erp_v2_6_20ad_*.sql
+      - docs/evidence/cp6-ad-*.json
 
 permissions:
   contents: read
@@ -19,10 +25,15 @@ concurrency:
 jobs:
   audit:
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    timeout-minutes: 45
     env:
       PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
       CP6_AC_INDEPENDENT_CONFIRM: postgres
+      CP6_AD_PROOF_CONFIRM: postgres
+      CP6_MAINTENANCE_PGURL: postgresql://postgres:postgres@127.0.0.1:54322/template1
+      CP6_ROLLBACK_RACE_PGURL: postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback
+      CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
+      CP6_AD_MAINTENANCE_CONFIRM: cp6_rollback
       CP6_DATABASE_CONTAINER: supabase_db_cp5-local
       CP6_AUDIT_HARNESS_HEAD: ${{ github.sha }}
     steps:
@@ -97,45 +108,138 @@ jobs:
           export CP6_AC_WRITER_ARTIFACT="$RUNNER_TEMP/ac-native200.zip"
           gh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10392910720/zip > "$CP6_AC_WRITER_ARTIFACT"
           PYTHONPATH=scripts python ../audit-harness/scripts/cp6_ac_audit_bootstrap.py
-      - name: Run independent opening and attendance family cases
-        working-directory: candidate
-        env:
-          GITHUB_SHA: 1bdca3766f7c9800d68295ff5122798060b8a05d
+      - name: Preserve exact AC construction and incoming lossless evidence
+        working-directory: audit-harness
         run: |
           set -euo pipefail
-          PYTHONPATH=scripts python ../audit-harness/scripts/cp6_ac_independent_audit.py
-      - name: Verify source and fixture cleanup
+          mkdir -p cp6-proof/bootstrap-ac cp6-proof/incoming
+          cp -a ../candidate/cp6-proof/. cp6-proof/bootstrap-ac/
+          cp "$RUNNER_TEMP/ac-native200.zip" cp6-proof/incoming/AC_NATIVE200.zip
+      - name: Provision isolated rollback admission-control authority
+        working-directory: audit-harness
+        run: |
+          set -euo pipefail
+          maintenance_password="$(openssl rand -hex 32)"
+          maintenance_pgurl="postgresql://cp6_maintenance_admission:${maintenance_password}@127.0.0.1:54322/template1"
+          echo "::add-mask::$maintenance_password"
+          echo "::add-mask::$maintenance_pgurl"
+          test "$(docker exec "$CP6_DATABASE_CONTAINER" \
+            psql -U supabase_admin -d template1 -X -At -v ON_ERROR_STOP=1 \
+              -c "select count(*) from pg_roles where rolname='cp6_maintenance_admission'")" = '0'
+          docker exec -i "$CP6_DATABASE_CONTAINER" \
+            psql -U supabase_admin -d template1 -X -v ON_ERROR_STOP=1 \
+              -v cp6_password="$maintenance_password" <<'SQL'
+          create role cp6_maintenance_admission
+            login superuser noinherit nocreatedb nocreaterole noreplication
+            connection limit 4 password :'cp6_password';
+          SQL
+          printf 'CP6_ADMISSION_CONTROL_PGURL=%s\n' "$maintenance_pgurl" >> "$GITHUB_ENV"
+          psql "$maintenance_pgurl" -X -At -v ON_ERROR_STOP=1 <<'SQL' \
+            | tee cp6-proof/CP6_ADMISSION_CONTROL_PREFLIGHT.json
+          select jsonb_pretty(jsonb_build_object(
+            'status','PASS',
+            'role',current_user,
+            'database',current_database(),
+            'superuser',(select rolsuper from pg_roles where rolname=current_user),
+            'ephemeral_disposable_ci',true,
+            'credential_persisted_in_proof',false,
+            'production_go',false
+          ));
+          SQL
+          test "$(jq -r '.status' cp6-proof/CP6_ADMISSION_CONTROL_PREFLIGHT.json)" = 'PASS'
+          test "$(jq -r '.role' cp6-proof/CP6_ADMISSION_CONTROL_PREFLIGHT.json)" = 'cp6_maintenance_admission'
+          test "$(jq -r '.database' cp6-proof/CP6_ADMISSION_CONTROL_PREFLIGHT.json)" = 'template1'
+          test "$(jq -r '.superuser' cp6-proof/CP6_ADMISSION_CONTROL_PREFLIGHT.json)" = 'true'
+      - name: Qualify 55 predecessor cases and all admission controls before AD
+        working-directory: audit-harness
+        run: |
+          set -euo pipefail
+          PYTHONPATH=scripts python scripts/cp6_v2620ad_family_proof.py --phase predecessor
+          PYTHONPATH=scripts python scripts/cp6_v2620ad_family_proof.py --phase admission
+      - name: Apply the complete AD fix and verify all 274 pinned objects
+        working-directory: audit-harness
+        run: |
+          set -euo pipefail
+          psql "$PGURL" -X -v ON_ERROR_STOP=1 -f supabase/migrations/20260915113627_erp_v2_6_20ad_cp6_opening_material_business_day.sql > cp6-proof/writer-ad/AD_APPLY.log 2>&1
+          PYTHONPATH=scripts python - <<'PY'
+          import json,os,pathlib,psycopg,subprocess
+          import cp6_v2620ad_runtime as r
+          with psycopg.connect(os.environ['PGURL']) as conn,conn.cursor() as cur:
+              cur.execute('insert into supabase_migrations.schema_migrations(version,name,statements) values(%s,%s,%s)',(r.STAMP,r.NAME,[r.MIGRATION.read_text()]))
+              objects=r.verified_successor(cur)
+              assert len(objects)==274
+          pathlib.Path('cp6-proof/writer-ad/AD_INSTALLED_RUNTIME.json').write_text(json.dumps({'status':'PASS','objects':objects,'production_go':False},indent=2)+'\n')
+          replay=subprocess.run(['psql',os.environ['PGURL'],'-X','-v','ON_ERROR_STOP=1','-f',str(r.MIGRATION)],capture_output=True,text=True)
+          pathlib.Path('cp6-proof/writer-ad/AD_REPLAY.log').write_text(replay.stdout+replay.stderr)
+          assert replay.returncode!=0 and 'AD_REQUIRES_EXACT_AC_WITHOUT_AD_RESIDUE' in replay.stderr
+          PY
+      - name: Finish all family cases and detector controls before maintenance matrix
+        working-directory: audit-harness
+        run: |
+          set -euo pipefail
+          PYTHONPATH=scripts python scripts/cp6_v2620ad_family_proof.py --phase successor
+          PYTHONPATH=scripts python scripts/cp6_v2620ad_family_proof.py --phase detector
+          PYTHONPATH=scripts python scripts/cp6_v2620ad_family_proof.py --phase rollback
+      - name: Run the consolidated 20 AD maintenance schedules once
+        working-directory: audit-harness
+        run: |
+          set -euo pipefail
+          PYTHONPATH=scripts python scripts/cp6_v2620ad_maintenance_schedules.py
+      - name: Close admission and restore exact AC after AD
+        working-directory: audit-harness
+        env:
+          CP6_MAINTENANCE_CONFIRM_DATABASE: postgres
+          CP6_MAINTENANCE_ALLOW_SYSTEM_DATABASE: postgres
+        run: |
+          set -euo pipefail
+          PYTHONPATH=scripts python scripts/cp6_v2620ad_rollback_guards.py
+      - name: Verify unchanged source and zero user or clone residue
+        working-directory: audit-harness
         if: always()
-        working-directory: candidate
         run: |
           set -euo pipefail
           mkdir -p cp6-proof
+          # A failure can leave admission closed, so observe through local superuser.
           test -z "$(git diff --name-only)"
           if docker ps --format '{{.Names}}' | grep -Fxq supabase_db_cp5-local; then
-            psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select json_build_object('auth_users',(select count(*) from auth.users),'app_users',(select count(*) from erp.app_users),'source_unchanged',true,'production_go',false)" > cp6-proof/AC_AUDIT_FINAL_BOUNDARY.json
+            docker exec supabase_db_cp5-local psql -U supabase_admin -d template1 -X -v ON_ERROR_STOP=1 -c 'alter database postgres with allow_connections true'
+            psql "$PGURL" -X -At -v ON_ERROR_STOP=1 -c "select json_build_object('auth_users',(select count(*) from auth.users),'app_users',(select count(*) from erp.app_users),'remaining_clone_databases',(select count(*) from pg_database where datname='cp6_rollback'),'production_go',false)" > cp6-proof/AD_FINAL_BOUNDARY.json
             python - <<'PY'
-          import json
-          from pathlib import Path
-          r=json.loads(Path('cp6-proof/AC_AUDIT_FINAL_BOUNDARY.json').read_text())
-          assert r['auth_users']==r['app_users']==0
+          import json,pathlib
+          r=json.loads(pathlib.Path('cp6-proof/AD_FINAL_BOUNDARY.json').read_text())
+          assert r['auth_users']==r['app_users']==r['remaining_clone_databases']==0
           PY
           fi
-      - name: Stop disposable stack and prove removal
+      - name: Stop disposable stack and prove physical removal
         if: always()
         working-directory: candidate
         run: |
           set -euo pipefail
-          mkdir -p cp6-proof
+          mkdir -p ../audit-harness/cp6-proof
           if test -f cp5-local/supabase/config.toml; then supabase stop --workdir cp5-local --no-backup; fi
           remaining="$(docker ps -aq --filter name='^/supabase_db_cp5-local$')"
           test -z "$remaining"
-          printf 'status=PASS\nremaining_database_container=0\nproduction_go=false\n' > cp6-proof/AC_AUDIT_PHYSICAL_CLEANUP.txt
-      - name: Preserve every independent case and bootstrap log
+          printf 'status=PASS\nremaining_database_container=0\nproduction_go=false\n' > ../audit-harness/cp6-proof/AD_PHYSICAL_CLEANUP.txt
+      - name: Bind complete writer proof and create lossless transfer
+        working-directory: audit-harness
+        run: |
+          set -euo pipefail
+          PYTHONPATH=scripts python scripts/cp6_v2620ad_proof.py
+      - name: Preserve every failed or successful native attempt
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: cp6-ac-independent-date-family
-          path: candidate/cp6-proof
+          name: cp6-ad-raw-attempt
+          path: audit-harness/cp6-proof
           if-no-files-found: error
           compression-level: 9
+          retention-days: 30
+      - name: Preserve qualified lossless writer transfer
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cp6-ad-lossless-transfer
+          path: audit-harness/cp6-ad-transfer
+          if-no-files-found: error
+          compression-level: 0
           retention-days: 30

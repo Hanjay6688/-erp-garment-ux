@@ -1,0 +1,50 @@
+{
+  "format": "CP6_AD_RUNTIME_PINS_V1",
+  "stamp": "20260915113627",
+  "name": "erp_v2_6_20ad_cp6_opening_material_business_day",
+  "version": "v2.6.20ad",
+  "predecessor_head": "1bdca3766f7c9800d68295ff5122798060b8a05d",
+  "predecessor_tree": "334629c626257b8b713826f491cdf62385d5299b",
+  "functions": [
+    {
+      "identity": "erp.post_opening_balance(uuid)",
+      "predecessor_sha256": "d73391c79e725c14aab7370cf5f5dfc0bd2134a02480e5693c37dc9c25bf5829",
+      "installed_sha256": "cc89ac9e978723c70728cc183104490109bf2530ce8dd1a99b314018a5b0f6eb",
+      "owner": "postgres",
+      "acl": [
+        "authenticated=X/postgres",
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ]
+    },
+    {
+      "identity": "erp.run_v268_financial_report_checks()",
+      "predecessor_sha256": "416b8c53665c4c2b814d4621935a9291797fdbf49067deb0a910d16dc90685fd",
+      "installed_sha256": "6a93242cb0325baee511c2753eb65588600fe8b9a7fc62d423b85f14bf9c71d5",
+      "owner": "postgres",
+      "acl": [
+        "authenticated=X/postgres",
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ]
+    }
+  ],
+  "boundary_count": 216,
+  "predecessor_function_count": 533,
+  "predecessor_table_count": 218,
+  "source_pins": {
+    "docs/evidence/cp6-ad-predecessor-functions.json": {
+      "sha256": "0a0edbcfd0c4cd26212a161a84f3b7414ecc15fe5642409c868f1f17a0694446",
+      "bytes": 52812
+    },
+    "supabase/migrations/20260915113627_erp_v2_6_20ad_cp6_opening_material_business_day.sql": {
+      "sha256": "cd4879eb9b053e3b7a975e1430f481131e377f260ece2f19f07bfb4c98498c1d",
+      "bytes": 12468
+    },
+    "supabase/rollbacks/20260915113627_erp_v2_6_20ad_cp6_opening_material_business_day.rollback.sql": {
+      "sha256": "38eb8025f07fa9a49f221fa274e56242c5c525947c3d24dc98a735d02b75512c",
+      "bytes": 11711
+    }
+  },
+  "production_go": false
+}

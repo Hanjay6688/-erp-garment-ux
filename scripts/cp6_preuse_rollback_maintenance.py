@@ -28,6 +28,13 @@ from psycopg.conninfo import conninfo_to_dict
 
 
 TARGETS: dict[str, dict[str, Any]] = {
+    'AD': {
+        'rollback': Path('supabase/rollbacks/20260915113627_erp_v2_6_20ad_cp6_opening_material_business_day.rollback.sql'),
+        'rollback_sha256': '38eb8025f07fa9a49f221fa274e56242c5c525947c3d24dc98a735d02b75512c',
+        'marker': 'v2.6.20ad', 'platform': 'erp_v2_6_20ad_cp6_opening_material_business_day',
+        'predecessor': 'v2.6.20ac', 'capsule': 'erp.cp6_v2620ad_rollback_capsule',
+        'capsule_count': 2,
+    },
     'AC': {
         'rollback': Path('supabase/rollbacks/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.rollback.sql'),
         'rollback_sha256': 'ebf1d0f66fe0b50d41d872c19510adad9af993bd03ae5e513542004b7e5b1acb',
@@ -539,6 +546,13 @@ def _sessions(control: psycopg.Connection, database: str, keep_pid: int) -> list
 def _capsule_snapshot(
     target_conn: psycopg.Connection, target_name: str, target: dict[str, Any]
 ) -> list[dict[str, Any]]:
+    if target_name == 'AD':
+        from cp6_v2620ad_runtime import pins, verify_ac_pre_admission
+        # Bind AD's two pins independently and avoid relation deparsing until
+        # old sessions drain, preserving the AC report-lock repair.
+        TRUSTED_FUNCTIONS['AD'] = pins()['functions']
+        with target_conn.cursor() as ad_cur:
+            verify_ac_pre_admission(ad_cur)
     if target_name == 'AC':
         from cp6_v2620ac_runtime import verified_pre_admission_successor
         with target_conn.cursor() as ac_cur:
@@ -953,13 +967,16 @@ def run_maintenance_rollback(
         # parser-normalized source-to-live view proof.  Rollback remains
         # forbidden if this stronger second pass detects coordinated capsule
         # and live-definition drift; admission stays closed on failure.
-        if target_name == 'AC':
-            from cp6_v2620ac_runtime import verified_successor
+        if target_name in {'AC', 'AD'}:
+            if target_name == 'AD':
+                from cp6_v2620ad_runtime import verified_successor
+            else:
+                from cp6_v2620ac_runtime import verified_successor
             with rollback_conn.cursor() as ac_cur:
                 post_drain_objects = verified_successor(ac_cur)
-            if len(post_drain_objects) != 272:
+            if len(post_drain_objects) != (274 if target_name == 'AD' else 272):
                 raise MaintenanceRollbackError(
-                    'AC_POST_DRAIN_RUNTIME_CARDINALITY_MISMATCH'
+                    target_name + '_POST_DRAIN_RUNTIME_CARDINALITY_MISMATCH'
                 )
             report['post_drain_full_source_verification'] = {
                 'object_count': len(post_drain_objects),
