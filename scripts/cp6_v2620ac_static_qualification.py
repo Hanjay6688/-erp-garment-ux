@@ -198,6 +198,106 @@ def view_statements(segment: str) -> list[str]:
     )
 
 
+class _SingleViewCursor:
+    """Minimal cursor for exercising the runtime view-verifier modes."""
+
+    def __init__(self, row: tuple[object, ...]) -> None:
+        self.row = row
+        self.execute_count = 0
+
+    def execute(self, _query: str, _params: object = None, **_kwargs: object) -> None:
+        self.execute_count += 1
+
+    def fetchone(self) -> tuple[object, ...]:
+        return self.row
+
+
+def runtime_view_verifier_mode_qualification() -> dict[str, object]:
+    """Prove maintenance mode skips only temp DDL and still fails closed."""
+    body = "select 1 AS cp6_ac_lock_safe_probe"
+    body_sha = sha(body)
+    installed_sha = sha("engine-normalized-view")
+    item = {
+        "identity": "erp.cp6_ac_lock_safe_probe",
+        "before_body_sha": sha("predecessor-view"),
+        "restore_sha": sha("restore-view"),
+        "after_body_sha": body_sha,
+        "owner": "postgres",
+        "acl": ["postgres=r/postgres"],
+        "reloptions": ["security_invoker=true"],
+        "rls": False,
+    }
+    row = (
+        item["before_body_sha"], item["restore_sha"], installed_sha,
+        item["owner"], item["acl"], item["reloptions"], item["rls"],
+        installed_sha, item["owner"], item["acl"], item["reloptions"],
+        item["rls"],
+    )
+    original_bodies = runtime._applied_view_bodies
+    original_normalize = runtime._normalized_view_sha
+    normalize_calls = 0
+
+    def normalized(_cur: object, observed_body: str) -> str:
+        nonlocal normalize_calls
+        normalize_calls += 1
+        if observed_body != body:
+            raise AssertionError("AC_VIEW_MODE_UNIT_BODY_MISMATCH")
+        return installed_sha
+
+    runtime._applied_view_bodies = lambda: {item["identity"]: body}
+    runtime._normalized_view_sha = normalized
+    try:
+        lock_safe_cursor = _SingleViewCursor(row)
+        lock_safe = runtime._verify_views(
+            lock_safe_cursor,
+            {"views": [item]},
+            normalize_source_with_temp_view=False,
+        )
+        if normalize_calls != 0 or lock_safe_cursor.execute_count != 1:
+            raise AssertionError("AC_LOCK_SAFE_VIEW_MODE_USED_TEMP_DDL")
+
+        full_cursor = _SingleViewCursor(row)
+        full = runtime._verify_views(
+            full_cursor,
+            {"views": [item]},
+            normalize_source_with_temp_view=True,
+        )
+        if normalize_calls != 1 or full_cursor.execute_count != 1:
+            raise AssertionError("AC_FULL_VIEW_MODE_SKIPPED_NORMALIZATION")
+
+        drift_rejections: list[str] = []
+        for label, index, value in (
+            ("LIVE_DEFINITION", 7, sha("drifted-live-view")),
+            ("LIVE_ACL", 9, ["PUBLIC=r/postgres"]),
+        ):
+            drifted = list(row)
+            drifted[index] = value
+            try:
+                runtime._verify_views(
+                    _SingleViewCursor(tuple(drifted)),
+                    {"views": [item]},
+                    normalize_source_with_temp_view=False,
+                )
+            except AssertionError as exc:
+                if str(exc) != (
+                    "AC_VIEW_PIN_MISMATCH:" + str(item["identity"])
+                ):
+                    raise
+                drift_rejections.append(label)
+            else:
+                raise AssertionError(f"AC_LOCK_SAFE_VIEW_MODE_ACCEPTED_{label}_DRIFT")
+    finally:
+        runtime._applied_view_bodies = original_bodies
+        runtime._normalized_view_sha = original_normalize
+
+    return {
+        "lock_safe_skipped_temp_ddl": True,
+        "full_mode_normalized_source": True,
+        "identical_observations": lock_safe == full,
+        "drift_rejections": drift_rejections,
+    }
+
+
 def run() -> dict[str, object]:
     source_hashes = runtime.verify_source_files()
     source_head, source_tree = runtime.verify_audit_source()
@@ -367,6 +467,10 @@ def run() -> dict[str, object]:
     if any(stale.values()):
         raise AssertionError("AC_STALE_TRANSACTION_CLOCK_IN_APPLIED_SURFACE:" + str(stale))
 
+    view_verifier_modes = runtime_view_verifier_mode_qualification()
+    if not view_verifier_modes["identical_observations"]:
+        raise AssertionError("AC_VIEW_VERIFIER_MODE_OBSERVATION_MISMATCH")
+
     result: dict[str, object] = {
         "format": "CP6_V2620AC_STATIC_QUALIFICATION_V1",
         "status": "PASS",
@@ -387,6 +491,7 @@ def run() -> dict[str, object]:
         },
         "postgres17_maintain_acl_pinned": True,
         "effective_view_acl_guards": effective_acl_counts,
+        "runtime_view_verifier_modes": view_verifier_modes,
         "stale_transaction_clock_tokens": stale,
         "migration_lexical": lexical_balance(migration, "migration"),
         "rollback_lexical": lexical_balance(rollback, "rollback"),

@@ -542,7 +542,15 @@ def _capsule_snapshot(
     if target_name == 'AC':
         from cp6_v2620ac_runtime import verified_successor
         with target_conn.cursor() as ac_cur:
-            all_objects = verified_successor(ac_cur)
+            # Full AC qualification normalizes source views through temporary
+            # DDL before any schedule starts.  Repeating that DDL here can
+            # wait behind the REPORT writer's deliberate table gate before
+            # admission is closed.  This first pass remains exact for frozen
+            # source, capsule/live equality and relation security.  The direct
+            # source-to-live parser proof is repeated after the drain below.
+            all_objects = verified_successor(
+                ac_cur, normalize_source_with_temp_view=False
+            )
         functions = [
             item for item in all_objects.values() if item['kind'] == 'FUNCTION'
         ]
@@ -944,6 +952,23 @@ def run_maintenance_rollback(
             raise MaintenanceRollbackError('DRAIN_TIMEOUT: old client invocations remain')
         if _scalar(control, 'select datallowconn from pg_database where datname=%s', (database,)):
             raise MaintenanceRollbackError('Admission reopened before rollback')
+
+        # Only after every old invocation is gone can AC safely repeat the
+        # parser-normalized source-to-live view proof.  Rollback remains
+        # forbidden if this stronger second pass detects coordinated capsule
+        # and live-definition drift; admission stays closed on failure.
+        if target_name == 'AC':
+            from cp6_v2620ac_runtime import verified_successor
+            with rollback_conn.cursor() as ac_cur:
+                post_drain_objects = verified_successor(ac_cur)
+            if len(post_drain_objects) != 272:
+                raise MaintenanceRollbackError(
+                    'AC_POST_DRAIN_RUNTIME_CARDINALITY_MISMATCH'
+                )
+            report['post_drain_full_source_verification'] = {
+                'object_count': len(post_drain_objects),
+                'parser_normalized_views': True,
+            }
         _phase(report_path, report, 'DRAINED', terminated_count=len(terminated))
 
         report['rollback_started'] = True

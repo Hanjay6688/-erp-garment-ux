@@ -245,7 +245,9 @@ def _verify_functions(cur, payload: dict[str, Any]) -> dict[str, Any]:
     return observations
 
 
-def _verify_views(cur, payload: dict[str, Any]) -> dict[str, Any]:
+def _verify_views(
+    cur, payload: dict[str, Any], *, normalize_source_with_temp_view: bool
+) -> dict[str, Any]:
     observations: dict[str, Any] = {}
     applied_bodies = _applied_view_bodies()
     for item in payload["views"]:
@@ -281,12 +283,18 @@ def _verify_views(cur, payload: dict[str, Any]) -> dict[str, Any]:
             != item["after_body_sha"]
         ):
             raise AssertionError(f"AC_VIEW_SOURCE_PIN_MISMATCH:{item['identity']}")
-        expected_engine_sha = _normalized_view_sha(cur, applied_body)
+        expected_engine_sha = (
+            _normalized_view_sha(cur, applied_body)
+            if normalize_source_with_temp_view else None
+        )
         if (
             predecessor_sha != item["before_body_sha"]
             or restore_sha != item["restore_sha"]
             or installed_pin != false_sha
-            or false_sha != expected_engine_sha
+            or (
+                expected_engine_sha is not None
+                and false_sha != expected_engine_sha
+            )
             or capsule_owner != item["owner"]
             or live_owner != item["owner"]
             or _acl(capsule_acl) != _acl(item["acl"])
@@ -358,8 +366,17 @@ def _verify_defaults(cur, payload: dict[str, Any]) -> dict[str, Any]:
     return observations
 
 
-def verified_successor(cur) -> dict[str, Any]:
-    """Verify exact AC source, markers, capsules, definitions, ACLs and owners."""
+def verified_successor(
+    cur, *, normalize_source_with_temp_view: bool = True
+) -> dict[str, Any]:
+    """Verify exact AC source, markers, capsules, definitions, ACLs and owners.
+
+    The default independently normalizes each pinned source view through the
+    PostgreSQL parser.  Maintenance preflight may disable only that temporary
+    DDL pass while an old invocation is deliberately blocked by a table gate;
+    it still verifies pinned source bodies, capsule hashes and every live view
+    definition/security attribute without acquiring locks on base relations.
+    """
     verify_source_files()
     cur.execute(
         """select exists(select 1 from erp.schema_migrations where version=%s),
@@ -393,7 +410,10 @@ def verified_successor(cur) -> dict[str, Any]:
     _capsule_security(cur, RELATION_CAPSULE)
     payload = pins()
     observations = _verify_functions(cur, payload)
-    observations.update(_verify_views(cur, payload))
+    observations.update(_verify_views(
+        cur, payload,
+        normalize_source_with_temp_view=normalize_source_with_temp_view,
+    ))
     observations.update(_verify_defaults(cur, payload))
     if len(observations) != 272:
         raise AssertionError("AC_RUNTIME_OBSERVATION_CARDINALITY")
