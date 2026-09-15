@@ -38,7 +38,52 @@ env:
   CP6_ROLLBACK_RACE_PGURL: postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback
 
 jobs:
+  # BEGIN AC AUDIT EVIDENCE ROUTER
+  audit-scope:
+    runs-on: ubuntu-24.04
+    outputs:
+      full: ${{ steps.classify.outputs.full }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: classify
+        name: Reuse AC only for an exact audit-only change set
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PYROUTE'
+          import hashlib,os,subprocess
+          from pathlib import Path
+          frozen='1bdca3766f7c9800d68295ff5122798060b8a05d'
+          allowed={'.github/workflows/cp6-ac-independent-audit.yml',
+                   'scripts/cp6_ac_independent_audit.py',
+                   'scripts/cp6_ac_audit_bootstrap.py',
+                   'docs/cp6-efficient-audit-rule.md',
+                   '.github/workflows/cp6-full-schema-validation.yml'}
+          try:
+              ancestor=subprocess.check_output(['git','merge-base',frozen,'HEAD'],text=True).strip()==frozen
+              changed=set(subprocess.check_output(['git','diff','--name-only',frozen,'HEAD'],text=True).splitlines())
+              current=Path('.github/workflows/cp6-full-schema-validation.yml').read_text()
+              marker_a='  # BEGIN AC AUDIT EVIDENCE ROUTER\n'
+              marker_b='  # END AC AUDIT EVIDENCE ROUTER\n'
+              start=current.index(marker_a);end=current.index(marker_b,start)+len(marker_b)
+              restored=current[:start]+current[end:]
+              routing="    needs: audit-scope\n    if: needs.audit-scope.outputs.full == 'true'\n"
+              assert restored.count(routing)==1
+              restored=restored.replace(routing,'',1)
+              original_matches=hashlib.sha256(restored.encode()).hexdigest()=='5ba14137aca8992f92f32357d2b0a3c15a1ca40a988b3ec79754dde7a6eb8302'
+              reuse=ancestor and bool(changed) and changed<=allowed and original_matches
+          except (AssertionError,ValueError,subprocess.CalledProcessError):
+              reuse=False
+          with open(os.environ['GITHUB_OUTPUT'],'a') as output:
+              output.write('full='+('false' if reuse else 'true')+'\n')
+          print('REUSED_EVIDENCE: exact AC business source; Native200/AB189 remain bound' if reuse else 'RERUN_REQUIRED: changes extend beyond the exact AC audit-only boundary')
+          PYROUTE
+  # END AC AUDIT EVIDENCE ROUTER
   validate-full-schema:
+    needs: audit-scope
+    if: needs.audit-scope.outputs.full == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 120
     steps:
