@@ -46,6 +46,23 @@ not claimed by these SQL tests. The next chatbox should attack the AD delta,
 material/source relation completeness, report confidence, admission poisoning,
 and residual temporal input contracts before independent acceptance.
 
+Native5 (34967943841, head 24ad7483ee594a7172e55c642f396208e5231f56)
+completed all 55 successor cases, six detector controls, six admission controls,
+eight rollback controls, and all 20 maintenance schedules. Its final whole-table
+comparison failed after rollback. The predecessor snapshot uses Asia/Jakarta;
+the failed comparison used UTC. The repaired wrapper retains both observations
+and requires the entire 533-function / 218-table boundary to match under the
+original observation context, with per-table diagnostics. No SQL bytes change.
+
+The retry downloads Native5 artifact 10396157668, verifies its exact ZIP and
+manifest hashes, checks all 20 cases and zero clones, and preserves all 241 matrix
+payload files. Every repository path outside the explicit comparator/harness
+repair list must equal Native5 before reuse is allowed. These 20 cases remain
+REUSED_VERIFIED_NATIVE5; Native5 itself remains a failed run. They are not run
+again or relabeled as fresh proof. The family suite and final restore comparison
+run on the new candidate. The next auditor can reuse this evidence under the same
+source conditions instead of repeating a completed matrix.
+
 The authoritative verdict is the exact-run writer manifest and lossless
 transfer. Until those complete, AD is a writer candidate awaiting native proof.
 Even a writer PASS still requires the other chatbox's independent audit.

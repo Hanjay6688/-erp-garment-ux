@@ -180,11 +180,13 @@ jobs:
           PYTHONPATH=scripts python scripts/cp6_v2620ad_family_proof.py --phase successor
           PYTHONPATH=scripts python scripts/cp6_v2620ad_family_proof.py --phase detector
           PYTHONPATH=scripts python scripts/cp6_v2620ad_family_proof.py --phase rollback
-      - name: Run the consolidated 20 AD maintenance schedules once
+      - name: Verify and reuse the completed 20 Native5 AD maintenance schedules
         working-directory: audit-harness
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          PYTHONPATH=scripts python scripts/cp6_v2620ad_maintenance_schedules.py
+          PYTHONPATH=scripts python scripts/cp6_v2620ad_reuse_matrix.py
       - name: Close admission and restore exact AC after AD
         working-directory: audit-harness
         env:

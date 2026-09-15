@@ -3,6 +3,7 @@
 from pathlib import Path
 import hashlib,json,os,subprocess,tarfile
 import cp6_v2620ad_runtime as runtime
+import cp6_v2620ad_reuse_matrix as reuse_matrix
 
 ROOT=Path('cp6-proof');WRITER=ROOT/'writer-ad'
 
@@ -13,9 +14,13 @@ def run():
     gates={}
     for name,status in required.items():
         report=json.loads((WRITER/(name+'.json')).read_text());assert report['status']==status,(name,report['status']);gates[name]=report['status']
-    matrix=json.loads((ROOT/'AD_MAINTENANCE_ROLLBACK/manifest.json').read_text())
-    assert matrix['status']=='PASS' and matrix['completed_case_count']==20
-    gates['AD_MAINTENANCE_20']=matrix['status']
+    matrix=reuse_matrix.validate_manifest((ROOT/'AD_MAINTENANCE_ROLLBACK/manifest.json').read_bytes())
+    reuse=json.loads((ROOT/'AD_MATRIX_REUSE.json').read_text())
+    assert reuse['status']=='REUSED_VERIFIED_NATIVE5' and reuse['consumer_head']==head and reuse['consumer_tree']==tree
+    assert reuse['source_head']==reuse_matrix.SOURCE_HEAD and reuse['source_run']==reuse_matrix.SOURCE_RUN
+    assert reuse['cases']==20 and reuse['reexecuted'] is False and reuse['all_other_repository_paths_identical']
+    for name,pin in reuse['payload_files'].items():
+        data=(ROOT/name).read_bytes();assert len(data)==pin['bytes'] and hashlib.sha256(data).hexdigest()==pin['sha256']
     cleanup=json.loads((ROOT/'AD_FINAL_BOUNDARY.json').read_text());assert cleanup['auth_users']==cleanup['app_users']==cleanup['remaining_clone_databases']==0
     physical=(ROOT/'AD_PHYSICAL_CLEANUP.txt').read_text();assert 'remaining_database_container=0' in physical
     # The complete original AC ZIP is retained once. Its exact digest binds
@@ -29,8 +34,10 @@ def run():
     source_pins={p:{'bytes':Path(p).stat().st_size,'sha256':hashlib.sha256(Path(p).read_bytes()).hexdigest()} for p in changed}
     r={'format':'CP6_AD_WRITER_MANIFEST_V1','status':'WRITER_PASS_INDEPENDENT_AUDIT_PENDING','head':head,'tree':tree,
        'run_id':os.environ['GITHUB_RUN_ID'],'run_attempt':os.environ['GITHUB_RUN_ATTEMPT'],'predecessor':runtime.AC_HEAD,
-       'new_native_gates':gates,'new_family_cases':55,'new_predecessor_cases':55,'maintenance_cases':20,
+       'new_native_gates':gates,'new_family_cases':55,'new_predecessor_cases':55,'reused_maintenance_cases':20,
        'reused_evidence':{'native_run':34956212157,'matrix_460':'REUSED only; unchanged predecessor schedules',
+          'ad_maintenance_20':{'status':reuse['status'],'source_run':reuse['source_run'],'source_head':reuse['source_head'],
+              'manifest_sha256':reuse['manifest_sha256'],'reexecuted':False},
           'ac_runtime_objects_272':'Reverified on the new engine; AC behavior evidence reused',
           'older_rollback_ladder':'RECONCILED through new exact AD -> AC edge; older AC -> CP4.5 evidence reused',
           'signed_auth_http_browser':'REUSED for unchanged facades; new posting tests are synthetic JWT SQL'},
