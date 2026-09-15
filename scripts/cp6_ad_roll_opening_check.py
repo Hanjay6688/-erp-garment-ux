@@ -59,7 +59,7 @@ def verify_round_source() -> tuple[str, str]:
 
 def create_roll(cur, label: str, original_qty: Decimal = Decimal("10"), material=None):
     actors.admin(cur)
-    material = material or prior.clone_material(cur, "roll-opening-" + label)
+    material = material or prior.clone_material(cur, "ro-" + label[:12])
     location = uuid.uuid4()
     roll = uuid.uuid4()
     cur.execute(
@@ -222,7 +222,7 @@ def reused_next_document(cur, day):
 
 def mismatched_material(cur, day):
     material, location, roll = create_roll(cur, "mismatched-material")
-    other_material = prior.clone_material(cur, "roll-opening-other-material")
+    other_material = prior.clone_material(cur, "ro-other")
     header, _ = create_opening(
         cur,
         day,
