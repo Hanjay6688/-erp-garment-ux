@@ -152,6 +152,7 @@ def view_statements(segment: str) -> list[str]:
 
 def run() -> dict[str, object]:
     source_hashes = runtime.verify_source_files()
+    source_head, source_tree = runtime.verify_audit_source()
     disposition = json.loads(runtime.DISPOSITION.read_text(encoding="utf-8"))
     pins = runtime.pins()
     migration = runtime.MIGRATION.read_text(encoding="utf-8")
@@ -274,6 +275,8 @@ def run() -> dict[str, object]:
     result: dict[str, object] = {
         "format": "CP6_V2620AC_STATIC_QUALIFICATION_V1",
         "status": "PASS",
+        "head": source_head,
+        "tree": source_tree,
         "source_hashes": source_hashes,
         "decisions": dict(decisions),
         "occurrence_count": len(occurrence_ids),

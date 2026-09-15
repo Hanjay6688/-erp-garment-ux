@@ -92,8 +92,16 @@ def verify_audit_source():
     if git('diff', '--name-only', '--diff-filter=MDRTCUXB', AA_HEAD, 'HEAD', '--', 'supabase/migrations', 'supabase/rollbacks'):
         raise AssertionError('AB_AUDIT_ADMITTED_AA_SQL_CHANGED')
     changed = set(git('diff', '--name-only', AA_HEAD, 'HEAD', '--', 'supabase/migrations', 'supabase/rollbacks').splitlines())
-    if changed != {str(MIGRATION), str(ROLLBACK)}:
-        raise AssertionError('AB_AUDIT_ONLY_EXACT_SUCCESSOR_ADDITIONS_ALLOWED')
+    admitted = {str(MIGRATION), str(ROLLBACK)}
+    if changed != admitted:
+        # Historical AB audits also execute from an AC source checkout before
+        # AC is installed. Admit only AC's two hash-pinned SQL additions; this
+        # does not change the runtime phase or authorize any older rollback.
+        import cp6_v2620ac_runtime as ac_runtime
+        ac_additions = {str(ac_runtime.MIGRATION), str(ac_runtime.ROLLBACK)}
+        if changed != admitted | ac_additions:
+            raise AssertionError('AB_AUDIT_ONLY_EXACT_AB_OR_AC_ADDITIONS_ALLOWED')
+        ac_runtime.verify_source_files()
     if hashlib.sha256(MIGRATION.read_bytes()).hexdigest() != MIGRATION_SHA256 or hashlib.sha256(ROLLBACK.read_bytes()).hexdigest() != ROLLBACK_SHA256:
         raise AssertionError('AB_AUDIT_SUCCESSOR_SQL_BYTES_CHANGED')
     head = git('rev-parse', 'HEAD')

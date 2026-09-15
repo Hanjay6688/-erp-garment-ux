@@ -39,6 +39,20 @@ AB_ROLLBACK = Path(
     "supabase/rollbacks/20260914190500_erp_v2_6_20ab_cp6_operational_business_clock.rollback.sql"
 )
 
+# The original writer tree is immutable. A bounded source-admission repair may
+# follow it without weakening the exact AB ancestry or the two-file AC SQL edge.
+AC_WRITER_HEAD = "41e210a4b756d26bc5fce20d59904af0fe2552fb"
+AC_WRITER_TREE = "7bde10c90d29f3f3fd7787cf7064d86d828fb82b"
+AC_SOURCE_ADMISSION_REPAIR_FILES = {
+    "scripts/cp6_v2620ab_runtime.py",
+    "scripts/cp6_v2620ac_runtime.py",
+    "scripts/cp6_v2620ac_static_qualification.py",
+    "scripts/cp6_v2620ac_proof.py",
+    "scripts/cp6_x_independent_audit.py",
+    "scripts/cp6_y_independent_audit.py",
+    "scripts/cp6_z_expanded_integrity_audit.py",
+}
+
 MAIN_CAPSULE = "erp.cp6_v2620ac_rollback_capsule"
 RELATION_CAPSULE = "erp.cp6_v2620ac_relation_rollback_capsule"
 
@@ -317,15 +331,24 @@ def verified_successor(cur) -> dict[str, Any]:
 
 
 def verify_audit_source() -> tuple[str, str]:
-    """Require exact AB ancestry and only the two additive AC SQL files."""
+    """Require the immutable AC writer edge plus its bounded admission repair."""
     verify_source_files()
     git = lambda *args: subprocess.check_output(["git", *args], text=True).strip()
     if git("rev-parse", AB_HEAD + "^{tree}") != AB_TREE:
         raise AssertionError("AC_FROZEN_AB_TREE_MISMATCH")
     if git("merge-base", AB_HEAD, "HEAD") != AB_HEAD:
         raise AssertionError("AC_REQUIRES_FROZEN_AB_ANCESTRY")
-    if git("show", "-s", "--format=%P", "HEAD").split() != [AB_HEAD]:
-        raise AssertionError("AC_REQUIRES_SINGLE_DIRECT_AB_PARENT")
+    if git("rev-parse", AC_WRITER_HEAD + "^{tree}") != AC_WRITER_TREE:
+        raise AssertionError("AC_FROZEN_WRITER_TREE_MISMATCH")
+    if git("merge-base", AC_WRITER_HEAD, "HEAD") != AC_WRITER_HEAD:
+        raise AssertionError("AC_REQUIRES_FROZEN_WRITER_ANCESTRY")
+    if git("rev-list", "--merges", AC_WRITER_HEAD + "..HEAD"):
+        raise AssertionError("AC_SOURCE_ADMISSION_REPAIR_MUST_BE_LINEAR")
+    repaired = set(git(
+        "diff", "--name-only", AC_WRITER_HEAD, "HEAD",
+    ).splitlines())
+    if repaired not in (set(), AC_SOURCE_ADMISSION_REPAIR_FILES):
+        raise AssertionError("AC_ONLY_EXACT_SOURCE_ADMISSION_REPAIR_ALLOWED")
     modified = git(
         "diff", "--name-only", "--diff-filter=MDRTCUXB", AB_HEAD, "HEAD", "--",
         "supabase/migrations", "supabase/rollbacks",

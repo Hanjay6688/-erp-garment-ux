@@ -337,6 +337,13 @@ def run(phase='X_AUDIT', extensions=None):
     if phase != 'X_AUDIT' and changed & ab_additions:
         ab_runtime.verify_audit_source()
         allowed |= ab_additions
+    import cp6_v2620ac_runtime as ac_runtime
+    ac_additions = {str(ac_runtime.MIGRATION), str(ac_runtime.ROLLBACK)}
+    if phase != 'X_AUDIT' and changed & ac_additions:
+        # AC may exist in the checkout while this disposable database is still
+        # intentionally at X. Its complete pinned source set must be exact.
+        ac_runtime.verify_source_files()
+        allowed |= ac_additions
     modified_history = git('diff', '--diff-filter=MDRTCUXB', '--name-only', HEAD_X, 'HEAD', '--', 'supabase/migrations', 'supabase/rollbacks')
     if changed - allowed or modified_history:
         raise AssertionError('INDEPENDENT_REQUIRES_UNCHANGED_X_BUSINESS_SQL')

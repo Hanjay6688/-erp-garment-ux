@@ -186,14 +186,17 @@ def audit():
     import cp6_v2620z_runtime as z_runtime
     import cp6_v2620aa_runtime as aa_runtime
     import cp6_v2620ab_runtime as ab_runtime
+    import cp6_v2620ac_runtime as ac_runtime
     if git('diff', '--diff-filter=MDRTCUXB', '--name-only', HEAD_Y, 'HEAD', '--', 'supabase/migrations', 'supabase/rollbacks'):
         raise AssertionError('Y_ADMITTED_SQL_MUST_REMAIN_IMMUTABLE')
     added = set(git('diff', '--diff-filter=A', '--name-only', HEAD_Y, 'HEAD', '--',
                     'supabase/migrations', 'supabase/rollbacks').splitlines())
     if added != {str(z_runtime.MIGRATION), str(z_runtime.ROLLBACK),
                  str(aa_runtime.MIGRATION), str(aa_runtime.ROLLBACK),
-                 str(ab_runtime.MIGRATION), str(ab_runtime.ROLLBACK)}:
-        raise AssertionError('Y_ONLY_EXPLICIT_Z_AA_AB_SUCCESSOR_SQL_ALLOWED')
+                 str(ab_runtime.MIGRATION), str(ab_runtime.ROLLBACK),
+                 str(ac_runtime.MIGRATION), str(ac_runtime.ROLLBACK)}:
+        raise AssertionError('Y_ONLY_EXPLICIT_Z_AA_AB_AC_SUCCESSOR_SQL_ALLOWED')
+    ac_runtime.verify_source_files()
     ab_runtime.verify_audit_source()
     if os.environ.get('GITHUB_SHA') != git('rev-parse', 'HEAD'):
         raise AssertionError('Y_AUDIT_EXACT_CHECKOUT')

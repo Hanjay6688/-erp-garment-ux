@@ -493,8 +493,12 @@ def audit() -> int:
         raise AssertionError('Z_EXPANDED_FROZEN_BUSINESS_SQL_CHANGED')
     added = set(git('diff', '--diff-filter=A', '--name-only', HEAD_Z, 'HEAD', '--',
                     'supabase/migrations', 'supabase/rollbacks').splitlines())
-    if added != {str(aa_runtime.MIGRATION), str(aa_runtime.ROLLBACK), str(ab_runtime.MIGRATION), str(ab_runtime.ROLLBACK)}:
-        raise AssertionError('Z_EXPANDED_ONLY_REVIEWED_AA_AB_SUCCESSORS_ALLOWED')
+    import cp6_v2620ac_runtime as ac_runtime
+    if added != {str(aa_runtime.MIGRATION), str(aa_runtime.ROLLBACK),
+                 str(ab_runtime.MIGRATION), str(ab_runtime.ROLLBACK),
+                 str(ac_runtime.MIGRATION), str(ac_runtime.ROLLBACK)}:
+        raise AssertionError('Z_EXPANDED_ONLY_REVIEWED_AA_AB_AC_SUCCESSORS_ALLOWED')
+    ac_runtime.verify_source_files()
     ab_runtime.verify_audit_source()
     if os.environ.get('GITHUB_SHA') != git('rev-parse', 'HEAD'):
         raise AssertionError('Z_EXPANDED_EXACT_CHECKOUT_REQUIRED')
