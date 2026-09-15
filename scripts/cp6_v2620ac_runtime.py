@@ -58,7 +58,9 @@ AC_SUCCESSOR_REPAIR_FILES = AC_SOURCE_ADMISSION_REPAIR_FILES | {
     "docs/evidence/cp6-ac-runtime-pins.json",
     "scripts/check-cp6-expanded-audit-closure.mjs",
     "scripts/cp6_v2620ac_build_sql.py",
+    "scripts/cp6_v2620ac_invoice_partial_regression.py",
     "scripts/cp6_v2620ac_install_qualification.py",
+    "scripts/cp6_v2620ac_linked_lifecycle_regression.py",
     "scripts/cp6_preuse_rollback_maintenance.py",
     "supabase/migrations/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.sql",
     "supabase/rollbacks/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.rollback.sql",
@@ -396,6 +398,118 @@ def verified_successor(cur) -> dict[str, Any]:
     if len(observations) != 272:
         raise AssertionError("AC_RUNTIME_OBSERVATION_CARDINALITY")
     return observations
+
+
+def verify_ab_predecessor_edge(
+    cur, installed: dict[str, Any] | None = None
+) -> dict[str, Any]:
+    """Verify the historical AB->AC edge while AC is the live generation.
+
+    Calling AB's live-state verifier after AC is installed is invalid because
+    AC intentionally replaces three of AB's five functions.  This check pins
+    AB's marker, platform bytes and capsule, then joins each AB installed hash
+    either to AC's recorded predecessor hash or to the unchanged live object.
+    """
+    import cp6_preuse_rollback_maintenance as maintenance
+
+    if installed is None:
+        installed = verified_successor(cur)
+    if len(installed) != 272:
+        raise AssertionError("AC_AB_EDGE_REQUIRES_VERIFIED_AC")
+
+    expected = {
+        item["identity"]: item for item in maintenance.TRUSTED_FUNCTIONS["AB"]
+    }
+    if len(expected) != 5:
+        raise AssertionError("AC_AB_EDGE_TRUSTED_CARDINALITY")
+
+    cur.execute(
+        """select exists(select 1 from erp.schema_migrations
+             where version='v2.6.20ab'),
+           to_regclass('erp.cp6_v2620ab_rollback_capsule') is not null,
+           count(*),min(version),
+           min(encode(extensions.digest(convert_to(
+             array_to_string(statements,E'\\n'),'UTF8'),'sha256'),'hex'))
+        from supabase_migrations.schema_migrations where name=%s""",
+        ("erp_v2_6_20ab_cp6_operational_business_clock",),
+    )
+    marker, capsule, platform_count, platform_version, platform_sha = cur.fetchone()
+    data = AB_MIGRATION.read_bytes()
+    if (
+        not marker
+        or not capsule
+        or platform_count != 1
+        or platform_version != "20260914190500"
+        or platform_sha not in {
+            AB_MIGRATION_SHA256,
+            sha256_bytes(data[:-1] if data.endswith(b"\n") else data),
+        }
+    ):
+        raise AssertionError("AC_AB_EDGE_MARKER_CAPSULE_PLATFORM_MISMATCH")
+
+    cur.execute(
+        """select cap.object_regidentity,cap.definition_sha256,
+          encode(extensions.digest(convert_to(cap.object_definition,'UTF8'),'sha256'),'hex'),
+          cap.installed_definition_sha256,cap.owner_snapshot,cap.acl_snapshot,
+          encode(extensions.digest(convert_to(pg_get_functiondef(p.oid),'UTF8'),'sha256'),'hex'),
+          pg_get_userbyid(p.proowner),
+          case when p.proacl is null then null else
+            array(select x::text from unnest(p.proacl) x order by x::text) end
+        from erp.cp6_v2620ab_rollback_capsule cap
+        left join pg_proc p on p.oid=to_regprocedure(cap.object_regidentity)
+        order by cap.object_regidentity"""
+    )
+    rows = cur.fetchall()
+    if len(rows) != 5 or {row[0] for row in rows} != set(expected):
+        raise AssertionError("AC_AB_EDGE_CAPSULE_IDENTITY_MISMATCH")
+
+    ac_functions = {
+        item["identity"]: item
+        for item in installed.values()
+        if item["kind"] == "FUNCTION"
+    }
+    evidence: dict[str, Any] = {}
+    transitioned = 0
+    for row in rows:
+        (
+            identity, predecessor_sha, predecessor_definition_sha,
+            ab_installed_sha, capsule_owner, capsule_acl,
+            live_sha, live_owner, live_acl,
+        ) = row
+        wanted = expected[identity]
+        successor = ac_functions.get(identity)
+        if (
+            predecessor_sha != wanted["predecessor_sha256"]
+            or predecessor_definition_sha != wanted["predecessor_sha256"]
+            or ab_installed_sha != wanted["installed_sha256"]
+            or capsule_owner != wanted["owner"]
+            or _acl(capsule_acl) != _acl(wanted["acl"])
+        ):
+            raise AssertionError(f"AC_AB_EDGE_HISTORICAL_PIN_MISMATCH:{identity}")
+        if successor is None:
+            expected_live_sha = wanted["installed_sha256"]
+        else:
+            if successor["predecessor_sha256"] != wanted["installed_sha256"]:
+                raise AssertionError(f"AC_AB_EDGE_TRANSITION_MISMATCH:{identity}")
+            expected_live_sha = successor["installed_sha256"]
+            transitioned += 1
+        if (
+            live_sha != expected_live_sha
+            or live_owner != wanted["owner"]
+            or _acl(live_acl) != _acl(wanted["acl"])
+        ):
+            raise AssertionError(f"AC_AB_EDGE_LIVE_MISMATCH:{identity}")
+        evidence[identity] = {
+            "ab_predecessor_sha256": predecessor_sha,
+            "ab_installed_sha256": ab_installed_sha,
+            "ac_installed_sha256": live_sha,
+            "transitioned_by_ac": successor is not None,
+            "owner": live_owner,
+            "acl": _acl(live_acl),
+        }
+    if transitioned != 3:
+        raise AssertionError("AC_AB_EDGE_TRANSITION_CARDINALITY")
+    return evidence
 
 
 def verify_audit_source() -> tuple[str, str]:

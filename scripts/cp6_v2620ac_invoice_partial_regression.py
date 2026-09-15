@@ -12,7 +12,6 @@ import psycopg
 from psycopg.conninfo import conninfo_to_dict
 
 import cp6_aa_invoice_partial_audit as audit
-import cp6_v2620ab_runtime as predecessor
 import cp6_v2620ac_runtime as runtime
 
 
@@ -57,11 +56,14 @@ def run() -> dict:
         result["engine"] = audit.one(cur, "select version()")
         if not str(audit.one(cur, "select current_setting('server_version')")).startswith("17.6"):
             raise AssertionError("AC_INVOICE_PINNED_POSTGRES_REQUIRED")
-        predecessor_objects = predecessor.verified_successor(cur)
         installed = runtime.verified_successor(cur)
-        if len(predecessor_objects) != 5 or len(installed) != 272:
+        predecessor_edges = runtime.verify_ab_predecessor_edge(cur, installed)
+        if len(predecessor_edges) != 5 or len(installed) != 272:
             raise AssertionError("AC_INVOICE_EXACT_INSTALLED_AC_REQUIRED")
-        result["verified_ab_function_count"] = len(predecessor_objects)
+        result["verified_ab_function_edge_count"] = len(predecessor_edges)
+        result["verified_ab_functions_transitioned_by_ac"] = sum(
+            item["transitioned_by_ac"] for item in predecessor_edges.values()
+        )
         result["verified_ac_object_count"] = len(installed)
         usage = audit.one(cur, "select has_schema_privilege('authenticated','erp','USAGE')")
         if not usage:

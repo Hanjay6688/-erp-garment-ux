@@ -17,7 +17,6 @@ import cp6_v2620n_supplier_cent_regression as n_oracle
 import cp6_v2620o_supplier_return_regression as o_oracle
 import cp6_v2620y_cash_business_date_regression as y_oracle
 import cp6_x_independent_audit as cash_audit
-import cp6_v2620ab_runtime as predecessor
 import cp6_v2620ac_runtime as runtime
 
 
@@ -74,11 +73,14 @@ def run() -> dict:
             "set local lock_timeout='8s'"
         )
         untouched = cash_audit.boundary(cur)
-        inherited = predecessor.verified_successor(cur)
         installed = runtime.verified_successor(cur)
-        if len(inherited) != 5 or len(installed) != 272:
+        predecessor_edges = runtime.verify_ab_predecessor_edge(cur, installed)
+        if len(predecessor_edges) != 5 or len(installed) != 272:
             raise AssertionError("AC_LINKED_EXACT_INSTALLED_AC_REQUIRED")
-        result["verified_ab_function_count"] = len(inherited)
+        result["verified_ab_function_edge_count"] = len(predecessor_edges)
+        result["verified_ab_functions_transitioned_by_ac"] = sum(
+            item["transitioned_by_ac"] for item in predecessor_edges.values()
+        )
         result["verified_ac_object_count"] = len(installed)
         usage = base.one(cur, "select has_schema_privilege('authenticated','erp','USAGE')")
         if not usage:
