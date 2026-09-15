@@ -1,4 +1,4 @@
-name: CP6 AD Roll Opening Check
+name: CP6 AE Roll Opening Family
 
 on:
   push:
@@ -6,7 +6,14 @@ on:
     paths:
       - .github/workflows/cp6-ad-roll-opening-check.yml
       - .github/workflows/cp6-full-schema-validation.yml
-      - scripts/cp6_ad_roll_opening_check.py
+      - docs/evidence/cp6-ae-runtime-pins.json
+      - scripts/cp6_preuse_rollback_maintenance.py
+      - scripts/cp6_v2620ae_build_sql.py
+      - scripts/cp6_v2620ae_family.py
+      - scripts/cp6_v2620ae_rollback_guards.py
+      - scripts/cp6_v2620ae_runtime.py
+      - supabase/migrations/20260915201500_erp_v2_6_20ae_cp6_opening_roll_integrity.sql
+      - supabase/rollbacks/20260915201500_erp_v2_6_20ae_cp6_opening_roll_integrity.rollback.sql
   workflow_dispatch:
 
 permissions:
@@ -14,29 +21,38 @@ permissions:
   actions: read
 
 concurrency:
-  group: cp6-ad-roll-opening-${{ github.ref }}
+  group: cp6-ae-roll-opening-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
   check:
     runs-on: ubuntu-24.04
-    timeout-minutes: 25
+    timeout-minutes: 35
     env:
       PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
       CP6_AC_INDEPENDENT_CONFIRM: postgres
       CP6_AD_ROLL_CHECK_CONFIRM: postgres
+      CP6_AE_FAMILY_CONFIRM: postgres
+      CP6_MAINTENANCE_CONFIRM_DATABASE: postgres
+      CP6_MAINTENANCE_ALLOW_SYSTEM_DATABASE: postgres
       CP6_DATABASE_CONTAINER: supabase_db_cp5-local
       CP6_AUDIT_HARNESS_HEAD: ${{ github.sha }}
     steps:
-      - name: Checkout exact round
+      - name: Checkout exact AE candidate
         uses: actions/checkout@v4
         with:
-          path: round
+          path: candidate
+          fetch-depth: 0
+      - name: Checkout frozen bug comparison
+        uses: actions/checkout@v4
+        with:
+          path: bug-round
+          ref: b2663a0cb490432b53ca92670a17f7a268a8e7a3
           fetch-depth: 0
       - name: Checkout immutable AC runtime source
         uses: actions/checkout@v4
         with:
-          path: candidate
+          path: base
           ref: 1bdca3766f7c9800d68295ff5122798060b8a05d
           fetch-depth: 0
       - uses: actions/setup-python@v5
@@ -76,7 +92,7 @@ jobs:
         with:
           version: 2.116.0
       - name: Start disposable database
-        working-directory: candidate
+        working-directory: base
         shell: bash
         run: |
           set -euo pipefail
@@ -91,7 +107,7 @@ jobs:
           supabase start --workdir cp5-local \
             -x realtime,imgproxy,studio,postgres-meta,edge-runtime,logflare,vector,supavisor
       - name: Restore exact AC runtime
-        working-directory: candidate
+        working-directory: base
         env:
           GITHUB_SHA: 1bdca3766f7c9800d68295ff5122798060b8a05d
           GH_TOKEN: ${{ github.token }}
@@ -101,16 +117,16 @@ jobs:
           export CP6_AC_WRITER_ARTIFACT="$RUNNER_TEMP/ac-native200.zip"
           gh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10392910720/zip \
             > "$CP6_AC_WRITER_ARTIFACT"
-          PYTHONPATH=scripts python ../round/scripts/cp6_ac_audit_bootstrap.py
-      - name: Apply exact AD runtime
-        working-directory: round
+          PYTHONPATH=scripts python ../candidate/scripts/cp6_ac_audit_bootstrap.py
+      - name: Apply exact AD predecessor
+        working-directory: candidate
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p cp6-proof/ad-roll-opening
+          mkdir -p cp6-proof/writer-ae
           psql "$PGURL" -X -v ON_ERROR_STOP=1 \
             -f supabase/migrations/20260915113627_erp_v2_6_20ad_cp6_opening_material_business_day.sql \
-            > cp6-proof/ad-roll-opening/AD_APPLY.log 2>&1
+            > cp6-proof/writer-ae/AD_APPLY.log 2>&1
           PYTHONPATH=scripts python - <<'PY'
           import os
           import psycopg
@@ -123,13 +139,77 @@ jobs:
               )
               assert len(runtime.verified_successor(cur)) == 274
           PY
-      - name: Run five focused comparisons
-        working-directory: round
+      - name: Reconfirm the frozen five-case comparison
+        working-directory: bug-round
+        env:
+          GITHUB_SHA: b2663a0cb490432b53ca92670a17f7a268a8e7a3
         shell: bash
-        run: PYTHONPATH=scripts python scripts/cp6_ad_roll_opening_check.py
+        run: |
+          set -euo pipefail
+          set +e
+          PYTHONPATH=scripts python scripts/cp6_ad_roll_opening_check.py
+          result=$?
+          set -e
+          test "$result" = '1'
+          test "$(jq -r '.status' cp6-proof/ad-roll-opening/RESULT.json)" = 'BUG_PROVEN'
+          test "$(jq '.bugs_proven' cp6-proof/ad-roll-opening/RESULT.json)" = '3'
+          test "$(jq '.controls_ok' cp6-proof/ad-roll-opening/RESULT.json)" = '2'
+      - name: Check all AE admission cases against exact AD
+        working-directory: candidate
+        shell: bash
+        run: PYTHONPATH=scripts python scripts/cp6_v2620ae_family.py --phase admission
+      - name: Apply AE and verify all 276 pinned objects
+        working-directory: candidate
+        shell: bash
+        run: |
+          set -euo pipefail
+          psql "$PGURL" -X -v ON_ERROR_STOP=1 \
+            -f supabase/migrations/20260915201500_erp_v2_6_20ae_cp6_opening_roll_integrity.sql \
+            > cp6-proof/writer-ae/AE_APPLY.log 2>&1
+          PYTHONPATH=scripts python - <<'PY'
+          import os
+          import psycopg
+          import cp6_v2620ae_runtime as runtime
+          with psycopg.connect(os.environ['PGURL']) as connection, connection.cursor() as cur:
+              cur.execute(
+                  'insert into supabase_migrations.schema_migrations(version,name,statements) '
+                  'values(%s,%s,%s)',
+                  (runtime.STAMP, runtime.NAME, [runtime.MIGRATION.read_text()]),
+              )
+              assert len(runtime.verified_successor(cur)) == 276
+          PY
+      - name: Run the focused successor family
+        working-directory: candidate
+        shell: bash
+        run: PYTHONPATH=scripts python scripts/cp6_v2620ae_family.py --phase successor
+      - name: Run the focused report controls
+        working-directory: candidate
+        shell: bash
+        run: PYTHONPATH=scripts python scripts/cp6_v2620ae_family.py --phase detector
+      - name: Provision isolated rollback authority
+        working-directory: candidate
+        shell: bash
+        run: |
+          set -euo pipefail
+          maintenance_password="$(openssl rand -hex 32)"
+          maintenance_pgurl="postgresql://cp6_maintenance_admission:${maintenance_password}@127.0.0.1:54322/template1"
+          echo "::add-mask::$maintenance_password"
+          echo "::add-mask::$maintenance_pgurl"
+          docker exec -i "$CP6_DATABASE_CONTAINER" \
+            psql -U supabase_admin -d template1 -X -v ON_ERROR_STOP=1 \
+              -v cp6_password="$maintenance_password" <<'SQL'
+          create role cp6_maintenance_admission
+            login superuser noinherit nocreatedb nocreaterole noreplication
+            connection limit 4 password :'cp6_password';
+          SQL
+          printf 'CP6_ADMISSION_CONTROL_PGURL=%s\n' "$maintenance_pgurl" >> "$GITHUB_ENV"
+      - name: Restore exact AD through the reviewed path
+        working-directory: candidate
+        shell: bash
+        run: PYTHONPATH=scripts python scripts/cp6_v2620ae_rollback_guards.py
       - name: Stop disposable database and prove removal
         if: always()
-        working-directory: candidate
+        working-directory: base
         shell: bash
         run: |
           set -euo pipefail
@@ -138,14 +218,15 @@ jobs:
           fi
           remaining="$(docker ps -aq --filter name='^/supabase_db_cp5-local$')"
           test -z "$remaining"
-      - name: Preserve check result
+      - name: Preserve focused results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: cp6-ad-roll-opening-result
+          name: cp6-ae-roll-opening-family
           path: |
-            round/cp6-proof/ad-roll-opening
-            candidate/cp6-proof/AC_AUDIT_RUNTIME_BOOTSTRAP.json
+            candidate/cp6-proof/writer-ae
+            bug-round/cp6-proof/ad-roll-opening
+            base/cp6-proof/AC_AUDIT_RUNTIME_BOOTSTRAP.json
           if-no-files-found: warn
           compression-level: 9
           retention-days: 30

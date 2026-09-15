@@ -28,6 +28,13 @@ from psycopg.conninfo import conninfo_to_dict
 
 
 TARGETS: dict[str, dict[str, Any]] = {
+    'AE': {
+        'rollback': Path('supabase/rollbacks/20260915201500_erp_v2_6_20ae_cp6_opening_roll_integrity.rollback.sql'),
+        'rollback_sha256': 'a869de31481cac1c8a26de17e3be9d47d2b42c18a6756df5cabfc016ebfa0341',
+        'marker': 'v2.6.20ae', 'platform': 'erp_v2_6_20ae_cp6_opening_roll_integrity',
+        'predecessor': 'v2.6.20ad', 'capsule': 'erp.cp6_v2620ae_rollback_capsule',
+        'capsule_count': 2,
+    },
     'AD': {
         'rollback': Path('supabase/rollbacks/20260915113627_erp_v2_6_20ad_cp6_opening_material_business_day.rollback.sql'),
         'rollback_sha256': '38eb8025f07fa9a49f221fa274e56242c5c525947c3d24dc98a735d02b75512c',
@@ -546,6 +553,13 @@ def _sessions(control: psycopg.Connection, database: str, keep_pid: int) -> list
 def _capsule_snapshot(
     target_conn: psycopg.Connection, target_name: str, target: dict[str, Any]
 ) -> list[dict[str, Any]]:
+    if target_name == 'AE':
+        from cp6_v2620ae_runtime import pins, verify_inherited_ad
+        # AE replaces AD's two live definitions, so bind AE's exact pins while
+        # checking AD through its stored edge and the unchanged AC runtime.
+        TRUSTED_FUNCTIONS['AE'] = pins()['functions']
+        with target_conn.cursor() as ae_cur:
+            verify_inherited_ad(ae_cur)
     if target_name == 'AD':
         from cp6_v2620ad_runtime import pins, verify_ac_pre_admission
         # Bind AD's two pins independently and avoid relation deparsing until
@@ -857,7 +871,7 @@ def run_maintenance_rollback(
         'rollback_committed': False,
         'admission_reopened': False,
         'status': 'RUNNING',
-        'trusted_predecessor_identity_count': len(TRUSTED_FUNCTIONS[target_name]),
+        'trusted_predecessor_identity_count': target['capsule_count'],
     }
     _phase(report_path, report, 'PREFLIGHT')
 
@@ -967,14 +981,17 @@ def run_maintenance_rollback(
         # parser-normalized source-to-live view proof.  Rollback remains
         # forbidden if this stronger second pass detects coordinated capsule
         # and live-definition drift; admission stays closed on failure.
-        if target_name in {'AC', 'AD'}:
-            if target_name == 'AD':
+        if target_name in {'AC', 'AD', 'AE'}:
+            if target_name == 'AE':
+                from cp6_v2620ae_runtime import verified_successor
+            elif target_name == 'AD':
                 from cp6_v2620ad_runtime import verified_successor
             else:
                 from cp6_v2620ac_runtime import verified_successor
             with rollback_conn.cursor() as ac_cur:
                 post_drain_objects = verified_successor(ac_cur)
-            if len(post_drain_objects) != (274 if target_name == 'AD' else 272):
+            expected_count = {'AC': 272, 'AD': 274, 'AE': 276}[target_name]
+            if len(post_drain_objects) != expected_count:
                 raise MaintenanceRollbackError(
                     target_name + '_POST_DRAIN_RUNTIME_CARDINALITY_MISMATCH'
                 )
