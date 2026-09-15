@@ -277,6 +277,25 @@ def run() -> dict[str, object]:
         "service_role=arwdDxtm/postgres",
     ]:
         raise AssertionError("AC_POSTGRES17_MAINTAIN_ACL_PIN")
+    if builder.relation_acl("", "ac_owner_only_probe") != [
+        "postgres=arwdDxtm/postgres"
+    ]:
+        raise AssertionError("AC_OWNER_ONLY_EFFECTIVE_ACL_PIN")
+    effective_acl_counts = {
+        "migration_catalog": migration.count(
+            "acldefault('r',catalog_rel.relowner)"
+        ),
+        "migration_capsule": migration.count("acldefault('r',c.relowner)"),
+        "rollback_live": rollback.count("acldefault('r',v.relowner)"),
+    }
+    if effective_acl_counts != {
+        "migration_catalog": 2,
+        "migration_capsule": 1,
+        "rollback_live": 1,
+    }:
+        raise AssertionError(
+            f"AC_EFFECTIVE_VIEW_ACL_GUARDS:{effective_acl_counts}"
+        )
     expected_functions = {item["after_sha"]: item for item in pins["functions"]}
     observed_function_hashes = [sha(definition) for definition in functions]
     if (
@@ -367,6 +386,7 @@ def run() -> dict[str, object]:
             "source_hashes_retained": True,
         },
         "postgres17_maintain_acl_pinned": True,
+        "effective_view_acl_guards": effective_acl_counts,
         "stale_transaction_clock_tokens": stale,
         "migration_lexical": lexical_balance(migration, "migration"),
         "rollback_lexical": lexical_balance(rollback, "rollback"),

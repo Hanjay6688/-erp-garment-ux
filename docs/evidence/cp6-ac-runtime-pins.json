@@ -3428,7 +3428,9 @@
       "rls": false
     },
     {
-      "acl": null,
+      "acl": [
+        "postgres=arwdDxtm/postgres"
+      ],
       "after_body_sha": "cb46a4e7294723696c58c42ebfa4a6526a896a2e4f217dc4cda1c03d82792b96",
       "before_body_sha": "8be0c344171b109c9491838533c69215886ea512ff70ddd5317a40e5acbb5a08",
       "identity": "erp.v_product_price_current",
@@ -3440,7 +3442,9 @@
       "rls": false
     },
     {
-      "acl": null,
+      "acl": [
+        "postgres=arwdDxtm/postgres"
+      ],
       "after_body_sha": "ff45f6e8f1265b2b3795a4241f60966a2c178df03c6b956ed8b95cb7c5e55d43",
       "before_body_sha": "6dd935d31fc83aaae3237b13936ab6a15ce1f2acd45a7b4d74fe31daef3129a3",
       "identity": "erp.v_products_current",
@@ -3452,7 +3456,9 @@
       "rls": false
     },
     {
-      "acl": null,
+      "acl": [
+        "postgres=arwdDxtm/postgres"
+      ],
       "after_body_sha": "51ab4bf4553b797c4a8ec70892f312dbaaa0154d60efc790bb29ab68c42fd884",
       "before_body_sha": "de4ac39c54cf7001638f1f70df38ad82d07aeb372266d2cfa79caf390ebceb71",
       "identity": "erp.v_products_sellable",

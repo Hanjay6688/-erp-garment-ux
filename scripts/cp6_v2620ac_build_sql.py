@@ -78,19 +78,20 @@ def parse_view(statement: str, name: str) -> tuple[str, list[str]]:
     return match.group("body").strip(), sorted(options)
 
 
-def relation_acl(dump: str, name: str) -> list[str] | None:
+def relation_acl(dump: str, name: str) -> list[str]:
     pattern = re.compile(
         rf"(?m)^GRANT ([A-Z,]+) ON TABLE erp\.{re.escape(name)} TO ([a-zA-Z_][a-zA-Z0-9_]*);$"
     )
     grants = pattern.findall(dump)
-    if not grants:
-        return None
     privilege_code = {
         "INSERT": "a", "SELECT": "r", "UPDATE": "w", "DELETE": "d",
         "TRUNCATE": "D", "REFERENCES": "x", "TRIGGER": "t",
         "MAINTAIN": "m",
     }
     canonical_order = "arwdDxtm"
+    # pg_dump omits an owner-only relation ACL because it is semantically the
+    # default.  Pin effective privileges so a NULL relacl and its materialized
+    # owner-only equivalent are admitted identically across restore paths.
     acl = ["postgres=arwdDxtm/postgres"]
     for privileges, role in grants:
         if privileges == "ALL":
@@ -339,8 +340,8 @@ begin
     v_expected_sha:=pg_temp.cp6_ac_normalized_view_sha256(r.before_body);
     select encode(extensions.digest(convert_to(btrim(pg_get_viewdef(catalog_rel.oid,false),E' \\n\\t\\r;'),'UTF8'),'sha256'),'hex'),
       pg_get_userbyid(catalog_rel.relowner),
-      case when catalog_rel.relacl is null then null else
-        array(select a::text from unnest(catalog_rel.relacl) a order by a::text) end,
+      array(select a::text from unnest(coalesce(catalog_rel.relacl,
+        acldefault('r',catalog_rel.relowner))) a order by a::text),
       case when catalog_rel.reloptions is null then null else
         array(select x from unnest(catalog_rel.reloptions) x order by x) end,
       catalog_rel.relrowsecurity
@@ -355,14 +356,14 @@ begin
        or v_reloptions is distinct from r.reloptions
        or v_rls is distinct from r.rls then
       raise exception 'AC_VIEW_PREDECESSOR_MISMATCH: %',r.identity using detail=format(
-        'source=%s body=%s owner=%s acl=%s options=%s rls=%s',
+        'source=%s body=%s owner=%s acl=%s options=%s rls=%s expected_acl=%s live_acl=%s',
         encode(extensions.digest(convert_to(r.before_body,'UTF8'),'sha256'),'hex')
           is not distinct from r.before_sha256,
         v_live_sha is not distinct from v_expected_sha,
         v_owner is not distinct from r.owner_name,
         v_acl is not distinct from r.acl,
         v_reloptions is not distinct from r.reloptions,
-        v_rls is not distinct from r.rls);
+        v_rls is not distinct from r.rls,r.acl,v_acl);
     end if;
   end loop;
 
@@ -438,8 +439,8 @@ select 'VIEW',e.identity,
     case when e.reloptions is null then '' else
       ' WITH ('||array_to_string(e.reloptions,',')||')' end,E'\\n',e.before_body),
   encode(extensions.digest(convert_to(e.before_body,'UTF8'),'sha256'),'hex'),
-  case when c.relacl is null then null else
-    array(select a::text from unnest(c.relacl) a order by a::text) end,
+  array(select a::text from unnest(coalesce(c.relacl,
+    acldefault('r',c.relowner))) a order by a::text),
   pg_get_userbyid(c.relowner),
   case when c.reloptions is null then null else
     array(select x from unnest(c.reloptions) x order by x) end,
@@ -558,8 +559,8 @@ begin
     v_expected_sha:=pg_temp.cp6_ac_normalized_view_sha256(r.after_body);
     select encode(extensions.digest(convert_to(btrim(pg_get_viewdef(catalog_rel.oid,false),E' \\n\\t\\r;'),'UTF8'),'sha256'),'hex'),
       pg_get_userbyid(catalog_rel.relowner),
-      case when catalog_rel.relacl is null then null else
-        array(select a::text from unnest(catalog_rel.relacl) a order by a::text) end,
+      array(select a::text from unnest(coalesce(catalog_rel.relacl,
+        acldefault('r',catalog_rel.relowner))) a order by a::text),
       case when catalog_rel.reloptions is null then null else
         array(select x from unnest(catalog_rel.reloptions) x order by x) end,
       catalog_rel.relrowsecurity
@@ -574,14 +575,14 @@ begin
        or v_reloptions is distinct from r.reloptions
        or v_rls is distinct from r.rls then
       raise exception 'AC_INSTALLED_VIEW_MISMATCH: %',r.identity using detail=format(
-        'source=%s body=%s owner=%s acl=%s options=%s rls=%s',
+        'source=%s body=%s owner=%s acl=%s options=%s rls=%s expected_acl=%s live_acl=%s',
         encode(extensions.digest(convert_to(r.after_body,'UTF8'),'sha256'),'hex')
           is not distinct from r.after_sha256,
         v_live_sha is not distinct from v_expected_sha,
         v_owner is not distinct from r.owner_name,
         v_acl is not distinct from r.acl,
         v_reloptions is not distinct from r.reloptions,
-        v_rls is not distinct from r.rls);
+        v_rls is not distinct from r.rls,r.acl,v_acl);
     end if;
     update {RELATION_CAPSULE} set installed_definition_sha256=v_live_sha
     where object_kind='VIEW' and object_identity=r.identity;
@@ -768,8 +769,8 @@ begin
     v_expected_sha:=pg_temp.cp6_ac_normalized_view_sha256(r.after_body);
     select encode(extensions.digest(convert_to(btrim(pg_get_viewdef(v.oid,false),E' \\n\\t\\r;'),'UTF8'),'sha256'),'hex'),
       pg_get_userbyid(v.relowner),
-      case when v.relacl is null then null else
-        array(select x::text from unnest(v.relacl) x order by x::text) end,
+      array(select x::text from unnest(coalesce(v.relacl,
+        acldefault('r',v.relowner))) x order by x::text),
       case when v.reloptions is null then null else
         array(select x from unnest(v.reloptions) x order by x) end,
       v.relrowsecurity

@@ -715,7 +715,7 @@ insert into pg_temp.cp6_ac_expected_views values
            FROM erp.product_price_versions x
           WHERE ((x.product_id = p.identity_root_id) AND (x.effective_from <= statement_timestamp()) AND ((x.effective_to IS NULL) OR (x.effective_to > statement_timestamp())))
           ORDER BY x.effective_from DESC, x.created_at DESC, x.id DESC
-         LIMIT 1) pp ON (true))','cb46a4e7294723696c58c42ebfa4a6526a896a2e4f217dc4cda1c03d82792b96','postgres',null::text[],array['security_invoker=true']::text[],false,'213ecc404bc9c0adb7d4fabbc789d7fcdd53bde6c98799b6d180355c068fa856'),
+         LIMIT 1) pp ON (true))','cb46a4e7294723696c58c42ebfa4a6526a896a2e4f217dc4cda1c03d82792b96','postgres',array['postgres=arwdDxtm/postgres']::text[],array['security_invoker=true']::text[],false,'213ecc404bc9c0adb7d4fabbc789d7fcdd53bde6c98799b6d180355c068fa856'),
   ('erp.v_products_current','SELECT id,
     sku,
     model_id,
@@ -748,7 +748,7 @@ insert into pg_temp.cp6_ac_expected_views values
     effective_to,
     supersedes_product_id
    FROM erp.products p
-  WHERE ((is_active = true) AND (effective_from <= statement_timestamp()) AND ((effective_to IS NULL) OR (effective_to > statement_timestamp())))','ff45f6e8f1265b2b3795a4241f60966a2c178df03c6b956ed8b95cb7c5e55d43','postgres',null::text[],array['security_invoker=true']::text[],false,'eb5262b3c7fd6d85739c4ed34a32c42071a84a375b02834fb98c866a94d82416'),
+  WHERE ((is_active = true) AND (effective_from <= statement_timestamp()) AND ((effective_to IS NULL) OR (effective_to > statement_timestamp())))','ff45f6e8f1265b2b3795a4241f60966a2c178df03c6b956ed8b95cb7c5e55d43','postgres',array['postgres=arwdDxtm/postgres']::text[],array['security_invoker=true']::text[],false,'eb5262b3c7fd6d85739c4ed34a32c42071a84a375b02834fb98c866a94d82416'),
   ('erp.v_products_sellable','WITH stock AS (
          SELECT fg_inventory_balances.product_id,
             COALESCE(sum(fg_inventory_balances.cached_qty_pcs), (0)::bigint) AS stock_pcs
@@ -799,7 +799,7 @@ insert into pg_temp.cp6_ac_expected_views values
     ((p.is_active = true) AND (p.effective_from <= statement_timestamp()) AND ((p.effective_to IS NULL) OR (p.effective_to > statement_timestamp()))) AS is_current_identity
    FROM (erp.products p
      LEFT JOIN stock s ON ((s.product_id = p.id)))
-  WHERE (((p.is_active = true) AND (p.effective_from <= statement_timestamp()) AND ((p.effective_to IS NULL) OR (p.effective_to > statement_timestamp()))) OR (COALESCE(s.stock_pcs, (0)::bigint) > 0))','51ab4bf4553b797c4a8ec70892f312dbaaa0154d60efc790bb29ab68c42fd884','postgres',null::text[],array['security_invoker=true']::text[],false,'3e383965410b4ebf02388db7f51428aa5be232eff32edee356c7d3039c84c88a'),
+  WHERE (((p.is_active = true) AND (p.effective_from <= statement_timestamp()) AND ((p.effective_to IS NULL) OR (p.effective_to > statement_timestamp()))) OR (COALESCE(s.stock_pcs, (0)::bigint) > 0))','51ab4bf4553b797c4a8ec70892f312dbaaa0154d60efc790bb29ab68c42fd884','postgres',array['postgres=arwdDxtm/postgres']::text[],array['security_invoker=true']::text[],false,'3e383965410b4ebf02388db7f51428aa5be232eff32edee356c7d3039c84c88a'),
   ('erp.v_supplier_ap_aging','WITH ap AS (
          SELECT h.id AS purchase_id,
             h.purchase_number,
@@ -1133,8 +1133,8 @@ begin
     v_expected_sha:=pg_temp.cp6_ac_normalized_view_sha256(r.before_body);
     select encode(extensions.digest(convert_to(btrim(pg_get_viewdef(catalog_rel.oid,false),E' \n\t\r;'),'UTF8'),'sha256'),'hex'),
       pg_get_userbyid(catalog_rel.relowner),
-      case when catalog_rel.relacl is null then null else
-        array(select a::text from unnest(catalog_rel.relacl) a order by a::text) end,
+      array(select a::text from unnest(coalesce(catalog_rel.relacl,
+        acldefault('r',catalog_rel.relowner))) a order by a::text),
       case when catalog_rel.reloptions is null then null else
         array(select x from unnest(catalog_rel.reloptions) x order by x) end,
       catalog_rel.relrowsecurity
@@ -1149,14 +1149,14 @@ begin
        or v_reloptions is distinct from r.reloptions
        or v_rls is distinct from r.rls then
       raise exception 'AC_VIEW_PREDECESSOR_MISMATCH: %',r.identity using detail=format(
-        'source=%s body=%s owner=%s acl=%s options=%s rls=%s',
+        'source=%s body=%s owner=%s acl=%s options=%s rls=%s expected_acl=%s live_acl=%s',
         encode(extensions.digest(convert_to(r.before_body,'UTF8'),'sha256'),'hex')
           is not distinct from r.before_sha256,
         v_live_sha is not distinct from v_expected_sha,
         v_owner is not distinct from r.owner_name,
         v_acl is not distinct from r.acl,
         v_reloptions is not distinct from r.reloptions,
-        v_rls is not distinct from r.rls);
+        v_rls is not distinct from r.rls,r.acl,v_acl);
     end if;
   end loop;
 
@@ -1229,8 +1229,8 @@ select 'VIEW',e.identity,
     case when e.reloptions is null then '' else
       ' WITH ('||array_to_string(e.reloptions,',')||')' end,E'\n',e.before_body),
   encode(extensions.digest(convert_to(e.before_body,'UTF8'),'sha256'),'hex'),
-  case when c.relacl is null then null else
-    array(select a::text from unnest(c.relacl) a order by a::text) end,
+  array(select a::text from unnest(coalesce(c.relacl,
+    acldefault('r',c.relowner))) a order by a::text),
   pg_get_userbyid(c.relowner),
   case when c.reloptions is null then null else
     array(select x from unnest(c.reloptions) x order by x) end,
@@ -11841,8 +11841,8 @@ begin
     v_expected_sha:=pg_temp.cp6_ac_normalized_view_sha256(r.after_body);
     select encode(extensions.digest(convert_to(btrim(pg_get_viewdef(catalog_rel.oid,false),E' \n\t\r;'),'UTF8'),'sha256'),'hex'),
       pg_get_userbyid(catalog_rel.relowner),
-      case when catalog_rel.relacl is null then null else
-        array(select a::text from unnest(catalog_rel.relacl) a order by a::text) end,
+      array(select a::text from unnest(coalesce(catalog_rel.relacl,
+        acldefault('r',catalog_rel.relowner))) a order by a::text),
       case when catalog_rel.reloptions is null then null else
         array(select x from unnest(catalog_rel.reloptions) x order by x) end,
       catalog_rel.relrowsecurity
@@ -11857,14 +11857,14 @@ begin
        or v_reloptions is distinct from r.reloptions
        or v_rls is distinct from r.rls then
       raise exception 'AC_INSTALLED_VIEW_MISMATCH: %',r.identity using detail=format(
-        'source=%s body=%s owner=%s acl=%s options=%s rls=%s',
+        'source=%s body=%s owner=%s acl=%s options=%s rls=%s expected_acl=%s live_acl=%s',
         encode(extensions.digest(convert_to(r.after_body,'UTF8'),'sha256'),'hex')
           is not distinct from r.after_sha256,
         v_live_sha is not distinct from v_expected_sha,
         v_owner is not distinct from r.owner_name,
         v_acl is not distinct from r.acl,
         v_reloptions is not distinct from r.reloptions,
-        v_rls is not distinct from r.rls);
+        v_rls is not distinct from r.rls,r.acl,v_acl);
     end if;
     update erp.cp6_v2620ac_relation_rollback_capsule set installed_definition_sha256=v_live_sha
     where object_kind='VIEW' and object_identity=r.identity;

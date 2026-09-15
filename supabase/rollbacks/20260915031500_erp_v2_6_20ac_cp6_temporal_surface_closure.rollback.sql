@@ -13,7 +13,7 @@ begin
      or not exists(select 1 from supabase_migrations.schema_migrations
        where version='20260915031500' and name='erp_v2_6_20ac_cp6_temporal_surface_closure'
          and encode(extensions.digest(convert_to(array_to_string(statements,E'\n'),'UTF8'),'sha256'),'hex')
-           in('9645ae6a2f80c364b3c51ef34747f6dbe313f661a3d2f9fd0b696026832b5555','7d2b7fded027a41113a07a7dcb718672e446e2062862b9be0377ebcb1d522131'))
+           in('7b5690a2eddf618833d352dc75eb95aa1ef4dbcfb25d39b30374b733d33dadbc','7a3613d87fd0a8f7bcbe23fd2bc925523b0b0119088edd05ca7a094627722c96'))
      or exists(select 1 from supabase_migrations.schema_migrations where version>'20260915031500') then
     raise exception 'AC_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR';
   end if;
@@ -725,7 +725,7 @@ insert into pg_temp.cp6_ac_expected_views values
            FROM erp.product_price_versions x
           WHERE ((x.product_id = p.identity_root_id) AND (x.effective_from <= statement_timestamp()) AND ((x.effective_to IS NULL) OR (x.effective_to > statement_timestamp())))
           ORDER BY x.effective_from DESC, x.created_at DESC, x.id DESC
-         LIMIT 1) pp ON (true))','cb46a4e7294723696c58c42ebfa4a6526a896a2e4f217dc4cda1c03d82792b96','postgres',null::text[],array['security_invoker=true']::text[],false,'213ecc404bc9c0adb7d4fabbc789d7fcdd53bde6c98799b6d180355c068fa856'),
+         LIMIT 1) pp ON (true))','cb46a4e7294723696c58c42ebfa4a6526a896a2e4f217dc4cda1c03d82792b96','postgres',array['postgres=arwdDxtm/postgres']::text[],array['security_invoker=true']::text[],false,'213ecc404bc9c0adb7d4fabbc789d7fcdd53bde6c98799b6d180355c068fa856'),
   ('erp.v_products_current','SELECT id,
     sku,
     model_id,
@@ -758,7 +758,7 @@ insert into pg_temp.cp6_ac_expected_views values
     effective_to,
     supersedes_product_id
    FROM erp.products p
-  WHERE ((is_active = true) AND (effective_from <= statement_timestamp()) AND ((effective_to IS NULL) OR (effective_to > statement_timestamp())))','ff45f6e8f1265b2b3795a4241f60966a2c178df03c6b956ed8b95cb7c5e55d43','postgres',null::text[],array['security_invoker=true']::text[],false,'eb5262b3c7fd6d85739c4ed34a32c42071a84a375b02834fb98c866a94d82416'),
+  WHERE ((is_active = true) AND (effective_from <= statement_timestamp()) AND ((effective_to IS NULL) OR (effective_to > statement_timestamp())))','ff45f6e8f1265b2b3795a4241f60966a2c178df03c6b956ed8b95cb7c5e55d43','postgres',array['postgres=arwdDxtm/postgres']::text[],array['security_invoker=true']::text[],false,'eb5262b3c7fd6d85739c4ed34a32c42071a84a375b02834fb98c866a94d82416'),
   ('erp.v_products_sellable','WITH stock AS (
          SELECT fg_inventory_balances.product_id,
             COALESCE(sum(fg_inventory_balances.cached_qty_pcs), (0)::bigint) AS stock_pcs
@@ -809,7 +809,7 @@ insert into pg_temp.cp6_ac_expected_views values
     ((p.is_active = true) AND (p.effective_from <= statement_timestamp()) AND ((p.effective_to IS NULL) OR (p.effective_to > statement_timestamp()))) AS is_current_identity
    FROM (erp.products p
      LEFT JOIN stock s ON ((s.product_id = p.id)))
-  WHERE (((p.is_active = true) AND (p.effective_from <= statement_timestamp()) AND ((p.effective_to IS NULL) OR (p.effective_to > statement_timestamp()))) OR (COALESCE(s.stock_pcs, (0)::bigint) > 0))','51ab4bf4553b797c4a8ec70892f312dbaaa0154d60efc790bb29ab68c42fd884','postgres',null::text[],array['security_invoker=true']::text[],false,'3e383965410b4ebf02388db7f51428aa5be232eff32edee356c7d3039c84c88a'),
+  WHERE (((p.is_active = true) AND (p.effective_from <= statement_timestamp()) AND ((p.effective_to IS NULL) OR (p.effective_to > statement_timestamp()))) OR (COALESCE(s.stock_pcs, (0)::bigint) > 0))','51ab4bf4553b797c4a8ec70892f312dbaaa0154d60efc790bb29ab68c42fd884','postgres',array['postgres=arwdDxtm/postgres']::text[],array['security_invoker=true']::text[],false,'3e383965410b4ebf02388db7f51428aa5be232eff32edee356c7d3039c84c88a'),
   ('erp.v_supplier_ap_aging','WITH ap AS (
          SELECT h.id AS purchase_id,
             h.purchase_number,
@@ -1118,8 +1118,8 @@ begin
     v_expected_sha:=pg_temp.cp6_ac_normalized_view_sha256(r.after_body);
     select encode(extensions.digest(convert_to(btrim(pg_get_viewdef(v.oid,false),E' \n\t\r;'),'UTF8'),'sha256'),'hex'),
       pg_get_userbyid(v.relowner),
-      case when v.relacl is null then null else
-        array(select x::text from unnest(v.relacl) x order by x::text) end,
+      array(select x::text from unnest(coalesce(v.relacl,
+        acldefault('r',v.relowner))) x order by x::text),
       case when v.reloptions is null then null else
         array(select x from unnest(v.reloptions) x order by x) end,
       v.relrowsecurity
@@ -1251,7 +1251,7 @@ delete from erp.schema_migrations where version='v2.6.20ac';
 delete from supabase_migrations.schema_migrations
 where version='20260915031500' and name='erp_v2_6_20ac_cp6_temporal_surface_closure'
   and encode(extensions.digest(convert_to(array_to_string(statements,E'\n'),'UTF8'),'sha256'),'hex')
-    in('9645ae6a2f80c364b3c51ef34747f6dbe313f661a3d2f9fd0b696026832b5555','7d2b7fded027a41113a07a7dcb718672e446e2062862b9be0377ebcb1d522131');
+    in('7b5690a2eddf618833d352dc75eb95aa1ef4dbcfb25d39b30374b733d33dadbc','7a3613d87fd0a8f7bcbe23fd2bc925523b0b0119088edd05ca7a094627722c96');
 
 do $postcheck_v2620ac$
 begin

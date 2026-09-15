@@ -3018,8 +3018,8 @@ jobs:
           pathlib.Path('cp6-proof/V2620AC_COMPLETE_AB_CATALOG.json').write_text(json.dumps(catalog,indent=2)+'\n')
           pathlib.Path('cp6-proof/V2620AC_COMPLETE_AB_BOUNDARY.json').write_text(json.dumps(boundary,indent=2)+'\n')
           PY
-          echo '9645ae6a2f80c364b3c51ef34747f6dbe313f661a3d2f9fd0b696026832b5555  supabase/migrations/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.sql' | sha256sum -c - | tee cp6-proof/V2620AC_MIGRATION_SHA256.txt
-          echo 'fd4f515991d7f1f2f23025bb0d5fdca468ee718b9648e93ec11ed8a56bc64492  supabase/rollbacks/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.rollback.sql' | sha256sum -c - | tee cp6-proof/V2620AC_ROLLBACK_SHA256.txt
+          echo '7b5690a2eddf618833d352dc75eb95aa1ef4dbcfb25d39b30374b733d33dadbc  supabase/migrations/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.sql' | sha256sum -c - | tee cp6-proof/V2620AC_MIGRATION_SHA256.txt
+          echo 'ebf1d0f66fe0b50d41d872c19510adad9af993bd03ae5e513542004b7e5b1acb  supabase/rollbacks/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.rollback.sql' | sha256sum -c - | tee cp6-proof/V2620AC_ROLLBACK_SHA256.txt
           psql "$PGURL" -X -v ON_ERROR_STOP=1 -f supabase/migrations/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.sql 2>&1 | tee cp6-proof/V2620AC_APPLY.log
           PYTHONPATH=scripts python - <<'PY'
           import collections,json,os,pathlib,psycopg

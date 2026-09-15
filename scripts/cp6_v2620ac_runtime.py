@@ -24,9 +24,9 @@ PINS = Path("docs/evidence/cp6-ac-runtime-pins.json")
 DISPOSITION = Path("docs/evidence/cp6-ac-temporal-disposition.json")
 
 # Updated only when the deterministic AC generator output changes.
-MIGRATION_SHA256 = "9645ae6a2f80c364b3c51ef34747f6dbe313f661a3d2f9fd0b696026832b5555"
-ROLLBACK_SHA256 = "fd4f515991d7f1f2f23025bb0d5fdca468ee718b9648e93ec11ed8a56bc64492"
-PINS_SHA256 = "71f6d082fa61bcf2e1bba1fb14da42cd292ebea88f14e65cc123094cd0c3e218"
+MIGRATION_SHA256 = "7b5690a2eddf618833d352dc75eb95aa1ef4dbcfb25d39b30374b733d33dadbc"
+ROLLBACK_SHA256 = "ebf1d0f66fe0b50d41d872c19510adad9af993bd03ae5e513542004b7e5b1acb"
+PINS_SHA256 = "d1f9911f23d816afeb8f1fe0fe12620381ced52accbf6880a2c864000dbd9e15"
 DISPOSITION_SHA256 = "28c39de13bfb8707cd518207d369eab57f4b90d51308517e83f581236db22576"
 
 AB_HEAD = "e2aa399cfc787d848c1f136e8e563c5304d09a87"
@@ -254,8 +254,8 @@ def _verify_views(cur, payload: dict[str, Any]) -> dict[str, Any]:
               cap.reloptions_snapshot,cap.rls_snapshot,
               encode(extensions.digest(convert_to(btrim(pg_get_viewdef(v.oid,false),E' \\n\\t\\r;'),'UTF8'),'sha256'),'hex'),
               pg_get_userbyid(v.relowner),
-              case when v.relacl is null then null else
-                array(select x::text from unnest(v.relacl) x order by x::text) end,
+              array(select x::text from unnest(coalesce(v.relacl,
+                acldefault('r',v.relowner))) x order by x::text),
               case when v.reloptions is null then null else
                 array(select x from unnest(v.reloptions) x order by x) end,
               v.relrowsecurity
