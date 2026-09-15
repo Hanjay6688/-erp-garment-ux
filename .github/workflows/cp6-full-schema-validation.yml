@@ -3014,7 +3014,8 @@ jobs:
           with psycopg.connect(os.environ['PGURL']) as conn,conn.cursor() as cur:
               catalog=function_catalog(cur)
               boundary=snapshot(cur)
-          assert len(catalog)==533 and len(boundary['tables'])==215
+          observed={'functions':len(catalog),'tables':len(boundary['tables'])}
+          assert observed=={'functions':533,'tables':216},observed
           pathlib.Path('cp6-proof/V2620AC_COMPLETE_AB_CATALOG.json').write_text(json.dumps(catalog,indent=2)+'\n')
           pathlib.Path('cp6-proof/V2620AC_COMPLETE_AB_BOUNDARY.json').write_text(json.dumps(boundary,indent=2)+'\n')
           PY
