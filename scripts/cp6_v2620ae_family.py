@@ -465,7 +465,114 @@ def detector_case(kind: str) -> Case:
     return run
 
 
+def crossflow_cases() -> tuple[tuple[str, Case], ...]:
+    """Rerun the existing business oracles against the exact live AE runtime.
+
+    All 55 previous date paths remain represented. Ten FABRIC-without-roll
+    paths now require the explicit AE refusal; their formerly valid shape is
+    retained as a negative case, never silently dropped or altered to pass.
+    """
+    import cp6_v2620ad_family_proof as day_oracle
+    import cp6_v2620m_subledger_regression as m_oracle
+    import cp6_v2620n_supplier_cent_regression as n_oracle
+    import cp6_v2620o_supplier_return_regression as o_oracle
+    import cp6_v2620y_cash_business_date_regression as cash_oracle
+
+    cases = []
+
+    def opening(kind, route, zone):
+        def check(cur, day):
+            if kind == "FABRIC":
+                refusal = expected_refusal(
+                    cur, lambda: import_fixture.opening_case(cur, kind, zone, day, route),
+                    "AE_FABRIC_OPENING_REQUIRES_ROLL",
+                )
+                return {"status": "PASS", "expected_ae_refusal": refusal}
+            record = (
+                import_fixture.attendance_case(cur, zone, day)
+                if kind == "ATTENDANCE"
+                else import_fixture.opening_case(cur, kind, zone, day, route)
+            )
+            if record.get("material_id"):
+                record["downstream"] = day_oracle.material_evidence(cur, record, day, "successor")
+                if not record["downstream"]["strict_partition_matches"]:
+                    raise AssertionError("AE_CROSSFLOW_STOCK_COST_DAY_MISMATCH")
+            if record["status"] != "CONTROL_PASS":
+                raise AssertionError("AE_CROSSFLOW_DAY_ORACLE_FAILED:" + repr(record))
+            record["ae_report"] = assert_ready(cur, day)
+            record["status"] = "PASS"
+            return record
+        return check
+
+    for kind in ("FABRIC", "FABRIC_ROLL", "ACCESSORY"):
+        for route in ("DIRECT", "IMPORT"):
+            for zone in import_fixture.ZONES:
+                cases.append((f"DAY:{kind}:{route}:{zone}", opening(kind, route, zone)))
+    for kind in ("FINISHED_GOODS", "FINISHED_GOODS_PRICE", "BS", "BS_PRODUCT", "ATTENDANCE"):
+        for zone in import_fixture.ZONES:
+            cases.append((f"DAY:{kind}:DIRECT:{zone}", opening(kind, "DIRECT", zone)))
+
+    sources = (
+        Path("supabase/tests/cp6_subledger_exact_cent.sql"),
+        Path("supabase/tests/cp6_supplier_cent_lifecycle.sql"),
+        Path("supabase/tests/cp6_supplier_return_document_allocation.sql"),
+    )
+
+    def linked(function, name):
+        def check(cur, day):
+            actors.admin(cur)
+            cur.execute("select set_config('app.change_reason','CP6 AE combined business qualification',true)")
+            for source in sources:
+                cur.execute(source.read_text(), prepare=False)
+            evidence = base.one(cur, f"select pg_temp.{function}(%s,true)", (name,))
+            if evidence.get("status") != "PASS":
+                raise AssertionError("AE_LINKED_ORACLE_FAILED:" + repr(evidence))
+            return evidence
+        return check
+
+    for group, function, names in (
+        ("OPENING_SUBLEDGER", "m_case", m_oracle.CASES),
+        ("SUPPLIER_CENT", "n_case", n_oracle.CASES),
+        ("SUPPLIER_RETURN", "o_case", o_oracle.CASES),
+    ):
+        for name in names:
+            cases.append((group + ":" + name, linked(function, name)))
+
+    def invoice(partial, zone, final_cost):
+        def check(cur, day):
+            today = base.one(cur, "select (clock_timestamp() at time zone 'Asia/Jakarta')::date")
+            evidence = purchase_fixture.invoice_case(cur, zone, today, partial, final_cost)
+            if evidence.get("status") != "CONTROL_PASS":
+                raise AssertionError("AE_INVOICE_ORACLE_FAILED:" + repr(evidence))
+            return {**evidence, "status": "PASS"}
+        return check
+
+    for partial in (False, True):
+        for zone in purchase_fixture.prior.ZONES:
+            for final_cost in ("20", "20.003"):
+                cases.append((f"INVOICE:{partial}:{zone}:{final_cost}", invoice(partial, zone, final_cost)))
+
+    def cash(index):
+        def check(cur, day):
+            account = base.one(cur, "select id from erp.cash_accounts where is_active order by id limit 1")
+            name, operation = cash_oracle.extensions(cur, account)[index]
+            evidence = operation()
+            if evidence.get("status") != "CONTROL_PASS":
+                raise AssertionError("AE_CASH_ORACLE_FAILED:" + repr(evidence))
+            return {**evidence, "status": "PASS", "oracle_case": name}
+        return check
+
+    cash_count = len(cash_oracle.KINDS) * 2 + len(cash_oracle.audit.ZONES)
+    for index in range(cash_count):
+        cases.append((f"CASH_LINKED:{index}", cash(index)))
+    if len(cases) != 134 or len({name for name, _ in cases}) != 134:
+        raise AssertionError("AE_COMBINED_CASE_CARDINALITY")
+    return tuple(cases)
+
+
 def phase_cases(phase: str) -> tuple[tuple[str, Case], ...]:
+    if phase == "crossflow":
+        return crossflow_cases()
     if phase == "admission":
         names = (
             "OVERSIZED", "DUPLICATE", "REUSED", "FABRIC_WITHOUT_ROLL",
@@ -592,7 +699,7 @@ def run_phase(phase: str) -> dict:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--phase", choices=("admission", "successor", "detector"), required=True)
+    parser.add_argument("--phase", choices=("admission", "successor", "detector", "crossflow"), required=True)
     args = parser.parse_args()
     try:
         final = run_phase(args.phase)

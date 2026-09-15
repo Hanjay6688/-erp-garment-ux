@@ -23,7 +23,32 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  source-scope:
+    runs-on: ubuntu-24.04
+    outputs:
+      ae: ${{ steps.scope.outputs.ae }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: scope
+        name: Route the exact AE successor to its combined qualification
+        shell: bash
+        run: |
+          set -euo pipefail
+          PYTHONPATH=scripts python - <<'PY'
+          import os
+          from pathlib import Path
+          successor = Path('scripts/cp6_v2620ae_runtime.py').exists()
+          if successor:
+              import cp6_v2620ae_runtime as runtime
+              runtime.verify_audit_source()
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as output:
+              output.write('ae=' + str(successor).lower() + '\n')
+          PY
   audit:
+    needs: source-scope
+    if: needs.source-scope.outputs.ae != 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     env:

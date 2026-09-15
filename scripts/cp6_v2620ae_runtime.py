@@ -29,12 +29,14 @@ PREDECESSOR_TREE = "12cff34f745f19930b50296d003f6e5da3127d3e"
 PINS_SHA256 = "6891b006b3611debc87a0bc4928438c6db5dc1df8209d9c7d927f151494026d4"
 
 ALLOWED_CANDIDATE_FILES = {
+    ".github/workflows/cp6-ac-independent-audit.yml",
     ".github/workflows/cp6-ad-roll-opening-check.yml",
     ".github/workflows/cp6-full-schema-validation.yml",
     "docs/evidence/cp6-ae-runtime-pins.json",
     "scripts/cp6_preuse_rollback_maintenance.py",
     "scripts/cp6_v2620ae_build_sql.py",
     "scripts/cp6_v2620ae_family.py",
+    "scripts/cp6_v2620ae_maintenance_schedules.py",
     "scripts/cp6_v2620ae_rollback_guards.py",
     "scripts/cp6_v2620ae_runtime.py",
     str(MIGRATION),
@@ -139,7 +141,7 @@ def verify_ad_pre_admission(cur) -> dict[str, Any]:
     return inherited
 
 
-def verify_inherited_ad(cur) -> dict[str, Any]:
+def verify_inherited_ad(cur, *, pre_admission: bool = False) -> dict[str, Any]:
     """Verify AD's stored edge while AE owns the two current definitions."""
     payload = verify_source_files()
     row = cur.execute(
@@ -163,8 +165,10 @@ def verify_inherited_ad(cur) -> dict[str, Any]:
     ):
         raise AssertionError("AE_INHERITED_AD_PLATFORM_SOURCE_MISMATCH")
     ac._capsule_security(cur, ad.CAPSULE)
-    inherited = ac.verified_successor(cur)
-    if len(inherited) != 272:
+    # Relation deparsing must wait until existing sessions have drained.
+    # The complete 272-object check still runs before any rollback DDL.
+    inherited = ad.verify_ac_pre_admission(cur) if pre_admission else ac.verified_successor(cur)
+    if len(inherited) != (115 if pre_admission else 272):
         raise AssertionError("AE_INHERITED_AC_RUNTIME_MISMATCH")
 
     rows = cur.execute(

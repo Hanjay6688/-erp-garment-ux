@@ -66,15 +66,17 @@ jobs:
                       'scripts/cp6_ad_roll_opening_check.py': 'fb11a8f87eef368cedc161924950c2f388ba5dd45067618eca435a71c2e70d37'}
           ae_pins={**ad_pins,**round_pins}
           ae_pins.update({
-              '.github/workflows/cp6-ad-roll-opening-check.yml': '156c9958d3197600939e0f0bc88d2be9d05bb847d2d2d32f7a9c710b564550f5',
+              '.github/workflows/cp6-ad-roll-opening-check.yml': '5aca7917a6a2b750b8d23efad6136386d414721dbfbeedb822039202c7178a82',
               'docs/evidence/cp6-ae-runtime-pins.json': '6891b006b3611debc87a0bc4928438c6db5dc1df8209d9c7d927f151494026d4',
-              'scripts/cp6_preuse_rollback_maintenance.py': 'f787fe9da49999d80c8887d28902e46023b209e074087d0ffbf24e6e2b8ad346',
+              'scripts/cp6_preuse_rollback_maintenance.py': 'a6f9403c32a6f2a434dccab7bad77c63e6a35a7f2ee4fccb68f810d9b15dd6bd',
               'scripts/cp6_v2620ae_build_sql.py': 'd36adaf08324e25f665ebe6fcf952518a1f33eb08195260bd1c88dbd347c4922',
-              'scripts/cp6_v2620ae_family.py': '9b937b832019c04103f4e55472b147853aa7c6caeb39042476ae8b13aa4a7bb2',
-              'scripts/cp6_v2620ae_rollback_guards.py': 'eb51cebd067e08305cda45850b2293c4929c0aea67d35d56ec69518ff06683e7',
-              'scripts/cp6_v2620ae_runtime.py': '6d7afc54949066e6c85bf7089d318dc354cd571285d8e1165bcbd3733ff01576',
+              'scripts/cp6_v2620ae_family.py': '5726e376f252a6e34d91b6180495563f322813f0f4d1d45880b8aef5a1e60d5b',
+              'scripts/cp6_v2620ae_rollback_guards.py': '434e4d05d3bac0e3d1070f9703f5812c01baf00e61172e92c66b5e420e35229d',
+              'scripts/cp6_v2620ae_runtime.py': '6ffccbed42083e1dad2cdc90559cb27e66cb2ee7f54b5519fba85d0fcadfbe33',
               'supabase/migrations/20260915201500_erp_v2_6_20ae_cp6_opening_roll_integrity.sql': '228d9185501d418835e6434e64e1445be7b12ce2f517778ea63d789d478461c1',
-              'supabase/rollbacks/20260915201500_erp_v2_6_20ae_cp6_opening_roll_integrity.rollback.sql': 'a869de31481cac1c8a26de17e3be9d47d2b42c18a6756df5cabfc016ebfa0341'})
+              'supabase/rollbacks/20260915201500_erp_v2_6_20ae_cp6_opening_roll_integrity.rollback.sql': 'a869de31481cac1c8a26de17e3be9d47d2b42c18a6756df5cabfc016ebfa0341',
+              '.github/workflows/cp6-ac-independent-audit.yml': '464e0b2a85d88ef6cc03373c5999aa9126a646c844a3d28ede075477888eac46',
+              'scripts/cp6_v2620ae_maintenance_schedules.py': '7d88f6a54c35c0ae32e25cae4540056945e083603766cdb2ecaa1080582f722d'})
           ad_exact=False
           ad_round=False
           ae_exact=False
@@ -105,7 +107,7 @@ jobs:
               reuse=False
           with open(os.environ['GITHUB_OUTPUT'],'a') as output:
               output.write('full='+('false' if reuse else 'true')+'\n')
-          print('REUSED_EVIDENCE: pinned AE whole-family gate' if ae_exact else 'REUSED_EVIDENCE: pinned AD plus focused roll-opening round' if ad_round else 'REUSED_EVIDENCE: Native200/AB189 base; pinned AD delta requires the separate whole-family native gate' if ad_exact else 'REUSED_EVIDENCE: exact AC business source' if reuse else 'RERUN_REQUIRED: change outside the pinned audit/AD boundary')
+          print('RERUN_REQUIRED: AE combined 134-case business gate and 20 fresh schedules; historical AC evidence retained' if ae_exact else 'REUSED_EVIDENCE: pinned AD plus focused roll-opening round' if ad_round else 'REUSED_EVIDENCE: Native200/AB189 base; pinned AD delta requires the separate whole-family native gate' if ad_exact else 'REUSED_EVIDENCE: exact AC business source' if reuse else 'RERUN_REQUIRED: change outside the pinned audit/AD boundary')
           PYROUTE
   # END AC AUDIT EVIDENCE ROUTER
   validate-full-schema:

@@ -11,6 +11,7 @@ import psycopg
 
 import cp6_preuse_rollback_maintenance as maintenance
 import cp6_v2620ae_runtime as runtime
+from cp6_v2620ae_family import actors, expected_refusal, sql_body
 from cp6_v2620n_rollback_guards import function_catalog
 from cp6_v2620u_install_diagnostic import snapshot
 
@@ -61,6 +62,41 @@ def run() -> dict:
     with psycopg.connect(EXPECTED_URL) as connection, connection.cursor() as cur:
         if len(runtime.verified_successor(cur)) != 276:
             raise AssertionError("AE_RESTORE_SOURCE_MISMATCH")
+
+    controls = {
+        "FUNCTION_CONFIGURATION": ("alter function erp.post_opening_balance(uuid) set work_mem='64MB'", "AE_TRUSTED_PREDECESSOR_PIN_MISMATCH"),
+        "FUNCTION_ACL": ("grant execute on function erp.post_opening_balance(uuid) to anon", "AE_TRUSTED_PREDECESSOR_PIN_MISMATCH"),
+        "FUNCTION_OWNER": ("alter function erp.post_opening_balance(uuid) owner to supabase_admin", "AE_TRUSTED_PREDECESSOR_PIN_MISMATCH"),
+        "UNEXPECTED_TABLE": ("create table erp.cp6_ae_unexpected(id integer)", "AE_BOUNDARY_SNAPSHOT_MISMATCH"),
+        "MISSING_TABLE": ("drop table erp.cp6_v2620ab_rollback_capsule", "AE_BOUNDARY_SNAPSHOT_MISMATCH"),
+        "POST_USE": ("insert into erp.locations(location_code,location_name,location_type) values('AE-ROLLBACK-PROBE','AE probe','FG_WAREHOUSE')", "AE_POST_USE_ROLLBACK_REFUSED"),
+        "CAPSULE_DEFINITION": (f"update {runtime.CAPSULE} set object_definition=object_definition||E'\\n-- altered'", "AE_TRUSTED_PREDECESSOR_PIN_MISMATCH"),
+        "PLATFORM_SOURCE": (f"update supabase_migrations.schema_migrations set statements=array['wrong'] where name='{runtime.NAME}'", "AE_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR"),
+    }
+    atomic = {"status": "INCOMPLETE", "cases": {}, "production_go": False}
+    with psycopg.connect(EXPECTED_URL.replace("postgres:postgres@", "supabase_admin:postgres@")) as connection, connection.cursor() as cur:
+        cur.execute("set local timezone='Asia/Jakarta';set local statement_timeout='180s';set local lock_timeout='8s'")
+        for name, (mutation, error) in controls.items():
+            before, catalog = actors.boundary(cur), function_catalog(cur)
+            cur.execute("savepoint ae_atomic")
+            try:
+                cur.execute(mutation)
+                record = expected_refusal(cur, lambda: cur.execute(sql_body(runtime.ROLLBACK), prepare=False), error)
+                record["status"] = "PASS"
+            except Exception as exc:
+                record = {"status": "FAIL", "error": str(exc), "traceback": traceback.format_exc()}
+            finally:
+                cur.execute("rollback to savepoint ae_atomic;release savepoint ae_atomic")
+            record["entire_boundary_restored"] = actors.boundary(cur) == before and function_catalog(cur) == catalog
+            if not record["entire_boundary_restored"]:
+                record["status"] = "FAIL"
+            atomic["cases"][name] = record
+        connection.rollback()
+    if len(atomic["cases"]) == 8 and all(item["status"] == "PASS" for item in atomic["cases"].values()):
+        atomic["status"] = "PASS"
+    (ROOT / "AE_ROLLBACK_ATOMIC_CONTROLS.json").write_text(json.dumps(atomic, indent=2) + "\n")
+    if atomic["status"] != "PASS":
+        raise AssertionError("AE_ROLLBACK_ATOMIC_CONTROLS_FAILED:" + json.dumps(atomic))
 
     result = maintenance.run_maintenance_rollback(
         target_name="AE",

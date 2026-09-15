@@ -559,7 +559,7 @@ def _capsule_snapshot(
         # checking AD through its stored edge and the unchanged AC runtime.
         TRUSTED_FUNCTIONS['AE'] = pins()['functions']
         with target_conn.cursor() as ae_cur:
-            verify_inherited_ad(ae_cur)
+            verify_inherited_ad(ae_cur, pre_admission=True)
     if target_name == 'AD':
         from cp6_v2620ad_runtime import pins, verify_ac_pre_admission
         # Bind AD's two pins independently and avoid relation deparsing until

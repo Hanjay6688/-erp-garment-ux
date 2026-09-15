@@ -1,4 +1,4 @@
-name: CP6 AE Roll Opening Family
+name: CP6 AE Combined Business Qualification
 
 on:
   push:
@@ -10,6 +10,7 @@ on:
       - scripts/cp6_preuse_rollback_maintenance.py
       - scripts/cp6_v2620ae_build_sql.py
       - scripts/cp6_v2620ae_family.py
+      - scripts/cp6_v2620ae_maintenance_schedules.py
       - scripts/cp6_v2620ae_rollback_guards.py
       - scripts/cp6_v2620ae_runtime.py
       - supabase/migrations/20260915201500_erp_v2_6_20ae_cp6_opening_roll_integrity.sql
@@ -27,12 +28,15 @@ concurrency:
 jobs:
   check:
     runs-on: ubuntu-24.04
-    timeout-minutes: 35
+    timeout-minutes: 60
     env:
       PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
       CP6_AC_INDEPENDENT_CONFIRM: postgres
       CP6_AD_ROLL_CHECK_CONFIRM: postgres
       CP6_AE_FAMILY_CONFIRM: postgres
+      CP6_MAINTENANCE_PGURL: postgresql://postgres:postgres@127.0.0.1:54322/template1
+      CP6_ROLLBACK_RACE_PGURL: postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback
+      CP6_AE_MAINTENANCE_CONFIRM: cp6_rollback
       CP6_MAINTENANCE_CONFIRM_DATABASE: postgres
       CP6_MAINTENANCE_ALLOW_SYSTEM_DATABASE: postgres
       CP6_DATABASE_CONTAINER: supabase_db_cp5-local
@@ -164,7 +168,7 @@ jobs:
         working-directory: candidate
         shell: bash
         run: PYTHONPATH=scripts python scripts/cp6_v2620ae_family.py --phase admission
-      - name: Apply AE and verify all 276 pinned objects
+      - name: Apply AE and verify 274 live objects plus two stored AD edges
         working-directory: candidate
         shell: bash
         run: |
@@ -192,6 +196,10 @@ jobs:
         working-directory: candidate
         shell: bash
         run: PYTHONPATH=scripts python scripts/cp6_v2620ae_family.py --phase detector
+      - name: Run 134 combined stock cost journal payment return and date cases
+        working-directory: candidate
+        shell: bash
+        run: PYTHONPATH=scripts python scripts/cp6_v2620ae_family.py --phase crossflow
       - name: Provision isolated rollback authority
         working-directory: candidate
         shell: bash
@@ -209,7 +217,13 @@ jobs:
             connection limit 4 password :'cp6_password';
           SQL
           printf 'CP6_ADMISSION_CONTROL_PGURL=%s\n' "$maintenance_pgurl" >> "$GITHUB_ENV"
-      - name: Restore exact AD through the reviewed path
+      - name: Run 20 AE schedules with the unchanged concurrency oracle
+        working-directory: candidate
+        env:
+          CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
+        shell: bash
+        run: PYTHONPATH=scripts python scripts/cp6_v2620ae_maintenance_schedules.py
+      - name: Check eight atomic refusals then restore exact AD
         working-directory: candidate
         shell: bash
         run: PYTHONPATH=scripts python scripts/cp6_v2620ae_rollback_guards.py
