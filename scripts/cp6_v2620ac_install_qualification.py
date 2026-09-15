@@ -63,6 +63,17 @@ def run() -> dict:
             "AC_FUNCTION_PREDECESSOR_MISMATCH",
         ),
         (
+            "VIEW_DEFINITION",
+            """create or replace view erp.v_accessory_category_current_cost
+with (security_invoker=true) as
+select id as category_id,category_code,category_name,base_uom_code,
+  erp.accessory_category_weighted_avg_cost_at(id,now())
+    as weighted_avg_cost_per_base_uom
+from erp.accessory_categories
+where false""",
+            "AC_VIEW_PREDECESSOR_MISMATCH",
+        ),
+        (
             "VIEW_OPTIONS",
             f"alter view {view} set (security_invoker=false)",
             "AC_VIEW_PREDECESSOR_MISMATCH",
@@ -212,7 +223,7 @@ def run() -> dict:
         result["entire_runtime_restored"] = boundary(cur) == untouched
         conn.rollback()
     if (
-        len(result["cases"]) == result["expected_cases"] == 15
+        len(result["cases"]) == result["expected_cases"] == 16
         and all(
             item["status"] == "CONTROL_PASS"
             and item["full_case_boundary_restored"]

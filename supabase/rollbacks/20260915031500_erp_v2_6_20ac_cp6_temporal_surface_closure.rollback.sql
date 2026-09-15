@@ -13,7 +13,7 @@ begin
      or not exists(select 1 from supabase_migrations.schema_migrations
        where version='20260915031500' and name='erp_v2_6_20ac_cp6_temporal_surface_closure'
          and encode(extensions.digest(convert_to(array_to_string(statements,E'\n'),'UTF8'),'sha256'),'hex')
-           in('324c62fc9f4ebe4f59bd019cbb1471e460514c281be25c01170df8cafdb45e68','8cf478c430c6ad809e8bceee08f2a941b7f5fe13d01a17bebc3d3ec8ddcffe12'))
+           in('d0742ed0c465503907ae9a9136779138996403be14e96592cdbf63c81001b21f','81cc7969d4bdf85d2eb2708d251b5dadaa8f8db348765722122fba3133be4df4'))
      or exists(select 1 from supabase_migrations.schema_migrations where version>'20260915031500') then
     raise exception 'AC_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR';
   end if;
@@ -154,24 +154,757 @@ insert into pg_temp.cp6_ac_expected_functions values
   ('erp.touch_updated_at()','63521d11274096993048a5fed97ec42851a67090a7ce6e492bfb5238b1d7f403','c763f2b528a413cba95d9e5b3915c50eb7da52c83a3fea9fbdad9e39e9eddc7a','postgres',array['postgres=X/postgres','service_role=X/postgres']::text[]);
 
 create temporary table cp6_ac_expected_views(
-  identity text primary key,before_sha256 text not null,after_sha256 text not null,
+  identity text primary key,before_body text not null,before_sha256 text not null,
+  after_body text not null,after_sha256 text not null,
   owner_name text not null,acl text[],reloptions text[],rls boolean not null,
   restore_sha256 text not null
 ) on commit drop;
 insert into pg_temp.cp6_ac_expected_views values
-  ('erp.v_accessory_category_current_cost','6cec0f15f157db3ee5a8ca852527f822b0ff05327758e8f1753e1b4472ce3869','3c65f5daf0201efb3a1c4084c1c322c2fac7563f09aeddf222a3ceba772c9d5f','postgres',array['authenticated=r/postgres','postgres=arwdDxt/postgres','service_role=arwdDxt/postgres']::text[],array['security_invoker=true']::text[],false,'d789c6407e1b123a76af390e58f97856daf4c7d5d4fb1615d40c13bc45aee9c6'),
-  ('erp.v_accessory_hpp_setup','0bbbbd2579a046ffdbfe439c8bcd5497d84273b1a3d1a2a829ab5581c8d07986','0ffbf3ab054353a4e4f765acb1bc2adb2e84eef5cab4cc15ece28fd355e9d062','postgres',array['authenticated=r/postgres','postgres=arwdDxt/postgres','service_role=arwdDxt/postgres']::text[],array['security_invoker=true']::text[],false,'9a68930724dcce7a56fae5130bf256e1f8dcd8e5e091a3b0717f9f6f2792a787'),
-  ('erp.v_accessory_master_browser','c39242db9de79e1e69c2679984de6bf22d52f63dc30f58ff9f12bc2d71137e6b','45d7858bb4c0650fa8c07810c6db0b0b219ade8981c26cbcf62ad078ca6be1ef','postgres',array['authenticated=r/postgres','postgres=arwdDxt/postgres']::text[],array['security_invoker=true']::text[],false,'abfc66c807a59209a8f9bec176b1d7b72f96917c3c548ba688d8e4e5556f66c3'),
-  ('erp.v_accessory_price_browser','5f3d9d66e665e3eff4d491e3f4030a9cd1c4132dcb3c90fecd510aacce115d64','c6bd9e3d74accfb969b82adeaf33ad8e0f6207095576100052c1a76cafef176d','postgres',array['authenticated=r/postgres','postgres=arwdDxt/postgres']::text[],array['security_invoker=true']::text[],false,'1ca1a0f6e59f22d8e04816ce7cce4e0f9cfc785417104960a0818238f94f710f'),
-  ('erp.v_current_product_prices','37ba7e34a3190499e7b99ad44adcd5255a44649645d46e3e87e14f3dc0ec4cc0','3610e705fd0bd193945dd8a8241d8b1706a536ecdaa567c4bdd8adc6f58e3e12','postgres',array['authenticated=r/postgres','postgres=arwdDxt/postgres','service_role=arwdDxt/postgres']::text[],array['security_invoker=true']::text[],false,'8b10d8668e05b36209e14e4f00965b244cd406628fafd8b4a5f2eae89a71e46f'),
-  ('erp.v_fabric_master_current_benchmark','1cab95f2bdbc370ebccd277cc745cfd476c1116bd4ba6a0d5c0fbfc374e80f8b','c194577448dbfdfbeabec3219a328c4c1e6826c83223395bb8716e285dd246b6','postgres',array['authenticated=r/postgres','postgres=arwdDxt/postgres']::text[],array['security_invoker=true']::text[],false,'c93e807d0f0b44b052c2413c5a4632564b604c5b702f45d9c7d75a5cc30d13d0'),
-  ('erp.v_material_purchase_liability_status','800f8d9643bfe1091fdf7bbba4d3ff2d057e4e10a7e1970dec1832d6577f067e','d0a42f5eb48da1e91534a43a7e1aa4ebeda6894805e86659880fe8603d2304f9','postgres',array['authenticated=r/postgres','postgres=arwdDxt/postgres']::text[],array['security_invoker=true']::text[],false,'c49b2bc36cd0d84ccff7384631a9f75ee69ea8f4db3f404f749b8f32149dc140'),
-  ('erp.v_material_supplier_invoice_browser','0dfbbe6b464276bd8a63e87d60fa8e3818bca7bb1bccb92221741317af46f3f2','aed6fdcc147d2f379a31b2c3db4a5fdc78f98be5c8ee700f0871e9096a198c71','postgres',array['authenticated=r/postgres','postgres=arwdDxt/postgres']::text[],array['security_invoker=true']::text[],false,'50d32d01f3455eb5e94003bb920ca3e5bd5f6f586fbb690510f465b03d6a245c'),
-  ('erp.v_payroll_nota_browser','a35e0725b883d08e3cec365ce2cf8b4d08544643dbb2d79c04c4da2baa687acd','16f47474d81b89b0639a3c46cd49c90140691926e4cc03d610e493b1677ca226','postgres',array['authenticated=r/postgres','postgres=arwdDxt/postgres']::text[],array['security_invoker=true']::text[],false,'278040c49bd65164dec4e31948cb910127704bf6072c0b801147270a57567989'),
-  ('erp.v_product_price_current','8be0c344171b109c9491838533c69215886ea512ff70ddd5317a40e5acbb5a08','cb46a4e7294723696c58c42ebfa4a6526a896a2e4f217dc4cda1c03d82792b96','postgres',null::text[],array['security_invoker=true']::text[],false,'213ecc404bc9c0adb7d4fabbc789d7fcdd53bde6c98799b6d180355c068fa856'),
-  ('erp.v_products_current','6dd935d31fc83aaae3237b13936ab6a15ce1f2acd45a7b4d74fe31daef3129a3','ff45f6e8f1265b2b3795a4241f60966a2c178df03c6b956ed8b95cb7c5e55d43','postgres',null::text[],array['security_invoker=true']::text[],false,'eb5262b3c7fd6d85739c4ed34a32c42071a84a375b02834fb98c866a94d82416'),
-  ('erp.v_products_sellable','de4ac39c54cf7001638f1f70df38ad82d07aeb372266d2cfa79caf390ebceb71','51ab4bf4553b797c4a8ec70892f312dbaaa0154d60efc790bb29ab68c42fd884','postgres',null::text[],array['security_invoker=true']::text[],false,'3e383965410b4ebf02388db7f51428aa5be232eff32edee356c7d3039c84c88a'),
-  ('erp.v_supplier_ap_aging','7726a89e13a685e9582fe8f159e63af65d1f1cd26e5e4823f81d2ed2e97f8700','e78b3217d9b8ec92f1eec54758c85bbb0216935d0334bcfdce476ad530700a67','postgres',array['authenticated=r/postgres','postgres=arwdDxt/postgres']::text[],array['security_invoker=true']::text[],false,'0fc6adaf1402343b9dc5a598bcdfea318ff67fea4e8a2a493b0c6f58d014db25');
+  ('erp.v_accessory_category_current_cost','SELECT id AS category_id,
+    category_code,
+    category_name,
+    base_uom_code,
+    erp.accessory_category_weighted_avg_cost_at(id, now()) AS weighted_avg_cost_per_base_uom
+   FROM erp.accessory_categories c
+  WHERE (is_active = true)','6cec0f15f157db3ee5a8ca852527f822b0ff05327758e8f1753e1b4472ce3869','SELECT id AS category_id,
+    category_code,
+    category_name,
+    base_uom_code,
+    erp.accessory_category_weighted_avg_cost_at(id, statement_timestamp()) AS weighted_avg_cost_per_base_uom
+   FROM erp.accessory_categories c
+  WHERE (is_active = true)','3c65f5daf0201efb3a1c4084c1c322c2fac7563f09aeddf222a3ceba772c9d5f','postgres',array['authenticated=r/postgres','postgres=arwdDxt/postgres','service_role=arwdDxt/postgres']::text[],array['security_invoker=true']::text[],false,'d789c6407e1b123a76af390e58f97856daf4c7d5d4fb1615d40c13bc45aee9c6'),
+  ('erp.v_accessory_hpp_setup','SELECT p.id AS product_id,
+    p.sku,
+    p.product_name,
+    abv.id AS bom_version_id,
+    abv.effective_from,
+    abv.effective_to,
+    ac.category_code,
+    ac.category_name,
+    ac.base_uom_code,
+    abi.qty_per_good_fg_base,
+    abi.hpp_method,
+    abi.hpp_standard_rate,
+    abi.hpp_uom_code,
+    abi.reimbursement_rate,
+    abi.reimbursement_uom_code,
+        CASE
+            WHEN (abv.id IS NULL) THEN ''MISSING_BOM''::text
+            WHEN (abi.id IS NULL) THEN ''NO_ACCESSORY''::text
+            ELSE ''CONFIGURED''::text
+        END AS setup_state,
+    count(abi.id) OVER (PARTITION BY p.id, abv.id) AS bom_item_count
+   FROM (((erp.v_products_current p
+     LEFT JOIN erp.accessory_bom_versions abv ON (((abv.product_id = p.identity_root_id) AND (abv.is_active = true) AND (abv.effective_from <= clock_timestamp()) AND ((abv.effective_to IS NULL) OR (abv.effective_to > clock_timestamp())))))
+     LEFT JOIN erp.accessory_bom_items abi ON ((abi.bom_version_id = abv.id)))
+     LEFT JOIN erp.accessory_categories ac ON ((ac.id = abi.category_id)))','0bbbbd2579a046ffdbfe439c8bcd5497d84273b1a3d1a2a829ab5581c8d07986','SELECT p.id AS product_id,
+    p.sku,
+    p.product_name,
+    abv.id AS bom_version_id,
+    abv.effective_from,
+    abv.effective_to,
+    ac.category_code,
+    ac.category_name,
+    ac.base_uom_code,
+    abi.qty_per_good_fg_base,
+    abi.hpp_method,
+    abi.hpp_standard_rate,
+    abi.hpp_uom_code,
+    abi.reimbursement_rate,
+    abi.reimbursement_uom_code,
+        CASE
+            WHEN (abv.id IS NULL) THEN ''MISSING_BOM''::text
+            WHEN (abi.id IS NULL) THEN ''NO_ACCESSORY''::text
+            ELSE ''CONFIGURED''::text
+        END AS setup_state,
+    count(abi.id) OVER (PARTITION BY p.id, abv.id) AS bom_item_count
+   FROM (((erp.v_products_current p
+     LEFT JOIN erp.accessory_bom_versions abv ON (((abv.product_id = p.identity_root_id) AND (abv.is_active = true) AND (abv.effective_from <= statement_timestamp()) AND ((abv.effective_to IS NULL) OR (abv.effective_to > statement_timestamp())))))
+     LEFT JOIN erp.accessory_bom_items abi ON ((abi.bom_version_id = abv.id)))
+     LEFT JOIN erp.accessory_categories ac ON ((ac.id = abi.category_id)))','0ffbf3ab054353a4e4f765acb1bc2adb2e84eef5cab4cc15ece28fd355e9d062','postgres',array['authenticated=r/postgres','postgres=arwdDxt/postgres','service_role=arwdDxt/postgres']::text[],array['security_invoker=true']::text[],false,'9a68930724dcce7a56fae5130bf256e1f8dcd8e5e091a3b0717f9f6f2792a787'),
+  ('erp.v_accessory_master_browser','WITH stock AS (
+         SELECT v_material_stock_balance.material_id,
+            sum(v_material_stock_balance.stock_qty) AS stock_qty,
+            sum(v_material_stock_balance.stock_value_at_current_ma) AS stock_value,
+            max(v_material_stock_balance.last_movement_at) AS last_movement_at
+           FROM erp.v_material_stock_balance
+          GROUP BY v_material_stock_balance.material_id
+        )
+ SELECT m.id AS material_id,
+    m.material_sku,
+    m.material_name,
+    m.is_active,
+    m.unit_code AS base_uom_code,
+    m.row_version,
+    m.cached_stock_qty,
+    m.moving_average_cost,
+    ac.id AS category_id,
+    ac.category_code,
+    ac.category_name,
+    ac.row_version AS category_row_version,
+    cc.weighted_avg_cost_per_base_uom AS category_weighted_avg_cost,
+    COALESCE(s.stock_qty, (0)::numeric) AS ledger_stock_qty,
+    COALESCE(s.stock_value, (0)::numeric) AS stock_value,
+    s.last_movement_at,
+    gp.id AS global_price_version_id,
+    gp.selling_price AS global_selling_price,
+    gp.selling_uom_code AS global_selling_uom_code,
+    gp.effective_from AS global_price_effective_from,
+    gp.effective_to AS global_price_effective_to,
+    concat_ws('' ''::text, m.material_sku, m.material_name, ac.category_code, ac.category_name) AS search_text
+   FROM ((((erp.materials m
+     JOIN erp.accessory_categories ac ON ((ac.id = m.accessory_category_id)))
+     LEFT JOIN erp.v_accessory_category_current_cost cc ON ((cc.category_id = ac.id)))
+     LEFT JOIN stock s ON ((s.material_id = m.id)))
+     LEFT JOIN LATERAL ( SELECT p.id,
+            p.contractor_id,
+            p.category_id,
+            p.selling_price,
+            p.selling_uom_code,
+            p.effective_from,
+            p.effective_to,
+            p.notes,
+            p.created_at
+           FROM erp.contractor_accessory_price_versions p
+          WHERE ((p.category_id = ac.id) AND (p.contractor_id IS NULL) AND (p.effective_from <= now()) AND ((p.effective_to IS NULL) OR (p.effective_to > now())))
+          ORDER BY p.effective_from DESC
+         LIMIT 1) gp ON (true))
+  WHERE ((m.material_type)::text = ''ACCESSORY''::text)','c39242db9de79e1e69c2679984de6bf22d52f63dc30f58ff9f12bc2d71137e6b','WITH stock AS (
+         SELECT v_material_stock_balance.material_id,
+            sum(v_material_stock_balance.stock_qty) AS stock_qty,
+            sum(v_material_stock_balance.stock_value_at_current_ma) AS stock_value,
+            max(v_material_stock_balance.last_movement_at) AS last_movement_at
+           FROM erp.v_material_stock_balance
+          GROUP BY v_material_stock_balance.material_id
+        )
+ SELECT m.id AS material_id,
+    m.material_sku,
+    m.material_name,
+    m.is_active,
+    m.unit_code AS base_uom_code,
+    m.row_version,
+    m.cached_stock_qty,
+    m.moving_average_cost,
+    ac.id AS category_id,
+    ac.category_code,
+    ac.category_name,
+    ac.row_version AS category_row_version,
+    cc.weighted_avg_cost_per_base_uom AS category_weighted_avg_cost,
+    COALESCE(s.stock_qty, (0)::numeric) AS ledger_stock_qty,
+    COALESCE(s.stock_value, (0)::numeric) AS stock_value,
+    s.last_movement_at,
+    gp.id AS global_price_version_id,
+    gp.selling_price AS global_selling_price,
+    gp.selling_uom_code AS global_selling_uom_code,
+    gp.effective_from AS global_price_effective_from,
+    gp.effective_to AS global_price_effective_to,
+    concat_ws('' ''::text, m.material_sku, m.material_name, ac.category_code, ac.category_name) AS search_text
+   FROM ((((erp.materials m
+     JOIN erp.accessory_categories ac ON ((ac.id = m.accessory_category_id)))
+     LEFT JOIN erp.v_accessory_category_current_cost cc ON ((cc.category_id = ac.id)))
+     LEFT JOIN stock s ON ((s.material_id = m.id)))
+     LEFT JOIN LATERAL ( SELECT p.id,
+            p.contractor_id,
+            p.category_id,
+            p.selling_price,
+            p.selling_uom_code,
+            p.effective_from,
+            p.effective_to,
+            p.notes,
+            p.created_at
+           FROM erp.contractor_accessory_price_versions p
+          WHERE ((p.category_id = ac.id) AND (p.contractor_id IS NULL) AND (p.effective_from <= statement_timestamp()) AND ((p.effective_to IS NULL) OR (p.effective_to > statement_timestamp())))
+          ORDER BY p.effective_from DESC
+         LIMIT 1) gp ON (true))
+  WHERE ((m.material_type)::text = ''ACCESSORY''::text)','45d7858bb4c0650fa8c07810c6db0b0b219ade8981c26cbcf62ad078ca6be1ef','postgres',array['authenticated=r/postgres','postgres=arwdDxt/postgres']::text[],array['security_invoker=true']::text[],false,'abfc66c807a59209a8f9bec176b1d7b72f96917c3c548ba688d8e4e5556f66c3'),
+  ('erp.v_accessory_price_browser','SELECT p.id AS price_version_id,
+    p.category_id,
+    ac.category_code,
+    ac.category_name,
+    p.contractor_id,
+    c.contractor_code,
+    c.contractor_name,
+    p.selling_price,
+    p.selling_uom_code,
+    p.effective_from,
+    p.effective_to,
+    p.notes,
+    ((p.effective_from <= now()) AND ((p.effective_to IS NULL) OR (p.effective_to > now()))) AS is_current,
+    concat_ws('' ''::text, ac.category_code, ac.category_name, c.contractor_code, c.contractor_name, p.selling_uom_code) AS search_text
+   FROM ((erp.contractor_accessory_price_versions p
+     JOIN erp.accessory_categories ac ON ((ac.id = p.category_id)))
+     LEFT JOIN erp.contractors c ON ((c.id = p.contractor_id)))','5f3d9d66e665e3eff4d491e3f4030a9cd1c4132dcb3c90fecd510aacce115d64','SELECT p.id AS price_version_id,
+    p.category_id,
+    ac.category_code,
+    ac.category_name,
+    p.contractor_id,
+    c.contractor_code,
+    c.contractor_name,
+    p.selling_price,
+    p.selling_uom_code,
+    p.effective_from,
+    p.effective_to,
+    p.notes,
+    ((p.effective_from <= statement_timestamp()) AND ((p.effective_to IS NULL) OR (p.effective_to > statement_timestamp()))) AS is_current,
+    concat_ws('' ''::text, ac.category_code, ac.category_name, c.contractor_code, c.contractor_name, p.selling_uom_code) AS search_text
+   FROM ((erp.contractor_accessory_price_versions p
+     JOIN erp.accessory_categories ac ON ((ac.id = p.category_id)))
+     LEFT JOIN erp.contractors c ON ((c.id = p.contractor_id)))','c6bd9e3d74accfb969b82adeaf33ad8e0f6207095576100052c1a76cafef176d','postgres',array['authenticated=r/postgres','postgres=arwdDxt/postgres']::text[],array['security_invoker=true']::text[],false,'1ca1a0f6e59f22d8e04816ce7cce4e0f9cfc785417104960a0818238f94f710f'),
+  ('erp.v_current_product_prices','SELECT DISTINCT ON (product_id) product_id,
+    price,
+    effective_from
+   FROM erp.product_price_versions ppv
+  WHERE ((effective_from <= now()) AND ((effective_to IS NULL) OR (effective_to > now())))
+  ORDER BY product_id, effective_from DESC, created_at DESC','37ba7e34a3190499e7b99ad44adcd5255a44649645d46e3e87e14f3dc0ec4cc0','SELECT DISTINCT ON (product_id) product_id,
+    price,
+    effective_from
+   FROM erp.product_price_versions ppv
+  WHERE ((effective_from <= statement_timestamp()) AND ((effective_to IS NULL) OR (effective_to > statement_timestamp())))
+  ORDER BY product_id, effective_from DESC, created_at DESC','3610e705fd0bd193945dd8a8241d8b1706a536ecdaa567c4bdd8adc6f58e3e12','postgres',array['authenticated=r/postgres','postgres=arwdDxt/postgres','service_role=arwdDxt/postgres']::text[],array['security_invoker=true']::text[],false,'8b10d8668e05b36209e14e4f00965b244cd406628fafd8b4a5f2eae89a71e46f'),
+  ('erp.v_fabric_master_current_benchmark','SELECT m.id AS material_id,
+    m.material_sku,
+    m.material_name,
+    m.unit_code AS base_uom_code,
+    m.is_active,
+    m.cached_stock_qty,
+    m.moving_average_cost,
+    m.row_version,
+    fp.fabric_category,
+    fp.composition,
+    fp.construction,
+    fp.color_name,
+    fp.width_cm,
+    fp.gsm,
+    fp.minimum_stock_qty,
+    fp.preferred_supplier_id,
+    s.supplier_name AS preferred_supplier_name,
+    bp.id AS benchmark_version_id,
+    bp.benchmark_price_per_base_uom,
+    bp.effective_from AS benchmark_effective_from,
+    bp.effective_to AS benchmark_effective_to,
+    (bp.benchmark_price_per_base_uom - m.moving_average_cost) AS benchmark_vs_moving_average_delta,
+        CASE
+            WHEN (m.moving_average_cost = (0)::numeric) THEN NULL::numeric
+            ELSE round((((bp.benchmark_price_per_base_uom - m.moving_average_cost) / m.moving_average_cost) * (100)::numeric), 4)
+        END AS benchmark_vs_moving_average_pct
+   FROM (((erp.materials m
+     LEFT JOIN erp.fabric_master_profiles fp ON ((fp.material_id = m.id)))
+     LEFT JOIN erp.suppliers s ON ((s.id = fp.preferred_supplier_id)))
+     LEFT JOIN LATERAL ( SELECT x.id,
+            x.material_id,
+            x.benchmark_price_per_base_uom,
+            x.base_uom_code_snapshot,
+            x.effective_from,
+            x.effective_to,
+            x.change_reason,
+            x.created_by,
+            x.created_at
+           FROM erp.fabric_benchmark_price_versions x
+          WHERE ((x.material_id = m.id) AND (x.effective_from <= now()) AND ((x.effective_to IS NULL) OR (now() < x.effective_to)))
+          ORDER BY x.effective_from DESC
+         LIMIT 1) bp ON (true))
+  WHERE ((m.material_type)::text = ''FABRIC''::text)','1cab95f2bdbc370ebccd277cc745cfd476c1116bd4ba6a0d5c0fbfc374e80f8b','SELECT m.id AS material_id,
+    m.material_sku,
+    m.material_name,
+    m.unit_code AS base_uom_code,
+    m.is_active,
+    m.cached_stock_qty,
+    m.moving_average_cost,
+    m.row_version,
+    fp.fabric_category,
+    fp.composition,
+    fp.construction,
+    fp.color_name,
+    fp.width_cm,
+    fp.gsm,
+    fp.minimum_stock_qty,
+    fp.preferred_supplier_id,
+    s.supplier_name AS preferred_supplier_name,
+    bp.id AS benchmark_version_id,
+    bp.benchmark_price_per_base_uom,
+    bp.effective_from AS benchmark_effective_from,
+    bp.effective_to AS benchmark_effective_to,
+    (bp.benchmark_price_per_base_uom - m.moving_average_cost) AS benchmark_vs_moving_average_delta,
+        CASE
+            WHEN (m.moving_average_cost = (0)::numeric) THEN NULL::numeric
+            ELSE round((((bp.benchmark_price_per_base_uom - m.moving_average_cost) / m.moving_average_cost) * (100)::numeric), 4)
+        END AS benchmark_vs_moving_average_pct
+   FROM (((erp.materials m
+     LEFT JOIN erp.fabric_master_profiles fp ON ((fp.material_id = m.id)))
+     LEFT JOIN erp.suppliers s ON ((s.id = fp.preferred_supplier_id)))
+     LEFT JOIN LATERAL ( SELECT x.id,
+            x.material_id,
+            x.benchmark_price_per_base_uom,
+            x.base_uom_code_snapshot,
+            x.effective_from,
+            x.effective_to,
+            x.change_reason,
+            x.created_by,
+            x.created_at
+           FROM erp.fabric_benchmark_price_versions x
+          WHERE ((x.material_id = m.id) AND (x.effective_from <= statement_timestamp()) AND ((x.effective_to IS NULL) OR (statement_timestamp() < x.effective_to)))
+          ORDER BY x.effective_from DESC
+         LIMIT 1) bp ON (true))
+  WHERE ((m.material_type)::text = ''FABRIC''::text)','c194577448dbfdfbeabec3219a328c4c1e6826c83223395bb8716e285dd246b6','postgres',array['authenticated=r/postgres','postgres=arwdDxt/postgres']::text[],array['security_invoker=true']::text[],false,'c93e807d0f0b44b052c2413c5a4632564b604c5b702f45d9c7d75a5cc30d13d0'),
+  ('erp.v_material_purchase_liability_status','SELECT h.id AS purchase_id,
+    h.purchase_number,
+    h.supplier_id,
+    s.supplier_code,
+    s.supplier_name,
+    h.physical_at,
+    h.status,
+    h.payment_status,
+    COALESCE(sum(i.line_total), (0)::numeric) AS receipt_estimate_amount,
+    erp.material_purchase_final_ap_total(h.id) AS final_ap_amount,
+    erp.material_purchase_grni_total(h.id) AS grni_estimated_amount,
+    erp.material_purchase_total_liability(h.id) AS total_liability_amount,
+    COALESCE(( SELECT sum(p.amount) AS sum
+           FROM erp.supplier_payments p
+          WHERE ((p.purchase_id = h.id) AND ((p.status)::text = ''POSTED''::text))), (0)::numeric) AS paid_amount,
+    GREATEST((erp.material_purchase_final_ap_total(h.id) - COALESCE(( SELECT sum(p.amount) AS sum
+           FROM erp.supplier_payments p
+          WHERE ((p.purchase_id = h.id) AND ((p.status)::text = ''POSTED''::text))), (0)::numeric)), (0)::numeric) AS final_ap_outstanding,
+        CASE
+            WHEN ((erp.material_purchase_grni_total(h.id) > 0.005) AND (erp.material_purchase_final_ap_total(h.id) > 0.005)) THEN ''PARTIAL_INVOICE''::text
+            WHEN (erp.material_purchase_grni_total(h.id) > 0.005) THEN ''KASBON_BELUM_DITERIMA_ESTIMASI_KEWAJIBAN''::text
+            WHEN (erp.material_purchase_final_ap_total(h.id) > 0.005) THEN ''FINAL_AP''::text
+            ELSE ''NO_LIABILITY''::text
+        END AS liability_state,
+    ( SELECT string_agg(DISTINCT (ih.invoice_number)::text, '', ''::text ORDER BY (ih.invoice_number)::text) AS string_agg
+           FROM ((erp.material_supplier_invoice_lines il
+             JOIN erp.material_supplier_invoices ih ON ((ih.id = il.invoice_id)))
+             JOIN erp.material_purchase_items pi ON ((pi.id = il.purchase_item_id)))
+          WHERE ((pi.purchase_id = h.id) AND ((ih.status)::text = ''POSTED''::text))) AS active_invoice_numbers,
+    ( SELECT min(ih.due_date) AS min
+           FROM ((erp.material_supplier_invoice_lines il
+             JOIN erp.material_supplier_invoices ih ON ((ih.id = il.invoice_id)))
+             JOIN erp.material_purchase_items pi ON ((pi.id = il.purchase_item_id)))
+          WHERE ((pi.purchase_id = h.id) AND ((ih.status)::text = ''POSTED''::text))) AS earliest_due_date,
+        CASE
+            WHEN (erp.material_purchase_grni_total(h.id) > 0.005) THEN GREATEST((CURRENT_DATE - (h.physical_at)::date), 0)
+            ELSE 0
+        END AS unfinalized_days,
+    h.row_version,
+    h.created_at,
+    h.updated_at,
+    concat_ws('' ''::text, h.purchase_number, s.supplier_code, s.supplier_name, h.status) AS search_text
+   FROM ((erp.material_purchase_headers h
+     LEFT JOIN erp.suppliers s ON ((s.id = h.supplier_id)))
+     LEFT JOIN erp.material_purchase_items i ON ((i.purchase_id = h.id)))
+  GROUP BY h.id, s.id','800f8d9643bfe1091fdf7bbba4d3ff2d057e4e10a7e1970dec1832d6577f067e','SELECT h.id AS purchase_id,
+    h.purchase_number,
+    h.supplier_id,
+    s.supplier_code,
+    s.supplier_name,
+    h.physical_at,
+    h.status,
+    h.payment_status,
+    COALESCE(sum(i.line_total), (0)::numeric) AS receipt_estimate_amount,
+    erp.material_purchase_final_ap_total(h.id) AS final_ap_amount,
+    erp.material_purchase_grni_total(h.id) AS grni_estimated_amount,
+    erp.material_purchase_total_liability(h.id) AS total_liability_amount,
+    COALESCE(( SELECT sum(p.amount) AS sum
+           FROM erp.supplier_payments p
+          WHERE ((p.purchase_id = h.id) AND ((p.status)::text = ''POSTED''::text))), (0)::numeric) AS paid_amount,
+    GREATEST((erp.material_purchase_final_ap_total(h.id) - COALESCE(( SELECT sum(p.amount) AS sum
+           FROM erp.supplier_payments p
+          WHERE ((p.purchase_id = h.id) AND ((p.status)::text = ''POSTED''::text))), (0)::numeric)), (0)::numeric) AS final_ap_outstanding,
+        CASE
+            WHEN ((erp.material_purchase_grni_total(h.id) > 0.005) AND (erp.material_purchase_final_ap_total(h.id) > 0.005)) THEN ''PARTIAL_INVOICE''::text
+            WHEN (erp.material_purchase_grni_total(h.id) > 0.005) THEN ''KASBON_BELUM_DITERIMA_ESTIMASI_KEWAJIBAN''::text
+            WHEN (erp.material_purchase_final_ap_total(h.id) > 0.005) THEN ''FINAL_AP''::text
+            ELSE ''NO_LIABILITY''::text
+        END AS liability_state,
+    ( SELECT string_agg(DISTINCT (ih.invoice_number)::text, '', ''::text ORDER BY (ih.invoice_number)::text) AS string_agg
+           FROM ((erp.material_supplier_invoice_lines il
+             JOIN erp.material_supplier_invoices ih ON ((ih.id = il.invoice_id)))
+             JOIN erp.material_purchase_items pi ON ((pi.id = il.purchase_item_id)))
+          WHERE ((pi.purchase_id = h.id) AND ((ih.status)::text = ''POSTED''::text))) AS active_invoice_numbers,
+    ( SELECT min(ih.due_date) AS min
+           FROM ((erp.material_supplier_invoice_lines il
+             JOIN erp.material_supplier_invoices ih ON ((ih.id = il.invoice_id)))
+             JOIN erp.material_purchase_items pi ON ((pi.id = il.purchase_item_id)))
+          WHERE ((pi.purchase_id = h.id) AND ((ih.status)::text = ''POSTED''::text))) AS earliest_due_date,
+        CASE
+            WHEN (erp.material_purchase_grni_total(h.id) > 0.005) THEN GREATEST((((statement_timestamp() AT TIME ZONE ''Asia/Jakarta''::text))::date - ((h.physical_at) AT TIME ZONE ''Asia/Jakarta'')::date), 0)
+            ELSE 0
+        END AS unfinalized_days,
+    h.row_version,
+    h.created_at,
+    h.updated_at,
+    concat_ws('' ''::text, h.purchase_number, s.supplier_code, s.supplier_name, h.status) AS search_text
+   FROM ((erp.material_purchase_headers h
+     LEFT JOIN erp.suppliers s ON ((s.id = h.supplier_id)))
+     LEFT JOIN erp.material_purchase_items i ON ((i.purchase_id = h.id)))
+  GROUP BY h.id, s.id','d0a42f5eb48da1e91534a43a7e1aa4ebeda6894805e86659880fe8603d2304f9','postgres',array['authenticated=r/postgres','postgres=arwdDxt/postgres']::text[],array['security_invoker=true']::text[],false,'c49b2bc36cd0d84ccff7384631a9f75ee69ea8f4db3f404f749b8f32149dc140'),
+  ('erp.v_material_supplier_invoice_browser','SELECT h.id AS supplier_invoice_id,
+    h.invoice_number,
+    h.supplier_id,
+    s.supplier_code,
+    s.supplier_name,
+    h.invoice_date,
+    h.received_at,
+    h.due_date,
+    h.status,
+    h.notes,
+    h.posting_reason,
+    h.reversal_reason,
+    count(l.id) AS line_count,
+    count(DISTINCT i.purchase_id) AS receipt_count,
+    COALESCE(sum(l.qty_invoiced), (0)::numeric) AS matched_qty,
+    COALESCE(sum(l.gross_amount), (0)::numeric) AS gross_amount,
+    COALESCE(sum(l.discount_amount), (0)::numeric) AS discount_amount,
+    COALESCE(sum(l.net_amount), (0)::numeric) AS net_amount,
+    min(ph.physical_at) AS oldest_receipt_at,
+        CASE
+            WHEN (min(ph.physical_at) IS NULL) THEN 0
+            ELSE GREATEST(((h.received_at)::date - (min(ph.physical_at))::date), 0)
+        END AS invoice_delay_days,
+    h.row_version,
+    h.created_at,
+    h.updated_at,
+    h.posted_at,
+    h.reversed_at,
+    concat_ws('' ''::text, h.invoice_number, s.supplier_code, s.supplier_name, h.status, h.notes) AS search_text
+   FROM ((((erp.material_supplier_invoices h
+     JOIN erp.suppliers s ON ((s.id = h.supplier_id)))
+     LEFT JOIN erp.material_supplier_invoice_lines l ON ((l.invoice_id = h.id)))
+     LEFT JOIN erp.material_purchase_items i ON ((i.id = l.purchase_item_id)))
+     LEFT JOIN erp.material_purchase_headers ph ON ((ph.id = i.purchase_id)))
+  GROUP BY h.id, s.id','0dfbbe6b464276bd8a63e87d60fa8e3818bca7bb1bccb92221741317af46f3f2','SELECT h.id AS supplier_invoice_id,
+    h.invoice_number,
+    h.supplier_id,
+    s.supplier_code,
+    s.supplier_name,
+    h.invoice_date,
+    h.received_at,
+    h.due_date,
+    h.status,
+    h.notes,
+    h.posting_reason,
+    h.reversal_reason,
+    count(l.id) AS line_count,
+    count(DISTINCT i.purchase_id) AS receipt_count,
+    COALESCE(sum(l.qty_invoiced), (0)::numeric) AS matched_qty,
+    COALESCE(sum(l.gross_amount), (0)::numeric) AS gross_amount,
+    COALESCE(sum(l.discount_amount), (0)::numeric) AS discount_amount,
+    COALESCE(sum(l.net_amount), (0)::numeric) AS net_amount,
+    min(ph.physical_at) AS oldest_receipt_at,
+        CASE
+            WHEN (min(ph.physical_at) IS NULL) THEN 0
+            ELSE GREATEST((((h.received_at) AT TIME ZONE ''Asia/Jakarta'')::date - ((min(ph.physical_at)) AT TIME ZONE ''Asia/Jakarta'')::date), 0)
+        END AS invoice_delay_days,
+    h.row_version,
+    h.created_at,
+    h.updated_at,
+    h.posted_at,
+    h.reversed_at,
+    concat_ws('' ''::text, h.invoice_number, s.supplier_code, s.supplier_name, h.status, h.notes) AS search_text
+   FROM ((((erp.material_supplier_invoices h
+     JOIN erp.suppliers s ON ((s.id = h.supplier_id)))
+     LEFT JOIN erp.material_supplier_invoice_lines l ON ((l.invoice_id = h.id)))
+     LEFT JOIN erp.material_purchase_items i ON ((i.id = l.purchase_item_id)))
+     LEFT JOIN erp.material_purchase_headers ph ON ((ph.id = i.purchase_id)))
+  GROUP BY h.id, s.id','aed6fdcc147d2f379a31b2c3db4a5fdc78f98be5c8ee700f0871e9096a198c71','postgres',array['authenticated=r/postgres','postgres=arwdDxt/postgres']::text[],array['security_invoker=true']::text[],false,'50d32d01f3455eb5e94003bb920ca3e5bd5f6f586fbb690510f465b03d6a245c'),
+  ('erp.v_payroll_nota_browser','SELECT n.id AS payroll_id,
+    n.payroll_number,
+    n.contractor_id,
+    c.contractor_code,
+    c.contractor_name,
+    n.period_start,
+    n.period_end,
+    n.status,
+    n.row_version,
+    n.payment_date,
+    n.settled_at,
+    n.labor_total,
+    n.attendance_total,
+    n.reimburse_total,
+    n.deduction_total,
+    n.manual_adjustment,
+    n.net_payable,
+    COALESCE(x.work_line_count, (0)::bigint) AS work_line_count,
+    COALESCE(x.work_qty, (0)::bigint) AS work_qty,
+    COALESCE(e.eligible_line_count, (0)::bigint) AS eligible_line_count,
+    COALESCE(e.eligible_qty, (0)::bigint) AS eligible_qty,
+    (COALESCE(e.eligible_amount, (0)::numeric))::numeric(24,2) AS eligible_amount,
+    ((n.status)::text = ANY (ARRAY[(''DRAFT''::character varying)::text, (''CALCULATED''::character varying)::text, (''REVIEW''::character varying)::text])) AS can_merge,
+    ((n.status)::text = ANY (ARRAY[(''APPROVED''::character varying)::text, (''PAID''::character varying)::text, (''REVERSED''::character varying)::text])) AS is_locked,
+    n.notes,
+    n.created_at,
+    n.updated_at
+   FROM (((erp.payroll_settlements n
+     JOIN erp.contractors c ON ((c.id = n.contractor_id)))
+     LEFT JOIN LATERAL ( SELECT count(*) AS work_line_count,
+            COALESCE(sum(w.qty_payable), (0)::bigint) AS work_qty
+           FROM erp.payroll_work_items w
+          WHERE (w.payroll_id = n.id)) x ON (true))
+     LEFT JOIN LATERAL ( SELECT count(*) AS eligible_line_count,
+            COALESCE(sum(q.remaining_qty), (0)::bigint) AS eligible_qty,
+            COALESCE(sum(((q.remaining_qty)::numeric * q.rate_snapshot)), (0)::numeric) AS eligible_amount
+           FROM erp.v_payroll_eligible_work_lines q
+          WHERE ((q.contractor_id = n.contractor_id) AND ((q.eligible_at)::date <= n.period_end))) e ON (true))','a35e0725b883d08e3cec365ce2cf8b4d08544643dbb2d79c04c4da2baa687acd','SELECT n.id AS payroll_id,
+    n.payroll_number,
+    n.contractor_id,
+    c.contractor_code,
+    c.contractor_name,
+    n.period_start,
+    n.period_end,
+    n.status,
+    n.row_version,
+    n.payment_date,
+    n.settled_at,
+    n.labor_total,
+    n.attendance_total,
+    n.reimburse_total,
+    n.deduction_total,
+    n.manual_adjustment,
+    n.net_payable,
+    COALESCE(x.work_line_count, (0)::bigint) AS work_line_count,
+    COALESCE(x.work_qty, (0)::bigint) AS work_qty,
+    COALESCE(e.eligible_line_count, (0)::bigint) AS eligible_line_count,
+    COALESCE(e.eligible_qty, (0)::bigint) AS eligible_qty,
+    (COALESCE(e.eligible_amount, (0)::numeric))::numeric(24,2) AS eligible_amount,
+    ((n.status)::text = ANY (ARRAY[(''DRAFT''::character varying)::text, (''CALCULATED''::character varying)::text, (''REVIEW''::character varying)::text])) AS can_merge,
+    ((n.status)::text = ANY (ARRAY[(''APPROVED''::character varying)::text, (''PAID''::character varying)::text, (''REVERSED''::character varying)::text])) AS is_locked,
+    n.notes,
+    n.created_at,
+    n.updated_at
+   FROM (((erp.payroll_settlements n
+     JOIN erp.contractors c ON ((c.id = n.contractor_id)))
+     LEFT JOIN LATERAL ( SELECT count(*) AS work_line_count,
+            COALESCE(sum(w.qty_payable), (0)::bigint) AS work_qty
+           FROM erp.payroll_work_items w
+          WHERE (w.payroll_id = n.id)) x ON (true))
+     LEFT JOIN LATERAL ( SELECT count(*) AS eligible_line_count,
+            COALESCE(sum(q.remaining_qty), (0)::bigint) AS eligible_qty,
+            COALESCE(sum(((q.remaining_qty)::numeric * q.rate_snapshot)), (0)::numeric) AS eligible_amount
+           FROM erp.v_payroll_eligible_work_lines q
+          WHERE ((q.contractor_id = n.contractor_id) AND (((q.eligible_at) AT TIME ZONE ''Asia/Jakarta'')::date <= n.period_end))) e ON (true))','16f47474d81b89b0639a3c46cd49c90140691926e4cc03d610e493b1677ca226','postgres',array['authenticated=r/postgres','postgres=arwdDxt/postgres']::text[],array['security_invoker=true']::text[],false,'278040c49bd65164dec4e31948cb910127704bf6072c0b801147270a57567989'),
+  ('erp.v_product_price_current','SELECT p.id AS product_id,
+    p.identity_root_id,
+    p.sku,
+    p.product_name,
+    p.color_name,
+    p.size_id,
+    pp.id AS price_version_id,
+    pp.price,
+    pp.effective_from AS price_effective_from,
+    pp.effective_to AS price_effective_to
+   FROM (erp.v_products_current p
+     LEFT JOIN LATERAL ( SELECT x.id,
+            x.product_id,
+            x.price,
+            x.effective_from,
+            x.effective_to,
+            x.change_note,
+            x.created_by,
+            x.created_at
+           FROM erp.product_price_versions x
+          WHERE ((x.product_id = p.identity_root_id) AND (x.effective_from <= clock_timestamp()) AND ((x.effective_to IS NULL) OR (x.effective_to > clock_timestamp())))
+          ORDER BY x.effective_from DESC, x.created_at DESC, x.id DESC
+         LIMIT 1) pp ON (true))','8be0c344171b109c9491838533c69215886ea512ff70ddd5317a40e5acbb5a08','SELECT p.id AS product_id,
+    p.identity_root_id,
+    p.sku,
+    p.product_name,
+    p.color_name,
+    p.size_id,
+    pp.id AS price_version_id,
+    pp.price,
+    pp.effective_from AS price_effective_from,
+    pp.effective_to AS price_effective_to
+   FROM (erp.v_products_current p
+     LEFT JOIN LATERAL ( SELECT x.id,
+            x.product_id,
+            x.price,
+            x.effective_from,
+            x.effective_to,
+            x.change_note,
+            x.created_by,
+            x.created_at
+           FROM erp.product_price_versions x
+          WHERE ((x.product_id = p.identity_root_id) AND (x.effective_from <= statement_timestamp()) AND ((x.effective_to IS NULL) OR (x.effective_to > statement_timestamp())))
+          ORDER BY x.effective_from DESC, x.created_at DESC, x.id DESC
+         LIMIT 1) pp ON (true))','cb46a4e7294723696c58c42ebfa4a6526a896a2e4f217dc4cda1c03d82792b96','postgres',null::text[],array['security_invoker=true']::text[],false,'213ecc404bc9c0adb7d4fabbc789d7fcdd53bde6c98799b6d180355c068fa856'),
+  ('erp.v_products_current','SELECT id,
+    sku,
+    model_id,
+    brand_id,
+    color_name,
+    size_id,
+    product_name,
+    is_portal_visible,
+    is_active,
+    created_at,
+    updated_at,
+    identity_root_id,
+    effective_from,
+    effective_to,
+    supersedes_product_id
+   FROM erp.products p
+  WHERE ((is_active = true) AND (effective_from <= clock_timestamp()) AND ((effective_to IS NULL) OR (effective_to > clock_timestamp())))','6dd935d31fc83aaae3237b13936ab6a15ce1f2acd45a7b4d74fe31daef3129a3','SELECT id,
+    sku,
+    model_id,
+    brand_id,
+    color_name,
+    size_id,
+    product_name,
+    is_portal_visible,
+    is_active,
+    created_at,
+    updated_at,
+    identity_root_id,
+    effective_from,
+    effective_to,
+    supersedes_product_id
+   FROM erp.products p
+  WHERE ((is_active = true) AND (effective_from <= statement_timestamp()) AND ((effective_to IS NULL) OR (effective_to > statement_timestamp())))','ff45f6e8f1265b2b3795a4241f60966a2c178df03c6b956ed8b95cb7c5e55d43','postgres',null::text[],array['security_invoker=true']::text[],false,'eb5262b3c7fd6d85739c4ed34a32c42071a84a375b02834fb98c866a94d82416'),
+  ('erp.v_products_sellable','WITH stock AS (
+         SELECT fg_inventory_balances.product_id,
+            COALESCE(sum(fg_inventory_balances.cached_qty_pcs), (0)::bigint) AS stock_pcs
+           FROM erp.fg_inventory_balances
+          GROUP BY fg_inventory_balances.product_id
+        )
+ SELECT p.id,
+    p.sku,
+    p.model_id,
+    p.brand_id,
+    p.color_name,
+    p.size_id,
+    p.product_name,
+    p.is_portal_visible,
+    p.is_active,
+    p.created_at,
+    p.updated_at,
+    p.identity_root_id,
+    p.effective_from,
+    p.effective_to,
+    p.supersedes_product_id,
+    COALESCE(s.stock_pcs, (0)::bigint) AS stock_pcs,
+    ((p.is_active = true) AND (p.effective_from <= clock_timestamp()) AND ((p.effective_to IS NULL) OR (p.effective_to > clock_timestamp()))) AS is_current_identity
+   FROM (erp.products p
+     LEFT JOIN stock s ON ((s.product_id = p.id)))
+  WHERE (((p.is_active = true) AND (p.effective_from <= clock_timestamp()) AND ((p.effective_to IS NULL) OR (p.effective_to > clock_timestamp()))) OR (COALESCE(s.stock_pcs, (0)::bigint) > 0))','de4ac39c54cf7001638f1f70df38ad82d07aeb372266d2cfa79caf390ebceb71','WITH stock AS (
+         SELECT fg_inventory_balances.product_id,
+            COALESCE(sum(fg_inventory_balances.cached_qty_pcs), (0)::bigint) AS stock_pcs
+           FROM erp.fg_inventory_balances
+          GROUP BY fg_inventory_balances.product_id
+        )
+ SELECT p.id,
+    p.sku,
+    p.model_id,
+    p.brand_id,
+    p.color_name,
+    p.size_id,
+    p.product_name,
+    p.is_portal_visible,
+    p.is_active,
+    p.created_at,
+    p.updated_at,
+    p.identity_root_id,
+    p.effective_from,
+    p.effective_to,
+    p.supersedes_product_id,
+    COALESCE(s.stock_pcs, (0)::bigint) AS stock_pcs,
+    ((p.is_active = true) AND (p.effective_from <= statement_timestamp()) AND ((p.effective_to IS NULL) OR (p.effective_to > statement_timestamp()))) AS is_current_identity
+   FROM (erp.products p
+     LEFT JOIN stock s ON ((s.product_id = p.id)))
+  WHERE (((p.is_active = true) AND (p.effective_from <= statement_timestamp()) AND ((p.effective_to IS NULL) OR (p.effective_to > statement_timestamp()))) OR (COALESCE(s.stock_pcs, (0)::bigint) > 0))','51ab4bf4553b797c4a8ec70892f312dbaaa0154d60efc790bb29ab68c42fd884','postgres',null::text[],array['security_invoker=true']::text[],false,'3e383965410b4ebf02388db7f51428aa5be232eff32edee356c7d3039c84c88a'),
+  ('erp.v_supplier_ap_aging','WITH ap AS (
+         SELECT h.id AS purchase_id,
+            h.purchase_number,
+            h.supplier_id,
+            s.supplier_name,
+            (COALESCE(( SELECT string_agg(DISTINCT (ih.invoice_number)::text, '', ''::text ORDER BY (ih.invoice_number)::text) AS string_agg
+                   FROM ((erp.material_supplier_invoice_lines il
+                     JOIN erp.material_supplier_invoices ih ON ((ih.id = il.invoice_id)))
+                     JOIN erp.material_purchase_items pi ON ((pi.id = il.purchase_item_id)))
+                  WHERE ((pi.purchase_id = h.id) AND ((ih.status)::text = ''POSTED''::text))), (h.supplier_invoice_number)::text))::character varying(100) AS supplier_invoice_number,
+            h.physical_at,
+            COALESCE(( SELECT min(ih.due_date) AS min
+                   FROM ((erp.material_supplier_invoice_lines il
+                     JOIN erp.material_supplier_invoices ih ON ((ih.id = il.invoice_id)))
+                     JOIN erp.material_purchase_items pi ON ((pi.id = il.purchase_item_id)))
+                  WHERE ((pi.purchase_id = h.id) AND ((ih.status)::text = ''POSTED''::text))), h.due_date) AS due_date,
+            erp.material_purchase_final_ap_total(h.id) AS payable_amount,
+            COALESCE(( SELECT sum(sp.amount) AS sum
+                   FROM erp.supplier_payments sp
+                  WHERE ((sp.purchase_id = h.id) AND ((sp.status)::text = ''POSTED''::text))), (0)::numeric) AS paid_amount
+           FROM (erp.material_purchase_headers h
+             LEFT JOIN erp.suppliers s ON ((s.id = h.supplier_id)))
+          WHERE ((h.status)::text = ''POSTED''::text)
+        )
+ SELECT purchase_id,
+    purchase_number,
+    supplier_id,
+    supplier_name,
+    supplier_invoice_number,
+    physical_at,
+    due_date,
+    payable_amount,
+    paid_amount,
+    GREATEST((payable_amount - paid_amount), (0)::numeric) AS outstanding_amount,
+        CASE
+            WHEN ((due_date IS NULL) OR (payable_amount <= paid_amount)) THEN 0
+            ELSE GREATEST((CURRENT_DATE - due_date), 0)
+        END AS days_overdue,
+        CASE
+            WHEN (payable_amount <= paid_amount) THEN ''PAID''::text
+            WHEN ((due_date IS NULL) OR (CURRENT_DATE <= due_date)) THEN ''CURRENT''::text
+            WHEN ((CURRENT_DATE - due_date) <= 30) THEN ''1_30''::text
+            WHEN ((CURRENT_DATE - due_date) <= 60) THEN ''31_60''::text
+            WHEN ((CURRENT_DATE - due_date) <= 90) THEN ''61_90''::text
+            ELSE ''90_PLUS''::text
+        END AS aging_bucket
+   FROM ap
+  WHERE ((payable_amount > 0.005) OR (paid_amount > 0.005))','7726a89e13a685e9582fe8f159e63af65d1f1cd26e5e4823f81d2ed2e97f8700','WITH ap AS (
+         SELECT h.id AS purchase_id,
+            h.purchase_number,
+            h.supplier_id,
+            s.supplier_name,
+            (COALESCE(( SELECT string_agg(DISTINCT (ih.invoice_number)::text, '', ''::text ORDER BY (ih.invoice_number)::text) AS string_agg
+                   FROM ((erp.material_supplier_invoice_lines il
+                     JOIN erp.material_supplier_invoices ih ON ((ih.id = il.invoice_id)))
+                     JOIN erp.material_purchase_items pi ON ((pi.id = il.purchase_item_id)))
+                  WHERE ((pi.purchase_id = h.id) AND ((ih.status)::text = ''POSTED''::text))), (h.supplier_invoice_number)::text))::character varying(100) AS supplier_invoice_number,
+            h.physical_at,
+            COALESCE(( SELECT min(ih.due_date) AS min
+                   FROM ((erp.material_supplier_invoice_lines il
+                     JOIN erp.material_supplier_invoices ih ON ((ih.id = il.invoice_id)))
+                     JOIN erp.material_purchase_items pi ON ((pi.id = il.purchase_item_id)))
+                  WHERE ((pi.purchase_id = h.id) AND ((ih.status)::text = ''POSTED''::text))), h.due_date) AS due_date,
+            erp.material_purchase_final_ap_total(h.id) AS payable_amount,
+            COALESCE(( SELECT sum(sp.amount) AS sum
+                   FROM erp.supplier_payments sp
+                  WHERE ((sp.purchase_id = h.id) AND ((sp.status)::text = ''POSTED''::text))), (0)::numeric) AS paid_amount
+           FROM (erp.material_purchase_headers h
+             LEFT JOIN erp.suppliers s ON ((s.id = h.supplier_id)))
+          WHERE ((h.status)::text = ''POSTED''::text)
+        )
+ SELECT purchase_id,
+    purchase_number,
+    supplier_id,
+    supplier_name,
+    supplier_invoice_number,
+    physical_at,
+    due_date,
+    payable_amount,
+    paid_amount,
+    GREATEST((payable_amount - paid_amount), (0)::numeric) AS outstanding_amount,
+        CASE
+            WHEN ((due_date IS NULL) OR (payable_amount <= paid_amount)) THEN 0
+            ELSE GREATEST((((statement_timestamp() AT TIME ZONE ''Asia/Jakarta''::text))::date - due_date), 0)
+        END AS days_overdue,
+        CASE
+            WHEN (payable_amount <= paid_amount) THEN ''PAID''::text
+            WHEN ((due_date IS NULL) OR (((statement_timestamp() AT TIME ZONE ''Asia/Jakarta''::text))::date <= due_date)) THEN ''CURRENT''::text
+            WHEN ((((statement_timestamp() AT TIME ZONE ''Asia/Jakarta''::text))::date - due_date) <= 30) THEN ''1_30''::text
+            WHEN ((((statement_timestamp() AT TIME ZONE ''Asia/Jakarta''::text))::date - due_date) <= 60) THEN ''31_60''::text
+            WHEN ((((statement_timestamp() AT TIME ZONE ''Asia/Jakarta''::text))::date - due_date) <= 90) THEN ''61_90''::text
+            ELSE ''90_PLUS''::text
+        END AS aging_bucket
+   FROM ap
+  WHERE ((payable_amount > 0.005) OR (paid_amount > 0.005))','e78b3217d9b8ec92f1eec54758c85bbb0216935d0334bcfdce476ad530700a67','postgres',array['authenticated=r/postgres','postgres=arwdDxt/postgres']::text[],array['security_invoker=true']::text[],false,'0fc6adaf1402343b9dc5a598bcdfea318ff67fea4e8a2a493b0c6f58d014db25');
 
 create temporary table cp6_ac_expected_defaults(
   identity text primary key,table_name text not null,column_name text not null,
@@ -325,10 +1058,29 @@ insert into pg_temp.cp6_ac_expected_defaults values
   ('erp.work_completion_events.updated_at','work_completion_events','updated_at','now()','statement_timestamp()','postgres',array['authenticated=arwd/postgres','postgres=arwdDxtm/postgres','service_role=arwdDxtm/postgres']::text[],true,'b66d8daffb2da71134c7492f8e703c712549f787ccfe31574d5c6b5d965e005c'),
   ('erp.work_components.created_at','work_components','created_at','now()','statement_timestamp()','postgres',array['authenticated=arw/postgres','postgres=arwdDxtm/postgres','service_role=arwdDxtm/postgres']::text[],true,'8bf30cb49a2d9fe0cfbefd3e457e8aa8cc988b7b961505936a085cc2bc1f0e78');
 
+create or replace function pg_temp.cp6_ac_normalized_view_sha256(p_body text)
+returns text
+language plpgsql
+set search_path to pg_catalog
+as $cp6_ac_view_probe$
+declare v_sha256 text;
+begin
+  execute format('create temporary view cp6_ac_normalization_probe as %s',p_body);
+  select encode(extensions.digest(convert_to(btrim(pg_get_viewdef(
+    'pg_temp.cp6_ac_normalization_probe'::regclass,false),E' \n\t\r;'),
+    'UTF8'),'sha256'),'hex') into v_sha256;
+  execute 'drop view pg_temp.cp6_ac_normalization_probe';
+  return v_sha256;
+exception when others then
+  execute 'drop view if exists pg_temp.cp6_ac_normalization_probe';
+  raise;
+end
+$cp6_ac_view_probe$;
+
 
 do $restore_v2620ac$
 declare r record;c record;v_table text;v_hash text;v_expected jsonb;
-  v_false text;v_pretty text;v_expression text;v_owner text;
+  v_live_sha text;v_expected_sha text;v_expression text;v_owner text;
   v_acl text[];v_reloptions text[];v_rls boolean;
 begin
   if (select count(*) from erp.schema_migrations where version='v2.6.20ac')<>1
@@ -363,21 +1115,25 @@ begin
   for r in select * from pg_temp.cp6_ac_expected_views loop
     select cap.* into c from erp.cp6_v2620ac_relation_rollback_capsule cap
       where cap.object_kind='VIEW' and cap.object_identity=r.identity;
+    v_expected_sha:=pg_temp.cp6_ac_normalized_view_sha256(r.after_body);
     select encode(extensions.digest(convert_to(btrim(pg_get_viewdef(v.oid,false),E' \n\t\r;'),'UTF8'),'sha256'),'hex'),
-      encode(extensions.digest(convert_to(btrim(pg_get_viewdef(v.oid,true),E' \n\t\r;'),'UTF8'),'sha256'),'hex'),
       pg_get_userbyid(v.relowner),
       case when v.relacl is null then null else
         array(select x::text from unnest(v.relacl) x order by x::text) end,
       case when v.reloptions is null then null else
         array(select x from unnest(v.reloptions) x order by x) end,
       v.relrowsecurity
-    into v_false,v_pretty,v_owner,v_acl,v_reloptions,v_rls
+    into v_live_sha,v_owner,v_acl,v_reloptions,v_rls
     from pg_class v where v.oid=r.identity::regclass and v.relkind='v';
-    if c.definition_sha256 is distinct from r.before_sha256
+    if encode(extensions.digest(convert_to(r.before_body,'UTF8'),'sha256'),'hex')
+         is distinct from r.before_sha256
+       or encode(extensions.digest(convert_to(r.after_body,'UTF8'),'sha256'),'hex')
+         is distinct from r.after_sha256
+       or c.definition_sha256 is distinct from r.before_sha256
        or encode(extensions.digest(convert_to(c.object_definition,'UTF8'),
          'sha256'),'hex') is distinct from r.restore_sha256
-       or c.installed_definition_sha256 not in(v_false,v_pretty)
-       or r.after_sha256 not in(v_false,v_pretty)
+       or c.installed_definition_sha256 is distinct from v_live_sha
+       or v_live_sha is distinct from v_expected_sha
        or c.owner_snapshot is distinct from r.owner_name
        or c.acl_snapshot is distinct from r.acl
        or c.reloptions_snapshot is distinct from r.reloptions
@@ -461,10 +1217,11 @@ begin
     end if;
   end loop;
   for r in select * from pg_temp.cp6_ac_expected_views loop
-    select encode(extensions.digest(convert_to(btrim(pg_get_viewdef(v.oid,false),E' \n\t\r;'),'UTF8'),'sha256'),'hex'),
-      encode(extensions.digest(convert_to(btrim(pg_get_viewdef(v.oid,true),E' \n\t\r;'),'UTF8'),'sha256'),'hex')
-    into v_false,v_pretty from pg_class v where v.oid=r.identity::regclass and v.relkind='v';
-    if r.before_sha256 not in(v_false,v_pretty) then
+    v_expected_sha:=pg_temp.cp6_ac_normalized_view_sha256(r.before_body);
+    select encode(extensions.digest(convert_to(btrim(pg_get_viewdef(v.oid,false),E' \n\t\r;'),'UTF8'),'sha256'),'hex')
+    into v_live_sha from pg_class v
+      where v.oid=r.identity::regclass and v.relkind='v';
+    if v_live_sha is distinct from v_expected_sha then
       raise exception 'AC_ROLLBACK_VIEW_RESTORE_MISMATCH: %',r.identity;
     end if;
   end loop;
@@ -494,7 +1251,7 @@ delete from erp.schema_migrations where version='v2.6.20ac';
 delete from supabase_migrations.schema_migrations
 where version='20260915031500' and name='erp_v2_6_20ac_cp6_temporal_surface_closure'
   and encode(extensions.digest(convert_to(array_to_string(statements,E'\n'),'UTF8'),'sha256'),'hex')
-    in('324c62fc9f4ebe4f59bd019cbb1471e460514c281be25c01170df8cafdb45e68','8cf478c430c6ad809e8bceee08f2a941b7f5fe13d01a17bebc3d3ec8ddcffe12');
+    in('d0742ed0c465503907ae9a9136779138996403be14e96592cdbf63c81001b21f','81cc7969d4bdf85d2eb2708d251b5dadaa8f8db348765722122fba3133be4df4');
 
 do $postcheck_v2620ac$
 begin

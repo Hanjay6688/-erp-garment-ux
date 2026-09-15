@@ -252,6 +252,18 @@ def run() -> dict[str, object]:
     alias_qualification = record_alias_qualification(
         migration, rollback, functions
     )
+    view_probe_token = "pg_temp.cp6_ac_normalized_view_sha256("
+    for label, source in (("migration", migration), ("rollback", rollback)):
+        if (
+            source.count(
+                "create or replace function "
+                "pg_temp.cp6_ac_normalized_view_sha256(p_body text)"
+            ) != 1
+            or source.count(view_probe_token) != 3
+        ):
+            raise AssertionError(f"AC_ENGINE_NORMALIZED_VIEW_GUARD:{label}")
+    if "r.before_sha256 not in(v_false,v_pretty)" in migration + rollback:
+        raise AssertionError("AC_RAW_VIEW_DUMP_HASH_GUARD_REINTRODUCED")
     expected_functions = {item["after_sha"]: item for item in pins["functions"]}
     observed_function_hashes = [sha(definition) for definition in functions]
     if (
@@ -336,6 +348,11 @@ def run() -> dict[str, object]:
         "table_default_count": len(default_lines),
         "function_structural_contracts_preserved": True,
         "plpgsql_record_alias_qualification": alias_qualification,
+        "engine_normalized_view_guards": {
+            "migration": 2,
+            "rollback": 2,
+            "source_hashes_retained": True,
+        },
         "stale_transaction_clock_tokens": stale,
         "migration_lexical": lexical_balance(migration, "migration"),
         "rollback_lexical": lexical_balance(rollback, "rollback"),

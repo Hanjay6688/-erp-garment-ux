@@ -80,7 +80,7 @@ def run() -> dict[str, Any]:
     if (
         install.get("status") != "PASS"
         or install.get("expected_cases") != len(install.get("cases", {}))
-        or install.get("expected_cases") != 15
+        or install.get("expected_cases") != 16
         or not install.get("entire_runtime_restored")
         or not all(
             case.get("status") == "CONTROL_PASS"
@@ -202,14 +202,14 @@ def run() -> dict[str, Any]:
         },
         "runtime_objects": installed["object_counts"],
         "new_runtime_cases": {
-            "atomic_admission": 15,
+            "atomic_admission": 16,
             "invoice_partial": 16,
             "linked_lifecycle": 63,
             "operational_clock": 10,
             "authorization_revocation": 3,
             "maintenance_schedules": 20,
             "rollback_boundary_refusals": 2,
-            "total": 129,
+            "total": 130,
         },
         "predecessor_matrix": {
             "cases": 460, "execution": "CARRIED_FROM_EXACT_AB_NATIVE_189",

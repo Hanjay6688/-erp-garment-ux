@@ -156,6 +156,8 @@ def expected_rows(
             "identity": f"erp.{name}",
             "before": before,
             "after": apply_view_statement(after),
+            "before_body": before_body,
+            "after_body": after_body,
             "before_body_sha": sha(before_body),
             "after_body_sha": sha(after_body),
             "reloptions": before_options,
@@ -203,7 +205,8 @@ def expected_temp_tables(
     ])
     view_rows = values_sql([
         "(" + ",".join((
-            q(item["identity"]), q(item["before_body_sha"]),
+            q(item["identity"]), q(item["before_body"]),
+            q(item["before_body_sha"]), q(item["after_body"]),
             q(item["after_body_sha"]), q(item["owner"]),
             array_sql(item["acl"]), array_sql(item["reloptions"]),
             "true" if item["rls"] else "false",
@@ -230,7 +233,8 @@ insert into pg_temp.cp6_ac_expected_functions values
   {function_rows};
 
 create temporary table cp6_ac_expected_views(
-  identity text primary key,before_sha256 text not null,after_sha256 text not null,
+  identity text primary key,before_body text not null,before_sha256 text not null,
+  after_body text not null,after_sha256 text not null,
   owner_name text not null,acl text[],reloptions text[],rls boolean not null,
   restore_sha256 text not null
 ) on commit drop;
@@ -245,6 +249,25 @@ create temporary table cp6_ac_expected_defaults(
 ) on commit drop;
 insert into pg_temp.cp6_ac_expected_defaults values
   {default_rows};
+
+create or replace function pg_temp.cp6_ac_normalized_view_sha256(p_body text)
+returns text
+language plpgsql
+set search_path to pg_catalog
+as $cp6_ac_view_probe$
+declare v_sha256 text;
+begin
+  execute format('create temporary view cp6_ac_normalization_probe as %s',p_body);
+  select encode(extensions.digest(convert_to(btrim(pg_get_viewdef(
+    'pg_temp.cp6_ac_normalization_probe'::regclass,false),E' \\n\\t\\r;'),
+    'UTF8'),'sha256'),'hex') into v_sha256;
+  execute 'drop view pg_temp.cp6_ac_normalization_probe';
+  return v_sha256;
+exception when others then
+  execute 'drop view if exists pg_temp.cp6_ac_normalization_probe';
+  raise;
+end
+$cp6_ac_view_probe$;
 """
 
 
@@ -255,7 +278,7 @@ def predecessor_guard() -> str:
     ])
     return f"""
 do $predecessor_v2620ac$
-declare r record;c record;v_false text;v_pretty text;v_owner text;
+declare r record;c record;v_live_sha text;v_expected_sha text;v_owner text;
   v_acl text[];v_reloptions text[];v_expression text;v_rls boolean;
 begin
   if (select count(*) from erp.schema_migrations where version='v2.6.20ab')<>1
@@ -312,23 +335,33 @@ begin
   end loop;
 
   for r in select * from pg_temp.cp6_ac_expected_views loop
+    v_expected_sha:=pg_temp.cp6_ac_normalized_view_sha256(r.before_body);
     select encode(extensions.digest(convert_to(btrim(pg_get_viewdef(catalog_rel.oid,false),E' \\n\\t\\r;'),'UTF8'),'sha256'),'hex'),
-      encode(extensions.digest(convert_to(btrim(pg_get_viewdef(catalog_rel.oid,true),E' \\n\\t\\r;'),'UTF8'),'sha256'),'hex'),
       pg_get_userbyid(catalog_rel.relowner),
       case when catalog_rel.relacl is null then null else
         array(select a::text from unnest(catalog_rel.relacl) a order by a::text) end,
       case when catalog_rel.reloptions is null then null else
         array(select x from unnest(catalog_rel.reloptions) x order by x) end,
       catalog_rel.relrowsecurity
-    into v_false,v_pretty,v_owner,v_acl,v_reloptions,v_rls
+    into v_live_sha,v_owner,v_acl,v_reloptions,v_rls
     from pg_class catalog_rel
     where catalog_rel.oid=r.identity::regclass and catalog_rel.relkind='v';
-    if r.before_sha256 not in(v_false,v_pretty)
+    if encode(extensions.digest(convert_to(r.before_body,'UTF8'),'sha256'),'hex')
+         is distinct from r.before_sha256
+       or v_live_sha is distinct from v_expected_sha
        or v_owner is distinct from r.owner_name
        or v_acl is distinct from r.acl
        or v_reloptions is distinct from r.reloptions
        or v_rls is distinct from r.rls then
-      raise exception 'AC_VIEW_PREDECESSOR_MISMATCH: %',r.identity;
+      raise exception 'AC_VIEW_PREDECESSOR_MISMATCH: %',r.identity using detail=format(
+        'source=%s body=%s owner=%s acl=%s options=%s rls=%s',
+        encode(extensions.digest(convert_to(r.before_body,'UTF8'),'sha256'),'hex')
+          is not distinct from r.before_sha256,
+        v_live_sha is not distinct from v_expected_sha,
+        v_owner is not distinct from r.owner_name,
+        v_acl is not distinct from r.acl,
+        v_reloptions is not distinct from r.reloptions,
+        v_rls is not distinct from r.rls);
     end if;
   end loop;
 
@@ -401,10 +434,9 @@ insert into {RELATION_CAPSULE}(
 )
 select 'VIEW',e.identity,
   format('CREATE OR REPLACE VIEW %s%s AS%s%s;',e.identity,
-    case when c.reloptions is null then '' else
-      ' WITH ('||array_to_string(c.reloptions,',')||')' end,E'\\n',
-    rtrim(pg_get_viewdef(c.oid,false),E' \\n\\t\\r;')),
-  encode(extensions.digest(convert_to(btrim(pg_get_viewdef(c.oid,false),E' \\n\\t\\r;'),'UTF8'),'sha256'),'hex'),
+    case when e.reloptions is null then '' else
+      ' WITH ('||array_to_string(e.reloptions,',')||')' end,E'\\n',e.before_body),
+  encode(extensions.digest(convert_to(e.before_body,'UTF8'),'sha256'),'hex'),
   case when c.relacl is null then null else
     array(select a::text from unnest(c.relacl) a order by a::text) end,
   pg_get_userbyid(c.relowner),
@@ -493,7 +525,7 @@ def apply_definitions(
 def installed_guard() -> str:
     return f"""
 do $installed_v2620ac$
-declare r record;c record;v_false text;v_pretty text;v_owner text;
+declare r record;c record;v_live_sha text;v_expected_sha text;v_owner text;
   v_acl text[];v_reloptions text[];v_expression text;v_rls boolean;
 begin
   update {CAPSULE} cap set installed_definition_sha256=
@@ -522,25 +554,35 @@ begin
   end loop;
 
   for r in select * from pg_temp.cp6_ac_expected_views loop
+    v_expected_sha:=pg_temp.cp6_ac_normalized_view_sha256(r.after_body);
     select encode(extensions.digest(convert_to(btrim(pg_get_viewdef(catalog_rel.oid,false),E' \\n\\t\\r;'),'UTF8'),'sha256'),'hex'),
-      encode(extensions.digest(convert_to(btrim(pg_get_viewdef(catalog_rel.oid,true),E' \\n\\t\\r;'),'UTF8'),'sha256'),'hex'),
       pg_get_userbyid(catalog_rel.relowner),
       case when catalog_rel.relacl is null then null else
         array(select a::text from unnest(catalog_rel.relacl) a order by a::text) end,
       case when catalog_rel.reloptions is null then null else
         array(select x from unnest(catalog_rel.reloptions) x order by x) end,
       catalog_rel.relrowsecurity
-    into v_false,v_pretty,v_owner,v_acl,v_reloptions,v_rls
+    into v_live_sha,v_owner,v_acl,v_reloptions,v_rls
     from pg_class catalog_rel
     where catalog_rel.oid=r.identity::regclass and catalog_rel.relkind='v';
-    if r.after_sha256 not in(v_false,v_pretty)
+    if encode(extensions.digest(convert_to(r.after_body,'UTF8'),'sha256'),'hex')
+         is distinct from r.after_sha256
+       or v_live_sha is distinct from v_expected_sha
        or v_owner is distinct from r.owner_name
        or v_acl is distinct from r.acl
        or v_reloptions is distinct from r.reloptions
        or v_rls is distinct from r.rls then
-      raise exception 'AC_INSTALLED_VIEW_MISMATCH: %',r.identity;
+      raise exception 'AC_INSTALLED_VIEW_MISMATCH: %',r.identity using detail=format(
+        'source=%s body=%s owner=%s acl=%s options=%s rls=%s',
+        encode(extensions.digest(convert_to(r.after_body,'UTF8'),'sha256'),'hex')
+          is not distinct from r.after_sha256,
+        v_live_sha is not distinct from v_expected_sha,
+        v_owner is not distinct from r.owner_name,
+        v_acl is not distinct from r.acl,
+        v_reloptions is not distinct from r.reloptions,
+        v_rls is not distinct from r.rls);
     end if;
-    update {RELATION_CAPSULE} set installed_definition_sha256=v_false
+    update {RELATION_CAPSULE} set installed_definition_sha256=v_live_sha
     where object_kind='VIEW' and object_identity=r.identity;
   end loop;
 
@@ -687,7 +729,7 @@ $lock_all_erp_v2620ac$;
 
 do $restore_v2620ac$
 declare r record;c record;v_table text;v_hash text;v_expected jsonb;
-  v_false text;v_pretty text;v_expression text;v_owner text;
+  v_live_sha text;v_expected_sha text;v_expression text;v_owner text;
   v_acl text[];v_reloptions text[];v_rls boolean;
 begin
   if (select count(*) from erp.schema_migrations where version='{VERSION}')<>1
@@ -722,21 +764,25 @@ begin
   for r in select * from pg_temp.cp6_ac_expected_views loop
     select cap.* into c from {RELATION_CAPSULE} cap
       where cap.object_kind='VIEW' and cap.object_identity=r.identity;
+    v_expected_sha:=pg_temp.cp6_ac_normalized_view_sha256(r.after_body);
     select encode(extensions.digest(convert_to(btrim(pg_get_viewdef(v.oid,false),E' \\n\\t\\r;'),'UTF8'),'sha256'),'hex'),
-      encode(extensions.digest(convert_to(btrim(pg_get_viewdef(v.oid,true),E' \\n\\t\\r;'),'UTF8'),'sha256'),'hex'),
       pg_get_userbyid(v.relowner),
       case when v.relacl is null then null else
         array(select x::text from unnest(v.relacl) x order by x::text) end,
       case when v.reloptions is null then null else
         array(select x from unnest(v.reloptions) x order by x) end,
       v.relrowsecurity
-    into v_false,v_pretty,v_owner,v_acl,v_reloptions,v_rls
+    into v_live_sha,v_owner,v_acl,v_reloptions,v_rls
     from pg_class v where v.oid=r.identity::regclass and v.relkind='v';
-    if c.definition_sha256 is distinct from r.before_sha256
+    if encode(extensions.digest(convert_to(r.before_body,'UTF8'),'sha256'),'hex')
+         is distinct from r.before_sha256
+       or encode(extensions.digest(convert_to(r.after_body,'UTF8'),'sha256'),'hex')
+         is distinct from r.after_sha256
+       or c.definition_sha256 is distinct from r.before_sha256
        or encode(extensions.digest(convert_to(c.object_definition,'UTF8'),
          'sha256'),'hex') is distinct from r.restore_sha256
-       or c.installed_definition_sha256 not in(v_false,v_pretty)
-       or r.after_sha256 not in(v_false,v_pretty)
+       or c.installed_definition_sha256 is distinct from v_live_sha
+       or v_live_sha is distinct from v_expected_sha
        or c.owner_snapshot is distinct from r.owner_name
        or c.acl_snapshot is distinct from r.acl
        or c.reloptions_snapshot is distinct from r.reloptions
@@ -820,10 +866,11 @@ begin
     end if;
   end loop;
   for r in select * from pg_temp.cp6_ac_expected_views loop
-    select encode(extensions.digest(convert_to(btrim(pg_get_viewdef(v.oid,false),E' \\n\\t\\r;'),'UTF8'),'sha256'),'hex'),
-      encode(extensions.digest(convert_to(btrim(pg_get_viewdef(v.oid,true),E' \\n\\t\\r;'),'UTF8'),'sha256'),'hex')
-    into v_false,v_pretty from pg_class v where v.oid=r.identity::regclass and v.relkind='v';
-    if r.before_sha256 not in(v_false,v_pretty) then
+    v_expected_sha:=pg_temp.cp6_ac_normalized_view_sha256(r.before_body);
+    select encode(extensions.digest(convert_to(btrim(pg_get_viewdef(v.oid,false),E' \\n\\t\\r;'),'UTF8'),'sha256'),'hex')
+    into v_live_sha from pg_class v
+      where v.oid=r.identity::regclass and v.relkind='v';
+    if v_live_sha is distinct from v_expected_sha then
       raise exception 'AC_ROLLBACK_VIEW_RESTORE_MISMATCH: %',r.identity;
     end if;
   end loop;

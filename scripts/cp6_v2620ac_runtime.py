@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import re
 import subprocess
 from pathlib import Path
 from typing import Any
@@ -23,8 +24,8 @@ PINS = Path("docs/evidence/cp6-ac-runtime-pins.json")
 DISPOSITION = Path("docs/evidence/cp6-ac-temporal-disposition.json")
 
 # Updated only when the deterministic AC generator output changes.
-MIGRATION_SHA256 = "324c62fc9f4ebe4f59bd019cbb1471e460514c281be25c01170df8cafdb45e68"
-ROLLBACK_SHA256 = "31023a29c387f433b0aef743c11e749bf02692a3114da0655d23e0edb84fb9dc"
+MIGRATION_SHA256 = "d0742ed0c465503907ae9a9136779138996403be14e96592cdbf63c81001b21f"
+ROLLBACK_SHA256 = "b709de6e0849dd86720ea4620bb680aee19381622326bb3d1e5bc899148ef4a7"
 PINS_SHA256 = "c18cfeae29d10cd850818a17b75e91c30e22369329e051c54e90500b2fb4358e"
 DISPOSITION_SHA256 = "28c39de13bfb8707cd518207d369eab57f4b90d51308517e83f581236db22576"
 
@@ -56,6 +57,7 @@ AC_SUCCESSOR_REPAIR_FILES = AC_SOURCE_ADMISSION_REPAIR_FILES | {
     ".github/workflows/cp6-full-schema-validation.yml",
     "scripts/check-cp6-expanded-audit-closure.mjs",
     "scripts/cp6_v2620ac_build_sql.py",
+    "scripts/cp6_v2620ac_install_qualification.py",
     "scripts/cp6_preuse_rollback_maintenance.py",
     "supabase/migrations/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.sql",
     "supabase/rollbacks/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.rollback.sql",
@@ -114,6 +116,54 @@ def verify_source_files() -> dict[str, str]:
 
 def _acl(value: Any) -> list[str] | None:
     return None if value is None else sorted(value)
+
+
+def _applied_view_bodies() -> dict[str, str]:
+    source = MIGRATION.read_text(encoding="utf-8")
+    start_marker = (
+        "-- Generated only from the 709/709 reviewed disposition; do not hand-edit.\n"
+    )
+    end_marker = "\ndo $installed_v2620ac$\n"
+    if source.count(start_marker) != 1 or source.count(end_marker) != 1:
+        raise AssertionError("AC_RUNTIME_VIEW_SOURCE_MARKERS")
+    segment = source.split(start_marker, 1)[1].split(end_marker, 1)[0]
+    first_view = segment.find("CREATE OR REPLACE VIEW erp.")
+    first_default = segment.find("\nalter table erp.", first_view)
+    if first_view < 0 or first_default < 0:
+        raise AssertionError("AC_RUNTIME_VIEW_SOURCE_SEGMENT")
+    view_source = segment[first_view:first_default]
+    statements = re.findall(
+        r"(?ms)^CREATE OR REPLACE VIEW erp\..*?;\n(?=\n|$)", view_source
+    )
+    bodies: dict[str, str] = {}
+    for statement in statements:
+        match = re.match(
+            r"^CREATE OR REPLACE VIEW (?P<identity>erp\.[A-Za-z_][A-Za-z0-9_]*)"
+            r"(?: WITH \([^\n]+\))? AS\n(?P<body>.*);\n$",
+            statement,
+            re.S,
+        )
+        if match is None or match.group("identity") in bodies:
+            raise AssertionError("AC_RUNTIME_VIEW_SOURCE_PARSE")
+        bodies[match.group("identity")] = match.group("body").strip()
+    if len(bodies) != 13:
+        raise AssertionError("AC_RUNTIME_VIEW_SOURCE_CARDINALITY")
+    return bodies
+
+
+def _normalized_view_sha(cur, body: str) -> str:
+    cur.execute(
+        "create temporary view cp6_ac_runtime_normalization_probe as\n" + body,
+        prepare=False,
+    )
+    cur.execute(
+        """select encode(extensions.digest(convert_to(btrim(pg_get_viewdef(
+          'pg_temp.cp6_ac_runtime_normalization_probe'::regclass,false),
+          E' \\n\\t\\r;'),'UTF8'),'sha256'),'hex')"""
+    )
+    result = cur.fetchone()[0]
+    cur.execute("drop view pg_temp.cp6_ac_runtime_normalization_probe")
+    return result
 
 
 def _capsule_security(cur, identity: str) -> None:
@@ -194,6 +244,7 @@ def _verify_functions(cur, payload: dict[str, Any]) -> dict[str, Any]:
 
 def _verify_views(cur, payload: dict[str, Any]) -> dict[str, Any]:
     observations: dict[str, Any] = {}
+    applied_bodies = _applied_view_bodies()
     for item in payload["views"]:
         cur.execute(
             """select cap.definition_sha256,
@@ -201,7 +252,6 @@ def _verify_views(cur, payload: dict[str, Any]) -> dict[str, Any]:
               cap.installed_definition_sha256,cap.owner_snapshot,cap.acl_snapshot,
               cap.reloptions_snapshot,cap.rls_snapshot,
               encode(extensions.digest(convert_to(btrim(pg_get_viewdef(v.oid,false),E' \\n\\t\\r;'),'UTF8'),'sha256'),'hex'),
-              encode(extensions.digest(convert_to(btrim(pg_get_viewdef(v.oid,true),E' \\n\\t\\r;'),'UTF8'),'sha256'),'hex'),
               pg_get_userbyid(v.relowner),
               case when v.relacl is null then null else
                 array(select x::text from unnest(v.relacl) x order by x::text) end,
@@ -218,14 +268,22 @@ def _verify_views(cur, payload: dict[str, Any]) -> dict[str, Any]:
             raise AssertionError(f"AC_VIEW_CAPSULE_MISSING:{item['identity']}")
         (
             predecessor_sha, restore_sha, installed_pin, capsule_owner,
-            capsule_acl, capsule_options, capsule_rls, false_sha, pretty_sha,
+            capsule_acl, capsule_options, capsule_rls, false_sha,
             live_owner, live_acl, live_options, live_rls,
         ) = row
+        applied_body = applied_bodies.get(item["identity"])
+        if (
+            applied_body is None
+            or sha256_bytes(applied_body.encode("utf-8"))
+            != item["after_body_sha"]
+        ):
+            raise AssertionError(f"AC_VIEW_SOURCE_PIN_MISMATCH:{item['identity']}")
+        expected_engine_sha = _normalized_view_sha(cur, applied_body)
         if (
             predecessor_sha != item["before_body_sha"]
             or restore_sha != item["restore_sha"]
             or installed_pin != false_sha
-            or item["after_body_sha"] not in (false_sha, pretty_sha)
+            or false_sha != expected_engine_sha
             or capsule_owner != item["owner"]
             or live_owner != item["owner"]
             or _acl(capsule_acl) != _acl(item["acl"])
@@ -240,6 +298,7 @@ def _verify_views(cur, payload: dict[str, Any]) -> dict[str, Any]:
             "kind": "VIEW", "identity": item["identity"],
             "predecessor_sha256": predecessor_sha,
             "installed_sha256": false_sha,
+            "source_sha256": item["after_body_sha"],
             "owner": live_owner, "acl": _acl(live_acl),
             "reloptions": _acl(live_options),
         }
