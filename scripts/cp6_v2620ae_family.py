@@ -8,7 +8,7 @@ import json
 import os
 import traceback
 import uuid
-from datetime import timedelta
+from datetime import date, timedelta
 from decimal import Decimal
 from pathlib import Path
 from typing import Callable
@@ -521,6 +521,7 @@ def crossflow_cases() -> tuple[tuple[str, Case], ...]:
     def linked(function, name):
         def check(cur, day):
             actors.admin(cur)
+            actors.zone(cur, "UTC")
             cur.execute("select set_config('app.change_reason','CP6 AE combined business qualification',true)")
             for source in sources:
                 cur.execute(source.read_text(), prepare=False)
@@ -651,7 +652,9 @@ def run_phase(phase: str) -> dict:
         day = base.one(
             cur, "select (statement_timestamp() at time zone 'Asia/Jakarta')::date"
         ) - timedelta(days=3)
-        prior.set_open_period(cur, day - timedelta(days=2))
+        # Historical money/cash oracles intentionally transact on Sep 1-5.
+        # Preserve their original open-period fixture in the combined phase.
+        prior.set_open_period(cur, date(2026, 8, 31) if phase == "crossflow" else day - timedelta(days=2))
 
         for name, function in phase_cases(phase):
             actors.admin(cur)
@@ -674,7 +677,7 @@ def run_phase(phase: str) -> dict:
                 record["status"] = "FAIL"
             result["cases"][name] = record
             persist(phase, result)
-            print(json.dumps({"phase": phase, "case": name, "status": record["status"]}), flush=True)
+            print(json.dumps({"phase": phase, "case": name, "status": record["status"], "error": record.get("error")}), flush=True)
 
         connection.rollback()
         result["entire_unseeded_boundary_restored"] = actors.boundary(cur) == untouched

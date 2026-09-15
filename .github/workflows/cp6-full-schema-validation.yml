@@ -66,11 +66,11 @@ jobs:
                       'scripts/cp6_ad_roll_opening_check.py': 'fb11a8f87eef368cedc161924950c2f388ba5dd45067618eca435a71c2e70d37'}
           ae_pins={**ad_pins,**round_pins}
           ae_pins.update({
-              '.github/workflows/cp6-ad-roll-opening-check.yml': '5aca7917a6a2b750b8d23efad6136386d414721dbfbeedb822039202c7178a82',
+              '.github/workflows/cp6-ad-roll-opening-check.yml': '09f87131e8954a886593744b24421f713da06c46fc94b435c25e9703c6bd1b22',
               'docs/evidence/cp6-ae-runtime-pins.json': '6891b006b3611debc87a0bc4928438c6db5dc1df8209d9c7d927f151494026d4',
               'scripts/cp6_preuse_rollback_maintenance.py': 'a6f9403c32a6f2a434dccab7bad77c63e6a35a7f2ee4fccb68f810d9b15dd6bd',
               'scripts/cp6_v2620ae_build_sql.py': 'd36adaf08324e25f665ebe6fcf952518a1f33eb08195260bd1c88dbd347c4922',
-              'scripts/cp6_v2620ae_family.py': '5726e376f252a6e34d91b6180495563f322813f0f4d1d45880b8aef5a1e60d5b',
+              'scripts/cp6_v2620ae_family.py': '855f0481b093271412ba291261cad2a8800e75a4a813ef53ba36d94d46dfacd9',
               'scripts/cp6_v2620ae_rollback_guards.py': '434e4d05d3bac0e3d1070f9703f5812c01baf00e61172e92c66b5e420e35229d',
               'scripts/cp6_v2620ae_runtime.py': '6ffccbed42083e1dad2cdc90559cb27e66cb2ee7f54b5519fba85d0fcadfbe33',
               'supabase/migrations/20260915201500_erp_v2_6_20ae_cp6_opening_roll_integrity.sql': '228d9185501d418835e6434e64e1445be7b12ce2f517778ea63d789d478461c1',

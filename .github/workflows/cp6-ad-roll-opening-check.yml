@@ -245,6 +245,7 @@ jobs:
           name: cp6-ae-roll-opening-family
           path: |
             candidate/cp6-proof/writer-ae
+            candidate/cp6-proof/AE_MAINTENANCE_ROLLBACK
             bug-round/cp6-proof/ad-roll-opening
             base/cp6-proof/AC_AUDIT_RUNTIME_BOOTSTRAP.json
           if-no-files-found: warn
