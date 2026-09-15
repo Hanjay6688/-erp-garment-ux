@@ -14,7 +14,7 @@ import cp6_v2620ad_runtime as runtime
 import cp6_v2620h_maintenance_rollback_matrix as matrix
 
 
-ROOT = Path("cp6-proof/AD_MAINTENANCE_ROLLBADK")
+ROOT = Path("cp6-proof/AD_MAINTENANCE_ROLLBACK")
 REPORT = ROOT / "manifest.json"
 
 
@@ -25,12 +25,12 @@ def run() -> dict:
     )
     actual_environment = (
         os.environ.get("PGURL"), os.environ.get("CP6_MAINTENANCE_PGURL"),
-        os.environ.get("CP6_ROLLBADK_RADE_PGURL"),
+        os.environ.get("CP6_ROLLBACK_RACE_PGURL"),
         os.environ.get("CP6_DATABASE_CONTAINER"),
         os.environ.get("CP6_MAINTENANCE_CONFIRM_DATABASE"),
     )
     if actual_environment != expected_environment:
-        raise AssertionError("AD_MAINTENANCE_EXADT_DISPOSABLE_ENVIRONMENT_REQUIRED")
+        raise AssertionError("AD_MAINTENANCE_EXACT_DISPOSABLE_ENVIRONMENT_REQUIRED")
     if os.environ.get("CP6_AD_MAINTENANCE_CONFIRM") != "cp6_rollback":
         raise AssertionError("AD_MAINTENANCE_EXPLICIT_CONFIRMATION_REQUIRED")
 
@@ -41,7 +41,7 @@ def run() -> dict:
     with psycopg.connect(matrix.SOURCE) as conn, conn.cursor() as cur:
         source_objects = runtime.verified_successor(cur)
     if len(source_objects) != 274:
-        raise AssertionError("AD_MAINTENANCE_EXADT_AD_SOURCE_REQUIRED")
+        raise AssertionError("AD_MAINTENANCE_EXACT_AD_SOURCE_REQUIRED")
 
     result = {
         "format": "CP6_V2620AD_MAINTENANCE_SCHEDULES_V1",
