@@ -141,13 +141,19 @@ jobs:
           PY
       - name: Reconfirm the frozen five-case comparison
         working-directory: bug-round
-        env:
-          GITHUB_SHA: b2663a0cb490432b53ca92670a17f7a268a8e7a3
         shell: bash
         run: |
           set -euo pipefail
           set +e
-          PYTHONPATH=scripts python scripts/cp6_ad_roll_opening_check.py
+          PYTHONPATH=scripts python - <<'PY'
+          import json
+          import os
+          import cp6_ad_roll_opening_check as comparison
+          os.environ['GITHUB_SHA'] = 'b2663a0cb490432b53ca92670a17f7a268a8e7a3'
+          result = comparison.run()
+          print(json.dumps({key: value for key, value in result.items() if key != 'cases'}))
+          raise SystemExit(1 if result['status'] == 'BUG_PROVEN' else 2)
+          PY
           result=$?
           set -e
           test "$result" = '1'

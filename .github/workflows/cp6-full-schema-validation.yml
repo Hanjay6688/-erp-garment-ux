@@ -66,7 +66,7 @@ jobs:
                       'scripts/cp6_ad_roll_opening_check.py': 'fb11a8f87eef368cedc161924950c2f388ba5dd45067618eca435a71c2e70d37'}
           ae_pins={**ad_pins,**round_pins}
           ae_pins.update({
-              '.github/workflows/cp6-ad-roll-opening-check.yml': '0adc9bf1dc94c451d0274b3287655dfb28c69b41b5fc797d99a7947ccffd3c46',
+              '.github/workflows/cp6-ad-roll-opening-check.yml': '156c9958d3197600939e0f0bc88d2be9d05bb847d2d2d32f7a9c710b564550f5',
               'docs/evidence/cp6-ae-runtime-pins.json': '6891b006b3611debc87a0bc4928438c6db5dc1df8209d9c7d927f151494026d4',
               'scripts/cp6_preuse_rollback_maintenance.py': 'f787fe9da49999d80c8887d28902e46023b209e074087d0ffbf24e6e2b8ad346',
               'scripts/cp6_v2620ae_build_sql.py': 'd36adaf08324e25f665ebe6fcf952518a1f33eb08195260bd1c88dbd347c4922',
