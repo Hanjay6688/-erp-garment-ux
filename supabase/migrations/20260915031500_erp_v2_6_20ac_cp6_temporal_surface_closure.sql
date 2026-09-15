@@ -378,16 +378,17 @@ begin
   end loop;
 
   for r in select * from pg_temp.cp6_ac_expected_views loop
-    select encode(extensions.digest(convert_to(btrim(pg_get_viewdef(c.oid,false),E' \n\t\r;'),'UTF8'),'sha256'),'hex'),
-      encode(extensions.digest(convert_to(btrim(pg_get_viewdef(c.oid,true),E' \n\t\r;'),'UTF8'),'sha256'),'hex'),
-      pg_get_userbyid(c.relowner),
-      case when c.relacl is null then null else
-        array(select a::text from unnest(c.relacl) a order by a::text) end,
-      case when c.reloptions is null then null else
-        array(select x from unnest(c.reloptions) x order by x) end,
-      c.relrowsecurity
+    select encode(extensions.digest(convert_to(btrim(pg_get_viewdef(catalog_rel.oid,false),E' \n\t\r;'),'UTF8'),'sha256'),'hex'),
+      encode(extensions.digest(convert_to(btrim(pg_get_viewdef(catalog_rel.oid,true),E' \n\t\r;'),'UTF8'),'sha256'),'hex'),
+      pg_get_userbyid(catalog_rel.relowner),
+      case when catalog_rel.relacl is null then null else
+        array(select a::text from unnest(catalog_rel.relacl) a order by a::text) end,
+      case when catalog_rel.reloptions is null then null else
+        array(select x from unnest(catalog_rel.reloptions) x order by x) end,
+      catalog_rel.relrowsecurity
     into v_false,v_pretty,v_owner,v_acl,v_reloptions,v_rls
-    from pg_class c where c.oid=r.identity::regclass and c.relkind='v';
+    from pg_class catalog_rel
+    where catalog_rel.oid=r.identity::regclass and catalog_rel.relkind='v';
     if r.before_sha256 not in(v_false,v_pretty)
        or v_owner is distinct from r.owner_name
        or v_acl is distinct from r.acl
@@ -398,15 +399,17 @@ begin
   end loop;
 
   for r in select * from pg_temp.cp6_ac_expected_defaults loop
-    select pg_get_expr(d.adbin,d.adrelid),pg_get_userbyid(c.relowner),
-      case when c.relacl is null then null else
-        array(select x::text from unnest(c.relacl) x order by x::text) end,
-      c.relrowsecurity
+    select pg_get_expr(d.adbin,d.adrelid),pg_get_userbyid(catalog_rel.relowner),
+      case when catalog_rel.relacl is null then null else
+        array(select x::text from unnest(catalog_rel.relacl) x order by x::text) end,
+      catalog_rel.relrowsecurity
     into v_expression,v_owner,v_acl,v_rls
-    from pg_class c join pg_namespace n on n.oid=c.relnamespace
-    join pg_attribute a on a.attrelid=c.oid and a.attname=r.column_name
-    left join pg_attrdef d on d.adrelid=c.oid and d.adnum=a.attnum
-    where n.nspname='erp' and c.relname=r.table_name and c.relkind in('r','p');
+    from pg_class catalog_rel
+    join pg_namespace n on n.oid=catalog_rel.relnamespace
+    join pg_attribute a on a.attrelid=catalog_rel.oid and a.attname=r.column_name
+    left join pg_attrdef d on d.adrelid=catalog_rel.oid and d.adnum=a.attnum
+    where n.nspname='erp' and catalog_rel.relname=r.table_name
+      and catalog_rel.relkind in('r','p');
     if v_expression is distinct from r.before_expression
        or v_owner is distinct from r.owner_name
        or v_acl is distinct from r.acl
@@ -11074,16 +11077,17 @@ begin
   end loop;
 
   for r in select * from pg_temp.cp6_ac_expected_views loop
-    select encode(extensions.digest(convert_to(btrim(pg_get_viewdef(c.oid,false),E' \n\t\r;'),'UTF8'),'sha256'),'hex'),
-      encode(extensions.digest(convert_to(btrim(pg_get_viewdef(c.oid,true),E' \n\t\r;'),'UTF8'),'sha256'),'hex'),
-      pg_get_userbyid(c.relowner),
-      case when c.relacl is null then null else
-        array(select a::text from unnest(c.relacl) a order by a::text) end,
-      case when c.reloptions is null then null else
-        array(select x from unnest(c.reloptions) x order by x) end,
-      c.relrowsecurity
+    select encode(extensions.digest(convert_to(btrim(pg_get_viewdef(catalog_rel.oid,false),E' \n\t\r;'),'UTF8'),'sha256'),'hex'),
+      encode(extensions.digest(convert_to(btrim(pg_get_viewdef(catalog_rel.oid,true),E' \n\t\r;'),'UTF8'),'sha256'),'hex'),
+      pg_get_userbyid(catalog_rel.relowner),
+      case when catalog_rel.relacl is null then null else
+        array(select a::text from unnest(catalog_rel.relacl) a order by a::text) end,
+      case when catalog_rel.reloptions is null then null else
+        array(select x from unnest(catalog_rel.reloptions) x order by x) end,
+      catalog_rel.relrowsecurity
     into v_false,v_pretty,v_owner,v_acl,v_reloptions,v_rls
-    from pg_class c where c.oid=r.identity::regclass and c.relkind='v';
+    from pg_class catalog_rel
+    where catalog_rel.oid=r.identity::regclass and catalog_rel.relkind='v';
     if r.after_sha256 not in(v_false,v_pretty)
        or v_owner is distinct from r.owner_name
        or v_acl is distinct from r.acl
@@ -11096,15 +11100,17 @@ begin
   end loop;
 
   for r in select * from pg_temp.cp6_ac_expected_defaults loop
-    select pg_get_expr(d.adbin,d.adrelid),pg_get_userbyid(c.relowner),
-      case when c.relacl is null then null else
-        array(select x::text from unnest(c.relacl) x order by x::text) end,
-      c.relrowsecurity
+    select pg_get_expr(d.adbin,d.adrelid),pg_get_userbyid(catalog_rel.relowner),
+      case when catalog_rel.relacl is null then null else
+        array(select x::text from unnest(catalog_rel.relacl) x order by x::text) end,
+      catalog_rel.relrowsecurity
     into v_expression,v_owner,v_acl,v_rls
-    from pg_class c join pg_namespace n on n.oid=c.relnamespace
-    join pg_attribute a on a.attrelid=c.oid and a.attname=r.column_name
-    left join pg_attrdef d on d.adrelid=c.oid and d.adnum=a.attnum
-    where n.nspname='erp' and c.relname=r.table_name and c.relkind in('r','p');
+    from pg_class catalog_rel
+    join pg_namespace n on n.oid=catalog_rel.relnamespace
+    join pg_attribute a on a.attrelid=catalog_rel.oid and a.attname=r.column_name
+    left join pg_attrdef d on d.adrelid=catalog_rel.oid and d.adnum=a.attnum
+    where n.nspname='erp' and catalog_rel.relname=r.table_name
+      and catalog_rel.relkind in('r','p');
     if v_expression is distinct from r.after_expression
        or v_owner is distinct from r.owner_name
        or v_acl is distinct from r.acl

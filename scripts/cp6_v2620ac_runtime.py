@@ -23,8 +23,8 @@ PINS = Path("docs/evidence/cp6-ac-runtime-pins.json")
 DISPOSITION = Path("docs/evidence/cp6-ac-temporal-disposition.json")
 
 # Updated only when the deterministic AC generator output changes.
-MIGRATION_SHA256 = "5eee33b7d0ca8599c0b9253bf18968311e79d0fec10f6b8f5b232d473af95c5d"
-ROLLBACK_SHA256 = "076ace8e6817dd6c8d79347aa8bd2e7c3d1dcb061a4b19f2519460615745eb4d"
+MIGRATION_SHA256 = "324c62fc9f4ebe4f59bd019cbb1471e460514c281be25c01170df8cafdb45e68"
+ROLLBACK_SHA256 = "31023a29c387f433b0aef743c11e749bf02692a3114da0655d23e0edb84fb9dc"
 PINS_SHA256 = "c18cfeae29d10cd850818a17b75e91c30e22369329e051c54e90500b2fb4358e"
 DISPOSITION_SHA256 = "28c39de13bfb8707cd518207d369eab57f4b90d51308517e83f581236db22576"
 
@@ -39,8 +39,8 @@ AB_ROLLBACK = Path(
     "supabase/rollbacks/20260914190500_erp_v2_6_20ab_cp6_operational_business_clock.rollback.sql"
 )
 
-# The original writer tree is immutable. A bounded source-admission repair may
-# follow it without weakening the exact AB ancestry or the two-file AC SQL edge.
+# The original writer tree is immutable. Bounded repair commits may follow it
+# without weakening the exact AB ancestry or the two-file AC SQL edge.
 AC_WRITER_HEAD = "41e210a4b756d26bc5fce20d59904af0fe2552fb"
 AC_WRITER_TREE = "7bde10c90d29f3f3fd7787cf7064d86d828fb82b"
 AC_SOURCE_ADMISSION_REPAIR_FILES = {
@@ -51,6 +51,14 @@ AC_SOURCE_ADMISSION_REPAIR_FILES = {
     "scripts/cp6_x_independent_audit.py",
     "scripts/cp6_y_independent_audit.py",
     "scripts/cp6_z_expanded_integrity_audit.py",
+}
+AC_SUCCESSOR_REPAIR_FILES = AC_SOURCE_ADMISSION_REPAIR_FILES | {
+    ".github/workflows/cp6-full-schema-validation.yml",
+    "scripts/check-cp6-expanded-audit-closure.mjs",
+    "scripts/cp6_v2620ac_build_sql.py",
+    "scripts/cp6_preuse_rollback_maintenance.py",
+    "supabase/migrations/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.sql",
+    "supabase/rollbacks/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.rollback.sql",
 }
 
 MAIN_CAPSULE = "erp.cp6_v2620ac_rollback_capsule"
@@ -343,12 +351,14 @@ def verify_audit_source() -> tuple[str, str]:
     if git("merge-base", AC_WRITER_HEAD, "HEAD") != AC_WRITER_HEAD:
         raise AssertionError("AC_REQUIRES_FROZEN_WRITER_ANCESTRY")
     if git("rev-list", "--merges", AC_WRITER_HEAD + "..HEAD"):
-        raise AssertionError("AC_SOURCE_ADMISSION_REPAIR_MUST_BE_LINEAR")
+        raise AssertionError("AC_SUCCESSOR_REPAIR_MUST_BE_LINEAR")
     repaired = set(git(
         "diff", "--name-only", AC_WRITER_HEAD, "HEAD",
     ).splitlines())
-    if repaired not in (set(), AC_SOURCE_ADMISSION_REPAIR_FILES):
-        raise AssertionError("AC_ONLY_EXACT_SOURCE_ADMISSION_REPAIR_ALLOWED")
+    if repaired not in (
+        set(), AC_SOURCE_ADMISSION_REPAIR_FILES, AC_SUCCESSOR_REPAIR_FILES,
+    ):
+        raise AssertionError("AC_ONLY_EXACT_SUCCESSOR_REPAIR_ALLOWED")
     modified = git(
         "diff", "--name-only", "--diff-filter=MDRTCUXB", AB_HEAD, "HEAD", "--",
         "supabase/migrations", "supabase/rollbacks",

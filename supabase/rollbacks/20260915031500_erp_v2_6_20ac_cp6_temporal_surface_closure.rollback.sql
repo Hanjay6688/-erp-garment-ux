@@ -13,7 +13,7 @@ begin
      or not exists(select 1 from supabase_migrations.schema_migrations
        where version='20260915031500' and name='erp_v2_6_20ac_cp6_temporal_surface_closure'
          and encode(extensions.digest(convert_to(array_to_string(statements,E'\n'),'UTF8'),'sha256'),'hex')
-           in('5eee33b7d0ca8599c0b9253bf18968311e79d0fec10f6b8f5b232d473af95c5d','f17de3039d562242fccf6be93b1df2c1ba1e9561b3ff845ef1663b9b27e274b5'))
+           in('324c62fc9f4ebe4f59bd019cbb1471e460514c281be25c01170df8cafdb45e68','8cf478c430c6ad809e8bceee08f2a941b7f5fe13d01a17bebc3d3ec8ddcffe12'))
      or exists(select 1 from supabase_migrations.schema_migrations where version>'20260915031500') then
     raise exception 'AC_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR';
   end if;
@@ -494,7 +494,7 @@ delete from erp.schema_migrations where version='v2.6.20ac';
 delete from supabase_migrations.schema_migrations
 where version='20260915031500' and name='erp_v2_6_20ac_cp6_temporal_surface_closure'
   and encode(extensions.digest(convert_to(array_to_string(statements,E'\n'),'UTF8'),'sha256'),'hex')
-    in('5eee33b7d0ca8599c0b9253bf18968311e79d0fec10f6b8f5b232d473af95c5d','f17de3039d562242fccf6be93b1df2c1ba1e9561b3ff845ef1663b9b27e274b5');
+    in('324c62fc9f4ebe4f59bd019cbb1471e460514c281be25c01170df8cafdb45e68','8cf478c430c6ad809e8bceee08f2a941b7f5fe13d01a17bebc3d3ec8ddcffe12');
 
 do $postcheck_v2620ac$
 begin

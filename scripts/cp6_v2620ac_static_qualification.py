@@ -114,6 +114,54 @@ def lexical_balance(source: str, label: str) -> dict[str, int]:
     return {"dollar_blocks": dollar_blocks, "outer_parenthesis_balance": parens}
 
 
+def record_alias_qualification(
+    migration: str, rollback: str, functions: list[str]
+) -> dict[str, int]:
+    """Reject PL/pgSQL record variables reused as SQL relation aliases."""
+    blocks: list[tuple[str, str]] = []
+    do_pattern = re.compile(
+        r"(?ms)^do \$(?P<tag>[A-Za-z_][A-Za-z_0-9]*)\$"
+        r"(?P<body>.*?)^\$(?P=tag)\$;"
+    )
+    for source_name, source in (("migration", migration), ("rollback", rollback)):
+        blocks.extend(
+            (f"{source_name}:{match.group('tag')}", match.group("body"))
+            for match in do_pattern.finditer(source)
+        )
+    blocks.extend((f"function:{index}", definition)
+                  for index, definition in enumerate(functions, start=1))
+
+    alias_pattern = re.compile(
+        r"\b(?:from|join)\s+"
+        r"(?:[A-Za-z_][A-Za-z_0-9]*\.)?[A-Za-z_][A-Za-z_0-9]*"
+        r"(?:\s*\([^;\n]*?\))?\s+(?:as\s+)?"
+        r"([A-Za-z_][A-Za-z_0-9]*)",
+        re.I,
+    )
+    record_count = 0
+    for label, body in blocks:
+        declaration = re.search(r"\bdeclare\b(.*?)\bbegin\b", body, re.S | re.I)
+        if declaration is None:
+            continue
+        records = set(re.findall(
+            r"\b([A-Za-z_][A-Za-z_0-9]*)\s+record\b",
+            declaration.group(1),
+            re.I,
+        ))
+        aliases = set(alias_pattern.findall(body))
+        collisions = sorted(records & aliases)
+        if collisions:
+            raise AssertionError(
+                f"AC_PLPGSQL_RECORD_RELATION_ALIAS_COLLISION:{label}:{collisions}"
+            )
+        record_count += len(records)
+    return {
+        "blocks_checked": len(blocks),
+        "record_variables_checked": record_count,
+        "collisions": 0,
+    }
+
+
 def applied_segment(migration: str) -> str:
     start_marker = "-- Generated only from the 709/709 reviewed disposition; do not hand-edit.\n"
     end_marker = "\ndo $installed_v2620ac$\n"
@@ -201,6 +249,9 @@ def run() -> dict[str, object]:
 
     segment = applied_segment(migration)
     functions = function_definitions(segment)
+    alias_qualification = record_alias_qualification(
+        migration, rollback, functions
+    )
     expected_functions = {item["after_sha"]: item for item in pins["functions"]}
     observed_function_hashes = [sha(definition) for definition in functions]
     if (
@@ -284,6 +335,7 @@ def run() -> dict[str, object]:
         "view_count": len(views),
         "table_default_count": len(default_lines),
         "function_structural_contracts_preserved": True,
+        "plpgsql_record_alias_qualification": alias_qualification,
         "stale_transaction_clock_tokens": stale,
         "migration_lexical": lexical_balance(migration, "migration"),
         "rollback_lexical": lexical_balance(rollback, "rollback"),

@@ -49,6 +49,11 @@ def run() -> dict[str, Any]:
         or static.get("function_count") != 115
         or static.get("view_count") != 13
         or static.get("table_default_count") != 144
+        or static.get("plpgsql_record_alias_qualification") != {
+            "blocks_checked": 124,
+            "record_variables_checked": 59,
+            "collisions": 0,
+        }
         or any(static.get("stale_transaction_clock_tokens", {}).values())
     ):
         raise AssertionError("AC_STATIC_EVIDENCE_MISMATCH")
