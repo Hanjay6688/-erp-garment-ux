@@ -198,103 +198,90 @@ def view_statements(segment: str) -> list[str]:
     )
 
 
-class _SingleViewCursor:
-    """Minimal cursor for exercising the runtime view-verifier modes."""
+def pre_admission_verifier_qualification() -> dict[str, object]:
+    """Prove pre-admission verification cannot enter relation deparsing."""
+    original_state = runtime._verify_installation_state
+    original_pins = runtime.pins
+    original_functions = runtime._verify_functions
+    original_views = runtime._verify_views
+    original_defaults = runtime._verify_defaults
+    relation_verifier_calls = 0
+    cardinality_negative_control_rejected = False
 
-    def __init__(self, row: tuple[object, ...]) -> None:
-        self.row = row
-        self.execute_count = 0
+    def forbidden_relation_verifier(*_args: object, **_kwargs: object) -> dict:
+        nonlocal relation_verifier_calls
+        relation_verifier_calls += 1
+        raise AssertionError("AC_PRE_ADMISSION_ENTERED_RELATION_VERIFIER")
 
-    def execute(self, _query: str, _params: object = None, **_kwargs: object) -> None:
-        self.execute_count += 1
-
-    def fetchone(self) -> tuple[object, ...]:
-        return self.row
-
-
-def runtime_view_verifier_mode_qualification() -> dict[str, object]:
-    """Prove maintenance mode skips only temp DDL and still fails closed."""
-    body = "select 1 AS cp6_ac_lock_safe_probe"
-    body_sha = sha(body)
-    installed_sha = sha("engine-normalized-view")
-    item = {
-        "identity": "erp.cp6_ac_lock_safe_probe",
-        "before_body_sha": sha("predecessor-view"),
-        "restore_sha": sha("restore-view"),
-        "after_body_sha": body_sha,
-        "owner": "postgres",
-        "acl": ["postgres=r/postgres"],
-        "reloptions": ["security_invoker=true"],
-        "rls": False,
-    }
-    row = (
-        item["before_body_sha"], item["restore_sha"], installed_sha,
-        item["owner"], item["acl"], item["reloptions"], item["rls"],
-        installed_sha, item["owner"], item["acl"], item["reloptions"],
-        item["rls"],
-    )
-    original_bodies = runtime._applied_view_bodies
-    original_normalize = runtime._normalized_view_sha
-    normalize_calls = 0
-
-    def normalized(_cur: object, observed_body: str) -> str:
-        nonlocal normalize_calls
-        normalize_calls += 1
-        if observed_body != body:
-            raise AssertionError("AC_VIEW_MODE_UNIT_BODY_MISMATCH")
-        return installed_sha
-
-    runtime._applied_view_bodies = lambda: {item["identity"]: body}
-    runtime._normalized_view_sha = normalized
+    runtime._verify_installation_state = lambda _cur: True
+    runtime.pins = lambda: {"functions": []}
+    runtime._verify_views = forbidden_relation_verifier
+    runtime._verify_defaults = forbidden_relation_verifier
     try:
-        lock_safe_cursor = _SingleViewCursor(row)
-        lock_safe = runtime._verify_views(
-            lock_safe_cursor,
-            {"views": [item]},
-            normalize_source_with_temp_view=False,
-        )
-        if normalize_calls != 0 or lock_safe_cursor.execute_count != 1:
-            raise AssertionError("AC_LOCK_SAFE_VIEW_MODE_USED_TEMP_DDL")
+        runtime._verify_functions = lambda _cur, _payload: {
+            f"FUNCTION:probe_{index}": {"kind": "FUNCTION"}
+            for index in range(115)
+        }
+        observations = runtime.verified_pre_admission_successor(object())
+        if len(observations) != 115 or relation_verifier_calls:
+            raise AssertionError("AC_PRE_ADMISSION_VERIFIER_SCOPE_MISMATCH")
+        pre_admission_relation_calls = relation_verifier_calls
 
-        full_cursor = _SingleViewCursor(row)
-        full = runtime._verify_views(
-            full_cursor,
-            {"views": [item]},
-            normalize_source_with_temp_view=True,
-        )
-        if normalize_calls != 1 or full_cursor.execute_count != 1:
-            raise AssertionError("AC_FULL_VIEW_MODE_SKIPPED_NORMALIZATION")
+        runtime._verify_functions = lambda _cur, _payload: {}
+        try:
+            runtime.verified_pre_admission_successor(object())
+        except AssertionError as exc:
+            if str(exc) != "AC_PRE_ADMISSION_FUNCTION_CARDINALITY":
+                raise
+            cardinality_negative_control_rejected = True
+        else:
+            raise AssertionError("AC_PRE_ADMISSION_CARDINALITY_ACCEPTED")
 
-        drift_rejections: list[str] = []
-        for label, index, value in (
-            ("LIVE_DEFINITION", 7, sha("drifted-live-view")),
-            ("LIVE_ACL", 9, ["PUBLIC=r/postgres"]),
+        runtime._verify_functions = lambda _cur, _payload: {
+            f"FUNCTION:probe_{index}": {"kind": "FUNCTION"}
+            for index in range(115)
+        }
+
+        def full_views(_cur: object, _payload: object) -> dict:
+            nonlocal relation_verifier_calls
+            relation_verifier_calls += 1
+            return {
+                f"VIEW:probe_{index}": {"kind": "VIEW"}
+                for index in range(13)
+            }
+
+        def full_defaults(_cur: object, _payload: object) -> dict:
+            nonlocal relation_verifier_calls
+            relation_verifier_calls += 1
+            return {
+                f"COLUMN_DEFAULT:probe_{index}": {"kind": "COLUMN_DEFAULT"}
+                for index in range(144)
+            }
+
+        runtime._verify_views = full_views
+        runtime._verify_defaults = full_defaults
+        full_observations = runtime.verified_successor(object())
+        if (
+            len(full_observations) != 272
+            or relation_verifier_calls - pre_admission_relation_calls != 2
         ):
-            drifted = list(row)
-            drifted[index] = value
-            try:
-                runtime._verify_views(
-                    _SingleViewCursor(tuple(drifted)),
-                    {"views": [item]},
-                    normalize_source_with_temp_view=False,
-                )
-            except AssertionError as exc:
-                if str(exc) != (
-                    "AC_VIEW_PIN_MISMATCH:" + str(item["identity"])
-                ):
-                    raise
-                drift_rejections.append(label)
-            else:
-                raise AssertionError(f"AC_LOCK_SAFE_VIEW_MODE_ACCEPTED_{label}_DRIFT")
+            raise AssertionError("AC_FULL_RELATION_VERIFIER_SCOPE_MISMATCH")
     finally:
-        runtime._applied_view_bodies = original_bodies
-        runtime._normalized_view_sha = original_normalize
+        runtime._verify_installation_state = original_state
+        runtime.pins = original_pins
+        runtime._verify_functions = original_functions
+        runtime._verify_views = original_views
+        runtime._verify_defaults = original_defaults
 
     return {
-        "lock_safe_skipped_temp_ddl": True,
-        "full_mode_normalized_source": True,
-        "identical_observations": lock_safe == full,
-        "drift_rejections": drift_rejections,
+        "function_count": len(observations),
+        "relation_deparsing_skipped": pre_admission_relation_calls == 0,
+        "cardinality_negative_control_rejected": (
+            cardinality_negative_control_rejected
+        ),
+        "full_relation_verifier_count": (
+            relation_verifier_calls - pre_admission_relation_calls
+        ),
     }
 
 
@@ -467,9 +454,9 @@ def run() -> dict[str, object]:
     if any(stale.values()):
         raise AssertionError("AC_STALE_TRANSACTION_CLOCK_IN_APPLIED_SURFACE:" + str(stale))
 
-    view_verifier_modes = runtime_view_verifier_mode_qualification()
-    if not view_verifier_modes["identical_observations"]:
-        raise AssertionError("AC_VIEW_VERIFIER_MODE_OBSERVATION_MISMATCH")
+    pre_admission_verifier = pre_admission_verifier_qualification()
+    if not pre_admission_verifier["relation_deparsing_skipped"]:
+        raise AssertionError("AC_PRE_ADMISSION_RELATION_DEPARSE_MISMATCH")
 
     result: dict[str, object] = {
         "format": "CP6_V2620AC_STATIC_QUALIFICATION_V1",
@@ -491,7 +478,7 @@ def run() -> dict[str, object]:
         },
         "postgres17_maintain_acl_pinned": True,
         "effective_view_acl_guards": effective_acl_counts,
-        "runtime_view_verifier_modes": view_verifier_modes,
+        "pre_admission_verifier": pre_admission_verifier,
         "stale_transaction_clock_tokens": stale,
         "migration_lexical": lexical_balance(migration, "migration"),
         "rollback_lexical": lexical_balance(rollback, "rollback"),

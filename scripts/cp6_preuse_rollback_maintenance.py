@@ -540,17 +540,13 @@ def _capsule_snapshot(
     target_conn: psycopg.Connection, target_name: str, target: dict[str, Any]
 ) -> list[dict[str, Any]]:
     if target_name == 'AC':
-        from cp6_v2620ac_runtime import verified_successor
+        from cp6_v2620ac_runtime import verified_pre_admission_successor
         with target_conn.cursor() as ac_cur:
-            # Full AC qualification normalizes source views through temporary
-            # DDL before any schedule starts.  Repeating that DDL here can
-            # wait behind the REPORT writer's deliberate table gate before
-            # admission is closed.  This first pass remains exact for frozen
-            # source, capsule/live equality and relation security.  The direct
-            # source-to-live parser proof is repeated after the drain below.
-            all_objects = verified_successor(
-                ac_cur, normalize_source_with_temp_view=False
-            )
+            # View/default deparsing can wait behind the REPORT writer's
+            # deliberate table gate.  Before admission closes, inspect only
+            # the exact function capsule/live state needed for restoration.
+            # The full relation proof is mandatory after the drain below.
+            all_objects = verified_pre_admission_successor(ac_cur)
         functions = [
             item for item in all_objects.values() if item['kind'] == 'FUNCTION'
         ]
