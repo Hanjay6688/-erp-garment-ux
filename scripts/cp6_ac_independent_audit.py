@@ -56,6 +56,9 @@ def opening_case(cur,kind,zone,day):
     cur.execute('select erp.post_opening_balance(%s)',(h,))
     actor=cur.execute('select current_user,session_user,erp.current_app_role()').fetchone()
     assert actor==('authenticated','authenticated','OWNER')
+    # Posting ran under the ordinary owner. Read private evidence as auditor;
+    # granting the caller ledger access would change the candidate's ACLs.
+    actors.admin(cur)
     if material:
         movements=cur.execute("select physical_at,qty_signed,unit_cost_snapshot from erp.material_stock_movements where source_type='OPENING_BALANCE_ITEM' and source_id=%s order by id",(item,)).fetchall()
     elif product:
@@ -87,19 +90,23 @@ def opening_case(cur,kind,zone,day):
     return r
 
 def attendance_case(cur,zone,day):
-    actors.owner(cur);actors.zone(cur,zone)
+    actors.admin(cur);actors.zone(cur,zone)
     contractor=uuid.UUID('a1000000-0000-0000-0000-000000000001')
     workers=cur.execute("select id from erp.contractor_workers where contractor_id=%s and pay_scheme in ('DAILY','HYBRID') and erp.worker_is_employed_on(id,%s)",(contractor,day)).fetchall()
     assert workers,'ATTENDANCE_CONTROL_REQUIRES_WORKERS'
     records=[dict(worker_id=str(w[0]),attendance_date=str(d),status='PRESENT') for d in (day,day+timedelta(days=1)) for w in workers]
     payload=dict(contractor_id=str(contractor),period_number='AC-AUD-ATT-'+uuid.uuid4().hex,period_start=str(day),period_end=str(day+timedelta(days=1)),pay_date=str(day+timedelta(days=2)),reason='AC independent calendar roundtrip',attendance=records)
+    actors.owner(cur)
     draft=one(cur,'select erp.save_attendance_period_v1(%s::jsonb,%s,null,false)',(json.dumps(payload),uuid.uuid4()))
     posted=one(cur,'select erp.post_attendance_period_v1(%s,%s,%s,%s)',(draft['period_id'],'AC independent calendar roundtrip',uuid.uuid4(),int(draft['row_version'])))
+    actor=cur.execute('select current_user,session_user,erp.current_app_role()').fetchone()
+    assert actor==('authenticated','authenticated','OWNER')
+    actors.admin(cur)
     actual=cur.execute('select worker_id,attendance_date,record_lifecycle from erp.attendance_records where attendance_period_id=%s order by worker_id,attendance_date',(draft['period_id'],)).fetchall()
     expected=sorted((str(w[0]),str(d),'POSTED') for d in (day,day+timedelta(days=1)) for w in workers)
     observed=sorted(tuple(map(str,row)) for row in actual)
     assert observed==expected and posted['status']=='POSTED'
-    return {'status':'CONTROL_PASS','classification':'DATE_DOMAIN_SERIES_ROUND_TRIP','zone':zone,'expected':expected,'actual':observed,'negative_control_missing_date_rejected':observed[:-1]!=expected}
+    return {'status':'CONTROL_PASS','classification':'DATE_DOMAIN_SERIES_ROUND_TRIP','zone':zone,'actor':actor,'expected':expected,'actual':observed,'negative_control_missing_date_rejected':observed[:-1]!=expected}
 
 def run():
     assert os.environ.get('PGURL')=='postgresql://postgres:postgres@127.0.0.1:54322/postgres'
