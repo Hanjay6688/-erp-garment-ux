@@ -26,6 +26,10 @@ def save(result):
     REPORT.parent.mkdir(parents=True,exist_ok=True)
     REPORT.write_text(json.dumps(result,indent=2,default=str)+'\n')
 
+def opening_day_valid(day,physical,journal,kind):
+    return physical.astimezone(JAKARTA).date()==day and (
+        journal==[] if kind=='BS' else journal==[(day,day,'POSTED')])
+
 def opening_case(cur,kind,zone,day):
     actors.admin(cur);actors.zone(cur,'Asia/Jakarta')
     h,item=uuid.uuid4(),uuid.uuid4()
@@ -69,11 +73,17 @@ def opening_case(cur,kind,zone,day):
         for label,at in (('prior_day_end',expected_at-timedelta(microseconds=1)),('opening_day_start',expected_at),('opening_day_end',expected_at+timedelta(days=1)-timedelta(microseconds=1))):
             q=one(cur,'select coalesce(sum(qty_signed),0) from erp.material_stock_movements where material_id=%s and physical_at<=%s',(material,at))
             snapshots[label]={'at':at,'qty':q,'expected_qty':0 if label=='prior_day_end' else 10}
-    status='COUNTEREXAMPLE' if actual_day!=day else 'CONTROL_PASS'
+    status='CONTROL_PASS' if opening_day_valid(day,physical,journal,kind) else 'COUNTEREXAMPLE'
     r={'status':status,'kind':kind,'zone':zone,'opening_id':h,'item_id':item,'actor':actor,'expected_business_date':day,'actual_business_date':actual_day,'expected_day_start':expected_at,'actual_physical_at':physical,'quantity':qty,'unit_cost':cost,'journal':journal,'stock_cutoffs':snapshots,'timestamp_matches_day_start':physical==expected_at,'classification':'OPENING_MATERIAL_BUSINESS_DAY_DRIFT' if status=='COUNTEREXAMPLE' else 'BUSINESS_DAY_CONTROL','severity':'P2' if status=='COUNTEREXAMPLE' else None}
     # A tampered observation is never written to business tables. This checks
     # that the independent date oracle cannot accept a deliberately wrong day.
-    r['negative_control_wrong_day_rejected']=not((day-timedelta(days=1))==day)
+    control_journal=[] if kind=='BS' else [(day,day,'POSTED')]
+    assert opening_day_valid(day,expected_at,control_journal,kind)
+    r['negative_control_wrong_day_rejected']=not opening_day_valid(day,expected_at-timedelta(days=1),control_journal,kind)
+    assert r['negative_control_wrong_day_rejected']
+    if kind!='BS':
+        r['negative_control_wrong_journal_day_rejected']=not opening_day_valid(day,expected_at,[(day-timedelta(days=1),day,'POSTED')],kind)
+        assert r['negative_control_wrong_journal_day_rejected']
     return r
 
 def attendance_case(cur,zone,day):

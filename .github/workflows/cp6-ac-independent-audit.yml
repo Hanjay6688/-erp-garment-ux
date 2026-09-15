@@ -91,8 +91,11 @@ jobs:
         working-directory: candidate
         env:
           GITHUB_SHA: 1bdca3766f7c9800d68295ff5122798060b8a05d
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
+          export CP6_AC_WRITER_ARTIFACT="$RUNNER_TEMP/ac-native200.zip"
+          gh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10392910720/zip > "$CP6_AC_WRITER_ARTIFACT"
           PYTHONPATH=scripts python ../audit-harness/scripts/cp6_ac_audit_bootstrap.py
       - name: Run independent opening and attendance family cases
         working-directory: candidate
