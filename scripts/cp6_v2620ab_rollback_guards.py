@@ -5,11 +5,13 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import re
 from pathlib import Path
 from typing import Any
 
 import psycopg
 from psycopg import sql
+from psycopg.conninfo import conninfo_to_dict
 
 import cp6_preuse_rollback_maintenance as maintenance
 import cp6_v2620h_maintenance_rollback_matrix as matrix
@@ -20,6 +22,7 @@ ROLLBACK = Path(
 )
 REPORT = Path('cp6-proof/CP6_V2620AB_ROLLBACK_GUARDS.json')
 DIRECT_REPORT = Path('cp6-proof/CP6_V2620AB_DIRECT_GUARD_DIAGNOSTICS.json')
+EXTRA_REPORT = Path('cp6-proof/CP6_V2620AB_EXTRA_GUARD_DIAGNOSTICS.json')
 MAINTENANCE_REPORT = Path('cp6-proof/V2620AB_MAIN_MAINTENANCE_ROLLBACK.json')
 CLONE_ROOT = Path('cp6-proof/AB_TRUSTED_CAPSULE_GUARD')
 DIRECT_GUARD_NAMES = (
@@ -29,55 +32,128 @@ DIRECT_GUARD_NAMES = (
     'coherent_capsule_and_checksum',
 )
 EXTRA_FAULTS = (
-    ("ab_definition:erp.process_cost_recalc_queue(integer)", "alter function erp.process_cost_recalc_queue(integer) cost 999", 'TRUSTED_PREDECESSOR_PIN_MISMATCH'),
-    ("ab_acl:erp.process_cost_recalc_queue(integer)", "grant execute on function erp.process_cost_recalc_queue(integer) to anon", 'TRUSTED_PREDECESSOR_PIN_MISMATCH'),
-    ("ab_definition:erp.resolve_accounting_transaction_date(date)", "alter function erp.resolve_accounting_transaction_date(date) cost 999", 'TRUSTED_PREDECESSOR_PIN_MISMATCH'),
-    ("ab_acl:erp.resolve_accounting_transaction_date(date)", "grant execute on function erp.resolve_accounting_transaction_date(date) to anon", 'TRUSTED_PREDECESSOR_PIN_MISMATCH'),
-    ("ab_definition:erp._cp3_r4_reverse_journal_internal(uuid,text)", "alter function erp._cp3_r4_reverse_journal_internal(uuid,text) cost 999", 'TRUSTED_PREDECESSOR_PIN_MISMATCH'),
-    ("ab_acl:erp._cp3_r4_reverse_journal_internal(uuid,text)", "grant execute on function erp._cp3_r4_reverse_journal_internal(uuid,text) to anon", 'TRUSTED_PREDECESSOR_PIN_MISMATCH'),
-    ("ab_definition:erp.post_journal(text,uuid,date,text,jsonb)", "alter function erp.post_journal(text,uuid,date,text,jsonb) cost 999", 'TRUSTED_PREDECESSOR_PIN_MISMATCH'),
-    ("ab_acl:erp.post_journal(text,uuid,date,text,jsonb)", "grant execute on function erp.post_journal(text,uuid,date,text,jsonb) to anon", 'TRUSTED_PREDECESSOR_PIN_MISMATCH'),
-    ('ab_journal_owner', 'alter function erp.post_journal(text,uuid,date,text,jsonb) owner to service_role', 'TRUSTED_PREDECESSOR_PIN_MISMATCH'),
+    ('ab_definition_process_cost_recalc_queue', 'erp.process_cost_recalc_queue(integer)',
+     'alter function erp.process_cost_recalc_queue(integer) cost 999',
+     'TRUSTED_PREDECESSOR_PIN_MISMATCH'),
+    ('ab_acl_process_cost_recalc_queue', 'erp.process_cost_recalc_queue(integer)',
+     'grant execute on function erp.process_cost_recalc_queue(integer) to anon',
+     'TRUSTED_PREDECESSOR_PIN_MISMATCH'),
+    ('ab_definition_resolve_accounting_transaction_date',
+     'erp.resolve_accounting_transaction_date(date)',
+     'alter function erp.resolve_accounting_transaction_date(date) cost 999',
+     'TRUSTED_PREDECESSOR_PIN_MISMATCH'),
+    ('ab_acl_resolve_accounting_transaction_date',
+     'erp.resolve_accounting_transaction_date(date)',
+     'grant execute on function erp.resolve_accounting_transaction_date(date) to anon',
+     'TRUSTED_PREDECESSOR_PIN_MISMATCH'),
+    ('ab_definition_reverse_journal_internal',
+     'erp._cp3_r4_reverse_journal_internal(uuid,text)',
+     'alter function erp._cp3_r4_reverse_journal_internal(uuid,text) cost 999',
+     'TRUSTED_PREDECESSOR_PIN_MISMATCH'),
+    ('ab_acl_reverse_journal_internal',
+     'erp._cp3_r4_reverse_journal_internal(uuid,text)',
+     'grant execute on function erp._cp3_r4_reverse_journal_internal(uuid,text) to anon',
+     'TRUSTED_PREDECESSOR_PIN_MISMATCH'),
+    ('ab_definition_post_journal', 'erp.post_journal(text,uuid,date,text,jsonb)',
+     'alter function erp.post_journal(text,uuid,date,text,jsonb) cost 999',
+     'TRUSTED_PREDECESSOR_PIN_MISMATCH'),
+    ('ab_acl_post_journal', 'erp.post_journal(text,uuid,date,text,jsonb)',
+     'grant execute on function erp.post_journal(text,uuid,date,text,jsonb) to anon',
+     'TRUSTED_PREDECESSOR_PIN_MISMATCH'),
+    ('ab_owner_post_journal', 'erp.post_journal(text,uuid,date,text,jsonb)',
+     'alter function erp.post_journal(text,uuid,date,text,jsonb) owner to service_role',
+     'TRUSTED_PREDECESSOR_PIN_MISMATCH'),
     ('recost_definition',
+     'erp._recalculate_material_cost_core(uuid,timestamptz,boolean)',
      'alter function erp._recalculate_material_cost_core(uuid,timestamptz,boolean) cost 999',
      'TRUSTED_PREDECESSOR_PIN_MISMATCH'),
     ('recost_acl',
+     'erp._recalculate_material_cost_core(uuid,timestamptz,boolean)',
      'grant execute on function erp._recalculate_material_cost_core(uuid,timestamptz,boolean) to anon',
      'TRUSTED_PREDECESSOR_PIN_MISMATCH'),
     ('authorization_role_definition',
+     'erp.current_app_role()',
      'alter function erp.current_app_role() cost 999',
      'Exact predecessor function/ACL mismatch'),
     ('authorization_identity_acl',
+     'erp.current_app_user_id()',
      'grant execute on function erp.current_app_user_id() to anon',
      'Exact predecessor function/ACL mismatch'),
     ('helper_definition',
+     'erp._cp6_supplier_cent_state(uuid[])',
      'alter function erp._cp6_supplier_cent_state(uuid[]) cost 999',
      'Exact predecessor function/ACL mismatch'),
     ('helper_acl',
+     'erp._cp6_supplier_cent_ledger(uuid[])',
      'grant execute on function erp._cp6_supplier_cent_ledger(uuid[]) to anon',
      'Exact predecessor function/ACL mismatch'),
     ('fact_trigger',
+     'erp.supplier_cent_posting_facts',
      'alter table erp.supplier_cent_posting_facts disable trigger trg_supplier_cent_fact_append_only',
      'S_CENT_FACT_SECURITY_MISMATCH'),
     ('fact_grant',
+     'erp.supplier_cent_posting_facts',
      'grant select on erp.supplier_cent_posting_facts to authenticated',
      'S_CENT_FACT_SECURITY_MISMATCH'),
     ('inherited_fact_guard',
+     'erp.guard_sales_payment_fact_append_only()',
      'alter function erp.guard_sales_payment_fact_append_only() cost 999',
      'Exact predecessor function/ACL mismatch'),
     ('t_helper_definition',
+     'erp._cp6_material_adjustment_revaluation_state(uuid)',
      'alter function erp._cp6_material_adjustment_revaluation_state(uuid) cost 999',
      'Exact predecessor function/ACL mismatch'),
     ('t_helper_acl',
+     'erp._cp6_sync_material_adjustment_revaluation(uuid,uuid)',
      'grant execute on function erp._cp6_sync_material_adjustment_revaluation(uuid,uuid) to anon',
      'Exact predecessor function/ACL mismatch'),
     ('t_fact_trigger',
+     'erp.material_adjustment_revaluation_facts',
      'alter table erp.material_adjustment_revaluation_facts disable trigger trg_material_adjustment_revaluation_fact_append_only',
      'T_ADJUSTMENT_FACT_SECURITY_MISMATCH'),
     ('t_fact_grant',
+     'erp.material_adjustment_revaluation_facts',
      'grant select on erp.material_adjustment_revaluation_facts to authenticated',
      'T_ADJUSTMENT_FACT_SECURITY_MISMATCH'),
 )
+
+
+def persist_extra(status: str, results: list[dict[str, Any]]) -> None:
+    """Keep a lossless, artifact-safe checkpoint after every fault boundary."""
+    EXTRA_REPORT.parent.mkdir(parents=True, exist_ok=True)
+    payload = {
+        'head': os.environ.get('GITHUB_SHA', 'LOCAL_UNBOUND'),
+        'status': status,
+        'expected_case_count': len(EXTRA_FAULTS),
+        'completed_case_count': sum(case.get('status') == 'PASS' for case in results),
+        'cases': results,
+        'production_go': False,
+    }
+    temporary = EXTRA_REPORT.with_suffix(EXTRA_REPORT.suffix + '.tmp')
+    temporary.write_text(json.dumps(payload, indent=2) + '\n')
+    temporary.replace(EXTRA_REPORT)
+
+
+def apply_extra_fault(mutation: str) -> None:
+    """Inject privileged catalog drift only into the fixed disposable clone."""
+    params = conninfo_to_dict(matrix.CLONE)
+    expected = {
+        'user': 'postgres', 'password': 'postgres', 'host': '127.0.0.1',
+        'port': '54322', 'dbname': 'cp6_rollback',
+    }
+    if params != expected:
+        raise AssertionError('AB_EXTRA_FAULT_CANONICAL_CLONE_REQUIRED')
+    params['user'] = 'supabase_admin'
+    with psycopg.connect(**params, autocommit=True) as conn:
+        identity = conn.execute(
+            """select current_database(),current_user,session_user,
+              inet_server_addr()::text,inet_server_port(),
+              (select rolsuper from pg_roles where rolname=current_user)"""
+        ).fetchone()
+        if identity != ('cp6_rollback', 'supabase_admin', 'supabase_admin',
+                        '127.0.0.1', 54322, True):
+            raise AssertionError('AB_EXTRA_FAULT_ENDPOINT_IDENTITY_MISMATCH')
+        conn.execute(mutation, prepare=False)
 
 
 def coherent_capsule_fault(pgurl: str) -> None:
@@ -296,15 +372,35 @@ def direct_guards(target_pgurl: str) -> list[dict[str, Any]]:
 
 def verify_extra_preflight_guards() -> list[dict[str, Any]]:
     """Inherited helper/fact faults stop before database admission changes."""
-    results = []
+    names = [case[0] for case in EXTRA_FAULTS]
+    if len(names) != 22 or len(names) != len(set(names)):
+        raise AssertionError('AB_EXTRA_PREFLIGHT_CASE_MANIFEST_DRIFT')
+    if any(re.fullmatch(r'[a-z0-9_]+', name) is None for name in names):
+        raise AssertionError('AB_EXTRA_PREFLIGHT_CASE_PATH_NOT_PORTABLE')
+    results: list[dict[str, Any]] = []
+    persist_extra('IN_PROGRESS', results)
     with n_guards.disposable_clone_confirmation(matrix.CLONE):
-        for name, mutation, expected in EXTRA_FAULTS:
+        for name, object_identity, mutation, expected in EXTRA_FAULTS:
             folder = CLONE_ROOT / name
             folder.mkdir(parents=True, exist_ok=True)
+            detail: dict[str, Any] = {
+                'case': name,
+                'object_identity': object_identity,
+                'status': 'PENDING',
+                'stage': 'PREPARE_CLONE',
+                'fault_executor': 'supabase_admin',
+                'expected_rejection': expected,
+            }
+            results.append(detail)
+            persist_extra('IN_PROGRESS', results)
             try:
                 matrix.prepare('AB', 'REPORT', folder, source_generation='AB')
-                with psycopg.connect(matrix.CLONE, autocommit=True) as conn:
-                    conn.execute(mutation, prepare=False)
+                detail['stage'] = 'APPLY_FAULT'
+                persist_extra('IN_PROGRESS', results)
+                apply_extra_fault(mutation)
+                detail['fault_applied'] = True
+                detail['stage'] = 'VERIFY_PREFLIGHT_REJECTION'
+                persist_extra('IN_PROGRESS', results)
                 rejection = None
                 try:
                     maintenance.run_maintenance_rollback(
@@ -316,6 +412,7 @@ def verify_extra_preflight_guards() -> list[dict[str, Any]]:
                     )
                 except (maintenance.MaintenanceRollbackError, AssertionError) as exc:
                     rejection = str(exc)
+                detail['actual_rejection'] = rejection
                 if rejection is None or expected not in rejection:
                     raise AssertionError(
                         'AB_EXTRA_PREFLIGHT_WRONG_REJECTION: ' + name
@@ -339,17 +436,28 @@ def verify_extra_preflight_guards() -> list[dict[str, Any]]:
                     raise AssertionError(
                         'AB_EXTRA_PREFLIGHT_STATE_CHANGED: ' + name
                     )
-                results.append({
-                    'case': name, 'status': 'PASS',
-                    'admission_closed': False, 'rollback_started': False,
-                    'installed_generation_preserved': True,
-                })
+                detail.update(
+                    status='PASS', stage='COMPLETE',
+                    expected_rejection_observed=True,
+                    admission_closed=False, rollback_started=False,
+                    installed_generation_preserved=True,
+                )
+                persist_extra('IN_PROGRESS', results)
+            except Exception as exc:
+                detail.update(
+                    status='FAIL',
+                    error_type=type(exc).__name__,
+                    error_message=str(exc),
+                )
+                persist_extra('FAIL', results)
+                raise
             finally:
                 try:
                     matrix.reopen_clone()
                 except Exception:
                     pass
                 matrix.legacy.drop_clone()
+    persist_extra('PASS', results)
     return results
 
 
