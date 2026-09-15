@@ -144,7 +144,7 @@ def run() -> dict[str, Any]:
         or guards.get("ac_residue_zero") is not True
         or restore.get("status") != "PASS"
         or restore.get("complete_function_count") != 533
-        or restore.get("restored_table_count") != 215
+        or restore.get("restored_table_count") != 216
         or not restore.get("definitions_owners_acls_exact")
         or not restore.get("full_table_boundary_exact")
     ):
