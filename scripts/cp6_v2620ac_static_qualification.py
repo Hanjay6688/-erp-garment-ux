@@ -264,6 +264,19 @@ def run() -> dict[str, object]:
             raise AssertionError(f"AC_ENGINE_NORMALIZED_VIEW_GUARD:{label}")
     if "r.before_sha256 not in(v_false,v_pretty)" in migration + rollback:
         raise AssertionError("AC_RAW_VIEW_DUMP_HASH_GUARD_REINTRODUCED")
+    acl_control = builder.relation_acl(
+        "GRANT SELECT ON TABLE erp.ac_acl_probe TO authenticated;\n"
+        "GRANT SELECT,MAINTAIN ON TABLE erp.ac_acl_probe TO anon;\n"
+        "GRANT ALL ON TABLE erp.ac_acl_probe TO service_role;\n",
+        "ac_acl_probe",
+    )
+    if acl_control != [
+        "anon=rm/postgres",
+        "authenticated=r/postgres",
+        "postgres=arwdDxtm/postgres",
+        "service_role=arwdDxtm/postgres",
+    ]:
+        raise AssertionError("AC_POSTGRES17_MAINTAIN_ACL_PIN")
     expected_functions = {item["after_sha"]: item for item in pins["functions"]}
     observed_function_hashes = [sha(definition) for definition in functions]
     if (
@@ -353,6 +366,7 @@ def run() -> dict[str, object]:
             "rollback": 2,
             "source_hashes_retained": True,
         },
+        "postgres17_maintain_acl_pinned": True,
         "stale_transaction_clock_tokens": stale,
         "migration_lexical": lexical_balance(migration, "migration"),
         "rollback_lexical": lexical_balance(rollback, "rollback"),

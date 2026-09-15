@@ -24,9 +24,9 @@ PINS = Path("docs/evidence/cp6-ac-runtime-pins.json")
 DISPOSITION = Path("docs/evidence/cp6-ac-temporal-disposition.json")
 
 # Updated only when the deterministic AC generator output changes.
-MIGRATION_SHA256 = "d0742ed0c465503907ae9a9136779138996403be14e96592cdbf63c81001b21f"
-ROLLBACK_SHA256 = "b709de6e0849dd86720ea4620bb680aee19381622326bb3d1e5bc899148ef4a7"
-PINS_SHA256 = "c18cfeae29d10cd850818a17b75e91c30e22369329e051c54e90500b2fb4358e"
+MIGRATION_SHA256 = "9645ae6a2f80c364b3c51ef34747f6dbe313f661a3d2f9fd0b696026832b5555"
+ROLLBACK_SHA256 = "fd4f515991d7f1f2f23025bb0d5fdca468ee718b9648e93ec11ed8a56bc64492"
+PINS_SHA256 = "71f6d082fa61bcf2e1bba1fb14da42cd292ebea88f14e65cc123094cd0c3e218"
 DISPOSITION_SHA256 = "28c39de13bfb8707cd518207d369eab57f4b90d51308517e83f581236db22576"
 
 AB_HEAD = "e2aa399cfc787d848c1f136e8e563c5304d09a87"
@@ -55,6 +55,7 @@ AC_SOURCE_ADMISSION_REPAIR_FILES = {
 }
 AC_SUCCESSOR_REPAIR_FILES = AC_SOURCE_ADMISSION_REPAIR_FILES | {
     ".github/workflows/cp6-full-schema-validation.yml",
+    "docs/evidence/cp6-ac-runtime-pins.json",
     "scripts/check-cp6-expanded-audit-closure.mjs",
     "scripts/cp6_v2620ac_build_sql.py",
     "scripts/cp6_v2620ac_install_qualification.py",

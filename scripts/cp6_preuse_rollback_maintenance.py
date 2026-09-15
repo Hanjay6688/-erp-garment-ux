@@ -30,7 +30,7 @@ from psycopg.conninfo import conninfo_to_dict
 TARGETS: dict[str, dict[str, Any]] = {
     'AC': {
         'rollback': Path('supabase/rollbacks/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.rollback.sql'),
-        'rollback_sha256': 'b709de6e0849dd86720ea4620bb680aee19381622326bb3d1e5bc899148ef4a7',
+        'rollback_sha256': 'fd4f515991d7f1f2f23025bb0d5fdca468ee718b9648e93ec11ed8a56bc64492',
         'marker': 'v2.6.20ac',
         'platform': 'erp_v2_6_20ac_cp6_temporal_surface_closure',
         'predecessor': 'v2.6.20ab',

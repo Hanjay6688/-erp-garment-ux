@@ -88,9 +88,10 @@ def relation_acl(dump: str, name: str) -> list[str] | None:
     privilege_code = {
         "INSERT": "a", "SELECT": "r", "UPDATE": "w", "DELETE": "d",
         "TRUNCATE": "D", "REFERENCES": "x", "TRIGGER": "t",
+        "MAINTAIN": "m",
     }
-    canonical_order = "arwdDxt"
-    acl = ["postgres=arwdDxt/postgres"]
+    canonical_order = "arwdDxtm"
+    acl = ["postgres=arwdDxtm/postgres"]
     for privileges, role in grants:
         if privileges == "ALL":
             codes = canonical_order

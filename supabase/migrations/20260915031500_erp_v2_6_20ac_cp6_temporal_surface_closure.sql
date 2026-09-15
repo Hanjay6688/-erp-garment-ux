@@ -162,7 +162,7 @@ insert into pg_temp.cp6_ac_expected_views values
     base_uom_code,
     erp.accessory_category_weighted_avg_cost_at(id, statement_timestamp()) AS weighted_avg_cost_per_base_uom
    FROM erp.accessory_categories c
-  WHERE (is_active = true)','3c65f5daf0201efb3a1c4084c1c322c2fac7563f09aeddf222a3ceba772c9d5f','postgres',array['authenticated=r/postgres','postgres=arwdDxt/postgres','service_role=arwdDxt/postgres']::text[],array['security_invoker=true']::text[],false,'d789c6407e1b123a76af390e58f97856daf4c7d5d4fb1615d40c13bc45aee9c6'),
+  WHERE (is_active = true)','3c65f5daf0201efb3a1c4084c1c322c2fac7563f09aeddf222a3ceba772c9d5f','postgres',array['authenticated=r/postgres','postgres=arwdDxtm/postgres','service_role=arwdDxtm/postgres']::text[],array['security_invoker=true']::text[],false,'d789c6407e1b123a76af390e58f97856daf4c7d5d4fb1615d40c13bc45aee9c6'),
   ('erp.v_accessory_hpp_setup','SELECT p.id AS product_id,
     p.sku,
     p.product_name,
@@ -211,7 +211,7 @@ insert into pg_temp.cp6_ac_expected_views values
    FROM (((erp.v_products_current p
      LEFT JOIN erp.accessory_bom_versions abv ON (((abv.product_id = p.identity_root_id) AND (abv.is_active = true) AND (abv.effective_from <= statement_timestamp()) AND ((abv.effective_to IS NULL) OR (abv.effective_to > statement_timestamp())))))
      LEFT JOIN erp.accessory_bom_items abi ON ((abi.bom_version_id = abv.id)))
-     LEFT JOIN erp.accessory_categories ac ON ((ac.id = abi.category_id)))','0ffbf3ab054353a4e4f765acb1bc2adb2e84eef5cab4cc15ece28fd355e9d062','postgres',array['authenticated=r/postgres','postgres=arwdDxt/postgres','service_role=arwdDxt/postgres']::text[],array['security_invoker=true']::text[],false,'9a68930724dcce7a56fae5130bf256e1f8dcd8e5e091a3b0717f9f6f2792a787'),
+     LEFT JOIN erp.accessory_categories ac ON ((ac.id = abi.category_id)))','0ffbf3ab054353a4e4f765acb1bc2adb2e84eef5cab4cc15ece28fd355e9d062','postgres',array['authenticated=r/postgres','postgres=arwdDxtm/postgres','service_role=arwdDxtm/postgres']::text[],array['security_invoker=true']::text[],false,'9a68930724dcce7a56fae5130bf256e1f8dcd8e5e091a3b0717f9f6f2792a787'),
   ('erp.v_accessory_master_browser','WITH stock AS (
          SELECT v_material_stock_balance.material_id,
             sum(v_material_stock_balance.stock_qty) AS stock_qty,
@@ -306,7 +306,7 @@ insert into pg_temp.cp6_ac_expected_views values
           WHERE ((p.category_id = ac.id) AND (p.contractor_id IS NULL) AND (p.effective_from <= statement_timestamp()) AND ((p.effective_to IS NULL) OR (p.effective_to > statement_timestamp())))
           ORDER BY p.effective_from DESC
          LIMIT 1) gp ON (true))
-  WHERE ((m.material_type)::text = ''ACCESSORY''::text)','45d7858bb4c0650fa8c07810c6db0b0b219ade8981c26cbcf62ad078ca6be1ef','postgres',array['authenticated=r/postgres','postgres=arwdDxt/postgres']::text[],array['security_invoker=true']::text[],false,'abfc66c807a59209a8f9bec176b1d7b72f96917c3c548ba688d8e4e5556f66c3'),
+  WHERE ((m.material_type)::text = ''ACCESSORY''::text)','45d7858bb4c0650fa8c07810c6db0b0b219ade8981c26cbcf62ad078ca6be1ef','postgres',array['authenticated=r/postgres','postgres=arwdDxtm/postgres']::text[],array['security_invoker=true']::text[],false,'abfc66c807a59209a8f9bec176b1d7b72f96917c3c548ba688d8e4e5556f66c3'),
   ('erp.v_accessory_price_browser','SELECT p.id AS price_version_id,
     p.category_id,
     ac.category_code,
@@ -339,7 +339,7 @@ insert into pg_temp.cp6_ac_expected_views values
     concat_ws('' ''::text, ac.category_code, ac.category_name, c.contractor_code, c.contractor_name, p.selling_uom_code) AS search_text
    FROM ((erp.contractor_accessory_price_versions p
      JOIN erp.accessory_categories ac ON ((ac.id = p.category_id)))
-     LEFT JOIN erp.contractors c ON ((c.id = p.contractor_id)))','c6bd9e3d74accfb969b82adeaf33ad8e0f6207095576100052c1a76cafef176d','postgres',array['authenticated=r/postgres','postgres=arwdDxt/postgres']::text[],array['security_invoker=true']::text[],false,'1ca1a0f6e59f22d8e04816ce7cce4e0f9cfc785417104960a0818238f94f710f'),
+     LEFT JOIN erp.contractors c ON ((c.id = p.contractor_id)))','c6bd9e3d74accfb969b82adeaf33ad8e0f6207095576100052c1a76cafef176d','postgres',array['authenticated=r/postgres','postgres=arwdDxtm/postgres']::text[],array['security_invoker=true']::text[],false,'1ca1a0f6e59f22d8e04816ce7cce4e0f9cfc785417104960a0818238f94f710f'),
   ('erp.v_current_product_prices','SELECT DISTINCT ON (product_id) product_id,
     price,
     effective_from
@@ -350,7 +350,7 @@ insert into pg_temp.cp6_ac_expected_views values
     effective_from
    FROM erp.product_price_versions ppv
   WHERE ((effective_from <= statement_timestamp()) AND ((effective_to IS NULL) OR (effective_to > statement_timestamp())))
-  ORDER BY product_id, effective_from DESC, created_at DESC','3610e705fd0bd193945dd8a8241d8b1706a536ecdaa567c4bdd8adc6f58e3e12','postgres',array['authenticated=r/postgres','postgres=arwdDxt/postgres','service_role=arwdDxt/postgres']::text[],array['security_invoker=true']::text[],false,'8b10d8668e05b36209e14e4f00965b244cd406628fafd8b4a5f2eae89a71e46f'),
+  ORDER BY product_id, effective_from DESC, created_at DESC','3610e705fd0bd193945dd8a8241d8b1706a536ecdaa567c4bdd8adc6f58e3e12','postgres',array['authenticated=r/postgres','postgres=arwdDxtm/postgres','service_role=arwdDxtm/postgres']::text[],array['security_invoker=true']::text[],false,'8b10d8668e05b36209e14e4f00965b244cd406628fafd8b4a5f2eae89a71e46f'),
   ('erp.v_fabric_master_current_benchmark','SELECT m.id AS material_id,
     m.material_sku,
     m.material_name,
@@ -435,7 +435,7 @@ insert into pg_temp.cp6_ac_expected_views values
           WHERE ((x.material_id = m.id) AND (x.effective_from <= statement_timestamp()) AND ((x.effective_to IS NULL) OR (statement_timestamp() < x.effective_to)))
           ORDER BY x.effective_from DESC
          LIMIT 1) bp ON (true))
-  WHERE ((m.material_type)::text = ''FABRIC''::text)','c194577448dbfdfbeabec3219a328c4c1e6826c83223395bb8716e285dd246b6','postgres',array['authenticated=r/postgres','postgres=arwdDxt/postgres']::text[],array['security_invoker=true']::text[],false,'c93e807d0f0b44b052c2413c5a4632564b604c5b702f45d9c7d75a5cc30d13d0'),
+  WHERE ((m.material_type)::text = ''FABRIC''::text)','c194577448dbfdfbeabec3219a328c4c1e6826c83223395bb8716e285dd246b6','postgres',array['authenticated=r/postgres','postgres=arwdDxtm/postgres']::text[],array['security_invoker=true']::text[],false,'c93e807d0f0b44b052c2413c5a4632564b604c5b702f45d9c7d75a5cc30d13d0'),
   ('erp.v_material_purchase_liability_status','SELECT h.id AS purchase_id,
     h.purchase_number,
     h.supplier_id,
@@ -526,7 +526,7 @@ insert into pg_temp.cp6_ac_expected_views values
    FROM ((erp.material_purchase_headers h
      LEFT JOIN erp.suppliers s ON ((s.id = h.supplier_id)))
      LEFT JOIN erp.material_purchase_items i ON ((i.purchase_id = h.id)))
-  GROUP BY h.id, s.id','d0a42f5eb48da1e91534a43a7e1aa4ebeda6894805e86659880fe8603d2304f9','postgres',array['authenticated=r/postgres','postgres=arwdDxt/postgres']::text[],array['security_invoker=true']::text[],false,'c49b2bc36cd0d84ccff7384631a9f75ee69ea8f4db3f404f749b8f32149dc140'),
+  GROUP BY h.id, s.id','d0a42f5eb48da1e91534a43a7e1aa4ebeda6894805e86659880fe8603d2304f9','postgres',array['authenticated=r/postgres','postgres=arwdDxtm/postgres']::text[],array['security_invoker=true']::text[],false,'c49b2bc36cd0d84ccff7384631a9f75ee69ea8f4db3f404f749b8f32149dc140'),
   ('erp.v_material_supplier_invoice_browser','SELECT h.id AS supplier_invoice_id,
     h.invoice_number,
     h.supplier_id,
@@ -595,7 +595,7 @@ insert into pg_temp.cp6_ac_expected_views values
      LEFT JOIN erp.material_supplier_invoice_lines l ON ((l.invoice_id = h.id)))
      LEFT JOIN erp.material_purchase_items i ON ((i.id = l.purchase_item_id)))
      LEFT JOIN erp.material_purchase_headers ph ON ((ph.id = i.purchase_id)))
-  GROUP BY h.id, s.id','aed6fdcc147d2f379a31b2c3db4a5fdc78f98be5c8ee700f0871e9096a198c71','postgres',array['authenticated=r/postgres','postgres=arwdDxt/postgres']::text[],array['security_invoker=true']::text[],false,'50d32d01f3455eb5e94003bb920ca3e5bd5f6f586fbb690510f465b03d6a245c'),
+  GROUP BY h.id, s.id','aed6fdcc147d2f379a31b2c3db4a5fdc78f98be5c8ee700f0871e9096a198c71','postgres',array['authenticated=r/postgres','postgres=arwdDxtm/postgres']::text[],array['security_invoker=true']::text[],false,'50d32d01f3455eb5e94003bb920ca3e5bd5f6f586fbb690510f465b03d6a245c'),
   ('erp.v_payroll_nota_browser','SELECT n.id AS payroll_id,
     n.payroll_number,
     n.contractor_id,
@@ -670,7 +670,7 @@ insert into pg_temp.cp6_ac_expected_views values
             COALESCE(sum(q.remaining_qty), (0)::bigint) AS eligible_qty,
             COALESCE(sum(((q.remaining_qty)::numeric * q.rate_snapshot)), (0)::numeric) AS eligible_amount
            FROM erp.v_payroll_eligible_work_lines q
-          WHERE ((q.contractor_id = n.contractor_id) AND (((q.eligible_at) AT TIME ZONE ''Asia/Jakarta'')::date <= n.period_end))) e ON (true))','16f47474d81b89b0639a3c46cd49c90140691926e4cc03d610e493b1677ca226','postgres',array['authenticated=r/postgres','postgres=arwdDxt/postgres']::text[],array['security_invoker=true']::text[],false,'278040c49bd65164dec4e31948cb910127704bf6072c0b801147270a57567989'),
+          WHERE ((q.contractor_id = n.contractor_id) AND (((q.eligible_at) AT TIME ZONE ''Asia/Jakarta'')::date <= n.period_end))) e ON (true))','16f47474d81b89b0639a3c46cd49c90140691926e4cc03d610e493b1677ca226','postgres',array['authenticated=r/postgres','postgres=arwdDxtm/postgres']::text[],array['security_invoker=true']::text[],false,'278040c49bd65164dec4e31948cb910127704bf6072c0b801147270a57567989'),
   ('erp.v_product_price_current','SELECT p.id AS product_id,
     p.identity_root_id,
     p.sku,
@@ -894,7 +894,7 @@ insert into pg_temp.cp6_ac_expected_views values
             ELSE ''90_PLUS''::text
         END AS aging_bucket
    FROM ap
-  WHERE ((payable_amount > 0.005) OR (paid_amount > 0.005))','e78b3217d9b8ec92f1eec54758c85bbb0216935d0334bcfdce476ad530700a67','postgres',array['authenticated=r/postgres','postgres=arwdDxt/postgres']::text[],array['security_invoker=true']::text[],false,'0fc6adaf1402343b9dc5a598bcdfea318ff67fea4e8a2a493b0c6f58d014db25');
+  WHERE ((payable_amount > 0.005) OR (paid_amount > 0.005))','e78b3217d9b8ec92f1eec54758c85bbb0216935d0334bcfdce476ad530700a67','postgres',array['authenticated=r/postgres','postgres=arwdDxtm/postgres']::text[],array['security_invoker=true']::text[],false,'0fc6adaf1402343b9dc5a598bcdfea318ff67fea4e8a2a493b0c6f58d014db25');
 
 create temporary table cp6_ac_expected_defaults(
   identity text primary key,table_name text not null,column_name text not null,
