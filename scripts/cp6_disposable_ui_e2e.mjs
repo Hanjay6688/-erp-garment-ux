@@ -106,7 +106,7 @@ const state = () => JSON.parse(query(`select jsonb_build_object(
  'fg',(select coalesce(sum(debit-credit),0) from erp.journal_lines where po_id='${f.po}' and account_id=erp.account_id('FG_INVENTORY')),
  'accrued',(select coalesce(sum(debit-credit),0) from erp.journal_lines where po_id='${f.po}' and account_id=erp.account_id('ACCRUED_MANUFACTURING')),
  'ready',(select unsent_ready_qty_pcs from erp.v_wip_control_status_v1 where cutting_group_id='${f.group}'),
- 'posted_delivery',(select count(*) from erp.laundry_deliveries where po_id='${f.po}' and status='POSTED'),
+ 'posted_delivery',(select count(*) from erp.laundry_deliveries where po_id='${f.po}' and status in('SENT','PARTIAL_RETURN','RETURNED','CLOSED')),
  'posted_qc',(select count(*) from erp.qc_inspections where po_id='${f.po}' and status='POSTED'),
  'qc_bs',(select coalesce(sum(i.qty_bs_pcs),0) from erp.qc_inspection_items i join erp.qc_inspections q on q.id=i.inspection_id where q.po_id='${f.po}' and q.status='POSTED'),
  'unbalanced',(select count(*) from (select e.id from erp.journal_entries e join erp.journal_lines l on l.journal_entry_id=e.id where exists(select 1 from erp.journal_lines s where s.journal_entry_id=e.id and s.po_id='${f.po}') group by e.id having sum(l.debit)<>sum(l.credit)) x),

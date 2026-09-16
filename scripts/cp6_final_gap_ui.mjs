@@ -277,7 +277,7 @@ export async function runIndependentGaps(c){
       const initial=state(),baselineReport=financialReport()
       assert.equal(initial.fg_qty,0);assert.equal(initial.wip,0)
       await nav(page,'Laundry');await sendForm(page);await mutation(page,'Post pengiriman atomic','POST_DELIVERY')
-      const sent=query(`select id from erp.laundry_deliveries where po_id='${f.po}' and status='POSTED' order by created_at desc limit 1`)
+      const sent=query(`select id from erp.laundry_deliveries where po_id='${f.po}' and status='SENT' order by created_at desc limit 1`)
       assert.match(sent,idRx)
       await remainingRoleCases(sent)
       // Keep collecting after an individual permission control fails. Restore

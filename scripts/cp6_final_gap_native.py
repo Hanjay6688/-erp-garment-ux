@@ -106,6 +106,13 @@ def calendar_case_body(cur, today, purchased, received, zone, closed):
     errors, expected = accounting_mismatches(before, 100, 0, 100)
     if errors:
         return dict(status='INCOMPLETE', stage='FIXTURE_QUALIFICATION', mismatches=errors, state=before)
+    history_day = received-timedelta(days=1)
+    def historical_report():
+        production.owner(cur)
+        value = production.one(cur, 'select erp.get_owner_financial_snapshot_v2(%s,%s,%s)',
+                               (purchased, history_day, history_day))
+        return {key:value[key] for key in ('financial_position','performance')}
+    historical_before = historical_report()
     if closed:
         peer.ordinary(cur)
         cur.execute('select erp.close_accounting_through(%s,%s)',
@@ -132,12 +139,18 @@ def calendar_case_body(cur, today, purchased, received, zone, closed):
         ap += amount * rate
         state = production.observe(cur, f, today)
         mismatches, expected = accounting_mismatches(state, ap + remaining * 10, ap, remaining * 10)
+        historical_after = historical_report()
+        if historical_after != historical_before:
+            mismatches['report_before_invoice_receipt_changed'] = dict(
+                as_of=history_day,before=historical_before,after=historical_after)
         if not exact:
             mismatches['same_request_replay'] = 'Response or data changed'
         if any(row[1] != 'DONE' for row in state['queue']):
             mismatches['queue'] = state['queue']
         observations.append(dict(qty=amount, rate=rate, expected=expected, state=state,
-                                 replay_exact=exact, mismatches=mismatches))
+                                 replay_exact=exact, historical_report_day=history_day,
+                                 historical_report_unchanged=historical_after==historical_before,
+                                 mismatches=mismatches))
     return dict(status='BUG_PROVEN' if any(x['mismatches'] for x in observations) else 'PASS',
                 purchase_date=purchased, invoice_received=received, elapsed_days=(received-purchased).days,
                 session_zone=zone, receipt_day_closed=closed, invoice_number_count=2,
@@ -187,6 +200,24 @@ def import_case(cur, today, variant):
     if variant != 'VALID':
         result['status'] = 'PASS' if validation_error is None and all(r[1]=='ERROR' and r[2] for r in rows) else 'GAP_PROVEN'
         result['requirement'] = 'Owner master section21.1: row-level errors for import validation'
+        # Separately distinguish missing row diagnostics from bad data being
+        # admitted. A batch-wide exception alone is not proof of bad posting.
+        cur.execute('savepoint prepare_invalid')
+        refused = None
+        try:
+            actors.owner(cur)
+            cur.execute('select erp.prepare_migration_opening_balance(%s,%s)',
+                        (batch,'INVALID-'+uuid.uuid4().hex[:16])).fetchone()
+        except psycopg.Error as exc:
+            refused = dict(sqlstate=exc.sqlstate,message=exc.diag.message_primary)
+        finally:
+            cur.execute('rollback to savepoint prepare_invalid')
+            cur.execute('release savepoint prepare_invalid')
+        actors.admin(cur)
+        result['invalid_prepare_refusal'] = refused
+        result['invalid_prepare_ledger_unchanged'] = production.ledger(cur)==balance_before
+        if refused is None or not result['invalid_prepare_ledger_unchanged']:
+            result['status'] = 'BUG_PROVEN'
         return result
     assert validation_error is None and summary == [(1,1,0)] and rows[0][1]=='VALID', result
     actors.owner(cur)

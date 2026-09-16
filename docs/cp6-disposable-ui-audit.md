@@ -1,4 +1,22 @@
-# Independent follow-up — R1 incomplete, qualified retry
+# Independent follow-up — R2 findings, continuation pending
+
+R2 harness `f7ca546c561bbe0ad1685823f5b5096824e5ec25`, tree
+`547bde2b288a098f76c5df4808e9a7d1815d088b`, ran in Native 35141866592.
+All 24 calendar invoices and four raw-staging controls passed. NONNUMERIC_QTY
+and MISSING_COST stop batch validation and leave the row PENDING without
+persisted row errors: two GAP_PROVEN, zero business BUG_PROVEN, zero incomplete
+native cases. Ledger was unchanged. CSV transport is still untested.
+The four real controlled-clock cases passed on exact AI-R2. Real UI completed
+48 missing-permission pairs, eight allowed create/hold controls and five legacy
+BS UI lifecycle controls. Native UI rework stopped on a harness lookup using
+POSTED instead of the source's actual SENT delivery status. That lookup and the
+inherited delivery-count observer are corrected; assertions are retained.
+Exact AH restore and complete Auth/clone/container cleanup passed. CodeQL
+35141866598 succeeded in all four languages. Artifact 10466380365 was checked
+at 3,371,084 bytes, SHA-256
+`d3c2d677b4146475c775efeb2132d00ae87920903d801a0b5964fc46a1f36f1c`.
+The next observation additionally checks the report before invoice receipt
+and whether invalid staging is refused by prepare; no business code is patched.
 
 R1 audit harness `f963ca28b6ab02e3db9c8a8e3b40aac9d7e94f31` ran in
 Native 35140333202. The existing 142/16/23/12 groups and 43 UI assertions
