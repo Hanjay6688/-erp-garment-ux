@@ -51,6 +51,10 @@ def admission(mode):
 def original(mode):
  def run(cur,day):
   r=peer.sale_case(mode)(cur,day);assert r['status']=='CONTROL_PASS',r
+  if mode in ('BASE_POST','RPC_EDIT_PRODUCT','RPC_EDIT_QUANTITY','PRICE_ONLY','NOTES'):
+   assert not r.get('mutation',{}).get('refused',False),r
+  if mode in MODES:
+   assert 'AG_RESERVED_SALE_EDIT_REQUIRES_SAVE_RPC' in r['mutation']['error']['message'],r
   r['status']='PASS';r['unchanged_original_af_oracle']=True;return r
  return run
 
@@ -81,7 +85,9 @@ def rpc(mode):
   actors.admin(cur);boundary=actors.boundary(cur);version=f['sale']['row_version']-(1 if mode=='STALE' else 0);req=uuid.uuid4()
   change=peer.operation(cur,'select erp.save_sale_draft_v2(%s::jsonb,%s,%s)',(json.dumps(payload),req,version))
   if mode in('INSUFFICIENT','STALE'):
-   assert change['refused'],change;actors.admin(cur);assert actors.boundary(cur)==boundary
+   assert change['refused'],change
+   assert ('Insufficient FG stock' if mode=='INSUFFICIENT' else 'STALE_VERSION') in change['error']['message'],change
+   actors.admin(cur);assert actors.boundary(cur)==boundary
    return {'status':'PASS','atomic_refusal':change,'report':report(cur,day)}
   assert not change['refused'],change
   saved=change['rows'][0][0];retry=peer.operation(cur,'select erp.save_sale_draft_v2(%s::jsonb,%s,%s)',(json.dumps(payload),req,version));assert retry['rows']==change['rows']
@@ -111,15 +117,16 @@ def detector(mode,posted):
   report(cur,day);tamper(cur,f,mode,day)
   r=report(cur,day,True);r.update(synthetic_detector_control=True,not_a_new_business_counterexample=True)
   if not posted:
-   before=actors.boundary(cur);post=peer.operation(cur,'select erp.post_sale(%s)',(f['sale']['sale_id'],));assert post['refused'],post
+   before=actors.boundary(cur);version=base.one(cur,'select row_version from erp.sales_headers where id=%s',(f['sale']['sale_id'],))
+   post=peer.operation(cur,'select erp.post_sale_v2(%s,%s,%s)',(f['sale']['sale_id'],uuid.uuid4(),version));assert post['refused'],post
    expected='Sale Draft reservation mismatch' if mode=='QUANTITY' else 'AG_SALE_RESERVATION_LINEAGE_MISMATCH'
    assert expected in post['error']['message'],post
-   actors.admin(cur);assert actors.boundary(cur)==before;r['legacy_post_refusal']=post
+   actors.admin(cur);assert actors.boundary(cur)==before;r['public_post_v2_refusal']=post
   return r
  return run
 
 def original_sql(cur,day):
- actors.owner(cur);cur.execute(Path('supabase/tests/sale_draft_reservation_rollback.sql').read_text(),prepare=False)
+ actors.admin(cur);cur.execute("set local session authorization postgres;set local timezone='UTC'");cur.execute(Path('supabase/tests/sale_draft_reservation_rollback.sql').read_text(),prepare=False)
  return {'status':'PASS','original_oracle':'supabase/tests/sale_draft_reservation_rollback.sql'}
 
 def phase_cases(phase):
@@ -135,7 +142,10 @@ def phase_cases(phase):
   import cp6_v2620h_adversarial_regression as h
   def old(fn):
    def run(cur,day):
-    actors.owner(cur);r=fn(cur);assert r.get('status')=='PASS',r;return r
+    # Retain the original legacy-oracle execution identity. These cases
+    # include private helpers; they do not establish ordinary/HTTP access.
+    actors.admin(cur);cur.execute("set local session authorization postgres;set local timezone='UTC'")
+    r=fn(cur);assert r.get('status')=='PASS',r;r['legacy_privileged_sql_oracle']=True;return r
    return run
   return list(af.phase_cases('crossflow'))+[(n,old(fn)) for n,fn in [('F_A01',f.case_a01),('F_A02',f.case_a02),('F_A03',f.case_a03),('H_R02',h.case_r02),('H_R03_UNDERPAID',h.case_r03_underpaid),('H_R03_PAID_RETURN',h.case_r03_paid_return),('H_R03_OVERPAID',h.case_r03_overpaid)]]+[('ORIGINAL_DRAFT_LIFECYCLE',original_sql)]
  raise AssertionError(phase)

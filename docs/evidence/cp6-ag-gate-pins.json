@@ -15,8 +15,8 @@
       "sha256": "d35471d77f8f9d44eaf88f2c3a406277023315d904b117121146e26b36a0d14e"
     },
     "docs/cp6-ag-competition-handoff.md": {
-      "bytes": 3637,
-      "sha256": "473609c36bfc9ad2e5b7b9cd29c2da8cb42a7199f9128f8facb3fc91b377b807"
+      "bytes": 3838,
+      "sha256": "3446162382b18ad7d4db9305d3b67e6cc601aea02f0eb315f170102004feb205"
     },
     "docs/evidence/cp6-ag-af-catalog-pins.json": {
       "bytes": 144406,
@@ -51,8 +51,8 @@
       "sha256": "130e6482d1c93249cce1e32877463ba2d1cea11f385a97154998278c5a3d0021"
     },
     "scripts/cp6_v2620ag_family.py": {
-      "bytes": 13273,
-      "sha256": "f440653c95d38ad055580c5505572fbdf10edca93ba5a89fbb57a5ddd9d7115c"
+      "bytes": 14140,
+      "sha256": "33ff2bf213fae110d57235a67b9a7afc303db1410debf4f62908d4647125cb4e"
     },
     "scripts/cp6_v2620ag_maintenance_schedules.py": {
       "bytes": 5626,

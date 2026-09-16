@@ -44,7 +44,9 @@ acceptance never grants independent PASS.
 Limits: native tests temporarily grant schema USAGE to authenticated and restore
 it. No new table privileges are granted. Signed HTTP, UI, real CSV and hosted
 execution are **BELUM TERUJI**. SalesPages remains an explicitly local simulation.
-Detector controls with privileged inconsistent data only prove detectors; original
+F/H legacy cases retain their original postgres SQL identity; they do not prove
+ordinary helper access. New ordinary posting controls use post_sale_v2; private
+post_sale EXECUTE grants stay unchanged. Detector controls with privileged inconsistent data only prove detectors; original
 business counterexamples are the five ordinary AF transactions above.
 
 Next reviewer: pin latest branch and exact evidence, verify fixes and normal
