@@ -25,7 +25,8 @@ assert.ok(anon && service)
 const origin = 'http://127.0.0.1:4176'
 const apiOrigin = 'http://127.0.0.1:54328'
 const users = [], secrets = [anon, service]
-let ownerId, reportBaseline
+let ownerId, reportBaseline, parseWorkspace
+const workspaceObservations = new Set()
 const f = {
   po: 'c8c40000-0000-4000-8000-000000000001',
   group: 'c8c40000-0000-4000-8000-000000000003',
@@ -54,6 +55,7 @@ const report = {
   independent_acceptance: false, database_disposal_required: true,
   browser_transport_failures: [],
   browser_cors_errors: [],
+  workspace_diagnostics: [],
 }
 mkdirSync(reportDir, {recursive:true})
 const save = () => writeFileSync(resolve(reportDir,'UI.json'), JSON.stringify(report,null,2)+'\n')
@@ -154,6 +156,10 @@ async function mapUser(token,user,permissions,active=true) {
 let proxy, preview, browser, failure
 const safeEnv = Object.fromEntries(['PATH','HOME','CI','TMPDIR','RUNNER_TEMP','PLAYWRIGHT_BROWSERS_PATH'].filter(k=>process.env[k]).map(k=>[k,process.env[k]]))
 async function startApplication() {
+  const parserSource=readFileSync(resolve(root,'src/laundryQcModel.ts'),'utf8')
+  const parserCode=stripTypeScriptTypes(parserSource,{mode:'strip'})
+  parseWorkspace=(await import('data:text/javascript;base64,'+Buffer.from(parserCode).toString('base64'))).parseLaundryQcWorkspace
+  report.workspace_parser_sha256=createHash('sha256').update(parserSource).digest('hex')
   // One fixed origin for supabase-js; transparent forwarding to real services.
   proxy=http.createServer((req,res)=>{
     const allowedOrigin=req.headers.origin===origin
@@ -217,6 +223,31 @@ async function pageFor(user,mobile=false) {
     error:request.failure()?.errorText||'unknown'}))
   page.on('response',response=>{if(response.status()>=400)report.browser_transport_failures.push({
     phase:report.current_phase,path:new URL(response.url()).pathname,status:response.status()})})
+  page.on('response',response=>{
+    if(!response.url().endsWith('/rpc/erp_get_laundry_qc_workspace_v1'))return
+    const phase=report.current_phase
+    const task=(async()=>{
+      try{
+        const value=await response.json(),request=response.request().postDataJSON()
+        let parserError
+        if(response.status()===200){try{parseWorkspace(value)}catch(error){parserError=error.message}}
+        if(response.status()!==200||parserError){
+          let detail=JSON.stringify({phase,http_status:response.status(),scope:request?.p_scope,query:request?.p_query,
+            parser_error:parserError||null,server_error:response.status()===200?null:value,
+            workspace_sha256:createHash('sha256').update(JSON.stringify(value)).digest('hex'),
+            observed_workspace:response.status()===200?Object.fromEntries(
+              ['contract_version','scope','readiness','collection_window','ready_batches','deliveries','qc_queue','qc_history','lookups']
+                .filter(key=>key in value).map(key=>[key,value[key]])):null})
+          for(const secret of secrets.filter(Boolean))detail=detail.split(secret).join('[REDACTED]')
+          detail=detail.replace(/eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+/g,'[JWT REDACTED]')
+          const evidence=JSON.parse(detail);report.workspace_diagnostics.push(evidence)
+          console.log('CP6 UI workspace diagnosis: '+JSON.stringify({...evidence,observed_workspace:undefined}))
+          save()
+        }
+      }catch(error){report.workspace_diagnostics.push({phase,observation_error:error.name})}
+    })()
+    workspaceObservations.add(task);void task.finally(()=>workspaceObservations.delete(task))
+  })
   page.on('console',message=>{
     if(!message.text().includes('CORS'))return
     let text=message.text()
@@ -438,6 +469,7 @@ try {
   report.failure={phase:report.current_phase,message:message.slice(0,9000)}
   report.status='INCOMPLETE'
 }finally{
+  await Promise.all([...workspaceObservations])
   report.cleanup={status:'INCOMPLETE'};save()
   try{
     await browser?.close()

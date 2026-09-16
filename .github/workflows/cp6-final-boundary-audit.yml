@@ -114,6 +114,47 @@ jobs:
         set -euo pipefail
         (cd harness && python scripts/cp6_disposable_ui_scope.py)
         (cd candidate && python scripts/cp6_ai_gate_scope.py)
+    - name: Verify original ordinary staged QC counterexample
+      working-directory: harness
+      env:
+        GH_TOKEN: ${{ github.token }}
+      shell: bash
+      run: |
+        set -euo pipefail
+        gh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10460209095/zip > "$RUNNER_TEMP/cp6-ui-qc-original.zip"
+        python - <<'PY'
+        import hashlib,json,os,re,subprocess,zipfile
+        from pathlib import Path
+        p=Path(os.environ['RUNNER_TEMP'])/'cp6-ui-qc-original.zip'
+        digest=hashlib.sha256(p.read_bytes()).hexdigest()
+        assert p.stat().st_size==2491309
+        assert digest=='d06eebd9d9089c81b3f5d8f627fbfae5a5c8804331cda4d862b83d7947eb4088'
+        with zipfile.ZipFile(p) as z:
+            assert z.testzip() is None
+            for name in z.namelist():
+                assert not re.search(rb'eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+|-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY',z.read(name)),name
+            r=json.loads(z.read('candidate/cp6-proof/final-audit/UI.json'))
+            assert r['backend_head']=='25fa4736329e5148dfdb3572bc169952cba23251'
+            assert r['frontend_head']=='68db9a5387cb993921476433a964b68fa6d08521'
+            assert r['status']=='INCOMPLETE' and len(r['completed'])==8 and len(r['planned_case_ids'])==36
+            case=r['rejected_mutation']
+            assert case['http_status']==400 and case['response']['code']=='P0001'
+            assert case['response']['message']=='CP6 completion_mode PARTIAL_SELECTION conflicts with authoritative ready-for-QC remainder 0 after atomic posting'
+            payload=case['request']['p_payload']
+            assert payload['good_qty_pcs']==3 and payload['completion_mode']=='PARTIAL_SELECTION'
+            assert case['state_before']==case['state_after']
+            for key,value in {'fg_qty':5,'fg':35,'wip':35,'accrued':-70,'posted_qc':1,'fg_movements':1,'journal_rows':4,'unbalanced':0,'execution_context':0}.items():
+                assert case['state_after'][key]==value
+            original=subprocess.check_output(['git','show','25fa4736329e5148dfdb3572bc169952cba23251:src/ConnectedQcFinalPage.tsx'])
+            assert hashlib.sha256(original).hexdigest()==case['qc_ui_source_sha256']=='7d5ed652ce85d287ee5954800e16c2756633f5df37612e831dac978fb485897c'
+            assert r['cleanup']['status']=='PASS'
+        output=Path('../candidate/cp6-proof/final-audit/ORIGINAL_QC_COUNTEREXAMPLE.json')
+        output.parent.mkdir(parents=True,exist_ok=True)
+        output.write_text(json.dumps(dict(status='COUNTEREXAMPLE_VERIFIED',artifact_id=10460209095,sha256=digest,zip_crc='PASS',token_pattern_scan='PASS',
+            original_ui_source_sha256=case['qc_ui_source_sha256'],completed=8,planned=36,rejection=case['response'],atomic_state=case['state_after'],
+            new_candidate_acceptance=False,production_go=False),indent=2)+'\n')
+        print('CP6 original ordinary QC counterexample verified: exact ZIP, CRC, original UI source, HTTP refusal and atomic state')
+        PY
     - name: Start disposable database
       working-directory: base
       shell: bash

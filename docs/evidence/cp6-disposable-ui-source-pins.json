@@ -4,11 +4,11 @@
   "sha256": {
     ".github/workflows/cp6-ad-roll-opening-check.yml": "cc1c4ac7b684d296513f539832b5a975fea3b3b99bc1b7319f64d564bae230dd",
     ".github/workflows/cp6-full-schema-validation.yml": "478ad65c90150dbfbe24c537e38567d219a315d445e4b74759dde3dbf0f3f553",
-    ".github/workflows/cp6-final-boundary-audit.yml": "d0d398469ba86f158a55465fb3086bc0d8a6ffef8d1a8c5838c7694b7830860d",
+    ".github/workflows/cp6-final-boundary-audit.yml": "059d2bc8623ebd3c8cea3460d8c0f4f98f6479c5e6a547d2938e7c3b535e82bd",
     "package.json": "188026b2d570d1f5ebcc1e1f5a7a950ae0327c326da7a0e6ce8e22f8b99c4d20",
     "scripts/assert-cp6-disposable-env.mjs": "64d342f6db5cd929a3742315348c935e1bda2f9637e34a41d2a91f1cf5e68762",
     "scripts/build-preflight.mjs": "5d7b10fa241075ff8a4f3e6d5b438f2be26d1acd54b27fd76c67c38f79138c2f",
-    "scripts/cp6_disposable_ui_e2e.mjs": "071bb833af5fe9595d94272d38dbe48f6a9c4a2e6247dd406e30959ab0d47374",
+    "scripts/cp6_disposable_ui_e2e.mjs": "e369fa5372374f0e1946745343a1804e42cfb4176a51d7dd6f04818f35e0db94",
     "scripts/cp6_disposable_ui_scope.py": "30d19d96bb12b76d8c1ec36ded2e44ced9a00f098a404a45d9d52b967aa3a9b3",
     "src/AccessControlPage.tsx": "383b0bc132cbf0bf91334d84c5261f0746751163b630f14f7ec13c62c1b9deeb",
     "src/ConnectedBsResolutionPage.tsx": "f95ac0dc4731591059b389a93161b3a0b097e7fae5862b16d549592b00b3461d",

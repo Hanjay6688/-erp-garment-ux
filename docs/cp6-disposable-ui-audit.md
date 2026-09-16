@@ -205,3 +205,19 @@ basis ready, bukti cakupan antrean, penguncian saat cakupan tidak cukup,
 dan tiga kelompok regresi; ekspresi lama ditolak eksplisit. Seluruh bagian
 lain, termasuk immutable migration, role, financial/report checks dan rollback,
 tetap identik. Source pins/guard turut mencakup perubahan pemeriksa ini.
+
+Run 35130416443 pada 80e5729e095418d1a0c0c6c66c9649f14400eea4
+melewati unit/security/build dan menyelesaikan 10/38 kasus UI. Finalisasi 3
+yang sebelumnya ditolak kini berhasil; FG menjadi 8 pcs/nilai 56, WIP 14.
+Kontrol filter receipt menahan posting tanpa perubahan ledger. Saat kembali
+ke Laundry, halaman menampilkan kegagalan workspace. Akar masalah kedua
+belum dikualifikasi: pesan UI bersifat umum. Diagnostik berikut membaca
+respons asli dengan parser produk asli, merekam error transport/parser dan
+hash payload sintetis; tidak mengganti respons bisnis.
+
+Artifact 10460842458, 2491014 byte, GitHub-reported SHA-256
+`6606c380fa3132df700462de220629107d07c950d0c516902d5c6c8378f38747`.
+HTTP 95, restore dan cleanup selesai. Kelanjutan UI tetap INCOMPLETE.
+Counterexample pertama kini juga diverifikasi ulang di CI dari ZIP asli,
+termasuk checksum/CRC, pin modul pada AI-R2 dan kesamaan state sebelum/sesudah;
+gangguan executor lokal tidak menjadi alasan mengabaikan bukti masuk.
