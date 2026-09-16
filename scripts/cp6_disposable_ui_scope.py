@@ -37,6 +37,9 @@ src/config/runtime.test.ts
 src/config/runtime.ts
 src/lib/supabase.ts
 src/main.tsx
+src/laundryQcModel.ts
+src/laundryQcModel.test.ts
+tests/browser/cp6-laundry-qc.spec.ts
 src/useLaundryQcWorkspace.ts
 src/vite-env.d.ts'''.splitlines()
 

@@ -180,7 +180,7 @@ function laundryWorkspace(committed = false) {
         physical_at: '2026-09-04T00:50:00Z', actual_cost: null, actual_rate: null,
         cost_status: 'ESTIMATED', event_kind: 'PHYSICAL_RECEIPT',
         failed_wash_attempt_id: null, custody_outcome: null,
-        attempted_qty_pcs: null, process_name: null, reversible: false,
+        attempted_qty_pcs: null, process_name: 'Bio Wash', reversible: false,
         reversal_blocker: 'Receipt sudah dipakai QC; reverse QC aktif terlebih dahulu.',
       }],
     }, {

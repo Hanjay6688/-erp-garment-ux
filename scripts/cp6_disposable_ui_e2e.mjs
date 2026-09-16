@@ -97,6 +97,7 @@ const state = () => JSON.parse(query(`select jsonb_build_object(
  'ready',(select unsent_ready_qty_pcs from erp.v_wip_control_status_v1 where cutting_group_id='${f.group}'),
  'posted_delivery',(select count(*) from erp.laundry_deliveries where po_id='${f.po}' and status='POSTED'),
  'posted_qc',(select count(*) from erp.qc_inspections where po_id='${f.po}' and status='POSTED'),
+ 'qc_bs',(select coalesce(sum(i.qty_bs_pcs),0) from erp.qc_inspection_items i join erp.qc_inspections q on q.id=i.inspection_id where q.po_id='${f.po}' and q.status='POSTED'),
  'unbalanced',(select count(*) from (select e.id from erp.journal_entries e join erp.journal_lines l on l.journal_entry_id=e.id where exists(select 1 from erp.journal_lines s where s.journal_entry_id=e.id and s.po_id='${f.po}') group by e.id having sum(l.debit)<>sum(l.credit)) x),
  'journal_rows',(select count(*) from erp.journal_lines where po_id='${f.po}'),
  'fg_movements',(select count(*) from erp.fg_stock_movements m join erp.fg_lots l on l.id=m.lot_id where l.po_id='${f.po}'),
@@ -224,7 +225,7 @@ async function pageFor(user,mobile=false) {
   page.on('response',response=>{if(response.status()>=400)report.browser_transport_failures.push({
     phase:report.current_phase,path:new URL(response.url()).pathname,status:response.status()})})
   page.on('response',response=>{
-    if(!response.url().endsWith('/rpc/erp_get_laundry_qc_workspace_v1'))return
+    if(response.request().method()!=='POST'||!response.url().endsWith('/rpc/erp_get_laundry_qc_workspace_v1'))return
     const phase=report.current_phase
     const task=(async()=>{
       try{
@@ -343,11 +344,12 @@ async function searchQc(page,query) {
   assert.equal((await response).status(),200)
   await expect(page.getByRole('button',{name:'Muat ulang data',exact:true})).toBeEnabled()
 }
-async function qcForm(page,qty,time) {
+async function qcForm(page,qty,time,bsQty=0) {
   await page.getByRole('button',{name:'Antrean finalisasi',exact:true}).click()
   await page.getByRole('combobox',{name:/^POTONGAN DENGAN GOOD LAUNDRY SIAP QC/}).selectOption(f.group)
   await page.getByLabel('WAKTU FISIK QC',{exact:true}).fill(when(time))
   await page.getByLabel(`Good final size ${f.size}`,{exact:true}).fill(String(qty))
+  await page.getByLabel(`BS QC size ${f.size}`,{exact:true}).fill(String(bsQty))
   await page.getByLabel(`Final SKU size ${f.size}`,{exact:true}).selectOption(f.product)
   await page.getByLabel('LOKASI FG TUJUAN',{exact:true}).selectOption(f.location)
   await page.getByLabel('ALASAN / BUKTI HASIL QC',{exact:true}).fill('CP6 UI synthetic exact size physical QC')
@@ -389,6 +391,8 @@ try {
   await expect(page.getByRole('button',{name:'Post QC + Final SKU atomic',exact:true})).toBeDisabled()
   pass('VIEWER',{read_scopes:['LAUNDRY','QC'],writes_disabled:true});await page.context().close()
   for(const [user,mobile,prefix] of [[operator,false,'OPERATOR_DESKTOP'],[owner,true,'OWNER_MOBILE']]){
+    // Same completion contract, with mixed Good/BS on mobile. Only Good enters FG.
+    const bsQty=mobile?2:0, stagedGood=8-bsQty, finalGood=10-bsQty
     stage(`${prefix}_DRAFT_INERT`);page=await pageFor(user,mobile);await nav(page,'Laundry')
     const before=state();await sendForm(page)
     assert.deepEqual(state(),before);pass(`${prefix}_DRAFT_INERT`,{observed:before})
@@ -405,19 +409,20 @@ try {
     const firstQc=qc();checkState(`${prefix}_QC_5`,{fg_qty:5,wip:35,fg:35,accrued:-70,posted_qc:1})
     stage(`${prefix}_QC_FILTER_SCOPE`)
     const beforeFiltered=state()
-    await searchQc(page,returned.number);await qcForm(page,3,'11:00')
+    await searchQc(page,returned.number);await qcForm(page,3-bsQty,'11:00',bsQty)
     await expect(page.getByRole('button',{name:'Post QC + Final SKU atomic',exact:true})).toBeDisabled()
     assert.deepEqual(state(),beforeFiltered)
     pass(`${prefix}_QC_FILTER_SCOPE`,{receipt_filter_does_not_prove_full_group:true,ledger_unchanged:true})
     await searchQc(page,'CP6-RACE-PO')
-    stage(`${prefix}_QC_3`);await qcForm(page,3,'11:00');await mutation(page,'Post QC + Final SKU atomic','POST_FINAL_SKU')
-    const secondQc=qc();checkState(`${prefix}_QC_3`,{fg_qty:8,wip:14,fg:56,accrued:-70,posted_qc:2})
+    stage(`${prefix}_QC_3`);await qcForm(page,3-bsQty,'11:00',bsQty);await mutation(page,'Post QC + Final SKU atomic','POST_FINAL_SKU')
+    const secondQc=qc();checkState(`${prefix}_QC_3`,{fg_qty:stagedGood,wip:70-stagedGood*7,fg:stagedGood*7,accrued:-70,posted_qc:2,qc_bs:bsQty},
+      {selected_good:3-bsQty,selected_bs:bsQty,unit_cost:7})
     stage(`${prefix}_RECEIPT_2`);await nav(page,'Laundry');await receiveForm(page,2,'11:30')
     await mutation(page,'Post penerimaan atomic','POST_RECEIPT')
-    const secondReceipt=receipt();checkState(`${prefix}_RECEIPT_2`,{fg_qty:8,wip:14,fg:56,accrued:-70})
+    const secondReceipt=receipt();checkState(`${prefix}_RECEIPT_2`,{fg_qty:stagedGood,wip:70-stagedGood*7,fg:stagedGood*7,accrued:-70,qc_bs:bsQty})
     stage(`${prefix}_QC_2`);await nav(page,'QC & Final SKU');await qcForm(page,2,'12:00')
     await mutation(page,'Post QC + Final SKU atomic','POST_FINAL_SKU')
-    const thirdQc=qc();checkState(`${prefix}_QC_2`,{fg_qty:10,wip:0,fg:70,accrued:-70,posted_qc:3})
+    const thirdQc=qc();checkState(`${prefix}_QC_2`,{fg_qty:finalGood,wip:70-finalGood*7,fg:finalGood*7,accrued:-70,posted_qc:3,qc_bs:bsQty})
     await page.screenshot({path:resolve(reportDir,`${prefix}.png`),fullPage:true})
     stage(`${prefix}_BLOCK_PARENT_REVERSAL`);await nav(page,'Laundry')
     await page.getByRole('button',{name:'Riwayat & koreksi',exact:true}).click()
@@ -425,9 +430,9 @@ try {
     pass(`${prefix}_BLOCK_PARENT_REVERSAL`,{blocked_by:'posted QC children'})
     await nav(page,'QC & Final SKU')
     stage(`${prefix}_REVERSE_QC_2`);await reverse(page,thirdQc,'Batalkan finalisasi','REVERSE_FINAL_SKU')
-    checkState(`${prefix}_REVERSE_QC_2`,{fg_qty:8,wip:14,fg:56,accrued:-70})
+    checkState(`${prefix}_REVERSE_QC_2`,{fg_qty:stagedGood,wip:70-stagedGood*7,fg:stagedGood*7,accrued:-70,qc_bs:bsQty})
     stage(`${prefix}_REVERSE_QC_3`);await reverse(page,secondQc,'Batalkan finalisasi','REVERSE_FINAL_SKU')
-    checkState(`${prefix}_REVERSE_QC_3`,{fg_qty:5,wip:35,fg:35,accrued:-70})
+    checkState(`${prefix}_REVERSE_QC_3`,{fg_qty:5,wip:35,fg:35,accrued:-70,qc_bs:0})
     stage(`${prefix}_REVERSE_QC_5`);await reverse(page,firstQc,'Batalkan finalisasi','REVERSE_FINAL_SKU')
     checkState(`${prefix}_REVERSE_QC_5`,{fg_qty:0,wip:70,fg:0,accrued:-70})
     await nav(page,'Laundry')

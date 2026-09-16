@@ -378,9 +378,11 @@ function parseReceiptSummary(value: unknown): Cp6ReceiptSummary {
     ? null : text(raw.custody_outcome, 'Hasil custody cuci gagal')
   const attemptedQty = raw.attempted_qty_pcs === null
     ? null : integer(raw.attempted_qty_pcs, 'Qty attempt cuci gagal', 1)
-  const processName = nullableText(raw.process_name, 'Proses attempt cuci gagal')
+  // Both ordinary receipts and failed attempts carry the actual wash process.
+  // Only the attempt ID, custody outcome and attempted quantity identify a failure.
+  const processName = nullableText(raw.process_name, 'Nama proses cuci aktual')
   if (eventKind === 'PHYSICAL_RECEIPT'
-    && (failedAttemptId !== null || custodyOutcome !== null || attemptedQty !== null || processName !== null)) {
+    && (failedAttemptId !== null || custodyOutcome !== null || attemptedQty !== null)) {
     throw new Error('Penerimaan fisik membawa metadata attempt cuci gagal.')
   }
   if (eventKind === 'FAILED_WASH_ATTEMPT'

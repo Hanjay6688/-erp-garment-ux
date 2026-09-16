@@ -53,7 +53,7 @@ unchanged. All 226 unit cases passed before that failure. No UI/business executi
 is claimed for that run. Its cleanup-only artifact is 10457879554 (288 bytes),
 GitHub-reported SHA-256 `c1abb38719dee9f087cf1a208ffd55620a978780b56c90964f52b0ceca72ebdc`.
 
-Current execution status: PENDING_CI. The earlier native/HTTP audit and historical
+Current execution status: CP6_HOLD — two original UI bugs proven; writer repair under test. The earlier native/HTTP audit and historical
 460-case reconciliation remain in `docs/cp6-final-audit-checkpoint.md` and
 `docs/evidence/cp6-final-audit-reconciliation.json`. No new PASS is claimed here.
 
@@ -221,3 +221,36 @@ HTTP 95, restore dan cleanup selesai. Kelanjutan UI tetap INCOMPLETE.
 Counterexample pertama kini juga diverifikasi ulang di CI dari ZIP asli,
 termasuk checksum/CRC, pin modul pada AI-R2 dan kesamaan state sebelum/sesudah;
 gangguan executor lokal tidak menjadi alasan mengabaikan bukti masuk.
+
+## Temuan baru: CP6-UI-RECEIPT-PROCESS-02
+
+Run 35131279236 pada `17d4bee4bb8c4efede8d2b35cda2cb46117d4610`
+(tree `3d7c3ac49253b1b40a95b1cd6aa2b56858b7f47b`) membuktikan masalah
+kedua dari transaksi penerimaan biasa, tanpa injeksi data tidak konsisten.
+Workspace Laundry HTTP 200 mengembalikan PHYSICAL_RECEIPT, process_name
+`CP6 Race Wash`, serta failed_wash_attempt_id/custody_outcome/attempted_qty_pcs
+semuanya null. Parser produk asli menolak nama proses yang sah sebagai
+metadata attempt gagal. Halaman lalu menampilkan pesan layanan tidak terhubung.
+Produser SQL memang mengambil nama dari actual_wash_process_id untuk penerimaan
+biasa maupun attempt gagal. Konsumen bersama adalah parseReceiptSummary melalui
+parseLaundryQcWorkspace, termasuk pembacaan ulang dan riwayat reversal.
+
+Perbaikan menerima nama proses aktual pada penerimaan fisik, tetap menolak tiga
+metadata khusus attempt di penerimaan fisik, dan tetap mewajibkan metadata lengkap
+untuk kedua custody attempt gagal. Model, unit test dan fixture browser lama
+(disertai proses aktual) diperbaiki bersama; tidak ada perubahan SQL/ACL/trigger.
+Tes unit mencakup receipt POSTED/REVERSED, proses null/nama sah, dua custody,
+metadata tercampur, metadata hilang, dan tipe proses salah. Bukti UI asli berikutnya
+juga menguji Good + BS pada owner mobile: Good saja masuk FG, biaya BS tertinggal
+di WIP sampai resolusinya. Ini bukan klaim bahwa rewash/rework telah teruji.
+
+Run tersebut menyelesaikan HTTP 95 dan 10/38 UI; native 142/16/23/12 NOT_RUN_FOCUSED.
+QC bertahap 5+3 sudah lolos dengan FG 56/WIP 14, tetapi penerimaan kedua belum
+bisa dibuka. Restore 533 fungsi/223 tabel persis AH dan cleanup PASS.
+Artifact 10461242981, 2493952 bytes, SHA-256
+`6106756a15a33287b77463e88c345c06547e96893df33a82808731719f9f10f6`.
+Executor pulih; ZIP diunduh, checksum/CRC dan pemindaian pola JWT lulus.
+CI juga memverifikasi ZIP counterexample QC asli 10460209095 beserta hash sumber,
+penolakan backend, dan keadaan ledger sebelum/sesudah yang identik.
+
+Kedua perbaikan adalah pekerjaan writer. Belum independent PASS, belum CP6 lock.

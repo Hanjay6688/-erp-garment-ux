@@ -61,7 +61,82 @@ function base(scope: 'LAUNDRY' | 'QC') {
   }
 }
 
+function physicalReceiptWorkspace() {
+  const workspace = base('LAUNDRY')
+  const delivery = {
+      delivery_id: uuid(20), delivery_number: 'LDR-001', row_version: 3,
+      status: 'PARTIAL_RETURN', physical_at: '2026-09-02T00:00:00Z',
+      target_dyeing_color: 'Hitam', special_instruction: null, po_id: uuid(14),
+      po_number: 'PO-001', model_id: uuid(7), cutting_group_id: uuid(12),
+      group_number: 'P-001', cutting_group_row_version: 4, model_code: 'MOD-A',
+      model_name: 'Model A', contractor_name: 'Mandor A', vendor_id: uuid(1),
+      vendor_code: 'LDR-A', vendor_name: 'Laundry A', wash_process_id: uuid(2),
+      process_code: 'WASH', process_name: 'Cuci', delivery_line_id: uuid(21),
+      qty_sent_pcs: 2, estimated_rate_snapshot: 1200, estimated_cost: 2400,
+      distribution_batch_id: uuid(10), batch_no: 1, returned_qty_pcs: 1,
+      physical_outstanding_qty_pcs: 1, returned_unprocessed_qty_pcs: 0,
+      active_claim_qty_pcs: 0,
+      reversible: false, reversal_blocker: 'Masih ada receipt aktif.',
+      sizes: [{
+        delivery_batch_size_line_id: uuid(22), size_id: uuid(9), size_code: '31',
+        sort_order: 1, qty_sent_pcs: 2, good_returned_qty_pcs: 1,
+        bs_returned_qty_pcs: 0, outstanding_qty_pcs: 1,
+      }],
+      receipts: [{
+        id: uuid(23), number: 'LRC-001', status: 'POSTED', row_version: 2,
+        physical_at: '2026-09-03T00:00:00Z', actual_cost: 1200, actual_rate: 1200,
+        cost_status: 'ESTIMATED', event_kind: 'PHYSICAL_RECEIPT',
+        failed_wash_attempt_id: null, custody_outcome: null,
+        attempted_qty_pcs: null, process_name: 'Cuci',
+        reversible: false, reversal_blocker: 'Receipt sudah dipakai QC.',
+      }],
+    }
+  ;(workspace.deliveries as unknown[]).push(delivery)
+  return { workspace, receipt: delivery.receipts[0] as Record<string, unknown> }
+}
+
 describe('parseLaundryQcWorkspace', () => {
+  it('accepts actual wash process on posted and reversed physical receipts without inventing a failed attempt', () => {
+    for (const status of ['POSTED', 'REVERSED']) {
+      for (const processName of ['Cuci', null]) {
+        const { workspace, receipt } = physicalReceiptWorkspace()
+        Object.assign(receipt, { status, process_name: processName })
+        const parsed = parseLaundryQcWorkspace(workspace).deliveries[0].receipts[0]
+        expect(parsed.event_kind).toBe('PHYSICAL_RECEIPT')
+        expect(parsed.process_name).toBe(processName)
+        expect(parsed.failed_wash_attempt_id).toBeNull()
+        expect(parsed.attempted_qty_pcs).toBeNull()
+      }
+    }
+  })
+
+  it('keeps physical receipts distinct from failed wash attempts with either custody outcome', () => {
+    for (const [field, value] of Object.entries({
+      failed_wash_attempt_id: uuid(90), custody_outcome: 'RETRY_AT_VENDOR', attempted_qty_pcs: 1,
+    })) {
+      const { workspace, receipt } = physicalReceiptWorkspace()
+      receipt[field] = value
+      expect(() => parseLaundryQcWorkspace(workspace)).toThrow('metadata attempt cuci gagal')
+    }
+    for (const custody of ['RETRY_AT_VENDOR', 'RETURN_UNPROCESSED']) {
+      const { workspace, receipt } = physicalReceiptWorkspace()
+      Object.assign(receipt, {
+        event_kind: 'FAILED_WASH_ATTEMPT', failed_wash_attempt_id: uuid(90),
+        custody_outcome: custody, attempted_qty_pcs: 1, process_name: 'Cuci',
+      })
+      expect(parseLaundryQcWorkspace(workspace).deliveries[0].receipts[0].custody_outcome).toBe(custody)
+      for (const field of ['failed_wash_attempt_id', 'custody_outcome', 'attempted_qty_pcs', 'process_name']) {
+        const original = receipt[field]
+        receipt[field] = null
+        expect(() => parseLaundryQcWorkspace(workspace)).toThrow('Metadata attempt cuci gagal tidak lengkap')
+        receipt[field] = original
+      }
+    }
+    const malformed = physicalReceiptWorkspace()
+    malformed.receipt.process_name = 7
+    expect(() => parseLaundryQcWorkspace(malformed.workspace)).toThrow('Nama proses cuci aktual')
+  })
+
   it('accepts conserved authoritative Laundry and QC scopes', () => {
     expect(parseLaundryQcWorkspace(base('LAUNDRY')).ready_batches[0].sizes[0].available_qty_pcs).toBe(8)
     expect(parseLaundryQcWorkspace(base('QC')).qc_queue[0].available_for_qc_qty_pcs).toBe(5)
@@ -205,38 +280,9 @@ describe('parseLaundryQcWorkspace', () => {
   })
 
   it('requires every reversal affordance to match the backend blocker decision', () => {
-    const laundry = base('LAUNDRY')
-    const blockedDelivery = {
-      delivery_id: uuid(20), delivery_number: 'LDR-001', row_version: 3,
-      status: 'PARTIAL_RETURN', physical_at: '2026-09-02T00:00:00Z',
-      target_dyeing_color: 'Hitam', special_instruction: null, po_id: uuid(14),
-      po_number: 'PO-001', model_id: uuid(7), cutting_group_id: uuid(12),
-      group_number: 'P-001', cutting_group_row_version: 4, model_code: 'MOD-A',
-      model_name: 'Model A', contractor_name: 'Mandor A', vendor_id: uuid(1),
-      vendor_code: 'LDR-A', vendor_name: 'Laundry A', wash_process_id: uuid(2),
-      process_code: 'WASH', process_name: 'Cuci', delivery_line_id: uuid(21),
-      qty_sent_pcs: 2, estimated_rate_snapshot: 1200, estimated_cost: 2400,
-      distribution_batch_id: uuid(10), batch_no: 1, returned_qty_pcs: 1,
-      physical_outstanding_qty_pcs: 1, returned_unprocessed_qty_pcs: 0,
-      active_claim_qty_pcs: 0,
-      reversible: false, reversal_blocker: 'Masih ada receipt aktif.',
-      sizes: [{
-        delivery_batch_size_line_id: uuid(22), size_id: uuid(9), size_code: '31',
-        sort_order: 1, qty_sent_pcs: 2, good_returned_qty_pcs: 1,
-        bs_returned_qty_pcs: 0, outstanding_qty_pcs: 1,
-      }],
-      receipts: [{
-        id: uuid(23), number: 'LRC-001', status: 'POSTED', row_version: 2,
-        physical_at: '2026-09-03T00:00:00Z', actual_cost: 1200, actual_rate: 1200,
-        cost_status: 'ESTIMATED', event_kind: 'PHYSICAL_RECEIPT',
-        failed_wash_attempt_id: null, custody_outcome: null,
-        attempted_qty_pcs: null, process_name: null,
-        reversible: false, reversal_blocker: 'Receipt sudah dipakai QC.',
-      }],
-    }
-    ;(laundry.deliveries as unknown[]).push(blockedDelivery)
+    const { workspace: laundry, receipt } = physicalReceiptWorkspace()
     expect(parseLaundryQcWorkspace(laundry).deliveries[0].receipts[0].reversible).toBe(false)
-    blockedDelivery.receipts[0].reversible = true
+    receipt.reversible = true
     expect(() => parseLaundryQcWorkspace(laundry)).toThrow('reversal penerimaan kontradiktif')
 
     const qc = base('QC')
