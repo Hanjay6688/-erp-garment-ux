@@ -254,3 +254,23 @@ CI juga memverifikasi ZIP counterexample QC asli 10460209095 beserta hash sumber
 penolakan backend, dan keadaan ledger sebelum/sesudah yang identik.
 
 Kedua perbaikan adalah pekerjaan writer. Belum independent PASS, belum CP6 lock.
+
+Run 35132647407, kandidat frontend `d7a92f00b0779d614478778bd8f1ddd367122ff7`,
+tree `71b281da4455296c6f808ef28557bf4ad8f4daa4`: seluruh siklus operator desktop
+melewati penerimaan 8+2, QC 5+3+2, laporan, blocker dan reversal kembali ke nol.
+Parser penerimaan fisik sudah bekerja pada respons asli. Fase mobile berikutnya
+memakai kembali waktu kemarin sesudah reversal fisik barusan; backend benar
+menolak pengiriman sebelum barang kembali. Ini kesalahan kronologi fixture,
+bukan bug ERP. Ledger sebelum/sesudah penolakan identik, FG/WIP/accrual nol,
+ready 10. Tes tetap INCOMPLETE; kasus yang belum dijalankan bukan PASS.
+Artifact 10461899223 (2790813 bytes), digest GitHub
+`e84ecb3806d7432fd5021889d2f0a154a81c82f651eb645fcb02d2f24932b8bb`.
+HTTP 95, restore AH dan cleanup selesai; native tetap NOT_RUN_FOCUSED.
+
+Penerus harness mempertahankan alur pertama dengan backdate dan zona browser
+Honolulu. Siklus setelah reversal memakai waktu fisik WIB yang diambil sesudah
+koreksi, dengan jeda satu detik karena input produk menerima ketelitian detik.
+Tidak ada backdate buatan yang melewati ketersediaan fisik. Tambahan lima kasus
+UI menguji RETURN_UNPROCESSED sepuluh potong, biaya 70, pengiriman baru berbiaya
+estimasi 70, reversal biaya lama tanpa menghapus custody, dan reversal pengiriman
+baru. Total rencana sekarang 43; angka hasil baru menunggu eksekusi.

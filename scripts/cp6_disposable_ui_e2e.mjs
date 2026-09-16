@@ -25,7 +25,7 @@ assert.ok(anon && service)
 const origin = 'http://127.0.0.1:4176'
 const apiOrigin = 'http://127.0.0.1:54328'
 const users = [], secrets = [anon, service]
-let ownerId, reportBaseline, parseWorkspace
+let ownerId, reportBaseline, parseWorkspace, useCurrentPhysicalTime=false, lastSendPhysical
 const workspaceObservations = new Set()
 const f = {
   po: 'c8c40000-0000-4000-8000-000000000001',
@@ -42,7 +42,9 @@ const lifecycle = ['DRAFT_INERT', 'DOUBLE_SUBMIT', 'RECEIPT_8', 'QC_5', 'QC_FILT
   'REVERSE_QC_3', 'REVERSE_QC_5', 'REVERSE_RECEIPT_2', 'REVERSE_RECEIPT', 'REVERSE_DELIVERY']
 const planned = ['ANONYMOUS', 'VIEWER', 'UNMAPPED', 'INACTIVE',
   ...['OPERATOR_DESKTOP', 'OWNER_MOBILE'].flatMap(x => lifecycle.map(y => `${x}_${y}`)),
-  'FAILED_WASH_SEND', 'FAILED_WASH_LOST_REPLY', 'FAILED_WASH_REVERSE_COST', 'FAILED_WASH_REVERSE_SEND']
+  'FAILED_WASH_SEND', 'FAILED_WASH_LOST_REPLY', 'FAILED_WASH_REVERSE_COST', 'FAILED_WASH_REVERSE_SEND',
+  'FULL_RETURN_SEND', 'FULL_RETURN_EXACT', 'FULL_RETURN_REDISPATCH',
+  'FULL_RETURN_REVERSE_COST', 'FULL_RETURN_REVERSE_REDISPATCH']
 const report = {
   status: 'INCOMPLETE', classification: 'WRITER_UI_REAL_AUTH_HTTP_ON_UNCHANGED_AI_R2',
   backend_head: '25fa4736329e5148dfdb3572bc169952cba23251',
@@ -88,7 +90,14 @@ if(process.argv.includes('--qualify-legacy-fixture')){
 }
 const day = query("select ((clock_timestamp() at time zone 'Asia/Jakarta')::date-1)::text")
 assert.match(day, /^\d{4}-\d{2}-\d{2}$/)
-const when = (time) => `${day}T${time}`
+const when = async (time) => {
+  if(!useCurrentPhysicalTime)return `${day}T${time}`
+  // Previous linked reversals restore custody at commit time. A later dispatch
+  // must follow that physical event, never reuse yesterday's original dispatch.
+  // The original input accepts whole seconds; cross one second before sampling.
+  await new Promise(ok=>setTimeout(ok,1100))
+  return query(`select to_char(clock_timestamp() at time zone 'Asia/Jakarta','YYYY-MM-DD"T"HH24:MI:SS')`)
+}
 const state = () => JSON.parse(query(`select jsonb_build_object(
  'fg_qty',(select coalesce(sum(m.qty_signed),0) from erp.fg_stock_movements m join erp.fg_lots l on l.id=m.lot_id where l.po_id='${f.po}'),
  'wip',(select coalesce(sum(debit-credit),0) from erp.journal_lines where po_id='${f.po}' and account_id=erp.account_id('WIP')),
@@ -324,7 +333,8 @@ async function sendForm(page) {
   await page.getByRole('combobox',{name:/^VENDOR LAUNDRY/}).selectOption(f.vendor)
   await page.getByLabel('PROSES CUCI TARGET',{exact:true}).selectOption(f.process)
   await page.getByLabel('WARNA TARGET',{exact:true}).fill('NAVY')
-  await page.getByLabel('WAKTU FISIK KELUAR',{exact:true}).fill(when('08:00'))
+  lastSendPhysical=await when('08:00')
+  await page.getByLabel('WAKTU FISIK KELUAR',{exact:true}).fill(lastSendPhysical)
   await page.getByLabel('ALASAN / BUKTI SERAH TERIMA',{exact:true}).fill('CP6 UI synthetic physical count ten')
   await page.locator('.clq-confirm input').check()
 }
@@ -332,7 +342,7 @@ async function receiveForm(page,qty=8,time='09:00') {
   await page.getByRole('button',{name:'Terima kembali',exact:true}).click()
   await page.getByLabel('SURAT KIRIM AKTIF',{exact:true}).selectOption(delivery().id)
   await page.getByLabel('PROSES AKTUAL',{exact:true}).selectOption(f.process)
-  await page.getByLabel('WAKTU FISIK KEMBALI',{exact:true}).fill(when(time))
+  await page.getByLabel('WAKTU FISIK KEMBALI',{exact:true}).fill(await when(time))
   await page.getByLabel('ALASAN / BUKTI PENERIMAAN',{exact:true}).fill(`CP6 UI synthetic staged return ${qty} of ten`)
   await page.getByLabel(`Good kembali size ${f.size}`,{exact:true}).fill(String(qty))
   await page.locator('.clq-confirm input').check()
@@ -347,7 +357,7 @@ async function searchQc(page,query) {
 async function qcForm(page,qty,time,bsQty=0) {
   await page.getByRole('button',{name:'Antrean finalisasi',exact:true}).click()
   await page.getByRole('combobox',{name:/^POTONGAN DENGAN GOOD LAUNDRY SIAP QC/}).selectOption(f.group)
-  await page.getByLabel('WAKTU FISIK QC',{exact:true}).fill(when(time))
+  await page.getByLabel('WAKTU FISIK QC',{exact:true}).fill(await when(time))
   await page.getByLabel(`Good final size ${f.size}`,{exact:true}).fill(String(qty))
   await page.getByLabel(`BS QC size ${f.size}`,{exact:true}).fill(String(bsQty))
   await page.getByLabel(`Final SKU size ${f.size}`,{exact:true}).selectOption(f.product)
@@ -391,6 +401,7 @@ try {
   await expect(page.getByRole('button',{name:'Post QC + Final SKU atomic',exact:true})).toBeDisabled()
   pass('VIEWER',{read_scopes:['LAUNDRY','QC'],writes_disabled:true});await page.context().close()
   for(const [user,mobile,prefix] of [[operator,false,'OPERATOR_DESKTOP'],[owner,true,'OWNER_MOBILE']]){
+    useCurrentPhysicalTime=mobile
     // Same completion contract, with mixed Good/BS on mobile. Only Good enters FG.
     const bsQty=mobile?2:0, stagedGood=8-bsQty, finalGood=10-bsQty
     stage(`${prefix}_DRAFT_INERT`);page=await pageFor(user,mobile);await nav(page,'Laundry')
@@ -398,9 +409,10 @@ try {
     assert.deepEqual(state(),before);pass(`${prefix}_DRAFT_INERT`,{observed:before})
     stage(`${prefix}_DOUBLE_SUBMIT`)
     await mutation(page,'Post pengiriman atomic','POST_DELIVERY',{double:true})
-    assert.equal(query(`select count(*) from erp.laundry_deliveries where po_id='${f.po}' and status<>'REVERSED' and physical_at='${day}T08:00:00+07:00'::timestamptz and created_at>physical_at`),'1',
+    assert.equal(query(`select count(*) from erp.laundry_deliveries where po_id='${f.po}' and status<>'REVERSED' and physical_at='${lastSendPhysical}+07:00'::timestamptz and created_at>physical_at`),'1',
       'One physical dispatch at WIB time despite browser Honolulu zone and double click')
-    checkState(`${prefix}_DOUBLE_SUBMIT`,{fg_qty:0,wip:70,fg:0,accrued:-70,ready:0})
+    checkState(`${prefix}_DOUBLE_SUBMIT`,{fg_qty:0,wip:70,fg:0,accrued:-70,ready:0},
+      {physical_input_wib:lastSendPhysical,browser_zone:'Pacific/Honolulu',backdated:!mobile})
     const sent=delivery()
     stage(`${prefix}_RECEIPT_8`);await receiveForm(page);await mutation(page,'Post penerimaan atomic','POST_RECEIPT')
     const returned=receipt();checkState(`${prefix}_RECEIPT_8`,{fg_qty:0,wip:70,fg:0,accrued:-70})
@@ -444,6 +456,7 @@ try {
     checkState(`${prefix}_REVERSE_DELIVERY`,{fg_qty:0,wip:0,fg:0,accrued:0,ready:10,posted_qc:0})
     await page.context().close()
   }
+  useCurrentPhysicalTime=true
   stage('FAILED_WASH_SEND');page=await pageFor(operator);await nav(page,'Laundry');await sendForm(page)
   await mutation(page,'Post pengiriman atomic','POST_DELIVERY');const sent=delivery()
   checkState('FAILED_WASH_SEND',{fg_qty:0,wip:70,fg:0,accrued:-70,ready:0})
@@ -452,7 +465,7 @@ try {
   await page.getByLabel('SURAT KIRIM GAGAL CUCI',{exact:true}).selectOption(sent.id)
   await page.getByLabel('PROSES GAGAL CUCI',{exact:true}).selectOption(f.process)
   await page.getByLabel('POSISI FISIK GAGAL CUCI',{exact:true}).selectOption('RETRY_AT_VENDOR')
-  await page.getByLabel('WAKTU GAGAL CUCI',{exact:true}).fill(when('09:00'))
+  await page.getByLabel('WAKTU GAGAL CUCI',{exact:true}).fill(await when('09:00'))
   await page.getByLabel(`Qty gagal cuci size ${f.size}`,{exact:true}).fill('4')
   await page.getByLabel('ALASAN TAGIHAN GAGAL CUCI',{exact:true}).fill('CP6 UI paid failure four pieces at seven')
   await page.locator('.clq-confirm input').check()
@@ -464,6 +477,32 @@ try {
   checkState('FAILED_WASH_REVERSE_COST',{fg_qty:0,wip:70,fg:0,accrued:-70})
   stage('FAILED_WASH_REVERSE_SEND');await reverse(page,sent,'Batalkan pengiriman','REVERSE_DELIVERY')
   checkState('FAILED_WASH_REVERSE_SEND',{fg_qty:0,wip:0,fg:0,accrued:0,ready:10})
+  stage('FULL_RETURN_SEND');await sendForm(page)
+  await mutation(page,'Post pengiriman atomic','POST_DELIVERY');const fullReturnSend=delivery()
+  checkState('FULL_RETURN_SEND',{fg_qty:0,wip:70,fg:0,accrued:-70,ready:0})
+  stage('FULL_RETURN_EXACT')
+  await page.getByRole('button',{name:'Cuci gagal berbayar',exact:true}).click()
+  await page.getByLabel('SURAT KIRIM GAGAL CUCI',{exact:true}).selectOption(fullReturnSend.id)
+  await page.getByLabel('PROSES GAGAL CUCI',{exact:true}).selectOption(f.process)
+  await page.getByLabel('POSISI FISIK GAGAL CUCI',{exact:true}).selectOption('RETURN_UNPROCESSED')
+  await expect(page.getByLabel(`Qty gagal cuci size ${f.size}`,{exact:true})).toHaveValue('10')
+  await expect(page.getByLabel(`Qty gagal cuci size ${f.size}`,{exact:true})).toBeDisabled()
+  await page.getByLabel('WAKTU GAGAL CUCI',{exact:true}).fill(await when('09:00'))
+  await page.getByLabel('ALASAN TAGIHAN GAGAL CUCI',{exact:true}).fill('CP6 UI all ten physically returned unprocessed; paid cost seventy')
+  await page.locator('.clq-confirm input').check()
+  await mutation(page,'Post jasa gagal cuci atomic','POST_FAILED_WASH');const fullReturnCharge=receipt()
+  checkState('FULL_RETURN_EXACT',{fg_qty:0,wip:70,fg:0,accrued:-70,ready:10},
+    {custody:'RETURN_UNPROCESSED',physical_return:10,paid_attempt_cost:10*7})
+  stage('FULL_RETURN_REDISPATCH');await sendForm(page)
+  await mutation(page,'Post pengiriman atomic','POST_DELIVERY');const redispatch=delivery()
+  assert.notEqual(redispatch.id,fullReturnSend.id)
+  checkState('FULL_RETURN_REDISPATCH',{fg_qty:0,wip:140,fg:0,accrued:-140,ready:0},
+    {old_attempt_cost:70,new_delivery_estimate:70,new_document:true})
+  stage('FULL_RETURN_REVERSE_COST');await reverse(page,fullReturnCharge,'Batalkan biaya attempt','REVERSE_RECEIPT')
+  checkState('FULL_RETURN_REVERSE_COST',{fg_qty:0,wip:70,fg:0,accrued:-70,ready:0},
+    {physical_return_and_new_dispatch_preserved:true})
+  stage('FULL_RETURN_REVERSE_REDISPATCH');await reverse(page,redispatch,'Batalkan pengiriman','REVERSE_DELIVERY')
+  checkState('FULL_RETURN_REVERSE_REDISPATCH',{fg_qty:0,wip:0,fg:0,accrued:0,ready:10})
   assert.equal(report.completed.length,planned.length)
   report.status='WRITER_PASS'
 }catch(error){
