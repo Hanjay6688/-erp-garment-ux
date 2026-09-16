@@ -24,6 +24,7 @@ jobs:
       CP6_AC_INDEPENDENT_CONFIRM: postgres
       CP6_AF_INDEPENDENT_CONFIRM: postgres
       CP6_AF_HARNESS_HEAD: ${{ github.sha }}
+      CP6_AUDIT_HARNESS_HEAD: ${{ github.sha }}
       CP6_DATABASE_CONTAINER: supabase_db_cp5-local
     steps:
     - name: Checkout independent harness
