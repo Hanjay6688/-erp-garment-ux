@@ -23,47 +23,47 @@ sha,replace,block,rows=ag.sha,ag.replace,ag.block,ag.rows
 # may differ from the original sale warehouse. Current HPP may change through
 # linked recosting; this does not compare immutable snapshots to current cost.
 DIRTY_QUERY="""with active_return as (
-  select i.*,r.sale_id,r.customer_id,r.physical_at
-  from erp.sales_return_items i join erp.sales_returns r on r.id=i.return_id
-  where r.status='POSTED'
+  select ah_line.*,ah_return.sale_id,ah_return.customer_id,ah_return.physical_at
+  from erp.sales_return_items ah_line join erp.sales_returns ah_return on ah_return.id=ah_line.return_id
+  where ah_return.status='POSTED'
 ), live_movement as (
-  select m.* from erp.fg_stock_movements m
-  where m.source_type='SALES_RETURN_ITEM' and m.movement_type='SALE_RETURN'
-    and not exists(select 1 from erp.fg_stock_movements rv where rv.reversal_of_id=m.id)
+  select ah_movement.* from erp.fg_stock_movements ah_movement
+  where ah_movement.source_type='SALES_RETURN_ITEM' and ah_movement.movement_type='SALE_RETURN'
+    and not exists(select 1 from erp.fg_stock_movements ah_reversal where ah_reversal.reversal_of_id=ah_movement.id)
 )
 select count(*)::bigint from (
-  select i.id from active_return i
-  left join erp.sale_stock_allocations a on a.id=i.sale_stock_allocation_id
-  left join erp.sales_items si on si.id=a.sale_item_id
-  left join erp.sales_headers s on s.id=si.sale_id
-  where a.id is null or s.status is null or s.status not in('POSTED','PARTIAL_PAID','PAID')
-    or i.sale_id is distinct from s.id or i.customer_id is distinct from s.customer_id
-    or i.product_id is distinct from si.product_id or i.lot_id is distinct from a.lot_id
-    or i.physical_at<s.sale_date
+  select ah_line.id from active_return ah_line
+  left join erp.sale_stock_allocations ah_allocation on ah_allocation.id=ah_line.sale_stock_allocation_id
+  left join erp.sales_items ah_sale_line on ah_sale_line.id=ah_allocation.sale_item_id
+  left join erp.sales_headers ah_sale on ah_sale.id=ah_sale_line.sale_id
+  where ah_allocation.id is null or ah_sale.status is null or ah_sale.status not in('POSTED','PARTIAL_PAID','PAID')
+    or ah_line.sale_id is distinct from ah_sale.id or ah_line.customer_id is distinct from ah_sale.customer_id
+    or ah_line.product_id is distinct from ah_sale_line.product_id or ah_line.lot_id is distinct from ah_allocation.lot_id
+    or ah_line.physical_at<ah_sale.sale_date
   union all
-  select a.id from erp.sale_stock_allocations a join active_return i on i.sale_stock_allocation_id=a.id
-  group by a.id,a.qty_pcs having sum(i.qty_pcs)>a.qty_pcs
+  select ah_allocation.id from erp.sale_stock_allocations ah_allocation join active_return ah_line on ah_line.sale_stock_allocation_id=ah_allocation.id
+  group by ah_allocation.id,ah_allocation.qty_pcs having sum(ah_line.qty_pcs)>ah_allocation.qty_pcs
   union all
-  select m.id from live_movement m left join active_return i on i.id=m.source_id
-  where i.id is null or m.product_id is distinct from i.product_id or m.lot_id is distinct from i.lot_id
-    or m.location_id is distinct from i.location_id or m.quality_grade is distinct from i.quality_grade
-    or m.customer_id is distinct from i.customer_id or m.physical_at is distinct from i.physical_at
-    or m.qty_signed is distinct from i.qty_pcs
+  select ah_movement.id from live_movement ah_movement left join active_return ah_line on ah_line.id=ah_movement.source_id
+  where ah_line.id is null or ah_movement.product_id is distinct from ah_line.product_id or ah_movement.lot_id is distinct from ah_line.lot_id
+    or ah_movement.location_id is distinct from ah_line.location_id or ah_movement.quality_grade is distinct from ah_line.quality_grade
+    or ah_movement.customer_id is distinct from ah_line.customer_id or ah_movement.physical_at is distinct from ah_line.physical_at
+    or ah_movement.qty_signed is distinct from ah_line.qty_pcs
   union all
-  select i.id from active_return i left join live_movement m on m.source_id=i.id
-  group by i.id,i.qty_pcs having count(m.id)<>1 or sum(m.qty_signed) is distinct from i.qty_pcs::bigint
+  select ah_line.id from active_return ah_line left join live_movement ah_movement on ah_movement.source_id=ah_line.id
+  group by ah_line.id,ah_line.qty_pcs having count(ah_movement.id)<>1 or sum(ah_movement.qty_signed) is distinct from ah_line.qty_pcs::bigint
   union all
-  select r.id from erp.sales_returns r where r.status='POSTED'
-    and not exists(select 1 from erp.sales_return_items i where i.return_id=r.id)
+  select ah_return.id from erp.sales_returns ah_return where ah_return.status='POSTED'
+    and not exists(select 1 from erp.sales_return_items ah_line where ah_line.return_id=ah_return.id)
 ) broken"""
 
 DRAFT_SOURCE_QUERY="""select exists(
-  select 1 from erp.sales_return_items ri
-  join erp.sales_returns r on r.id=ri.return_id and r.status='DRAFT'
-  join erp.sale_stock_allocations a on a.id=ri.sale_stock_allocation_id
-  join erp.sales_items si on si.id=a.sale_item_id
-  join erp.sales_headers s on s.id=si.sale_id
-  where s.status='DRAFT'
+  select 1 from erp.sales_return_items ah_draft_line
+  join erp.sales_returns ah_return on ah_return.id=ah_draft_line.return_id and ah_return.status='DRAFT'
+  join erp.sale_stock_allocations ah_allocation on ah_allocation.id=ah_draft_line.sale_stock_allocation_id
+  join erp.sales_items ah_sale_line on ah_sale_line.id=ah_allocation.sale_item_id
+  join erp.sales_headers ah_sale on ah_sale.id=ah_sale_line.sale_id
+  where ah_sale.status='DRAFT'
 )"""
 
 def build():

@@ -40,7 +40,7 @@
       "bytes": 68496
     },
     "docs/evidence/cp6-ah-runtime-pins.json": {
-      "sha256": "3ec72b36826569bd4793ceef600aeabdae87a82f5b623221ed0913c2638beb6f",
+      "sha256": "020bf2788eadd3621c7cae51c91e2238b5918f0706ecae2ae5a8de1c9c52d07c",
       "bytes": 2984
     },
     "scripts/cp6_ah_gate_scope.py": {
@@ -48,12 +48,12 @@
       "bytes": 3601
     },
     "scripts/cp6_preuse_rollback_maintenance.py": {
-      "sha256": "6967e37771cd50207fe1714c2d1c023df2df7069a1998a20070724f7e7455ce2",
+      "sha256": "92cb896c86c9898865c9da73b1b28c0ec800c343061a58b1ceef455d6b6a2687",
       "bytes": 78590
     },
     "scripts/cp6_v2620ah_build_sql.py": {
-      "sha256": "291df6e87bcf52df1068fef8b02e2acf2a816b0c613d160f6afa28596d6f8c03",
-      "bytes": 12454
+      "sha256": "25b9647123b2df8cb3fe431e127c6aba3b8b27778d931d5b7815852b851011d1",
+      "bytes": 13289
     },
     "scripts/cp6_v2620ah_concurrency.py": {
       "sha256": "1e226efc0103cb3f4e67bfcc16001f4051f549f098e423623f390c875670499f",
@@ -72,15 +72,15 @@
       "bytes": 8096
     },
     "scripts/cp6_v2620ah_runtime.py": {
-      "sha256": "581ae1c03a5b80e20d631880054d93b87aea8b9ae45ca376ed2d103074ed3f77",
+      "sha256": "b71339d4e314cbb1f9da25d9f79ad6bb1d96f388d05e2693f62c6fe3dfe12c7b",
       "bytes": 6091
     },
     "supabase/migrations/20260916070451_erp_v2_6_20ah_cp6_return_allocation_eligibility.sql": {
-      "sha256": "4fc31614c798e9d811773f19cc91df3a525d1265ae90f2fee187bba66f426689",
-      "bytes": 81859
+      "sha256": "762f7bcd94823d3a06e52d0a8c1a807692c7a86be6917346806b44df02e501ae",
+      "bytes": 83388
     },
     "supabase/rollbacks/20260916070451_erp_v2_6_20ah_cp6_return_allocation_eligibility.rollback.sql": {
-      "sha256": "b41fc93c505690457ace7feab4f61ee6fcafc09ec561ced07b2bebfe6e9c7ff3",
+      "sha256": "88854a508b70d1660536710f3fd76b3da615a35e20efd2c7c07c0f8445bab5c9",
       "bytes": 11645
     }
   }

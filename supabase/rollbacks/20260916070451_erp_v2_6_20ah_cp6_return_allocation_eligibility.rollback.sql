@@ -11,7 +11,7 @@ begin
      or not exists(select 1 from supabase_migrations.schema_migrations
        where version='20260916070451' and name='erp_v2_6_20ah_cp6_return_allocation_eligibility'
          and encode(extensions.digest(convert_to(array_to_string(statements,E'\n'),'UTF8'),'sha256'),'hex')
-           in('4fc31614c798e9d811773f19cc91df3a525d1265ae90f2fee187bba66f426689','19bf416efd381b0b90ee9f3d9766568dbdefee1aff223839bebcd334fe4acac5'))
+           in('762f7bcd94823d3a06e52d0a8c1a807692c7a86be6917346806b44df02e501ae','d5417841568fafb0dab2b179a52a9041135935bd6e59e2d97e8600ecbc33439d'))
      or exists(select 1 from supabase_migrations.schema_migrations where version>'20260916070451') then
     raise exception 'AH_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR';
   end if;
@@ -82,7 +82,7 @@ begin
   for r in select * from(values
     ('erp.normalize_sales_return_item_from_allocation()','ea7781898a894cd7694e912f47231fdbcde8745a06a04e8e635210f84bba99ce','eaa4a353f0f455f47e7934c0f33d43a81a68fa15329f686c5283bd338829de08',array['postgres=X/postgres']::text[]),
     ('erp.post_sales_return(uuid)','7640b5781a8838f550595d47bbc3f452a50a846f58018e714a0a209b8f32ff02','a9a7202d34d2111a7def2ec475cd4e95963f5ea6029e6f1ea52c4ec236ed72f8',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),
-    ('erp.run_v268_financial_report_checks()','e62f7fa0d2892708128c372d6e99d39d7833a3fa2eedfe25f17695c7ca94e3ef','7371d8e3bd753c41d08ee9b558d9463f841270924b642e185fad2cc18c55ec88',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[])
+    ('erp.run_v268_financial_report_checks()','e62f7fa0d2892708128c372d6e99d39d7833a3fa2eedfe25f17695c7ca94e3ef','ef5ab903b541819a64ca99e20021f5d1a7ad59bee9cda9122834bef5ce93f889',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[])
   ) expected(identity,predecessor_sha256,installed_sha256,acl) loop
     select cap.*,
       encode(extensions.digest(convert_to(cap.object_definition,'UTF8'),'sha256'),'hex') definition_actual,
@@ -156,8 +156,8 @@ delete from supabase_migrations.schema_migrations
 where version='20260916070451'
   and name='erp_v2_6_20ah_cp6_return_allocation_eligibility'
   and encode(extensions.digest(convert_to(array_to_string(statements,E'\n'),'UTF8'),'sha256'),'hex')
-    in('4fc31614c798e9d811773f19cc91df3a525d1265ae90f2fee187bba66f426689',
-       '19bf416efd381b0b90ee9f3d9766568dbdefee1aff223839bebcd334fe4acac5');
+    in('762f7bcd94823d3a06e52d0a8c1a807692c7a86be6917346806b44df02e501ae',
+       'd5417841568fafb0dab2b179a52a9041135935bd6e59e2d97e8600ecbc33439d');
 
 do $postcheck_v2620ah$
 declare r record;v_actual text;
