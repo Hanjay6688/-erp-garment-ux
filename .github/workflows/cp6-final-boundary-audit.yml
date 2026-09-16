@@ -73,6 +73,7 @@ jobs:
         npm run test:security
         npm run build
         npx playwright install --with-deps chromium
+        npx --yes agent-browser@0.38.0 --version
     - name: Install pinned disposable runtime
       shell: bash
       run: |

@@ -36,7 +36,8 @@ const f = {
   size: 'CP6-RACE-S',
 }
 const lifecycle = ['DRAFT_INERT', 'DOUBLE_SUBMIT', 'RECEIPT_8', 'QC_5', 'QC_3',
-  'BLOCK_PARENT_REVERSAL', 'REVERSE_QC_3', 'REVERSE_QC_5', 'REVERSE_RECEIPT', 'REVERSE_DELIVERY']
+  'RECEIPT_2', 'QC_2', 'BLOCK_PARENT_REVERSAL', 'REVERSE_QC_2',
+  'REVERSE_QC_3', 'REVERSE_QC_5', 'REVERSE_RECEIPT_2', 'REVERSE_RECEIPT', 'REVERSE_DELIVERY']
 const planned = ['ANONYMOUS', 'VIEWER', 'UNMAPPED', 'INACTIVE',
   ...['OPERATOR_DESKTOP', 'OWNER_MOBILE'].flatMap(x => lifecycle.map(y => `${x}_${y}`)),
   'FAILED_WASH_SEND', 'FAILED_WASH_LOST_REPLY', 'FAILED_WASH_REVERSE_COST', 'FAILED_WASH_REVERSE_SEND']
@@ -50,6 +51,7 @@ const report = {
   planned_case_ids: planned, completed: [], current_phase: 'SETUP',
   schema_acl_modified: false, credentials_persisted: false, production_go: false,
   independent_acceptance: false, database_disposal_required: true,
+  browser_transport_failures: [],
 }
 mkdirSync(reportDir, {recursive:true})
 const save = () => writeFileSync(resolve(reportDir,'UI.json'), JSON.stringify(report,null,2)+'\n')
@@ -73,6 +75,8 @@ const state = () => JSON.parse(query(`select jsonb_build_object(
  'posted_delivery',(select count(*) from erp.laundry_deliveries where po_id='${f.po}' and status='POSTED'),
  'posted_qc',(select count(*) from erp.qc_inspections where po_id='${f.po}' and status='POSTED'),
  'unbalanced',(select count(*) from (select e.id from erp.journal_entries e join erp.journal_lines l on l.journal_entry_id=e.id where exists(select 1 from erp.journal_lines s where s.journal_entry_id=e.id and s.po_id='${f.po}') group by e.id having sum(l.debit)<>sum(l.credit)) x),
+ 'journal_rows',(select count(*) from erp.journal_lines where po_id='${f.po}'),
+ 'fg_movements',(select count(*) from erp.fg_stock_movements m join erp.fg_lots l on l.id=m.lot_id where l.po_id='${f.po}'),
  'execution_context',(select count(*) from erp.cp6_laundry_qc_execution_context));`))
 function checkState(id, expected, extra={}) {
   const actual=state()
@@ -133,7 +137,7 @@ async function startApplication() {
   proxy=http.createServer((req,res)=>{
     const allowedOrigin=req.headers.origin===origin
     const cors=allowedOrigin?{'Access-Control-Allow-Origin':origin,'Vary':'Origin',
-      'Access-Control-Allow-Headers':'authorization,apikey,content-type,x-client-info,accept-profile,content-profile',
+      'Access-Control-Allow-Headers':'authorization,apikey,content-type,x-client-info,x-supabase-api-version,accept-profile,content-profile',
       'Access-Control-Allow-Methods':'GET,POST,PUT,DELETE,OPTIONS'}:{}
     if(req.method==='OPTIONS'){res.writeHead(allowedOrigin?204:403,cors);res.end();return}
     const auth=req.url.startsWith('/auth/v1/'), rest=req.url.startsWith('/rest/v1/rpc/')
@@ -154,6 +158,17 @@ async function startApplication() {
   preview=spawn(resolve(root,'node_modules/.bin/vite'),['preview','--outDir','cp6-ui-build','--host','127.0.0.1','--port','4176','--strictPort'],
     {cwd:root,env:safeEnv,stdio:'ignore'})
   await expect.poll(async()=>{try{return (await fetch(origin)).status}catch{return 0}},{timeout:15000}).toBe(200)
+  const smokeArgs=['--yes','agent-browser@0.38.0','--session','cp6-disposable-smoke',
+    '--executable-path',chromium.executablePath()]
+  const smoke=(...args)=>execFileSync('npx',[...smokeArgs,...args],{cwd:root,
+    env:{...safeEnv,AGENT_BROWSER_AUTOSAVE_INTERVAL_MS:'0'},encoding:'utf8',
+    timeout:60000,stdio:['ignore','pipe','pipe']})
+  try{
+    smoke('open',origin)
+    const snapshot=smoke('snapshot','-i')
+    assert.ok(snapshot.includes('Email akun ERP')&&snapshot.includes('Kata sandi'))
+    report.agent_browser_smoke={status:'PASS',version:'0.38.0',real_login_page:true}
+  }finally{smoke('close')}
   browser=await chromium.launch()
 }
 async function pageFor(user,mobile=false) {
@@ -164,6 +179,11 @@ async function pageFor(user,mobile=false) {
     return [origin,apiOrigin].includes(url.origin)?route.continue():route.abort('blockedbyclient')
   })
   const page=await context.newPage();page.setDefaultTimeout(18000)
+  page.on('requestfailed',request=>report.browser_transport_failures.push({
+    phase:report.current_phase,path:new URL(request.url()).pathname,
+    error:request.failure()?.errorText||'unknown'}))
+  page.on('response',response=>{if(response.status()>=400)report.browser_transport_failures.push({
+    phase:report.current_phase,path:new URL(response.url()).pathname,status:response.status()})})
   await page.goto(origin)
   await expect(page.getByRole('heading',{name:'Masuk ke Atelier ERP'})).toBeVisible()
   if(!user)return page
@@ -200,7 +220,8 @@ async function mutation(page,label,action,{double=false,loseReply=false}={}) {
     await button.click()
     await expect(page.getByRole('button',{name:'Reconcile UUID lama',exact:true})).toBeEnabled()
     const response=page.waitForResponse(r=>matches(r.request()))
-    await page.getByRole('button',{name:'Reconcile UUID lama',exact:true}).click()
+    // The original application automatically reconciles its persisted envelope after reload.
+    await page.reload()
     const r=await response;assert.equal(r.status(),200)
     assert.equal(r.request().postDataJSON().p_client_request_id,lostRequestId)
     assert.equal((await r.json()).committed,true)
@@ -216,25 +237,25 @@ async function sendForm(page) {
   await page.getByRole('button',{name:'Kirim ke Laundry',exact:true}).click()
   await page.getByLabel('BATCH DISTRIBUSI AUTHORITATIVE',{exact:true}).selectOption(f.batch)
   await page.getByRole('button',{name:'Isi dari sisa siap',exact:true}).click()
-  await page.getByLabel('VENDOR LAUNDRY',{exact:true}).selectOption(f.vendor)
+  await page.getByRole('combobox',{name:/^VENDOR LAUNDRY/}).selectOption(f.vendor)
   await page.getByLabel('PROSES CUCI TARGET',{exact:true}).selectOption(f.process)
   await page.getByLabel('WARNA TARGET',{exact:true}).fill('NAVY')
   await page.getByLabel('WAKTU FISIK KELUAR',{exact:true}).fill(when('08:00'))
   await page.getByLabel('ALASAN / BUKTI SERAH TERIMA',{exact:true}).fill('CP6 UI synthetic physical count ten')
   await page.locator('.clq-confirm input').check()
 }
-async function receiveForm(page) {
+async function receiveForm(page,qty=8,time='09:00') {
   await page.getByRole('button',{name:'Terima kembali',exact:true}).click()
   await page.getByLabel('SURAT KIRIM AKTIF',{exact:true}).selectOption(delivery().id)
   await page.getByLabel('PROSES AKTUAL',{exact:true}).selectOption(f.process)
-  await page.getByLabel('WAKTU FISIK KEMBALI',{exact:true}).fill(when('09:00'))
-  await page.getByLabel('ALASAN / BUKTI PENERIMAAN',{exact:true}).fill('CP6 UI synthetic return eight of ten')
-  await page.getByLabel(`Good kembali size ${f.size}`,{exact:true}).fill('8')
+  await page.getByLabel('WAKTU FISIK KEMBALI',{exact:true}).fill(when(time))
+  await page.getByLabel('ALASAN / BUKTI PENERIMAAN',{exact:true}).fill(`CP6 UI synthetic staged return ${qty} of ten`)
+  await page.getByLabel(`Good kembali size ${f.size}`,{exact:true}).fill(String(qty))
   await page.locator('.clq-confirm input').check()
 }
 async function qcForm(page,qty,time) {
   await page.getByRole('button',{name:'Antrean finalisasi',exact:true}).click()
-  await page.getByLabel('POTONGAN DENGAN GOOD LAUNDRY SIAP QC',{exact:true}).selectOption(f.group)
+  await page.getByRole('combobox',{name:/^POTONGAN DENGAN GOOD LAUNDRY SIAP QC/}).selectOption(f.group)
   await page.getByLabel('WAKTU FISIK QC',{exact:true}).fill(when(time))
   await page.getByLabel(`Good final size ${f.size}`,{exact:true}).fill(String(qty))
   await page.getByLabel(`Final SKU size ${f.size}`,{exact:true}).selectOption(f.product)
@@ -293,17 +314,27 @@ try {
     const firstQc=qc();checkState(`${prefix}_QC_5`,{fg_qty:5,wip:35,fg:35,accrued:-70,posted_qc:1})
     stage(`${prefix}_QC_3`);await qcForm(page,3,'11:00');await mutation(page,'Post QC + Final SKU atomic','POST_FINAL_SKU')
     const secondQc=qc();checkState(`${prefix}_QC_3`,{fg_qty:8,wip:14,fg:56,accrued:-70,posted_qc:2})
+    stage(`${prefix}_RECEIPT_2`);await nav(page,'Laundry');await receiveForm(page,2,'11:30')
+    await mutation(page,'Post penerimaan atomic','POST_RECEIPT')
+    const secondReceipt=receipt();checkState(`${prefix}_RECEIPT_2`,{fg_qty:8,wip:14,fg:56,accrued:-70})
+    stage(`${prefix}_QC_2`);await nav(page,'QC & Final SKU');await qcForm(page,2,'12:00')
+    await mutation(page,'Post QC + Final SKU atomic','POST_FINAL_SKU')
+    const thirdQc=qc();checkState(`${prefix}_QC_2`,{fg_qty:10,wip:0,fg:70,accrued:-70,posted_qc:3})
     await page.screenshot({path:resolve(reportDir,`${prefix}.png`),fullPage:true})
     stage(`${prefix}_BLOCK_PARENT_REVERSAL`);await nav(page,'Laundry')
     await page.getByRole('button',{name:'Riwayat & koreksi',exact:true}).click()
     await expect(page.getByLabel(`Alasan reversal ${returned.number}`,{exact:true})).toBeDisabled()
     pass(`${prefix}_BLOCK_PARENT_REVERSAL`,{blocked_by:'posted QC children'})
     await nav(page,'QC & Final SKU')
+    stage(`${prefix}_REVERSE_QC_2`);await reverse(page,thirdQc,'Batalkan finalisasi','REVERSE_FINAL_SKU')
+    checkState(`${prefix}_REVERSE_QC_2`,{fg_qty:8,wip:14,fg:56,accrued:-70})
     stage(`${prefix}_REVERSE_QC_3`);await reverse(page,secondQc,'Batalkan finalisasi','REVERSE_FINAL_SKU')
     checkState(`${prefix}_REVERSE_QC_3`,{fg_qty:5,wip:35,fg:35,accrued:-70})
     stage(`${prefix}_REVERSE_QC_5`);await reverse(page,firstQc,'Batalkan finalisasi','REVERSE_FINAL_SKU')
     checkState(`${prefix}_REVERSE_QC_5`,{fg_qty:0,wip:70,fg:0,accrued:-70})
     await nav(page,'Laundry')
+    stage(`${prefix}_REVERSE_RECEIPT_2`);await reverse(page,secondReceipt,'Batalkan penerimaan','REVERSE_RECEIPT')
+    checkState(`${prefix}_REVERSE_RECEIPT_2`,{fg_qty:0,wip:70,fg:0,accrued:-70})
     stage(`${prefix}_REVERSE_RECEIPT`);await reverse(page,returned,'Batalkan penerimaan','REVERSE_RECEIPT')
     checkState(`${prefix}_REVERSE_RECEIPT`,{fg_qty:0,wip:70,fg:0,accrued:-70})
     stage(`${prefix}_REVERSE_DELIVERY`);await reverse(page,sent,'Batalkan pengiriman','REVERSE_DELIVERY')
@@ -325,7 +356,7 @@ try {
   await mutation(page,'Post jasa gagal cuci atomic','POST_FAILED_WASH',{loseReply:true})
   const attempt=receipt()
   checkState('FAILED_WASH_LOST_REPLY',{fg_qty:0,wip:98,fg:0,accrued:-98,ready:0},
-    {control:'Real commit then transport response aborted; original UUID reconciled',cost:4*7})
+    {control:'Real commit then transport response aborted; reload reconciled original persisted UUID',cost:4*7})
   stage('FAILED_WASH_REVERSE_COST');await reverse(page,attempt,'Batalkan biaya attempt','REVERSE_RECEIPT')
   checkState('FAILED_WASH_REVERSE_COST',{fg_qty:0,wip:70,fg:0,accrued:-70})
   stage('FAILED_WASH_REVERSE_SEND');await reverse(page,sent,'Batalkan pengiriman','REVERSE_DELIVERY')

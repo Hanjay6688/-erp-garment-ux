@@ -20,10 +20,10 @@ No business API responses are mocked. Schema permissions are not expanded.
 
 Planned evidence: original login, anonymous/unmapped/inactive/viewer restrictions;
 granular operator on desktop and owner on mobile; ten physical pieces at rate 7,
-partial receipt of eight, two QC postings of five and three, parent reversal
+staged receipts of eight and two, QC postings of five, three and two, parent reversal
 blocked by posted children, linked reversal back to zero balances, double submit,
 and a paid failed-wash commit whose HTTP response is deliberately lost before
-reconciliation with the original UUID. The lost-response control tests transport
+page reload and reconciliation with the original persisted UUID. The lost-response control tests transport
 recovery; it is not evidence that an ordinary ERP transaction is inconsistent.
 Each completed case is persisted before the next one. Unfinished cases stay
 INCOMPLETE. Financial arithmetic is independent of the writer's PASS list.
@@ -56,3 +56,26 @@ GitHub-reported SHA-256 `c1abb38719dee9f087cf1a208ffd55620a978780b56c90964f52b0c
 Current execution status: PENDING_CI. The earlier native/HTTP audit and historical
 460-case reconciliation remain in `docs/cp6-final-audit-checkpoint.md` and
 `docs/evidence/cp6-final-audit-reconciliation.json`. No new PASS is claimed here.
+
+Run 35124061446 completed the native combined 142, staged-invoice 16, work 23,
+two-session 12 and Auth/HTTP 95 stages. UI stopped at unmapped-account login after
+1/28 cases (anonymous login page). UI cleanup, clone disposal and AI→AH restoration
+completed. The test proxy omitted Auth's `X-Supabase-Api-Version` CORS header;
+this is a harness transport defect, not a qualified ERP posting bug. The header
+is now passed through, browser transport failures are recorded without payloads,
+and label selectors use the original accessible names. CodeQL run 35124061384
+succeeded. Artifact 10459275971 is 2541090 bytes; GitHub-reported SHA-256:
+`539e204978506b71c9f5c4bf31132aa80895ddb0d1a22f33147d51601789a7c0`.
+The final runner expands the receipt chain to 8+2 and QC to 5+3+2 (36 planned
+cases), including browser reload after the deliberately lost response.
+
+Import inventory: `scripts/cp6_ac_independent_audit.py` inserts synthetic
+`migration_staging_rows` already marked VALID, then calls
+`erp.prepare_migration_opening_balance`, `erp.post_opening_balance`, and
+`erp.finalize_migration_batch`. The combined native family retains direct/import
+opening cases. No CSV parser, file input, or staging/finalize browser caller was
+found in `src` at this candidate. This is a missing executable application path;
+native staging evidence does not close CSV transport. Section 21 of the owner
+master binds these rules to opening/import and cutover, without assigning a
+separate CSV-upload deliverable explicitly to CP6. Preserve that scope question;
+do not infer N/A or implement a new import product during this audit.
