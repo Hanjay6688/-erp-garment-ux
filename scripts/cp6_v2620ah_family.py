@@ -2,7 +2,7 @@
 """AH return family: source-qualified original cases, legal paths and detectors."""
 from pathlib import Path
 from datetime import date,timedelta
-import argparse,json,os,traceback,uuid
+import argparse,json,os,re,traceback,uuid
 import psycopg
 import cp6_ag_residual_review as original
 import cp6_v2620ag_family as ag
@@ -170,6 +170,64 @@ def anonymous_draft(cur,day):
     assert original.state(cur)==before
     return dict(status='PASS',atomic_refusal=error)
 
+def reference_case(target,expect_fixed=False):
+    """Same lawful DRAFT insert as existing business fixture, real OWNER caller.
+
+    The original control retries the identical insert as fixture administrator
+    only after rolling back the denied OWNER attempt. No posted history is forged.
+    The complete established workflow must then succeed to qualify the input.
+    """
+    def case(cur,day):
+        from datetime import date
+        from decimal import Decimal
+        import cp6_aa_invoice_partial_audit as aa
+        import cp6_v2620f_final_runtime_regression as final
+        observed=[]
+        table='work_completion_lines' if target=='WORK' else 'vendor_invoice_items'
+        class Probe:
+            def __getattr__(self,name):return getattr(cur,name)
+            def execute(self,query,params=None,**kwargs):
+                if not re.search(r'insert\s+into\s+erp\.'+table+r'\b',str(query),re.I):
+                    # Invoice posting is intentionally a private backend
+                    # dependency. This probe changes only the permitted DRAFT
+                    # row caller; preserve the original backend posting caller.
+                    if 'select erp.post_vendor_invoice(' in str(query):actors.admin(cur)
+                    return cur.execute(query,params,**kwargs)
+                actors.admin(cur);before=actors.boundary(cur);cur.execute('savepoint ah_reference_insert')
+                identity=peer.ordinary(cur);error=None
+                try:cur.execute(query,params,**kwargs)
+                except psycopg.Error as exc:
+                    error=dict(sqlstate=exc.sqlstate,message=str(exc))
+                    cur.execute('rollback to savepoint ah_reference_insert');actors.admin(cur)
+                    assert actors.boundary(cur)==before
+                finally:cur.execute('release savepoint ah_reference_insert')
+                if error:
+                    if expect_fixed:raise AssertionError(error)
+                    assert error['sqlstate']=='42501',error
+                    expected='production_orders' if target=='WORK' else 'laundry_receipt_lines'
+                    assert 'permission denied for table '+expected in error['message'],error
+                    actors.admin(cur);cur.execute(query,params,**kwargs)
+                observed.append(dict(table=table,identity=identity,ordinary_refusal=error,
+                                     identical_fixture_admin_control=error is not None))
+                return cur
+        proxy=Probe()
+        if target=='WORK':
+            f=aa.estimated_receipt(cur,day);aa.partial_production(proxy,f)
+        else:
+            actors.admin(cur);prior.set_open_period(cur,date(2026,8,31))
+            f=final.base.fresh(cur,'d')
+            delivery=final.base.post_delivery(cur,f,final.base.BASE_PROCESS,'2026-09-01T11:00:00Z')
+            _,_,receipt=final.base.post_receipt(cur,str(delivery['delivery_id']),final.base.BASE_PROCESS,'2026-09-02T11:00:00Z')
+            final.finalize_laundry_invoice(proxy,receipt,Decimal('10'))
+        assert len(observed)==1,observed
+        actors.admin(cur);today=base.one(cur,"select (statement_timestamp() at time zone 'Asia/Jakarta')::date")
+        state=peer.confidence(cur,today);assert state['data_confidence']['status']=='READY',state
+        return dict(status='PASS',classification='CONTROL_PASS' if observed[0]['ordinary_refusal'] is None else 'BUG_PROVEN',
+                    selected_path=target,observations=observed,complete_business_control=True,
+                    invoice_posting_backend_only=target=='VENDOR',
+                    synthetic_detector_control=False,report=state)
+    return case
+
 def detector(mode):
     def case(cur,day):
         f=original.posted_fixture(cur,day);f['ordinary_draft_creation']=True
@@ -193,6 +251,7 @@ def detector(mode):
     return case
 
 def phase_cases(phase):
+    if phase=='reference':return [('WORK',reference_case('WORK')),('VENDOR',reference_case('VENDOR'))]
     if phase=='admission':return [(m,admission(m)) for m in ('CLEAN','VALID_OTHER_DRAFT','OVER_ALLOCATION','DRAFT_SOURCE','FUNCTION','ACL','PLATFORM','MARKER','UNRELATED_FUNCTION_BINDING')]
     if phase=='focused':
         replaced={'RETURN_ALLOCATION_TWO_DOCUMENTS','RETURN_DRAFT_SOURCE','RETURN_ORDINARY_DRAFT_CREATE','RETURN_REBIND_SALE'}
@@ -211,7 +270,9 @@ def run(phase):
     with psycopg.connect(peer.URL.replace('postgres:postgres@','supabase_admin:postgres@')) as conn,conn.cursor() as cur:
         cur.execute("set local timezone='Asia/Jakarta';set local statement_timeout='240s';set local lock_timeout='8s'")
         untouched=actors.boundary(cur);catalog=function_catalog(cur)
-        if phase=='admission':runtime.verify_predecessor(cur);save('AG_COMPLETE_CATALOG',catalog);save('AG_COMPLETE_BOUNDARY',snapshot(cur))
+        if phase in ('admission','reference'):
+            runtime.verify_predecessor(cur)
+            if phase=='admission':save('AG_COMPLETE_CATALOG',catalog);save('AG_COMPLETE_BOUNDARY',snapshot(cur))
         else:assert len(runtime.verified_successor(cur))==690
         usage=base.one(cur,"select has_schema_privilege('authenticated','erp','USAGE')");result['schema_usage_fixture_grant']=not usage
         if not usage:cur.execute('grant usage on schema erp to authenticated')
@@ -240,7 +301,7 @@ def run(phase):
     save(phase,result);return result
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('--phase',choices=('admission','focused','detector','crossflow'),required=True)
+    parser=argparse.ArgumentParser();parser.add_argument('--phase',choices=('reference','admission','focused','detector','crossflow'),required=True)
     phase=parser.parse_args().phase
     try:result=run(phase)
     except Exception as exc:result=dict(status='FAIL',phase=phase,error=str(exc),traceback=traceback.format_exc(),production_go=False);save(phase,result)

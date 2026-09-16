@@ -236,6 +236,13 @@ jobs:
          cur.execute('insert into supabase_migrations.schema_migrations(version,name,statements) values(%s,%s,%s)',(r.STAMP,r.NAME,[r.MIGRATION.read_text()]))
          assert len(r.verified_successor(cur))==690
         PYINSTALL
+    - name: Prove original AG reference validation paths before family closure
+      working-directory: candidate
+      run: |
+        PYTHONPATH=scripts python scripts/cp6_v2620ah_family.py --phase reference
+        # This investigation wave stops before another combined gate.
+        echo 'AH reference investigation only; complete disposition before qualification.'
+        exit 1
     - name: Provision isolated rollback authority
       working-directory: candidate
       shell: bash

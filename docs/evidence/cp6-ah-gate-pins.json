@@ -16,8 +16,8 @@
       "bytes": 14662
     },
     ".github/workflows/cp6-ah-return-allocation.yml": {
-      "sha256": "e3e50638d264a5369acf6f39069a8eb83ad87a76140ee98b6bb8dd1c88bafd58",
-      "bytes": 16165
+      "sha256": "88dbb4e47e40f3af9763e5d6f7fb1cd9bd953aa576cee934856e7ec7e871e3d7",
+      "bytes": 16550
     },
     ".github/workflows/cp6-full-schema-validation.yml": {
       "sha256": "612a895c58309326cf5bf2566c9535a4aa072dd63330fe45a5eb576dcc8a4fd5",
@@ -60,8 +60,8 @@
       "bytes": 6485
     },
     "scripts/cp6_v2620ah_family.py": {
-      "sha256": "27e37d00f73a5613e6d16b013c77d07ef650b17bc6b0430100f11028d7b2189c",
-      "bytes": 18367
+      "sha256": "7ba28fb7734943de098dddc325af8d6379c2f0bae37f316bafac29ab94757df4",
+      "bytes": 22201
     },
     "scripts/cp6_v2620ah_maintenance_schedules.py": {
       "sha256": "e5bee353528b057d552e5eaf8d1e5f98aef455878e3c84e10dd5155e846d6f58",
