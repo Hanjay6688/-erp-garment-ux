@@ -6,6 +6,9 @@ name: CP6 Final Boundary Audit
     paths:
     - .github/workflows/cp6-final-boundary-audit.yml
     - scripts/cp6_final_crossflow_review.py
+    - scripts/cp6_final_gap_native.py
+    - scripts/cp6_final_gap_midnight.py
+    - scripts/cp6_final_gap_ui.mjs
     - scripts/cp6_disposable_ui_e2e.mjs
     - scripts/cp6_disposable_ui_scope.py
     - scripts/assert-cp6-disposable-env.mjs
@@ -428,6 +431,16 @@ jobs:
       working-directory: candidate
       run: PYTHONPATH=scripts python ../harness/scripts/cp6_ai_independent_review.py --phase concurrency
       if: ${{ always() && steps.ai_install.outcome == 'success' && env.CP6_UI_FOCUSED != 'true' }}
+    - name: Independently test calendar invoices and unvalidated import staging
+      if: ${{ always() && steps.ai_install.outcome == 'success' }}
+      working-directory: candidate
+      run: PYTHONPATH=scripts python ../harness/scripts/cp6_final_gap_native.py
+    - name: Reexecute controlled midnight transaction on exact AI runtime
+      if: ${{ always() && steps.ai_install.outcome == 'success' }}
+      working-directory: candidate
+      env:
+        CP6_AA_MIDNIGHT_AUDIT_CONFIRM: postgres
+      run: PYTHONPATH=scripts python ../harness/scripts/cp6_final_gap_midnight.py
     - name: Rerun original HTTP role and lifecycle oracle on exact AI public API
       if: ${{ always() && steps.ai_install.outcome == 'success' }}
       working-directory: candidate
@@ -673,6 +686,25 @@ jobs:
         test "$(psql "$PGURL" -At -c 'select count(*) from auth.sessions')" = '0'
         test "$(psql "$CP6_AUTH_PGURL" -At -c 'select count(*) from erp.cp6_laundry_qc_execution_context')" = '0'
 
+    - name: Require all independently executed gap groups
+      if: ${{ always() && steps.ai_install.outcome == 'success' }}
+      working-directory: candidate
+      run: |
+        python - <<'PYVERIFY'
+        import json
+        from pathlib import Path
+        root=Path('cp6-proof/final-audit')
+        requirements={'INDEPENDENT_NATIVE_GAPS.json':'PASS_REVIEWED_SCOPE',
+          'INDEPENDENT_UI_GAPS.json':'PASS_REVIEWED_SCOPE',
+          'midnight/AI_MIDNIGHT_AUDIT.json':'PASS_BOUNDED_AUDIT'}
+        results={}
+        for name,wanted in requirements.items():
+          path=root/name
+          results[name]={'expected':wanted,'actual':json.loads(path.read_text()).get('status') if path.exists() else 'MISSING'}
+        (root/'INDEPENDENT_GATE.json').write_text(json.dumps(dict(results=results,production_go=False,
+          global_cp6_acceptance=False),indent=2)+'\n')
+        assert all(x['actual']==x['expected'] for x in results.values()),results
+        PYVERIFY
     - name: Restore and compare against independently captured AH
       working-directory: candidate
       run: PYTHONPATH=scripts python ../harness/scripts/cp6_ai_independent_review.py --phase rollback

@@ -507,6 +507,11 @@ try {
   checkState('FULL_RETURN_REVERSE_REDISPATCH',{fg_qty:0,wip:0,fg:0,accrued:0,ready:10})
   assert.equal(report.completed.length,planned.length)
   report.status='WRITER_PASS'
+  stage('INDEPENDENT_REMAINING_GAPS')
+  const independent=await import('./cp6_final_gap_ui.mjs')
+  const independentResult=await independent.runIndependentGaps({query,reportDir,owner,session,authRequest,newUser,mapUser,secrets,
+    pageFor,f,nav,sendForm,receiveForm,qcForm,mutation,state,financialReport,when})
+  report.independent_gap_report={file:'INDEPENDENT_UI_GAPS.json',status:independentResult.status}
 }catch(error){
   failure=error
   let message=String(error.stack||error)

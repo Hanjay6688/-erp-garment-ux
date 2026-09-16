@@ -1,3 +1,34 @@
+# Independent follow-up — execution pending
+
+Incoming report checkpoint: `555d8f29ea2d3f58dc2c7d10e7cd80099cdd3b49`, tree
+`da665828227a0a4fd5d17452538edb98754738ad`. This wave changes audit tooling only;
+all product and backend source remains identical to that checkpoint.
+
+Incoming artifact 10463056747 was independently matched to its SHA-256,
+5,243,788-byte size and 32-entry ZIP CRC. Native and four CodeQL jobs were read
+from GitHub and are successful. These are verified incoming writer results,
+not a new global acceptance.
+
+New execution is planned on the exact AI-R2 engine: 24 calendar-delay invoice
+scenarios, six raw PENDING staging validation scenarios, four controlled-clock
+long/fresh transaction controls, and original browser rework/permission paths.
+The inherited 142/16/23/12/95/43 assertions remain present. Historical 460 is not
+rerun without invalidating drift. Each new independent group persists its own
+failures and unfinished cases; none is PASS before execution.
+
+Owner master `ERP_GARMENT_MASTER_CONTEXT_2026-09-15_AD.md` section21.1 requires
+preview, row errors, totals, idempotency, manifest and recovery for imports.
+No application CSV parser/upload was found. Testing raw normalized staging is
+therefore explicitly separate from CSV transport. Three calendar months is a
+required supported scenario; no 90-day rejection rule is invented.
+
+One writer, competition branch only. Main confirmed at
+`6d4cda118f5d28d1f039cc0ecf318d0866f55c2c`. No hosted target or CP7 work.
+`production_go:false`. Current verdict remains **INCOMPLETE** pending this run
+and disposition of any newly proven gaps.
+
+---
+
 # Final audit CP6 — CP6_HOLD setelah perbaikan UI
 
 Bukti akhir: 16 September 2026 UTC / 17 September 2026 WIB.
