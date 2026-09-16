@@ -1,7 +1,5 @@
 node_modules/
 dist/
-cp6-ui-build/
-cp6-proof/
 .wrangler/
 .wrangler-dry-run/
 *.tsbuildinfo

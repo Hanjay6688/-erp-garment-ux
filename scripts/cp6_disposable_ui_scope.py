@@ -11,8 +11,7 @@ BACKEND = '25fa4736329e5148dfdb3572bc169952cba23251'
 BACKEND_TREE = 'a5cb1e43d776a9ffc058f99c8d5c96ac7f6a9c0d'
 PIN_FILE = 'docs/evidence/cp6-disposable-ui-source-pins.json'
 DOC = 'docs/cp6-disposable-ui-audit.md'
-PATHS = '''.gitignore
-.github/workflows/cp6-ad-roll-opening-check.yml
+PATHS = '''.github/workflows/cp6-ad-roll-opening-check.yml
 .github/workflows/cp6-full-schema-validation.yml
 .github/workflows/cp6-final-boundary-audit.yml
 package.json

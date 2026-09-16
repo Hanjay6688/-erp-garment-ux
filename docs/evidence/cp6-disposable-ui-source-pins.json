@@ -2,7 +2,6 @@
   "base": "9f884fbb27bdb92d6ee63f60333e007dc36f3f1c",
   "backend": "25fa4736329e5148dfdb3572bc169952cba23251",
   "sha256": {
-    ".gitignore": "c6ca46a99ef47825e247f59ab19117d9dddc32fcf795c83699736414c7f07074",
     ".github/workflows/cp6-ad-roll-opening-check.yml": "cc1c4ac7b684d296513f539832b5a975fea3b3b99bc1b7319f64d564bae230dd",
     ".github/workflows/cp6-full-schema-validation.yml": "478ad65c90150dbfbe24c537e38567d219a315d445e4b74759dde3dbf0f3f553",
     ".github/workflows/cp6-final-boundary-audit.yml": "df2fb0d20725ea01c3d84a5c97d334a47426f320b6d1c7b30bf8f2d74a6c277a",
@@ -10,7 +9,7 @@
     "scripts/assert-cp6-disposable-env.mjs": "64d342f6db5cd929a3742315348c935e1bda2f9637e34a41d2a91f1cf5e68762",
     "scripts/build-preflight.mjs": "5d7b10fa241075ff8a4f3e6d5b438f2be26d1acd54b27fd76c67c38f79138c2f",
     "scripts/cp6_disposable_ui_e2e.mjs": "b891523e09a2b1a6d882a841fbbc5e4fca1a5c1c8f4c32d4e743d798babec42c",
-    "scripts/cp6_disposable_ui_scope.py": "d7bd1e73817715896ee00ce3fe539158adb85dd2ca1fb914c90d253574dd7c3b",
+    "scripts/cp6_disposable_ui_scope.py": "06dc31d1d47662b61fe8ba28b674ef62c060a0aa71b12b7388e775212d706f62",
     "src/AccessControlPage.tsx": "383b0bc132cbf0bf91334d84c5261f0746751163b630f14f7ec13c62c1b9deeb",
     "src/ConnectedBsResolutionPage.tsx": "f95ac0dc4731591059b389a93161b3a0b097e7fae5862b16d549592b00b3461d",
     "src/ConnectedCuttingPage.tsx": "78bbd308ff5b578f12707f75c431df4d083ae492224e2ccdb6456e7ee6dc129a",

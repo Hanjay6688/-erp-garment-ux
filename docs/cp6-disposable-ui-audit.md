@@ -46,6 +46,13 @@ reconciliation, idempotency, manifest and rollback/recovery. Import obligations
 need separate source-to-path inventory; this document does not silently relabel
 unproven import work as CP7 or N/A.
 
+Run 35123732959 stopped during the source guard, before browser installation or
+database startup: adding local output paths to the frozen predecessor `.gitignore`
+was rejected. The predecessor file is restored byte-for-byte; the source guard is
+unchanged. All 226 unit cases passed before that failure. No UI/business execution
+is claimed for that run. Its cleanup-only artifact is 10457879554 (288 bytes),
+GitHub-reported SHA-256 `c1abb38719dee9f087cf1a208ffd55620a978780b56c90964f52b0ceca72ebdc`.
+
 Current execution status: PENDING_CI. The earlier native/HTTP audit and historical
 460-case reconciliation remain in `docs/cp6-final-audit-checkpoint.md` and
 `docs/evidence/cp6-final-audit-reconciliation.json`. No new PASS is claimed here.
