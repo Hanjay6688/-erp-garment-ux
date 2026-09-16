@@ -6,6 +6,8 @@ HEAD='25fa4736329e5148dfdb3572bc169952cba23251'
 TREE='a5cb1e43d776a9ffc058f99c8d5c96ac7f6a9c0d'
 PATCHES={'.github/workflows/cp6-ad-roll-opening-check.yml': [(' || python scripts/cp6_ai_gate_scope.py; then\n', ' || python scripts/cp6_ai_gate_scope.py || python scripts/cp6_ai_review_scope.py; then\n')]}
 NEW=['.github/workflows/cp6-ai-independent-review.yml', 'scripts/cp6_ai_audit_router.py', 'scripts/cp6_ai_independent_review.py', 'scripts/cp6_ai_review_scope.py']
+NEW += ['.github/workflows/cp6-final-boundary-audit.yml', 'scripts/cp6_final_crossflow_review.py',
+        'docs/cp6-final-audit-checkpoint.md', 'docs/evidence/cp6-final-audit-reconciliation.json']
 
 def verify():
  git=lambda *a:subprocess.check_output(['git',*a],text=True).strip()

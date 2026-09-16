@@ -1,0 +1,552 @@
+name: CP6 Final Boundary Audit
+'on':
+  push:
+    branches:
+    - competition/cp6-j-closure-20260911
+    paths:
+    - .github/workflows/cp6-final-boundary-audit.yml
+    - scripts/cp6_final_crossflow_review.py
+  workflow_dispatch: null
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: cp6-final-boundary-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  review:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
+      CP6_AC_INDEPENDENT_CONFIRM: postgres
+      CP6_AF_INDEPENDENT_CONFIRM: postgres
+      CP6_AF_HARNESS_HEAD: ${{ github.sha }}
+      CP6_AUDIT_HARNESS_HEAD: ${{ github.sha }}
+      CP6_DATABASE_CONTAINER: supabase_db_cp5-local
+      CP6_MAINTENANCE_PGURL: postgresql://postgres:postgres@127.0.0.1:54322/template1
+      CP6_ROLLBACK_RACE_PGURL: postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback
+      CP6_MAINTENANCE_CONFIRM_DATABASE: postgres
+      CP6_MAINTENANCE_ALLOW_SYSTEM_DATABASE: postgres
+      CP6_AH_CONFIRM: postgres
+      CP6_AI_CONFIRM: postgres
+      CP6_AH_INDEPENDENT_CONFIRM: postgres
+      CP6_AI_INDEPENDENT_CONFIRM: postgres
+      CP6_AUTH_PGURL: postgresql://postgres:postgres@127.0.0.1:54322/cp6_auth
+      CP6_AUTH_REPORT: cp6-proof/final-audit/HTTP.json
+    steps:
+    - name: Checkout exact AI candidate
+      uses: actions/checkout@v4
+      with:
+        path: candidate
+        fetch-depth: 0
+        ref: 25fa4736329e5148dfdb3572bc169952cba23251
+    - name: Checkout independent harness
+      uses: actions/checkout@v4
+      with:
+        path: harness
+        fetch-depth: 0
+    - name: Checkout immutable AC runtime source
+      uses: actions/checkout@v4
+      with:
+        path: base
+        ref: 1bdca3766f7c9800d68295ff5122798060b8a05d
+        fetch-depth: 0
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+    - name: Install pinned disposable runtime
+      shell: bash
+      run: |
+        set -euo pipefail
+        python -m pip install --quiet 'psycopg[binary]==3.2.10' 'PyYAML==6.0.2'
+        sudo apt-get update -qq
+        sudo apt-get install -y -qq ca-certificates curl gnupg
+        sudo install -d /usr/share/postgresql-common/pgdg
+        sudo curl --fail --silent --show-error \
+          -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \
+          https://www.postgresql.org/media/keys/ACCC4CF8.asc
+        key_fingerprint="$(gpg --show-keys --with-colons \
+          /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \
+          | awk -F: '$1 == "fpr" { print $10; exit }')"
+        test "$key_fingerprint" = 'B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8'
+        . /etc/os-release
+        architecture="$(dpkg --print-architecture)"
+        sudo tee /etc/apt/sources.list.d/pgdg.sources >/dev/null <<EOF
+        Types: deb
+        URIs: https://apt.postgresql.org/pub/repos/apt
+        Suites: ${VERSION_CODENAME}-pgdg
+        Architectures: ${architecture}
+        Components: main
+        Signed-By: /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc
+        EOF
+        sudo apt-get update -qq
+        sudo apt-get install -y -qq postgresql-client-17
+        test -x /usr/lib/postgresql/17/bin/psql
+        echo '/usr/lib/postgresql/17/bin' >> "$GITHUB_PATH"
+    - name: Install pinned Supabase CLI
+      uses: supabase/setup-cli@ab058987d8d6c725971f6cf9d0b5c98467e30bd1
+      with:
+        version: 2.116.0
+    - name: Verify unchanged AI-R2 and bounded independent scope
+      shell: bash
+      run: |
+        set -euo pipefail
+        (cd harness && python scripts/cp6_ai_review_scope.py)
+        (cd candidate && python scripts/cp6_ai_gate_scope.py)
+    - name: Start disposable database
+      working-directory: base
+      shell: bash
+      run: |
+        set -euo pipefail
+        test "$(git rev-parse HEAD)" = 1bdca3766f7c9800d68295ff5122798060b8a05d
+        test "$(git rev-parse HEAD^{tree})" = 334629c626257b8b713826f491cdf62385d5299b
+        test -z "$(git status --porcelain)"
+        supabase --help >/dev/null
+        supabase init --help >/dev/null
+        supabase start --help >/dev/null
+        mkdir cp5-local
+        supabase init --force --workdir cp5-local
+        mkdir -p cp5-local/supabase/.temp
+        echo '17.6.1.165' > cp5-local/supabase/.temp/postgres-version
+        sed -i '0,/^enable_signup = true$/s//enable_signup = false/' cp5-local/supabase/config.toml
+        supabase start --workdir cp5-local \
+          -x realtime,imgproxy,studio,postgres-meta,edge-runtime,logflare,vector,supavisor \
+          > "$RUNNER_TEMP/cp6-local-start.log" 2>&1
+    - name: Verify exact incoming AF writer proof
+      working-directory: candidate
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        set -euo pipefail
+        mkdir -p cp6-proof/independent-af cp6-proof/writer-ae cp6-proof/writer-af
+        gh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10429202482/zip > "$RUNNER_TEMP/af-writer.zip"
+        python - <<'PYVERIFY'
+        from pathlib import Path
+        import os,hashlib,zipfile,json
+        p=Path(os.environ['RUNNER_TEMP'])/'af-writer.zip'
+        assert p.stat().st_size==45580397
+        assert hashlib.sha256(p.read_bytes()).hexdigest()=='f35be1721e99df6ce2c03662b1ae6856f38e9886dcfc8fe5165ba12e2737696c'
+        with zipfile.ZipFile(p) as z:
+         assert z.testzip() is None
+         for phase,count in {'admission':7,'focused':30,'detector':11,'crossflow':134}.items():
+          r=json.loads(z.read('candidate/cp6-proof/writer-af/'+phase+'.json'))
+          assert r['head']=='f46699865501b03f9fba3a8b188f3fd01eedf404' and r['status']=='PASS' and r['passed']==count and r['failed']==0
+         r=json.loads(z.read('candidate/cp6-proof/AF_MAINTENANCE_ROLLBACK/manifest.json'))
+         assert r['status']=='PASS' and r['completed_case_count']==20
+        Path('cp6-proof/independent-af/INCOMING_WRITER.json').write_text(json.dumps({'status':'REUSED_VERIFIED_AF_NATIVE10','artifact_id':10429202482,'artifact_sha256':hashlib.sha256(p.read_bytes()).hexdigest(),'historical_matrix_reexecuted':False,'production_go':False},indent=2)+'\n')
+        PYVERIFY
+    - name: Restore exact AC runtime
+      working-directory: base
+      env:
+        GITHUB_SHA: 1bdca3766f7c9800d68295ff5122798060b8a05d
+        GH_TOKEN: ${{ github.token }}
+      shell: bash
+      run: |
+        set -euo pipefail
+        export CP6_AC_WRITER_ARTIFACT="$RUNNER_TEMP/ac-native200.zip"
+        gh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10392910720/zip \
+          > "$CP6_AC_WRITER_ARTIFACT"
+        PYTHONPATH=scripts python ../candidate/scripts/cp6_ac_audit_bootstrap.py
+    - name: Apply exact AD predecessor
+      working-directory: candidate
+      shell: bash
+      run: |
+        set -euo pipefail
+        mkdir -p cp6-proof/writer-ae
+        psql "$PGURL" -X -v ON_ERROR_STOP=1 \
+          -f supabase/migrations/20260915113627_erp_v2_6_20ad_cp6_opening_material_business_day.sql \
+          > cp6-proof/writer-ae/AD_APPLY.log 2>&1
+        PYTHONPATH=scripts python - <<'PY'
+        import os
+        import psycopg
+        import cp6_v2620ad_runtime as runtime
+        with psycopg.connect(os.environ['PGURL']) as connection, connection.cursor() as cur:
+            cur.execute(
+                'insert into supabase_migrations.schema_migrations(version,name,statements) '
+                'values(%s,%s,%s)',
+                (runtime.STAMP, runtime.NAME, [runtime.MIGRATION.read_text()]),
+            )
+            assert len(runtime.verified_successor(cur)) == 274
+        PY
+    - name: Apply exact AE comparison runtime
+      working-directory: candidate
+      shell: bash
+      run: |
+        set -euo pipefail
+        psql "$PGURL" -X -v ON_ERROR_STOP=1 \
+          -f supabase/migrations/20260915201500_erp_v2_6_20ae_cp6_opening_roll_integrity.sql \
+          > cp6-proof/writer-ae/AE_APPLY.log 2>&1
+        PYTHONPATH=scripts python - <<'PY'
+        import os
+        import psycopg
+        import cp6_v2620ae_runtime as runtime
+        with psycopg.connect(os.environ['PGURL']) as connection, connection.cursor() as cur:
+            cur.execute(
+                'insert into supabase_migrations.schema_migrations(version,name,statements) '
+                'values(%s,%s,%s)',
+                (runtime.STAMP, runtime.NAME, [runtime.MIGRATION.read_text()]),
+            )
+            assert len(runtime.verified_successor(cur)) == 276
+        PY
+    - name: Install AF and bind exact 278-object runtime
+      working-directory: candidate
+      shell: bash
+      run: |
+        set -euo pipefail
+        psql "$PGURL" -X -v ON_ERROR_STOP=1 -f supabase/migrations/20260916014332_erp_v2_6_20af_cp6_posted_child_integrity.sql > cp6-proof/writer-af/AF_APPLY.log 2>&1
+        PYTHONPATH=scripts python - <<'PYINSTALL'
+        import os,psycopg
+        import cp6_v2620af_runtime as r
+        with psycopg.connect(os.environ['PGURL']) as conn,conn.cursor() as cur:
+         cur.execute('insert into supabase_migrations.schema_migrations(version,name,statements) values(%s,%s,%s)',(r.STAMP,r.NAME,[r.MIGRATION.read_text()]))
+         assert len(r.verified_successor(cur))==278
+        PYINSTALL
+    - name: Verify exact AG writer and original return counterexample artifacts
+      working-directory: candidate
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |-
+        set -euo pipefail
+        mkdir -p cp6-proof/writer-ah
+        # Evidence is read and hashed, never executed as SQL.
+        gh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10432153459/zip > "$RUNNER_TEMP/ag-writer.zip"
+        gh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10434213550/zip > cp6-proof/writer-ah/AG_ORIGINAL_RETURN_COUNTEREXAMPLE.zip
+        python - <<'PYVERIFY'
+        from pathlib import Path
+        import os,hashlib,zipfile,json
+        p=Path(os.environ['RUNNER_TEMP'])/'ag-writer.zip'
+        assert p.stat().st_size==44481450
+        assert hashlib.sha256(p.read_bytes()).hexdigest()=='c7292683dcb0729b9634f1736f1dc42d2ed56b32af6a209b569b001a20e0b469'
+        with zipfile.ZipFile(p) as z:
+         assert z.testzip() is None
+         for phase,count in {'admission':10,'focused':51,'detector':23,'crossflow':142}.items():
+          r=json.loads(z.read('candidate/cp6-proof/writer-ag/'+phase+'.json'))
+          assert r['head']=='119f8f133131eaf373f08cc45b7b3d6fc27a3d3e' and r['status']=='PASS' and r['passed']==count and r['failed']==0
+         r=json.loads(z.read('candidate/cp6-proof/AG_MAINTENANCE_ROLLBACK/manifest.json'))
+         assert r['status']=='PASS' and r['completed_case_count']==20
+        p=Path('cp6-proof/writer-ah/AG_ORIGINAL_RETURN_COUNTEREXAMPLE.zip')
+        assert p.stat().st_size==44431
+        assert hashlib.sha256(p.read_bytes()).hexdigest()=='2b5e604bcf42fc6185f4de50ed8be5bb6a403ec93661028e6b4ef24df39e48c3'
+        with zipfile.ZipFile(p) as z:
+         assert z.testzip() is None
+         r=json.loads(z.read('candidate/cp6-proof/ag-residual/RESULT.json'))
+         assert r['candidate_head']=='119f8f133131eaf373f08cc45b7b3d6fc27a3d3e'
+         assert r['status']=='QUALIFIED_COUNTEREXAMPLE' and (r['controls'],r['counterexamples'],r['incomplete'])==(15,6,0)
+         assert r['source_sha256']==hashlib.sha256(Path('scripts/cp6_ag_residual_review.py').read_bytes()).hexdigest()
+        Path('cp6-proof/writer-ah/INCOMING_AG.json').write_text(json.dumps(dict(status='VERIFIED',writer_run=35060285362,counterexample_run=35066611261,historical_500_matrix_reexecuted=False,independent_ag_acceptance=False,production_go=False),indent=2)+'\n')
+        PYVERIFY
+    - name: Install unchanged AG predecessor and verify 690 objects
+      working-directory: candidate
+      run: |-
+        set -euo pipefail
+        psql "$PGURL" -X -v ON_ERROR_STOP=1 -f supabase/migrations/20260916050822_erp_v2_6_20ag_cp6_sale_reservation_lineage.sql > cp6-proof/writer-ah/AG_APPLY.log 2>&1
+        PYTHONPATH=scripts python - <<'PYINSTALL'
+        import os,psycopg
+        import cp6_v2620ag_runtime as r
+        with psycopg.connect(os.environ['PGURL']) as conn,conn.cursor() as cur:
+         cur.execute('insert into supabase_migrations.schema_migrations(version,name,statements) values(%s,%s,%s)',(r.STAMP,r.NAME,[r.MIGRATION.read_text()]))
+         assert len(r.verified_successor(cur))==690
+        PYINSTALL
+    - name: Provision isolated rollback authority
+      working-directory: candidate
+      shell: bash
+      run: |
+        set -euo pipefail
+        maintenance_password="$(openssl rand -hex 32)"
+        maintenance_pgurl="postgresql://cp6_maintenance_admission:${maintenance_password}@127.0.0.1:54322/template1"
+        echo "::add-mask::$maintenance_password"
+        echo "::add-mask::$maintenance_pgurl"
+        docker exec -i "$CP6_DATABASE_CONTAINER" \
+          psql -U supabase_admin -d template1 -X -v ON_ERROR_STOP=1 \
+            -v cp6_password="$maintenance_password" <<'SQL'
+        create role cp6_maintenance_admission
+          login superuser noinherit nocreatedb nocreaterole noreplication
+          connection limit 4 password :'cp6_password';
+        SQL
+        printf 'CP6_ADMISSION_CONTROL_PGURL=%s\n' "$maintenance_pgurl" >> "$GITHUB_ENV"
+    - name: Install AH and verify all 533 functions and 157 relation objects
+      working-directory: candidate
+      run: |
+        set -euo pipefail
+        psql "$PGURL" -X -v ON_ERROR_STOP=1 -f supabase/migrations/20260916070451_erp_v2_6_20ah_cp6_return_allocation_eligibility.sql > cp6-proof/writer-ah/AH_APPLY.log 2>&1
+        PYTHONPATH=scripts python - <<'PYINSTALL'
+        import os,json,psycopg
+        from pathlib import Path
+        import cp6_v2620ah_runtime as r
+        with psycopg.connect(os.environ['PGURL']) as conn,conn.cursor() as cur:
+         cur.execute('insert into supabase_migrations.schema_migrations(version,name,statements) values(%s,%s,%s)',(r.STAMP,r.NAME,[r.MIGRATION.read_text()]))
+         objects=r.verified_successor(cur);assert len(objects)==690
+         Path('cp6-proof/writer-ah/AH_INSTALLED_RUNTIME.json').write_text(json.dumps({'status':'PASS','head':os.environ['GITHUB_SHA'],'objects':objects,'production_go':False},indent=2)+'\n')
+        PYINSTALL
+    - name: Verify exact incoming AI-R2 evidence bytes
+      working-directory: candidate
+      env:
+        GH_TOKEN: ${{ github.token }}
+      shell: bash
+      run: |
+        set -euo pipefail
+        mkdir -p cp6-proof/independent-ai cp6-proof/writer-ai
+        gh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10444721050/zip > "$RUNNER_TEMP/ai-writer.zip"
+        python - <<'PYVERIFY'
+        from pathlib import Path
+        import os,json,zipfile,hashlib
+        p=Path(os.environ['RUNNER_TEMP'])/'ai-writer.zip'
+        assert p.stat().st_size==46570373
+        assert hashlib.sha256(p.read_bytes()).hexdigest()=='9f66d938db568ca32dc5d4920292d02410557d86f03f9d8da59ed96739b37d46'
+        with zipfile.ZipFile(p) as z:
+         assert z.testzip() is None and len(z.namelist())==268
+         for phase,count in {'admission':8,'focused':99,'detector':36,'crossflow':142}.items():
+          r=json.loads(z.read('candidate/cp6-proof/writer-ai/'+phase+'.json'))
+          assert r['head']=='25fa4736329e5148dfdb3572bc169952cba23251' and r['status']=='PASS' and r['passed']==count and r['failed']==0
+        Path('cp6-proof/independent-ai/INCOMING_WRITER.json').write_text(json.dumps(dict(status='REUSED_EVIDENCE_VERIFIED',artifact_id=10444721050,sha256=hashlib.sha256(p.read_bytes()).hexdigest(),zip_files=268,historical_460_matrix_reexecuted=False,independent_acceptance=False,production_go=False),indent=2)+'\n')
+        PYVERIFY
+    - name: Capture independent exact AH boundary
+      working-directory: candidate
+      run: PYTHONPATH=scripts python ../harness/scripts/cp6_ai_independent_review.py --phase capture
+    - name: Install AI and bind the full original catalog
+      working-directory: candidate
+      run: |
+        set -euo pipefail
+        psql "$PGURL" -X -v ON_ERROR_STOP=1 -f supabase/migrations/20260916090022_erp_v2_6_20ai_cp6_work_source_lineage.sql > cp6-proof/writer-ai/AI_APPLY.log 2>&1
+        PYTHONPATH=scripts python - <<'PYINSTALL'
+        import os,json,psycopg
+        from pathlib import Path
+        import cp6_v2620ai_runtime as r
+        with psycopg.connect(os.environ['PGURL']) as conn,conn.cursor() as cur:
+         cur.execute('insert into supabase_migrations.schema_migrations(version,name,statements) values(%s,%s,%s)',(r.STAMP,r.NAME,[r.MIGRATION.read_text()]))
+         objects=r.verified_successor(cur);assert len(objects)==690
+         Path('cp6-proof/writer-ai/AI_INSTALLED_RUNTIME.json').write_text(json.dumps(dict(status='PASS',head='25fa4736329e5148dfdb3572bc169952cba23251',objects=objects,production_go=False),indent=2)+'\n')
+        PYINSTALL
+      id: ai_install
+    - name: Rerun unchanged combined 142-case business oracle on final candidate
+      working-directory: candidate
+      run: PYTHONPATH=scripts python scripts/cp6_v2620ai_family.py --phase crossflow
+    - name: Independently test staged late invoices after wages partial FG and sales
+      if: ${{ always() && steps.ai_install.outcome == 'success' }}
+      working-directory: candidate
+      run: PYTHONPATH=scripts python ../harness/scripts/cp6_final_crossflow_review.py
+    - name: Run independent work, accounting and role cases
+      if: ${{ always() && steps.ai_install.outcome == 'success' }}
+      working-directory: candidate
+      run: PYTHONPATH=scripts python ../harness/scripts/cp6_ai_independent_review.py --phase business
+    - name: Run twelve new two-session business schedules
+      working-directory: candidate
+      run: PYTHONPATH=scripts python ../harness/scripts/cp6_ai_independent_review.py --phase concurrency
+      if: ${{ always() && steps.ai_install.outcome == 'success' }}
+    - name: Rerun original HTTP role and lifecycle oracle on exact AI public API
+      if: ${{ always() && steps.ai_install.outcome == 'success' }}
+      working-directory: candidate
+      shell: bash
+      run: |
+        set -euo pipefail
+        mkdir -p cp6-proof/final-audit
+        PYTHONPATH=scripts python -c "import os,psycopg,cp6_v2620ai_runtime as r; c=psycopg.connect(os.environ['PGURL']); assert len(r.verified_successor(c.cursor()))==690; c.close()"
+        auth_rest_name='cp6_auth_rest'
+        auth_rest_env="$(mktemp)"
+        auth_rest_json="${auth_rest_env}.json"
+        umask 077
+        cleanup_auth_clone() {
+          prior_status=$?
+          trap - EXIT
+          set +e
+          docker rm -f "$auth_rest_name" >/dev/null 2>&1
+          rest_remove_status=$?
+          if docker inspect "$auth_rest_name" >/dev/null 2>&1; then
+            postgrest_container_remaining=1
+          else
+            postgrest_container_remaining=0
+          fi
+          rm -f "$auth_rest_env" "$auth_rest_json"
+          docker exec "$CP6_DATABASE_CONTAINER" \
+            dropdb -U supabase_admin --if-exists --force --maintenance-db=template1 cp6_auth
+          drop_status=$?
+          remaining_databases=UNKNOWN
+          queried_remaining="$(docker exec "$CP6_DATABASE_CONTAINER" \
+            psql -U supabase_admin -d template1 -X -At -v ON_ERROR_STOP=1 \
+            -c "select count(*) from pg_database where datname='cp6_auth'")"
+          query_status=$?
+          if test "$query_status" -eq 0 && [[ "$queried_remaining" =~ ^[0-9]+$ ]]; then
+            remaining_databases="$queried_remaining"
+          fi
+          postgrest_container_removed=false
+          if test "$postgrest_container_remaining" -eq 0; then
+            postgrest_container_removed=true
+          fi
+          cleanup_status=FAIL
+          if { test "$rest_remove_status" -eq 0 || test "$postgrest_container_remaining" -eq 0; } \
+            && test "$drop_status" -eq 0 \
+            && test "$query_status" -eq 0 \
+            && test "$remaining_databases" = '0' \
+            && test "$postgrest_container_remaining" -eq 0; then
+            cleanup_status=PASS
+          else
+            prior_status=1
+          fi
+          printf 'clone_database=cp6_auth\nremaining_databases=%s\npostgrest_container_remaining=%s\npostgrest_container_removed=%s\nsecrets_persisted=false\nstatus=%s\n' \
+            "$remaining_databases" "$postgrest_container_remaining" \
+            "$postgrest_container_removed" "$cleanup_status" \
+            | tee cp6-proof/CP6_AUTH_CLONE_CLEANUP.txt
+          exit "$prior_status"
+        }
+        trap cleanup_auth_clone EXIT
+
+        status_env=''
+        for attempt in $(seq 1 45); do
+          if status_env="$(supabase status --workdir ../base/cp5-local -o env 2>/dev/null)" \
+            && grep -q '^API_URL=' <<<"$status_env"; then
+            break
+          fi
+          sleep 2
+        done
+        test -n "$status_env"
+        grep -q '^API_URL=' <<<"$status_env"
+        grep -q '^ANON_KEY=' <<<"$status_env"
+        grep -q '^SERVICE_ROLE_KEY=' <<<"$status_env"
+        eval "$status_env"
+
+        bash scripts/clone-cp6-disposable-database.sh \
+          "$PGURL" "$CP6_MAINTENANCE_PGURL" "$CP6_AUTH_PGURL" cp6_auth \
+          "$CP6_DATABASE_CONTAINER" cp6-proof/CP6_AUTH_CLONE_BOUNDARY
+        psql "$CP6_AUTH_PGURL" -v ON_ERROR_STOP=1 \
+          -f supabase/tests/cp3_r4_full_schema_seed.sql \
+          2>&1 | tee cp6-proof/CP6_AUTH_FOUNDATION_SEED.log
+        psql "$CP6_AUTH_PGURL" -v ON_ERROR_STOP=1 \
+          -f supabase/tests/cp6_laundry_qc_concurrency_seed.sql \
+          2>&1 | tee cp6-proof/CP6_AUTH_BUSINESS_SEED.log
+
+        # Auth stays on the untouched primary local database. A second,
+        # temporary PostgREST process points only at cp6_auth and
+        # exposes only public with the candidate's original schema USAGE/ACL.
+        rest_container="$(docker ps --format '{{.Names}}' | awk '/^supabase_rest_/ {print; exit}')"
+        test -n "$rest_container"
+        rest_image="$(docker inspect -f '{{.Config.Image}}' "$rest_container")"
+        rest_network="$(docker inspect -f '{{range $name, $_ := .NetworkSettings.Networks}}{{println $name}}{{end}}' "$rest_container" | head -1)"
+        test -n "$rest_image"
+        test -n "$rest_network"
+        docker inspect -f '{{json .Config.Env}}' "$rest_container" > "$auth_rest_json"
+        AUTH_REST_JSON="$auth_rest_json" AUTH_REST_ENV="$auth_rest_env" python - <<'PY'
+        import json
+        import os
+        from pathlib import Path
+        from urllib.parse import urlsplit, urlunsplit
+
+        values={}
+        for item in json.loads(Path(os.environ['AUTH_REST_JSON']).read_text()):
+            key,value=item.split('=',1)
+            values[key]=value
+        uri=urlsplit(values['PGRST_DB_URI'])
+        values['PGRST_DB_URI']=urlunsplit((
+            uri.scheme,uri.netloc,'/cp6_auth',uri.query,uri.fragment,
+        ))
+        values['PGRST_DB_SCHEMAS']='public'
+        values['PGRST_SERVER_PORT']='3000'
+        Path(os.environ['AUTH_REST_ENV']).write_text(
+            ''.join(f'{key}={value}\n' for key,value in sorted(values.items())),
+            encoding='utf8',
+        )
+        PY
+        docker run -d --name "$auth_rest_name" --network "$rest_network" \
+          --env-file "$auth_rest_env" -p 127.0.0.1:54329:3000 "$rest_image" >/dev/null
+
+        for attempt in $(seq 1 45); do
+          if curl --fail --silent --show-error \
+            -H "apikey: $ANON_KEY" -H "Authorization: Bearer $ANON_KEY" \
+            http://127.0.0.1:54329/ >/dev/null \
+            && curl --fail --silent --show-error "$API_URL/auth/v1/health" >/dev/null; then
+            break
+          fi
+          sleep 2
+        done
+        curl --fail --silent --show-error \
+          -H "apikey: $ANON_KEY" -H "Authorization: Bearer $ANON_KEY" \
+          http://127.0.0.1:54329/ >/dev/null
+        curl --fail --silent --show-error "$API_URL/auth/v1/health" >/dev/null
+
+        export SUPABASE_URL="$API_URL"
+        export SUPABASE_AUTH_URL="$API_URL"
+        export SUPABASE_REST_URL='http://127.0.0.1:54329'
+        export SUPABASE_REST_PREFIX=''
+        export SUPABASE_ANON_KEY="$ANON_KEY"
+        export SUPABASE_SERVICE_ROLE_KEY="$SERVICE_ROLE_KEY"
+        export CP6_AUTH_CONTROL_PGURL="$PGURL"
+        export CP6_AUTH_DATABASE_NAME='cp6_auth'
+        node scripts/cp6_auth_permission_e2e.mjs 2>&1 | tee cp6-proof/CP6_AUTH_PERMISSION_E2E.log
+        python - <<'PY'
+        import json
+        import os
+        from pathlib import Path
+
+        report=json.loads(Path(os.environ['CP6_AUTH_REPORT']).read_text())
+        assert report['status']=='PASS',report
+        assert report['classification']=='LOCAL_POST_CP6_REAL_AUTH_JWT_HTTP',report
+        assert report['target']=='PHYSICAL_DISPOSABLE_CP6_AUTH_CLONE_AFTER_V2620AB',report
+        assert report['disposable_database']=='cp6_auth',report
+        assert report['database_disposal_required'] is True,report
+        assert report['positive_evidence']['partial_hpp_wip']['active_laundry_hpp']==28,report
+        assert report['positive_evidence']['partial_hpp_wip']['wip_net']==42,report
+        assert report['positive_evidence']['owner_dedicated_final_sku']['active_laundry_hpp']==35,report
+        assert report['positive_evidence']['owner_dedicated_final_sku']['wip_net']==35,report
+        assert report['positive_evidence']['fully_reversed']['fg_net']==0,report
+        assert report['positive_evidence']['failed_wash_cost_only']['wip_net']==140,report
+        assert report['positive_evidence']['failed_wash_cost_only']['accrued_net']==-140,report
+        assert report['positive_evidence']['positive_facade_actions']==14,report
+        assert report['positive_evidence']['granular_reverse_actions']==7,report
+        expected_actions={
+          'POST_DELIVERY','POST_RECEIPT','POST_FAILED_WASH','POST_FINAL_SKU',
+          'REVERSE_DELIVERY','REVERSE_RECEIPT','REVERSE_FINAL_SKU',
+        }
+        assert set(report['positive_evidence']['mutation_action_kinds'])==expected_actions,report
+        assert set(report['positive_evidence']['viewer_denied_action_kinds'])==expected_actions,report
+        assert report['positive_evidence']['all_actions_fully_reversed']==report['positive_evidence']['fully_reversed'],report
+        assert report['facade_role_matrix'],report
+        assert any(row['facade']=='erp_post_final_sku_allocation_v1' and row['role']=='owner' and row['expectation']=='ALLOW' and row['status']==200 for row in report['facade_role_matrix']),report
+        assert any(row['facade']=='erp_post_final_sku_allocation_v1' and row['role']=='operator' and row['expectation']=='ALLOW' and row['status']==200 for row in report['facade_role_matrix']),report
+        assert any(row['facade']=='erp_post_final_sku_allocation_v1' and row['expectation']=='DENY' for row in report['facade_role_matrix']),report
+        for facade in ('erp_search_final_sku_products_v1','erp_search_laundry_bs_products_v1'):
+          rows=[row for row in report['facade_role_matrix'] if row['facade']==facade]
+          assert {row['role'] for row in rows}=={'owner','operator','viewer','anonymous','unmapped','inactive'},rows
+          assert all(row['status']==200 for row in rows if row['expectation']=='ALLOW'),rows
+          assert all(row['status']!=200 for row in rows if row['expectation']=='DENY'),rows
+        assert report['private_schema_evidence']['schema_profile_requested']=='erp',report
+        assert all(value is False for value in report['private_schema_evidence']['authenticated_execute_acl'].values()),report
+        assert report['production_go'] is False,report
+        assert all(report['tested'].values()),report
+        assert all(value==0 for value in report['residue'].values()),report
+        PY
+        test "$(psql "$PGURL" -At -c 'select count(*) from auth.users')" = '0'
+        test "$(psql "$PGURL" -At -c 'select count(*) from erp.app_users')" = '0'
+        test "$(psql "$CP6_AUTH_PGURL" -At -c 'select count(*) from erp.cp6_laundry_qc_execution_context')" = '0'
+
+    - name: Restore and compare against independently captured AH
+      working-directory: candidate
+      run: PYTHONPATH=scripts python ../harness/scripts/cp6_ai_independent_review.py --phase rollback
+      if: ${{ always() && steps.ai_install.outcome == 'success' }}
+    - name: Stop disposable database and prove removal
+      if: always()
+      working-directory: base
+      shell: bash
+      run: |
+        set -euo pipefail
+        if test -f cp5-local/supabase/config.toml; then
+          supabase stop --help >/dev/null
+          supabase stop --workdir cp5-local --no-backup
+        fi
+        remaining="$(docker ps -aq --filter name='^/supabase_db_cp5-local$')"
+        test -z "$remaining"
+        mkdir -p ../candidate/cp6-proof/independent-ai
+        printf 'status=PASS\nremaining_database_container=0\nproduction_go=false\n' > ../candidate/cp6-proof/independent-ai/PHYSICAL_CLEANUP.txt
+    - name: Preserve exact candidate independent evidence
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: cp6-final-boundary-audit
+        path: |-
+          candidate/cp6-proof/independent-ai
+          candidate/cp6-proof/final-audit
+          candidate/cp6-proof/writer-ai/crossflow.json
+          candidate/cp6-proof/CP6_AUTH_CLONE_CLEANUP.txt
+          base/cp6-proof/AC_AUDIT_RUNTIME_BOOTSTRAP.json
+        if-no-files-found: error
+        compression-level: 9
+        retention-days: 30
