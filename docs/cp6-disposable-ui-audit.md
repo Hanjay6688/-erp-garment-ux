@@ -1,3 +1,211 @@
+# Final audit CP6 — CP6_HOLD setelah perbaikan UI
+
+Bukti akhir: 16 September 2026 UTC / 17 September 2026 WIB.
+**Writer PASS pada cakupan yang dijalankan; belum independent PASS.**
+`production_go:false`. CP7 belum dimulai.
+
+“VENI. VIDI. VICI. ERP. — I CONQUERED ERP.”
+“Reliable data adalah dewa.”
+“Keuangan—termasuk laporan—stok, dan HPP adalah raja.”
+
+Bagian ini merupakan status terbaru. Catatan proses di bawah dan laporan
+`cp6-final-audit-checkpoint.md` mempertahankan keadaan pada checkpoint lamanya;
+pernyataan lama “tidak ada bug baru” atau “UI belum dapat dijalankan” tidak boleh
+dipakai sebagai status kandidat sekarang.
+
+## Keputusan dan penghalang penutupan
+
+**CP6_HOLD.** Dua bug material pada UI asli ditemukan melalui transaksi biasa,
+diperbaiki, lalu gate gabungan selesai. Karena auditor ini mengambil giliran
+penulis, aturan competition owner mewajibkan pemeriksaan chat independen lain
+atas successor. Hasil sendiri tidak boleh diangkat menjadi independent PASS.
+
+Kewajiban yang masih terbuka:
+
+- Audit independen kedua perbaikan, seluruh pemanggilnya, serta serangan baru di
+  luar daftar writer. Kandidat yang diserahkan dipin di tabel berikut.
+- Bukti aplikasi untuk seluruh cabang BS/rework, penyelesaian rework parsial
+  kumulatif, dan kombinasi izin yang belum dicakup 62 pasangan facade-role.
+  Jalurnya ada; tidak diberi label N/A atau dipindahkan diam-diam ke CP7.
+- CSV/import: tidak ditemukan parser/upload atau pemanggil staging-finalize di
+  aplikasi. Tes native memulai dari staging yang sudah VALID. Kontrak opening/
+  import owner mengikat preview, error per baris, total, idempotensi dan recovery;
+  penugasan upload CSV sebagai deliverable CP6 belum tersurat. Scope ini perlu
+  dipastikan dan jalur yang menjadi kewajiban harus dibuktikan.
+- Batas keterlambatan invoice hingga tiga bulan belum teruji lengkap oleh 16
+  kasus tambahan yang memakai keterlambatan beberapa hari. Empat zona sesi dan
+  periode tertutup telah diuji; transaksi panjang yang benar-benar melintasi
+  tengah malam WIB belum mendapat bukti baru. Tidak mengasumsikan 90 hari selalu
+  sama dengan tiga bulan kalender.
+
+Sales/invoice, payroll/Nota, HPP/Finance/report UI yang masih simulasi dipetakan
+sesuai master owner 2026-09-15_AD bagian checkpoint: koneksi sisanya dan alur
+owner lengkap adalah CP7. Ini tidak mengecualikan konsistensi backend lintas
+modul, ledger, HPP dan laporan dari CP6. CP7 tetap tidak dikerjakan di sini.
+
+## Identitas kandidat dan alat
+
+Repo `Hanjay6688/-erp-garment-ux`; satu penulis; hanya branch
+`competition/cp6-j-closure-20260911`, fast-forward. Main, PR24/25, hosted UAT,
+legacy, production, merge dan deployment tidak dimutasi.
+
+| Objek | SHA | Tree |
+| --- | --- | --- |
+| Backend bisnis AI-R2, tetap | `25fa4736329e5148dfdb3572bc169952cba23251` | `a5cb1e43d776a9ffc058f99c8d5c96ac7f6a9c0d` |
+| Commit terakhir yang mengubah sumber produk UI | `d7a92f00b0779d614478778bd8f1ddd367122ff7` | `71b281da4455296c6f808ef28557bf4ad8f4daa4` |
+| Snapshot akhir yang diuji + alat gate gabungan | `9a919060b1037fe0747515b6ed3b98aebb41b5b1` | `a0121c4f4c1ec6d2fd90852afd6c7d3b6c366859` |
+| Checkpoint alat masuk dari owner | `2735703114ab52d605aa0d6cd2aa530b074fb5e9` | `16a7caef2949f50f10544c04616026e22647c6be` |
+| Main, tetap | `6d4cda118f5d28d1f039cc0ecf318d0866f55c2c` | Tidak ditulis |
+
+Parent snapshot gate adalah `5285a5f3e17b64ac4ae211c1ac5f6a39d57cd161`.
+Sumber `src`, `supabase`, dan package sama persis antara commit produk d7a92f0
+dan snapshot gate 9a91906. Tidak ada SQL/migrasi/rollback bisnis yang diubah.
+31 berkas sumber alat/UI dipin SHA-256. Selain perbandingan sumber, gate
+memverifikasi 690 objek runtime AI, izin asli, pemanggil public RPC, transaksi,
+dan hasil ledger/laporan. Kesamaan byte sendiri bukan oracle perilaku.
+Commit dokumentasi setelah gate hanya menyimpan laporan, bukan eksekusi ulang.
+
+## CI, CodeQL dan paket bukti
+
+- [Gate gabungan 35133830834](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35133830834): SUCCESS; job 104921105516.
+- [CodeQL 35133830900](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35133830900): SUCCESS, Python, JavaScript/TypeScript, C/C++, Actions.
+- [Artifact 10463056747](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35133830834/artifacts/10463056747): 5.243.788 byte, 32 entry.
+
+SHA-256 ZIP:
+
+```text
+1deeeb830baa39c3c4d43d502fa3ba72a40a0aa5e7e45d4a97d5591188cd252b
+```
+
+ZIP diunduh ulang; SHA-256 dan CRC semua entry cocok. Pemindaian pola JWT,
+token GitHub, private key dan secret key tidak menemukan kecocokan. Ini
+pemindaian pola tertentu, bukan jaminan mutlak semua bentuk rahasia. Data uji
+sintetis; tidak ada akun/bisnis nyata yang dipakai. CodeQL bukan oracle uang.
+
+| Cakupan pada snapshot akhir | Rencana / selesai | Hasil dan batas |
+| --- | --- | --- |
+| Gabungan native warisan | 142 / 142 | PASS, termasuk kontrol detektor; bukan 142 alur bisnis baru |
+| Invoice bertahap sesudah produksi/penjualan | 16 / 16 | Ekspektasi nominal mandiri; 0 bug, 0 incomplete |
+| Kerja/upah, lineage, role, HPP native | 23 / 23 | PASS terbatas; bukan bukti transport UI |
+| Jadwal dua sesi | 12 / 12 | Enam konflik kerja × commit/abort sesi pertama |
+| Auth/JWT/HTTP asli | 95 / 95 | Lima facade, tujuh aksi, 62 pasangan facade-role; bukan semua kombinasi izin |
+| UI asli desktop dan mobile | 43 / 43 | WRITER_PASS; 0 unfinished; layanan dan DB asli disposable |
+| Unit | 230 / 230 | PASS; terpisah dari bukti browser nyata |
+| Security/source, build, scan bundle | Semua selesai | PASS |
+| Pemulihan AI → AH | 533 fungsi, 223 tabel | Definisi, owner/ACL, data, katalog dan marker cocok baseline |
+| Cleanup | Selesai | Auth/sesi, antrean/konteks, clone, layanan dan container diperiksa |
+| Matrix historis | 460 historis | REUSED_EVIDENCE; tidak dijalankan ulang sebagai matrix runtime akhir |
+
+Native 142 berlangsung 18:23:47–18:24:54 UTC, seluruhnya tanggal bisnis
+17 September WIB; tidak ada retry otomatis atau perubahan oracle tanggal.
+Runtime: Supabase CLI 2.116.0, PostgreSQL 17.6.1.165, PostgREST 16.1,
+Playwright 1.62.1, Chromium, dan smoke login agent-browser 0.38.0.
+
+File utama dalam ZIP: `writer-ai/crossflow.json`, `final-audit/NEW_CROSSFLOW.json`,
+`independent-ai/RESULT.json`, `independent-ai/CONCURRENCY.json`,
+`final-audit/HTTP.json`, `final-audit/UI.json`, `independent-ai/EXACT_RESTORE.json`.
+Semuanya di bawah `candidate/cp6-proof/`. Case ID dan observasi per tahap ada di
+file tersebut; jumlah PASS tidak dijumlahkan menjadi klaim keselamatan global.
+
+## Temuan dan cakupan perbaikan
+
+| Temuan | Reproduksi biasa | Perbaikan dan pembuktian |
+| --- | --- | --- |
+| CP6-UI-QC-READY-BASIS-01 | Kirim 10, terima 8, QC 5 lalu 3. UI memakai sisa seluruh Potongan 5 dan mengirim PARTIAL_SELECTION; server benar meminta ALL_READY karena ready-for-QC habis. Penolakan atomic, FG 35/WIP 35 tetap. | Mode memakai qty siap QC yang terbukti terlihat lengkap. Filter receipt/size atau truncation tidak dianggap seluruh grup. Pemanggil, tes unit/DOM dan checker lama diperbaiki bersama. UI 5+3+2, filter parsial, Good/BS, dua role, ledger dan laporan diuji. |
+| CP6-UI-RECEIPT-PROCESS-02 | POST_RECEIPT sah; workspace HTTP 200 berisi nama proses aktual. Parser asli menganggap nama proses sebagai metadata khusus attempt gagal sehingga halaman Laundry menampilkan kegagalan layanan. | Parser bersama menerima nama proses pada receipt fisik. Tiga metadata khusus attempt tetap dilarang di receipt fisik; attempt wajib lengkap. Unit, fixture browser dan UI nyata mencakup posted/reversal, RETRY_AT_VENDOR serta RETURN_UNPROCESSED. |
+
+Bukti asli pertama: run 35129057885, artifact 10460209095,
+SHA-256 `d06eebd9d9089c81b3f5d8f627fbfae5a5c8804331cda4d862b83d7947eb4088`.
+Gate akhir memverifikasi ZIP/CRC, hash modul asli, penolakan dan keadaan atomic.
+Bukti asli kedua: run 35131279236, artifact 10461242981,
+SHA-256 `6106756a15a33287b77463e88c345c06547e96893df33a82808731719f9f10f6`;
+ZIP/CRC dipastikan lokal. Parser saat bukti kedua masih byte-identik AI-R2.
+
+Kontrol yang sengaja memutus respons dilakukan sesudah server commit nyata;
+reload mengirim ulang UUID dan payload yang sama. Kontrol itu membuktikan
+recovery transport, bukan bukti transaksi normal semula merusak data.
+
+Aritmetika UI mandiri: 10 potong × 7 = 70. Desktop akhirnya FG 10/nilai 70,
+WIP 0. Mobile menghasilkan Good 8 + BS 2: FG 56, WIP 14, accrual -70.
+Retry-at-vendor 4 potong menambah biaya 28 tanpa Good/BS/FG palsu.
+Full return 10 mempertahankan biaya 70 dan mengembalikan custody; kirim ulang
+berdokumen baru menambah estimasi 70. Reversal biaya lama menyisakan 70 dan
+tidak mengubah custody kirim baru. Laporan READY cocok pada setiap checkpoint.
+
+Catatan UX nonmaterial yang terlihat: saat antrean QC sudah habis, pesan
+“Master Final SKU atau lokasi FG belum lengkap” dan “cakupan antrean belum cukup”
+bisa tampil bersama keberhasilan posting. Tidak terbukti ada master hilang atau
+ledger salah; teks keadaan kosong perlu ditinjau dalam audit UI berikutnya.
+Field diagnostik lama `posted_delivery` di UI.json menghitung literal status
+POSTED, bukan jumlah pengiriman aktif. Pembuktian double submit memakai query
+terpisah atas satu dokumen non-REVERSED dan waktu fisik; field lama tersebut
+bukan oracle saldo atau cleanup.
+
+## Peta antarmodul, reuse dan batas bukti
+
+| Hubungan | Sumber/pemanggil yang dipetakan | Bukti final / klasifikasi | Sisa cakupan |
+| --- | --- | --- | --- |
+| Beli → penerimaan → GRNI → invoice → AP → bayar/retur | purchase headers/items, material movements, finalize invoice, supplier allocation/reversal | Native 142 + invoice 16, RECONCILED | Durasi tiga bulan, semua transport aplikasi/import |
+| Roll → potong/size → pickup → kerja/upah → payroll | yields/distribution, work snapshots/completion, trigger lineage, jurnal | Native 23 + race 12 + invoice crossflow, RECONCILED | Accrual upah bukan pembayaran payroll; koneksi sisanya sesuai CP7 |
+| Laundry → parsial → QC → Good/BS → FG | batch-size facts, public facade, parser bersama, QC allocation, FG lots, report, blockers | HTTP 95 + UI 43, RECONCILED pada successor | Semua cabang rework dan kombinasi role belum lengkap |
+| FG → draft → posting → AR → bayar → retur/refund | draft reservations satu kali, sales post/allocation, reversal dan retur tertaut | Kelompok native DRAFT/CASH/RETURN pada 142, RECONCILED | UI Sales masih simulasi dan terjadwal CP7; native bukan bukti UI |
+| Koreksi/backdate → WIP/FG/COGS → jurnal/laporan | recalc queue, revaluation events, HPP state/events, financial snapshot/checks | Invoice 16, native 142/23 dan laporan UI 43, RECONCILED | Seluruh batas tanggal dan transaksi panjang lintas tengah malam |
+| Maintenance historis F..AB | controller/capsule/rollback dan manifest per target historis | 460, REUSED_EVIDENCE | Bukan pengujian baru runtime AI atau pengganti UI/import |
+| PASS UI simulasi lama | payload mock berbeda dari payload receipt nyata | DRIFT; tidak diwariskan sebagai PASS aplikasi asli | Digantikan hanya pada 43 kasus yang benar-benar dijalankan |
+| CSV dan role/rework yang belum dicakup | belum ada transport CSV; jalur rework nyata ada | RERUN_REQUIRED / kontrak scope CSV belum tegas | Tidak diberi PASS atau N/A |
+
+Tidak perlu mengulang 460 hanya untuk angka: perbaikan ini tidak mengubah SQL,
+trigger, izin backend, controller maintenance atau dependensi runtime historis.
+Perubahan pembentukan payload/reader UI dibuktikan ulang dengan layanan asli;
+backend gabungan dan race dijalankan lagi. Reuse 460 tetap dibatasi target dan
+runtime historis, termasuk perubahan controller/capsule yang sudah dicatat pada
+rekonsiliasi sebelumnya; tidak pernah berubah menjadi 460 PASS AI terbaru.
+
+Rekonstruksi lama lengkap: `docs/evidence/cp6-final-audit-reconciliation.json`.
+T146 CANCELLED meninggalkan 177/300 hasil PASS dan 123 belum selesai; T147
+menyelesaikan 300 pada run lain. 460 = 23 target × 5 operasi × 4 jadwal.
+Tidak ada manifest sah yang membuktikan “500-an kasus bisnis unik”. Kegagalan
+finalizer/fixture/restore dan sesi alat terputus dibedakan dari transaksi ERP.
+Penyebab internal penghentian chat/GPT tidak disimpulkan.
+
+## Pemulihan dan serah-terima
+
+Fixture native memberi schema USAGE sementara dan memulihkannya; bukti itu
+bukan bukti izin aplikasi. HTTP/UI memakai ACL asli tanpa grant tambahan.
+Fixture UUID historis dibuktikan ditolak parser asli, lalu seluruh clone lama
+dibuang. ID sintetis diperbaiki sebelum penyemaian clone baru; SQL yang diterima
+dan histori posted tidak diedit untuk meloloskan tes.
+
+Restore AI→AH membandingkan 533 definisi fungsi beserta owner/ACL dan seluruh
+223 tabel/data, katalog, marker. Marker AI 0, AH 1, capsule AI tidak tersisa,
+690 objek terverifikasi sebelum drain, dan sesi setelah drain kosong.
+HTTP: auth users/sessions/identities/refresh tokens, execution context,
+jurnal tidak seimbang dan idempotency IN_PROGRESS semuanya 0. UI menutup
+browser/proxy/preview, menghapus build disposable dan memastikan 0 auth users/
+sessions. Dokumen posted tetap ada sampai clone utuh dibuang. Clone cp6_auth,
+clone race, PostgREST dan container database dihapus; residue pemeriksaan 0.
+
+Auditor berikutnya harus membaca bagian status terbaru ini, aturan audit
+efisien, invariants, handoff AF–AI, dan rekonsiliasi historis; periksa remote head
+sebelum bekerja. Verifikasi artifact akhir dan dua counterexample asli.
+Cari masalah di luar temuan writer; prioritaskan sisa kewajiban di atas.
+Perubahan bisnis berikutnya kembali berstatus Writer sampai audit independen.
+
+```sh
+git fetch origin competition/cp6-j-closure-20260911
+git show 9a919060b1037fe0747515b6ed3b98aebb41b5b1:docs/evidence/cp6-disposable-ui-source-pins.json
+gh run view 35133830834 --repo Hanjay6688/-erp-garment-ux
+gh run download 35133830834 --repo Hanjay6688/-erp-garment-ux --name cp6-final-boundary-audit
+```
+
+Unduh ZIP melalui artifact API untuk mencocokkan digest ZIP; hasil ekstraksi
+`gh run download` bukan ZIP dengan checksum yang sama. Lanjut hanya pada branch
+competition, lingkungan disposable, tanpa CP7 atau production go.
+
+---
+
+# Catatan proses dan checkpoint terdahulu
+
 # CP6 — original UI on a disposable target
 
 Owner approved adding the dedicated disposable UI target after the final-audit
