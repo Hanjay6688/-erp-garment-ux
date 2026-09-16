@@ -5,6 +5,7 @@ export type ClientErrorCode =
   | 'PROFILE_API_SCHEMA_UNAVAILABLE'
   | 'NOT_FOUND'
   | 'VERSION_CONFLICT'
+  | 'DATA_CONFLICT'
   | 'DUPLICATE_REQUEST'
   | 'RETRYABLE_CONFLICT'
   | 'BACKEND_UNAVAILABLE'
@@ -54,8 +55,11 @@ export function normalizeClientError(error: unknown): ClientAppError {
   if (code === 'PGRST116') {
     return new ClientAppError('NOT_FOUND', 'Data yang diminta tidak ditemukan.')
   }
-  if (code === '23505' || rawMessage.includes('request_uuid') || rawMessage.includes('idempot')) {
-    return new ClientAppError('DUPLICATE_REQUEST', 'Permintaan ini sudah pernah diproses.')
+  if (rawMessage.includes('request_uuid') || rawMessage.includes('idempot')) {
+    return new ClientAppError('DUPLICATE_REQUEST', 'Identitas permintaan bertabrakan. Muat ulang status sebelum mengirim ulang.')
+  }
+  if (code === '23505') {
+    return new ClientAppError('DATA_CONFLICT', 'Data bertabrakan dengan catatan yang sudah ada. Muat ulang dan periksa data sebelum menyimpan lagi.')
   }
   if (code === '40001' || code === '40P01') {
     return new ClientAppError('RETRYABLE_CONFLICT', 'Terjadi benturan sementara. Muat ulang sebelum mencoba lagi.', true)

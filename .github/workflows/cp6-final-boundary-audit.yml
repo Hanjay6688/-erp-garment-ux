@@ -9,6 +9,11 @@ name: CP6 Final Boundary Audit
     - scripts/cp6_final_gap_native.py
     - scripts/cp6_final_gap_midnight.py
     - scripts/cp6_final_gap_ui.mjs
+    - scripts/cp6_v2620aj_*.py
+    - scripts/cp6_preuse_rollback_maintenance.py
+    - supabase/migrations/*20aj*
+    - supabase/rollbacks/*20aj*
+    - docs/evidence/cp6-aj-*.json
     - scripts/cp6_disposable_ui_e2e.mjs
     - scripts/cp6_disposable_ui_scope.py
     - scripts/assert-cp6-disposable-env.mjs
@@ -43,6 +48,9 @@ jobs:
       CP6_AI_INDEPENDENT_CONFIRM: postgres
       CP6_AUTH_PGURL: postgresql://postgres:postgres@127.0.0.1:54322/cp6_auth
       CP6_AUTH_REPORT: cp6-proof/final-audit/HTTP.json
+      CP6_REPAIR_AJ: 'true'
+      CP6_RUNTIME_GENERATION: AJ
+      CP6_RUNTIME_HEAD: ${{ github.sha }}
       CP6_UI_FOCUSED: ${{ contains(github.event.head_commit.message, '[cp6-ui-focused]') }}
     steps:
     - name: Checkout exact AI candidate
@@ -72,6 +80,11 @@ jobs:
       working-directory: harness
       run: |
         set -euo pipefail
+        python - <<'PYTREE'
+        import os,subprocess
+        with open(os.environ['GITHUB_ENV'],'a') as out:
+            out.write('CP6_RUNTIME_TREE='+subprocess.check_output(['git','rev-parse','HEAD^{tree}'],text=True).strip()+'\n')
+        PYTREE
         npm ci
         npm test -- --reporter=dot
         npm run test:security
@@ -383,6 +396,44 @@ jobs:
          Path('cp6-proof/writer-ai/AI_INSTALLED_RUNTIME.json').write_text(json.dumps(dict(status='PASS',head='25fa4736329e5148dfdb3572bc169952cba23251',objects=objects,production_go=False),indent=2)+'\n')
         PYINSTALL
       id: ai_install
+    - name: Verify original R5 rework and staging observations
+      working-directory: candidate
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        python - <<'PYORIGINAL'
+        import hashlib,io,json,os,urllib.request,zipfile
+        from pathlib import Path
+        url='https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10467267798/zip'
+        request=urllib.request.Request(url,headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json'})
+        raw=urllib.request.urlopen(request,timeout=90).read()
+        digest=hashlib.sha256(raw).hexdigest()
+        assert digest=='dea2228699da1a6174694adc7b3f54ec813fa4fdb41de01f3f92abc146e435cb'
+        with zipfile.ZipFile(io.BytesIO(raw)) as z:
+            assert z.testzip() is None
+            def read(name):
+                matches=[n for n in z.namelist() if n.endswith('/'+name)]
+                assert len(matches)==1
+                return json.loads(z.read(matches[0]))
+            ui=read('INDEPENDENT_UI_GAPS.json');native=read('INDEPENDENT_NATIVE_GAPS.json')
+        assert ui['backend_head']=='25fa4736329e5148dfdb3572bc169952cba23251'
+        first=next(c for c in ui['cases'] if c['id']=='UI_Rework_COMPLETE')
+        second=ui['last_mutation']
+        assert first['status']=='PASS' and first['expected_fg']==3 and first['money_conserved']
+        assert second['http_status']==409 and second['response']['code']=='23505'
+        assert 'uq_fg_lots_qc_item' in second['response']['message']
+        created=next(c for c in ui['cases'] if c['id']=='UI_Rework_CREATE')
+        assert second['request']['p_payload']['rework_order_id']!=created['order']
+        assert all(native['cases']['IMPORT:'+v]['status']=='GAP_PROVEN' for v in ('NONNUMERIC_QTY','MISSING_COST'))
+        Path('cp6-proof/writer-aj').mkdir(parents=True,exist_ok=True)
+        Path('cp6-proof/writer-aj/ORIGINAL_R5.json').write_text(json.dumps(dict(status='COUNTEREXAMPLE_VERIFIED',
+            original_head='a2d5a42c5fc2e99249aa73b47d74747bb7aa6dd6',artifact=10467267798,sha256=digest,
+            first_recovery=first,second_response=second,staging_gaps=['NONNUMERIC_QTY','MISSING_COST'],production_go=False),indent=2)+'\n')
+        PYORIGINAL
+    - name: Install AJ successor with all 690 runtime objects pinned
+      id: aj_install
+      working-directory: candidate
+      run: PYTHONPATH=scripts python ../harness/scripts/cp6_v2620aj_review.py --phase install
     - name: Record exact execution scope
       working-directory: candidate
       run: |
@@ -392,12 +443,12 @@ jobs:
         focused=os.environ['CP6_UI_FOCUSED']=='true'
         target=Path('cp6-proof/final-audit/RUN_SCOPE.json')
         target.parent.mkdir(parents=True,exist_ok=True)
-        target.write_text(json.dumps(dict(mode='FOCUSED_HTTP_UI' if focused else 'COMBINED_NATIVE_HTTP_UI',
-            native_142_16_23_12='NOT_RUN_FOCUSED' if focused else 'REQUIRED',
-            full_gate_required_after_harness_stable=focused,production_go=False),indent=2)+'\n')
+        target.write_text(json.dumps(dict(mode='AJ_COMBINED_REPAIR_AND_BUSINESS',
+            native_142_16_23_12='REQUIRED_ON_AJ',
+            full_gate_required_after_harness_stable=False,production_go=False),indent=2)+'\n')
         PY
     - name: Rerun unchanged combined 142-case business oracle on final candidate
-      if: ${{ env.CP6_UI_FOCUSED != 'true' }}
+      if: ${{ env.CP6_UI_FOCUSED != 'true' && env.CP6_REPAIR_AJ != 'true' }}
       working-directory: candidate
       run: |
         python - <<'PY'
@@ -420,35 +471,46 @@ jobs:
         raise SystemExit(run.returncode)
         PY
     - name: Independently test staged late invoices after wages partial FG and sales
-      if: ${{ always() && steps.ai_install.outcome == 'success' && env.CP6_UI_FOCUSED != 'true' }}
+      if: ${{ always() && steps.ai_install.outcome == 'success' && env.CP6_UI_FOCUSED != 'true' && env.CP6_REPAIR_AJ != 'true' }}
       working-directory: candidate
       run: PYTHONPATH=scripts python ../harness/scripts/cp6_final_crossflow_review.py
     - name: Run independent work, accounting and role cases
-      if: ${{ always() && steps.ai_install.outcome == 'success' && env.CP6_UI_FOCUSED != 'true' }}
+      if: ${{ always() && steps.ai_install.outcome == 'success' && env.CP6_UI_FOCUSED != 'true' && env.CP6_REPAIR_AJ != 'true' }}
       working-directory: candidate
       run: PYTHONPATH=scripts python ../harness/scripts/cp6_ai_independent_review.py --phase business
     - name: Run twelve new two-session business schedules
       working-directory: candidate
       run: PYTHONPATH=scripts python ../harness/scripts/cp6_ai_independent_review.py --phase concurrency
-      if: ${{ always() && steps.ai_install.outcome == 'success' && env.CP6_UI_FOCUSED != 'true' }}
-    - name: Independently test calendar invoices and unvalidated import staging
-      if: ${{ always() && steps.ai_install.outcome == 'success' }}
+      if: ${{ always() && steps.ai_install.outcome == 'success' && env.CP6_UI_FOCUSED != 'true' && env.CP6_REPAIR_AJ != 'true' }}
+    - name: Run combined AJ business and repair families
+      if: ${{ always() && steps.aj_install.outcome == 'success' }}
       working-directory: candidate
-      run: PYTHONPATH=scripts python ../harness/scripts/cp6_final_gap_native.py
-    - name: Reexecute controlled midnight transaction on exact AI runtime
-      if: ${{ always() && steps.ai_install.outcome == 'success' }}
+      run: PYTHONPATH=scripts python ../harness/scripts/cp6_v2620aj_review.py --phase business
+    - name: Repeat twelve work schedules on exact AJ runtime
+      if: ${{ always() && steps.aj_install.outcome == 'success' }}
+      working-directory: candidate
+      run: PYTHONPATH=scripts python ../harness/scripts/cp6_v2620aj_review.py --phase concurrency
+    - name: Execute twenty AJ maintenance schedules with unchanged assertions
+      if: ${{ always() && steps.aj_install.outcome == 'success' }}
+      working-directory: candidate
+      env:
+        CP6_AJ_MAINTENANCE_CONFIRM: cp6_rollback
+        CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
+      run: PYTHONPATH=scripts python ../harness/scripts/cp6_v2620aj_maintenance_schedules.py
+    - name: Reexecute controlled midnight transaction on exact AJ runtime
+      if: ${{ always() && steps.aj_install.outcome == 'success' }}
       working-directory: candidate
       env:
         CP6_AA_MIDNIGHT_AUDIT_CONFIRM: postgres
       run: PYTHONPATH=scripts python ../harness/scripts/cp6_final_gap_midnight.py
-    - name: Rerun original HTTP role and lifecycle oracle on exact AI public API
-      if: ${{ always() && steps.ai_install.outcome == 'success' }}
+    - name: Rerun original HTTP role and lifecycle oracle on exact AJ public API
+      if: ${{ always() && steps.aj_install.outcome == 'success' }}
       working-directory: candidate
       shell: bash
       run: |
         set -euo pipefail
         mkdir -p cp6-proof/final-audit
-        PYTHONPATH=scripts python -c "import os,psycopg,cp6_v2620ai_runtime as r; c=psycopg.connect(os.environ['PGURL']); assert len(r.verified_successor(c.cursor()))==690; c.close()"
+        PYTHONPATH=../harness/scripts:scripts python -c "import os,psycopg,cp6_v2620aj_runtime as r; c=psycopg.connect(os.environ['PGURL']); assert len(r.verified_successor(c.cursor()))==690; c.close()"
         auth_rest_name='cp6_auth_rest'
         auth_rest_env="$(mktemp)"
         auth_rest_json="${auth_rest_env}.json"
@@ -687,14 +749,14 @@ jobs:
         test "$(psql "$CP6_AUTH_PGURL" -At -c 'select count(*) from erp.cp6_laundry_qc_execution_context')" = '0'
 
     - name: Require all independently executed gap groups
-      if: ${{ always() && steps.ai_install.outcome == 'success' }}
+      if: ${{ always() && steps.aj_install.outcome == 'success' }}
       working-directory: candidate
       run: |
         python - <<'PYVERIFY'
         import json
         from pathlib import Path
         root=Path('cp6-proof/final-audit')
-        requirements={'INDEPENDENT_NATIVE_GAPS.json':'PASS_REVIEWED_SCOPE',
+        requirements={'../writer-aj/BUSINESS.json':'WRITER_PASS',
           'INDEPENDENT_UI_GAPS.json':'PASS_REVIEWED_SCOPE',
           'midnight/AI_MIDNIGHT_AUDIT.json':'PASS_BOUNDED_AUDIT'}
         results={}
@@ -705,10 +767,15 @@ jobs:
           global_cp6_acceptance=False),indent=2)+'\n')
         assert all(x['actual']==x['expected'] for x in results.values()),results
         PYVERIFY
+    - name: Restore AJ to exact AI with refusal and admission controls
+      id: aj_rollback
+      if: ${{ always() && steps.aj_install.outcome == 'success' }}
+      working-directory: candidate
+      run: PYTHONPATH=scripts python ../harness/scripts/cp6_v2620aj_review.py --phase rollback
     - name: Restore and compare against independently captured AH
       working-directory: candidate
       run: PYTHONPATH=scripts python ../harness/scripts/cp6_ai_independent_review.py --phase rollback
-      if: ${{ always() && steps.ai_install.outcome == 'success' }}
+      if: ${{ always() && steps.ai_install.outcome == 'success' && (steps.aj_install.outcome != 'success' || steps.aj_rollback.outcome == 'success') }}
     - name: Stop disposable database and prove removal
       if: always()
       working-directory: base
@@ -732,6 +799,8 @@ jobs:
           candidate/cp6-proof/independent-ai
           candidate/cp6-proof/final-audit
           candidate/cp6-proof/writer-ai/crossflow.json
+          candidate/cp6-proof/writer-aj
+          candidate/cp6-proof/AJ_MAINTENANCE_ROLLBACK
           candidate/cp6-proof/CP6_AUTH_CLONE_CLEANUP.txt
           base/cp6-proof/AC_AUDIT_RUNTIME_BOOTSTRAP.json
         if-no-files-found: error

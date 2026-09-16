@@ -1,3 +1,60 @@
+# CP6 independent audit → AJ writer takeover; runtime verification pending
+
+This top section supersedes the historical status sections below. `CP6_HOLD`.
+`production_go:false`; no CP7. One writer verified at remote
+`a2d5a42c5fc2e99249aa73b47d74747bb7aa6dd6` before starting product repair.
+
+R5 exact snapshot `a2d5a42c5fc2e99249aa73b47d74747bb7aa6dd6`, tree
+`55a04fc2adfc53f6b96b62a975c3689940f1f49c`, backend AI-R2
+`25fa4736329e5148dfdb3572bc169952cba23251`, Native 35145449818,
+CodeQL 35145449707 (all four languages SUCCESS).
+Artifact 10467267798: 5,958,072 bytes, 40 entries, SHA-256
+`dea2228699da1a6174694adc7b3f54ec813fa4fdb41de01f3f92abc146e435cb`.
+Downloaded bytes, CRC, entry paths/duplicates/symlinks and selected credential
+patterns were checked; no pattern matches. Exact AH restore 533 functions/223
+tables, Auth0/app0 and complete disposable removal passed.
+
+**CP6-BS-REWORK-QC-LOT-01: qualified ordinary business failure.** Original real
+UI sends10, receives10 and posts QC0 Good/10 BS. First contractor rework of5
+returns3 Good/2 BS and posts FG3=21/WIP49, with report READY and exact replay.
+A separate rewash order of5 accepts cumulative partial1+0 then1+1. Its legitimate
+completion3+2 fails HTTP409/23505 on `uq_fg_lots_qc_item`. Both orders inherit
+the original QC item's unique FG-lot identity. This is not a deliberately broken
+function or a fixture selector failure. The UI wrongly classifies the conflict
+as a request that was already processed. The failed response does not itself
+prove a wrong-money commit; the material failure is that a valid recovery cannot
+finish. R5 has50 completed new assertions,96/96 permission/action pairs and one
+unfinished group. The two incoming writer fixes still pass their original43 UI
+assertions and the independent receipt10/all-BS controls.
+
+AJ is the writer repair, not independently accepted: new recovery lots use the
+existing rework-order→BS→QC lineage without taking the original QC output's
+unique slot. HPP and paid failed-wash cost readers follow that lineage. Original
+QC uniqueness remains. The shared client message distinguishes data conflicts
+from request-identity conflicts. Import validators persist per-row diagnostics
+for malformed/nonfinite numbers and missing/invalid cost, report final counts,
+and permit correction/revalidation of unposted input. No CSV interface is added.
+Six existing function definitions change through a new migration and exact
+pre-use rollback capsule; no old migration or posted transaction is rewritten.
+
+The writer gate checks the whole533-function+157-relation runtime, original R5
+artifact, inherited142 crossflow/23 work/16 invoice cases,24 calendar cases,
+raw staging+recovery controls, original real HTTP/UI,96 granular action/role
+pairs, partial rework/rewash and distinct-rate receipt cost lineage. Linked
+reversal, failed paid washes, source uniqueness, HPP/WIP conservation, exact
+restore and full disposal remain required. Historical460 is not represented as
+fresh AJ evidence; changed HPP paths receive current-runtime regression.
+
+Remaining holds:12 open-period historical observations need a qualified dated
+report contract (R3's automatic BUG_PROVEN classification was withdrawn);
+CSV producer/upload is absent and its CP6 deliverable scope is not explicit;
+positive-money claim/compensation UI is not covered by zero-money role controls.
+Changing product code makes the writer's own repaired result ineligible for
+independent acceptance. Branch preview automation runs on competition pushes;
+no manual deployment or hosted database access was performed by this auditor.
+
+---
+
 # Independent follow-up — R4 completed; UI continuation pending
 
 R4 `e0d37dfd7a0d92d48f16ab9e126cc334a141f023`, tree

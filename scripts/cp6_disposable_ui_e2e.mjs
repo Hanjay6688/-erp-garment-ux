@@ -46,9 +46,9 @@ const planned = ['ANONYMOUS', 'VIEWER', 'UNMAPPED', 'INACTIVE',
   'FULL_RETURN_SEND', 'FULL_RETURN_EXACT', 'FULL_RETURN_REDISPATCH',
   'FULL_RETURN_REVERSE_COST', 'FULL_RETURN_REVERSE_REDISPATCH']
 const report = {
-  status: 'INCOMPLETE', classification: 'WRITER_UI_REAL_AUTH_HTTP_ON_UNCHANGED_AI_R2',
-  backend_head: '25fa4736329e5148dfdb3572bc169952cba23251',
-  backend_tree: 'a5cb1e43d776a9ffc058f99c8d5c96ac7f6a9c0d',
+  status: 'INCOMPLETE', classification: 'WRITER_UI_REAL_AUTH_HTTP_ON_'+(process.env.CP6_RUNTIME_GENERATION||'AI_R2'),
+  backend_head: process.env.CP6_RUNTIME_HEAD||'25fa4736329e5148dfdb3572bc169952cba23251',
+  backend_tree: process.env.CP6_RUNTIME_TREE||'a5cb1e43d776a9ffc058f99c8d5c96ac7f6a9c0d',
   frontend_head: execFileSync('git', ['rev-parse', 'HEAD'], {cwd:root,encoding:'utf8'}).trim(),
   frontend_tree: execFileSync('git', ['rev-parse', 'HEAD^{tree}'], {cwd:root,encoding:'utf8'}).trim(),
   source_sha256: createHash('sha256').update(readFileSync(fileURLToPath(import.meta.url))).digest('hex'),
@@ -512,7 +512,8 @@ try {
   const independent=await import('./cp6_final_gap_ui.mjs')
   const independentResult=await independent.runIndependentGaps({query,reportDir,owner,session,authRequest,newUser,mapUser,secrets,
     pageFor,f,nav,sendForm,receiveForm,qcForm,mutation,state,financialReport,when,
-    frontendHead:report.frontend_head,frontendTree:report.frontend_tree})
+    frontendHead:report.frontend_head,frontendTree:report.frontend_tree,
+    backendHead:report.backend_head,backendTree:report.backend_tree})
   report.independent_gap_report={file:'INDEPENDENT_UI_GAPS.json',status:independentResult.status}
 }catch(error){
   failure=error

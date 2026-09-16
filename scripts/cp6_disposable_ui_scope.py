@@ -22,7 +22,18 @@ scripts/cp6_disposable_ui_scope.py
 scripts/cp6_final_gap_native.py
 scripts/cp6_final_gap_midnight.py
 scripts/cp6_final_gap_ui.mjs
+scripts/cp6_v2620aj_build_sql.py
+scripts/cp6_v2620aj_runtime.py
+scripts/cp6_v2620aj_review.py
+scripts/cp6_v2620aj_maintenance_schedules.py
+scripts/cp6_preuse_rollback_maintenance.py
+docs/evidence/cp6-aj-predecessor-functions.json
+docs/evidence/cp6-aj-ai-catalog-pins.json
+docs/evidence/cp6-aj-runtime-pins.json
+supabase/migrations/20260916202400_erp_v2_6_20aj_cp6_rework_output_lineage.sql
+supabase/rollbacks/20260916202400_erp_v2_6_20aj_cp6_rework_output_lineage.rollback.sql
 scripts/check-cp6-deep-business-repair.mjs
+scripts/check-cp6-expanded-audit-closure.mjs
 src/AccessControlPage.tsx
 src/ConnectedBsResolutionPage.tsx
 src/ConnectedQcFinalPage.tsx
@@ -39,6 +50,8 @@ src/components/RuntimeIdentity.tsx
 src/config/runtime.test.ts
 src/config/runtime.ts
 src/lib/supabase.ts
+src/lib/clientError.ts
+src/lib/clientError.test.ts
 src/main.tsx
 src/laundryQcModel.ts
 src/laundryQcModel.test.ts
@@ -61,7 +74,17 @@ def verify():
     assert set(pins['sha256']) == set(PATHS)
     for path, expected in pins['sha256'].items():
         assert hashlib.sha256(Path(path).read_bytes()).hexdigest() == expected, path
-    assert not git('diff', '--name-only', BACKEND, 'HEAD', '--', 'supabase'), 'Backend changed'
+    expected_sql = {
+        'supabase/migrations/20260916202400_erp_v2_6_20aj_cp6_rework_output_lineage.sql',
+        'supabase/rollbacks/20260916202400_erp_v2_6_20aj_cp6_rework_output_lineage.rollback.sql',
+    }
+    assert set(git('diff', '--name-only', BACKEND, 'HEAD', '--', 'supabase').splitlines()) == expected_sql
+    assert not git('diff', '--name-only', '--diff-filter=MDRTCUXB', BACKEND, 'HEAD', '--', 'supabase')
+    aj = json.loads(Path('docs/evidence/cp6-aj-runtime-pins.json').read_text())
+    assert aj['predecessor_head'] == BACKEND and len(aj['functions']) == 6
+    for path, expected in aj['source_pins'].items():
+        raw = Path(path).read_bytes()
+        assert len(raw) == expected['bytes'] and hashlib.sha256(raw).hexdigest() == expected['sha256'], path
     # Preserve the validation bodies; only routing to the dedicated combined gate changes.
     full = '.github/workflows/cp6-full-schema-validation.yml'
     route = '''          if python scripts/cp6_disposable_ui_scope.py; then
@@ -78,8 +101,8 @@ def verify():
     text = Path(ad).read_text()
     assert text.count(route) == 1
     assert text.replace(route, '; then\n') == subprocess.check_output(['git','show',BASE+':'+ad],text=True)
-    return dict(status='ROUTED_TO_COMBINED_AI_AND_WRITER_UI_GATE',backend_head=BACKEND,
-                backend_tree=BACKEND_TREE,frontend_head=git('rev-parse','HEAD'),
+    return dict(status='ROUTED_TO_COMBINED_AJ_AND_WRITER_UI_GATE',base_backend_head=BACKEND,
+                base_backend_tree=BACKEND_TREE,backend_generation='AJ',backend_head=git('rev-parse','HEAD'),frontend_head=git('rev-parse','HEAD'),
                 frontend_tree=git('rev-parse','HEAD^{tree}'),
                 historical_460_matrix_reexecuted=False,independent_acceptance=False,
                 production_go=False)

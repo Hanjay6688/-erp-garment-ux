@@ -1,0 +1,104 @@
+{
+  "format": "CP6_AJ_RUNTIME_PINS_V1",
+  "stamp": "20260916202400",
+  "name": "erp_v2_6_20aj_cp6_rework_output_lineage",
+  "version": "v2.6.20aj",
+  "predecessor_head": "25fa4736329e5148dfdb3572bc169952cba23251",
+  "predecessor_tree": "a5cb1e43d776a9ffc058f99c8d5c96ac7f6a9c0d",
+  "functions": [
+    {
+      "identity": "erp.post_rework_completion(uuid)",
+      "predecessor_sha256": "209338cc2b3099b163c0b344d1706a1f42dbdf804307e5fadee08e02f966f34d",
+      "installed_sha256": "63116e419dbbb6e59296416793288d785a348a30cdc46aad7eb44d097444d6c3",
+      "owner": "postgres",
+      "acl": [
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ]
+    },
+    {
+      "identity": "erp.rebuild_po_hpp(uuid,text)",
+      "predecessor_sha256": "9bbadaead01d33c7d23cab2172b1cc0b04a9fbe210bfab8a4d2724e936e6ef9b",
+      "installed_sha256": "4e2e96017513d4990c9b2f8da2edf666b992ba016c8d688ea336daba36202d1f",
+      "owner": "postgres",
+      "acl": [
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ]
+    },
+    {
+      "identity": "erp.cp6_lot_failed_wash_cost_v2620e(uuid)",
+      "predecessor_sha256": "cc02ece93afca767142d997fc6210c6d0d700633a998262fe95dd5435ea794bb",
+      "installed_sha256": "e8627bc0891322148819e17aca7a98b1177014b6ece6234ec7940e0876e896e1",
+      "owner": "postgres",
+      "acl": [
+        "postgres=X/postgres"
+      ]
+    },
+    {
+      "identity": "erp._validate_migration_batch_base(uuid)",
+      "predecessor_sha256": "78f165c0b42edec0cfa8e3fa295abb64b94cde0df9af9b5611b5f6e4ec3e1fb6",
+      "installed_sha256": "eb6fc2bc6cf419a72be75891d145782dbb1dec06186243834c2a444fc1fa9801",
+      "owner": "postgres",
+      "acl": [
+        "authenticated=X/postgres",
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ]
+    },
+    {
+      "identity": "erp.validate_migration_opening_stock_costs(uuid)",
+      "predecessor_sha256": "3b2316af1604ff6bc355ea3b7bb6559e32d41fa4c96b35af7e5f8c3bccb905e7",
+      "installed_sha256": "8223a856b0a0cd66d29a9eba31ebb6644434f934d910f184947a35ae0ffa77a0",
+      "owner": "postgres",
+      "acl": [
+        "postgres=X/postgres"
+      ]
+    },
+    {
+      "identity": "erp.validate_migration_batch(uuid)",
+      "predecessor_sha256": "166aa25ae8bce86daedffc82f5db2cb3266a310b374518672080a08345271b26",
+      "installed_sha256": "88bd4f2283fbdbea3faf2c4694426e87c71883c770243ddb44818797b0f22482",
+      "owner": "postgres",
+      "acl": [
+        "authenticated=X/postgres",
+        "postgres=X/postgres"
+      ]
+    }
+  ],
+  "boundary_count": 222,
+  "predecessor_function_count": 533,
+  "predecessor_table_count": 224,
+  "comparison_run": 35145449818,
+  "production_go": false,
+  "source_pins": {
+    "scripts/cp6_v2620aj_build_sql.py": {
+      "sha256": "3d887f590e5de92bb467fdee1d5d00d6a1e0452e8818b489323f5de2b30b0a7e",
+      "bytes": 10986
+    },
+    "docs/evidence/cp6-aj-predecessor-functions.json": {
+      "sha256": "f84c19e5a87db3b1dcf41ed3c54e4804faccd833be91e352e08cc3b159a890f6",
+      "bytes": 44851
+    },
+    "docs/evidence/cp6-aj-ai-catalog-pins.json": {
+      "sha256": "ec1245ab2fd89f81193ae68f0138b05f98a05401b01c5a104bb477ef5be20cf1",
+      "bytes": 144448
+    },
+    "supabase/migrations/20260916090022_erp_v2_6_20ai_cp6_work_source_lineage.sql": {
+      "sha256": "d3a604e53e599221afd46d1397e0d0660ebd8dc48db27113dfa63d3c3613a61c",
+      "bytes": 73373
+    },
+    "supabase/rollbacks/20260916090022_erp_v2_6_20ai_cp6_work_source_lineage.rollback.sql": {
+      "sha256": "ea7798456883773d53f747003017903305ee32b4d3b6f5851b17de443630ded7",
+      "bytes": 11554
+    },
+    "supabase/migrations/20260916202400_erp_v2_6_20aj_cp6_rework_output_lineage.sql": {
+      "sha256": "2e6cd4e94b52a27c83d2ba134a996c1db66a6f7ff617a5895f8c14769673f9ea",
+      "bytes": 57741
+    },
+    "supabase/rollbacks/20260916202400_erp_v2_6_20aj_cp6_rework_output_lineage.rollback.sql": {
+      "sha256": "896baab52089adf56c60562cf3161391e01392aec972b48408752fc4e417aed9",
+      "bytes": 13111
+    }
+  }
+}

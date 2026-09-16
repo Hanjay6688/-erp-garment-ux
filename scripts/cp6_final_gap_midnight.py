@@ -76,6 +76,10 @@ def clocks(cur):
 
 
 def verify_repository_source():
+    if os.environ.get('CP6_RUNTIME_GENERATION') == 'AJ':
+        import cp6_v2620aj_runtime as runtime
+        head,tree=runtime.verify_audit_source()
+        return 'AJ_REGRESSION',head,tree
     head='25fa4736329e5148dfdb3572bc169952cba23251'
     tree='a5cb1e43d776a9ffc058f99c8d5c96ac7f6a9c0d'
     if command(['git','rev-parse','HEAD']) != head or command(['git','rev-parse','HEAD^{tree}']) != tree:
@@ -86,7 +90,10 @@ def verify_repository_source():
 
 
 def verify_source_runtime(cur):
-    import cp6_v2620ai_runtime as runtime
+    if os.environ.get('CP6_RUNTIME_GENERATION') == 'AJ':
+        import cp6_v2620aj_runtime as runtime
+    else:
+        import cp6_v2620ai_runtime as runtime
     objects=runtime.verified_successor(cur)
     if len(objects) != 690:
         raise AssertionError('AI_CLOCK_690_OBJECTS_REQUIRED')
@@ -213,7 +220,7 @@ def run():
         raise AssertionError('AA_CLOCK_EXPLICIT_DISPOSABLE_CONFIRM_REQUIRED')
     phase, head, tree = verify_repository_source()
     runtime_generation = {
-        'AA_AUDIT': 'AA', 'AB_REGRESSION': 'AB', 'AC_REGRESSION': 'AC', 'AI_REGRESSION':'AI-R2',
+        'AA_AUDIT': 'AA', 'AB_REGRESSION': 'AB', 'AC_REGRESSION': 'AC', 'AI_REGRESSION':'AI-R2', 'AJ_REGRESSION':'AJ',
     }.get(phase)
     if runtime_generation is None:
         raise AssertionError('AA_CLOCK_UNKNOWN_SUCCESSOR_PHASE')
@@ -230,7 +237,7 @@ def run():
                   audited_business_tree=tree if phase != 'AA_AUDIT' else invoice.TREE_AA,
                   business_source_head=head,
                   harness_head=os.environ['CP6_AUDIT_HARNESS_HEAD'],
-                  oracle_origin='Unchanged four-case AA/AB clock oracle reexecuted on AI-R2; not new case designs',
+                  oracle_origin='Unchanged four-case AA/AB clock oracle reexecuted on '+runtime_generation+'; not new case designs',
                   source_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
                   run_id=os.environ.get('GITHUB_RUN_ID'), production_go=False, independent_acceptance_complete=False,
                   evidence_kind='CONTROLLED_WALL_CLOCK_NATIVE_POSTGRESQL_NOT_OVERNIGHT_SOAK',

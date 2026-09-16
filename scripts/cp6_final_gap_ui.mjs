@@ -1,4 +1,4 @@
-// Independent assertions on the unchanged product, using the existing local
+// Assertions on the pinned product, using the existing local
 // Auth/proxy/browser fixture. No business response is supplied by this module.
 import assert from 'node:assert/strict'
 import {randomUUID, createHash} from 'node:crypto'
@@ -15,8 +15,10 @@ export async function runIndependentGaps(c){
   const {query,reportDir,owner,session,authRequest,newUser,mapUser,secrets,pageFor,f,nav,
     sendForm,receiveForm,qcForm,mutation,state,financialReport,when}=c
   const report={status:'INCOMPLETE',candidate_head:c.frontendHead,candidate_tree:c.frontendTree,
-    product_source_checkpoint:'555d8f29ea2d3f58dc2c7d10e7cd80099cdd3b49',
-    backend_head:'25fa4736329e5148dfdb3572bc169952cba23251',production_go:false,
+    previous_product_checkpoint:'555d8f29ea2d3f58dc2c7d10e7cd80099cdd3b49',
+    author_role:process.env.CP6_RUNTIME_GENERATION==='AJ'?'WRITER':'INDEPENDENT_AUDITOR',
+    independent_acceptance:false,
+    backend_head:c.backendHead,backend_tree:c.backendTree,production_go:false,
     source_sha256:createHash('sha256').update(readFileSync(fileURLToPath(import.meta.url))).digest('hex'),
     cases:[],permission_rows:[],scope:'Independent real UI/HTTP observations; no CSV interface exists',
     schema_acl_modified:false,all_permission_combinations_claimed:false}
