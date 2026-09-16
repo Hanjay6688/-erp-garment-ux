@@ -191,3 +191,17 @@ Keluarga perbaikan:
 
 Tidak ada SQL yang diterima diubah. Successor ini tetap hasil writer sampai
 diperiksa chat independen. Gate penuh wajib menyusul setelah keluarga stabil.
+
+Run 35130093753 pada writer c59b18117f7a0377826bcaa00cbaeb4d6040f48b
+menyelesaikan 228/228 unit test. Pemeriksa statis N03/N04 kemudian menolak
+karena masih mewajibkan ekspresi `selectedQty === authoritativeRemainingQty`
+yang terbukti menghalangi finalisasi 3 pcs. Browser/database belum dijalankan.
+Artifact cleanup-only 10461121371, 288 byte, GitHub-reported SHA-256
+`5ece36f491eaf64ffefa89c54f6e44a8c6037d077d7e973846341381578e4e1c`.
+
+Inventaris 27 pemeriksa CP6 menemukan tuntutan lama tersebut hanya di
+scripts/check-cp6-deep-business-repair.mjs. Bagian N03/N04 kini mewajibkan
+basis ready, bukti cakupan antrean, penguncian saat cakupan tidak cukup,
+dan tiga kelompok regresi; ekspresi lama ditolak eksplisit. Seluruh bagian
+lain, termasuk immutable migration, role, financial/report checks dan rollback,
+tetap identik. Source pins/guard turut mencakup perubahan pemeriksa ini.

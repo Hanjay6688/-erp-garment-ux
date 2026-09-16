@@ -19,6 +19,7 @@ scripts/assert-cp6-disposable-env.mjs
 scripts/build-preflight.mjs
 scripts/cp6_disposable_ui_e2e.mjs
 scripts/cp6_disposable_ui_scope.py
+scripts/check-cp6-deep-business-repair.mjs
 src/AccessControlPage.tsx
 src/ConnectedBsResolutionPage.tsx
 src/ConnectedQcFinalPage.tsx

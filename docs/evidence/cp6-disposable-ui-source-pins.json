@@ -9,7 +9,7 @@
     "scripts/assert-cp6-disposable-env.mjs": "64d342f6db5cd929a3742315348c935e1bda2f9637e34a41d2a91f1cf5e68762",
     "scripts/build-preflight.mjs": "5d7b10fa241075ff8a4f3e6d5b438f2be26d1acd54b27fd76c67c38f79138c2f",
     "scripts/cp6_disposable_ui_e2e.mjs": "071bb833af5fe9595d94272d38dbe48f6a9c4a2e6247dd406e30959ab0d47374",
-    "scripts/cp6_disposable_ui_scope.py": "e6c786221794a45df9f980a76502eb29ab09bf3257146ebe9789ab42e9f8ec01",
+    "scripts/cp6_disposable_ui_scope.py": "30d19d96bb12b76d8c1ec36ded2e44ced9a00f098a404a45d9d52b967aa3a9b3",
     "src/AccessControlPage.tsx": "383b0bc132cbf0bf91334d84c5261f0746751163b630f14f7ec13c62c1b9deeb",
     "src/ConnectedBsResolutionPage.tsx": "f95ac0dc4731591059b389a93161b3a0b097e7fae5862b16d549592b00b3461d",
     "src/ConnectedCuttingPage.tsx": "78bbd308ff5b578f12707f75c431df4d083ae492224e2ccdb6456e7ee6dc129a",
@@ -28,6 +28,7 @@
     "src/useLaundryQcWorkspace.ts": "83da1a1a0bc50408b6a0f7fa8425d8e60a7f0b83d3d20c2c5544658d1bbf8cee",
     "src/vite-env.d.ts": "05d3658a3aeab527c23be224b05dd64abca8b6bf7994904000d03c6b7142f637",
     "src/ConnectedLaundryQcSelectors.dom.test.tsx": "13da1b45f92fe4df17b92bb4a1c51e08a84da2305754a793c827e7dde716aa6e",
-    "src/ConnectedQcFinalPage.tsx": "ffc277b65a42460880a75c537da0cfc84c866f5e7ef7d2068ddde75caa2e38bc"
+    "src/ConnectedQcFinalPage.tsx": "ffc277b65a42460880a75c537da0cfc84c866f5e7ef7d2068ddde75caa2e38bc",
+    "scripts/check-cp6-deep-business-repair.mjs": "8d9c393ed96f3845a2ebc80c48b5e3cc3d691c14f1b977af1b82d64b0a8aea98"
   }
 }

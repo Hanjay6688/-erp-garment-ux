@@ -281,13 +281,20 @@ requireTokens(laundryPage, 'R03/N04 Laundry-BS UI', [
   'tidak dibatasi 500 produk awal',
 ])
 requireTokens(qcPage, 'N03/N04 Final-SKU UI', [
-  'export const qcCompletionMode = (selectedQty: number, authoritativeRemainingQty: number)',
-  "selectedQty > 0 && selectedQty === authoritativeRemainingQty ? 'ALL_READY' : 'PARTIAL_SELECTION'",
+  'export function qcCompletionMode(selectedQty: number, visibleReadyQty: number, sourceComplete: boolean)',
+  "if (selectedQty < visibleReadyQty) return 'PARTIAL_SELECTION'",
+  "return sourceComplete ? 'ALL_READY' : null",
+  'export function qcQueueSourceComplete(',
+  'if (truncated) return false',
+  'qcQueueSourceComplete(group, transactionQuery, workspace.collection_window.qc_queue_truncated)',
+  'completionMode !== null', 'completion_mode: completionMode, lines,',
   'const authoritativeRemaining = group?.remaining ?? 0',
   'setLoading(false)', 'requestRef.current += 1',
 ])
 requireTokens(domTest, 'R03/N03/N04 DOM regression', [
-  'keeps filtered QC selection partial when global authoritative remaining is larger',
+  'finishes received Good while two physical pieces are still at Laundry',
+  'does not infer full completion from a filtered or truncated lower bound',
+  'qualifies common group search without treating receipt or size search as complete',
   'clears a stale Final-SKU loading state when the query invalidates an in-flight request',
   'finds and selects a valid Laundry-BS SKU beyond the bounded initial lookup',
   'rejects a Laundry-BS resolver response outside the exact source Model/size',
@@ -299,6 +306,10 @@ requireTokens(modelTest, 'R03 parser regression', [
 requireTokens(browserTest, 'R03 Laundry-BS browser locator identity', [
   "page.getByLabel('SKU BS size S', { exact: true })",
 ])
+
+// CP6-UI-QC-READY-BASIS-01: operational remaining includes unreceived pieces.
+assert(!qcPage.includes('selectedQty === authoritativeRemainingQty'),
+  'QC completion must not count pieces still outside the ready queue')
 
 // R05: valid source parameters exercise each role class over HTTP, including
 // the dedicated Final-SKU facade, not only the shared action dispatcher.
