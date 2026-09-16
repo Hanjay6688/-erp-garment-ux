@@ -46,7 +46,8 @@ def create_return(cur, day, f, destination, grade, quantities=(1,)):
     # Prepare a valid DRAFT through native trigger validation with the fixture
     # administrator. Ordinary direct INSERT cannot read locations in AG; no
     # table grants are added. Posting below always uses authenticated/OWNER.
-    actors.admin(cur)
+    if f.get('ordinary_draft_creation'): peer.ordinary(cur)
+    else: actors.admin(cur)
     rid = uuid.uuid4()
     cur.execute("insert into erp.sales_returns(id,return_number,sale_id,customer_id,physical_at,status) values(%s,%s,%s,%s,%s,'DRAFT')",
                 (rid, 'AG-RESIDUAL-' + rid.hex, f['sale']['sale_id'], f['customers'][0], day.isoformat() + 'T12:00:00+07:00'))
@@ -55,18 +56,31 @@ def create_return(cur, day, f, destination, grade, quantities=(1,)):
                     (rid, f['allocation'], destination, qty, qty * 20, grade))
     return rid
 
+def capture_draft_refusal(cur, callback, sqlstate, message):
+    before = state(cur)
+    cur.execute('savepoint draft_refusal')
+    try:
+        callback()
+    except psycopg.Error as exc:
+        error = dict(sqlstate=exc.sqlstate, message=str(exc))
+        cur.execute('rollback to savepoint draft_refusal;release savepoint draft_refusal')
+    else:
+        cur.execute('rollback to savepoint draft_refusal;release savepoint draft_refusal')
+        raise AssertionError('Expected invalid return draft to be refused')
+    assert error['sqlstate'] == sqlstate and message in error['message'], error
+    assert state(cur) == before
+    return error
+
 def return_case(destination_mode, grade, mode='NORMAL'):
     def case(cur, day):
         f = posted_fixture(cur, day)
         dest = f['second_location'] if destination_mode == 'OTHER' else base.LOCATION
-        qty = (2, 2) if mode == 'OVER_QTY' else (1,)
-        rid = create_return(cur, day, f, dest, grade, qty)
+        if mode == 'OVER_QTY':
+            error = capture_draft_refusal(cur, lambda: create_return(cur, day, f, dest, grade, (4,)), 'P0001', 'exceeds qty')
+            return dict(status='CONTROL_PASS', refused_during='DRAFT_INSERT', operation=error, atomic_refusal=True)
+        rid = create_return(cur, day, f, dest, grade)
         before = state(cur)
         result = peer.operation(cur, 'select erp.post_sales_return(%s)', (rid,))
-        if mode == 'OVER_QTY':
-            assert result['refused'] and 'exceeds quantity originally sold' in result['error']['message'], result
-            assert state(cur) == before
-            return dict(status='CONTROL_PASS', operation=result, atomic_refusal=True)
         if result['refused']:
             assert result['error']['sqlstate'] == 'P0001' and 'Returned product/lot/location was not allocated on the original sale' in result['error']['message'], result
             assert destination_mode == 'OTHER' and state(cur) == before
@@ -170,6 +184,7 @@ def cases():
     found += [('RETURN_REBIND_' + mode, rebind_case(mode)) for mode in ('CUSTOMER', 'SALE')]
     found += [('RETURN_ALLOCATION_' + mode, allocation_case(mode)) for mode in ('ONE_DOCUMENT', 'TWO_DOCUMENTS')]
     found += [('RETURN_DRAFT_SOURCE', draft_source_case)]
+    found += [('RETURN_ORDINARY_DRAFT_CREATE', ordinary_draft_case)]
     return found
 
 def allocation_case(mode):
@@ -181,8 +196,10 @@ def allocation_case(mode):
         success(peer.operation(cur, 'select erp.post_sale_v2(%s,%s,%s)', (saved['sale_id'], uuid.uuid4(), saved['row_version'])))
         actors.admin(cur)
         f['allocation'] = base.one(cur, 'select a.id from erp.sale_stock_allocations a join erp.sales_items i on i.id=a.sale_item_id where i.sale_id=%s order by a.id limit 1', (saved['sale_id'],))
-        ids = [create_return(cur, day, f, base.LOCATION, 'GRADE_A', (2, 2) if mode == 'ONE_DOCUMENT' else (2,))]
-        if mode == 'TWO_DOCUMENTS': ids.append(create_return(cur, day, f, base.LOCATION, 'GRADE_A', (2,)))
+        if mode == 'ONE_DOCUMENT':
+            error = capture_draft_refusal(cur, lambda: create_return(cur, day, f, base.LOCATION, 'GRADE_A', (2, 2)), '23505', 'uq_sales_return_item_allocation')
+            return dict(status='CONTROL_PASS', refused_during='DRAFT_INSERT', operation=error, atomic_refusal=True)
+        ids = [create_return(cur, day, f, base.LOCATION, 'GRADE_A', (2,)) for _ in range(2)]
         operations = []
         for rid in ids:
             operations.append(peer.operation(cur, 'select erp.post_sales_return(%s)', (rid,)))
@@ -211,6 +228,15 @@ def draft_source_case(cur, day):
     assert state(cur) == before
     return dict(status='BUG_PROVEN', family='RETURN_SOURCE_ALLOCATION_ELIGIBILITY', draft_return_id=rid, legal_draft_edit=edit,
                 business_requirement='A return draft must reference an active posted sale. It must not pin a temporary reservation and prevent legal edits to an unposted sale.', synthetic_detector_control=False)
+
+def ordinary_draft_case(cur, day):
+    f = posted_fixture(cur, day)
+    f['ordinary_draft_creation'] = True
+    error = capture_draft_refusal(cur, lambda: create_return(cur, day, f, base.LOCATION, 'GRADE_A'), '42501', 'permission denied for table locations')
+    return dict(status='BUG_PROVEN', family='RETURN_DRAFT_REFERENCE_READ_CONTEXT', caller='authenticated/OWNER', operation=error,
+                business_requirement='An internal caller allowed to create a return draft must be able to validate the selected active FG warehouse without receiving broad master-table permissions.',
+                source_contract='sales_return_items has authenticated DML and internal RLS; invoker trigger reads locations which has no authenticated SELECT',
+                synthetic_detector_control=False)
 
 def run():
     assert os.environ.get('PGURL') == peer.URL

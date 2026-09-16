@@ -4,7 +4,7 @@ Owner requested continuation after AG writer PASS. This is additional writer
 checking on original AG `119f8f133131eaf373f08cc45b7b3d6fc27a3d3e`, tree
 `bd7dd026d40e64f08f03e122338d8a82ebfd292c`; independent AG review stays PENDING.
 
-Twenty native cases with ordinary posting callers cover return destination/grade, partial
+Twenty-one native cases with ordinary posting callers cover return destination/grade, partial
 returns and per-allocation quantity caps, return posting/reversal retries, return header source
 changes, full-stock repeated draft editing, duplicate SKU lines, changed payload
 replay, cancellation replay, and physical dates before inventory availability.
@@ -44,3 +44,9 @@ Single writer; check branch before edits and push. CP6 and disposable test DB
 only. Main, PR24/25, hosted databases, merge, deploy, and CP7 remain untouched.
 `production_go:false`. Any proven material defect requires the entire affected
 family to be fixed before relevant combined testing and independent handoff.
+
+Attempt35066087980 completed13 controls and reproduced5 counterexamples,
+with2 incomplete negative controls that encountered the existing duplicate-line
+constraint before posting. The follow-up explicitly asserts those earlier refusals
+and adds a separate ordinary draft creation permission case. Business
+expectations are retained; no permissions or candidate code change.
