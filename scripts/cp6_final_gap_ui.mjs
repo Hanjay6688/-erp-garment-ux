@@ -14,7 +14,8 @@ const actions={CREATE_MANUAL_BS:'create',CLASSIFY_BS:'create',SAVE_REWORK:'creat
 export async function runIndependentGaps(c){
   const {query,reportDir,owner,session,authRequest,newUser,mapUser,secrets,pageFor,f,nav,
     sendForm,receiveForm,qcForm,mutation,state,financialReport,when}=c
-  const report={status:'INCOMPLETE',candidate_head:'555d8f29ea2d3f58dc2c7d10e7cd80099cdd3b49',
+  const report={status:'INCOMPLETE',candidate_head:c.frontendHead,candidate_tree:c.frontendTree,
+    product_source_checkpoint:'555d8f29ea2d3f58dc2c7d10e7cd80099cdd3b49',
     backend_head:'25fa4736329e5148dfdb3572bc169952cba23251',production_go:false,
     source_sha256:createHash('sha256').update(readFileSync(fileURLToPath(import.meta.url))).digest('hex'),
     cases:[],permission_rows:[],scope:'Independent real UI/HTTP observations; no CSV interface exists',
@@ -56,6 +57,9 @@ export async function runIndependentGaps(c){
     'money',(select coalesce(sum(debit),0) from erp.journal_lines),
     'journals',(select count(*) from erp.journal_entries),
     'entitlements',(select count(*) from erp.contractor_accessory_reimbursement_entitlements),
+    'entitlement_rows',(select md5(coalesce(string_agg(to_jsonb(t)::text,'' order by id),'')) from erp.contractor_accessory_reimbursement_entitlements t),
+    'hpp_rows',(select md5(coalesce(string_agg(to_jsonb(t)::text,'' order by id),'')) from erp.hpp_versions t),
+    'journal_rows',(select md5(coalesce(string_agg(to_jsonb(t)::text,'' order by id),'')) from erp.journal_lines t),
     'context',(select count(*) from erp.bs_resolution_execution_context),
     'unbalanced',(select count(*) from (select journal_entry_id from erp.journal_lines group by journal_entry_id having sum(debit)<>sum(credit)) j))`))
   const businessBoundary=()=>JSON.parse(query(`select jsonb_build_object(
@@ -324,13 +328,15 @@ export async function runIndependentGaps(c){
         await page.locator('.cbsr-route-tabs').getByRole('button',{name:route,exact:true}).click()
         const form=page.locator('.cbsr-route-form'), number='INDEP-'+route+'-'+randomUUID().slice(0,8)
         await form.getByLabel('NOMOR ORDER · WAJIB',{exact:true}).fill(number)
-        const target=form.getByLabel(route==='Rework'?'MANDOR REWORK':'VENDOR REWASH',{exact:true})
+        // A wrapping label's text includes its option text in Playwright's
+        // label lookup. Bind its exact caption, then select its actual control.
+        const target=form.locator('label').filter({has:page.getByText(route==='Rework'?'MANDOR REWORK':'VENDOR REWASH',{exact:true})}).locator('select')
         await target.selectOption(route==='Rework'?'a1000000-0000-4000-8000-000000000001':f.vendor)
         await form.getByLabel('QTY DIKIRIM',{exact:true}).fill('5')
         // BS legacy UI uses browser-local input: explicitly confirm this real
         // browser time; this test does not claim its input is labelled WIB.
         await form.getByLabel('WAKTU FISIK',{exact:true}).fill(await page.evaluate(()=>{const n=new Date();return new Date(n.getTime()-n.getTimezoneOffset()*60000).toISOString().slice(0,19).replace(/:00$/,'')}))
-        await form.getByLabel('GUDANG FG BILA GOOD',{exact:true}).selectOption(f.location)
+        await form.locator('label').filter({has:page.getByText('GUDANG FG BILA GOOD',{exact:true})}).locator('select').selectOption(f.location)
         await form.getByLabel('CATATAN / ALASAN',{exact:true}).fill('Independent five physical pieces to '+route)
         if(route==='Rework')await form.locator('fieldset').first().locator('input[type=checkbox]').first().check()
         const before=snapshot()
@@ -376,17 +382,23 @@ export async function runIndependentGaps(c){
         assert.equal(originalReplay.status,200);assert.deepEqual(originalReplay.body,posted.response)
         assert.deepEqual(snapshot(),replayBefore)
         const finalReport=financialReport()
+        assert.equal(actual.wip+actual.fg,70)
+        assert.equal(finalReport.data_confidence.status,'READY')
+        assert.equal(Number(query(`select coalesce(sum(amount_payable),0) from erp.rework_component_lines where rework_order_id='${order.id}'`)),0)
         record(`UI_${route}_COMPLETE`,{expected_fg:totalGood,observed:actual,
           money_conserved:actual.wip+actual.fg===70,same_actor_replay_exact:true,
           report_confidence:finalReport.data_confidence,
           report_deltas:{fg:finalReport.financial_position.fg_inventory-baselineReport.financial_position.fg_inventory,
             wip:finalReport.financial_position.wip_inventory-baselineReport.financial_position.wip_inventory},
           original_actor_replay_status:originalReplay.status})
-        assert.equal(actual.wip+actual.fg,70)
-        assert.equal(finalReport.data_confidence.status,'READY')
-        assert.equal(Number(query(`select coalesce(sum(amount_payable),0) from erp.rework_component_lines where rework_order_id='${order.id}'`)),0)
       }
       await page.screenshot({path:resolve(reportDir,'INDEPENDENT_REWORK_UI.png'),fullPage:true})
+    }catch(error){
+      report.rework_dom={route_form:await page.locator('.cbsr-route-form').allTextContents(),
+        completion_form:await page.locator('.cbsr-completion-form').allTextContents(),
+        alerts:await page.locator('.cbsr-alert').allTextContents()}
+      await page.screenshot({path:resolve(reportDir,'INDEPENDENT_REWORK_INCOMPLETE.png'),fullPage:true}).catch(()=>{})
+      throw error
     }finally{await page.context().close()}
   })
   report.status=report.cases.some(x=>x.status!=='PASS')?'INCOMPLETE':'PASS_REVIEWED_SCOPE'

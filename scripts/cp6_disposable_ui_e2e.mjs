@@ -511,7 +511,8 @@ try {
   stage('INDEPENDENT_REMAINING_GAPS')
   const independent=await import('./cp6_final_gap_ui.mjs')
   const independentResult=await independent.runIndependentGaps({query,reportDir,owner,session,authRequest,newUser,mapUser,secrets,
-    pageFor,f,nav,sendForm,receiveForm,qcForm,mutation,state,financialReport,when})
+    pageFor,f,nav,sendForm,receiveForm,qcForm,mutation,state,financialReport,when,
+    frontendHead:report.frontend_head,frontendTree:report.frontend_tree})
   report.independent_gap_report={file:'INDEPENDENT_UI_GAPS.json',status:independentResult.status}
 }catch(error){
   failure=error

@@ -1,3 +1,27 @@
+# Independent follow-up — R4 completed; UI continuation pending
+
+R4 `e0d37dfd7a0d92d48f16ab9e126cc334a141f023`, tree
+`0856f0a8af37eb35399cb6041bb8161aabe1129e`, Native 35143918467.
+Fresh inherited groups: 142/16/23/12 native, 95 HTTP, 43 UI all complete.
+New native: 16 PASS, 12 DATE_POLICY_REVIEW_REQUIRED, 2 GAP_PROVEN,
+0 BUG_PROVEN, 0 INCOMPLETE. All 24 current invoice totals reconcile.
+Four controlled-clock cases pass. All 96 action/permission-mask pairs complete:
+48 missing-permission refusals, 16 owner-required refusals and 32 allowed actions.
+New UI has 41 completed assertions; the rework group remains INCOMPLETE because
+Playwright's exact wrapping-label lookup includes select option text. Bind the
+visible caption and its select control for both party and FG-location fields.
+No product source is changed. Partial observations now additionally compare
+full HPP, reimbursement-entitlement and journal-line row fingerprints.
+
+Exact AH restore (533 functions/223 tables), Auth0/app0 and disposal passed.
+CodeQL 35143918796 succeeds in all four languages. Artifact 10466715497 is
+5,601,747 bytes, 39 entries, CRC checked, SHA-256
+`c100ebae28a9632a576afa818db95dd5922702b81e4186d1ecaf0644da87bd5b`.
+The native and combined gates correctly remain failed while gaps are open.
+`production_go:false`; CP7 is not started.
+
+---
+
 # Independent follow-up — consolidated observation pending
 
 R3 harness `1efa64ac2ac2d006717520e156c121e96f6cf394`, tree
