@@ -56,7 +56,7 @@ def original(mode):
 
 def reject_direct(mode):
  def run(cur,day):
-  f=peer.fixture(cur,day);sale=f['sale']['sale_id'];before=actors.boundary(cur)
+  f=peer.fixture(cur,day);sale=f['sale']['sale_id'];actors.admin(cur);before=actors.boundary(cur)
   queries={
    'HEADER_DELETE':('delete from erp.sales_headers where id=%s',(sale,)),
    'ITEM_DELETE':('delete from erp.sales_items where id=%s',(f['item'],)),
@@ -112,6 +112,8 @@ def detector(mode,posted):
   r=report(cur,day,True);r.update(synthetic_detector_control=True,not_a_new_business_counterexample=True)
   if not posted:
    before=actors.boundary(cur);post=peer.operation(cur,'select erp.post_sale(%s)',(f['sale']['sale_id'],));assert post['refused'],post
+   expected='Sale Draft reservation mismatch' if mode=='QUANTITY' else 'AG_SALE_RESERVATION_LINEAGE_MISMATCH'
+   assert expected in post['error']['message'],post
    actors.admin(cur);assert actors.boundary(cur)==before;r['legacy_post_refusal']=post
   return r
  return run

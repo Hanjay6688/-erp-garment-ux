@@ -11,7 +11,7 @@ begin
      or not exists(select 1 from supabase_migrations.schema_migrations
        where version='20260916050822' and name='erp_v2_6_20ag_cp6_sale_reservation_lineage'
          and encode(extensions.digest(convert_to(array_to_string(statements,E'\n'),'UTF8'),'sha256'),'hex')
-           in('06d32bb921b0f19e1ffe0f8c689d6ce826aaf467163e6ea15ef7c762389c2d7f','b181c530959890659a95a665ee1ba87c54429661ed939f5d374bee72d10709c9'))
+           in('bff1d7d82917ce226ad0fb8823418fa14e497407d9659e125dc01ed5e2fd5944','6feb03ffcbca566fccefe8fb1caa4b259856dd13fa85b2922a1868749e406bca'))
      or exists(select 1 from supabase_migrations.schema_migrations where version>'20260916050822') then
     raise exception 'AG_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR';
   end if;
@@ -82,8 +82,8 @@ begin
   for r in select * from(values
     ('erp.guard_child_by_parent_status()','05d181c08289b4fa81d73e99ed1453fd8ad931bc3d99d3c0480f96a027ca3b0e','86080f579e1b2803d1bbf50b22b14b0bf3fa168aeabf190ab3816d4b23324fce',array['postgres=X/postgres','service_role=X/postgres']::text[]),
     ('erp.guard_posted_document()','573b6ec5dda2340b0c403642e42ef70d692bc0506b3c5d7a1c2abc372e7fb387','5393f2df6fb66d665fca3f5e18fcf5f5acbdf8bd1a2ae938810bf666e41819cd',array['postgres=X/postgres','service_role=X/postgres']::text[]),
-    ('erp.post_sale(uuid)','f485761060593d1b9fac5b5ecf7556007a7907467ad5ccd90be057ec9e9823f4','32aabd5482c92cc13a3e302107fac182a6f184a3d4f8a5b96d6009bdb3c4da44',array['postgres=X/postgres','service_role=X/postgres']::text[]),
-    ('erp.run_v268_financial_report_checks()','c5b587583c1ae3d47ea6f52b50c9b63d982da18cfd7e027046ce0f5eb5d56ee2','3a63adddefd86f83e5a94279437174d2e3abd0c0105e7a2e1e03a40a248e5364',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[])
+    ('erp.post_sale(uuid)','f485761060593d1b9fac5b5ecf7556007a7907467ad5ccd90be057ec9e9823f4','1473f9be0998f7b3c38f79b653101eef3e48b7629454b3edc630611af60e2f6b',array['postgres=X/postgres','service_role=X/postgres']::text[]),
+    ('erp.run_v268_financial_report_checks()','c5b587583c1ae3d47ea6f52b50c9b63d982da18cfd7e027046ce0f5eb5d56ee2','e62f7fa0d2892708128c372d6e99d39d7833a3fa2eedfe25f17695c7ca94e3ef',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[])
   ) expected(identity,predecessor_sha256,installed_sha256,acl) loop
     select cap.*,
       encode(extensions.digest(convert_to(cap.object_definition,'UTF8'),'sha256'),'hex') definition_actual,
@@ -158,8 +158,8 @@ delete from supabase_migrations.schema_migrations
 where version='20260916050822'
   and name='erp_v2_6_20ag_cp6_sale_reservation_lineage'
   and encode(extensions.digest(convert_to(array_to_string(statements,E'\n'),'UTF8'),'sha256'),'hex')
-    in('06d32bb921b0f19e1ffe0f8c689d6ce826aaf467163e6ea15ef7c762389c2d7f',
-       'b181c530959890659a95a665ee1ba87c54429661ed939f5d374bee72d10709c9');
+    in('bff1d7d82917ce226ad0fb8823418fa14e497407d9659e125dc01ed5e2fd5944',
+       '6feb03ffcbca566fccefe8fb1caa4b259856dd13fa85b2922a1868749e406bca');
 
 do $postcheck_v2620ag$
 declare r record;v_actual text;

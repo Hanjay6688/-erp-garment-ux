@@ -23,6 +23,10 @@ def verify():
  assert s==subprocess.check_output(['git','show',BASE+':'+FULL],text=True),'AG_OLD_FULL_BODY_DRIFT'
  s=Path(NATIVE).read_text();assert s.count(NATIVE_NEW)==1;s=s.replace(NATIVE_NEW,NATIVE_OLD,1)
  assert s==subprocess.check_output(['git','show',BASE+':'+NATIVE],text=True),'AG_OLD_NATIVE_BODY_DRIFT'
+ path='.github/workflows/cp6-ac-independent-audit.yml'
+ s=Path(path).read_text();start='          # BEGIN AG QUALIFIED ROUTE\n';end='          # END AG QUALIFIED ROUTE\n'
+ assert s.count(start)==s.count(end)==1;a=s.index(start);b=s.index(end,a)+len(end);s=s[:a]+s[b:]
+ assert s==subprocess.check_output(['git','show',BASE+':'+path],text=True),'AG_OLD_AD_BODY_DRIFT'
  return dict(status='ROUTED_TO_AG_QUALIFIED_NATIVE_GATE',head=git('rev-parse','HEAD'),tree=git('rev-parse','HEAD^{tree}'),original_af='f46699865501b03f9fba3a8b188f3fd01eedf404',historical_500_matrix_reexecuted=False,ag_native_result_required=True,production_go=False)
 
 if __name__=='__main__':print(json.dumps(verify()))

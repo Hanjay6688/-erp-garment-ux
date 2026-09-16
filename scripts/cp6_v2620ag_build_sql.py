@@ -34,40 +34,40 @@ DIRTY_QUERY="""with active as (
   from active m group by m.source_id,m.lot_id,m.location_id
 )
 select count(*)::bigint from (
-  select m.id,h.id sale_id from active m
+  select m.id,sh_lineage.id sale_id from active m
   left join erp.sales_items i on i.id=m.source_id
-  left join erp.sales_headers h on h.id=i.sale_id
+  left join erp.sales_headers sh_lineage on sh_lineage.id=i.sale_id
   left join erp.fg_lots l on l.id=m.lot_id
-  where h.status is null or h.status not in('DRAFT','POSTED','PARTIAL_PAID','PAID')
-    or m.movement_type is distinct from case when h.status='DRAFT' then 'SALE_RESERVE' else 'SALE' end
+  where sh_lineage.status is null or sh_lineage.status not in('DRAFT','POSTED','PARTIAL_PAID','PAID')
+    or m.movement_type is distinct from case when sh_lineage.status='DRAFT' then 'SALE_RESERVE' else 'SALE' end
     or m.product_id is distinct from i.product_id or l.product_id is distinct from i.product_id
-    or m.location_id is distinct from h.source_location_id
-    or m.customer_id is distinct from h.customer_id or m.physical_at is distinct from h.sale_date
+    or m.location_id is distinct from sh_lineage.source_location_id
+    or m.customer_id is distinct from sh_lineage.customer_id or m.physical_at is distinct from sh_lineage.sale_date
     or m.quality_grade is distinct from 'GRADE_A' or m.qty_signed>=0
   union all
-  select a.id,h.id from erp.sale_stock_allocations a
+  select a.id,sh_lineage.id from erp.sale_stock_allocations a
   left join erp.sales_items i on i.id=a.sale_item_id
-  left join erp.sales_headers h on h.id=i.sale_id
+  left join erp.sales_headers sh_lineage on sh_lineage.id=i.sale_id
   left join erp.fg_lots l on l.id=a.lot_id
-  where h.status is null or h.status not in('DRAFT','POSTED','PARTIAL_PAID','PAID','REVERSED')
+  where sh_lineage.status is null or sh_lineage.status not in('DRAFT','POSTED','PARTIAL_PAID','PAID','REVERSED')
     or l.product_id is distinct from i.product_id
-    or a.location_id is distinct from h.source_location_id or a.qty_pcs<=0
+    or a.location_id is distinct from sh_lineage.source_location_id or a.qty_pcs<=0
   union all
-  select i.id,h.id from allocations a full join movements m using(sale_item_id,lot_id,location_id)
+  select i.id,sh_lineage.id from allocations a full join movements m using(sale_item_id,lot_id,location_id)
   join erp.sales_items i on i.id=coalesce(a.sale_item_id,m.sale_item_id)
-  join erp.sales_headers h on h.id=i.sale_id
-  where h.status in('DRAFT','POSTED','PARTIAL_PAID','PAID') and a.qty is distinct from m.qty
+  join erp.sales_headers sh_lineage on sh_lineage.id=i.sale_id
+  where sh_lineage.status in('DRAFT','POSTED','PARTIAL_PAID','PAID') and a.qty is distinct from m.qty
   union all
-  select i.id,h.id from erp.sales_items i join erp.sales_headers h on h.id=i.sale_id
-  where (h.status in('POSTED','PARTIAL_PAID','PAID') or
-    (h.status='DRAFT' and (exists(select 1 from erp.sale_stock_allocations a
-       join erp.sales_items sibling on sibling.id=a.sale_item_id where sibling.sale_id=h.id)
-      or exists(select 1 from active m join erp.sales_items sibling on sibling.id=m.source_id where sibling.sale_id=h.id))))
+  select i.id,sh_lineage.id from erp.sales_items i join erp.sales_headers sh_lineage on sh_lineage.id=i.sale_id
+  where (sh_lineage.status in('POSTED','PARTIAL_PAID','PAID') or
+    (sh_lineage.status='DRAFT' and (exists(select 1 from erp.sale_stock_allocations a
+       join erp.sales_items sibling on sibling.id=a.sale_item_id where sibling.sale_id=sh_lineage.id)
+      or exists(select 1 from active m join erp.sales_items sibling on sibling.id=m.source_id where sibling.sale_id=sh_lineage.id))))
     and (i.qty_pcs is distinct from (select coalesce(sum(a.qty_pcs),0) from erp.sale_stock_allocations a where a.sale_item_id=i.id)
       or i.qty_pcs is distinct from (select coalesce(sum(-m.qty_signed),0) from active m where m.source_id=i.id))
   union all
-  select h.id,h.id from erp.sales_headers h where h.status in('POSTED','PARTIAL_PAID','PAID')
-    and not exists(select 1 from erp.sales_items i where i.sale_id=h.id)
+  select sh_lineage.id,sh_lineage.id from erp.sales_headers sh_lineage where sh_lineage.status in('POSTED','PARTIAL_PAID','PAID')
+    and not exists(select 1 from erp.sales_items i where i.sale_id=sh_lineage.id)
 ) broken where /*SCOPE*/true"""
 
 CHILD_GUARD="""

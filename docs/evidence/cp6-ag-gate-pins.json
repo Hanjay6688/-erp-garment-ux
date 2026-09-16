@@ -7,8 +7,8 @@
       "sha256": "3f54c7599cc7c4f7183e52d8f4ad7f5560eb5bee4e6c6a8df36d2d796d9ceaa4"
     },
     ".github/workflows/cp6-ag-sale-reservation.yml": {
-      "bytes": 13379,
-      "sha256": "253ca1cf4588d40d5adb915cca531617b161d7639afa2f8fb30b22e9e07a926f"
+      "bytes": 14146,
+      "sha256": "d2116bf6698b0ce364cd57d4e0811a0540eee31199b2f7e4a3d2ba8cf1b25bd6"
     },
     ".github/workflows/cp6-full-schema-validation.yml": {
       "bytes": 510809,
@@ -32,27 +32,27 @@
     },
     "docs/evidence/cp6-ag-runtime-pins.json": {
       "bytes": 3308,
-      "sha256": "1488579935e64c4fe9a7f46962f1012731915e00e0ddb185e9588a0d312776c0"
+      "sha256": "57fac329dea25ac08df3458ba275601c91ec7e4b5d65a19effa8d09c983058a9"
     },
     "scripts/cp6_ag_gate_scope.py": {
-      "bytes": 2170,
-      "sha256": "a5bd9d91092e0cbef7203068afafa52f9da3189a11be89a7cf5f8e61a21f842e"
+      "bytes": 2536,
+      "sha256": "00adff098d83dca8de408f45598b23800029f0b314844f063b4b9342add1c439"
     },
     "scripts/cp6_preuse_rollback_maintenance.py": {
       "bytes": 77774,
-      "sha256": "358070f72c7e6cbd848e1b3a4b72caa3bef06e59875e5f2daa106844f0b05d23"
+      "sha256": "fdaf62d8a37e5b9c68db773f7328fd95aecba1877407c5512df30abafec52317"
     },
     "scripts/cp6_v2620ag_build_sql.py": {
-      "bytes": 13483,
-      "sha256": "09c25b9a601abe3768d588ae9f3f36ebd1d9ea6f553c867c9d022455d49d2a99"
+      "bytes": 13762,
+      "sha256": "4614ec34beec452ed05eca42600ddb7e921743d5ab97ab7b9255dc5a8bdc596b"
     },
     "scripts/cp6_v2620ag_concurrency.py": {
       "bytes": 5157,
       "sha256": "130e6482d1c93249cce1e32877463ba2d1cea11f385a97154998278c5a3d0021"
     },
     "scripts/cp6_v2620ag_family.py": {
-      "bytes": 13093,
-      "sha256": "8a14a19e21d879159437cf1f8b96d6fd1bd4e0e190f001b330d875832fb6591d"
+      "bytes": 13273,
+      "sha256": "f440653c95d38ad055580c5505572fbdf10edca93ba5a89fbb57a5ddd9d7115c"
     },
     "scripts/cp6_v2620ag_maintenance_schedules.py": {
       "bytes": 5626,
@@ -64,15 +64,19 @@
     },
     "scripts/cp6_v2620ag_runtime.py": {
       "bytes": 6064,
-      "sha256": "a243952c744b9d5e320839d68a9a84c42031c29202333f22016e7675207bcfea"
+      "sha256": "31adce0df60d5123fc7729be521b69bdcebef53aecccbf417d7619b82757bcba"
     },
     "supabase/migrations/20260916050822_erp_v2_6_20ag_cp6_sale_reservation_lineage.sql": {
-      "bytes": 83617,
-      "sha256": "06d32bb921b0f19e1ffe0f8c689d6ce826aaf467163e6ea15ef7c762389c2d7f"
+      "bytes": 84454,
+      "sha256": "bff1d7d82917ce226ad0fb8823418fa14e497407d9659e125dc01ed5e2fd5944"
     },
     "supabase/rollbacks/20260916050822_erp_v2_6_20ag_cp6_sale_reservation_lineage.rollback.sql": {
       "bytes": 12059,
-      "sha256": "87d3a7d4fed61f5d2f8fba3c358326f6877efe8d81f34f7156bf5d10f07c503a"
+      "sha256": "c1265acfb790a8c7f2b6bc8d6b3691902658eb1f0b879ea2c1269d6e24a2f231"
+    },
+    ".github/workflows/cp6-ac-independent-audit.yml": {
+      "bytes": 13821,
+      "sha256": "9b14d80b83582ccb42d50b87a70d41160aeb7b205257ebfb6e3722d05ec1740a"
     }
   }
 }

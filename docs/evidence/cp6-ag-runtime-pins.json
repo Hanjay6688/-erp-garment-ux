@@ -29,7 +29,7 @@
     {
       "identity": "erp.post_sale(uuid)",
       "predecessor_sha256": "f485761060593d1b9fac5b5ecf7556007a7907467ad5ccd90be057ec9e9823f4",
-      "installed_sha256": "32aabd5482c92cc13a3e302107fac182a6f184a3d4f8a5b96d6009bdb3c4da44",
+      "installed_sha256": "1473f9be0998f7b3c38f79b653101eef3e48b7629454b3edc630611af60e2f6b",
       "owner": "postgres",
       "acl": [
         "postgres=X/postgres",
@@ -39,7 +39,7 @@
     {
       "identity": "erp.run_v268_financial_report_checks()",
       "predecessor_sha256": "c5b587583c1ae3d47ea6f52b50c9b63d982da18cfd7e027046ce0f5eb5d56ee2",
-      "installed_sha256": "3a63adddefd86f83e5a94279437174d2e3abd0c0105e7a2e1e03a40a248e5364",
+      "installed_sha256": "e62f7fa0d2892708128c372d6e99d39d7833a3fa2eedfe25f17695c7ca94e3ef",
       "owner": "postgres",
       "acl": [
         "authenticated=X/postgres",
@@ -55,8 +55,8 @@
   "production_go": false,
   "source_pins": {
     "scripts/cp6_v2620ag_build_sql.py": {
-      "sha256": "09c25b9a601abe3768d588ae9f3f36ebd1d9ea6f553c867c9d022455d49d2a99",
-      "bytes": 13483
+      "sha256": "4614ec34beec452ed05eca42600ddb7e921743d5ab97ab7b9255dc5a8bdc596b",
+      "bytes": 13762
     },
     "docs/evidence/cp6-ag-predecessor-functions.json": {
       "sha256": "0c8c6f36bdd04d132fe6df8347728bc40ad7af623cbf623781e343b6eb3fa2b2",
@@ -75,11 +75,11 @@
       "bytes": 11065
     },
     "supabase/migrations/20260916050822_erp_v2_6_20ag_cp6_sale_reservation_lineage.sql": {
-      "sha256": "06d32bb921b0f19e1ffe0f8c689d6ce826aaf467163e6ea15ef7c762389c2d7f",
-      "bytes": 83617
+      "sha256": "bff1d7d82917ce226ad0fb8823418fa14e497407d9659e125dc01ed5e2fd5944",
+      "bytes": 84454
     },
     "supabase/rollbacks/20260916050822_erp_v2_6_20ag_cp6_sale_reservation_lineage.rollback.sql": {
-      "sha256": "87d3a7d4fed61f5d2f8fba3c358326f6877efe8d81f34f7156bf5d10f07c503a",
+      "sha256": "c1265acfb790a8c7f2b6bc8d6b3691902658eb1f0b879ea2c1269d6e24a2f231",
       "bytes": 12059
     }
   }
