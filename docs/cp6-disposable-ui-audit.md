@@ -143,3 +143,51 @@ Source is checkpointed in Git; GitHub/CI remains available for bounded
 diagnostics. No internal cause of the disconnection is inferred. The next
 diagnostic changes only harness logging, a READY precondition, and evidence;
 the business UI and backend remain the same for reproducing the rejection.
+
+## Temuan baru: CP6-UI-QC-READY-BASIS-01
+
+Status: BUG_PROVEN pada UI asli; perbaikan writer sedang diuji. CP6_HOLD.
+Run [35129057885](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35129057885)
+pada harness `68db9a5387cb993921476433a964b68fa6d08521`, tree
+`e16e6e89e334e9da440d624b4957b4dee1513865`, menyelesaikan 8/36 kasus
+UI. POST_FINAL_SKU kedua mengirim Good 3, mode PARTIAL_SELECTION,
+expected version 5. Server mengembalikan HTTP 400/P0001 karena sisa
+barang siap QC setelah posting adalah 0. Dua potong yang masih di Laundry
+membuat sisa seluruh Potongan 5; itulah angka keliru yang dipakai UI.
+
+Ini transaksi biasa pada backend AI-R2, bukan injeksi data rusak. Hash SHA-256
+modul QC asli: `7d5ed652ce85d287ee5954800e16c2756633f5df37612e831dac978fb485897c`.
+Sebelum dan sesudah penolakan: FG 5 pcs/nilai 35, WIP 35, accrual -70,
+satu QC, satu pergerakan FG, empat baris jurnal, nol jurnal tidak seimbang,
+nol execution context. Server gagal secara atomic; bug menghalangi alur UI
+yang sah, tanpa bukti perubahan parsial.
+
+Artifact 10460209095, 2491309 byte, GitHub-reported SHA-256:
+`d06eebd9d9089c81b3f5d8f627fbfae5a5c8804331cda4d862b83d7947eb4088`.
+Respons penolakan dan state sebelum/sesudah juga dicatat dalam log job
+104905208286 dan UI.json. HTTP 95, restore AH dan cleanup selesai.
+Pengunduhan ulang/CRC artifact ini masih belum dilakukan karena executor
+lokal terputus; digest di atas berasal dari metadata GitHub.
+
+Keluarga perbaikan:
+- Producer: Good receipt per batch/ukuran; consumer: formulir QC dan deklarasi
+  completion_mode. Sisa seluruh Potongan tetap ditampilkan sebagai informasi,
+  tetapi tidak menjadi jumlah barang siap QC.
+- Seluruh Good/BS yang dipilih memakai satu mode berdasarkan jumlah siap QC.
+  Jika masih ada barang siap yang terlihat tetapi tidak dipilih, mode partial
+  dapat dibuktikan walau daftar belum lengkap.
+- Memilih seluruh jumlah terlihat hanya menjadi ALL_READY jika antrean tidak
+  terpotong dan pencarian kosong atau cocok dengan metadata bersama PO,
+  Potongan, atau Model. Filter receipt/vendor/ukuran, wildcard/escape dan
+  kolasi yang tidak dapat dibuktikan tidak dianggap sebagai seluruh sumber.
+- Server, facade, izin, trigger, perhitungan HPP/laporan dan rollback tidak
+  dilonggarkan. Penolakan server terhadap deklarasi yang salah tetap berlaku.
+  CP5 rework mempunyai aturan hasil kumulatif per order yang berbeda;
+  halaman QC simulasi bukan pemanggil facade ini.
+- Tes lama yang menyamakan remaining Potongan dengan ready QC diganti dengan
+  angka fisik 10 keluar → 8 kembali → 5+3 QC, disusul 2 kembali/QC.
+  Kasus UI diperluas menjadi 38 dengan kontrol filter receipt versus PO.
+  Guard scope dan source pins mencakup modul serta tes yang berubah.
+
+Tidak ada SQL yang diterima diubah. Successor ini tetap hasil writer sampai
+diperiksa chat independen. Gate penuh wajib menyusul setelah keluarga stabil.

@@ -36,7 +36,7 @@ const f = {
   product: 'c8c10000-0000-4000-8000-000000000004',
   size: 'CP6-RACE-S',
 }
-const lifecycle = ['DRAFT_INERT', 'DOUBLE_SUBMIT', 'RECEIPT_8', 'QC_5', 'QC_3',
+const lifecycle = ['DRAFT_INERT', 'DOUBLE_SUBMIT', 'RECEIPT_8', 'QC_5', 'QC_FILTER_SCOPE', 'QC_3',
   'RECEIPT_2', 'QC_2', 'BLOCK_PARENT_REVERSAL', 'REVERSE_QC_2',
   'REVERSE_QC_3', 'REVERSE_QC_5', 'REVERSE_RECEIPT_2', 'REVERSE_RECEIPT', 'REVERSE_DELIVERY']
 const planned = ['ANONYMOUS', 'VIEWER', 'UNMAPPED', 'INACTIVE',
@@ -305,6 +305,13 @@ async function receiveForm(page,qty=8,time='09:00') {
   await page.getByLabel(`Good kembali size ${f.size}`,{exact:true}).fill(String(qty))
   await page.locator('.clq-confirm input').check()
 }
+async function searchQc(page,query) {
+  const response=page.waitForResponse(r=>r.url().endsWith('/rpc/erp_get_laundry_qc_workspace_v1')
+    &&r.request().postDataJSON()?.p_scope==='QC'&&r.request().postDataJSON()?.p_query===query)
+  await page.getByPlaceholder('Cari PO, Potongan, receipt, atau histori…',{exact:true}).fill(query)
+  assert.equal((await response).status(),200)
+  await expect(page.getByRole('button',{name:'Muat ulang data',exact:true})).toBeEnabled()
+}
 async function qcForm(page,qty,time) {
   await page.getByRole('button',{name:'Antrean finalisasi',exact:true}).click()
   await page.getByRole('combobox',{name:/^POTONGAN DENGAN GOOD LAUNDRY SIAP QC/}).selectOption(f.group)
@@ -365,6 +372,13 @@ try {
     await nav(page,'QC & Final SKU')
     stage(`${prefix}_QC_5`);await qcForm(page,5,'10:00');await mutation(page,'Post QC + Final SKU atomic','POST_FINAL_SKU')
     const firstQc=qc();checkState(`${prefix}_QC_5`,{fg_qty:5,wip:35,fg:35,accrued:-70,posted_qc:1})
+    stage(`${prefix}_QC_FILTER_SCOPE`)
+    const beforeFiltered=state()
+    await searchQc(page,returned.number);await qcForm(page,3,'11:00')
+    await expect(page.getByRole('button',{name:'Post QC + Final SKU atomic',exact:true})).toBeDisabled()
+    assert.deepEqual(state(),beforeFiltered)
+    pass(`${prefix}_QC_FILTER_SCOPE`,{receipt_filter_does_not_prove_full_group:true,ledger_unchanged:true})
+    await searchQc(page,'CP6-RACE-PO')
     stage(`${prefix}_QC_3`);await qcForm(page,3,'11:00');await mutation(page,'Post QC + Final SKU atomic','POST_FINAL_SKU')
     const secondQc=qc();checkState(`${prefix}_QC_3`,{fg_qty:8,wip:14,fg:56,accrued:-70,posted_qc:2})
     stage(`${prefix}_RECEIPT_2`);await nav(page,'Laundry');await receiveForm(page,2,'11:30')

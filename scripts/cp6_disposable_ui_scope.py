@@ -21,6 +21,8 @@ scripts/cp6_disposable_ui_e2e.mjs
 scripts/cp6_disposable_ui_scope.py
 src/AccessControlPage.tsx
 src/ConnectedBsResolutionPage.tsx
+src/ConnectedQcFinalPage.tsx
+src/ConnectedLaundryQcSelectors.dom.test.tsx
 src/ConnectedCuttingPage.tsx
 src/ConnectedPatternFilter.tsx
 src/ConnectedPickupPage.tsx

@@ -4,7 +4,7 @@ import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { LaundryBsProductSelector } from './ConnectedLaundryPage'
-import { ProductSelector, qcCompletionMode } from './ConnectedQcFinalPage'
+import { ProductSelector, qcCompletionMode, qcQueueSourceComplete } from './ConnectedQcFinalPage'
 import type { Cp6Product, Cp6QcQueueRow } from './laundryQcModel'
 
 const uuid = (suffix: number) => `00000000-0000-4000-8000-${String(suffix).padStart(12, '0')}`
@@ -52,10 +52,34 @@ const setInput = async (input: HTMLInputElement,value: string) => act(async () =
 })
 
 describe('CP6 source-bound selectors and completion intent', () => {
-  it('keeps filtered QC selection partial when global authoritative remaining is larger', () => {
-    expect(qcCompletionMode(5,10)).toBe('PARTIAL_SELECTION')
-    expect(qcCompletionMode(10,10)).toBe('ALL_READY')
-    expect(qcCompletionMode(0,0)).toBe('PARTIAL_SELECTION')
+  it('finishes received Good while two physical pieces are still at Laundry', () => {
+    // Ten dispatched, eight received, five already posted: three ready, five
+    // still unfinalized overall. Only the three ready belong to ALL_READY.
+    expect(qcCompletionMode(5,8,true)).toBe('PARTIAL_SELECTION')
+    expect(qcCompletionMode(3,3,true)).toBe('ALL_READY')
+    expect(qcCompletionMode(2,2,true)).toBe('ALL_READY')
+  })
+
+  it('does not infer full completion from a filtered or truncated lower bound', () => {
+    expect(qcCompletionMode(2,3,false)).toBe('PARTIAL_SELECTION')
+    expect(qcCompletionMode(3,3,false)).toBeNull()
+    expect(qcCompletionMode(199,200,false)).toBe('PARTIAL_SELECTION')
+    expect(qcCompletionMode(200,200,false)).toBeNull()
+    expect(qcCompletionMode(0,0,true)).toBeNull()
+    expect(qcCompletionMode(4,3,true)).toBeNull()
+  })
+
+  it('qualifies common group search without treating receipt or size search as complete', () => {
+    const group={poNumber:'PO-10',groupNumber:'P-1',modelCode:'MOD-1',modelName:'Model 1'}
+    expect(qcQueueSourceComplete(group,'',false)).toBe(true)
+    expect(qcQueueSourceComplete(group,'po-10',false)).toBe(true)
+    expect(qcQueueSourceComplete(group,'P-1',false)).toBe(true)
+    expect(qcQueueSourceComplete(group,'LRC-1',false)).toBe(false)
+    expect(qcQueueSourceComplete(group,'31',false)).toBe(false)
+    expect(qcQueueSourceComplete(group,'PO-10',true)).toBe(false)
+    expect(qcQueueSourceComplete(group,'%',false)).toBe(false)
+    expect(qcQueueSourceComplete(group,'_',false)).toBe(false)
+    expect(qcQueueSourceComplete(group,String.fromCharCode(92),false)).toBe(false)
   })
 
   it('clears a stale Final-SKU loading state when the query invalidates an in-flight request', async () => {
