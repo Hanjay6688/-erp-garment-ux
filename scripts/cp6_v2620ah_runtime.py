@@ -7,7 +7,7 @@ import cp6_v2620ag_runtime as predecessor
 from cp6_v2620ah_build_sql import STAMP,NAME,VERSION,MIGRATION,ROLLBACK,PINS,CATALOG,PREDECESSOR_HEAD,PREDECESSOR_TREE
 
 CAPSULE='erp.cp6_v2620ah_rollback_capsule'
-PINS_SHA256='020bf2788eadd3621c7cae51c91e2238b5918f0706ecae2ae5a8de1c9c52d07c'
+PINS_SHA256='f68cd909db93fe1e1765824e273909c30ba1ef3baf88987f682d6d35866914f1'
 SOURCE_BASE='961c592e22b6582ba7c5b07d612e32a9dbbae28b'
 
 def pins():
@@ -20,7 +20,7 @@ def verify_source_files():
  p=pins();predecessor.verify_source_files()
  for path,expected in p['source_pins'].items():
   b=Path(path).read_bytes();assert len(b)==expected['bytes'] and hashlib.sha256(b).hexdigest()==expected['sha256'],'AH_SOURCE_DRIFT:'+path
- assert len(p['functions'])==3
+ assert len(p['functions'])==5
  return p
 
 def verify_audit_source():
@@ -62,7 +62,7 @@ def verified_successor(cur,*,pre_admission=False):
  assert platform==[(STAMP,p['source_pins'][str(MIGRATION)]['sha256'])],'AH_PLATFORM_SOURCE_DRIFT'
  ac._capsule_security(cur,CAPSULE)
  rows=cur.execute(f"""select object_regidentity,definition_sha256,encode(extensions.digest(convert_to(object_definition,'UTF8'),'sha256'),'hex'),installed_definition_sha256,owner_snapshot,acl_snapshot,boundary_snapshot from {CAPSULE} order by object_regidentity""").fetchall()
- expected={f['identity']:f for f in p['functions']};assert len(rows)==3 and {r[0] for r in rows}==set(expected)
+ expected={f['identity']:f for f in p['functions']};assert len(rows)==5 and {r[0] for r in rows}==set(expected)
  boundary=rows[0][-1];assert boundary is not None and len(boundary)==220
  for identity,before,actual,after,owner,acl,snapshot in rows:
   e=expected[identity]

@@ -22,11 +22,22 @@ creation is stale; its explicit `RETURN_ORDINARY_DRAFT_CREATE` case records
 the observed permission failure. Preserve both rather than rewriting evidence.
 These were further writer checks, not independent acceptance of AG.
 
-AH changes three functions:
+Two further reference-access counterexamples were proved on exact original AG
+in run 35070228607: both allowed OWNER draft writes failed while reading a
+restricted reference. The identical administrator control and complete business
+flow passed with the report READY. Artifact 10436136832, SHA256
+`0188e4602911fdf78f3b823e5173da38b912bf18cc0bf88633af5e3e6a985805`.
+That workflow intentionally stopped after the two probes, before combined tests.
+The previous probe's invoice fixture ID collision is preserved as INCOMPLETE;
+it is not a business bug. Invoice posting remains a private backend dependency.
+
+AH changes five functions:
 
 * Return normalization requires an active posted source. Its private trigger
   reads its references as its owner with an empty search path and an explicit
   internal caller check. No table SELECT or trigger EXECUTE grants are widened.
+  The same confined validation is applied to `validate_work_completion()` and
+  `validate_vendor_invoice_item_lineage()` for the proven related draft paths.
 * Posting derives eligibility and total returned quantity from the selected
   allocation ID; stock receipt uses the independently selected destination.
   Other allocations remain separately eligible. Existing locking, refunds,
@@ -36,11 +47,12 @@ AH changes three functions:
 
 Posted history is never rewritten. Installation refuses existing invalid
 active returns or draft dependencies on an unposted sale. The rollback capsule
-contains three exact predecessor functions and a 220-relation data boundary;
+contains five exact predecessor functions and a 220-relation data boundary;
 pre-use rollback must restore all 533 functions and 222 tables of AG, including
 data, ownership, privileges, markers and the original platform source ledger.
 
-The native workflow is gated in this order: 9 admission controls; 80 focused
+The native workflow is gated in this order: 2 exact-original AG reference
+counterexamples; 9 admission controls; 82 focused
 cases and 31 report controls; 142 combined business oracles; 8 actual two-session
 races; 20 maintenance schedules; 8 atomic rollback refusals and exact AG restore.
 Failed phases are preserved and prevent later gates. Synthetic corruption
@@ -48,10 +60,13 @@ controls prove detector behavior and are not new business bug discoveries.
 
 Evidence reuse is dependency-aware: admitted SQL through AG and old business
 oracles are byte-identical, pinned runtimes and original artifacts are verified.
-The changed return/report paths invalidate prior coverage for those paths, so
+The changed return/report and work/invoice draft paths invalidate prior coverage for those paths, so
 the relevant combined cases run after focused checks pass. Four old workflows
 route only the complete pinned AH delta and retain their original validation
-bodies byte-for-byte after stripping routing. A green routing job is not the
+bodies byte-for-byte after stripping routing. The three-function return wave
+already passed Native 35069184362 at `916951c512977698d7d50fd85f626de954f55b9c`;
+the two further proven reference paths require a consolidated qualification.
+A green routing job is not the
 AH native result and is not a rerun of the historical 500-case matrix.
 
 For independent review: verify identity, source pins, actual artifact payloads,

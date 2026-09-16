@@ -48,7 +48,7 @@ def prepare(target, operation, folder, *, source_generation):
             raise AssertionError("AH_SEEDED_RUNTIME_MISMATCH")
         conn.commit()
     capsule = matrix.legacy.capture_capsule("AH")
-    if len(capsule) != 3:
+    if len(capsule) != 5:
         raise AssertionError("AH_SCHEDULE_CAPSULE_CARDINALITY")
     matrix.legacy.verify_functions(capsule, True)
     return fixture, capsule
@@ -67,7 +67,7 @@ def run():
     with psycopg.connect(matrix.SOURCE) as conn, conn.cursor() as cur:
         if len(runtime.verified_successor(cur)) != 690:
             raise AssertionError("AH_MAINTENANCE_SOURCE_MISMATCH")
-    matrix.TARGETS["AH"] = (runtime.STAMP, runtime.NAME, runtime.VERSION, "v2.6.20ag", 3)
+    matrix.TARGETS["AH"] = (runtime.STAMP, runtime.NAME, runtime.VERSION, "v2.6.20ag", 5)
     original_prepare = matrix.prepare
     matrix.prepare = prepare
     result = {

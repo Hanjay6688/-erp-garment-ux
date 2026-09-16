@@ -184,6 +184,11 @@ def reference_case(target,expect_fixed=False):
         import cp6_v2620f_final_runtime_regression as final
         observed=[]
         table='work_completion_lines' if target=='WORK' else 'vendor_invoice_items'
+        actors.admin(cur)
+        reference='erp.production_orders' if target=='WORK' else 'erp.laundry_receipt_lines'
+        trigger='erp.validate_work_completion()' if target=='WORK' else 'erp.validate_vendor_invoice_item_lineage()'
+        assert not base.one(cur,"select has_table_privilege('authenticated',%s,'SELECT')",(reference,))
+        assert not base.one(cur,"select has_function_privilege('authenticated',%s,'EXECUTE')",(trigger,))
         class Probe:
             def __getattr__(self,name):return getattr(cur,name)
             def execute(self,query,params=None,**kwargs):
@@ -220,11 +225,13 @@ def reference_case(target,expect_fixed=False):
             _,_,receipt=final.base.post_receipt(cur,str(delivery['delivery_id']),final.base.BASE_PROCESS,'2026-09-02T11:00:00Z')
             final.finalize_laundry_invoice(proxy,receipt,Decimal('10'))
         assert len(observed)==1,observed
+        if not expect_fixed:assert observed[0]['ordinary_refusal'] is not None,observed
         actors.admin(cur);today=base.one(cur,"select (statement_timestamp() at time zone 'Asia/Jakarta')::date")
         state=peer.confidence(cur,today);assert state['data_confidence']['status']=='READY',state
         return dict(status='PASS',classification='CONTROL_PASS' if observed[0]['ordinary_refusal'] is None else 'BUG_PROVEN',
                     selected_path=target,observations=observed,complete_business_control=True,
                     invoice_posting_backend_only=target=='VENDOR',
+                    reference_select_and_trigger_execute_grants_widened=False,
                     synthetic_detector_control=False,report=state)
     return case
 
@@ -258,6 +265,7 @@ def phase_cases(phase):
         cases=[('AG_'+name,retained(fn)) for name,fn in original.cases() if name not in replaced]
         cases += [('ORDINARY_'+dest+'_'+grade,ordinary_return(dest,grade)) for dest in ('SAME','OTHER') for grade in ('GRADE_A','GRADE_B','HOLD')]
         cases += [('ALLOCATION_LIMIT',allocation_limit),('SPLIT_DESTINATION',split_destination),('SOURCE_DRAFT',source_state('DRAFT')),('SOURCE_REVERSED',source_state('REVERSED')),('SOURCE_REBIND',source_rebind),('ANONYMOUS_DRAFT',anonymous_draft)]
+        cases += [('REFERENCE_WORK',reference_case('WORK',True)),('REFERENCE_VENDOR',reference_case('VENDOR',True))]
         return cases+[('AG_WRITER_'+name,fn) for name,fn in ag.phase_cases('focused')]
     if phase=='detector':return [(mode,detector(mode)) for mode in ('PRODUCT','LOCATION','GRADE','CUSTOMER','DATE','QUANTITY','ORPHAN','MISSING')]+[('AG_'+name,fn) for name,fn in ag.phase_cases('detector')]
     if phase=='crossflow':return ag.phase_cases('crossflow')
@@ -270,6 +278,7 @@ def run(phase):
     with psycopg.connect(peer.URL.replace('postgres:postgres@','supabase_admin:postgres@')) as conn,conn.cursor() as cur:
         cur.execute("set local timezone='Asia/Jakarta';set local statement_timeout='240s';set local lock_timeout='8s'")
         untouched=actors.boundary(cur);catalog=function_catalog(cur)
+        if phase=='reference':result.update(candidate_head=runtime.PREDECESSOR_HEAD,candidate_tree=runtime.PREDECESSOR_TREE,runtime_generation='AG',immutable_functions_verified=533)
         if phase in ('admission','reference'):
             runtime.verify_predecessor(cur)
             if phase=='admission':save('AG_COMPLETE_CATALOG',catalog);save('AG_COMPLETE_BOUNDARY',snapshot(cur))

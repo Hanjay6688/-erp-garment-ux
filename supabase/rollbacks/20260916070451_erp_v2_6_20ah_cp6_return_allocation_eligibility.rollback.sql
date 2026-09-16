@@ -11,7 +11,7 @@ begin
      or not exists(select 1 from supabase_migrations.schema_migrations
        where version='20260916070451' and name='erp_v2_6_20ah_cp6_return_allocation_eligibility'
          and encode(extensions.digest(convert_to(array_to_string(statements,E'\n'),'UTF8'),'sha256'),'hex')
-           in('762f7bcd94823d3a06e52d0a8c1a807692c7a86be6917346806b44df02e501ae','d5417841568fafb0dab2b179a52a9041135935bd6e59e2d97e8600ecbc33439d'))
+           in('e5312744a2ef9ac53717c97e155fccf96a33e2f6a0c68c4b9c45f378ac538219','b71f3606f206b00788e80c2ed93f013a8b0a054e506930f797ccb18c110f26af'))
      or exists(select 1 from supabase_migrations.schema_migrations where version>'20260916070451') then
     raise exception 'AH_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR';
   end if;
@@ -76,13 +76,15 @@ begin
      or exists(select 1 from erp.schema_migrations
        where version not in('v2.6.20ag','v2.6.20ah')
          and installed_at>(select installed_at from erp.schema_migrations where version='v2.6.20ah'))
-     or (select count(*) from erp.cp6_v2620ah_rollback_capsule)<>3 then
+     or (select count(*) from erp.cp6_v2620ah_rollback_capsule)<>5 then
     raise exception 'AH_ROLLBACK_MARKER_CAPSULE_OR_SUCCESSOR';
   end if;
   for r in select * from(values
     ('erp.normalize_sales_return_item_from_allocation()','ea7781898a894cd7694e912f47231fdbcde8745a06a04e8e635210f84bba99ce','eaa4a353f0f455f47e7934c0f33d43a81a68fa15329f686c5283bd338829de08',array['postgres=X/postgres']::text[]),
     ('erp.post_sales_return(uuid)','7640b5781a8838f550595d47bbc3f452a50a846f58018e714a0a209b8f32ff02','a9a7202d34d2111a7def2ec475cd4e95963f5ea6029e6f1ea52c4ec236ed72f8',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),
-    ('erp.run_v268_financial_report_checks()','e62f7fa0d2892708128c372d6e99d39d7833a3fa2eedfe25f17695c7ca94e3ef','ef5ab903b541819a64ca99e20021f5d1a7ad59bee9cda9122834bef5ce93f889',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[])
+    ('erp.run_v268_financial_report_checks()','e62f7fa0d2892708128c372d6e99d39d7833a3fa2eedfe25f17695c7ca94e3ef','ef5ab903b541819a64ca99e20021f5d1a7ad59bee9cda9122834bef5ce93f889',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),
+    ('erp.validate_work_completion()','8706d6353ef4f5621a02e0db943f66599a446db0bf2ae2c375d04ead742e8be0','c1a44bfbc3d54131d6d9e52e903f885c8f6aa9df1e5d1a6c0d1905d20a7387bf',array['postgres=X/postgres','service_role=X/postgres']::text[]),
+    ('erp.validate_vendor_invoice_item_lineage()','0f9e0ae58e8482c449a9c76994055e03c2e077b2868e3febc3b1699b0c73158e','05fd228e13dcf54476eb3a2f17810ed958101153336fc9b85cc00aea633b630e',array['postgres=X/postgres']::text[])
   ) expected(identity,predecessor_sha256,installed_sha256,acl) loop
     select cap.*,
       encode(extensions.digest(convert_to(cap.object_definition,'UTF8'),'sha256'),'hex') definition_actual,
@@ -139,7 +141,9 @@ begin
   for r in select * from(values
     ('erp.normalize_sales_return_item_from_allocation()','ea7781898a894cd7694e912f47231fdbcde8745a06a04e8e635210f84bba99ce'),
     ('erp.post_sales_return(uuid)','7640b5781a8838f550595d47bbc3f452a50a846f58018e714a0a209b8f32ff02'),
-    ('erp.run_v268_financial_report_checks()','e62f7fa0d2892708128c372d6e99d39d7833a3fa2eedfe25f17695c7ca94e3ef')
+    ('erp.run_v268_financial_report_checks()','e62f7fa0d2892708128c372d6e99d39d7833a3fa2eedfe25f17695c7ca94e3ef'),
+    ('erp.validate_work_completion()','8706d6353ef4f5621a02e0db943f66599a446db0bf2ae2c375d04ead742e8be0'),
+    ('erp.validate_vendor_invoice_item_lineage()','0f9e0ae58e8482c449a9c76994055e03c2e077b2868e3febc3b1699b0c73158e')
   ) expected(identity,sha256) loop
     select encode(extensions.digest(convert_to(
       pg_get_functiondef(to_regprocedure(r.identity)),'UTF8'),'sha256'),'hex') into v_actual;
@@ -156,8 +160,8 @@ delete from supabase_migrations.schema_migrations
 where version='20260916070451'
   and name='erp_v2_6_20ah_cp6_return_allocation_eligibility'
   and encode(extensions.digest(convert_to(array_to_string(statements,E'\n'),'UTF8'),'sha256'),'hex')
-    in('762f7bcd94823d3a06e52d0a8c1a807692c7a86be6917346806b44df02e501ae',
-       'd5417841568fafb0dab2b179a52a9041135935bd6e59e2d97e8600ecbc33439d');
+    in('e5312744a2ef9ac53717c97e155fccf96a33e2f6a0c68c4b9c45f378ac538219',
+       'b71f3606f206b00788e80c2ed93f013a8b0a054e506930f797ccb18c110f26af');
 
 do $postcheck_v2620ah$
 declare r record;v_actual text;
@@ -165,7 +169,9 @@ begin
   for r in select * from(values
     ('erp.normalize_sales_return_item_from_allocation()','ea7781898a894cd7694e912f47231fdbcde8745a06a04e8e635210f84bba99ce',array['postgres=X/postgres']::text[]),
     ('erp.post_sales_return(uuid)','7640b5781a8838f550595d47bbc3f452a50a846f58018e714a0a209b8f32ff02',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),
-    ('erp.run_v268_financial_report_checks()','e62f7fa0d2892708128c372d6e99d39d7833a3fa2eedfe25f17695c7ca94e3ef',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[])
+    ('erp.run_v268_financial_report_checks()','e62f7fa0d2892708128c372d6e99d39d7833a3fa2eedfe25f17695c7ca94e3ef',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),
+    ('erp.validate_work_completion()','8706d6353ef4f5621a02e0db943f66599a446db0bf2ae2c375d04ead742e8be0',array['postgres=X/postgres','service_role=X/postgres']::text[]),
+    ('erp.validate_vendor_invoice_item_lineage()','0f9e0ae58e8482c449a9c76994055e03c2e077b2868e3febc3b1699b0c73158e',array['postgres=X/postgres']::text[])
   ) expected(identity,sha256,acl) loop
     select encode(extensions.digest(convert_to(pg_get_functiondef(p.oid),'UTF8'),'sha256'),'hex')
     into v_actual from pg_proc p where p.oid=to_regprocedure(r.identity)

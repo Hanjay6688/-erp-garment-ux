@@ -36,6 +36,25 @@
         "postgres=X/postgres",
         "service_role=X/postgres"
       ]
+    },
+    {
+      "identity": "erp.validate_work_completion()",
+      "predecessor_sha256": "8706d6353ef4f5621a02e0db943f66599a446db0bf2ae2c375d04ead742e8be0",
+      "installed_sha256": "c1a44bfbc3d54131d6d9e52e903f885c8f6aa9df1e5d1a6c0d1905d20a7387bf",
+      "owner": "postgres",
+      "acl": [
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ]
+    },
+    {
+      "identity": "erp.validate_vendor_invoice_item_lineage()",
+      "predecessor_sha256": "0f9e0ae58e8482c449a9c76994055e03c2e077b2868e3febc3b1699b0c73158e",
+      "installed_sha256": "05fd228e13dcf54476eb3a2f17810ed958101153336fc9b85cc00aea633b630e",
+      "owner": "postgres",
+      "acl": [
+        "postgres=X/postgres"
+      ]
     }
   ],
   "boundary_count": 220,
@@ -45,12 +64,12 @@
   "production_go": false,
   "source_pins": {
     "scripts/cp6_v2620ah_build_sql.py": {
-      "sha256": "25b9647123b2df8cb3fe431e127c6aba3b8b27778d931d5b7815852b851011d1",
-      "bytes": 13289
+      "sha256": "bf5533320d6750723ad43ce414142f2f237cb15ca512a6a1fa2d44838e107d1c",
+      "bytes": 14041
     },
     "docs/evidence/cp6-ah-predecessor-functions.json": {
-      "sha256": "ad4e7a9c652c046f649ccd53db0058afcdd90113e6a710bd3f7c389db3feca77",
-      "bytes": 68496
+      "sha256": "92af0cdf460dd855fd8efec58b0c315087bb8ac6421be8160d28e8c2ad3cfb79",
+      "bytes": 70863
     },
     "docs/evidence/cp6-ah-ag-catalog-pins.json": {
       "sha256": "7a20d8b56123f51bfcbef77c6ef7e89b65b4aad55ac59a735412c5b1661507b9",
@@ -65,12 +84,12 @@
       "bytes": 12059
     },
     "supabase/migrations/20260916070451_erp_v2_6_20ah_cp6_return_allocation_eligibility.sql": {
-      "sha256": "762f7bcd94823d3a06e52d0a8c1a807692c7a86be6917346806b44df02e501ae",
-      "bytes": 83388
+      "sha256": "e5312744a2ef9ac53717c97e155fccf96a33e2f6a0c68c4b9c45f378ac538219",
+      "bytes": 86489
     },
     "supabase/rollbacks/20260916070451_erp_v2_6_20ah_cp6_return_allocation_eligibility.rollback.sql": {
-      "sha256": "88854a508b70d1660536710f3fd76b3da615a35e20efd2c7c07c0f8445bab5c9",
-      "bytes": 11645
+      "sha256": "aec93e99065e7197c7fcbab8b42f0b5b2ab50a2f9cc216436ae61ff854044a71",
+      "bytes": 12657
     }
   }
 }

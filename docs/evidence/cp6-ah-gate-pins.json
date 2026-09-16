@@ -16,55 +16,55 @@
       "bytes": 14662
     },
     ".github/workflows/cp6-ah-return-allocation.yml": {
-      "sha256": "88dbb4e47e40f3af9763e5d6f7fb1cd9bd953aa576cee934856e7ec7e871e3d7",
-      "bytes": 16550
+      "sha256": "a287046c40fe9241e7acc5d32cdbcf0f1cf6c908a8584bae3ede98b5622e5a90",
+      "bytes": 16374
     },
     ".github/workflows/cp6-full-schema-validation.yml": {
       "sha256": "612a895c58309326cf5bf2566c9535a4aa072dd63330fe45a5eb576dcc8a4fd5",
       "bytes": 511395
     },
     "docs/cp6-ah-competition-handoff.md": {
-      "sha256": "b89bd07458e1dbc2dfc08370bfb4cce7241318e99f34c9cbd008360ad752230c",
-      "bytes": 4564
+      "sha256": "a894f50e865d6b155b128f1827a217a6681df090f3cbfbc5b36f895e8006e71e",
+      "bytes": 5583
     },
     "docs/evidence/cp6-ah-ag-catalog-pins.json": {
       "sha256": "7a20d8b56123f51bfcbef77c6ef7e89b65b4aad55ac59a735412c5b1661507b9",
       "bytes": 144459
     },
     "docs/evidence/cp6-ah-family-disposition.json": {
-      "sha256": "347cde05897fdac08be704c489270f71d4a3f544f8da9f2d5fae6337e5342d44",
-      "bytes": 4674
+      "sha256": "953317c2a4d0c7981e81a5fbc490ef27f7a155959ad8ca9614efa11d64b4c4c3",
+      "bytes": 37000
     },
     "docs/evidence/cp6-ah-predecessor-functions.json": {
-      "sha256": "ad4e7a9c652c046f649ccd53db0058afcdd90113e6a710bd3f7c389db3feca77",
-      "bytes": 68496
+      "sha256": "92af0cdf460dd855fd8efec58b0c315087bb8ac6421be8160d28e8c2ad3cfb79",
+      "bytes": 70863
     },
     "docs/evidence/cp6-ah-runtime-pins.json": {
-      "sha256": "020bf2788eadd3621c7cae51c91e2238b5918f0706ecae2ae5a8de1c9c52d07c",
-      "bytes": 2984
+      "sha256": "f68cd909db93fe1e1765824e273909c30ba1ef3baf88987f682d6d35866914f1",
+      "bytes": 3701
     },
     "scripts/cp6_ah_gate_scope.py": {
       "sha256": "231534fc07271ef74f1f9793a77376d4e4e7ae7c4353f6c432acc0fcb6e6f4cf",
       "bytes": 3601
     },
     "scripts/cp6_preuse_rollback_maintenance.py": {
-      "sha256": "92cb896c86c9898865c9da73b1b28c0ec800c343061a58b1ceef455d6b6a2687",
+      "sha256": "ce713fa9f6ff6dcc9fe61e37931da3ad690d60895824e0a8af9a4f4ccfd7f5fe",
       "bytes": 78590
     },
     "scripts/cp6_v2620ah_build_sql.py": {
-      "sha256": "25b9647123b2df8cb3fe431e127c6aba3b8b27778d931d5b7815852b851011d1",
-      "bytes": 13289
+      "sha256": "bf5533320d6750723ad43ce414142f2f237cb15ca512a6a1fa2d44838e107d1c",
+      "bytes": 14041
     },
     "scripts/cp6_v2620ah_concurrency.py": {
       "sha256": "1e226efc0103cb3f4e67bfcc16001f4051f549f098e423623f390c875670499f",
       "bytes": 6485
     },
     "scripts/cp6_v2620ah_family.py": {
-      "sha256": "51f96b336ae1efa821d29be4a38da3f9bde1e71c9b34193a3c39ba5327296646",
-      "bytes": 22201
+      "sha256": "2b0ea672f03be0caf6c849b076fc4ff79d07631f61cf512e9708f3ebf44a8f2e",
+      "bytes": 23113
     },
     "scripts/cp6_v2620ah_maintenance_schedules.py": {
-      "sha256": "e5bee353528b057d552e5eaf8d1e5f98aef455878e3c84e10dd5155e846d6f58",
+      "sha256": "8518dc3777316149f5bf66825542fa1472e96b077269e1d556dfed5075c0ddda",
       "bytes": 5626
     },
     "scripts/cp6_v2620ah_rollback_guards.py": {
@@ -72,16 +72,16 @@
       "bytes": 8096
     },
     "scripts/cp6_v2620ah_runtime.py": {
-      "sha256": "b71339d4e314cbb1f9da25d9f79ad6bb1d96f388d05e2693f62c6fe3dfe12c7b",
+      "sha256": "af6d3a87f7fee0035cfd9035d94fe376bf9544dabfcc3a642761b4ecebd581ae",
       "bytes": 6091
     },
     "supabase/migrations/20260916070451_erp_v2_6_20ah_cp6_return_allocation_eligibility.sql": {
-      "sha256": "762f7bcd94823d3a06e52d0a8c1a807692c7a86be6917346806b44df02e501ae",
-      "bytes": 83388
+      "sha256": "e5312744a2ef9ac53717c97e155fccf96a33e2f6a0c68c4b9c45f378ac538219",
+      "bytes": 86489
     },
     "supabase/rollbacks/20260916070451_erp_v2_6_20ah_cp6_return_allocation_eligibility.rollback.sql": {
-      "sha256": "88854a508b70d1660536710f3fd76b3da615a35e20efd2c7c07c0f8445bab5c9",
-      "bytes": 11645
+      "sha256": "aec93e99065e7197c7fcbab8b42f0b5b2ab50a2f9cc216436ae61ff854044a71",
+      "bytes": 12657
     }
   }
 }

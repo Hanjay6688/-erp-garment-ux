@@ -16,7 +16,8 @@ INPUT=Path('docs/evidence/cp6-ah-predecessor-functions.json')
 CATALOG=Path('docs/evidence/cp6-ah-ag-catalog-pins.json')
 BUILDER=Path(__file__).relative_to(Path.cwd())
 IDENTITIES=('erp.normalize_sales_return_item_from_allocation()',
-            'erp.post_sales_return(uuid)','erp.run_v268_financial_report_checks()')
+            'erp.post_sales_return(uuid)','erp.run_v268_financial_report_checks()',
+            'erp.validate_work_completion()','erp.validate_vendor_invoice_item_lineage()')
 sha,replace,block,rows=ag.sha,ag.replace,ag.block,ag.rows
 
 # Posted return facts must bind the selected source allocation. A destination
@@ -103,7 +104,16 @@ def build():
     post=replace(post,"    where sri.return_id=h.id and sri.product_id=r.product_id and sri.lot_id=r.lot_id and sri.location_id=r.location_id;", "    where sri.return_id=h.id and sri.sale_stock_allocation_id=r.sale_stock_allocation_id;")
     post=replace(post,"      raise exception 'Sales return exceeds quantity originally sold for this lot/location. Sold %, prior returned %, current return %'", "      raise exception 'AH_RETURN_EXCEEDS_ORIGINAL_ALLOCATION: Sales return exceeds quantity originally sold for this allocation. Sold %, prior returned %, current return %'")
     report=replace(src[IDENTITIES[2]][1],"\nend\n$function$", "\n  return query select 'V2620AH_RETURN_ALLOCATION_LINEAGE_MISMATCH'::text,'CRITICAL'::text,("+DIRTY_QUERY+"),'Active return quantities and receipt facts must match their selected original sale allocation and chosen destination'::text;\nend\n$function$")
-    defs=[normal,post,report]
+    references=[]
+    for identity in IDENTITIES[3:]:
+        definition=src[identity][1]
+        definition=replace(definition," LANGUAGE plpgsql\n SET search_path TO 'erp', 'public', 'pg_temp'", " LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO ''")
+        if identity=='erp.validate_work_completion()':
+            definition=replace(definition,' BEGIN SELECT po_id,contractor_id',' BEGIN PERFORM erp.require_internal(); SELECT po_id,contractor_id')
+        else:
+            definition=replace(definition,'begin\n  select vendor_id','begin\n  perform erp.require_internal();\n  select vendor_id')
+        references.append(definition)
+    defs=[normal,post,report,*references]
     functions=[dict(identity=i,predecessor_sha256=sha(src[i][1]),installed_sha256=sha(d),owner=src[i][3],acl=sorted(src[i][2].strip('{}').split(','))) for i,d in zip(IDENTITIES,defs,strict=True)]
     old_rows={m:rows(prior['functions'],m) for m in ('predecessor','installed','restore')}
     new_rows={m:rows(functions,m) for m in old_rows}
@@ -143,7 +153,7 @@ $predecessor_v2620ah$;"""
     canonical='do $canonical_opening_v2620ah$\nbegin\n'+'\n'.join('  execute $definition$'+d+'$definition$;' for d in defs)+'\nend\n$canonical_opening_v2620ah$;'
     migration=block(migration,'do $canonical_opening_v2620ah$','$canonical_opening_v2620ah$;',canonical)
     migration=replace(migration,old_rows['installed'],new_rows['installed'])
-    migration=migration.replace('(select count(*) from erp.cp6_v2620ah_rollback_capsule)<>4','(select count(*) from erp.cp6_v2620ah_rollback_capsule)<>3')
+    migration=migration.replace('(select count(*) from erp.cp6_v2620ah_rollback_capsule)<>4','(select count(*) from erp.cp6_v2620ah_rollback_capsule)<>5')
     migration=migration.replace('Reserved sale edits use the atomic draft RPC; posting and reports require exact source/stock lineage','Return allocation eligibility, destination and ordinary draft validation remain coherent')
     MIGRATION.write_text(migration)
     rollback=advance(ag.ROLLBACK.read_text()).replace('-> exact AF.','-> exact AG.')
@@ -151,7 +161,7 @@ $predecessor_v2620ah$;"""
         if old_rows[mode] in rollback:rollback=replace(rollback,old_rows[mode],new_rows[mode])
     rollback=rollback.replace(ag.STAMP,STAMP).replace(ag.NAME,NAME)
     rollback=rollback.replace(sha(ag.MIGRATION.read_bytes()),sha(migration)).replace(sha(ag.MIGRATION.read_text().removesuffix('\n')),sha(migration.removesuffix('\n')))
-    rollback=rollback.replace('(select count(*) from erp.cp6_v2620ah_rollback_capsule)<>4','(select count(*) from erp.cp6_v2620ah_rollback_capsule)<>3')
+    rollback=rollback.replace('(select count(*) from erp.cp6_v2620ah_rollback_capsule)<>4','(select count(*) from erp.cp6_v2620ah_rollback_capsule)<>5')
     ROLLBACK.write_text(rollback)
     pins=dict(format='CP6_AH_RUNTIME_PINS_V1',stamp=STAMP,name=NAME,version=VERSION,predecessor_head=PREDECESSOR_HEAD,predecessor_tree=PREDECESSOR_TREE,functions=functions,boundary_count=220,predecessor_function_count=533,predecessor_table_count=222,comparison_run=35066611261,production_go=False,source_pins={str(p):dict(sha256=sha(p.read_bytes()),bytes=p.stat().st_size) for p in (BUILDER,INPUT,CATALOG,ag.MIGRATION,ag.ROLLBACK,MIGRATION,ROLLBACK)})
     PINS.write_text(json.dumps(pins,indent=2)+'\n')

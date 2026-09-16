@@ -240,9 +240,6 @@ jobs:
       working-directory: candidate
       run: |
         PYTHONPATH=scripts python scripts/cp6_v2620ah_family.py --phase reference
-        # This investigation wave stops before another combined gate.
-        echo 'AH reference investigation only; complete disposition before qualification.'
-        exit 1
     - name: Provision isolated rollback authority
       working-directory: candidate
       shell: bash

@@ -34,6 +34,11 @@
       "reason": "CRITICAL return lineage, source state/customer/date, active movement and allocation quantity checks; no historical snapshot versus current recost comparison."
     },
     {
+      "path": "validate_work_completion / validate_vendor_invoice_item_lineage",
+      "disposition": "FIXED_PENDING_NATIVE",
+      "reason": "Exact original AG ordinary DRAFT inserts were refused while identical administrator controls and complete valid business flows succeeded with READY reports. Preserve all lineage checks and private posting ACLs; use confined SECURITY DEFINER, empty search_path and require_internal. No table SELECT or trigger EXECUTE grants broadened."
+    },
+    {
       "path": "save_sale_draft_v2 / cancel_sale_draft_v2 / post_sale_v2",
       "disposition": "RECONCILED_RERUN_REQUIRED",
       "reason": "AG reservation producer and guards unchanged; new normalizer prevents illegal foreign-key dependency on draft allocation. AG focused cases retained."
@@ -49,14 +54,14 @@
       "reason": "Consumers use lot/product and actual movement destination, not original sale warehouse; retained 142-case business expectations run against AH including recost/return effects."
     },
     {
-      "path": "invoker references to erp.locations",
+      "path": "invoker reference access family",
       "disposition": "SOURCE_INSPECTED",
-      "reason": "All 533 predecessor functions inspected. Return normalizer is affected. validate_material_stock_movement_lineage remains invoker on a system-managed ledger without authenticated DML; its server writers execute with owner authority. No broad SELECT grant is justified."
+      "reason": "Survey all 533 functions, restricted table references, trigger targets/events and 21 dynamic parent bindings; three permitted DRAFT validators need confined owner reference access. Attendance uses a reviewed save facade; private backend and non-writable targets are excluded explicitly."
     },
     {
       "path": "installation / rollback / maintenance controller",
       "disposition": "NEW_EDGE_RERUN_REQUIRED",
-      "reason": "Dirty active returns and source draft dependencies refuse installation. Three-function capsule, 220-relation boundary; exact AG restore 533 functions / 222 tables. Eight refusals, twenty maintenance schedules."
+      "reason": "Dirty active returns and source draft dependencies refuse installation. Five-function capsule, 220-relation boundary; exact AG restore 533 functions / 222 tables. Eight refusals, twenty maintenance schedules."
     },
     {
       "path": "src/SalesPages.tsx",
@@ -76,17 +81,822 @@
   ],
   "planned_native_cases": {
     "admission": 9,
-    "focused": 80,
+    "focused": 82,
     "detector": 31,
     "crossflow": 142,
     "concurrency": 8,
     "maintenance": 20,
-    "rollback_refusals": 8
+    "rollback_refusals": 8,
+    "reference": 2
   },
   "limitations": [
     "Temporary authenticated schema USAGE fixture retained and restored.",
     "Master-data setup uses administrator; ordinary return draft creation and posting are authenticated/OWNER.",
     "Synthetic detector corruption is not an original business counterexample.",
     "Additional AG checks are not independent AG acceptance."
-  ]
+  ],
+  "additional_reference_counterexamples": {
+    "run": 35070228607,
+    "artifact": 10436136832,
+    "sha256": "0188e4602911fdf78f3b823e5173da38b912bf18cc0bf88633af5e3e6a985805",
+    "proved": 2,
+    "incomplete": 0,
+    "original_business_candidate": "119f8f133131eaf373f08cc45b7b3d6fc27a3d3e",
+    "harness": "f93b6581a22285006bd0cf0a55d38a2716744feb",
+    "posting_invoice_backend_only": true
+  },
+  "reference_access_survey": {
+    "original": "AG",
+    "original_head": "119f8f133131eaf373f08cc45b7b3d6fc27a3d3e",
+    "function_catalog_count": 533,
+    "static_reference_survey_only": true,
+    "not_an_end_to_end_proof": true,
+    "paths": [
+      {
+        "function": "erp._cp3_lock_manifest_contractors(date,date)",
+        "denied": [
+          "erp.sewing_terminal_events"
+        ],
+        "targets": [],
+        "disposition": "EXCLUDED_NO_DIRECT_AUTHENTICATED_WRITE",
+        "reason": "Private helper or trigger target lacks authenticated mutation grants; server producer retains elevated reference access. This is source/ACL inspection, not HTTP or role-complete proof."
+      },
+      {
+        "function": "erp._cp3_r4_active_pool_affects_contractor(uuid,date,date)",
+        "denied": [
+          "erp.attendance_hpp_pools",
+          "erp.sewing_terminal_events"
+        ],
+        "targets": [],
+        "disposition": "EXCLUDED_NO_DIRECT_AUTHENTICATED_WRITE",
+        "reason": "Private helper or trigger target lacks authenticated mutation grants; server producer retains elevated reference access. This is source/ACL inspection, not HTTP or role-complete proof."
+      },
+      {
+        "function": "erp.guard_attendance_period_overlap()",
+        "denied": [
+          "erp.attendance_periods"
+        ],
+        "targets": [
+          {
+            "table": "erp.attendance_periods",
+            "authenticated_acl": "NONE"
+          }
+        ],
+        "disposition": "EXCLUDED_NO_DIRECT_AUTHENTICATED_WRITE",
+        "reason": "Private helper or trigger target lacks authenticated mutation grants; server producer retains elevated reference access. This is source/ACL inspection, not HTTP or role-complete proof."
+      },
+      {
+        "function": "erp.guard_attendance_record_period_and_dates()",
+        "denied": [
+          "erp.attendance_periods"
+        ],
+        "targets": [
+          {
+            "table": "erp.attendance_records",
+            "authenticated_acl": "arwd"
+          }
+        ],
+        "disposition": "EXCLUDED_PUBLIC_FACADE",
+        "reason": "Attendance uses public facade and SECURITY DEFINER save_attendance_period_v1, not legacy direct row writes; private employment/rate helpers deliberately remain private."
+      },
+      {
+        "function": "erp.guard_bs_case_component_state()",
+        "denied": [
+          "erp.rework_component_lines"
+        ],
+        "targets": [
+          {
+            "table": "erp.bs_case_components",
+            "authenticated_acl": "NONE"
+          }
+        ],
+        "disposition": "EXCLUDED_NO_DIRECT_AUTHENTICATED_WRITE",
+        "reason": "Private helper or trigger target lacks authenticated mutation grants; server producer retains elevated reference access. This is source/ACL inspection, not HTTP or role-complete proof."
+      },
+      {
+        "function": "erp.guard_bs_resolution_claim_state_v2619c()",
+        "denied": [
+          "erp.laundry_claims"
+        ],
+        "targets": [
+          {
+            "table": "erp.bs_resolutions",
+            "authenticated_acl": "NONE"
+          }
+        ],
+        "disposition": "EXCLUDED_NO_DIRECT_AUTHENTICATED_WRITE",
+        "reason": "Private helper or trigger target lacks authenticated mutation grants; server producer retains elevated reference access. This is source/ACL inspection, not HTTP or role-complete proof."
+      },
+      {
+        "function": "erp.guard_contractor_delete_after_history()",
+        "denied": [
+          "erp.production_orders",
+          "erp.rework_orders"
+        ],
+        "targets": [
+          {
+            "table": "erp.contractors",
+            "authenticated_acl": "arw"
+          }
+        ],
+        "disposition": "EXCLUDED_TRIGGER_EVENT",
+        "reason": "Trigger acts on DELETE; authenticated tables have arw but no DELETE. Master lifecycle uses authorized server paths."
+      },
+      {
+        "function": "erp.guard_cutting_batch_parent_change()",
+        "denied": [
+          "erp.cutting_groups"
+        ],
+        "targets": [
+          {
+            "table": "erp.cutting_batches",
+            "authenticated_acl": "r"
+          }
+        ],
+        "disposition": "EXCLUDED_NO_DIRECT_AUTHENTICATED_WRITE",
+        "reason": "Private helper or trigger target lacks authenticated mutation grants; server producer retains elevated reference access. This is source/ACL inspection, not HTTP or role-complete proof."
+      },
+      {
+        "function": "erp.guard_cutting_detail_after_post()",
+        "denied": [
+          "erp.cutting_group_rolls",
+          "erp.cutting_groups"
+        ],
+        "targets": [
+          {
+            "table": "erp.cutting_group_rolls",
+            "authenticated_acl": "NONE"
+          },
+          {
+            "table": "erp.cutting_group_size_slots",
+            "authenticated_acl": "NONE"
+          },
+          {
+            "table": "erp.cutting_roll_yields",
+            "authenticated_acl": "NONE"
+          }
+        ],
+        "disposition": "EXCLUDED_NO_DIRECT_AUTHENTICATED_WRITE",
+        "reason": "Private helper or trigger target lacks authenticated mutation grants; server producer retains elevated reference access. This is source/ACL inspection, not HTTP or role-complete proof."
+      },
+      {
+        "function": "erp.guard_cutting_group_header_after_commitment()",
+        "denied": [
+          "erp.bs_cases",
+          "erp.laundry_deliveries",
+          "erp.laundry_delivery_lines"
+        ],
+        "targets": [
+          {
+            "table": "erp.cutting_groups",
+            "authenticated_acl": "NONE"
+          }
+        ],
+        "disposition": "EXCLUDED_NO_DIRECT_AUTHENTICATED_WRITE",
+        "reason": "Private helper or trigger target lacks authenticated mutation grants; server producer retains elevated reference access. This is source/ACL inspection, not HTTP or role-complete proof."
+      },
+      {
+        "function": "erp.guard_laundry_claim_bs_dependency_v2619c()",
+        "denied": [
+          "erp.bs_resolutions"
+        ],
+        "targets": [
+          {
+            "table": "erp.laundry_claims",
+            "authenticated_acl": "NONE"
+          }
+        ],
+        "disposition": "EXCLUDED_NO_DIRECT_AUTHENTICATED_WRITE",
+        "reason": "Private helper or trigger target lacks authenticated mutation grants; server producer retains elevated reference access. This is source/ACL inspection, not HTTP or role-complete proof."
+      },
+      {
+        "function": "erp.guard_laundry_claim_capacity_on_resolution()",
+        "denied": [
+          "erp.laundry_claims",
+          "erp.laundry_deliveries",
+          "erp.laundry_delivery_lines",
+          "erp.laundry_receipt_lines",
+          "erp.laundry_receipts"
+        ],
+        "targets": [
+          {
+            "table": "erp.laundry_claims",
+            "authenticated_acl": "NONE"
+          }
+        ],
+        "disposition": "EXCLUDED_NO_DIRECT_AUTHENTICATED_WRITE",
+        "reason": "Private helper or trigger target lacks authenticated mutation grants; server producer retains elevated reference access. This is source/ACL inspection, not HTTP or role-complete proof."
+      },
+      {
+        "function": "erp.guard_laundry_claim_delivery_source_v2619b()",
+        "denied": [
+          "erp.laundry_claims"
+        ],
+        "targets": [
+          {
+            "table": "erp.laundry_deliveries",
+            "authenticated_acl": "NONE"
+          }
+        ],
+        "disposition": "EXCLUDED_NO_DIRECT_AUTHENTICATED_WRITE",
+        "reason": "Private helper or trigger target lacks authenticated mutation grants; server producer retains elevated reference access. This is source/ACL inspection, not HTTP or role-complete proof."
+      },
+      {
+        "function": "erp.guard_laundry_claim_receipt_source_v2619b()",
+        "denied": [
+          "erp.laundry_claims",
+          "erp.laundry_deliveries",
+          "erp.laundry_receipt_lines"
+        ],
+        "targets": [
+          {
+            "table": "erp.laundry_receipts",
+            "authenticated_acl": "NONE"
+          }
+        ],
+        "disposition": "EXCLUDED_NO_DIRECT_AUTHENTICATED_WRITE",
+        "reason": "Private helper or trigger target lacks authenticated mutation grants; server producer retains elevated reference access. This is source/ACL inspection, not HTTP or role-complete proof."
+      },
+      {
+        "function": "erp.guard_laundry_delivery_posting_consistency()",
+        "denied": [
+          "erp.cutting_groups",
+          "erp.laundry_deliveries",
+          "erp.laundry_delivery_lines"
+        ],
+        "targets": [
+          {
+            "table": "erp.laundry_deliveries",
+            "authenticated_acl": "NONE"
+          }
+        ],
+        "disposition": "EXCLUDED_NO_DIRECT_AUTHENTICATED_WRITE",
+        "reason": "Private helper or trigger target lacks authenticated mutation grants; server producer retains elevated reference access. This is source/ACL inspection, not HTTP or role-complete proof."
+      },
+      {
+        "function": "erp.guard_laundry_delivery_source_capacity_on_post()",
+        "denied": [
+          "erp.cutting_groups",
+          "erp.laundry_deliveries",
+          "erp.laundry_delivery_lines"
+        ],
+        "targets": [
+          {
+            "table": "erp.laundry_deliveries",
+            "authenticated_acl": "NONE"
+          }
+        ],
+        "disposition": "EXCLUDED_NO_DIRECT_AUTHENTICATED_WRITE",
+        "reason": "Private helper or trigger target lacks authenticated mutation grants; server producer retains elevated reference access. This is source/ACL inspection, not HTTP or role-complete proof."
+      },
+      {
+        "function": "erp.guard_laundry_receipt_physical_date()",
+        "denied": [
+          "erp.laundry_deliveries"
+        ],
+        "targets": [
+          {
+            "table": "erp.laundry_receipts",
+            "authenticated_acl": "NONE"
+          }
+        ],
+        "disposition": "EXCLUDED_NO_DIRECT_AUTHENTICATED_WRITE",
+        "reason": "Private helper or trigger target lacks authenticated mutation grants; server producer retains elevated reference access. This is source/ACL inspection, not HTTP or role-complete proof."
+      },
+      {
+        "function": "erp.guard_laundry_receipt_posting_consistency()",
+        "denied": [
+          "erp.laundry_delivery_lines",
+          "erp.laundry_receipt_lines",
+          "erp.laundry_receipts"
+        ],
+        "targets": [
+          {
+            "table": "erp.laundry_receipts",
+            "authenticated_acl": "NONE"
+          }
+        ],
+        "disposition": "EXCLUDED_NO_DIRECT_AUTHENTICATED_WRITE",
+        "reason": "Private helper or trigger target lacks authenticated mutation grants; server producer retains elevated reference access. This is source/ACL inspection, not HTTP or role-complete proof."
+      },
+      {
+        "function": "erp.guard_laundry_receipt_source_capacity_on_post()",
+        "denied": [
+          "erp.cp6_laundry_qc_execution_context",
+          "erp.laundry_claims",
+          "erp.laundry_deliveries",
+          "erp.laundry_delivery_batch_size_lines",
+          "erp.laundry_delivery_lines",
+          "erp.laundry_failed_wash_attempts",
+          "erp.laundry_failed_wash_batch_size_lines",
+          "erp.laundry_receipt_lines",
+          "erp.laundry_receipts"
+        ],
+        "targets": [
+          {
+            "table": "erp.laundry_receipts",
+            "authenticated_acl": "NONE"
+          }
+        ],
+        "disposition": "EXCLUDED_NO_DIRECT_AUTHENTICATED_WRITE",
+        "reason": "Private helper or trigger target lacks authenticated mutation grants; server producer retains elevated reference access. This is source/ACL inspection, not HTTP or role-complete proof."
+      },
+      {
+        "function": "erp.guard_material_accessory_category_history()",
+        "denied": [
+          "erp.material_stock_movements"
+        ],
+        "targets": [
+          {
+            "table": "erp.materials",
+            "authenticated_acl": "r"
+          }
+        ],
+        "disposition": "EXCLUDED_NO_DIRECT_AUTHENTICATED_WRITE",
+        "reason": "Private helper or trigger target lacks authenticated mutation grants; server producer retains elevated reference access. This is source/ACL inspection, not HTTP or role-complete proof."
+      },
+      {
+        "function": "erp.guard_material_reversal_chronology()",
+        "denied": [
+          "erp.material_stock_movements"
+        ],
+        "targets": [
+          {
+            "table": "erp.material_stock_movements",
+            "authenticated_acl": "NONE"
+          }
+        ],
+        "disposition": "EXCLUDED_NO_DIRECT_AUTHENTICATED_WRITE",
+        "reason": "Private helper or trigger target lacks authenticated mutation grants; server producer retains elevated reference access. This is source/ACL inspection, not HTTP or role-complete proof."
+      },
+      {
+        "function": "erp.guard_material_roll_after_post()",
+        "denied": [
+          "erp.material_stock_movements"
+        ],
+        "targets": [
+          {
+            "table": "erp.material_rolls",
+            "authenticated_acl": "NONE"
+          }
+        ],
+        "disposition": "EXCLUDED_NO_DIRECT_AUTHENTICATED_WRITE",
+        "reason": "Private helper or trigger target lacks authenticated mutation grants; server producer retains elevated reference access. This is source/ACL inspection, not HTTP or role-complete proof."
+      },
+      {
+        "function": "erp.guard_material_transfer_item_parent()",
+        "denied": [
+          "erp.material_rolls"
+        ],
+        "targets": [
+          {
+            "table": "erp.material_transfer_items",
+            "authenticated_acl": "r"
+          }
+        ],
+        "disposition": "EXCLUDED_NO_DIRECT_AUTHENTICATED_WRITE",
+        "reason": "Private helper or trigger target lacks authenticated mutation grants; server producer retains elevated reference access. This is source/ACL inspection, not HTTP or role-complete proof."
+      },
+      {
+        "function": "erp.guard_no_physical_stage_post_on_finished_po()",
+        "denied": [
+          "erp.laundry_deliveries",
+          "erp.production_orders"
+        ],
+        "targets": [
+          {
+            "table": "erp.laundry_deliveries",
+            "authenticated_acl": "NONE"
+          },
+          {
+            "table": "erp.laundry_receipts",
+            "authenticated_acl": "NONE"
+          },
+          {
+            "table": "erp.qc_inspections",
+            "authenticated_acl": "r"
+          }
+        ],
+        "disposition": "EXCLUDED_NO_DIRECT_AUTHENTICATED_WRITE",
+        "reason": "Private helper or trigger target lacks authenticated mutation grants; server producer retains elevated reference access. This is source/ACL inspection, not HTTP or role-complete proof."
+      },
+      {
+        "function": "erp.guard_product_delete_after_identity_history()",
+        "denied": [
+          "erp.bs_cases"
+        ],
+        "targets": [
+          {
+            "table": "erp.products",
+            "authenticated_acl": "arw"
+          }
+        ],
+        "disposition": "EXCLUDED_TRIGGER_EVENT",
+        "reason": "Trigger acts on DELETE; authenticated tables have arw but no DELETE. Master lifecycle uses authorized server paths."
+      },
+      {
+        "function": "erp.guard_production_order_cost_identity_after_use()",
+        "denied": [
+          "erp.bs_cases",
+          "erp.cutting_groups",
+          "erp.rework_orders"
+        ],
+        "targets": [
+          {
+            "table": "erp.production_orders",
+            "authenticated_acl": "NONE"
+          }
+        ],
+        "disposition": "EXCLUDED_NO_DIRECT_AUTHENTICATED_WRITE",
+        "reason": "Private helper or trigger target lacks authenticated mutation grants; server producer retains elevated reference access. This is source/ACL inspection, not HTTP or role-complete proof."
+      },
+      {
+        "function": "erp.guard_production_order_delete_after_use()",
+        "denied": [
+          "erp.bs_cases",
+          "erp.cutting_groups",
+          "erp.laundry_deliveries",
+          "erp.laundry_delivery_lines",
+          "erp.material_stock_movements"
+        ],
+        "targets": [
+          {
+            "table": "erp.production_orders",
+            "authenticated_acl": "NONE"
+          }
+        ],
+        "disposition": "EXCLUDED_NO_DIRECT_AUTHENTICATED_WRITE",
+        "reason": "Private helper or trigger target lacks authenticated mutation grants; server producer retains elevated reference access. This is source/ACL inspection, not HTTP or role-complete proof."
+      },
+      {
+        "function": "erp.guard_production_terminal_state()",
+        "denied": [
+          "erp.cutting_groups",
+          "erp.laundry_deliveries",
+          "erp.laundry_receipts"
+        ],
+        "targets": [
+          {
+            "table": "erp.production_orders",
+            "authenticated_acl": "NONE"
+          }
+        ],
+        "disposition": "EXCLUDED_NO_DIRECT_AUTHENTICATED_WRITE",
+        "reason": "Private helper or trigger target lacks authenticated mutation grants; server producer retains elevated reference access. This is source/ACL inspection, not HTTP or role-complete proof."
+      },
+      {
+        "function": "erp.guard_qc_laundry_source_matches_group()",
+        "denied": [
+          "erp.laundry_delivery_lines",
+          "erp.laundry_receipt_lines"
+        ],
+        "targets": [
+          {
+            "table": "erp.qc_inspection_items",
+            "authenticated_acl": "r"
+          }
+        ],
+        "disposition": "EXCLUDED_NO_DIRECT_AUTHENTICATED_WRITE",
+        "reason": "Private helper or trigger target lacks authenticated mutation grants; server producer retains elevated reference access. This is source/ACL inspection, not HTTP or role-complete proof."
+      },
+      {
+        "function": "erp.guard_qc_posting_consistency()",
+        "denied": [
+          "erp.cutting_groups",
+          "erp.laundry_deliveries",
+          "erp.laundry_delivery_lines",
+          "erp.laundry_receipt_lines",
+          "erp.laundry_receipts"
+        ],
+        "targets": [
+          {
+            "table": "erp.qc_inspections",
+            "authenticated_acl": "r"
+          }
+        ],
+        "disposition": "EXCLUDED_NO_DIRECT_AUTHENTICATED_WRITE",
+        "reason": "Private helper or trigger target lacks authenticated mutation grants; server producer retains elevated reference access. This is source/ACL inspection, not HTTP or role-complete proof."
+      },
+      {
+        "function": "erp.guard_stock_policy_version()",
+        "denied": [
+          "erp.stock_policy_versions"
+        ],
+        "targets": [
+          {
+            "table": "erp.stock_policy_versions",
+            "authenticated_acl": "NONE"
+          }
+        ],
+        "disposition": "EXCLUDED_NO_DIRECT_AUTHENTICATED_WRITE",
+        "reason": "Private helper or trigger target lacks authenticated mutation grants; server producer retains elevated reference access. This is source/ACL inspection, not HTTP or role-complete proof."
+      },
+      {
+        "function": "erp.guard_supplier_return_not_before_source()",
+        "denied": [
+          "erp.material_rolls"
+        ],
+        "targets": [
+          {
+            "table": "erp.material_supplier_returns",
+            "authenticated_acl": "r"
+          }
+        ],
+        "disposition": "EXCLUDED_NO_DIRECT_AUTHENTICATED_WRITE",
+        "reason": "Private helper or trigger target lacks authenticated mutation grants; server producer retains elevated reference access. This is source/ACL inspection, not HTTP or role-complete proof."
+      },
+      {
+        "function": "erp.guard_work_completion_posting_consistency()",
+        "denied": [
+          "erp.cutting_groups"
+        ],
+        "targets": [
+          {
+            "table": "erp.work_completion_events",
+            "authenticated_acl": "arwd"
+          }
+        ],
+        "disposition": "EXCLUDED_POSTING_CALLER",
+        "reason": "Reference read runs only on POSTED transition from SECURITY DEFINER post_work_completion(uuid); DRAFT insert does not enter query."
+      },
+      {
+        "function": "erp.guard_worker_daily_rate_version()",
+        "denied": [
+          "erp.worker_daily_rate_versions"
+        ],
+        "targets": [
+          {
+            "table": "erp.worker_daily_rate_versions",
+            "authenticated_acl": "NONE"
+          }
+        ],
+        "disposition": "EXCLUDED_NO_DIRECT_AUTHENTICATED_WRITE",
+        "reason": "Private helper or trigger target lacks authenticated mutation grants; server producer retains elevated reference access. This is source/ACL inspection, not HTTP or role-complete proof."
+      },
+      {
+        "function": "erp.guard_worker_employment_period()",
+        "denied": [
+          "erp.worker_employment_periods"
+        ],
+        "targets": [
+          {
+            "table": "erp.worker_employment_periods",
+            "authenticated_acl": "NONE"
+          }
+        ],
+        "disposition": "EXCLUDED_NO_DIRECT_AUTHENTICATED_WRITE",
+        "reason": "Private helper or trigger target lacks authenticated mutation grants; server producer retains elevated reference access. This is source/ACL inspection, not HTTP or role-complete proof."
+      },
+      {
+        "function": "erp.normalize_cutting_group_pickup()",
+        "denied": [
+          "erp.laundry_deliveries",
+          "erp.laundry_delivery_lines",
+          "erp.production_orders"
+        ],
+        "targets": [
+          {
+            "table": "erp.cutting_groups",
+            "authenticated_acl": "NONE"
+          }
+        ],
+        "disposition": "EXCLUDED_NO_DIRECT_AUTHENTICATED_WRITE",
+        "reason": "Private helper or trigger target lacks authenticated mutation grants; server producer retains elevated reference access. This is source/ACL inspection, not HTTP or role-complete proof."
+      },
+      {
+        "function": "erp.normalize_sales_return_item_from_allocation()",
+        "denied": [
+          "erp.locations"
+        ],
+        "targets": [
+          {
+            "table": "erp.sales_return_items",
+            "authenticated_acl": "arwd"
+          }
+        ],
+        "disposition": "FIXED_AND_NATIVE_RETURN_PASS",
+        "reason": "AH confined internal trigger; 6 ordinary DRAFT+post controls across two destinations and three grades; no broadened table/function grants."
+      },
+      {
+        "function": "erp.require_rework_cost_before_payroll()",
+        "denied": [
+          "erp.rework_component_lines",
+          "erp.rework_orders"
+        ],
+        "targets": [
+          {
+            "table": "erp.payroll_work_items",
+            "authenticated_acl": "r"
+          }
+        ],
+        "disposition": "EXCLUDED_NO_DIRECT_AUTHENTICATED_WRITE",
+        "reason": "Private helper or trigger target lacks authenticated mutation grants; server producer retains elevated reference access. This is source/ACL inspection, not HTTP or role-complete proof."
+      },
+      {
+        "function": "erp.set_rework_accessory_selection_basis_v2619b()",
+        "denied": [
+          "erp.bs_cases",
+          "erp.rework_accessory_decisions",
+          "erp.rework_orders"
+        ],
+        "targets": [
+          {
+            "table": "erp.rework_accessory_selection_lines",
+            "authenticated_acl": "NONE"
+          }
+        ],
+        "disposition": "EXCLUDED_NO_DIRECT_AUTHENTICATED_WRITE",
+        "reason": "Private helper or trigger target lacks authenticated mutation grants; server producer retains elevated reference access. This is source/ACL inspection, not HTTP or role-complete proof."
+      },
+      {
+        "function": "erp.validate_bs_component_qty()",
+        "denied": [
+          "erp.bs_cases"
+        ],
+        "targets": [
+          {
+            "table": "erp.bs_case_components",
+            "authenticated_acl": "NONE"
+          }
+        ],
+        "disposition": "EXCLUDED_NO_DIRECT_AUTHENTICATED_WRITE",
+        "reason": "Private helper or trigger target lacks authenticated mutation grants; server producer retains elevated reference access. This is source/ACL inspection, not HTTP or role-complete proof."
+      },
+      {
+        "function": "erp.validate_cutting_qty_correction_line()",
+        "denied": [
+          "erp.cutting_group_size_slots",
+          "erp.cutting_groups"
+        ],
+        "targets": [
+          {
+            "table": "erp.cutting_qty_correction_lines",
+            "authenticated_acl": "r"
+          }
+        ],
+        "disposition": "EXCLUDED_NO_DIRECT_AUTHENTICATED_WRITE",
+        "reason": "Private helper or trigger target lacks authenticated mutation grants; server producer retains elevated reference access. This is source/ACL inspection, not HTTP or role-complete proof."
+      },
+      {
+        "function": "erp.validate_laundry_claim_lineage()",
+        "denied": [
+          "erp.laundry_claims",
+          "erp.laundry_deliveries",
+          "erp.laundry_delivery_lines",
+          "erp.laundry_receipt_lines",
+          "erp.laundry_receipts"
+        ],
+        "targets": [
+          {
+            "table": "erp.laundry_claims",
+            "authenticated_acl": "NONE"
+          }
+        ],
+        "disposition": "EXCLUDED_NO_DIRECT_AUTHENTICATED_WRITE",
+        "reason": "Private helper or trigger target lacks authenticated mutation grants; server producer retains elevated reference access. This is source/ACL inspection, not HTTP or role-complete proof."
+      },
+      {
+        "function": "erp.validate_material_stock_movement_lineage()",
+        "denied": [
+          "erp.locations",
+          "erp.material_rolls"
+        ],
+        "targets": [
+          {
+            "table": "erp.material_stock_movements",
+            "authenticated_acl": "NONE"
+          }
+        ],
+        "disposition": "EXCLUDED_NO_DIRECT_AUTHENTICATED_WRITE",
+        "reason": "Private helper or trigger target lacks authenticated mutation grants; server producer retains elevated reference access. This is source/ACL inspection, not HTTP or role-complete proof."
+      },
+      {
+        "function": "erp.validate_payroll_work_item_source()",
+        "denied": [
+          "erp.bs_case_components",
+          "erp.bs_cases",
+          "erp.rework_component_lines",
+          "erp.rework_orders"
+        ],
+        "targets": [
+          {
+            "table": "erp.payroll_work_items",
+            "authenticated_acl": "r"
+          }
+        ],
+        "disposition": "EXCLUDED_NO_DIRECT_AUTHENTICATED_WRITE",
+        "reason": "Private helper or trigger target lacks authenticated mutation grants; server producer retains elevated reference access. This is source/ACL inspection, not HTTP or role-complete proof."
+      },
+      {
+        "function": "erp.validate_qc_product_model()",
+        "denied": [
+          "erp.production_orders"
+        ],
+        "targets": [
+          {
+            "table": "erp.qc_inspection_items",
+            "authenticated_acl": "r"
+          }
+        ],
+        "disposition": "EXCLUDED_NO_DIRECT_AUTHENTICATED_WRITE",
+        "reason": "Private helper or trigger target lacks authenticated mutation grants; server producer retains elevated reference access. This is source/ACL inspection, not HTTP or role-complete proof."
+      },
+      {
+        "function": "erp.validate_qc_source_quantity()",
+        "denied": [
+          "erp.cutting_groups",
+          "erp.laundry_deliveries",
+          "erp.laundry_delivery_lines",
+          "erp.laundry_receipt_lines",
+          "erp.laundry_receipts"
+        ],
+        "targets": [
+          {
+            "table": "erp.qc_inspection_items",
+            "authenticated_acl": "r"
+          }
+        ],
+        "disposition": "EXCLUDED_NO_DIRECT_AUTHENTICATED_WRITE",
+        "reason": "Private helper or trigger target lacks authenticated mutation grants; server producer retains elevated reference access. This is source/ACL inspection, not HTTP or role-complete proof."
+      },
+      {
+        "function": "erp.validate_rework_quantity_state()",
+        "denied": [
+          "erp.bs_cases",
+          "erp.bs_resolutions",
+          "erp.rework_orders"
+        ],
+        "targets": [
+          {
+            "table": "erp.rework_orders",
+            "authenticated_acl": "NONE"
+          }
+        ],
+        "disposition": "EXCLUDED_NO_DIRECT_AUTHENTICATED_WRITE",
+        "reason": "Private helper or trigger target lacks authenticated mutation grants; server producer retains elevated reference access. This is source/ACL inspection, not HTTP or role-complete proof."
+      },
+      {
+        "function": "erp.validate_vendor_invoice_item_lineage()",
+        "denied": [
+          "erp.laundry_deliveries",
+          "erp.laundry_delivery_lines",
+          "erp.laundry_receipt_lines"
+        ],
+        "targets": [
+          {
+            "table": "erp.vendor_invoice_items",
+            "authenticated_acl": "arwd"
+          }
+        ],
+        "disposition": "PROVEN_ON_ORIGINAL_AG_FIXED_PENDING_NATIVE",
+        "reason": "Original AG native proof qualified both permitted draft paths. Confined private validator fix plus ordinary successful draft controls; invoice posting retains original private backend caller."
+      },
+      {
+        "function": "erp.validate_work_completion()",
+        "denied": [
+          "erp.production_orders"
+        ],
+        "targets": [
+          {
+            "table": "erp.work_completion_lines",
+            "authenticated_acl": "arwd"
+          }
+        ],
+        "disposition": "PROVEN_ON_ORIGINAL_AG_FIXED_PENDING_NATIVE",
+        "reason": "Original AG native proof qualified both permitted draft paths. Confined private validator fix plus ordinary successful draft controls; invoice posting retains original private backend caller."
+      },
+      {
+        "function": "erp.worker_daily_rate_at(uuid,date)",
+        "denied": [
+          "erp.worker_daily_rate_versions"
+        ],
+        "targets": [],
+        "disposition": "EXCLUDED_NO_DIRECT_AUTHENTICATED_WRITE",
+        "reason": "Private helper or trigger target lacks authenticated mutation grants; server producer retains elevated reference access. This is source/ACL inspection, not HTTP or role-complete proof."
+      },
+      {
+        "function": "erp.worker_daily_rate_version_id_at(uuid,date)",
+        "denied": [
+          "erp.worker_daily_rate_versions"
+        ],
+        "targets": [],
+        "disposition": "EXCLUDED_NO_DIRECT_AUTHENTICATED_WRITE",
+        "reason": "Private helper or trigger target lacks authenticated mutation grants; server producer retains elevated reference access. This is source/ACL inspection, not HTTP or role-complete proof."
+      },
+      {
+        "function": "erp.worker_is_employed_on(uuid,date)",
+        "denied": [
+          "erp.worker_employment_periods"
+        ],
+        "targets": [],
+        "disposition": "EXCLUDED_NO_DIRECT_AUTHENTICATED_WRITE",
+        "reason": "Private helper or trigger target lacks authenticated mutation grants; server producer retains elevated reference access. This is source/ACL inspection, not HTTP or role-complete proof."
+      }
+    ],
+    "dynamic_parent_guard": {
+      "consumers": 21,
+      "authenticated_mutable_child_with_missing_parent_select": [],
+      "native_bindings_source": "docs/evidence/cp6-af-family-disposition.json"
+    }
+  }
 }

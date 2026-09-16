@@ -68,7 +68,9 @@ begin
   for r in select * from(values
     ('erp.normalize_sales_return_item_from_allocation()','ea7781898a894cd7694e912f47231fdbcde8745a06a04e8e635210f84bba99ce',array['postgres=X/postgres']::text[]),
     ('erp.post_sales_return(uuid)','7640b5781a8838f550595d47bbc3f452a50a846f58018e714a0a209b8f32ff02',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),
-    ('erp.run_v268_financial_report_checks()','e62f7fa0d2892708128c372d6e99d39d7833a3fa2eedfe25f17695c7ca94e3ef',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[])
+    ('erp.run_v268_financial_report_checks()','e62f7fa0d2892708128c372d6e99d39d7833a3fa2eedfe25f17695c7ca94e3ef',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),
+    ('erp.validate_work_completion()','8706d6353ef4f5621a02e0db943f66599a446db0bf2ae2c375d04ead742e8be0',array['postgres=X/postgres','service_role=X/postgres']::text[]),
+    ('erp.validate_vendor_invoice_item_lineage()','0f9e0ae58e8482c449a9c76994055e03c2e077b2868e3febc3b1699b0c73158e',array['postgres=X/postgres']::text[])
   ) expected(identity,sha256,acl) loop
     select encode(extensions.digest(convert_to(pg_get_functiondef(p.oid),'UTF8'),'sha256'),'hex') into v_actual
     from pg_proc p where p.oid=to_regprocedure(r.identity) and pg_get_userbyid(p.proowner)='postgres'
@@ -136,7 +138,7 @@ select format('%I.%I(%s)',n.nspname,p.proname,
   array(select a::text from unnest(p.proacl) a order by a::text),
   pg_get_userbyid(p.proowner)
 from pg_proc p join pg_namespace n on n.oid=p.pronamespace
-where p.oid in('erp.normalize_sales_return_item_from_allocation()'::regprocedure,'erp.post_sales_return(uuid)'::regprocedure,'erp.run_v268_financial_report_checks()'::regprocedure);
+where p.oid in('erp.normalize_sales_return_item_from_allocation()'::regprocedure,'erp.post_sales_return(uuid)'::regprocedure,'erp.run_v268_financial_report_checks()'::regprocedure,'erp.validate_work_completion()'::regprocedure,'erp.validate_vendor_invoice_item_lineage()'::regprocedure);
 
 
 do $canonical_opening_v2620ah$
@@ -1466,13 +1468,44 @@ select count(*)::bigint from (
 end
 $function$
 $definition$;
+  execute $definition$CREATE OR REPLACE FUNCTION erp.validate_work_completion()
+ RETURNS trigger
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO ''
+AS $function$ DECLARE v_event_po uuid;v_event_contractor uuid;v_po_contractor uuid;v_snapshot_po uuid;v_snapshot_component uuid;v_snapshot_rate numeric(18,2); BEGIN PERFORM erp.require_internal(); SELECT po_id,contractor_id INTO v_event_po,v_event_contractor FROM erp.work_completion_events WHERE id=NEW.completion_id; SELECT contractor_id INTO v_po_contractor FROM erp.production_orders WHERE id=v_event_po; SELECT po_id,work_component_id,rate_per_pcs_snapshot INTO v_snapshot_po,v_snapshot_component,v_snapshot_rate FROM erp.po_work_component_snapshots WHERE id=NEW.po_component_snapshot_id; IF v_event_po IS NULL THEN RAISE EXCEPTION 'Completion event not found'; END IF; IF v_po_contractor IS DISTINCT FROM v_event_contractor THEN RAISE EXCEPTION 'Completion contractor must match PO contractor'; END IF; IF v_snapshot_po<>v_event_po OR v_snapshot_component<>NEW.work_component_id THEN RAISE EXCEPTION 'Work component snapshot does not match completion PO/component'; END IF; NEW.rate_snapshot:=v_snapshot_rate; RETURN NEW; END; $function$
+$definition$;
+  execute $definition$CREATE OR REPLACE FUNCTION erp.validate_vendor_invoice_item_lineage()
+ RETURNS trigger
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO ''
+AS $function$
+declare
+  v_header_vendor uuid;
+  v_delivery_vendor uuid;
+begin
+  perform erp.require_internal();
+  select vendor_id into v_header_vendor from erp.vendor_invoices where id=new.invoice_id;
+  select ld.vendor_id into v_delivery_vendor
+  from erp.laundry_receipt_lines lrl
+  join erp.laundry_delivery_lines ldl on ldl.id=lrl.delivery_line_id
+  join erp.laundry_deliveries ld on ld.id=ldl.delivery_id
+  where lrl.id=new.receipt_line_id;
+  if v_header_vendor is null then raise exception 'Vendor invoice header not found'; end if;
+  if v_delivery_vendor is null then raise exception 'Laundry receipt line not found'; end if;
+  if v_header_vendor is distinct from v_delivery_vendor then raise exception 'Vendor invoice vendor does not match laundry delivery vendor'; end if;
+  return new;
+end;
+$function$
+$definition$;
 end
 $canonical_opening_v2620ah$;
 
 do $installed_v2620ah$
 declare r record;c record;
 begin
-  if (select count(*) from erp.cp6_v2620ah_rollback_capsule)<>3 then
+  if (select count(*) from erp.cp6_v2620ah_rollback_capsule)<>5 then
     raise exception 'AH_CAPSULE_CARDINALITY_MISMATCH';
   end if;
   update erp.cp6_v2620ah_rollback_capsule cap set installed_definition_sha256=
@@ -1481,7 +1514,9 @@ begin
   for r in select * from(values
     ('erp.normalize_sales_return_item_from_allocation()','ea7781898a894cd7694e912f47231fdbcde8745a06a04e8e635210f84bba99ce','eaa4a353f0f455f47e7934c0f33d43a81a68fa15329f686c5283bd338829de08',array['postgres=X/postgres']::text[]),
     ('erp.post_sales_return(uuid)','7640b5781a8838f550595d47bbc3f452a50a846f58018e714a0a209b8f32ff02','a9a7202d34d2111a7def2ec475cd4e95963f5ea6029e6f1ea52c4ec236ed72f8',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),
-    ('erp.run_v268_financial_report_checks()','e62f7fa0d2892708128c372d6e99d39d7833a3fa2eedfe25f17695c7ca94e3ef','ef5ab903b541819a64ca99e20021f5d1a7ad59bee9cda9122834bef5ce93f889',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[])
+    ('erp.run_v268_financial_report_checks()','e62f7fa0d2892708128c372d6e99d39d7833a3fa2eedfe25f17695c7ca94e3ef','ef5ab903b541819a64ca99e20021f5d1a7ad59bee9cda9122834bef5ce93f889',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),
+    ('erp.validate_work_completion()','8706d6353ef4f5621a02e0db943f66599a446db0bf2ae2c375d04ead742e8be0','c1a44bfbc3d54131d6d9e52e903f885c8f6aa9df1e5d1a6c0d1905d20a7387bf',array['postgres=X/postgres','service_role=X/postgres']::text[]),
+    ('erp.validate_vendor_invoice_item_lineage()','0f9e0ae58e8482c449a9c76994055e03c2e077b2868e3febc3b1699b0c73158e','05fd228e13dcf54476eb3a2f17810ed958101153336fc9b85cc00aea633b630e',array['postgres=X/postgres']::text[])
   ) expected(identity,predecessor_sha256,installed_sha256,acl)
   loop
     select * into c from erp.cp6_v2620ah_rollback_capsule
