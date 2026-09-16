@@ -1,0 +1,385 @@
+{
+  "format": "CP6_AF_FAMILY_DISPOSITION_V1",
+  "predecessor_head": "ce8e8ea5cdfab4b39ea7095c1b3bd1c8ab1f33d1",
+  "proof_run": 35044505762,
+  "proof_artifact": 10427155001,
+  "native_trigger_definitions": [
+    [
+      "erp",
+      "contractor_material_issue_items",
+      "trg_parent_status_guard_contractor_material_issue_items",
+      "CREATE TRIGGER trg_parent_status_guard_contractor_material_issue_items BEFORE INSERT OR DELETE OR UPDATE ON erp.contractor_material_issue_items FOR EACH ROW EXECUTE FUNCTION erp.guard_child_by_parent_status('contractor_material_issues', 'issue_id', 'DRAFT')"
+    ],
+    [
+      "erp",
+      "fg_adjustment_items",
+      "trg_parent_status_guard_fg_adjustment_items",
+      "CREATE TRIGGER trg_parent_status_guard_fg_adjustment_items BEFORE INSERT OR DELETE OR UPDATE ON erp.fg_adjustment_items FOR EACH ROW EXECUTE FUNCTION erp.guard_child_by_parent_status('fg_adjustments', 'adjustment_id', 'DRAFT')"
+    ],
+    [
+      "erp",
+      "laundry_delivery_lines",
+      "trg_parent_status_guard_laundry_delivery_lines",
+      "CREATE TRIGGER trg_parent_status_guard_laundry_delivery_lines BEFORE INSERT OR DELETE OR UPDATE ON erp.laundry_delivery_lines FOR EACH ROW EXECUTE FUNCTION erp.guard_child_by_parent_status('laundry_deliveries', 'delivery_id', 'DRAFT')"
+    ],
+    [
+      "erp",
+      "laundry_receipt_lines",
+      "trg_parent_status_guard_laundry_receipt_lines",
+      "CREATE TRIGGER trg_parent_status_guard_laundry_receipt_lines BEFORE INSERT OR DELETE OR UPDATE ON erp.laundry_receipt_lines FOR EACH ROW EXECUTE FUNCTION erp.guard_child_by_parent_status('laundry_receipts', 'receipt_id', 'DRAFT')"
+    ],
+    [
+      "erp",
+      "material_adjustment_items",
+      "trg_parent_status_guard_material_adjustment_items",
+      "CREATE TRIGGER trg_parent_status_guard_material_adjustment_items BEFORE INSERT OR DELETE OR UPDATE ON erp.material_adjustment_items FOR EACH ROW EXECUTE FUNCTION erp.guard_child_by_parent_status('material_adjustments', 'adjustment_id', 'DRAFT')"
+    ],
+    [
+      "erp",
+      "material_purchase_cost_correction_items",
+      "trg_guard_material_purchase_cost_correction_items",
+      "CREATE TRIGGER trg_guard_material_purchase_cost_correction_items BEFORE INSERT OR DELETE OR UPDATE ON erp.material_purchase_cost_correction_items FOR EACH ROW EXECUTE FUNCTION erp.guard_child_by_parent_status('material_purchase_cost_corrections', 'correction_id', 'DRAFT')"
+    ],
+    [
+      "erp",
+      "material_purchase_items",
+      "trg_parent_status_guard_material_purchase_items",
+      "CREATE TRIGGER trg_parent_status_guard_material_purchase_items BEFORE INSERT OR DELETE OR UPDATE ON erp.material_purchase_items FOR EACH ROW EXECUTE FUNCTION erp.guard_child_by_parent_status('material_purchase_headers', 'purchase_id', 'DRAFT')"
+    ],
+    [
+      "erp",
+      "material_supplier_invoice_lines",
+      "trg_guard_material_supplier_invoice_lines",
+      "CREATE TRIGGER trg_guard_material_supplier_invoice_lines BEFORE INSERT OR DELETE OR UPDATE ON erp.material_supplier_invoice_lines FOR EACH ROW EXECUTE FUNCTION erp.guard_child_by_parent_status('material_supplier_invoices', 'invoice_id', 'DRAFT')"
+    ],
+    [
+      "erp",
+      "material_supplier_return_items",
+      "trg_parent_status_guard_material_supplier_return_items",
+      "CREATE TRIGGER trg_parent_status_guard_material_supplier_return_items BEFORE INSERT OR DELETE OR UPDATE ON erp.material_supplier_return_items FOR EACH ROW EXECUTE FUNCTION erp.guard_child_by_parent_status('material_supplier_returns', 'return_id', 'DRAFT')"
+    ],
+    [
+      "erp",
+      "opening_balance_items",
+      "trg_parent_status_guard_opening_balance_items",
+      "CREATE TRIGGER trg_parent_status_guard_opening_balance_items BEFORE INSERT OR DELETE OR UPDATE ON erp.opening_balance_items FOR EACH ROW EXECUTE FUNCTION erp.guard_child_by_parent_status('opening_balance_headers', 'opening_id', 'DRAFT')"
+    ],
+    [
+      "erp",
+      "payroll_attendance_items",
+      "trg_parent_status_guard_payroll_attendance_items",
+      "CREATE TRIGGER trg_parent_status_guard_payroll_attendance_items BEFORE INSERT OR DELETE OR UPDATE ON erp.payroll_attendance_items FOR EACH ROW EXECUTE FUNCTION erp.guard_child_by_parent_status('payroll_settlements', 'payroll_id', 'DRAFT,CALCULATED,REVIEW')"
+    ],
+    [
+      "erp",
+      "payroll_deductions",
+      "trg_parent_status_guard_payroll_deductions",
+      "CREATE TRIGGER trg_parent_status_guard_payroll_deductions BEFORE INSERT OR DELETE OR UPDATE ON erp.payroll_deductions FOR EACH ROW EXECUTE FUNCTION erp.guard_child_by_parent_status('payroll_settlements', 'payroll_id', 'DRAFT,CALCULATED,REVIEW')"
+    ],
+    [
+      "erp",
+      "payroll_reimbursements",
+      "trg_parent_status_guard_payroll_reimbursements",
+      "CREATE TRIGGER trg_parent_status_guard_payroll_reimbursements BEFORE INSERT OR DELETE OR UPDATE ON erp.payroll_reimbursements FOR EACH ROW EXECUTE FUNCTION erp.guard_child_by_parent_status('payroll_settlements', 'payroll_id', 'DRAFT,CALCULATED,REVIEW')"
+    ],
+    [
+      "erp",
+      "payroll_work_items",
+      "trg_parent_status_guard_payroll_work_items",
+      "CREATE TRIGGER trg_parent_status_guard_payroll_work_items BEFORE INSERT OR DELETE OR UPDATE ON erp.payroll_work_items FOR EACH ROW EXECUTE FUNCTION erp.guard_child_by_parent_status('payroll_settlements', 'payroll_id', 'DRAFT,CALCULATED,REVIEW')"
+    ],
+    [
+      "erp",
+      "product_conversion_allocations",
+      "trg_parent_status_guard_product_conversion_allocations",
+      "CREATE TRIGGER trg_parent_status_guard_product_conversion_allocations BEFORE INSERT OR DELETE OR UPDATE ON erp.product_conversion_allocations FOR EACH ROW EXECUTE FUNCTION erp.guard_child_by_parent_status('product_conversions', 'conversion_id', 'DRAFT')"
+    ],
+    [
+      "erp",
+      "qc_inspection_items",
+      "trg_parent_status_guard_qc_inspection_items",
+      "CREATE TRIGGER trg_parent_status_guard_qc_inspection_items BEFORE INSERT OR DELETE OR UPDATE ON erp.qc_inspection_items FOR EACH ROW EXECUTE FUNCTION erp.guard_child_by_parent_status('qc_inspections', 'inspection_id', 'DRAFT')"
+    ],
+    [
+      "erp",
+      "rework_component_lines",
+      "trg_parent_status_guard_rework_component_lines",
+      "CREATE TRIGGER trg_parent_status_guard_rework_component_lines BEFORE INSERT OR DELETE OR UPDATE ON erp.rework_component_lines FOR EACH ROW EXECUTE FUNCTION erp.guard_child_by_parent_status('rework_orders', 'rework_order_id', 'OPEN,IN_PROGRESS,PARTIAL')"
+    ],
+    [
+      "erp",
+      "sales_items",
+      "trg_parent_status_guard_sales_items",
+      "CREATE TRIGGER trg_parent_status_guard_sales_items BEFORE INSERT OR DELETE OR UPDATE ON erp.sales_items FOR EACH ROW EXECUTE FUNCTION erp.guard_child_by_parent_status('sales_headers', 'sale_id', 'DRAFT')"
+    ],
+    [
+      "erp",
+      "sales_return_items",
+      "trg_parent_status_guard_sales_return_items",
+      "CREATE TRIGGER trg_parent_status_guard_sales_return_items BEFORE INSERT OR DELETE OR UPDATE ON erp.sales_return_items FOR EACH ROW EXECUTE FUNCTION erp.guard_child_by_parent_status('sales_returns', 'return_id', 'DRAFT')"
+    ],
+    [
+      "erp",
+      "vendor_invoice_items",
+      "trg_parent_status_guard_vendor_invoice_items",
+      "CREATE TRIGGER trg_parent_status_guard_vendor_invoice_items BEFORE INSERT OR DELETE OR UPDATE ON erp.vendor_invoice_items FOR EACH ROW EXECUTE FUNCTION erp.guard_child_by_parent_status('vendor_invoices', 'invoice_id', 'DRAFT')"
+    ],
+    [
+      "erp",
+      "work_completion_lines",
+      "trg_parent_status_guard_work_completion_lines",
+      "CREATE TRIGGER trg_parent_status_guard_work_completion_lines BEFORE INSERT OR DELETE OR UPDATE ON erp.work_completion_lines FOR EACH ROW EXECUTE FUNCTION erp.guard_child_by_parent_status('work_completion_events', 'completion_id', 'DRAFT')"
+    ]
+  ],
+  "consumers": [
+    {
+      "trigger": "trg_parent_status_guard_contractor_material_issue_items",
+      "child": "contractor_material_issue_items",
+      "parent": "contractor_material_issues",
+      "fk": "issue_id",
+      "editable": [
+        "DRAFT"
+      ]
+    },
+    {
+      "trigger": "trg_parent_status_guard_fg_adjustment_items",
+      "child": "fg_adjustment_items",
+      "parent": "fg_adjustments",
+      "fk": "adjustment_id",
+      "editable": [
+        "DRAFT"
+      ]
+    },
+    {
+      "trigger": "trg_parent_status_guard_laundry_delivery_lines",
+      "child": "laundry_delivery_lines",
+      "parent": "laundry_deliveries",
+      "fk": "delivery_id",
+      "editable": [
+        "DRAFT"
+      ]
+    },
+    {
+      "trigger": "trg_parent_status_guard_laundry_receipt_lines",
+      "child": "laundry_receipt_lines",
+      "parent": "laundry_receipts",
+      "fk": "receipt_id",
+      "editable": [
+        "DRAFT"
+      ]
+    },
+    {
+      "trigger": "trg_parent_status_guard_material_adjustment_items",
+      "child": "material_adjustment_items",
+      "parent": "material_adjustments",
+      "fk": "adjustment_id",
+      "editable": [
+        "DRAFT"
+      ]
+    },
+    {
+      "trigger": "trg_guard_material_purchase_cost_correction_items",
+      "child": "material_purchase_cost_correction_items",
+      "parent": "material_purchase_cost_corrections",
+      "fk": "correction_id",
+      "editable": [
+        "DRAFT"
+      ]
+    },
+    {
+      "trigger": "trg_parent_status_guard_material_purchase_items",
+      "child": "material_purchase_items",
+      "parent": "material_purchase_headers",
+      "fk": "purchase_id",
+      "editable": [
+        "DRAFT"
+      ]
+    },
+    {
+      "trigger": "trg_guard_material_supplier_invoice_lines",
+      "child": "material_supplier_invoice_lines",
+      "parent": "material_supplier_invoices",
+      "fk": "invoice_id",
+      "editable": [
+        "DRAFT"
+      ]
+    },
+    {
+      "trigger": "trg_parent_status_guard_material_supplier_return_items",
+      "child": "material_supplier_return_items",
+      "parent": "material_supplier_returns",
+      "fk": "return_id",
+      "editable": [
+        "DRAFT"
+      ]
+    },
+    {
+      "trigger": "trg_parent_status_guard_opening_balance_items",
+      "child": "opening_balance_items",
+      "parent": "opening_balance_headers",
+      "fk": "opening_id",
+      "editable": [
+        "DRAFT"
+      ]
+    },
+    {
+      "trigger": "trg_parent_status_guard_payroll_attendance_items",
+      "child": "payroll_attendance_items",
+      "parent": "payroll_settlements",
+      "fk": "payroll_id",
+      "editable": [
+        "DRAFT",
+        "CALCULATED",
+        "REVIEW"
+      ]
+    },
+    {
+      "trigger": "trg_parent_status_guard_payroll_deductions",
+      "child": "payroll_deductions",
+      "parent": "payroll_settlements",
+      "fk": "payroll_id",
+      "editable": [
+        "DRAFT",
+        "CALCULATED",
+        "REVIEW"
+      ]
+    },
+    {
+      "trigger": "trg_parent_status_guard_payroll_reimbursements",
+      "child": "payroll_reimbursements",
+      "parent": "payroll_settlements",
+      "fk": "payroll_id",
+      "editable": [
+        "DRAFT",
+        "CALCULATED",
+        "REVIEW"
+      ]
+    },
+    {
+      "trigger": "trg_parent_status_guard_payroll_work_items",
+      "child": "payroll_work_items",
+      "parent": "payroll_settlements",
+      "fk": "payroll_id",
+      "editable": [
+        "DRAFT",
+        "CALCULATED",
+        "REVIEW"
+      ]
+    },
+    {
+      "trigger": "trg_parent_status_guard_product_conversion_allocations",
+      "child": "product_conversion_allocations",
+      "parent": "product_conversions",
+      "fk": "conversion_id",
+      "editable": [
+        "DRAFT"
+      ]
+    },
+    {
+      "trigger": "trg_parent_status_guard_qc_inspection_items",
+      "child": "qc_inspection_items",
+      "parent": "qc_inspections",
+      "fk": "inspection_id",
+      "editable": [
+        "DRAFT"
+      ]
+    },
+    {
+      "trigger": "trg_parent_status_guard_rework_component_lines",
+      "child": "rework_component_lines",
+      "parent": "rework_orders",
+      "fk": "rework_order_id",
+      "editable": [
+        "OPEN",
+        "IN_PROGRESS",
+        "PARTIAL"
+      ]
+    },
+    {
+      "trigger": "trg_parent_status_guard_sales_items",
+      "child": "sales_items",
+      "parent": "sales_headers",
+      "fk": "sale_id",
+      "editable": [
+        "DRAFT"
+      ]
+    },
+    {
+      "trigger": "trg_parent_status_guard_sales_return_items",
+      "child": "sales_return_items",
+      "parent": "sales_returns",
+      "fk": "return_id",
+      "editable": [
+        "DRAFT"
+      ]
+    },
+    {
+      "trigger": "trg_parent_status_guard_vendor_invoice_items",
+      "child": "vendor_invoice_items",
+      "parent": "vendor_invoices",
+      "fk": "invoice_id",
+      "editable": [
+        "DRAFT"
+      ]
+    },
+    {
+      "trigger": "trg_parent_status_guard_work_completion_lines",
+      "child": "work_completion_lines",
+      "parent": "work_completion_events",
+      "fk": "completion_id",
+      "editable": [
+        "DRAFT"
+      ]
+    }
+  ],
+  "proof_scope": "Conditional native SQL with transactionally granted schema USAGE; signed HTTP/UI reachability not demonstrated",
+  "producer_consumer_map": [
+    {
+      "path": "guard_child_by_parent_status; 21 native trigger consumers",
+      "disposition": "REPAIRED",
+      "reason": "Check OLD and NEW parents and hold FOR SHARE row locks through transaction end."
+    },
+    {
+      "path": "post_opening_balance",
+      "disposition": "UNCHANGED",
+      "reason": "Exact AE already locks parent FOR UPDATE and all known children; AF direct child lock completes serialization."
+    },
+    {
+      "path": "prepare_migration_opening_balance / finalize_migration_batch",
+      "disposition": "RERUN_REQUIRED",
+      "reason": "Canonical draft creation; existing valid import and rejects rerun under AF."
+    },
+    {
+      "path": "set_opening_fg_hpp_percent",
+      "disposition": "EXCLUDED_BY_SOURCE",
+      "reason": "Requires owner/admin and locks parent; refuses non-DRAFT."
+    },
+    {
+      "path": "resolve_opening_fg_unit_hpp",
+      "disposition": "EXCLUDED_BY_NATIVE_ACL",
+      "reason": "No authenticated or anon execute grant; trusted post helper only, exact AE retained."
+    },
+    {
+      "path": "linked opening settlements, financial corrections, returns",
+      "disposition": "RERUN_REQUIRED",
+      "reason": "Append separate facts; unchanged oracles in combined134 check report and ledger interactions."
+    },
+    {
+      "path": "owner report / installation admission",
+      "disposition": "REPAIRED",
+      "reason": "Walk immutable opening material/FG/subledger facts back to posted sources; reject preexisting mismatch."
+    },
+    {
+      "path": "application pages / CSV transport",
+      "disposition": "BELUM_TERUJI",
+      "reason": "No signed HTTP/browser/CSV transport proof in this native SQL wave; native import tests only."
+    },
+    {
+      "path": "maintenance controller / rollback",
+      "disposition": "RERUN_REQUIRED",
+      "reason": "AF exact AE capsule, complete boundary, admission close and drain before view verification."
+    }
+  ],
+  "historical_matrix": "RERUN_REQUIRED for affected shared-guard consumers; historical large gate is not claimed as rerun or full independent acceptance. Combined134 + focused contracts + targeted concurrency +20 maintenance schedules qualify this delta.",
+  "production_go": false
+}

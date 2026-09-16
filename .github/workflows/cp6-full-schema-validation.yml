@@ -81,6 +81,8 @@ jobs:
           ad_round=False
           ae_exact=False
           ae_independent=False
+          af_exact=False
+          af_pins={'.github/workflows/cp6-ad-roll-opening-check.yml': '1f86ff700c4e86362bb8f090a8671b01b42338848578437fe668439ce8220897', 'docs/cp6-af-competition-handoff.md': '034da875c2e2716e39bc7b93c9aff8633e8474c8a23cb21ee4b0b27b575dce15', 'docs/evidence/cp6-af-family-disposition.json': '5a96073b0c541a97af3c780b288970be3ab0e87b9d7f6a2623ee2c3d2c4609ee', 'docs/evidence/cp6-af-predecessor-functions.json': '9eafb434cf36de84b40614f031d8f56aa732720aae985cfb092cc5a37319db65', 'docs/evidence/cp6-af-runtime-pins.json': 'a6a1e6fde1eb068193cca57024ade6d043f08fce4b9467ad2eb27ce063579dbe', 'scripts/cp6_preuse_rollback_maintenance.py': 'df8e546679407f9fcdbe0883afb14fe1f4da7074085fb1eeca1dae24811f0433', 'scripts/cp6_v2620af_build_sql.py': '759a1fae056795fa5d74464a51de45df18129c3067cbf91d1cbbc9f852e36d56', 'scripts/cp6_v2620af_concurrency.py': '83a2b8f5d5b78020476d7c13dd2da0becff93960b988f816c996750a20dfdcbf', 'scripts/cp6_v2620af_family.py': 'bb9cfa32056a195c025c80a6947cb64c3637bf77b0a1f32380eed53078c546e1', 'scripts/cp6_v2620af_maintenance_schedules.py': '72c51a1197a3aa70e54c33d1abadadbf711643524a189d5562ee69b29267bba3', 'scripts/cp6_v2620af_rollback_guards.py': '3f98c9ed99a09e363fe94078ebbabba0c206b5b042d03b9c8fc9bc34f841d9ea', 'scripts/cp6_v2620af_runtime.py': '24627b4fe7679e68c14f0f98a3be662c6693d5458c3ee14831d4af8037078e3e', 'supabase/migrations/20260916014332_erp_v2_6_20af_cp6_posted_child_integrity.sql': 'c9cabce7f9e983e8390bfcc9eb2f47e17ca1e45b68bf337747b5acde149505a0', 'supabase/rollbacks/20260916014332_erp_v2_6_20af_cp6_posted_child_integrity.rollback.sql': 'd3a432dfa7e5bd37e7296ba02c8f0c63b553c36089be9f708b078af833448c11'}
           ae_independent_pins={'.github/workflows/cp6-ad-roll-opening-check.yml': '3028654b84498833c95ddfadd797d6cd23f624c0383cdaacb5f65ee4c0e851d2', 'scripts/cp6_ae_independent_audit.py': 'c73acb420aceeb9cf7dda100af2b5b12095b8022a042fa4b80de5d4ddb157ba4'}
           try:
               ancestor=subprocess.check_output(['git','merge-base',frozen,'HEAD'],text=True).strip()==frozen
@@ -110,12 +112,18 @@ jobs:
                   and subprocess.check_output(['git','merge-base',ae_independent_head,'HEAD'],text=True).strip()==ae_independent_head
                   and ae_independent_changed==set(ae_independent_pins)|{'.github/workflows/cp6-full-schema-validation.yml'}
                   and all(hashlib.sha256(Path(path).read_bytes()).hexdigest()==digest for path,digest in ae_independent_pins.items()))
-              reuse=audit_only or ad_exact or ad_round or ae_exact or ae_independent
+              af_base='fd904a17f88e52104e6ba89874f16bfb654245d6'
+              af_changed=set(subprocess.check_output(['git','diff','--name-only',af_base,'HEAD'],text=True).splitlines())
+              af_exact=(original_matches
+                  and subprocess.check_output(['git','merge-base',af_base,'HEAD'],text=True).strip()==af_base
+                  and af_changed==set(af_pins)|{'.github/workflows/cp6-full-schema-validation.yml'}
+                  and all(hashlib.sha256(Path(path).read_bytes()).hexdigest()==digest for path,digest in af_pins.items()))
+              reuse=audit_only or ad_exact or ad_round or ae_exact or ae_independent or af_exact
           except (AssertionError,ValueError,OSError,subprocess.CalledProcessError):
               reuse=False
           with open(os.environ['GITHUB_OUTPUT'],'a') as output:
               output.write('full='+('false' if reuse else 'true')+'\n')
-          print('REUSED_EVIDENCE: exact AE business/runtime; separate independent review required' if ae_independent else 'RERUN_REQUIRED: AE combined 134-case business gate and 20 fresh schedules; historical AC evidence retained' if ae_exact else 'REUSED_EVIDENCE: pinned AD plus focused roll-opening round' if ad_round else 'REUSED_EVIDENCE: Native200/AB189 base; pinned AD delta requires the separate whole-family native gate' if ad_exact else 'REUSED_EVIDENCE: exact AC business source' if reuse else 'RERUN_REQUIRED: change outside the pinned audit/AD boundary')
+          print('RERUN_REQUIRED: exact AF delta requires its dedicated focused, combined134 and concurrency gate; independent review pending' if af_exact else 'REUSED_EVIDENCE: exact AE business/runtime; separate independent review required' if ae_independent else 'RERUN_REQUIRED: AE combined 134-case business gate and 20 fresh schedules; historical AC evidence retained' if ae_exact else 'REUSED_EVIDENCE: pinned AD plus focused roll-opening round' if ad_round else 'REUSED_EVIDENCE: Native200/AB189 base; pinned AD delta requires the separate whole-family native gate' if ad_exact else 'REUSED_EVIDENCE: exact AC business source' if reuse else 'RERUN_REQUIRED: change outside the pinned audit/AD boundary')
           PYROUTE
   # END AC AUDIT EVIDENCE ROUTER
   validate-full-schema:

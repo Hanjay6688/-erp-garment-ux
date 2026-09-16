@@ -1,0 +1,62 @@
+{
+  "format": "CP6_AF_RUNTIME_PINS_V1",
+  "stamp": "20260916014332",
+  "name": "erp_v2_6_20af_cp6_posted_child_integrity",
+  "version": "v2.6.20af",
+  "predecessor_head": "ce8e8ea5cdfab4b39ea7095c1b3bd1c8ab1f33d1",
+  "predecessor_tree": "738fab9caa9f1d9a66756f169b82f407f929a214",
+  "functions": [
+    {
+      "identity": "erp.guard_child_by_parent_status()",
+      "predecessor_sha256": "9eb00d1d614e8253661ee5445b7ceece30377ec605a22fe34b53a0e57af60be5",
+      "installed_sha256": "05d181c08289b4fa81d73e99ed1453fd8ad931bc3d99d3c0480f96a027ca3b0e",
+      "owner": "postgres",
+      "acl": [
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ]
+    },
+    {
+      "identity": "erp.run_v268_financial_report_checks()",
+      "predecessor_sha256": "b213246d9d2373924699d6a13186b6ebe0e6e87867c0818c70b4e6e54ec09aef",
+      "installed_sha256": "4fb70a7fb59d46d17deecd5ab3063a70f03908a6c5962526d2b1e6c3d9db6036",
+      "owner": "postgres",
+      "acl": [
+        "authenticated=X/postgres",
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ]
+    }
+  ],
+  "boundary_count": 218,
+  "predecessor_function_count": 533,
+  "predecessor_table_count": 220,
+  "comparison_run": 35044505762,
+  "production_go": false,
+  "source_pins": {
+    "scripts/cp6_v2620af_build_sql.py": {
+      "sha256": "759a1fae056795fa5d74464a51de45df18129c3067cbf91d1cbbc9f852e36d56",
+      "bytes": 13330
+    },
+    "docs/evidence/cp6-af-predecessor-functions.json": {
+      "sha256": "9eafb434cf36de84b40614f031d8f56aa732720aae985cfb092cc5a37319db65",
+      "bytes": 47212
+    },
+    "supabase/migrations/20260915201500_erp_v2_6_20ae_cp6_opening_roll_integrity.sql": {
+      "sha256": "228d9185501d418835e6434e64e1445be7b12ce2f517778ea63d789d478461c1",
+      "bytes": 16963
+    },
+    "supabase/rollbacks/20260915201500_erp_v2_6_20ae_cp6_opening_roll_integrity.rollback.sql": {
+      "sha256": "a869de31481cac1c8a26de17e3be9d47d2b42c18a6756df5cabfc016ebfa0341",
+      "bytes": 11107
+    },
+    "supabase/migrations/20260916014332_erp_v2_6_20af_cp6_posted_child_integrity.sql": {
+      "sha256": "c9cabce7f9e983e8390bfcc9eb2f47e17ca1e45b68bf337747b5acde149505a0",
+      "bytes": 63363
+    },
+    "supabase/rollbacks/20260916014332_erp_v2_6_20af_cp6_posted_child_integrity.rollback.sql": {
+      "sha256": "d3a432dfa7e5bd37e7296ba02c8f0c63b553c36089be9f708b078af833448c11",
+      "bytes": 11065
+    }
+  }
+}
