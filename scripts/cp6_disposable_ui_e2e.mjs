@@ -52,6 +52,7 @@ const report = {
   schema_acl_modified: false, credentials_persisted: false, production_go: false,
   independent_acceptance: false, database_disposal_required: true,
   browser_transport_failures: [],
+  browser_cors_errors: [],
 }
 mkdirSync(reportDir, {recursive:true})
 const save = () => writeFileSync(resolve(reportDir,'UI.json'), JSON.stringify(report,null,2)+'\n')
@@ -136,9 +137,11 @@ async function startApplication() {
   // One fixed origin for supabase-js; transparent forwarding to real services.
   proxy=http.createServer((req,res)=>{
     const allowedOrigin=req.headers.origin===origin
-    const cors=allowedOrigin?{'Access-Control-Allow-Origin':origin,'Vary':'Origin',
-      'Access-Control-Allow-Headers':'authorization,apikey,content-type,x-client-info,x-supabase-api-version,accept-profile,content-profile',
-      'Access-Control-Allow-Methods':'GET,POST,PUT,DELETE,OPTIONS'}:{}
+    // Node receives upstream headers in lowercase. Use the same case so one
+    // local origin REPLACES the upstream wildcard, never two CORS values.
+    const cors=allowedOrigin?{'access-control-allow-origin':origin,'vary':'Origin',
+      'access-control-allow-headers':'authorization,apikey,content-type,x-client-info,x-supabase-api-version,accept-profile,content-profile',
+      'access-control-allow-methods':'GET,POST,PUT,DELETE,OPTIONS'}:{}
     if(req.method==='OPTIONS'){res.writeHead(allowedOrigin?204:403,cors);res.end();return}
     const auth=req.url.startsWith('/auth/v1/'), rest=req.url.startsWith('/rest/v1/rpc/')
     if(!auth&&!rest){res.writeHead(404,cors);res.end();return}
@@ -152,6 +155,16 @@ async function startApplication() {
     upstream.on('error',()=>{if(!res.headersSent)res.writeHead(502,cors);res.end()});req.pipe(upstream)
   })
   await new Promise((ok,no)=>{proxy.once('error',no);proxy.listen(54328,'127.0.0.1',ok)})
+  const health=await fetch(apiOrigin+'/auth/v1/health',{headers:{Origin:origin}})
+  assert.equal(health.status,200)
+  assert.equal(health.headers.get('access-control-allow-origin'),origin,'Exactly one CORS origin on the real Auth response')
+  const preflight=await fetch(apiOrigin+'/auth/v1/token?grant_type=password',{method:'OPTIONS',headers:{
+    Origin:origin,'Access-Control-Request-Method':'POST',
+    'Access-Control-Request-Headers':'apikey,authorization,content-type,x-client-info,x-supabase-api-version'}})
+  assert.equal(preflight.status,204)
+  assert.equal(preflight.headers.get('access-control-allow-origin'),origin)
+  assert.ok(preflight.headers.get('access-control-allow-headers').includes('x-supabase-api-version'))
+  report.real_auth_cors_probe={status:'PASS',health_status:200,preflight_status:204,single_origin:true}
   execFileSync('npm',['run','build:cp6-disposable'],{cwd:root,env:{...safeEnv,
     VITE_ERP_RUNTIME_MODE:'DISPOSABLE_TEST',VITE_SUPABASE_URL:apiOrigin,VITE_SUPABASE_ANON_KEY:anon},
     stdio:['ignore','pipe','pipe']})
@@ -184,6 +197,12 @@ async function pageFor(user,mobile=false) {
     error:request.failure()?.errorText||'unknown'}))
   page.on('response',response=>{if(response.status()>=400)report.browser_transport_failures.push({
     phase:report.current_phase,path:new URL(response.url()).pathname,status:response.status()})})
+  page.on('console',message=>{
+    if(!message.text().includes('CORS'))return
+    let text=message.text()
+    for(const value of secrets.filter(Boolean))text=text.split(value).join('[REDACTED]')
+    report.browser_cors_errors.push({phase:report.current_phase,message:text.slice(0,1000)})
+  })
   await page.goto(origin)
   await expect(page.getByRole('heading',{name:'Masuk ke Atelier ERP'})).toBeVisible()
   if(!user)return page

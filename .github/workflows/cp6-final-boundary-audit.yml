@@ -340,7 +340,26 @@ jobs:
       id: ai_install
     - name: Rerun unchanged combined 142-case business oracle on final candidate
       working-directory: candidate
-      run: GITHUB_SHA=25fa4736329e5148dfdb3572bc169952cba23251 PYTHONPATH=scripts python scripts/cp6_v2620ai_family.py --phase crossflow
+      run: |
+        python - <<'PY'
+        import json,os,subprocess
+        from pathlib import Path
+        import psycopg
+        def clock():
+            with psycopg.connect(os.environ['PGURL']) as connection:
+                row=connection.execute("select clock_timestamp()::text,(clock_timestamp() at time zone 'Asia/Jakarta')::date::text").fetchone()
+                return dict(system_time=row[0],jakarta_day=row[1])
+        before=clock()
+        run=subprocess.run(['python','scripts/cp6_v2620ai_family.py','--phase','crossflow'],
+            env={**os.environ,'GITHUB_SHA':'25fa4736329e5148dfdb3572bc169952cba23251','PYTHONPATH':'scripts'})
+        after=clock()
+        target=Path('cp6-proof/final-audit/COMBINED_CLOCK.json')
+        target.parent.mkdir(parents=True,exist_ok=True)
+        target.write_text(json.dumps(dict(before=before,after=after,
+            business_day_changed=before['jakarta_day']!=after['jakarta_day'],
+            original_oracle_exit_code=run.returncode,automatic_retry=False,production_go=False),indent=2)+'\n')
+        raise SystemExit(run.returncode)
+        PY
     - name: Independently test staged late invoices after wages partial FG and sales
       if: ${{ always() && steps.ai_install.outcome == 'success' }}
       working-directory: candidate

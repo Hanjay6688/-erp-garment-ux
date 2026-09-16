@@ -79,3 +79,24 @@ native staging evidence does not close CSV transport. Section 21 of the owner
 master binds these rules to opening/import and cutover, without assigning a
 separate CSV-upload deliverable explicitly to CP6. Preserve that scope question;
 do not infer N/A or implement a new import product during this audit.
+
+Run 35125003066 / candidate a4d45ef4742d2b8b14a92c631a6dd0db84b3accb:
+the Auth version-header correction alone did not close browser transport. UI
+remained 1/36, with `/auth/v1/token` reporting `net::ERR_FAILED`. The proxy also
+combined lowercase upstream CORS headers with mixed-case local headers, leaving
+duplicate origin values. It now replaces headers consistently and checks the
+real Auth health response and preflight before opening the browser. This still
+requires a successful browser rerun; it is not an ERP transaction finding.
+
+The same run crossed Jakarta midnight (combined native stage 16:59:15–17:00:34
+UTC). It completed 119 PASS and 23 FAIL: 16 explicit
+`AA_INVOICE_DAY_CHANGED_REQUIRES_SEPARATE_MIDNIGHT_CASE`, three cash reversal-date
+expectations, and four previously-future payment dates that became today's date.
+The latter seven expectations use the phase-start date. These are unresolved
+rerun/clock-context evidence, not 23 proven business defects. The frozen oracle
+is unchanged. Subsequent runs record the real business date before/after and
+preserve the original exit code; there is no automatic retry or changed oracle.
+The 16 additional invoice cases, 23 work cases, 12 schedules, HTTP 95, exact
+AI→AH restoration and cleanup completed. Artifact 10458598039: 2529732 bytes,
+SHA-256 `ed3c7e15d5ef8c34167ddf3e621409e326f3baccd409d63dfa8937747693ace5`.
+The downloaded bytes and ZIP CRC matched. CodeQL 35125002987 passed four languages.
