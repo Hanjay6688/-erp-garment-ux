@@ -5,18 +5,18 @@ from __future__ import annotations
 import json
 import os
 import traceback
-from pathlib import Path
 
 import psycopg
 
 import cp6_preuse_rollback_maintenance as maintenance
+import cp6_v2620ai_family as family
 import cp6_v2620ai_runtime as runtime
 from cp6_v2620af_family import actors, expected_refusal, sql_body
 from cp6_v2620n_rollback_guards import function_catalog
 from cp6_v2620u_install_diagnostic import snapshot
 
 
-ROOT = Path("cp6-proof/writer-ah")
+ROOT = family.ROOT
 REPORT = ROOT / "AI_EXACT_AH_RESTORE.json"
 EXPECTED_URL = "postgresql://postgres:postgres@127.0.0.1:54322/postgres"
 

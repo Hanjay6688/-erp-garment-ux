@@ -87,8 +87,8 @@
       "bytes": 5626
     },
     "scripts/cp6_v2620ai_rollback_guards.py": {
-      "sha256": "f8c97acc48b5e4ca2e324a548b5a9b846d94a4eb5b9c64d9b745b5649a52c2fe",
-      "bytes": 8105
+      "sha256": "1a9a2ac660611a1a2c3c7802c76e2e0c29edf8086cd3903526c646c12f388e81",
+      "bytes": 8100
     },
     "scripts/cp6_v2620ai_runtime.py": {
       "sha256": "7f5f4c6f2f43a84f50411abcd71df09b25a0fc4840c4b62100cf53a884e7ef68",
