@@ -9,6 +9,7 @@ import http from 'node:http'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { chromium, expect } from '@playwright/test'
+import ts from 'typescript'
 
 const root = resolve(fileURLToPath(new URL('..', import.meta.url)))
 const reportDir = resolve(process.env.CP6_UI_REPORT_DIR || 'cp6-proof/final-audit')
@@ -64,6 +65,25 @@ function pass(id, detail = {}) {
 const query = (statement, url=pg) => execFileSync('psql', [url,'-X','-qAt','-v','ON_ERROR_STOP=1','-c',statement],
   {encoding:'utf8',stdio:['ignore','pipe','pipe']}).trim()
 assert.equal(query('select current_database()'), 'cp6_auth')
+if(process.argv.includes('--qualify-legacy-fixture')){
+  // Observe the real workspace before discarding the ENTIRE old HTTP clone.
+  // The original parser is transpiled without changing its validation rules.
+  const source=readFileSync(resolve(root,'src/laundryQcModel.ts'),'utf8')
+  const compiled=ts.transpileModule(source,{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText
+  const {parseLaundryQcWorkspace}=await import('data:text/javascript;base64,'+Buffer.from(compiled).toString('base64'))
+  const raw=query(`begin; set local request.jwt.claims='{"role":"authenticated","sub":"c8c00000-0000-4000-8000-000000000101"}';
+    select public.erp_get_laundry_qc_workspace_v1('LAUNDRY',null); rollback;`)
+  let rejected
+  try{parseLaundryQcWorkspace(JSON.parse(raw))}catch(error){rejected=error.message}
+  const proof={status:rejected?.includes('bukan UUID valid')?'FIXTURE_UUID_REJECTION_CONFIRMED':'UNRESOLVED',
+    parser_sha256:createHash('sha256').update(source).digest('hex'),
+    workspace_sha256:createHash('sha256').update(raw).digest('hex'),error:rejected||null,
+    product_parser_modified:false,posted_rows_modified:false,production_go:false}
+  writeFileSync(resolve(reportDir,'LEGACY_FIXTURE.json'),JSON.stringify(proof,null,2)+'\n')
+  assert.equal(proof.status,'FIXTURE_UUID_REJECTION_CONFIRMED')
+  console.log('CP6 UI fixture qualification: '+proof.status)
+  process.exit(0)
+}
 const day = query("select ((clock_timestamp() at time zone 'Asia/Jakarta')::date-1)::text")
 assert.match(day, /^\d{4}-\d{2}-\d{2}$/)
 const when = (time) => `${day}T${time}`
@@ -222,6 +242,8 @@ async function nav(page,name) {
   await link.click()
   await expect(page.getByRole('heading',{name,exact:true})).toBeVisible()
   await expect(page.getByRole('button',{name:'Muat ulang data',exact:true})).toBeEnabled()
+  const error=await page.locator('.clq-alert.error').allTextContents()
+  assert.deepEqual(error,[],`${name}: original workspace error`)
 }
 async function mutation(page,label,action,{double=false,loseReply=false}={}) {
   const button=typeof label==='string'?page.getByRole('button',{name:label,exact:true}):label

@@ -100,3 +100,22 @@ The 16 additional invoice cases, 23 work cases, 12 schedules, HTTP 95, exact
 AI→AH restoration and cleanup completed. Artifact 10458598039: 2529732 bytes,
 SHA-256 `ed3c7e15d5ef8c34167ddf3e621409e326f3baccd409d63dfa8937747693ace5`.
 The downloaded bytes and ZIP CRC matched. CodeQL 35125002987 passed four languages.
+
+Run 35126188260 / candidate 0efabcfb8ee717604c32b07f760237416ec498af:
+native 142/16/23 and 12 schedules completed; the combined stage stayed on the
+same Jakarta business day. HTTP 95 passed. Real browser Auth passed anonymous,
+unmapped and inactive cases (3/36). Viewer workspace did not render its form.
+The inherited foundation fixture uses non-RFC UUIDs, rejected by the original
+frontend parser; the next run records a direct parser qualification before
+disposing the complete HTTP clone and seeding a fresh UI clone with canonical
+synthetic IDs. This changes fixture IDs before insertion, not posted history,
+product parsing, schema permissions, or admitted SQL. Artifact 10459407523,
+2541900 bytes, SHA-256
+`1a41825ad876c78412fc60ecdddcf9c95399697d30b49528db436a3e9f5d3e99`;
+downloaded checksum, ZIP CRC and token/private-key scan passed. CodeQL
+35126188318, exact AH restoration and cleanup passed.
+
+Commits explicitly marked `[cp6-ui-focused]` run a focused HTTP/UI diagnostic
+gate while the browser harness is being corrected. RUN_SCOPE.json records the
+native 142/16/23/12 groups as NOT_RUN_FOCUSED, never PASS. A final unmarked
+commit or workflow dispatch must run the entire combined gate after stability.

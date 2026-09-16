@@ -40,6 +40,7 @@ jobs:
       CP6_AI_INDEPENDENT_CONFIRM: postgres
       CP6_AUTH_PGURL: postgresql://postgres:postgres@127.0.0.1:54322/cp6_auth
       CP6_AUTH_REPORT: cp6-proof/final-audit/HTTP.json
+      CP6_UI_FOCUSED: ${{ contains(github.event.head_commit.message, '[cp6-ui-focused]') }}
     steps:
     - name: Checkout exact AI candidate
       uses: actions/checkout@v4
@@ -338,7 +339,21 @@ jobs:
          Path('cp6-proof/writer-ai/AI_INSTALLED_RUNTIME.json').write_text(json.dumps(dict(status='PASS',head='25fa4736329e5148dfdb3572bc169952cba23251',objects=objects,production_go=False),indent=2)+'\n')
         PYINSTALL
       id: ai_install
+    - name: Record exact execution scope
+      working-directory: candidate
+      run: |
+        python - <<'PY'
+        import json,os
+        from pathlib import Path
+        focused=os.environ['CP6_UI_FOCUSED']=='true'
+        target=Path('cp6-proof/final-audit/RUN_SCOPE.json')
+        target.parent.mkdir(parents=True,exist_ok=True)
+        target.write_text(json.dumps(dict(mode='FOCUSED_HTTP_UI' if focused else 'COMBINED_NATIVE_HTTP_UI',
+            native_142_16_23_12='NOT_RUN_FOCUSED' if focused else 'REQUIRED',
+            full_gate_required_after_harness_stable=focused,production_go=False),indent=2)+'\n')
+        PY
     - name: Rerun unchanged combined 142-case business oracle on final candidate
+      if: ${{ env.CP6_UI_FOCUSED != 'true' }}
       working-directory: candidate
       run: |
         python - <<'PY'
@@ -361,17 +376,17 @@ jobs:
         raise SystemExit(run.returncode)
         PY
     - name: Independently test staged late invoices after wages partial FG and sales
-      if: ${{ always() && steps.ai_install.outcome == 'success' }}
+      if: ${{ always() && steps.ai_install.outcome == 'success' && env.CP6_UI_FOCUSED != 'true' }}
       working-directory: candidate
       run: PYTHONPATH=scripts python ../harness/scripts/cp6_final_crossflow_review.py
     - name: Run independent work, accounting and role cases
-      if: ${{ always() && steps.ai_install.outcome == 'success' }}
+      if: ${{ always() && steps.ai_install.outcome == 'success' && env.CP6_UI_FOCUSED != 'true' }}
       working-directory: candidate
       run: PYTHONPATH=scripts python ../harness/scripts/cp6_ai_independent_review.py --phase business
     - name: Run twelve new two-session business schedules
       working-directory: candidate
       run: PYTHONPATH=scripts python ../harness/scripts/cp6_ai_independent_review.py --phase concurrency
-      if: ${{ always() && steps.ai_install.outcome == 'success' }}
+      if: ${{ always() && steps.ai_install.outcome == 'success' && env.CP6_UI_FOCUSED != 'true' }}
     - name: Rerun original HTTP role and lifecycle oracle on exact AI public API
       if: ${{ always() && steps.ai_install.outcome == 'success' }}
       working-directory: candidate
@@ -556,9 +571,62 @@ jobs:
         test "$(psql "$PGURL" -At -c 'select count(*) from erp.app_users')" = '0'
         test "$(psql "$CP6_AUTH_PGURL" -At -c 'select count(*) from erp.cp6_laundry_qc_execution_context')" = '0'
 
-        # The authorized frontend successor uses the same original public API.
-        # Credentials are process environment only, never committed or uploaded.
         export CP6_UI_REPORT_DIR="$PWD/cp6-proof/final-audit"
+        node ../harness/scripts/cp6_disposable_ui_e2e.mjs --qualify-legacy-fixture
+
+        # Preserve posted HTTP history until this whole disposable clone is
+        # destroyed. Recreate from the original, unseeded AI runtime for UI.
+        docker rm -f "$auth_rest_name" >/dev/null
+        bash scripts/clone-cp6-disposable-database.sh \
+          "$PGURL" "$CP6_MAINTENANCE_PGURL" "$CP6_AUTH_PGURL" cp6_auth \
+          "$CP6_DATABASE_CONTAINER" cp6-proof/final-audit/UI_CLONE_BOUNDARY
+        python - <<'PY'
+        import hashlib,json,re
+        from pathlib import Path
+        source=Path('supabase/tests')
+        output=Path('cp6-proof/ui-fixture')
+        output.mkdir(parents=True,exist_ok=True)
+        names=['cp3_r3_full_schema_seed.sql','cp3_r4_full_schema_seed.sql','cp6_laundry_qc_concurrency_seed.sql']
+        pattern=re.compile(r'\b([0-9a-f]{8}-[0-9a-f]{4})-0000-0000-([0-9a-f]{12})\b')
+        manifest=[]
+        mapping={}
+        for name in names:
+            text=(source/name).read_text()
+            def canonical(match):
+                replacement=match[1]+'-4000-8000-'+match[2]
+                assert replacement not in text
+                mapping[match[0]]=replacement
+                return replacement
+            qualified,count=pattern.subn(canonical,text)
+            (output/name).write_text(qualified)
+            manifest.append(dict(file=name,replacements=count,
+                original_sha256=hashlib.sha256(text.encode()).hexdigest(),
+                qualified_sha256=hashlib.sha256(qualified.encode()).hexdigest()))
+        assert mapping and len(set(mapping.values()))==len(mapping)
+        Path('cp6-proof/final-audit/UI_FIXTURE.json').write_text(json.dumps(dict(
+            transformation='Synthetic UUID version/variant only, before insertion into fresh clone',
+            sources=manifest,unique_ids=len(mapping),schema_acl_modified=False,
+            admitted_sources_modified=False,production_go=False),indent=2)+'\n')
+        PY
+        psql "$CP6_AUTH_PGURL" -v ON_ERROR_STOP=1 \
+          -f cp6-proof/ui-fixture/cp3_r4_full_schema_seed.sql \
+          -f cp6-proof/ui-fixture/cp6_laundry_qc_concurrency_seed.sql \
+          > cp6-proof/UI_FIXTURE_APPLY.log 2>&1
+        docker run -d --name "$auth_rest_name" --network "$rest_network" \
+          --env-file "$auth_rest_env" -p 127.0.0.1:54329:3000 "$rest_image" >/dev/null
+        for attempt in $(seq 1 45); do
+          if curl --fail --silent --show-error \
+            -H "apikey: $ANON_KEY" -H "Authorization: Bearer $ANON_KEY" \
+            http://127.0.0.1:54329/ >/dev/null \
+            && curl --fail --silent --show-error "$API_URL/auth/v1/health" >/dev/null; then
+            break
+          fi
+          sleep 2
+        done
+        curl --fail --silent --show-error \
+          -H "apikey: $ANON_KEY" -H "Authorization: Bearer $ANON_KEY" \
+          http://127.0.0.1:54329/ >/dev/null
+        # Credentials stay in process memory/environment, never artifacts.
         node ../harness/scripts/cp6_disposable_ui_e2e.mjs
         test "$(psql "$PGURL" -At -c 'select count(*) from auth.users')" = '0'
         test "$(psql "$PGURL" -At -c 'select count(*) from auth.sessions')" = '0'
