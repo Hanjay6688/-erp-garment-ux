@@ -119,3 +119,11 @@ Commits explicitly marked `[cp6-ui-focused]` run a focused HTTP/UI diagnostic
 gate while the browser harness is being corrected. RUN_SCOPE.json records the
 native 142/16/23/12 groups as NOT_RUN_FOCUSED, never PASS. A final unmarked
 commit or workflow dispatch must run the entire combined gate after stability.
+
+Focused run 35127566063 stopped before the fixture qualification/browser cases:
+the installed TypeScript 7 package does not expose the older transpileModule
+API. HTTP 95, restoration and cleanup completed. The diagnostic loader now
+uses Node's built-in type stripping, verified locally against the original
+parser. Artifact 10460456192 (313170 bytes), GitHub-reported SHA-256
+`f4d5daef6b9126c24ad8b2581c5315e6ab4f86940fabc8ee467e2cb7d931426a`.
+Native 142/16/23/12 were intentionally NOT_RUN_FOCUSED; no browser PASS.

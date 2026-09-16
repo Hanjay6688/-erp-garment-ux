@@ -8,8 +8,8 @@ import { mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import http from 'node:http'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { stripTypeScriptTypes } from 'node:module'
 import { chromium, expect } from '@playwright/test'
-import ts from 'typescript'
 
 const root = resolve(fileURLToPath(new URL('..', import.meta.url)))
 const reportDir = resolve(process.env.CP6_UI_REPORT_DIR || 'cp6-proof/final-audit')
@@ -50,7 +50,7 @@ const report = {
   frontend_tree: execFileSync('git', ['rev-parse', 'HEAD^{tree}'], {cwd:root,encoding:'utf8'}).trim(),
   source_sha256: createHash('sha256').update(readFileSync(fileURLToPath(import.meta.url))).digest('hex'),
   planned_case_ids: planned, completed: [], current_phase: 'SETUP',
-  schema_acl_modified: false, credentials_persisted: false, production_go: false,
+  schema_acl_modified: false, credentials_in_artifacts: false, production_go: false,
   independent_acceptance: false, database_disposal_required: true,
   browser_transport_failures: [],
   browser_cors_errors: [],
@@ -69,7 +69,7 @@ if(process.argv.includes('--qualify-legacy-fixture')){
   // Observe the real workspace before discarding the ENTIRE old HTTP clone.
   // The original parser is transpiled without changing its validation rules.
   const source=readFileSync(resolve(root,'src/laundryQcModel.ts'),'utf8')
-  const compiled=ts.transpileModule(source,{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText
+  const compiled=stripTypeScriptTypes(source,{mode:'strip'})
   const {parseLaundryQcWorkspace}=await import('data:text/javascript;base64,'+Buffer.from(compiled).toString('base64'))
   const raw=query(`begin; set local request.jwt.claims='{"role":"authenticated","sub":"c8c00000-0000-4000-8000-000000000101"}';
     select public.erp_get_laundry_qc_workspace_v1('LAUNDRY',null); rollback;`)
