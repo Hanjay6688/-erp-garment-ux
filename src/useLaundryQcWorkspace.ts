@@ -1,3 +1,4 @@
+import { isConnectedRuntime } from './config/runtime'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useAuth } from './auth/AuthProvider'
 import { normalizeClientError } from './lib/clientError'
@@ -135,7 +136,7 @@ function isExactCommittedResponse(data: unknown, envelope: PendingMutation) {
 
 export function useLaundryQcWorkspace(scope: LaundryQcScope) {
   const { runtime, identity } = useAuth()
-  if (runtime.mode !== 'UAT_AUTH_SIMULATION' || identity.status !== 'AUTHORIZED') {
+  if (!isConnectedRuntime(runtime) || identity.status !== 'AUTHORIZED') {
     throw new Error('Connected Laundry/QC hanya untuk sesi ERP Enteng UAT yang authorized.')
   }
   const client = useMemo(() => getUatSupabaseClient(runtime), [runtime])

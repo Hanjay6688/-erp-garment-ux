@@ -15,7 +15,8 @@ export function authGateMode(identity: AuthIdentity): AuthGateMode {
 }
 
 export function AuthGate({ children }: PropsWithChildren) {
-  const { identity, signingOut, signOutError, signIn, signOut, retryIdentity } = useAuth()
+  const { runtime, identity, signingOut, signOutError, signIn, signOut, retryIdentity } = useAuth()
+  const disposable = runtime.mode === 'DISPOSABLE_TEST'
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [submitError, setSubmitError] = useState('')
@@ -27,7 +28,7 @@ export function AuthGate({ children }: PropsWithChildren) {
   if (gateMode === 'ALLOW') return children
 
   if (gateMode === 'LOADING') {
-    return <AuthFrame eyebrow="UAT AUTH" title={signingOut ? 'Mengakhiri sesi…' : 'Memverifikasi sesi…'}>
+    return <AuthFrame eyebrow={disposable ? 'PENGUJIAN LOKAL' : 'UAT AUTH'} title={signingOut ? 'Mengakhiri sesi…' : 'Memverifikasi sesi…'}>
       <div className="auth-progress" role="status" aria-live="polite" aria-label={signingOut ? 'Mengakhiri sesi' : 'Memverifikasi sesi'} />
       <p>{signingOut
         ? 'Akses ERP dikunci sampai proses keluar selesai.'
@@ -70,8 +71,8 @@ export function AuthGate({ children }: PropsWithChildren) {
     }
   }
 
-  return <AuthFrame eyebrow="ERP ENTENG · UAT AUTH" title="Masuk ke Atelier ERP">
-    <p>Auth, hak akses, Master Pola, dan status WIP memakai UAT. Modul bisnis lain tetap diberi batas data simulasi.</p>
+  return <AuthFrame eyebrow={disposable ? 'ERP · PENGUJIAN LOKAL' : 'ERP ENTENG · UAT AUTH'} title="Masuk ke Atelier ERP">
+    <p>{disposable ? 'Lingkungan uji sementara dengan data sintetis. Login dan transaksi menggunakan layanan lokal.' : 'Auth dan modul terhubung memakai UAT. Modul yang masih simulasi tetap diberi batas yang jelas.'}</p>
     <form className="auth-form" onSubmit={submit}>
       <label>Email akun ERP<input type="email" required autoComplete="username" value={email} onChange={(event) => setEmail(event.target.value)} /></label>
       <label>Kata sandi<input type="password" required autoComplete="current-password" value={password} onChange={(event) => setPassword(event.target.value)} /></label>

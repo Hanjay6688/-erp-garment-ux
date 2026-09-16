@@ -1,7 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import type { PropsWithChildren } from 'react'
 import type { SupabaseClient } from '@supabase/supabase-js'
-import { isUatRuntime, type RuntimeConfig } from '../config/runtime'
+import { isConnectedRuntime, type RuntimeConfig } from '../config/runtime'
 import { ClientAppError, normalizeAuthError, normalizeClientError } from '../lib/clientError'
 import { getUatSupabaseClient } from '../lib/supabase'
 import type { PreconnectDatabase } from '../types/database.preconnect'
@@ -58,7 +58,7 @@ export function AuthProvider({ runtime, children }: PropsWithChildren<{ runtime:
   const signOutInFlight = useRef<Promise<AuthActionResult> | null>(null)
   const [signingOut, setSigningOut] = useState(false)
   const [signOutError, setSignOutError] = useState<ClientAppError | null>(null)
-  const client = useMemo(() => isUatRuntime(runtime) ? getUatSupabaseClient(runtime) : null, [runtime])
+  const client = useMemo(() => isConnectedRuntime(runtime) ? getUatSupabaseClient(runtime) : null, [runtime])
 
   const commitIdentity = useCallback((next: AuthIdentity) => {
     identityRef.current = next

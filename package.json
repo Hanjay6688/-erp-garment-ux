@@ -18,6 +18,7 @@
     "proof:cp5:render": "node scripts/render-cp5-source-hashes.mjs",
     "prebuild": "node scripts/build-preflight.mjs && npm run check:source && npm run check:access && npm run check:css",
     "build": "tsc -b && vite build",
+    "build:cp6-disposable": "node scripts/assert-cp6-disposable-env.mjs && tsc -b && vite build --mode cp6-disposable-test --outDir cp6-ui-build && node scripts/scan-client-artifacts.mjs cp6-ui-build",
     "postbuild": "node scripts/scan-client-artifacts.mjs dist",
     "test": "vitest run --exclude 'tests/browser/**'",
     "test:browser:cp45": "playwright test tests/browser/cp45.spec.ts",

@@ -52,7 +52,11 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python scripts/cp6_ai_audit_router.py
+          if python scripts/cp6_disposable_ui_scope.py; then
+            echo 'full=false' >> "$GITHUB_OUTPUT"
+          else
+            python scripts/cp6_ai_audit_router.py
+          fi
   # END AC AUDIT EVIDENCE ROUTER
   validate-full-schema:
     needs: audit-scope

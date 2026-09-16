@@ -1,3 +1,4 @@
+import { isConnectedRuntime } from './config/runtime'
 import { useEffect, useMemo, useState } from 'react'
 import { AlertTriangle, Check, Copy, LockKeyhole, RefreshCw, Save, Search, ShieldCheck, UserRound, X } from 'lucide-react'
 import { useAuth } from './auth/AuthProvider'
@@ -107,10 +108,10 @@ function localDate(value: string | null) {
 
 export default function AccessControlPage() {
   const { runtime, identity } = useAuth()
-  const connected = runtime.mode === 'UAT_AUTH_SIMULATION'
+  const connected = isConnectedRuntime(runtime)
   const canManage = identity.status === 'DEMO' || (identity.status === 'AUTHORIZED' && hasPermission(identity, 'settings.access.manage'))
   const client = useMemo(
-    () => runtime.mode === 'UAT_AUTH_SIMULATION' ? getUatSupabaseClient(runtime) : null,
+    () => isConnectedRuntime(runtime) ? getUatSupabaseClient(runtime) : null,
     [runtime],
   )
   const [data, setData] = useState<AccessAdminData | null>(connected ? null : demoData)

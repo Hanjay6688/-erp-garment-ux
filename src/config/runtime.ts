@@ -1,7 +1,7 @@
 export const ERP_ENTENG_UAT_PROJECT_REF = 'siimvrusnzxexizpyoib' as const
 export const ERP_GARMENT_PRODUCTION_PROJECT_REF = 'vlxdhpkjeevubjxexnfo' as const
 
-export type RuntimeMode = 'DEMO_SIMULATION' | 'UAT_AUTH_SIMULATION'
+export type RuntimeMode = 'DEMO_SIMULATION' | 'UAT_AUTH_SIMULATION' | 'DISPOSABLE_TEST'
 
 export type DemoRuntimeConfig = {
   mode: 'DEMO_SIMULATION'
@@ -38,7 +38,13 @@ export type UatRuntimeConfig = {
   browserKey: string
 }
 
-export type RuntimeConfig = DemoRuntimeConfig | UatRuntimeConfig
+export type DisposableRuntimeConfig = Omit<UatRuntimeConfig, 'mode' | 'authMode' | 'projectRef'> & {
+  mode: 'DISPOSABLE_TEST'
+  authMode: 'LOCAL_SUPABASE'
+  projectRef: 'cp6-disposable'
+}
+export type ConnectedRuntimeConfig = UatRuntimeConfig | DisposableRuntimeConfig
+export type RuntimeConfig = DemoRuntimeConfig | ConnectedRuntimeConfig
 export type RuntimeEnvironment = {
   VITE_ERP_RUNTIME_MODE?: string
   VITE_SUPABASE_URL?: string
@@ -151,7 +157,10 @@ function validateUatUrl(rawUrl: string) {
   return `https://${expectedHost}`
 }
 
-export function parseRuntimeConfig(environment: RuntimeEnvironment): RuntimeConfig {
+export function parseRuntimeConfig(environment: RuntimeEnvironment, testBuild?: {
+  mode: string
+  pageOrigin: string
+}): RuntimeConfig {
   const configuredMode = envString(environment, 'VITE_ERP_RUNTIME_MODE')
   const mode = configuredMode || 'DEMO_SIMULATION'
 
@@ -180,10 +189,15 @@ export function parseRuntimeConfig(environment: RuntimeEnvironment): RuntimeConf
     }
   }
 
-  if (mode !== 'UAT_AUTH_SIMULATION') {
+  const disposable = mode === 'DISPOSABLE_TEST'
+  if (disposable && (testBuild?.mode !== 'cp6-disposable-test'
+    || testBuild.pageOrigin !== 'http://127.0.0.1:4176')) {
+    throw new RuntimeConfigError('DISPOSABLE_BUILD_REQUIRED', 'Target uji hanya dapat dibuka dari build khusus di loopback.')
+  }
+  if (mode !== 'UAT_AUTH_SIMULATION' && !disposable) {
     throw new RuntimeConfigError(
       'RUNTIME_MODE_UNSUPPORTED',
-      'Runtime hanya mendukung DEMO_SIMULATION atau UAT_AUTH_SIMULATION.',
+      'Mode runtime tidak didukung.',
     )
   }
 
@@ -191,7 +205,10 @@ export function parseRuntimeConfig(environment: RuntimeEnvironment): RuntimeConf
   if (!rawUrl) {
     throw new RuntimeConfigError('UAT_URL_REQUIRED', 'VITE_SUPABASE_URL wajib untuk mode UAT.')
   }
-  const supabaseUrl = validateUatUrl(rawUrl)
+  if (disposable && rawUrl !== 'http://127.0.0.1:54328') {
+    throw new RuntimeConfigError('DISPOSABLE_TARGET_FORBIDDEN', 'Target uji wajib memakai API disposable di loopback yang ditentukan.')
+  }
+  const supabaseUrl = disposable ? rawUrl : validateUatUrl(rawUrl)
 
   const publishableKey = envString(environment, 'VITE_SUPABASE_PUBLISHABLE_KEY')
   const anonKey = envString(environment, 'VITE_SUPABASE_ANON_KEY')
@@ -209,11 +226,16 @@ export function parseRuntimeConfig(environment: RuntimeEnvironment): RuntimeConf
   }
 
   const browserKey = publishableKey || anonKey
-  validateBrowserKey(browserKey)
+  if (disposable) {
+    const payload = decodeJwtPayload(browserKey)
+    if (payload?.role !== 'anon' || (payload.ref !== undefined && payload.ref !== 'local')) {
+      throw new RuntimeConfigError('DISPOSABLE_BROWSER_KEY_INVALID', 'Target uji memerlukan anon key lokal; kredensial hosted atau secret ditolak.')
+    }
+  } else {
+    validateBrowserKey(browserKey)
+  }
 
-  return {
-    mode,
-    authMode: 'UAT_SUPABASE',
+  const connected = {
     businessDataMode: 'PARTIAL_CONNECTED',
     businessRpcEnabled: true,
     accessControlMode: 'CONNECTED',
@@ -225,12 +247,18 @@ export function parseRuntimeConfig(environment: RuntimeEnvironment): RuntimeConf
     laundryMode: 'CONNECTED',
     qcFinalMode: 'CONNECTED',
     fgHandoffMode: 'BLOCKED_UNTIL_AUTHORITATIVE',
-    projectRef: ERP_ENTENG_UAT_PROJECT_REF,
     supabaseUrl,
     browserKey,
-  }
+  } as const
+  return disposable
+    ? { ...connected, mode: 'DISPOSABLE_TEST', authMode: 'LOCAL_SUPABASE', projectRef: 'cp6-disposable' }
+    : { ...connected, mode: 'UAT_AUTH_SIMULATION', authMode: 'UAT_SUPABASE', projectRef: ERP_ENTENG_UAT_PROJECT_REF }
 }
 
 export function isUatRuntime(config: RuntimeConfig): config is UatRuntimeConfig {
   return config.mode === 'UAT_AUTH_SIMULATION'
+}
+
+export function isConnectedRuntime(config: RuntimeConfig): config is ConnectedRuntimeConfig {
+  return config.mode === 'UAT_AUTH_SIMULATION' || config.mode === 'DISPOSABLE_TEST'
 }

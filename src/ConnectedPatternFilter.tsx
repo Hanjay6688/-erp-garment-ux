@@ -1,3 +1,4 @@
+import { isConnectedRuntime } from './config/runtime'
 import { useEffect, useMemo, useState } from 'react'
 import { AlertTriangle, Search } from 'lucide-react'
 import { useAuth } from './auth/AuthProvider'
@@ -14,7 +15,7 @@ export default function ConnectedPatternFilter({ value, onChange, label = 'FILTE
   label?: string
 }) {
   const { runtime } = useAuth()
-  if (runtime.mode !== 'UAT_AUTH_SIMULATION') throw new Error('ConnectedPatternFilter hanya untuk ERP Enteng UAT.')
+  if (!isConnectedRuntime(runtime)) throw new Error('ConnectedPatternFilter hanya untuk ERP Enteng UAT.')
   const client = useMemo(() => getUatSupabaseClient(runtime), [runtime])
   const [query, setQuery] = useState('')
   const [rows, setRows] = useState<PatternRow[]>([])

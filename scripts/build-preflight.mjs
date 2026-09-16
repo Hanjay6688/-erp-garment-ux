@@ -50,4 +50,9 @@ export function assertNoForbiddenBuildSecrets(environment = process.env) {
 
 const invokedDirectly = process.argv[1]
   && import.meta.url === pathToFileURL(resolve(process.argv[1])).href
-if (invokedDirectly) assertNoForbiddenBuildSecrets()
+if (invokedDirectly) {
+  assertNoForbiddenBuildSecrets()
+  if (process.env.VITE_ERP_RUNTIME_MODE === 'DISPOSABLE_TEST') {
+    throw new Error('Disposable runtime requires build:cp6-disposable; regular deploy/build paths are refused.')
+  }
+}

@@ -6,6 +6,12 @@ name: CP6 Final Boundary Audit
     paths:
     - .github/workflows/cp6-final-boundary-audit.yml
     - scripts/cp6_final_crossflow_review.py
+    - scripts/cp6_disposable_ui_e2e.mjs
+    - scripts/cp6_disposable_ui_scope.py
+    - scripts/assert-cp6-disposable-env.mjs
+    - docs/evidence/cp6-disposable-ui-source-pins.json
+    - src/**
+    - package.json
   workflow_dispatch: null
 permissions:
   contents: read
@@ -55,6 +61,18 @@ jobs:
     - uses: actions/setup-python@v5
       with:
         python-version: '3.12'
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '22'
+    - name: Qualify disposable frontend and install browser
+      working-directory: harness
+      run: |
+        set -euo pipefail
+        npm ci
+        npm test -- --reporter=dot
+        npm run test:security
+        npm run build
+        npx playwright install --with-deps chromium
     - name: Install pinned disposable runtime
       shell: bash
       run: |
@@ -88,11 +106,11 @@ jobs:
       uses: supabase/setup-cli@ab058987d8d6c725971f6cf9d0b5c98467e30bd1
       with:
         version: 2.116.0
-    - name: Verify unchanged AI-R2 and bounded independent scope
+    - name: Verify unchanged AI-R2 backend and bounded writer UI scope
       shell: bash
       run: |
         set -euo pipefail
-        (cd harness && python scripts/cp6_ai_review_scope.py)
+        (cd harness && python scripts/cp6_disposable_ui_scope.py)
         (cd candidate && python scripts/cp6_ai_gate_scope.py)
     - name: Start disposable database
       working-directory: base
@@ -516,6 +534,14 @@ jobs:
         PY
         test "$(psql "$PGURL" -At -c 'select count(*) from auth.users')" = '0'
         test "$(psql "$PGURL" -At -c 'select count(*) from erp.app_users')" = '0'
+        test "$(psql "$CP6_AUTH_PGURL" -At -c 'select count(*) from erp.cp6_laundry_qc_execution_context')" = '0'
+
+        # The authorized frontend successor uses the same original public API.
+        # Credentials are process environment only, never committed or uploaded.
+        export CP6_UI_REPORT_DIR="$PWD/cp6-proof/final-audit"
+        node ../harness/scripts/cp6_disposable_ui_e2e.mjs
+        test "$(psql "$PGURL" -At -c 'select count(*) from auth.users')" = '0'
+        test "$(psql "$PGURL" -At -c 'select count(*) from auth.sessions')" = '0'
         test "$(psql "$CP6_AUTH_PGURL" -At -c 'select count(*) from erp.cp6_laundry_qc_execution_context')" = '0'
 
     - name: Restore and compare against independently captured AH

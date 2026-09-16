@@ -1,3 +1,4 @@
+import { isConnectedRuntime } from './config/runtime'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { AlertTriangle, Check, Database, LoaderCircle, RefreshCw, Search, Trash2, UserRound } from 'lucide-react'
 import { useAuth } from './auth/AuthProvider'
@@ -34,7 +35,7 @@ function initialBatchCount(row: PickupQueueRow) {
 
 export default function ConnectedPickupPage() {
   const { runtime, identity } = useAuth()
-  if (runtime.mode !== 'UAT_AUTH_SIMULATION') throw new Error('ConnectedPickupPage hanya untuk ERP Enteng UAT.')
+  if (!isConnectedRuntime(runtime)) throw new Error('ConnectedPickupPage hanya untuk ERP Enteng UAT.')
   const client = useMemo(() => getUatSupabaseClient(runtime), [runtime])
   const canCreate = identity.status === 'AUTHORIZED' && hasPermission(identity, 'production.distribution.create')
   const canEdit = identity.status === 'AUTHORIZED' && hasPermission(identity, 'production.distribution.edit_draft')

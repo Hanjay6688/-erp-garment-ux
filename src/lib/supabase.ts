@@ -1,5 +1,5 @@
 import { createClient, type SupabaseClient } from '@supabase/supabase-js'
-import type { UatRuntimeConfig } from '../config/runtime'
+import type { ConnectedRuntimeConfig, UatRuntimeConfig } from '../config/runtime'
 import type { PreconnectDatabase } from '../types/database.preconnect'
 
 let singleton: SupabaseClient<PreconnectDatabase> | null = null
@@ -14,7 +14,7 @@ export const UAT_INVITE_AUTH_OPTIONS = Object.freeze({
   detectSessionInUrl: false,
 } as const)
 
-export function getUatSupabaseClient(config: UatRuntimeConfig): SupabaseClient<PreconnectDatabase> {
+export function getUatSupabaseClient(config: ConnectedRuntimeConfig): SupabaseClient<PreconnectDatabase> {
   const fingerprint = `${config.projectRef}:${config.supabaseUrl}:${config.browserKey}`
   if (singleton && singletonFingerprint !== fingerprint) {
     throw new Error('Supabase client sudah dikunci ke konfigurasi runtime lain.')
@@ -27,8 +27,17 @@ export function getUatSupabaseClient(config: UatRuntimeConfig): SupabaseClient<P
         detectSessionInUrl: false,
       },
       global: {
+        ...(config.mode === 'DISPOSABLE_TEST' ? {
+          fetch: (input: RequestInfo | URL, init?: RequestInit) => {
+            const target = new URL(input instanceof Request ? input.url : String(input))
+            if (target.origin !== config.supabaseUrl) throw new Error('Target jaringan disposable ditolak.')
+            return fetch(input, { ...init, redirect: 'error' })
+          },
+        } : {}),
         headers: {
-          'X-Client-Info': 'atelier-garment-erp-uat-auth-simulation',
+          'X-Client-Info': config.mode === 'DISPOSABLE_TEST'
+            ? 'atelier-garment-erp-disposable-test'
+            : 'atelier-garment-erp-uat-auth-simulation',
         },
       },
     })

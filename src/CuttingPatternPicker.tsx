@@ -1,3 +1,4 @@
+import { isConnectedRuntime } from './config/runtime'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { AlertTriangle, Check, Plus, Search, X } from 'lucide-react'
 import { useAuth } from './auth/AuthProvider'
@@ -40,7 +41,7 @@ export default function CuttingPatternPicker({ value, onChange }: {
   onChange: (value: CuttingPatternChoice | null) => void
 }) {
   const { runtime, identity } = useAuth()
-  const connected = runtime.mode === 'UAT_AUTH_SIMULATION'
+  const connected = isConnectedRuntime(runtime)
   const client = useMemo(() => connected ? getUatSupabaseClient(runtime) : null, [connected, runtime])
   const canManage = identity.status === 'DEMO'
     || (identity.status === 'AUTHORIZED' && hasPermission(identity, 'master.pattern.manage'))

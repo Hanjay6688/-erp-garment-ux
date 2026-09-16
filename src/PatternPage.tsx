@@ -1,3 +1,4 @@
+import { isConnectedRuntime } from './config/runtime'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { AlertTriangle, Check, History, Plus, RefreshCw, Save, Search, SlidersHorizontal, X } from 'lucide-react'
 import { useAuth } from './auth/AuthProvider'
@@ -21,8 +22,8 @@ function localDate(value: string) {
 
 export default function PatternPage() {
   const { runtime, identity } = useAuth()
-  const connected = runtime.mode === 'UAT_AUTH_SIMULATION'
-  const client = useMemo(() => runtime.mode === 'UAT_AUTH_SIMULATION' ? getUatSupabaseClient(runtime) : null, [runtime])
+  const connected = isConnectedRuntime(runtime)
+  const client = useMemo(() => isConnectedRuntime(runtime) ? getUatSupabaseClient(runtime) : null, [runtime])
   const canManage = identity.status === 'DEMO' || (identity.status === 'AUTHORIZED' && hasPermission(identity, 'master.pattern.manage'))
   const [rows, setRows] = useState<PatternRow[]>(connected ? [] : demoPatterns)
   const [total, setTotal] = useState(connected ? 0 : demoPatterns.length)

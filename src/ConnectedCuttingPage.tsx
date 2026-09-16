@@ -1,3 +1,4 @@
+import { isConnectedRuntime } from './config/runtime'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { AlertTriangle, Check, Database, FilePenLine, LoaderCircle, RefreshCw, Search, Trash2 } from 'lucide-react'
 import { useAuth } from './auth/AuthProvider'
@@ -52,7 +53,7 @@ function sizesForOrder(workspace: CuttingWorkspace | null, orderId: string) {
 
 export default function ConnectedCuttingPage() {
   const { runtime, identity } = useAuth()
-  if (runtime.mode !== 'UAT_AUTH_SIMULATION') throw new Error('ConnectedCuttingPage hanya untuk ERP Enteng UAT.')
+  if (!isConnectedRuntime(runtime)) throw new Error('ConnectedCuttingPage hanya untuk ERP Enteng UAT.')
   const client = useMemo(() => getUatSupabaseClient(runtime), [runtime])
   const canCreate = identity.status === 'AUTHORIZED' && hasPermission(identity, 'production.cutting.create')
   const canEdit = identity.status === 'AUTHORIZED' && hasPermission(identity, 'production.cutting.edit_draft')

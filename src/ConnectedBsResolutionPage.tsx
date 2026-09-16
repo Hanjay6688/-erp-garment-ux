@@ -5,6 +5,7 @@ import {
   Save, Search, ShieldCheck, Shirt, Undo2, UserRound, Waves, Wrench, X,
 } from 'lucide-react'
 import { useAuth } from './auth/AuthProvider'
+import { isConnectedRuntime } from './config/runtime'
 import { SENSITIVE_ACTION_PERMISSION, hasPermission } from './auth/accessCatalog'
 import {
   bsPatternLabel, cleanBsQuantity, exactReworkCompletion, parseBsResolutionWorkspace,
@@ -395,7 +396,7 @@ function CaseDetail({ row, workspace, canCreate, canPost, canReverse, ownerAdmin
 
 export default function ConnectedBsResolutionPage() {
   const { runtime, identity } = useAuth()
-  if (runtime.mode !== 'UAT_AUTH_SIMULATION') throw new Error('ConnectedBsResolutionPage hanya untuk ERP Enteng UAT.')
+  if (!isConnectedRuntime(runtime)) throw new Error('ConnectedBsResolutionPage memerlukan backend terhubung.')
   const client = useMemo(() => getUatSupabaseClient(runtime), [runtime])
   const access = identity.status === 'AUTHORIZED' ? identity : null
   const canCreate = hasPermission(access, 'production.bs_rework.create')

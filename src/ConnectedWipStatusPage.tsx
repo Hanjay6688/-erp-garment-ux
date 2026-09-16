@@ -1,3 +1,4 @@
+import { isConnectedRuntime } from './config/runtime'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { AlertTriangle, Check, Clock3, Filter, Flag, RefreshCw, Search, ShieldCheck, SlidersHorizontal, X } from 'lucide-react'
 import { useAuth } from './auth/AuthProvider'
@@ -146,7 +147,7 @@ export function activeBlockerLabels(row: WipStatusRow) {
 
 export default function ConnectedWipStatusPage() {
   const { runtime, identity } = useAuth()
-  if (runtime.mode !== 'UAT_AUTH_SIMULATION') throw new Error('ConnectedWipStatusPage hanya untuk ERP Enteng UAT.')
+  if (!isConnectedRuntime(runtime)) throw new Error('ConnectedWipStatusPage hanya untuk ERP Enteng UAT.')
   const client = useMemo(() => getUatSupabaseClient(runtime), [runtime])
   const canAdjust = identity.status === 'AUTHORIZED' && hasPermission(identity, 'production.wip.adjust')
   const [filter, setFilter] = useState<WipStatusFilter>('ACTIVE')
