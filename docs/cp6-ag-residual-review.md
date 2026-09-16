@@ -4,8 +4,8 @@ Owner requested continuation after AG writer PASS. This is additional writer
 checking on original AG `119f8f133131eaf373f08cc45b7b3d6fc27a3d3e`, tree
 `bd7dd026d40e64f08f03e122338d8a82ebfd292c`; independent AG review stays PENDING.
 
-Seventeen native ordinary-caller cases cover return destination/grade, partial
-returns and quantity caps, return posting/reversal retries, return header source
+Twenty native cases with ordinary posting callers cover return destination/grade, partial
+returns and per-allocation quantity caps, return posting/reversal retries, return header source
 changes, full-stock repeated draft editing, duplicate SKU lines, changed payload
 replay, cancellation replay, and physical dates before inventory availability.
 
@@ -26,7 +26,15 @@ verifies all 690 AG objects. It verifies incoming Native AG #3 artifact104321534
 SHA256 c7292683dcb0729b9634f1736f1dc42d2ed56b32af6a209b569b001a20e0b469,
 before executing the new cases. No historical 500-case matrix is rerun.
 
-Synthetic fixtures only; authenticated/OWNER operations with temporary schema
+Return drafts are prepared by the fixture administrator with native trigger
+validation; all posting calls use authenticated/OWNER. The first attempt
+35065572578 completed five draft controls but twelve return cases could not
+prepare drafts because authenticated cannot SELECT locations. No table grant
+is added; ordinary draft creation and the complete HTTP/UI flow stay unproved.
+This is not privileged corruption of posted history. Additional cases check
+repeated references to one allocation and references to unposted sale drafts.
+
+Synthetic fixtures only; authenticated/OWNER posting with temporary schema
 USAGE restored after testing. No table privileges added. HTTP/UI/real CSV,
 hosted execution, and independent acceptance are not proved. Every case and full
 unseeded boundary must be restored; all original functions remain exact. Preserve

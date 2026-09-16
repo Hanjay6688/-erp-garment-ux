@@ -43,7 +43,10 @@ def posted_fixture(cur, day):
     return f
 
 def create_return(cur, day, f, destination, grade, quantities=(1,)):
-    peer.ordinary(cur)
+    # Prepare a valid DRAFT through native trigger validation with the fixture
+    # administrator. Ordinary direct INSERT cannot read locations in AG; no
+    # table grants are added. Posting below always uses authenticated/OWNER.
+    actors.admin(cur)
     rid = uuid.uuid4()
     cur.execute("insert into erp.sales_returns(id,return_number,sale_id,customer_id,physical_at,status) values(%s,%s,%s,%s,%s,'DRAFT')",
                 (rid, 'AG-RESIDUAL-' + rid.hex, f['sale']['sale_id'], f['customers'][0], day.isoformat() + 'T12:00:00+07:00'))
@@ -165,7 +168,49 @@ def cases():
     found += [('RETURN_' + mode, return_case('SAME', 'GRADE_A', mode)) for mode in ('OVER_QTY', 'REPEAT_POST', 'REVERSE', 'SPLIT')]
     found += [('DRAFT_' + mode, draft_case(mode)) for mode in ('FULL_STOCK_RESAVE', 'TWO_LINES', 'DIFFERENT_PAYLOAD', 'CANCEL_REPLAY', 'BEFORE_STOCK')]
     found += [('RETURN_REBIND_' + mode, rebind_case(mode)) for mode in ('CUSTOMER', 'SALE')]
+    found += [('RETURN_ALLOCATION_' + mode, allocation_case(mode)) for mode in ('ONE_DOCUMENT', 'TWO_DOCUMENTS')]
+    found += [('RETURN_DRAFT_SOURCE', draft_source_case)]
     return found
+
+def allocation_case(mode):
+    def case(cur, day):
+        f = peer.fixture(cur, day)
+        payload = dict(f['payload'], sale_id=f['sale']['sale_id'], reason='Two legitimate sale lines',
+                       items=[dict(f['payload']['items'][0]), dict(f['payload']['items'][0])])
+        saved = success(peer.operation(cur, 'select erp.save_sale_draft_v2(%s::jsonb,%s,%s)', (json.dumps(payload), uuid.uuid4(), f['sale']['row_version'])))
+        success(peer.operation(cur, 'select erp.post_sale_v2(%s,%s,%s)', (saved['sale_id'], uuid.uuid4(), saved['row_version'])))
+        actors.admin(cur)
+        f['allocation'] = base.one(cur, 'select a.id from erp.sale_stock_allocations a join erp.sales_items i on i.id=a.sale_item_id where i.sale_id=%s order by a.id limit 1', (saved['sale_id'],))
+        ids = [create_return(cur, day, f, base.LOCATION, 'GRADE_A', (2, 2) if mode == 'ONE_DOCUMENT' else (2,))]
+        if mode == 'TWO_DOCUMENTS': ids.append(create_return(cur, day, f, base.LOCATION, 'GRADE_A', (2,)))
+        operations = []
+        for rid in ids:
+            operations.append(peer.operation(cur, 'select erp.post_sales_return(%s)', (rid,)))
+            success(operations[-1])
+        actors.admin(cur)
+        sold, returned = cur.execute("select a.qty_pcs,(select coalesce(sum(i.qty_pcs),0) from erp.sales_return_items i join erp.sales_returns r on r.id=i.return_id where i.sale_stock_allocation_id=a.id and r.status='POSTED') from erp.sale_stock_allocations a where a.id=%s", (f['allocation'],)).fetchone()
+        assert (sold, returned) == (3, 4), (sold, returned)
+        peer.ordinary(cur)
+        legacy = cur.execute("select severity,issue_count from erp.run_v253_financial_integrity_checks() where check_name='SALES_RETURN_OVER_ALLOCATION'").fetchone()
+        report = peer.confidence(cur, day)
+        return dict(status='BUG_PROVEN', family='RETURN_SOURCE_ALLOCATION_ELIGIBILITY', sold_from_selected_allocation=sold,
+                    returned_against_selected_allocation=returned, operations=operations, existing_legacy_detector=legacy, report=report,
+                    business_requirement='Cumulative active returns must not exceed the selected original sale allocation, across documents and repeated lines.', synthetic_detector_control=False)
+    return case
+
+def draft_source_case(cur, day):
+    f = peer.fixture(cur, day)
+    actors.admin(cur)
+    f['allocation'] = base.one(cur, 'select id from erp.sale_stock_allocations where sale_item_id=%s', (f['item'],))
+    rid = create_return(cur, day, f, base.LOCATION, 'GRADE_A')
+    payload = dict(f['payload'], sale_id=f['sale']['sale_id'], reason='Legal draft edit after unposted return draft',
+                   items=[dict(f['payload']['items'][0], product_id=f['products'][1])])
+    before = state(cur)
+    edit = peer.operation(cur, 'select erp.save_sale_draft_v2(%s::jsonb,%s,%s)', (json.dumps(payload), uuid.uuid4(), f['sale']['row_version']))
+    assert edit['refused'] and edit['error']['sqlstate'] == '23503' and 'sales_return_items_sale_stock_allocation_id_fkey' in edit['error']['message'], edit
+    assert state(cur) == before
+    return dict(status='BUG_PROVEN', family='RETURN_SOURCE_ALLOCATION_ELIGIBILITY', draft_return_id=rid, legal_draft_edit=edit,
+                business_requirement='A return draft must reference an active posted sale. It must not pin a temporary reservation and prevent legal edits to an unposted sale.', synthetic_detector_control=False)
 
 def run():
     assert os.environ.get('PGURL') == peer.URL
@@ -175,6 +220,9 @@ def run():
                   harness_head=os.environ['CP6_AG_HARNESS_HEAD'], run_id=os.environ.get('GITHUB_RUN_ID'), cases={},
                   source_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(), independent_ag='PENDING',
                   production_go=False, hosted_database_used=False, http_ui_csv_reachability_proven=False)
+    result['return_draft_fixture_writer'] = 'supabase_admin; native trigger validation retained; no posted history forged'
+    result['return_posting_caller'] = 'authenticated/OWNER'
+    result['ordinary_return_draft_creation'] = 'BELUM TERUJI: original attempt refused on missing locations SELECT; no grant added'
     with psycopg.connect(peer.URL.replace('postgres:postgres@', 'supabase_admin:postgres@')) as conn, conn.cursor() as cur:
         cur.execute("set local timezone='Asia/Jakarta';set local statement_timeout='180s';set local lock_timeout='8s'")
         assert len(runtime.verified_successor(cur)) == 690

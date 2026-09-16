@@ -103,7 +103,7 @@ jobs:
     - name: Install AG and verify all 533 functions and 157 relation objects
       working-directory: candidate
       run: "export GITHUB_SHA=119f8f133131eaf373f08cc45b7b3d6fc27a3d3e\nset -euo pipefail\npsql \"$PGURL\" -X -v ON_ERROR_STOP=1 -f supabase/migrations/20260916050822_erp_v2_6_20ag_cp6_sale_reservation_lineage.sql > cp6-proof/ag-residual/AG_APPLY.log 2>&1\nPYTHONPATH=scripts python - <<'PYINSTALL'\nimport os,json,psycopg\nfrom pathlib import Path\nimport cp6_v2620ag_runtime as r\nwith psycopg.connect(os.environ['PGURL']) as conn,conn.cursor() as cur:\n cur.execute('insert into supabase_migrations.schema_migrations(version,name,statements) values(%s,%s,%s)',(r.STAMP,r.NAME,[r.MIGRATION.read_text()]))\n objects=r.verified_successor(cur);assert len(objects)==690\n Path('cp6-proof/ag-residual/AG_INSTALLED_RUNTIME.json').write_text(json.dumps({'status':'PASS','head':os.environ['GITHUB_SHA'],'objects':objects,'production_go':False},indent=2)+'\\n')\nPYINSTALL\n"
-    - name: Run seventeen additional writer checks on frozen AG
+    - name: Run twenty additional writer checks on frozen AG
       working-directory: candidate
       run: GITHUB_SHA=119f8f133131eaf373f08cc45b7b3d6fc27a3d3e PYTHONPATH=scripts python ../harness/scripts/cp6_ag_residual_review.py
     - name: Stop disposable database and prove removal
