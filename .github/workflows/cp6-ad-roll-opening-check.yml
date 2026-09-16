@@ -6,7 +6,27 @@ concurrency:
   group: cp6-af-family-${{ github.ref }}
   cancel-in-progress: false
 jobs:
+  # BEGIN AF INDEPENDENT ROUTE
+  review-scope:
+    runs-on: ubuntu-24.04
+    outputs:
+      reused: ${{ steps.scope.outputs.reused }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: scope
+        shell: bash
+        run: |
+          if python scripts/cp6_af_review_scope.py; then
+            echo 'reused=true' >> "$GITHUB_OUTPUT"
+          else
+            echo 'reused=false' >> "$GITHUB_OUTPUT"
+          fi
+  # END AF INDEPENDENT ROUTE
   check:
+    needs: review-scope
+    if: needs.review-scope.outputs.reused != 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 60
     env:

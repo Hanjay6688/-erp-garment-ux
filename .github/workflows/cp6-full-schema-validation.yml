@@ -81,6 +81,11 @@ jobs:
           ad_round=False
           ae_exact=False
           ae_independent=False
+          # BEGIN AF INDEPENDENT ROUTE
+          af_review=False
+          if Path('scripts/cp6_af_review_scope.py').exists():
+              af_review=subprocess.run(['python','scripts/cp6_af_review_scope.py'],capture_output=True).returncode==0
+          # END AF INDEPENDENT ROUTE
           af_exact=False
           af_pins={'.github/workflows/cp6-ad-roll-opening-check.yml': 'a267909274c68a9b41bc250bcd713f3e38de967e65d067cf150f10af55b1afc8', 'docs/cp6-af-competition-handoff.md': '21e5d34d547f26bd3ad2105c3861bfc77e547a9a557d77925212c1245b9dbdc8', 'docs/evidence/cp6-af-family-disposition.json': 'fe17694cb5b2b8cc4924fdd2bcba4eee33788b446c5e173053d30239fa304d70', 'docs/evidence/cp6-af-predecessor-functions.json': '9eafb434cf36de84b40614f031d8f56aa732720aae985cfb092cc5a37319db65', 'docs/evidence/cp6-af-runtime-pins.json': '37ad48da077eb21e40bd9bd125de64e01f46c2a4c10978f3d8f150bb17194453', 'scripts/cp6_preuse_rollback_maintenance.py': '8e13322d92178bb49f151619c0973bdf6108d281e7c47bf25a7eca20b8ceb406', 'scripts/cp6_v2620af_build_sql.py': '3dc4e98889c4669c84b57aa82fd6b6df9da8323949577619d7af02b90c421753', 'scripts/cp6_v2620af_concurrency.py': '83a2b8f5d5b78020476d7c13dd2da0becff93960b988f816c996750a20dfdcbf', 'scripts/cp6_v2620af_family.py': 'bb416174fc5b824c7e0673a1309d37c310344fd25a3c81847a364ae0cf7280d5', 'scripts/cp6_v2620af_maintenance_schedules.py': '72c51a1197a3aa70e54c33d1abadadbf711643524a189d5562ee69b29267bba3', 'scripts/cp6_v2620af_rollback_guards.py': '3f98c9ed99a09e363fe94078ebbabba0c206b5b042d03b9c8fc9bc34f841d9ea', 'scripts/cp6_v2620af_runtime.py': 'a9c0bf0771ad2daaee4715e25ed1f0374bdbe4edd0bafda01d4d83dc2945f8a0', 'supabase/migrations/20260916014332_erp_v2_6_20af_cp6_posted_child_integrity.sql': '54c5f73b99a2e63c858a777f669432f28260177daf4c45d806bb0e8a7c7c8e8e', 'supabase/rollbacks/20260916014332_erp_v2_6_20af_cp6_posted_child_integrity.rollback.sql': 'd417b2ccb0e2cc5cd836e6a3d58ea9f50f2391cd386b31320d82fef7dc542575', '.github/workflows/cp6-ac-independent-audit.yml': 'e4b9997c891e4a32b72d0ae01884cf827f80b5924c707ae975fb7a0204d384ed'}
           ae_independent_pins={'.github/workflows/cp6-ad-roll-opening-check.yml': '3028654b84498833c95ddfadd797d6cd23f624c0383cdaacb5f65ee4c0e851d2', 'scripts/cp6_ae_independent_audit.py': 'c73acb420aceeb9cf7dda100af2b5b12095b8022a042fa4b80de5d4ddb157ba4'}
@@ -118,7 +123,7 @@ jobs:
                   and subprocess.check_output(['git','merge-base',af_base,'HEAD'],text=True).strip()==af_base
                   and af_changed==set(af_pins)|{'.github/workflows/cp6-full-schema-validation.yml'}
                   and all(hashlib.sha256(Path(path).read_bytes()).hexdigest()==digest for path,digest in af_pins.items()))
-              reuse=audit_only or ad_exact or ad_round or ae_exact or ae_independent or af_exact
+              reuse=audit_only or ad_exact or ad_round or ae_exact or ae_independent or af_exact or af_review
           except (AssertionError,ValueError,OSError,subprocess.CalledProcessError):
               reuse=False
           with open(os.environ['GITHUB_OUTPUT'],'a') as output:
