@@ -1,0 +1,177 @@
+{
+  "format": "CP6_AG_FAMILY_DISPOSITION_V1",
+  "predecessor_head": "f46699865501b03f9fba3a8b188f3fd01eedf404",
+  "source_base": "ed52fa66120f5a6462e79a569c38e28ee3cf1184",
+  "root_cause_count": 1,
+  "original_counterexample_run": 35058065869,
+  "ordinary_counterexamples": 5,
+  "original_controls": 12,
+  "original_reports": "READY in all five incorrect posted sales",
+  "schema_usage_fixture_grant": true,
+  "http_ui_csv": "BELUM TERUJI",
+  "writer_status": "IMPLEMENTED_NATIVE_GATE_REQUIRED",
+  "independent_successor_status": "PENDING",
+  "production_go": false,
+  "families": [
+    {
+      "path": "draft creation/edit",
+      "code": "erp.save_sale_draft_v2 -> _release_sale_draft_reservations -> _reserve_sale_draft",
+      "disposition": "UNCHANGED_PRODUCER",
+      "reason": "Already atomically releases old reservations, deletes old lines, changes header, creates lines and reserves once under the common advisory/header locks; lawful edit controls retained."
+    },
+    {
+      "path": "direct child writes",
+      "code": "erp.guard_child_by_parent_status; all 21 existing consumers",
+      "disposition": "CHANGED",
+      "reason": "Keep AF old/new sorted parent SHARE locks. Reserved sales item dimensions, insert/delete and reparenting must use the official draft RPC; other 20 table branches unchanged and contracts rerun."
+    },
+    {
+      "path": "direct header writes",
+      "code": "erp.guard_posted_document; all existing header consumers",
+      "disposition": "CHANGED",
+      "reason": "Reserved sale identity/customer/location/physical date/delete refused. Existing trusted server paths use atomic official operations; other document rules unchanged."
+    },
+    {
+      "path": "legacy and v2 posting",
+      "code": "erp.post_sale; erp.post_sale_v2",
+      "disposition": "CHANGED_SHARED_PRODUCER",
+      "reason": "Legacy posting validates stock dimensions and per-lot allocation quantities before freezing HPP/journaling; v2 delegates to this function and retains stock-neutral/idempotency/version guards."
+    },
+    {
+      "path": "cancellation and reversal",
+      "code": "cancel_sale_draft_v2; reverse_sale",
+      "disposition": "UNCHANGED_CONSUMER",
+      "reason": "Cancellation reverses old physical facts and deletes allocations; posted reversal appends linked opposite entries. Baseline lineage must hold; full normal lifecycle and maintenance cases required."
+    },
+    {
+      "path": "returns and partial returns",
+      "code": "normalize_sales_return_item_from_allocation; post_sales_return; reverse_sales_return",
+      "disposition": "UNCHANGED_CONSUMER",
+      "reason": "Return normalization consumes sale item and original lot allocation. Producer mismatch now refused, dirty predecessor admission refused; normal partial return/payment/HPP cases required."
+    },
+    {
+      "path": "HPP and late invoice recost",
+      "code": "compute_po_hpp_gl_*; compute_non_po_product_hpp_*; sale_lifecycle_po_hpp_amount_v2620d; sync_opening_lot_hpp_to_gl",
+      "disposition": "UNCHANGED_CONSUMER",
+      "reason": "Allocation and stock must remain aligned. Do not compare recosted HPP to initial cost. F A01-A03 cover cumulative costs, late invoice and sale/return/conversion lifecycle."
+    },
+    {
+      "path": "owner reports",
+      "code": "run_v268_financial_report_checks -> get_owner_financial_snapshot_v2",
+      "disposition": "CHANGED",
+      "reason": "New CRITICAL check covers active source dimensions, orphan facts, item totals and both sides of per-lot quantities. Reversed reservations excluded, linked sales returns preserve original allocation quantity."
+    },
+    {
+      "path": "application sales",
+      "code": "src/SalesPages.tsx",
+      "disposition": "EXCLUDED_WITH_SOURCE_REASON",
+      "reason": "UI explicitly says SIMULASI UX / Belum menulis backend and uses local useState; no backend sale caller exists. HTTP/UI business reachability BELUM TERUJI."
+    },
+    {
+      "path": "imports/public facades",
+      "code": "all repository callers and native 533-function dependency inventory",
+      "disposition": "NO_SEPARATE_SALE_IMPORT_FOUND",
+      "reason": "No separate sale import writer found. Any table import uses same triggers; privileged/manual inconsistent history is detector/admission control only. Signed HTTP and real CSV BELUM TERUJI."
+    },
+    {
+      "path": "admission",
+      "code": "new AG migration only",
+      "disposition": "CHANGED",
+      "reason": "Refuses every original AF native counterexample before replacing any function. No silent posted history correction."
+    },
+    {
+      "path": "rollback/maintenance",
+      "code": "AG capsule4; admission-close controller",
+      "disposition": "CHANGED",
+      "reason": "Store exact 4 predecessors, all-table pre-use boundary; pin entire 533-function catalog and 157 relation objects. Pre-admission function checks avoid relation lock stall; full verification after drain, exact AF restore533/221."
+    },
+    {
+      "path": "UTC/Jakarta",
+      "code": "existing AC+AD date sources unchanged; sale physical_at must equal sale_date",
+      "disposition": "RELEVANT_RERUN",
+      "reason": "Retain timezone-aware physical time, original date oracles and lawful RPC cross-midnight edit; do not replace system recorded time or relax existing date expectations."
+    }
+  ],
+  "unchanged_native_function_sources": [
+    {
+      "file": "sale_lifecycle_po_hpp_amount_v2620d_433.sql",
+      "sha256": "ec051d7014e620ffcb219faaa0ed21bd0f4b7674aff6ba977f773ba4a2ee714a"
+    },
+    {
+      "file": "post_sale_306.sql",
+      "sha256": "f485761060593d1b9fac5b5ecf7556007a7907467ad5ccd90be057ec9e9823f4"
+    },
+    {
+      "file": "save_sale_draft_v2_459.sql",
+      "sha256": "c02ed22cee0f3c8124986a7ef8e7be71c716bf1c9b00b169e18ccbb9892fb239"
+    },
+    {
+      "file": "_v268_financial_report_checks_pre_scope_29.sql",
+      "sha256": "f95aeb7875cd2a7de603ad33c86cff7c7b0849b7d7f401e9280962b4733c7d45"
+    },
+    {
+      "file": "reverse_sale_394.sql",
+      "sha256": "e098db067174cb390c09c3bd5f16fbdbcbe146199d360443dffb447ba5872570"
+    },
+    {
+      "file": "_release_sale_draft_reservations_24.sql",
+      "sha256": "d0932988eff7b3b4f63325d9863038abc81c88f343d9e031535c8193a6667be6"
+    },
+    {
+      "file": "run_v253_financial_integrity_checks_409.sql",
+      "sha256": "d86404aec09c153f798f45fa15090ce749043b6660887d6801a1eda6d8ca5caa"
+    },
+    {
+      "file": "compute_non_po_product_hpp_targets_v2620f_71.sql",
+      "sha256": "9f1f8039d839cffaa2513e183ff54024f7f9c6c25609ab0a988b8154feca5575"
+    },
+    {
+      "file": "_reserve_sale_draft_26.sql",
+      "sha256": "79bd8a22b213781a2795088b06090bc11117d9f581ffc5e7a7cd671755ed2fe3"
+    },
+    {
+      "file": "run_v268_financial_report_checks_430.sql",
+      "sha256": "b213246d9d2373924699d6a13186b6ebe0e6e87867c0818c70b4e6e54ec09aef"
+    },
+    {
+      "file": "compute_po_hpp_gl_targets_75.sql",
+      "sha256": "3141556f4ac3d68bc55ca2f25182a41ec7d4e7565e5b12daffb38e53dffdf018"
+    },
+    {
+      "file": "compute_po_hpp_gl_targets_v2620d_74.sql",
+      "sha256": "dcc180e84d21f3869674dcbb98514ad739bffa7f6205b45db7fd18c98473787a"
+    },
+    {
+      "file": "compute_po_hpp_gl_book_v2620e_73.sql",
+      "sha256": "a6bcb7af769d631f1ef715601f830c992b46a3f5002ee11a9507db4e878549e5"
+    },
+    {
+      "file": "refresh_hpp_state_after_sale_header_333.sql",
+      "sha256": "890898d4f72d96c7fd9b79639dfbcb8fc415653c24ee7c1be36a1db9e0fcd567"
+    },
+    {
+      "file": "sync_opening_lot_hpp_to_gl_493.sql",
+      "sha256": "854dda0fd4e9c902112fff34d8bee3e25876ba7908830562ce4f81a937181801"
+    },
+    {
+      "file": "post_sales_return_308.sql",
+      "sha256": "7640b5781a8838f550595d47bbc3f452a50a846f58018e714a0a209b8f32ff02"
+    },
+    {
+      "file": "compute_po_hpp_gl_book_v2620d_72.sql",
+      "sha256": "594060884886ccef557e2889f30f4fece50a65c358c2af1616ecb5e47fafc4b1"
+    },
+    {
+      "file": "sync_opening_hpp_after_sale_status_492.sql",
+      "sha256": "716b832feacca82bde123714e0b5b822674388c79f19b2ac405c19ddcac2c227"
+    },
+    {
+      "file": "cancel_sale_draft_v2_64.sql",
+      "sha256": "aafc81e607c07f3f22d49f74ed505092913492306424c1a7e6965842d22fa224"
+    },
+    {
+      "file": "normalize_sales_return_item_from_allocation_265.sql",
+      "sha256": "ea7781898a894cd7694e912f47231fdbcde8745a06a04e8e635210f84bba99ce"
+    }
+  ]
+}

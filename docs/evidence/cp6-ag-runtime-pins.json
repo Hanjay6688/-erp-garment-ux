@@ -1,0 +1,86 @@
+{
+  "format": "CP6_AG_RUNTIME_PINS_V1",
+  "stamp": "20260916050822",
+  "name": "erp_v2_6_20ag_cp6_sale_reservation_lineage",
+  "version": "v2.6.20ag",
+  "predecessor_head": "f46699865501b03f9fba3a8b188f3fd01eedf404",
+  "predecessor_tree": "f4dad6a6bccfffa1ba01f542cac36ac1d100c63f",
+  "functions": [
+    {
+      "identity": "erp.guard_child_by_parent_status()",
+      "predecessor_sha256": "05d181c08289b4fa81d73e99ed1453fd8ad931bc3d99d3c0480f96a027ca3b0e",
+      "installed_sha256": "86080f579e1b2803d1bbf50b22b14b0bf3fa168aeabf190ab3816d4b23324fce",
+      "owner": "postgres",
+      "acl": [
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ]
+    },
+    {
+      "identity": "erp.guard_posted_document()",
+      "predecessor_sha256": "573b6ec5dda2340b0c403642e42ef70d692bc0506b3c5d7a1c2abc372e7fb387",
+      "installed_sha256": "5393f2df6fb66d665fca3f5e18fcf5f5acbdf8bd1a2ae938810bf666e41819cd",
+      "owner": "postgres",
+      "acl": [
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ]
+    },
+    {
+      "identity": "erp.post_sale(uuid)",
+      "predecessor_sha256": "f485761060593d1b9fac5b5ecf7556007a7907467ad5ccd90be057ec9e9823f4",
+      "installed_sha256": "32aabd5482c92cc13a3e302107fac182a6f184a3d4f8a5b96d6009bdb3c4da44",
+      "owner": "postgres",
+      "acl": [
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ]
+    },
+    {
+      "identity": "erp.run_v268_financial_report_checks()",
+      "predecessor_sha256": "c5b587583c1ae3d47ea6f52b50c9b63d982da18cfd7e027046ce0f5eb5d56ee2",
+      "installed_sha256": "3a63adddefd86f83e5a94279437174d2e3abd0c0105e7a2e1e03a40a248e5364",
+      "owner": "postgres",
+      "acl": [
+        "authenticated=X/postgres",
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ]
+    }
+  ],
+  "boundary_count": 219,
+  "predecessor_function_count": 533,
+  "predecessor_table_count": 221,
+  "comparison_run": 35058065869,
+  "production_go": false,
+  "source_pins": {
+    "scripts/cp6_v2620ag_build_sql.py": {
+      "sha256": "09c25b9a601abe3768d588ae9f3f36ebd1d9ea6f553c867c9d022455d49d2a99",
+      "bytes": 13483
+    },
+    "docs/evidence/cp6-ag-predecessor-functions.json": {
+      "sha256": "0c8c6f36bdd04d132fe6df8347728bc40ad7af623cbf623781e343b6eb3fa2b2",
+      "bytes": 63222
+    },
+    "docs/evidence/cp6-ag-af-catalog-pins.json": {
+      "sha256": "80df46bf786b8678991459fa046c0daeec2be5d05abfd814dc0cfe6a443ab0f5",
+      "bytes": 144406
+    },
+    "supabase/migrations/20260916014332_erp_v2_6_20af_cp6_posted_child_integrity.sql": {
+      "sha256": "54c5f73b99a2e63c858a777f669432f28260177daf4c45d806bb0e8a7c7c8e8e",
+      "bytes": 64149
+    },
+    "supabase/rollbacks/20260916014332_erp_v2_6_20af_cp6_posted_child_integrity.rollback.sql": {
+      "sha256": "d417b2ccb0e2cc5cd836e6a3d58ea9f50f2391cd386b31320d82fef7dc542575",
+      "bytes": 11065
+    },
+    "supabase/migrations/20260916050822_erp_v2_6_20ag_cp6_sale_reservation_lineage.sql": {
+      "sha256": "06d32bb921b0f19e1ffe0f8c689d6ce826aaf467163e6ea15ef7c762389c2d7f",
+      "bytes": 83617
+    },
+    "supabase/rollbacks/20260916050822_erp_v2_6_20ag_cp6_sale_reservation_lineage.rollback.sql": {
+      "sha256": "87d3a7d4fed61f5d2f8fba3c358326f6877efe8d81f34f7156bf5d10f07c503a",
+      "bytes": 12059
+    }
+  }
+}
