@@ -18,7 +18,7 @@ jobs:
       - id: scope
         shell: bash
         run: |
-          if python scripts/cp6_af_review_scope.py || python scripts/cp6_ag_gate_scope.py; then
+          if python scripts/cp6_af_review_scope.py || python scripts/cp6_ag_gate_scope.py || python scripts/cp6_ag_residual_scope.py; then
             echo 'reused=true' >> "$GITHUB_OUTPUT"
           else
             echo 'reused=false' >> "$GITHUB_OUTPUT"
