@@ -1,0 +1,204 @@
+name: CP6 AH Independent Business Review
+'on':
+  push:
+    branches:
+    - competition/cp6-j-closure-20260911
+    paths:
+    - .github/workflows/cp6-ah-independent-review.yml
+    - docs/cp6-ah-independent-review.md
+    - scripts/cp6_ah_independent_review.py
+    - scripts/cp6_ah_review_scope.py
+  workflow_dispatch: null
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: cp6-ah-independent-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  review:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    env:
+      PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
+      CP6_AC_INDEPENDENT_CONFIRM: postgres
+      CP6_AF_INDEPENDENT_CONFIRM: postgres
+      CP6_AF_HARNESS_HEAD: ${{ github.sha }}
+      CP6_AUDIT_HARNESS_HEAD: ${{ github.sha }}
+      CP6_DATABASE_CONTAINER: supabase_db_cp5-local
+      CP6_MAINTENANCE_PGURL: postgresql://postgres:postgres@127.0.0.1:54322/template1
+      CP6_ROLLBACK_RACE_PGURL: postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback
+      CP6_MAINTENANCE_CONFIRM_DATABASE: postgres
+      CP6_MAINTENANCE_ALLOW_SYSTEM_DATABASE: postgres
+      CP6_AH_CONFIRM: postgres
+      CP6_AH_INDEPENDENT_CONFIRM: postgres
+    steps:
+    - name: Checkout exact AH candidate
+      uses: actions/checkout@v4
+      with:
+        path: candidate
+        fetch-depth: 0
+        ref: 965ceac45ef15ddc19c178d87a3606adffcf53a6
+    - name: Checkout independent harness
+      uses: actions/checkout@v4
+      with:
+        path: harness
+        fetch-depth: 0
+    - name: Checkout immutable AC runtime source
+      uses: actions/checkout@v4
+      with:
+        path: base
+        ref: 1bdca3766f7c9800d68295ff5122798060b8a05d
+        fetch-depth: 0
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+    - name: Install pinned disposable runtime
+      shell: bash
+      run: "set -euo pipefail\npython -m pip install --quiet 'psycopg[binary]==3.2.10' 'PyYAML==6.0.2'\nsudo apt-get\
+        \ update -qq\nsudo apt-get install -y -qq ca-certificates curl gnupg\nsudo install -d /usr/share/postgresql-common/pgdg\n\
+        sudo curl --fail --silent --show-error \\\n  -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc\
+        \ \\\n  https://www.postgresql.org/media/keys/ACCC4CF8.asc\nkey_fingerprint=\"$(gpg --show-keys --with-colons\
+        \ \\\n  /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \\\n  | awk -F: '$1 == \"fpr\" { print\
+        \ $10; exit }')\"\ntest \"$key_fingerprint\" = 'B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8'\n. /etc/os-release\n\
+        architecture=\"$(dpkg --print-architecture)\"\nsudo tee /etc/apt/sources.list.d/pgdg.sources >/dev/null\
+        \ <<EOF\nTypes: deb\nURIs: https://apt.postgresql.org/pub/repos/apt\nSuites: ${VERSION_CODENAME}-pgdg\n\
+        Architectures: ${architecture}\nComponents: main\nSigned-By: /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc\n\
+        EOF\nsudo apt-get update -qq\nsudo apt-get install -y -qq postgresql-client-17\ntest -x /usr/lib/postgresql/17/bin/psql\n\
+        echo '/usr/lib/postgresql/17/bin' >> \"$GITHUB_PATH\"\n"
+    - name: Install pinned Supabase CLI
+      uses: supabase/setup-cli@ab058987d8d6c725971f6cf9d0b5c98467e30bd1
+      with:
+        version: 2.116.0
+    - name: Verify unchanged AH sources and independent scope
+      working-directory: harness
+      run: python scripts/cp6_ah_review_scope.py
+    - name: Verify frozen AH gate
+      working-directory: candidate
+      run: python scripts/cp6_ah_gate_scope.py
+    - name: Start disposable database
+      working-directory: base
+      shell: bash
+      run: "set -euo pipefail\ntest \"$(git rev-parse HEAD)\" = 1bdca3766f7c9800d68295ff5122798060b8a05d\ntest \"\
+        $(git rev-parse HEAD^{tree})\" = 334629c626257b8b713826f491cdf62385d5299b\ntest -z \"$(git status --porcelain)\"\
+        \nmkdir cp5-local\nsupabase init --force --workdir cp5-local\nmkdir -p cp5-local/supabase/.temp\necho '17.6.1.165'\
+        \ > cp5-local/supabase/.temp/postgres-version\nsed -i '0,/^enable_signup = true$/s//enable_signup = false/'\
+        \ cp5-local/supabase/config.toml\nsupabase start --workdir cp5-local \\\n  -x realtime,imgproxy,studio,postgres-meta,edge-runtime,logflare,vector,supavisor\n"
+    - name: Verify exact incoming AF writer proof
+      working-directory: candidate
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: "set -euo pipefail\nmkdir -p cp6-proof/independent-af cp6-proof/writer-ae cp6-proof/writer-af\ngh api\
+        \ repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10429202482/zip > \"$RUNNER_TEMP/af-writer.zip\"\n\
+        python - <<'PYVERIFY'\nfrom pathlib import Path\nimport os,hashlib,zipfile,json\np=Path(os.environ['RUNNER_TEMP'])/'af-writer.zip'\n\
+        assert p.stat().st_size==45580397\nassert hashlib.sha256(p.read_bytes()).hexdigest()=='f35be1721e99df6ce2c03662b1ae6856f38e9886dcfc8fe5165ba12e2737696c'\n\
+        with zipfile.ZipFile(p) as z:\n assert z.testzip() is None\n for phase,count in {'admission':7,'focused':30,'detector':11,'crossflow':134}.items():\n\
+        \  r=json.loads(z.read('candidate/cp6-proof/writer-af/'+phase+'.json'))\n  assert r['head']=='f46699865501b03f9fba3a8b188f3fd01eedf404'\
+        \ and r['status']=='PASS' and r['passed']==count and r['failed']==0\n r=json.loads(z.read('candidate/cp6-proof/AF_MAINTENANCE_ROLLBACK/manifest.json'))\n\
+        \ assert r['status']=='PASS' and r['completed_case_count']==20\nPath('cp6-proof/independent-af/INCOMING_WRITER.json').write_text(json.dumps({'status':'REUSED_VERIFIED_AF_NATIVE10','artifact_id':10429202482,'artifact_sha256':hashlib.sha256(p.read_bytes()).hexdigest(),'historical_matrix_reexecuted':False,'production_go':False},indent=2)+'\\\
+        n')\nPYVERIFY\n"
+    - name: Restore exact AC runtime
+      working-directory: base
+      env:
+        GITHUB_SHA: 1bdca3766f7c9800d68295ff5122798060b8a05d
+        GH_TOKEN: ${{ github.token }}
+      shell: bash
+      run: "set -euo pipefail\nexport CP6_AC_WRITER_ARTIFACT=\"$RUNNER_TEMP/ac-native200.zip\"\ngh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10392910720/zip\
+        \ \\\n  > \"$CP6_AC_WRITER_ARTIFACT\"\nPYTHONPATH=scripts python ../candidate/scripts/cp6_ac_audit_bootstrap.py\n"
+    - name: Apply exact AD predecessor
+      working-directory: candidate
+      shell: bash
+      run: "set -euo pipefail\nmkdir -p cp6-proof/writer-ae\npsql \"$PGURL\" -X -v ON_ERROR_STOP=1 \\\n  -f supabase/migrations/20260915113627_erp_v2_6_20ad_cp6_opening_material_business_day.sql\
+        \ \\\n  > cp6-proof/writer-ae/AD_APPLY.log 2>&1\nPYTHONPATH=scripts python - <<'PY'\nimport os\nimport psycopg\n\
+        import cp6_v2620ad_runtime as runtime\nwith psycopg.connect(os.environ['PGURL']) as connection, connection.cursor()\
+        \ as cur:\n    cur.execute(\n        'insert into supabase_migrations.schema_migrations(version,name,statements)\
+        \ '\n        'values(%s,%s,%s)',\n        (runtime.STAMP, runtime.NAME, [runtime.MIGRATION.read_text()]),\n\
+        \    )\n    assert len(runtime.verified_successor(cur)) == 274\nPY\n"
+    - name: Apply exact AE comparison runtime
+      working-directory: candidate
+      shell: bash
+      run: "set -euo pipefail\npsql \"$PGURL\" -X -v ON_ERROR_STOP=1 \\\n  -f supabase/migrations/20260915201500_erp_v2_6_20ae_cp6_opening_roll_integrity.sql\
+        \ \\\n  > cp6-proof/writer-ae/AE_APPLY.log 2>&1\nPYTHONPATH=scripts python - <<'PY'\nimport os\nimport psycopg\n\
+        import cp6_v2620ae_runtime as runtime\nwith psycopg.connect(os.environ['PGURL']) as connection, connection.cursor()\
+        \ as cur:\n    cur.execute(\n        'insert into supabase_migrations.schema_migrations(version,name,statements)\
+        \ '\n        'values(%s,%s,%s)',\n        (runtime.STAMP, runtime.NAME, [runtime.MIGRATION.read_text()]),\n\
+        \    )\n    assert len(runtime.verified_successor(cur)) == 276\nPY\n"
+    - name: Install AF and bind exact 278-object runtime
+      working-directory: candidate
+      shell: bash
+      run: "set -euo pipefail\npsql \"$PGURL\" -X -v ON_ERROR_STOP=1 -f supabase/migrations/20260916014332_erp_v2_6_20af_cp6_posted_child_integrity.sql\
+        \ > cp6-proof/writer-af/AF_APPLY.log 2>&1\nPYTHONPATH=scripts python - <<'PYINSTALL'\nimport os,psycopg\n\
+        import cp6_v2620af_runtime as r\nwith psycopg.connect(os.environ['PGURL']) as conn,conn.cursor() as cur:\n\
+        \ cur.execute('insert into supabase_migrations.schema_migrations(version,name,statements) values(%s,%s,%s)',(r.STAMP,r.NAME,[r.MIGRATION.read_text()]))\n\
+        \ assert len(r.verified_successor(cur))==278\nPYINSTALL\n"
+    - name: Verify exact AG writer and original return counterexample artifacts
+      working-directory: candidate
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: "set -euo pipefail\nmkdir -p cp6-proof/writer-ah\n# Evidence is read and hashed, never executed as SQL.\n\
+        gh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10432153459/zip > \"$RUNNER_TEMP/ag-writer.zip\"\
+        \ngh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10434213550/zip > cp6-proof/writer-ah/AG_ORIGINAL_RETURN_COUNTEREXAMPLE.zip\n\
+        python - <<'PYVERIFY'\nfrom pathlib import Path\nimport os,hashlib,zipfile,json\np=Path(os.environ['RUNNER_TEMP'])/'ag-writer.zip'\n\
+        assert p.stat().st_size==44481450\nassert hashlib.sha256(p.read_bytes()).hexdigest()=='c7292683dcb0729b9634f1736f1dc42d2ed56b32af6a209b569b001a20e0b469'\n\
+        with zipfile.ZipFile(p) as z:\n assert z.testzip() is None\n for phase,count in {'admission':10,'focused':51,'detector':23,'crossflow':142}.items():\n\
+        \  r=json.loads(z.read('candidate/cp6-proof/writer-ag/'+phase+'.json'))\n  assert r['head']=='119f8f133131eaf373f08cc45b7b3d6fc27a3d3e'\
+        \ and r['status']=='PASS' and r['passed']==count and r['failed']==0\n r=json.loads(z.read('candidate/cp6-proof/AG_MAINTENANCE_ROLLBACK/manifest.json'))\n\
+        \ assert r['status']=='PASS' and r['completed_case_count']==20\np=Path('cp6-proof/writer-ah/AG_ORIGINAL_RETURN_COUNTEREXAMPLE.zip')\n\
+        assert p.stat().st_size==44431\nassert hashlib.sha256(p.read_bytes()).hexdigest()=='2b5e604bcf42fc6185f4de50ed8be5bb6a403ec93661028e6b4ef24df39e48c3'\n\
+        with zipfile.ZipFile(p) as z:\n assert z.testzip() is None\n r=json.loads(z.read('candidate/cp6-proof/ag-residual/RESULT.json'))\n\
+        \ assert r['candidate_head']=='119f8f133131eaf373f08cc45b7b3d6fc27a3d3e'\n assert r['status']=='QUALIFIED_COUNTEREXAMPLE'\
+        \ and (r['controls'],r['counterexamples'],r['incomplete'])==(15,6,0)\n assert r['source_sha256']==hashlib.sha256(Path('scripts/cp6_ag_residual_review.py').read_bytes()).hexdigest()\n\
+        Path('cp6-proof/writer-ah/INCOMING_AG.json').write_text(json.dumps(dict(status='VERIFIED',writer_run=35060285362,counterexample_run=35066611261,historical_500_matrix_reexecuted=False,independent_ag_acceptance=False,production_go=False),indent=2)+'\\\
+        n')\nPYVERIFY"
+    - name: Install unchanged AG predecessor and verify 690 objects
+      working-directory: candidate
+      run: "set -euo pipefail\npsql \"$PGURL\" -X -v ON_ERROR_STOP=1 -f supabase/migrations/20260916050822_erp_v2_6_20ag_cp6_sale_reservation_lineage.sql\
+        \ > cp6-proof/writer-ah/AG_APPLY.log 2>&1\nPYTHONPATH=scripts python - <<'PYINSTALL'\nimport os,psycopg\n\
+        import cp6_v2620ag_runtime as r\nwith psycopg.connect(os.environ['PGURL']) as conn,conn.cursor() as cur:\n\
+        \ cur.execute('insert into supabase_migrations.schema_migrations(version,name,statements) values(%s,%s,%s)',(r.STAMP,r.NAME,[r.MIGRATION.read_text()]))\n\
+        \ assert len(r.verified_successor(cur))==690\nPYINSTALL"
+    - name: Install AH and verify all 533 functions and 157 relation objects
+      working-directory: candidate
+      run: "set -euo pipefail\npsql \"$PGURL\" -X -v ON_ERROR_STOP=1 -f supabase/migrations/20260916070451_erp_v2_6_20ah_cp6_return_allocation_eligibility.sql\
+        \ > cp6-proof/writer-ah/AH_APPLY.log 2>&1\nPYTHONPATH=scripts python - <<'PYINSTALL'\nimport os,json,psycopg\n\
+        from pathlib import Path\nimport cp6_v2620ah_runtime as r\nwith psycopg.connect(os.environ['PGURL']) as\
+        \ conn,conn.cursor() as cur:\n cur.execute('insert into supabase_migrations.schema_migrations(version,name,statements)\
+        \ values(%s,%s,%s)',(r.STAMP,r.NAME,[r.MIGRATION.read_text()]))\n objects=r.verified_successor(cur);assert\
+        \ len(objects)==690\n Path('cp6-proof/writer-ah/AH_INSTALLED_RUNTIME.json').write_text(json.dumps({'status':'PASS','head':os.environ['GITHUB_SHA'],'objects':objects,'production_go':False},indent=2)+'\\\
+        n')\nPYINSTALL\n"
+    - name: Verify incoming AH artifact and original business outcomes
+      working-directory: candidate
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: "set -euo pipefail\ngh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10436024116/zip > \"$RUNNER_TEMP/ah-writer.zip\"\
+        \npython - <<'PYVERIFY'\nfrom pathlib import Path\nimport os,hashlib,zipfile,json\np=Path(os.environ['RUNNER_TEMP'])/'ah-writer.zip'\n\
+        assert hashlib.sha256(p.read_bytes()).hexdigest()=='3f05dead84a0e7bb67a69230c94e9677e3728152ca1f01cddbf8aa355f3195d6'\n\
+        with zipfile.ZipFile(p) as z:\n assert z.testzip() is None\n for phase,n in [('focused',82),('detector',31),('crossflow',142),('admission',9)]:\n\
+        \  d=json.loads(z.read('candidate/cp6-proof/writer-ah/'+phase+'.json'))\n  assert d['status']=='PASS' and\
+        \ d['passed']==n and d['failed']==0 and d['head']=='965ceac45ef15ddc19c178d87a3606adffcf53a6' and d['tree']=='183a0c2af8ba201e3754e9db77fe47501c196f4d'\n\
+        root=Path('cp6-proof/independent-ah');root.mkdir(parents=True,exist_ok=True)\n(root/'INCOMING_AH.json').write_text(json.dumps(dict(status='VERIFIED',sha256=hashlib.sha256(p.read_bytes()).hexdigest(),artifact=10436024116,independent_acceptance=False))+'\\\
+        n')\nPYVERIFY\n"
+    - name: Run independent original AH business cases
+      working-directory: candidate
+      run: PYTHONPATH=scripts python ../harness/scripts/cp6_ah_independent_review.py
+    - name: Stop disposable database and prove removal
+      if: always()
+      working-directory: base
+      shell: bash
+      run: "set -euo pipefail\nif test -f cp5-local/supabase/config.toml; then\n  supabase stop --workdir cp5-local\
+        \ --no-backup\nfi\nremaining=\"$(docker ps -aq --filter name='^/supabase_db_cp5-local$')\"\ntest -z \"$remaining\"\
+        \nmkdir -p ../candidate/cp6-proof/writer-ah\nprintf 'status=PASS\\nremaining_database_container=0\\nproduction_go=false\\\
+        n' > ../candidate/cp6-proof/writer-ah/PHYSICAL_CLEANUP.txt\n"
+    - name: Preserve original AH independent observations
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: cp6-ah-independent-review
+        path: 'candidate/cp6-proof/independent-ah
+
+          candidate/cp6-proof/writer-ah
+
+          base/cp6-proof/AC_AUDIT_RUNTIME_BOOTSTRAP.json'
+        if-no-files-found: error
+        compression-level: 9
+        retention-days: 30
