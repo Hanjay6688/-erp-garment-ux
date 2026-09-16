@@ -80,6 +80,8 @@ jobs:
           ad_exact=False
           ad_round=False
           ae_exact=False
+          ae_independent=False
+          ae_independent_pins={'.github/workflows/cp6-ad-roll-opening-check.yml': '3028654b84498833c95ddfadd797d6cd23f624c0383cdaacb5f65ee4c0e851d2', 'scripts/cp6_ae_independent_audit.py': 'c73acb420aceeb9cf7dda100af2b5b12095b8022a042fa4b80de5d4ddb157ba4'}
           try:
               ancestor=subprocess.check_output(['git','merge-base',frozen,'HEAD'],text=True).strip()==frozen
               changed=set(subprocess.check_output(['git','diff','--name-only',frozen,'HEAD'],text=True).splitlines())
@@ -102,12 +104,18 @@ jobs:
               ae_exact=(ancestor and original_matches
                   and changed==set(ae_pins)|{str(Path('.github/workflows/cp6-full-schema-validation.yml'))}
                   and all(hashlib.sha256(Path(path).read_bytes()).hexdigest()==digest for path,digest in ae_pins.items()))
-              reuse=audit_only or ad_exact or ad_round or ae_exact
+              ae_independent_head='ce8e8ea5cdfab4b39ea7095c1b3bd1c8ab1f33d1'
+              ae_independent_changed=set(subprocess.check_output(['git','diff','--name-only',ae_independent_head,'HEAD'],text=True).splitlines())
+              ae_independent=(original_matches
+                  and subprocess.check_output(['git','merge-base',ae_independent_head,'HEAD'],text=True).strip()==ae_independent_head
+                  and ae_independent_changed==set(ae_independent_pins)|{'.github/workflows/cp6-full-schema-validation.yml'}
+                  and all(hashlib.sha256(Path(path).read_bytes()).hexdigest()==digest for path,digest in ae_independent_pins.items()))
+              reuse=audit_only or ad_exact or ad_round or ae_exact or ae_independent
           except (AssertionError,ValueError,OSError,subprocess.CalledProcessError):
               reuse=False
           with open(os.environ['GITHUB_OUTPUT'],'a') as output:
               output.write('full='+('false' if reuse else 'true')+'\n')
-          print('RERUN_REQUIRED: AE combined 134-case business gate and 20 fresh schedules; historical AC evidence retained' if ae_exact else 'REUSED_EVIDENCE: pinned AD plus focused roll-opening round' if ad_round else 'REUSED_EVIDENCE: Native200/AB189 base; pinned AD delta requires the separate whole-family native gate' if ad_exact else 'REUSED_EVIDENCE: exact AC business source' if reuse else 'RERUN_REQUIRED: change outside the pinned audit/AD boundary')
+          print('REUSED_EVIDENCE: exact AE business/runtime; separate independent review required' if ae_independent else 'RERUN_REQUIRED: AE combined 134-case business gate and 20 fresh schedules; historical AC evidence retained' if ae_exact else 'REUSED_EVIDENCE: pinned AD plus focused roll-opening round' if ad_round else 'REUSED_EVIDENCE: Native200/AB189 base; pinned AD delta requires the separate whole-family native gate' if ad_exact else 'REUSED_EVIDENCE: exact AC business source' if reuse else 'RERUN_REQUIRED: change outside the pinned audit/AD boundary')
           PYROUTE
   # END AC AUDIT EVIDENCE ROUTER
   validate-full-schema:
