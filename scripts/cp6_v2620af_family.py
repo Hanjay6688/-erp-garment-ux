@@ -87,12 +87,16 @@ def admission_change(mutation,message):
 def clean_admission(cur,day):
     actors.admin(cur)
     assert base.one(cur,DIRTY_QUERY)==0
+    # Native installation uses the postgres migration owner, not the fixture
+    # administrator. Preserve the capsule-owner assertion without widening it.
+    cur.execute("set local role postgres")
     cur.execute(sql_body(runtime.MIGRATION),prepare=False)
     cur.execute("insert into supabase_migrations.schema_migrations(version,name,statements) values(%s,%s,%s)",
                 (runtime.STAMP,runtime.NAME,[runtime.MIGRATION.read_text()]))
     assert len(runtime.verified_successor(cur))==278
     cur.execute(sql_body(runtime.ROLLBACK),prepare=False)
     assert len(runtime.verify_predecessor(cur))==276
+    cur.execute("reset role")
     return {"status":"PASS","clean_install_and_preuse_restore":True}
 
 

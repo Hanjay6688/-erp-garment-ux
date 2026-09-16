@@ -32,7 +32,7 @@ jobs:
         with:
           fetch-depth: 0
       - id: scope
-        name: Route the exact AE successor to its combined qualification
+        name: Route the exact successor to its combined qualification
         shell: bash
         run: |
           set -euo pipefail
@@ -40,7 +40,10 @@ jobs:
           import os
           from pathlib import Path
           successor = Path('scripts/cp6_v2620ae_runtime.py').exists()
-          if successor:
+          if Path('scripts/cp6_v2620af_runtime.py').exists():
+              import cp6_v2620af_runtime as runtime
+              runtime.verify_audit_source()
+          elif successor:
               import cp6_v2620ae_runtime as runtime
               runtime.verify_audit_source()
           with open(os.environ['GITHUB_OUTPUT'], 'a') as output:

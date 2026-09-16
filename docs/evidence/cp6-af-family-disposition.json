@@ -139,7 +139,12 @@
       "fk": "issue_id",
       "editable": [
         "DRAFT"
-      ]
+      ],
+      "native_child_acl": "{postgres=arwdDxtm/postgres,authenticated=r/postgres,service_role=arwdDxtm/postgres}",
+      "native_parent_acl": "{postgres=arwdDxtm/postgres,authenticated=r/postgres,service_role=arwdDxtm/postgres}",
+      "ordinary_child_update": false,
+      "ordinary_parent_select_and_lock": false,
+      "disposition": "DIRECT_UPDATE_EXCLUDED_BY_NATIVE_TABLE_ACL"
     },
     {
       "trigger": "trg_parent_status_guard_fg_adjustment_items",
@@ -148,7 +153,12 @@
       "fk": "adjustment_id",
       "editable": [
         "DRAFT"
-      ]
+      ],
+      "native_child_acl": "{postgres=arwdDxtm/postgres,authenticated=r/postgres}",
+      "native_parent_acl": "{postgres=arwdDxtm/postgres,authenticated=r/postgres}",
+      "ordinary_child_update": false,
+      "ordinary_parent_select_and_lock": false,
+      "disposition": "DIRECT_UPDATE_EXCLUDED_BY_NATIVE_TABLE_ACL"
     },
     {
       "trigger": "trg_parent_status_guard_laundry_delivery_lines",
@@ -157,7 +167,12 @@
       "fk": "delivery_id",
       "editable": [
         "DRAFT"
-      ]
+      ],
+      "native_child_acl": "{postgres=arwdDxtm/postgres,service_role=arwdDxtm/postgres}",
+      "native_parent_acl": "{postgres=arwdDxtm/postgres,service_role=arwdDxtm/postgres}",
+      "ordinary_child_update": false,
+      "ordinary_parent_select_and_lock": false,
+      "disposition": "DIRECT_UPDATE_EXCLUDED_BY_NATIVE_TABLE_ACL"
     },
     {
       "trigger": "trg_parent_status_guard_laundry_receipt_lines",
@@ -166,7 +181,12 @@
       "fk": "receipt_id",
       "editable": [
         "DRAFT"
-      ]
+      ],
+      "native_child_acl": "{postgres=arwdDxtm/postgres,service_role=arwdDxtm/postgres}",
+      "native_parent_acl": "{postgres=arwdDxtm/postgres,service_role=arwdDxtm/postgres}",
+      "ordinary_child_update": false,
+      "ordinary_parent_select_and_lock": false,
+      "disposition": "DIRECT_UPDATE_EXCLUDED_BY_NATIVE_TABLE_ACL"
     },
     {
       "trigger": "trg_parent_status_guard_material_adjustment_items",
@@ -175,7 +195,12 @@
       "fk": "adjustment_id",
       "editable": [
         "DRAFT"
-      ]
+      ],
+      "native_child_acl": "{postgres=arwdDxtm/postgres,authenticated=r/postgres,service_role=arwdDxtm/postgres}",
+      "native_parent_acl": "{postgres=arwdDxtm/postgres,authenticated=r/postgres,service_role=arwdDxtm/postgres}",
+      "ordinary_child_update": false,
+      "ordinary_parent_select_and_lock": false,
+      "disposition": "DIRECT_UPDATE_EXCLUDED_BY_NATIVE_TABLE_ACL"
     },
     {
       "trigger": "trg_guard_material_purchase_cost_correction_items",
@@ -184,7 +209,12 @@
       "fk": "correction_id",
       "editable": [
         "DRAFT"
-      ]
+      ],
+      "native_child_acl": "{postgres=arwdDxtm/postgres,authenticated=arwd/postgres}",
+      "native_parent_acl": "{postgres=arwdDxtm/postgres,authenticated=arwd/postgres}",
+      "ordinary_child_update": true,
+      "ordinary_parent_select_and_lock": true,
+      "disposition": "SHARED_GUARD_REPAIRED"
     },
     {
       "trigger": "trg_parent_status_guard_material_purchase_items",
@@ -193,7 +223,12 @@
       "fk": "purchase_id",
       "editable": [
         "DRAFT"
-      ]
+      ],
+      "native_child_acl": "{postgres=arwdDxtm/postgres,authenticated=r/postgres,service_role=arwdDxtm/postgres}",
+      "native_parent_acl": "{postgres=arwdDxtm/postgres,authenticated=r/postgres,service_role=arwdDxtm/postgres}",
+      "ordinary_child_update": false,
+      "ordinary_parent_select_and_lock": false,
+      "disposition": "DIRECT_UPDATE_EXCLUDED_BY_NATIVE_TABLE_ACL"
     },
     {
       "trigger": "trg_guard_material_supplier_invoice_lines",
@@ -202,7 +237,12 @@
       "fk": "invoice_id",
       "editable": [
         "DRAFT"
-      ]
+      ],
+      "native_child_acl": "{postgres=arwdDxtm/postgres,authenticated=r/postgres}",
+      "native_parent_acl": "{postgres=arwdDxtm/postgres,authenticated=r/postgres}",
+      "ordinary_child_update": false,
+      "ordinary_parent_select_and_lock": false,
+      "disposition": "DIRECT_UPDATE_EXCLUDED_BY_NATIVE_TABLE_ACL"
     },
     {
       "trigger": "trg_parent_status_guard_material_supplier_return_items",
@@ -211,7 +251,12 @@
       "fk": "return_id",
       "editable": [
         "DRAFT"
-      ]
+      ],
+      "native_child_acl": "{postgres=arwdDxtm/postgres,authenticated=r/postgres,service_role=arwdDxtm/postgres}",
+      "native_parent_acl": "{postgres=arwdDxtm/postgres,authenticated=r/postgres,service_role=arwdDxtm/postgres}",
+      "ordinary_child_update": false,
+      "ordinary_parent_select_and_lock": false,
+      "disposition": "DIRECT_UPDATE_EXCLUDED_BY_NATIVE_TABLE_ACL"
     },
     {
       "trigger": "trg_parent_status_guard_opening_balance_items",
@@ -220,7 +265,12 @@
       "fk": "opening_id",
       "editable": [
         "DRAFT"
-      ]
+      ],
+      "native_child_acl": "{postgres=arwdDxtm/postgres,authenticated=arwd/postgres,service_role=arwdDxtm/postgres}",
+      "native_parent_acl": "{postgres=arwdDxtm/postgres,authenticated=arwd/postgres,service_role=arwdDxtm/postgres}",
+      "ordinary_child_update": true,
+      "ordinary_parent_select_and_lock": true,
+      "disposition": "SHARED_GUARD_REPAIRED"
     },
     {
       "trigger": "trg_parent_status_guard_payroll_attendance_items",
@@ -231,7 +281,12 @@
         "DRAFT",
         "CALCULATED",
         "REVIEW"
-      ]
+      ],
+      "native_child_acl": "{postgres=arwdDxtm/postgres,authenticated=arwd/postgres,service_role=arwdDxtm/postgres}",
+      "native_parent_acl": "{postgres=arwdDxtm/postgres,authenticated=arwd/postgres,service_role=arwdDxtm/postgres}",
+      "ordinary_child_update": true,
+      "ordinary_parent_select_and_lock": true,
+      "disposition": "SHARED_GUARD_REPAIRED"
     },
     {
       "trigger": "trg_parent_status_guard_payroll_deductions",
@@ -242,7 +297,12 @@
         "DRAFT",
         "CALCULATED",
         "REVIEW"
-      ]
+      ],
+      "native_child_acl": "{postgres=arwdDxtm/postgres,authenticated=arwd/postgres,service_role=arwdDxtm/postgres}",
+      "native_parent_acl": "{postgres=arwdDxtm/postgres,authenticated=arwd/postgres,service_role=arwdDxtm/postgres}",
+      "ordinary_child_update": true,
+      "ordinary_parent_select_and_lock": true,
+      "disposition": "SHARED_GUARD_REPAIRED"
     },
     {
       "trigger": "trg_parent_status_guard_payroll_reimbursements",
@@ -253,7 +313,12 @@
         "DRAFT",
         "CALCULATED",
         "REVIEW"
-      ]
+      ],
+      "native_child_acl": "{postgres=arwdDxtm/postgres,authenticated=arwd/postgres,service_role=arwdDxtm/postgres}",
+      "native_parent_acl": "{postgres=arwdDxtm/postgres,authenticated=arwd/postgres,service_role=arwdDxtm/postgres}",
+      "ordinary_child_update": true,
+      "ordinary_parent_select_and_lock": true,
+      "disposition": "SHARED_GUARD_REPAIRED"
     },
     {
       "trigger": "trg_parent_status_guard_payroll_work_items",
@@ -264,7 +329,12 @@
         "DRAFT",
         "CALCULATED",
         "REVIEW"
-      ]
+      ],
+      "native_child_acl": "{postgres=arwdDxtm/postgres,authenticated=r/postgres,service_role=arwdDxtm/postgres}",
+      "native_parent_acl": "{postgres=arwdDxtm/postgres,authenticated=arwd/postgres,service_role=arwdDxtm/postgres}",
+      "ordinary_child_update": false,
+      "ordinary_parent_select_and_lock": true,
+      "disposition": "DIRECT_UPDATE_EXCLUDED_BY_NATIVE_TABLE_ACL"
     },
     {
       "trigger": "trg_parent_status_guard_product_conversion_allocations",
@@ -273,7 +343,12 @@
       "fk": "conversion_id",
       "editable": [
         "DRAFT"
-      ]
+      ],
+      "native_child_acl": "{postgres=arwdDxtm/postgres,authenticated=arwd/postgres,service_role=arwdDxtm/postgres}",
+      "native_parent_acl": "{postgres=arwdDxtm/postgres,authenticated=arwd/postgres,service_role=arwdDxtm/postgres}",
+      "ordinary_child_update": true,
+      "ordinary_parent_select_and_lock": true,
+      "disposition": "SHARED_GUARD_REPAIRED"
     },
     {
       "trigger": "trg_parent_status_guard_qc_inspection_items",
@@ -282,7 +357,12 @@
       "fk": "inspection_id",
       "editable": [
         "DRAFT"
-      ]
+      ],
+      "native_child_acl": "{postgres=arwdDxtm/postgres,authenticated=r/postgres,service_role=arwdDxtm/postgres}",
+      "native_parent_acl": "{postgres=arwdDxtm/postgres,authenticated=r/postgres,service_role=arwdDxtm/postgres}",
+      "ordinary_child_update": false,
+      "ordinary_parent_select_and_lock": false,
+      "disposition": "DIRECT_UPDATE_EXCLUDED_BY_NATIVE_TABLE_ACL"
     },
     {
       "trigger": "trg_parent_status_guard_rework_component_lines",
@@ -293,7 +373,12 @@
         "OPEN",
         "IN_PROGRESS",
         "PARTIAL"
-      ]
+      ],
+      "native_child_acl": "{postgres=arwdDxtm/postgres,service_role=arwdDxtm/postgres}",
+      "native_parent_acl": "{postgres=arwdDxtm/postgres,service_role=arwdDxtm/postgres}",
+      "ordinary_child_update": false,
+      "ordinary_parent_select_and_lock": false,
+      "disposition": "DIRECT_UPDATE_EXCLUDED_BY_NATIVE_TABLE_ACL"
     },
     {
       "trigger": "trg_parent_status_guard_sales_items",
@@ -302,7 +387,12 @@
       "fk": "sale_id",
       "editable": [
         "DRAFT"
-      ]
+      ],
+      "native_child_acl": "{postgres=arwdDxtm/postgres,authenticated=arwd/postgres,service_role=arwdDxtm/postgres}",
+      "native_parent_acl": "{postgres=arwdDxtm/postgres,authenticated=arwd/postgres,service_role=arwdDxtm/postgres}",
+      "ordinary_child_update": true,
+      "ordinary_parent_select_and_lock": true,
+      "disposition": "SHARED_GUARD_REPAIRED"
     },
     {
       "trigger": "trg_parent_status_guard_sales_return_items",
@@ -311,7 +401,12 @@
       "fk": "return_id",
       "editable": [
         "DRAFT"
-      ]
+      ],
+      "native_child_acl": "{postgres=arwdDxtm/postgres,authenticated=arwd/postgres,service_role=arwdDxtm/postgres}",
+      "native_parent_acl": "{postgres=arwdDxtm/postgres,authenticated=arwd/postgres,service_role=arwdDxtm/postgres}",
+      "ordinary_child_update": true,
+      "ordinary_parent_select_and_lock": true,
+      "disposition": "SHARED_GUARD_REPAIRED"
     },
     {
       "trigger": "trg_parent_status_guard_vendor_invoice_items",
@@ -320,7 +415,12 @@
       "fk": "invoice_id",
       "editable": [
         "DRAFT"
-      ]
+      ],
+      "native_child_acl": "{postgres=arwdDxtm/postgres,authenticated=arwd/postgres,service_role=arwdDxtm/postgres}",
+      "native_parent_acl": "{postgres=arwdDxtm/postgres,authenticated=arwd/postgres,service_role=arwdDxtm/postgres}",
+      "ordinary_child_update": true,
+      "ordinary_parent_select_and_lock": true,
+      "disposition": "SHARED_GUARD_REPAIRED"
     },
     {
       "trigger": "trg_parent_status_guard_work_completion_lines",
@@ -329,7 +429,12 @@
       "fk": "completion_id",
       "editable": [
         "DRAFT"
-      ]
+      ],
+      "native_child_acl": "{postgres=arwdDxtm/postgres,authenticated=arwd/postgres,service_role=arwdDxtm/postgres}",
+      "native_parent_acl": "{postgres=arwdDxtm/postgres,authenticated=arwd/postgres,service_role=arwdDxtm/postgres}",
+      "ordinary_child_update": true,
+      "ordinary_parent_select_and_lock": true,
+      "disposition": "SHARED_GUARD_REPAIRED"
     }
   ],
   "proof_scope": "Conditional native SQL with transactionally granted schema USAGE; signed HTTP/UI reachability not demonstrated",
@@ -381,5 +486,11 @@
     }
   ],
   "historical_matrix": "RERUN_REQUIRED for affected shared-guard consumers; historical large gate is not claimed as rerun or full independent acceptance. Combined134 + focused contracts + targeted concurrency +20 maintenance schedules qualify this delta.",
-  "production_go": false
+  "production_go": false,
+  "source_review": {
+    "native_acl_source": "AE writer artifact AD_COMPLETE_BOUNDARY; AE changes no relation grants",
+    "opening_ui_path": "No opening-balance caller in src; remaining UI/CSV transport unproven",
+    "native_helpers": "Only resolve_opening_fg_unit_hpp and set_opening_fg_hpp_percent update opening lines; former excludes authenticated by native ACL, latter checks/locks DRAFT parent",
+    "historical_expectation": "Child origin immutability, same-draft edit/delete and mutable-draft transfer allowed"
+  }
 }

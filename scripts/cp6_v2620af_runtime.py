@@ -15,6 +15,7 @@ CAPSULE = "erp.cp6_v2620af_rollback_capsule"
 PINS_SHA256 = "a6a1e6fde1eb068193cca57024ade6d043f08fce4b9467ad2eb27ce063579dbe"
 SOURCE_BASE = "fd904a17f88e52104e6ba89874f16bfb654245d6"
 ALLOWED_CANDIDATE_FILES = {
+    ".github/workflows/cp6-ac-independent-audit.yml",
     ".github/workflows/cp6-ad-roll-opening-check.yml",
     ".github/workflows/cp6-full-schema-validation.yml",
     "docs/cp6-af-competition-handoff.md",
