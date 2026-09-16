@@ -2,6 +2,23 @@
 
 This top section supersedes the historical status sections below. `CP6_HOLD`.
 
+AJ attempt4 `92d9c561c8bc8cbe4deeb55774f4a25216c93c01`, tree
+`c98b4fd815924c15b9c592b32b60869b2cd0c081`, Native35153095661,
+CodeQL35153095800 (all four SUCCESS), completes all20 maintenance schedules.
+Both exact restores AJ->AI533/224 and AI->AH533/223, disposal,28 concurrency,
+95 HTTP,43 original UI,51 additional checks,96 action/role pairs,4 clock cases,
+and8 rollback-refusal controls pass. The218 qualified business observations are
+REUSED_EVIDENCE from attempt3; they include12 unresolved dated-report reviews.
+All12 fresh rework cases reach the source-QC refusal control, then are INCOMPLETE:
+the fixture called private erp.reverse_qc directly and received42501. This does
+not prove the business refusal. The next fixture uses ordinary OWNER through
+public.erp_save_laundry_qc_action_v1(REVERSE_FINAL_SKU), expects the downstream-BS
+business refusal, and compares the whole data boundary. Product code is unchanged.
+Artifact10470336706:52,903,311 bytes/292 entries, SHA256
+`3360c12672c65777579065f7bc07bc874c07372492c36ce9ee4a6e0efdad0b4d`.
+Downloaded ZIP CRC, safe/unique/non-symlink entries and selected credential
+patterns were checked; no pattern matches.
+
 AJ attempt3 `f1f9e21a1be64ee523b408bcd77282748b3fa215`, tree
 `9a66c776949ff1dfa5e7f69ae308100b7c11efed`, Native35151502439,
 CodeQL35151502460 (allfour SUCCESS), now restores exact AJ->AI533/224 then

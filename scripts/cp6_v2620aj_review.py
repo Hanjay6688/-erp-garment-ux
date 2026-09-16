@@ -146,10 +146,10 @@ def rework_case(cur,today,initial_good,first_route,failed_wash,mixed_rates=False
   assert bs_action(cur,'COMPLETE_REWORK',payload,v,key)==posted
   actors.admin(cur);assert actors.boundary(cur)==boundary
   total_good+=2;state=po_state(cur,po)
-  assert Decimal(str(state['fg_qty']))==total_good
+  assert Decimal(str(state['fg_qty']))==total_good,dict(expected_qty=total_good,state=state)
   expected_fg=original_fg+(total_good-initial_good)*unit
-  assert Decimal(str(state['fg']))==expected_fg
-  assert Decimal(str(state['wip']))==total_cost-expected_fg
+  assert Decimal(str(state['fg']))==expected_fg,dict(expected_fg=expected_fg,state=state)
+  assert Decimal(str(state['wip']))==total_cost-expected_fg,dict(expected_wip=total_cost-expected_fg,state=state)
   payable=cur.execute("select coalesce(sum(debit-credit),0) from erp.journal_lines where po_id=%s and account_id=erp.account_id('CONTRACTOR_PAYABLE')",(po,)).fetchone()[0]
   assert payable==-10*earned_rate,'Recovered original work was paid twice'
   lot=posted['result']['good_fg_lot_id']
@@ -158,15 +158,21 @@ def rework_case(cur,today,initial_good,first_route,failed_wash,mixed_rates=False
   observations.append(dict(route=route,order=order,lot=lot,expected_unit_cost=unit,state=state,partial_inert=True,replay_exact=True))
  # Removing the QC foreign key from a recovery lot must not allow its physical
  # source to be undone while the linked BS recovery remains active.
- inspection=cur.execute('select inspection_id from erp.qc_inspection_items where id=%s',(qc,)).fetchone()[0]
- refused=work.clean_refusal(cur,'select erp.reverse_qc(%s,%s)',(inspection,'AJ source still has active recoveries'))
- assert 'downstream BS' in refused['error'],refused
+ inspection,iv=cur.execute('select q.id,q.row_version from erp.qc_inspections q join erp.qc_inspection_items i on i.inspection_id=q.id where i.id=%s',(qc,)).fetchone()
+ before_source_refusal=actors.boundary(cur);refused=None
+ cur.execute('savepoint aj_source_refusal')
+ try:laundry_action(cur,'REVERSE_FINAL_SKU',dict(qc_inspection_id=inspection,reason='AJ source still has active recoveries'),iv)
+ except psycopg.Error as exc:refused=dict(sqlstate=exc.sqlstate,error=str(exc))
+ finally:
+  cur.execute('rollback to savepoint aj_source_refusal');actors.admin(cur);cur.execute('release savepoint aj_source_refusal')
+ assert refused and refused['sqlstate']=='P0001' and 'downstream BS' in refused['error'],refused
+ assert actors.boundary(cur)==before_source_refusal,'Refused source reversal changed data'
  # Linked inverse of one recovery must preserve the other independent output.
  bs_action(cur,'REVERSE_REWORK_COMPLETION',dict(rework_order_id=orders[0],change_reason='AJ linked correction of first recovery'),version(cur,'rework_orders',orders[0]))
  total_good-=2;state=po_state(cur,po)
  expected_fg=original_fg+(total_good-initial_good)*unit
- assert Decimal(str(state['fg_qty']))==total_good and Decimal(str(state['fg']))==expected_fg
- assert Decimal(str(state['wip']))==total_cost-expected_fg
+ assert Decimal(str(state['fg_qty']))==total_good and Decimal(str(state['fg']))==expected_fg,dict(expected_qty=total_good,expected_fg=expected_fg,state=state)
+ assert Decimal(str(state['wip']))==total_cost-expected_fg,dict(expected_wip=total_cost-expected_fg,state=state)
  assert cur.execute("select status from erp.rework_orders where id=%s",(orders[1],)).fetchone()[0]=='COMPLETED'
  assert cur.execute('select count(*) from erp.fg_lots where qc_item_id=%s',(qc,)).fetchone()[0]==int(initial_good>0 and not mixed_rates)
  report=peer.confidence(cur,today)
