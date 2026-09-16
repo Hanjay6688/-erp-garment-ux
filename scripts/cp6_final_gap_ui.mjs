@@ -27,6 +27,10 @@ export async function runIndependentGaps(c){
   }
   const save=()=>writeFileSync(resolve(reportDir,'INDEPENDENT_UI_GAPS.json'),JSON.stringify(clean(report),null,2)+'\n')
   const record=(id,data={})=>{assert.ok(!report.cases.some(x=>x.id===id));report.cases.push({id,status:'PASS',...data});save()}
+  const allowed=(bits,...kinds)=>{
+    for(const kind of kinds)report.permission_rows.push({bits,action:kind,expectation:'ALLOW_VALID_OPERATION',status:200})
+    save()
+  }
   const group=async(id,fn)=>{
     try{await fn()}catch(error){report.cases.push({id,status:'INCOMPLETE',error:String(error.stack||error).slice(0,7000)});save()}
   }
@@ -125,6 +129,7 @@ export async function runIndependentGaps(c){
       }
       if(caps.includes('create')){
         const m=await manual(login.access_token)
+        allowed(bits,'CREATE_MANUAL_BS')
         record(`ROLE_${bits}_CREATE`,{actual_case_id:m.id})
       }
       if(caps.includes('post')){
@@ -135,10 +140,11 @@ export async function runIndependentGaps(c){
         await action(login.access_token,'RELEASE_HOLD',{bs_case_id:m.id,physical_at:todayPhysical(),change_reason:'Independent granular post release'},bv(m.id))
         assert.equal(query(`select status from erp.bs_cases where id='${m.id}'`),'OPEN')
         assert.deepEqual(snapshot(),before)
+        allowed(bits,'HOLD_BS','RELEASE_HOLD')
         record(`ROLE_${bits}_HOLD_RELEASE`,{ledger_unchanged:true})
       }
     }
-    record('PERMISSION_MATRIX',{missing_permission_pairs:report.permission_rows.length,exact_masks:[0,1,2,3,4,5,6,7]})
+    record('PERMISSION_MATRIX',{missing_permission_pairs:report.permission_rows.filter(r=>r.expectation==='DENY_MISSING_PERMISSION').length,exact_masks:[0,1,2,3,4,5,6,7]})
   })
 
   async function prepareRework(){
@@ -179,6 +185,7 @@ export async function runIndependentGaps(c){
           await action(token,'SAVE_REWORK',{id:orderId,action:'CANCEL',change_reason:'Independent unreturned order cancellation'},rv(orderId))
           const claim=await makeClaim(delivery,token)
           await rejectClaim(claim)
+          allowed(bits,'CLASSIFY_BS','SAVE_REWORK','SAVE_CLAIM')
           record(`ROLE_${bits}_CLASSIFY_REWORK_CLAIM`,{classification:true,rewash_create_cancel:true,real_claim:true})
         })
       }
@@ -190,6 +197,7 @@ export async function runIndependentGaps(c){
           await action(token,'DISPOSE_BS',{bs_case_id:m.id,resolution_type:'WRITE_OFF',qty_pcs:1,compensation_amount:0,
             physical_at:todayPhysical(),change_reason:'Independent granular writeoff'},bv(m.id))
           assert.deepEqual(snapshot(),before)
+          allowed(bits,'COMPLETE_REWORK','DISPOSE_BS')
           record(`ROLE_${bits}_COMPLETE_DISPOSE`,{all_bs_complete:true,writeoff:true,no_financial_rows:true})
         })
       }
@@ -321,7 +329,7 @@ export async function runIndependentGaps(c){
         await form.getByLabel('QTY DIKIRIM',{exact:true}).fill('5')
         // BS legacy UI uses browser-local input: explicitly confirm this real
         // browser time; this test does not claim its input is labelled WIB.
-        await form.getByLabel('WAKTU FISIK',{exact:true}).fill(await page.evaluate(()=>{const n=new Date();return new Date(n.getTime()-n.getTimezoneOffset()*60000).toISOString().slice(0,19)}))
+        await form.getByLabel('WAKTU FISIK',{exact:true}).fill(await page.evaluate(()=>{const n=new Date();return new Date(n.getTime()-n.getTimezoneOffset()*60000).toISOString().slice(0,19).replace(/:00$/,'')}))
         await form.getByLabel('GUDANG FG BILA GOOD',{exact:true}).selectOption(f.location)
         await form.getByLabel('CATATAN / ALASAN',{exact:true}).fill('Independent five physical pieces to '+route)
         if(route==='Rework')await form.locator('fieldset').first().locator('input[type=checkbox]').first().check()
@@ -349,7 +357,7 @@ export async function runIndependentGaps(c){
         await completion.getByLabel('GOOD KUMULATIF',{exact:true}).fill('3')
         await completion.getByLabel('BS KUMULATIF',{exact:true}).fill('2')
         await completion.getByLabel('ALASAN HASIL FISIK',{exact:true}).fill('All five returned, three recovered and two remain BS')
-        await completion.getByLabel('WAKTU SELESAI',{exact:true}).fill(await page.evaluate(()=>{const n=new Date();return new Date(n.getTime()-n.getTimezoneOffset()*60000).toISOString().slice(0,19)}))
+        await completion.getByLabel('WAKTU SELESAI',{exact:true}).fill(await page.evaluate(()=>{const n=new Date();return new Date(n.getTime()-n.getTimezoneOffset()*60000).toISOString().slice(0,19).replace(/:00$/,'')}))
         const posted=await bsMutation(page,'Post hasil & recovery','COMPLETE_REWORK')
         totalGood+=3
         const actual=state()
@@ -382,8 +390,15 @@ export async function runIndependentGaps(c){
     }finally{await page.context().close()}
   })
   report.status=report.cases.some(x=>x.status!=='PASS')?'INCOMPLETE':'PASS_REVIEWED_SCOPE'
-  report.known_remaining=['CSV upload/parser absent','Claim settlement and compensation application paths not yet part of this module',
-    'Complete allowed action/role cross product is not established by missing-permission controls']
+  report.role_coverage={planned_action_mask_pairs:96,observed_action_mask_pairs:report.permission_rows.length,
+    unique_pairs:new Set(report.permission_rows.map(r=>r.bits+':'+r.action)).size,
+    missing_permission_refusals:report.permission_rows.filter(r=>r.expectation==='DENY_MISSING_PERMISSION').length,
+    owner_required_refusals:report.permission_rows.filter(r=>r.expectation==='DENY_OWNER_ADMIN_REQUIRED').length,
+    valid_operation_acceptances:report.permission_rows.filter(r=>r.expectation==='ALLOW_VALID_OPERATION').length}
+  if(report.role_coverage.unique_pairs!==96)report.status='INCOMPLETE'
+  report.known_remaining=['CSV upload/parser absent',
+    'Positive-money claim settlement and compensation application UI paths are not covered by zero-compensation role controls',
+    'Eight granular nonowner masks and owner controls do not enumerate every role in every module']
   save()
   return report
 }

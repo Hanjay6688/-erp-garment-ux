@@ -1,4 +1,22 @@
-# Independent follow-up — R2 findings, continuation pending
+# Independent follow-up — consolidated observation pending
+
+R3 harness `1efa64ac2ac2d006717520e156c121e96f6cf394`, tree
+`7b19ad95637e87339fd319d5ac261dace303b72c`, Native 35142708437,
+artifact 10466152140 (3,372,732 bytes; SHA-256
+`478aa0b11f85b9398011dfe0a196e841852511204947565fec519219c6bbaeb7`).
+All current invoice totals still reconcile, and all invalid staging variants
+refuse preparation. The added historical observer found 12 open-period report
+changes. **The artifact's automatic BUG_PROVEN label for those 12 is withdrawn:**
+it assumed an open period was an immutable filed snapshot, which is not the
+owner contract. The observations remain DATE_POLICY_REVIEW_REQUIRED, not PASS:
+a dated invoice changes historical MATERIAL/AP/GRNI while recost/HPP events use
+today; intermediate historical material value can be -5.25 or 7 with raw qty0.
+No accounting-date policy is rewritten merely to satisfy that faulty oracle.
+Closed receipt-date controls preserve the compared history. Import retains two
+row-diagnostic gaps, with failed preparation and no money/stock effects.
+Native UI rework hit Chromium datetime-local normalization at exactly zero
+seconds; only the harness string format is corrected. Auth and clone cleanup
+and exact restoration still passed. Product source remains unchanged.
 
 R2 harness `f7ca546c561bbe0ad1685823f5b5096824e5ec25`, tree
 `547bde2b288a098f76c5df4808e9a7d1815d088b`, ran in Native 35141866592.

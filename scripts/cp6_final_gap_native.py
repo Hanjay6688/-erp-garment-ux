@@ -140,7 +140,10 @@ def calendar_case_body(cur, today, purchased, received, zone, closed):
         state = production.observe(cur, f, today)
         mismatches, expected = accounting_mismatches(state, ap + remaining * 10, ap, remaining * 10)
         historical_after = historical_report()
-        if historical_after != historical_before:
+        # An open accounting period is not an immutable filed snapshot.
+        # Preserve differing historical positions for contract review; only a
+        # qualified closed-period change may use the immutable-history oracle.
+        if closed and historical_after != historical_before:
             mismatches['report_before_invoice_receipt_changed'] = dict(
                 as_of=history_day,before=historical_before,after=historical_after)
         if not exact:
@@ -150,11 +153,16 @@ def calendar_case_body(cur, today, purchased, received, zone, closed):
         observations.append(dict(qty=amount, rate=rate, expected=expected, state=state,
                                  replay_exact=exact, historical_report_day=history_day,
                                  historical_report_unchanged=historical_after==historical_before,
+                                 historical_report_before=historical_before,
+                                 historical_report_after=historical_after,
                                  mismatches=mismatches))
-    return dict(status='BUG_PROVEN' if any(x['mismatches'] for x in observations) else 'PASS',
+    historical_review=not closed and any(not x['historical_report_unchanged'] for x in observations)
+    return dict(status='BUG_PROVEN' if any(x['mismatches'] for x in observations) else
+                'DATE_POLICY_REVIEW_REQUIRED' if historical_review else 'PASS',
                 purchase_date=purchased, invoice_received=received, elapsed_days=(received-purchased).days,
                 session_zone=zone, receipt_day_closed=closed, invoice_number_count=2,
-                stage='ORDINARY_INVOICE_LIFECYCLE', observations=observations)
+                stage='ORDINARY_INVOICE_LIFECYCLE', current_totals_reconciled=not any(x['mismatches'] for x in observations),
+                open_period_history_review_required=historical_review,observations=observations)
 
 
 def raw_batch(cur, today, variant):
@@ -285,9 +293,10 @@ def run():
         report['boundary_restored']=actors.boundary(cur)==baseline
         report['schema_usage_restored']=cur.execute("select has_schema_privilege('authenticated','erp','USAGE')").fetchone()[0]==usage
         conn.rollback()
-    report['counts']={s:sum(c['status']==s for c in report['cases'].values()) for s in ('PASS','BUG_PROVEN','GAP_PROVEN','INCOMPLETE')}
+    report['counts']={s:sum(c['status']==s for c in report['cases'].values()) for s in ('PASS','BUG_PROVEN','GAP_PROVEN','DATE_POLICY_REVIEW_REQUIRED','INCOMPLETE')}
     if len(report['cases'])==len(report['planned_case_ids']) and all(report[x] for x in ('catalog_unchanged','boundary_restored','schema_usage_restored')):
-        report['status']='INCOMPLETE' if report['counts']['INCOMPLETE'] else 'HOLD' if report['counts']['BUG_PROVEN'] or report['counts']['GAP_PROVEN'] else 'PASS_REVIEWED_SCOPE'
+        report['status']='INCOMPLETE' if report['counts']['INCOMPLETE'] else 'HOLD' if any(
+            report['counts'][s] for s in ('BUG_PROVEN','GAP_PROVEN','DATE_POLICY_REVIEW_REQUIRED')) else 'PASS_REVIEWED_SCOPE'
     save(report)
     return report
 

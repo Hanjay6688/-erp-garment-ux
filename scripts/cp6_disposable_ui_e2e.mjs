@@ -98,7 +98,8 @@ const when = async (time) => {
   // must follow that physical event, never reuse yesterday's original dispatch.
   // The original input accepts whole seconds; cross one second before sampling.
   await new Promise(ok=>setTimeout(ok,1100))
-  return query(`select to_char(clock_timestamp() at time zone 'Asia/Jakarta','YYYY-MM-DD"T"HH24:MI:SS')`)
+  // Chromium normalizes zero seconds away for datetime-local controls.
+  return query(`select to_char(clock_timestamp() at time zone 'Asia/Jakarta','YYYY-MM-DD"T"HH24:MI:SS')`).replace(/:00$/,'')
 }
 const state = () => JSON.parse(query(`select jsonb_build_object(
  'fg_qty',(select coalesce(sum(m.qty_signed),0) from erp.fg_stock_movements m join erp.fg_lots l on l.id=m.lot_id where l.po_id='${f.po}'),
