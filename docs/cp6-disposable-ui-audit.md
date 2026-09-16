@@ -1,4 +1,159 @@
-# CP6 independent audit → AJ writer takeover; runtime verification pending
+# FINAL AUDIT CP6 — CP6_HOLD
+
+Checkpoint penutup audit independen dan giliran writer AJ, 2026-09-16 UTC.
+Bagian ini merupakan status authoritative dan menggantikan status historis di
+bawah. **CP6_HOLD; production_go:false; CP7 belum dimulai.**
+
+Dua perbaikan writer yang diterima dari handoff lolos pemeriksaan ulang pada
+cakupan yang diuji. Audit ini menemukan satu bug bisnis nyata pada recovery
+rework/rewash dan dua gap diagnostik import, lalu mengambil giliran writer
+setelah memastikan branch masih pada SHA yang diharapkan. Perbaikan AJ telah
+lulus kontrol perbaikannya; ini **belum independent acceptance atas AJ**.
+
+## Identitas yang harus dipakai
+
+- Handoff masuk: `555d8f29ea2d3f58dc2c7d10e7cd80099cdd3b49`;
+  snapshot writer masuk `9a919060b1037fe0747515b6ed3b98aebb41b5b1`.
+- Backend predecessor AI-R2:
+  `25fa4736329e5148dfdb3572bc169952cba23251`,
+  tree `a5cb1e43d776a9ffc058f99c8d5c96ac7f6a9c0d`.
+- **Snapshot AJ yang benar-benar diuji**:
+  `9173d2f4e05cbdbf01fee616b9826c6c4dbc919a`,
+  tree `760806a50cc47dfdedf8cd4deb6945547187620b`.
+- Branch satu writer: `competition/cp6-j-closure-20260911`.
+- [Native run 35154446764](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35154446764)
+  selesai. Kesimpulan workflow FAILURE karena BUSINESS=HOLD untuk 12
+  pengamatan tanggal yang masih terbuka; bukan kegagalan 12 kasus rework.
+  Gate tidak diubah menjadi hijau.
+- [CodeQL 35154446821](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35154446821):
+  Actions, JS/TS, Python, C/C++ semuanya SUCCESS.
+- Commit checkpoint penutup hanya mengubah dokumen ini. Jangan mengklaim SHA
+  checkpoint dokumen sebagai snapshot runtime baru. Periksa diff terhadap SHA
+  teruji di atas sebelum menerima atau menggunakan kembali buktinya.
+
+## Temuan dan perubahan
+
+**CP6-BS-REWORK-QC-LOT-01, terbukti pada kode asli.** UI/Auth/HTTP asli mengirim10,
+menerima10, lalu QC0 Good/10 BS. Rework mandor5 selesai3 Good/2 BS. Rewash
+terpisah5 dari kasus BS yang sama menerima partial, tetapi completion3 Good/2 BS
+gagal HTTP409/23505 pada `uq_fg_lots_qc_item`. Kedua recovery mencoba memakai
+slot FG unik milik QC asal. Respons gagal ini tidak membuktikan komit saldo salah;
+bugnya ialah transaksi recovery normal tidak dapat selesai. Pesan UI juga
+keliru menyebut konflik itu sebagai permintaan yang sudah diproses.
+
+Bukti asli: R5 `a2d5a42c5fc2e99249aa73b47d74747bb7aa6dd6`,
+Native35145449818, artifact10467267798, SHA256
+`dea2228699da1a6174694adc7b3f54ec813fa4fdb41de01f3f92abc146e435cb`.
+Ini bukan fungsi produk yang sengaja dibuat salah.
+
+AJ memakai identitas recovery tersendiri sambil mempertahankan hubungan
+rework-order -> BS -> QC asal untuk HPP dan biaya cucian gagal. Constraint
+output QC asli tetap ada. Pesan UI membedakan konflik data dan identitas
+permintaan. Dua gap import—qty bukan angka dan biaya wajib yang hilang—kini
+menghasilkan error per baris beserta hitungan akhir, dan input draft bisa
+dikoreksi lalu divalidasi ulang. Kontrol juga mencakup angka tidak hingga,
+biaya negatif dan biaya tidak numerik. Tidak ada antarmuka CSV baru.
+
+Enam fungsi existing berubah melalui satu migration AJ dan rollback exact.
+Byte produk AJ tidak berubah sejak `ce1b05b1719f16e1e6bd3b7c363dca0c71970e54`;
+follow-up hanya membetulkan fixture, pengikatan path bukti, dan dokumentasi.
+Migration SHA256:
+`2e6cd4e94b52a27c83d2ba134a996c1db66a6f7ff617a5895f8c14769673f9ea`.
+Rollback SHA256:
+`896baab52089adf56c60562cf3161391e01392aec972b48408752fc4e417aed9`.
+
+## Bukti baru dan bukti yang dipakai kembali
+
+| Cakupan | Hasil dan asal bukti |
+| --- | --- |
+| Dua perbaikan UI masuk: dasar ALL_READY dan nama proses receipt | Pemeriksaan independen pada kandidat asli serta regresi43 UI; tetap lulus pada AJ |
+| 12 kasus rework/rewash AJ | Fresh12 PASS,0 incomplete pada SHA9173d2f; Good awal0/4, urutan mandor/laundry, cucian gagal berbayar, receipt bertarif7/11, partial inert, replay, biaya/upah, larangan reverse QC asal dan reverse satu recovery |
+| 142 crossflow +23 work +16 invoice +24 calendar +13 import | 218 REUSED_EVIDENCE dari exact AJ attempt3:206 hasil berhasil,12 DATE_POLICY_REVIEW_REQUIRED. Bukan218 fresh PASS |
+| Invoice calendar | Semua24 total saat ini cocok; interval31/62/89/92 hari mencakup1–3 bulan kalender dan ujung bulan;12 pengamatan historis periode terbuka tetap ditahan |
+| Concurrency | Fresh16 jadwal original +12 kontrol independen, PASS pada AJ; native memakai fixture terpisah dan bukan klaim HTTP |
+| Maintenance AJ | Fresh20/20 PASS; assertion matrix lama dipertahankan, sumber migration/rollback diikat ke AJ |
+| Transport dan UI | Fresh95 assertion HTTP/62 facade-role cases,43/43 UI, kelompok tambahan UI PASS_REVIEWED_SCOPE serta gate96 pasangan action-mask lengkap; bukan seluruh role di semua modul |
+| Batas hari | Fresh4 controlled-clock cases PASS,0 incomplete; waktu hanya di clone disposable |
+| Build dan pemeriksaan source | Fresh232 unit tests, pemeriksaan source/access/build dan build selesai |
+| Rollback | Fresh8 kontrol penolakan; AJ -> AI533 fungsi/224 tabel, lalu AI -> AH533/223; definisi/owner/ACL/full data boundary exact |
+| Cleanup | Auth/app users0, auth clone0, container PostgREST0, database disposable dihapus; cleanup PASS |
+| 460 maintenance historis F–AB | REUSED_EVIDENCE historis saja; tidak dihitung sebagai fresh AJ dan tidak diulang untuk menaikkan angka |
+
+Reuse218 dikualifikasi oleh head/tree, ZIP checksum/CRC, installation690,
+boundary/catalog/izin yang pulih, identitas daftar kasus dan byte produk
+src/SQL/package yang sama. Sumber:
+`f1f9e21a1be64ee523b408bcd77282748b3fa215`,
+tree `9a66c776949ff1dfa5e7f69ae308100b7c11efed`,
+artifact10469682433, SHA256
+`9549cec70eb6c63d276afc320d5d6f2ee020184052fdbf51486d9fdb5a026e26`.
+Dua belas fixture rework yang sebelumnya terhenti tidak digunakan kembali
+sebagai PASS; run terakhir menyelesaikannya melalui facade publik yang sah.
+
+## Yang masih menahan lock
+
+1. **Tanggal laporan.** Dua belas pengamatan historis pada periode terbuka:
+   invoice memakai tanggal invoice lama, sedangkan recost/HPP bergerak pada hari
+   proses. Posisi material historis bisa -5.25 atau7 dengan raw qty0, sementara
+   FG/COGS historis masih nilai lama; total saat ini cocok. Periode terbuka tidak
+   otomatis merupakan snapshot laporan yang telah dikunci. Label BUG_PROVEN
+   otomatis pada R3 telah ditarik; status tetap DATE_POLICY_REVIEW_REQUIRED,
+   bukan PASS. Kualifikasi kontrak tanggal laporan sebelum memilih perbaikan.
+   Kontrol closed-through tanggal receipt belum membuktikan semua kemungkinan
+   snapshot periode tertutup.
+2. **CSV.** Parser/upload dan caller staging/finalize tidak ditemukan di aplikasi.
+   Backend13 kontrol import yang lulus tidak membuktikan transport CSV. Master
+   section21.1 menetapkan error baris, preview/total, idempotensi dan pemulihan;
+   penempatan deliverable UI CSV pada CP6 atau CP7 perlu dipastikan dari aturan
+   owner. Tidak diberi PASS atau N/A.
+3. **Cakupan role/UI.** Uji positif klaim/kompensasi bernilai uang belum tercakup
+   oleh kontrol role bernilai nol;96 pasangan action-mask bukan semua peran pada
+   semua modul.
+4. **Independensi.** Chat ini sudah menjadi penulis AJ. Auditor lain harus
+   menilai exact repaired snapshot memakai oracle sendiri sebelum lock.
+5. **Pemeriksaan arsip terbaru.** Hasil run/log/metadata sudah diambil, tetapi
+   verifikasi byte ZIP terbaru secara lokal belum selesai, sebagaimana di bawah.
+
+## Arsip dan checkpoint
+
+[Artifact10470692921](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35154446764/artifacts/10470692921)
+tersedia pada run terakhir. GitHub melaporkan52,895,688 byte,292 file yang
+diunggah, SHA256
+`30a221e159298fae92304dc871457a74f7891c92590cc75d9e11bcfe975f0127`.
+
+Workspace lokal sempat diganti setelah push. Checkout dipulihkan dari exact
+SHA9173d2f, tree dan semua source pins kembali cocok. Transfer artifact ke
+workspace pemulihan mendapat HTTP502/403. Karena itu SHA di paragraf sebelumnya
+adalah digest yang dilaporkan GitHub; **CRC, jumlah entry ZIP, dan scan pola
+credential artifact terbaru belum diverifikasi lokal**. Jangan menyalin klaim
+scan artifact sebelumnya sebagai scan fresh artifact ini. AJ attempt4 sudah
+diperiksa lokal sebelum workspace berganti:52,903,311 byte/292 entry, CRC,
+path/duplicate/symlink dan selected-pattern scan tanpa kecocokan; SHA256
+`3360c12672c65777579065f7bc07bc874c07372492c36ce9ee4a6e0efdad0b4d`.
+Log run terakhir membuktikan12 rework PASS,20 maintenance PASS, pemulihan exact
+dan cleanup; gap transfer tidak diubah menjadi kegagalan transaksi ERP.
+
+Auditor berikutnya: verifikasi branch/head/tree dan aturan owner; ambil ZIP
+terbaru, cocokkan digest dan periksa isinya; audit AJ tanpa menjadikan hasil
+writer sebagai oracle; tutup kontrak tanggal, CSV dan cakupan role yang masih
+terbuka. Uji family yang berubah beserta hubungan antarmodulnya secara
+terkonsolidasi. Perubahan produk membatalkan kualifikasi reuse sebelumnya.
+Jika ada bug material, pastikan satu writer sebelum membuat perbaikan.
+Keluarkan CP6_LOCK_READY, CP6_HOLD, atau INCOMPLETE beserta batas bukti.
+
+Main terakhir diperiksa tetap
+`6d4cda118f5d28d1f039cc0ecf318d0866f55c2c`. PR, UAT, legacy dan hosted database
+tidak diubah. Integrasi preview Cloudflare existing berjalan pada push
+competition; auditor tidak menjalankan deployment manual. Tidak ada merge,
+produksi, atau pekerjaan CP7.
+
+“VENI. VIDI. VICI. ERP. — I CONQUERED ERP.”
+“Reliable data adalah dewa.”
+“Keuangan—termasuk laporan—stok, dan HPP adalah raja.”
+
+---
+
+# Riwayat: audit independen -> AJ writer takeover
+
 
 This top section supersedes the historical status sections below. `CP6_HOLD`.
 
