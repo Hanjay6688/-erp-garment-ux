@@ -81,6 +81,11 @@ jobs:
           ad_round=False
           ae_exact=False
           ae_independent=False
+          # BEGIN AI INDEPENDENT ROUTE
+          ai_independent=False
+          if Path('scripts/cp6_ai_review_scope.py').exists():
+              ai_independent=subprocess.run(['python','scripts/cp6_ai_review_scope.py'],capture_output=True).returncode==0
+          # END AI INDEPENDENT ROUTE
           # BEGIN AI QUALIFIED ROUTE
           ai_review=False
           if Path('scripts/cp6_ai_gate_scope.py').exists():
@@ -148,7 +153,7 @@ jobs:
                   and subprocess.check_output(['git','merge-base',af_base,'HEAD'],text=True).strip()==af_base
                   and af_changed==set(af_pins)|{'.github/workflows/cp6-full-schema-validation.yml'}
                   and all(hashlib.sha256(Path(path).read_bytes()).hexdigest()==digest for path,digest in af_pins.items()))
-              reuse=audit_only or ad_exact or ad_round or ae_exact or ae_independent or af_exact or af_review or ag_review or ag_residual or ah_review or ah_independent or ai_review
+              reuse=audit_only or ad_exact or ad_round or ae_exact or ae_independent or af_exact or af_review or ag_review or ag_residual or ah_review or ah_independent or ai_review or ai_independent
           except (AssertionError,ValueError,OSError,subprocess.CalledProcessError):
               reuse=False
           with open(os.environ['GITHUB_OUTPUT'],'a') as output:
