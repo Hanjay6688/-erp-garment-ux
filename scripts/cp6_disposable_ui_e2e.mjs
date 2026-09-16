@@ -248,6 +248,7 @@ async function nav(page,name) {
 async function mutation(page,label,action,{double=false,loseReply=false}={}) {
   const button=typeof label==='string'?page.getByRole('button',{name:label,exact:true}):label
   await expect(button).toBeEnabled()
+  const stateBefore=state()
   const matches=(request)=>request.url().endsWith('/rpc/erp_save_laundry_qc_action_v1')&&request.method()==='POST'&&request.postDataJSON()?.p_action===action
   if(loseReply){
     let lostRequestId
@@ -269,8 +270,18 @@ async function mutation(page,label,action,{double=false,loseReply=false}={}) {
   }else{
     const response=page.waitForResponse(r=>matches(r.request()))
     if(double)await button.evaluate(b=>{b.click();b.click()});else await button.click()
-    const r=await response;assert.equal(r.status(),200,`${action}_HTTP_STATUS`)
-    assert.equal((await r.json()).committed,true)
+    const r=await response
+    const result=await r.json()
+    if(r.status()!==200){
+      let evidence=JSON.stringify({phase:report.current_phase,action,http_status:r.status(),
+        request:r.request().postDataJSON(),response:result,state_before:stateBefore,state_after:state(),
+        qc_ui_source_sha256:createHash('sha256').update(readFileSync(resolve(root,'src/ConnectedQcFinalPage.tsx'))).digest('hex')})
+      for(const value of secrets.filter(Boolean))evidence=evidence.split(value).join('[REDACTED]')
+      report.rejected_mutation=JSON.parse(evidence)
+      save();console.log('CP6 UI rejected mutation: '+evidence)
+    }
+    assert.equal(r.status(),200,`${action}_HTTP_STATUS`)
+    assert.equal(result.committed,true)
   }
   await expect(page.getByRole('button',{name:'Muat ulang data',exact:true})).toBeEnabled()
 }
@@ -325,6 +336,7 @@ try {
   await mapUser(session.access_token,operator,[...view,'production.laundry.create','production.laundry.post','production.laundry.reverse','production.final_sku.post','production.final_sku.reverse'])
   reportBaseline=financialReport()
   report.baseline_report_confidence=reportBaseline.data_confidence
+  assert.equal(reportBaseline.data_confidence.status,'READY','Baseline report must be READY')
   stage('BUILD_AND_SERVICES');await startApplication()
   stage('ANONYMOUS')
   let page=await pageFor();assert.equal(await page.locator('.top-title').count(),0);pass('ANONYMOUS')

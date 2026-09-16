@@ -127,3 +127,19 @@ uses Node's built-in type stripping, verified locally against the original
 parser. Artifact 10460456192 (313170 bytes), GitHub-reported SHA-256
 `f4d5daef6b9126c24ad8b2581c5315e6ab4f86940fabc8ee467e2cb7d931426a`.
 Native 142/16/23/12 were intentionally NOT_RUN_FOCUSED; no browser PASS.
+
+Focused run 35128108373 on 6d7312100eb6ff7ac0b6ecb68850a9355edf38a1 confirmed
+the inherited fixture's UUID rejection with the original parser. The fresh
+qualified clone reached 8/36 UI cases: all four access cases, inert form,
+one dispatch despite double submit, receipt of eight, and QC of five.
+The next ordinary QC of three received a non-200 response. Its exact rejection
+and before/after ledger state are being captured before assigning a product
+verdict. Artifact 10459529337 (2490968 bytes), GitHub-reported SHA-256
+`60433679cf8561f4ba6c9409953ea88db664db195f49f3c4023b55d4b3e787a8`.
+HTTP 95 and restore/cleanup completed; native groups stayed NOT_RUN_FOCUSED.
+
+The local executor disconnected with environment_offline after this run.
+Source is checkpointed in Git; GitHub/CI remains available for bounded
+diagnostics. No internal cause of the disconnection is inferred. The next
+diagnostic changes only harness logging, a READY precondition, and evidence;
+the business UI and backend remain the same for reproducing the rejection.
