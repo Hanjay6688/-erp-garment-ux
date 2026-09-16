@@ -189,9 +189,7 @@ jobs:
         PYINSTALL
     - name: Run independent original AF transactions
       working-directory: candidate
-      env:
-        GITHUB_SHA: f46699865501b03f9fba3a8b188f3fd01eedf404
-      run: PYTHONPATH=scripts python ../harness/scripts/cp6_af_independent_review.py
+      run: GITHUB_SHA=f46699865501b03f9fba3a8b188f3fd01eedf404 PYTHONPATH=scripts python ../harness/scripts/cp6_af_independent_review.py
     - name: Stop disposable database and prove removal
       if: always()
       working-directory: base
