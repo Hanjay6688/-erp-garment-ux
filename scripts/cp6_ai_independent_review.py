@@ -197,8 +197,13 @@ def role_case(mode):
         actors.admin(cur)
         claims = {'sub': str(uuid.uuid4()), 'role': 'authenticated'}
         if mode == 'INACTIVE_OWNER':
-            cur.execute('update erp.app_users set is_active=false where id=%s', (base.OPERATOR_APP,))
-            claims['sub'] = base.OPERATOR_AUTH
+            # Keep the last active owner intact. Only this separate synthetic
+            # app user is inactive; its OWNER role remains the original role.
+            cur.execute("""insert into erp.app_users
+              select (jsonb_populate_record(null::erp.app_users,to_jsonb(u)||
+                jsonb_build_object('id',%s::text,'auth_user_id',%s::text,
+                  'full_name','Independent inactive owner','is_active',false))).*
+              from erp.app_users u where id=%s""", (str(uuid.uuid4()), claims['sub'], base.OPERATOR_APP))
         if mode == 'EMPTY_CLAIMS':
             claims = {}
         actors.actors.claims(cur, claims)
@@ -217,6 +222,54 @@ def role_case(mode):
     return case
 
 
+def work_through_hpp(rate):
+    def case(cur, day):
+        production = fixture.production
+        ledger_before = production.ledger(cur)
+        reports_before = production.reports(cur, day)
+        f = production.estimated_receipt(cur, day)
+        f.update(ledger_baseline=ledger_before, report_baseline=reports_before)
+        class WorkRateCursor:
+            def __getattr__(self, name):
+                return getattr(cur, name)
+            def execute(self, query, params=None, **kwargs):
+                text = str(query)
+                if 'insert into erp.po_work_component_snapshots(' in text:
+                    assert 'values(%s,%s,%s,1,0,%s)' in text
+                    query = text.replace('values(%s,%s,%s,1,0,%s)', 'values(%s,%s,%s,1,%s,%s)')
+                    params = (*params[:3], rate, params[3])
+                if 'insert into erp.work_completion_events(' in text or 'insert into erp.work_completion_lines(' in text:
+                    peer.ordinary(cur)
+                return cur.execute(query, params, **kwargs)
+        production.partial_production(WorkRateCursor(), f)
+        state = production.observe(cur, f, day)
+        # Physical fixture: ten raw units at 10, ten wash units at 7,
+        # ten completed/payable work units at the independently supplied rate.
+        # Five pieces become FG, two are sold, three remain, five remain WIP.
+        unit = Decimal('17') + rate
+        expected_po = dict(base_output=5, hpp_total=5 * unit, fg_qty=3,
+                           fg_value=3 * unit, cogs_value=2 * unit, other_value=0, wip_value=5 * unit)
+        expected_ledger = dict(MATERIAL_INVENTORY=0, WIP=5 * unit, FG_INVENTORY=3 * unit,
+                               COGS=2 * unit, AP_SUPPLIER=0, GRNI_MATERIAL=-100)
+        mismatches = {}
+        for key, expected in expected_po.items():
+            actual = (state.get('production') or {}).get(key)
+            if actual is None or Decimal(str(actual)) != expected:
+                mismatches['production.' + key] = dict(expected=expected, actual=actual)
+        for key, expected in expected_ledger.items():
+            if state['ledger_delta'][key] != expected:
+                mismatches['ledger.' + key] = dict(expected=expected, actual=state['ledger_delta'][key])
+            report_expected = -expected if key in ('AP_SUPPLIER', 'GRNI_MATERIAL') else expected
+            if state['report_delta'][key] != report_expected:
+                mismatches['report.' + key] = dict(expected=report_expected, actual=state['report_delta'][key])
+        assert state['raw_qty'] == 0 and state['custody'] == dict(sent=10, received=8, sold=2), state
+        assert not mismatches, mismatches
+        assert state['confidence']['status'] == 'READY', state['confidence']
+        return dict(status='CONTROL_PASS', supplied_work_rate=rate, independent_unit_cost=unit,
+                    expected_production=expected_po, state=state)
+    return case
+
+
 def cases():
     result = [('WORK_' + mode, positive(mode)) for mode in ('CENTS', 'ZERO_RATE', 'UNPAID', 'PARTIAL_PAY', 'TIMEZONE')]
     result += [(mode, refusal_case(mode)) for mode in ('DIRECT_POST', 'PO_CONTRACTOR', 'SNAPSHOT_DELETE',
@@ -224,6 +277,7 @@ def cases():
                'DOUBLE_POST', 'POSTED_EDIT', 'POSTED_DELETE', 'POSTED_HEADER')]
     result += [('REVERSE_REUSE', reverse_and_reuse)]
     result += [('ROLE_' + mode, role_case(mode)) for mode in ('UNREGISTERED', 'INACTIVE_OWNER', 'EMPTY_CLAIMS')]
+    result += [('HPP_THROUGH_SALE_' + str(rate), work_through_hpp(rate)) for rate in (Decimal('0'), Decimal('1.27'))]
     return result
 
 

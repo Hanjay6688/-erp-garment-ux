@@ -7,6 +7,7 @@ name: CP6 AI-R2 Independent Business Review
     - .github/workflows/cp6-ai-independent-review.yml
     - scripts/cp6_ai_independent_review.py
     - scripts/cp6_ai_review_scope.py
+    - scripts/cp6_ai_audit_router.py
   workflow_dispatch: null
 permissions:
   contents: read
