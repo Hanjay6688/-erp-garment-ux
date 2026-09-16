@@ -233,7 +233,7 @@ jobs:
       working-directory: candidate
       shell: bash
       run: "set -euo pipefail\npython - <<'PYVERDICT'\nimport json\nfrom pathlib import Path\nroot=Path('cp6-proof/writer-af')\n\
-        expected={'admission':7,'focused':25,'detector':11,'crossflow':134}\nfor phase,count in expected.items():\n\
+        expected={'admission':7,'focused':30,'detector':11,'crossflow':134}\nfor phase,count in expected.items():\n\
         \ r=json.loads((root/(phase+'.json')).read_text())\n assert r['status']=='PASS' and r['passed']==count and\
         \ r['failed']==0,(phase,{k:v for k,v in r.items() if k!='cases'})\nfor generation,status,count in [('AE','ORIGINAL_BUG_CONFIRMED',1),('AF','PASS',4)]:\n\
         \ r=json.loads((root/'concurrency'/generation/'RESULT.json').read_text())\n assert r['status']==status and\

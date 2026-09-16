@@ -12,7 +12,7 @@ import cp6_v2620ae_runtime as ae
 from cp6_v2620af_build_sql import STAMP, NAME, VERSION, MIGRATION, ROLLBACK, PINS, PREDECESSOR_HEAD, PREDECESSOR_TREE
 
 CAPSULE = "erp.cp6_v2620af_rollback_capsule"
-PINS_SHA256 = "a6a1e6fde1eb068193cca57024ade6d043f08fce4b9467ad2eb27ce063579dbe"
+PINS_SHA256 = "37ad48da077eb21e40bd9bd125de64e01f46c2a4c10978f3d8f150bb17194453"
 SOURCE_BASE = "fd904a17f88e52104e6ba89874f16bfb654245d6"
 ALLOWED_CANDIDATE_FILES = {
     ".github/workflows/cp6-ac-independent-audit.yml",

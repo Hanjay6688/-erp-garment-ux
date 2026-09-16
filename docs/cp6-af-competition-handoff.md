@@ -45,7 +45,7 @@ AF has its own exact AE rollback capsule. Maintenance must close admission and
 drain sessions before complete relation/source verification and rollback.
 Restoration must match all 533 functions and 220 tables, with data, ACLs and owners.
 
-The dedicated native workflow requires 7 admission cases, 25 focused cases
+The dedicated native workflow requires 7 admission cases, 30 focused cases
 (including 3 synthetic shared-guard contracts, not new business findings),
 11 report controls, the unchanged 134 combined oracles, a frozen AE two-session
 comparison, 4 AF transaction schedules, 20 maintenance schedules, 8 rollback
@@ -68,3 +68,5 @@ Do not count synthetic detector controls as ordinary bugs. Mark unfinished
 paths BELUM TERUJI. A proven material issue transfers the writer role: repair
 the affected family and hand back a precise commit and evidence. Do not declare
 AF independently accepted solely from the writer's CI results.
+
+AF qualification note: the first clean-install test used the fixture admin instead of the migration owner; its context was corrected without relaxing ownership checks. A later combined run passed 133/134 and exposed a new-report false BLOCKED on a valid linked correction. AF now reconciles the current subledger amount to rounded opening cents plus POSTED correction deltas; reversed deltas are excluded. Five party lifecycles explicitly check increase, decrease, both reversals, immutable opening input and a wrong-amount control. The old combined oracle is unchanged.

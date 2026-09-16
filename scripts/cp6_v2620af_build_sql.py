@@ -91,7 +91,12 @@ DIRTY_QUERY = """select count(*)::bigint from (
     left join erp.opening_balance_headers h on h.id=i.opening_id
     where h.status is distinct from 'POSTED'
       or i.balance_type is distinct from (s.party_type||'_'||s.direction)
-      or s.original_amount is distinct from i.amount
+      -- original_amount is the CURRENT corrected balance (numeric(20,2)),
+      -- despite its legacy column name. The immutable opening line remains
+      -- unchanged; posted linked correction deltas determine its effective sum.
+      or s.original_amount is distinct from (round(i.amount,2)+coalesce((
+        select sum(c.delta_amount) from erp.opening_financial_corrections c
+        where c.opening_item_id=i.id and c.status='POSTED'),0))
     union all
     select h.id from erp.opening_balance_headers h
     where h.status='POSTED'

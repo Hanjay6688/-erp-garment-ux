@@ -137,6 +137,41 @@ def cash_lineage_control(cur,day):
     return result
 
 
+def corrected_subledger(kind):
+    def case(cur,day):
+        actors.admin(cur)
+        prior.set_open_period(cur,date(2026,8,31))
+        actors.owner(cur)
+        balance=actors.opening(cur,kind)
+        item=base.one(cur,"select opening_item_id from erp.opening_subledger_balances where id=%s",(balance,))
+        states=[]
+        def check(amount):
+            actors.admin(cur)
+            observed=base.one(cur,"select original_amount from erp.opening_subledger_balances where id=%s",(balance,))
+            assert observed==Decimal(amount),(kind,observed,amount)
+            assert base.one(cur,"select amount from erp.opening_balance_items where id=%s",(item,))==Decimal('.10')
+            states.append(dict(expected_amount=amount,report=report(cur,day)))
+        check('.10')
+        actors.owner(cur)
+        first=base.one(cur,"select erp.post_opening_financial_correction(%s,.14,'AF lawful linked increase',%s)",(item,day))
+        check('.14')
+        actors.admin(cur)
+        cur.execute("savepoint af_amount_control")
+        cur.execute("update erp.opening_subledger_balances set original_amount=.15 where id=%s",(balance,))
+        invalid=report(cur,day,blocked=True)
+        cur.execute("rollback to savepoint af_amount_control;release savepoint af_amount_control")
+        actors.owner(cur)
+        second=base.one(cur,"select erp.post_opening_financial_correction(%s,.13,'AF lawful linked decrease',%s)",(item,day))
+        check('.13')
+        actors.owner(cur);cur.execute("select erp.reverse_opening_financial_correction(%s,'AF reverse latest correction')",(second,))
+        check('.14')
+        actors.owner(cur);cur.execute("select erp.reverse_opening_financial_correction(%s,'AF restore original cents')",(first,))
+        check('.10')
+        return dict(status="PASS",party=kind,ordinary_linked_states=states,
+                    synthetic_amount_mismatch_control=invalid,original_line_unchanged=True)
+    return case
+
+
 def other_destination(cur,day,posted_source):
     material,location,roll=peer.rolls.create_roll(cur,"af-destination")
     target,items=peer.rolls.create_opening(cur,day,"af-destination",material,location,[(roll,Decimal("10"),material)])
@@ -211,6 +246,7 @@ def phase_cases(phase):
         cases += [("DRAFT_TO_POSTED",lambda c,d:other_destination(c,d,False)),("POSTED_TO_POSTED",lambda c,d:other_destination(c,d,True)),("SHARED_WIRING",wiring)]
         cases += [("SHARED_CONTRACT_"+str(n),shared_contract(a)) for n,a in enumerate([("DRAFT",),("DRAFT","CALCULATED","REVIEW"),("OPEN","IN_PROGRESS","PARTIAL")])]
         cases += [("AE_"+name,fn) for name,fn in ae.phase_cases("successor")]
+        cases += [("LINKED_CORRECTION_"+kind,corrected_subledger(kind)) for kind in actors.KINDS]
         return tuple(cases)
     if phase=="detector":
         return tuple((name,detector(name)) for name in ("PARENT_MOVED","QUANTITY","INPUT_COST","TYPE")) + (("MULTILINE_CASH_LINEAGE",cash_lineage_control),) + tuple(("AE_"+n,fn) for n,fn in ae.phase_cases("detector"))

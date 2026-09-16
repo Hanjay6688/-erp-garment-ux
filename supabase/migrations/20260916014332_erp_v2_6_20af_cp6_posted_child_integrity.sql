@@ -111,7 +111,12 @@ begin
     left join erp.opening_balance_headers h on h.id=i.opening_id
     where h.status is distinct from 'POSTED'
       or i.balance_type is distinct from (s.party_type||'_'||s.direction)
-      or s.original_amount is distinct from i.amount
+      -- original_amount is the CURRENT corrected balance (numeric(20,2)),
+      -- despite its legacy column name. The immutable opening line remains
+      -- unchanged; posted linked correction deltas determine its effective sum.
+      or s.original_amount is distinct from (round(i.amount,2)+coalesce((
+        select sum(c.delta_amount) from erp.opening_financial_corrections c
+        where c.opening_item_id=i.id and c.status='POSTED'),0))
     union all
     select h.id from erp.opening_balance_headers h
     where h.status='POSTED'
@@ -1113,7 +1118,12 @@ begin
     left join erp.opening_balance_headers h on h.id=i.opening_id
     where h.status is distinct from 'POSTED'
       or i.balance_type is distinct from (s.party_type||'_'||s.direction)
-      or s.original_amount is distinct from i.amount
+      -- original_amount is the CURRENT corrected balance (numeric(20,2)),
+      -- despite its legacy column name. The immutable opening line remains
+      -- unchanged; posted linked correction deltas determine its effective sum.
+      or s.original_amount is distinct from (round(i.amount,2)+coalesce((
+        select sum(c.delta_amount) from erp.opening_financial_corrections c
+        where c.opening_item_id=i.id and c.status='POSTED'),0))
     union all
     select h.id from erp.opening_balance_headers h
     where h.status='POSTED'
@@ -1164,7 +1174,7 @@ begin
       to_regprocedure(cap.object_regidentity)),'UTF8'),'sha256'),'hex');
   for r in select * from(values
     ('erp.guard_child_by_parent_status()','9eb00d1d614e8253661ee5445b7ceece30377ec605a22fe34b53a0e57af60be5','05d181c08289b4fa81d73e99ed1453fd8ad931bc3d99d3c0480f96a027ca3b0e',array['postgres=X/postgres','service_role=X/postgres']::text[]),
-    ('erp.run_v268_financial_report_checks()','b213246d9d2373924699d6a13186b6ebe0e6e87867c0818c70b4e6e54ec09aef','4fb70a7fb59d46d17deecd5ab3063a70f03908a6c5962526d2b1e6c3d9db6036',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[])
+    ('erp.run_v268_financial_report_checks()','b213246d9d2373924699d6a13186b6ebe0e6e87867c0818c70b4e6e54ec09aef','c5b587583c1ae3d47ea6f52b50c9b63d982da18cfd7e027046ce0f5eb5d56ee2',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[])
   ) expected(identity,predecessor_sha256,installed_sha256,acl)
   loop
     select * into c from erp.cp6_v2620af_rollback_capsule

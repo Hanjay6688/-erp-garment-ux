@@ -11,7 +11,7 @@ begin
      or not exists(select 1 from supabase_migrations.schema_migrations
        where version='20260916014332' and name='erp_v2_6_20af_cp6_posted_child_integrity'
          and encode(extensions.digest(convert_to(array_to_string(statements,E'\n'),'UTF8'),'sha256'),'hex')
-           in('c9cabce7f9e983e8390bfcc9eb2f47e17ca1e45b68bf337747b5acde149505a0','ab81aaefc1ed9c28dd9a976b97ef9d3e2f3ed71850bbeb773329f00995ca8084'))
+           in('54c5f73b99a2e63c858a777f669432f28260177daf4c45d806bb0e8a7c7c8e8e','e2340e5d670c222ebb712c4d402a1c44a99235b34e2b4b3bff9fa72062c4a0fd'))
      or exists(select 1 from supabase_migrations.schema_migrations where version>'20260916014332') then
     raise exception 'AF_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR';
   end if;
@@ -81,7 +81,7 @@ begin
   end if;
   for r in select * from(values
     ('erp.guard_child_by_parent_status()','9eb00d1d614e8253661ee5445b7ceece30377ec605a22fe34b53a0e57af60be5','05d181c08289b4fa81d73e99ed1453fd8ad931bc3d99d3c0480f96a027ca3b0e',array['postgres=X/postgres','service_role=X/postgres']::text[]),
-    ('erp.run_v268_financial_report_checks()','b213246d9d2373924699d6a13186b6ebe0e6e87867c0818c70b4e6e54ec09aef','4fb70a7fb59d46d17deecd5ab3063a70f03908a6c5962526d2b1e6c3d9db6036',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[])
+    ('erp.run_v268_financial_report_checks()','b213246d9d2373924699d6a13186b6ebe0e6e87867c0818c70b4e6e54ec09aef','c5b587583c1ae3d47ea6f52b50c9b63d982da18cfd7e027046ce0f5eb5d56ee2',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[])
   ) expected(identity,predecessor_sha256,installed_sha256,acl) loop
     select cap.*,
       encode(extensions.digest(convert_to(cap.object_definition,'UTF8'),'sha256'),'hex') definition_actual,
@@ -154,8 +154,8 @@ delete from supabase_migrations.schema_migrations
 where version='20260916014332'
   and name='erp_v2_6_20af_cp6_posted_child_integrity'
   and encode(extensions.digest(convert_to(array_to_string(statements,E'\n'),'UTF8'),'sha256'),'hex')
-    in('c9cabce7f9e983e8390bfcc9eb2f47e17ca1e45b68bf337747b5acde149505a0',
-       'ab81aaefc1ed9c28dd9a976b97ef9d3e2f3ed71850bbeb773329f00995ca8084');
+    in('54c5f73b99a2e63c858a777f669432f28260177daf4c45d806bb0e8a7c7c8e8e',
+       'e2340e5d670c222ebb712c4d402a1c44a99235b34e2b4b3bff9fa72062c4a0fd');
 
 do $postcheck_v2620af$
 declare r record;v_actual text;
