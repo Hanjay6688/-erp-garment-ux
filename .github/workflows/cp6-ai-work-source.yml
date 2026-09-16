@@ -21,7 +21,27 @@ concurrency:
   group: cp6-ai-work-source-${{ github.ref }}
   cancel-in-progress: false
 jobs:
+  # BEGIN AJ QUALIFIED ROUTE
+  review-scope:
+    runs-on: ubuntu-24.04
+    outputs:
+      aj: ${{ steps.scope.outputs.aj }}
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - id: scope
+      shell: bash
+      run: |
+        if python scripts/cp6_disposable_ui_scope.py; then
+          echo 'aj=true' >> "$GITHUB_OUTPUT"
+        else
+          echo 'aj=false' >> "$GITHUB_OUTPUT"
+        fi
+  # END AJ QUALIFIED ROUTE
   review:
+    needs: review-scope
+    if: needs.review-scope.outputs.aj != 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 55
     env:

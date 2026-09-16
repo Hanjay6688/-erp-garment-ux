@@ -402,11 +402,9 @@ jobs:
         GH_TOKEN: ${{ github.token }}
       run: |
         python - <<'PYORIGINAL'
-        import hashlib,io,json,os,urllib.request,zipfile
+        import hashlib,io,json,subprocess,zipfile
         from pathlib import Path
-        url='https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10467267798/zip'
-        request=urllib.request.Request(url,headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json'})
-        raw=urllib.request.urlopen(request,timeout=90).read()
+        raw=subprocess.check_output(['gh','api','repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10467267798/zip'],timeout=90)
         digest=hashlib.sha256(raw).hexdigest()
         assert digest=='dea2228699da1a6174694adc7b3f54ec813fa4fdb41de01f3f92abc146e435cb'
         with zipfile.ZipFile(io.BytesIO(raw)) as z:

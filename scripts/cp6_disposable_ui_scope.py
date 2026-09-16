@@ -4,6 +4,7 @@ from pathlib import Path
 import hashlib
 import json
 import subprocess
+import re
 
 BASE = '9f884fbb27bdb92d6ee63f60333e007dc36f3f1c'
 BASE_TREE = 'b4cf1e5d6c8aff531470af01dcdb4d146b4fca7f'
@@ -11,7 +12,11 @@ BACKEND = '25fa4736329e5148dfdb3572bc169952cba23251'
 BACKEND_TREE = 'a5cb1e43d776a9ffc058f99c8d5c96ac7f6a9c0d'
 PIN_FILE = 'docs/evidence/cp6-disposable-ui-source-pins.json'
 DOC = 'docs/cp6-disposable-ui-audit.md'
-PATHS = '''.github/workflows/cp6-ad-roll-opening-check.yml
+PATHS = '''.github/workflows/cp6-ac-independent-audit.yml
+.github/workflows/cp6-ai-work-source.yml
+.github/workflows/cp6-ag-sale-reservation.yml
+.github/workflows/cp6-ah-return-allocation.yml
+.github/workflows/cp6-ad-roll-opening-check.yml
 .github/workflows/cp6-full-schema-validation.yml
 .github/workflows/cp6-final-boundary-audit.yml
 package.json
@@ -101,6 +106,17 @@ def verify():
     text = Path(ad).read_text()
     assert text.count(route) == 1
     assert text.replace(route, '; then\n') == subprocess.check_output(['git','show',BASE+':'+ad],text=True)
+    for name in ('cp6-ac-independent-audit.yml', 'cp6-ai-work-source.yml', 'cp6-ag-sale-reservation.yml', 'cp6-ah-return-allocation.yml'):
+        path = '.github/workflows/' + name
+        text = Path(path).read_text()
+        if name in ('cp6-ag-sale-reservation.yml', 'cp6-ah-return-allocation.yml'):
+            text = text.replace(' || python scripts/cp6_disposable_ui_scope.py; then', '; then')
+        else:
+            text, count = re.subn(r'(?m)^([ ]*)# BEGIN AJ QUALIFIED ROUTE\n.*?^[ ]*# END AJ QUALIFIED ROUTE\n', '', text, flags=re.S)
+            assert count == 1
+            if name == 'cp6-ai-work-source.yml':
+                text = text.replace("    needs: review-scope\n    if: needs.review-scope.outputs.aj != 'true'\n", '')
+        assert text == subprocess.check_output(['git','show',BASE+':'+path],text=True), path
     return dict(status='ROUTED_TO_COMBINED_AJ_AND_WRITER_UI_GATE',base_backend_head=BACKEND,
                 base_backend_tree=BACKEND_TREE,backend_generation='AJ',backend_head=git('rev-parse','HEAD'),frontend_head=git('rev-parse','HEAD'),
                 frontend_tree=git('rev-parse','HEAD^{tree}'),

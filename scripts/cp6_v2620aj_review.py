@@ -61,7 +61,8 @@ def po_state(cur,po):
   'entitlements',(select count(*) from erp.contractor_accessory_reimbursement_entitlements e join erp.fg_lots f on f.id=e.lot_id where f.po_id=%s))""",(po,)*5).fetchone()[0]
 
 def rework_case(cur,today,initial_good,first_route,failed_wash,mixed_rates=False):
- f=work.draft(cur,today,Decimal(0));po=f['po']
+ earned_rate=Decimal('1.25') if initial_good==4 else Decimal(0)
+ f=work.draft(cur,today,earned_rate);po=f['po']
  peer.ordinary(cur);cur.execute('select erp.post_work_completion(%s)',(f['completion'],))
  production.owner(cur)
  cur.execute('select public.erp_record_sewing_terminal_v1(%s::jsonb,%s)',
@@ -103,7 +104,7 @@ def rework_case(cur,today,initial_good,first_route,failed_wash,mixed_rates=False
  actors.admin(cur)
  bs,qc=cur.execute('select id,qc_item_id from erp.bs_cases where po_id=%s and status=\'OPEN\'',(po,)).fetchone()
  bs_action(cur,'CLASSIFY_BS',dict(bs_case_id=bs,cause_source='UNKNOWN',components=[dict(work_component_id=f['component'],completed_before_bs_qty=10-initial_good)],change_reason='Original component already earned before BS'),version(cur,'bs_cases',bs))
- unit=Decimal(24 if failed_wash else 17)
+ unit=Decimal(24 if failed_wash else 17)+earned_rate
  original_fg=initial_good*(unit+4 if mixed_rates else unit)
  total_cost=unit*10+(20 if mixed_rates else 0)
  orders=[];observations=[];total_good=initial_good
@@ -134,10 +135,17 @@ def rework_case(cur,today,initial_good,first_route,failed_wash,mixed_rates=False
   expected_fg=original_fg+(total_good-initial_good)*unit
   assert Decimal(str(state['fg']))==expected_fg
   assert Decimal(str(state['wip']))==total_cost-expected_fg
+  payable=cur.execute("select coalesce(sum(debit-credit),0) from erp.journal_lines where po_id=%s and account_id=erp.account_id('CONTRACTOR_PAYABLE')",(po,)).fetchone()[0]
+  assert payable==-10*earned_rate,'Recovered original work was paid twice'
   lot=posted['result']['good_fg_lot_id']
   assert cur.execute('select qc_item_id,cutting_group_id,po_id from erp.fg_lots where id=%s',(lot,)).fetchone()==(None,uuid.UUID(f['group']),po)
   assert cur.execute('select qc_item_id from erp.bs_cases where id=%s',(bs,)).fetchone()[0]==qc
   observations.append(dict(route=route,order=order,lot=lot,expected_unit_cost=unit,state=state,partial_inert=True,replay_exact=True))
+ # Removing the QC foreign key from a recovery lot must not allow its physical
+ # source to be undone while the linked BS recovery remains active.
+ inspection=cur.execute('select inspection_id from erp.qc_inspection_items where id=%s',(qc,)).fetchone()[0]
+ refused=work.clean_refusal(cur,'select erp.reverse_qc(%s,%s)',(inspection,'AJ source still has active recoveries'))
+ assert 'downstream BS' in refused['error'],refused
  # Linked inverse of one recovery must preserve the other independent output.
  bs_action(cur,'REVERSE_REWORK_COMPLETION',dict(rework_order_id=orders[0],change_reason='AJ linked correction of first recovery'),version(cur,'rework_orders',orders[0]))
  total_good-=2;state=po_state(cur,po)
@@ -148,7 +156,7 @@ def rework_case(cur,today,initial_good,first_route,failed_wash,mixed_rates=False
  assert cur.execute('select count(*) from erp.fg_lots where qc_item_id=%s',(qc,)).fetchone()[0]==int(initial_good>0 and not mixed_rates)
  report=peer.confidence(cur,today)
  assert report['data_confidence']['status']=='READY',report
- return dict(status='PASS',initial_good=initial_good,failed_wash=failed_wash,mixed_receipt_rates=mixed_rates,observations=observations,
+ return dict(status='PASS',initial_good=initial_good,earned_original_rate=earned_rate,source_qc_reverse_refused_atomically=True,failed_wash=failed_wash,mixed_receipt_rates=mixed_rates,observations=observations,
   linked_reversal_state=state,original_qc_unique=True,cost_source_preserved=True,report=report)
 
 def import_variant(cur,today,field,value):

@@ -33,7 +33,7 @@ jobs:
       shell: bash
       run: |
         set -euo pipefail
-        if python scripts/cp6_ai_gate_scope.py; then
+        if python scripts/cp6_ai_gate_scope.py || python scripts/cp6_disposable_ui_scope.py; then
           echo 'ai=true' >> "$GITHUB_OUTPUT"
         else
           echo 'ai=false' >> "$GITHUB_OUTPUT"

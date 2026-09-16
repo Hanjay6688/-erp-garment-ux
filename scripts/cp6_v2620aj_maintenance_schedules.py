@@ -23,7 +23,7 @@ spec.loader.exec_module(controller)
 matrix.maintenance = controller
 
 
-ROOT = Path("cp6-proof/AJ_MAJNTENANCE_ROLLBACK")
+ROOT = Path("cp6-proof/AJ_MAINTENANCE_ROLLBACK")
 REPORT = ROOT / "manifest.json"
 
 
@@ -33,7 +33,7 @@ def prepare(target, operation, folder, *, source_generation):
         raise AssertionError("AJ_SCHEDULE_REQUIRES_EXACT_EDGE")
     matrix.command(
         ["bash", "scripts/clone-cp6-disposable-database.sh", matrix.SOURCE,
-         matrix.MAJNTENANCE, matrix.CLONE, "cp6_rollback", matrix.CONTAJNER,
+         matrix.MAINTENANCE, matrix.CLONE, "cp6_rollback", matrix.CONTAINER,
          str(folder / "PHYSICAL_BOUNDARY")],
         folder / "clone.log",
     )
@@ -66,22 +66,22 @@ def prepare(target, operation, folder, *, source_generation):
 
 def run():
     head, tree = runtime.verify_audit_source()
-    expected = (matrix.SOURCE, matrix.MAJNTENANCE, matrix.CLONE, matrix.CONTAJNER, "cp6_rollback")
+    expected = (matrix.SOURCE, matrix.MAINTENANCE, matrix.CLONE, matrix.CONTAINER, "cp6_rollback")
     actual = (
-        os.environ.get("PGURL"), os.environ.get("CP6_MAJNTENANCE_PGURL"),
-        os.environ.get("CP6_ROLLBACK_RACE_PGURL"), os.environ.get("CP6_DATABASE_CONTAJNER"),
-        os.environ.get("CP6_MAJNTENANCE_CONFIRM_DATABASE"),
+        os.environ.get("PGURL"), os.environ.get("CP6_MAINTENANCE_PGURL"),
+        os.environ.get("CP6_ROLLBACK_RACE_PGURL"), os.environ.get("CP6_DATABASE_CONTAINER"),
+        os.environ.get("CP6_MAINTENANCE_CONFIRM_DATABASE"),
     )
-    if actual != expected or os.environ.get("CP6_AJ_MAJNTENANCE_CONFIRM") != "cp6_rollback":
-        raise AssertionError("AJ_MAJNTENANCE_EXACT_DISPOSABLE_ENVIRONMENT_REQUIRED")
+    if actual != expected or os.environ.get("CP6_AJ_MAINTENANCE_CONFIRM") != "cp6_rollback":
+        raise AssertionError("AJ_MAINTENANCE_EXACT_DISPOSABLE_ENVIRONMENT_REQUIRED")
     with psycopg.connect(matrix.SOURCE) as conn, conn.cursor() as cur:
         if len(runtime.verified_successor(cur)) != 690:
-            raise AssertionError("AJ_MAJNTENANCE_SOURCE_MISMATCH")
+            raise AssertionError("AJ_MAINTENANCE_SOURCE_MISMATCH")
     matrix.TARGETS["AJ"] = (runtime.STAMP, runtime.NAME, runtime.VERSION, "v2.6.20ai", 6)
     original_prepare = matrix.prepare
     matrix.prepare = prepare
     result = {
-        "format": "CP6_AJ_MAJNTENANCE_SCHEDULES_V1", "status": "INCOMPLETE",
+        "format": "CP6_AJ_MAINTENANCE_SCHEDULES_V1", "status": "INCOMPLETE",
         "head": head, "tree": tree, "expected_case_count": 20, "cases": [],
         "unchanged_schedule_oracle": "scripts/cp6_v2620h_maintenance_rollback_matrix.py",
         "production_go": False,
@@ -97,18 +97,18 @@ def run():
                     evidence = matrix.run_case("AJ", operation, mode, folder, source_generation="AJ")
                 except Exception as exc:
                     evidence = {
-                        "status": "FAJL", "target": "AJ", "operation": operation,
+                        "status": "FAIL", "target": "AJ", "operation": operation,
                         "mode": mode, "error": str(exc), "traceback": traceback.format_exc(),
                     }
                 finally:
                     matrix.legacy.drop_clone()
-                with psycopg.connect(matrix.MAJNTENANCE) as conn:
+                with psycopg.connect(matrix.MAINTENANCE) as conn:
                     remaining = conn.execute(
                         "select count(*) from pg_database where datname='cp6_rollback'"
                     ).fetchone()[0]
                 evidence["remaining_clone_databases"] = remaining
                 if remaining:
-                    evidence["status"] = "FAJL"
+                    evidence["status"] = "FAIL"
                 result["cases"].append(evidence)
                 REPORT.write_text(json.dumps(result, indent=2, default=str) + "\n")
                 print(json.dumps({"case": name, "status": evidence["status"], "error": evidence.get("error")}), flush=True)
@@ -125,7 +125,7 @@ if __name__ == "__main__":
     try:
         outcome = run()
     except Exception as exc:
-        outcome = {"status": "FAJL", "error": str(exc), "traceback": traceback.format_exc(), "production_go": False}
+        outcome = {"status": "FAIL", "error": str(exc), "traceback": traceback.format_exc(), "production_go": False}
         ROOT.mkdir(parents=True, exist_ok=True)
         REPORT.write_text(json.dumps(outcome, indent=2) + "\n")
     print(json.dumps({key: value for key, value in outcome.items() if key != "cases"}))
