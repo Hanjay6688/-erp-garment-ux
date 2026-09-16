@@ -1,22 +1,265 @@
 {
-  "status": "INCOMPLETE_EXECUTION_PENDING",
+  "status": "INCOMPLETE_COMBINED_HARNESS_CONTEXT_RETRY_REQUIRED",
   "production_go": false,
   "business_head": "25fa4736329e5148dfdb3572bc169952cba23251",
   "business_tree": "a5cb1e43d776a9ffc058f99c8d5c96ac7f6a9c0d",
   "incoming_harness": "2735703114ab52d605aa0d6cd2aa530b074fb5e9",
   "main": "6d4cda118f5d28d1f039cc0ecf318d0866f55c2c",
   "interrupted_groups": [
-    {"run": 35089756438, "candidate": "70952d80dbee65f4f294d869f76ec0849e85bb22", "artifact": 10443674077, "sha256": "26e1fac27d4363d4455a839e6f9ae38715f9571ef0cc1471c5edf2319e07df34", "classification": "RECONCILED", "checksum_source": "CI upload log; original ZIP not locally rehashed in this audit", "failure": "Wrong evidence directory. Eight refusal controls and main rollback execute before missing AH_COMPLETE_CATALOG read at line 118; final full comparison incomplete. Not failure before rollback.", "completed_prior_phases": {"admission": 8, "focused": 99, "detector": 36, "crossflow": 142, "two_session": 16, "maintenance": 20}, "resolution_run": 35090778031},
-    {"run": 35099912367, "candidate": "25fa4736329e5148dfdb3572bc169952cba23251", "harness": "d20e22a6f47b0b3259a76c2f3d657c7e89aa165e", "artifact": 10447414773, "sha256": "d051eebb02ababed4e8f058676b0601fbe4a4ba2f37d22e323562292c1949b72", "local_zip_hash_verified": true, "classification": "RECONCILED", "planned_business": 21, "passed_business": 20, "incomplete_business": ["ROLE_INACTIVE_OWNER"], "failure": "Fixture attempted to deactivate last active owner; LAST_ACTIVE_OWNER_PROTECTED. No business counterexample.", "two_session_completed": 12, "exact_restore": "PASS", "cleanup": "PASS", "resolution_run": 35100538743},
-    {"run": 35099908815, "classification": "RERUN_REQUIRED", "jobs": 0, "business_started": false, "failure": "Workflow failed before any job; exact workflow validation error not yet retrieved. No ERP failure inference."},
-    {"run": 34914301835, "candidate": "e2aa399cfc787d848c1f136e8e563c5304d09a87", "artifact": 10377530899, "sha256": "bcfddf0345e6f72cc022d9f74f38cd0324851242f09dae8ebde70994734e9867", "checksum_source": "CI upload log and artifact API; original ZIP not locally rehashed", "classification": "REUSED_EVIDENCE", "matrix_planned": 460, "matrix_completed": 460, "matrix_failures": 0, "matrix_definition": "23 historical targets F..AB x 5 operations x 4 schedules", "failure_after_matrix": "AB_EXTRA_FAULT_ENDPOINT_IDENTITY_MISMATCH in subsequent trusted AB rollback guard", "not_global_pass": true, "carry_forward_run": 34956212157},
-    {"run": 34956212157, "candidate": "1bdca3766f7c9800d68295ff5122798060b8a05d", "artifact": 10392910720, "sha256": "eeb76d0c63e5e78514e44a3acd958177a0d39810b89663c538dd93ffef29ae04", "local_zip_hash_verified": true, "classification": "REUSED_EVIDENCE", "historical_460_reexecuted": false, "fresh_ac_schedules": 20, "conclusion": "success"}
+    {
+      "run": 35089756438,
+      "candidate": "70952d80dbee65f4f294d869f76ec0849e85bb22",
+      "artifact": 10443674077,
+      "sha256": "26e1fac27d4363d4455a839e6f9ae38715f9571ef0cc1471c5edf2319e07df34",
+      "classification": "RECONCILED",
+      "checksum_source": "CI upload log; original ZIP not locally rehashed in this audit",
+      "failure": "Wrong evidence directory. Eight refusal controls and main rollback execute before missing AH_COMPLETE_CATALOG read at line 118; final full comparison incomplete. Not failure before rollback.",
+      "completed_prior_phases": {
+        "admission": 8,
+        "focused": 99,
+        "detector": 36,
+        "crossflow": 142,
+        "two_session": 16,
+        "maintenance": 20
+      },
+      "resolution_run": 35090778031
+    },
+    {
+      "run": 35099912367,
+      "candidate": "25fa4736329e5148dfdb3572bc169952cba23251",
+      "harness": "d20e22a6f47b0b3259a76c2f3d657c7e89aa165e",
+      "artifact": 10447414773,
+      "sha256": "d051eebb02ababed4e8f058676b0601fbe4a4ba2f37d22e323562292c1949b72",
+      "local_zip_hash_verified": true,
+      "classification": "RECONCILED",
+      "planned_business": 21,
+      "passed_business": 20,
+      "incomplete_business": [
+        "ROLE_INACTIVE_OWNER"
+      ],
+      "failure": "Fixture attempted to deactivate last active owner; LAST_ACTIVE_OWNER_PROTECTED. No business counterexample.",
+      "two_session_completed": 12,
+      "exact_restore": "PASS",
+      "cleanup": "PASS",
+      "resolution_run": 35100538743
+    },
+    {
+      "run": 35099908815,
+      "classification": "RERUN_REQUIRED",
+      "jobs": 0,
+      "business_started": false,
+      "failure": "Workflow failed before any job; exact workflow validation error not yet retrieved. No ERP failure inference."
+    },
+    {
+      "run": 34914301835,
+      "candidate": "e2aa399cfc787d848c1f136e8e563c5304d09a87",
+      "artifact": 10377530899,
+      "sha256": "bcfddf0345e6f72cc022d9f74f38cd0324851242f09dae8ebde70994734e9867",
+      "checksum_source": "CI upload log and artifact API; original ZIP not locally rehashed",
+      "classification": "REUSED_EVIDENCE",
+      "matrix_planned": 460,
+      "matrix_completed": 460,
+      "matrix_failures": 0,
+      "matrix_definition": "23 historical targets F..AB x 5 operations x 4 schedules",
+      "failure_after_matrix": "AB_EXTRA_FAULT_ENDPOINT_IDENTITY_MISMATCH in subsequent trusted AB rollback guard",
+      "not_global_pass": true,
+      "carry_forward_run": 34956212157
+    },
+    {
+      "run": 34956212157,
+      "candidate": "1bdca3766f7c9800d68295ff5122798060b8a05d",
+      "artifact": 10392910720,
+      "sha256": "eeb76d0c63e5e78514e44a3acd958177a0d39810b89663c538dd93ffef29ae04",
+      "local_zip_hash_verified": true,
+      "classification": "REUSED_EVIDENCE",
+      "historical_460_reexecuted": false,
+      "fresh_ac_schedules": 20,
+      "conclusion": "success"
+    }
   ],
-  "incoming_bounded_independent": {"run": 35100538743, "artifact": 10448525578, "sha256": "003079ab6bee7d92dcc96b424aa317c4e4c0cbbd1166d189e2d86884b2159da3", "local_checksum_and_crc": true, "transaction_checks": 23, "two_session_schedules": 12, "global_cp6_pass": false},
-  "new_execution": "NOT_STARTED",
+  "incoming_bounded_independent": {
+    "run": 35100538743,
+    "artifact": 10448525578,
+    "sha256": "003079ab6bee7d92dcc96b424aa317c4e4c0cbbd1166d189e2d86884b2159da3",
+    "local_checksum_and_crc": true,
+    "transaction_checks": 23,
+    "two_session_schedules": 12,
+    "global_cp6_pass": false
+  },
+  "new_execution": {
+    "run": 35106838047,
+    "harness": "3c501e007f105196af4232b2b3486467613f7c59",
+    "conclusion": "failure",
+    "artifact": 10450378179,
+    "sha256": "dcd25b99a66595989e7f5c20fbda0d88acdf19a5b7b1cbd0c021111eeb47a081",
+    "local_zip_hash_and_crc": true,
+    "combined": {
+      "planned": 142,
+      "started": 0,
+      "failure": "AI_NATIVE_HEAD_REQUIRED: called frozen writer suite with harness GITHUB_SHA instead of candidate SHA"
+    },
+    "independent_staged": {
+      "planned": 16,
+      "passed": 16,
+      "bugs": 0,
+      "incomplete": 0
+    },
+    "independent_prior": {
+      "planned": 23,
+      "passed": 23
+    },
+    "two_session": {
+      "planned": 12,
+      "passed": 12
+    },
+    "real_auth_http": {
+      "checks": 95,
+      "status": "PASS",
+      "exposed_schemas": [
+        "public"
+      ],
+      "temporary_schema_usage": false,
+      "facades": 5,
+      "mutations": 7,
+      "role_classes": [
+        "owner",
+        "operator",
+        "viewer",
+        "anonymous",
+        "unmapped",
+        "inactive"
+      ],
+      "not_full_role_cartesian": true
+    },
+    "restore": {
+      "functions": 533,
+      "tables": 223,
+      "exact": true
+    },
+    "cleanup": "PASS"
+  },
   "ui_real_services": "BELUM_TERUJI_ORIGINAL_RUNTIME_REJECTS_DISPOSABLE_URL",
   "csv_transport": "BELUM_TERUJI",
   "full_role_coverage": "BELUM_TERUJI",
   "chat_interruption_internal_cause": "UNKNOWN_NOT_INFERRED",
-  "five_hundred_claim": "NO_UNIQUE_500_BUSINESS_CASE_MANIFEST_ESTABLISHED"
+  "five_hundred_claim": "NO_UNIQUE_500_BUSINESS_CASE_MANIFEST_ESTABLISHED",
+  "local_tests": {
+    "unit": {
+      "files": 30,
+      "tests": 208,
+      "status": "PASS"
+    },
+    "security_static": "PASS",
+    "build": "PASS",
+    "client_artifact_secret_scan": "PASS",
+    "localhost_original_runtime": {
+      "http": "UAT_URL_INVALID",
+      "https": "UAT_PROJECT_REF_MISMATCH",
+      "network_requests": 0
+    }
+  },
+  "historical_matrix_manifest": {
+    "path": "H_MAINTENANCE_ROLLBACK/manifest.json",
+    "sha256": "474a98c11626c0c11ec816516cf43f88cfc41949ea29b1746802bf498d415aa9",
+    "verified_from_artifact": 10392910720,
+    "unique_case_ids": 460,
+    "failed": 0,
+    "targets": [
+      "F",
+      "G",
+      "H",
+      "I",
+      "J",
+      "K",
+      "L",
+      "M",
+      "N",
+      "O",
+      "P",
+      "Q",
+      "R",
+      "S",
+      "T",
+      "U",
+      "V",
+      "W",
+      "X",
+      "Y",
+      "Z",
+      "AA",
+      "AB"
+    ],
+    "operations": [
+      "SALE",
+      "RETURN",
+      "CONVERSION",
+      "REPORT",
+      "FK_SYNC"
+    ],
+    "schedules": [
+      "WRITER_FIRST",
+      "ADMISSION_FIRST",
+      "WRITER_ABORT",
+      "DRAIN_TIMEOUT"
+    ],
+    "current_controller_changed_functions": [
+      "_capsule_snapshot",
+      "run_maintenance_rollback"
+    ],
+    "reuse_limit": "Historical runtime evidence only. New target branches and complete predecessor-edge verification do not make old cases fresh final-runtime business tests."
+  },
+  "history_verified_from_ci_logs": [
+    {
+      "run": 34749016850,
+      "job": 103702029238,
+      "candidate": "e8c4c75caa923485db9e6f51f6c19f79c4123d5c",
+      "planned": 320,
+      "completed_matrix_pass": 320,
+      "classification": "RECONCILED",
+      "failure": "After U rollback: stale shell assertion expected 5 restored functions, actual contract 7; subsequent full comparison/ladder skipped.",
+      "artifact": 10315670731,
+      "sha256": "ad8ffb765f336f09744a6398a35048e3c136e945aeefb076758817a137e7be04",
+      "digest_basis": "source document; ZIP not locally fetched"
+    },
+    {
+      "run": 34750564635,
+      "job": 103706255999,
+      "candidate": "517b0af9e6dc5df88966f9abe7e6263ee66db5cd",
+      "planned": 320,
+      "completed_matrix_pass": 320,
+      "classification": "RECONCILED",
+      "failure": "Final binder: R/T race manifest says source_generation T although frozen setup verifies U. Metadata drift, not automatic transaction defect.",
+      "artifact": 10316526664,
+      "sha256": "1a137122b0bf6dc813ad0bb4d06a90336027a565a50667ca2bd327b29cc705c5",
+      "digest_basis": "source document; ZIP not locally fetched"
+    },
+    {
+      "run": 34763643963,
+      "job": 103740677147,
+      "candidate": "1a1a6b9dd3f572cb9aa23b4bbd6ab92e7a597e2a",
+      "planned": 340,
+      "completed_matrix_pass": 340,
+      "classification": "RECONCILED",
+      "failure": "Final binder compared equivalent numeric strings 0 and 0.0. Prior matrix, rollback and cleanup completed.",
+      "artifact": 10320611163,
+      "sha256": "f9f10a20720f9661d0413d69b09007ba29dc97a6528d099f6635182e6ccf3b4e",
+      "digest_basis": "source document; original ZIP not locally fetched"
+    },
+    {
+      "run": 34785408617,
+      "job": 103799867689,
+      "candidate": "4ff892364f70a4e11b90544e6deb3d17b36df40f",
+      "planned": 380,
+      "attempted": 380,
+      "passed": 0,
+      "failed": 380,
+      "backend_body_entries": 0,
+      "classification": "RECONCILED",
+      "failure": "X setup rollback SQLSTATE 42703: record c shadows pg_class alias; rollback not committed. Actual recovery failure, not 380 business transaction failures.",
+      "artifact": 10327086710,
+      "sha256": "89ff12a1063329bb500c0c3bf4854cd9824f90687d29061bb46cbe280a7c30a6",
+      "resolution": "Separate versioned X rollback R2; original remains immutable; later AB189 covers 460 historical schedules.",
+      "digest_basis": "source document; original ZIP not locally fetched"
+    }
+  ]
 }

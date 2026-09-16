@@ -321,7 +321,7 @@ jobs:
       id: ai_install
     - name: Rerun unchanged combined 142-case business oracle on final candidate
       working-directory: candidate
-      run: PYTHONPATH=scripts python scripts/cp6_v2620ai_family.py --phase crossflow
+      run: GITHUB_SHA=25fa4736329e5148dfdb3572bc169952cba23251 PYTHONPATH=scripts python scripts/cp6_v2620ai_family.py --phase crossflow
     - name: Independently test staged late invoices after wages partial FG and sales
       if: ${{ always() && steps.ai_install.outcome == 'success' }}
       working-directory: candidate

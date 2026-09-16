@@ -1,4 +1,4 @@
-# CP6 final audit checkpoint — execution pending
+# CP6 final audit checkpoint — bounded results, combined retry pending
 
 VENI. VIDI. VICI. ERP. — I CONQUERED ERP.
 Reliable data adalah dewa. Keuangan—termasuk laporan—stok, dan HPP adalah raja.
@@ -13,7 +13,25 @@ Incoming harness: 2735703114ab52d605aa0d6cd2aa530b074fb5e9.
 Its parent d20e22a6f47b0b3259a76c2f3d657c7e89aa165e directly follows the
 business candidate. Six harness/router files differ; product code is identical.
 
-## Additional evidence planned, not results
+## Additional evidence and first run
+
+Run 35106838047 on harness 3c501e007f105196af4232b2b3486467613f7c59
+completed 16 new independent flows, 23 prior independent checks, 12 two-session
+schedules, and 95 real Auth/JWT/HTTP checks. All those phases, exact AH restore
+and cleanup passed. Artifact 10450378179 SHA256
+dcd25b99a66595989e7f5c20fbda0d88acdf19a5b7b1cbd0c021111eeb47a081
+was downloaded and its hash/CRC verified.
+
+The run is FAILURE, not global PASS. The 142-case inherited suite never started:
+AI_NATIVE_HEAD_REQUIRED refused the harness SHA passed as GITHUB_SHA. The retry
+sets that subprocess context to its actual frozen candidate HEAD; the harness
+identity stays separate. No expected result or business code changes.
+
+Local checks: 208 unit tests, security/source checks, build and client secret
+scan passed. The localhost guard was executed without network requests and
+returned UAT_URL_INVALID / UAT_PROJECT_REF_MISMATCH as expected.
+
+The combined retry retains these obligations:
 
 - Rerun 142 unchanged combined business cases on AI-R2, explicitly a reused
   oracle rather than independently invented expectations.
