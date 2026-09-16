@@ -1,0 +1,65 @@
+{
+  "checkpoint": "CP6",
+  "candidate": "AI",
+  "production_go": false,
+  "independent_audit": "PENDING",
+  "original_candidate": "965ceac45ef15ddc19c178d87a3606adffcf53a6",
+  "original_proof_run": 35076310148,
+  "paths": [
+    {
+      "path": "validate_work_completion",
+      "disposition": "FIXED_PENDING_NATIVE",
+      "reason": "Lock and normalize current draft parent/component snapshot; null comparisons fail closed."
+    },
+    {
+      "path": "post_work_completion / guard_work_completion_posting_consistency",
+      "disposition": "FIXED_PENDING_NATIVE",
+      "reason": "Revalidate current parent PO/contractor and every line snapshot/component/rate before posting; ordinary header lock protects child changes."
+    },
+    {
+      "path": "run_v268_financial_report_checks / owner snapshot",
+      "disposition": "FIXED_PENDING_NATIVE",
+      "reason": "New CRITICAL posted work-source check reaches aggregate confidence; normal DRAFT edits are not corruption."
+    },
+    {
+      "path": "guard_used_po_work_component_snapshot",
+      "disposition": "RECONCILED_RERUN_REQUIRED",
+      "reason": "Existing ordinary mutation guard freezes a used rate/identity; new validator SHARE lock closes concurrent source-read interval. Test ordinary refusal and work interleavings."
+    },
+    {
+      "path": "work journals / payroll eligibility / sewing terminal / WIP / HPP / corrections",
+      "disposition": "RECONCILED_RERUN_REQUIRED",
+      "reason": "Correct source is required before new facts are recognized; unchanged native normal/partial production and full142 business cases rerun. Posted history and linked reversals remain unchanged."
+    },
+    {
+      "path": "return/vendor source / reservation / opening / cash",
+      "disposition": "RECONCILED_RERUN_REQUIRED",
+      "reason": "Existing posting source checks and immutable old business expectations retained; AH focused and report controls plus8 return races run on AI."
+    },
+    {
+      "path": "HTTP / UI / CSV / complete role coverage",
+      "disposition": "BELUM_TERUJI",
+      "reason": "Native OWNER proof with temporary schema USAGE is not production application reachability. No work-completion caller found in current frontend scan."
+    },
+    {
+      "path": "installation / rollback / admission controller",
+      "disposition": "NEW_EDGE_RERUN_REQUIRED",
+      "reason": "Dirty posted work refuses installation. Three-function capsule,221 relation boundary;533 functions and223 tables restore exactly to AH."
+    },
+    {
+      "path": "admitted SQL through AH / historical500 matrix",
+      "disposition": "REUSED_EVIDENCE",
+      "reason": "All admitted SQL byte-identical. New work-source scope and relevant combined tests rerun; old router green does not imply500-case execution."
+    }
+  ],
+  "planned_tests": {
+    "original": 12,
+    "admission": 8,
+    "focused": 99,
+    "detector": 36,
+    "crossflow": 142,
+    "concurrency": 16,
+    "maintenance": 20,
+    "rollback_refusals": 8
+  }
+}

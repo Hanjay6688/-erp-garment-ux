@@ -20,7 +20,28 @@ concurrency:
   group: cp6-ah-return-allocation-${{ github.ref }}
   cancel-in-progress: false
 jobs:
+  # BEGIN AI QUALIFIED ROUTE
+  review-scope:
+    runs-on: ubuntu-24.04
+    outputs:
+      ai: ${{ steps.scope.outputs.ai }}
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - id: scope
+      shell: bash
+      run: |
+        set -euo pipefail
+        if python scripts/cp6_ai_gate_scope.py; then
+          echo 'ai=true' >> "$GITHUB_OUTPUT"
+        else
+          echo 'ai=false' >> "$GITHUB_OUTPUT"
+        fi
+  # END AI QUALIFIED ROUTE
   review:
+    needs: review-scope
+    if: needs.review-scope.outputs.ai != 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 55
     env:

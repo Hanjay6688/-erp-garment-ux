@@ -1,0 +1,98 @@
+{
+  "base": "4337b2f4ede0a24a54a925eb8a789eb37f8362a4",
+  "production_go": false,
+  "source_pins": {
+    ".github/workflows/cp6-ac-independent-audit.yml": {
+      "sha256": "97f33d622a61b060d304f0b446278a46f638a042060dc1e9a91f7c490f6fdbb9",
+      "bytes": 14888
+    },
+    ".github/workflows/cp6-ad-roll-opening-check.yml": {
+      "sha256": "77fee5459ac57b8c0c2de73f24c801367ed4f0968dc735714a3ded5bc2b2a1fb",
+      "bytes": 14629
+    },
+    ".github/workflows/cp6-ag-sale-reservation.yml": {
+      "sha256": "8aee919f1604c0cbd2533a1f0efc8533d63afbd22b8a5b1765a9b8216102a16c",
+      "bytes": 14742
+    },
+    ".github/workflows/cp6-ah-independent-review.yml": {
+      "sha256": "0e50caf816bcb3abd50b750e2211db03e167ed28050394e6e6884285af53d6c9",
+      "bytes": 15691
+    },
+    ".github/workflows/cp6-ah-return-allocation.yml": {
+      "sha256": "f217e0a63d68c1b7f176dade48560e9a371b9eec4eb6efdae01c5d7e8295b7c2",
+      "bytes": 16916
+    },
+    ".github/workflows/cp6-ai-work-source.yml": {
+      "sha256": "b66cb90cbf6f0057d96c38c79e7174a0a6fd8d07e2821dd782393317927fdf01",
+      "bytes": 19748
+    },
+    ".github/workflows/cp6-full-schema-validation.yml": {
+      "sha256": "c177e67accb4329797cf58fb9e617f15574f6b2b793e05facee6fdda25616816",
+      "bytes": 511992
+    },
+    "docs/cp6-ai-competition-handoff.md": {
+      "sha256": "7235295c69d767610b40613742123d58cc7c87df762685a3256aaa430f94c97a",
+      "bytes": 4389
+    },
+    "docs/evidence/cp6-ai-ah-catalog-pins.json": {
+      "sha256": "ea9e074a31f2e5c866c7750fdbcfdc01d129b79be0e31425027488aac67b1c0d",
+      "bytes": 144352
+    },
+    "docs/evidence/cp6-ai-family-disposition.json": {
+      "sha256": "72ac8fe0cd64ebc8357d19505c59a6228bd3ab82faae8fe3a5f7037c318c64c2",
+      "bytes": 2986
+    },
+    "docs/evidence/cp6-ai-predecessor-functions.json": {
+      "sha256": "5c27d5f6be1011894e5dffe0dff5191dd5e02dc10d7dafce03d9a184414fb0c9",
+      "bytes": 60935
+    },
+    "docs/evidence/cp6-ai-runtime-pins.json": {
+      "sha256": "2afa10f94618b42ff297f0f894672db341b3323ee1f75af24a8c4e2570767300",
+      "bytes": 2929
+    },
+    "scripts/cp6_ah_independent_review.py": {
+      "sha256": "c8947ab259d96735b05740a2fe9b088836589309d782cde753a3ac746970c067",
+      "bytes": 14107
+    },
+    "scripts/cp6_ai_gate_scope.py": {
+      "sha256": "7101898d9579611709d1084b122d66717e9a80fa3a1f97376ed975854f8edd6a",
+      "bytes": 5561
+    },
+    "scripts/cp6_preuse_rollback_maintenance.py": {
+      "sha256": "eb6746524599afe0e08106bbd075bf2499bd5aa9e2b71b54bfd93361aecdb515",
+      "bytes": 79386
+    },
+    "scripts/cp6_v2620ai_build_sql.py": {
+      "sha256": "c41db7600e73d7f6fc5fcff479f5c1bd22646cfd1041cf49ec3c65d70f51d1ab",
+      "bytes": 10541
+    },
+    "scripts/cp6_v2620ai_concurrency.py": {
+      "sha256": "bd99c2e84c4d75b015a06fa137f8e1962715e6fe0c64d66c1f6eba7d16d5131a",
+      "bytes": 6577
+    },
+    "scripts/cp6_v2620ai_family.py": {
+      "sha256": "9d18d1ced8f90f75559177cb82c4a2b17f9d97636e1bfd8898e6ecf080dd0ee6",
+      "bytes": 12468
+    },
+    "scripts/cp6_v2620ai_maintenance_schedules.py": {
+      "sha256": "2f701b419fd45aebc85a5fc4451a32a63a26c2a3eb3f250e20394a7fd2804e65",
+      "bytes": 5626
+    },
+    "scripts/cp6_v2620ai_rollback_guards.py": {
+      "sha256": "f8c97acc48b5e4ca2e324a548b5a9b846d94a4eb5b9c64d9b745b5649a52c2fe",
+      "bytes": 8105
+    },
+    "scripts/cp6_v2620ai_runtime.py": {
+      "sha256": "7f5f4c6f2f43a84f50411abcd71df09b25a0fc4840c4b62100cf53a884e7ef68",
+      "bytes": 6091
+    },
+    "supabase/migrations/20260916090022_erp_v2_6_20ai_cp6_work_source_lineage.sql": {
+      "sha256": "d3a604e53e599221afd46d1397e0d0660ebd8dc48db27113dfa63d3c3613a61c",
+      "bytes": 73373
+    },
+    "supabase/rollbacks/20260916090022_erp_v2_6_20ai_cp6_work_source_lineage.rollback.sql": {
+      "sha256": "ea7798456883773d53f747003017903305ee32b4d3b6f5851b17de443630ded7",
+      "bytes": 11554
+    }
+  }
+}

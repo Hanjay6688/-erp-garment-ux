@@ -39,6 +39,14 @@ jobs:
           PYTHONPATH=scripts python - <<'PY'
           import os
           from pathlib import Path
+          # BEGIN AI QUALIFIED ROUTE
+          if Path('scripts/cp6_ai_gate_scope.py').exists():
+              from cp6_ai_gate_scope import verify
+              verify()
+              with open(os.environ['GITHUB_OUTPUT'], 'a') as output:
+                  output.write('ae=true\n')
+              raise SystemExit(0)
+          # END AI QUALIFIED ROUTE
           # BEGIN AH INDEPENDENT ROUTE
           if Path('scripts/cp6_ah_review_scope.py').exists():
               from cp6_ah_review_scope import verify

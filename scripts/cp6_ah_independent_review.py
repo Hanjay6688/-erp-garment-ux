@@ -116,9 +116,21 @@ def work_case(mode):
 
 def independent_return(destination,grade):
     def run(cur,day):
-        f=returns.posted_fixture(cur,day);f['ordinary_draft_creation']=True
+        f=peer.fixture(cur,day)
+        payload=dict(f['payload'],sale_id=f['sale']['sale_id'],reason='Independent two-allocation return',
+                     items=[dict(f['payload']['items'][0]),dict(f['payload']['items'][0])])
+        saved=returns.success(peer.operation(cur,'select erp.save_sale_draft_v2(%s::jsonb,%s,%s)',
+                              (json.dumps(payload),uuid.uuid4(),f['sale']['row_version'])))
+        returns.success(peer.operation(cur,'select erp.post_sale_v2(%s,%s,%s)',
+                        (saved['sale_id'],uuid.uuid4(),saved['row_version'])))
+        actors.admin(cur)
+        allocations=cur.execute('select a.id from erp.sale_stock_allocations a join erp.sales_items i on i.id=a.sale_item_id where i.sale_id=%s order by a.id',(saved['sale_id'],)).fetchall()
+        assert len(allocations)==2,allocations
+        f['allocation']=allocations[0][0];f['ordinary_draft_creation']=True
         dest=base.LOCATION if destination=='SAME' else f['second_location']
-        rid=returns.create_return(cur,day,f,dest,grade,(1,1))
+        rid=returns.create_return(cur,day,f,dest,grade,(1,))
+        peer.ordinary(cur)
+        cur.execute('insert into erp.sales_return_items(return_id,sale_stock_allocation_id,location_id,qty_pcs,refund_amount,quality_grade) values(%s,%s,%s,1,20,%s)',(rid,allocations[1][0],dest,grade))
         posted=peer.operation(cur,'select erp.post_sales_return(%s)',(rid,));returns.success(posted)
         actors.admin(cur)
         observed=cur.execute("""select m.location_id,m.quality_grade,sum(m.qty_signed),sum(m.qty_signed*m.unit_hpp_snapshot)
@@ -126,10 +138,10 @@ def independent_return(destination,grade):
           where i.return_id=%s and m.source_type='SALES_RETURN_ITEM' and m.movement_type='SALE_RETURN'
           group by m.location_id,m.quality_grade""",(rid,)).fetchall()
         assert observed==[(uuid.UUID(str(dest)),grade,2,Decimal('2.50'))],observed
-        net=base.one(cur,'select erp.sale_net_total(%s)',(f['sale']['sale_id'],));assert net==Decimal('20'),net
+        net=base.one(cur,'select erp.sale_net_total(%s)',(f['sale']['sale_id'],));assert net==Decimal('80'),net
         assert peer.confidence(cur,day)['data_confidence']['status']=='READY'
         reversed=peer.operation(cur,"select erp.reverse_sales_return(%s,'Independent AH two-line correction')",(rid,));returns.success(reversed)
-        actors.admin(cur);assert base.one(cur,'select erp.sale_net_total(%s)',(f['sale']['sale_id'],))==Decimal('60')
+        actors.admin(cur);assert base.one(cur,'select erp.sale_net_total(%s)',(f['sale']['sale_id'],))==Decimal('120')
         today=base.one(cur,"select (statement_timestamp() at time zone 'Asia/Jakarta')::date")
         report=peer.confidence(cur,today);assert report['data_confidence']['status']=='READY',report
         return dict(status='CONTROL_PASS',receipt=observed,net_after_return=net,reversal=reversed,report=report)

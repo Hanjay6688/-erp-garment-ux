@@ -32,7 +32,7 @@ jobs:
     - id: scope
       shell: bash
       run: |
-        if python scripts/cp6_ah_gate_scope.py || python scripts/cp6_ah_review_scope.py; then
+        if python scripts/cp6_ah_gate_scope.py || python scripts/cp6_ah_review_scope.py || python scripts/cp6_ai_gate_scope.py; then
           echo 'ah=true' >> "$GITHUB_OUTPUT"
         else
           echo 'ah=false' >> "$GITHUB_OUTPUT"
