@@ -48,8 +48,11 @@ def accounting_mismatches(observed, material, ap, grni):
     # No wage in this fixture. Ten units of material + ten real washes at 7.
     # Five pieces remain WIP; three are on hand and two sold.
     cost = Decimal(material) + 70
+    # The conversion boundary posts the rounded cost of five completed pieces;
+    # WIP holds the exact remaining cents, not a second rounded half.
+    completed_cost = cent(cost / 2)
     expected = {
-        'WIP': cent(cost / 2), 'FG_INVENTORY': cent(cost * Decimal('.3')),
+        'WIP': cent(cost) - completed_cost, 'FG_INVENTORY': cent(cost * Decimal('.3')),
         'COGS': cent(cost * Decimal('.2')), 'MATERIAL_INVENTORY': Decimal(0),
         'AP_SUPPLIER': -Decimal(ap), 'GRNI_MATERIAL': -Decimal(grni),
     }
@@ -70,6 +73,23 @@ def accounting_mismatches(observed, material, ap, grni):
 
 
 def calendar_case(cur, today, purchased, received, zone, closed):
+    # Observe the same complete accounting period for baseline and outcome.
+    # The old short-delay helper starts at today-3 and would exclude old COGS.
+    original_reports = production.reports
+    def period_reports(cursor, through):
+        production.owner(cursor)
+        return {str(day): production.one(cursor,
+                'select erp.get_owner_financial_snapshot_v2(%s,%s,%s)',
+                (purchased, day, day))
+                for day in (through-timedelta(days=1), through)}
+    production.reports = period_reports
+    try:
+        return calendar_case_body(cur, today, purchased, received, zone, closed)
+    finally:
+        production.reports = original_reports
+
+
+def calendar_case_body(cur, today, purchased, received, zone, closed):
     baseline_ledger, baseline_report = production.ledger(cur), production.reports(cur, today)
     f = production.estimated_receipt(cur, purchased + timedelta(days=3))
     assert f['purchase_day'] == purchased
@@ -131,9 +151,9 @@ def raw_batch(cur, today, variant):
     # ACCESSORY needs a category; OTHER can exercise the anonymous opening path.
     cur.execute("update erp.materials set material_type='OTHER' where id=%s", (material,))
     sku = cur.execute('select material_sku from erp.materials where id=%s', (material,)).fetchone()[0]
-    loc = 'RAW-IMPORT-' + location.hex
+    loc = 'RAW-IMPORT-' + location.hex[:16]
     cur.execute("insert into erp.locations(id,location_code,location_name,location_type,is_active) values(%s,%s,'Independent raw staging','RAW_MATERIAL_WAREHOUSE',true)", (location,loc))
-    cur.execute("insert into erp.migration_batches(id,batch_code,cutover_at,status) values(%s,%s,%s,'DRAFT')", (batch,'RAW-'+batch.hex,production.at(today-timedelta(days=1),0)))
+    cur.execute("insert into erp.migration_batches(id,batch_code,cutover_at,status) values(%s,%s,%s,'DRAFT')", (batch,'RAW-'+batch.hex[:16],production.at(today-timedelta(days=1),0)))
     payload = dict(balance_type='MATERIAL', material_sku=sku, location_code=loc, qty='10', unit_cost='1.25')
     if variant == 'NONNUMERIC_QTY': payload['qty'] = 'ten'
     if variant == 'MISSING_COST': payload.pop('unit_cost')
@@ -170,7 +190,7 @@ def import_case(cur, today, variant):
         return result
     assert validation_error is None and summary == [(1,1,0)] and rows[0][1]=='VALID', result
     actors.owner(cur)
-    opening = cur.execute('select erp.prepare_migration_opening_balance(%s,%s)', (batch,'IMP-'+uuid.uuid4().hex)).fetchone()[0]
+    opening = cur.execute('select erp.prepare_migration_opening_balance(%s,%s)', (batch,'IMP-'+uuid.uuid4().hex[:16])).fetchone()[0]
     replay = cur.execute('select erp.prepare_migration_opening_balance(%s,%s)', (batch,None)).fetchone()[0]
     actors.admin(cur)
     assert replay == opening and production.ledger(cur)==balance_before

@@ -15,6 +15,7 @@ import json
 import os
 import shutil
 import subprocess
+import sys
 import tempfile
 import time
 import traceback
@@ -22,6 +23,7 @@ from datetime import datetime, time as daytime, timedelta, timezone
 from decimal import Decimal
 from pathlib import Path
 
+sys.path.insert(0, str(Path.cwd() / 'scripts'))
 import psycopg
 
 import cp6_aa_invoice_partial_audit as invoice

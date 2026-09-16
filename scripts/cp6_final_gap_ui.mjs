@@ -19,6 +19,7 @@ export async function runIndependentGaps(c){
     source_sha256:createHash('sha256').update(readFileSync(fileURLToPath(import.meta.url))).digest('hex'),
     cases:[],permission_rows:[],scope:'Independent real UI/HTTP observations; no CSV interface exists',
     schema_acl_modified:false,all_permission_combinations_claimed:false}
+  const roleSessions=[]
   const clean=x=>{
     let text=JSON.stringify(x)
     for(const secret of secrets.filter(Boolean))text=text.split(secret).join('[REDACTED]')
@@ -53,6 +54,12 @@ export async function runIndependentGaps(c){
     'entitlements',(select count(*) from erp.contractor_accessory_reimbursement_entitlements),
     'context',(select count(*) from erp.bs_resolution_execution_context),
     'unbalanced',(select count(*) from (select journal_entry_id from erp.journal_lines group by journal_entry_id having sum(debit)<>sum(credit)) j))`))
+  const businessBoundary=()=>JSON.parse(query(`select jsonb_build_object(
+    'cases',(select md5(coalesce(string_agg(to_jsonb(t)::text,'' order by id),'')) from erp.bs_cases t),
+    'orders',(select md5(coalesce(string_agg(to_jsonb(t)::text,'' order by id),'')) from erp.rework_orders t),
+    'resolutions',(select md5(coalesce(string_agg(to_jsonb(t)::text,'' order by id),'')) from erp.bs_resolutions t),
+    'claims',(select md5(coalesce(string_agg(to_jsonb(t)::text,'' order by id),'')) from erp.laundry_claims t),
+    'context',(select count(*) from erp.bs_resolution_execution_context))`))
   async function manual(token= session.access_token,quantity=4){
     const number='IND-BS-'+randomUUID().slice(0,12)
     const r=await action(token,'CREATE_MANUAL_BS',{bs_number:number,untracked_type:'LEGACY',legacy_reference:'Disposable count '+number,
@@ -70,17 +77,21 @@ export async function runIndependentGaps(c){
   }
   async function selectCase(page,number){
     await page.getByPlaceholder('Nomor, PO, model, Pola, pihak…').fill(number)
-    const reply=page.waitForResponse(r=>r.url().endsWith('/rpc/erp_get_bs_resolution_workspace_v1')&&r.request().postDataJSON()?.p_query===number)
-    await page.getByRole('button',{name:'Cari',exact:true}).click()
-    assert.equal((await reply).status(),200)
+    const [reply]=await Promise.all([
+      page.waitForResponse(r=>r.url().endsWith('/rpc/erp_get_bs_resolution_workspace_v1')&&r.request().postDataJSON()?.p_query===number),
+      page.locator('.cbsr-search').getByRole('button',{name:'Cari',exact:true}).click(),
+    ])
+    assert.equal(reply.status(),200)
     await expect(page.locator('.cbsr-detail h2')).toHaveText(number)
   }
   async function bsMutation(page,button,kind){
     const control=typeof button==='string'?page.getByRole('button',{name:button,exact:true}):button
     await expect(control).toBeEnabled()
-    const response=page.waitForResponse(r=>r.url().endsWith('/rpc/erp_save_bs_resolution_action_v1')&&r.request().postDataJSON()?.p_action===kind)
-    await control.click()
-    const r=await response,value=await r.json()
+    const [r]=await Promise.all([
+      page.waitForResponse(r=>r.url().endsWith('/rpc/erp_save_bs_resolution_action_v1')&&r.request().postDataJSON()?.p_action===kind),
+      control.click(),
+    ])
+    const value=await r.json()
     report.last_mutation={action:kind,request:r.request().postDataJSON(),http_status:r.status(),response:value}
     save();assert.equal(r.status(),200,JSON.stringify(report.last_mutation))
     await expect(page.locator('.cbsr-busy')).toHaveCount(0)
@@ -100,13 +111,15 @@ export async function runIndependentGaps(c){
       await mapUser(session.access_token,user,['production.bs_rework.view',...caps.map(x=>'production.bs_rework.'+x)])
       const login=await authRequest('token?grant_type=password',{email:user.email,password:user.password})
       secrets.push(login.access_token,login.refresh_token)
+      roleSessions.push({bits,capabilities:caps,token:login.access_token})
       for(const [kind,cap] of Object.entries(actions)){
         if(caps.includes(cap))continue
-        const before=snapshot()
+        const before=snapshot(),boundary=businessBoundary()
         const r=await rawAction(login.access_token,kind,{change_reason:'Independent absent permission control'})
         assert.ok(r.status!==200,`Missing ${cap} accepted ${kind}`)
         assert.match(r.body.message||'',/permission|izin/i,JSON.stringify(r.body))
         assert.deepEqual(snapshot(),before)
+        assert.deepEqual(businessBoundary(),boundary)
         report.permission_rows.push({bits,capabilities:caps,action:kind,expectation:'DENY_MISSING_PERMISSION',status:r.status,code:r.body.code})
         save()
       }
@@ -127,6 +140,99 @@ export async function runIndependentGaps(c){
     }
     record('PERMISSION_MATRIX',{missing_permission_pairs:report.permission_rows.length,exact_masks:[0,1,2,3,4,5,6,7]})
   })
+
+  async function prepareRework(){
+    const bs=await manual()
+    const made=await action(session.access_token,'SAVE_REWORK',{rework_number:'ROLE-RW-'+randomUUID().slice(0,12),
+      bs_case_id:bs.id,destination_type:'LAUNDRY',contractor_id:null,vendor_id:f.vendor,qty_sent:4,
+      physical_sent_at:todayPhysical(),status:'IN_PROGRESS',accessory_bom_version_id:null,
+      accessory_bom_item_ids:[],components:[],change_reason:'Role matrix original legacy all-BS rewash'})
+    return made.result.rework_order_id
+  }
+  async function completeLegacy(id,token=session.access_token){
+    return action(token,'COMPLETE_REWORK',{rework_order_id:id,qty_good:0,qty_bs:4,completed_at:todayPhysical(),
+      return_fg_location_id:null,change_reason:'All four physical pieces returned BS; no invented FG'},rv(id))
+  }
+  const claimVersion=id=>{assert.match(id,idRx);return Number(query(`select row_version from erp.laundry_claims where id='${id}'`))}
+  async function makeClaim(delivery,token=session.access_token,type='STUCK'){
+    const r=await action(token,'SAVE_CLAIM',{action:'SAVE',claim_number:'ROLE-CL-'+randomUUID().slice(0,12),
+      vendor_id:f.vendor,delivery_id:delivery,receipt_line_id:null,qty_claimed:1,claim_type:type,
+      compensation_amount:0,opened_at:query('select clock_timestamp()::text'),
+      notes:'One physical piece still with vendor',change_reason:'Independent ordinary claim source'})
+    return r.result.laundry_claim_id||r.result.claim_id
+  }
+  async function rejectClaim(id){
+    assert.match(id,idRx)
+    return action(session.access_token,'SAVE_CLAIM',{id,action:'REJECT',change_reason:'Independent linked claim release'},claimVersion(id))
+  }
+  async function remainingRoleCases(delivery){
+    for(const profile of roleSessions){
+      const {bits,capabilities:caps,token}=profile
+      if(caps.includes('create')){
+        await group(`ROLE_${bits}_CLASSIFY_REWORK_CLAIM`,async()=>{
+          const m=await manual()
+          await action(token,'CLASSIFY_BS',{bs_case_id:m.id,cause_source:'UNKNOWN',components:[],change_reason:'Independent granular classification'},bv(m.id))
+          const order=await action(token,'SAVE_REWORK',{rework_number:'GRANULAR-'+randomUUID().slice(0,12),bs_case_id:m.id,
+            destination_type:'LAUNDRY',vendor_id:f.vendor,contractor_id:null,qty_sent:4,physical_sent_at:todayPhysical(),
+            status:'IN_PROGRESS',accessory_bom_version_id:null,accessory_bom_item_ids:[],components:[],change_reason:'Independent granular rewash create'})
+          const orderId=order.result.rework_order_id
+          await action(token,'SAVE_REWORK',{id:orderId,action:'CANCEL',change_reason:'Independent unreturned order cancellation'},rv(orderId))
+          const claim=await makeClaim(delivery,token)
+          await rejectClaim(claim)
+          record(`ROLE_${bits}_CLASSIFY_REWORK_CLAIM`,{classification:true,rewash_create_cancel:true,real_claim:true})
+        })
+      }
+      if(caps.includes('post')){
+        await group(`ROLE_${bits}_COMPLETE_DISPOSE`,async()=>{
+          const before=snapshot(),order=await prepareRework()
+          await completeLegacy(order,token)
+          const m=await manual()
+          await action(token,'DISPOSE_BS',{bs_case_id:m.id,resolution_type:'WRITE_OFF',qty_pcs:1,compensation_amount:0,
+            physical_at:todayPhysical(),change_reason:'Independent granular writeoff'},bv(m.id))
+          assert.deepEqual(snapshot(),before)
+          record(`ROLE_${bits}_COMPLETE_DISPOSE`,{all_bs_complete:true,writeoff:true,no_financial_rows:true})
+        })
+      }
+      for(const kind of ['RESOLVE_CLAIM','REVERSE_DISPOSITION','REVERSE_REWORK_COMPLETION','REVERSE_CLAIM_RESOLUTION']){
+        if(!caps.includes(actions[kind]))continue
+        await group(`ROLE_${bits}_${kind}_OWNER_BOUNDARY`,async()=>{
+          let payload,version,claim
+          if(kind==='REVERSE_DISPOSITION'){
+            const m=await manual()
+            const posted=await action(session.access_token,'DISPOSE_BS',{bs_case_id:m.id,resolution_type:'SCRAP',qty_pcs:1,
+              compensation_amount:0,physical_at:todayPhysical(),change_reason:'Independent reversal role source'},bv(m.id))
+            const resolution=posted.result.resolution_id
+              ||query(`select id from erp.bs_resolutions where bs_case_id='${m.id}' order by created_at desc limit 1`)
+            payload={resolution_id:resolution,change_reason:'Nonowner with exact reverse permission'};version=bv(m.id)
+          }else if(kind==='REVERSE_REWORK_COMPLETION'){
+            const order=await prepareRework();await completeLegacy(order)
+            payload={rework_order_id:order,change_reason:'Nonowner with exact reverse permission'};version=rv(order)
+          }else{
+            claim=await makeClaim(delivery)
+            if(kind==='REVERSE_CLAIM_RESOLUTION')await action(session.access_token,'RESOLVE_CLAIM',{
+              laundry_claim_id:claim,resolution:'WRITTEN_OFF',change_reason:'Owner confirms zero-compensation physical claim'},claimVersion(claim))
+            payload={laundry_claim_id:claim,resolution:'WRITTEN_OFF',change_reason:'Nonowner with exact post/reverse permission'}
+            version=claimVersion(claim)
+          }
+          const before=snapshot(),boundary=businessBoundary()
+          const response=await rawAction(token,kind,payload,version)
+          assert.notEqual(response.status,200,'Nonowner accepted owner-only action '+kind)
+          assert.match(response.body.message||'',/owner|admin/i,JSON.stringify(response.body))
+          assert.deepEqual(snapshot(),before);assert.deepEqual(businessBoundary(),boundary)
+          report.permission_rows.push({bits,action:kind,expectation:'DENY_OWNER_ADMIN_REQUIRED',status:response.status})
+          // An OWNER performs the identical valid operation, so a generic bad
+          // payload cannot qualify the role denial.
+          await action(session.access_token,kind,payload,version)
+          if(claim){
+            if(kind==='RESOLVE_CLAIM')await action(session.access_token,'REVERSE_CLAIM_RESOLUTION',{
+              laundry_claim_id:claim,change_reason:'Owner linked zero-compensation claim correction'},claimVersion(claim))
+            await rejectClaim(claim)
+          }
+          record(`ROLE_${bits}_${kind}_OWNER_BOUNDARY`,{nonowner_atomic_refusal:true,identical_owner_payload_accepted:true})
+        })
+      }
+    }
+  }
 
   await group('LEGACY_UI_LIFECYCLE',async()=>{
     const page=await pageFor(owner)
@@ -171,13 +277,26 @@ export async function runIndependentGaps(c){
       const initial=state(),baselineReport=financialReport()
       assert.equal(initial.fg_qty,0);assert.equal(initial.wip,0)
       await nav(page,'Laundry');await sendForm(page);await mutation(page,'Post pengiriman atomic','POST_DELIVERY')
+      const sent=query(`select id from erp.laundry_deliveries where po_id='${f.po}' and status='POSTED' order by created_at desc limit 1`)
+      assert.match(sent,idRx)
+      await remainingRoleCases(sent)
+      // Keep collecting after an individual permission control fails. Restore
+      // the shared source's claim capacity through normal linked corrections.
+      const remainingClaims=JSON.parse(query(`select coalesce(jsonb_agg(jsonb_build_object('id',id,'status',status)),'[]') from erp.laundry_claims where delivery_id='${sent}' and status<>'REJECTED'`))
+      for(const claim of remainingClaims){
+        if(['SETTLED','WRITTEN_OFF'].includes(claim.status))await action(session.access_token,'REVERSE_CLAIM_RESOLUTION',{
+          laundry_claim_id:claim.id,change_reason:'Independent source cleanup through linked claim reversal'},claimVersion(claim.id))
+        await rejectClaim(claim.id)
+      }
       await receiveForm(page,10,'09:00');await mutation(page,'Post penerimaan atomic','POST_RECEIPT')
       assert.deepEqual(await page.locator('.clq-alert.error').allTextContents(),[])
       record('INDEPENDENT_RECEIPT_PROCESS',{ordinary_process_name_accepted:true,real_http:true,observed:state()})
       await nav(page,'QC & Final SKU');await qcForm(page,0,'10:00',10)
-      const qcResponse=page.waitForResponse(r=>r.url().endsWith('/rpc/erp_save_laundry_qc_action_v1')&&r.request().postDataJSON()?.p_action==='POST_FINAL_SKU')
-      await mutation(page,'Post QC + Final SKU atomic','POST_FINAL_SKU')
-      const rq=(await qcResponse).request().postDataJSON()
+      const [qcResponse]=await Promise.all([
+        page.waitForResponse(r=>r.url().endsWith('/rpc/erp_save_laundry_qc_action_v1')&&r.request().postDataJSON()?.p_action==='POST_FINAL_SKU'),
+        mutation(page,'Post QC + Final SKU atomic','POST_FINAL_SKU'),
+      ])
+      const rq=qcResponse.request().postDataJSON()
       assert.equal(rq.p_payload.good_qty_pcs,0);assert.equal(rq.p_payload.completion_mode,'ALL_READY')
       assert.equal(state().fg_qty,0);assert.equal(state().qc_bs,10)
       record('INDEPENDENT_QC_ALL_BS',{expected:{good:0,bs:10,mode:'ALL_READY'},observed:state()})

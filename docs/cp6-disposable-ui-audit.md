@@ -1,4 +1,17 @@
-# Independent follow-up — execution pending
+# Independent follow-up — R1 incomplete, qualified retry
+
+R1 audit harness `f963ca28b6ab02e3db9c8a8e3b40aac9d7e94f31` ran in
+Native 35140333202. The existing 142/16/23/12 groups and 43 UI assertions
+completed. New tests exposed harness errors: the invoice report selected three
+days instead of the complete invoice period; staging identifiers exceeded the
+schema length; the clock helper imported from the wrong checkout; and an
+unhandled browser response wait prevented Auth cleanup. Therefore new groups
+and exact restoration were INCOMPLETE. Whole clone/container disposal passed.
+No new business defect is established by R1. CodeQL 35140333204 succeeded.
+Artifact 10464827882: 5,251,305 bytes, SHA-256
+`ee5cd0ab91c47d67951ed16e124d6feb8695ffad3200a7a90691e215e2e43b4f`;
+ZIP CRC and bytes were independently checked. The retry changes only harness
+observation, identifiers, imports and promise handling; product code stays fixed.
 
 Incoming report checkpoint: `555d8f29ea2d3f58dc2c7d10e7cd80099cdd3b49`, tree
 `da665828227a0a4fd5d17452538edb98754738ad`. This wave changes audit tooling only;
