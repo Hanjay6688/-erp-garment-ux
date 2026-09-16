@@ -1,0 +1,76 @@
+{
+  "format": "CP6_AH_RUNTIME_PINS_V1",
+  "stamp": "20260916070451",
+  "name": "erp_v2_6_20ah_cp6_return_allocation_eligibility",
+  "version": "v2.6.20ah",
+  "predecessor_head": "119f8f133131eaf373f08cc45b7b3d6fc27a3d3e",
+  "predecessor_tree": "bd7dd026d40e64f08f03e122338d8a82ebfd292c",
+  "functions": [
+    {
+      "identity": "erp.normalize_sales_return_item_from_allocation()",
+      "predecessor_sha256": "ea7781898a894cd7694e912f47231fdbcde8745a06a04e8e635210f84bba99ce",
+      "installed_sha256": "eaa4a353f0f455f47e7934c0f33d43a81a68fa15329f686c5283bd338829de08",
+      "owner": "postgres",
+      "acl": [
+        "postgres=X/postgres"
+      ]
+    },
+    {
+      "identity": "erp.post_sales_return(uuid)",
+      "predecessor_sha256": "7640b5781a8838f550595d47bbc3f452a50a846f58018e714a0a209b8f32ff02",
+      "installed_sha256": "a9a7202d34d2111a7def2ec475cd4e95963f5ea6029e6f1ea52c4ec236ed72f8",
+      "owner": "postgres",
+      "acl": [
+        "authenticated=X/postgres",
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ]
+    },
+    {
+      "identity": "erp.run_v268_financial_report_checks()",
+      "predecessor_sha256": "e62f7fa0d2892708128c372d6e99d39d7833a3fa2eedfe25f17695c7ca94e3ef",
+      "installed_sha256": "7371d8e3bd753c41d08ee9b558d9463f841270924b642e185fad2cc18c55ec88",
+      "owner": "postgres",
+      "acl": [
+        "authenticated=X/postgres",
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ]
+    }
+  ],
+  "boundary_count": 220,
+  "predecessor_function_count": 533,
+  "predecessor_table_count": 222,
+  "comparison_run": 35066611261,
+  "production_go": false,
+  "source_pins": {
+    "scripts/cp6_v2620ah_build_sql.py": {
+      "sha256": "291df6e87bcf52df1068fef8b02e2acf2a816b0c613d160f6afa28596d6f8c03",
+      "bytes": 12454
+    },
+    "docs/evidence/cp6-ah-predecessor-functions.json": {
+      "sha256": "ad4e7a9c652c046f649ccd53db0058afcdd90113e6a710bd3f7c389db3feca77",
+      "bytes": 68496
+    },
+    "docs/evidence/cp6-ah-ag-catalog-pins.json": {
+      "sha256": "7a20d8b56123f51bfcbef77c6ef7e89b65b4aad55ac59a735412c5b1661507b9",
+      "bytes": 144459
+    },
+    "supabase/migrations/20260916050822_erp_v2_6_20ag_cp6_sale_reservation_lineage.sql": {
+      "sha256": "bff1d7d82917ce226ad0fb8823418fa14e497407d9659e125dc01ed5e2fd5944",
+      "bytes": 84454
+    },
+    "supabase/rollbacks/20260916050822_erp_v2_6_20ag_cp6_sale_reservation_lineage.rollback.sql": {
+      "sha256": "c1265acfb790a8c7f2b6bc8d6b3691902658eb1f0b879ea2c1269d6e24a2f231",
+      "bytes": 12059
+    },
+    "supabase/migrations/20260916070451_erp_v2_6_20ah_cp6_return_allocation_eligibility.sql": {
+      "sha256": "4fc31614c798e9d811773f19cc91df3a525d1265ae90f2fee187bba66f426689",
+      "bytes": 81859
+    },
+    "supabase/rollbacks/20260916070451_erp_v2_6_20ah_cp6_return_allocation_eligibility.rollback.sql": {
+      "sha256": "b41fc93c505690457ace7feab4f61ee6fcafc09ec561ced07b2bebfe6e9c7ff3",
+      "bytes": 11645
+    }
+  }
+}

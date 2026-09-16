@@ -1,0 +1,87 @@
+{
+  "format": "CP6_AH_GATE_PINS_V1",
+  "base": "961c592e22b6582ba7c5b07d612e32a9dbbae28b",
+  "production_go": false,
+  "source_pins": {
+    ".github/workflows/cp6-ac-independent-audit.yml": {
+      "sha256": "a6b59e258ec37053041bd20d26b7c36a1c01f12ecb151fda80c1b0c65c942772",
+      "bytes": 14174
+    },
+    ".github/workflows/cp6-ad-roll-opening-check.yml": {
+      "sha256": "cf8217fd9f7ceeae4125420ccd8feaf86c8795aec517758c6a7e39267fdd1953",
+      "bytes": 14549
+    },
+    ".github/workflows/cp6-ag-sale-reservation.yml": {
+      "sha256": "81b2266223540620da05c33bc9dc57c0b00801a66f71d24a9a7f1cff53672671",
+      "bytes": 14662
+    },
+    ".github/workflows/cp6-ah-return-allocation.yml": {
+      "sha256": "e3e50638d264a5369acf6f39069a8eb83ad87a76140ee98b6bb8dd1c88bafd58",
+      "bytes": 16165
+    },
+    ".github/workflows/cp6-full-schema-validation.yml": {
+      "sha256": "612a895c58309326cf5bf2566c9535a4aa072dd63330fe45a5eb576dcc8a4fd5",
+      "bytes": 511395
+    },
+    "docs/cp6-ah-competition-handoff.md": {
+      "sha256": "b89bd07458e1dbc2dfc08370bfb4cce7241318e99f34c9cbd008360ad752230c",
+      "bytes": 4564
+    },
+    "docs/evidence/cp6-ah-ag-catalog-pins.json": {
+      "sha256": "7a20d8b56123f51bfcbef77c6ef7e89b65b4aad55ac59a735412c5b1661507b9",
+      "bytes": 144459
+    },
+    "docs/evidence/cp6-ah-family-disposition.json": {
+      "sha256": "347cde05897fdac08be704c489270f71d4a3f544f8da9f2d5fae6337e5342d44",
+      "bytes": 4674
+    },
+    "docs/evidence/cp6-ah-predecessor-functions.json": {
+      "sha256": "ad4e7a9c652c046f649ccd53db0058afcdd90113e6a710bd3f7c389db3feca77",
+      "bytes": 68496
+    },
+    "docs/evidence/cp6-ah-runtime-pins.json": {
+      "sha256": "3ec72b36826569bd4793ceef600aeabdae87a82f5b623221ed0913c2638beb6f",
+      "bytes": 2984
+    },
+    "scripts/cp6_ah_gate_scope.py": {
+      "sha256": "231534fc07271ef74f1f9793a77376d4e4e7ae7c4353f6c432acc0fcb6e6f4cf",
+      "bytes": 3601
+    },
+    "scripts/cp6_preuse_rollback_maintenance.py": {
+      "sha256": "6967e37771cd50207fe1714c2d1c023df2df7069a1998a20070724f7e7455ce2",
+      "bytes": 78590
+    },
+    "scripts/cp6_v2620ah_build_sql.py": {
+      "sha256": "291df6e87bcf52df1068fef8b02e2acf2a816b0c613d160f6afa28596d6f8c03",
+      "bytes": 12454
+    },
+    "scripts/cp6_v2620ah_concurrency.py": {
+      "sha256": "1e226efc0103cb3f4e67bfcc16001f4051f549f098e423623f390c875670499f",
+      "bytes": 6485
+    },
+    "scripts/cp6_v2620ah_family.py": {
+      "sha256": "27e37d00f73a5613e6d16b013c77d07ef650b17bc6b0430100f11028d7b2189c",
+      "bytes": 18367
+    },
+    "scripts/cp6_v2620ah_maintenance_schedules.py": {
+      "sha256": "e5bee353528b057d552e5eaf8d1e5f98aef455878e3c84e10dd5155e846d6f58",
+      "bytes": 5626
+    },
+    "scripts/cp6_v2620ah_rollback_guards.py": {
+      "sha256": "4d0c21870e9c015d8ec4721fe430f564455c9ddc4910fd10a79e29aa004d464e",
+      "bytes": 8096
+    },
+    "scripts/cp6_v2620ah_runtime.py": {
+      "sha256": "581ae1c03a5b80e20d631880054d93b87aea8b9ae45ca376ed2d103074ed3f77",
+      "bytes": 6091
+    },
+    "supabase/migrations/20260916070451_erp_v2_6_20ah_cp6_return_allocation_eligibility.sql": {
+      "sha256": "4fc31614c798e9d811773f19cc91df3a525d1265ae90f2fee187bba66f426689",
+      "bytes": 81859
+    },
+    "supabase/rollbacks/20260916070451_erp_v2_6_20ah_cp6_return_allocation_eligibility.rollback.sql": {
+      "sha256": "b41fc93c505690457ace7feab4f61ee6fcafc09ec561ced07b2bebfe6e9c7ff3",
+      "bytes": 11645
+    }
+  }
+}

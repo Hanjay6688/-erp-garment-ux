@@ -1,0 +1,92 @@
+{
+  "format": "CP6_AH_FAMILY_DISPOSITION_V1",
+  "candidate": "AH",
+  "checkpoint": "CP6",
+  "production_go": false,
+  "independent_audit": "PENDING",
+  "predecessor": {
+    "head": "119f8f133131eaf373f08cc45b7b3d6fc27a3d3e",
+    "tree": "bd7dd026d40e64f08f03e122338d8a82ebfd292c"
+  },
+  "counterexample": {
+    "run": 35066611261,
+    "artifact": 10434213550,
+    "sha256": "2b5e604bcf42fc6185f4de50ed8be5bb6a403ec93661028e6b4ef24df39e48c3",
+    "controls": 15,
+    "counterexamples": 6,
+    "incomplete": 0,
+    "writer_additional_checks": true
+  },
+  "paths": [
+    {
+      "path": "normalize_sales_return_item_from_allocation",
+      "disposition": "FIXED_PENDING_NATIVE",
+      "reason": "Require active posted allocation source; confined private SECURITY DEFINER reference validation, require_internal and empty search_path. No expanded table or function grants."
+    },
+    {
+      "path": "post_sales_return",
+      "disposition": "FIXED_PENDING_NATIVE",
+      "reason": "Exact selected allocation supplies source eligibility; cumulative active returns aggregate by allocation ID across destination and grade. Receipt uses destination."
+    },
+    {
+      "path": "run_v268_financial_report_checks",
+      "disposition": "FIXED_PENDING_NATIVE",
+      "reason": "CRITICAL return lineage, source state/customer/date, active movement and allocation quantity checks; no historical snapshot versus current recost comparison."
+    },
+    {
+      "path": "save_sale_draft_v2 / cancel_sale_draft_v2 / post_sale_v2",
+      "disposition": "RECONCILED_RERUN_REQUIRED",
+      "reason": "AG reservation producer and guards unchanged; new normalizer prevents illegal foreign-key dependency on draft allocation. AG focused cases retained."
+    },
+    {
+      "path": "reverse_sales_return / reverse_sale / payment corrections",
+      "disposition": "RECONCILED_RERUN_REQUIRED",
+      "reason": "Linked movement/journal correction remains authoritative; return reversal releases only its allocation capacity; shared advisory lock serializes post/reverse. Native legal and race controls required."
+    },
+    {
+      "path": "PO and non-PO HPP / late invoice / inventory and GL consumers",
+      "disposition": "RECONCILED_RERUN_REQUIRED",
+      "reason": "Consumers use lot/product and actual movement destination, not original sale warehouse; retained 142-case business expectations run against AH including recost/return effects."
+    },
+    {
+      "path": "invoker references to erp.locations",
+      "disposition": "SOURCE_INSPECTED",
+      "reason": "All 533 predecessor functions inspected. Return normalizer is affected. validate_material_stock_movement_lineage remains invoker on a system-managed ledger without authenticated DML; its server writers execute with owner authority. No broad SELECT grant is justified."
+    },
+    {
+      "path": "installation / rollback / maintenance controller",
+      "disposition": "NEW_EDGE_RERUN_REQUIRED",
+      "reason": "Dirty active returns and source draft dependencies refuse installation. Three-function capsule, 220-relation boundary; exact AG restore 533 functions / 222 tables. Eight refusals, twenty maintenance schedules."
+    },
+    {
+      "path": "src/SalesPages.tsx",
+      "disposition": "BELUM_TERUJI",
+      "reason": "Local simulation only; destination selector confirms intended business contract but no HTTP sale/return writer is connected. Native proof is not UI proof."
+    },
+    {
+      "path": "HTTP / CSV / external imports / all roles",
+      "disposition": "BELUM_TERUJI",
+      "reason": "No separate executable return import writer found in source. Table callers encounter shared normalization and posted guards, but CSV and HTTP reachability are not executed. OWNER proof does not prove every role."
+    },
+    {
+      "path": "historical admitted SQL and old tests through AG",
+      "disposition": "REUSED_EVIDENCE",
+      "reason": "Original sources byte-identical and artifacts checksummed on pinned PG17.6/CLI2.116.0/Python3.12/psycopg3.2.10. Four original workflow validation bodies preserved; historical 500 matrix not automatically repeated."
+    }
+  ],
+  "planned_native_cases": {
+    "admission": 9,
+    "focused": 80,
+    "detector": 31,
+    "crossflow": 142,
+    "concurrency": 8,
+    "maintenance": 20,
+    "rollback_refusals": 8
+  },
+  "limitations": [
+    "Temporary authenticated schema USAGE fixture retained and restored.",
+    "Master-data setup uses administrator; ordinary return draft creation and posting are authenticated/OWNER.",
+    "Synthetic detector corruption is not an original business counterexample.",
+    "Additional AG checks are not independent AG acceptance."
+  ]
+}
