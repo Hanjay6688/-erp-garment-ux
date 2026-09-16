@@ -2,6 +2,33 @@
 
 This top section supersedes the historical status sections below. `CP6_HOLD`.
 
+AJ attempt3 `f1f9e21a1be64ee523b408bcd77282748b3fa215`, tree
+`9a66c776949ff1dfa5e7f69ae308100b7c11efed`, Native35151502439,
+CodeQL35151502460 (allfour SUCCESS), now restores exact AJ->AI533/224 then
+AI->AH533/223 with owner/ACL/full data boundary equality. Disposal passes.
+Artifact10469682433:52,919,718 bytes, SHA256
+`9549cec70eb6c63d276afc320d5d6f2ee020184052fdbf51486d9fdb5a026e26`,
+CRC/entry validation/selected credential-pattern scan checked.
+The same206 business controls pass,12 dated-report observations remain open;
+12 new rework fixtures are INCOMPLETE because Python serialized timestamps
+with a space instead of the facade's required ISO T separator. Maintenance20
+reaches the final evidence-recording step but cannot find the migration in the
+predecessor checkout; its assertions are not relabeled PASS after that failure.
+28 concurrent schedules,95 HTTP,43 original UI and51 additional checks
+(including HTTP role controls),96 action/role pairs,4 clock cases and8 refusal
+controls still pass. Product SQL remains unchanged.
+
+The next harness follow-up reruns12 rework cases and20 maintenance schedules.
+The218 earlier business observations (206 successful controls+12 date reviews)
+are eligible only for explicit REUSED_EVIDENCE after exact artifact SHA/CRC,
+source head/tree, full runtime690, clean boundaries and byte-identical src/SQL/
+package inputs are verified. Any product change requires the full fresh gate.
+No prior INCOMPLETE rework result is reused. Concurrency/HTTP/UI/clock and exact
+restoration continue fresh. ISO serialization and migration-path binding change
+only the fixture/evidence adapter; existing business and maintenance assertions
+remain intact.
+
+
 AJ attempt2 tested `e3d15c8c3edfa0dce740c8ab63111365b58268cb`, tree
 `854c81a3c2462e37ff84787a6a1fbbd98d9d5a89`, Native35150118894.
 AJ installation/full690 binding PASS. Native230:167 PASS+39 CONTROL_PASS,

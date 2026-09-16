@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """AJ writer gate: original oracles, new recovery scenarios, exact restoration."""
 from pathlib import Path
-from datetime import date,timedelta
+from datetime import date,datetime,timedelta
 from decimal import Decimal
-import argparse,hashlib,importlib.util,json,os,sys,traceback,uuid
+import argparse,hashlib,importlib.util,io,json,os,subprocess,sys,traceback,uuid,zipfile
 sys.path.insert(0,str(Path.cwd()/'scripts'))
 import psycopg
 import cp6_v2620aj_runtime as runtime
@@ -41,10 +41,13 @@ def install():
  result=dict(status='PASS',head=head,tree=tree,functions=533,objects=690,production_go=False)
  save('INSTALL',result);return result
 
+def payload_json(payload):
+ return json.dumps(payload,default=lambda value:value.isoformat() if isinstance(value,(datetime,date)) else str(value))
+
 def bs_action(cur,kind,payload,version=None,key=None):
  production.owner(cur)
  return cur.execute('select public.erp_save_bs_resolution_action_v1(%s,%s::jsonb,%s,%s)',
-  (kind,json.dumps(payload,default=str),key or uuid.uuid4(),version)).fetchone()[0]
+  (kind,payload_json(payload),key or uuid.uuid4(),version)).fetchone()[0]
 
 def laundry_action(cur,kind,payload,expected_version):
  # Fixture identifiers/versions are read by the observer before this call.
@@ -52,7 +55,7 @@ def laundry_action(cur,kind,payload,expected_version):
  # granting direct SELECT on cutting/production tables to that role.
  production.owner(cur)
  result=cur.execute('select public.erp_save_laundry_qc_action_v1(%s,%s::jsonb,%s,%s)',
-  (kind,json.dumps(payload,default=str),uuid.uuid4(),expected_version)).fetchone()[0]
+  (kind,payload_json(payload),uuid.uuid4(),expected_version)).fetchone()[0]
  actors.admin(cur)
  return result
 
@@ -190,6 +193,34 @@ def import_variant(cur,today,field,value):
  assert production.ledger(cur)==before
  return dict(status='PASS',field=field,value=value,errors=rows,corrected_preview_valid=True,ledger_unchanged=True)
 
+REUSED_HEAD='f1f9e21a1be64ee523b408bcd77282748b3fa215'
+REUSED_TREE='9a66c776949ff1dfa5e7f69ae308100b7c11efed'
+REUSED_ARTIFACT=10469682433
+REUSED_SHA='9549cec70eb6c63d276afc320d5d6f2ee020184052fdbf51486d9fdb5a026e26'
+
+def qualify_reuse():
+ head,tree=runtime.verify_audit_source()
+ assert subprocess.check_output(['git','-C',str(runtime.ROOT),'rev-parse',REUSED_HEAD+'^{tree}'],text=True).strip()==REUSED_TREE
+ assert not subprocess.check_output(['git','-C',str(runtime.ROOT),'diff','--name-only',REUSED_HEAD,'HEAD','--','src','supabase','package.json','package-lock.json'],text=True).strip(),'Product changed: full fresh gate required'
+ raw=subprocess.check_output(['gh','api',f'repos/Hanjay6688/-erp-garment-ux/actions/artifacts/{REUSED_ARTIFACT}/zip'],timeout=120)
+ assert hashlib.sha256(raw).hexdigest()==REUSED_SHA
+ with zipfile.ZipFile(io.BytesIO(raw)) as z:
+  assert z.testzip() is None
+  original=json.loads(z.read('candidate/cp6-proof/writer-aj/BUSINESS.json'))
+  installed=json.loads(z.read('candidate/cp6-proof/writer-aj/INSTALL.json'))
+ assert (original['head'],original['tree'])==(REUSED_HEAD,REUSED_TREE)
+ assert installed['status']=='PASS' and installed['objects']==690
+ assert all(original[k] for k in ('catalog_unchanged','boundary_restored','schema_usage_restored'))
+ assert original['auth_users']==original['app_users']==0
+ reused={name:dict(status='REUSED_EVIDENCE',original_status=row['status'],source_head=REUSED_HEAD)
+  for name,row in original['cases'].items() if not name.startswith('REWORK:')}
+ assert len(reused)==218 and all(row['full_boundary_restored'] for name,row in original['cases'].items() if name in reused)
+ assert all(row['original_status'] in ('PASS','CONTROL_PASS','DATE_POLICY_REVIEW_REQUIRED') for row in reused.values())
+ result=dict(status='PASS',current_head=head,current_tree=tree,source_head=REUSED_HEAD,source_tree=REUSED_TREE,
+  artifact_id=REUSED_ARTIFACT,artifact_sha256=REUSED_SHA,product_bytes_identical=True,
+  cases=reused,production_go=False,independent_acceptance=False)
+ save('REUSED_BUSINESS',result);return result
+
 def run_cases():
  head,tree=runtime.verify_audit_source()
  result=dict(status='INCOMPLETE',head=head,tree=tree,base_head=runtime.PREDECESSOR_HEAD,
@@ -223,6 +254,13 @@ def run_cases():
     for failed in (False,True):specs.append((f'REWORK:{good}:{route}:failed={failed}',lambda c,g=good,r=route,f=failed:rework_case(c,today,g,r,f)))
   for route in ('CONTRACTOR','LAUNDRY'):
    for failed in (False,True):specs.append((f'REWORK:MIXED_RATES:{route}:failed={failed}',lambda c,r=route,f=failed:rework_case(c,today,5,r,f,True)))
+  result['reused_evidence']={}
+  if os.environ.get('CP6_AJ_REPAIR_FOLLOWUP')=='true':
+   reused=json.loads((ROOT/'REUSED_BUSINESS.json').read_text())
+   assert reused['status']=='PASS' and reused['current_head']==head and reused['current_tree']==tree
+   assert set(reused['cases'])=={n for n,_ in specs if not n.startswith('REWORK:')}
+   result['reused_evidence']=reused
+   specs=[(n,fn) for n,fn in specs if n.startswith('REWORK:')]
   result['planned_case_ids']=[n for n,_ in specs];save('BUSINESS',result)
   for name,fn in specs:
    actors.admin(cur);before=actors.boundary(cur);cur.execute('savepoint aj_case')
@@ -242,7 +280,8 @@ def run_cases():
  result['counts']={s:sum(r['status']==s for r in result['cases'].values()) for s in ('PASS','CONTROL_PASS','BUG_PROVEN','GAP_PROVEN','DATE_POLICY_REVIEW_REQUIRED','INCOMPLETE','FAIL')}
  clean=all(result[k] for k in ('catalog_unchanged','boundary_restored','schema_usage_restored')) and result['auth_users']==result['app_users']==0
  if clean and not any(result['counts'][k] for k in ('BUG_PROVEN','GAP_PROVEN','INCOMPLETE','FAIL')):
-  result['status']='HOLD' if result['counts']['DATE_POLICY_REVIEW_REQUIRED'] else 'WRITER_PASS'
+  inherited_hold=any(r['original_status']=='DATE_POLICY_REVIEW_REQUIRED' for r in result['reused_evidence'].get('cases',{}).values())
+  result['status']='HOLD' if inherited_hold or result['counts']['DATE_POLICY_REVIEW_REQUIRED'] else 'WRITER_PASS'
  result['repair_cases_passed']=all(r['status']=='PASS' for n,r in result['cases'].items() if n.startswith(('REWORK:','IMPORT:','IMPORT_VALUE:')))
  save('BUSINESS',result);return result
 
@@ -327,11 +366,11 @@ def rollback():
  save('EXACT_AI_RESTORE',result);return result
 
 if __name__=='__main__':
- p=argparse.ArgumentParser();p.add_argument('--phase',choices=('install','business','concurrency','rollback'),required=True);phase=p.parse_args().phase
+ p=argparse.ArgumentParser();p.add_argument('--phase',choices=('install','business','concurrency','rollback','reuse'),required=True);phase=p.parse_args().phase
  try:
   assert os.environ['PGURL']==URL and os.environ['CP6_AI_INDEPENDENT_CONFIRM']=='postgres'
-  result={'install':install,'business':run_cases,'concurrency':concurrency,'rollback':rollback}[phase]()
+  result={'install':install,'business':run_cases,'concurrency':concurrency,'rollback':rollback,'reuse':qualify_reuse}[phase]()
  except Exception as exc:
   result=dict(status='INCOMPLETE',error=str(exc),traceback=traceback.format_exc(),production_go=False);save(phase.upper()+'_FAILURE',result)
- print(json.dumps({k:v for k,v in result.items() if k not in ('cases','operation','planned_case_ids')},default=str))
+ print(json.dumps({k:v for k,v in result.items() if k not in ('cases','operation','planned_case_ids','reused_evidence')},default=str))
  raise SystemExit(0 if result['status'] in ('PASS','WRITER_PASS','PASS_REVIEWED_SCOPE') else 1)

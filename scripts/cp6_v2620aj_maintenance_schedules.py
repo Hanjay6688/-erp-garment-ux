@@ -80,6 +80,8 @@ def run():
             raise AssertionError("AJ_MAINTENANCE_SOURCE_MISMATCH")
     matrix.TARGETS["AJ"] = (runtime.STAMP, runtime.NAME, runtime.VERSION, "v2.6.20ai", 6)
     original_prepare = matrix.prepare
+    original_path = matrix.path
+    matrix.path = lambda target,rollback=False: (runtime.ROLLBACK if rollback else runtime.MIGRATION) if target=="AJ" else original_path(target,rollback)
     matrix.prepare = prepare
     result = {
         "format": "CP6_AJ_MAINTENANCE_SCHEDULES_V1", "status": "INCOMPLETE",
@@ -115,6 +117,7 @@ def run():
                 print(json.dumps({"case": name, "status": evidence["status"], "error": evidence.get("error")}), flush=True)
     finally:
         matrix.prepare = original_prepare
+        matrix.path = original_path
     result["completed_case_count"] = sum(item["status"] == "PASS" for item in result["cases"])
     if len(result["cases"]) == result["completed_case_count"] == result["expected_case_count"]:
         result["status"] = "PASS"
