@@ -55,8 +55,16 @@
       "bytes": 14107
     },
     "scripts/cp6_ai_gate_scope.py": {
-      "sha256": "7101898d9579611709d1084b122d66717e9a80fa3a1f97376ed975854f8edd6a",
-      "bytes": 5561
+      "sha256": "55cc9bb1d3811ed23383f235a0398abf01ba596acc7b41dc953c60c14de41f4c",
+      "bytes": 5651
+    },
+    "scripts/check-cp6-expanded-audit-closure.mjs": {
+      "sha256": "1f4aeec64b00378428b7b56211bbb774164f5bf4f65bd6f81952fdf7cdd9451d",
+      "bytes": 12143
+    },
+    "scripts/check-cp6-h2-audit-closure.mjs": {
+      "sha256": "e43f5204f231bd80106512c6c128a30a86b7907b3cbb0a4564e0a566027d541b",
+      "bytes": 11876
     },
     "scripts/cp6_preuse_rollback_maintenance.py": {
       "sha256": "eb6746524599afe0e08106bbd075bf2499bd5aa9e2b71b54bfd93361aecdb515",

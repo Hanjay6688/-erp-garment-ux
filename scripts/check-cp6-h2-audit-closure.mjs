@@ -121,7 +121,7 @@ requireTokens(maintenance, 'independent capsule trust and endpoint allowlist', [
   "'contract': 'CP6_PREUSE_ROLLBACK_MAINTENANCE_V2'",
   "'I': {", 'TRUSTED_FUNCTIONS', 'TRUSTED_PREDECESSOR_PIN_MISMATCH',
   'def _public_failure_code(exc: Exception) -> str:',
-  "'trusted_predecessor_identity_count': len(TRUSTED_FUNCTIONS[target_name])",
+  "'trusted_predecessor_identity_count': target['capsule_count']",
   "report['error_code'] = _public_failure_code(exc)",
   "allowed_conninfo = {'dbname', 'host', 'password', 'port', 'user'}",
   'connection parameters outside allowlist', 'endpoint without password',
