@@ -215,7 +215,7 @@ def reference_case(target,expect_fixed=False):
             f=aa.estimated_receipt(cur,day);aa.partial_production(proxy,f)
         else:
             actors.admin(cur);prior.set_open_period(cur,date(2026,8,31))
-            f=final.base.fresh(cur,'d')
+            f=final.base.fresh(cur,'a')
             delivery=final.base.post_delivery(cur,f,final.base.BASE_PROCESS,'2026-09-01T11:00:00Z')
             _,_,receipt=final.base.post_receipt(cur,str(delivery['delivery_id']),final.base.BASE_PROCESS,'2026-09-02T11:00:00Z')
             final.finalize_laundry_invoice(proxy,receipt,Decimal('10'))
