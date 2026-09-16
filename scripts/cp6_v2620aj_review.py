@@ -46,6 +46,16 @@ def bs_action(cur,kind,payload,version=None,key=None):
  return cur.execute('select public.erp_save_bs_resolution_action_v1(%s,%s::jsonb,%s,%s)',
   (kind,json.dumps(payload,default=str),key or uuid.uuid4(),version)).fetchone()[0]
 
+def laundry_action(cur,kind,payload,expected_version):
+ # Fixture identifiers/versions are read by the observer before this call.
+ # Every business mutation executes with the ordinary OWNER session, without
+ # granting direct SELECT on cutting/production tables to that role.
+ production.owner(cur)
+ result=cur.execute('select public.erp_save_laundry_qc_action_v1(%s,%s::jsonb,%s,%s)',
+  (kind,json.dumps(payload,default=str),uuid.uuid4(),expected_version)).fetchone()[0]
+ actors.admin(cur)
+ return result
+
 def version(cur,table,ident):
  assert table in ('bs_cases','rework_orders')
  actors.admin(cur)
@@ -72,10 +82,11 @@ def rework_case(cur,today,initial_good,first_route,failed_wash,mixed_rates=False
  batch=cur.execute('select b.id from erp.cutting_distribution_batches b join erp.cutting_pickups p on p.id=b.pickup_id where p.cutting_group_id=%s',(f['group'],)).fetchone()[0]
  product=base.create_product(cur,'AJ-'+uuid.uuid4().hex[:12])
  f.update(batch=str(batch),group=str(f['group']),product=product)
- production.owner(cur)
- sent=base.post_delivery(cur,f,base.BASE_PROCESS,production.at(day,11).isoformat())['delivery_id']
+ sent=laundry_action(cur,'POST_DELIVERY',dict(distribution_batch_id=f['batch'],vendor_id=base.VENDOR,
+  wash_process_id=base.BASE_PROCESS,target_dyeing_color='AJ-NAVY',physical_at=production.at(day,11),
+  reason='AJ ten physical pieces',lines=[dict(size_id=base.SIZE,qty_sent_pcs=10)]),base.group_version(cur,f['group']))['delivery_id']
  if failed_wash:
-  base.action(cur,'POST_FAILED_WASH',dict(delivery_id=sent,wash_process_id=base.BASE_PROCESS,
+  laundry_action(cur,'POST_FAILED_WASH',dict(delivery_id=sent,wash_process_id=base.BASE_PROCESS,
    custody_outcome='RETRY_AT_VENDOR',physical_at=production.at(day,11,30).isoformat(),reason='AJ genuine paid first attempt',
    lines=[dict(delivery_batch_size_line_id=base.delivery_size_line(cur,sent),qty_attempted_pcs=10)]),base.delivery_version(cur,sent))
  if mixed_rates:
@@ -84,8 +95,7 @@ def rework_case(cur,today,initial_good,first_route,failed_wash,mixed_rates=False
   cur.execute("insert into erp.laundry_vendor_rate_versions(vendor_id,wash_process_id,rate_per_pcs,effective_from,notes) values(%s,%s,11,%s,'AJ independently priced second receipt')",(base.VENDOR,process,production.at(day,0)))
   receipt_sources=[]
   for i,process_id in enumerate((base.BASE_PROCESS,process)):
-   production.owner(cur)
-   receipt=base.action(cur,'POST_RECEIPT',dict(delivery_id=sent,wash_process_id=process_id,
+   receipt=laundry_action(cur,'POST_RECEIPT',dict(delivery_id=sent,wash_process_id=process_id,
     physical_at=production.at(day,12,i*15).isoformat(),reason='AJ two separately priced physical receipt groups',
     lines=[dict(delivery_batch_size_line_id=base.delivery_size_line(cur,sent),qty_good_received=5,qty_bs_laundry=0,bs_product_id=None)]),base.delivery_version(cur,sent))
    actors.admin(cur)
@@ -94,11 +104,13 @@ def rework_case(cur,today,initial_good,first_route,failed_wash,mixed_rates=False
   final_lines=[dict(final_product_id=product,qty_good_pcs=0,qty_bs_pcs=5,source_laundry_receipt_line_id=str(rl),source_laundry_receipt_batch_size_line_id=str(rx)),
    dict(final_product_id=product,qty_good_pcs=5,qty_bs_pcs=0,source_laundry_receipt_line_id=str(other_rl),source_laundry_receipt_batch_size_line_id=str(other_rx))]
  else:
-  received,rx,rl=base.post_receipt(cur,sent,base.BASE_PROCESS,production.at(day,12).isoformat())
+  received=laundry_action(cur,'POST_RECEIPT',dict(delivery_id=sent,wash_process_id=base.BASE_PROCESS,
+   physical_at=production.at(day,12),reason='AJ ten original physical receipts',
+   lines=[dict(delivery_batch_size_line_id=base.delivery_size_line(cur,sent),qty_good_received=10,qty_bs_laundry=0,bs_product_id=None)]),base.delivery_version(cur,sent))
+  rx,rl=cur.execute('select x.id,x.receipt_line_id from erp.laundry_receipt_batch_size_lines x join erp.laundry_receipt_lines l on l.id=x.receipt_line_id where l.receipt_id=%s',(received['receipt_id'],)).fetchone()
   final_lines=[dict(final_product_id=product,qty_good_pcs=initial_good,qty_bs_pcs=10-initial_good,
    source_laundry_receipt_line_id=str(rl),source_laundry_receipt_batch_size_line_id=str(rx))]
- production.owner(cur)
- base.action(cur,'POST_FINAL_SKU',dict(cutting_group_id=f['group'],destination_location_id=base.LOCATION,
+ laundry_action(cur,'POST_FINAL_SKU',dict(cutting_group_id=f['group'],destination_location_id=base.LOCATION,
   physical_at=production.at(day,13).isoformat(),reason='AJ exact original Good and BS split',good_qty_pcs=initial_good,completion_mode='ALL_READY',
   lines=final_lines),base.group_version(cur,f['group']))
  actors.admin(cur)
@@ -278,6 +290,7 @@ def rollback():
  from importlib.util import spec_from_file_location,module_from_spec
  spec=spec_from_file_location('aj_maintenance_controller',runtime.ROOT/'scripts/cp6_preuse_rollback_maintenance.py')
  maintenance=module_from_spec(spec);spec.loader.exec_module(maintenance)
+ maintenance.TARGETS['AJ']['rollback']=runtime.reviewed_local_rollback()
  before=json.loads((ROOT/'AI_BASELINE.json').read_text())
  controls={
   'FUNCTION':("alter function erp.post_rework_completion(uuid) set work_mem='64MB'",'AJ_TRUSTED_PREDECESSOR_PIN_MISMATCH'),

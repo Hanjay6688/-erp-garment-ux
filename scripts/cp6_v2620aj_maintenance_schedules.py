@@ -66,6 +66,7 @@ def prepare(target, operation, folder, *, source_generation):
 
 def run():
     head, tree = runtime.verify_audit_source()
+    controller.TARGETS['AJ']['rollback'] = runtime.reviewed_local_rollback()
     expected = (matrix.SOURCE, matrix.MAINTENANCE, matrix.CLONE, matrix.CONTAINER, "cp6_rollback")
     actual = (
         os.environ.get("PGURL"), os.environ.get("CP6_MAINTENANCE_PGURL"),

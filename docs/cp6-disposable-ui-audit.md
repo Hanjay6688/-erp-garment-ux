@@ -1,6 +1,27 @@
 # CP6 independent audit → AJ writer takeover; runtime verification pending
 
 This top section supersedes the historical status sections below. `CP6_HOLD`.
+
+AJ attempt2 tested `e3d15c8c3edfa0dce740c8ab63111365b58268cb`, tree
+`854c81a3c2462e37ff84787a6a1fbbd98d9d5a89`, Native35150118894.
+AJ installation/full690 binding PASS. Native230:167 PASS+39 CONTROL_PASS,
+12 DATE_POLICY_REVIEW_REQUIRED,12 INCOMPLETE fixture reads,0 proven new bugs.
+All13 raw-import/value-recovery controls pass. Original16+independent12
+concurrency,95 HTTP,43 original UI,51 additional UI assertions,96 action/role
+pairs,4 controlled-clock cases and8 rollback refusal controls pass. Rework3Good
+then separate rewash3Good now totals6Good without the original unique-key error.
+CodeQL35150118681 allfour SUCCESS. Artifact10469246358,52,745,022 bytes/167
+entries, SHA256 `c7588357d63d36fbf6a94a980e7cf4860ba96987d730989f38eec75da011896d`,
+CRC/entry validation and selected credential patterns checked.
+
+Two harness corrections are pending rerun, with product SQL unchanged: observer
+reads must run before switching to the ordinary OWNER mutation session; reviewed
+AJ rollback bytes must be staged inside the executing checkout, as required by
+the unchanged controller path and checksum checks. No role/table grants are
+added. All20 maintenance cases and exact AJ->AI restoration were unfinished due
+to that path refusal. Exact AI->AH restoration was consequently skipped; the
+whole disposable database and Auth clone were removed. These are not PASS.
+
 `production_go:false`; no CP7. One writer verified at remote
 `a2d5a42c5fc2e99249aa73b47d74747bb7aa6dd6` before starting product repair.
 

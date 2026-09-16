@@ -35,6 +35,21 @@ def verify_audit_source():
  assert not git(ROOT,'diff','--name-only','HEAD')
  return head,tree
 
+def reviewed_local_rollback():
+ # The unchanged controller accepts files only inside its execution checkout.
+ # Materialize the exact already-pinned AJ bytes there; retain that path gate
+ # and the controller's independently pinned rollback checksum.
+ verify_audit_source()
+ target=Path.cwd()/'cp6-proof/writer-aj/reviewed'/ROLLBACK.name
+ assert target.resolve().is_relative_to(Path.cwd().resolve()),'AJ_LOCAL_ROLLBACK_PATH'
+ target.parent.mkdir(parents=True,exist_ok=True)
+ raw=ROLLBACK.read_bytes()
+ expected=pins()['source_pins'][str(ROLLBACK.relative_to(ROOT))]['sha256']
+ assert hashlib.sha256(raw).hexdigest()==expected
+ target.write_bytes(raw)
+ assert hashlib.sha256(target.read_bytes()).hexdigest()==expected
+ return target
+
 def catalog(cur,successor):
  expected={f['identity']:dict(f) for f in json.loads(CATALOG.read_text())['functions']};assert len(expected)==533
  if successor:
