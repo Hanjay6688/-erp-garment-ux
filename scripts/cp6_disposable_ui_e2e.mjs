@@ -72,7 +72,8 @@ assert.equal(query('select current_database()'), 'cp6_auth')
 if(process.argv.includes('--qualify-legacy-fixture')){
   // Observe the real workspace before discarding the ENTIRE old HTTP clone.
   // The original parser is transpiled without changing its validation rules.
-  const source=readFileSync(resolve(root,'src/laundryQcModel.ts'),'utf8')
+  const originalParserHead='25fa4736329e5148dfdb3572bc169952cba23251'
+  const source=execFileSync('git',['show',`${originalParserHead}:src/laundryQcModel.ts`],{cwd:root,encoding:'utf8'})
   const compiled=stripTypeScriptTypes(source,{mode:'strip'})
   const {parseLaundryQcWorkspace}=await import('data:text/javascript;base64,'+Buffer.from(compiled).toString('base64'))
   const raw=query(`begin; set local request.jwt.claims='{"role":"authenticated","sub":"c8c00000-0000-4000-8000-000000000101"}';
@@ -80,6 +81,7 @@ if(process.argv.includes('--qualify-legacy-fixture')){
   let rejected
   try{parseLaundryQcWorkspace(JSON.parse(raw))}catch(error){rejected=error.message}
   const proof={status:rejected?.includes('bukan UUID valid')?'FIXTURE_UUID_REJECTION_CONFIRMED':'UNRESOLVED',
+    parser_head:originalParserHead,
     parser_sha256:createHash('sha256').update(source).digest('hex'),
     workspace_sha256:createHash('sha256').update(raw).digest('hex'),error:rejected||null,
     product_parser_modified:false,posted_rows_modified:false,production_go:false}

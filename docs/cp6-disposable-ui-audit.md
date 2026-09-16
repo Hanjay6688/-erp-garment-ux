@@ -274,3 +274,24 @@ Tidak ada backdate buatan yang melewati ketersediaan fisik. Tambahan lima kasus
 UI menguji RETURN_UNPROCESSED sepuluh potong, biaya 70, pengiriman baru berbiaya
 estimasi 70, reversal biaya lama tanpa menghapus custody, dan reversal pengiriman
 baru. Total rencana sekarang 43; angka hasil baru menunggu eksekusi.
+
+## Gate fokus selesai; gate gabungan diwajibkan
+
+Run 35133185235 SUCCESS pada `5285a5f3e17b64ac4ae211c1ac5f6a39d57cd161`,
+tree `8742b35e9bfc4cdd7987d93461b091bcb3e56a1d`: UI **WRITER_PASS 43/43**,
+HTTP 95/95, unit 230, restore 533 fungsi/223 tabel persis AH, cleanup PASS.
+Desktop menghasilkan FG 10/nilai 70; mobile dengan 2 BS menghasilkan FG 8/nilai
+56 dan WIP 14. Semua koreksi tertaut mengembalikan saldo nol dan ready 10.
+Retry-at-vendor empat potong menambah biaya 28, tanpa barang Good/BS/FG baru;
+reload setelah respons hilang memakai UUID lama. Return-unprocessed sepuluh
+potong memulihkan custody, mempertahankan biaya 70; pengiriman baru menambah
+estimasi 70. Reversal biaya lama tidak menghapus perpindahan fisik atau dokumen
+kirim baru. Native 142/16/23/12 tidak dijalankan pada run fokus ini.
+
+Artifact 10462935592, 3016663 bytes, digest GitHub
+`3a3393c859e2ef7eed5132f3c7c78d0a342a526c1a787b46c16e2344ccef7c8b`.
+Gate gabungan berikutnya wajib dijalankan tanpa marker fokus. Sumber produk
+frontend tetap sama dengan `d7a92f00b0779d614478778bd8f1ddd367122ff7`;
+harness membedakan parser asli AI untuk diagnosis fixture historis dari parser
+successor yang dipakai aplikasi saat ini. Perubahan metadata ini bukan perubahan
+oracle atau aturan penerimaan. Hasil gabungan masih menunggu eksekusi.
