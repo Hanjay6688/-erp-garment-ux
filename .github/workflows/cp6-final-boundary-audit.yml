@@ -9,6 +9,8 @@ name: CP6 Final Boundary Audit
     - scripts/cp6_final_gap_native.py
     - scripts/cp6_final_gap_midnight.py
     - scripts/cp6_final_gap_ui.mjs
+    - scripts/cp6_final_independent_acceptance.py
+    - scripts/cp6_final_money_independent.mjs
     - scripts/cp6_v2620aj_*.py
     - scripts/cp6_preuse_rollback_maintenance.py
     - supabase/migrations/*20aj*
@@ -88,6 +90,8 @@ jobs:
         PYTREE
         npm ci
         npm test -- --reporter=dot
+        mkdir -p ../candidate/cp6-proof/final-audit
+        node --experimental-strip-types scripts/cp6_final_money_independent.mjs ../candidate/cp6-proof/final-audit/MONEY_INDEPENDENT.json
         npm run test:security
         npm run build
         npx playwright install --with-deps chromium
@@ -492,6 +496,10 @@ jobs:
       if: ${{ always() && steps.aj_install.outcome == 'success' }}
       working-directory: candidate
       run: PYTHONPATH=scripts python ../harness/scripts/cp6_v2620aj_review.py --phase business
+    - name: Independently test recovered sales mixed import and historical readiness
+      if: ${{ always() && steps.aj_install.outcome == 'success' }}
+      working-directory: candidate
+      run: PYTHONPATH=scripts python ../harness/scripts/cp6_final_independent_acceptance.py
     - name: Repeat twelve work schedules on exact AJ runtime
       if: ${{ always() && steps.aj_install.outcome == 'success' }}
       working-directory: candidate
@@ -763,6 +771,8 @@ jobs:
         from pathlib import Path
         root=Path('cp6-proof/final-audit')
         requirements={'../writer-aj/BUSINESS.json':'WRITER_PASS',
+          'FINAL_INDEPENDENT.json':'PASS_REVIEWED_SCOPE',
+          'MONEY_INDEPENDENT.json':'PASS_REVIEWED_SCOPE',
           'INDEPENDENT_UI_GAPS.json':'PASS_REVIEWED_SCOPE',
           'midnight/AI_MIDNIGHT_AUDIT.json':'PASS_BOUNDED_AUDIT'}
         results={}

@@ -12,6 +12,7 @@ BACKEND = '25fa4736329e5148dfdb3572bc169952cba23251'
 BACKEND_TREE = 'a5cb1e43d776a9ffc058f99c8d5c96ac7f6a9c0d'
 PIN_FILE = 'docs/evidence/cp6-disposable-ui-source-pins.json'
 DOC = 'docs/cp6-disposable-ui-audit.md'
+AUDIT_DOC = 'docs/cp6-final-successor-independent.md'
 PATHS = '''.github/workflows/cp6-ac-independent-audit.yml
 .github/workflows/cp6-ai-work-source.yml
 .github/workflows/cp6-ag-sale-reservation.yml
@@ -27,6 +28,8 @@ scripts/cp6_disposable_ui_scope.py
 scripts/cp6_final_gap_native.py
 scripts/cp6_final_gap_midnight.py
 scripts/cp6_final_gap_ui.mjs
+scripts/cp6_final_independent_acceptance.py
+scripts/cp6_final_money_independent.mjs
 scripts/cp6_v2620aj_build_sql.py
 scripts/cp6_v2620aj_runtime.py
 scripts/cp6_v2620aj_review.py
@@ -77,7 +80,7 @@ def verify():
     assert not git('rev-list', '--merges', BASE+'..HEAD')
     assert not git('diff', '--name-only', 'HEAD'), 'Uncommitted tracked changes'
     changed = set(git('diff', '--name-only', BASE, 'HEAD').splitlines())
-    assert changed == set(PATHS) | {PIN_FILE, DOC}, sorted(changed)
+    assert changed == set(PATHS) | {PIN_FILE, DOC, AUDIT_DOC}, sorted(changed)
     pins = json.loads(Path(PIN_FILE).read_text())
     assert pins['base'] == BASE and pins['backend'] == BACKEND
     assert set(pins['sha256']) == set(PATHS)
