@@ -204,6 +204,33 @@ REUSED_TREE='46f4f605444c72dc32282025b859ab66375178b3'
 REUSED_ARTIFACT=10477942082
 REUSED_SHA='9d2c1906c3f6bd5c11e46d7baa9740d4eb11d260f6d63c8b88d09bb4950c6abd'
 
+# BEGIN AK POSTED IMPORT ORACLE
+def crossflow_case(cur,day,name,fn):
+ # AK locks/checks the migration batch before the opening header. A replay of
+ # an already-finalized import therefore reaches the batch refusal first.
+ # Keep the historical quantities, money, dates, reports and atomicity oracle.
+ if not name.startswith(('DAY:FABRIC_ROLL:IMPORT:','DAY:ACCESSORY:IMPORT:')):return fn(cur,day)
+ import cp6_v2620ad_family_proof as oracle
+ assert hashlib.sha256(Path(oracle.__file__).read_bytes()).hexdigest()=='5741fc4a2685e97598c7b9394f1cc2891cc495cfda06d885efb5f3c29611ce5b'
+ previous=oracle.expected_refusal;observed=[]
+ def refusal(cur,sql,expected,ordinary=False):
+  if expected!='Opening balance must be DRAFT':return previous(cur,sql,expected,ordinary)
+  import re
+  match=re.fullmatch(r"select erp\.post_opening_balance\('([0-9a-f-]{36})'::uuid\)",sql)
+  assert match and ordinary,'Unexpected historical replay oracle'
+  actors.admin(cur)
+  statuses=cur.execute('select h.status,b.status from erp.opening_balance_headers h join erp.migration_batches b on b.id=h.migration_batch_id where h.id=%s',(match[1],)).fetchone()
+  assert statuses==('POSTED','POSTED'),statuses
+  row=previous(cur,sql,'AK_OPENING_REQUIRES_CURRENT_VALIDATED_BATCH',ordinary)
+  observed.append(row);return row
+ oracle.expected_refusal=refusal
+ try:result=fn(cur,day)
+ finally:oracle.expected_refusal=previous
+ assert len(observed)==1 and observed[0]['boundary_restored']
+ result['reconciled_posted_import_refusal']=observed[0]
+ return result
+# END AK POSTED IMPORT ORACLE
+
 def run_cases():
  head,tree=runtime.verify_audit_source()
  result=dict(status='INCOMPLETE',head=head,tree=tree,base_head=runtime.PREDECESSOR_HEAD,
@@ -217,7 +244,7 @@ def run_cases():
   actors.actors.claims(cur,dict(sub=base.OPERATOR_AUTH,role='authenticated'));base.load_fixture_foundation(cur);actors.admin(cur)
   today=cur.execute("select (statement_timestamp() at time zone 'Asia/Jakarta')::date").fetchone()[0]
   day=today-timedelta(days=3);prior.set_open_period(cur,date(2026,8,31))
-  specs=[('CROSS:'+n,lambda c,fn=fn:fn(c,day)) for n,fn in original.phase_cases('crossflow')]
+  specs=[('CROSS:'+n,lambda c,n=n,fn=fn:crossflow_case(c,day,n,fn)) for n,fn in original.phase_cases('crossflow')]
   specs += [('WORK:'+n,lambda c,fn=fn:fn(c,day)) for n,fn in work.cases()]
   for z in ('UTC','Asia/Jakarta','Pacific/Kiritimati','America/Los_Angeles'):
    for q in (4,7):

@@ -446,11 +446,19 @@ jobs:
       if: ${{ always() && steps.aj_install.outcome == 'success' }}
       working-directory: candidate
       run: PYTHONPATH=scripts python ../harness/scripts/cp6_v2620ak_import_review.py --original
+    - name: Capture read-only security advisors on exact AJ predecessor
+      if: ${{ always() && steps.aj_install.outcome == 'success' }}
+      working-directory: candidate
+      run: PYTHONPATH=scripts python ../harness/scripts/cp6_v2620ak_advisors.py --phase before
     - name: Install AK successor with all 690 runtime objects pinned
       id: ak_install
       if: ${{ always() && steps.aj_install.outcome == 'success' }}
       working-directory: candidate
       run: PYTHONPATH=scripts python ../harness/scripts/cp6_v2620ak_review.py --phase install
+    - name: Compare read-only security advisors on exact AK successor
+      if: ${{ always() && steps.ak_install.outcome == 'success' }}
+      working-directory: candidate
+      run: PYTHONPATH=scripts python ../harness/scripts/cp6_v2620ak_advisors.py --phase after
     - name: Record exact execution scope
       working-directory: candidate
       run: |
@@ -504,6 +512,12 @@ jobs:
       if: ${{ always() && steps.ak_install.outcome == 'success' && env.CP6_AK_DIRECTED != 'true' }}
       working-directory: candidate
       run: PYTHONPATH=scripts python ../harness/scripts/cp6_v2620ak_review.py --phase business
+    - name: Finish ten replay oracles and reconcile exact AK combined evidence
+      if: ${{ always() && steps.ak_install.outcome == 'success' && env.CP6_AK_DIRECTED == 'true' }}
+      working-directory: candidate
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: PYTHONPATH=scripts python ../harness/scripts/cp6_v2620ak_followup.py
     - name: Test reference preview staged dependencies draft edits and recovered sales on AK
       if: ${{ always() && steps.ak_install.outcome == 'success' }}
       working-directory: candidate
@@ -782,11 +796,15 @@ jobs:
         import json,os
         from pathlib import Path
         root=Path('cp6-proof')
-        requirements={'writer-ak/ORIGINAL_IMPORT.json':'PREDECESSOR_PROBES_COMPLETE',
+        requirements={'writer-ak/ADVISORS_AFTER.json':'PASS_REVIEWED_SECURITY_DELTA',
+          'writer-ak/ORIGINAL_IMPORT.json':'PREDECESSOR_PROBES_COMPLETE',
           'writer-ak/IMPORT.json':'WRITER_PASS','writer-ak/import-concurrency/manifest.json':'WRITER_PASS'}
+        if os.environ['CP6_AK_DIRECTED']=='true':
+          requirements.update({'writer-ak/BUSINESS_FOLLOWUP.json':'WRITER_PASS',
+            'writer-ak/RECONCILED_BUSINESS.json':'CP6_HOLD'})
         if os.environ['CP6_AK_DIRECTED']!='true':
           requirements.update({'writer-ak/BUSINESS.json':'WRITER_PASS',
-            'writer-ak/CONCURRENCY.json':'PASS','AK_MAINTENANCE_ROLLBACK/manifest.json':'PASS',
+            'writer-ak/CONCURRENCY.json':'PASS_REVIEWED_SCOPE','AK_MAINTENANCE_ROLLBACK/manifest.json':'PASS',
             'final-audit/MONEY_INDEPENDENT.json':'PASS_REVIEWED_SCOPE',
             'final-audit/INDEPENDENT_UI_GAPS.json':'PASS_REVIEWED_SCOPE',
             'final-audit/midnight/AI_MIDNIGHT_AUDIT.json':'PASS_BOUNDED_AUDIT'})

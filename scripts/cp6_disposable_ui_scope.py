@@ -14,7 +14,9 @@ PIN_FILE = 'docs/evidence/cp6-disposable-ui-source-pins.json'
 DOC = 'docs/cp6-disposable-ui-audit.md'
 AUDIT_DOC = 'docs/cp6-final-successor-independent.md'
 AK_DOC = 'docs/cp6-ak-import-repair.md'
-PATHS = '''docs/evidence/cp6-ak-aj-catalog-pins.json
+PATHS = '''scripts/cp6_v2620ak_advisors.py
+scripts/cp6_v2620ak_followup.py
+docs/evidence/cp6-ak-aj-catalog-pins.json
 docs/evidence/cp6-ak-predecessor-functions.json
 docs/evidence/cp6-ak-runtime-pins.json
 scripts/cp6_v2620ak_build_sql.py

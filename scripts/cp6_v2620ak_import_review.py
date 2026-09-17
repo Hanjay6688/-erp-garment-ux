@@ -150,6 +150,46 @@ def staged_product(cur,today):
  assert values==(2,Decimal('2.50')),values
  return dict(status='PASS',preview=counts,posted=values,exact_new_staged_identity=True)
 
+def valid_party(cur,today,balance_type):
+ # Negative reference probes must not hide a validator rejecting valid masters.
+ # New parties are ordinary staged masters; existing cash/vendor are synthetic
+ # foundation references. The oracle is 14.25, including exact AR/AP direction.
+ batch=batch_new(cur,today);tag='AK-'+uuid.uuid4().hex[:14];actors.admin(cur)
+ mapping={
+  'CONTRACTOR_RECEIVABLE':('CONTRACTOR','contractor_code','contractor_name','CONTRACTOR_RECEIVABLE',1),
+  'CONTRACTOR_PAYABLE':('CONTRACTOR','contractor_code','contractor_name','CONTRACTOR_PAYABLE',-1),
+  'CUSTOMER_RECEIVABLE':('CUSTOMER','customer_code','customer_name','AR_CUSTOMER',1),
+  'SUPPLIER_PAYABLE':('SUPPLIER','supplier_code','supplier_name','AP_SUPPLIER',-1),
+  'VENDOR_PAYABLE':(None,'vendor_code',None,'AP_VENDOR',-1),
+  'CASH_BANK':(None,'cash_account_code',None,None,1),
+ }
+ entity,field,name_field,account,sign=mapping[balance_type]
+ if entity:
+  stage(cur,batch,entity,1,{field:tag,name_field:'Synthetic opening party'})
+  code=tag
+ else:
+  actors.admin(cur)
+  if balance_type=='VENDOR_PAYABLE':
+   code=cur.execute('select vendor_code from erp.laundry_vendors where id=%s',(base.VENDOR,)).fetchone()[0]
+  else:
+   code,cash_coa=cur.execute('select cash_account_code,coa_account_id from erp.cash_accounts where is_active order by cash_account_code limit 1').fetchone()
+ stage(cur,batch,'OPENING_BALANCE_ITEM',1,dict(balance_type=balance_type,amount='14.25',**{field:code}))
+ actors.admin(cur);ledger=production.ledger(cur)
+ assert validate(cur,batch)==((2,2,0) if entity else (1,1,0))
+ assert production.ledger(cur)==ledger
+ if entity:
+  owner(cur);assert cur.execute('select erp.apply_migration_master_rows(%s)',(batch,)).fetchone()[0]==1
+ ident=opening(cur,batch);post(cur,ident)
+ account_id=cur.execute('select erp.account_id(%s)',(account,)).fetchone()[0] if account else cash_coa
+ amount=cur.execute("select sum(l.debit-l.credit) from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id where j.source_type='OPENING_BALANCE' and j.source_id=%s and l.account_id=%s",(ident,account_id)).fetchone()[0]
+ assert amount==Decimal('14.25')*sign,(balance_type,amount)
+ if entity or balance_type=='VENDOR_PAYABLE':
+  subledger=cur.execute('select original_amount,direction from erp.opening_subledger_balances s join erp.opening_balance_items i on i.id=s.opening_item_id where i.opening_id=%s',(ident,)).fetchall()
+  assert subledger==[(Decimal('14.25'),'RECEIVABLE' if sign==1 else 'PAYABLE')],subledger
+ else:subledger=[]
+ owner(cur);cur.execute('select erp.finalize_migration_batch(%s)',(batch,));actors.admin(cur)
+ return dict(status='PASS',balance_type=balance_type,expected='14.25',signed_gl=amount,subledger=subledger,preview_ledger_inert=True)
+
 def run(old=False):
  head,tree=runtime.verify_audit_source();expected=predecessor if old else runtime
  report=dict(status='INCOMPLETE',writer_head=head,writer_tree=tree,runtime_generation='AJ' if old else 'AK',
@@ -173,6 +213,8 @@ def run(old=False):
     [('PRODUCT',('model_code','brand_code','size_code')),('MATERIAL',('unit_code','accessory_category_code')),('OPEN_PO',('model_code','contractor_code'))] for field in fields]
    specs += [('STAGED_MATERIAL',lambda c:staged_material(c,today)),('STAGED_INVALID_PARENT',lambda c:staged_material(c,today,True)),
     ('DUPLICATE_MASTER',lambda c:staged_material(c,today,duplicate=True)),('STAGED_PRODUCT',lambda c:staged_product(c,today))]
+   specs += [('VALID_PARTY:'+bt,lambda c,bt=bt:valid_party(c,today,bt)) for bt in
+    ('CONTRACTOR_RECEIVABLE','CONTRACTOR_PAYABLE','CUSTOMER_RECEIVABLE','SUPPLIER_PAYABLE','VENDOR_PAYABLE','CASH_BANK')]
    specs += [('RECOVERED_SALE:'+route+':'+str(failed),lambda c,r=route,f=failed:residual.recovered_sale(c,today,r,f))
     for route in ('CONTRACTOR','LAUNDRY') for failed in (False,True)]
   report['planned_case_ids']=[n for n,_ in specs];save()

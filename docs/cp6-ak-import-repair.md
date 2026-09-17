@@ -127,3 +127,44 @@ Gate berikutnya mengulang230 kasus bisnis pada AK karena post_opening_balance
 dan alur import berubah. Tambahan28 jadwal bisnis,20 maintenance pada edge AK,
 4 clock, HTTP/UI/role dijalankan bersama.460 historis tidak dihitung sebagai
 460 bisnis fresh; schedule import baru memang diuji secara tersendiri.
+
+## Gate gabungan dan tindak lanjut alat audit
+
+Kandidat produk tetap `684b708dee785934fe5fe4fe567c454cba873ea9`, tree
+`1f4c57517c0d4abd6612d4a8b36b2e9cbe437834`. Alat gabungan
+`aa010fbecb512cccf03084e7adb8c426097873e7`, tree
+`84383d56a69f0ce4be64937a3df09e276c5ba87e`, parent produk tersebut.
+[Native 35180891327](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35180891327)
+selesai FAILURE; [CodeQL 35180891317](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35180891317)
+lulus empat bahasa. Artifact `10479904487`, 57.373.952 byte, 308 entry,
+SHA-256 `ba89c74c015a44d5bbf40f3ad0f3a9c645786d9de5965a838230c5d0da51fbae`.
+Digest/CRC, nama entry unik/aman, symlink, dan selected secret patterns diperiksa.
+
+230 ID direncanakan dan dicoba: 169 PASS, 39 CONTROL_PASS, 12
+DATE_POLICY_REVIEW_REQUIRED, 10 INCOMPLETE. Sepuluh incomplete adalah replay
+opening IMPORT bahan/roll dalam lima zona: oracle lama mengharapkan pesan
+`Opening balance must be DRAFT`; AK lebih dahulu menolak batch yang sudah
+POSTED dengan `AK_OPENING_REQUIRES_CURRENT_VALIDATED_BATCH`. Penolakan atomik
+teramati, tetapi sisa oracle belum selesai dan tidak boleh dianggap PASS.
+Selain itu, agregator mengharapkan label `PASS` untuk concurrency yang hasil
+sahnya `PASS_REVIEWED_SCOPE`; pemeriksaan label diperbaiki tanpa mengubah tes.
+
+25 tes import dan 4 jadwal edit/post tetap lulus. 28 jadwal bisnis (16+12),
+20 maintenance, 4 clock, HTTP 95 assertion, UI 43+58, pemeriksaan nominal/role,
+restore AK→AJ→AI→AH serta cleanup selesai. Rincian angka role berada dalam
+artifact; assertion dan transaksi tidak dijumlahkan menjadi kasus unik palsu.
+
+Tindak lanjut terarah memeriksa status header dan batch benar-benar POSTED,
+lalu hanya menyesuaikan pesan penolakan replay tersebut. Nilai uang, stok,
+tanggal, READY, boundary dan seluruh oracle lama tetap wajib cocok. Penghapusan
+adapter harus mengembalikan source oracle gabungan byte-identik. Sepuluh alur
+diulang penuh; 220 hasil lain dipertahankan dengan status asal, termasuk 12 HOLD.
+Reuse hanya sah bila kandidat produk, seluruh dependensi runtime, konfigurasi,
+source oracle di luar adapter, dan 690 objek terpasang tetap terverifikasi.
+
+Tambahan enam alur positif saldo awal contractor/customer/supplier/vendor/cash
+menguji nominal 14,25, arah jurnal, dan subledger. Total import terarah menjadi
+31. Ini melengkapi bukti bahwa validator menerima referensi sah, bukan hanya
+menolak referensi salah. Supabase security advisors dibandingkan AJ→AK secara
+read-only; temuan baseline disimpan, bukan dihapus. Tambahan ini belum dinilai
+PASS sampai run tindak lanjut selesai. Tidak ada perubahan SQL/src pada wave ini.
