@@ -27,8 +27,8 @@ const workflow = read(workflowPath)
 const expected = {
   migration: ['e16dbb655164595be273c03582d35c9ac33593136bd418fdd87156e592f292b8', 19733],
   rollback: ['0d0318e3848344c3642f1796a205d25bcf1cc2d2091ce28d1fc9cf6d186ecbe5', 6876],
-  // AJ adds one target and its full-runtime check; existing drain ordering is unchanged.
-  maintenance: ['9ca482df87b927f3b7ee87a3bb042882b41c78141d07c6f8a27ff39f47b0e57a', 80218],
+  // AK adds one target and its full-runtime check; prove unchanged AJ body below.
+  maintenance: ['c9021382090b5c8ae9b028a996890d43be93406e5596d7c233e934d91ee76bf8', 81056],
   regression: ['1cf7eb7d52add419ef0a90e103d7512105858fb29b465c73a82f26e9234a3844', 26141],
   matrix: ['5c2a4088c9ed00529d6055380897de0bfff22cbe0d8e359832bff27010012467', 35133],
   guard: ['621f51b187138750646f38c7464a959713ba3c78bcbcd5031ac9841a288aca68', 6649],
@@ -37,6 +37,16 @@ for (const [name, source] of Object.entries({ migration, rollback, maintenance, 
   assert.equal(Buffer.byteLength(source), expected[name][1], `${name} byte drift`)
   assert.equal(sha(source), expected[name][0], `${name} SHA drift`)
 }
+// Removing only the explicit AK target bindings must restore the reviewed AJ
+// controller byte for byte. Pin updates cannot conceal drain/rollback changes.
+const priorMaintenance = maintenance
+  .replace(/    'AK': \{[\s\S]*?\n    \},\n/, '')
+  .replace(/    if target_name == 'AK':\n[\s\S]*?(?=    if target_name == 'AJ':)/, '')
+  .replace("'AH', 'AI', 'AJ', 'AK'}", "'AH', 'AI', 'AJ'}")
+  .replace("            if target_name == 'AK':\n                from cp6_v2620ak_runtime import verified_successor\n            elif target_name == 'AJ':", "            if target_name == 'AJ':")
+  .replace("'AJ': 690, 'AK': 690}", "'AJ': 690}")
+assert.equal(sha(priorMaintenance), '9ca482df87b927f3b7ee87a3bb042882b41c78141d07c6f8a27ff39f47b0e57a', 'AK changed reviewed maintenance body')
+
 assert.equal(sha(migration.slice(0, -1)), 'bcac43cd1cca5214f8678cd058caf6ff19ce90bdebd1c31f47675c0efd79a36f')
 
 // F and G audited source/rollback bytes are immutable; H is forward-only.

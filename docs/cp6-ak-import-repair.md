@@ -71,3 +71,12 @@ datang dari chat lain setelah menilai kandidat dan bukti yang sama.
 
 Checkpoint lanjutan akan mencatat SHA/tree final, run, artifact/checksum,
 hasil aktual, kegagalan yang tersisa, dan perintah melanjutkan.
+
+## Percobaan terarah pertama
+
+Native35179819526 pada06dd10d7 berhenti sebelum database dibuat: pemeriksa
+checksum controller masih menyebut versi AJ80218 byte, sedangkan tambahan
+target AK81056 byte sudah terpasang. Ini kegagalan integrasi gate; seluruh
+tes transaksi AK pada run ini BELUM DIMULAI. Frontend237 dan parser34 selesai.
+Perbaikan harness memperbarui pin serta membuktikan penghapusan hanya binding
+AK menghasilkan controller AJ byte-identik. Body drain/rollback tetap utuh.

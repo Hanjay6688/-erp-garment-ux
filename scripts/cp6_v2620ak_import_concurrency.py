@@ -7,6 +7,7 @@ import cp6_v2620ak_import_review as review
 import cp6_v2620h_maintenance_rollback_matrix as matrix
 
 ROOT=Path('cp6-proof/writer-ak/import-concurrency')
+CLONE=matrix.CLONE.replace('postgres:postgres@','supabase_admin:postgres@')
 
 def run():
  head,tree=review.runtime.verify_audit_source()
@@ -17,7 +18,7 @@ def run():
  try:
   matrix.command(['bash','scripts/clone-cp6-disposable-database.sh',matrix.SOURCE,matrix.MAINTENANCE,
    matrix.CLONE,'cp6_rollback',matrix.CONTAINER,str(ROOT/'PHYSICAL_BOUNDARY')],ROOT/'clone.log')
-  with psycopg.connect(matrix.CLONE) as conn,conn.cursor() as cur:
+  with psycopg.connect(CLONE) as conn,conn.cursor() as cur:
    assert len(review.runtime.verified_successor(cur))==690
    cur.execute('grant usage on schema erp to authenticated')
    review.actors.actors.claims(cur,dict(sub=review.base.OPERATOR_AUTH,role='authenticated'))
@@ -26,15 +27,15 @@ def run():
    for commit in (True,False):
     name=direction+('_COMMIT' if commit else '_ABORT');first=second=None;thread=None
     try:
-     with psycopg.connect(matrix.CLONE) as seed,seed.cursor() as cur:
+     with psycopg.connect(CLONE) as seed,seed.cursor() as cur:
       cur.execute("set local timezone='Asia/Jakarta'")
       day=cur.execute("select (statement_timestamp() at time zone 'Asia/Jakarta')::date").fetchone()[0]
       batch,material=review.gaps.raw_batch(cur,day,'VALID');assert review.validate(cur,batch)==(1,1,0)
       ident=review.opening(cur,batch);review.actors.admin(cur)
       payload=cur.execute('select normalized_payload from erp.migration_staging_rows where batch_id=%s',(batch,)).fetchone()[0]
       payload['qty']='20'
-     first=psycopg.connect(matrix.CLONE,application_name='ak-import-first')
-     second=psycopg.connect(matrix.CLONE,application_name='ak-import-second')
+     first=psycopg.connect(CLONE,application_name='ak-import-first')
+     second=psycopg.connect(CLONE,application_name='ak-import-second')
      for conn in (first,second):conn.execute("set statement_timeout='15s';set lock_timeout='12s'");conn.commit()
      def edit(cur):review.stage(cur,batch,'OPENING_BALANCE_ITEM',1,payload)
      def post(cur):review.post(cur,ident)
@@ -46,7 +47,7 @@ def run():
        second.rollback();result.update(success=False,sqlstate=getattr(exc,'sqlstate',None),error=str(exc))
      thread=threading.Thread(target=worker,daemon=True);thread.start()
      blocker=first.info.backend_pid;waiter=second.info.backend_pid;blocked=False
-     with psycopg.connect(matrix.CLONE,autocommit=True) as observer:
+     with psycopg.connect(CLONE,autocommit=True) as observer:
       deadline=time.monotonic()+6
       while time.monotonic()<deadline and thread.is_alive():
        blocked=observer.execute('select %s=any(pg_blocking_pids(%s))',(blocker,waiter)).fetchone()[0]
@@ -57,7 +58,7 @@ def run():
      thread.join(18);assert not thread.is_alive(),'Worker remained active'
      assert result['success']==(not commit),result
      if commit:assert result['sqlstate']=='P0001',result
-     with psycopg.connect(matrix.CLONE) as observer:
+     with psycopg.connect(CLONE) as observer:
       qty=observer.execute('select coalesce(sum(qty_signed),0) from erp.material_stock_movements where material_id=%s',(material,)).fetchone()[0]
       expected=10 if (direction=='POST_EDIT' and commit) or (direction=='EDIT_POST' and not commit) else 0
       assert qty==expected,(qty,expected)
