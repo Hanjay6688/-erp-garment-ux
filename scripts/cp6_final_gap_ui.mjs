@@ -432,11 +432,13 @@ export async function runIndependentGaps(c){
       assert.equal(Number(query(`select count(*) from erp.audit_logs where entity_type='bs_resolutions' and entity_id='${resolution}' and action='REVERSE'`)),1)
       await selectCase(page,claimNumber)
       await page.locator('.cbsr-actions.claim textarea').fill('Owner reverses the settlement after its dependent allocation')
-      await bsMutation(page,'Reverse resolution','REVERSE_CLAIM_RESOLUTION')
+      const reversed=await bsMutation(page,'Reverse resolution','REVERSE_CLAIM_RESOLUTION')
       assert.deepEqual(balances(),invoiced)
-      await page.locator('.cbsr-actions.claim textarea').fill('Release corrected source capacity through rejected claim history')
-      await bsMutation(page,'Tolak claim','SAVE_CLAIM')
-      record('UI_CLAIM_MONEY_LINKED_REVERSAL',{allocation_audit_history:true,balances_restored_to_invoice:true})
+      // The original canonical reversal cancels the claim and releases source
+      // capacity atomically. There is no second reject action on this state.
+      assert.equal(reversed.response.result.status,'REJECTED')
+      assert.equal(query(`select status from erp.laundry_claims where id='${claim}'`),'REJECTED')
+      record('UI_CLAIM_MONEY_LINKED_REVERSAL',{allocation_audit_history:true,balances_restored_to_invoice:true,claim_status:'REJECTED'})
       query(`begin; set local request.jwt.claims='{"role":"authenticated","sub":"${owner.id}"}';
         select erp.reverse_vendor_invoice('${invoice}','Native fixture invoice linked correction after real UI claim lifecycle'); commit;`)
       await nav(page,'Laundry');await reverse(page,returned,'Batalkan penerimaan','REVERSE_RECEIPT')

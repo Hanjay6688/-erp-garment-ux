@@ -199,10 +199,10 @@ def import_variant(cur,today,field,value):
  assert production.ledger(cur)==before
  return dict(status='PASS',field=field,value=value,errors=rows,corrected_preview_valid=True,ledger_unchanged=True)
 
-REUSED_HEAD='f1f9e21a1be64ee523b408bcd77282748b3fa215'
-REUSED_TREE='9a66c776949ff1dfa5e7f69ae308100b7c11efed'
-REUSED_ARTIFACT=10469682433
-REUSED_SHA='9549cec70eb6c63d276afc320d5d6f2ee020184052fdbf51486d9fdb5a026e26'
+REUSED_HEAD='47671d9ba2cfb8d02658388adb364b2ae6b89e8d'
+REUSED_TREE='46f4f605444c72dc32282025b859ab66375178b3'
+REUSED_ARTIFACT=10477942082
+REUSED_SHA='9d2c1906c3f6bd5c11e46d7baa9740d4eb11d260f6d63c8b88d09bb4950c6abd'
 
 def qualify_reuse():
  head,tree=runtime.verify_audit_source()

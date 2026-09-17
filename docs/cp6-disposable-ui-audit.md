@@ -33,7 +33,7 @@ commit ini. Combined gate menjalankan230 kasus bisnis fresh, ditambah kontrol UI
 HTTP, concurrency, maintenance, clock, rollback dan cleanup existing. Matrix460
 historis tetap historis. Gate tanggal tetap menahan lock sampai kontraknya selesai.
 
-Aturan owner yang sudah ditemukan kembali: master AD section16.3–16.7 memisahkan
+Aturan owner yang sudah ditemukan kembali: master AD section16.1–16.5 memisahkan
 waktu fisik/ekonomi/sistem/posting, mempertahankan histori, mengalirkan koreksi biaya
 ke RM/WIP/FG/COGS/AP/GRNI dan laporan, serta melarang READY ketika integritas/recalc
 belum selesai. Koreksi periode terbuka bukan otomatis snapshot immutable.
@@ -54,11 +54,33 @@ credential. Isinya mengonfirmasi12 rework PASS,95 HTTP,43 UI +51 kontrol tambaha
 Writer perbaikan nominal tetap chat ini; independent acceptance masih wajib dari
 auditor lain pada repaired snapshot exact. Main/PR/UAT/legacy/hosted DB tidak diubah.
 
+Attempt nominal1: `47671d9ba2cfb8d02658388adb364b2ae6b89e8d`, tree
+`46f4f605444c72dc32282025b859ab66375178b3`, Native35173583560. Seluruh230
+kasus bisnis dieksekusi fresh:179 PASS +39 CONTROL_PASS +12 DATE_POLICY_REVIEW_REQUIRED,
+0 incomplete/fail; semua kontrol rework/import lolos. CodeQL35173583505 empatSUCCESS.
+UI klaim14.25 telah mencapai settlement, penggunaan kompensasi,32 pasangan izin,
+refusal kapasitas/dependensi, dan reversal dengan saldo AP kembali. Harness lalu
+mencoba tombol Tolak claim pada status REJECTED: kontrak asli sudah membatalkan
+claim lewat reversal, sehingga tombol itu memang tidak ada. Ini fixture INCOMPLETE,
+bukan kerusakan transaksi yang dibuktikan. Grup rework setelahnya juga INCOMPLETE
+karena setup money belum dikoreksi sampai akhir, bukan PASS dari attempt lama.
+
+Follow-up hanya menghapus langkah reject yang tidak berlaku dan mengassert status
+REJECTED authoritative. Byte frontend/SQL/package produk sama dengan attempt1.
+Reuse218 dipindah ke bukti fresh attempt1, dengan head/tree/digest, product diff,
+CRC,690-object install dan full boundary tetap diperiksa. Rework12, seluruh UI,
+HTTP,28 concurrency,20 maintenance,4 clock dan exact rollback tetap fresh.
+Artifact10477942082:53,007,482 byte/292 entry, SHA256
+`9d2c1906c3f6bd5c11e46d7baa9740d4eb11d260f6d63c8b88d09bb4950c6abd`,
+CRC sudah diperiksa lokal. Dua belas pengamatan tanggal diwariskan sebagai HOLD;
+qualified reuse tidak mengubahnya menjadi PASS.
+
 ---
 
+## Riwayat checkpoint 0c234171 — digantikan status lanjutan di atas
+
 Checkpoint penutup audit independen dan giliran writer AJ, 2026-09-16 UTC.
-Bagian ini merupakan status authoritative dan menggantikan status historis di
-bawah. **CP6_HOLD; production_go:false; CP7 belum dimulai.**
+Bagian ini adalah status historis. **CP6_HOLD; production_go:false; CP7 belum dimulai.**
 
 Dua perbaikan writer yang diterima dari handoff lolos pemeriksaan ulang pada
 cakupan yang diuji. Audit ini menemukan satu bug bisnis nyata pada recovery
