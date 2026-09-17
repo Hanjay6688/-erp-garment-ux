@@ -1,5 +1,12 @@
 # FINAL AUDIT CP6 — CP6_HOLD
 
+Checkpoint independen sesudah handoff1ee47b02 tersedia di
+[cp6-final-successor-independent.md](cp6-final-successor-independent.md).
+Alat audit2a6161ea, produk tetap47671d9:9 kasus residual selesai,6 PASS,
+1 gap diagnostik referensi import,2 HOLD tanggal; restore/cleanup PASS.
+Nominal dan downstream recovery lulus pada cakupan teruji; CP6 tetap HOLD.
+Status dan bukti terbaru pada dokumen tersebut mengungguli status historis di bawah.
+
 ## Lanjutan 2026-09-17: nominal claim dan kompensasi
 
 Checkpoint masuk `0c234171fb59dfabc7fa03d4e27904bc2b2f53a7`, tree
