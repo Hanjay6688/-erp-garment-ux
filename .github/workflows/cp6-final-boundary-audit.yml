@@ -12,6 +12,10 @@ name: CP6 Final Boundary Audit
     - scripts/cp6_final_independent_acceptance.py
     - scripts/cp6_final_money_independent.mjs
     - scripts/cp6_v2620aj_*.py
+    - scripts/cp6_v2620ak_*.py
+    - supabase/migrations/*20ak*
+    - supabase/rollbacks/*20ak*
+    - docs/evidence/cp6-ak-*.json
     - scripts/cp6_preuse_rollback_maintenance.py
     - supabase/migrations/*20aj*
     - supabase/rollbacks/*20aj*
@@ -51,8 +55,9 @@ jobs:
       CP6_AUTH_PGURL: postgresql://postgres:postgres@127.0.0.1:54322/cp6_auth
       CP6_AUTH_REPORT: cp6-proof/final-audit/HTTP.json
       CP6_REPAIR_AJ: 'true'
-      CP6_AJ_REPAIR_FOLLOWUP: ${{ contains(github.event.head_commit.message, '[cp6-aj-harness-followup]') }}
-      CP6_RUNTIME_GENERATION: AJ
+      CP6_AJ_REPAIR_FOLLOWUP: 'false'
+      CP6_AK_DIRECTED: ${{ contains(github.event.head_commit.message, '[cp6-ak-directed]') }}
+      CP6_RUNTIME_GENERATION: AK
       CP6_RUNTIME_HEAD: ${{ github.sha }}
       CP6_UI_FOCUSED: ${{ contains(github.event.head_commit.message, '[cp6-ui-focused]') }}
     steps:
@@ -437,6 +442,15 @@ jobs:
       id: aj_install
       working-directory: candidate
       run: PYTHONPATH=scripts python ../harness/scripts/cp6_v2620aj_review.py --phase install
+    - name: Reproduce import reference and stale draft behavior on exact AJ predecessor
+      if: ${{ always() && steps.aj_install.outcome == 'success' }}
+      working-directory: candidate
+      run: PYTHONPATH=scripts python ../harness/scripts/cp6_v2620ak_import_review.py --original
+    - name: Install AK successor with all 690 runtime objects pinned
+      id: ak_install
+      if: ${{ always() && steps.aj_install.outcome == 'success' }}
+      working-directory: candidate
+      run: PYTHONPATH=scripts python ../harness/scripts/cp6_v2620ak_review.py --phase install
     - name: Record exact execution scope
       working-directory: candidate
       run: |
@@ -446,10 +460,10 @@ jobs:
         focused=os.environ['CP6_UI_FOCUSED']=='true'
         target=Path('cp6-proof/final-audit/RUN_SCOPE.json')
         target.parent.mkdir(parents=True,exist_ok=True)
-        target.write_text(json.dumps(dict(mode='AJ_REPAIR_HARNESS_FOLLOWUP' if os.environ['CP6_AJ_REPAIR_FOLLOWUP']=='true' else 'AJ_COMBINED_REPAIR_AND_BUSINESS',
-            native_business_218='REUSED_EVIDENCE_VERIFIED_BEFORE_BUSINESS' if os.environ['CP6_AJ_REPAIR_FOLLOWUP']=='true' else 'FRESH_REQUIRED',
-            native_rework_12='FRESH_REQUIRED',concurrency_28='FRESH_REQUIRED',maintenance_20='FRESH_REQUIRED',
-            full_gate_required_after_harness_stable=False,production_go=False),indent=2)+'\n')
+        target.write_text(json.dumps(dict(mode='AK_DIRECTED' if os.environ['CP6_AK_DIRECTED']=='true' else 'AK_COMBINED',
+            native_business_230='NOT_RUN_DIRECTED' if os.environ['CP6_AK_DIRECTED']=='true' else 'FRESH_REQUIRED',
+            import_family='FRESH_REQUIRED',import_concurrency_4='FRESH_REQUIRED',
+            historical_460='REUSED_EVIDENCE_HISTORICAL',production_go=False),indent=2)+'\n')
         PY
     - name: Rerun unchanged combined 142-case business oracle on final candidate
       if: ${{ env.CP6_UI_FOCUSED != 'true' && env.CP6_REPAIR_AJ != 'true' }}
@@ -486,45 +500,43 @@ jobs:
       working-directory: candidate
       run: PYTHONPATH=scripts python ../harness/scripts/cp6_ai_independent_review.py --phase concurrency
       if: ${{ always() && steps.ai_install.outcome == 'success' && env.CP6_UI_FOCUSED != 'true' && env.CP6_REPAIR_AJ != 'true' }}
-    - name: Verify byte-identical product and explicitly reused AJ business evidence
-      if: ${{ always() && steps.aj_install.outcome == 'success' && env.CP6_AJ_REPAIR_FOLLOWUP == 'true' }}
+    - name: Run combined AK business and repair families
+      if: ${{ always() && steps.ak_install.outcome == 'success' && env.CP6_AK_DIRECTED != 'true' }}
+      working-directory: candidate
+      run: PYTHONPATH=scripts python ../harness/scripts/cp6_v2620ak_review.py --phase business
+    - name: Test reference preview staged dependencies draft edits and recovered sales on AK
+      if: ${{ always() && steps.ak_install.outcome == 'success' }}
+      working-directory: candidate
+      run: PYTHONPATH=scripts python ../harness/scripts/cp6_v2620ak_import_review.py
+    - name: Serialize ordinary import draft editing against posting in four schedules
+      if: ${{ always() && steps.ak_install.outcome == 'success' }}
+      working-directory: candidate
+      run: PYTHONPATH=scripts python ../harness/scripts/cp6_v2620ak_import_concurrency.py
+    - name: Repeat twelve work schedules on exact AK runtime
+      if: ${{ always() && steps.ak_install.outcome == 'success' && env.CP6_AK_DIRECTED != 'true' }}
+      working-directory: candidate
+      run: PYTHONPATH=scripts python ../harness/scripts/cp6_v2620ak_review.py --phase concurrency
+    - name: Execute twenty AK maintenance schedules with unchanged assertions
+      if: ${{ always() && steps.ak_install.outcome == 'success' && env.CP6_AK_DIRECTED != 'true' }}
       working-directory: candidate
       env:
-        GH_TOKEN: ${{ github.token }}
-      run: PYTHONPATH=scripts python ../harness/scripts/cp6_v2620aj_review.py --phase reuse
-    - name: Run combined AJ business and repair families
-      if: ${{ always() && steps.aj_install.outcome == 'success' }}
-      working-directory: candidate
-      run: PYTHONPATH=scripts python ../harness/scripts/cp6_v2620aj_review.py --phase business
-    - name: Independently test recovered sales mixed import and historical readiness
-      if: ${{ always() && steps.aj_install.outcome == 'success' }}
-      working-directory: candidate
-      run: PYTHONPATH=scripts python ../harness/scripts/cp6_final_independent_acceptance.py
-    - name: Repeat twelve work schedules on exact AJ runtime
-      if: ${{ always() && steps.aj_install.outcome == 'success' }}
-      working-directory: candidate
-      run: PYTHONPATH=scripts python ../harness/scripts/cp6_v2620aj_review.py --phase concurrency
-    - name: Execute twenty AJ maintenance schedules with unchanged assertions
-      if: ${{ always() && steps.aj_install.outcome == 'success' }}
-      working-directory: candidate
-      env:
-        CP6_AJ_MAINTENANCE_CONFIRM: cp6_rollback
+        CP6_AK_MAINTENANCE_CONFIRM: cp6_rollback
         CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
-      run: PYTHONPATH=scripts python ../harness/scripts/cp6_v2620aj_maintenance_schedules.py
-    - name: Reexecute controlled midnight transaction on exact AJ runtime
-      if: ${{ always() && steps.aj_install.outcome == 'success' }}
+      run: PYTHONPATH=scripts python ../harness/scripts/cp6_v2620ak_maintenance_schedules.py
+    - name: Reexecute controlled midnight transaction on exact AK runtime
+      if: ${{ always() && steps.ak_install.outcome == 'success' && env.CP6_AK_DIRECTED != 'true' }}
       working-directory: candidate
       env:
         CP6_AA_MIDNIGHT_AUDIT_CONFIRM: postgres
       run: PYTHONPATH=scripts python ../harness/scripts/cp6_final_gap_midnight.py
-    - name: Rerun original HTTP role and lifecycle oracle on exact AJ public API
-      if: ${{ always() && steps.aj_install.outcome == 'success' }}
+    - name: Rerun original HTTP role and lifecycle oracle on exact AK public API
+      if: ${{ always() && steps.ak_install.outcome == 'success' && env.CP6_AK_DIRECTED != 'true' }}
       working-directory: candidate
       shell: bash
       run: |
         set -euo pipefail
         mkdir -p cp6-proof/final-audit
-        PYTHONPATH=../harness/scripts:scripts python -c "import os,psycopg,cp6_v2620aj_runtime as r; c=psycopg.connect(os.environ['PGURL']); assert len(r.verified_successor(c.cursor()))==690; c.close()"
+        PYTHONPATH=../harness/scripts:scripts python -c "import os,psycopg,cp6_v2620ak_runtime as r; c=psycopg.connect(os.environ['PGURL']); assert len(r.verified_successor(c.cursor()))==690; c.close()"
         auth_rest_name='cp6_auth_rest'
         auth_rest_env="$(mktemp)"
         auth_rest_json="${auth_rest_env}.json"
@@ -762,30 +774,38 @@ jobs:
         test "$(psql "$PGURL" -At -c 'select count(*) from auth.sessions')" = '0'
         test "$(psql "$CP6_AUTH_PGURL" -At -c 'select count(*) from erp.cp6_laundry_qc_execution_context')" = '0'
 
-    - name: Require all independently executed gap groups
-      if: ${{ always() && steps.aj_install.outcome == 'success' }}
+    - name: Require complete directed repair and combined groups when selected
+      if: ${{ always() && steps.ak_install.outcome == 'success' }}
       working-directory: candidate
       run: |
         python - <<'PYVERIFY'
-        import json
+        import json,os
         from pathlib import Path
-        root=Path('cp6-proof/final-audit')
-        requirements={'../writer-aj/BUSINESS.json':'WRITER_PASS',
-          'FINAL_INDEPENDENT.json':'PASS_REVIEWED_SCOPE',
-          'MONEY_INDEPENDENT.json':'PASS_REVIEWED_SCOPE',
-          'INDEPENDENT_UI_GAPS.json':'PASS_REVIEWED_SCOPE',
-          'midnight/AI_MIDNIGHT_AUDIT.json':'PASS_BOUNDED_AUDIT'}
+        root=Path('cp6-proof')
+        requirements={'writer-ak/ORIGINAL_IMPORT.json':'PREDECESSOR_PROBES_COMPLETE',
+          'writer-ak/IMPORT.json':'WRITER_PASS','writer-ak/import-concurrency/manifest.json':'WRITER_PASS'}
+        if os.environ['CP6_AK_DIRECTED']!='true':
+          requirements.update({'writer-ak/BUSINESS.json':'WRITER_PASS',
+            'writer-ak/CONCURRENCY.json':'PASS','AK_MAINTENANCE_ROLLBACK/manifest.json':'PASS',
+            'final-audit/MONEY_INDEPENDENT.json':'PASS_REVIEWED_SCOPE',
+            'final-audit/INDEPENDENT_UI_GAPS.json':'PASS_REVIEWED_SCOPE',
+            'final-audit/midnight/AI_MIDNIGHT_AUDIT.json':'PASS_BOUNDED_AUDIT'})
         results={}
         for name,wanted in requirements.items():
           path=root/name
           results[name]={'expected':wanted,'actual':json.loads(path.read_text()).get('status') if path.exists() else 'MISSING'}
-        (root/'INDEPENDENT_GATE.json').write_text(json.dumps(dict(results=results,production_go=False,
-          global_cp6_acceptance=False),indent=2)+'\n')
+        (root/'final-audit/WRITER_GATE.json').write_text(json.dumps(dict(results=results,production_go=False,
+          global_cp6_acceptance=False,independent_acceptance=False),indent=2)+'\n')
         assert all(x['actual']==x['expected'] for x in results.values()),results
         PYVERIFY
+    - name: Restore AK to exact AJ with refusal and admission controls
+      id: ak_rollback
+      if: ${{ always() && steps.ak_install.outcome == 'success' }}
+      working-directory: candidate
+      run: PYTHONPATH=scripts python ../harness/scripts/cp6_v2620ak_review.py --phase rollback
     - name: Restore AJ to exact AI with refusal and admission controls
       id: aj_rollback
-      if: ${{ always() && steps.aj_install.outcome == 'success' }}
+      if: ${{ always() && steps.aj_install.outcome == 'success' && (steps.ak_install.outcome != 'success' || steps.ak_rollback.outcome == 'success') }}
       working-directory: candidate
       run: PYTHONPATH=scripts python ../harness/scripts/cp6_v2620aj_review.py --phase rollback
     - name: Restore and compare against independently captured AH
@@ -816,6 +836,8 @@ jobs:
           candidate/cp6-proof/final-audit
           candidate/cp6-proof/writer-ai/crossflow.json
           candidate/cp6-proof/writer-aj
+          candidate/cp6-proof/writer-ak
+          candidate/cp6-proof/AK_MAINTENANCE_ROLLBACK
           candidate/cp6-proof/AJ_MAINTENANCE_ROLLBACK
           candidate/cp6-proof/CP6_AUTH_CLONE_CLEANUP.txt
           base/cp6-proof/AC_AUDIT_RUNTIME_BOOTSTRAP.json

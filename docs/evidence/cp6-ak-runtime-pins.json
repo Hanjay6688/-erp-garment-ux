@@ -1,0 +1,131 @@
+{
+  "format": "CP6_AK_RUNTIME_PINS_V1",
+  "stamp": "20260917033516",
+  "name": "erp_v2_6_20ak_cp6_import_reference_preview",
+  "version": "v2.6.20ak",
+  "predecessor_head": "47671d9ba2cfb8d02658388adb364b2ae6b89e8d",
+  "predecessor_tree": "46f4f605444c72dc32282025b859ab66375178b3",
+  "functions": [
+    {
+      "identity": "erp._validate_migration_batch_base(uuid)",
+      "predecessor_sha256": "eb6fc2bc6cf419a72be75891d145782dbb1dec06186243834c2a444fc1fa9801",
+      "installed_sha256": "cb72249e0a5ccc835d40c7468601a952a9387186545e34f13391bdf4a17ce0f7",
+      "owner": "postgres",
+      "acl": [
+        "authenticated=X/postgres",
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ]
+    },
+    {
+      "identity": "erp.validate_migration_opening_stock_costs(uuid)",
+      "predecessor_sha256": "8223a856b0a0cd66d29a9eba31ebb6644434f934d910f184947a35ae0ffa77a0",
+      "installed_sha256": "c97586c8656f10cfbc73a6f2ec80c30b03f6e41cf6e376757ddef467eb86abeb",
+      "owner": "postgres",
+      "acl": [
+        "postgres=X/postgres"
+      ]
+    },
+    {
+      "identity": "erp.prepare_migration_opening_balance(uuid,text)",
+      "predecessor_sha256": "89f419571e5de43434008e5090b1d4808089411ba839a53172354a145ec97323",
+      "installed_sha256": "25dec082cc725d44b22283551a53d58b368714ab845f2f7daed807010305e90f",
+      "owner": "postgres",
+      "acl": [
+        "authenticated=X/postgres",
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ]
+    },
+    {
+      "identity": "erp.apply_migration_master_rows(uuid)",
+      "predecessor_sha256": "6fd720835a487197a9b0d4b6246d9669ba5f472c7135993ab64cd5d9970eb1c9",
+      "installed_sha256": "605407f1e9fa8c41bf768931c4b3b4e92646930005b48bb2b74ee46927016ef4",
+      "owner": "postgres",
+      "acl": [
+        "authenticated=X/postgres",
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ]
+    },
+    {
+      "identity": "erp.apply_migration_open_pos(uuid)",
+      "predecessor_sha256": "49dd168a2dc3df0be6fcec9c962446d91e5724f9a838dc9616d894717c9844f7",
+      "installed_sha256": "8d7f5ce365807ea1d26885f15a66b30e6d2bf85d6328a493b3d6fa037c17c06c",
+      "owner": "postgres",
+      "acl": [
+        "authenticated=X/postgres",
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ]
+    },
+    {
+      "identity": "erp.finalize_migration_batch(uuid)",
+      "predecessor_sha256": "b2ca642c739fda50ffe2e5fb7d165e9a3370bcc55fad2e256c358d403f1436e3",
+      "installed_sha256": "0c72dc6eda42a90a92d13845eb7e70d1ccf5c2e3efeda83d521728f2024e0022",
+      "owner": "postgres",
+      "acl": [
+        "authenticated=X/postgres",
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ]
+    },
+    {
+      "identity": "erp.stage_migration_row(uuid,text,integer,text,jsonb,jsonb)",
+      "predecessor_sha256": "0a35df9e1c385ca27f2c34f17de8e22023b58e2f6c42d9788260d0ebd69cecaa",
+      "installed_sha256": "153138b17d4993d583390e7e6d623d2abe3343741f8651a4007126d2cd75375c",
+      "owner": "postgres",
+      "acl": [
+        "authenticated=X/postgres",
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ]
+    },
+    {
+      "identity": "erp.post_opening_balance(uuid)",
+      "predecessor_sha256": "6460ab913c9a0614df6a622ff2a223df21c13d1361e14e6089c09375f7a95b40",
+      "installed_sha256": "5ffa45334a04a1d0b3db02c1015cd61769e056d8fe4bd084713ce3242efec087",
+      "owner": "postgres",
+      "acl": [
+        "authenticated=X/postgres",
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ]
+    }
+  ],
+  "boundary_count": 223,
+  "predecessor_function_count": 533,
+  "predecessor_table_count": 225,
+  "comparison_run": 35176804544,
+  "production_go": false,
+  "source_pins": {
+    "scripts/cp6_v2620ak_build_sql.py": {
+      "sha256": "c4af8c20035c31917e94364840a8e5e620e86e91e2c27b2b74a68e0b3e032089",
+      "bytes": 21287
+    },
+    "docs/evidence/cp6-ak-predecessor-functions.json": {
+      "sha256": "a0d367dbdcf141d8d61967f5a441072405aabb222d1c92b24468f0af8cf90044",
+      "bytes": 52038
+    },
+    "docs/evidence/cp6-ak-aj-catalog-pins.json": {
+      "sha256": "16abd87f32956d831868b474db2f3b4a36cdc5b8e2576e35c443cde2c7ab8bc1",
+      "bytes": 144406
+    },
+    "supabase/migrations/20260916202400_erp_v2_6_20aj_cp6_rework_output_lineage.sql": {
+      "sha256": "2e6cd4e94b52a27c83d2ba134a996c1db66a6f7ff617a5895f8c14769673f9ea",
+      "bytes": 57741
+    },
+    "supabase/rollbacks/20260916202400_erp_v2_6_20aj_cp6_rework_output_lineage.rollback.sql": {
+      "sha256": "896baab52089adf56c60562cf3161391e01392aec972b48408752fc4e417aed9",
+      "bytes": 13111
+    },
+    "supabase/migrations/20260917033516_erp_v2_6_20ak_cp6_import_reference_preview.sql": {
+      "sha256": "11011de86e827000dbb5fd3e0979497f1fbfaf17e268620ca21749eaa0ced4d1",
+      "bytes": 75040
+    },
+    "supabase/rollbacks/20260917033516_erp_v2_6_20ak_cp6_import_reference_preview.rollback.sql": {
+      "sha256": "12179dc19e6becb323400ffa8f180e71b456638837a38ebfc304ae8b523b8bcd",
+      "bytes": 14663
+    }
+  }
+}

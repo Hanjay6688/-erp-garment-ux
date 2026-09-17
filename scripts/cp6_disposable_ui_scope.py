@@ -13,7 +13,19 @@ BACKEND_TREE = 'a5cb1e43d776a9ffc058f99c8d5c96ac7f6a9c0d'
 PIN_FILE = 'docs/evidence/cp6-disposable-ui-source-pins.json'
 DOC = 'docs/cp6-disposable-ui-audit.md'
 AUDIT_DOC = 'docs/cp6-final-successor-independent.md'
-PATHS = '''.github/workflows/cp6-ac-independent-audit.yml
+AK_DOC = 'docs/cp6-ak-import-repair.md'
+PATHS = '''docs/evidence/cp6-ak-aj-catalog-pins.json
+docs/evidence/cp6-ak-predecessor-functions.json
+docs/evidence/cp6-ak-runtime-pins.json
+scripts/cp6_v2620ak_build_sql.py
+scripts/cp6_v2620ak_import_concurrency.py
+scripts/cp6_v2620ak_import_review.py
+scripts/cp6_v2620ak_maintenance_schedules.py
+scripts/cp6_v2620ak_review.py
+scripts/cp6_v2620ak_runtime.py
+supabase/migrations/20260917033516_erp_v2_6_20ak_cp6_import_reference_preview.sql
+supabase/rollbacks/20260917033516_erp_v2_6_20ak_cp6_import_reference_preview.rollback.sql
+.github/workflows/cp6-ac-independent-audit.yml
 .github/workflows/cp6-ai-work-source.yml
 .github/workflows/cp6-ag-sale-reservation.yml
 .github/workflows/cp6-ah-return-allocation.yml
@@ -80,13 +92,16 @@ def verify():
     assert not git('rev-list', '--merges', BASE+'..HEAD')
     assert not git('diff', '--name-only', 'HEAD'), 'Uncommitted tracked changes'
     changed = set(git('diff', '--name-only', BASE, 'HEAD').splitlines())
-    assert changed == set(PATHS) | {PIN_FILE, DOC, AUDIT_DOC}, sorted(changed)
+    assert changed == set(PATHS) | {PIN_FILE, DOC, AUDIT_DOC, AK_DOC}, sorted(changed)
     pins = json.loads(Path(PIN_FILE).read_text())
     assert pins['base'] == BASE and pins['backend'] == BACKEND
     assert set(pins['sha256']) == set(PATHS)
     for path, expected in pins['sha256'].items():
         assert hashlib.sha256(Path(path).read_bytes()).hexdigest() == expected, path
     expected_sql = {
+        'supabase/migrations/20260917033516_erp_v2_6_20ak_cp6_import_reference_preview.sql',
+        'supabase/rollbacks/20260917033516_erp_v2_6_20ak_cp6_import_reference_preview.rollback.sql',
+
         'supabase/migrations/20260916202400_erp_v2_6_20aj_cp6_rework_output_lineage.sql',
         'supabase/rollbacks/20260916202400_erp_v2_6_20aj_cp6_rework_output_lineage.rollback.sql',
     }
@@ -124,8 +139,8 @@ def verify():
             if name == 'cp6-ai-work-source.yml':
                 text = text.replace("    needs: review-scope\n    if: needs.review-scope.outputs.aj != 'true'\n", '')
         assert text == subprocess.check_output(['git','show',BASE+':'+path],text=True), path
-    return dict(status='ROUTED_TO_COMBINED_AJ_AND_WRITER_UI_GATE',base_backend_head=BACKEND,
-                base_backend_tree=BACKEND_TREE,backend_generation='AJ',backend_head=git('rev-parse','HEAD'),frontend_head=git('rev-parse','HEAD'),
+    return dict(status='ROUTED_TO_COMBINED_AK_WRITER_GATE',base_backend_head=BACKEND,
+                base_backend_tree=BACKEND_TREE,backend_generation='AK',backend_head=git('rev-parse','HEAD'),frontend_head=git('rev-parse','HEAD'),
                 frontend_tree=git('rev-parse','HEAD^{tree}'),
                 historical_460_matrix_reexecuted=False,independent_acceptance=False,
                 production_go=False)
