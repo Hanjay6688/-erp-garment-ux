@@ -104,7 +104,8 @@ def draft_edit(cur,today,old=False):
 
 def staged_material(cur,today,invalid=False,duplicate=False):
  batch=batch_new(cur,today);tag='AK-'+uuid.uuid4().hex[:14];actors.admin(cur)
- location=cur.execute("select location_code from erp.locations where is_active and location_type='RAW_MATERIAL_WAREHOUSE' order by id limit 1").fetchone()[0]
+ location='RAW-'+tag
+ cur.execute("insert into erp.locations(location_code,location_name,location_type,is_active) values(%s,'Synthetic staged material warehouse','RAW_MATERIAL_WAREHOUSE',true)",(location,))
  parent=dict(material_sku=tag,material_name='Synthetic new master',material_type='OTHER',unit_code='PCS')
  child=dict(balance_type='MATERIAL',material_sku=tag,location_code=location,qty='4',unit_cost='3.25')
  # Deliberately stage consumer first; import order must not become an oracle.

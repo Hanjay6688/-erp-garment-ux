@@ -11,7 +11,7 @@ begin
      or not exists(select 1 from supabase_migrations.schema_migrations
        where version='20260917033516' and name='erp_v2_6_20ak_cp6_import_reference_preview'
          and encode(extensions.digest(convert_to(array_to_string(statements,E'\n'),'UTF8'),'sha256'),'hex')
-           in('11011de86e827000dbb5fd3e0979497f1fbfaf17e268620ca21749eaa0ced4d1','a9cb63fff41b6893038bafa8ebe87126bb74e945ae3f3bae57017beda812b158'))
+           in('0d42825b2f2fcb38b9678fe1e6982b0c63290aac012b92be224f4323d495c536','51430d65d40cd117f4f068f97dc160ad652ac969d5d6fb2bb1e059b5b8e49142'))
      or exists(select 1 from supabase_migrations.schema_migrations where version>'20260917033516') then
     raise exception 'AK_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR';
   end if;
@@ -87,7 +87,7 @@ begin
     ('erp.apply_migration_open_pos(uuid)','49dd168a2dc3df0be6fcec9c962446d91e5724f9a838dc9616d894717c9844f7','8d7f5ce365807ea1d26885f15a66b30e6d2bf85d6328a493b3d6fa037c17c06c',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),
     ('erp.finalize_migration_batch(uuid)','b2ca642c739fda50ffe2e5fb7d165e9a3370bcc55fad2e256c358d403f1436e3','0c72dc6eda42a90a92d13845eb7e70d1ccf5c2e3efeda83d521728f2024e0022',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),
     ('erp.stage_migration_row(uuid,text,integer,text,jsonb,jsonb)','0a35df9e1c385ca27f2c34f17de8e22023b58e2f6c42d9788260d0ebd69cecaa','153138b17d4993d583390e7e6d623d2abe3343741f8651a4007126d2cd75375c',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),
-    ('erp.post_opening_balance(uuid)','6460ab913c9a0614df6a622ff2a223df21c13d1361e14e6089c09375f7a95b40','5ffa45334a04a1d0b3db02c1015cd61769e056d8fe4bd084713ce3242efec087',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[])
+    ('erp.post_opening_balance(uuid)','6460ab913c9a0614df6a622ff2a223df21c13d1361e14e6089c09375f7a95b40','632075e17f4c59ceafe109059bb7105dca72b5b1fcc06e4ff67a9f050ee67543',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[])
   ) expected(identity,predecessor_sha256,installed_sha256,acl) loop
     select cap.*,
       encode(extensions.digest(convert_to(cap.object_definition,'UTF8'),'sha256'),'hex') definition_actual,
@@ -166,8 +166,8 @@ delete from supabase_migrations.schema_migrations
 where version='20260917033516'
   and name='erp_v2_6_20ak_cp6_import_reference_preview'
   and encode(extensions.digest(convert_to(array_to_string(statements,E'\n'),'UTF8'),'sha256'),'hex')
-    in('11011de86e827000dbb5fd3e0979497f1fbfaf17e268620ca21749eaa0ced4d1',
-       'a9cb63fff41b6893038bafa8ebe87126bb74e945ae3f3bae57017beda812b158');
+    in('0d42825b2f2fcb38b9678fe1e6982b0c63290aac012b92be224f4323d495c536',
+       '51430d65d40cd117f4f068f97dc160ad652ac969d5d6fb2bb1e059b5b8e49142');
 
 do $postcheck_v2620ak$
 declare r record;v_actual text;

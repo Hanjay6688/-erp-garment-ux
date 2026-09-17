@@ -80,3 +80,25 @@ target AK81056 byte sudah terpasang. Ini kegagalan integrasi gate; seluruh
 tes transaksi AK pada run ini BELUM DIMULAI. Frontend237 dan parser34 selesai.
 Perbaikan harness memperbarui pin serta membuktikan penghapusan hanya binding
 AK menghasilkan controller AJ byte-identik. Body drain/rollback tetap utuh.
+
+## Percobaan terarah kedua
+
+Native35180025447 pada3635300e: sepuluh probe AJ selesai. Sembilan kode
+referensi yang tidak ada dinyatakan VALID; prepare menolak atomik. Bug material
+baru terbukti: edit opening draft qty10→20, revalidate dan prepare ulang tetap
+memakai baris lama; posting menghasilkan10, bukan20. Ini transaksi biasa,
+bukan kontrol yang sengaja merusak ledger.
+
+AK percobaan ini:11 PASS,14 INCOMPLETE; tidak ada PASS keseluruhan. Sebelas
+jalur gagal pada regresi writer alias SQL `h.migration_batch_id` ambigu (42702),
+bukan penolakan bisnis yang benar. Tiga kasus lain tidak memulai transaksi
+karena fixture belum memiliki gudang bahan. Empat jadwal dua sesi juga gagal
+akibat alias yang sama. Alias diperjelas; fixture membuat gudang sintetisnya
+sendiri. SQL AK masih draft repair yang belum diterima; revisi eksplisit ini
+mengganti hash percobaan awal11011de8, sedangkan seluruh SQL sampai AJ tetap
+utuh. Run dan artifact lama tetap dapat dibandingkan.
+
+Delapan kontrol refusal rollback dan restore AK→AJ (533 fungsi/225 tabel),
+AJ→AI (533/224), AI→AH berhasil pada percobaan ini. Seluruh boundary native
+dan grant sementara kembali semula; database clone dibuang. CodeQL35180025515
+berhasil, tetapi tidak menggantikan kegagalan transaksi native tadi.

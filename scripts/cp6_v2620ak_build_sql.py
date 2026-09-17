@@ -198,8 +198,8 @@ def definitions(src):
   -- preview alone cannot revive the obsolete prepared lines removed by edit.
   perform 1 from erp.migration_batches b where b.id=(select migration_batch_id
     from erp.opening_balance_headers where id=p_opening_id) for update;
-  if exists(select 1 from erp.migration_batches b join erp.opening_balance_headers h on h.migration_batch_id=b.id
-    where h.id=p_opening_id and (b.status not in('READY','POSTING') or exists(
+  if exists(select 1 from erp.migration_batches b join erp.opening_balance_headers opening_header on opening_header.migration_batch_id=b.id
+    where opening_header.id=p_opening_id and (b.status not in('READY','POSTING') or exists(
       select 1 from erp.migration_staging_rows s where s.batch_id=b.id and s.validation_status<>'VALID'))) then
     raise exception 'AK_OPENING_REQUIRES_CURRENT_VALIDATED_BATCH';
   end if;
