@@ -8,7 +8,7 @@ import { useAuth } from './auth/AuthProvider'
 import { isConnectedRuntime } from './config/runtime'
 import { SENSITIVE_ACTION_PERMISSION, hasPermission } from './auth/accessCatalog'
 import {
-  bsPatternLabel, cleanBsQuantity, exactReworkCompletion, parseBsResolutionWorkspace,
+  bsPatternLabel, cleanBsQuantity, exactReworkCompletion, parseBsMoney, parseBsResolutionWorkspace,
   type BsResolutionAction, type BsResolutionRow, type BsResolutionWorkspace,
   type BsWorkspaceFilter, type BsWorkspaceKind, type ReworkOrder,
 } from './bsResolutionModel'
@@ -103,7 +103,7 @@ const nowInput = () => {
 }
 const toIso = (value: string) => new Date(value).toISOString()
 const qty = (value: string) => Math.max(0, Math.floor(Number(value) || 0))
-const money = (value: number) => `Rp${Math.round(value).toLocaleString('id-ID')}`
+const money = (value: number) => `Rp${value.toLocaleString('id-ID', { maximumFractionDigits: 2 })}`
 const statusLabel = (status: string) => status.replaceAll('_', ' ')
 
 function CreateManualBs({ workspace, canSubmit, onClose, onAction }: {
@@ -176,7 +176,8 @@ function CreateClaim({ workspace, canSubmit, onClose, onAction }: {
   const maxQuantity = claimType === 'DAMAGE'
     ? receiptSource?.qty_claimable_pcs ?? 0
     : deliverySource?.qty_claimable_pcs ?? 0
-  const valid = Boolean(source && number.trim() && qty(quantity) > 0 && qty(quantity) <= maxQuantity && openedAt && reason.trim().length >= 4)
+  const compensationAmount = parseBsMoney(compensation)
+  const valid = Boolean(source && number.trim() && qty(quantity) > 0 && qty(quantity) <= maxQuantity && openedAt && reason.trim().length >= 4 && compensationAmount !== null)
   return <div className="cbsr-modal-layer" role="presentation"><section role="dialog" aria-modal="true" aria-labelledby="new-claim-title">
     <header><div><span>LAUNDRY EXCEPTION</span><h2 id="new-claim-title">Buat claim Laundry</h2><p>Stuck/Missing mengikuti surat kirim; Damage wajib mengikuti baris penerimaan BS. Vendor dan PO tidak diketik ulang.</p></div><button aria-label="Tutup" onClick={onClose}><X/></button></header>
     <div className="cbsr-form-grid">
@@ -190,17 +191,17 @@ function CreateClaim({ workspace, canSubmit, onClose, onAction }: {
           : workspace.lookups.laundry_sources.find((item) => item.qty_claimable_pcs > 0)?.id ?? '')
       }}><option>STUCK</option><option>MISSING</option><option>DAMAGE</option></select></label>
       <label><span>QTY CLAIM · MAKS {maxQuantity}</span><input inputMode="numeric" value={quantity} onChange={(event) => setQuantity(cleanBsQuantity(event.target.value, maxQuantity))}/></label>
-      <label><span>NILAI KOMPENSASI</span><input inputMode="numeric" value={compensation} onChange={(event) => setCompensation(cleanBsQuantity(event.target.value, 999_999_999))}/></label>
+      <label><span>NILAI KOMPENSASI</span><input inputMode="decimal" value={compensation} onChange={(event) => setCompensation(event.target.value)} aria-invalid={compensationAmount === null}/>{compensationAmount === null ? <small className="cbsr-field-warning">Masukkan nominal 0–999.999.999 dengan maksimal 2 angka desimal.</small> : null}</label>
       <label><span>WAKTU DIBUKA</span><input type="datetime-local" value={openedAt} onChange={(event) => setOpenedAt(event.target.value)}/></label>
       <label className="wide"><span>ALASAN / BUKTI · WAJIB</span><textarea value={reason} onChange={(event) => setReason(event.target.value)} placeholder="Jelaskan kekurangan, kerusakan, atau barang tertahan"/></label>
     </div>
     <footer><button onClick={onClose}>Batal</button><button className="primary" disabled={!canSubmit || !valid} onClick={async () => {
-      if (!source) return
+      if (!source || compensationAmount === null) return
       const ok = await onAction('SAVE_CLAIM', {
         action: 'SAVE', claim_number: number.trim(), vendor_id: source.vendor_id,
         delivery_id: claimType === 'DAMAGE' ? receiptSource?.delivery_id : deliverySource?.id,
         receipt_line_id: claimType === 'DAMAGE' ? receiptSource?.id : null,
-        qty_claimed: qty(quantity), claim_type: claimType, compensation_amount: qty(compensation),
+        qty_claimed: qty(quantity), claim_type: claimType, compensation_amount: compensationAmount,
         opened_at: toIso(openedAt), notes: reason.trim(), change_reason: reason.trim(),
       }, null)
       if (ok) onClose()
@@ -319,6 +320,7 @@ function BsActionPanel({ row, workspace, canCreate, canPost, canReverse, ownerAd
     && (!row.laundry_delivery_id || row.laundry_receipt_line_id || item.delivery_id === row.laundry_delivery_id),
   ))
   const selectedClaim = settledClaims.find((item) => item.id === claimId)
+  const compensationAmount = parseBsMoney(compensation, selectedClaim?.available_amount ?? 0)
   const sendQty = Math.min(row.available_qty, qty(quantity))
   const routeOptions = [
     ['REWORK', 'Rework', Wrench], ['REWASH', 'Rewash', Waves], ['HOLD', 'Hold', Clock3],
@@ -349,12 +351,12 @@ function BsActionPanel({ row, workspace, canCreate, canPost, canReverse, ownerAd
     {(route === 'DISPOSITION' || route === 'COMPENSATION') ? <div className="cbsr-route-form"><div className="cbsr-form-grid compact">
       {route === 'DISPOSITION' ? <label><span>DISPOSITION</span><select value={resolutionType} onChange={(event) => setResolutionType(event.target.value)}><option>SCRAP</option><option>WRITE_OFF</option><option>OTHER</option></select></label> : <label><span>CLAIM SETTLED · SALDO TERSEDIA</span><select value={claimId} onChange={(event) => { setClaimId(event.target.value); setQuantity(''); setCompensation('0') }}><option value="">Pilih claim…</option>{settledClaims.map((item) => <option value={item.id} key={item.id}>{item.number} · {item.vendor_name} · {item.available_qty} pcs / {money(item.available_amount)}</option>)}</select>{settledClaims.length === 0 ? <small className="cbsr-field-warning">Klasifikasikan vendor penanggung jawab dan settle claim bernilai positif yang masih bersaldo.</small> : null}</label>}
       <label><span>QTY{selectedClaim ? ` · MAKS ${Math.min(row.available_qty, selectedClaim.available_qty)}` : ''}</span><input inputMode="numeric" value={quantity} onChange={(event) => setQuantity(cleanBsQuantity(event.target.value, route === 'COMPENSATION' ? Math.min(row.available_qty, selectedClaim?.available_qty ?? 0) : row.available_qty))}/></label>
-      {route === 'COMPENSATION' ? <label><span>NILAI DIPAKAI · MAKS {money(selectedClaim?.available_amount ?? 0)}</span><input inputMode="numeric" value={compensation} onChange={(event) => setCompensation(cleanBsQuantity(event.target.value, Math.floor(selectedClaim?.available_amount ?? 0)))}/></label> : null}
+      {route === 'COMPENSATION' ? <label><span>NILAI DIPAKAI · MAKS {money(selectedClaim?.available_amount ?? 0)}</span><input inputMode="decimal" value={compensation} onChange={(event) => setCompensation(event.target.value)} aria-invalid={compensationAmount === null}/>{compensationAmount === null ? <small className="cbsr-field-warning">Nominal harus sesuai saldo tersedia, maksimal 2 angka desimal.</small> : null}</label> : null}
       <label><span>WAKTU FISIK</span><input type="datetime-local" value={physicalAt} onChange={(event) => setPhysicalAt(event.target.value)}/></label>
       <label className="wide"><span>ALASAN · WAJIB</span><textarea value={reason} onChange={(event) => setReason(event.target.value)}/></label>
-    </div><button className="cbsr-submit danger" disabled={!canPost || !canStart || sendQty <= 0 || !physicalAt || reason.trim().length < 4 || route === 'COMPENSATION' && (!selectedClaim || sendQty > selectedClaim.available_qty || qty(compensation) <= 0 || qty(compensation) > selectedClaim.available_amount)} onClick={() => void onAction('DISPOSE_BS', {
+    </div><button className="cbsr-submit danger" disabled={!canPost || !canStart || sendQty <= 0 || !physicalAt || reason.trim().length < 4 || route === 'COMPENSATION' && (!selectedClaim || sendQty > selectedClaim.available_qty || compensationAmount === null || compensationAmount <= 0)} onClick={() => void onAction('DISPOSE_BS', {
       bs_case_id: row.id, resolution_type: route === 'COMPENSATION' ? 'CASH_COMPENSATION' : resolutionType,
-      qty_pcs: sendQty, compensation_amount: route === 'COMPENSATION' ? qty(compensation) : 0,
+      qty_pcs: sendQty, compensation_amount: route === 'COMPENSATION' ? compensationAmount : 0,
       source_laundry_claim_id: route === 'COMPENSATION' ? claimId : null,
       physical_at: toIso(physicalAt), change_reason: reason.trim(),
     }, row.row_version)}><ArchiveX/> Post disposition</button></div> : null}

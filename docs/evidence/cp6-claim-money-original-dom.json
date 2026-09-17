@@ -1,0 +1,46 @@
+{
+  "status": "ORIGINAL_UI_DECIMAL_LOSS_REPRODUCED",
+  "head": "0c234171fb59dfabc7fa03d4e27904bc2b2f53a7",
+  "tree": "7d9d09590aeaa9b5a5831e1076382b40d7460395",
+  "layer": "React DOM form-to-RPC; mocked read response and RPC transport; not native ledger proof",
+  "original_product_sha256": {
+    "src/ConnectedBsResolutionPage.tsx": "f95ac0dc4731591059b389a93161b3a0b097e7fae5862b16d549592b00b3461d",
+    "src/bsResolutionModel.ts": "3e200a2a7c8ac5304ca2d90cbe79153d47233c143bf16b54efbe3e88ae6551d7"
+  },
+  "report_sha256": "0432d6f23bf65b78b965d65e7ef37e1a636afa8867ecc49f0664384b6c2e358f",
+  "cases": [
+    {
+      "id": "claim_14_25",
+      "input": "14.25",
+      "expected_rpc_amount": 14.25,
+      "observed_rpc_amount": 14
+    },
+    {
+      "id": "claim_0_25",
+      "input": "0,25",
+      "expected_rpc_amount": 0.25,
+      "observed_rpc_amount": 0
+    },
+    {
+      "id": "compensation_14_25",
+      "input": "14.25",
+      "expected_rpc_amount": 14.25,
+      "observed_rpc_amount": 14
+    },
+    {
+      "id": "compensation_0_25",
+      "input": "0.25",
+      "expected_button_enabled": true,
+      "observed_button_enabled": false
+    }
+  ],
+  "failed_test_names": [
+    "preserves claim money 14.25 at the actual form-to-RPC boundary",
+    "preserves claim money 0,25 at the actual form-to-RPC boundary",
+    "uses the entire settled compensation balance of 14.25 without integer rounding",
+    "uses the entire settled compensation balance of 0.25 without integer rounding"
+  ],
+  "product_mutated_to_create_fault": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

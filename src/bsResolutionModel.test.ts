@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import {
-  bsPatternLabel, cleanBsQuantity, exactReworkCompletion, parseBsResolutionWorkspace,
+  bsPatternLabel, cleanBsQuantity, exactReworkCompletion, parseBsMoney, parseBsResolutionWorkspace,
 } from './bsResolutionModel'
 
 const baseResponse = () => ({
@@ -98,5 +98,16 @@ describe('CP5 authoritative response boundary', () => {
     expect(cleanBsQuantity('12.9', 10)).toBe('10')
     expect(cleanBsQuantity('-3', 10)).toBe('0')
     expect(cleanBsQuantity('abc', 10)).toBe('')
+  })
+
+  it('preserves cents and refuses invalid money instead of changing its value', () => {
+    expect(parseBsMoney('14.25')).toBe(14.25)
+    expect(parseBsMoney('0,25', 0.25)).toBe(0.25)
+    expect(parseBsMoney('0')).toBe(0)
+    expect(parseBsMoney('999999999')).toBe(999_999_999)
+    for (const raw of ['', '14.', '-1', 'Infinity', 'NaN', '1e2', '14.255', '1.000,25', '1000000000']) {
+      expect(parseBsMoney(raw), raw).toBeNull()
+    }
+    expect(parseBsMoney('14.26', 14.25)).toBeNull()
   })
 })

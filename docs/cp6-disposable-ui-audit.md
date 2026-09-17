@@ -1,5 +1,61 @@
 # FINAL AUDIT CP6 — CP6_HOLD
 
+## Lanjutan 2026-09-17: nominal claim dan kompensasi
+
+Checkpoint masuk `0c234171fb59dfabc7fa03d4e27904bc2b2f53a7`, tree
+`7d9d09590aeaa9b5a5831e1076382b40d7460395`. Branch masih satu writer yang
+sama. **CP6_HOLD; production_go:false; CP7 belum dimulai.** Bagian lanjutan
+ini mengungguli status arsip dan perubahan frontend pada checkpoint sebelumnya.
+
+**CP6-CLAIM-MONEY-01 terbukti pada form React asli**: input klaim14.25 dikirim
+ke RPC sebagai14; input0,25 menjadi0. Form penggunaan kompensasi juga mengirim14
+untuk14.25 dan menonaktifkan posting untuk saldo0.25. Empat counterexample DOM
+menggunakan source produk exact checkpoint masuk; transport RPC dimock, sehingga
+bukan bukti nominal salah sudah terposting di database. Identitas source dan
+hasil sebelum perbaikan ada di `docs/evidence/cp6-claim-money-original-dom.json`.
+
+Kedua kolom sekarang menyimpan input pengguna, menerima titik/koma dan dua angka
+desimal, lalu mengirim nominal tanpa pembulatan qty. Input tidak sah atau melebihi
+saldo ditolak sebelum submit, tanpa mengganti nominal diam-diam. Tampilan nominal
+di halaman yang sama mempertahankan sen. Qty fisik tetap bilangan bulat.
+237 unit/DOM tests, pemeriksaan source/access/backend, dan build lokal PASS.
+
+Harness tambahan menguji alur UI/Auth/HTTP asli: kirim10 -> receipt8 Good/2 BS ->
+claim14.25 -> settlement -> pemakaian kompensasi -> linked reversal. AP berasal
+dari DRAFT invoice70 yang dipost lewat fungsi native existing dengan mapped OWNER;
+setup/teardown ini **bukan** bukti antarmuka invoice. Ada32 pasangan action-mask
+bernilai positif, pemeriksaan saldo/jurnal, replay aktor sama, penolakan kapasitas
+habis dan reversal claim yang masih dipakai. **Hasil native baru belum tersedia**
+pada saat commit persiapan ini; jangan menerima harness sebagai PASS.
+
+Karena byte frontend produk berubah, reuse218 AJ3 sebelumnya tidak dipakai untuk
+commit ini. Combined gate menjalankan230 kasus bisnis fresh, ditambah kontrol UI,
+HTTP, concurrency, maintenance, clock, rollback dan cleanup existing. Matrix460
+historis tetap historis. Gate tanggal tetap menahan lock sampai kontraknya selesai.
+
+Aturan owner yang sudah ditemukan kembali: master AD section16.3–16.7 memisahkan
+waktu fisik/ekonomi/sistem/posting, mempertahankan histori, mengalirkan koreksi biaya
+ke RM/WIP/FG/COGS/AP/GRNI dan laporan, serta melarang READY ketika integritas/recalc
+belum selesai. Koreksi periode terbuka bukan otomatis snapshot immutable.
+Pengamatan12 tanggal belum boleh dianggap PASS hanya karena total hari ini cocok;
+pilihan tanggal jurnal invoice dan recost harus tetap dikualifikasi bersama.
+Master section21.1 mewajibkan preview, error per baris, rekonsiliasi, idempotensi dan
+pemulihan import. Penempatan UI CSV pada CP6 atau CP7 belum ditemukan secara eksplisit;
+parser/upload tetap BELUM TERUJI dan tidak dilabeli N/A.
+
+Arsip AJ5 sudah berhasil diverifikasi ulang secara lokal:52,895,688 byte,
+292 entry ZIP unik, path aman, tanpa symlink, CRC valid; SHA256
+`30a221e159298fae92304dc871457a74f7891c92590cc75d9e11bcfe975f0127`.
+Scan pola GitHub token/JWT/private key/sb_secret tidak menemukan kecocokan.
+Ini menutup gap transfer arsip sebelumnya; bukan sertifikasi seluruh kemungkinan
+credential. Isinya mengonfirmasi12 rework PASS,95 HTTP,43 UI +51 kontrol tambahan,
+96 action-mask,20 maintenance, rollback exact533/224 lalu533/223 dan cleanup.
+
+Writer perbaikan nominal tetap chat ini; independent acceptance masih wajib dari
+auditor lain pada repaired snapshot exact. Main/PR/UAT/legacy/hosted DB tidak diubah.
+
+---
+
 Checkpoint penutup audit independen dan giliran writer AJ, 2026-09-16 UTC.
 Bagian ini merupakan status authoritative dan menggantikan status historis di
 bawah. **CP6_HOLD; production_go:false; CP7 belum dimulai.**

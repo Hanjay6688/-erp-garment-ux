@@ -129,6 +129,90 @@ async function renderPage() {
 }
 
 describe('CP5 connected BS Resolution DOM boundary', () => {
+  it.each(['14.25', '0,25'])('preserves claim money %s at the actual form-to-RPC boundary', async (amount) => {
+    const rpc = vi.fn(async (name: string, _args?: Record<string, unknown>) => {
+      if (name === 'erp_list_patterns_v1') return { data: patterns, error: null }
+      if (name === 'erp_get_bs_resolution_workspace_v1') return { data: workspace(), error: null }
+      if (name === 'erp_save_bs_resolution_action_v1') return { data: { ok: true }, error: null }
+      throw new Error(`Unexpected RPC ${name}`)
+    })
+    mockedClient.current = { rpc }
+    authState.current = identity(['production.bs_rework.view', 'production.bs_rework.create', 'master.pattern.view'])
+    await renderPage()
+    const claimButton = [...container.querySelectorAll<HTMLButtonElement>('button')]
+      .find((button) => button.textContent?.trim() === 'Claim Laundry')!
+    await act(async () => { claimButton.click() })
+    const modal = container.querySelector<HTMLElement>('.cbsr-modal-layer')!
+    const inputs = modal.querySelectorAll<HTMLInputElement>('input')
+    await act(async () => {
+      setControlValue(inputs[0]!, 'CLM-DECIMAL')
+      setControlValue(inputs[1]!, '2')
+      setControlValue(inputs[2]!, amount)
+      setControlValue(modal.querySelector<HTMLTextAreaElement>('textarea')!, 'Kompensasi sesuai nilai kesepakatan')
+    })
+    const save = [...modal.querySelectorAll<HTMLButtonElement>('button')]
+      .find((button) => button.textContent?.includes('Simpan claim'))!
+    if (amount === '14.25') {
+      for (const invalid of ['14.255', '-1', '1e2']) {
+        await act(async () => { setControlValue(inputs[2]!, invalid) })
+        expect(inputs[2]!.value).toBe(invalid)
+        expect(save.disabled).toBe(true)
+        expect(rpc.mock.calls.some(([name]) => name === 'erp_save_bs_resolution_action_v1')).toBe(false)
+      }
+      for (const editing of ['1', '14', '14.', '14.2', '14.25']) {
+        await act(async () => { setControlValue(inputs[2]!, editing) })
+        expect(inputs[2]!.value).toBe(editing)
+      }
+    }
+    expect(save.disabled).toBe(false)
+    await act(async () => { save.click() })
+    await settle()
+    expect(rpc.mock.calls.find(([name]) => name === 'erp_save_bs_resolution_action_v1')?.[1]).toMatchObject({
+      p_action: 'SAVE_CLAIM', p_payload: { qty_claimed: 2, compensation_amount: Number(amount.replace(',', '.')) },
+    })
+  })
+
+  it.each([14.25, 0.25])('uses the entire settled compensation balance of %s without integer rounding', async (amount) => {
+    const response = workspace()
+    Object.assign(response.rows[0], { responsible_vendor_id: 'vendor-1', vendor_name: 'Laundry A', cause_source: 'LAUNDRY' })
+    response.lookups.settled_claims = [{ id: 'claim-1', number: 'CLM-CENTS', vendor_id: 'vendor-1', vendor_name: 'Laundry A',
+      delivery_id: 'delivery-1', receipt_line_id: null, qty_claimed: 2, compensation_amount: amount,
+      available_qty: 2, available_amount: amount }] as never
+    const rpc = vi.fn(async (name: string, _args?: Record<string, unknown>) => {
+      if (name === 'erp_list_patterns_v1') return { data: patterns, error: null }
+      if (name === 'erp_get_bs_resolution_workspace_v1') return { data: response, error: null }
+      if (name === 'erp_save_bs_resolution_action_v1') return { data: { ok: true }, error: null }
+      throw new Error(`Unexpected RPC ${name}`)
+    })
+    mockedClient.current = { rpc }
+    authState.current = identity(['production.bs_rework.view', 'production.bs_rework.post', 'master.pattern.view'])
+    await renderPage()
+    const tab = [...container.querySelectorAll<HTMLButtonElement>('.cbsr-route-tabs button')]
+      .find((button) => button.textContent?.trim() === 'Kompensasi')!
+    await act(async () => { tab.click() })
+    const form = container.querySelector<HTMLElement>('.cbsr-route-form')!
+    await act(async () => { setControlValue(form.querySelector<HTMLSelectElement>('select')!, 'claim-1') })
+    const inputs = form.querySelectorAll<HTMLInputElement>('input')
+    await act(async () => {
+      setControlValue(inputs[0]!, '2')
+      setControlValue(inputs[1]!, String(amount))
+      setControlValue(form.querySelector<HTMLTextAreaElement>('textarea')!, 'Terapkan seluruh nilai kompensasi yang disetujui')
+    })
+    const post = [...form.querySelectorAll<HTMLButtonElement>('button')]
+      .find((button) => button.textContent?.includes('Post disposition'))!
+    await act(async () => { setControlValue(inputs[1]!, String(amount + 0.01)) })
+    expect(post.disabled).toBe(true)
+    expect(rpc.mock.calls.some(([name]) => name === 'erp_save_bs_resolution_action_v1')).toBe(false)
+    await act(async () => { setControlValue(inputs[1]!, String(amount)) })
+    expect(post.disabled).toBe(false)
+    await act(async () => { post.click() })
+    await settle()
+    expect(rpc.mock.calls.find(([name]) => name === 'erp_save_bs_resolution_action_v1')?.[1]).toMatchObject({
+      p_action: 'DISPOSE_BS', p_payload: { qty_pcs: 2, compensation_amount: amount, source_laundry_claim_id: 'claim-1' },
+    })
+    expect(form.textContent).toContain(`Rp${amount.toLocaleString('id-ID', { maximumFractionDigits: 2 })}`)
+  })
+
   it('keeps Pattern empty state authoritative and blocks a same-frame double mutation', async () => {
     let finishAction: ((value: { data: unknown; error: null }) => void) | undefined
     const actionResult = new Promise<{ data: unknown; error: null }>((resolve) => { finishAction = resolve })

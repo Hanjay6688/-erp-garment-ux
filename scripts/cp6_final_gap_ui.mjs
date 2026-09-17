@@ -13,14 +13,14 @@ const actions={CREATE_MANUAL_BS:'create',CLASSIFY_BS:'create',SAVE_REWORK:'creat
 
 export async function runIndependentGaps(c){
   const {query,reportDir,owner,session,authRequest,newUser,mapUser,secrets,pageFor,f,nav,
-    sendForm,receiveForm,qcForm,mutation,state,financialReport,when}=c
+    sendForm,receiveForm,qcForm,mutation,state,financialReport,when,reverse}=c
   const report={status:'INCOMPLETE',candidate_head:c.frontendHead,candidate_tree:c.frontendTree,
     previous_product_checkpoint:'555d8f29ea2d3f58dc2c7d10e7cd80099cdd3b49',
     author_role:process.env.CP6_RUNTIME_GENERATION==='AJ'?'WRITER':'INDEPENDENT_AUDITOR',
     independent_acceptance:false,
     backend_head:c.backendHead,backend_tree:c.backendTree,production_go:false,
     source_sha256:createHash('sha256').update(readFileSync(fileURLToPath(import.meta.url))).digest('hex'),
-    cases:[],permission_rows:[],scope:'Independent real UI/HTTP observations; no CSV interface exists',
+    cases:[],permission_rows:[],positive_money_permission_rows:[],scope:'Real UI/HTTP observations; native invoice fixture is labelled separately; no CSV interface exists',
     schema_acl_modified:false,all_permission_combinations_claimed:false}
   const roleSessions=[]
   const clean=x=>{
@@ -121,7 +121,7 @@ export async function runIndependentGaps(c){
       await mapUser(session.access_token,user,['production.bs_rework.view',...caps.map(x=>'production.bs_rework.'+x)])
       const login=await authRequest('token?grant_type=password',{email:user.email,password:user.password})
       secrets.push(login.access_token,login.refresh_token)
-      roleSessions.push({bits,capabilities:caps,token:login.access_token})
+      roleSessions.push({bits,capabilities:caps,token:login.access_token,user})
       for(const [kind,cap] of Object.entries(actions)){
         if(caps.includes(cap))continue
         const before=snapshot(),boundary=businessBoundary()
@@ -282,6 +282,180 @@ export async function runIndependentGaps(c){
     }finally{await page.context().close()}
   })
 
+  await group('POSITIVE_MONEY_CLAIM_UI_LIFECYCLE',async()=>{
+    const page=await pageFor(owner)
+    let operatorPage
+    const balances=()=>JSON.parse(query(`select jsonb_object_agg(k,amount) from (
+      select k,coalesce((select sum(l.debit-l.credit) from erp.journal_lines l
+        join erp.journal_entries e on e.id=l.journal_entry_id
+        where e.status in('POSTED','REVERSED') and l.account_id=erp.account_id(k)),0) amount
+      from unnest(array['AP_VENDOR','OTHER_EXPENSE','WIP','FG_INVENTORY','ACCRUED_MANUFACTURING']) k) b`))
+    const nowBrowser=p=>p.evaluate(()=>{const n=new Date();return new Date(n.getTime()-n.getTimezoneOffset()*60000).toISOString().slice(0,19).replace(/:00$/,'')})
+    const pick=(p,scope,caption)=>scope.locator('label').filter({has:p.getByText(caption,{exact:true})}).locator('select')
+    async function showAll(p){
+      const [r]=await Promise.all([p.waitForResponse(r=>r.url().endsWith('/rpc/erp_get_bs_resolution_workspace_v1')&&r.request().postDataJSON()?.p_filter==='ALL'),
+        p.locator('.cbsr-tabs').getByRole('button',{name:'Semua',exact:true}).click()])
+      assert.equal(r.status(),200);await expect(p.getByRole('button',{name:'Refetch',exact:true})).toBeEnabled()
+    }
+    async function moneyDenied(profile,kind,payload,version,ownerOnly=false){
+      const before=snapshot(),boundary=businessBoundary(),r=await rawAction(profile.token,kind,payload,version)
+      assert.notEqual(r.status,200,`Positive money ${profile.bits}:${kind} unexpectedly accepted`)
+      assert.match(r.body.message||'',ownerOnly?/owner|admin/i:/permission|izin/i,JSON.stringify(r.body))
+      assert.deepEqual(snapshot(),before);assert.deepEqual(businessBoundary(),boundary)
+      report.positive_money_permission_rows.push({bits:profile.bits,action:kind,status:r.status,
+        expectation:ownerOnly?'DENY_OWNER_ADMIN_REQUIRED':'DENY_MISSING_PERMISSION',atomic:true});save()
+    }
+    try{
+      const baseline=balances(),initial=state()
+      assert.equal(initial.ready,10);assert.equal(initial.fg_qty,0);assert.equal(initial.wip,0)
+      await nav(page,'Laundry');await sendForm(page);await mutation(page,'Post pengiriman atomic','POST_DELIVERY')
+      const sent=JSON.parse(query(`select jsonb_build_object('id',id,'number',delivery_number) from erp.laundry_deliveries where po_id='${f.po}' and status='SENT' order by created_at desc limit 1`))
+      await receiveForm(page,8)
+      await page.getByLabel(`BS Laundry size ${f.size}`,{exact:true}).fill('2')
+      await page.getByLabel(`SKU BS size ${f.size}`,{exact:true}).selectOption(f.product)
+      await page.locator('.clq-confirm input').check()
+      await mutation(page,'Post penerimaan atomic','POST_RECEIPT')
+      const returned=JSON.parse(query(`select jsonb_build_object('id',id,'number',receipt_number) from erp.laundry_receipts where delivery_id='${sent.id}' and status='POSTED' order by created_at desc limit 1`))
+      const line=query(`select id from erp.laundry_receipt_lines where receipt_id='${returned.id}'`)
+      assert.match(line,idRx)
+      const bs=JSON.parse(query(`select jsonb_build_object('id',id,'number',bs_number) from erp.bs_cases where source_laundry_receipt_line_id='${line}'`))
+      assert.match(bs.id,idRx)
+      // The product has no invoice HTTP facade. Establish a real payable only
+      // through its existing native DRAFT -> post function, with mapped OWNER;
+      // this setup is not reported as invoice UI/Auth/HTTP coverage.
+      const invoice=randomUUID()
+      query(`begin; set local request.jwt.claims='{"role":"authenticated","sub":"${owner.id}"}';
+        insert into erp.vendor_invoices(id,invoice_number,vendor_id,invoice_date,received_at,due_date,status,total_amount,notes,created_by)
+        values('${invoice}','UI-MONEY-${invoice}','${f.vendor}',(statement_timestamp() at time zone 'Asia/Jakarta')::date,
+          statement_timestamp(),(statement_timestamp() at time zone 'Asia/Jakarta')::date+30,'DRAFT',70,
+          'Native payable fixture for real claim UI; ten actual returned pieces at seven',erp.current_app_user_id());
+        insert into erp.vendor_invoice_items(invoice_id,receipt_line_id,description,qty_pcs,actual_rate,actual_amount)
+        values('${invoice}','${line}','Actual returned 8 Good plus 2 BS',10,7,70);
+        select erp.post_vendor_invoice('${invoice}'); commit;`)
+      const invoiced=balances()
+      assert.equal(invoiced.AP_VENDOR-baseline.AP_VENDOR,-70)
+      assert.equal(state().wip,70)
+      record('CLAIM_PAYABLE_NATIVE_FIXTURE',{invoice_id:invoice,amount:70,qty:10,rate:7,
+        interface:'NATIVE_EXISTING_DRAFT_POST_FUNCTION',role:'postgres with mapped OWNER context',invoice_http_ui_claimed:false})
+      await bsNav(page);await showAll(page)
+      await page.getByRole('button',{name:'Claim Laundry',exact:true}).click()
+      const modal=page.getByRole('dialog',{name:'Buat claim Laundry',exact:true})
+      await pick(page,modal,'JENIS').selectOption('DAMAGE')
+      await pick(page,modal,'BARIS PENERIMAAN BS').selectOption(line)
+      const claimNumber='UI-CENTS-'+randomUUID().slice(0,12)
+      await modal.getByLabel('NOMOR CLAIM',{exact:true}).fill(claimNumber)
+      await modal.getByLabel('QTY CLAIM · MAKS 2',{exact:true}).fill('2')
+      await modal.getByLabel('NILAI KOMPENSASI',{exact:true}).fill('14,25')
+      await modal.getByLabel('WAKTU DIBUKA',{exact:true}).fill(await nowBrowser(page))
+      await modal.getByLabel('ALASAN / BUKTI · WAJIB',{exact:true}).fill('Two damaged pieces, agreed compensation fourteen and twenty five cents')
+      const beforeDraft=snapshot(),created=await bsMutation(page,'Simpan claim','SAVE_CLAIM')
+      assert.equal(created.request.p_payload.compensation_amount,14.25)
+      assert.deepEqual(snapshot(),beforeDraft)
+      const claim=query(`select id from erp.laundry_claims where claim_number='${claimNumber}'`)
+      assert.match(claim,idRx)
+      assert.equal(Number(query(`select compensation_amount from erp.laundry_claims where id='${claim}'`)),14.25)
+      await selectCase(page,claimNumber)
+      await page.locator('.cbsr-actions.claim textarea').fill('Vendor accepted documented two-piece compensation')
+      await bsMutation(page,'Terima claim','SAVE_CLAIM');assert.deepEqual(snapshot(),beforeDraft)
+      record('UI_CLAIM_CENTS_CREATE_ACCEPT',{qty:2,input:'14,25',http_amount:14.25,stored_amount:14.25,ledger_inert:true})
+      const settlePayload={laundry_claim_id:claim,resolution:'SETTLED',change_reason:'Positive value role qualification'}
+      for(const profile of roleSessions)await moneyDenied(profile,'RESOLVE_CLAIM',settlePayload,claimVersion(claim),profile.capabilities.includes('post'))
+      await page.locator('.cbsr-actions.claim textarea').fill('Owner settles exact agreed compensation against real vendor payable')
+      await bsMutation(page,'Resolve','RESOLVE_CLAIM')
+      const settled=balances()
+      assert.equal(settled.AP_VENDOR-invoiced.AP_VENDOR,14.25)
+      assert.equal(settled.OTHER_EXPENSE-invoiced.OTHER_EXPENSE,-14.25)
+      assert.equal(settled.WIP,invoiced.WIP);assert.equal(state().fg_qty,0)
+      const journal=JSON.parse(query(`select jsonb_build_object('count',count(distinct e.id),'debit',sum(l.debit),'credit',sum(l.credit))
+        from erp.journal_entries e join erp.journal_lines l on l.journal_entry_id=e.id
+        where e.source_type='LAUNDRY_CLAIM_SETTLEMENT' and e.source_id='${claim}'`))
+      assert.deepEqual(journal,{count:1,debit:14.25,credit:14.25})
+      record('UI_CLAIM_CENTS_SETTLE',{expected_ap_reduction:14.25,journal,observed:balances()})
+      for(const profile of roleSessions)await moneyDenied(profile,'REVERSE_CLAIM_RESOLUTION',{
+        laundry_claim_id:claim,change_reason:'Positive settled amount requires owner reversal'},claimVersion(claim),profile.capabilities.includes('reverse'))
+      await selectCase(page,bs.number)
+      const classification=page.locator('.cbsr-fold');await classification.locator('summary').click()
+      await pick(page,classification,'SUMBER PENYEBAB').selectOption('LAUNDRY')
+      await pick(page,classification,'VENDOR TANGGUNG JAWAB').selectOption(f.vendor)
+      await classification.getByLabel('ALASAN PERUBAHAN · WAJIB',{exact:true}).fill('Two returned defects belong to the original laundry vendor')
+      await bsMutation(page,'Simpan klasifikasi','CLASSIFY_BS')
+      const disposition={bs_case_id:bs.id,resolution_type:'CASH_COMPENSATION',qty_pcs:2,compensation_amount:14.25,
+        source_laundry_claim_id:claim,physical_at:query('select clock_timestamp()::text'),change_reason:'Apply agreed settled claim once to its actual BS source'}
+      const afterSettlement=snapshot()
+      for(const profile of roleSessions){
+        if(!profile.capabilities.includes('post'))await moneyDenied(profile,'DISPOSE_BS',disposition,bv(bs.id))
+        else{
+          const r=await action(profile.token,'DISPOSE_BS',disposition,bv(bs.id))
+          const resolution=r.result.bs_resolution_id
+          assert.match(resolution,idRx);assert.deepEqual(snapshot(),afterSettlement)
+          await action(session.access_token,'REVERSE_DISPOSITION',{resolution_id:resolution,change_reason:'Owner linked reversal after positive value role control'},bv(bs.id))
+          assert.deepEqual(snapshot(),afterSettlement)
+          report.positive_money_permission_rows.push({bits:profile.bits,action:'DISPOSE_BS',status:200,expectation:'ALLOW_VALID_OPERATION',amount:14.25,linked_owner_reversal:true});save()
+        }
+      }
+      operatorPage=await pageFor(roleSessions.find(x=>x.bits===2).user)
+      await bsNav(operatorPage);await showAll(operatorPage);await selectCase(operatorPage,bs.number)
+      await operatorPage.locator('.cbsr-route-tabs').getByRole('button',{name:'Kompensasi',exact:true}).click()
+      const form=operatorPage.locator('.cbsr-route-form')
+      await pick(operatorPage,form,'CLAIM SETTLED · SALDO TERSEDIA').selectOption(claim)
+      await form.getByLabel('QTY · MAKS 2',{exact:true}).fill('2')
+      await form.getByLabel('NILAI DIPAKAI · MAKS Rp14,25',{exact:true}).fill('14.25')
+      await form.getByLabel('WAKTU FISIK',{exact:true}).fill(await nowBrowser(operatorPage))
+      await form.getByLabel('ALASAN · WAJIB',{exact:true}).fill('Apply exact approved amount to two damaged pieces; no second payable credit')
+      const applied=await bsMutation(operatorPage,'Post disposition','DISPOSE_BS')
+      assert.equal(applied.request.p_payload.compensation_amount,14.25)
+      const resolution=applied.response.result.bs_resolution_id
+      assert.match(resolution,idRx)
+      assert.equal(Number(query(`select compensation_amount from erp.bs_resolutions where id='${resolution}'`)),14.25)
+      assert.deepEqual(snapshot(),afterSettlement);assert.deepEqual(balances(),settled)
+      const originalProfile=roleSessions.find(x=>x.bits===2)
+      // Same browser user; its token and the API token resolve to the same actor.
+      const replayBefore=businessBoundary(),replay=await request(originalProfile.token,'erp_save_bs_resolution_action_v1',applied.request)
+      assert.equal(replay.status,200);assert.deepEqual(replay.body,applied.response)
+      assert.deepEqual(businessBoundary(),replayBefore);assert.deepEqual(snapshot(),afterSettlement)
+      record('UI_COMPENSATION_CENTS_APPLY',{qty:2,amount:14.25,granular_nonowner_post:true,ledger_unchanged:true,same_actor_replay_exact:true})
+      const exhausted=await rawAction(originalProfile.token,'DISPOSE_BS',{...disposition,qty_pcs:1,compensation_amount:0.25},bv(bs.id))
+      assert.notEqual(exhausted.status,200);assert.match(exhausted.body.message||'',/closed|available|exceed/i)
+      assert.deepEqual(snapshot(),afterSettlement);assert.deepEqual(businessBoundary(),replayBefore)
+      const dependent=await rawAction(session.access_token,'REVERSE_CLAIM_RESOLUTION',{
+        laundry_claim_id:claim,change_reason:'Dependent compensation must be reversed first'},claimVersion(claim))
+      assert.notEqual(dependent.status,200);assert.match(dependent.body.message||'',/CLAIM_RESOLUTION_IN_USE_BY_ACTIVE_BS_CASH_COMPENSATION/)
+      assert.deepEqual(snapshot(),afterSettlement);assert.deepEqual(businessBoundary(),replayBefore)
+      for(const profile of roleSessions)await moneyDenied(profile,'REVERSE_DISPOSITION',{
+        resolution_id:resolution,change_reason:'Positive allocation reversal requires owner'},bv(bs.id),profile.capabilities.includes('reverse'))
+      record('CLAIM_MONEY_DEPENDENCY_REFUSALS',{exhausted_status:exhausted.status,dependent_status:dependent.status,atomic:true})
+      await selectCase(page,bs.number)
+      const inline=page.locator('.cbsr-inline-reverse')
+      await inline.getByPlaceholder('Alasan reversal Owner/Admin').fill('Owner corrects linked compensation allocation first')
+      await bsMutation(page,inline.getByRole('button',{name:'Reverse',exact:true}),'REVERSE_DISPOSITION')
+      assert.deepEqual(snapshot(),afterSettlement)
+      assert.equal(Number(query(`select count(*) from erp.audit_logs where entity_type='bs_resolutions' and entity_id='${resolution}' and action='REVERSE'`)),1)
+      await selectCase(page,claimNumber)
+      await page.locator('.cbsr-actions.claim textarea').fill('Owner reverses the settlement after its dependent allocation')
+      await bsMutation(page,'Reverse resolution','REVERSE_CLAIM_RESOLUTION')
+      assert.deepEqual(balances(),invoiced)
+      await page.locator('.cbsr-actions.claim textarea').fill('Release corrected source capacity through rejected claim history')
+      await bsMutation(page,'Tolak claim','SAVE_CLAIM')
+      record('UI_CLAIM_MONEY_LINKED_REVERSAL',{allocation_audit_history:true,balances_restored_to_invoice:true})
+      query(`begin; set local request.jwt.claims='{"role":"authenticated","sub":"${owner.id}"}';
+        select erp.reverse_vendor_invoice('${invoice}','Native fixture invoice linked correction after real UI claim lifecycle'); commit;`)
+      await nav(page,'Laundry');await reverse(page,returned,'Batalkan penerimaan','REVERSE_RECEIPT')
+      await reverse(page,sent,'Batalkan pengiriman','REVERSE_DELIVERY')
+      assert.deepEqual(balances(),baseline)
+      assert.equal(state().wip,0);assert.equal(state().fg_qty,0);assert.equal(state().ready,10)
+      assert.equal(financialReport().data_confidence.status,'READY')
+      assert.equal(report.positive_money_permission_rows.length,32)
+      record('UI_CLAIM_MONEY_LIFECYCLE_COMPLETE',{action_mask_pairs:32,positive_amount:14.25,balances_restored:true,
+        native_invoice_setup_teardown:true,all_claim_and_compensation_mutations_real_auth_http:true})
+      await page.screenshot({path:resolve(reportDir,'CLAIM_MONEY_LINKED_REVERSAL_UI.png'),fullPage:true})
+    }catch(error){
+      report.money_dom={alerts:await page.locator('.cbsr-alert,.clq-alert').allTextContents(),
+        detail:await page.locator('.cbsr-detail,.cbsr-modal-layer').allTextContents()}
+      await page.screenshot({path:resolve(reportDir,'CLAIM_MONEY_INCOMPLETE_UI.png'),fullPage:true}).catch(()=>{})
+      throw error
+    }finally{await operatorPage?.context().close();await page.context().close()}
+  })
+
   await group('NATIVE_REWORK_UI_LIFECYCLE',async()=>{
     const user=await newUser('independent-bs-operator')
     await mapUser(session.access_token,user,['production.laundry.view','production.laundry.create','production.laundry.post',
@@ -411,7 +585,8 @@ export async function runIndependentGaps(c){
     valid_operation_acceptances:report.permission_rows.filter(r=>r.expectation==='ALLOW_VALID_OPERATION').length}
   if(report.role_coverage.unique_pairs!==96)report.status='INCOMPLETE'
   report.known_remaining=['CSV upload/parser absent',
-    'Positive-money claim settlement and compensation application UI paths are not covered by zero-compensation role controls',
+    ...(!report.cases.some(x=>x.id==='UI_CLAIM_MONEY_LIFECYCLE_COMPLETE'&&x.status==='PASS')
+      ?['Positive-money claim/compensation UI lifecycle is INCOMPLETE; zero-compensation controls do not close it']:[]),
     'Eight granular nonowner masks and owner controls do not enumerate every role in every module']
   save()
   return report

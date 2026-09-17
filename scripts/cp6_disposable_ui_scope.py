@@ -41,6 +41,10 @@ scripts/check-cp6-deep-business-repair.mjs
 scripts/check-cp6-expanded-audit-closure.mjs
 src/AccessControlPage.tsx
 src/ConnectedBsResolutionPage.tsx
+src/ConnectedBsResolutionPage.dom.test.tsx
+src/bsResolutionModel.ts
+src/bsResolutionModel.test.ts
+docs/evidence/cp6-claim-money-original-dom.json
 src/ConnectedQcFinalPage.tsx
 src/ConnectedLaundryQcSelectors.dom.test.tsx
 src/ConnectedCuttingPage.tsx
