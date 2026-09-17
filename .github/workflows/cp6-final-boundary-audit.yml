@@ -10,6 +10,7 @@ name: CP6 Final Boundary Audit
     - scripts/cp6_final_gap_midnight.py
     - scripts/cp6_final_gap_ui.mjs
     - scripts/cp6_final_independent_acceptance.py
+    - scripts/cp6_final_ak_independent.py
     - scripts/cp6_final_money_independent.mjs
     - scripts/cp6_v2620aj_*.py
     - scripts/cp6_v2620ak_*.py
@@ -522,6 +523,10 @@ jobs:
       if: ${{ always() && steps.ak_install.outcome == 'success' }}
       working-directory: candidate
       run: PYTHONPATH=scripts python ../harness/scripts/cp6_v2620ak_import_review.py
+    - name: Independently test AK draft edits BS WIP and typed import diagnostics
+      if: ${{ always() && steps.ak_install.outcome == 'success' }}
+      working-directory: candidate
+      run: PYTHONPATH=scripts python ../harness/scripts/cp6_final_ak_independent.py
     - name: Serialize ordinary import draft editing against posting in four schedules
       if: ${{ always() && steps.ak_install.outcome == 'success' }}
       working-directory: candidate
@@ -797,6 +802,7 @@ jobs:
         from pathlib import Path
         root=Path('cp6-proof')
         requirements={'writer-ak/ADVISORS_AFTER.json':'PASS_REVIEWED_SECURITY_DELTA',
+          'final-audit/AK_INDEPENDENT.json':'INDEPENDENT_PASS_REVIEWED_SCOPE',
           'writer-ak/ORIGINAL_IMPORT.json':'PREDECESSOR_PROBES_COMPLETE',
           'writer-ak/IMPORT.json':'WRITER_PASS','writer-ak/import-concurrency/manifest.json':'WRITER_PASS'}
         if os.environ['CP6_AK_DIRECTED']=='true':
