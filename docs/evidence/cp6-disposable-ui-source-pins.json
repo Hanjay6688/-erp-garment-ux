@@ -75,5 +75,8 @@
   "business_frontend_source_head": "d7a92f00b0779d614478778bd8f1ddd367122ff7",
   "independent_residual_business_head": "47671d9ba2cfb8d02658388adb364b2ae6b89e8d",
   "writer_generation": "AK",
-  "writer_predecessor": "47671d9ba2cfb8d02658388adb364b2ae6b89e8d"
+  "writer_predecessor": "47671d9ba2cfb8d02658388adb364b2ae6b89e8d",
+  "ak_product_head": "684b708dee785934fe5fe4fe567c454cba873ea9",
+  "ak_product_tree": "1f4c57517c0d4abd6612d4a8b36b2e9cbe437834",
+  "ak_native_gate": "COMBINED_FRESH_REQUIRED"
 }

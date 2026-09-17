@@ -1,6 +1,7 @@
 # CP6 AK — perbaikan preview import dan draft opening
 
-Status awal: **WRITER INCOMPLETE**, belum ada klaim PASS untuk AK.
+Status terbaru: **Writer PASS untuk keluarga perbaikan terarah**; gate gabungan
+dan keputusan global CP6 masih menunggu. Hasil awal yang gagal dicatat di bawah.
 `production_go:false`; CP7 belum dimulai. Writer aktif adalah chat ini;
 chat sebelah memeriksa successor dan mencari temuan lain secara independen.
 
@@ -102,3 +103,27 @@ Delapan kontrol refusal rollback dan restore AK→AJ (533 fungsi/225 tabel),
 AJ→AI (533/224), AI→AH berhasil pada percobaan ini. Seluruh boundary native
 dan grant sementara kembali semula; database clone dibuang. CodeQL35180025515
 berhasil, tetapi tidak menggantikan kegagalan transaksi native tadi.
+
+## Perbaikan terarah lulus — lanjut gate gabungan
+
+Produk AK:684b708dee785934fe5fe4fe567c454cba873ea9,
+tree1f4c57517c0d4abd6612d4a8b36b2e9cbe437834. Native35180462134 SUCCESS,
+CodeQL35180462117 SUCCESS empat bahasa. Artifact10480561465,3205631 byte,
+SHA25654d7b528196cc0f12c6ca02f449368273b9f20bd0a9e6a8b959599165ebec916;
+checksum ZIP, CRC, nama entry dan selected secret-pattern scan diperiksa lokal.
+
+25/25 kasus AK PASS,0 incomplete;4/4 jadwal dua sesi PASS dengan blocking
+teramati. Draft qty10→20 menghasilkan20 dan25.00; ID header dipertahankan,
+prepare replay sama, master replay tidak menggandakan, finalize replay sama.
+Posted menolak stage/revalidate. Delapan refusal rollback PASS; pemulihan
+AK→AJ533/225, AJ→AI533/224, AI→AH533/223 tepat termasuk definisi,owner/ACL,
+data/tabel dan marker. Auth/app users0, grant native dipulihkan, clone dibuang.
+
+Sepuluh pembanding tetap memakai runtime AJ asli:9 GAP_PROVEN dan1 BUG_PROVEN,
+semuanya selesai dan boundary kembali semula. Itu tidak dijumlahkan sebagai
+kasus successor yang lulus. Hasil ini Writer PASS, bukan independent acceptance.
+
+Gate berikutnya mengulang230 kasus bisnis pada AK karena post_opening_balance
+dan alur import berubah. Tambahan28 jadwal bisnis,20 maintenance pada edge AK,
+4 clock, HTTP/UI/role dijalankan bersama.460 historis tidak dihitung sebagai
+460 bisnis fresh; schedule import baru memang diuji secara tersendiri.
