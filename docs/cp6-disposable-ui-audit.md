@@ -7,6 +7,37 @@ Checkpoint masuk `0c234171fb59dfabc7fa03d4e27904bc2b2f53a7`, tree
 sama. **CP6_HOLD; production_go:false; CP7 belum dimulai.** Bagian lanjutan
 ini mengungguli status arsip dan perubahan frontend pada checkpoint sebelumnya.
 
+**Snapshot yang benar-benar diuji:**
+`2c9465994b3827bc3db82af52753dc5eb80df141`, tree
+`3fe4f342ea41c987c4a693339d5590db3b486f2a`.
+[Native35174491617](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35174491617)
+selesai: workflow FAILURE hanya karena BUSINESS mewarisi12 pengamatan tanggal
+berstatus HOLD. UI, HTTP, rework, concurrency, maintenance, clock, exact restore
+dan cleanup lulus. Gate tidak dilonggarkan. Ini **Writer PASS pada cakupan tersebut,
+bukan independent PASS atau CP6_LOCK_READY**.
+[CodeQL35174491674](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35174491674)
+Actions, JS/TS, Python, dan C/C++ semuanya SUCCESS.
+
+| Cakupan | Bukti terakhir |
+| --- | --- |
+| Matrix bisnis230 | Fresh pada47671d9:179 PASS +39 CONTROL_PASS +12 DATE_POLICY_REVIEW_REQUIRED;0 incomplete/fail |
+| Rework/rewash12 | Fresh12/12 PASS pada2c946599;0 incomplete |
+| Business218 selain rework | REUSED_EVIDENCE dari47671d9:206 hasil berhasil +12 pengamatan tanggal; product bytes exact; bukan218 fresh PASS pada2c946599 |
+| UI/Auth/HTTP | Fresh43/43 UI asli +58/58 kontrol tambahan;95 assertion HTTP/62 facade-role cases |
+| BS/claim role | Fresh96 pasangan action-mask +32 pasangan khusus nominal positif; bukan semua peran di semua modul |
+| Concurrency/maintenance/clock | Fresh28 concurrency,20 maintenance,4 controlled-clock cases PASS |
+| Rollback | Fresh8 kontrol refusal; AJ -> AI533 fungsi/224 tabel, AI -> AH533/223; full data/owner/ACL boundary exact |
+| Cleanup | Auth/app users0, auth sessions0, clone dan container disposable0; PASS |
+| Source/build |237 unit/DOM tests, source/access/backend checks, build dan CodeQL PASS |
+
+Artifact terakhir
+[10477389132](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35174491617/artifacts/10477389132):
+53,577,549 byte,293 entry ZIP; SHA256
+`146dc8de156bfbd18060b40d3a5b7af0d33a99e19c95f371ee2ca36dd5f11ee0`.
+Byte lokal cocok, CRC valid, path unik/aman, tidak ada symlink. Selected-pattern
+scan GitHub token/JWT/private key/sb_secret:0 kecocokan. Arsip diambil dan diperiksa,
+bukan hanya membaca digest dari metadata GitHub.
+
 **CP6-CLAIM-MONEY-01 terbukti pada form React asli**: input klaim14.25 dikirim
 ke RPC sebagai14; input0,25 menjadi0. Form penggunaan kompensasi juga mengirim14
 untuk14.25 dan menonaktifkan posting untuk saldo0.25. Empat counterexample DOM
@@ -23,15 +54,20 @@ di halaman yang sama mempertahankan sen. Qty fisik tetap bilangan bulat.
 Harness tambahan menguji alur UI/Auth/HTTP asli: kirim10 -> receipt8 Good/2 BS ->
 claim14.25 -> settlement -> pemakaian kompensasi -> linked reversal. AP berasal
 dari DRAFT invoice70 yang dipost lewat fungsi native existing dengan mapped OWNER;
-setup/teardown ini **bukan** bukti antarmuka invoice. Ada32 pasangan action-mask
-bernilai positif, pemeriksaan saldo/jurnal, replay aktor sama, penolakan kapasitas
-habis dan reversal claim yang masih dipakai. **Hasil native baru belum tersedia**
-pada saat commit persiapan ini; jangan menerima harness sebagai PASS.
+setup/teardown ini **bukan** bukti antarmuka invoice. Semua32 pasangan action-mask
+bernilai positif dan lifecycle UI selesai PASS. Input14,25 tersimpan14.25; settlement
+membuat satu jurnal debit/credit14.25 dan menurunkan AP70 ->55.75. Pemakaian pada2 BS
+tidak mengkredit AP lagi, replay aktor sama inert, kapasitas habis ditolak HTTP400,
+dan reversal claim yang masih dipakai ditolak HTTP409 secara atomic. Linked reversal
+mengembalikan AP, lalu koreksi invoice/receipt/delivery mengembalikan saldo awal,
+WIP0,FG0,ready10 dan laporan READY. Histori koreksi tetap tercatat.
 
-Karena byte frontend produk berubah, reuse218 AJ3 sebelumnya tidak dipakai untuk
-commit ini. Combined gate menjalankan230 kasus bisnis fresh, ditambah kontrol UI,
-HTTP, concurrency, maintenance, clock, rollback dan cleanup existing. Matrix460
-historis tetap historis. Gate tanggal tetap menahan lock sampai kontraknya selesai.
+Karena byte frontend produk berubah, reuse218 AJ3 sebelumnya dibatalkan dan
+combined gate menjalankan230 kasus bisnis fresh pada47671d9. Follow-up2c946599 hanya
+membetulkan fixture; reuse218 sekarang berasal dari47671d9 yang byte produknya sama.
+Seluruh UI/HTTP,12 rework,28 concurrency,20 maintenance,4 clock, rollback dan cleanup
+dijalankan fresh pada follow-up. Matrix460 historis tetap historis. Gate tanggal
+tetap menahan lock sampai kontraknya selesai.
 
 Aturan owner yang sudah ditemukan kembali: master AD section16.1–16.5 memisahkan
 waktu fisik/ekonomi/sistem/posting, mempertahankan histori, mengalirkan koreksi biaya
@@ -54,6 +90,22 @@ credential. Isinya mengonfirmasi12 rework PASS,95 HTTP,43 UI +51 kontrol tambaha
 Writer perbaikan nominal tetap chat ini; independent acceptance masih wajib dari
 auditor lain pada repaired snapshot exact. Main/PR/UAT/legacy/hosted DB tidak diubah.
 
+**Sisa gerbang lock:**12 pengamatan tanggal laporan; parser/upload CSV yang belum
+ada dan penempatan scope CP6/CP7 yang belum eksplisit; independent acceptance atas
+AJ dan perbaikan nominal. Gap alur positif claim/kompensasi dan verifikasi ZIP sudah
+ditutup pada cakupan di atas. Tidak mengklaim seluruh role atau seluruh UI ERP PASS.
+Main terakhir diverifikasi
+`6d4cda118f5d28d1f039cc0ecf318d0866f55c2c`. Integrasi preview Cloudflare existing
+berjalan mengikuti push competition; tidak ada deployment manual atau merge.
+
+Commit penutup setelah2c946599 hanya mengubah dokumen ini. Auditor selanjutnya wajib
+memeriksa diff/head/tree, membaca arsip exact, dan memakai oracle sendiri. Uji family
+yang berubah beserta hubungan antarmodulnya secara terkonsolidasi. Keluarkan
+CP6_LOCK_READY, CP6_HOLD, atau INCOMPLETE dengan bukti; `production_go:false`.
+Jangan mulai CP7 sebelum independent PASS dan perintah owner.
+
+### Riwayat attempt nominal1 dan koreksi harness
+
 Attempt nominal1: `47671d9ba2cfb8d02658388adb364b2ae6b89e8d`, tree
 `46f4f605444c72dc32282025b859ab66375178b3`, Native35173583560. Seluruh230
 kasus bisnis dieksekusi fresh:179 PASS +39 CONTROL_PASS +12 DATE_POLICY_REVIEW_REQUIRED,
@@ -72,7 +124,8 @@ CRC,690-object install dan full boundary tetap diperiksa. Rework12, seluruh UI,
 HTTP,28 concurrency,20 maintenance,4 clock dan exact rollback tetap fresh.
 Artifact10477942082:53,007,482 byte/292 entry, SHA256
 `9d2c1906c3f6bd5c11e46d7baa9740d4eb11d260f6d63c8b88d09bb4950c6abd`,
-CRC sudah diperiksa lokal. Dua belas pengamatan tanggal diwariskan sebagai HOLD;
+CRC, path/duplicate/symlink dan selected credential-pattern scan sudah diperiksa
+lokal tanpa kecocokan. Dua belas pengamatan tanggal diwariskan sebagai HOLD;
 qualified reuse tidak mengubahnya menjadi PASS.
 
 ---
