@@ -14,6 +14,10 @@ import {
 } from './cuttingPersistence'
 import { normalizeClientError } from './lib/clientError'
 import { getUatSupabaseClient } from './lib/supabase'
+import { useProductionMutation } from './useProductionMutation'
+import ProductionRecoveryNotice from './ProductionRecoveryNotice'
+import type { ProductionEnvelope } from './productionRecovery'
+import { parseQuantityInput, requireQuantityInput } from './quantityInput'
 import './connected-cutting.css'
 
 type SelectedRoll = {
@@ -30,9 +34,20 @@ function datetimeLocal(value: Date | string) {
   return local.toISOString().slice(0, 16)
 }
 
-function numeric(value: string) {
-  const parsed = Number(value.replace(',', '.'))
-  return Number.isFinite(parsed) ? parsed : 0
+const numeric = (raw: string) => parseQuantityInput(raw, 'MEASURE') ?? Number.NaN
+const count = (raw: string) => parseQuantityInput(raw) ?? Number.NaN
+const display = (value: number, digits = 0) => Number.isFinite(value) ? value.toFixed(digits) : '—'
+
+function validateCuttingCommit(data: unknown, envelope: ProductionEnvelope) {
+  const payload = envelope.payload as Record<string, unknown>
+  if (envelope.action === 'DELETE') {
+    const result = data as Record<string, unknown> | null
+    if (result?.status !== 'DELETED' || result.cutting_group_id !== payload.id) throw new Error('Respons delete tidak cocok')
+    return
+  }
+  const result = parseCuttingSaveResult(data)
+  if (payload.id && payload.id !== result.cutting_group_id || payload.pattern_id !== result.pattern_id
+    || payload.source_location_id !== result.source_location_id || result.material_issue_posted !== (envelope.action === 'POST')) throw new Error('Respons Potongan tidak cocok')
 }
 
 function rollFromDraft(draft: CuttingDraft, rollId: string): CuttingWorkspaceRoll | null {
@@ -72,16 +87,17 @@ export default function ConnectedCuttingPage() {
   const [slots, setSlots] = useState<SizeSlot[]>([])
   const [yields, setYields] = useState<Record<string, Record<string, string>>>({})
   const [loading, setLoading] = useState(true)
-  const [saving, setSaving] = useState(false)
+  const mutation = useProductionMutation('CUTTING')
+  const { beginRead, finishRead, run, reconcile } = mutation
+  const saving = mutation.busy
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
-  const requestRef = useRef<{ fingerprint: string; id: string }>({ fingerprint: '', id: '' })
-  const savingRef = useRef(false)
   const loadRequestRef = useRef(0)
   const viewRef = useRef({ locationId, rollQuery })
   viewRef.current = { locationId, rollQuery }
 
   const load = useCallback(async (nextLocation: string | null, nextQuery = rollQuery, nextOffset = rollOffset) => {
+    const ticket = beginRead()
     const requestId = ++loadRequestRef.current
     setLoading(true)
     setError('')
@@ -92,10 +108,10 @@ export default function ConnectedCuttingPage() {
         p_limit: 100,
         p_offset: nextOffset,
       })
-      if (requestId !== loadRequestRef.current) return
+      if (requestId !== loadRequestRef.current) return false
       if (loadError) {
         setError(normalizeClientError(loadError).message)
-        return
+        return false
       }
       try {
         const parsed = parseCuttingWorkspace(data)
@@ -108,17 +124,20 @@ export default function ConnectedCuttingPage() {
         if (slots.length === 0 && initialSizes.length > 0) {
           setSlots(initialSizes.slice(0, 3).map((size) => ({ key: globalThis.crypto.randomUUID(), sizeId: size.id, sizeCode: size.code })))
         }
+        return finishRead(ticket)
       } catch (parseError) {
         setError(parseError instanceof Error ? parseError.message : String(parseError))
+        return false
       }
     } catch (loadFailure) {
       if (requestId === loadRequestRef.current) setError(normalizeClientError(loadFailure).message)
+      return false
     } finally {
       if (requestId === loadRequestRef.current) setLoading(false)
     }
-  }, [client, orderId, rollOffset, rollQuery, slots.length])
+  }, [beginRead, finishRead, client, orderId, rollOffset, rollQuery, slots.length])
 
-  useEffect(() => { void load(null, '', 0) }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => { void load(null, '', 0); return () => { loadRequestRef.current += 1 } }, [mutation.scope]) // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => { if (locationId) { setRollOffset(0); void load(locationId, rollQuery, 0) } }, [locationId]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const selected = Object.values(selectedRolls)
@@ -126,13 +145,14 @@ export default function ConnectedCuttingPage() {
   const availableSizes = sizesForOrder(workspace, orderId)
   const totalIssued = selected.reduce((sum, item) => sum + item.issued, 0)
   const totalConsumed = selected.reduce((sum, item) => sum + numeric(item.consumed), 0)
-  const totalRemaining = selected.reduce((sum, item) => sum + Math.max(0, item.issued - numeric(item.consumed)), 0)
+  const totalRemaining = selected.reduce((sum, item) => sum + item.issued - numeric(item.consumed), 0)
   const totalPieces = selected.reduce((sum, item) => sum + slots.reduce((rollSum, slot) =>
-    rollSum + Math.max(0, Math.floor(numeric(yields[item.roll.id]?.[slot.key] ?? '0'))), 0), 0)
+    rollSum + count(yields[item.roll.id]?.[slot.key] ?? '0'), 0), 0)
   const cutAtValid = cutAt.length > 0 && Number.isFinite(new Date(cutAt).getTime())
   const formValid = Boolean(orderId && locationId && pattern && cutAtValid && slots.length > 0 && selected.length > 0)
     && selected.every((item) => numeric(item.consumed) > 0 && numeric(item.consumed) <= item.issued)
-    && selected.every((item) => slots.some((slot) => numeric(yields[item.roll.id]?.[slot.key] ?? '0') > 0))
+    && selected.every((item) => slots.every((slot) => parseQuantityInput(yields[item.roll.id]?.[slot.key] ?? '0') !== null)
+      && slots.some((slot) => count(yields[item.roll.id]?.[slot.key] ?? '0') > 0))
 
   const resetForm = () => {
     setDraftId(null)
@@ -142,7 +162,6 @@ export default function ConnectedCuttingPage() {
     setCutAt(datetimeLocal(new Date()))
     setSelectedRolls({})
     setYields({})
-    requestRef.current = { fingerprint: '', id: '' }
     setNotice('Form baru siap. Belum ada data backend yang ditulis.')
   }
 
@@ -154,7 +173,6 @@ export default function ConnectedCuttingPage() {
     })))
     setSelectedRolls({})
     setYields({})
-    requestRef.current = { fingerprint: '', id: '' }
     if (selected.length > 0) setNotice('Pilihan roll dikosongkan karena Production Order berubah.')
   }
 
@@ -211,7 +229,6 @@ export default function ConnectedCuttingPage() {
     setSlots(nextSlots.length > 0 ? nextSlots : sizesForOrder(workspace, draft.po_id).slice(0, 3).map((size) => ({ key: globalThis.crypto.randomUUID(), sizeId: size.id, sizeCode: size.code })))
     setSelectedRolls(nextRolls)
     setYields(nextYields)
-    requestRef.current = { fingerprint: '', id: '' }
     setNotice(`${draft.group_number} dimuat dari backend${draft.editable ? '.' : ' · read-only karena lifecycle downstream.'}`)
     setError('')
   }
@@ -229,86 +246,52 @@ export default function ConnectedCuttingPage() {
     rolls: selected.map((item) => ({
       roll_id: item.roll.id,
       qty_issued: item.issued,
-      qty_consumed: numeric(item.consumed),
-      qty_reported_remaining: Math.max(0, item.issued - numeric(item.consumed)),
+      qty_consumed: requireQuantityInput(item.consumed, 'MEASURE', item.issued),
+      qty_reported_remaining: Number((item.issued - requireQuantityInput(item.consumed, 'MEASURE', item.issued)).toFixed(6)),
       yields: slots.map((slot, index) => ({
         slot_no: index + 1,
-        qty_pcs: Math.max(0, Math.floor(numeric(yields[item.roll.id]?.[slot.key] ?? '0'))),
+        qty_pcs: requireQuantityInput(yields[item.roll.id]?.[slot.key] ?? '0'),
       })),
     })),
   })
 
-  const save = async (action: 'SAVE_DRAFT' | 'POST') => {
-    if (!formValid || savingRef.current || (draftId ? !canEdit : !canCreate) || (action === 'POST' && !canPost)) return
-    savingRef.current = true
-    setSaving(true)
-    setError('')
-    setNotice('')
-    try {
-      const nextPayload = payload(action)
-      const fingerprint = JSON.stringify({ payload: nextPayload, expected: draftVersion })
-      if (requestRef.current.fingerprint !== fingerprint) {
-        requestRef.current = { fingerprint, id: globalThis.crypto.randomUUID() }
-      }
-      const { data, error: saveError } = await client.rpc('erp_save_cutting_group_before_sewing_v2', {
-        p_payload: nextPayload,
-        p_client_request_id: requestRef.current.id,
-        p_expected_version: draftVersion,
-      })
-      if (saveError) throw normalizeClientError(saveError)
+  const sendExact = (envelope: ProductionEnvelope) => client.rpc('erp_save_cutting_group_before_sewing_v2', {
+    p_payload: envelope.payload, p_client_request_id: envelope.id, p_expected_version: envelope.expectedVersion,
+  })
+  const reload = () => {
+    const view = viewRef.current
+    return load(view.locationId || null, view.rollQuery, 0)
+  }
+  const retire = (data: unknown, envelope: ProductionEnvelope) => {
+    resetForm()
+    if (envelope.action === 'DELETE') setNotice('Draft Potongan sudah dihapus.')
+    else {
       const result = parseCuttingSaveResult(data)
-      const successNotice = result.material_issue_posted
-        ? `${result.group_number} terposting · ${result.total_pieces} pcs masuk antrean Bagi Potongan.`
-        : `${result.group_number} tersimpan sebagai draft backend · row version ${result.row_version}.`
-      if (!result.material_issue_posted) {
-        setDraftId(result.cutting_group_id)
-        setDraftVersion(result.row_version)
-      }
-      const currentView = viewRef.current
-      await load(currentView.locationId || null, currentView.rollQuery, 0)
-      if (result.material_issue_posted) resetForm()
-      setNotice(successNotice)
-    } catch (saveFailure) {
-      setError(saveFailure instanceof Error ? saveFailure.message : normalizeClientError(saveFailure).message)
-    } finally {
-      savingRef.current = false
-      setSaving(false)
+      setNotice(`${result.group_number} ${result.material_issue_posted ? 'terposting' : 'tersimpan sebagai draft'}. Form lama ditutup; muat draft terbaru untuk melanjutkan.`)
     }
   }
-
+  const handlers = { send: sendExact, validate: validateCuttingCommit, retire, reload }
+  const save = async (action: 'SAVE_DRAFT' | 'POST') => {
+    if (!formValid || mutation.writerLocked || (draftId ? !canEdit : !canCreate) || (action === 'POST' && !canPost)) return
+    setError(''); setNotice('')
+    await run(action, payload(action), draftVersion, handlers)
+  }
   const removeDraft = async () => {
-    if (!draftId || draftVersion === null || !canEdit || savingRef.current) return
+    if (!draftId || draftVersion === null || !canEdit || mutation.writerLocked) return
     if (!globalThis.confirm('Hapus draft Potongan ini? Hanya draft yang belum diposting yang dapat dihapus.')) return
-    savingRef.current = true
-    setSaving(true)
-    setError('')
-    setNotice('')
-    try {
-      const { error: deleteError } = await client.rpc('erp_save_cutting_group_before_sewing_v2', {
-        p_payload: { id: draftId, action: 'DELETE', change_reason: 'Hapus draft Potongan dari workspace connected' },
-        p_client_request_id: globalThis.crypto.randomUUID(),
-        p_expected_version: draftVersion,
-      })
-      if (deleteError) throw normalizeClientError(deleteError)
-      resetForm()
-      const currentView = viewRef.current
-      await load(currentView.locationId || null, currentView.rollQuery, 0)
-    } catch (deleteFailure) {
-      setError(deleteFailure instanceof Error ? deleteFailure.message : normalizeClientError(deleteFailure).message)
-    } finally {
-      savingRef.current = false
-      setSaving(false)
-    }
+    setError(''); setNotice('')
+    await run('DELETE', { id: draftId, action: 'DELETE', change_reason: 'Hapus draft Potongan dari workspace connected' }, draftVersion, handlers)
   }
 
   return <section className="connected-cutting-page">
     <header className="ccut-hero"><div><span>PRODUKSI · CUTTING CONNECTED</span><h1>Buat Potongan</h1><p>Satu transaksi atomik mengikat Pola, roll fisik, yard keluar/terpakai/sisa, hasil per size, stok, HPP, dan jurnal.</p></div><button type="button" onClick={() => void load(locationId || null, rollQuery)}><RefreshCw/> Refetch</button></header>
     <div className="ccut-truth"><Database/><strong>ERP ENTENG UAT · RPC CONNECTED</strong><span>Tidak ada fixture atau direct-table write pada mode ini.</span></div>
     {error && <div className="ccut-message error" role="alert"><AlertTriangle/><span>{error}</span><button onClick={() => setError('')}>Tutup</button></div>}
+    <ProductionRecoveryNotice recovery={mutation} onReconcile={() => reconcile(handlers)} className="ccut-message error"/>
     {notice && <div className="ccut-message success" role="status"><Check/><span>{notice}</span></div>}
 
     <div className="ccut-layout">
-      <aside className="ccut-drafts"><header><div><span>DRAFT BACKEND</span><strong>{workspace?.drafts.length ?? 0} Potongan</strong></div><button onClick={resetForm}>Baru</button></header>{workspace?.drafts.map((draft) => <button key={draft.cutting_group_id} className={draftId === draft.cutting_group_id ? 'active' : ''} onClick={() => resumeDraft(draft)}><FilePenLine/><span><strong>{draft.group_number}</strong><small>{draft.po_number} · {draft.pattern_code ? `${draft.pattern_code} ${draft.pattern_revision}` : 'Pola belum diikat'}</small></span><em>v{draft.row_version}</em></button>)}{!loading && workspace?.drafts.length === 0 && <p>Belum ada draft Potongan.</p>}</aside>
+      <aside className="ccut-drafts"><header><div><span>DRAFT BACKEND</span><strong>{workspace?.drafts.length ?? 0} Potongan</strong></div><button disabled={mutation.writerLocked} onClick={resetForm}>Baru</button></header>{workspace?.drafts.map((draft) => <button key={draft.cutting_group_id} className={draftId === draft.cutting_group_id ? 'active' : ''} disabled={mutation.writerLocked} onClick={() => resumeDraft(draft)}><FilePenLine/><span><strong>{draft.group_number}</strong><small>{draft.po_number} · {draft.pattern_code ? `${draft.pattern_code} ${draft.pattern_revision}` : 'Pola belum diikat'}</small></span><em>v{draft.row_version}</em></button>)}{!loading && workspace?.drafts.length === 0 && <p>Belum ada draft Potongan.</p>}</aside>
 
       <main className="ccut-form">
         <section className="ccut-card"><header><span>01 · IDENTITAS KANONIK</span><strong>PO, Pola, waktu, dan gudang sumber</strong></header><div className="ccut-fields"><label>Production Order<select value={orderId} disabled={draftId !== null} onChange={(event) => changeOrder(event.target.value)}><option value="">Pilih PO…</option>{workspace?.orders.map((order) => <option value={order.id} key={order.id}>{order.po_number} · {order.model_code} · {order.model_name}</option>)}</select></label><label>Waktu potong<input type="datetime-local" value={cutAt} max={datetimeLocal(new Date())} onChange={(event) => setCutAt(event.target.value)}/></label><label>Gudang bahan<select value={locationId} onChange={(event) => { setLocationId(event.target.value); setRollOffset(0); setSelectedRolls({}); setYields({}); if (selected.length > 0) setNotice('Pilihan roll dikosongkan karena gudang bahan berubah.') }}><option value="">Pilih gudang…</option>{workspace?.locations.map((location) => <option value={location.id} key={location.id}>{location.code} · {location.name}</option>)}</select></label><label>Catatan<input value={notes} onChange={(event) => setNotes(event.target.value)} placeholder="Opsional"/></label></div><CuttingPatternPicker value={pattern} onChange={setPattern}/></section>
@@ -317,10 +300,10 @@ export default function ConnectedCuttingPage() {
 
         <section className="ccut-card"><header><span>03 · ROLL FISIK</span><strong>{workspace?.roll_total ?? 0} tersedia di lokasi</strong></header><div className="ccut-search"><Search/><input value={rollQuery} onChange={(event) => setRollQuery(event.target.value)} onKeyDown={(event) => { if (event.key === 'Enter') { setRollOffset(0); void load(locationId || null, rollQuery, 0) } }} placeholder="Nomor roll, bahan, supplier…"/><button onClick={() => { setRollOffset(0); void load(locationId || null, rollQuery, 0) }}>Cari</button></div><div className="ccut-roll-catalog">{loading ? <span><LoaderCircle className="spin"/> Memuat roll…</span> : workspace?.rolls.map((roll) => <button className={selectedIds.has(roll.id) ? 'active' : ''} onClick={() => toggleRoll(roll)} key={roll.id}><span><strong>{roll.roll_number}</strong><small>{roll.material_sku} · {roll.material_name}</small></span><em>{roll.available_qty} {roll.unit_code}</em></button>)}</div><footer className="ccut-pagination"><span>{workspace?.roll_total ? `${rollOffset + 1}–${rollOffset + workspace.rolls.length} dari ${workspace.roll_total}` : '0 roll'}</span><div><button disabled={loading || rollOffset === 0} onClick={() => void load(locationId || null, rollQuery, Math.max(0, rollOffset - 100))}>Sebelumnya</button><button disabled={loading || !workspace || rollOffset + workspace.rolls.length >= workspace.roll_total} onClick={() => void load(locationId || null, rollQuery, rollOffset + 100)}>Berikutnya</button></div></footer></section>
 
-        <section className="ccut-card wide"><header><span>04 · HASIL PER ROLL & SIZE</span><strong>Angka sumber direkonsiliasi backend</strong></header>{selected.length === 0 ? <div className="ccut-empty">Pilih minimal satu roll dari gudang bahan.</div> : <div className="ccut-table-wrap"><table><thead><tr><th>Roll</th><th>Keluar</th><th>Terpakai</th><th>Sisa</th>{slots.map((slot) => <th key={slot.key}>Size {slot.sizeCode}</th>)}<th>Total pcs</th></tr></thead><tbody>{selected.map((item) => { const consumed = numeric(item.consumed); const rowPieces = slots.reduce((sum, slot) => sum + Math.max(0, Math.floor(numeric(yields[item.roll.id]?.[slot.key] ?? '0'))), 0); return <tr key={item.roll.id}><th><strong>{item.roll.roll_number}</strong><small>{item.roll.material_name}</small></th><td>{item.issued} {item.roll.unit_code}</td><td><input inputMode="decimal" value={item.consumed} onChange={(event) => setSelectedRolls((current) => ({ ...current, [item.roll.id]: { ...current[item.roll.id], consumed: event.target.value.replace(/[^0-9.,]/g, '') } }))}/></td><td className={consumed > item.issued ? 'bad' : ''}>{Math.max(0, item.issued - consumed).toFixed(2)}</td>{slots.map((slot) => <td key={slot.key}><input inputMode="numeric" value={yields[item.roll.id]?.[slot.key] ?? '0'} onFocus={(event) => event.currentTarget.select()} onChange={(event) => setYields((current) => ({ ...current, [item.roll.id]: { ...current[item.roll.id], [slot.key]: event.target.value.replace(/\D/g, '') } }))}/></td>)}<td><strong>{rowPieces}</strong></td></tr>})}</tbody></table></div>}</section>
+        <section className="ccut-card wide"><header><span>04 · HASIL PER ROLL & SIZE</span><strong>Angka sumber direkonsiliasi backend</strong></header>{selected.length === 0 ? <div className="ccut-empty">Pilih minimal satu roll dari gudang bahan.</div> : <div className="ccut-table-wrap"><table><thead><tr><th>Roll</th><th>Keluar</th><th>Terpakai</th><th>Sisa</th>{slots.map((slot) => <th key={slot.key}>Size {slot.sizeCode}</th>)}<th>Total pcs</th></tr></thead><tbody>{selected.map((item) => { const consumed = numeric(item.consumed); const rowPieces = slots.reduce((sum, slot) => sum + count(yields[item.roll.id]?.[slot.key] ?? '0'), 0); return <tr key={item.roll.id}><th><strong>{item.roll.roll_number}</strong><small>{item.roll.material_name}</small></th><td>{item.issued} {item.roll.unit_code}</td><td><input aria-label={`${item.roll.roll_number} terpakai`} aria-invalid={parseQuantityInput(item.consumed, 'MEASURE', item.issued) === null} inputMode="decimal" value={item.consumed} onChange={(event) => setSelectedRolls((current) => ({ ...current, [item.roll.id]: { ...current[item.roll.id], consumed: event.target.value } }))}/></td><td className={consumed > item.issued ? 'bad' : ''}>{display(item.issued - consumed, 2)}</td>{slots.map((slot) => <td key={slot.key}><input aria-label={`${item.roll.roll_number} Size ${slot.sizeCode}`} aria-invalid={parseQuantityInput(yields[item.roll.id]?.[slot.key] ?? '0') === null} inputMode="numeric" value={yields[item.roll.id]?.[slot.key] ?? '0'} onFocus={(event) => event.currentTarget.select()} onChange={(event) => setYields((current) => ({ ...current, [item.roll.id]: { ...current[item.roll.id], [slot.key]: event.target.value } }))}/></td>)}<td><strong>{display(rowPieces)}</strong></td></tr>})}</tbody></table></div>}</section>
 
-        <section className="ccut-review"><div><span>ROLL</span><strong>{selected.length}</strong></div><div><span>KELUAR</span><strong>{totalIssued.toFixed(2)}</strong></div><div><span>TERPAKAI</span><strong>{totalConsumed.toFixed(2)}</strong></div><div><span>SISA</span><strong>{totalRemaining.toFixed(2)}</strong></div><div><span>HASIL</span><strong>{totalPieces} pcs</strong></div></section>
-        <footer className="ccut-actions"><span>{draftId ? `Draft ${draftId.slice(0, 8)} · row version ${draftVersion}` : 'Transaksi baru · ID dibuat backend'}</span><div>{draftId && <button className="danger" disabled={!canEdit || saving} onClick={() => void removeDraft()}><Trash2/> Hapus draft</button>}<button disabled={!formValid || saving || (draftId ? !canEdit : !canCreate)} onClick={() => void save('SAVE_DRAFT')}>Simpan draft</button><button className="primary" disabled={!formValid || saving || (draftId ? !canEdit : !canCreate) || !canPost} onClick={() => void save('POST')}>{saving ? <LoaderCircle className="spin"/> : <Check/>} Post ke WIP Potongan</button></div></footer>
+        <section className="ccut-review"><div><span>ROLL</span><strong>{selected.length}</strong></div><div><span>KELUAR</span><strong>{totalIssued.toFixed(2)}</strong></div><div><span>TERPAKAI</span><strong>{display(totalConsumed, 2)}</strong></div><div><span>SISA</span><strong>{display(totalRemaining, 2)}</strong></div><div><span>HASIL</span><strong>{display(totalPieces)} pcs</strong></div></section>
+        <footer className="ccut-actions"><span>{draftId ? `Draft ${draftId.slice(0, 8)} · row version ${draftVersion}` : 'Transaksi baru · ID dibuat backend'}</span><div>{draftId && <button className="danger" disabled={!canEdit || mutation.writerLocked} onClick={() => void removeDraft()}><Trash2/> Hapus draft</button>}<button disabled={!formValid || mutation.writerLocked || (draftId ? !canEdit : !canCreate)} onClick={() => void save('SAVE_DRAFT')}>Simpan draft</button><button className="primary" disabled={!formValid || mutation.writerLocked || (draftId ? !canEdit : !canCreate) || !canPost} onClick={() => void save('POST')}>{saving ? <LoaderCircle className="spin"/> : <Check/>} Post ke WIP Potongan</button></div></footer>
       </main>
     </div>
   </section>

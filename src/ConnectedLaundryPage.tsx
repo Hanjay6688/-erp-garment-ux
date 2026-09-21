@@ -14,6 +14,7 @@ import {
 } from './laundryQcModel'
 import { useLaundryQcWorkspace } from './useLaundryQcWorkspace'
 import type { Json } from './types/database.preconnect'
+import { parseQuantityInput } from './quantityInput'
 import './connected-laundry-qc.css'
 
 type RunAction = (
@@ -27,13 +28,7 @@ type SearchLaundryBsProducts = (
   afterSortKey?: string | null,
 ) => Promise<Cp6LaundryBsProductSearchPage>
 
-const parseQuantity = (value: string) => {
-  if (!value.trim()) return 0
-  const parsed = Number(value)
-  return /^\d+$/.test(value.trim()) && Number.isSafeInteger(parsed)
-    ? parsed
-    : null
-}
+const parseQuantity = (value: string) => parseQuantityInput(value)
 const quantity = (value: string) => parseQuantity(value) ?? 0
 const money = (value: number) => `Rp${Math.round(value).toLocaleString('id-ID')}`
 const statusLabel: Record<string, string> = {

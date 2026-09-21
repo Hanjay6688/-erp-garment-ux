@@ -1,3 +1,5 @@
+import { parseQuantityInput, requireQuantityInput } from './quantityInput'
+
 export type CuttingOrder = {
   id: string
   po_number: string
@@ -196,7 +198,7 @@ export type PickupSaveResult = {
   allocated_pieces: number
 }
 
-export type PickupAllocationMatrix = Record<string, number[]>
+export type PickupAllocationMatrix = Record<string, Array<number | string>>
 
 function object(value: unknown, label: string): Record<string, unknown> {
   if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error(`${label} tidak valid.`)
@@ -218,8 +220,13 @@ function optionalText(value: unknown): string | null {
 }
 
 function number(value: unknown, label: string): number {
-  const parsed = Number(value)
-  if (!Number.isFinite(parsed)) throw new Error(`${label} tidak valid.`)
+  if (typeof value !== 'number' || !Number.isFinite(value) || value < 0) throw new Error(`${label} tidak valid.`)
+  return value
+}
+
+function integer(value: unknown, label: string, min = 0): number {
+  const parsed = number(value, label)
+  if (!Number.isSafeInteger(parsed) || parsed < min) throw new Error(`${label} harus bilangan bulat yang valid.`)
   return parsed
 }
 
@@ -230,7 +237,7 @@ function bool(value: unknown, label: string): boolean {
 
 function parseYield(value: unknown): CuttingRollYield {
   const row = object(value, 'Hasil potong')
-  return { slot_no: number(row.slot_no, 'Nomor kolom'), qty_pcs: number(row.qty_pcs, 'Jumlah hasil') }
+  return { slot_no: integer(row.slot_no, 'Nomor kolom', 1), qty_pcs: integer(row.qty_pcs, 'Jumlah hasil') }
 }
 
 function parseWorkspaceRoll(value: unknown): CuttingWorkspaceRoll {
@@ -250,7 +257,7 @@ function parseDraft(value: unknown): CuttingDraft {
   const row = object(value, 'Draft Potongan')
   return {
     cutting_group_id: text(row.cutting_group_id, 'ID Potongan'),
-    group_number: text(row.group_number, 'Nomor Potongan'), row_version: number(row.row_version, 'Versi Potongan'),
+    group_number: text(row.group_number, 'Nomor Potongan'), row_version: integer(row.row_version, 'Versi Potongan', 1),
     po_id: text(row.po_id, 'ID PO'), po_number: text(row.po_number, 'Nomor PO'),
     model_code: text(row.model_code, 'Kode model'), model_name: text(row.model_name, 'Nama model'),
     cut_at: text(row.cut_at, 'Waktu potong'), source_location_id: optionalText(row.source_location_id),
@@ -262,7 +269,7 @@ function parseDraft(value: unknown): CuttingDraft {
     size_slots: list(row.size_slots, 'Kolom ukuran').map((candidate) => {
       const slot = object(candidate, 'Kolom ukuran')
       return {
-        slot_no: number(slot.slot_no, 'Nomor kolom'), size_id: text(slot.size_id, 'ID ukuran'),
+        slot_no: integer(slot.slot_no, 'Nomor kolom', 1), size_id: text(slot.size_id, 'ID ukuran'),
         size_code: text(slot.size_code, 'Kode ukuran'), drawing_no: number(slot.drawing_no, 'Nomor gambar'),
         label_override: optionalText(slot.label_override),
       }
@@ -287,8 +294,8 @@ export function parseCuttingWorkspace(value: unknown): CuttingWorkspace {
   const raw = object(value, 'Respons workspace cutting')
   return {
     location_id: optionalText(raw.location_id), roll_query: optionalText(raw.roll_query),
-    limit: number(raw.limit, 'Limit'), offset: number(raw.offset, 'Offset'),
-    roll_total: number(raw.roll_total, 'Total roll'),
+    limit: integer(raw.limit, 'Limit'), offset: integer(raw.offset, 'Offset'),
+    roll_total: integer(raw.roll_total, 'Total roll'),
     orders: list(raw.orders, 'Daftar PO').map((candidate) => {
       const row = object(candidate, 'PO')
       return {
@@ -324,22 +331,22 @@ function parsePickupYield(value: unknown): PickupYield {
   const row = object(value, 'Lineage hasil potong')
   return {
     yield_id: text(row.yield_id, 'ID hasil'), size_slot_id: text(row.size_slot_id, 'ID kolom'),
-    slot_no: number(row.slot_no, 'Nomor kolom'), size_id: text(row.size_id, 'ID ukuran'),
+    slot_no: integer(row.slot_no, 'Nomor kolom', 1), size_id: text(row.size_id, 'ID ukuran'),
     size_code: text(row.size_code, 'Kode ukuran'), drawing_no: number(row.drawing_no, 'Nomor gambar'),
-    label: optionalText(row.label), qty_pcs: number(row.qty_pcs, 'Qty hasil'),
+    label: optionalText(row.label), qty_pcs: integer(row.qty_pcs, 'Qty hasil'),
   }
 }
 
 function parsePickupBatch(value: unknown): PickupBatch {
   const row = object(value, 'Batch Distribusi')
   return {
-    id: text(row.id, 'ID batch'), batch_no: number(row.batch_no, 'Nomor batch'),
-    notes: optionalText(row.notes), qty_pcs: number(row.qty_pcs, 'Qty batch'),
+    id: text(row.id, 'ID batch'), batch_no: integer(row.batch_no, 'Nomor batch', 1),
+    notes: optionalText(row.notes), qty_pcs: integer(row.qty_pcs, 'Qty batch'),
     allocations: list(row.allocations, 'Alokasi batch').map((candidate) => {
       const allocation = object(candidate, 'Alokasi batch')
       return {
         cutting_roll_yield_id: text(allocation.cutting_roll_yield_id, 'ID hasil potong'),
-        qty_pcs: number(allocation.qty_pcs, 'Qty alokasi'),
+        qty_pcs: integer(allocation.qty_pcs, 'Qty alokasi'),
       }
     }),
   }
@@ -355,7 +362,7 @@ function parsePickupDraft(value: unknown): PickupDraft | null {
     id: text(row.id, 'ID pickup'), contractor_id: text(row.contractor_id, 'ID Mandor'),
     contractor_name: text(row.contractor_name, 'Nama Mandor'), picked_up_at: text(row.picked_up_at, 'Waktu pickup'),
     allocation_mode: mode as PickupDraft['allocation_mode'], status: status as PickupDraft['status'],
-    notes: optionalText(row.notes), row_version: number(row.row_version, 'Versi pickup'),
+    notes: optionalText(row.notes), row_version: integer(row.row_version, 'Versi pickup', 1),
     batches: list(row.batches, 'Batch pickup').map(parsePickupBatch),
   }
 }
@@ -366,7 +373,7 @@ export function parsePickupQueue(value: unknown): PickupQueue {
   if (!['WAITING', 'PICKED', 'ALL'].includes(filter)) throw new Error('Filter pickup tidak valid.')
   return {
     filter: filter as PickupQueue['filter'], pattern_id: optionalText(raw.pattern_id), query: optionalText(raw.query),
-    limit: number(raw.limit, 'Limit'), offset: number(raw.offset, 'Offset'), total: number(raw.total, 'Total pickup'),
+    limit: integer(raw.limit, 'Limit'), offset: integer(raw.offset, 'Offset'), total: integer(raw.total, 'Total pickup'),
     contractors: list(raw.contractors, 'Daftar Mandor pickup').map((candidate) => {
       const row = object(candidate, 'Mandor pickup')
       return { id: text(row.id, 'ID Mandor'), code: text(row.code, 'Kode Mandor'), name: text(row.name, 'Nama Mandor') }
@@ -375,7 +382,7 @@ export function parsePickupQueue(value: unknown): PickupQueue {
       const row = object(candidate, 'Baris pickup')
       return {
         cutting_group_id: text(row.cutting_group_id, 'ID Potongan'),
-        group_number: text(row.group_number, 'Nomor Potongan'), row_version: number(row.row_version, 'Versi Potongan'),
+        group_number: text(row.group_number, 'Nomor Potongan'), row_version: integer(row.row_version, 'Versi Potongan', 1),
         po_id: text(row.po_id, 'ID PO'), po_number: text(row.po_number, 'Nomor PO'),
         model_code: text(row.model_code, 'Kode model'), model_name: text(row.model_name, 'Nama model'),
         assigned_contractor_id: optionalText(row.assigned_contractor_id),
@@ -386,7 +393,7 @@ export function parsePickupQueue(value: unknown): PickupQueue {
         source_location_code: optionalText(row.source_location_code),
         pattern_id: optionalText(row.pattern_id), pattern_code: optionalText(row.pattern_code),
         pattern_revision: optionalText(row.pattern_revision), pattern_name: optionalText(row.pattern_name),
-        total_qty_issued: number(row.total_qty_issued, 'Qty bahan'), total_pieces: number(row.total_pieces, 'Qty potongan'),
+        total_qty_issued: number(row.total_qty_issued, 'Qty bahan'), total_pieces: integer(row.total_pieces, 'Qty potongan'),
         pickup_eligible: bool(row.pickup_eligible, 'Status kelayakan pickup'),
         pickup: parsePickupDraft(row.pickup),
         rolls: list(row.rolls, 'Roll Potongan').map((candidateRoll) => {
@@ -411,15 +418,15 @@ export function parseCuttingSaveResult(value: unknown): CuttingSaveResult {
   const row = object(value, 'Respons simpan Potongan')
   return {
     cutting_group_id: text(row.cutting_group_id, 'ID Potongan'), group_number: text(row.group_number, 'Nomor Potongan'),
-    status: text(row.status, 'Status Potongan'), row_version: number(row.row_version, 'Versi Potongan'),
+    status: text(row.status, 'Status Potongan'), row_version: integer(row.row_version, 'Versi Potongan', 1),
     pattern_id: text(row.pattern_id, 'ID Pola'), pattern_code: text(row.pattern_code, 'Kode Pola'),
     pattern_revision: text(row.pattern_revision, 'Revisi Pola'), pattern_name: text(row.pattern_name, 'Nama Pola'),
     source_location_id: text(row.source_location_id, 'Lokasi sumber'),
     material_issue_posted: bool(row.material_issue_posted, 'Status posting bahan'),
-    total_rolls: number(row.total_rolls, 'Total roll'), total_qty_issued: number(row.total_qty_issued, 'Qty keluar'),
+    total_rolls: integer(row.total_rolls, 'Total roll'), total_qty_issued: number(row.total_qty_issued, 'Qty keluar'),
     total_qty_consumed: number(row.total_qty_consumed, 'Qty terpakai'),
     total_qty_reported_remaining: number(row.total_qty_reported_remaining, 'Sisa terlapor'),
-    total_pieces: number(row.total_pieces, 'Total potongan'),
+    total_pieces: integer(row.total_pieces, 'Total potongan'),
   }
 }
 
@@ -431,11 +438,11 @@ export function parsePickupSaveResult(value: unknown): PickupSaveResult {
   if (!['ROLL', 'SIZE'].includes(mode)) throw new Error('Mode alokasi pickup tidak valid.')
   return {
     pickup_id: text(row.pickup_id, 'ID pickup'), cutting_group_id: text(row.cutting_group_id, 'ID Potongan'),
-    status: status as PickupSaveResult['status'], row_version: number(row.row_version, 'Versi pickup'),
-    group_row_version: number(row.group_row_version, 'Versi Potongan'), picked_up_at: text(row.picked_up_at, 'Waktu pickup'),
+    status: status as PickupSaveResult['status'], row_version: integer(row.row_version, 'Versi pickup', 1),
+    group_row_version: integer(row.group_row_version, 'Versi Potongan', 1), picked_up_at: text(row.picked_up_at, 'Waktu pickup'),
     contractor_id: text(row.contractor_id, 'ID Mandor'),
     allocation_mode: mode as PickupSaveResult['allocation_mode'],
-    batch_count: number(row.batch_count, 'Jumlah batch'), allocated_pieces: number(row.allocated_pieces, 'Qty terbagi'),
+    batch_count: integer(row.batch_count, 'Jumlah batch'), allocated_pieces: integer(row.allocated_pieces, 'Qty terbagi'),
   }
 }
 
@@ -466,11 +473,11 @@ export function pickupAllocationState(row: PickupQueueRow, matrix: PickupAllocat
   const yields = row.rolls.flatMap((roll) => roll.yields)
   const sourceTotal = yields.reduce((sum, yieldRow) => sum + yieldRow.qty_pcs, 0)
   const allocatedTotal = yields.reduce((sum, yieldRow) =>
-    sum + (matrix[yieldRow.yield_id] ?? []).reduce((batchSum, qty) => batchSum + Math.max(0, Number(qty) || 0), 0), 0)
+    sum + (matrix[yieldRow.yield_id] ?? []).reduce<number>((batchSum, qty) => batchSum + (parseQuantityInput(qty) ?? Number.NaN), 0), 0)
   const exact = yields.every((yieldRow) =>
-    (matrix[yieldRow.yield_id] ?? []).reduce((sum, qty) => sum + Math.max(0, Number(qty) || 0), 0) === yieldRow.qty_pcs)
+    (matrix[yieldRow.yield_id] ?? []).length === batchCount && (matrix[yieldRow.yield_id] ?? []).reduce<number>((sum, qty) => sum + (parseQuantityInput(qty) ?? Number.NaN), 0) === yieldRow.qty_pcs)
   const batchTotals = Array.from({ length: Math.max(1, batchCount) }, (_, batchIndex) => yields.reduce((sum, yieldRow) =>
-    sum + Math.max(0, Number(matrix[yieldRow.yield_id]?.[batchIndex]) || 0), 0))
+    sum + (parseQuantityInput(matrix[yieldRow.yield_id]?.[batchIndex] ?? '') ?? Number.NaN), 0))
   return { sourceTotal, allocatedTotal, exact, batchTotals, everyBatchUsed: batchTotals.every((qty) => qty > 0) }
 }
 
@@ -479,7 +486,7 @@ export function pickupBatchesPayload(matrix: PickupAllocationMatrix, notes: read
     batch_no: batchIndex + 1,
     notes: notes[batchIndex]?.trim() || null,
     allocations: Object.entries(matrix).flatMap(([cutting_roll_yield_id, quantities]) => {
-      const qty_pcs = Math.max(0, Math.floor(Number(quantities[batchIndex]) || 0))
+      const qty_pcs = requireQuantityInput(quantities[batchIndex] ?? '')
       return qty_pcs > 0 ? [{ cutting_roll_yield_id, qty_pcs }] : []
     }),
   }))

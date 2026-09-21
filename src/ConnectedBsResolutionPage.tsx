@@ -8,7 +8,7 @@ import { useAuth } from './auth/AuthProvider'
 import { isConnectedRuntime } from './config/runtime'
 import { SENSITIVE_ACTION_PERMISSION, hasPermission } from './auth/accessCatalog'
 import {
-  bsPatternLabel, cleanBsQuantity, exactReworkCompletion, parseBsMoney, parseBsResolutionWorkspace,
+  bsPatternLabel, exactReworkCompletion, parseBsMoney, parseBsResolutionWorkspace,
   type BsResolutionAction, type BsResolutionRow, type BsResolutionWorkspace,
   type BsWorkspaceFilter, type BsWorkspaceKind, type ReworkOrder,
 } from './bsResolutionModel'
@@ -16,85 +16,20 @@ import ConnectedPatternFilter from './ConnectedPatternFilter'
 import { normalizeClientError } from './lib/clientError'
 import { getUatSupabaseClient } from './lib/supabase'
 import type { Json } from './types/database.preconnect'
+import { useProductionMutation } from './useProductionMutation'
+import type { ProductionEnvelope } from './productionRecovery'
+import { parseQuantityInput } from './quantityInput'
 import './connected-bs-resolution.css'
 
 type RunAction = (
   action: BsResolutionAction, payload: Json, expectedVersion: number | null,
 ) => Promise<boolean>
 type ClaimType = 'STUCK' | 'MISSING' | 'DAMAGE'
-type PendingMutation = {
-  action: BsResolutionAction
-  payload: Json
-  expectedVersion: number | null
-  fingerprint: string
-  id: string
-  createdAt: string
-}
-
-const bsResolutionActions = new Set<BsResolutionAction>([
-  'CREATE_MANUAL_BS', 'CLASSIFY_BS', 'SAVE_REWORK', 'COMPLETE_REWORK',
-  'DISPOSE_BS', 'HOLD_BS', 'RELEASE_HOLD', 'REVERSE_DISPOSITION',
-  'REVERSE_REWORK_COMPLETION', 'SAVE_CLAIM', 'RESOLVE_CLAIM',
-  'REVERSE_CLAIM_RESOLUTION',
-])
-const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
-
-function pendingMutationStorageKey(projectRef: string, appUserId: string) {
-  return `erp.cp5.pending-mutation.v1:${projectRef}:${appUserId}`
-}
-
-function readPendingMutation(key: string): PendingMutation | null {
-  try {
-    const raw = globalThis.localStorage?.getItem(key)
-    if (!raw) return null
-    const candidate = JSON.parse(raw) as Partial<PendingMutation>
-    const expectedVersionValid = candidate.expectedVersion === null
-      || typeof candidate.expectedVersion === 'number' && Number.isSafeInteger(candidate.expectedVersion)
-    if (!candidate.action || !bsResolutionActions.has(candidate.action)
-      || !uuidPattern.test(candidate.id ?? '')
-      || typeof candidate.fingerprint !== 'string'
-      || typeof candidate.createdAt !== 'string'
-      || !expectedVersionValid
-      || candidate.payload === undefined
-      || candidate.fingerprint !== JSON.stringify({
-        action: candidate.action,
-        payload: candidate.payload,
-        expectedVersion: candidate.expectedVersion,
-      })) {
-      globalThis.localStorage?.removeItem(key)
-      return null
-    }
-    return candidate as PendingMutation
-  } catch {
-    return null
-  }
-}
-
-function writePendingMutation(key: string, pending: PendingMutation) {
-  try {
-    const serialized = JSON.stringify(pending)
-    globalThis.localStorage?.setItem(key, serialized)
-    return globalThis.localStorage?.getItem(key) === serialized
-  } catch {
-    return false
-  }
-}
-
-function removePendingMutation(key: string) {
-  try {
-    globalThis.localStorage?.removeItem(key)
-    return globalThis.localStorage?.getItem(key) === null
-  } catch {
-    return false
-  }
-}
-
-function isAmbiguousMutationFailure(error: unknown) {
-  if (error === null || typeof error !== 'object') return true
-  const candidate = error as { code?: unknown; status?: unknown }
-  const code = typeof candidate.code === 'string' ? candidate.code.trim() : ''
-  const status = typeof candidate.status === 'number' ? candidate.status : Number.NaN
-  return code.length === 0 && !Number.isFinite(status)
+function validateBsCommit(data: unknown, envelope: ProductionEnvelope) {
+  if (!data || typeof data !== 'object' || Array.isArray(data)) throw new Error('Respons BS tidak valid')
+  const response = data as Record<string, unknown>
+  if (response.action !== envelope.action || !response.result || typeof response.result !== 'object'
+    || Array.isArray(response.result) || Object.keys(response.result).length === 0) throw new Error('Kontrak hasil BS tidak cocok')
 }
 
 const nowInput = () => {
@@ -102,7 +37,8 @@ const nowInput = () => {
   return new Date(now.getTime() - now.getTimezoneOffset() * 60_000).toISOString().slice(0, 16)
 }
 const toIso = (value: string) => new Date(value).toISOString()
-const qty = (value: string) => Math.max(0, Math.floor(Number(value) || 0))
+const qty = (value: string) => parseQuantityInput(value) ?? Number.NaN
+const showQty = (value: number) => Number.isFinite(value) ? String(value) : '—'
 const money = (value: number) => `Rp${value.toLocaleString('id-ID', { maximumFractionDigits: 2 })}`
 const statusLabel = (status: string) => status.replaceAll('_', ' ')
 
@@ -119,14 +55,14 @@ function CreateManualBs({ workspace, canSubmit, onClose, onAction }: {
   const [componentIds, setComponentIds] = useState<string[]>([])
   const [completedBefore, setCompletedBefore] = useState<Record<string, string>>({})
   const componentQuantitiesValid = componentIds.every((id) => qty(completedBefore[id] ?? '0') <= qty(quantity))
-  const valid = Boolean(legacyReference.trim() && qty(quantity) > 0 && componentQuantitiesValid && physicalAt && reason.trim().length >= 4)
+  const valid = Boolean(legacyReference.trim() && qty(quantity) > 0 && qty(quantity) <= 999_999 && componentQuantitiesValid && physicalAt && reason.trim().length >= 4)
   return <div className="cbsr-modal-layer" role="presentation"><section role="dialog" aria-modal="true" aria-labelledby="manual-bs-title">
     <header><div><span>SUMBER TIDAK TERLACAK</span><h2 id="manual-bs-title">Catat BS legacy / out-of-nowhere</h2><p>Jalur ini wajib menyimpan referensi fisik dan tidak mengarang PO atau Pola.</p></div><button aria-label="Tutup" onClick={onClose}><X/></button></header>
     <div className="cbsr-form-grid">
       <label><span>NOMOR BS · OPSIONAL</span><input value={number} onChange={(event) => setNumber(event.target.value)} placeholder="Otomatis bila kosong"/></label>
       <label><span>REFERENSI LEGACY · WAJIB</span><input value={legacyReference} onChange={(event) => setLegacyReference(event.target.value)} placeholder="Nota / buku / foto fisik"/></label>
       <label><span>PRODUK · OPSIONAL</span><select value={productId} onChange={(event) => setProductId(event.target.value)}><option value="">Belum dapat diidentifikasi</option>{workspace.lookups.products.map((item) => <option value={item.id} key={item.id}>{item.sku} · {item.name}</option>)}</select></label>
-      <label><span>QTY PCS</span><input inputMode="numeric" value={quantity} onChange={(event) => setQuantity(cleanBsQuantity(event.target.value, 999_999))}/></label>
+      <label><span>QTY PCS</span><input inputMode="numeric" aria-invalid={parseQuantityInput(quantity) === null} value={quantity} onChange={(event) => setQuantity(event.target.value)}/></label>
       <label><span>WAKTU FISIK DITEMUKAN</span><input type="datetime-local" value={physicalAt} onChange={(event) => setPhysicalAt(event.target.value)}/></label>
       <label className="wide"><span>ALASAN PENCATATAN · WAJIB</span><input value={reason} onChange={(event) => setReason(event.target.value)} placeholder="Mengapa baru dicatat sekarang?"/></label>
       <label className="wide"><span>CATATAN KONDISI</span><textarea value={notes} onChange={(event) => setNotes(event.target.value)} placeholder="Kondisi barang dan lokasi fisik"/></label>
@@ -141,7 +77,7 @@ function CreateManualBs({ workspace, canSubmit, onClose, onAction }: {
           else delete next[item.id]
           return next
         })
-      }}/><span><strong>{item.code}</strong>{item.name}</span></label>{selected ? <label className="component-before"><span>SUDAH SELESAI</span><input aria-label={`Qty ${item.name} sudah selesai sebelum BS`} inputMode="numeric" value={completedBefore[item.id] ?? '0'} onChange={(event) => setCompletedBefore((current) => ({ ...current, [item.id]: cleanBsQuantity(event.target.value, qty(quantity)) }))}/><small>/ {qty(quantity)} pcs</small></label> : null}</div>
+      }}/><span><strong>{item.code}</strong>{item.name}</span></label>{selected ? <label className="component-before"><span>SUDAH SELESAI</span><input aria-label={`Qty ${item.name} sudah selesai sebelum BS`} inputMode="numeric" value={completedBefore[item.id] ?? '0'} onChange={(event) => setCompletedBefore((current) => ({ ...current, [item.id]: event.target.value }))}/><small>/ {showQty(qty(quantity))} pcs</small></label> : null}</div>
     })}</fieldset>
     <footer><button onClick={onClose}>Batal</button><button className="primary" disabled={!canSubmit || !valid} onClick={async () => {
       const ok = await onAction('CREATE_MANUAL_BS', {
@@ -190,7 +126,7 @@ function CreateClaim({ workspace, canSubmit, onClose, onAction }: {
           ? workspace.lookups.laundry_receipt_sources[0]?.id ?? ''
           : workspace.lookups.laundry_sources.find((item) => item.qty_claimable_pcs > 0)?.id ?? '')
       }}><option>STUCK</option><option>MISSING</option><option>DAMAGE</option></select></label>
-      <label><span>QTY CLAIM · MAKS {maxQuantity}</span><input inputMode="numeric" value={quantity} onChange={(event) => setQuantity(cleanBsQuantity(event.target.value, maxQuantity))}/></label>
+      <label><span>QTY CLAIM · MAKS {maxQuantity}</span><input inputMode="numeric" aria-invalid={parseQuantityInput(quantity) === null} value={quantity} onChange={(event) => setQuantity(event.target.value)}/></label>
       <label><span>NILAI KOMPENSASI</span><input inputMode="decimal" value={compensation} onChange={(event) => setCompensation(event.target.value)} aria-invalid={compensationAmount === null}/>{compensationAmount === null ? <small className="cbsr-field-warning">Masukkan nominal 0–999.999.999 dengan maksimal 2 angka desimal.</small> : null}</label>
       <label><span>WAKTU DIBUKA</span><input type="datetime-local" value={openedAt} onChange={(event) => setOpenedAt(event.target.value)}/></label>
       <label className="wide"><span>ALASAN / BUKTI · WAJIB</span><textarea value={reason} onChange={(event) => setReason(event.target.value)} placeholder="Jelaskan kekurangan, kerusakan, atau barang tertahan"/></label>
@@ -222,6 +158,10 @@ function ClassificationPanel({ row, workspace, canCreate, onAction }: {
     row.components.map((item) => [item.work_component_id, String(item.completed_before_bs_qty)]),
   ))
   const componentsFrozen = row.rework_orders.some((order) => order.components.length > 0)
+  const componentQuantitiesValid = componentsFrozen || componentIds.every((id) => {
+    const value = parseQuantityInput(completedBefore[id] ?? '0', 'COUNT', row.qty_pcs)
+    return value !== null
+  })
   const validOwner = cause === 'UNKNOWN' || (cause === 'SEWING' ? contractorId : vendorId)
   return <details className="cbsr-fold"><summary><span><UserRound/> Klasifikasi & tanggung jawab</span><ChevronRight/></summary><div className="cbsr-fold-body">
     <div className="cbsr-form-grid compact">
@@ -240,9 +180,9 @@ function ClassificationPanel({ row, workspace, canCreate, onAction }: {
           else delete next[item.id]
           return next
         })
-      }}/><span><strong>{item.code}</strong>{item.name}</span></label>{selected ? <label className="component-before"><span>SUDAH SELESAI</span><input aria-label={`Qty ${item.name} sudah selesai sebelum BS`} inputMode="numeric" value={completedBefore[item.id] ?? '0'} onChange={(event) => setCompletedBefore((current) => ({ ...current, [item.id]: cleanBsQuantity(event.target.value, row.qty_pcs) }))}/><small>/ {row.qty_pcs} pcs</small></label> : null}</div>
+      }}/><span><strong>{item.code}</strong>{item.name}</span></label>{selected ? <label className="component-before"><span>SUDAH SELESAI</span><input aria-label={`Qty ${item.name} sudah selesai sebelum BS`} inputMode="numeric" value={completedBefore[item.id] ?? '0'} onChange={(event) => setCompletedBefore((current) => ({ ...current, [item.id]: event.target.value }))}/><small>/ {row.qty_pcs} pcs</small></label> : null}</div>
     })}</fieldset>
-    <button className="cbsr-submit" disabled={!canCreate || row.status === 'ON_HOLD' || row.is_closed || !validOwner || reason.trim().length < 4} onClick={() => void onAction('CLASSIFY_BS', {
+    <button className="cbsr-submit" disabled={!canCreate || row.status === 'ON_HOLD' || row.is_closed || !validOwner || !componentQuantitiesValid || reason.trim().length < 4} onClick={() => void onAction('CLASSIFY_BS', {
       bs_case_id: row.id, cause_source: cause,
       responsible_contractor_id: cause === 'SEWING' ? contractorId : null,
       responsible_vendor_id: cause === 'LAUNDRY' ? vendorId : null,
@@ -273,12 +213,12 @@ function ReworkCompletion({ order, workspace, canCreate, canPost, canReverse, ow
   if (order.status === 'COMPLETED' && order.cost_posted) return <div className="cbsr-rework-complete"><PackageCheck/><span><strong>{order.qty_good_returned} Good · {order.qty_bs_returned} BS</strong><small>Biaya posted {order.good_fg_lot_id ? '· lot FG terbentuk' : '· tanpa Good FG'}</small></span><button disabled={!canReverse || !ownerAdmin || reason.trim().length < 4} onClick={() => void onAction('REVERSE_REWORK_COMPLETION', { rework_order_id: order.id, change_reason: reason.trim() }, order.row_version)}><Undo2/> Reverse</button><input value={reason} onChange={(event) => setReason(event.target.value)} placeholder="Alasan reversal Owner/Admin"/></div>
   if (order.status === 'CANCELLED') return <div className="cbsr-muted">Order dibatalkan; histori tetap dipertahankan.</div>
   return <div className="cbsr-completion-form"><header><span>HASIL KUMULATIF · {previousReturned} MASUK · {order.qty_sent - previousReturned} BELUM KEMBALI</span><strong>{order.rework_number}</strong></header><div>
-    <label><span>GOOD KUMULATIF</span><input inputMode="numeric" value={good} onChange={(event) => setGood(cleanBsQuantity(event.target.value, order.qty_sent))}/></label>
-    <label><span>BS KUMULATIF</span><input inputMode="numeric" value={bad} onChange={(event) => setBad(cleanBsQuantity(event.target.value, order.qty_sent))}/></label>
+    <label><span>GOOD KUMULATIF</span><input inputMode="numeric" aria-invalid={parseQuantityInput(good, 'COUNT', order.qty_sent) === null} value={good} onChange={(event) => setGood(event.target.value)}/></label>
+    <label><span>BS KUMULATIF</span><input inputMode="numeric" aria-invalid={parseQuantityInput(bad, 'COUNT', order.qty_sent) === null} value={bad} onChange={(event) => setBad(event.target.value)}/></label>
     <label><span>WAKTU SELESAI</span><input type="datetime-local" value={completedAt} onChange={(event) => setCompletedAt(event.target.value)}/></label>
     <label><span>GUDANG GOOD FG</span><select value={locationId} disabled={qty(good) === 0} onChange={(event) => setLocationId(event.target.value)}><option value="">Pilih lokasi…</option>{workspace.lookups.fg_locations.map((item) => <option value={item.id} key={item.id}>{item.code} · {item.name}</option>)}</select></label>
     <label className="wide"><span>ALASAN HASIL FISIK</span><input value={reason} onChange={(event) => setReason(event.target.value)} placeholder="Barang yang benar-benar kembali dan hasil pemeriksaannya"/></label>
-  </div><p className="cbsr-partial-note">Simpan partial hanya memperbarui custody/WIP. FG, HPP, reimbursement, dan hutang baru diposting setelah seluruh {order.qty_sent} pcs kembali.</p><footer><span className={exact && cumulative ? 'ok' : 'bad'}>{qty(good)} + {qty(bad)} = {returned} / {order.qty_sent}{!cumulative ? ' · tidak boleh turun' : ''}</span><div>{canCancel ? <button className="danger" disabled={!canCreate || reason.trim().length < 4} onClick={() => {
+  </div><p className="cbsr-partial-note">Simpan partial hanya memperbarui custody/WIP. FG, HPP, reimbursement, dan hutang baru diposting setelah seluruh {order.qty_sent} pcs kembali.</p><footer><span className={exact && cumulative ? 'ok' : 'bad'}>{showQty(qty(good))} + {showQty(qty(bad))} = {showQty(returned)} / {order.qty_sent}{!cumulative ? ' · tidak boleh turun' : ''}</span><div>{canCancel ? <button className="danger" disabled={!canCreate || reason.trim().length < 4} onClick={() => {
     if (!globalThis.confirm(`Batalkan ${order.rework_number}? Histori order tetap disimpan sebagai CANCELLED.`)) return
     void onAction('SAVE_REWORK', { id: order.id, action: 'CANCEL', change_reason: reason.trim() }, order.row_version)
   }}><X/> Batalkan order</button> : null}{newPartial ? <button disabled={!canCreate || qty(good) > 0 && !locationId || reason.trim().length < 4} onClick={() => void onAction('SAVE_REWORK', {
@@ -321,7 +261,8 @@ function BsActionPanel({ row, workspace, canCreate, canPost, canReverse, ownerAd
   ))
   const selectedClaim = settledClaims.find((item) => item.id === claimId)
   const compensationAmount = parseBsMoney(compensation, selectedClaim?.available_amount ?? 0)
-  const sendQty = Math.min(row.available_qty, qty(quantity))
+  const sendQty = qty(quantity)
+  const validSendQty = Number.isSafeInteger(sendQty) && sendQty > 0 && sendQty <= row.available_qty
   const routeOptions = [
     ['REWORK', 'Rework', Wrench], ['REWASH', 'Rewash', Waves], ['HOLD', 'Hold', Clock3],
     ['DISPOSITION', 'Scrap / write-off', ArchiveX], ['COMPENSATION', 'Kompensasi', CircleDollarSign],
@@ -332,13 +273,13 @@ function BsActionPanel({ row, workspace, canCreate, canPost, canReverse, ownerAd
     {(route === 'REWORK' || route === 'REWASH') ? <div className="cbsr-route-form"><div className="cbsr-form-grid compact">
       <label><span>NOMOR ORDER · WAJIB</span><input value={number} onChange={(event) => setNumber(event.target.value)} placeholder={route === 'REWORK' ? `RW-${row.number}` : `RWL-${row.number}`}/></label>
       <label><span>{route === 'REWORK' ? 'MANDOR REWORK' : 'VENDOR REWASH'}</span><select value={partyId} onChange={(event) => setPartyId(event.target.value)}><option value="">Pilih…</option>{(route === 'REWORK' ? workspace.lookups.contractors : workspace.lookups.vendors).map((item) => <option value={item.id} key={item.id}>{item.code} · {item.name}</option>)}</select></label>
-      <label><span>QTY DIKIRIM</span><input inputMode="numeric" value={quantity} onChange={(event) => setQuantity(cleanBsQuantity(event.target.value, row.available_qty))}/></label>
+      <label><span>QTY DIKIRIM</span><input inputMode="numeric" aria-invalid={parseQuantityInput(quantity) === null} value={quantity} onChange={(event) => setQuantity(event.target.value)}/></label>
       <label><span>WAKTU FISIK</span><input type="datetime-local" value={physicalAt} onChange={(event) => setPhysicalAt(event.target.value)}/></label>
       <label><span>GUDANG FG BILA GOOD</span><select value={locationId} onChange={(event) => setLocationId(event.target.value)}><option value="">Pilih saat completion</option>{workspace.lookups.fg_locations.map((item) => <option value={item.id} key={item.id}>{item.code} · {item.name}</option>)}</select></label>
       <label className="wide"><span>CATATAN / ALASAN</span><textarea value={reason} onChange={(event) => setReason(event.target.value)} placeholder="Kerusakan dan instruksi fisik"/></label>
     </div>{route === 'REWORK' ? <fieldset className="cbsr-checks"><legend>KOMPONEN KERJA YANG DIULANG · DASAR UPAH REWORK</legend><p>Server hanya mencentang komponen yang masih punya entitlement kerja baru. Counter, bukan status pembayaran kas, menjadi batas anti-bayar-ganda.</p>{row.components.map((item) => <label key={item.id}><input type="checkbox" checked={componentIds.includes(item.id)} onChange={(event) => setComponentIds((current) => event.target.checked ? [...current, item.id] : current.filter((id) => id !== item.id))}/><span><strong>{item.code}</strong>{item.name} · sisa hak baru {item.remaining_new_work_qty_pcs} pcs</span></label>)}</fieldset> : <p className="cbsr-zero-fee"><Waves/> Vendor Rewash tidak mendapat fee kerja komponen. Reimbursement aksesori terpilih tetap menuju Mandor PO.</p>}
     {accessoryBom?.state === 'AVAILABLE' ? <fieldset className="cbsr-checks cbsr-accessories"><legend>AKSESORI YANG BENAR-BENAR DIPASANG · DASAR REIMBURSEMENT</legend><p>Server otomatis mencentang baseline yang belum menjadi entitlement. Yang pernah menjadi entitlement atau tidak bisa dibuktikan akan off; centang manual hanya bila benar-benar ada penggantian tambahan. Pilihan final terkunci saat order dibuat.</p>{accessoryBom.items.map((item) => <label key={item.id}><input type="checkbox" checked={accessoryIds.includes(item.id)} onChange={(event) => setAccessoryIds((current) => event.target.checked ? [...current, item.id] : current.filter((id) => id !== item.id))}/><span><strong>{item.code} · {item.name}</strong>{item.qty_per_good_fg_base} {item.base_uom_code}/pcs · {money(item.reimbursement_rate)}/{item.reimbursement_uom_code} · {item.default_selected ? `${item.remaining_unentitled_good_qty_pcs} pcs baseline belum entitlement` : 'default off · manual bila penggantian nyata'}</span></label>)}</fieldset> : accessoryBom?.state === 'NONE' ? <p className="cbsr-zero-fee"><Check/> BOM produk menyatakan tanpa aksesori. Keputusan kosong tetap disimpan secara immutable.</p> : <p className={nativeBomMissing ? 'cbsr-bom-warning' : 'cbsr-zero-fee'}><AlertTriangle/> {nativeBomMissing ? 'BOM aksesori produk belum tersedia. Setup BOM—termasuk BOM kosong—sebelum membuat order.' : 'Kasus legacy ini tidak punya PO/SKU; pilihan aksesori kosong akan dicatat sebagai UNAVAILABLE dan hasil GOOD tetap tidak dapat diposting.'}</p>}
-    <button className="cbsr-submit" disabled={!canCreate || !canStart || nativeBomMissing || !number.trim() || !partyId || sendQty <= 0 || !physicalAt || reason.trim().length < 4 || route === 'REWORK' && componentIds.length === 0} onClick={() => void onAction('SAVE_REWORK', {
+    <button className="cbsr-submit" disabled={!canCreate || !canStart || nativeBomMissing || !number.trim() || !partyId || !validSendQty || !physicalAt || reason.trim().length < 4 || route === 'REWORK' && componentIds.length === 0} onClick={() => void onAction('SAVE_REWORK', {
       rework_number: number.trim(),
       bs_case_id: row.id, destination_type: route === 'REWORK' ? 'CONTRACTOR' : 'LAUNDRY',
       contractor_id: route === 'REWORK' ? partyId : null, vendor_id: route === 'REWASH' ? partyId : null,
@@ -350,11 +291,11 @@ function BsActionPanel({ row, workspace, canCreate, canPost, canReverse, ownerAd
     }, null)}><Wrench/> Buat order {route === 'REWORK' ? 'rework' : 'rewash'}</button></div> : null}
     {(route === 'DISPOSITION' || route === 'COMPENSATION') ? <div className="cbsr-route-form"><div className="cbsr-form-grid compact">
       {route === 'DISPOSITION' ? <label><span>DISPOSITION</span><select value={resolutionType} onChange={(event) => setResolutionType(event.target.value)}><option>SCRAP</option><option>WRITE_OFF</option><option>OTHER</option></select></label> : <label><span>CLAIM SETTLED · SALDO TERSEDIA</span><select value={claimId} onChange={(event) => { setClaimId(event.target.value); setQuantity(''); setCompensation('0') }}><option value="">Pilih claim…</option>{settledClaims.map((item) => <option value={item.id} key={item.id}>{item.number} · {item.vendor_name} · {item.available_qty} pcs / {money(item.available_amount)}</option>)}</select>{settledClaims.length === 0 ? <small className="cbsr-field-warning">Klasifikasikan vendor penanggung jawab dan settle claim bernilai positif yang masih bersaldo.</small> : null}</label>}
-      <label><span>QTY{selectedClaim ? ` · MAKS ${Math.min(row.available_qty, selectedClaim.available_qty)}` : ''}</span><input inputMode="numeric" value={quantity} onChange={(event) => setQuantity(cleanBsQuantity(event.target.value, route === 'COMPENSATION' ? Math.min(row.available_qty, selectedClaim?.available_qty ?? 0) : row.available_qty))}/></label>
+      <label><span>QTY{selectedClaim ? ` · MAKS ${Math.min(row.available_qty, selectedClaim.available_qty)}` : ''}</span><input inputMode="numeric" aria-invalid={parseQuantityInput(quantity) === null} value={quantity} onChange={(event) => setQuantity(event.target.value)}/></label>
       {route === 'COMPENSATION' ? <label><span>NILAI DIPAKAI · MAKS {money(selectedClaim?.available_amount ?? 0)}</span><input inputMode="decimal" value={compensation} onChange={(event) => setCompensation(event.target.value)} aria-invalid={compensationAmount === null}/>{compensationAmount === null ? <small className="cbsr-field-warning">Nominal harus sesuai saldo tersedia, maksimal 2 angka desimal.</small> : null}</label> : null}
       <label><span>WAKTU FISIK</span><input type="datetime-local" value={physicalAt} onChange={(event) => setPhysicalAt(event.target.value)}/></label>
       <label className="wide"><span>ALASAN · WAJIB</span><textarea value={reason} onChange={(event) => setReason(event.target.value)}/></label>
-    </div><button className="cbsr-submit danger" disabled={!canPost || !canStart || sendQty <= 0 || !physicalAt || reason.trim().length < 4 || route === 'COMPENSATION' && (!selectedClaim || sendQty > selectedClaim.available_qty || compensationAmount === null || compensationAmount <= 0)} onClick={() => void onAction('DISPOSE_BS', {
+    </div><button className="cbsr-submit danger" disabled={!canPost || !canStart || !validSendQty || !physicalAt || reason.trim().length < 4 || route === 'COMPENSATION' && (!selectedClaim || sendQty > selectedClaim.available_qty || compensationAmount === null || compensationAmount <= 0)} onClick={() => void onAction('DISPOSE_BS', {
       bs_case_id: row.id, resolution_type: route === 'COMPENSATION' ? 'CASH_COMPENSATION' : resolutionType,
       qty_pcs: sendQty, compensation_amount: route === 'COMPENSATION' ? compensationAmount : 0,
       source_laundry_claim_id: route === 'COMPENSATION' ? claimId : null,
@@ -405,7 +346,9 @@ export default function ConnectedBsResolutionPage() {
   const canPost = hasPermission(access, SENSITIVE_ACTION_PERMISSION.postBsResolution)
   const canReverse = hasPermission(access, SENSITIVE_ACTION_PERMISSION.reverseBsResolution)
   const ownerAdmin = Boolean(access && ['OWNER', 'ADMIN'].includes(access.profile.role))
-  const pendingStorageKey = pendingMutationStorageKey(runtime.projectRef, access?.profile.id ?? 'UNAUTHORIZED')
+  const mutation = useProductionMutation('BS')
+  const { beginRead, finishRead, run, reconcile: reconcileMutation } = mutation
+  const { busy, pending: pendingMutation, workspaceStale } = mutation
   const [filter, setFilter] = useState<BsWorkspaceFilter>('ACTIVE')
   const [kind, setKind] = useState<BsWorkspaceKind>('ALL')
   const [patternId, setPatternId] = useState('')
@@ -414,40 +357,18 @@ export default function ConnectedBsResolutionPage() {
   const [workspace, setWorkspace] = useState<BsResolutionWorkspace | null>(null)
   const [selectedKey, setSelectedKey] = useState('')
   const [loading, setLoading] = useState(true)
-  const [busy, setBusy] = useState(false)
-  const busyRef = useRef(false)
-  const [pendingMutation, setPendingMutation] = useState<PendingMutation | null>(() => (
-    readPendingMutation(pendingStorageKey)
-  ))
-  const pendingMutationRef = useRef<PendingMutation | null>(pendingMutation)
   const loadRequestRef = useRef(0)
   const viewRef = useRef({ filter, kind, patternId, query })
   viewRef.current = { filter, kind, patternId, query }
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
-  const [workspaceStale, setWorkspaceStale] = useState(Boolean(pendingMutation))
   const [createMode, setCreateMode] = useState<'BS' | 'CLAIM' | null>(null)
-
-  useEffect(() => {
-    const restored = readPendingMutation(pendingStorageKey)
-    pendingMutationRef.current = restored
-    setPendingMutation(restored)
-    if (restored) setWorkspaceStale(true)
-  }, [pendingStorageKey])
-
-  const clearPendingMutation = useCallback(() => {
-    const cleared = removePendingMutation(pendingStorageKey)
-    if (cleared) {
-      pendingMutationRef.current = null
-      setPendingMutation(null)
-    }
-    return cleared
-  }, [pendingStorageKey])
 
   const load = useCallback(async (
     nextFilter = filter, nextKind = kind, nextPattern = patternId, nextQuery = query,
     nextOffset = offset,
   ) => {
+    const ticket = beginRead()
     const requestId = ++loadRequestRef.current
     setLoading(true); setError('')
     try {
@@ -463,10 +384,9 @@ export default function ConnectedBsResolutionPage() {
       try {
         const parsed = parseBsResolutionWorkspace(data)
         setWorkspace(parsed)
-        setWorkspaceStale(pendingMutationRef.current !== null)
         setOffset(parsed.offset)
         setSelectedKey((current) => parsed.rows.some((row) => row.case_key === current) ? current : parsed.rows[0]?.case_key ?? '')
-        return true
+        return finishRead(ticket)
       } catch (parseError) { setError(parseError instanceof Error ? parseError.message : String(parseError)); return false }
     } catch (loadFailure) {
       if (requestId === loadRequestRef.current) setError(normalizeClientError(loadFailure).message)
@@ -474,147 +394,30 @@ export default function ConnectedBsResolutionPage() {
     } finally {
       if (requestId === loadRequestRef.current) setLoading(false)
     }
-  }, [client, filter, kind, offset, patternId, query])
+  }, [beginRead, finishRead, client, filter, kind, offset, patternId, query])
 
-  useEffect(() => { void load() }, []) // eslint-disable-line react-hooks/exhaustive-deps
-  const runAction: RunAction = useCallback(async (action, payload, expectedVersion) => {
-    if (busyRef.current) return false
-    if (pendingMutationRef.current) {
-      setError('Hasil transaksi sebelumnya belum diketahui. Reconcile transaksi itu dengan UUID yang sama sebelum aksi baru.')
-      return false
-    }
-    if (workspaceStale) {
-      setError('Workspace belum authoritative. Refetch wajib berhasil sebelum aksi lain dijalankan.')
-      return false
-    }
-    busyRef.current = true
-    setBusy(true); setError(''); setNotice('')
-    try {
-      const canonicalPayload = JSON.parse(JSON.stringify(payload)) as Json
-      const fingerprint = JSON.stringify({ action, payload: canonicalPayload, expectedVersion })
-      const pending: PendingMutation = {
-        action, payload: canonicalPayload, expectedVersion, fingerprint,
-        id: globalThis.crypto.randomUUID(), createdAt: new Date().toISOString(),
-      }
-      if (!writePendingMutation(pendingStorageKey, pending)) {
-        setError('Browser gagal menyimpan recovery envelope. Transaksi tidak dikirim agar tidak berisiko dobel.')
-        return false
-      }
-      pendingMutationRef.current = pending
-      setPendingMutation(pending)
-      let actionResult: { data: unknown; error: unknown }
-      try {
-        actionResult = await client.rpc('erp_save_bs_resolution_action_v1', {
-          p_action: pending.action, p_payload: pending.payload, p_client_request_id: pending.id,
-          p_expected_version: pending.expectedVersion,
-        })
-      } catch (transportFailure) {
-        setWorkspaceStale(true)
-        setCreateMode(null)
-        setError(`Respons transaksi hilang: ${normalizeClientError(transportFailure).message} Gunakan Reconcile transaksi; jangan buat request baru.`)
-        return false
-      }
-      if (actionResult.error || actionResult.data === null || actionResult.data === undefined) {
-        const actionFailure = actionResult.error ?? new Error('Mutation response has no authoritative body')
-        if (isAmbiguousMutationFailure(actionFailure)) {
-          setWorkspaceStale(true)
-          setCreateMode(null)
-          setError(`Respons transaksi tidak memastikan commit: ${normalizeClientError(actionFailure).message} Gunakan Reconcile transaksi; jangan buat request baru.`)
-          return false
-        }
-        if (clearPendingMutation()) {
-          setError(normalizeClientError(actionFailure).message)
-        } else {
-          setWorkspaceStale(true)
-          setError(`Server memastikan transaksi ditolak, tetapi recovery envelope browser gagal dibersihkan. Writer tetap terkunci: ${normalizeClientError(actionFailure).message}`)
-        }
-        return false
-      }
-      if (action === 'CREATE_MANUAL_BS' || action === 'SAVE_CLAIM') setCreateMode(null)
-      const recoveryEnvelopeCleared = clearPendingMutation()
-      setWorkspaceStale(true)
-      const currentView = viewRef.current
-      const refetched = await load(currentView.filter, currentView.kind, currentView.patternId, currentView.query, 0)
-      if (refetched && recoveryEnvelopeCleared) setNotice(`${statusLabel(action)} tersimpan. Workspace authoritative sudah dimuat ulang.`)
-      else if (refetched) {
-        pendingMutationRef.current = pending
-        setPendingMutation(pending)
-        setWorkspaceStale(true)
-        setError('Aksi tersimpan dan state sudah authoritative, tetapi recovery envelope browser gagal dibersihkan. Reconcile ulang dengan UUID lama sebelum writer dibuka.')
-      }
-      else setError('Aksi sudah tersimpan, tetapi refresh authoritative gagal. Jangan ulangi aksi. Semua writer dibekukan sampai Refetch berhasil.')
-      return refetched && recoveryEnvelopeCleared
-    } catch (unexpectedFailure) {
-      if (pendingMutationRef.current) setWorkspaceStale(true)
-      setError(normalizeClientError(unexpectedFailure).message)
-      return false
-    } finally {
-      busyRef.current = false
-      setBusy(false)
-    }
-  }, [clearPendingMutation, client, load, pendingStorageKey, workspaceStale])
-
-  const reconcilePendingMutation = useCallback(async () => {
-    if (busyRef.current) return
-    const pending = pendingMutationRef.current
-    if (!pending) {
-      setError('Tidak ada transaksi ambigu yang perlu direconcile.')
-      return
-    }
-    busyRef.current = true
-    setBusy(true); setError(''); setNotice('')
-    try {
-      let actionResult: { data: unknown; error: unknown }
-      try {
-        actionResult = await client.rpc('erp_save_bs_resolution_action_v1', {
-          p_action: pending.action, p_payload: pending.payload, p_client_request_id: pending.id,
-          p_expected_version: pending.expectedVersion,
-        })
-      } catch (transportFailure) {
-        setWorkspaceStale(true)
-        setError(`Reconcile belum memperoleh jawaban: ${normalizeClientError(transportFailure).message} UUID lama tetap dikunci.`)
-        return
-      }
-      if (actionResult.error || actionResult.data === null || actionResult.data === undefined) {
-        const actionFailure = actionResult.error ?? new Error('Reconcile response has no authoritative body')
-        if (isAmbiguousMutationFailure(actionFailure)) {
-          setWorkspaceStale(true)
-          setError(`Reconcile masih ambigu: ${normalizeClientError(actionFailure).message} UUID lama tetap dikunci.`)
-          return
-        }
-        const recoveryEnvelopeCleared = clearPendingMutation()
-        setWorkspaceStale(true)
-        const currentView = viewRef.current
-        const refetched = await load(currentView.filter, currentView.kind, currentView.patternId, currentView.query, 0)
-        setError(!recoveryEnvelopeCleared
-          ? `Server memastikan transaksi lama ditolak, tetapi recovery envelope browser gagal dibersihkan. Writer tetap terkunci: ${normalizeClientError(actionFailure).message}`
-          : refetched
-            ? `Server memastikan transaksi lama ditolak: ${normalizeClientError(actionFailure).message}`
-            : `Server memastikan transaksi lama ditolak, tetapi refetch authoritative gagal: ${normalizeClientError(actionFailure).message}`)
-        return
-      }
-      const recoveryEnvelopeCleared = clearPendingMutation()
-      setWorkspaceStale(true)
-      const currentView = viewRef.current
-      const refetched = await load(currentView.filter, currentView.kind, currentView.patternId, currentView.query, 0)
-      if (refetched && recoveryEnvelopeCleared) {
-        setNotice(`${statusLabel(pending.action)} sudah direconcile dengan UUID lama; workspace authoritative dimuat ulang.`)
-      } else if (refetched) {
-        setError('Transaksi lama sudah direconcile, tetapi recovery envelope browser gagal dibersihkan. Writer tetap ditutup demi keselamatan.')
-        pendingMutationRef.current = pending
-        setPendingMutation(pending)
-        setWorkspaceStale(true)
-      } else {
-        setError('Transaksi lama sudah direconcile, tetapi refresh authoritative gagal. Writer tetap terkunci sampai Refetch berhasil.')
-      }
-    } catch (unexpectedFailure) {
-      setWorkspaceStale(true)
-      setError(`Reconcile gagal sebelum hasil dapat dipastikan: ${normalizeClientError(unexpectedFailure).message}`)
-    } finally {
-      busyRef.current = false
-      setBusy(false)
-    }
-  }, [clearPendingMutation, client, load])
+  useEffect(() => {
+    void load()
+    return () => { loadRequestRef.current += 1 }
+  }, [mutation.scope]) // eslint-disable-line react-hooks/exhaustive-deps
+  const sendExact = useCallback((envelope: ProductionEnvelope) => client.rpc('erp_save_bs_resolution_action_v1', {
+    p_action: envelope.action, p_payload: envelope.payload, p_client_request_id: envelope.id,
+    p_expected_version: envelope.expectedVersion,
+  }), [client])
+  const reload = () => {
+    const view = viewRef.current
+    return load(view.filter, view.kind, view.patternId, view.query, 0)
+  }
+  const runAction: RunAction = async (action, payload, expectedVersion) => {
+    setError(''); setNotice('')
+    return run(action, payload, expectedVersion, {
+      send: sendExact, validate: validateBsCommit, reload,
+      retire: () => setCreateMode(null),
+    })
+  }
+  const reconcilePendingMutation = () => reconcileMutation({
+    send: sendExact, validate: validateBsCommit, reload, retire: () => setCreateMode(null),
+  })
 
   const rows = workspace?.rows ?? []
   const selected = rows.find((row) => row.case_key === selectedKey) ?? rows[0]
@@ -624,9 +427,9 @@ export default function ConnectedBsResolutionPage() {
   ))
   const canPageBack = offset > 0
   const canPageForward = Boolean(workspace && offset + workspace.rows.length < workspace.total)
-  const effectiveCanCreate = canCreate && !workspaceStale && !pendingMutation
-  const effectiveCanPost = canPost && !workspaceStale && !pendingMutation
-  const effectiveCanReverse = canReverse && !workspaceStale && !pendingMutation
+  const effectiveCanCreate = canCreate && !mutation.writerLocked
+  const effectiveCanPost = canPost && !mutation.writerLocked
+  const effectiveCanReverse = canReverse && !mutation.writerLocked
   const selectedContractKey = selected ? [
     selected.case_key, selected.row_version, selected.status, selected.available_qty,
     selected.accessory_bom?.bom_version_id ?? 'NO_BOM',
@@ -638,11 +441,13 @@ export default function ConnectedBsResolutionPage() {
     )).join(','),
     selected.rework_orders.map((order) => `${order.id}.${order.row_version}`).join(','),
   ].join(':') : ''
+  const visibleError = mutation.error || (mutation.corruptedEnvelope ? mutation.blockReason : error || mutation.blockReason)
+  const visibleNotice = notice || mutation.notice
   return <section className="connected-bs-resolution-page">
     <header className="cbsr-hero"><div><span>CP5 · AUTHORITATIVE RECOVERY</span><h1>Barang BS & Rework</h1><p>Resolve fisik, biaya, FG, dan claim dari satu lineage; browser tidak menulis tabel atau jurnal langsung.</p></div><div><button disabled={!effectiveCanCreate || !hasClaimSource} title={hasClaimSource ? 'Buat claim dari sumber fisik Laundry' : 'Belum ada surat kirim atau penerimaan BS yang dapat dijadikan sumber'} onClick={() => setCreateMode('CLAIM')}><Plus/> Claim Laundry</button><button className="primary" disabled={!effectiveCanCreate || !workspace} onClick={() => setCreateMode('BS')}><Plus/> BS legacy</button><button disabled={loading} onClick={() => void load()}><RefreshCw/> Refetch</button></div></header>
     <div className="cbsr-boundary"><ShieldCheck/><strong>UAT BACKEND CONNECTED</strong><span>Rework, rewash, HOLD, disposition, claim, HPP, dan reversal memakai fungsi kanonik server.</span></div>
-    {error ? <div className="cbsr-alert error" role="alert"><AlertTriangle/><span>{error}</span><button onClick={() => setError('')}><X/></button></div> : null}
-    {notice ? <div className="cbsr-alert notice"><Check/><span>{notice}</span><button onClick={() => setNotice('')}><X/></button></div> : null}
+    {visibleError ? <div className="cbsr-alert error" role="alert"><AlertTriangle/><span>{visibleError}</span><button onClick={() => setError('')}><X/></button></div> : null}
+    {visibleNotice ? <div className="cbsr-alert notice"><Check/><span>{visibleNotice}</span><button onClick={() => setNotice('')}><X/></button></div> : null}
     {pendingMutation ? <div className="cbsr-alert error" role="alert"><AlertTriangle/><span>Hasil transaksi belum diketahui. Seluruh writer terkunci, termasuk setelah reload. Reconcile mengirim ulang amplop persis dengan UUID lama lalu memuat state authoritative.</span><button className="cbsr-reconcile" disabled={busy} onClick={() => void reconcilePendingMutation()}><RotateCcw/> Reconcile transaksi</button></div> : null}
     {workspaceStale && !pendingMutation ? <div className="cbsr-alert error" role="alert"><AlertTriangle/><span>State layar stale setelah mutasi tersimpan. Jangan ulangi aksi; seluruh writer terkunci sampai Refetch authoritative berhasil.</span></div> : null}
     {busy ? <div className="cbsr-busy"><LoaderCircle className="spin"/> Mengunci transaksi dan memuat ulang state…</div> : null}

@@ -515,6 +515,12 @@ try {
     frontendHead:report.frontend_head,frontendTree:report.frontend_tree,
     backendHead:report.backend_head,backendTree:report.backend_tree})
   report.independent_gap_report={file:'INDEPENDENT_UI_GAPS.json',status:independentResult.status}
+  stage('FRONTEND_RECOVERY_FAMILY')
+  const recovery=await import('./cp6_frontend_recovery_ui.mjs')
+  const recoveryResult=await recovery.runFrontendRecovery({query,reportDir,owner,session,secrets,pageFor,
+    frontendHead:report.frontend_head,frontendTree:report.frontend_tree})
+  assert.equal(recoveryResult.status,'WRITER_PASS')
+  report.frontend_recovery={file:'FRONTEND_RECOVERY.json',status:recoveryResult.status,cases:recoveryResult.cases.length}
 }catch(error){
   failure=error
   let message=String(error.stack||error)

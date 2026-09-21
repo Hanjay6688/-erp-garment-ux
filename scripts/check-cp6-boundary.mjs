@@ -1,3 +1,4 @@
+import './check-production-recovery.mjs'
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
@@ -193,7 +194,7 @@ assert.deepEqual(literals(backendActionBlock[1]), expectedActions, 'CP6 backend 
 const modelActionBlock = model.match(/export type LaundryQcAction\s*=([\s\S]*?)\n\n/)
 assert.ok(modelActionBlock, 'CP6 frontend action type not found')
 assert.deepEqual(literals(modelActionBlock[1]), expectedActions, 'CP6 frontend/backend action vocabulary differs')
-const hookActionBlock = hook.match(/const actions = new Set<LaundryQcAction>\(\[([\s\S]*?)\]\)/)
+const hookActionBlock = read('src/productionRecovery.ts').match(/LAUNDRY_QC: \[([\s\S]*?)\]/)
 assert.ok(hookActionBlock, 'CP6 persisted-envelope action allowlist not found')
 assert.deepEqual(literals(hookActionBlock[1]), expectedActions, 'CP6 envelope/backend action vocabulary differs')
 assert.equal(expectedActions.includes('OTHER'), false, 'Free-form OTHER may not enter conserved Laundry actions')
@@ -515,18 +516,9 @@ assert.deepEqual([...new Set(rpcNames)].sort(), [
 ], 'CP6 browser boundary must use exactly four reviewed public RPC facades')
 assert.equal(rpcNames.filter((name) => name === 'erp_save_laundry_qc_action_v1').length, 1,
   'CP6 mutations must share one exact-envelope send path')
-for (const token of [
-  'globalThis.localStorage?.setItem', 'globalThis.localStorage?.getItem(key) === serialized',
-  'globalThis.crypto.randomUUID()', 'isExactCommittedResponse',
-  'candidate.fingerprint !== fingerprint', 'busyRef.current', 'workspaceStale',
-  'workspaceReadyRef.current = false', '!workspaceReadyRef.current',
-  'committedRefreshRequired', 'retireCommittedForm()', 'globalThis.navigator?.locks',
-  "mode: 'exclusive', ifAvailable: true", "globalThis.addEventListener('storage'",
-  'erp.cp6.pending-mutation.v1:', 'preserveExactPending',
-  'Reconcile wajib memakai UUID/payload yang sama',
-]) assert.ok(hook.includes(token), `CP6 UI reliability lifecycle missing: ${token}`)
-assert.doesNotMatch(hook, /erp\.cp6\.\$\{scope\.toLowerCase\(\)\}\.pending-mutation/,
-  'CP6 pending envelope is scope-local and can be overwritten across Laundry/QC tabs')
+for (const token of ["useProductionMutation('LAUNDRY_QC')", 'validateCommitted', 'committedRefreshRequired', 'retireCommittedForm()', 'send: sendExact']) {
+  assert.ok(hook.includes(token), `CP6 UI shared reliability lifecycle missing: ${token}`)
+}
 for (const token of [
   'reconciles an ambiguous response with the exact same UUID, payload, and version',
   'retires a committed form and keeps it dead after refetch failure then recovery',

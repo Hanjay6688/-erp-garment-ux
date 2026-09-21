@@ -1,0 +1,180 @@
+{
+  "status": "ORIGINAL_FRONTEND_COUNTEREXAMPLES",
+  "candidate": "aeda44756e5302568677514a52713e123145bf40",
+  "tree": "86341797587d7adaf02e4c87b1fc34e9a149e0a8",
+  "classification": "WRITER_DOM_AND_PARSER_NOT_DATABASE",
+  "original_runtime_modified": false,
+  "backend_duplicate_effect_proven": false,
+  "total": 33,
+  "passed": 14,
+  "failed": 19,
+  "original_report_sha256": "b4559bf76cd8e3c09938a737e17ad826f1948b5c6900d90658b5c6554424b873",
+  "cases": [
+    {
+      "file": "ConnectedBsResolutionPage.dom.test.tsx",
+      "id": "preserves claim money 14.25 at the actual form-to-RPC boundary",
+      "status": "passed"
+    },
+    {
+      "file": "ConnectedBsResolutionPage.dom.test.tsx",
+      "id": "preserves claim money 0,25 at the actual form-to-RPC boundary",
+      "status": "passed"
+    },
+    {
+      "file": "ConnectedBsResolutionPage.dom.test.tsx",
+      "id": "uses the entire settled compensation balance of 14.25 without integer rounding",
+      "status": "passed"
+    },
+    {
+      "file": "ConnectedBsResolutionPage.dom.test.tsx",
+      "id": "uses the entire settled compensation balance of 0.25 without integer rounding",
+      "status": "passed"
+    },
+    {
+      "file": "ConnectedBsResolutionPage.dom.test.tsx",
+      "id": "keeps Pattern empty state authoritative and blocks a same-frame double mutation",
+      "status": "passed"
+    },
+    {
+      "file": "ConnectedBsResolutionPage.dom.test.tsx",
+      "id": "defaults only server-proven unpaid items and sends exactly the checked set",
+      "status": "passed"
+    },
+    {
+      "file": "ConnectedBsResolutionPage.dom.test.tsx",
+      "id": "allows an explicit real replacement without silently checking a prior entitlement",
+      "status": "passed"
+    },
+    {
+      "file": "ConnectedBsResolutionPage.dom.test.tsx",
+      "id": "discards local checkbox edits after mutation and remounts the authoritative refetched contract",
+      "status": "passed"
+    },
+    {
+      "file": "ConnectedBsResolutionPage.dom.test.tsx",
+      "id": "retires a committed claim form permanently when its authoritative refetch fails",
+      "status": "passed"
+    },
+    {
+      "file": "ConnectedBsResolutionPage.dom.test.tsx",
+      "id": "retires a committed manual BS form permanently when its authoritative refetch fails",
+      "status": "passed"
+    },
+    {
+      "file": "ConnectedBsResolutionPage.dom.test.tsx",
+      "id": "saves cumulative partial returns without calling the completion action",
+      "status": "passed"
+    },
+    {
+      "file": "ConnectedBsResolutionPage.dom.test.tsx",
+      "id": "renders view-only access without executable CP5 controls",
+      "status": "passed"
+    },
+    {
+      "file": "ConnectedBsResolutionPage.dom.test.tsx",
+      "id": "persists an uncertain envelope {} across reload and reconciles only the exact old UUID and payload",
+      "status": "passed"
+    },
+    {
+      "file": "ConnectedBsResolutionPage.dom.test.tsx",
+      "id": "persists an uncertain envelope {\"status\":503} across reload and reconciles only the exact old UUID and payload",
+      "status": "failed"
+    },
+    {
+      "file": "ConnectedBsResolutionPage.dom.test.tsx",
+      "id": "persists an uncertain envelope {\"status\":408} across reload and reconciles only the exact old UUID and payload",
+      "status": "failed"
+    },
+    {
+      "file": "ConnectedBsResolutionPage.dom.test.tsx",
+      "id": "persists an uncertain envelope {\"status\":429} across reload and reconciles only the exact old UUID and payload",
+      "status": "failed"
+    },
+    {
+      "file": "ConnectedBsResolutionPage.dom.test.tsx",
+      "id": "persists an uncertain envelope {\"code\":\"PGRST000\"} across reload and reconciles only the exact old UUID and payload",
+      "status": "failed"
+    },
+    {
+      "file": "ConnectedBsResolutionPage.dom.test.tsx",
+      "id": "persists an uncertain envelope {\"code\":\"08006\"} across reload and reconciles only the exact old UUID and payload",
+      "status": "failed"
+    },
+    {
+      "file": "ConnectedBsResolutionPage.dom.test.tsx",
+      "id": "persists an uncertain envelope {\"code\":\"57P01\"} across reload and reconciles only the exact old UUID and payload",
+      "status": "failed"
+    },
+    {
+      "file": "ConnectedWipStatusPage.test.ts",
+      "id": "accepts real zero quantities and legacy nullable Pattern/distribution",
+      "status": "passed"
+    },
+    {
+      "file": "ConnectedWipStatusPage.test.ts",
+      "id": "rejects invalid COUNT not-a-number",
+      "status": "failed"
+    },
+    {
+      "file": "ConnectedWipStatusPage.test.ts",
+      "id": "rejects invalid COUNT null",
+      "status": "failed"
+    },
+    {
+      "file": "ConnectedWipStatusPage.test.ts",
+      "id": "rejects invalid COUNT undefined",
+      "status": "failed"
+    },
+    {
+      "file": "ConnectedWipStatusPage.test.ts",
+      "id": "rejects invalid COUNT ",
+      "status": "failed"
+    },
+    {
+      "file": "ConnectedWipStatusPage.test.ts",
+      "id": "rejects invalid COUNT true",
+      "status": "failed"
+    },
+    {
+      "file": "ConnectedWipStatusPage.test.ts",
+      "id": "rejects invalid COUNT -1",
+      "status": "failed"
+    },
+    {
+      "file": "ConnectedWipStatusPage.test.ts",
+      "id": "rejects invalid COUNT 1.5",
+      "status": "failed"
+    },
+    {
+      "file": "ConnectedWipStatusPage.test.ts",
+      "id": "rejects invalid COUNT 9007199254740992",
+      "status": "failed"
+    },
+    {
+      "file": "ConnectedWipStatusPage.test.ts",
+      "id": "rejects missing required field row_version",
+      "status": "failed"
+    },
+    {
+      "file": "ConnectedWipStatusPage.test.ts",
+      "id": "rejects missing required field open_flags",
+      "status": "failed"
+    },
+    {
+      "file": "ConnectedWipStatusPage.test.ts",
+      "id": "rejects missing required field updated_at",
+      "status": "failed"
+    },
+    {
+      "file": "ConnectedWipStatusPage.test.ts",
+      "id": "rejects missing required field distribution",
+      "status": "failed"
+    },
+    {
+      "file": "ConnectedWipStatusPage.test.ts",
+      "id": "rejects flags inconsistent with their count",
+      "status": "failed"
+    }
+  ],
+  "production_go": false
+}

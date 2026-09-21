@@ -14,6 +14,7 @@ import {
 } from './laundryQcModel'
 import { useLaundryQcWorkspace } from './useLaundryQcWorkspace'
 import type { Json } from './types/database.preconnect'
+import { parseQuantityInput } from './quantityInput'
 import './connected-laundry-qc.css'
 
 type RunAction = (
@@ -25,13 +26,7 @@ type SearchProducts = (
   afterSortKey?: string | null,
 ) => Promise<Cp6ProductSearchPage>
 
-const parseQuantity = (value: string) => {
-  if (!value.trim()) return 0
-  const parsed = Number(value)
-  return /^\d+$/.test(value.trim()) && Number.isSafeInteger(parsed)
-    ? parsed
-    : null
-}
+const parseQuantity = (value: string) => parseQuantityInput(value)
 const quantity = (value: string) => parseQuantity(value) ?? 0
 const statusLabel: Record<string, string> = {
   READY_FOR_QC: 'Siap QC', PARTIAL: 'Sebagian selesai', COMPLETE: 'Selesai',

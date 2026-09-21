@@ -16,91 +16,111 @@ AUDIT_DOC = 'docs/cp6-final-successor-independent.md'
 AK_DOC = 'docs/cp6-ak-import-repair.md'
 AK_INDEPENDENT_DOC = 'docs/cp6-ak-independent-audit.md'
 AL_DOC = 'docs/cp6-al-opening-values.md'
-PATHS = '''docs/evidence/cp6-al-ak-catalog-pins.json
-docs/evidence/cp6-al-predecessor-functions.json
-docs/evidence/cp6-al-runtime-pins.json
-scripts/cp6_v2620al_advisors.py
-scripts/cp6_v2620al_build_sql.py
-scripts/cp6_v2620al_import_concurrency.py
-scripts/cp6_v2620al_direct_concurrency.py
-scripts/cp6_v2620al_import_review.py
-scripts/cp6_v2620al_maintenance_schedules.py
-scripts/cp6_v2620al_review.py
-scripts/cp6_v2620al_runtime.py
-scripts/cp6_v2620al_value_review.py
-supabase/migrations/20260917054049_erp_v2_6_20al_cp6_opening_value_validation.sql
-supabase/rollbacks/20260917054049_erp_v2_6_20al_cp6_opening_value_validation.rollback.sql
-scripts/cp6_v2620ak_advisors.py
-scripts/cp6_v2620ak_followup.py
+FRONTEND_DOC = 'docs/cp6-frontend-recovery.md'
+PATHS = '''.github/workflows/cp6-ac-independent-audit.yml
+.github/workflows/cp6-ad-roll-opening-check.yml
+.github/workflows/cp6-ag-sale-reservation.yml
+.github/workflows/cp6-ah-return-allocation.yml
+.github/workflows/cp6-ai-work-source.yml
+.github/workflows/cp6-final-boundary-audit.yml
+.github/workflows/cp6-full-schema-validation.yml
+docs/evidence/cp6-aj-ai-catalog-pins.json
+docs/evidence/cp6-aj-predecessor-functions.json
+docs/evidence/cp6-aj-runtime-pins.json
 docs/evidence/cp6-ak-aj-catalog-pins.json
 docs/evidence/cp6-ak-predecessor-functions.json
 docs/evidence/cp6-ak-runtime-pins.json
+docs/evidence/cp6-al-ak-catalog-pins.json
+docs/evidence/cp6-al-predecessor-functions.json
+docs/evidence/cp6-al-runtime-pins.json
+docs/evidence/cp6-claim-money-original-dom.json
+docs/evidence/cp6-frontend-original-counterexamples.json
+package.json
+scripts/assert-cp6-disposable-env.mjs
+scripts/build-preflight.mjs
+scripts/check-access-catalog.mjs
+scripts/check-cp5-boundary.mjs
+scripts/check-cp6-boundary.mjs
+scripts/check-cp6-deep-business-repair.mjs
+scripts/check-cp6-expanded-audit-closure.mjs
+scripts/check-production-recovery.mjs
+scripts/cp6_disposable_ui_e2e.mjs
+scripts/cp6_disposable_ui_scope.py
+scripts/cp6_final_ak_independent.py
+scripts/cp6_final_gap_midnight.py
+scripts/cp6_final_gap_native.py
+scripts/cp6_final_gap_ui.mjs
+scripts/cp6_final_independent_acceptance.py
+scripts/cp6_final_money_independent.mjs
+scripts/cp6_frontend_recovery_fixture.py
+scripts/cp6_frontend_recovery_ui.mjs
+scripts/cp6_preuse_rollback_maintenance.py
+scripts/cp6_v2620aj_build_sql.py
+scripts/cp6_v2620aj_maintenance_schedules.py
+scripts/cp6_v2620aj_review.py
+scripts/cp6_v2620aj_runtime.py
+scripts/cp6_v2620ak_advisors.py
 scripts/cp6_v2620ak_build_sql.py
+scripts/cp6_v2620ak_followup.py
 scripts/cp6_v2620ak_import_concurrency.py
 scripts/cp6_v2620ak_import_review.py
 scripts/cp6_v2620ak_maintenance_schedules.py
 scripts/cp6_v2620ak_review.py
 scripts/cp6_v2620ak_runtime.py
-supabase/migrations/20260917033516_erp_v2_6_20ak_cp6_import_reference_preview.sql
-supabase/rollbacks/20260917033516_erp_v2_6_20ak_cp6_import_reference_preview.rollback.sql
-.github/workflows/cp6-ac-independent-audit.yml
-.github/workflows/cp6-ai-work-source.yml
-.github/workflows/cp6-ag-sale-reservation.yml
-.github/workflows/cp6-ah-return-allocation.yml
-.github/workflows/cp6-ad-roll-opening-check.yml
-.github/workflows/cp6-full-schema-validation.yml
-.github/workflows/cp6-final-boundary-audit.yml
-package.json
-scripts/assert-cp6-disposable-env.mjs
-scripts/build-preflight.mjs
-scripts/cp6_disposable_ui_e2e.mjs
-scripts/cp6_disposable_ui_scope.py
-scripts/cp6_final_gap_native.py
-scripts/cp6_final_gap_midnight.py
-scripts/cp6_final_gap_ui.mjs
-scripts/cp6_final_independent_acceptance.py
-scripts/cp6_final_ak_independent.py
-scripts/cp6_final_money_independent.mjs
-scripts/cp6_v2620aj_build_sql.py
-scripts/cp6_v2620aj_runtime.py
-scripts/cp6_v2620aj_review.py
-scripts/cp6_v2620aj_maintenance_schedules.py
-scripts/cp6_preuse_rollback_maintenance.py
-docs/evidence/cp6-aj-predecessor-functions.json
-docs/evidence/cp6-aj-ai-catalog-pins.json
-docs/evidence/cp6-aj-runtime-pins.json
-supabase/migrations/20260916202400_erp_v2_6_20aj_cp6_rework_output_lineage.sql
-supabase/rollbacks/20260916202400_erp_v2_6_20aj_cp6_rework_output_lineage.rollback.sql
-scripts/check-cp6-deep-business-repair.mjs
-scripts/check-cp6-expanded-audit-closure.mjs
+scripts/cp6_v2620al_advisors.py
+scripts/cp6_v2620al_build_sql.py
+scripts/cp6_v2620al_direct_concurrency.py
+scripts/cp6_v2620al_import_concurrency.py
+scripts/cp6_v2620al_import_review.py
+scripts/cp6_v2620al_maintenance_schedules.py
+scripts/cp6_v2620al_review.py
+scripts/cp6_v2620al_runtime.py
+scripts/cp6_v2620al_value_review.py
 src/AccessControlPage.tsx
-src/ConnectedBsResolutionPage.tsx
 src/ConnectedBsResolutionPage.dom.test.tsx
-src/bsResolutionModel.ts
-src/bsResolutionModel.test.ts
-docs/evidence/cp6-claim-money-original-dom.json
-src/ConnectedQcFinalPage.tsx
-src/ConnectedLaundryQcSelectors.dom.test.tsx
+src/ConnectedBsResolutionPage.tsx
 src/ConnectedCuttingPage.tsx
+src/ConnectedLaundryPage.tsx
+src/ConnectedLaundryQcSelectors.dom.test.tsx
 src/ConnectedPatternFilter.tsx
 src/ConnectedPickupPage.tsx
+src/ConnectedProductionRecovery.dom.test.tsx
+src/ConnectedQcFinalPage.tsx
+src/ConnectedWipStatusPage.test.ts
 src/ConnectedWipStatusPage.tsx
 src/CuttingPatternPicker.tsx
 src/PatternPage.tsx
+src/ProductionRecoveryNotice.tsx
+src/accessProductionControl.test.ts
 src/auth/AuthGate.tsx
 src/auth/AuthProvider.tsx
+src/bsResolutionModel.test.ts
+src/bsResolutionModel.ts
 src/components/RuntimeIdentity.tsx
 src/config/runtime.test.ts
 src/config/runtime.ts
-src/lib/supabase.ts
-src/lib/clientError.ts
-src/lib/clientError.test.ts
-src/main.tsx
-src/laundryQcModel.ts
+src/cuttingPersistence.ts
 src/laundryQcModel.test.ts
-tests/browser/cp6-laundry-qc.spec.ts
+src/laundryQcModel.ts
+src/lib/clientError.test.ts
+src/lib/clientError.ts
+src/lib/supabase.ts
+src/main.tsx
+src/productionRecovery.test.ts
+src/productionRecovery.ts
+src/quantityInput.test.ts
+src/quantityInput.ts
 src/useLaundryQcWorkspace.ts
-src/vite-env.d.ts'''.splitlines()
+src/useProductionMutation.ts
+src/vite-env.d.ts
+supabase/migrations/20260916202400_erp_v2_6_20aj_cp6_rework_output_lineage.sql
+supabase/migrations/20260917033516_erp_v2_6_20ak_cp6_import_reference_preview.sql
+supabase/migrations/20260917054049_erp_v2_6_20al_cp6_opening_value_validation.sql
+supabase/rollbacks/20260916202400_erp_v2_6_20aj_cp6_rework_output_lineage.rollback.sql
+supabase/rollbacks/20260917033516_erp_v2_6_20ak_cp6_import_reference_preview.rollback.sql
+supabase/rollbacks/20260917054049_erp_v2_6_20al_cp6_opening_value_validation.rollback.sql
+tests/browser/cp6-laundry-qc.spec.ts
+tests/fixtures/productionRecovery.ts'''.splitlines()
 
 
 def verify():
@@ -111,7 +131,7 @@ def verify():
     assert not git('rev-list', '--merges', BASE+'..HEAD')
     assert not git('diff', '--name-only', 'HEAD'), 'Uncommitted tracked changes'
     changed = set(git('diff', '--name-only', BASE, 'HEAD').splitlines())
-    assert changed == set(PATHS) | {PIN_FILE, DOC, AUDIT_DOC, AK_DOC, AK_INDEPENDENT_DOC, AL_DOC}, sorted(changed)
+    assert changed == set(PATHS) | {PIN_FILE, DOC, AUDIT_DOC, AK_DOC, AK_INDEPENDENT_DOC, AL_DOC, FRONTEND_DOC}, sorted(changed)
     pins = json.loads(Path(PIN_FILE).read_text())
     assert pins['base'] == BASE and pins['backend'] == BACKEND
     assert set(pins['sha256']) == set(PATHS)
@@ -170,7 +190,7 @@ def verify():
             if name == 'cp6-ai-work-source.yml':
                 text = text.replace("    needs: review-scope\n    if: needs.review-scope.outputs.aj != 'true'\n", '')
         assert text == subprocess.check_output(['git','show',BASE+':'+path],text=True), path
-    return dict(status='ROUTED_TO_COMBINED_AL_WRITER_GATE',base_backend_head=BACKEND,
+    return dict(status='ROUTED_TO_COMBINED_AL_AND_FRONTEND_RECOVERY_WRITER_GATE',base_backend_head=BACKEND,
                 base_backend_tree=BACKEND_TREE,backend_generation='AL',backend_head=git('rev-parse','HEAD'),frontend_head=git('rev-parse','HEAD'),
                 frontend_tree=git('rev-parse','HEAD^{tree}'),
                 historical_460_matrix_reexecuted=False,independent_acceptance=False,

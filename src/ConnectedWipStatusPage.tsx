@@ -6,6 +6,9 @@ import { hasPermission } from './auth/accessCatalog'
 import { getUatSupabaseClient } from './lib/supabase'
 import { normalizeClientError } from './lib/clientError'
 import ConnectedPatternFilter from './ConnectedPatternFilter'
+import { useProductionMutation } from './useProductionMutation'
+import ProductionRecoveryNotice from './ProductionRecoveryNotice'
+import type { ProductionEnvelope } from './productionRecovery'
 import './connected-wip-status.css'
 
 export type WipStatusFilter = 'ACTIVE' | 'COMPLETED' | 'ALL'
@@ -70,79 +73,103 @@ const blockerLabels: ReadonlyArray<[keyof WipStatusRow, string]> = [
   ['open_flag_count', 'Tindakan operator'],
 ]
 
-function number(value: unknown) { const parsed = Number(value); return Number.isFinite(parsed) ? parsed : 0 }
-
+function object(value: unknown, name: string): Record<string, unknown> {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error(`${name} WIP tidak valid.`)
+  return value as Record<string, unknown>
+}
+function list(value: unknown, name: string): unknown[] {
+  if (!Array.isArray(value)) throw new Error(`${name} WIP tidak lengkap.`)
+  return value
+}
+function text(value: unknown, name: string): string {
+  if (typeof value !== 'string' || value.trim().length === 0) throw new Error(`${name} WIP tidak lengkap.`)
+  return value
+}
+function nullableText(value: unknown, name: string): string | null {
+  if (value === null) return null
+  if (typeof value !== 'string') throw new Error(`${name} WIP tidak lengkap.`)
+  return value
+}
+function count(value: unknown, name: string, min = 0): number {
+  if (typeof value !== 'number' || !Number.isSafeInteger(value) || value < min) throw new Error(`${name} WIP harus bilangan bulat yang valid.`)
+  return value
+}
+function timestamp(value: unknown, name: string): string {
+  const result = text(value, name)
+  if (!Number.isFinite(Date.parse(result))) throw new Error(`${name} WIP tidak valid.`)
+  return result
+}
+function unique(values: readonly (string | number)[], name: string) {
+  if (new Set(values).size !== values.length) throw new Error(`${name} WIP duplikat.`)
+}
 function parseDistribution(value: unknown): WipDistribution | null {
-  if (value === null || value === undefined) return null
-  if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error('Lineage Batch Distribusi WIP tidak valid.')
-  const raw = value as Record<string, unknown>
-  if (typeof raw.pickup_id !== 'string' || typeof raw.contractor_id !== 'string'
-    || typeof raw.contractor_name !== 'string' || typeof raw.picked_up_at !== 'string'
-    || !['ROLL', 'SIZE'].includes(String(raw.allocation_mode)) || !Array.isArray(raw.batches)) {
-    throw new Error('Identitas pickup WIP tidak valid.')
-  }
-  const batches = raw.batches.map((candidate) => {
-    if (!candidate || typeof candidate !== 'object' || Array.isArray(candidate)) throw new Error('Batch Distribusi WIP tidak valid.')
-    const batch = candidate as Record<string, unknown>
-    if (typeof batch.id !== 'string' || number(batch.batch_no) < 1 || number(batch.qty_pcs) < 1 || !Array.isArray(batch.sizes)) {
-      throw new Error('Identitas/kuantitas Batch Distribusi WIP tidak valid.')
-    }
-    const sizes = batch.sizes.map((sizeCandidate) => {
-      if (!sizeCandidate || typeof sizeCandidate !== 'object' || Array.isArray(sizeCandidate)) throw new Error('Size Batch Distribusi WIP tidak valid.')
-      const size = sizeCandidate as Record<string, unknown>
-      if (typeof size.size_code !== 'string' || number(size.qty_pcs) < 1) throw new Error('Kuantitas size Batch Distribusi WIP tidak valid.')
-      return { size_code: size.size_code, qty_pcs: number(size.qty_pcs) }
+  if (value === null) return null
+  const raw = object(value, 'Lineage distribusi')
+  if (raw.allocation_mode !== 'ROLL' && raw.allocation_mode !== 'SIZE') throw new Error('Mode distribusi WIP tidak valid.')
+  const batches = list(raw.batches, 'Batch distribusi').map((candidate) => {
+    const batch = object(candidate, 'Batch')
+    const sizes = list(batch.sizes, 'Size batch').map((candidate) => {
+      const size = object(candidate, 'Size')
+      return { size_code: text(size.size_code, 'Kode size'), qty_pcs: count(size.qty_pcs, 'Qty size', 1) }
     })
-    return {
-      id: batch.id,
-      batch_no: number(batch.batch_no),
-      notes: typeof batch.notes === 'string' ? batch.notes : null,
-      qty_pcs: number(batch.qty_pcs),
-      sizes,
-    }
+    unique(sizes.map((size) => size.size_code), 'Size batch')
+    const qty_pcs = count(batch.qty_pcs, 'Qty batch', 1)
+    if (sizes.reduce((sum, size) => sum + size.qty_pcs, 0) !== qty_pcs) throw new Error('Total size dan batch WIP tidak cocok.')
+    return { id: text(batch.id, 'ID batch'), batch_no: count(batch.batch_no, 'Nomor batch', 1),
+      notes: batch.notes === null || batch.notes === '' ? batch.notes : text(batch.notes, 'Catatan batch'), qty_pcs, sizes }
   })
+  if (batches.length === 0) throw new Error('Distribusi WIP tanpa batch.')
+  unique(batches.map((batch) => batch.id), 'ID batch')
+  unique(batches.map((batch) => batch.batch_no), 'Nomor batch')
   return {
-    pickup_id: raw.pickup_id,
-    contractor_id: raw.contractor_id,
-    contractor_name: raw.contractor_name,
-    picked_up_at: raw.picked_up_at,
-    allocation_mode: raw.allocation_mode as 'ROLL' | 'SIZE',
-    batches,
+    pickup_id: text(raw.pickup_id, 'ID pickup'), contractor_id: text(raw.contractor_id, 'ID Mandor'),
+    contractor_name: text(raw.contractor_name, 'Nama Mandor'), picked_up_at: timestamp(raw.picked_up_at, 'Waktu pickup'),
+    allocation_mode: raw.allocation_mode, batches,
   }
 }
 
 export function parseWipResponse(value: unknown): WipResponse {
-  if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error('Respons WIP tidak valid.')
-  const raw = value as Record<string, unknown>
-  if (!['ACTIVE', 'COMPLETED', 'ALL'].includes(String(raw.filter)) || !['PATTERN', 'PRODUCTION', 'UPDATED'].includes(String(raw.sort)) || !Array.isArray(raw.rows)) throw new Error('Metadata respons WIP tidak valid.')
-  const rows = raw.rows.map((candidate) => {
-    if (!candidate || typeof candidate !== 'object' || Array.isArray(candidate)) throw new Error('Baris WIP tidak valid.')
-    const row = candidate as Record<string, unknown>
-    if (typeof row.cutting_group_id !== 'string' || !['ACTIVE', 'COMPLETED'].includes(String(row.control_status))) throw new Error('Identitas/status WIP tidak valid.')
+  const raw = object(value, 'Respons')
+  if (!['ACTIVE', 'COMPLETED', 'ALL'].includes(String(raw.filter)) || !['PATTERN', 'PRODUCTION', 'UPDATED'].includes(String(raw.sort))) throw new Error('Metadata respons WIP tidak valid.')
+  const rows: WipStatusRow[] = list(raw.rows, 'Daftar baris').map((candidate) => {
+    const row = object(candidate, 'Baris')
+    if (row.control_status !== 'ACTIVE' && row.control_status !== 'COMPLETED') throw new Error('Status WIP tidak valid.')
+    if (row.pattern_is_active !== null && typeof row.pattern_is_active !== 'boolean') throw new Error('Status Pola WIP tidak valid.')
+    const open_flags = list(row.open_flags, 'Daftar flag').map((candidate) => {
+      const flag = object(candidate, 'Flag')
+      const type = text(flag.type, 'Jenis flag')
+      if (!['PENDING_CORRECTION', 'PENDING_REVERSAL', 'PENDING_HANDOFF', 'OPERATOR_ACTION'].includes(type)) throw new Error('Jenis flag WIP tidak valid.')
+      return { id: text(flag.id, 'ID flag'), type, note: text(flag.note, 'Catatan flag'), row_version: count(flag.row_version, 'Versi flag', 1) }
+    })
+    const open_flag_count = count(row.open_flag_count, 'Jumlah flag')
+    if (open_flag_count !== open_flags.length) throw new Error('Jumlah flag WIP tidak cocok.')
+    unique(open_flags.map((flag) => flag.id), 'ID flag')
     return {
-      ...row,
-      effective_qty_pcs: number(row.effective_qty_pcs),
-      sewn_qty_pcs: number(row.sewn_qty_pcs),
-      unfinished_sewing_qty_pcs: number(row.unfinished_sewing_qty_pcs),
-      unsent_ready_qty_pcs: number(row.unsent_ready_qty_pcs),
-      laundry_draft_qty_pcs: number(row.laundry_draft_qty_pcs),
-      laundry_in_transit_qty_pcs: number(row.laundry_in_transit_qty_pcs),
-      unresolved_laundry_issue_qty_pcs: number(row.unresolved_laundry_issue_qty_pcs),
-      pending_final_sku_handoff_qty_pcs: number(row.pending_final_sku_handoff_qty_pcs),
-      remaining_final_sku_qty_pcs: number(row.remaining_final_sku_qty_pcs),
-      open_bs_count: number(row.open_bs_count),
-      open_rework_count: number(row.open_rework_count),
-      open_flag_count: number(row.open_flag_count),
-      open_flags: Array.isArray(row.open_flags) ? row.open_flags : [],
-      distribution: parseDistribution(row.distribution),
-      row_version: number(row.row_version),
-    } as WipStatusRow
+      cutting_group_id: text(row.cutting_group_id, 'ID Potongan'), po_number: text(row.po_number, 'Nomor PO'),
+      group_number: text(row.group_number, 'Nomor Potongan'), model_code: text(row.model_code, 'Kode model'), model_name: text(row.model_name, 'Nama model'),
+      executor_name: row.executor_name === '' ? '' : nullableText(row.executor_name, 'Pelaksana'),
+      pattern_id: nullableText(row.pattern_id, 'ID Pola'), pattern_code: nullableText(row.pattern_code, 'Kode Pola'),
+      pattern_revision: nullableText(row.pattern_revision, 'Revisi Pola'), pattern_name: nullableText(row.pattern_name, 'Nama Pola'),
+      pattern_sort_order: row.pattern_sort_order === null ? null : count(row.pattern_sort_order, 'Urutan Pola', -Number.MAX_SAFE_INTEGER),
+      pattern_is_active: row.pattern_is_active,
+      effective_qty_pcs: count(row.effective_qty_pcs, 'Qty efektif'), sewn_qty_pcs: count(row.sewn_qty_pcs, 'Qty jahit'),
+      unfinished_sewing_qty_pcs: count(row.unfinished_sewing_qty_pcs, 'Belum jahit'),
+      unsent_ready_qty_pcs: count(row.unsent_ready_qty_pcs, 'Siap belum dikirim'), laundry_draft_qty_pcs: count(row.laundry_draft_qty_pcs, 'Draft Laundry'),
+      laundry_in_transit_qty_pcs: count(row.laundry_in_transit_qty_pcs, 'Dalam perjalanan'),
+      unresolved_laundry_issue_qty_pcs: count(row.unresolved_laundry_issue_qty_pcs, 'Masalah Laundry'),
+      pending_final_sku_handoff_qty_pcs: count(row.pending_final_sku_handoff_qty_pcs, 'Handoff QC'),
+      remaining_final_sku_qty_pcs: count(row.remaining_final_sku_qty_pcs, 'Belum Final SKU'),
+      open_bs_count: count(row.open_bs_count, 'BS terbuka'), open_rework_count: count(row.open_rework_count, 'Rework terbuka'),
+      open_flag_count, open_flags, distribution: parseDistribution(row.distribution), control_status: row.control_status,
+      updated_at: timestamp(row.updated_at, 'Waktu pembaruan'), row_version: count(row.row_version, 'Versi baris', 1),
+    }
   })
-  return { filter: raw.filter as WipStatusFilter, sort: raw.sort as WipStatusSort, pattern_id: typeof raw.pattern_id === 'string' ? raw.pattern_id : null, rows }
+  unique(rows.map((row) => row.cutting_group_id), 'ID Potongan')
+  return { filter: raw.filter as WipStatusFilter, sort: raw.sort as WipStatusSort, pattern_id: nullableText(raw.pattern_id, 'Filter Pola'), rows }
 }
 
 export function activeBlockerLabels(row: WipStatusRow) {
-  return blockerLabels.filter(([key]) => number(row[key]) > 0).map(([, label]) => label)
+  return blockerLabels.filter(([key]) => typeof row[key] === 'number' && (row[key] as number) > 0).map(([, label]) => label)
 }
 
 export default function ConnectedWipStatusPage() {
@@ -156,14 +183,16 @@ export default function ConnectedWipStatusPage() {
   const [query, setQuery] = useState('')
   const [response, setResponse] = useState<WipResponse | null>(null)
   const [loading, setLoading] = useState(true)
-  const [flagging, setFlagging] = useState(false)
+  const mutation = useProductionMutation('WIP')
+  const { beginRead, finishRead, run, reconcile } = mutation
+  const flagging = mutation.writerLocked
   const [error, setError] = useState('')
   const loadRequestRef = useRef(0)
-  const flaggingRef = useRef(false)
   const viewRef = useRef({ filter, sort, patternId, query })
   viewRef.current = { filter, sort, patternId, query }
 
   const load = useCallback(async (nextFilter = filter, nextSort = sort, nextPattern = patternId, nextQuery = query) => {
+    const ticket = beginRead()
     const requestId = ++loadRequestRef.current
     setLoading(true)
     setError('')
@@ -174,66 +203,69 @@ export default function ConnectedWipStatusPage() {
         p_sort: nextSort,
         p_query: nextQuery.trim() || null,
       })
-      if (requestId !== loadRequestRef.current) return
+      if (requestId !== loadRequestRef.current) return false
       if (loadError) {
         setError(normalizeClientError(loadError).message)
-        return
+        return false
       }
       try {
-        setResponse(parseWipResponse(data))
+        const parsed = parseWipResponse(data)
+        if (parsed.filter !== nextFilter || parsed.sort !== nextSort || parsed.pattern_id !== (nextPattern || null)) throw new Error('Respons WIP tidak cocok dengan filter yang diminta.')
+        setResponse(parsed)
+        return finishRead(ticket)
       } catch (parseError) {
         setError(parseError instanceof Error ? parseError.message : String(parseError))
+        return false
       }
     } catch (loadFailure) {
       if (requestId === loadRequestRef.current) setError(normalizeClientError(loadFailure).message)
+      return false
     } finally {
       if (requestId === loadRequestRef.current) setLoading(false)
     }
-  }, [client, filter, patternId, query, sort])
+  }, [beginRead, finishRead, client, filter, patternId, query, sort])
 
-  useEffect(() => { void load() }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => { void load(); return () => { loadRequestRef.current += 1 } }, [mutation.scope]) // eslint-disable-line react-hooks/exhaustive-deps
   const changeFilter = (next: WipStatusFilter) => { setFilter(next); void load(next, sort, patternId, query) }
   const changeSort = (next: WipStatusSort) => { setSort(next); void load(filter, next, patternId, query) }
   const changePattern = (next: string) => { setPatternId(next); void load(filter, sort, next, query) }
 
+  const handlers = {
+    send: (envelope: ProductionEnvelope) => client.rpc('erp_set_wip_control_flag_v1', {
+      p_payload: envelope.payload, p_client_request_id: envelope.id, p_expected_version: envelope.expectedVersion,
+    }),
+    validate: (data: unknown, envelope: ProductionEnvelope) => {
+      const result = object(data, 'Respons flag')
+      text(result.flag_id, 'ID flag'); count(result.row_version, 'Versi flag', 1)
+      if (result.status !== envelope.action) throw new Error('Status flag tidak cocok')
+    },
+    retire: () => setResponse(null),
+    reload: () => {
+      const view = viewRef.current
+      return load(view.filter, view.sort, view.patternId, view.query)
+    },
+  }
   const flag = async (row: WipStatusRow) => {
-    if (!canAdjust || flaggingRef.current) return
+    if (!canAdjust || mutation.writerLocked) return
     const note = globalThis.prompt('Tindak lanjut WIP yang masih diperlukan:')?.trim()
     if (!note) return
-    flaggingRef.current = true
-    setFlagging(true)
     setError('')
-    try {
-      const { error: flagError } = await client.rpc('erp_set_wip_control_flag_v1', {
-        p_payload: {
-          cutting_group_id: row.cutting_group_id,
-          flag_type: 'OPERATOR_ACTION', status: 'OPEN', note,
-          change_reason: 'Tindak lanjut operator dari WIP control',
-        },
-        p_client_request_id: globalThis.crypto.randomUUID(),
-        p_expected_version: null,
-      })
-      if (flagError) throw normalizeClientError(flagError)
-      const currentView = viewRef.current
-      await load(currentView.filter, currentView.sort, currentView.patternId, currentView.query)
-    } catch (flagFailure) {
-      setError(flagFailure instanceof Error ? flagFailure.message : normalizeClientError(flagFailure).message)
-    } finally {
-      flaggingRef.current = false
-      setFlagging(false)
-    }
+    await run('OPEN', { cutting_group_id: row.cutting_group_id, flag_type: 'OPERATOR_ACTION', status: 'OPEN', note,
+      change_reason: 'Tindak lanjut operator dari WIP control' }, null, handlers)
   }
 
   const rows = response?.rows ?? []
   const qty = rows.reduce((sum, row) => sum + row.effective_qty_pcs, 0)
+  const totalsKnown = response !== null && !mutation.workspaceStale
   const blocked = rows.filter((row) => activeBlockerLabels(row).length > 0).length
 
   return <section className="connected-wip-page">
+    <ProductionRecoveryNotice recovery={mutation} onReconcile={() => reconcile(handlers)} className="cwip-error"/>
     <header className="cwip-hero"><div><span>PRODUKSI · AUTHORITATIVE CONTROL</span><h1>WIP & Sewing</h1><p>Status Aktif/Selesai dihitung backend dari seluruh fakta sewing, Laundry, QC, BS/Rework, dan tindakan operator.</p></div><button onClick={() => void load()}><RefreshCw/> Refetch</button></header>
     <div className="cwip-truth"><ShieldCheck/><strong>UAT BACKEND CONNECTED</strong><span>Merek belum ditentukan sampai Good dialokasikan ke Final SKU.</span></div>
     {error && <div className="cwip-error" role="alert"><AlertTriangle/><span>{error}</span><button onClick={() => setError('')}><X/></button></div>}
 
-    <section className="cwip-kpis"><article><span>BARIS TAMPIL</span><strong>{rows.length}</strong><small>{filter === 'ACTIVE' ? 'Selesai disembunyikan' : filter === 'COMPLETED' ? 'Riwayat selesai' : 'Aktif + selesai'}</small></article><article><span>KUANTITAS</span><strong>{qty} pcs</strong><small>Read-only control total</small></article><article><span>MASIH ADA AKSI</span><strong>{blocked}</strong><small>Gabungan seluruh blocker</small></article></section>
+    <section className="cwip-kpis"><article><span>BARIS TAMPIL</span><strong>{totalsKnown ? rows.length : '—'}</strong><small>{filter === 'ACTIVE' ? 'Selesai disembunyikan' : filter === 'COMPLETED' ? 'Riwayat selesai' : 'Aktif + selesai'}</small></article><article><span>KUANTITAS</span><strong>{totalsKnown ? `${qty} pcs` : '—'}</strong><small>Read-only control total</small></article><article><span>MASIH ADA AKSI</span><strong>{totalsKnown ? blocked : '—'}</strong><small>Gabungan seluruh blocker</small></article></section>
 
     <section className="cwip-workspace"><header><div className="cwip-tabs" role="tablist" aria-label="Status WIP">{(['ACTIVE', 'COMPLETED', 'ALL'] as const).map((value) => <button className={filter === value ? 'active' : ''} onClick={() => changeFilter(value)} key={value}>{value === 'ACTIVE' ? 'Aktif' : value === 'COMPLETED' ? 'Selesai' : 'Semua'}</button>)}</div><label className="cwip-search"><Search/><input value={query} onChange={(event) => setQuery(event.target.value)} onKeyDown={(event) => { if (event.key === 'Enter') void load() }} placeholder="Nomor produksi, model, Pola, mandor, status…"/><button onClick={() => void load()}><Filter/> Terapkan</button></label><ConnectedPatternFilter value={patternId} onChange={changePattern}/><select aria-label="Urutan WIP" value={sort} onChange={(event) => changeSort(event.target.value as WipStatusSort)}><option value="PATTERN">Urutan Pola</option><option value="PRODUCTION">Kronologi produksi</option><option value="UPDATED">Terakhir diperbarui</option></select></header>
       {loading ? <div className="cwip-empty"><RefreshCw className="spin"/><strong>Mengambil status authoritative…</strong></div> : <div className="cwip-list">{rows.map((row) => {

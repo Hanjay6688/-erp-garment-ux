@@ -577,7 +577,7 @@ test('CP6 committed send form stays retired after failed then successful refetch
   await page.getByLabel('ALASAN / BUKTI SERAH TERIMA').fill('Bukti fisik committed sekali')
   await page.getByRole('checkbox', { name: laundrySendConfirmation, exact: true }).check()
   await page.getByRole('button', { name: /Post pengiriman atomic/ }).click()
-  await expect(page.getByText(/Transaksi sudah committed, tetapi refetch gagal/i)).toBeVisible()
+  await expect(page.getByText(/Aksi sudah tersimpan, tetapi refresh authoritative gagal/i)).toBeVisible()
   await expect(page.getByLabel('BATCH DISTRIBUSI AUTHORITATIVE')).toHaveValue('')
   await page.getByRole('button', { name: 'Refetch', exact: true }).click()
   await expect(page.getByText('Belum ada pengiriman CP6')).toHaveCount(0)

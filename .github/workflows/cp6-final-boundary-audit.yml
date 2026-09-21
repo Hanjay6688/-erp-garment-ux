@@ -9,6 +9,8 @@ name: CP6 Final Boundary Audit
     - scripts/cp6_final_gap_native.py
     - scripts/cp6_final_gap_midnight.py
     - scripts/cp6_final_gap_ui.mjs
+    - scripts/cp6_frontend_recovery*
+    - tests/fixtures/productionRecovery.ts
     - scripts/cp6_final_independent_acceptance.py
     - scripts/cp6_final_ak_independent.py
     - scripts/cp6_final_money_independent.mjs
@@ -98,12 +100,14 @@ jobs:
             out.write('CP6_RUNTIME_TREE='+subprocess.check_output(['git','rev-parse','HEAD^{tree}'],text=True).strip()+'\n')
         PYTREE
         npm ci
-        npm test -- --reporter=dot
         mkdir -p ../candidate/cp6-proof/final-audit
+        npm test -- --reporter=dot --reporter=json --outputFile=../candidate/cp6-proof/final-audit/FRONTEND_UNIT_DOM.json
         node --experimental-strip-types scripts/cp6_final_money_independent.mjs ../candidate/cp6-proof/final-audit/MONEY_INDEPENDENT.json
         npm run test:security
         npm run build
         npx playwright install --with-deps chromium
+        npm run test:browser:cp5
+        npm run test:browser:cp6
         npx --yes agent-browser@0.38.0 --version
     - name: Install pinned disposable runtime
       shell: bash
@@ -830,6 +834,7 @@ jobs:
           'writer-al/BUSINESS.json':'HOLD',
           'writer-al/CONCURRENCY.json':'PASS_REVIEWED_SCOPE','AL_MAINTENANCE_ROLLBACK/manifest.json':'PASS',
           'final-audit/MONEY_INDEPENDENT.json':'PASS_REVIEWED_SCOPE',
+          'final-audit/FRONTEND_RECOVERY.json':'WRITER_PASS',
           'final-audit/INDEPENDENT_UI_GAPS.json':'PASS_REVIEWED_SCOPE',
           'final-audit/midnight/AI_MIDNIGHT_AUDIT.json':'PASS_BOUNDED_AUDIT'}
         results={}
@@ -842,6 +847,10 @@ jobs:
         assert set(business['cases'])==set(business['planned_case_ids']) and business['reused_evidence']=={}
         values=json.loads((root/'writer-al/VALUES.json').read_text())
         assert values['counts']==dict(PASS=65,BUG_PROVEN=0,GAP_PROVEN=0,INCOMPLETE=0)
+        recovery=json.loads((root/'final-audit/FRONTEND_RECOVERY.json').read_text())
+        assert len(recovery['cases'])==len(set(recovery['planned']))==9
+        assert {c['id'] for c in recovery['cases']}==set(recovery['planned'])
+        assert all(c['status']=='PASS' for c in recovery['cases'])
         (root/'final-audit/WRITER_GATE.json').write_text(json.dumps(dict(results=results,production_go=False,
           global_status='CP6_HOLD',date_policy_hold=12,global_cp6_acceptance=False,independent_acceptance=False),indent=2)+'\n')
         assert all(x['actual']==x['expected'] for x in results.values()),results
@@ -887,6 +896,8 @@ jobs:
         path: |-
           candidate/cp6-proof/independent-ai
           candidate/cp6-proof/final-audit
+          harness/cp5-browser-contract-proof
+          harness/cp6-browser-contract-proof
           candidate/cp6-proof/writer-ai/crossflow.json
           candidate/cp6-proof/writer-aj
           candidate/cp6-proof/writer-ak

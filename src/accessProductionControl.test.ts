@@ -49,11 +49,14 @@ describe('connected access, Pola, and WIP response boundaries', () => {
     const response = parseWipResponse({
       filter: 'ACTIVE', sort: 'PATTERN', pattern_id: null,
       rows: [{
+        po_number: 'PO-1', group_number: 'CUT-1', model_code: 'M', model_name: 'Model', executor_name: null,
+        pattern_id: null, pattern_code: null, pattern_name: null, pattern_revision: null, pattern_sort_order: null, pattern_is_active: null,
+        sewn_qty_pcs: 100, updated_at: '2026-09-20T00:00:00Z',
         cutting_group_id: 'group-1', control_status: 'ACTIVE', effective_qty_pcs: 100,
         unfinished_sewing_qty_pcs: 0, unsent_ready_qty_pcs: 20, laundry_draft_qty_pcs: 0,
         laundry_in_transit_qty_pcs: 10, unresolved_laundry_issue_qty_pcs: 2,
         pending_final_sku_handoff_qty_pcs: 4, remaining_final_sku_qty_pcs: 40,
-        open_bs_count: 1, open_rework_count: 0, open_flag_count: 1, open_flags: [], row_version: 1,
+        open_bs_count: 1, open_rework_count: 0, open_flag_count: 1, open_flags: [{ id: 'flag-1', type: 'OPERATOR_ACTION', note: 'Periksa fisik', row_version: 1 }], row_version: 1,
         distribution: {
           pickup_id: 'pickup-1', contractor_id: 'contractor-1', contractor_name: 'Mandor A',
           picked_up_at: '2026-09-03T08:00:00Z', allocation_mode: 'SIZE',
@@ -72,7 +75,10 @@ describe('connected access, Pola, and WIP response boundaries', () => {
   it('rejects malformed persisted Batch Distribusi instead of inventing WIP lineage', () => {
     expect(() => parseWipResponse({
       filter: 'ACTIVE', sort: 'PATTERN', pattern_id: null,
-      rows: [{ cutting_group_id: 'group-1', control_status: 'ACTIVE', distribution: { pickup_id: 'pickup-1', batches: [{ batch_no: 0 }] } }],
-    })).toThrow(/pickup WIP|Batch Distribusi/)
+      rows: [{ cutting_group_id: 'group-1', control_status: 'ACTIVE', pattern_is_active: null, open_flags: [], open_flag_count: 0,
+        po_number: 'PO-1', group_number: 'CUT-1', model_code: 'M', model_name: 'Model', executor_name: null, pattern_id: null, pattern_code: null, pattern_revision: null, pattern_name: null, pattern_sort_order: null,
+        effective_qty_pcs: 1, sewn_qty_pcs: 0, unfinished_sewing_qty_pcs: 1, unsent_ready_qty_pcs: 0, laundry_draft_qty_pcs: 0, laundry_in_transit_qty_pcs: 0, unresolved_laundry_issue_qty_pcs: 0, pending_final_sku_handoff_qty_pcs: 0, remaining_final_sku_qty_pcs: 1, open_bs_count: 0, open_rework_count: 0,
+        distribution: { pickup_id: 'pickup-1', allocation_mode: 'ROLL', batches: [{ batch_no: 0 }] } }],
+    })).toThrow(/WIP/)
   })
 })

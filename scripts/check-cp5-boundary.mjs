@@ -1,3 +1,4 @@
+import './check-production-recovery.mjs'
 import assert from 'node:assert/strict'
 import { createHash } from 'node:crypto'
 import { existsSync, readFileSync, readdirSync } from 'node:fs'
@@ -292,20 +293,16 @@ assert.deepEqual(
   ['erp_get_bs_resolution_workspace_v1', 'erp_save_bs_resolution_action_v1'],
   'CP5 browser boundary must use exactly the two owned public RPC facades',
 )
-assert.equal(cp5RpcNames.filter((name) => name === 'erp_save_bs_resolution_action_v1').length, 2,
-  'CP5 UI must have exactly one initial mutation call and one exact-envelope reconcile call')
+assert.equal(cp5RpcNames.filter((name) => name === 'erp_save_bs_resolution_action_v1').length, 1,
+  'CP5 initial mutation and reconcile must share one exact-envelope sender')
 for (const token of [
   "type ClaimType = 'STUCK' | 'MISSING' | 'DAMAGE'", 'receipt_line_id:',
-  'settled_claims', "action: 'CANCEL'", 'busyRef.current', 'cbsr-pagination',
-  'completed_before_bs_qty', 'globalThis.crypto.randomUUID()', 'loadRequestRef.current',
-  'pendingMutationStorageKey', 'writePendingMutation', 'pendingMutationRef.current',
+  'settled_claims', "action: 'CANCEL'", 'cbsr-pagination',
+  'completed_before_bs_qty', 'loadRequestRef.current',
   'Reconcile transaksi', 'AKSESORI YANG BENAR-BENAR DIPASANG',
   'accessory_bom_item_ids: accessoryIds', "action: 'SAVE', qty_good_returned: qty(good)",
   'Simpan partial', 'Vendor Rewash tidak mendapat fee kerja komponen',
-  'item.default_selected', 'workspaceStale', 'refresh authoritative gagal',
-  'seluruh writer terkunci sampai Refetch authoritative berhasil',
-  "action === 'CREATE_MANUAL_BS' || action === 'SAVE_CLAIM'",
-  'return refetched && recoveryEnvelopeCleared', 'canSubmit={effectiveCanCreate}',
+  'item.default_selected', 'workspaceStale', 'canSubmit={effectiveCanCreate}',
   'remaining_unentitled_good_qty_pcs', 'selectedContractKey',
 ]) assert.ok(cp5Page.includes(token), `CP5 UI lifecycle token missing: ${token}`)
 const claimFormSource = cp5Page.slice(cp5Page.indexOf('function CreateClaim'), cp5Page.indexOf('function ClassificationPanel'))
@@ -366,9 +363,9 @@ assert.match(app, /aria-label="Filter Pola Laundry"[\s\S]*DATA SIMULASI/)
 assert.match(qcPage, /aria-label="Filter Pola QC"[\s\S]*DATA SIMULASI/)
 assert.doesNotMatch(qcPage, /visible\[0\]\s*\?\?\s*seeds\[0\]/, 'QC Pattern filter must not fall back to an unrelated hidden seed')
 for (const [name, source] of [['Cutting', cuttingPage], ['Pickup', pickupPage]]) {
-  assert.match(source, /savingRef\.current/, `${name} mutation boundary permits same-frame double submit`)
+  assert.match(source, /mutation\.writerLocked/, `${name} mutation boundary permits same-frame double submit`)
 }
-assert.match(wipPage, /flaggingRef\.current/, 'WIP flag mutation boundary permits same-frame double submit')
+assert.match(wipPage, /mutation\.writerLocked/, 'WIP flag mutation boundary permits same-frame double submit')
 for (const mode of ['cuttingMode', 'distributionMode', 'wipStatusMode', 'bsResolutionMode']) {
   assert.match(runtime, new RegExp(`${mode}: 'CONNECTED'`), `UAT runtime does not connect ${mode}`)
   assert.match(app, new RegExp(`runtime\\.${mode} === 'CONNECTED'`), `App routing ignores ${mode}`)
@@ -397,7 +394,7 @@ for (const proof of [
 for (const token of [
   'same-frame double mutation', "p_action: 'HOLD_BS'", "p_pattern_id === 'pattern-2'",
   'Tidak ada kasus pada filter ini', 'Tidak ada detail', 'view-only access',
-  'persists a lost-response envelope across reload',
+  'across reload and reconciles only the exact old UUID and payload',
   'Payload berbeda yang tidak boleh terkirim', 'sudah direconcile dengan UUID lama',
   "expect(container.querySelector('.cbsr-modal-layer')).toBeNull()",
   'retires a committed claim form permanently',

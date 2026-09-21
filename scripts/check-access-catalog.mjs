@@ -1,3 +1,4 @@
+import './check-production-recovery.mjs'
 import assert from 'node:assert/strict'
 import { createHash } from 'node:crypto'
 import { readFileSync, readdirSync } from 'node:fs'
@@ -186,7 +187,7 @@ assert.deepEqual(
   ['erp_get_bs_resolution_workspace_v1', 'erp_save_bs_resolution_action_v1'],
 )
 assert.equal(bsRpcNames.filter((name) => name === 'erp_get_bs_resolution_workspace_v1').length, 1)
-assert.equal(bsRpcNames.filter((name) => name === 'erp_save_bs_resolution_action_v1').length, 2)
+assert.equal(bsRpcNames.filter((name) => name === 'erp_save_bs_resolution_action_v1').length, 1)
 assert.equal(evidence.invariants.laundry_and_qc_writers_connected, false)
 assert.equal(evidence.invariants.source_only, false)
 assert.equal(evidence.invariants.uat_applied, true)
@@ -207,10 +208,10 @@ assert.equal(evidence.invariants.post_commit_refetch_failure_freezes_all_writers
 assert.equal(evidence.invariants.lost_response_reuses_exact_durable_envelope, true)
 assert.equal(evidence.invariants.claim_bs_cash_lineage_is_atomic, true)
 assert.equal(evidence.invariants.rollback_ledger_is_statement_digest_bound, true)
-assert.match(bsPage, /setWorkspaceStale\(true\)/)
-assert.match(bsPage, /effectiveCanCreate = canCreate && !workspaceStale/)
-assert.match(bsPage, /effectiveCanPost = canPost && !workspaceStale/)
-assert.match(bsPage, /effectiveCanReverse = canReverse && !workspaceStale/)
+assert.match(bsPage, /useProductionMutation\('BS'\)/)
+assert.match(bsPage, /effectiveCanCreate = canCreate && !mutation\.writerLocked/)
+assert.match(bsPage, /effectiveCanPost = canPost && !mutation\.writerLocked/)
+assert.match(bsPage, /effectiveCanReverse = canReverse && !mutation\.writerLocked/)
 assert.equal(evidence.invariants.private_accessory_lineage_has_no_browser_table_access, true)
 assert.equal(evidence.invariants.hosted_auth_permission_e2e, 'PASS_31_OF_31')
 assert.equal(evidence.invariants.legacy_mutated, false)

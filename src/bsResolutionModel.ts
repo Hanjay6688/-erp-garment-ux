@@ -418,14 +418,6 @@ export function parseBsResolutionWorkspace(value: unknown): BsResolutionWorkspac
   }
 }
 
-export const cleanBsQuantity = (raw: string, max: number) => {
-  const normalized = raw.trim().replace(',', '.')
-  if (!normalized) return ''
-  const parsed = Number(normalized)
-  if (!Number.isFinite(parsed)) return ''
-  return String(Math.min(Math.max(0, Math.floor(max)), Math.max(0, Math.floor(parsed))))
-}
-
 // Money is a decimal amount, not a count of physical pieces. Keep the user's
 // input intact while editing; reject excess precision or capacity at submit.
 export const parseBsMoney = (raw: string, max = 999_999_999): number | null => {

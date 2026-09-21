@@ -111,6 +111,9 @@ let root: Root
 beforeEach(() => {
   ;(globalThis as typeof globalThis & { IS_REACT_ACT_ENVIRONMENT: boolean }).IS_REACT_ACT_ENVIRONMENT = true
   globalThis.localStorage.clear()
+  Object.defineProperty(globalThis.navigator, 'locks', { configurable: true, value: {
+    request: async (name: string, _options: LockOptions, callback: (lock: Lock) => Promise<unknown>) => callback({ name, mode: 'exclusive' } as Lock),
+  } })
   container = document.createElement('div')
   document.body.append(container)
   root = createRoot(container)
@@ -120,6 +123,7 @@ afterEach(async () => {
   await act(async () => { root.unmount() })
   container.remove()
   globalThis.localStorage.clear()
+  Reflect.deleteProperty(globalThis.navigator, 'locks')
   vi.restoreAllMocks()
 })
 
@@ -133,7 +137,7 @@ describe('CP5 connected BS Resolution DOM boundary', () => {
     const rpc = vi.fn(async (name: string, _args?: Record<string, unknown>) => {
       if (name === 'erp_list_patterns_v1') return { data: patterns, error: null }
       if (name === 'erp_get_bs_resolution_workspace_v1') return { data: workspace(), error: null }
-      if (name === 'erp_save_bs_resolution_action_v1') return { data: { ok: true }, error: null }
+      if (name === 'erp_save_bs_resolution_action_v1') return { data: { action: _args?.p_action, result: { status: 'OPEN', row_version: 5 } }, error: null }
       throw new Error(`Unexpected RPC ${name}`)
     })
     mockedClient.current = { rpc }
@@ -181,7 +185,7 @@ describe('CP5 connected BS Resolution DOM boundary', () => {
     const rpc = vi.fn(async (name: string, _args?: Record<string, unknown>) => {
       if (name === 'erp_list_patterns_v1') return { data: patterns, error: null }
       if (name === 'erp_get_bs_resolution_workspace_v1') return { data: response, error: null }
-      if (name === 'erp_save_bs_resolution_action_v1') return { data: { ok: true }, error: null }
+      if (name === 'erp_save_bs_resolution_action_v1') return { data: { action: _args?.p_action, result: { status: 'OPEN', row_version: 5 } }, error: null }
       throw new Error(`Unexpected RPC ${name}`)
     })
     mockedClient.current = { rpc }
@@ -254,7 +258,7 @@ describe('CP5 connected BS Resolution DOM boundary', () => {
       p_action: 'HOLD_BS', p_expected_version: 4,
       p_payload: { bs_case_id: 'case-1', change_reason: 'Bukti fisik belum lengkap' },
     })
-    await act(async () => { finishAction!({ data: { ok: true }, error: null }) })
+    await act(async () => { finishAction!({ data: { action: 'HOLD_BS', result: { status: 'OPEN', row_version: 5 } }, error: null }) })
     await settle()
 
     const patternFilter = container.querySelector<HTMLSelectElement>('select[aria-label="FILTER POLA CP5"]')!
@@ -270,7 +274,7 @@ describe('CP5 connected BS Resolution DOM boundary', () => {
     const rpc = vi.fn(async (name: string, _args?: Record<string, unknown>) => {
       if (name === 'erp_list_patterns_v1') return { data: patterns, error: null }
       if (name === 'erp_get_bs_resolution_workspace_v1') return { data: workspace(), error: null }
-      if (name === 'erp_save_bs_resolution_action_v1') return { data: { ok: true }, error: null }
+      if (name === 'erp_save_bs_resolution_action_v1') return { data: { action: _args?.p_action, result: { status: 'OPEN', row_version: 5 } }, error: null }
       throw new Error(`Unexpected RPC ${name}`)
     })
     mockedClient.current = { rpc }
@@ -318,7 +322,7 @@ describe('CP5 connected BS Resolution DOM boundary', () => {
     const rpc = vi.fn(async (name: string, _args?: Record<string, unknown>) => {
       if (name === 'erp_list_patterns_v1') return { data: patterns, error: null }
       if (name === 'erp_get_bs_resolution_workspace_v1') return { data: manualReplacement, error: null }
-      if (name === 'erp_save_bs_resolution_action_v1') return { data: { ok: true }, error: null }
+      if (name === 'erp_save_bs_resolution_action_v1') return { data: { action: _args?.p_action, result: { status: 'OPEN', row_version: 5 } }, error: null }
       throw new Error(`Unexpected RPC ${name}`)
     })
     mockedClient.current = { rpc }
@@ -353,13 +357,13 @@ describe('CP5 connected BS Resolution DOM boundary', () => {
     refreshed.rows[0].status = 'ON_HOLD'
     refreshed.rows[0].row_version = 5
     let workspaceCalls = 0
-    const rpc = vi.fn(async (name: string) => {
+    const rpc = vi.fn(async (name: string, _args?: Record<string, unknown>) => {
       if (name === 'erp_list_patterns_v1') return { data: patterns, error: null }
       if (name === 'erp_get_bs_resolution_workspace_v1') {
         workspaceCalls += 1
         return { data: workspaceCalls === 1 ? workspace() : refreshed, error: null }
       }
-      if (name === 'erp_save_bs_resolution_action_v1') return { data: { ok: true }, error: null }
+      if (name === 'erp_save_bs_resolution_action_v1') return { data: { action: _args?.p_action, result: { status: 'OPEN', row_version: 5 } }, error: null }
       throw new Error(`Unexpected RPC ${name}`)
     })
     mockedClient.current = { rpc }
@@ -391,14 +395,14 @@ describe('CP5 connected BS Resolution DOM boundary', () => {
 
   it('retires a committed claim form permanently when its authoritative refetch fails', async () => {
     let workspaceCalls = 0
-    const rpc = vi.fn(async (name: string) => {
+    const rpc = vi.fn(async (name: string, _args?: Record<string, unknown>) => {
       if (name === 'erp_list_patterns_v1') return { data: patterns, error: null }
       if (name === 'erp_get_bs_resolution_workspace_v1') {
         workspaceCalls += 1
         if (workspaceCalls === 2) return { data: null, error: { message: 'Refetch network failed' } }
         return { data: workspace(), error: null }
       }
-      if (name === 'erp_save_bs_resolution_action_v1') return { data: { ok: true }, error: null }
+      if (name === 'erp_save_bs_resolution_action_v1') return { data: { action: _args?.p_action, result: { status: 'OPEN', row_version: 5 } }, error: null }
       throw new Error(`Unexpected RPC ${name}`)
     })
     mockedClient.current = { rpc }
@@ -454,7 +458,7 @@ describe('CP5 connected BS Resolution DOM boundary', () => {
         if (workspaceCalls === 2) return { data: null, error: { message: 'Refetch network failed' } }
         return { data: workspace(), error: null }
       }
-      if (name === 'erp_save_bs_resolution_action_v1') return { data: { ok: true }, error: null }
+      if (name === 'erp_save_bs_resolution_action_v1') return { data: { action: _args?.p_action, result: { status: 'OPEN', row_version: 5 } }, error: null }
       throw new Error(`Unexpected RPC ${name}`)
     })
     mockedClient.current = { rpc }
@@ -524,7 +528,7 @@ describe('CP5 connected BS Resolution DOM boundary', () => {
     const rpc = vi.fn(async (name: string, _args?: Record<string, unknown>) => {
       if (name === 'erp_list_patterns_v1') return { data: patterns, error: null }
       if (name === 'erp_get_bs_resolution_workspace_v1') return { data: partial, error: null }
-      if (name === 'erp_save_bs_resolution_action_v1') return { data: { ok: true }, error: null }
+      if (name === 'erp_save_bs_resolution_action_v1') return { data: { action: _args?.p_action, result: { status: 'OPEN', row_version: 5 } }, error: null }
       throw new Error(`Unexpected RPC ${name}`)
     })
     mockedClient.current = { rpc }
@@ -583,7 +587,7 @@ describe('CP5 connected BS Resolution DOM boundary', () => {
     expect(rpc.mock.calls.some(([name]) => name === 'erp_save_bs_resolution_action_v1')).toBe(false)
   })
 
-  it('persists a lost-response envelope across reload and reconciles only the exact old UUID and payload', async () => {
+  it.each([{}, { status: 503 }, { status: 408 }, { status: 429 }, { code: 'PGRST000' }, { code: '08006' }, { code: '57P01' }])('persists an uncertain envelope %j across reload and reconciles only the exact old UUID and payload', async (failure) => {
     let actionAttempts = 0
     const rpc = vi.fn(async (name: string, _args?: Record<string, unknown>) => {
       if (name === 'erp_list_patterns_v1') return { data: patterns, error: null }
@@ -591,8 +595,8 @@ describe('CP5 connected BS Resolution DOM boundary', () => {
       if (name === 'erp_save_bs_resolution_action_v1') {
         actionAttempts += 1
         return actionAttempts === 1
-          ? { data: null, error: { message: 'Transport terputus setelah request dikirim' } }
-          : { data: { ok: true }, error: null }
+          ? { data: null, error: { message: 'Transport terputus setelah request dikirim', ...failure } }
+          : { data: { action: _args?.p_action, result: { status: 'OPEN', row_version: 5 } }, error: null }
       }
       throw new Error(`Unexpected RPC ${name}`)
     })
