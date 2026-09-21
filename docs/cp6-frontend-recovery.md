@@ -80,3 +80,7 @@ shared coordinator's confirmed-refresh copy; retain exact action/payload/version
 same-frame request count and browser error checks. CP6 browser/native remain
 INCOMPLETE on this attempt. Artifact `10660674012`, SHA-256
 `0278c2c6f9d38f52653add708e243628581aff2e5346e692387c510eba50feab`.
+
+Run `35648649954` on `a9dcdd17e3da60737b3d16380bb0e788829de856`
+retained the same 10/12 result: the updated exact-copy assertion omitted the
+final period. Correct that punctuation; no product or business oracle changes.

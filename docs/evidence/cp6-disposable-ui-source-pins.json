@@ -104,7 +104,7 @@
     "supabase/rollbacks/20260916202400_erp_v2_6_20aj_cp6_rework_output_lineage.rollback.sql": "896baab52089adf56c60562cf3161391e01392aec972b48408752fc4e417aed9",
     "supabase/rollbacks/20260917033516_erp_v2_6_20ak_cp6_import_reference_preview.rollback.sql": "f20722e58d8de938d2d25b1ec4c29b61f7bb38ac3a12b9633aedb22e2c7b5bba",
     "supabase/rollbacks/20260917054049_erp_v2_6_20al_cp6_opening_value_validation.rollback.sql": "10ae9c470f363d778cde1c61f6b4f7388ba72efb30038adbfe5dc300ae687d07",
-    "tests/browser/cp5-bs-resolution.spec.ts": "5b24926d7617f2451946931212c92653335e755cf7c8434146faad9bfee62c5e",
+    "tests/browser/cp5-bs-resolution.spec.ts": "23ccfd6839bf62a394840a1557ad7aa82b58e2f77ca9d97e33b7ca59805f825e",
     "tests/browser/cp6-laundry-qc.spec.ts": "c88ed31c337ce91e4648176fbbba55d6b52bd5a3a0b006c83feca28ccbf9d310",
     "tests/fixtures/productionRecovery.ts": "6bab6fbe9b10832db71fcec2f2d4a3dd49c4c7ceae2421d0e1060e20b302d22b"
   },

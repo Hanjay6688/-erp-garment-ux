@@ -253,7 +253,7 @@ test('CP5 local mocked-UAT contract keeps server-side Pattern truth and one muta
   await expect(saveHold).toBeEnabled()
   await saveHold.evaluate((button: HTMLButtonElement) => { button.click(); button.click() })
   await expect.poll(() => calls.actions.length).toBe(1)
-  await expect(page.getByText('Workspace authoritative sudah dimuat ulang', { exact: true })).toBeVisible()
+  await expect(page.getByText('Workspace authoritative sudah dimuat ulang.', { exact: true })).toBeVisible()
   expect(calls.actions[0]).toMatchObject({
     p_action: 'HOLD_BS', p_expected_version: 4,
     p_payload: { bs_case_id: 'case-1', change_reason: 'Menunggu bukti fisik Laundry' },
