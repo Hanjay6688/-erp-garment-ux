@@ -217,7 +217,7 @@
     "status": "PASS",
     "version_id": "7f2c2ab0-5936-4ed6-b58d-6db00a8db6da",
     "immutable_preview_url": "https://7f2c2ab0-erp-garment-ux.zrpf6sbtjb.workers.dev",
-    "observed_runtime_identity": "ERP ENTENG · UAT AUTH",
+    "observed_runtime_identity": "ERP ENTENG \u00b7 UAT AUTH",
     "promoted_to_canonical_worker": false
   },
   "source_only": false,
@@ -371,6 +371,10 @@
       "bytes": 27986,
       "sha256": "93457703a395213297439f7a2a7ed2d836f2636adb9594c6bda11e6f8bf45573"
     },
+    "src/access-control-cp45.css": {
+      "bytes": 1854,
+      "sha256": "a01106e9ed4645e22c3126af0a5cc8bf0fc5dd5094556f7a1d370eb4fa197f37"
+    },
     "src/accessProductionControl.test.ts": {
       "bytes": 4671,
       "sha256": "dab00c8404f96700e2c426063d4c90da4b7d02c7d98fd0408d27f0269605ea83"
@@ -491,5 +495,14 @@
       "bytes": 22425,
       "sha256": "8dcafcf1ead9dec38713f7a75f317eed63de1bf64a666e0e354c540e913a7ab4"
     }
+  },
+  "visual_demo_followup": {
+    "base_sha": "6d4cda118f5d28d1f039cc0ecf318d0866f55c2c",
+    "scope": "Pengguna & Hak Akses CSS contrast and readability only",
+    "source_path": "src/access-control-cp45.css",
+    "backend_runtime_changed": false,
+    "hosted_uat_retested": false,
+    "historical_evidence_status": "REUSED_EVIDENCE",
+    "production_go": false
   }
 }
