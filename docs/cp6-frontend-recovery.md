@@ -67,3 +67,16 @@ separately staged accessories/laundry change requests retain their R1 scope and
 unresolved policy decisions. Demo PR27 remains on main; this branch has not
 deployed it or changed the demo. After this family gate, continue the remaining
 CP6 families and obtain independent acceptance on the final candidate.
+
+## First CI attempt retained
+
+Candidate `cdb7738cae95504033a3dde37e5a0c8d9653ae40`, tree
+`880606814c623cf294acaee512c832934daded42`, run `35648220930` stopped
+before database setup. Unit/DOM, build and static gates passed. CP5 browser
+contracts: 10 passed, 2 failed at the same desktop/mobile success-message
+assertion, which still expected the old `HOLD BS tersimpan` copy. The request
+count assertion had already passed. Update only that message assertion to the
+shared coordinator's confirmed-refresh copy; retain exact action/payload/version,
+same-frame request count and browser error checks. CP6 browser/native remain
+INCOMPLETE on this attempt. Artifact `10660674012`, SHA-256
+`0278c2c6f9d38f52653add708e243628581aff2e5346e692387c510eba50feab`.

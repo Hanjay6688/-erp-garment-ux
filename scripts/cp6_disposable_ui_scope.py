@@ -119,6 +119,7 @@ supabase/migrations/20260917054049_erp_v2_6_20al_cp6_opening_value_validation.sq
 supabase/rollbacks/20260916202400_erp_v2_6_20aj_cp6_rework_output_lineage.rollback.sql
 supabase/rollbacks/20260917033516_erp_v2_6_20ak_cp6_import_reference_preview.rollback.sql
 supabase/rollbacks/20260917054049_erp_v2_6_20al_cp6_opening_value_validation.rollback.sql
+tests/browser/cp5-bs-resolution.spec.ts
 tests/browser/cp6-laundry-qc.spec.ts
 tests/fixtures/productionRecovery.ts'''.splitlines()
 

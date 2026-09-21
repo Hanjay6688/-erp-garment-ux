@@ -30,7 +30,7 @@
     "scripts/check-cp6-expanded-audit-closure.mjs": "9043ba9e997d4550ef85d8f9e37762b5867389b15099cf7168f7df61aa8b1ae7",
     "scripts/check-production-recovery.mjs": "4896c572d438bb9a57e497a8f375b2cf23db8b3d9ad9e7813b454f92546b679b",
     "scripts/cp6_disposable_ui_e2e.mjs": "3b0e71937c76d4813b2d6b6dafd75fd399dec4323cdae8554ddff24fe080d7b6",
-    "scripts/cp6_disposable_ui_scope.py": "5b9bb561f5aef278983aca5796f4dc27fe0ba1fb3bbd4d3da0100d967bfd7191",
+    "scripts/cp6_disposable_ui_scope.py": "608a12d2e27a04333e8663251fa7e6a9c9ecd45e4f14ddc0179477b689f393a3",
     "scripts/cp6_final_ak_independent.py": "9644b71e3a8ace79fb0de94ed517686330f175f2706b5e641fc6c7e200d39feb",
     "scripts/cp6_final_gap_midnight.py": "fe1316f56113ca490f51083133895606529e57d18a3e3ecbcce0f2d27ac4a7c4",
     "scripts/cp6_final_gap_native.py": "283ffb4d6f0db9dfdfa1e592b5b52a3809681e3eed5570fdfd6f2930f5bfe9d1",
@@ -104,6 +104,7 @@
     "supabase/rollbacks/20260916202400_erp_v2_6_20aj_cp6_rework_output_lineage.rollback.sql": "896baab52089adf56c60562cf3161391e01392aec972b48408752fc4e417aed9",
     "supabase/rollbacks/20260917033516_erp_v2_6_20ak_cp6_import_reference_preview.rollback.sql": "f20722e58d8de938d2d25b1ec4c29b61f7bb38ac3a12b9633aedb22e2c7b5bba",
     "supabase/rollbacks/20260917054049_erp_v2_6_20al_cp6_opening_value_validation.rollback.sql": "10ae9c470f363d778cde1c61f6b4f7388ba72efb30038adbfe5dc300ae687d07",
+    "tests/browser/cp5-bs-resolution.spec.ts": "5b24926d7617f2451946931212c92653335e755cf7c8434146faad9bfee62c5e",
     "tests/browser/cp6-laundry-qc.spec.ts": "c88ed31c337ce91e4648176fbbba55d6b52bd5a3a0b006c83feca28ccbf9d310",
     "tests/fixtures/productionRecovery.ts": "6bab6fbe9b10832db71fcec2f2d4a3dd49c4c7ceae2421d0e1060e20b302d22b"
   },
