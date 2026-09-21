@@ -7,7 +7,7 @@
     ".github/workflows/cp6-ag-sale-reservation.yml": "59aa501856f55155bfc01fb5e3e249f1558780cbde986b7e90febc74ea554b0f",
     ".github/workflows/cp6-ah-return-allocation.yml": "774d11570bae4ea71c9468261bb88f842bd08a2ae65d1cd7087a3c469edd29ca",
     ".github/workflows/cp6-ai-work-source.yml": "486465b0b5ba2622a1275da4e4d14a6b59aa958c713c29661e7c488ad4197075",
-    ".github/workflows/cp6-final-boundary-audit.yml": "4936e3385e8dd8ae64b13acf7694c37d9b0ddcfbd25adaaa135ea84439c42229",
+    ".github/workflows/cp6-final-boundary-audit.yml": "65cf7b05f6f966c4f87f21dbe0707b927a81be57ff7a37fdb8fda47155456902",
     ".github/workflows/cp6-full-schema-validation.yml": "478ad65c90150dbfbe24c537e38567d219a315d445e4b74759dde3dbf0f3f553",
     "docs/evidence/cp6-aj-ai-catalog-pins.json": "ec1245ab2fd89f81193ae68f0138b05f98a05401b01c5a104bb477ef5be20cf1",
     "docs/evidence/cp6-aj-predecessor-functions.json": "f84c19e5a87db3b1dcf41ed3c54e4804faccd833be91e352e08cc3b159a890f6",
@@ -30,7 +30,7 @@
     "scripts/check-cp6-expanded-audit-closure.mjs": "8693b4e4d858d0d816c5c6f89fff1de65abe6d6fc1a8e3d8220ed5286608099e",
     "scripts/check-production-recovery.mjs": "4896c572d438bb9a57e497a8f375b2cf23db8b3d9ad9e7813b454f92546b679b",
     "scripts/cp6_disposable_ui_e2e.mjs": "3783cc2a86c0d9e2904843d0749bf8ec92ad135f641d1e07e5fae82053831c22",
-    "scripts/cp6_disposable_ui_scope.py": "57b6f6de2bb0ba9a0ff21d44dc11942e9b96752122b23f900bab52ec20945c2f",
+    "scripts/cp6_disposable_ui_scope.py": "f2890a012df8a2454f3fb07c45d0119e4af03afa0dafc9b8f13de93e6975b053",
     "scripts/cp6_final_ak_independent.py": "9644b71e3a8ace79fb0de94ed517686330f175f2706b5e641fc6c7e200d39feb",
     "scripts/cp6_final_gap_midnight.py": "316e30cff56e167abd70c4c2c0a18e306e886f09e316f9ad2b7c7e52394d6bd1",
     "scripts/cp6_final_gap_native.py": "283ffb4d6f0db9dfdfa1e592b5b52a3809681e3eed5570fdfd6f2930f5bfe9d1",
@@ -122,7 +122,9 @@
     "scripts/cp6_v2620am_concurrency.py": "f01a266a9e41fc047659927d5a0716f253ff58437ba15a9ba3193c88b757a5a2",
     "scripts/cp6_v2620am_advisors.py": "a851c1050b8dbbc50b2eb1c2cb198cb9efc5b020f416fafe47916182cd666d88",
     "scripts/cp6_v2620am_maintenance_schedules.py": "46cb1afb248834d08aa56028f18eb830d7a1a29fc37737efce5dc32f52f67326",
-    "docs/evidence/cp6-am-regression-oracle-pins.json": "de797cd8243e924f42575329a153abd97e7d5f6ae64df205bb00272afacf1d05"
+    "docs/evidence/cp6-am-regression-oracle-pins.json": "de797cd8243e924f42575329a153abd97e7d5f6ae64df205bb00272afacf1d05",
+    "scripts/cp6_v2620am_followup.py": "e49da5b9defbd4a7de22a1923a4f04cb2da3687ff618e9168e4d8960f917656b",
+    "scripts/cp6_v2620am_transfer_crossflow.py": "b04838707a14712db199400f9a63d55f39a528a5ea02c0ef6b5a90e1b4eedc2a"
   },
   "gate_intent": "Preserve full AL assertions and date HOLD; add current frontend recovery proof. No global/independent PASS.",
   "business_frontend_source_head": "d7a92f00b0779d614478778bd8f1ddd367122ff7",

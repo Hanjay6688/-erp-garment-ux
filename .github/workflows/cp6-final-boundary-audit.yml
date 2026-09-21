@@ -68,12 +68,13 @@ jobs:
       CP6_AUTH_REPORT: cp6-proof/final-audit/HTTP.json
       CP6_REPAIR_AJ: 'true'
       CP6_AJ_REPAIR_FOLLOWUP: 'false'
-      CP6_RUNTIME_GENERATION: ${{ contains(github.event.head_commit.message, '[cp6-am-full]') && 'AM' || 'AL' }}
+      CP6_RUNTIME_GENERATION: ${{ (contains(github.event.head_commit.message, '[cp6-am-full]') || contains(github.event.head_commit.message, '[cp6-am-followup]')) && 'AM' || 'AL' }}
       CP6_RUNTIME_HEAD: ${{ github.sha }}
       CP6_UI_FOCUSED: ${{ contains(github.event.head_commit.message, '[cp6-ui-focused]') }}
       CP6_QUALIFICATION_ONLY: ${{ contains(github.event.head_commit.message, '[cp6-foundation-focused]') }}
       CP6_AM_TRIAL: ${{ contains(github.event.head_commit.message, '[cp6-am-trial]') }}
-      CP6_AM_FULL: ${{ contains(github.event.head_commit.message, '[cp6-am-full]') }}
+      CP6_AM_FULL: ${{ (contains(github.event.head_commit.message, '[cp6-am-full]') || contains(github.event.head_commit.message, '[cp6-am-followup]')) }}
+      CP6_AM_FOLLOWUP: ${{ contains(github.event.head_commit.message, '[cp6-am-followup]') }}
     steps:
     - name: Checkout exact AI candidate
       uses: actions/checkout@v4
@@ -98,7 +99,7 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: '22'
-    - name: Qualify disposable frontend and install browser
+    - name: Bind immutable runtime tree
       working-directory: harness
       run: |
         set -euo pipefail
@@ -107,6 +108,11 @@ jobs:
         with open(os.environ['GITHUB_ENV'],'a') as out:
             out.write('CP6_RUNTIME_TREE='+subprocess.check_output(['git','rev-parse','HEAD^{tree}'],text=True).strip()+'\n')
         PYTREE
+    - name: Qualify disposable frontend and install browser
+      if: ${{ env.CP6_AM_FOLLOWUP != 'true' }}
+      working-directory: harness
+      run: |
+        set -euo pipefail
         npm ci
         mkdir -p ../candidate/cp6-proof/final-audit
         npm test -- --reporter=dot --reporter=json --outputFile=../candidate/cp6-proof/final-audit/FRONTEND_UNIT_DOM.json
@@ -181,7 +187,7 @@ jobs:
           global_cp6_acceptance=False,production_go=False),indent=2)+'\n')
         PY
     - name: Create next migration stamp with pinned CLI in empty scratch directory
-      if: ${{ env.CP6_AM_TRIAL != 'true' }}
+      if: ${{ env.CP6_AM_TRIAL != 'true' && env.CP6_AM_FOLLOWUP != 'true' }}
       working-directory: harness
       run: |
         set -euo pipefail
@@ -213,6 +219,15 @@ jobs:
           original_al_business230_reexecuted=False,am_full_family_acceptance=False,
           global_cp6_acceptance=False,production_go=False),indent=2)+'\n')
         PY
+    - name: Verify exact completed AM evidence and unchanged product for follow-up
+      if: ${{ env.CP6_AM_FOLLOWUP == 'true' }}
+      working-directory: candidate
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: |
+        set -euo pipefail
+        gh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10668124130/zip > "$RUNNER_TEMP/am-combined.zip"
+        python ../harness/scripts/cp6_v2620am_followup.py --reuse "$RUNNER_TEMP/am-combined.zip"
     - name: Verify original ordinary staged QC counterexample
       working-directory: harness
       env:
@@ -568,7 +583,7 @@ jobs:
       working-directory: candidate
       run: PYTHONPATH=scripts python ../harness/scripts/cp6_v2620am_advisors.py --phase after
     - name: Record exact execution scope
-      if: ${{ always() && steps.am_install.outcome == 'success' }}
+      if: ${{ env.CP6_AM_FOLLOWUP != 'true' && always() && steps.am_install.outcome == 'success' }}
       working-directory: candidate
       run: |
         python - <<'PY_SCOPE'
@@ -617,48 +632,52 @@ jobs:
       run: PYTHONPATH=scripts python ../harness/scripts/cp6_ai_independent_review.py --phase concurrency
       if: ${{ always() && steps.ai_install.outcome == 'success' && env.CP6_UI_FOCUSED != 'true' && env.CP6_REPAIR_AJ != 'true' }}
     - name: Run all 230 business cases on AM preserving date-policy HOLD
-      if: ${{ always() && steps.am_install.outcome == 'success' }}
+      if: ${{ env.CP6_AM_FOLLOWUP != 'true' && always() && steps.am_install.outcome == 'success' }}
       working-directory: candidate
       run: PYTHONPATH=scripts python ../harness/scripts/cp6_v2620am_review.py --phase business
     - name: Test reference preview staged dependencies draft edits and recovered sales on AM
-      if: ${{ always() && steps.am_install.outcome == 'success' }}
+      if: ${{ env.CP6_AM_FOLLOWUP != 'true' && always() && steps.am_install.outcome == 'success' }}
       working-directory: candidate
       run: PYTHONPATH=scripts python ../harness/scripts/cp6_v2620am_review.py --phase imports
     - name: Replay original value oracles and the complete affected value family on AM
-      if: ${{ always() && steps.am_install.outcome == 'success' }}
+      if: ${{ env.CP6_AM_FOLLOWUP != 'true' && always() && steps.am_install.outcome == 'success' }}
       working-directory: candidate
       run: PYTHONPATH=scripts python ../harness/scripts/cp6_v2620am_review.py --phase values
     - name: Serialize ordinary import draft editing against posting in four schedules
-      if: ${{ always() && steps.am_install.outcome == 'success' }}
+      if: ${{ env.CP6_AM_FOLLOWUP != 'true' && always() && steps.am_install.outcome == 'success' }}
       working-directory: candidate
       run: PYTHONPATH=scripts python ../harness/scripts/cp6_v2620am_review.py --phase import-concurrency
     - name: Serialize direct DRAFT material BS and WIP edits in twelve schedules
-      if: ${{ always() && steps.am_install.outcome == 'success' }}
+      if: ${{ env.CP6_AM_FOLLOWUP != 'true' && always() && steps.am_install.outcome == 'success' }}
       working-directory: candidate
       run: PYTHONPATH=scripts python ../harness/scripts/cp6_v2620am_review.py --phase direct-concurrency
     - name: Repeat sixteen original and twelve work schedules on exact AM runtime
-      if: ${{ always() && steps.am_install.outcome == 'success' }}
+      if: ${{ env.CP6_AM_FOLLOWUP != 'true' && always() && steps.am_install.outcome == 'success' }}
       working-directory: candidate
       run: PYTHONPATH=scripts python ../harness/scripts/cp6_v2620am_review.py --phase concurrency
     - name: Execute twenty AM maintenance schedules with unchanged assertions
-      if: ${{ always() && steps.am_install.outcome == 'success' }}
+      if: ${{ env.CP6_AM_FOLLOWUP != 'true' && always() && steps.am_install.outcome == 'success' }}
       working-directory: candidate
       env:
         CP6_AM_MAINTENANCE_CONFIRM: cp6_rollback
         CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
       run: PYTHONPATH=scripts python ../harness/scripts/cp6_v2620am_maintenance_schedules.py
     - name: Reexecute controlled midnight transaction on exact AM runtime
-      if: ${{ always() && steps.am_install.outcome == 'success' }}
+      if: ${{ env.CP6_AM_FOLLOWUP != 'true' && always() && steps.am_install.outcome == 'success' }}
       working-directory: candidate
       env:
         CP6_AA_MIDNIGHT_AUDIT_CONFIRM: postgres
       run: PYTHONPATH=scripts python ../harness/scripts/cp6_final_gap_midnight.py
     - name: Serialize transfer draft edits and upstream reversals in twelve schedules
-      if: ${{ always() && steps.am_install.outcome == 'success' }}
+      if: ${{ env.CP6_AM_FOLLOWUP != 'true' && always() && steps.am_install.outcome == 'success' }}
       working-directory: candidate
       run: PYTHONPATH=scripts python ../harness/scripts/cp6_v2620am_concurrency.py
+    - name: Follow actual warehouse transfer through cutting HPP sale and late invoices
+      if: ${{ always() && steps.am_install.outcome == 'success' && env.CP6_AM_FOLLOWUP == 'true' }}
+      working-directory: candidate
+      run: PYTHONPATH=scripts python ../harness/scripts/cp6_v2620am_transfer_crossflow.py
     - name: Rerun original HTTP role and lifecycle oracle on the verified public API
-      if: ${{ always() && ((env.CP6_AM_FULL == 'true' && steps.am_install.outcome == 'success') || (env.CP6_AM_TRIAL == 'true' && steps.al_install.outcome == 'success')) }}
+      if: ${{ env.CP6_AM_FOLLOWUP != 'true' && always() && ((env.CP6_AM_FULL == 'true' && steps.am_install.outcome == 'success') || (env.CP6_AM_TRIAL == 'true' && steps.al_install.outcome == 'success')) }}
       working-directory: candidate
       shell: bash
       run: |
@@ -903,7 +922,7 @@ jobs:
         test "$(psql "$CP6_AUTH_PGURL" -At -c 'select count(*) from erp.cp6_laundry_qc_execution_context')" = '0'
 
     - name: Require complete AM writer groups while keeping global CP6 HOLD
-      if: ${{ always() && steps.am_install.outcome == 'success' }}
+      if: ${{ env.CP6_AM_FOLLOWUP != 'true' && always() && steps.am_install.outcome == 'success' }}
       working-directory: candidate
       run: |
         python - <<'PYVERIFY'
@@ -1043,7 +1062,7 @@ jobs:
         mkdir -p ../candidate/cp6-proof/independent-ai
         printf 'status=PASS\nremaining_database_container=0\nproduction_go=false\n' > ../candidate/cp6-proof/independent-ai/PHYSICAL_CLEANUP.txt
     - name: Seal AM affected-family writer evidence after exact restore and cleanup
-      if: ${{ always() && steps.am_install.outcome == 'success' }}
+      if: ${{ env.CP6_AM_FOLLOWUP != 'true' && always() && steps.am_install.outcome == 'success' }}
       working-directory: candidate
       run: |
         python - <<'PY_SEAL'
@@ -1070,6 +1089,10 @@ jobs:
           business_cases=230,date_policy_hold=12,independent_acceptance=False,global_status='CP6_HOLD',
           production_go=False,exact_restore=True,cleanup=True),indent=2)+'\n')
         PY_SEAL
+    - name: Seal bounded AM follow-up with exact restores and explicit reused evidence
+      if: ${{ always() && steps.am_install.outcome == 'success' && env.CP6_AM_FOLLOWUP == 'true' }}
+      working-directory: candidate
+      run: python ../harness/scripts/cp6_v2620am_followup.py --seal
     - name: Preserve exact candidate independent evidence
       if: always()
       uses: actions/upload-artifact@v4

@@ -274,3 +274,30 @@ and removes only its explicit target bindings to recover the exact accepted AL
 checksum; all prior AL/AK/AJ body checks remain. The controller endpoint and
 admission/drain/reopen implementation are unchanged. Artifact `10667931508`,
 SHA-256 `0941d1dca53bf0b38f4539263a8c6c67f88c5749608a159629b33383b561d28b`.
+
+AM combined runtime at `bf05659d4f8e99d0332215772d658417e4233cc8`
+(tree `e5ac4db612e5c9097daf0c6a446abeafffc29cd2`) completed successfully in
+run `35663140263`; CodeQL `35663140196` also succeeded. The native final seal is
+`WRITER_PASS_AFFECTED_AM_FAMILY`, not independent or global CP6 acceptance.
+Fresh evidence: SQL trial34 (31 controls, 3 original additional bug proofs),
+business230 (179 PASS, 39 controls, 12 date-policy HOLD), import31, values65,
+4 import + 12 direct + 16 original + 12 work + 12 transfer two-session schedules,
+20 maintenance schedules, midnight4, original HTTP/UI and recovery9. AM foundation15
+is 11 controls, 4 previously known PCS/selector gaps, 0 bugs, 0 incomplete.
+Exact AM-to-AL restore: 533 functions / 227 tables with eight refusal controls;
+final AH restore: 533 functions / 223 tables, Auth/app users0 and cleanup PASS.
+Artifact `10668124130`: 64,497,485 bytes, ZIP355 entries, SHA-256
+`299684058ecb0e3f03c8ab18a374f4d944848268d4462348e89c89e8036fd4cc`.
+Locally verified full hash, ZIP CRC/path safety and zero GitHub token/JWT/private-key
+pattern matches. Durable copy: `cp6-am-combined.zip`.
+
+The next bounded follow-up connects a real warehouse transfer to the existing
+cutting, wages, FG, sale and two-stage late-invoice oracle in eight cases.
+The original money/custody/report assertions remain byte-identical. Follow-up
+admits reuse only after verifying the exact successful artifact above and proving
+all product/frontend/SQL, original oracles and maintenance controller unchanged.
+The large groups are explicitly `REUSED_EVIDENCE`; fresh34 transfer trial,
+fresh8 actual crossflow, advisors and exact restore/cleanup are required.
+A fresh follow-up failure remains a failure even when the preceding full gate passed.
+CLI2.116.0 generated next AN stamp `20260921223438` in the successful artifact;
+no AN migration or selector acceptance exists yet. CP6 HOLD; production_go:false.

@@ -86,6 +86,8 @@ scripts/cp6_v2620am_definitions.py
 scripts/cp6_v2620am_runtime.py
 scripts/cp6_v2620am_sql_trial.py
 scripts/cp6_v2620am_review.py
+scripts/cp6_v2620am_followup.py
+scripts/cp6_v2620am_transfer_crossflow.py
 scripts/cp6_v2620am_concurrency.py
 scripts/cp6_v2620am_advisors.py
 scripts/cp6_v2620am_maintenance_schedules.py
