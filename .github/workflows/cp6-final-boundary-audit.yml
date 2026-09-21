@@ -10,6 +10,7 @@ name: CP6 Final Boundary Audit
     - scripts/cp6_final_gap_midnight.py
     - scripts/cp6_final_gap_ui.mjs
     - scripts/cp6_frontend_recovery*
+    - scripts/cp6_foundation_qualification.py
     - tests/fixtures/productionRecovery.ts
     - scripts/cp6_final_independent_acceptance.py
     - scripts/cp6_final_ak_independent.py
@@ -851,8 +852,15 @@ jobs:
         assert len(recovery['cases'])==len(set(recovery['planned']))==9
         assert {c['id'] for c in recovery['cases']}==set(recovery['planned'])
         assert all(c['status']=='PASS' for c in recovery['cases'])
+        foundation=json.loads((root/'final-audit/FOUNDATION_QUALIFICATION.json').read_text())
+        assert foundation['status'] in ('QUALIFIED_WITH_FINDINGS','QUALIFIED_CONTROLS_ONLY')
+        assert len(foundation['cases'])==len(set(foundation['planned_case_ids']))==15
+        assert set(foundation['cases'])==set(foundation['planned_case_ids'])
+        assert foundation['counts']['INCOMPLETE']==0
+        assert all(foundation[k] for k in ('catalog_unchanged','transactional_boundary_restored','schema_usage_restored','runtime_objects_restored'))
         (root/'final-audit/WRITER_GATE.json').write_text(json.dumps(dict(results=results,production_go=False,
-          global_status='CP6_HOLD',date_policy_hold=12,global_cp6_acceptance=False,independent_acceptance=False),indent=2)+'\n')
+          global_status='CP6_HOLD',date_policy_hold=12,foundation_qualification=foundation['counts'],
+          global_cp6_acceptance=False,independent_acceptance=False),indent=2)+'\n')
         assert all(x['actual']==x['expected'] for x in results.values()),results
         PYVERIFY
     - name: Restore AL to exact AK with refusal and admission controls

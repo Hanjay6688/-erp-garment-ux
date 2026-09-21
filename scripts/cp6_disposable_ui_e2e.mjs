@@ -515,12 +515,26 @@ try {
     frontendHead:report.frontend_head,frontendTree:report.frontend_tree,
     backendHead:report.backend_head,backendTree:report.backend_tree})
   report.independent_gap_report={file:'INDEPENDENT_UI_GAPS.json',status:independentResult.status}
+  stage('ORIGINAL_FOUNDATION_QUALIFICATION')
+  let foundationFailure
+  try {
+    const log=execFileSync('python',[fileURLToPath(new URL('./cp6_foundation_qualification.py',import.meta.url)),
+      owner.id,resolve(reportDir,'FOUNDATION_QUALIFICATION.json')],{encoding:'utf8',stdio:['ignore','pipe','pipe']})
+    console.log(log.trim())
+  } catch(error) {
+    foundationFailure=error
+    // Preserve all ordinary case observations; run the recovery family as well.
+    console.log('Foundation qualification incomplete; inspect its recorded cases.')
+  }
+  const foundationResult=JSON.parse(readFileSync(resolve(reportDir,'FOUNDATION_QUALIFICATION.json'),'utf8'))
+  report.foundation_qualification={file:'FOUNDATION_QUALIFICATION.json',status:foundationResult.status,counts:foundationResult.counts}
   stage('FRONTEND_RECOVERY_FAMILY')
   const recovery=await import('./cp6_frontend_recovery_ui.mjs')
   const recoveryResult=await recovery.runFrontendRecovery({query,reportDir,owner,session,secrets,pageFor,rpc,
     frontendHead:report.frontend_head,frontendTree:report.frontend_tree})
   assert.equal(recoveryResult.status,'WRITER_PASS')
   report.frontend_recovery={file:'FRONTEND_RECOVERY.json',status:recoveryResult.status,cases:recoveryResult.cases.length}
+  if(foundationFailure)throw foundationFailure
 }catch(error){
   failure=error
   let message=String(error.stack||error)

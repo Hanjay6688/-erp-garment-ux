@@ -52,6 +52,7 @@ scripts/cp6_final_gap_native.py
 scripts/cp6_final_gap_ui.mjs
 scripts/cp6_final_independent_acceptance.py
 scripts/cp6_final_money_independent.mjs
+scripts/cp6_foundation_qualification.py
 scripts/cp6_frontend_recovery_fixture.py
 scripts/cp6_frontend_recovery_ui.mjs
 scripts/cp6_preuse_rollback_maintenance.py

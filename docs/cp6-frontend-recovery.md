@@ -105,3 +105,28 @@ prefix; assertions, product, database and guards remain unchanged. Recovery9 is
 still INCOMPLETE; CodeQL on this candidate passed. Exact rollback and cleanup
 passed. Artifact `10662423099`, 61,218,140 bytes, SHA-256
 `6830bc7f86d0abd70a672d28262b84a46f43b543f0e97b7ea3f91c6ac0088030`.
+
+## Next original foundation qualification, not a product repair
+
+The same disposable clone now collects 15 independent arithmetic/control
+observations for S01–S05, with every case rolled back before the next. These are
+writer qualification cases on the installed AL source, not independent acceptance.
+They cover whole PCS versus factor12/144; chronological versus backdated transfer
+value; active/mixed/all-inactive transfer lines; current versus historical location
+stock; and eligible PO201/draft101 outside the original selector windows.
+
+The inactive-material scenario must first prove nonzero-stock deactivation is
+refused. It then uses the original receipt reversal to zero stock and the normal
+versioned deactivation API. No guard is disabled, no product function is altered,
+and no posted row is edited or deleted. Successful ordinary commands establish
+all physical movements. Count conversion that is refused atomically is a feature
+gap/control, not proof of damaged posted stock. Price policy remains unresolved.
+
+Legacy native function calls use the existing authenticated OWNER EXECUTE grants;
+the missing schema USAGE, if any, is temporarily granted in the uncommitted
+qualification transaction and exactly restored. That grant is explicit evidence
+scope and does not prove a private function is an exposed HTTP endpoint. Runtime
+690 objects, function catalog and transactional table boundaries are compared;
+the parent workflow owns real Auth cleanup and whole-clone disposal. All original
+AL and frontend requirements remain. Findings are retained as CP6 blockers and
+must be fixed/proven before final acceptance; a completed qualification is not PASS.
