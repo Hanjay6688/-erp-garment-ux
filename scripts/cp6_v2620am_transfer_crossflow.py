@@ -28,8 +28,8 @@ def case(cur,today,zone,qty,closed):
         fixture=original_receipt(cur,day)
         production.admin(cur)
         destination=cur.execute("insert into erp.locations(location_code,location_name,location_type,is_active) values(%s,'AM actual transfer destination','RAW_MATERIAL_WAREHOUSE',true) returning id",
-            ('AM-X-'+uuid.uuid4().hex,)).fetchone()[0]
-        payload=dict(transfer_number='AM-X-'+uuid.uuid4().hex,from_location_id=fixture['location'],
+            ('AM-X-'+uuid.uuid4().hex[:20],)).fetchone()[0]
+        payload=dict(transfer_number='AM-X-'+uuid.uuid4().hex[:20],from_location_id=fixture['location'],
             to_location_id=destination,physical_at=production.at(fixture['purchase_day'],23,45),
             change_reason='AM ordinary warehouse relocation before cutting',
             items=[dict(material_id=fixture['material'],roll_id=fixture['roll'],qty=10)])

@@ -308,3 +308,11 @@ was created only in the skipped frontend step. No new crossflow case ran.
 Directory creation is now in the unconditional runtime-binding step. Failure
 artifact `10668812374`, 288 bytes, SHA-256
 `d33a46990a5df580ad60759fb5974de677823c1c04b3b42652ecc62de697af17`.
+
+First native transfer/invoice attempt `1beefbb81b3c9e5294ed94e34a4bf9493c32b1ed`,
+run `35665393541`, completed trial34 and all restore/cleanup controls, but all
+eight new crossflow fixtures were INCOMPLETE: the generated warehouse code was
+37 characters against the existing varchar(30) contract. No transfer/invoice
+assertion ran and this is not an AM product bug. Synthetic identifiers are now
+25 characters; no application SQL, guard or oracle changes. Artifact `10669071464`,
+1,605,928 bytes, SHA-256 `59f62db7874818d0ae9f5b1095eebb411cdb1111712a6fad217866bbc3a417dc`.

@@ -124,7 +124,7 @@
     "scripts/cp6_v2620am_maintenance_schedules.py": "46cb1afb248834d08aa56028f18eb830d7a1a29fc37737efce5dc32f52f67326",
     "docs/evidence/cp6-am-regression-oracle-pins.json": "de797cd8243e924f42575329a153abd97e7d5f6ae64df205bb00272afacf1d05",
     "scripts/cp6_v2620am_followup.py": "e49da5b9defbd4a7de22a1923a4f04cb2da3687ff618e9168e4d8960f917656b",
-    "scripts/cp6_v2620am_transfer_crossflow.py": "b04838707a14712db199400f9a63d55f39a528a5ea02c0ef6b5a90e1b4eedc2a"
+    "scripts/cp6_v2620am_transfer_crossflow.py": "2ad70673fcd307d3e8aa1c405c51278554149c494b0deb437a20c67810afe985"
   },
   "gate_intent": "Preserve full AL assertions and date HOLD; add current frontend recovery proof. No global/independent PASS.",
   "business_frontend_source_head": "d7a92f00b0779d614478778bd8f1ddd367122ff7",
