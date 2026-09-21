@@ -21,51 +21,183 @@
   }
 }
 
-/* The shell is dark while this workspace uses light cards. Own foreground
-   colors here so role, user, and audit facts cannot disappear on white. */
+/* Keep this workspace and its editor on the ERP shell's dark blue palette. */
+.access-page,
+.role-editor-layer {
+  color-scheme: dark;
+}
+
 .access-hero h1 {
-  color: #f6f1ed;
+  color: var(--text);
 }
 
-.access-hero span {
-  color: #d3aa8e;
+.access-hero span,
+.access-panel > header span,
+.role-editor > header span {
+  color: #a7b3ff;
 }
 
-.access-hero p {
-  color: #b6aaac;
+.access-hero p,
+.role-list p,
+.role-list dt,
+.role-title small,
+.user-list small,
+.audit-panel article small,
+.audit-panel > div > p,
+.role-editor p,
+.role-fields label,
+.role-editor > footer > label,
+.permission-matrix > article > header small,
+.permission-matrix label small,
+.sidebar-preview span,
+.owner-lock small,
+.access-state {
+  color: var(--soft);
 }
 
 .access-panel,
 .role-editor {
-  color: #352b26;
+  color: var(--text);
+  background: var(--panel);
+  border-color: var(--line);
+  box-shadow: var(--shadow);
+}
+
+.role-list > article,
+.audit-panel article,
+.permission-matrix > article {
+  background: var(--panel-2);
+  border-color: var(--line);
+}
+
+.access-panel > header,
+.role-editor > header,
+.role-editor > footer {
+  background: var(--panel-2);
+  border-color: var(--line);
+}
+
+.user-list article,
+.permission-matrix label {
+  border-color: var(--line);
+}
+
+.permission-matrix > article > header {
+  background: var(--panel-3);
+}
+
+.role-editor-layer {
+  background: rgba(5, 8, 16, .76);
 }
 
 .access-panel strong,
 .access-panel dd,
 .role-editor strong,
 .role-editor h2 {
-  color: #352b26;
+  color: var(--text);
 }
 
+.access-panel > header label,
 .access-panel input,
 .access-panel select,
 .role-editor input,
 .role-editor textarea {
-  color: #352b26;
-  background: #fff;
+  color: var(--text);
+  background: #0f1422;
+  border-color: rgba(164, 180, 225, .24);
 }
 
 .access-panel input::placeholder,
 .role-editor input::placeholder,
 .role-editor textarea::placeholder {
-  color: #8c7f78;
+  color: #a4aec4;
   opacity: 1;
 }
 
+.access-hero button,
 .access-panel button,
 .role-editor button,
 .user-access-actions select {
   min-height: 40px;
+}
+
+.access-hero button,
+.access-panel button,
+.role-editor > header button,
+.role-editor > footer button {
+  color: var(--text);
+  background: var(--panel-3);
+  border-color: rgba(164, 180, 225, .24);
+}
+
+.access-hero button:hover:not(:disabled),
+.access-panel button:hover:not(:disabled),
+.role-editor > header button:hover:not(:disabled),
+.role-editor > footer button:hover:not(:disabled) {
+  background: #28334e;
+  border-color: #7c8dff;
+}
+
+.role-editor > footer button:last-child {
+  color: #fff;
+  background: #4d60d2;
+  border-color: #8292ff;
+}
+
+.permission-matrix > article > header button {
+  color: #b7c1ff;
+}
+
+.permission-matrix input,
+.high-risk-confirm input {
+  accent-color: var(--blue);
+}
+
+.role-title em {
+  color: var(--soft);
+  background: #26314a;
+}
+
+.role-title em.locked {
+  color: #d7c2ff;
+  background: #322743;
+}
+
+.owner-lock svg {
+  color: #d7c2ff;
+}
+
+.user-avatar {
+  color: #dce2ff;
+  background: #2b3760;
+}
+
+.sidebar-preview {
+  background: var(--panel-2);
+  border-color: #596582;
+}
+
+.truth-strip.connected {
+  color: #9ceac9;
+  background: #142c28;
+  border-color: #31564b;
+}
+
+.truth-strip.simulation,
+.high-risk-confirm {
+  color: #f2cb88;
+  background: #30291d;
+  border-color: #615033;
+}
+
+.permission-matrix label.high-risk {
+  background: #28251f;
+}
+
+.access-error {
+  color: #ffb4bf;
+  background: #341f2a;
+  border-color: #754050;
 }
 
 .role-list footer {
@@ -81,22 +213,13 @@
   font-size: 11px;
 }
 
+.access-hero button:focus-visible,
 .access-panel button:focus-visible,
 .access-panel input:focus-visible,
 .access-panel select:focus-visible,
 .role-editor button:focus-visible,
 .role-editor input:focus-visible,
 .role-editor textarea:focus-visible {
-  outline: 3px solid rgba(75, 105, 178, .28);
+  outline: 3px solid #9aa8ff;
   outline-offset: 2px;
-}
-
-.role-title > span > strong,
-.user-list article > div > strong,
-.audit-panel article > strong {
-  color: #2f2723;
-}
-
-.audit-panel > div > p {
-  color: #71655f;
 }

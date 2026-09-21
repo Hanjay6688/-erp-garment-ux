@@ -372,8 +372,8 @@
       "sha256": "93457703a395213297439f7a2a7ed2d836f2636adb9594c6bda11e6f8bf45573"
     },
     "src/access-control-cp45.css": {
-      "bytes": 1854,
-      "sha256": "a01106e9ed4645e22c3126af0a5cc8bf0fc5dd5094556f7a1d370eb4fa197f37"
+      "bytes": 4123,
+      "sha256": "2da307468e0e4214a9b2c363a2162ca64dc07dc588cc362df86eedde892283e2"
     },
     "src/accessProductionControl.test.ts": {
       "bytes": 4671,
@@ -497,8 +497,8 @@
     }
   },
   "visual_demo_followup": {
-    "base_sha": "6d4cda118f5d28d1f039cc0ecf318d0866f55c2c",
-    "scope": "Pengguna & Hak Akses CSS contrast and readability only",
+    "base_sha": "bf17dd84c85d7b0ace7987de55cb3b27c4a5a0af",
+    "scope": "Pengguna & Hak Akses dark blue cards, forms, role editor, and readable states",
     "source_path": "src/access-control-cp45.css",
     "backend_runtime_changed": false,
     "hosted_uat_retested": false,
