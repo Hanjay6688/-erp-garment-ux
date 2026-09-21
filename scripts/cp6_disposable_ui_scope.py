@@ -139,7 +139,27 @@ supabase/rollbacks/20260917054049_erp_v2_6_20al_cp6_opening_value_validation.rol
 supabase/rollbacks/20260921214120_erp_v2_6_20am_cp6_transfer_integrity.rollback.sql
 tests/browser/cp5-bs-resolution.spec.ts
 tests/browser/cp6-laundry-qc.spec.ts
-tests/fixtures/productionRecovery.ts'''.splitlines()
+tests/fixtures/productionRecovery.ts
+docs/evidence/cp6-an-am-catalog-pins.json
+docs/evidence/cp6-an-cli-provenance.json
+docs/evidence/cp6-an-predecessor-functions.json
+docs/evidence/cp6-an-runtime-pins.json
+scripts/check-source-ownership.mjs
+scripts/cp6_v2620an_advisors.py
+scripts/cp6_v2620an_build_sql.py
+scripts/cp6_v2620an_definitions.py
+scripts/cp6_v2620an_gate.py
+scripts/cp6_v2620an_maintenance_schedules.py
+scripts/cp6_v2620an_review.py
+scripts/cp6_v2620an_runtime.py
+scripts/cp6_v2620an_selectors.py
+scripts/cp6_v2620an_selectors_ui.mjs
+scripts/cp6_v2620an_ui_fixture.py
+src/cuttingSelectors.test.ts
+src/cuttingSelectors.ts
+src/types/database.preconnect.ts
+supabase/migrations/20260921223438_erp_v2_6_20an_cp6_cutting_selectors.sql
+supabase/rollbacks/20260921223438_erp_v2_6_20an_cp6_cutting_selectors.rollback.sql'''.splitlines()
 
 
 def verify():
@@ -157,6 +177,8 @@ def verify():
     for path, expected in pins['sha256'].items():
         assert hashlib.sha256(Path(path).read_bytes()).hexdigest() == expected, path
     expected_sql = {
+        'supabase/migrations/20260921223438_erp_v2_6_20an_cp6_cutting_selectors.sql',
+        'supabase/rollbacks/20260921223438_erp_v2_6_20an_cp6_cutting_selectors.rollback.sql',
         'supabase/migrations/20260921214120_erp_v2_6_20am_cp6_transfer_integrity.sql',
         'supabase/rollbacks/20260921214120_erp_v2_6_20am_cp6_transfer_integrity.rollback.sql',
         'supabase/migrations/20260917054049_erp_v2_6_20al_cp6_opening_value_validation.sql',
@@ -189,6 +211,12 @@ def verify():
     for path,expected in am['source_pins'].items():
         raw=Path(path).read_bytes()
         assert len(raw)==expected['bytes'] and hashlib.sha256(raw).hexdigest()==expected['sha256'],path
+    an=json.loads(Path('docs/evidence/cp6-an-runtime-pins.json').read_text())
+    assert an['predecessor_head']=='bf05659d4f8e99d0332215772d658417e4233cc8' and len(an['new_functions'])==2
+    assert len(an['functions'])==1 and an['functions'][0]['predecessor_sha256']==an['functions'][0]['installed_sha256']
+    for path,expected in an['source_pins'].items():
+        raw=Path(path).read_bytes()
+        assert len(raw)==expected['bytes'] and hashlib.sha256(raw).hexdigest()==expected['sha256'],path
     # Preserve the validation bodies; only routing to the dedicated combined gate changes.
     full = '.github/workflows/cp6-full-schema-validation.yml'
     route = '''          if python scripts/cp6_disposable_ui_scope.py; then
@@ -216,8 +244,8 @@ def verify():
             if name == 'cp6-ai-work-source.yml':
                 text = text.replace("    needs: review-scope\n    if: needs.review-scope.outputs.aj != 'true'\n", '')
         assert text == subprocess.check_output(['git','show',BASE+':'+path],text=True), path
-    return dict(status='ROUTED_TO_EXPLICIT_AM_TRIAL_OR_COMBINED_GATE',base_backend_head=BACKEND,
-                base_backend_tree=BACKEND_TREE,backend_generation='AM_CANDIDATE',backend_head=git('rev-parse','HEAD'),frontend_head=git('rev-parse','HEAD'),
+    return dict(status='ROUTED_TO_EXPLICIT_AM_OR_AN_FAMILY_GATE',base_backend_head=BACKEND,
+                base_backend_tree=BACKEND_TREE,backend_generation='AN_CANDIDATE',backend_head=git('rev-parse','HEAD'),frontend_head=git('rev-parse','HEAD'),
                 frontend_tree=git('rev-parse','HEAD^{tree}'),
                 historical_460_matrix_reexecuted=False,independent_acceptance=False,
                 production_go=False)

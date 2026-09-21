@@ -1,0 +1,10 @@
+{
+  "cli_version": "2.116.0",
+  "generated_file": "20260921223438_erp_v2_6_20an_cp6_cutting_selectors.sql",
+  "empty_file_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "source_evidence": {
+    "artifact_id": 10668124130,
+    "artifact_sha256": "299684058ecb0e3f03c8ab18a374f4d944848268d4462348e89c89e8036fd4cc",
+    "run": 35663140263
+  }
+}

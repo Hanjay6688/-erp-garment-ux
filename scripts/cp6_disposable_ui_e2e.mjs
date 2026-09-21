@@ -534,6 +534,14 @@ try {
     frontendHead:report.frontend_head,frontendTree:report.frontend_tree})
   assert.equal(recoveryResult.status,'WRITER_PASS')
   report.frontend_recovery={file:'FRONTEND_RECOVERY.json',status:recoveryResult.status,cases:recoveryResult.cases.length}
+  if(process.env.CP6_RUNTIME_GENERATION==='AN') {
+    stage('AN_SELECTOR_FAMILY')
+    const selectors=await import('./cp6_v2620an_selectors_ui.mjs')
+    const selectorResult=await selectors.runSelectors({query,reportDir,owner,session,secrets,pageFor,rpc,newUser,mapUser,authRequest,
+      frontendHead:report.frontend_head,frontendTree:report.frontend_tree})
+    assert.equal(selectorResult.status,'WRITER_PASS')
+    report.selector_family={file:'SELECTORS_UI.json',status:selectorResult.status,cases:selectorResult.cases.length}
+  }
   if(foundationFailure)throw foundationFailure
   report.status='WRITER_PASS'
 }catch(error){

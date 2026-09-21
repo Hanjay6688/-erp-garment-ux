@@ -28,6 +28,13 @@ from psycopg.conninfo import conninfo_to_dict
 
 
 TARGETS: dict[str, dict[str, Any]] = {
+    'AN': {
+        'rollback': Path(__file__).resolve().parents[1] / 'supabase/rollbacks/20260921223438_erp_v2_6_20an_cp6_cutting_selectors.rollback.sql',
+        'rollback_sha256': '05b36ee0fc400055e9d200db8cac23986a8f739e9194f2de8a7b7efdfe0e3ffa',
+        'marker': 'v2.6.20an', 'platform': 'erp_v2_6_20an_cp6_cutting_selectors',
+        'predecessor': 'v2.6.20am', 'capsule': 'erp.cp6_v2620an_rollback_capsule',
+        'capsule_count': 1,
+    },
     'AM': {
         'rollback': Path(__file__).resolve().parents[1] / 'supabase/rollbacks/20260921214120_erp_v2_6_20am_cp6_transfer_integrity.rollback.sql',
         'rollback_sha256': 'd8e8cdd4eff7858d15ed972e28724d6d390e46c26305a95c620f662137748395',
@@ -609,6 +616,11 @@ def _sessions(control: psycopg.Connection, database: str, keep_pid: int) -> list
 def _capsule_snapshot(
     target_conn: psycopg.Connection, target_name: str, target: dict[str, Any]
 ) -> list[dict[str, Any]]:
+    if target_name == 'AN':
+        from cp6_v2620an_runtime import pins, verified_successor
+        TRUSTED_FUNCTIONS['AN'] = pins()['functions']
+        with target_conn.cursor() as an_cur:
+            verified_successor(an_cur, pre_admission=True)
     if target_name == 'AM':
         from cp6_v2620am_runtime import pins, verified_successor
         TRUSTED_FUNCTIONS['AM'] = pins()['functions']
@@ -1077,8 +1089,10 @@ def run_maintenance_rollback(
         # parser-normalized source-to-live view proof.  Rollback remains
         # forbidden if this stronger second pass detects coordinated capsule
         # and live-definition drift; admission stays closed on failure.
-        if target_name in {'AC', 'AD', 'AE', 'AF', 'AG', 'AH', 'AI', 'AJ', 'AK', 'AL', 'AM'}:
-            if target_name == 'AM':
+        if target_name in {'AC', 'AD', 'AE', 'AF', 'AG', 'AH', 'AI', 'AJ', 'AK', 'AL', 'AM', 'AN'}:
+            if target_name == 'AN':
+                from cp6_v2620an_runtime import verified_successor
+            elif target_name == 'AM':
                 from cp6_v2620am_runtime import verified_successor
             elif target_name == 'AL':
                 from cp6_v2620al_runtime import verified_successor
@@ -1102,7 +1116,7 @@ def run_maintenance_rollback(
                 from cp6_v2620ac_runtime import verified_successor
             with rollback_conn.cursor() as ac_cur:
                 post_drain_objects = verified_successor(ac_cur)
-            expected_count = {'AC': 272, 'AD': 274, 'AE': 276, 'AF': 278, 'AG': 690, 'AH': 690, 'AI': 690, 'AJ': 690, 'AK': 690, 'AL': 690, 'AM': 690}[target_name]
+            expected_count = {'AC': 272, 'AD': 274, 'AE': 276, 'AF': 278, 'AG': 690, 'AH': 690, 'AI': 690, 'AJ': 690, 'AK': 690, 'AL': 690, 'AM': 690, 'AN': 692}[target_name]
             if len(post_drain_objects) != expected_count:
                 raise MaintenanceRollbackError(
                     target_name + '_POST_DRAIN_RUNTIME_CARDINALITY_MISMATCH'

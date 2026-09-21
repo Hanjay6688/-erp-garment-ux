@@ -316,3 +316,45 @@ eight new crossflow fixtures were INCOMPLETE: the generated warehouse code was
 assertion ran and this is not an AM product bug. Synthetic identifiers are now
 25 characters; no application SQL, guard or oracle changes. Artifact `10669071464`,
 1,605,928 bytes, SHA-256 `59f62db7874818d0ae9f5b1095eebb411cdb1111712a6fad217866bbc3a417dc`.
+
+
+AM transfer/invoice follow-up succeeded at `6b0aa79753b3dd5a0dd7cd77012094971e7fa8aa`
+(tree `882986cd99b22fe1bb0192aa5841f0841ac7a23e`), run `35665864959`,
+CodeQL `35665864905` SUCCESS. Eight genuine warehouse-transfer → cutting →
+wages → FG/sale → staged invoices cases passed (two quantities, two session zones,
+open/closed receipt date), 0 BUG_PROVEN, 0 INCOMPLETE. Transfer legs stayed neutral;
+original snapshots stayed exact; consumed-roll reversal refused atomically.
+Fresh34 trial and exact AM→AL→AH restore/cleanup passed. Full AM business/money/
+concurrency/maintenance and HTTP/UI groups from `bf05659…` were verified and
+explicitly reused, not rerun. Artifact `10669107236`, 1,613,668 bytes, ZIP45 entries,
+SHA-256 `a909662a4c33099980f60bb2d6dc3bf0e26620d9c21c078679f1874fde07df7b`;
+full hash, ZIP CRC/path and public token/JWT/private-key pattern checks passed.
+Durable copy: `cp6-am-transfer-crossflow-qualified.zip`.
+
+AN candidate now addresses S05 PO201/draft101. It adds a versioned private/public
+read-only workspace, independent literal search/pages/totals, selected records
+outside the current page, and draft model identity. The old v1 functions, all AM
+mutations, grants and existing SQL remain immutable. The connected page keeps
+unsaved quantities/PO/sizes across search and pagination; changed/missing/posted
+selected drafts block commands until explicit reload/new. Read tickets bind the
+current identity session so retired responses cannot apply; pending transactions
+remain readable and retain the existing write barrier and exact recovery envelope.
+
+AN uses authentic CLI stamp `20260921223438` from the verified full AM artifact.
+Every inherited AM function and relation plus both new readers/owner/ACL is pinned.
+Rollback removes only the new readers (no CASCADE), retains the exact legacy reader,
+and restores the full AM public/ERP catalog and 228-table data boundary after the
+unchanged closed-admission protocol. Static checks recover every prior AM controller
+byte after removing only explicit AN target bindings.
+
+Planned AN acceptance requires native28 selector controls, real HTTP/UI15 controls,
+20 schedules on the new rollback edge, all original HTTP/UI/recovery cases, exact
+11-refusal rollback and physical cleanup. Local 342 unit/DOM tests and the targeted
+selector/session tests passed; native AN remains UNTESTED until the dedicated run.
+AM230/import31/value65 and AM transfer/money/concurrency evidence may be reused only
+through exact artifact hashing and unchanged SQL/oracle admission; the affected AN
+reader, UI, permissions, recovery and rollback evidence must be fresh. The preserved
+v1 reader will still show its original two pagination limitations; those old-reader
+controls do not override new v2 native/UI proof and are not silently relabeled PASS.
+CP6 remains HOLD for dates, PCS pricing, CSV/role scope and independent acceptance.
+No main/demo/UAT/hosted/deployment change. production_go:false; CP7 not started.

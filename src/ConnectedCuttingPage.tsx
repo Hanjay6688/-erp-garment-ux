@@ -7,9 +7,7 @@ import CuttingPatternPicker from './CuttingPatternPicker'
 import type { CuttingPatternChoice } from './CuttingPatternPicker'
 import {
   parseCuttingSaveResult,
-  parseCuttingWorkspace,
   type CuttingDraft,
-  type CuttingWorkspace,
   type CuttingWorkspaceRoll,
 } from './cuttingPersistence'
 import { normalizeClientError } from './lib/clientError'
@@ -18,6 +16,7 @@ import { useProductionMutation } from './useProductionMutation'
 import ProductionRecoveryNotice from './ProductionRecoveryNotice'
 import type { ProductionEnvelope } from './productionRecovery'
 import { parseQuantityInput, requireQuantityInput } from './quantityInput'
+import { parseCuttingSelectorWorkspace, cuttingOrder, cuttingSelectionIssue, type CuttingSelectorWorkspace, type CuttingSelectorDraft } from './cuttingSelectors'
 import './connected-cutting.css'
 
 type SelectedRoll = {
@@ -61,8 +60,9 @@ function rollFromDraft(draft: CuttingDraft, rollId: string): CuttingWorkspaceRol
   }
 }
 
-function sizesForOrder(workspace: CuttingWorkspace | null, orderId: string) {
-  const modelId = workspace?.orders.find((order) => order.id === orderId)?.model_id
+function sizesForOrder(workspace: CuttingSelectorWorkspace | null, orderId: string) {
+  const modelId = cuttingOrder(workspace, orderId)?.model_id
+    ?? (workspace?.selected_draft?.po_id === orderId ? workspace.selected_draft.model_id : undefined)
   return modelId ? workspace?.sizes.filter((size) => size.model_ids.includes(modelId)) ?? [] : []
 }
 
@@ -73,11 +73,13 @@ export default function ConnectedCuttingPage() {
   const canCreate = identity.status === 'AUTHORIZED' && hasPermission(identity, 'production.cutting.create')
   const canEdit = identity.status === 'AUTHORIZED' && hasPermission(identity, 'production.cutting.edit_draft')
   const canPost = identity.status === 'AUTHORIZED' && hasPermission(identity, 'production.cutting.post')
-  const [workspace, setWorkspace] = useState<CuttingWorkspace | null>(null)
+  const [workspace, setWorkspace] = useState<CuttingSelectorWorkspace | null>(null)
   const [locationId, setLocationId] = useState('')
   const [rollQuery, setRollQuery] = useState('')
   const [rollOffset, setRollOffset] = useState(0)
   const [orderId, setOrderId] = useState('')
+  const [orderQuery, setOrderQuery] = useState('')
+  const [draftQuery, setDraftQuery] = useState('')
   const [pattern, setPattern] = useState<CuttingPatternChoice | null>(null)
   const [cutAt, setCutAt] = useState(() => datetimeLocal(new Date()))
   const [notes, setNotes] = useState('')
@@ -88,57 +90,77 @@ export default function ConnectedCuttingPage() {
   const [yields, setYields] = useState<Record<string, Record<string, string>>>({})
   const [loading, setLoading] = useState(true)
   const mutation = useProductionMutation('CUTTING')
-  const { beginRead, finishRead, run, reconcile } = mutation
+  const { beginRead, finishRead, isReadCurrent, run, reconcile } = mutation
   const saving = mutation.busy
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
   const loadRequestRef = useRef(0)
-  const viewRef = useRef({ locationId, rollQuery })
-  viewRef.current = { locationId, rollQuery }
+  const selectionRef = useRef({ orderId, draftId, draftVersion })
+  selectionRef.current = { orderId, draftId, draftVersion }
+  const selectionReadyRef = useRef(false)
+  const selectorsRef = useRef({ orderQuery: '', orderOffset: 0, draftQuery: '', draftOffset: 0 })
+  const viewRef = useRef({ locationId, rollQuery, rollOffset })
+  viewRef.current = { locationId, rollQuery, rollOffset }
 
-  const load = useCallback(async (nextLocation: string | null, nextQuery = rollQuery, nextOffset = rollOffset) => {
+  const load = useCallback(async (nextLocation: string | null, nextQuery = viewRef.current.rollQuery,
+    nextOffset = viewRef.current.rollOffset, changes: Partial<typeof selectorsRef.current> = {}) => {
     const ticket = beginRead()
     const requestId = ++loadRequestRef.current
+    const selection = { ...selectionRef.current }
+    const selectors = { ...selectorsRef.current, ...changes }
+    selectorsRef.current = selectors
+    selectionReadyRef.current = false
     setLoading(true)
     setError('')
     try {
-      const { data, error: loadError } = await client.rpc('erp_get_cutting_workspace_v1', {
-        p_roll_query: nextQuery.trim() || null,
-        p_location_id: nextLocation || null,
-        p_limit: 100,
-        p_offset: nextOffset,
+      const { data, error: loadError } = await client.rpc('erp_get_cutting_workspace_v2', {
+        p_roll_query: nextQuery.trim() || null, p_location_id: nextLocation || null,
+        p_limit: 100, p_offset: nextOffset,
+        p_order_query: selectors.orderQuery.trim() || null, p_order_limit: 50, p_order_offset: selectors.orderOffset,
+        p_draft_query: selectors.draftQuery.trim() || null, p_draft_limit: 25, p_draft_offset: selectors.draftOffset,
+        p_selected_order_id: selection.orderId || null, p_selected_draft_id: selection.draftId,
       })
       if (requestId !== loadRequestRef.current) return false
-      if (loadError) {
-        setError(normalizeClientError(loadError).message)
-        return false
-      }
-      try {
-        const parsed = parseCuttingWorkspace(data)
-        setWorkspace(parsed)
-        setRollOffset(parsed.offset)
-        if (!nextLocation && parsed.locations[0]) setLocationId(parsed.locations[0].id)
-        const nextOrderId = orderId || parsed.orders[0]?.id || ''
-        if (!orderId && nextOrderId) setOrderId(nextOrderId)
+      if (loadError) { setError(normalizeClientError(loadError).message); return false }
+      const parsed = parseCuttingSelectorWorkspace(data)
+      if (parsed.selected_order_id !== (selection.orderId || null) || parsed.selected_draft_id !== selection.draftId
+        || parsed.order_page.offset !== selectors.orderOffset || parsed.draft_page.offset !== selectors.draftOffset
+        || parsed.order_page.limit !== 50 || parsed.draft_page.limit !== 25
+        || parsed.offset !== nextOffset || parsed.location_id !== (nextLocation || null)) throw new Error('Respons Potongan tidak cocok dengan halaman yang diminta.')
+      const nextOrderId = selection.orderId || parsed.orders[0]?.id || ''
+      // A pending transaction keeps this view readable while writes stay locked.
+      if (!isReadCurrent(ticket)) return false
+      const ready = finishRead(ticket)
+      selectionReadyRef.current = ready && !cuttingSelectionIssue(parsed, nextOrderId, selection.draftId, selection.draftVersion)
+      setWorkspace(parsed)
+      setRollOffset(parsed.offset)
+      if (!nextLocation && parsed.locations[0]) setLocationId(parsed.locations[0].id)
+      if (!selection.orderId && nextOrderId) {
+        selectionRef.current = { ...selectionRef.current, orderId: nextOrderId }
+        setOrderId(nextOrderId)
         const initialSizes = sizesForOrder(parsed, nextOrderId)
-        if (slots.length === 0 && initialSizes.length > 0) {
-          setSlots(initialSizes.slice(0, 3).map((size) => ({ key: globalThis.crypto.randomUUID(), sizeId: size.id, sizeCode: size.code })))
-        }
-        return finishRead(ticket)
-      } catch (parseError) {
-        setError(parseError instanceof Error ? parseError.message : String(parseError))
-        return false
+        setSlots(initialSizes.slice(0, 3).map(size => ({ key: globalThis.crypto.randomUUID(), sizeId: size.id, sizeCode: size.code })))
       }
-    } catch (loadFailure) {
-      if (requestId === loadRequestRef.current) setError(normalizeClientError(loadFailure).message)
+      return ready
+    } catch (failure) {
+      if (requestId === loadRequestRef.current) setError(normalizeClientError(failure).message)
       return false
     } finally {
       if (requestId === loadRequestRef.current) setLoading(false)
     }
-  }, [beginRead, finishRead, client, orderId, rollOffset, rollQuery, slots.length])
+  }, [beginRead, finishRead, isReadCurrent, client])
 
   useEffect(() => { void load(null, '', 0); return () => { loadRequestRef.current += 1 } }, [mutation.scope]) // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => { if (locationId) { setRollOffset(0); void load(locationId, rollQuery, 0) } }, [locationId]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  const selectionIssue = cuttingSelectionIssue(workspace, orderId, draftId, draftVersion)
+  const selectedOrder = cuttingOrder(workspace, orderId)
+  const orderOptions = workspace ? [...(selectedOrder && !workspace.orders.some(row => row.id === selectedOrder.id) ? [selectedOrder] : []), ...workspace.orders] : []
+  const openDraft = workspace?.selected_draft?.cutting_group_id === draftId ? workspace.selected_draft : workspace?.drafts.find(row => row.cutting_group_id === draftId)
+  const searchOrders = () => void load(locationId || null, rollQuery, rollOffset, { orderQuery, orderOffset: 0 })
+  const searchDrafts = () => void load(locationId || null, rollQuery, rollOffset, { draftQuery, draftOffset: 0 })
+  const pageLabel = (offset: number | undefined, length: number | undefined, total: number | undefined) =>
+    total === undefined ? 'Belum dimuat' : length ? `${(offset ?? 0) + 1}–${(offset ?? 0) + length} dari ${total}` : `0 dari ${total}`
 
   const selected = Object.values(selectedRolls)
   const selectedIds = new Set(Object.keys(selectedRolls))
@@ -155,6 +177,8 @@ export default function ConnectedCuttingPage() {
       && slots.some((slot) => count(yields[item.roll.id]?.[slot.key] ?? '0') > 0))
 
   const resetForm = () => {
+    selectionRef.current = { orderId: selectionRef.current.orderId, draftId: null, draftVersion: null }
+    selectionReadyRef.current = Boolean(cuttingOrder(workspace, selectionRef.current.orderId))
     setDraftId(null)
     setDraftVersion(null)
     setPattern(null)
@@ -166,6 +190,8 @@ export default function ConnectedCuttingPage() {
   }
 
   const changeOrder = (nextOrderId: string) => {
+    selectionRef.current = { ...selectionRef.current, orderId: nextOrderId }
+    selectionReadyRef.current = Boolean(cuttingOrder(workspace, nextOrderId))
     setOrderId(nextOrderId)
     const nextSizes = sizesForOrder(workspace, nextOrderId)
     setSlots(nextSizes.slice(0, 3).map((size) => ({
@@ -174,6 +200,7 @@ export default function ConnectedCuttingPage() {
     setSelectedRolls({})
     setYields({})
     if (selected.length > 0) setNotice('Pilihan roll dikosongkan karena Production Order berubah.')
+    void load(locationId || null, rollQuery, rollOffset)
   }
 
   const toggleSize = (sizeId: string, sizeCode: string) => {
@@ -201,7 +228,9 @@ export default function ConnectedCuttingPage() {
     setYields((current) => ({ ...current, [roll.id]: Object.fromEntries(slots.map((slot) => [slot.key, '0'])) }))
   }
 
-  const resumeDraft = (draft: CuttingDraft) => {
+  const resumeDraft = (draft: CuttingSelectorDraft) => {
+    selectionRef.current = { orderId: draft.po_id, draftId: draft.cutting_group_id, draftVersion: draft.row_version }
+    selectionReadyRef.current = false
     const nextSlots = draft.size_slots.map((slot) => ({
       key: `slot-${slot.slot_no}-${slot.size_id}`, sizeId: slot.size_id, sizeCode: slot.size_code,
     }))
@@ -231,6 +260,7 @@ export default function ConnectedCuttingPage() {
     setYields(nextYields)
     setNotice(`${draft.group_number} dimuat dari backend${draft.editable ? '.' : ' · read-only karena lifecycle downstream.'}`)
     setError('')
+    void load(draft.source_location_id ?? workspace?.locations[0]?.id ?? null, rollQuery, 0)
   }
 
   const payload = (action: 'SAVE_DRAFT' | 'POST') => ({
@@ -272,12 +302,12 @@ export default function ConnectedCuttingPage() {
   }
   const handlers = { send: sendExact, validate: validateCuttingCommit, retire, reload }
   const save = async (action: 'SAVE_DRAFT' | 'POST') => {
-    if (!formValid || mutation.writerLocked || (draftId ? !canEdit : !canCreate) || (action === 'POST' && !canPost)) return
+    if (!selectionReadyRef.current || !formValid || mutation.writerLocked || (draftId ? !canEdit : !canCreate) || (action === 'POST' && !canPost)) return
     setError(''); setNotice('')
     await run(action, payload(action), draftVersion, handlers)
   }
   const removeDraft = async () => {
-    if (!draftId || draftVersion === null || !canEdit || mutation.writerLocked) return
+    if (!selectionReadyRef.current || !draftId || draftVersion === null || !canEdit || mutation.writerLocked) return
     if (!globalThis.confirm('Hapus draft Potongan ini? Hanya draft yang belum diposting yang dapat dihapus.')) return
     setError(''); setNotice('')
     await run('DELETE', { id: draftId, action: 'DELETE', change_reason: 'Hapus draft Potongan dari workspace connected' }, draftVersion, handlers)
@@ -288,22 +318,30 @@ export default function ConnectedCuttingPage() {
     <div className="ccut-truth"><Database/><strong>ERP ENTENG UAT · RPC CONNECTED</strong><span>Tidak ada fixture atau direct-table write pada mode ini.</span></div>
     {error && <div className="ccut-message error" role="alert"><AlertTriangle/><span>{error}</span><button onClick={() => setError('')}>Tutup</button></div>}
     <ProductionRecoveryNotice recovery={mutation} onReconcile={() => reconcile(handlers)} className="ccut-message error"/>
+    {selectionIssue && <div className="ccut-message error" role="status"><AlertTriangle/><span>{selectionIssue}</span>{openDraft && <button disabled={mutation.writerLocked} onClick={() => resumeDraft(openDraft)}>Muat draft terbaru</button>}</div>}
     {notice && <div className="ccut-message success" role="status"><Check/><span>{notice}</span></div>}
 
     <div className="ccut-layout">
-      <aside className="ccut-drafts"><header><div><span>DRAFT BACKEND</span><strong>{workspace?.drafts.length ?? 0} Potongan</strong></div><button disabled={mutation.writerLocked} onClick={resetForm}>Baru</button></header>{workspace?.drafts.map((draft) => <button key={draft.cutting_group_id} className={draftId === draft.cutting_group_id ? 'active' : ''} disabled={mutation.writerLocked} onClick={() => resumeDraft(draft)}><FilePenLine/><span><strong>{draft.group_number}</strong><small>{draft.po_number} · {draft.pattern_code ? `${draft.pattern_code} ${draft.pattern_revision}` : 'Pola belum diikat'}</small></span><em>v{draft.row_version}</em></button>)}{!loading && workspace?.drafts.length === 0 && <p>Belum ada draft Potongan.</p>}</aside>
+      <aside className="ccut-drafts">
+        <header><div><span>DRAFT BACKEND</span><strong>{workspace ? `${workspace.draft_page.total} Potongan` : 'Belum dimuat'}</strong></div><button disabled={mutation.writerLocked} onClick={resetForm}>Baru</button></header>
+        <div className="ccut-search"><input aria-label="Cari draft Potongan" maxLength={200} value={draftQuery} onChange={event => setDraftQuery(event.target.value)} onKeyDown={event => { if (event.key === 'Enter') searchDrafts() }} placeholder="Nomor Potongan, PO, model, pola…"/><button disabled={loading || saving} onClick={searchDrafts}>Cari draft</button></div>
+        {openDraft && !workspace?.drafts.some(row => row.cutting_group_id === openDraft.cutting_group_id) && <button className="active" disabled={mutation.writerLocked} onClick={() => resumeDraft(openDraft)}><FilePenLine/><span><strong>{openDraft.group_number}</strong><small>Draft terbuka · di luar hasil pencarian</small></span></button>}
+        {workspace?.drafts.map(draft => <button key={draft.cutting_group_id} className={draftId === draft.cutting_group_id ? 'active' : ''} disabled={mutation.writerLocked} onClick={() => resumeDraft(draft)}><FilePenLine/><span><strong>{draft.group_number}</strong><small>{draft.po_number} · {draft.pattern_code ? `${draft.pattern_code} ${draft.pattern_revision}` : 'Pola belum diikat'}</small></span><em>v{draft.row_version}</em></button>)}
+        {!loading && workspace?.drafts.length === 0 && <p>Tidak ada draft yang cocok.</p>}
+        <footer className="ccut-pagination"><span>{pageLabel(workspace?.draft_page.offset, workspace?.drafts.length, workspace?.draft_page.total)}</span><div><button aria-label="Draft sebelumnya" disabled={loading || !workspace || workspace.draft_page.offset === 0} onClick={() => void load(locationId || null, rollQuery, rollOffset, { draftOffset: Math.max(0, selectorsRef.current.draftOffset - 25) })}>Sebelumnya</button><button aria-label="Draft berikutnya" disabled={loading || !workspace || workspace.draft_page.offset + workspace.drafts.length >= workspace.draft_page.total} onClick={() => void load(locationId || null, rollQuery, rollOffset, { draftOffset: selectorsRef.current.draftOffset + 25 })}>Berikutnya</button></div></footer>
+      </aside>
 
       <main className="ccut-form">
-        <section className="ccut-card"><header><span>01 · IDENTITAS KANONIK</span><strong>PO, Pola, waktu, dan gudang sumber</strong></header><div className="ccut-fields"><label>Production Order<select value={orderId} disabled={draftId !== null} onChange={(event) => changeOrder(event.target.value)}><option value="">Pilih PO…</option>{workspace?.orders.map((order) => <option value={order.id} key={order.id}>{order.po_number} · {order.model_code} · {order.model_name}</option>)}</select></label><label>Waktu potong<input type="datetime-local" value={cutAt} max={datetimeLocal(new Date())} onChange={(event) => setCutAt(event.target.value)}/></label><label>Gudang bahan<select value={locationId} onChange={(event) => { setLocationId(event.target.value); setRollOffset(0); setSelectedRolls({}); setYields({}); if (selected.length > 0) setNotice('Pilihan roll dikosongkan karena gudang bahan berubah.') }}><option value="">Pilih gudang…</option>{workspace?.locations.map((location) => <option value={location.id} key={location.id}>{location.code} · {location.name}</option>)}</select></label><label>Catatan<input value={notes} onChange={(event) => setNotes(event.target.value)} placeholder="Opsional"/></label></div><CuttingPatternPicker value={pattern} onChange={setPattern}/></section>
+        <section className="ccut-card"><header><span>01 · IDENTITAS KANONIK</span><strong>PO, Pola, waktu, dan gudang sumber</strong></header><div className="ccut-search"><Search/><input aria-label="Cari PO" maxLength={200} value={orderQuery} onChange={event => setOrderQuery(event.target.value)} onKeyDown={event => { if (event.key === 'Enter') searchOrders() }} placeholder="Nomor PO, model, mandor…"/><button disabled={loading || saving} onClick={searchOrders}>Cari PO</button></div><div className="ccut-pagination"><span>{pageLabel(workspace?.order_page.offset, workspace?.orders.length, workspace?.order_page.total)}</span><div><button aria-label="PO sebelumnya" disabled={loading || !workspace || workspace.order_page.offset === 0} onClick={() => void load(locationId || null, rollQuery, rollOffset, { orderOffset: Math.max(0, selectorsRef.current.orderOffset - 50) })}>Sebelumnya</button><button aria-label="PO berikutnya" disabled={loading || !workspace || workspace.order_page.offset + workspace.orders.length >= workspace.order_page.total} onClick={() => void load(locationId || null, rollQuery, rollOffset, { orderOffset: selectorsRef.current.orderOffset + 50 })}>Berikutnya</button></div></div><div className="ccut-fields"><label>Production Order<select value={orderId} disabled={draftId !== null} onChange={(event) => changeOrder(event.target.value)}><option value="">Pilih PO…</option>{orderId && !selectedOrder && <option value={orderId} disabled>PO terpilih tidak tersedia</option>}{orderOptions.map((order) => <option value={order.id} key={order.id}>{order.po_number} · {order.model_code} · {order.model_name}</option>)}</select></label><label>Waktu potong<input type="datetime-local" value={cutAt} max={datetimeLocal(new Date())} onChange={(event) => setCutAt(event.target.value)}/></label><label>Gudang bahan<select value={locationId} onChange={(event) => { setLocationId(event.target.value); setRollOffset(0); setSelectedRolls({}); setYields({}); if (selected.length > 0) setNotice('Pilihan roll dikosongkan karena gudang bahan berubah.') }}><option value="">Pilih gudang…</option>{workspace?.locations.map((location) => <option value={location.id} key={location.id}>{location.code} · {location.name}</option>)}</select></label><label>Catatan<input value={notes} onChange={(event) => setNotes(event.target.value)} placeholder="Opsional"/></label></div><CuttingPatternPicker value={pattern} onChange={setPattern}/></section>
 
         <section className="ccut-card"><header><span>02 · UKURAN AKTIF</span><strong>Kolom hasil potong sesuai model PO</strong></header><div className="ccut-size-list">{availableSizes.map((size) => <button className={slots.some((slot) => slot.sizeId === size.id) ? 'active' : ''} onClick={() => toggleSize(size.id, size.code)} key={size.id}>{size.code}</button>)}{orderId && availableSizes.length === 0 ? <span>Model PO ini belum memiliki ukuran aktif.</span> : null}</div></section>
 
-        <section className="ccut-card"><header><span>03 · ROLL FISIK</span><strong>{workspace?.roll_total ?? 0} tersedia di lokasi</strong></header><div className="ccut-search"><Search/><input value={rollQuery} onChange={(event) => setRollQuery(event.target.value)} onKeyDown={(event) => { if (event.key === 'Enter') { setRollOffset(0); void load(locationId || null, rollQuery, 0) } }} placeholder="Nomor roll, bahan, supplier…"/><button onClick={() => { setRollOffset(0); void load(locationId || null, rollQuery, 0) }}>Cari</button></div><div className="ccut-roll-catalog">{loading ? <span><LoaderCircle className="spin"/> Memuat roll…</span> : workspace?.rolls.map((roll) => <button className={selectedIds.has(roll.id) ? 'active' : ''} onClick={() => toggleRoll(roll)} key={roll.id}><span><strong>{roll.roll_number}</strong><small>{roll.material_sku} · {roll.material_name}</small></span><em>{roll.available_qty} {roll.unit_code}</em></button>)}</div><footer className="ccut-pagination"><span>{workspace?.roll_total ? `${rollOffset + 1}–${rollOffset + workspace.rolls.length} dari ${workspace.roll_total}` : '0 roll'}</span><div><button disabled={loading || rollOffset === 0} onClick={() => void load(locationId || null, rollQuery, Math.max(0, rollOffset - 100))}>Sebelumnya</button><button disabled={loading || !workspace || rollOffset + workspace.rolls.length >= workspace.roll_total} onClick={() => void load(locationId || null, rollQuery, rollOffset + 100)}>Berikutnya</button></div></footer></section>
+        <section className="ccut-card"><header><span>03 · ROLL FISIK</span><strong>{workspace?.roll_total ?? '—'} tersedia di lokasi</strong></header><div className="ccut-search"><Search/><input value={rollQuery} onChange={(event) => setRollQuery(event.target.value)} onKeyDown={(event) => { if (event.key === 'Enter') { setRollOffset(0); void load(locationId || null, rollQuery, 0) } }} placeholder="Nomor roll, bahan, supplier…"/><button onClick={() => { setRollOffset(0); void load(locationId || null, rollQuery, 0) }}>Cari</button></div><div className="ccut-roll-catalog">{loading ? <span><LoaderCircle className="spin"/> Memuat roll…</span> : workspace?.rolls.map((roll) => <button className={selectedIds.has(roll.id) ? 'active' : ''} onClick={() => toggleRoll(roll)} key={roll.id}><span><strong>{roll.roll_number}</strong><small>{roll.material_sku} · {roll.material_name}</small></span><em>{roll.available_qty} {roll.unit_code}</em></button>)}</div><footer className="ccut-pagination"><span>{workspace?.roll_total ? `${rollOffset + 1}–${rollOffset + workspace.rolls.length} dari ${workspace.roll_total}` : '0 roll'}</span><div><button disabled={loading || rollOffset === 0} onClick={() => void load(locationId || null, rollQuery, Math.max(0, rollOffset - 100))}>Sebelumnya</button><button disabled={loading || !workspace || rollOffset + workspace.rolls.length >= workspace.roll_total} onClick={() => void load(locationId || null, rollQuery, rollOffset + 100)}>Berikutnya</button></div></footer></section>
 
         <section className="ccut-card wide"><header><span>04 · HASIL PER ROLL & SIZE</span><strong>Angka sumber direkonsiliasi backend</strong></header>{selected.length === 0 ? <div className="ccut-empty">Pilih minimal satu roll dari gudang bahan.</div> : <div className="ccut-table-wrap"><table><thead><tr><th>Roll</th><th>Keluar</th><th>Terpakai</th><th>Sisa</th>{slots.map((slot) => <th key={slot.key}>Size {slot.sizeCode}</th>)}<th>Total pcs</th></tr></thead><tbody>{selected.map((item) => { const consumed = numeric(item.consumed); const rowPieces = slots.reduce((sum, slot) => sum + count(yields[item.roll.id]?.[slot.key] ?? '0'), 0); return <tr key={item.roll.id}><th><strong>{item.roll.roll_number}</strong><small>{item.roll.material_name}</small></th><td>{item.issued} {item.roll.unit_code}</td><td><input aria-label={`${item.roll.roll_number} terpakai`} aria-invalid={parseQuantityInput(item.consumed, 'MEASURE', item.issued) === null} inputMode="decimal" value={item.consumed} onChange={(event) => setSelectedRolls((current) => ({ ...current, [item.roll.id]: { ...current[item.roll.id], consumed: event.target.value } }))}/></td><td className={consumed > item.issued ? 'bad' : ''}>{display(item.issued - consumed, 2)}</td>{slots.map((slot) => <td key={slot.key}><input aria-label={`${item.roll.roll_number} Size ${slot.sizeCode}`} aria-invalid={parseQuantityInput(yields[item.roll.id]?.[slot.key] ?? '0') === null} inputMode="numeric" value={yields[item.roll.id]?.[slot.key] ?? '0'} onFocus={(event) => event.currentTarget.select()} onChange={(event) => setYields((current) => ({ ...current, [item.roll.id]: { ...current[item.roll.id], [slot.key]: event.target.value } }))}/></td>)}<td><strong>{display(rowPieces)}</strong></td></tr>})}</tbody></table></div>}</section>
 
         <section className="ccut-review"><div><span>ROLL</span><strong>{selected.length}</strong></div><div><span>KELUAR</span><strong>{totalIssued.toFixed(2)}</strong></div><div><span>TERPAKAI</span><strong>{display(totalConsumed, 2)}</strong></div><div><span>SISA</span><strong>{display(totalRemaining, 2)}</strong></div><div><span>HASIL</span><strong>{display(totalPieces)} pcs</strong></div></section>
-        <footer className="ccut-actions"><span>{draftId ? `Draft ${draftId.slice(0, 8)} · row version ${draftVersion}` : 'Transaksi baru · ID dibuat backend'}</span><div>{draftId && <button className="danger" disabled={!canEdit || mutation.writerLocked} onClick={() => void removeDraft()}><Trash2/> Hapus draft</button>}<button disabled={!formValid || mutation.writerLocked || (draftId ? !canEdit : !canCreate)} onClick={() => void save('SAVE_DRAFT')}>Simpan draft</button><button className="primary" disabled={!formValid || mutation.writerLocked || (draftId ? !canEdit : !canCreate) || !canPost} onClick={() => void save('POST')}>{saving ? <LoaderCircle className="spin"/> : <Check/>} Post ke WIP Potongan</button></div></footer>
+        <footer className="ccut-actions"><span>{draftId ? `Draft ${draftId.slice(0, 8)} · row version ${draftVersion}` : 'Transaksi baru · ID dibuat backend'}</span><div>{draftId && <button className="danger" disabled={Boolean(selectionIssue) || !canEdit || mutation.writerLocked} onClick={() => void removeDraft()}><Trash2/> Hapus draft</button>}<button disabled={Boolean(selectionIssue) || !formValid || mutation.writerLocked || (draftId ? !canEdit : !canCreate)} onClick={() => void save('SAVE_DRAFT')}>Simpan draft</button><button className="primary" disabled={Boolean(selectionIssue) || !formValid || mutation.writerLocked || (draftId ? !canEdit : !canCreate) || !canPost} onClick={() => void save('POST')}>{saving ? <LoaderCircle className="spin"/> : <Check/>} Post ke WIP Potongan</button></div></footer>
       </main>
     </div>
   </section>

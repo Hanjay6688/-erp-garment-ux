@@ -12,7 +12,7 @@ export async function runFrontendRecovery(c) {
   const ids = ['CUT_RAW_COUNT', 'CUT_LOST_REPLY', 'SHARED_PENDING_READABLE_QC', 'CUT_EXACT_REPLAY',
     'PICKUP_REFETCH_FAILURE', 'PICKUP_READ_RECOVERY', 'WIP_REAL_CONTRACT', 'BS_GATEWAY_503', 'BS_EXACT_REPLAY']
   const report = { status: 'INCOMPLETE', classification: 'WRITER_REAL_AUTH_UI_HTTP_DATABASE', candidate_head: c.frontendHead,
-    candidate_tree: c.frontendTree, backend_generation: 'AL', production_go: false, independent_acceptance: false,
+    candidate_tree: c.frontendTree, backend_generation: process.env.CP6_RUNTIME_GENERATION || 'AL', production_go: false, independent_acceptance: false,
     schema_acl_modified: false, supplied_successful_business_responses: false, planned: ids, cases: [],
     source_sha256: createHash('sha256').update(readFileSync(fileURLToPath(import.meta.url))).digest('hex') }
   const save = () => writeFileSync(resolve(c.reportDir, 'FRONTEND_RECOVERY.json'), JSON.stringify(report, null, 2)+'\n')

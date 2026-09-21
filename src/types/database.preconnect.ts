@@ -64,6 +64,16 @@ export type PreconnectDatabase = {
         }
         Returns: Json
       }
+      erp_get_cutting_workspace_v2: {
+        Args: {
+          p_roll_query?: string | null; p_location_id?: string | null
+          p_limit?: number; p_offset?: number
+          p_order_query?: string | null; p_order_limit?: number; p_order_offset?: number
+          p_draft_query?: string | null; p_draft_limit?: number; p_draft_offset?: number
+          p_selected_order_id?: string | null; p_selected_draft_id?: string | null
+        }
+        Returns: Json
+      }
       erp_save_cutting_group_before_sewing_v2: {
         Args: { p_payload: Json; p_client_request_id: string; p_expected_version?: number | null }
         Returns: Json

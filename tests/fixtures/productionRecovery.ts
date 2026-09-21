@@ -24,7 +24,7 @@ export function cuttingFixture() {
     sizes: [{ id: 'size-s', code: 'S', sort_order: 1, model_ids: ['model-1'] }],
     locations: [{ id: 'loc-1', code: 'RM', name: 'Bahan' }], contractors: [{ id: 'mandor-1', code: 'M1', name: 'Mandor' }],
     drafts: [{ cutting_group_id: 'group-1', group_number: 'CUT-1', row_version: 1, po_id: 'po-1', po_number: 'PO-1',
-      model_code: 'M', model_name: 'Model', cut_at: '2026-09-20T00:00:00Z', source_location_id: 'loc-1', notes: null,
+      model_code: 'M', model_name: 'Model', cut_at: '2026-09-20T00:00:00Z', source_location_id: 'loc-1', notes: null as string | null,
       pattern_id: 'pattern-1', pattern_code: 'REG', pattern_revision: 'R1', pattern_name: 'Regular', pattern_is_active: true, editable: true,
       size_slots: [{ slot_no: 1, size_id: 'size-s', size_code: 'S', drawing_no: 1, label_override: null }],
       rolls: [{ roll_id: 'roll-1', roll_number: 'R-1', material_id: 'material-1', material_sku: 'FAB', material_name: 'Fabric',
@@ -33,6 +33,19 @@ export function cuttingFixture() {
     }],
     rolls: [{ id: 'roll-1', roll_number: 'R-1', material_id: 'material-1', material_sku: 'FAB', material_name: 'Fabric', unit_code: 'yd',
       supplier_id: null, supplier_code: null, supplier_name: null, original_qty: 20, available_qty: 20, status: 'AVAILABLE', received_at: null }],
+  }
+}
+export function cuttingSelectorFixture(args: Record<string, unknown> = {}) {
+  const base = cuttingFixture()
+  const drafts = base.drafts.map(draft => ({ ...draft, model_id: 'model-1' }))
+  return { ...base, drafts, contract_version: 2,
+    location_id: (args.p_location_id as string | null) ?? null,
+    order_page: { query: (args.p_order_query as string | null) ?? null, limit: 50, offset: 0, total: 1 },
+    draft_page: { query: (args.p_draft_query as string | null) ?? null, limit: 25, offset: 0, total: 1 },
+    selected_order_id: (args.p_selected_order_id as string | null) ?? null,
+    selected_order: args.p_selected_order_id === 'po-1' ? base.orders[0] : null,
+    selected_draft_id: (args.p_selected_draft_id as string | null) ?? null,
+    selected_draft: args.p_selected_draft_id === 'group-1' ? drafts[0] : null,
   }
 }
 export function pickupFixture() {

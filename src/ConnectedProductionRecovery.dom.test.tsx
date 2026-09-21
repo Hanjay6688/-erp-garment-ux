@@ -6,7 +6,7 @@ import ConnectedCuttingPage from './ConnectedCuttingPage'
 import ConnectedPickupPage from './ConnectedPickupPage'
 import ConnectedWipStatusPage from './ConnectedWipStatusPage'
 import { productionKey, readProductionRecovery } from './productionRecovery'
-import { cuttingCommit, cuttingFixture, pickupCommit, pickupFixture, recoveryIdentity, recoveryPatterns, wipFixture } from '../tests/fixtures/productionRecovery'
+import { cuttingCommit, cuttingSelectorFixture, pickupCommit, pickupFixture, recoveryIdentity, recoveryPatterns, wipFixture } from '../tests/fixtures/productionRecovery'
 
 const authState = vi.hoisted(() => ({ current: null as unknown }))
 const client = vi.hoisted(() => ({ rpc: vi.fn() }))
@@ -49,13 +49,20 @@ async function fill(input: HTMLInputElement, raw: string) {
   })
 }
 function server() {
-  const state = { failRead: false, loseReply: false, wrongReceipt: false, replayRejection: false, committed: false, effects: 0 }
+  const state = { failRead: false, loseReply: false, wrongReceipt: false, replayRejection: false, committed: false, effects: 0, selectorVersion: 1, hideSelectors: false, missingDraft: false }
   const saved = new Map<string, unknown>()
   client.rpc.mockImplementation(async (name: string, args: Record<string, unknown>) => {
     if (name === 'erp_list_patterns_v1') return { data: recoveryPatterns, error: null }
     if (name.startsWith('erp_get_')) {
       if (state.failRead && state.committed) return { data: null, error: { message: 'Refetch failed' } }
-      if (name === 'erp_get_cutting_workspace_v1') return { data: cuttingFixture(), error: null }
+      if (name === 'erp_get_cutting_workspace_v2') {
+        const data = cuttingSelectorFixture(args)
+        data.drafts[0].row_version = state.selectorVersion
+        data.drafts[0].notes = state.selectorVersion > 1 ? 'Current server draft' : null
+        if (state.hideSelectors) { data.orders = []; data.order_page.total = 0; data.drafts = []; data.draft_page.total = 0 }
+        if (state.missingDraft) { data.drafts = []; data.draft_page.total = 0; data.selected_draft = null }
+        return { data, error: null }
+      }
       if (name === 'erp_get_cutting_pickup_queue_v1') return { data: pickupFixture(), error: null }
     }
     const payload = args.p_payload as Record<string, unknown>
@@ -234,5 +241,48 @@ describe('actual quantity fields preserve invalid pasted text', () => {
     await fill(input, '-1,5'); expect(input.value).toBe('-1,5'); expect(button('Simpan draft').disabled).toBe(true)
     await fill(input, '1,5'); expect(input.value).toBe('1,5'); await click('Simpan draft')
     expect(writes()[0][1].p_payload.rolls[0]).toMatchObject({ qty_consumed: 1.5, qty_reported_remaining: 18.5 })
+  })
+})
+
+
+describe('cutting selector continuity and stale drafts', () => {
+  it('preserves edited quantities and selected model when both pages filter out the selection', async () => {
+    const state = server(); await mount('CUTTING')
+    const qty = container.querySelector<HTMLInputElement>('[aria-label="R-1 Size S"]')!
+    await fill(qty, '3')
+    state.hideSelectors = true
+    await fill(container.querySelector<HTMLInputElement>('[aria-label="Cari PO"]')!, 'No match')
+    await click('Cari PO')
+    expect(container.querySelector<HTMLInputElement>('[aria-label="R-1 Size S"]')!.value).toBe('3')
+    expect(container.querySelector('.ccut-size-list')?.textContent).toContain('S')
+    expect(container.querySelector<HTMLSelectElement>('.ccut-fields select')!.value).toBe('po-1')
+    expect(button('Post ke WIP').disabled).toBe(false)
+    expect(writes()).toHaveLength(0)
+  })
+  it('blocks a changed draft version, preserves user input, and requires explicit reload', async () => {
+    const state = server(); await mount('CUTTING')
+    await fill(container.querySelector<HTMLInputElement>('[aria-label="R-1 Size S"]')!, '3')
+    state.selectorVersion = 2
+    await click('Refetch')
+    expect(container.textContent).toContain('Draft berubah di sesi lain')
+    expect(button('Post ke WIP').disabled).toBe(true)
+    expect(button('Hapus draft').disabled).toBe(true)
+    expect(container.querySelector<HTMLInputElement>('[aria-label="R-1 Size S"]')!.value).toBe('3')
+    await click('Muat draft terbaru')
+    expect(container.querySelector<HTMLInputElement>('[aria-label="R-1 Size S"]')!.value).toBe('9')
+    expect(button('Post ke WIP').disabled).toBe(false)
+    await click('Simpan draft')
+    expect(writes()).toHaveLength(1)
+    expect(writes()[0][1].p_expected_version).toBe(2)
+  })
+  it('blocks a posted or missing draft while keeping the explicit New action available', async () => {
+    const state = server(); await mount('CUTTING'); state.missingDraft = true
+    await click('Refetch')
+    expect(container.textContent).toContain('Draft sudah berubah tahap')
+    expect(button('Post ke WIP').disabled).toBe(true)
+    expect(button('Baru').disabled).toBe(false)
+    await click('Baru')
+    expect(container.textContent).not.toContain('Draft sudah berubah tahap')
+    expect(writes()).toHaveLength(0)
   })
 })

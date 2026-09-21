@@ -9,7 +9,7 @@ import {
   readProductionRecovery, type ProductionDomain, type ProductionEnvelope,
 } from './productionRecovery'
 
-type ReadTicket = { sequence: number; scope: string; signature: string | null }
+type ReadTicket = { sequence: number; scope: string; signature: string | null; session: object }
 export type ProductionMutationHandlers = {
   send: (envelope: ProductionEnvelope) => PromiseLike<{ data: unknown; error: unknown }>
   validate: (data: unknown, envelope: ProductionEnvelope) => void
@@ -64,10 +64,13 @@ export function useProductionMutation(domain: ProductionDomain) {
     setError('')
     const current = readProductionRecovery(scope)
     setObserved(current)
-    return { sequence: ++readSequence.current, scope, signature: current.signature }
-  }, [invalidate, scope])
+    return { sequence: ++readSequence.current, scope, signature: current.signature, session }
+  }, [invalidate, scope, session])
+  const isReadCurrent = useCallback((ticket: ReadTicket) =>
+    mountedRef.current && ticket.scope === scopeRef.current && ticket.sequence === readSequence.current
+      && ticket.session === sessionRef.current && ticket.signature === readProductionRecovery(scope).signature, [scope])
   const finishRead = useCallback((ticket: ReadTicket) => {
-    if (!mountedRef.current || ticket.scope !== scopeRef.current || ticket.sequence !== readSequence.current) return false
+    if (!isReadCurrent(ticket)) return false
     const current = readProductionRecovery(scope)
     setObserved(current)
     const fresh = !current.corrupted && !hasProductionPending(current)
@@ -77,7 +80,7 @@ export function useProductionMutation(domain: ProductionDomain) {
     readScope.current = ticket.scope
     setReady(fresh)
     return fresh
-  }, [scope])
+  }, [scope, isReadCurrent])
 
   const execute = useCallback(async (
     input: { action: string; payload: Json; expectedVersion: number | null } | null,
@@ -181,6 +184,6 @@ export function useProductionMutation(domain: ProductionDomain) {
     scope, busy, pending, error, notice, blockReason, committedSequence,
     corruptedEnvelope: observed.corrupted, externalMutationBlocked: Boolean(foreignDomain),
     workspaceStale: !ready, writerLocked: busy || !ready || readScope.current !== scope || !supported || observed.corrupted || hasProductionPending(observed),
-    beginRead, finishRead, invalidate, run, reconcile,
+    beginRead, finishRead, isReadCurrent, invalidate, run, reconcile,
   }
 }
