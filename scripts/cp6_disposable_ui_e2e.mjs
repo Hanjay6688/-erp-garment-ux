@@ -507,7 +507,7 @@ try {
   stage('FULL_RETURN_REVERSE_REDISPATCH');await reverse(page,redispatch,'Batalkan pengiriman','REVERSE_DELIVERY')
   checkState('FULL_RETURN_REVERSE_REDISPATCH',{fg_qty:0,wip:0,fg:0,accrued:0,ready:10})
   assert.equal(report.completed.length,planned.length)
-  report.status='WRITER_PASS'
+  report.base_cases_status='PASS'
   stage('INDEPENDENT_REMAINING_GAPS')
   const independent=await import('./cp6_final_gap_ui.mjs')
   const independentResult=await independent.runIndependentGaps({query,reportDir,owner,session,authRequest,newUser,mapUser,secrets,
@@ -535,6 +535,7 @@ try {
   assert.equal(recoveryResult.status,'WRITER_PASS')
   report.frontend_recovery={file:'FRONTEND_RECOVERY.json',status:recoveryResult.status,cases:recoveryResult.cases.length}
   if(foundationFailure)throw foundationFailure
+  report.status='WRITER_PASS'
 }catch(error){
   failure=error
   let message=String(error.stack||error)

@@ -80,9 +80,11 @@ export async function runFrontendRecovery(c) {
     assert.deepEqual(facts(),cutFacts)
     pass('SHARED_PENDING_READABLE_QC',{scope:'same actor/project, different live tab/domain',observed:cutFacts})
     await page.reload(); await nav(page,'Buat Potongan')
-    const replay=page.waitForResponse(r=>r.url().endsWith('/rpc/erp_save_cutting_group_before_sewing_v2'))
-    await page.getByRole('button',{name:'Reconcile transaksi',exact:true}).click()
-    const replayReply=await replay; assert.equal(replayReply.status(),200)
+    const [replayReply]=await Promise.all([
+      page.waitForResponse(r=>r.url().endsWith('/rpc/erp_save_cutting_group_before_sewing_v2')),
+      page.getByRole('button',{name:'Reconcile transaksi',exact:true}).click(),
+    ])
+    assert.equal(replayReply.status(),200)
     assert.deepEqual(replayReply.request().postDataJSON(),cutRequest)
     await expect(page.getByRole('button',{name:'Reconcile transaksi',exact:true})).toHaveCount(0)
     assert.deepEqual(facts(),cutFacts)
@@ -116,9 +118,11 @@ export async function runFrontendRecovery(c) {
     assert.equal(requests.filter(x=>x.path.endsWith('erp_save_cutting_pickup_v1')).length,1)
     assert.deepEqual(facts(),pickupFacts)
     pass('PICKUP_READ_RECOVERY',{observed:pickupFacts,no_second_write:true})
-    const wipReply=page.waitForResponse(r=>r.url().endsWith('/rpc/erp_get_wip_control_v1'))
-    await nav(page,'WIP & Sewing','WIP & Sewing')
-    assert.equal((await wipReply).status(),200)
+    const [wipReply]=await Promise.all([
+      page.waitForResponse(r=>r.url().endsWith('/rpc/erp_get_wip_control_v1')),
+      nav(page,'WIP & Sewing','WIP & Sewing'),
+    ])
+    assert.equal(wipReply.status(),200)
     await expect(page.locator('.connected-wip-page')).toContainText(fixture.group_number)
     await expect(page.locator('.connected-wip-page [role="alert"]')).toHaveCount(0)
     pass('WIP_REAL_CONTRACT',{strict_parser_accepted_original_response:true,group_id:fixture.group})
@@ -141,9 +145,11 @@ export async function runFrontendRecovery(c) {
     await expect(page.getByRole('button',{name:'Reconcile transaksi',exact:true})).toBeEnabled()
     assert.equal(Number(c.query(`select count(*) from erp.bs_cases where id='${bsId}' and qty_pcs=2`)),1)
     pass('BS_GATEWAY_503',{request_id:bsRequest.p_client_request_id,bs_case_id:bsId,real_commit_count:1})
-    const bsReplay=page.waitForResponse(r=>r.url().endsWith('/rpc/erp_save_bs_resolution_action_v1'))
-    await page.getByRole('button',{name:'Reconcile transaksi',exact:true}).click()
-    const bsReply=await bsReplay;assert.equal(bsReply.status(),200);assert.deepEqual(bsReply.request().postDataJSON(),bsRequest)
+    const [bsReply]=await Promise.all([
+      page.waitForResponse(r=>r.url().endsWith('/rpc/erp_save_bs_resolution_action_v1')),
+      page.getByRole('button',{name:'Reconcile transaksi',exact:true}).click(),
+    ])
+    assert.equal(bsReply.status(),200);assert.deepEqual(bsReply.request().postDataJSON(),bsRequest)
     assert.equal((await bsReply.json()).result.bs_case_id,bsId)
     await expect(page.getByRole('button',{name:'Reconcile transaksi',exact:true})).toHaveCount(0)
     assert.equal(Number(c.query(`select count(*) from erp.bs_cases where bs_number='${number}'`)),1)

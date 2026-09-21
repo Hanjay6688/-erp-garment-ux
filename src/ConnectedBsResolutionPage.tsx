@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import type { ReactNode } from 'react'
 import {
   AlertTriangle, ArchiveX, Check, ChevronRight, CircleDollarSign, Clock3,
   FileWarning, History, LoaderCircle, PackageCheck, Plus, RefreshCw, RotateCcw,
@@ -42,8 +43,8 @@ const showQty = (value: number) => Number.isFinite(value) ? String(value) : '—
 const money = (value: number) => `Rp${value.toLocaleString('id-ID', { maximumFractionDigits: 2 })}`
 const statusLabel = (status: string) => status.replaceAll('_', ' ')
 
-function CreateManualBs({ workspace, canSubmit, onClose, onAction }: {
-  workspace: BsResolutionWorkspace; canSubmit: boolean; onClose: () => void; onAction: RunAction
+function CreateManualBs({ workspace, canSubmit, onClose, onAction, feedback }: {
+  workspace: BsResolutionWorkspace; canSubmit: boolean; onClose: () => void; onAction: RunAction; feedback: ReactNode
 }) {
   const [number, setNumber] = useState('')
   const [legacyReference, setLegacyReference] = useState('')
@@ -58,6 +59,7 @@ function CreateManualBs({ workspace, canSubmit, onClose, onAction }: {
   const valid = Boolean(legacyReference.trim() && qty(quantity) > 0 && qty(quantity) <= 999_999 && componentQuantitiesValid && physicalAt && reason.trim().length >= 4)
   return <div className="cbsr-modal-layer" role="presentation"><section role="dialog" aria-modal="true" aria-labelledby="manual-bs-title">
     <header><div><span>SUMBER TIDAK TERLACAK</span><h2 id="manual-bs-title">Catat BS legacy / out-of-nowhere</h2><p>Jalur ini wajib menyimpan referensi fisik dan tidak mengarang PO atau Pola.</p></div><button aria-label="Tutup" onClick={onClose}><X/></button></header>
+    {feedback}
     <div className="cbsr-form-grid">
       <label><span>NOMOR BS · OPSIONAL</span><input value={number} onChange={(event) => setNumber(event.target.value)} placeholder="Otomatis bila kosong"/></label>
       <label><span>REFERENSI LEGACY · WAJIB</span><input value={legacyReference} onChange={(event) => setLegacyReference(event.target.value)} placeholder="Nota / buku / foto fisik"/></label>
@@ -79,7 +81,7 @@ function CreateManualBs({ workspace, canSubmit, onClose, onAction }: {
         })
       }}/><span><strong>{item.code}</strong>{item.name}</span></label>{selected ? <label className="component-before"><span>SUDAH SELESAI</span><input aria-label={`Qty ${item.name} sudah selesai sebelum BS`} inputMode="numeric" value={completedBefore[item.id] ?? '0'} onChange={(event) => setCompletedBefore((current) => ({ ...current, [item.id]: event.target.value }))}/><small>/ {showQty(qty(quantity))} pcs</small></label> : null}</div>
     })}</fieldset>
-    <footer><button onClick={onClose}>Batal</button><button className="primary" disabled={!canSubmit || !valid} onClick={async () => {
+    <footer><button onClick={onClose}>Tutup formulir</button><button className="primary" disabled={!canSubmit || !valid} onClick={async () => {
       const ok = await onAction('CREATE_MANUAL_BS', {
         bs_number: number.trim() || undefined, untracked_type: 'LEGACY', legacy_reference: legacyReference.trim(),
         product_id: productId || undefined, qty_pcs: qty(quantity), physical_at: toIso(physicalAt),
@@ -93,8 +95,8 @@ function CreateManualBs({ workspace, canSubmit, onClose, onAction }: {
   </section></div>
 }
 
-function CreateClaim({ workspace, canSubmit, onClose, onAction }: {
-  workspace: BsResolutionWorkspace; canSubmit: boolean; onClose: () => void; onAction: RunAction
+function CreateClaim({ workspace, canSubmit, onClose, onAction, feedback }: {
+  workspace: BsResolutionWorkspace; canSubmit: boolean; onClose: () => void; onAction: RunAction; feedback: ReactNode
 }) {
   const initialDelivery = workspace.lookups.laundry_sources.find((item) => item.qty_claimable_pcs > 0)
   const [sourceId, setSourceId] = useState(initialDelivery?.id ?? '')
@@ -116,6 +118,7 @@ function CreateClaim({ workspace, canSubmit, onClose, onAction }: {
   const valid = Boolean(source && number.trim() && qty(quantity) > 0 && qty(quantity) <= maxQuantity && openedAt && reason.trim().length >= 4 && compensationAmount !== null)
   return <div className="cbsr-modal-layer" role="presentation"><section role="dialog" aria-modal="true" aria-labelledby="new-claim-title">
     <header><div><span>LAUNDRY EXCEPTION</span><h2 id="new-claim-title">Buat claim Laundry</h2><p>Stuck/Missing mengikuti surat kirim; Damage wajib mengikuti baris penerimaan BS. Vendor dan PO tidak diketik ulang.</p></div><button aria-label="Tutup" onClick={onClose}><X/></button></header>
+    {feedback}
     <div className="cbsr-form-grid">
       <label className="wide"><span>{claimType === 'DAMAGE' ? 'BARIS PENERIMAAN BS' : 'SURAT KIRIM'}</span><select value={sourceId} onChange={(event) => { setSourceId(event.target.value); setQuantity('') }}><option value="">Pilih sumber…</option>{claimType === 'DAMAGE' ? receiptSources.map((item) => <option value={item.id} key={item.id}>{item.number} · {item.delivery_number} · {item.vendor_name} · {item.qty_claimable_pcs}/{item.qty_bs_laundry} pcs bisa diclaim</option>) : deliverySources.map((item) => <option value={item.id} key={item.id}>{item.number} · {item.vendor_name} · {item.po_number} · {item.qty_claimable_pcs} pcs outstanding</option>)}</select>{(claimType === 'DAMAGE' ? receiptSources : deliverySources).length === 0 ? <small className="cbsr-field-warning">Belum ada sumber fisik yang masih memiliki kapasitas claim jenis ini.</small> : null}</label>
       <label><span>NOMOR CLAIM</span><input value={number} onChange={(event) => setNumber(event.target.value)} placeholder="CLM-LDR-…"/></label>
@@ -131,7 +134,7 @@ function CreateClaim({ workspace, canSubmit, onClose, onAction }: {
       <label><span>WAKTU DIBUKA</span><input type="datetime-local" value={openedAt} onChange={(event) => setOpenedAt(event.target.value)}/></label>
       <label className="wide"><span>ALASAN / BUKTI · WAJIB</span><textarea value={reason} onChange={(event) => setReason(event.target.value)} placeholder="Jelaskan kekurangan, kerusakan, atau barang tertahan"/></label>
     </div>
-    <footer><button onClick={onClose}>Batal</button><button className="primary" disabled={!canSubmit || !valid} onClick={async () => {
+    <footer><button onClick={onClose}>Tutup formulir</button><button className="primary" disabled={!canSubmit || !valid} onClick={async () => {
       if (!source || compensationAmount === null) return
       const ok = await onAction('SAVE_CLAIM', {
         action: 'SAVE', claim_number: number.trim(), vendor_id: source.vendor_id,
@@ -443,19 +446,22 @@ export default function ConnectedBsResolutionPage() {
   ].join(':') : ''
   const visibleError = mutation.error || (mutation.corruptedEnvelope ? mutation.blockReason : error || mutation.blockReason)
   const visibleNotice = notice || mutation.notice
-  return <section className="connected-bs-resolution-page">
-    <header className="cbsr-hero"><div><span>CP5 · AUTHORITATIVE RECOVERY</span><h1>Barang BS & Rework</h1><p>Resolve fisik, biaya, FG, dan claim dari satu lineage; browser tidak menulis tabel atau jurnal langsung.</p></div><div><button disabled={!effectiveCanCreate || !hasClaimSource} title={hasClaimSource ? 'Buat claim dari sumber fisik Laundry' : 'Belum ada surat kirim atau penerimaan BS yang dapat dijadikan sumber'} onClick={() => setCreateMode('CLAIM')}><Plus/> Claim Laundry</button><button className="primary" disabled={!effectiveCanCreate || !workspace} onClick={() => setCreateMode('BS')}><Plus/> BS legacy</button><button disabled={loading} onClick={() => void load()}><RefreshCw/> Refetch</button></div></header>
-    <div className="cbsr-boundary"><ShieldCheck/><strong>UAT BACKEND CONNECTED</strong><span>Rework, rewash, HOLD, disposition, claim, HPP, dan reversal memakai fungsi kanonik server.</span></div>
+  const feedback = <>
     {visibleError ? <div className="cbsr-alert error" role="alert"><AlertTriangle/><span>{visibleError}</span><button onClick={() => setError('')}><X/></button></div> : null}
     {visibleNotice ? <div className="cbsr-alert notice"><Check/><span>{visibleNotice}</span><button onClick={() => setNotice('')}><X/></button></div> : null}
     {pendingMutation ? <div className="cbsr-alert error" role="alert"><AlertTriangle/><span>Hasil transaksi belum diketahui. Seluruh writer terkunci, termasuk setelah reload. Reconcile mengirim ulang amplop persis dengan UUID lama lalu memuat state authoritative.</span><button className="cbsr-reconcile" disabled={busy} onClick={() => void reconcilePendingMutation()}><RotateCcw/> Reconcile transaksi</button></div> : null}
     {workspaceStale && !pendingMutation ? <div className="cbsr-alert error" role="alert"><AlertTriangle/><span>State layar stale setelah mutasi tersimpan. Jangan ulangi aksi; seluruh writer terkunci sampai Refetch authoritative berhasil.</span></div> : null}
+  </>
+  return <section className="connected-bs-resolution-page">
+    <header className="cbsr-hero"><div><span>CP5 · AUTHORITATIVE RECOVERY</span><h1>Barang BS & Rework</h1><p>Resolve fisik, biaya, FG, dan claim dari satu lineage; browser tidak menulis tabel atau jurnal langsung.</p></div><div><button disabled={!effectiveCanCreate || !hasClaimSource} title={hasClaimSource ? 'Buat claim dari sumber fisik Laundry' : 'Belum ada surat kirim atau penerimaan BS yang dapat dijadikan sumber'} onClick={() => setCreateMode('CLAIM')}><Plus/> Claim Laundry</button><button className="primary" disabled={!effectiveCanCreate || !workspace} onClick={() => setCreateMode('BS')}><Plus/> BS legacy</button><button disabled={loading} onClick={() => void load()}><RefreshCw/> Refetch</button></div></header>
+    <div className="cbsr-boundary"><ShieldCheck/><strong>UAT BACKEND CONNECTED</strong><span>Rework, rewash, HOLD, disposition, claim, HPP, dan reversal memakai fungsi kanonik server.</span></div>
+    {createMode && workspace ? null : feedback}
     {busy ? <div className="cbsr-busy"><LoaderCircle className="spin"/> Mengunci transaksi dan memuat ulang state…</div> : null}
     <section className="cbsr-kpis"><article><span>TOTAL KASUS FILTER</span><strong>{workspace?.total ?? 0}</strong><small>{filter === 'ACTIVE' ? 'Closed disembunyikan' : filter}</small></article><article><span>QTY HALAMAN INI</span><strong>{activeQty} pcs</strong><small>Available + active rework</small></article><article><span>ON HOLD · HALAMAN</span><strong>{rows.filter((row) => row.status === 'ON_HOLD').length}</strong><small>Keputusan dibekukan eksplisit</small></article><article><span>CLAIM · HALAMAN</span><strong>{rows.filter((row) => row.kind === 'LAUNDRY_CLAIM').length}</strong><small>Filter halaman aktif</small></article></section>
     <section className="cbsr-workspace"><aside><header><div className="cbsr-tabs">{(['ACTIVE', 'CLOSED', 'ALL'] as const).map((value) => <button className={filter === value ? 'active' : ''} key={value} onClick={() => { setFilter(value); setOffset(0); void load(value, kind, patternId, query, 0) }}>{value === 'ACTIVE' ? 'Aktif' : value === 'CLOSED' ? 'Selesai' : 'Semua'}</button>)}</div><select aria-label="Jenis kasus CP5" value={kind} onChange={(event) => { const next = event.target.value as BsWorkspaceKind; setKind(next); setOffset(0); void load(filter, next, patternId, query, 0) }}><option value="ALL">BS + Claim</option><option value="BS">Barang BS</option><option value="LAUNDRY_CLAIM">Claim Laundry</option></select></header><label className="cbsr-search"><Search/><input value={query} onChange={(event) => setQuery(event.target.value)} onKeyDown={(event) => { if (event.key === 'Enter') { setOffset(0); void load(filter, kind, patternId, query, 0) } }} placeholder="Nomor, PO, model, Pola, pihak…"/><button onClick={() => { setOffset(0); void load(filter, kind, patternId, query, 0) }}>Cari</button></label><ConnectedPatternFilter label="FILTER POLA CP5" value={patternId} onChange={(next) => { setPatternId(next); setOffset(0); void load(filter, kind, next, query, 0) }}/>
       <div className="cbsr-list">{loading ? <div className="cbsr-empty"><LoaderCircle className="spin"/> Memuat kasus…</div> : rows.map((row) => <button type="button" className={`${row.case_key === selected?.case_key ? 'active ' : ''}${row.status === 'ON_HOLD' ? 'hold' : ''}`} key={row.case_key} onClick={() => setSelectedKey(row.case_key)}><span className={row.kind === 'BS' ? 'bs' : 'claim'}>{row.kind === 'BS' ? <Shirt/> : <Waves/>}</span><div><small>{row.po_number ?? row.legacy_reference ?? 'TANPA PO'} · {row.group_number ?? row.claim_type ?? 'UNTRACKED'}</small><strong>{row.number}</strong><em>{bsPatternLabel(row)}</em><p>{row.available_qty} tersedia · {row.active_rework_qty} rework</p></div><b>{statusLabel(row.status)}</b></button>)}{!loading && rows.length === 0 ? <div className="cbsr-empty"><Search/><strong>Tidak ada kasus pada filter ini</strong><small>Filter tidak mengubah transaksi.</small></div> : null}</div><footer className="cbsr-pagination"><span>{workspace?.total ? `${offset + 1}–${offset + rows.length} dari ${workspace.total}` : '0 kasus'}</span><div><button disabled={loading || !canPageBack} onClick={() => void load(filter, kind, patternId, query, Math.max(0, offset - 50))}>Sebelumnya</button><button disabled={loading || !canPageForward} onClick={() => void load(filter, kind, patternId, query, offset + 50)}>Berikutnya</button></div></footer>
     </aside>{selected && workspace ? <CaseDetail key={selectedContractKey} row={selected} workspace={workspace} canCreate={effectiveCanCreate} canPost={effectiveCanPost} canReverse={effectiveCanReverse} ownerAdmin={ownerAdmin} onAction={runAction}/> : <main className="cbsr-no-selection"><PackageCheck/><strong>Tidak ada detail</strong><small>Ubah filter atau buat kasus yang memang punya sumber fisik.</small></main>}</section>
-    {createMode === 'BS' && workspace ? <CreateManualBs workspace={workspace} canSubmit={effectiveCanCreate} onClose={() => setCreateMode(null)} onAction={runAction}/> : null}
-    {createMode === 'CLAIM' && workspace ? <CreateClaim workspace={workspace} canSubmit={effectiveCanCreate} onClose={() => setCreateMode(null)} onAction={runAction}/> : null}
+    {createMode === 'BS' && workspace ? <CreateManualBs workspace={workspace} canSubmit={effectiveCanCreate} onClose={() => setCreateMode(null)} onAction={runAction} feedback={feedback}/> : null}
+    {createMode === 'CLAIM' && workspace ? <CreateClaim workspace={workspace} canSubmit={effectiveCanCreate} onClose={() => setCreateMode(null)} onAction={runAction} feedback={feedback}/> : null}
   </section>
 }

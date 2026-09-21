@@ -316,6 +316,39 @@ test('CP5 lost commit response survives reload and reconciles the exact persiste
   expect(calls.unexpected).toEqual([])
 })
 
+for (const kind of ['BS', 'CLAIM'] as const) {
+  test(`CP5 ${kind} dialog keeps exact recovery reachable after an uncertain save`, async ({ page }, testInfo) => {
+    const calls = await installLocalUatContract(page, false, false, true)
+    await signIn(page)
+    await openBsResolution(page, testInfo.project.name)
+    await page.getByRole('button', { name: kind === 'BS' ? /BS legacy/ : /Claim Laundry/ }).click()
+    const modal = page.getByRole('dialog', { name: kind === 'BS' ? 'Catat BS legacy / out-of-nowhere' : 'Buat claim Laundry' })
+    if (kind === 'BS') {
+      await modal.getByLabel('REFERENSI LEGACY · WAJIB').fill('Synthetic original two pieces')
+      await modal.getByLabel('QTY PCS').fill('2')
+      await modal.getByLabel('ALASAN PENCATATAN · WAJIB').fill('Hitung fisik dua barang')
+    } else {
+      await modal.getByLabel('NOMOR CLAIM').fill('CLM-RECOVERY')
+      await modal.getByLabel(/QTY CLAIM/).fill('2')
+      await modal.getByLabel('ALASAN / BUKTI · WAJIB').fill('Dua barang belum kembali secara fisik')
+    }
+    const save = modal.getByRole('button', { name: kind === 'BS' ? /Simpan kasus authoritative/ : /Simpan claim/ })
+    await save.click()
+    const reconcile = modal.getByRole('button', { name: 'Reconcile transaksi', exact: true })
+    await expect(reconcile).toBeEnabled()
+    await expect(save).toBeDisabled()
+    // Editing the displayed form must not alter the persisted original command.
+    await modal.getByLabel(kind === 'BS' ? 'QTY PCS' : /QTY CLAIM/).fill('1')
+    await reconcile.click()
+    await expect(modal).toHaveCount(0)
+    await expect(page.getByText(/sudah direconcile dengan UUID lama/)).toBeVisible()
+    expect(calls.actions).toHaveLength(2)
+    expect(calls.actions[1]).toEqual(calls.actions[0])
+    expect(calls.actions[0]).toMatchObject({ p_action: kind === 'BS' ? 'CREATE_MANUAL_BS' : 'SAVE_CLAIM' })
+    expect(calls.unexpected).toEqual([])
+  })
+}
+
 test('CP5 committed claim cannot be submitted again after failed then successful refetch', async ({ page }, testInfo) => {
   const calls = await installLocalUatContract(page, false, false, false, true)
   await signIn(page)

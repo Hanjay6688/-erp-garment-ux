@@ -106,6 +106,30 @@ still INCOMPLETE; CodeQL on this candidate passed. Exact rollback and cleanup
 passed. Artifact `10662423099`, 61,218,140 bytes, SHA-256
 `6830bc7f86d0abd70a672d28262b84a46f43b543f0e97b7ea3f91c6ac0088030`.
 
+Run `35653575907` on `3b29a5335c19b32583653e9068120d8e66e433e6`
+completed the first eight recovery cases. Cutting posted stock10→0/WIP0→100;
+exact replay left those facts and two journal rows unchanged. Cross-tab QC reads
+worked while writes stayed blocked. Pickup posted exactly ten pieces once and
+survived read failure; strict WIP parsing accepted the original response. BS was
+committed once behind a simulated gateway503 and its original envelope survived.
+
+The ninth case exposed another UI path in this family: the still-open creation
+dialog covered the page-level Reconcile button. The successor places the same
+feedback and recovery control **inside either BS or claim dialog**, preserving
+the form values and exact pending request. Desktop/mobile browser cases exercise
+both dialogs, including edits that must not change the original replay payload.
+
+That attempt also exposed a test-runner error: its response-wait promise rejected
+before the obstructed click was awaited. Node terminated before the UI/Auth
+cleanup `finally` block. AL→AK→AJ→AI restoration passed; the final AH structural
+comparison passed but its zero-user assertion failed. Whole-clone and container
+disposal completed, but Auth cleanup/exact final restoration are **not PASS** on
+this attempt. The successor awaits each listener and browser action together so
+failure enters the existing cleanup path; it marks the UI report PASS only after
+all required groups complete. It does not bypass click actionability or alter the
+rollback assertions. Artifact `10664395010`, 61,209,342 bytes, SHA-256
+`37e00ffda55216c6762fd28dc5905b3e54e4b7816ff64d3930b533ef82b29b05`.
+
 ## Next original foundation qualification, not a product repair
 
 The same disposable clone now collects 15 independent arithmetic/control
