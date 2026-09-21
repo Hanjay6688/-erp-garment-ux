@@ -85,6 +85,11 @@ scripts/cp6_v2620am_build_sql.py
 scripts/cp6_v2620am_definitions.py
 scripts/cp6_v2620am_runtime.py
 scripts/cp6_v2620am_sql_trial.py
+scripts/cp6_v2620am_review.py
+scripts/cp6_v2620am_concurrency.py
+scripts/cp6_v2620am_advisors.py
+scripts/cp6_v2620am_maintenance_schedules.py
+docs/evidence/cp6-am-regression-oracle-pins.json
 src/AccessControlPage.tsx
 src/ConnectedBsResolutionPage.dom.test.tsx
 src/ConnectedBsResolutionPage.tsx
@@ -209,8 +214,8 @@ def verify():
             if name == 'cp6-ai-work-source.yml':
                 text = text.replace("    needs: review-scope\n    if: needs.review-scope.outputs.aj != 'true'\n", '')
         assert text == subprocess.check_output(['git','show',BASE+':'+path],text=True), path
-    return dict(status='ROUTED_TO_AL_FRONTEND_GATE_WITH_AM_SQL_TRIAL',base_backend_head=BACKEND,
-                base_backend_tree=BACKEND_TREE,backend_generation='AL',backend_head=git('rev-parse','HEAD'),frontend_head=git('rev-parse','HEAD'),
+    return dict(status='ROUTED_TO_EXPLICIT_AM_TRIAL_OR_COMBINED_GATE',base_backend_head=BACKEND,
+                base_backend_tree=BACKEND_TREE,backend_generation='AM_CANDIDATE',backend_head=git('rev-parse','HEAD'),frontend_head=git('rev-parse','HEAD'),
                 frontend_tree=git('rev-parse','HEAD^{tree}'),
                 historical_460_matrix_reexecuted=False,independent_acceptance=False,
                 production_go=False)

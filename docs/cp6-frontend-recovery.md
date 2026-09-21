@@ -237,3 +237,30 @@ scope and does not prove a private function is an exposed HTTP endpoint. Runtime
 the parent workflow owns real Auth cleanup and whole-clone disposal. All original
 AL and frontend requirements remain. Findings are retained as CP6 blockers and
 must be fixed/proven before final acceptance; a completed qualification is not PASS.
+
+
+## AM integration checkpoint — 2026-09-21 (not accepted)
+
+The first AM SQL trial at `4b085e70569e63cd4ecc15a4460574aef86368a2`
+(tree `73a7c6d8a7fea6ece288f292213fac20e8073352`) failed overall.
+Run `35661132208`, artifact `10667539172`, 5,905,261 bytes / 59 ZIP entries,
+SHA-256 `c3df7182789b9011d055c34e4a60e0f49bc6cd02573a7f17f2b47a352be0ab75`.
+Counts: 25 controls, 3 additional original bug proofs, 2 incomplete fixture cases.
+The incomplete cases tried duplicate `(transfer, material, roll)` item rows;
+the original unique constraint correctly refused them. They are replaced by valid
+multi-material roundtrips, with the duplicate refusal retained as explicit controls.
+The original reverse-transfer location-value residue (qty 10 and 100) and DRAFT
+DELETE failure are now native-proven. AM passed both single-material reversals
+and deletion/replay. All SQL/table/catalog/schema-USAGE restoration was exact.
+AL HTTP/UI/recovery and full AH restoration/physical cleanup also passed.
+CodeQL `35661132354` succeeded. The failed trial remains evidence, not acceptance.
+
+The next candidate runs the unchanged AM SQL bytes in the committed disposable
+runtime, then the hash-pinned 230-case business oracle, native import31/value65,
+4 import + 12 direct + 16 original + 12 work + 12 new transfer schedules,
+20 maintenance schedules, controlled midnight4, HTTP/UI/recovery, exact rollback
+refusals and physical cleanup. The original business assertions are not edited.
+SQL trial expands to 34 cases (26 successor controls), including dependent transfer
+source reversal after stock returns to the intermediate location. Final acceptance
+requires every required group and restoration gate. CP6 remains HOLD for the
+known date/PCS/selector/CSV gaps and independent review; production_go:false.

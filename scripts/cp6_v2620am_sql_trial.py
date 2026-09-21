@@ -127,6 +127,52 @@ def delete_draft(cur,original=False):
     return dict(status='CONTROL_PASS',replay_exact=True,ledger_unchanged=True)
 
 
+def multi_material(cur,qtys):
+    # A transfer has one row per material/roll. Do not bypass that constraint
+    # to manufacture an impossible repeated-line roundtrip.
+    source,dest=f.locations(cur)
+    materials=[f.material(cur) for _ in qtys]
+    for mat in materials:
+        f.purchase(cur,mat,source,100,10,f.MASTER['t0'])
+        f.purchase(cur,mat,source,100,20,f.MASTER['t2'])
+    journal=f.gl(cur)
+    draft=f.transfer(cur,source,dest,list(zip(materials,qtys)),f.MASTER['t1'])
+    posted=f.post_transfer(cur,draft)
+    assert posted['movement_count']==2*len(qtys)
+    for mat in materials:
+        state=f.stock(cur,mat)
+        assert state['qty']==200 and state['value']==3000 and state['average']==15,state
+    result=f.call(cur,'erp.reverse_material_transfer_v2',draft['material_transfer_id'],
+        'AM whole multi-material inverse',uuid.uuid4(),posted['row_version'])
+    assert result['status']=='REVERSED' and f.gl(cur)==journal
+    for mat in materials:
+        assert totals(cur,mat)==sorted([(source,Decimal(200),Decimal(3000)),(dest,Decimal(0),Decimal(0))])
+    return dict(status='CONTROL_PASS',distinct_material_count=len(materials),qtys=qtys,
+        complete_movement_count=posted['movement_count'],all_location_values_restored=True)
+
+
+def duplicate_lines(cur,qtys):
+    mat,source,dest,_=fixture(cur)
+    _,error=f.attempt(cur,lambda:make(cur,mat,source,dest,qtys))
+    assert error and error['sqlstate']=='23505' and 'uq_material_transfer_item' in error['message'],error
+    return dict(status='CONTROL_PASS',qtys=qtys,existing_unique_rule_preserved=True,refusal=error)
+
+
+def chain_reverse(cur,return_to_middle):
+    source,middle=f.locations(cur);last,_=f.locations(cur);mat=f.material(cur)
+    f.purchase(cur,mat,source,100,10,f.MASTER['t0'])
+    first=f.post_transfer(cur,f.transfer(cur,source,middle,[(mat,100)],f.MASTER['t1']))
+    f.post_transfer(cur,f.transfer(cur,middle,last,[(mat,50)],f.MASTER['t2']))
+    if return_to_middle:
+        f.post_transfer(cur,f.transfer(cur,last,middle,[(mat,50)],f.MASTER['t3']))
+    _,error=f.attempt(cur,lambda:f.call(cur,'erp.reverse_material_transfer_v2',first['material_transfer_id'],
+        'AM dependent physical source cannot disappear',uuid.uuid4(),first['row_version']))
+    assert error and ('negative' in error['message'].lower() or 'insufficient' in error['message'].lower()),error
+    if return_to_middle:assert 'NEGATIVE_LOCATION_ROLL_HISTORY' in error['message'],error
+    return dict(status='CONTROL_PASS',current_destination_stock_restored=return_to_middle,
+        dependent_source_refused_atomically=True,refusal=error)
+
+
 def edit_draft(cur):
     mat,source,dest,_=fixture(cur)
     draft=make(cur,mat,source,dest,[10])
@@ -241,7 +287,10 @@ def run():
             specs=[('VALUE:'+str(q)+':'+str(b),lambda c,q=q,b=b:f.neutral_transfer(c,q,b)) for q,b in [(10,False),(10,True),(100,True)]]
             specs += [('LINES:'+m,lambda c,m=m:f.inactive_lines(c,m)) for m in ['ACTIVE_CONTROL','MIXED','ALL_INACTIVE']]
             specs += [('PREFIX:'+str(b),lambda c,b=b:f.location_history(c,b)) for b in [False,True]]
-            specs += [('ROUND_TRIP:'+str(q),lambda c,q=q:roundtrip(c,q,backdate=True)) for q in [[10],[100],[10,10],[10,20]]]
+            specs += [('ROUND_TRIP:'+str(q),lambda c,q=q:roundtrip(c,q,backdate=True)) for q in [[10],[100]]]
+            specs += [('MULTI_MATERIAL:'+str(q),lambda c,q=q:multi_material(c,q)) for q in [[10,10],[10,20]]]
+            specs += [('DUPLICATE_LINES:'+str(q),lambda c,q=q:duplicate_lines(c,q)) for q in [[10,10],[10,20]]]
+            specs += [('CHAIN_REVERSE:'+str(b),lambda c,b=b:chain_reverse(c,b)) for b in [False,True]]
             specs += [('FABRIC_ROLL',lambda c:roundtrip(c,[50],fabric=True,backdate=True)),('DRAFT_DELETE',delete_draft),('DRAFT_EDIT',edit_draft)]
             specs += [('INVALID:'+str(v),lambda c,v=v:invalid_number(c,v)) for v in [0,-1,'NaN']]
             specs += [('ROLE_UNMAPPED',role_control),('DIRECT_DRAFT_ROLE',lambda c:role_control(c,True))]

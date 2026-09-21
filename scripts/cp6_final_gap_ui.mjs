@@ -16,7 +16,7 @@ export async function runIndependentGaps(c){
     sendForm,receiveForm,qcForm,mutation,state,financialReport,when,reverse}=c
   const report={status:'INCOMPLETE',candidate_head:c.frontendHead,candidate_tree:c.frontendTree,
     previous_product_checkpoint:'555d8f29ea2d3f58dc2c7d10e7cd80099cdd3b49',
-    author_role:['AJ','AK','AL'].includes(process.env.CP6_RUNTIME_GENERATION)?'WRITER':'INDEPENDENT_AUDITOR',
+    author_role:['AJ','AK','AL','AM'].includes(process.env.CP6_RUNTIME_GENERATION)?'WRITER':'INDEPENDENT_AUDITOR',
     independent_acceptance:false,
     backend_head:c.backendHead,backend_tree:c.backendTree,production_go:false,
     source_sha256:createHash('sha256').update(readFileSync(fileURLToPath(import.meta.url))).digest('hex'),

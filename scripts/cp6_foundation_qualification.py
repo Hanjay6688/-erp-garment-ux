@@ -314,7 +314,11 @@ def selector(cur, drafts):
 
 
 def run():
-    global OWNER, MASTER
+    global OWNER, MASTER, runtime
+    generation=os.environ.get('CP6_RUNTIME_GENERATION','AL')
+    assert generation in ('AL','AM')
+    if generation=='AM':
+        import cp6_v2620am_runtime as runtime
     assert os.environ['CP6_AUTH_PGURL'] == PG
     OWNER = str(uuid.UUID(sys.argv[1]))
     path = Path(sys.argv[2])
@@ -324,8 +328,8 @@ def run():
     head = subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip()
     tree = subprocess.check_output(['git','rev-parse','HEAD^{tree}'],cwd=root,text=True).strip()
     assert head == os.environ['CP6_RUNTIME_HEAD'] and tree == os.environ['CP6_RUNTIME_TREE']
-    report = dict(status='INCOMPLETE',classification='WRITER_ORIGINAL_AL_NATIVE_QUALIFICATION',
-        candidate_head=head,candidate_tree=tree,runtime_generation='AL',production_go=False,
+    report = dict(status='INCOMPLETE',classification='WRITER_ORIGINAL_AL_NATIVE_QUALIFICATION' if generation=='AL' else 'WRITER_AM_SUCCESSOR_NATIVE_QUALIFICATION',
+        candidate_head=head,candidate_tree=tree,runtime_generation=generation,production_go=False,
         independent_acceptance=False,http_transport_proven=False,installed_functions_modified=False,
         source_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),cases={})
     def save():
@@ -363,7 +367,7 @@ def run():
             sha256=hashlib.sha256(definition.encode()).hexdigest()) for identity,definition,acl,owner_name in catalog
             if identity.split('(')[0].split('.')[-1] in selected_names]
         assert len(definitions) == len(selected_names)
-        path.with_name('FOUNDATION_ORIGINAL_FUNCTIONS.json').write_text(json.dumps(definitions,indent=2)+'\n')
+        path.with_name('FOUNDATION_ORIGINAL_FUNCTIONS.json' if generation=='AL' else 'FOUNDATION_AM_FUNCTIONS.json').write_text(json.dumps(definitions,indent=2)+'\n')
         specs = [('S01:PCS:'+str(f)+':'+str(q),lambda c,f=f,q=q:pcs_case(c,f,q)) for f,q in [(1,7),(12,12),(144,144),(12,7),(144,7)]]
         specs += [('S02:TRANSFER:'+str(q)+':'+str(b),lambda c,q=q,b=b:neutral_transfer(c,q,b)) for q,b in [(10,False),(10,True),(100,True)]]
         specs += [('S03:'+mode,lambda c,m=mode:inactive_lines(c,m)) for mode in ['ACTIVE_CONTROL','MIXED','ALL_INACTIVE']]
