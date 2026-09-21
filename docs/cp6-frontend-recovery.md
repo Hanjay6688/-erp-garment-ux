@@ -301,3 +301,10 @@ fresh8 actual crossflow, advisors and exact restore/cleanup are required.
 A fresh follow-up failure remains a failure even when the preceding full gate passed.
 CLI2.116.0 generated next AN stamp `20260921223438` in the successful artifact;
 no AN migration or selector acceptance exists yet. CP6 HOLD; production_go:false.
+
+Follow-up setup attempt `0014fd62c873825fd562c2bfc522b9dbfb916aab` / run
+`35665232900` stopped before database creation because the evidence directory
+was created only in the skipped frontend step. No new crossflow case ran.
+Directory creation is now in the unconditional runtime-binding step. Failure
+artifact `10668812374`, 288 bytes, SHA-256
+`d33a46990a5df580ad60759fb5974de677823c1c04b3b42652ecc62de697af17`.

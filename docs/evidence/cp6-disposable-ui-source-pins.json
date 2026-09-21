@@ -7,7 +7,7 @@
     ".github/workflows/cp6-ag-sale-reservation.yml": "59aa501856f55155bfc01fb5e3e249f1558780cbde986b7e90febc74ea554b0f",
     ".github/workflows/cp6-ah-return-allocation.yml": "774d11570bae4ea71c9468261bb88f842bd08a2ae65d1cd7087a3c469edd29ca",
     ".github/workflows/cp6-ai-work-source.yml": "486465b0b5ba2622a1275da4e4d14a6b59aa958c713c29661e7c488ad4197075",
-    ".github/workflows/cp6-final-boundary-audit.yml": "65cf7b05f6f966c4f87f21dbe0707b927a81be57ff7a37fdb8fda47155456902",
+    ".github/workflows/cp6-final-boundary-audit.yml": "4ef39a968397ce32d06d20005d11fbc37d2e24606f401d6908984e577c4e742a",
     ".github/workflows/cp6-full-schema-validation.yml": "478ad65c90150dbfbe24c537e38567d219a315d445e4b74759dde3dbf0f3f553",
     "docs/evidence/cp6-aj-ai-catalog-pins.json": "ec1245ab2fd89f81193ae68f0138b05f98a05401b01c5a104bb477ef5be20cf1",
     "docs/evidence/cp6-aj-predecessor-functions.json": "f84c19e5a87db3b1dcf41ed3c54e4804faccd833be91e352e08cc3b159a890f6",

@@ -103,6 +103,7 @@ jobs:
       working-directory: harness
       run: |
         set -euo pipefail
+        mkdir -p ../candidate/cp6-proof/final-audit
         python - <<'PYTREE'
         import os,subprocess
         with open(os.environ['GITHUB_ENV'],'a') as out:
