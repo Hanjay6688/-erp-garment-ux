@@ -264,3 +264,13 @@ SQL trial expands to 34 cases (26 successor controls), including dependent trans
 source reversal after stock returns to the intermediate location. Final acceptance
 requires every required group and restoration gate. CP6 remains HOLD for the
 known date/PCS/selector/CSV gaps and independent review; production_go:false.
+
+
+Integration wiring attempt `b6a2132e197562899e44329ae63741c397a6572c`
+(tree `989fa1dded4dc8bc41242fa5efa0553e89368945`) stopped before database setup
+in run `35662899969`: the static maintenance pin still described AL. No AM
+business case ran. The successor static contract now verifies the AM checksum
+and removes only its explicit target bindings to recover the exact accepted AL
+checksum; all prior AL/AK/AJ body checks remain. The controller endpoint and
+admission/drain/reopen implementation are unchanged. Artifact `10667931508`,
+SHA-256 `0941d1dca53bf0b38f4539263a8c6c67f88c5749608a159629b33383b561d28b`.

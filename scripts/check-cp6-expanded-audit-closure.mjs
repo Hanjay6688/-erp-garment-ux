@@ -27,8 +27,8 @@ const workflow = read(workflowPath)
 const expected = {
   migration: ['e16dbb655164595be273c03582d35c9ac33593136bd418fdd87156e592f292b8', 19733],
   rollback: ['0d0318e3848344c3642f1796a205d25bcf1cc2d2091ce28d1fc9cf6d186ecbe5', 6876],
-  // AL adds one target and its full-runtime check; prove unchanged AK/AJ bodies below.
-  maintenance: ['8e672e3a54b692dc96011578fb1a527915d8a504ae3cf588f3b7ab5c500258fa', 81894],
+  // AM adds one target and its full-runtime check; prove unchanged AL/AK/AJ bodies below.
+  maintenance: ['0446d75fe9a33948ac41071d7ee6320dcf6fe4864e041452129b4e706f9780de', 82720],
   regression: ['1cf7eb7d52add419ef0a90e103d7512105858fb29b465c73a82f26e9234a3844', 26141],
   matrix: ['5c2a4088c9ed00529d6055380897de0bfff22cbe0d8e359832bff27010012467', 35133],
   guard: ['621f51b187138750646f38c7464a959713ba3c78bcbcd5031ac9841a288aca68', 6649],
@@ -37,9 +37,16 @@ for (const [name, source] of Object.entries({ migration, rollback, maintenance, 
   assert.equal(Buffer.byteLength(source), expected[name][1], `${name} byte drift`)
   assert.equal(sha(source), expected[name][0], `${name} SHA drift`)
 }
-// Removing only the explicit AK target bindings must restore the reviewed AJ
-// controller byte for byte. Pin updates cannot conceal drain/rollback changes.
-const akMaintenance = maintenance
+// Remove only AM target bindings, then prove every reviewed AL byte remains.
+// The endpoint allowlist, draining, failure and reopening protocol are unchanged.
+const alMaintenance = maintenance
+  .replace(/    'AM': \{[\s\S]*?\n    \},\n/, '')
+  .replace(/    if target_name == 'AM':\n[\s\S]*?(?=    if target_name == 'AL':)/, '')
+  .replace("'AK', 'AL', 'AM'}", "'AK', 'AL'}")
+  .replace("            if target_name == 'AM':\n                from cp6_v2620am_runtime import verified_successor\n            elif target_name == 'AL':", "            if target_name == 'AL':")
+  .replace("'AL': 690, 'AM': 690}", "'AL': 690}")
+assert.equal(sha(alMaintenance), '8e672e3a54b692dc96011578fb1a527915d8a504ae3cf588f3b7ab5c500258fa', 'AM changed reviewed maintenance body')
+const akMaintenance = alMaintenance
   .replace(/    'AL': \{[\s\S]*?\n    \},\n/, '')
   .replace(/    if target_name == 'AL':\n[\s\S]*?(?=    if target_name == 'AK':)/, '')
   .replace("'AJ', 'AK', 'AL'}", "'AJ', 'AK'}")

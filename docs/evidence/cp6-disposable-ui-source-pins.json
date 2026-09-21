@@ -27,7 +27,7 @@
     "scripts/check-cp5-boundary.mjs": "55347789a383be9e14b95c3cbb93c0306f211aa453043f95d8a1e30fa0887db1",
     "scripts/check-cp6-boundary.mjs": "8a4038a706a0bdaadebfc3d73714b3af429d653ed4933fce0a7b5fa5c0506189",
     "scripts/check-cp6-deep-business-repair.mjs": "8d9c393ed96f3845a2ebc80c48b5e3cc3d691c14f1b977af1b82d64b0a8aea98",
-    "scripts/check-cp6-expanded-audit-closure.mjs": "9043ba9e997d4550ef85d8f9e37762b5867389b15099cf7168f7df61aa8b1ae7",
+    "scripts/check-cp6-expanded-audit-closure.mjs": "8693b4e4d858d0d816c5c6f89fff1de65abe6d6fc1a8e3d8220ed5286608099e",
     "scripts/check-production-recovery.mjs": "4896c572d438bb9a57e497a8f375b2cf23db8b3d9ad9e7813b454f92546b679b",
     "scripts/cp6_disposable_ui_e2e.mjs": "3783cc2a86c0d9e2904843d0749bf8ec92ad135f641d1e07e5fae82053831c22",
     "scripts/cp6_disposable_ui_scope.py": "57b6f6de2bb0ba9a0ff21d44dc11942e9b96752122b23f900bab52ec20945c2f",
