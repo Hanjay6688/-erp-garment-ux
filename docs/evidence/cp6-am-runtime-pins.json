@@ -1,0 +1,114 @@
+{
+  "format": "CP6_AM_RUNTIME_PINS_V1",
+  "stamp": "20260921214120",
+  "name": "erp_v2_6_20am_cp6_transfer_integrity",
+  "version": "v2.6.20am",
+  "predecessor_head": "4e74e25270c6a062d98e1adaa58cf50ea22e2e8c",
+  "predecessor_tree": "da287f7d1d0ef429e244fafef37e0bb4a1c42b94",
+  "functions": [
+    {
+      "identity": "erp.post_material_transfer_v2(uuid,uuid,bigint,text)",
+      "predecessor_sha256": "8fd42d9a97c72700ea121025290b63f5a081485d20e15057e6b8721509bfb1c4",
+      "installed_sha256": "e5ab13793e89dfc91480389eac86f67310282c78247b62d4dbaf9482582ae5bb",
+      "owner": "postgres",
+      "acl": [
+        "authenticated=X/postgres",
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ]
+    },
+    {
+      "identity": "erp.reverse_material_transfer_v2(uuid,text,uuid,bigint)",
+      "predecessor_sha256": "75c9f545470fea44ef699c92a7fa67f1c8237f3f58c404cba6a81673b012f387",
+      "installed_sha256": "e972291e00dea5611147389bd24dd9302ef20af78e6c4aa78fd1ec8aa54b5f21",
+      "owner": "postgres",
+      "acl": [
+        "authenticated=X/postgres",
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ]
+    },
+    {
+      "identity": "erp.guard_material_negative_stock()",
+      "predecessor_sha256": "355c37d742415e1a99e073f8f80317607368ee9c43ec1da42981d5213aab68b3",
+      "installed_sha256": "12051cc7a967fb83b4d0a5a7b3102b7a3a83399b73b2abb4749b5b0b5042416e",
+      "owner": "postgres",
+      "acl": [
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ]
+    },
+    {
+      "identity": "erp._recalculate_material_cost_core(uuid,timestamp with time zone,boolean)",
+      "predecessor_sha256": "50e9edac8803dea3ca8d39fc78b77fd1c4c5499820b37dbb390b13b32c233c92",
+      "installed_sha256": "2069e292b0c43850a19469ae20af36616e396840619e72c43d204e209154987d",
+      "owner": "postgres",
+      "acl": [
+        "postgres=X/postgres"
+      ]
+    },
+    {
+      "identity": "erp.refresh_material_cost_checkpoint(uuid,date)",
+      "predecessor_sha256": "7eea402dec46b03d5425ef9c1c052ca409de7fafa72000b7abef5fda6849b30a",
+      "installed_sha256": "316775456f047127bffdb35310d5c0fd73024116368bfb349c5fe8218951f603",
+      "owner": "postgres",
+      "acl": [
+        "postgres=X/postgres"
+      ]
+    },
+    {
+      "identity": "erp.save_material_transfer_draft_v2(jsonb,uuid,bigint)",
+      "predecessor_sha256": "68f54f8255c63943ae8ba48930506f748c7398f9888edec6e89f86ccf89f3a3b",
+      "installed_sha256": "62cc5bead40f163681487b072299ffae411028a5249b7d533816fcf6e7169bd1",
+      "owner": "postgres",
+      "acl": [
+        "authenticated=X/postgres",
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ]
+    }
+  ],
+  "boundary_count": 225,
+  "predecessor_function_count": 533,
+  "predecessor_table_count": 227,
+  "comparison_run": 35657686329,
+  "production_go": false,
+  "source_pins": {
+    "scripts/cp6_v2620am_build_sql.py": {
+      "sha256": "b8680f2800366368c7bcf6a4474f84d60a2275bb2bf50e1a603d3534fc598b8a",
+      "bytes": 8360
+    },
+    "scripts/cp6_v2620am_definitions.py": {
+      "sha256": "240bb32fd2a39124a1948c96b7f46758b91d180eb193c75a58a39f7b5e60eb04",
+      "bytes": 15022
+    },
+    "docs/evidence/cp6-am-cli-provenance.json": {
+      "sha256": "1771620820ce16f612c430851c35245269e20a85aced15f11e95d6f8a4912d27",
+      "bytes": 580
+    },
+    "docs/evidence/cp6-am-predecessor-functions.json": {
+      "sha256": "0e3622697e2ad23d490c44d5b68a6f2d0038fd648b1f594e1b8b930fac28a9fd",
+      "bytes": 28105
+    },
+    "docs/evidence/cp6-am-al-catalog-pins.json": {
+      "sha256": "7e359f3de91fd625fc460565c926e4b82c8d3fff5fa2c414c025a471388fd5fe",
+      "bytes": 144468
+    },
+    "supabase/migrations/20260917054049_erp_v2_6_20al_cp6_opening_value_validation.sql": {
+      "sha256": "74a5d5e14d79c7bbafa731aaf2fe1708bc575299600261f7412f1f7ea7323920",
+      "bytes": 44666
+    },
+    "supabase/rollbacks/20260917054049_erp_v2_6_20al_cp6_opening_value_validation.rollback.sql": {
+      "sha256": "10ae9c470f363d778cde1c61f6b4f7388ba72efb30038adbfe5dc300ae687d07",
+      "bytes": 11121
+    },
+    "supabase/migrations/20260921214120_erp_v2_6_20am_cp6_transfer_integrity.sql": {
+      "sha256": "d5b155edb19aa8ca949036ba8a9cf67090478083c2e1ae6cc5bbf00b445716a5",
+      "bytes": 52775
+    },
+    "supabase/rollbacks/20260921214120_erp_v2_6_20am_cp6_transfer_integrity.rollback.sql": {
+      "sha256": "d8e8cdd4eff7858d15ed972e28724d6d390e46c26305a95c620f662137748395",
+      "bytes": 13484
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "cli_version": "2.116.0",
+  "run": 35657686329,
+  "artifact": 10665794614,
+  "artifact_sha256": "db5cd526467db73b93549ea5d3b115f0c9ed1156414678b1567ca724eaed0223",
+  "candidate_head": "4e74e25270c6a062d98e1adaa58cf50ea22e2e8c",
+  "command": "supabase migration new erp_v2_6_20am_cp6_transfer_integrity --workdir \"$RUNNER_TEMP/cp6-next-migration\"",
+  "generated_file": "20260921214120_erp_v2_6_20am_cp6_transfer_integrity.sql",
+  "empty_file_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "installed_by_cli": false,
+  "production_go": false
+}

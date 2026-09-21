@@ -132,6 +132,58 @@ rollback assertions. Artifact `10664395010`, 61,209,342 bytes, SHA-256
 
 ## Next original foundation qualification, not a product repair
 
+### Verified checkpoint4e74 and subsequent AM trial
+
+`4e74e25270c6a062d98e1adaa58cf50ea22e2e8c`, tree
+`da287f7d1d0ef429e244fafef37e0bb4a1c42b94`: run35657686329 and
+CodeQL35657686325 SUCCESS. The qualification collected6 controls,5 transfer
+counterexamples,4 gaps and0 incomplete. The7PCS dozen/gross cases were refused
+atomically at6.999996/6.999984; no fractional stock posting was established.
+Frontend332, CP5 browser16, CP6 browser26, original UI43 plus gaps, HTTP95
+assertions/62 role-facade cases, and native recovery9 passed in their stated
+scope. Exact final restore533 functions/223 tables, Auth/app users0 and cleanup
+passed. Artifact10665794614:5,904,079 bytes/62 entries, SHA-256
+`db5cd526467db73b93549ea5d3b115f0c9ed1156414678b1567ca724eaed0223`.
+
+Recovery also passed on the product-identical79587 before that fixture repair:
+run35655818159, artifact10666313180,61,235,866 bytes/334 entries, SHA-256
+`e611bc6a1e3fd0de77197b5bbbfcded73ff488edae4918d89ddd3fc997494ac9`.
+The overall79587 run failed on the four old PCS fixture errors; recovery9,
+existing AL business230/import31/values65/concurrency/maintenance, restore and
+cleanup passed separately. None of these counts supplies independent acceptance.
+The4e74 focused profile did not repeat those large unchanged AL groups.
+
+The successor now adds **unaccepted AM trial source** for the complete transfer
+family. Six existing functions change, preserving identities/owners/ACLs:
+SAVE/POST/REVERSE transfer, the stock insertion guard, chronological cost replay
+and its checkpoint helper. No new facade or table of business facts is added.
+The CLI-created stamp is20260921214120, proved by artifact10665794614. Existing
+admitted SQL remains byte-identical.
+
+The proposed repair validates every locked line, prices each IN from its paired
+historical OUT, keeps paired movements adjacent during cost replay, checks
+effective location/roll prefixes, validates checkpoint recurrence, preserves
+original snapshots and gives reversal legs the matching value. It removes
+unused DRAFT children before their parent, preserving the parent guard. Original
+native cases will qualify the additional reversal-value/DRAFT-delete paths
+before the repaired definitions are installed in that test transaction.
+
+Admission refuses existing incomplete/imbalanced transfers, mismatched reversal
+values or negative effective location history for review. It does not choose a
+date policy or rewrite old facts during installation. Full-price PCS and report
+date decisions remain outside AM.
+
+`[cp6-am-trial]` runs30 bounded SQL cases:8 original/admission cases and22
+successor controls, then exact SQL restore and whole-transaction rollback.
+Minimal synthetic masters and an ordinary authenticated OWNER are used; no
+guard is disabled. The temporary schemaUSAGE and all fixtures must disappear.
+The old AL UI/HTTP/recovery groups still run after restoration. **SQL trial is
+PENDING and is not full AM Writer PASS**: full business/integration, actual
+committed maintenance/admission and transfer concurrency remain mandatory after
+the family stabilizes. The AL-only full profile is deliberately refused while
+the AM full-gate integration is pending. This keeps CI from implying that an
+uninstalled migration has passed the combined product gate.
+
 First qualification: `806d12da9ec802ee5eebd18a7d73c576092f8d72`, run
 `35654563637`, artifact `10666055541`, SHA-256
 `9bc4682e54807fb70a323132355ce3d582aec1b00aa5f2700ae29769aec2b3c8`.

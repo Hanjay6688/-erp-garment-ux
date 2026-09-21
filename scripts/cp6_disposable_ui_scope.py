@@ -33,6 +33,10 @@ docs/evidence/cp6-ak-runtime-pins.json
 docs/evidence/cp6-al-ak-catalog-pins.json
 docs/evidence/cp6-al-predecessor-functions.json
 docs/evidence/cp6-al-runtime-pins.json
+docs/evidence/cp6-am-al-catalog-pins.json
+docs/evidence/cp6-am-cli-provenance.json
+docs/evidence/cp6-am-predecessor-functions.json
+docs/evidence/cp6-am-runtime-pins.json
 docs/evidence/cp6-claim-money-original-dom.json
 docs/evidence/cp6-frontend-original-counterexamples.json
 package.json
@@ -77,6 +81,10 @@ scripts/cp6_v2620al_maintenance_schedules.py
 scripts/cp6_v2620al_review.py
 scripts/cp6_v2620al_runtime.py
 scripts/cp6_v2620al_value_review.py
+scripts/cp6_v2620am_build_sql.py
+scripts/cp6_v2620am_definitions.py
+scripts/cp6_v2620am_runtime.py
+scripts/cp6_v2620am_sql_trial.py
 src/AccessControlPage.tsx
 src/ConnectedBsResolutionPage.dom.test.tsx
 src/ConnectedBsResolutionPage.tsx
@@ -117,9 +125,11 @@ src/vite-env.d.ts
 supabase/migrations/20260916202400_erp_v2_6_20aj_cp6_rework_output_lineage.sql
 supabase/migrations/20260917033516_erp_v2_6_20ak_cp6_import_reference_preview.sql
 supabase/migrations/20260917054049_erp_v2_6_20al_cp6_opening_value_validation.sql
+supabase/migrations/20260921214120_erp_v2_6_20am_cp6_transfer_integrity.sql
 supabase/rollbacks/20260916202400_erp_v2_6_20aj_cp6_rework_output_lineage.rollback.sql
 supabase/rollbacks/20260917033516_erp_v2_6_20ak_cp6_import_reference_preview.rollback.sql
 supabase/rollbacks/20260917054049_erp_v2_6_20al_cp6_opening_value_validation.rollback.sql
+supabase/rollbacks/20260921214120_erp_v2_6_20am_cp6_transfer_integrity.rollback.sql
 tests/browser/cp5-bs-resolution.spec.ts
 tests/browser/cp6-laundry-qc.spec.ts
 tests/fixtures/productionRecovery.ts'''.splitlines()
@@ -140,6 +150,8 @@ def verify():
     for path, expected in pins['sha256'].items():
         assert hashlib.sha256(Path(path).read_bytes()).hexdigest() == expected, path
     expected_sql = {
+        'supabase/migrations/20260921214120_erp_v2_6_20am_cp6_transfer_integrity.sql',
+        'supabase/rollbacks/20260921214120_erp_v2_6_20am_cp6_transfer_integrity.rollback.sql',
         'supabase/migrations/20260917054049_erp_v2_6_20al_cp6_opening_value_validation.sql',
         'supabase/rollbacks/20260917054049_erp_v2_6_20al_cp6_opening_value_validation.rollback.sql',
         'supabase/migrations/20260917033516_erp_v2_6_20ak_cp6_import_reference_preview.sql',
@@ -165,6 +177,11 @@ def verify():
     for path, expected in al['source_pins'].items():
         raw = Path(path).read_bytes()
         assert len(raw) == expected['bytes'] and hashlib.sha256(raw).hexdigest() == expected['sha256'], path
+    am=json.loads(Path('docs/evidence/cp6-am-runtime-pins.json').read_text())
+    assert am['predecessor_head']=='4e74e25270c6a062d98e1adaa58cf50ea22e2e8c' and len(am['functions'])==6
+    for path,expected in am['source_pins'].items():
+        raw=Path(path).read_bytes()
+        assert len(raw)==expected['bytes'] and hashlib.sha256(raw).hexdigest()==expected['sha256'],path
     # Preserve the validation bodies; only routing to the dedicated combined gate changes.
     full = '.github/workflows/cp6-full-schema-validation.yml'
     route = '''          if python scripts/cp6_disposable_ui_scope.py; then
@@ -192,7 +209,7 @@ def verify():
             if name == 'cp6-ai-work-source.yml':
                 text = text.replace("    needs: review-scope\n    if: needs.review-scope.outputs.aj != 'true'\n", '')
         assert text == subprocess.check_output(['git','show',BASE+':'+path],text=True), path
-    return dict(status='ROUTED_TO_COMBINED_AL_AND_FRONTEND_RECOVERY_WRITER_GATE',base_backend_head=BACKEND,
+    return dict(status='ROUTED_TO_AL_FRONTEND_GATE_WITH_AM_SQL_TRIAL',base_backend_head=BACKEND,
                 base_backend_tree=BACKEND_TREE,backend_generation='AL',backend_head=git('rev-parse','HEAD'),frontend_head=git('rev-parse','HEAD'),
                 frontend_tree=git('rev-parse','HEAD^{tree}'),
                 historical_460_matrix_reexecuted=False,independent_acceptance=False,
