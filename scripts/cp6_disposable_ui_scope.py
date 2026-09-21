@@ -15,7 +15,22 @@ DOC = 'docs/cp6-disposable-ui-audit.md'
 AUDIT_DOC = 'docs/cp6-final-successor-independent.md'
 AK_DOC = 'docs/cp6-ak-import-repair.md'
 AK_INDEPENDENT_DOC = 'docs/cp6-ak-independent-audit.md'
-PATHS = '''scripts/cp6_v2620ak_advisors.py
+AL_DOC = 'docs/cp6-al-opening-values.md'
+PATHS = '''docs/evidence/cp6-al-ak-catalog-pins.json
+docs/evidence/cp6-al-predecessor-functions.json
+docs/evidence/cp6-al-runtime-pins.json
+scripts/cp6_v2620al_advisors.py
+scripts/cp6_v2620al_build_sql.py
+scripts/cp6_v2620al_import_concurrency.py
+scripts/cp6_v2620al_direct_concurrency.py
+scripts/cp6_v2620al_import_review.py
+scripts/cp6_v2620al_maintenance_schedules.py
+scripts/cp6_v2620al_review.py
+scripts/cp6_v2620al_runtime.py
+scripts/cp6_v2620al_value_review.py
+supabase/migrations/20260917054049_erp_v2_6_20al_cp6_opening_value_validation.sql
+supabase/rollbacks/20260917054049_erp_v2_6_20al_cp6_opening_value_validation.rollback.sql
+scripts/cp6_v2620ak_advisors.py
 scripts/cp6_v2620ak_followup.py
 docs/evidence/cp6-ak-aj-catalog-pins.json
 docs/evidence/cp6-ak-predecessor-functions.json
@@ -96,13 +111,15 @@ def verify():
     assert not git('rev-list', '--merges', BASE+'..HEAD')
     assert not git('diff', '--name-only', 'HEAD'), 'Uncommitted tracked changes'
     changed = set(git('diff', '--name-only', BASE, 'HEAD').splitlines())
-    assert changed == set(PATHS) | {PIN_FILE, DOC, AUDIT_DOC, AK_DOC, AK_INDEPENDENT_DOC}, sorted(changed)
+    assert changed == set(PATHS) | {PIN_FILE, DOC, AUDIT_DOC, AK_DOC, AK_INDEPENDENT_DOC, AL_DOC}, sorted(changed)
     pins = json.loads(Path(PIN_FILE).read_text())
     assert pins['base'] == BASE and pins['backend'] == BACKEND
     assert set(pins['sha256']) == set(PATHS)
     for path, expected in pins['sha256'].items():
         assert hashlib.sha256(Path(path).read_bytes()).hexdigest() == expected, path
     expected_sql = {
+        'supabase/migrations/20260917054049_erp_v2_6_20al_cp6_opening_value_validation.sql',
+        'supabase/rollbacks/20260917054049_erp_v2_6_20al_cp6_opening_value_validation.rollback.sql',
         'supabase/migrations/20260917033516_erp_v2_6_20ak_cp6_import_reference_preview.sql',
         'supabase/rollbacks/20260917033516_erp_v2_6_20ak_cp6_import_reference_preview.rollback.sql',
 
@@ -114,6 +131,16 @@ def verify():
     aj = json.loads(Path('docs/evidence/cp6-aj-runtime-pins.json').read_text())
     assert aj['predecessor_head'] == BACKEND and len(aj['functions']) == 6
     for path, expected in aj['source_pins'].items():
+        raw = Path(path).read_bytes()
+        assert len(raw) == expected['bytes'] and hashlib.sha256(raw).hexdigest() == expected['sha256'], path
+    # No admitted migration/rollback or original AK oracle can drift in AL.
+    predecessor = '8c1a22b8fba26c1ee820645cf5793f19353522b8'
+    assert not git('diff', '--name-only', '--diff-filter=MDRTCUXB', predecessor, 'HEAD', '--', 'supabase')
+    original_oracle = 'scripts/cp6_final_ak_independent.py'
+    assert Path(original_oracle).read_bytes() == subprocess.check_output(['git', 'show', predecessor+':'+original_oracle])
+    al = json.loads(Path('docs/evidence/cp6-al-runtime-pins.json').read_text())
+    assert al['predecessor_head'] == '684b708dee785934fe5fe4fe567c454cba873ea9' and len(al['functions']) == 2
+    for path, expected in al['source_pins'].items():
         raw = Path(path).read_bytes()
         assert len(raw) == expected['bytes'] and hashlib.sha256(raw).hexdigest() == expected['sha256'], path
     # Preserve the validation bodies; only routing to the dedicated combined gate changes.
@@ -143,8 +170,8 @@ def verify():
             if name == 'cp6-ai-work-source.yml':
                 text = text.replace("    needs: review-scope\n    if: needs.review-scope.outputs.aj != 'true'\n", '')
         assert text == subprocess.check_output(['git','show',BASE+':'+path],text=True), path
-    return dict(status='ROUTED_TO_COMBINED_AK_WRITER_GATE',base_backend_head=BACKEND,
-                base_backend_tree=BACKEND_TREE,backend_generation='AK',backend_head=git('rev-parse','HEAD'),frontend_head=git('rev-parse','HEAD'),
+    return dict(status='ROUTED_TO_COMBINED_AL_WRITER_GATE',base_backend_head=BACKEND,
+                base_backend_tree=BACKEND_TREE,backend_generation='AL',backend_head=git('rev-parse','HEAD'),frontend_head=git('rev-parse','HEAD'),
                 frontend_tree=git('rev-parse','HEAD^{tree}'),
                 historical_460_matrix_reexecuted=False,independent_acceptance=False,
                 production_go=False)

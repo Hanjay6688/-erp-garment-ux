@@ -76,8 +76,10 @@ def clocks(cur):
 
 
 def verify_repository_source():
-    if os.environ.get('CP6_RUNTIME_GENERATION') in ('AJ','AK'):
-        if os.environ['CP6_RUNTIME_GENERATION']=='AK':
+    if os.environ.get('CP6_RUNTIME_GENERATION') in ('AJ','AK','AL'):
+        if os.environ['CP6_RUNTIME_GENERATION']=='AL':
+            import cp6_v2620al_runtime as runtime
+        elif os.environ['CP6_RUNTIME_GENERATION']=='AK':
             import cp6_v2620ak_runtime as runtime
         else:
             import cp6_v2620aj_runtime as runtime
@@ -93,8 +95,10 @@ def verify_repository_source():
 
 
 def verify_source_runtime(cur):
-    if os.environ.get('CP6_RUNTIME_GENERATION') in ('AJ','AK'):
-        if os.environ['CP6_RUNTIME_GENERATION']=='AK':
+    if os.environ.get('CP6_RUNTIME_GENERATION') in ('AJ','AK','AL'):
+        if os.environ['CP6_RUNTIME_GENERATION']=='AL':
+            import cp6_v2620al_runtime as runtime
+        elif os.environ['CP6_RUNTIME_GENERATION']=='AK':
             import cp6_v2620ak_runtime as runtime
         else:
             import cp6_v2620aj_runtime as runtime
@@ -226,7 +230,7 @@ def run():
         raise AssertionError('AA_CLOCK_EXPLICIT_DISPOSABLE_CONFIRM_REQUIRED')
     phase, head, tree = verify_repository_source()
     runtime_generation = {
-        'AA_AUDIT': 'AA', 'AB_REGRESSION': 'AB', 'AC_REGRESSION': 'AC', 'AI_REGRESSION':'AI-R2', 'AJ_REGRESSION':'AJ', 'AK_REGRESSION':'AK',
+        'AA_AUDIT': 'AA', 'AB_REGRESSION': 'AB', 'AC_REGRESSION': 'AC', 'AI_REGRESSION':'AI-R2', 'AJ_REGRESSION':'AJ', 'AK_REGRESSION':'AK', 'AL_REGRESSION':'AL',
     }.get(phase)
     if runtime_generation is None:
         raise AssertionError('AA_CLOCK_UNKNOWN_SUCCESSOR_PHASE')

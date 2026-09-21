@@ -27,8 +27,8 @@ const workflow = read(workflowPath)
 const expected = {
   migration: ['e16dbb655164595be273c03582d35c9ac33593136bd418fdd87156e592f292b8', 19733],
   rollback: ['0d0318e3848344c3642f1796a205d25bcf1cc2d2091ce28d1fc9cf6d186ecbe5', 6876],
-  // AK adds one target and its full-runtime check; prove unchanged AJ body below.
-  maintenance: ['d4d627c467330605339c7e30aa91954da4f7a934bdf53d78301f88121283754c', 81056],
+  // AL adds one target and its full-runtime check; prove unchanged AK/AJ bodies below.
+  maintenance: ['8bfc842562e310858492cd3aba70e5169fb4f1bdb2e483e54788c6f64964999e', 81894],
   regression: ['1cf7eb7d52add419ef0a90e103d7512105858fb29b465c73a82f26e9234a3844', 26141],
   matrix: ['5c2a4088c9ed00529d6055380897de0bfff22cbe0d8e359832bff27010012467', 35133],
   guard: ['621f51b187138750646f38c7464a959713ba3c78bcbcd5031ac9841a288aca68', 6649],
@@ -39,7 +39,14 @@ for (const [name, source] of Object.entries({ migration, rollback, maintenance, 
 }
 // Removing only the explicit AK target bindings must restore the reviewed AJ
 // controller byte for byte. Pin updates cannot conceal drain/rollback changes.
-const priorMaintenance = maintenance
+const akMaintenance = maintenance
+  .replace(/    'AL': \{[\s\S]*?\n    \},\n/, '')
+  .replace(/    if target_name == 'AL':\n[\s\S]*?(?=    if target_name == 'AK':)/, '')
+  .replace("'AJ', 'AK', 'AL'}", "'AJ', 'AK'}")
+  .replace("            if target_name == 'AL':\n                from cp6_v2620al_runtime import verified_successor\n            elif target_name == 'AK':", "            if target_name == 'AK':")
+  .replace("'AK': 690, 'AL': 690}", "'AK': 690}")
+assert.equal(sha(akMaintenance), 'd4d627c467330605339c7e30aa91954da4f7a934bdf53d78301f88121283754c', 'AL changed reviewed maintenance body')
+const priorMaintenance = akMaintenance
   .replace(/    'AK': \{[\s\S]*?\n    \},\n/, '')
   .replace(/    if target_name == 'AK':\n[\s\S]*?(?=    if target_name == 'AJ':)/, '')
   .replace("'AH', 'AI', 'AJ', 'AK'}", "'AH', 'AI', 'AJ'}")
