@@ -1,0 +1,18 @@
+{
+  "format": "ERP_BACKEND_SOURCE_OWNERSHIP_V4",
+  "frozen_v3": {
+    "path": "docs/evidence/backend_source_ownership_v3.json",
+    "bytes": 896,
+    "sha256": "b858502ad4ee46f9804b43357a9f94cddd78ed661a264984d3c32a5493c6ae8d"
+  },
+  "public_hardening_manifest": {
+    "path": "docs/evidence/public_github_hardening_source_hashes.json",
+    "bytes": 2168,
+    "sha256": "8a207d3f8a93c976f1955c38ac035f285383fc7d3f6235822fdce80de08a4b08"
+  },
+  "target_project_ref": "siimvrusnzxexizpyoib",
+  "legacy_project_ref": "vlxdhpkjeevubjxexnfo",
+  "hosted_database_mutated": false,
+  "legacy_mutated": false,
+  "production_go": false
+}

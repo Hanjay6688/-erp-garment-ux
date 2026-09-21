@@ -29,7 +29,7 @@ jobs:
     timeout-minutes: 65
     steps:
       - name: Checkout exact CP5 candidate
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           fetch-depth: 0
 
@@ -57,7 +57,7 @@ jobs:
             "$(git rev-list --count "$SOURCE_BASE_SHA"..HEAD)" | tee cp5-proof/IDENTITY.txt
 
       - name: Set up Python and PostgreSQL client
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with:
           python-version: '3.12'
 
@@ -70,7 +70,7 @@ jobs:
           python -m pip install --quiet 'psycopg[binary]==3.2.10'
 
       - name: Install pinned Supabase CLI
-        uses: supabase/setup-cli@v1
+        uses: supabase/setup-cli@ab058987d8d6c725971f6cf9d0b5c98467e30bd1 # v1
         with:
           version: 2.116.0
 
@@ -1219,7 +1219,7 @@ jobs:
 
       - name: Upload non-secret CP5 proof
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: cp5-r1-full-schema-auth-browser-proof
           path: cp5-proof
