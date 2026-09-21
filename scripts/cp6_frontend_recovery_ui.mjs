@@ -42,7 +42,8 @@ export async function runFrontendRecovery(c) {
     }
     page = await c.pageFor(c.owner, false)
     await nav(page, 'Buat Potongan')
-    await page.getByLabel('Gudang bahan',{exact:true}).selectOption(fixture.location)
+    // This wrapping label includes its select's option text in label matching.
+    await page.getByRole('combobox',{name:/^Gudang bahan/}).selectOption(fixture.location)
     await page.locator('.ccut-drafts').getByRole('button').filter({hasText:fixture.group_number}).click()
     const count = page.getByLabel(`${fixture.roll_number} Size ${fixture.size_code}`,{exact:true})
     const post = page.getByRole('button',{name:'Post ke WIP Potongan',exact:true})
@@ -154,6 +155,12 @@ export async function runFrontendRecovery(c) {
     let message=String(error.stack||error)
     for(const secret of c.secrets.filter(Boolean))message=message.split(secret).join('[REDACTED]')
     report.failure=message.replace(/eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+/g,'[JWT REDACTED]').slice(0,9000)
+    // Visible synthetic UI only: no storage, request headers, or Auth responses.
+    let visible=await page?.locator('body').innerText().catch(()=> 'UI unavailable')
+    if(visible){
+      for(const secret of c.secrets.filter(Boolean))visible=visible.split(secret).join('[REDACTED]')
+      report.visible_ui=visible.replace(/eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+/g,'[JWT REDACTED]').slice(0,24000)
+    }
     throw error
   } finally {
     await other?.close();await page?.context().close();save()

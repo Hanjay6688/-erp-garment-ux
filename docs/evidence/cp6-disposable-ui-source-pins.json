@@ -38,7 +38,7 @@
     "scripts/cp6_final_independent_acceptance.py": "81dc50ad76d3152b3aa7bd27e12accf3a1e6ed86b19c9b3d44a6c0dc002babc3",
     "scripts/cp6_final_money_independent.mjs": "dc9e4a240aa6f236188a7c83c8a600d53aca92005efa5e33d98d891c1c7ce5f9",
     "scripts/cp6_frontend_recovery_fixture.py": "b58339022309cdd44e520e33128bf792b7b308721e957038bb60bc77afc1576b",
-    "scripts/cp6_frontend_recovery_ui.mjs": "df8ab96ac2a46e62771bc128e5bc18caacb9a2711e4b12bbddb1e1c08baf0b5d",
+    "scripts/cp6_frontend_recovery_ui.mjs": "e3f1bd851cd39210244f7548d1784c638599731a586be326c5b38e78feaf6006",
     "scripts/cp6_preuse_rollback_maintenance.py": "8e672e3a54b692dc96011578fb1a527915d8a504ae3cf588f3b7ab5c500258fa",
     "scripts/cp6_v2620aj_build_sql.py": "3d887f590e5de92bb467fdee1d5d00d6a1e0452e8818b489323f5de2b30b0a7e",
     "scripts/cp6_v2620aj_maintenance_schedules.py": "29b4eac8689cb1a110a39c69e20d406db64bb3f4377bbaeec3fd2dd38ba001e3",

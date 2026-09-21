@@ -96,3 +96,12 @@ already-established real Auth/HTTP RPC helper. No new grant or role privilege,
 guard change, or product change is introduced. Native recovery remains INCOMPLETE
 until that successor passes. Artifact `10661644950`, 61,223,917 bytes, SHA-256
 `c37b9fa50a5a1b0f114951823f64a9b1c48451ff0be9da15a72872f8de097cd3`.
+
+Run `35650814859` on `5603bfb7520d3fa522a5ce929192e69eeef95309`
+passed the same existing groups and created the new draft through real Auth/HTTP.
+The recovery runner then stopped at its warehouse selector: an exact wrapping-label
+match omitted the select's option text. Use the actual combobox accessible-name
+prefix; assertions, product, database and guards remain unchanged. Recovery9 is
+still INCOMPLETE; CodeQL on this candidate passed. Exact rollback and cleanup
+passed. Artifact `10662423099`, 61,218,140 bytes, SHA-256
+`6830bc7f86d0abd70a672d28262b84a46f43b543f0e97b7ea3f91c6ac0088030`.
