@@ -188,7 +188,22 @@ begin
       select coalesce(jsonb_object_agg(field,r.normalized_payload->field),'{}'::jsonb)
         into v_typed from unnest(ref.field_names) field
         where nullif(r.normalized_payload->>field,'') is not null;
-      execute format('select jsonb_populate_record(null::erp.%I,$1)',ref.relation_name) using v_typed;
+      begin
+        execute format('select jsonb_populate_record(null::erp.%I,$1)',ref.relation_name) using v_typed;
+      exception when data_exception then
+        -- Retain the fast whole-row cast for valid imports. On a bad value,
+        -- identify its field so the persisted row error tells the user what
+        -- to repair; keep the original SQLSTATE and refusal semantics.
+        for k in select jsonb_object_keys(v_typed) loop
+          begin
+            execute format('select jsonb_populate_record(null::erp.%I,$1)',ref.relation_name)
+              using jsonb_build_object(k,v_typed->k);
+          exception when data_exception then
+            raise exception using errcode=sqlstate,message=format('%s: %s',k,sqlerrm);
+          end;
+        end loop;
+        raise;
+      end;
     end loop;
     if r.entity_type='SUPPLIER' and coalesce(nullif(upper(r.normalized_payload->>'supplier_type'),''),'MATERIAL')
       not in('MATERIAL','ACCESSORY','OTHER') then raise exception 'supplier_type must be MATERIAL, ACCESSORY or OTHER'; end if;
@@ -509,7 +524,7 @@ begin
     encode(extensions.digest(convert_to(pg_get_functiondef(
       to_regprocedure(cap.object_regidentity)),'UTF8'),'sha256'),'hex');
   for r in select * from(values
-    ('erp._validate_migration_batch_base(uuid)','cb72249e0a5ccc835d40c7468601a952a9387186545e34f13391bdf4a17ce0f7','326a125453ea9f9911c44e660fc76b8e29cfb88d72a3952e0a0c5c617d7ebfd8',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),
+    ('erp._validate_migration_batch_base(uuid)','cb72249e0a5ccc835d40c7468601a952a9387186545e34f13391bdf4a17ce0f7','95c8b9493b8cfb5ee719b6bb6501836c42457302661f59857dbcfc761033a412',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),
     ('erp.post_opening_balance(uuid)','632075e17f4c59ceafe109059bb7105dca72b5b1fcc06e4ff67a9f050ee67543','16e667f49e6bb646d9a80cb30aa4080a0052b1ddc8bc760104c9c37c0e576d19',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[])
   ) expected(identity,predecessor_sha256,installed_sha256,acl)
   loop

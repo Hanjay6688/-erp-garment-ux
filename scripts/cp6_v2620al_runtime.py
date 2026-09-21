@@ -10,7 +10,7 @@ from cp6_v2620al_build_sql import STAMP,NAME,VERSION,MIGRATION,ROLLBACK,PINS,CAT
 ROOT=Path(__file__).resolve().parents[1]
 MIGRATION,ROLLBACK,PINS,CATALOG=(ROOT/p for p in (MIGRATION,ROLLBACK,PINS,CATALOG))
 CAPSULE='erp.cp6_v2620al_rollback_capsule'
-PINS_SHA256='081831b36400ce6165af2d5277d4813f266d0732444b54da12deddfa4d09d276'
+PINS_SHA256='ac9e8000a291ea18950e8528ef9228b3a096d801f48cc6ff876ecd041ab1b014'
 
 def pins():
  raw=PINS.read_bytes();assert hashlib.sha256(raw).hexdigest()==PINS_SHA256,'AL_TRUSTED_PINS_CHANGED'

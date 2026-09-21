@@ -36,7 +36,7 @@ def extra_typed(cur,day,entity,field,value,valid):
     preview=oracle.validate(cur,batch)
     assert preview['counts']==((1,1,0) if valid else (1,0,1)),preview
     if not valid:
-        assert preview['rows'][0][2],preview
+        assert any(field in error for error in preview['rows'][0][2]),preview
         return dict(status='PASS',entity=entity,field=field,value=value,preview=preview)
     function='erp.apply_migration_open_pos' if entity=='OPEN_PO' else 'erp.apply_migration_master_rows'
     assert oracle.run_owner(cur,'select '+function+'(%s)',(batch,)).fetchone()[0]==1

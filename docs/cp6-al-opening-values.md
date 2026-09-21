@@ -1,6 +1,6 @@
 # CP6 AL — opening values and typed import diagnostics
 
-Checkpoint: 2026-09-21. **INCOMPLETE — native AL not yet executed.**
+Checkpoint: 2026-09-21. **INCOMPLETE — field-diagnostic revision awaits native qualification.**
 CP6 remains HOLD, `production_go:false`; CP7 has not started.
 
 ## Authority and recovered source
@@ -82,6 +82,34 @@ not rerun for unchanged generations. AL's current twenty maintenance cases
 exercise the new edge directly.
 
 ## Remaining global gate
+
+The first complete AL run tested `99d38d8f68b7fccb7cf417ab197319c61d474317`,
+tree `a48d4d927fc81049bc9c19e403cf6d348c77e36b`: native run `35636515022`
+finished FAILURE because import had 30 PASS and one INCOMPLETE. The unchanged
+`MASTER_REF:MATERIAL:unit_code` oracle found that an overlong unit code was
+rejected with a generic width message that omitted the field name. No invalid
+opening was accepted by that case. This is a diagnostic regression to repair,
+not evidence of a new stock/journal discrepancy.
+
+That run completed all 230 business cases fresh: 179 PASS, 39 CONTROL_PASS,
+12 DATE_POLICY_REVIEW_REQUIRED, zero INCOMPLETE. It also passed 65 value cases,
+4 staged and 12 direct edit/post schedules, 16 original plus 12 work schedules,
+20 AL maintenance schedules, bounded midnight/HTTP/UI checks (43 UI cases),
+eight rollback refusal controls, exact AL→AK restore (533 functions/226 tables),
+the subsequent predecessor restore chain, and cleanup. These remain evidence
+for the first candidate only until the revised source is tested.
+
+Artifact `10657190936`: 60,751,509 bytes, 327 ZIP entries, CRC valid,
+SHA-256 `639bc63bd04257e9094bf61e49201b0fbcefd8a34d87965c254d4196c933b54a`.
+CodeQL run `35636514910` passed JS/TS, Python, C/C++, and Actions.
+
+The correction keeps the successful whole-row cast and, only on a type/width
+error, identifies the offending field while retaining the original SQLSTATE.
+The posting definition is byte-identical to the first AL candidate. The
+independent 27-case source and the 31 import-case assertions are unchanged;
+extra typed-field cases now also require actionable field names. The unaccepted
+AL candidate migration/rollback/pins are regenerated together; all admitted
+pre-AL SQL remains unchanged. The full combined gate stays in force.
 
 The twelve date-policy observations remain HOLD. CSV transport and complete
 role/domain coverage remain unproven; bounded inherited HTTP/UI cases cannot

@@ -9,7 +9,7 @@
     {
       "identity": "erp._validate_migration_batch_base(uuid)",
       "predecessor_sha256": "cb72249e0a5ccc835d40c7468601a952a9387186545e34f13391bdf4a17ce0f7",
-      "installed_sha256": "326a125453ea9f9911c44e660fc76b8e29cfb88d72a3952e0a0c5c617d7ebfd8",
+      "installed_sha256": "95c8b9493b8cfb5ee719b6bb6501836c42457302661f59857dbcfc761033a412",
       "owner": "postgres",
       "acl": [
         "authenticated=X/postgres",
@@ -36,8 +36,8 @@
   "production_go": false,
   "source_pins": {
     "scripts/cp6_v2620al_build_sql.py": {
-      "sha256": "da43208f984e325842f66daa9e54c0f91ea5c9486f90ad862e50258eeee3cf7e",
-      "bytes": 12080
+      "sha256": "d985d8af938969592e02db4c276046cdb743f6778a90bde955110a9d4d75d304",
+      "bytes": 12772
     },
     "docs/evidence/cp6-al-predecessor-functions.json": {
       "sha256": "98bb78a830ecca1e88a9ab6dfeb972187583bdcb9478f2b5f83f05e612ac2f3d",
@@ -56,11 +56,11 @@
       "bytes": 14663
     },
     "supabase/migrations/20260917054049_erp_v2_6_20al_cp6_opening_value_validation.sql": {
-      "sha256": "3c805e696169f1af1e42c3f8eb935043215c695a520944d984091e3123fc4e9f",
-      "bytes": 43974
+      "sha256": "74a5d5e14d79c7bbafa731aaf2fe1708bc575299600261f7412f1f7ea7323920",
+      "bytes": 44666
     },
     "supabase/rollbacks/20260917054049_erp_v2_6_20al_cp6_opening_value_validation.rollback.sql": {
-      "sha256": "e8a085d17417e822937403576947f3246e6e6102d1266a1240dab5c6baacbd82",
+      "sha256": "10ae9c470f363d778cde1c61f6b4f7388ba72efb30038adbfe5dc300ae687d07",
       "bytes": 11121
     }
   }

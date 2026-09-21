@@ -39,7 +39,22 @@ TYPED_PREVIEW="""    -- Validate only fields consumed by the matching writer. Co
       select coalesce(jsonb_object_agg(field,r.normalized_payload->field),'{}'::jsonb)
         into v_typed from unnest(ref.field_names) field
         where nullif(r.normalized_payload->>field,'') is not null;
-      execute format('select jsonb_populate_record(null::erp.%I,$1)',ref.relation_name) using v_typed;
+      begin
+        execute format('select jsonb_populate_record(null::erp.%I,$1)',ref.relation_name) using v_typed;
+      exception when data_exception then
+        -- Retain the fast whole-row cast for valid imports. On a bad value,
+        -- identify its field so the persisted row error tells the user what
+        -- to repair; keep the original SQLSTATE and refusal semantics.
+        for k in select jsonb_object_keys(v_typed) loop
+          begin
+            execute format('select jsonb_populate_record(null::erp.%I,$1)',ref.relation_name)
+              using jsonb_build_object(k,v_typed->k);
+          exception when data_exception then
+            raise exception using errcode=sqlstate,message=format('%s: %s',k,sqlerrm);
+          end;
+        end loop;
+        raise;
+      end;
     end loop;
     if r.entity_type='SUPPLIER' and coalesce(nullif(upper(r.normalized_payload->>'supplier_type'),''),'MATERIAL')
       not in('MATERIAL','ACCESSORY','OTHER') then raise exception 'supplier_type must be MATERIAL, ACCESSORY or OTHER'; end if;

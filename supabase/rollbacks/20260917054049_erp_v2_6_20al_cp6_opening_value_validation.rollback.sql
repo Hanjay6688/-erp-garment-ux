@@ -11,7 +11,7 @@ begin
      or not exists(select 1 from supabase_migrations.schema_migrations
        where version='20260917054049' and name='erp_v2_6_20al_cp6_opening_value_validation'
          and encode(extensions.digest(convert_to(array_to_string(statements,E'\n'),'UTF8'),'sha256'),'hex')
-           in('3c805e696169f1af1e42c3f8eb935043215c695a520944d984091e3123fc4e9f','10e31399a180c4ec71ec11ea79d6103e6a23a51b142b142f343ce8aee7df00a9'))
+           in('74a5d5e14d79c7bbafa731aaf2fe1708bc575299600261f7412f1f7ea7323920','c6029bdeb7bc0e141452e8891cf0a4d0f0734c32ac89ac79a3f69b2198ccbb20'))
      or exists(select 1 from supabase_migrations.schema_migrations where version>'20260917054049') then
     raise exception 'AL_ROLLBACK_PLATFORM_IDENTITY_OR_SUCCESSOR';
   end if;
@@ -80,7 +80,7 @@ begin
     raise exception 'AL_ROLLBACK_MARKER_CAPSULE_OR_SUCCESSOR';
   end if;
   for r in select * from(values
-    ('erp._validate_migration_batch_base(uuid)','cb72249e0a5ccc835d40c7468601a952a9387186545e34f13391bdf4a17ce0f7','326a125453ea9f9911c44e660fc76b8e29cfb88d72a3952e0a0c5c617d7ebfd8',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),
+    ('erp._validate_migration_batch_base(uuid)','cb72249e0a5ccc835d40c7468601a952a9387186545e34f13391bdf4a17ce0f7','95c8b9493b8cfb5ee719b6bb6501836c42457302661f59857dbcfc761033a412',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[]),
     ('erp.post_opening_balance(uuid)','632075e17f4c59ceafe109059bb7105dca72b5b1fcc06e4ff67a9f050ee67543','16e667f49e6bb646d9a80cb30aa4080a0052b1ddc8bc760104c9c37c0e576d19',array['authenticated=X/postgres','postgres=X/postgres','service_role=X/postgres']::text[])
   ) expected(identity,predecessor_sha256,installed_sha256,acl) loop
     select cap.*,
@@ -154,8 +154,8 @@ delete from supabase_migrations.schema_migrations
 where version='20260917054049'
   and name='erp_v2_6_20al_cp6_opening_value_validation'
   and encode(extensions.digest(convert_to(array_to_string(statements,E'\n'),'UTF8'),'sha256'),'hex')
-    in('3c805e696169f1af1e42c3f8eb935043215c695a520944d984091e3123fc4e9f',
-       '10e31399a180c4ec71ec11ea79d6103e6a23a51b142b142f343ce8aee7df00a9');
+    in('74a5d5e14d79c7bbafa731aaf2fe1708bc575299600261f7412f1f7ea7323920',
+       'c6029bdeb7bc0e141452e8891cf0a4d0f0734c32ac89ac79a3f69b2198ccbb20');
 
 do $postcheck_v2620al$
 declare r record;v_actual text;
