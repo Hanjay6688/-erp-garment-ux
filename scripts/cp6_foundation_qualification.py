@@ -101,7 +101,14 @@ def category(cur, factor=None):
         # Real dozen/gross units, without redefining any installed unit.
         wanted = {12:'LUSIN',144:'GROSS'}[factor]
         uom = cur.execute("select unit_code from erp.uom_definitions where dimension='COUNT' and is_active and upper(unit_code)=%s", (wanted,)).fetchone()[0]
-        cur.execute('insert into erp.accessory_category_uom_conversions(category_id,uom_code,base_qty_per_uom,effective_from) values(%s,%s,%s,%s)', (ident, uom, factor, MASTER['start']))
+        # The original category trigger already creates the standard count
+        # conversions. Verify those authoritative rows instead of inserting an
+        # overlapping synthetic replacement or changing the installed guard.
+        effective = cur.execute('''select base_qty_per_uom from erp.accessory_category_uom_conversions
+            where category_id=%s and uom_code=%s and effective_from<=%s
+              and (effective_to is null or effective_to>%s)''',
+            (ident, uom, MASTER['start'], MASTER['start'])).fetchall()
+        assert effective == [(Decimal(factor),)], effective
     else:
         uom = MASTER['pcs']
     return ident, uom

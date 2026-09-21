@@ -67,6 +67,7 @@ jobs:
       CP6_RUNTIME_GENERATION: AL
       CP6_RUNTIME_HEAD: ${{ github.sha }}
       CP6_UI_FOCUSED: ${{ contains(github.event.head_commit.message, '[cp6-ui-focused]') }}
+      CP6_QUALIFICATION_ONLY: ${{ contains(github.event.head_commit.message, '[cp6-foundation-focused]') }}
     steps:
     - name: Checkout exact AI candidate
       uses: actions/checkout@v4
@@ -149,6 +150,39 @@ jobs:
         set -euo pipefail
         (cd harness && python scripts/cp6_disposable_ui_scope.py)
         (cd candidate && python scripts/cp6_ai_gate_scope.py)
+    - name: Admit qualification-only source boundary
+      if: ${{ env.CP6_QUALIFICATION_ONLY == 'true' }}
+      working-directory: harness
+      run: |
+        set -euo pipefail
+        python - <<'PY'
+        import json,subprocess
+        from pathlib import Path
+        baseline='79587cc225cc70391bf59beb146696229a77702b'
+        allowed={'.github/workflows/cp6-final-boundary-audit.yml',
+          'scripts/cp6_foundation_qualification.py',
+          'docs/evidence/cp6-disposable-ui-source-pins.json','docs/cp6-frontend-recovery.md'}
+        git=lambda *a:subprocess.check_output(['git',*a],text=True).strip()
+        assert git('merge-base',baseline,'HEAD')==baseline
+        changed=set(git('diff','--name-only',baseline,'HEAD').splitlines())
+        assert changed <= allowed,changed-allowed
+        Path('../candidate/cp6-proof/final-audit/QUALIFICATION_SCOPE.json').write_text(json.dumps(dict(
+          status='QUALIFICATION_ONLY',candidate_head=git('rev-parse','HEAD'),
+          unchanged_product_baseline=baseline,product_backend_unchanged=True,
+          original_al_business230_reexecuted=False,al_full_family_acceptance=False,
+          global_cp6_acceptance=False,production_go=False),indent=2)+'\n')
+        PY
+    - name: Create next migration stamp with pinned CLI in empty scratch directory
+      working-directory: harness
+      run: |
+        set -euo pipefail
+        cli_work="$RUNNER_TEMP/cp6-next-migration"
+        mkdir -p "$cli_work" ../candidate/cp6-proof/final-audit/next-migration
+        supabase --version > ../candidate/cp6-proof/final-audit/next-migration/CLI_VERSION.txt
+        test "$(cat ../candidate/cp6-proof/final-audit/next-migration/CLI_VERSION.txt)" = '2.116.0'
+        supabase migration new erp_v2_6_20am_cp6_transfer_integrity --workdir "$cli_work"
+        cp "$cli_work"/supabase/migrations/*_erp_v2_6_20am_cp6_transfer_integrity.sql \
+          ../candidate/cp6-proof/final-audit/next-migration/
     - name: Verify original ordinary staged QC counterexample
       working-directory: harness
       env:
@@ -536,38 +570,38 @@ jobs:
       run: PYTHONPATH=scripts python ../harness/scripts/cp6_ai_independent_review.py --phase concurrency
       if: ${{ always() && steps.ai_install.outcome == 'success' && env.CP6_UI_FOCUSED != 'true' && env.CP6_REPAIR_AJ != 'true' }}
     - name: Run all 230 business cases on AL preserving date-policy HOLD
-      if: ${{ always() && steps.al_install.outcome == 'success' }}
+      if: ${{ always() && steps.al_install.outcome == 'success' && env.CP6_QUALIFICATION_ONLY != 'true' }}
       working-directory: candidate
       run: PYTHONPATH=scripts python ../harness/scripts/cp6_v2620al_review.py --phase business
     - name: Test reference preview staged dependencies draft edits and recovered sales on AL
-      if: ${{ always() && steps.al_install.outcome == 'success' }}
+      if: ${{ always() && steps.al_install.outcome == 'success' && env.CP6_QUALIFICATION_ONLY != 'true' }}
       working-directory: candidate
       run: PYTHONPATH=scripts python ../harness/scripts/cp6_v2620al_import_review.py
     - name: Replay original value oracles and the complete affected value family on AL
-      if: ${{ always() && steps.al_install.outcome == 'success' }}
+      if: ${{ always() && steps.al_install.outcome == 'success' && env.CP6_QUALIFICATION_ONLY != 'true' }}
       working-directory: candidate
       run: PYTHONPATH=scripts python ../harness/scripts/cp6_v2620al_value_review.py
     - name: Serialize ordinary import draft editing against posting in four schedules
-      if: ${{ always() && steps.al_install.outcome == 'success' }}
+      if: ${{ always() && steps.al_install.outcome == 'success' && env.CP6_QUALIFICATION_ONLY != 'true' }}
       working-directory: candidate
       run: PYTHONPATH=scripts python ../harness/scripts/cp6_v2620al_import_concurrency.py
     - name: Serialize direct DRAFT material BS and WIP edits in twelve schedules
-      if: ${{ always() && steps.al_install.outcome == 'success' }}
+      if: ${{ always() && steps.al_install.outcome == 'success' && env.CP6_QUALIFICATION_ONLY != 'true' }}
       working-directory: candidate
       run: PYTHONPATH=scripts python ../harness/scripts/cp6_v2620al_direct_concurrency.py
     - name: Repeat sixteen original and twelve work schedules on exact AL runtime
-      if: ${{ always() && steps.al_install.outcome == 'success' }}
+      if: ${{ always() && steps.al_install.outcome == 'success' && env.CP6_QUALIFICATION_ONLY != 'true' }}
       working-directory: candidate
       run: PYTHONPATH=scripts python ../harness/scripts/cp6_v2620al_review.py --phase concurrency
     - name: Execute twenty AL maintenance schedules with unchanged assertions
-      if: ${{ always() && steps.al_install.outcome == 'success' }}
+      if: ${{ always() && steps.al_install.outcome == 'success' && env.CP6_QUALIFICATION_ONLY != 'true' }}
       working-directory: candidate
       env:
         CP6_AL_MAINTENANCE_CONFIRM: cp6_rollback
         CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
       run: PYTHONPATH=scripts python ../harness/scripts/cp6_v2620al_maintenance_schedules.py
     - name: Reexecute controlled midnight transaction on exact AL runtime
-      if: ${{ always() && steps.al_install.outcome == 'success' }}
+      if: ${{ always() && steps.al_install.outcome == 'success' && env.CP6_QUALIFICATION_ONLY != 'true' }}
       working-directory: candidate
       env:
         CP6_AA_MIDNIGHT_AUDIT_CONFIRM: postgres
@@ -818,7 +852,7 @@ jobs:
         test "$(psql "$CP6_AUTH_PGURL" -At -c 'select count(*) from erp.cp6_laundry_qc_execution_context')" = '0'
 
     - name: Require complete AL writer groups while keeping global CP6 HOLD
-      if: ${{ always() && steps.al_install.outcome == 'success' }}
+      if: ${{ always() && steps.al_install.outcome == 'success' && env.CP6_QUALIFICATION_ONLY != 'true' }}
       working-directory: candidate
       run: |
         python - <<'PYVERIFY'
@@ -863,6 +897,32 @@ jobs:
           global_cp6_acceptance=False,independent_acceptance=False),indent=2)+'\n')
         assert all(x['actual']==x['expected'] for x in results.values()),results
         PYVERIFY
+    - name: Require complete focused original qualification and recovery
+      if: ${{ always() && steps.al_install.outcome == 'success' && env.CP6_QUALIFICATION_ONLY == 'true' }}
+      working-directory: candidate
+      run: |
+        python - <<'PY'
+        import json
+        from pathlib import Path
+        root=Path('cp6-proof/final-audit')
+        scope=json.loads((root/'QUALIFICATION_SCOPE.json').read_text())
+        foundation=json.loads((root/'FOUNDATION_QUALIFICATION.json').read_text())
+        assert foundation['status'] in ('QUALIFIED_WITH_FINDINGS','QUALIFIED_CONTROLS_ONLY')
+        assert len(foundation['cases'])==len(set(foundation['planned_case_ids']))==15
+        assert set(foundation['cases'])==set(foundation['planned_case_ids'])
+        assert foundation['counts']['INCOMPLETE']==0
+        assert all(foundation[k] for k in ('catalog_unchanged','transactional_boundary_restored','schema_usage_restored','runtime_objects_restored'))
+        recovery=json.loads((root/'FRONTEND_RECOVERY.json').read_text())
+        assert recovery['status']=='WRITER_PASS' and len(recovery['cases'])==len(set(recovery['planned']))==9
+        assert {c['id'] for c in recovery['cases']}==set(recovery['planned'])
+        assert all(c['status']=='PASS' for c in recovery['cases'])
+        assert json.loads((root/'UI.json').read_text())['status']=='WRITER_PASS'
+        (root/'QUALIFICATION_GATE.json').write_text(json.dumps(dict(
+          status='QUALIFICATION_COMPLETE_WITH_CP6_HOLD',scope=scope,
+          foundation_counts=foundation['counts'],recovery_cases=9,
+          al_full_family_acceptance=False,global_cp6_acceptance=False,
+          independent_acceptance=False,production_go=False),indent=2)+'\n')
+        PY
     - name: Restore AL to exact AK with refusal and admission controls
       id: al_rollback
       if: ${{ always() && steps.al_install.outcome == 'success' }}

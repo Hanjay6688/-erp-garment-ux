@@ -7,7 +7,7 @@
     ".github/workflows/cp6-ag-sale-reservation.yml": "59aa501856f55155bfc01fb5e3e249f1558780cbde986b7e90febc74ea554b0f",
     ".github/workflows/cp6-ah-return-allocation.yml": "774d11570bae4ea71c9468261bb88f842bd08a2ae65d1cd7087a3c469edd29ca",
     ".github/workflows/cp6-ai-work-source.yml": "486465b0b5ba2622a1275da4e4d14a6b59aa958c713c29661e7c488ad4197075",
-    ".github/workflows/cp6-final-boundary-audit.yml": "1eb3326d956cdda5b799d2e0170a91d5738d7a499eb03a26d5709f80eac9dc51",
+    ".github/workflows/cp6-final-boundary-audit.yml": "8d63c792cc8ec49c34aa0d10c336ad5167de12a3862a8c6bd93b3cb672717b48",
     ".github/workflows/cp6-full-schema-validation.yml": "478ad65c90150dbfbe24c537e38567d219a315d445e4b74759dde3dbf0f3f553",
     "docs/evidence/cp6-aj-ai-catalog-pins.json": "ec1245ab2fd89f81193ae68f0138b05f98a05401b01c5a104bb477ef5be20cf1",
     "docs/evidence/cp6-aj-predecessor-functions.json": "f84c19e5a87db3b1dcf41ed3c54e4804faccd833be91e352e08cc3b159a890f6",
@@ -107,7 +107,7 @@
     "tests/browser/cp5-bs-resolution.spec.ts": "387c08d971964e7e4b9d232b7efc37e65cbb6ba0793009a360408f6b6973e0f2",
     "tests/browser/cp6-laundry-qc.spec.ts": "c88ed31c337ce91e4648176fbbba55d6b52bd5a3a0b006c83feca28ccbf9d310",
     "tests/fixtures/productionRecovery.ts": "6bab6fbe9b10832db71fcec2f2d4a3dd49c4c7ceae2421d0e1060e20b302d22b",
-    "scripts/cp6_foundation_qualification.py": "45b76c969696331c48bff9a42e42c4840476535de2e8ea09cc82b9e483fb282a"
+    "scripts/cp6_foundation_qualification.py": "e9aa6fce613feda72224168a8a0465af1a66860deae3790eec5bc95afca7a554"
   },
   "gate_intent": "Preserve full AL assertions and date HOLD; add current frontend recovery proof. No global/independent PASS.",
   "business_frontend_source_head": "d7a92f00b0779d614478778bd8f1ddd367122ff7",

@@ -132,6 +132,37 @@ rollback assertions. Artifact `10664395010`, 61,209,342 bytes, SHA-256
 
 ## Next original foundation qualification, not a product repair
 
+First qualification: `806d12da9ec802ee5eebd18a7d73c576092f8d72`, run
+`35654563637`, artifact `10666055541`, SHA-256
+`9bc4682e54807fb70a323132355ce3d582aec1b00aa5f2700ae29769aec2b3c8`.
+Fifteen cases were collected: 4 controls, 5 proven counterexamples in three
+transfer paths, 2 selector gaps, and 4 **INCOMPLETE** PCS fixtures. The original
+category trigger already seeds dozen/gross conversions; the fixture incorrectly
+attempted duplicate effective ranges. The next fixture verifies the installed
+standard conversions without inserting replacements or modifying the guard.
+All fifteen case snapshots, the schema privilege and all 690 runtime objects
+were restored exactly. The old BS dialog obstruction then interrupted recovery9
+and Auth cleanup as in the preceding attempt; the overall run is not PASS.
+
+The transfer observations require repairs before CP6 acceptance: backdated
+transfer10/100 changed global value3000 to3050/3500 while global qty200 and
+journal remained unchanged; a mixed/all-inactive draft became POSTED with2/0
+movements instead of4/2; a backdated outbound created a historical location
+prefix of−5. A valid PO201 and draft101 remained absent in default, exact-query
+and offset responses even though original SAVE_DRAFT succeeded. These are
+original installed AL API observations, not deliberately damaged functions.
+
+Retries marked `[cp6-foundation-focused]` have a separate admission: product,
+SQL, grants, runtime and all unrelated tests must remain byte-identical to
+`79587cc225cc70391bf59beb146696229a77702b`; only this document, the qualifier,
+workflow and its source-pin map may differ. This profile runs the native
+qualification, frontend/browser/HTTP recovery, exact restoration and cleanup;
+it does **not** rerun business230/import31/value65/concurrency/maintenance or
+declare full AL acceptance. The full profile retains all existing assertions.
+The next backend repair will require fresh affected business/integration gates.
+The pinned CLI also generates an empty next-migration file in isolated runner
+scratch; this is provenance only, not an installed or accepted repair.
+
 The same disposable clone now collects 15 independent arithmetic/control
 observations for S01–S05, with every case rolled back before the next. These are
 writer qualification cases on the installed AL source, not independent acceptance.
