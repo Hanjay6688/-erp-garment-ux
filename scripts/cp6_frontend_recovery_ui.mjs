@@ -21,6 +21,11 @@ export async function runFrontendRecovery(c) {
   save()
   try {
     const fixture = JSON.parse(execFileSync('python', [fileURLToPath(new URL('./cp6_frontend_recovery_fixture.py', import.meta.url)), c.owner.id], { encoding: 'utf8', stdio:['ignore','pipe','pipe'] }))
+    const cutDraft = await c.rpc(c.session.access_token, 'erp_save_cutting_group_before_sewing_v2', {
+      p_payload: fixture.cut_payload, p_client_request_id: randomUUID(), p_expected_version: null,
+    })
+    fixture.group = cutDraft.cutting_group_id
+    fixture.group_number = cutDraft.group_number
     for (const name of ['po','group','roll','material']) assert.match(fixture[name],/^[0-9a-f-]{36}$/)
     const facts = () => JSON.parse(c.query(`select jsonb_build_object(
       'stock',(select coalesce(sum(qty_signed),0) from erp.material_stock_movements where material_id='${fixture.material}'),

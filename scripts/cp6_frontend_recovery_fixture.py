@@ -32,8 +32,8 @@ def main():
         cur.execute("insert into erp.production_orders(id,po_number,model_id,contractor_id,target_qty_pcs,status,current_stage,physical_start_at,notes) values(%s,%s,%s,%s,10,'CUTTING','CUTTING',%s,'Disposable UI recovery fixture')", (po,number,model,contractor,now-timedelta(minutes=8)))
         cur.execute("select set_config('request.jwt.claims',%s,true)", (json.dumps({'role':'authenticated','sub':actor}),))
         # Foundation receipt uses the admitted internal purchase API in this
-        # disposable fixture session. The connected Cutting action below uses
-        # the real authenticated owner facade and its unchanged permissions.
+        # disposable fixture session. The caller creates the Cutting draft
+        # through real Auth/HTTP, without changing session authorization here.
         purchase_payload = dict(purchase_number=number+'-BUY',supplier_id=supplier,location_id=location,
             physical_at=now-timedelta(minutes=10),change_reason='Recovery fixture received ten yards',
             lines=[dict(material_id=material,qty=10,unit_price=10,price_state='ESTIMATED',price_source='MANUAL_ESTIMATE',rolls=[dict(roll_number=roll_number,qty=10)])])
@@ -44,10 +44,7 @@ def main():
             cut_at=now-timedelta(minutes=5),change_reason='Recovery fixture exact ten-piece cut',
             size_slots=[dict(slot_no=1,size_id=size,drawing_no=1)],
             rolls=[dict(roll_id=roll,qty_issued=10,qty_consumed=10,qty_reported_remaining=0,yields=[dict(slot_no=1,qty_pcs=10)])])
-        cur.execute('set session authorization authenticated')
-        cut = cur.execute('select public.erp_save_cutting_group_before_sewing_v2(%s::jsonb,%s,null)',(json.dumps(cut_payload,default=str),uuid.uuid4())).fetchone()[0]
-        cur.execute('reset session authorization')
-        result = dict(po=po,po_number=number,group=cut['cutting_group_id'],group_number=cut['group_number'],roll=roll,
+        result = dict(po=po,po_number=number,cut_payload=cut_payload,roll=roll,
             roll_number=roll_number,material=material,location=location,contractor=contractor,size=size,size_code=size_code,
             physical_pickup=(now-timedelta(minutes=2)).isoformat(),expected_cut_pcs=10,expected_cost=100)
     print(json.dumps(result,default=str))

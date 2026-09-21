@@ -84,3 +84,15 @@ INCOMPLETE on this attempt. Artifact `10660674012`, SHA-256
 Run `35648649954` on `a9dcdd17e3da60737b3d16380bb0e788829de856`
 retained the same 10/12 result: the updated exact-copy assertion omitted the
 final period. Correct that punctuation; no product or business oracle changes.
+
+Run `35648994561` on `0fce40bdff72fb6d726ceee423a2405e222dea6f`
+passed 332 unit/DOM, CP5 browser12, CP6 browser26, and the original 43 real UI
+cases. The AL business/value/import/concurrency/maintenance groups, exact rollback
+chain and cleanup steps completed successfully. The new recovery cases did not
+start: Supabase's ordinary fixture `postgres` session could not execute `SET
+SESSION AUTHORIZATION authenticated`. This is a fixture setup refusal, not a
+business counterexample. The successor creates the Cutting draft through the
+already-established real Auth/HTTP RPC helper. No new grant or role privilege,
+guard change, or product change is introduced. Native recovery remains INCOMPLETE
+until that successor passes. Artifact `10661644950`, 61,223,917 bytes, SHA-256
+`c37b9fa50a5a1b0f114951823f64a9b1c48451ff0be9da15a72872f8de097cd3`.
