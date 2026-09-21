@@ -17,7 +17,7 @@ ALLOWED={'.github/workflows/cp6-final-boundary-audit.yml','scripts/cp6_disposabl
  'scripts/check-source-ownership.mjs','scripts/cp6_foundation_qualification.py','scripts/cp6_final_gap_ui.mjs',
  'scripts/cp6_disposable_ui_e2e.mjs','scripts/cp6_frontend_recovery_ui.mjs',
  'docs/cp6-frontend-recovery.md','docs/evidence/cp6-disposable-ui-source-pins.json',
- 'src/ConnectedCuttingPage.tsx','src/useProductionMutation.ts','src/types/database.preconnect.ts','src/cuttingSelectors.ts','src/cuttingSelectors.test.ts',
+ 'src/ConnectedCuttingPage.tsx','src/connected-cutting.css','src/useProductionMutation.ts','src/types/database.preconnect.ts','src/cuttingSelectors.ts','src/cuttingSelectors.test.ts',
  'src/ConnectedProductionRecovery.dom.test.tsx','tests/fixtures/productionRecovery.ts',MIGRATION,ROLLBACK}
 
 

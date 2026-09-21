@@ -52,7 +52,7 @@ def prepare(target, operation, folder, *, source_generation):
     with matrix.legacy.connect("an-exact-platform-ledger") as conn, conn.cursor() as cur:
         cur.execute(
             "insert into supabase_migrations.schema_migrations(version,name,statements) values(%s,%s,%s)",
-            (runtime.STANP, runtime.NANE, [runtime.MIGRATION.read_text()]),
+            (runtime.STAMP, runtime.NAME, [runtime.MIGRATION.read_text()]),
         )
         if len(runtime.verified_successor(cur)) != 692:
             raise AssertionError("AN_SEEDED_RUNTIME_MISMATCH")
@@ -78,7 +78,7 @@ def run():
     with psycopg.connect(matrix.SOURCE) as conn, conn.cursor() as cur:
         if len(runtime.verified_successor(cur)) != 692:
             raise AssertionError("AN_MAINTENANCE_SOURCE_MISMATCH")
-    matrix.TARGETS["AN"] = (runtime.STANP, runtime.NANE, runtime.VERSION, "v2.6.20am", 1)
+    matrix.TARGETS["AN"] = (runtime.STAMP, runtime.NAME, runtime.VERSION, "v2.6.20am", 1)
     original_prepare = matrix.prepare
     original_path = matrix.path
     matrix.path = lambda target,rollback=False: (runtime.ROLLBACK if rollback else runtime.MIGRATION) if target=="AN" else original_path(target,rollback)

@@ -60,11 +60,15 @@ export async function runSelectors(c) {
       assert.equal(response.status(),200)
       await expect(page.getByRole('button',{name:kind==='PO'?'Cari PO':'Cari draft',exact:true})).toBeEnabled()
     }
-    await search('PO',fixture.po_number)
     const po=page.getByRole('combobox',{name:/^Production Order/})
-    await po.selectOption(fixture.po);await expect(po).toHaveValue(fixture.po)
-    await expect(page.locator('.ccut-size-list').getByRole('button',{name:fixture.size_code,exact:true})).toBeVisible()
-    pass('FIND_PO_201')
+    for(const width of [1440,980,390]) {
+      await page.setViewportSize({width,height:1000})
+      await search('PO',fixture.po_number)
+      await po.selectOption(fixture.po);await expect(po).toHaveValue(fixture.po)
+      await expect(page.locator('.ccut-size-list').getByRole('button',{name:fixture.size_code,exact:true})).toBeVisible()
+    }
+    await page.setViewportSize({width:1440,height:1000})
+    pass('FIND_PO_201',{normal_pointer_search_widths:[1440,980,390]})
     await search('PO',fixture.prefix)
     for(let i=1;i<=4;i++) {
       await page.getByRole('button',{name:'PO berikutnya',exact:true}).click()
@@ -116,6 +120,7 @@ export async function runSelectors(c) {
     await page.screenshot({path:resolve(c.reportDir,'CUTTING_SELECTOR_STALE.png'),fullPage:true})
     assert.equal(report.cases.length,ids.length);report.status='WRITER_PASS'
   } catch(error) {
+    await page?.screenshot({path:resolve(c.reportDir,'CUTTING_SELECTOR_FAILURE.png'),fullPage:true}).catch(()=>{})
     let message=String(error.stack||error)
     for(const secret of c.secrets.filter(Boolean))message=message.split(secret).join('[REDACTED]')
     report.failure={message:message.slice(0,7500)};throw error

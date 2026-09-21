@@ -96,6 +96,7 @@ src/AccessControlPage.tsx
 src/ConnectedBsResolutionPage.dom.test.tsx
 src/ConnectedBsResolutionPage.tsx
 src/ConnectedCuttingPage.tsx
+src/connected-cutting.css
 src/ConnectedLaundryPage.tsx
 src/ConnectedLaundryQcSelectors.dom.test.tsx
 src/ConnectedPatternFilter.tsx

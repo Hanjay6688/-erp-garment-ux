@@ -358,3 +358,18 @@ v1 reader will still show its original two pagination limitations; those old-rea
 controls do not override new v2 native/UI proof and are not silently relabeled PASS.
 CP6 remains HOLD for dates, PCS pricing, CSV/role scope and independent acceptance.
 No main/demo/UAT/hosted/deployment change. production_go:false; CP7 not started.
+
+First AN attempt `c3f8541d48c7adfc35faebbc4641fcca16471c76` / run `35668363525`
+failed overall. Native28 and six real HTTP role cases passed, but the maintenance
+runner used misspelled STAMP/NAME attributes before any of its twenty schedules.
+The new UI found a real candidate layout defect: long PO labels enlarged the
+automatic card grid track, and the adjacent size card intercepted the normal
+search-button click. Seven of fifteen selector cases completed; remaining eight
+were INCOMPLETE. Original UI43, recovery9 and exact AN→AM→AH restore/cleanup passed
+separately. CodeQL35668363436 SUCCESS does not turn this run into acceptance.
+Artifact10670407145:6,600,539 bytes /78 ZIP entries, SHA-256
+`cd6d0eb859e73ab0acf0168eb6ed4c453b306c7979ba1e5b89ef6954ea710de7`;
+full hash, CRC/path checks and selected token/JWT/private-key patterns verified.
+The retry corrects only the runner attribute names and actual card/field grid
+sizing. The original normal pointer search is also exercised at1440/980/390px;
+no forced clicks, mocked successful responses, or weaker oracle. SQL unchanged.
