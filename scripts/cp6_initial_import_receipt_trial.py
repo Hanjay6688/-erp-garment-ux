@@ -83,15 +83,18 @@ def lifecycle(a,cur,today,roll=False,consume=False,zone='UTC'):
     assert cur.execute('select erp.material_purchase_grni_total(%s),erp.material_purchase_final_ap_total(%s)',(row['purchase_id'],row['purchase_id'])).fetchone()==(0,60)
     bad=invoice(a,cur,today,row,1)
     a.inherited.refused(cur,lambda:post_invoice(a,cur,bad))
+    invoice_journals=[x[0] for x in cur.execute('select id from erp.journal_entries').fetchall()]
+    dates=cur.execute('select source_type,economic_date from erp.journal_entries where not (id=any(%s))',(prior_journals,)).fetchall()
+    assert dates and all(d==today-timedelta(days=2) for _,d in dates),dates
     rpc(a,cur,'reverse_material_supplier_invoice_v2',second['supplier_invoice_id'],'Reverse second invoice',uuid.uuid4(),second['row_version']);truth(cur)
     assert stock()==(D(15 if consume else 20),D('2.55'))
     rpc(a,cur,'reverse_material_supplier_invoice_v2',first['supplier_invoice_id'],'Reverse first invoice',uuid.uuid4(),first['row_version']);truth(cur)
     assert stock()==(D(15 if consume else 20),D('2.25'))
     assert cur.execute('select to_jsonb(i) from erp.opening_balance_items i where id=%s',(row['opening_item_id'],)).fetchone()[0]==original
     assert cur.execute('select count(*) from erp.invoice_recost_execution_context').fetchone()[0]==0
-    dates=cur.execute('select source_type,economic_date from erp.journal_entries where not (id=any(%s))',(prior_journals,)).fetchall()
-    assert dates and all(d==today-timedelta(days=2) for _,d in dates),dates
-    return dict(status='PASS',invoice_dates_consistent=True,roll=roll,post_cutover_consumption=consume,zone=zone,stock_received_once=True,partial_then_full_then_reversed=True,
+    dates=cur.execute('select source_type,economic_date from erp.journal_entries where not (id=any(%s))',(invoice_journals,)).fetchall()
+    assert dates and all(d==today for _,d in dates),dates
+    return dict(status='PASS',invoice_dates_consistent=True,reversal_dates_consistent=True,roll=roll,post_cutover_consumption=consume,zone=zone,stock_received_once=True,partial_then_full_then_reversed=True,
                 opening_snapshot_immutable=True,replay_identical=True,financial_truth=truth(cur))
 
 def return_lifecycle(a,cur,today,roll=False,matched=False):
@@ -162,8 +165,18 @@ def document_cents(a,cur,today):
     a.upload(cur,f['batch'],'OPENING_CONTROL',[dict(control_key='STOCK',balance_type='MATERIAL',qty='2',amount='0.66'),dict(control_key='GRNI',balance_type='GRNI_MATERIAL',qty='2',amount='0.67')])
     row=finalize(a,cur,f);truth(cur)
     assert cur.execute('select erp.material_purchase_grni_total(%s)',(row['purchase_id'],)).fetchone()[0]==D('0.666666')
-    assert len(a.read(cur,f['batch'])['batch']['uninvoiced_receipts'])==2
-    return dict(status='PASS',stock_opening='0.66',document_grni='0.67',line_count=2,rounded_per_document=True)
+    rows=a.read(cur,f['batch'])['batch']['uninvoiced_receipts'];assert len(rows)==2
+    opening=cur.execute("select sum(l.debit-l.credit) from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id where j.source_type='OPENING_BALANCE' and j.source_id=(select opening_id from erp.opening_balance_items where id=%s) and l.account_id=erp.account_id('MATERIAL_INVENTORY')",(row['opening_item_id'],)).fetchone()[0]
+    assert opening==D('0.66')
+    baseline=a.production.ledger(cur)['MATERIAL_INVENTORY']
+    payload=dict(invoice_number='CENTS-'+uuid.uuid4().hex,supplier_id=row['supplier_id'],invoice_date=str(today-timedelta(days=2)),change_reason='Two opening layers with fractional cents',
+                 lines=[dict(purchase_item_id=r['purchase_item_id'],qty_invoiced='1',unit_price='1') for r in rows])
+    draft=rpc(a,cur,'save_material_supplier_invoice_draft_v2',json.dumps(payload),uuid.uuid4(),None)
+    posted=post_invoice(a,cur,draft);truth(cur)
+    assert a.production.ledger(cur)['MATERIAL_INVENTORY']-baseline+opening==2
+    rpc(a,cur,'reverse_material_supplier_invoice_v2',posted['supplier_invoice_id'],'Restore fractional opening layers',uuid.uuid4(),posted['row_version']);truth(cur)
+    assert a.production.ledger(cur)['MATERIAL_INVENTORY']==baseline
+    return dict(status='PASS',stock_opening='0.66',document_grni='0.67',line_count=2,rounded_per_document=True,invoice_inventory='2.00',reversal_exact=True)
 
 def payment_lifecycle(a,cur,today):
     f=fixture(a,cur,today);code=f['code'];b=f['batch']
@@ -184,6 +197,15 @@ def payment_lifecycle(a,cur,today):
     rpc(a,cur,'reverse_supplier_payment',payment,'Restore payment');truth(cur);assert balance()==100
     rpc(a,cur,'reverse_material_supplier_invoice_v2',posted['supplier_invoice_id'],'Restore invoice',uuid.uuid4(),posted['row_version']);truth(cur)
     return dict(status='PASS',grni_cannot_be_paid=True,bank_restored=True,paid_invoice_reversal_refused=True)
+
+def source_drift(a,cur,today):
+    f=fixture(a,cur,today);row=finalize(a,cur,f)
+    post_invoice(a,cur,invoice(a,cur,today,row,8))
+    check=lambda:cur.execute("select issue_count from erp.run_v268_financial_report_checks() where check_name='V2620AF_OPENING_SOURCE_LINEAGE_MISMATCH'").fetchone()[0]
+    assert check()==0
+    cur.execute("update erp.material_stock_movements set input_unit_cost=input_unit_cost+0.000001 where source_type='OPENING_BALANCE_ITEM' and source_id=%s",(row['opening_item_id'],))
+    assert check()==1
+    return dict(status='PASS',authorized_invoice_recost_accepted=True,unexplained_cost_drift_detected=True)
 
 def refusal(a,cur,today,kind):
     f=fixture(a,cur,today);r=f['receipt'].copy()
@@ -231,6 +253,7 @@ def cases(a,cur,today):
     result += [('RECEIPT_RETURN:'+str(roll)+':'+str(matched),lambda roll=roll,matched=matched:return_lifecycle(a,cur,today,roll,matched)) for roll in (False,True) for matched in (False,True)]
     result += [('RECEIPT_PRODUCTION:'+str(closed),lambda closed=closed:production_lifecycle(a,cur,today,closed)) for closed in (False,True)]
     result += [('RECEIPT_DOCUMENT_CENTS',lambda:document_cents(a,cur,today)),('RECEIPT_PAYMENT',lambda:payment_lifecycle(a,cur,today))]
+    result += [('RECEIPT_SOURCE_DRIFT',lambda:source_drift(a,cur,today))]
     result += [('RECEIPT_REFUSAL:'+kind,lambda kind=kind:refusal(a,cur,today,kind)) for kind in (
         'MISSING_SOURCE','PRE_CUTOVER_CONSUMPTION','COST_MISMATCH','FUTURE_RECEIPT','DUPLICATE_LINE','CROSS_BATCH',
         'LEGACY_AFTER_IMPORT','IMMUTABLE_RECEIPT','INVOICE_BEFORE_CUTOVER','SUMMARY_AFTER_IMPORT','LEGACY_FINALIZE_OMITS_RECEIPT')]

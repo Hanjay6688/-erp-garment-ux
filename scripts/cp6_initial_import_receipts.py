@@ -280,6 +280,18 @@ def extend_receipt_contract(functions):
   end if;
 
 """+old)
+    identity='erp._cp6_supplier_cent_state(uuid[])'
+    old='sum(i.qty*erp.material_purchase_current_unit_cost(i.id))'
+    change(identity,old,"""sum(case when exists(select 1 from erp.initial_import_receipt_lines origin where origin.purchase_item_id=i.id)
+      then round(i.qty*erp.material_purchase_current_unit_cost(i.id),2)
+      else i.qty*erp.material_purchase_current_unit_cost(i.id) end)""")
+    identity='erp.run_v268_financial_report_checks()'
+    old='or m.input_unit_cost is distinct from i.unit_cost_snapshot)'
+    change(identity,old,"""or m.input_unit_cost is distinct from coalesce((
+          select erp.material_purchase_current_unit_cost(origin.purchase_item_id)::numeric(18,6)
+          from erp.initial_import_receipt_lines origin where origin.opening_item_id=i.id),i.unit_cost_snapshot)
+        or (exists(select 1 from erp.initial_import_receipt_lines origin where origin.opening_item_id=i.id)
+          and coalesce(m.original_unit_cost_snapshot,m.unit_cost_snapshot) is distinct from i.unit_cost_snapshot))""")
     identity='erp.validate_supplier_return_source()'
     old="    if v_roll_purchase_item is null then raise exception 'Returned roll has no source purchase item'; end if;"
     change(identity,old,"""    if v_roll_purchase_item is null then

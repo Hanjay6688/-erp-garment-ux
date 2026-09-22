@@ -71,6 +71,38 @@ def invoice_date(cur,today,zone,closed):
  assert cur.execute('select count(*) from erp.invoice_recost_execution_context').fetchone()[0]==0
  return dict(status='PASS',invoice_date=invoice,zone=zone,closed=closed,original_observation=result)
 
+def direct_correction_reversal(cur,today,closed):
+ actors.admin(cur)
+ mat=production.prior.clone_material(cur,'direct-cost-reversal');loc,_=foundation.locations(cur)
+ purchase_day=today-timedelta(days=8);invoice_day=today-timedelta(days=2)
+ production.prior.set_open_period(cur,purchase_day-timedelta(days=1))
+ payload=dict(purchase_number=foundation.tag(),supplier_id=foundation.MASTER['supplier'],location_id=loc,
+   supplier_invoice_number=foundation.tag(),physical_at=production.at(purchase_day,10),change_reason='Direct final receipt fixture',
+   lines=[dict(material_id=mat,qty=20,unit_price=2,price_state='FINAL',price_source='SUPPLIER_INVOICE',rolls=[dict(roll_number=foundation.tag(),qty=20)])])
+ saved=foundation.call(cur,'erp.save_material_purchase_draft_v2',foundation.encode(payload),uuid.uuid4(),None)
+ foundation.call(cur,'erp.post_material_purchase_v2',saved['purchase_id'],uuid.uuid4(),saved['row_version'],'Post direct final receipt')
+ actors.admin(cur)
+ item,roll=cur.execute('select i.id,r.id from erp.material_purchase_items i join erp.material_rolls r on r.purchase_item_id=i.id where i.purchase_id=%s',(saved['purchase_id'],)).fetchone()
+ adj=foundation.call(cur,'erp.save_material_adjustment_draft_v2',foundation.encode(dict(adjustment_number=foundation.tag(),reason_code='COUNT_CORRECTION',
+   physical_at=production.at(today-timedelta(days=5),10),location_id=loc,change_reason='Direct correction consumed stock',items=[dict(material_id=mat,roll_id=roll,qty_signed=-5)])),uuid.uuid4(),None)
+ foundation.call(cur,'erp.post_material_adjustment_v2',adj['material_adjustment_id'],uuid.uuid4(),adj['row_version'],'Post shortage')
+ actors.admin(cur)
+ corr=cur.execute('insert into erp.material_purchase_cost_corrections(correction_number,purchase_id,invoice_date,reason) values(%s,%s,%s,%s) returning id',(foundation.tag(),saved['purchase_id'],invoice_day,'Authoritative direct invoice correction')).fetchone()[0]
+ cur.execute('insert into erp.material_purchase_cost_correction_items(correction_id,purchase_item_id,new_unit_price) values(%s,%s,3)',(corr,item))
+ if closed:foundation.call(cur,'erp.close_accounting_through',invoice_day,'Close direct invoice economic date')
+ before=production.ledger(cur);actors.admin(cur);ids={r[0] for r in cur.execute('select id from erp.journal_entries').fetchall()}
+ foundation.call(cur,'erp.post_material_purchase_cost_correction',corr);actors.admin(cur)
+ posted=production.ledger(cur);assert posted['MATERIAL_INVENTORY']-before['MATERIAL_INVENTORY']==15 and posted['AP_SUPPLIER']-before['AP_SUPPLIER']==-20
+ fresh=[r for r in cur.execute('select id,economic_date,transaction_date from erp.journal_entries').fetchall() if r[0] not in ids]
+ assert len(fresh)>=2 and all(d==invoice_day and t==(today if closed else invoice_day) for _,d,t in fresh),fresh
+ ids|={r[0] for r in fresh}
+ foundation.call(cur,'erp.reverse_material_purchase_cost_correction',corr,'Reverse direct invoice correction');actors.admin(cur)
+ assert production.ledger(cur)==before
+ fresh=[r for r in cur.execute('select id,economic_date,transaction_date from erp.journal_entries').fetchall() if r[0] not in ids]
+ assert len(fresh)>=2 and all(d==today and t==today for _,d,t in fresh),fresh
+ assert cur.execute('select count(*) from erp.invoice_recost_execution_context').fetchone()[0]==0
+ return dict(status='PASS',closed=closed,post_invoice_date=invoice_day,reversal_date=today,all_legs_same_date=True,ledger_restored=True)
+
 save()
 try:
  with psycopg.connect('postgresql://supabase_admin:postgres@127.0.0.1:54322/postgres') as conn,conn.cursor() as cur:
@@ -93,6 +125,7 @@ try:
   cases += [('BAD_PRICE:'+p,lambda p=p:retail(cur,today,12,p)) for p in ('-1','NaN','0.005')]
   cases += [('FRACTIONAL_PCS',lambda:retail(cur,today,12,qty='7.0000001'))]
   cases += [('INVOICE:'+z+':'+str(c),lambda z=z,c=c:invoice_date(cur,today,z,c)) for z in ('UTC','Pacific/Kiritimati') for c in (False,True)]
+  cases += [('DIRECT_CORRECTION_REVERSAL:'+str(c),lambda c=c:direct_correction_reversal(cur,today,c)) for c in (False,True)]
   for name,fn in cases:
    actors.admin(cur);baseline=actors.boundary(cur);cur.execute('savepoint ao_case')
    try:r=fn()

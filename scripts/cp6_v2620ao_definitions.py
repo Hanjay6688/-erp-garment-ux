@@ -29,7 +29,13 @@ for identity in list(FUNCTIONS):
   s=FUNCTIONS[identity]
   # Do not affect idempotent already-reversed early returns.
   marker=next(line for line in s.splitlines() if "h.status<>" in line and 'raise exception' in line)
-  change(identity,marker,marker+"\n  insert into erp.invoice_recost_execution_context(transaction_id,invoice_date,source_id) values(txid_current(),h.invoice_date,h.id);")
+  # Posting corrects the receipt at invoice economic date. Cancellation uses
+  # the existing reversal business-day contract for every valuation leg too.
+  reversing=name.startswith('erp.reverse_')
+  date_expression='erp._cp3_business_date(statement_timestamp())' if reversing else 'h.invoice_date'
+  change(identity,marker,marker+"\n  insert into erp.invoice_recost_execution_context(transaction_id,invoice_date,source_id) values(txid_current(),"+date_expression+",h.id);")
+  if reversing:
+   change(identity,',h.id,h.invoice_date,p_reason,v_n_before,true);',',h.id,erp._cp3_business_date(statement_timestamp()),p_reason,v_n_before,true);')
   tail='end;\n$function$'
   change(identity,tail,'  delete from erp.invoice_recost_execution_context where transaction_id=txid_current();\n'+tail)
 
