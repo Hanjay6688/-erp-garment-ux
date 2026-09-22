@@ -22,6 +22,7 @@ for (const [path, domain] of [
   ['src/ConnectedPickupPage.tsx', 'PICKUP'], ['src/ConnectedWipStatusPage.tsx', 'WIP'],
   ['src/useLaundryQcWorkspace.ts', 'LAUNDRY_QC'],
   ['src/ConnectedInitialImportPage.tsx', 'INITIAL_IMPORT'],
+  ['src/ConnectedPocketFabricPage.tsx', 'POCKET_FABRIC'],
 ]) {
   const source = read(path)
   assert.ok(source.includes(`useProductionMutation('${domain}')`), `${path} bypasses shared recovery`)
@@ -33,4 +34,4 @@ for (const [path, domain] of [
 for (const path of ['src/ConnectedCuttingPage.tsx', 'src/ConnectedPickupPage.tsx', 'src/ConnectedBsResolutionPage.tsx']) {
   assert.doesNotMatch(read(path), /event\.target\.value\.replace\(/, `${path} silently rewrites numeric input`)
 }
-console.log('Production recovery ownership passed: six connected writer domains, exact envelope, shared lock and stale-read generation.')
+console.log('Production recovery ownership passed: seven connected writer domains, exact envelope, shared lock and stale-read generation.')

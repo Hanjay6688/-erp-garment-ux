@@ -5,6 +5,8 @@ name: CP6 Initial Import Native Trial
     - competition/cp6-j-closure-20260911
     paths:
     - .github/workflows/cp6-initial-import-review.yml
+    - scripts/cp6_pocket_fabric*
+    - src/ConnectedPocketFabricPage*
     - scripts/cp6_initial_import*
     - scripts/cp6_v2620ap*
     - src/initialImport*
@@ -178,7 +180,7 @@ jobs:
 
         node node_modules/typescript/bin/tsc -b --pretty false
 
-        node node_modules/vitest/vitest.mjs run src/initialImport.test.ts src/ConnectedInitialImportPage.dom.test.tsx src/productionRecovery.test.ts
+        node node_modules/vitest/vitest.mjs run src/initialImport.test.ts src/ConnectedInitialImportPage.dom.test.tsx src/ConnectedPocketFabricPage.dom.test.tsx src/productionRecovery.test.ts
 
         node scripts/check-source-ownership.mjs
 

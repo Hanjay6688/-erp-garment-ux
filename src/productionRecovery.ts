@@ -1,13 +1,13 @@
 import type { Json } from './types/database.preconnect'
 
-export const productionDomains = ['BS', 'LAUNDRY_QC', 'CUTTING', 'PICKUP', 'WIP', 'INITIAL_IMPORT'] as const
+export const productionDomains = ['BS', 'LAUNDRY_QC', 'CUTTING', 'PICKUP', 'WIP', 'INITIAL_IMPORT', 'POCKET_FABRIC'] as const
 export type ProductionDomain = typeof productionDomains[number]
 export type ProductionEnvelope = {
   action: string; payload: Json; expectedVersion: number | null
   fingerprint: string; id: string; createdAt: string
 }
 export const domainLabels: Record<ProductionDomain, string> = {
-  BS: 'Barang BS & Rework', LAUNDRY_QC: 'Laundry / QC', CUTTING: 'Buat Potongan',
+  POCKET_FABRIC: 'Kain kantong', BS: 'Barang BS & Rework', LAUNDRY_QC: 'Laundry / QC', CUTTING: 'Buat Potongan',
   PICKUP: 'Bagi Potongan', WIP: 'Status WIP', INITIAL_IMPORT: 'Impor data awal',
 }
 const actions: Record<ProductionDomain, readonly string[]> = {
@@ -17,6 +17,7 @@ const actions: Record<ProductionDomain, readonly string[]> = {
   LAUNDRY_QC: ['POST_DELIVERY', 'POST_RECEIPT', 'POST_FAILED_WASH', 'REVERSE_DELIVERY',
     'REVERSE_RECEIPT', 'POST_FINAL_SKU', 'REVERSE_FINAL_SKU'],
   CUTTING: ['SAVE_DRAFT', 'POST', 'DELETE'], PICKUP: ['SAVE_DRAFT', 'POST', 'DELETE'], WIP: ['OPEN', 'RESOLVED'],
+  POCKET_FABRIC: ['REGISTER', 'POST', 'REVERSE'],
   INITIAL_IMPORT: ['CREATE', 'SAVE_FILE', 'VALIDATE', 'FINALIZE', 'ALLOCATE_CASH_ADVANCE', 'PREPAYMENT'],
 }
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i

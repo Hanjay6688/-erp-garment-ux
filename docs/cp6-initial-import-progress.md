@@ -1,3 +1,21 @@
+# CP6 — proposal pengurangan stok kain kantong tanpa HPP produk
+
+22 September 2026. CP6_HOLD; production_go:false; migration_installed:false; independent_acceptance:false.
+
+Keputusan owner: kain kantong universal dipotong dan diambil bebas; pengambilan per orang dan sisa di mandor tidak diketahui. Tahap sekarang hanya mengurangi stok roll gudang. Mandor, model, ukuran, hasil potongan, serta alokasi ke HPP produk tidak diwajibkan. Pemisahan biaya ke jumlah hasil produksi per periode merupakan opsi mendatang atas permintaan owner; belum diaktifkan dan tidak diam-diam mengubah transaksi lama.
+
+Menu Gudang → Kain kantong: owner/admin dengan hak warehouse.stock.adjust mendaftarkan master kain khusus, memilih roll/gudang, lalu mengisi jumlah keluar atau sisa roll yang masih terlihat. Sisa nol diperbolehkan. Form belum mengubah stok sampai disahkan. Pengesahan membuat dan memposting satu material adjustment native INTERNAL_FACTORY_USE secara atomik. Nilai persediaan berpindah ke biaya periode OTHER_EXPENSE, tanpa WIP/FG/COGS atau piutang mandor. Jumlah keluar berarti keluar dari stok gudang terukur; bukan klaim konsumsi aktual ataupun sisa bahan pada mandor.
+
+Riwayat privat immutable menyimpan asal material/roll/gudang, tanggal dokumen native, cara/input pencatatan, stok sebelumnya, jumlah keluar dan kebijakan PERIOD_EXPENSE. Koreksi harga/invoice tetap memakai revaluation native dengan tanggal kebijakan AO. Pembatalan sumber mengembalikan stok dan biaya bersama; generic journal/movement reversal tanpa sumber diblokir. Kain yang didaftarkan tidak boleh menjadi hasil potongan ukuran; native cutting guard dan detector menjaga batasnya. Future allocation harus menghindari pembebanan ganda biaya yang sudah dicatat, memilih periode/output basis yang disepakati saat fitur diminta, dan mempertahankan history/snapshot lama.
+
+UUID recovery memakai domain ketujuh POCKET_FABRIC dan global writer lock existing. Stock revision disimpan bersama pilihan roll; muat ulang tidak otomatis mengganti dasar input yang sedang disiapkan. Server mengunci material dan roll, memeriksa saldo/revision/tanggal/raw decimal, serta memakai native stock writer. Tidak ada pemakaian negatif, saldo negatif, pembulatan input diam-diam, atau backdated remaining count yang melewati pergerakan berikutnya.
+
+Verifikasi lokal: 78/78 frontend/recovery PASS (72 sebelumnya +6 form kain kantong); TypeScript, source/access/CSS/recovery ownership PASS. 103 runtime files,27 browser RPC,111 permissions,48 routes/nav labels,20 sensitive actions,37 stylesheets. Komposisi 63 fungsi AP +11 AO,24 predecessor AP +11 AO. Native baru:17 kasus yang belum dijalankan pada commit proposal ini; rencana gabungan120 AP +12 AO. Jangan menyebut native PASS sebelum artifact membuktikannya. Semua perubahan masih proposal rolled-back pada runtime disposable; hosted database dan main tidak disentuh.
+
+---
+
+# Checkpoint sebelum kain kantong
+
 # CP6 — uang muka supplier, pelanggan, dan vendor terverifikasi
 
 22 September 2026. **CP6_HOLD · production_go:false · migration_installed:false · independent_acceptance:false.**

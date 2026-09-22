@@ -44,6 +44,7 @@ const OperationsAdminPages = lazy(() => import('./OperationsAdminPages'))
 const FgNotaPage = lazy(() => import('./FgNotaPage'))
 const AccessControlPage = lazy(() => import('./AccessControlPage'))
 const ConnectedInitialImportPage = lazy(() => import('./ConnectedInitialImportPage'))
+const ConnectedPocketFabricPage = lazy(() => import('./ConnectedPocketFabricPage'))
 const PatternPage = lazy(() => import('./PatternPage'))
 const ConnectedCuttingPage = lazy(() => import('./ConnectedCuttingPage'))
 const ConnectedPickupPage = lazy(() => import('./ConnectedPickupPage'))
@@ -53,7 +54,7 @@ const ConnectedLaundryPage = lazy(() => import('./ConnectedLaundryPage'))
 const ConnectedQcFinalPage = lazy(() => import('./ConnectedQcFinalPage'))
 const ConnectedFgHandoffBoundary = lazy(() => import('./ConnectedFgHandoffBoundary'))
 
-type Page = 'dashboard' | 'stock-card' | 'movements-vivo' | 'movements-widie' | 'procurement' | 'cutting-roll' | 'mandor-wip' | 'contractor-issue' | 'sewing-wip' | 'qc' | 'fg-handoff' | 'bs-rework' | 'laundry' | 'hpp' | 'master-pattern' | 'admin-access' | 'admin-import' | SalesView | FinanceView | WarehouseView | MaterialMasterView | BusinessMasterView | OperationsAdminView | 'placeholder'
+type Page = 'dashboard' | 'stock-card' | 'movements-vivo' | 'movements-widie' | 'procurement' | 'cutting-roll' | 'mandor-wip' | 'contractor-issue' | 'sewing-wip' | 'qc' | 'fg-handoff' | 'bs-rework' | 'laundry' | 'hpp' | 'master-pattern' | 'admin-access' | 'admin-import' | 'pocket-fabric' | SalesView | FinanceView | WarehouseView | MaterialMasterView | BusinessMasterView | OperationsAdminView | 'placeholder'
 type NavSection = 'Produksi' | 'Gudang' | 'Penjualan' | 'Keuangan' | 'Master Data'
 type QtyTuple = [number, number, number]
 type SizeTuple = [string, string, string]
@@ -251,7 +252,7 @@ const stockGrades = Array.from(new Set(productCatalog.map((product) => product.g
 
 const nav: Record<NavSection, string[]> = {
   Produksi: ['Buat Potongan', 'Bagi Potongan', 'WIP & Sewing', 'Laundry', 'QC & Final SKU', 'Susun Nota FG', 'Barang BS & Rework'],
-  Gudang: ['Ringkasan Gudang', 'Pembelian & Penerimaan', 'Bahan & Roll', 'Aksesori', 'Ringkasan Barang Jadi', 'Mutasi Barang Jadi · Vivo', 'Mutasi Barang Jadi · Widie', 'Kartu Stok FG', 'Stock Adjustment', 'Ganti Merek'],
+  Gudang: ['Ringkasan Gudang', 'Pembelian & Penerimaan', 'Bahan & Roll', 'Kain kantong', 'Aksesori', 'Ringkasan Barang Jadi', 'Mutasi Barang Jadi · Vivo', 'Mutasi Barang Jadi · Widie', 'Kartu Stok FG', 'Stock Adjustment', 'Ganti Merek'],
   Penjualan: ['Penjualan & Invoice', 'Semua Invoice', 'Retur Penjualan', 'Pembayaran Pelanggan', 'Riwayat Pelanggan'],
   Keuangan: ['Ringkasan Keuangan', 'Kas & Bank', 'Hutang Supplier & Vendor', 'Piutang Pelanggan', 'Payroll & Kasbon', 'Absensi & Rate Harian', 'Nota Ambil Aksesori', 'HPP & Rekalkulasi', 'Jurnal & Transaksi Lain', 'Laporan & Tutup Buku'],
   'Master Data': ['Kain & Benchmark', 'Aksesori & Harga Mandor', 'Produk & SKU', 'Pelanggan', 'Supplier & Vendor', 'Mandor', 'Gudang & Lokasi', 'Pola'],
@@ -500,6 +501,7 @@ function App() {
     : page === 'laundry' ? 'Laundry'
     : page === 'hpp' ? 'HPP & Rekalkulasi'
     : page === 'warehouse-dashboard' ? 'Ringkasan Gudang'
+    : page === 'pocket-fabric' ? 'Kain kantong'
     : page === 'materials-rolls' ? 'Bahan & Roll'
     : page === 'accessories' ? 'Aksesori'
     : page === 'fg-summary' ? 'Ringkasan Barang Jadi'
@@ -535,6 +537,7 @@ function App() {
     else if (label === 'Mutasi Barang Jadi · Widie') setPage('movements-widie')
     else if (label === 'Pembelian & Penerimaan') setPage('procurement')
     else if (label === 'Ringkasan Gudang') setPage('warehouse-dashboard')
+    else if (label === 'Kain kantong') setPage('pocket-fabric')
     else if (label === 'Bahan & Roll') setPage('materials-rolls')
     else if (label === 'Aksesori') setPage('accessories')
     else if (label === 'Ringkasan Barang Jadi') setPage('fg-summary')
@@ -572,7 +575,7 @@ function App() {
           const financeTarget=financePageByLabel[item]
           const masterTarget=businessMasterPageByLabel[item]
           const operationsTarget=operationsPageByLabel[item]
-          const active = (salesTarget !== undefined && page === salesTarget) || (financeTarget !== undefined && page === financeTarget) || (masterTarget !== undefined && page === masterTarget) || (operationsTarget !== undefined && page === operationsTarget) || (item === 'Kartu Stok FG' && page === 'stock-card') || (item === 'Mutasi Barang Jadi · Vivo' && page === 'movements-vivo') || (item === 'Mutasi Barang Jadi · Widie' && page === 'movements-widie') || (item === 'Pembelian & Penerimaan' && page === 'procurement') || (item === 'Ringkasan Gudang' && page === 'warehouse-dashboard') || (item === 'Bahan & Roll' && page === 'materials-rolls') || (item === 'Aksesori' && page === 'accessories') || (item === 'Ringkasan Barang Jadi' && page === 'fg-summary') || (item === 'Stock Adjustment' && page === 'stock-adjustment') || (item === 'Ganti Merek' && page === 'brand-conversion') || (item === 'Buat Potongan' && page === 'cutting-roll') || (item === 'Bagi Potongan' && page === 'mandor-wip') || (item === 'Nota Ambil Aksesori' && page === 'contractor-issue') || (item === 'WIP & Sewing' && page === 'sewing-wip') || (item === 'QC & Final SKU' && page === 'qc') || (item === 'Susun Nota FG' && page === 'fg-handoff') || (item === 'Barang BS & Rework' && page === 'bs-rework') || (item === 'Laundry' && page === 'laundry') || (item === 'HPP & Rekalkulasi' && page === 'hpp') || (item === 'Kain & Benchmark' && page === 'master-fabric') || (item === 'Aksesori & Harga Mandor' && page === 'master-accessory') || (item === 'Pola' && page === 'master-pattern')
+          const active = (salesTarget !== undefined && page === salesTarget) || (financeTarget !== undefined && page === financeTarget) || (masterTarget !== undefined && page === masterTarget) || (operationsTarget !== undefined && page === operationsTarget) || (item === 'Kartu Stok FG' && page === 'stock-card') || (item === 'Mutasi Barang Jadi · Vivo' && page === 'movements-vivo') || (item === 'Mutasi Barang Jadi · Widie' && page === 'movements-widie') || (item === 'Pembelian & Penerimaan' && page === 'procurement') || (item === 'Ringkasan Gudang' && page === 'warehouse-dashboard') || (item === 'Kain kantong' && page === 'pocket-fabric') || (item === 'Bahan & Roll' && page === 'materials-rolls') || (item === 'Aksesori' && page === 'accessories') || (item === 'Ringkasan Barang Jadi' && page === 'fg-summary') || (item === 'Stock Adjustment' && page === 'stock-adjustment') || (item === 'Ganti Merek' && page === 'brand-conversion') || (item === 'Buat Potongan' && page === 'cutting-roll') || (item === 'Bagi Potongan' && page === 'mandor-wip') || (item === 'Nota Ambil Aksesori' && page === 'contractor-issue') || (item === 'WIP & Sewing' && page === 'sewing-wip') || (item === 'QC & Final SKU' && page === 'qc') || (item === 'Susun Nota FG' && page === 'fg-handoff') || (item === 'Barang BS & Rework' && page === 'bs-rework') || (item === 'Laundry' && page === 'laundry') || (item === 'HPP & Rekalkulasi' && page === 'hpp') || (item === 'Kain & Benchmark' && page === 'master-fabric') || (item === 'Aksesori & Harga Mandor' && page === 'master-accessory') || (item === 'Pola' && page === 'master-pattern')
           return <button key={item} className={active ? 'sub-active' : ''} onClick={() => chooseSubmenu(item)}>• {item}</button>
         })}</div>}
       </div>)}
@@ -710,6 +713,7 @@ function App() {
         {(page === 'master-products' || page === 'master-customers' || page === 'master-partners' || page === 'master-workforce' || page === 'master-locations') && <Suspense fallback={<WorkspaceFallback label="Master Data"/>}><MasterDataPages view={page}/></Suspense>}
         {page === 'master-pattern' && <Suspense fallback={<WorkspaceFallback label="Master Pola"/>}><PatternPage/></Suspense>}
         {page === 'admin-access' && <Suspense fallback={<WorkspaceFallback label="Pengguna & Hak Akses"/>}><AccessControlPage/></Suspense>}
+        {page === 'pocket-fabric' && <Suspense fallback={<WorkspaceFallback label="Kain kantong"/>}><ConnectedPocketFabricPage/></Suspense>}
         {page === 'admin-import' && <Suspense fallback={<WorkspaceFallback label="Impor data awal"/>}><ConnectedInitialImportPage/></Suspense>}
         {isOperationsView(page) && <Suspense fallback={<WorkspaceFallback label="Pengaturan operasional"/>}><OperationsAdminPages view={page} onNavigate={(next)=>setPage(next)} reminders={reminders} onChangeReminders={setReminders}/></Suspense>}
         {page === 'placeholder' && <Placeholder />}
