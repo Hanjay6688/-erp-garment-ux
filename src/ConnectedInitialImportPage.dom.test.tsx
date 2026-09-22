@@ -181,10 +181,10 @@ describe('opening WIP continuation',()=>{
  it('sends exact remaining quantity and keeps a lost response locked for recovery',async()=>{
   const s=server();s.status='POSTED';s.production_sources=[{opening_item_id:rowId,batch_id:id,source_key:'WIP-001',po_number:'PO-001',balance_type:'WIP',stage:'SEWING',size_code:'M',qty_pcs:8,completed_qty_pcs:3,remaining_qty_pcs:5,contractor_name:'Epi',vendor_name:null,original_amount:'40.00',current_amount:'48.00',outputs:[]}]
   await mount();expect(container.textContent).toContain('Sisa 5 pcs');expect(button('Sahkan hasil WIP awal').disabled).toBe(true)
-  for(const [label,value] of [['Hasil WIP baik','6'],['Produk hasil WIP','SKU-M'],['Gudang hasil WIP','FG-01'],['Tanggal hasil WIP','2026-09-21'],['Catatan hasil WIP','Barang sudah diperiksa']])await change(container.querySelector(`input[aria-label="${label}"]`)!,value)
+  for(const [label,value] of [['Hasil WIP baik','6'],['Produk hasil WIP','SKU-M'],['Merek hasil WIP','  BRAND-B  '],['Gudang hasil WIP','FG-01'],['Tanggal hasil WIP','2026-09-21'],['Catatan hasil WIP','Barang sudah diperiksa']])await change(container.querySelector(`input[aria-label="${label}"]`)!,value)
   expect(button('Sahkan hasil WIP awal').disabled).toBe(true)
   await change(container.querySelector('input[aria-label="Hasil WIP baik"]')!,'4');s.lose=true;await click('Sahkan hasil WIP awal')
-  const sent=writes()[0][1];expect(sent.p_action).toBe('WIP_OUTPUT');expect(sent.p_payload).toMatchObject({opening_item_id:rowId,expected_remaining:'5',qty_pcs:'4',product_sku:'SKU-M',location_code:'FG-01',date:'2026-09-21',operation:'COMPLETE'})
+  const sent=writes()[0][1];expect(sent.p_action).toBe('WIP_OUTPUT');expect(sent.p_payload).toMatchObject({opening_item_id:rowId,expected_remaining:'5',qty_pcs:'4',product_sku:'SKU-M',brand_code:'BRAND-B',location_code:'FG-01',date:'2026-09-21',operation:'COMPLETE'})
   expect(readProductionRecovery('disposable:actor-1').pending.INITIAL_IMPORT?.id).toBe(sent.p_client_request_id)
   expect(button('Sahkan hasil WIP awal').disabled).toBe(true)
   s.lose=false;await click('Reconcile');expect(writes()[1][1]).toEqual(sent);expect(s.effects).toBe(1)

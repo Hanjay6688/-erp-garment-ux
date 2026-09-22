@@ -1,0 +1,15 @@
+# CP6 AS — independent findings and writer qualification
+
+CP6 remains HOLD. No production migration, main merge, or CP7 opening is authorized by this package.
+
+AR product source is frozen at 7a64c5ffe48d8debe7f02b6df019031c61abd078. Independent probe source is 0bad47881e44c71605e3dbb6d6d1ed9c6fab55af, run 35784148583, artifact 10719537597. The 27 ordinary-RPC cases produced 17 PASS and 10 counterexamples with exact rollback and unchanged AN primary. Eight reproduced closed-period event-date errors. Two demonstrated the same ambiguous cross-brand WIP selection family; the explicit-ID case is a new selection contract control, not a separate claim that AR documented that field.
+
+AS changes five existing functions and the connected WIP brand input. Material/HPP/adjustment valuation events copy recognition dates from their exact posted journal. Journal economic dates, invoice documents and previously posted events are preserved. WIP selection is cardinality checked, model/size constrained, date bounded and optionally qualified by brand or product ID; conflicts fail atomically. Production import validation evaluates the supplied brand/model/color/size together rather than choosing arbitrary SKU rows. Additional AR probes must validate the latter related findings before acceptance.
+
+Migration filenames come from Supabase CLI 2.116.0 (`migration new`); provenance is recorded. The migration admits only the exact AR catalog under closed and drained admission. The pre-use rollback checks all ERP data, original function bodies/owners/ACLs, prior capsules and migration history. Used rollback remains refused; linked business reversal is the ordinary recovery path.
+
+`cp6_as_trial.py --phase qualify` performs two install/rollback cycles on a populated AR clone, security-advisor delta review, 174 original AR cases including real races, and post-use rollback refusal. `--phase regression` uses another fresh AN clone, installs the permanent chain through AS and runs the original 230/31/65 cases plus 34 new date/identity cases. Original oracle files and historical runner guards are unchanged. Twelve original open-period HOLD records remain intact; twelve separate arithmetic policy checks apply the owner's invoice-economic-date contract. No HOLD is silently relabeled.
+
+All candidate results are writer evidence until an independent chat replays and accepts the exact source. The historical AC-only workflow remains historical and must not be weakened to admit AS. Native RPC calls do not by themselves establish HTTP/browser acceptance. The connected DOM tests assert that the selected brand survives the exact lost-response/replay envelope.
+
+Review the uploaded reports, failure runs, source digests and exact observed values. A green workflow alone is insufficient. Do not infer whole-ERP production readiness from this bounded package.

@@ -1,0 +1,6 @@
+{
+  "cli_version": "2.116.0",
+  "command": "supabase migration new erp_v2_6_20as_cp6_event_dates_product_identity",
+  "generated_file": "20260922210815_erp_v2_6_20as_cp6_event_dates_product_identity.sql",
+  "empty_file_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}
