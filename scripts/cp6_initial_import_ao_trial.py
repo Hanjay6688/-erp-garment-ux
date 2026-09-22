@@ -73,7 +73,7 @@ def invoice_date(cur,today,zone,closed):
 
 def direct_correction_reversal(cur,today,closed):
  actors.admin(cur)
- mat=production.prior.clone_material(cur,'direct-cost-reversal');loc,_=foundation.locations(cur)
+ mat=production.prior.clone_material(cur,'ao-direct');loc,_=foundation.locations(cur)
  purchase_day=today-timedelta(days=8);invoice_day=today-timedelta(days=2)
  production.prior.set_open_period(cur,purchase_day-timedelta(days=1))
  payload=dict(purchase_number=foundation.tag(),supplier_id=foundation.MASTER['supplier'],location_id=loc,
