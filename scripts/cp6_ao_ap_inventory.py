@@ -51,7 +51,7 @@ with relations as (
   case when nspacl is null then null else array(select a::text from unnest(nspacl)a order by a::text) end)
  from pg_namespace where nspname in('erp','public')
  union all
- select 'DEFAULT_ACL:'||pg_get_userbyid(d.defaclrole)||':'||coalesce(n.nspname,'GLOBAL')||':'||d.defaclobjtype,
+ select 'DEFAULT_ACL:'||pg_get_userbyid(d.defaclrole)||':'||coalesce(n.nspname,'GLOBAL')||':'||d.defaclobjtype::text,
  to_jsonb(array(select a::text from unnest(d.defaclacl)a order by a::text))
  from pg_default_acl d left join pg_namespace n on n.oid=d.defaclnamespace
  where n.nspname in('erp','public') or d.defaclnamespace=0
@@ -94,3 +94,11 @@ def function_pins(cur):
     return {i:dict(sha256=sha(d),owner=o,acl=a) for i,d,o,a in cur.execute(FUNCTIONS_SQL).fetchall()}
 
 def normal(value):return json.loads(json.dumps(value,default=str))
+
+def history_capsules(cur):
+    from psycopg import sql
+    result={}
+    for (name,) in cur.execute("select table_name from information_schema.tables where table_schema='erp' and table_name like '%rollback_capsule' order by 1").fetchall():
+        if name in CAPSULES:continue
+        result[name]=cur.execute(sql.SQL("""select encode(extensions.digest(convert_to(coalesce(string_agg(h,',' order by h),''),'UTF8'),'sha256'),'hex') from(select encode(extensions.digest(convert_to((to_jsonb(t)-array['captured_at','boundary_snapshot'])::text,'UTF8'),'sha256'),'hex') h from erp.{} t)s""").format(sql.Identifier(name))).fetchone()[0]
+    return result

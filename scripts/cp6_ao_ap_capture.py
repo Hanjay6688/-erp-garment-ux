@@ -5,7 +5,7 @@ import psycopg
 import cp6_v2620an_runtime as runtime
 import cp6_v2620ao_definitions as ao
 import cp6_v2620ap_definitions as ap
-from cp6_ao_ap_inventory import inventory,data,platform,function_pins,sha
+from cp6_ao_ap_inventory import inventory,data,platform,function_pins,sha,history_capsules
 
 ROOT=Path('cp6-proof/ao-ap-package');ROOT.mkdir(parents=True,exist_ok=True)
 report=dict(status='INCOMPLETE',head=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),tree=subprocess.check_output(['git','rev-parse','HEAD^{tree}'],text=True).strip(),production_go=False,independent_acceptance=False,migration_installed=False,stages={})
@@ -15,6 +15,7 @@ try:
   assert len(runtime.verified_successor(cur))==692
   baseline=data(cur);before=inventory(cur);ledger=platform(cur)
   report['stages']['AN']=dict(objects=before,functions=function_pins(cur))
+  report['history_capsules']=history_capsules(cur)
   report['restore_constraints']=cur.execute("select c.conname,pg_get_constraintdef(c.oid) from pg_constraint c where c.conrelid='erp.payroll_deductions'::regclass and c.conname='payroll_deductions_deduction_type_check'").fetchall()
   for name,m in [('AO',ao),('AP',ap)]:
    for identity,definition,acl,owner in m.PREDECESSOR:
