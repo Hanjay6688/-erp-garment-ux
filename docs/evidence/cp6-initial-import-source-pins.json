@@ -5,7 +5,7 @@
   "scripts/check-production-recovery.mjs": "198cfa6080aaa91929f572088dfce852a5eb7d05fdc1de312c5d1cb0156acdfc",
   "scripts/check-source-ownership.mjs": "6cc9b121f4caa5322d0b41ebb7b37fdb21b6d26ad306c232b8719064e423aa17",
   "scripts/cp6_initial_import_scope.py": "0f860f7394d89319331c851caef9fdb132abdb2992f068ff14df1db90401e393",
-  "scripts/cp6_initial_import_trial.py": "506c1ebe7b720bceae1e1898036663eed99d7d4ba70fecd60fdb58b004a14949",
+  "scripts/cp6_initial_import_trial.py": "ac4b9291df6c2c4c6b862aadbc403b2fed327e6aadbf4863e7443b9e88c3de4f",
   "scripts/cp6_v2620ap_definitions.py": "2c607659c66c605b6d4c9be229857b38fc64ede8dbdf963f5d4cdc83ff556e8b",
   "src/App.tsx": "8e993fb3157e0d57130d00583fb413b45f3332689e53de24b3e0f51b0ab52bda",
   "src/ConnectedInitialImportPage.dom.test.tsx": "7af8a7cc07e579a404c994abcebac15fe76fc218418f3191f1e17ebe77bc7df0",

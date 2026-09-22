@@ -65,6 +65,22 @@ def lifecycle(cur,today):
  inherited.refused(cur,lambda:invoke(cur,'SAVE_FILE',batch,entity='CUSTOMER',rows=[]))
  return dict(status='PASS',draft_ledger_inert=True,latest_value='17.25',control_not_posted=True,replay_identical=True)
 
+def physical_stock(cur,today,roll=False):
+ batch=call(cur,'CREATE',dict(batch_code='AP-'+uuid.uuid4().hex,cutover_date=str(today-timedelta(days=1))))['batch_id']
+ code='AP-'+uuid.uuid4().hex[:14]
+ location=cur.execute("select location_code from erp.locations where location_type='RAW_MATERIAL_WAREHOUSE' and is_active order by id limit 1").fetchone()[0]
+ upload(cur,batch,'MATERIAL',[dict(material_sku=code,material_name='AP opening physical stock',material_type='FABRIC' if roll else 'OTHER',unit_code='yd' if roll else 'PCS')])
+ if roll:
+  upload(cur,batch,'MATERIAL_ROLL',[dict(material_sku=code,roll_number=code,opening_qty='7',unit_cost='2.25',location_code=location,control_key='STOCK')])
+ else:
+  upload(cur,batch,'OPENING_BALANCE_ITEM',[dict(balance_type='MATERIAL',material_sku=code,qty='7',unit_cost='2.25',location_code=location,control_key='STOCK')])
+ upload(cur,batch,'OPENING_CONTROL',[dict(control_key='STOCK',balance_type='MATERIAL',qty='7',amount='15.75')])
+ result=invoke(cur,'FINALIZE',batch)
+ assert result['status']=='POSTED',read(cur,batch)
+ values=cur.execute('select sum(s.qty_signed),sum(s.qty_signed*s.unit_cost_snapshot),count(*) from erp.material_stock_movements s join erp.materials m on m.id=s.material_id where m.material_sku=%s',(code,)).fetchone()
+ assert values==(7,inherited.Decimal('15.75'),1),values
+ return dict(status='PASS',qty='7',value='15.75',stock_movements=1,roll=roll)
+
 def numeric_refusal(cur,today):
  batch,_,_=valid(cur,today)
  return dict(status='PASS',refusal=inherited.refused(cur,lambda:upload(cur,batch,'OPENING_BALANCE_ITEM',[dict(balance_type='CASH_BANK',amount='1.001',control_key='CASH')])) )
@@ -79,7 +95,13 @@ def control_refusal(cur,today,kind):
 
 def authorization(cur,today):
  batch,_,_=valid(cur,today)
- admin(cur);cur.execute("update erp.app_users set is_active=false where auth_user_id=%s",(base.OPERATOR_AUTH,))
+ admin(cur)
+ # Preserve the real last-owner invariant while testing revocation of the
+ # actor who created this draft; never disable the guard for a negative test.
+ backup=uuid.uuid4()
+ cur.execute("insert into auth.users(id,aud,role,email) values(%s,'authenticated','authenticated',%s)",(backup,'ap-backup-'+backup.hex+'@example.test'))
+ cur.execute("insert into erp.app_users(id,auth_user_id,full_name,role,role_id,is_active) select gen_random_uuid(),%s,'AP backup owner','OWNER',id,true from erp.app_roles where role_code='OWNER'",(backup,))
+ cur.execute("update erp.app_users set is_active=false where auth_user_id=%s",(base.OPERATOR_AUTH,))
  refused=inherited.refused(cur,lambda:read(cur,batch))
  return dict(status='PASS',revoked_owner_refused=refused)
 
@@ -102,13 +124,15 @@ try:
     if identity.startswith('public.'):cur.execute(f'grant execute on function {identity} to authenticated,service_role')
   admin(cur)
   installed=function_catalog(cur)
+  public=cur.execute("select 'public.'||p.oid::regprocedure::text,pg_get_functiondef(p.oid),p.proacl::text,pg_get_userbyid(p.proowner) from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public' and p.proname in('erp_get_initial_import_workspace_v1','erp_save_initial_import_action_v1') order by 1").fetchall()
+  (ROOT/'INSTALLED_FUNCTIONS.json').write_text(json.dumps(dict(functions=[r for r in installed if r[0] in FUNCTIONS]+public),indent=2)+'\n')
   # The inherited seed includes historical native calls: temporary USAGE is
   # fixture-only and rolled back. Neither public RPC requires this grant.
   cur.execute('grant usage on schema erp to authenticated')
   actors.actors.claims(cur,dict(sub=base.OPERATOR_AUTH,role='authenticated'));base.load_fixture_foundation(cur);admin(cur)
   cur.execute('revoke usage on schema erp from authenticated')
   today=cur.execute("select (statement_timestamp() at time zone 'Asia/Jakarta')::date").fetchone()[0]
-  cases=[('LATEST_DRAFT_TOTALS_REPLAY',lambda:lifecycle(cur,today)),('EXCESS_PRECISION',lambda:numeric_refusal(cur,today)),('MISSING_CONTROL',lambda:control_refusal(cur,today,'MISSING')),('DUPLICATE_CONTROL',lambda:control_refusal(cur,today,'DUPLICATE')),('REVOKED_OWNER',lambda:authorization(cur,today))]
+  cases=[('PHYSICAL_MATERIAL',lambda:physical_stock(cur,today)),('PHYSICAL_ROLL',lambda:physical_stock(cur,today,True)),('LATEST_DRAFT_TOTALS_REPLAY',lambda:lifecycle(cur,today)),('EXCESS_PRECISION',lambda:numeric_refusal(cur,today)),('MISSING_CONTROL',lambda:control_refusal(cur,today,'MISSING')),('DUPLICATE_CONTROL',lambda:control_refusal(cur,today,'DUPLICATE')),('REVOKED_OWNER',lambda:authorization(cur,today))]
   for name,fn in cases:
    admin(cur);before=actors.boundary(cur);cur.execute('savepoint proposed_case')
    try:result=fn()
