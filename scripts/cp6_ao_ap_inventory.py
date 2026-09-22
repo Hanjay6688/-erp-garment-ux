@@ -20,7 +20,7 @@ with relations as (
  from relations
  union all
  select 'COLUMN:'||format('%I.%I.%I',r.nspname,r.relname,a.attname),
- jsonb_build_array(a.attnum,format_type(a.atttypid,a.atttypmod),a.attnotnull,a.attidentity,a.attgenerated,
+ jsonb_build_array((select count(*) from pg_attribute visible where visible.attrelid=a.attrelid and visible.attnum>0 and not visible.attisdropped and visible.attnum<=a.attnum),format_type(a.atttypid,a.atttypmod),a.attnotnull,a.attidentity,a.attgenerated,
   pg_get_expr(d.adbin,d.adrelid),a.attcollation::regcollation::text,
   case when a.attacl is null then null else array(select x::text from unnest(a.attacl)x order by x::text) end)
  from relations r join pg_attribute a on a.attrelid=r.oid and a.attnum>0 and not a.attisdropped

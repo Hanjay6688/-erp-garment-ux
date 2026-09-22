@@ -8,7 +8,7 @@ import cp6_v2620ap_definitions as ap
 from cp6_ao_ap_inventory import inventory,data,platform,function_pins,sha,history_capsules
 
 ROOT=Path('cp6-proof/ao-ap-package');ROOT.mkdir(parents=True,exist_ok=True)
-report=dict(status='INCOMPLETE',head=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),tree=subprocess.check_output(['git','rev-parse','HEAD^{tree}'],text=True).strip(),production_go=False,independent_acceptance=False,migration_installed=False,stages={})
+report=dict(status='INCOMPLETE',head=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),tree=subprocess.check_output(['git','rev-parse','HEAD^{tree}'],text=True).strip(),inventory_sha256=sha(Path('scripts/cp6_ao_ap_inventory.py').read_bytes()),production_go=False,independent_acceptance=False,migration_installed=False,stages={})
 try:
  with psycopg.connect('postgresql://supabase_admin:postgres@127.0.0.1:54322/postgres') as conn,conn.cursor() as cur:
   cur.execute("set local timezone='UTC';set local statement_timeout='120s'")
