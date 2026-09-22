@@ -471,3 +471,51 @@ selectors28, selector HTTP/UI15, maintenance20, original UI43 and recovery9
 completed separately. AN→AM full boundary and public catalog exact; final AH
 533functions/223tables/Auth0/app0; Auth clone/container cleanup PASS.
 The access snapshot included all228 ERP tables. The failed access gate is kept.
+
+
+## AN access follow-up qualified — Writer PASS for92 observations
+
+Qualified harness `9cad52ff8eda43f4f365aab0a8fb08c4fe81b72d`, tree
+`177de5d5336a725bf15f0dfa87a817c276ac4897`. Native35673959580 and
+CodeQL35673959558 SUCCESS. Product src/SQL/package remain byte-identical to AN
+`08645547394a502584f5270ac64b4f116817c387`. This checkpoint update is docs only.
+
+Fresh92/92 PASS,0 incomplete/unfinished:12 connected reader controls;68 denials
+across revoked, disabled, remapped and self-metadata sessions;2 denied committed
+replays;5 current-access reads;1 real BS creation plus1 exact restored replay;
+3 open-browser revalidation controls. All70 refusals preserved the full data of
+228 ERP tables. Ordinary owner management commands and real local Auth/HTTP were
+used. No schema/function/ACL changes were made to obtain these results.
+
+Only the BS positive/replay controls prove a valid business write here. Other
+writer/search negatives qualify permission before source validation, not every
+action's positive lifecycle. Mid-transaction revocation, location/customer scope
+and all ERP combinations remain outside this evidence. AUD-G07 remains partial
+for wider scope; no independent acceptance or production go is granted.
+
+Artifact10673010107:53,524,435 bytes/321 entries; SHA256
+`cec49293898ca626f6d6a3f679f8d420c7abd666612a78145e4f02ffde77fc78`.
+Downloaded ZIP checksum/CRC/path and selected token/JWT/private-key patterns
+verified;0 matches. `ACCESS_REVALIDATION.json` and final seal match exact SHA/tree.
+Native selectors28, selector HTTP/UI15, maintenance20, unit/DOM342, CP5/CP6 browser
+contracts16/26 with0 skipped/unexpected/flaky, HTTP95/62, original UI43 and
+recovery9 PASS. AN→AM533functions/228tables plus full public catalog exact;11
+rollback refusals PASS. FinalAH533/223, Auth0/app0; clone/container cleanup PASS.
+AM230/import31/values65/concurrency/transfer-invoice8 retain explicitly verified
+REUSED_EVIDENCE. Historical460 was not reexecuted.12 date-policy HOLD remain.
+
+Intermediate attempt `6f80f33ee0e9ac19c6b78030be2f1dfff1c142a2`, tree
+`01d649bc39c9d9a76e229bd634face97f434fdab`, run35673160630, recorded88 PASS and4
+INCOMPLETE in92 complete records. The4 were the invalid BS `committed` assertion
+and its dependent replays. Other groups and exact restore/cleanup passed.
+Artifact10671919174:53,512,643 bytes/320 entries; SHA256
+`7c89b0644e7b62190c77f4835d8bdd28f40304faffc46a38127d9dc8775436c3`.
+Both failed attempts remain preserved; neither is relabeled as a complete PASS.
+
+Next: owner decisions ERP-DEC01(open-period book date), ACC-DEC02(PCS price policy),
+and ERP-DEC03(CSV scope/caller); then affected financial/import proof and the
+other chat's independent audit. Current latest-corrected values and immutable
+filed snapshots are existing principles, not a newly unanswered question.
+Main remains557005e6674058f1e5e966b350cba05501e06182. Main/PR/demo/UAT/legacy/
+hosted DB/deploy untouched in this continuation. CP6_HOLD; production_go:false;
+CP7 has not started. All33 audit IDs and prior rules remain in the full R4 handoff.
