@@ -1,3 +1,76 @@
+# CP6 — uang muka supplier, pelanggan, dan vendor terverifikasi
+
+22 September 2026. **CP6_HOLD · production_go:false · migration_installed:false · independent_acceptance:false.**
+
+VENI. VIDI. VICI. ERP. — I CONQUERED ERP.
+Reliable data adalah dewa.
+Keuangan—termasuk laporan—stok, dan HPP adalah raja.
+
+Permintaan owner “lanjut” diteruskan dari checkpoint kasbon `4ce534cf43f2327c73282a4cabf8cc1e34041fc4`. Keluarga uang muka saldo awal sekarang terhubung dari template impor, validasi, pengesahan, pemakaian ke tagihan, pengembalian, koreksi, sampai reversal. Seluruh perubahan tetap pada branch writer tunggal; cakupan ALL sudah disetujui dan tidak memerlukan konfirmasi ulang.
+
+## Identitas bukti
+
+| Bukti | Hasil |
+| --- | --- |
+| Repository / branch | `Hanjay6688/-erp-garment-ux` / `competition/cp6-j-closure-20260911` |
+| Tested commit | `5cb0edd840a06e91120690cad20ff415ace45e88` |
+| Tested tree | `1e9d4caa86dbc89ac3418ed49f7b36818bc4084c` |
+| Native gate | [35703453198 SUCCESS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35703453198), job `106666645850` |
+| Impor AP pada proposal gabungan AO+AP | **103/103 PASS**: 72 existing + 31 uang muka |
+| AO biaya/eceran tambahan pada AN | **12/12 PASS** |
+| Frontend/recovery | **72/72 PASS**: 31 parser/template, 13 connected DOM, 28 recovery |
+| TypeScript dan ownership | PASS: source, access, CSS, shared recovery |
+| CodeQL | [35703453203 SUCCESS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35703453203) |
+| Artifact native | `10682928523`, 108.562 byte, 11 entri ZIP |
+| SHA256 artifact native | `89a852b1d88edbb3249374179630f772cfda4e051c8b54ddb319f8496ec8fead` |
+| Main saat diverifikasi | `557005e6674058f1e5e966b350cba05501e06182` |
+
+Hash dan CRC ZIP cocok. SOURCE.json menunjuk tepat ke commit/tree di atas. NATIVE_TRIAL.json mencatat `combined_ao_ap:true`, seluruh 103 kasus PASS dan setiap `boundary_restored:true`. AO_TRIAL.json mencatat 12 kasus PASS dengan pemulihan setiap kasus. Kedua laporan menunjukkan `complete_boundary_restored:true`, serta deployment, migration dan independent acceptance tetap false. Runtime disposable AC→AN memakai katalog asal yang dipin, Supabase CLI 2.116.0 / PostgreSQL 17.6.1.165. Proposal serta fixture di-ROLLBACK, kemudian database disposable dibersihkan. Matriks historis global tidak dijalankan ulang.
+
+## Perilaku yang dibuktikan
+
+Template ke-19, `OPENING_ADVANCE`, menyimpan jenis/kode pihak, akun khusus uang muka, nomor dan tanggal dokumen sumber, nominal asli, bagian yang sudah dipakai/dikembalikan sebelum cutover, saldo tersisa dan total kontrol. Supplier serta vendor laundry memakai akun aset/debit; pelanggan memakai kewajiban/kredit. Contoh 100,00 − 32,75 menghasilkan saldo awal 67,25. Bagian historis tetap menjadi provenance, tanpa membukukan kas historis lagi. Total kontrol hanya untuk rekonsiliasi dan tidak ikut dijurnal.
+
+Pemakaian uang muka menghasilkan pembayaran native supplier, penjualan, atau vendor laundry; tagihan lama hasil impor memakai opening subledger settlement. Tautan privat yang immutable menghubungkan pembayaran dengan uang muka asal. Pihak harus sama, nominal tidak boleh melebihi uang muka ataupun tagihan, dan tanggal tidak boleh mendahului cutover/tagihan atau berada di masa depan. Penerimaan yang belum ditagih (GRNI) tidak bisa dibayar sebagai invoice. Jalur pembayaran kas biasa tetap berfungsi, termasuk kombinasi uang muka 67,25 dan kas 32,75 untuk melunasi invoice 100,00.
+
+UI impor menampilkan dokumen sumber, nominal asli, pemakaian lama, opening terkini, pemakaian baru, refund dan saldo. Owner/admin dapat memilih tagihan, memakai uang muka, mengembalikan kas, mengoreksi opening, atau membalik pembayaran/event dengan alasan wajib. Nominal tetap teks exact; revision, UUID idempotency dan pemulihan respons hilang memakai batas RPC dan recovery existing. Tidak ada RPC browser baru. Bentuk baris pembayaran dan immutable facts lama dipertahankan.
+
+| Tahap siklus tagihan lama | Sisa uang muka | Sisa tagihan | Bank supplier/vendor | Bank pelanggan |
+| --- | ---: | ---: | ---: | ---: |
+| Saldo awal | 67,25 | 67,25 | 100,00 | 100,00 |
+| Pakai uang muka 12,75 | 54,50 | 54,50 | 100,00 | 100,00 |
+| Refund 10,00 | 44,50 | 54,50 | 110,00 | 90,00 |
+| Pakai uang muka 44,50 | 0,00 | 10,00 | 110,00 | 90,00 |
+| Pelunasan kas 10,00 | 0,00 | 0,00 | 100,00 | 100,00 |
+| Balik seluruh pelunasan, pemakaian dan refund | 67,25 | 67,25 | 100,00 | 100,00 |
+
+Enam siklus mencakup tiga jenis pihak, UTC pada periode terbuka dan Pacific/Kiritimati pada tanggal ekonomi yang sudah ditutup. Tanggal pembukuan mengikuti jalur canonical pada hari terbuka. Seluruh akun jurnal kembali tepat ke posisi sebelum siklus; saldo bank cocok dengan laporan neraca. Replay UUID mengembalikan hasil yang sama tanpa transaksi tambahan. Tiga siklus tagihan native juga kembali tepat setelah pembayaran kas dan pemakaian uang muka dibalik.
+
+Koreksi opening 67,25→80,25 mempertahankan dokumen asli 100,00 dan bagian historis 32,75. Setelah 75,00 dipakai, koreksi/reversal yang membuat kapasitas kurang ditolak. Membalik pembayaran lalu koreksi memulihkan saldo 67,25. Sumber, tautan, dan event tidak dapat diubah atau dihapus; perubahan sesudah posting berupa event tertaut. Generic journal reversal ditolak untuk sumber uang muka agar saldo tidak terpisah dari jurnalnya.
+
+Akun khusus yang sudah dipakai tidak dapat dinonaktifkan, diubah jenis/normal balance/report group, dilarang posting, atau dijadikan rekening kas/mapping utama. Enam detector uang muka ditambahkan ke pemeriksaan finansial existing, termasuk kapasitas, identitas pembayaran, jurnal opening/pemakaian/event, serta kecocokan seluruh saldo subledger dengan GL akun khusus. Pemeriksaan normal bernilai nol; negative control berupa selisih jurnal 0,01 terdeteksi.
+
+31 kasus baru terdiri dari 6 siklus tagihan lama, 3 tagihan native, 3 koreksi, 10 penolakan command, 6 sumber invalid, 1 duplikat lintas batch, 1 penjagaan akun/negative control, dan 1 penolakan GRNI belum ditagih. Penolakan mencakup pihak salah, revision usang, nominal berlebih/negatif/lebih dari dua desimal, tanggal salah, reversal generik, serta DML langsung. Proposal memiliki 56 fungsi AP + 11 AO, 24 native predecessor AP + 11 AO, dan 33 source pins. Ownership tetap 102 runtime files, 25 browser RPC, 111 permissions, 47 routes/nav labels, 20 sensitive actions, 37 stylesheets dan enam connected writer domains.
+
+## Kegagalan yang dipertahankan
+
+Percobaan pertama [35702980670 FAILURE](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35702980670), job `106665117481`, memakai commit `cb9f95e55f3f3189b61ca0455341240d9a9e3d45`. Pemasangan proposal gagal pada sintaks PL/pgSQL perbandingan CASE di pemeriksaan akun uang muka; **0 kasus AP sempat dijalankan**. Pada run itu 12 AO dan 72 frontend/recovery tetap PASS. Empat ekspresi CASE kemudian diberi tanda kurung; penjagaan semantik akun dan dua skenario bermakna ditambahkan sebelum gate kedua. Artifact gagal `10683840196`: 32.508 byte, 10 entri, SHA256 `876ac40b799d4e66f6b16d8b31d5605da0749657097b2bfe59e69192adc7ca7a`.
+
+Audit lama [Final Boundary 35702980578 FAILURE](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35702980578), job `106665116573`, berhenti pada `Verify unchanged AI-R2 backend and bounded writer UI scope`. Assertion daftar perubahan successor AJ→AP melampaui scope lama; langkah database audit tersebut belum berjalan. Guard tidak dilemahkan. Artifact gagal `10683571156`: 477.439 byte, 7 entri, SHA256 `c6e310ad7bacb684741856bee41bb9c2b640018585ae4409f37ac0f7973e96d6`. Kegagalan ini tetap terbuka dan tidak diganti dengan klaim lulus native writer. Ketiga ZIP dipertahankan bersama checkpoint ini.
+
+## Batas dan pekerjaan berikut
+
+Writer PASS ini berasal dari database sementara dan DOM tests. Belum ada migrasi AO/AP permanen, pembuktian HTTP/browser terhadap database, concurrency antarsesi untuk keluarga baru, ataupun acceptance independen. Main, PR24/25, hosted UAT, legacy/prod database, dan CP7 tidak disentuh. Commit dokumentasi setelah tested commit tidak mengubah kode yang diuji.
+
+ALL impor belum selesai. Urutan berikut: WIP fisik per ukuran/tahap/pemegang dan nilai BS beserta asal biaya penerimaan yang terpakai sebelum cutover; form eceran aksesori yang terhubung; paket migrasi AO/AP dan rollback maintenance; HTTP/browser/concurrency serta perlindungan opening jalur lama; lalu acceptance independen. Bukti lama tetap disimpan dan tidak dianggap otomatis mencakup fungsi baru.
+
+Keputusan owner tetap berlaku: draft dapat diedit dan finalize membaca isi terakhir di bawah lock; total kontrol tidak dibukukan; tanggal invoice menentukan koreksi biaya pada periode terbuka, periode tertutup mengikuti jalur canonical; **7 PCS adalah aksesori dengan harga eceran manual**, master lusin/gross tetap. Mandor: Epi, Selo, Afat, Afui. Afui khusus: tanpa absensi, komisi lebih tinggi, tiga kategori aksesori gratis. Satu writer, fast-forward saja; lanjut sesuai scope yang sudah disetujui tanpa konfirmasi berulang.
+
+
+---
+
+# Riwayat proposal dan checkpoint sebelumnya
+
 # CP6 — perbaikan pemasangan proposal uang muka
 
 Percobaan native [35702980670](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35702980670), tested commit `cb9f95e55f3f3189b61ca0455341240d9a9e3d45`, tree `2358f733cdb161d9538324ebd97d54237c1203e7`, gagal saat CREATE fungsi funding karena CASE dalam kondisi PL/pgSQL perlu tanda kurung. **0kasus AP dijalankan**,12AO dan72frontend PASS. Tidak ada klaim AP PASS pada proposal tersebut. Artifact10683840196 (32.508byte),SHA256`876ac40b799d4e66f6b16d8b31d5605da0749657097b2bfe59e69192adc7ca7a`,CRC dan isi kegagalan telah diperiksa.
