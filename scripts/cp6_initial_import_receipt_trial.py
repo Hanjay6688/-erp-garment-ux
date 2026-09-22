@@ -2,6 +2,7 @@
 from datetime import timedelta
 from decimal import Decimal as D
 import json,uuid
+import cp6_final_gap_native as calendar
 
 def rpc(a,cur,name,*params):
     # Existing invoice/return APIs are private-schema v2 APIs. The temporary
@@ -82,7 +83,7 @@ def lifecycle(a,cur,today,roll=False,consume=False,zone='UTC'):
     assert cur.execute('select erp.material_purchase_grni_total(%s),erp.material_purchase_final_ap_total(%s)',(row['purchase_id'],row['purchase_id'])).fetchone()==(0,60)
     bad=invoice(a,cur,today,row,1)
     a.inherited.refused(cur,lambda:post_invoice(a,cur,bad))
-    rpc(a,cur,'reverse_material_supplier_invoice_v2',second['supplier_invoice_id'],'Reverse second invoice',uuid.uuid4(),second['row_version'],'Post imported receipt return');truth(cur)
+    rpc(a,cur,'reverse_material_supplier_invoice_v2',second['supplier_invoice_id'],'Reverse second invoice',uuid.uuid4(),second['row_version']);truth(cur)
     assert stock()==(D(15 if consume else 20),D('2.55'))
     rpc(a,cur,'reverse_material_supplier_invoice_v2',first['supplier_invoice_id'],'Reverse first invoice',uuid.uuid4(),first['row_version']);truth(cur)
     assert stock()==(D(15 if consume else 20),D('2.25'))
@@ -107,8 +108,92 @@ def return_lifecycle(a,cur,today,roll=False,matched=False):
     assert cur.execute('select cached_stock_qty from erp.materials where id=%s',(row['material_id'],)).fetchone()[0]==20
     return dict(status='PASS',roll=roll,matched=matched,return_and_reverse=True,financial_truth=truth(cur))
 
+def production_lifecycle(a,cur,today,closed=False):
+    production=a.production
+    cutover=today-timedelta(days=8)
+    original_reports=production.reports
+    def period_reports(cursor,through):
+        production.owner(cursor)
+        return {str(day):production.one(cursor,'select erp.get_owner_financial_snapshot_v2(%s,%s,%s)',(cutover,day,day))
+                for day in (through-timedelta(days=1),through)}
+    production.reports=period_reports
+    a.admin(cur);cur.execute('grant usage on schema erp to authenticated')
+    try:
+        production.prior.set_open_period(cur,cutover-timedelta(days=1))
+        baseline=production.ledger(cur);baseline_report=production.reports(cur,today);a.admin(cur)
+        f=fixture(a,cur,today,True,qty='10',cost='10');row=finalize(a,cur,f)
+        movement=cur.execute("select id from erp.material_stock_movements where source_type='OPENING_BALANCE_ITEM' and source_id=%s",(row['opening_item_id'],)).fetchone()[0]
+        graph=dict(material=row['material_id'],purchase=row['purchase_id'],item=row['purchase_item_id'],roll=row['roll_id'],
+                   movement=movement,location=row['location_id'],purchase_day=cutover,ledger_baseline=baseline,report_baseline=baseline_report)
+        a.admin(cur);cur.execute('grant usage on schema erp to authenticated')
+        class OrdinaryDraftCursor:
+            def __getattr__(self,name):return getattr(cur,name)
+            def execute(self,query,params=None,**kwargs):
+                if 'insert into erp.work_completion_events(' in str(query) or 'insert into erp.work_completion_lines(' in str(query):calendar.peer.ordinary(cur)
+                return cur.execute(query,params,**kwargs)
+        production.partial_production(OrdinaryDraftCursor(),graph)
+        before=production.observe(cur,graph,today)
+        errors,_=calendar.accounting_mismatches(before,100,0,100);assert not errors,errors
+        if closed:
+            calendar.peer.ordinary(cur);cur.execute('select erp.close_accounting_through(%s,%s)',(cutover,'Opening receipt cutover closed'))
+        results=[];remaining=D(10);ap=D(0)
+        for qty,rate in [(3,D('8.25')),(7,D('11.75'))]:
+            a.admin(cur);prior={r[0] for r in cur.execute('select id from erp.journal_entries').fetchall()}
+            post_invoice(a,cur,invoice(a,cur,today,row,qty,str(rate)))
+            a.admin(cur);fresh=[r for r in cur.execute('select id,economic_date,transaction_date from erp.journal_entries').fetchall() if r[0] not in prior]
+            assert fresh and all(e==today-timedelta(days=2) and t==today-timedelta(days=2) for _,e,t in fresh),fresh
+            remaining-=qty;ap+=qty*rate
+            a.admin(cur);cur.execute('grant usage on schema erp to authenticated')
+            state=production.observe(cur,graph,today)
+            errors,expected=calendar.accounting_mismatches(state,ap+remaining*10,ap,remaining*10)
+            assert not errors,errors
+            assert all(q[1]=='DONE' for q in state['queue']),state['queue']
+            a.admin(cur);truth(cur)
+            results.append(dict(qty=qty,price=str(rate),expected=expected,queue_finished_before_return=True))
+        return dict(status='PASS',cutover_closed=closed,opening_stock_once=True,partial_production=True,ledger_and_report_reconciled=True,observations=results)
+    finally:
+        production.reports=original_reports
+
+def document_cents(a,cur,today):
+    f=fixture(a,cur,today,qty='1',cost='0.333333')
+    stock=f['stock'];receipt=f['receipt']
+    a.upload(cur,f['batch'],'OPENING_BALANCE_ITEM',[stock,dict(stock,opening_source_key='STOCK-2')])
+    a.upload(cur,f['batch'],'UNINVOICED_RECEIPT',[receipt,dict(receipt,opening_source_key='STOCK-2',receipt_line_number='002')])
+    a.upload(cur,f['batch'],'OPENING_CONTROL',[dict(control_key='STOCK',balance_type='MATERIAL',qty='2',amount='0.66'),dict(control_key='GRNI',balance_type='GRNI_MATERIAL',qty='2',amount='0.67')])
+    row=finalize(a,cur,f);truth(cur)
+    assert cur.execute('select erp.material_purchase_grni_total(%s)',(row['purchase_id'],)).fetchone()[0]==D('0.666666')
+    assert len(a.read(cur,f['batch'])['batch']['uninvoiced_receipts'])==2
+    return dict(status='PASS',stock_opening='0.66',document_grni='0.67',line_count=2,rounded_per_document=True)
+
+def payment_lifecycle(a,cur,today):
+    f=fixture(a,cur,today);code=f['code'];b=f['batch']
+    a.upload(cur,b,'CHART_ACCOUNT',[dict(account_code=code,account_name='Receipt bank',account_type='ASSET',report_group='CURRENT_ASSETS',normal_balance='DEBIT')])
+    a.upload(cur,b,'CASH_ACCOUNT',[dict(cash_account_code=code,cash_account_name='Receipt bank',coa_account_code=code,account_kind='BANK')])
+    a.upload(cur,b,'OPENING_BALANCE_ITEM',[f['stock'],dict(balance_type='CASH_BANK',cash_account_code=code,amount='100',control_key='CASH')])
+    a.upload(cur,b,'OPENING_CONTROL',[dict(control_key='STOCK',balance_type='MATERIAL',qty='20',amount='45'),dict(control_key='GRNI',balance_type='GRNI_MATERIAL',qty='20',amount='45'),dict(control_key='CASH',balance_type='CASH_BANK',amount='100')])
+    row=finalize(a,cur,f)
+    cash=cur.execute('select id from erp.cash_accounts where cash_account_code=%s',(code,)).fetchone()[0]
+    balance=lambda:cur.execute('select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l join erp.chart_accounts c on c.id=l.account_id where c.account_code=%s',(code,)).fetchone()[0]
+    assert balance()==100
+    payment=cur.execute("insert into erp.supplier_payments(purchase_id,payment_number,payment_date,amount,cash_account_id) values(%s,%s,%s,10,%s) returning id",(row['purchase_id'],'PAY-'+uuid.uuid4().hex,a.production.at(today-timedelta(days=1),12),cash)).fetchone()[0]
+    a.inherited.refused(cur,lambda:rpc(a,cur,'post_supplier_payment',payment))
+    assert balance()==100
+    posted=post_invoice(a,cur,invoice(a,cur,today,row,8))
+    rpc(a,cur,'post_supplier_payment',payment);truth(cur);assert balance()==90
+    a.inherited.refused(cur,lambda:rpc(a,cur,'reverse_material_supplier_invoice_v2',posted['supplier_invoice_id'],'Cannot undo paid invoice',uuid.uuid4(),posted['row_version']))
+    rpc(a,cur,'reverse_supplier_payment',payment,'Restore payment');truth(cur);assert balance()==100
+    rpc(a,cur,'reverse_material_supplier_invoice_v2',posted['supplier_invoice_id'],'Restore invoice',uuid.uuid4(),posted['row_version']);truth(cur)
+    return dict(status='PASS',grni_cannot_be_paid=True,bank_restored=True,paid_invoice_reversal_refused=True)
+
 def refusal(a,cur,today,kind):
     f=fixture(a,cur,today);r=f['receipt'].copy()
+    if kind=='LEGACY_FINALIZE_OMITS_RECEIPT':
+        assert a.invoke(cur,'VALIDATE',f['batch'])['error_rows']==0
+        cur.execute('select erp.apply_migration_master_rows(%s)',(f['batch'],))
+        opening=cur.execute('select erp.prepare_migration_opening_balance(%s,null)',(f['batch'],)).fetchone()[0]
+        cur.execute('select erp.post_opening_balance(%s)',(opening,))
+        msg=a.inherited.refused(cur,lambda:cur.execute('select erp.finalize_migration_batch(%s)',(f['batch'],)))
+        return dict(status='PASS',refusal=msg)
     if kind=='MISSING_SOURCE':r['opening_source_key']='MISSING'
     elif kind=='PRE_CUTOVER_CONSUMPTION':r['qty']='25'
     elif kind=='COST_MISMATCH':r['unit_cost']='2.250001'
@@ -144,7 +229,9 @@ def cases(a,cur,today):
              lambda roll=roll,consume=consume,zone=zone:lifecycle(a,cur,today,roll,consume,zone))
             for roll,consume,zone in [(False,False,'UTC'),(True,False,'UTC'),(False,True,'UTC'),(True,True,'Pacific/Kiritimati')]]
     result += [('RECEIPT_RETURN:'+str(roll)+':'+str(matched),lambda roll=roll,matched=matched:return_lifecycle(a,cur,today,roll,matched)) for roll in (False,True) for matched in (False,True)]
+    result += [('RECEIPT_PRODUCTION:'+str(closed),lambda closed=closed:production_lifecycle(a,cur,today,closed)) for closed in (False,True)]
+    result += [('RECEIPT_DOCUMENT_CENTS',lambda:document_cents(a,cur,today)),('RECEIPT_PAYMENT',lambda:payment_lifecycle(a,cur,today))]
     result += [('RECEIPT_REFUSAL:'+kind,lambda kind=kind:refusal(a,cur,today,kind)) for kind in (
         'MISSING_SOURCE','PRE_CUTOVER_CONSUMPTION','COST_MISMATCH','FUTURE_RECEIPT','DUPLICATE_LINE','CROSS_BATCH',
-        'LEGACY_AFTER_IMPORT','IMMUTABLE_RECEIPT','INVOICE_BEFORE_CUTOVER','SUMMARY_AFTER_IMPORT')]
+        'LEGACY_AFTER_IMPORT','IMMUTABLE_RECEIPT','INVOICE_BEFORE_CUTOVER','SUMMARY_AFTER_IMPORT','LEGACY_FINALIZE_OMITS_RECEIPT')]
     return result

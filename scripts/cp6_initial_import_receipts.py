@@ -242,6 +242,9 @@ def extend_receipt_contract(functions):
     change(identity,old,old[:-2]+') returning id into v_opening_item;\n    perform erp.link_initial_import_stock_source_v1(b.id,r.id,v_opening_item);')
     old='perform erp.check_initial_import_financial_source_v1(b.id,r.id,v_opening_item);'
     change(identity,old,old+'\n    perform erp.link_initial_import_stock_source_v1(b.id,r.id,v_opening_item);')
+    identity='erp.finalize_migration_batch(uuid)'
+    old="'MATERIAL','MATERIAL_ROLL','OPEN_PO')"
+    change(identity,old,"'MATERIAL','MATERIAL_ROLL','OPEN_PO','LAUNDRY_VENDOR','LOCATION','CHART_ACCOUNT','CASH_ACCOUNT','UNINVOICED_RECEIPT')")
     identity='erp.save_initial_import_action_v1(text,jsonb,uuid)'
     change(identity,'     perform erp.validate_initial_import_totals_v1(b.id);','     perform erp.validate_initial_import_receipts_v1(b.id);\n     perform erp.validate_initial_import_totals_v1(b.id);')
     change(identity,'       perform erp.finalize_migration_batch(b.id);','       perform erp.apply_initial_import_receipts_v1(b.id);\n       perform erp.finalize_migration_batch(b.id);')
