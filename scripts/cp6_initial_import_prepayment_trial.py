@@ -184,6 +184,27 @@ def cross_batch(a,cur,today):
     return dict(status='PASS',cross_batch_document_refused=True)
 
 
+def account_and_detector(a,cur,today):
+    f=fixture(a,cur,today,'SUPPLIER');before=ledger(cur)
+    a.inherited.refused(cur,lambda:cur.execute("update erp.chart_accounts set account_type='LIABILITY',normal_balance='CREDIT' where id=%s",(f['account'],)))
+    a.inherited.refused(cur,lambda:cur.execute('update erp.chart_accounts set is_active=false where id=%s',(f['account'],)))
+    a.inherited.refused(cur,lambda:cur.execute("insert into erp.cash_accounts(cash_account_code,cash_account_name,coa_account_id,account_kind) values(%s,'Not cash',%s,'BANK')",('ALIAS-'+uuid.uuid4().hex[:8],f['account'])))
+    assert ledger(cur)==before
+    cur.execute('savepoint prepay_detector')
+    cur.execute('select erp.post_journal(%s,%s,%s,%s,jsonb_build_array(jsonb_build_object(\'account_id\',%s::uuid,\'debit\',0.01,\'credit\',0),jsonb_build_object(\'mapping_key\',\'OPENING_EQUITY\',\'debit\',0,\'credit\',0.01)))',('PREPAYMENT_NEGATIVE_CONTROL',uuid.uuid4(),today,'Detect unrelated account drift',f['account']))
+    assert cur.execute("select issue_count from erp.initial_prepayment_checks_v1() where check_name='AP_PREPAYMENT_GL_SUBLEDGER'").fetchone()==(1,)
+    cur.execute('rollback to savepoint prepay_detector');cur.execute('release savepoint prepay_detector');truth(cur)
+    return dict(status='PASS',account_semantics_locked=True,unexplained_cent_drift_detected=True)
+
+
+def unbilled_refusal(a,cur,today):
+    r=receipts.finalize(a,cur,receipts.fixture(a,cur,today));f=fixture(a,cur,today,'SUPPLIER',party=r['supplier_id'],bill=None)
+    before=ledger(cur)
+    a.inherited.refused(cur,lambda:manage(a,cur,f,'APPLY',today,target_id=r['purchase_id'],amount='1'))
+    assert ledger(cur)==before and bank(cur,f)==100 and state(a,cur,f)['remaining_amount']=='67.25';truth(cur)
+    return dict(status='PASS',advance_cannot_pay_uninvoiced_grni=True)
+
+
 def cases(a,cur,today):
     result=[('PREPAYMENT_OPENING:'+k+':'+str(c),lambda k=k,c=c:opening_lifecycle(a,cur,today,k,c)) for k in ('SUPPLIER','CUSTOMER','VENDOR') for c in (False,True)]
     result += [('PREPAYMENT_NATIVE:'+k,lambda k=k:native_document(a,cur,today,k)) for k in ('SUPPLIER','CUSTOMER','VENDOR')]
@@ -191,4 +212,5 @@ def cases(a,cur,today):
     result += [('PREPAYMENT_REFUSAL:'+k,lambda k=k:refusal(a,cur,today,k)) for k in ('WRONG_PARTY','STALE','EXCEEDS_ADVANCE','EXCEEDS_INVOICE','PRECISION','NEGATIVE','BEFORE_CUTOVER','FUTURE','GENERIC_REVERSAL','DIRECT_DML')]
     result += [('PREPAYMENT_SOURCE:'+k,lambda k=k:source_refusal(a,cur,today,k)) for k in ('WRONG_ACCOUNT','MISSING_PARTY','WRONG_REMAINDER','FUTURE_SOURCE','UNKNOWN_KIND','DUPLICATE')]
     result += [('PREPAYMENT_CROSS_BATCH',lambda:cross_batch(a,cur,today))]
+    result += [('PREPAYMENT_ACCOUNT_DETECTOR',lambda:account_and_detector(a,cur,today)),('PREPAYMENT_UNBILLED_REFUSAL',lambda:unbilled_refusal(a,cur,today))]
     return result

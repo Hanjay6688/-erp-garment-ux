@@ -122,8 +122,8 @@ begin
  if p_amount<=0 or p_amount>(erp.initial_prepayment_state_v1(a.id)->>'remaining_amount')::numeric then
    raise exception 'Pemakaian melebihi sisa uang muka';end if;
  select * into c from erp.chart_accounts where id=a.coa_account_id;
- if not(c.is_active and c.is_postable) or c.account_type<>case when a.party_type='CUSTOMER' then 'LIABILITY' else 'ASSET' end
-   or c.normal_balance<>case when a.party_type='CUSTOMER' then 'CREDIT' else 'DEBIT' end
+ if not(c.is_active and c.is_postable) or c.account_type<>(case when a.party_type='CUSTOMER' then 'LIABILITY' else 'ASSET' end)
+   or c.normal_balance<>(case when a.party_type='CUSTOMER' then 'CREDIT' else 'DEBIT' end)
    or exists(select 1 from erp.cash_accounts where coa_account_id=c.id)
    or exists(select 1 from erp.accounting_account_mappings where account_id=c.id) then raise exception 'Akun uang muka harus akun khusus aktif sesuai jenis pihak';end if;
  return a.coa_account_id;
@@ -133,6 +133,24 @@ end;$function$;
 IMMUTABLE = r"""CREATE OR REPLACE FUNCTION erp.guard_initial_prepayment_immutable_v1()
 RETURNS trigger LANGUAGE plpgsql SECURITY INVOKER SET search_path TO '' AS $function$
 begin raise exception 'Riwayat uang muka tetap; gunakan koreksi atau pembatalan tertaut';end;$function$;
+"""
+
+ACCOUNT_GUARD = r"""CREATE OR REPLACE FUNCTION erp.guard_initial_prepayment_account_v1()
+RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path TO '' AS $function$
+begin
+ if TG_TABLE_NAME='chart_accounts' then
+   if exists(select 1 from erp.initial_import_prepayments where coa_account_id=old.id) then
+     if TG_OP='DELETE' then raise exception 'Akun sumber uang muka tidak dapat dihapus';end if;
+     if new.account_type<>old.account_type or new.normal_balance<>old.normal_balance or new.report_group<>old.report_group
+       or not new.is_active or not new.is_postable then raise exception 'Sifat akun uang muka yang sudah dipakai harus tetap agar saldo dan laporan konsisten';end if;
+   end if;
+ elsif TG_TABLE_NAME='cash_accounts' then
+   if exists(select 1 from erp.initial_import_prepayments where coa_account_id=new.coa_account_id) then raise exception 'Akun uang muka tidak boleh dijadikan rekening kas/bank';end if;
+ else
+   if exists(select 1 from erp.initial_import_prepayments where coa_account_id=new.account_id) then raise exception 'Akun uang muka tidak boleh dijadikan mapping akun utama';end if;
+ end if;
+ if TG_OP='DELETE' then return old;end if;return new;
+end;$function$;
 """
 
 PAYMENT_GUARD = r"""CREATE OR REPLACE FUNCTION erp.guard_initial_prepayment_payment_v1()
@@ -168,6 +186,14 @@ TRIGGERS = '\n'.join(
  for table in ['initial_import_prepayments','initial_import_prepayment_payments','initial_import_prepayment_events'])+'\n'+ '\n'.join(
  f'create trigger initial_prepayment_payment_guard before insert or update or delete on erp.{table} for each row execute function erp.guard_initial_prepayment_payment_v1();'
  for table in ['supplier_payments','sales_payments','vendor_payments','opening_subledger_settlements'])
+TRIGGERS += """
+create trigger initial_prepayment_account_guard before update or delete on erp.chart_accounts
+ for each row execute function erp.guard_initial_prepayment_account_v1();
+create trigger initial_prepayment_cash_alias_guard before insert or update on erp.cash_accounts
+ for each row execute function erp.guard_initial_prepayment_account_v1();
+create trigger initial_prepayment_mapping_guard before insert or update on erp.accounting_account_mappings
+ for each row execute function erp.guard_initial_prepayment_account_v1();
+"""
 
 CHECK = r"""CREATE OR REPLACE FUNCTION erp.check_initial_prepayment_v1(p_batch_id uuid,p_row_id uuid)
 RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path TO '' SET DateStyle TO 'ISO, YMD' AS $function$
@@ -204,8 +230,8 @@ begin
    select normalized_payload into c from erp.migration_staging_rows where batch_id=p_batch_id and entity_type='CHART_ACCOUNT'
      and validation_status='VALID' and normalized_payload->>'account_code'=j->>'coa_account_code';
  end if;
- if c is null or c->>'account_type' is distinct from case when j->>'party_type'='CUSTOMER' then 'LIABILITY' else 'ASSET' end
-   or c->>'normal_balance' is distinct from case when j->>'party_type'='CUSTOMER' then 'CREDIT' else 'DEBIT' end
+ if c is null or c->>'account_type' is distinct from (case when j->>'party_type'='CUSTOMER' then 'LIABILITY' else 'ASSET' end)
+   or c->>'normal_balance' is distinct from (case when j->>'party_type'='CUSTOMER' then 'CREDIT' else 'DEBIT' end)
    or not coalesce(nullif(c->>'is_active','')::boolean,true) or not coalesce(nullif(c->>'is_postable','')::boolean,true)
    or exists(select 1 from erp.cash_accounts where coa_account_id=v_account)
    or exists(select 1 from erp.accounting_account_mappings where account_id=v_account)
@@ -495,6 +521,7 @@ def extend_prepayment_contract(functions):
       'erp.initial_prepayment_targets_v1(uuid)':TARGETS,
       'erp.initial_prepayment_funding_v1(uuid,text,uuid,numeric,date,date)':FUNDING,
       'erp.guard_initial_prepayment_immutable_v1()':IMMUTABLE,
+      'erp.guard_initial_prepayment_account_v1()':ACCOUNT_GUARD,
       'erp.guard_initial_prepayment_payment_v1()':PAYMENT_GUARD,
       'erp.check_initial_prepayment_v1(uuid,uuid)':CHECK,
       'erp.validate_initial_prepayments_v1(uuid)':VALIDATE,

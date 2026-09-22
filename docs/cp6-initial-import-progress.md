@@ -1,3 +1,11 @@
+# CP6 — perbaikan pemasangan proposal uang muka
+
+Percobaan native [35702980670](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35702980670), tested commit `cb9f95e55f3f3189b61ca0455341240d9a9e3d45`, tree `2358f733cdb161d9538324ebd97d54237c1203e7`, gagal saat CREATE fungsi funding karena CASE dalam kondisi PL/pgSQL perlu tanda kurung. **0kasus AP dijalankan**,12AO dan72frontend PASS. Tidak ada klaim AP PASS pada proposal tersebut. Artifact10683840196 (32.508byte),SHA256`876ac40b799d4e66f6b16d8b31d5605da0749657097b2bfe59e69192adc7ca7a`,CRC dan isi kegagalan telah diperiksa.
+
+Empat ekspresi CASE terkait diperbaiki bersama. Guard akun uang muka ditambahkan agar akun sumber tidak bisa berubah jenis/saldo normal/kelompok laporan, dinonaktifkan, dijadikan rekening kas, atau mapping ledger utama setelah dipakai. Dua kasus baru membuktikan penjagaan akun/negative control drift0,01 dan penolakan membayar GRNI yang belum ditagih. Rencana sekarang103AP (72existing+31uangmuka) +12AO; **belum PASS sampai runtime membuktikannya**.56fungsi AP+11AO,24predecessor AP+11AO,33pins. CP6_HOLD,production_go:false,migration_installed:false,independent_acceptance:false.
+
+---
+
 # CP6 — proposal uang muka supplier, pelanggan dan vendor
 
 22 September 2026. **CP6_HOLD · production_go:false · migration_installed:false · independent_acceptance:false.**
