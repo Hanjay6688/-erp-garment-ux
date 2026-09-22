@@ -113,6 +113,87 @@ def authorization(cur,today):
  refused=inherited.refused(cur,lambda:read(cur,batch))
  return dict(status='PASS',revoked_owner_refused=refused)
 
+def master_opening_family(cur,today):
+ code='A'+uuid.uuid4().hex[:8]
+ batch=call(cur,'CREATE',dict(batch_code='AP-'+uuid.uuid4().hex,cutover_date=str(today-timedelta(days=1))))['batch_id']
+ unit=cur.execute("select unit_code from erp.uom_definitions where dimension='LENGTH' and is_active and unit_code=upper(unit_code) order by unit_code limit 1").fetchone()[0]
+ masters={
+  'LAUNDRY_VENDOR':[dict(vendor_code=code,vendor_name='Imported laundry')],
+  'LOCATION':[dict(location_code=code+'R',location_name='Imported raw warehouse',location_type='RAW_MATERIAL_WAREHOUSE'),dict(location_code=code+'F',location_name='Imported FG warehouse',location_type='FG_WAREHOUSE')],
+  'CHART_ACCOUNT':[dict(account_code=code+'C',account_name='Cash child first',account_type='ASSET',report_group='CURRENT_ASSETS',normal_balance='DEBIT',parent_account_code=code+'P'),dict(account_code=code+'P',account_name='Parent after child',account_type='ASSET',report_group='CURRENT_ASSETS',normal_balance='DEBIT',is_postable='false')],
+  'CASH_ACCOUNT':[dict(cash_account_code=code,cash_account_name='Imported bank',coa_account_code=code+'C',account_kind='BANK')],
+  'BRAND':[dict(brand_code=code,brand_name='Imported brand')],
+  'SIZE':[dict(size_code=code,sort_order='1')],
+  'MODEL':[dict(model_code=code,model_name='Imported model')],
+  'PRODUCT':[dict(sku=code,product_name='Imported FG',model_code=code,brand_code=code,color_name='Blue',size_code=code)],
+  'CUSTOMER':[dict(customer_code=code,customer_name='Imported customer')],
+  'SUPPLIER':[dict(supplier_code=code,supplier_name='Imported supplier',supplier_type='MATERIAL')],
+  'CONTRACTOR':[dict(contractor_code=code,contractor_name='Imported contractor',contractor_type='MANDOR')],
+  'ACCESSORY_CATEGORY':[dict(category_code=code,category_name='Imported buttons',base_uom_code='PCS')],
+  'MATERIAL':[dict(material_sku=code+'A',material_name='Imported buttons',material_type='ACCESSORY',unit_code='PCS',accessory_category_code=code),dict(material_sku=code+'R',material_name='Imported fabric',material_type='FABRIC',unit_code=unit)],
+ }
+ tables=['laundry_vendors','locations','chart_accounts','cash_accounts','brands','sizes','product_models','products','customers','suppliers','contractors','accessory_categories','materials']
+ counts=lambda:{t:cur.execute('select count(*) from erp.'+t).fetchone()[0] for t in tables}
+ before_counts=counts();before_ledger=production.ledger(cur)
+ # Upload children first as well as reversing account parent order.
+ for entity,rows in reversed(list(masters.items())):upload(cur,batch,entity,rows)
+ upload(cur,batch,'MATERIAL_ROLL',[dict(material_sku=code+'R',roll_number=code,opening_qty='7',unit_cost='2.25',location_code=code+'R',supplier_code=code,control_key='ROLL')])
+ opening=[
+  dict(balance_type='MATERIAL',material_sku=code+'A',location_code=code+'R',qty='5',unit_cost='2',control_key='ACCESSORY'),
+  dict(balance_type='FINISHED_GOODS',product_sku=code,location_code=code+'F',qty='5',unit_cost='4',control_key='FG'),
+  dict(balance_type='WIP',model_code=code,stage='SEWING',amount='6.25',control_key='WIP'),
+  dict(balance_type='BS',product_sku=code,contractor_code=code,qty='2',control_key='BS'),
+  dict(balance_type='CONTRACTOR_RECEIVABLE',contractor_code=code,amount='9.25',control_key='CAR'),
+  dict(balance_type='CONTRACTOR_PAYABLE',contractor_code=code,amount='10.50',control_key='CAP'),
+  dict(balance_type='CUSTOMER_RECEIVABLE',customer_code=code,amount='31.25',control_key='AR'),
+  dict(balance_type='VENDOR_PAYABLE',vendor_code=code,amount='19.75',control_key='VAP'),
+  dict(balance_type='SUPPLIER_PAYABLE',supplier_code=code,amount='41.75',control_key='SAP'),
+  dict(balance_type='CASH_BANK',cash_account_code=code,amount='100.50',control_key='CASH'),
+ ]
+ controls=[dict(control_key='ROLL',balance_type='MATERIAL',qty='7',amount='15.75')]
+ for r in opening:
+  amount=r.get('amount',{'MATERIAL':'10','FINISHED_GOODS':'20','BS':'0'}.get(r['balance_type']))
+  controls.append(dict(control_key=r['control_key'],balance_type=r['balance_type'],amount=amount,**({'qty':r['qty']} if 'qty' in r else {})))
+ upload(cur,batch,'OPENING_BALANCE_ITEM',opening);upload(cur,batch,'OPENING_CONTROL',controls)
+ upload(cur,batch,'OPEN_PO',[dict(po_number=code,model_code=code,contractor_code=code,target_qty_pcs='100',status='SEWING',current_stage='SEWING')])
+ checked=invoke(cur,'VALIDATE',batch);assert checked['error_rows']==0,read(cur,batch)
+ assert counts()==before_counts and production.ledger(cur)==before_ledger,'Preview created business records'
+ posted=invoke(cur,'FINALIZE',batch);assert posted['status']=='POSTED',read(cur,batch)
+ expected={t:(2 if t in('locations','chart_accounts','materials') else 1) for t in tables}
+ assert {t:counts()[t]-before_counts[t] for t in tables}==expected
+ assert cur.execute('select p.account_code from erp.chart_accounts a join erp.chart_accounts p on p.id=a.parent_account_id where a.account_code=%s',(code+'C',)).fetchone()==(code+'P',)
+ assert cur.execute('select sum(l.debit-l.credit) from erp.journal_lines l join erp.chart_accounts a on a.id=l.account_id where a.account_code=%s',(code+'C',)).fetchone()==(inherited.Decimal('100.50'),)
+ assert cur.execute('select count(*) from erp.opening_balance_items i join erp.opening_balance_headers h on h.id=i.opening_id where h.migration_batch_id=%s',(batch,)).fetchone()==(11,)
+ balances=cur.execute('select s.party_type,s.direction,s.original_amount from erp.opening_subledger_balances s join erp.opening_balance_items i on i.id=s.opening_item_id join erp.opening_balance_headers h on h.id=i.opening_id where h.migration_batch_id=%s order by 1,2',(batch,)).fetchall()
+ assert balances==[('CONTRACTOR','PAYABLE',inherited.Decimal('10.50')),('CONTRACTOR','RECEIVABLE',inherited.Decimal('9.25')),('CUSTOMER','RECEIVABLE',inherited.Decimal('31.25')),('SUPPLIER','PAYABLE',inherited.Decimal('41.75')),('VENDOR','PAYABLE',inherited.Decimal('19.75'))],balances
+ assert cur.execute('select cached_stock_qty from erp.materials where material_sku=%s',(code+'A',)).fetchone()==(5,)
+ assert cur.execute('select sum(m.qty_signed) from erp.fg_stock_movements m join erp.products p on p.id=m.product_id where p.sku=%s',(code,)).fetchone()==(5,)
+ assert cur.execute('select sum(b.qty_pcs) from erp.bs_cases b join erp.products p on p.id=b.product_id where p.sku=%s',(code,)).fetchone()==(2,)
+ assert cur.execute('select target_qty_pcs from erp.production_orders where po_number=%s',(code,)).fetchone()==(100,)
+ return dict(status='PASS',all_17_entities=True,preview_business_inert=True,opening_items=11,controls_not_posted=True,parent_order_independent=True,cash='100.50',party_balances=balances,physical_wip_claimed=False)
+
+def master_refusal(cur,today,kind):
+ code='A'+uuid.uuid4().hex[:8]
+ batch=call(cur,'CREATE',dict(batch_code='AP-'+uuid.uuid4().hex,cutover_date=str(today-timedelta(days=1))))['batch_id']
+ chart=dict(account_code=code,account_name='Imported account',account_type='ASSET',report_group='CURRENT_ASSETS',normal_balance='DEBIT')
+ if kind in('CYCLE','MISSING_PARENT'):
+  chart['parent_account_code']=code if kind=='CYCLE' else code+'MISSING';entity='CHART_ACCOUNT';rows=[chart];field='parent_account_code'
+ elif kind=='ACCOUNT_SEMANTICS':
+  existing=cur.execute('select a.account_code,a.account_name,a.report_group,a.normal_balance,a.is_postable,a.is_active,p.account_code,a.account_type from erp.chart_accounts a left join erp.chart_accounts p on p.id=a.parent_account_id order by a.account_code limit 1').fetchone()
+  chart=dict(account_code=existing[0],account_name=existing[1],account_type='LIABILITY' if existing[7]=='ASSET' else 'ASSET',report_group=existing[2],normal_balance=existing[3],is_postable=str(existing[4]).lower(),is_active=str(existing[5]).lower(),parent_account_code=existing[6] or '')
+  entity='CHART_ACCOUNT';rows=[chart];field='account_code'
+ elif kind=='CASH_NON_ASSET':
+  chart['account_type']='LIABILITY';upload(cur,batch,'CHART_ACCOUNT',[chart]);entity='CASH_ACCOUNT';rows=[dict(cash_account_code=code,cash_account_name='Bad bank',coa_account_code=code,account_kind='BANK')];field='coa_account_code'
+ elif kind=='BAD_LOCATION':entity='LOCATION';rows=[dict(location_code=code,location_name='Bad location',location_type='UNKNOWN')];field='location_type'
+ elif kind=='DUPLICATE_VENDOR':entity='LAUNDRY_VENDOR';rows=[dict(vendor_code=code,vendor_name='Duplicated laundry')]*2;field='Duplicate'
+ else:raise AssertionError(kind)
+ upload(cur,batch,entity,rows);before=production.ledger(cur)
+ result=invoke(cur,'FINALIZE',batch);assert result['status']=='DRAFT' and result['error_rows']>0,read(cur,batch)
+ assert production.ledger(cur)==before
+ errors=[e for r in read(cur,batch)['batch']['rows'] for e in r['errors']]
+ assert any(field in e for e in errors),errors
+ return dict(status='PASS',refused_field=field,ledger_unchanged=True)
+
 save()
 try:
  with psycopg.connect(URL) as conn,conn.cursor() as cur:
@@ -141,6 +222,8 @@ try:
   cur.execute('revoke usage on schema erp from authenticated')
   today=cur.execute("select (statement_timestamp() at time zone 'Asia/Jakarta')::date").fetchone()[0]
   cases=[('REVISION_TIMEZONE',lambda:revision_zone(cur,today)),('PHYSICAL_MATERIAL',lambda:physical_stock(cur,today)),('PHYSICAL_ROLL',lambda:physical_stock(cur,today,True)),('LATEST_DRAFT_TOTALS_REPLAY',lambda:lifecycle(cur,today)),('EXCESS_PRECISION',lambda:numeric_refusal(cur,today)),('MISSING_CONTROL',lambda:control_refusal(cur,today,'MISSING')),('DUPLICATE_CONTROL',lambda:control_refusal(cur,today,'DUPLICATE')),('REVOKED_OWNER',lambda:authorization(cur,today))]
+  cases += [('MASTER_OPENING_FAMILY',lambda:master_opening_family(cur,today))]
+  cases += [('MASTER_REFUSAL:'+k,lambda k=k:master_refusal(cur,today,k)) for k in ('CYCLE','MISSING_PARENT','ACCOUNT_SEMANTICS','CASH_NON_ASSET','BAD_LOCATION','DUPLICATE_VENDOR')]
   for name,fn in cases:
    admin(cur);before=actors.boundary(cur);cur.execute('savepoint proposed_case')
    try:result=fn()

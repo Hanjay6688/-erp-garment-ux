@@ -8,7 +8,7 @@ ALLOWED={
  'scripts/cp6_ai_audit_router.py',
  'scripts/check-access-catalog.mjs','scripts/check-production-recovery.mjs','scripts/check-source-ownership.mjs',
  'scripts/cp6_initial_import_ao_trial.py','scripts/cp6_v2620ao_definitions.py','docs/evidence/cp6-ao-predecessor-input.json',
- 'scripts/cp6_initial_import_scope.py','scripts/cp6_initial_import_trial.py','scripts/cp6_v2620ap_definitions.py',
+ 'scripts/cp6_initial_import_scope.py','scripts/cp6_initial_import_trial.py','scripts/cp6_initial_import_masters.py','scripts/cp6_v2620ap_definitions.py',
  'src/App.tsx','src/auth/accessCatalog.ts','src/productionRecovery.ts','src/types/database.preconnect.ts',
  'src/ConnectedInitialImportPage.tsx','src/ConnectedInitialImportPage.dom.test.tsx','src/initial-import.css',
  'src/initialImport.ts','src/initialImport.test.ts','src/initialImportCatalog.json',

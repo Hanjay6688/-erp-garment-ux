@@ -1,4 +1,68 @@
 {
+  "LAUNDRY_VENDOR": {
+    "label": "Vendor laundry",
+    "required": [
+      "vendor_code",
+      "vendor_name"
+    ],
+    "fields": {
+      "vendor_code": "Kode laundry",
+      "vendor_name": "Nama laundry",
+      "phone": "Telepon",
+      "is_active": "Aktif",
+      "notes": "Catatan"
+    }
+  },
+  "LOCATION": {
+    "label": "Lokasi dan gudang",
+    "required": [
+      "location_code",
+      "location_name",
+      "location_type"
+    ],
+    "fields": {
+      "location_code": "Kode lokasi",
+      "location_name": "Nama lokasi",
+      "location_type": "Jenis lokasi",
+      "is_active": "Aktif"
+    }
+  },
+  "CHART_ACCOUNT": {
+    "label": "Akun buku besar",
+    "required": [
+      "account_code",
+      "account_name",
+      "account_type",
+      "report_group",
+      "normal_balance"
+    ],
+    "fields": {
+      "account_code": "Kode akun",
+      "account_name": "Nama akun",
+      "account_type": "Jenis akun",
+      "report_group": "Kelompok laporan",
+      "normal_balance": "Saldo normal",
+      "parent_account_code": "Kode akun induk",
+      "is_postable": "Boleh dipakai jurnal",
+      "is_active": "Aktif"
+    }
+  },
+  "CASH_ACCOUNT": {
+    "label": "Rekening kas dan bank",
+    "required": [
+      "cash_account_code",
+      "cash_account_name",
+      "coa_account_code",
+      "account_kind"
+    ],
+    "fields": {
+      "cash_account_code": "Kode kas bank",
+      "cash_account_name": "Nama kas bank",
+      "coa_account_code": "Kode akun buku besar",
+      "account_kind": "Jenis rekening",
+      "is_active": "Aktif"
+    }
+  },
   "BRAND": {
     "label": "Merek",
     "required": [

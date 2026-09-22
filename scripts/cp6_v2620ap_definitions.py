@@ -172,11 +172,13 @@ for identity, definition, *_ in PREDECESSOR:
     if identity.startswith('erp.stage_migration_row('):
         old="'MATERIAL_ROLL','OPENING_BALANCE_ITEM','OPEN_PO')"
         assert definition.count(old)==1
-        FUNCTIONS[identity]=definition.replace(old,"'MATERIAL_ROLL','OPENING_BALANCE_ITEM','OPEN_PO','OPENING_CONTROL')")
-    else:
+        FUNCTIONS[identity]=definition.replace(old,"'MATERIAL_ROLL','OPENING_BALANCE_ITEM','OPEN_PO','OPENING_CONTROL','LAUNDRY_VENDOR','LOCATION','CHART_ACCOUNT','CASH_ACCOUNT')")
+    elif identity.startswith('erp._validate_migration_batch_base('):
         old="entity_type not in('MATERIAL_ROLL','OPENING_BALANCE_ITEM')"
         assert definition.count(old)==1
         FUNCTIONS[identity]=definition.replace(old,"entity_type not in('MATERIAL_ROLL','OPENING_BALANCE_ITEM','OPENING_CONTROL')")
+    else:
+        FUNCTIONS[identity]=definition
 
 RECONCILE = r"""CREATE OR REPLACE FUNCTION erp.validate_initial_import_totals_v1(p_batch_id uuid)
 RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path TO '' AS $function$
@@ -246,3 +248,6 @@ COMMAND=COMMAND.replace(needle,needle+'''
      select count(*),count(*) filter(where validation_status='VALID'),count(*) filter(where validation_status='ERROR')
        into v_total,v_valid,v_errors from erp.migration_staging_rows where batch_id=b.id;''')
 FUNCTIONS['erp.save_initial_import_action_v1(text,jsonb,uuid)']=COMMAND
+
+from cp6_initial_import_masters import extend_master_contract
+extend_master_contract(FUNCTIONS)
