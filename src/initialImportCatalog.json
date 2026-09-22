@@ -317,5 +317,30 @@
       "control_key": "Kode total pembanding",
       "notes": "Catatan"
     }
+  },
+  "OPENING_ADVANCE": {
+    "label": "Uang muka tersisa",
+    "required": [
+      "party_type",
+      "party_code",
+      "coa_account_code",
+      "document_number",
+      "document_date",
+      "original_amount",
+      "settled_before_cutover",
+      "amount",
+      "control_key"
+    ],
+    "fields": {
+      "party_type": "Jenis pihak",
+      "party_code": "Kode pihak",
+      "coa_account_code": "Kode akun uang muka",
+      "document_number": "Nomor bukti uang muka",
+      "document_date": "Tanggal uang muka",
+      "original_amount": "Nominal asal",
+      "settled_before_cutover": "Terpakai atau kembali sebelum saldo awal",
+      "amount": "Sisa uang muka",
+      "control_key": "Kode total pembanding"
+    }
   }
 }

@@ -16,7 +16,13 @@ type CashAdvance = { balance_id: string; contractor_id: string; contractor_name:
   original_amount: string; settled_before_cutover: string; opening_amount: string; settled_amount: string;
   remaining_amount: string; reserved_amount: string; available_amount: string; allocations: AdvanceAllocation[] }
 type AdvancePayroll = { id: string; contractor_id: string; payroll_number: string; row_version: string }
-type Batch = { id: string; code: string; status: string; cutover_at: string; revision: string; rows: Row[]; cash_advances: CashAdvance[]; advance_payrolls: AdvancePayroll[] }
+type Prepayment = { id: string; party_type: 'SUPPLIER' | 'CUSTOMER' | 'VENDOR'; party_id: string; party_name: string; document_number: string;
+  original_amount: string; settled_before_cutover: string; opening_amount: string; applied_amount: string; refunded_amount: string; remaining_amount: string;
+  targets: { id: string; number: string; party_id: string; party_type: string; remaining_amount: string; target_date: string }[];
+  payments: { id: string; number: string; status: string; amount: string }[];
+  events: { id: string; kind: string; delta: string; date: string; reason: string; reversed: boolean }[] }
+type CashAccount = { id: string; name: string }
+type Batch = { id: string; code: string; status: string; cutover_at: string; revision: string; rows: Row[]; cash_advances: CashAdvance[]; advance_payrolls: AdvancePayroll[]; prepayments: Prepayment[]; prepayment_cash_accounts: CashAccount[] }
 type Workspace = { batch: Batch | null; recent: { id: string; batch_code: string; status: string }[] }
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 function object(value: unknown): Record<string, unknown> {
@@ -25,6 +31,29 @@ function object(value: unknown): Record<string, unknown> {
 }
 const moneyText = (value: unknown): value is string => typeof value === 'string' && /^\d{1,18}\.\d{2}$/.test(value)
 const versionText = (value: unknown): value is string => typeof value === 'string' && /^[1-9]\d{0,18}$/.test(value)
+const dateText = (value: unknown): value is string => typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value)
+function prepayment(value: unknown): Prepayment {
+  const p = object(value)
+  if (typeof p.id !== 'string' || !uuid.test(p.id) || typeof p.party_id !== 'string' || !uuid.test(p.party_id)
+    || !['SUPPLIER', 'CUSTOMER', 'VENDOR'].includes(String(p.party_type)) || typeof p.party_name !== 'string' || typeof p.document_number !== 'string'
+    || !['original_amount', 'settled_before_cutover', 'opening_amount', 'applied_amount', 'refunded_amount', 'remaining_amount'].every(k => moneyText(p[k]))
+    || !Array.isArray(p.targets) || !Array.isArray(p.payments) || !Array.isArray(p.events)) throw new Error('Saldo uang muka tidak lengkap atau perlu diperiksa.')
+  for (const item of p.targets) {
+    const t = object(item)
+    if (typeof t.id !== 'string' || !uuid.test(t.id) || typeof t.number !== 'string' || t.party_id !== p.party_id || t.party_type !== p.party_type
+      || !moneyText(t.remaining_amount) || !dateText(t.target_date)) throw new Error('Tagihan uang muka tidak cocok dengan pihaknya.')
+  }
+  for (const item of p.payments) {
+    const t = object(item)
+    if (typeof t.id !== 'string' || !uuid.test(t.id) || typeof t.number !== 'string' || !['DRAFT', 'POSTED', 'REVERSED'].includes(String(t.status)) || !moneyText(t.amount)) throw new Error('Pemakaian uang muka tidak valid.')
+  }
+  for (const item of p.events) {
+    const t = object(item)
+    if (typeof t.id !== 'string' || !uuid.test(t.id) || !['CORRECTION', 'REFUND', 'REVERSAL'].includes(String(t.kind)) || typeof t.delta !== 'string'
+      || !/^-?\d{1,18}\.\d{2}$/.test(t.delta) || !dateText(t.date) || typeof t.reason !== 'string' || typeof t.reversed !== 'boolean') throw new Error('Riwayat uang muka tidak valid.')
+  }
+  return p as Prepayment
+}
 function cashAdvance(value: unknown): CashAdvance {
   const a = object(value)
   if (typeof a.balance_id !== 'string' || !uuid.test(a.balance_id) || typeof a.contractor_id !== 'string' || !uuid.test(a.contractor_id)
@@ -70,7 +99,14 @@ export function parseInitialImportWorkspace(value: unknown): Workspace {
       || typeof p.payroll_number !== 'string' || !versionText(p.row_version)) throw new Error('Pilihan payroll kasbon tidak valid.')
     return { id:p.id, contractor_id:p.contractor_id, payroll_number:p.payroll_number, row_version:p.row_version }
   })
-  return { recent, batch: { id:b.id, code:b.code, status:b.status, cutover_at:b.cutover_at, revision:b.revision, rows, cash_advances, advance_payrolls } }
+  if ((b.prepayments !== undefined && !Array.isArray(b.prepayments)) || (b.prepayment_cash_accounts !== undefined && !Array.isArray(b.prepayment_cash_accounts))) throw new Error('Daftar uang muka tidak valid.')
+  const prepayments = ((b.prepayments ?? []) as unknown[]).map(prepayment)
+  const prepayment_cash_accounts = ((b.prepayment_cash_accounts ?? []) as unknown[]).map((value): CashAccount => {
+    const c = object(value)
+    if (typeof c.id !== 'string' || !uuid.test(c.id) || typeof c.name !== 'string') throw new Error('Rekening pengembalian uang muka tidak valid.')
+    return { id:c.id, name:c.name }
+  })
+  return { recent, batch: { id:b.id, code:b.code, status:b.status, cutover_at:b.cutover_at, revision:b.revision, rows, cash_advances, advance_payrolls, prepayments, prepayment_cash_accounts } }
 }
 
 function CashAdvanceBalances({ batch, locked, allocate }: { batch: Batch; locked: boolean; allocate: (payload: Record<string, Json>) => void }) {
@@ -88,6 +124,37 @@ function CashAdvanceBalances({ batch, locked, allocate }: { batch: Batch; locked
     {selected.allocations.length > 0 && <ul>{selected.allocations.map(a => <li key={a.payroll_id}>{a.payroll_number} · {money(a.amount)} · {a.status}{['DRAFT','CALCULATED','REVIEW'].includes(a.status) && <button type="button" disabled={locked} onClick={() => allocate({ balance_id:selected.balance_id, payroll_id:a.payroll_id, expected_payroll_version:a.row_version, amount:'0' })}>Lepas alokasi {a.payroll_number}</button>}</li>)}</ul>}
     <div className="initial-import-toolbar"><label>Payroll draft<select aria-label="Payroll untuk kasbon" disabled={locked} value={payroll?.id ?? ''} onChange={e => { setPayrollId(e.target.value); setAmount(selected.allocations.find(a => a.payroll_id === e.target.value)?.amount ?? '') }}><option value="">Pilih payroll mandor ini</option>{payrolls.map(p => <option key={p.id} value={p.id}>{p.payroll_number}</option>)}</select></label><label>Nominal alokasi<input aria-label="Nominal alokasi kasbon" inputMode="decimal" value={amount} disabled={locked} onChange={e => setAmount(e.target.value)}/></label><button type="button" disabled={locked || !payroll || !/^[0-9]+([.,][0-9]{1,2})?$/.test(amount) || !/[1-9]/.test(amount)} onClick={() => { if (payroll) allocate({ balance_id:selected.balance_id, payroll_id:payroll.id, expected_payroll_version:payroll.row_version, amount }) }}>Simpan alokasi kasbon</button></div>
     {!payrolls.length && <p>Belum ada payroll draft untuk mandor ini.</p>}
+  </section>
+}
+
+function PrepaymentBalances({ batch, locked, manage }: { batch: Batch; locked: boolean; manage: (payload: Record<string, Json>) => void }) {
+  const [selectedId, setSelectedId] = useState(''), [targetId, setTargetId] = useState(''), [cashId, setCashId] = useState('')
+  const [operation, setOperation] = useState('APPLY'), [amount, setAmount] = useState(''), [date, setDate] = useState(''), [reason, setReason] = useState('')
+  const selected = batch.prepayments.find(a => a.id === selectedId) ?? batch.prepayments[0]
+  const target = selected?.targets.find(t => t.id === targetId), cash = batch.prepayment_cash_accounts.find(c => c.id === cashId)
+  const labels: Record<string, string> = { APPLY:'Pakai untuk tagihan', REFUND:'Catat pengembalian uang', CORRECT:'Koreksi saldo awal', CORRECTION:'Koreksi saldo awal', REVERSAL:'Pembatalan' }
+  const money = (value: string) => `Rp ${value.replace('.', ',')}`
+  const valid = /^[0-9]+([.,][0-9]{1,2})?$/.test(amount) && (operation === 'CORRECT' || /[1-9]/.test(amount)) && dateText(date) && reason.trim().length > 0
+    && (operation !== 'APPLY' || Boolean(target)) && (operation !== 'REFUND' || Boolean(cash))
+  if (!selected) return null
+  const send = (payload: Record<string, Json>) => manage({ advance_id:selected.id, reason:reason.trim(), ...payload })
+  return <section className="panel initial-import-advances" aria-label="Uang muka saldo awal">
+    <h2>Uang muka saldo awal</h2>
+    <p>Pakai sisa uang muka untuk mengurangi tagihan pihak yang sama. Uang kas bergerak saat pengembalian. Koreksi dan pembatalan tetap tercatat dalam riwayat.</p>
+    <label>Dokumen uang muka<select aria-label="Dokumen uang muka" disabled={locked} value={selected.id} onChange={e => { setSelectedId(e.target.value); setTargetId(''); setAmount('') }}>{batch.prepayments.map(p => <option key={p.id} value={p.id}>{p.party_name} · {p.document_number}</option>)}</select></label>
+    <div className="initial-import-table"><table><thead><tr><th>Nominal asal</th><th>Terpakai/kembali sebelum saldo awal</th><th>Saldo awal saat ini</th><th>Dipakai untuk tagihan</th><th>Dikembalikan</th><th>Sisa uang muka</th></tr></thead><tbody><tr>{[selected.original_amount,selected.settled_before_cutover,selected.opening_amount,selected.applied_amount,selected.refunded_amount,selected.remaining_amount].map((v,i) => <td key={i}>{money(v)}</td>)}</tr></tbody></table></div>
+    <div className="initial-import-toolbar">
+      <label>Tindakan<select aria-label="Tindakan uang muka" disabled={locked} value={operation} onChange={e => { setOperation(e.target.value); setAmount('') }}>{['APPLY','REFUND','CORRECT'].map(v => <option key={v} value={v}>{labels[v]}</option>)}</select></label>
+      {operation === 'APPLY' && <label>Tagihan<select aria-label="Tagihan untuk uang muka" disabled={locked} value={target?.id ?? ''} onChange={e => setTargetId(e.target.value)}><option value="">Pilih tagihan pihak ini</option>{selected.targets.map(t => <option key={t.id} value={t.id}>{t.number} · sisa {money(t.remaining_amount)}</option>)}</select></label>}
+      {operation === 'REFUND' && <label>Rekening pengembalian<select aria-label="Rekening pengembalian uang muka" disabled={locked} value={cash?.id ?? ''} onChange={e => setCashId(e.target.value)}><option value="">Pilih rekening kas/bank</option>{batch.prepayment_cash_accounts.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}</select></label>}
+      <label>{operation === 'CORRECT' ? 'Saldo awal pengganti' : 'Nominal'}<input aria-label="Nominal uang muka" inputMode="decimal" disabled={locked} value={amount} onChange={e => setAmount(e.target.value)}/></label>
+      <label>Tanggal kejadian<input aria-label="Tanggal uang muka" type="date" disabled={locked} value={date} onChange={e => setDate(e.target.value)}/></label>
+      <label>Alasan / catatan<input aria-label="Alasan uang muka" disabled={locked} value={reason} onChange={e => setReason(e.target.value)}/></label>
+      <button type="button" disabled={locked || !valid} onClick={() => send({ operation, amount, effective_date:date, ...(operation === 'APPLY' && target ? { target_id:target.id } : {}), ...(operation === 'REFUND' && cash ? { cash_account_id:cash.id } : {}) })}>{labels[operation]}</button>
+    </div>
+    {operation === 'APPLY' && !selected.targets.length && <p>Belum ada tagihan dengan sisa pembayaran untuk pihak ini.</p>}
+    {selected.payments.length > 0 && <ul>{selected.payments.map(p => <li key={p.id}>{p.number} · {money(p.amount)} · {p.status === 'REVERSED' ? 'Dibatalkan' : p.status === 'POSTED' ? 'Sudah dipakai' : 'Draft'}{p.status === 'POSTED' && <button type="button" disabled={locked || !reason.trim()} onClick={() => send({operation:'REVERSE_PAYMENT',payment_id:p.id})}>Batalkan pemakaian {p.number}</button>}</li>)}</ul>}
+    {selected.events.length > 0 && <ul>{selected.events.map(e => <li key={e.id}>{labels[e.kind]} · {e.date} · {money(e.delta)} · {e.reason}{e.reversed ? ' · Dibatalkan' : e.kind !== 'REVERSAL' && <button type="button" disabled={locked || !reason.trim()} onClick={() => send({operation:'REVERSE_EVENT',event_id:e.id})}>Batalkan perubahan {e.date}</button>}</li>)}</ul>}
   </section>
 }
 
@@ -188,10 +255,12 @@ function ImportWorkspace() {
     </div>
     {batch && <>
       {posted && batch.cash_advances.length > 0 && <CashAdvanceBalances key={batch.id} batch={batch} locked={locked} allocate={payload => { void act('ALLOCATE_CASH_ADVANCE', payload) }}/>}
+      {posted && batch.prepayments.length > 0 && <PrepaymentBalances key={batch.id} batch={batch} locked={locked} manage={payload => { void act('PREPAYMENT', payload) }}/>}
       <div className="panel initial-import-toolbar"><label>Jenis data<select disabled={locked || Boolean(editor)} value={entity} onChange={(event) => { setEntity(event.target.value as InitialImportEntity); setPage(0); readFileSequence.current++ }}>{Object.entries(initialImportCatalog).map(([key, item]) => <option key={key} value={key}>{item.label}</option>)}</select></label><button type="button" onClick={download}><Download size={16}/> Unduh template</button>{!posted && <label className="initial-import-upload"><FileUp size={16}/> Pilih file CSV<input aria-label="Pilih file CSV" type="file" accept=".csv,.tsv,text/csv" disabled={locked || Boolean(editor)} onChange={(event) => { const file = event.target.files?.[0]; event.target.value = ''; void upload(file) }}/></label>}</div>
       <p className="initial-import-help">Simpan dari Excel sebagai <strong>CSV UTF-8</strong>. Angka tanpa pemisah ribuan; desimal boleh memakai titik atau koma. Kolom aktif/absensi: true atau false. Satuan memakai kode ERP. Maksimal 5 MB dan 5.000 baris per batch. Hubungkan setiap rincian saldo ke kode total pembanding. Total pembanding hanya diperiksa dan tidak dibukukan.</p>
       {entity === 'UNINVOICED_RECEIPT' && <p className="initial-import-help">Isi penerimaan yang belum ditagih dan seluruh jumlahnya masih ada saat saldo awal. Hubungkan setiap baris ke satu kode rincian stok asal dengan bahan, gudang, jumlah, dan biaya yang sama. Gunakan total pembanding GRNI_MATERIAL; nilai dibulatkan dua desimal per dokumen penerimaan. Tanggal invoice berikutnya harus sejak tanggal saldo awal. Barang yang sudah terpakai sebelumnya perlu rincian asal WIP/HPP.</p>}
       {entity === 'OPENING_BALANCE_ITEM' && <p className="initial-import-help">Untuk kasbon tunai mandor, isi jenis saldo CONTRACTOR_RECEIVABLE dan jenis sumber CONTRACTOR_CASH_ADVANCE. Wajib isi nomor dan tanggal dokumen, nominal awal, serta pembayaran sebelum saldo awal; nominal tersisa harus sama dengan selisihnya. Pembayaran lama tidak membentuk arus kas baru. Saldo lainnya memakai jenis sumber BALANCE atau dibiarkan kosong.</p>}
+      {entity === 'OPENING_ADVANCE' && <p className="initial-import-help">Isi jenis pihak SUPPLIER, CUSTOMER, atau VENDOR dan nomor bukti uang muka. Sisa harus sama dengan nominal asal dikurangi pemakaian atau pengembalian sebelumnya. Gunakan akun khusus uang muka: aset untuk supplier/laundry dan kewajiban untuk pelanggan. Jenis total pembanding mengikuti pihak: SUPPLIER_ADVANCE, CUSTOMER_ADVANCE, atau VENDOR_ADVANCE.</p>}
       {editor && editorRevision.current !== batch.revision && <p role="alert" className="initial-import-message">Draft di server sudah berubah. Perubahan di layar ini belum disimpan; batalkan perubahan lokal lalu periksa isi terbaru sebelum mengunggah ulang.</p>}
       {editor && <div className="initial-import-message" role="status"><span>{filename} · {editor.length} baris belum disimpan. Penyimpanan mengganti seluruh bagian “{spec.label}” dalam draft ini.</span><button type="button" disabled={locked || editorRevision.current !== batch.revision} onClick={() => void act('SAVE_FILE', { entity, filename, rows: editor as unknown as Json })}>Simpan perubahan draft</button><button type="button" disabled={mutation.busy || reading} onClick={() => { setEditor(null); setPage(0) }}>Batalkan perubahan</button></div>}
       <div className="panel initial-import-table"><table><thead><tr><th>Baris file</th>{fields.map(([key, label]) => <th key={key}>{label}{(spec.required as readonly string[]).includes(key) ? ' *' : ''}</th>)}{!editor && <th>Pemeriksaan</th>}</tr></thead><tbody>{shownRows.slice(page * 50, (page + 1) * 50).map((row, index) => <tr key={row.source_row_no}><th>{row.source_row_no}</th>{fields.map(([key, label]) => <td key={key}>{posted ? row.payload[key] ?? '—' : <input aria-label={`${label}, baris ${row.source_row_no}`} value={row.payload[key] ?? ''} disabled={locked} onChange={(event) => { const value = event.target.value; if (!editor) editorRevision.current = batch.revision; setEditor((current) => (current ?? storedRows).map((old, i) => i === page * 50 + index ? { source_row_no: old.source_row_no, payload: { ...old.payload, [key]: value } } : { source_row_no: old.source_row_no, payload: { ...old.payload } })); setFilename('Perbaikan di aplikasi') }}/>}</td>)}{!editor && <td>{(row as Row).errors?.join(' · ') || ((row as Row).validation_status === 'VALID' ? 'Valid' : 'Belum diperiksa')}</td>}</tr>)}</tbody></table>{shownRows.length === 0 && <p>Belum ada data {spec.label.toLowerCase()}. Unduh template lalu pilih file yang sudah diisi.</p>}</div>

@@ -1,3 +1,23 @@
+# CP6 — proposal uang muka supplier, pelanggan dan vendor
+
+22 September 2026. **CP6_HOLD · production_go:false · migration_installed:false · independent_acceptance:false.**
+
+Owner meminta lanjut dari checkpoint kasbon `4ce534cf43f2327c73282a4cabf8cc1e34041fc4`. Scope ALL tetap disetujui. Perubahan berikut siap untuk native gate; **29 kasus uang muka baru belum dijalankan** pada saat commit proposal ini. Bukti sebelumnya tetap terkait commit lamanya.
+
+Template ke-19 `OPENING_ADVANCE` mencatat jenis/kode pihak, akun khusus uang muka, identitas dan tanggal sumber, nominal awal, pemakaian/pengembalian lama, saldo tersisa, serta total pembanding. Supplier/vendor memakai akun aset, customer memakai kewajiban; akun uang muka tidak boleh menjadi akun kas atau mapping ledger utama. Sumber bernomor unik lintas batch, saldo awal tidak membukukan kas historis, dan total kontrol tidak ikut diposting.
+
+Pemakaian memakai pembayaran native supplier/customer/vendor atau pelunasan opening subledger untuk tagihan lama. Tautan privat immutable mencatat sumber advance; bentuk baris pembayaran/fakta lama dipertahankan. Cash account boleh kosong hanya untuk jalur advance yang sah; ordinary cash posting tetap memerlukan rekening aktif. Status lunas, retur, invoice reversal, immutable payment facts, jurnal asli dan inverse mengikuti lifecycle native. Generic reversal untuk jurnal advance ditolak; gunakan sumber pemakaian atau event tertaut.
+
+`PREPAYMENT` pada public import RPC existing menangani APPLY,REVERSE_PAYMENT,REFUND,CORRECT,REVERSE_EVENT. Request memakai UUID recovery, revision batch, lock dokumen→sumber, pemeriksaan pihak/kapasitas/tanggal dan nominal teks exact. Opening source/link/event tidak dapat diubah atau dihapus; koreksi/refund/reversal merupakan event append-only. Akun kas hanya bergerak saat refund atau pembayaran kas sungguhan. Koreksi atau reversal koreksi ditolak bila menghapus saldo yang sudah dipakai. UI menampilkan sisa, tagihan pihak yang sama, rekening pengembalian dan riwayat.
+
+Validasi lokal: **72/72 frontend/recovery PASS** (31 parser/template,13 DOM,28 recovery); TypeScript,source,access,CSS,recovery ownership PASS. Python syntax/composition PASS:55fungsi AP +11AO,24native predecessor AP +11AO,33source pins. Tidak ada owned browser RPC baru. Gate native yang direncanakan:101AP (72existing+29baru) dan12AO terpisah; angka ini belum merupakan PASS. Native baru mencakup6siklus opening (3pihak,UTC/closedKiritimati),3tagihan native,3koreksi,10penolakan,6sumber invalid,1duplikat lintas batch. Semua diuji pada transaksi rolled-back runtime AN, bukan hosted database.
+
+Supabase/Postgres docs ditinjau: https://supabase.com/changelog, https://supabase.com/docs/guides/database/functions, https://www.postgresql.org/docs/17/explicit-locking.html. Pinned runtime dan dependency tidak diubah.
+
+---
+
+# Checkpoint terverifikasi sebelum proposal uang muka
+
 # CP6 — kasbon tunai saldo awal dan potongan payroll terverifikasi
 
 22 September 2026. **CP6_HOLD · production_go:false · migration_installed:false · independent_acceptance:false.**

@@ -27,10 +27,10 @@ async function change(input: HTMLInputElement | HTMLSelectElement, value: string
 function button(text: string) { const b=[...container.querySelectorAll('button')].find(b=>b.textContent?.includes(text));if(!b)throw new Error(text+' missing '+container.textContent);return b }
 async function click(text:string) { await act(async()=>button(text).click());await flush() }
 function server() {
- const state={version:1,status:'DRAFT',rows:[] as { id:string;entity:string;source_row_no:number;payload:Record<string,string>;validation_status:string;errors:string[];applied:boolean }[],cash_advances:[] as Record<string,unknown>[],advance_payrolls:[] as Record<string,unknown>[],lose:false,stale:false,effects:0}
+ const state={version:1,status:'DRAFT',rows:[] as { id:string;entity:string;source_row_no:number;payload:Record<string,string>;validation_status:string;errors:string[];applied:boolean }[],cash_advances:[] as Record<string,unknown>[],advance_payrolls:[] as Record<string,unknown>[],prepayments:[] as Record<string,unknown>[],prepayment_cash_accounts:[] as Record<string,unknown>[],lose:false,stale:false,effects:0}
  const cache=new Map<string,unknown>()
  client.rpc.mockImplementation(async(name:string,args:Record<string,unknown>)=>{
-  if(name==='erp_get_initial_import_workspace_v1')return {data:{recent:[{id,batch_code:'AWAL',status:state.status}],batch:args.p_batch_id?{id,code:'AWAL',status:state.status,cutover_at:'2026-09-20T00:00:00+07:00',revision:rev(state.version),rows:state.rows,cash_advances:state.cash_advances,advance_payrolls:state.advance_payrolls}:null},error:null}
+  if(name==='erp_get_initial_import_workspace_v1')return {data:{recent:[{id,batch_code:'AWAL',status:state.status}],batch:args.p_batch_id?{id,code:'AWAL',status:state.status,cutover_at:'2026-09-20T00:00:00+07:00',revision:rev(state.version),rows:state.rows,cash_advances:state.cash_advances,advance_payrolls:state.advance_payrolls,prepayments:state.prepayments,prepayment_cash_accounts:state.prepayment_cash_accounts}:null},error:null}
   const payload=args.p_payload as Record<string,unknown>, key=String(args.p_client_request_id)
   if(!cache.has(key)) {
    if(state.stale){state.version++;return {data:null,error:{code:'P0001',message:'STALE_VERSION'}}}
@@ -124,6 +124,54 @@ describe('connected CSV import',()=>{
   expect(()=>parseInitialImportWorkspace(wrap({...advance(),available_amount:'-0.01'}))).toThrow('Saldo kasbon')
   expect(()=>parseInitialImportWorkspace(wrap({...advance(),original_amount:9007199254740993.01}))).toThrow('Saldo kasbon')
  })
+ it('applies a prepayment with exact money text, selected target and explicit economic date',async()=>{
+  const s=server();s.status='POSTED';s.prepayments=[prepay()];await mount()
+  expect(container.textContent).toContain('Rp 9007199254740993,01')
+  await change(container.querySelector('select[aria-label="Tagihan untuk uang muka"]')!,id)
+  await change(container.querySelector('input[aria-label="Nominal uang muka"]')!,'12,75')
+  await change(container.querySelector('input[aria-label="Tanggal uang muka"]')!,'2026-09-21')
+  expect(button('Pakai untuk tagihan').disabled).toBe(true)
+  await change(container.querySelector('input[aria-label="Alasan uang muka"]')!,'Pakai bukti DP')
+  await click('Pakai untuk tagihan')
+  expect(writes()[0][1].p_action).toBe('PREPAYMENT')
+  expect(writes()[0][1].p_payload).toEqual({batch_id:id,expected_revision:rev(1),advance_id:rowId,operation:'APPLY',target_id:id,amount:'12,75',effective_date:'2026-09-21',reason:'Pakai bukti DP'})
+ })
+ it('reconciles a lost prepayment response using the original request without a second application',async()=>{
+  const s=server();s.status='POSTED';s.prepayments=[prepay()];await mount()
+  await change(container.querySelector('select[aria-label="Tagihan untuk uang muka"]')!,id)
+  await change(container.querySelector('input[aria-label="Nominal uang muka"]')!,'12.75')
+  await change(container.querySelector('input[aria-label="Tanggal uang muka"]')!,'2026-09-21')
+  await change(container.querySelector('input[aria-label="Alasan uang muka"]')!,'Apply advance')
+  s.lose=true;await click('Pakai untuk tagihan');const original=structuredClone(writes()[0][1])
+  expect(button('Pakai untuk tagihan').disabled).toBe(true)
+  await act(async()=>root.unmount());root=createRoot(container);s.lose=false
+  await act(async()=>root.render(<ConnectedInitialImportPage/>));await flush();await click('Reconcile')
+  expect(writes()[1][1]).toEqual(original);expect(s.effects).toBe(1)
+ })
+ it('requires a cash account for refunds and sends linked reversals only with a reason',async()=>{
+  const s=server();s.status='POSTED';s.prepayments=[{...prepay(),payments:[{id,number:'USE-1',status:'POSTED',amount:'12.75'},{id:rowId,number:'OLD-1',status:'REVERSED',amount:'1.00'}]}];s.prepayment_cash_accounts=[{id,name:'Bank'}];await mount()
+  expect(button('Batalkan pemakaian USE-1').disabled).toBe(true);expect(container.textContent).not.toContain('Batalkan pemakaian OLD-1')
+  await change(container.querySelector('select[aria-label="Tindakan uang muka"]')!,'REFUND')
+  await change(container.querySelector('input[aria-label="Nominal uang muka"]')!,'10')
+  await change(container.querySelector('input[aria-label="Tanggal uang muka"]')!,'2026-09-21')
+  await change(container.querySelector('input[aria-label="Alasan uang muka"]')!,'Kelebihan DP')
+  expect(button('Catat pengembalian uang').disabled).toBe(true)
+  await change(container.querySelector('select[aria-label="Rekening pengembalian uang muka"]')!,id)
+  await click('Catat pengembalian uang')
+  expect(writes()[0][1].p_payload).toMatchObject({operation:'REFUND',cash_account_id:id,amount:'10'})
+  expect(writes()[0][1].p_payload).not.toHaveProperty('target_id')
+  await click('Batalkan pemakaian USE-1')
+  expect(writes()[1][1].p_payload).toMatchObject({operation:'REVERSE_PAYMENT',payment_id:id,reason:'Kelebihan DP',expected_revision:rev(2)})
+ })
+ it('fails closed on malformed prepayment amounts, history or cross-party targets',()=>{
+  const p=prepay(),wrap=(entry:unknown)=>({recent:[],batch:{id,code:'A',status:'POSTED',cutover_at:'2026-09-20T00:00:00Z',revision:rev(1),rows:[],prepayments:[entry]}})
+  expect(parseInitialImportWorkspace(wrap(p)).batch?.prepayments[0].original_amount).toBe('9007199254740993.01')
+  expect(()=>parseInitialImportWorkspace(wrap({...p,remaining_amount:'-0.01'}))).toThrow('Saldo uang muka')
+  expect(()=>parseInitialImportWorkspace(wrap({...p,original_amount:1.25}))).toThrow('Saldo uang muka')
+  expect(()=>parseInitialImportWorkspace(wrap({...p,targets:[{...p.targets[0],party_id:rowId}]}))).toThrow('Tagihan uang muka')
+  expect(()=>parseInitialImportWorkspace(wrap({...p,events:[{id,kind:'CORRECTION',delta:1.25,date:'2026-09-21',reason:'Changed',reversed:false}]}))).toThrow('Riwayat uang muka')
+ })
 })
 
 function advance() { return {balance_id:rowId,contractor_id:id,contractor_name:'Mandor kasbon',document_number:'KAS-001',original_amount:'9007199254740993.01',settled_before_cutover:'32.75',opening_amount:'67.25',settled_amount:'0.00',remaining_amount:'67.25',reserved_amount:'0.00',available_amount:'67.25',allocations:[]} }
+function prepay() { return {id:rowId,party_id:id,party_type:'SUPPLIER',party_name:'Supplier',document_number:'DP-001',original_amount:'9007199254740993.01',settled_before_cutover:'32.75',opening_amount:'67.25',applied_amount:'0.00',refunded_amount:'0.00',remaining_amount:'67.25',targets:[{id,number:'BILL-1',party_id:id,party_type:'SUPPLIER',remaining_amount:'100.00',target_date:'2026-09-20'}],payments:[],events:[]} }
