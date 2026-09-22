@@ -136,7 +136,7 @@
     "scripts/cp6_v2620an_definitions.py": "1f0cd170b2fb7ca7a379fb2abe3a00a83d0bef35ebbf775560a1daf8399ae697",
     "scripts/cp6_v2620an_gate.py": "e1d765b277d14f2c0534de6077a5fbabdfb53428c2cb82f4b28e1c8b7e8668f4",
     "scripts/cp6_v2620an_maintenance_schedules.py": "0df034e2f48094c28776ef429d4badc9ab481936138cfabce8a070ed72e99f27",
-    "scripts/cp6_v2620an_selectors_ui.mjs": "b96c9ca84bd6118bdc65732a40e847c07c0f6d1e7a9947ee676970255248d3ba",
+    "scripts/cp6_v2620an_selectors_ui.mjs": "990f374f5eda1edd58d74687e7dcb01489091f55e65e0dfd8c4aefc1c4552479",
     "scripts/cp6_v2620an_advisors.py": "e88e40daf18b0a848498abe430d98fa814e225e4c174643e5402ece394144916",
     "scripts/cp6_v2620an_selectors.py": "0ba549f3a58c0ef401224d92b7d2ee5593222a9baf23146362706e3a05889bd6",
     "docs/evidence/cp6-an-cli-provenance.json": "4cb45ecd45ca717f3517e8eeb93e05e7bb454a6812974a998b240d02d98441dd",
@@ -145,7 +145,7 @@
     "docs/evidence/cp6-an-am-catalog-pins.json": "d66f6ab6d654bc43940a9d02098d8cf376d97fa90894c06098ab5a42e7e4c1d9",
     "supabase/migrations/20260921223438_erp_v2_6_20an_cp6_cutting_selectors.sql": "21ac97ded4ed0cee9175c7fac7ef28ab6713d08b00766e1e5adc86bd38205e6c",
     "supabase/rollbacks/20260921223438_erp_v2_6_20an_cp6_cutting_selectors.rollback.sql": "05b36ee0fc400055e9d200db8cac23986a8f739e9194f2de8a7b7efdfe0e3ffa",
-    "src/connected-cutting.css": "2effa8525946e08fa2fe1f1450af975bdae6c0fd4636addc239c08eec178ddca"
+    "src/connected-cutting.css": "c81017c39eb2ec23dfc18d457c7aa5134f99acae55a7135c7cf7977aaaa4caa5"
   },
   "gate_intent": "Preserve full AL assertions and date HOLD; add current frontend recovery proof. No global/independent PASS.",
   "business_frontend_source_head": "d7a92f00b0779d614478778bd8f1ddd367122ff7",

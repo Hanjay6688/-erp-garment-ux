@@ -373,3 +373,21 @@ full hash, CRC/path checks and selected token/JWT/private-key patterns verified.
 The retry corrects only the runner attribute names and actual card/field grid
 sizing. The original normal pointer search is also exercised at1440/980/390px;
 no forced clicks, mocked successful responses, or weaker oracle. SQL unchanged.
+
+Second AN attempt `c0b064e351ad7076a28451070fd186fb3be02135`, tree
+`975b34a837f6bd47ceee941cfff891544c2d74dc`, run35669411173 failed only the
+selector UI requirement:8/15 completed,7 INCOMPLETE. Native28, maintenance20,
+original HTTP/UI43/recovery9, eleven refusal controls, exact AN→AM→AH restore
+and cleanup passed separately. CodeQL35669411193 SUCCESS.
+Artifact10669908582:53,541,445 bytes /319 entries; SHA-256
+`028a31c8ec33b22e17e1d70468da28b37c7d6eabd88dadee30dc972691950513`;
+full hash, CRC/path checks and selected token/JWT/private-key patterns passed.
+Search clicks now passed at1440/980/390px, but the PO-next button overlapped the
+select. The retained screenshot exposed the exact shared cause: the nested
+CuttingPatternPicker carries `grid-column:span 2` for another two-column parent.
+Inside this single-column identity card it created a second implicit grid track,
+placing header/search and pagination/fields side by side. The earlier long-label
+diagnosis was incomplete. A scoped `grid-column:1/-1` now confines this child to
+the existing track; card content starts at the top. Other picker consumers and
+all SQL remain unchanged. Normal pointer assertions are unchanged; failure
+evidence additionally records computed child geometry.

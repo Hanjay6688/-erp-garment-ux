@@ -2,6 +2,8 @@
 .ccut-pagination{display:flex;align-items:center;justify-content:space-between;gap:6px;padding-top:7px;border-top:1px solid #eee6e1}.ccut-pagination>span{color:#7c7068;font-size:9px}.ccut-pagination>div{display:flex;gap:5px}.ccut-pagination button{padding:5px 7px;font-size:9px}.ccut-pagination button:disabled{opacity:.4;cursor:not-allowed}
 /* Long PO labels must stay inside their grid track and leave search clickable. */
 .ccut-card,.ccut-drafts{grid-template-columns:minmax(0,1fr)}
+.ccut-card{align-content:start}
+.ccut-card>.cutting-pattern-picker{grid-column:1/-1}
 .ccut-card>*,.ccut-drafts>*,.ccut-fields label{min-width:0}
 .ccut-fields{grid-template-columns:repeat(2,minmax(0,1fr))}
 .ccut-fields input,.ccut-fields select{width:100%}

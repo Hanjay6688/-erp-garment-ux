@@ -121,6 +121,11 @@ export async function runSelectors(c) {
     assert.equal(report.cases.length,ids.length);report.status='WRITER_PASS'
   } catch(error) {
     await page?.screenshot({path:resolve(c.reportDir,'CUTTING_SELECTOR_FAILURE.png'),fullPage:true}).catch(()=>{})
+    report.failure_layout=await page?.locator('.ccut-card').first().evaluate(card=>({
+      columns:getComputedStyle(card).gridTemplateColumns,
+      children:[...card.children].map(element=>({tag:element.tagName,className:element.className,
+        gridColumn:getComputedStyle(element).gridColumn,rect:element.getBoundingClientRect().toJSON()}))
+    })).catch(()=>null)
     let message=String(error.stack||error)
     for(const secret of c.secrets.filter(Boolean))message=message.split(secret).join('[REDACTED]')
     report.failure={message:message.slice(0,7500)};throw error
