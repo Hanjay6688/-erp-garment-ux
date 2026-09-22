@@ -1,3 +1,100 @@
+# CP6 — penerimaan belum ditagih dan konservasi biaya
+
+22 September 2026. CP6_HOLD; production_go:false; migration_installed:false; independent_acceptance:false.
+
+VENI. VIDI. VICI. ERP. — I CONQUERED ERP.
+Reliable data adalah dewa.
+Keuangan—termasuk laporan—stok, dan HPP adalah raja.
+
+Kelanjutan atas permintaan owner “lakuinnnn wjkwkkw”; semua keputusan sebelumnya tetap berlaku, termasuk ALL impor, tanggal invoice untuk koreksi akibat invoice, harga eceran manual, dan 7 PCS khusus aksesori. Satu writer, competition/cp6-j-closure-20260911, fast-forward saja.
+
+## Checkpoint terverifikasi
+
+| Bukti | Hasil |
+| --- | --- |
+| Tested commit | `1556508637aac8aed770070b21d51365c652a037` |
+| Tested tree | `5cf33c7210996e6ade20d64b4a86cc3d58f97a9f` |
+| Native | [35689137794 SUCCESS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35689137794) · job106622198770 |
+| AP pada runtime gabungan AO+AP | **52/52 PASS**:28 kasus impor sebelumnya +24 keluarga penerimaan |
+| AO tambahan pada AN | **12/12 PASS**:10 kasus sebelumnya +2 direct correction/reversal |
+| Frontend/recovery | **63/63 PASS**:30 parser/template +5 connected DOM +28 recovery |
+| Checks | TypeScript,source,access,recovery,CSS PASS;[CodeQL35689137795 SUCCESS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35689137795) |
+| Artifact | `10678192143` ·87.860byte ·11 entriZIP |
+| SHA256 ZIP | `879064d1172c80f62a294482592099efd20e6c735edc7f03c4bb0943750cd07e` |
+| Main terverifikasi | `557005e6674058f1e5e966b350cba05501e06182` ·tidak ditulis |
+
+ZIP CRC,source/tree,status semua kasus,seluruh restoration,dan flag hold sudah dicocokkan. Runtime tetap Supabase CLI2.116.0 / PG17.6.1.165,baseline AC→AN dengan692 objek tervalidasi. AP kini memasang **AO+AP bersama dalam satu transaksi uji**;12 kasus AO juga dijalankan terpisah pada AN. Semua perubahan proposal dan fixture di-ROLLBACK; database disposable dibersihkan. **Ini tidak membuktikan pemasangan migrasi, deployment rollback, concurrency antarsesi, atau acceptance independen.**
+
+Koreksi invoicing dapat mengubah source valuation, sehingga source detector juga diperbaiki secara terbatas dan mempunyai negative control: biaya yang bergeser0,000001 tanpa sumber invoice sah tetap menghasilkan temuan lineage. Enam belas pemeriksaan finansial receipt family memeriksa saldo GRNI/AP,source/jurnal,cent facts,status match/return,pembayaran,orphan,revaluasi adjustment dan tanggal reversal;seluruhnya0 pada fase normal yang diuji.
+
+Graph produksi memakai10 unit bahan estimasi10,10 pencucian nyata masing-masing7,5 unit selesai,3 FG tersisa dan2 terjual. Setelah invoice3×8,25:WIP82,37;FG49,43;COGS32,95;AP24,75;GRNI70. Setelah7×11,75:WIP88,50;FG53,10;COGS35,40;AP107;GRNI0. Ledger dan laporan sama dengan aritmetika ini,raw stock0,queue HPP selesai sebelum invoice RPC kembali,confidence READY;cutover terbuka dan tertutup sama-sama diuji.
+
+Kasus dua baris1×0,333333 membukukan stok0,66 dan GRNI0,67. Invoice akhir membuat inventory2,00 tepat;reversal kembali ke opening0,66. Bank100 tidak berubah saat impor;setelah invoice pembayaran10 memberi90,dan reversal pembayaran kembali100. Pembayaran GRNI tanpa invoice serta reversal invoice yang masih dibayar ditolak.
+
+## Kontrak yang disambungkan
+
+Template ke-18 UNINVOICED_RECEIPT menghubungkan identitas supplier/penerimaan/baris/tanggal asal ke opening_source_key pada tepat satu rincian MATERIAL atau MATERIAL_ROLL dalam batch yang sama. Bahan, gudang, qty dan biaya harus cocok. Registrasi ini mewakili kewajiban yang masih belum ditagih, bukan penerimaan fisik kedua. Jumlah yang sudah terpakai sebelum cutover ditolak sampai kontrak asal WIP/HPP tersedia.
+
+Pengesahan membukukan stok hanya melalui opening canonical. Header dan item penerimaan operasional baru diberi provenance opening yang privat, sementara jurnal kewajiban awal mendebit OPENING_EQUITY dan mengkredit GRNI_MATERIAL pada cutover. Tidak ada jurnal MATERIAL_PURCHASE, reclass AP sementara, invoice historis atau pembayaran historis sintetis. Tanggal penerimaan asli disimpan terpisah; tanggal operasional saldo awal tetap cutover.
+
+Invoice berikutnya menggunakan sumber penerimaan tersebut pada API invoice canonical: kuantitas yang belum ditagih, AP final, pembulatan, pembayaran, retur, dan reversal mengikuti domain yang sudah ada. Recost mengubah biaya operasional movement OPENING yang tertaut; dokumen opening dan snapshot biaya asal tetap utuh. Retur roll menemukan sumber melalui tautan opening tanpa mengganti identitas asal roll menjadi pembelian biasa.
+
+Pembulatan kewajiban dilakukan per dokumen penerimaan, sedangkan opening fisik mempertahankan pembulatan per barisnya. Target cent untuk penerimaan opening mempertahankan dasar baris tersebut sehingga invoice tidak menyisakan sen yang hilang. Selisih yang benar tetap melalui akun variance canonical.
+
+Jurnal koreksi akibat invoice memakai tanggal invoice. Pembatalan memakai tanggal bisnis pembatalan canonical pada jurnal balik dan seluruh revaluasi turunannya, termasuk koreksi harga pembelian langsung. Aturan tanggal bisnis Jakarta, penyesuaian periode tertutup, dan snapshot laporan yang sudah filed tetap dipertahankan.
+
+Pemeriksa lineage opening menerima recost hanya jika ada tautan penerimaan yang sah dan input cost sama dengan biaya invoice authoritative; snapshot asal tetap diperiksa. Ini bukan pengecualian bebas terhadap perubahan harga. Detector asal/jurnal GRNI baru memeriksa source, qty, material/lokasi, nilai dan tanggal, serta melarang movement/jurnal pembelian ganda.
+
+## Batas penolakan
+
+Identitas penerimaan dan baris dinormalisasi untuk duplikat; satu rincian stok hanya boleh mendukung satu baris kewajiban. Dokumen yang sama lintas batch ditolak. Jalur pembelian biasa tidak boleh memasukkan nomor penerimaan supplier yang sudah diimpor. Ringkasan utang yang berpotensi tumpang tindih dengan penerimaan belum ditagih ditolak. Finalisasi canonical lama juga menolak batch dengan penerimaan/master baru yang belum diterapkan.
+
+Header penerimaan opening yang sudah disahkan tidak dapat diubah menjadi REVERSED lewat reversal pembelian biasa. Invoice/retur/pembayaran memiliki reversal tertaut masing-masing. Jalur koreksi menyeluruh atau pembatalan batch penerimaan opening masih harus dibentuk; pesan penolakan bukan klaim bahwa jalur itu sudah tersedia.
+
+## Pemetaan keluarga
+
+| Jalur | Implementasi / batas |
+| --- | --- |
+| CSV/template/editor → public action RPC | Entity baru memakai uploader editable dan durable replay existing; petunjuk batas on-hand ada di UI. |
+| Stok awal dan GRNI | Satu stock layer; liability terpisah melalui opening equity; total kontrol tidak ikut posting. |
+| Invoice sebagian/penuh dan reversal | Canonical source capacity/AP/recost; tidak ada stock receipt tambahan. |
+| Penggunaan setelah cutover | Stock adjustment dan produksi nyata diuji pada family ini; penggunaan sebelum cutover ditolak. |
+| HPP/laporan | Recost AO+AP diuji bersama; source confidence mengenali koreksi sah dan tetap menangkap drift. |
+| Retur supplier | Source fallback opening roll, native AP/GRNI allocation dan reversal. |
+| Pembayaran | Hanya final AP dapat dibayar; GRNI belum invoice tidak dapat dibayar; pembayaran harus dibalik sebelum invoice terkait. |
+| Cent per dokumen / per stock line | Nilai kontrol mengikuti masing-masing posting; target koreksi persediaan memakai dasar opening yang tepat. |
+| Legacy finalization | Refusal bila detail baru belum diterapkan. |
+| Migrasi / rollback / concurrency | Belum terpasang; transaksi proposal di Supabase disposable bukan deployment rollback atau jadwal antarsesi. |
+
+## Bukti percobaan yang dipertahankan
+
+- f680d95c69541191a4dac864e1d2db6bc4fc5a0b / tree7949a955f4b22c79204c78bcddd1acaf34a790b6 / native35687868601, job106618465221: 42AP PASS,4INCOMPLETE karena pemanggil fixture reversal kelebihan argumen;10AO PASS. Semua boundary dipulihkan. Artifact10677600886,76.509byte,SHA256 c91aae35c560e55d32e21d168947e9f91bffb8c54912c112d0b5fe86298e8e0c.
+- 62ccc4aed8b3aebcf31b7a39ce307fd688d2d0dc / tree969cd8fd056697549725d7f73d11226a4f0fac08 / native35688243333, job106619562896:45AP PASS,6INCOMPLETE. Empat kasus menunjukkan perbedaan aturan reversal/recost;dua graph produksi membuktikan detector opening belum mengenali recost invoice.10AO PASS. Semua boundary dipulihkan. Artifact10677381670,76.992byte,SHA256 e826bea1604d3ef26de5b91ec1c3a2b478e73a2e2dc1e58f8f1fc292c6808e81.
+- c1d674528891b76c208f4701b0eb5a36fffacf31 / tree42045545cf3b76d1b110772c703c43e8d003b5f7 / native35688824772, job106621270467:52AP PASS dalam runtime gabungan;10AO PASS,2INCOMPLETE karena nama material fixture direct correction melebihi varchar(60). CodeQL35688824793 PASS. Artifact10678436152,88.235byte,SHA256 af6f59c76d318256834a078cd785c6f9b6677ee4d8b7f0c99053b7e3859b2833. Semua boundary dipulihkan.
+- 1556508637aac8aed770070b21d51365c652a037 / tree5cf33c7210996e6ade20d64b4a86cc3d58f97a9f / native35689137794,job106622198770: **52AP +12AO PASS**,0 unfinished;63 frontend/recovery PASS. CodeQL35689137795 PASS. Perubahan terhadap c1 hanya dua file penguji dan source pins; kode produknya sama. Semua boundary dipulihkan.
+
+## Sisa kerja ALL
+
+Penerimaan yang sudah terpakai sebelum cutover memerlukan asal nilai dan fisik WIP/FG/BS; invoice sebelum cutover perlu rekonsiliasi opening, tidak boleh langsung memposting ke periode tanpa saldo awal. Uang muka/advance beserta alokasi dan reversal masih terbuka. WIP fisik per ukuran/tahap/custody, nilai BS, dan form eceran aksesori yang benar-benar tersambung juga belum selesai.
+
+Impor public RPC dan native invoice diuji pada jalurnya; fixture invoice/retur memakai API private-schema canonical dengan USAGE sementara untuk aktor ordinary di database disposable. Ini tidak membuktikan form invoice atau browser→HTTP→installed runtime. Migrations AO/AP, maintenance rollback, concurrency antarsesi, perlindungan global terhadap semua direct legacy opening, dan audit independen masih harus diselesaikan. CP7 tidak dimulai.
+
+Workflow legacy Final Boundary Audit35687868628,job106618465380 tetap FAIL pada Verify unchanged AI-R2 backend and bounded writer UI scope; tidak diubah atau dilabel PASS. Routing workflow lain yang sukses bukan acceptance.
+
+## Sambungan teknis untuk melanjutkan
+
+- Produk utama: scripts/cp6_initial_import_receipts.py;8 predecessor native di docs/evidence/cp6-initial-import-receipt-predecessor.json. AP kini26 fungsi (12 replacement native),AO11 fungsi;trial gabungan memasang37 fungsi. Source pins27 file.
+- Tabel baru privat/RLS: initial_import_opening_stock_sources,initial_import_receipt_headers,initial_import_receipt_lines. Tidak ada grant DML browser/service role.
+- Fungsi native yang disambung: refresh_material_purchase_item_cost,validate_supplier_return_source,validate_material_supplier_invoice_line,sync_material_purchase_grni_on_status,_cp6_supplier_cent_state,run_v267_financial_truth_checks,run_v268_financial_report_checks,finalize_migration_batch. Original definitions/ACL/owner dibandingkan dengan AN sebelum proposal.
+- AO reverse_material_supplier_invoice dan reverse_material_purchase_cost_correction sekarang membawa tanggal bisnis pembatalan pada context recost dan cent event;post tetap membawa tanggal invoice. Generic reverse_journal tidak diubah.
+- Penguji baru: scripts/cp6_initial_import_receipt_trial.py. Main AP trial memasang AO+AP bersamaan;AO trial menambah direct correction/reversal terbuka/tertutup.
+- Tidak ada file migrasi atau rollback AO/AP yang dipasang. Source runtime dan predecessor lama tetap immutable.
+- Urutan lanjut: advances dengan aplikasi/pelunasan/reversal;WIP fisik dan asal nilai untuk penerimaan pre-cutover consumed/BS;form aksesori terhubung;paket migrasi/rollback,HTTP/browser/concurrency,kemudian handoff independen. Jangan meminta ulang keputusan owner yang sudah disepakati.
+
+---
+
+# Checkpoint sebelumnya — riwayat pada 8a7616f / 590c7b7
+
 # CP6 AP — master dan dokumen saldo awal, checkpoint lanjutan
 
 **22 September 2026 · CP6_HOLD · production_go:false · migration_installed:false · independent_acceptance:false.**
