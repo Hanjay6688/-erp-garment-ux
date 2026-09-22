@@ -293,3 +293,6 @@ from cp6_initial_import_production_lifecycle import SCHEMA as PRODUCTION_LIFECYC
 SCHEMA += PRODUCTION_LIFECYCLE_SCHEMA
 TRIGGERS += '\n'+PRODUCTION_LIFECYCLE_TRIGGERS
 extend_production_lifecycle(FUNCTIONS)
+
+from cp6_accessory_issue import extend_accessory_issue_contract
+extend_accessory_issue_contract(FUNCTIONS)

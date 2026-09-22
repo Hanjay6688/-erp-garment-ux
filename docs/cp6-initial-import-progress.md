@@ -1,3 +1,15 @@
+# CP6 — proposal form eceran aksesori terhubung
+
+22 September 2026. **CP6_HOLD · production_go:false · migration_installed:false · independent_acceptance:false.**
+
+Kelanjutan owner “lanjutt” dari checkpoint 212ef0d4. Halaman Nota Ambil Aksesori sebelumnya memakai seed lokal; mode tersambung sekarang memakai pembaca dan facade transaksi khusus, sementara mode demo tetap ditandai simulasi. Form menerima PCS utuh, harga eceran per buah manual atau harga master dengan konversi exact, mandor/gudang/waktu WIB dan PO opsional. Draft tidak menulis ledger; pengesahan menyimpan isi terakhir dan memposting secara atomik. Master lusin/gross tidak diubah. Jangan menebak tiga kategori gratis Afui dari nama atau seed: konfigurasi harga per mandor dan tanggal tetap sumbernya.
+
+Facade memeriksa izin existing per aksi sebelum lookup idempotensi, menolak versi nota/harga usang, dan memanggil save/post/reverse native. Identitas request dan versi bigint dipertahankan sebagai teks; pengesahan/reversal memakai UUID tetap serta domain ACCESSORY_ISSUE dalam recovery global. Riwayat posted read-only dan pengunci payroll tetap berlaku. Dua RPC publik baru terdaftar ownership; tidak membuka akses tabel browser. Balasan yang hilang/tidak cocok tetap memerlukan reconcile dengan payload asal.
+
+Lokal: 142/142 frontend/recovery PASS, TypeScript serta source/access/recovery ownership PASS. 106 runtime files,30 browser RPC,111 permissions,48 route/nav labels,20 sensitive actions,37 stylesheets,8 recovery domains. AP101 fungsi +AO11; predecessor AP30 +AO11;54 source pins. Native disiapkan184 AP (163 existing +21 connected accessory) dan12 AO. **Native connected accessory belum PASS pada proposal ini.** HTTP/browser nyata, migrasi permanen dan acceptance independen tetap belum selesai. Tidak ada perubahan main/hosted UAT/legacy/prod/CP7.
+
+---
+
 # CP6 — WIP fisik, BS bernilai, dan asal biaya sebelum cutover terverifikasi
 
 22 September 2026. **CP6_HOLD · production_go:false · migration_installed:false · independent_acceptance:false.**

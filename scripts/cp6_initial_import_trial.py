@@ -12,6 +12,7 @@ from cp6_v2620ap_definitions import FUNCTIONS,PREDECESSOR,SCHEMA,TRIGGERS
 from cp6_v2620ao_definitions import FUNCTIONS as AO_FUNCTIONS,PREDECESSOR as AO_PREDECESSOR,SCHEMA as AO_SCHEMA
 from cp6_initial_import_receipt_trial import cases as receipt_cases
 from cp6_initial_import_production_trial import cases as production_origin_cases
+from cp6_accessory_issue_trial import cases as accessory_issue_cases
 from cp6_initial_import_advance_trial import cases as advance_cases
 from cp6_initial_import_prepayment_trial import cases as prepayment_cases
 from cp6_pocket_fabric_trial import cases as pocket_cases
@@ -310,7 +311,7 @@ try:
   cur.execute(TRIGGERS,prepare=False)
   admin(cur)
   installed=function_catalog(cur)
-  public=cur.execute("select 'public.'||p.oid::regprocedure::text,pg_get_functiondef(p.oid),p.proacl::text,pg_get_userbyid(p.proowner) from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public' and p.proname in('erp_get_initial_import_workspace_v1','erp_save_initial_import_action_v1','erp_get_pocket_fabric_workspace_v1','erp_save_pocket_fabric_action_v1','erp_preview_pocket_fabric_period_v1') order by 1").fetchall()
+  public=cur.execute("select 'public.'||p.oid::regprocedure::text,pg_get_functiondef(p.oid),p.proacl::text,pg_get_userbyid(p.proowner) from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public' and p.proname in('erp_get_initial_import_workspace_v1','erp_save_initial_import_action_v1','erp_get_pocket_fabric_workspace_v1','erp_save_pocket_fabric_action_v1','erp_preview_pocket_fabric_period_v1','erp_get_accessory_issue_workspace_v1','erp_save_accessory_issue_action_v1') order by 1").fetchall()
   (ROOT/'INSTALLED_FUNCTIONS.json').write_text(json.dumps(dict(functions=[r for r in installed if r[0] in FUNCTIONS]+public),indent=2)+'\n')
   report['cases']['POCKET_PERIOD_MUTEX']=pocket_period_mutex(SimpleNamespace(**globals()),cur,URL,psycopg.connect);save()
   # The inherited seed includes historical native calls: temporary USAGE is
@@ -327,6 +328,7 @@ try:
   cases += [('DOCUMENT_REFUSAL:'+k,lambda k=k:document_refusal(cur,today,k)) for k in ('CROSS_BATCH_DUPLICATE','CROSS_BATCH_SUMMARY','SUMMARY_THEN_DOCUMENT','MIXED_SUMMARY','DUPLICATE_WITHIN','WRONG_REMAINDER','FUTURE_DOCUMENT')]
   cases += receipt_cases(SimpleNamespace(**globals()),cur,today)
   cases += production_origin_cases(SimpleNamespace(**globals()),cur,today)
+  cases += accessory_issue_cases(SimpleNamespace(**globals()),cur,today)
   cases += advance_cases(SimpleNamespace(**globals()),cur,today)
   cases += prepayment_cases(SimpleNamespace(**globals()),cur,today)
   cases += pocket_cases(SimpleNamespace(**globals()),cur,today)

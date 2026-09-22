@@ -18,6 +18,7 @@ for (const token of [
   'current.fingerprint !== envelope.fingerprint', "globalThis.addEventListener('storage'",
 ]) assert.ok(storage.includes(token), `Shared production storage contract missing: ${token}`)
 for (const [path, domain] of [
+  ['src/ConnectedAccessoryIssuePage.tsx', 'ACCESSORY_ISSUE'],
   ['src/ConnectedBsResolutionPage.tsx', 'BS'], ['src/ConnectedCuttingPage.tsx', 'CUTTING'],
   ['src/ConnectedPickupPage.tsx', 'PICKUP'], ['src/ConnectedWipStatusPage.tsx', 'WIP'],
   ['src/useLaundryQcWorkspace.ts', 'LAUNDRY_QC'],
@@ -34,4 +35,4 @@ for (const [path, domain] of [
 for (const path of ['src/ConnectedCuttingPage.tsx', 'src/ConnectedPickupPage.tsx', 'src/ConnectedBsResolutionPage.tsx']) {
   assert.doesNotMatch(read(path), /event\.target\.value\.replace\(/, `${path} silently rewrites numeric input`)
 }
-console.log('Production recovery ownership passed: seven connected writer domains, exact envelope, shared lock and stale-read generation.')
+console.log('Production recovery ownership passed: eight connected writer domains, exact envelope, shared lock and stale-read generation.')

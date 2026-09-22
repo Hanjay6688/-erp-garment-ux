@@ -1,16 +1,18 @@
 import type { Json } from './types/database.preconnect'
 
-export const productionDomains = ['BS', 'LAUNDRY_QC', 'CUTTING', 'PICKUP', 'WIP', 'INITIAL_IMPORT', 'POCKET_FABRIC'] as const
+export const productionDomains = ['BS', 'LAUNDRY_QC', 'CUTTING', 'PICKUP', 'WIP', 'INITIAL_IMPORT', 'POCKET_FABRIC', 'ACCESSORY_ISSUE'] as const
 export type ProductionDomain = typeof productionDomains[number]
 export type ProductionEnvelope = {
   action: string; payload: Json; expectedVersion: number | null
   fingerprint: string; id: string; createdAt: string
 }
 export const domainLabels: Record<ProductionDomain, string> = {
+  ACCESSORY_ISSUE: 'Nota Ambil Aksesori',
   POCKET_FABRIC: 'Kain kantong', BS: 'Barang BS & Rework', LAUNDRY_QC: 'Laundry / QC', CUTTING: 'Buat Potongan',
   PICKUP: 'Bagi Potongan', WIP: 'Status WIP', INITIAL_IMPORT: 'Impor data awal',
 }
 const actions: Record<ProductionDomain, readonly string[]> = {
+  ACCESSORY_ISSUE: ['SAVE_DRAFT','POST','DELETE','REVERSE'],
   BS: ['CREATE_MANUAL_BS', 'CLASSIFY_BS', 'SAVE_REWORK', 'COMPLETE_REWORK', 'DISPOSE_BS',
     'HOLD_BS', 'RELEASE_HOLD', 'REVERSE_DISPOSITION', 'REVERSE_REWORK_COMPLETION',
     'SAVE_CLAIM', 'RESOLVE_CLAIM', 'REVERSE_CLAIM_RESOLUTION'],

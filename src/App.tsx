@@ -38,6 +38,7 @@ const BsReworkPage = lazy(() => import('./BsReworkPage'))
 const WarehousePages = lazy(() => import('./WarehousePages'))
 const WipBatchControlLayer = lazy(() => import('./WipBatchControlLayer'))
 const ContractorIssuePage = lazy(() => import('./ContractorIssuePage'))
+const ConnectedAccessoryIssuePage = lazy(() => import('./ConnectedAccessoryIssuePage'))
 const MaterialMasterPages = lazy(() => import('./MaterialMasterPages'))
 const MasterDataPages = lazy(() => import('./MasterDataPages'))
 const OperationsAdminPages = lazy(() => import('./OperationsAdminPages'))
@@ -607,7 +608,7 @@ function App() {
         {page === 'cutting-roll' && runtime.cuttingMode === 'SIMULATION' && <CuttingRollPage />}
         {page === 'mandor-wip' && runtime.distributionMode === 'CONNECTED' && <Suspense fallback={<WorkspaceFallback label="Bagi Potongan connected"/>}><ConnectedPickupPage/></Suspense>}
         {page === 'mandor-wip' && runtime.distributionMode === 'SIMULATION' && <MandorWipPage batchNotes={mandorBatchNotes} setBatchNotes={setMandorBatchNotes} />}
-        {page === 'contractor-issue' && <Suspense fallback={<WorkspaceFallback label="Nota Ambil Aksesori"/>}><ContractorIssuePage/></Suspense>}
+        {page === 'contractor-issue' && <Suspense fallback={<WorkspaceFallback label="Nota Ambil Aksesori"/>}>{runtime.mode === 'DEMO_SIMULATION' ? <ContractorIssuePage/> : <ConnectedAccessoryIssuePage/>}</Suspense>}
         {page === 'sewing-wip' && runtime.wipStatusMode === 'CONNECTED' && <Suspense fallback={<WorkspaceFallback label="WIP authoritative"/>}><ConnectedWipStatusPage/></Suspense>}
         {page === 'sewing-wip' && runtime.wipStatusMode === 'SIMULATION' && <SewingWipPage
           batchNotes={mandorBatchNotes}

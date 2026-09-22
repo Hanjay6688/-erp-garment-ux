@@ -9,6 +9,9 @@ name: CP6 Initial Import Native Trial
     - docs/evidence/cp6-pocket-period*
     - src/ConnectedPocketFabricPage*
     - scripts/cp6_initial_import*
+    - scripts/cp6_accessory_issue*
+    - src/accessoryIssue*
+    - src/ConnectedAccessoryIssuePage*
     - scripts/cp6_v2620ap*
     - src/initialProduction*
     - src/ConnectedWipStatusPage*
@@ -183,7 +186,7 @@ jobs:
 
         node node_modules/typescript/bin/tsc -b --pretty false
 
-        node node_modules/vitest/vitest.mjs run src/initialImport.test.ts src/initialProduction.test.ts src/ConnectedWipStatusPage.test.ts src/ConnectedInitialImportPage.dom.test.tsx src/ConnectedPocketFabricPage.dom.test.tsx src/productionRecovery.test.ts
+        node node_modules/vitest/vitest.mjs run src/initialImport.test.ts src/initialProduction.test.ts src/ConnectedWipStatusPage.test.ts src/ConnectedInitialImportPage.dom.test.tsx src/ConnectedPocketFabricPage.dom.test.tsx src/productionRecovery.test.ts src/accessoryIssue.test.ts src/ConnectedAccessoryIssuePage.dom.test.tsx
 
         node scripts/check-source-ownership.mjs
 
