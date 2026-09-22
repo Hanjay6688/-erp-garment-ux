@@ -104,7 +104,7 @@ def adjustment_date(cur, today, closed):
     expected = today if closed else f['purchase_day']
     errors = [r for r in rows if r[0]!=expected or r[2]!=expected]
     # The document invoice date and journal economic date remain the source date.
-    doc = cur.execute('select distinct h.id,h.row_version,h.invoice_date from erp.material_supplier_invoices h join erp.material_supplier_invoice_items l on l.invoice_id=h.id join erp.material_purchase_items i on i.id=l.purchase_item_id where i.purchase_id=%s and h.status=\'POSTED\'',(f['purchase'],)).fetchone()
+    doc = cur.execute('select distinct h.id,h.row_version,h.invoice_date from erp.material_supplier_invoices h join erp.material_supplier_invoice_lines l on l.invoice_id=h.id join erp.material_purchase_items i on i.id=l.purchase_item_id where i.purchase_id=%s and h.status=\'POSTED\'',(f['purchase'],)).fetchone()
     assert doc[2]==f['purchase_day']
     api.receipts.rpc(api,cur,'reverse_material_supplier_invoice_v2',doc[0],'AS linked invoice inverse',uuid.uuid4(),doc[1])
     api.admin(cur)
