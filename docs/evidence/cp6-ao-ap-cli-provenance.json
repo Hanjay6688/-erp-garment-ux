@@ -1,0 +1,14 @@
+[
+  {
+    "family": "AO",
+    "generated_file": "20260922135612_erp_v2_6_20ao_cp6_invoice_retail.sql",
+    "cli_version": "2.116.0",
+    "empty_file_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "family": "AP",
+    "generated_file": "20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+    "cli_version": "2.116.0",
+    "empty_file_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+]
