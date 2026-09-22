@@ -14,7 +14,19 @@ begin
  where v.category_id=m.category_id and (v.contractor_id=p_contractor or v.contractor_id is null)
   and v.effective_from<=p_at and (v.effective_to is null or v.effective_to>p_at)
  order by (v.contractor_id is not null) desc,v.effective_from desc,v.id limit 1;
- if p.id is not null then v_factor:=erp.accessory_uom_factor(m.category_id,p.selling_uom_code,p_at);end if;
+ -- Read the same effective conversion as the native writer without invoking
+ -- its internal-only transaction helper from an authorized view-only reader.
+ -- The native save still locks and verifies the actual price/factor at write.
+ if p.id is not null then
+  if upper(p.selling_uom_code)=upper(m.unit_code) then v_factor:=1;
+  else
+   select base_qty_per_uom into v_factor from erp.accessory_category_uom_conversions
+   where category_id=m.category_id and upper(uom_code)=upper(p.selling_uom_code)
+    and effective_from<=p_at and (effective_to is null or effective_to>p_at)
+   order by effective_from desc limit 1;
+   if v_factor is null then raise exception 'No active UOM conversion for category %, UOM %, at %',m.category_id,p.selling_uom_code,p_at;end if;
+  end if;
+ end if;
  return jsonb_build_object('id',m.id,'sku',m.material_sku,'name',m.material_name,'unit',m.unit_code,
   'category',m.category_name,'price_version_id',p.id,'master_price',p.selling_price::numeric(24,6)::text,
   'price_unit',p.selling_uom_code,'factor',v_factor::numeric(24,6)::text);

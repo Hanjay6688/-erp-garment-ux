@@ -10,7 +10,7 @@
   "scripts/check-access-catalog.mjs": "e893b718c4e34a666ef22c4908d1c89ce4dff8c80e6ca1140dab71803debfb98",
   "scripts/check-production-recovery.mjs": "a693c725db0806012ae94bca07b1216b3e04df77365ead35e6effdaf23f4f964",
   "scripts/check-source-ownership.mjs": "42807951fb360dbc381d9f94138f52584f5b5740ae12897cc9f0f6eac88094f6",
-  "scripts/cp6_accessory_issue.py": "497d1c975bdd443bceea3e7d5714028db2db19ebd6d54c53e5cb8f08cc6e3a53",
+  "scripts/cp6_accessory_issue.py": "95a5616b27319e6f581ab1ad278fc6e35a4e3a70c072cf34a6cd35ce2794b9cf",
   "scripts/cp6_accessory_issue_trial.py": "34827f79a633976f198f45ff6a09ddcb8b6ab3011e52a08e82a628e89fdeea66",
   "scripts/cp6_ai_audit_router.py": "3d25913f1db2c2d0042bc7e399dee86ec723fda6598e9c51ad70eac1b5ab40a3",
   "scripts/cp6_initial_import_advance_trial.py": "6ef060e0c748ac62a47c0d972631564b03a557293fbff11cd073e0b11d96b482",

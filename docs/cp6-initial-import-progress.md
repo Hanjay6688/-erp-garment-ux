@@ -1,3 +1,11 @@
+# CP6 — pembacaan konversi harga untuk auditor
+
+Native 35733310450 pada `7183d6411f925df11b431e518959820c010cd3ab` / tree `8a808ae9d07415379c691a83a7eb769713d7ad9a` masih 183 PASS /1 INCOMPLETE dari 184 AP. Setelah gerbang pembaca diselaraskan, kasus yang sama menemukan helper harga memanggil `accessory_uom_factor`, yang juga khusus akses internal. Quote baru sekarang membaca konversi efektif dengan predikat yang identik secara read-only; fungsi native dan gerbang penulisnya tetap utuh. Native save masih mengunci dan memeriksa harga/faktor aktual sebelum pengesahan. Panggilan pembaca lainnya telah ditelusuri sampai helper tanggal bisnis, yang tidak mempunyai gerbang internal. Keberhasilan tetap menunggu uji native.
+
+AO 12 dan frontend 142 PASS, semua boundary pulih. CodeQL 35733310583 empat bahasa dan static 35733310892 SUCCESS. Artifact gagal 10696128857,145.471 byte,11 entri,SHA256 `86905f651f554252b535ee661bc663741df417b06799e8b406ae6052c2485db9` dipertahankan. CP6_HOLD dan seluruh flag deployment/migrasi/acceptance independen false.
+
+---
+
 # CP6 — penyelarasan pembaca nota dengan izin baca-saja
 
 Native 35732231324 pada `3f8c8df88c066c1573006361ff47578507ffc72b` / tree `cb18f6461c58da885ec4838dd8c28c17670b49fc` kembali 183 PASS / 1 INCOMPLETE dari 184 AP; AO 12 dan frontend 142 PASS. Fixture role aktif membuka masalah nyata pada facade pembaca baru: `AUDITOR_VIEW_ONLY` memperoleh izin view sesuai katalog, tetapi pembaca menambahkan `require_internal()` yang hanya menerima OWNER/ADMIN/STAFF. Pembaca baru sekarang memakai izin view yang aktif sebagai batas akses, sesuai katalog route. Tidak ada perubahan pada `require_internal()`, izin katalog, fungsi native, atau gerbang penulis. Izin tiap tindakan diperiksa sebelum gerbang penulis internal dan sebelum replay cache.
