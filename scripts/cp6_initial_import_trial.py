@@ -194,41 +194,62 @@ def master_refusal(cur,today,kind):
  assert any(field in e for e in errors),errors
  return dict(status='PASS',refused_field=field,ledger_unchanged=True)
 
-def financial_batch(cur,today,code=None,document=True,rows=None):
+def financial_batch(cur,today,code=None,document=True,rows=None,balance_type='CUSTOMER_RECEIVABLE'):
  code=code or 'D'+uuid.uuid4().hex[:10]
  batch=call(cur,'CREATE',dict(batch_code='AP-'+uuid.uuid4().hex,cutover_date=str(today-timedelta(days=1))))['batch_id']
- upload(cur,batch,'CUSTOMER',[dict(customer_code=code,customer_name='Imported open invoice')])
- row=dict(balance_type='CUSTOMER_RECEIVABLE',customer_code=code,amount='67.25',control_key='AR')
+ entity,code_field,name_field=({'CUSTOMER_RECEIVABLE':('CUSTOMER','customer_code','customer_name'),
+  'SUPPLIER_PAYABLE':('SUPPLIER','supplier_code','supplier_name'),'VENDOR_PAYABLE':('LAUNDRY_VENDOR','vendor_code','vendor_name'),
+  'CONTRACTOR_RECEIVABLE':('CONTRACTOR','contractor_code','contractor_name'),'CONTRACTOR_PAYABLE':('CONTRACTOR','contractor_code','contractor_name')})[balance_type]
+ upload(cur,batch,entity,[{code_field:code,name_field:'Imported open invoice'}])
+ row=dict(balance_type=balance_type,amount='67.25',control_key='AR',**{code_field:code})
  if document:row.update(document_number='INV-'+code,document_date=str(today-timedelta(days=45)),due_date=str(today-timedelta(days=15)),original_amount='100.00',settled_before_cutover='32.75')
  rows=rows or [row]
  upload(cur,batch,'OPENING_BALANCE_ITEM',rows)
- upload(cur,batch,'OPENING_CONTROL',[dict(control_key='AR',balance_type='CUSTOMER_RECEIVABLE',amount=str(sum(inherited.Decimal(r['amount']) for r in rows)))])
+ upload(cur,batch,'OPENING_CONTROL',[dict(control_key='AR',balance_type=balance_type,amount=str(sum(inherited.Decimal(r['amount']) for r in rows)))])
  return batch,code,row
 
-def partial_invoice_settlement(cur,today):
- batch,code,row=financial_batch(cur,today)
+def partial_invoice_settlement(cur,today,balance_type):
+ batch,code,row=financial_batch(cur,today,balance_type=balance_type)
  upload(cur,batch,'CHART_ACCOUNT',[dict(account_code=code,account_name='Payment bank',account_type='ASSET',report_group='CURRENT_ASSETS',normal_balance='DEBIT')])
  upload(cur,batch,'CASH_ACCOUNT',[dict(cash_account_code=code,cash_account_name='Payment bank',coa_account_code=code,account_kind='BANK')])
+ upload(cur,batch,'OPENING_BALANCE_ITEM',[row,dict(balance_type='CASH_BANK',cash_account_code=code,amount='100.00',control_key='CASH')])
+ upload(cur,batch,'OPENING_CONTROL',[dict(control_key='AR',balance_type=balance_type,amount='67.25'),dict(control_key='CASH',balance_type='CASH_BANK',amount='100.00')])
  payment_counts=lambda:tuple(cur.execute('select count(*) from erp.'+t).fetchone()[0] for t in ('sales_payments','supplier_payments','vendor_payments'))
  before_counts=payment_counts();before_ledger=production.ledger(cur)
+ def truth():
+  names=['V2620M_OPENING_SUBLEDGER_STATE','V2620M_PAYMENT_SOURCE_JOURNAL_MISMATCH','V2620M_ORPHAN_PAYMENT_JOURNAL','V2620Y_OPENING_SETTLEMENT_BUSINESS_DATE']
+  checks=cur.execute('select check_name,issue_count from erp.run_v267_financial_truth_checks() where check_name=any(%s) order by check_name',(names,)).fetchall()
+  assert {r[0] for r in checks}==set(names) and all(r[1]==0 for r in checks),checks
+ truth()
  checked=invoke(cur,'VALIDATE',batch);assert checked['error_rows']==0,read(cur,batch)
  assert production.ledger(cur)==before_ledger
  assert cur.execute('select count(*) from erp.initial_import_financial_sources where batch_id=%s',(batch,)).fetchone()==(0,)
  assert invoke(cur,'FINALIZE',batch)['status']=='POSTED',read(cur,batch)
+ truth()
  assert payment_counts()==before_counts,'Imported historic payment was incorrectly posted as new cash'
  source=cur.execute('select s.original_amount,s.settled_before_cutover,s.outstanding_amount,b.original_amount,b.settled_amount,b.id from erp.initial_import_financial_sources s join erp.opening_subledger_balances b on b.opening_item_id=s.opening_item_id where s.batch_id=%s',(batch,)).fetchone()
  assert source[:5]==(inherited.Decimal('100'),inherited.Decimal('32.75'),inherited.Decimal('67.25'),inherited.Decimal('67.25'),0),source
  cash=cur.execute('select id from erp.cash_accounts where cash_account_code=%s',(code,)).fetchone()[0]
  cash_balance=lambda:cur.execute('select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l join erp.chart_accounts a on a.id=l.account_id where a.account_code=%s',(code,)).fetchone()[0]
- assert cash_balance()==0
+ assert cash_balance()==100,'Pre-cutover settlement must not change imported cash balance'
  settlement=cur.execute("insert into erp.opening_subledger_settlements(settlement_number,balance_id,amount,cash_account_id,physical_at,status,created_by) values(%s,%s,7.25,%s,%s,'DRAFT',erp.current_app_user_id()) returning id",('DOC-'+uuid.uuid4().hex,source[5],cash,production.at(today-timedelta(days=1),18))).fetchone()[0]
  cur.execute('select erp.post_opening_subledger_settlement(%s)',(settlement,))
+ truth()
  assert cur.execute('select original_amount-settled_amount from erp.opening_subledger_balances where id=%s',(source[5],)).fetchone()==(inherited.Decimal('60.00'),)
- assert cash_balance()==inherited.Decimal('7.25')
+ assert cash_balance()==(inherited.Decimal('107.25') if balance_type.endswith('RECEIVABLE') else inherited.Decimal('92.75'))
  cur.execute('select erp.reverse_opening_subledger_settlement(%s,%s)',(settlement,'Native document settlement reversal'))
+ truth()
  assert cur.execute('select original_amount-settled_amount from erp.opening_subledger_balances where id=%s',(source[5],)).fetchone()==(inherited.Decimal('67.25'),)
- assert cash_balance()==0
- return dict(status='PASS',original='100.00',paid_before_cutover='32.75',posted_outstanding='67.25',no_historic_cash_posting=True,later_payment_remaining='60.00',reversal_restores='67.25')
+ assert cash_balance()==100
+ return dict(status='PASS',balance_type=balance_type,original='100.00',paid_before_cutover='32.75',posted_outstanding='67.25',no_historic_cash_posting=True,later_payment_remaining='60.00',reversal_restores='67.25',financial_truth_checks_zero=True)
+
+def distinct_documents(cur,today):
+ first,code,_=financial_batch(cur,today);assert invoke(cur,'FINALIZE',first)['status']=='POSTED',read(cur,first)
+ second,_,row=financial_batch(cur,today,code);row['document_number']+='-SECOND';upload(cur,second,'OPENING_BALANCE_ITEM',[row])
+ assert invoke(cur,'FINALIZE',second)['status']=='POSTED',read(cur,second)
+ value=cur.execute('select count(*),sum(b.original_amount-b.settled_amount) from erp.opening_subledger_balances b join erp.customers c on c.id=b.customer_id where c.customer_code=%s',(code,)).fetchone()
+ assert value==(2,inherited.Decimal('134.50')),value
+ return dict(status='PASS',distinct_documents=2,same_party=True,total='134.50')
 
 def document_refusal(cur,today,kind):
  batch,code,row=financial_batch(cur,today)
@@ -287,7 +308,8 @@ try:
   cases=[('REVISION_TIMEZONE',lambda:revision_zone(cur,today)),('PHYSICAL_MATERIAL',lambda:physical_stock(cur,today)),('PHYSICAL_ROLL',lambda:physical_stock(cur,today,True)),('LATEST_DRAFT_TOTALS_REPLAY',lambda:lifecycle(cur,today)),('EXCESS_PRECISION',lambda:numeric_refusal(cur,today)),('MISSING_CONTROL',lambda:control_refusal(cur,today,'MISSING')),('DUPLICATE_CONTROL',lambda:control_refusal(cur,today,'DUPLICATE')),('REVOKED_OWNER',lambda:authorization(cur,today))]
   cases += [('MASTER_OPENING_FAMILY',lambda:master_opening_family(cur,today))]
   cases += [('MASTER_REFUSAL:'+k,lambda k=k:master_refusal(cur,today,k)) for k in ('CYCLE','MISSING_PARENT','ACCOUNT_SEMANTICS','CASH_NON_ASSET','BAD_LOCATION','DUPLICATE_VENDOR')]
-  cases += [('PARTLY_PAID_DOCUMENT',lambda:partial_invoice_settlement(cur,today))]
+  cases += [('PARTLY_PAID_DOCUMENT:'+t,lambda t=t:partial_invoice_settlement(cur,today,t)) for t in ('CUSTOMER_RECEIVABLE','SUPPLIER_PAYABLE','VENDOR_PAYABLE','CONTRACTOR_RECEIVABLE','CONTRACTOR_PAYABLE')]
+  cases += [('DISTINCT_DOCUMENTS_SAME_PARTY',lambda:distinct_documents(cur,today))]
   cases += [('DOCUMENT_REFUSAL:'+k,lambda k=k:document_refusal(cur,today,k)) for k in ('CROSS_BATCH_DUPLICATE','CROSS_BATCH_SUMMARY','SUMMARY_THEN_DOCUMENT','MIXED_SUMMARY','DUPLICATE_WITHIN','WRONG_REMAINDER','FUTURE_DOCUMENT')]
   for name,fn in cases:
    admin(cur);before=actors.boundary(cur);cur.execute('savepoint proposed_case')

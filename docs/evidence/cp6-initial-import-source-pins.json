@@ -10,7 +10,7 @@
   "scripts/cp6_initial_import_financial_sources.py": "d6b06ef01a82b9435d4054b5a4c470b02c2fb6c75befead926d802cc6b718fb2",
   "scripts/cp6_initial_import_masters.py": "8df4c98778a7b01ead90ad4d6bfb9d3b5f28e0e7b836fbfa16af20c03f4c10a8",
   "scripts/cp6_initial_import_scope.py": "4147ac970c7c13c4ae98d955420c1358229c3f9f381bd3729b6a7612663cb624",
-  "scripts/cp6_initial_import_trial.py": "f050048468b76997d4df9535fabeb6d90f18f8fbca0153333d5016582b8fc498",
+  "scripts/cp6_initial_import_trial.py": "4c1878b0f78120d663e108761b9f09a2c35f1e92dc562fb91af1f2ee92d41280",
   "scripts/cp6_v2620ao_definitions.py": "b62abeb4bdfb1bd13e96d1278dbf88f5ccdf0c8f38184c762b5caca78b0ed888",
   "scripts/cp6_v2620ap_definitions.py": "a3533f85fd9b84be4fdaf42b19f3c30483bccaa326cd9e50c5146f9960dea751",
   "src/App.tsx": "8e993fb3157e0d57130d00583fb413b45f3332689e53de24b3e0f51b0ab52bda",
