@@ -24,6 +24,7 @@ RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path TO '' AS $functi
 declare b erp.migration_batches%rowtype; v_batch jsonb;
 begin
  perform erp.require_owner_admin();
+ perform erp.require_permission('settings.erp.view');
  if p_batch_id is not null then
    select * into b from erp.migration_batches where id=p_batch_id for share;
    if b.id is null then raise exception 'Batch impor tidak ditemukan'; end if;
@@ -54,6 +55,7 @@ declare
  v_catalog constant jsonb:=__CATALOG__::jsonb;
 begin
  perform erp.require_owner_admin();
+ perform erp.require_permission('settings.erp.view');
  if v_action is null or v_action not in('CREATE','SAVE_FILE','VALIDATE','FINALIZE') then raise exception 'Aksi impor tidak dikenal'; end if;
  if p_payload is null or jsonb_typeof(p_payload)<>'object' or octet_length(p_payload::text)>5242880 then
    raise exception 'Isi impor harus berupa objek dan maksimal 5 MB'; end if;

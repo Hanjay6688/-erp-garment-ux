@@ -165,6 +165,9 @@ jobs:
     - name: Run proposed import in one rolled-back native transaction
       working-directory: writer
       run: PYTHONPATH=scripts python scripts/cp6_initial_import_trial.py
+    - name: Run proposed invoice-date and manual retail family
+      working-directory: writer
+      run: PYTHONPATH=scripts python scripts/cp6_initial_import_ao_trial.py
     - name: Verify connected form and file parser
       working-directory: writer
       run: 'npm ci

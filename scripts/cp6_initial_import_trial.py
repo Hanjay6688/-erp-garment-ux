@@ -68,7 +68,7 @@ def lifecycle(cur,today):
 def physical_stock(cur,today,roll=False):
  batch=call(cur,'CREATE',dict(batch_code='AP-'+uuid.uuid4().hex,cutover_date=str(today-timedelta(days=1))))['batch_id']
  code='AP-'+uuid.uuid4().hex[:14]
- location=cur.execute("select location_code from erp.locations where location_type='RAW_MATERIAL_WAREHOUSE' and is_active order by id limit 1").fetchone()[0]
+ location=cur.execute("insert into erp.locations(location_code,location_name,location_type,is_active) values(%s,'AP physical warehouse','RAW_MATERIAL_WAREHOUSE',true) returning location_code",(code,)).fetchone()[0]
  upload(cur,batch,'MATERIAL',[dict(material_sku=code,material_name='AP opening physical stock',material_type='FABRIC' if roll else 'OTHER',unit_code='yd' if roll else 'PCS')])
  if roll:
   upload(cur,batch,'MATERIAL_ROLL',[dict(material_sku=code,roll_number=code,opening_qty='7',unit_cost='2.25',location_code=location,control_key='STOCK')])
