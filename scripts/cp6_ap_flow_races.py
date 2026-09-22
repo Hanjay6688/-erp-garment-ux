@@ -53,6 +53,29 @@ def pair(table,ident,first,second):
         finally:blocker.rollback()
         return one.result(),two.result(),observed
 
+def pocket_busy_pair(ident,first,second):
+    """Pocket's existing try-lock rejects request two before its row-lock stage."""
+    with psycopg.connect(ADMIN) as blocker,psycopg.connect(ADMIN,autocommit=True) as observer,ThreadPoolExecutor(max_workers=1) as pool:
+        blocker.execute('select id from erp.materials where id=%s for update',(ident,))
+        blocker_pid=blocker.execute('select pg_backend_pid()').fetchone()[0]
+        try:
+            one=pool.submit(rpc,*first);deadline=time.monotonic()+8
+            while time.monotonic()<deadline:
+                rows=observer.execute("select pid,wait_event_type,wait_event,pg_blocking_pids(pid) from pg_stat_activity where datname='cp6_rollback' and usename='authenticator' and wait_event_type='Lock' and position(%s in query)>0",(first[0],)).fetchall()
+                if rows and any(blocker_pid in x[3] for x in rows):break
+                time.sleep(.025)
+            else:raise AssertionError('POCKET_FIRST_REQUEST_DID_NOT_REACH_MATERIAL_LOCK')
+            observed=[dict(pid=x[0],wait_type=x[1],event=x[2],blockers=x[3]) for x in rows]
+            before=boundary();two=rpc(*second)
+            assert two['status']==400 and 'POCKET_PERIOD_BUSY' in two['value']['message'],two
+            assert not one.done() and boundary()==before,'POCKET_BUSY_REFUSAL_CHANGED_DATA'
+        finally:blocker.rollback()
+        first_result=one.result();ok(first_result)
+    before=boundary();retried=rpc(*second)
+    assert retried['status']==400 and 'STALE_VERSION' in retried['value']['message'],retried
+    assert boundary()==before,'POCKET_STALE_RETRY_CHANGED_DATA'
+    return first_result,observed
+
 def ready():
     batch=call('initial_import','CREATE',dict(batch_code='RACE-'+uuid.uuid4().hex,cutover_date=F['day']))['batch_id']
     code='R'+uuid.uuid4().hex[:12]
@@ -112,11 +135,10 @@ def pocket_races():
     w=ok(rpc('erp_get_pocket_fabric_workspace_v1',dict(p_query=f['code'])))
     roll=next(x for x in w['rolls'] if x['id']==f['roll_id'])
     p=dict(roll_id=roll['id'],location_id=roll['location_id'],expected_revision=roll['revision'],mode='USED',quantity='5',date=F['day'],reason='Concurrent warehouse outflow')
-    one,two,waits=pair('materials',f['material_id'],cmd('pocket_fabric','POST',p),cmd('pocket_fabric','POST',p))
-    assert one['status']==200 and two['status']==400 and 'STALE_VERSION' in two['value']['message'],(one,two)
+    one,waits=pocket_busy_pair(f['material_id'],cmd('pocket_fabric','POST',p),cmd('pocket_fabric','POST',p))
     issued=current();assert Decimal(issued['pocket_stock'])==15
     for k in ('WIP','FG_INVENTORY','COGS'):assert issued['ledger'][k]==baseline['ledger'][k]
-    pass_case('POCKET_COMPETING_REVISION',observed_waits=waits,one_outflow=True,stock=15,product_hpp_unchanged=True)
+    pass_case('POCKET_BUSY_AND_STALE_RETRY',observed_first_waits=waits,concurrent_busy_refusal_atomic=True,same_uuid_stale_retry_atomic=True,one_outflow=True,stock=15,product_hpp_unchanged=True)
     v=ok(rpc('erp_preview_pocket_fabric_period_v1',dict(p_period_start=F['period_start'],p_period_end=F['day'])))
     command=cmd('pocket_fabric','POST_PERIOD',dict(period_start=F['period_start'],period_end=F['day'],expected_revision=v['revision'],reason='Period busy and retry'))
     before=boundary()

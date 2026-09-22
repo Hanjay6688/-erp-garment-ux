@@ -1,6 +1,6 @@
 """Closed-admission AQ install/restore; exact AP history and data remain pinned."""
 from pathlib import Path
-import json,os
+import json,os,subprocess
 import psycopg
 from psycopg import sql
 import cp6_aq_build as build
@@ -60,6 +60,35 @@ def change(kind,pg,control_url):
             return dict(action=kind,status='PASS',closed_drained=True,committed_verified=True,admission_reopened=True,runtime=result)
         finally:control.execute(maintenance.UNLOCK)
 
+def advisors(pg,stage,path,baseline=None):
+    def snapshot():
+        with psycopg.connect(pg) as conn,conn.cursor() as cur:
+            (prior.verified(cur,'AP') if stage=='AP' else verified(cur))
+            return dict(data=data(cur),platform=platform(cur),catalog=cur.execute(build.INVENTORY_SQL).fetchone()[0])
+    before=snapshot()
+    assert subprocess.check_output(['supabase','--version'],text=True).strip()=='2.116.0'
+    r=subprocess.run(['supabase','db','advisors','--db-url',pg,'--type','security','--level','info','--fail-on','none','--output-format','text','--agent','no'],capture_output=True,text=True,timeout=90)
+    assert r.returncode==0,'AQ_ADVISORS_FAILED'
+    if r.stdout.strip():findings=json.loads(r.stdout)
+    else:
+        assert 'No issues found' in r.stderr.splitlines(),'AQ_ADVISORS_MISSING_RESULT'
+        findings=[]
+    assert isinstance(findings,list) and all(isinstance(x,dict) and x.get('name') and x.get('level') for x in findings)
+    assert snapshot()==before,'AQ_ADVISORS_CHANGED_BOUNDARY'
+    report=dict(stage=stage,status='BASELINE_RECORDED',findings=findings,boundary_unchanged=True,production_go=False,independent_acceptance=False)
+    if baseline is not None:
+        known={json.dumps(x,sort_keys=True) for x in baseline['findings']}
+        added=[x for x in findings if json.dumps(x,sort_keys=True) not in known]
+        reviewed=[];unexpected=[]
+        for f in added:
+            m=f.get('metadata') or {}
+            if f['name']=='rls_enabled_no_policy' and f['level']=='INFO' and m.get('schema')=='erp' and m.get('name')==build.CAP.split('.')[1]:reviewed.append(f)
+            else:unexpected.append(f)
+        report.update(status='PASS_REVIEWED_DELTA' if not unexpected else 'REVIEW_REQUIRED',reviewed_private_capsule_info=reviewed,new_unreviewed_findings=unexpected,baseline_findings=baseline['findings'])
+    path.write_text(json.dumps(report,indent=2)+'\n')
+    assert report['status']!='REVIEW_REQUIRED',report['new_unreviewed_findings']
+    return report
+
 def qualify(pg,admin,out):
     """The two pre-use cycles operate on the same seeded, nonempty AP clone."""
     control=os.environ['CP6_ADMISSION_CONTROL_PGURL'];report=dict(status='INCOMPLETE',cycles=[],production_go=False,independent_acceptance=False)
@@ -67,6 +96,7 @@ def qualify(pg,admin,out):
         with psycopg.connect(admin) as conn,conn.cursor() as cur:return dict(data=data(cur),platform=platform(cur))
     before=snapshot();report['nonempty_tables']=sum(v['count']>0 for v in before['data'].values())
     try:
+        baseline=advisors(pg,'AP',out/'AQ_ADVISORS_BEFORE.json')
         for _ in range(2):
             installed=change('install',pg,control)
             # Open admission must reject the raw rollback before changing any data.
@@ -79,7 +109,10 @@ def qualify(pg,admin,out):
             assert snapshot()==boundary
             restored=change('rollback',pg,control);assert snapshot()==before
             report['cycles'].append(dict(install=installed,open_rollback_refused_atomically=True,restore=restored,exact_ap_data_and_history_restored=True))
-        report['final_install']=change('install',pg,control);report['status']='PASS'
+        report['final_install']=change('install',pg,control)
+        security=advisors(pg,'AQ',out/'AQ_ADVISORS_AFTER.json',baseline)
+        report['security_advisors']=dict(status=security['status'],baseline=len(baseline['findings']),current=len(security['findings']),reviewed_additions=len(security['reviewed_private_capsule_info']),unreviewed_additions=len(security['new_unreviewed_findings']))
+        report['status']='PASS'
     finally:(out/'AQ_PACKAGE.json').write_text(json.dumps(report,indent=2,default=str)+'\n')
 
 def refuse_post_use(pg,admin,out):

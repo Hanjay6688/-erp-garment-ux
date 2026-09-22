@@ -33,8 +33,10 @@ and linked cancellation restores expense before stock reversal.
 Concurrent schedules cover same-UUID import finalization, edit before finalization,
 accessory stock contention and duplicate requests, pocket stock revision
 contention, and a busy period allocation followed by the same-UUID retry.
-Waiting requests are admitted by observed PostgreSQL lock waits, not by assuming
-that two quickly issued requests overlapped. Setup-only native fixture calls
+Import/accessory waiting requests are admitted by observing both PostgreSQL lock
+waits. Pocket instead requires the first request's real row-lock wait and the
+second request's immediate existing try-lock BUSY refusal, followed by an atomic
+STALE_VERSION refusal on retry after the first commits. Setup-only native fixture calls
 are explicitly separate from real JWT business commands. AQ is a reviewed
 product correction installed under closed admission before the real business
 flow; no grant or policy is changed to admit a test.
@@ -145,3 +147,24 @@ failed the unchanged AI-R2 bounded-source gate before database tests. These
 browser-contract checks are distinct from the real Auth29-case flow.
 Global Full-Schema35751402235 again failed the old AC-only source gate.
 Both failures remain failures; no independent acceptance is claimed.
+
+Seventh attempt `c161a29be34654b717ea6e3d35f30e2822882fdd`, tree
+`0fbe3ef859599f2afc480bb36325781b76473842`, run35753004758 proved AQ installation,
+two exact pre-use restoration cycles over132 nonempty ERP tables, all29 browser
+observations, both import races and both accessory races. The original200+200
+deadlock schedule now gives200 plus an atomic stock refusal400, leaving100 PCS;
+no losing draft remains, and inverse restores every account and300 PCS.
+Same-UUID7PCS posts once. AQ changes exactly one of648 ERP/public functions.
+CodeQL35753004688 passed4/4; Full-Schema35753004578 retained the old source refusal.
+Artifact10707451616:3128427bytes,19entries,
+SHA2564f7908e0aff0e04e3795572bfe3d0927cbb4c37a9f8cfc59531cd7e41ef5dcd2.
+
+The seventh run is still INCOMPLETE: the generic two-waiter barrier is wrong for
+pocket's pre-existing global try-advisory lock. The second request returns BUSY
+before reaching the material row. The revised pocket schedule proves first
+request lock ownership, simultaneous BUSY refusal with the complete committed
+ERP boundary unchanged, first commit, then same-request stale-revision refusal
+with the boundary unchanged again. Pocket product SQL is unchanged. The final
+qualification also runs CLI security advisors before/after AQ; only the expected
+private rollback capsule RLS-without-policy INFO may be admitted as a reviewed
+addition. Existing baseline findings remain disclosed.
