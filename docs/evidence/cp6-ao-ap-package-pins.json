@@ -128,8 +128,8 @@
           "manual_retail_unit_price"
         ]
       },
-      "migration_sha256": "c1a992cdf6725a3ef840b1bb6629cba56842fb3622d0b5a1bf8b21dc5d333261",
-      "rollback_sha256": "a3916a69295b2af6fd6a103d202e5fb3e4be94ce25fba86262b8886833e01227"
+      "migration_sha256": "5687bb0236528d7e485e738ee2f96c2be0f4bde7e0d41c16bacee3a58183bdbb",
+      "rollback_sha256": "4c0d66e1b5c7dbbf05021cf6ceb9b22582d86f354db7b58016d006c5e2007355"
     },
     "AP": {
       "version": "v2.6.20ap",
@@ -989,12 +989,12 @@
           "opening_cash_advance_balance_id"
         ]
       },
-      "migration_sha256": "52e143958974a6d6830b498c562f55c01727ce2759b2347013b90710bea8ad1c",
-      "rollback_sha256": "58b87480ae5a31abe490ccf0cfb5ebf1a1e70f4ee6eaf43d4046e7bb41aa374e"
+      "migration_sha256": "fb8e14f0fd505edf730c0908f7e1c500cf850e29bcc0e90b3a51877224edd61b",
+      "rollback_sha256": "786e36224e2b607d8d2c27499c823df27026ba6d8f8e88455640998e543074f7"
     }
   },
   "inventory_sha256": "8c0715a2cfbcdd869e96c06f2bab3d40e5ce52d2dfa5b6480c9bf7bce1a6880f",
-  "builder_sha256": "46dd7b8ceff2ee5dc32171e45a5b560a89653a560daec51a57d119e7b314064e",
+  "builder_sha256": "7e4de02fd4019e73dce0cd3dbe96c0fd70d41816f4e4b79f1be1419db1767baf",
   "production_go": false,
   "independent_acceptance": false
 }

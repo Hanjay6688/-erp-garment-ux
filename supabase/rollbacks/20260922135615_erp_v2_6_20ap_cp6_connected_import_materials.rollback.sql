@@ -24,7 +24,7 @@ begin
   or not exists(select 1 from erp.schema_migrations where version='v2.6.20ao')
   or (select count(*) from supabase_migrations.schema_migrations where name='erp_v2_6_20ap_cp6_connected_import_materials')<>1
   or not exists(select 1 from supabase_migrations.schema_migrations where version='20260922135615' and name='erp_v2_6_20ap_cp6_connected_import_materials'
-   and encode(extensions.digest(convert_to(array_to_string(statements,E'\n'),'UTF8'),'sha256'),'hex')='52e143958974a6d6830b498c562f55c01727ce2759b2347013b90710bea8ad1c')
+   and encode(extensions.digest(convert_to(array_to_string(statements,E'\n'),'UTF8'),'sha256'),'hex')='fb8e14f0fd505edf730c0908f7e1c500cf850e29bcc0e90b3a51877224edd61b')
   or exists(select 1 from supabase_migrations.schema_migrations where version>'20260922135615') then raise exception 'AP_ROLLBACK_PLATFORM_OR_SUCCESSOR';end if;
 end $platform_guard$;
 do $catalog_guard$
@@ -115,6 +115,7 @@ begin
  -- AN template. Names of generated capsule indexes are intentionally immaterial.
  for r in select unnest(array['erp.cp6_v2620ap_rollback_capsule','erp.cp6_v2620an_rollback_capsule']) as rel loop
   select jsonb_build_object(
+   'relation',(select jsonb_build_array(relkind,relpersistence,relreplident,relispartition,reloptions) from pg_class where oid=r.rel::regclass),
    'columns',(select jsonb_agg(jsonb_build_array(a.attname,format_type(a.atttypid,a.atttypmod),a.attnotnull,a.attidentity,a.attgenerated,pg_get_expr(d.adbin,d.adrelid)) order by a.attnum) from pg_attribute a left join pg_attrdef d on d.adrelid=a.attrelid and d.adnum=a.attnum where a.attrelid=r.rel::regclass and a.attnum>0 and not a.attisdropped),
    'constraints',(select jsonb_agg(jsonb_build_array(contype,pg_get_constraintdef(oid),condeferrable,condeferred,convalidated) order by contype,pg_get_constraintdef(oid)) from pg_constraint where conrelid=r.rel::regclass),
    'indexes',(select jsonb_agg(jsonb_build_array(indisunique,indisprimary,indisexclusion,indisvalid,indisready,indkey::text,indclass::text,indoption::text,pg_get_expr(indexprs,indrelid),pg_get_expr(indpred,indrelid)) order by indkey::text) from pg_index where indrelid=r.rel::regclass)) into actual;

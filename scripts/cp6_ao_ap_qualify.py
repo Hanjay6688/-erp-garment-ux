@@ -53,6 +53,7 @@ def guards(family):
       ('CAPSULE_SOURCE',f"update {cap} set object_definition=object_definition||E'\\n-- drift'",'CAPSULE_SOURCE_DRIFT'),
       ('CAPSULE_BOUNDARY',f"update {cap} set boundary_snapshot='{{}}'::jsonb",'CAPSULE_BOUNDARY'),
       ('CAPSULE_COLUMN',f'alter table {cap} add column package_drift text','CAPSULE_SHAPE_DRIFT'),
+      ('CAPSULE_DURABILITY',f'alter table {cap} set unlogged','CAPSULE_SHAPE_DRIFT'),
       ('CAPSULE_GRANT',f'grant select on {cap} to authenticated','CAPSULE_SECURITY_OR_COUNT'),
       ('PLATFORM_SOURCE',f"update supabase_migrations.schema_migrations set statements=array['drift'] where version='{p['stamp']}'",'ROLLBACK_PLATFORM_OR_SUCCESSOR'),
       ('PLATFORM_SUCCESSOR',"insert into supabase_migrations.schema_migrations(version,name,statements) values('99999999999999','unexpected',array['drift'])",'ROLLBACK_PLATFORM_OR_SUCCESSOR'),

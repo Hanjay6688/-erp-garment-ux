@@ -30,10 +30,14 @@ def invoke(cur,action,batch,**extra):return call(cur,action,dict(batch_id=batch,
 def upload(cur,batch,entity,rows):return invoke(cur,'SAVE_FILE',batch,entity=entity,filename=entity+'.csv',rows=[dict(source_row_no=n+2,payload=r) for n,r in enumerate(rows)])
 
 def seed(cur):
-    admin(cur);cur.execute('grant usage on schema erp to authenticated')
+    admin(cur)
+    initial=cur.execute("select nspacl::text from pg_namespace where nspname='erp'").fetchone()
+    # Foundation loading stays in its existing administrative session with the
+    # seeded JWT actor. Grant/revoke would materialize a previously NULL ACL and
+    # would therefore change the exact predecessor even with equal privileges.
     actors.actors.claims(cur,dict(sub=base.OPERATOR_AUTH,role='authenticated'))
     base.load_fixture_foundation(cur);admin(cur)
-    cur.execute('revoke usage on schema erp from authenticated')
+    assert cur.execute("select nspacl::text from pg_namespace where nspname='erp'").fetchone()==initial,'FIXTURE_SCHEMA_ACL_NOT_RESTORED'
 
 def latest_draft(cur,today):
     batch=call(cur,'CREATE',dict(batch_code='PERMANENT-'+uuid.uuid4().hex,cutover_date=str(today-timedelta(days=1))))['batch_id']

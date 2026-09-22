@@ -8,7 +8,7 @@ import cp6_v2620an_build_sql as an
 ROOT=Path(__file__).resolve().parents[1]
 PINS=ROOT/'docs/evidence/cp6-ao-ap-package-pins.json'
 CATALOG=ROOT/'docs/evidence/cp6-ao-ap-catalog.json'
-EXPECTED_PINS_SHA256='542c2a3e6909d930a52a184afdede38d3ff3948d46f772dd5c71345297d944dd'
+EXPECTED_PINS_SHA256='04f07884377b47684871faa92aaed380ea564dbfe3b67527ba2d59cc220fa50c'
 
 def pins():
     assert sha(PINS.read_bytes())==EXPECTED_PINS_SHA256,'PACKAGE_SOURCE_PINS_DRIFT'
