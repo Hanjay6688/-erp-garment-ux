@@ -57,10 +57,52 @@ jobs:
           printf '%s\n' "$GITHUB_SHA" > "$workbench/provenance/source-head.txt"
           tar -C "$workbench" -cJf cp6-disposable-workbench.tar.xz .
           sha256sum cp6-disposable-workbench.tar.xz > cp6-disposable-workbench.sha256
+      - name: Package exact empty Supabase platform for local development
+        shell: bash
+        run: |
+          set -euo pipefail
+          workbench="$RUNNER_TEMP/cp6-exact-platform"
+          mkdir -p "$workbench/root" "$workbench/dependencies" "$workbench/provenance" cp6-platform-local
+          supabase init --force --workdir cp6-platform-local
+          mkdir -p cp6-platform-local/supabase/.temp
+          echo '17.6.1.165' > cp6-platform-local/supabase/.temp/postgres-version
+          supabase start --workdir cp6-platform-local -x realtime,imgproxy,studio,postgres-meta,edge-runtime,logflare,vector,supavisor > "$RUNNER_TEMP/cp6-platform-start.log" 2>&1
+          container=supabase_db_cp6-platform-local
+          test "$(docker exec "$container" psql -U postgres -Atc 'select count(*) from auth.users')" = 0
+          docker exec "$container" pg_dumpall -U postgres --globals-only --no-role-passwords > "$workbench/provenance/roles.sql"
+          docker exec "$container" pg_dump -U postgres --schema-only --schema=auth --schema=extensions --schema=vault --schema=storage --schema=supabase_migrations > "$workbench/provenance/platform.sql"
+          docker exec "$container" pg_config --bindir > "$workbench/provenance/bindir.txt"
+          docker exec "$container" pg_config --pkglibdir > "$workbench/provenance/pkglibdir.txt"
+          docker exec "$container" pg_config --sharedir > "$workbench/provenance/sharedir.txt"
+          for path_file in bindir pkglibdir sharedir; do
+            source_path="$(cat "$workbench/provenance/$path_file.txt")"
+            mkdir -p "$workbench/root$source_path"
+            docker cp "$container:$source_path/." "$workbench/root$source_path/"
+          done
+          docker exec "$container" sh -c 'ldd "$(command -v postgres)" /usr/lib/postgresql/lib/*.so 2>/dev/null' > "$workbench/provenance/ldd.txt"
+          python - "$workbench" "$container" <<'PY'
+          import pathlib, subprocess, sys
+          root=pathlib.Path(sys.argv[1]); paths=set()
+          for token in (root/'provenance/ldd.txt').read_text().split():
+              if token.startswith('/') and not token.endswith(':'): paths.add(token)
+          for path in sorted(paths):
+              subprocess.run(['docker','cp',sys.argv[2]+':'+path,str(root/'dependencies'/pathlib.Path(path).name)],check=True,stdout=subprocess.DEVNULL)
+          PY
+          docker exec "$container" postgres --version > "$workbench/provenance/postgres-version.txt"
+          printf '%s\n' "$GITHUB_SHA" > "$workbench/provenance/source-head.txt"
+          tar -C "$workbench" -cJf cp6-exact-platform.tar.xz .
+          sha256sum cp6-exact-platform.tar.xz > cp6-exact-platform.sha256
+      - name: Remove disposable platform
+        if: always()
+        run: |
+          supabase stop --workdir cp6-platform-local --no-backup
+          test -z "$(docker ps -aq --filter 'name=supabase_.*_cp6-platform-local')"
       - uses: actions/upload-artifact@v4
         with:
           name: cp6-disposable-workbench
           path: |
             cp6-disposable-workbench.tar.xz
             cp6-disposable-workbench.sha256
+            cp6-exact-platform.tar.xz
+            cp6-exact-platform.sha256
           retention-days: 30
