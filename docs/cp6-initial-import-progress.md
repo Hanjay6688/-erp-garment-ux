@@ -1,3 +1,13 @@
+# CP6 — koreksi pemeriksaan zona waktu dan fixture mandor khusus
+
+Native35714697164 pada commit5d5242d422628ef9aee3b922b36260730b98a8e0/treeb19efae6832443c81d80c3d616adc51a56120517 menjalankan136 AP: **132 PASS /4 INCOMPLETE**, seluruh boundary kembali;12 AO dan84 frontend PASS. Siklus mandor biasa/UTC selesai sampai recost, cancel, invoice inverse dan realokasi. Mutex dua koneksi,8 penolakan periode, guard sumber/denominator dan authorization PASS.
+
+Siklus Pacific/Kiritimati menunjukkan false positive pada checker snapshot: manifest memakai UTC, sedangkan to_jsonb saat pemeriksaan mengikuti zona sesi. Checker kini secara eksplisit memakai UTC. Tiga kasus mandor khusus terhenti di fixture policy karena memakai primitive private yang EXECUTE-nya dicabut; fixture diperbaiki ke public.erp_set_contractor_hpp_policy_v1 sebagai actor biasa tanpa grant tambahan. Pemeriksaan periode juga diperluas ke laporan owner serta tanggal seluruh jurnal recost invoice, karena keduanya merupakan kontrak fitur.
+
+Artifact gagal10688353421,123.792byte,11entri,SHA256e89aff4b4a37c62281a74795d61d23a3227b5eb28fbb5a15f3ebc31e484a4b36 dipertahankan. CodeQL35714697017 SUCCESS empat bahasa. Final Boundary lama35714697227 kembali menolak scope AJ→AP pada Verify unchanged AI-R2 backend and bounded writer UI scope, sebelum database audit; guard tidak diubah. Artifact10688343222,478.406byte,7entri,SHA256f82af0b6734494671faccfc3f540704f54f5b552e205f41b571761f3022ff2ba dipertahankan. **136/136 native belum PASS; CP6_HOLD, production_go:false, migration_installed:false, independent_acceptance:false.**
+
+---
+
 # CP6 — proposal pembagian kain kantong per periode
 
 22 September 2026. **CP6_HOLD · production_go:false · migration_installed:false · independent_acceptance:false.**

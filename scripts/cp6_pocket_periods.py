@@ -266,7 +266,7 @@ create trigger pocket_period_work_inverse before update of status on erp.work_co
 
 CHECKS=r"""create or replace function erp.pocket_period_checks_v1()
 returns table(check_name text,severity text,issue_count bigint,details text)
-language sql stable security definer set search_path='' as $function$
+language sql stable security definer set search_path='' set TimeZone='UTC' as $function$
  select 'AP_PERIOD_POCKET_LEDGER'::text,'CRITICAL'::text,count(*),'Period funding matches current source value and cancellation'::text
  from erp.pocket_periods p where erp.pocket_period_book_v1(p.id) is distinct from erp.pocket_period_target_v1(p.id,false)
  union all select 'AP_PERIOD_POCKET_SOURCES','CRITICAL',count(*),'Source membership and original snapshots remain conserved'
