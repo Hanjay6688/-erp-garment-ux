@@ -541,6 +541,12 @@ try {
       frontendHead:report.frontend_head,frontendTree:report.frontend_tree})
     assert.equal(selectorResult.status,'WRITER_PASS')
     report.selector_family={file:'SELECTORS_UI.json',status:selectorResult.status,cases:selectorResult.cases.length}
+    stage('AN_ACCESS_REVALIDATION')
+    const access=await import('./cp6_v2620an_access_revalidation.mjs')
+    const accessResult=await access.runAccessRevalidation({query,reportDir,owner,session,secrets,pageFor,rpc,newUser,mapUser,authRequest,
+      frontendHead:report.frontend_head,frontendTree:report.frontend_tree})
+    report.access_revalidation={file:'ACCESS_REVALIDATION.json',status:accessResult.status,cases:accessResult.cases.length}
+    assert.equal(accessResult.status,'WRITER_PASS')
   }
   if(foundationFailure)throw foundationFailure
   report.status='WRITER_PASS'

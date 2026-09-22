@@ -94,6 +94,13 @@ def seal():
  assert len(ui['cases'])==len(set(ui['planned_case_ids']))==15 and {r['id'] for r in ui['cases']}==set(ui['planned_case_ids'])
  assert all(r['status']=='PASS' for r in ui['cases'])
  for r in (native,ui):assert (r['head'],r['tree'])==(source['head'],source['tree'])
+ access=read('final-audit/ACCESS_REVALIDATION.json')
+ assert access['status']=='WRITER_PASS' and (access['head'],access['tree'])==(source['head'],source['tree'])
+ assert len(access['cases'])==len(set(access['planned_case_ids']))==92
+ assert {r['id'] for r in access['cases']}==set(access['planned_case_ids']) and all(r['status']=='PASS' for r in access['cases'])
+ assert access['boundary_tables']>=223 and not access['schema_acl_modified'] and not access['product_changed']
+ assert access['product_reference_head']=='08645547394a502584f5270ac64b4f116817c387'
+ assert not subprocess.check_output(['git','-C',str(SOURCE),'diff','--name-only',access['product_reference_head'],'HEAD','--','src','supabase','package.json','package-lock.json'],text=True).strip()
  for n,status in {'writer-an/ADVISORS_AFTER.json':'PASS_REVIEWED_SECURITY_DELTA','AN_MAINTENANCE_ROLLBACK/manifest.json':'PASS',
   'final-audit/HTTP.json':'PASS','final-audit/UI.json':'WRITER_PASS','final-audit/FRONTEND_RECOVERY.json':'WRITER_PASS',
   'final-audit/INDEPENDENT_UI_GAPS.json':'PASS_REVIEWED_SCOPE','final-audit/MONEY_INDEPENDENT.json':'PASS_REVIEWED_SCOPE'}.items():assert read(n)['status']==status,n
@@ -113,7 +120,7 @@ def seal():
  for name,marker in [('independent-ai/PHYSICAL_CLEANUP.txt','remaining_database_container=0'),('CP6_AUTH_CLONE_CLEANUP.txt','remaining_databases=0')]:
   raw=(root/name).read_text();assert 'status=PASS' in raw and marker in raw
  result=dict(status='WRITER_PASS_AFFECTED_AN_SELECTOR_FAMILY',source=source,native_controls=28,real_http_ui_cases=15,
-   maintenance_schedules=20,recovery_cases=9,exact_restore=True,cleanup=True,
+   maintenance_schedules=20,recovery_cases=9,access_revalidation_cases=92,exact_restore=True,cleanup=True,
    reused_evidence=admission['reused_evidence'],date_policy_hold=12,global_status='CP6_HOLD',production_go=False,independent_acceptance=False)
  save('FINAL_GATE',result);return result
 

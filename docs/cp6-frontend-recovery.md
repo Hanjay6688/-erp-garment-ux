@@ -415,3 +415,32 @@ Durable file `cp6-an-selector-qualified.zip`; verification summary
 `cp6-an-final-validation.json`. Earlier failed attempts remain evidence.
 This documentation checkpoint changes no product, SQL, harness, workflow or pins.
 Next: owner date/PCS-price/CSV-scope decisions and independent review; CP7 unopened.
+
+
+## AN follow-up: access changes between requests (qualification pending)
+
+Continuation from R3 `a90933f1d4c00e61e89d7e278ed2671cda61a6fc`.
+The product remains byte-identical to qualified AN
+`08645547394a502584f5270ac64b4f116817c387`; only the audit harness and evidence
+bindings change. This is writer evidence, never independent acceptance.
+
+92 planned observations cover six connected production readers, permission-first
+refusals at eleven additional entrypoints, a valid manual BS creation and replay,
+and browser revalidation. Owner changes role permissions, disables the app user,
+and remaps the role through existing public management commands. The same bearer
+token is retained across those committed changes. A separate normal Auth refresh
+proves self-editable user metadata does not confer the OWNER role. Every refused
+request checks a complete ERP table-data boundary. No function, grant or RLS
+policy is modified to make the tests pass.
+
+The writer/search negative cases other than BS use permission-first controls;
+they are not proof of positive business posting. Revocation inside an already
+running transaction, location/customer isolation and all ERP action combinations
+remain outside this focused qualification. Existing 96 BS action-mask pairs and
+positive HTTP transactions retain their own bounded evidence.
+
+R3 owner-decision search found no new explicit decision on open-period booking,
+PCS price policy or CSV scope. Current latest-corrected presentation and immutable
+filed snapshots remain the contract; those principles alone do not choose the
+book date of corrections. The 12 date HOLD cases and CP6_HOLD remain unchanged.
+production_go:false; CP7 not started.

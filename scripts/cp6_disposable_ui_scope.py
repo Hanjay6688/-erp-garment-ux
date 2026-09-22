@@ -156,6 +156,7 @@ scripts/cp6_v2620an_runtime.py
 scripts/cp6_v2620an_selectors.py
 scripts/cp6_v2620an_selectors_ui.mjs
 scripts/cp6_v2620an_ui_fixture.py
+scripts/cp6_v2620an_access_revalidation.mjs
 src/cuttingSelectors.test.ts
 src/cuttingSelectors.ts
 src/types/database.preconnect.ts
