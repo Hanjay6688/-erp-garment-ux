@@ -1,4 +1,12 @@
-# CP6 AP — real Auth, browser and concurrent transactions
+# CP6 AP/AQ — real Auth, browser and concurrent transactions
+
+**Writer qualification PASS; CP6_HOLD.** Tested commit
+`5ae73305e118f3641202ae4070ae2264c92de44b`, tree
+`c34f0df572534759c0756bbb2b5dae084bb8ab78`.
+[Native35753835482](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35753835482)
+and [CodeQL35753835495](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35753835495)
+completed successfully. The later documentation-only checkpoint does not change
+the tested product, migration or harness bytes.
 
 Source boundary: `c4ccecfdaadd20081923079c608f83ac494da87d`, carrying the
 unchanged permanent package qualified at `4bff4a65a7b93d7888fa77dbcb31bb1c937bbc57`.
@@ -6,7 +14,7 @@ This follow-up changes the disposable proof harness, its documentation, the
 exact mobile width correction in `src/initial-import.css`, and a separate AQ
 successor for the proven accessory deadlock. Prior AO/AP migration and rollback
 bytes remain unchanged. AQ replaces one function without changing business rules.
-No new product PASS is claimed until the native run completes.
+The final native run qualifies the scope below. It is not global CP6 acceptance.
 
 The new workflow reuses the pinned AC→AN bootstrap, installs the exact permanent
 AO/AP migrations through their qualified closed-admission controller, and serves
@@ -16,7 +24,7 @@ ERP catalog/data must remain unchanged, all newly created Auth users/sessions
 must be removed, and the whole AP clone and temporary REST process are disposed.
 No hosted database, main branch, deployment or independent acceptance is involved.
 
-Planned proof: 29 Auth/browser observations and six controlled HTTP schedules.
+Verified proof: 29 Auth/browser observations and six controlled HTTP schedules.
 Browser actions use the original product at desktop and mobile widths; CSV bytes
 are uploaded through the real file input. A lost response is induced only after
 the server has actually committed. Reload recovery must reuse the exact UUID and
@@ -168,3 +176,48 @@ with the boundary unchanged again. Pocket product SQL is unchanged. The final
 qualification also runs CLI security advisors before/after AQ; only the expected
 private rollback capsule RLS-without-policy INFO may be admitted as a reviewed
 addition. Existing baseline findings remain disclosed.
+
+## Final qualified result
+
+Run35753835482/job106834492929 completed all29 observations and6 HTTP schedules.
+Artifact10706868238 contains21 entries,2961007bytes,
+SHA256`698375f17f8de60daceaf9fe655bef0b5bf8749d4a5f7f2a3b025d2053a72113`.
+ZIP CRC, SHA256, source head/tree and every source-file digest were checked
+against the exact Git objects. All case IDs/results, mobile390px width, full
+ERP denial boundaries, installed648-function/7148-entry AQ catalog, and cleanup
+were verified. No JWT, GitHub token or private-key pattern occurs in the archive.
+
+- Real CSV upload/edit/control checks posted the final17.25 receivable exactly
+  once. A real lost commit response retained the exact UUID/payload across reload
+  and blocked another writer until reconciliation. Control rows never posted.
+- The accessory draft changed5→7PCS at manual3.25, producing22.75 and stock293;
+  the36.00 dozen master stayed intact. Linked inverse restored stock300 and every
+  account while the posted source still records7PCS.
+- Mobile pocket stock20→15 recorded11.25 expense without product HPP. Allocation
+  over10 actual completed sewing PCS moved11.25 to production without issuing
+  more stock. Allocation cancellation restored expense, then linked reversal
+  restored stock20 and all accounts.
+- Both import schedules and both accessory schedules passed with two observed
+  server lock waits. Pocket proved simultaneous BUSY refusal, stale retry after
+  the winning commit, and period BUSY followed by successful same-UUID retry.
+- Two AP→AQ→AP cycles restored exact ERP data and migration history over132
+  nonempty tables. Open-admission rollback was atomically refused. After the
+  business flow, closed-admission rollback was also atomically refused because
+  the installation had been used, even though linked reversals restored balances.
+- Security advisors recorded109 predecessor findings and110 after AQ. The one
+  addition is reviewed INFO for the private rollback capsule's RLS without public
+  policies; unreviewed additions0. The109 baseline findings remain unresolved.
+- The original disposable AN database's complete ERP catalog/data remained
+  unchanged. Auth users/sessions/identities/refresh tokens all returned to0;
+  the AQ clone and temporary REST container were removed.
+
+CodeQL passed all four language jobs. Full-Schema35753835628 again failed
+`AC_ONLY_EXACT_SUCCESSOR_REPAIR_ALLOWED` before database business tests.
+The prior Final Boundary35751402410 remains a failure at its unchanged AI-R2
+source gate despite its successful frontend checks. Neither old gate was relaxed.
+
+AQ migration/rollback and pins reproduce byte-for-byte from the committed builder.
+Permanent AO/AP SQL stays immutable; the real deadlock counterexample and its AQ
+repair are both retained. Remaining work is legacy opening overlap, the combined
+affected-family global gate, independent acceptance and owner acceptance.
+No main/PR merge, hosted installation, production deployment or CP7 was performed.
