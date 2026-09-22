@@ -60,7 +60,7 @@ revoke all on erp.initial_import_production_sources,erp.initial_import_cost_orig
 
 VALIDATE=r"""create or replace function erp.validate_initial_import_production_v1(p_batch uuid) returns void
 language plpgsql security definer set search_path='' as $function$
-declare r record;j jsonb;k text;t text;q numeric;v numeric;v_po jsonb;v_model text;v_contractor text;
+declare r record;j jsonb;k text;t text;q numeric;v numeric;v_po jsonb;v_model text;v_size text;
 begin
  perform erp.require_owner_admin();
  for r in select * from erp.migration_staging_rows where batch_id=p_batch and entity_type='OPENING_BALANCE_ITEM'
@@ -77,6 +77,8 @@ begin
     raise exception 'stage: WIP memakai SEWING/LAUNDRY; BS boleh QC';end if;
    if j->>'stage'='SEWING' and nullif(j->>'contractor_code','') is null then raise exception 'contractor_code: mandor pemegang wajib diisi';end if;
    if j->>'stage'='LAUNDRY' and nullif(j->>'vendor_code','') is null then raise exception 'vendor_code: laundry pemegang wajib diisi';end if;
+   if t='BS' and coalesce(nullif(j->>'contractor_code',''),nullif(j->>'vendor_code',''),nullif(j->>'location_code','')) is null then
+    raise exception 'location_code: BS perlu gudang atau pihak pemegang yang diketahui';end if;
    if t='BS' and nullif(j->>'product_sku','') is null then raise exception 'product_sku: BS bernilai memerlukan identitas produk';end if;
    q:=(j->>'qty')::numeric;v:=coalesce(nullif(j->>'amount','')::numeric,q*nullif(j->>'unit_cost','')::numeric);
    if q<=0 or q<>trunc(q) or q>2147483647 or v is null or v<0 or v<>round(v,2) then
@@ -88,6 +90,10 @@ begin
      and s.entity_type='OPEN_PO' and s.normalized_payload->>'po_number'=j->>'po_number' and s.validation_status='VALID';
    if v_po is null then raise exception 'po_number: saldo fisik wajib menunjuk OPEN_PO valid dalam batch yang sama';end if;
    if v_po->>'status' in('FINISHED','CANCELLED') then raise exception 'po_number: saldo fisik belum selesai tidak boleh masuk PO selesai/batal';end if;
+   if coalesce(nullif(v_po->>'target_qty_pcs','')::numeric,0)<coalesce((select sum((s.normalized_payload->>'qty')::numeric)
+     from erp.migration_staging_rows s where s.batch_id=p_batch and s.entity_type='OPENING_BALANCE_ITEM'
+     and s.normalized_payload->>'po_number'=j->>'po_number' and upper(s.normalized_payload->>'balance_type') in('WIP','BS')),0) then
+    raise exception 'target_qty_pcs: jumlah PO wajib mencakup seluruh WIP dan BS fisik';end if;
    if nullif(j->>'model_code','') is not null and j->>'model_code'<>v_po->>'model_code' then raise exception 'model_code: model berbeda dengan PO';end if;
    if exists(select 1 from erp.production_orders p where p.po_number=j->>'po_number' and p.migration_batch_id is distinct from p_batch) then
     raise exception 'po_number: PO sudah memiliki riwayat di luar batch ini';end if;
@@ -98,6 +104,10 @@ begin
    if v_model is null then select normalized_payload->>'model_code' into v_model from erp.migration_staging_rows where batch_id=p_batch
      and entity_type='PRODUCT' and validation_status='VALID' and normalized_payload->>'sku'=j->>'product_sku';end if;
    if v_model is not null and v_model<>v_po->>'model_code' then raise exception 'product_sku: produk berbeda model dengan PO';end if;
+   select z.size_code into v_size from erp.products p join erp.sizes z on z.id=p.size_id where p.sku=j->>'product_sku';
+   if v_size is null then select normalized_payload->>'size_code' into v_size from erp.migration_staging_rows where batch_id=p_batch
+     and entity_type='PRODUCT' and validation_status='VALID' and normalized_payload->>'sku'=j->>'product_sku';end if;
+   if v_size is not null and v_size<>j->>'size_code' then raise exception 'size_code: ukuran fisik berbeda dengan produk';end if;
    if exists(select 1 from erp.migration_staging_rows s where s.batch_id=p_batch and s.entity_type='OPENING_BALANCE_ITEM'
      and upper(s.normalized_payload->>'balance_type')='WIP' and nullif(s.normalized_payload->>'po_number','') is null) then
     raise exception 'po_number: jangan campur ringkasan WIP tanpa PO dengan rincian fisik WIP/BS';end if;
@@ -192,6 +202,12 @@ def extend_production_contract(functions):
     needle='  for r in select * from erp.opening_balance_items where opening_id=h.id order by id loop\n    if r.balance_type='
     change(i,needle,needle.replace("    if r.balance_type=","    select * into v_source from erp.initial_import_production_sources where opening_item_id=r.id;\n    if r.balance_type="))
     change(i,"jsonb_build_object('mapping_key','WIP','debit',round(v_value,2),'credit',0)","jsonb_build_object('mapping_key','WIP','debit',round(v_value,2),'credit',0,'po_id',v_source.po_id)")
+    needle="    elsif r.balance_type='BS' then"
+    change(i,needle,r"""      if v_source.opening_item_id is not null then
+        insert into erp.wip_stage_events(po_id,stage_from,stage_to,qty_pcs,contractor_id,source_type,source_id,physical_at,created_by,notes)
+        values(v_source.po_id,null,v_source.stage,v_source.qty_pcs,r.contractor_id,'INITIAL_IMPORT_WIP_OPENING',r.id,h.opening_date::timestamp at time zone 'Asia/Jakarta',erp.current_app_user_id(),'Posisi fisik pada cutover; bukan penyelesaian kerja atau upah');
+      end if;
+"""+needle)
     change(i,"responsible_contractor_id,qty_pcs,status,physical_at,notes)","responsible_contractor_id,responsible_vendor_id,qty_pcs,status,physical_at,notes,legacy_reference)")
     change(i,"null,r.product_id,'UNKNOWN','UNKNOWN','LEGACY',r.contractor_id,r.qty::integer,'OPEN',v_product_at,r.notes);", "v_source.po_id,r.product_id,coalesce(v_source.stage,'UNKNOWN'),'UNKNOWN','LEGACY',r.contractor_id,r.vendor_id,r.qty::integer,'OPEN',v_product_at,r.notes,case when v_source.opening_item_id is not null then 'OPENING:'||r.id::text else null end) returning id into v_bs;\n        if v_source.opening_item_id is not null then\n          update erp.initial_import_production_sources set bs_case_id=v_bs where opening_item_id=r.id;\n          v_value:=v_source.original_amount;\n          if v_value>0 then v_lines:=v_lines||jsonb_build_array(jsonb_build_object('mapping_key','WIP','debit',v_value,'credit',0,'po_id',v_source.po_id));v_debits:=v_debits+v_value;end if;\n        end if;")
     i='erp.rebuild_po_hpp(uuid,text)'

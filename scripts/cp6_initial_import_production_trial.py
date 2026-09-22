@@ -47,6 +47,7 @@ def finalize(a,cur,f):
     assert counts()[:3]==prior[:3],'Opening fabricated historical production/payroll'
     batch=a.read(cur,f['batch'])['batch'];sources={r['balance_type']:r for r in batch['production_sources']}
     assert sources['WIP']['qty_pcs']==8 and sources['BS']['qty_pcs']==2
+    assert cur.execute("select sum(qty_pcs) from erp.wip_stage_events where source_type='INITIAL_IMPORT_WIP_OPENING' and source_id=%s",(sources['WIP']['opening_item_id'],)).fetchone()[0]==8
     return batch['uninvoiced_receipts'][0],sources
 
 
@@ -148,7 +149,7 @@ def sold_origin(a,cur,today):
     before=effects(a,cur);r,_=finalize(a,cur,f)
     product,location,customer=cur.execute('select p.id,l.id,c.id from erp.products p join erp.locations l on l.location_code=%s join erp.customers c on c.customer_code=%s where p.sku=%s',(f['code']+'F',f['code'],f['code'])).fetchone()
     sale=receipts.rpc(a,cur,'save_sale_draft_v2',json.dumps(dict(sale_number='ORIGIN-SALE-'+uuid.uuid4().hex,customer_id=customer,source_location_id=location,sale_date=str(a.production.at(today-timedelta(days=3),15)),reason='Sell sourced opening FG',items=[dict(product_id=product,qty_pcs=2,unit_price_snapshot='20',discount_amount=0)]),default=str),uuid.uuid4(),None)
-    receipts.rpc(a,cur,'post_sale',sale['sale_id'])
+    receipts.rpc(a,cur,'post_sale_v2',sale['sale_id'],uuid.uuid4(),sale['row_version'])
     invoiced=receipts.post_invoice(a,cur,receipts.invoice(a,cur,today,r,6,'14'));receipts.truth(cur);truth(cur)
     after=effects(a,cur)
     assert {k:after[k]-before[k] for k in after}==dict(MATERIAL_INVENTORY=D(48),WIP=D(72),FG_INVENTORY=D(12),COGS=D(12),OTHER_EXPENSE=D(0)),(before,after)
@@ -185,6 +186,10 @@ def refusal(a,cur,today,kind):
     elif kind=='MISSING_PO':rows[1]['po_number']='missing'
     elif kind=='FRACTIONAL_PCS':rows[1]['qty']='7.5'
     elif kind=='MISSING_COST':rows[2].pop('amount');rows[2].pop('unit_cost')
+    elif kind=='BS_SIZE_MISMATCH':
+        a.upload(cur,b,'SIZE',[dict(size_code=f['code']),dict(size_code=f['code']+'X')]);rows[2]['size_code']=f['code']+'X'
+    elif kind=='BS_MISSING_HOLDER':rows[2].pop('contractor_code');rows[2].pop('vendor_code')
+    elif kind=='PO_TARGET_TOO_SMALL':a.upload(cur,b,'OPEN_PO',[dict(po_number=f['code'],model_code=f['code'],contractor_code=f['code'],target_qty_pcs='9',status='SEWING',current_stage='SEWING')])
     elif kind=='ORIGIN_OVER_VALUE':origins[0]['qty']='5'
     elif kind=='ORIGIN_MISSING_TARGET':origins[0]['target_source_key']='missing'
     elif kind=='ORIGIN_DUPLICATE':origins.append(origins[0])
@@ -205,7 +210,7 @@ def refusal(a,cur,today,kind):
 def cases(a,cur,today):
     return [('PRODUCTION_ORIGIN:'+stage+':'+str(closed)+':'+str(full),lambda stage=stage,closed=closed,full=full:lifecycle(a,cur,today,stage,closed,full))
       for stage,closed,full in [('SEWING',False,False),('LAUNDRY',True,False),('LAUNDRY',False,True)]] + [
-      ('PRODUCTION_ORIGIN_REFUSAL:'+k,lambda k=k:refusal(a,cur,today,k)) for k in ['MISSING_CUSTODY','MISSING_PO','FRACTIONAL_PCS','MISSING_COST','ORIGIN_OVER_VALUE','ORIGIN_MISSING_TARGET','ORIGIN_DUPLICATE','ORIGIN_MISSING_RECEIPT','MISSING_ORIGIN','BS_CONTROL_VALUE','WIP_CONTROL_QUANTITY','OVER_OUTPUT','STALE_OUTPUT','WRONG_PRODUCT','OUTPUT_BEFORE_CUTOVER']] + [
+      ('PRODUCTION_ORIGIN_REFUSAL:'+k,lambda k=k:refusal(a,cur,today,k)) for k in ['MISSING_CUSTODY','MISSING_PO','FRACTIONAL_PCS','MISSING_COST','BS_SIZE_MISMATCH','BS_MISSING_HOLDER','PO_TARGET_TOO_SMALL','ORIGIN_OVER_VALUE','ORIGIN_MISSING_TARGET','ORIGIN_DUPLICATE','ORIGIN_MISSING_RECEIPT','MISSING_ORIGIN','BS_CONTROL_VALUE','WIP_CONTROL_QUANTITY','OVER_OUTPUT','STALE_OUTPUT','WRONG_PRODUCT','OUTPUT_BEFORE_CUTOVER']] + [
       ('PRODUCTION_ORIGIN_REWORK',lambda:rework(a,cur,today)),('PRODUCTION_ORIGIN_LATEST_DRAFT',lambda:latest_draft(a,cur,today)),
       ('PRODUCTION_ORIGIN_SOLD',lambda:sold_origin(a,cur,today)),('PRODUCTION_ORIGIN_GUARDS',lambda:source_guards(a,cur,today)),
       ('PRODUCTION_ORIGIN_GUARDS_FULLY_CONSUMED',lambda:source_guards(a,cur,today,True))]

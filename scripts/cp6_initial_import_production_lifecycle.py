@@ -34,11 +34,17 @@ end;$function$;"""
 
 BS_TRIGGER=r"""create or replace function erp.sync_initial_import_bs_disposition_v1() returns trigger
 language plpgsql security definer set search_path='' as $function$
-declare v_item uuid;v_date date;v_case uuid;
+declare v_item uuid;v_date date;v_case uuid;v_po_status text;
 begin
  if tg_op='DELETE' then v_case:=old.bs_case_id;v_date:=erp._cp3_business_date(statement_timestamp());
  else v_case:=new.bs_case_id;v_date:=erp._cp3_business_date(new.physical_at);end if;
  select opening_item_id into v_item from erp.initial_import_production_sources where bs_case_id=v_case;
+ if v_item is not null and tg_op='DELETE' then
+  if not pg_try_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0)) then raise exception 'WIP_VALUE_BUSY: penilaian stok sedang berubah, coba ulang';end if;
+  select p.status into v_po_status from erp.production_orders p join erp.initial_import_production_sources s on s.po_id=p.id
+   where s.opening_item_id=v_item for update of p;
+  if v_po_status in('FINISHED','CANCELLED') then raise exception 'Buka kembali PO sebelum mengembalikan saldo BS';end if;
+ end if;
  if v_item is not null then perform erp.sync_initial_import_bs_value_v1(v_item,v_date);end if;
  if tg_op='DELETE' then return old;end if;return new;
 end;$function$;"""
@@ -59,7 +65,7 @@ COMPLETE=r"""create or replace function erp.complete_initial_import_wip_v1(p_pay
 language plpgsql security definer set search_path='' set DateStyle='ISO, YMD' as $function$
 declare s erp.initial_import_production_sources%rowtype;i erp.opening_balance_items%rowtype;
  v_batch uuid;v_product uuid;v_location uuid;v_qty integer;v_remaining integer;v_lot uuid;v_output uuid;v_date date;v_at timestamptz;
- v_reason text;v_hpp numeric;v_prior record;v_movement uuid;v_op text:=coalesce(p_payload->>'operation','COMPLETE');
+ v_reason text;v_hpp numeric;v_prior record;v_movement uuid;v_po_status text;v_op text:=coalesce(p_payload->>'operation','COMPLETE');
 begin
  perform erp.require_owner_admin();perform erp.require_permission('settings.erp.view');
  perform erp.pocket_period_lock_v1();
@@ -68,6 +74,8 @@ begin
  if v_reason is null then raise exception 'reason: catatan penyelesaian wajib diisi';end if;
  select * into s from erp.initial_import_production_sources where opening_item_id=(p_payload->>'opening_item_id')::uuid and batch_id=v_batch for update;
  if s.opening_item_id is null or s.bs_case_id is not null then raise exception 'Saldo fisik WIP tidak ditemukan';end if;
+ select status into v_po_status from erp.production_orders where id=s.po_id for update;
+ if v_po_status in('FINISHED','CANCELLED') then raise exception 'Buka kembali PO sebelum mengubah hasil WIP saldo awal';end if;
  select * into strict i from erp.opening_balance_items where id=s.opening_item_id;
  if i.balance_type<>'WIP' or not exists(select 1 from erp.opening_balance_headers where id=i.opening_id and status='POSTED')
    or not exists(select 1 from erp.migration_batches where id=v_batch and status='POSTED') then raise exception 'Saldo awal harus sudah disahkan';end if;
