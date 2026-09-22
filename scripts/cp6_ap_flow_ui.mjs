@@ -2,7 +2,7 @@
 import assert from 'node:assert/strict'
 import { execFileSync, spawn } from 'node:child_process'
 import { randomBytes, randomUUID } from 'node:crypto'
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { writeFileSync } from 'node:fs'
 import http from 'node:http'
 import { resolve } from 'node:path'
 import { chromium, expect } from '@playwright/test'
@@ -12,13 +12,13 @@ const pg='postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback'
 const root=process.cwd(), dir=resolve('cp6-proof/ap-flow'), origin='http://127.0.0.1:4176', api='http://127.0.0.1:54328'
 const anon=process.env.SUPABASE_ANON_KEY, service=process.env.SUPABASE_SERVICE_ROLE_KEY
 assert.ok(anon&&service)
-const fixture=JSON.parse(readFileSync(resolve(dir,'FIXTURE.json'),'utf8'))
 const users=[], secrets=[anon,service], cases=[]
 const report={status:'INCOMPLETE',classification:'WRITER_REAL_AUTH_BROWSER_AP',cases,production_go:false,independent_acceptance:false,
   product_responses_mocked:false,phase:'SETUP',console_errors:[]}
 const sql=s=>execFileSync('psql',[pg,'-X','-qAt','-v','ON_ERROR_STOP=1','-c',s],{encoding:'utf8',stdio:['ignore','pipe','pipe']}).trim()
 const q=v=>"'"+String(v).replaceAll("'","''")+"'"
 const native=mode=>JSON.parse(execFileSync('python',['scripts/cp6_ap_flow_fixture.py',mode],{encoding:'utf8',stdio:['ignore','pipe','pipe']}))
+const fixture=native('identities')
 const save=()=>writeFileSync(resolve(dir,'FLOW.json'),JSON.stringify(report,null,2)+'\n')
 function phase(id){report.phase=id;save();console.log('AP flow: '+id)}
 function pass(id,detail={}){assert.ok(!cases.some(c=>c.id===id));cases.push({id,status:'PASS',...detail});save()}

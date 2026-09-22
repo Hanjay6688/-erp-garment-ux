@@ -65,3 +65,22 @@ the combobox role and label prefix; it does not force a click or mock responses.
 Both attempts preserved all7148 AP catalog entries,the primary ERP data,and zero
 Auth/clone/container residue. Attempt1 ZIP SHA256c6266e092c081fe204ba877c150de9153ba3203270b8249c5ff7f797f99369aa;
 attempt2 SHA256b1eb2e9662fb4704de6f437df283371a48df8911faf29a8db83d192af686df59.
+
+Third attempt `7c2f5e045c98bb190407237e0bf17db3c45e7b8a`, tree
+`e8b133d729c326fc244c31799343e40054200733`, run35748462817 completed21 observations.
+The complete CSV/edit/control/finalize/lost-response/reload/global-lock sequence
+passed through real Auth and HTTP, posting exactly17.25 once. The accessory
+workspace correctly rejected frozen legacy fixture UUIDs with zero version and
+variant bits. Its writer stayed disabled. Follow-up applies the already-used AN
+browser fixture transformation before insertion into a new clone, with original
+and transformed source hashes and a collision-checked identity map. The frozen
+seeds,the product parser,and posted rows are not edited. Artifact10703528329:
+2768296bytes,14entries,SHA25616eacbdcaad5b2e761bed3a8f69d9344491978a99adb6d3d48a216f3d4ef52c8.
+
+CodeQL35747713380 identified one `js/file-access-to-http` finding in the new
+harness: JSON fixture bytes flowed into a local HTTP request. The fixture file
+is now output-only evidence. The runner resolves known synthetic master keys
+directly from the verified disposable database before building requests; neither
+the browser nor the HTTP race runner consumes fixture files. The existing
+CodeQL rule and zero-findings gate remain unchanged. Finding artifact10703687143,
+SHA2564f9709822f003cfa4cda4147b4095e9683c14d9565f564dd6c4e0091c0d4b336,remains evidence.

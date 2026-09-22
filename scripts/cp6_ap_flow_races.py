@@ -7,12 +7,12 @@ from urllib.request import Request,urlopen
 from urllib.error import HTTPError
 import psycopg
 from psycopg import sql
-from cp6_ap_flow_fixture import PG,ADMIN,OUT,state
+from cp6_ap_flow_fixture import PG,ADMIN,OUT,state,identities
 from cp6_ao_ap_inventory import data
 
 assert os.environ.get('CP6_AP_FLOW_CONFIRM')=='cp6_rollback'
 TOKEN=os.environ['CP6_AP_FLOW_TOKEN'];ANON=os.environ['SUPABASE_ANON_KEY']
-F=json.loads((OUT/'FIXTURE.json').read_text())
+with psycopg.connect(ADMIN) as conn,conn.cursor() as cur:F=identities(cur)
 report=dict(status='INCOMPLETE',cases=[],production_go=False,independent_acceptance=False)
 def save():(OUT/'RACES.json').write_text(json.dumps(report,indent=2,default=str)+'\n')
 def rpc(name,args):
