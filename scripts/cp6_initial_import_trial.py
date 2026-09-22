@@ -8,7 +8,7 @@ import hashlib,json,os,subprocess,traceback,uuid
 import psycopg
 import cp6_v2620an_runtime as runtime
 import cp6_v2620al_import_review as inherited
-from cp6_v2620ap_definitions import FUNCTIONS,PREDECESSOR
+from cp6_v2620ap_definitions import FUNCTIONS,PREDECESSOR,SCHEMA
 from cp6_v2620n_rollback_guards import function_catalog
 
 ROOT=Path('cp6-proof/initial-import');ROOT.mkdir(parents=True,exist_ok=True)
@@ -194,6 +194,68 @@ def master_refusal(cur,today,kind):
  assert any(field in e for e in errors),errors
  return dict(status='PASS',refused_field=field,ledger_unchanged=True)
 
+def financial_batch(cur,today,code=None,document=True,rows=None):
+ code=code or 'D'+uuid.uuid4().hex[:10]
+ batch=call(cur,'CREATE',dict(batch_code='AP-'+uuid.uuid4().hex,cutover_date=str(today-timedelta(days=1))))['batch_id']
+ upload(cur,batch,'CUSTOMER',[dict(customer_code=code,customer_name='Imported open invoice')])
+ row=dict(balance_type='CUSTOMER_RECEIVABLE',customer_code=code,amount='67.25',control_key='AR')
+ if document:row.update(document_number='INV-'+code,document_date=str(today-timedelta(days=45)),due_date=str(today-timedelta(days=15)),original_amount='100.00',settled_before_cutover='32.75')
+ rows=rows or [row]
+ upload(cur,batch,'OPENING_BALANCE_ITEM',rows)
+ upload(cur,batch,'OPENING_CONTROL',[dict(control_key='AR',balance_type='CUSTOMER_RECEIVABLE',amount=str(sum(inherited.Decimal(r['amount']) for r in rows)))])
+ return batch,code,row
+
+def partial_invoice_settlement(cur,today):
+ batch,code,row=financial_batch(cur,today)
+ upload(cur,batch,'CHART_ACCOUNT',[dict(account_code=code,account_name='Payment bank',account_type='ASSET',report_group='CURRENT_ASSETS',normal_balance='DEBIT')])
+ upload(cur,batch,'CASH_ACCOUNT',[dict(cash_account_code=code,cash_account_name='Payment bank',coa_account_code=code,account_kind='BANK')])
+ payment_counts=lambda:tuple(cur.execute('select count(*) from erp.'+t).fetchone()[0] for t in ('sales_payments','supplier_payments','vendor_payments'))
+ before_counts=payment_counts();before_ledger=production.ledger(cur)
+ checked=invoke(cur,'VALIDATE',batch);assert checked['error_rows']==0,read(cur,batch)
+ assert production.ledger(cur)==before_ledger
+ assert cur.execute('select count(*) from erp.initial_import_financial_sources where batch_id=%s',(batch,)).fetchone()==(0,)
+ assert invoke(cur,'FINALIZE',batch)['status']=='POSTED',read(cur,batch)
+ assert payment_counts()==before_counts,'Imported historic payment was incorrectly posted as new cash'
+ source=cur.execute('select s.original_amount,s.settled_before_cutover,s.outstanding_amount,b.original_amount,b.settled_amount,b.id from erp.initial_import_financial_sources s join erp.opening_subledger_balances b on b.opening_item_id=s.opening_item_id where s.batch_id=%s',(batch,)).fetchone()
+ assert source[:5]==(inherited.Decimal('100'),inherited.Decimal('32.75'),inherited.Decimal('67.25'),inherited.Decimal('67.25'),0),source
+ cash=cur.execute('select id from erp.cash_accounts where cash_account_code=%s',(code,)).fetchone()[0]
+ cash_balance=lambda:cur.execute('select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l join erp.chart_accounts a on a.id=l.account_id where a.account_code=%s',(code,)).fetchone()[0]
+ assert cash_balance()==0
+ settlement=cur.execute("insert into erp.opening_subledger_settlements(settlement_number,balance_id,amount,cash_account_id,physical_at,status,created_by) values(%s,%s,7.25,%s,%s,'DRAFT',erp.current_app_user_id()) returning id",('DOC-'+uuid.uuid4().hex,source[5],cash,production.at(today-timedelta(days=1),18))).fetchone()[0]
+ cur.execute('select erp.post_opening_subledger_settlement(%s)',(settlement,))
+ assert cur.execute('select original_amount-settled_amount from erp.opening_subledger_balances where id=%s',(source[5],)).fetchone()==(inherited.Decimal('60.00'),)
+ assert cash_balance()==inherited.Decimal('7.25')
+ cur.execute('select erp.reverse_opening_subledger_settlement(%s,%s)',(settlement,'Native document settlement reversal'))
+ assert cur.execute('select original_amount-settled_amount from erp.opening_subledger_balances where id=%s',(source[5],)).fetchone()==(inherited.Decimal('67.25'),)
+ assert cash_balance()==0
+ return dict(status='PASS',original='100.00',paid_before_cutover='32.75',posted_outstanding='67.25',no_historic_cash_posting=True,later_payment_remaining='60.00',reversal_restores='67.25')
+
+def document_refusal(cur,today,kind):
+ batch,code,row=financial_batch(cur,today)
+ if kind in('CROSS_BATCH_DUPLICATE','CROSS_BATCH_SUMMARY'):
+  assert invoke(cur,'FINALIZE',batch)['status']=='POSTED',read(cur,batch)
+  batch,_,row=financial_batch(cur,today,code,document=kind=='CROSS_BATCH_DUPLICATE')
+  if kind=='CROSS_BATCH_DUPLICATE':
+   row['document_number']=row['document_number'].lower();upload(cur,batch,'OPENING_BALANCE_ITEM',[row])
+ elif kind=='SUMMARY_THEN_DOCUMENT':
+  summary={k:v for k,v in row.items() if k not in('document_number','document_date','due_date','original_amount','settled_before_cutover')}
+  upload(cur,batch,'OPENING_BALANCE_ITEM',[summary]);assert invoke(cur,'FINALIZE',batch)['status']=='POSTED',read(cur,batch)
+  batch,_,row=financial_batch(cur,today,code)
+ elif kind=='MIXED_SUMMARY':
+  summary={k:v for k,v in row.items() if k not in('document_number','document_date','due_date','original_amount','settled_before_cutover')}
+  upload(cur,batch,'OPENING_BALANCE_ITEM',[row,summary]);upload(cur,batch,'OPENING_CONTROL',[dict(control_key='AR',balance_type='CUSTOMER_RECEIVABLE',amount='134.50')])
+ elif kind=='DUPLICATE_WITHIN':
+  upload(cur,batch,'OPENING_BALANCE_ITEM',[row,row]);upload(cur,batch,'OPENING_CONTROL',[dict(control_key='AR',balance_type='CUSTOMER_RECEIVABLE',amount='134.50')])
+ elif kind=='WRONG_REMAINDER':row['settled_before_cutover']='33.75';upload(cur,batch,'OPENING_BALANCE_ITEM',[row])
+ elif kind=='FUTURE_DOCUMENT':row['document_date']=str(today);upload(cur,batch,'OPENING_BALANCE_ITEM',[row])
+ else:raise AssertionError(kind)
+ before=production.ledger(cur);count=cur.execute('select count(*) from erp.initial_import_financial_sources').fetchone()[0]
+ result=invoke(cur,'FINALIZE',batch);assert result['status']=='DRAFT' and result['error_rows']>0,read(cur,batch)
+ assert production.ledger(cur)==before and cur.execute('select count(*) from erp.initial_import_financial_sources').fetchone()[0]==count
+ errors=[e for r in read(cur,batch)['batch']['rows'] if r['entity']=='OPENING_BALANCE_ITEM' for e in r['errors']]
+ assert any(('amount:' if kind=='WRONG_REMAINDER' else 'document_date:' if kind=='FUTURE_DOCUMENT' else 'document_number:') in e for e in errors),errors
+ return dict(status='PASS',refusal=kind,ledger_unchanged=True,source_registry_unchanged=True)
+
 save()
 try:
  with psycopg.connect(URL) as conn,conn.cursor() as cur:
@@ -206,6 +268,7 @@ try:
    found=cur.execute('select pg_get_functiondef(p.oid),p.proacl::text,pg_get_userbyid(p.proowner) from pg_proc p where p.oid=to_regprocedure(%s)',(identity,)).fetchone()
    assert found==(definition,acl,owner),identity
   cur.execute('set local role postgres')
+  cur.execute(SCHEMA,prepare=False)
   for identity,definition in FUNCTIONS.items():
    cur.execute(definition,prepare=False)
    if identity not in {r[0] for r in PREDECESSOR}:
@@ -224,6 +287,8 @@ try:
   cases=[('REVISION_TIMEZONE',lambda:revision_zone(cur,today)),('PHYSICAL_MATERIAL',lambda:physical_stock(cur,today)),('PHYSICAL_ROLL',lambda:physical_stock(cur,today,True)),('LATEST_DRAFT_TOTALS_REPLAY',lambda:lifecycle(cur,today)),('EXCESS_PRECISION',lambda:numeric_refusal(cur,today)),('MISSING_CONTROL',lambda:control_refusal(cur,today,'MISSING')),('DUPLICATE_CONTROL',lambda:control_refusal(cur,today,'DUPLICATE')),('REVOKED_OWNER',lambda:authorization(cur,today))]
   cases += [('MASTER_OPENING_FAMILY',lambda:master_opening_family(cur,today))]
   cases += [('MASTER_REFUSAL:'+k,lambda k=k:master_refusal(cur,today,k)) for k in ('CYCLE','MISSING_PARENT','ACCOUNT_SEMANTICS','CASH_NON_ASSET','BAD_LOCATION','DUPLICATE_VENDOR')]
+  cases += [('PARTLY_PAID_DOCUMENT',lambda:partial_invoice_settlement(cur,today))]
+  cases += [('DOCUMENT_REFUSAL:'+k,lambda k=k:document_refusal(cur,today,k)) for k in ('CROSS_BATCH_DUPLICATE','CROSS_BATCH_SUMMARY','SUMMARY_THEN_DOCUMENT','MIXED_SUMMARY','DUPLICATE_WITHIN','WRONG_REMAINDER','FUTURE_DOCUMENT')]
   for name,fn in cases:
    admin(cur);before=actors.boundary(cur);cur.execute('savepoint proposed_case')
    try:result=fn()

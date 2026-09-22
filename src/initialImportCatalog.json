@@ -244,7 +244,12 @@
       "hpp_input_method": "Cara isi HPP",
       "hpp_percent_of_price": "Persentase HPP",
       "notes": "Catatan",
-      "control_key": "Kode total pembanding"
+      "control_key": "Kode total pembanding",
+      "document_number": "Nomor dokumen asal",
+      "document_date": "Tanggal dokumen asal",
+      "due_date": "Tanggal jatuh tempo",
+      "original_amount": "Nominal dokumen awal",
+      "settled_before_cutover": "Sudah dibayar sebelum saldo awal"
     }
   },
   "OPEN_PO": {

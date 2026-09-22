@@ -108,11 +108,11 @@ begin
            raise exception 'Baris %, kolom %: nama kolom atau tipe data tidak valid',v_line,v_field; end if;
          v_text:=btrim(v_text);
          if length(v_text)>20000 then raise exception 'Baris %, kolom % terlalu panjang',v_line,v_field; end if;
-         if v_field in('qty','opening_qty','unit_cost','amount','hpp_percent_of_price','target_dozens','target_qty_pcs','sort_order') and v_text<>'' then
+         if v_field in('qty','opening_qty','unit_cost','amount','original_amount','settled_before_cutover','hpp_percent_of_price','target_dozens','target_qty_pcs','sort_order') and v_text<>'' then
            if v_text !~ '^-?[0-9]+([.,][0-9]+)?$' then
              raise exception 'Baris %, kolom %: isi angka tanpa pemisah ribuan',v_line,v_field; end if;
            v_text:=replace(v_text,',','.');v_number:=v_text::numeric;
-           if (v_field='amount' and v_number<>round(v_number,2))
+           if (v_field in('amount','original_amount','settled_before_cutover') and v_number<>round(v_number,2))
              or (v_field in('qty','opening_qty','unit_cost','target_dozens') and v_number<>round(v_number,6))
              or (v_field='hpp_percent_of_price' and v_number<>round(v_number,4))
              or (v_field in('target_qty_pcs','sort_order') and v_number<>trunc(v_number)) then
@@ -251,3 +251,6 @@ FUNCTIONS['erp.save_initial_import_action_v1(text,jsonb,uuid)']=COMMAND
 
 from cp6_initial_import_masters import extend_master_contract
 extend_master_contract(FUNCTIONS)
+
+from cp6_initial_import_financial_sources import SCHEMA, extend_financial_contract
+extend_financial_contract(FUNCTIONS)
