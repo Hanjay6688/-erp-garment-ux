@@ -1,3 +1,84 @@
+# CP6 — pembagian kain kantong per periode terverifikasi
+
+22 September 2026. **CP6_HOLD · production_go:false · migration_installed:false · independent_acceptance:false.**
+
+VENI. VIDI. VICI. ERP. — I CONQUERED ERP.
+Reliable data adalah dewa.
+Keuangan—termasuk laporan—stok, dan HPP adalah raja.
+
+## Bukti terbaru
+
+| Bukti | Hasil |
+| --- | --- |
+| Repository / branch | Hanjay6688/-erp-garment-ux / competition/cp6-j-closure-20260911 |
+| Tested commit | `c40332c8ec594a75c04c0c4994d671580c897456` |
+| Tested tree | `aab9f0f80ab839a0e49506a70a1300fb8a47a1e3` |
+| Native gate | [35715449337 SUCCESS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35715449337), job106705744294 |
+| Proposal AP gabungan AO+AP | **136/136 PASS**:103 impor +17 stok kain kantong +16 pembagian periode |
+| AO biaya/eceran pada AN | **12/12 PASS** |
+| Frontend/recovery | **84/84 PASS**:72 existing +12 connected DOM kain kantong |
+| TypeScript; source/access/CSS/recovery ownership | PASS |
+| CodeQL | [35715449278 SUCCESS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35715449278), empat bahasa |
+| Artifact native |10688624847,122.802byte,11entri ZIP |
+| SHA256 artifact native | `6d8be12e48380ede69afd3fe669e6868ea66bf38980225509440d1bcbf3924f7` |
+| Main saat diverifikasi | `557005e6674058f1e5e966b350cba05501e06182` |
+
+CRC dan SHA256 ZIP cocok. SOURCE.json menunjuk tepat ke tested commit/tree.136 AP dan12 AO seluruhnya PASS dengan boundary_restored:true; kedua laporan complete_boundary_restored:true. AP combined_ao_ap:true. Seluruh flag deployment/migrasi/acceptance independen tetap false. Database disposable memakai Supabase CLI2.116.0/PostgreSQL17.6.1.165 dan katalog AC→AN yang dipin; proposal beserta fixture di-ROLLBACK dan runtime dibersihkan.
+
+## Keputusan owner dan cara pakai
+
+Owner mengizinkan pembagian per periode melalui “ya gas lah tanggung ye”. Ini melanjutkan keputusan pengurangan stok kain kantong universal. Pengambilan bebas, pemotongan bebas dan sisa per mandor tetap tidak perlu dicatat. Saldo yang diketahui adalah kain di gudang; nilai keluar menjadi dasar alokasi bersama, tanpa mengklaim konsumsi aktual per celana atau on-hand mandor.
+
+Menu Gudang → Kain kantong tetap mendukung jumlah keluar atau hitung sisa roll. Pengurangan stok terlebih dahulu mencatat biaya periode. Opsi **Bagi ke HPP per periode** menambah alur: pilih tanggal awal/akhir, lihat jumlah biaya dan hasil jahit, lalu sahkan. Membuka pratinjau dan mengubah formulir belum menulis ledger. Alokasi memerlukan hak warehouse.stock.adjust dan finance.hpp.manage pada owner/admin.
+
+Denominator adalah seluruh pcs **SELESAI_DIJAHIT** yang sah pada periode, termasuk **Afui**. Kebijakan mandor khusus tanpa absensi tidak mengecualikannya dari kain kantong. Biaya dibagi per pcs hasil jahit; bagian yang belum menjadi FG tinggal di WIP. Pemakaian stok tanpa pengesahan alokasi tetap tersedia dan tidak menambah HPP produk.
+
+Pengesahan mengalihkan biaya periode ke WIP per PO, lalu perhitungan HPP native meneruskannya ke barang jadi dan barang terjual. Tidak ada pengurangan stok kedua atau biaya ganda. Koreksi harga nota memperbarui biaya sumber, alokasi, HPP, jurnal dan laporan. Tanggal ekonomi seluruh jurnal koreksi mengikuti invoice; periode tertutup memakai tanggal pembukuan canonical. Pembatalan alokasi membalik perpindahan biaya dan menghitung ulang HPP, tanpa mutasi stok.
+
+## Hasil transaksi yang dibuktikan
+
+Empat lifecycle mencakup mandor biasa dan mandor khusus, periode terbuka/tertutup, UTC/Pacific-Kiritimati.10pcs selesai dijahit;5pcs telah menjadi FG, terdiri atas3pcs masih tersedia dan2pcs terjual.5pcs lain masih WIP. Berikut bagian biaya kain kantong yang berpindah, terpisah dari biaya produksi yang sudah ada:
+
+| Nilai kain keluar | Tambahan WIP | Tambahan FG tersedia | Tambahan COGS/HPP penjualan |
+| --- | ---: | ---: | ---: |
+|11,25 sebelum koreksi nota |5,62 |3,38 |2,25 |
+|15,00 setelah koreksi nota |7,50 |4,50 |3,00 |
+
+Saldo kain tetap15 setelah pengeluaran awal5 dari20. Replay UUID tidak menggandakan transaksi. Laporan owner cocok dengan ledger, termasuk material inventory, WIP, FG, COGS, biaya lainnya dan neraca seimbang. Cancel alokasi memulihkan HPP; setelah nota dibalik, semua akun persis kembali ke baseline. Header/snapshot sumber tidak ditulis ulang. Alokasi baru pada periode yang sama dapat dibuat setelah yang lama dibatalkan.
+
+Kasus campuran mandor biasa dan khusus membagi11,25 pada20pcs menjadi5,63 dan5,62 per kelompok10pcs; seluruh sen habis terbagi. Urutan deterministik dan selisih pembulatan kumulatif mencegah kehilangan/kelebihan biaya. Cancel memulihkan semua akun.
+
+Delapan penolakan mencakup sumber biaya berubah sejak preview, tanggal masa depan, rentang terbalik/terlalu panjang, alasan kosong, periode tumpang tindih, tanpa hasil jahit dan periode kosong. Guard menolak inverse sumber yang sedang dialokasikan, pengeluaran baru dalam periode aktif, koreksi denominator hasil jahit, inverse jurnal tanpa periode, dan perubahan langsung histori immutable. Penolakan guard wajib memuat pesan bisnis yang tepat; ACL denial tidak dihitung sebagai bukti guard. Actor yang dinonaktifkan tidak dapat preview atau replay write.
+
+Uji dua koneksi membuktikan mutex menolak konflik secara atomik dan dapat dicoba setelah lock dilepas. Ini bukti mutex saja; seluruh transaksi bisnis serentak belum diuji.12 DOM cases mencakup exact decimal/versi besar, draft tanpa efek, stock stale, preview tanpa write, tanggal preview berubah/tidak cocok, overlap/output kosong, permission, alasan cancel, serta respons hilang dan remount dengan UUID/payload yang sama.
+
+## Batas implementasi
+
+Manifest menyimpan sumber pengeluaran, biaya saat disahkan, event hasil jahit, mandor, PO, kelompok cutting dan posisi alokasi. Riwayat pool/source/destination/event immutable, privat dan RLS. Status aktif dibaca dari event pembatalan, tanpa mengubah histori lama. Revision dibaca ulang saat pengesahan di bawah mutex; snapshot diperiksa konsisten dalam UTC.
+
+Periode aktif tidak boleh saling tumpang tindih. Jika sumber pengeluaran atau hasil jahit yang memengaruhi denominator/urutan perlu diubah, batalkan alokasi terkait lalu hitung ulang. Koreksi harga nota memakai recost tertaut dan tidak memerlukan pengurangan stok baru. Mutex memakai try-lock agar konflik urutan lock dengan penulis biaya/produksi gagal atomik, bukan deadlock. Global recovery memakai domain POCKET_FABRIC dan UUID existing; izin diperiksa sebelum cache idempotensi.
+
+79 fungsi AP +11 AO;25 predecessor AP +11 AO.40source pins;103 runtime files,28browser RPC,111permissions,48route/nav labels,20sensitive actions,37stylesheet,7recovery domains. Native rebuild_po_hpp dipin dari predecessor dan ditambah komponen OTHER/POCKET_PERIOD_ALLOCATION. Kebijakan absensi, harga eceran aksesori dan model potongan kain utama tidak diganti.
+
+## Bukti gagal yang dipertahankan
+
+Native [35714697164 FAILURE](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35714697164), job106703320497, commit5d5242d422628ef9aee3b922b36260730b98a8e0:136 AP berjalan,132PASS/4INCOMPLETE;12AO dan84frontend PASS; seluruh boundary pulih. Satu pemeriksaan snapshot bergantung zona sesi; diperbaiki dengan UTC. Tiga kasus fixture mandor khusus memanggil primitive private yang EXECUTE-nya dicabut; diganti ke facade publik existing sebagai actor biasa. Tidak ada pelebaran ACL. Artifact10688353421,123.792byte,11entri,SHA256e89aff4b4a37c62281a74795d61d23a3227b5eb28fbb5a15f3ebc31e484a4b36.
+
+[Final Boundary35714697227 FAILURE](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35714697227), job106703317931: harness lama menolak scope successor AJ→AP pada langkah Verify unchanged AI-R2 backend and bounded writer UI scope, sebelum audit database berjalan. Guard tidak dilonggarkan; ini tetap blocker global. Artifact10688343222,478.406byte,7entri,SHA256f82af0b6734494671faccfc3f540704f54f5b552e205f41b571761f3022ff2ba. Bukti gagal stok-only dari checkpoint sebelumnya tetap dipertahankan dalam histori dokumen.
+
+## Status dan kelanjutan
+
+Keluarga pembagian kain kantong selesai pada tingkat writer native/DOM. **CP6 keseluruhan masih HOLD.** Nama workflow “Final Boundary” bukan pernyataan ERP sudah final. Belum ada migrasi permanen, HTTP/browser nyata untuk keluarga ini, concurrency seluruh transaksi bisnis, ataupun acceptance independen. Main, PR24/25, hosted UAT, legacy/prod dan CP7 tidak diubah. Matriks historis global tidak dieksekusi ulang.
+
+Kelanjutan ALL yang sudah diizinkan: WIP fisik per ukuran/tahap/pemegang dan nilai BS beserta asal biaya penerimaan terpakai sebelum cutover; form eceran aksesori terhubung; paket migrasi AO/AP dan rollback maintenance; HTTP/browser/concurrency, perlindungan opening lama, kemudian acceptance independen. Satu writer, fast-forward saja, tanpa persetujuan scope berulang.
+
+Aturan sebelumnya tetap: draft impor dapat diedit dan pengesahan memakai isi terakhir; total kontrol tidak dibukukan; replay tidak menggandakan transaksi. **7 PCS adalah aksesori** dengan harga eceran manual, master lusin/gross tetap. Mandor Epi, Selo, Afat, Afui; Afui khusus tanpa absensi, komisi lebih tinggi dan tiga kategori aksesori gratis. Keputusan kain kantong per periode terbaru di atas menggantikan keterangan lama “opsi mendatang/belum dibuat”; bagian lama disimpan sebagai histori.
+
+
+---
+
+# Riwayat checkpoint dan proposal sebelumnya
+
 # CP6 — koreksi pemeriksaan zona waktu dan fixture mandor khusus
 
 Native35714697164 pada commit5d5242d422628ef9aee3b922b36260730b98a8e0/treeb19efae6832443c81d80c3d616adc51a56120517 menjalankan136 AP: **132 PASS /4 INCOMPLETE**, seluruh boundary kembali;12 AO dan84 frontend PASS. Siklus mandor biasa/UTC selesai sampai recost, cancel, invoice inverse dan realokasi. Mutex dua koneksi,8 penolakan periode, guard sumber/denominator dan authorization PASS.
