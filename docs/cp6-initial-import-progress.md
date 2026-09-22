@@ -1,3 +1,70 @@
+# CP6 AP — master dan dokumen saldo awal, checkpoint lanjutan
+
+**22 September 2026 · CP6_HOLD · production_go:false · migration_installed:false · independent_acceptance:false.**
+
+VENI. VIDI. VICI. ERP. — I CONQUERED ERP.
+Reliable data adalah dewa.
+Keuangan—termasuk laporan—stok, dan HPP adalah raja.
+
+Lapisan ini melanjutkan checkpoint 8+10 di bawah. Owner meminta lanjut dan menegaskan bahwa **7 PCS adalah aksesori**. Keputusan tanggal invoice, harga eceran manual per buah, dan scope **ALL impor** tetap berlaku; jangan meminta keputusan yang sama lagi.
+
+## Sumber dan bukti terbaru
+
+| Item | Nilai |
+| --- | --- |
+| Branch penulis tunggal | competition/cp6-j-closure-20260911 · fast-forward saja |
+| Commit yang diuji | `8a7616f823d409a1d086690f2391c965e932cf0a` |
+| Tree yang diuji | `d71425b722efab8aa8225f64491547ab2cea7d04` |
+| Native | [35684520266 SUCCESS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35684520266) · job106608391252 |
+| Impor AP | **28/28 PASS**, 0 unfinished |
+| Biaya/eceran AO | **10/10 PASS**, 0 unfinished |
+| Frontend/recovery | **62/62 di CI**; **85/85 lokal** termasuk23 recovery produksi existing |
+| Pemeriksaan lain | TypeScript, source/access/recovery/CSS dan [CodeQL35684520242](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35684520242) PASS |
+| Artifact | `10675464571` · 51.228byte · 11entriZIP |
+| SHA256 artifact | `4089be3dd968c1c8d5a10e7ed1de67aba16b7afcb12c5fff75f1a1e2e6803805` |
+| Main terverifikasi | `557005e6674058f1e5e966b350cba05501e06182` · tidak diubah |
+
+CRC, hash, SHA/tree, jumlah/status seluruh kasus, restoration, serta flag hold pada laporan ZIP sudah dicocokkan. Kedua proposal tetap hanya dipasang dalam transaksi uji yang dibatalkan pada database disposable AC→AN. Data/fungsi kembali ke batas sebelumnya dan database dibersihkan. Ini tidak membuktikan deployment rollback atau pemasangan migrasi permanen.
+
+## Perubahan yang sudah teruji
+
+**Empat master baru:** LAUNDRY_VENDOR, LOCATION, CHART_ACCOUNT dan CASH_ACCOUNT. Kini17 jenis template/entity berjalan melalui uploader yang sama. Akun induk boleh muncul setelah anak di CSV. Validasi memeriksa graf induk tanpa membuat akun pada preview; siklus dan induk hilang ditolak. Impor menolak perubahan arti/induk/status akun buku besar existing, pemindahan rekening existing ke COA lain, COA kas yang bukan ASSET aktif/postable, jenis lokasi tidak dikenal, dan master ganda. Guard stok dan akun existing tetap digunakan.
+
+**Satu batch17 jenis** diuji dari master yang belum ada sampai opening dan OPEN_PO. Preview tidak mengubah master/jurnal/stok. Posting menghasilkan tepat11 rincian opening, dengan stock/roll, FG, BS fisik, WIP nilai, kas, dan kelima jenis saldo pihak yang diharapkan. Sebelas total pembanding tidak ikut menjadi opening. OPEN_PO hanya header/target/status; **WIP fisik tidak diklaim**.
+
+**Dokumen piutang/utang yang sudah dibayar sebagian:** kolom nomor/tanggal/jatuh tempo, nominal awal, dan pembayaran sebelum cutover ditambahkan pada OPENING_BALANCE_ITEM. Nilai awal100 dikurangi pembayaran lama32,75 harus sama dengan amount/saldo67,25. Nominal dan pembayaran lama disimpan sebagai fakta asal pada registry privat; opening subledger/jurnal hanya mengakui67,25. Tidak dibuat invoice penjualan/pembelian atau arus kas historis palsu.
+
+Kelima saldo diuji: CUSTOMER_RECEIVABLE, SUPPLIER_PAYABLE, VENDOR_PAYABLE, CONTRACTOR_RECEIVABLE dan CONTRACTOR_PAYABLE. Bank awal100 tetap100 saat impor; pembayaran berikut7,25 memberi sisa60 dan arus bank yang tepat; reversal kembali ke67,25 dan bank100. Empat pemeriksaan canonical atas sumber/jurnal, orphan, status saldo dan tanggal tetap0 temuan sebelum/sesudah impor, settlement dan reversal pada setiap jenis pihak.
+
+**Pencegahan pencatatan ganda:** nomor dokumen yang sama pada pihak/jenis saldo yang sama ditolak dalam maupun lintas batch, termasuk beda huruf besar/kecil. Ringkasan saldo dan rincian dokumennya tidak boleh dicampur walaupun total kontrol secara aritmetika cocok. Dua dokumen berbeda pada pihak yang sama boleh masuk dan berjumlah134,50 sesuai data. Nominal sisa salah atau tanggal dokumen melewati cutover ditolak tanpa perubahan ledger/registry. Saat pencatatan, advisory lock per pihak/jenis saldo dan unique index melindungi identitas sumber; **jadwal concurrency antarsesi belum dikualifikasi oleh trial ini**.
+
+## Urutan bukti gelombang ini
+
+| Commit | Native | Hasil |
+| --- | --- | --- |
+| `4ed70c35cc3d7db78b0a8fced9652d0411c4142d` | `35683545804` | 15AP +10AO PASS · master dan seluruh17 entity |
+| `d50d0ebe7990d9f35265324eb8f3d67cd1307f96` | `35684189688` | 23AP +10AO PASS · dokumen parsial/penolakan duplikat |
+| `8a7616f823d409a1d086690f2391c965e932cf0a` | `35684520266` | 28AP +10AO PASS · seluruh5 saldo pihak dan oracle jurnal/tanggal |
+
+Commit terakhir menambah penguji/pin terhadap produk d50. Rangkaian lama di bawah tetap bukti historis sesuai SHA masing-masing; hasilnya tidak diubah menjadi hasil baru.
+
+## Yang masih terbuka dan urutan lanjut
+
+- ALL masih memerlukan **uang muka, penerimaan belum ditagih, serta WIP fisik per ukuran/tahap/custody**. Opening BS yang diuji masih fisik saja; kebutuhan nilainya belum selesai. Tidak ada tabel advance dedicated dalam schema AN yang diperiksa; jangan menyamakan uang muka dengan saldo pihak tanpa kontrak pelunasan/alokasinya.
+- Dokumen parsial sudah mempunyai provenance dan dapat diteruskan melalui settlement opening canonical. Ini tidak membuatnya menjadi ordinary sales/supplier-invoice history; penerimaan belum ditagih beserta pencocokan tagihan/stok masih harus disambungkan terpisah.
+- Guard lintas batch terbukti untuk jalur impor baru, termasuk penolakan jika saldo pihak sudah ada lewat opening lama. Jalur direct legacy yang membukukan opening setelah impor, koreksi dokumen, serta race antarsesi masih perlu pemetaan/tes sebelum mengklaim perlindungan global.
+- Form aksesori yang benar-benar terhubung, reader, dan HTTP/browser masih perlu selesai. Tetap7PCS aksesori × harga manual; jangan mengganti keputusan owner dengan pecahan lusin.
+- Tidak ada migrasi AO/AP dan rollback maintenance terikat sumber yang terpasang. Bentuk paket setelah kontrak produk stabil, lalu uji runtime gabungan AO+AP (trial sekarang masing-masing di atas AN), jalur public HTTP/browser, rollback/refusal/cleanup, dan seluruh keluarga tanggal/invoice direct/reverse yang terdampak.
+- Audit independen tetap belum lulus. Workflow lama yang menolak scope successor tidak boleh dilabel ulang PASS. Main/PR24/25/hosted DB/deploy/CP7 tidak ditulis.
+
+Workflow legacy Final Boundary Audit `35683545792` dan `35684189846` tetap **FAIL** pada `Verify unchanged AI-R2 backend and bounded writer UI scope`, sebelum pengujian bisnis successor. Workflow tersebut tidak diubah untuk meloloskan scope baru; native trial khusus di atas tidak menggantikan acceptance gate itu.
+
+Jangan mengulang matrix historis yang masih terikat sumber hanya untuk menambah angka; perubahan fungsi/kontrak yang memengaruhi bukti wajib mempunyai pengujian keluarga yang tepat. Simpan branch tunggal, idempotency, draft inert, latest-data finalization, append-only correction dan laporan filed yang tetap utuh.
+
+---
+
+# Riwayat checkpoint pertama — status historis pada 1b3fbaa
+
 # CP6 AO/AP — verified writer trial, 22 September 2026
 
 VENI. VIDI. VICI. ERP. — I CONQUERED ERP.
