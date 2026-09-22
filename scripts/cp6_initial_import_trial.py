@@ -8,13 +8,20 @@ import hashlib,json,os,subprocess,traceback,uuid
 import psycopg
 import cp6_v2620an_runtime as runtime
 import cp6_v2620al_import_review as inherited
-from cp6_v2620ap_definitions import FUNCTIONS,PREDECESSOR,SCHEMA
+from cp6_v2620ap_definitions import FUNCTIONS,PREDECESSOR,SCHEMA,TRIGGERS
+from cp6_v2620ao_definitions import FUNCTIONS as AO_FUNCTIONS,PREDECESSOR as AO_PREDECESSOR,SCHEMA as AO_SCHEMA
+from cp6_initial_import_receipt_trial import cases as receipt_cases
+from types import SimpleNamespace
+assert not (set(FUNCTIONS) & set(AO_FUNCTIONS))
+FUNCTIONS={**AO_FUNCTIONS,**FUNCTIONS}
+PREDECESSOR=AO_PREDECESSOR+PREDECESSOR
+SCHEMA=AO_SCHEMA+SCHEMA
 from cp6_v2620n_rollback_guards import function_catalog
 
 ROOT=Path('cp6-proof/initial-import');ROOT.mkdir(parents=True,exist_ok=True)
 actors,base,production=inherited.actors,inherited.base,inherited.production
 URL='postgresql://supabase_admin:postgres@127.0.0.1:54322/postgres'
-report=dict(status='INCOMPLETE',head=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),cases={},production_go=False,independent_acceptance=False,migration_installed=False)
+report=dict(combined_ao_ap=True,status='INCOMPLETE',head=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),cases={},production_go=False,independent_acceptance=False,migration_installed=False)
 def save(): (ROOT/'NATIVE_TRIAL.json').write_text(json.dumps(report,indent=2,default=str)+'\n')
 def admin(cur):actors.admin(cur)
 def ordinary(cur):
@@ -295,6 +302,7 @@ try:
    if identity not in {r[0] for r in PREDECESSOR}:
     cur.execute(f'revoke all on function {identity} from public,anon,authenticated,service_role')
     if identity.startswith('public.'):cur.execute(f'grant execute on function {identity} to authenticated,service_role')
+  cur.execute(TRIGGERS,prepare=False)
   admin(cur)
   installed=function_catalog(cur)
   public=cur.execute("select 'public.'||p.oid::regprocedure::text,pg_get_functiondef(p.oid),p.proacl::text,pg_get_userbyid(p.proowner) from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public' and p.proname in('erp_get_initial_import_workspace_v1','erp_save_initial_import_action_v1') order by 1").fetchall()
@@ -311,6 +319,7 @@ try:
   cases += [('PARTLY_PAID_DOCUMENT:'+t,lambda t=t:partial_invoice_settlement(cur,today,t)) for t in ('CUSTOMER_RECEIVABLE','SUPPLIER_PAYABLE','VENDOR_PAYABLE','CONTRACTOR_RECEIVABLE','CONTRACTOR_PAYABLE')]
   cases += [('DISTINCT_DOCUMENTS_SAME_PARTY',lambda:distinct_documents(cur,today))]
   cases += [('DOCUMENT_REFUSAL:'+k,lambda k=k:document_refusal(cur,today,k)) for k in ('CROSS_BATCH_DUPLICATE','CROSS_BATCH_SUMMARY','SUMMARY_THEN_DOCUMENT','MIXED_SUMMARY','DUPLICATE_WITHIN','WRONG_REMAINDER','FUTURE_DOCUMENT')]
+  cases += receipt_cases(SimpleNamespace(**globals()),cur,today)
   for name,fn in cases:
    admin(cur);before=actors.boundary(cur);cur.execute('savepoint proposed_case')
    try:result=fn()

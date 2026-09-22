@@ -254,3 +254,8 @@ extend_master_contract(FUNCTIONS)
 
 from cp6_initial_import_financial_sources import SCHEMA, extend_financial_contract
 extend_financial_contract(FUNCTIONS)
+
+from cp6_initial_import_receipts import SCHEMA as RECEIPT_SCHEMA, TRIGGERS, PREDECESSOR as RECEIPT_PREDECESSOR, extend_receipt_contract
+SCHEMA += RECEIPT_SCHEMA
+PREDECESSOR += RECEIPT_PREDECESSOR
+extend_receipt_contract(FUNCTIONS)
