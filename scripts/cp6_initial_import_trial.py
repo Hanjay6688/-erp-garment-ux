@@ -69,7 +69,8 @@ def physical_stock(cur,today,roll=False):
  batch=call(cur,'CREATE',dict(batch_code='AP-'+uuid.uuid4().hex,cutover_date=str(today-timedelta(days=1))))['batch_id']
  code='AP-'+uuid.uuid4().hex[:14]
  location=cur.execute("insert into erp.locations(location_code,location_name,location_type,is_active) values(%s,'AP physical warehouse','RAW_MATERIAL_WAREHOUSE',true) returning location_code",(code,)).fetchone()[0]
- upload(cur,batch,'MATERIAL',[dict(material_sku=code,material_name='AP opening physical stock',material_type='FABRIC' if roll else 'OTHER',unit_code='yd' if roll else 'PCS')])
+ unit=cur.execute("select unit_code from erp.uom_definitions where dimension='LENGTH' and is_active and unit_code=upper(unit_code) order by unit_code limit 1").fetchone()[0] if roll else 'PCS'
+ upload(cur,batch,'MATERIAL',[dict(material_sku=code,material_name='AP opening physical stock',material_type='FABRIC' if roll else 'OTHER',unit_code=unit)])
  if roll:
   upload(cur,batch,'MATERIAL_ROLL',[dict(material_sku=code,roll_number=code,opening_qty='7',unit_cost='2.25',location_code=location,control_key='STOCK')])
  else:
@@ -80,6 +81,13 @@ def physical_stock(cur,today,roll=False):
  values=cur.execute('select sum(s.qty_signed),sum(s.qty_signed*s.unit_cost_snapshot),count(*) from erp.material_stock_movements s join erp.materials m on m.id=s.material_id where m.material_sku=%s',(code,)).fetchone()
  assert values==(7,inherited.Decimal('15.75'),1),values
  return dict(status='PASS',qty='7',value='15.75',stock_movements=1,roll=roll)
+
+def revision_zone(cur,today):
+ batch,_,_=valid(cur,today)
+ cur.execute("set local timezone='UTC'");a=read(cur,batch)['batch']['revision']
+ cur.execute("set local timezone='Pacific/Kiritimati'");b=read(cur,batch)['batch']['revision']
+ assert a==b,(a,b)
+ return dict(status='PASS',same_revision_across_sessions=True)
 
 def numeric_refusal(cur,today):
  batch,_,_=valid(cur,today)
@@ -132,7 +140,7 @@ try:
   actors.actors.claims(cur,dict(sub=base.OPERATOR_AUTH,role='authenticated'));base.load_fixture_foundation(cur);admin(cur)
   cur.execute('revoke usage on schema erp from authenticated')
   today=cur.execute("select (statement_timestamp() at time zone 'Asia/Jakarta')::date").fetchone()[0]
-  cases=[('PHYSICAL_MATERIAL',lambda:physical_stock(cur,today)),('PHYSICAL_ROLL',lambda:physical_stock(cur,today,True)),('LATEST_DRAFT_TOTALS_REPLAY',lambda:lifecycle(cur,today)),('EXCESS_PRECISION',lambda:numeric_refusal(cur,today)),('MISSING_CONTROL',lambda:control_refusal(cur,today,'MISSING')),('DUPLICATE_CONTROL',lambda:control_refusal(cur,today,'DUPLICATE')),('REVOKED_OWNER',lambda:authorization(cur,today))]
+  cases=[('REVISION_TIMEZONE',lambda:revision_zone(cur,today)),('PHYSICAL_MATERIAL',lambda:physical_stock(cur,today)),('PHYSICAL_ROLL',lambda:physical_stock(cur,today,True)),('LATEST_DRAFT_TOTALS_REPLAY',lambda:lifecycle(cur,today)),('EXCESS_PRECISION',lambda:numeric_refusal(cur,today)),('MISSING_CONTROL',lambda:control_refusal(cur,today,'MISSING')),('DUPLICATE_CONTROL',lambda:control_refusal(cur,today,'DUPLICATE')),('REVOKED_OWNER',lambda:authorization(cur,today))]
   for name,fn in cases:
    admin(cur);before=actors.boundary(cur);cur.execute('savepoint proposed_case')
    try:result=fn()

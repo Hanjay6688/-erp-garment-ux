@@ -5,7 +5,7 @@ from pathlib import Path
 CATALOG = json.loads(Path('src/initialImportCatalog.json').read_text())
 
 REVISION = r"""CREATE OR REPLACE FUNCTION erp.initial_import_revision_v1(p_batch_id uuid)
-RETURNS text LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO '' AS $function$
+RETURNS text LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO '' SET TimeZone TO 'UTC' AS $function$
  select encode(extensions.digest(convert_to(jsonb_build_object(
    'batch',(select to_jsonb(b) from erp.migration_batches b where id=p_batch_id),
    'rows',coalesce((select jsonb_agg(to_jsonb(s) order by s.entity_type,s.source_row_no)

@@ -58,6 +58,7 @@ jobs:
       with:
         node-version: '22'
     - name: Record proposed source and prepare isolated proof paths
+      id: source_scope
       working-directory: writer
       run: 'set -euo pipefail
 
@@ -160,15 +161,18 @@ jobs:
       working-directory: candidate
       run: PYTHONPATH=scripts python ../harness/scripts/cp6_v2620am_review.py --phase install
     - name: Install AN versioned selectors with complete inherited catalog pinned
+      id: an_runtime
       working-directory: candidate
       run: PYTHONPATH=scripts python ../harness/scripts/cp6_v2620an_review.py --phase install
     - name: Run proposed import in one rolled-back native transaction
       working-directory: writer
       run: PYTHONPATH=scripts python scripts/cp6_initial_import_trial.py
     - name: Run proposed invoice-date and manual retail family
+      if: ${{ always() && steps.an_runtime.outcome == 'success' }}
       working-directory: writer
       run: PYTHONPATH=scripts python scripts/cp6_initial_import_ao_trial.py
     - name: Verify connected form and file parser
+      if: ${{ always() && steps.source_scope.outcome == 'success' }}
       working-directory: writer
       run: 'npm ci
 

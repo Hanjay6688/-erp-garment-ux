@@ -26,6 +26,13 @@ ad_exact=False
 ad_round=False
 ae_exact=False
 ae_independent=False
+# BEGIN AO/AP PROPOSAL ROUTE
+# The dedicated native trial constructs exact AN and executes the proposed
+# functions plus affected cases. Routing is not global CP6 acceptance.
+ap_trial=False
+if Path('scripts/cp6_initial_import_scope.py').exists():
+    ap_trial=subprocess.run(['python','scripts/cp6_initial_import_scope.py'],capture_output=True).returncode==0
+# END AO/AP PROPOSAL ROUTE
 # BEGIN AI INDEPENDENT ROUTE
 ai_independent=False
 if Path('scripts/cp6_ai_review_scope.py').exists():
@@ -98,9 +105,9 @@ try:
         and subprocess.check_output(['git','merge-base',af_base,'HEAD'],text=True).strip()==af_base
         and af_changed==set(af_pins)|{'.github/workflows/cp6-full-schema-validation.yml'}
         and all(hashlib.sha256(Path(path).read_bytes()).hexdigest()==digest for path,digest in af_pins.items()))
-    reuse=audit_only or ad_exact or ad_round or ae_exact or ae_independent or af_exact or af_review or ag_review or ag_residual or ah_review or ah_independent or ai_review or ai_independent
+    reuse=ap_trial or audit_only or ad_exact or ad_round or ae_exact or ae_independent or af_exact or af_review or ag_review or ag_residual or ah_review or ah_independent or ai_review or ai_independent
 except (AssertionError,ValueError,OSError,subprocess.CalledProcessError):
     reuse=False
 with open(os.environ['GITHUB_OUTPUT'],'a') as output:
     output.write('full='+('false' if reuse else 'true')+'\n')
-print('RERUN_REQUIRED: exact AF delta requires its dedicated focused, combined134 and concurrency gate; independent review pending' if af_exact else 'REUSED_EVIDENCE: exact AE business/runtime; separate independent review required' if ae_independent else 'RERUN_REQUIRED: AE combined 134-case business gate and 20 fresh schedules; historical AC evidence retained' if ae_exact else 'REUSED_EVIDENCE: pinned AD plus focused roll-opening round' if ad_round else 'REUSED_EVIDENCE: Native200/AB189 base; pinned AD delta requires the separate whole-family native gate' if ad_exact else 'REUSED_EVIDENCE: exact AC business source' if reuse else 'RERUN_REQUIRED: change outside the pinned audit/AD boundary')
+print('RERUN_REQUIRED: exact AO/AP source uses CP6 Initial Import Native Trial; no migration or global acceptance; CP6_HOLD' if ap_trial else 'RERUN_REQUIRED: exact AF delta requires its dedicated focused, combined134 and concurrency gate; independent review pending' if af_exact else 'REUSED_EVIDENCE: exact AE business/runtime; separate independent review required' if ae_independent else 'RERUN_REQUIRED: AE combined 134-case business gate and 20 fresh schedules; historical AC evidence retained' if ae_exact else 'REUSED_EVIDENCE: pinned AD plus focused roll-opening round' if ad_round else 'REUSED_EVIDENCE: Native200/AB189 base; pinned AD delta requires the separate whole-family native gate' if ad_exact else 'REUSED_EVIDENCE: exact AC business source' if reuse else 'RERUN_REQUIRED: change outside the pinned audit/AD boundary')
