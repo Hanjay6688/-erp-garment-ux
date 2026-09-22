@@ -87,6 +87,7 @@ begin
    select s.normalized_payload into v_po from erp.migration_staging_rows s where s.batch_id=p_batch
      and s.entity_type='OPEN_PO' and s.normalized_payload->>'po_number'=j->>'po_number' and s.validation_status='VALID';
    if v_po is null then raise exception 'po_number: saldo fisik wajib menunjuk OPEN_PO valid dalam batch yang sama';end if;
+   if v_po->>'status' in('FINISHED','CANCELLED') then raise exception 'po_number: saldo fisik belum selesai tidak boleh masuk PO selesai/batal';end if;
    if nullif(j->>'model_code','') is not null and j->>'model_code'<>v_po->>'model_code' then raise exception 'model_code: model berbeda dengan PO';end if;
    if exists(select 1 from erp.production_orders p where p.po_number=j->>'po_number' and p.migration_batch_id is distinct from p_batch) then
     raise exception 'po_number: PO sudah memiliki riwayat di luar batch ini';end if;
@@ -180,6 +181,12 @@ def extend_production_contract(functions):
     change(i,'     perform erp.validate_initial_import_receipts_v1(b.id);','     perform erp.validate_initial_import_production_v1(b.id);\n     perform erp.validate_initial_import_receipts_v1(b.id);')
     i='erp.validate_initial_import_totals_v1(uuid)'
     change(i,"when v_type='BS' then 0","when v_type='BS' then case when nullif(j->>'po_number','') is not null then round(coalesce(nullif(j->>'amount','')::numeric,v_qty*v_cost),2) else 0 end")
+    needle="   if (v_entry->>'type' in("
+    change(i,needle,"""   if v_entry->>'type'='WIP' and nullif(j->>'qty','') is null and exists(
+      select 1 from erp.migration_staging_rows x where x.batch_id=p_batch_id and x.entity_type='OPENING_BALANCE_ITEM'
+      and x.normalized_payload->>'control_key'=v_key and nullif(x.normalized_payload->>'po_number','') is not null) then
+     raise exception 'qty: total pembanding WIP fisik wajib berisi jumlah pcs';end if;
+"""+needle)
     i='erp.post_opening_balance(uuid)'
     change(i,'  v_product_at timestamptz;','  v_product_at timestamptz;v_source erp.initial_import_production_sources%rowtype;v_bs uuid;')
     needle='  for r in select * from erp.opening_balance_items where opening_id=h.id order by id loop\n    if r.balance_type='
@@ -196,6 +203,14 @@ def extend_production_contract(functions):
     i='erp.ensure_fg_accessory_cost_snapshot(uuid)'
     needle="  if exists(select 1 from erp.fg_accessory_cost_snapshots where lot_id=l.id) then return; end if;"
     change(i,needle,"  if exists(select 1 from erp.initial_import_wip_outputs o join erp.initial_import_production_sources s on s.opening_item_id=o.opening_item_id where o.lot_id=l.id and s.accessory_cost_included) then return;end if;\n"+needle)
+    i='erp.compute_po_hpp_gl_book_v2620e(uuid)'
+    change(i,'  where l.po_id=p_po_id','  where l.po_id=p_po_id and e.source_type<>\'INITIAL_IMPORT_BS_VALUE\'')
+    i='erp.run_v268_financial_report_checks()'
+    change(i,"        when i.balance_type='WIP' then", "        when i.balance_type='BS' and exists(select 1 from erp.initial_import_production_sources ps where ps.opening_item_id=i.id) then coalesce(i.amount,i.qty*i.unit_cost_snapshot)\n        when i.balance_type='WIP' then")
+    change(i,'    )::numeric source_cost',r"""      +coalesce((select sum(erp.initial_import_source_value_v1(ps.opening_item_id)) from erp.initial_import_production_sources ps where ps.po_id=s.po_id),0)
+      -coalesce((select sum(e.target_amount-e.previous_amount) from erp.initial_import_bs_value_events e join erp.initial_import_production_sources ps on ps.opening_item_id=e.opening_item_id where ps.po_id=s.po_id),0)
+      +coalesce((select sum(erp.pocket_period_amount_v1(d.pool_id,d.preceding_qty,d.sewing_qty)) from erp.pocket_period_destinations d where d.po_id=s.po_id),0)
+    )::numeric source_cost""")
     i='erp.get_initial_import_workspace_v1(uuid)'
     change(i,"     'opening_id',(select h.id","     'production_sources',erp.initial_import_production_rows_v1(b.id),\n     'opening_id',(select h.id")
     i='erp.get_wip_control_v1(text,uuid,text,text)'

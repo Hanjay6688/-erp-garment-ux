@@ -176,3 +176,8 @@ def extend_cost_origin_contract(functions):
     change(i,"or (select count(*) from erp.material_stock_movements m where m.source_type='OPENING_BALANCE_ITEM'\n          and m.source_id=oi.id and m.movement_type='OPENING' and m.qty_signed=oi.qty)<>1", "or (l.opening_item_id is not null and (select count(*) from erp.material_stock_movements m where m.source_type='OPENING_BALANCE_ITEM'\n          and m.source_id=oi.id and m.movement_type='OPENING' and m.qty_signed=oi.qty)<>1)")
     i='erp.get_initial_import_workspace_v1(uuid)'
     change(i,"       'qty',pi.qty,'unmatched_qty'", "       'qty',pi.qty,'on_hand_at_cutover',coalesce((select qty from erp.opening_balance_items where id=rl.opening_item_id),0),\n       'consumed_before_cutover',coalesce((select sum(material_qty) from erp.initial_import_cost_origins where purchase_item_id=pi.id),0),'unmatched_qty'")
+    i='erp.validate_supplier_return_source()'
+    change(i,'  if v_prior+v_current+new.qty>v_purchase_qty+0.000001 then',r"""  if exists(select 1 from erp.initial_import_receipt_lines where purchase_item_id=new.purchase_item_id)
+    and v_prior+v_current+new.qty>coalesce((select oi.qty from erp.initial_import_receipt_lines l join erp.opening_balance_items oi on oi.id=l.opening_item_id where l.purchase_item_id=new.purchase_item_id),0) then
+    raise exception 'Supplier return cannot use quantities already consumed before cutover';end if;
+  if v_prior+v_current+new.qty>v_purchase_qty+0.000001 then""")

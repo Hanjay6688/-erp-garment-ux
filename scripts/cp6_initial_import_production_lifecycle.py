@@ -43,6 +43,18 @@ begin
  if tg_op='DELETE' then return old;end if;return new;
 end;$function$;"""
 
+PO_GUARD=r"""create or replace function erp.guard_initial_import_po_completion_v1() returns trigger
+language plpgsql security definer set search_path='' as $function$
+begin
+ if new.status in('FINISHED','CANCELLED') and old.status is distinct from new.status and exists(
+  select 1 from erp.initial_import_production_sources s where s.po_id=new.id and s.qty_pcs>
+   case when s.bs_case_id is not null then coalesce((select sum(qty_pcs) from erp.bs_resolutions where bs_case_id=s.bs_case_id),0)
+   else coalesce((select sum(o.qty_pcs) from erp.initial_import_wip_outputs o where o.opening_item_id=s.opening_item_id
+      and not exists(select 1 from erp.initial_import_wip_output_reversals rv where rv.output_id=o.id)),0) end
+ ) then raise exception 'PO masih memiliki WIP/BS saldo awal yang belum selesai';end if;
+ return new;
+end;$function$;"""
+
 COMPLETE=r"""create or replace function erp.complete_initial_import_wip_v1(p_payload jsonb) returns jsonb
 language plpgsql security definer set search_path='' set DateStyle='ISO, YMD' as $function$
 declare s erp.initial_import_production_sources%rowtype;i erp.opening_balance_items%rowtype;
@@ -70,7 +82,10 @@ begin
   if v_prior.id is null then raise exception 'Hasil WIP tidak ditemukan atau sudah dibatalkan';end if;
   if erp.fg_lot_has_active_downstream(v_prior.lot_id,'QC_GOOD','INITIAL_IMPORT_WIP',v_prior.id) then raise exception 'Hasil WIP masih dipakai transaksi lanjutan; batalkan transaksi tersebut dahulu';end if;
   if exists(select 1 from erp.contractor_accessory_reimbursement_entitlements where lot_id=v_prior.lot_id and payroll_status<>'UNALLOCATED') then raise exception 'Reimbursement sudah masuk payroll';end if;
-  if exists(select 1 from erp.contractor_accessory_reimbursement_entitlements where lot_id=v_prior.lot_id) then raise exception 'Batalkan reimbursement aksesoris melalui jalur asal sebelum hasil WIP';end if;
+  for v_movement in select id from erp.journal_entries where source_type='ACCESSORY_REIMBURSE_ACCRUAL' and source_id=v_prior.lot_id and status='POSTED' loop
+   perform erp.reverse_journal(v_movement,v_reason);
+  end loop;
+  update erp.contractor_accessory_reimbursement_entitlements set payroll_status='CANCELLED' where lot_id=v_prior.lot_id and payroll_status='UNALLOCATED';
   for v_movement in select id from erp.fg_stock_movements where lot_id=v_prior.lot_id and source_type='INITIAL_IMPORT_WIP' and source_id=v_prior.id and movement_type='QC_GOOD'
    and not exists(select 1 from erp.fg_stock_movements rv where rv.reversal_of_id=erp.fg_stock_movements.id) loop
    perform erp.reverse_fg_movement(v_movement,v_reason);
@@ -79,7 +94,7 @@ begin
   insert into erp.initial_import_wip_output_reversals(output_id,reason,physical_at,created_by) values(v_prior.id,v_reason,v_at,erp.current_app_user_id());
   update erp.fg_lots set lot_origin='VOIDED_PRODUCTION',is_open=false where id=v_prior.lot_id;
   insert into erp.wip_stage_events(po_id,stage_from,stage_to,qty_pcs,contractor_id,source_type,source_id,physical_at,created_by,notes)
-   values(s.po_id,'FG',s.stage,v_prior.qty_pcs,i.contractor_id,'INITIAL_IMPORT_WIP_REVERSE',v_prior.id,v_at,erp.current_app_user_id(),v_reason);
+   values(s.po_id,'FINISHED',s.stage,v_prior.qty_pcs,i.contractor_id,'INITIAL_IMPORT_WIP_REVERSE',v_prior.id,v_at,erp.current_app_user_id(),v_reason);
   v_output:=v_prior.id;v_lot:=v_prior.lot_id;
  elsif v_op='COMPLETE' then
   if coalesce(p_payload->>'qty_pcs','') !~ '^[1-9][0-9]{0,9}$' or (p_payload->>'qty_pcs')::numeric>v_remaining then raise exception 'qty_pcs: jumlah harus bulat positif dan tidak melebihi sisa WIP';end if;
@@ -102,7 +117,7 @@ begin
   perform erp.ensure_fg_accessory_cost_snapshot(v_lot);
   perform erp.post_accessory_reimbursement_accrual(v_lot);
   insert into erp.wip_stage_events(po_id,stage_from,stage_to,qty_pcs,contractor_id,source_type,source_id,physical_at,created_by,notes)
-   values(s.po_id,s.stage,'FG',v_qty,i.contractor_id,'INITIAL_IMPORT_WIP',v_output,v_at,erp.current_app_user_id(),v_reason);
+   values(s.po_id,s.stage,'FINISHED',v_qty,i.contractor_id,'INITIAL_IMPORT_WIP',v_output,v_at,erp.current_app_user_id(),v_reason);
  else raise exception 'Aksi hasil WIP tidak dikenal';end if;
  perform erp.rebuild_po_hpp(s.po_id,'Penyelesaian atau inverse WIP saldo awal');
  perform erp.propagate_conversion_hpp_for_po(s.po_id);
@@ -117,6 +132,7 @@ def extend_production_lifecycle(functions):
     functions.update({
         'erp.sync_initial_import_bs_value_v1(uuid,date)':BS_VALUE,
         'erp.sync_initial_import_bs_disposition_v1()':BS_TRIGGER,
+        'erp.guard_initial_import_po_completion_v1()':PO_GUARD,
         'erp.complete_initial_import_wip_v1(jsonb)':COMPLETE,
     })
     i='erp.save_initial_import_action_v1(text,jsonb,uuid)'
@@ -140,4 +156,6 @@ def extend_production_lifecycle(functions):
 TRIGGERS=r"""
 create trigger initial_import_bs_disposition after insert or delete on erp.bs_resolutions
  for each row execute function erp.sync_initial_import_bs_disposition_v1();
+create trigger initial_import_po_completion before update on erp.production_orders
+ for each row execute function erp.guard_initial_import_po_completion_v1();
 """
