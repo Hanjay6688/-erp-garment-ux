@@ -9,6 +9,7 @@ import { useProductionMutation, type ProductionMutationHandlers } from './usePro
 import ProductionRecoveryNotice from './ProductionRecoveryNotice'
 import type { Json } from './types/database.preconnect'
 import './initial-import.css'
+import { parseInitialProductionSources, type InitialProductionSource } from './initialProduction'
 
 type Row = InitialImportRow & { id: string; entity: InitialImportEntity; validation_status: string; errors: string[]; applied: boolean }
 type AdvanceAllocation = { payroll_id: string; payroll_number: string; status: string; row_version: string; amount: string }
@@ -22,7 +23,7 @@ type Prepayment = { id: string; party_type: 'SUPPLIER' | 'CUSTOMER' | 'VENDOR'; 
   payments: { id: string; number: string; status: string; amount: string }[];
   events: { id: string; kind: string; delta: string; date: string; reason: string; reversed: boolean }[] }
 type CashAccount = { id: string; name: string }
-type Batch = { id: string; code: string; status: string; cutover_at: string; revision: string; rows: Row[]; cash_advances: CashAdvance[]; advance_payrolls: AdvancePayroll[]; prepayments: Prepayment[]; prepayment_cash_accounts: CashAccount[] }
+type Batch = { id: string; code: string; status: string; cutover_at: string; revision: string; rows: Row[]; cash_advances: CashAdvance[]; advance_payrolls: AdvancePayroll[]; prepayments: Prepayment[]; prepayment_cash_accounts: CashAccount[]; production_sources: InitialProductionSource[] }
 type Workspace = { batch: Batch | null; recent: { id: string; batch_code: string; status: string }[] }
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 function object(value: unknown): Record<string, unknown> {
@@ -106,7 +107,26 @@ export function parseInitialImportWorkspace(value: unknown): Workspace {
     if (typeof c.id !== 'string' || !uuid.test(c.id) || typeof c.name !== 'string') throw new Error('Rekening pengembalian uang muka tidak valid.')
     return { id:c.id, name:c.name }
   })
-  return { recent, batch: { id:b.id, code:b.code, status:b.status, cutover_at:b.cutover_at, revision:b.revision, rows, cash_advances, advance_payrolls, prepayments, prepayment_cash_accounts } }
+  return { recent, batch: { id:b.id, code:b.code, status:b.status, cutover_at:b.cutover_at, revision:b.revision, rows, cash_advances, advance_payrolls, prepayments, prepayment_cash_accounts, production_sources:parseInitialProductionSources(b.production_sources, true) } }
+}
+
+function ProductionBalances({ batch, locked, manage }: { batch: Batch; locked: boolean; manage: (payload: Record<string, Json>) => void }) {
+  const [selectedId, setSelectedId] = useState(''), [qty, setQty] = useState(''), [sku, setSku] = useState('')
+  const [location, setLocation] = useState(''), [date, setDate] = useState(''), [reason, setReason] = useState('')
+  const selected = batch.production_sources.find(s => s.opening_item_id === selectedId) ?? batch.production_sources[0]
+  if (!selected) return null
+  const valid = selected.balance_type === 'WIP' && /^[1-9][0-9]*$/.test(qty) && Number(qty) <= selected.remaining_qty_pcs && sku.trim() && location.trim() && date && reason.trim()
+  const send = (payload: Record<string, Json>) => manage({ opening_item_id:selected.opening_item_id, expected_remaining:String(selected.remaining_qty_pcs), reason:reason.trim(), ...payload })
+  return <section className="panel initial-import-advances" aria-label="Saldo fisik produksi awal">
+    <h2>Saldo fisik produksi awal</h2><p>Jumlah dan biaya pada tanggal saldo awal tetap tersimpan. Catat hasil setelah barang selesai dan sudah diperiksa; upah atau tagihan baru dicatat melalui transaksi produksinya.</p>
+    <label>Rincian produksi<select aria-label="Rincian produksi awal" value={selected.opening_item_id} disabled={locked} onChange={e => { setSelectedId(e.target.value); setQty('') }}>{batch.production_sources.map(s => <option key={s.opening_item_id} value={s.opening_item_id}>{s.po_number} · {s.balance_type} {s.stage} · {s.size_code} · {s.source_key}</option>)}</select></label>
+    <p>{selected.contractor_name ?? selected.vendor_name ?? 'Pemegang mengikuti rincian saldo'} · Awal {selected.qty_pcs} pcs · Sisa {selected.remaining_qty_pcs} pcs</p>
+    <p>Nilai asal Rp {selected.original_amount?.replace('.', ',')} · Nilai asal setelah koreksi Rp {selected.current_amount?.replace('.', ',')}</p>
+    {selected.balance_type === 'BS' ? <p>Lanjutkan pemeriksaan, rework, atau pengeluaran melalui halaman BS/Rework.</p> : <>
+      <div className="initial-import-toolbar"><label>Hasil baik (pcs)<input aria-label="Hasil WIP baik" inputMode="numeric" value={qty} disabled={locked} onChange={e => setQty(e.target.value)}/></label><label>Kode produk jadi<input aria-label="Produk hasil WIP" value={sku} disabled={locked} onChange={e => setSku(e.target.value)}/></label><label>Kode gudang barang jadi<input aria-label="Gudang hasil WIP" value={location} disabled={locked} onChange={e => setLocation(e.target.value)}/></label><label>Tanggal hasil<input aria-label="Tanggal hasil WIP" type="date" value={date} disabled={locked} onChange={e => setDate(e.target.value)}/></label><label>Catatan pemeriksaan<input aria-label="Catatan hasil WIP" value={reason} disabled={locked} onChange={e => setReason(e.target.value)}/></label><button type="button" disabled={locked || !valid} onClick={() => send({ operation:'COMPLETE', qty_pcs:qty, product_sku:sku.trim(), location_code:location.trim(), date })}>Sahkan hasil WIP awal</button></div>
+      {selected.outputs.length > 0 && <ul>{selected.outputs.map(o => <li key={o.id}>{o.date} · {o.qty_pcs} pcs · {o.reversed ? 'Dibatalkan' : 'Sudah masuk barang jadi'}{!o.reversed && <button type="button" disabled={locked || !reason.trim()} onClick={() => send({ operation:'REVERSE', output_id:o.id })}>Batalkan hasil {o.date}</button>}</li>)}</ul>}
+    </>}
+  </section>
 }
 
 function CashAdvanceBalances({ batch, locked, allocate }: { batch: Batch; locked: boolean; allocate: (payload: Record<string, Json>) => void }) {
@@ -254,12 +274,15 @@ function ImportWorkspace() {
       {batch && <div><strong>{batch.code}</strong><p>{new Intl.DateTimeFormat('id-ID', { dateStyle: 'long', timeZone: 'Asia/Jakarta' }).format(new Date(batch.cutover_at))} · {posted ? 'Sudah disahkan' : 'Draft'} · {batch.rows.length} baris</p></div>}
     </div>
     {batch && <>
-      {posted && batch.cash_advances.length > 0 && <CashAdvanceBalances key={batch.id} batch={batch} locked={locked} allocate={payload => { void act('ALLOCATE_CASH_ADVANCE', payload) }}/>}
-      {posted && batch.prepayments.length > 0 && <PrepaymentBalances key={batch.id} batch={batch} locked={locked} manage={payload => { void act('PREPAYMENT', payload) }}/>}
+      {posted && batch.cash_advances.length > 0 && <CashAdvanceBalances key={batch.id} batch={batch} locked={locked} allocate={payload => { void act('ALLOCATE_CASH_ADVANCE', payload) }}/>} 
+      {posted && batch.prepayments.length > 0 && <PrepaymentBalances key={batch.id} batch={batch} locked={locked} manage={payload => { void act('PREPAYMENT', payload) }}/>} 
+      {posted && batch.production_sources.length > 0 && <ProductionBalances key={batch.id} batch={batch} locked={locked} manage={payload => { void act('WIP_OUTPUT', payload) }}/>}
       <div className="panel initial-import-toolbar"><label>Jenis data<select disabled={locked || Boolean(editor)} value={entity} onChange={(event) => { setEntity(event.target.value as InitialImportEntity); setPage(0); readFileSequence.current++ }}>{Object.entries(initialImportCatalog).map(([key, item]) => <option key={key} value={key}>{item.label}</option>)}</select></label><button type="button" onClick={download}><Download size={16}/> Unduh template</button>{!posted && <label className="initial-import-upload"><FileUp size={16}/> Pilih file CSV<input aria-label="Pilih file CSV" type="file" accept=".csv,.tsv,text/csv" disabled={locked || Boolean(editor)} onChange={(event) => { const file = event.target.files?.[0]; event.target.value = ''; void upload(file) }}/></label>}</div>
       <p className="initial-import-help">Simpan dari Excel sebagai <strong>CSV UTF-8</strong>. Angka tanpa pemisah ribuan; desimal boleh memakai titik atau koma. Kolom aktif/absensi: true atau false. Satuan memakai kode ERP. Maksimal 5 MB dan 5.000 baris per batch. Hubungkan setiap rincian saldo ke kode total pembanding. Total pembanding hanya diperiksa dan tidak dibukukan.</p>
-      {entity === 'UNINVOICED_RECEIPT' && <p className="initial-import-help">Isi penerimaan yang belum ditagih dan seluruh jumlahnya masih ada saat saldo awal. Hubungkan setiap baris ke satu kode rincian stok asal dengan bahan, gudang, jumlah, dan biaya yang sama. Gunakan total pembanding GRNI_MATERIAL; nilai dibulatkan dua desimal per dokumen penerimaan. Tanggal invoice berikutnya harus sejak tanggal saldo awal. Barang yang sudah terpakai sebelumnya perlu rincian asal WIP/HPP.</p>}
+      {entity === 'UNINVOICED_RECEIPT' && <p className="initial-import-help">Isi seluruh jumlah penerimaan yang belum ditagih. Hubungkan bagian yang masih berupa bahan ke kode rincian stok asal; rincikan bagian yang sudah terpakai pada Asal biaya sebelum cutover. Jumlah keduanya harus sama dengan jumlah penerimaan. Gunakan total pembanding GRNI_MATERIAL; nilai dibulatkan dua desimal per dokumen penerimaan. Tanggal invoice berikutnya harus sejak tanggal saldo awal. Asal biaya merupakan bagian dari nilai WIP/BS/FG yang diimpor dan tidak menambah nilai saldo lagi.</p>}
       {entity === 'OPENING_BALANCE_ITEM' && <p className="initial-import-help">Untuk kasbon tunai mandor, isi jenis saldo CONTRACTOR_RECEIVABLE dan jenis sumber CONTRACTOR_CASH_ADVANCE. Wajib isi nomor dan tanggal dokumen, nominal awal, serta pembayaran sebelum saldo awal; nominal tersisa harus sama dengan selisihnya. Pembayaran lama tidak membentuk arus kas baru. Saldo lainnya memakai jenis sumber BALANCE atau dibiarkan kosong.</p>}
+      {entity === 'OPENING_COST_ORIGIN' && <p className="initial-import-help">Hubungkan supplier, nomor penerimaan, dan nomor barisnya ke kode rincian WIP/BS/FG. Jumlah adalah satuan bahan asal, bukan jumlah pakaian. Nilai bahan yang terurai tidak boleh melebihi nilai saldo tujuan.</p>}
+      {entity === 'OPENING_BALANCE_ITEM' && <p className="initial-import-help">Saldo fisik WIP/BS perlu kode sumber, OPEN_PO dalam batch yang sama, ukuran, pcs bulat, nilai biaya, serta tahap SEWING atau LAUNDRY (BS juga boleh QC). Isi mandor untuk SEWING atau vendor untuk LAUNDRY. Isi apakah biaya aksesoris sudah termasuk: true atau false. Pisahkan ringkasan WIP tanpa rincian fisik dari batch ini.</p>}
       {entity === 'OPENING_ADVANCE' && <p className="initial-import-help">Isi jenis pihak SUPPLIER, CUSTOMER, atau VENDOR dan nomor bukti uang muka. Sisa harus sama dengan nominal asal dikurangi pemakaian atau pengembalian sebelumnya. Gunakan akun khusus uang muka: aset untuk supplier/laundry dan kewajiban untuk pelanggan. Jenis total pembanding mengikuti pihak: SUPPLIER_ADVANCE, CUSTOMER_ADVANCE, atau VENDOR_ADVANCE.</p>}
       {editor && editorRevision.current !== batch.revision && <p role="alert" className="initial-import-message">Draft di server sudah berubah. Perubahan di layar ini belum disimpan; batalkan perubahan lokal lalu periksa isi terbaru sebelum mengunggah ulang.</p>}
       {editor && <div className="initial-import-message" role="status"><span>{filename} · {editor.length} baris belum disimpan. Penyimpanan mengganti seluruh bagian “{spec.label}” dalam draft ini.</span><button type="button" disabled={locked || editorRevision.current !== batch.revision} onClick={() => void act('SAVE_FILE', { entity, filename, rows: editor as unknown as Json })}>Simpan perubahan draft</button><button type="button" disabled={mutation.busy || reading} onClick={() => { setEditor(null); setPage(0) }}>Batalkan perubahan</button></div>}

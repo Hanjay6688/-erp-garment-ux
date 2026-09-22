@@ -18,7 +18,7 @@ const actions: Record<ProductionDomain, readonly string[]> = {
     'REVERSE_RECEIPT', 'POST_FINAL_SKU', 'REVERSE_FINAL_SKU'],
   CUTTING: ['SAVE_DRAFT', 'POST', 'DELETE'], PICKUP: ['SAVE_DRAFT', 'POST', 'DELETE'], WIP: ['OPEN', 'RESOLVED'],
   POCKET_FABRIC: ['REGISTER', 'POST', 'REVERSE', 'POST_PERIOD', 'CANCEL_PERIOD'],
-  INITIAL_IMPORT: ['CREATE', 'SAVE_FILE', 'VALIDATE', 'FINALIZE', 'ALLOCATE_CASH_ADVANCE', 'PREPAYMENT'],
+  INITIAL_IMPORT: ['CREATE', 'SAVE_FILE', 'VALIDATE', 'FINALIZE', 'ALLOCATE_CASH_ADVANCE', 'PREPAYMENT', 'WIP_OUTPUT'],
 }
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 const changeEvent = 'erp:production-recovery-changed'

@@ -252,7 +252,9 @@
       "original_amount": "Nominal dokumen awal",
       "settled_before_cutover": "Sudah dibayar sebelum saldo awal",
       "opening_source_key": "Kode rincian stok asal",
-      "source_kind": "Jenis sumber saldo"
+      "source_kind": "Jenis sumber saldo",
+      "po_number": "Nomor PO saldo fisik",
+      "accessory_cost_included": "Biaya aksesoris sudah termasuk (true/false)"
     }
   },
   "OPEN_PO": {
@@ -291,7 +293,7 @@
     }
   },
   "UNINVOICED_RECEIPT": {
-    "label": "Penerimaan belum ditagih — stok masih utuh",
+    "label": "Penerimaan belum ditagih — sisa bahan dan asal biaya",
     "required": [
       "receipt_number",
       "receipt_line_number",
@@ -301,7 +303,6 @@
       "location_code",
       "qty",
       "unit_cost",
-      "opening_source_key",
       "control_key"
     ],
     "fields": {
@@ -342,5 +343,23 @@
       "amount": "Sisa uang muka",
       "control_key": "Kode total pembanding"
     }
+  },
+  "OPENING_COST_ORIGIN": {
+    "label": "Asal biaya yang sudah terpakai sebelum cutover",
+    "fields": {
+      "supplier_code": "Kode supplier",
+      "receipt_number": "Nomor penerimaan asal",
+      "receipt_line_number": "Nomor baris penerimaan",
+      "target_source_key": "Kode rincian WIP/BS/FG tujuan",
+      "qty": "Jumlah bahan yang sudah terpakai",
+      "notes": "Catatan"
+    },
+    "required": [
+      "supplier_code",
+      "receipt_number",
+      "receipt_line_number",
+      "target_source_key",
+      "qty"
+    ]
   }
 }

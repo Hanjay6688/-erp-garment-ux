@@ -1,3 +1,4 @@
+import { parseInitialProductionSources, type InitialProductionSource } from './initialProduction'
 import { isConnectedRuntime } from './config/runtime'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { AlertTriangle, Check, Clock3, Filter, Flag, RefreshCw, Search, ShieldCheck, SlidersHorizontal, X } from 'lucide-react'
@@ -58,7 +59,7 @@ export type WipStatusRow = {
   row_version: number
 }
 
-type WipResponse = { filter: WipStatusFilter; sort: WipStatusSort; pattern_id: string | null; rows: WipStatusRow[] }
+type WipResponse = { filter: WipStatusFilter; sort: WipStatusSort; pattern_id: string | null; rows: WipStatusRow[]; opening_rows: InitialProductionSource[] }
 
 const blockerLabels: ReadonlyArray<[keyof WipStatusRow, string]> = [
   ['unfinished_sewing_qty_pcs', 'Belum selesai jahit'],
@@ -165,7 +166,7 @@ export function parseWipResponse(value: unknown): WipResponse {
     }
   })
   unique(rows.map((row) => row.cutting_group_id), 'ID Potongan')
-  return { filter: raw.filter as WipStatusFilter, sort: raw.sort as WipStatusSort, pattern_id: nullableText(raw.pattern_id, 'Filter Pola'), rows }
+  return { filter: raw.filter as WipStatusFilter, sort: raw.sort as WipStatusSort, pattern_id: nullableText(raw.pattern_id, 'Filter Pola'), rows, opening_rows:parseInitialProductionSources(raw.opening_rows) }
 }
 
 export function activeBlockerLabels(row: WipStatusRow) {
@@ -255,6 +256,7 @@ export default function ConnectedWipStatusPage() {
   }
 
   const rows = response?.rows ?? []
+  const openingRows = response?.opening_rows ?? []
   const qty = rows.reduce((sum, row) => sum + row.effective_qty_pcs, 0)
   const totalsKnown = response !== null && !mutation.workspaceStale
   const blocked = rows.filter((row) => activeBlockerLabels(row).length > 0).length
@@ -267,6 +269,7 @@ export default function ConnectedWipStatusPage() {
 
     <section className="cwip-kpis"><article><span>BARIS TAMPIL</span><strong>{totalsKnown ? rows.length : '—'}</strong><small>{filter === 'ACTIVE' ? 'Selesai disembunyikan' : filter === 'COMPLETED' ? 'Riwayat selesai' : 'Aktif + selesai'}</small></article><article><span>KUANTITAS</span><strong>{totalsKnown ? `${qty} pcs` : '—'}</strong><small>Read-only control total</small></article><article><span>MASIH ADA AKSI</span><strong>{totalsKnown ? blocked : '—'}</strong><small>Gabungan seluruh blocker</small></article></section>
 
+    {!loading && openingRows.length > 0 && <section className="cwip-workspace" aria-label="WIP saldo awal"><h2>Produksi yang dibawa saat saldo awal</h2><div className="cwip-list">{openingRows.map(s => <article key={s.opening_item_id}><header><div><small>{s.po_number} · {s.source_key}</small><h3>{s.balance_type} · {s.stage} · Ukuran {s.size_code}</h3><p>{s.contractor_name ?? s.vendor_name ?? 'Pemegang mengikuti saldo awal'}</p></div></header><div className="cwip-facts"><span><small>AWAL</small><strong>{s.qty_pcs} pcs</strong></span><span><small>TERSISA</small><strong>{s.remaining_qty_pcs} pcs</strong></span></div><p>{s.balance_type === 'BS' ? 'Lanjutkan melalui BS/Rework.' : 'Hasil saldo awal dicatat owner/admin pada rincian impor awal.'}</p></article>)}</div></section>}
     <section className="cwip-workspace"><header><div className="cwip-tabs" role="tablist" aria-label="Status WIP">{(['ACTIVE', 'COMPLETED', 'ALL'] as const).map((value) => <button className={filter === value ? 'active' : ''} onClick={() => changeFilter(value)} key={value}>{value === 'ACTIVE' ? 'Aktif' : value === 'COMPLETED' ? 'Selesai' : 'Semua'}</button>)}</div><label className="cwip-search"><Search/><input value={query} onChange={(event) => setQuery(event.target.value)} onKeyDown={(event) => { if (event.key === 'Enter') void load() }} placeholder="Nomor produksi, model, Pola, mandor, status…"/><button onClick={() => void load()}><Filter/> Terapkan</button></label><ConnectedPatternFilter value={patternId} onChange={changePattern}/><select aria-label="Urutan WIP" value={sort} onChange={(event) => changeSort(event.target.value as WipStatusSort)}><option value="PATTERN">Urutan Pola</option><option value="PRODUCTION">Kronologi produksi</option><option value="UPDATED">Terakhir diperbarui</option></select></header>
       {loading ? <div className="cwip-empty"><RefreshCw className="spin"/><strong>Mengambil status authoritative…</strong></div> : <div className="cwip-list">{rows.map((row) => {
         const blockers = activeBlockerLabels(row)
@@ -281,7 +284,7 @@ export default function ConnectedWipStatusPage() {
           {row.open_flags.length > 0 && <div className="cwip-flags">{row.open_flags.map((openFlag) => <span key={openFlag.id}><Flag/><strong>{openFlag.type.replaceAll('_', ' ')}</strong>{openFlag.note}</span>)}</div>}
           <footer><span><SlidersHorizontal/> Row version {row.row_version} · diperbarui {new Date(row.updated_at).toLocaleString('id-ID')}</span>{row.control_status === 'ACTIVE' && <button disabled={!canAdjust || flagging} onClick={() => void flag(row)}><Flag/> {flagging ? 'Menyimpan…' : 'Tandai tindak lanjut'}</button>}</footer>
         </article>
-      })}{rows.length === 0 && <div className="cwip-empty"><Check/><strong>{filter === 'ACTIVE' ? 'Tidak ada WIP aktif.' : 'Tidak ada data pada filter ini.'}</strong><span>Filter tidak mengubah state bisnis.</span></div>}</div>}
+      })}{rows.length === 0 && openingRows.length === 0 && <div className="cwip-empty"><Check/><strong>{filter === 'ACTIVE' ? 'Tidak ada WIP aktif.' : 'Tidak ada data pada filter ini.'}</strong><span>Filter tidak mengubah state bisnis.</span></div>}</div>}
     </section>
   </section>
 }

@@ -282,3 +282,14 @@ SCHEMA += PERIOD_SCHEMA
 TRIGGERS += '\n'+PERIOD_TRIGGERS
 PREDECESSOR += PERIOD_PREDECESSOR
 extend_period_contract(FUNCTIONS)
+
+from cp6_initial_import_production import SCHEMA as PRODUCTION_SCHEMA, PREDECESSOR as PRODUCTION_PREDECESSOR, extend_production_contract
+SCHEMA += PRODUCTION_SCHEMA
+PREDECESSOR += PRODUCTION_PREDECESSOR
+extend_production_contract(FUNCTIONS)
+from cp6_initial_import_cost_origins import extend_cost_origin_contract
+extend_cost_origin_contract(FUNCTIONS)
+from cp6_initial_import_production_lifecycle import SCHEMA as PRODUCTION_LIFECYCLE_SCHEMA, TRIGGERS as PRODUCTION_LIFECYCLE_TRIGGERS, extend_production_lifecycle
+SCHEMA += PRODUCTION_LIFECYCLE_SCHEMA
+TRIGGERS += '\n'+PRODUCTION_LIFECYCLE_TRIGGERS
+extend_production_lifecycle(FUNCTIONS)

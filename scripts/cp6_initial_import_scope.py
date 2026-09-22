@@ -4,6 +4,8 @@ from pathlib import Path
 import hashlib,json,subprocess
 BASE='3767458fa571f3a6f8e20945ccd01bd7ce1ab47c'
 ALLOWED={
+ 'scripts/cp6_initial_import_production.py','scripts/cp6_initial_import_production_lifecycle.py','scripts/cp6_initial_import_cost_origins.py','scripts/cp6_initial_import_production_trial.py',
+ 'docs/evidence/cp6-initial-import-production-predecessor.json','src/initialProduction.ts','src/initialProduction.test.ts','src/ConnectedWipStatusPage.tsx',
  '.github/workflows/cp6-initial-import-review.yml',
  'scripts/cp6_ai_audit_router.py',
  'scripts/check-access-catalog.mjs','scripts/check-production-recovery.mjs','scripts/check-source-ownership.mjs',
