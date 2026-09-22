@@ -1,3 +1,107 @@
+# CP6 — WIP fisik, BS bernilai, dan asal biaya sebelum cutover terverifikasi
+
+22 September 2026. **CP6_HOLD · production_go:false · migration_installed:false · independent_acceptance:false.**
+
+VENI. VIDI. VICI. ERP. — I CONQUERED ERP.
+Reliable data adalah dewa.
+Keuangan—termasuk laporan—stok, dan HPP adalah raja.
+
+## Bukti terbaru
+
+| Bukti | Hasil |
+| --- | --- |
+| Repository / branch | Hanjay6688/-erp-garment-ux / competition/cp6-j-closure-20260911 |
+| Tested commit | `8ab48bb944d55128f453a2b6c926c895aec308eb` |
+| Tested tree | `808b4a477476385a3682eef5ceeba7c397397385` |
+| Native gate | [35725836562 SUCCESS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35725836562), job 106739749025 |
+| Proposal AP gabungan AO+AP | **163/163 PASS**: 136 existing +27 WIP/BS/asal biaya |
+| AO biaya/eceran pada AN | **12/12 PASS** |
+| Frontend/recovery | **108/108 PASS**, enam berkas uji |
+| TypeScript; source/access/CSS/recovery ownership | PASS |
+| CodeQL | [35725836537 SUCCESS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35725836537), empat bahasa |
+| Static Laundry QC fullschema | [35725836516 SUCCESS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35725836516) |
+| Artifact native | 10693529303, 139.354 byte, 11 entri ZIP |
+| SHA256 artifact native | `a8cfd66648ae88d5601feb171a5e6c67efdcfa361e5e500b84a06692075c3a91` |
+| Main saat diverifikasi | `557005e6674058f1e5e966b350cba05501e06182` |
+
+CRC dan SHA256 ZIP cocok. SOURCE.json menunjuk tepat ke tested commit/tree. Seluruh 163 AP dan 12 AO PASS dengan boundary_restored:true; kedua laporan complete_boundary_restored:true. AP combined_ao_ap:true. Semua flag deployment, migrasi permanen dan acceptance independen tetap false. Proposal beserta fixture dijalankan pada database disposable, di-ROLLBACK, dan runtime dibersihkan. Ini bukti writer native serta unit/DOM, belum bukti HTTP/browser nyata atau audit global independen.
+
+## Data awal yang sekarang dapat dibawa masuk
+
+Keluarga ini melanjutkan cakupan ALL yang telah diizinkan. OPENING_BALANCE_ITEM menerima WIP fisik per PO, ukuran, tahap, pemegang, jumlah pcs dan nilai; SEWING wajib mandor dan LAUNDRY wajib vendor laundry. BS bernilai membutuhkan identitas produk, ukuran, PO dan pemegang/lokasi yang dikenal. Nilai nol harus dinyatakan eksplisit, pcs harus bilangan bulat positif, dan target PO harus menampung total WIP/BS. PO selesai atau dibatalkan tidak menerima saldo produksi yang belum selesai.
+
+Total kontrol WIP fisik mencakup kuantitas; total kontrol BS mencakup nilai. Rincian dan total dicocokkan tanpa ikut membukukan baris kontrol. Campuran WIP ringkasan tanpa rincian dengan sumber fisik dalam batch yang sama ditolak. Dukungan lama untuk WIP nilai saja/BS tanpa nilai tetap ada; perlindungan overlap seluruh jalur opening lama masih menjadi gate berikutnya.
+
+Jenis CSV baru **OPENING_COST_ORIGIN** menghubungkan penerimaan supplier yang telah digunakan sebelum cutover ke sumber WIP, BS atau barang jadi awal. Kuantitasnya adalah satuan bahan, bukan pcs celana. Persamaan wajib: jumlah penerimaan = sisa bahan awal + seluruh jumlah asal biaya terpakai. Asal biaya harus muat dalam nilai saldo tujuan; relasi ini menjelaskan nilai yang sudah ada dan tidak menambah biaya awal kedua. Penerimaan yang seluruhnya sudah terpakai dapat diimpor tanpa membuat stok bahan fiktif. Retur supplier tidak boleh mengambil kuantitas yang telah habis sebelum cutover.
+
+Draft masih dapat diedit setelah validasi. Pengesahan memeriksa isi terakhir, termasuk perubahan nilai sumber fisik; hasil validasi lama tidak dipakai untuk membukukan isi baru. Sumber yang telah disahkan tetap immutable, dengan perubahan biaya dan pembatalan sebagai event tertaut. Seluruh kuantitas/nilai diproses exact; nilai besar tidak dikonversi menjadi JavaScript Number.
+
+## Kelanjutan produksi dan biaya
+
+WIP awal membuat saldo tahap produksi pada tanggal cutover, tanpa mengarang cutting, hasil jahit historis, absensi atau upah lama. Di halaman impor, owner/admin dapat memilih sumber WIP dan mencatat sebagian hasil baik setelah diperiksa, dengan produk/model/ukuran yang sesuai serta gudang barang jadi. Sisa dibaca ulang saat pengesahan; jumlah berlebih, versi sisa usang dan tanggal sebelum cutover/di masa depan ditolak. UUID yang sama tidak menggandakan hasil. Pemulihan respons hilang memakai domain INITIAL_IMPORT dan kunci pemulihan global existing.
+
+Hasil tersebut membuat lot barang jadi PRODUCTION, mutasi stok QC_GOOD dan perpindahan tahap ke FINISHED. HPP memakai bagian nilai awal yang tepat serta biaya PO native berikutnya. Penanda accessory_cost_included menghindari penambahan aksesori yang telah termasuk nilai awal; jalur BOM existing tersedia ketika aksesori belum termasuk. Pembatalan hasil membuat event dan mutasi kebalikan tertaut, mempertahankan sumber awal dan mematuhi pengunci transaksi lanjutan/payroll. PO harus tetap terbuka; finish/cancel ditolak selama WIP/BS awal masih tersisa.
+
+BS awal terhubung ke kasus BS native. Scrap/writeoff memindahkan bagian nilai BS dari WIP ke biaya lainnya. Rework yang menghasilkan barang baik membawa bagian nilai BS ke HPP barang jadi; sisa BS tetap mempunyai nilai. Pembatalan canonical membalik nilai melalui event tertaut. Biaya BS yang dibuang dikecualikan dari biaya PO yang dapat terserap ke barang jadi, sehingga tidak masuk HPP dua kali.
+
+Ketika nota supplier masuk atau dikoreksi, sisa bahan menerima koreksi bagiannya dan asal biaya terpakai meneruskan koreksi ke WIP, BS, barang jadi tersedia serta COGS barang yang sudah terjual. Nilai persediaan tidak dibukukan ulang dari total penerimaan. Pembulatan mengikuti nilai sen tiap sumber, dengan selisih dokumen dikelola variance native. Tanggal ekonomi seluruh kaki jurnal mengikuti invoice; periode tertutup tetap memakai tanggal pembukuan canonical.
+
+HPP tetap **ESTIMATED** selama sumber penerimaan terkait belum seluruhnya dicocokkan dengan nota. Nota dengan harga sama juga menyelesaikan status kepastian biaya walau nilainya tidak berubah; inverse nota mengembalikannya ke ESTIMATED. Status ini diuji untuk lot awal dan hasil produksi lanjutan.
+
+Halaman status WIP menampilkan sumber awal, ukuran, jumlah dan pemegang; tahap diberi keterangan **saat cutover** agar tidak dianggap tahap operasional terkini. Nilai keuangan sumber tidak diekspos ke pembaca produksi. Jalur kelanjutan di halaman impor adalah pengesahan hasil baik dari saldo lama; riwayat distribusi/laundry yang belum diketahui tidak direkonstruksi. Biaya kerja baru tetap dicatat lewat transaksi domain biasa.
+
+## Angka dan penolakan yang dibuktikan
+
+Skenario utama menerima 12 satuan bahan @10: sisa bahan 4 bernilai 40, asal terpakai 4 dalam WIP 8 pcs bernilai 40, 2 dalam BS 2 pcs bernilai 20, dan 2 dalam FG awal 4 pcs bernilai 20. Hasil baik 4 pcs dari WIP memindahkan 20 ke FG; scrap 1 pcs BS memindahkan 10 ke biaya lainnya. Berikut tambahan saldo terhadap baseline fixture:
+
+| Titik pemeriksaan | Bahan | WIP | FG | Biaya lainnya | COGS |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Setelah impor | 40 | 60 | 20 | 0 | 0 |
+| Setelah hasil baik 4 pcs dan scrap BS 1 pcs | 40 | 30 | 40 | 10 | 0 |
+| Setelah harga nota menjadi 12 | 48 | 36 | 48 | 12 | 0 |
+
+Laporan owner dan jurnal cocok pada setiap tahap; seluruh pembatalan mengembalikan nilai semula, tanpa mengubah snapshot awal. Siklus mencakup SEWING/LAUNDRY, periode terbuka/tertutup, UTC/Pacific-Kiritimati dan penerimaan sepenuhnya terpakai. Skenario terpisah membuktikan penjualan 2 pcs FG awal: nota parsial mengubah FG tersisa dan COGS menjadi 12 masing-masing; inverse nota mengembalikan keduanya ke 10.
+
+27 kasus baru terdiri atas tiga lifecycle; 18 penolakan sumber/hasil; rework; pengesahan draft terakhir; barang terjual; dua guard retur/penutupan PO; dan nota dengan harga tetap. Penolakan memeriksa pemegang/PO/nilai hilang, pcs pecahan, ukuran/produk tidak sesuai, target PO terlalu kecil, asal biaya melampaui nilai, relasi target/penerimaan hilang, sumber duplikat, jumlah terpakai tanpa asal, total kontrol tidak cocok, output berlebih/usang dan tanggal salah. Penolakan harus terjadi tanpa perubahan bisnis, serta seluruh boundary kembali setelah setiap kasus.
+
+Implementasi memuat 96 fungsi AP +11 AO; 30 predecessor AP +11 AO; 48 source pins. Pemeriksaan ownership mencatat 104 runtime files, 28 browser RPC, 111 permissions, 48 route/nav labels, 20 sensitive actions, 37 stylesheets dan tujuh recovery domains. Tabel riwayat baru privat, RLS dan tanpa grant langsung ke browser; tidak ada pelebaran batas RPC atau izin. Parser sumber produksi, halaman WIP dan pemulihan WIP_OUTPUT termasuk 108 pemeriksaan frontend yang lulus.
+
+## Bukti percobaan sebelumnya
+
+Bukti gagal disimpan bersama hasil lulus agar riwayat perbaikan dapat ditelusuri:
+
+| Run native | Sumber | Hasil dan tindak lanjut |
+| --- | --- | --- |
+| [35723701641](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35723701641) | 05e18f0eafc6f6ae616146442d706e59399554b8 | 150 PASS /3 INCOMPLETE dari 153; stage_to FG tidak sah diperbaiki menjadi FINISHED. 12 AO dan 94 frontend PASS; seluruh boundary pulih. |
+| [35724693999](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35724693999) | 7854f3e4bdcb7a5048533230cc054404f1106fc4 | 158 PASS /1 INCOMPLETE dari 159; fixture penjualan memakai primitive private yang EXECUTE-nya dicabut. Diganti facade canonical post_sale_v2, tanpa grant baru. 12 AO dan 108 frontend PASS; seluruh boundary pulih. |
+| [35725367063](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35725367063) | 6e495c5969a6f61bbf7ce09b3d0cdd22d5419a87 | 162 AP, 12 AO dan 108 frontend PASS. Ini sebelum tambahan kasus kepastian biaya harga tetap; hasil final di atas memakai 163 AP. |
+
+Final Boundary lama pada run [35723701737](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35723701737), [35724694064](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35724694064) dan [35725366997](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35725366997) tetap FAILURE pada langkah **Verify unchanged AI-R2 backend and bounded writer UI scope**, sebelum audit database. Harness lama belum menerima scope successor AJ→AP. Guard itu tidak dilonggarkan dan hasil focused gate tidak menggantikan penerimaan global ini.
+
+| Artifact | Byte / entri ZIP | SHA256 |
+| --- | --- | --- |
+| Native gagal 10693200310 | 138.512 /11 | e37eb16f8b69fc026b5de40f373f26f8efe8c99808f73c7323ae51af233ee0ee |
+| Boundary 10692239537 | 479.059 /7 | 8e028d9aef6b6796ffc2ffb6cc2a8a90233653534ea91c39382d89049f8330aa |
+| Native gagal 10693116797 | 138.905 /11 | 4bf9413074bf7de8f3d3874eb217c3bda4c88251cb4216fa2f757010fdbf7acc |
+| Boundary 10693006906 | 478.305 /7 | 31bb5bb07bf44397c335b86a20df80e4b36ff64f621d92da5b243d296779b5e9 |
+| Native lulus 162 kasus 10692573121 | 138.985 /11 | 55e5ff7cc242c9c6a342184e9f5afec7b087a138df9e0926623be2150fd686c8 |
+| Boundary 10693342579 | 478.611 /7 | 56a8057be77491b00a92284f966ce902dffe3a1f296720031ce36717b7c05885 |
+
+Seluruh ZIP di tabel dan artifact final diperiksa CRC serta SHA256. Bukti checkpoint terdahulu tetap berlaku menurut scope dan sumber masing-masing.
+
+## Status dan pekerjaan berikutnya
+
+Keluarga WIP fisik/BS bernilai/asal biaya terpakai selesai pada tingkat writer native dan frontend/DOM. **CP6 keseluruhan masih HOLD.** Belum ada migrasi permanen, pembuktian HTTP/browser nyata keluarga ini, concurrency seluruh transaksi bisnis, perlindungan global terhadap jalur opening lama, atau acceptance independen. Matriks historis global belum dieksekusi ulang. Main, PR24/25, hosted UAT, legacy/prod dan CP7 tidak diubah.
+
+Urutan berikutnya yang sudah diizinkan: form eceran aksesori terhubung; paket migrasi AO/AP dan rollback maintenance; HTTP/browser/concurrency serta perlindungan opening lama; penerimaan independen CP6. **7 PCS adalah aksesori**, dengan harga eceran manual dan master lusin/gross tetap. Kain kantong universal tetap memakai stok gudang dan opsi pembagian per periode atas hasil SELESAI_DIJAHIT yang sah, termasuk Afui; tidak memerlukan catatan pengambilan bebas atau saldo per mandor. WIP awal tidak mengarang hasil jahit historis untuk denominator tersebut.
+
+Mandor Epi, Selo, Afat dan Afui tetap mengikuti kontrak yang sudah diputuskan. Afui khusus tanpa absensi, komisi lebih tinggi, tiga kategori aksesori gratis, dan tetap ikut pembagian kain kantong. Satu writer pada branch yang sama, fast-forward saja; checkpoint ini melanjutkan persetujuan owner tanpa meminta ulang cakupan.
+
+
+---
+
+# Riwayat checkpoint sebelumnya
+
 # CP6 — pembagian kain kantong per periode terverifikasi
 
 22 September 2026. **CP6_HOLD · production_go:false · migration_installed:false · independent_acceptance:false.**
