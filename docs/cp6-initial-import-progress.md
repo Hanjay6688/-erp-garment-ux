@@ -1,3 +1,11 @@
+# CP6 — koreksi fixture pembaca nota aksesori
+
+Native35731316138 pada d81c7a70121e6c8d7602e186709219d0682b98c7/tree8baef780f173fbd9be8d9ab8f607da882fe9f737:184 kasus AP, **183 PASS /1 INCOMPLETE**. Seluruh21 kasus connected selesai kecuali fixture otorisasi pembaca; role STAFF legacy sengaja nonaktif sehingga reader menolak dengan benar. Fixture kini memakai AUDITOR_VIEW_ONLY yang aktif dan hanya izin finance.contractor_accessory.view. Tidak ada perubahan izin/kode aplikasi dalam koreksi ini.12 AO dan142 frontend PASS; semua boundary pulih. Native184/184 belum PASS. CodeQL35731316355 empat bahasa SUCCESS.
+
+Artifact native gagal10696160988,144.403byte,11entri,SHA256c45a21bebb637547bed68e4091691948a09ad62191ad42cee7ca83b4f37abdef terverifikasi dan dipertahankan. Final Boundary35731316235/job106757298660 gagal pada Verify unchanged AI-R2 backend and bounded writer UI scope sebelum database, konsisten dengan blocker scope successor lama; artifact10695671086,479.720byte,7entri,SHA25685ba0c4657bd6311df4344a0ee642488bceee83bae132dd1387eccba26208faa. Guard tidak diubah. CP6_HOLD; production_go:false; migration_installed:false; independent_acceptance:false.
+
+---
+
 # CP6 — proposal form eceran aksesori terhubung
 
 22 September 2026. **CP6_HOLD · production_go:false · migration_installed:false · independent_acceptance:false.**

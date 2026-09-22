@@ -102,7 +102,9 @@ def authorization(a,cur,today):
     f=fixture(a,cur,today);key=uuid.uuid4();r=call(a,cur,'SAVE_DRAFT',f['payload'],key)
     backup=uuid.uuid4();cur.execute("insert into auth.users(id,aud,role,email) values(%s,'authenticated','authenticated',%s)",(backup,'accessory-backup-'+backup.hex+'@example.test'))
     cur.execute("insert into erp.app_users(auth_user_id,full_name,role,role_id,is_active) select %s,'Accessory backup owner','OWNER',id,true from erp.app_roles where role_code='OWNER'",(backup,))
-    role=cur.execute("select id from erp.app_roles where role_code='STAFF'").fetchone()[0]
+    # The legacy STAFF catalog role is deliberately inactive. Use an active
+    # read-only role, then narrow its fixture permissions to this one reader.
+    role=cur.execute("select id from erp.app_roles where role_code='AUDITOR_VIEW_ONLY' and is_active").fetchone()[0]
     cur.execute('delete from erp.app_role_permissions where role_id=%s',(role,));cur.execute("insert into erp.app_role_permissions(role_id,permission_key) values(%s,'finance.contractor_accessory.view')",(role,))
     cur.execute("update erp.app_users set role='STAFF',role_id=%s where auth_user_id=%s",(role,a.base.OPERATOR_AUTH))
     assert read(a,cur,dict(id=r['id']))['document']['id']==r['id']
