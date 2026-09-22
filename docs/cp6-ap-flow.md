@@ -53,3 +53,15 @@ refused the second name with23505/409. The follow-up gives each synthetic role
 a distinct name and strengthens ledger observers to compare every account plus
 the actual22.75 accessory receivable journal. Product/schema/permissions are
 unchanged. The failed attempt remains evidence, not a business PASS.
+
+Second attempt `36afa345be84489f0a65a93e50976e2479b89dba`, tree
+`91ff9bf81b9fd6810c4524408dd643cc49640434`, run35747713442 completed17 observations:
+login-page smoke,three owner HTTP readers,twelve denied writer calls with complete
+ERP data boundaries,and real browser password login. Creating the import draft
+also succeeded. The exact-label selector for the implicit `Jenis data` label
+failed because its accessible text includes its select options. The retained
+screenshot shows the correct empty draft and enabled upload form. Follow-up uses
+the combobox role and label prefix; it does not force a click or mock responses.
+Both attempts preserved all7148 AP catalog entries,the primary ERP data,and zero
+Auth/clone/container residue. Attempt1 ZIP SHA256c6266e092c081fe204ba877c150de9153ba3203270b8249c5ff7f797f99369aa;
+attempt2 SHA256b1eb2e9662fb4704de6f437df283371a48df8911faf29a8db83d192af686df59.

@@ -125,7 +125,7 @@ async function mutate(p,label,family,action,{lost=false}={}){
   return {value:committed,args:original}
 }
 async function upload(entity,text){
-  await page.getByLabel('Jenis data',{exact:true}).selectOption(entity)
+  await page.getByRole('combobox',{name:/^Jenis data/}).selectOption(entity)
   await page.getByLabel('Pilih file CSV',{exact:true}).setInputFiles({name:entity+'.csv',mimeType:'text/csv',buffer:Buffer.from(text)})
   await mutate(page,'Simpan perubahan draft','initial_import','SAVE_FILE')
   await expect(page.getByRole('button',{name:'Simpan perubahan draft',exact:true})).toHaveCount(0)
@@ -142,14 +142,14 @@ async function importFlow(){
   await mutate(page,'Periksa seluruh draft','initial_import','VALIDATE')
   await expect(page.getByRole('button',{name:'Sahkan data awal',exact:true})).toBeEnabled()
   pass('IMPORT_REAL_CSV_PREVIEW_VALIDATE',{files:3,batch})
-  await page.getByLabel('Jenis data',{exact:true}).selectOption('OPENING_BALANCE_ITEM')
+  await page.getByRole('combobox',{name:/^Jenis data/}).selectOption('OPENING_BALANCE_ITEM')
   await page.getByLabel('Nominal, baris 2',{exact:true}).fill('17.25')
   await mutate(page,'Simpan perubahan draft','initial_import','SAVE_FILE')
   await mutate(page,'Periksa seluruh draft','initial_import','VALIDATE')
   await expect(page.getByRole('button',{name:'Sahkan data awal',exact:true})).toBeDisabled()
   assert.deepEqual(native('state').all_ledger,before.all_ledger)
   pass('IMPORT_EDIT_AFTER_VALIDATE_MISMATCH_BLOCKED',{journal_unchanged:true})
-  await page.getByLabel('Jenis data',{exact:true}).selectOption('OPENING_CONTROL')
+  await page.getByRole('combobox',{name:/^Jenis data/}).selectOption('OPENING_CONTROL')
   await page.getByLabel('Total nominal, baris 2',{exact:true}).fill('17.25')
   await mutate(page,'Simpan perubahan draft','initial_import','SAVE_FILE');await mutate(page,'Periksa seluruh draft','initial_import','VALIDATE')
   await mutate(page,'Sahkan data awal','initial_import','FINALIZE',{lost:true})
@@ -251,6 +251,7 @@ try{
 }catch(error){
   failure=error;report.error=safe(error.stack||error).slice(0,12000)
   if(error.stderr)report.process_stderr=safe(error.stderr).slice(-12000)
+  if(page)try{report.visible_text_on_failure=safe(await page.locator('body').innerText()).slice(0,18000)}catch{}
   if(page)try{await page.screenshot({path:resolve(dir,'failure.png'),fullPage:true})}catch{}
 }finally{
   if(browser)await browser.close();if(preview)preview.kill();if(proxy)await new Promise(ok=>proxy.close(ok))
