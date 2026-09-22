@@ -1,6 +1,6 @@
 """Closed-admission AR install/restore; exact AQ history and data remain pinned."""
 from pathlib import Path
-import json,os,subprocess
+import json,os,subprocess,time
 import psycopg
 from psycopg import sql
 import cp6_ar_build as build
@@ -10,7 +10,7 @@ import cp6_ao_ap_maintenance as maintenance
 import cp6_preuse_rollback_maintenance as core
 from cp6_ao_ap_inventory import data,function_pins,platform,sha
 
-EXPECTED_PINS='997ac2aac7f4087e55b4bd7fdb26cbcc450cb8a9a0f26c9fbc04dc9b5fa53f87'
+EXPECTED_PINS='8aeb2041edc8e3232545a269a928dc6eb4cc15c84c7195bcf97fd28a7c85a681'
 def pins():
     aq.pins()
     assert sha(build.PINS.read_bytes())==EXPECTED_PINS,'AR_SOURCE_PINS_DRIFT'
@@ -50,16 +50,35 @@ def change(kind,pg,control_url):
                 (aq.verified(cur) if kind=='install' else verified(cur))
             pid=core._scalar(conn,'select pg_backend_pid()')
             control.execute(sql.SQL('alter database {} with allow_connections false').format(sql.Identifier(database)))
-            assert not core._sessions(control,database,pid),'AR_REQUIRES_DRAINED_DATABASE'
-            with conn.transaction(),conn.cursor() as cur:
-                cur.execute(prior.sql_body(path.read_text()),prepare=False)
-                if kind=='install':cur.execute('insert into supabase_migrations.schema_migrations(version,name,statements) values(%s,%s,%s)',(build.STAMP,build.NAME,[path.read_text()]))
-                result=verified(cur) if kind=='install' else aq.verified(cur)
+            # The SQL guard requires every backend to drain, including a
+            # finishing autovacuum worker. The inherited controller helper only
+            # enumerates client backends. Keep the stricter SQL guard unchanged.
+            observations=[];deadline=time.monotonic()+10
+            while True:
+                sessions=control.execute('select pid,backend_type,application_name,state from pg_stat_activity where datname=%s and pid<>%s order by pid',(database,pid)).fetchall()
+                if sessions:
+                    observations.append(dict(sessions=sessions))
+                    assert time.monotonic()<deadline,('AR_REQUIRES_DRAINED_DATABASE',sessions)
+                    time.sleep(.05);continue
+                try:
+                    with conn.transaction(),conn.cursor() as cur:
+                        cur.execute(prior.sql_body(path.read_text()),prepare=False)
+                        if kind=='install':cur.execute('insert into supabase_migrations.schema_migrations(version,name,statements) values(%s,%s,%s)',(build.STAMP,build.NAME,[path.read_text()]))
+                        result=verified(cur) if kind=='install' else aq.verified(cur)
+                    break
+                except psycopg.Error as exc:
+                    # An in-flight backend can become visible between the two
+                    # checks. Retry only this fail-closed pre-mutation refusal,
+                    # after psycopg has rolled the entire attempt back.
+                    if exc.sqlstate!='P0001' or 'PACKAGE_REQUIRES_CLOSED_DRAINED_DATABASE' not in str(exc):raise
+                    observations.append(dict(sql_guard_refused=True))
+                    if time.monotonic()>=deadline:raise
+                    time.sleep(.05)
             with conn.transaction(),conn.cursor() as cur:
                 (verified(cur) if kind=='install' else aq.verified(cur))
             control.execute(sql.SQL('alter database {} with allow_connections true').format(sql.Identifier(database)))
             assert core._scalar(control,'select datallowconn from pg_database where datname=%s',(database,))
-            return dict(action=kind,status='PASS',closed_drained=True,committed_verified=True,admission_reopened=True,runtime=result)
+            return dict(action=kind,status='PASS',closed_drained=True,committed_verified=True,admission_reopened=True,runtime=result,drain_observations=observations)
         finally:control.execute(maintenance.UNLOCK)
 
 def advisors(pg,stage,path,baseline=None):
@@ -125,7 +144,10 @@ def refuse_post_use(pg,admin,out):
         control.execute(maintenance.LOCK)
         try:
             control.execute(sql.SQL('alter database {} with allow_connections false').format(sql.Identifier('cp6_rollback')))
-            assert not core._sessions(control,'cp6_rollback',core._scalar(conn,'select pg_backend_pid()'))
+            pid=core._scalar(conn,'select pg_backend_pid()');deadline=time.monotonic()+10
+            while control.execute('select 1 from pg_stat_activity where datname=%s and pid<>%s',('cp6_rollback',pid)).fetchone():
+                assert time.monotonic()<deadline,'AR_POST_USE_DRAIN_TIMEOUT'
+                time.sleep(.05)
             with conn.transaction(),conn.cursor() as cur:
                 verified(cur);before=dict(data=data(cur),platform=platform(cur))
                 try:

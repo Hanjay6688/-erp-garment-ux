@@ -269,6 +269,38 @@ def inherited_cases(cur,today):
     for module in (api.accessories,api.receipts,api.production_origins,api.pocket,api.periods):cases+=module.cases(a,cur,today)
     return cases
 
+def request_concurrency(today,variant):
+    with psycopg.connect(ADMIN) as c,c.cursor() as cur:
+        f=fixture(cur,today,'MATERIAL')
+        payload=dict(batch_id=f['batch'],expected_revision=api.read(cur,f['batch'])['batch']['revision'])
+    key=uuid.uuid4()
+    with psycopg.connect(ADMIN) as first,psycopg.connect(ADMIN) as second:
+        for c in (first,second):c.execute("set statement_timeout='18s';set lock_timeout='15s'");c.commit()
+        posted=api.call(first.cursor(),'FINALIZE',payload,key);assert posted['status']=='POSTED'
+        def worker():
+            try:
+                result=api.call(second.cursor(),'WIP_OUTPUT' if variant=='ACTION' else 'FINALIZE',dict(payload,notes='changed') if variant=='PAYLOAD' else payload,key)
+                second.commit();return dict(result=result)
+            except psycopg.Error as exc:
+                second.rollback();return dict(sqlstate=exc.sqlstate,error=str(exc))
+        with ThreadPoolExecutor(max_workers=1) as pool:
+            future=pool.submit(worker);blocked=False
+            try:
+                with psycopg.connect(ADMIN,autocommit=True) as observer:
+                    deadline=time.monotonic()+7
+                    while time.monotonic()<deadline and not future.done():
+                        blocked=observer.execute('select %s=any(pg_blocking_pids(%s))',(first.info.backend_pid,second.info.backend_pid)).fetchone()[0]
+                        if blocked:break
+                        time.sleep(.03)
+                assert blocked,'REQUEST_RACE_NOT_OBSERVED'
+            finally:first.commit()
+            result=future.result(timeout=20)
+        if variant=='REPLAY':assert result==dict(result=posted),result
+        else:
+            assert result.get('sqlstate')=='P0001' and any(x in result['error'].lower() for x in ('request','idempot','permintaan')),result
+        with psycopg.connect(ADMIN) as c,c.cursor() as cur:state=exactly_once(cur,f,'imported')
+    return dict(status='PASS',blocking_observed=True,same_request_id=True,variant=variant,second=result,economics=state)
+
 def main():
     assert os.environ.get('CP6_AR_CONFIRM')=='cp6_rollback'
     assert os.environ.get('CP6_DATABASE_CONTAINER')=='supabase_db_cp5-local'
@@ -314,6 +346,10 @@ def main():
                 try:result=concurrency(today,'MATERIAL',winner,commit=same,same_header=same)
                 except Exception as exc:result=dict(status='INCOMPLETE',error=str(exc),traceback=traceback.format_exc())
                 report['cases'][name]=result;save()
+        for variant in ('REPLAY','PAYLOAD','ACTION'):
+            try:result=request_concurrency(today,variant)
+            except Exception as exc:result=dict(status='INCOMPLETE',error=str(exc),traceback=traceback.format_exc())
+            report['cases']['REQUEST_CONCURRENT_'+variant]=result;save()
         report['cases']['STALE_SNAPSHOT_ISOLATION']=isolation_guard(today);save()
         ar.refuse_post_use(PG,ADMIN,OUT)
         with psycopg.connect(ADMIN) as c,c.cursor() as cur:ar.verified(cur)

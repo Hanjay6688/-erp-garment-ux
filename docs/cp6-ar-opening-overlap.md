@@ -22,8 +22,10 @@ AR does not claim to detect duplicate legacy-only records or every duplicate
 import source across batches. A different warehouse, roll, product/size, party,
 or non-overlapping production position must remain admissible.
 
-Native post already holds `FG_HPP_SALES_V2620C`. Import FINALIZE and native
-prepare now acquire the same transaction lock before batch/header/source locks.
+Native post already holds `FG_HPP_SALES_V2620C`. Import FINALIZE, WIP_OUTPUT and
+native prepare now acquire it before batch/header/source/idempotency locks.
+WIP_OUTPUT retains its pocket-period lock before this shared lock; reusing a
+request UUID across actions cannot invert these two request lock paths.
 The check runs on locked, current opening lines before economic effects. Canonical
 post requires READ COMMITTED so a stale repeatable-read snapshot cannot bypass
 the post-wait check. Existing journal, HPP and stock posting logic is unchanged.
@@ -40,6 +42,17 @@ abort recovery and same-header races. Exact subledger, journal, material/FG,
 WIP and BS effects are checked. Inherited connected lifecycle cases run on AR.
 Two nonempty pre-use install/rollback cycles and post-use rollback refusal are
 required. Reports bind source SHA/tree, SQL hashes and the complete runtime catalog.
+The original ten probe helpers are also replayed unchanged, and request replay,
+changed payload, stale revision, revoked permissions and isolation are checked.
+
+First run `35771115252` qualified two pre-use cycles and post-use refusal, with
+648 functions/7,148 catalog objects verified and 107 case passes. It did not pass
+the overlap suite: its result reader had an unescaped SQL LIKE percent and its
+multi-fixture brand names collided. Those test defects are corrected. Second run
+`35772081734` completed both rollback cycles but stopped at the final install's
+closed/drained guard before business cases. AR's controller now waits for all
+backend types, matching the unchanged SQL guard, and records bounded retries of
+only its pre-mutation closed/drained refusal. Neither failed run is fix acceptance.
 
 At initial implementation there is **no fix PASS claim**. Native legacy checks
 use the actual canonical function with owner claims in an administrative

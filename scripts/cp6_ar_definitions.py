@@ -34,7 +34,8 @@ replace(PREPARE,'  perform erp.require_owner_admin();select * into b',
     '  select * into b')
 replace(ACTION," v_cached:=erp._idempotency_begin('save_initial_import_action_v1',p_client_request_id,",
     " -- AR: same lock order as native prepare/post, before any batch lock.\n"
-    " if v_action='FINALIZE' then\n"
+    " if v_action='WIP_OUTPUT' then perform erp.pocket_period_lock_v1();end if;\n"
+    " if v_action in('FINALIZE','WIP_OUTPUT') then\n"
     "   perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));\n"
     " end if;\n"
     " v_cached:=erp._idempotency_begin('save_initial_import_action_v1',p_client_request_id,")

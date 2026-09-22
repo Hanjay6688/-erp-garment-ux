@@ -22,7 +22,7 @@ do $platform$ begin
  if not exists(select 1 from erp.schema_migrations where version='v2.6.20ar')
   or (select count(*) from supabase_migrations.schema_migrations where name='erp_v2_6_20ar_cp6_opening_overlap')<>1
   or not exists(select 1 from supabase_migrations.schema_migrations where version='20260922185015' and name='erp_v2_6_20ar_cp6_opening_overlap'
-   and encode(extensions.digest(convert_to(array_to_string(statements,E'\n'),'UTF8'),'sha256'),'hex')='f1adbbce743d2024ab8900cdad5f8bae0f00338ac43127418825021035582ddb')
+   and encode(extensions.digest(convert_to(array_to_string(statements,E'\n'),'UTF8'),'sha256'),'hex')='7da20a87d48493b4b64c10c395e8e54f87c1c40a835fbd09bbf2cdbc8866fa10')
   or exists(select 1 from supabase_migrations.schema_migrations where version>'20260922185015')
  then raise exception 'AR_ROLLBACK_PLATFORM_OR_SUCCESSOR';end if;
 end $platform$;
@@ -89,7 +89,7 @@ with relations as (
 select coalesce(jsonb_object_agg(k,encode(extensions.digest(convert_to(v::text,'UTF8'),'sha256'),'hex')),'{}'::jsonb) from objects
 ) catalog;
  select count(*),encode(extensions.digest(convert_to(coalesce(string_agg(length(key)::text||':'||key||':'||value,E'\n' order by key collate "C"),''),'UTF8'),'sha256'),'hex') into object_count,fingerprint from jsonb_each_text(actual);
- if object_count<>7148 or fingerprint is distinct from 'd399b01ea6e701dfdd776fa22ac6ba833f8912a96dfba8f46c89e64f8fb05b4d' then
+ if object_count<>7148 or fingerprint is distinct from '37c43e8bd14d91bac53962709e3adcbc91675d001f10ecc2a29309e77eb94c5c' then
   raise exception 'AR_ROLLBACK_CATALOG_DRIFT';
  end if;
 end $catalog_guard$;
@@ -240,7 +240,7 @@ begin
  select boundary_snapshot into boundary from erp.cp6_v2620ar_rollback_capsule limit 1;
  if boundary is null or exists(select 1 from erp.cp6_v2620ar_rollback_capsule where boundary_snapshot is distinct from boundary)
   or not(boundary ?& array['before','after','platform_before','markers_before']) then raise exception 'AR_CAPSULE_BOUNDARY';end if;
- for r in select * from jsonb_each('{"erp.post_opening_balance(uuid)":{"acl":["authenticated=X/postgres","postgres=X/postgres","service_role=X/postgres"],"identity":"erp.post_opening_balance(uuid)","installed_sha256":"be2fdd37cd4c0959b81aeb7444512a51b6b7471fee4af1d1846b18f8862c16c6","owner":"postgres","predecessor_sha256":"8e13d9c07bfba22931e62591a968a6843358765e2350cfa6b9f38b76a8620f2b"},"erp.prepare_migration_opening_balance(uuid,text)":{"acl":["authenticated=X/postgres","postgres=X/postgres","service_role=X/postgres"],"identity":"erp.prepare_migration_opening_balance(uuid,text)","installed_sha256":"0705ea5c2766d96d97d9e79a528d5321fc25ad07ce31f2565799b077bac49ff1","owner":"postgres","predecessor_sha256":"1ca3941a03a7d2eb39d1904547edc4b50e088d60ffbcb04215f8bf71a7d708a0"},"erp.save_initial_import_action_v1(text,jsonb,uuid)":{"acl":["postgres=X/postgres"],"identity":"erp.save_initial_import_action_v1(text,jsonb,uuid)","installed_sha256":"107c2a5fa54491d058da937e1b2b86e0785329fe5bced132f0126e0139b7ce93","owner":"postgres","predecessor_sha256":"a9229b1e5ce5180fb7da9720c09d2718eb70c700c2c0759303dc38d8c6085dce"}}'::jsonb) loop
+ for r in select * from jsonb_each('{"erp.post_opening_balance(uuid)":{"acl":["authenticated=X/postgres","postgres=X/postgres","service_role=X/postgres"],"identity":"erp.post_opening_balance(uuid)","installed_sha256":"be2fdd37cd4c0959b81aeb7444512a51b6b7471fee4af1d1846b18f8862c16c6","owner":"postgres","predecessor_sha256":"8e13d9c07bfba22931e62591a968a6843358765e2350cfa6b9f38b76a8620f2b"},"erp.prepare_migration_opening_balance(uuid,text)":{"acl":["authenticated=X/postgres","postgres=X/postgres","service_role=X/postgres"],"identity":"erp.prepare_migration_opening_balance(uuid,text)","installed_sha256":"0705ea5c2766d96d97d9e79a528d5321fc25ad07ce31f2565799b077bac49ff1","owner":"postgres","predecessor_sha256":"1ca3941a03a7d2eb39d1904547edc4b50e088d60ffbcb04215f8bf71a7d708a0"},"erp.save_initial_import_action_v1(text,jsonb,uuid)":{"acl":["postgres=X/postgres"],"identity":"erp.save_initial_import_action_v1(text,jsonb,uuid)","installed_sha256":"0b6ac7f6e0a40c8274655f356c602190f2e33cbd722d0fa82809938c7ec39a94","owner":"postgres","predecessor_sha256":"a9229b1e5ce5180fb7da9720c09d2718eb70c700c2c0759303dc38d8c6085dce"}}'::jsonb) loop
   select * into c from erp.cp6_v2620ar_rollback_capsule where object_regidentity=r.key;e:=r.value;
   if c.object_regidentity is null or c.definition_sha256 is distinct from e->>'predecessor_sha256'
    or encode(extensions.digest(convert_to(c.object_definition,'UTF8'),'sha256'),'hex') is distinct from e->>'predecessor_sha256'

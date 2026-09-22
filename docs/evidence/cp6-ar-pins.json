@@ -32,17 +32,17 @@
     {
       "identity": "erp.save_initial_import_action_v1(text,jsonb,uuid)",
       "predecessor_sha256": "a9229b1e5ce5180fb7da9720c09d2718eb70c700c2c0759303dc38d8c6085dce",
-      "installed_sha256": "107c2a5fa54491d058da937e1b2b86e0785329fe5bced132f0126e0139b7ce93",
+      "installed_sha256": "0b6ac7f6e0a40c8274655f356c602190f2e33cbd722d0fa82809938c7ec39a94",
       "owner": "postgres",
       "acl": [
         "postgres=X/postgres"
       ]
     }
   ],
-  "migration_sha256": "f1adbbce743d2024ab8900cdad5f8bae0f00338ac43127418825021035582ddb",
-  "rollback_sha256": "574c1a8862cb47c2e3bf7696ed2d0939b995207aaa944d1fd3a4359ee9db61f3",
+  "migration_sha256": "7da20a87d48493b4b64c10c395e8e54f87c1c40a835fbd09bbf2cdbc8866fa10",
+  "rollback_sha256": "732df12f2da63ca605d26f909307ca77499faadf5ef9c12e6e2a47c08fca674d",
   "builder_sha256": "730f0a2c0a5dc88c9047efc584edb760df944e979cd0ae7968e90335b967efe0",
-  "definitions_sha256": "17f913db85f2d80bccef66afbbd13c59f4cb87ea306284a8086ba3b48c3318a4",
+  "definitions_sha256": "f5bb5554366aff6b9906a11137bdf2e2fe86a19749746074cba195322efe4b86",
   "base_pins_sha256": "2f58f2b3ef00367e04c4ed2aa2f9418642452220b15139936c30608f700f8f9a",
   "production_go": false,
   "independent_acceptance": false
