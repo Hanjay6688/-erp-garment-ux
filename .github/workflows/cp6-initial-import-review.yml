@@ -5,7 +5,8 @@ name: CP6 Initial Import Native Trial
     - competition/cp6-j-closure-20260911
     paths:
     - .github/workflows/cp6-initial-import-review.yml
-    - scripts/cp6_pocket_fabric*
+    - scripts/cp6_pocket*
+    - docs/evidence/cp6-pocket-period*
     - src/ConnectedPocketFabricPage*
     - scripts/cp6_initial_import*
     - scripts/cp6_v2620ap*

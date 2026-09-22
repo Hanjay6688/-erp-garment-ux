@@ -14,6 +14,7 @@ from cp6_initial_import_receipt_trial import cases as receipt_cases
 from cp6_initial_import_advance_trial import cases as advance_cases
 from cp6_initial_import_prepayment_trial import cases as prepayment_cases
 from cp6_pocket_fabric_trial import cases as pocket_cases
+from cp6_pocket_period_trial import cases as pocket_period_cases, mutex as pocket_period_mutex
 from types import SimpleNamespace
 assert not (set(FUNCTIONS) & set(AO_FUNCTIONS))
 FUNCTIONS={**AO_FUNCTIONS,**FUNCTIONS}
@@ -308,8 +309,9 @@ try:
   cur.execute(TRIGGERS,prepare=False)
   admin(cur)
   installed=function_catalog(cur)
-  public=cur.execute("select 'public.'||p.oid::regprocedure::text,pg_get_functiondef(p.oid),p.proacl::text,pg_get_userbyid(p.proowner) from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public' and p.proname in('erp_get_initial_import_workspace_v1','erp_save_initial_import_action_v1','erp_get_pocket_fabric_workspace_v1','erp_save_pocket_fabric_action_v1') order by 1").fetchall()
+  public=cur.execute("select 'public.'||p.oid::regprocedure::text,pg_get_functiondef(p.oid),p.proacl::text,pg_get_userbyid(p.proowner) from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='public' and p.proname in('erp_get_initial_import_workspace_v1','erp_save_initial_import_action_v1','erp_get_pocket_fabric_workspace_v1','erp_save_pocket_fabric_action_v1','erp_preview_pocket_fabric_period_v1') order by 1").fetchall()
   (ROOT/'INSTALLED_FUNCTIONS.json').write_text(json.dumps(dict(functions=[r for r in installed if r[0] in FUNCTIONS]+public),indent=2)+'\n')
+  report['cases']['POCKET_PERIOD_MUTEX']=pocket_period_mutex(SimpleNamespace(**globals()),cur,URL,psycopg.connect);save()
   # The inherited seed includes historical native calls: temporary USAGE is
   # fixture-only and rolled back. Neither public RPC requires this grant.
   cur.execute('grant usage on schema erp to authenticated')
@@ -326,6 +328,7 @@ try:
   cases += advance_cases(SimpleNamespace(**globals()),cur,today)
   cases += prepayment_cases(SimpleNamespace(**globals()),cur,today)
   cases += pocket_cases(SimpleNamespace(**globals()),cur,today)
+  cases += pocket_period_cases(SimpleNamespace(**globals()),cur,today)
   for name,fn in cases:
    admin(cur);before=actors.boundary(cur);cur.execute('savepoint proposed_case')
    try:result=fn()

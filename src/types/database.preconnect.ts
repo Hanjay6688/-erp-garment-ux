@@ -25,6 +25,7 @@ export type PreconnectDatabase = {
     }
     Functions: {
       erp_get_pocket_fabric_workspace_v1: { Args: { p_query?: string }; Returns: Json }
+      erp_preview_pocket_fabric_period_v1: { Args: { p_period_start: string; p_period_end: string }; Returns: Json }
       erp_save_pocket_fabric_action_v1: { Args: { p_action: string; p_payload: Json; p_client_request_id: string }; Returns: Json }
       erp_get_initial_import_workspace_v1: { Args: { p_batch_id?: string | null }; Returns: Json }
       erp_save_initial_import_action_v1: {

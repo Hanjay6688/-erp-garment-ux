@@ -97,6 +97,7 @@ assert.deepEqual([...rpcOwnership].sort(), [
   'src/ConnectedCuttingPage.tsx:erp_get_cutting_workspace_v2',
   'src/ConnectedCuttingPage.tsx:erp_save_cutting_group_before_sewing_v2',
   'src/ConnectedPocketFabricPage.tsx:erp_get_pocket_fabric_workspace_v1',
+  'src/ConnectedPocketFabricPage.tsx:erp_preview_pocket_fabric_period_v1',
   'src/ConnectedPocketFabricPage.tsx:erp_save_pocket_fabric_action_v1',
   'src/ConnectedInitialImportPage.tsx:erp_get_initial_import_workspace_v1',
   'src/ConnectedInitialImportPage.tsx:erp_save_initial_import_action_v1',

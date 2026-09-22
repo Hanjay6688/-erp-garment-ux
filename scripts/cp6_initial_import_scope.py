@@ -9,6 +9,7 @@ ALLOWED={
  'scripts/check-access-catalog.mjs','scripts/check-production-recovery.mjs','scripts/check-source-ownership.mjs',
  'scripts/cp6_initial_import_ao_trial.py','scripts/cp6_v2620ao_definitions.py','docs/evidence/cp6-ao-predecessor-input.json',
  'scripts/cp6_pocket_fabric.py','scripts/cp6_pocket_fabric_trial.py',
+ 'scripts/cp6_pocket_periods.py','scripts/cp6_pocket_period_trial.py','docs/evidence/cp6-pocket-period-predecessor.json',
  'src/ConnectedPocketFabricPage.tsx','src/ConnectedPocketFabricPage.dom.test.tsx',
  'scripts/cp6_initial_import_scope.py','scripts/cp6_initial_import_trial.py','scripts/cp6_initial_import_masters.py','scripts/cp6_initial_import_financial_sources.py','scripts/cp6_v2620ap_definitions.py',
  'src/App.tsx','src/auth/accessCatalog.ts','src/productionRecovery.ts','src/types/database.preconnect.ts',

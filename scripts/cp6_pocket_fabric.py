@@ -207,7 +207,7 @@ returns table(check_name text,severity text,issue_count bigint,details text) lan
   erp._cp6_supplier_cent_ledger((select array_agg(j.id) from all_journals j where j.adjustment_id=u.adjustment_id))
   is distinct from case when u.signed_value=0 then '{}'::jsonb else jsonb_build_object(
    erp.account_id('MATERIAL_INVENTORY')::text,u.signed_value,erp.account_id('OTHER_EXPENSE')::text,-u.signed_value) end
- union all select 'AP_POCKET_NO_PRODUCT_ALLOCATION','CRITICAL',count(*),'Warehouse-only pocket fabric does not create sized production or product HPP' from erp.cutting_group_rolls c join erp.material_rolls r on r.id=c.roll_id
+ union all select 'AP_POCKET_NO_CUTTING','CRITICAL',count(*),'Pocket fabric does not create sized cutting output' from erp.cutting_group_rolls c join erp.material_rolls r on r.id=c.roll_id
   join erp.pocket_fabric_materials p on p.material_id=r.material_id;
 $function$;
 """

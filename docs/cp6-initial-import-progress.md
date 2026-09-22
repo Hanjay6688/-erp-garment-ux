@@ -1,3 +1,19 @@
+# CP6 — proposal pembagian kain kantong per periode
+
+22 September 2026. **CP6_HOLD · production_go:false · migration_installed:false · independent_acceptance:false.**
+
+Owner mengizinkan: “ya gas lah tanggung ye”. Pembagian biaya per periode sekarang menjadi scope aktif. Dasarnya seluruh celana SELESAI_DIJAHIT pada periode, termasuk Afui; pengecualian absensi mandor khusus tidak mengecualikan kain kantong. Ini alokasi nilai pengeluaran gudang, bukan pengukuran konsumsi aktual atau saldo setiap mandor. Alur stok tetap dapat dipakai tanpa alokasi HPP.
+
+Pratinjau memperlihatkan periode, biaya, jumlah hasil jahit dan biaya per pcs tanpa menulis ledger. Pengesahan terpisah memerlukan warehouse.stock.adjust serta finance.hpp.manage. Manifest sumber biaya/output dan revision diperiksa ulang di bawah mutex; histori sumber/destinasi/event immutable. Pembulatan memakai selisih total kumulatif sehingga semua sen terbagi. Periode aktif tidak boleh bertumpang tindih.
+
+Pengesahan mengalihkan OTHER_EXPENSE ke WIP per PO, kemudian rebuild HPP dan GL native mengikuti barang belum jadi, FG dan barang terjual. Koreksi nota memicu recost dengan tanggal ekonomi AO serta pembukuan canonical; biaya tidak digandakan dan stok tidak bergerak lagi. Pembatalan tertaut mengembalikan biaya periode dan HPP, mempertahankan sumber asli. Penambahan pengeluaran di periode aktif, inverse sumber, serta perubahan hasil jahit yang memengaruhi denominator/urutan memerlukan pembatalan alokasi dahulu. Generic reversal jurnal alokasi ditolak.
+
+Mutex transaksi memakai try-lock agar konflik dengan penulis invoice/produksi gagal atomik dan dapat dicoba lagi tanpa membentuk deadlock urutan lock. Uji konflik dua koneksi mencakup mutex, belum seluruh transaksi bisnis serentak. Global concurrency dan HTTP/browser nyata tetap gate berikutnya.
+
+Lokal: **84/84 frontend/recovery PASS**, TypeScript dan source/access/CSS/recovery ownership PASS. 103 runtime files,28 browser RPC,111 permissions,48 routes/nav labels,20 sensitive actions,37 stylesheet,7 recovery domains. AP berisi79 fungsi dan25 predecessor; AO11 fungsi/predecessor unchanged.40 source pins. Native direncanakan **136 AP** (120 existing +16 periode termasuk mutex, campuran mandor/pembulatan, recost, cancel, tanggal tertutup dan penolakan) +12 AO. **Native periode belum PASS pada proposal ini.** Semua perubahan adalah proposal pada runtime disposable; migrasi permanen dan penerimaan independen belum selesai. Bukti checkpoint stok-only sebelumnya disimpan di bawah sebagai riwayat.
+
+---
+
 # CP6 — kain kantong universal: stok gudang tanpa HPP produk
 
 22 September 2026. **CP6_HOLD · production_go:false · migration_installed:false · independent_acceptance:false.**
