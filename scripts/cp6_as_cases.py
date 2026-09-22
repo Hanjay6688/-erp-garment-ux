@@ -56,7 +56,9 @@ def output_guard(cur, today, variant):
     if variant=='CONFLICTING_ID': payload['product_id']=str(product[0])
     if variant=='FUTURE_ID':
         # A new master version cannot receive production before it ever existed.
-        cur.execute('insert into erp.products(sku,product_name,model_id,brand_id,size_id,color_name,is_active,effective_from) values(%s,%s,%s,%s,%s,\'Blue\',true,%s) returning id',
+        # Distinct color keeps this new SKU valid under the existing temporal
+        # identity guard; the RPC must reject its date, not an invalid fixture.
+        cur.execute('insert into erp.products(sku,product_name,model_id,brand_id,size_id,color_name,is_active,effective_from) values(%s,%s,%s,%s,%s,\'Green\',true,%s) returning id',
                     (tag,tag,product[1],brand,product[2],probe.invoice.at(today,8)))
         payload.update(product_id=str(cur.fetchone()[0]),product_sku=tag)
     before = predecessor.snapshot(cur)
@@ -69,6 +71,7 @@ def output_guard(cur, today, variant):
     api.admin(cur);cur.execute('release savepoint output_call')
     if variant!='BRAND_SECOND':
         assert refusal and predecessor.snapshot(cur)==before, (variant,refusal)
+        if variant=='FUTURE_ID':assert 'tanggal hasil yang sesuai' in refusal['message'],refusal
         return dict(status='PASS',variant=variant,refusal=refusal,all_data_unchanged=True)
     assert not refusal, refusal
     chosen = cur.execute('select product_id from erp.fg_lots where id=%s',(result['lot_id'],)).fetchone()[0]
