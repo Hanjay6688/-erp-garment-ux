@@ -1,0 +1,49 @@
+{
+  "version": "v2.6.20ar",
+  "stamp": "20260922185015",
+  "name": "erp_v2_6_20ar_cp6_opening_overlap",
+  "migration": "supabase/migrations/20260922185015_erp_v2_6_20ar_cp6_opening_overlap.sql",
+  "rollback": "supabase/rollbacks/20260922185015_erp_v2_6_20ar_cp6_opening_overlap.rollback.sql",
+  "capsule": "erp.cp6_v2620ar_rollback_capsule",
+  "previous": "AQ",
+  "functions": [
+    {
+      "identity": "erp.post_opening_balance(uuid)",
+      "predecessor_sha256": "8e13d9c07bfba22931e62591a968a6843358765e2350cfa6b9f38b76a8620f2b",
+      "installed_sha256": "be2fdd37cd4c0959b81aeb7444512a51b6b7471fee4af1d1846b18f8862c16c6",
+      "owner": "postgres",
+      "acl": [
+        "authenticated=X/postgres",
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ]
+    },
+    {
+      "identity": "erp.prepare_migration_opening_balance(uuid,text)",
+      "predecessor_sha256": "1ca3941a03a7d2eb39d1904547edc4b50e088d60ffbcb04215f8bf71a7d708a0",
+      "installed_sha256": "0705ea5c2766d96d97d9e79a528d5321fc25ad07ce31f2565799b077bac49ff1",
+      "owner": "postgres",
+      "acl": [
+        "authenticated=X/postgres",
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ]
+    },
+    {
+      "identity": "erp.save_initial_import_action_v1(text,jsonb,uuid)",
+      "predecessor_sha256": "a9229b1e5ce5180fb7da9720c09d2718eb70c700c2c0759303dc38d8c6085dce",
+      "installed_sha256": "107c2a5fa54491d058da937e1b2b86e0785329fe5bced132f0126e0139b7ce93",
+      "owner": "postgres",
+      "acl": [
+        "postgres=X/postgres"
+      ]
+    }
+  ],
+  "migration_sha256": "f1adbbce743d2024ab8900cdad5f8bae0f00338ac43127418825021035582ddb",
+  "rollback_sha256": "574c1a8862cb47c2e3bf7696ed2d0939b995207aaa944d1fd3a4359ee9db61f3",
+  "builder_sha256": "730f0a2c0a5dc88c9047efc584edb760df944e979cd0ae7968e90335b967efe0",
+  "definitions_sha256": "17f913db85f2d80bccef66afbbd13c59f4cb87ea306284a8086ba3b48c3318a4",
+  "base_pins_sha256": "2f58f2b3ef00367e04c4ed2aa2f9418642452220b15139936c30608f700f8f9a",
+  "production_go": false,
+  "independent_acceptance": false
+}
