@@ -1,0 +1,221 @@
+{
+  "BRAND": {
+    "label": "Merek",
+    "required": [
+      "brand_code",
+      "brand_name"
+    ],
+    "fields": {
+      "brand_code": "Kode merek",
+      "brand_name": "Nama merek",
+      "is_active": "Aktif"
+    }
+  },
+  "SIZE": {
+    "label": "Ukuran",
+    "required": [
+      "size_code"
+    ],
+    "fields": {
+      "size_code": "Kode ukuran",
+      "sort_order": "Urutan",
+      "is_active": "Aktif"
+    }
+  },
+  "MODEL": {
+    "label": "Model produk",
+    "required": [
+      "model_code",
+      "model_name"
+    ],
+    "fields": {
+      "model_code": "Kode model",
+      "model_name": "Nama model",
+      "description": "Keterangan",
+      "is_active": "Aktif"
+    }
+  },
+  "PRODUCT": {
+    "label": "Produk per ukuran",
+    "required": [
+      "sku",
+      "product_name",
+      "model_code",
+      "brand_code",
+      "color_name",
+      "size_code"
+    ],
+    "fields": {
+      "sku": "Kode produk",
+      "product_name": "Nama produk",
+      "model_code": "Kode model",
+      "brand_code": "Kode merek",
+      "color_name": "Warna",
+      "size_code": "Kode ukuran",
+      "is_active": "Aktif"
+    }
+  },
+  "CUSTOMER": {
+    "label": "Pelanggan",
+    "required": [
+      "customer_code",
+      "customer_name"
+    ],
+    "fields": {
+      "customer_code": "Kode pelanggan",
+      "customer_name": "Nama pelanggan",
+      "phone": "Telepon",
+      "address": "Alamat",
+      "is_active": "Aktif"
+    }
+  },
+  "SUPPLIER": {
+    "label": "Supplier",
+    "required": [
+      "supplier_code",
+      "supplier_name"
+    ],
+    "fields": {
+      "supplier_code": "Kode supplier",
+      "supplier_name": "Nama supplier",
+      "supplier_type": "Jenis supplier",
+      "phone": "Telepon",
+      "address": "Alamat",
+      "is_active": "Aktif"
+    }
+  },
+  "CONTRACTOR": {
+    "label": "Mandor",
+    "required": [
+      "contractor_code",
+      "contractor_name"
+    ],
+    "fields": {
+      "contractor_code": "Kode mandor",
+      "contractor_name": "Nama mandor",
+      "contractor_type": "Jenis mandor",
+      "attendance_required": "Wajib absensi",
+      "is_active": "Aktif",
+      "notes": "Catatan"
+    }
+  },
+  "ACCESSORY_CATEGORY": {
+    "label": "Kategori aksesori",
+    "required": [
+      "category_code",
+      "category_name",
+      "base_uom_code"
+    ],
+    "fields": {
+      "category_code": "Kode kategori",
+      "category_name": "Nama kategori",
+      "base_uom_code": "Satuan dasar",
+      "is_active": "Aktif",
+      "notes": "Catatan"
+    }
+  },
+  "MATERIAL": {
+    "label": "Bahan dan aksesori",
+    "required": [
+      "material_sku",
+      "material_name",
+      "material_type",
+      "unit_code"
+    ],
+    "fields": {
+      "material_sku": "Kode bahan",
+      "material_name": "Nama bahan",
+      "material_type": "Jenis bahan",
+      "unit_code": "Satuan dasar",
+      "accessory_category_code": "Kode kategori aksesori",
+      "is_active": "Aktif"
+    }
+  },
+  "MATERIAL_ROLL": {
+    "label": "Stok awal kain per roll",
+    "required": [
+      "material_sku",
+      "roll_number",
+      "opening_qty",
+      "unit_cost",
+      "location_code",
+      "control_key"
+    ],
+    "fields": {
+      "material_sku": "Kode bahan",
+      "roll_number": "Nomor roll",
+      "opening_qty": "Jumlah awal",
+      "unit_cost": "Biaya per satuan",
+      "location_code": "Kode gudang",
+      "supplier_code": "Kode supplier",
+      "notes": "Catatan",
+      "control_key": "Kode total pembanding"
+    }
+  },
+  "OPENING_BALANCE_ITEM": {
+    "label": "Stok dan saldo awal",
+    "required": [
+      "balance_type",
+      "control_key"
+    ],
+    "fields": {
+      "balance_type": "Jenis saldo",
+      "material_sku": "Kode bahan",
+      "product_sku": "Kode produk",
+      "brand_code": "Kode merek",
+      "model_code": "Kode model",
+      "color_name": "Warna",
+      "size_code": "Kode ukuran",
+      "location_code": "Kode gudang",
+      "contractor_code": "Kode mandor",
+      "customer_code": "Kode pelanggan",
+      "supplier_code": "Kode supplier",
+      "vendor_code": "Kode laundry",
+      "cash_account_code": "Kode kas bank",
+      "stage": "Tahap produksi",
+      "qty": "Jumlah",
+      "unit_cost": "Biaya per satuan",
+      "amount": "Nominal",
+      "quality_grade": "Kualitas",
+      "hpp_input_method": "Cara isi HPP",
+      "hpp_percent_of_price": "Persentase HPP",
+      "notes": "Catatan",
+      "control_key": "Kode total pembanding"
+    }
+  },
+  "OPEN_PO": {
+    "label": "Pesanan produksi berjalan",
+    "required": [
+      "po_number",
+      "model_code",
+      "status",
+      "current_stage"
+    ],
+    "fields": {
+      "po_number": "Nomor pesanan",
+      "model_code": "Kode model",
+      "contractor_code": "Kode mandor",
+      "target_qty_pcs": "Target buah",
+      "target_dozens": "Target lusin",
+      "status": "Status",
+      "current_stage": "Tahap produksi",
+      "physical_start_at": "Waktu mulai fisik",
+      "notes": "Catatan"
+    }
+  },
+  "OPENING_CONTROL": {
+    "label": "Total pembanding saldo awal",
+    "required": [
+      "control_key",
+      "balance_type",
+      "amount"
+    ],
+    "fields": {
+      "control_key": "Kode total pembanding",
+      "balance_type": "Jenis saldo",
+      "qty": "Total jumlah",
+      "amount": "Total nominal",
+      "notes": "Catatan"
+    }
+  }
+}

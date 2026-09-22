@@ -43,6 +43,7 @@ const MasterDataPages = lazy(() => import('./MasterDataPages'))
 const OperationsAdminPages = lazy(() => import('./OperationsAdminPages'))
 const FgNotaPage = lazy(() => import('./FgNotaPage'))
 const AccessControlPage = lazy(() => import('./AccessControlPage'))
+const ConnectedInitialImportPage = lazy(() => import('./ConnectedInitialImportPage'))
 const PatternPage = lazy(() => import('./PatternPage'))
 const ConnectedCuttingPage = lazy(() => import('./ConnectedCuttingPage'))
 const ConnectedPickupPage = lazy(() => import('./ConnectedPickupPage'))
@@ -52,7 +53,7 @@ const ConnectedLaundryPage = lazy(() => import('./ConnectedLaundryPage'))
 const ConnectedQcFinalPage = lazy(() => import('./ConnectedQcFinalPage'))
 const ConnectedFgHandoffBoundary = lazy(() => import('./ConnectedFgHandoffBoundary'))
 
-type Page = 'dashboard' | 'stock-card' | 'movements-vivo' | 'movements-widie' | 'procurement' | 'cutting-roll' | 'mandor-wip' | 'contractor-issue' | 'sewing-wip' | 'qc' | 'fg-handoff' | 'bs-rework' | 'laundry' | 'hpp' | 'master-pattern' | 'admin-access' | SalesView | FinanceView | WarehouseView | MaterialMasterView | BusinessMasterView | OperationsAdminView | 'placeholder'
+type Page = 'dashboard' | 'stock-card' | 'movements-vivo' | 'movements-widie' | 'procurement' | 'cutting-roll' | 'mandor-wip' | 'contractor-issue' | 'sewing-wip' | 'qc' | 'fg-handoff' | 'bs-rework' | 'laundry' | 'hpp' | 'master-pattern' | 'admin-access' | 'admin-import' | SalesView | FinanceView | WarehouseView | MaterialMasterView | BusinessMasterView | OperationsAdminView | 'placeholder'
 type NavSection = 'Produksi' | 'Gudang' | 'Penjualan' | 'Keuangan' | 'Master Data'
 type QtyTuple = [number, number, number]
 type SizeTuple = [string, string, string]
@@ -286,7 +287,7 @@ const operationsPageByLabel: Record<string, OperationsAdminView> = {
   'Tutup Periode':'admin-period-close',
   'Audit Trail':'admin-audit',
 }
-const adminNav = ['Reminder','Pengguna & Hak Akses','Pengaturan ERP','Tutup Periode','Audit Trail']
+const adminNav = ['Reminder','Pengguna & Hak Akses','Pengaturan ERP','Impor data awal','Tutup Periode','Audit Trail']
 const salesViews: SalesView[] = ['sales-invoice','sales-allocation','sales-returns','sales-payments','sales-history']
 const financeViews: FinanceView[] = ['finance-overview','finance-cash','finance-ap','finance-ar','finance-payroll','finance-journal','finance-reports']
 const isSalesView = (page: Page): page is SalesView => salesViews.includes(page as SalesView)
@@ -514,6 +515,7 @@ function App() {
     : page === 'master-pattern' ? 'Pola'
     : page === 'admin-reminders' ? 'Reminder'
     : page === 'admin-access' ? 'Pengguna & Hak Akses'
+    : page === 'admin-import' ? 'Impor data awal'
     : page === 'admin-settings' ? 'Pengaturan ERP'
     : page === 'admin-period-close' ? 'Tutup Periode'
     : page === 'admin-audit' ? 'Audit Trail'
@@ -553,6 +555,7 @@ function App() {
     else if (label === 'Aksesori & Harga Mandor') setPage('master-accessory')
     else if (label === 'Pola') setPage('master-pattern')
     else if (label === 'Pengguna & Hak Akses') setPage('admin-access')
+    else if (label === 'Impor data awal') setPage('admin-import')
     else setPage('placeholder')
     setMobileNav(false)
   }
@@ -575,7 +578,7 @@ function App() {
       </div>)}
       <div className="sidebar-spacer" />
       {adminNav.some(canSeeNavLabel) && <div className="nav-section admin-nav-section"><button className={`nav-main ${adminExpanded||page.startsWith('admin-')?'active':''}`} onClick={()=>{setAdminExpanded((value)=>!value);setExpanded(null)}}><Icon name="audit" /><span>Pengaturan & Audit</span><span className="chevron">{adminExpanded?'⌄':'›'}</span></button>
-        {adminExpanded&&<div className="submenu">{adminNav.filter(canSeeNavLabel).map((item)=>{const target=item==='Pengguna & Hak Akses'?'admin-access':operationsPageByLabel[item];return <button key={item} className={page===target?'sub-active':''} onClick={()=>chooseSubmenu(item)}>• {item}</button>})}</div>}
+        {adminExpanded&&<div className="submenu">{adminNav.filter(canSeeNavLabel).map((item)=>{const target=item==='Pengguna & Hak Akses'?'admin-access':item==='Impor data awal'?'admin-import':operationsPageByLabel[item];return <button key={item} className={page===target?'sub-active':''} onClick={()=>chooseSubmenu(item)}>• {item}</button>})}</div>}
       </div>}
       <RuntimeEnvironmentCard/>
     </aside>
@@ -707,6 +710,7 @@ function App() {
         {(page === 'master-products' || page === 'master-customers' || page === 'master-partners' || page === 'master-workforce' || page === 'master-locations') && <Suspense fallback={<WorkspaceFallback label="Master Data"/>}><MasterDataPages view={page}/></Suspense>}
         {page === 'master-pattern' && <Suspense fallback={<WorkspaceFallback label="Master Pola"/>}><PatternPage/></Suspense>}
         {page === 'admin-access' && <Suspense fallback={<WorkspaceFallback label="Pengguna & Hak Akses"/>}><AccessControlPage/></Suspense>}
+        {page === 'admin-import' && <Suspense fallback={<WorkspaceFallback label="Impor data awal"/>}><ConnectedInitialImportPage/></Suspense>}
         {isOperationsView(page) && <Suspense fallback={<WorkspaceFallback label="Pengaturan operasional"/>}><OperationsAdminPages view={page} onNavigate={(next)=>setPage(next)} reminders={reminders} onChangeReminders={setReminders}/></Suspense>}
         {page === 'placeholder' && <Placeholder />}
         </>}

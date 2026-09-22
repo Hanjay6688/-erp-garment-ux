@@ -1,6 +1,6 @@
 import type { Json } from './types/database.preconnect'
 
-export const productionDomains = ['BS', 'LAUNDRY_QC', 'CUTTING', 'PICKUP', 'WIP'] as const
+export const productionDomains = ['BS', 'LAUNDRY_QC', 'CUTTING', 'PICKUP', 'WIP', 'INITIAL_IMPORT'] as const
 export type ProductionDomain = typeof productionDomains[number]
 export type ProductionEnvelope = {
   action: string; payload: Json; expectedVersion: number | null
@@ -8,7 +8,7 @@ export type ProductionEnvelope = {
 }
 export const domainLabels: Record<ProductionDomain, string> = {
   BS: 'Barang BS & Rework', LAUNDRY_QC: 'Laundry / QC', CUTTING: 'Buat Potongan',
-  PICKUP: 'Bagi Potongan', WIP: 'Status WIP',
+  PICKUP: 'Bagi Potongan', WIP: 'Status WIP', INITIAL_IMPORT: 'Impor data awal',
 }
 const actions: Record<ProductionDomain, readonly string[]> = {
   BS: ['CREATE_MANUAL_BS', 'CLASSIFY_BS', 'SAVE_REWORK', 'COMPLETE_REWORK', 'DISPOSE_BS',
@@ -17,6 +17,7 @@ const actions: Record<ProductionDomain, readonly string[]> = {
   LAUNDRY_QC: ['POST_DELIVERY', 'POST_RECEIPT', 'POST_FAILED_WASH', 'REVERSE_DELIVERY',
     'REVERSE_RECEIPT', 'POST_FINAL_SKU', 'REVERSE_FINAL_SKU'],
   CUTTING: ['SAVE_DRAFT', 'POST', 'DELETE'], PICKUP: ['SAVE_DRAFT', 'POST', 'DELETE'], WIP: ['OPEN', 'RESOLVED'],
+  INITIAL_IMPORT: ['CREATE', 'SAVE_FILE', 'VALIDATE', 'FINALIZE'],
 }
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 const changeEvent = 'erp:production-recovery-changed'

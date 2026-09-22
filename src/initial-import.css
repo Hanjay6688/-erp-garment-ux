@@ -1,0 +1,26 @@
+.initial-import { display: grid; gap: 16px; min-width: 0; color: var(--text, #e9eff8); }
+.initial-import .panel { padding: 20px; background: var(--surface, #142138); border: 1px solid #2c3e58; }
+.initial-import h1 { margin: 5px 0 8px; font-size: 25px; }
+.initial-import p { margin: 6px 0; line-height: 1.55; }
+.initial-import-heading, .initial-import-toolbar, .initial-import-message { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.initial-import-heading { justify-content: space-between; }
+.initial-import-toolbar label { display: grid; gap: 7px; font-size: 13px; }
+.initial-import button, .initial-import-upload { display: inline-flex; align-items: center; justify-content: center; gap: 7px; padding: 10px 14px; min-height: 42px; color: #e9eff8; background: #20334f; border: 1px solid #456080; border-radius: 8px; cursor: pointer; }
+.initial-import button.primary { background: #17614d; border-color: #378875; }
+.initial-import button:disabled { opacity: .5; cursor: not-allowed; }
+.initial-import input, .initial-import select { padding: 10px; min-height: 42px; background: #0e1a2c; color: #e9eff8; border: 1px solid #455974; border-radius: 6px; }
+.initial-import input:focus-visible, .initial-import select:focus-visible, .initial-import button:focus-visible { outline: 2px solid #a2c9ff; outline-offset: 2px; }
+.initial-import-message { padding: 14px; border: 1px solid #a97d32; background: #352a1b; border-radius: 9px; }
+.initial-import-help { color: #b6c4d8; font-size: 13px; }
+.initial-import .initial-import-upload { position: relative; display: inline-flex; }
+.initial-import-upload input { max-width: 235px; padding: 5px; }
+.initial-import .initial-import-table { padding: 0; overflow: auto; max-height: 530px; }
+.initial-import table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.initial-import th, .initial-import td { padding: 9px 11px; border-bottom: 1px solid #2c3e58; text-align: left; }
+.initial-import thead th { position: sticky; top: 0; z-index: 1; background: #172941; white-space: nowrap; }
+.initial-import td input { width: 165px; }
+.initial-import-table > p { padding: 20px; }
+.initial-import-pagination { display: flex; align-items: center; justify-content: center; gap: 16px; }
+.initial-import-errors { border-color: #aa693a !important; }
+.initial-import-errors li { margin: 7px 0; }
+@media (max-width: 640px) { .initial-import .panel { padding: 14px; } .initial-import .initial-import-table { padding: 0; } .initial-import-toolbar > label { width: 100%; } .initial-import-toolbar > button { flex-grow: 1; } }

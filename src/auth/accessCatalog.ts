@@ -49,6 +49,7 @@ export const NAV_PERMISSION_BY_LABEL: Readonly<Record<string, PermissionKey>> = 
   Reminder: 'settings.reminder.view',
   'Pengguna & Hak Akses': 'settings.access.view',
   'Pengaturan ERP': 'settings.erp.view',
+  'Impor data awal': 'settings.erp.view',
   'Tutup Periode': 'finance.period_close.manage',
   'Audit Trail': 'settings.audit.view',
 })
@@ -97,6 +98,7 @@ export const PAGE_PERMISSION_BY_ID: Readonly<Record<string, PermissionKey>> = Ob
   'master-pattern': 'master.pattern.view',
   'admin-reminders': 'settings.reminder.view',
   'admin-access': 'settings.access.view',
+  'admin-import': 'settings.erp.view',
   'admin-settings': 'settings.erp.view',
   'admin-period-close': 'finance.period_close.manage',
   'admin-audit': 'settings.audit.view',

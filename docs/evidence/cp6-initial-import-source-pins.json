@@ -1,0 +1,20 @@
+{
+  ".github/workflows/cp6-initial-import-review.yml": "30dd439095d75f8c76cb88cb860d0b311eb35a756dcbde6c5e490a99a3aa9a2c",
+  "docs/evidence/cp6-initial-import-predecessor.json": "957d2d0d404c50f185e3ca474ef62d218a38a85d64afed6815d25982d60f5281",
+  "scripts/check-access-catalog.mjs": "ecc8900a334b4bcdad5f5dad86597519b9eedd1f2ee997c5d87254eef3bdb27d",
+  "scripts/check-production-recovery.mjs": "198cfa6080aaa91929f572088dfce852a5eb7d05fdc1de312c5d1cb0156acdfc",
+  "scripts/check-source-ownership.mjs": "6cc9b121f4caa5322d0b41ebb7b37fdb21b6d26ad306c232b8719064e423aa17",
+  "scripts/cp6_initial_import_scope.py": "0f860f7394d89319331c851caef9fdb132abdb2992f068ff14df1db90401e393",
+  "scripts/cp6_initial_import_trial.py": "32b77da2215e1f1a3b461572fd8d772b4bb968bf810ba9825f8265a0d3899b2b",
+  "scripts/cp6_v2620ap_definitions.py": "2c607659c66c605b6d4c9be229857b38fc64ede8dbdf963f5d4cdc83ff556e8b",
+  "src/App.tsx": "8e993fb3157e0d57130d00583fb413b45f3332689e53de24b3e0f51b0ab52bda",
+  "src/ConnectedInitialImportPage.dom.test.tsx": "7af8a7cc07e579a404c994abcebac15fe76fc218418f3191f1e17ebe77bc7df0",
+  "src/ConnectedInitialImportPage.tsx": "b8d41a41eb77ee4d3f13abd62f938d473de107ec6f3f73832104a541b176b5d1",
+  "src/auth/accessCatalog.ts": "da678c7f9977ec7db5979b344ba7e902a33c63297807f557c5434b37641e6c5e",
+  "src/initial-import.css": "a19241d756671253b692abab358a45c7a525600ab80b3ecc3d54dadf2bace553",
+  "src/initialImport.test.ts": "1c6e242142c392df2bdffe6231b78a7ec2bbc2239f230177cd1bfef32f47ba3b",
+  "src/initialImport.ts": "bcff81c5a50549e6fa112e6ad7cf63163eb44c8461ae55268899e4da00270429",
+  "src/initialImportCatalog.json": "b85286c5b1cec4ab861679879b7275eef680a03fe6e76cfa5d815076add24129",
+  "src/productionRecovery.ts": "c7f9fd49adfcc98fc1087148db4c967de255f6b7feab471fa084d068158df750",
+  "src/types/database.preconnect.ts": "e2d7509b8f252c81952c427714c0fac859748763f7b9c2ecbada62f88f783af6"
+}

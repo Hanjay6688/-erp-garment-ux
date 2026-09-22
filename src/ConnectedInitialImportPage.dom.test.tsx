@@ -1,0 +1,88 @@
+// @vitest-environment jsdom
+import { act } from 'react'
+import { createRoot, type Root } from 'react-dom/client'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import ConnectedInitialImportPage, { parseInitialImportWorkspace } from './ConnectedInitialImportPage'
+import { recoveryIdentity } from '../tests/fixtures/productionRecovery'
+import { readProductionRecovery } from './productionRecovery'
+const auth = vi.hoisted(() => ({ current: null as unknown }))
+const client = vi.hoisted(() => ({ rpc: vi.fn() }))
+vi.mock('./auth/AuthProvider', () => ({ useAuth: () => auth.current }))
+vi.mock('./lib/supabase', () => ({ getUatSupabaseClient: () => client }))
+const id = '11111111-1111-4111-8111-111111111111'
+const rowId = '22222222-2222-4222-8222-222222222222'
+const rev = (n: number) => n.toString(16).padStart(64, '0')
+let root: Root, container: HTMLDivElement
+beforeEach(() => {
+  Object.assign(globalThis, { IS_REACT_ACT_ENVIRONMENT: true })
+  localStorage.clear(); client.rpc.mockReset(); auth.current = structuredClone(recoveryIdentity)
+  Object.defineProperty(navigator, 'locks', { configurable:true, value:{request:async (_name: string, _options:unknown, fn:(lock:unknown)=>Promise<unknown>) => fn({})} })
+  container = document.createElement('div'); document.body.append(container); root = createRoot(container)
+})
+afterEach(async () => { await act(async () => root.unmount()); container.remove(); localStorage.clear(); Reflect.deleteProperty(navigator, 'locks'); vi.restoreAllMocks() })
+async function flush() { await act(async () => { await new Promise(resolve => setTimeout(resolve,0)) }) }
+async function change(input: HTMLInputElement | HTMLSelectElement, value: string) {
+  await act(async () => { Object.getOwnPropertyDescriptor(input instanceof HTMLSelectElement ? HTMLSelectElement.prototype : HTMLInputElement.prototype,'value')!.set!.call(input,value); input.dispatchEvent(new Event('input',{bubbles:true}));input.dispatchEvent(new Event('change',{bubbles:true})) });await flush()
+}
+function button(text: string) { const b=[...container.querySelectorAll('button')].find(b=>b.textContent?.includes(text));if(!b)throw new Error(text+' missing '+container.textContent);return b }
+async function click(text:string) { await act(async()=>button(text).click());await flush() }
+function server() {
+ const state={version:1,status:'DRAFT',rows:[] as { id:string;entity:string;source_row_no:number;payload:Record<string,string>;validation_status:string;errors:string[];applied:boolean }[],lose:false,stale:false,effects:0}
+ const cache=new Map<string,unknown>()
+ client.rpc.mockImplementation(async(name:string,args:Record<string,unknown>)=>{
+  if(name==='erp_get_initial_import_workspace_v1')return {data:{recent:[{id,batch_code:'AWAL',status:state.status}],batch:args.p_batch_id?{id,code:'AWAL',status:state.status,cutover_at:'2026-09-20T00:00:00+07:00',revision:rev(state.version),rows:state.rows}:null},error:null}
+  const payload=args.p_payload as Record<string,unknown>, key=String(args.p_client_request_id)
+  if(!cache.has(key)) {
+   if(state.stale){state.version++;return {data:null,error:{code:'P0001',message:'STALE_VERSION'}}}
+   if(args.p_action==='SAVE_FILE')state.rows=(payload.rows as {source_row_no:number;payload:Record<string,string>}[]).map(r=>({...r,id:rowId,entity:String(payload.entity),validation_status:'PENDING',errors:[],applied:false}))
+   if(args.p_action==='VALIDATE')state.status='READY'
+   if(args.p_action==='FINALIZE')state.status='POSTED'
+   state.effects++;state.version++
+   cache.set(key,{request_id:key,action:args.p_action,batch_id:id,status:state.status,revision:rev(state.version)})
+  }
+  return state.lose?{data:null,error:{status:503,message:'Lost reply'}}:{data:cache.get(key),error:null}
+ })
+ return state
+}
+async function mount() { await act(async()=>root.render(<ConnectedInitialImportPage/>));await flush();await change(container.querySelector('select[aria-label="Batch impor"]')!,id) }
+async function csv() {
+ await change([...container.querySelectorAll('select')][1],'CUSTOMER')
+ const file=new File(['customer_code,customer_name\n001,Toko lama'],'awal.csv',{type:'text/csv'})
+ Object.defineProperty(file,'arrayBuffer',{value:async()=>new TextEncoder().encode('customer_code,customer_name\n001,Toko lama').buffer})
+ const input=container.querySelector<HTMLInputElement>('input[type="file"]')!
+ await act(async()=>{Object.defineProperty(input,'files',{configurable:true,value:[file]});input.dispatchEvent(new Event('change',{bubbles:true}))});await flush()
+}
+const writes=()=>client.rpc.mock.calls.filter(([name])=>name==='erp_save_initial_import_action_v1')
+describe('connected CSV import',()=>{
+ it('uploads actual file bytes, edits before saving and finalizes only after server validation',async()=>{
+  const s=server();await mount();await csv();expect(writes()).toHaveLength(0)
+  await change(container.querySelector('input[aria-label="Nama pelanggan, baris 2"]')!,'Toko terbaru')
+  expect(button('Sahkan data awal').disabled).toBe(true)
+  await click('Simpan perubahan draft')
+  expect(s.rows[0].payload).toEqual({customer_code:'001',customer_name:'Toko terbaru'})
+  await click('Periksa seluruh draft');expect(button('Sahkan data awal').disabled).toBe(false)
+  await click('Sahkan data awal');expect(container.textContent).toContain('Sudah disahkan')
+  expect(container.querySelector('input[type="file"]')).toBeNull();expect(s.effects).toBe(3)
+ })
+ it('replays the exact saved envelope after a lost response and remount',async()=>{
+  const s=server();await mount();await csv();s.lose=true;await click('Simpan perubahan draft')
+  const original=structuredClone(writes()[0][1]);expect(readProductionRecovery('disposable:actor-1').pending.INITIAL_IMPORT?.id).toBe(original.p_client_request_id)
+  await act(async()=>root.unmount());root=createRoot(container);s.lose=false
+  await act(async()=>root.render(<ConnectedInitialImportPage/>));await flush();await click('Reconcile')
+  expect(writes()[1][1]).toEqual(original);expect(s.effects).toBe(1);expect(readProductionRecovery('disposable:actor-1').pending.INITIAL_IMPORT).toBeUndefined()
+ })
+ it('retains edits but refuses to rebase them silently after stale version rejection',async()=>{
+  const s=server();await mount();await csv();s.stale=true;await click('Simpan perubahan draft')
+  expect(s.effects).toBe(0);expect(container.textContent).toContain('Draft di server sudah berubah')
+  expect(button('Simpan perubahan draft').disabled).toBe(true)
+ })
+ it('denies unauthorized roles without reading data',async()=>{
+  server();const a=structuredClone(recoveryIdentity);a.identity.profile.role='CASHIER';auth.current=a
+  await act(async()=>root.render(<ConnectedInitialImportPage/>));expect(client.rpc).not.toHaveBeenCalled();expect(container.textContent).toContain('owner dan admin')
+ })
+ it('fails closed on malformed response while accepting optional null values',()=>{
+  const value={recent:[],batch:{id,code:'A',status:'DRAFT',cutover_at:'2026-09-20T00:00:00Z',revision:rev(1),rows:[{id:rowId,entity:'CUSTOMER',source_row_no:2,payload:{customer_code:'A',address:null},validation_status:'PENDING',errors:[],applied:false}]}}
+  expect(parseInitialImportWorkspace(value).batch?.rows[0].payload.address).toBe('')
+  expect(()=>parseInitialImportWorkspace({...value,batch:{...value.batch,revision:'wrong'}})).toThrow()
+ })
+})
