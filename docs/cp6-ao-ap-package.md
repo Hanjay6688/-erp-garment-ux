@@ -145,3 +145,16 @@ results cannot substitute for global independent acceptance.
 HTTP with real Auth JWTs, browser flows, business transaction concurrency,
 legacy opening overlap protection and the independent global audit remain
 separate CP6 work. CP7 and production GO still require owner acceptance.
+
+## Continuity after the checkpoint
+
+The code and this evidence document are committed on the writer branch. The
+separate nine-file save of the new Indonesian checkpoint, the two master-file
+replacements, five evidence ZIPs and their manifest timed out without a result.
+Read-only reconciliation still observed `ERP_V3_2.md` and
+`ERP_V3_2_Perubahan.md` at version 15 and found no new checkpoint/final ZIP.
+Therefore version 16 is prepared locally but is **not confirmed saved**. The
+pending files retain their submitted bytes; no duplicate write was issued.
+The Library skill's prepared-upload rule prohibits retrying or changing the
+write route while a timed-out finalization may still be processing. Resolve
+that outcome before resubmitting any master replacement or archive creation.
