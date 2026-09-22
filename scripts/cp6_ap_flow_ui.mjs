@@ -192,6 +192,9 @@ async function accessoryFlow(){
 }
 async function pocketFlow(){
   phase('POCKET_MOBILE_BROWSER');await page.context().close();page=await login(owner,true);await nav(page,'Kain kantong','Gudang')
+  // Native controls and wide history tables must stay inside the mobile page.
+  const mobileWidth=()=>page.evaluate(()=>({viewport:document.documentElement.clientWidth,page:document.documentElement.scrollWidth}))
+  const initialWidth=await mobileWidth();assert.ok(initialWidth.page<=initialWidth.viewport,JSON.stringify(initialWidth))
   const f=fixture.pocket,before=native('state')
   await page.getByLabel('Roll kain kantong').selectOption({label:(await page.getByLabel('Roll kain kantong').locator('option').allTextContents()).find(x=>x.includes(f.code))})
   await page.getByLabel('Jumlah kain kantong').fill('15');await page.getByLabel('Tanggal pengurangan').fill(fixture.day)
@@ -218,6 +221,8 @@ async function pocketFlow(){
   const refused=await request(owner.token,'erp_save_pocket_fabric_action_v1',{p_action:'REVERSE',p_payload:{id:h.id,expected_version:h.row_version,reason:'Allocated source refusal'},p_client_request_id:randomUUID()})
   assert.equal(refused.status,400);assert.match(refused.value.message,/Batalkan alokasi periode/);assert.deepEqual(native('boundary'),refusedBefore)
   pass('POCKET_ALLOCATED_SOURCE_INVERSE_REFUSED',{full_erp_boundary_unchanged:true})
+  const historyWidth=await mobileWidth();assert.ok(historyWidth.page<=historyWidth.viewport,JSON.stringify(historyWidth))
+  report.mobile_width={initial:initialWidth,with_history:historyWidth}
   await page.getByRole('button',{name:'Batalkan alokasi '+fixture.period_start,exact:true}).click();await page.getByLabel('Alasan pembatalan alokasi').fill('Batalkan pembagian saja')
   await mutate(page,'Sahkan pembatalan alokasi','pocket_fabric','CANCEL_PERIOD');assert.deepEqual(native('state').all_ledger,issued.all_ledger);assert.equal(native('state').pocket_stock,issued.pocket_stock)
   pass('POCKET_CANCEL_ALLOCATION_RESTORES_EXPENSE',{period_id:allocation.value.id,stock_unchanged:true})
@@ -254,6 +259,7 @@ try{
   failure=error;report.error=safe(error.stack||error).slice(0,12000)
   if(error.stderr)report.process_stderr=safe(error.stderr).slice(-12000)
   if(page)try{report.visible_text_on_failure=safe(await page.locator('body').innerText()).slice(0,18000)}catch{}
+  if(page)try{report.layout_on_failure=await page.evaluate(()=>({viewport:{width:innerWidth,height:innerHeight},page:{width:document.documentElement.scrollWidth,height:document.documentElement.scrollHeight},panels:[...document.querySelectorAll('.initial-import > *')].map(e=>({tag:e.tagName,classes:e.className,rect:e.getBoundingClientRect().toJSON(),scrollWidth:e.scrollWidth,clientWidth:e.clientWidth}))}))}catch{}
   if(page)try{await page.screenshot({path:resolve(dir,'failure.png'),fullPage:true})}catch{}
 }finally{
   if(browser)await browser.close();if(preview)preview.kill();if(proxy)await new Promise(ok=>proxy.close(ok))

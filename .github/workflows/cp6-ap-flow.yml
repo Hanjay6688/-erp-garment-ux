@@ -6,6 +6,7 @@ name: CP6 AP Real Auth Browser Flow
     paths:
     - scripts/cp6_ap_flow_*
     - .github/workflows/cp6-ap-flow.yml
+    - src/initial-import.css
   workflow_dispatch: null
 permissions:
   contents: read

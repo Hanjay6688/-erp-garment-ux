@@ -2,7 +2,9 @@
 
 Source boundary: `c4ccecfdaadd20081923079c608f83ac494da87d`, carrying the
 unchanged permanent package qualified at `4bff4a65a7b93d7888fa77dbcb31bb1c937bbc57`.
-This follow-up changes only the disposable proof harness and its documentation.
+This follow-up changes the disposable proof harness, its documentation, and the
+exact mobile width correction in `src/initial-import.css`. Business code and
+permanent SQL remain unchanged; the new source gate pins this one CSS file.
 No new product PASS is claimed until the native run completes.
 
 The new workflow reuses the pinned AC→AN bootstrap, installs the exact permanent
@@ -93,3 +95,19 @@ refused the redundant input representation before submitting the accessory draft
 The harness now supplies the browser's canonical minute representation; the
 unchanged product still sends explicit whole-second WIB timestamps.
 CodeQL35749238653 passed all four languages with zero findings.
+
+Fifth attempt `8fdae3b4de5755df52964bc79b24da2e4e643001`, tree
+`742a975b2a464fc5ee8df96b79d3b1ae47a31d20`, run35749901784 passed27 observations.
+It proved real7PCS accessory posting/inverse, pocket20→15 expense11.25, and
+period allocation11.25 over10 actual completed PCS without another stock issue.
+A normal mobile click on period cancellation then failed: the page's intrinsic
+grid/select widths exceeded the390px viewport, and other controls intercepted
+the click. The retained full-page screenshot shows the horizontal expansion.
+The CSS correction gives the grids a shrinkable single column, allows their
+children to shrink, and bounds input/select widths. Tables retain their existing
+panel-local scrolling. The unchanged normal click plus actual viewport-width
+assertions provide regression coverage; no forced click or fake response is used.
+Artifact10705065951:2976134bytes,16entries,
+SHA256293f6a6bd4918ca81f11ea5237c205591f418b9b31113c1fb0ec06c3578d037e.
+CodeQL35749901780 passed4/4; global35749901914 still failed the unchanged legacy
+`AC_ONLY_EXACT_SUCCESSOR_REPAIR_ALLOWED` source gate before business tests.
