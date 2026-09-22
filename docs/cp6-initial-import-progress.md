@@ -1,3 +1,11 @@
+# CP6 kain kantong — koreksi jalur uji pembatalan nota
+
+Native [35709090018 FAILURE](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35709090018), commit `b0579c61825a2d5202339f78de67118ae4dbbde9`, menjalankan 120 kasus:116 PASS dan4 lifecycle INCOMPLETE. Empat siklus telah melewati pengurangan, recost, serta pembatalan kain kantong; gagal pada pembatalan invoice terakhir karena skrip memakai primitive private yang EXECUTE-nya memang dicabut. Skrip diperbaiki memakai `reverse_material_supplier_invoice_v2` beserta versi dokumen hasil post. Tidak ada ACL aplikasi yang dilonggarkan.
+
+Dua penolakan generic inverse juga diperketat: fixture authority memanggil primitive privat dan wajib menerima pesan penolakan bisnis kain kantong yang persis, sehingga penolakan permission tidak lagi dihitung sebagai bukti guard baru. 103 kasus lama,13 kasus pocket lain,12AO dan78frontend PASS pada run gagal; pemulihan seluruh boundary tetap true. CodeQL35709090031 SUCCESS. Artifact10685023976,113.228byte,11entri,SHA25694ae759f7632a61270f8c1221ef71fb7d746ab44c9a0c1b48c30fa450ce6c2f7 dipertahankan. **120/120 belum PASS sampai gate berikutnya; CP6_HOLD tetap.**
+
+---
+
 # CP6 kain kantong — percobaan database pertama dan koreksi kontrak
 
 Native35708050129 pada b3e9e4245df0cb5dfc398de395c11e2a8d1bf621 gagal ketika memasang proposal: checker baru mengembalikan dua kolom, sedangkan run_v267 memerlukan empat kolom (nama,severity,jumlah,details). **0 kasus AP berjalan.** 12 AO dan78 frontend/recovery PASS. Diperbaiki format empat kolom serta action log REGISTER memakai INSERT sesuai kamus audit native. Kegagalan tidak dihapus: artifact10685621506,32.538byte,SHA2561c9c11b8d68d6ca634e88b2ece0eae75e5dd9bb0916c45dab0ab7ecfb9f2d374. Native120AP belum PASS sampai gate berikut membuktikannya; CP6_HOLD tetap.

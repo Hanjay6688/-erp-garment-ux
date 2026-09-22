@@ -56,13 +56,13 @@ def lifecycle(a,cur,today,mode,closed):
     assert all(after[k]==start[k] for k in ['WIP','FG_INVENTORY','COGS']);truth(cur)
     date=cur.execute("select economic_date,transaction_date from erp.journal_entries where source_type='MATERIAL_ADJUSTMENT' and source_id=%s",(result['id'],)).fetchone()
     assert date==(today-timedelta(days=5),today if closed else today-timedelta(days=5)),date
-    invoice=receipts.invoice(a,cur,today,r,20,'3');receipts.post_invoice(a,cur,invoice)
+    invoice=receipts.post_invoice(a,cur,receipts.invoice(a,cur,today,r,20,'3'))
     after=effects(cur);assert read(a,cur,r['code'])['history'][0]['current_cost']=='15.00'
     assert after['OTHER_EXPENSE']-start['OTHER_EXPENSE']==15 and all(after[k]==start[k] for k in ['WIP','FG_INVENTORY','COGS']);truth(cur)
     h=read(a,cur,r['code'])['history'][0]
     call(a,cur,'REVERSE',dict(id=h['id'],expected_version=h['row_version'],reason='Restore the roll'))
     w=read(a,cur,r['code']);assert w['rolls'][0]['qty']=='20.000000' and w['history'][0]['current_cost']=='0.00';truth(cur)
-    receipts.rpc(a,cur,'reverse_material_supplier_invoice',invoice['supplier_invoice_id'],'Restore original benchmark')
+    receipts.rpc(a,cur,'reverse_material_supplier_invoice_v2',invoice['supplier_invoice_id'],'Restore original benchmark',uuid.uuid4(),invoice['row_version'])
     assert ledger(cur)==before;truth(cur)
     return dict(status='PASS',mode=mode,closed=closed,initial_stock='20',issued='5',remaining='15',expense='11.25',recost_expense='15.00',product_hpp_unchanged=True,replay_exact=True,all_accounts_restored=True)
 
@@ -95,8 +95,12 @@ def protections(a,cur,today):
     j=cur.execute("select id from erp.journal_entries where source_type='MATERIAL_ADJUSTMENT' and source_id=%s",(saved['id'],)).fetchone()[0]
     m=cur.execute("select m.id from erp.material_stock_movements m join erp.material_adjustment_items i on i.id=m.source_id where m.source_type='MATERIAL_ADJUSTMENT_ITEM' and i.adjustment_id=%s",(saved['id'],)).fetchone()[0]
     before=ledger(cur)
-    a.inherited.refused(cur,lambda:receipts.rpc(a,cur,'reverse_journal',j,'Unlinked reverse'))
-    a.inherited.refused(cur,lambda:receipts.rpc(a,cur,'reverse_material_movement',m,'Unlinked reverse'))
+    # The generic primitives are private. Exercise the business guards with
+    # fixture authority, then require their exact error instead of accepting
+    # an unrelated EXECUTE denial as evidence that the new guards ran.
+    for name,ident in [('reverse_journal',j),('reverse_material_movement',m)]:
+        error=a.inherited.refused(cur,lambda name=name,ident=ident:cur.execute('select erp.'+name+'(%s,%s)',(ident,'Unlinked reverse')))
+        assert error['message']=='Batalkan pengurangan kain kantong melalui dokumen asal',error
     a.inherited.refused(cur,lambda:cur.execute('update erp.pocket_fabric_usage set input_quantity=1 where adjustment_id=%s',(saved['id'],)))
     h=read(a,cur,r['code'])['history'][0]
     a.inherited.refused(cur,lambda:call(a,cur,'REVERSE',dict(id=h['id'],expected_version='0',reason='Stale inverse')))
