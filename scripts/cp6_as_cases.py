@@ -87,7 +87,8 @@ def adjustment_date(cur, today, closed):
         values(%s,%s,%s,'COUNT_CORRECTION','AS ordinary adjustment date probe','DRAFT') returning id''',
         ('AS-'+uuid.uuid4().hex,probe.invoice.at(today-timedelta(days=2),12),f['location'])).fetchone()[0]
     cur.execute('insert into erp.material_adjustment_items(adjustment_id,material_id,roll_id,qty_signed) values(%s,%s,%s,-2)',(adjustment,f['material'],f['roll']))
-    api.ordinary(cur);cur.execute('select erp.post_material_adjustment(%s)',(adjustment,))
+    version=cur.execute('select row_version from erp.material_adjustments where id=%s',(adjustment,)).fetchone()[0]
+    api.ordinary(cur);cur.execute('select erp.post_material_adjustment_v2(%s,%s,%s,%s)',(adjustment,uuid.uuid4(),version,'AS ordinary stock count correction'))
     if closed:
         cur.execute('select erp.close_accounting_through(%s,%s)',(f['purchase_day'],'AS adjustment close'))
     api.admin(cur)
@@ -102,7 +103,10 @@ def adjustment_date(cur, today, closed):
         where r.adjustment_id=%s order by r.created_at,r.id''',(adjustment,)).fetchall()
     assert rows and all(r[1]==f['purchase_day'] for r in rows), rows
     expected = today if closed else f['purchase_day']
-    errors = [r for r in rows if r[0]!=expected or r[2]!=expected]
+    # This legacy fact is explicitly ECONOMIC: the live financial checker and
+    # pocket allocation trigger both consume it as such. Recognition is the
+    # separate journal transaction_date; do not confuse equal column names.
+    errors = [r for r in rows if r[0]!=f['purchase_day'] or r[2]!=expected]
     # The document invoice date and journal economic date remain the source date.
     doc = cur.execute('select distinct h.id,h.row_version,h.invoice_date from erp.material_supplier_invoices h join erp.material_supplier_invoice_lines l on l.invoice_id=h.id join erp.material_purchase_items i on i.id=l.purchase_item_id where i.purchase_id=%s and h.status=\'POSTED\'',(f['purchase'],)).fetchone()
     assert doc[2]==f['purchase_day']

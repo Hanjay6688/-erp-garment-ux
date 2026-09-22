@@ -7,7 +7,6 @@ import cp6_v2620ao_definitions as ao
 import cp6_v2620ap_definitions as ap
 
 MATERIAL = 'erp.sync_material_cost_revaluation(uuid)'
-ADJUSTMENT = 'erp._cp6_sync_material_adjustment_revaluation(uuid,uuid)'
 HPP = 'erp.sync_po_hpp_to_gl(uuid,date)'
 OUTPUT = 'erp.complete_initial_import_wip_v1(jsonb)'
 VALIDATE = 'erp.validate_initial_import_production_v1(uuid)'
@@ -20,7 +19,7 @@ def canonical(identity, arguments, result, settings=''):
             + settings + 'AS $function$' + definition.split('$function$', 1)[1]).rstrip(';\n') + '\n'
 
 
-OLD = {key:ao.FUNCTIONS[key] for key in (MATERIAL, ADJUSTMENT, HPP)}
+OLD = {key:ao.FUNCTIONS[key] for key in (MATERIAL, HPP)}
 OLD[OUTPUT] = canonical(OUTPUT, 'p_payload jsonb', 'jsonb', ' SET "DateStyle" TO \'ISO, YMD\'\n')
 OLD[VALIDATE] = canonical(VALIDATE, 'p_batch uuid', 'void')
 FUNCTIONS = dict(OLD)
@@ -39,9 +38,6 @@ for identity, table in ((MATERIAL, 'material_cost_revaluation_events'), (HPP, 'p
             f'update erp.{table} set journal_entry_id=v_journal where id=v_event;',
             f'update erp.{table} set journal_entry_id=v_journal,\n'
             '      effective_date=(select transaction_date from erp.journal_entries where id=v_journal) where id=v_event;')
-replace(ADJUSTMENT,
-        " ) values(v_event,p_adjustment,p_material,v_date,s->'book',s->'target',v_delta,v_journal);",
-        " ) values(v_event,p_adjustment,p_material,(select transaction_date from erp.journal_entries where id=v_journal),s->'book',s->'target',v_delta,v_journal);")
 
 replace(OUTPUT, ' v_batch uuid;v_product uuid;', ' v_product_count integer;v_batch uuid;v_product uuid;')
 replace(OUTPUT,

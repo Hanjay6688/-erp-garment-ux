@@ -22,7 +22,7 @@ do $platform$ begin
  if not exists(select 1 from erp.schema_migrations where version='v2.6.20as')
   or (select count(*) from supabase_migrations.schema_migrations where name='erp_v2_6_20as_cp6_event_dates_product_identity')<>1
   or not exists(select 1 from supabase_migrations.schema_migrations where version='20260922210815' and name='erp_v2_6_20as_cp6_event_dates_product_identity'
-   and encode(extensions.digest(convert_to(array_to_string(statements,E'\n'),'UTF8'),'sha256'),'hex')='b28ef991d260d163775b8fa26b0e43197dee36fd8b3a36c653cb6a944c851feb')
+   and encode(extensions.digest(convert_to(array_to_string(statements,E'\n'),'UTF8'),'sha256'),'hex')='84e95211698eb2426995fd59d702bb42674f9fff675401be4861c9aa568cc1a8')
   or exists(select 1 from supabase_migrations.schema_migrations where version>'20260922210815')
  then raise exception 'AS_ROLLBACK_PLATFORM_OR_SUCCESSOR';end if;
 end $platform$;
@@ -89,7 +89,7 @@ with relations as (
 select coalesce(jsonb_object_agg(k,encode(extensions.digest(convert_to(v::text,'UTF8'),'sha256'),'hex')),'{}'::jsonb) from objects
 ) catalog;
  select count(*),encode(extensions.digest(convert_to(coalesce(string_agg(length(key)::text||':'||key||':'||value,E'\n' order by key collate "C"),''),'UTF8'),'sha256'),'hex') into object_count,fingerprint from jsonb_each_text(actual);
- if object_count<>7148 or fingerprint is distinct from '83a8a784c82a63f43e02d1b7d98db36722ca290e0c78bcc2554392c5542bf6cb' then
+ if object_count<>7148 or fingerprint is distinct from 'a2eb9c33287f15d31dd5caa052b56d6ed93d5979565e251b4310af4bd4d1f87c' then
   raise exception 'AS_ROLLBACK_CATALOG_DRIFT';
  end if;
 end $catalog_guard$;
@@ -265,7 +265,7 @@ begin
   or exists(select 1 from pg_attribute p cross join lateral aclexplode(p.attacl)a where p.attrelid='erp.cp6_v2620as_rollback_capsule'::regclass and a.grantee<>'postgres'::regrole)
   or exists(select 1 from pg_policy where polrelid='erp.cp6_v2620as_rollback_capsule'::regclass)
   or exists(select 1 from pg_trigger where tgrelid='erp.cp6_v2620as_rollback_capsule'::regclass and not tgisinternal)
-  or (select count(*) from erp.cp6_v2620as_rollback_capsule)<>5 then raise exception 'AS_CAPSULE_SECURITY_OR_COUNT';end if;
+  or (select count(*) from erp.cp6_v2620as_rollback_capsule)<>4 then raise exception 'AS_CAPSULE_SECURITY_OR_COUNT';end if;
  -- Match the complete visible column/constraint/index shape to the source-pinned
  -- AN template. Names of generated capsule indexes are intentionally immaterial.
  for r in select unnest(array['erp.cp6_v2620as_rollback_capsule','erp.cp6_v2620an_rollback_capsule']) as rel loop
@@ -279,7 +279,7 @@ begin
  select boundary_snapshot into boundary from erp.cp6_v2620as_rollback_capsule limit 1;
  if boundary is null or exists(select 1 from erp.cp6_v2620as_rollback_capsule where boundary_snapshot is distinct from boundary)
   or not(boundary ?& array['before','after','platform_before','markers_before']) then raise exception 'AS_CAPSULE_BOUNDARY';end if;
- for r in select * from jsonb_each('{"erp._cp6_sync_material_adjustment_revaluation(uuid,uuid)":{"acl":["postgres=X/postgres"],"identity":"erp._cp6_sync_material_adjustment_revaluation(uuid,uuid)","installed_sha256":"93ada0cff404c2cab09648a44c6123ef5201151704f336af78842d8ef2b24f53","owner":"postgres","predecessor_sha256":"b6b5fdae99e0dd5c263c2d76c4bf9e4e087db014bf22ca78fef226dd6ee3fe9f"},"erp.complete_initial_import_wip_v1(jsonb)":{"acl":["postgres=X/postgres"],"identity":"erp.complete_initial_import_wip_v1(jsonb)","installed_sha256":"c93f8cca4eeed85d23c1dcd664a9b2d880446e350bc3283fb83faf62c7b5deaa","owner":"postgres","predecessor_sha256":"3def50a323533488fb3778ec99553f2f13511741e79ce84432cd531de294044b"},"erp.sync_material_cost_revaluation(uuid)":{"acl":["postgres=X/postgres"],"identity":"erp.sync_material_cost_revaluation(uuid)","installed_sha256":"bb19f298f2d8b4eeeea78130c0bb70278dfbe1becbc7aa632ac22fef3285ea51","owner":"postgres","predecessor_sha256":"ae4ad29be5dbba3db18da7da9256723c86b3388d0f0d6293db6271170f078461"},"erp.sync_po_hpp_to_gl(uuid,date)":{"acl":["postgres=X/postgres","service_role=X/postgres"],"identity":"erp.sync_po_hpp_to_gl(uuid,date)","installed_sha256":"726f1abc349bac4f8ca55ae0d3c2550c84316923e513978bd9eb8f34f8274ce1","owner":"postgres","predecessor_sha256":"0f460c85c5c7d6cbd0ddf30dfa78336b8016c6a83d39f5dc9caf3ac2ca6a4418"},"erp.validate_initial_import_production_v1(uuid)":{"acl":["postgres=X/postgres"],"identity":"erp.validate_initial_import_production_v1(uuid)","installed_sha256":"ba9486ba8500ad6d3b2dde5d57b9759e3b53b382d95e41d13b74834e637f356f","owner":"postgres","predecessor_sha256":"85bb827bd1bea270a3a922fc497661adc4b044307e30d69048c8d72babac9be0"}}'::jsonb) loop
+ for r in select * from jsonb_each('{"erp.complete_initial_import_wip_v1(jsonb)":{"acl":["postgres=X/postgres"],"identity":"erp.complete_initial_import_wip_v1(jsonb)","installed_sha256":"c93f8cca4eeed85d23c1dcd664a9b2d880446e350bc3283fb83faf62c7b5deaa","owner":"postgres","predecessor_sha256":"3def50a323533488fb3778ec99553f2f13511741e79ce84432cd531de294044b"},"erp.sync_material_cost_revaluation(uuid)":{"acl":["postgres=X/postgres"],"identity":"erp.sync_material_cost_revaluation(uuid)","installed_sha256":"bb19f298f2d8b4eeeea78130c0bb70278dfbe1becbc7aa632ac22fef3285ea51","owner":"postgres","predecessor_sha256":"ae4ad29be5dbba3db18da7da9256723c86b3388d0f0d6293db6271170f078461"},"erp.sync_po_hpp_to_gl(uuid,date)":{"acl":["postgres=X/postgres","service_role=X/postgres"],"identity":"erp.sync_po_hpp_to_gl(uuid,date)","installed_sha256":"726f1abc349bac4f8ca55ae0d3c2550c84316923e513978bd9eb8f34f8274ce1","owner":"postgres","predecessor_sha256":"0f460c85c5c7d6cbd0ddf30dfa78336b8016c6a83d39f5dc9caf3ac2ca6a4418"},"erp.validate_initial_import_production_v1(uuid)":{"acl":["postgres=X/postgres"],"identity":"erp.validate_initial_import_production_v1(uuid)","installed_sha256":"ba9486ba8500ad6d3b2dde5d57b9759e3b53b382d95e41d13b74834e637f356f","owner":"postgres","predecessor_sha256":"85bb827bd1bea270a3a922fc497661adc4b044307e30d69048c8d72babac9be0"}}'::jsonb) loop
   select * into c from erp.cp6_v2620as_rollback_capsule where object_regidentity=r.key;e:=r.value;
   if c.object_regidentity is null or c.definition_sha256 is distinct from e->>'predecessor_sha256'
    or encode(extensions.digest(convert_to(c.object_definition,'UTF8'),'sha256'),'hex') is distinct from e->>'predecessor_sha256'

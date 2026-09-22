@@ -17,15 +17,6 @@
       ]
     },
     {
-      "identity": "erp._cp6_sync_material_adjustment_revaluation(uuid,uuid)",
-      "predecessor_sha256": "b6b5fdae99e0dd5c263c2d76c4bf9e4e087db014bf22ca78fef226dd6ee3fe9f",
-      "installed_sha256": "93ada0cff404c2cab09648a44c6123ef5201151704f336af78842d8ef2b24f53",
-      "owner": "postgres",
-      "acl": [
-        "postgres=X/postgres"
-      ]
-    },
-    {
       "identity": "erp.sync_po_hpp_to_gl(uuid,date)",
       "predecessor_sha256": "0f460c85c5c7d6cbd0ddf30dfa78336b8016c6a83d39f5dc9caf3ac2ca6a4418",
       "installed_sha256": "726f1abc349bac4f8ca55ae0d3c2550c84316923e513978bd9eb8f34f8274ce1",
@@ -54,10 +45,10 @@
       ]
     }
   ],
-  "migration_sha256": "b28ef991d260d163775b8fa26b0e43197dee36fd8b3a36c653cb6a944c851feb",
-  "rollback_sha256": "412bc44f8cca002f0a4bc968e23e7092a025b93fce0574c3fdb9aea66c9aa174",
+  "migration_sha256": "84e95211698eb2426995fd59d702bb42674f9fff675401be4861c9aa568cc1a8",
+  "rollback_sha256": "0d6482d286b26370a8d0db11393ecaed538f0c7c6a495c8d269f05792d74b1ed",
   "builder_sha256": "8da0bf57102499ca4027d02cdbaca1ffffd2c11204b5e8743d3d43f173f0c97b",
-  "definitions_sha256": "3d84b1c6057b23f1a3b50ac94166765e37f86dd0b536095f29f3277e45a08a5f",
+  "definitions_sha256": "b78b33a5189e09b7681ddfeea0877eb2d1c0ac77876c4a1cd1f342eb0287f1ac",
   "base_pins_sha256": "8aeb2041edc8e3232545a269a928dc6eb4cc15c84c7195bcf97fd28a7c85a681",
   "production_go": false,
   "independent_acceptance": false

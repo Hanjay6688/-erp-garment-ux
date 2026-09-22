@@ -261,7 +261,7 @@ insert into erp.cp6_v2620as_rollback_capsule(object_identity,object_regidentity,
 select format('%I.%I(%s)',n.nspname,p.proname,pg_get_function_identity_arguments(p.oid)),i.identity,pg_get_functiondef(p.oid),
  encode(extensions.digest(convert_to(pg_get_functiondef(p.oid),'UTF8'),'sha256'),'hex'),
  array(select a::text from unnest(p.proacl)a order by a::text),pg_get_userbyid(p.proowner)
-from unnest(array['erp.sync_material_cost_revaluation(uuid)','erp._cp6_sync_material_adjustment_revaluation(uuid,uuid)','erp.sync_po_hpp_to_gl(uuid,date)','erp.complete_initial_import_wip_v1(jsonb)','erp.validate_initial_import_production_v1(uuid)']) i(identity)
+from unnest(array['erp.sync_material_cost_revaluation(uuid)','erp.sync_po_hpp_to_gl(uuid,date)','erp.complete_initial_import_wip_v1(jsonb)','erp.validate_initial_import_production_v1(uuid)']) i(identity)
 join pg_proc p on p.oid=i.identity::regprocedure join pg_namespace n on n.oid=p.pronamespace;
 do $before_data$ declare v_table text;v_hash jsonb;v_before jsonb; begin
  v_before:='{}'::jsonb;
@@ -369,48 +369,6 @@ begin
     perform erp._cp6_sync_material_adjustment_revaluation(r.adjustment_id,p_material_id);
   end loop;
 end;
-$function$;
-CREATE OR REPLACE FUNCTION erp._cp6_sync_material_adjustment_revaluation(p_adjustment uuid, p_material uuid)
- RETURNS void
- LANGUAGE plpgsql
- SECURITY DEFINER
- SET search_path TO 'erp', 'pg_catalog', 'pg_temp'
-AS $function$
-declare s jsonb;v_delta jsonb;v_lines jsonb;v_event uuid;v_journal uuid;v_date date;
-begin
- perform erp.require_internal();
- if not exists(select 1 from erp.material_adjustment_items where adjustment_id=p_adjustment and material_id=p_material) then
-  raise exception 'T_MATERIAL_ADJUSTMENT_SOURCE_MISMATCH';
- end if;
- -- The material writer already owns its material/movement locks. Serialize the
- -- shared document without taking another material or document-row lock.
- perform pg_advisory_xact_lock(hashtextextended('MATERIAL_ADJUSTMENT_REVALUE|'||p_adjustment::text,0));
- s:=erp._cp6_material_adjustment_revaluation_state(p_adjustment);
- if (s->>'incomplete_cost')::bigint>0 then
-  if exists(select 1 from erp.material_adjustments where id=p_adjustment and status in('POSTED','REVERSED')) then
-   raise exception 'T_MATERIAL_ADJUSTMENT_COST_SNAPSHOT_MISSING';
-  end if;
-  return;
- end if;
- select coalesce(jsonb_object_agg(k,amount),'{}'::jsonb) into v_delta from(
-  select coalesce(t.key,b.key) k,coalesce(t.value::numeric,0)-coalesce(b.value::numeric,0) amount
-  from jsonb_each_text(s->'target') t full join jsonb_each_text(s->'book') b using(key)
- ) d where amount<>0;
- if v_delta='{}'::jsonb then return;end if;
- select jsonb_agg(jsonb_build_object('account_id',key::uuid,
-  'debit',greatest(value::numeric,0),'credit',greatest(-value::numeric,0)) order by key)
- into v_lines from jsonb_each_text(v_delta);
- v_event:=gen_random_uuid();v_date:=coalesce(erp.invoice_recost_economic_date_v1(),erp._cp3_business_date(statement_timestamp()));
- v_journal:=erp.post_journal('MATERIAL_ADJUSTMENT_REVALUATION',v_event,v_date,
-  'Document cumulative material adjustment recost: '||p_adjustment::text,v_lines);
- insert into erp.material_adjustment_revaluation_facts(
-  id,adjustment_id,triggering_material_id,effective_date,prior_ledger,target_ledger,ledger_delta,journal_entry_id
- ) values(v_event,p_adjustment,p_material,(select transaction_date from erp.journal_entries where id=v_journal),s->'book',s->'target',v_delta,v_journal);
- if erp._cp6_supplier_cent_ledger(array[v_journal]) is distinct from v_delta
-    or erp._cp6_material_adjustment_revaluation_state(p_adjustment)->'book' is distinct from s->'target' then
-  raise exception 'T_MATERIAL_ADJUSTMENT_REVALUATION_POSTCONDITION';
- end if;
-end
 $function$;
 CREATE OR REPLACE FUNCTION erp.sync_po_hpp_to_gl(p_po_id uuid, p_effective_date date DEFAULT ((statement_timestamp() AT TIME ZONE 'Asia/Jakarta'::text))::date)
  RETURNS void
@@ -734,7 +692,7 @@ with relations as (
 select coalesce(jsonb_object_agg(k,encode(extensions.digest(convert_to(v::text,'UTF8'),'sha256'),'hex')),'{}'::jsonb) from objects
 ) catalog;
  select count(*),encode(extensions.digest(convert_to(coalesce(string_agg(length(key)::text||':'||key||':'||value,E'\n' order by key collate "C"),''),'UTF8'),'sha256'),'hex') into object_count,fingerprint from jsonb_each_text(actual);
- if object_count<>7148 or fingerprint is distinct from '83a8a784c82a63f43e02d1b7d98db36722ca290e0c78bcc2554392c5542bf6cb' then
+ if object_count<>7148 or fingerprint is distinct from 'a2eb9c33287f15d31dd5caa052b56d6ed93d5979565e251b4310af4bd4d1f87c' then
   raise exception 'AS_INSTALLED_CATALOG_DRIFT';
  end if;
 end $catalog_guard$;
@@ -759,7 +717,7 @@ begin
   or exists(select 1 from pg_attribute p cross join lateral aclexplode(p.attacl)a where p.attrelid='erp.cp6_v2620as_rollback_capsule'::regclass and a.grantee<>'postgres'::regrole)
   or exists(select 1 from pg_policy where polrelid='erp.cp6_v2620as_rollback_capsule'::regclass)
   or exists(select 1 from pg_trigger where tgrelid='erp.cp6_v2620as_rollback_capsule'::regclass and not tgisinternal)
-  or (select count(*) from erp.cp6_v2620as_rollback_capsule)<>5 then raise exception 'AS_CAPSULE_SECURITY_OR_COUNT';end if;
+  or (select count(*) from erp.cp6_v2620as_rollback_capsule)<>4 then raise exception 'AS_CAPSULE_SECURITY_OR_COUNT';end if;
  -- Match the complete visible column/constraint/index shape to the source-pinned
  -- AN template. Names of generated capsule indexes are intentionally immaterial.
  for r in select unnest(array['erp.cp6_v2620as_rollback_capsule','erp.cp6_v2620an_rollback_capsule']) as rel loop
@@ -773,7 +731,7 @@ begin
  select boundary_snapshot into boundary from erp.cp6_v2620as_rollback_capsule limit 1;
  if boundary is null or exists(select 1 from erp.cp6_v2620as_rollback_capsule where boundary_snapshot is distinct from boundary)
   or not(boundary ?& array['before','after','platform_before','markers_before']) then raise exception 'AS_CAPSULE_BOUNDARY';end if;
- for r in select * from jsonb_each('{"erp._cp6_sync_material_adjustment_revaluation(uuid,uuid)":{"acl":["postgres=X/postgres"],"identity":"erp._cp6_sync_material_adjustment_revaluation(uuid,uuid)","installed_sha256":"93ada0cff404c2cab09648a44c6123ef5201151704f336af78842d8ef2b24f53","owner":"postgres","predecessor_sha256":"b6b5fdae99e0dd5c263c2d76c4bf9e4e087db014bf22ca78fef226dd6ee3fe9f"},"erp.complete_initial_import_wip_v1(jsonb)":{"acl":["postgres=X/postgres"],"identity":"erp.complete_initial_import_wip_v1(jsonb)","installed_sha256":"c93f8cca4eeed85d23c1dcd664a9b2d880446e350bc3283fb83faf62c7b5deaa","owner":"postgres","predecessor_sha256":"3def50a323533488fb3778ec99553f2f13511741e79ce84432cd531de294044b"},"erp.sync_material_cost_revaluation(uuid)":{"acl":["postgres=X/postgres"],"identity":"erp.sync_material_cost_revaluation(uuid)","installed_sha256":"bb19f298f2d8b4eeeea78130c0bb70278dfbe1becbc7aa632ac22fef3285ea51","owner":"postgres","predecessor_sha256":"ae4ad29be5dbba3db18da7da9256723c86b3388d0f0d6293db6271170f078461"},"erp.sync_po_hpp_to_gl(uuid,date)":{"acl":["postgres=X/postgres","service_role=X/postgres"],"identity":"erp.sync_po_hpp_to_gl(uuid,date)","installed_sha256":"726f1abc349bac4f8ca55ae0d3c2550c84316923e513978bd9eb8f34f8274ce1","owner":"postgres","predecessor_sha256":"0f460c85c5c7d6cbd0ddf30dfa78336b8016c6a83d39f5dc9caf3ac2ca6a4418"},"erp.validate_initial_import_production_v1(uuid)":{"acl":["postgres=X/postgres"],"identity":"erp.validate_initial_import_production_v1(uuid)","installed_sha256":"ba9486ba8500ad6d3b2dde5d57b9759e3b53b382d95e41d13b74834e637f356f","owner":"postgres","predecessor_sha256":"85bb827bd1bea270a3a922fc497661adc4b044307e30d69048c8d72babac9be0"}}'::jsonb) loop
+ for r in select * from jsonb_each('{"erp.complete_initial_import_wip_v1(jsonb)":{"acl":["postgres=X/postgres"],"identity":"erp.complete_initial_import_wip_v1(jsonb)","installed_sha256":"c93f8cca4eeed85d23c1dcd664a9b2d880446e350bc3283fb83faf62c7b5deaa","owner":"postgres","predecessor_sha256":"3def50a323533488fb3778ec99553f2f13511741e79ce84432cd531de294044b"},"erp.sync_material_cost_revaluation(uuid)":{"acl":["postgres=X/postgres"],"identity":"erp.sync_material_cost_revaluation(uuid)","installed_sha256":"bb19f298f2d8b4eeeea78130c0bb70278dfbe1becbc7aa632ac22fef3285ea51","owner":"postgres","predecessor_sha256":"ae4ad29be5dbba3db18da7da9256723c86b3388d0f0d6293db6271170f078461"},"erp.sync_po_hpp_to_gl(uuid,date)":{"acl":["postgres=X/postgres","service_role=X/postgres"],"identity":"erp.sync_po_hpp_to_gl(uuid,date)","installed_sha256":"726f1abc349bac4f8ca55ae0d3c2550c84316923e513978bd9eb8f34f8274ce1","owner":"postgres","predecessor_sha256":"0f460c85c5c7d6cbd0ddf30dfa78336b8016c6a83d39f5dc9caf3ac2ca6a4418"},"erp.validate_initial_import_production_v1(uuid)":{"acl":["postgres=X/postgres"],"identity":"erp.validate_initial_import_production_v1(uuid)","installed_sha256":"ba9486ba8500ad6d3b2dde5d57b9759e3b53b382d95e41d13b74834e637f356f","owner":"postgres","predecessor_sha256":"85bb827bd1bea270a3a922fc497661adc4b044307e30d69048c8d72babac9be0"}}'::jsonb) loop
   select * into c from erp.cp6_v2620as_rollback_capsule where object_regidentity=r.key;e:=r.value;
   if c.object_regidentity is null or c.definition_sha256 is distinct from e->>'predecessor_sha256'
    or encode(extensions.digest(convert_to(c.object_definition,'UTF8'),'sha256'),'hex') is distinct from e->>'predecessor_sha256'
