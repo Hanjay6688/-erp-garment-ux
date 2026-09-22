@@ -180,7 +180,7 @@ begin
  end if;
  insert into erp.audit_logs(entity_type,entity_id,action,changed_by,change_reason)
  values(case when v_action='REGISTER' then 'pocket_fabric_materials' else 'pocket_fabric_usage' end,v_id,
-  case when v_action='REGISTER' then 'CREATE' when v_action='POST' then 'POST' else 'REVERSE' end,erp.current_app_user_id(),v_reason);
+  case when v_action='REGISTER' then 'INSERT' when v_action='POST' then 'POST' else 'REVERSE' end,erp.current_app_user_id(),v_reason);
  v_result:=jsonb_build_object('request_id',p_client_request_id,'action',v_action,'id',v_id,
   'status',case when v_action='REGISTER' then 'REGISTERED' else (select status from erp.material_adjustments where id=v_id) end);
  return erp._idempotency_complete('save_pocket_fabric_action_v1',p_client_request_id,v_result);
@@ -188,7 +188,7 @@ end;$function$;
 """
 
 CHECKS = r"""create or replace function erp.pocket_fabric_checks_v1()
-returns table(check_name text,issue_count bigint) language sql stable security definer set search_path='' set TimeZone='UTC' as $function$
+returns table(check_name text,severity text,issue_count bigint,details text) language sql stable security definer set search_path='' set TimeZone='UTC' as $function$
  with docs as (
   select u.*,h.status,h.physical_at,h.reason_code,to_jsonb(h)-'status'-'row_version'-'updated_at' header,
    (erp._cp6_material_adjustment_revaluation_state(h.id)->>'current_value')::numeric signed_value
@@ -199,15 +199,15 @@ returns table(check_name text,issue_count bigint) language sql stable security d
  ), all_journals as (
   select * from original_journals union select o.adjustment_id,j.id from original_journals o join erp.journal_entries j on j.reversal_of_id=o.id
  )
- select 'AP_POCKET_SOURCE'::text,count(*) from docs u where u.header<>u.posted_header or u.reason_code<>'INTERNAL_FACTORY_USE'
+ select 'AP_POCKET_SOURCE'::text,'CRITICAL'::text,count(*),'Pocket outflow preserves the original roll, quantity and posted source'::text from docs u where u.header<>u.posted_header or u.reason_code<>'INTERNAL_FACTORY_USE'
   or u.status not in('POSTED','REVERSED') or (select count(*) from erp.material_adjustment_items where adjustment_id=u.adjustment_id)<>1
   or not exists(select 1 from erp.material_adjustment_items i where i.adjustment_id=u.adjustment_id and to_jsonb(i)=u.posted_item
     and i.material_id=u.material_id and i.roll_id=u.roll_id and i.qty_signed=-u.issued_quantity)
- union all select 'AP_POCKET_EXPENSE_LEDGER',count(*) from docs u where
+ union all select 'AP_POCKET_EXPENSE_LEDGER','CRITICAL',count(*),'Current outflow value reconciles to inventory and period expense including corrections and inverses' from docs u where
   erp._cp6_supplier_cent_ledger((select array_agg(j.id) from all_journals j where j.adjustment_id=u.adjustment_id))
   is distinct from case when u.signed_value=0 then '{}'::jsonb else jsonb_build_object(
    erp.account_id('MATERIAL_INVENTORY')::text,u.signed_value,erp.account_id('OTHER_EXPENSE')::text,-u.signed_value) end
- union all select 'AP_POCKET_NO_PRODUCT_ALLOCATION',count(*) from erp.cutting_group_rolls c join erp.material_rolls r on r.id=c.roll_id
+ union all select 'AP_POCKET_NO_PRODUCT_ALLOCATION','CRITICAL',count(*),'Warehouse-only pocket fabric does not create sized production or product HPP' from erp.cutting_group_rolls c join erp.material_rolls r on r.id=c.roll_id
   join erp.pocket_fabric_materials p on p.material_id=r.material_id;
 $function$;
 """

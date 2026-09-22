@@ -1,3 +1,9 @@
+# CP6 kain kantong — percobaan database pertama dan koreksi kontrak
+
+Native35708050129 pada b3e9e4245df0cb5dfc398de395c11e2a8d1bf621 gagal ketika memasang proposal: checker baru mengembalikan dua kolom, sedangkan run_v267 memerlukan empat kolom (nama,severity,jumlah,details). **0 kasus AP berjalan.** 12 AO dan78 frontend/recovery PASS. Diperbaiki format empat kolom serta action log REGISTER memakai INSERT sesuai kamus audit native. Kegagalan tidak dihapus: artifact10685621506,32.538byte,SHA2561c9c11b8d68d6ca634e88b2ece0eae75e5dd9bb0916c45dab0ab7ecfb9f2d374. Native120AP belum PASS sampai gate berikut membuktikannya; CP6_HOLD tetap.
+
+---
+
 # CP6 — proposal pengurangan stok kain kantong tanpa HPP produk
 
 22 September 2026. CP6_HOLD; production_go:false; migration_installed:false; independent_acceptance:false.

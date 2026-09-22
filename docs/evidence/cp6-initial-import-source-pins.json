@@ -20,7 +20,7 @@
   "scripts/cp6_initial_import_receipts.py": "e25d3c4eb084b9e28903fac3a32b98f3f86a8480675a45bf0e0714e4d92615d0",
   "scripts/cp6_initial_import_scope.py": "ef512f7b70fc4120c77af699d30a7cd69c5072eadc0e32227b80676906a82d39",
   "scripts/cp6_initial_import_trial.py": "403325f035b897f09a2996f0ad46e73e6c7fb747ae2bfa5496179ef9eca994c6",
-  "scripts/cp6_pocket_fabric.py": "499fe1fc88fecde3d0a65830872ea0cee791df89c714d5d7905a281366de32ea",
+  "scripts/cp6_pocket_fabric.py": "1c7192c2e174f03b71b4dbe0e01ef256ffc70d21ec933e065a50692493ff24d3",
   "scripts/cp6_pocket_fabric_trial.py": "bdd298909a9840aab9f45b40cbe8d8e87a8154d378b9702c71e0d2711844cf7d",
   "scripts/cp6_v2620ao_definitions.py": "b2b62cc662ce5bac3218732890344cccaa0a06997a3098870ad1146f67c57c7e",
   "scripts/cp6_v2620ap_definitions.py": "74f224f70a90e8a6b5e8cc9e88f8389f60f89e0c74a4afe9dd36d0ac8ce843af",
