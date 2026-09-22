@@ -1,3 +1,92 @@
+# CP6 — form eceran aksesori terhubung dan terverifikasi
+
+22 September 2026. **CP6_HOLD · production_go:false · migration_installed:false · independent_acceptance:false.**
+
+VENI. VIDI. VICI. ERP. — I CONQUERED ERP.
+Reliable data adalah dewa.
+Keuangan—termasuk laporan—stok, dan HPP adalah raja.
+
+## Bukti terbaru
+
+| Bukti | Hasil |
+| --- | --- |
+| Repository / branch | Hanjay6688/-erp-garment-ux / competition/cp6-j-closure-20260911 |
+| Tested commit | `eebfbfb045a268459f1cef20e306f86d78e3e720` |
+| Tested tree | `536d3062333f4bf8875482ab375aacc7731e3f73` |
+| Native gate | [35734301749 SUCCESS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35734301749), job 106767468687 |
+| Proposal AP gabungan AO+AP | **184/184 PASS**: 163 sebelumnya +21 connected accessory |
+| AO biaya/eceran pada AN | **12/12 PASS** |
+| Frontend/recovery | **142/142 PASS**, delapan berkas unit/DOM |
+| TypeScript; source/access/CSS/recovery ownership | PASS |
+| CodeQL | [35734301766 SUCCESS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35734301766), empat bahasa |
+| Static Laundry QC fullschema | [35734301737 SUCCESS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35734301737) |
+| Artifact native | 10697170580, 144.050 byte, 11 entri ZIP |
+| SHA256 artifact native | `8a83160766c0d7e1288a7fc89c4c1fa6f104f8e0bbd554190dc0f12a8445072c` |
+| Main saat diverifikasi | `557005e6674058f1e5e966b350cba05501e06182` |
+
+CRC dan SHA256 ZIP cocok. SOURCE.json menunjuk tepat ke tested commit/tree. Seluruh 184 AP dan 12 AO PASS dengan boundary_restored:true; kedua laporan complete_boundary_restored:true. AP combined_ao_ap:true. Proposal dan fixture dijalankan pada database disposable, di-ROLLBACK, dan runtime dibersihkan. Ini bukti writer native serta unit/DOM; HTTP/browser nyata dan penerimaan global independen belum dibuktikan.
+
+## Perilaku yang tersambung
+
+**7 PCS adalah aksesori.** Halaman Nota Ambil Aksesori dalam mode terhubung sekarang membaca mandor, gudang, PO opsional, harga efektif, stok dan riwayat lewat RPC resmi. Mode demo tetap memakai simulasi yang ditandai. Kegagalan pembaca tidak berpindah diam-diam ke data contoh. Angka fisik diproses sebagai PCS utuh; uang dan versi dokumen tetap teks exact, termasuk versi di atas batas aman JavaScript Number.
+
+Form menawarkan harga eceran manual per buah atau harga master dengan konversi exact. Input koma seperti 3,25 dinormalisasi menjadi desimal canonical. Harga kosong ditolak, sedangkan harga nol harus ditulis eksplisit. Untuk 7 PCS terhadap basis lusin/gross yang tidak dapat dikonversi exact, pengguna diminta memakai harga eceran manual; jumlah fisik tidak dibulatkan menjadi paket. Harga dan basis master tidak ditulis ulang.
+
+Mandor, gudang dan waktu pengambilan WIB mempengaruhi pilihan harga/stok. Perubahan konteks membutuhkan pembaruan kutipan harga dan stok; versi harga yang usang ditolak saat pengesahan, termasuk pengecekan setelah fungsi native mengambil kunci harga. Tombol Ambil sisa hanya menyalin sisa yang terlihat atas tindakan pengguna. Draft dengan jumlah melebihi stok dapat disimpan, tetapi pengesahan ditolak oleh pembaca form dan pemeriksaan atomik database. Form tidak diam-diam mengurangi jumlah yang diketik.
+
+Simpan draft tidak menggerakkan ledger. Pengesahan menyimpan seluruh isi form terakhir dan memposting dalam satu transaksi. Perubahan setelah konfirmasi membatalkan konfirmasi lama. Muat ulang harga/stok mempertahankan edit dan versi asli draft agar perubahan orang lain ditolak sebagai versi usang, bukan ditimpa. Draft dapat dihapus; sumber yang sudah disahkan hanya dibaca. Pembatalan posted memanggil inverse native tertaut yang mengembalikan stok dan jurnal tanpa mengubah rincian sumber.
+
+Seluruh tindakan memakai domain ACCESSORY_ISSUE dalam pemulihan global. UUID, payload dan versi asal disimpan untuk rekonsiliasi. Respons hilang atau tidak cocok tidak dianggap berhasil maupun bebas untuk dikirim ulang sebagai transaksi baru. Sesi yang dibuka ulang memulihkan request yang sama; transaksi domain lain tetap terkunci sampai hasil lama jelas. Pengesahan dan inverse dengan UUID yang sama tidak menggandakan efek.
+
+## Izin dan kebijakan mandor
+
+Pembaca memeriksa izin aktif finance.contractor_accessory.view. Auditor yang memang diberi izin baca dapat melihat, tanpa memperoleh hak tulis. Penulis memeriksa izin per tindakan sebelum cache idempotensi dan tetap mematuhi require_internal native; reverse tetap memerlukan owner/admin beserta izin reverse. Izin dicabut menolak replay lama; pengguna nonaktif tidak dapat membaca. Dua facade publik hanya memiliki grant authenticated/service_role; helper privat tidak diberi EXECUTE ke authenticated, dan browser tidak mendapat akses tabel langsung.
+
+Salah satu percobaan menemukan pembaca baru terlalu membatasi role auditor dengan require_internal. Pembaca diselaraskan dengan katalog izin view. Quote membaca konversi efektif dengan predikat yang sama, sehingga tidak memanggil helper transaksi internal dari jalur baca. Fungsi require_internal, katalog izin, dan gerbang native untuk penulisan tidak diubah; native save tetap mengunci serta mencocokkan harga/faktor aktual saat menulis. Uji membuktikan pemberian izin create kepada role noninternal pun tidak melewati batas penulisan native. Hak payroll existing tetap dipakai: UI mencegah inverse ketika nota terkunci payroll, dan perintah menggunakan inverse native yang memiliki guard terkait. Keluarga baru ini menguji kunci payroll pada DOM; lifecycle payroll native lengkap tidak ditambahkan atau diklaim sudah dieksekusi ulang.
+
+Epi, Selo, Afat dan Afui mengikuti harga kategori per mandor yang efektif pada tanggal transaksi, dengan fallback harga umum existing. Afui tetap mempunyai kebijakan khusus tanpa absensi, komisi lebih tinggi dan tiga kategori aksesori gratis. **Nama tiga kategori gratis belum memiliki sumber yang pasti dalam konteks ini; tidak ditebak dari nama Afui atau data demo.** Form membaca konfigurasi harga yang ada; nol manual harus eksplisit. Tidak ada kebijakan gratis baru yang dibuat.
+
+## Angka dan cakupan pengujian
+
+Fixture sintetis dimulai dengan stok 300 PCS dan harga master basis 12 atau 144. Draft awal 5 PCS tidak mengubah saldo. Draft terakhir diubah menjadi 7 PCS dengan harga eceran 3,25; pengesahan menghasilkan stok 293 PCS dan tagihan 22,75. Snapshot qty dan transaction_qty sama-sama 7, faktor 1. Master tidak berubah. Replay tidak menambah transaksi; inverse mengembalikan stok 300 PCS dan seluruh saldo akun, dengan rincian sumber tetap. Skenario nol eksplisit tetap menghasilkan pengambilan fisik 7 PCS tanpa tagihan. Skenario harga master 12 PCS menghasilkan tagihan 36,00 menurut fixture.
+
+21 kasus database baru meliputi dua lifecycle basis, harga nol, penggunaan master, hapus draft, otorisasi, dan 15 penolakan: PCS pecahan; angka JSON menggantikan teks; presisi harga berlebih; koma mentah di RPC; harga negatif; stok kurang; gudang kosong; tanggal masa depan/tidak valid; field asing; material ganda; versi harga usang; konversi master tidak exact; versi dokumen usang; edit sumber posted. Penolakan bisnis tidak boleh hanya lolos karena gagal ACL, dan tidak boleh mengubah boundary.
+
+34 pemeriksaan frontend baru terdiri atas 19 unit dan 15 DOM, melengkapi 108 pemeriksaan sebelumnya menjadi 142. Cakupannya termasuk harga koma, uang besar exact, 7 PCS, kosong versus nol, edit terakhir, pembatalan konfirmasi, pembaruan konteks, stok kurang, Ambil sisa, versi besar, kunci payroll, mode hanya lihat, balasan malformed, serta respons SAVE_DRAFT/POST hilang yang pulih sesudah remount dengan efek hanya sekali.
+
+Implementasi menjadi 101 fungsi AP +11 AO; predecessor AP 30 +AO 11; 54 source pins. Ownership mencatat 106 runtime files, 30 browser RPC, 111 permissions, 48 route/nav labels, 20 sensitive actions, 37 stylesheets dan delapan recovery domains. Tidak ada tabel atau kolom baru khusus form ini; kolom harga eceran berasal dari proposal AO sebelumnya.
+
+## Bukti gagal tetap dipertahankan
+
+| Run | Sumber dan hasil |
+| --- | --- |
+| [35731316138](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35731316138) | d81c7a70121e6c8d7602e186709219d0682b98c7; 183 PASS /1 INCOMPLETE dari 184 AP. Fixture memakai STAFF legacy yang nonaktif. AO 12 dan frontend 142 PASS; seluruh boundary pulih. |
+| [35732231324](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35732231324) | 3f8c8df88c066c1573006361ff47578507ffc72b; 183 PASS /1 INCOMPLETE dari 184 AP. Fixture diperbaiki ke auditor aktif tetapi pembaca baru masih memiliki syarat internal tambahan. AO 12 dan frontend 142 PASS; seluruh boundary pulih. |
+| [35733310450](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35733310450) | 7183d6411f925df11b431e518959820c010cd3ab; 183 PASS /1 INCOMPLETE dari 184 AP. Pembaca sudah memakai izin view tetapi helper konversi masih khusus internal. Quote diganti pembacaan konversi efektif yang sama; fungsi native tetap utuh. AO 12 dan frontend 142 PASS; seluruh boundary pulih. |
+| [35731316235](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35731316235) | Final Boundary lama FAILURE pada Verify unchanged AI-R2 backend and bounded writer UI scope, sebelum audit database. Harness belum menerima scope successor AJ→AP. Guard tidak diubah. |
+
+| Artifact | Byte / entri ZIP | SHA256 |
+| --- | --- | --- |
+| Native gagal 10696160988 | 144.403 /11 | c45a21bebb637547bed68e4091691948a09ad62191ad42cee7ca83b4f37abdef |
+| Native gagal 10695869044 | 144.351 /11 | 12461c511fc7ce2c277b5a8d5854fc5e4584c725a9b4f124fcaaf3db1df97d68 |
+| Native gagal 10696128857 | 145.471 /11 | 86905f651f554252b535ee661bc663741df417b06799e8b406ae6052c2485db9 |
+| Boundary 10695671086 | 479.720 /7 | 85ba0c4657bd6311df4344a0ee642488bceee83bae132dd1387eccba26208faa |
+
+Semua ZIP di atas serta artifact final diperiksa CRC, SHA256 dan sumber. Hasil focused gate yang lulus tidak menggantikan Final Boundary global yang masih gagal. CodeQL empat bahasa pada tiga percobaan sebelumnya juga SUCCESS sesuai sumbernya masing-masing.
+
+## Posisi dan pekerjaan berikutnya
+
+Form eceran aksesori selesai pada tingkat writer native dan frontend/DOM. **CP6 keseluruhan masih HOLD.** Migrasi permanen AO/AP, rollback maintenance, HTTP/browser nyata, concurrency seluruh transaksi bisnis, perlindungan overlap terhadap semua jalur opening lama, serta audit global independen belum selesai. Matriks historis global belum dijalankan ulang. Tidak ada perubahan main, PR24/25, hosted UAT, legacy/prod atau CP7.
+
+Urutan berikutnya yang telah diizinkan: susun dan kualifikasi paket migrasi permanen AO/AP beserta rollback; buktikan jalur HTTP/browser/concurrency dan perlindungan opening lama; lalu penerimaan independen CP6. Jangan menyebut CP6 final atau memulai CP7 sebelum acceptance owner. Satu writer pada branch yang sama, fast-forward saja.
+
+Kain kantong tetap universal dengan stok gudang/roll, pengurangan stok tanpa pencatatan setiap pengambilan mandor, serta opsi pembagian biaya per periode berdasarkan hasil SELESAI_DIJAHIT yang sah, termasuk Afui. WIP awal tidak membuat hasil jahit historis fiktif untuk denominator. Impor tetap memakai isi draft terakhir, mencocokkan rincian dan total kontrol, tidak membukukan total kontrol lagi, serta menjaga sumber posted immutable. Seluruh checkpoint sebelumnya berlaku sesuai scope dan sumber masing-masing.
+
+
+---
+
+# Riwayat checkpoint sebelumnya
+
 # CP6 — pembacaan konversi harga untuk auditor
 
 Native 35733310450 pada `7183d6411f925df11b431e518959820c010cd3ab` / tree `8a808ae9d07415379c691a83a7eb769713d7ad9a` masih 183 PASS /1 INCOMPLETE dari 184 AP. Setelah gerbang pembaca diselaraskan, kasus yang sama menemukan helper harga memanggil `accessory_uom_factor`, yang juga khusus akses internal. Quote baru sekarang membaca konversi efektif dengan predikat yang identik secara read-only; fungsi native dan gerbang penulisnya tetap utuh. Native save masih mengunci dan memeriksa harga/faktor aktual sebelum pengesahan. Panggilan pembaca lainnya telah ditelusuri sampai helper tanggal bisnis, yang tidak mempunyai gerbang internal. Keberhasilan tetap menunggu uji native.
