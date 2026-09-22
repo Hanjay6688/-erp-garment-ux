@@ -16,15 +16,18 @@ export async function runAccessRevalidation(c) {
     ['QC', 'erp_get_laundry_qc_workspace_v1', {p_scope:'QC'}],
   ]
   const envelope = (payload={}, extra={}) => ({p_payload:payload,p_client_request_id:randomUUID(),p_expected_version:null,...extra})
-  const physical = c.query("select (clock_timestamp()-interval '1 minute')::text")
+  const physical = c.query(`select to_char((clock_timestamp()-interval '1 minute') at time zone 'UTC','YYYY-MM-DD"T"HH24:MI:SS.US"Z"')`)
   const unknown = randomUUID()
   const writers = [
     ['CUTTING_SAVE','erp_save_cutting_group_before_sewing_v2',envelope({action:'SAVE_DRAFT',change_reason:'Revoked session control'})],
     ['PICKUP_SAVE','erp_save_cutting_pickup_v1',envelope({action:'SAVE_DRAFT',change_reason:'Revoked session control'})],
     ['WIP_FLAG','erp_set_wip_control_flag_v1',envelope({cutting_group_id:unknown,flag_type:'OPERATOR_ACTION',status:'OPEN',note:'Disposable role control',change_reason:'Revoked session control'})],
     ['BS_CREATE','erp_save_bs_resolution_action_v1',envelope({bs_number:'RV-'+randomUUID().slice(0,12),untracked_type:'LEGACY',legacy_reference:'Disposable access control',qty_pcs:4,physical_at:physical,change_reason:'Revoked session control',components:[]},{p_action:'CREATE_MANUAL_BS'})],
-    ['LAUNDRY_POST','erp_save_laundry_qc_action_v1',envelope({change_reason:'Revoked session control'},{p_action:'POST_DELIVERY'})],
-    ['QC_POST','erp_post_final_sku_allocation_v1',envelope({change_reason:'Revoked session control'})],
+    ['LAUNDRY_POST','erp_save_laundry_qc_action_v1',envelope({distribution_batch_id:unknown,vendor_id:unknown,wash_process_id:unknown,
+      target_dyeing_color:'NAVY',physical_at:physical,reason:'Revoked session control',lines:[{size_id:unknown,qty_sent_pcs:1}]},{p_action:'POST_DELIVERY'})],
+    ['QC_POST','erp_post_final_sku_allocation_v1',envelope({cutting_group_id:unknown,destination_location_id:unknown,physical_at:physical,
+      reason:'Revoked session control',good_qty_pcs:1,completion_mode:'ALL_READY',lines:[{final_product_id:unknown,qty_good_pcs:1,qty_bs_pcs:0,
+        source_laundry_receipt_line_id:unknown,source_laundry_receipt_batch_size_line_id:unknown}]})],
     ['ACCESS_READ','erp_get_access_admin_v1',{}],
     ['ROLE_SAVE','erp_save_role_v1',envelope({code:'RV_'+randomUUID().replaceAll('-','').slice(0,12).toUpperCase(),name:'No self grant',permission_keys:['settings.access.manage'],confirm_high_risk:true,change_reason:'Revoked session control'})],
     ['USER_SAVE','erp_save_app_user_v3',envelope({full_name:'No self grant',change_reason:'Revoked session control'})],
@@ -73,16 +76,22 @@ export async function runAccessRevalidation(c) {
   const snapshotSql=tables.map(table=>`select '${table}' as name,md5(coalesce(string_agg(to_jsonb(t)::text,'' order by to_jsonb(t)::text),'')) as digest from erp."${table}" t`).join(' union all ')
   const boundary=()=>createHash('sha256').update(c.query(`select jsonb_agg(s order by name) from (${snapshotSql}) s`)).digest('hex')
   report.boundary_tables=tables.length
-  async function denied(token,entry) {
+  async function denied(token,entry,phase) {
     const before=boundary(), [,name,args]=entry
     const response=await http(token,name,args)
     assert.equal(boundary(),before,'Denied request changed ERP data')
-    assert.equal(response.status,403,`${name}: ${JSON.stringify(response)}`)
-    assert.equal(response.body.code,'42501',`${name}: expected permission refusal`)
+    // The existing Laundry/QC command checks the active app-user mapping before
+    // permission and uses this specific P0001 error for a disabled account.
+    const inactiveGuard=phase==='DISABLED'&&['LAUNDRY_POST','QC_POST'].includes(entry[0])
+      &&response.status===400&&response.body.code==='P0001'&&response.body.message==='Active ERP app user is required'
+    if(!inactiveGuard) {
+      assert.equal(response.status,403,`${name}: ${JSON.stringify(response)}`)
+      assert.equal(response.body.code,'42501',`${name}: expected permission refusal`)
+    }
     return {http_status:response.status,code:response.body.code,boundary_unchanged:true}
   }
   const denyAll=async(phase,token)=>{
-    for(const entry of deniedEndpoints)await check(phase+'_'+entry[0],()=>denied(token,entry))
+    for(const entry of deniedEndpoints)await check(phase+'_'+entry[0],()=>denied(token,entry,phase))
   }
   let page
   save()

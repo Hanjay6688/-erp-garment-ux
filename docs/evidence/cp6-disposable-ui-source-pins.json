@@ -141,7 +141,7 @@
     "scripts/cp6_v2620an_selectors.py": "0ba549f3a58c0ef401224d92b7d2ee5593222a9baf23146362706e3a05889bd6",
     "scripts/cp6_v2620an_selectors_ui.mjs": "990f374f5eda1edd58d74687e7dcb01489091f55e65e0dfd8c4aefc1c4552479",
     "scripts/cp6_v2620an_ui_fixture.py": "0dd5928d403d9fcee380ecbbdb09952b9a47ff18fdad64024f462a94d43b7b90",
-    "scripts/cp6_v2620an_access_revalidation.mjs": "1cd1bb24b0c7331d308f126f78db22ab416688b33af48479bcec3344789e8f06",
+    "scripts/cp6_v2620an_access_revalidation.mjs": "a0b37b4a92419de21c7a483e65f58284b8cdd4c6b16e41818f0b24646df0e3ff",
     "src/cuttingSelectors.test.ts": "6ab38008cca63909839829e96f33b9a4a47bde4e4e5a5e1f5cb3c5810412ed40",
     "src/cuttingSelectors.ts": "691b75117a98645b043407de1935ddf0302effcce3bb1f4cb01a16bf390117de",
     "src/types/database.preconnect.ts": "cb8db664e76d990fa5e49394e735e86ba9b896775cc63e587cf1639790da7cea",

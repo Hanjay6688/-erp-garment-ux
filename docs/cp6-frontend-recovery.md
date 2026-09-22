@@ -444,3 +444,11 @@ PCS price policy or CSV scope. Current latest-corrected presentation and immutab
 filed snapshots remain the contract; those principles alone do not choose the
 book date of corrections. The 12 date HOLD cases and CP6_HOLD remain unchanged.
 production_go:false; CP7 not started.
+
+Before the first access run finished, source review identified two fixture
+issues: Laundry/QC validates its closed payload before checking permission, and
+the disabled-user guard intentionally returns exact P0001 `Active ERP app user
+is required`. The follow-up supplies the canonical payload fields and accepts
+that specific inactive-actor refusal only for the two affected disabled cases.
+It still requires full unchanged ERP data and refuses every successful response.
+The initial run is retained as a separate attempt; its results are not promoted.
