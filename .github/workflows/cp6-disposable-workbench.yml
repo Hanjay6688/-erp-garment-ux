@@ -1,0 +1,66 @@
+name: CP6 Disposable Workbench Tools
+on:
+  push:
+    branches: [competition/cp6-j-closure-20260911]
+    paths: [.github/workflows/cp6-disposable-workbench.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  package:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: supabase/setup-cli@ab058987d8d6c725971f6cf9d0b5c98467e30bd1
+        with:
+          version: 2.116.0
+      - name: Package local-only database tools and authentic migration names
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq postgresql-common ca-certificates curl gnupg
+          sudo install -d /usr/share/postgresql-common/pgdg
+          sudo curl --fail --silent --show-error -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc https://www.postgresql.org/media/keys/ACCC4CF8.asc
+          test "$(gpg --show-keys --with-colons /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc | awk -F: '$1 == "fpr" { print $10; exit }')" = B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8
+          echo 'deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt noble-pgdg main' | sudo tee /etc/apt/sources.list.d/pgdg.list >/dev/null
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq postgresql-17 postgresql-client-17
+          workbench="$RUNNER_TEMP/cp6-workbench"
+          mkdir -p "$workbench/root/usr/lib/postgresql" "$workbench/root/usr/share/postgresql" "$workbench/dependencies" "$workbench/cli" "$workbench/provenance"
+          cp -a /usr/lib/postgresql/17 "$workbench/root/usr/lib/postgresql/"
+          cp -a /usr/share/postgresql/17 "$workbench/root/usr/share/postgresql/"
+          python - "$workbench" <<'PY'
+          import pathlib, subprocess, shutil, sys
+          target=pathlib.Path(sys.argv[1])
+          libraries=set()
+          for path in (target/'root/usr/lib/postgresql/17').rglob('*'):
+              if not path.is_file() or path.read_bytes()[:4]!=b'\x7fELF': continue
+              result=subprocess.run(['ldd',str(path)],capture_output=True,text=True,check=False)
+              for line in result.stdout.splitlines():
+                  for token in line.split():
+                      if token.startswith('/') and pathlib.Path(token).is_file(): libraries.add(token)
+          for path in sorted(libraries):
+              shutil.copy2(path,target/'dependencies'/pathlib.Path(path).name)
+          (target/'provenance/libraries.txt').write_text('\n'.join(sorted(libraries))+'\n')
+          PY
+          cp "$(command -v supabase)" "$workbench/cli/supabase"
+          supabase --version > "$workbench/provenance/supabase-version.txt"
+          test "$(cat "$workbench/provenance/supabase-version.txt")" = 2.116.0
+          /usr/lib/postgresql/17/bin/postgres --version > "$workbench/provenance/postgres-version.txt"
+          supabase migration --help > "$workbench/provenance/migration-help.txt"
+          supabase migration new --help > "$workbench/provenance/migration-new-help.txt"
+          supabase migration new erp_v2_6_20ao_cp6_invoice_date_and_retail --workdir "$workbench/provenance"
+          sleep 1
+          supabase migration new erp_v2_6_20ap_cp6_initial_data_import --workdir "$workbench/provenance"
+          printf '%s\n' "$GITHUB_SHA" > "$workbench/provenance/source-head.txt"
+          tar -C "$workbench" -cJf cp6-disposable-workbench.tar.xz .
+          sha256sum cp6-disposable-workbench.tar.xz > cp6-disposable-workbench.sha256
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cp6-disposable-workbench
+          path: |
+            cp6-disposable-workbench.tar.xz
+            cp6-disposable-workbench.sha256
+          retention-days: 30
