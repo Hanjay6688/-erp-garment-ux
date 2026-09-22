@@ -11,6 +11,7 @@ import cp6_ao_ap_maintenance as maintenance
 import cp6_ao_ap_runtime as prior
 import cp6_aq_runtime as aq
 import cp6_ar_runtime as ar
+import cp6_opening_overlap_probe as counterexample
 from cp6_ao_ap_inventory import data,platform
 
 OUT=Path('cp6-proof/ar')
@@ -51,7 +52,7 @@ def fixture(cur,today,kind):
         control.update(qty='7',amount='15.75')
     elif kind in ('FINISHED_GOODS','BS'):
         masters['MODEL']=[dict(model_code=tag,model_name='Synthetic overlap model')]
-        masters['BRAND']=[dict(brand_code=tag,brand_name='Synthetic overlap brand')]
+        masters['BRAND']=[dict(brand_code=tag,brand_name='Synthetic overlap brand '+tag)]
         masters['SIZE']=[dict(size_code=tag)]
         masters['PRODUCT']=[dict(sku=tag,product_name='Synthetic overlap product',model_code=tag,brand_code=tag,size_code=tag,color_name='BLUE')]
         masters['LOCATION']=[dict(location_code=tag,location_name='Synthetic overlap FG',location_type='FG_WAREHOUSE')]
@@ -95,7 +96,7 @@ def economic_state(cur,f):
       material=cur.execute("select source_id,qty_signed,unit_cost_snapshot from erp.material_stock_movements where source_type='OPENING_BALANCE_ITEM' and source_id=any(%s) order by source_id",(items,)).fetchall(),
       fg=cur.execute("select source_id,qty_signed,unit_hpp_snapshot from erp.fg_stock_movements where source_type='OPENING_BALANCE_ITEM' and source_id=any(%s) order by source_id",(items,)).fetchall(),
       wip=cur.execute("select source_id,qty_pcs from erp.wip_stage_events where source_type='INITIAL_IMPORT_WIP_OPENING' and source_id=any(%s) order by source_id",(items,)).fetchall(),
-      bs=cur.execute("select b.bs_number,b.qty_pcs from erp.bs_cases b join erp.opening_balance_headers h on b.bs_number like 'OBS-'||h.opening_number||'-%' where h.id=any(%s) order by b.bs_number",(ids,)).fetchall(),
+      bs=cur.execute("select b.bs_number,b.qty_pcs from erp.bs_cases b join erp.opening_balance_headers h on b.bs_number like 'OBS-'||h.opening_number||'-%%' where h.id=any(%s) order by b.bs_number",(ids,)).fetchall(),
       journals=cur.execute("select j.source_id,j.status,j.economic_date,l.account_id,l.debit,l.credit from erp.journal_entries j join erp.journal_lines l on l.journal_entry_id=j.id where j.source_type='OPENING_BALANCE' and j.source_id=any(%s) order by j.source_id,l.account_id",(ids,)).fetchall())
 
 def exactly_once(cur,f,winner):
@@ -145,6 +146,17 @@ def sequential(cur,today,kind,winner):
     state=exactly_once(cur,f,winner)
     return dict(status='PASS',winner=winner,loser=loser,refusal=reason,all_erp_data_unchanged_on_refusal=True,economics=state)
 
+def original_probe(cur,today,kind):
+    opening=counterexample.imported(cur,today,kind)
+    before=data(cur)
+    try:
+        with cur.connection.transaction():counterexample.duplicate_via_legacy(cur,opening)
+    except psycopg.Error as exc:assert 'AR_OPENING_ROUTE_OVERLAP' in str(exc),str(exc)
+    else:raise AssertionError('ORIGINAL_COUNTEREXAMPLE_STILL_REPRODUCES')
+    api.admin(cur);assert data(cur)==before
+    assert cur.execute('select status from erp.opening_balance_headers where id=%s',(opening,)).fetchone()==('POSTED',)
+    return dict(status='PASS',original_probe_helpers_unchanged=True,public_finalize_without_native_prepare=True,duplicate_refused_all_erp_data_unchanged=True)
+
 def nonoverlap(cur,today,kind):
     f=fixture(cur,today,kind)
     if kind in ('MATERIAL','FINISHED_GOODS'):
@@ -165,6 +177,44 @@ def nonoverlap(cur,today,kind):
     assert post(cur,f,'legacy')['status']=='POSTED'
     assert [x[1] for x in economic_state(cur,f)['headers']]==['POSTED','POSTED']
     return dict(status='PASS',distinct_dimension_admitted=True)
+
+def rpc_guards(cur,today):
+    f=fixture(cur,today,'MATERIAL');payload=dict(batch_id=f['batch'],expected_revision=api.read(cur,f['batch'])['batch']['revision']);key=uuid.uuid4()
+    def denied(operation,fragment=None):
+        boundary=data(cur)
+        try:
+            with cur.connection.transaction():operation()
+        except psycopg.Error as exc:
+            message=str(exc)
+            if fragment:assert fragment.lower() in message.lower(),message
+        else:raise AssertionError('EXPECTED_RPC_REFUSAL')
+        api.admin(cur);assert data(cur)==boundary
+        return message
+    stale=denied(lambda:api.call(cur,'FINALIZE',dict(payload,expected_revision='obsolete')),'STALE_VERSION')
+    posted=api.call(cur,'FINALIZE',payload,key);assert posted['status']=='POSTED'
+    boundary=data(cur);assert api.call(cur,'FINALIZE',payload,key)==posted and data(cur)==boundary
+    changed=denied(lambda:api.call(cur,'FINALIZE',dict(payload,notes='different payload'),key))
+    assert any(s in changed.lower() for s in ('idempot','request','permintaan')),changed
+    # Keep the last-owner protection active while revoking the posting actor.
+    backup=uuid.uuid4();native(cur)
+    cur.execute("insert into auth.users(id,aud,role,email) values(%s,'authenticated','authenticated',%s)",(backup,'ar-backup-'+backup.hex+'@example.test'))
+    cur.execute("insert into erp.app_users(id,auth_user_id,full_name,role,role_id,is_active) select gen_random_uuid(),%s,'AR backup owner','OWNER',id,true from erp.app_roles where role_code='OWNER'",(backup,))
+    cur.execute('update erp.app_users set is_active=false where auth_user_id=%s',(api.base.OPERATOR_AUTH,))
+    revoked=denied(lambda:api.call(cur,'FINALIZE',payload,key))
+    return dict(status='PASS',stale_refused=stale,replay_exact=True,changed_payload_refused=changed,revoked_owner_refused=revoked,all_refusals_atomic=True)
+
+def isolation_guard(today):
+    with psycopg.connect(ADMIN) as c,c.cursor() as cur:f=fixture(cur,today,'MATERIAL');before=data(cur)
+    with psycopg.connect(ADMIN) as c:
+        c.execute('set transaction isolation level repeatable read')
+        try:
+            with c.transaction():
+                native(c.cursor());c.execute('select erp.post_opening_balance(%s)',(f['legacy'],))
+        except psycopg.Error as exc:assert 'AR_OPENING_REQUIRES_READ_COMMITTED' in str(exc)
+        else:raise AssertionError('STALE_SNAPSHOT_ADMITTED')
+        c.rollback()
+    with psycopg.connect(ADMIN) as c,c.cursor() as cur:assert data(cur)==before
+    return dict(status='PASS',repeatable_read_refused_atomically=True)
 
 def concurrency(today,kind,winner,commit=True,same_header=False):
     with psycopg.connect(ADMIN) as c,c.cursor() as cur:f=fixture(cur,today,kind)
@@ -237,9 +287,11 @@ def main():
             today=cur.execute("select (statement_timestamp() at time zone 'Asia/Jakarta')::date").fetchone()[0]
             cases=[]
             for kind in KINDS:
+                cases.append((kind+'_ORIGINAL_PROBE',lambda k=kind:original_probe(cur,today,k)))
                 for winner in ('imported','legacy'):
                     cases.append((kind+'_'+winner.upper()+'_FIRST',lambda k=kind,w=winner:sequential(cur,today,k,w)))
                 cases.append((kind+'_NONOVERLAP',lambda k=kind:nonoverlap(cur,today,k)))
+            cases.append(('RPC_REPLAY_STALE_PAYLOAD_REVOKED',lambda:rpc_guards(cur,today)))
             cases+=inherited_cases(cur,today)
             for name,operation in cases:
                 cur.execute('savepoint ar_case')
@@ -262,6 +314,7 @@ def main():
                 try:result=concurrency(today,'MATERIAL',winner,commit=same,same_header=same)
                 except Exception as exc:result=dict(status='INCOMPLETE',error=str(exc),traceback=traceback.format_exc())
                 report['cases'][name]=result;save()
+        report['cases']['STALE_SNAPSHOT_ISOLATION']=isolation_guard(today);save()
         ar.refuse_post_use(PG,ADMIN,OUT)
         with psycopg.connect(ADMIN) as c,c.cursor() as cur:ar.verified(cur)
         report['status']='WRITER_PASS' if all(x['status']=='PASS' for x in report['cases'].values()) else 'INCOMPLETE'
