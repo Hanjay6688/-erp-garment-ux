@@ -52,9 +52,10 @@ def state(cur):
     stock=cur.execute('select cached_stock_qty::text from erp.materials where id=%s',(m,)).fetchone()[0]
     roll=cur.execute('select coalesce(sum(qty_signed),0)::text from erp.material_stock_movements where roll_id=%s',(r,)).fetchone()[0]
     ledger={k:cur.execute('select coalesce(sum(debit-credit),0)::text from erp.journal_lines where account_id=erp.account_id(%s)',(k,)).fetchone()[0] for k in ('MATERIAL_INVENTORY','WIP','FG_INVENTORY','COGS','OTHER_EXPENSE')}
+    all_ledger=dict(cur.execute('select account_id::text,sum(debit-credit)::text from erp.journal_lines group by account_id having sum(debit-credit)<>0 order by account_id').fetchall())
     journals=cur.execute('select count(*) from (select journal_entry_id from erp.journal_lines group by journal_entry_id having sum(debit)<>sum(credit)) s').fetchone()[0]
     counts={name:cur.execute(sql.SQL('select count(*) from erp.{}').format(sql.Identifier(name))).fetchone()[0] for name in ('contractor_material_issues','material_stock_movements','journal_entries','pocket_fabric_usage','pocket_periods','opening_balance_items')}
-    return dict(accessory_stock=stock,pocket_stock=roll,ledger=ledger,unbalanced=journals,counts=counts)
+    return dict(accessory_stock=stock,pocket_stock=roll,ledger=ledger,all_ledger=all_ledger,unbalanced=journals,counts=counts)
 
 def main():
     mode=sys.argv[1]

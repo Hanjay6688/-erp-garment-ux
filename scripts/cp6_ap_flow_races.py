@@ -95,13 +95,13 @@ def accessory_races():
     assert two['value']['code'] not in ('42501','PGRST202'),two
     assert Decimal(current()['accessory_stock'])==100
     posted=one['value'];call('accessory_issue','REVERSE',dict(id=posted['id'],expected_version=posted['row_version'],reason='Restore contention fixture'))
-    assert current()['ledger']==baseline['ledger'] and Decimal(current()['accessory_stock'])==300
+    assert current()['all_ledger']==baseline['all_ledger'] and Decimal(current()['accessory_stock'])==300
     pass_case('ACCESSORY_COMPETING_STOCK',observed_waits=waits,winner_pcs=200,loser_atomic=True,remaining_pcs=100,inverse_restored=True)
     c=cmd('accessory_issue','POST',payload(7));one,two,waits=pair('materials',f['material'],c,c)
     assert one==two and ok(one)['status']=='POSTED',(one,two)
     assert Decimal(current()['accessory_stock'])==293
     posted=one['value'];call('accessory_issue','REVERSE',dict(id=posted['id'],expected_version=posted['row_version'],reason='Restore duplicate request'))
-    assert current()['ledger']==baseline['ledger'] and Decimal(current()['accessory_stock'])==300
+    assert current()['all_ledger']==baseline['all_ledger'] and Decimal(current()['accessory_stock'])==300
     pass_case('ACCESSORY_SAME_UUID',observed_waits=waits,physical_pcs=7,exact_replay=True)
 
 def pocket_races():
@@ -127,7 +127,7 @@ def pocket_races():
     call('pocket_fabric','CANCEL_PERIOD',dict(id=period['id'],expected_revision=period['revision'],reason='Restore period race'))
     h=next(x for x in w['history'] if x['id']==one['value']['id'])
     call('pocket_fabric','REVERSE',dict(id=h['id'],expected_version=h['row_version'],reason='Restore stock race'))
-    assert current()['ledger']==baseline['ledger'] and Decimal(current()['pocket_stock'])==20
+    assert current()['all_ledger']==baseline['all_ledger'] and Decimal(current()['pocket_stock'])==20
     pass_case('POCKET_PERIOD_BUSY_THEN_RETRY',real_second_session_mutex=True,refusal_atomic=True,retry_same_uuid=True,all_accounts_restored=True)
 
 try:

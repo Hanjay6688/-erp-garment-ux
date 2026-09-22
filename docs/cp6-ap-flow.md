@@ -44,3 +44,12 @@ separate unfinished CP6 work. CP6_HOLD; production_go:false; CP7 unopened.
 The prior nine-item archive/master save timed out without receipts. Read-only
 reconciliation still shows both master files at v15. No duplicate write was made;
 the pending local v16 bytes must not be treated as confirmed persistent masters.
+
+First attempt `70acd4e0089470f41411fed3eee1d18b3fb7c792`, tree
+`a3d66756552363d4e39819f975ec55fa13adc977`, run35747092468 is INCOMPLETE.
+The browser login-page smoke passed. Fixture setup then attempted two different
+role codes with the same active role name; canonical `erp_save_role_v1` correctly
+refused the second name with23505/409. The follow-up gives each synthetic role
+a distinct name and strengthens ledger observers to compare every account plus
+the actual22.75 accessory receivable journal. Product/schema/permissions are
+unchanged. The failed attempt remains evidence, not a business PASS.
