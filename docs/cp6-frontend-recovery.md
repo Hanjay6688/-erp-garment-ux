@@ -452,3 +452,22 @@ is required`. The follow-up supplies the canonical payload fields and accepts
 that specific inactive-actor refusal only for the two affected disabled cases.
 It still requires full unchanged ERP data and refuses every successful response.
 The initial run is retained as a separate attempt; its results are not promoted.
+
+First access attempt completed as INCOMPLETE on
+`089aa1e2a5e9635842916857976d2df30bef7914`, tree
+`1788b5e3137c720edf2daee87d70abb4e5cd34bf`, native run35672944597.
+All92 case records were collected:80 PASS and12 INCOMPLETE,0 unfinished.
+Eight controls had the payload/inactive-guard fixture errors described above.
+The BS positive control also incorrectly required Laundry's `committed` response
+field; the existing BS contract is `{action,result}`. Its three dependent replay
+controls consequently remained INCOMPLETE. The correction validates action,
+real BS ID and actual quantity4, then still requires exact replay and one row.
+This changes test assumptions, not the product or accepted business behavior.
+
+Artifact10672315447:53,521,487 bytes,320 entries; SHA256
+`8b83a5adcc4ff0d47b8fadb71023ff1be95618dc5fba60d1543ad536dac1ec19`.
+ZIP CRC/path and selected token/JWT/private-key pattern checks passed. Native
+selectors28, selector HTTP/UI15, maintenance20, original UI43 and recovery9
+completed separately. AN→AM full boundary and public catalog exact; final AH
+533functions/223tables/Auth0/app0; Auth clone/container cleanup PASS.
+The access snapshot included all228 ERP tables. The failed access gate is kept.

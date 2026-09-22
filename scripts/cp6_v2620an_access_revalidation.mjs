@@ -133,7 +133,9 @@ export async function runAccessRevalidation(c) {
     let committed
     await check('BASELINE_BS_CREATE',async()=>{
       const response=await http(token,create[1],create[2]);assert.equal(response.status,200,JSON.stringify(response))
-      assert.equal(response.body.committed,true);assert.match(response.body.result.bs_case_id,/^[0-9a-f-]{36}$/)
+      assert.equal(response.body.action,'CREATE_MANUAL_BS')
+      assert.match(response.body.result.bs_case_id,/^[0-9a-f-]{36}$/)
+      assert.equal(Number(c.query(`select qty_pcs from erp.bs_cases where id='${response.body.result.bs_case_id}'`)),4)
       committed=response.body
       return {http_status:200,qty_pcs:4,bs_case_id:committed.result.bs_case_id}
     })
