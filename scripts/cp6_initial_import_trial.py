@@ -17,13 +17,19 @@ URL='postgresql://supabase_admin:postgres@127.0.0.1:54322/postgres'
 report=dict(status='INCOMPLETE',head=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),cases={},production_go=False,independent_acceptance=False,migration_installed=False)
 def save(): (ROOT/'NATIVE_TRIAL.json').write_text(json.dumps(report,indent=2,default=str)+'\n')
 def admin(cur):actors.admin(cur)
+def ordinary(cur):
+ admin(cur)
+ cur.execute("select set_config('request.jwt.claims',%s,true)",(json.dumps(dict(sub=base.OPERATOR_AUTH,role='authenticated')),))
+ cur.execute('set local session authorization authenticated')
+ assert cur.execute('select current_user,session_user').fetchone()==('authenticated','authenticated')
+
 def call(cur,action,payload,key=None):
- production.owner(cur)
+ ordinary(cur)
  value=cur.execute('select public.erp_save_initial_import_action_v1(%s,%s::jsonb,%s)',(action,json.dumps(payload,default=str),key or uuid.uuid4())).fetchone()[0]
  admin(cur);return value
 
 def read(cur,batch=None):
- production.owner(cur);value=cur.execute('select public.erp_get_initial_import_workspace_v1(%s)',(batch,)).fetchone()[0];admin(cur);return value
+ ordinary(cur);value=cur.execute('select public.erp_get_initial_import_workspace_v1(%s)',(batch,)).fetchone()[0];admin(cur);return value
 
 def invoke(cur,action,batch,**extra):
  return call(cur,action,dict(batch_id=batch,expected_revision=read(cur,batch)['batch']['revision'],**extra))
