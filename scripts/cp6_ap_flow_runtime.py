@@ -5,6 +5,7 @@ import json,os,subprocess,tempfile,time,traceback
 import psycopg
 import cp6_ao_ap_maintenance as maintenance
 import cp6_ao_ap_runtime as runtime
+import cp6_aq_runtime as aq
 from cp6_ao_ap_inventory import data
 from cp6_ap_flow_fixture import PG,ADMIN,OUT
 
@@ -25,6 +26,7 @@ def main():
         for family in ('AO','AP'):
             maintenance.install(family=family,target_pgurl=PG,maintenance_pgurl=os.environ['CP6_ADMISSION_CONTROL_PGURL'],report_path=OUT/(family+'_INSTALL.json'))
         run('python','scripts/cp6_ap_flow_fixture.py','seed')
+        aq.qualify(PG,ADMIN,OUT)
         values={}
         for line in run('supabase','status','--workdir','../base/cp5-local','-o','env',stderr=subprocess.DEVNULL).splitlines():
             key,sep,value=line.partition('=')
@@ -45,7 +47,7 @@ def main():
         env=dict(os.environ,SUPABASE_ANON_KEY=values['ANON_KEY'],SUPABASE_SERVICE_ROLE_KEY=values['SERVICE_ROLE_KEY'])
         result=subprocess.run(['node','scripts/cp6_ap_flow_ui.mjs'],env=env,check=False)
         report['flow_exit_code']=result.returncode
-        with psycopg.connect(ADMIN) as conn,conn.cursor() as cur:report['unchanged_catalog_after_flow']=runtime.verified(cur,'AP')
+        with psycopg.connect(ADMIN) as conn,conn.cursor() as cur:report['unchanged_catalog_after_flow']=aq.verified(cur)
         assert result.returncode==0,'AUTH_BROWSER_FLOW_FAILED'
         for name in ('FLOW','RACES'):
             evidence=json.loads((OUT/(name+'.json')).read_text())
@@ -53,6 +55,8 @@ def main():
             assert len(evidence['cases'])==({'FLOW':29,'RACES':6}[name]),name
             assert all(c['status']=='PASS' for c in evidence['cases']),name
             report[name.lower()+'_cases']=len(evidence['cases'])
+        run('docker','rm','-f',REST)
+        aq.refuse_post_use(PG,ADMIN,OUT)
         report['status']='PASS'
     except Exception as exc:
         report.update(status='INCOMPLETE',error_type=type(exc).__name__,error=str(exc)[:500])

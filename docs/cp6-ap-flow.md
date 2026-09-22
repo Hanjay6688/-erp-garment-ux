@@ -2,9 +2,10 @@
 
 Source boundary: `c4ccecfdaadd20081923079c608f83ac494da87d`, carrying the
 unchanged permanent package qualified at `4bff4a65a7b93d7888fa77dbcb31bb1c937bbc57`.
-This follow-up changes the disposable proof harness, its documentation, and the
-exact mobile width correction in `src/initial-import.css`. Business code and
-permanent SQL remain unchanged; the new source gate pins this one CSS file.
+This follow-up changes the disposable proof harness, its documentation, the
+exact mobile width correction in `src/initial-import.css`, and a separate AQ
+successor for the proven accessory deadlock. Prior AO/AP migration and rollback
+bytes remain unchanged. AQ replaces one function without changing business rules.
 No new product PASS is claimed until the native run completes.
 
 The new workflow reuses the pinned AC→AN bootstrap, installs the exact permanent
@@ -34,8 +35,9 @@ accessory stock contention and duplicate requests, pocket stock revision
 contention, and a busy period allocation followed by the same-UUID retry.
 Waiting requests are admitted by observed PostgreSQL lock waits, not by assuming
 that two quickly issued requests overlapped. Setup-only native fixture calls
-are explicitly separate from real JWT business commands; no grant, installed
-function or policy is changed for the new transport proof.
+are explicitly separate from real JWT business commands. AQ is a reviewed
+product correction installed under closed admission before the real business
+flow; no grant or policy is changed to admit a test.
 
 Existing 105 installed native cases,38 atomic refusals,two full package cycles
 and six maintenance schedules retain their earlier evidence. This follow-up
@@ -111,3 +113,35 @@ Artifact10705065951:2976134bytes,16entries,
 SHA256293f6a6bd4918ca81f11ea5237c205591f418b9b31113c1fb0ec06c3578d037e.
 CodeQL35749901780 passed4/4; global35749901914 still failed the unchanged legacy
 `AC_ONLY_EXACT_SUCCESSOR_REPAIR_ALLOWED` source gate before business tests.
+
+Sixth attempt `9297e3b7481da1017e0eb205d8520b64e9f3fe97`, tree
+`353ec154baadd0838ec45908e08aaf1862546a6f`, run35751402309 passed all29 browser/Auth
+observations and both concurrent import schedules. The mobile width correction
+worked, including normal cancellation clicks and complete stock/ledger inverses.
+Concurrent accessory200+200 against stock300 exposed a real40P01 deadlock: both
+new issue transactions can hold material FK key-share locks, then need stronger
+material locks while posting/recalculating. One request aborted with500 while
+the other committed. That is INCOMPLETE, not the intended stock refusal.
+Artifact10706090690:3127070bytes,18entries,
+SHA256c34c7496083fab88b28ed0b52b1566f55445aa9f2ece58364a97559fe53fbe4e.
+
+AQ changes only `erp.save_contractor_material_issue_draft_v2(jsonb,uuid,bigint)`:
+after the existing authorization, idempotency, document/version checks, and before
+deleting/inserting child lines, lock every selected material FOR UPDATE in ID
+order. This covers the connected facade and direct native draft writer. The
+normalizer, quantities, prices, stock checks, journals and reversals stay intact.
+Supabase CLI2.116.0 generated the new migration filename; the builder pins the
+original installed function, ACL, full7148-entry AP catalog and exact prior SQL.
+The successor captures a private rollback capsule, preserves all existing data,
+and admits restoration only before business use. Qualification includes two
+AP→AQ→AP cycles, atomic refusal with admission open, then final AQ installation;
+post-use rollback must be refused even when linked reversals restored balances.
+The earlier package is retained as a predecessor with this newly discovered
+concurrency limitation; its prior PASS does not erase this counterexample.
+
+CodeQL35751402212 passed4/4. Automatically triggered Final Boundary35751402410
+passed442 unit/DOM tests and its16 CP5 plus26 CP6 browser-contract checks, then
+failed the unchanged AI-R2 bounded-source gate before database tests. These
+browser-contract checks are distinct from the real Auth29-case flow.
+Global Full-Schema35751402235 again failed the old AC-only source gate.
+Both failures remain failures; no independent acceptance is claimed.

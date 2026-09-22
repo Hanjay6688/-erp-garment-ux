@@ -92,8 +92,11 @@ def accessory_races():
     c1=cmd('accessory_issue','POST',payload(200));c2=cmd('accessory_issue','POST',payload(200))
     one,two,waits=pair('materials',f['material'],c1,c2)
     assert one['status']==200 and two['status']==400,(one,two)
-    assert two['value']['code'] not in ('42501','PGRST202'),two
+    assert two['value']['code'] not in ('42501','PGRST202','40P01'),two
+    assert 'negative' in two['value']['message'].lower() or 'insufficient' in two['value']['message'].lower(),two
     assert Decimal(current()['accessory_stock'])==100
+    with psycopg.connect(ADMIN) as conn,conn.cursor() as cur:
+        assert cur.execute('select count(*) from erp.contractor_material_issues where issue_number=%s',(c2[1]['p_payload']['number'],)).fetchone()==(0,)
     posted=one['value'];call('accessory_issue','REVERSE',dict(id=posted['id'],expected_version=posted['row_version'],reason='Restore contention fixture'))
     assert current()['all_ledger']==baseline['all_ledger'] and Decimal(current()['accessory_stock'])==300
     pass_case('ACCESSORY_COMPETING_STOCK',observed_waits=waits,winner_pcs=200,loser_atomic=True,remaining_pcs=100,inverse_restored=True)

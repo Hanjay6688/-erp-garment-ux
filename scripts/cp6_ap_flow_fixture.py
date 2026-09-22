@@ -117,7 +117,9 @@ def main():
         elif mode=='identities':result=identities(cur)
         elif mode=='boundary':
             snapshot=data(cur);result=dict(sha256=hashlib.sha256(json.dumps(snapshot,sort_keys=True,default=str).encode()).hexdigest(),tables=len(snapshot))
-        elif mode=='verify':result=runtime.verified(cur,'AP')
+        elif mode=='verify':
+            import cp6_aq_runtime as aq
+            result=aq.verified(cur)
         else:raise AssertionError('Unknown fixture operation')
         print(json.dumps(result,default=str))
 

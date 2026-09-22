@@ -13,7 +13,7 @@ const root=process.cwd(), dir=resolve('cp6-proof/ap-flow'), origin='http://127.0
 const anon=process.env.SUPABASE_ANON_KEY, service=process.env.SUPABASE_SERVICE_ROLE_KEY
 assert.ok(anon&&service)
 const users=[], secrets=[anon,service], cases=[]
-const report={status:'INCOMPLETE',classification:'WRITER_REAL_AUTH_BROWSER_AP',cases,production_go:false,independent_acceptance:false,
+const report={status:'INCOMPLETE',classification:'WRITER_REAL_AUTH_BROWSER_AP_WITH_AQ_REPAIR',cases,production_go:false,independent_acceptance:false,
   product_responses_mocked:false,phase:'SETUP',console_errors:[]}
 const sql=s=>execFileSync('psql',[pg,'-X','-qAt','-v','ON_ERROR_STOP=1','-c',s],{encoding:'utf8',stdio:['ignore','pipe','pipe']}).trim()
 const q=v=>"'"+String(v).replaceAll("'","''")+"'"

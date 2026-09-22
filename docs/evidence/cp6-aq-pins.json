@@ -1,0 +1,28 @@
+{
+  "version": "v2.6.20aq",
+  "stamp": "20260922161019",
+  "name": "erp_v2_6_20aq_cp6_accessory_lock_order",
+  "migration": "supabase/migrations/20260922161019_erp_v2_6_20aq_cp6_accessory_lock_order.sql",
+  "rollback": "supabase/rollbacks/20260922161019_erp_v2_6_20aq_cp6_accessory_lock_order.rollback.sql",
+  "capsule": "erp.cp6_v2620aq_rollback_capsule",
+  "previous": "AP",
+  "functions": [
+    {
+      "identity": "erp.save_contractor_material_issue_draft_v2(jsonb,uuid,bigint)",
+      "predecessor_sha256": "d770d21f6bdb3962818fa4c677367ec15998420e5e92c195e1feb538a2227e20",
+      "installed_sha256": "4d2e9b98d26dcda0c054de76d82906e0819af0525ed2327d476d78fbb59133f7",
+      "owner": "postgres",
+      "acl": [
+        "authenticated=X/postgres",
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ]
+    }
+  ],
+  "migration_sha256": "b1b4e449ca84ad524189640bcd76302cb277b9b690ed89f739ad5706e3cfac5a",
+  "rollback_sha256": "42462da5ab89c6f555afebd36200722ed2d98d320845f3e37547ed264c7c040f",
+  "builder_sha256": "f61bb2a375e6d2206fc0d375fa881eb98abe1a97db47bc44d4be3b7356475798",
+  "base_pins_sha256": "04f07884377b47684871faa92aaed380ea564dbfe3b67527ba2d59cc220fa50c",
+  "production_go": false,
+  "independent_acceptance": false
+}
