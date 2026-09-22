@@ -1,0 +1,1000 @@
+{
+  "format": "CP6_AO_AP_PACKAGE_PINS_V1",
+  "capture_sha256": "5f2fb918b37c17821a1cf38bd0c7fced941fe84c439940d94fe8419c57ac2773",
+  "capture_head": "c26bf139da026e0669e047d4535b1dbf3fb45211",
+  "families": {
+    "AO": {
+      "version": "v2.6.20ao",
+      "stamp": "20260922135612",
+      "name": "erp_v2_6_20ao_cp6_invoice_retail",
+      "migration": "supabase/migrations/20260922135612_erp_v2_6_20ao_cp6_invoice_retail.sql",
+      "rollback": "supabase/rollbacks/20260922135612_erp_v2_6_20ao_cp6_invoice_retail.rollback.sql",
+      "capsule": "erp.cp6_v2620ao_rollback_capsule",
+      "previous": "AN",
+      "functions": [
+        {
+          "identity": "erp._cp6_sync_material_adjustment_revaluation(uuid,uuid)",
+          "predecessor_sha256": "4b7dfd039b49e56082d0dd0a63613cfdaf7483af244627109dd1c2ed230e9804",
+          "installed_sha256": "b6b5fdae99e0dd5c263c2d76c4bf9e4e087db014bf22ca78fef226dd6ee3fe9f",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        {
+          "identity": "erp._recalculate_material_cost_core(uuid,timestamp with time zone,boolean)",
+          "predecessor_sha256": "2069e292b0c43850a19469ae20af36616e396840619e72c43d204e209154987d",
+          "installed_sha256": "88f9326b1ba192f7f42fa9d3d849c9927ebbafd71bc358ca8efabb37cdd88c99",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        {
+          "identity": "erp.normalize_contractor_issue_item_uom_price()",
+          "predecessor_sha256": "d83bccf28a18c5af10e5c7bf206be85d33fe4ee9890253c24c5b6e331508b045",
+          "installed_sha256": "1f513cd5017be61bb974f877100568ad856250eadb977d28ebb5ac9222664816",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres",
+            "service_role=X/postgres"
+          ]
+        },
+        {
+          "identity": "erp.post_material_purchase_cost_correction(uuid)",
+          "predecessor_sha256": "5839dee0ab9db69ebabf5f08894b5c6603c851c1d55aa9eff30a12dd0331dff9",
+          "installed_sha256": "a60812fb34ddae1660ff68a4df0af3c29a87201a71f0a4e769904972d4800903",
+          "owner": "postgres",
+          "acl": [
+            "authenticated=X/postgres",
+            "postgres=X/postgres"
+          ]
+        },
+        {
+          "identity": "erp.post_material_supplier_invoice(uuid)",
+          "predecessor_sha256": "5b455191508e0945c388f804e189055a435b8a56faab9213a01e812420784c0a",
+          "installed_sha256": "7f7c0df785f1ad715052746d2614d78c3992c018fc8f24abad5f36b6928af2ea",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres",
+            "service_role=X/postgres"
+          ]
+        },
+        {
+          "identity": "erp.reverse_material_purchase_cost_correction(uuid,text)",
+          "predecessor_sha256": "9913ee82901495aa850712c29d21ab8a8b96a5d71c29fca20fb0844b1af1dddd",
+          "installed_sha256": "6aa31b5acdb31d654b1a5389a6fd8282c78d7088b3840a5493d89c5ba806bba7",
+          "owner": "postgres",
+          "acl": [
+            "authenticated=X/postgres",
+            "postgres=X/postgres"
+          ]
+        },
+        {
+          "identity": "erp.reverse_material_supplier_invoice(uuid,text)",
+          "predecessor_sha256": "b4b10a9021e4360a25327656217fac0ed8a171748c215af2291ed00539684cb2",
+          "installed_sha256": "c4a3194b4be9107102961fd3fe1c00127c278e3e33048fe2d10871cc7407d1b8",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres",
+            "service_role=X/postgres"
+          ]
+        },
+        {
+          "identity": "erp.save_contractor_material_issue_draft_v2(jsonb,uuid,bigint)",
+          "predecessor_sha256": "59395cfcdb7e13f47ac083b48921dbaddb97db2c09f17cf9e22b383fd97cfa3f",
+          "installed_sha256": "d770d21f6bdb3962818fa4c677367ec15998420e5e92c195e1feb538a2227e20",
+          "owner": "postgres",
+          "acl": [
+            "authenticated=X/postgres",
+            "postgres=X/postgres",
+            "service_role=X/postgres"
+          ]
+        },
+        {
+          "identity": "erp.sync_material_cost_revaluation(uuid)",
+          "predecessor_sha256": "7710e4d4f7b5179ec6539a1aa3957cde32c470a8a768eb417850be07bf0fbeda",
+          "installed_sha256": "ae4ad29be5dbba3db18da7da9256723c86b3388d0f0d6293db6271170f078461",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        {
+          "identity": "erp.sync_po_hpp_to_gl(uuid,date)",
+          "predecessor_sha256": "a444bcb1e18ede1b5b9cb300b43ba99565c073d1050a06270046bbb2ecc666e2",
+          "installed_sha256": "0f460c85c5c7d6cbd0ddf30dfa78336b8016c6a83d39f5dc9caf3ac2ca6a4418",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres",
+            "service_role=X/postgres"
+          ]
+        }
+      ],
+      "new_functions": {
+        "erp.invoice_recost_economic_date_v1()": {
+          "sha256": "298833e4258e0787b6202bc817d0a936fdbc1dcf06e9e9796d096c8b6b4c2e54",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        }
+      },
+      "new_tables": [
+        "invoice_recost_execution_context"
+      ],
+      "new_columns": {
+        "contractor_material_issue_items": [
+          "manual_retail_unit_price"
+        ]
+      },
+      "migration_sha256": "c1a992cdf6725a3ef840b1bb6629cba56842fb3622d0b5a1bf8b21dc5d333261",
+      "rollback_sha256": "a3916a69295b2af6fd6a103d202e5fb3e4be94ce25fba86262b8886833e01227"
+    },
+    "AP": {
+      "version": "v2.6.20ap",
+      "stamp": "20260922135615",
+      "name": "erp_v2_6_20ap_cp6_connected_import_materials",
+      "migration": "supabase/migrations/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+      "rollback": "supabase/rollbacks/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.rollback.sql",
+      "capsule": "erp.cp6_v2620ap_rollback_capsule",
+      "previous": "AO",
+      "functions": [
+        {
+          "identity": "erp._validate_migration_batch_base(uuid)",
+          "predecessor_sha256": "95c8b9493b8cfb5ee719b6bb6501836c42457302661f59857dbcfc761033a412",
+          "installed_sha256": "ec62eb5d6f36c5d86eea64502cd3af2ca888b7d52e55d9110f05347990aff481",
+          "owner": "postgres",
+          "acl": [
+            "authenticated=X/postgres",
+            "postgres=X/postgres",
+            "service_role=X/postgres"
+          ]
+        },
+        {
+          "identity": "erp.stage_migration_row(uuid,text,integer,text,jsonb,jsonb)",
+          "predecessor_sha256": "153138b17d4993d583390e7e6d623d2abe3343741f8651a4007126d2cd75375c",
+          "installed_sha256": "dd37b2af064e0ea4ad6abbbabc4d6863efc9b1e567db54690682ad4db080f967",
+          "owner": "postgres",
+          "acl": [
+            "authenticated=X/postgres",
+            "postgres=X/postgres",
+            "service_role=X/postgres"
+          ]
+        },
+        {
+          "identity": "erp.apply_migration_master_rows(uuid)",
+          "predecessor_sha256": "605407f1e9fa8c41bf768931c4b3b4e92646930005b48bb2b74ee46927016ef4",
+          "installed_sha256": "dec5ef651b4676f440c4aab55ce82cab2f9f0e0011bafc7a48c969ca6ba6ab5b",
+          "owner": "postgres",
+          "acl": [
+            "authenticated=X/postgres",
+            "postgres=X/postgres",
+            "service_role=X/postgres"
+          ]
+        },
+        {
+          "identity": "erp.prepare_migration_opening_balance(uuid,text)",
+          "predecessor_sha256": "25dec082cc725d44b22283551a53d58b368714ab845f2f7daed807010305e90f",
+          "installed_sha256": "1ca3941a03a7d2eb39d1904547edc4b50e088d60ffbcb04215f8bf71a7d708a0",
+          "owner": "postgres",
+          "acl": [
+            "authenticated=X/postgres",
+            "postgres=X/postgres",
+            "service_role=X/postgres"
+          ]
+        },
+        {
+          "identity": "erp.refresh_material_purchase_item_cost(uuid)",
+          "predecessor_sha256": "de499b5baae66440960bb7689b36cb210f90ef1a98e64113a234975f4f01834f",
+          "installed_sha256": "4f1acac2dd097219e6c328a1e4cb929eec5eddca7fbe63b91a28a3bf62811e75",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres",
+            "service_role=X/postgres"
+          ]
+        },
+        {
+          "identity": "erp.run_v267_financial_truth_checks()",
+          "predecessor_sha256": "7ead45b0a09258adcf1b9a9dae44b5627c2ba6fec36767f513706d282f076a9c",
+          "installed_sha256": "29fbe31e67e7792c711f4349e8382c9423c8409d1d764c3c8641789eb3007c81",
+          "owner": "postgres",
+          "acl": [
+            "authenticated=X/postgres",
+            "postgres=X/postgres",
+            "service_role=X/postgres"
+          ]
+        },
+        {
+          "identity": "erp.validate_material_supplier_invoice_line()",
+          "predecessor_sha256": "6dd0e949d5cdeff4bc4fa340cba73aaed7282338bd189796a9ba80ff15bdee2d",
+          "installed_sha256": "5b745d88b4a991799d385e663d6d0fedb5ad4546cab208aaa502f6744c6e6d47",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres",
+            "service_role=X/postgres"
+          ]
+        },
+        {
+          "identity": "erp.validate_supplier_return_source()",
+          "predecessor_sha256": "d6fcd63c2605d4c9338aee18770aacaee96915714e4b7e2d67c58b70672b3415",
+          "installed_sha256": "7800e3577053bae4c35d0897eef071d6de36e255e56d25e28ba601e71a174378",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        {
+          "identity": "erp.sync_material_purchase_grni_on_status()",
+          "predecessor_sha256": "e39d7cc4b457a58b929894f4fd5a9c7f47aa0da678853a3ddbee65f9630d676c",
+          "installed_sha256": "c509ce8cbaf2741c3c3a72271e8bae82835570093592e5d815a1139de123ee97",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres",
+            "service_role=X/postgres"
+          ]
+        },
+        {
+          "identity": "erp.finalize_migration_batch(uuid)",
+          "predecessor_sha256": "0c72dc6eda42a90a92d13845eb7e70d1ccf5c2e3efeda83d521728f2024e0022",
+          "installed_sha256": "5ca1293383a7d8ec099c9153b343700420297c4db661f0785d7e29f80dff02ec",
+          "owner": "postgres",
+          "acl": [
+            "authenticated=X/postgres",
+            "postgres=X/postgres",
+            "service_role=X/postgres"
+          ]
+        },
+        {
+          "identity": "erp._cp6_supplier_cent_state(uuid[])",
+          "predecessor_sha256": "19d43e3e32d94c6aaaf0acbb1f6e55946701fa10b9f53df7a990ea9375fad191",
+          "installed_sha256": "3ece1106725d8d3b235f8e38723542a996819cf63b9b86472c640b6b7b67579b",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        {
+          "identity": "erp.run_v268_financial_report_checks()",
+          "predecessor_sha256": "bf10480574e90303e7a1bd70b29836a1ab2d4216fe1e7a030dece8e78b48561b",
+          "installed_sha256": "ec0a83932270f8870d6ecff084c765791c49b6a6a3d1758edcbc36e24afc2793",
+          "owner": "postgres",
+          "acl": [
+            "authenticated=X/postgres",
+            "postgres=X/postgres",
+            "service_role=X/postgres"
+          ]
+        },
+        {
+          "identity": "erp.approve_payroll(uuid)",
+          "predecessor_sha256": "f8b4f9138f846c5dd045564cf5a1a96783cd7bfb26edac01e4135bc6b94bd7e0",
+          "installed_sha256": "dbe465e385f37cb75dc6bd6c8ea96c42bf49c3a60a4760ff94aa2434e06262ff",
+          "owner": "postgres",
+          "acl": [
+            "authenticated=X/postgres",
+            "postgres=X/postgres",
+            "service_role=X/postgres"
+          ]
+        },
+        {
+          "identity": "erp.post_opening_subledger_settlement(uuid)",
+          "predecessor_sha256": "2b9b0ca7dc3af6dee6327ccce58cf3255c4900f49b6c21a0b4e037493cad0d9b",
+          "installed_sha256": "8b26ff26a659da94006a9fb7dc564be78475776036de2bc6c5f4255c52f54ab8",
+          "owner": "postgres",
+          "acl": [
+            "authenticated=X/postgres",
+            "postgres=X/postgres"
+          ]
+        },
+        {
+          "identity": "erp.post_payroll_payment(uuid)",
+          "predecessor_sha256": "6e81a5296b8b636fe33aa5a17bb5a2f4ee60a2d7698d92131c9616f1381f9a55",
+          "installed_sha256": "d2c6b0dcdc2ecc162ade04b36c29fb76e18f02d84a4fe7c97ce99eb53d023876",
+          "owner": "postgres",
+          "acl": [
+            "authenticated=X/postgres",
+            "postgres=X/postgres",
+            "service_role=X/postgres"
+          ]
+        },
+        {
+          "identity": "erp.reverse_paid_payroll(uuid,text)",
+          "predecessor_sha256": "083ba4a193c125fb51e08e5639c1d4783b73f6a92d426b5e7aadd61429aea149",
+          "installed_sha256": "1dc792b675aca5b2aa3f5dc9b5dd7a03effd5ac698aa3c2f1aec46bcdc13678b",
+          "owner": "postgres",
+          "acl": [
+            "authenticated=X/postgres",
+            "postgres=X/postgres"
+          ]
+        },
+        {
+          "identity": "erp.post_sales_payment(uuid)",
+          "predecessor_sha256": "1f52492ffe261a903e31acf654c5fa1b3fe6e8b37268943c5b869f1a7c626447",
+          "installed_sha256": "3b9c9cf72536abeeb199add1d269592d3cd1b2f8d38b2ee51d8a131fdac9bb4e",
+          "owner": "postgres",
+          "acl": [
+            "authenticated=X/postgres",
+            "postgres=X/postgres",
+            "service_role=X/postgres"
+          ]
+        },
+        {
+          "identity": "erp.post_supplier_payment(uuid)",
+          "predecessor_sha256": "ad780c4b00261b6ee1890391cac1c459c23d06b041859399e6ccc2f73d67f421",
+          "installed_sha256": "c18615686da360b8483d8c3864a8b250baf88111109b3ffcc34ff54f3d9b30a8",
+          "owner": "postgres",
+          "acl": [
+            "authenticated=X/postgres",
+            "postgres=X/postgres",
+            "service_role=X/postgres"
+          ]
+        },
+        {
+          "identity": "erp.post_vendor_payment(uuid)",
+          "predecessor_sha256": "cf8c1105cb6426583464d7516eb70693c28d668702ae3eb23c22f4029f07f763",
+          "installed_sha256": "39e335ecef26dcf33c4954d1535a93e95899f4c3d97892e93f733e3eb9b9cce9",
+          "owner": "postgres",
+          "acl": [
+            "authenticated=X/postgres",
+            "postgres=X/postgres",
+            "service_role=X/postgres"
+          ]
+        },
+        {
+          "identity": "erp.reverse_journal(uuid,text)",
+          "predecessor_sha256": "a6f635cd2319a68a1afa522fa4682921a6f7b80afd0e31fbdc4271cf53fcfef4",
+          "installed_sha256": "9c3b04353530df3c22e601e59927321714a186cecb026f7b08ff76c0ebb7e396",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres",
+            "service_role=X/postgres"
+          ]
+        },
+        {
+          "identity": "erp.reverse_sales_payment(uuid,text)",
+          "predecessor_sha256": "e5f48784389148a40b2f71fbe9a3e133ff9a7bc95ec969da74e27163b0c5b069",
+          "installed_sha256": "57397f698ad754aec50f623139a7024e6f07ac7f54581e208ab8cc418a0b5015",
+          "owner": "postgres",
+          "acl": [
+            "authenticated=X/postgres",
+            "postgres=X/postgres"
+          ]
+        },
+        {
+          "identity": "erp.reverse_supplier_payment(uuid,text)",
+          "predecessor_sha256": "9733b0e39d82732fb4b2ec7be17c66bcff2a088a81cccd25892eb440d4923102",
+          "installed_sha256": "d99aa18a8398d9ef1125185b2eef165d5dc6ad3608c956aa8d058e66d26363a1",
+          "owner": "postgres",
+          "acl": [
+            "authenticated=X/postgres",
+            "postgres=X/postgres"
+          ]
+        },
+        {
+          "identity": "erp.reverse_vendor_payment(uuid,text)",
+          "predecessor_sha256": "f3bf7c7238f3e6068662ff7669c38713ae554cdba92dea948602d0874b105b03",
+          "installed_sha256": "a7d822ab6e392cbcc6979d97eb8c47fd52a85e4b071f007d9827c30760640b31",
+          "owner": "postgres",
+          "acl": [
+            "authenticated=X/postgres",
+            "postgres=X/postgres"
+          ]
+        },
+        {
+          "identity": "erp.reverse_opening_subledger_settlement(uuid,text)",
+          "predecessor_sha256": "3470bfe69619912700f05438a2bcf387145ba7ce886fed4476e2312b1510cfee",
+          "installed_sha256": "18a76f83283b355cd0119c88a5fbcaf574373966d18832933a59f75788f40a30",
+          "owner": "postgres",
+          "acl": [
+            "authenticated=X/postgres",
+            "postgres=X/postgres"
+          ]
+        },
+        {
+          "identity": "erp.rebuild_po_hpp(uuid,text)",
+          "predecessor_sha256": "4e2e96017513d4990c9b2f8da2edf666b992ba016c8d688ea336daba36202d1f",
+          "installed_sha256": "eeff29d46ec555996e9b6d1506c049a8e61a42026e50d7a81982c449d1c0e25b",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres",
+            "service_role=X/postgres"
+          ]
+        },
+        {
+          "identity": "erp.ensure_fg_accessory_cost_snapshot(uuid)",
+          "predecessor_sha256": "6dcaa27591993f471d4a366355c36a91879f478f5ba40d8b8b1b088e6f13a778",
+          "installed_sha256": "1634377e32f56f4bab27232be686df6585aee54655953f93b1597ae912cb93bc",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres",
+            "service_role=X/postgres"
+          ]
+        },
+        {
+          "identity": "erp.get_wip_control_v1(text,uuid,text,text)",
+          "predecessor_sha256": "d7708a6d51cfc0241f774e472b173650f1b3cb0a089667eee861f9bbe2aa56f4",
+          "installed_sha256": "83e417fc6fd01c37f5d7018ac2b735c4ef6c1c920d2925abbb92c8e94fea270c",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        {
+          "identity": "erp.sync_opening_lot_hpp_to_gl(uuid,date)",
+          "predecessor_sha256": "854dda0fd4e9c902112fff34d8bee3e25876ba7908830562ce4f81a937181801",
+          "installed_sha256": "854dda0fd4e9c902112fff34d8bee3e25876ba7908830562ce4f81a937181801",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        {
+          "identity": "erp.post_opening_balance(uuid)",
+          "predecessor_sha256": "16e667f49e6bb646d9a80cb30aa4080a0052b1ddc8bc760104c9c37c0e576d19",
+          "installed_sha256": "8e13d9c07bfba22931e62591a968a6843358765e2350cfa6b9f38b76a8620f2b",
+          "owner": "postgres",
+          "acl": [
+            "authenticated=X/postgres",
+            "postgres=X/postgres",
+            "service_role=X/postgres"
+          ]
+        },
+        {
+          "identity": "erp.compute_po_hpp_gl_book_v2620e(uuid)",
+          "predecessor_sha256": "a6bcb7af769d631f1ef715601f830c992b46a3f5002ee11a9507db4e878549e5",
+          "installed_sha256": "af5c69defb3b9a092ad5d551ba5e1cdc52aa4e0b3b6015f29732e1e3cf0e6975",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        }
+      ],
+      "new_functions": {
+        "erp.accessory_issue_quote_v1(uuid,uuid,timestamp with time zone)": {
+          "sha256": "c4b9a04d487c5f3adfc0e3183b99af2d94f6c85645609c80ba56e50ee9f48122",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.apply_initial_import_receipts_v1(uuid)": {
+          "sha256": "9acafb4fcb920c64901b0a9602eb289981f6c76dc6eb33e6c2c9024d51f59c6d",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.apply_initial_prepayments_v1(uuid)": {
+          "sha256": "5cfcdcc7cf96960287e15876b07f2d4c9451de8633ab2aa760cc208936fd1813",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.check_initial_import_financial_source_v1(uuid,uuid,uuid)": {
+          "sha256": "557e7b45354cdd52612e9ed2c00db164dd1470559961bf280dbbb949c7e0f96b",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.check_initial_import_receipt_v1(uuid,uuid)": {
+          "sha256": "46b2eb8c04eca9c92f13432e900d66a749b9c60575f06b8e7ac56c9db751380d",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.check_initial_prepayment_v1(uuid,uuid)": {
+          "sha256": "2e69eb5d89ce15a97b1de60162489c81f70d14b3efae08008fb770f986222a9e",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.check_opening_cash_advance_payroll_v1(uuid)": {
+          "sha256": "6f19fac87a5b82905c005a939be3a98678aed7deb21082bdbce1498f0cc4aead",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.complete_initial_import_wip_v1(jsonb)": {
+          "sha256": "3def50a323533488fb3778ec99553f2f13511741e79ce84432cd531de294044b",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.get_accessory_issue_workspace_v1(jsonb)": {
+          "sha256": "1dd95baa46fca6c02d5ffdc9a87928df1ae31fd09505bc5b3ce67854b6d7fa76",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.get_initial_import_workspace_v1(uuid)": {
+          "sha256": "b9a25be36905b714f38a44de364feabd684478fc9862309ec330d94b4b93554e",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.get_pocket_fabric_workspace_v1(text)": {
+          "sha256": "58a691031eed3e0eb56ee4f8c91022f8a65cfc4777b31942e6b7a6261ebe8051",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.guard_initial_import_po_completion_v1()": {
+          "sha256": "4175f4cd116c6217162671cd29e4e5dc6659335b182f41092d9c83a749563f3d",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.guard_initial_import_receipt_header_v1()": {
+          "sha256": "9db3259086ad60f023a38d3e393675ec2d8897843413d8b48975ce56dc0f4f49",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.guard_initial_prepayment_account_v1()": {
+          "sha256": "74e1129b7838cddf6587db95c07466d8d0bb796fa671f1c65132c15452556107",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.guard_initial_prepayment_immutable_v1()": {
+          "sha256": "b677c398146de1a87be9013e7a63b3b7d082cea2d765f8494fe0742d94cbfe83",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.guard_initial_prepayment_payment_v1()": {
+          "sha256": "7463948c1c1e11736e1d5c7d7f25126f5bc368fb73f67f3d08bc04dc9a0c19fc",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.guard_opening_cash_advance_balance_v1()": {
+          "sha256": "e8e588cc890b086e127190d1e4f7d9a393bb4691b4085e3b270e3cfaef0f9a11",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.guard_opening_cash_advance_deduction_v1()": {
+          "sha256": "3fe519e53b4dd4347adf439ae04bf21a4e9d219fc730ddea8f355ce611005dc4",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.guard_pocket_fabric_v1()": {
+          "sha256": "649e93f1d86a212aa8714ae539850e1a0a68fb1e128bee3d7fb73c828af546fc",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.guard_pocket_period_v1()": {
+          "sha256": "73da67e52b3d4ecb96ea3c81d19e7bb3185cbed0e9439f47d3cb8dcecd0325ea",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.initial_import_lot_cost_v1(uuid)": {
+          "sha256": "17f791a2ad2ea57c2d489c4438d4c2e0c8ce56ab07031ba47e0b60162fe504c0",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.initial_import_production_rows_v1(uuid)": {
+          "sha256": "2566fa573d234c7dd3b1e63f7db0c10e041df2a5d93bd101e3046ce33fa6d18b",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.initial_import_revision_v1(uuid)": {
+          "sha256": "b7bd68ed536536e75e69f7b23522c4e02cb41723a6f3d5601d257e989ecfbbb8",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.initial_import_source_value_v1(uuid)": {
+          "sha256": "b07bcfa0ad3044da066cbde72b0fdd8651156231e8a77b538ad5d868cc5cf529",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.initial_prepayment_account_v1(uuid)": {
+          "sha256": "8a5485a185deabad58f8331197906cbea07608e8b63d0f2c367e2da937751826",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.initial_prepayment_checks_v1()": {
+          "sha256": "e04180f695ec5d8cd7367f71ced5db6fa8bd1bf94a959cb0f1dd7bcccfe1757f",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.initial_prepayment_funding_v1(uuid,text,uuid,numeric,date,date)": {
+          "sha256": "4022b4de6d1c7a4a50c33902148e4cb4833cee037fe769afec8f45f25f89517e",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.initial_prepayment_payments_v1(uuid)": {
+          "sha256": "8009f113a9ea7a3cba7076d6003865a35957553e6930fb0730e77051b000270e",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.initial_prepayment_state_v1(uuid)": {
+          "sha256": "f006aec918243331facd65597e8bff03fa09f1e7f7b125951bbc12edc3477ac2",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.initial_prepayment_targets_v1(uuid)": {
+          "sha256": "647dbd2cdb2583fd60355389561a3b60e523714913279484fc867a9992d4daf1",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.link_initial_import_production_v1(uuid,uuid,uuid)": {
+          "sha256": "cb8cc5a133f1107433bad2e222ac94776133ccbcb57fbcee9c35012d48a3124c",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.link_initial_import_stock_source_v1(uuid,uuid,uuid)": {
+          "sha256": "26dc48f47f4704bb7eee195054e0a034cb5fbf776eeca2bf8dd44ea189b39246",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.manage_initial_prepayment_v1(jsonb)": {
+          "sha256": "ca4a6949775b9b81ec36464c282954485c29a776d1adc0f3c87c9f0b37b249c2",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.opening_cash_advance_state_v1(uuid)": {
+          "sha256": "05cad95c78ce684a29d0d59cbeb9505f7bffb3bdf1288bd28d389e9bd7b35eaf",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.pocket_fabric_checks_v1()": {
+          "sha256": "f62560851ecef3f6bf6e878c78b38e325c3dca12015fa27e4c5c98a1a3e0cd6f",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.pocket_fabric_roll_revision_v1(uuid)": {
+          "sha256": "d91df0957dd93c2e55234640a51ea119e2c34fc8f835e8ebdc1b71b176f07df3",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.pocket_lot_cost_v1(uuid)": {
+          "sha256": "fe99550643cbf7ab75af2928fc495729ddbf62ffd805a27cc8cdcfd02ba7f961",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.pocket_period_active_v1(uuid)": {
+          "sha256": "fa4f62b6a81130448701d5a539ce3c37802454262912487b49a91d0bdbdb2009",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.pocket_period_amount_v1(uuid,bigint,bigint)": {
+          "sha256": "8398e9ca006d175fc295c37f3ef67ab5b864eaa21385daa95fdc1c9eeb538735",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.pocket_period_book_v1(uuid)": {
+          "sha256": "a7b9b0ad32cc075a1777f8f27b3ac22394ec44b84c1367bddcbd6042e80df0fc",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.pocket_period_checks_v1()": {
+          "sha256": "517014cf0dea8360175c2570d360ff6c6da48fd28a807c36e194950d378e967e",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.pocket_period_lock_v1()": {
+          "sha256": "ae67869a99bf3f575890bf0d35aaf273131ba0df7da661818a9b968b67605716",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.pocket_period_manifest_v1(date,date)": {
+          "sha256": "66d43a51031e31c3a515b2e0d6f66c42777373559916a9d52b8f24a28710068a",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.pocket_period_state_v1(uuid)": {
+          "sha256": "b1d87b999368715abb8f198b3e2535b083da39c259182b5d63e6ead403db4414",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.pocket_period_target_v1(uuid,boolean)": {
+          "sha256": "7f7e4dd80fb623be2b494709a9570d25dbea666795defdc60f9f795e3d19642b",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.pocket_period_total_v1(uuid)": {
+          "sha256": "7ce7752030d4271e2562617cae263f8e770523d2cf8a0adb03c2c43b9ac8a802",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.preview_pocket_period_v1(date,date)": {
+          "sha256": "7d73fc6e7655cf373e1a0c94345589f9aa252d9c3312290a5e34872b2ffcccd5",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.recost_initial_import_origins_v1(uuid)": {
+          "sha256": "ae64624a70607803c26f825d6fa9a394078c4ff6d8b26427236c359fd88217f7",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.refresh_initial_import_fg_cost_v1(uuid,numeric,date)": {
+          "sha256": "a10776733a2ab5ffc68d5e86b3f370d96d632cd65b2965798b97d5fc83dc7c6d",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.save_accessory_issue_action_v1(text,jsonb,uuid)": {
+          "sha256": "f7f8d2b923ebecc7c4badb251e8892a5c5f31eac24308b4cf9836cad7da01040",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.save_initial_import_action_v1(text,jsonb,uuid)": {
+          "sha256": "a9229b1e5ce5180fb7da9720c09d2718eb70c700c2c0759303dc38d8c6085dce",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.save_pocket_fabric_action_v1(text,jsonb,uuid)": {
+          "sha256": "12e9dfe5565a24e2519d5599ebc84e06fe4cedd4a48e9591d2f7da9995ae3c23",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.save_pocket_period_action_v1(text,jsonb,uuid)": {
+          "sha256": "e9b9de1c37782f03a9ac398a3480390f2868c7408f07b0cd379bc07994561898",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.set_opening_cash_advance_payroll_v1(uuid,uuid,numeric,bigint)": {
+          "sha256": "3bfc156b998559f41b1beb864df49c419ff46cfad52a7da4d38293fdf3fc9d3c",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.sync_initial_import_bs_disposition_v1()": {
+          "sha256": "22fb5af32784af3e77a0427ea33bd7e2208c237ae8a42dccc84f93a8c3700fc8",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.sync_initial_import_bs_value_v1(uuid,date)": {
+          "sha256": "90a4a49e089971eead883dde44061a50d424cb7cd6f0609d46edd151c23295fd",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.sync_pocket_period_v1(uuid,date,text,text)": {
+          "sha256": "0157c6e1ae749b5030fa9568f563ba501dd4a94daeefea2e8158b6643c97cdc3",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.validate_initial_import_cost_origins_v1(uuid)": {
+          "sha256": "feccedc65c696f20c88773cd7ec52825421bbec2d9495c79fa3de2c0b99f5c7f",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.validate_initial_import_financial_sources_v1(uuid)": {
+          "sha256": "e174ecee53be1bf7ca3e10acba03dfc276fbfb9ebb0d606ef138bfd51f16f982",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.validate_initial_import_master_row_v1(uuid,text,jsonb)": {
+          "sha256": "11ab66989e28dbec48412595e2052a28e54817070f11262b582f9d495b7203f6",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.validate_initial_import_production_v1(uuid)": {
+          "sha256": "85bb827bd1bea270a3a922fc497661adc4b044307e30d69048c8d72babac9be0",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.validate_initial_import_receipts_v1(uuid)": {
+          "sha256": "04cebfd6c4668b7587ebd85d9b030e2c1b2640af6fd61ba03a9e2eaaf974c971",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.validate_initial_import_totals_v1(uuid)": {
+          "sha256": "ce822c7842ce848e61e5d941172791e11340f3251d194016e48a25a6e572592d",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "erp.validate_initial_prepayments_v1(uuid)": {
+          "sha256": "de836d731652556347848b23b9c85751503293be02f5979a46b420df725adde5",
+          "owner": "postgres",
+          "acl": [
+            "postgres=X/postgres"
+          ]
+        },
+        "public.erp_get_accessory_issue_workspace_v1(jsonb)": {
+          "sha256": "3cfb2757a9f33ff7c8b0eb9807d3aeed63fade33df5c96a5b28bc7335adc8fe3",
+          "owner": "postgres",
+          "acl": [
+            "authenticated=X/postgres",
+            "postgres=X/postgres",
+            "service_role=X/postgres"
+          ]
+        },
+        "public.erp_get_initial_import_workspace_v1(uuid)": {
+          "sha256": "28d5d8d84c96613b2692bd06e5cb619557d0a2116fe2e6c467b74d8ff5a2a116",
+          "owner": "postgres",
+          "acl": [
+            "authenticated=X/postgres",
+            "postgres=X/postgres",
+            "service_role=X/postgres"
+          ]
+        },
+        "public.erp_get_pocket_fabric_workspace_v1(text)": {
+          "sha256": "b1979cc3c4600322c049fbbce46b149fef42a64c60a8312007c918c9e30207a6",
+          "owner": "postgres",
+          "acl": [
+            "authenticated=X/postgres",
+            "postgres=X/postgres",
+            "service_role=X/postgres"
+          ]
+        },
+        "public.erp_preview_pocket_fabric_period_v1(date,date)": {
+          "sha256": "85584912cb6c833c3142904c5e237fd34684af398811b61df1505729d771eb06",
+          "owner": "postgres",
+          "acl": [
+            "authenticated=X/postgres",
+            "postgres=X/postgres",
+            "service_role=X/postgres"
+          ]
+        },
+        "public.erp_save_accessory_issue_action_v1(text,jsonb,uuid)": {
+          "sha256": "e73f0b6199cad93e9f431bc2fc9f8fe0cdfae6458035e150c58368292e59e2fe",
+          "owner": "postgres",
+          "acl": [
+            "authenticated=X/postgres",
+            "postgres=X/postgres",
+            "service_role=X/postgres"
+          ]
+        },
+        "public.erp_save_initial_import_action_v1(text,jsonb,uuid)": {
+          "sha256": "38b90ca2916d4039ff91df4b6e89010ce8ef0514c6ba7348911503062adb2ae3",
+          "owner": "postgres",
+          "acl": [
+            "authenticated=X/postgres",
+            "postgres=X/postgres",
+            "service_role=X/postgres"
+          ]
+        },
+        "public.erp_save_pocket_fabric_action_v1(text,jsonb,uuid)": {
+          "sha256": "5ed2846dcc97497b60f196c5b16c4eda6922f182c72ef3eb35a2d9a98a5002f4",
+          "owner": "postgres",
+          "acl": [
+            "authenticated=X/postgres",
+            "postgres=X/postgres",
+            "service_role=X/postgres"
+          ]
+        }
+      },
+      "new_tables": [
+        "initial_import_financial_sources",
+        "initial_import_opening_stock_sources",
+        "initial_import_receipt_headers",
+        "initial_import_receipt_lines",
+        "initial_import_prepayments",
+        "initial_import_prepayment_payments",
+        "initial_import_prepayment_events",
+        "pocket_fabric_materials",
+        "pocket_fabric_usage",
+        "pocket_fabric_execution_context",
+        "pocket_periods",
+        "pocket_period_sources",
+        "pocket_period_destinations",
+        "pocket_period_events",
+        "initial_import_production_sources",
+        "initial_import_cost_origins",
+        "initial_import_origin_cost_events",
+        "initial_import_wip_outputs",
+        "initial_import_bs_value_events",
+        "initial_import_wip_output_reversals"
+      ],
+      "new_columns": {
+        "payroll_deductions": [
+          "opening_cash_advance_balance_id"
+        ]
+      },
+      "migration_sha256": "52e143958974a6d6830b498c562f55c01727ce2759b2347013b90710bea8ad1c",
+      "rollback_sha256": "58b87480ae5a31abe490ccf0cfb5ebf1a1e70f4ee6eaf43d4046e7bb41aa374e"
+    }
+  },
+  "inventory_sha256": "8c0715a2cfbcdd869e96c06f2bab3d40e5ce52d2dfa5b6480c9bf7bce1a6880f",
+  "builder_sha256": "46dd7b8ceff2ee5dc32171e45a5b560a89653a560daec51a57d119e7b314064e",
+  "production_go": false,
+  "independent_acceptance": false
+}
