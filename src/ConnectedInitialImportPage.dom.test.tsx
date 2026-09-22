@@ -27,10 +27,10 @@ async function change(input: HTMLInputElement | HTMLSelectElement, value: string
 function button(text: string) { const b=[...container.querySelectorAll('button')].find(b=>b.textContent?.includes(text));if(!b)throw new Error(text+' missing '+container.textContent);return b }
 async function click(text:string) { await act(async()=>button(text).click());await flush() }
 function server() {
- const state={version:1,status:'DRAFT',rows:[] as { id:string;entity:string;source_row_no:number;payload:Record<string,string>;validation_status:string;errors:string[];applied:boolean }[],lose:false,stale:false,effects:0}
+ const state={version:1,status:'DRAFT',rows:[] as { id:string;entity:string;source_row_no:number;payload:Record<string,string>;validation_status:string;errors:string[];applied:boolean }[],cash_advances:[] as Record<string,unknown>[],advance_payrolls:[] as Record<string,unknown>[],lose:false,stale:false,effects:0}
  const cache=new Map<string,unknown>()
  client.rpc.mockImplementation(async(name:string,args:Record<string,unknown>)=>{
-  if(name==='erp_get_initial_import_workspace_v1')return {data:{recent:[{id,batch_code:'AWAL',status:state.status}],batch:args.p_batch_id?{id,code:'AWAL',status:state.status,cutover_at:'2026-09-20T00:00:00+07:00',revision:rev(state.version),rows:state.rows}:null},error:null}
+  if(name==='erp_get_initial_import_workspace_v1')return {data:{recent:[{id,batch_code:'AWAL',status:state.status}],batch:args.p_batch_id?{id,code:'AWAL',status:state.status,cutover_at:'2026-09-20T00:00:00+07:00',revision:rev(state.version),rows:state.rows,cash_advances:state.cash_advances,advance_payrolls:state.advance_payrolls}:null},error:null}
   const payload=args.p_payload as Record<string,unknown>, key=String(args.p_client_request_id)
   if(!cache.has(key)) {
    if(state.stale){state.version++;return {data:null,error:{code:'P0001',message:'STALE_VERSION'}}}
@@ -85,4 +85,45 @@ describe('connected CSV import',()=>{
   expect(parseInitialImportWorkspace(value).batch?.rows[0].payload.address).toBe('')
   expect(()=>parseInitialImportWorkspace({...value,batch:{...value.batch,revision:'wrong'}})).toThrow()
  })
+ it('shows exact cash advance amounts and sends an allocation only for a payroll of that contractor',async()=>{
+  const s=server();s.status='POSTED'
+  s.cash_advances=[advance()]
+  s.advance_payrolls=[{id:rowId,contractor_id:id,payroll_number:'PAY-OWN',row_version:'9007199254740993'}, {id,contractor_id:rowId,payroll_number:'PAY-OTHER',row_version:'1'}]
+  await mount()
+  expect(container.textContent).toContain('Rp 9007199254740993,01')
+  expect(container.textContent).not.toContain('PAY-OTHER')
+  await change(container.querySelector('select[aria-label="Payroll untuk kasbon"]')!,rowId)
+  await change(container.querySelector('input[aria-label="Nominal alokasi kasbon"]')!,'12,75')
+  await click('Simpan alokasi kasbon')
+  expect(writes()[0][1].p_action).toBe('ALLOCATE_CASH_ADVANCE')
+  expect(writes()[0][1].p_payload).toEqual({batch_id:id,expected_revision:rev(1),balance_id:rowId,payroll_id:rowId,expected_payroll_version:'9007199254740993',amount:'12,75'})
+ })
+ it('recovers a lost cash advance allocation response with the same request and does not issue it twice',async()=>{
+  const s=server();s.status='POSTED';s.cash_advances=[advance()]
+  s.advance_payrolls=[{id:rowId,contractor_id:id,payroll_number:'PAY-OWN',row_version:'7'}]
+  await mount();await change(container.querySelector('select[aria-label="Payroll untuk kasbon"]')!,rowId)
+  await change(container.querySelector('input[aria-label="Nominal alokasi kasbon"]')!,'12.75')
+  s.lose=true;await click('Simpan alokasi kasbon');const original=structuredClone(writes()[0][1])
+  expect(readProductionRecovery('disposable:actor-1').pending.INITIAL_IMPORT?.action).toBe('ALLOCATE_CASH_ADVANCE')
+  expect(button('Simpan alokasi kasbon').disabled).toBe(true)
+  await act(async()=>root.unmount());root=createRoot(container);s.lose=false
+  await act(async()=>root.render(<ConnectedInitialImportPage/>));await flush();await click('Reconcile')
+  expect(writes()[1][1]).toEqual(original);expect(s.effects).toBe(1)
+ })
+ it('releases draft allocations with zero and locks approved or paid allocations',async()=>{
+  const s=server();s.status='POSTED';s.cash_advances=[{...advance(),allocations:[
+    {payroll_id:rowId,payroll_number:'PAY-DRAFT',status:'CALCULATED',row_version:'8',amount:'12.75'},
+    {payroll_id:id,payroll_number:'PAY-PAID',status:'PAID',row_version:'9',amount:'7.25'},
+  ]}]
+  await mount();expect(container.textContent).not.toContain('Lepas alokasi PAY-PAID');await click('Lepas alokasi PAY-DRAFT')
+  expect(writes()[0][1].p_payload).toMatchObject({balance_id:rowId,payroll_id:rowId,expected_payroll_version:'8',amount:'0'})
+ })
+ it('refuses malformed, rounded numeric, or negative cash advance state',()=>{
+  const wrap=(a:unknown)=>({recent:[],batch:{id,code:'A',status:'POSTED',cutover_at:'2026-09-20T00:00:00Z',revision:rev(1),rows:[],cash_advances:[a]}})
+  expect(parseInitialImportWorkspace(wrap(advance())).batch?.cash_advances[0].original_amount).toBe('9007199254740993.01')
+  expect(()=>parseInitialImportWorkspace(wrap({...advance(),available_amount:'-0.01'}))).toThrow('Saldo kasbon')
+  expect(()=>parseInitialImportWorkspace(wrap({...advance(),original_amount:9007199254740993.01}))).toThrow('Saldo kasbon')
+ })
 })
+
+function advance() { return {balance_id:rowId,contractor_id:id,contractor_name:'Mandor kasbon',document_number:'KAS-001',original_amount:'9007199254740993.01',settled_before_cutover:'32.75',opening_amount:'67.25',settled_amount:'0.00',remaining_amount:'67.25',reserved_amount:'0.00',available_amount:'67.25',allocations:[]} }

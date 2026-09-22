@@ -251,7 +251,8 @@
       "due_date": "Tanggal jatuh tempo",
       "original_amount": "Nominal dokumen awal",
       "settled_before_cutover": "Sudah dibayar sebelum saldo awal",
-      "opening_source_key": "Kode rincian stok asal"
+      "opening_source_key": "Kode rincian stok asal",
+      "source_kind": "Jenis sumber saldo"
     }
   },
   "OPEN_PO": {

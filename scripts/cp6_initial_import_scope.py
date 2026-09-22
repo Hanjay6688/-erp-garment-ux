@@ -16,6 +16,8 @@ ALLOWED={
  'docs/cp6-initial-import-progress.md',
  'scripts/cp6_initial_import_receipts.py','scripts/cp6_initial_import_receipt_trial.py',
  'docs/evidence/cp6-initial-import-receipt-predecessor.json',
+ 'scripts/cp6_initial_import_advances.py','scripts/cp6_initial_import_advance_trial.py',
+ 'docs/evidence/cp6-initial-import-advance-predecessor.json',
 }
 git=lambda *args:subprocess.check_output(['git',*args],text=True).strip()
 assert git('merge-base',BASE,'HEAD')==BASE,'IMPORT_NON_SUCCESSOR'

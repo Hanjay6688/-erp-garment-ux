@@ -11,6 +11,7 @@ import cp6_v2620al_import_review as inherited
 from cp6_v2620ap_definitions import FUNCTIONS,PREDECESSOR,SCHEMA,TRIGGERS
 from cp6_v2620ao_definitions import FUNCTIONS as AO_FUNCTIONS,PREDECESSOR as AO_PREDECESSOR,SCHEMA as AO_SCHEMA
 from cp6_initial_import_receipt_trial import cases as receipt_cases
+from cp6_initial_import_advance_trial import cases as advance_cases
 from types import SimpleNamespace
 assert not (set(FUNCTIONS) & set(AO_FUNCTIONS))
 FUNCTIONS={**AO_FUNCTIONS,**FUNCTIONS}
@@ -320,6 +321,7 @@ try:
   cases += [('DISTINCT_DOCUMENTS_SAME_PARTY',lambda:distinct_documents(cur,today))]
   cases += [('DOCUMENT_REFUSAL:'+k,lambda k=k:document_refusal(cur,today,k)) for k in ('CROSS_BATCH_DUPLICATE','CROSS_BATCH_SUMMARY','SUMMARY_THEN_DOCUMENT','MIXED_SUMMARY','DUPLICATE_WITHIN','WRONG_REMAINDER','FUTURE_DOCUMENT')]
   cases += receipt_cases(SimpleNamespace(**globals()),cur,today)
+  cases += advance_cases(SimpleNamespace(**globals()),cur,today)
   for name,fn in cases:
    admin(cur);before=actors.boundary(cur);cur.execute('savepoint proposed_case')
    try:result=fn()

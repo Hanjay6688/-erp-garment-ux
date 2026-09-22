@@ -11,12 +11,33 @@ import type { Json } from './types/database.preconnect'
 import './initial-import.css'
 
 type Row = InitialImportRow & { id: string; entity: InitialImportEntity; validation_status: string; errors: string[]; applied: boolean }
-type Batch = { id: string; code: string; status: string; cutover_at: string; revision: string; rows: Row[] }
+type AdvanceAllocation = { payroll_id: string; payroll_number: string; status: string; row_version: string; amount: string }
+type CashAdvance = { balance_id: string; contractor_id: string; contractor_name: string; document_number: string;
+  original_amount: string; settled_before_cutover: string; opening_amount: string; settled_amount: string;
+  remaining_amount: string; reserved_amount: string; available_amount: string; allocations: AdvanceAllocation[] }
+type AdvancePayroll = { id: string; contractor_id: string; payroll_number: string; row_version: string }
+type Batch = { id: string; code: string; status: string; cutover_at: string; revision: string; rows: Row[]; cash_advances: CashAdvance[]; advance_payrolls: AdvancePayroll[] }
 type Workspace = { batch: Batch | null; recent: { id: string; batch_code: string; status: string }[] }
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 function object(value: unknown): Record<string, unknown> {
   if (!value || typeof value !== 'object' || Array.isArray(value)) throw new Error('Respons impor tidak lengkap.')
   return value as Record<string, unknown>
+}
+const moneyText = (value: unknown): value is string => typeof value === 'string' && /^\d{1,18}\.\d{2}$/.test(value)
+const versionText = (value: unknown): value is string => typeof value === 'string' && /^[1-9]\d{0,18}$/.test(value)
+function cashAdvance(value: unknown): CashAdvance {
+  const a = object(value)
+  if (typeof a.balance_id !== 'string' || !uuid.test(a.balance_id) || typeof a.contractor_id !== 'string' || !uuid.test(a.contractor_id)
+    || typeof a.contractor_name !== 'string' || typeof a.document_number !== 'string' || !Array.isArray(a.allocations)
+    || !['original_amount', 'settled_before_cutover', 'opening_amount', 'settled_amount', 'remaining_amount', 'reserved_amount', 'available_amount'].every(k => moneyText(a[k]))) throw new Error('Saldo kasbon tidak lengkap atau perlu diperiksa.')
+  const allocations = a.allocations.map((value): AdvanceAllocation => {
+    const d = object(value)
+    if (typeof d.payroll_id !== 'string' || !uuid.test(d.payroll_id) || typeof d.payroll_number !== 'string'
+      || typeof d.status !== 'string' || !['DRAFT','CALCULATED','REVIEW','APPROVED','PAID'].includes(d.status)
+      || !versionText(d.row_version) || !moneyText(d.amount)) throw new Error('Alokasi kasbon tidak valid.')
+    return { payroll_id:d.payroll_id, payroll_number:d.payroll_number, status:d.status, row_version:d.row_version, amount:d.amount }
+  })
+  return { ...a, allocations } as CashAdvance
 }
 export function parseInitialImportWorkspace(value: unknown): Workspace {
   const raw = object(value)
@@ -41,7 +62,33 @@ export function parseInitialImportWorkspace(value: unknown): Workspace {
       payload: Object.fromEntries(Object.entries(payload).map(([key, v]) => [key, v === null ? '' : String(v)])),
       validation_status: r.validation_status, errors: r.errors as string[], applied: r.applied }
   })
-  return { recent, batch: { id:b.id, code:b.code, status:b.status, cutover_at:b.cutover_at, revision:b.revision, rows } }
+  if ((b.cash_advances !== undefined && !Array.isArray(b.cash_advances)) || (b.advance_payrolls !== undefined && !Array.isArray(b.advance_payrolls))) throw new Error('Daftar kasbon tidak valid.')
+  const cash_advances = ((b.cash_advances ?? []) as unknown[]).map(cashAdvance)
+  const advance_payrolls = ((b.advance_payrolls ?? []) as unknown[]).map((value): AdvancePayroll => {
+    const p = object(value)
+    if (typeof p.id !== 'string' || !uuid.test(p.id) || typeof p.contractor_id !== 'string' || !uuid.test(p.contractor_id)
+      || typeof p.payroll_number !== 'string' || !versionText(p.row_version)) throw new Error('Pilihan payroll kasbon tidak valid.')
+    return { id:p.id, contractor_id:p.contractor_id, payroll_number:p.payroll_number, row_version:p.row_version }
+  })
+  return { recent, batch: { id:b.id, code:b.code, status:b.status, cutover_at:b.cutover_at, revision:b.revision, rows, cash_advances, advance_payrolls } }
+}
+
+function CashAdvanceBalances({ batch, locked, allocate }: { batch: Batch; locked: boolean; allocate: (payload: Record<string, Json>) => void }) {
+  const [selectedId, setSelectedId] = useState(''), [payrollId, setPayrollId] = useState(''), [amount, setAmount] = useState('')
+  const selected = batch.cash_advances.find(a => a.balance_id === selectedId) ?? batch.cash_advances[0]
+  const payrolls = batch.advance_payrolls.filter(p => p.contractor_id === selected?.contractor_id)
+  const payroll = payrolls.find(p => p.id === payrollId)
+  const money = (value: string) => `Rp ${value.replace('.', ',')}`
+  if (!selected) return null
+  return <section className="panel initial-import-advances" aria-label="Kasbon tunai saldo awal">
+    <h2>Kasbon tunai saldo awal</h2>
+    <p>Alokasi draft menyisihkan saldo untuk payroll yang dipilih. Pelunasan terjadi saat payroll dibayar; sisa kasbon tetap bisa dibawa ke periode berikutnya.</p>
+    <label>Dokumen kasbon<select aria-label="Dokumen kasbon" disabled={locked} value={selected.balance_id} onChange={e => { setSelectedId(e.target.value); setPayrollId(''); setAmount('') }}>{batch.cash_advances.map(a => <option key={a.balance_id} value={a.balance_id}>{a.contractor_name} · {a.document_number}</option>)}</select></label>
+    <div className="initial-import-table"><table><thead><tr><th>Nominal asal</th><th>Dibayar sebelum saldo awal</th><th>Saldo awal saat ini</th><th>Dilunasi setelah saldo awal</th><th>Sisa kasbon</th><th>Dialokasikan ke payroll</th><th>Belum dialokasikan</th></tr></thead><tbody><tr>{[selected.original_amount, selected.settled_before_cutover, selected.opening_amount, selected.settled_amount, selected.remaining_amount, selected.reserved_amount, selected.available_amount].map((v,i) => <td key={i}>{money(v)}</td>)}</tr></tbody></table></div>
+    {selected.allocations.length > 0 && <ul>{selected.allocations.map(a => <li key={a.payroll_id}>{a.payroll_number} · {money(a.amount)} · {a.status}{['DRAFT','CALCULATED','REVIEW'].includes(a.status) && <button type="button" disabled={locked} onClick={() => allocate({ balance_id:selected.balance_id, payroll_id:a.payroll_id, expected_payroll_version:a.row_version, amount:'0' })}>Lepas alokasi {a.payroll_number}</button>}</li>)}</ul>}
+    <div className="initial-import-toolbar"><label>Payroll draft<select aria-label="Payroll untuk kasbon" disabled={locked} value={payroll?.id ?? ''} onChange={e => { setPayrollId(e.target.value); setAmount(selected.allocations.find(a => a.payroll_id === e.target.value)?.amount ?? '') }}><option value="">Pilih payroll mandor ini</option>{payrolls.map(p => <option key={p.id} value={p.id}>{p.payroll_number}</option>)}</select></label><label>Nominal alokasi<input aria-label="Nominal alokasi kasbon" inputMode="decimal" value={amount} disabled={locked} onChange={e => setAmount(e.target.value)}/></label><button type="button" disabled={locked || !payroll || !/^[0-9]+([.,][0-9]{1,2})?$/.test(amount) || !/[1-9]/.test(amount)} onClick={() => { if (payroll) allocate({ balance_id:selected.balance_id, payroll_id:payroll.id, expected_payroll_version:payroll.row_version, amount }) }}>Simpan alokasi kasbon</button></div>
+    {!payrolls.length && <p>Belum ada payroll draft untuk mandor ini.</p>}
+  </section>
 }
 
 export default function ConnectedInitialImportPage() {
@@ -140,9 +187,11 @@ function ImportWorkspace() {
       {batch && <div><strong>{batch.code}</strong><p>{new Intl.DateTimeFormat('id-ID', { dateStyle: 'long', timeZone: 'Asia/Jakarta' }).format(new Date(batch.cutover_at))} · {posted ? 'Sudah disahkan' : 'Draft'} · {batch.rows.length} baris</p></div>}
     </div>
     {batch && <>
+      {posted && batch.cash_advances.length > 0 && <CashAdvanceBalances key={batch.id} batch={batch} locked={locked} allocate={payload => { void act('ALLOCATE_CASH_ADVANCE', payload) }}/>}
       <div className="panel initial-import-toolbar"><label>Jenis data<select disabled={locked || Boolean(editor)} value={entity} onChange={(event) => { setEntity(event.target.value as InitialImportEntity); setPage(0); readFileSequence.current++ }}>{Object.entries(initialImportCatalog).map(([key, item]) => <option key={key} value={key}>{item.label}</option>)}</select></label><button type="button" onClick={download}><Download size={16}/> Unduh template</button>{!posted && <label className="initial-import-upload"><FileUp size={16}/> Pilih file CSV<input aria-label="Pilih file CSV" type="file" accept=".csv,.tsv,text/csv" disabled={locked || Boolean(editor)} onChange={(event) => { const file = event.target.files?.[0]; event.target.value = ''; void upload(file) }}/></label>}</div>
       <p className="initial-import-help">Simpan dari Excel sebagai <strong>CSV UTF-8</strong>. Angka tanpa pemisah ribuan; desimal boleh memakai titik atau koma. Kolom aktif/absensi: true atau false. Satuan memakai kode ERP. Maksimal 5 MB dan 5.000 baris per batch. Hubungkan setiap rincian saldo ke kode total pembanding. Total pembanding hanya diperiksa dan tidak dibukukan.</p>
       {entity === 'UNINVOICED_RECEIPT' && <p className="initial-import-help">Isi penerimaan yang belum ditagih dan seluruh jumlahnya masih ada saat saldo awal. Hubungkan setiap baris ke satu kode rincian stok asal dengan bahan, gudang, jumlah, dan biaya yang sama. Gunakan total pembanding GRNI_MATERIAL; nilai dibulatkan dua desimal per dokumen penerimaan. Tanggal invoice berikutnya harus sejak tanggal saldo awal. Barang yang sudah terpakai sebelumnya perlu rincian asal WIP/HPP.</p>}
+      {entity === 'OPENING_BALANCE_ITEM' && <p className="initial-import-help">Untuk kasbon tunai mandor, isi jenis saldo CONTRACTOR_RECEIVABLE dan jenis sumber CONTRACTOR_CASH_ADVANCE. Wajib isi nomor dan tanggal dokumen, nominal awal, serta pembayaran sebelum saldo awal; nominal tersisa harus sama dengan selisihnya. Pembayaran lama tidak membentuk arus kas baru. Saldo lainnya memakai jenis sumber BALANCE atau dibiarkan kosong.</p>}
       {editor && editorRevision.current !== batch.revision && <p role="alert" className="initial-import-message">Draft di server sudah berubah. Perubahan di layar ini belum disimpan; batalkan perubahan lokal lalu periksa isi terbaru sebelum mengunggah ulang.</p>}
       {editor && <div className="initial-import-message" role="status"><span>{filename} · {editor.length} baris belum disimpan. Penyimpanan mengganti seluruh bagian “{spec.label}” dalam draft ini.</span><button type="button" disabled={locked || editorRevision.current !== batch.revision} onClick={() => void act('SAVE_FILE', { entity, filename, rows: editor as unknown as Json })}>Simpan perubahan draft</button><button type="button" disabled={mutation.busy || reading} onClick={() => { setEditor(null); setPage(0) }}>Batalkan perubahan</button></div>}
       <div className="panel initial-import-table"><table><thead><tr><th>Baris file</th>{fields.map(([key, label]) => <th key={key}>{label}{(spec.required as readonly string[]).includes(key) ? ' *' : ''}</th>)}{!editor && <th>Pemeriksaan</th>}</tr></thead><tbody>{shownRows.slice(page * 50, (page + 1) * 50).map((row, index) => <tr key={row.source_row_no}><th>{row.source_row_no}</th>{fields.map(([key, label]) => <td key={key}>{posted ? row.payload[key] ?? '—' : <input aria-label={`${label}, baris ${row.source_row_no}`} value={row.payload[key] ?? ''} disabled={locked} onChange={(event) => { const value = event.target.value; if (!editor) editorRevision.current = batch.revision; setEditor((current) => (current ?? storedRows).map((old, i) => i === page * 50 + index ? { source_row_no: old.source_row_no, payload: { ...old.payload, [key]: value } } : { source_row_no: old.source_row_no, payload: { ...old.payload } })); setFilename('Perbaikan di aplikasi') }}/>}</td>)}{!editor && <td>{(row as Row).errors?.join(' · ') || ((row as Row).validation_status === 'VALID' ? 'Valid' : 'Belum diperiksa')}</td>}</tr>)}</tbody></table>{shownRows.length === 0 && <p>Belum ada data {spec.label.toLowerCase()}. Unduh template lalu pilih file yang sudah diisi.</p>}</div>

@@ -1,3 +1,55 @@
+# CP6 — draft kasbon tunai saldo awal, native gate belum tersedia
+
+22 September 2026. **CP6_HOLD · production_go:false · migration_installed:false · independent_acceptance:false.**
+
+Owner meminta “lanjutt kenapa stop”. Instruksi lanjut berlaku; tidak diperlukan persetujuan ulang. Incoming canonical commit `30e11e7e44b93bfb27819498853d3fbc9074924c`. Perubahan di bagian ini adalah **proposal lokal yang belum dikirim ke GitHub dan belum diuji pada database native**. Bukti 52 AP +12 AO di bawah tetap berlaku hanya pada commit lamanya.
+
+## Hasil yang benar-benar dijalankan
+
+- 67/67 frontend/recovery PASS: 30 parser/template, 9 connected DOM, 28 recovery. Empat DOM tambahan memeriksa pilihan payroll mandor yang sesuai, pengiriman nominal/row version sebagai teks exact, replay setelah respons hilang, pelepasan alokasi draft, serta penolakan saldo rusak/negatif.
+- TypeScript, source ownership, access ownership, CSS ownership, dan shared recovery checks PASS. Tetap102 runtime files,25 owned browser RPC,111permissions,47routes,20sensitiveactions,37stylesheets.
+- Python syntax dan komposisi proposal PASS:35fungsi AP +11AO,16predecessor AP +11AO. Helper SQL baru ditempatkan sebelum SQL financial checker yang memanggilnya.30source pins.
+- **20 skenario cash advance disiapkan tetapi BELUM dieksekusi.** Jika runtime dapat dijalankan, AP gabungan akan mengumpulkan72kasus (52existing+20baru), kemudian12AO terpisah. Angka rencana ini bukan PASS.
+
+## Kontrak proposal kasbon
+
+OPENING_BALANCE_ITEM mendapat kolom opsional `source_kind`. `BALANCE`/kosong mempertahankan jalur existing. `CONTRACTOR_CASH_ADVANCE` hanya boleh dipakai dengan CONTRACTOR_RECEIVABLE dan rincian dokumen bernomor; nominal awal dikurangi pembayaran lama harus cocok dengan saldo awal tersisa. Pembayaran sebelum cutover tetap provenance, tanpa arus kas historis baru. Registry privat menyimpan jenis sumber; kontrol total tetap tidak diposting. Ini merupakan kontrak kasbon tunai mandor, bukan implementasi advance supplier/pelanggan/vendor.
+
+`payroll_deductions` mendapat tautan nullable ke opening subledger dan jenis CASH_ADVANCE. Constraint memastikan sumber kasbon tunai tidak bercampur dengan source aksesori/BS. Alokasi hanya melalui controlled owner/admin command `ALLOCATE_CASH_ADVANCE` pada public import RPC existing, dengan UUID idempotency, batch revision, payroll row version, pemeriksaan mandor, saldo, pendapatan dan status draft. Nominal dan row version dikirim sebagai teks; DML langsung untuk cash advance ditolak sebelum menerima pembulatan diam-diam sebagai input yang sah. Tidak ada grant browser baru.
+
+Draft allocation menyisihkan kapasitas tanpa jurnal. Approval dan payment memeriksa ulang kapasitas di bawah lock. Payment membukukan Dr CONTRACTOR_PAYABLE / Cr CONTRACTOR_RECEIVABLE melalui PAYROLL_CASH_ADVANCE_DEDUCTION, serta kas hanya untuk net payroll. Kasbon dikeluarkan dari kategori potongan OTHER_INCOME; penalti existing tetap terpisah. Reversal payroll membalik jurnal ini dan memulihkan saldo subledger. Pembatalan unpaid payroll atau pelepasan alokasi draft membebaskan cadangan.
+
+Cash repayment tetap melalui opening settlement canonical. Batas sisa memperhitungkan cadangan payroll serta tanggal cutover. Koreksi nominal canonical tidak boleh menyusutkan saldo di bawah bagian yang sudah dilunasi/dialokasikan. Original source tetap immutable; nominal opening operasional mengikuti koreksi tertaut. Pemeriksa opening subledger diperluas untuk memasukkan potongan kasbon dari payroll PAID; tiga detector baru memeriksa kapasitas, identitas sumber dan jurnal payroll.
+
+Workspace impor menampilkan nominal asal, pembayaran lama, opening saat ini, pelunasan baru, sisa, cadangan, dan saldo bebas. Owner dapat memilih payroll draft milik mandor yang sama, mengisi/mengganti alokasi, atau melepaskannya; approved/paid tidak dapat dilepas melalui editor ini. Ini belum menghubungkan keseluruhan UI payroll CP7.
+
+## Oracle database yang disiapkan
+
+- Awal100 − pembayaran lama32,75 = saldo67,25, bank awal100.
+- Pendapatan payroll20, potong kasbon12,75 → kas7,25; bank92,75; kasbon54,50.
+- Pengembalian kas10 → bank102,75; kasbon44,50.
+- Payroll berikut44,50 dipotong seluruhnya → kasbon0; tidak ada jurnal kas baru.
+- Balik payroll kedua, pengembalian kas, payroll pertama → bank100 dan kasbon67,25; seluruh akun kembali ke saldo sebelum siklus.
+- UTC/Kiritimati, payment date terbuka/tertutup; cadangan dua payroll dan refund yang mencoba memakai saldo sama; wrong party/general AR; stale version/earnings; tanggal sebelum cutover; koreksi di bawah cadangan; precision/negative/direct DML; penalti terpisah; metadata sumber; koreksi tertaut dan negative control settled drift.
+
+Oracle baru memeriksa **semua akun**, bukan hanya helper lama enam akun inventory/supplier. Saldo bank juga dibandingkan dengan get_balance_sheet; piutang mandor dibandingkan terhadap jurnal berdimensi contractor. Fixture payroll memakai manual adjustment yang benar-benar diakui lewat approval canonical. Uji ini tidak menciptakan riwayat payroll historis sebagai bagian dari impor.
+
+## Blocker aktual
+
+GitHub `fetch` dan alternatif `fetch_commit` gagal sebelum mengembalikan data: HTTP400 `Invalid MCP request metadata`. Personal Context dan browsing juga menerima error transport yang sama. Tidak ada push/update_ref/workflow dispatch yang dilakukan. Head remote belum dapat diperiksa ulang pada giliran ini.
+
+Fallback PostgreSQL17 lokal tidak dapat dimulai: chown menghasilkan `Invalid argument` dan runuser `cannot set groups: Operation not permitted`. Tidak ada perubahan SQL pada database mana pun. Tidak dilakukan eskalasi atau pelemahan pemeriksaan runtime/permission. Ini bukan automatic approval rejection dan bukan kebutuhan keputusan bisnis baru.
+
+## Lanjut setelah akses pulih
+
+Periksa remote branch tunggal dan parent lokal sebelum fast-forward; jangan menimpa commit lain. Jalankan native gabungan, perbaiki setiap temuan produk/fixture, pertahankan semua percobaan gagal, lalu cocokkan artifact terhadap commit/tree. Jangan menyebut20kasus baru lulus sebelum laporan native membuktikannya.
+
+Setelah kasbon ini memenuhi gate, lanjutkan advance supplier/customer/vendor beserta invoice allocation/reversal, WIP fisik/BS dan asal nilai penerimaan terpakai sebelum cutover, form eceran aksesori, migrasi/rollback/HTTP/concurrency, lalu independent acceptance. Tidak ada approval baru yang dibutuhkan untuk scope tersebut. Writer PASS tetap bukan audit independen.
+
+---
+
+# Riwayat sebelumnya — checkpoint penerimaan belum ditagih
+
 # CP6 — penerimaan belum ditagih dan konservasi biaya
 
 22 September 2026. CP6_HOLD; production_go:false; migration_installed:false; independent_acceptance:false.
