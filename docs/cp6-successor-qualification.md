@@ -47,7 +47,15 @@ to ask the owner again. The new gate must collect all 500 records, preserve the
 success therefore means `REGRESSION_COMPLETE_WITH_12_HISTORICAL_HOLD`, never
 500 PASS or independent acceptance.
 
-At authoring time native execution is pending. Follow-up work is policy-specific
+First native run `35775713029` completed the unchanged AR stage, then stopped
+before all 326 additional cases: the primary snapshot connected as `postgres`
+although the fixture reset requires the existing `supabase_admin` session.
+The successor harness now uses that administrator only on the disposable local
+primary, grants no new privilege, and includes initial snapshot failures within
+its cleanup/reporting boundary. This is a harness repair, not a product change.
+The failed evidence remains a failure; a complete successor result is pending.
+
+Follow-up work is policy-specific
 date proof, fresh affected Auth/browser coverage, and independent review of the
 unchanged AR repair plus residual risks. CP6 stays HOLD; CP7, main, hosted
 migration and production are outside this gate. `production_go: false`,

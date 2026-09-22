@@ -21,6 +21,7 @@ from cp6_ao_ap_inventory import data, platform, function_pins
 
 OUT = Path('cp6-proof/successor')
 PG, ADMIN, CONTROL = trial.PG, trial.ADMIN, trial.CONTROL
+PRIMARY_ADMIN = CONTROL.replace('postgres:postgres@', 'supabase_admin:postgres@')
 actors, base = historical.actors, historical.base
 
 
@@ -108,10 +109,14 @@ def run():
                   production_go=False, hosted_migration_installed=False, independent_acceptance=False,
                   global_status='CP6_HOLD', historical_full_schema_workflow='UNCHANGED_AC_CONTRACT')
     save('COMBINED', result)
-    with psycopg.connect(CONTROL) as conn, conn.cursor() as cur:
-        prior.verified(cur, 'AN')
-        primary = snapshot(cur)
+    primary = None
     try:
+        # snapshot() restores the fixture session to supabase_admin. Connect as
+        # that existing disposable administrator; postgres cannot SET SESSION
+        # AUTHORIZATION to it. This grants no new role or product privilege.
+        with psycopg.connect(PRIMARY_ADMIN) as conn, conn.cursor() as cur:
+            prior.verified(cur, 'AN')
+            primary = snapshot(cur)
         for family in ('AO','AP'):
             maintenance.install(family=family, target_pgurl=PG,
                                 maintenance_pgurl=os.environ['CP6_ADMISSION_CONTROL_PGURL'],
@@ -134,13 +139,16 @@ def run():
     except Exception as exc:
         result.update(error=str(exc), traceback=traceback.format_exc())
     finally:
-        subprocess.run(['docker','exec','supabase_db_cp5-local','dropdb','-U','supabase_admin',
-                        '--if-exists','--force','--maintenance-db=template1','cp6_rollback'], check=True)
-        with psycopg.connect(CONTROL) as conn, conn.cursor() as cur:
-            prior.verified(cur, 'AN')
-            result['primary_unchanged'] = snapshot(cur) == primary
-            result['clone_remaining'] = cur.execute("select count(*) from pg_database where datname='cp6_rollback'").fetchone()[0]
-        if not result['primary_unchanged'] or result['clone_remaining'] != 0:
+        try:
+            subprocess.run(['docker','exec','supabase_db_cp5-local','dropdb','-U','supabase_admin',
+                            '--if-exists','--force','--maintenance-db=template1','cp6_rollback'], check=True)
+            with psycopg.connect(PRIMARY_ADMIN) as conn, conn.cursor() as cur:
+                prior.verified(cur, 'AN')
+                result['primary_unchanged'] = primary is not None and snapshot(cur) == primary
+                result['clone_remaining'] = cur.execute("select count(*) from pg_database where datname='cp6_rollback'").fetchone()[0]
+        except Exception as exc:
+            result['cleanup_error'] = str(exc)
+        if not result.get('primary_unchanged') or result.get('clone_remaining') != 0:
             result['status'] = 'INCOMPLETE'
         save('COMBINED', result)
     assert result['status'] == 'REGRESSION_COMPLETE_WITH_12_HISTORICAL_HOLD', result
