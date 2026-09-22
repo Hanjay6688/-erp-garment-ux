@@ -1,3 +1,75 @@
+# CP6 — kain kantong universal: stok gudang tanpa HPP produk
+
+22 September 2026. **CP6_HOLD · production_go:false · migration_installed:false · independent_acceptance:false.**
+
+VENI. VIDI. VICI. ERP. — I CONQUERED ERP.
+Reliable data adalah dewa.
+Keuangan—termasuk laporan—stok, dan HPP adalah raja.
+
+## Bukti yang terverifikasi
+
+| Bukti | Hasil |
+| --- | --- |
+| Repository / branch | `Hanjay6688/-erp-garment-ux` / `competition/cp6-j-closure-20260911` |
+| Tested commit | `d5dc352914c4dce12b45891b4e083fdeb2a28da9` |
+| Tested tree | `7b652a20232adb50cb6453ed09e1a8bf28354902` |
+| Native gate | [35709929688 SUCCESS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35709929688), job `106687787002` |
+| Proposal AP gabungan AO+AP | **120/120 PASS**:103 impor existing +17 kain kantong |
+| AO biaya/eceran pada AN | **12/12 PASS** |
+| Frontend/recovery | **78/78 PASS**:72 existing +6 connected DOM kain kantong |
+| TypeScript; source/access/CSS/recovery ownership | PASS |
+| CodeQL | [35709929851 SUCCESS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35709929851), empat bahasa |
+| Artifact native | `10686835261`,112.667byte,11entri ZIP |
+| SHA256 artifact native | `535508f819aef6e5cbf76f1411a825c89f83d7ad885d9a78e5af9a7bfe6c6af7` |
+| Main saat diverifikasi | `557005e6674058f1e5e966b350cba05501e06182` |
+
+Hash dan CRC ZIP cocok; SOURCE.json terikat tepat ke tested commit/tree. Seluruh120 AP dan12 AO mencatat PASS dengan `boundary_restored:true`; kedua laporan `complete_boundary_restored:true`. AP mencatat `combined_ao_ap:true`. Seluruh status deployment, migration dan independent acceptance tetap false. Runtime disposable AC→AN memakai katalog asal yang dipin, Supabase CLI2.116.0/PostgreSQL17.6.1.165; proposal/fixture di-ROLLBACK dan database sementara dibersihkan. Uji ini belum mencakup HTTP/browser nyata atau concurrency antarsesi.
+
+Empat siklus mencakup cara jumlah keluar/hitung sisa pada UTC-periode terbuka dan Pacific/Kiritimati-periode tertutup. Saldo20 berkurang5 menjadi15; biaya11,25 berubah menjadi15,00 setelah harga nota berubah2,25→3,00. WIP/FG/COGS tidak berubah. Pembatalan pocket memulihkan stok20 dan biaya0; setelah nota dibalik, seluruh akun kembali tepat ke sebelum siklus. Replay UUID tidak menambah transaksi.
+
+Sebelas skenario penolakan memeriksa revision usang, jumlah berlebih/negatif/nol, presisi, numeric JSON, tanggal masa depan/sebelum penerimaan, hitung sisa sebelum pergerakan, lokasi salah, dan bahan yang belum didaftarkan. Dua skenario lain membuktikan sisa0, riwayat tetap, versi pembatalan usang, penolakan inverse tanpa sumber, serta actor yang dinonaktifkan tidak dapat membaca atau replay. Enam DOM cases memeriksa form tanpa efek sebelum disahkan, jumlah exact, respons hilang/remount, refresh stale, alasan/versi pembatalan, izin dan data malformed.
+
+## Keputusan owner dan perilaku
+
+Kain kantong universal dipotong dan diambil bebas; pengambilan per orang serta sisa di setiap mandor belum dicatat. Owner meminta tahap ringan untuk mengurangi stok saja, tanpa HPP celana. Pembagian biaya ke jumlah hasil produksi per periode, mirip biaya absensi, merupakan opsi mendatang atas permintaan owner. Keputusan ini sudah menjadi batas implementasi; tidak perlu meminta ulang persetujuan scope.
+
+Menu **Gudang → Kain kantong** tersedia untuk owner/admin dengan hak penyesuaian stok. Pilih master kain khusus, roll dan gudang; kemudian isi **jumlah keluar** atau **sisa roll yang masih terlihat**. Sisa 0 mengeluarkan seluruh saldo roll. Mandor, model, ukuran dan hasil potongan tidak diwajibkan. Form dapat disiapkan dan diubah sebelum disahkan; belum ada mutasi stok selama pengisian. Pengesahan membuat dan memposting satu adjustment native secara atomik.
+
+Saldo yang dicatat hanya stok roll di gudang terukur. Jumlah keluar tidak mengklaim konsumsi aktual atau saldo bahan pada mandor. Untuk menjaga nilai persediaan dan laporan tetap cocok, biaya pengeluaran masuk **OTHER_EXPENSE / biaya periode**, tanpa WIP, barang jadi, COGS/HPP produk, ataupun piutang mandor. HPP per celana tidak bertambah. Penerimaan roll tetap mengikuti alur pembelian/penerimaan yang ada.
+
+Riwayat sumber menyimpan material, roll, gudang, tanggal, metode/input pencatatan, stok sebelum, jumlah keluar, dan kebijakan PERIOD_EXPENSE. Catatan yang disahkan tetap immutable. Pembatalan tertaut mengembalikan stok dan membalik biaya bersama. Perubahan harga nota mengikuti revaluation native dan tanggal kebijakan AO; periode tertutup memakai tanggal pembukuan canonical tanpa mengubah tanggal ekonomi sumber.
+
+Pembagian per periode **belum dibuat atau diaktifkan**. Riwayat disiapkan sebagai dasar pengembangan nanti, dengan ketentuan tidak membebankan dua kali biaya yang sudah diakui. Basis periode/output, sisa produksi jika diperlukan, serta aturan periode tertutup harus disepakati saat fitur itu diminta. Tidak ada perhitungan saldo mandor yang dibuat-buat.
+
+## Batas teknis yang dijaga
+
+Dua RPC publik memakai autentikasi owner/admin dan izin existing; tiga tabel pendukung privat memakai RLS dan tidak memberi DML langsung ke authenticated/service_role. Permission diperiksa sebelum respons idempotensi dapat dipakai ulang. Tidak ada pelebaran ACL predecessor untuk mengatasi kegagalan tes.
+
+POCKET_FABRIC menjadi domain ketujuh pada UUID recovery dan global writer lock existing. Respons hilang menggunakan UUID dan payload yang sama. Snapshot pilihan roll tidak diam-diam diganti ketika memuat ulang; perubahan stok/harga mengharuskan pemeriksaan ulang. Server mengunci material dan roll, memeriksa revision, saldo, tanggal dan angka teks dengan maksimal enam desimal. Sisa nol didukung; input negatif, pengurangan nol/berlebih, numeric JSON, presisi berlebih, serta hitung sisa yang mundur melewati pergerakan berikutnya ditolak.
+
+Master kain kantong yang didaftarkan tidak boleh sudah terkait potongan ukuran. Guard native menolak menghubungkannya ke cutting_group_rolls, dan detector memeriksa batas itu. Pembatalan generic terhadap stok/jurnal pocket ditolak; gunakan pembatalan pada dokumen asal. Guard tersebut diuji dari primitive privat dengan fixture authority dan pesan penolakan bisnis yang persis, agar kegagalan permission tidak disalahartikan sebagai bukti penjagaan sumber.
+
+Implementasi menambah 7 fungsi pada proposal AP, menjadi 63 AP +11 AO dengan 24 predecessor AP +11 AO. Source pin berjumlah37. Ownership:103 runtime files,27 browser RPC,111 permissions,48 route/nav labels,20 sensitive actions,37 stylesheet. Tidak ada migration permanen baru pada checkpoint ini.
+
+## Kegagalan yang tetap dipertahankan
+
+1. Native [35708050129 FAILURE](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35708050129), job106681644849, commit `b3e9e4245df0cb5dfc398de395c11e2a8d1bf621`: pemasangan checker gagal karena jumlah kolom UNION berbeda. **0 kasus AP** berjalan;12AO dan78frontend PASS. Return checker diperbaiki menjadi empat kolom. Kamus audit REGISTER juga disesuaikan ke INSERT. Artifact10685621506,32.538byte,10entri,SHA256 `1c9c11b8d68d6ca634e88b2ece0eae75e5dd9bb0916c45dab0ab7ecfb9f2d374`.
+2. Native [35709090018 FAILURE](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35709090018), job106685034682, commit `b0579c61825a2d5202339f78de67118ae4dbbde9`:120 kasus dijalankan,116PASS/4INCOMPLETE. Empat siklus pocket mencapai pembatalan pocket, lalu tes gagal memanggil primitive private pembatalan invoice yang EXECUTE-nya memang dicabut. Skrip diperbaiki ke API v2 beserta versi hasil post; dua tes generic inverse diperketat untuk memeriksa pesan bisnis, bukan permission denial.12AO dan78frontend PASS; seluruh boundary dipulihkan. Artifact10685023976,113.228byte,11entri,SHA256 `94ae759f7632a61270f8c1221ef71fb7d746ab44c9a0c1b48c30fa450ce6c2f7`.
+3. [Final Boundary 35708050014 FAILURE](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35708050014), job106681643767: harness lama menolak scope successor AJ→AP pada langkah Verify unchanged AI-R2 backend and bounded writer UI scope; database audit tersebut belum berjalan. Guard tidak dilonggarkan dan kegagalan tetap terbuka. Artifact10684997354,478.169byte,7entri,SHA256 `1099e7a6b956bb7bc940fff27e434fb7fe8a28e325a8663441c94f987c000256`.
+
+## Status CP6 dan kelanjutan
+
+Ini checkpoint satu keluarga fitur pada branch writer tunggal `competition/cp6-j-closure-20260911`, bukan penutupan CP6 atau deployment. Nama workflow “Final Boundary” tidak berarti seluruh ERP selesai diaudit. Main, PR24/25, hosted UAT, legacy/prod database, serta CP7 tidak diubah. Matriks global historis tidak dijalankan ulang.
+
+Sesudah keluarga kain kantong, cakupan ALL tetap berlanjut: WIP fisik per ukuran/tahap/pemegang dan nilai BS beserta asal biaya penerimaan yang terpakai sebelum cutover; form eceran aksesori terhubung; paket migrasi AO/AP serta rollback maintenance; pengujian HTTP/browser/concurrency dan perlindungan jalur opening lama; lalu acceptance independen. Bukti writer disposable/DOM tidak menggantikan gate tersebut.
+
+Keputusan sebelumnya tetap: draft impor dapat diedit dan pengesahan membaca isi terakhir di bawah lock; total kontrol tidak dibukukan; replay tidak menggandakan transaksi; tanggal invoice menentukan koreksi biaya pada periode terbuka, periode tertutup mengikuti jalur canonical. **7 PCS adalah aksesori dengan harga eceran manual**; master lusin/gross tetap. Mandor Epi, Selo, Afat, Afui; Afui khusus tanpa absensi, komisi lebih tinggi, tiga kategori aksesori gratis. Satu writer, fast-forward saja, lanjut sesuai scope yang telah disetujui tanpa konfirmasi berulang.
+
+
+---
+
+# Riwayat proposal sebelum hasil akhir kain kantong
+
 # CP6 kain kantong — koreksi jalur uji pembatalan nota
 
 Native [35709090018 FAILURE](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35709090018), commit `b0579c61825a2d5202339f78de67118ae4dbbde9`, menjalankan 120 kasus:116 PASS dan4 lifecycle INCOMPLETE. Empat siklus telah melewati pengurangan, recost, serta pembatalan kain kantong; gagal pada pembatalan invoice terakhir karena skrip memakai primitive private yang EXECUTE-nya memang dicabut. Skrip diperbaiki memakai `reverse_material_supplier_invoice_v2` beserta versi dokumen hasil post. Tidak ada ACL aplikasi yang dilonggarkan.
