@@ -1,3 +1,11 @@
+# CP6 — penyelarasan pembaca nota dengan izin baca-saja
+
+Native 35732231324 pada `3f8c8df88c066c1573006361ff47578507ffc72b` / tree `cb18f6461c58da885ec4838dd8c28c17670b49fc` kembali 183 PASS / 1 INCOMPLETE dari 184 AP; AO 12 dan frontend 142 PASS. Fixture role aktif membuka masalah nyata pada facade pembaca baru: `AUDITOR_VIEW_ONLY` memperoleh izin view sesuai katalog, tetapi pembaca menambahkan `require_internal()` yang hanya menerima OWNER/ADMIN/STAFF. Pembaca baru sekarang memakai izin view yang aktif sebagai batas akses, sesuai katalog route. Tidak ada perubahan pada `require_internal()`, izin katalog, fungsi native, atau gerbang penulis. Izin tiap tindakan diperiksa sebelum gerbang penulis internal dan sebelum replay cache.
+
+Kasus otorisasi diperkuat: auditor aktif boleh membaca, izin baca tidak memberi hak tulis, izin create saja tidak melewati gerbang internal native, izin baca dicabut menolak pembaca, dan pengguna nonaktif ditolak. Koreksi fixture sebelumnya saja belum memadai; keberhasilan baru menunggu native gate. Artifact percobaan kedua 10695869044, 144.351 byte, SHA256 `12461c511fc7ce2c277b5a8d5854fc5e4584c725a9b4f124fcaaf3db1df97d68`. Semua boundary pulih; CodeQL 35732231314 empat bahasa SUCCESS. CP6 tetap HOLD; seluruh flag deployment, migrasi permanen dan acceptance independen false.
+
+---
+
 # CP6 — koreksi fixture pembaca nota aksesori
 
 Native35731316138 pada d81c7a70121e6c8d7602e186709219d0682b98c7/tree8baef780f173fbd9be8d9ab8f607da882fe9f737:184 kasus AP, **183 PASS /1 INCOMPLETE**. Seluruh21 kasus connected selesai kecuali fixture otorisasi pembaca; role STAFF legacy sengaja nonaktif sehingga reader menolak dengan benar. Fixture kini memakai AUDITOR_VIEW_ONLY yang aktif dan hanya izin finance.contractor_accessory.view. Tidak ada perubahan izin/kode aplikasi dalam koreksi ini.12 AO dan142 frontend PASS; semua boundary pulih. Native184/184 belum PASS. CodeQL35731316355 empat bahasa SUCCESS.

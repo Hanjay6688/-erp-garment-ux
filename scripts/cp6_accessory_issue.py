@@ -28,7 +28,7 @@ declare v_contractor uuid:=nullif(p_filters->>'contractor_id','')::uuid;v_locati
  v_query text:=lower(btrim(coalesce(p_filters->>'query','')));v_material_query text:=lower(btrim(coalesce(p_filters->>'material_query','')));
  v_result jsonb;v_document jsonb;v_material_ids jsonb:=coalesce(p_filters->'material_ids','[]'::jsonb);
 begin
- perform erp.require_permission('finance.contractor_accessory.view');perform erp.require_internal();
+ perform erp.require_permission('finance.contractor_accessory.view');
  perform erp._cp3_assert_closed_json_object(p_filters,array[]::text[],array['contractor_id','location_id','physical_at','id','query','material_query','material_ids'],'accessory workspace filters');
  if length(v_query)>120 or length(v_material_query)>120 then raise exception 'Pencarian terlalu panjang';end if;
  if p_filters?'material_ids' and (jsonb_typeof(p_filters->'material_ids')<>'array' or jsonb_array_length(p_filters->'material_ids')>100) then raise exception 'Daftar aksesori tidak valid';end if;
@@ -90,11 +90,12 @@ declare v_action text:=upper(btrim(p_action));v_cached jsonb;v_result jsonb;v_na
  v_id uuid;v_version bigint;v_contractor uuid;v_location uuid;v_po uuid;v_at timestamptz;v_reason text;v_items jsonb:='[]'::jsonb;
  h erp.contractor_material_issues%rowtype;
 begin
- perform erp.require_permission('finance.contractor_accessory.view');perform erp.require_internal();
+ perform erp.require_permission('finance.contractor_accessory.view');
  if v_action not in('SAVE_DRAFT','POST','DELETE','REVERSE') or v_action is null then raise exception 'Tindakan nota tidak dikenal';end if;
  if v_action in('SAVE_DRAFT','POST','DELETE') then perform erp.require_permission('finance.contractor_accessory.create');end if;
  if v_action='POST' then perform erp.require_permission('finance.contractor_accessory.post');end if;
  if v_action='REVERSE' then perform erp.require_owner_admin();perform erp.require_permission('finance.contractor_accessory.reverse');end if;
+ perform erp.require_internal();
  perform erp._cp3_assert_closed_json_object(p_payload,array['reason'],array['id','expected_version','number','contractor_id','location_id','po_id','physical_at','notes','items','reason'],'accessory issue payload');
  if jsonb_typeof(p_payload->'reason')<>'string' or nullif(btrim(p_payload->>'reason'),'') is null or length(p_payload->>'reason')>1000 then raise exception 'Alasan nota wajib diisi';end if;
  v_reason:=btrim(p_payload->>'reason');v_id:=nullif(p_payload->>'id','')::uuid;

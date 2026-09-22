@@ -109,9 +109,17 @@ def authorization(a,cur,today):
     cur.execute("update erp.app_users set role='STAFF',role_id=%s where auth_user_id=%s",(role,a.base.OPERATOR_AUTH))
     assert read(a,cur,dict(id=r['id']))['document']['id']==r['id']
     rejected=a.inherited.refused(cur,lambda:call(a,cur,'SAVE_DRAFT',f['payload'],key));assert rejected['sqlstate']=='42501',rejected
+    # A read permission does not bypass the existing native internal writer
+    # boundary, even if this noninternal role receives the action permission.
+    cur.execute("insert into erp.app_role_permissions(role_id,permission_key) values(%s,'finance.contractor_accessory.create')",(role,))
+    rejected=a.inherited.refused(cur,lambda:call(a,cur,'SAVE_DRAFT',f['payload'],key))
+    assert rejected['sqlstate']=='P0001' and 'Internal ERP access required' in rejected['message'],rejected
+    cur.execute("delete from erp.app_role_permissions where role_id=%s and permission_key='finance.contractor_accessory.view'",(role,))
+    assert a.inherited.refused(cur,lambda:read(a,cur,dict(id=r['id'])))['sqlstate']=='42501'
+    cur.execute("insert into erp.app_role_permissions(role_id,permission_key) values(%s,'finance.contractor_accessory.view')",(role,))
     cur.execute('update erp.app_users set is_active=false where auth_user_id=%s',(a.base.OPERATOR_AUTH,))
     assert a.inherited.refused(cur,lambda:read(a,cur,dict(id=r['id'])))['sqlstate']=='42501'
-    return dict(status='PASS',view_does_not_grant_write=True,revoked_replay_refused=True,inactive_reader_refused=True)
+    return dict(status='PASS',view_does_not_grant_write=True,revoked_replay_refused=True,internal_writer_boundary_preserved=True,revoked_reader_refused=True,inactive_reader_refused=True)
 
 def cases(a,cur,today):
     return [('ACCESSORY_CONNECTED:'+str(f),lambda f=f:lifecycle(a,cur,today,f)) for f in (12,144)] + [
