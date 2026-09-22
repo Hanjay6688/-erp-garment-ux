@@ -1,3 +1,70 @@
+# CP6 — kasbon tunai saldo awal dan potongan payroll terverifikasi
+
+22 September 2026. **CP6_HOLD · production_go:false · migration_installed:false · independent_acceptance:false.**
+
+VENI. VIDI. VICI. ERP. — I CONQUERED ERP.
+Reliable data adalah dewa.
+Keuangan—termasuk laporan—stok, dan HPP adalah raja.
+
+Permintaan owner “now what?” diteruskan dengan memulihkan akses GitHub, mengirim proposal kasbon pada branch kerja tunggal, dan menjalankan native gate. Blocker HTTP400 pada checkpoint sebelumnya sudah teratasi. PostgreSQL lokal tidak digunakan; seluruh pengujian database berlangsung pada runtime disposable GitHub Actions. Tidak ada approval baru yang diminta.
+
+## Identitas bukti
+
+| Bukti | Nilai |
+| --- | --- |
+| Branch writer | `competition/cp6-j-closure-20260911` |
+| Tested commit | `b6f5073734a183a54b434e4d2fecfbf9a55eeefa` |
+| Tested tree | `23a5f260b263365dc094bc2cb88b2eb148b8a1b1` |
+| Parent | `30e11e7e44b93bfb27819498853d3fbc9074924c` |
+| Native | [35692777806 SUCCESS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35692777806), job106633111581 |
+| Import AP, runtime gabungan AO+AP | **72/72 PASS**:52 existing +20 kasbon tunai |
+| AO tambahan pada AN | **12/12 PASS** |
+| Frontend/recovery | **67/67 PASS**:30 parser/template,9 connected DOM,28 recovery |
+| TypeScript/ownership | PASS:source,access,CSS,shared recovery |
+| CodeQL | [35692777861 SUCCESS](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35692777861) |
+| Artifact | `10679002266`,95.475byte,11 entri ZIP |
+| Artifact SHA256 | `0d3088c0a7b6cce1ddfe04e178803b0771b832ddd2223ecfaa1fb55a8e7f942c` |
+| Main, diperiksa ulang | `557005e6674058f1e5e966b350cba05501e06182` |
+
+ZIP CRC dan hash cocok. SOURCE.json cocok dengan commit/tree; NATIVE_TRIAL.json menunjukkan combined_ao_ap:true, seluruh72kasus PASS dan boundary_restored:true. AO_TRIAL.json menunjukkan12kasus PASS; kedua laporan complete_boundary_restored:true dan seluruh flag deployment/acceptance:false. Runtime AC→AN dipasang dengan katalog asal yang dipin, Supabase CLI2.116.0 / PG17.6.1.165. Proposal AO+AP dan fixture di-ROLLBACK; database disposable dibersihkan. Tidak ada perubahan pada main, PR24/25, hosted UAT, database produksi, atau CP7.
+
+## Perilaku yang dibuktikan
+
+Impor `OPENING_BALANCE_ITEM` dengan `source_kind=CONTRACTOR_CASH_ADVANCE` memerlukan rincian dokumen `CONTRACTOR_RECEIVABLE`. Nilai dokumen100 dikurangi pembayaran lama32,75 menghasilkan kasbon tersisa67,25. Impor membukukan saldo awal sekali; pembayaran lama tidak menciptakan kas keluar historis. Sumber asli dan pembayaran lama tetap tersimpan sebagai provenance.
+
+Owner/admin dapat mengalokasikan kasbon dari workspace impor ke payroll draft mandor yang sama. Alokasi memakai command existing `ALLOCATE_CASH_ADVANCE`, UUID idempotency, batch revision dan payroll row version. Nominal serta row version tetap teks exact di browser. Draft alokasi menyisihkan kapasitas tanpa jurnal; pelepasan draft atau pembatalan payroll belum dibayar memulihkan kapasitas. Persetujuan dan pembayaran mengunci serta memeriksa ulang sumber, saldo, pendapatan dan tanggal.
+
+Pembayaran payroll memisahkan kasbon dari penalti: Dr CONTRACTOR_PAYABLE / Cr CONTRACTOR_RECEIVABLE untuk kasbon; kas hanya sebesar net payroll; penalti existing tetap OTHER_INCOME. Reversal payroll memulihkan saldo kasbon dan membalik seluruh jurnal terkait. Pengembalian kas langsung memakai opening settlement canonical dan tidak boleh memakai saldo yang sedang dialokasikan ke payroll lain.
+
+| Tahap oracle | Bank | Kasbon tersisa |
+| --- | ---: | ---: |
+| Saldo awal | 100,00 | 67,25 |
+| Payroll20, potongan kasbon12,75; kas keluar7,25 | 92,75 | 54,50 |
+| Pengembalian tunai10 | 102,75 | 44,50 |
+| Payroll berikut44,50 seluruhnya dipotong; kas keluar0 | 102,75 | 0,00 |
+| Balik payroll kedua, pengembalian tunai, lalu payroll pertama | 100,00 | 67,25 |
+
+Seluruh akun jurnal kembali ke posisi sebelum siklus. Saldo bank cocok dengan laporan neraca; sisa kasbon cocok dengan piutang ber-dimensi mandor. Siklus lolos di UTC dan Pacific/Kiritimati, serta tanggal ekonomi yang sudah ditutup dengan tanggal pembukuan canonical pada hari terbuka. Replay command mengembalikan hasil yang sama tanpa efek tambahan.
+
+20kasus mencakup3lifecycle,2pelepasan cadangan,10penolakan,1campuran penalti,3sumber invalid,1koreksi dan negative control. Penolakan mencakup piutang umum yang bukan kasbon, mandor salah, data payroll berubah, pendapatan turun, tanggal sebelum cutover, koreksi di bawah cadangan, pecahan uang berlebih, nominal negatif, potongan di atas pendapatan, dan DML langsung. Cadangan gabungan dua payroll tidak dapat melebihi saldo; refund tidak dapat menggunakan bagian yang sudah dipesan. Koreksi tertaut67,25→80,25→67,25 mempertahankan dokumen asal100 dan pembayaran lama32,75. Drift settled_amount tanpa sumber pembayaran terdeteksi oleh checker.
+
+Delapan pemeriksaan finansial kasbon bernilai0 pada fase normal, termasuk identitas sumber, kapasitas, jurnal payroll, settlement, orphan payment dan tanggal reversal. Native pass ini adalah bukti writer pada database sementara; belum merupakan pengujian HTTP/browser terhadap database maupun concurrency antarsesi.
+
+## Audit yang masih gagal dan cakupan tersisa
+
+[CP6 Final Boundary Audit35692777930](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35692777930), job106633112620, tetap **FAILURE** pada `Verify unchanged AI-R2 backend and bounded writer UI scope`. Log menunjukkan AssertionError daftar perubahan successor AJ→AP yang tidak diterima scope lama, termasuk import dan advance. Guard ini tidak diubah atau dilemahkan; kegagalannya tidak disamakan dengan PASS native. Artifact audit gagal10678553884 tetap tersedia pada run tersebut. Tidak ada kegagalan native kasbon pada percobaan35692777806.
+
+ALL impor belum selesai. Urutan berikut tetap: uang muka supplier/customer/vendor dengan aplikasi invoice dan reversal; WIP fisik per ukuran/tahap/custody dan nilai BS serta asal biaya penerimaan yang terpakai sebelum cutover; form eceran aksesori terhubung; paket migrasi AO/AP dan rollback maintenance; HTTP/browser/concurrency serta perlindungan opening jalur lama; lalu acceptance independen. Jangan mengubah uang muka menjadi saldo utang negatif: schema AN yang ditelusuri belum memiliki tabel advance khusus dan native vendor payable memang menolak saldo negatif.
+
+Keputusan owner tetap berlaku: ALL data awal sudah disetujui; draft dapat diedit dan finalize membaca isi terakhir di bawah lock; total kontrol tidak ikut dibukukan; tanggal invoice menentukan koreksi biaya pada periode terbuka; koreksi periode tertutup mengikuti jalur canonical; **7 PCS adalah aksesori dengan harga eceran manual**, master lusin/gross tetap. Empat mandor:Epi,Selo,Afat,Afui;Afui yang khusus tanpa absensi,komisi lebih tinggi,dan tiga kategori aksesori gratis.
+
+Checkpoint ini menggantikan status blocker pada `CP6_Cash_Advance_Draft_Blocked.md`. Bukti serta catatan sebelumnya tetap dipertahankan sebagai riwayat. Commit dokumentasi setelah tested commit tidak mengubah kode yang diuji.
+
+
+---
+
+# Riwayat sebelum native kasbon
+
 # CP6 — draft kasbon tunai saldo awal, native gate belum tersedia
 
 22 September 2026. **CP6_HOLD · production_go:false · migration_installed:false · independent_acceptance:false.**
