@@ -202,6 +202,10 @@ def extend_production_contract(functions):
     needle='  for r in select * from erp.opening_balance_items where opening_id=h.id order by id loop\n    if r.balance_type='
     change(i,needle,needle.replace("    if r.balance_type=","    select * into v_source from erp.initial_import_production_sources where opening_item_id=r.id;\n    if r.balance_type="))
     change(i,"jsonb_build_object('mapping_key','WIP','debit',round(v_value,2),'credit',0)","jsonb_build_object('mapping_key','WIP','debit',round(v_value,2),'credit',0,'po_id',v_source.po_id)")
+    change(i,"values(v_lot,1,'ACTUAL',r.qty::integer,v_value,true,",r"""values(v_lot,1,case when exists(
+        select 1 from erp.initial_import_opening_stock_sources k join erp.migration_staging_rows o
+          on o.batch_id=k.batch_id and o.entity_type='OPENING_COST_ORIGIN' and o.normalized_payload->>'target_source_key'=k.source_key
+        where k.opening_item_id=r.id) then 'ESTIMATED' else 'ACTUAL' end,r.qty::integer,v_value,true,""")
     needle="    elsif r.balance_type='BS' then"
     change(i,needle,r"""      if v_source.opening_item_id is not null then
         insert into erp.wip_stage_events(po_id,stage_from,stage_to,qty_pcs,contractor_id,source_type,source_id,physical_at,created_by,notes)
@@ -212,6 +216,10 @@ def extend_production_contract(functions):
     change(i,"null,r.product_id,'UNKNOWN','UNKNOWN','LEGACY',r.contractor_id,r.qty::integer,'OPEN',v_product_at,r.notes);", "v_source.po_id,r.product_id,coalesce(v_source.stage,'UNKNOWN'),'UNKNOWN','LEGACY',r.contractor_id,r.vendor_id,r.qty::integer,'OPEN',v_product_at,r.notes,case when v_source.opening_item_id is not null then 'OPENING:'||r.id::text else null end) returning id into v_bs;\n        if v_source.opening_item_id is not null then\n          update erp.initial_import_production_sources set bs_case_id=v_bs where opening_item_id=r.id;\n          v_value:=v_source.original_amount;\n          if v_value>0 then v_lines:=v_lines||jsonb_build_array(jsonb_build_object('mapping_key','WIP','debit',v_value,'credit',0,'po_id',v_source.po_id));v_debits:=v_debits+v_value;end if;\n        end if;")
     i='erp.rebuild_po_hpp(uuid,text)'
     change(i,'  v_material numeric(24,6):=0;','  v_material numeric(24,6):=0;v_opening_cost numeric(24,6):=0;')
+    change(i,"  v_state:=case when v_pending then",r"""  v_pending:=v_pending or exists(select 1 from erp.initial_import_production_sources s
+    join erp.initial_import_cost_origins o on o.opening_item_id=s.opening_item_id where s.po_id=p_po_id
+    and erp.material_purchase_invoice_capacity(o.purchase_item_id)>erp.material_purchase_posted_invoice_qty(o.purchase_item_id));
+  v_state:=case when v_pending then""")
     needle='    v_lot_cost:=v_lot_material+'
     change(i,needle,'    v_opening_cost:=erp.initial_import_lot_cost_v1(r.id);\n    v_lot_cost:=v_opening_cost+v_lot_material+')
     needle="      (v_new_id,'OTHER','Other/adjustment allocation',v_lot_other,'PO',p_po_id);"

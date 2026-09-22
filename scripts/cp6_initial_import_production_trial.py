@@ -48,6 +48,7 @@ def finalize(a,cur,f):
     batch=a.read(cur,f['batch'])['batch'];sources={r['balance_type']:r for r in batch['production_sources']}
     assert sources['WIP']['qty_pcs']==8 and sources['BS']['qty_pcs']==2
     assert cur.execute("select sum(qty_pcs) from erp.wip_stage_events where source_type='INITIAL_IMPORT_WIP_OPENING' and source_id=%s",(sources['WIP']['opening_item_id'],)).fetchone()[0]==8
+    assert cur.execute("select h.cost_state from erp.hpp_versions h join erp.fg_stock_movements m on m.lot_id=h.lot_id and m.movement_type='OPENING' join erp.initial_import_opening_stock_sources s on s.opening_item_id=m.source_id where s.batch_id=%s and s.source_key='FG' and h.is_current",(f['batch'],)).fetchone()[0]=='ESTIMATED'
     return batch['uninvoiced_receipts'][0],sources
 
 
@@ -91,6 +92,7 @@ def lifecycle(a,cur,today,stage='SEWING',closed=False,fully_consumed=False):
     assert {k:initial[k]-baseline[k] for k in initial}==dict(MATERIAL_INVENTORY=D(0 if fully_consumed else 40),WIP=D(60),FG_INVENTORY=D(20),OTHER_EXPENSE=D(0),COGS=D(0))
     original=cur.execute('select to_jsonb(i) from erp.opening_balance_items i join erp.opening_balance_headers h on h.id=i.opening_id where h.migration_batch_id=%s order by i.id',(f['batch'],)).fetchall()
     o=output(a,cur,f,today);truth(cur)
+    assert cur.execute('select cost_state from erp.hpp_versions where lot_id=%s and is_current',(o['lot_id'],)).fetchone()[0]=='ESTIMATED'
     after=effects(a,cur);assert after['WIP']==initial['WIP']-20 and after['FG_INVENTORY']==initial['FG_INVENTORY']+20,after
     bs=s['BS']['bs_case_id'];version=cur.execute('select row_version from erp.bs_cases where id=%s',(bs,)).fetchone()[0]
     disposed=bs_action(a,cur,'DISPOSE_BS',dict(bs_case_id=bs,resolution_type='SCRAP',qty_pcs=1,physical_at=a.production.at(today-timedelta(days=3),14),change_reason='Cutover BS scrap'),version)
@@ -170,6 +172,19 @@ def source_guards(a,cur,today,fully_consumed=False):
     return dict(status='PASS',fully_consumed=fully_consumed,po_close_with_wip_refused=True,return_cannot_use_consumed_quantity=True)
 
 
+def unchanged_price(a,cur,today):
+    f=fixture(a,cur,today);r,_=finalize(a,cur,f);o=output(a,cur,f,today)
+    before=effects(a,cur)
+    states=lambda:cur.execute('select l.lot_origin,h.cost_state from erp.hpp_versions h join erp.fg_lots l on l.id=h.lot_id join erp.products p on p.id=l.product_id where p.sku=%s and h.is_current order by l.lot_origin',(f['code'],)).fetchall()
+    assert states()==[('OPENING','ESTIMATED'),('PRODUCTION','ESTIMATED')],states()
+    invoice=receipts.post_invoice(a,cur,receipts.invoice(a,cur,today,r,12,'10'));truth(cur)
+    assert states()==[('OPENING','ADJUSTED'),('PRODUCTION','ACTUAL')],states()
+    assert effects(a,cur)==before
+    receipts.rpc(a,cur,'reverse_material_supplier_invoice_v2',invoice['supplier_invoice_id'],'Restore unbilled status',uuid.uuid4(),invoice['row_version']);truth(cur)
+    assert states()==[('OPENING','ESTIMATED'),('PRODUCTION','ESTIMATED')] and effects(a,cur)==before
+    return dict(status='PASS',same_price_invoice_finalizes_cost_confidence=True,inverse_restores_estimate=True,no_value_change=True)
+
+
 def refusal(a,cur,today,kind):
     f=fixture(a,cur,today);b=f['batch']
     if kind in('OVER_OUTPUT','STALE_OUTPUT','WRONG_PRODUCT','OUTPUT_BEFORE_CUTOVER'):
@@ -213,4 +228,4 @@ def cases(a,cur,today):
       ('PRODUCTION_ORIGIN_REFUSAL:'+k,lambda k=k:refusal(a,cur,today,k)) for k in ['MISSING_CUSTODY','MISSING_PO','FRACTIONAL_PCS','MISSING_COST','BS_SIZE_MISMATCH','BS_MISSING_HOLDER','PO_TARGET_TOO_SMALL','ORIGIN_OVER_VALUE','ORIGIN_MISSING_TARGET','ORIGIN_DUPLICATE','ORIGIN_MISSING_RECEIPT','MISSING_ORIGIN','BS_CONTROL_VALUE','WIP_CONTROL_QUANTITY','OVER_OUTPUT','STALE_OUTPUT','WRONG_PRODUCT','OUTPUT_BEFORE_CUTOVER']] + [
       ('PRODUCTION_ORIGIN_REWORK',lambda:rework(a,cur,today)),('PRODUCTION_ORIGIN_LATEST_DRAFT',lambda:latest_draft(a,cur,today)),
       ('PRODUCTION_ORIGIN_SOLD',lambda:sold_origin(a,cur,today)),('PRODUCTION_ORIGIN_GUARDS',lambda:source_guards(a,cur,today)),
-      ('PRODUCTION_ORIGIN_GUARDS_FULLY_CONSUMED',lambda:source_guards(a,cur,today,True))]
+      ('PRODUCTION_ORIGIN_GUARDS_FULLY_CONSUMED',lambda:source_guards(a,cur,today,True)),('PRODUCTION_ORIGIN_UNCHANGED_PRICE',lambda:unchanged_price(a,cur,today))]

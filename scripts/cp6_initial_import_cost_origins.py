@@ -48,6 +48,23 @@ begin
  end loop;
 end;$function$;"""
 
+FG_COST=r"""create or replace function erp.refresh_initial_import_fg_cost_v1(p_item uuid,p_delta numeric,p_date date) returns void
+language plpgsql security definer set search_path='' as $function$
+declare v_lot uuid;v_hpp erp.hpp_versions%rowtype;v_state text;
+begin
+ perform erp.require_internal();
+ perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));
+ select lot_id into strict v_lot from erp.fg_stock_movements where source_type='OPENING_BALANCE_ITEM' and source_id=p_item and movement_type='OPENING';
+ select * into strict v_hpp from erp.hpp_versions where lot_id=v_lot and is_current for update;
+ v_state:=case when exists(select 1 from erp.initial_import_cost_origins o where o.opening_item_id=p_item
+    and erp.material_purchase_invoice_capacity(o.purchase_item_id)>erp.material_purchase_posted_invoice_qty(o.purchase_item_id)) then 'ESTIMATED' else 'ADJUSTED' end;
+ if p_delta=0 and v_state=v_hpp.cost_state then return;end if;
+ update erp.hpp_versions set is_current=false where id=v_hpp.id;
+ insert into erp.hpp_versions(lot_id,version_no,cost_state,qty_basis_pcs,total_cost,is_current,supersedes_id,calculation_reason,created_by)
+ values(v_lot,v_hpp.version_no+1,v_state,v_hpp.qty_basis_pcs,v_hpp.total_cost+p_delta,true,v_hpp.id,'Harga dan kepastian asal bahan sebelum cutover',erp.current_app_user_id());
+ perform erp.sync_opening_lot_hpp_to_gl(v_lot,p_date);
+end;$function$;"""
+
 RECOST=r"""create or replace function erp.recost_initial_import_origins_v1(p_purchase_item uuid) returns void
 language plpgsql security definer set search_path='' as $function$
 declare r record;v_target numeric;v_previous numeric;v_delta numeric;v_date date;v_event uuid;v_journal uuid;
@@ -62,19 +79,23 @@ begin
   select coalesce(sum(round(o.material_qty*erp.material_purchase_current_unit_cost(o.purchase_item_id),2)
     -round(o.material_qty*o.unit_cost_snapshot,2)),0) into v_target from erp.initial_import_cost_origins o where o.opening_item_id=r.id;
   select coalesce(sum(new_delta-previous_delta),0) into v_previous from erp.initial_import_origin_cost_events where opening_item_id=r.id;
-  v_delta:=v_target-v_previous;if v_delta=0 then continue;end if;
+  v_delta:=v_target-v_previous;
+  if v_delta=0 then
+   if r.balance_type='FINISHED_GOODS' then perform erp.refresh_initial_import_fg_cost_v1(r.id,0,v_date);
+   else
+    select po_id into strict v_po from erp.initial_import_production_sources where opening_item_id=r.id;
+    perform erp.rebuild_po_hpp(v_po,'Kepastian harga asal bahan sebelum cutover');
+    perform erp.propagate_conversion_hpp_for_po(v_po);perform erp.sync_po_hpp_to_gl(v_po,v_date);
+   end if;
+   continue;
+  end if;
   if round(coalesce(r.amount,r.qty*r.unit_cost_snapshot),2)+v_target<0 then raise exception 'Nilai sumber setelah koreksi tidak boleh negatif';end if;
   v_event:=gen_random_uuid();v_po:=null;
   select po_id into v_po from erp.initial_import_production_sources where opening_item_id=r.id;
   insert into erp.initial_import_origin_cost_events(id,opening_item_id,previous_delta,new_delta,economic_date,created_by)
    values(v_event,r.id,v_previous,v_target,v_date,erp.current_app_user_id());
   if r.balance_type='FINISHED_GOODS' then
-   select lot_id into strict v_lot from erp.fg_stock_movements where source_type='OPENING_BALANCE_ITEM' and source_id=r.id and movement_type='OPENING';
-   select * into strict v_hpp from erp.hpp_versions where lot_id=v_lot and is_current for update;
-   update erp.hpp_versions set is_current=false where id=v_hpp.id;
-   insert into erp.hpp_versions(lot_id,version_no,cost_state,qty_basis_pcs,total_cost,is_current,supersedes_id,calculation_reason,created_by)
-    values(v_lot,v_hpp.version_no+1,'ADJUSTED',v_hpp.qty_basis_pcs,v_hpp.total_cost+v_delta,true,v_hpp.id,'Koreksi asal bahan sebelum cutover',erp.current_app_user_id()) returning id into v_new;
-   perform erp.sync_opening_lot_hpp_to_gl(v_lot,v_date);
+   perform erp.refresh_initial_import_fg_cost_v1(r.id,v_delta,v_date);
    -- The native opening-lot synchronizer owns FG/COGS and offsets opening equity.
    -- Replace only that source offset with the invoice's material-inventory leg.
    v_journal:=erp.post_journal('INITIAL_IMPORT_ORIGIN_RECOST',v_event,v_date,'Asal biaya bahan pada FG awal',jsonb_build_array(
@@ -98,7 +119,7 @@ def extend_cost_origin_contract(functions):
     def change(identity,old,new,count=1):
         assert functions[identity].count(old)==count,(identity,old)
         functions[identity]=functions[identity].replace(old,new)
-    functions.update({'erp.validate_initial_import_cost_origins_v1(uuid)':VALIDATE,'erp.recost_initial_import_origins_v1(uuid)':RECOST})
+    functions.update({'erp.validate_initial_import_cost_origins_v1(uuid)':VALIDATE,'erp.refresh_initial_import_fg_cost_v1(uuid,numeric,date)':FG_COST,'erp.recost_initial_import_origins_v1(uuid)':RECOST})
     i=next(k for k in functions if k.startswith('erp.stage_migration_row('))
     change(i,"'UNINVOICED_RECEIPT'","'OPENING_COST_ORIGIN','UNINVOICED_RECEIPT'")
     i='erp._validate_migration_batch_base(uuid)'
