@@ -165,7 +165,9 @@ async function accessoryFlow(){
   const f=fixture.accessory,number='UI-ACC-'+randomUUID().slice(0,12),before=native('state')
   await page.getByLabel('Nomor nota aksesori').fill(number)
   await page.getByLabel('Mandor aksesori').selectOption(f.contractor);await page.getByLabel('Gudang aksesori').selectOption(f.location)
-  await page.getByLabel('Waktu ambil aksesori').fill(fixture.day+'T10:15:00')
+  // Chromium's datetime-local value omits zero seconds; the product restores
+  // whole-second WIB precision in its request payload.
+  await page.getByLabel('Waktu ambil aksesori').fill(fixture.day+'T10:15')
   await page.getByRole('button',{name:'Perbarui harga dan stok',exact:true}).click()
   await expect(page.getByLabel('Tambah aksesori')).toBeEnabled();await page.getByLabel('Tambah aksesori').selectOption(f.material)
   await page.getByLabel('Jumlah PCS 1',{exact:true}).fill('5');await page.getByLabel('Harga per PCS 1',{exact:true}).fill('3.25')

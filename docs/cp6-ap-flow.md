@@ -84,3 +84,12 @@ directly from the verified disposable database before building requests; neither
 the browser nor the HTTP race runner consumes fixture files. The existing
 CodeQL rule and zero-findings gate remain unchanged. Finding artifact10703687143,
 SHA2564f9709822f003cfa4cda4147b4095e9683c14d9565f564dd6c4e0091c0d4b336,remains evidence.
+
+Fourth attempt `61c211437bf32019623ffeb8dba73d4313ece66e`, tree
+`81de22a2dfa37f61d25803125f8d73020b760a30`, run35749238652 again passed21 observations
+and successfully opened the accessory form with qualified fixture identities.
+Chromium normalized a datetime-local value ending in`:00` seconds, so Playwright
+refused the redundant input representation before submitting the accessory draft.
+The harness now supplies the browser's canonical minute representation; the
+unchanged product still sends explicit whole-second WIB timestamps.
+CodeQL35749238653 passed all four languages with zero findings.
