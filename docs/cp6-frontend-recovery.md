@@ -391,3 +391,27 @@ diagnosis was incomplete. A scoped `grid-column:1/-1` now confines this child to
 the existing track; card content starts at the top. Other picker consumers and
 all SQL remain unchanged. Normal pointer assertions are unchanged; failure
 evidence additionally records computed child geometry.
+
+AN completed at `08645547394a502584f5270ac64b4f116817c387`, tree
+`457b1a982ca22d87cf5d35afe048ec2145b12838`. Run35670614158 and
+CodeQL35670614066 SUCCESS. Final status `WRITER_PASS_AFFECTED_AN_SELECTOR_FAMILY`;
+independent_acceptance:false, global CP6_HOLD, production_go:false.
+Fresh:28 native selector controls,15 real HTTP/UI cases including normal pointer
+search at1440/980/390px and actual save after explicit current-version reload,
+20 maintenance schedules,342 unit/DOM,16+26 browser contract cases,95 HTTP
+assertions on62 existing facade/role cases,43 original UI and9 recovery cases.
+Legacy v1 foundation15 retains11 controls and4 known PCS/selector gaps.
+Eleven AN rollback-refusal controls passed. Exact AN→AM:533 ERP functions/228
+tables plus the entire public function catalog, owners, ACL and data boundary.
+Final AH:533 functions/223 tables, Auth/app users0, clone/PostgREST/container
+cleanup PASS. AM230/import31/values65/concurrency and transfer/invoice8 evidence
+remain explicitly REUSED_EVIDENCE, admitted by the unchanged SQL/oracle/source
+boundary and verified successful AM artifact hashes; no fresh historical460.
+Artifact10671056358:53,503,433 bytes /320 ZIP entries, SHA-256
+`c1e08460fafb297ef3a860b942a1757d25fd5ba80174b51531b5647db639334a`.
+Full archive hash, CRC, paths, report identities/per-ID counts/restores and selected
+GitHub-token/JWT/private-key patterns verified locally. Screenshots inspected.
+Durable file `cp6-an-selector-qualified.zip`; verification summary
+`cp6-an-final-validation.json`. Earlier failed attempts remain evidence.
+This documentation checkpoint changes no product, SQL, harness, workflow or pins.
+Next: owner date/PCS-price/CSV-scope decisions and independent review; CP7 unopened.
