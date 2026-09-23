@@ -1,0 +1,48 @@
+{
+  "version": "v2.6.20av",
+  "stamp": "20260923090000",
+  "name": "erp_v2_6_20av_cp6_new_stock_physical_cutoff",
+  "migration": "supabase/migrations/20260923090000_erp_v2_6_20av_cp6_new_stock_physical_cutoff.sql",
+  "rollback": "supabase/rollbacks/20260923090000_erp_v2_6_20av_cp6_new_stock_physical_cutoff.rollback.sql",
+  "capsule": "erp.cp6_v2620av_rollback_capsule",
+  "previous": "AU",
+  "functions": [
+    {
+      "identity": "erp.edit_product_identity_effective(uuid,text,uuid,uuid,text,uuid,text,timestamp with time zone,text)",
+      "predecessor_sha256": "b856072c5e85cc3694850ec953bcd32a38bf254001b79b85effe420ff2aa710c",
+      "installed_sha256": "049f3e0ebe2eca3fd23182d854ce3210e77cde721e87ea223cd02e1ba15afccb",
+      "owner": "postgres",
+      "acl": [
+        "authenticated=X/postgres",
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ]
+    }
+  ],
+  "new_functions": [
+    {
+      "identity": "erp.latest_new_stock_physical_at_v1(uuid)",
+      "installed_sha256": "ff72630949ce03c3a41ffb37ec192ceb8b1a9f7509ca9c312a06251cfa56e746",
+      "owner": "postgres",
+      "acl": [
+        "postgres=X/postgres"
+      ]
+    },
+    {
+      "identity": "erp.assert_new_stock_cutoff_coverage_v1()",
+      "installed_sha256": "ed56dc710e0dcf4830ebdea6cff91996d144660da4072d15c5b29f5b68de6fe2",
+      "owner": "postgres",
+      "acl": [
+        "postgres=X/postgres"
+      ]
+    }
+  ],
+  "migration_sha256": "3bd2f94fc3415072b3f92b313ef8473d4b3e365b22daaa4e8416d0bea6426199",
+  "rollback_sha256": "bdff27690a322e47d1e2d5949de18b23eb46d0d0dca66de188db4da9bb2c2e14",
+  "builder_sha256": "09bffd200ee3c110760502a594fde66f11ae36c9352e5cb390d717050a91caac",
+  "definitions_sha256": "db65967c5b38019426de04a8bdf1fe671ae02b545e5c458ce1da6b8458a029d5",
+  "au_pins_sha256": "e52ce2daf6e0033dabb9265864ac69d20f95b0b96408c0e04f29a1d5833f1c2d",
+  "cli_provenance": "NOT_TESTED",
+  "production_go": false,
+  "independent_acceptance": false
+}

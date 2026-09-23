@@ -73,11 +73,29 @@ def family(cur):
     for table in ('fg_lots','bs_cases'):
         writers[table]=[f'{s}.{n}({a})' for s,n,a in cur.execute(r"""select n.nspname,p.proname,pg_get_function_identity_arguments(p.oid)
             from pg_proc p join pg_namespace n on n.oid=p.pronamespace
-            where n.nspname in('erp','public') and p.prosrc ~* ('insert\s+into\s+erp\.'||%s||'\s*\(') order by 1,2,3""",(table,)).fetchall()]
+            where n.nspname in('erp','public') and p.prosrc ~* ('insert\s+into\s+erp\.'||%s||'\M') order by 1,2,3""",(table,)).fetchall()]
     definitions={k:hashlib.sha256(cur.execute('select pg_get_functiondef(%s::regprocedure)',(k,)).fetchone()[0].encode()).hexdigest()
                  for k in KEY_FUNCTIONS}
+    # Residual P0 review inputs (read-only catalog): product-like columns that no FK
+    # protects, direct privileges/policies on erp.products, and cascade edges.
+    unguarded=cur.execute("""select n.nspname,c.relname,a.attname,format_type(a.atttypid,a.atttypmod)
+        from pg_attribute a join pg_class c on c.oid=a.attrelid join pg_namespace n on n.oid=c.relnamespace
+        where n.nspname in('erp','public') and c.relkind in('r','p') and a.attnum>0 and not a.attisdropped
+          and a.attname ~ 'product' and a.atttypid in('uuid'::regtype,'uuid[]'::regtype,'text'::regtype,'jsonb'::regtype)
+          and not exists(select 1 from pg_constraint fk where fk.contype='f' and fk.conrelid=c.oid and a.attnum=any(fk.conkey)
+                         and fk.confrelid='erp.products'::regclass)
+          and not (n.nspname='erp' and c.relname='products')
+        order by 1,2,3""").fetchall()
+    privileges={role:{p:cur.execute('select has_table_privilege(%s,%s,%s)',(role,'erp.products',p)).fetchone()[0] for p in ('SELECT','INSERT','UPDATE','DELETE')}
+                for role in ('anon','authenticated','service_role')}
+    policies=cur.execute("""select polname,polcmd::text,polpermissive,array(select case when x=0 then 'PUBLIC' else pg_get_userbyid(x) end from unnest(polroles)x order by 1),
+        pg_get_expr(polqual,polrelid),pg_get_expr(polwithcheck,polrelid) from pg_policy where polrelid='erp.products'::regclass order by 1""").fetchall()
+    rls=cur.execute("select relrowsecurity,relforcerowsecurity from pg_class where oid='erp.products'::regclass").fetchone()
     return dict(identity_time_callers=callers,product_references=[dict(table=t,column=c,on_delete=d,time_columns=tc) for t,c,d,tc in references],
-                fact_writers=writers,key_function_definition_sha256=definitions)
+                fact_writers=writers,key_function_definition_sha256=definitions,
+                product_like_columns_without_fk=[dict(schema=s,table=t,column=c,type=ty) for s,t,c,ty in unguarded],
+                products_table_privileges=privileges,products_rls=dict(enabled=rls[0],forced=rls[1]),
+                products_policies=[dict(name=n,cmd=c,permissive=p,roles=r,using=u,check=w) for n,c,p,r,u,w in policies])
 
 
 def production(cur,today):
@@ -195,9 +213,28 @@ def reversed_case(cur,today,variant):
                 status='CONTROL_PASS' if error else 'FAIL',ordinary_authenticated_rpc=True)
 
 
+def coverage_case(cur,variant):
+    """A future NEW_STOCK producer writing an uncovered product fact must fail the catalog guard."""
+    if not cur.execute("select to_regprocedure('erp.assert_new_stock_cutoff_coverage_v1()') is not null").fetchone()[0]:
+        return dict(status='NOT_APPLICABLE',reason='Coverage guard exists only on the candidate successor')
+    api.admin(cur);cur.execute('set local role postgres')
+    cur.execute('create table erp.cp6_au_r1_sample_facts(product_id uuid not null references erp.products,physical_at timestamptz not null)')
+    mode={'NEW_STOCK':",'NEW_STOCK'",'DEFAULT':'','DYNAMIC':',p_mode','EXISTING_STOCK':",'EXISTING_STOCK'"}[variant]
+    cur.execute(f'''create function erp.cp6_au_r1_sample_post(p_product_id uuid,p_mode text) returns void language plpgsql set search_path to '' as $f$
+      begin perform erp.assert_product_identity_time(p_product_id,clock_timestamp(){mode});
+      insert into erp.cp6_au_r1_sample_facts(product_id,physical_at) values(p_product_id,clock_timestamp());end$f$''')
+    cur.execute('reset role')
+    result,error=peer.attempt(cur,lambda:cur.execute('select erp.assert_new_stock_cutoff_coverage_v1()').fetchone()[0])
+    expected_refusal=variant!='EXISTING_STOCK'
+    ok=bool(error and 'NEW_STOCK_CUTOFF_COVERAGE_MISSING' in error['message'] and 'cp6_au_r1_sample_facts' in error['message']) if expected_refusal else bool(result and not error)
+    return dict(variant=variant,result=result,refusal=error,expected='Refuse uncovered NEW_STOCK producer' if expected_refusal else 'EXISTING_STOCK producer is not a cutoff source',
+                status='CONTROL_PASS' if ok else 'FAIL')
+
+
 def r1_cases(cur,today):
     rows=[('CUTOFF:'+v,lambda v=v:cutoff_case(cur,today,v)) for v in ('LAUNDRY_BS','QC_ALL_BS','QC_GOOD','BS_BEFORE_EFFECTIVE','MANUAL_BS')]
     rows+=[('REVERSED:'+v,lambda v=v:reversed_case(cur,today,v)) for v in ('LAUNDRY_BS','QC_ALL_BS')]
+    rows+=[('COVERAGE_GUARD:'+v,lambda v=v:coverage_case(cur,v)) for v in ('NEW_STOCK','DEFAULT','DYNAMIC','EXISTING_STOCK')]
     return rows
 
 
@@ -259,18 +296,26 @@ def run(phase):
         with psycopg.connect(boundary.ADMIN) as conn,conn.cursor() as cur:
             report['au_runtime']=runtime.verified(cur);report['family']=family(cur);conn.rollback()
         save('FAMILY_'+phase.upper(),report['family'])
+        print(json.dumps(dict(family_phase=phase,family=report['family']),default=str),flush=True)
         if phase=='after':
             import cp6_au_r1_candidate as candidate
-            report['candidate_install']=candidate.change('install',boundary.PG,os.environ['CP6_ADMISSION_CONTROL_PGURL'])
+            report['candidate_package']=candidate.qualify(boundary.PG,boundary.ADMIN)
+            save('RESULT_'+phase.upper(),report)
             verify=candidate.verified
             with psycopg.connect(boundary.ADMIN) as conn,conn.cursor() as cur:
                 report['candidate_family']=family(cur);conn.rollback()
+            save('FAMILY_CANDIDATE',report['candidate_family'])
+            print(json.dumps(dict(family_phase='candidate',package=report['candidate_package'],family=report['candidate_family']),default=str),flush=True)
         r1=group('R1_CASES_'+phase.upper(),r1_cases,verify)
         report['r1']={k:r1[k] for k in ('status','counts')}
         au=group('AU_MASTER_'+phase.upper(),master.cases,verify)
         report['au_master']={k:au[k] for k in ('status','counts')}
         at=group('AT_TEMPORAL_'+phase.upper(),temporal.cases,verify)
         report['at_temporal']={k:at[k] for k in ('status','counts')}
+        if phase=='after':
+            report['post_use_refusal']=candidate.refuse_post_use(boundary.PG,boundary.ADMIN)
+            clean=r1['status']=='PASS' and au['status']=='PASS' and at['status']=='PASS'
+            report['candidate_verdict']='CANDIDATE_WRITER_PASS' if clean else 'CANDIDATE_NOT_PASSING'
         complete=all(g['status']!='INCOMPLETE' for g in (r1,au,at))
         report['status']='REVIEW_COMPLETE' if complete else 'INCOMPLETE'
     except Exception as exc:report.update(status='INCOMPLETE',error=str(exc),traceback=traceback.format_exc())
