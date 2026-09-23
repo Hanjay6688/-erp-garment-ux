@@ -29,6 +29,28 @@ def fingerprint(url):
         return cur.execute(fp.SUMMARY).fetchone()[0]
 
 
+def advisors(url):
+    """Supabase security advisors on the clone (same pinned CLI and flags as the AQ..AU runtimes); recorded only."""
+    r=subprocess.run(['supabase','db','advisors','--db-url',url,'--type','security','--level','info','--fail-on','none',
+                      '--output-format','text','--agent','no'],capture_output=True,text=True,timeout=180)
+    if r.returncode!=0:return dict(status='FAILED',exit=r.returncode,stderr=r.stderr[-3000:])
+    if r.stdout.strip():findings=json.loads(r.stdout)
+    elif 'No issues found' in r.stderr.splitlines():findings=[]
+    else:return dict(status='MISSING_RESULT',stderr=r.stderr[-3000:])
+    return dict(status='RECORDED',findings=findings)
+
+
+def advisor_delta(before,after):
+    if before.get('status')!='RECORDED' or after.get('status')!='RECORDED':
+        return dict(status='NOT_COMPARABLE',before=before.get('status'),after=after.get('status'))
+    key=lambda f:json.dumps(f,sort_keys=True)
+    old={key(f) for f in before['findings']};new={key(f) for f in after['findings']}
+    added=[f for f in after['findings'] if key(f) not in old];removed=[f for f in before['findings'] if key(f) not in new]
+    # A new finding is not accepted here: it goes to review with its name, level and object.
+    return dict(status='NO_NEW_FINDINGS' if not added else 'REVIEW_REQUIRED',before=len(before['findings']),
+                after=len(after['findings']),added=added,removed=removed)
+
+
 def run():
     assert os.environ.get('CP6_AR_CONFIRM')=='cp6_rollback' and os.environ.get('CP6_DATABASE_CONTAINER')=='supabase_db_cp5-local'
     OUT.mkdir(parents=True,exist_ok=True)
@@ -44,6 +66,7 @@ def run():
     try:
         with psycopg.connect(boundary.PRIMARY_ADMIN) as conn,conn.cursor() as cur:prior.verified(cur,'AN');primary=boundary.snapshot(cur)
         report['fingerprint_AN']=fingerprint(boundary.ADMIN)
+        advisors_AN=advisors(boundary.PG)
         for name,operation in stages:
             try:
                 result=operation();row=dict(stage=name,status='PASS',result=result)
@@ -54,6 +77,10 @@ def run():
             (OUT/'T3_ALIGNED_INSTALL.json').write_text(json.dumps(report,indent=2,default=str)+'\n')
             if row['status']!='PASS':break
         report['fingerprint_final']=fingerprint(boundary.ADMIN)
+        advisors_final=advisors(boundary.PG)
+        report['security_advisors']=dict(AN=advisors_AN,final=advisors_final,delta=advisor_delta(advisors_AN,advisors_final),
+                                         installed_stages=[s['stage'] for s in report['stages'] if s['status']=='PASS'])
+        print(json.dumps(dict(group='T3_SECURITY_ADVISORS',delta=report['security_advisors']['delta']),default=str)[:6000],flush=True)
         report['status']='ALL_STAGES_INSTALLED' if all(s['status']=='PASS' for s in report['stages']) and len(report['stages'])==len(stages) else 'REFUSED'
         # Backup and restore drill of the clone as installed (owner: drill in a separate environment); it records its
         # own result and never changes the install outcome.
