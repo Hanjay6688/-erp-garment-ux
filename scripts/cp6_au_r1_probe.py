@@ -14,10 +14,11 @@ a successor must not end a version before a NEW_STOCK fact already recorded on
 it, and assert_product_identity_time refuses the same state in reverse order.
 """
 from collections import Counter
+from concurrent.futures import ThreadPoolExecutor,TimeoutError as FutureTimeout
 from datetime import date,timedelta
 from decimal import Decimal
 from pathlib import Path
-import argparse,hashlib,json,os,re,subprocess,sys,traceback,uuid
+import argparse,hashlib,json,os,queue,re,subprocess,sys,traceback,uuid
 import psycopg
 
 AUDITOR=Path(__file__).resolve().parents[1]
@@ -238,6 +239,89 @@ def r1_cases(cur,today):
     return rows
 
 
+RACE_DB='cp6_au_r1_race'
+
+
+def docker(*args):
+    subprocess.run(['docker','exec','supabase_db_cp5-local',*args],check=True)
+
+
+def race(admin,today,first,commit):
+    """Two real sessions on committed disposable fixtures: NEW_STOCK BS versus successor edit."""
+    with psycopg.connect(admin) as conn,conn.cursor() as cur:
+        f=production(cur,today);base=now(cur)
+    product=f['product'];fact=base-timedelta(seconds=60);effective=fact-timedelta(seconds=30)
+    other='MASTER' if first=='BS' else 'BS'
+    def act(cur,kind):
+        if kind=='BS':return list(receipt(cur,f,fact,10))
+        result=edit(cur,product,effective);api.admin(cur);return result
+    ready=queue.Queue()
+    def worker(kind):
+        try:
+            with psycopg.connect(admin) as conn,conn.cursor() as cur:
+                cur.execute("set local lock_timeout='20s';set local statement_timeout='40s'")
+                ready.put(cur.execute('select pg_backend_pid()').fetchone()[0])
+                return dict(ok=True,result=act(cur,kind))
+        except psycopg.Error as exc:return dict(ok=False,sqlstate=exc.sqlstate,message=exc.diag.message_primary)
+    with psycopg.connect(admin) as holder,holder.cursor() as hcur,ThreadPoolExecutor(max_workers=1) as pool:
+        hpid=hcur.execute('select pg_backend_pid()').fetchone()[0]
+        held=act(hcur,first)
+        future=pool.submit(worker,other);wpid=ready.get(timeout=15)
+        try:first_try=future.result(timeout=6)
+        except FutureTimeout:
+            first_try=None
+            contention=dict(kind='BLOCKED',holder_blocks_worker=hcur.execute('select %s=any(pg_blocking_pids(%s))',(hpid,wpid)).fetchone()[0])
+        else:contention=dict(kind='FAIL_FAST' if not first_try['ok'] else 'NO_CONTENTION',first_try=first_try)
+        (holder.commit if commit else holder.rollback)()
+        if first_try is None:outcome=future.result(timeout=45)
+        elif not first_try['ok'] and 'POCKET_PERIOD_BUSY' in (first_try.get('message') or ''):outcome=worker(other)
+        else:outcome=first_try
+    with psycopg.connect(admin) as conn,conn.cursor() as cur:
+        ended=cur.execute('select effective_to from erp.products where id=%s',(product,)).fetchone()[0]
+        successors=cur.execute('select count(*) from erp.products where supersedes_product_id=%s',(product,)).fetchone()[0]
+        new_stock_bs=cur.execute('''select count(*) from erp.bs_cases where product_id=%s
+            and (qc_item_id is not null or source_laundry_bs_allocation_id is not null)''',(product,)).fetchone()[0]
+        cut=cur.execute('''select count(*) from erp.bs_cases where product_id=%s and %s::timestamptz is not null and physical_at>=%s
+            and (qc_item_id is not null or source_laundry_bs_allocation_id is not null)''',(product,ended,ended)).fetchone()[0]
+        authority=cur.execute('select count(*) from erp.product_identity_mutation_context_v1').fetchone()[0]
+    bs_won=first=='BS' and commit or first=='MASTER' and not commit
+    expected=dict(bs_recorded=bs_won,successor_created=not bs_won,contender_outcome_ok=not commit)
+    observed=dict(bs_recorded=new_stock_bs>0,successor_created=successors>0,contender_outcome_ok=outcome['ok'])
+    status='COUNTEREXAMPLE' if cut else 'PASS' if observed==expected and not authority else 'FAIL'
+    return dict(status=status,first=first,first_committed=commit,fact_physical_at=fact,requested_effective_from=effective,
+                held=held,contention=contention,contender_outcome=outcome,expected=expected,observed=observed,
+                old_version_effective_to=ended,new_stock_bs_after_end=cut,unused_authority_rows=authority,
+                actions='ordinary authenticated laundry public RPC and owner successor RPC',committed_fixture_isolated_in_race_copy=True)
+
+
+def races(phase,verify):
+    """Every schedule runs on a disposable copy of the clone; the clone itself never receives commits."""
+    admin=boundary.ADMIN.rsplit('/',1)[0]+'/'+RACE_DB
+    report=dict(status='INCOMPLETE',database=RACE_DB,schedules={},production_go=False,independent_acceptance=False)
+    docker('createdb','-U','supabase_admin','--maintenance-db=template1','-T','cp6_rollback',RACE_DB)
+    try:
+        with psycopg.connect(admin) as conn,conn.cursor() as cur:
+            report['runtime']=verify(cur);conn.rollback()
+            cur.execute('grant usage on schema erp to authenticated')
+            api.seed(cur);boundary.historical.prior.set_open_period(cur,date(2026,8,31))
+            today=cur.execute("select (statement_timestamp() at time zone 'Asia/Jakarta')::date").fetchone()[0]
+        for first in ('BS','MASTER'):
+            for commit in (False,True):
+                key='RACE:'+first+'_FIRST:'+('COMMIT' if commit else 'ABORT')
+                try:row=race(admin,today,first,commit)
+                except Exception as exc:row=dict(status='INCOMPLETE',error=str(exc),traceback=traceback.format_exc())
+                report['schedules'][key]=row;save('RACES_'+phase.upper(),report)
+                print(json.dumps(dict(group='RACES_'+phase.upper(),case=key,**row),default=str),flush=True)
+    finally:
+        docker('dropdb','-U','supabase_admin','--if-exists','--force','--maintenance-db=template1',RACE_DB)
+        with psycopg.connect(boundary.PRIMARY_ADMIN) as conn,conn.cursor() as cur:
+            report['race_database_remaining']=cur.execute('select count(*) from pg_database where datname=%s',(RACE_DB,)).fetchone()[0]
+    report['counts']=dict(Counter(r['status'] for r in report['schedules'].values()))
+    bad=report['counts'].get('INCOMPLETE') or report['counts'].get('FAIL') or report['race_database_remaining']
+    report['status']='INCOMPLETE' if bad else 'COUNTEREXAMPLE' if report['counts'].get('COUNTEREXAMPLE') else 'PASS'
+    save('RACES_'+phase.upper(),report);return report
+
+
 def group(name,factory,verify):
     report=dict(status='INCOMPLETE',cases={},production_go=False,independent_acceptance=False)
     with psycopg.connect(boundary.ADMIN) as conn,conn.cursor() as cur:
@@ -312,11 +396,13 @@ def run(phase):
         report['au_master']={k:au[k] for k in ('status','counts')}
         at=group('AT_TEMPORAL_'+phase.upper(),temporal.cases,verify)
         report['at_temporal']={k:at[k] for k in ('status','counts')}
+        rc=races(phase,verify)
+        report['races']={k:rc[k] for k in ('status','counts','race_database_remaining')}
         if phase=='after':
             report['post_use_refusal']=candidate.refuse_post_use(boundary.PG,boundary.ADMIN)
-            clean=r1['status']=='PASS' and au['status']=='PASS' and at['status']=='PASS'
+            clean=r1['status']=='PASS' and au['status']=='PASS' and at['status']=='PASS' and rc['status']=='PASS'
             report['candidate_verdict']='CANDIDATE_WRITER_PASS' if clean else 'CANDIDATE_NOT_PASSING'
-        complete=all(g['status']!='INCOMPLETE' for g in (r1,au,at))
+        complete=all(g['status']!='INCOMPLETE' for g in (r1,au,at,rc))
         report['status']='REVIEW_COMPLETE' if complete else 'INCOMPLETE'
     except Exception as exc:report.update(status='INCOMPLETE',error=str(exc),traceback=traceback.format_exc())
     finally:
