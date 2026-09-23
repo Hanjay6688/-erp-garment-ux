@@ -168,13 +168,22 @@ def temporal_concurrency(report):
     assert len(masters['cases'])==15 and masters['status']=='WRITER_PASS',masters['counts']
     report['master_cases']={k:masters[k] for k in ('status','counts')}
     report['master_races']={}
-    for first in ('MASTER','OUTPUT'):
-        for commit in (False,True):
-            key='MASTER_'+first+'_'+('COMMIT' if commit else 'ABORT')
-            try:row=master_races.run(today,first,commit)
-            except Exception as exc:row=dict(status='INCOMPLETE',error=str(exc),traceback=traceback.format_exc())
-            report['master_races'][key]=row;save('TEMPORAL',report)
-            print(json.dumps(dict(group='AU_CONCURRENCY',case=key,**row),default=str),flush=True)
+    with psycopg.connect(ADMIN) as conn,conn.cursor() as cur:
+        had_usage=cur.execute("select has_schema_privilege('authenticated','erp','USAGE')").fetchone()[0]
+        if not had_usage:cur.execute('grant usage on schema erp to authenticated')
+    try:
+        for first in ('MASTER','OUTPUT','VALIDATION'):
+            for commit in (False,True):
+                key='MASTER_'+first+'_'+('COMMIT' if commit else 'ABORT')
+                try:row=master_races.run(today,first,commit)
+                except Exception as exc:row=dict(status='INCOMPLETE',error=str(exc),traceback=traceback.format_exc())
+                report['master_races'][key]=row;save('TEMPORAL',report)
+                print(json.dumps(dict(group='AU_CONCURRENCY',case=key,**row),default=str),flush=True)
+    finally:
+        with psycopg.connect(ADMIN) as conn,conn.cursor() as cur:
+            if not had_usage:cur.execute('revoke usage on schema erp from authenticated')
+            runtime.verified(cur)
+        report['master_fixture_schema_acl_restored']=True
     assert all(r['status']=='PASS' for r in report['master_races'].values())
     runtime.refuse_post_use(PG,ADMIN,OUT)
     report['post_use_refusal']=json.loads((OUT/'AU_POST_USE_REFUSAL.json').read_text())
@@ -207,9 +216,9 @@ def regress(report):
     assert qualification['status']=='WRITER_PASS' and qualification['case_count']==174
     assert qualification['primary_unchanged'] and qualification['clone_remaining']==0
     temporal_report=json.loads((OUT/'TEMPORAL.json').read_text())
-    assert temporal_report['status']=='WRITER_PASS' and temporal_report['case_count']==4 and len(temporal_report['master_races'])==4
+    assert temporal_report['status']=='WRITER_PASS' and temporal_report['case_count']==4 and len(temporal_report['master_races'])==6
     assert temporal_report['primary_unchanged'] and temporal_report['clone_remaining']==0
-    report.update(status='WRITER_PASS_WITH_12_PRESERVED_HISTORICAL_HOLD',original_cases=500,new_cases_count=34,additional_calendar_policy_checks=12,temporal_cases_count=16,temporal_real_races=4,master_cases_count=15,master_real_races=4)
+    report.update(status='WRITER_PASS_WITH_12_PRESERVED_HISTORICAL_HOLD',original_cases=500,new_cases_count=34,additional_calendar_policy_checks=12,temporal_cases_count=16,temporal_real_races=4,master_cases_count=15,master_real_races=6)
 
 
 def run(phase):

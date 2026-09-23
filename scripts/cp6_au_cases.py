@@ -9,7 +9,9 @@ import cp6_initial_import_production_trial as production
 import cp6_successor_regression as boundary
 
 def fixture(cur,today,used=False):
- f=production.fixture(api,cur,today);_,sources=production.finalize(api,cur,f)
+ f=production.fixture(api,cur,today)
+ api.upload(cur,f['batch'],'BRAND',[dict(brand_code=f['code'],brand_name='AU fixture '+f['code'])])
+ _,sources=production.finalize(api,cur,f)
  product=cur.execute('select id,sku,model_id,brand_id,size_id from erp.products where sku=%s',(f['code'],)).fetchone()
  if not used:
   code=f['code']+'U';brand=cur.execute('insert into erp.brands(brand_code,brand_name) values(%s,%s) returning id',(code,code)).fetchone()[0]

@@ -39,6 +39,8 @@ replace('validate_product_identity_period',
 for name in ('guard_product_identity_version_metadata','guard_product_delete_after_identity_history'):
  replace(name,"\n     or coalesce(current_setting('app.product_identity_controlled',true),'')='on'",'')
 replace('assert_product_identity_time','where id=p_product_id;','where id=p_product_id for share;')
+replace('assert_product_identity_time','  select * into p from erp.products',
+ '  perform erp.pocket_period_lock_v1();\n  select * into p from erp.products')
 
 # Include every installed product FK, including price/BOM and journal
 # dimensions omitted by the former seven-table list. The product row lock

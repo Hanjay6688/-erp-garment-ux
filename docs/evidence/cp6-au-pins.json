@@ -61,7 +61,7 @@
     {
       "identity": "erp.assert_product_identity_time(uuid,timestamp with time zone,text)",
       "predecessor_sha256": "cefde799d6ebd857309a0cc6b69616ce7aefbf0d67b6f06f4f8faad27b609950",
-      "installed_sha256": "ef000eaa274adeff1267e32bc12fb17fd927201196f44cb17e66a472f3570e19",
+      "installed_sha256": "4e289eed53f2618b84c08b53a6e27453c3545ef2fe199a12e4ef699d8ce347f1",
       "owner": "postgres",
       "acl": [
         "postgres=X/postgres",
@@ -74,10 +74,10 @@
   ],
   "schema_capture_sha256": "01a442e4e4e437b8ca398fee9f9ac2ae0acb34e4d128960ac54169d1de888b16",
   "schema_sha256": "56296de1c2562ed5e87527e30e4887d38ba8f41fdeebe72a0016ca5f6a900a0b",
-  "migration_sha256": "4fd07f99f5cd8d9b7a2b2ff8c04800cdf1c47689ead2b316502b01b6632f6423",
-  "rollback_sha256": "3e07a1fb24f7c558a4a417988f8bf28156d9ede7e27d40c3497f77425fee8866",
+  "migration_sha256": "593b06092c2d47e03644afb1b7b5aef46c1442a56613f853a151b78ef738f2c2",
+  "rollback_sha256": "6f00891cd095dff0ba74b2cb12ffd430f83e6a0cb28e3b2a461b2dbf99f8d10f",
   "builder_sha256": "a6f1b21399a9b979292a5701703eed7f9067c95facb51e9b4c883b7ffec22e58",
-  "definitions_sha256": "fe742f99db7002aa38635d87d4ec2863163b5bf18ff71fa7a0e4a8d87fcb91cd",
+  "definitions_sha256": "9bbd62bf0761af17af0df70a9fa684e0274e441b9a7a1c877450ff3de332faae",
   "base_pins_sha256": "87ced118da7193cf274027e91e09cc858d6a60720b7e1ae58d367d5f5576ad6c",
   "production_go": false,
   "independent_acceptance": false

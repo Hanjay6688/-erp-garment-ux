@@ -10,7 +10,7 @@ import cp6_ao_ap_maintenance as maintenance
 import cp6_preuse_rollback_maintenance as core
 from cp6_ao_ap_inventory import data,function_pins,platform,sha
 
-EXPECTED_PINS='89cb2255edcf5299dbc6e0e0658020729d7f92de9d4f76c3e4f93a4194131db5'
+EXPECTED_PINS='e52ce2daf6e0033dabb9265864ac69d20f95b0b96408c0e04f29a1d5833f1c2d'
 def pins():
     predecessor.pins()
     assert sha(build.PINS.read_bytes())==EXPECTED_PINS,'AU_SOURCE_PINS_DRIFT'
