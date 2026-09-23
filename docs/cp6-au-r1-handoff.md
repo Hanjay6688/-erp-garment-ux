@@ -3,7 +3,7 @@
 Tanggal: 23 September 2026 (WIB). Writer: Claude Code (sesi cloud). Peninjau berikutnya: ChatGPT.
 Dokumen ini adalah checkpoint utuh sesuai format bagian 8 handoff AU-R1. Tidak ada yang diringkas dari bukti; semua angka di bawah dapat ditelusuri ke run, commit, atau file yang disebut.
 
-> Mulai dari AU `ca7f095`. Writer AU selesai, bukti tersimpan cocok, penerimaan independen belum ada. CP6 tetap HOLD, 12 HOLD historis dipertahankan, production tidak disentuh. Kandidat AU-R1 dari tinjauan chat **sudah terbukti native** dan sebuah kandidat successor **AV** sudah dibuat, diuji native, dan dibekukan untuk ditinjau. AV **bukan** penerimaan independen dan **belum** berada di cabang kompetisi. Di luar AU-R1, **AUD-S06** (tutup buku mengabaikan RECALC_PENDING/BLOCKED) juga terbukti native. Temuan ini belum dipatch karena kontraknya menuntut preflight per tanggal satu keluarga dengan AUD-B04; rancangannya ada di bagian 10.1. Master pulih, perubahan pulih, dan addendum CP7 sudah dibaca penuh; kaitannya dengan CP7 ada di bagian 10.2.
+> Mulai dari AU `ca7f095`. Writer AU selesai, bukti tersimpan cocok, penerimaan independen belum ada. CP6 tetap HOLD, 12 HOLD historis dipertahankan, production tidak disentuh. Kandidat AU-R1 dari tinjauan chat **sudah terbukti native** dan sebuah kandidat successor **AV** sudah dibuat, diuji native, dan dibekukan untuk ditinjau. AV **bukan** penerimaan independen dan **belum** berada di cabang kompetisi. Di luar AU-R1, **AUD-S06** terbukti native **sebagian**: close tidak membaca status laporan resmi (RECALC_PENDING/BLOCKED). Bahwa close juga menerima antrean yang benar-benar menyentuh periode yang ditutup baru terbukti dari source, belum native (koreksi di bagian 10.1). Temuan ini belum dipatch karena kontraknya menuntut preflight per tanggal satu keluarga dengan AUD-B04; rancangannya ada di bagian 10.1. Master pulih, perubahan pulih, dan addendum CP7 sudah dibaca penuh; kaitannya dengan CP7 ada di bagian 10.2.
 
 ---
 
@@ -180,7 +180,7 @@ Rujukan baris di bagian 10: `L<n>` = `02_KONTEKS/ERP_V3_2_Master_Pulih_20260923.
 | R-P0-REF | Referensi produk di luar FK | **Sebagian**: pemindaian native kolom bernama `*product*` tanpa FK hanya menemukan `product_identity_mutation_context_v1.product_id` (tabel otorisasi privat). Referensi di dalam JSON (payload impor, `audit_logs.new_data`, cache idempotensi) dan dokumen eksternal **tidak** tercakup oleh pemindaian nama. | Perlu tinjauan semantik JSON; bukan klaim bersih. |
 | R-OBS-REWORK | `post_rework_completion` menulis `fg_lots` untuk produk BS tanpa assert identitas. Cutoff (AU maupun AV) menghitungnya, jadi rework lalu edit ditolak, sedangkan edit lalu rework diterima. | STATIC ONLY | Arah ini fail-closed (over-strict), bukan kerusakan data. Pertanyaan kontrak: apakah GOOD hasil rework termasuk NEW_STOCK atau EXISTING_STOCK? Tidak diubah. |
 | R-RETRY | Retry edit tanpa request UUID dengan timestamp default ditolak "Versi SKU sudah punya successor" | Diketahui (AU) | Aman tetapi membingungkan. Saran untuk UI nanti: tangkap `p_effective_from` sekali, simpan di envelope, dan kirim ulang nilai yang sama. |
-| **AUD-S06** | Tutup buku tanpa preflight blocker | **COUNTEREXAMPLE native** (bagian 10.1) | Pekerjaan backend CP6 (L1730). Rancangan bertahap di 10.1; belum dipatch (alasan di 10.1) |
+| **AUD-S06** | Tutup buku tanpa preflight blocker | **COUNTEREXAMPLE native**: close mengabaikan status laporan resmi. Dampak pada periode yang ditutup: **NOT_TESTED native**, STATIC saja (koreksi di 10.1) | Pekerjaan backend CP6 (L1730). Rancangan bertahap di 10.1; belum dipatch (alasan di 10.1) |
 | R-CONF | `data_confidence` tidak dihitung per tanggal: pemeriksaan kritis memakai integritas saat ini, antrean recost dihitung global | STATIC (source AC, baris dirujuk di 10.1) | Satu keluarga dengan AUD-B04/S06. Jangan jadikan READY global sebagai satu-satunya gate close. |
 | R-LOCK | Lock order edit vs producer | Analisis source + race di atas | Edit dan assert NEW_STOCK sama-sama memakai try-lock global `POCKET_HPP_PERIOD_V1` (fail-fast). Jalur laundry dapat menunggu kunci baris produk lewat FK KEY SHARE; race membuktikan keadaan akhir tetap sah. |
 
@@ -214,6 +214,12 @@ Master pulih, perubahan pulih, dan addendum CP7 kini sudah dibaca penuh (bagian 
 | RUNNING | **RECALC_PENDING** | **diterima** | sama |
 | FAILED, attempt 1 | **RECALC_PENDING** | **diterima** | sama |
 | FAILED, attempt 3 (habis) | **BLOCKED** (`V268_COST_RECALC_EXHAUSTED`, critical) | **diterima** | sama |
+
+**Koreksi cakupan bukti (masukan ChatGPT, dikonfirmasi Claude di source probe):** setiap fixture antrean dibuat dengan `recalc_from = statement_timestamp()` (`scripts/cp6_s06_close_probe.py:56-57`), yaitu hari pengujian 23 September 2026, sedangkan periode yang ditutup berakhir 22 September 2026 (`target_closed_through` di record). Jadi:
+- **Terbukti native:** close tidak membaca `data_confidence` laporan resmi sama sekali. Laporan menyebut RECALC_PENDING/BLOCKED, close tetap diterima.
+- **Belum terbukti native:** close menerima antrean yang benar-benar memengaruhi periode yang ditutup (`recalc_from` pada atau sebelum akhir hari bisnis `closed_through`). Source close (`…20ac…sql:2410` dst.) tidak memeriksa antrean sama sekali, jadi kasus itu hampir pasti diterima juga, tetapi statusnya **STATIC** sampai diuji. Dampak sesudah close juga belum diuji: ke mana recost untuk periode tertutup menulis ketika antrean diproses (residual di periode terbuka vs menyentuh periode tertutup).
+- Fixture di probe ini justru contoh sisi **terlalu ketat** R-CONF: laporan untuk 22 September berstatus RECALC_PENDING karena antrean dihitung global, padahal recost-nya mulai 23 September. Di bawah gate per tanggal yang dirancang di bawah, close pada kasus ini **seharusnya diterima**.
+- Label `COUNTEREXAMPLE` di record bukti (`docs/evidence/cp6-au-r1/run_35839202630_records.json`) tidak diubah karena bukti tidak boleh diedit. Tafsiran yang benar adalah paragraf ini.
 
 Semua boundary pulih, primary tidak berubah, clone 0. Untuk antrean recost, hipotesis "laporan READY palsu" **ditolak**: laporan jujur menyebut RECALC_PENDING/BLOCKED, tetapi close tidak membacanya. Ini **bukan** bukti bahwa confidence benar secara historis (lihat temuan source di bawah dan AUD-B04).
 
@@ -259,7 +265,8 @@ Kontrak menuntut hal yang sama:
 - **Atomisitas (STATIC):** satu-satunya penulis baris `cost_recalc_queue` di migration repo adalah `erp._recalculate_material_cost_core` (`supabase/migrations/20260922135612_erp_v2_6_20ao_cp6_invoice_retail.sql`). Fungsi itu mengambil `accounting_period_control … FOR SHARE` di :209, sebelum insert antrean di :434/:443. Close mengambil `FOR UPDATE` (`…20ac…sql:2410`). Jadi pembuatan recost ter-serialisasi terhadap close. Fungsi skema dasar di luar repo **belum** dicek di katalog native (**NOT_TESTED**). Recost sesudah close tetap masuk periode terbuka sebagai residual, sesuai desain yang ada.
 - **Acceptance:**
   - kelima kasus di atas, ditambah kasus CRITICAL non-queue;
-  - kasus antrean untuk periode **sesudah** tanggal close, yang tidak boleh menahan close lama;
+  - kasus antrean untuk periode **sesudah** tanggal close, yang tidak boleh menahan close lama (fixture probe S06 yang sekarang);
+  - kasus antrean **di dalam** periode, sebaiknya dibuat lewat jalur nyata (misalnya invoice susulan yang memicu `_recalculate_material_cost_core`), bukan insert administratif. Periksa juga batas hari bisnis Asia/Jakarta terhadap `recalc_from`, dan apa yang terjadi saat antrean itu diproses sesudah close;
   - kasus B04, integritas historis tidak konsisten walau integritas hari ini bersih;
   - kontrol READY; role non-owner; facade publik sama dengan backend;
   - race posting-vs-close dua sesi (CROSS-T06);
