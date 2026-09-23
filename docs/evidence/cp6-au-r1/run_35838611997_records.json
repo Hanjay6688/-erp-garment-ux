@@ -1,0 +1,3964 @@
+[
+ {
+  "status": "PASS",
+  "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+  "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+  "functions": 533,
+  "objects": 690,
+  "production_go": false
+ },
+ {
+  "status": "PASS",
+  "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+  "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+  "functions": 533,
+  "objects": 690,
+  "production_go": false
+ },
+ {
+  "status": "PASS",
+  "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+  "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+  "functions": 533,
+  "objects": 690,
+  "production_go": false
+ },
+ {
+  "status": "PASS",
+  "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+  "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+  "functions": 533,
+  "objects": 690,
+  "production_go": false
+ },
+ {
+  "status": "PASS",
+  "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+  "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+  "erp_functions": 534,
+  "new_public_readers": 1,
+  "objects": 692,
+  "production_go": false
+ },
+ {
+  "family_phase": "before",
+  "family": {
+   "identity_time_callers": [
+    {
+     "function": "erp.post_laundry_receipt(p_receipt_id uuid)",
+     "calls": [
+      "a.product_id,h.physical_at,'NEW_STOCK'"
+     ],
+     "modes": [
+      "NEW_STOCK"
+     ],
+     "inserts": [
+      "bs_cases",
+      "wip_stage_events"
+     ]
+    },
+    {
+     "function": "erp.post_product_conversion(p_conversion_id uuid)",
+     "calls": [
+      "h.from_product_id,h.physical_at,'EXISTING_STOCK'",
+      "h.to_product_id,h.physical_at,'NEW_STOCK'"
+     ],
+     "modes": [
+      "EXISTING_STOCK",
+      "NEW_STOCK"
+     ],
+     "inserts": [
+      "fg_inventory_balances",
+      "fg_lots",
+      "hpp_version_components",
+      "hpp_versions",
+      "product_conversion_allocations"
+     ]
+    },
+    {
+     "function": "erp.post_qc(p_qc_id uuid)",
+     "calls": [
+      "r.final_product_id,h.physical_at,'NEW_STOCK'"
+     ],
+     "modes": [
+      "NEW_STOCK"
+     ],
+     "inserts": [
+      "bs_cases",
+      "fg_lots"
+     ]
+    },
+    {
+     "function": "erp.validate_laundry_bs_product_allocation()",
+     "calls": [
+      "new.product_id,v_physical_at,'NEW_STOCK'"
+     ],
+     "modes": [
+      "NEW_STOCK"
+     ],
+     "inserts": []
+    }
+   ],
+   "product_references": [
+    {
+     "table": "accessory_bom_versions",
+     "column": "product_id",
+     "on_delete": "c",
+     "time_columns": [
+      "effective_from",
+      "effective_to",
+      "created_at"
+     ]
+    },
+    {
+     "table": "bs_cases",
+     "column": "product_id",
+     "on_delete": "a",
+     "time_columns": [
+      "physical_at",
+      "created_at",
+      "updated_at"
+     ]
+    },
+    {
+     "table": "contractor_accessory_reimbursement_entitlements",
+     "column": "product_id",
+     "on_delete": "a",
+     "time_columns": [
+      "physical_at",
+      "created_at"
+     ]
+    },
+    {
+     "table": "fg_accessory_cost_snapshots",
+     "column": "product_id",
+     "on_delete": "a",
+     "time_columns": [
+      "costing_basis_at",
+      "snapshotted_at"
+     ]
+    },
+    {
+     "table": "fg_adjustment_items",
+     "column": "product_id",
+     "on_delete": "a",
+     "time_columns": []
+    },
+    {
+     "table": "fg_inventory_balances",
+     "column": "product_id",
+     "on_delete": "a",
+     "time_columns": [
+      "updated_at"
+     ]
+    },
+    {
+     "table": "fg_lots",
+     "column": "product_id",
+     "on_delete": "a",
+     "time_columns": [
+      "produced_at",
+      "created_at"
+     ]
+    },
+    {
+     "table": "fg_stock_movements",
+     "column": "product_id",
+     "on_delete": "a",
+     "time_columns": [
+      "physical_at",
+      "system_created_at"
+     ]
+    },
+    {
+     "table": "journal_lines",
+     "column": "product_id",
+     "on_delete": "a",
+     "time_columns": []
+    },
+    {
+     "table": "laundry_receipt_batch_size_lines",
+     "column": "bs_product_id",
+     "on_delete": "r",
+     "time_columns": [
+      "created_at"
+     ]
+    },
+    {
+     "table": "laundry_receipt_bs_product_allocations",
+     "column": "product_id",
+     "on_delete": "a",
+     "time_columns": [
+      "created_at"
+     ]
+    },
+    {
+     "table": "non_po_hpp_gl_sync_events_v2620f",
+     "column": "product_id",
+     "on_delete": "r",
+     "time_columns": [
+      "effective_date",
+      "created_at"
+     ]
+    },
+    {
+     "table": "opening_balance_items",
+     "column": "product_id",
+     "on_delete": "a",
+     "time_columns": []
+    },
+    {
+     "table": "po_accessory_bom_commitments",
+     "column": "product_id",
+     "on_delete": "a",
+     "time_columns": [
+      "committed_at",
+      "created_at"
+     ]
+    },
+    {
+     "table": "product_conversions",
+     "column": "from_product_id",
+     "on_delete": "a",
+     "time_columns": [
+      "physical_at",
+      "created_at",
+      "updated_at"
+     ]
+    },
+    {
+     "table": "product_conversions",
+     "column": "to_product_id",
+     "on_delete": "a",
+     "time_columns": [
+      "physical_at",
+      "created_at",
+      "updated_at"
+     ]
+    },
+    {
+     "table": "product_price_versions",
+     "column": "product_id",
+     "on_delete": "c",
+     "time_columns": [
+      "effective_from",
+      "effective_to",
+      "created_at"
+     ]
+    },
+    {
+     "table": "qc_inspection_items",
+     "column": "final_product_id",
+     "on_delete": "a",
+     "time_columns": []
+    },
+    {
+     "table": "sales_items",
+     "column": "product_id",
+     "on_delete": "a",
+     "time_columns": []
+    },
+    {
+     "table": "sales_return_items",
+     "column": "product_id",
+     "on_delete": "a",
+     "time_columns": []
+    },
+    {
+     "table": "stock_explainability_snapshots",
+     "column": "product_id",
+     "on_delete": "a",
+     "time_columns": [
+      "calculated_at",
+      "source_as_of",
+      "data_period_start",
+      "data_period_end"
+     ]
+    },
+    {
+     "table": "stock_policy_versions",
+     "column": "product_id",
+     "on_delete": "a",
+     "time_columns": [
+      "effective_from",
+      "effective_to",
+      "created_at"
+     ]
+    }
+   ],
+   "fact_writers": {
+    "fg_lots": [
+     "erp.complete_initial_import_wip_v1(p_payload jsonb)",
+     "erp.post_opening_balance(p_opening_id uuid)",
+     "erp.post_product_conversion(p_conversion_id uuid)",
+     "erp.post_qc(p_qc_id uuid)",
+     "erp.post_rework_completion(p_rework_order_id uuid)"
+    ],
+    "bs_cases": [
+     "erp.create_manual_bs_case_v2(p_payload jsonb, p_client_request_id uuid)",
+     "erp.post_laundry_receipt(p_receipt_id uuid)",
+     "erp.post_opening_balance(p_opening_id uuid)",
+     "erp.post_qc(p_qc_id uuid)"
+    ]
+   },
+   "key_function_definition_sha256": {
+    "erp.edit_product_identity_effective(uuid,text,uuid,uuid,text,uuid,text,timestamp with time zone,text)": "b856072c5e85cc3694850ec953bcd32a38bf254001b79b85effe420ff2aa710c",
+    "erp.assert_product_identity_time(uuid,timestamp with time zone,text)": "4e289eed53f2618b84c08b53a6e27453c3545ef2fe199a12e4ef699d8ce347f1",
+    "erp.post_laundry_receipt(uuid)": "37118318d08c41cda8c0e1eeaa55130c95ad7a6db0ed8c29ef58da4f2e65234c",
+    "erp.post_qc(uuid)": "637c1c90b22a0bd4812d01e55f64b9611b2cae1ea9979389f3997c131370cd4b",
+    "erp.post_product_conversion(uuid)": "98a2ff7add6f4b1be232168c5d3bc6804b79a5755c6354ae1777321d934586ca",
+    "erp.create_manual_bs_case_v2(jsonb,uuid)": "8d905e876d9ffd084412dda5840c666fc9637185605e18eaa298897cd631160c",
+    "erp.validate_product_identity_period()": "72aa7e9ca05c81f1a760ec3a7044a2800f504ff99d3ce6cf2f1e5af54db827ed"
+   },
+   "product_like_columns_without_fk": [
+    {
+     "schema": "erp",
+     "table": "product_identity_mutation_context_v1",
+     "column": "product_id",
+     "type": "uuid"
+    }
+   ],
+   "products_table_privileges": {
+    "anon": {
+     "SELECT": false,
+     "INSERT": false,
+     "UPDATE": false,
+     "DELETE": false
+    },
+    "authenticated": {
+     "SELECT": true,
+     "INSERT": true,
+     "UPDATE": true,
+     "DELETE": false
+    },
+    "service_role": {
+     "SELECT": true,
+     "INSERT": true,
+     "UPDATE": true,
+     "DELETE": true
+    }
+   },
+   "products_rls": {
+    "enabled": true,
+    "forced": false
+   },
+   "products_policies": [
+    {
+     "name": "internal_all",
+     "cmd": "*",
+     "permissive": true,
+     "roles": [
+      "PUBLIC"
+     ],
+     "using": "(erp.current_app_role() = ANY (ARRAY['OWNER'::text, 'ADMIN'::text, 'STAFF'::text]))",
+     "check": "(erp.current_app_role() = ANY (ARRAY['OWNER'::text, 'ADMIN'::text, 'STAFF'::text]))"
+    }
+   ]
+  }
+ },
+ {
+  "group": "R1_CASES_BEFORE",
+  "case": "CUTOFF:LAUNDRY_BS",
+  "variant": "LAUNDRY_BS",
+  "fact_physical_at": "2026-09-23 15:43:47.363053+07:00",
+  "requested_effective_from": "2026-09-23 15:43:17.363053+07:00",
+  "result": "a1d047cf-3811-4634-b8c8-43ecf39efd95",
+  "refusal": null,
+  "old_version_effective_to": "2026-09-23 08:43:17.363053+00:00",
+  "new_stock_bs_after_end": 1,
+  "untracked_bs_after_end": 0,
+  "fg_lots_after_end": 0,
+  "before": {
+   "fg_lots": null,
+   "bs_cases": [
+    {
+     "qty": 10,
+     "stage": "LAUNDRY",
+     "status": "OPEN",
+     "qc_item_id": null,
+     "physical_at": "2026-09-23T15:43:47.363053+07:00",
+     "untracked_type": null,
+     "laundry_allocation_id": "7ba2ecf8-32bf-4e44-8408-8235bc0ab65b"
+    }
+   ],
+   "versions": [
+    {
+     "id": "81373c55-1934-4eda-80f0-b95b8d45d2a8",
+     "to": null,
+     "from": "2026-01-01T07:00:00+07:00",
+     "supersedes": null
+    }
+   ]
+  },
+  "after": {
+   "fg_lots": null,
+   "bs_cases": [
+    {
+     "qty": 10,
+     "stage": "LAUNDRY",
+     "status": "OPEN",
+     "qc_item_id": null,
+     "physical_at": "2026-09-23T08:43:47.363053+00:00",
+     "untracked_type": null,
+     "laundry_allocation_id": "7ba2ecf8-32bf-4e44-8408-8235bc0ab65b"
+    }
+   ],
+   "versions": [
+    {
+     "id": "81373c55-1934-4eda-80f0-b95b8d45d2a8",
+     "to": "2026-09-23T08:43:17.363053+00:00",
+     "from": "2026-01-01T00:00:00+00:00",
+     "supersedes": null
+    },
+    {
+     "id": "a1d047cf-3811-4634-b8c8-43ecf39efd95",
+     "to": null,
+     "from": "2026-09-23T08:43:17.363053+00:00",
+     "supersedes": "81373c55-1934-4eda-80f0-b95b8d45d2a8"
+    }
+   ]
+  },
+  "ordinary_authenticated_rpc": true,
+  "expected": "Refuse: successor would end the version before a recorded NEW_STOCK BS fact",
+  "status": "COUNTEREXAMPLE",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "R1_CASES_BEFORE",
+  "case": "CUTOFF:QC_ALL_BS",
+  "variant": "QC_ALL_BS",
+  "fact_physical_at": "2026-09-23 15:43:48.163938+07:00",
+  "requested_effective_from": "2026-09-23 15:43:18.163938+07:00",
+  "result": "4c8865e7-10dc-4f24-a19c-93454a249c90",
+  "refusal": null,
+  "old_version_effective_to": "2026-09-23 08:43:18.163938+00:00",
+  "new_stock_bs_after_end": 1,
+  "untracked_bs_after_end": 0,
+  "fg_lots_after_end": 0,
+  "before": {
+   "fg_lots": null,
+   "bs_cases": [
+    {
+     "qty": 10,
+     "stage": "QC",
+     "status": "OPEN",
+     "qc_item_id": "f8de1f7f-ba2e-4855-8993-7fafa4989d94",
+     "physical_at": "2026-09-23T15:43:48.163938+07:00",
+     "untracked_type": null,
+     "laundry_allocation_id": null
+    }
+   ],
+   "versions": [
+    {
+     "id": "f34e7670-3ec0-4696-a1f9-57e486f5065b",
+     "to": null,
+     "from": "2026-01-01T07:00:00+07:00",
+     "supersedes": null
+    }
+   ]
+  },
+  "after": {
+   "fg_lots": null,
+   "bs_cases": [
+    {
+     "qty": 10,
+     "stage": "QC",
+     "status": "OPEN",
+     "qc_item_id": "f8de1f7f-ba2e-4855-8993-7fafa4989d94",
+     "physical_at": "2026-09-23T08:43:48.163938+00:00",
+     "untracked_type": null,
+     "laundry_allocation_id": null
+    }
+   ],
+   "versions": [
+    {
+     "id": "f34e7670-3ec0-4696-a1f9-57e486f5065b",
+     "to": "2026-09-23T08:43:18.163938+00:00",
+     "from": "2026-01-01T00:00:00+00:00",
+     "supersedes": null
+    },
+    {
+     "id": "4c8865e7-10dc-4f24-a19c-93454a249c90",
+     "to": null,
+     "from": "2026-09-23T08:43:18.163938+00:00",
+     "supersedes": "f34e7670-3ec0-4696-a1f9-57e486f5065b"
+    }
+   ]
+  },
+  "ordinary_authenticated_rpc": true,
+  "expected": "Refuse: successor would end the version before a recorded NEW_STOCK BS fact",
+  "status": "COUNTEREXAMPLE",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "R1_CASES_BEFORE",
+  "case": "CUTOFF:QC_GOOD",
+  "variant": "QC_GOOD",
+  "fact_physical_at": "2026-09-23 15:43:48.951414+07:00",
+  "requested_effective_from": "2026-09-23 15:43:18.951414+07:00",
+  "result": null,
+  "refusal": {
+   "sqlstate": "P0001",
+   "message": "Tanggal efektif SKU akan memotong histori produksi yang sudah tercatat"
+  },
+  "old_version_effective_to": null,
+  "new_stock_bs_after_end": 0,
+  "untracked_bs_after_end": 0,
+  "fg_lots_after_end": 0,
+  "before": {
+   "fg_lots": [
+    {
+     "qty": 10,
+     "origin": "PRODUCTION",
+     "produced_at": "2026-09-23T15:43:48.951414+07:00"
+    }
+   ],
+   "bs_cases": null,
+   "versions": [
+    {
+     "id": "1caaf908-3584-43a7-a423-d144150c0b65",
+     "to": null,
+     "from": "2026-01-01T07:00:00+07:00",
+     "supersedes": null
+    }
+   ]
+  },
+  "after": {
+   "fg_lots": [
+    {
+     "qty": 10,
+     "origin": "PRODUCTION",
+     "produced_at": "2026-09-23T08:43:48.951414+00:00"
+    }
+   ],
+   "bs_cases": null,
+   "versions": [
+    {
+     "id": "1caaf908-3584-43a7-a423-d144150c0b65",
+     "to": null,
+     "from": "2026-01-01T00:00:00+00:00",
+     "supersedes": null
+    }
+   ]
+  },
+  "ordinary_authenticated_rpc": true,
+  "expected": "Refuse through the existing fg_lots cutoff",
+  "status": "CONTROL_PASS",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "R1_CASES_BEFORE",
+  "case": "CUTOFF:BS_BEFORE_EFFECTIVE",
+  "variant": "BS_BEFORE_EFFECTIVE",
+  "fact_physical_at": "2026-09-23 15:43:49.945549+07:00",
+  "requested_effective_from": "2026-09-23 15:44:19.945549+07:00",
+  "result": "3f48094e-7075-4b94-8b89-236eadb56e60",
+  "refusal": null,
+  "old_version_effective_to": "2026-09-23 08:44:19.945549+00:00",
+  "new_stock_bs_after_end": 0,
+  "untracked_bs_after_end": 0,
+  "fg_lots_after_end": 0,
+  "before": {
+   "fg_lots": null,
+   "bs_cases": [
+    {
+     "qty": 10,
+     "stage": "LAUNDRY",
+     "status": "OPEN",
+     "qc_item_id": null,
+     "physical_at": "2026-09-23T15:43:49.945549+07:00",
+     "untracked_type": null,
+     "laundry_allocation_id": "9a9b7690-779f-4e1b-b007-2a7faed2368c"
+    }
+   ],
+   "versions": [
+    {
+     "id": "cc7eb94f-514f-453c-a4d1-40e2574bc570",
+     "to": null,
+     "from": "2026-01-01T07:00:00+07:00",
+     "supersedes": null
+    }
+   ]
+  },
+  "after": {
+   "fg_lots": null,
+   "bs_cases": [
+    {
+     "qty": 10,
+     "stage": "LAUNDRY",
+     "status": "OPEN",
+     "qc_item_id": null,
+     "physical_at": "2026-09-23T08:43:49.945549+00:00",
+     "untracked_type": null,
+     "laundry_allocation_id": "9a9b7690-779f-4e1b-b007-2a7faed2368c"
+    }
+   ],
+   "versions": [
+    {
+     "id": "cc7eb94f-514f-453c-a4d1-40e2574bc570",
+     "to": "2026-09-23T08:44:19.945549+00:00",
+     "from": "2026-01-01T00:00:00+00:00",
+     "supersedes": null
+    },
+    {
+     "id": "3f48094e-7075-4b94-8b89-236eadb56e60",
+     "to": null,
+     "from": "2026-09-23T08:44:19.945549+00:00",
+     "supersedes": "cc7eb94f-514f-453c-a4d1-40e2574bc570"
+    }
+   ]
+  },
+  "ordinary_authenticated_rpc": true,
+  "expected": "Accept: the fact precedes the requested boundary",
+  "status": "CONTROL_PASS",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "R1_CASES_BEFORE",
+  "case": "CUTOFF:MANUAL_BS",
+  "variant": "MANUAL_BS",
+  "fact_physical_at": "2026-09-23 15:43:50.685195+07:00",
+  "requested_effective_from": "2026-09-23 15:43:20.685195+07:00",
+  "result": "1c0064d8-31e1-4c9d-9549-3aae83640999",
+  "refusal": null,
+  "old_version_effective_to": "2026-09-23 08:43:20.685195+00:00",
+  "new_stock_bs_after_end": 0,
+  "untracked_bs_after_end": 1,
+  "fg_lots_after_end": 0,
+  "before": {
+   "fg_lots": null,
+   "bs_cases": [
+    {
+     "qty": 1,
+     "stage": "UNKNOWN",
+     "status": "OPEN",
+     "qc_item_id": null,
+     "physical_at": "2026-09-23T15:43:50.685195+07:00",
+     "untracked_type": "OUT_OF_NOWHERE",
+     "laundry_allocation_id": null
+    }
+   ],
+   "versions": [
+    {
+     "id": "114cbabc-d485-4595-9b22-981122624d7d",
+     "to": null,
+     "from": "2026-01-01T07:00:00+07:00",
+     "supersedes": null
+    }
+   ]
+  },
+  "after": {
+   "fg_lots": null,
+   "bs_cases": [
+    {
+     "qty": 1,
+     "stage": "UNKNOWN",
+     "status": "OPEN",
+     "qc_item_id": null,
+     "physical_at": "2026-09-23T08:43:50.685195+00:00",
+     "untracked_type": "OUT_OF_NOWHERE",
+     "laundry_allocation_id": null
+    }
+   ],
+   "versions": [
+    {
+     "id": "114cbabc-d485-4595-9b22-981122624d7d",
+     "to": "2026-09-23T08:43:20.685195+00:00",
+     "from": "2026-01-01T00:00:00+00:00",
+     "supersedes": null
+    },
+    {
+     "id": "1c0064d8-31e1-4c9d-9549-3aae83640999",
+     "to": null,
+     "from": "2026-09-23T08:43:20.685195+00:00",
+     "supersedes": "114cbabc-d485-4595-9b22-981122624d7d"
+    }
+   ]
+  },
+  "ordinary_authenticated_rpc": true,
+  "expected": "Contract undecided (STATUS_DAN_TODO P0 physical cutoff); observation only",
+  "status": "HOLD_CONTRACT",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "R1_CASES_BEFORE",
+  "case": "REVERSED:LAUNDRY_BS",
+  "variant": "LAUNDRY_BS",
+  "successor": "0b104760-c791-4b68-bb06-bd9466450591",
+  "effective_from": "2026-09-23 15:43:21.419066+07:00",
+  "fact_physical_at": "2026-09-23 15:43:51.419066+07:00",
+  "result": null,
+  "refusal": {
+   "sqlstate": "P0001",
+   "message": "Laundry BS product must be active at physical receipt time and match the source PO model/size"
+  },
+  "expected": "The ended version refuses a new NEW_STOCK fact atomically (identity assert or an earlier product-period guard)",
+  "status": "CONTROL_PASS",
+  "ordinary_authenticated_rpc": true,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "R1_CASES_BEFORE",
+  "case": "REVERSED:QC_ALL_BS",
+  "variant": "QC_ALL_BS",
+  "successor": "c5d308df-6d14-43b6-ae1d-db9d02571d2d",
+  "effective_from": "2026-09-23 15:43:22.398246+07:00",
+  "fact_physical_at": "2026-09-23 15:43:52.398246+07:00",
+  "result": null,
+  "refusal": {
+   "sqlstate": "P0001",
+   "message": "Final SKU must be active at physical QC time and match the Laundry receipt model/size"
+  },
+  "expected": "The ended version refuses a new NEW_STOCK fact atomically (identity assert or an earlier product-period guard)",
+  "status": "CONTROL_PASS",
+  "ordinary_authenticated_rpc": true,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "R1_CASES_BEFORE",
+  "case": "COVERAGE_GUARD:NEW_STOCK",
+  "status": "NOT_APPLICABLE",
+  "reason": "Coverage guard exists only on the candidate successor",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "R1_CASES_BEFORE",
+  "case": "COVERAGE_GUARD:DEFAULT",
+  "status": "NOT_APPLICABLE",
+  "reason": "Coverage guard exists only on the candidate successor",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "R1_CASES_BEFORE",
+  "case": "COVERAGE_GUARD:DYNAMIC",
+  "status": "NOT_APPLICABLE",
+  "reason": "Coverage guard exists only on the candidate successor",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "R1_CASES_BEFORE",
+  "case": "COVERAGE_GUARD:EXISTING_STOCK",
+  "status": "NOT_APPLICABLE",
+  "reason": "Coverage guard exists only on the candidate successor",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AU_MASTER_BEFORE",
+  "case": "MASTER:DISPLAY_NAME",
+  "status": "PASS",
+  "variant": "DISPLAY_NAME",
+  "ordinary_authenticated_rpc": true,
+  "expected": "Owner-admin ordinary product lifecycle succeeds with valid unused/current input",
+  "result": "e4566975-f57d-4277-9106-b76a8b81bde8",
+  "refusal": null,
+  "observations": [
+   [
+    "e4566975-f57d-4277-9106-b76a8b81bde8",
+    "R70057b0979UNUSED",
+    "Blue",
+    "2026-09-20 17:00:00+00:00",
+    null,
+    null
+   ]
+  ],
+  "refusal_unchanged": null,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AU_MASTER_BEFORE",
+  "case": "MASTER:UNUSED_IDENTITY",
+  "status": "PASS",
+  "variant": "UNUSED_IDENTITY",
+  "ordinary_authenticated_rpc": true,
+  "expected": "Owner-admin ordinary product lifecycle succeeds with valid unused/current input",
+  "result": "caae08a6-b330-4e08-a58f-8feeab02b27e",
+  "refusal": null,
+  "observations": [
+   [
+    "caae08a6-b330-4e08-a58f-8feeab02b27e",
+    "Re83cf5f14aUNUSED",
+    "Green",
+    "2026-09-20 17:00:00+00:00",
+    null,
+    null
+   ]
+  ],
+  "refusal_unchanged": null,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AU_MASTER_BEFORE",
+  "case": "MASTER:USED_SUCCESSOR",
+  "status": "PASS",
+  "variant": "USED_SUCCESSOR",
+  "ordinary_authenticated_rpc": true,
+  "expected": "Owner-admin ordinary product lifecycle succeeds with valid unused/current input",
+  "result": "cdf826e0-4a16-4628-87b2-758ac2cacf60",
+  "refusal": null,
+  "observations": [
+   [
+    "1d78204b-b597-4ef5-91e6-dc8728da2e27",
+    "Re41f976a8b",
+    "Blue",
+    "2026-09-14 17:00:00+00:00",
+    "2026-09-23 08:46:00.446187+00:00",
+    null
+   ],
+   [
+    "cdf826e0-4a16-4628-87b2-758ac2cacf60",
+    "Re41f976a8b",
+    "Green",
+    "2026-09-23 08:46:00.446187+00:00",
+    null,
+    "1d78204b-b597-4ef5-91e6-dc8728da2e27"
+   ]
+  ],
+  "refusal_unchanged": null,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AU_MASTER_BEFORE",
+  "case": "MASTER:CANCEL_FUTURE",
+  "status": "PASS",
+  "variant": "CANCEL_FUTURE",
+  "ordinary_authenticated_rpc": true,
+  "expected": "Owner-admin ordinary product lifecycle succeeds with valid unused/current input",
+  "result": "df681624-db1c-4bd6-9e82-314c4dc1ef33",
+  "refusal": null,
+  "observations": [
+   [
+    "df681624-db1c-4bd6-9e82-314c4dc1ef33",
+    null
+   ]
+  ],
+  "refusal_unchanged": null,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AU_MASTER_BEFORE",
+  "case": "AU:NAME_ONLY",
+  "status": "PASS",
+  "identity_unchanged": true,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AU_MASTER_BEFORE",
+  "case": "AU:PRICE_REFERENCE",
+  "status": "PASS",
+  "old_identity_preserved": true,
+  "exact_retry_no_mutation": true,
+  "unused_authority_rows": 0,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AU_MASTER_BEFORE",
+  "case": "AU:CANCEL_USED",
+  "status": "PASS",
+  "refusal": {
+   "sqlstate": "P0001",
+   "message": "Perubahan SKU ini sudah dipakai transaksi/stok/HPP dan tidak boleh dibatalkan. Buat perubahan efektif baru sebagai koreksi."
+  },
+  "all_boundary_unchanged": true,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AU_MASTER_BEFORE",
+  "case": "AU:PHYSICAL_HISTORY",
+  "status": "PASS",
+  "refusal": {
+   "sqlstate": "P0001",
+   "message": "Tanggal efektif SKU akan memotong histori produksi yang sudah tercatat"
+  },
+  "all_boundary_unchanged": true,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AU_MASTER_BEFORE",
+  "case": "AU:REPLAY",
+  "status": "PASS",
+  "old_identity_preserved": true,
+  "exact_retry_no_mutation": true,
+  "unused_authority_rows": 0,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AU_MASTER_BEFORE",
+  "case": "AU:FORGED_CONTEXT",
+  "status": "PASS",
+  "refusal": {
+   "sqlstate": "42501",
+   "message": "permission denied for table product_identity_mutation_context_v1"
+  },
+  "all_boundary_unchanged": true,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AU_MASTER_BEFORE",
+  "case": "AU:FORGED_INSERT",
+  "status": "PASS",
+  "refusal": {
+   "sqlstate": "P0001",
+   "message": "Metadata versi SKU tidak boleh diisi langsung. Gunakan Edit SKU efektif-tanggal."
+  },
+  "all_boundary_unchanged": true,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AU_MASTER_BEFORE",
+  "case": "AU:FORGED_UPDATE",
+  "status": "PASS",
+  "refusal": {
+   "sqlstate": "P0001",
+   "message": "Periode/chain versi SKU dikelola sistem. Gunakan Edit SKU atau Batalkan Perubahan SKU."
+  },
+  "all_boundary_unchanged": true,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AU_MASTER_BEFORE",
+  "case": "AU:FORGED_UNUSED",
+  "status": "PASS",
+  "refusal": {
+   "sqlstate": "P0001",
+   "message": "Identitas dan periode SKU immutable setelah row dibuat; ubah nama/status tampilan saja atau buat successor terkontrol, jangan menulis ulang sejarah stok/HPP"
+  },
+  "all_boundary_unchanged": true,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AU_MASTER_BEFORE",
+  "case": "AU:FORGED_CHILD_ID",
+  "status": "PASS",
+  "refusal": {
+   "sqlstate": "P0001",
+   "message": "Identitas dan periode SKU immutable setelah row dibuat; ubah nama/status tampilan saja atau buat successor terkontrol, jangan menulis ulang sejarah stok/HPP"
+  },
+  "all_boundary_unchanged": true,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AU_MASTER_BEFORE",
+  "case": "AU:INVALID_CHILD",
+  "status": "PASS",
+  "refusal": {
+   "sqlstate": "P0001",
+   "message": "Versi SKU tidak ditemukan"
+  },
+  "all_boundary_unchanged": true,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AT_TEMPORAL_BEFORE",
+  "case": "WIP_VERSION:UTC:AUTO_CURRENT",
+  "status": "PASS",
+  "variant": "AUTO_CURRENT",
+  "zone": "UTC",
+  "candidate_periods": [
+   "2026-09-19 12:00:00+07:00"
+  ],
+  "expected_product": "de97efa3-de29-4bae-a90e-d94d8674a9b7",
+  "result": {
+   "action": "WIP_OUTPUT",
+   "lot_id": "db4d7e9f-b0dd-41e1-93f9-38561817bbdf",
+   "status": "POSTED",
+   "batch_id": "50e65793-7fd0-40d6-b080-0f22bc66dbc4",
+   "operation": "COMPLETE",
+   "output_id": "95b34198-a7ca-4528-8945-7a52b0410cbc",
+   "request_id": "802f922f-d132-456d-a31c-f0912c374ba2"
+  },
+  "refusal": null,
+  "observation": [
+   "de97efa3-de29-4bae-a90e-d94d8674a9b7",
+   "2026-09-19 17:00:00+00:00",
+   "2026-09-19 05:00:00+00:00",
+   null,
+   4
+  ],
+  "mismatches": {},
+  "ordinary_authenticated_rpc": true,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AT_TEMPORAL_BEFORE",
+  "case": "WIP_VERSION:UTC:EXPLICIT_CURRENT",
+  "status": "PASS",
+  "variant": "EXPLICIT_CURRENT",
+  "zone": "UTC",
+  "candidate_periods": [
+   "2026-09-19 12:00:00+07:00"
+  ],
+  "expected_product": "c0e614d6-3cea-4442-964b-31078dde31e4",
+  "result": {
+   "action": "WIP_OUTPUT",
+   "lot_id": "0fca794e-1d13-4980-8e5b-d9245ac25265",
+   "status": "POSTED",
+   "batch_id": "d952144a-3786-4afa-9850-31ab6c6b8592",
+   "operation": "COMPLETE",
+   "output_id": "09d80df2-3fe6-4cb6-a250-a0e52145dc1f",
+   "request_id": "0be58e98-9eaa-49a6-b9ef-6f4a317a0bb8"
+  },
+  "refusal": null,
+  "observation": [
+   "c0e614d6-3cea-4442-964b-31078dde31e4",
+   "2026-09-19 17:00:00+00:00",
+   "2026-09-19 05:00:00+00:00",
+   null,
+   4
+  ],
+  "mismatches": {},
+  "ordinary_authenticated_rpc": true,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AT_TEMPORAL_BEFORE",
+  "case": "WIP_VERSION:UTC:EXPIRED_ID",
+  "status": "PASS",
+  "variant": "EXPIRED_ID",
+  "zone": "UTC",
+  "candidate_periods": [
+   "2026-09-19 12:00:00+07:00"
+  ],
+  "expected_product": "a8bd24a0-525a-4941-90f9-879eed170a21",
+  "result": null,
+  "refusal": {
+   "sqlstate": "P0001",
+   "message": "product_sku: pilih produk aktif dengan merek, model PO, ukuran saldo, dan tanggal hasil yang sesuai"
+  },
+  "observation": null,
+  "mismatches": {},
+  "ordinary_authenticated_rpc": true,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AT_TEMPORAL_BEFORE",
+  "case": "WIP_VERSION:UTC:OLD_INACTIVE",
+  "status": "PASS",
+  "variant": "OLD_INACTIVE",
+  "zone": "UTC",
+  "candidate_periods": [
+   "2026-09-19 12:00:00+07:00"
+  ],
+  "expected_product": "94751e97-c08e-4530-90e3-c86e1ea6081b",
+  "result": {
+   "action": "WIP_OUTPUT",
+   "lot_id": "89a2f490-9fd0-451c-a8c5-8ab4e175865d",
+   "status": "POSTED",
+   "batch_id": "c9570e7f-77ef-48b2-9fad-2f295af472cb",
+   "operation": "COMPLETE",
+   "output_id": "b0e7e251-36de-41ee-ad03-356157a4242b",
+   "request_id": "4975dbc5-a0cd-460b-b5ed-7473adf1c921"
+  },
+  "refusal": null,
+  "observation": [
+   "94751e97-c08e-4530-90e3-c86e1ea6081b",
+   "2026-09-19 17:00:00+00:00",
+   "2026-09-19 05:00:00+00:00",
+   null,
+   4
+  ],
+  "mismatches": {},
+  "ordinary_authenticated_rpc": true,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AT_TEMPORAL_BEFORE",
+  "case": "WIP_VERSION:Pacific/Kiritimati:AUTO_CURRENT",
+  "status": "PASS",
+  "variant": "AUTO_CURRENT",
+  "zone": "Pacific/Kiritimati",
+  "candidate_periods": [
+   "2026-09-19 12:00:00+07:00"
+  ],
+  "expected_product": "dbe53a9c-efcb-4597-8b93-71871c36f89e",
+  "result": {
+   "action": "WIP_OUTPUT",
+   "lot_id": "c8983ad0-ae49-48fd-a4ec-3e3f5aa4f1b7",
+   "status": "POSTED",
+   "batch_id": "aeb6bc3c-2f66-483d-8d52-4a6b3063f076",
+   "operation": "COMPLETE",
+   "output_id": "4edfd2e5-f64b-4adc-860e-5188848fe3e9",
+   "request_id": "b14902ad-3fec-4cf6-b665-293e979eda6f"
+  },
+  "refusal": null,
+  "observation": [
+   "dbe53a9c-efcb-4597-8b93-71871c36f89e",
+   "2026-09-19 17:00:00+00:00",
+   "2026-09-19 05:00:00+00:00",
+   null,
+   4
+  ],
+  "mismatches": {},
+  "ordinary_authenticated_rpc": true,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AT_TEMPORAL_BEFORE",
+  "case": "WIP_VERSION:Pacific/Kiritimati:EXPLICIT_CURRENT",
+  "status": "PASS",
+  "variant": "EXPLICIT_CURRENT",
+  "zone": "Pacific/Kiritimati",
+  "candidate_periods": [
+   "2026-09-19 12:00:00+07:00"
+  ],
+  "expected_product": "0c6f509e-3bcd-49b9-86c9-83745b813bb8",
+  "result": {
+   "action": "WIP_OUTPUT",
+   "lot_id": "ad515aac-4b10-4b4a-a821-52dcea1c949e",
+   "status": "POSTED",
+   "batch_id": "9b2884a4-4f59-4ef5-8600-2f8c5a692503",
+   "operation": "COMPLETE",
+   "output_id": "6a3f65b0-872a-44a6-a1d9-adc75ea05de4",
+   "request_id": "cad4dc92-262a-4739-b47c-925777c35d75"
+  },
+  "refusal": null,
+  "observation": [
+   "0c6f509e-3bcd-49b9-86c9-83745b813bb8",
+   "2026-09-19 17:00:00+00:00",
+   "2026-09-19 05:00:00+00:00",
+   null,
+   4
+  ],
+  "mismatches": {},
+  "ordinary_authenticated_rpc": true,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AT_TEMPORAL_BEFORE",
+  "case": "WIP_VERSION:Pacific/Kiritimati:EXPIRED_ID",
+  "status": "PASS",
+  "variant": "EXPIRED_ID",
+  "zone": "Pacific/Kiritimati",
+  "candidate_periods": [
+   "2026-09-19 12:00:00+07:00"
+  ],
+  "expected_product": "dd02eaf7-dd8d-4fd9-a236-f72a99143539",
+  "result": null,
+  "refusal": {
+   "sqlstate": "P0001",
+   "message": "product_sku: pilih produk aktif dengan merek, model PO, ukuran saldo, dan tanggal hasil yang sesuai"
+  },
+  "observation": null,
+  "mismatches": {},
+  "ordinary_authenticated_rpc": true,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AT_TEMPORAL_BEFORE",
+  "case": "WIP_VERSION:Pacific/Kiritimati:OLD_INACTIVE",
+  "status": "PASS",
+  "variant": "OLD_INACTIVE",
+  "zone": "Pacific/Kiritimati",
+  "candidate_periods": [
+   "2026-09-19 12:00:00+07:00"
+  ],
+  "expected_product": "bb0de67e-9837-4be0-8d2f-f93fc582f30d",
+  "result": {
+   "action": "WIP_OUTPUT",
+   "lot_id": "6527a6b3-e4b2-463c-b4f0-26c246079d57",
+   "status": "POSTED",
+   "batch_id": "bd98385b-90b1-4ecf-aa75-db8d2c7dd6ae",
+   "operation": "COMPLETE",
+   "output_id": "c4bd78a2-c25f-429d-b044-0ae3280543dc",
+   "request_id": "1bee0a30-5365-4737-860a-fae8d05464b9"
+  },
+  "refusal": null,
+  "observation": [
+   "bb0de67e-9837-4be0-8d2f-f93fc582f30d",
+   "2026-09-19 17:00:00+00:00",
+   "2026-09-19 05:00:00+00:00",
+   null,
+   4
+  ],
+  "mismatches": {},
+  "ordinary_authenticated_rpc": true,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AT_TEMPORAL_BEFORE",
+  "case": "HISTORICAL_BS:True:False",
+  "status": "PASS",
+  "historical_ambiguity_refused": true,
+  "display_active": true,
+  "no_economic_posting": true,
+  "corrected_audit_assumption": "Expiry does not disambiguate existing physical opening stock",
+  "errors": [
+   {
+    "entity": "OPENING_BALANCE_ITEM",
+    "errors": [
+     "Opening product_sku must resolve exactly one identity at cutover (found 2)",
+     "product_sku: identitas produk harus tepat satu; periksa merek, model, warna, dan ukuran"
+    ]
+   },
+   {
+    "entity": "OPENING_BALANCE_ITEM",
+    "errors": [
+     "Opening product_sku must resolve exactly one identity at cutover (found 2)"
+    ]
+   },
+   {
+    "entity": "OPENING_CONTROL",
+    "errors": [
+     "control_key: total tidak memiliki rincian yang valid"
+    ]
+   },
+   {
+    "entity": "OPENING_CONTROL",
+    "errors": [
+     "control_key: total tidak memiliki rincian yang valid"
+    ]
+   },
+   {
+    "entity": "OPENING_CONTROL",
+    "errors": [
+     "control_key: total tidak memiliki rincian yang valid"
+    ]
+   },
+   {
+    "entity": "OPENING_COST_ORIGIN",
+    "errors": [
+     "target_source_key: perlu saldo fisik valid dengan nilai manual yang terurai"
+    ]
+   },
+   {
+    "entity": "OPENING_COST_ORIGIN",
+    "errors": [
+     "target_source_key: perlu saldo fisik valid dengan nilai manual yang terurai"
+    ]
+   },
+   {
+    "entity": "UNINVOICED_RECEIPT",
+    "errors": [
+     "opening_source_key: jumlah belum ditagih harus tepat sama dengan sisa bahan + seluruh asal biaya yang sudah terpakai"
+    ]
+   }
+  ],
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AT_TEMPORAL_BEFORE",
+  "case": "HISTORICAL_BS:True:True",
+  "status": "PASS",
+  "qualified_historical_bs_preserved": true,
+  "display_active": true,
+  "chosen_product": "105fbfe0-9722-499b-9992-ea62115cef12",
+  "current_product": "b0a14036-ca6c-47f5-98ed-8051017b29aa",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AT_TEMPORAL_BEFORE",
+  "case": "HISTORICAL_BS:False:False",
+  "status": "PASS",
+  "historical_ambiguity_refused": true,
+  "display_active": false,
+  "no_economic_posting": true,
+  "corrected_audit_assumption": "Expiry does not disambiguate existing physical opening stock",
+  "errors": [
+   {
+    "entity": "OPENING_BALANCE_ITEM",
+    "errors": [
+     "Opening product_sku must resolve exactly one identity at cutover (found 2)",
+     "product_sku: identitas produk harus tepat satu; periksa merek, model, warna, dan ukuran"
+    ]
+   },
+   {
+    "entity": "OPENING_BALANCE_ITEM",
+    "errors": [
+     "Opening product_sku must resolve exactly one identity at cutover (found 2)"
+    ]
+   },
+   {
+    "entity": "OPENING_CONTROL",
+    "errors": [
+     "control_key: total tidak memiliki rincian yang valid"
+    ]
+   },
+   {
+    "entity": "OPENING_CONTROL",
+    "errors": [
+     "control_key: total tidak memiliki rincian yang valid"
+    ]
+   },
+   {
+    "entity": "OPENING_CONTROL",
+    "errors": [
+     "control_key: total tidak memiliki rincian yang valid"
+    ]
+   },
+   {
+    "entity": "OPENING_COST_ORIGIN",
+    "errors": [
+     "target_source_key: perlu saldo fisik valid dengan nilai manual yang terurai"
+    ]
+   },
+   {
+    "entity": "OPENING_COST_ORIGIN",
+    "errors": [
+     "target_source_key: perlu saldo fisik valid dengan nilai manual yang terurai"
+    ]
+   },
+   {
+    "entity": "UNINVOICED_RECEIPT",
+    "errors": [
+     "opening_source_key: jumlah belum ditagih harus tepat sama dengan sisa bahan + seluruh asal biaya yang sudah terpakai"
+    ]
+   }
+  ],
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AT_TEMPORAL_BEFORE",
+  "case": "HISTORICAL_BS:False:True",
+  "status": "PASS",
+  "qualified_historical_bs_preserved": true,
+  "display_active": false,
+  "chosen_product": "5f1ea57f-b16f-4108-b0c6-6bfdfe5af6ee",
+  "current_product": "23c64b85-5544-48e2-966b-eb82388802c4",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AT_TEMPORAL_BEFORE",
+  "case": "INTRADAY:MIDNIGHT",
+  "status": "PASS",
+  "variant": "MIDNIGHT",
+  "chosen": "745a7b67-0a8f-47f2-a90c-72cf2ac52f4e",
+  "physical_at": "2026-09-19 17:00:00+00:00",
+  "valid_from": "2026-09-19 17:00:00+00:00",
+  "valid_to": null,
+  "linked_inverse": true,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AT_TEMPORAL_BEFORE",
+  "case": "INTRADAY:AMBIGUOUS_DAY",
+  "status": "PASS",
+  "two_intraday_versions_require_explicit_id": true,
+  "refused_atomically": true,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AT_TEMPORAL_BEFORE",
+  "case": "INTRADAY:EARLY_ID",
+  "status": "PASS",
+  "variant": "EARLY_ID",
+  "chosen": "7faae884-7c27-4714-9c50-ac1715dccb97",
+  "physical_at": "2026-09-19 17:00:00+00:00",
+  "valid_from": "2026-09-17 17:00:00+00:00",
+  "valid_to": "2026-09-20 05:00:00+00:00",
+  "linked_inverse": true,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AT_TEMPORAL_BEFORE",
+  "case": "INTRADAY:LATE_ID",
+  "status": "PASS",
+  "variant": "LATE_ID",
+  "chosen": "478c89ad-8a53-4b0b-9cea-f52d19aaa9a4",
+  "physical_at": "2026-09-20 05:00:00+00:00",
+  "valid_from": "2026-09-20 05:00:00+00:00",
+  "valid_to": null,
+  "linked_inverse": true,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "RACES_BEFORE",
+  "case": "RACE:BS_FIRST:ABORT",
+  "status": "PASS",
+  "first": "BS",
+  "first_committed": false,
+  "fact_physical_at": "2026-09-23 15:44:50.793914+07:00",
+  "requested_effective_from": "2026-09-23 15:44:20.793914+07:00",
+  "held": [
+   "4923cc4b-7620-4e6c-91f3-362560ddc0f1",
+   "c68ef8fb-1a66-436a-97c4-576576a2a380"
+  ],
+  "contention": {
+   "kind": "FAIL_FAST",
+   "first_try": {
+    "ok": false,
+    "sqlstate": "P0001",
+    "message": "POCKET_PERIOD_BUSY: alokasi kain kantong sedang berubah. Coba kembali dengan data terbaru"
+   }
+  },
+  "contender_outcome": {
+   "ok": true,
+   "result": "a99d9073-3777-441e-a97b-ae222186f68b"
+  },
+  "expected": {
+   "bs_recorded": false,
+   "successor_created": true,
+   "contender_outcome_ok": true
+  },
+  "observed": {
+   "bs_recorded": false,
+   "successor_created": true,
+   "contender_outcome_ok": true
+  },
+  "old_version_effective_to": "2026-09-23 08:44:20.793914+00:00",
+  "new_stock_bs_after_end": 0,
+  "unused_authority_rows": 0,
+  "actions": "ordinary authenticated laundry public RPC and owner successor RPC",
+  "committed_fixture_isolated_in_race_copy": true
+ },
+ {
+  "group": "RACES_BEFORE",
+  "case": "RACE:BS_FIRST:COMMIT",
+  "status": "COUNTEREXAMPLE",
+  "first": "BS",
+  "first_committed": true,
+  "fact_physical_at": "2026-09-23 15:44:51.126227+07:00",
+  "requested_effective_from": "2026-09-23 15:44:21.126227+07:00",
+  "held": [
+   "2673a8db-e04b-490c-bad4-c32aba89fbb4",
+   "a63e169b-8bc0-40e3-a92f-1ef8d9068a69"
+  ],
+  "contention": {
+   "kind": "FAIL_FAST",
+   "first_try": {
+    "ok": false,
+    "sqlstate": "P0001",
+    "message": "POCKET_PERIOD_BUSY: alokasi kain kantong sedang berubah. Coba kembali dengan data terbaru"
+   }
+  },
+  "contender_outcome": {
+   "ok": true,
+   "result": "266ceb9a-0769-4ac9-bbcc-f7d2956fa5a7"
+  },
+  "expected": {
+   "bs_recorded": true,
+   "successor_created": false,
+   "contender_outcome_ok": false
+  },
+  "observed": {
+   "bs_recorded": true,
+   "successor_created": true,
+   "contender_outcome_ok": true
+  },
+  "old_version_effective_to": "2026-09-23 08:44:21.126227+00:00",
+  "new_stock_bs_after_end": 1,
+  "unused_authority_rows": 0,
+  "actions": "ordinary authenticated laundry public RPC and owner successor RPC",
+  "committed_fixture_isolated_in_race_copy": true
+ },
+ {
+  "group": "RACES_BEFORE",
+  "case": "RACE:MASTER_FIRST:ABORT",
+  "status": "PASS",
+  "first": "MASTER",
+  "first_committed": false,
+  "fact_physical_at": "2026-09-23 15:44:51.461535+07:00",
+  "requested_effective_from": "2026-09-23 15:44:21.461535+07:00",
+  "held": "10087142-12c0-4847-af03-45d07b86e477",
+  "contention": {
+   "kind": "BLOCKED",
+   "holder_blocks_worker": true
+  },
+  "contender_outcome": {
+   "ok": true,
+   "result": [
+    "03363c14-66a0-47ab-8d2c-5133e2e39ea4",
+    "2d748ebc-aaea-4788-8b8a-4359c7b2a33d"
+   ]
+  },
+  "expected": {
+   "bs_recorded": true,
+   "successor_created": false,
+   "contender_outcome_ok": true
+  },
+  "observed": {
+   "bs_recorded": true,
+   "successor_created": false,
+   "contender_outcome_ok": true
+  },
+  "old_version_effective_to": null,
+  "new_stock_bs_after_end": 0,
+  "unused_authority_rows": 0,
+  "actions": "ordinary authenticated laundry public RPC and owner successor RPC",
+  "committed_fixture_isolated_in_race_copy": true
+ },
+ {
+  "group": "RACES_BEFORE",
+  "case": "RACE:MASTER_FIRST:COMMIT",
+  "status": "PASS",
+  "first": "MASTER",
+  "first_committed": true,
+  "fact_physical_at": "2026-09-23 15:44:57.778642+07:00",
+  "requested_effective_from": "2026-09-23 15:44:27.778642+07:00",
+  "held": "966ce17c-dee1-4006-b719-c5ddce415762",
+  "contention": {
+   "kind": "BLOCKED",
+   "holder_blocks_worker": true
+  },
+  "contender_outcome": {
+   "ok": false,
+   "sqlstate": "P0001",
+   "message": "Laundry BS product must be active at physical receipt time and match the source PO model/size"
+  },
+  "expected": {
+   "bs_recorded": false,
+   "successor_created": true,
+   "contender_outcome_ok": false
+  },
+  "observed": {
+   "bs_recorded": false,
+   "successor_created": true,
+   "contender_outcome_ok": false
+  },
+  "old_version_effective_to": "2026-09-23 08:44:27.778642+00:00",
+  "new_stock_bs_after_end": 0,
+  "unused_authority_rows": 0,
+  "actions": "ordinary authenticated laundry public RPC and owner successor RPC",
+  "committed_fixture_isolated_in_race_copy": true
+ },
+ {
+  "status": "REVIEW_COMPLETE",
+  "phase": "before",
+  "source": {
+   "auditor_head": "bb4009ccd9d4bb40472de2e7886f9b9077a3c0e0",
+   "auditor_tree": "10c2040710534ee555268f547fb99d89942cb143",
+   "frozen_writer": "ca7f09556397801c50a2277bdb65b1bf019f9a05",
+   "changed_from_frozen": [
+    ".github/workflows/cp6-au-r1-probe.yml",
+    "docs/evidence/cp6-av-pins.json",
+    "scripts/cp6_au_r1_build.py",
+    "scripts/cp6_au_r1_candidate.py",
+    "scripts/cp6_au_r1_definitions.py",
+    "scripts/cp6_au_r1_probe.py",
+    "supabase/migrations/20260923090000_erp_v2_6_20av_cp6_new_stock_physical_cutoff.sql",
+    "supabase/rollbacks/20260923090000_erp_v2_6_20av_cp6_new_stock_physical_cutoff.rollback.sql"
+   ],
+   "sha256": {
+    ".github/workflows/cp6-au-r1-probe.yml": "97c262daf39dfd8f454dded95239e75715204484920ecfc73ffee10ca36e5ef4",
+    "docs/evidence/cp6-av-pins.json": "0f9a5e1578656fdcbcae09bc5d1e67fda07c7beea863150358980d1cf10b1f2e",
+    "scripts/cp6_au_r1_build.py": "09bffd200ee3c110760502a594fde66f11ae36c9352e5cb390d717050a91caac",
+    "scripts/cp6_au_r1_candidate.py": "0d71657efdb5ed6f4ab8328ea0a44ffd5fed7880df4f5747d896c3d983b614c4",
+    "scripts/cp6_au_r1_definitions.py": "db65967c5b38019426de04a8bdf1fe671ae02b545e5c458ce1da6b8458a029d5",
+    "scripts/cp6_au_r1_probe.py": "0bae51cab8d2d451b8a82690d75dce6a5ba70142844e8750ce148a43d644aed6",
+    "supabase/migrations/20260923090000_erp_v2_6_20av_cp6_new_stock_physical_cutoff.sql": "3bd2f94fc3415072b3f92b313ef8473d4b3e365b22daaa4e8416d0bea6426199",
+    "supabase/rollbacks/20260923090000_erp_v2_6_20av_cp6_new_stock_physical_cutoff.rollback.sql": "bdff27690a322e47d1e2d5949de18b23eb46d0d0dca66de188db4da9bb2c2e14"
+   }
+  },
+  "installed_functions_patched_for_testing": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "au_install": {
+   "action": "install",
+   "status": "PASS",
+   "closed_drained": true,
+   "committed_verified": true,
+   "admission_reopened": true,
+   "runtime": {
+    "stage": "AU",
+    "function_count": 648,
+    "object_count": 7156,
+    "full_catalog_verified": true,
+    "changed_functions": [
+     "erp.validate_product_identity_period()",
+     "erp.edit_product_identity_effective(uuid,text,uuid,uuid,text,uuid,text,timestamp with time zone,text)",
+     "erp.cancel_product_identity_successor(uuid,text)",
+     "erp.guard_product_identity_version_metadata()",
+     "erp.guard_product_delete_after_identity_history()",
+     "erp.assert_product_identity_time(uuid,timestamp with time zone,text)"
+    ],
+    "prior_permanent_sql_unchanged": true
+   },
+   "drain_observations": []
+  },
+  "au_runtime": {
+   "stage": "AU",
+   "function_count": 648,
+   "object_count": 7156,
+   "full_catalog_verified": true,
+   "changed_functions": [
+    "erp.validate_product_identity_period()",
+    "erp.edit_product_identity_effective(uuid,text,uuid,uuid,text,uuid,text,timestamp with time zone,text)",
+    "erp.cancel_product_identity_successor(uuid,text)",
+    "erp.guard_product_identity_version_metadata()",
+    "erp.guard_product_delete_after_identity_history()",
+    "erp.assert_product_identity_time(uuid,timestamp with time zone,text)"
+   ],
+   "prior_permanent_sql_unchanged": true
+  },
+  "r1": {
+   "status": "COUNTEREXAMPLE",
+   "counts": {
+    "COUNTEREXAMPLE": 2,
+    "CONTROL_PASS": 4,
+    "HOLD_CONTRACT": 1,
+    "NOT_APPLICABLE": 4
+   }
+  },
+  "au_master": {
+   "status": "PASS",
+   "counts": {
+    "PASS": 15
+   }
+  },
+  "at_temporal": {
+   "status": "PASS",
+   "counts": {
+    "PASS": 16
+   }
+  },
+  "races": {
+   "status": "COUNTEREXAMPLE",
+   "counts": {
+    "PASS": 3,
+    "COUNTEREXAMPLE": 1
+   },
+   "race_database_remaining": 0
+  },
+  "primary_unchanged": true,
+  "clone_remaining": 0
+ },
+ {
+  "family_phase": "after",
+  "family": {
+   "identity_time_callers": [
+    {
+     "function": "erp.post_laundry_receipt(p_receipt_id uuid)",
+     "calls": [
+      "a.product_id,h.physical_at,'NEW_STOCK'"
+     ],
+     "modes": [
+      "NEW_STOCK"
+     ],
+     "inserts": [
+      "bs_cases",
+      "wip_stage_events"
+     ]
+    },
+    {
+     "function": "erp.post_product_conversion(p_conversion_id uuid)",
+     "calls": [
+      "h.from_product_id,h.physical_at,'EXISTING_STOCK'",
+      "h.to_product_id,h.physical_at,'NEW_STOCK'"
+     ],
+     "modes": [
+      "EXISTING_STOCK",
+      "NEW_STOCK"
+     ],
+     "inserts": [
+      "fg_inventory_balances",
+      "fg_lots",
+      "hpp_version_components",
+      "hpp_versions",
+      "product_conversion_allocations"
+     ]
+    },
+    {
+     "function": "erp.post_qc(p_qc_id uuid)",
+     "calls": [
+      "r.final_product_id,h.physical_at,'NEW_STOCK'"
+     ],
+     "modes": [
+      "NEW_STOCK"
+     ],
+     "inserts": [
+      "bs_cases",
+      "fg_lots"
+     ]
+    },
+    {
+     "function": "erp.validate_laundry_bs_product_allocation()",
+     "calls": [
+      "new.product_id,v_physical_at,'NEW_STOCK'"
+     ],
+     "modes": [
+      "NEW_STOCK"
+     ],
+     "inserts": []
+    }
+   ],
+   "product_references": [
+    {
+     "table": "accessory_bom_versions",
+     "column": "product_id",
+     "on_delete": "c",
+     "time_columns": [
+      "effective_from",
+      "effective_to",
+      "created_at"
+     ]
+    },
+    {
+     "table": "bs_cases",
+     "column": "product_id",
+     "on_delete": "a",
+     "time_columns": [
+      "physical_at",
+      "created_at",
+      "updated_at"
+     ]
+    },
+    {
+     "table": "contractor_accessory_reimbursement_entitlements",
+     "column": "product_id",
+     "on_delete": "a",
+     "time_columns": [
+      "physical_at",
+      "created_at"
+     ]
+    },
+    {
+     "table": "fg_accessory_cost_snapshots",
+     "column": "product_id",
+     "on_delete": "a",
+     "time_columns": [
+      "costing_basis_at",
+      "snapshotted_at"
+     ]
+    },
+    {
+     "table": "fg_adjustment_items",
+     "column": "product_id",
+     "on_delete": "a",
+     "time_columns": []
+    },
+    {
+     "table": "fg_inventory_balances",
+     "column": "product_id",
+     "on_delete": "a",
+     "time_columns": [
+      "updated_at"
+     ]
+    },
+    {
+     "table": "fg_lots",
+     "column": "product_id",
+     "on_delete": "a",
+     "time_columns": [
+      "produced_at",
+      "created_at"
+     ]
+    },
+    {
+     "table": "fg_stock_movements",
+     "column": "product_id",
+     "on_delete": "a",
+     "time_columns": [
+      "physical_at",
+      "system_created_at"
+     ]
+    },
+    {
+     "table": "journal_lines",
+     "column": "product_id",
+     "on_delete": "a",
+     "time_columns": []
+    },
+    {
+     "table": "laundry_receipt_batch_size_lines",
+     "column": "bs_product_id",
+     "on_delete": "r",
+     "time_columns": [
+      "created_at"
+     ]
+    },
+    {
+     "table": "laundry_receipt_bs_product_allocations",
+     "column": "product_id",
+     "on_delete": "a",
+     "time_columns": [
+      "created_at"
+     ]
+    },
+    {
+     "table": "non_po_hpp_gl_sync_events_v2620f",
+     "column": "product_id",
+     "on_delete": "r",
+     "time_columns": [
+      "effective_date",
+      "created_at"
+     ]
+    },
+    {
+     "table": "opening_balance_items",
+     "column": "product_id",
+     "on_delete": "a",
+     "time_columns": []
+    },
+    {
+     "table": "po_accessory_bom_commitments",
+     "column": "product_id",
+     "on_delete": "a",
+     "time_columns": [
+      "committed_at",
+      "created_at"
+     ]
+    },
+    {
+     "table": "product_conversions",
+     "column": "from_product_id",
+     "on_delete": "a",
+     "time_columns": [
+      "physical_at",
+      "created_at",
+      "updated_at"
+     ]
+    },
+    {
+     "table": "product_conversions",
+     "column": "to_product_id",
+     "on_delete": "a",
+     "time_columns": [
+      "physical_at",
+      "created_at",
+      "updated_at"
+     ]
+    },
+    {
+     "table": "product_price_versions",
+     "column": "product_id",
+     "on_delete": "c",
+     "time_columns": [
+      "effective_from",
+      "effective_to",
+      "created_at"
+     ]
+    },
+    {
+     "table": "qc_inspection_items",
+     "column": "final_product_id",
+     "on_delete": "a",
+     "time_columns": []
+    },
+    {
+     "table": "sales_items",
+     "column": "product_id",
+     "on_delete": "a",
+     "time_columns": []
+    },
+    {
+     "table": "sales_return_items",
+     "column": "product_id",
+     "on_delete": "a",
+     "time_columns": []
+    },
+    {
+     "table": "stock_explainability_snapshots",
+     "column": "product_id",
+     "on_delete": "a",
+     "time_columns": [
+      "calculated_at",
+      "source_as_of",
+      "data_period_start",
+      "data_period_end"
+     ]
+    },
+    {
+     "table": "stock_policy_versions",
+     "column": "product_id",
+     "on_delete": "a",
+     "time_columns": [
+      "effective_from",
+      "effective_to",
+      "created_at"
+     ]
+    }
+   ],
+   "fact_writers": {
+    "fg_lots": [
+     "erp.complete_initial_import_wip_v1(p_payload jsonb)",
+     "erp.post_opening_balance(p_opening_id uuid)",
+     "erp.post_product_conversion(p_conversion_id uuid)",
+     "erp.post_qc(p_qc_id uuid)",
+     "erp.post_rework_completion(p_rework_order_id uuid)"
+    ],
+    "bs_cases": [
+     "erp.create_manual_bs_case_v2(p_payload jsonb, p_client_request_id uuid)",
+     "erp.post_laundry_receipt(p_receipt_id uuid)",
+     "erp.post_opening_balance(p_opening_id uuid)",
+     "erp.post_qc(p_qc_id uuid)"
+    ]
+   },
+   "key_function_definition_sha256": {
+    "erp.edit_product_identity_effective(uuid,text,uuid,uuid,text,uuid,text,timestamp with time zone,text)": "b856072c5e85cc3694850ec953bcd32a38bf254001b79b85effe420ff2aa710c",
+    "erp.assert_product_identity_time(uuid,timestamp with time zone,text)": "4e289eed53f2618b84c08b53a6e27453c3545ef2fe199a12e4ef699d8ce347f1",
+    "erp.post_laundry_receipt(uuid)": "37118318d08c41cda8c0e1eeaa55130c95ad7a6db0ed8c29ef58da4f2e65234c",
+    "erp.post_qc(uuid)": "637c1c90b22a0bd4812d01e55f64b9611b2cae1ea9979389f3997c131370cd4b",
+    "erp.post_product_conversion(uuid)": "98a2ff7add6f4b1be232168c5d3bc6804b79a5755c6354ae1777321d934586ca",
+    "erp.create_manual_bs_case_v2(jsonb,uuid)": "8d905e876d9ffd084412dda5840c666fc9637185605e18eaa298897cd631160c",
+    "erp.validate_product_identity_period()": "72aa7e9ca05c81f1a760ec3a7044a2800f504ff99d3ce6cf2f1e5af54db827ed"
+   },
+   "product_like_columns_without_fk": [
+    {
+     "schema": "erp",
+     "table": "product_identity_mutation_context_v1",
+     "column": "product_id",
+     "type": "uuid"
+    }
+   ],
+   "products_table_privileges": {
+    "anon": {
+     "SELECT": false,
+     "INSERT": false,
+     "UPDATE": false,
+     "DELETE": false
+    },
+    "authenticated": {
+     "SELECT": true,
+     "INSERT": true,
+     "UPDATE": true,
+     "DELETE": false
+    },
+    "service_role": {
+     "SELECT": true,
+     "INSERT": true,
+     "UPDATE": true,
+     "DELETE": true
+    }
+   },
+   "products_rls": {
+    "enabled": true,
+    "forced": false
+   },
+   "products_policies": [
+    {
+     "name": "internal_all",
+     "cmd": "*",
+     "permissive": true,
+     "roles": [
+      "PUBLIC"
+     ],
+     "using": "(erp.current_app_role() = ANY (ARRAY['OWNER'::text, 'ADMIN'::text, 'STAFF'::text]))",
+     "check": "(erp.current_app_role() = ANY (ARRAY['OWNER'::text, 'ADMIN'::text, 'STAFF'::text]))"
+    }
+   ]
+  }
+ },
+ {
+  "family_phase": "candidate",
+  "package": {
+   "status": "PASS",
+   "cycles": [
+    {
+     "install": {
+      "action": "install",
+      "status": "PASS",
+      "closed_drained": true,
+      "committed_verified": true,
+      "admission_reopened": true,
+      "runtime": {
+       "stage": "AV_CANDIDATE",
+       "function_count": 650,
+       "object_count": 7158,
+       "full_catalog_verified": true,
+       "changed_functions": [
+        "erp.edit_product_identity_effective(uuid,text,uuid,uuid,text,uuid,text,timestamp with time zone,text)"
+       ],
+       "new_functions": [
+        "erp.latest_new_stock_physical_at_v1(uuid)",
+        "erp.assert_new_stock_cutoff_coverage_v1()"
+       ],
+       "coverage": {
+        "covered": [
+         "bs_cases",
+         "fg_lots"
+        ],
+        "new_stock_producers": {
+         "erp.post_qc(uuid)": [
+          "bs_cases",
+          "fg_lots"
+         ],
+         "erp.post_laundry_receipt(uuid)": [
+          "bs_cases",
+          "wip_stage_events"
+         ],
+         "erp.post_product_conversion(uuid)": [
+          "fg_inventory_balances",
+          "fg_lots",
+          "hpp_version_components",
+          "hpp_versions",
+          "product_conversion_allocations"
+         ]
+        },
+        "derived_without_physical_instant": [
+         "fg_inventory_balances"
+        ]
+       },
+       "prior_permanent_sql_unchanged": true
+      },
+      "drain_observations": []
+     },
+     "open_rollback_refused_atomically": true,
+     "restore": {
+      "action": "rollback",
+      "status": "PASS",
+      "closed_drained": true,
+      "committed_verified": true,
+      "admission_reopened": true,
+      "runtime": {
+       "stage": "AU",
+       "function_count": 648,
+       "object_count": 7156,
+       "full_catalog_verified": true,
+       "changed_functions": [
+        "erp.validate_product_identity_period()",
+        "erp.edit_product_identity_effective(uuid,text,uuid,uuid,text,uuid,text,timestamp with time zone,text)",
+        "erp.cancel_product_identity_successor(uuid,text)",
+        "erp.guard_product_identity_version_metadata()",
+        "erp.guard_product_delete_after_identity_history()",
+        "erp.assert_product_identity_time(uuid,timestamp with time zone,text)"
+       ],
+       "prior_permanent_sql_unchanged": true
+      },
+      "drain_observations": []
+     },
+     "exact_au_data_and_history_restored": true
+    },
+    {
+     "install": {
+      "action": "install",
+      "status": "PASS",
+      "closed_drained": true,
+      "committed_verified": true,
+      "admission_reopened": true,
+      "runtime": {
+       "stage": "AV_CANDIDATE",
+       "function_count": 650,
+       "object_count": 7158,
+       "full_catalog_verified": true,
+       "changed_functions": [
+        "erp.edit_product_identity_effective(uuid,text,uuid,uuid,text,uuid,text,timestamp with time zone,text)"
+       ],
+       "new_functions": [
+        "erp.latest_new_stock_physical_at_v1(uuid)",
+        "erp.assert_new_stock_cutoff_coverage_v1()"
+       ],
+       "coverage": {
+        "covered": [
+         "bs_cases",
+         "fg_lots"
+        ],
+        "new_stock_producers": {
+         "erp.post_qc(uuid)": [
+          "bs_cases",
+          "fg_lots"
+         ],
+         "erp.post_laundry_receipt(uuid)": [
+          "bs_cases",
+          "wip_stage_events"
+         ],
+         "erp.post_product_conversion(uuid)": [
+          "fg_inventory_balances",
+          "fg_lots",
+          "hpp_version_components",
+          "hpp_versions",
+          "product_conversion_allocations"
+         ]
+        },
+        "derived_without_physical_instant": [
+         "fg_inventory_balances"
+        ]
+       },
+       "prior_permanent_sql_unchanged": true
+      },
+      "drain_observations": []
+     },
+     "open_rollback_refused_atomically": true,
+     "restore": {
+      "action": "rollback",
+      "status": "PASS",
+      "closed_drained": true,
+      "committed_verified": true,
+      "admission_reopened": true,
+      "runtime": {
+       "stage": "AU",
+       "function_count": 648,
+       "object_count": 7156,
+       "full_catalog_verified": true,
+       "changed_functions": [
+        "erp.validate_product_identity_period()",
+        "erp.edit_product_identity_effective(uuid,text,uuid,uuid,text,uuid,text,timestamp with time zone,text)",
+        "erp.cancel_product_identity_successor(uuid,text)",
+        "erp.guard_product_identity_version_metadata()",
+        "erp.guard_product_delete_after_identity_history()",
+        "erp.assert_product_identity_time(uuid,timestamp with time zone,text)"
+       ],
+       "prior_permanent_sql_unchanged": true
+      },
+      "drain_observations": []
+     },
+     "exact_au_data_and_history_restored": true
+    }
+   ],
+   "production_go": false,
+   "independent_acceptance": false,
+   "nonempty_tables": 71,
+   "final_install": {
+    "action": "install",
+    "status": "PASS",
+    "closed_drained": true,
+    "committed_verified": true,
+    "admission_reopened": true,
+    "runtime": {
+     "stage": "AV_CANDIDATE",
+     "function_count": 650,
+     "object_count": 7158,
+     "full_catalog_verified": true,
+     "changed_functions": [
+      "erp.edit_product_identity_effective(uuid,text,uuid,uuid,text,uuid,text,timestamp with time zone,text)"
+     ],
+     "new_functions": [
+      "erp.latest_new_stock_physical_at_v1(uuid)",
+      "erp.assert_new_stock_cutoff_coverage_v1()"
+     ],
+     "coverage": {
+      "covered": [
+       "bs_cases",
+       "fg_lots"
+      ],
+      "new_stock_producers": {
+       "erp.post_qc(uuid)": [
+        "bs_cases",
+        "fg_lots"
+       ],
+       "erp.post_laundry_receipt(uuid)": [
+        "bs_cases",
+        "wip_stage_events"
+       ],
+       "erp.post_product_conversion(uuid)": [
+        "fg_inventory_balances",
+        "fg_lots",
+        "hpp_version_components",
+        "hpp_versions",
+        "product_conversion_allocations"
+       ]
+      },
+      "derived_without_physical_instant": [
+       "fg_inventory_balances"
+      ]
+     },
+     "prior_permanent_sql_unchanged": true
+    },
+    "drain_observations": []
+   }
+  },
+  "family": {
+   "identity_time_callers": [
+    {
+     "function": "erp.assert_new_stock_cutoff_coverage_v1()",
+     "calls": [],
+     "modes": [],
+     "inserts": []
+    },
+    {
+     "function": "erp.post_laundry_receipt(p_receipt_id uuid)",
+     "calls": [
+      "a.product_id,h.physical_at,'NEW_STOCK'"
+     ],
+     "modes": [
+      "NEW_STOCK"
+     ],
+     "inserts": [
+      "bs_cases",
+      "wip_stage_events"
+     ]
+    },
+    {
+     "function": "erp.post_product_conversion(p_conversion_id uuid)",
+     "calls": [
+      "h.from_product_id,h.physical_at,'EXISTING_STOCK'",
+      "h.to_product_id,h.physical_at,'NEW_STOCK'"
+     ],
+     "modes": [
+      "EXISTING_STOCK",
+      "NEW_STOCK"
+     ],
+     "inserts": [
+      "fg_inventory_balances",
+      "fg_lots",
+      "hpp_version_components",
+      "hpp_versions",
+      "product_conversion_allocations"
+     ]
+    },
+    {
+     "function": "erp.post_qc(p_qc_id uuid)",
+     "calls": [
+      "r.final_product_id,h.physical_at,'NEW_STOCK'"
+     ],
+     "modes": [
+      "NEW_STOCK"
+     ],
+     "inserts": [
+      "bs_cases",
+      "fg_lots"
+     ]
+    },
+    {
+     "function": "erp.validate_laundry_bs_product_allocation()",
+     "calls": [
+      "new.product_id,v_physical_at,'NEW_STOCK'"
+     ],
+     "modes": [
+      "NEW_STOCK"
+     ],
+     "inserts": []
+    }
+   ],
+   "product_references": [
+    {
+     "table": "accessory_bom_versions",
+     "column": "product_id",
+     "on_delete": "c",
+     "time_columns": [
+      "effective_from",
+      "effective_to",
+      "created_at"
+     ]
+    },
+    {
+     "table": "bs_cases",
+     "column": "product_id",
+     "on_delete": "a",
+     "time_columns": [
+      "physical_at",
+      "created_at",
+      "updated_at"
+     ]
+    },
+    {
+     "table": "contractor_accessory_reimbursement_entitlements",
+     "column": "product_id",
+     "on_delete": "a",
+     "time_columns": [
+      "physical_at",
+      "created_at"
+     ]
+    },
+    {
+     "table": "fg_accessory_cost_snapshots",
+     "column": "product_id",
+     "on_delete": "a",
+     "time_columns": [
+      "costing_basis_at",
+      "snapshotted_at"
+     ]
+    },
+    {
+     "table": "fg_adjustment_items",
+     "column": "product_id",
+     "on_delete": "a",
+     "time_columns": []
+    },
+    {
+     "table": "fg_inventory_balances",
+     "column": "product_id",
+     "on_delete": "a",
+     "time_columns": [
+      "updated_at"
+     ]
+    },
+    {
+     "table": "fg_lots",
+     "column": "product_id",
+     "on_delete": "a",
+     "time_columns": [
+      "produced_at",
+      "created_at"
+     ]
+    },
+    {
+     "table": "fg_stock_movements",
+     "column": "product_id",
+     "on_delete": "a",
+     "time_columns": [
+      "physical_at",
+      "system_created_at"
+     ]
+    },
+    {
+     "table": "journal_lines",
+     "column": "product_id",
+     "on_delete": "a",
+     "time_columns": []
+    },
+    {
+     "table": "laundry_receipt_batch_size_lines",
+     "column": "bs_product_id",
+     "on_delete": "r",
+     "time_columns": [
+      "created_at"
+     ]
+    },
+    {
+     "table": "laundry_receipt_bs_product_allocations",
+     "column": "product_id",
+     "on_delete": "a",
+     "time_columns": [
+      "created_at"
+     ]
+    },
+    {
+     "table": "non_po_hpp_gl_sync_events_v2620f",
+     "column": "product_id",
+     "on_delete": "r",
+     "time_columns": [
+      "effective_date",
+      "created_at"
+     ]
+    },
+    {
+     "table": "opening_balance_items",
+     "column": "product_id",
+     "on_delete": "a",
+     "time_columns": []
+    },
+    {
+     "table": "po_accessory_bom_commitments",
+     "column": "product_id",
+     "on_delete": "a",
+     "time_columns": [
+      "committed_at",
+      "created_at"
+     ]
+    },
+    {
+     "table": "product_conversions",
+     "column": "from_product_id",
+     "on_delete": "a",
+     "time_columns": [
+      "physical_at",
+      "created_at",
+      "updated_at"
+     ]
+    },
+    {
+     "table": "product_conversions",
+     "column": "to_product_id",
+     "on_delete": "a",
+     "time_columns": [
+      "physical_at",
+      "created_at",
+      "updated_at"
+     ]
+    },
+    {
+     "table": "product_price_versions",
+     "column": "product_id",
+     "on_delete": "c",
+     "time_columns": [
+      "effective_from",
+      "effective_to",
+      "created_at"
+     ]
+    },
+    {
+     "table": "qc_inspection_items",
+     "column": "final_product_id",
+     "on_delete": "a",
+     "time_columns": []
+    },
+    {
+     "table": "sales_items",
+     "column": "product_id",
+     "on_delete": "a",
+     "time_columns": []
+    },
+    {
+     "table": "sales_return_items",
+     "column": "product_id",
+     "on_delete": "a",
+     "time_columns": []
+    },
+    {
+     "table": "stock_explainability_snapshots",
+     "column": "product_id",
+     "on_delete": "a",
+     "time_columns": [
+      "calculated_at",
+      "source_as_of",
+      "data_period_start",
+      "data_period_end"
+     ]
+    },
+    {
+     "table": "stock_policy_versions",
+     "column": "product_id",
+     "on_delete": "a",
+     "time_columns": [
+      "effective_from",
+      "effective_to",
+      "created_at"
+     ]
+    }
+   ],
+   "fact_writers": {
+    "fg_lots": [
+     "erp.complete_initial_import_wip_v1(p_payload jsonb)",
+     "erp.post_opening_balance(p_opening_id uuid)",
+     "erp.post_product_conversion(p_conversion_id uuid)",
+     "erp.post_qc(p_qc_id uuid)",
+     "erp.post_rework_completion(p_rework_order_id uuid)"
+    ],
+    "bs_cases": [
+     "erp.create_manual_bs_case_v2(p_payload jsonb, p_client_request_id uuid)",
+     "erp.post_laundry_receipt(p_receipt_id uuid)",
+     "erp.post_opening_balance(p_opening_id uuid)",
+     "erp.post_qc(p_qc_id uuid)"
+    ]
+   },
+   "key_function_definition_sha256": {
+    "erp.edit_product_identity_effective(uuid,text,uuid,uuid,text,uuid,text,timestamp with time zone,text)": "049f3e0ebe2eca3fd23182d854ce3210e77cde721e87ea223cd02e1ba15afccb",
+    "erp.assert_product_identity_time(uuid,timestamp with time zone,text)": "4e289eed53f2618b84c08b53a6e27453c3545ef2fe199a12e4ef699d8ce347f1",
+    "erp.post_laundry_receipt(uuid)": "37118318d08c41cda8c0e1eeaa55130c95ad7a6db0ed8c29ef58da4f2e65234c",
+    "erp.post_qc(uuid)": "637c1c90b22a0bd4812d01e55f64b9611b2cae1ea9979389f3997c131370cd4b",
+    "erp.post_product_conversion(uuid)": "98a2ff7add6f4b1be232168c5d3bc6804b79a5755c6354ae1777321d934586ca",
+    "erp.create_manual_bs_case_v2(jsonb,uuid)": "8d905e876d9ffd084412dda5840c666fc9637185605e18eaa298897cd631160c",
+    "erp.validate_product_identity_period()": "72aa7e9ca05c81f1a760ec3a7044a2800f504ff99d3ce6cf2f1e5af54db827ed"
+   },
+   "product_like_columns_without_fk": [
+    {
+     "schema": "erp",
+     "table": "product_identity_mutation_context_v1",
+     "column": "product_id",
+     "type": "uuid"
+    }
+   ],
+   "products_table_privileges": {
+    "anon": {
+     "SELECT": false,
+     "INSERT": false,
+     "UPDATE": false,
+     "DELETE": false
+    },
+    "authenticated": {
+     "SELECT": true,
+     "INSERT": true,
+     "UPDATE": true,
+     "DELETE": false
+    },
+    "service_role": {
+     "SELECT": true,
+     "INSERT": true,
+     "UPDATE": true,
+     "DELETE": true
+    }
+   },
+   "products_rls": {
+    "enabled": true,
+    "forced": false
+   },
+   "products_policies": [
+    {
+     "name": "internal_all",
+     "cmd": "*",
+     "permissive": true,
+     "roles": [
+      "PUBLIC"
+     ],
+     "using": "(erp.current_app_role() = ANY (ARRAY['OWNER'::text, 'ADMIN'::text, 'STAFF'::text]))",
+     "check": "(erp.current_app_role() = ANY (ARRAY['OWNER'::text, 'ADMIN'::text, 'STAFF'::text]))"
+    }
+   ]
+  }
+ },
+ {
+  "group": "R1_CASES_AFTER",
+  "case": "CUTOFF:LAUNDRY_BS",
+  "variant": "LAUNDRY_BS",
+  "fact_physical_at": "2026-09-23 15:45:30.441079+07:00",
+  "requested_effective_from": "2026-09-23 15:45:00.441079+07:00",
+  "result": null,
+  "refusal": {
+   "sqlstate": "P0001",
+   "message": "Tanggal efektif SKU akan memotong histori produksi yang sudah tercatat (fakta fisik stok baru terakhir 2026-09-23 08:45:30.441079+00). Pilih tanggal efektif sesudahnya."
+  },
+  "old_version_effective_to": null,
+  "new_stock_bs_after_end": 0,
+  "untracked_bs_after_end": 0,
+  "fg_lots_after_end": 0,
+  "before": {
+   "fg_lots": null,
+   "bs_cases": [
+    {
+     "qty": 10,
+     "stage": "LAUNDRY",
+     "status": "OPEN",
+     "qc_item_id": null,
+     "physical_at": "2026-09-23T15:45:30.441079+07:00",
+     "untracked_type": null,
+     "laundry_allocation_id": "7b2dcab8-6cbf-4da5-ba6b-608093598904"
+    }
+   ],
+   "versions": [
+    {
+     "id": "e34a4e9a-61c8-4074-9609-e19f758ce691",
+     "to": null,
+     "from": "2026-01-01T07:00:00+07:00",
+     "supersedes": null
+    }
+   ]
+  },
+  "after": {
+   "fg_lots": null,
+   "bs_cases": [
+    {
+     "qty": 10,
+     "stage": "LAUNDRY",
+     "status": "OPEN",
+     "qc_item_id": null,
+     "physical_at": "2026-09-23T08:45:30.441079+00:00",
+     "untracked_type": null,
+     "laundry_allocation_id": "7b2dcab8-6cbf-4da5-ba6b-608093598904"
+    }
+   ],
+   "versions": [
+    {
+     "id": "e34a4e9a-61c8-4074-9609-e19f758ce691",
+     "to": null,
+     "from": "2026-01-01T00:00:00+00:00",
+     "supersedes": null
+    }
+   ]
+  },
+  "ordinary_authenticated_rpc": true,
+  "expected": "Refuse: successor would end the version before a recorded NEW_STOCK BS fact",
+  "status": "PASS",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "R1_CASES_AFTER",
+  "case": "CUTOFF:QC_ALL_BS",
+  "variant": "QC_ALL_BS",
+  "fact_physical_at": "2026-09-23 15:45:31.453244+07:00",
+  "requested_effective_from": "2026-09-23 15:45:01.453244+07:00",
+  "result": null,
+  "refusal": {
+   "sqlstate": "P0001",
+   "message": "Tanggal efektif SKU akan memotong histori produksi yang sudah tercatat (fakta fisik stok baru terakhir 2026-09-23 08:45:31.453244+00). Pilih tanggal efektif sesudahnya."
+  },
+  "old_version_effective_to": null,
+  "new_stock_bs_after_end": 0,
+  "untracked_bs_after_end": 0,
+  "fg_lots_after_end": 0,
+  "before": {
+   "fg_lots": null,
+   "bs_cases": [
+    {
+     "qty": 10,
+     "stage": "QC",
+     "status": "OPEN",
+     "qc_item_id": "ad27050e-5bbc-4e4f-b457-e25eb2ac851f",
+     "physical_at": "2026-09-23T15:45:31.453244+07:00",
+     "untracked_type": null,
+     "laundry_allocation_id": null
+    }
+   ],
+   "versions": [
+    {
+     "id": "a6316f5b-0364-4361-a102-25755fcda5c5",
+     "to": null,
+     "from": "2026-01-01T07:00:00+07:00",
+     "supersedes": null
+    }
+   ]
+  },
+  "after": {
+   "fg_lots": null,
+   "bs_cases": [
+    {
+     "qty": 10,
+     "stage": "QC",
+     "status": "OPEN",
+     "qc_item_id": "ad27050e-5bbc-4e4f-b457-e25eb2ac851f",
+     "physical_at": "2026-09-23T08:45:31.453244+00:00",
+     "untracked_type": null,
+     "laundry_allocation_id": null
+    }
+   ],
+   "versions": [
+    {
+     "id": "a6316f5b-0364-4361-a102-25755fcda5c5",
+     "to": null,
+     "from": "2026-01-01T00:00:00+00:00",
+     "supersedes": null
+    }
+   ]
+  },
+  "ordinary_authenticated_rpc": true,
+  "expected": "Refuse: successor would end the version before a recorded NEW_STOCK BS fact",
+  "status": "PASS",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "R1_CASES_AFTER",
+  "case": "CUTOFF:QC_GOOD",
+  "variant": "QC_GOOD",
+  "fact_physical_at": "2026-09-23 15:45:32.483509+07:00",
+  "requested_effective_from": "2026-09-23 15:45:02.483509+07:00",
+  "result": null,
+  "refusal": {
+   "sqlstate": "P0001",
+   "message": "Tanggal efektif SKU akan memotong histori produksi yang sudah tercatat (fakta fisik stok baru terakhir 2026-09-23 08:45:32.483509+00). Pilih tanggal efektif sesudahnya."
+  },
+  "old_version_effective_to": null,
+  "new_stock_bs_after_end": 0,
+  "untracked_bs_after_end": 0,
+  "fg_lots_after_end": 0,
+  "before": {
+   "fg_lots": [
+    {
+     "qty": 10,
+     "origin": "PRODUCTION",
+     "produced_at": "2026-09-23T15:45:32.483509+07:00"
+    }
+   ],
+   "bs_cases": null,
+   "versions": [
+    {
+     "id": "7f86bda7-a203-433d-bbe2-90578b720bf5",
+     "to": null,
+     "from": "2026-01-01T07:00:00+07:00",
+     "supersedes": null
+    }
+   ]
+  },
+  "after": {
+   "fg_lots": [
+    {
+     "qty": 10,
+     "origin": "PRODUCTION",
+     "produced_at": "2026-09-23T08:45:32.483509+00:00"
+    }
+   ],
+   "bs_cases": null,
+   "versions": [
+    {
+     "id": "7f86bda7-a203-433d-bbe2-90578b720bf5",
+     "to": null,
+     "from": "2026-01-01T00:00:00+00:00",
+     "supersedes": null
+    }
+   ]
+  },
+  "ordinary_authenticated_rpc": true,
+  "expected": "Refuse through the existing fg_lots cutoff",
+  "status": "CONTROL_PASS",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "R1_CASES_AFTER",
+  "case": "CUTOFF:BS_BEFORE_EFFECTIVE",
+  "variant": "BS_BEFORE_EFFECTIVE",
+  "fact_physical_at": "2026-09-23 15:45:33.524214+07:00",
+  "requested_effective_from": "2026-09-23 15:46:03.524214+07:00",
+  "result": "4502a167-2dea-43e1-ae74-aac67c5d9b02",
+  "refusal": null,
+  "old_version_effective_to": "2026-09-23 08:46:03.524214+00:00",
+  "new_stock_bs_after_end": 0,
+  "untracked_bs_after_end": 0,
+  "fg_lots_after_end": 0,
+  "before": {
+   "fg_lots": null,
+   "bs_cases": [
+    {
+     "qty": 10,
+     "stage": "LAUNDRY",
+     "status": "OPEN",
+     "qc_item_id": null,
+     "physical_at": "2026-09-23T15:45:33.524214+07:00",
+     "untracked_type": null,
+     "laundry_allocation_id": "9381bf97-e264-4e4b-849b-342282ba6ae8"
+    }
+   ],
+   "versions": [
+    {
+     "id": "95a8fef7-ac65-4229-b216-1750ff7b123d",
+     "to": null,
+     "from": "2026-01-01T07:00:00+07:00",
+     "supersedes": null
+    }
+   ]
+  },
+  "after": {
+   "fg_lots": null,
+   "bs_cases": [
+    {
+     "qty": 10,
+     "stage": "LAUNDRY",
+     "status": "OPEN",
+     "qc_item_id": null,
+     "physical_at": "2026-09-23T08:45:33.524214+00:00",
+     "untracked_type": null,
+     "laundry_allocation_id": "9381bf97-e264-4e4b-849b-342282ba6ae8"
+    }
+   ],
+   "versions": [
+    {
+     "id": "95a8fef7-ac65-4229-b216-1750ff7b123d",
+     "to": "2026-09-23T08:46:03.524214+00:00",
+     "from": "2026-01-01T00:00:00+00:00",
+     "supersedes": null
+    },
+    {
+     "id": "4502a167-2dea-43e1-ae74-aac67c5d9b02",
+     "to": null,
+     "from": "2026-09-23T08:46:03.524214+00:00",
+     "supersedes": "95a8fef7-ac65-4229-b216-1750ff7b123d"
+    }
+   ]
+  },
+  "ordinary_authenticated_rpc": true,
+  "expected": "Accept: the fact precedes the requested boundary",
+  "status": "CONTROL_PASS",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "R1_CASES_AFTER",
+  "case": "CUTOFF:MANUAL_BS",
+  "variant": "MANUAL_BS",
+  "fact_physical_at": "2026-09-23 15:45:34.286344+07:00",
+  "requested_effective_from": "2026-09-23 15:45:04.286344+07:00",
+  "result": "00a136b7-0e49-4156-b7df-5e6d8fa89552",
+  "refusal": null,
+  "old_version_effective_to": "2026-09-23 08:45:04.286344+00:00",
+  "new_stock_bs_after_end": 0,
+  "untracked_bs_after_end": 1,
+  "fg_lots_after_end": 0,
+  "before": {
+   "fg_lots": null,
+   "bs_cases": [
+    {
+     "qty": 1,
+     "stage": "UNKNOWN",
+     "status": "OPEN",
+     "qc_item_id": null,
+     "physical_at": "2026-09-23T15:45:34.286344+07:00",
+     "untracked_type": "OUT_OF_NOWHERE",
+     "laundry_allocation_id": null
+    }
+   ],
+   "versions": [
+    {
+     "id": "9d76be7e-2e2a-4b52-8d87-6837829f62a4",
+     "to": null,
+     "from": "2026-01-01T07:00:00+07:00",
+     "supersedes": null
+    }
+   ]
+  },
+  "after": {
+   "fg_lots": null,
+   "bs_cases": [
+    {
+     "qty": 1,
+     "stage": "UNKNOWN",
+     "status": "OPEN",
+     "qc_item_id": null,
+     "physical_at": "2026-09-23T08:45:34.286344+00:00",
+     "untracked_type": "OUT_OF_NOWHERE",
+     "laundry_allocation_id": null
+    }
+   ],
+   "versions": [
+    {
+     "id": "9d76be7e-2e2a-4b52-8d87-6837829f62a4",
+     "to": "2026-09-23T08:45:04.286344+00:00",
+     "from": "2026-01-01T00:00:00+00:00",
+     "supersedes": null
+    },
+    {
+     "id": "00a136b7-0e49-4156-b7df-5e6d8fa89552",
+     "to": null,
+     "from": "2026-09-23T08:45:04.286344+00:00",
+     "supersedes": "9d76be7e-2e2a-4b52-8d87-6837829f62a4"
+    }
+   ]
+  },
+  "ordinary_authenticated_rpc": true,
+  "expected": "Contract undecided (STATUS_DAN_TODO P0 physical cutoff); observation only",
+  "status": "HOLD_CONTRACT",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "R1_CASES_AFTER",
+  "case": "REVERSED:LAUNDRY_BS",
+  "variant": "LAUNDRY_BS",
+  "successor": "73bc6648-24ac-42c8-b69d-96ef123b654b",
+  "effective_from": "2026-09-23 15:45:05.036781+07:00",
+  "fact_physical_at": "2026-09-23 15:45:35.036781+07:00",
+  "result": null,
+  "refusal": {
+   "sqlstate": "P0001",
+   "message": "Laundry BS product must be active at physical receipt time and match the source PO model/size"
+  },
+  "expected": "The ended version refuses a new NEW_STOCK fact atomically (identity assert or an earlier product-period guard)",
+  "status": "CONTROL_PASS",
+  "ordinary_authenticated_rpc": true,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "R1_CASES_AFTER",
+  "case": "REVERSED:QC_ALL_BS",
+  "variant": "QC_ALL_BS",
+  "successor": "fbf2c315-a662-4607-babd-5aa220964c73",
+  "effective_from": "2026-09-23 15:45:05.990107+07:00",
+  "fact_physical_at": "2026-09-23 15:45:35.990107+07:00",
+  "result": null,
+  "refusal": {
+   "sqlstate": "P0001",
+   "message": "Final SKU must be active at physical QC time and match the Laundry receipt model/size"
+  },
+  "expected": "The ended version refuses a new NEW_STOCK fact atomically (identity assert or an earlier product-period guard)",
+  "status": "CONTROL_PASS",
+  "ordinary_authenticated_rpc": true,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "R1_CASES_AFTER",
+  "case": "COVERAGE_GUARD:NEW_STOCK",
+  "variant": "NEW_STOCK",
+  "result": null,
+  "refusal": {
+   "sqlstate": "P0001",
+   "message": "NEW_STOCK_CUTOFF_COVERAGE_MISSING: erp.cp6_au_r1_sample_post(uuid,text) -> erp.cp6_au_r1_sample_facts"
+  },
+  "expected": "Refuse uncovered NEW_STOCK producer",
+  "status": "CONTROL_PASS",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "R1_CASES_AFTER",
+  "case": "COVERAGE_GUARD:DEFAULT",
+  "variant": "DEFAULT",
+  "result": null,
+  "refusal": {
+   "sqlstate": "P0001",
+   "message": "NEW_STOCK_CUTOFF_COVERAGE_MISSING: erp.cp6_au_r1_sample_post(uuid,text) -> erp.cp6_au_r1_sample_facts"
+  },
+  "expected": "Refuse uncovered NEW_STOCK producer",
+  "status": "CONTROL_PASS",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "R1_CASES_AFTER",
+  "case": "COVERAGE_GUARD:DYNAMIC",
+  "variant": "DYNAMIC",
+  "result": null,
+  "refusal": {
+   "sqlstate": "P0001",
+   "message": "NEW_STOCK_CUTOFF_COVERAGE_MISSING: erp.cp6_au_r1_sample_post(uuid,text) -> erp.cp6_au_r1_sample_facts"
+  },
+  "expected": "Refuse uncovered NEW_STOCK producer",
+  "status": "CONTROL_PASS",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "R1_CASES_AFTER",
+  "case": "COVERAGE_GUARD:EXISTING_STOCK",
+  "variant": "EXISTING_STOCK",
+  "result": {
+   "covered": [
+    "bs_cases",
+    "fg_lots"
+   ],
+   "new_stock_producers": {
+    "erp.post_qc(uuid)": [
+     "bs_cases",
+     "fg_lots"
+    ],
+    "erp.post_laundry_receipt(uuid)": [
+     "bs_cases",
+     "wip_stage_events"
+    ],
+    "erp.post_product_conversion(uuid)": [
+     "fg_inventory_balances",
+     "fg_lots",
+     "hpp_version_components",
+     "hpp_versions",
+     "product_conversion_allocations"
+    ]
+   },
+   "derived_without_physical_instant": [
+    "fg_inventory_balances"
+   ]
+  },
+  "refusal": null,
+  "expected": "EXISTING_STOCK producer is not a cutoff source",
+  "status": "CONTROL_PASS",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AU_MASTER_AFTER",
+  "case": "MASTER:DISPLAY_NAME",
+  "status": "PASS",
+  "variant": "DISPLAY_NAME",
+  "ordinary_authenticated_rpc": true,
+  "expected": "Owner-admin ordinary product lifecycle succeeds with valid unused/current input",
+  "result": "6ad05142-aa94-40fe-87c9-62fb5147dca3",
+  "refusal": null,
+  "observations": [
+   [
+    "6ad05142-aa94-40fe-87c9-62fb5147dca3",
+    "R4871f46a6dUNUSED",
+    "Blue",
+    "2026-09-20 17:00:00+00:00",
+    null,
+    null
+   ]
+  ],
+  "refusal_unchanged": null,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AU_MASTER_AFTER",
+  "case": "MASTER:UNUSED_IDENTITY",
+  "status": "PASS",
+  "variant": "UNUSED_IDENTITY",
+  "ordinary_authenticated_rpc": true,
+  "expected": "Owner-admin ordinary product lifecycle succeeds with valid unused/current input",
+  "result": "eb1f3bfd-538d-4d01-a321-7eb671e1ad5d",
+  "refusal": null,
+  "observations": [
+   [
+    "eb1f3bfd-538d-4d01-a321-7eb671e1ad5d",
+    "R3fc59d2f44UNUSED",
+    "Green",
+    "2026-09-20 17:00:00+00:00",
+    null,
+    null
+   ]
+  ],
+  "refusal_unchanged": null,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AU_MASTER_AFTER",
+  "case": "MASTER:USED_SUCCESSOR",
+  "status": "PASS",
+  "variant": "USED_SUCCESSOR",
+  "ordinary_authenticated_rpc": true,
+  "expected": "Owner-admin ordinary product lifecycle succeeds with valid unused/current input",
+  "result": "8b66b3ca-3721-463d-9e8a-f1acd0cf543e",
+  "refusal": null,
+  "observations": [
+   [
+    "3c357b77-4d24-4c40-9030-94902bdc0238",
+    "R4901985370",
+    "Blue",
+    "2026-09-14 17:00:00+00:00",
+    "2026-09-23 08:47:45.982840+00:00",
+    null
+   ],
+   [
+    "8b66b3ca-3721-463d-9e8a-f1acd0cf543e",
+    "R4901985370",
+    "Green",
+    "2026-09-23 08:47:45.982840+00:00",
+    null,
+    "3c357b77-4d24-4c40-9030-94902bdc0238"
+   ]
+  ],
+  "refusal_unchanged": null,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AU_MASTER_AFTER",
+  "case": "MASTER:CANCEL_FUTURE",
+  "status": "PASS",
+  "variant": "CANCEL_FUTURE",
+  "ordinary_authenticated_rpc": true,
+  "expected": "Owner-admin ordinary product lifecycle succeeds with valid unused/current input",
+  "result": "b9f04e1c-ab9a-4dd5-b8f6-a1b866e85fdb",
+  "refusal": null,
+  "observations": [
+   [
+    "b9f04e1c-ab9a-4dd5-b8f6-a1b866e85fdb",
+    null
+   ]
+  ],
+  "refusal_unchanged": null,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AU_MASTER_AFTER",
+  "case": "AU:NAME_ONLY",
+  "status": "PASS",
+  "identity_unchanged": true,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AU_MASTER_AFTER",
+  "case": "AU:PRICE_REFERENCE",
+  "status": "PASS",
+  "old_identity_preserved": true,
+  "exact_retry_no_mutation": true,
+  "unused_authority_rows": 0,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AU_MASTER_AFTER",
+  "case": "AU:CANCEL_USED",
+  "status": "PASS",
+  "refusal": {
+   "sqlstate": "P0001",
+   "message": "Perubahan SKU ini sudah dipakai transaksi/stok/HPP dan tidak boleh dibatalkan. Buat perubahan efektif baru sebagai koreksi."
+  },
+  "all_boundary_unchanged": true,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AU_MASTER_AFTER",
+  "case": "AU:PHYSICAL_HISTORY",
+  "status": "PASS",
+  "refusal": {
+   "sqlstate": "P0001",
+   "message": "Tanggal efektif SKU akan memotong histori produksi yang sudah tercatat (fakta fisik stok baru terakhir 2026-09-23 08:46:54.122808+00). Pilih tanggal efektif sesudahnya."
+  },
+  "all_boundary_unchanged": true,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AU_MASTER_AFTER",
+  "case": "AU:REPLAY",
+  "status": "PASS",
+  "old_identity_preserved": true,
+  "exact_retry_no_mutation": true,
+  "unused_authority_rows": 0,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AU_MASTER_AFTER",
+  "case": "AU:FORGED_CONTEXT",
+  "status": "PASS",
+  "refusal": {
+   "sqlstate": "42501",
+   "message": "permission denied for table product_identity_mutation_context_v1"
+  },
+  "all_boundary_unchanged": true,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AU_MASTER_AFTER",
+  "case": "AU:FORGED_INSERT",
+  "status": "PASS",
+  "refusal": {
+   "sqlstate": "P0001",
+   "message": "Metadata versi SKU tidak boleh diisi langsung. Gunakan Edit SKU efektif-tanggal."
+  },
+  "all_boundary_unchanged": true,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AU_MASTER_AFTER",
+  "case": "AU:FORGED_UPDATE",
+  "status": "PASS",
+  "refusal": {
+   "sqlstate": "P0001",
+   "message": "Periode/chain versi SKU dikelola sistem. Gunakan Edit SKU atau Batalkan Perubahan SKU."
+  },
+  "all_boundary_unchanged": true,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AU_MASTER_AFTER",
+  "case": "AU:FORGED_UNUSED",
+  "status": "PASS",
+  "refusal": {
+   "sqlstate": "P0001",
+   "message": "Identitas dan periode SKU immutable setelah row dibuat; ubah nama/status tampilan saja atau buat successor terkontrol, jangan menulis ulang sejarah stok/HPP"
+  },
+  "all_boundary_unchanged": true,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AU_MASTER_AFTER",
+  "case": "AU:FORGED_CHILD_ID",
+  "status": "PASS",
+  "refusal": {
+   "sqlstate": "P0001",
+   "message": "Identitas dan periode SKU immutable setelah row dibuat; ubah nama/status tampilan saja atau buat successor terkontrol, jangan menulis ulang sejarah stok/HPP"
+  },
+  "all_boundary_unchanged": true,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AU_MASTER_AFTER",
+  "case": "AU:INVALID_CHILD",
+  "status": "PASS",
+  "refusal": {
+   "sqlstate": "P0001",
+   "message": "Versi SKU tidak ditemukan"
+  },
+  "all_boundary_unchanged": true,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AT_TEMPORAL_AFTER",
+  "case": "WIP_VERSION:UTC:AUTO_CURRENT",
+  "status": "PASS",
+  "variant": "AUTO_CURRENT",
+  "zone": "UTC",
+  "candidate_periods": [
+   "2026-09-19 12:00:00+07:00"
+  ],
+  "expected_product": "65de9a0c-3556-4d91-8958-ff9df446549f",
+  "result": {
+   "action": "WIP_OUTPUT",
+   "lot_id": "f1cefe22-d83b-4231-ae4f-a11b749c329e",
+   "status": "POSTED",
+   "batch_id": "23241324-e26e-446f-bfe1-c7b28f81e513",
+   "operation": "COMPLETE",
+   "output_id": "386a41ac-e9b7-4119-acc6-ca9ed59137ef",
+   "request_id": "8c51f134-30de-4bd1-b1b7-0401813d946d"
+  },
+  "refusal": null,
+  "observation": [
+   "65de9a0c-3556-4d91-8958-ff9df446549f",
+   "2026-09-19 17:00:00+00:00",
+   "2026-09-19 05:00:00+00:00",
+   null,
+   4
+  ],
+  "mismatches": {},
+  "ordinary_authenticated_rpc": true,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AT_TEMPORAL_AFTER",
+  "case": "WIP_VERSION:UTC:EXPLICIT_CURRENT",
+  "status": "PASS",
+  "variant": "EXPLICIT_CURRENT",
+  "zone": "UTC",
+  "candidate_periods": [
+   "2026-09-19 12:00:00+07:00"
+  ],
+  "expected_product": "3846887b-0fb1-4791-8cd1-1ea1168d1abb",
+  "result": {
+   "action": "WIP_OUTPUT",
+   "lot_id": "5ea49e37-ce7e-4954-bf4c-291483ddf055",
+   "status": "POSTED",
+   "batch_id": "caaa4841-bc9f-49a4-bda0-19f275f6e514",
+   "operation": "COMPLETE",
+   "output_id": "0aa9a2b0-82f0-4f69-a733-ce58c26e922c",
+   "request_id": "6ec9a9ad-f3b6-43e7-8422-c42f44b78af3"
+  },
+  "refusal": null,
+  "observation": [
+   "3846887b-0fb1-4791-8cd1-1ea1168d1abb",
+   "2026-09-19 17:00:00+00:00",
+   "2026-09-19 05:00:00+00:00",
+   null,
+   4
+  ],
+  "mismatches": {},
+  "ordinary_authenticated_rpc": true,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AT_TEMPORAL_AFTER",
+  "case": "WIP_VERSION:UTC:EXPIRED_ID",
+  "status": "PASS",
+  "variant": "EXPIRED_ID",
+  "zone": "UTC",
+  "candidate_periods": [
+   "2026-09-19 12:00:00+07:00"
+  ],
+  "expected_product": "ba69500b-c2d7-4e0c-804d-358018cad5fc",
+  "result": null,
+  "refusal": {
+   "sqlstate": "P0001",
+   "message": "product_sku: pilih produk aktif dengan merek, model PO, ukuran saldo, dan tanggal hasil yang sesuai"
+  },
+  "observation": null,
+  "mismatches": {},
+  "ordinary_authenticated_rpc": true,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AT_TEMPORAL_AFTER",
+  "case": "WIP_VERSION:UTC:OLD_INACTIVE",
+  "status": "PASS",
+  "variant": "OLD_INACTIVE",
+  "zone": "UTC",
+  "candidate_periods": [
+   "2026-09-19 12:00:00+07:00"
+  ],
+  "expected_product": "45016686-ae12-4686-be11-e8bc72dc07f5",
+  "result": {
+   "action": "WIP_OUTPUT",
+   "lot_id": "0b99109d-30cd-4286-ad3d-e956851c99c3",
+   "status": "POSTED",
+   "batch_id": "db94256c-2ded-4d16-af96-13783a443129",
+   "operation": "COMPLETE",
+   "output_id": "047bb64c-615d-4d35-ad46-ab3d02d307ba",
+   "request_id": "c901592d-6b07-457a-a660-153b1c741c9d"
+  },
+  "refusal": null,
+  "observation": [
+   "45016686-ae12-4686-be11-e8bc72dc07f5",
+   "2026-09-19 17:00:00+00:00",
+   "2026-09-19 05:00:00+00:00",
+   null,
+   4
+  ],
+  "mismatches": {},
+  "ordinary_authenticated_rpc": true,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AT_TEMPORAL_AFTER",
+  "case": "WIP_VERSION:Pacific/Kiritimati:AUTO_CURRENT",
+  "status": "PASS",
+  "variant": "AUTO_CURRENT",
+  "zone": "Pacific/Kiritimati",
+  "candidate_periods": [
+   "2026-09-19 12:00:00+07:00"
+  ],
+  "expected_product": "f5af5a38-a26c-4830-a14c-4ac155073b23",
+  "result": {
+   "action": "WIP_OUTPUT",
+   "lot_id": "370af99c-6bf3-4037-90f2-5b70ee33ec34",
+   "status": "POSTED",
+   "batch_id": "7e98542b-f0f2-4d8e-9d9e-d9ffa22b6d47",
+   "operation": "COMPLETE",
+   "output_id": "6171c827-48f9-4ef4-ade0-db90bda696e7",
+   "request_id": "b3cbe137-5ccd-4fed-8771-46855e1e85fd"
+  },
+  "refusal": null,
+  "observation": [
+   "f5af5a38-a26c-4830-a14c-4ac155073b23",
+   "2026-09-19 17:00:00+00:00",
+   "2026-09-19 05:00:00+00:00",
+   null,
+   4
+  ],
+  "mismatches": {},
+  "ordinary_authenticated_rpc": true,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AT_TEMPORAL_AFTER",
+  "case": "WIP_VERSION:Pacific/Kiritimati:EXPLICIT_CURRENT",
+  "status": "PASS",
+  "variant": "EXPLICIT_CURRENT",
+  "zone": "Pacific/Kiritimati",
+  "candidate_periods": [
+   "2026-09-19 12:00:00+07:00"
+  ],
+  "expected_product": "a486ad9a-30fc-4885-841a-a88c8d946ce0",
+  "result": {
+   "action": "WIP_OUTPUT",
+   "lot_id": "25b3cc49-8a63-4411-9d9b-28bf222336a8",
+   "status": "POSTED",
+   "batch_id": "31ba653f-3907-4989-a21d-e601b31373a8",
+   "operation": "COMPLETE",
+   "output_id": "b3d97ca5-92cb-4863-be15-eae930c3c00e",
+   "request_id": "118cc3bf-65c6-4230-b1e3-f630ffa377bf"
+  },
+  "refusal": null,
+  "observation": [
+   "a486ad9a-30fc-4885-841a-a88c8d946ce0",
+   "2026-09-19 17:00:00+00:00",
+   "2026-09-19 05:00:00+00:00",
+   null,
+   4
+  ],
+  "mismatches": {},
+  "ordinary_authenticated_rpc": true,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AT_TEMPORAL_AFTER",
+  "case": "WIP_VERSION:Pacific/Kiritimati:EXPIRED_ID",
+  "status": "PASS",
+  "variant": "EXPIRED_ID",
+  "zone": "Pacific/Kiritimati",
+  "candidate_periods": [
+   "2026-09-19 12:00:00+07:00"
+  ],
+  "expected_product": "c9548860-5b65-4a7a-b44f-8cad0e9f032d",
+  "result": null,
+  "refusal": {
+   "sqlstate": "P0001",
+   "message": "product_sku: pilih produk aktif dengan merek, model PO, ukuran saldo, dan tanggal hasil yang sesuai"
+  },
+  "observation": null,
+  "mismatches": {},
+  "ordinary_authenticated_rpc": true,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AT_TEMPORAL_AFTER",
+  "case": "WIP_VERSION:Pacific/Kiritimati:OLD_INACTIVE",
+  "status": "PASS",
+  "variant": "OLD_INACTIVE",
+  "zone": "Pacific/Kiritimati",
+  "candidate_periods": [
+   "2026-09-19 12:00:00+07:00"
+  ],
+  "expected_product": "8716dbf4-dd05-4452-9a6e-f8367ed5740f",
+  "result": {
+   "action": "WIP_OUTPUT",
+   "lot_id": "05e6aa81-7e3b-445b-ace6-b3bd8c844252",
+   "status": "POSTED",
+   "batch_id": "4e4e3216-9f87-4c8e-9dc6-5d4ed7a8ca9f",
+   "operation": "COMPLETE",
+   "output_id": "b50bb8c7-2c71-4477-bdd9-f68da76a02df",
+   "request_id": "6192af41-7b1a-40f4-bd6b-2716b176a6ac"
+  },
+  "refusal": null,
+  "observation": [
+   "8716dbf4-dd05-4452-9a6e-f8367ed5740f",
+   "2026-09-19 17:00:00+00:00",
+   "2026-09-19 05:00:00+00:00",
+   null,
+   4
+  ],
+  "mismatches": {},
+  "ordinary_authenticated_rpc": true,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AT_TEMPORAL_AFTER",
+  "case": "HISTORICAL_BS:True:False",
+  "status": "PASS",
+  "historical_ambiguity_refused": true,
+  "display_active": true,
+  "no_economic_posting": true,
+  "corrected_audit_assumption": "Expiry does not disambiguate existing physical opening stock",
+  "errors": [
+   {
+    "entity": "OPENING_BALANCE_ITEM",
+    "errors": [
+     "Opening product_sku must resolve exactly one identity at cutover (found 2)",
+     "product_sku: identitas produk harus tepat satu; periksa merek, model, warna, dan ukuran"
+    ]
+   },
+   {
+    "entity": "OPENING_BALANCE_ITEM",
+    "errors": [
+     "Opening product_sku must resolve exactly one identity at cutover (found 2)"
+    ]
+   },
+   {
+    "entity": "OPENING_CONTROL",
+    "errors": [
+     "control_key: total tidak memiliki rincian yang valid"
+    ]
+   },
+   {
+    "entity": "OPENING_CONTROL",
+    "errors": [
+     "control_key: total tidak memiliki rincian yang valid"
+    ]
+   },
+   {
+    "entity": "OPENING_CONTROL",
+    "errors": [
+     "control_key: total tidak memiliki rincian yang valid"
+    ]
+   },
+   {
+    "entity": "OPENING_COST_ORIGIN",
+    "errors": [
+     "target_source_key: perlu saldo fisik valid dengan nilai manual yang terurai"
+    ]
+   },
+   {
+    "entity": "OPENING_COST_ORIGIN",
+    "errors": [
+     "target_source_key: perlu saldo fisik valid dengan nilai manual yang terurai"
+    ]
+   },
+   {
+    "entity": "UNINVOICED_RECEIPT",
+    "errors": [
+     "opening_source_key: jumlah belum ditagih harus tepat sama dengan sisa bahan + seluruh asal biaya yang sudah terpakai"
+    ]
+   }
+  ],
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AT_TEMPORAL_AFTER",
+  "case": "HISTORICAL_BS:True:True",
+  "status": "PASS",
+  "qualified_historical_bs_preserved": true,
+  "display_active": true,
+  "chosen_product": "9824adfb-0fdf-4a07-90c2-6a218c058485",
+  "current_product": "251238fd-5ae7-4dca-8298-8ca455b0846b",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AT_TEMPORAL_AFTER",
+  "case": "HISTORICAL_BS:False:False",
+  "status": "PASS",
+  "historical_ambiguity_refused": true,
+  "display_active": false,
+  "no_economic_posting": true,
+  "corrected_audit_assumption": "Expiry does not disambiguate existing physical opening stock",
+  "errors": [
+   {
+    "entity": "OPENING_BALANCE_ITEM",
+    "errors": [
+     "Opening product_sku must resolve exactly one identity at cutover (found 2)",
+     "product_sku: identitas produk harus tepat satu; periksa merek, model, warna, dan ukuran"
+    ]
+   },
+   {
+    "entity": "OPENING_BALANCE_ITEM",
+    "errors": [
+     "Opening product_sku must resolve exactly one identity at cutover (found 2)"
+    ]
+   },
+   {
+    "entity": "OPENING_CONTROL",
+    "errors": [
+     "control_key: total tidak memiliki rincian yang valid"
+    ]
+   },
+   {
+    "entity": "OPENING_CONTROL",
+    "errors": [
+     "control_key: total tidak memiliki rincian yang valid"
+    ]
+   },
+   {
+    "entity": "OPENING_CONTROL",
+    "errors": [
+     "control_key: total tidak memiliki rincian yang valid"
+    ]
+   },
+   {
+    "entity": "OPENING_COST_ORIGIN",
+    "errors": [
+     "target_source_key: perlu saldo fisik valid dengan nilai manual yang terurai"
+    ]
+   },
+   {
+    "entity": "OPENING_COST_ORIGIN",
+    "errors": [
+     "target_source_key: perlu saldo fisik valid dengan nilai manual yang terurai"
+    ]
+   },
+   {
+    "entity": "UNINVOICED_RECEIPT",
+    "errors": [
+     "opening_source_key: jumlah belum ditagih harus tepat sama dengan sisa bahan + seluruh asal biaya yang sudah terpakai"
+    ]
+   }
+  ],
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AT_TEMPORAL_AFTER",
+  "case": "HISTORICAL_BS:False:True",
+  "status": "PASS",
+  "qualified_historical_bs_preserved": true,
+  "display_active": false,
+  "chosen_product": "b848a74e-fc32-45a0-aa5e-2345bdbab221",
+  "current_product": "65ef2510-c02a-4abc-bd6e-ec68ce3aae9d",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AT_TEMPORAL_AFTER",
+  "case": "INTRADAY:MIDNIGHT",
+  "status": "PASS",
+  "variant": "MIDNIGHT",
+  "chosen": "faea9597-4f75-42ca-bf49-a6f1aa5707b7",
+  "physical_at": "2026-09-19 17:00:00+00:00",
+  "valid_from": "2026-09-19 17:00:00+00:00",
+  "valid_to": null,
+  "linked_inverse": true,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AT_TEMPORAL_AFTER",
+  "case": "INTRADAY:AMBIGUOUS_DAY",
+  "status": "PASS",
+  "two_intraday_versions_require_explicit_id": true,
+  "refused_atomically": true,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AT_TEMPORAL_AFTER",
+  "case": "INTRADAY:EARLY_ID",
+  "status": "PASS",
+  "variant": "EARLY_ID",
+  "chosen": "8ea4a106-9529-4335-8537-7b6ad2fd0b6f",
+  "physical_at": "2026-09-19 17:00:00+00:00",
+  "valid_from": "2026-09-17 17:00:00+00:00",
+  "valid_to": "2026-09-20 05:00:00+00:00",
+  "linked_inverse": true,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AT_TEMPORAL_AFTER",
+  "case": "INTRADAY:LATE_ID",
+  "status": "PASS",
+  "variant": "LATE_ID",
+  "chosen": "7a425d62-0129-4233-9c9d-729b1b689bcf",
+  "physical_at": "2026-09-20 05:00:00+00:00",
+  "valid_from": "2026-09-20 05:00:00+00:00",
+  "valid_to": null,
+  "linked_inverse": true,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "RACES_AFTER",
+  "case": "RACE:BS_FIRST:ABORT",
+  "status": "PASS",
+  "first": "BS",
+  "first_committed": false,
+  "fact_physical_at": "2026-09-23 15:46:37.570078+07:00",
+  "requested_effective_from": "2026-09-23 15:46:07.570078+07:00",
+  "held": [
+   "b6dc9dbd-5704-47ce-b87e-077e2c12edaf",
+   "2f5190ab-5e24-4994-a8e2-03e9dc157f72"
+  ],
+  "contention": {
+   "kind": "FAIL_FAST",
+   "first_try": {
+    "ok": false,
+    "sqlstate": "P0001",
+    "message": "POCKET_PERIOD_BUSY: alokasi kain kantong sedang berubah. Coba kembali dengan data terbaru"
+   }
+  },
+  "contender_outcome": {
+   "ok": true,
+   "result": "4dd3d653-1eb4-4841-a047-40a2f720d759"
+  },
+  "expected": {
+   "bs_recorded": false,
+   "successor_created": true,
+   "contender_outcome_ok": true
+  },
+  "observed": {
+   "bs_recorded": false,
+   "successor_created": true,
+   "contender_outcome_ok": true
+  },
+  "old_version_effective_to": "2026-09-23 08:46:07.570078+00:00",
+  "new_stock_bs_after_end": 0,
+  "unused_authority_rows": 0,
+  "actions": "ordinary authenticated laundry public RPC and owner successor RPC",
+  "committed_fixture_isolated_in_race_copy": true
+ },
+ {
+  "group": "RACES_AFTER",
+  "case": "RACE:BS_FIRST:COMMIT",
+  "status": "PASS",
+  "first": "BS",
+  "first_committed": true,
+  "fact_physical_at": "2026-09-23 15:46:37.938025+07:00",
+  "requested_effective_from": "2026-09-23 15:46:07.938025+07:00",
+  "held": [
+   "a4a0e2dd-1d94-4716-b14f-79f3c68fbbc6",
+   "f9da3e6c-f304-4e07-8bb8-06f4cdcbc058"
+  ],
+  "contention": {
+   "kind": "FAIL_FAST",
+   "first_try": {
+    "ok": false,
+    "sqlstate": "P0001",
+    "message": "POCKET_PERIOD_BUSY: alokasi kain kantong sedang berubah. Coba kembali dengan data terbaru"
+   }
+  },
+  "contender_outcome": {
+   "ok": false,
+   "sqlstate": "P0001",
+   "message": "Tanggal efektif SKU akan memotong histori produksi yang sudah tercatat (fakta fisik stok baru terakhir 2026-09-23 08:46:37.938025+00). Pilih tanggal efektif sesudahnya."
+  },
+  "expected": {
+   "bs_recorded": true,
+   "successor_created": false,
+   "contender_outcome_ok": false
+  },
+  "observed": {
+   "bs_recorded": true,
+   "successor_created": false,
+   "contender_outcome_ok": false
+  },
+  "old_version_effective_to": null,
+  "new_stock_bs_after_end": 0,
+  "unused_authority_rows": 0,
+  "actions": "ordinary authenticated laundry public RPC and owner successor RPC",
+  "committed_fixture_isolated_in_race_copy": true
+ },
+ {
+  "group": "RACES_AFTER",
+  "case": "RACE:MASTER_FIRST:ABORT",
+  "status": "PASS",
+  "first": "MASTER",
+  "first_committed": false,
+  "fact_physical_at": "2026-09-23 15:46:38.298732+07:00",
+  "requested_effective_from": "2026-09-23 15:46:08.298732+07:00",
+  "held": "e046cd66-3fee-4538-b704-884b4b962052",
+  "contention": {
+   "kind": "BLOCKED",
+   "holder_blocks_worker": true
+  },
+  "contender_outcome": {
+   "ok": true,
+   "result": [
+    "7b50e9b4-d363-486e-a2e2-e02f67dd5c6f",
+    "5c9b21ed-749f-4433-9390-780843d58c5a"
+   ]
+  },
+  "expected": {
+   "bs_recorded": true,
+   "successor_created": false,
+   "contender_outcome_ok": true
+  },
+  "observed": {
+   "bs_recorded": true,
+   "successor_created": false,
+   "contender_outcome_ok": true
+  },
+  "old_version_effective_to": null,
+  "new_stock_bs_after_end": 0,
+  "unused_authority_rows": 0,
+  "actions": "ordinary authenticated laundry public RPC and owner successor RPC",
+  "committed_fixture_isolated_in_race_copy": true
+ },
+ {
+  "group": "RACES_AFTER",
+  "case": "RACE:MASTER_FIRST:COMMIT",
+  "status": "PASS",
+  "first": "MASTER",
+  "first_committed": true,
+  "fact_physical_at": "2026-09-23 15:46:44.619592+07:00",
+  "requested_effective_from": "2026-09-23 15:46:14.619592+07:00",
+  "held": "0dec169e-5c24-4d0b-8f30-a556e30cc3e0",
+  "contention": {
+   "kind": "BLOCKED",
+   "holder_blocks_worker": true
+  },
+  "contender_outcome": {
+   "ok": false,
+   "sqlstate": "P0001",
+   "message": "Laundry BS product must be active at physical receipt time and match the source PO model/size"
+  },
+  "expected": {
+   "bs_recorded": false,
+   "successor_created": true,
+   "contender_outcome_ok": false
+  },
+  "observed": {
+   "bs_recorded": false,
+   "successor_created": true,
+   "contender_outcome_ok": false
+  },
+  "old_version_effective_to": "2026-09-23 08:46:14.619592+00:00",
+  "new_stock_bs_after_end": 0,
+  "unused_authority_rows": 0,
+  "actions": "ordinary authenticated laundry public RPC and owner successor RPC",
+  "committed_fixture_isolated_in_race_copy": true
+ },
+ {
+  "status": "REVIEW_COMPLETE",
+  "phase": "after",
+  "source": {
+   "auditor_head": "bb4009ccd9d4bb40472de2e7886f9b9077a3c0e0",
+   "auditor_tree": "10c2040710534ee555268f547fb99d89942cb143",
+   "frozen_writer": "ca7f09556397801c50a2277bdb65b1bf019f9a05",
+   "changed_from_frozen": [
+    ".github/workflows/cp6-au-r1-probe.yml",
+    "docs/evidence/cp6-av-pins.json",
+    "scripts/cp6_au_r1_build.py",
+    "scripts/cp6_au_r1_candidate.py",
+    "scripts/cp6_au_r1_definitions.py",
+    "scripts/cp6_au_r1_probe.py",
+    "supabase/migrations/20260923090000_erp_v2_6_20av_cp6_new_stock_physical_cutoff.sql",
+    "supabase/rollbacks/20260923090000_erp_v2_6_20av_cp6_new_stock_physical_cutoff.rollback.sql"
+   ],
+   "sha256": {
+    ".github/workflows/cp6-au-r1-probe.yml": "97c262daf39dfd8f454dded95239e75715204484920ecfc73ffee10ca36e5ef4",
+    "docs/evidence/cp6-av-pins.json": "0f9a5e1578656fdcbcae09bc5d1e67fda07c7beea863150358980d1cf10b1f2e",
+    "scripts/cp6_au_r1_build.py": "09bffd200ee3c110760502a594fde66f11ae36c9352e5cb390d717050a91caac",
+    "scripts/cp6_au_r1_candidate.py": "0d71657efdb5ed6f4ab8328ea0a44ffd5fed7880df4f5747d896c3d983b614c4",
+    "scripts/cp6_au_r1_definitions.py": "db65967c5b38019426de04a8bdf1fe671ae02b545e5c458ce1da6b8458a029d5",
+    "scripts/cp6_au_r1_probe.py": "0bae51cab8d2d451b8a82690d75dce6a5ba70142844e8750ce148a43d644aed6",
+    "supabase/migrations/20260923090000_erp_v2_6_20av_cp6_new_stock_physical_cutoff.sql": "3bd2f94fc3415072b3f92b313ef8473d4b3e365b22daaa4e8416d0bea6426199",
+    "supabase/rollbacks/20260923090000_erp_v2_6_20av_cp6_new_stock_physical_cutoff.rollback.sql": "bdff27690a322e47d1e2d5949de18b23eb46d0d0dca66de188db4da9bb2c2e14"
+   }
+  },
+  "installed_functions_patched_for_testing": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "au_install": {
+   "action": "install",
+   "status": "PASS",
+   "closed_drained": true,
+   "committed_verified": true,
+   "admission_reopened": true,
+   "runtime": {
+    "stage": "AU",
+    "function_count": 648,
+    "object_count": 7156,
+    "full_catalog_verified": true,
+    "changed_functions": [
+     "erp.validate_product_identity_period()",
+     "erp.edit_product_identity_effective(uuid,text,uuid,uuid,text,uuid,text,timestamp with time zone,text)",
+     "erp.cancel_product_identity_successor(uuid,text)",
+     "erp.guard_product_identity_version_metadata()",
+     "erp.guard_product_delete_after_identity_history()",
+     "erp.assert_product_identity_time(uuid,timestamp with time zone,text)"
+    ],
+    "prior_permanent_sql_unchanged": true
+   },
+   "drain_observations": []
+  },
+  "au_runtime": {
+   "stage": "AU",
+   "function_count": 648,
+   "object_count": 7156,
+   "full_catalog_verified": true,
+   "changed_functions": [
+    "erp.validate_product_identity_period()",
+    "erp.edit_product_identity_effective(uuid,text,uuid,uuid,text,uuid,text,timestamp with time zone,text)",
+    "erp.cancel_product_identity_successor(uuid,text)",
+    "erp.guard_product_identity_version_metadata()",
+    "erp.guard_product_delete_after_identity_history()",
+    "erp.assert_product_identity_time(uuid,timestamp with time zone,text)"
+   ],
+   "prior_permanent_sql_unchanged": true
+  },
+  "candidate_package": {
+   "status": "PASS",
+   "cycles": [
+    {
+     "install": {
+      "action": "install",
+      "status": "PASS",
+      "closed_drained": true,
+      "committed_verified": true,
+      "admission_reopened": true,
+      "runtime": {
+       "stage": "AV_CANDIDATE",
+       "function_count": 650,
+       "object_count": 7158,
+       "full_catalog_verified": true,
+       "changed_functions": [
+        "erp.edit_product_identity_effective(uuid,text,uuid,uuid,text,uuid,text,timestamp with time zone,text)"
+       ],
+       "new_functions": [
+        "erp.latest_new_stock_physical_at_v1(uuid)",
+        "erp.assert_new_stock_cutoff_coverage_v1()"
+       ],
+       "coverage": {
+        "covered": [
+         "bs_cases",
+         "fg_lots"
+        ],
+        "new_stock_producers": {
+         "erp.post_qc(uuid)": [
+          "bs_cases",
+          "fg_lots"
+         ],
+         "erp.post_laundry_receipt(uuid)": [
+          "bs_cases",
+          "wip_stage_events"
+         ],
+         "erp.post_product_conversion(uuid)": [
+          "fg_inventory_balances",
+          "fg_lots",
+          "hpp_version_components",
+          "hpp_versions",
+          "product_conversion_allocations"
+         ]
+        },
+        "derived_without_physical_instant": [
+         "fg_inventory_balances"
+        ]
+       },
+       "prior_permanent_sql_unchanged": true
+      },
+      "drain_observations": []
+     },
+     "open_rollback_refused_atomically": true,
+     "restore": {
+      "action": "rollback",
+      "status": "PASS",
+      "closed_drained": true,
+      "committed_verified": true,
+      "admission_reopened": true,
+      "runtime": {
+       "stage": "AU",
+       "function_count": 648,
+       "object_count": 7156,
+       "full_catalog_verified": true,
+       "changed_functions": [
+        "erp.validate_product_identity_period()",
+        "erp.edit_product_identity_effective(uuid,text,uuid,uuid,text,uuid,text,timestamp with time zone,text)",
+        "erp.cancel_product_identity_successor(uuid,text)",
+        "erp.guard_product_identity_version_metadata()",
+        "erp.guard_product_delete_after_identity_history()",
+        "erp.assert_product_identity_time(uuid,timestamp with time zone,text)"
+       ],
+       "prior_permanent_sql_unchanged": true
+      },
+      "drain_observations": []
+     },
+     "exact_au_data_and_history_restored": true
+    },
+    {
+     "install": {
+      "action": "install",
+      "status": "PASS",
+      "closed_drained": true,
+      "committed_verified": true,
+      "admission_reopened": true,
+      "runtime": {
+       "stage": "AV_CANDIDATE",
+       "function_count": 650,
+       "object_count": 7158,
+       "full_catalog_verified": true,
+       "changed_functions": [
+        "erp.edit_product_identity_effective(uuid,text,uuid,uuid,text,uuid,text,timestamp with time zone,text)"
+       ],
+       "new_functions": [
+        "erp.latest_new_stock_physical_at_v1(uuid)",
+        "erp.assert_new_stock_cutoff_coverage_v1()"
+       ],
+       "coverage": {
+        "covered": [
+         "bs_cases",
+         "fg_lots"
+        ],
+        "new_stock_producers": {
+         "erp.post_qc(uuid)": [
+          "bs_cases",
+          "fg_lots"
+         ],
+         "erp.post_laundry_receipt(uuid)": [
+          "bs_cases",
+          "wip_stage_events"
+         ],
+         "erp.post_product_conversion(uuid)": [
+          "fg_inventory_balances",
+          "fg_lots",
+          "hpp_version_components",
+          "hpp_versions",
+          "product_conversion_allocations"
+         ]
+        },
+        "derived_without_physical_instant": [
+         "fg_inventory_balances"
+        ]
+       },
+       "prior_permanent_sql_unchanged": true
+      },
+      "drain_observations": []
+     },
+     "open_rollback_refused_atomically": true,
+     "restore": {
+      "action": "rollback",
+      "status": "PASS",
+      "closed_drained": true,
+      "committed_verified": true,
+      "admission_reopened": true,
+      "runtime": {
+       "stage": "AU",
+       "function_count": 648,
+       "object_count": 7156,
+       "full_catalog_verified": true,
+       "changed_functions": [
+        "erp.validate_product_identity_period()",
+        "erp.edit_product_identity_effective(uuid,text,uuid,uuid,text,uuid,text,timestamp with time zone,text)",
+        "erp.cancel_product_identity_successor(uuid,text)",
+        "erp.guard_product_identity_version_metadata()",
+        "erp.guard_product_delete_after_identity_history()",
+        "erp.assert_product_identity_time(uuid,timestamp with time zone,text)"
+       ],
+       "prior_permanent_sql_unchanged": true
+      },
+      "drain_observations": []
+     },
+     "exact_au_data_and_history_restored": true
+    }
+   ],
+   "production_go": false,
+   "independent_acceptance": false,
+   "nonempty_tables": 71,
+   "final_install": {
+    "action": "install",
+    "status": "PASS",
+    "closed_drained": true,
+    "committed_verified": true,
+    "admission_reopened": true,
+    "runtime": {
+     "stage": "AV_CANDIDATE",
+     "function_count": 650,
+     "object_count": 7158,
+     "full_catalog_verified": true,
+     "changed_functions": [
+      "erp.edit_product_identity_effective(uuid,text,uuid,uuid,text,uuid,text,timestamp with time zone,text)"
+     ],
+     "new_functions": [
+      "erp.latest_new_stock_physical_at_v1(uuid)",
+      "erp.assert_new_stock_cutoff_coverage_v1()"
+     ],
+     "coverage": {
+      "covered": [
+       "bs_cases",
+       "fg_lots"
+      ],
+      "new_stock_producers": {
+       "erp.post_qc(uuid)": [
+        "bs_cases",
+        "fg_lots"
+       ],
+       "erp.post_laundry_receipt(uuid)": [
+        "bs_cases",
+        "wip_stage_events"
+       ],
+       "erp.post_product_conversion(uuid)": [
+        "fg_inventory_balances",
+        "fg_lots",
+        "hpp_version_components",
+        "hpp_versions",
+        "product_conversion_allocations"
+       ]
+      },
+      "derived_without_physical_instant": [
+       "fg_inventory_balances"
+      ]
+     },
+     "prior_permanent_sql_unchanged": true
+    },
+    "drain_observations": []
+   }
+  },
+  "r1": {
+   "status": "PASS",
+   "counts": {
+    "PASS": 2,
+    "CONTROL_PASS": 8,
+    "HOLD_CONTRACT": 1
+   }
+  },
+  "au_master": {
+   "status": "PASS",
+   "counts": {
+    "PASS": 15
+   }
+  },
+  "at_temporal": {
+   "status": "PASS",
+   "counts": {
+    "PASS": 16
+   }
+  },
+  "races": {
+   "status": "PASS",
+   "counts": {
+    "PASS": 4
+   },
+   "race_database_remaining": 0
+  },
+  "post_use_refusal": {
+   "status": "PASS",
+   "committed_use": "erp.brands one row",
+   "rollback_refused": "AV_POST_USE_ROLLBACK_REFUSED",
+   "all_erp_data_unchanged": true,
+   "platform_unchanged": true
+  },
+  "candidate_verdict": "CANDIDATE_WRITER_PASS",
+  "primary_unchanged": true,
+  "clone_remaining": 0
+ }
+]

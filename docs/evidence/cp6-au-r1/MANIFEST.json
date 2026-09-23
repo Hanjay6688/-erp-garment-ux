@@ -1,0 +1,61 @@
+{
+  "purpose": "AU-R1 native evidence extracted from GitHub Actions job logs; artifacts could not be downloaded from the Claude container (egress policy)",
+  "frozen_writer": "ca7f09556397801c50a2277bdb65b1bf019f9a05",
+  "runtime": "ubuntu-24.04, Supabase CLI 2.116.0, postgres 17.6.1.165, Python 3.12, psycopg 3.2.10",
+  "runs": [
+    {
+      "run_id": "35837408181",
+      "job_id": "107104064445",
+      "artifact_id": "10739778362",
+      "head_sha": "897bb68889790486f65ca92c759d652ba344fd4c",
+      "description": "before only: AU-R1 counterexample on frozen AU",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35837408181",
+      "raw_log": "docs/evidence/cp6-au-r1/raw/run_35837408181_job_107104064445.log",
+      "raw_log_sha256": "b703ea4aad989b447e6bbf2c91959aa1f8d0e07c2885bc5e89032e16c6a0b3a0",
+      "records": "docs/evidence/cp6-au-r1/run_35837408181_records.json",
+      "records_sha256": "660b8d06ff9b4de0e9e5bef0da2bd060cbe7d1445ac75dee4d1e305aa4b8545e",
+      "record_count": 44
+    },
+    {
+      "run_id": "35838014072",
+      "job_id": "107106040737",
+      "artifact_id": null,
+      "head_sha": "9d15cfdbdfe193143ea6364617e80de93786882d",
+      "description": "before + after sequential: AV candidate qualification",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35838014072",
+      "raw_log": "docs/evidence/cp6-au-r1/raw/run_35838014072_job_107106040737.log",
+      "raw_log_sha256": "bdc8edd1e5f9b4eb408f1d003d6cd0978c6443d7bcb423d825c0a3dbcb42ca86",
+      "records": "docs/evidence/cp6-au-r1/run_35838014072_records.json",
+      "records_sha256": "a83a393e0945c5432340bef26817e87710a868b94a08a756136c2522ccf033a7",
+      "record_count": 94
+    },
+    {
+      "run_id": "35838611997",
+      "job_id": "107108022412",
+      "artifact_id": null,
+      "head_sha": "bb4009ccd9d4bb40472de2e7886f9b9077a3c0e0",
+      "description": "before + after sequential + two-session races (AV frozen here)",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35838611997",
+      "raw_log": "docs/evidence/cp6-au-r1/raw/run_35838611997_job_107108022412.log",
+      "raw_log_sha256": "da324ba508c126317e9a6ca26e2d67d5871025683856725caaceb245dea86df3",
+      "records": "docs/evidence/cp6-au-r1/run_35838611997_records.json",
+      "records_sha256": "55f054dfd9990961680fccdba7e9f813e1fed37bafd99cdd507ae7a949480c2d",
+      "record_count": 102
+    },
+    {
+      "run_id": "35839202630",
+      "job_id": "107109943350",
+      "artifact_id": null,
+      "head_sha": "3f2804fefc75d542e62350d6f51e57fd6c29cc6d",
+      "description": "AUD-S06 close versus unresolved recost, observation on frozen AU (no product change)",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35839202630",
+      "raw_log": "docs/evidence/cp6-au-r1/raw/run_35839202630_job_107109943350.log",
+      "raw_log_sha256": "7e3ed1ae7fda3d8cb5892ac00724ebca820d7856e416bd78c121ff6ca0f92742",
+      "records": "docs/evidence/cp6-au-r1/run_35839202630_records.json",
+      "records_sha256": "ac1816a197b378073e0941d9fbe9ddbf573773b22e98073578de7d01304ac80d",
+      "record_count": 11
+    }
+  ],
+  "production_go": false,
+  "independent_acceptance": false
+}

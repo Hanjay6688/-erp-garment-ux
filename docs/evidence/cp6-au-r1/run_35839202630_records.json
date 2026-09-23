@@ -1,0 +1,272 @@
+[
+ {
+  "status": "PASS",
+  "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+  "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+  "functions": 533,
+  "objects": 690,
+  "production_go": false
+ },
+ {
+  "status": "PASS",
+  "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+  "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+  "functions": 533,
+  "objects": 690,
+  "production_go": false
+ },
+ {
+  "status": "PASS",
+  "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+  "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+  "functions": 533,
+  "objects": 690,
+  "production_go": false
+ },
+ {
+  "status": "PASS",
+  "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+  "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+  "functions": 533,
+  "objects": 690,
+  "production_go": false
+ },
+ {
+  "status": "PASS",
+  "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+  "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+  "erp_functions": 534,
+  "new_public_readers": 1,
+  "objects": 692,
+  "production_go": false
+ },
+ {
+  "group": "S06_CLOSE",
+  "case": "S06:AS_IS",
+  "variant": "AS_IS",
+  "target_closed_through": "2026-09-22",
+  "queue_open_rows_before_fixture": [],
+  "fixture": null,
+  "report_before_close": {
+   "status": "READY",
+   "pending_cost_recalc_count": 0,
+   "critical_issue_count": 0,
+   "failed_checks": []
+  },
+  "close_result": "CLOSED",
+  "close_refusal": null,
+  "closed_through_before": "2026-08-31",
+  "closed_through_after": "2026-09-22",
+  "report_after_close": {
+   "status": "READY",
+   "pending_cost_recalc_count": 0,
+   "critical_issue_count": 0,
+   "failed_checks": []
+  },
+  "ordinary_owner_rpc": true,
+  "expected": "Observation of the unmodified clone: close is permitted only when no blocker is reported",
+  "status": "CONTROL_PASS",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "S06_CLOSE",
+  "case": "S06:PENDING",
+  "variant": "PENDING",
+  "target_closed_through": "2026-09-22",
+  "queue_open_rows_before_fixture": [],
+  "fixture": {
+   "queue_id": 1,
+   "po": "a3000000-0000-0000-0000-000000000001",
+   "status": "PENDING",
+   "attempt_count": 0,
+   "administrative_fixture": true
+  },
+  "report_before_close": {
+   "status": "RECALC_PENDING",
+   "pending_cost_recalc_count": 1,
+   "critical_issue_count": 0,
+   "failed_checks": [
+    "V268_COST_RECALC_PENDING"
+   ]
+  },
+  "close_result": "CLOSED",
+  "close_refusal": null,
+  "closed_through_before": "2026-08-31",
+  "closed_through_after": "2026-09-22",
+  "report_after_close": {
+   "status": "RECALC_PENDING",
+   "pending_cost_recalc_count": 1,
+   "critical_issue_count": 0,
+   "failed_checks": [
+    "V268_COST_RECALC_PENDING"
+   ]
+  },
+  "ordinary_owner_rpc": true,
+  "expected": "Refuse close while recost is unresolved (contract: preflight + atomic recheck); report must not be READY",
+  "status": "COUNTEREXAMPLE",
+  "false_ready_report": false,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "S06_CLOSE",
+  "case": "S06:RUNNING",
+  "variant": "RUNNING",
+  "target_closed_through": "2026-09-22",
+  "queue_open_rows_before_fixture": [],
+  "fixture": {
+   "queue_id": 2,
+   "po": "a3000000-0000-0000-0000-000000000001",
+   "status": "RUNNING",
+   "attempt_count": 1,
+   "administrative_fixture": true
+  },
+  "report_before_close": {
+   "status": "RECALC_PENDING",
+   "pending_cost_recalc_count": 1,
+   "critical_issue_count": 0,
+   "failed_checks": [
+    "V268_COST_RECALC_PENDING"
+   ]
+  },
+  "close_result": "CLOSED",
+  "close_refusal": null,
+  "closed_through_before": "2026-08-31",
+  "closed_through_after": "2026-09-22",
+  "report_after_close": {
+   "status": "RECALC_PENDING",
+   "pending_cost_recalc_count": 1,
+   "critical_issue_count": 0,
+   "failed_checks": [
+    "V268_COST_RECALC_PENDING"
+   ]
+  },
+  "ordinary_owner_rpc": true,
+  "expected": "Refuse close while recost is unresolved (contract: preflight + atomic recheck); report must not be READY",
+  "status": "COUNTEREXAMPLE",
+  "false_ready_report": false,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "S06_CLOSE",
+  "case": "S06:FAILED_RETRYABLE",
+  "variant": "FAILED_RETRYABLE",
+  "target_closed_through": "2026-09-22",
+  "queue_open_rows_before_fixture": [],
+  "fixture": {
+   "queue_id": 3,
+   "po": "a3000000-0000-0000-0000-000000000001",
+   "status": "FAILED",
+   "attempt_count": 1,
+   "administrative_fixture": true
+  },
+  "report_before_close": {
+   "status": "RECALC_PENDING",
+   "pending_cost_recalc_count": 1,
+   "critical_issue_count": 0,
+   "failed_checks": [
+    "V268_COST_RECALC_PENDING"
+   ]
+  },
+  "close_result": "CLOSED",
+  "close_refusal": null,
+  "closed_through_before": "2026-08-31",
+  "closed_through_after": "2026-09-22",
+  "report_after_close": {
+   "status": "RECALC_PENDING",
+   "pending_cost_recalc_count": 1,
+   "critical_issue_count": 0,
+   "failed_checks": [
+    "V268_COST_RECALC_PENDING"
+   ]
+  },
+  "ordinary_owner_rpc": true,
+  "expected": "Refuse close while recost is unresolved (contract: preflight + atomic recheck); report must not be READY",
+  "status": "COUNTEREXAMPLE",
+  "false_ready_report": false,
+  "full_boundary_restored": true
+ },
+ {
+  "group": "S06_CLOSE",
+  "case": "S06:FAILED_EXHAUSTED",
+  "variant": "FAILED_EXHAUSTED",
+  "target_closed_through": "2026-09-22",
+  "queue_open_rows_before_fixture": [],
+  "fixture": {
+   "queue_id": 4,
+   "po": "a3000000-0000-0000-0000-000000000001",
+   "status": "FAILED",
+   "attempt_count": 3,
+   "administrative_fixture": true
+  },
+  "report_before_close": {
+   "status": "BLOCKED",
+   "pending_cost_recalc_count": 0,
+   "critical_issue_count": 1,
+   "failed_checks": [
+    "V268_COST_RECALC_EXHAUSTED"
+   ]
+  },
+  "close_result": "CLOSED",
+  "close_refusal": null,
+  "closed_through_before": "2026-08-31",
+  "closed_through_after": "2026-09-22",
+  "report_after_close": {
+   "status": "BLOCKED",
+   "pending_cost_recalc_count": 0,
+   "critical_issue_count": 1,
+   "failed_checks": [
+    "V268_COST_RECALC_EXHAUSTED"
+   ]
+  },
+  "ordinary_owner_rpc": true,
+  "expected": "Refuse close while recost is unresolved (contract: preflight + atomic recheck); report must not be READY",
+  "status": "COUNTEREXAMPLE",
+  "false_ready_report": false,
+  "full_boundary_restored": true
+ },
+ {
+  "phase": "s06",
+  "status": "REVIEW_COMPLETE",
+  "source": {
+   "auditor_head": "3f2804fefc75d542e62350d6f51e57fd6c29cc6d",
+   "auditor_tree": "b49200fdf9a4ebeefa3ce4dee03e645b4eb0c073",
+   "frozen_writer": "ca7f09556397801c50a2277bdb65b1bf019f9a05",
+   "changed_from_frozen": [
+    ".github/workflows/cp6-au-r1-probe.yml",
+    ".github/workflows/cp6-s06-close-probe.yml",
+    "docs/evidence/cp6-av-pins.json",
+    "scripts/cp6_au_r1_build.py",
+    "scripts/cp6_au_r1_candidate.py",
+    "scripts/cp6_au_r1_definitions.py",
+    "scripts/cp6_au_r1_probe.py",
+    "scripts/cp6_s06_close_probe.py",
+    "supabase/migrations/20260923090000_erp_v2_6_20av_cp6_new_stock_physical_cutoff.sql",
+    "supabase/rollbacks/20260923090000_erp_v2_6_20av_cp6_new_stock_physical_cutoff.rollback.sql"
+   ],
+   "sha256": {
+    ".github/workflows/cp6-au-r1-probe.yml": "97c262daf39dfd8f454dded95239e75715204484920ecfc73ffee10ca36e5ef4",
+    ".github/workflows/cp6-s06-close-probe.yml": "aba4afc833ae3ddb21c049700206544a4b08a0ce72a57fa4851b592192afeaf5",
+    "docs/evidence/cp6-av-pins.json": "0f9a5e1578656fdcbcae09bc5d1e67fda07c7beea863150358980d1cf10b1f2e",
+    "scripts/cp6_au_r1_build.py": "09bffd200ee3c110760502a594fde66f11ae36c9352e5cb390d717050a91caac",
+    "scripts/cp6_au_r1_candidate.py": "0d71657efdb5ed6f4ab8328ea0a44ffd5fed7880df4f5747d896c3d983b614c4",
+    "scripts/cp6_au_r1_definitions.py": "db65967c5b38019426de04a8bdf1fe671ae02b545e5c458ce1da6b8458a029d5",
+    "scripts/cp6_au_r1_probe.py": "0bae51cab8d2d451b8a82690d75dce6a5ba70142844e8750ce148a43d644aed6",
+    "scripts/cp6_s06_close_probe.py": "5521c90311f7245ccf6d5f82e3b89ad1b3062375849a3c85930f7f706daedc18",
+    "supabase/migrations/20260923090000_erp_v2_6_20av_cp6_new_stock_physical_cutoff.sql": "3bd2f94fc3415072b3f92b313ef8473d4b3e365b22daaa4e8416d0bea6426199",
+    "supabase/rollbacks/20260923090000_erp_v2_6_20av_cp6_new_stock_physical_cutoff.rollback.sql": "bdff27690a322e47d1e2d5949de18b23eb46d0d0dca66de188db4da9bb2c2e14"
+   }
+  },
+  "installed_functions_patched_for_testing": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "s06": {
+   "status": "COUNTEREXAMPLE",
+   "counts": {
+    "CONTROL_PASS": 1,
+    "COUNTEREXAMPLE": 4
+   }
+  },
+  "primary_unchanged": true,
+  "clone_remaining": 0
+ }
+]

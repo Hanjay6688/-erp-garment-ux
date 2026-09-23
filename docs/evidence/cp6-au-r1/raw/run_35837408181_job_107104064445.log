@@ -1,0 +1,1785 @@
+﻿2026-09-23T08:29:35.7434308Z Current runner version: '2.337.0'
+2026-09-23T08:29:35.7460930Z ##[group]Runner Image Provisioner
+2026-09-23T08:29:35.7461947Z Hosted Compute Agent
+2026-09-23T08:29:35.7462567Z Version: 20260828.587
+2026-09-23T08:29:35.7463216Z Commit: abac92662cab4cc7352de4f9f9d2e2419aad9c29
+2026-09-23T08:29:35.7464101Z Build Date: 2026-08-28T16:44:25Z
+2026-09-23T08:29:35.7464822Z Worker ID: {15e7bc8d-5747-4009-8129-01f6e5b9a97f}
+2026-09-23T08:29:35.7465606Z Azure Region: centralus
+2026-09-23T08:29:35.7466245Z ##[endgroup]
+2026-09-23T08:29:35.7467626Z ##[group]Operating System
+2026-09-23T08:29:35.7468371Z Ubuntu
+2026-09-23T08:29:35.7469030Z 24.04.5
+2026-09-23T08:29:35.7469620Z LTS
+2026-09-23T08:29:35.7470165Z ##[endgroup]
+2026-09-23T08:29:35.7470868Z ##[group]Runner Image
+2026-09-23T08:29:35.7471592Z Image: ubuntu-24.04
+2026-09-23T08:29:35.7472253Z Version: 20260907.300.1
+2026-09-23T08:29:35.7473590Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260907.300/images/ubuntu/Ubuntu2404-Readme.md
+2026-09-23T08:29:35.7475630Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260907.300
+2026-09-23T08:29:35.7476722Z ##[endgroup]
+2026-09-23T08:29:35.7477985Z ##[group]GITHUB_TOKEN Permissions
+2026-09-23T08:29:35.7480789Z Actions: read
+2026-09-23T08:29:35.7481473Z Contents: read
+2026-09-23T08:29:35.7482162Z Metadata: read
+2026-09-23T08:29:35.7482785Z ##[endgroup]
+2026-09-23T08:29:35.7484988Z Secret source: Actions
+2026-09-23T08:29:35.7485953Z Cache mode: write
+2026-09-23T08:29:35.7486671Z Prepare workflow directory
+2026-09-23T08:29:35.7880749Z Prepare all required actions
+2026-09-23T08:29:35.7929709Z Getting action download info
+2026-09-23T08:29:36.1094926Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-09-23T08:29:36.2423332Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+2026-09-23T08:29:36.3278748Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+2026-09-23T08:29:36.4711264Z Download action repository 'supabase/setup-cli@ab058987d8d6c725971f6cf9d0b5c98467e30bd1' (SHA:ab058987d8d6c725971f6cf9d0b5c98467e30bd1)
+2026-09-23T08:29:36.9660916Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-09-23T08:29:37.2232216Z Complete job name: trial
+2026-09-23T08:29:37.3202750Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-23T08:29:37.3211621Z ##[group]Run actions/checkout@v4
+2026-09-23T08:29:37.3212354Z with:
+2026-09-23T08:29:37.3212827Z   path: writer
+2026-09-23T08:29:37.3213303Z   fetch-depth: 0
+2026-09-23T08:29:37.3213826Z   ref: ca7f09556397801c50a2277bdb65b1bf019f9a05
+2026-09-23T08:29:37.3214495Z   repository: Hanjay6688/-erp-garment-ux
+2026-09-23T08:29:37.3218781Z   token: ***
+2026-09-23T08:29:37.3219282Z   ssh-strict: true
+2026-09-23T08:29:37.3219756Z   ssh-user: git
+2026-09-23T08:29:37.3220238Z   persist-credentials: true
+2026-09-23T08:29:37.3220997Z   clean: true
+2026-09-23T08:29:37.3221502Z   sparse-checkout-cone-mode: true
+2026-09-23T08:29:37.3222141Z   fetch-tags: false
+2026-09-23T08:29:37.3222631Z   show-progress: true
+2026-09-23T08:29:37.3223111Z   lfs: false
+2026-09-23T08:29:37.3223562Z   submodules: false
+2026-09-23T08:29:37.3224041Z   set-safe-directory: true
+2026-09-23T08:29:37.3224579Z   allow-unsafe-pr-checkout: false
+2026-09-23T08:29:37.3225375Z env:
+2026-09-23T08:29:37.3226071Z   PGURL: ***127.0.0.1:54322/postgres
+2026-09-23T08:29:37.3226674Z   CP6_AC_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:29:37.3227277Z   CP6_AF_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:29:37.3227863Z   CP6_AH_CONFIRM: postgres
+2026-09-23T08:29:37.3228380Z   CP6_AI_CONFIRM: postgres
+2026-09-23T08:29:37.3228913Z   CP6_AH_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:29:37.3229843Z   CP6_AI_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:29:37.3230720Z   CP6_AUDIT_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:29:37.3231596Z   CP6_AF_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:29:37.3232352Z   CP6_DATABASE_CONTAINER: supabase_db_cp5-local
+2026-09-23T08:29:37.3233040Z   CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
+2026-09-23T08:29:37.3233666Z   CP6_AR_CONFIRM: cp6_rollback
+2026-09-23T08:29:37.3234204Z   CP6_AU_BROWSER_CONFIRM: cp6_rollback
+2026-09-23T08:29:37.3234829Z ##[endgroup]
+2026-09-23T08:29:37.4295754Z Syncing repository: Hanjay6688/-erp-garment-ux
+2026-09-23T08:29:37.4299510Z ##[group]Getting Git version info
+2026-09-23T08:29:37.4301432Z Working directory is '/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer'
+2026-09-23T08:29:37.4303879Z [command]/usr/bin/git version
+2026-09-23T08:29:37.4378141Z git version 2.55.0
+2026-09-23T08:29:37.4401376Z ##[endgroup]
+2026-09-23T08:29:37.4416384Z Temporarily overriding HOME='/home/runner/work/_temp/87f05936-e7d8-4785-8a6c-7ecc352da34b' before making global git config changes
+2026-09-23T08:29:37.4419495Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-23T08:29:37.4423407Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/-erp-garment-ux/-erp-garment-ux/writer
+2026-09-23T08:29:37.4475944Z ##[group]Initializing the repository
+2026-09-23T08:29:37.4481458Z [command]/usr/bin/git init /home/runner/work/-erp-garment-ux/-erp-garment-ux/writer
+2026-09-23T08:29:37.4598374Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-09-23T08:29:37.4599960Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-09-23T08:29:37.4602165Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-09-23T08:29:37.4603649Z hint: call:
+2026-09-23T08:29:37.4604745Z hint:
+2026-09-23T08:29:37.4606149Z hint: 	git config --global init.defaultBranch <name>
+2026-09-23T08:29:37.4607776Z hint:
+2026-09-23T08:29:37.4609239Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-09-23T08:29:37.4611622Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-09-23T08:29:37.4613396Z hint:
+2026-09-23T08:29:37.4614976Z hint: 	git branch -m <name>
+2026-09-23T08:29:37.4616455Z hint:
+2026-09-23T08:29:37.4618048Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-09-23T08:29:37.4620805Z Initialized empty Git repository in /home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/.git/
+2026-09-23T08:29:37.4625062Z [command]/usr/bin/git remote add origin https://github.com/Hanjay6688/-erp-garment-ux
+2026-09-23T08:29:37.4669909Z ##[endgroup]
+2026-09-23T08:29:37.4671449Z ##[group]Disabling automatic garbage collection
+2026-09-23T08:29:37.4674641Z [command]/usr/bin/git config --local gc.auto 0
+2026-09-23T08:29:37.4706600Z ##[endgroup]
+2026-09-23T08:29:37.4707935Z ##[group]Setting up auth
+2026-09-23T08:29:37.4714214Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-23T08:29:37.4751304Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-23T08:29:37.5135477Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-23T08:29:37.5176671Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-09-23T08:29:37.5428635Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-23T08:29:37.5466092Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-23T08:29:37.5710170Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-09-23T08:29:37.5752400Z ##[endgroup]
+2026-09-23T08:29:37.5753457Z ##[group]Fetching the repository
+2026-09-23T08:29:37.5763188Z [command]/usr/bin/git -c protocol.version=2 fetch --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/*
+2026-09-23T08:29:38.8346794Z From https://github.com/Hanjay6688/-erp-garment-ux
+2026-09-23T08:29:38.8350233Z  * [new branch]      backend/payroll-component-entitlement-20260901 -> origin/backend/payroll-component-entitlement-20260901
+2026-09-23T08:29:38.8353639Z  * [new branch]      claude/new-session-deapao -> origin/claude/new-session-deapao
+2026-09-23T08:29:38.8356123Z  * [new branch]      codex/attendance-stock-ready-20260830 -> origin/codex/attendance-stock-ready-20260830
+2026-09-23T08:29:38.8359019Z  * [new branch]      codex/compact-wip-roll-layout-20260831 -> origin/codex/compact-wip-roll-layout-20260831
+2026-09-23T08:29:38.8362686Z  * [new branch]      codex/cp1-revalidation-evidence-20260901 -> origin/codex/cp1-revalidation-evidence-20260901
+2026-09-23T08:29:38.8365891Z  * [new branch]      codex/fix-roll-browser-layout-20260831 -> origin/codex/fix-roll-browser-layout-20260831
+2026-09-23T08:29:38.8369365Z  * [new branch]      codex/preconnect-auth-foundation-20260830 -> origin/codex/preconnect-auth-foundation-20260830
+2026-09-23T08:29:38.8372953Z  * [new branch]      codex/reminder-roll-auth-20260830 -> origin/codex/reminder-roll-auth-20260830
+2026-09-23T08:29:38.8375489Z  * [new branch]      codex/sales-finance-ux-20260828 -> origin/codex/sales-finance-ux-20260828
+2026-09-23T08:29:38.8377972Z  * [new branch]      codex/uat-invite-worker-20260831 -> origin/codex/uat-invite-worker-20260831
+2026-09-23T08:29:38.8380740Z  * [new branch]      codex/uat-provenance-20260831 -> origin/codex/uat-provenance-20260831
+2026-09-23T08:29:38.8383347Z  * [new branch]      codex/ui-quick-wins-20260831 -> origin/codex/ui-quick-wins-20260831
+2026-09-23T08:29:38.8385946Z  * [new branch]      codex/ux-corrections-20260828 -> origin/codex/ux-corrections-20260828
+2026-09-23T08:29:38.8389257Z  * [new branch]      codex/wip-roll-operational-hierarchy-20260901 -> origin/codex/wip-roll-operational-hierarchy-20260901
+2026-09-23T08:29:38.8393775Z  * [new branch]      competition/cp6-j-closure-20260911 -> origin/competition/cp6-j-closure-20260911
+2026-09-23T08:29:38.8396545Z  * [new branch]      cp3-review-safe-test -> origin/cp3-review-safe-test
+2026-09-23T08:29:38.8399174Z  * [new branch]      cp3.5/canonical-cleanup-r1-20260901 -> origin/cp3.5/canonical-cleanup-r1-20260901
+2026-09-23T08:29:38.8402695Z  * [new branch]      cp3.5/full-canonical-cleanup-r2-20260901 -> origin/cp3.5/full-canonical-cleanup-r2-20260901
+2026-09-23T08:29:38.8407357Z  * [new branch]      cp3/hpp-attendance-reconstruction-20260901 -> origin/cp3/hpp-attendance-reconstruction-20260901
+2026-09-23T08:29:38.8411719Z  * [new branch]      cp3/hpp-attendance-sewing-terminal-candidate-20260901 -> origin/cp3/hpp-attendance-sewing-terminal-candidate-20260901
+2026-09-23T08:29:38.8416507Z  * [new branch]      cp3/hpp-attendance-sewing-terminal-candidate-v2-20260901 -> origin/cp3/hpp-attendance-sewing-terminal-candidate-v2-20260901
+2026-09-23T08:29:38.8421146Z  * [new branch]      cp3/hpp-attendance-sewing-terminal-r3-20260901 -> origin/cp3/hpp-attendance-sewing-terminal-r3-20260901
+2026-09-23T08:29:38.8425170Z  * [new branch]      cp3/hpp-attendance-sewing-terminal-r4-20260901 -> origin/cp3/hpp-attendance-sewing-terminal-r4-20260901
+2026-09-23T08:29:38.8429567Z  * [new branch]      cp3/hpp-attendance-sewing-terminal-r5-integration-20260901 -> origin/cp3/hpp-attendance-sewing-terminal-r5-integration-20260901
+2026-09-23T08:29:38.8434610Z  * [new branch]      cp3/hpp-attendance-sewing-terminal-reconstruction-20260901 -> origin/cp3/hpp-attendance-sewing-terminal-reconstruction-20260901
+2026-09-23T08:29:38.8439585Z  * [new branch]      cp3/hpp-attendance-sewing-terminal-reconstruction-v2-20260901 -> origin/cp3/hpp-attendance-sewing-terminal-reconstruction-v2-20260901
+2026-09-23T08:29:38.8444553Z  * [new branch]      cp3/hpp-attendance-sewing-terminal-v2-20260901 -> origin/cp3/hpp-attendance-sewing-terminal-v2-20260901
+2026-09-23T08:29:38.8447815Z  * [new branch]      cp3/r4-generated-clean-be76 -> origin/cp3/r4-generated-clean-be76
+2026-09-23T08:29:38.8450981Z  * [new branch]      cp4.5/main-ci-lineage-closure-20260903 -> origin/cp4.5/main-ci-lineage-closure-20260903
+2026-09-23T08:29:38.8454978Z  * [new branch]      cp4.5/rbac-production-identity-wip-r1-20260902 -> origin/cp4.5/rbac-production-identity-wip-r1-20260902
+2026-09-23T08:29:38.8458557Z  * [new branch]      cp4/hpp-auth-owner-uat-r1-20260902 -> origin/cp4/hpp-auth-owner-uat-r1-20260902
+2026-09-23T08:29:38.8463721Z  * [new branch]      cp5/cutting-persistence-pickup-wip-r1-20260903 -> origin/cp5/cutting-persistence-pickup-wip-r1-20260903
+2026-09-23T08:29:38.8468650Z  * [new branch]      cp6/laundry-qc-fg-authoritative-r1-20260904 -> origin/cp6/laundry-qc-fg-authoritative-r1-20260904
+2026-09-23T08:29:38.8472359Z  * [new branch]      deploy/cp5-uat-auth-e2745a2-20260903 -> origin/deploy/cp5-uat-auth-e2745a2-20260903
+2026-09-23T08:29:38.8475664Z  * [new branch]      evidence/checkpoints-1-2-20260901 -> origin/evidence/checkpoints-1-2-20260901
+2026-09-23T08:29:38.8478936Z  * [new branch]      evidence/cp3-r4-generated-boundary-be76 -> origin/evidence/cp3-r4-generated-boundary-be76
+2026-09-23T08:29:38.8482911Z  * [new branch]      evidence/cp3.5-r2-final-backup-restore-20260902 -> origin/evidence/cp3.5-r2-final-backup-restore-20260902
+2026-09-23T08:29:38.8486423Z  * [new branch]      fix/demo-access-contrast-20260921 -> origin/fix/demo-access-contrast-20260921
+2026-09-23T08:29:38.8489310Z  * [new branch]      fix/demo-access-dark-20260921 -> origin/fix/demo-access-dark-20260921
+2026-09-23T08:29:38.8491755Z  * [new branch]      main                 -> origin/main
+2026-09-23T08:29:38.8494265Z  * [new branch]      ops/cp3-r4-lock-order-hotfix-20260901 -> origin/ops/cp3-r4-lock-order-hotfix-20260901
+2026-09-23T08:29:38.8498037Z  * [new branch]      pre-cp5/cutting-persistence-pickup-wip-r1-20260903 -> origin/pre-cp5/cutting-persistence-pickup-wip-r1-20260903
+2026-09-23T08:29:38.8502293Z  * [new branch]      release/laundry-stuck-payroll-formula-20260901 -> origin/release/laundry-stuck-payroll-formula-20260901
+2026-09-23T08:29:38.8506591Z  * [new branch]      security/public-github-hardening-20260909 -> origin/security/public-github-hardening-20260909
+2026-09-23T08:29:38.8510544Z  * [new branch]      ux/laundry-stuck-sewing-payroll-formula-20260901 -> origin/ux/laundry-stuck-sewing-payroll-formula-20260901
+2026-09-23T08:29:38.8516031Z [command]/usr/bin/git rev-parse --verify --quiet ca7f09556397801c50a2277bdb65b1bf019f9a05^{object}
+2026-09-23T08:29:38.8518281Z ca7f09556397801c50a2277bdb65b1bf019f9a05
+2026-09-23T08:29:38.8521680Z ##[endgroup]
+2026-09-23T08:29:38.8523352Z ##[group]Determining the checkout info
+2026-09-23T08:29:38.8525685Z ##[endgroup]
+2026-09-23T08:29:38.8527240Z [command]/usr/bin/git sparse-checkout disable
+2026-09-23T08:29:38.8530566Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-09-23T08:29:38.8534242Z ##[group]Checking out the ref
+2026-09-23T08:29:38.8536129Z [command]/usr/bin/git checkout --progress --force ca7f09556397801c50a2277bdb65b1bf019f9a05
+2026-09-23T08:29:38.9655098Z Note: switching to 'ca7f09556397801c50a2277bdb65b1bf019f9a05'.
+2026-09-23T08:29:38.9656348Z 
+2026-09-23T08:29:38.9657301Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-09-23T08:29:38.9659580Z changes and commit them, and you can discard any commits you make in this
+2026-09-23T08:29:38.9662046Z state without impacting any branches by switching back to a branch.
+2026-09-23T08:29:38.9663308Z 
+2026-09-23T08:29:38.9664194Z If you want to create a new branch to retain commits you create, you may
+2026-09-23T08:29:38.9666238Z do so (now or later) by using -c with the switch command. Example:
+2026-09-23T08:29:38.9667781Z 
+2026-09-23T08:29:38.9668314Z   git switch -c <new-branch-name>
+2026-09-23T08:29:38.9669102Z 
+2026-09-23T08:29:38.9669707Z Or undo this operation with:
+2026-09-23T08:29:38.9670877Z 
+2026-09-23T08:29:38.9671494Z   git switch -
+2026-09-23T08:29:38.9672300Z 
+2026-09-23T08:29:38.9673608Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-09-23T08:29:38.9675449Z 
+2026-09-23T08:29:38.9677163Z HEAD is now at ca7f095 test(cp6): normalize auxiliary catalog comparison without relaxing guards
+2026-09-23T08:29:38.9683401Z ##[endgroup]
+2026-09-23T08:29:38.9727741Z [command]/usr/bin/git log -1 --format=%H
+2026-09-23T08:29:38.9760743Z ca7f09556397801c50a2277bdb65b1bf019f9a05
+2026-09-23T08:29:39.0194049Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-23T08:29:39.0199246Z ##[group]Run actions/checkout@v4
+2026-09-23T08:29:39.0200565Z with:
+2026-09-23T08:29:39.0201477Z   path: auditor
+2026-09-23T08:29:39.0202378Z   fetch-depth: 0
+2026-09-23T08:29:39.0203379Z   repository: Hanjay6688/-erp-garment-ux
+2026-09-23T08:29:39.0213267Z   token: ***
+2026-09-23T08:29:39.0214378Z   ssh-strict: true
+2026-09-23T08:29:39.0215310Z   ssh-user: git
+2026-09-23T08:29:39.0216286Z   persist-credentials: true
+2026-09-23T08:29:39.0217411Z   clean: true
+2026-09-23T08:29:39.0218537Z   sparse-checkout-cone-mode: true
+2026-09-23T08:29:39.0219787Z   fetch-tags: false
+2026-09-23T08:29:39.0220855Z   show-progress: true
+2026-09-23T08:29:39.0221868Z   lfs: false
+2026-09-23T08:29:39.0222755Z   submodules: false
+2026-09-23T08:29:39.0223718Z   set-safe-directory: true
+2026-09-23T08:29:39.0224800Z   allow-unsafe-pr-checkout: false
+2026-09-23T08:29:39.0225905Z env:
+2026-09-23T08:29:39.0227161Z   PGURL: ***127.0.0.1:54322/postgres
+2026-09-23T08:29:39.0228349Z   CP6_AC_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:29:39.0229551Z   CP6_AF_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:29:39.0230915Z   CP6_AH_CONFIRM: postgres
+2026-09-23T08:29:39.0231940Z   CP6_AI_CONFIRM: postgres
+2026-09-23T08:29:39.0233017Z   CP6_AH_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:29:39.0234210Z   CP6_AI_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:29:39.0235660Z   CP6_AUDIT_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:29:39.0237384Z   CP6_AF_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:29:39.0238925Z   CP6_DATABASE_CONTAINER: supabase_db_cp5-local
+2026-09-23T08:29:39.0240297Z   CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
+2026-09-23T08:29:39.0241933Z   CP6_AR_CONFIRM: cp6_rollback
+2026-09-23T08:29:39.0243040Z   CP6_AU_BROWSER_CONFIRM: cp6_rollback
+2026-09-23T08:29:39.0244176Z ##[endgroup]
+2026-09-23T08:29:39.1118908Z Syncing repository: Hanjay6688/-erp-garment-ux
+2026-09-23T08:29:39.1162611Z ##[group]Getting Git version info
+2026-09-23T08:29:39.1164448Z Working directory is '/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor'
+2026-09-23T08:29:39.1167222Z [command]/usr/bin/git version
+2026-09-23T08:29:39.1207793Z git version 2.55.0
+2026-09-23T08:29:39.1229681Z ##[endgroup]
+2026-09-23T08:29:39.1242940Z Temporarily overriding HOME='/home/runner/work/_temp/5db756aa-d866-4e98-ace9-11bfee0ccce8' before making global git config changes
+2026-09-23T08:29:39.1247391Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-23T08:29:39.1253433Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor
+2026-09-23T08:29:39.1289464Z ##[group]Initializing the repository
+2026-09-23T08:29:39.1293868Z [command]/usr/bin/git init /home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor
+2026-09-23T08:29:39.1335833Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-09-23T08:29:39.1339247Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-09-23T08:29:39.1345082Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-09-23T08:29:39.1347736Z hint: call:
+2026-09-23T08:29:39.1349165Z hint:
+2026-09-23T08:29:39.1350995Z hint: 	git config --global init.defaultBranch <name>
+2026-09-23T08:29:39.1353462Z hint:
+2026-09-23T08:29:39.1355462Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-09-23T08:29:39.1358698Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-09-23T08:29:39.1361455Z hint:
+2026-09-23T08:29:39.1362912Z hint: 	git branch -m <name>
+2026-09-23T08:29:39.1364464Z hint:
+2026-09-23T08:29:39.1366842Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-09-23T08:29:39.1370599Z Initialized empty Git repository in /home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/.git/
+2026-09-23T08:29:39.1377115Z [command]/usr/bin/git remote add origin https://github.com/Hanjay6688/-erp-garment-ux
+2026-09-23T08:29:39.1384576Z ##[endgroup]
+2026-09-23T08:29:39.1386929Z ##[group]Disabling automatic garbage collection
+2026-09-23T08:29:39.1389220Z [command]/usr/bin/git config --local gc.auto 0
+2026-09-23T08:29:39.1426346Z ##[endgroup]
+2026-09-23T08:29:39.1428636Z ##[group]Setting up auth
+2026-09-23T08:29:39.1433314Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-23T08:29:39.1472820Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-23T08:29:39.1741347Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-23T08:29:39.1800737Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-09-23T08:29:39.2068130Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-23T08:29:39.2112068Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-23T08:29:39.2380112Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-09-23T08:29:39.2421265Z ##[endgroup]
+2026-09-23T08:29:39.2423499Z ##[group]Fetching the repository
+2026-09-23T08:29:39.2432295Z [command]/usr/bin/git -c protocol.version=2 fetch --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/*
+2026-09-23T08:29:40.4935882Z From https://github.com/Hanjay6688/-erp-garment-ux
+2026-09-23T08:29:40.4936964Z  * [new branch]      backend/payroll-component-entitlement-20260901 -> origin/backend/payroll-component-entitlement-20260901
+2026-09-23T08:29:40.4937822Z  * [new branch]      claude/new-session-deapao -> origin/claude/new-session-deapao
+2026-09-23T08:29:40.4938572Z  * [new branch]      codex/attendance-stock-ready-20260830 -> origin/codex/attendance-stock-ready-20260830
+2026-09-23T08:29:40.4939385Z  * [new branch]      codex/compact-wip-roll-layout-20260831 -> origin/codex/compact-wip-roll-layout-20260831
+2026-09-23T08:29:40.4940196Z  * [new branch]      codex/cp1-revalidation-evidence-20260901 -> origin/codex/cp1-revalidation-evidence-20260901
+2026-09-23T08:29:40.4941683Z  * [new branch]      codex/fix-roll-browser-layout-20260831 -> origin/codex/fix-roll-browser-layout-20260831
+2026-09-23T08:29:40.4942657Z  * [new branch]      codex/preconnect-auth-foundation-20260830 -> origin/codex/preconnect-auth-foundation-20260830
+2026-09-23T08:29:40.4943826Z  * [new branch]      codex/reminder-roll-auth-20260830 -> origin/codex/reminder-roll-auth-20260830
+2026-09-23T08:29:40.4944886Z  * [new branch]      codex/sales-finance-ux-20260828 -> origin/codex/sales-finance-ux-20260828
+2026-09-23T08:29:40.4945929Z  * [new branch]      codex/uat-invite-worker-20260831 -> origin/codex/uat-invite-worker-20260831
+2026-09-23T08:29:40.4947316Z  * [new branch]      codex/uat-provenance-20260831 -> origin/codex/uat-provenance-20260831
+2026-09-23T08:29:40.4948281Z  * [new branch]      codex/ui-quick-wins-20260831 -> origin/codex/ui-quick-wins-20260831
+2026-09-23T08:29:40.4949026Z  * [new branch]      codex/ux-corrections-20260828 -> origin/codex/ux-corrections-20260828
+2026-09-23T08:29:40.4949746Z  * [new branch]      codex/wip-roll-operational-hierarchy-20260901 -> origin/codex/wip-roll-operational-hierarchy-20260901
+2026-09-23T08:29:40.4950767Z  * [new branch]      competition/cp6-j-closure-20260911 -> origin/competition/cp6-j-closure-20260911
+2026-09-23T08:29:40.4951739Z  * [new branch]      cp3-review-safe-test -> origin/cp3-review-safe-test
+2026-09-23T08:29:40.4952620Z  * [new branch]      cp3.5/canonical-cleanup-r1-20260901 -> origin/cp3.5/canonical-cleanup-r1-20260901
+2026-09-23T08:29:40.4953885Z  * [new branch]      cp3.5/full-canonical-cleanup-r2-20260901 -> origin/cp3.5/full-canonical-cleanup-r2-20260901
+2026-09-23T08:29:40.4954706Z  * [new branch]      cp3/hpp-attendance-reconstruction-20260901 -> origin/cp3/hpp-attendance-reconstruction-20260901
+2026-09-23T08:29:40.4955621Z  * [new branch]      cp3/hpp-attendance-sewing-terminal-candidate-20260901 -> origin/cp3/hpp-attendance-sewing-terminal-candidate-20260901
+2026-09-23T08:29:40.4956599Z  * [new branch]      cp3/hpp-attendance-sewing-terminal-candidate-v2-20260901 -> origin/cp3/hpp-attendance-sewing-terminal-candidate-v2-20260901
+2026-09-23T08:29:40.4957511Z  * [new branch]      cp3/hpp-attendance-sewing-terminal-r3-20260901 -> origin/cp3/hpp-attendance-sewing-terminal-r3-20260901
+2026-09-23T08:29:40.4958331Z  * [new branch]      cp3/hpp-attendance-sewing-terminal-r4-20260901 -> origin/cp3/hpp-attendance-sewing-terminal-r4-20260901
+2026-09-23T08:29:40.4959295Z  * [new branch]      cp3/hpp-attendance-sewing-terminal-r5-integration-20260901 -> origin/cp3/hpp-attendance-sewing-terminal-r5-integration-20260901
+2026-09-23T08:29:40.4960521Z  * [new branch]      cp3/hpp-attendance-sewing-terminal-reconstruction-20260901 -> origin/cp3/hpp-attendance-sewing-terminal-reconstruction-20260901
+2026-09-23T08:29:40.4962300Z  * [new branch]      cp3/hpp-attendance-sewing-terminal-reconstruction-v2-20260901 -> origin/cp3/hpp-attendance-sewing-terminal-reconstruction-v2-20260901
+2026-09-23T08:29:40.4963951Z  * [new branch]      cp3/hpp-attendance-sewing-terminal-v2-20260901 -> origin/cp3/hpp-attendance-sewing-terminal-v2-20260901
+2026-09-23T08:29:40.4964778Z  * [new branch]      cp3/r4-generated-clean-be76 -> origin/cp3/r4-generated-clean-be76
+2026-09-23T08:29:40.4965574Z  * [new branch]      cp4.5/main-ci-lineage-closure-20260903 -> origin/cp4.5/main-ci-lineage-closure-20260903
+2026-09-23T08:29:40.4966463Z  * [new branch]      cp4.5/rbac-production-identity-wip-r1-20260902 -> origin/cp4.5/rbac-production-identity-wip-r1-20260902
+2026-09-23T08:29:40.4967206Z  * [new branch]      cp4/hpp-auth-owner-uat-r1-20260902 -> origin/cp4/hpp-auth-owner-uat-r1-20260902
+2026-09-23T08:29:40.4967949Z  * [new branch]      cp5/cutting-persistence-pickup-wip-r1-20260903 -> origin/cp5/cutting-persistence-pickup-wip-r1-20260903
+2026-09-23T08:29:40.4968760Z  * [new branch]      cp6/laundry-qc-fg-authoritative-r1-20260904 -> origin/cp6/laundry-qc-fg-authoritative-r1-20260904
+2026-09-23T08:29:40.4969482Z  * [new branch]      deploy/cp5-uat-auth-e2745a2-20260903 -> origin/deploy/cp5-uat-auth-e2745a2-20260903
+2026-09-23T08:29:40.4970129Z  * [new branch]      evidence/checkpoints-1-2-20260901 -> origin/evidence/checkpoints-1-2-20260901
+2026-09-23T08:29:40.4971120Z  * [new branch]      evidence/cp3-r4-generated-boundary-be76 -> origin/evidence/cp3-r4-generated-boundary-be76
+2026-09-23T08:29:40.4971920Z  * [new branch]      evidence/cp3.5-r2-final-backup-restore-20260902 -> origin/evidence/cp3.5-r2-final-backup-restore-20260902
+2026-09-23T08:29:40.4972672Z  * [new branch]      fix/demo-access-contrast-20260921 -> origin/fix/demo-access-contrast-20260921
+2026-09-23T08:29:40.4973284Z  * [new branch]      fix/demo-access-dark-20260921 -> origin/fix/demo-access-dark-20260921
+2026-09-23T08:29:40.4973945Z  * [new branch]      main                 -> origin/main
+2026-09-23T08:29:40.4974480Z  * [new branch]      ops/cp3-r4-lock-order-hotfix-20260901 -> origin/ops/cp3-r4-lock-order-hotfix-20260901
+2026-09-23T08:29:40.4975282Z  * [new branch]      pre-cp5/cutting-persistence-pickup-wip-r1-20260903 -> origin/pre-cp5/cutting-persistence-pickup-wip-r1-20260903
+2026-09-23T08:29:40.4976164Z  * [new branch]      release/laundry-stuck-payroll-formula-20260901 -> origin/release/laundry-stuck-payroll-formula-20260901
+2026-09-23T08:29:40.4977082Z  * [new branch]      security/public-github-hardening-20260909 -> origin/security/public-github-hardening-20260909
+2026-09-23T08:29:40.4977923Z  * [new branch]      ux/laundry-stuck-sewing-payroll-formula-20260901 -> origin/ux/laundry-stuck-sewing-payroll-formula-20260901
+2026-09-23T08:29:40.4979257Z [command]/usr/bin/git branch --list --remote origin/claude/new-session-deapao
+2026-09-23T08:29:40.4992259Z   origin/claude/new-session-deapao
+2026-09-23T08:29:40.5003124Z [command]/usr/bin/git rev-parse refs/remotes/origin/claude/new-session-deapao
+2026-09-23T08:29:40.5033588Z 897bb68889790486f65ca92c759d652ba344fd4c
+2026-09-23T08:29:40.5036921Z ##[endgroup]
+2026-09-23T08:29:40.5037520Z ##[group]Determining the checkout info
+2026-09-23T08:29:40.5038219Z ##[endgroup]
+2026-09-23T08:29:40.5044113Z [command]/usr/bin/git sparse-checkout disable
+2026-09-23T08:29:40.5086435Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-09-23T08:29:40.5118187Z ##[group]Checking out the ref
+2026-09-23T08:29:40.5122678Z [command]/usr/bin/git checkout --progress --force -B claude/new-session-deapao refs/remotes/origin/claude/new-session-deapao
+2026-09-23T08:29:40.6286249Z Switched to a new branch 'claude/new-session-deapao'
+2026-09-23T08:29:40.6287795Z branch 'claude/new-session-deapao' set up to track 'origin/claude/new-session-deapao'.
+2026-09-23T08:29:40.6304364Z ##[endgroup]
+2026-09-23T08:29:40.6351344Z [command]/usr/bin/git log -1 --format=%H
+2026-09-23T08:29:40.6381921Z 897bb68889790486f65ca92c759d652ba344fd4c
+2026-09-23T08:29:40.6581670Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-23T08:29:40.6582954Z ##[group]Run actions/checkout@v4
+2026-09-23T08:29:40.6583224Z with:
+2026-09-23T08:29:40.6583433Z   path: harness
+2026-09-23T08:29:40.6583662Z   fetch-depth: 0
+2026-09-23T08:29:40.6583927Z   ref: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:29:40.6584275Z   repository: Hanjay6688/-erp-garment-ux
+2026-09-23T08:29:40.6586771Z   token: ***
+2026-09-23T08:29:40.6586996Z   ssh-strict: true
+2026-09-23T08:29:40.6587224Z   ssh-user: git
+2026-09-23T08:29:40.6587461Z   persist-credentials: true
+2026-09-23T08:29:40.6587734Z   clean: true
+2026-09-23T08:29:40.6587986Z   sparse-checkout-cone-mode: true
+2026-09-23T08:29:40.6588294Z   fetch-tags: false
+2026-09-23T08:29:40.6588532Z   show-progress: true
+2026-09-23T08:29:40.6588763Z   lfs: false
+2026-09-23T08:29:40.6588979Z   submodules: false
+2026-09-23T08:29:40.6589214Z   set-safe-directory: true
+2026-09-23T08:29:40.6589488Z   allow-unsafe-pr-checkout: false
+2026-09-23T08:29:40.6589754Z env:
+2026-09-23T08:29:40.6590138Z   PGURL: ***127.0.0.1:54322/postgres
+2026-09-23T08:29:40.6590629Z   CP6_AC_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:29:40.6590935Z   CP6_AF_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:29:40.6591217Z   CP6_AH_CONFIRM: postgres
+2026-09-23T08:29:40.6591471Z   CP6_AI_CONFIRM: postgres
+2026-09-23T08:29:40.6591739Z   CP6_AH_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:29:40.6592023Z   CP6_AI_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:29:40.6592387Z   CP6_AUDIT_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:29:40.6593033Z   CP6_AF_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:29:40.6593427Z   CP6_DATABASE_CONTAINER: supabase_db_cp5-local
+2026-09-23T08:29:40.6593780Z   CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
+2026-09-23T08:29:40.6594100Z   CP6_AR_CONFIRM: cp6_rollback
+2026-09-23T08:29:40.6594373Z   CP6_AU_BROWSER_CONFIRM: cp6_rollback
+2026-09-23T08:29:40.6594643Z ##[endgroup]
+2026-09-23T08:29:40.7432465Z Syncing repository: Hanjay6688/-erp-garment-ux
+2026-09-23T08:29:40.7444198Z ##[group]Getting Git version info
+2026-09-23T08:29:40.7444842Z Working directory is '/home/runner/work/-erp-garment-ux/-erp-garment-ux/harness'
+2026-09-23T08:29:40.7472817Z [command]/usr/bin/git version
+2026-09-23T08:29:40.7514636Z git version 2.55.0
+2026-09-23T08:29:40.7533433Z ##[endgroup]
+2026-09-23T08:29:40.7547559Z Temporarily overriding HOME='/home/runner/work/_temp/57d529f0-07d5-44a0-bb86-c1fce4176135' before making global git config changes
+2026-09-23T08:29:40.7548957Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-23T08:29:40.7553765Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/-erp-garment-ux/-erp-garment-ux/harness
+2026-09-23T08:29:40.7589721Z ##[group]Initializing the repository
+2026-09-23T08:29:40.7595717Z [command]/usr/bin/git init /home/runner/work/-erp-garment-ux/-erp-garment-ux/harness
+2026-09-23T08:29:40.7637242Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-09-23T08:29:40.7638403Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-09-23T08:29:40.7639718Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-09-23T08:29:40.7641613Z hint: call:
+2026-09-23T08:29:40.7642164Z hint:
+2026-09-23T08:29:40.7642803Z hint: 	git config --global init.defaultBranch <name>
+2026-09-23T08:29:40.7643601Z hint:
+2026-09-23T08:29:40.7644481Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-09-23T08:29:40.7645776Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-09-23T08:29:40.7646690Z hint:
+2026-09-23T08:29:40.7647535Z hint: 	git branch -m <name>
+2026-09-23T08:29:40.7648178Z hint:
+2026-09-23T08:29:40.7648979Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-09-23T08:29:40.7651246Z Initialized empty Git repository in /home/runner/work/-erp-garment-ux/-erp-garment-ux/harness/.git/
+2026-09-23T08:29:40.7653521Z [command]/usr/bin/git remote add origin https://github.com/Hanjay6688/-erp-garment-ux
+2026-09-23T08:29:40.7684411Z ##[endgroup]
+2026-09-23T08:29:40.7685110Z ##[group]Disabling automatic garbage collection
+2026-09-23T08:29:40.7689431Z [command]/usr/bin/git config --local gc.auto 0
+2026-09-23T08:29:40.7721165Z ##[endgroup]
+2026-09-23T08:29:40.7721755Z ##[group]Setting up auth
+2026-09-23T08:29:40.7728435Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-23T08:29:40.7764934Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-23T08:29:40.8038654Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-23T08:29:40.8078378Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-09-23T08:29:40.8341290Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-23T08:29:40.8387032Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-23T08:29:40.8655343Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-09-23T08:29:40.8697421Z ##[endgroup]
+2026-09-23T08:29:40.8698078Z ##[group]Fetching the repository
+2026-09-23T08:29:40.8708622Z [command]/usr/bin/git -c protocol.version=2 fetch --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/*
+2026-09-23T08:29:42.0635596Z From https://github.com/Hanjay6688/-erp-garment-ux
+2026-09-23T08:29:42.0636798Z  * [new branch]      backend/payroll-component-entitlement-20260901 -> origin/backend/payroll-component-entitlement-20260901
+2026-09-23T08:29:42.0637896Z  * [new branch]      claude/new-session-deapao -> origin/claude/new-session-deapao
+2026-09-23T08:29:42.0638954Z  * [new branch]      codex/attendance-stock-ready-20260830 -> origin/codex/attendance-stock-ready-20260830
+2026-09-23T08:29:42.0640014Z  * [new branch]      codex/compact-wip-roll-layout-20260831 -> origin/codex/compact-wip-roll-layout-20260831
+2026-09-23T08:29:42.0641367Z  * [new branch]      codex/cp1-revalidation-evidence-20260901 -> origin/codex/cp1-revalidation-evidence-20260901
+2026-09-23T08:29:42.0642442Z  * [new branch]      codex/fix-roll-browser-layout-20260831 -> origin/codex/fix-roll-browser-layout-20260831
+2026-09-23T08:29:42.0643682Z  * [new branch]      codex/preconnect-auth-foundation-20260830 -> origin/codex/preconnect-auth-foundation-20260830
+2026-09-23T08:29:42.0644850Z  * [new branch]      codex/reminder-roll-auth-20260830 -> origin/codex/reminder-roll-auth-20260830
+2026-09-23T08:29:42.0645855Z  * [new branch]      codex/sales-finance-ux-20260828 -> origin/codex/sales-finance-ux-20260828
+2026-09-23T08:29:42.0646891Z  * [new branch]      codex/uat-invite-worker-20260831 -> origin/codex/uat-invite-worker-20260831
+2026-09-23T08:29:42.0647884Z  * [new branch]      codex/uat-provenance-20260831 -> origin/codex/uat-provenance-20260831
+2026-09-23T08:29:42.0648824Z  * [new branch]      codex/ui-quick-wins-20260831 -> origin/codex/ui-quick-wins-20260831
+2026-09-23T08:29:42.0649735Z  * [new branch]      codex/ux-corrections-20260828 -> origin/codex/ux-corrections-20260828
+2026-09-23T08:29:42.0651091Z  * [new branch]      codex/wip-roll-operational-hierarchy-20260901 -> origin/codex/wip-roll-operational-hierarchy-20260901
+2026-09-23T08:29:42.0652704Z  * [new branch]      competition/cp6-j-closure-20260911 -> origin/competition/cp6-j-closure-20260911
+2026-09-23T08:29:42.0653713Z  * [new branch]      cp3-review-safe-test -> origin/cp3-review-safe-test
+2026-09-23T08:29:42.0654822Z  * [new branch]      cp3.5/canonical-cleanup-r1-20260901 -> origin/cp3.5/canonical-cleanup-r1-20260901
+2026-09-23T08:29:42.0656052Z  * [new branch]      cp3.5/full-canonical-cleanup-r2-20260901 -> origin/cp3.5/full-canonical-cleanup-r2-20260901
+2026-09-23T08:29:42.0657289Z  * [new branch]      cp3/hpp-attendance-reconstruction-20260901 -> origin/cp3/hpp-attendance-reconstruction-20260901
+2026-09-23T08:29:42.0658668Z  * [new branch]      cp3/hpp-attendance-sewing-terminal-candidate-20260901 -> origin/cp3/hpp-attendance-sewing-terminal-candidate-20260901
+2026-09-23T08:29:42.0660532Z  * [new branch]      cp3/hpp-attendance-sewing-terminal-candidate-v2-20260901 -> origin/cp3/hpp-attendance-sewing-terminal-candidate-v2-20260901
+2026-09-23T08:29:42.0662144Z  * [new branch]      cp3/hpp-attendance-sewing-terminal-r3-20260901 -> origin/cp3/hpp-attendance-sewing-terminal-r3-20260901
+2026-09-23T08:29:42.0663517Z  * [new branch]      cp3/hpp-attendance-sewing-terminal-r4-20260901 -> origin/cp3/hpp-attendance-sewing-terminal-r4-20260901
+2026-09-23T08:29:42.0665293Z  * [new branch]      cp3/hpp-attendance-sewing-terminal-r5-integration-20260901 -> origin/cp3/hpp-attendance-sewing-terminal-r5-integration-20260901
+2026-09-23T08:29:42.0666383Z  * [new branch]      cp3/hpp-attendance-sewing-terminal-reconstruction-20260901 -> origin/cp3/hpp-attendance-sewing-terminal-reconstruction-20260901
+2026-09-23T08:29:42.0667424Z  * [new branch]      cp3/hpp-attendance-sewing-terminal-reconstruction-v2-20260901 -> origin/cp3/hpp-attendance-sewing-terminal-reconstruction-v2-20260901
+2026-09-23T08:29:42.0668356Z  * [new branch]      cp3/hpp-attendance-sewing-terminal-v2-20260901 -> origin/cp3/hpp-attendance-sewing-terminal-v2-20260901
+2026-09-23T08:29:42.0669263Z  * [new branch]      cp3/r4-generated-clean-be76 -> origin/cp3/r4-generated-clean-be76
+2026-09-23T08:29:42.0669922Z  * [new branch]      cp4.5/main-ci-lineage-closure-20260903 -> origin/cp4.5/main-ci-lineage-closure-20260903
+2026-09-23T08:29:42.0670921Z  * [new branch]      cp4.5/rbac-production-identity-wip-r1-20260902 -> origin/cp4.5/rbac-production-identity-wip-r1-20260902
+2026-09-23T08:29:42.0671651Z  * [new branch]      cp4/hpp-auth-owner-uat-r1-20260902 -> origin/cp4/hpp-auth-owner-uat-r1-20260902
+2026-09-23T08:29:42.0672396Z  * [new branch]      cp5/cutting-persistence-pickup-wip-r1-20260903 -> origin/cp5/cutting-persistence-pickup-wip-r1-20260903
+2026-09-23T08:29:42.0673198Z  * [new branch]      cp6/laundry-qc-fg-authoritative-r1-20260904 -> origin/cp6/laundry-qc-fg-authoritative-r1-20260904
+2026-09-23T08:29:42.0673950Z  * [new branch]      deploy/cp5-uat-auth-e2745a2-20260903 -> origin/deploy/cp5-uat-auth-e2745a2-20260903
+2026-09-23T08:29:42.0674974Z  * [new branch]      evidence/checkpoints-1-2-20260901 -> origin/evidence/checkpoints-1-2-20260901
+2026-09-23T08:29:42.0676117Z  * [new branch]      evidence/cp3-r4-generated-boundary-be76 -> origin/evidence/cp3-r4-generated-boundary-be76
+2026-09-23T08:29:42.0677025Z  * [new branch]      evidence/cp3.5-r2-final-backup-restore-20260902 -> origin/evidence/cp3.5-r2-final-backup-restore-20260902
+2026-09-23T08:29:42.0677752Z  * [new branch]      fix/demo-access-contrast-20260921 -> origin/fix/demo-access-contrast-20260921
+2026-09-23T08:29:42.0678337Z  * [new branch]      fix/demo-access-dark-20260921 -> origin/fix/demo-access-dark-20260921
+2026-09-23T08:29:42.0678788Z  * [new branch]      main                 -> origin/main
+2026-09-23T08:29:42.0679296Z  * [new branch]      ops/cp3-r4-lock-order-hotfix-20260901 -> origin/ops/cp3-r4-lock-order-hotfix-20260901
+2026-09-23T08:29:42.0680066Z  * [new branch]      pre-cp5/cutting-persistence-pickup-wip-r1-20260903 -> origin/pre-cp5/cutting-persistence-pickup-wip-r1-20260903
+2026-09-23T08:29:42.0681188Z  * [new branch]      release/laundry-stuck-payroll-formula-20260901 -> origin/release/laundry-stuck-payroll-formula-20260901
+2026-09-23T08:29:42.0682166Z  * [new branch]      security/public-github-hardening-20260909 -> origin/security/public-github-hardening-20260909
+2026-09-23T08:29:42.0682980Z  * [new branch]      ux/laundry-stuck-sewing-payroll-formula-20260901 -> origin/ux/laundry-stuck-sewing-payroll-formula-20260901
+2026-09-23T08:29:42.0684217Z [command]/usr/bin/git rev-parse --verify --quiet c6b0e4fb119c4e91fecea66ebf2d789426b22c2b^{object}
+2026-09-23T08:29:42.0687640Z c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:29:42.0693291Z ##[endgroup]
+2026-09-23T08:29:42.0693921Z ##[group]Determining the checkout info
+2026-09-23T08:29:42.0694973Z ##[endgroup]
+2026-09-23T08:29:42.0700538Z [command]/usr/bin/git sparse-checkout disable
+2026-09-23T08:29:42.0746016Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-09-23T08:29:42.0778277Z ##[group]Checking out the ref
+2026-09-23T08:29:42.0782509Z [command]/usr/bin/git checkout --progress --force c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:29:42.1644621Z Note: switching to 'c6b0e4fb119c4e91fecea66ebf2d789426b22c2b'.
+2026-09-23T08:29:42.1645128Z 
+2026-09-23T08:29:42.1645467Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-09-23T08:29:42.1646229Z changes and commit them, and you can discard any commits you make in this
+2026-09-23T08:29:42.1646996Z state without impacting any branches by switching back to a branch.
+2026-09-23T08:29:42.1647462Z 
+2026-09-23T08:29:42.1647758Z If you want to create a new branch to retain commits you create, you may
+2026-09-23T08:29:42.1648458Z do so (now or later) by using -c with the switch command. Example:
+2026-09-23T08:29:42.1648836Z 
+2026-09-23T08:29:42.1649004Z   git switch -c <new-branch-name>
+2026-09-23T08:29:42.1649274Z 
+2026-09-23T08:29:42.1649435Z Or undo this operation with:
+2026-09-23T08:29:42.1649684Z 
+2026-09-23T08:29:42.1649814Z   git switch -
+2026-09-23T08:29:42.1650553Z 
+2026-09-23T08:29:42.1650892Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-09-23T08:29:42.1651398Z 
+2026-09-23T08:29:42.1651802Z HEAD is now at c6b0e4f docs(cp6): checkpoint qualified live access audit and remaining decisions
+2026-09-23T08:29:42.1659892Z ##[endgroup]
+2026-09-23T08:29:42.1711131Z [command]/usr/bin/git log -1 --format=%H
+2026-09-23T08:29:42.1741827Z c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:29:42.1934033Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-23T08:29:42.1935260Z ##[group]Run actions/checkout@v4
+2026-09-23T08:29:42.1935533Z with:
+2026-09-23T08:29:42.1935762Z   path: candidate
+2026-09-23T08:29:42.1935993Z   fetch-depth: 0
+2026-09-23T08:29:42.1936273Z   ref: 25fa4736329e5148dfdb3572bc169952cba23251
+2026-09-23T08:29:42.1936617Z   repository: Hanjay6688/-erp-garment-ux
+2026-09-23T08:29:42.1939093Z   token: ***
+2026-09-23T08:29:42.1939335Z   ssh-strict: true
+2026-09-23T08:29:42.1939571Z   ssh-user: git
+2026-09-23T08:29:42.1939812Z   persist-credentials: true
+2026-09-23T08:29:42.1940073Z   clean: true
+2026-09-23T08:29:42.1940500Z   sparse-checkout-cone-mode: true
+2026-09-23T08:29:42.1940846Z   fetch-tags: false
+2026-09-23T08:29:42.1941089Z   show-progress: true
+2026-09-23T08:29:42.1941327Z   lfs: false
+2026-09-23T08:29:42.1941540Z   submodules: false
+2026-09-23T08:29:42.1941774Z   set-safe-directory: true
+2026-09-23T08:29:42.1942045Z   allow-unsafe-pr-checkout: false
+2026-09-23T08:29:42.1942310Z env:
+2026-09-23T08:29:42.1942666Z   PGURL: ***127.0.0.1:54322/postgres
+2026-09-23T08:29:42.1942975Z   CP6_AC_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:29:42.1943276Z   CP6_AF_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:29:42.1943555Z   CP6_AH_CONFIRM: postgres
+2026-09-23T08:29:42.1943827Z   CP6_AI_CONFIRM: postgres
+2026-09-23T08:29:42.1944106Z   CP6_AH_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:29:42.1944406Z   CP6_AI_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:29:42.1944776Z   CP6_AUDIT_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:29:42.1945213Z   CP6_AF_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:29:42.1945608Z   CP6_DATABASE_CONTAINER: supabase_db_cp5-local
+2026-09-23T08:29:42.1945957Z   CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
+2026-09-23T08:29:42.1946272Z   CP6_AR_CONFIRM: cp6_rollback
+2026-09-23T08:29:42.1946552Z   CP6_AU_BROWSER_CONFIRM: cp6_rollback
+2026-09-23T08:29:42.1946827Z ##[endgroup]
+2026-09-23T08:29:42.2778028Z Syncing repository: Hanjay6688/-erp-garment-ux
+2026-09-23T08:29:42.2785479Z ##[group]Getting Git version info
+2026-09-23T08:29:42.2786236Z Working directory is '/home/runner/work/-erp-garment-ux/-erp-garment-ux/candidate'
+2026-09-23T08:29:42.2824971Z [command]/usr/bin/git version
+2026-09-23T08:29:42.2869014Z git version 2.55.0
+2026-09-23T08:29:42.2899746Z ##[endgroup]
+2026-09-23T08:29:42.2904909Z Temporarily overriding HOME='/home/runner/work/_temp/2fe67a35-3b76-4eed-8b0b-d12e8cc07f39' before making global git config changes
+2026-09-23T08:29:42.2905989Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-23T08:29:42.2912144Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/-erp-garment-ux/-erp-garment-ux/candidate
+2026-09-23T08:29:42.2947206Z ##[group]Initializing the repository
+2026-09-23T08:29:42.2952714Z [command]/usr/bin/git init /home/runner/work/-erp-garment-ux/-erp-garment-ux/candidate
+2026-09-23T08:29:42.2995916Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-09-23T08:29:42.2997024Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-09-23T08:29:42.2997978Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-09-23T08:29:42.2999024Z hint: call:
+2026-09-23T08:29:42.2999512Z hint:
+2026-09-23T08:29:42.3000013Z hint: 	git config --global init.defaultBranch <name>
+2026-09-23T08:29:42.3001026Z hint:
+2026-09-23T08:29:42.3001620Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-09-23T08:29:42.3002430Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-09-23T08:29:42.3002896Z hint:
+2026-09-23T08:29:42.3003322Z hint: 	git branch -m <name>
+2026-09-23T08:29:42.3003572Z hint:
+2026-09-23T08:29:42.3003899Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-09-23T08:29:42.3004500Z Initialized empty Git repository in /home/runner/work/-erp-garment-ux/-erp-garment-ux/candidate/.git/
+2026-09-23T08:29:42.3007055Z [command]/usr/bin/git remote add origin https://github.com/Hanjay6688/-erp-garment-ux
+2026-09-23T08:29:42.3057798Z ##[endgroup]
+2026-09-23T08:29:42.3058416Z ##[group]Disabling automatic garbage collection
+2026-09-23T08:29:42.3058944Z [command]/usr/bin/git config --local gc.auto 0
+2026-09-23T08:29:42.3082791Z ##[endgroup]
+2026-09-23T08:29:42.3083309Z ##[group]Setting up auth
+2026-09-23T08:29:42.3091444Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-23T08:29:42.3127674Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-23T08:29:42.3386510Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-23T08:29:42.3429862Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-09-23T08:29:42.3701323Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-23T08:29:42.3737220Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-23T08:29:42.4007142Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-09-23T08:29:42.4052822Z ##[endgroup]
+2026-09-23T08:29:42.4053485Z ##[group]Fetching the repository
+2026-09-23T08:29:42.4064579Z [command]/usr/bin/git -c protocol.version=2 fetch --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/*
+2026-09-23T08:29:43.6521957Z From https://github.com/Hanjay6688/-erp-garment-ux
+2026-09-23T08:29:43.6523241Z  * [new branch]      backend/payroll-component-entitlement-20260901 -> origin/backend/payroll-component-entitlement-20260901
+2026-09-23T08:29:43.6524078Z  * [new branch]      claude/new-session-deapao -> origin/claude/new-session-deapao
+2026-09-23T08:29:43.6524769Z  * [new branch]      codex/attendance-stock-ready-20260830 -> origin/codex/attendance-stock-ready-20260830
+2026-09-23T08:29:43.6525569Z  * [new branch]      codex/compact-wip-roll-layout-20260831 -> origin/codex/compact-wip-roll-layout-20260831
+2026-09-23T08:29:43.6526332Z  * [new branch]      codex/cp1-revalidation-evidence-20260901 -> origin/codex/cp1-revalidation-evidence-20260901
+2026-09-23T08:29:43.6527289Z  * [new branch]      codex/fix-roll-browser-layout-20260831 -> origin/codex/fix-roll-browser-layout-20260831
+2026-09-23T08:29:43.6528475Z  * [new branch]      codex/preconnect-auth-foundation-20260830 -> origin/codex/preconnect-auth-foundation-20260830
+2026-09-23T08:29:43.6529193Z  * [new branch]      codex/reminder-roll-auth-20260830 -> origin/codex/reminder-roll-auth-20260830
+2026-09-23T08:29:43.6529818Z  * [new branch]      codex/sales-finance-ux-20260828 -> origin/codex/sales-finance-ux-20260828
+2026-09-23T08:29:43.6530674Z  * [new branch]      codex/uat-invite-worker-20260831 -> origin/codex/uat-invite-worker-20260831
+2026-09-23T08:29:43.6531273Z  * [new branch]      codex/uat-provenance-20260831 -> origin/codex/uat-provenance-20260831
+2026-09-23T08:29:43.6532154Z  * [new branch]      codex/ui-quick-wins-20260831 -> origin/codex/ui-quick-wins-20260831
+2026-09-23T08:29:43.6532731Z  * [new branch]      codex/ux-corrections-20260828 -> origin/codex/ux-corrections-20260828
+2026-09-23T08:29:43.6533471Z  * [new branch]      codex/wip-roll-operational-hierarchy-20260901 -> origin/codex/wip-roll-operational-hierarchy-20260901
+2026-09-23T08:29:43.6534422Z  * [new branch]      competition/cp6-j-closure-20260911 -> origin/competition/cp6-j-closure-20260911
+2026-09-23T08:29:43.6535010Z  * [new branch]      cp3-review-safe-test -> origin/cp3-review-safe-test
+2026-09-23T08:29:43.6535775Z  * [new branch]      cp3.5/canonical-cleanup-r1-20260901 -> origin/cp3.5/canonical-cleanup-r1-20260901
+2026-09-23T08:29:43.6536537Z  * [new branch]      cp3.5/full-canonical-cleanup-r2-20260901 -> origin/cp3.5/full-canonical-cleanup-r2-20260901
+2026-09-23T08:29:43.6537716Z  * [new branch]      cp3/hpp-attendance-reconstruction-20260901 -> origin/cp3/hpp-attendance-reconstruction-20260901
+2026-09-23T08:29:43.6538960Z  * [new branch]      cp3/hpp-attendance-sewing-terminal-candidate-20260901 -> origin/cp3/hpp-attendance-sewing-terminal-candidate-20260901
+2026-09-23T08:29:43.6540005Z  * [new branch]      cp3/hpp-attendance-sewing-terminal-candidate-v2-20260901 -> origin/cp3/hpp-attendance-sewing-terminal-candidate-v2-20260901
+2026-09-23T08:29:43.6541136Z  * [new branch]      cp3/hpp-attendance-sewing-terminal-r3-20260901 -> origin/cp3/hpp-attendance-sewing-terminal-r3-20260901
+2026-09-23T08:29:43.6541956Z  * [new branch]      cp3/hpp-attendance-sewing-terminal-r4-20260901 -> origin/cp3/hpp-attendance-sewing-terminal-r4-20260901
+2026-09-23T08:29:43.6542872Z  * [new branch]      cp3/hpp-attendance-sewing-terminal-r5-integration-20260901 -> origin/cp3/hpp-attendance-sewing-terminal-r5-integration-20260901
+2026-09-23T08:29:43.6543910Z  * [new branch]      cp3/hpp-attendance-sewing-terminal-reconstruction-20260901 -> origin/cp3/hpp-attendance-sewing-terminal-reconstruction-20260901
+2026-09-23T08:29:43.6544969Z  * [new branch]      cp3/hpp-attendance-sewing-terminal-reconstruction-v2-20260901 -> origin/cp3/hpp-attendance-sewing-terminal-reconstruction-v2-20260901
+2026-09-23T08:29:43.6545967Z  * [new branch]      cp3/hpp-attendance-sewing-terminal-v2-20260901 -> origin/cp3/hpp-attendance-sewing-terminal-v2-20260901
+2026-09-23T08:29:43.6546827Z  * [new branch]      cp3/r4-generated-clean-be76 -> origin/cp3/r4-generated-clean-be76
+2026-09-23T08:29:43.6547476Z  * [new branch]      cp4.5/main-ci-lineage-closure-20260903 -> origin/cp4.5/main-ci-lineage-closure-20260903
+2026-09-23T08:29:43.6548236Z  * [new branch]      cp4.5/rbac-production-identity-wip-r1-20260902 -> origin/cp4.5/rbac-production-identity-wip-r1-20260902
+2026-09-23T08:29:43.6548974Z  * [new branch]      cp4/hpp-auth-owner-uat-r1-20260902 -> origin/cp4/hpp-auth-owner-uat-r1-20260902
+2026-09-23T08:29:43.6549710Z  * [new branch]      cp5/cutting-persistence-pickup-wip-r1-20260903 -> origin/cp5/cutting-persistence-pickup-wip-r1-20260903
+2026-09-23T08:29:43.6550717Z  * [new branch]      cp6/laundry-qc-fg-authoritative-r1-20260904 -> origin/cp6/laundry-qc-fg-authoritative-r1-20260904
+2026-09-23T08:29:43.6551466Z  * [new branch]      deploy/cp5-uat-auth-e2745a2-20260903 -> origin/deploy/cp5-uat-auth-e2745a2-20260903
+2026-09-23T08:29:43.6552119Z  * [new branch]      evidence/checkpoints-1-2-20260901 -> origin/evidence/checkpoints-1-2-20260901
+2026-09-23T08:29:43.6552823Z  * [new branch]      evidence/cp3-r4-generated-boundary-be76 -> origin/evidence/cp3-r4-generated-boundary-be76
+2026-09-23T08:29:43.6553620Z  * [new branch]      evidence/cp3.5-r2-final-backup-restore-20260902 -> origin/evidence/cp3.5-r2-final-backup-restore-20260902
+2026-09-23T08:29:43.6554353Z  * [new branch]      fix/demo-access-contrast-20260921 -> origin/fix/demo-access-contrast-20260921
+2026-09-23T08:29:43.6554956Z  * [new branch]      fix/demo-access-dark-20260921 -> origin/fix/demo-access-dark-20260921
+2026-09-23T08:29:43.6555433Z  * [new branch]      main                 -> origin/main
+2026-09-23T08:29:43.6556119Z  * [new branch]      ops/cp3-r4-lock-order-hotfix-20260901 -> origin/ops/cp3-r4-lock-order-hotfix-20260901
+2026-09-23T08:29:43.6556932Z  * [new branch]      pre-cp5/cutting-persistence-pickup-wip-r1-20260903 -> origin/pre-cp5/cutting-persistence-pickup-wip-r1-20260903
+2026-09-23T08:29:43.6557939Z  * [new branch]      release/laundry-stuck-payroll-formula-20260901 -> origin/release/laundry-stuck-payroll-formula-20260901
+2026-09-23T08:29:43.6558752Z  * [new branch]      security/public-github-hardening-20260909 -> origin/security/public-github-hardening-20260909
+2026-09-23T08:29:43.6559571Z  * [new branch]      ux/laundry-stuck-sewing-payroll-formula-20260901 -> origin/ux/laundry-stuck-sewing-payroll-formula-20260901
+2026-09-23T08:29:43.6560948Z [command]/usr/bin/git rev-parse --verify --quiet 25fa4736329e5148dfdb3572bc169952cba23251^{object}
+2026-09-23T08:29:43.6569483Z 25fa4736329e5148dfdb3572bc169952cba23251
+2026-09-23T08:29:43.6575170Z ##[endgroup]
+2026-09-23T08:29:43.6575872Z ##[group]Determining the checkout info
+2026-09-23T08:29:43.6576825Z ##[endgroup]
+2026-09-23T08:29:43.6582729Z [command]/usr/bin/git sparse-checkout disable
+2026-09-23T08:29:43.6645606Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-09-23T08:29:43.6677710Z ##[group]Checking out the ref
+2026-09-23T08:29:43.6682464Z [command]/usr/bin/git checkout --progress --force 25fa4736329e5148dfdb3572bc169952cba23251
+2026-09-23T08:29:43.7426408Z Note: switching to '25fa4736329e5148dfdb3572bc169952cba23251'.
+2026-09-23T08:29:43.7426714Z 
+2026-09-23T08:29:43.7426942Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-09-23T08:29:43.7427432Z changes and commit them, and you can discard any commits you make in this
+2026-09-23T08:29:43.7427904Z state without impacting any branches by switching back to a branch.
+2026-09-23T08:29:43.7428180Z 
+2026-09-23T08:29:43.7428362Z If you want to create a new branch to retain commits you create, you may
+2026-09-23T08:29:43.7428809Z do so (now or later) by using -c with the switch command. Example:
+2026-09-23T08:29:43.7429064Z 
+2026-09-23T08:29:43.7429176Z   git switch -c <new-branch-name>
+2026-09-23T08:29:43.7429368Z 
+2026-09-23T08:29:43.7429654Z Or undo this operation with:
+2026-09-23T08:29:43.7429828Z 
+2026-09-23T08:29:43.7429938Z   git switch -
+2026-09-23T08:29:43.7430134Z 
+2026-09-23T08:29:43.7430816Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-09-23T08:29:43.7431339Z 
+2026-09-23T08:29:43.7431641Z HEAD is now at 25fa473 fix(cp6): bind AI rollback proof to writer root
+2026-09-23T08:29:43.7441006Z ##[endgroup]
+2026-09-23T08:29:43.7485559Z [command]/usr/bin/git log -1 --format=%H
+2026-09-23T08:29:43.7516772Z 25fa4736329e5148dfdb3572bc169952cba23251
+2026-09-23T08:29:43.7731129Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-23T08:29:43.7732419Z ##[group]Run actions/checkout@v4
+2026-09-23T08:29:43.7732683Z with:
+2026-09-23T08:29:43.7732884Z   path: base
+2026-09-23T08:29:43.7733090Z   fetch-depth: 0
+2026-09-23T08:29:43.7733329Z   ref: 1bdca3766f7c9800d68295ff5122798060b8a05d
+2026-09-23T08:29:43.7733644Z   repository: Hanjay6688/-erp-garment-ux
+2026-09-23T08:29:43.7736133Z   token: ***
+2026-09-23T08:29:43.7736353Z   ssh-strict: true
+2026-09-23T08:29:43.7736569Z   ssh-user: git
+2026-09-23T08:29:43.7736786Z   persist-credentials: true
+2026-09-23T08:29:43.7737033Z   clean: true
+2026-09-23T08:29:43.7737271Z   sparse-checkout-cone-mode: true
+2026-09-23T08:29:43.7737579Z   fetch-tags: false
+2026-09-23T08:29:43.7737811Z   show-progress: true
+2026-09-23T08:29:43.7738037Z   lfs: false
+2026-09-23T08:29:43.7738247Z   submodules: false
+2026-09-23T08:29:43.7738463Z   set-safe-directory: true
+2026-09-23T08:29:43.7738907Z   allow-unsafe-pr-checkout: false
+2026-09-23T08:29:43.7739167Z env:
+2026-09-23T08:29:43.7739509Z   PGURL: ***127.0.0.1:54322/postgres
+2026-09-23T08:29:43.7739789Z   CP6_AC_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:29:43.7740062Z   CP6_AF_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:29:43.7740632Z   CP6_AH_CONFIRM: postgres
+2026-09-23T08:29:43.7740881Z   CP6_AI_CONFIRM: postgres
+2026-09-23T08:29:43.7741141Z   CP6_AH_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:29:43.7741427Z   CP6_AI_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:29:43.7741772Z   CP6_AUDIT_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:29:43.7742194Z   CP6_AF_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:29:43.7742567Z   CP6_DATABASE_CONTAINER: supabase_db_cp5-local
+2026-09-23T08:29:43.7742907Z   CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
+2026-09-23T08:29:43.7743208Z   CP6_AR_CONFIRM: cp6_rollback
+2026-09-23T08:29:43.7743465Z   CP6_AU_BROWSER_CONFIRM: cp6_rollback
+2026-09-23T08:29:43.7743726Z ##[endgroup]
+2026-09-23T08:29:43.8565293Z Syncing repository: Hanjay6688/-erp-garment-ux
+2026-09-23T08:29:43.8573496Z ##[group]Getting Git version info
+2026-09-23T08:29:43.8574401Z Working directory is '/home/runner/work/-erp-garment-ux/-erp-garment-ux/base'
+2026-09-23T08:29:43.8619536Z [command]/usr/bin/git version
+2026-09-23T08:29:43.8664281Z git version 2.55.0
+2026-09-23T08:29:43.8682584Z ##[endgroup]
+2026-09-23T08:29:43.8695349Z Temporarily overriding HOME='/home/runner/work/_temp/fd750da4-185b-44b4-a0bc-71f1c551087f' before making global git config changes
+2026-09-23T08:29:43.8696769Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-23T08:29:43.8701007Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/-erp-garment-ux/-erp-garment-ux/base
+2026-09-23T08:29:43.8737269Z ##[group]Initializing the repository
+2026-09-23T08:29:43.8742728Z [command]/usr/bin/git init /home/runner/work/-erp-garment-ux/-erp-garment-ux/base
+2026-09-23T08:29:43.8786087Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-09-23T08:29:43.8788227Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-09-23T08:29:43.8789106Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-09-23T08:29:43.8789754Z hint: call:
+2026-09-23T08:29:43.8790171Z hint:
+2026-09-23T08:29:43.8790709Z hint: 	git config --global init.defaultBranch <name>
+2026-09-23T08:29:43.8791310Z hint:
+2026-09-23T08:29:43.8791802Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-09-23T08:29:43.8792728Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-09-23T08:29:43.8793439Z hint:
+2026-09-23T08:29:43.8793767Z hint: 	git branch -m <name>
+2026-09-23T08:29:43.8794486Z hint:
+2026-09-23T08:29:43.8795090Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-09-23T08:29:43.8796177Z Initialized empty Git repository in /home/runner/work/-erp-garment-ux/-erp-garment-ux/base/.git/
+2026-09-23T08:29:43.8799275Z [command]/usr/bin/git remote add origin https://github.com/Hanjay6688/-erp-garment-ux
+2026-09-23T08:29:43.8834690Z ##[endgroup]
+2026-09-23T08:29:43.8835402Z ##[group]Disabling automatic garbage collection
+2026-09-23T08:29:43.8839462Z [command]/usr/bin/git config --local gc.auto 0
+2026-09-23T08:29:43.8872258Z ##[endgroup]
+2026-09-23T08:29:43.8872805Z ##[group]Setting up auth
+2026-09-23T08:29:43.8878934Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-23T08:29:43.8913695Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-23T08:29:43.9188059Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-23T08:29:43.9226911Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-09-23T08:29:43.9491825Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-23T08:29:43.9533526Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-23T08:29:43.9817010Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-09-23T08:29:43.9864694Z ##[endgroup]
+2026-09-23T08:29:43.9865581Z ##[group]Fetching the repository
+2026-09-23T08:29:43.9878072Z [command]/usr/bin/git -c protocol.version=2 fetch --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/*
+2026-09-23T08:29:45.2882584Z From https://github.com/Hanjay6688/-erp-garment-ux
+2026-09-23T08:29:45.2883771Z  * [new branch]      backend/payroll-component-entitlement-20260901 -> origin/backend/payroll-component-entitlement-20260901
+2026-09-23T08:29:45.2884931Z  * [new branch]      claude/new-session-deapao -> origin/claude/new-session-deapao
+2026-09-23T08:29:45.2885888Z  * [new branch]      codex/attendance-stock-ready-20260830 -> origin/codex/attendance-stock-ready-20260830
+2026-09-23T08:29:45.2887075Z  * [new branch]      codex/compact-wip-roll-layout-20260831 -> origin/codex/compact-wip-roll-layout-20260831
+2026-09-23T08:29:45.2888078Z  * [new branch]      codex/cp1-revalidation-evidence-20260901 -> origin/codex/cp1-revalidation-evidence-20260901
+2026-09-23T08:29:45.2888854Z  * [new branch]      codex/fix-roll-browser-layout-20260831 -> origin/codex/fix-roll-browser-layout-20260831
+2026-09-23T08:29:45.2889604Z  * [new branch]      codex/preconnect-auth-foundation-20260830 -> origin/codex/preconnect-auth-foundation-20260830
+2026-09-23T08:29:45.2890612Z  * [new branch]      codex/reminder-roll-auth-20260830 -> origin/codex/reminder-roll-auth-20260830
+2026-09-23T08:29:45.2891241Z  * [new branch]      codex/sales-finance-ux-20260828 -> origin/codex/sales-finance-ux-20260828
+2026-09-23T08:29:45.2891881Z  * [new branch]      codex/uat-invite-worker-20260831 -> origin/codex/uat-invite-worker-20260831
+2026-09-23T08:29:45.2892479Z  * [new branch]      codex/uat-provenance-20260831 -> origin/codex/uat-provenance-20260831
+2026-09-23T08:29:45.2893053Z  * [new branch]      codex/ui-quick-wins-20260831 -> origin/codex/ui-quick-wins-20260831
+2026-09-23T08:29:45.2893619Z  * [new branch]      codex/ux-corrections-20260828 -> origin/codex/ux-corrections-20260828
+2026-09-23T08:29:45.2894308Z  * [new branch]      codex/wip-roll-operational-hierarchy-20260901 -> origin/codex/wip-roll-operational-hierarchy-20260901
+2026-09-23T08:29:45.2895403Z  * [new branch]      competition/cp6-j-closure-20260911 -> origin/competition/cp6-j-closure-20260911
+2026-09-23T08:29:45.2896056Z  * [new branch]      cp3-review-safe-test -> origin/cp3-review-safe-test
+2026-09-23T08:29:45.2896793Z  * [new branch]      cp3.5/canonical-cleanup-r1-20260901 -> origin/cp3.5/canonical-cleanup-r1-20260901
+2026-09-23T08:29:45.2897691Z  * [new branch]      cp3.5/full-canonical-cleanup-r2-20260901 -> origin/cp3.5/full-canonical-cleanup-r2-20260901
+2026-09-23T08:29:45.2898588Z  * [new branch]      cp3/hpp-attendance-reconstruction-20260901 -> origin/cp3/hpp-attendance-reconstruction-20260901
+2026-09-23T08:29:45.2899535Z  * [new branch]      cp3/hpp-attendance-sewing-terminal-candidate-20260901 -> origin/cp3/hpp-attendance-sewing-terminal-candidate-20260901
+2026-09-23T08:29:45.2900712Z  * [new branch]      cp3/hpp-attendance-sewing-terminal-candidate-v2-20260901 -> origin/cp3/hpp-attendance-sewing-terminal-candidate-v2-20260901
+2026-09-23T08:29:45.2901616Z  * [new branch]      cp3/hpp-attendance-sewing-terminal-r3-20260901 -> origin/cp3/hpp-attendance-sewing-terminal-r3-20260901
+2026-09-23T08:29:45.2902407Z  * [new branch]      cp3/hpp-attendance-sewing-terminal-r4-20260901 -> origin/cp3/hpp-attendance-sewing-terminal-r4-20260901
+2026-09-23T08:29:45.2903294Z  * [new branch]      cp3/hpp-attendance-sewing-terminal-r5-integration-20260901 -> origin/cp3/hpp-attendance-sewing-terminal-r5-integration-20260901
+2026-09-23T08:29:45.2904497Z  * [new branch]      cp3/hpp-attendance-sewing-terminal-reconstruction-20260901 -> origin/cp3/hpp-attendance-sewing-terminal-reconstruction-20260901
+2026-09-23T08:29:45.2905544Z  * [new branch]      cp3/hpp-attendance-sewing-terminal-reconstruction-v2-20260901 -> origin/cp3/hpp-attendance-sewing-terminal-reconstruction-v2-20260901
+2026-09-23T08:29:45.2906592Z  * [new branch]      cp3/hpp-attendance-sewing-terminal-v2-20260901 -> origin/cp3/hpp-attendance-sewing-terminal-v2-20260901
+2026-09-23T08:29:45.2907352Z  * [new branch]      cp3/r4-generated-clean-be76 -> origin/cp3/r4-generated-clean-be76
+2026-09-23T08:29:45.2907974Z  * [new branch]      cp4.5/main-ci-lineage-closure-20260903 -> origin/cp4.5/main-ci-lineage-closure-20260903
+2026-09-23T08:29:45.2908733Z  * [new branch]      cp4.5/rbac-production-identity-wip-r1-20260902 -> origin/cp4.5/rbac-production-identity-wip-r1-20260902
+2026-09-23T08:29:45.2909471Z  * [new branch]      cp4/hpp-auth-owner-uat-r1-20260902 -> origin/cp4/hpp-auth-owner-uat-r1-20260902
+2026-09-23T08:29:45.2910203Z  * [new branch]      cp5/cutting-persistence-pickup-wip-r1-20260903 -> origin/cp5/cutting-persistence-pickup-wip-r1-20260903
+2026-09-23T08:29:45.2911284Z  * [new branch]      cp6/laundry-qc-fg-authoritative-r1-20260904 -> origin/cp6/laundry-qc-fg-authoritative-r1-20260904
+2026-09-23T08:29:45.2912382Z  * [new branch]      deploy/cp5-uat-auth-e2745a2-20260903 -> origin/deploy/cp5-uat-auth-e2745a2-20260903
+2026-09-23T08:29:45.2913326Z  * [new branch]      evidence/checkpoints-1-2-20260901 -> origin/evidence/checkpoints-1-2-20260901
+2026-09-23T08:29:45.2914317Z  * [new branch]      evidence/cp3-r4-generated-boundary-be76 -> origin/evidence/cp3-r4-generated-boundary-be76
+2026-09-23T08:29:45.2915504Z  * [new branch]      evidence/cp3.5-r2-final-backup-restore-20260902 -> origin/evidence/cp3.5-r2-final-backup-restore-20260902
+2026-09-23T08:29:45.2916701Z  * [new branch]      fix/demo-access-contrast-20260921 -> origin/fix/demo-access-contrast-20260921
+2026-09-23T08:29:45.2917622Z  * [new branch]      fix/demo-access-dark-20260921 -> origin/fix/demo-access-dark-20260921
+2026-09-23T08:29:45.2918325Z  * [new branch]      main                 -> origin/main
+2026-09-23T08:29:45.2919216Z  * [new branch]      ops/cp3-r4-lock-order-hotfix-20260901 -> origin/ops/cp3-r4-lock-order-hotfix-20260901
+2026-09-23T08:29:45.2920206Z  * [new branch]      pre-cp5/cutting-persistence-pickup-wip-r1-20260903 -> origin/pre-cp5/cutting-persistence-pickup-wip-r1-20260903
+2026-09-23T08:29:45.2921271Z  * [new branch]      release/laundry-stuck-payroll-formula-20260901 -> origin/release/laundry-stuck-payroll-formula-20260901
+2026-09-23T08:29:45.2922251Z  * [new branch]      security/public-github-hardening-20260909 -> origin/security/public-github-hardening-20260909
+2026-09-23T08:29:45.2923065Z  * [new branch]      ux/laundry-stuck-sewing-payroll-formula-20260901 -> origin/ux/laundry-stuck-sewing-payroll-formula-20260901
+2026-09-23T08:29:45.2924196Z [command]/usr/bin/git rev-parse --verify --quiet 1bdca3766f7c9800d68295ff5122798060b8a05d^{object}
+2026-09-23T08:29:45.2930789Z 1bdca3766f7c9800d68295ff5122798060b8a05d
+2026-09-23T08:29:45.2936056Z ##[endgroup]
+2026-09-23T08:29:45.2938326Z ##[group]Determining the checkout info
+2026-09-23T08:29:45.2939032Z ##[endgroup]
+2026-09-23T08:29:45.2944456Z [command]/usr/bin/git sparse-checkout disable
+2026-09-23T08:29:45.2990475Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-09-23T08:29:45.3022750Z ##[group]Checking out the ref
+2026-09-23T08:29:45.3027325Z [command]/usr/bin/git checkout --progress --force 1bdca3766f7c9800d68295ff5122798060b8a05d
+2026-09-23T08:29:45.3706697Z Note: switching to '1bdca3766f7c9800d68295ff5122798060b8a05d'.
+2026-09-23T08:29:45.3707160Z 
+2026-09-23T08:29:45.3707456Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-09-23T08:29:45.3708511Z changes and commit them, and you can discard any commits you make in this
+2026-09-23T08:29:45.3709259Z state without impacting any branches by switching back to a branch.
+2026-09-23T08:29:45.3709686Z 
+2026-09-23T08:29:45.3709989Z If you want to create a new branch to retain commits you create, you may
+2026-09-23T08:29:45.3710949Z do so (now or later) by using -c with the switch command. Example:
+2026-09-23T08:29:45.3711364Z 
+2026-09-23T08:29:45.3711524Z   git switch -c <new-branch-name>
+2026-09-23T08:29:45.3711791Z 
+2026-09-23T08:29:45.3711936Z Or undo this operation with:
+2026-09-23T08:29:45.3712183Z 
+2026-09-23T08:29:45.3712308Z   git switch -
+2026-09-23T08:29:45.3712497Z 
+2026-09-23T08:29:45.3712824Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-09-23T08:29:45.3713323Z 
+2026-09-23T08:29:45.3713631Z HEAD is now at 1bdca37 fix(cp6): bind AC proof to exact AB table boundary
+2026-09-23T08:29:45.3724291Z ##[endgroup]
+2026-09-23T08:29:45.3769950Z [command]/usr/bin/git log -1 --format=%H
+2026-09-23T08:29:45.3801231Z 1bdca3766f7c9800d68295ff5122798060b8a05d
+2026-09-23T08:29:45.4061965Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-23T08:29:45.4063194Z ##[group]Run actions/setup-python@v5
+2026-09-23T08:29:45.4063464Z with:
+2026-09-23T08:29:45.4063670Z   python-version: 3.12
+2026-09-23T08:29:45.4063902Z   check-latest: false
+2026-09-23T08:29:45.4066266Z   token: ***
+2026-09-23T08:29:45.4066493Z   update-environment: true
+2026-09-23T08:29:45.4066745Z   allow-prereleases: false
+2026-09-23T08:29:45.4066979Z   freethreaded: false
+2026-09-23T08:29:45.4067194Z env:
+2026-09-23T08:29:45.4067529Z   PGURL: ***127.0.0.1:54322/postgres
+2026-09-23T08:29:45.4067817Z   CP6_AC_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:29:45.4068110Z   CP6_AF_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:29:45.4068415Z   CP6_AH_CONFIRM: postgres
+2026-09-23T08:29:45.4068654Z   CP6_AI_CONFIRM: postgres
+2026-09-23T08:29:45.4068897Z   CP6_AH_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:29:45.4069161Z   CP6_AI_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:29:45.4069495Z   CP6_AUDIT_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:29:45.4069913Z   CP6_AF_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:29:45.4070491Z   CP6_DATABASE_CONTAINER: supabase_db_cp5-local
+2026-09-23T08:29:45.4070837Z   CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
+2026-09-23T08:29:45.4071135Z   CP6_AR_CONFIRM: cp6_rollback
+2026-09-23T08:29:45.4071390Z   CP6_AU_BROWSER_CONFIRM: cp6_rollback
+2026-09-23T08:29:45.4071655Z ##[endgroup]
+2026-09-23T08:29:45.5420724Z ##[group]Installed versions
+2026-09-23T08:29:45.5504582Z (node:2724) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-09-23T08:29:45.5505734Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-09-23T08:29:45.5506370Z Successfully set up CPython (3.12.14)
+2026-09-23T08:29:45.5507031Z ##[endgroup]
+2026-09-23T08:29:45.5693067Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-23T08:29:45.5694271Z ##[group]Run actions/setup-node@v4
+2026-09-23T08:29:45.5694538Z with:
+2026-09-23T08:29:45.5694740Z   node-version: 22
+2026-09-23T08:29:45.5694958Z   always-auth: false
+2026-09-23T08:29:45.5695179Z   check-latest: false
+2026-09-23T08:29:45.5697510Z   token: ***
+2026-09-23T08:29:45.5697715Z env:
+2026-09-23T08:29:45.5698037Z   PGURL: ***127.0.0.1:54322/postgres
+2026-09-23T08:29:45.5698324Z   CP6_AC_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:29:45.5698817Z   CP6_AF_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:29:45.5699083Z   CP6_AH_CONFIRM: postgres
+2026-09-23T08:29:45.5699318Z   CP6_AI_CONFIRM: postgres
+2026-09-23T08:29:45.5699586Z   CP6_AH_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:29:45.5699856Z   CP6_AI_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:29:45.5700196Z   CP6_AUDIT_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:29:45.5700767Z   CP6_AF_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:29:45.5701148Z   CP6_DATABASE_CONTAINER: supabase_db_cp5-local
+2026-09-23T08:29:45.5701488Z   CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
+2026-09-23T08:29:45.5701800Z   CP6_AR_CONFIRM: cp6_rollback
+2026-09-23T08:29:45.5702058Z   CP6_AU_BROWSER_CONFIRM: cp6_rollback
+2026-09-23T08:29:45.5702385Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:29:45.5702846Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+2026-09-23T08:29:45.5703275Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:29:45.5703665Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:29:45.5704056Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:29:45.5704431Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+2026-09-23T08:29:45.5704766Z ##[endgroup]
+2026-09-23T08:29:45.7208344Z Found in cache @ /opt/hostedtoolcache/node/22.23.2/x64
+2026-09-23T08:29:45.7212547Z (node:2732) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-09-23T08:29:45.7213701Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-09-23T08:29:45.7215842Z ##[group]Environment details
+2026-09-23T08:29:50.9387527Z node: v22.23.2
+2026-09-23T08:29:50.9387954Z npm: 10.9.8
+2026-09-23T08:29:50.9388266Z yarn: 1.22.22
+2026-09-23T08:29:50.9388964Z ##[endgroup]
+2026-09-23T08:29:50.9529574Z ##[group]Run set -euo pipefail
+2026-09-23T08:29:50.9529973Z [36;1mset -euo pipefail[0m
+2026-09-23T08:29:50.9530668Z [36;1mpython -m pip install --quiet 'psycopg[binary]==3.2.10' 'PyYAML==6.0.2'[0m
+2026-09-23T08:29:50.9531108Z [36;1msudo apt-get update -qq[0m
+2026-09-23T08:29:50.9531463Z [36;1msudo apt-get install -y -qq ca-certificates curl gnupg[0m
+2026-09-23T08:29:50.9531913Z [36;1msudo install -d /usr/share/postgresql-common/pgdg[0m
+2026-09-23T08:29:50.9532287Z [36;1msudo curl --fail --silent --show-error \[0m
+2026-09-23T08:29:50.9532706Z [36;1m  -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \[0m
+2026-09-23T08:29:50.9533171Z [36;1m  https://www.postgresql.org/media/keys/ACCC4CF8.asc[0m
+2026-09-23T08:29:50.9533588Z [36;1mkey_fingerprint="$(gpg --show-keys --with-colons \[0m
+2026-09-23T08:29:50.9534012Z [36;1m  /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \[0m
+2026-09-23T08:29:50.9534458Z [36;1m  | awk -F: '$1 == "fpr" { print $10; exit }')"[0m
+2026-09-23T08:29:50.9534908Z [36;1mtest "$key_fingerprint" = 'B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8'[0m
+2026-09-23T08:29:50.9535318Z [36;1m. /etc/os-release[0m
+2026-09-23T08:29:50.9535617Z [36;1marchitecture="$(dpkg --print-architecture)"[0m
+2026-09-23T08:29:50.9536030Z [36;1msudo tee /etc/apt/sources.list.d/pgdg.sources >/dev/null <<EOF[0m
+2026-09-23T08:29:50.9536395Z [36;1mTypes: deb[0m
+2026-09-23T08:29:50.9536685Z [36;1mURIs: https://apt.postgresql.org/pub/repos/apt[0m
+2026-09-23T08:29:50.9537021Z [36;1mSuites: ${VERSION_CODENAME}-pgdg[0m
+2026-09-23T08:29:50.9537331Z [36;1mArchitectures: ${architecture}[0m
+2026-09-23T08:29:50.9537611Z [36;1mComponents: main[0m
+2026-09-23T08:29:50.9537976Z [36;1mSigned-By: /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc[0m
+2026-09-23T08:29:50.9538360Z [36;1mEOF[0m
+2026-09-23T08:29:50.9538584Z [36;1msudo apt-get update -qq[0m
+2026-09-23T08:29:50.9538901Z [36;1msudo apt-get install -y -qq postgresql-client-17[0m
+2026-09-23T08:29:50.9539264Z [36;1mtest -x /usr/lib/postgresql/17/bin/psql[0m
+2026-09-23T08:29:50.9539621Z [36;1mecho '/usr/lib/postgresql/17/bin' >> "$GITHUB_PATH"[0m
+2026-09-23T08:29:50.9594447Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-09-23T08:29:50.9594803Z env:
+2026-09-23T08:29:50.9595233Z   PGURL: ***127.0.0.1:54322/postgres
+2026-09-23T08:29:50.9595542Z   CP6_AC_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:29:50.9595823Z   CP6_AF_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:29:50.9596089Z   CP6_AH_CONFIRM: postgres
+2026-09-23T08:29:50.9596327Z   CP6_AI_CONFIRM: postgres
+2026-09-23T08:29:50.9596560Z   CP6_AH_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:29:50.9596824Z   CP6_AI_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:29:50.9597164Z   CP6_AUDIT_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:29:50.9597592Z   CP6_AF_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:29:50.9597959Z   CP6_DATABASE_CONTAINER: supabase_db_cp5-local
+2026-09-23T08:29:50.9598316Z   CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
+2026-09-23T08:29:50.9598622Z   CP6_AR_CONFIRM: cp6_rollback
+2026-09-23T08:29:50.9598883Z   CP6_AU_BROWSER_CONFIRM: cp6_rollback
+2026-09-23T08:29:50.9599213Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:29:50.9599640Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+2026-09-23T08:29:50.9600060Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:29:50.9600711Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:29:50.9601096Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:29:50.9601477Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+2026-09-23T08:29:50.9601805Z ##[endgroup]
+2026-09-23T08:30:03.0365406Z gpg: directory '/home/runner/.gnupg' created
+2026-09-23T08:30:03.0365950Z gpg: keybox '/home/runner/.gnupg/pubring.kbx' created
+2026-09-23T08:30:03.0685570Z gpg: /home/runner/.gnupg/trustdb.gpg: trustdb created
+2026-09-23T08:30:05.4787508Z Selecting previously unselected package postgresql-client-17.
+2026-09-23T08:30:05.5061182Z (Reading database ... 
+2026-09-23T08:30:05.5061704Z (Reading database ... 5%
+2026-09-23T08:30:05.5062104Z (Reading database ... 10%
+2026-09-23T08:30:05.5062677Z (Reading database ... 15%
+2026-09-23T08:30:05.5063088Z (Reading database ... 20%
+2026-09-23T08:30:05.5063481Z (Reading database ... 25%
+2026-09-23T08:30:05.5063870Z (Reading database ... 30%
+2026-09-23T08:30:05.5064235Z (Reading database ... 35%
+2026-09-23T08:30:05.5064595Z (Reading database ... 40%
+2026-09-23T08:30:05.5064974Z (Reading database ... 45%
+2026-09-23T08:30:05.5065353Z (Reading database ... 50%
+2026-09-23T08:30:05.5101930Z (Reading database ... 55%
+2026-09-23T08:30:05.6587851Z (Reading database ... 60%
+2026-09-23T08:30:05.8169638Z (Reading database ... 65%
+2026-09-23T08:30:06.0257015Z (Reading database ... 70%
+2026-09-23T08:30:06.1628105Z (Reading database ... 75%
+2026-09-23T08:30:06.3861310Z (Reading database ... 80%
+2026-09-23T08:30:06.6026825Z (Reading database ... 85%
+2026-09-23T08:30:06.8094863Z (Reading database ... 90%
+2026-09-23T08:30:07.0219692Z (Reading database ... 95%
+2026-09-23T08:30:07.0220231Z (Reading database ... 100%
+2026-09-23T08:30:07.0221141Z (Reading database ... 201818 files and directories currently installed.)
+2026-09-23T08:30:07.0267619Z Preparing to unpack .../postgresql-client-17_17.11-1.pgdg24.04+2_amd64.deb ...
+2026-09-23T08:30:07.0295671Z Unpacking postgresql-client-17 (17.11-1.pgdg24.04+2) ...
+2026-09-23T08:30:07.2549431Z Setting up postgresql-client-17 (17.11-1.pgdg24.04+2) ...
+2026-09-23T08:30:07.6542293Z update-alternatives: using /usr/share/postgresql/17/man/man1/psql.1.gz to provide /usr/share/man/man1/psql.1.gz (psql.1.gz) in auto mode
+2026-09-23T08:30:07.7217592Z Processing triggers for postgresql-common (293.pgdg24.04+1) ...
+2026-09-23T08:30:07.8774029Z Building PostgreSQL dictionaries from installed myspell/hunspell packages...
+2026-09-23T08:30:07.8828096Z   en_us
+2026-09-23T08:30:08.0372112Z Removing obsolete dictionary files:
+2026-09-23T08:30:08.6820904Z 
+2026-09-23T08:30:08.6821788Z Running kernel seems to be up-to-date.
+2026-09-23T08:30:08.6822457Z 
+2026-09-23T08:30:08.6822623Z No services need to be restarted.
+2026-09-23T08:30:08.6822843Z 
+2026-09-23T08:30:08.6822999Z No containers need to be restarted.
+2026-09-23T08:30:08.6823179Z 
+2026-09-23T08:30:08.6823368Z No user sessions are running outdated binaries.
+2026-09-23T08:30:08.6823584Z 
+2026-09-23T08:30:08.6823881Z No VM guests are running outdated hypervisor (qemu) binaries on this host.
+2026-09-23T08:30:09.6135479Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-23T08:30:09.6136772Z ##[group]Run supabase/setup-cli@ab058987d8d6c725971f6cf9d0b5c98467e30bd1
+2026-09-23T08:30:09.6137151Z with:
+2026-09-23T08:30:09.6137354Z   version: 2.116.0
+2026-09-23T08:30:09.6137565Z env:
+2026-09-23T08:30:09.6138004Z   PGURL: ***127.0.0.1:54322/postgres
+2026-09-23T08:30:09.6138301Z   CP6_AC_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:30:09.6138583Z   CP6_AF_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:30:09.6138850Z   CP6_AH_CONFIRM: postgres
+2026-09-23T08:30:09.6139089Z   CP6_AI_CONFIRM: postgres
+2026-09-23T08:30:09.6139326Z   CP6_AH_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:30:09.6139602Z   CP6_AI_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:30:09.6139955Z   CP6_AUDIT_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:30:09.6141670Z   CP6_AF_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:30:09.6142049Z   CP6_DATABASE_CONTAINER: supabase_db_cp5-local
+2026-09-23T08:30:09.6142381Z   CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
+2026-09-23T08:30:09.6142679Z   CP6_AR_CONFIRM: cp6_rollback
+2026-09-23T08:30:09.6142935Z   CP6_AU_BROWSER_CONFIRM: cp6_rollback
+2026-09-23T08:30:09.6143260Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:30:09.6143689Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+2026-09-23T08:30:09.6144105Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:30:09.6144498Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:30:09.6144875Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:30:09.6145247Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+2026-09-23T08:30:09.6145576Z ##[endgroup]
+2026-09-23T08:30:10.3473195Z [command]/usr/bin/tar xz --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/d6fb7002-7810-4b8c-9cc2-90df5ee54b5f -f /home/runner/work/_temp/6ee805cd-b415-4df9-8476-c91b7cdf1ca0
+2026-09-23T08:30:11.9406302Z ##[group]Run set -euo pipefail
+2026-09-23T08:30:11.9406623Z [36;1mset -euo pipefail[0m
+2026-09-23T08:30:11.9407020Z [36;1mPYTHONPATH=scripts python -c "import cp6_au_trial; cp6_au_trial.source()"[0m
+2026-09-23T08:30:11.9407572Z [36;1mmkdir -p ../candidate/cp6-proof/writer-{ae,af,ah,ai,aj,ak,al,am,an}[0m
+2026-09-23T08:30:11.9449977Z shell: /usr/bin/bash -e {0}
+2026-09-23T08:30:11.9465800Z env:
+2026-09-23T08:30:11.9466280Z   PGURL: ***127.0.0.1:54322/postgres
+2026-09-23T08:30:11.9466589Z   CP6_AC_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:30:11.9466867Z   CP6_AF_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:30:11.9467132Z   CP6_AH_CONFIRM: postgres
+2026-09-23T08:30:11.9467371Z   CP6_AI_CONFIRM: postgres
+2026-09-23T08:30:11.9467610Z   CP6_AH_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:30:11.9467879Z   CP6_AI_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:30:11.9468213Z   CP6_AUDIT_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:30:11.9468671Z   CP6_AF_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:30:11.9469033Z   CP6_DATABASE_CONTAINER: supabase_db_cp5-local
+2026-09-23T08:30:11.9469404Z   CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
+2026-09-23T08:30:11.9469709Z   CP6_AR_CONFIRM: cp6_rollback
+2026-09-23T08:30:11.9469971Z   CP6_AU_BROWSER_CONFIRM: cp6_rollback
+2026-09-23T08:30:11.9470767Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:30:11.9471189Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+2026-09-23T08:30:11.9471624Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:30:11.9472000Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:30:11.9472375Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:30:11.9472752Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+2026-09-23T08:30:11.9473102Z   SUPABASE_INTERNAL_IMAGE_REGISTRY: ghcr.io
+2026-09-23T08:30:11.9473381Z ##[endgroup]
+2026-09-23T08:30:13.0693345Z ##[group]Run set -euo pipefail
+2026-09-23T08:30:13.0693691Z [36;1mset -euo pipefail[0m
+2026-09-23T08:30:13.0694064Z [36;1mtest "$(git rev-parse HEAD)" = 1bdca3766f7c9800d68295ff5122798060b8a05d[0m
+2026-09-23T08:30:13.0694609Z [36;1mtest "$(git rev-parse HEAD^{tree})" = 334629c626257b8b713826f491cdf62385d5299b[0m
+2026-09-23T08:30:13.0695079Z [36;1mtest -z "$(git status --porcelain)"[0m
+2026-09-23T08:30:13.0695385Z [36;1msupabase --help >/dev/null[0m
+2026-09-23T08:30:13.0695669Z [36;1msupabase init --help >/dev/null[0m
+2026-09-23T08:30:13.0695960Z [36;1msupabase start --help >/dev/null[0m
+2026-09-23T08:30:13.0696240Z [36;1mmkdir cp5-local[0m
+2026-09-23T08:30:13.0696517Z [36;1msupabase init --force --workdir cp5-local[0m
+2026-09-23T08:30:13.0696860Z [36;1mmkdir -p cp5-local/supabase/.temp[0m
+2026-09-23T08:30:13.0697231Z [36;1mecho '17.6.1.165' > cp5-local/supabase/.temp/postgres-version[0m
+2026-09-23T08:30:13.0697797Z [36;1msed -i '0,/^enable_signup = true$/s//enable_signup = false/' cp5-local/supabase/config.toml[0m
+2026-09-23T08:30:13.0698268Z [36;1msupabase start --workdir cp5-local \[0m
+2026-09-23T08:30:13.0698788Z [36;1m  -x realtime,imgproxy,studio,postgres-meta,edge-runtime,logflare,vector,supavisor \[0m
+2026-09-23T08:30:13.0699324Z [36;1m  > "$RUNNER_TEMP/cp6-local-start.log" 2>&1[0m
+2026-09-23T08:30:13.0741196Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-09-23T08:30:13.0741547Z env:
+2026-09-23T08:30:13.0741983Z   PGURL: ***127.0.0.1:54322/postgres
+2026-09-23T08:30:13.0742289Z   CP6_AC_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:30:13.0742577Z   CP6_AF_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:30:13.0742873Z   CP6_AH_CONFIRM: postgres
+2026-09-23T08:30:13.0743115Z   CP6_AI_CONFIRM: postgres
+2026-09-23T08:30:13.0743357Z   CP6_AH_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:30:13.0743635Z   CP6_AI_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:30:13.0743979Z   CP6_AUDIT_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:30:13.0744400Z   CP6_AF_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:30:13.0744768Z   CP6_DATABASE_CONTAINER: supabase_db_cp5-local
+2026-09-23T08:30:13.0745105Z   CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
+2026-09-23T08:30:13.0745409Z   CP6_AR_CONFIRM: cp6_rollback
+2026-09-23T08:30:13.0745674Z   CP6_AU_BROWSER_CONFIRM: cp6_rollback
+2026-09-23T08:30:13.0746016Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:30:13.0746444Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+2026-09-23T08:30:13.0746865Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:30:13.0747244Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:30:13.0747626Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:30:13.0748004Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+2026-09-23T08:30:13.0748353Z   SUPABASE_INTERNAL_IMAGE_REGISTRY: ghcr.io
+2026-09-23T08:30:13.0748649Z ##[endgroup]
+2026-09-23T08:30:13.6717313Z A new version of Supabase CLI is available: v2.117.0 (currently installed v2.116.0)
+2026-09-23T08:30:13.6718922Z We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+2026-09-23T08:30:14.1309586Z A new version of Supabase CLI is available: v2.117.0 (currently installed v2.116.0)
+2026-09-23T08:30:14.1312748Z We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+2026-09-23T08:30:14.5968356Z A new version of Supabase CLI is available: v2.117.0 (currently installed v2.116.0)
+2026-09-23T08:30:14.5969536Z We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+2026-09-23T08:30:15.0395978Z Finished supabase init.
+2026-09-23T08:30:15.5332174Z A new version of Supabase CLI is available: v2.117.0 (currently installed v2.116.0)
+2026-09-23T08:30:15.5333464Z We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+2026-09-23T08:31:28.1438364Z ##[group]Run set -euo pipefail
+2026-09-23T08:31:28.1438688Z [36;1mset -euo pipefail[0m
+2026-09-23T08:31:28.1439036Z [36;1mexport CP6_AC_WRITER_ARTIFACT="$RUNNER_TEMP/ac-native200.zip"[0m
+2026-09-23T08:31:28.1439591Z [36;1mgh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10392910720/zip \[0m
+2026-09-23T08:31:28.1440039Z [36;1m  > "$CP6_AC_WRITER_ARTIFACT"[0m
+2026-09-23T08:31:28.1440685Z [36;1mPYTHONPATH=scripts python ../candidate/scripts/cp6_ac_audit_bootstrap.py[0m
+2026-09-23T08:31:28.1481899Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-09-23T08:31:28.1482241Z env:
+2026-09-23T08:31:28.1482692Z   PGURL: ***127.0.0.1:54322/postgres
+2026-09-23T08:31:28.1482992Z   CP6_AC_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:31:28.1483273Z   CP6_AF_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:31:28.1483536Z   CP6_AH_CONFIRM: postgres
+2026-09-23T08:31:28.1483775Z   CP6_AI_CONFIRM: postgres
+2026-09-23T08:31:28.1484012Z   CP6_AH_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:31:28.1484318Z   CP6_AI_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:31:28.1484656Z   CP6_AUDIT_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:31:28.1485084Z   CP6_AF_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:31:28.1485452Z   CP6_DATABASE_CONTAINER: supabase_db_cp5-local
+2026-09-23T08:31:28.1485780Z   CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
+2026-09-23T08:31:28.1486078Z   CP6_AR_CONFIRM: cp6_rollback
+2026-09-23T08:31:28.1486336Z   CP6_AU_BROWSER_CONFIRM: cp6_rollback
+2026-09-23T08:31:28.1486667Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:31:28.1487087Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+2026-09-23T08:31:28.1487505Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:31:28.1487883Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:31:28.1488265Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:31:28.1488647Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+2026-09-23T08:31:28.1488997Z   SUPABASE_INTERNAL_IMAGE_REGISTRY: ghcr.io
+2026-09-23T08:31:28.1489328Z   GITHUB_SHA: 1bdca3766f7c9800d68295ff5122798060b8a05d
+2026-09-23T08:31:28.1492076Z   GH_TOKEN: ***
+2026-09-23T08:31:28.1492303Z ##[endgroup]
+2026-09-23T08:31:34.6709304Z RESTORE Verify immutable CP4.5a catalog/config bootstrap
+2026-09-23T08:31:34.7170753Z RESTORE Restore exact CP4.5a schema and allowlisted configuration
+2026-09-23T08:31:38.2821640Z RESTORE Capture exact pre-Cutting and pre-CP5 boundary
+2026-09-23T08:31:38.3281327Z RESTORE Apply v2.6.18 Cutting Bridge once and reject replay
+2026-09-23T08:31:38.4354837Z RESTORE Prove exact recorded and unused v2.6.18 boundary
+2026-09-23T08:31:38.4850449Z RESTORE Apply v2.6.18a reconciliation once and reject replay
+2026-09-23T08:31:38.5465378Z RESTORE Apply v2.6.19 CP5 once and reject replay
+2026-09-23T08:31:38.6190516Z RESTORE Apply official v2.6.19a accessory-lineage correction once and reject replay
+2026-09-23T08:31:38.7011892Z RESTORE Apply official v2.6.19b reliability closure once and reject replay
+2026-09-23T08:31:38.7772025Z RESTORE Apply official v2.6.19c atomic reversal closure once and reject replay
+2026-09-23T08:31:38.8790851Z RESTORE Capture exact v2.6.19c predecessor before CP6
+2026-09-23T08:31:38.9085468Z RESTORE Apply v2.6.20 authoritative Laundry-QC-FG bridge once and reject replay
+2026-09-23T08:31:39.1601118Z RESTORE Apply v2.6.20a audit reliability closure once and reject replay
+2026-09-23T08:31:39.3112709Z RESTORE Apply v2.6.20b re-audit reliability closure once and reject replay
+2026-09-23T08:31:39.5033144Z RESTORE Apply v2.6.20c deep-business reliability repair once and reject replay
+2026-09-23T08:31:39.6890828Z RESTORE Apply v2.6.20d independent re-audit business closure once and reject replay
+2026-09-23T08:31:39.9274060Z RESTORE Apply v2.6.20e C01-C06 counterexample closure before final-runtime tests
+2026-09-23T08:31:40.1443725Z RESTORE Apply v2.6.20f A01-A04 final-runtime reliability closure once and reject replay
+2026-09-23T08:31:40.3966417Z RESTORE Apply v2.6.20g independent N01-N03 closure before all final-runtime evidence
+2026-09-23T08:31:40.7818123Z RESTORE Apply v2.6.20h expanded R01-R03 closure before all final-runtime evidence
+2026-09-23T08:31:41.1298761Z RESTORE Apply v2.6.20i H2 audit closure before every final-runtime proof
+2026-09-23T08:31:41.4839191Z RESTORE Apply v2.6.20j immutable payment facts before every final-runtime proof
+2026-09-23T08:31:41.9105014Z RESTORE Apply v2.6.20k payment date conservation before every final-runtime proof
+2026-09-23T08:31:42.3213456Z RESTORE Apply v2.6.20l exact ledger conservation before every final-runtime proof
+2026-09-23T08:31:42.6914959Z RESTORE Apply v2.6.20m exact supplier and opening subledger closure before every final-runtime proof
+2026-09-23T08:31:43.0948436Z RESTORE Apply v2.6.20n cumulative supplier cent lifecycle before every final-runtime proof
+2026-09-23T08:31:43.4264199Z RESTORE Apply v2.6.20o cumulative supplier return document allocation before every final-runtime proof
+2026-09-23T08:31:43.7473940Z RESTORE Apply v2.6.20p supplier return match state and report scope before every final-runtime proof
+2026-09-23T08:31:44.1560943Z RESTORE Apply v2.6.20q exact supplier invoice quantity and completion state before every final-runtime proof
+2026-09-23T08:31:44.5844309Z RESTORE Apply v2.6.20r receipt invoice dependency and source state before every final-runtime proof
+2026-09-23T08:31:45.0202549Z RESTORE Apply v2.6.20s supplier payment canonical business date before every final-runtime proof
+2026-09-23T08:31:45.4605105Z RESTORE Apply v2.6.20t material adjustment document cents and canonical accounting day before every final-runtime proof
+2026-09-23T08:31:45.8808441Z RESTORE Apply v2.6.20u canonical material, reversal and owner-report business dates before every final-runtime proof
+2026-09-23T08:31:46.2898857Z RESTORE Apply v2.6.20v canonical miscellaneous cash business dates before every final-runtime proof
+2026-09-23T08:31:46.9643456Z RESTORE Apply v2.6.20w canonical paid scrap business dates before every final-runtime proof
+2026-09-23T08:31:47.6050166Z RESTORE Apply v2.6.20x fail-closed internal role before every final-runtime proof
+2026-09-23T08:31:48.2920689Z RESTORE Apply v2.6.20y canonical cash dates before every final-runtime proof
+2026-09-23T08:31:49.1304908Z RESTORE Apply Z canonical accounting-close day before every final-runtime proof
+2026-09-23T08:31:49.8747861Z RESTORE Apply AA canonical material cost days before every final-runtime proof
+2026-09-23T08:31:50.6500230Z RESTORE Apply AB statement-time Jakarta business dates before every final-runtime proof
+2026-09-23T08:31:51.4868378Z RESTORE Apply exact AC temporal surface closure and verify 272 runtime objects
+2026-09-23T08:31:52.7150016Z ##[group]Run set -euo pipefail
+2026-09-23T08:31:52.7150903Z [36;1mset -euo pipefail[0m
+2026-09-23T08:31:52.7151309Z [36;1mmkdir -p cp6-proof/writer-ae[0m
+2026-09-23T08:31:52.7151779Z [36;1mpsql "$PGURL" -X -v ON_ERROR_STOP=1 \[0m
+2026-09-23T08:31:52.7152566Z [36;1m  -f supabase/migrations/20260915113627_erp_v2_6_20ad_cp6_opening_material_business_day.sql \[0m
+2026-09-23T08:31:52.7153380Z [36;1m  > cp6-proof/writer-ae/AD_APPLY.log 2>&1[0m
+2026-09-23T08:31:52.7154214Z [36;1mPYTHONPATH=scripts python - <<'PY'[0m
+2026-09-23T08:31:52.7154655Z [36;1mimport os[0m
+2026-09-23T08:31:52.7155020Z [36;1mimport psycopg[0m
+2026-09-23T08:31:52.7155427Z [36;1mimport cp6_v2620ad_runtime as runtime[0m
+2026-09-23T08:31:52.7156201Z [36;1mwith psycopg.connect(os.environ['PGURL']) as connection, connection.cursor() as cur:[0m
+2026-09-23T08:31:52.7156917Z [36;1m    cur.execute([0m
+2026-09-23T08:31:52.7157637Z [36;1m        'insert into supabase_migrations.schema_migrations(version,name,statements) '[0m
+2026-09-23T08:31:52.7158389Z [36;1m        'values(%s,%s,%s)',[0m
+2026-09-23T08:31:52.7158993Z [36;1m        (runtime.STAMP, runtime.NAME, [runtime.MIGRATION.read_text()]),[0m
+2026-09-23T08:31:52.7159591Z [36;1m    )[0m
+2026-09-23T08:31:52.7160018Z [36;1m    assert len(runtime.verified_successor(cur)) == 274[0m
+2026-09-23T08:31:52.7160721Z [36;1mPY[0m
+2026-09-23T08:31:52.7204859Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-09-23T08:31:52.7205316Z env:
+2026-09-23T08:31:52.7205936Z   PGURL: ***127.0.0.1:54322/postgres
+2026-09-23T08:31:52.7206369Z   CP6_AC_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:31:52.7206814Z   CP6_AF_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:31:52.7207248Z   CP6_AH_CONFIRM: postgres
+2026-09-23T08:31:52.7207630Z   CP6_AI_CONFIRM: postgres
+2026-09-23T08:31:52.7208017Z   CP6_AH_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:31:52.7208459Z   CP6_AI_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:31:52.7209042Z   CP6_AUDIT_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:31:52.7209696Z   CP6_AF_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:31:52.7210561Z   CP6_DATABASE_CONTAINER: supabase_db_cp5-local
+2026-09-23T08:31:52.7211075Z   CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
+2026-09-23T08:31:52.7211567Z   CP6_AR_CONFIRM: cp6_rollback
+2026-09-23T08:31:52.7211984Z   CP6_AU_BROWSER_CONFIRM: cp6_rollback
+2026-09-23T08:31:52.7212524Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:31:52.7213239Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+2026-09-23T08:31:52.7213961Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:31:52.7214610Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:31:52.7215252Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:31:52.7215904Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+2026-09-23T08:31:52.7216507Z   SUPABASE_INTERNAL_IMAGE_REGISTRY: ghcr.io
+2026-09-23T08:31:52.7216958Z ##[endgroup]
+2026-09-23T08:31:53.3169368Z ##[group]Run set -euo pipefail
+2026-09-23T08:31:53.3169708Z [36;1mset -euo pipefail[0m
+2026-09-23T08:31:53.3169996Z [36;1mpsql "$PGURL" -X -v ON_ERROR_STOP=1 \[0m
+2026-09-23T08:31:53.3170843Z [36;1m  -f supabase/migrations/20260915201500_erp_v2_6_20ae_cp6_opening_roll_integrity.sql \[0m
+2026-09-23T08:31:53.3171345Z [36;1m  > cp6-proof/writer-ae/AE_APPLY.log 2>&1[0m
+2026-09-23T08:31:53.3171712Z [36;1mPYTHONPATH=scripts python - <<'PY'[0m
+2026-09-23T08:31:53.3172008Z [36;1mimport os[0m
+2026-09-23T08:31:53.3172234Z [36;1mimport psycopg[0m
+2026-09-23T08:31:53.3172501Z [36;1mimport cp6_v2620ae_runtime as runtime[0m
+2026-09-23T08:31:53.3172958Z [36;1mwith psycopg.connect(os.environ['PGURL']) as connection, connection.cursor() as cur:[0m
+2026-09-23T08:31:53.3173394Z [36;1m    cur.execute([0m
+2026-09-23T08:31:53.3173804Z [36;1m        'insert into supabase_migrations.schema_migrations(version,name,statements) '[0m
+2026-09-23T08:31:53.3174257Z [36;1m        'values(%s,%s,%s)',[0m
+2026-09-23T08:31:53.3174639Z [36;1m        (runtime.STAMP, runtime.NAME, [runtime.MIGRATION.read_text()]),[0m
+2026-09-23T08:31:53.3175008Z [36;1m    )[0m
+2026-09-23T08:31:53.3175286Z [36;1m    assert len(runtime.verified_successor(cur)) == 276[0m
+2026-09-23T08:31:53.3175610Z [36;1mPY[0m
+2026-09-23T08:31:53.3217604Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-09-23T08:31:53.3218144Z env:
+2026-09-23T08:31:53.3218585Z   PGURL: ***127.0.0.1:54322/postgres
+2026-09-23T08:31:53.3218886Z   CP6_AC_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:31:53.3219169Z   CP6_AF_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:31:53.3219432Z   CP6_AH_CONFIRM: postgres
+2026-09-23T08:31:53.3219674Z   CP6_AI_CONFIRM: postgres
+2026-09-23T08:31:53.3219930Z   CP6_AH_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:31:53.3220197Z   CP6_AI_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:31:53.3220877Z   CP6_AUDIT_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:31:53.3221314Z   CP6_AF_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:31:53.3221683Z   CP6_DATABASE_CONTAINER: supabase_db_cp5-local
+2026-09-23T08:31:53.3222022Z   CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
+2026-09-23T08:31:53.3222325Z   CP6_AR_CONFIRM: cp6_rollback
+2026-09-23T08:31:53.3222580Z   CP6_AU_BROWSER_CONFIRM: cp6_rollback
+2026-09-23T08:31:53.3222922Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:31:53.3223357Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+2026-09-23T08:31:53.3223777Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:31:53.3224150Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:31:53.3224532Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:31:53.3224904Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+2026-09-23T08:31:53.3225253Z   SUPABASE_INTERNAL_IMAGE_REGISTRY: ghcr.io
+2026-09-23T08:31:53.3225541Z ##[endgroup]
+2026-09-23T08:31:53.8455120Z ##[group]Run set -euo pipefail
+2026-09-23T08:31:53.8455616Z [36;1mset -euo pipefail[0m
+2026-09-23T08:31:53.8456533Z [36;1mpsql "$PGURL" -X -v ON_ERROR_STOP=1 -f supabase/migrations/20260916014332_erp_v2_6_20af_cp6_posted_child_integrity.sql > cp6-proof/writer-af/AF_APPLY.log 2>&1[0m
+2026-09-23T08:31:53.8457271Z [36;1mPYTHONPATH=scripts python - <<'PYINSTALL'[0m
+2026-09-23T08:31:53.8457598Z [36;1mimport os,psycopg[0m
+2026-09-23T08:31:53.8457889Z [36;1mimport cp6_v2620af_runtime as r[0m
+2026-09-23T08:31:53.8458296Z [36;1mwith psycopg.connect(os.environ['PGURL']) as conn,conn.cursor() as cur:[0m
+2026-09-23T08:31:53.8459075Z [36;1m cur.execute('insert into supabase_migrations.schema_migrations(version,name,statements) values(%s,%s,%s)',(r.STAMP,r.NAME,[r.MIGRATION.read_text()]))[0m
+2026-09-23T08:31:53.8459742Z [36;1m assert len(r.verified_successor(cur))==278[0m
+2026-09-23T08:31:53.8460061Z [36;1mPYINSTALL[0m
+2026-09-23T08:31:53.8502249Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-09-23T08:31:53.8502598Z env:
+2026-09-23T08:31:53.8503056Z   PGURL: ***127.0.0.1:54322/postgres
+2026-09-23T08:31:53.8503362Z   CP6_AC_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:31:53.8503647Z   CP6_AF_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:31:53.8503913Z   CP6_AH_CONFIRM: postgres
+2026-09-23T08:31:53.8504169Z   CP6_AI_CONFIRM: postgres
+2026-09-23T08:31:53.8504421Z   CP6_AH_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:31:53.8504702Z   CP6_AI_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:31:53.8505045Z   CP6_AUDIT_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:31:53.8505471Z   CP6_AF_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:31:53.8505844Z   CP6_DATABASE_CONTAINER: supabase_db_cp5-local
+2026-09-23T08:31:53.8506181Z   CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
+2026-09-23T08:31:53.8506482Z   CP6_AR_CONFIRM: cp6_rollback
+2026-09-23T08:31:53.8506740Z   CP6_AU_BROWSER_CONFIRM: cp6_rollback
+2026-09-23T08:31:53.8507075Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:31:53.8507497Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+2026-09-23T08:31:53.8507914Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:31:53.8508294Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:31:53.8508674Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:31:53.8509254Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+2026-09-23T08:31:53.8509608Z   SUPABASE_INTERNAL_IMAGE_REGISTRY: ghcr.io
+2026-09-23T08:31:53.8509894Z ##[endgroup]
+2026-09-23T08:31:54.3969894Z ##[group]Run set -euo pipefail
+2026-09-23T08:31:54.3970245Z [36;1mset -euo pipefail[0m
+2026-09-23T08:31:54.3971234Z [36;1mpsql "$PGURL" -X -v ON_ERROR_STOP=1 -f supabase/migrations/20260916050822_erp_v2_6_20ag_cp6_sale_reservation_lineage.sql > cp6-proof/writer-ah/AG_APPLY.log 2>&1[0m
+2026-09-23T08:31:54.3972046Z [36;1mPYTHONPATH=scripts python - <<'PYINSTALL'[0m
+2026-09-23T08:31:54.3972368Z [36;1mimport os,psycopg[0m
+2026-09-23T08:31:54.3972635Z [36;1mimport cp6_v2620ag_runtime as r[0m
+2026-09-23T08:31:54.3973044Z [36;1mwith psycopg.connect(os.environ['PGURL']) as conn,conn.cursor() as cur:[0m
+2026-09-23T08:31:54.3973822Z [36;1m cur.execute('insert into supabase_migrations.schema_migrations(version,name,statements) values(%s,%s,%s)',(r.STAMP,r.NAME,[r.MIGRATION.read_text()]))[0m
+2026-09-23T08:31:54.3974528Z [36;1m assert len(r.verified_successor(cur))==690[0m
+2026-09-23T08:31:54.3974849Z [36;1mPYINSTALL[0m
+2026-09-23T08:31:54.4016430Z shell: /usr/bin/bash -e {0}
+2026-09-23T08:31:54.4016705Z env:
+2026-09-23T08:31:54.4017192Z   PGURL: ***127.0.0.1:54322/postgres
+2026-09-23T08:31:54.4017493Z   CP6_AC_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:31:54.4017781Z   CP6_AF_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:31:54.4018062Z   CP6_AH_CONFIRM: postgres
+2026-09-23T08:31:54.4018304Z   CP6_AI_CONFIRM: postgres
+2026-09-23T08:31:54.4018541Z   CP6_AH_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:31:54.4018814Z   CP6_AI_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:31:54.4019162Z   CP6_AUDIT_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:31:54.4019587Z   CP6_AF_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:31:54.4019960Z   CP6_DATABASE_CONTAINER: supabase_db_cp5-local
+2026-09-23T08:31:54.4020529Z   CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
+2026-09-23T08:31:54.4020899Z   CP6_AR_CONFIRM: cp6_rollback
+2026-09-23T08:31:54.4021166Z   CP6_AU_BROWSER_CONFIRM: cp6_rollback
+2026-09-23T08:31:54.4021503Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:31:54.4021936Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+2026-09-23T08:31:54.4022357Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:31:54.4022734Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:31:54.4023109Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:31:54.4023486Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+2026-09-23T08:31:54.4023840Z   SUPABASE_INTERNAL_IMAGE_REGISTRY: ghcr.io
+2026-09-23T08:31:54.4024132Z ##[endgroup]
+2026-09-23T08:31:54.9989867Z ##[group]Run set -euo pipefail
+2026-09-23T08:31:54.9990555Z [36;1mset -euo pipefail[0m
+2026-09-23T08:31:54.9991708Z [36;1mpsql "$PGURL" -X -v ON_ERROR_STOP=1 -f supabase/migrations/20260916070451_erp_v2_6_20ah_cp6_return_allocation_eligibility.sql > cp6-proof/writer-ah/AH_APPLY.log 2>&1[0m
+2026-09-23T08:31:54.9993043Z [36;1mPYTHONPATH=scripts python - <<'PYINSTALL'[0m
+2026-09-23T08:31:54.9993583Z [36;1mimport os,json,psycopg[0m
+2026-09-23T08:31:54.9994024Z [36;1mfrom pathlib import Path[0m
+2026-09-23T08:31:54.9994482Z [36;1mimport cp6_v2620ah_runtime as r[0m
+2026-09-23T08:31:54.9995168Z [36;1mwith psycopg.connect(os.environ['PGURL']) as conn,conn.cursor() as cur:[0m
+2026-09-23T08:31:54.9996538Z [36;1m cur.execute('insert into supabase_migrations.schema_migrations(version,name,statements) values(%s,%s,%s)',(r.STAMP,r.NAME,[r.MIGRATION.read_text()]))[0m
+2026-09-23T08:31:54.9997801Z [36;1m objects=r.verified_successor(cur);assert len(objects)==690[0m
+2026-09-23T08:31:54.9999286Z [36;1m Path('cp6-proof/writer-ah/AH_INSTALLED_RUNTIME.json').write_text(json.dumps({'status':'PASS','head':os.environ['GITHUB_SHA'],'objects':objects,'production_go':False},indent=2)+'\n')[0m
+2026-09-23T08:31:55.0000710Z [36;1mPYINSTALL[0m
+2026-09-23T08:31:55.0057837Z shell: /usr/bin/bash -e {0}
+2026-09-23T08:31:55.0058248Z env:
+2026-09-23T08:31:55.0058905Z   PGURL: ***127.0.0.1:54322/postgres
+2026-09-23T08:31:55.0059387Z   CP6_AC_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:31:55.0059849Z   CP6_AF_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:31:55.0060491Z   CP6_AH_CONFIRM: postgres
+2026-09-23T08:31:55.0060887Z   CP6_AI_CONFIRM: postgres
+2026-09-23T08:31:55.0061288Z   CP6_AH_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:31:55.0061742Z   CP6_AI_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:31:55.0062297Z   CP6_AUDIT_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:31:55.0063038Z   CP6_AF_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:31:55.0063662Z   CP6_DATABASE_CONTAINER: supabase_db_cp5-local
+2026-09-23T08:31:55.0064212Z   CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
+2026-09-23T08:31:55.0064755Z   CP6_AR_CONFIRM: cp6_rollback
+2026-09-23T08:31:55.0065167Z   CP6_AU_BROWSER_CONFIRM: cp6_rollback
+2026-09-23T08:31:55.0065754Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:31:55.0066463Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+2026-09-23T08:31:55.0067174Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:31:55.0067803Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:31:55.0068420Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:31:55.0069088Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+2026-09-23T08:31:55.0069663Z   SUPABASE_INTERNAL_IMAGE_REGISTRY: ghcr.io
+2026-09-23T08:31:55.0070107Z ##[endgroup]
+2026-09-23T08:31:55.6007755Z ##[group]Run set -euo pipefail
+2026-09-23T08:31:55.6008242Z [36;1mset -euo pipefail[0m
+2026-09-23T08:31:55.6009325Z [36;1mpsql "$PGURL" -X -v ON_ERROR_STOP=1 -f supabase/migrations/20260916090022_erp_v2_6_20ai_cp6_work_source_lineage.sql > cp6-proof/writer-ai/AI_APPLY.log 2>&1[0m
+2026-09-23T08:31:55.6010717Z [36;1mPYTHONPATH=scripts python - <<'PYINSTALL'[0m
+2026-09-23T08:31:55.6011260Z [36;1mimport os,json,psycopg[0m
+2026-09-23T08:31:55.6011686Z [36;1mfrom pathlib import Path[0m
+2026-09-23T08:31:55.6012125Z [36;1mimport cp6_v2620ai_runtime as r[0m
+2026-09-23T08:31:55.6012791Z [36;1mwith psycopg.connect(os.environ['PGURL']) as conn,conn.cursor() as cur:[0m
+2026-09-23T08:31:55.6014121Z [36;1m cur.execute('insert into supabase_migrations.schema_migrations(version,name,statements) values(%s,%s,%s)',(r.STAMP,r.NAME,[r.MIGRATION.read_text()]))[0m
+2026-09-23T08:31:55.6015374Z [36;1m objects=r.verified_successor(cur);assert len(objects)==690[0m
+2026-09-23T08:31:55.6016950Z [36;1m Path('cp6-proof/writer-ai/AI_INSTALLED_RUNTIME.json').write_text(json.dumps(dict(status='PASS',head='25fa4736329e5148dfdb3572bc169952cba23251',objects=objects,production_go=False),indent=2)+'\n')[0m
+2026-09-23T08:31:55.6018314Z [36;1mPYINSTALL[0m
+2026-09-23T08:31:55.6072840Z shell: /usr/bin/bash -e {0}
+2026-09-23T08:31:55.6073213Z env:
+2026-09-23T08:31:55.6073846Z   PGURL: ***127.0.0.1:54322/postgres
+2026-09-23T08:31:55.6074295Z   CP6_AC_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:31:55.6074735Z   CP6_AF_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:31:55.6075152Z   CP6_AH_CONFIRM: postgres
+2026-09-23T08:31:55.6075500Z   CP6_AI_CONFIRM: postgres
+2026-09-23T08:31:55.6075878Z   CP6_AH_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:31:55.6076322Z   CP6_AI_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:31:55.6076891Z   CP6_AUDIT_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:31:55.6077593Z   CP6_AF_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:31:55.6078207Z   CP6_DATABASE_CONTAINER: supabase_db_cp5-local
+2026-09-23T08:31:55.6078754Z   CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
+2026-09-23T08:31:55.6079245Z   CP6_AR_CONFIRM: cp6_rollback
+2026-09-23T08:31:55.6079666Z   CP6_AU_BROWSER_CONFIRM: cp6_rollback
+2026-09-23T08:31:55.6080210Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:31:55.6081350Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+2026-09-23T08:31:55.6082066Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:31:55.6082695Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:31:55.6083328Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:31:55.6083966Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+2026-09-23T08:31:55.6084548Z   SUPABASE_INTERNAL_IMAGE_REGISTRY: ghcr.io
+2026-09-23T08:31:55.6085008Z ##[endgroup]
+2026-09-23T08:31:56.1900853Z ##[group]Run PYTHONPATH=scripts python ../harness/scripts/cp6_v2620aj_review.py --phase install
+2026-09-23T08:31:56.1901567Z [36;1mPYTHONPATH=scripts python ../harness/scripts/cp6_v2620aj_review.py --phase install[0m
+2026-09-23T08:31:56.1943461Z shell: /usr/bin/bash -e {0}
+2026-09-23T08:31:56.1943736Z env:
+2026-09-23T08:31:56.1944204Z   PGURL: ***127.0.0.1:54322/postgres
+2026-09-23T08:31:56.1944501Z   CP6_AC_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:31:56.1944800Z   CP6_AF_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:31:56.1945067Z   CP6_AH_CONFIRM: postgres
+2026-09-23T08:31:56.1945321Z   CP6_AI_CONFIRM: postgres
+2026-09-23T08:31:56.1945563Z   CP6_AH_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:31:56.1945832Z   CP6_AI_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:31:56.1946171Z   CP6_AUDIT_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:31:56.1946602Z   CP6_AF_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:31:56.1947010Z   CP6_DATABASE_CONTAINER: supabase_db_cp5-local
+2026-09-23T08:31:56.1947352Z   CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
+2026-09-23T08:31:56.1947653Z   CP6_AR_CONFIRM: cp6_rollback
+2026-09-23T08:31:56.1947909Z   CP6_AU_BROWSER_CONFIRM: cp6_rollback
+2026-09-23T08:31:56.1948240Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:31:56.1948659Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+2026-09-23T08:31:56.1949083Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:31:56.1949474Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:31:56.1949854Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:31:56.1950226Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+2026-09-23T08:31:56.1950712Z   SUPABASE_INTERNAL_IMAGE_REGISTRY: ghcr.io
+2026-09-23T08:31:56.1951001Z ##[endgroup]
+2026-09-23T08:31:57.3820859Z {"status": "PASS", "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b", "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b", "functions": 533, "objects": 690, "production_go": false}
+2026-09-23T08:31:57.4206013Z ##[group]Run PYTHONPATH=scripts python ../harness/scripts/cp6_v2620ak_review.py --phase install
+2026-09-23T08:31:57.4206702Z [36;1mPYTHONPATH=scripts python ../harness/scripts/cp6_v2620ak_review.py --phase install[0m
+2026-09-23T08:31:57.4249763Z shell: /usr/bin/bash -e {0}
+2026-09-23T08:31:57.4250032Z env:
+2026-09-23T08:31:57.4250783Z   PGURL: ***127.0.0.1:54322/postgres
+2026-09-23T08:31:57.4251107Z   CP6_AC_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:31:57.4251387Z   CP6_AF_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:31:57.4251647Z   CP6_AH_CONFIRM: postgres
+2026-09-23T08:31:57.4251889Z   CP6_AI_CONFIRM: postgres
+2026-09-23T08:31:57.4252121Z   CP6_AH_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:31:57.4252383Z   CP6_AI_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:31:57.4252719Z   CP6_AUDIT_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:31:57.4253133Z   CP6_AF_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:31:57.4253535Z   CP6_DATABASE_CONTAINER: supabase_db_cp5-local
+2026-09-23T08:31:57.4253868Z   CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
+2026-09-23T08:31:57.4254168Z   CP6_AR_CONFIRM: cp6_rollback
+2026-09-23T08:31:57.4254431Z   CP6_AU_BROWSER_CONFIRM: cp6_rollback
+2026-09-23T08:31:57.4254770Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:31:57.4255193Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+2026-09-23T08:31:57.4255820Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:31:57.4256215Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:31:57.4256599Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:31:57.4256975Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+2026-09-23T08:31:57.4257328Z   SUPABASE_INTERNAL_IMAGE_REGISTRY: ghcr.io
+2026-09-23T08:31:57.4257614Z ##[endgroup]
+2026-09-23T08:31:58.4640016Z {"status": "PASS", "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b", "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b", "functions": 533, "objects": 690, "production_go": false}
+2026-09-23T08:31:58.5042889Z ##[group]Run PYTHONPATH=scripts python ../harness/scripts/cp6_v2620al_review.py --phase install
+2026-09-23T08:31:58.5043600Z [36;1mPYTHONPATH=scripts python ../harness/scripts/cp6_v2620al_review.py --phase install[0m
+2026-09-23T08:31:58.5085908Z shell: /usr/bin/bash -e {0}
+2026-09-23T08:31:58.5086179Z env:
+2026-09-23T08:31:58.5086629Z   PGURL: ***127.0.0.1:54322/postgres
+2026-09-23T08:31:58.5086931Z   CP6_AC_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:31:58.5087223Z   CP6_AF_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:31:58.5087485Z   CP6_AH_CONFIRM: postgres
+2026-09-23T08:31:58.5087723Z   CP6_AI_CONFIRM: postgres
+2026-09-23T08:31:58.5087960Z   CP6_AH_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:31:58.5088223Z   CP6_AI_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:31:58.5088564Z   CP6_AUDIT_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:31:58.5088979Z   CP6_AF_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:31:58.5089379Z   CP6_DATABASE_CONTAINER: supabase_db_cp5-local
+2026-09-23T08:31:58.5089711Z   CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
+2026-09-23T08:31:58.5090011Z   CP6_AR_CONFIRM: cp6_rollback
+2026-09-23T08:31:58.5090268Z   CP6_AU_BROWSER_CONFIRM: cp6_rollback
+2026-09-23T08:31:58.5090803Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:31:58.5091253Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+2026-09-23T08:31:58.5091677Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:31:58.5092083Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:31:58.5092462Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:31:58.5092839Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+2026-09-23T08:31:58.5093195Z   SUPABASE_INTERNAL_IMAGE_REGISTRY: ghcr.io
+2026-09-23T08:31:58.5093479Z ##[endgroup]
+2026-09-23T08:31:59.5260222Z {"status": "PASS", "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b", "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b", "functions": 533, "objects": 690, "production_go": false}
+2026-09-23T08:31:59.5663490Z ##[group]Run PYTHONPATH=scripts python ../harness/scripts/cp6_v2620am_review.py --phase install
+2026-09-23T08:31:59.5664191Z [36;1mPYTHONPATH=scripts python ../harness/scripts/cp6_v2620am_review.py --phase install[0m
+2026-09-23T08:31:59.5706552Z shell: /usr/bin/bash -e {0}
+2026-09-23T08:31:59.5706825Z env:
+2026-09-23T08:31:59.5707273Z   PGURL: ***127.0.0.1:54322/postgres
+2026-09-23T08:31:59.5707573Z   CP6_AC_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:31:59.5707856Z   CP6_AF_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:31:59.5708129Z   CP6_AH_CONFIRM: postgres
+2026-09-23T08:31:59.5708373Z   CP6_AI_CONFIRM: postgres
+2026-09-23T08:31:59.5708610Z   CP6_AH_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:31:59.5708876Z   CP6_AI_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:31:59.5709217Z   CP6_AUDIT_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:31:59.5709637Z   CP6_AF_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:31:59.5710050Z   CP6_DATABASE_CONTAINER: supabase_db_cp5-local
+2026-09-23T08:31:59.5710604Z   CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
+2026-09-23T08:31:59.5710910Z   CP6_AR_CONFIRM: cp6_rollback
+2026-09-23T08:31:59.5711168Z   CP6_AU_BROWSER_CONFIRM: cp6_rollback
+2026-09-23T08:31:59.5711705Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:31:59.5712130Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+2026-09-23T08:31:59.5712547Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:31:59.5712935Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:31:59.5713315Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:31:59.5713688Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+2026-09-23T08:31:59.5714045Z   SUPABASE_INTERNAL_IMAGE_REGISTRY: ghcr.io
+2026-09-23T08:31:59.5714326Z ##[endgroup]
+2026-09-23T08:32:00.6367973Z {"status": "PASS", "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b", "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b", "functions": 533, "objects": 690, "production_go": false}
+2026-09-23T08:32:00.6748479Z ##[group]Run PYTHONPATH=scripts python ../harness/scripts/cp6_v2620an_review.py --phase install
+2026-09-23T08:32:00.6749480Z [36;1mPYTHONPATH=scripts python ../harness/scripts/cp6_v2620an_review.py --phase install[0m
+2026-09-23T08:32:00.6796911Z shell: /usr/bin/bash -e {0}
+2026-09-23T08:32:00.6797305Z env:
+2026-09-23T08:32:00.6797931Z   PGURL: ***127.0.0.1:54322/postgres
+2026-09-23T08:32:00.6798378Z   CP6_AC_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:32:00.6798835Z   CP6_AF_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:32:00.6799241Z   CP6_AH_CONFIRM: postgres
+2026-09-23T08:32:00.6799623Z   CP6_AI_CONFIRM: postgres
+2026-09-23T08:32:00.6799901Z   CP6_AH_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:32:00.6800196Z   CP6_AI_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:32:00.6800805Z   CP6_AUDIT_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:32:00.6801234Z   CP6_AF_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:32:00.6801652Z   CP6_DATABASE_CONTAINER: supabase_db_cp5-local
+2026-09-23T08:32:00.6801996Z   CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
+2026-09-23T08:32:00.6802309Z   CP6_AR_CONFIRM: cp6_rollback
+2026-09-23T08:32:00.6802567Z   CP6_AU_BROWSER_CONFIRM: cp6_rollback
+2026-09-23T08:32:00.6802898Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:32:00.6803323Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+2026-09-23T08:32:00.6803740Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:32:00.6804124Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:32:00.6804512Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:32:00.6804894Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+2026-09-23T08:32:00.6805249Z   SUPABASE_INTERNAL_IMAGE_REGISTRY: ghcr.io
+2026-09-23T08:32:00.6805530Z ##[endgroup]
+2026-09-23T08:32:01.7716804Z {"status": "PASS", "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b", "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b", "erp_functions": 534, "new_public_readers": 1, "objects": 692, "production_go": false}
+2026-09-23T08:32:01.8108597Z ##[group]Run set -euo pipefail
+2026-09-23T08:32:01.8108920Z [36;1mset -euo pipefail[0m
+2026-09-23T08:32:01.8109224Z [36;1mmaintenance_password="$(openssl rand -hex 32)"[0m
+2026-09-23T08:32:01.8109856Z [36;1mmaintenance_pgurl="postgresql://cp6_maintenance_admission:${maintenance_password}@127.0.0.1:54322/template1"[0m
+2026-09-23T08:32:01.8110671Z [36;1mecho "::add-mask::$maintenance_password"[0m
+2026-09-23T08:32:01.8111042Z [36;1mecho "::add-mask::$maintenance_pgurl"[0m
+2026-09-23T08:32:01.8111382Z [36;1mdocker exec -i "$CP6_DATABASE_CONTAINER" \[0m
+2026-09-23T08:32:01.8111787Z [36;1m  psql -U supabase_admin -d template1 -X -v ON_ERROR_STOP=1 \[0m
+2026-09-23T08:32:01.8112238Z [36;1m    -v cp6_password="$maintenance_password" <<'SQL'[0m
+2026-09-23T08:32:01.8112593Z [36;1mcreate role cp6_maintenance_admission[0m
+2026-09-23T08:32:01.8113001Z [36;1m  login superuser noinherit nocreatedb nocreaterole noreplication[0m
+2026-09-23T08:32:01.8113471Z [36;1m  connection limit 4 password :'cp6_password';[0m
+2026-09-23T08:32:01.8113977Z [36;1mSQL[0m
+2026-09-23T08:32:01.8114331Z [36;1mprintf 'CP6_ADMISSION_CONTROL_PGURL=%s\n' "$maintenance_pgurl" >> "$GITHUB_ENV"[0m
+2026-09-23T08:32:01.8156091Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-09-23T08:32:01.8156437Z env:
+2026-09-23T08:32:01.8157034Z   PGURL: ***127.0.0.1:54322/postgres
+2026-09-23T08:32:01.8157450Z   CP6_AC_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:32:01.8157837Z   CP6_AF_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:32:01.8158237Z   CP6_AH_CONFIRM: postgres
+2026-09-23T08:32:01.8158605Z   CP6_AI_CONFIRM: postgres
+2026-09-23T08:32:01.8158990Z   CP6_AH_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:32:01.8159405Z   CP6_AI_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:32:01.8159942Z   CP6_AUDIT_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:32:01.8160934Z   CP6_AF_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:32:01.8161530Z   CP6_DATABASE_CONTAINER: supabase_db_cp5-local
+2026-09-23T08:32:01.8162080Z   CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
+2026-09-23T08:32:01.8162569Z   CP6_AR_CONFIRM: cp6_rollback
+2026-09-23T08:32:01.8162959Z   CP6_AU_BROWSER_CONFIRM: cp6_rollback
+2026-09-23T08:32:01.8163480Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:32:01.8164158Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+2026-09-23T08:32:01.8164842Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:32:01.8165441Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:32:01.8166043Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:32:01.8166664Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+2026-09-23T08:32:01.8167229Z   SUPABASE_INTERNAL_IMAGE_REGISTRY: ghcr.io
+2026-09-23T08:32:01.8167666Z ##[endgroup]
+2026-09-23T08:32:01.8957314Z CREATE ROLE
+2026-09-23T08:32:01.9023174Z ##[group]Run set -euo pipefail
+2026-09-23T08:32:01.9023504Z [36;1mset -euo pipefail[0m
+2026-09-23T08:32:01.9023825Z [36;1mmkdir -p ../auditor/cp6-proof/au-r1[0m
+2026-09-23T08:32:01.9024203Z [36;1mbash scripts/clone-cp6-disposable-database.sh \[0m
+2026-09-23T08:32:01.9024806Z [36;1m  '***127.0.0.1:54322/postgres' \[0m
+2026-09-23T08:32:01.9025243Z [36;1m  '***127.0.0.1:54322/template1' \[0m
+2026-09-23T08:32:01.9025647Z [36;1m  '***127.0.0.1:54322/cp6_rollback' \[0m
+2026-09-23T08:32:01.9026076Z [36;1m  cp6_rollback supabase_db_cp5-local ../auditor/cp6-proof/au-r1/CLONE_BEFORE[0m
+2026-09-23T08:32:01.9068311Z shell: /usr/bin/bash -e {0}
+2026-09-23T08:32:01.9068581Z env:
+2026-09-23T08:32:01.9069146Z   PGURL: ***127.0.0.1:54322/postgres
+2026-09-23T08:32:01.9069598Z   CP6_AC_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:32:01.9070019Z   CP6_AF_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:32:01.9070629Z   CP6_AH_CONFIRM: postgres
+2026-09-23T08:32:01.9071041Z   CP6_AI_CONFIRM: postgres
+2026-09-23T08:32:01.9071418Z   CP6_AH_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:32:01.9071851Z   CP6_AI_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:32:01.9072416Z   CP6_AUDIT_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:32:01.9073096Z   CP6_AF_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:32:01.9073679Z   CP6_DATABASE_CONTAINER: supabase_db_cp5-local
+2026-09-23T08:32:01.9074171Z   CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
+2026-09-23T08:32:01.9074630Z   CP6_AR_CONFIRM: cp6_rollback
+2026-09-23T08:32:01.9075033Z   CP6_AU_BROWSER_CONFIRM: cp6_rollback
+2026-09-23T08:32:01.9075540Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:32:01.9076213Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+2026-09-23T08:32:01.9076911Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:32:01.9077542Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:32:01.9078192Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:32:01.9079041Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+2026-09-23T08:32:01.9079931Z   SUPABASE_INTERNAL_IMAGE_REGISTRY: ghcr.io
+2026-09-23T08:32:01.9081532Z   CP6_ADMISSION_CONTROL_PGURL: ***
+2026-09-23T08:32:01.9081954Z ##[endgroup]
+2026-09-23T08:32:02.2088826Z NOTICE:  database "cp6_rollback" does not exist, skipping
+2026-09-23T08:32:02.2632066Z ALTER DATABASE
+2026-09-23T08:32:04.5545290Z ALTER DATABASE
+2026-09-23T08:32:04.6051833Z REVOKE
+2026-09-23T08:32:04.6054819Z REVOKE
+2026-09-23T08:32:04.6066031Z GRANT
+2026-09-23T08:32:04.6069132Z GRANT
+2026-09-23T08:32:04.6074088Z GRANT
+2026-09-23T08:32:04.6077251Z GRANT
+2026-09-23T08:32:04.6082104Z GRANT
+2026-09-23T08:32:05.5912285Z source_pg_cron=1
+2026-09-23T08:32:05.5912736Z clone_pg_cron=1
+2026-09-23T08:32:05.5913537Z erp_dump_sha256=190e23212db40d567279724aeabcfd9de31998a910b82b133fe2b373031aadb2
+2026-09-23T08:32:05.5914330Z erp_dump_bytes=9841879
+2026-09-23T08:32:05.5914912Z erp_schema_owners_grants_sequences_rows=IDENTICAL
+2026-09-23T08:32:05.5915388Z database_owner_acl_connectivity=IDENTICAL
+2026-09-23T08:32:05.5915797Z public_schema_owner_acl_role_privileges=IDENTICAL
+2026-09-23T08:32:05.5916133Z status=PASS
+2026-09-23T08:32:05.5930631Z source_database=postgres
+2026-09-23T08:32:05.5931115Z clone_database=cp6_rollback
+2026-09-23T08:32:05.5931663Z database_container=supabase_db_cp5-local
+2026-09-23T08:32:05.5932182Z database_admin=supabase_admin
+2026-09-23T08:32:05.5932662Z source_database_owner=postgres
+2026-09-23T08:32:05.5933137Z clone_database_owner=postgres
+2026-09-23T08:32:05.5933597Z database_owner_preserved=PASS
+2026-09-23T08:32:05.5934029Z source_database_acl_is_null=f
+2026-09-23T08:32:05.5934480Z source_database_nonowner_grantors=0
+2026-09-23T08:32:05.5934792Z database_acl_replayed=PASS
+2026-09-23T08:32:05.5935098Z clone_strategy=TEMPLATE_POSTGRES
+2026-09-23T08:32:05.5935402Z source_restart_under_fence=PASS
+2026-09-23T08:32:05.5935755Z terminated_source_connections=0
+2026-09-23T08:32:05.5936470Z remaining_source_connections_during_clone=0
+2026-09-23T08:32:05.5937049Z source_connections_restored=PASS
+2026-09-23T08:32:05.5937475Z status=PASS
+2026-09-23T08:32:05.5964144Z ##[group]Run python ../auditor/scripts/cp6_au_r1_probe.py --phase before
+2026-09-23T08:32:05.5964677Z [36;1mpython ../auditor/scripts/cp6_au_r1_probe.py --phase before[0m
+2026-09-23T08:32:05.6006499Z shell: /usr/bin/bash -e {0}
+2026-09-23T08:32:05.6006770Z env:
+2026-09-23T08:32:05.6007188Z   PGURL: ***127.0.0.1:54322/postgres
+2026-09-23T08:32:05.6007497Z   CP6_AC_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:32:05.6007802Z   CP6_AF_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:32:05.6008078Z   CP6_AH_CONFIRM: postgres
+2026-09-23T08:32:05.6008329Z   CP6_AI_CONFIRM: postgres
+2026-09-23T08:32:05.6008577Z   CP6_AH_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:32:05.6008852Z   CP6_AI_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:32:05.6009212Z   CP6_AUDIT_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:32:05.6009644Z   CP6_AF_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:32:05.6010025Z   CP6_DATABASE_CONTAINER: supabase_db_cp5-local
+2026-09-23T08:32:05.6010642Z   CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
+2026-09-23T08:32:05.6010959Z   CP6_AR_CONFIRM: cp6_rollback
+2026-09-23T08:32:05.6011222Z   CP6_AU_BROWSER_CONFIRM: cp6_rollback
+2026-09-23T08:32:05.6011567Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:32:05.6012006Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+2026-09-23T08:32:05.6012437Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:32:05.6012826Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:32:05.6013218Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:32:05.6013597Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+2026-09-23T08:32:05.6013963Z   SUPABASE_INTERNAL_IMAGE_REGISTRY: ghcr.io
+2026-09-23T08:32:05.6014756Z   CP6_ADMISSION_CONTROL_PGURL: ***
+2026-09-23T08:32:05.6015033Z ##[endgroup]
+2026-09-23T08:32:17.5179136Z {"group": "R1_CASES_BEFORE", "case": "CUTOFF:LAUNDRY_BS", "variant": "LAUNDRY_BS", "fact_physical_at": "2026-09-23 15:31:17.070696+07:00", "requested_effective_from": "2026-09-23 15:30:47.070696+07:00", "result": "540fd31d-6d38-4f9a-a35f-6299837196a2", "refusal": null, "old_version_effective_to": "2026-09-23 08:30:47.070696+00:00", "new_stock_bs_after_end": 1, "untracked_bs_after_end": 0, "fg_lots_after_end": 0, "before": {"fg_lots": null, "bs_cases": [{"qty": 10, "stage": "LAUNDRY", "status": "OPEN", "qc_item_id": null, "physical_at": "2026-09-23T15:31:17.070696+07:00", "untracked_type": null, "laundry_allocation_id": "2e510f1b-5566-4255-a2fd-133688085984"}], "versions": [{"id": "8b2f8215-ffdf-4d26-a0dd-843f2f01e362", "to": null, "from": "2026-01-01T07:00:00+07:00", "supersedes": null}]}, "after": {"fg_lots": null, "bs_cases": [{"qty": 10, "stage": "LAUNDRY", "status": "OPEN", "qc_item_id": null, "physical_at": "2026-09-23T08:31:17.070696+00:00", "untracked_type": null, "laundry_allocation_id": "2e510f1b-5566-4255-a2fd-133688085984"}], "versions": [{"id": "8b2f8215-ffdf-4d26-a0dd-843f2f01e362", "to": "2026-09-23T08:30:47.070696+00:00", "from": "2026-01-01T00:00:00+00:00", "supersedes": null}, {"id": "540fd31d-6d38-4f9a-a35f-6299837196a2", "to": null, "from": "2026-09-23T08:30:47.070696+00:00", "supersedes": "8b2f8215-ffdf-4d26-a0dd-843f2f01e362"}]}, "ordinary_authenticated_rpc": true, "expected": "Refuse: successor would end the version before a recorded NEW_STOCK BS fact", "status": "COUNTEREXAMPLE", "full_boundary_restored": true}
+2026-09-23T08:32:18.3167392Z {"group": "R1_CASES_BEFORE", "case": "CUTOFF:QC_ALL_BS", "variant": "QC_ALL_BS", "fact_physical_at": "2026-09-23 15:31:17.827436+07:00", "requested_effective_from": "2026-09-23 15:30:47.827436+07:00", "result": "aaee8819-ff1b-4ab0-8cb2-83d32d4c5f40", "refusal": null, "old_version_effective_to": "2026-09-23 08:30:47.827436+00:00", "new_stock_bs_after_end": 1, "untracked_bs_after_end": 0, "fg_lots_after_end": 0, "before": {"fg_lots": null, "bs_cases": [{"qty": 10, "stage": "QC", "status": "OPEN", "qc_item_id": "d61cb79c-f03d-4d96-b5a9-f453b5251238", "physical_at": "2026-09-23T15:31:17.827436+07:00", "untracked_type": null, "laundry_allocation_id": null}], "versions": [{"id": "cdf61d62-d486-4aa8-9390-fd527dce82bc", "to": null, "from": "2026-01-01T07:00:00+07:00", "supersedes": null}]}, "after": {"fg_lots": null, "bs_cases": [{"qty": 10, "stage": "QC", "status": "OPEN", "qc_item_id": "d61cb79c-f03d-4d96-b5a9-f453b5251238", "physical_at": "2026-09-23T08:31:17.827436+00:00", "untracked_type": null, "laundry_allocation_id": null}], "versions": [{"id": "cdf61d62-d486-4aa8-9390-fd527dce82bc", "to": "2026-09-23T08:30:47.827436+00:00", "from": "2026-01-01T00:00:00+00:00", "supersedes": null}, {"id": "aaee8819-ff1b-4ab0-8cb2-83d32d4c5f40", "to": null, "from": "2026-09-23T08:30:47.827436+00:00", "supersedes": "cdf61d62-d486-4aa8-9390-fd527dce82bc"}]}, "ordinary_authenticated_rpc": true, "expected": "Refuse: successor would end the version before a recorded NEW_STOCK BS fact", "status": "COUNTEREXAMPLE", "full_boundary_restored": true}
+2026-09-23T08:32:19.2734668Z {"group": "R1_CASES_BEFORE", "case": "CUTOFF:QC_GOOD", "variant": "QC_GOOD", "fact_physical_at": "2026-09-23 15:31:18.611997+07:00", "requested_effective_from": "2026-09-23 15:30:48.611997+07:00", "result": null, "refusal": {"sqlstate": "P0001", "message": "Tanggal efektif SKU akan memotong histori produksi yang sudah tercatat"}, "old_version_effective_to": null, "new_stock_bs_after_end": 0, "untracked_bs_after_end": 0, "fg_lots_after_end": 0, "before": {"fg_lots": [{"qty": 10, "origin": "PRODUCTION", "produced_at": "2026-09-23T15:31:18.611997+07:00"}], "bs_cases": null, "versions": [{"id": "61fc1637-5006-444a-b303-758db71c3496", "to": null, "from": "2026-01-01T07:00:00+07:00", "supersedes": null}]}, "after": {"fg_lots": [{"qty": 10, "origin": "PRODUCTION", "produced_at": "2026-09-23T08:31:18.611997+00:00"}], "bs_cases": null, "versions": [{"id": "61fc1637-5006-444a-b303-758db71c3496", "to": null, "from": "2026-01-01T00:00:00+00:00", "supersedes": null}]}, "ordinary_authenticated_rpc": true, "expected": "Refuse through the existing fg_lots cutoff", "status": "CONTROL_PASS", "full_boundary_restored": true}
+2026-09-23T08:32:19.9862662Z {"group": "R1_CASES_BEFORE", "case": "CUTOFF:BS_BEFORE_EFFECTIVE", "variant": "BS_BEFORE_EFFECTIVE", "fact_physical_at": "2026-09-23 15:31:19.570603+07:00", "requested_effective_from": "2026-09-23 15:31:49.570603+07:00", "result": "b6ecd1e0-eeee-49c3-8fc8-9ca3ee67e69b", "refusal": null, "old_version_effective_to": "2026-09-23 08:31:49.570603+00:00", "new_stock_bs_after_end": 0, "untracked_bs_after_end": 0, "fg_lots_after_end": 0, "before": {"fg_lots": null, "bs_cases": [{"qty": 10, "stage": "LAUNDRY", "status": "OPEN", "qc_item_id": null, "physical_at": "2026-09-23T15:31:19.570603+07:00", "untracked_type": null, "laundry_allocation_id": "aea61e5c-fa78-4a25-add6-eebe1d7c82bf"}], "versions": [{"id": "6d611ce7-132a-4ebb-8b2b-0f9d7c7bab75", "to": null, "from": "2026-01-01T07:00:00+07:00", "supersedes": null}]}, "after": {"fg_lots": null, "bs_cases": [{"qty": 10, "stage": "LAUNDRY", "status": "OPEN", "qc_item_id": null, "physical_at": "2026-09-23T08:31:19.570603+00:00", "untracked_type": null, "laundry_allocation_id": "aea61e5c-fa78-4a25-add6-eebe1d7c82bf"}], "versions": [{"id": "6d611ce7-132a-4ebb-8b2b-0f9d7c7bab75", "to": "2026-09-23T08:31:49.570603+00:00", "from": "2026-01-01T00:00:00+00:00", "supersedes": null}, {"id": "b6ecd1e0-eeee-49c3-8fc8-9ca3ee67e69b", "to": null, "from": "2026-09-23T08:31:49.570603+00:00", "supersedes": "6d611ce7-132a-4ebb-8b2b-0f9d7c7bab75"}]}, "ordinary_authenticated_rpc": true, "expected": "Accept: the fact precedes the requested boundary", "status": "CONTROL_PASS", "full_boundary_restored": true}
+2026-09-23T08:32:20.6790749Z {"group": "R1_CASES_BEFORE", "case": "CUTOFF:MANUAL_BS", "variant": "MANUAL_BS", "fact_physical_at": "2026-09-23 15:31:20.276057+07:00", "requested_effective_from": "2026-09-23 15:30:50.276057+07:00", "result": "691f14e2-e933-456d-9789-dd013ba81b34", "refusal": null, "old_version_effective_to": "2026-09-23 08:30:50.276057+00:00", "new_stock_bs_after_end": 0, "untracked_bs_after_end": 1, "fg_lots_after_end": 0, "before": {"fg_lots": null, "bs_cases": [{"qty": 1, "stage": "UNKNOWN", "status": "OPEN", "qc_item_id": null, "physical_at": "2026-09-23T15:31:20.276057+07:00", "untracked_type": "OUT_OF_NOWHERE", "laundry_allocation_id": null}], "versions": [{"id": "40cdb56e-9d70-4fcb-b7f8-67c60d1c090b", "to": null, "from": "2026-01-01T07:00:00+07:00", "supersedes": null}]}, "after": {"fg_lots": null, "bs_cases": [{"qty": 1, "stage": "UNKNOWN", "status": "OPEN", "qc_item_id": null, "physical_at": "2026-09-23T08:31:20.276057+00:00", "untracked_type": "OUT_OF_NOWHERE", "laundry_allocation_id": null}], "versions": [{"id": "40cdb56e-9d70-4fcb-b7f8-67c60d1c090b", "to": "2026-09-23T08:30:50.276057+00:00", "from": "2026-01-01T00:00:00+00:00", "supersedes": null}, {"id": "691f14e2-e933-456d-9789-dd013ba81b34", "to": null, "from": "2026-09-23T08:30:50.276057+00:00", "supersedes": "40cdb56e-9d70-4fcb-b7f8-67c60d1c090b"}]}, "ordinary_authenticated_rpc": true, "expected": "Contract undecided (STATUS_DAN_TODO P0 physical cutoff); observation only", "status": "HOLD_CONTRACT", "full_boundary_restored": true}
+2026-09-23T08:32:21.5727374Z {"group": "R1_CASES_BEFORE", "case": "REVERSED:LAUNDRY_BS", "variant": "LAUNDRY_BS", "successor": "db08e472-aeea-4153-87db-e078671e4520", "effective_from": "2026-09-23 15:30:50.976743+07:00", "fact_physical_at": "2026-09-23 15:31:20.976743+07:00", "result": null, "refusal": {"sqlstate": "P0001", "message": "Laundry BS product must be active at physical receipt time and match the source PO model/size"}, "expected": "The ended version refuses a new NEW_STOCK fact atomically (identity assert or an earlier product-period guard)", "status": "CONTROL_PASS", "ordinary_authenticated_rpc": true, "full_boundary_restored": true}
+2026-09-23T08:32:22.5084002Z {"group": "R1_CASES_BEFORE", "case": "REVERSED:QC_ALL_BS", "variant": "QC_ALL_BS", "successor": "2fffe076-8ee9-419f-ba31-3ef5940150c6", "effective_from": "2026-09-23 15:30:51.848594+07:00", "fact_physical_at": "2026-09-23 15:31:21.848594+07:00", "result": null, "refusal": {"sqlstate": "P0001", "message": "Final SKU must be active at physical QC time and match the Laundry receipt model/size"}, "expected": "The ended version refuses a new NEW_STOCK fact atomically (identity assert or an earlier product-period guard)", "status": "CONTROL_PASS", "ordinary_authenticated_rpc": true, "full_boundary_restored": true}
+2026-09-23T08:32:25.3763170Z {"group": "AU_MASTER_BEFORE", "case": "MASTER:DISPLAY_NAME", "status": "PASS", "variant": "DISPLAY_NAME", "ordinary_authenticated_rpc": true, "expected": "Owner-admin ordinary product lifecycle succeeds with valid unused/current input", "result": "53ea81ba-ae8e-4ff5-809d-0015fd175039", "refusal": null, "observations": [["53ea81ba-ae8e-4ff5-809d-0015fd175039", "R2a191553abUNUSED", "Blue", "2026-09-20 17:00:00+00:00", null, null]], "refusal_unchanged": null, "full_boundary_restored": true}
+2026-09-23T08:32:26.9133438Z {"group": "AU_MASTER_BEFORE", "case": "MASTER:UNUSED_IDENTITY", "status": "PASS", "variant": "UNUSED_IDENTITY", "ordinary_authenticated_rpc": true, "expected": "Owner-admin ordinary product lifecycle succeeds with valid unused/current input", "result": "6fac8d3f-9acf-4a99-a5aa-4ede91309926", "refusal": null, "observations": [["6fac8d3f-9acf-4a99-a5aa-4ede91309926", "Rda90ebcb3bUNUSED", "Green", "2026-09-20 17:00:00+00:00", null, null]], "refusal_unchanged": null, "full_boundary_restored": true}
+2026-09-23T08:32:28.4775512Z {"group": "AU_MASTER_BEFORE", "case": "MASTER:USED_SUCCESSOR", "status": "PASS", "variant": "USED_SUCCESSOR", "ordinary_authenticated_rpc": true, "expected": "Owner-admin ordinary product lifecycle succeeds with valid unused/current input", "result": "58b43d1d-add7-46df-83a1-05097ddb9f19", "refusal": null, "observations": [["0f2f5ce5-3330-4823-aabf-9161ad464c9e", "R75d5159110", "Blue", "2026-09-14 17:00:00+00:00", "2026-09-23 08:33:28.060739+00:00", null], ["58b43d1d-add7-46df-83a1-05097ddb9f19", "R75d5159110", "Green", "2026-09-23 08:33:28.060739+00:00", null, "0f2f5ce5-3330-4823-aabf-9161ad464c9e"]], "refusal_unchanged": null, "full_boundary_restored": true}
+2026-09-23T08:32:30.2161670Z {"group": "AU_MASTER_BEFORE", "case": "MASTER:CANCEL_FUTURE", "status": "PASS", "variant": "CANCEL_FUTURE", "ordinary_authenticated_rpc": true, "expected": "Owner-admin ordinary product lifecycle succeeds with valid unused/current input", "result": "595badcb-2dcd-44a4-87bc-c1886155a020", "refusal": null, "observations": [["595badcb-2dcd-44a4-87bc-c1886155a020", null]], "refusal_unchanged": null, "full_boundary_restored": true}
+2026-09-23T08:32:31.3516226Z {"group": "AU_MASTER_BEFORE", "case": "AU:NAME_ONLY", "status": "PASS", "identity_unchanged": true, "full_boundary_restored": true}
+2026-09-23T08:32:32.8997725Z {"group": "AU_MASTER_BEFORE", "case": "AU:PRICE_REFERENCE", "status": "PASS", "old_identity_preserved": true, "exact_retry_no_mutation": true, "unused_authority_rows": 0, "full_boundary_restored": true}
+2026-09-23T08:32:34.8284009Z {"group": "AU_MASTER_BEFORE", "case": "AU:CANCEL_USED", "status": "PASS", "refusal": {"sqlstate": "P0001", "message": "Perubahan SKU ini sudah dipakai transaksi/stok/HPP dan tidak boleh dibatalkan. Buat perubahan efektif baru sebagai koreksi."}, "all_boundary_unchanged": true, "full_boundary_restored": true}
+2026-09-23T08:32:36.7543207Z {"group": "AU_MASTER_BEFORE", "case": "AU:PHYSICAL_HISTORY", "status": "PASS", "refusal": {"sqlstate": "P0001", "message": "Tanggal efektif SKU akan memotong histori produksi yang sudah tercatat"}, "all_boundary_unchanged": true, "full_boundary_restored": true}
+2026-09-23T08:32:38.7345337Z {"group": "AU_MASTER_BEFORE", "case": "AU:REPLAY", "status": "PASS", "old_identity_preserved": true, "exact_retry_no_mutation": true, "unused_authority_rows": 0, "full_boundary_restored": true}
+2026-09-23T08:32:40.6479923Z {"group": "AU_MASTER_BEFORE", "case": "AU:FORGED_CONTEXT", "status": "PASS", "refusal": {"sqlstate": "42501", "message": "permission denied for table product_identity_mutation_context_v1"}, "all_boundary_unchanged": true, "full_boundary_restored": true}
+2026-09-23T08:32:42.5896733Z {"group": "AU_MASTER_BEFORE", "case": "AU:FORGED_INSERT", "status": "PASS", "refusal": {"sqlstate": "P0001", "message": "Metadata versi SKU tidak boleh diisi langsung. Gunakan Edit SKU efektif-tanggal."}, "all_boundary_unchanged": true, "full_boundary_restored": true}
+2026-09-23T08:32:44.5198801Z {"group": "AU_MASTER_BEFORE", "case": "AU:FORGED_UPDATE", "status": "PASS", "refusal": {"sqlstate": "P0001", "message": "Periode/chain versi SKU dikelola sistem. Gunakan Edit SKU atau Batalkan Perubahan SKU."}, "all_boundary_unchanged": true, "full_boundary_restored": true}
+2026-09-23T08:32:46.4535761Z {"group": "AU_MASTER_BEFORE", "case": "AU:FORGED_UNUSED", "status": "PASS", "refusal": {"sqlstate": "P0001", "message": "Identitas dan periode SKU immutable setelah row dibuat; ubah nama/status tampilan saja atau buat successor terkontrol, jangan menulis ulang sejarah stok/HPP"}, "all_boundary_unchanged": true, "full_boundary_restored": true}
+2026-09-23T08:32:48.4192799Z {"group": "AU_MASTER_BEFORE", "case": "AU:FORGED_CHILD_ID", "status": "PASS", "refusal": {"sqlstate": "P0001", "message": "Identitas dan periode SKU immutable setelah row dibuat; ubah nama/status tampilan saja atau buat successor terkontrol, jangan menulis ulang sejarah stok/HPP"}, "all_boundary_unchanged": true, "full_boundary_restored": true}
+2026-09-23T08:32:50.3433787Z {"group": "AU_MASTER_BEFORE", "case": "AU:INVALID_CHILD", "status": "PASS", "refusal": {"sqlstate": "P0001", "message": "Versi SKU tidak ditemukan"}, "all_boundary_unchanged": true, "full_boundary_restored": true}
+2026-09-23T08:32:53.6308571Z {"group": "AT_TEMPORAL_BEFORE", "case": "WIP_VERSION:UTC:AUTO_CURRENT", "status": "PASS", "variant": "AUTO_CURRENT", "zone": "UTC", "candidate_periods": ["2026-09-19 12:00:00+07:00"], "expected_product": "6f3cb1b0-eb73-4c56-a8d0-a49865e8879f", "result": {"action": "WIP_OUTPUT", "lot_id": "f7bea0ce-c014-41d2-879a-e2eb8cd47b31", "status": "POSTED", "batch_id": "26069a27-42df-45ed-8ec6-8fdfec3dcaef", "operation": "COMPLETE", "output_id": "8f3b601e-dfcd-4970-a572-9e4c35d9a373", "request_id": "3734e61e-b333-4ca7-923d-785b6a080b3b"}, "refusal": null, "observation": ["6f3cb1b0-eb73-4c56-a8d0-a49865e8879f", "2026-09-19 17:00:00+00:00", "2026-09-19 05:00:00+00:00", null, 4], "mismatches": {}, "ordinary_authenticated_rpc": true, "full_boundary_restored": true}
+2026-09-23T08:32:55.4017308Z {"group": "AT_TEMPORAL_BEFORE", "case": "WIP_VERSION:UTC:EXPLICIT_CURRENT", "status": "PASS", "variant": "EXPLICIT_CURRENT", "zone": "UTC", "candidate_periods": ["2026-09-19 12:00:00+07:00"], "expected_product": "e41ec0bb-e940-4d59-af7f-9e43fd95c6fe", "result": {"action": "WIP_OUTPUT", "lot_id": "7f2ebf1a-b57a-448b-9cf6-29cbba94ed40", "status": "POSTED", "batch_id": "f2152570-2484-421f-bfad-265b617863fc", "operation": "COMPLETE", "output_id": "4f22e2df-4eda-4937-b65e-b7f3fece6a26", "request_id": "e26bf242-9354-4df6-ad95-be58cb7ac86e"}, "refusal": null, "observation": ["e41ec0bb-e940-4d59-af7f-9e43fd95c6fe", "2026-09-19 17:00:00+00:00", "2026-09-19 05:00:00+00:00", null, 4], "mismatches": {}, "ordinary_authenticated_rpc": true, "full_boundary_restored": true}
+2026-09-23T08:32:56.8771919Z {"group": "AT_TEMPORAL_BEFORE", "case": "WIP_VERSION:UTC:EXPIRED_ID", "status": "PASS", "variant": "EXPIRED_ID", "zone": "UTC", "candidate_periods": ["2026-09-19 12:00:00+07:00"], "expected_product": "4f0d30f2-15c6-426b-b7cd-2d54c2369661", "result": null, "refusal": {"sqlstate": "P0001", "message": "product_sku: pilih produk aktif dengan merek, model PO, ukuran saldo, dan tanggal hasil yang sesuai"}, "observation": null, "mismatches": {}, "ordinary_authenticated_rpc": true, "full_boundary_restored": true}
+2026-09-23T08:32:58.6793730Z {"group": "AT_TEMPORAL_BEFORE", "case": "WIP_VERSION:UTC:OLD_INACTIVE", "status": "PASS", "variant": "OLD_INACTIVE", "zone": "UTC", "candidate_periods": ["2026-09-19 12:00:00+07:00"], "expected_product": "23720a44-0419-4846-a519-b80bf8136dfd", "result": {"action": "WIP_OUTPUT", "lot_id": "5953e5c5-63ee-473e-b872-b94e531c9c45", "status": "POSTED", "batch_id": "2c1dbf1e-dea5-4a28-a309-72c7972be67d", "operation": "COMPLETE", "output_id": "8835cfcc-1b7b-4c96-b878-75928b004156", "request_id": "e13c6a41-fc8d-4398-9ea2-e36f0499e01a"}, "refusal": null, "observation": ["23720a44-0419-4846-a519-b80bf8136dfd", "2026-09-19 17:00:00+00:00", "2026-09-19 05:00:00+00:00", null, 4], "mismatches": {}, "ordinary_authenticated_rpc": true, "full_boundary_restored": true}
+2026-09-23T08:33:00.3965967Z {"group": "AT_TEMPORAL_BEFORE", "case": "WIP_VERSION:Pacific/Kiritimati:AUTO_CURRENT", "status": "PASS", "variant": "AUTO_CURRENT", "zone": "Pacific/Kiritimati", "candidate_periods": ["2026-09-19 12:00:00+07:00"], "expected_product": "1c901277-ac0b-4588-a06e-6aee28076b9f", "result": {"action": "WIP_OUTPUT", "lot_id": "0bc8dcfb-93a6-444d-841a-0e9a76c9d368", "status": "POSTED", "batch_id": "1f6ee1fd-b04c-4b19-8a72-6780fe88ca39", "operation": "COMPLETE", "output_id": "d8210a30-c692-4512-9bf1-7d7b0676c01a", "request_id": "896fc53b-57f3-4fe1-a13e-5288d85aeefe"}, "refusal": null, "observation": ["1c901277-ac0b-4588-a06e-6aee28076b9f", "2026-09-19 17:00:00+00:00", "2026-09-19 05:00:00+00:00", null, 4], "mismatches": {}, "ordinary_authenticated_rpc": true, "full_boundary_restored": true}
+2026-09-23T08:33:02.1364513Z {"group": "AT_TEMPORAL_BEFORE", "case": "WIP_VERSION:Pacific/Kiritimati:EXPLICIT_CURRENT", "status": "PASS", "variant": "EXPLICIT_CURRENT", "zone": "Pacific/Kiritimati", "candidate_periods": ["2026-09-19 12:00:00+07:00"], "expected_product": "37bef09d-1553-4b7b-b20d-b28fb86fa97e", "result": {"action": "WIP_OUTPUT", "lot_id": "dadac2f2-1a22-4f9a-8b59-2c7736033e35", "status": "POSTED", "batch_id": "734a86d4-714b-40f8-83cb-16addf64c146", "operation": "COMPLETE", "output_id": "287438a6-a43d-4a7f-b202-1b9dec234599", "request_id": "db610d7d-a5cd-4ba9-9272-2d705bb8d7b1"}, "refusal": null, "observation": ["37bef09d-1553-4b7b-b20d-b28fb86fa97e", "2026-09-19 17:00:00+00:00", "2026-09-19 05:00:00+00:00", null, 4], "mismatches": {}, "ordinary_authenticated_rpc": true, "full_boundary_restored": true}
+2026-09-23T08:33:03.5994124Z {"group": "AT_TEMPORAL_BEFORE", "case": "WIP_VERSION:Pacific/Kiritimati:EXPIRED_ID", "status": "PASS", "variant": "EXPIRED_ID", "zone": "Pacific/Kiritimati", "candidate_periods": ["2026-09-19 12:00:00+07:00"], "expected_product": "6cbd090d-83c8-4909-a300-742d7a97dc1f", "result": null, "refusal": {"sqlstate": "P0001", "message": "product_sku: pilih produk aktif dengan merek, model PO, ukuran saldo, dan tanggal hasil yang sesuai"}, "observation": null, "mismatches": {}, "ordinary_authenticated_rpc": true, "full_boundary_restored": true}
+2026-09-23T08:33:05.3682748Z {"group": "AT_TEMPORAL_BEFORE", "case": "WIP_VERSION:Pacific/Kiritimati:OLD_INACTIVE", "status": "PASS", "variant": "OLD_INACTIVE", "zone": "Pacific/Kiritimati", "candidate_periods": ["2026-09-19 12:00:00+07:00"], "expected_product": "eadc9103-9e33-4eab-8d58-4bc085160a11", "result": {"action": "WIP_OUTPUT", "lot_id": "c956e8da-959b-43de-b7d1-604ca0e14939", "status": "POSTED", "batch_id": "76a23096-e451-408f-a179-2bdff8b6e6a8", "operation": "COMPLETE", "output_id": "ee5fe09d-a356-45a0-90f0-d527cd4623de", "request_id": "abb5c490-9f2a-4a29-9d51-6187e6c047a5"}, "refusal": null, "observation": ["eadc9103-9e33-4eab-8d58-4bc085160a11", "2026-09-19 17:00:00+00:00", "2026-09-19 05:00:00+00:00", null, 4], "mismatches": {}, "ordinary_authenticated_rpc": true, "full_boundary_restored": true}
+2026-09-23T08:33:06.0005680Z {"group": "AT_TEMPORAL_BEFORE", "case": "HISTORICAL_BS:True:False", "status": "PASS", "historical_ambiguity_refused": true, "display_active": true, "no_economic_posting": true, "corrected_audit_assumption": "Expiry does not disambiguate existing physical opening stock", "errors": [{"entity": "OPENING_BALANCE_ITEM", "errors": ["Opening product_sku must resolve exactly one identity at cutover (found 2)", "product_sku: identitas produk harus tepat satu; periksa merek, model, warna, dan ukuran"]}, {"entity": "OPENING_BALANCE_ITEM", "errors": ["Opening product_sku must resolve exactly one identity at cutover (found 2)"]}, {"entity": "OPENING_CONTROL", "errors": ["control_key: total tidak memiliki rincian yang valid"]}, {"entity": "OPENING_CONTROL", "errors": ["control_key: total tidak memiliki rincian yang valid"]}, {"entity": "OPENING_CONTROL", "errors": ["control_key: total tidak memiliki rincian yang valid"]}, {"entity": "OPENING_COST_ORIGIN", "errors": ["target_source_key: perlu saldo fisik valid dengan nilai manual yang terurai"]}, {"entity": "OPENING_COST_ORIGIN", "errors": ["target_source_key: perlu saldo fisik valid dengan nilai manual yang terurai"]}, {"entity": "UNINVOICED_RECEIPT", "errors": ["opening_source_key: jumlah belum ditagih harus tepat sama dengan sisa bahan + seluruh asal biaya yang sudah terpakai"]}], "full_boundary_restored": true}
+2026-09-23T08:33:06.6875380Z {"group": "AT_TEMPORAL_BEFORE", "case": "HISTORICAL_BS:True:True", "status": "PASS", "qualified_historical_bs_preserved": true, "display_active": true, "chosen_product": "63b5be7b-e3f7-4a30-879a-21bffd927dd8", "current_product": "6c96a2c0-c83d-44f7-a4ff-5d3c97f51379", "full_boundary_restored": true}
+2026-09-23T08:33:07.3370243Z {"group": "AT_TEMPORAL_BEFORE", "case": "HISTORICAL_BS:False:False", "status": "PASS", "historical_ambiguity_refused": true, "display_active": false, "no_economic_posting": true, "corrected_audit_assumption": "Expiry does not disambiguate existing physical opening stock", "errors": [{"entity": "OPENING_BALANCE_ITEM", "errors": ["Opening product_sku must resolve exactly one identity at cutover (found 2)", "product_sku: identitas produk harus tepat satu; periksa merek, model, warna, dan ukuran"]}, {"entity": "OPENING_BALANCE_ITEM", "errors": ["Opening product_sku must resolve exactly one identity at cutover (found 2)"]}, {"entity": "OPENING_CONTROL", "errors": ["control_key: total tidak memiliki rincian yang valid"]}, {"entity": "OPENING_CONTROL", "errors": ["control_key: total tidak memiliki rincian yang valid"]}, {"entity": "OPENING_CONTROL", "errors": ["control_key: total tidak memiliki rincian yang valid"]}, {"entity": "OPENING_COST_ORIGIN", "errors": ["target_source_key: perlu saldo fisik valid dengan nilai manual yang terurai"]}, {"entity": "OPENING_COST_ORIGIN", "errors": ["target_source_key: perlu saldo fisik valid dengan nilai manual yang terurai"]}, {"entity": "UNINVOICED_RECEIPT", "errors": ["opening_source_key: jumlah belum ditagih harus tepat sama dengan sisa bahan + seluruh asal biaya yang sudah terpakai"]}], "full_boundary_restored": true}
+2026-09-23T08:33:08.0414494Z {"group": "AT_TEMPORAL_BEFORE", "case": "HISTORICAL_BS:False:True", "status": "PASS", "qualified_historical_bs_preserved": true, "display_active": false, "chosen_product": "e8607294-9718-4149-aad4-e8605ca148a6", "current_product": "5f8b72e0-c68b-47e3-abd6-96a9ff7fffc9", "full_boundary_restored": true}
+2026-09-23T08:33:09.5688577Z {"group": "AT_TEMPORAL_BEFORE", "case": "INTRADAY:MIDNIGHT", "status": "PASS", "variant": "MIDNIGHT", "chosen": "acffb6af-3c96-4422-8754-1e68808362b0", "physical_at": "2026-09-19 17:00:00+00:00", "valid_from": "2026-09-19 17:00:00+00:00", "valid_to": null, "linked_inverse": true, "full_boundary_restored": true}
+2026-09-23T08:33:11.4157749Z {"group": "AT_TEMPORAL_BEFORE", "case": "INTRADAY:AMBIGUOUS_DAY", "status": "PASS", "two_intraday_versions_require_explicit_id": true, "refused_atomically": true, "full_boundary_restored": true}
+2026-09-23T08:33:12.9485249Z {"group": "AT_TEMPORAL_BEFORE", "case": "INTRADAY:EARLY_ID", "status": "PASS", "variant": "EARLY_ID", "chosen": "c6b98d1d-67cc-4d69-b931-74e6df666e73", "physical_at": "2026-09-19 17:00:00+00:00", "valid_from": "2026-09-17 17:00:00+00:00", "valid_to": "2026-09-20 05:00:00+00:00", "linked_inverse": true, "full_boundary_restored": true}
+2026-09-23T08:33:14.4661166Z {"group": "AT_TEMPORAL_BEFORE", "case": "INTRADAY:LATE_ID", "status": "PASS", "variant": "LATE_ID", "chosen": "ba81f846-a2c4-4c57-b1a9-64dde972dd56", "physical_at": "2026-09-20 05:00:00+00:00", "valid_from": "2026-09-20 05:00:00+00:00", "valid_to": null, "linked_inverse": true, "full_boundary_restored": true}
+2026-09-23T08:33:15.4731295Z {"status": "REVIEW_COMPLETE", "phase": "before", "source": {"auditor_head": "897bb68889790486f65ca92c759d652ba344fd4c", "auditor_tree": "e46e0830dfda401bd7ed96e792f97f02bfa4a295", "frozen_writer": "ca7f09556397801c50a2277bdb65b1bf019f9a05", "changed_from_frozen": [".github/workflows/cp6-au-r1-probe.yml", "scripts/cp6_au_r1_probe.py"], "sha256": {".github/workflows/cp6-au-r1-probe.yml": "97c262daf39dfd8f454dded95239e75715204484920ecfc73ffee10ca36e5ef4", "scripts/cp6_au_r1_probe.py": "279962d9107eb769fb9d18ca82eafcea7cdfb66f5ecd6cfbec9315384d53921e"}}, "installed_functions_patched_for_testing": false, "production_go": false, "independent_acceptance": false, "au_install": {"action": "install", "status": "PASS", "closed_drained": true, "committed_verified": true, "admission_reopened": true, "runtime": {"stage": "AU", "function_count": 648, "object_count": 7156, "full_catalog_verified": true, "changed_functions": ["erp.validate_product_identity_period()", "erp.edit_product_identity_effective(uuid,text,uuid,uuid,text,uuid,text,timestamp with time zone,text)", "erp.cancel_product_identity_successor(uuid,text)", "erp.guard_product_identity_version_metadata()", "erp.guard_product_delete_after_identity_history()", "erp.assert_product_identity_time(uuid,timestamp with time zone,text)"], "prior_permanent_sql_unchanged": true}, "drain_observations": []}, "au_runtime": {"stage": "AU", "function_count": 648, "object_count": 7156, "full_catalog_verified": true, "changed_functions": ["erp.validate_product_identity_period()", "erp.edit_product_identity_effective(uuid,text,uuid,uuid,text,uuid,text,timestamp with time zone,text)", "erp.cancel_product_identity_successor(uuid,text)", "erp.guard_product_identity_version_metadata()", "erp.guard_product_delete_after_identity_history()", "erp.assert_product_identity_time(uuid,timestamp with time zone,text)"], "prior_permanent_sql_unchanged": true}, "r1": {"status": "COUNTEREXAMPLE", "counts": {"COUNTEREXAMPLE": 2, "CONTROL_PASS": 4, "HOLD_CONTRACT": 1}}, "au_master": {"status": "PASS", "counts": {"PASS": 15}}, "at_temporal": {"status": "PASS", "counts": {"PASS": 16}}, "primary_unchanged": true, "clone_remaining": 0}
+2026-09-23T08:33:15.6130563Z ##[group]Run supabase stop --workdir cp5-local --no-backup
+2026-09-23T08:33:15.6131010Z [36;1msupabase stop --workdir cp5-local --no-backup[0m
+2026-09-23T08:33:15.6172259Z shell: /usr/bin/bash -e {0}
+2026-09-23T08:33:15.6172517Z env:
+2026-09-23T08:33:15.6172923Z   PGURL: ***127.0.0.1:54322/postgres
+2026-09-23T08:33:15.6173231Z   CP6_AC_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:33:15.6173540Z   CP6_AF_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:33:15.6173814Z   CP6_AH_CONFIRM: postgres
+2026-09-23T08:33:15.6174058Z   CP6_AI_CONFIRM: postgres
+2026-09-23T08:33:15.6174300Z   CP6_AH_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:33:15.6174574Z   CP6_AI_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:33:15.6174935Z   CP6_AUDIT_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:33:15.6175361Z   CP6_AF_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:33:15.6175731Z   CP6_DATABASE_CONTAINER: supabase_db_cp5-local
+2026-09-23T08:33:15.6176095Z   CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
+2026-09-23T08:33:15.6176402Z   CP6_AR_CONFIRM: cp6_rollback
+2026-09-23T08:33:15.6176665Z   CP6_AU_BROWSER_CONFIRM: cp6_rollback
+2026-09-23T08:33:15.6176991Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:33:15.6177418Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+2026-09-23T08:33:15.6177848Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:33:15.6178231Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:33:15.6178605Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:33:15.6178980Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+2026-09-23T08:33:15.6179504Z   SUPABASE_INTERNAL_IMAGE_REGISTRY: ghcr.io
+2026-09-23T08:33:15.6180271Z   CP6_ADMISSION_CONTROL_PGURL: ***
+2026-09-23T08:33:15.6180726Z ##[endgroup]
+2026-09-23T08:33:16.0762797Z Stopping containers...
+2026-09-23T08:33:22.6846194Z Stopped supabase local development setup.
+2026-09-23T08:33:23.1435717Z A new version of Supabase CLI is available: v2.117.0 (currently installed v2.116.0)
+2026-09-23T08:33:23.1437006Z We recommend updating regularly for new features and bug fixes: https://supabase.com/docs/guides/cli/getting-started#updating-the-supabase-cli
+2026-09-23T08:33:23.1609709Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-23T08:33:23.1611124Z ##[group]Run actions/upload-artifact@v4
+2026-09-23T08:33:23.1611406Z with:
+2026-09-23T08:33:23.1611640Z   name: cp6-au-r1-probe
+2026-09-23T08:33:23.1611892Z   path: auditor/cp6-proof/au-r1
+2026-09-23T08:33:23.1612145Z   retention-days: 30
+2026-09-23T08:33:23.1612372Z   if-no-files-found: warn
+2026-09-23T08:33:23.1612618Z   compression-level: 6
+2026-09-23T08:33:23.1612845Z   overwrite: false
+2026-09-23T08:33:23.1613071Z   include-hidden-files: false
+2026-09-23T08:33:23.1613310Z env:
+2026-09-23T08:33:23.1613688Z   PGURL: ***127.0.0.1:54322/postgres
+2026-09-23T08:33:23.1613985Z   CP6_AC_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:33:23.1614298Z   CP6_AF_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:33:23.1614567Z   CP6_AH_CONFIRM: postgres
+2026-09-23T08:33:23.1614806Z   CP6_AI_CONFIRM: postgres
+2026-09-23T08:33:23.1615045Z   CP6_AH_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:33:23.1615318Z   CP6_AI_INDEPENDENT_CONFIRM: postgres
+2026-09-23T08:33:23.1615658Z   CP6_AUDIT_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:33:23.1616075Z   CP6_AF_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+2026-09-23T08:33:23.1616458Z   CP6_DATABASE_CONTAINER: supabase_db_cp5-local
+2026-09-23T08:33:23.1616787Z   CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
+2026-09-23T08:33:23.1617113Z   CP6_AR_CONFIRM: cp6_rollback
+2026-09-23T08:33:23.1617367Z   CP6_AU_BROWSER_CONFIRM: cp6_rollback
+2026-09-23T08:33:23.1617695Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:33:23.1618124Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+2026-09-23T08:33:23.1618549Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:33:23.1618926Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:33:23.1619321Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+2026-09-23T08:33:23.1619701Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+2026-09-23T08:33:23.1620055Z   SUPABASE_INTERNAL_IMAGE_REGISTRY: ghcr.io
+2026-09-23T08:33:23.1620976Z   CP6_ADMISSION_CONTROL_PGURL: ***
+2026-09-23T08:33:23.1621248Z ##[endgroup]
+2026-09-23T08:33:23.3296572Z (node:11060) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-09-23T08:33:23.3297403Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-09-23T08:33:23.3383640Z With the provided path, there will be 10 files uploaded
+2026-09-23T08:33:23.3388929Z Artifact name is valid!
+2026-09-23T08:33:23.3389445Z Root directory input is valid!
+2026-09-23T08:33:23.6081730Z Beginning upload of artifact content to blob storage
+2026-09-23T08:33:23.9372002Z (node:11060) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-09-23T08:33:24.3693449Z Uploaded bytes 2381784
+2026-09-23T08:33:24.4106246Z Finished uploading artifact content to blob storage!
+2026-09-23T08:33:24.4107454Z SHA256 digest of uploaded artifact zip is 6ff5640340294340a8802f9c4be3b0978acca5fb5786dacb3ee56531a0aa8a4d
+2026-09-23T08:33:24.4109107Z Finalizing artifact upload
+2026-09-23T08:33:24.6822977Z Artifact cp6-au-r1-probe.zip successfully finalized. Artifact ID 10739778362
+2026-09-23T08:33:24.6823961Z Artifact cp6-au-r1-probe has been successfully uploaded! Final size is 2381784 bytes. Artifact ID is 10739778362
+2026-09-23T08:33:24.6830583Z Artifact download URL: https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/35837408181/artifacts/10739778362
+2026-09-23T08:33:24.7028319Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-23T08:33:24.7029518Z Post job cleanup.
+2026-09-23T08:33:24.8252693Z (node:11073) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-09-23T08:33:24.8254057Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-09-23T08:33:24.8422011Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-23T08:33:24.8423231Z Post job cleanup.
+2026-09-23T08:33:24.9684323Z (node:11081) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-09-23T08:33:24.9685674Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-09-23T08:33:24.9876334Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-23T08:33:24.9877581Z Post job cleanup.
+2026-09-23T08:33:25.0847148Z [command]/usr/bin/git version
+2026-09-23T08:33:25.0902960Z git version 2.55.0
+2026-09-23T08:33:25.0952923Z Temporarily overriding HOME='/home/runner/work/_temp/5f69b210-4f45-4c74-9973-c86511dd7226' before making global git config changes
+2026-09-23T08:33:25.0960628Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-23T08:33:25.0962317Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/-erp-garment-ux/-erp-garment-ux/base
+2026-09-23T08:33:25.1006487Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-23T08:33:25.1049447Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-23T08:33:25.1327920Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-23T08:33:25.1357760Z http.https://github.com/.extraheader
+2026-09-23T08:33:25.1370809Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-09-23T08:33:25.1407475Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-09-23T08:33:25.1707034Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-23T08:33:25.1746637Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-23T08:33:25.2175710Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-23T08:33:25.2177170Z Post job cleanup.
+2026-09-23T08:33:25.3070267Z [command]/usr/bin/git version
+2026-09-23T08:33:25.3117259Z git version 2.55.0
+2026-09-23T08:33:25.3158717Z Temporarily overriding HOME='/home/runner/work/_temp/27e821df-09d2-4a13-afb6-f33902830549' before making global git config changes
+2026-09-23T08:33:25.3159790Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-23T08:33:25.3165288Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/-erp-garment-ux/-erp-garment-ux/candidate
+2026-09-23T08:33:25.3208323Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-23T08:33:25.3246415Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-23T08:33:25.3546672Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-23T08:33:25.3573910Z http.https://github.com/.extraheader
+2026-09-23T08:33:25.3586199Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-09-23T08:33:25.3642306Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-09-23T08:33:25.3923471Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-23T08:33:25.3961476Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-23T08:33:25.4387669Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-23T08:33:25.4388880Z Post job cleanup.
+2026-09-23T08:33:25.5239720Z [command]/usr/bin/git version
+2026-09-23T08:33:25.5284166Z git version 2.55.0
+2026-09-23T08:33:25.5321775Z Temporarily overriding HOME='/home/runner/work/_temp/631c1a17-7dea-47e1-b76d-cc62711aa946' before making global git config changes
+2026-09-23T08:33:25.5323281Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-23T08:33:25.5333631Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/-erp-garment-ux/-erp-garment-ux/harness
+2026-09-23T08:33:25.5380951Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-23T08:33:25.5419475Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-23T08:33:25.5704737Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-23T08:33:25.5741286Z http.https://github.com/.extraheader
+2026-09-23T08:33:25.5770692Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-09-23T08:33:25.5814465Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-09-23T08:33:25.6097112Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-23T08:33:25.6160213Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-23T08:33:25.6624484Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-23T08:33:25.6625906Z Post job cleanup.
+2026-09-23T08:33:25.7507702Z [command]/usr/bin/git version
+2026-09-23T08:33:25.7554167Z git version 2.55.0
+2026-09-23T08:33:25.7606912Z Temporarily overriding HOME='/home/runner/work/_temp/c460dec9-c521-4fcd-b4f6-93375fa5b2a0' before making global git config changes
+2026-09-23T08:33:25.7611594Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-23T08:33:25.7612463Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor
+2026-09-23T08:33:25.7649550Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-23T08:33:25.7687552Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-23T08:33:25.7964911Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-23T08:33:25.7991903Z http.https://github.com/.extraheader
+2026-09-23T08:33:25.8002940Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-09-23T08:33:25.8041397Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-09-23T08:33:25.8322394Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-23T08:33:25.8362171Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-23T08:33:25.8845639Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-09-23T08:33:25.8846865Z Post job cleanup.
+2026-09-23T08:33:25.9796287Z [command]/usr/bin/git version
+2026-09-23T08:33:25.9843937Z git version 2.55.0
+2026-09-23T08:33:25.9884248Z Temporarily overriding HOME='/home/runner/work/_temp/301249f5-0ad3-4610-ba5c-26caa7c5f367' before making global git config changes
+2026-09-23T08:33:25.9886028Z Adding repository directory to the temporary git global config as a safe directory
+2026-09-23T08:33:25.9893541Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/-erp-garment-ux/-erp-garment-ux/writer
+2026-09-23T08:33:25.9936925Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-09-23T08:33:25.9983802Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-09-23T08:33:26.0281815Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-09-23T08:33:26.0307749Z http.https://github.com/.extraheader
+2026-09-23T08:33:26.0321794Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-09-23T08:33:26.0363269Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-09-23T08:33:26.0650754Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-09-23T08:33:26.0691290Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-09-23T08:33:26.1122149Z Cleaning up orphan processes
+2026-09-23T08:33:26.1466092Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/setup-python@v5, actions/upload-artifact@v4, supabase/setup-cli@ab058987d8d6c725971f6cf9d0b5c98467e30bd1. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
