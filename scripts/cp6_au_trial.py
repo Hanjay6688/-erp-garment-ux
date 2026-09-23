@@ -190,7 +190,9 @@ def temporal_concurrency(report):
                 report['master_races'][key]=row;save('TEMPORAL',report)
                 print(json.dumps(dict(group='AU_CONCURRENCY',case=key,**row),default=str),flush=True)
         with psycopg.connect(race_admin) as conn,conn.cursor() as cur:
-            assert cur.execute(runtime.build.INVENTORY_SQL).fetchone()[0]==fixture_catalog
+            cur.execute("set local search_path='';set local timezone='UTC'")
+            observed=cur.execute(runtime.build.INVENTORY_SQL).fetchone()[0]
+            assert observed==fixture_catalog,{k:[fixture_catalog.get(k),observed.get(k)] for k in set(observed)|set(fixture_catalog) if fixture_catalog.get(k)!=observed.get(k)}
             assert function_pins(cur)==runtime.build.model()[3]['functions']
     finally:
         subprocess.run(['docker','exec','supabase_db_cp5-local','dropdb','-U','supabase_admin','--if-exists','--force','--maintenance-db=template1',race_database],check=True)
