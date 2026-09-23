@@ -103,7 +103,7 @@ replace(name,"  if p.id is null then raise exception 'Versi SKU tidak ditemukan'
       and a.new_data->>'cancelled_successor_product_id'=p_product_id::text
       and a.old_data->>'id'=a.entity_id::text
       and exists(select 1 from erp.products x where x.id=a.entity_id)
-    order by a.created_at desc limit 1;
+    order by a.changed_at desc,a.id desc limit 1;
     if v_cancelled is not null then return v_cancelled;end if;
     raise exception 'Versi SKU tidak ditemukan';
   end if;""")

@@ -1,0 +1,84 @@
+{
+  "version": "v2.6.20au",
+  "stamp": "20260923045944",
+  "name": "erp_v2_6_20au_cp6_controlled_product_lifecycle",
+  "migration": "supabase/migrations/20260923045944_erp_v2_6_20au_cp6_controlled_product_lifecycle.sql",
+  "rollback": "supabase/rollbacks/20260923045944_erp_v2_6_20au_cp6_controlled_product_lifecycle.rollback.sql",
+  "capsule": "erp.cp6_v2620au_rollback_capsule",
+  "previous": "AT",
+  "functions": [
+    {
+      "identity": "erp.validate_product_identity_period()",
+      "predecessor_sha256": "84d4e9ec250aedf192877be6a12e9c789dbd883e954086004c7f43152fc01298",
+      "installed_sha256": "72aa7e9ca05c81f1a760ec3a7044a2800f504ff99d3ce6cf2f1e5af54db827ed",
+      "owner": "postgres",
+      "acl": [
+        "postgres=X/postgres"
+      ]
+    },
+    {
+      "identity": "erp.edit_product_identity_effective(uuid,text,uuid,uuid,text,uuid,text,timestamp with time zone,text)",
+      "predecessor_sha256": "5eb8fa558cb4f7a605638da57efa42729bb487c22b0d76bdb7b5b361ab9ec8dd",
+      "installed_sha256": "b856072c5e85cc3694850ec953bcd32a38bf254001b79b85effe420ff2aa710c",
+      "owner": "postgres",
+      "acl": [
+        "authenticated=X/postgres",
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ]
+    },
+    {
+      "identity": "erp.cancel_product_identity_successor(uuid,text)",
+      "predecessor_sha256": "1009952108f1d312cfa7d7999ec2e3b2c340716f33a8b0c1f86821e7020965e1",
+      "installed_sha256": "a6e10c692acab32220bfd52c58d7b991cd7007a795755bf662c50856010cf563",
+      "owner": "postgres",
+      "acl": [
+        "authenticated=X/postgres",
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ]
+    },
+    {
+      "identity": "erp.guard_product_identity_version_metadata()",
+      "predecessor_sha256": "a087c4218c34a9e542b2f4d74d37ad0e66c61be0371a967da1ea984370ee9013",
+      "installed_sha256": "9fdc460239a20b798072fe15296db1f9d67f0d5fbb5bd9c9385c0dff3d282403",
+      "owner": "postgres",
+      "acl": [
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ]
+    },
+    {
+      "identity": "erp.guard_product_delete_after_identity_history()",
+      "predecessor_sha256": "dc7c53e09f1b5285b66daa03350dc6067deabe735ab140ec4ec521a38bd9e017",
+      "installed_sha256": "7ceb40dcb1a60afeb283721f018d2d4c36205ef8b839d3174a2e31758d032ba4",
+      "owner": "postgres",
+      "acl": [
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ]
+    },
+    {
+      "identity": "erp.assert_product_identity_time(uuid,timestamp with time zone,text)",
+      "predecessor_sha256": "cefde799d6ebd857309a0cc6b69616ce7aefbf0d67b6f06f4f8faad27b609950",
+      "installed_sha256": "ef000eaa274adeff1267e32bc12fb17fd927201196f44cb17e66a472f3570e19",
+      "owner": "postgres",
+      "acl": [
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ]
+    }
+  ],
+  "new_tables": [
+    "product_identity_mutation_context_v1"
+  ],
+  "schema_capture_sha256": "01a442e4e4e437b8ca398fee9f9ac2ae0acb34e4d128960ac54169d1de888b16",
+  "schema_sha256": "56296de1c2562ed5e87527e30e4887d38ba8f41fdeebe72a0016ca5f6a900a0b",
+  "migration_sha256": "cd332456ec89943a5fef395947e446d1325462652857bd00bd83801a99357796",
+  "rollback_sha256": "2a4e75b1716a4f5db4ee572e48ecbf98227e23eda205de5b1097ca874d55d609",
+  "builder_sha256": "925ba5e802d06829342f1b4397d79765a56217d778eff900988da1a1e43d6921",
+  "definitions_sha256": "e724b68691191b52255930493a21a018cab62f0d6e40bdaaac8d6c136fc633a8",
+  "base_pins_sha256": "87ced118da7193cf274027e91e09cc858d6a60720b7e1ae58d367d5f5576ad6c",
+  "production_go": false,
+  "independent_acceptance": false
+}

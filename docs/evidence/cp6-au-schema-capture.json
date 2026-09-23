@@ -1,0 +1,35 @@
+{
+  "head": "553c72b7142ce296d077711310602cb9c5cb857e",
+  "status": "CAPTURE_PASS",
+  "definitions_sha256": "80abc2d62cbf79399d53855aafc1da44ce90b995cc58ac24805d6c40f9c10858",
+  "schema_sha256": "56296de1c2562ed5e87527e30e4887d38ba8f41fdeebe72a0016ca5f6a900a0b",
+  "complete_boundary_restored": true,
+  "primary_unchanged": true,
+  "clone_remaining": 0,
+  "raw_sha256": "e242147f21dee9d47fcc3f9b9d086c89ac5916ce1ec826c148a04a789cca4398",
+  "native_run": 35820536608,
+  "artifact_id": 10732708335,
+  "artifact_sha256": "07ab4516eb9730f30cb5f63edb3452ab5f9e9eb468145e3abb6bf78c91595f32",
+  "before_sha256": {
+    "objects": "d18d92b1d47a3c5933d89abea8ebf3cfc2ec6db13da46c39b0264b39eadb43cc",
+    "functions": "0d1372062fdbab03588474292d78b6ee2d2ccab253cbb20ab7cc0390941447c1"
+  },
+  "new_objects": {
+    "RELATION:erp.product_identity_mutation_context_v1": "bb69e01077a41e08562b2d16f08941ce147420e516bdaa226036dd7abab60608",
+    "INDEX:erp.product_identity_mutation_context_v1_pkey": "cdffe17f15d33c2b431b205fb82e951630267003a52d779aa307447857fcfce3",
+    "COLUMN:erp.product_identity_mutation_context_v1.product_id": "d2b84af491b558fac65fc4f5c41f86b144c2d62df343c3142a466b90282e6c6b",
+    "COLUMN:erp.product_identity_mutation_context_v1.backend_pid": "7249af08d7c6f20bfae15f9e8d5b27f974b9b57adee918de9dd84e105ebaaad6",
+    "COLUMN:erp.product_identity_mutation_context_v1.next_identity": "a6054871be4295d3024b72fa19b785650362aea410e95f3c17eb2cc20dad664d",
+    "COLUMN:erp.product_identity_mutation_context_v1.transaction_id": "5d733e128e29dc87c270e70dfc21514a3c3194189bacd5e222e1c56c5b922d4e",
+    "COLUMN:erp.product_identity_mutation_context_v1.previous_identity": "ec3b940e6fd4e42af25d38f6ca7a6e3ebf1ccc3a264922fcbb2a5ff4e2631180",
+    "CONSTRAINT:erp.product_identity_mutation_context_v1.product_identity_mutation_context_v1_pkey": "91506fad15a6609499809a4d354aa338bc706cd9ba9b3fe12a1015b063b27b96"
+  },
+  "changed_existing_objects": {
+    "FUNCTION:erp.validate_product_identity_period()": "8802506f2a71dd303cdb1d1f81b1b734e63164b0a05ceaed85696916098e1127",
+    "FUNCTION:erp.guard_product_identity_version_metadata()": "b03012331751a54c6381573ee4afa2572c72cf881182847372ba3f7a6afd68c5",
+    "FUNCTION:erp.cancel_product_identity_successor(uuid,text)": "d4776cd011f980188ca07eec8424f983a3c92413c3448e273aac6be9a1df8c41",
+    "FUNCTION:erp.guard_product_delete_after_identity_history()": "09d8eeb6be0eac00a5c2bc34a1a9ec90c6c010e58f070739336995bb4366cb57",
+    "FUNCTION:erp.assert_product_identity_time(uuid,timestamp with time zone,text)": "52c8dcf901a2aae53bb1090a51432b55be5739f5903dc387cce77c80a899a012",
+    "FUNCTION:erp.edit_product_identity_effective(uuid,text,uuid,uuid,text,uuid,text,timestamp with time zone,text)": "ab4c29e1ea5188225913113418df0f4f675646fe4af136c980178239fdacd6a0"
+  }
+}
