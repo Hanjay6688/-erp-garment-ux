@@ -17,9 +17,11 @@ import cp6_ac_audit_bootstrap as ac
 import cp6_g01_baseline as g01
 
 AC_STEP='Apply exact AC temporal surface closure and verify 272 runtime objects'
+# The frozen AC refuses on the aligned chain (run 35911530080); the T3 release package starts after AB.
+AB_STEP='Apply AB statement-time Jakarta business dates before every final-runtime proof'
 
 
-def run(out):
+def run(out,stop=AC_STEP):
     assert subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()==ac.HEAD
     assert os.environ.get('PGURL')=='postgresql://postgres:postgres@127.0.0.1:54322/postgres'
     workflow=Path('.github/workflows/cp6-full-schema-validation.yml').read_bytes()
@@ -30,7 +32,7 @@ def run(out):
            'Capture exact v2.6.19c predecessor before CP6'}
     proof=Path('cp6-proof');proof.mkdir(exist_ok=True)
     report={'label':'T3_PREP','status':'INCOMPLETE','frozen_head':ac.HEAD,'frozen_workflow_sha256':hashlib.sha256(workflow).hexdigest(),
-            'reused_bootstrap_input':ac.reuse_bootstrap_input(proof),'aligned_after':g01.STOP,'stop_after':AC_STEP,'steps':[],
+            'reused_bootstrap_input':ac.reuse_bootstrap_input(proof),'aligned_after':g01.STOP,'stop_after':stop,'steps':[],
             'production_go':False,'release_evidence':False}
     env=os.environ.copy();env.update(w['env']);env['GITHUB_SHA']=ac.HEAD;env['PYTHONPATH']='scripts'
     aligned=False
@@ -56,11 +58,11 @@ def run(out):
             if align.returncode:
                 report['status']='ALIGNMENT_FAILED';Path(out).write_text(json.dumps(report,indent=2)+'\n');return align.returncode
             aligned=True
-        if name==AC_STEP:break
-    assert report['steps'][-1]['name']==AC_STEP and aligned
-    report['status']='PASS_ALIGNED_CHAIN_TO_AC'
+        if name==stop:break
+    assert report['steps'][-1]['name']==stop and aligned
+    report['status']='PASS_ALIGNED_CHAIN_TO_'+('AC' if stop==AC_STEP else 'AB')
     Path(out).write_text(json.dumps(report,indent=2)+'\n')
     return 0
 
 
-if __name__=='__main__':raise SystemExit(run(sys.argv[1]))
+if __name__=='__main__':raise SystemExit(run(sys.argv[1],AB_STEP if sys.argv[2:]==['--stop-after-ab'] else AC_STEP))
