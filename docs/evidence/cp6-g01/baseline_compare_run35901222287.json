@@ -1,0 +1,101 @@
+{
+ "label": "G01_CATALOG_COMPARISON",
+ "hosted_access": "read-only SELECT on pg_catalog and the migration ledgers; no business rows, no mutation",
+ "baseline": {
+  "run_id": 35901222287,
+  "job_id": 107317630511,
+  "log_lines": 4973,
+  "original_length": 4973,
+  "construction": "frozen AC bootstrap commands from 1bdca37 (CP4.5a catalog bootstrap + v2.6.18..v2.6.20 files), stopped after v2.6.20",
+  "image_registry": "public.ecr.aws (ghcr.io rate-limited the first attempt)",
+  "objects": 4085,
+  "objects_file": "docs/evidence/cp6-g01/baseline_objects_run35901222287.json.gz"
+ },
+ "summary_query_sha256": "223a9653df576581677627a569186d0213d9a8a9145d4b4ed9346910b897aef5",
+ "match": {
+  "function": 537,
+  "function_owner_acl": 537,
+  "index": 520,
+  "trigger": 435,
+  "policy": 190,
+  "app_ledger": 55,
+  "config_hash": 6,
+  "default_acl": 6,
+  "extension": 6
+ },
+ "differ": {
+  "platform_ledger": {
+   "expected": true,
+   "reason": "the fixture ledger keeps empty statements and the test chain uses repository version stamps; content and order were matched separately in ledger_content_order.json"
+  },
+  "sequence": {
+   "hosted": 6,
+   "baseline": 8,
+   "finding": "baseline has app_access_audit_id_seq1 and production_pattern_audit_id_seq1 (identity sequences created by the fixture restore) and four sequences not OWNED BY their columns; hosted sequences are owned by their columns",
+   "proof": "hash of hosted app_access_audit_id_seq equals baseline app_access_audit_id_seq1; baseline standalone sequences hash feed75... (no owner column)"
+  },
+  "relation": {
+   "hosted": 237,
+   "baseline": 239,
+   "finding": "every hosted relation hash matches; the two extra baseline rows are the *_seq1 sequences"
+  },
+  "relation_owner_acl": {
+   "finding": "counts differ by the two extra sequences; ACL rows not drilled further",
+   "label": "NOT_TESTED_PER_OBJECT"
+  },
+  "schema": {
+   "finding": "erp schema ACL: hosted {postgres=UC, authenticated=U, service_role=U}; baseline has postgres only (the harness grants usage per test group); public matches"
+  },
+  "view": {
+   "count": "51 vs 51",
+   "differing": [
+    "v_case_browser",
+    "v_customer_receivables",
+    "v_laundry_po_operational_progress",
+    "v_payroll_nota_browser",
+    "v_payroll_production_work_eligibility"
+   ],
+   "finding": "definitions differ in text; not redefined by v2.6.18..v2.6.20; cause very likely the same pretty-print round trip as the constraints",
+   "label": "PLAUSIBLE, per-view text of the baseline not yet printed"
+  },
+  "constraint": {
+   "count": "1184 vs 1184",
+   "tables": [
+    "attendance_hpp_journal_line_links",
+    "attendance_hpp_pools",
+    "attendance_periods",
+    "attendance_records",
+    "fg_stock_movements",
+    "idempotency_requests",
+    "manual_reminders",
+    "material_purchase_cost_corrections",
+    "material_purchase_items",
+    "material_stock_movements",
+    "material_supplier_invoices",
+    "material_transfers",
+    "qc_inspections",
+    "rework_component_lines",
+    "sewing_terminal_events",
+    "stock_explainability_snapshots",
+    "stock_policy_versions"
+   ],
+   "finding": "CHECK constraints written as IN (...) on varchar columns. The CP4.5a fixture stores the pretty-printed form; re-parsing it pushes the text cast into each array element, so pg_get_constraintdef differs while the meaning is the same",
+   "proof": "local PG reproduction: fixture text -> 662ff6031e0e (baseline hash of material_transfers_status_check); original IN form -> 12080adf85a2 (hosted hash)",
+   "label": "PROVEN_LOCAL_SQL"
+  }
+ },
+ "release_impact": {
+  "finding": "migrations AO..AV (20260922135612 to 20260923110000) embed full-catalog guards that pin constraint, view, sequence and schema ACL text captured on the test chain; on hosted these guards would very likely refuse (fail closed, no damage, release blocked)",
+  "label": "STATIC; refusal itself RERUN_REQUIRED on a hosted-faithful baseline",
+  "functions_ok": "all 537 function bodies, owners and ACLs match, so function pins in earlier successors hold"
+ },
+ "hosted_detail_reads": [
+  "summary fingerprint",
+  "migration ledger hashes",
+  "relation/sequence/schema/view hashes",
+  "constraint hashes per table and per constraint for 17 tables",
+  "search_path",
+  "definitions of v_customer_receivables and v_payroll_production_work_eligibility",
+  "erp/public schema ACL"
+ ]
+}
