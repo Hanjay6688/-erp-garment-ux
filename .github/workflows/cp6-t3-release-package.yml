@@ -29,8 +29,14 @@ jobs:
       fail-fast: false
       matrix:
         include:
+        # install: the committed package (supabase/release/cp6-t3, pins captured in run
+        # 35914317409) on a fresh hosted-faithful clone at AB. capture: derive the pins
+        # again and compare them with the committed ones (determinism).
+        - key: install
+          label: Hosted-faithful baseline to AB, committed combined package AC..AV, AW/AX T1, advisors, restore drill (T3_PREP)
+          proof: t3
         - key: capture
-          label: Hosted-faithful baseline to AB, combined package AC..AV with pins captured on the aligned chain, AW/AX T1 (T3_PREP)
+          label: Hosted-faithful baseline to AB, pins captured again and compared with the committed package (T3_PREP)
           proof: t3
     env:
       PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres

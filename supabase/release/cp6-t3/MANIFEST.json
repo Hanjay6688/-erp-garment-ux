@@ -1,0 +1,580 @@
+{
+  "format": "CP6_T3_RELEASE_PACKAGE_V1",
+  "label": "T3_PREP",
+  "decision": "G-01 option (b), owner 23 Sep 2026",
+  "files": [
+    {
+      "key": "AC",
+      "file": "supabase/release/cp6-t3/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.sql",
+      "stamp": "20260915031500",
+      "name": "erp_v2_6_20ac_cp6_temporal_surface_closure",
+      "closed_admission": false,
+      "source": "supabase/migrations/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.sql",
+      "source_sha256": "7b5690a2eddf618833d352dc75eb95aa1ef4dbcfb25d39b30374b733d33dadbc",
+      "package_sha256": "871fb32b1d4a1e7f9aedfef684b0f2c766092732c38552620eb394061f6240d1",
+      "substitutions": [
+        {
+          "kind": "AC_VIEW",
+          "what": "erp.v_payroll_nota_browser source",
+          "count": 1
+        },
+        {
+          "kind": "AC_VIEW",
+          "what": "erp.v_payroll_nota_browser restore statement sha256",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "key": "AD",
+      "file": "supabase/release/cp6-t3/20260915113627_erp_v2_6_20ad_cp6_opening_material_business_day.sql",
+      "stamp": "20260915113627",
+      "name": "erp_v2_6_20ad_cp6_opening_material_business_day",
+      "closed_admission": false,
+      "source": "supabase/migrations/20260915113627_erp_v2_6_20ad_cp6_opening_material_business_day.sql",
+      "source_sha256": "cd4879eb9b053e3b7a975e1430f481131e377f260ece2f19f07bfb4c98498c1d",
+      "package_sha256": "58f8f1050e6c325339d7400a43b8c8f3d2375d2067f0c418d3eedfe85430a563",
+      "substitutions": [
+        {
+          "kind": "LEDGER",
+          "what": "AC",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "key": "AE",
+      "file": "supabase/release/cp6-t3/20260915201500_erp_v2_6_20ae_cp6_opening_roll_integrity.sql",
+      "stamp": "20260915201500",
+      "name": "erp_v2_6_20ae_cp6_opening_roll_integrity",
+      "closed_admission": false,
+      "source": "supabase/migrations/20260915201500_erp_v2_6_20ae_cp6_opening_roll_integrity.sql",
+      "source_sha256": "228d9185501d418835e6434e64e1445be7b12ce2f517778ea63d789d478461c1",
+      "package_sha256": "0c6bbf77a68142ddfdae99761a5cc2cd6e2e538be50b391f3303922c748c39d6",
+      "substitutions": [
+        {
+          "kind": "LEDGER",
+          "what": "AD",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "key": "AF",
+      "file": "supabase/release/cp6-t3/20260916014332_erp_v2_6_20af_cp6_posted_child_integrity.sql",
+      "stamp": "20260916014332",
+      "name": "erp_v2_6_20af_cp6_posted_child_integrity",
+      "closed_admission": false,
+      "source": "supabase/migrations/20260916014332_erp_v2_6_20af_cp6_posted_child_integrity.sql",
+      "source_sha256": "54c5f73b99a2e63c858a777f669432f28260177daf4c45d806bb0e8a7c7c8e8e",
+      "package_sha256": "3764349ab314c7990f6202d3f0de38b516aff53df2a3b1c4f272bc49667f6db4",
+      "substitutions": [
+        {
+          "kind": "LEDGER",
+          "what": "AE",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "key": "AG",
+      "file": "supabase/release/cp6-t3/20260916050822_erp_v2_6_20ag_cp6_sale_reservation_lineage.sql",
+      "stamp": "20260916050822",
+      "name": "erp_v2_6_20ag_cp6_sale_reservation_lineage",
+      "closed_admission": false,
+      "source": "supabase/migrations/20260916050822_erp_v2_6_20ag_cp6_sale_reservation_lineage.sql",
+      "source_sha256": "bff1d7d82917ce226ad0fb8823418fa14e497407d9659e125dc01ed5e2fd5944",
+      "package_sha256": "085b84cb6917617c5e6a2d375fd5177542ebe3f021a20de48e239159e34d66c0",
+      "substitutions": [
+        {
+          "kind": "LEDGER",
+          "what": "AF",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "key": "AH",
+      "file": "supabase/release/cp6-t3/20260916070451_erp_v2_6_20ah_cp6_return_allocation_eligibility.sql",
+      "stamp": "20260916070451",
+      "name": "erp_v2_6_20ah_cp6_return_allocation_eligibility",
+      "closed_admission": false,
+      "source": "supabase/migrations/20260916070451_erp_v2_6_20ah_cp6_return_allocation_eligibility.sql",
+      "source_sha256": "e5312744a2ef9ac53717c97e155fccf96a33e2f6a0c68c4b9c45f378ac538219",
+      "package_sha256": "ade908ca9f55b2333c5eac5793b41aaabe0d57879dbb233e428fc882bab5738b",
+      "substitutions": [
+        {
+          "kind": "LEDGER",
+          "what": "AG",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "key": "AI",
+      "file": "supabase/release/cp6-t3/20260916090022_erp_v2_6_20ai_cp6_work_source_lineage.sql",
+      "stamp": "20260916090022",
+      "name": "erp_v2_6_20ai_cp6_work_source_lineage",
+      "closed_admission": false,
+      "source": "supabase/migrations/20260916090022_erp_v2_6_20ai_cp6_work_source_lineage.sql",
+      "source_sha256": "d3a604e53e599221afd46d1397e0d0660ebd8dc48db27113dfa63d3c3613a61c",
+      "package_sha256": "1ea5a602c5a5fcc9697355d9cca526709a06ee20e4eb4cdb765b2b7345c18d25",
+      "substitutions": [
+        {
+          "kind": "LEDGER",
+          "what": "AH",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "key": "AJ",
+      "file": "supabase/release/cp6-t3/20260916202400_erp_v2_6_20aj_cp6_rework_output_lineage.sql",
+      "stamp": "20260916202400",
+      "name": "erp_v2_6_20aj_cp6_rework_output_lineage",
+      "closed_admission": false,
+      "source": "supabase/migrations/20260916202400_erp_v2_6_20aj_cp6_rework_output_lineage.sql",
+      "source_sha256": "2e6cd4e94b52a27c83d2ba134a996c1db66a6f7ff617a5895f8c14769673f9ea",
+      "package_sha256": "b36a6359c57ad59d93ea5cb8dc5f7e90a0dd9cd59d48c331b037aa365d400986",
+      "substitutions": [
+        {
+          "kind": "LEDGER",
+          "what": "AI",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "key": "AK",
+      "file": "supabase/release/cp6-t3/20260917033516_erp_v2_6_20ak_cp6_import_reference_preview.sql",
+      "stamp": "20260917033516",
+      "name": "erp_v2_6_20ak_cp6_import_reference_preview",
+      "closed_admission": false,
+      "source": "supabase/migrations/20260917033516_erp_v2_6_20ak_cp6_import_reference_preview.sql",
+      "source_sha256": "0d42825b2f2fcb38b9678fe1e6982b0c63290aac012b92be224f4323d495c536",
+      "package_sha256": "9d06a91bd849c80e1ef99a6ac8996863527a30ef3b4079188be58bd8f3d4311d",
+      "substitutions": [
+        {
+          "kind": "LEDGER",
+          "what": "AJ",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "key": "AL",
+      "file": "supabase/release/cp6-t3/20260917054049_erp_v2_6_20al_cp6_opening_value_validation.sql",
+      "stamp": "20260917054049",
+      "name": "erp_v2_6_20al_cp6_opening_value_validation",
+      "closed_admission": false,
+      "source": "supabase/migrations/20260917054049_erp_v2_6_20al_cp6_opening_value_validation.sql",
+      "source_sha256": "74a5d5e14d79c7bbafa731aaf2fe1708bc575299600261f7412f1f7ea7323920",
+      "package_sha256": "2d16461cababd4a27827cfb8de01dd993a3a343460cdf049d427b44dd4cb6ea2",
+      "substitutions": [
+        {
+          "kind": "LEDGER",
+          "what": "AK",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "key": "AM",
+      "file": "supabase/release/cp6-t3/20260921214120_erp_v2_6_20am_cp6_transfer_integrity.sql",
+      "stamp": "20260921214120",
+      "name": "erp_v2_6_20am_cp6_transfer_integrity",
+      "closed_admission": false,
+      "source": "supabase/migrations/20260921214120_erp_v2_6_20am_cp6_transfer_integrity.sql",
+      "source_sha256": "d5b155edb19aa8ca949036ba8a9cf67090478083c2e1ae6cc5bbf00b445716a5",
+      "package_sha256": "8fff82f72f9c76dd032778fa43aa37fd3fde98c4304de033d9c484db54f04a60",
+      "substitutions": [
+        {
+          "kind": "LEDGER",
+          "what": "AL",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "key": "AN",
+      "file": "supabase/release/cp6-t3/20260921223438_erp_v2_6_20an_cp6_cutting_selectors.sql",
+      "stamp": "20260921223438",
+      "name": "erp_v2_6_20an_cp6_cutting_selectors",
+      "closed_admission": false,
+      "source": "supabase/migrations/20260921223438_erp_v2_6_20an_cp6_cutting_selectors.sql",
+      "source_sha256": "21ac97ded4ed0cee9175c7fac7ef28ab6713d08b00766e1e5adc86bd38205e6c",
+      "package_sha256": "4df51d65fdb9a644fe2eeba92af23446e0c0389a1ebf9f336a0a396c144d7b71",
+      "substitutions": [
+        {
+          "kind": "LEDGER",
+          "what": "AM",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "key": "AO",
+      "file": "supabase/release/cp6-t3/20260922135612_erp_v2_6_20ao_cp6_invoice_retail.sql",
+      "stamp": "20260922135612",
+      "name": "erp_v2_6_20ao_cp6_invoice_retail",
+      "closed_admission": true,
+      "source": "supabase/migrations/20260922135612_erp_v2_6_20ao_cp6_invoice_retail.sql",
+      "source_sha256": "5687bb0236528d7e485e738ee2f96c2be0f4bde7e0d41c16bacee3a58183bdbb",
+      "package_sha256": "f48f4a9611031631dca9bc787247b5beab624dcbe1f8e5635215953d16ee3448",
+      "substitutions": [
+        {
+          "kind": "LEDGER",
+          "what": "AN",
+          "count": 1
+        },
+        {
+          "kind": "CAPSULE",
+          "what": "cp6_v2620ac_relation_rollback_capsule",
+          "count": 1
+        },
+        {
+          "kind": "CATALOG",
+          "what": "AO_PREDECESSOR_CATALOG_DRIFT",
+          "count": 1
+        },
+        {
+          "kind": "CATALOG",
+          "what": "AO_INSTALLED_CATALOG_DRIFT",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "key": "AP",
+      "file": "supabase/release/cp6-t3/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+      "stamp": "20260922135615",
+      "name": "erp_v2_6_20ap_cp6_connected_import_materials",
+      "closed_admission": true,
+      "source": "supabase/migrations/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+      "source_sha256": "fb8e14f0fd505edf730c0908f7e1c500cf850e29bcc0e90b3a51877224edd61b",
+      "package_sha256": "513834106e2e70c8e1f1f095cdd4934a85f0bf9cdba566e2d8f699751d15e099",
+      "substitutions": [
+        {
+          "kind": "LEDGER",
+          "what": "AO",
+          "count": 1
+        },
+        {
+          "kind": "CAPSULE",
+          "what": "cp6_v2620ac_relation_rollback_capsule",
+          "count": 1
+        },
+        {
+          "kind": "CATALOG",
+          "what": "AP_PREDECESSOR_CATALOG_DRIFT",
+          "count": 1
+        },
+        {
+          "kind": "CATALOG",
+          "what": "AP_INSTALLED_CATALOG_DRIFT",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "key": "AQ",
+      "file": "supabase/release/cp6-t3/20260922161019_erp_v2_6_20aq_cp6_accessory_lock_order.sql",
+      "stamp": "20260922161019",
+      "name": "erp_v2_6_20aq_cp6_accessory_lock_order",
+      "closed_admission": true,
+      "source": "supabase/migrations/20260922161019_erp_v2_6_20aq_cp6_accessory_lock_order.sql",
+      "source_sha256": "b1b4e449ca84ad524189640bcd76302cb277b9b690ed89f739ad5706e3cfac5a",
+      "package_sha256": "10131f9605527ab1febe31bfe7774ce3f8ebed5faa0cf8227a602ecdfadb3ad4",
+      "substitutions": [
+        {
+          "kind": "LEDGER",
+          "what": "AO",
+          "count": 1
+        },
+        {
+          "kind": "LEDGER",
+          "what": "AP",
+          "count": 1
+        },
+        {
+          "kind": "CAPSULE",
+          "what": "cp6_v2620ac_relation_rollback_capsule",
+          "count": 1
+        },
+        {
+          "kind": "CATALOG",
+          "what": "AQ_PREDECESSOR_CATALOG_DRIFT",
+          "count": 1
+        },
+        {
+          "kind": "CATALOG",
+          "what": "AQ_INSTALLED_CATALOG_DRIFT",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "key": "AR",
+      "file": "supabase/release/cp6-t3/20260922185015_erp_v2_6_20ar_cp6_opening_overlap.sql",
+      "stamp": "20260922185015",
+      "name": "erp_v2_6_20ar_cp6_opening_overlap",
+      "closed_admission": true,
+      "source": "supabase/migrations/20260922185015_erp_v2_6_20ar_cp6_opening_overlap.sql",
+      "source_sha256": "7da20a87d48493b4b64c10c395e8e54f87c1c40a835fbd09bbf2cdbc8866fa10",
+      "package_sha256": "792b176cc572e4fc7374ff41c2e10954b52d2ff9bd6058b47c3a293b6e168dfd",
+      "substitutions": [
+        {
+          "kind": "LEDGER",
+          "what": "AO",
+          "count": 1
+        },
+        {
+          "kind": "LEDGER",
+          "what": "AP",
+          "count": 1
+        },
+        {
+          "kind": "LEDGER",
+          "what": "AQ",
+          "count": 1
+        },
+        {
+          "kind": "CAPSULE",
+          "what": "cp6_v2620ac_relation_rollback_capsule",
+          "count": 1
+        },
+        {
+          "kind": "CATALOG",
+          "what": "AR_PREDECESSOR_CATALOG_DRIFT",
+          "count": 1
+        },
+        {
+          "kind": "CATALOG",
+          "what": "AR_INSTALLED_CATALOG_DRIFT",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "key": "AS",
+      "file": "supabase/release/cp6-t3/20260922210815_erp_v2_6_20as_cp6_event_dates_product_identity.sql",
+      "stamp": "20260922210815",
+      "name": "erp_v2_6_20as_cp6_event_dates_product_identity",
+      "closed_admission": true,
+      "source": "supabase/migrations/20260922210815_erp_v2_6_20as_cp6_event_dates_product_identity.sql",
+      "source_sha256": "84e95211698eb2426995fd59d702bb42674f9fff675401be4861c9aa568cc1a8",
+      "package_sha256": "5cd3e5dcd84104c6f4d348b568cf8dc39b4d19c3003c6dd30cfb8bc9c8e99167",
+      "substitutions": [
+        {
+          "kind": "LEDGER",
+          "what": "AO",
+          "count": 1
+        },
+        {
+          "kind": "LEDGER",
+          "what": "AP",
+          "count": 1
+        },
+        {
+          "kind": "LEDGER",
+          "what": "AQ",
+          "count": 1
+        },
+        {
+          "kind": "LEDGER",
+          "what": "AR",
+          "count": 1
+        },
+        {
+          "kind": "CAPSULE",
+          "what": "cp6_v2620ac_relation_rollback_capsule",
+          "count": 1
+        },
+        {
+          "kind": "CATALOG",
+          "what": "AS_PREDECESSOR_CATALOG_DRIFT",
+          "count": 1
+        },
+        {
+          "kind": "CATALOG",
+          "what": "AS_INSTALLED_CATALOG_DRIFT",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "key": "AT",
+      "file": "supabase/release/cp6-t3/20260923005153_erp_v2_6_20at_cp6_wip_temporal_identity.sql",
+      "stamp": "20260923005153",
+      "name": "erp_v2_6_20at_cp6_wip_temporal_identity",
+      "closed_admission": true,
+      "source": "supabase/migrations/20260923005153_erp_v2_6_20at_cp6_wip_temporal_identity.sql",
+      "source_sha256": "f114a78918138a65f761488b77cadb1ab8a70ce6a6a88ae58a9d38656d1cfdb4",
+      "package_sha256": "a575495862df559cdd2dcded39975f554c98b7687489d44efa2c49e67a9bdccb",
+      "substitutions": [
+        {
+          "kind": "LEDGER",
+          "what": "AO",
+          "count": 1
+        },
+        {
+          "kind": "LEDGER",
+          "what": "AP",
+          "count": 1
+        },
+        {
+          "kind": "LEDGER",
+          "what": "AQ",
+          "count": 1
+        },
+        {
+          "kind": "LEDGER",
+          "what": "AR",
+          "count": 1
+        },
+        {
+          "kind": "LEDGER",
+          "what": "AS",
+          "count": 1
+        },
+        {
+          "kind": "CAPSULE",
+          "what": "cp6_v2620ac_relation_rollback_capsule",
+          "count": 1
+        },
+        {
+          "kind": "CATALOG",
+          "what": "AT_PREDECESSOR_CATALOG_DRIFT",
+          "count": 1
+        },
+        {
+          "kind": "CATALOG",
+          "what": "AT_INSTALLED_CATALOG_DRIFT",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "key": "AU",
+      "file": "supabase/release/cp6-t3/20260923045944_erp_v2_6_20au_cp6_controlled_product_lifecycle.sql",
+      "stamp": "20260923045944",
+      "name": "erp_v2_6_20au_cp6_controlled_product_lifecycle",
+      "closed_admission": true,
+      "source": "supabase/migrations/20260923045944_erp_v2_6_20au_cp6_controlled_product_lifecycle.sql",
+      "source_sha256": "593b06092c2d47e03644afb1b7b5aef46c1442a56613f853a151b78ef738f2c2",
+      "package_sha256": "1cdefe8ee39221f620d5d21f6f928e0ce4794ac5277401180bf2b859c98a9b07",
+      "substitutions": [
+        {
+          "kind": "LEDGER",
+          "what": "AO",
+          "count": 1
+        },
+        {
+          "kind": "LEDGER",
+          "what": "AP",
+          "count": 1
+        },
+        {
+          "kind": "LEDGER",
+          "what": "AQ",
+          "count": 1
+        },
+        {
+          "kind": "LEDGER",
+          "what": "AR",
+          "count": 1
+        },
+        {
+          "kind": "LEDGER",
+          "what": "AS",
+          "count": 1
+        },
+        {
+          "kind": "LEDGER",
+          "what": "AT",
+          "count": 1
+        },
+        {
+          "kind": "CAPSULE",
+          "what": "cp6_v2620ac_relation_rollback_capsule",
+          "count": 1
+        },
+        {
+          "kind": "CATALOG",
+          "what": "AU_PREDECESSOR_CATALOG_DRIFT",
+          "count": 1
+        },
+        {
+          "kind": "CATALOG",
+          "what": "AU_INSTALLED_CATALOG_DRIFT",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "key": "AV",
+      "file": "supabase/release/cp6-t3/20260923110000_erp_v2_6_20av_cp6_identity_new_stock_cutoff.sql",
+      "stamp": "20260923110000",
+      "name": "erp_v2_6_20av_cp6_identity_new_stock_cutoff",
+      "closed_admission": true,
+      "source": "supabase/migrations/20260923110000_erp_v2_6_20av_cp6_identity_new_stock_cutoff.sql",
+      "source_sha256": "193e84efac8ead7cab681071e40070e1f9249f82cec1b7972f0576e8df25a2dc",
+      "package_sha256": "9501fbf1915295e8eea29b16ab14bf76e27ea97b6d6a8535487f839c54599974",
+      "substitutions": [
+        {
+          "kind": "LEDGER",
+          "what": "AO",
+          "count": 1
+        },
+        {
+          "kind": "LEDGER",
+          "what": "AP",
+          "count": 1
+        },
+        {
+          "kind": "LEDGER",
+          "what": "AQ",
+          "count": 1
+        },
+        {
+          "kind": "LEDGER",
+          "what": "AR",
+          "count": 1
+        },
+        {
+          "kind": "LEDGER",
+          "what": "AS",
+          "count": 1
+        },
+        {
+          "kind": "LEDGER",
+          "what": "AT",
+          "count": 1
+        },
+        {
+          "kind": "LEDGER",
+          "what": "AU",
+          "count": 1
+        },
+        {
+          "kind": "CAPSULE",
+          "what": "cp6_v2620ac_relation_rollback_capsule",
+          "count": 1
+        },
+        {
+          "kind": "CATALOG",
+          "what": "AV_PREDECESSOR_CATALOG_DRIFT",
+          "count": 1
+        },
+        {
+          "kind": "CATALOG",
+          "what": "AV_INSTALLED_CATALOG_DRIFT",
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "production_go": false,
+  "release_evidence": false,
+  "rollbacks": "NOT_TESTED"
+}

@@ -54,6 +54,7 @@ def run(mode):
         assert start['app'][-1]=='v2.6.20ab' and start['platform_last']=='20260914190500',('T3_CLONE_NOT_AT_AB',start)
         report['fingerprint_AB']=fingerprint(boundary.ADMIN)
         advisors_AB=advisors(boundary.PG)
+        committed=AUDITOR/'docs/evidence/cp6-t3/release_pins.json'
         stages=[('PACKAGE',lambda:(package.capture if mode=='capture' else package.install)(OUT/('T3_PACKAGE_FILES_%s.json'%mode.upper()))['status']),
                 ('AW_T1',lambda:awp.install_aw()),
                 ('AX_T1',lambda:axp.install_ax())]
@@ -67,12 +68,21 @@ def run(mode):
             report['stages'].append(row);save()
             print(json.dumps(dict(group='T3_PACKAGE_RUN',**row),default=str)[:6000],flush=True)
             if row['status']!='PASS':break
+        if mode=='capture' and committed.exists() and (OUT/'T3_PACKAGE_FILES_CAPTURE.json').exists():
+            # Determinism: the pins captured now must give the same package as the committed pins.
+            now={f['key']:f.get('package_sha256') for f in json.loads((OUT/'T3_PACKAGE_FILES_CAPTURE.json').read_text())['files']}
+            then={f['key']:f['package_sha256'] for f in json.loads(committed.read_text())['files']}
+            report['pins_reproduced']=dict(equal=now==then,differ=sorted(k for k in set(now)|set(then) if now.get(k)!=then.get(k)))
+            print(json.dumps(dict(group='T3_PINS_REPRODUCED',**report['pins_reproduced'])),flush=True)
         report['ledger_final']=ledger(boundary.ADMIN)
         report['fingerprint_final']=fingerprint(boundary.ADMIN)
         advisors_final=advisors(boundary.PG)
         installed=[s['stage'] for s in report['stages'] if s['status']=='PASS']
         report['security_advisors']=dict(AB=advisors_AB,final=advisors_final,delta=advisor_delta(advisors_AB,advisors_final),installed_stages=installed)
-        print(json.dumps(dict(group='T3_SECURITY_ADVISORS',delta=report['security_advisors']['delta']),default=str)[:8000],flush=True)
+        delta=report['security_advisors']['delta']
+        compact=lambda f:[f.get('name'),f.get('level'),(f.get('metadata') or {}).get('schema'),(f.get('metadata') or {}).get('name'),(f.get('metadata') or {}).get('type')]
+        print(json.dumps(dict(group='T3_SECURITY_ADVISORS',status=delta.get('status'),before=delta.get('before'),after=delta.get('after'),
+                              added=[compact(f) for f in delta.get('added',[])],removed=[compact(f) for f in delta.get('removed',[])]),default=str),flush=True)
         report['status']='ALL_STAGES_INSTALLED' if len(installed)==len(stages) else 'REFUSED'
         report['backup_restore_drill']=drill.run(OUT/'T3_BACKUP_RESTORE_DRILL.json',installed)['status']
     except Exception as exc:
