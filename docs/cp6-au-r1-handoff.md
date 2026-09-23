@@ -384,3 +384,49 @@ Jawaban owner di chat sesi Claude, dicatat apa adanya. Ini keputusan bisnis, buk
 - **Penempatan:** change request berprioritas rendah (sangat jarang), terpisah dari blocker CP6. Karena mengubah qty/nilai stok per-SKU yang dibaca CP7, kerjakan sebagai successor tersendiri sebelum Stok per-SKU dan laporan CP7 bergantung padanya (L1697), atau owner memutuskan penempatan lain.
 
 Dampak pada permintaan bagian 11: item 4 terjawab untuk HOLD (a) dan (b), sedangkan 2b menjadi pertanyaan terbuka baru. Item 5 kini memakai ambang penghalang dari keputusan 3.
+
+## 15. Keputusan dan temuan sesudah §14 (23 September 2026, sesi lanjutan)
+
+Semua jawaban owner di bawah diberikan di chat sesi Claude, dicatat apa adanya. Fakta kode dibaca langsung dari source repo (read-only). Status implementasi setiap butir disebut eksplisit.
+
+### 15.1 Keputusan owner baru
+
+| No | Topik | Kutipan owner | Arti yang disepakati | Status |
+| --- | --- | --- | --- | --- |
+| 2b-final | Celup ulang BS menjadi SKU baru | "celup ulang ini rare case ya gausah di update dulu ga penting. kalo sampe kepepet ada SKU hasil rework gak ada sumber SKU bs nya. gw tinggal bs out of no where aja. toh langka." | Alur celup ulang khusus **tidak dibuat**. Menggantikan usulan 2b di §14. Kasus langka ditangani oleh jalur 15.1-FG di bawah. | Keputusan; tidak ada kode |
+| FG | Jalur "barang jadi masuk tanpa sumber produksi" | "ya tentu saja. lu harus bikin itu nyambung menurut gua ya cara tergampang mengikuti nilai Hpp average saat itu untuk 2 tipe barang ini jadi pembagiannya tidak rusak" | Satu jalur untuk (a) barang jadi temuan saat stock opname dan (b) GOOD dari BS manual atau celup ulang. Nilai = **HPP rata-rata SKU saat barang masuk**, dikunci saat posting. Masuk sebagai **lot non-PO tersendiri** sehingga pembagian biaya PO tidak berubah. Alasan wajib dan review owner/admin. Tersambung end-to-end: backend, halaman Stock Adjustment, halaman BS/rework. | Keputusan; **belum dibangun** |
+| FG-ref | Pembanding bila SKU belum punya rata-rata | "iya cari sku sejenis apalagi udah ada info pola, dan bahan, dan ukuran kan?" | Urutan: SKU sama → pola(+revisi) dan bahan sama dengan ukuran persis (warna lain) → pola dan bahan sama (ukuran lain) → model sama → owner mengisi nilai. **Tidak pernah otomatis Rp0.** Kunci pencocokan sama dengan pencocokan WIP CP7 (addendum baris 147), supaya satu engine. Review menampilkan SKU pembanding dan alasannya; owner boleh mengganti nilai dengan alasan. | Keputusan; belum dibangun |
+| FG-order | Penempatan | "kalau ada urutan CP nya ya lebih baik ikutin cp nya" (§14 no. 4) | Backend jalur FG sebagai change request sesudah keluarga identitas AV. Penyambungan halaman opname/BS di CP7 bersama alur lain. | Rencana |
+
+Usulan pembukuan jalur FG (menunggu review peninjau, bukan keputusan owner): debit persediaan barang jadi, kredit pendapatan lain (barang temuan), sama dengan pola adjustment plus bahan yang sudah ada. Untuk celup ulang, BS lama dikeluarkan lewat jalur BS (dispose/scrap).
+
+### 15.2 Temuan kode yang mendasari keputusan di atas (STATIC, belum diuji native)
+
+- `erp.post_rework_completion` menolak GOOD dari BS tanpa PO: "GOOD rework return requires native production PO and product lineage" (`supabase/migrations/…20aj…sql:137-138`; aturan ini sudah ada sebelum AJ). BS manual selalu tercatat `po_id = null` (`create_manual_bs_case_v2`). Jadi BS out of nowhere **tidak bisa** menjadi stok GOOD. Alasan yang terbaca dari kode: HPP lot barang jadi dihitung lewat PO (`rebuild_po_hpp`, lalu HPP per lot dengan default 0), sehingga GOOD tanpa PO akan ber-HPP Rp0 dan membuat margin palsu. Penjaganya benar; yang belum ada adalah jalur penggantinya (15.1-FG).
+- `erp.post_fg_adjustment` (`…20ac…sql:3530`) hanya menambah/mengurangi qty pada **lot yang sudah ada**, dengan nilai HPP lot tersebut. SKU tanpa lot (misalnya warna baru) tidak bisa menerima stok lewat jalur ini.
+- Halaman Stock Adjustment (`src/InventoryControlPages.tsx`) masih **simulasi** ("Draft simulasi siap direview. Belum ada data yang dikirim…", :169). Halaman itu memblokir adjustment plus pada lot PRODUCTION/CONVERSION (:116, :168), karena menambah qty lot PO akan menurunkan HPP semua pcs PO itu, termasuk yang sudah terjual. Pemblokiran di backend tidak bisa dipastikan: tabel adjustment berasal dari skema dasar yang tidak ada di repo.
+- Adjustment plus bahan (`post_material_adjustment`) sudah ada dan mengkredit pendapatan lain. Padanannya untuk barang jadi belum ada. Ini celah yang ditutup 15.1-FG.
+- Pola dan bahan tidak disimpan di master SKU. Keduanya tercatat di riwayat produksi (pola di data potong, bahan dari roll yang dipakai). Barang saldo awal/impor tanpa riwayat potong mungkin tidak punya info pola/bahan; untuk barang seperti itu pencarian pembanding turun ke model yang sama.
+- Halaman impor menampilkan pesan umum dari `normalizeClientError` untuk error parser ("Layanan UAT belum dapat dihubungi…"). Perilaku lama, tidak diubah; dicatat sebagai perbaikan UX kecil.
+
+### 15.3 Rekonsiliasi audit independen ChatGPT (`ERP_CP6_Audit_Independen_20260923`)
+
+Paket dibaca penuh; 61 checksum cocok. Cabang kompetisi tetap `ca7f095`.
+
+| Temuan ChatGPT | Sikap Claude | Tindakan |
+| --- | --- | --- |
+| AV-GUARD-01: tiga ejaan SQL sah lolos dari guard cakupan | **Diterima.** Cacat kerja Claude. | Guard diganti dengan registri klasifikasi setiap tabel/kolom yang merujuk produk (fail-closed, tidak bergantung ejaan SQL); sedang dikerjakan pada revisi AV. |
+| AUD-A04-R2: koleksi saldo awal hilang dibaca kosong/nol | **Diterima dan direproduksi** (12 kasus: 5 lulus, 7 gagal, sama dengan audit). | **Diperbaiki** di commit `9323caa`. Bukti di `docs/evidence/cp6-a04-r2/`: 9 tes kontrak baru gagal pada kode lama; suite 454/454; probe ChatGPT versi adaptasi 12/12. Batas: jsdom dengan RPC tiruan, bukan browser/HTTP/DB. |
+| AUD-S06: bukti belum mencakup antrean yang memengaruhi periode yang ditutup | Diterima (sudah dikoreksi di `2257431`). Penajaman ChatGPT juga diterima: `recalc_from` bukan satu-satunya tanggal dampak (konsumsi `min(physical_at)`, `invoice_date`, tanggal jurnal AS). | Masuk desain engine preflight per tanggal (langkah berikutnya sesudah AV). |
+| ERP-DEC01 "belum diterapkan" terlalu luas | **Diterima.** Status yang benar: diterapkan sebagian pada keluarga AO/AS; laporan/confidence/close per tanggal belum. | Dikoreksi di sini. |
+| H-OPEN-WIP ditolak (`complete_initial_import_wip_v1` punya validasi overlap sendiri) | Diterima. | Hipotesis dicabut. |
+
+### 15.4 Pelajaran Claude (checklist wajib sebelum menyatakan sesuatu terbukti)
+
+Ketiga kesalahan ini ditangkap peninjau independen. Dicatat supaya setiap sesi berikutnya (Claude atau ChatGPT) membacanya di awal kerja:
+
+1. **Guard harus fail-closed dan diuji dengan cara mengakalinya dulu.** Contohnya nama berkutip, tanpa awalan skema di bawah `search_path`, huruf besar, komentar di tengah identifier, `MERGE`, SQL dinamis, pemanggilan lewat fungsi pembungkus. Utamakan pemeriksaan struktural katalog daripada membaca teks fungsi.
+2. **Cakupan fixture harus dicocokkan dengan klaim.** Tanggal, periode, dan scope diperiksa sebelum menulis "terbukti". Contoh kesalahan: fixture AUD-S06 bertanggal hari uji, sedangkan periode yang ditutup berakhir sehari sebelumnya.
+3. **Status implementasi tidak boleh dikutip dari dokumen tanpa membaca kode.** Contoh kesalahan: ERP-DEC01 disebut "belum diterapkan" padahal AO/AS sudah menerapkan sebagian.
+4. **Tes baru harus terbukti gagal pada kode lama** sebelum dipakai sebagai bukti perbaikan (diterapkan pada A04-R2).
+5. **Perbaikan minimal; jangan mengubah desain yang sudah ada tanpa alasan.** Contoh: pada A04-R2, penanganan data basi bawaan (`beginRead` menandai ruang kerja basi, KPI "—", penulisan terkunci) dipertahankan, bukan diganti.
