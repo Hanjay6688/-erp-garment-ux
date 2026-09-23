@@ -54,7 +54,8 @@ def identities(cur):
         join erp.products original on original.sku=p.sku and original.brand_id<>b.id
         join erp.opening_balance_items i on i.product_id=original.id and i.balance_type='BS'
         join erp.opening_balance_headers h on h.id=i.opening_id
-        join erp.initial_import_production_sources s on s.batch_id=h.migration_batch_id and s.balance_type='WIP'
+        join erp.initial_import_production_sources s on s.batch_id=h.migration_batch_id
+        join erp.opening_balance_items wip on wip.id=s.opening_item_id and wip.balance_type='WIP'
         where b.brand_name in ('AT browser cross brand output','AT browser versioned output')
         order by b.brand_name''').fetchall()
     assert len(rows)==2 and [r[-1] for r in rows]==[False,True],'AT_BROWSER_FIXTURE_IDENTITIES_MISSING_OR_AMBIGUOUS'

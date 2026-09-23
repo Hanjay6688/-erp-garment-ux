@@ -18,7 +18,7 @@ const report={status:'INCOMPLETE',classification:'WRITER_REAL_AUTH_BROWSER_AT_ID
 const sql=s=>execFileSync('psql',[pg,'-X','-qAt','-v','ON_ERROR_STOP=1','-c',s],{encoding:'utf8',stdio:['ignore','pipe','pipe']}).trim()
 const q=v=>"'"+String(v).replaceAll("'","''")+"'"
 const native=(mode,...args)=>JSON.parse(execFileSync('python',['scripts/cp6_at_browser_fixture.py',mode,...args],{encoding:'utf8',stdio:['ignore','pipe','pipe']}))
-const fixture=native('identities')
+let fixture
 const save=()=>writeFileSync(resolve(dir,'FLOW.json'),JSON.stringify(report,null,2)+'\n')
 function phase(id){report.phase=id;save();console.log('AT flow: '+id)}
 function pass(id,detail={}){assert.ok(!cases.some(c=>c.id===id));cases.push({id,status:'PASS',...detail});save()}
@@ -161,6 +161,7 @@ async function flow(f,index){
 }
 
 try{
+  phase('FIXTURE_IDENTITIES');fixture=native('identities')
   phase('SERVICES');await start();owner=await user('owner')
   sql(`insert into erp.app_users(id,auth_user_id,full_name,role,role_id,is_active) select ${q(randomUUID())}::uuid,${q(owner.id)}::uuid,'AT real Auth owner','OWNER',id,true from erp.app_roles where role_code='OWNER'`)
   const f=fixture.cases[0],payload={batch_id:f.batch_id,opening_item_id:f.opening_item_id,expected_remaining:'8',qty_pcs:'4',
