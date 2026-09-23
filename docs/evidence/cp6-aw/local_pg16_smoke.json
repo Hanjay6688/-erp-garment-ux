@@ -1,0 +1,291 @@
+{
+ "label": "LOCAL_PG16_SMOKE",
+ "native": false,
+ "server_version": "16.13 (Ubuntu 16.13-0ubuntu0.24.04.1)",
+ "definitions_sha256": "faf7a18bc6fef1b0b80040c0ba567d0d539cf3858230b35b14e57fa0319ff107",
+ "engine_sha256": "54f495a7986e0df7f8fba056554d7a92d5b0e8c68cafd09f15f4efb0ae96de71",
+ "stubs": "run_v268/run_v267/run_integrity_checks, v_payroll_eligible_work_lines, v_material_grni_aging, account_id, require_owner_admin, refresh_material_cost_checkpoint and sync_finished_po_wip_residual are stubs",
+ "counts": {
+  "PASS": 15,
+  "FAIL": 0,
+  "ERROR": 0
+ },
+ "cases": [
+  {
+   "case": "RECOST_IN_PERIOD",
+   "status": "PASS",
+   "expected": {
+    "status": "RECALC_PENDING",
+    "codes": [
+     "RECOST_PENDING"
+    ],
+    "facts": [
+     "FG_LOT"
+    ],
+    "impact": "2026-09-10"
+   },
+   "observed": {
+    "status": "RECALC_PENDING",
+    "codes": [
+     "RECOST_PENDING"
+    ],
+    "facts": [
+     "FG_LOT"
+    ],
+    "impact": "2026-09-10"
+   }
+  },
+  {
+   "case": "RECOST_AFTER_PERIOD",
+   "status": "PASS",
+   "expected": {
+    "status": "READY",
+    "codes": []
+   },
+   "observed": {
+    "status": "READY",
+    "codes": []
+   }
+  },
+  {
+   "case": "RECOST_JAKARTA_BOUNDARY",
+   "status": "PASS",
+   "expected": {
+    "status": "RECALC_PENDING",
+    "pos": [
+     "PO-EDGE"
+    ]
+   },
+   "observed": {
+    "status": "RECALC_PENDING",
+    "pos": [
+     "PO-EDGE"
+    ]
+   }
+  },
+  {
+   "case": "RECOST_EXHAUSTED",
+   "status": "PASS",
+   "expected": {
+    "status": "BLOCKED",
+    "codes": [
+     "RECOST_FAILED_EXHAUSTED"
+    ],
+    "critical": 1
+   },
+   "observed": {
+    "status": "BLOCKED",
+    "codes": [
+     "RECOST_FAILED_EXHAUSTED"
+    ],
+    "critical": 1
+   }
+  },
+  {
+   "case": "INTEGRITY_CURRENT",
+   "status": "PASS",
+   "expected": {
+    "status": "BLOCKED",
+    "codes": [
+     "NEGATIVE_FG_BALANCE",
+     "V268_UNBALANCED_POSTED_JOURNAL"
+    ]
+   },
+   "observed": {
+    "status": "BLOCKED",
+    "codes": [
+     "NEGATIVE_FG_BALANCE",
+     "V268_UNBALANCED_POSTED_JOURNAL"
+    ]
+   }
+  },
+  {
+   "case": "GL_NEGATIVE_HISTORICAL_TODAY_CLEAN",
+   "status": "PASS",
+   "expected": {
+    "status": "BLOCKED",
+    "codes": [
+     "GL_INVENTORY_NEGATIVE_ASOF"
+    ]
+   },
+   "observed": {
+    "status": "BLOCKED",
+    "codes": [
+     "GL_INVENTORY_NEGATIVE_ASOF"
+    ]
+   }
+  },
+  {
+   "case": "GL_NEGATIVE_AFTER_DATE_CONTROL",
+   "status": "PASS",
+   "expected": {
+    "status": "READY",
+    "codes": []
+   },
+   "observed": {
+    "status": "READY",
+    "codes": []
+   }
+  },
+  {
+   "case": "FG_NEGATIVE_HISTORICAL",
+   "status": "PASS",
+   "expected": {
+    "status": "BLOCKED",
+    "codes": [
+     "FG_QTY_NEGATIVE_ASOF"
+    ]
+   },
+   "observed": {
+    "status": "BLOCKED",
+    "codes": [
+     "FG_QTY_NEGATIVE_ASOF"
+    ]
+   }
+  },
+  {
+   "case": "FG_NEGATIVE_AFTER_DATE_CONTROL",
+   "status": "PASS",
+   "expected": {
+    "status": "READY",
+    "codes": []
+   },
+   "observed": {
+    "status": "READY",
+    "codes": []
+   }
+  },
+  {
+   "case": "MATERIAL_REVERSED_PAIR",
+   "status": "PASS",
+   "expected": {
+    "reversed_pair": "READY",
+    "real_negative": [
+     "MATERIAL_QTY_NEGATIVE_ASOF"
+    ]
+   },
+   "observed": {
+    "reversed_pair": "READY",
+    "real_negative": [
+     "MATERIAL_QTY_NEGATIVE_ASOF"
+    ]
+   }
+  },
+  {
+   "case": "ATTENDANCE_CELLS",
+   "status": "PASS",
+   "expected": {
+    "status": "BLOCKED",
+    "missing": [
+     [
+      "2026-09-02"
+     ]
+    ],
+    "empty_window_attendance": []
+   },
+   "observed": {
+    "status": "BLOCKED",
+    "missing": [
+     [
+      "2026-09-02"
+     ]
+    ],
+    "empty_window_attendance": []
+   }
+  },
+  {
+   "case": "PAYROLL_POLICY",
+   "status": "PASS",
+   "expected": {
+    "status": "BLOCKED",
+    "not_approved": [
+     "PR-DUE"
+    ],
+    "uncovered_attendance": [
+     1
+    ],
+    "uncovered_work": [
+     5
+    ]
+   },
+   "observed": {
+    "status": "BLOCKED",
+    "not_approved": [
+     "PR-DUE"
+    ],
+    "uncovered_attendance": [
+     1
+    ],
+    "uncovered_work": [
+     5
+    ]
+   }
+  },
+  {
+   "case": "LAUNDRY_UNKNOWN",
+   "status": "PASS",
+   "expected": {
+    "status": "BLOCKED",
+    "unknown_lines": [
+     true
+    ]
+   },
+   "observed": {
+    "status": "BLOCKED",
+    "unknown_lines": [
+     true
+    ]
+   }
+  },
+  {
+   "case": "GRNI_INFO_ONLY",
+   "status": "PASS",
+   "expected": {
+    "status": "READY",
+    "info": [
+     "GRNI_ESTIMATE_OPEN"
+    ]
+   },
+   "observed": {
+    "status": "READY",
+    "info": [
+     "GRNI_ESTIMATE_OPEN"
+    ]
+   }
+  },
+  {
+   "case": "CLOSE_GATE",
+   "status": "PASS",
+   "expected": {
+    "ready_status": "READY",
+    "filed_through": "2026-09-10",
+    "filed_status": "READY",
+    "immutable": [
+     true,
+     true,
+     true
+    ],
+    "blocked_status": "RECALC_PENDING",
+    "refusal_code": "CLOSE_BLOCKED",
+    "closed_through_after": "2026-09-10",
+    "filings_after": 1,
+    "before_lot_status": "READY"
+   },
+   "observed": {
+    "ready_status": "READY",
+    "filed_through": "2026-09-10",
+    "filed_status": "READY",
+    "immutable": [
+     true,
+     true,
+     true
+    ],
+    "blocked_status": "RECALC_PENDING",
+    "refusal_code": "CLOSE_BLOCKED",
+    "closed_through_after": "2026-09-10",
+    "filings_after": 1,
+    "before_lot_status": "READY"
+   }
+  }
+ ]
+}

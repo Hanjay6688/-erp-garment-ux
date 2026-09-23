@@ -476,7 +476,7 @@ Semua bukti adalah bukti writer: PG17 native (Supabase CLI 2.116.0, image 17.6.1
 | **35850597894** | `7a2f895` | **Kelima fase lengkap** (tabel di bawah). Paket belum memuat backfill. |
 | 35851917304 | `01cfd70` | Paket dengan backfill. AR174 (146 + 28), temporal (AT16/AU15 + 10 race), dan regresi (326 tanpa kasus bergeser, 12 HOLD, AS34) **WRITER_PASS**. Install dengan pemeriksaan eksak backfill lulus di ketiga database. Kedua fase probe **INCOMPLETE** sebelum kasus pertama: `AU_FULL_CATALOG_DRIFT` karena fixture pra-install meng-commit grant sesi (cacat harness, §16.5). Bukti: `docs/evidence/cp6-av-r2/run35851917304_*`. |
 | 35852437460 | `acffc8c` | Fixture pra-install bekerja. Probe after: kasus AV 23 PASS + 11 CONTROL_PASS, termasuk `MANUAL:PREINSTALL_CLASSIFIED_OUT_OF_NOWHERE` **PASS** (successor ditolak dengan pesan cutoff; bukti native backfill) dan kontrol LEGACY. Probe before: kasus yang sama COUNTEREXAMPLE di AU beku. AU15 dan AT16 PASS di kedua fase. Kedua fase **INCOMPLETE** di grup race: seed fondasi dijalankan ulang pada salinan race yang sudah memuat seed dari fixture (cacat harness, §16.5). Trial AR174, temporal, dan regresi **WRITER_PASS** (326 tanpa kasus bergeser, 12 HOLD, AS34). Bukti: `docs/evidence/cp6-av-r2/run35852437460_*`. |
-| (berikutnya) | commit ini | Salinan race hanya di-seed bila belum ber-seed, sama dengan aturan `r1.group`. |
+| **35853810855** | **`633176a`** | **Kelima fase lengkap dan lulus.** Probe before: REVIEW_COMPLETE, 8 COUNTEREXAMPLE kasus (7 dari run 2 + `MANUAL:PREINSTALL_CLASSIFIED_OUT_OF_NOWHERE`) dan 3 race COUNTEREXAMPLE di AU beku, 8 CONTROL_PASS. Probe after: `CANDIDATE_WRITER_PASS`, kasus AV 23 PASS + 11 CONTROL_PASS (termasuk backfill pra-install), race laundry 4/4, race BS temuan 4/4, dua siklus paket, post-use refusal PASS, AU15, AT16. AR174 (146 + 28). Temporal AT16/AU15 + 10 race. Regresi 326 tanpa kasus bergeser + 12 HOLD + AS34. Primary tidak berubah, clone 0 di semua fase. Bukti: `docs/evidence/cp6-av-r2/run35853810855_*`. |
 
 Dua cacat harness itu:
 1. Predikat BS stok baru di probe merujuk tabel asal pada AU beku, tempat tabel itu belum ada.
@@ -495,6 +495,8 @@ Run 35850597894 (records dan manifest per job di `docs/evidence/cp6-av-r2/run358
 | Regresi | `WRITER_PASS_WITH_12_PRESERVED_HISTORICAL_HOLD`: bisnis 179 PASS + 39 CONTROL_PASS + 12 DATE_POLICY_REVIEW_REQUIRED, impor 31, nilai 65 (= 326), AS34 PASS. `moved_cases` kosong; setiap kelompok `matches_au_outcome`. |
 
 Semua fase: primary tidak berubah, clone 0, database race 0.
+
+**Status AV rev2: siap ditinjau (writer).** Head yang diuji: `633176a`, tree `58d7fa4ed6d489f099fe8495b9461654f8afd832`. File paket (migration `193e84ef…`, rollback `8c01b942…`, pin `ceb2f9b1…`, capture `6c53571d…`) tidak berubah sejak `01cfd70`; commit sesudahnya hanya memperbaiki harness probe. Ini bukan penerimaan independen.
 
 ### 16.3 Batas klaim
 
@@ -525,3 +527,58 @@ Keputusan sebelumnya yang tetap berlaku (§14 no. 3): blokir untuk recost pendin
 3. Seed fondasi yang ikut ter-commit oleh fixture pra-install membuat `r1.races` dan `found_races` gagal dengan duplikat `contractors_pkey` (run 35852437460), karena keduanya men-seed salinan race tanpa syarat. Perbaikan: seed hanya bila `erp.app_users` kosong, aturan yang sama dengan `r1.group`. Pada clone yang belum ber-seed, perilakunya identik.
 
 Pelajaran tambahan: **fixture yang harus bertahan melewati install successor hanya boleh meng-commit data bisnis**; setiap perubahan katalog dibandingkan dengan inventaris sebelum commit, dan setiap langkah sesudahnya yang menyalin clone harus diperiksa apakah ia mengandaikan clone yang masih kosong.
+
+## 17. AW: engine tutup buku per tanggal (AUD-S06 + AUD-B04), status kerja
+
+**Status: definisi dan uji lokal saja.** Belum ada paket migration, belum ada bukti native PG17, belum ditinjau. Cara pembungkusan paket menunggu keputusan owner tentang standar bukti (opsi A/B sedang dibicarakan owner dengan GPT; belum menjadi keputusan).
+
+**File:**
+- `scripts/cp6_aw_engine.sql`: `erp.period_blockers_v1(date,date)` dan `erp.period_readiness_v1(date,date)`.
+- `scripts/cp6_aw_definitions.py`: teks lama kanonik `close_accounting_through` dan `get_owner_financial_snapshot_v2`, yang cocok dengan pin katalog AV rev2, beserta teks barunya, fungsi baru, facade, tabel, dan trigger.
+- `scripts/cp6_aw_local_smoke.py` dan `docs/evidence/cp6-aw/local_pg16_smoke.json`.
+
+**Satu engine, tiga pembaca:**
+- `erp.accounting_close_preflight_v1` (preview; facade `public.erp_accounting_close_preflight_v1`);
+- `close_accounting_through` menghitung ulang engine **sesudah** `FOR UPDATE` baris kontrol dan menolak dengan `CLOSE_BLOCKED` kecuali READY. Close yang diterima menulis snapshot filing insert-only `erp.accounting_close_filings_v1` (readiness dan saldo GL per akun per tanggal); facade `public.erp_close_accounting_through_v1`;
+- `data_confidence` laporan resmi untuk `p_as_of`. Kunci lama dipertahankan; ditambah `engine`, `as_of`, `window_from`, `closed_through`, `blockers`, `info`.
+
+**Keluarga penghalang (kebijakan owner §14 no. 3 dan §16.4):**
+
+| Keluarga | Kode | Tingkat | Cakupan tanggal |
+| --- | --- | --- | --- |
+| Recost | `RECOST_PENDING`, `RECOST_FAILED_EXHAUSTED` | RECALC / CRITICAL | PO yang punya fakta ≤ tanggal: `recalc_from`, konsumsi bahan potong/kontraktor, lot FG, jurnal PO menurut `economic_date`. Antrean untuk PO yang semua faktanya sesudah tanggal **tidak** menahan. |
+| Integritas saat ini | nama pemeriksaan yang gagal (CRITICAL/ERROR dari `run_v268`, `run_v267`, `run_integrity_checks`; pemeriksaan antrean dikecualikan) | CRITICAL | Tidak bisa diberi tanggal, jadi menahan semua tanggal (konservatif). |
+| Integritas per tanggal | `GL_INVENTORY_NEGATIVE_ASOF`, `FG_QTY_NEGATIVE_ASOF`, `MATERIAL_QTY_NEGATIVE_ASOF` | CRITICAL | ≤ tanggal. Setiap pemeriksaan hanya di satu sisi (fisik atau GL). |
+| Absensi | `ATTENDANCE_CELL_MISSING` (dirangkum per pekerja) | POLICY | Hari sesudah `closed_through` sampai tanggal. |
+| Payroll | `PAYROLL_NOT_APPROVED` (`period_end` ≤ tanggal), `PAYROLL_ATTENDANCE_UNCOVERED` (lewat tautan, bukan rentang), `PAYROLL_WORK_UNCOVERED` | POLICY | ≤ tanggal. |
+| Laundry | `LAUNDRY_PRICE_UNKNOWN` (tarif kirim kosong dan masih ada qty belum dibiayai) | POLICY | ≤ tanggal. Diselesaikan dengan `erp.set_laundry_rate_owner_estimate_v1`. Estimasi dicatat insert-only; tarif kirim diisi lewat trigger yang ada (akrual dan HPP pada tanggal kirim; `post_journal` menggeser ke periode terbuka bila tanggal itu sudah tertutup), plus residual WIP untuk PO FINISHED. |
+| GRNI | `GRNI_ESTIMATE_OPEN` | INFO | Tidak pernah menahan (owner: boleh ditutup dengan estimasi). |
+
+**Pemeriksaan yang sengaja ditolak.** Pemeriksaan "qty fisik 0 tetapi nilai GL masih ada" per tanggal tidak dipakai. Posting terlambat untuk periode tertutup mendapat tanggal GL `max(hari ini, closed+1)`, sedangkan tanggal fisiknya tetap; di antara kedua tanggal itu pemeriksaan seperti ini akan menahan tutup buku selamanya untuk posting yang sah. B04 dibuktikan lewat skenario invoice terlambat yang nilai dan confidence-nya dicocokkan pada tanggal yang sama (rencana kasus di desain, belum dijalankan).
+
+**Atomisitas (penalaran, belum diuji native).**
+- Produser yang membaca `closed_through` mengambil FOR SHARE, sehingga menunggu close: `post_journal`, inti recost, transfer, dan trigger stok negatif.
+- Produser yang tidak membacanya tidak bergantung pada close. Fakta yang mereka commit selama close berlangsung setara dengan perubahan sesudah close: ikut terbaca berarti close menolak, tidak terbaca berarti menjadi koreksi terlambat.
+- Uji race dua sesi (CROSS-T06) masuk rencana native.
+
+**Uji lokal (PG16, tabel asli dari snapshot katalog, fungsi pemeriksaan dan dua view di-stub): 15/15 PASS.** Kasus yang diuji:
+- recost di dalam periode;
+- recost sesudah periode (kontrol);
+- batas tengah malam Asia/Jakarta;
+- recost habis percobaan;
+- integritas saat ini, termasuk dedup dan pengecualian antrean;
+- GL negatif historis padahal hari ini bersih, dengan kontrol kebalikannya;
+- FG negatif historis, dengan kontrol;
+- pasangan reversal bahan tidak dihitung;
+- sel absensi (DRAFT tidak dihitung, OFF dihitung), dengan jendela kosong untuk tanggal yang sudah ditutup;
+- payroll jatuh tempo, payroll melintasi tanggal, absensi tanpa tautan, hasil kerja sebelum/sesudah tanggal;
+- laundry tarif kosong: kiriman DRAFT diabaikan, yang sudah dibiayai lewat penerimaan tidak dihitung;
+- GRNI hanya info;
+- gerbang close: READY lewat facade, filing insert-only, `CLOSE_BLOCKED` tanpa efek, close sebelum tanggal lot diterima.
+
+Tiga mutasi sengaja (abaikan fakta lot, jangan buang pasangan reversal, anggap DRAFT sudah tercatat) masing-masing tertangkap, jadi tesnya terbukti bisa gagal. Ini **bukan** bukti native. Snapshot dan jalur laundry belum diuji, karena butuh skema penuh.
+
+**Sisa pekerjaan AW:**
+1. Pembungkusan paket (menunggu keputusan standar bukti).
+2. Probe native: kasus 1–11 di desain, termasuk invoice terlambat B04, race dua sesi, akses non-owner, dan facade sama dengan backend.
+3. Regresi 326 + AS34 + AR174 + AT/AU. Delapan modul lama memanggil close di tengah skenario; setiap kasus yang bergeser didisposisi per kasus tanpa mengubah oracle.
