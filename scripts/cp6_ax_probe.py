@@ -86,9 +86,13 @@ def stocked_product(cur,today):
 
 
 def expected_average(cur,product,at):
-    """Independent computation of the stock-on-hand weighted average (probe side, not the function under test)."""
+    """Independent computation of the stock-on-hand weighted average (probe side, not the function under test).
+    Owner decision: the stock in the warehouse at the instant; a draft sale's reservation is not an outflow (its row
+    becomes SALE when the sale posts), so SALE_RESERVE rows and their releases are left out here."""
     rows=cur.execute("""select fl.id,hv.hpp_per_pcs,coalesce((select sum(m.qty_signed) from erp.fg_stock_movements m
-        where m.lot_id=fl.id and m.physical_at<=%s),0) from erp.fg_lots fl join erp.hpp_versions hv on hv.lot_id=fl.id and hv.is_current
+        where m.lot_id=fl.id and m.physical_at<=%s and m.movement_type<>'SALE_RESERVE'
+          and (m.reversal_of_id is null or (select x.movement_type from erp.fg_stock_movements x where x.id=m.reversal_of_id)<>'SALE_RESERVE')),0)
+        from erp.fg_lots fl join erp.hpp_versions hv on hv.lot_id=fl.id and hv.is_current
         join erp.products p on p.id=fl.product_id join erp.products t on t.id=%s
         where coalesce(p.identity_root_id,p.id)=coalesce(t.identity_root_id,t.id) and fl.produced_at<=%s
           and fl.lot_origin in('PRODUCTION','OPENING','CONVERSION','RETURN')""",(at,product,at)).fetchall()
@@ -161,14 +165,16 @@ def invalid_numbers(cur,today):
               'value_infinity':dict(owner_unit_value='Infinity',owner_value_reason='x'),'value_negative':dict(owner_unit_value='-1',owner_value_reason='x'),
               'value_scale':dict(owner_unit_value='1.005',owner_value_reason='x'),'value_overflow':dict(owner_unit_value='10000000000000000',owner_value_reason='x'),
               'value_without_reason':dict(owner_unit_value='5'),'future_date':dict(physical_at=(r1.now(cur)+timedelta(days=1)).isoformat()),
-              'no_reason':dict(reason=' '),'unknown_kind':dict(source_kind='WHATEVER')}
+              'no_reason':dict(reason=' '),'unknown_kind':dict(source_kind='WHATEVER'),
+              'value_storage_limit':dict(owner_unit_value='1000000000000',owner_value_reason='x'),'grade_b':dict(quality_grade='GRADE_B')}
+    exact={'value_storage_limit':'FG_UNSOURCED_VALUE_INVALID','grade_b':'FG_UNSOURCED_GRADE_INVALID'}
     before=counts(cur);refused={}
     for name,change in variants.items():
         _,error=attempt_post(cur,dict(base,**change))
         refused[name]=error and (error.get('message') or '')[:80]
     after=counts(cur)
-    ok=all(refused.values()) and before==after
-    return dict(status='PASS' if ok else 'FAIL',refused=refused,no_residue=before==after)
+    ok=all(refused.values()) and before==after and all((refused[k] or '').startswith(v) for k,v in exact.items())
+    return dict(status='PASS' if ok else 'FAIL',refused=refused,exact_codes=exact,no_residue=before==after)
 
 
 def no_reference(cur,today):
@@ -323,6 +329,106 @@ def new_stock_inactive(cur,today):
     return dict(status='PASS' if ok else 'FAIL',refusals=results,no_residue=before==after)
 
 
+def reserved_stock_on_hand(cur,today):
+    """Review finding 4 (owner: stock in the warehouse at the instant): a draft sale reserving 4 of the lot's 10 pieces
+    does not remove them from the average's basis; the valuation equals the independent computation."""
+    if not ax_installed(cur):return dict(status='NOT_APPLICABLE')
+    f=stocked_product(cur,today);product=str(f['product'])
+    lot=str(cur.execute("select id from erp.fg_lots where product_id=%s and lot_origin='PRODUCTION'",(product,)).fetchone()[0])
+    before=preview(cur,product,r1.now(cur))
+    chain.production.rpc(cur,'erp.save_sale_draft_v2',dict(sale_number='AXD-'+uuid.uuid4().hex[:10],
+        customer_id=chain.base.create_customer(cur,'AXD'+uuid.uuid4().hex[:6]),source_location_id=chain.base.LOCATION,
+        sale_date=(r1.now(cur)-timedelta(minutes=5)).isoformat(),reason='AX draft reservation',
+        items=[dict(product_id=product,qty_pcs=4,unit_price_snapshot=15000,discount_amount=0)]),uuid.uuid4(),None)
+    api.admin(cur)
+    reserved=cur.execute("select coalesce(sum(qty_signed),0) from erp.fg_stock_movements where lot_id=%s and movement_type='SALE_RESERVE'",(lot,)).fetchone()[0]
+    at=r1.now(cur);view=preview(cur,product,at);expected=expected_average(cur,product,at)
+    lot_qty=[x.get('qty_at_instant') for x in (view.get('lots') or []) if x.get('lot_id')==lot]
+    ok=(reserved==-4 and view['tier']=='SKU' and Decimal(str(view['basis_qty']))==Decimal(str(before['basis_qty']))==10
+        and lot_qty==[10] and expected is not None and Decimal(str(view['unit_value']))==expected)
+    return dict(status='PASS' if ok else 'FAIL',reserved=reserved,basis_before=before['basis_qty'],basis_after=view['basis_qty'],
+                lot_qty_at_instant=lot_qty,unit=view['unit_value'],expected_unit=str(expected),
+                expected='basis stays 10 with 4 reserved by a draft; unit equals the independent stock-on-hand average')
+
+
+def resolution_owned(cur,today):
+    """Review finding 2: the BS resolution written by a POSTED AX receipt cannot be reversed from the BS workspace
+    (that would reopen the case while the lot and journal stay); the AX reversal still removes it."""
+    if not ax_installed(cur):return dict(status='NOT_APPLICABLE')
+    f=stocked_product(cur,today);product=str(f['product'])
+    case=manual_bs(cur,product,'OUT_OF_NOWHERE',2,r1.now(cur)-timedelta(minutes=15))['result']['bs_case_id']
+    api.admin(cur)
+    r=post(cur,dict(source_kind='GOOD_FROM_UNSOURCED_BS',bs_case_id=case,location_id=chain.base.LOCATION,qty_pcs=2,
+        physical_at=(r1.now(cur)-timedelta(minutes=5)).isoformat(),reason='AX owned resolution'))
+    version=cur.execute('select row_version from erp.bs_cases where id=%s',(case,)).fetchone()[0]
+    _,refusal=r1.peer.attempt(cur,lambda:chain.bs_action(cur,'REVERSE_DISPOSITION',dict(resolution_id=r['bs_resolution_id'],
+        change_reason='AX owned resolution reversal attempt'),int(version)))
+    api.admin(cur)
+    state=lambda:[str(x) for x in cur.execute("""select rc.status,(select status from erp.bs_cases where id=%s),
+        (select count(*) from erp.bs_resolutions where id=rc.bs_resolution_id) from erp.fg_unsourced_receipts_v1 rc where rc.id=%s""",
+        (case,r['receipt_id'])).fetchone()]
+    after_refusal=state()
+    reverse(cur,r['receipt_id'],'AX owned resolution: reversal through AX')
+    after_reversal=state()
+    ok=(refusal is not None and 'FG_UNSOURCED_BS_RESOLUTION_OWNED' in (refusal.get('message') or '')
+        and after_refusal==['POSTED','RESOLVED','1'] and after_reversal==['REVERSED','OPEN','0'])
+    return dict(status='PASS' if ok else 'FAIL',refusal=refusal,after_refusal=after_refusal,after_ax_reversal=after_reversal,
+                expected=dict(workspace_reversal='refused FG_UNSOURCED_BS_RESOLUTION_OWNED',after_refusal=['POSTED','RESOLVED','1'],
+                              after_ax_reversal=['REVERSED','OPEN','0']))
+
+
+def rework_in_progress(cur,today):
+    """Review finding 1: pieces out at an active rework order are not available to AX (the platform's own rule)."""
+    if not ax_installed(cur):return dict(status='NOT_APPLICABLE')
+    f=stocked_product(cur,today);product=str(f['product'])
+    found=r1.now(cur)-timedelta(minutes=20)
+    case=manual_bs(cur,product,'OUT_OF_NOWHERE',5,found)['result']['bs_case_id']
+    api.admin(cur);order=uuid.uuid4()
+    # Administrative fixture with the platform's rework quantity trigger active.
+    cur.execute("""insert into erp.rework_orders(id,rework_number,bs_case_id,destination_type,contractor_id,qty_sent,physical_sent_at,status,notes)
+        values(%s,%s,%s,'CONTRACTOR',%s,3,%s,'OPEN','AX fixture: three pieces out at rework')""",
+        (order,'AXR-'+order.hex[:10],case,chain.production.CONTRACTOR,found+timedelta(minutes=5)))
+    base=dict(source_kind='GOOD_FROM_UNSOURCED_BS',bs_case_id=case,location_id=chain.base.LOCATION,
+              physical_at=(r1.now(cur)-timedelta(minutes=5)).isoformat(),reason='AX rework in progress')
+    _,over=attempt_post(cur,dict(base,qty_pcs=5))
+    ok_two=post(cur,dict(base,qty_pcs=2))
+    ok=over is not None and 'QTY_EXCEEDS_OPEN: 5 > 2' in (over.get('message') or '') and ok_two['qty_pcs']==2
+    return dict(status='PASS' if ok else 'FAIL',over_refusal=over,accepted=ok_two,
+                fixture='rework order inserted administratively; the platform quantity trigger validated it')
+
+
+def successor_after_found_bs(cur,today):
+    """Review finding 6 (decision 1C): a successor SKU version starting after the BS was found receives the GOOD stock;
+    the ended version is refused as NEW_STOCK and no product id means the version in force at the physical instant."""
+    if not ax_installed(cur):return dict(status='NOT_APPLICABLE')
+    f=stocked_product(cur,today);old=str(f['product'])
+    case=manual_bs(cur,old,'OUT_OF_NOWHERE',2,r1.now(cur)-timedelta(minutes=30))['result']['bs_case_id']
+    api.admin(cur)
+    effective=r1.now(cur)-timedelta(minutes=10)
+    r1.edit(cur,old,effective);api.admin(cur)
+    new=str(cur.execute("""select p.id from erp.products p join erp.products o on o.id=%s
+        where coalesce(p.identity_root_id,p.id)=coalesce(o.identity_root_id,o.id) and p.id<>o.id and p.effective_from=%s""",(old,effective)).fetchone()[0])
+    base=dict(source_kind='GOOD_FROM_UNSOURCED_BS',bs_case_id=case,location_id=chain.base.LOCATION,qty_pcs=1,
+              physical_at=(r1.now(cur)-timedelta(minutes=5)).isoformat(),reason='AX successor')
+    _,ended=attempt_post(cur,dict(base,product_id=old))
+    implicit=post(cur,base)
+    explicit=post(cur,dict(base,product_id=new))
+    ok=(ended is not None and 'berakhir' in (ended.get('message') or '') and implicit['product_id']==new and explicit['product_id']==new)
+    return dict(status='PASS' if ok else 'FAIL',old_version=old,successor=new,ended_refusal=ended,implicit=implicit['product_id'],
+                explicit=explicit['product_id'],fixture='successor through the ordinary owner identity-edit RPC')
+
+
+def lock_order_static(cur,today):
+    """Review finding 3, STATIC: the post takes the FG/HPP advisory lock before it locks the BS case, the order the
+    reversal (and every sale, adjustment and conversion) uses. A race cannot hit the gap between two lock requests
+    inside one statement, so the catalog text is checked."""
+    if not ax_installed(cur):return dict(status='NOT_APPLICABLE')
+    text=cur.execute("select pg_get_functiondef('erp.post_fg_unsourced_receipt_v1(jsonb,uuid)'::regprocedure)").fetchone()[0]
+    advisory=text.find('pg_advisory_xact_lock');case_lock=text.find('from erp.bs_cases where id=')
+    ok=0<=advisory<case_lock
+    return dict(status='PASS' if ok else 'FAIL',label='STATIC',advisory_at=advisory,bs_lock_at=case_lock)
+
+
 def access(cur,today):
     if not ax_installed(cur):return dict(status='NOT_APPLICABLE')
     def stranger():
@@ -360,6 +466,9 @@ def cases(cur,today):
             ('AX:GOOD_FROM_FOUND_BS_PARTIAL',lambda:good_from_found_bs(cur,today)),('AX:ORDINARY_BS_STAYS_2A',lambda:ordinary_bs_refused(cur,today)),
             ('AX:REVERSAL_AND_USED_LOT',lambda:reversal(cur,today)),('AX:BACKDATED_OBSERVATION',lambda:backdated(cur,today)),
             ('AX:BACKDATED_CLOSED_PERIOD',lambda:backdated_closed(cur,today)),('AX:NEW_STOCK_INACTIVE_SKU',lambda:new_stock_inactive(cur,today)),
+            ('AX:RESERVED_STOCK_COUNTS_AS_ON_HAND',lambda:reserved_stock_on_hand(cur,today)),('AX:BS_RESOLUTION_OWNED',lambda:resolution_owned(cur,today)),
+            ('AX:REWORK_IN_PROGRESS_NOT_AVAILABLE',lambda:rework_in_progress(cur,today)),
+            ('AX:SUCCESSOR_AFTER_FOUND_BS',lambda:successor_after_found_bs(cur,today)),('AX:LOCK_ORDER_STATIC',lambda:lock_order_static(cur,today)),
             ('AX:ACCESS',lambda:access(cur,today)),('AX:ENGINE_CONSISTENCY',lambda:engine_after(cur,today))]
 
 
@@ -402,6 +511,11 @@ def race_state(admin,f):
 
 def ax_race(admin,kind,commit):
     f=race_fixture(admin,kind in('REVERSE_FIRST','SALE_FIRST'))
+    if kind in('BS_REVERSE_FIRST','BS_POST_FIRST'):
+        with psycopg.connect(admin) as conn,conn.cursor() as cur:
+            first_receipt=post(cur,dict(source_kind='GOOD_FROM_UNSOURCED_BS',bs_case_id=f['case'],location_id=chain.base.LOCATION,qty_pcs=3,
+                physical_at=f['good_at'],reason='AX race first GOOD',owner_unit_value='5000',owner_value_reason='AX race'))
+            conn.commit()
     good=lambda qty,request=None:(lambda cur:post(cur,dict(source_kind='GOOD_FROM_UNSOURCED_BS',bs_case_id=f['case'],location_id=chain.base.LOCATION,
         qty_pcs=qty,physical_at=f['good_at'],reason='AX race GOOD',owner_unit_value='5000',
         owner_value_reason='AX race'),request))
@@ -418,8 +532,11 @@ def ax_race(admin,kind,commit):
         request=uuid.uuid4();first,second=good(2,request),good(2,request)
     elif kind=='REVERSE_FIRST':
         first,second=do_reverse,do_sell
-    else:
+    elif kind=='SALE_FIRST':
         first,second=do_sell,do_reverse
+    else:
+        undo=lambda cur:reverse(cur,first_receipt['receipt_id'],'AX race reversal of the first GOOD')['status']
+        first,second=(undo,good(3)) if kind=='BS_REVERSE_FIRST' else (good(2),undo)
     held,contention,outcome=awp.two_sessions(admin,first,second,commit)
     state=race_state(admin,f)
     msg=outcome.get('message') or ''
@@ -431,6 +548,16 @@ def ax_race(admin,kind,commit):
         expected=dict(contention='BLOCKED',second='same response as the first' if commit else 'posted once by itself',resolved=2,receipts=1)
         same=outcome['ok'] and outcome['result'] is not None and outcome['result'].get('receipt_id')==held.get('receipt_id')
         ok=contention['kind']=='BLOCKED' and state['resolved']==2 and state['receipts']==1 and (same if commit else outcome['ok'])
+    elif kind in('BS_REVERSE_FIRST','BS_POST_FIRST'):
+        # Never a deadlock (40P01): both take the FG/HPP advisory lock first. Availability after the winner decides.
+        if kind=='BS_REVERSE_FIRST':
+            expected=dict(contention='BLOCKED',second='GOOD 3 posted' if commit else 'refused QTY_EXCEEDS_OPEN 3 > 2',resolved=3,receipts=1)
+            ok=(contention['kind']=='BLOCKED' and outcome.get('sqlstate')!='40P01' and state['resolved']==3 and state['receipts']==1
+                and (outcome['ok'] if commit else (not outcome['ok'] and 'QTY_EXCEEDS_OPEN' in msg)))
+        else:
+            expected=dict(contention='BLOCKED',second='reversal of the first GOOD succeeds',resolved=2 if commit else 0,receipts=1 if commit else 0)
+            ok=(contention['kind']=='BLOCKED' and outcome.get('sqlstate')!='40P01' and outcome['ok']
+                and state['resolved']==(2 if commit else 0) and state['receipts']==(1 if commit else 0))
     elif kind=='REVERSE_FIRST':
         expected=dict(contention='BLOCKED',sale='refused (lot voided)' if commit else 'SOLD',receipt='REVERSED' if commit else 'POSTED')
         ok=(contention['kind']=='BLOCKED' and state['receipt_status']==('REVERSED' if commit else 'POSTED')
@@ -450,7 +577,7 @@ def races(phase,verify):
     try:
         report['setup']=awp.fresh_race_copy(admin,verify)
         if phase=='after':
-            for kind in ('BS_OVERDRAW','SAME_REQUEST','REVERSE_FIRST','SALE_FIRST'):
+            for kind in ('BS_OVERDRAW','SAME_REQUEST','REVERSE_FIRST','SALE_FIRST','BS_REVERSE_FIRST','BS_POST_FIRST'):
                 for commit in (False,True):
                     key=f'AX_RACE:{kind}:'+('COMMIT' if commit else 'ABORT')
                     try:

@@ -18,7 +18,8 @@ OUT=ROOT/'supabase/dev/cp6_ax_t1_family.sql'
 SOURCE=ROOT/'scripts/cp6_ax_functions.sql'
 VERSION='v2.6.20ax'
 TABLE='fg_unsourced_receipts_v1'
-PRIVATE=['erp.guard_fg_unsourced_receipt_immutable_v1()','erp.fg_unsourced_valuation_v1(uuid,timestamp with time zone)',
+PRIVATE=['erp.guard_fg_unsourced_receipt_immutable_v1()','erp.guard_bs_resolution_fg_unsourced_v1()',
+         'erp.fg_unsourced_valuation_v1(uuid,timestamp with time zone)',
          'erp.post_fg_unsourced_receipt_v1(jsonb,uuid)','erp.reverse_fg_unsourced_receipt_v1(uuid,text,uuid)']
 PUBLIC=['public.erp_preview_fg_unsourced_value_v1(uuid,timestamp with time zone)','public.erp_post_fg_unsourced_receipt_v1(jsonb,uuid)',
         'public.erp_reverse_fg_unsourced_receipt_v1(uuid,text,uuid)']
@@ -57,6 +58,8 @@ TRIGGERS=f"""create trigger trg_guard_{TABLE}_immutable before update or delete 
   for each row execute function erp.guard_fg_unsourced_receipt_immutable_v1();
 create trigger trg_guard_{TABLE}_truncate before truncate on erp.{TABLE}
   for each statement execute function erp.guard_fg_unsourced_receipt_immutable_v1();
+create trigger trg_guard_bs_resolution_fg_unsourced_v1 before update or delete on erp.bs_resolutions
+  for each row execute function erp.guard_bs_resolution_fg_unsourced_v1();
 """
 
 

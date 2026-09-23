@@ -50,6 +50,22 @@ begin
   raise exception 'FG_UNSOURCED_RECEIPT_IMMUTABLE: penerimaan barang tanpa sumber hanya bisa dibatalkan lewat RPC pembatalan';
 end
 $function$;
+CREATE OR REPLACE FUNCTION erp.guard_bs_resolution_fg_unsourced_v1()
+ RETURNS trigger
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO ''
+AS $function$
+begin
+  -- A BS resolution written by a POSTED AX receipt is part of that receipt: removing or changing it elsewhere (the BS
+  -- workspace REVERSE_DISPOSITION) would reopen the case while the lot and its journal stay, and the same pieces could
+  -- enter again. Only the AX reversal removes it, after the receipt has left POSTED.
+  if exists(select 1 from erp.fg_unsourced_receipts_v1 r where r.bs_resolution_id=old.id and r.status='POSTED') then
+    raise exception 'FG_UNSOURCED_BS_RESOLUTION_OWNED: resolusi BS ini dibuat penerimaan barang tanpa sumber; batalkan penerimaan itu lewat pembatalan AX';
+  end if;
+  return case when tg_op='DELETE' then old else new end;
+end
+$function$;
 CREATE OR REPLACE FUNCTION erp.fg_unsourced_valuation_v1(p_product_id uuid, p_physical_at timestamp with time zone)
  RETURNS jsonb
  LANGUAGE plpgsql
@@ -61,8 +77,10 @@ AS $function$
 -- size, other colour -> same model -> owner input. Within a tier the stock on hand at the instant is weighted by
 -- quantity (sum qty x current lot HPP / sum qty); with no stock on hand, lots produced up to the instant are weighted
 -- by their initial quantity. Only production, opening, conversion and return lots count; unsourced (OTHER) and voided
--- lots never feed the average. Lot HPP has no time dimension, so the current lot HPP is used and the posting freezes
--- the result. Pattern and fabric are not SKU attributes: they exist only through a SKU's own production lineage,
+-- lots never feed the average. Pieces reserved by a draft sale are still in the warehouse, so the draft reservation
+-- (SALE_RESERVE, and the reversal that releases it) is not counted as an outflow; a posted sale turns the same row
+-- into SALE and then counts (the ownership rule of compute_non_po_product_hpp_targets_v2620f). Each lot uses its
+-- current (corrected) HPP: a later correction states the true cost of the same pieces, and the posting freezes the result. Pattern and fabric are not SKU attributes: they exist only through a SKU's own production lineage,
 -- which already gives tier SKU a value, so they are reported as not available instead of guessed.
 declare
   v_product erp.products%rowtype;
@@ -82,7 +100,9 @@ begin
     into r
     from (
       select fl.id,fl.product_id,fl.produced_at,fl.initial_qty_pcs::numeric initial_qty,hv.hpp_per_pcs::numeric hpp,hv.cost_state,
-        coalesce((select sum(m.qty_signed) from erp.fg_stock_movements m where m.lot_id=fl.id and m.physical_at<=p_physical_at),0)::numeric q
+        coalesce((select sum(m.qty_signed) from erp.fg_stock_movements m where m.lot_id=fl.id and m.physical_at<=p_physical_at
+          and m.movement_type<>'SALE_RESERVE'
+          and not exists(select 1 from erp.fg_stock_movements rm where rm.id=m.reversal_of_id and rm.movement_type='SALE_RESERVE')),0)::numeric q
       from erp.fg_lots fl
       join erp.products p on p.id=fl.product_id
       join erp.hpp_versions hv on hv.lot_id=fl.id and hv.is_current
@@ -124,7 +144,7 @@ declare
   v_id uuid:=gen_random_uuid();
   v_hash text;v_cached jsonb;
   v_product uuid;v_location uuid;v_grade text;v_qty numeric;v_at timestamptz;
-  v_bs erp.bs_cases%rowtype;v_open bigint;v_override numeric;v_override_text text;
+  v_bs erp.bs_cases%rowtype;v_open bigint;v_in_rework bigint;v_root uuid;v_override numeric;v_override_text text;
   v_valuation jsonb;v_unit numeric(18,2);v_total numeric(20,2);
   v_lot uuid;v_movement uuid;v_journal uuid;v_resolution uuid;
 begin
@@ -149,7 +169,8 @@ begin
   if v_override_text is not null then
     begin v_override:=v_override_text::numeric;
     exception when others then raise exception 'FG_UNSOURCED_VALUE_INVALID'; end;
-    if v_override='NaN'::numeric or v_override<0 or v_override>=10000000000000000::numeric or v_override<>round(v_override,2) then
+    -- Storage bound: lot HPP per pcs and movement unit HPP are numeric(18,6), so a unit value stays below 1e12.
+    if v_override='NaN'::numeric or v_override<0 or v_override>=1000000000000::numeric or v_override<>round(v_override,2) then
       raise exception 'FG_UNSOURCED_VALUE_INVALID';
     end if;
     if nullif(btrim(p_payload->>'owner_value_reason'),'') is null then raise exception 'FG_UNSOURCED_VALUE_REASON_REQUIRED'; end if;
@@ -163,6 +184,11 @@ begin
     v_product:=(p_payload->>'product_id')::uuid;
   exception when others then raise exception 'FG_UNSOURCED_REFERENCE_INVALID'; end;
   v_grade:=coalesce(nullif(btrim(p_payload->>'quality_grade'),''),'GRADE_A');
+  -- GOOD goods only: reservations, sales and conversions handle GRADE_A stock, anything else could never leave.
+  if v_grade<>'GRADE_A' then raise exception 'FG_UNSOURCED_GRADE_INVALID: barang masuk lewat jalur ini harus GRADE_A'; end if;
+  -- One lock order with every FG posting (sale, adjustment, conversion, reversal): the FG/HPP advisory lock first,
+  -- then rows; the reversal holds this lock before its BS trigger locks the case.
+  perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));
 
   if v_kind='GOOD_FROM_UNSOURCED_BS' then
     select * into v_bs from erp.bs_cases where id=(p_payload->>'bs_case_id')::uuid for update;
@@ -173,9 +199,24 @@ begin
     if v_bs.status in('RESOLVED','SCRAPPED','WRITTEN_OFF','CANCELLED','ON_HOLD') then
       raise exception 'FG_UNSOURCED_BS_NOT_OPEN: status %',v_bs.status;
     end if;
-    v_product:=coalesce(v_product,v_bs.product_id);
-    if v_product is null or v_product is distinct from v_bs.product_id then raise exception 'FG_UNSOURCED_BS_PRODUCT_MISMATCH'; end if;
-    select v_bs.qty_pcs-coalesce(sum(r.qty_pcs),0) into v_open from erp.bs_resolutions r where r.bs_case_id=v_bs.id;
+    -- GOOD is new stock at its own physical instant (decision 1C): it takes the version of the BS product's identity
+    -- that is in force then, which may be a successor started after the BS was found.
+    select coalesce(p.identity_root_id,p.id) into v_root from erp.products p where p.id=v_bs.product_id;
+    if v_root is null then raise exception 'FG_UNSOURCED_BS_PRODUCT_MISMATCH'; end if;
+    if v_product is null then
+      select p.id into v_product from erp.products p
+      where coalesce(p.identity_root_id,p.id)=v_root and p.effective_from<=v_at and (p.effective_to is null or v_at<p.effective_to)
+      order by p.effective_from desc,p.id limit 1;
+      v_product:=coalesce(v_product,v_bs.product_id);
+    elsif not exists(select 1 from erp.products p where p.id=v_product and coalesce(p.identity_root_id,p.id)=v_root) then
+      raise exception 'FG_UNSOURCED_BS_PRODUCT_MISMATCH';
+    end if;
+    -- Same availability rule as the platform's disposition and rework guards: pieces out at an active rework order
+    -- are not available.
+    select coalesce(sum(r.qty_pcs),0) into v_open from erp.bs_resolutions r where r.bs_case_id=v_bs.id;
+    select coalesce(sum(ro.qty_sent),0) into v_in_rework from erp.rework_orders ro
+      where ro.bs_case_id=v_bs.id and ro.status in('OPEN','IN_PROGRESS','PARTIAL');
+    v_open:=greatest(v_bs.qty_pcs-v_open-v_in_rework,0);
     if v_qty>v_open then raise exception 'FG_UNSOURCED_BS_QTY_EXCEEDS_OPEN: % > %',v_qty,v_open; end if;
     if v_at<v_bs.physical_at then raise exception 'FG_UNSOURCED_BEFORE_BS_FOUND'; end if;
   elsif nullif(p_payload->>'bs_case_id','') is not null then
@@ -186,7 +227,6 @@ begin
 
   -- The SKU version must be active at the physical instant (NEW_STOCK, owner decision 1C).
   perform erp.assert_product_identity_time(v_product,v_at,'NEW_STOCK');
-  perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));
   perform erp.assert_non_po_product_hpp_target_book_v2620f(v_product);
 
   v_valuation:=erp.fg_unsourced_valuation_v1(v_product,v_at);
@@ -203,6 +243,7 @@ begin
       detail=v_valuation::text;
   end if;
   v_unit:=(v_valuation->>'unit_value')::numeric;
+  if v_unit*v_qty>=1000000000000000000::numeric then raise exception 'FG_UNSOURCED_VALUE_INVALID: total melebihi batas penyimpanan'; end if;
   v_total:=round(v_unit*v_qty,2);
 
   insert into erp.fg_lots(lot_number,po_id,qc_item_id,product_id,initial_qty_pcs,cached_qty_pcs,produced_at,is_open,lot_origin)
@@ -270,14 +311,15 @@ begin
   perform erp.reverse_fg_movement(v.movement_id,btrim(p_reason));
   update erp.fg_lots set lot_origin='VOIDED_PRODUCTION',is_open=false where id=v.lot_id;
   if v.journal_entry_id is not null then v_reversal:=erp.reverse_journal(v.journal_entry_id,btrim(p_reason)); end if;
-  if v.bs_resolution_id is not null then
-    delete from erp.bs_resolutions where id=v.bs_resolution_id;
-    perform erp.refresh_bs_case_status(v.bs_case_id);
-  end if;
   perform set_config('erp.fg_unsourced_reversal','on',true);
   update erp.fg_unsourced_receipts_v1 set status='REVERSED',reversed_by=erp.current_app_user_id(),
     reversed_at=clock_timestamp(),reversal_reason=btrim(p_reason) where id=v.id;
   perform set_config('erp.fg_unsourced_reversal','off',true);
+  if v.bs_resolution_id is not null then
+    delete from erp.bs_resolutions where id=v.bs_resolution_id;
+    if not found then raise exception 'FG_UNSOURCED_BS_RESOLUTION_MISSING: resolusi BS penerimaan ini sudah tidak ada'; end if;
+    perform erp.refresh_bs_case_status(v.bs_case_id);
+  end if;
   perform erp.assert_non_po_product_hpp_target_book_v2620f(v_product);
   insert into erp.audit_logs(entity_type,entity_id,action,changed_by,change_reason)
   values('fg_unsourced_receipts_v1',v.id,'REVERSE',erp.current_app_user_id(),btrim(p_reason));
@@ -316,7 +358,10 @@ create trigger trg_guard_fg_unsourced_receipts_v1_immutable before update or del
   for each row execute function erp.guard_fg_unsourced_receipt_immutable_v1();
 create trigger trg_guard_fg_unsourced_receipts_v1_truncate before truncate on erp.fg_unsourced_receipts_v1
   for each statement execute function erp.guard_fg_unsourced_receipt_immutable_v1();
+create trigger trg_guard_bs_resolution_fg_unsourced_v1 before update or delete on erp.bs_resolutions
+  for each row execute function erp.guard_bs_resolution_fg_unsourced_v1();
 revoke all on function erp.guard_fg_unsourced_receipt_immutable_v1() from public,anon,authenticated,service_role;
+revoke all on function erp.guard_bs_resolution_fg_unsourced_v1() from public,anon,authenticated,service_role;
 revoke all on function erp.fg_unsourced_valuation_v1(uuid,timestamp with time zone) from public,anon,authenticated,service_role;
 revoke all on function erp.post_fg_unsourced_receipt_v1(jsonb,uuid) from public,anon,authenticated,service_role;
 revoke all on function erp.reverse_fg_unsourced_receipt_v1(uuid,text,uuid) from public,anon,authenticated,service_role;
