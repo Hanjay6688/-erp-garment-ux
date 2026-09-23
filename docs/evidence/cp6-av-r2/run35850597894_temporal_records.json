@@ -1,0 +1,632 @@
+{
+ "run_id": 35850597894,
+ "job_id": 107147092432,
+ "head_sha": "7a2f895f69ea7582e76afc77583cdcd69fafa4f5",
+ "phase": "temporal",
+ "records": [
+  {
+   "status": "PASS",
+   "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+   "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+   "functions": 533,
+   "objects": 690,
+   "production_go": false
+  },
+  {
+   "status": "PASS",
+   "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+   "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+   "functions": 533,
+   "objects": 690,
+   "production_go": false
+  },
+  {
+   "status": "PASS",
+   "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+   "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+   "functions": 533,
+   "objects": 690,
+   "production_go": false
+  },
+  {
+   "status": "PASS",
+   "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+   "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+   "functions": 533,
+   "objects": 690,
+   "production_go": false
+  },
+  {
+   "status": "PASS",
+   "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+   "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+   "erp_functions": 534,
+   "new_public_readers": 1,
+   "objects": 692,
+   "production_go": false
+  },
+  {
+   "group": "AT_CASES",
+   "case": "WIP_VERSION:UTC:AUTO_CURRENT",
+   "status": "PASS"
+  },
+  {
+   "group": "AT_CASES",
+   "case": "WIP_VERSION:UTC:EXPLICIT_CURRENT",
+   "status": "PASS"
+  },
+  {
+   "group": "AT_CASES",
+   "case": "WIP_VERSION:UTC:EXPIRED_ID",
+   "status": "PASS"
+  },
+  {
+   "group": "AT_CASES",
+   "case": "WIP_VERSION:UTC:OLD_INACTIVE",
+   "status": "PASS"
+  },
+  {
+   "group": "AT_CASES",
+   "case": "WIP_VERSION:Pacific/Kiritimati:AUTO_CURRENT",
+   "status": "PASS"
+  },
+  {
+   "group": "AT_CASES",
+   "case": "WIP_VERSION:Pacific/Kiritimati:EXPLICIT_CURRENT",
+   "status": "PASS"
+  },
+  {
+   "group": "AT_CASES",
+   "case": "WIP_VERSION:Pacific/Kiritimati:EXPIRED_ID",
+   "status": "PASS"
+  },
+  {
+   "group": "AT_CASES",
+   "case": "WIP_VERSION:Pacific/Kiritimati:OLD_INACTIVE",
+   "status": "PASS"
+  },
+  {
+   "group": "AT_CASES",
+   "case": "HISTORICAL_BS:True:False",
+   "status": "PASS"
+  },
+  {
+   "group": "AT_CASES",
+   "case": "HISTORICAL_BS:True:True",
+   "status": "PASS"
+  },
+  {
+   "group": "AT_CASES",
+   "case": "HISTORICAL_BS:False:False",
+   "status": "PASS"
+  },
+  {
+   "group": "AT_CASES",
+   "case": "HISTORICAL_BS:False:True",
+   "status": "PASS"
+  },
+  {
+   "group": "AT_CASES",
+   "case": "INTRADAY:MIDNIGHT",
+   "status": "PASS"
+  },
+  {
+   "group": "AT_CASES",
+   "case": "INTRADAY:AMBIGUOUS_DAY",
+   "status": "PASS"
+  },
+  {
+   "group": "AT_CASES",
+   "case": "INTRADAY:EARLY_ID",
+   "status": "PASS"
+  },
+  {
+   "group": "AT_CASES",
+   "case": "INTRADAY:LATE_ID",
+   "status": "PASS"
+  },
+  {
+   "group": "AT_CONCURRENCY",
+   "case": "TEMPORAL_MASTER_ABORT",
+   "status": "PASS",
+   "first": "MASTER",
+   "first_committed": false,
+   "blocking_observed": true,
+   "business_action": "ordinary_authenticated_public_RPC",
+   "master_change": "administrative_fixture_display_status_update",
+   "output_posted": true,
+   "worker": {
+    "ok": true,
+    "result": {
+     "action": "WIP_OUTPUT",
+     "lot_id": "7dc4c0ab-ea99-4990-b512-1a5b7d171666",
+     "status": "POSTED",
+     "batch_id": "b4b395f9-929d-41fe-ba7b-24302e43f263",
+     "operation": "COMPLETE",
+     "output_id": "37846f98-ca1f-4755-9971-6e00cb1c6828",
+     "request_id": "79449d38-6b82-4381-ae70-422564590412"
+    }
+   },
+   "linked_inverse_restores_net_ledger": true,
+   "committed_fixture_isolated_in_disposable_clone": true
+  },
+  {
+   "group": "AT_CONCURRENCY",
+   "case": "TEMPORAL_MASTER_COMMIT",
+   "status": "PASS",
+   "first": "MASTER",
+   "first_committed": true,
+   "blocking_observed": true,
+   "business_action": "ordinary_authenticated_public_RPC",
+   "master_change": "administrative_fixture_display_status_update",
+   "output_posted": false,
+   "worker": {
+    "ok": false,
+    "sqlstate": "P0001",
+    "message": "product_sku: pilih produk aktif dengan merek, model PO, ukuran saldo, dan tanggal hasil yang sesuai"
+   },
+   "linked_inverse_restores_net_ledger": false,
+   "committed_fixture_isolated_in_disposable_clone": true
+  },
+  {
+   "group": "AT_CONCURRENCY",
+   "case": "TEMPORAL_OUTPUT_ABORT",
+   "status": "PASS",
+   "first": "OUTPUT",
+   "first_committed": false,
+   "blocking_observed": true,
+   "business_action": "ordinary_authenticated_public_RPC",
+   "master_change": "administrative_fixture_display_status_update",
+   "output_posted": false,
+   "worker": {
+    "ok": true,
+    "master_deactivated": true
+   },
+   "linked_inverse_restores_net_ledger": false,
+   "committed_fixture_isolated_in_disposable_clone": true
+  },
+  {
+   "group": "AT_CONCURRENCY",
+   "case": "TEMPORAL_OUTPUT_COMMIT",
+   "status": "PASS",
+   "first": "OUTPUT",
+   "first_committed": true,
+   "blocking_observed": true,
+   "business_action": "ordinary_authenticated_public_RPC",
+   "master_change": "administrative_fixture_display_status_update",
+   "output_posted": true,
+   "worker": {
+    "ok": true,
+    "master_deactivated": true
+   },
+   "linked_inverse_restores_net_ledger": true,
+   "committed_fixture_isolated_in_disposable_clone": true
+  },
+  {
+   "group": "AU_CASES",
+   "case": "MASTER:DISPLAY_NAME",
+   "status": "PASS"
+  },
+  {
+   "group": "AU_CASES",
+   "case": "MASTER:UNUSED_IDENTITY",
+   "status": "PASS"
+  },
+  {
+   "group": "AU_CASES",
+   "case": "MASTER:USED_SUCCESSOR",
+   "status": "PASS"
+  },
+  {
+   "group": "AU_CASES",
+   "case": "MASTER:CANCEL_FUTURE",
+   "status": "PASS"
+  },
+  {
+   "group": "AU_CASES",
+   "case": "AU:NAME_ONLY",
+   "status": "PASS"
+  },
+  {
+   "group": "AU_CASES",
+   "case": "AU:PRICE_REFERENCE",
+   "status": "PASS"
+  },
+  {
+   "group": "AU_CASES",
+   "case": "AU:CANCEL_USED",
+   "status": "PASS"
+  },
+  {
+   "group": "AU_CASES",
+   "case": "AU:PHYSICAL_HISTORY",
+   "status": "PASS"
+  },
+  {
+   "group": "AU_CASES",
+   "case": "AU:REPLAY",
+   "status": "PASS"
+  },
+  {
+   "group": "AU_CASES",
+   "case": "AU:FORGED_CONTEXT",
+   "status": "PASS"
+  },
+  {
+   "group": "AU_CASES",
+   "case": "AU:FORGED_INSERT",
+   "status": "PASS"
+  },
+  {
+   "group": "AU_CASES",
+   "case": "AU:FORGED_UPDATE",
+   "status": "PASS"
+  },
+  {
+   "group": "AU_CASES",
+   "case": "AU:FORGED_UNUSED",
+   "status": "PASS"
+  },
+  {
+   "group": "AU_CASES",
+   "case": "AU:FORGED_CHILD_ID",
+   "status": "PASS"
+  },
+  {
+   "group": "AU_CASES",
+   "case": "AU:INVALID_CHILD",
+   "status": "PASS"
+  },
+  {
+   "group": "AU_CONCURRENCY",
+   "case": "MASTER_MASTER_ABORT",
+   "status": "PASS",
+   "first": "MASTER",
+   "first_committed": false,
+   "blocking_observed": false,
+   "fail_fast_contention_observed": true,
+   "contender_refusal": {
+    "ok": false,
+    "sqlstate": "P0001",
+    "message": "POCKET_PERIOD_BUSY: alokasi kain kantong sedang berubah. Coba kembali dengan data terbaru"
+   },
+   "contender_boundary_unchanged": true,
+   "retry_after_winner_finished": "PASS",
+   "actions": "ordinary authenticated master and WIP API",
+   "output_posted": true,
+   "identity_history_preserved": true,
+   "output_linked_inverse_restores_net_ledger": true,
+   "unused_authority_rows": 0
+  },
+  {
+   "group": "AU_CONCURRENCY",
+   "case": "MASTER_MASTER_COMMIT",
+   "status": "PASS",
+   "first": "MASTER",
+   "first_committed": true,
+   "blocking_observed": false,
+   "fail_fast_contention_observed": true,
+   "contender_refusal": {
+    "ok": false,
+    "sqlstate": "P0001",
+    "message": "POCKET_PERIOD_BUSY: alokasi kain kantong sedang berubah. Coba kembali dengan data terbaru"
+   },
+   "contender_boundary_unchanged": true,
+   "retry_after_winner_finished": "PASS",
+   "actions": "ordinary authenticated master and WIP API",
+   "output_posted": true,
+   "identity_history_preserved": true,
+   "output_linked_inverse_restores_net_ledger": true,
+   "unused_authority_rows": 0
+  },
+  {
+   "group": "AU_CONCURRENCY",
+   "case": "MASTER_OUTPUT_ABORT",
+   "status": "PASS",
+   "first": "OUTPUT",
+   "first_committed": false,
+   "blocking_observed": false,
+   "fail_fast_contention_observed": true,
+   "contender_refusal": {
+    "ok": false,
+    "sqlstate": "P0001",
+    "message": "POCKET_PERIOD_BUSY: alokasi kain kantong sedang berubah. Coba kembali dengan data terbaru"
+   },
+   "contender_boundary_unchanged": true,
+   "retry_after_winner_finished": "PASS",
+   "actions": "ordinary authenticated master and WIP API",
+   "output_posted": false,
+   "identity_history_preserved": true,
+   "output_linked_inverse_restores_net_ledger": false,
+   "unused_authority_rows": 0
+  },
+  {
+   "group": "AU_CONCURRENCY",
+   "case": "MASTER_OUTPUT_COMMIT",
+   "status": "PASS",
+   "first": "OUTPUT",
+   "first_committed": true,
+   "blocking_observed": false,
+   "fail_fast_contention_observed": true,
+   "contender_refusal": {
+    "ok": false,
+    "sqlstate": "P0001",
+    "message": "POCKET_PERIOD_BUSY: alokasi kain kantong sedang berubah. Coba kembali dengan data terbaru"
+   },
+   "contender_boundary_unchanged": true,
+   "retry_after_winner_finished": "PASS",
+   "actions": "ordinary authenticated master and WIP API",
+   "output_posted": true,
+   "identity_history_preserved": true,
+   "output_linked_inverse_restores_net_ledger": true,
+   "unused_authority_rows": 0
+  },
+  {
+   "group": "AU_CONCURRENCY",
+   "case": "MASTER_VALIDATION_ABORT",
+   "status": "PASS",
+   "first": "VALIDATION",
+   "first_committed": false,
+   "blocking_observed": false,
+   "fail_fast_contention_observed": true,
+   "contender_refusal": {
+    "ok": false,
+    "sqlstate": "P0001",
+    "message": "POCKET_PERIOD_BUSY: alokasi kain kantong sedang berubah. Coba kembali dengan data terbaru"
+   },
+   "contender_boundary_unchanged": true,
+   "retry_after_winner_finished": "PASS",
+   "actions": "private validator with owner claims versus ordinary master",
+   "output_posted": false,
+   "identity_history_preserved": true,
+   "output_linked_inverse_restores_net_ledger": false,
+   "unused_authority_rows": 0
+  },
+  {
+   "group": "AU_CONCURRENCY",
+   "case": "MASTER_VALIDATION_COMMIT",
+   "status": "PASS",
+   "first": "VALIDATION",
+   "first_committed": true,
+   "blocking_observed": false,
+   "fail_fast_contention_observed": true,
+   "contender_refusal": {
+    "ok": false,
+    "sqlstate": "P0001",
+    "message": "POCKET_PERIOD_BUSY: alokasi kain kantong sedang berubah. Coba kembali dengan data terbaru"
+   },
+   "contender_boundary_unchanged": true,
+   "retry_after_winner_finished": "PASS",
+   "actions": "private validator with owner claims versus ordinary master",
+   "output_posted": false,
+   "identity_history_preserved": true,
+   "output_linked_inverse_restores_net_ledger": false,
+   "unused_authority_rows": 0
+  },
+  {
+   "av_trial_phase": "temporal",
+   "status": "WRITER_PASS",
+   "phase": "temporal",
+   "production_go": false,
+   "independent_acceptance": false,
+   "auditor_head": "7a2f895f69ea7582e76afc77583cdcd69fafa4f5",
+   "av_pins": "79d223da9ba20a1490a8182e1d62a53e4d284b1dd4de240efe35e7196d065cd9",
+   "original_oracle_sources": {
+    "scripts/cp6_v2620al_review.py": "5577b261dbab8951454dd2794d7c68f067ba6c4593829a34416ef31f48e06fb9",
+    "scripts/cp6_v2620al_import_review.py": "c0a1217f1437b94e5241c2b568bd7c582be4e2a2292b17214dee959b91a429af",
+    "scripts/cp6_v2620al_value_review.py": "f2386d3472107e465ff8c110f5e91c78863d7eacad021573984c1f9a340a7b58",
+    "scripts/cp6_v2620al_import_concurrency.py": "10dbcaebe616aab10450a31dc047041f2a9c4813f30eb22838bec4cbfa70dd25",
+    "scripts/cp6_v2620al_direct_concurrency.py": "2a755622abc59c6913a2deb17b1f246d79c555b84af346f1c8224bf4dab2d792",
+    "scripts/cp6_final_ak_independent.py": "9644b71e3a8ace79fb0de94ed517686330f175f2706b5e641fc6c7e200d39feb",
+    "scripts/cp6_v2620ai_family.py": "9d18d1ced8f90f75559177cb82c4a2b17f9d97636e1bfd8898e6ecf080dd0ee6",
+    "scripts/cp6_ai_independent_review.py": "0a4949a5f5c1b02ada3a29b369e225d8b3f6c962a9946708b02e4875c7688e83",
+    "scripts/cp6_final_crossflow_review.py": "316125ca0e9350e31efb6af029b7e936a50d51a6714c5d12b884e98a4b394d24",
+    "scripts/cp6_final_gap_native.py": "283ffb4d6f0db9dfdfa1e592b5b52a3809681e3eed5570fdfd6f2930f5bfe9d1"
+   },
+   "au_install": "PASS",
+   "av_install": "PASS",
+   "temporal_cases": {
+    "status": "WRITER_PASS",
+    "counts": {
+     "PASS": 16
+    }
+   },
+   "temporal_races": {
+    "TEMPORAL_MASTER_ABORT": {
+     "status": "PASS",
+     "first": "MASTER",
+     "first_committed": false,
+     "blocking_observed": true,
+     "business_action": "ordinary_authenticated_public_RPC",
+     "master_change": "administrative_fixture_display_status_update",
+     "output_posted": true,
+     "worker": {
+      "ok": true,
+      "result": {
+       "action": "WIP_OUTPUT",
+       "lot_id": "7dc4c0ab-ea99-4990-b512-1a5b7d171666",
+       "status": "POSTED",
+       "batch_id": "b4b395f9-929d-41fe-ba7b-24302e43f263",
+       "operation": "COMPLETE",
+       "output_id": "37846f98-ca1f-4755-9971-6e00cb1c6828",
+       "request_id": "79449d38-6b82-4381-ae70-422564590412"
+      }
+     },
+     "linked_inverse_restores_net_ledger": true,
+     "committed_fixture_isolated_in_disposable_clone": true
+    },
+    "TEMPORAL_MASTER_COMMIT": {
+     "status": "PASS",
+     "first": "MASTER",
+     "first_committed": true,
+     "blocking_observed": true,
+     "business_action": "ordinary_authenticated_public_RPC",
+     "master_change": "administrative_fixture_display_status_update",
+     "output_posted": false,
+     "worker": {
+      "ok": false,
+      "sqlstate": "P0001",
+      "message": "product_sku: pilih produk aktif dengan merek, model PO, ukuran saldo, dan tanggal hasil yang sesuai"
+     },
+     "linked_inverse_restores_net_ledger": false,
+     "committed_fixture_isolated_in_disposable_clone": true
+    },
+    "TEMPORAL_OUTPUT_ABORT": {
+     "status": "PASS",
+     "first": "OUTPUT",
+     "first_committed": false,
+     "blocking_observed": true,
+     "business_action": "ordinary_authenticated_public_RPC",
+     "master_change": "administrative_fixture_display_status_update",
+     "output_posted": false,
+     "worker": {
+      "ok": true,
+      "master_deactivated": true
+     },
+     "linked_inverse_restores_net_ledger": false,
+     "committed_fixture_isolated_in_disposable_clone": true
+    },
+    "TEMPORAL_OUTPUT_COMMIT": {
+     "status": "PASS",
+     "first": "OUTPUT",
+     "first_committed": true,
+     "blocking_observed": true,
+     "business_action": "ordinary_authenticated_public_RPC",
+     "master_change": "administrative_fixture_display_status_update",
+     "output_posted": true,
+     "worker": {
+      "ok": true,
+      "master_deactivated": true
+     },
+     "linked_inverse_restores_net_ledger": true,
+     "committed_fixture_isolated_in_disposable_clone": true
+    }
+   },
+   "master_cases": {
+    "status": "WRITER_PASS",
+    "counts": {
+     "PASS": 15
+    }
+   },
+   "master_races": {
+    "MASTER_MASTER_ABORT": {
+     "status": "PASS",
+     "first": "MASTER",
+     "first_committed": false,
+     "blocking_observed": false,
+     "fail_fast_contention_observed": true,
+     "contender_refusal": {
+      "ok": false,
+      "sqlstate": "P0001",
+      "message": "POCKET_PERIOD_BUSY: alokasi kain kantong sedang berubah. Coba kembali dengan data terbaru"
+     },
+     "contender_boundary_unchanged": true,
+     "retry_after_winner_finished": "PASS",
+     "actions": "ordinary authenticated master and WIP API",
+     "output_posted": true,
+     "identity_history_preserved": true,
+     "output_linked_inverse_restores_net_ledger": true,
+     "unused_authority_rows": 0
+    },
+    "MASTER_MASTER_COMMIT": {
+     "status": "PASS",
+     "first": "MASTER",
+     "first_committed": true,
+     "blocking_observed": false,
+     "fail_fast_contention_observed": true,
+     "contender_refusal": {
+      "ok": false,
+      "sqlstate": "P0001",
+      "message": "POCKET_PERIOD_BUSY: alokasi kain kantong sedang berubah. Coba kembali dengan data terbaru"
+     },
+     "contender_boundary_unchanged": true,
+     "retry_after_winner_finished": "PASS",
+     "actions": "ordinary authenticated master and WIP API",
+     "output_posted": true,
+     "identity_history_preserved": true,
+     "output_linked_inverse_restores_net_ledger": true,
+     "unused_authority_rows": 0
+    },
+    "MASTER_OUTPUT_ABORT": {
+     "status": "PASS",
+     "first": "OUTPUT",
+     "first_committed": false,
+     "blocking_observed": false,
+     "fail_fast_contention_observed": true,
+     "contender_refusal": {
+      "ok": false,
+      "sqlstate": "P0001",
+      "message": "POCKET_PERIOD_BUSY: alokasi kain kantong sedang berubah. Coba kembali dengan data terbaru"
+     },
+     "contender_boundary_unchanged": true,
+     "retry_after_winner_finished": "PASS",
+     "actions": "ordinary authenticated master and WIP API",
+     "output_posted": false,
+     "identity_history_preserved": true,
+     "output_linked_inverse_restores_net_ledger": false,
+     "unused_authority_rows": 0
+    },
+    "MASTER_OUTPUT_COMMIT": {
+     "status": "PASS",
+     "first": "OUTPUT",
+     "first_committed": true,
+     "blocking_observed": false,
+     "fail_fast_contention_observed": true,
+     "contender_refusal": {
+      "ok": false,
+      "sqlstate": "P0001",
+      "message": "POCKET_PERIOD_BUSY: alokasi kain kantong sedang berubah. Coba kembali dengan data terbaru"
+     },
+     "contender_boundary_unchanged": true,
+     "retry_after_winner_finished": "PASS",
+     "actions": "ordinary authenticated master and WIP API",
+     "output_posted": true,
+     "identity_history_preserved": true,
+     "output_linked_inverse_restores_net_ledger": true,
+     "unused_authority_rows": 0
+    },
+    "MASTER_VALIDATION_ABORT": {
+     "status": "PASS",
+     "first": "VALIDATION",
+     "first_committed": false,
+     "blocking_observed": false,
+     "fail_fast_contention_observed": true,
+     "contender_refusal": {
+      "ok": false,
+      "sqlstate": "P0001",
+      "message": "POCKET_PERIOD_BUSY: alokasi kain kantong sedang berubah. Coba kembali dengan data terbaru"
+     },
+     "contender_boundary_unchanged": true,
+     "retry_after_winner_finished": "PASS",
+     "actions": "private validator with owner claims versus ordinary master",
+     "output_posted": false,
+     "identity_history_preserved": true,
+     "output_linked_inverse_restores_net_ledger": false,
+     "unused_authority_rows": 0
+    },
+    "MASTER_VALIDATION_COMMIT": {
+     "status": "PASS",
+     "first": "VALIDATION",
+     "first_committed": true,
+     "blocking_observed": false,
+     "fail_fast_contention_observed": true,
+     "contender_refusal": {
+      "ok": false,
+      "sqlstate": "P0001",
+      "message": "POCKET_PERIOD_BUSY: alokasi kain kantong sedang berubah. Coba kembali dengan data terbaru"
+     },
+     "contender_boundary_unchanged": true,
+     "retry_after_winner_finished": "PASS",
+     "actions": "private validator with owner claims versus ordinary master",
+     "output_posted": false,
+     "identity_history_preserved": true,
+     "output_linked_inverse_restores_net_ledger": false,
+     "unused_authority_rows": 0
+    }
+   },
+   "master_fixture_clone_remaining": 0,
+   "primary_unchanged": true,
+   "clone_remaining": 0
+  }
+ ]
+}

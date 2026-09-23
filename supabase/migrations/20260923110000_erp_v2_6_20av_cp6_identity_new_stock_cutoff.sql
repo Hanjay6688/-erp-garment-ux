@@ -841,6 +841,9 @@ select coalesce(jsonb_object_agg(k,encode(extensions.digest(convert_to(v::text,'
   raise exception 'AV_INSTALLED_CATALOG_DRIFT';
  end if;
 end $catalog_guard$;
+insert into erp.bs_case_manual_origins_v1(bs_case_id,origin_type) select b.id bs_case_id,'OUT_OF_NOWHERE'::text origin_type from erp.bs_cases b
+ where coalesce((select a.new_data->>'untracked_type' from erp.audit_logs a where a.entity_type='bs_cases' and a.entity_id=b.id
+   and a.action='INSERT' order by a.changed_at limit 1),b.untracked_type)='OUT_OF_NOWHERE';
 update erp.cp6_v2620av_rollback_capsule set installed_definition_sha256=encode(extensions.digest(convert_to(pg_get_functiondef(to_regprocedure(object_regidentity)),'UTF8'),'sha256'),'hex');
 do $after_data$ declare v_table text;v_hash jsonb;v_after jsonb; begin
  v_after:='{}'::jsonb;
@@ -850,7 +853,14 @@ do $after_data$ declare v_table text;v_hash jsonb;v_after jsonb; begin
   v_after:=v_after||jsonb_build_object(v_table,v_hash);
  end loop;
 
- if (v_after-'bs_case_manual_origins_v1') is distinct from (select boundary_snapshot->'before' from erp.cp6_v2620av_rollback_capsule limit 1) or (v_after->'bs_case_manual_origins_v1'->>'count')::bigint<>0 then raise exception 'AV_INSTALL_CHANGED_DATA';end if;
+ if (v_after-'bs_case_manual_origins_v1') is distinct from (select boundary_snapshot->'before' from erp.cp6_v2620av_rollback_capsule limit 1) then raise exception 'AV_INSTALL_CHANGED_DATA';end if;
+ if exists((select bs_case_id,origin_type from erp.bs_case_manual_origins_v1) except (select b.id bs_case_id,'OUT_OF_NOWHERE'::text origin_type from erp.bs_cases b
+ where coalesce((select a.new_data->>'untracked_type' from erp.audit_logs a where a.entity_type='bs_cases' and a.entity_id=b.id
+   and a.action='INSERT' order by a.changed_at limit 1),b.untracked_type)='OUT_OF_NOWHERE'))
+  or exists((select b.id bs_case_id,'OUT_OF_NOWHERE'::text origin_type from erp.bs_cases b
+ where coalesce((select a.new_data->>'untracked_type' from erp.audit_logs a where a.entity_type='bs_cases' and a.entity_id=b.id
+   and a.action='INSERT' order by a.changed_at limit 1),b.untracked_type)='OUT_OF_NOWHERE') except (select bs_case_id,origin_type from erp.bs_case_manual_origins_v1))
+ then raise exception 'AV_INSTALL_ORIGIN_BACKFILL_MISMATCH';end if;
  update erp.cp6_v2620av_rollback_capsule set boundary_snapshot=boundary_snapshot||jsonb_build_object('after',v_after);
 end $after_data$;
 do $coverage$ begin perform erp.assert_new_stock_cutoff_coverage_v1();end $coverage$;

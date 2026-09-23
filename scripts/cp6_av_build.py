@@ -4,7 +4,8 @@ Built like AU from AU's own pinned model: the predecessor catalog is the
 complete AU installed catalog, every earlier capsule and platform row is
 re-checked, and the delta is three replaced functions, three private new
 functions and one insert-only origin table whose native catalog values come
-from the rolled-back capture. The migration timestamp is chosen here, not by
+from the rolled-back capture. Found BS cases recorded before AV get their origin
+backfilled from the insert audit row. The migration timestamp is chosen here, not by
 the Supabase CLI; CLI provenance is NOT_TESTED. Supersedes the unaccepted AV
 candidate frozen at bb4009c, which never left disposable databases.
 """
@@ -33,6 +34,14 @@ DEFINITIONS=ROOT/'scripts/cp6_av_definitions.py'
 CATALOG=ROOT/'docs/evidence/cp6-av-r2-schema-capture.json'
 CATALOG_SHA='6c53571d8f09b80f8e101c9c545b5d3c2714995f9f09430cbacbc64f7afa6195'
 q,j,sha=package.q,package.j,inventory.sha
+# Found (OUT_OF_NOWHERE) BS cases recorded before AV keep their origin: the value
+# create_manual_bs_case_v2 wrote at insert survives in the append-only audit row,
+# even when classification has since cleared untracked_type. Only the manual path
+# can create OUT_OF_NOWHERE, and only that origin bounds a successor; LEGACY needs
+# no row because an absent origin never bounds.
+BACKFILL_SOURCE="""select b.id bs_case_id,'OUT_OF_NOWHERE'::text origin_type from erp.bs_cases b
+ where coalesce((select a.new_data->>'untracked_type' from erp.audit_logs a where a.entity_type='bs_cases' and a.entity_id=b.id
+   and a.action='INSERT' order by a.changed_at limit 1),b.untracked_type)='OUT_OF_NOWHERE'"""
 INVENTORY_SQL=predecessor.INVENTORY_SQL.replace("'cp6_v2620au_rollback_capsule')","'cp6_v2620au_rollback_capsule','cp6_v2620av_rollback_capsule')")
 assert INVENTORY_SQL!=predecessor.INVENTORY_SQL
 assert STAMP>predecessor.STAMP
@@ -119,10 +128,14 @@ end $before_data$;
     for identity,new in NEW_FUNCTIONS.items():
         s+=new.rstrip('\n')+';\n'+f'revoke all on function {identity} from public,anon,authenticated,service_role;\n'
     s+=''.join(new.rstrip('\n')+';\n' for new in FUNCTIONS.values())+TRIGGERS+guard(after['objects'],'AV_INSTALLED')
+    s+=f"insert into erp.{ORIGINS}(bs_case_id,origin_type) {BACKFILL_SOURCE};\n"
     s+=f"""update {CAP} set installed_definition_sha256=encode(extensions.digest(convert_to(pg_get_functiondef(to_regprocedure(object_regidentity)),'UTF8'),'sha256'),'hex');
 do $after_data$ declare v_table text;v_hash jsonb;v_after jsonb; begin
  {package.data_sql('v_after',['schema_migrations',cap_name])}
- if (v_after-{q(ORIGINS)}) is distinct from (select boundary_snapshot->'before' from {CAP} limit 1) or (v_after->{q(ORIGINS)}->>'count')::bigint<>0 then raise exception 'AV_INSTALL_CHANGED_DATA';end if;
+ if (v_after-{q(ORIGINS)}) is distinct from (select boundary_snapshot->'before' from {CAP} limit 1) then raise exception 'AV_INSTALL_CHANGED_DATA';end if;
+ if exists((select bs_case_id,origin_type from erp.{ORIGINS}) except ({BACKFILL_SOURCE}))
+  or exists(({BACKFILL_SOURCE}) except (select bs_case_id,origin_type from erp.{ORIGINS}))
+ then raise exception 'AV_INSTALL_ORIGIN_BACKFILL_MISMATCH';end if;
  update {CAP} set boundary_snapshot=boundary_snapshot||jsonb_build_object('after',v_after);
 end $after_data$;
 do $coverage$ begin perform {COVERAGE.replace('()','')}();end $coverage$;

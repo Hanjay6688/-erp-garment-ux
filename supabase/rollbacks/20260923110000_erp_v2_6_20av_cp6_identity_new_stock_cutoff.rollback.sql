@@ -22,7 +22,7 @@ do $platform$ begin
  if not exists(select 1 from erp.schema_migrations where version='v2.6.20av')
   or (select count(*) from supabase_migrations.schema_migrations where name='erp_v2_6_20av_cp6_identity_new_stock_cutoff')<>1
   or not exists(select 1 from supabase_migrations.schema_migrations where version='20260923110000' and name='erp_v2_6_20av_cp6_identity_new_stock_cutoff'
-   and encode(extensions.digest(convert_to(array_to_string(statements,E'\n'),'UTF8'),'sha256'),'hex')='79d223da9ba20a1490a8182e1d62a53e4d284b1dd4de240efe35e7196d065cd9')
+   and encode(extensions.digest(convert_to(array_to_string(statements,E'\n'),'UTF8'),'sha256'),'hex')='193e84efac8ead7cab681071e40070e1f9249f82cec1b7972f0576e8df25a2dc')
   or exists(select 1 from supabase_migrations.schema_migrations where version>'20260923110000')
  then raise exception 'AV_ROLLBACK_PLATFORM_OR_SUCCESSOR';end if;
 end $platform$;

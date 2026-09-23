@@ -1,0 +1,1767 @@
+{
+ "run_id": 35850597894,
+ "job_id": 107147092671,
+ "head_sha": "7a2f895f69ea7582e76afc77583cdcd69fafa4f5",
+ "phase": "probe-before",
+ "records": [
+  {
+   "status": "PASS",
+   "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+   "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+   "functions": 533,
+   "objects": 690,
+   "production_go": false
+  },
+  {
+   "status": "PASS",
+   "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+   "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+   "functions": 533,
+   "objects": 690,
+   "production_go": false
+  },
+  {
+   "status": "PASS",
+   "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+   "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+   "functions": 533,
+   "objects": 690,
+   "production_go": false
+  },
+  {
+   "status": "PASS",
+   "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+   "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+   "functions": 533,
+   "objects": 690,
+   "production_go": false
+  },
+  {
+   "status": "PASS",
+   "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+   "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+   "erp_functions": 534,
+   "new_public_readers": 1,
+   "objects": 692,
+   "production_go": false
+  },
+  {
+   "group": "AV_CASES_BEFORE",
+   "case": "CUTOFF:LAUNDRY_BS",
+   "variant": "LAUNDRY_BS",
+   "fact_physical_at": "2026-09-23 17:47:08.481169+07:00",
+   "requested_effective_from": "2026-09-23 17:46:38.481169+07:00",
+   "result": "40728e86-7c56-4334-95a1-715f65a106ce",
+   "refusal": null,
+   "old_version_effective_to": "2026-09-23 10:46:38.481169+00:00",
+   "new_stock_bs_after_end": 1,
+   "untracked_bs_after_end": 0,
+   "fg_lots_after_end": 0,
+   "before": {
+    "fg_lots": null,
+    "bs_cases": [
+     {
+      "qty": 10,
+      "stage": "LAUNDRY",
+      "status": "OPEN",
+      "qc_item_id": null,
+      "physical_at": "2026-09-23T17:47:08.481169+07:00",
+      "untracked_type": null,
+      "laundry_allocation_id": "ac185100-fa4a-4973-8935-9e3a5e5d8eff"
+     }
+    ],
+    "versions": [
+     {
+      "id": "202a561d-1afc-4f98-b011-2852576a4a63",
+      "to": null,
+      "from": "2026-01-01T07:00:00+07:00",
+      "supersedes": null
+     }
+    ]
+   },
+   "after": {
+    "fg_lots": null,
+    "bs_cases": [
+     {
+      "qty": 10,
+      "stage": "LAUNDRY",
+      "status": "OPEN",
+      "qc_item_id": null,
+      "physical_at": "2026-09-23T10:47:08.481169+00:00",
+      "untracked_type": null,
+      "laundry_allocation_id": "ac185100-fa4a-4973-8935-9e3a5e5d8eff"
+     }
+    ],
+    "versions": [
+     {
+      "id": "202a561d-1afc-4f98-b011-2852576a4a63",
+      "to": "2026-09-23T10:46:38.481169+00:00",
+      "from": "2026-01-01T00:00:00+00:00",
+      "supersedes": null
+     },
+     {
+      "id": "40728e86-7c56-4334-95a1-715f65a106ce",
+      "to": null,
+      "from": "2026-09-23T10:46:38.481169+00:00",
+      "supersedes": "202a561d-1afc-4f98-b011-2852576a4a63"
+     }
+    ]
+   },
+   "ordinary_authenticated_rpc": true,
+   "expected": "Refuse: successor would end the version before a recorded NEW_STOCK BS fact",
+   "status": "COUNTEREXAMPLE",
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AV_CASES_BEFORE",
+   "case": "CUTOFF:QC_ALL_BS",
+   "variant": "QC_ALL_BS",
+   "fact_physical_at": "2026-09-23 17:47:09.052242+07:00",
+   "requested_effective_from": "2026-09-23 17:46:39.052242+07:00",
+   "result": "4d0451e4-12de-4910-9370-16c8be1d04b6",
+   "refusal": null,
+   "old_version_effective_to": "2026-09-23 10:46:39.052242+00:00",
+   "new_stock_bs_after_end": 1,
+   "untracked_bs_after_end": 0,
+   "fg_lots_after_end": 0,
+   "before": {
+    "fg_lots": null,
+    "bs_cases": [
+     {
+      "qty": 10,
+      "stage": "QC",
+      "status": "OPEN",
+      "qc_item_id": "0ab84500-8c22-4aa6-8f64-9c2b5f6c99b4",
+      "physical_at": "2026-09-23T17:47:09.052242+07:00",
+      "untracked_type": null,
+      "laundry_allocation_id": null
+     }
+    ],
+    "versions": [
+     {
+      "id": "bcb35e8b-746a-4a8f-8b0e-377e7db3837c",
+      "to": null,
+      "from": "2026-01-01T07:00:00+07:00",
+      "supersedes": null
+     }
+    ]
+   },
+   "after": {
+    "fg_lots": null,
+    "bs_cases": [
+     {
+      "qty": 10,
+      "stage": "QC",
+      "status": "OPEN",
+      "qc_item_id": "0ab84500-8c22-4aa6-8f64-9c2b5f6c99b4",
+      "physical_at": "2026-09-23T10:47:09.052242+00:00",
+      "untracked_type": null,
+      "laundry_allocation_id": null
+     }
+    ],
+    "versions": [
+     {
+      "id": "bcb35e8b-746a-4a8f-8b0e-377e7db3837c",
+      "to": "2026-09-23T10:46:39.052242+00:00",
+      "from": "2026-01-01T00:00:00+00:00",
+      "supersedes": null
+     },
+     {
+      "id": "4d0451e4-12de-4910-9370-16c8be1d04b6",
+      "to": null,
+      "from": "2026-09-23T10:46:39.052242+00:00",
+      "supersedes": "bcb35e8b-746a-4a8f-8b0e-377e7db3837c"
+     }
+    ]
+   },
+   "ordinary_authenticated_rpc": true,
+   "expected": "Refuse: successor would end the version before a recorded NEW_STOCK BS fact",
+   "status": "COUNTEREXAMPLE",
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AV_CASES_BEFORE",
+   "case": "CUTOFF:QC_GOOD",
+   "variant": "QC_GOOD",
+   "fact_physical_at": "2026-09-23 17:47:09.644442+07:00",
+   "requested_effective_from": "2026-09-23 17:46:39.644442+07:00",
+   "result": null,
+   "refusal": {
+    "sqlstate": "P0001",
+    "message": "Tanggal efektif SKU akan memotong histori produksi yang sudah tercatat"
+   },
+   "old_version_effective_to": null,
+   "new_stock_bs_after_end": 0,
+   "untracked_bs_after_end": 0,
+   "fg_lots_after_end": 0,
+   "before": {
+    "fg_lots": [
+     {
+      "qty": 10,
+      "origin": "PRODUCTION",
+      "produced_at": "2026-09-23T17:47:09.644442+07:00"
+     }
+    ],
+    "bs_cases": null,
+    "versions": [
+     {
+      "id": "11705aab-5d5a-4bf3-a61b-56243ef20f4d",
+      "to": null,
+      "from": "2026-01-01T07:00:00+07:00",
+      "supersedes": null
+     }
+    ]
+   },
+   "after": {
+    "fg_lots": [
+     {
+      "qty": 10,
+      "origin": "PRODUCTION",
+      "produced_at": "2026-09-23T10:47:09.644442+00:00"
+     }
+    ],
+    "bs_cases": null,
+    "versions": [
+     {
+      "id": "11705aab-5d5a-4bf3-a61b-56243ef20f4d",
+      "to": null,
+      "from": "2026-01-01T00:00:00+00:00",
+      "supersedes": null
+     }
+    ]
+   },
+   "ordinary_authenticated_rpc": true,
+   "expected": "Refuse through the existing fg_lots cutoff",
+   "status": "CONTROL_PASS",
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AV_CASES_BEFORE",
+   "case": "CUTOFF:BS_BEFORE_EFFECTIVE",
+   "variant": "BS_BEFORE_EFFECTIVE",
+   "fact_physical_at": "2026-09-23 17:47:10.398415+07:00",
+   "requested_effective_from": "2026-09-23 17:47:40.398415+07:00",
+   "result": "4f464591-2747-4e3f-9d57-995d239f72ef",
+   "refusal": null,
+   "old_version_effective_to": "2026-09-23 10:47:40.398415+00:00",
+   "new_stock_bs_after_end": 0,
+   "untracked_bs_after_end": 0,
+   "fg_lots_after_end": 0,
+   "before": {
+    "fg_lots": null,
+    "bs_cases": [
+     {
+      "qty": 10,
+      "stage": "LAUNDRY",
+      "status": "OPEN",
+      "qc_item_id": null,
+      "physical_at": "2026-09-23T17:47:10.398415+07:00",
+      "untracked_type": null,
+      "laundry_allocation_id": "ebc02487-0c28-4977-be0c-6a03ed14266b"
+     }
+    ],
+    "versions": [
+     {
+      "id": "a4553eb1-2436-4b98-b9d2-e6dca06f4633",
+      "to": null,
+      "from": "2026-01-01T07:00:00+07:00",
+      "supersedes": null
+     }
+    ]
+   },
+   "after": {
+    "fg_lots": null,
+    "bs_cases": [
+     {
+      "qty": 10,
+      "stage": "LAUNDRY",
+      "status": "OPEN",
+      "qc_item_id": null,
+      "physical_at": "2026-09-23T10:47:10.398415+00:00",
+      "untracked_type": null,
+      "laundry_allocation_id": "ebc02487-0c28-4977-be0c-6a03ed14266b"
+     }
+    ],
+    "versions": [
+     {
+      "id": "a4553eb1-2436-4b98-b9d2-e6dca06f4633",
+      "to": "2026-09-23T10:47:40.398415+00:00",
+      "from": "2026-01-01T00:00:00+00:00",
+      "supersedes": null
+     },
+     {
+      "id": "4f464591-2747-4e3f-9d57-995d239f72ef",
+      "to": null,
+      "from": "2026-09-23T10:47:40.398415+00:00",
+      "supersedes": "a4553eb1-2436-4b98-b9d2-e6dca06f4633"
+     }
+    ]
+   },
+   "ordinary_authenticated_rpc": true,
+   "expected": "Accept: the fact precedes the requested boundary",
+   "status": "CONTROL_PASS",
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AV_CASES_BEFORE",
+   "case": "REVERSED:LAUNDRY_BS",
+   "variant": "LAUNDRY_BS",
+   "successor": "bf71b5a1-4f66-43ab-93c9-49d652c7358b",
+   "effective_from": "2026-09-23 17:46:40.923749+07:00",
+   "fact_physical_at": "2026-09-23 17:47:10.923749+07:00",
+   "result": null,
+   "refusal": {
+    "sqlstate": "P0001",
+    "message": "Laundry BS product must be active at physical receipt time and match the source PO model/size"
+   },
+   "expected": "The ended version refuses a new NEW_STOCK fact atomically (identity assert or an earlier product-period guard)",
+   "status": "CONTROL_PASS",
+   "ordinary_authenticated_rpc": true,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AV_CASES_BEFORE",
+   "case": "REVERSED:QC_ALL_BS",
+   "variant": "QC_ALL_BS",
+   "successor": "deb1457d-8ca9-47b8-beaa-c51d8bc62fe9",
+   "effective_from": "2026-09-23 17:46:41.617546+07:00",
+   "fact_physical_at": "2026-09-23 17:47:11.617546+07:00",
+   "result": null,
+   "refusal": {
+    "sqlstate": "P0001",
+    "message": "Final SKU must be active at physical QC time and match the Laundry receipt model/size"
+   },
+   "expected": "The ended version refuses a new NEW_STOCK fact atomically (identity assert or an earlier product-period guard)",
+   "status": "CONTROL_PASS",
+   "ordinary_authenticated_rpc": true,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AV_CASES_BEFORE",
+   "case": "MANUAL_CUTOFF:OUT_OF_NOWHERE",
+   "kind": "OUT_OF_NOWHERE",
+   "fact_physical_at": "2026-09-23 17:47:12.384249+07:00",
+   "requested_effective_from": "2026-09-23 17:46:42.384249+07:00",
+   "result": "299eea7d-15cd-49c1-bcf2-3e8f304d5635",
+   "refusal": null,
+   "old_version_effective_to": "2026-09-23 10:46:42.384249+00:00",
+   "found_bs_after_end": 1,
+   "after": {
+    "fg_lots": [
+     {
+      "qty": 10,
+      "origin": "PRODUCTION",
+      "produced_at": "2026-09-23T10:28:12.339801+00:00"
+     }
+    ],
+    "bs_cases": [
+     {
+      "qty": 1,
+      "stage": "UNKNOWN",
+      "status": "OPEN",
+      "qc_item_id": null,
+      "physical_at": "2026-09-23T10:47:12.384249+00:00",
+      "untracked_type": "OUT_OF_NOWHERE",
+      "laundry_allocation_id": null
+     }
+    ],
+    "versions": [
+     {
+      "id": "f653fa6b-0e20-41ee-a9e9-f4df9e5716e9",
+      "to": "2026-09-23T10:46:42.384249+00:00",
+      "from": "2026-01-01T00:00:00+00:00",
+      "supersedes": null
+     },
+     {
+      "id": "299eea7d-15cd-49c1-bcf2-3e8f304d5635",
+      "to": null,
+      "from": "2026-09-23T10:46:42.384249+00:00",
+      "supersedes": "f653fa6b-0e20-41ee-a9e9-f4df9e5716e9"
+     }
+    ]
+   },
+   "ordinary_authenticated_rpc": true,
+   "expected": "Owner 1C: a found BS is a NEW_STOCK fact; the successor must not end the version before it",
+   "status": "COUNTEREXAMPLE",
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AV_CASES_BEFORE",
+   "case": "MANUAL_CUTOFF:LEGACY",
+   "kind": "LEGACY",
+   "fact_physical_at": "2026-09-23 17:47:12.961974+07:00",
+   "requested_effective_from": "2026-09-23 17:46:42.961974+07:00",
+   "result": "d180e3c8-7406-462d-9ad6-1314421b6960",
+   "refusal": null,
+   "old_version_effective_to": "2026-09-23 10:46:42.961974+00:00",
+   "found_bs_after_end": 0,
+   "after": {
+    "fg_lots": [
+     {
+      "qty": 10,
+      "origin": "PRODUCTION",
+      "produced_at": "2026-09-23T10:28:12.920101+00:00"
+     }
+    ],
+    "bs_cases": [
+     {
+      "qty": 1,
+      "stage": "UNKNOWN",
+      "status": "OPEN",
+      "qc_item_id": null,
+      "physical_at": "2026-09-23T10:47:12.961974+00:00",
+      "untracked_type": "LEGACY",
+      "laundry_allocation_id": null
+     }
+    ],
+    "versions": [
+     {
+      "id": "511c5931-ec64-4295-a565-2c1d0c3ecd2f",
+      "to": "2026-09-23T10:46:42.961974+00:00",
+      "from": "2026-01-01T00:00:00+00:00",
+      "supersedes": null
+     },
+     {
+      "id": "d180e3c8-7406-462d-9ad6-1314421b6960",
+      "to": null,
+      "from": "2026-09-23T10:46:42.961974+00:00",
+      "supersedes": "511c5931-ec64-4295-a565-2c1d0c3ecd2f"
+     }
+    ]
+   },
+   "ordinary_authenticated_rpc": true,
+   "expected": "Owner 1C: LEGACY stays existing stock and does not bound the successor",
+   "status": "CONTROL_PASS",
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AV_CASES_BEFORE",
+   "case": "MANUAL_REVERSED:OUT_OF_NOWHERE",
+   "kind": "OUT_OF_NOWHERE",
+   "successor": "4de6a9a1-e5bc-4055-8b22-48a7a0b60f8a",
+   "effective_from": "2026-09-23 17:46:43.551307+07:00",
+   "fact_physical_at": "2026-09-23 17:47:13.551307+07:00",
+   "result": {
+    "action": "CREATE_MANUAL_BS",
+    "result": {
+     "status": "OPEN",
+     "bs_number": "BS-MAN-20260923-9c2e15be",
+     "bs_case_id": "9c2e15be-7458-4636-9d59-0ea342318735",
+     "row_version": 1,
+     "untracked_type": "OUT_OF_NOWHERE"
+    }
+   },
+   "refusal": null,
+   "ordinary_authenticated_rpc": true,
+   "expected": "Owner 1C: a found BS after the version end is refused (NEW_STOCK on the version active at physical time)",
+   "status": "COUNTEREXAMPLE",
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AV_CASES_BEFORE",
+   "case": "MANUAL_REVERSED:LEGACY",
+   "kind": "LEGACY",
+   "successor": "75929d2a-0069-4387-925f-6e159dcfd1ae",
+   "effective_from": "2026-09-23 17:46:44.113154+07:00",
+   "fact_physical_at": "2026-09-23 17:47:14.113154+07:00",
+   "result": {
+    "action": "CREATE_MANUAL_BS",
+    "result": {
+     "status": "OPEN",
+     "bs_number": "BS-MAN-20260923-c25a67f8",
+     "bs_case_id": "c25a67f8-f146-4fdf-a366-08d6ceb3b1c8",
+     "row_version": 1,
+     "untracked_type": "LEGACY"
+    }
+   },
+   "refusal": null,
+   "ordinary_authenticated_rpc": true,
+   "expected": "Owner 1C: LEGACY is existing stock; recording it on the ended version stays accepted",
+   "status": "CONTROL_PASS",
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AV_CASES_BEFORE",
+   "case": "MANUAL:CLASSIFIED_OUT_OF_NOWHERE",
+   "fact_physical_at": "2026-09-23 17:47:14.688262+07:00",
+   "untracked_type_after_classification": null,
+   "requested_effective_from": "2026-09-23 17:46:44.688262+07:00",
+   "result": "b5fb47bb-c313-47ec-9b25-a932039d7cca",
+   "refusal": null,
+   "expected": "Owner 1C: classification clears untracked_type, but the found-BS origin still bounds the successor",
+   "status": "COUNTEREXAMPLE",
+   "ordinary_authenticated_rpc": true,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AV_CASES_BEFORE",
+   "case": "MANUAL:INACTIVE_SKU",
+   "result": {
+    "action": "CREATE_MANUAL_BS",
+    "result": {
+     "status": "OPEN",
+     "bs_number": "BS-MAN-20260923-9d8810ff",
+     "bs_case_id": "9d8810ff-53ac-476b-8ff6-9be94fa31e11",
+     "row_version": 1,
+     "untracked_type": "OUT_OF_NOWHERE"
+    }
+   },
+   "refusal": null,
+   "administrative_fixture": "erp.products.is_active=false",
+   "expected": "Owner 1C consequence: NEW_STOCK refuses a found BS on an inactive SKU (LEGACY remains available)",
+   "status": "COUNTEREXAMPLE",
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AV_CASES_BEFORE",
+   "case": "MANUAL:ORIGIN_IMMUTABLE",
+   "status": "NOT_APPLICABLE",
+   "reason": "Origin table exists only on AV rev2",
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AV_CASES_BEFORE",
+   "case": "REWORK:GOOD_DOES_NOT_BOUND",
+   "rework_completed_at": "2026-09-23 17:47:16.149248+07:00",
+   "rework_lot": "ea4f44ad-15e1-48aa-aab6-53b958a9bbad",
+   "requested_effective_from": "2026-09-23 17:46:16.149248+07:00",
+   "result": null,
+   "refusal": {
+    "sqlstate": "P0001",
+    "message": "Tanggal efektif SKU akan memotong histori produksi yang sudah tercatat"
+   },
+   "after": {
+    "fg_lots": [
+     {
+      "qty": 6,
+      "origin": "PRODUCTION",
+      "produced_at": "2026-09-21T06:00:00+00:00"
+     },
+     {
+      "qty": 2,
+      "origin": "PRODUCTION",
+      "produced_at": "2026-09-23T10:47:16.149248+00:00"
+     }
+    ],
+    "bs_cases": [
+     {
+      "qty": 4,
+      "stage": "QC",
+      "status": "PARTIAL",
+      "qc_item_id": "58c3d121-fcdc-4ace-8739-34b710cf2cab",
+      "physical_at": "2026-09-21T06:00:00+00:00",
+      "untracked_type": null,
+      "laundry_allocation_id": null
+     }
+    ],
+    "versions": [
+     {
+      "id": "3a73454c-790e-4a30-b7a9-a0d65b95d3ca",
+      "to": null,
+      "from": "2026-01-01T00:00:00+00:00",
+      "supersedes": null
+     }
+    ]
+   },
+   "expected": "Owner 2A: GOOD from rework is existing stock of the BS version and does not bound a successor",
+   "status": "COUNTEREXAMPLE",
+   "ordinary_authenticated_rpc": true,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AV_CASES_BEFORE",
+   "case": "REWORK:AFTER_SUCCESSOR",
+   "successor": "519ebe11-079d-4a06-b6e5-a7c68cde99cf",
+   "effective_from": "2026-09-23 17:46:16.945866+07:00",
+   "result": {
+    "action": "COMPLETE_REWORK",
+    "result": {
+     "status": "COMPLETED",
+     "bs_case_id": "89169b83-1d43-431b-936d-058028562dcc",
+     "cost_posted": true,
+     "row_version": 5,
+     "bs_case_status": "PARTIAL",
+     "good_fg_lot_id": "43b6b369-6148-4e7f-8201-51f08aa8c7e4",
+     "rework_order_id": "c7f20cea-ca2e-4fe7-88cb-9584cd7aed8d",
+     "accessory_decision": {
+      "state": "NONE",
+      "basis_at": "2026-09-21T07:00:00+00:00",
+      "bom_version_id": "c6df9757-9a37-4194-a66b-f5b1bbd71a08",
+      "selected_items": [],
+      "selection_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "selected_item_count": 0,
+      "reimbursement_contractor_id": "a1000000-0000-0000-0000-000000000001"
+     },
+     "bs_case_row_version": 7
+    }
+   },
+   "refusal": null,
+   "expected": "Owner 2A: rework GOOD returns to the BS version as existing stock even after that version ended",
+   "status": "CONTROL_PASS",
+   "ordinary_authenticated_rpc": true,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AV_CASES_BEFORE",
+   "case": "GUARD:BASELINE",
+   "status": "NOT_APPLICABLE",
+   "reason": "Coverage registry exists only on AV rev2",
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AV_CASES_BEFORE",
+   "case": "GUARD:LOWERCASE_NEW_STOCK",
+   "status": "NOT_APPLICABLE",
+   "reason": "Coverage registry exists only on AV rev2",
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AV_CASES_BEFORE",
+   "case": "GUARD:UPPERCASE_CALL",
+   "status": "NOT_APPLICABLE",
+   "reason": "Coverage registry exists only on AV rev2",
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AV_CASES_BEFORE",
+   "case": "GUARD:UNQUALIFIED_UNDER_SEARCH_PATH",
+   "status": "NOT_APPLICABLE",
+   "reason": "Coverage registry exists only on AV rev2",
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AV_CASES_BEFORE",
+   "case": "GUARD:QUOTED_IDENTIFIERS",
+   "status": "NOT_APPLICABLE",
+   "reason": "Coverage registry exists only on AV rev2",
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AV_CASES_BEFORE",
+   "case": "GUARD:COMMENT_INSIDE_NAME",
+   "status": "NOT_APPLICABLE",
+   "reason": "Coverage registry exists only on AV rev2",
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AV_CASES_BEFORE",
+   "case": "GUARD:MERGE",
+   "status": "NOT_APPLICABLE",
+   "reason": "Coverage registry exists only on AV rev2",
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AV_CASES_BEFORE",
+   "case": "GUARD:DYNAMIC_EXECUTE",
+   "status": "NOT_APPLICABLE",
+   "reason": "Coverage registry exists only on AV rev2",
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AV_CASES_BEFORE",
+   "case": "GUARD:WRAPPER_ASSERT",
+   "status": "NOT_APPLICABLE",
+   "reason": "Coverage registry exists only on AV rev2",
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AV_CASES_BEFORE",
+   "case": "GUARD:TABLE_ONLY",
+   "status": "NOT_APPLICABLE",
+   "reason": "Coverage registry exists only on AV rev2",
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AV_CASES_BEFORE",
+   "case": "GUARD:NO_FK_PRODUCT_ID",
+   "status": "NOT_APPLICABLE",
+   "reason": "Coverage registry exists only on AV rev2",
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AV_CASES_BEFORE",
+   "case": "GUARD:NO_FK_PREFIXED_PUBLIC",
+   "status": "NOT_APPLICABLE",
+   "reason": "Coverage registry exists only on AV rev2",
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AV_CASES_BEFORE",
+   "case": "GUARD:RENAMED_REGISTERED_COLUMN",
+   "status": "NOT_APPLICABLE",
+   "reason": "Coverage registry exists only on AV rev2",
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AV_CASES_BEFORE",
+   "case": "GUARD:HELPER_DRIFT",
+   "status": "NOT_APPLICABLE",
+   "reason": "Coverage registry exists only on AV rev2",
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AV_CASES_BEFORE",
+   "case": "GUARD:CONSUMER_DRIFT",
+   "status": "NOT_APPLICABLE",
+   "reason": "Coverage registry exists only on AV rev2",
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AV_CASES_BEFORE",
+   "case": "GUARD:CONTROL_UNRELATED_TABLE",
+   "status": "NOT_APPLICABLE",
+   "reason": "Coverage registry exists only on AV rev2",
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AV_CASES_BEFORE",
+   "case": "GUARD:LIMIT_NON_FACT_TABLE_WRITE",
+   "status": "NOT_APPLICABLE",
+   "reason": "Coverage registry exists only on AV rev2",
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AU_MASTER_BEFORE",
+   "case": "MASTER:DISPLAY_NAME",
+   "status": "PASS",
+   "variant": "DISPLAY_NAME",
+   "ordinary_authenticated_rpc": true,
+   "expected": "Owner-admin ordinary product lifecycle succeeds with valid unused/current input",
+   "result": "b127e3e7-defe-4009-9c45-20716211d2f7",
+   "refusal": null,
+   "observations": [
+    [
+     "b127e3e7-defe-4009-9c45-20716211d2f7",
+     "Rb32c9063bfUNUSED",
+     "Blue",
+     "2026-09-20 17:00:00+00:00",
+     null,
+     null
+    ]
+   ],
+   "refusal_unchanged": null,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AU_MASTER_BEFORE",
+   "case": "MASTER:UNUSED_IDENTITY",
+   "status": "PASS",
+   "variant": "UNUSED_IDENTITY",
+   "ordinary_authenticated_rpc": true,
+   "expected": "Owner-admin ordinary product lifecycle succeeds with valid unused/current input",
+   "result": "5843b7da-4d89-4bfb-9b52-c250745e9be4",
+   "refusal": null,
+   "observations": [
+    [
+     "5843b7da-4d89-4bfb-9b52-c250745e9be4",
+     "Ra635661342UNUSED",
+     "Green",
+     "2026-09-20 17:00:00+00:00",
+     null,
+     null
+    ]
+   ],
+   "refusal_unchanged": null,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AU_MASTER_BEFORE",
+   "case": "MASTER:USED_SUCCESSOR",
+   "status": "PASS",
+   "variant": "USED_SUCCESSOR",
+   "ordinary_authenticated_rpc": true,
+   "expected": "Owner-admin ordinary product lifecycle succeeds with valid unused/current input",
+   "result": "dd34e509-30dd-4284-947f-4e1c3ca52255",
+   "refusal": null,
+   "observations": [
+    [
+     "bb39638f-ea1d-46ee-bbc6-ded3c96dce6f",
+     "R37d72af1df",
+     "Blue",
+     "2026-09-14 17:00:00+00:00",
+     "2026-09-23 10:49:26.736195+00:00",
+     null
+    ],
+    [
+     "dd34e509-30dd-4284-947f-4e1c3ca52255",
+     "R37d72af1df",
+     "Green",
+     "2026-09-23 10:49:26.736195+00:00",
+     null,
+     "bb39638f-ea1d-46ee-bbc6-ded3c96dce6f"
+    ]
+   ],
+   "refusal_unchanged": null,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AU_MASTER_BEFORE",
+   "case": "MASTER:CANCEL_FUTURE",
+   "status": "PASS",
+   "variant": "CANCEL_FUTURE",
+   "ordinary_authenticated_rpc": true,
+   "expected": "Owner-admin ordinary product lifecycle succeeds with valid unused/current input",
+   "result": "3f8e6a92-5827-4f87-b526-fd1ffa40ecb0",
+   "refusal": null,
+   "observations": [
+    [
+     "3f8e6a92-5827-4f87-b526-fd1ffa40ecb0",
+     null
+    ]
+   ],
+   "refusal_unchanged": null,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AU_MASTER_BEFORE",
+   "case": "AU:NAME_ONLY",
+   "status": "PASS",
+   "identity_unchanged": true,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AU_MASTER_BEFORE",
+   "case": "AU:PRICE_REFERENCE",
+   "status": "PASS",
+   "old_identity_preserved": true,
+   "exact_retry_no_mutation": true,
+   "unused_authority_rows": 0,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AU_MASTER_BEFORE",
+   "case": "AU:CANCEL_USED",
+   "status": "PASS",
+   "refusal": {
+    "sqlstate": "P0001",
+    "message": "Perubahan SKU ini sudah dipakai transaksi/stok/HPP dan tidak boleh dibatalkan. Buat perubahan efektif baru sebagai koreksi."
+   },
+   "all_boundary_unchanged": true,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AU_MASTER_BEFORE",
+   "case": "AU:PHYSICAL_HISTORY",
+   "status": "PASS",
+   "refusal": {
+    "sqlstate": "P0001",
+    "message": "Tanggal efektif SKU akan memotong histori produksi yang sudah tercatat"
+   },
+   "all_boundary_unchanged": true,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AU_MASTER_BEFORE",
+   "case": "AU:REPLAY",
+   "status": "PASS",
+   "old_identity_preserved": true,
+   "exact_retry_no_mutation": true,
+   "unused_authority_rows": 0,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AU_MASTER_BEFORE",
+   "case": "AU:FORGED_CONTEXT",
+   "status": "PASS",
+   "refusal": {
+    "sqlstate": "42501",
+    "message": "permission denied for table product_identity_mutation_context_v1"
+   },
+   "all_boundary_unchanged": true,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AU_MASTER_BEFORE",
+   "case": "AU:FORGED_INSERT",
+   "status": "PASS",
+   "refusal": {
+    "sqlstate": "P0001",
+    "message": "Metadata versi SKU tidak boleh diisi langsung. Gunakan Edit SKU efektif-tanggal."
+   },
+   "all_boundary_unchanged": true,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AU_MASTER_BEFORE",
+   "case": "AU:FORGED_UPDATE",
+   "status": "PASS",
+   "refusal": {
+    "sqlstate": "P0001",
+    "message": "Periode/chain versi SKU dikelola sistem. Gunakan Edit SKU atau Batalkan Perubahan SKU."
+   },
+   "all_boundary_unchanged": true,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AU_MASTER_BEFORE",
+   "case": "AU:FORGED_UNUSED",
+   "status": "PASS",
+   "refusal": {
+    "sqlstate": "P0001",
+    "message": "Identitas dan periode SKU immutable setelah row dibuat; ubah nama/status tampilan saja atau buat successor terkontrol, jangan menulis ulang sejarah stok/HPP"
+   },
+   "all_boundary_unchanged": true,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AU_MASTER_BEFORE",
+   "case": "AU:FORGED_CHILD_ID",
+   "status": "PASS",
+   "refusal": {
+    "sqlstate": "P0001",
+    "message": "Identitas dan periode SKU immutable setelah row dibuat; ubah nama/status tampilan saja atau buat successor terkontrol, jangan menulis ulang sejarah stok/HPP"
+   },
+   "all_boundary_unchanged": true,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AU_MASTER_BEFORE",
+   "case": "AU:INVALID_CHILD",
+   "status": "PASS",
+   "refusal": {
+    "sqlstate": "P0001",
+    "message": "Versi SKU tidak ditemukan"
+   },
+   "all_boundary_unchanged": true,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AT_TEMPORAL_BEFORE",
+   "case": "WIP_VERSION:UTC:AUTO_CURRENT",
+   "status": "PASS",
+   "variant": "AUTO_CURRENT",
+   "zone": "UTC",
+   "candidate_periods": [
+    "2026-09-19 12:00:00+07:00"
+   ],
+   "expected_product": "6f62afa6-f465-419d-91eb-08e09cd627b2",
+   "result": {
+    "action": "WIP_OUTPUT",
+    "lot_id": "36a79f37-b90d-4635-bf37-3582be4241be",
+    "status": "POSTED",
+    "batch_id": "e504597a-0336-4876-b540-bd307e7e8afc",
+    "operation": "COMPLETE",
+    "output_id": "c8dd603f-c5c3-424b-845a-0ee865bed7e0",
+    "request_id": "5442dff3-df17-42c2-ab63-e1b0c2f860ae"
+   },
+   "refusal": null,
+   "observation": [
+    "6f62afa6-f465-419d-91eb-08e09cd627b2",
+    "2026-09-19 17:00:00+00:00",
+    "2026-09-19 05:00:00+00:00",
+    null,
+    4
+   ],
+   "mismatches": {},
+   "ordinary_authenticated_rpc": true,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AT_TEMPORAL_BEFORE",
+   "case": "WIP_VERSION:UTC:EXPLICIT_CURRENT",
+   "status": "PASS",
+   "variant": "EXPLICIT_CURRENT",
+   "zone": "UTC",
+   "candidate_periods": [
+    "2026-09-19 12:00:00+07:00"
+   ],
+   "expected_product": "16c081fb-e701-4151-8c17-cddda19eee71",
+   "result": {
+    "action": "WIP_OUTPUT",
+    "lot_id": "36585b15-1b22-4ef1-9aa0-f933a5158ff5",
+    "status": "POSTED",
+    "batch_id": "eb30c785-6385-41e4-834a-65eb0442a4b8",
+    "operation": "COMPLETE",
+    "output_id": "d946e71b-7278-4900-9746-8d9bab0ad30e",
+    "request_id": "6b71ec65-21a6-4313-b302-042c63b16687"
+   },
+   "refusal": null,
+   "observation": [
+    "16c081fb-e701-4151-8c17-cddda19eee71",
+    "2026-09-19 17:00:00+00:00",
+    "2026-09-19 05:00:00+00:00",
+    null,
+    4
+   ],
+   "mismatches": {},
+   "ordinary_authenticated_rpc": true,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AT_TEMPORAL_BEFORE",
+   "case": "WIP_VERSION:UTC:EXPIRED_ID",
+   "status": "PASS",
+   "variant": "EXPIRED_ID",
+   "zone": "UTC",
+   "candidate_periods": [
+    "2026-09-19 12:00:00+07:00"
+   ],
+   "expected_product": "90baaf99-15ce-4325-8666-fcd869cd8fe9",
+   "result": null,
+   "refusal": {
+    "sqlstate": "P0001",
+    "message": "product_sku: pilih produk aktif dengan merek, model PO, ukuran saldo, dan tanggal hasil yang sesuai"
+   },
+   "observation": null,
+   "mismatches": {},
+   "ordinary_authenticated_rpc": true,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AT_TEMPORAL_BEFORE",
+   "case": "WIP_VERSION:UTC:OLD_INACTIVE",
+   "status": "PASS",
+   "variant": "OLD_INACTIVE",
+   "zone": "UTC",
+   "candidate_periods": [
+    "2026-09-19 12:00:00+07:00"
+   ],
+   "expected_product": "bc777e0d-725a-49a1-98c3-77f423828386",
+   "result": {
+    "action": "WIP_OUTPUT",
+    "lot_id": "6ae50672-0c68-418c-8e22-fa8ccaafb970",
+    "status": "POSTED",
+    "batch_id": "0c7d0778-5396-47b7-bd34-50d73a15c866",
+    "operation": "COMPLETE",
+    "output_id": "51536dc1-57a0-448f-81ba-1da7a72974b5",
+    "request_id": "92cbcc0a-8f74-49c6-98db-244b3ca0ba18"
+   },
+   "refusal": null,
+   "observation": [
+    "bc777e0d-725a-49a1-98c3-77f423828386",
+    "2026-09-19 17:00:00+00:00",
+    "2026-09-19 05:00:00+00:00",
+    null,
+    4
+   ],
+   "mismatches": {},
+   "ordinary_authenticated_rpc": true,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AT_TEMPORAL_BEFORE",
+   "case": "WIP_VERSION:Pacific/Kiritimati:AUTO_CURRENT",
+   "status": "PASS",
+   "variant": "AUTO_CURRENT",
+   "zone": "Pacific/Kiritimati",
+   "candidate_periods": [
+    "2026-09-19 12:00:00+07:00"
+   ],
+   "expected_product": "1b121376-f8c0-447d-b1bd-5b797ea782ed",
+   "result": {
+    "action": "WIP_OUTPUT",
+    "lot_id": "3181d638-83e1-4bf9-934d-f04c47f18a23",
+    "status": "POSTED",
+    "batch_id": "19c57139-c7bc-4139-bc34-950f517d4586",
+    "operation": "COMPLETE",
+    "output_id": "ddba32fe-81a0-4529-a682-b555edfc7d06",
+    "request_id": "4f3ff928-9da3-4e1c-843c-bdd9b59d297a"
+   },
+   "refusal": null,
+   "observation": [
+    "1b121376-f8c0-447d-b1bd-5b797ea782ed",
+    "2026-09-19 17:00:00+00:00",
+    "2026-09-19 05:00:00+00:00",
+    null,
+    4
+   ],
+   "mismatches": {},
+   "ordinary_authenticated_rpc": true,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AT_TEMPORAL_BEFORE",
+   "case": "WIP_VERSION:Pacific/Kiritimati:EXPLICIT_CURRENT",
+   "status": "PASS",
+   "variant": "EXPLICIT_CURRENT",
+   "zone": "Pacific/Kiritimati",
+   "candidate_periods": [
+    "2026-09-19 12:00:00+07:00"
+   ],
+   "expected_product": "54eaaf64-4d9b-4449-912e-d508585fabd4",
+   "result": {
+    "action": "WIP_OUTPUT",
+    "lot_id": "cd0ca89f-f867-4e8b-acf3-2dde8517a052",
+    "status": "POSTED",
+    "batch_id": "cc0fbd02-9038-4995-904f-ce4209c6f889",
+    "operation": "COMPLETE",
+    "output_id": "9b13f019-1f2e-4c5f-9cd6-4b9b65b74aa9",
+    "request_id": "304a0f11-d714-4582-85dd-fd3cc1f159cf"
+   },
+   "refusal": null,
+   "observation": [
+    "54eaaf64-4d9b-4449-912e-d508585fabd4",
+    "2026-09-19 17:00:00+00:00",
+    "2026-09-19 05:00:00+00:00",
+    null,
+    4
+   ],
+   "mismatches": {},
+   "ordinary_authenticated_rpc": true,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AT_TEMPORAL_BEFORE",
+   "case": "WIP_VERSION:Pacific/Kiritimati:EXPIRED_ID",
+   "status": "PASS",
+   "variant": "EXPIRED_ID",
+   "zone": "Pacific/Kiritimati",
+   "candidate_periods": [
+    "2026-09-19 12:00:00+07:00"
+   ],
+   "expected_product": "922addaf-5844-4f58-bec1-a1225c451481",
+   "result": null,
+   "refusal": {
+    "sqlstate": "P0001",
+    "message": "product_sku: pilih produk aktif dengan merek, model PO, ukuran saldo, dan tanggal hasil yang sesuai"
+   },
+   "observation": null,
+   "mismatches": {},
+   "ordinary_authenticated_rpc": true,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AT_TEMPORAL_BEFORE",
+   "case": "WIP_VERSION:Pacific/Kiritimati:OLD_INACTIVE",
+   "status": "PASS",
+   "variant": "OLD_INACTIVE",
+   "zone": "Pacific/Kiritimati",
+   "candidate_periods": [
+    "2026-09-19 12:00:00+07:00"
+   ],
+   "expected_product": "29334695-e443-4810-982c-ecbaa1fde264",
+   "result": {
+    "action": "WIP_OUTPUT",
+    "lot_id": "d2b0cd20-bc90-47ee-9ca6-52dd89f68d6d",
+    "status": "POSTED",
+    "batch_id": "3cf52ac0-0db8-49d6-a459-f2bf52736198",
+    "operation": "COMPLETE",
+    "output_id": "f37838cb-4777-43d1-bfb1-bf45f810ad64",
+    "request_id": "71094cf2-151f-40b9-8f0a-5576576c438f"
+   },
+   "refusal": null,
+   "observation": [
+    "29334695-e443-4810-982c-ecbaa1fde264",
+    "2026-09-19 17:00:00+00:00",
+    "2026-09-19 05:00:00+00:00",
+    null,
+    4
+   ],
+   "mismatches": {},
+   "ordinary_authenticated_rpc": true,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AT_TEMPORAL_BEFORE",
+   "case": "HISTORICAL_BS:True:False",
+   "status": "PASS",
+   "historical_ambiguity_refused": true,
+   "display_active": true,
+   "no_economic_posting": true,
+   "corrected_audit_assumption": "Expiry does not disambiguate existing physical opening stock",
+   "errors": [
+    {
+     "entity": "OPENING_BALANCE_ITEM",
+     "errors": [
+      "Opening product_sku must resolve exactly one identity at cutover (found 2)",
+      "product_sku: identitas produk harus tepat satu; periksa merek, model, warna, dan ukuran"
+     ]
+    },
+    {
+     "entity": "OPENING_BALANCE_ITEM",
+     "errors": [
+      "Opening product_sku must resolve exactly one identity at cutover (found 2)"
+     ]
+    },
+    {
+     "entity": "OPENING_CONTROL",
+     "errors": [
+      "control_key: total tidak memiliki rincian yang valid"
+     ]
+    },
+    {
+     "entity": "OPENING_CONTROL",
+     "errors": [
+      "control_key: total tidak memiliki rincian yang valid"
+     ]
+    },
+    {
+     "entity": "OPENING_CONTROL",
+     "errors": [
+      "control_key: total tidak memiliki rincian yang valid"
+     ]
+    },
+    {
+     "entity": "OPENING_COST_ORIGIN",
+     "errors": [
+      "target_source_key: perlu saldo fisik valid dengan nilai manual yang terurai"
+     ]
+    },
+    {
+     "entity": "OPENING_COST_ORIGIN",
+     "errors": [
+      "target_source_key: perlu saldo fisik valid dengan nilai manual yang terurai"
+     ]
+    },
+    {
+     "entity": "UNINVOICED_RECEIPT",
+     "errors": [
+      "opening_source_key: jumlah belum ditagih harus tepat sama dengan sisa bahan + seluruh asal biaya yang sudah terpakai"
+     ]
+    }
+   ],
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AT_TEMPORAL_BEFORE",
+   "case": "HISTORICAL_BS:True:True",
+   "status": "PASS",
+   "qualified_historical_bs_preserved": true,
+   "display_active": true,
+   "chosen_product": "18342665-95fd-4dfb-be4c-7a41ebae161b",
+   "current_product": "e22e7400-5301-43a0-8c47-e8f506d87e33",
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AT_TEMPORAL_BEFORE",
+   "case": "HISTORICAL_BS:False:False",
+   "status": "PASS",
+   "historical_ambiguity_refused": true,
+   "display_active": false,
+   "no_economic_posting": true,
+   "corrected_audit_assumption": "Expiry does not disambiguate existing physical opening stock",
+   "errors": [
+    {
+     "entity": "OPENING_BALANCE_ITEM",
+     "errors": [
+      "Opening product_sku must resolve exactly one identity at cutover (found 2)",
+      "product_sku: identitas produk harus tepat satu; periksa merek, model, warna, dan ukuran"
+     ]
+    },
+    {
+     "entity": "OPENING_BALANCE_ITEM",
+     "errors": [
+      "Opening product_sku must resolve exactly one identity at cutover (found 2)"
+     ]
+    },
+    {
+     "entity": "OPENING_CONTROL",
+     "errors": [
+      "control_key: total tidak memiliki rincian yang valid"
+     ]
+    },
+    {
+     "entity": "OPENING_CONTROL",
+     "errors": [
+      "control_key: total tidak memiliki rincian yang valid"
+     ]
+    },
+    {
+     "entity": "OPENING_CONTROL",
+     "errors": [
+      "control_key: total tidak memiliki rincian yang valid"
+     ]
+    },
+    {
+     "entity": "OPENING_COST_ORIGIN",
+     "errors": [
+      "target_source_key: perlu saldo fisik valid dengan nilai manual yang terurai"
+     ]
+    },
+    {
+     "entity": "OPENING_COST_ORIGIN",
+     "errors": [
+      "target_source_key: perlu saldo fisik valid dengan nilai manual yang terurai"
+     ]
+    },
+    {
+     "entity": "UNINVOICED_RECEIPT",
+     "errors": [
+      "opening_source_key: jumlah belum ditagih harus tepat sama dengan sisa bahan + seluruh asal biaya yang sudah terpakai"
+     ]
+    }
+   ],
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AT_TEMPORAL_BEFORE",
+   "case": "HISTORICAL_BS:False:True",
+   "status": "PASS",
+   "qualified_historical_bs_preserved": true,
+   "display_active": false,
+   "chosen_product": "13415d33-fbce-4f0f-80d4-9014f4c6e7b0",
+   "current_product": "0d41ce54-8bac-48fd-9c8c-4c59fd17a9a2",
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AT_TEMPORAL_BEFORE",
+   "case": "INTRADAY:MIDNIGHT",
+   "status": "PASS",
+   "variant": "MIDNIGHT",
+   "chosen": "e187fbea-0311-4578-860f-fce7e756799e",
+   "physical_at": "2026-09-19 17:00:00+00:00",
+   "valid_from": "2026-09-19 17:00:00+00:00",
+   "valid_to": null,
+   "linked_inverse": true,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AT_TEMPORAL_BEFORE",
+   "case": "INTRADAY:AMBIGUOUS_DAY",
+   "status": "PASS",
+   "two_intraday_versions_require_explicit_id": true,
+   "refused_atomically": true,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AT_TEMPORAL_BEFORE",
+   "case": "INTRADAY:EARLY_ID",
+   "status": "PASS",
+   "variant": "EARLY_ID",
+   "chosen": "b8d9ecdd-0a08-45bc-b8f0-9e7380e4db36",
+   "physical_at": "2026-09-19 17:00:00+00:00",
+   "valid_from": "2026-09-17 17:00:00+00:00",
+   "valid_to": "2026-09-20 05:00:00+00:00",
+   "linked_inverse": true,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AT_TEMPORAL_BEFORE",
+   "case": "INTRADAY:LATE_ID",
+   "status": "PASS",
+   "variant": "LATE_ID",
+   "chosen": "35a2100f-a164-4d45-bed6-549080c5d41b",
+   "physical_at": "2026-09-20 05:00:00+00:00",
+   "valid_from": "2026-09-20 05:00:00+00:00",
+   "valid_to": null,
+   "linked_inverse": true,
+   "full_boundary_restored": true
+  },
+  {
+   "group": "RACES_BEFORE",
+   "case": "RACE:BS_FIRST:ABORT",
+   "status": "PASS",
+   "first": "BS",
+   "first_committed": false,
+   "fact_physical_at": "2026-09-23 17:48:04.475103+07:00",
+   "requested_effective_from": "2026-09-23 17:47:34.475103+07:00",
+   "held": [
+    "27cccf12-2baa-4f7a-ad63-1bf98355e636",
+    "d1f3dae4-a1b8-43ec-9fba-1a9365d8944d"
+   ],
+   "contention": {
+    "kind": "FAIL_FAST",
+    "first_try": {
+     "ok": false,
+     "sqlstate": "P0001",
+     "message": "POCKET_PERIOD_BUSY: alokasi kain kantong sedang berubah. Coba kembali dengan data terbaru"
+    }
+   },
+   "contender_outcome": {
+    "ok": true,
+    "result": "57911fba-a57e-4257-a650-d8cb76c25fef"
+   },
+   "expected": {
+    "bs_recorded": false,
+    "successor_created": true,
+    "contender_outcome_ok": true
+   },
+   "observed": {
+    "bs_recorded": false,
+    "successor_created": true,
+    "contender_outcome_ok": true
+   },
+   "old_version_effective_to": "2026-09-23 10:47:34.475103+00:00",
+   "new_stock_bs_after_end": 0,
+   "unused_authority_rows": 0,
+   "actions": "ordinary authenticated laundry public RPC and owner successor RPC",
+   "committed_fixture_isolated_in_race_copy": true
+  },
+  {
+   "group": "RACES_BEFORE",
+   "case": "RACE:BS_FIRST:COMMIT",
+   "status": "COUNTEREXAMPLE",
+   "first": "BS",
+   "first_committed": true,
+   "fact_physical_at": "2026-09-23 17:48:04.740634+07:00",
+   "requested_effective_from": "2026-09-23 17:47:34.740634+07:00",
+   "held": [
+    "a5cf456e-504b-4fb5-abd9-45033806084e",
+    "bbf2bbff-fe88-47e4-8557-339fcaf09a67"
+   ],
+   "contention": {
+    "kind": "FAIL_FAST",
+    "first_try": {
+     "ok": false,
+     "sqlstate": "P0001",
+     "message": "POCKET_PERIOD_BUSY: alokasi kain kantong sedang berubah. Coba kembali dengan data terbaru"
+    }
+   },
+   "contender_outcome": {
+    "ok": true,
+    "result": "bc75a660-9578-45b2-9fed-be04fba121c2"
+   },
+   "expected": {
+    "bs_recorded": true,
+    "successor_created": false,
+    "contender_outcome_ok": false
+   },
+   "observed": {
+    "bs_recorded": true,
+    "successor_created": true,
+    "contender_outcome_ok": true
+   },
+   "old_version_effective_to": "2026-09-23 10:47:34.740634+00:00",
+   "new_stock_bs_after_end": 1,
+   "unused_authority_rows": 0,
+   "actions": "ordinary authenticated laundry public RPC and owner successor RPC",
+   "committed_fixture_isolated_in_race_copy": true
+  },
+  {
+   "group": "RACES_BEFORE",
+   "case": "RACE:MASTER_FIRST:ABORT",
+   "status": "PASS",
+   "first": "MASTER",
+   "first_committed": false,
+   "fact_physical_at": "2026-09-23 17:48:05.002708+07:00",
+   "requested_effective_from": "2026-09-23 17:47:35.002708+07:00",
+   "held": "051a8b60-9477-4e96-bee5-4a69cf8d4bd2",
+   "contention": {
+    "kind": "BLOCKED",
+    "holder_blocks_worker": true
+   },
+   "contender_outcome": {
+    "ok": true,
+    "result": [
+     "3a1bd548-aa19-4181-8b06-a5435860bc86",
+     "99024985-7731-4eb1-b53a-cd5a05061d67"
+    ]
+   },
+   "expected": {
+    "bs_recorded": true,
+    "successor_created": false,
+    "contender_outcome_ok": true
+   },
+   "observed": {
+    "bs_recorded": true,
+    "successor_created": false,
+    "contender_outcome_ok": true
+   },
+   "old_version_effective_to": null,
+   "new_stock_bs_after_end": 0,
+   "unused_authority_rows": 0,
+   "actions": "ordinary authenticated laundry public RPC and owner successor RPC",
+   "committed_fixture_isolated_in_race_copy": true
+  },
+  {
+   "group": "RACES_BEFORE",
+   "case": "RACE:MASTER_FIRST:COMMIT",
+   "status": "PASS",
+   "first": "MASTER",
+   "first_committed": true,
+   "fact_physical_at": "2026-09-23 17:48:11.239688+07:00",
+   "requested_effective_from": "2026-09-23 17:47:41.239688+07:00",
+   "held": "bcc9d247-2803-4f27-b40d-3289c25a8586",
+   "contention": {
+    "kind": "BLOCKED",
+    "holder_blocks_worker": true
+   },
+   "contender_outcome": {
+    "ok": false,
+    "sqlstate": "P0001",
+    "message": "Laundry BS product must be active at physical receipt time and match the source PO model/size"
+   },
+   "expected": {
+    "bs_recorded": false,
+    "successor_created": true,
+    "contender_outcome_ok": false
+   },
+   "observed": {
+    "bs_recorded": false,
+    "successor_created": true,
+    "contender_outcome_ok": false
+   },
+   "old_version_effective_to": "2026-09-23 10:47:41.239688+00:00",
+   "new_stock_bs_after_end": 0,
+   "unused_authority_rows": 0,
+   "actions": "ordinary authenticated laundry public RPC and owner successor RPC",
+   "committed_fixture_isolated_in_race_copy": true
+  },
+  {
+   "group": "FOUND_RACES_BEFORE",
+   "case": "FOUND_RACE:BS_FIRST:ABORT",
+   "status": "PASS",
+   "first": "BS",
+   "first_committed": false,
+   "fact_physical_at": "2026-09-23 17:48:18.784095+07:00",
+   "requested_effective_from": "2026-09-23 17:47:48.784095+07:00",
+   "held": "aa0924a5-60e9-45d9-846d-04348d731c42",
+   "contention": {
+    "kind": "BLOCKED",
+    "holder_blocks_worker": true
+   },
+   "contender_outcome": {
+    "ok": true,
+    "result": "36916adb-8fe3-4d28-9b99-feaa7f826974"
+   },
+   "expected": {
+    "bs_recorded": false,
+    "successor_created": true,
+    "contender_outcome_ok": true
+   },
+   "observed": {
+    "bs_recorded": false,
+    "successor_created": true,
+    "contender_outcome_ok": true
+   },
+   "old_version_effective_to": "2026-09-23 10:47:48.784095+00:00",
+   "found_bs_after_end": 0,
+   "unused_authority_rows": 0,
+   "committed_fixture_isolated_in_race_copy": true
+  },
+  {
+   "group": "FOUND_RACES_BEFORE",
+   "case": "FOUND_RACE:BS_FIRST:COMMIT",
+   "status": "COUNTEREXAMPLE",
+   "first": "BS",
+   "first_committed": true,
+   "fact_physical_at": "2026-09-23 17:48:25.007236+07:00",
+   "requested_effective_from": "2026-09-23 17:47:55.007236+07:00",
+   "held": "641e1020-0a07-419e-89ec-581ad8027e20",
+   "contention": {
+    "kind": "BLOCKED",
+    "holder_blocks_worker": true
+   },
+   "contender_outcome": {
+    "ok": true,
+    "result": "2ec32a20-0c4c-4c2b-8987-117e46d38226"
+   },
+   "expected": {
+    "bs_recorded": true,
+    "successor_created": false,
+    "contender_outcome_ok": false
+   },
+   "observed": {
+    "bs_recorded": true,
+    "successor_created": true,
+    "contender_outcome_ok": true
+   },
+   "old_version_effective_to": "2026-09-23 10:47:55.007236+00:00",
+   "found_bs_after_end": 1,
+   "unused_authority_rows": 0,
+   "committed_fixture_isolated_in_race_copy": true
+  },
+  {
+   "group": "FOUND_RACES_BEFORE",
+   "case": "FOUND_RACE:MASTER_FIRST:ABORT",
+   "status": "PASS",
+   "first": "MASTER",
+   "first_committed": false,
+   "fact_physical_at": "2026-09-23 17:48:31.229376+07:00",
+   "requested_effective_from": "2026-09-23 17:48:01.229376+07:00",
+   "held": "db2781a1-c31b-4239-af78-c5f4249f018f",
+   "contention": {
+    "kind": "BLOCKED",
+    "holder_blocks_worker": true
+   },
+   "contender_outcome": {
+    "ok": true,
+    "result": "961101b1-0f21-4485-ac43-0f997d79b840"
+   },
+   "expected": {
+    "bs_recorded": true,
+    "successor_created": false,
+    "contender_outcome_ok": true
+   },
+   "observed": {
+    "bs_recorded": true,
+    "successor_created": false,
+    "contender_outcome_ok": true
+   },
+   "old_version_effective_to": null,
+   "found_bs_after_end": 0,
+   "unused_authority_rows": 0,
+   "committed_fixture_isolated_in_race_copy": true
+  },
+  {
+   "group": "FOUND_RACES_BEFORE",
+   "case": "FOUND_RACE:MASTER_FIRST:COMMIT",
+   "status": "COUNTEREXAMPLE",
+   "first": "MASTER",
+   "first_committed": true,
+   "fact_physical_at": "2026-09-23 17:48:37.457100+07:00",
+   "requested_effective_from": "2026-09-23 17:48:07.457100+07:00",
+   "held": "cf4a62fd-6e60-42ab-a4bd-70cd29b5d570",
+   "contention": {
+    "kind": "BLOCKED",
+    "holder_blocks_worker": true
+   },
+   "contender_outcome": {
+    "ok": true,
+    "result": "65e84db6-249e-43bc-b6f4-ec7e94e230f1"
+   },
+   "expected": {
+    "bs_recorded": false,
+    "successor_created": true,
+    "contender_outcome_ok": false
+   },
+   "observed": {
+    "bs_recorded": true,
+    "successor_created": true,
+    "contender_outcome_ok": true
+   },
+   "old_version_effective_to": "2026-09-23 10:48:07.457100+00:00",
+   "found_bs_after_end": 1,
+   "unused_authority_rows": 0,
+   "committed_fixture_isolated_in_race_copy": true
+  },
+  {
+   "av_probe_phase": "before",
+   "status": "REVIEW_COMPLETE",
+   "phase": "before",
+   "source": {
+    "auditor_head": "7a2f895f69ea7582e76afc77583cdcd69fafa4f5",
+    "auditor_tree": "78ed3cf7f906012b9a9615094cedc8ea797058de",
+    "frozen_writer": "ca7f09556397801c50a2277bdb65b1bf019f9a05",
+    "changed_from_frozen": [
+     ".github/workflows/cp6-av-capture.yml",
+     ".github/workflows/cp6-av-qualification.yml",
+     ".github/workflows/cp6-s06-close-probe.yml",
+     "docs/cp6-au-r1-handoff.md",
+     "docs/evidence/cp6-a04-r2/README.md",
+     "docs/evidence/cp6-a04-r2/full_suite_after_fix.json",
+     "docs/evidence/cp6-a04-r2/full_suite_before_fix.json",
+     "docs/evidence/cp6-a04-r2/gpt_probe_adapted.test.tsx.txt",
+     "docs/evidence/cp6-a04-r2/gpt_probe_on_2257431_before_fix.json",
+     "docs/evidence/cp6-a04-r2/gpt_probe_on_fix_adapted_capture.json",
+     "docs/evidence/cp6-a04-r2/gpt_probe_on_fix_unmodified.json",
+     "docs/evidence/cp6-a04-r2/new_tests_on_pre_fix_source.json",
+     "docs/evidence/cp6-au-r1/MANIFEST.json",
+     "docs/evidence/cp6-au-r1/raw/run_35837408181_job_107104064445.log",
+     "docs/evidence/cp6-au-r1/raw/run_35838014072_job_107106040737.log",
+     "docs/evidence/cp6-au-r1/raw/run_35838611997_job_107108022412.log",
+     "docs/evidence/cp6-au-r1/raw/run_35839202630_job_107109943350.log",
+     "docs/evidence/cp6-au-r1/run_35837408181_records.json",
+     "docs/evidence/cp6-au-r1/run_35838014072_records.json",
+     "docs/evidence/cp6-au-r1/run_35838611997_records.json",
+     "docs/evidence/cp6-au-r1/run_35839202630_records.json",
+     "docs/evidence/cp6-av-pins.json",
+     "docs/evidence/cp6-av-r2-pins.json",
+     "docs/evidence/cp6-av-r2-schema-capture.json",
+     "docs/evidence/cp6-av-r2/local_pg16_smoke.json",
+     "docs/evidence/cp6-av-r2/probe_defect_log_run1.json",
+     "scripts/cp6_au_r1_probe.py",
+     "scripts/cp6_av_build.py",
+     "scripts/cp6_av_capture.py",
+     "scripts/cp6_av_definitions.py",
+     "scripts/cp6_av_local_smoke.py",
+     "scripts/cp6_av_probe.py",
+     "scripts/cp6_av_runtime.py",
+     "scripts/cp6_av_trial.py",
+     "scripts/cp6_s06_close_probe.py",
+     "src/ConnectedInitialImportPage.dom.test.tsx",
+     "src/ConnectedInitialImportPage.tsx",
+     "src/ConnectedWipStatusPage.dom.test.tsx",
+     "src/ConnectedWipStatusPage.test.ts",
+     "src/ConnectedWipStatusPage.tsx",
+     "src/accessProductionControl.test.ts",
+     "src/initialProduction.test.ts",
+     "src/initialProduction.ts",
+     "supabase/migrations/20260923110000_erp_v2_6_20av_cp6_identity_new_stock_cutoff.sql",
+     "supabase/rollbacks/20260923110000_erp_v2_6_20av_cp6_identity_new_stock_cutoff.rollback.sql",
+     "tests/fixtures/productionRecovery.ts"
+    ],
+    "sha256": {
+     ".github/workflows/cp6-av-capture.yml": "f52858c18196a4161b540e438c01ea228630912bc22fd762acee4f6f5729b02c",
+     ".github/workflows/cp6-av-qualification.yml": "f81e76a920ee282a5519490badf124444cec754b5d59454280169e695446f588",
+     ".github/workflows/cp6-s06-close-probe.yml": "aba4afc833ae3ddb21c049700206544a4b08a0ce72a57fa4851b592192afeaf5",
+     "docs/cp6-au-r1-handoff.md": "2dce148cba8fb6fece832bc95756b422357f486af5b575c6bdf08bf6bd73f3b5",
+     "docs/evidence/cp6-a04-r2/README.md": "1ba66546d59643b9c0ff5ee0171af908afef96daa5b363665b38e31975811e95",
+     "docs/evidence/cp6-a04-r2/full_suite_after_fix.json": "67562d3691071165ad8f27997f54d19164fba09f29ed2f5fd368e8a4530b07f2",
+     "docs/evidence/cp6-a04-r2/full_suite_before_fix.json": "25cc15e63158cbab45c317cfbbb2866b9d05619889ed3f7f8614be99c0971c03",
+     "docs/evidence/cp6-a04-r2/gpt_probe_adapted.test.tsx.txt": "37642a236e264dc8ad991d8e5c9efa833b23453a30a0a95ce051be5c90cae3a5",
+     "docs/evidence/cp6-a04-r2/gpt_probe_on_2257431_before_fix.json": "08031001b582af39839e2539674bfd200a3c4245b687c5dee75c7db777790143",
+     "docs/evidence/cp6-a04-r2/gpt_probe_on_fix_adapted_capture.json": "69f5fa2bcad065ed176118d86b71e573538282ad9cadc6920e9699047373cb00",
+     "docs/evidence/cp6-a04-r2/gpt_probe_on_fix_unmodified.json": "8604f48427a2b839162c09b5dcf8e624999713598781797ee39c0669e64289c8",
+     "docs/evidence/cp6-a04-r2/new_tests_on_pre_fix_source.json": "833fe4aaf84acc30212232ce270c3ccbe993929431b2debf3c7b994b61fb5114",
+     "docs/evidence/cp6-au-r1/MANIFEST.json": "f88ed69e098976292d9684c817b23c73053e4413fa6cc2d2154d7111fbbe3ec4",
+     "docs/evidence/cp6-au-r1/raw/run_35837408181_job_107104064445.log": "b703ea4aad989b447e6bbf2c91959aa1f8d0e07c2885bc5e89032e16c6a0b3a0",
+     "docs/evidence/cp6-au-r1/raw/run_35838014072_job_107106040737.log": "bdc8edd1e5f9b4eb408f1d003d6cd0978c6443d7bcb423d825c0a3dbcb42ca86",
+     "docs/evidence/cp6-au-r1/raw/run_35838611997_job_107108022412.log": "da324ba508c126317e9a6ca26e2d67d5871025683856725caaceb245dea86df3",
+     "docs/evidence/cp6-au-r1/raw/run_35839202630_job_107109943350.log": "7e3ed1ae7fda3d8cb5892ac00724ebca820d7856e416bd78c121ff6ca0f92742",
+     "docs/evidence/cp6-au-r1/run_35837408181_records.json": "660b8d06ff9b4de0e9e5bef0da2bd060cbe7d1445ac75dee4d1e305aa4b8545e",
+     "docs/evidence/cp6-au-r1/run_35838014072_records.json": "a83a393e0945c5432340bef26817e87710a868b94a08a756136c2522ccf033a7",
+     "docs/evidence/cp6-au-r1/run_35838611997_records.json": "55f054dfd9990961680fccdba7e9f813e1fed37bafd99cdd507ae7a949480c2d",
+     "docs/evidence/cp6-au-r1/run_35839202630_records.json": "ac1816a197b378073e0941d9fbe9ddbf573773b22e98073578de7d01304ac80d",
+     "docs/evidence/cp6-av-pins.json": "0f9a5e1578656fdcbcae09bc5d1e67fda07c7beea863150358980d1cf10b1f2e",
+     "docs/evidence/cp6-av-r2-pins.json": "a653539d49e326fc2b6b0567b29856ea3c7c6dce02eba59b047f70cb725f516e",
+     "docs/evidence/cp6-av-r2-schema-capture.json": "6c53571d8f09b80f8e101c9c545b5d3c2714995f9f09430cbacbc64f7afa6195",
+     "docs/evidence/cp6-av-r2/local_pg16_smoke.json": "824cd33b69d2b9bb093fdcaf062ce09469192242edf2aa5523296adfd2b84f27",
+     "docs/evidence/cp6-av-r2/probe_defect_log_run1.json": "eb33dac327436d03cdf877314b77ef3095f4efb40d3fe4709995dadfa39ac711",
+     "scripts/cp6_au_r1_probe.py": "0bae51cab8d2d451b8a82690d75dce6a5ba70142844e8750ce148a43d644aed6",
+     "scripts/cp6_av_build.py": "cad11e4032bb64168649b8340f24d280f3281388295d61f6cbe306902dc12d4c",
+     "scripts/cp6_av_capture.py": "07caad5d472b52933919c08783575648c722118173b151e6879829c0258cb6de",
+     "scripts/cp6_av_definitions.py": "576c975bcd02b0c8173871faebe242fc4f26b5b3bed80957d5bd2d71ca3156f8",
+     "scripts/cp6_av_local_smoke.py": "1645460b11cac301552cbbbfc0942ceb85b18a05ca5129c228e0afab735e4ba3",
+     "scripts/cp6_av_probe.py": "8a32be55204248c9c4934e74b15f4f10abc72966892965d45f4cf9ac0e943f0b",
+     "scripts/cp6_av_runtime.py": "867f443783264b4e120343a696f5b2517427328db03aa64e58b7f309d8318ea7",
+     "scripts/cp6_av_trial.py": "298d646f937549d34bf48be6b53187b8300d1bda73290e7b6e8fb96ae1e95ad4",
+     "scripts/cp6_s06_close_probe.py": "5521c90311f7245ccf6d5f82e3b89ad1b3062375849a3c85930f7f706daedc18",
+     "src/ConnectedInitialImportPage.dom.test.tsx": "429ac89e7596c41bf84347146bd05bb569f7965ec1f89e032c78d47482f8bf09",
+     "src/ConnectedInitialImportPage.tsx": "9e46d813f30c80e7bea5a79c443af3101202a598cd8e520a098325e9a0d50f36",
+     "src/ConnectedWipStatusPage.dom.test.tsx": "07de971847025b9337ff096126edce354f8bb1b2306830b17ea0d94777e02f3e",
+     "src/ConnectedWipStatusPage.test.ts": "c47f29bf81c1166e771c732f89c8e5ba46ed54ccea25f3baf373798f0bcb2a56",
+     "src/ConnectedWipStatusPage.tsx": "c8320e13befef018f9d1cd7f34904cf699665b45c078a1f8a8100ad7766e5982",
+     "src/accessProductionControl.test.ts": "2db4ec0c3fde613be5d02d3967a97c04ae5bf70c2252c9ac0772fb288cd44c51",
+     "src/initialProduction.test.ts": "de4819265af82bedae590b3975ae691e34c45ccd65d705e7ef141b98fec05d36",
+     "src/initialProduction.ts": "7d879445b3181dacd856158d6691819aa28526e124f7f3c71f8664e1117c3255",
+     "supabase/migrations/20260923110000_erp_v2_6_20av_cp6_identity_new_stock_cutoff.sql": "79d223da9ba20a1490a8182e1d62a53e4d284b1dd4de240efe35e7196d065cd9",
+     "supabase/rollbacks/20260923110000_erp_v2_6_20av_cp6_identity_new_stock_cutoff.rollback.sql": "75904dfd727edfa3548fe048f97fd7d5988c04700cfec5ad0238a0cc3233a817",
+     "tests/fixtures/productionRecovery.ts": "cee25d2fc0660378448e986f4dc7c0ef6276bb627a1dbae9e8f74fdca89b27f1"
+    }
+   },
+   "installed_functions_patched_for_testing": false,
+   "production_go": false,
+   "independent_acceptance": false,
+   "au_install": "PASS",
+   "av_cases": {
+    "status": "COUNTEREXAMPLE",
+    "counts": {
+     "COUNTEREXAMPLE": 7,
+     "CONTROL_PASS": 7,
+     "NOT_APPLICABLE": 18
+    }
+   },
+   "au_master": {
+    "status": "PASS",
+    "counts": {
+     "PASS": 15
+    }
+   },
+   "at_temporal": {
+    "status": "PASS",
+    "counts": {
+     "PASS": 16
+    }
+   },
+   "laundry_races": {
+    "status": "COUNTEREXAMPLE",
+    "counts": {
+     "PASS": 3,
+     "COUNTEREXAMPLE": 1
+    },
+    "race_database_remaining": 0
+   },
+   "found_races": {
+    "status": "COUNTEREXAMPLE",
+    "counts": {
+     "PASS": 2,
+     "COUNTEREXAMPLE": 2
+    },
+    "race_database_remaining": 0
+   },
+   "primary_unchanged": true,
+   "clone_remaining": 0
+  }
+ ]
+}

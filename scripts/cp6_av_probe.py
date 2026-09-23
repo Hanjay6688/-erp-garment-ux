@@ -115,6 +115,48 @@ def manual_classified(cur,today):
                 status='PASS' if error else 'COUNTEREXAMPLE',ordinary_authenticated_rpc=True)
 
 
+PREINSTALL={}
+
+
+def preinstall_fixtures():
+    """Committed before AV installs (both phases): manual BS cases classified on AU, so the creation-time
+    untracked type survives only in the insert audit row. OUT_OF_NOWHERE must keep bounding; LEGACY is the control."""
+    with psycopg.connect(boundary.ADMIN) as conn,conn.cursor() as cur:
+        if not cur.execute("select has_schema_privilege('authenticated','erp','USAGE')").fetchone()[0]:cur.execute('grant usage on schema erp to authenticated')
+        if not cur.execute('select count(*) from erp.app_users').fetchone()[0]:api.seed(cur)
+        cur.execute("set local timezone='Asia/Jakarta';set local statement_timeout='240s';set local lock_timeout='8s'")
+        today=cur.execute("select (statement_timestamp() at time zone 'Asia/Jakarta')::date").fetchone()[0]
+        boundary.historical.prior.set_open_period(cur,date(2026,8,31))
+        for kind in ('OUT_OF_NOWHERE','LEGACY'):
+            f=used_product(cur,today);product=f['product']
+            fact=now(cur)-timedelta(seconds=60);case=manual(cur,product,kind,fact)['result']['bs_case_id']
+            chain.bs_action(cur,'CLASSIFY_BS',dict(bs_case_id=case,cause_source='LAUNDRY',responsible_vendor_id=str(chain.base.VENDOR),
+                change_reason='AV rev2 cause found before AV installs'),chain.version(cur,'bs_cases',case))
+            api.admin(cur)
+            PREINSTALL[kind]=dict(product=product,bs_case_id=case,fact_physical_at=fact,
+                untracked_type_after_classification=cur.execute('select untracked_type from erp.bs_cases where id=%s',(case,)).fetchone()[0])
+        conn.commit()
+    return PREINSTALL
+
+
+def preinstall_case(cur,kind):
+    p=PREINSTALL.get(kind)
+    if not p:return dict(status='INCOMPLETE',error='PREINSTALL_FIXTURE_MISSING')
+    origin=cur.execute('select origin_type from erp.bs_case_manual_origins_v1 where bs_case_id=%s',(p['bs_case_id'],)).fetchone() if installed(cur) else None
+    effective=p['fact_physical_at']-timedelta(seconds=30)
+    result,error=peer.attempt(cur,lambda:edit(cur,p['product'],effective))
+    row=dict(fixture=p,origin=origin[0] if origin else None,requested_effective_from=effective,result=result,refusal=error,ordinary_authenticated_rpc=True)
+    if kind=='OUT_OF_NOWHERE':
+        row['expected']=('Owner 1C: a found BS classified before AV installs keeps its origin (backfilled from the insert audit row) '
+                         'and still bounds the successor')
+        cutoff=bool(error) and 'memotong histori' in (error.get('message') or '')
+        row['status']=('COUNTEREXAMPLE' if not error else 'PASS' if cutoff and (origin is None and not installed(cur) or origin==('OUT_OF_NOWHERE',)) else 'FAIL')
+    else:
+        row['expected']='Owner 1C: a LEGACY case classified before AV installs gets no origin row and does not bound the successor'
+        row['status']='CONTROL_PASS' if result and not error and origin is None else 'FAIL'
+    return row
+
+
 def manual_inactive(cur,today):
     f=used_product(cur,today);product=f['product']
     api.admin(cur);cur.execute('update erp.products set is_active=false where id=%s',(product,))
@@ -263,6 +305,7 @@ def cases(cur,today):
     rows+=[('MANUAL_REVERSED:'+k,lambda k=k:manual_reversed(cur,today,k)) for k in ('OUT_OF_NOWHERE','LEGACY')]
     rows+=[('MANUAL:CLASSIFIED_OUT_OF_NOWHERE',lambda:manual_classified(cur,today)),('MANUAL:INACTIVE_SKU',lambda:manual_inactive(cur,today)),
            ('MANUAL:ORIGIN_IMMUTABLE',lambda:origin_immutable(cur,today))]
+    rows+=[('MANUAL:PREINSTALL_CLASSIFIED_'+k,lambda k=k:preinstall_case(cur,k)) for k in ('OUT_OF_NOWHERE','LEGACY')]
     rows+=[('REWORK:GOOD_DOES_NOT_BOUND',lambda:rework_cutoff(cur,today)),('REWORK:AFTER_SUCCESSOR',lambda:rework_after_successor(cur,today))]
     rows+=[('GUARD:BASELINE',lambda:guard_baseline(cur))]
     rows+=[('GUARD:'+v[0],lambda v=v:guard_case(cur,v[0])) for v in GUARD_VARIANTS]
@@ -352,6 +395,7 @@ def run(phase):
         with psycopg.connect(boundary.PRIMARY_ADMIN) as conn,conn.cursor() as cur:prior.verified(cur,'AN');primary=boundary.snapshot(cur)
         r1.writer.install_at()
         report['au_install']=runtime.change('install',boundary.PG,os.environ['CP6_ADMISSION_CONTROL_PGURL'])['status']
+        report['preinstall_fixtures']=preinstall_fixtures()
         verify=runtime.verified
         if phase=='after':
             import cp6_av_runtime as candidate

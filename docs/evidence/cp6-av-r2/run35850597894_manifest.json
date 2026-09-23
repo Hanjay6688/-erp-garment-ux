@@ -1,0 +1,157 @@
+{
+ "label": "AV_REV2_QUALIFICATION_RUN",
+ "run_id": 35850597894,
+ "head_sha": "7a2f895f69ea7582e76afc77583cdcd69fafa4f5",
+ "source": "MCP get_job_logs content (artifact download is blocked by the session proxy); records are the JSON lines each phase prints",
+ "production_go": false,
+ "independent_acceptance": false,
+ "jobs": {
+  "probe-before": {
+   "job_id": 107147092671,
+   "records_file": "run35850597894_probe-before_records.json",
+   "records_sha256": "2b160fadd1965c0a15cc55e2fd080a7de4c5fa79e0b235b0cde62f6a19f3edf3",
+   "log_content_sha256": "9e14cbb591e915b17f87ff76a30fc07861cd2891a749199a9d3fef675dd66690",
+   "log_lines": 1818,
+   "record_count": 77,
+   "groups": {
+    "AV_CASES_BEFORE": {
+     "COUNTEREXAMPLE": 7,
+     "CONTROL_PASS": 7,
+     "NOT_APPLICABLE": 18
+    },
+    "AU_MASTER_BEFORE": {
+     "PASS": 15
+    },
+    "AT_TEMPORAL_BEFORE": {
+     "PASS": 16
+    },
+    "RACES_BEFORE": {
+     "PASS": 3,
+     "COUNTEREXAMPLE": 1
+    },
+    "FOUND_RACES_BEFORE": {
+     "PASS": 2,
+     "COUNTEREXAMPLE": 2
+    }
+   },
+   "phase_status": "REVIEW_COMPLETE",
+   "candidate_verdict": null,
+   "moved_cases": null,
+   "primary_unchanged": true,
+   "clone_remaining": 0,
+   "auditor_head": null
+  },
+  "probe-after": {
+   "job_id": 107147092470,
+   "records_file": "run35850597894_probe-after_records.json",
+   "records_sha256": "f23226348f717ed5edcf6bcac54cd475e9573a379ff4aea6d6792f31b0f50dde",
+   "log_content_sha256": "9442b9debe2d9e999b1158effb7cc973b466d87f6590e444a028e4f19e6cd1f6",
+   "log_lines": 1819,
+   "record_count": 78,
+   "groups": {
+    "AV_CASES_AFTER": {
+     "PASS": 22,
+     "CONTROL_PASS": 10
+    },
+    "AU_MASTER_AFTER": {
+     "PASS": 15
+    },
+    "AT_TEMPORAL_AFTER": {
+     "PASS": 16
+    },
+    "RACES_AFTER": {
+     "PASS": 4
+    },
+    "FOUND_RACES_AFTER": {
+     "PASS": 4
+    }
+   },
+   "phase_status": "REVIEW_COMPLETE",
+   "candidate_verdict": "CANDIDATE_WRITER_PASS",
+   "moved_cases": null,
+   "primary_unchanged": true,
+   "clone_remaining": 0,
+   "auditor_head": null
+  },
+  "qualify": {
+   "job_id": 107147092469,
+   "records_file": "run35850597894_qualify_records.json",
+   "records_sha256": "3c12ad62e15473fd50a468845e53cc69a63140802ac3a0266885dfac01965b7f",
+   "log_content_sha256": "82946bb9b9a538e9e066959c25554726f944051a0f6395db5cc20fab4c57d38c",
+   "log_lines": 1921,
+   "record_count": 180,
+   "groups": {
+    "AR_SEQUENTIAL": {
+     "PASS": 146
+    },
+    "AR_CONCURRENCY": {
+     "PASS": 28
+    }
+   },
+   "phase_status": "WRITER_PASS",
+   "candidate_verdict": null,
+   "moved_cases": null,
+   "primary_unchanged": true,
+   "clone_remaining": 0,
+   "auditor_head": "7a2f895f69ea7582e76afc77583cdcd69fafa4f5"
+  },
+  "temporal": {
+   "job_id": 107147092432,
+   "records_file": "run35850597894_temporal_records.json",
+   "records_sha256": "79fb6634ce135853300de87c8a6935dd5f9e877c980ed55aed9ea95d5daa7557",
+   "log_content_sha256": "a813c5245f9a896fa6f876bbc6f0f3f111d84207ac2c72b3be10728310a32a4b",
+   "log_lines": 1788,
+   "record_count": 47,
+   "groups": {
+    "AT_CASES": {
+     "PASS": 16
+    },
+    "AT_CONCURRENCY": {
+     "PASS": 4
+    },
+    "AU_CASES": {
+     "PASS": 15
+    },
+    "AU_CONCURRENCY": {
+     "PASS": 6
+    }
+   },
+   "phase_status": "WRITER_PASS",
+   "candidate_verdict": null,
+   "moved_cases": null,
+   "primary_unchanged": true,
+   "clone_remaining": 0,
+   "auditor_head": "7a2f895f69ea7582e76afc77583cdcd69fafa4f5"
+  },
+  "regression": {
+   "job_id": 107147092322,
+   "records_file": "run35850597894_regression_records.json",
+   "records_sha256": "ace3f863389602fe28528ede8f0812227eed121385c2807fff230dea547fb3aa",
+   "log_content_sha256": "379cd39dc2b59f05a24d39129d6e1626e9784974910b3c73c3497ec7cce10ac2",
+   "log_lines": 2107,
+   "record_count": 366,
+   "groups": {
+    "BUSINESS": {
+     "PASS": 179,
+     "CONTROL_PASS": 39,
+     "DATE_POLICY_REVIEW_REQUIRED": 12
+    },
+    "IMPORTS": {
+     "PASS": 31
+    },
+    "VALUES": {
+     "PASS": 65
+    },
+    "NEW_CASES": {
+     "PASS": 34
+    }
+   },
+   "phase_status": "WRITER_PASS_WITH_12_PRESERVED_HISTORICAL_HOLD",
+   "candidate_verdict": null,
+   "moved_cases": {},
+   "primary_unchanged": true,
+   "clone_remaining": 0,
+   "auditor_head": "7a2f895f69ea7582e76afc77583cdcd69fafa4f5"
+  }
+ }
+}

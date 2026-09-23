@@ -1,0 +1,29 @@
+{
+ "label": "LOCAL_PG16_SMOKE",
+ "server_version": "16.13 (Ubuntu 16.13-0ubuntu0.24.04.1)",
+ "script": "scripts/cp6_av_backfill_smoke.py",
+ "script_sha256": "16b0e528f945c5fac51fc3fc17ac4980c3fa0e29bfcc97512696747100cf0931",
+ "build_sha256": "8764eabeefed02c6751c3880711e5b1d94c4b8e8f31d1a17ef536eccff3d73ce",
+ "fixture": {
+  "a": "audit OUT_OF_NOWHERE, classified (current null)",
+  "b": "audit and current OUT_OF_NOWHERE",
+  "c": "audit LEGACY, classified",
+  "d": "audit null (QC-like)",
+  "e": "no audit row, current OUT_OF_NOWHERE",
+  "f": "no bs_cases audit row, current null"
+ },
+ "expected_rows": [
+  "a",
+  "b",
+  "e"
+ ],
+ "observed_rows": [
+  "a",
+  "b",
+  "e"
+ ],
+ "exact_check": true,
+ "negative_detected": true,
+ "limit": "Case f (no insert audit row and untracked_type already cleared) cannot be recovered and gets no origin; such a case would not bound a successor.",
+ "output": "BEGIN\nCREATE SCHEMA\nCREATE TABLE\nCREATE TABLE\nCREATE TABLE\nINSERT 0 6\nINSERT 0 6\nINSERT 0 3\n k |  origin_type   \n---+----------------\n a | OUT_OF_NOWHERE\n b | OUT_OF_NOWHERE\n e | OUT_OF_NOWHERE\n(3 rows)\n\nDO\nDELETE 1\nDO\nROLLBACK\n\nNOTICE:  EXACT_CHECK_PASS\nNOTICE:  NEGATIVE_DETECTED: AV_INSTALL_ORIGIN_BACKFILL_MISMATCH\n\n"
+}

@@ -10,7 +10,7 @@ import cp6_ao_ap_maintenance as maintenance
 import cp6_preuse_rollback_maintenance as core
 from cp6_ao_ap_inventory import data,function_pins,platform,sha
 
-EXPECTED_PINS='a653539d49e326fc2b6b0567b29856ea3c7c6dce02eba59b047f70cb725f516e'
+EXPECTED_PINS='ceb2f9b1e8a00bd1fadec30ff60d2113e4e6210bc52d5ad1413ae87ed7861daf'
 
 
 def pins():
