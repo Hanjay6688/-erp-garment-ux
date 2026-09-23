@@ -1,0 +1,2054 @@
+{
+ "label": "T2_REGRESSION",
+ "run": 35911656309,
+ "seed": "AS_IS",
+ "head": "5854fd587d6801ac9b487015b679184e33a883c9",
+ "candidate": "AU + AV (closed-admission runtime) + AW T1 + AX T1 on the disposable AN chain",
+ "production_go": false,
+ "release_evidence": false,
+ "phases": {
+  "temporal": {
+   "status": "WRITER_PASS",
+   "counts": {
+    "AT_CASES:PASS": 16,
+    "AT_CONCURRENCY:PASS": 4,
+    "AU_CASES:PASS": 15,
+    "AU_CONCURRENCY:PASS": 6
+   }
+  },
+  "ar": {
+   "status": "DISPOSITION_REQUIRED",
+   "counts": {
+    "AR_SEQUENTIAL:PASS": 139,
+    "AR_SEQUENTIAL:INCOMPLETE": 7,
+    "AR_CONCURRENCY:PASS": 28
+   },
+   "moved": [
+    {
+     "group": "AR_SEQUENTIAL",
+     "case": "RECEIPT_PRODUCTION:False",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "{'confidence': {'info': [{'code': 'GRNI_ESTIMATE_OPEN', 'scope': 'CURRENT_STATE', 'family': 'GRNI', 'reason': '1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.', 'severity': 'INFO', 're"
+    },
+    {
+     "group": "AR_SEQUENTIAL",
+     "case": "RECEIPT_PRODUCTION:True",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "{'confidence': {'info': [{'code': 'GRNI_ESTIMATE_OPEN', 'scope': 'CURRENT_STATE', 'family': 'GRNI', 'reason': '1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.', 'severity': 'INFO', 're"
+    },
+    {
+     "group": "AR_SEQUENTIAL",
+     "case": "PRODUCTION_ORIGIN:LAUNDRY:True:False",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "CLOSE_BLOCKED: tutup buku sampai 2026-09-23 ditolak, 8 penghalang (ATTENDANCE_CELL_MISSING, PAYROLL_NOT_APPROVED, PAYROLL_WORK_UNCOVERED).\nDETAIL:  {\"info\": [{\"code\": \"GRNI_ESTIMATE_OPEN\", \"scope\": \"CURRENT_STATE\", \"family\": \"GRNI\", \"reason"
+    },
+    {
+     "group": "AR_SEQUENTIAL",
+     "case": "POCKET_LIFECYCLE:USED:True",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "CLOSE_BLOCKED: tutup buku sampai 2026-09-22 ditolak, 8 penghalang (ATTENDANCE_CELL_MISSING, PAYROLL_NOT_APPROVED, PAYROLL_WORK_UNCOVERED).\nDETAIL:  {\"info\": [{\"code\": \"GRNI_ESTIMATE_OPEN\", \"scope\": \"CURRENT_STATE\", \"family\": \"GRNI\", \"reason"
+    },
+    {
+     "group": "AR_SEQUENTIAL",
+     "case": "POCKET_LIFECYCLE:REMAINING:True",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "CLOSE_BLOCKED: tutup buku sampai 2026-09-22 ditolak, 8 penghalang (ATTENDANCE_CELL_MISSING, PAYROLL_NOT_APPROVED, PAYROLL_WORK_UNCOVERED).\nDETAIL:  {\"info\": [{\"code\": \"GRNI_ESTIMATE_OPEN\", \"scope\": \"CURRENT_STATE\", \"family\": \"GRNI\", \"reason"
+    },
+    {
+     "group": "AR_SEQUENTIAL",
+     "case": "POCKET_PERIOD_LIFECYCLE:False:True",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "CLOSE_BLOCKED: tutup buku sampai 2026-09-23 ditolak, 8 penghalang (ATTENDANCE_CELL_MISSING, PAYROLL_NOT_APPROVED, PAYROLL_WORK_UNCOVERED).\nDETAIL:  {\"info\": [{\"code\": \"GRNI_ESTIMATE_OPEN\", \"scope\": \"CURRENT_STATE\", \"family\": \"GRNI\", \"reason"
+    },
+    {
+     "group": "AR_SEQUENTIAL",
+     "case": "POCKET_PERIOD_LIFECYCLE:True:True",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "CLOSE_BLOCKED: tutup buku sampai 2026-09-23 ditolak, 9 penghalang (ATTENDANCE_CELL_MISSING, PAYROLL_NOT_APPROVED, PAYROLL_WORK_UNCOVERED).\nDETAIL:  {\"info\": [{\"code\": \"GRNI_ESTIMATE_OPEN\", \"scope\": \"CURRENT_STATE\", \"family\": \"GRNI\", \"reason"
+    }
+   ]
+  },
+  "regression": {
+   "status": "DISPOSITION_REQUIRED",
+   "per_case_identity": {
+    "BUSINESS": {
+     "expected": 230,
+     "observed": 230,
+     "added": 0,
+     "removed": 0,
+     "moved": 128,
+     "order_unchanged": true
+    },
+    "IMPORTS": {
+     "expected": 31,
+     "observed": 31,
+     "added": 0,
+     "removed": 0,
+     "moved": 4,
+     "order_unchanged": true
+    },
+    "VALUES": {
+     "expected": 65,
+     "observed": 65,
+     "added": 0,
+     "removed": 0,
+     "moved": 0,
+     "order_unchanged": true
+    },
+    "NEW_CASES": {
+     "expected": 34,
+     "observed": 34,
+     "added": 0,
+     "removed": 0,
+     "moved": 13,
+     "order_unchanged": true
+    }
+   },
+   "holds": {
+    "expected": 12,
+    "observed": 0,
+    "identical": false,
+    "expected_count_is_recorded": true,
+    "left_hold": [
+     [
+      "BUSINESS",
+      "CALENDAR:1_MONTHS:UTC:False"
+     ],
+     [
+      "BUSINESS",
+      "CALENDAR:1_MONTHS:Pacific/Kiritimati:False"
+     ],
+     [
+      "BUSINESS",
+      "CALENDAR:2_MONTHS:UTC:False"
+     ],
+     [
+      "BUSINESS",
+      "CALENDAR:2_MONTHS:Pacific/Kiritimati:False"
+     ],
+     [
+      "BUSINESS",
+      "CALENDAR:3_MONTHS:UTC:False"
+     ],
+     [
+      "BUSINESS",
+      "CALENDAR:3_MONTHS:Pacific/Kiritimati:False"
+     ],
+     [
+      "BUSINESS",
+      "CALENDAR:JAN31:UTC:False"
+     ],
+     [
+      "BUSINESS",
+      "CALENDAR:JAN31:Pacific/Kiritimati:False"
+     ],
+     [
+      "BUSINESS",
+      "CALENDAR:FEB28:UTC:False"
+     ],
+     [
+      "BUSINESS",
+      "CALENDAR:FEB28:Pacific/Kiritimati:False"
+     ],
+     [
+      "BUSINESS",
+      "CALENDAR:MAY31:UTC:False"
+     ],
+     [
+      "BUSINESS",
+      "CALENDAR:MAY31:Pacific/Kiritimati:False"
+     ]
+    ],
+    "entered_hold": []
+   },
+   "moved": [
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:DAY:FABRIC_ROLL:DIRECT:Asia/Jakarta",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "AD_FALSE_BLOCKED_NORMAL_OPENING:{\"data_confidence\": {\"info\": [], \"as_of\": \"2026-09-21\", \"engine\": \"PERIOD_READINESS_V1\", \"filing\": null, \"status\": \"BLOCKED\", \"blockers\": [{\"code\": \"ATTENDANCE_CELL_MISSING\", \"scope\": \"WINDOW\", \"family\": \"ATT"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:DAY:FABRIC_ROLL:DIRECT:UTC",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "AD_FALSE_BLOCKED_NORMAL_OPENING:{\"data_confidence\": {\"info\": [], \"as_of\": \"2026-09-21\", \"engine\": \"PERIOD_READINESS_V1\", \"filing\": null, \"status\": \"BLOCKED\", \"blockers\": [{\"code\": \"ATTENDANCE_CELL_MISSING\", \"scope\": \"WINDOW\", \"family\": \"ATT"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:DAY:FABRIC_ROLL:DIRECT:Asia/Tokyo",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "AD_FALSE_BLOCKED_NORMAL_OPENING:{\"data_confidence\": {\"info\": [], \"as_of\": \"2026-09-21\", \"engine\": \"PERIOD_READINESS_V1\", \"filing\": null, \"status\": \"BLOCKED\", \"blockers\": [{\"code\": \"ATTENDANCE_CELL_MISSING\", \"scope\": \"WINDOW\", \"family\": \"ATT"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:DAY:FABRIC_ROLL:DIRECT:Pacific/Kiritimati",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "AD_FALSE_BLOCKED_NORMAL_OPENING:{\"data_confidence\": {\"info\": [], \"as_of\": \"2026-09-21\", \"engine\": \"PERIOD_READINESS_V1\", \"filing\": null, \"status\": \"BLOCKED\", \"blockers\": [{\"code\": \"ATTENDANCE_CELL_MISSING\", \"scope\": \"WINDOW\", \"family\": \"ATT"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:DAY:FABRIC_ROLL:DIRECT:Etc/GMT+12",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "AD_FALSE_BLOCKED_NORMAL_OPENING:{\"data_confidence\": {\"info\": [], \"as_of\": \"2026-09-21\", \"engine\": \"PERIOD_READINESS_V1\", \"filing\": null, \"status\": \"BLOCKED\", \"blockers\": [{\"code\": \"ATTENDANCE_CELL_MISSING\", \"scope\": \"WINDOW\", \"family\": \"ATT"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:DAY:FABRIC_ROLL:IMPORT:Asia/Jakarta",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "AD_FALSE_BLOCKED_NORMAL_OPENING:{\"data_confidence\": {\"info\": [], \"as_of\": \"2026-09-21\", \"engine\": \"PERIOD_READINESS_V1\", \"filing\": null, \"status\": \"BLOCKED\", \"blockers\": [{\"code\": \"ATTENDANCE_CELL_MISSING\", \"scope\": \"WINDOW\", \"family\": \"ATT"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:DAY:FABRIC_ROLL:IMPORT:UTC",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "AD_FALSE_BLOCKED_NORMAL_OPENING:{\"data_confidence\": {\"info\": [], \"as_of\": \"2026-09-21\", \"engine\": \"PERIOD_READINESS_V1\", \"filing\": null, \"status\": \"BLOCKED\", \"blockers\": [{\"code\": \"ATTENDANCE_CELL_MISSING\", \"scope\": \"WINDOW\", \"family\": \"ATT"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:DAY:FABRIC_ROLL:IMPORT:Asia/Tokyo",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "AD_FALSE_BLOCKED_NORMAL_OPENING:{\"data_confidence\": {\"info\": [], \"as_of\": \"2026-09-21\", \"engine\": \"PERIOD_READINESS_V1\", \"filing\": null, \"status\": \"BLOCKED\", \"blockers\": [{\"code\": \"ATTENDANCE_CELL_MISSING\", \"scope\": \"WINDOW\", \"family\": \"ATT"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:DAY:FABRIC_ROLL:IMPORT:Pacific/Kiritimati",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "AD_FALSE_BLOCKED_NORMAL_OPENING:{\"data_confidence\": {\"info\": [], \"as_of\": \"2026-09-21\", \"engine\": \"PERIOD_READINESS_V1\", \"filing\": null, \"status\": \"BLOCKED\", \"blockers\": [{\"code\": \"ATTENDANCE_CELL_MISSING\", \"scope\": \"WINDOW\", \"family\": \"ATT"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:DAY:FABRIC_ROLL:IMPORT:Etc/GMT+12",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "AD_FALSE_BLOCKED_NORMAL_OPENING:{\"data_confidence\": {\"info\": [], \"as_of\": \"2026-09-21\", \"engine\": \"PERIOD_READINESS_V1\", \"filing\": null, \"status\": \"BLOCKED\", \"blockers\": [{\"code\": \"ATTENDANCE_CELL_MISSING\", \"scope\": \"WINDOW\", \"family\": \"ATT"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:DAY:ACCESSORY:DIRECT:Asia/Jakarta",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "AD_FALSE_BLOCKED_NORMAL_OPENING:{\"data_confidence\": {\"info\": [], \"as_of\": \"2026-09-21\", \"engine\": \"PERIOD_READINESS_V1\", \"filing\": null, \"status\": \"BLOCKED\", \"blockers\": [{\"code\": \"ATTENDANCE_CELL_MISSING\", \"scope\": \"WINDOW\", \"family\": \"ATT"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:DAY:ACCESSORY:DIRECT:UTC",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "AD_FALSE_BLOCKED_NORMAL_OPENING:{\"data_confidence\": {\"info\": [], \"as_of\": \"2026-09-21\", \"engine\": \"PERIOD_READINESS_V1\", \"filing\": null, \"status\": \"BLOCKED\", \"blockers\": [{\"code\": \"ATTENDANCE_CELL_MISSING\", \"scope\": \"WINDOW\", \"family\": \"ATT"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:DAY:ACCESSORY:DIRECT:Asia/Tokyo",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "AD_FALSE_BLOCKED_NORMAL_OPENING:{\"data_confidence\": {\"info\": [], \"as_of\": \"2026-09-21\", \"engine\": \"PERIOD_READINESS_V1\", \"filing\": null, \"status\": \"BLOCKED\", \"blockers\": [{\"code\": \"ATTENDANCE_CELL_MISSING\", \"scope\": \"WINDOW\", \"family\": \"ATT"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:DAY:ACCESSORY:DIRECT:Pacific/Kiritimati",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "AD_FALSE_BLOCKED_NORMAL_OPENING:{\"data_confidence\": {\"info\": [], \"as_of\": \"2026-09-21\", \"engine\": \"PERIOD_READINESS_V1\", \"filing\": null, \"status\": \"BLOCKED\", \"blockers\": [{\"code\": \"ATTENDANCE_CELL_MISSING\", \"scope\": \"WINDOW\", \"family\": \"ATT"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:DAY:ACCESSORY:DIRECT:Etc/GMT+12",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "AD_FALSE_BLOCKED_NORMAL_OPENING:{\"data_confidence\": {\"info\": [], \"as_of\": \"2026-09-21\", \"engine\": \"PERIOD_READINESS_V1\", \"filing\": null, \"status\": \"BLOCKED\", \"blockers\": [{\"code\": \"ATTENDANCE_CELL_MISSING\", \"scope\": \"WINDOW\", \"family\": \"ATT"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:DAY:ACCESSORY:IMPORT:Asia/Jakarta",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "AD_FALSE_BLOCKED_NORMAL_OPENING:{\"data_confidence\": {\"info\": [], \"as_of\": \"2026-09-21\", \"engine\": \"PERIOD_READINESS_V1\", \"filing\": null, \"status\": \"BLOCKED\", \"blockers\": [{\"code\": \"ATTENDANCE_CELL_MISSING\", \"scope\": \"WINDOW\", \"family\": \"ATT"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:DAY:ACCESSORY:IMPORT:UTC",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "AD_FALSE_BLOCKED_NORMAL_OPENING:{\"data_confidence\": {\"info\": [], \"as_of\": \"2026-09-21\", \"engine\": \"PERIOD_READINESS_V1\", \"filing\": null, \"status\": \"BLOCKED\", \"blockers\": [{\"code\": \"ATTENDANCE_CELL_MISSING\", \"scope\": \"WINDOW\", \"family\": \"ATT"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:DAY:ACCESSORY:IMPORT:Asia/Tokyo",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "AD_FALSE_BLOCKED_NORMAL_OPENING:{\"data_confidence\": {\"info\": [], \"as_of\": \"2026-09-21\", \"engine\": \"PERIOD_READINESS_V1\", \"filing\": null, \"status\": \"BLOCKED\", \"blockers\": [{\"code\": \"ATTENDANCE_CELL_MISSING\", \"scope\": \"WINDOW\", \"family\": \"ATT"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:DAY:ACCESSORY:IMPORT:Pacific/Kiritimati",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "AD_FALSE_BLOCKED_NORMAL_OPENING:{\"data_confidence\": {\"info\": [], \"as_of\": \"2026-09-21\", \"engine\": \"PERIOD_READINESS_V1\", \"filing\": null, \"status\": \"BLOCKED\", \"blockers\": [{\"code\": \"ATTENDANCE_CELL_MISSING\", \"scope\": \"WINDOW\", \"family\": \"ATT"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:DAY:ACCESSORY:IMPORT:Etc/GMT+12",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "AD_FALSE_BLOCKED_NORMAL_OPENING:{\"data_confidence\": {\"info\": [], \"as_of\": \"2026-09-21\", \"engine\": \"PERIOD_READINESS_V1\", \"filing\": null, \"status\": \"BLOCKED\", \"blockers\": [{\"code\": \"ATTENDANCE_CELL_MISSING\", \"scope\": \"WINDOW\", \"family\": \"ATT"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:DAY:FINISHED_GOODS:DIRECT:Asia/Jakarta",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "AE_NORMAL_STATE_NOT_READY:{\"identity\": [\"authenticated\", \"authenticated\", \"OWNER\"], \"owner_snapshot\": {\"basis\": {\"period_to\": \"2026-09-21\", \"period_from\": \"2026-09-21\", \"balance_sheet_as_of\": \"2026-09-21\", \"quality_event_basis\": \"CURRENT_OP"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:DAY:FINISHED_GOODS:DIRECT:UTC",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "AE_NORMAL_STATE_NOT_READY:{\"identity\": [\"authenticated\", \"authenticated\", \"OWNER\"], \"owner_snapshot\": {\"basis\": {\"period_to\": \"2026-09-21\", \"period_from\": \"2026-09-21\", \"balance_sheet_as_of\": \"2026-09-21\", \"quality_event_basis\": \"CURRENT_OP"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:DAY:FINISHED_GOODS:DIRECT:Asia/Tokyo",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "AE_NORMAL_STATE_NOT_READY:{\"identity\": [\"authenticated\", \"authenticated\", \"OWNER\"], \"owner_snapshot\": {\"basis\": {\"period_to\": \"2026-09-21\", \"period_from\": \"2026-09-21\", \"balance_sheet_as_of\": \"2026-09-21\", \"quality_event_basis\": \"CURRENT_OP"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:DAY:FINISHED_GOODS:DIRECT:Pacific/Kiritimati",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "AE_NORMAL_STATE_NOT_READY:{\"identity\": [\"authenticated\", \"authenticated\", \"OWNER\"], \"owner_snapshot\": {\"basis\": {\"period_to\": \"2026-09-21\", \"period_from\": \"2026-09-21\", \"balance_sheet_as_of\": \"2026-09-21\", \"quality_event_basis\": \"CURRENT_OP"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:DAY:FINISHED_GOODS:DIRECT:Etc/GMT+12",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "AE_NORMAL_STATE_NOT_READY:{\"identity\": [\"authenticated\", \"authenticated\", \"OWNER\"], \"owner_snapshot\": {\"basis\": {\"period_to\": \"2026-09-21\", \"period_from\": \"2026-09-21\", \"balance_sheet_as_of\": \"2026-09-21\", \"quality_event_basis\": \"CURRENT_OP"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:DAY:FINISHED_GOODS_PRICE:DIRECT:Asia/Jakarta",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "AE_NORMAL_STATE_NOT_READY:{\"identity\": [\"authenticated\", \"authenticated\", \"OWNER\"], \"owner_snapshot\": {\"basis\": {\"period_to\": \"2026-09-21\", \"period_from\": \"2026-09-21\", \"balance_sheet_as_of\": \"2026-09-21\", \"quality_event_basis\": \"CURRENT_OP"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:DAY:FINISHED_GOODS_PRICE:DIRECT:UTC",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "AE_NORMAL_STATE_NOT_READY:{\"identity\": [\"authenticated\", \"authenticated\", \"OWNER\"], \"owner_snapshot\": {\"basis\": {\"period_to\": \"2026-09-21\", \"period_from\": \"2026-09-21\", \"balance_sheet_as_of\": \"2026-09-21\", \"quality_event_basis\": \"CURRENT_OP"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:DAY:FINISHED_GOODS_PRICE:DIRECT:Asia/Tokyo",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "AE_NORMAL_STATE_NOT_READY:{\"identity\": [\"authenticated\", \"authenticated\", \"OWNER\"], \"owner_snapshot\": {\"basis\": {\"period_to\": \"2026-09-21\", \"period_from\": \"2026-09-21\", \"balance_sheet_as_of\": \"2026-09-21\", \"quality_event_basis\": \"CURRENT_OP"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:DAY:FINISHED_GOODS_PRICE:DIRECT:Pacific/Kiritimati",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "AE_NORMAL_STATE_NOT_READY:{\"identity\": [\"authenticated\", \"authenticated\", \"OWNER\"], \"owner_snapshot\": {\"basis\": {\"period_to\": \"2026-09-21\", \"period_from\": \"2026-09-21\", \"balance_sheet_as_of\": \"2026-09-21\", \"quality_event_basis\": \"CURRENT_OP"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:DAY:FINISHED_GOODS_PRICE:DIRECT:Etc/GMT+12",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "AE_NORMAL_STATE_NOT_READY:{\"identity\": [\"authenticated\", \"authenticated\", \"OWNER\"], \"owner_snapshot\": {\"basis\": {\"period_to\": \"2026-09-21\", \"period_from\": \"2026-09-21\", \"balance_sheet_as_of\": \"2026-09-21\", \"quality_event_basis\": \"CURRENT_OP"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:DAY:BS:DIRECT:Asia/Jakarta",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "AE_NORMAL_STATE_NOT_READY:{\"identity\": [\"authenticated\", \"authenticated\", \"OWNER\"], \"owner_snapshot\": {\"basis\": {\"period_to\": \"2026-09-21\", \"period_from\": \"2026-09-21\", \"balance_sheet_as_of\": \"2026-09-21\", \"quality_event_basis\": \"CURRENT_OP"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:DAY:BS:DIRECT:UTC",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "AE_NORMAL_STATE_NOT_READY:{\"identity\": [\"authenticated\", \"authenticated\", \"OWNER\"], \"owner_snapshot\": {\"basis\": {\"period_to\": \"2026-09-21\", \"period_from\": \"2026-09-21\", \"balance_sheet_as_of\": \"2026-09-21\", \"quality_event_basis\": \"CURRENT_OP"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:DAY:BS:DIRECT:Asia/Tokyo",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "AE_NORMAL_STATE_NOT_READY:{\"identity\": [\"authenticated\", \"authenticated\", \"OWNER\"], \"owner_snapshot\": {\"basis\": {\"period_to\": \"2026-09-21\", \"period_from\": \"2026-09-21\", \"balance_sheet_as_of\": \"2026-09-21\", \"quality_event_basis\": \"CURRENT_OP"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:DAY:BS:DIRECT:Pacific/Kiritimati",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "AE_NORMAL_STATE_NOT_READY:{\"identity\": [\"authenticated\", \"authenticated\", \"OWNER\"], \"owner_snapshot\": {\"basis\": {\"period_to\": \"2026-09-21\", \"period_from\": \"2026-09-21\", \"balance_sheet_as_of\": \"2026-09-21\", \"quality_event_basis\": \"CURRENT_OP"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:DAY:BS:DIRECT:Etc/GMT+12",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "AE_NORMAL_STATE_NOT_READY:{\"identity\": [\"authenticated\", \"authenticated\", \"OWNER\"], \"owner_snapshot\": {\"basis\": {\"period_to\": \"2026-09-21\", \"period_from\": \"2026-09-21\", \"balance_sheet_as_of\": \"2026-09-21\", \"quality_event_basis\": \"CURRENT_OP"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:DAY:BS_PRODUCT:DIRECT:Asia/Jakarta",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "AE_NORMAL_STATE_NOT_READY:{\"identity\": [\"authenticated\", \"authenticated\", \"OWNER\"], \"owner_snapshot\": {\"basis\": {\"period_to\": \"2026-09-21\", \"period_from\": \"2026-09-21\", \"balance_sheet_as_of\": \"2026-09-21\", \"quality_event_basis\": \"CURRENT_OP"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:DAY:BS_PRODUCT:DIRECT:UTC",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "AE_NORMAL_STATE_NOT_READY:{\"identity\": [\"authenticated\", \"authenticated\", \"OWNER\"], \"owner_snapshot\": {\"basis\": {\"period_to\": \"2026-09-21\", \"period_from\": \"2026-09-21\", \"balance_sheet_as_of\": \"2026-09-21\", \"quality_event_basis\": \"CURRENT_OP"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:DAY:BS_PRODUCT:DIRECT:Asia/Tokyo",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "AE_NORMAL_STATE_NOT_READY:{\"identity\": [\"authenticated\", \"authenticated\", \"OWNER\"], \"owner_snapshot\": {\"basis\": {\"period_to\": \"2026-09-21\", \"period_from\": \"2026-09-21\", \"balance_sheet_as_of\": \"2026-09-21\", \"quality_event_basis\": \"CURRENT_OP"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:DAY:BS_PRODUCT:DIRECT:Pacific/Kiritimati",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "AE_NORMAL_STATE_NOT_READY:{\"identity\": [\"authenticated\", \"authenticated\", \"OWNER\"], \"owner_snapshot\": {\"basis\": {\"period_to\": \"2026-09-21\", \"period_from\": \"2026-09-21\", \"balance_sheet_as_of\": \"2026-09-21\", \"quality_event_basis\": \"CURRENT_OP"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:DAY:BS_PRODUCT:DIRECT:Etc/GMT+12",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "AE_NORMAL_STATE_NOT_READY:{\"identity\": [\"authenticated\", \"authenticated\", \"OWNER\"], \"owner_snapshot\": {\"basis\": {\"period_to\": \"2026-09-21\", \"period_from\": \"2026-09-21\", \"balance_sheet_as_of\": \"2026-09-21\", \"quality_event_basis\": \"CURRENT_OP"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:DAY:ATTENDANCE:DIRECT:Asia/Jakarta",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "PAYROLL_ATTENDANCE_UNCOVERED",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "AE_NORMAL_STATE_NOT_READY:{\"identity\": [\"authenticated\", \"authenticated\", \"OWNER\"], \"owner_snapshot\": {\"basis\": {\"period_to\": \"2026-09-21\", \"period_from\": \"2026-09-21\", \"balance_sheet_as_of\": \"2026-09-21\", \"quality_event_basis\": \"CURRENT_OP"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:DAY:ATTENDANCE:DIRECT:UTC",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "PAYROLL_ATTENDANCE_UNCOVERED",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "AE_NORMAL_STATE_NOT_READY:{\"identity\": [\"authenticated\", \"authenticated\", \"OWNER\"], \"owner_snapshot\": {\"basis\": {\"period_to\": \"2026-09-21\", \"period_from\": \"2026-09-21\", \"balance_sheet_as_of\": \"2026-09-21\", \"quality_event_basis\": \"CURRENT_OP"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:DAY:ATTENDANCE:DIRECT:Asia/Tokyo",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "PAYROLL_ATTENDANCE_UNCOVERED",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "AE_NORMAL_STATE_NOT_READY:{\"identity\": [\"authenticated\", \"authenticated\", \"OWNER\"], \"owner_snapshot\": {\"basis\": {\"period_to\": \"2026-09-21\", \"period_from\": \"2026-09-21\", \"balance_sheet_as_of\": \"2026-09-21\", \"quality_event_basis\": \"CURRENT_OP"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:DAY:ATTENDANCE:DIRECT:Pacific/Kiritimati",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "PAYROLL_ATTENDANCE_UNCOVERED",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "AE_NORMAL_STATE_NOT_READY:{\"identity\": [\"authenticated\", \"authenticated\", \"OWNER\"], \"owner_snapshot\": {\"basis\": {\"period_to\": \"2026-09-21\", \"period_from\": \"2026-09-21\", \"balance_sheet_as_of\": \"2026-09-21\", \"quality_event_basis\": \"CURRENT_OP"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:DAY:ATTENDANCE:DIRECT:Etc/GMT+12",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "PAYROLL_ATTENDANCE_UNCOVERED",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "AE_NORMAL_STATE_NOT_READY:{\"identity\": [\"authenticated\", \"authenticated\", \"OWNER\"], \"owner_snapshot\": {\"basis\": {\"period_to\": \"2026-09-21\", \"period_from\": \"2026-09-21\", \"balance_sheet_as_of\": \"2026-09-21\", \"quality_event_basis\": \"CURRENT_OP"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:INVOICE:False:Asia/Jakarta:20",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "CLOSE_BLOCKED: tutup buku sampai 2026-09-21 ditolak, 8 penghalang (ATTENDANCE_CELL_MISSING, PAYROLL_NOT_APPROVED, PAYROLL_WORK_UNCOVERED).\nDETAIL:  {\"info\": [{\"code\": \"GRNI_ESTIMATE_OPEN\", \"scope\": \"CURRENT_STATE\", \"family\": \"GRNI\", \"reason"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:INVOICE:False:Asia/Jakarta:20.003",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "CLOSE_BLOCKED: tutup buku sampai 2026-09-21 ditolak, 8 penghalang (ATTENDANCE_CELL_MISSING, PAYROLL_NOT_APPROVED, PAYROLL_WORK_UNCOVERED).\nDETAIL:  {\"info\": [{\"code\": \"GRNI_ESTIMATE_OPEN\", \"scope\": \"CURRENT_STATE\", \"family\": \"GRNI\", \"reason"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:INVOICE:False:UTC:20",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "CLOSE_BLOCKED: tutup buku sampai 2026-09-21 ditolak, 8 penghalang (ATTENDANCE_CELL_MISSING, PAYROLL_NOT_APPROVED, PAYROLL_WORK_UNCOVERED).\nDETAIL:  {\"info\": [{\"code\": \"GRNI_ESTIMATE_OPEN\", \"scope\": \"CURRENT_STATE\", \"family\": \"GRNI\", \"reason"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:INVOICE:False:UTC:20.003",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "CLOSE_BLOCKED: tutup buku sampai 2026-09-21 ditolak, 8 penghalang (ATTENDANCE_CELL_MISSING, PAYROLL_NOT_APPROVED, PAYROLL_WORK_UNCOVERED).\nDETAIL:  {\"info\": [{\"code\": \"GRNI_ESTIMATE_OPEN\", \"scope\": \"CURRENT_STATE\", \"family\": \"GRNI\", \"reason"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:INVOICE:False:Etc/GMT+12:20",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "CLOSE_BLOCKED: tutup buku sampai 2026-09-21 ditolak, 8 penghalang (ATTENDANCE_CELL_MISSING, PAYROLL_NOT_APPROVED, PAYROLL_WORK_UNCOVERED).\nDETAIL:  {\"info\": [{\"code\": \"GRNI_ESTIMATE_OPEN\", \"scope\": \"CURRENT_STATE\", \"family\": \"GRNI\", \"reason"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:INVOICE:False:Etc/GMT+12:20.003",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "CLOSE_BLOCKED: tutup buku sampai 2026-09-21 ditolak, 8 penghalang (ATTENDANCE_CELL_MISSING, PAYROLL_NOT_APPROVED, PAYROLL_WORK_UNCOVERED).\nDETAIL:  {\"info\": [{\"code\": \"GRNI_ESTIMATE_OPEN\", \"scope\": \"CURRENT_STATE\", \"family\": \"GRNI\", \"reason"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:INVOICE:False:Pacific/Kiritimati:20",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "CLOSE_BLOCKED: tutup buku sampai 2026-09-21 ditolak, 8 penghalang (ATTENDANCE_CELL_MISSING, PAYROLL_NOT_APPROVED, PAYROLL_WORK_UNCOVERED).\nDETAIL:  {\"info\": [{\"code\": \"GRNI_ESTIMATE_OPEN\", \"scope\": \"CURRENT_STATE\", \"family\": \"GRNI\", \"reason"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:INVOICE:False:Pacific/Kiritimati:20.003",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "CLOSE_BLOCKED: tutup buku sampai 2026-09-21 ditolak, 8 penghalang (ATTENDANCE_CELL_MISSING, PAYROLL_NOT_APPROVED, PAYROLL_WORK_UNCOVERED).\nDETAIL:  {\"info\": [{\"code\": \"GRNI_ESTIMATE_OPEN\", \"scope\": \"CURRENT_STATE\", \"family\": \"GRNI\", \"reason"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:INVOICE:True:Asia/Jakarta:20",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "CLOSE_BLOCKED: tutup buku sampai 2026-09-21 ditolak, 8 penghalang (ATTENDANCE_CELL_MISSING, PAYROLL_NOT_APPROVED, PAYROLL_WORK_UNCOVERED).\nDETAIL:  {\"info\": [{\"code\": \"GRNI_ESTIMATE_OPEN\", \"scope\": \"CURRENT_STATE\", \"family\": \"GRNI\", \"reason"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:INVOICE:True:Asia/Jakarta:20.003",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "CLOSE_BLOCKED: tutup buku sampai 2026-09-21 ditolak, 8 penghalang (ATTENDANCE_CELL_MISSING, PAYROLL_NOT_APPROVED, PAYROLL_WORK_UNCOVERED).\nDETAIL:  {\"info\": [{\"code\": \"GRNI_ESTIMATE_OPEN\", \"scope\": \"CURRENT_STATE\", \"family\": \"GRNI\", \"reason"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:INVOICE:True:UTC:20",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "CLOSE_BLOCKED: tutup buku sampai 2026-09-21 ditolak, 8 penghalang (ATTENDANCE_CELL_MISSING, PAYROLL_NOT_APPROVED, PAYROLL_WORK_UNCOVERED).\nDETAIL:  {\"info\": [{\"code\": \"GRNI_ESTIMATE_OPEN\", \"scope\": \"CURRENT_STATE\", \"family\": \"GRNI\", \"reason"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:INVOICE:True:UTC:20.003",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "CLOSE_BLOCKED: tutup buku sampai 2026-09-21 ditolak, 8 penghalang (ATTENDANCE_CELL_MISSING, PAYROLL_NOT_APPROVED, PAYROLL_WORK_UNCOVERED).\nDETAIL:  {\"info\": [{\"code\": \"GRNI_ESTIMATE_OPEN\", \"scope\": \"CURRENT_STATE\", \"family\": \"GRNI\", \"reason"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:INVOICE:True:Etc/GMT+12:20",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "CLOSE_BLOCKED: tutup buku sampai 2026-09-21 ditolak, 8 penghalang (ATTENDANCE_CELL_MISSING, PAYROLL_NOT_APPROVED, PAYROLL_WORK_UNCOVERED).\nDETAIL:  {\"info\": [{\"code\": \"GRNI_ESTIMATE_OPEN\", \"scope\": \"CURRENT_STATE\", \"family\": \"GRNI\", \"reason"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:INVOICE:True:Etc/GMT+12:20.003",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "CLOSE_BLOCKED: tutup buku sampai 2026-09-21 ditolak, 8 penghalang (ATTENDANCE_CELL_MISSING, PAYROLL_NOT_APPROVED, PAYROLL_WORK_UNCOVERED).\nDETAIL:  {\"info\": [{\"code\": \"GRNI_ESTIMATE_OPEN\", \"scope\": \"CURRENT_STATE\", \"family\": \"GRNI\", \"reason"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:INVOICE:True:Pacific/Kiritimati:20",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "CLOSE_BLOCKED: tutup buku sampai 2026-09-21 ditolak, 8 penghalang (ATTENDANCE_CELL_MISSING, PAYROLL_NOT_APPROVED, PAYROLL_WORK_UNCOVERED).\nDETAIL:  {\"info\": [{\"code\": \"GRNI_ESTIMATE_OPEN\", \"scope\": \"CURRENT_STATE\", \"family\": \"GRNI\", \"reason"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:INVOICE:True:Pacific/Kiritimati:20.003",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "CLOSE_BLOCKED: tutup buku sampai 2026-09-21 ditolak, 8 penghalang (ATTENDANCE_CELL_MISSING, PAYROLL_NOT_APPROVED, PAYROLL_WORK_UNCOVERED).\nDETAIL:  {\"info\": [{\"code\": \"GRNI_ESTIMATE_OPEN\", \"scope\": \"CURRENT_STATE\", \"family\": \"GRNI\", \"reason"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:CASH_LINKED:0",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [],
+     "error_head": "INDEPENDENT_OPENING_FIXTURE_NOT_READY"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:CASH_LINKED:1",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [],
+     "error_head": "INDEPENDENT_PAYMENT_FIXTURE_NOT_READY"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:CASH_LINKED:2",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [],
+     "error_head": "INDEPENDENT_PAYMENT_FIXTURE_NOT_READY"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:CASH_LINKED:3",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [],
+     "error_head": "INDEPENDENT_OPENING_FIXTURE_NOT_READY"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:CASH_LINKED:4",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [],
+     "error_head": "INDEPENDENT_PAYMENT_FIXTURE_NOT_READY"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:CASH_LINKED:5",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [],
+     "error_head": "INDEPENDENT_PAYMENT_FIXTURE_NOT_READY"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CROSS:H_R02",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [],
+     "error_head": "R02 lawful baseline is not READY"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "WORK:WORK_CENTS",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "{'basis': {'period_to': '2026-09-21', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-21', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laun"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "WORK:WORK_ZERO_RATE",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "{'basis': {'period_to': '2026-09-21', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-21', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laun"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "WORK:WORK_UNPAID",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "{'basis': {'period_to': '2026-09-21', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-21', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laun"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "WORK:WORK_PARTIAL_PAY",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "{'basis': {'period_to': '2026-09-21', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-21', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laun"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "WORK:WORK_TIMEZONE",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "{'basis': {'period_to': '2026-09-21', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-21', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laun"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "WORK:REVERSE_REUSE",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "{'basis': {'period_to': '2026-09-21', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-21', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laun"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "WORK:HPP_THROUGH_SALE_0",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "{'info': [{'code': 'GRNI_ESTIMATE_OPEN', 'scope': 'CURRENT_STATE', 'family': 'GRNI', 'reason': '1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.', 'severity': 'INFO', 'reference': {'rec"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "WORK:HPP_THROUGH_SALE_1.27",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "{'info': [{'code': 'GRNI_ESTIMATE_OPEN', 'scope': 'CURRENT_STATE', 'family': 'GRNI', 'reason': '1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.', 'severity': 'INFO', 'reference': {'rec"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "INVOICE:UTC:4:False",
+     "status": "INCOMPLETE",
+     "stage": "FIXTURE_QUALIFICATION",
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "FIXTURE_QUALIFICATION mismatch: report_readiness"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "INVOICE:UTC:4:True",
+     "status": "INCOMPLETE",
+     "stage": "FIXTURE_QUALIFICATION",
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "FIXTURE_QUALIFICATION mismatch: report_readiness"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "INVOICE:UTC:7:False",
+     "status": "INCOMPLETE",
+     "stage": "FIXTURE_QUALIFICATION",
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "FIXTURE_QUALIFICATION mismatch: report_readiness"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "INVOICE:UTC:7:True",
+     "status": "INCOMPLETE",
+     "stage": "FIXTURE_QUALIFICATION",
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "FIXTURE_QUALIFICATION mismatch: report_readiness"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "INVOICE:Asia/Jakarta:4:False",
+     "status": "INCOMPLETE",
+     "stage": "FIXTURE_QUALIFICATION",
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "FIXTURE_QUALIFICATION mismatch: report_readiness"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "INVOICE:Asia/Jakarta:4:True",
+     "status": "INCOMPLETE",
+     "stage": "FIXTURE_QUALIFICATION",
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "FIXTURE_QUALIFICATION mismatch: report_readiness"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "INVOICE:Asia/Jakarta:7:False",
+     "status": "INCOMPLETE",
+     "stage": "FIXTURE_QUALIFICATION",
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "FIXTURE_QUALIFICATION mismatch: report_readiness"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "INVOICE:Asia/Jakarta:7:True",
+     "status": "INCOMPLETE",
+     "stage": "FIXTURE_QUALIFICATION",
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "FIXTURE_QUALIFICATION mismatch: report_readiness"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "INVOICE:Pacific/Kiritimati:4:False",
+     "status": "INCOMPLETE",
+     "stage": "FIXTURE_QUALIFICATION",
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "FIXTURE_QUALIFICATION mismatch: report_readiness"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "INVOICE:Pacific/Kiritimati:4:True",
+     "status": "INCOMPLETE",
+     "stage": "FIXTURE_QUALIFICATION",
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "FIXTURE_QUALIFICATION mismatch: report_readiness"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "INVOICE:Pacific/Kiritimati:7:False",
+     "status": "INCOMPLETE",
+     "stage": "FIXTURE_QUALIFICATION",
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "FIXTURE_QUALIFICATION mismatch: report_readiness"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "INVOICE:Pacific/Kiritimati:7:True",
+     "status": "INCOMPLETE",
+     "stage": "FIXTURE_QUALIFICATION",
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "FIXTURE_QUALIFICATION mismatch: report_readiness"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "INVOICE:America/Los_Angeles:4:False",
+     "status": "INCOMPLETE",
+     "stage": "FIXTURE_QUALIFICATION",
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "FIXTURE_QUALIFICATION mismatch: report_readiness"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "INVOICE:America/Los_Angeles:4:True",
+     "status": "INCOMPLETE",
+     "stage": "FIXTURE_QUALIFICATION",
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "FIXTURE_QUALIFICATION mismatch: report_readiness"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "INVOICE:America/Los_Angeles:7:False",
+     "status": "INCOMPLETE",
+     "stage": "FIXTURE_QUALIFICATION",
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "FIXTURE_QUALIFICATION mismatch: report_readiness"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "INVOICE:America/Los_Angeles:7:True",
+     "status": "INCOMPLETE",
+     "stage": "FIXTURE_QUALIFICATION",
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "FIXTURE_QUALIFICATION mismatch: report_readiness"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CALENDAR:1_MONTHS:UTC:False",
+     "status": "INCOMPLETE",
+     "stage": "FIXTURE_QUALIFICATION",
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "FIXTURE_QUALIFICATION mismatch: confidence"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CALENDAR:1_MONTHS:UTC:True",
+     "status": "INCOMPLETE",
+     "stage": "FIXTURE_QUALIFICATION",
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "FIXTURE_QUALIFICATION mismatch: confidence"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CALENDAR:1_MONTHS:Pacific/Kiritimati:False",
+     "status": "INCOMPLETE",
+     "stage": "FIXTURE_QUALIFICATION",
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "FIXTURE_QUALIFICATION mismatch: confidence"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CALENDAR:1_MONTHS:Pacific/Kiritimati:True",
+     "status": "INCOMPLETE",
+     "stage": "FIXTURE_QUALIFICATION",
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "FIXTURE_QUALIFICATION mismatch: confidence"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CALENDAR:2_MONTHS:UTC:False",
+     "status": "INCOMPLETE",
+     "stage": "FIXTURE_QUALIFICATION",
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "FIXTURE_QUALIFICATION mismatch: confidence"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CALENDAR:2_MONTHS:UTC:True",
+     "status": "INCOMPLETE",
+     "stage": "FIXTURE_QUALIFICATION",
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "FIXTURE_QUALIFICATION mismatch: confidence"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CALENDAR:2_MONTHS:Pacific/Kiritimati:False",
+     "status": "INCOMPLETE",
+     "stage": "FIXTURE_QUALIFICATION",
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "FIXTURE_QUALIFICATION mismatch: confidence"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CALENDAR:2_MONTHS:Pacific/Kiritimati:True",
+     "status": "INCOMPLETE",
+     "stage": "FIXTURE_QUALIFICATION",
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "FIXTURE_QUALIFICATION mismatch: confidence"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CALENDAR:3_MONTHS:UTC:False",
+     "status": "INCOMPLETE",
+     "stage": "FIXTURE_QUALIFICATION",
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "FIXTURE_QUALIFICATION mismatch: confidence"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CALENDAR:3_MONTHS:UTC:True",
+     "status": "INCOMPLETE",
+     "stage": "FIXTURE_QUALIFICATION",
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "FIXTURE_QUALIFICATION mismatch: confidence"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CALENDAR:3_MONTHS:Pacific/Kiritimati:False",
+     "status": "INCOMPLETE",
+     "stage": "FIXTURE_QUALIFICATION",
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "FIXTURE_QUALIFICATION mismatch: confidence"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CALENDAR:3_MONTHS:Pacific/Kiritimati:True",
+     "status": "INCOMPLETE",
+     "stage": "FIXTURE_QUALIFICATION",
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "FIXTURE_QUALIFICATION mismatch: confidence"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CALENDAR:JAN31:UTC:False",
+     "status": "INCOMPLETE",
+     "stage": "FIXTURE_QUALIFICATION",
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "FIXTURE_QUALIFICATION mismatch: confidence"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CALENDAR:JAN31:UTC:True",
+     "status": "INCOMPLETE",
+     "stage": "FIXTURE_QUALIFICATION",
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "FIXTURE_QUALIFICATION mismatch: confidence"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CALENDAR:JAN31:Pacific/Kiritimati:False",
+     "status": "INCOMPLETE",
+     "stage": "FIXTURE_QUALIFICATION",
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "FIXTURE_QUALIFICATION mismatch: confidence"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CALENDAR:JAN31:Pacific/Kiritimati:True",
+     "status": "INCOMPLETE",
+     "stage": "FIXTURE_QUALIFICATION",
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "FIXTURE_QUALIFICATION mismatch: confidence"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CALENDAR:FEB28:UTC:False",
+     "status": "INCOMPLETE",
+     "stage": "FIXTURE_QUALIFICATION",
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "FIXTURE_QUALIFICATION mismatch: confidence"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CALENDAR:FEB28:UTC:True",
+     "status": "INCOMPLETE",
+     "stage": "FIXTURE_QUALIFICATION",
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "FIXTURE_QUALIFICATION mismatch: confidence"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CALENDAR:FEB28:Pacific/Kiritimati:False",
+     "status": "INCOMPLETE",
+     "stage": "FIXTURE_QUALIFICATION",
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "FIXTURE_QUALIFICATION mismatch: confidence"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CALENDAR:FEB28:Pacific/Kiritimati:True",
+     "status": "INCOMPLETE",
+     "stage": "FIXTURE_QUALIFICATION",
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "FIXTURE_QUALIFICATION mismatch: confidence"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CALENDAR:MAY31:UTC:False",
+     "status": "INCOMPLETE",
+     "stage": "FIXTURE_QUALIFICATION",
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "FIXTURE_QUALIFICATION mismatch: confidence"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CALENDAR:MAY31:UTC:True",
+     "status": "INCOMPLETE",
+     "stage": "FIXTURE_QUALIFICATION",
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "FIXTURE_QUALIFICATION mismatch: confidence"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CALENDAR:MAY31:Pacific/Kiritimati:False",
+     "status": "INCOMPLETE",
+     "stage": "FIXTURE_QUALIFICATION",
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "FIXTURE_QUALIFICATION mismatch: confidence"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "CALENDAR:MAY31:Pacific/Kiritimati:True",
+     "status": "INCOMPLETE",
+     "stage": "FIXTURE_QUALIFICATION",
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "FIXTURE_QUALIFICATION mismatch: confidence"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "REWORK:0:CONTRACTOR:failed=False",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "{'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-24', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laun"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "REWORK:0:CONTRACTOR:failed=True",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "{'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-24', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laun"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "REWORK:0:LAUNDRY:failed=False",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "{'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-24', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laun"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "REWORK:0:LAUNDRY:failed=True",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "{'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-24', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laun"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "REWORK:4:CONTRACTOR:failed=False",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "{'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-24', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laun"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "REWORK:4:CONTRACTOR:failed=True",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "{'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-24', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laun"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "REWORK:4:LAUNDRY:failed=False",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "{'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-24', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laun"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "REWORK:4:LAUNDRY:failed=True",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "{'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-24', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laun"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "REWORK:MIXED_RATES:CONTRACTOR:failed=False",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "{'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-24', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laun"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "REWORK:MIXED_RATES:CONTRACTOR:failed=True",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "{'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-24', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laun"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "REWORK:MIXED_RATES:LAUNDRY:failed=False",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "{'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-24', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laun"
+    },
+    {
+     "group": "BUSINESS",
+     "case": "REWORK:MIXED_RATES:LAUNDRY:failed=True",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "{'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-24', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laun"
+    },
+    {
+     "group": "IMPORTS",
+     "case": "RECOVERED_SALE:CONTRACTOR:False",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "{'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-24', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laun"
+    },
+    {
+     "group": "IMPORTS",
+     "case": "RECOVERED_SALE:CONTRACTOR:True",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "{'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-24', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laun"
+    },
+    {
+     "group": "IMPORTS",
+     "case": "RECOVERED_SALE:LAUNDRY:False",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "{'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-24', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laun"
+    },
+    {
+     "group": "IMPORTS",
+     "case": "RECOVERED_SALE:LAUNDRY:True",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "{'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-24', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laun"
+    },
+    {
+     "group": "NEW_CASES",
+     "case": "DATE:True:Asia/Jakarta:False:20.003",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "CLOSE_BLOCKED: tutup buku sampai 2026-09-21 ditolak, 8 penghalang (ATTENDANCE_CELL_MISSING, PAYROLL_NOT_APPROVED, PAYROLL_WORK_UNCOVERED).\nDETAIL:  {\"info\": [{\"code\": \"GRNI_ESTIMATE_OPEN\", \"scope\": \"CURRENT_STATE\", \"family\": \"GRNI\", \"reason"
+    },
+    {
+     "group": "NEW_CASES",
+     "case": "DATE:True:Asia/Jakarta:True:20",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "CLOSE_BLOCKED: tutup buku sampai 2026-09-21 ditolak, 8 penghalang (ATTENDANCE_CELL_MISSING, PAYROLL_NOT_APPROVED, PAYROLL_WORK_UNCOVERED).\nDETAIL:  {\"info\": [{\"code\": \"GRNI_ESTIMATE_OPEN\", \"scope\": \"CURRENT_STATE\", \"family\": \"GRNI\", \"reason"
+    },
+    {
+     "group": "NEW_CASES",
+     "case": "DATE:True:Asia/Jakarta:True:20.003",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "CLOSE_BLOCKED: tutup buku sampai 2026-09-21 ditolak, 8 penghalang (ATTENDANCE_CELL_MISSING, PAYROLL_NOT_APPROVED, PAYROLL_WORK_UNCOVERED).\nDETAIL:  {\"info\": [{\"code\": \"GRNI_ESTIMATE_OPEN\", \"scope\": \"CURRENT_STATE\", \"family\": \"GRNI\", \"reason"
+    },
+    {
+     "group": "NEW_CASES",
+     "case": "DATE:True:UTC:False:20.003",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "CLOSE_BLOCKED: tutup buku sampai 2026-09-21 ditolak, 8 penghalang (ATTENDANCE_CELL_MISSING, PAYROLL_NOT_APPROVED, PAYROLL_WORK_UNCOVERED).\nDETAIL:  {\"info\": [{\"code\": \"GRNI_ESTIMATE_OPEN\", \"scope\": \"CURRENT_STATE\", \"family\": \"GRNI\", \"reason"
+    },
+    {
+     "group": "NEW_CASES",
+     "case": "DATE:True:UTC:True:20",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "CLOSE_BLOCKED: tutup buku sampai 2026-09-21 ditolak, 8 penghalang (ATTENDANCE_CELL_MISSING, PAYROLL_NOT_APPROVED, PAYROLL_WORK_UNCOVERED).\nDETAIL:  {\"info\": [{\"code\": \"GRNI_ESTIMATE_OPEN\", \"scope\": \"CURRENT_STATE\", \"family\": \"GRNI\", \"reason"
+    },
+    {
+     "group": "NEW_CASES",
+     "case": "DATE:True:UTC:True:20.003",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "CLOSE_BLOCKED: tutup buku sampai 2026-09-21 ditolak, 8 penghalang (ATTENDANCE_CELL_MISSING, PAYROLL_NOT_APPROVED, PAYROLL_WORK_UNCOVERED).\nDETAIL:  {\"info\": [{\"code\": \"GRNI_ESTIMATE_OPEN\", \"scope\": \"CURRENT_STATE\", \"family\": \"GRNI\", \"reason"
+    },
+    {
+     "group": "NEW_CASES",
+     "case": "DATE:True:Etc/GMT+12:False:20.003",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "CLOSE_BLOCKED: tutup buku sampai 2026-09-21 ditolak, 8 penghalang (ATTENDANCE_CELL_MISSING, PAYROLL_NOT_APPROVED, PAYROLL_WORK_UNCOVERED).\nDETAIL:  {\"info\": [{\"code\": \"GRNI_ESTIMATE_OPEN\", \"scope\": \"CURRENT_STATE\", \"family\": \"GRNI\", \"reason"
+    },
+    {
+     "group": "NEW_CASES",
+     "case": "DATE:True:Etc/GMT+12:True:20",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "CLOSE_BLOCKED: tutup buku sampai 2026-09-21 ditolak, 8 penghalang (ATTENDANCE_CELL_MISSING, PAYROLL_NOT_APPROVED, PAYROLL_WORK_UNCOVERED).\nDETAIL:  {\"info\": [{\"code\": \"GRNI_ESTIMATE_OPEN\", \"scope\": \"CURRENT_STATE\", \"family\": \"GRNI\", \"reason"
+    },
+    {
+     "group": "NEW_CASES",
+     "case": "DATE:True:Etc/GMT+12:True:20.003",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "CLOSE_BLOCKED: tutup buku sampai 2026-09-21 ditolak, 8 penghalang (ATTENDANCE_CELL_MISSING, PAYROLL_NOT_APPROVED, PAYROLL_WORK_UNCOVERED).\nDETAIL:  {\"info\": [{\"code\": \"GRNI_ESTIMATE_OPEN\", \"scope\": \"CURRENT_STATE\", \"family\": \"GRNI\", \"reason"
+    },
+    {
+     "group": "NEW_CASES",
+     "case": "DATE:True:Pacific/Kiritimati:False:20.003",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "CLOSE_BLOCKED: tutup buku sampai 2026-09-21 ditolak, 8 penghalang (ATTENDANCE_CELL_MISSING, PAYROLL_NOT_APPROVED, PAYROLL_WORK_UNCOVERED).\nDETAIL:  {\"info\": [{\"code\": \"GRNI_ESTIMATE_OPEN\", \"scope\": \"CURRENT_STATE\", \"family\": \"GRNI\", \"reason"
+    },
+    {
+     "group": "NEW_CASES",
+     "case": "DATE:True:Pacific/Kiritimati:True:20",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "CLOSE_BLOCKED: tutup buku sampai 2026-09-21 ditolak, 8 penghalang (ATTENDANCE_CELL_MISSING, PAYROLL_NOT_APPROVED, PAYROLL_WORK_UNCOVERED).\nDETAIL:  {\"info\": [{\"code\": \"GRNI_ESTIMATE_OPEN\", \"scope\": \"CURRENT_STATE\", \"family\": \"GRNI\", \"reason"
+    },
+    {
+     "group": "NEW_CASES",
+     "case": "DATE:True:Pacific/Kiritimati:True:20.003",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "CLOSE_BLOCKED: tutup buku sampai 2026-09-21 ditolak, 8 penghalang (ATTENDANCE_CELL_MISSING, PAYROLL_NOT_APPROVED, PAYROLL_WORK_UNCOVERED).\nDETAIL:  {\"info\": [{\"code\": \"GRNI_ESTIMATE_OPEN\", \"scope\": \"CURRENT_STATE\", \"family\": \"GRNI\", \"reason"
+    },
+    {
+     "group": "NEW_CASES",
+     "case": "ADJUSTMENT_DATE:True",
+     "status": "INCOMPLETE",
+     "stage": null,
+     "blocker_codes": [
+      "ATTENDANCE_CELL_MISSING",
+      "GRNI_ESTIMATE_OPEN",
+      "PAYROLL_NOT_APPROVED",
+      "PAYROLL_WORK_UNCOVERED"
+     ],
+     "error_head": "CLOSE_BLOCKED: tutup buku sampai 2026-09-21 ditolak, 8 penghalang (ATTENDANCE_CELL_MISSING, PAYROLL_NOT_APPROVED, PAYROLL_WORK_UNCOVERED).\nDETAIL:  {\"info\": [{\"code\": \"GRNI_ESTIMATE_OPEN\", \"scope\": \"CURRENT_STATE\", \"family\": \"GRNI\", \"reason"
+    }
+   ]
+  }
+ },
+ "root_cause": {
+  "finding": "Every moved case stops at a readiness or close check whose blockers are the seed own open items (POLICY) plus GRNI info.",
+  "blocker_codes_seen": [
+   "ATTENDANCE_CELL_MISSING",
+   "GRNI_ESTIMATE_OPEN",
+   "PAYROLL_ATTENDANCE_UNCOVERED",
+   "PAYROLL_NOT_APPROVED",
+   "PAYROLL_WORK_UNCOVERED"
+  ],
+  "moved_with_only_seed_policy_codes": 145,
+  "moved_total": 152,
+  "seed_items": [
+   "attendance of 4 seed workers (CP3 R3 Worker A, B, Special; CP3 R4 Worker C) missing every day of the window",
+   "seed payroll CP3R4-PAY-C-FEB-PENDING (2026-02-01) still CALCULATED",
+   "seed contractor work (a1000000-...-0001, -0004, -0006) outside any payroll"
+  ],
+  "policy": "AW recorded owner policy: attendance empty on a working day, payroll not approved, and worker-days or work not covered by payroll block; P-03 (owner, 23 Sep): hold every date.",
+  "moved_without_blocker_detail": {
+   "count": 7,
+   "cases": [
+    "CROSS:CASH_LINKED:0..5",
+    "CROSS:H_R02"
+   ],
+   "reason": "Their fixture setup asserts data_confidence READY before the case (scripts/cp6_x_independent_audit.py settlement_date and payment_date; scripts/cp6_v2620h_adversarial_regression.py case_r02), so the blocker list is not in the message; same engine answer as the other 145."
+  }
+ },
+ "next": "Run 2 with CP6_T2_SEED=QUIETED clears these seed items once per group (owner RPCs), oracles unchanged; a case that still moves is disposed of on its own."
+}

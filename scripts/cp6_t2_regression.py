@@ -7,7 +7,15 @@ Every case is compared with the AU recorded outcome per case id (H-01 comparator
 disposition instead of being absorbed by a count. No oracle is edited and no historical HOLD is resolved here.
 
 Label: T2_REGRESSION while the candidate is stable; T2_PRELIMINARY otherwise (set CP6_T2_LABEL).
+
+CP6_T2_SEED=QUIETED (run 2): run 1 (35911656309) moved 145 regression and 7 AR cases, every one stopped by POLICY
+blockers of the harness seed itself (4 seed workers without attendance, one seed payroll CALCULATED, seed contractor
+work outside any payroll) under the recorded owner policy of AW (P-03: hold every date). Run 2 clears exactly those
+seed items once per group, before any case, the way the owner would (awp.quiet_seed: attendance OFF through the
+attendance RPCs, payroll approval, seed work into an approved payroll), inside the group transaction that is rolled
+back afterwards. Oracles, cases and races are unchanged; a case that still moves is disposed of on its own.
 """
+from datetime import date,timedelta
 from pathlib import Path
 import argparse,json,os,sys,types
 
@@ -21,7 +29,36 @@ import cp6_ax_probe as axp
 import cp6_regression_identity as identity
 
 LABEL=os.environ.get('CP6_T2_LABEL','T2_PRELIMINARY')
+SEED=os.environ.get('CP6_T2_SEED','AS_IS')
+QUIET_DAYS=120
 avt.OUT=AUDITOR/'cp6-proof/t2'
+assert SEED in ('AS_IS','QUIETED')
+
+
+ORIGINAL_GROUP=avt.group
+
+
+def group(name,factory):
+    """Run 2 only: clear the seed's own open items in the group transaction before the cases are built."""
+    if SEED!='QUIETED':return ORIGINAL_GROUP(name,factory)
+    def quieted(cur,today):
+        # group() has just closed through 2026-08-31. The seed payroll ends 2026-02-01 and the calendar cases reopen up
+        # to three months back, so the seed items are cleared with the books open from 2026-01-02, then the group's
+        # boundary is put back (the same administrative helper group() uses).
+        prior=avt.predecessor.historical.prior
+        prior.set_open_period(cur,date(2026,1,1))
+        done=awp.quiet_seed(cur,today-timedelta(days=QUIET_DAYS),today)
+        prior.set_open_period(cur,date(2026,8,31))
+        after=awp.preflight(cur,today)
+        print(json.dumps(dict(group='T2_SEED_QUIETED',target=name,window=[str(today-timedelta(days=QUIET_DAYS)),str(today)],
+                              attendance=len(done['attendance']),approved=len(done['approved']),work_payrolls=len(done['work_payrolls']),
+                              refused=done['refused'],after_status=after and after['status'],after_blockers=awp.blockers_brief(after)),
+                         default=str),flush=True)
+        return factory(cur,today)
+    return ORIGINAL_GROUP(name,quieted)
+
+
+avt.group=group
 
 
 def change(kind,pg,control_url):
@@ -89,7 +126,7 @@ def run(phase):
     # Reuse the AV trial driver (writer checkout, clone lifecycle, primary check) with the combined candidate.
     if phase=='ar':avt.qualify=ar_phase
     if phase=='regression':avt.regression=regression_phase
-    print(json.dumps(dict(t2_label=LABEL,phase=phase)),flush=True)
+    print(json.dumps(dict(t2_label=LABEL,phase=phase,seed=SEED)),flush=True)
     avt.run({'ar':'qualify','regression':'regression','temporal':'temporal'}[phase])
 
 

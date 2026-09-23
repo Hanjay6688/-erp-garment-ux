@@ -25,21 +25,28 @@ jobs:
       fail-fast: false
       matrix:
         include:
+        # Run 2: run 1 (35911656309) moved 152 cases, all stopped by the seed's own POLICY
+        # open items; ar and regression now clear those seed items once per group
+        # (CP6_T2_SEED=QUIETED, owner RPCs, oracles unchanged). temporal passed in
+        # run 1 and is reproduced with the seed as is.
         - key: ar
-          label: AR 174 original cases and races on AU plus AV plus AW plus AX (T2)
+          label: AR 174 original cases and races on AU plus AV plus AW plus AX, seed quieted (T2 run 2)
           script: cp6_t2_regression.py
           phase: ar
           proof: t2
+          seed: QUIETED
         - key: temporal
           label: AT 16 and AU 15 cases with their real races on the combined candidate (T2)
           script: cp6_t2_regression.py
           phase: temporal
           proof: t2
+          seed: AS_IS
         - key: regression
-          label: Original 326 plus AS 34 with per-case identity on the combined candidate (T2)
+          label: Original 326 plus AS 34 with per-case identity, seed quieted (T2 run 2)
           script: cp6_t2_regression.py
           phase: regression
           proof: t2
+          seed: QUIETED
     env:
       PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
       CP6_AC_INDEPENDENT_CONFIRM: postgres
@@ -56,6 +63,7 @@ jobs:
       CP6_AU_BROWSER_CONFIRM: cp6_rollback
       # AW and AX T1 both passed in full (runs 35909687266 and 35910555547).
       CP6_T2_LABEL: T2_REGRESSION
+      CP6_T2_SEED: ${{ matrix.seed }}
     steps:
     - uses: actions/checkout@v4
       with:
