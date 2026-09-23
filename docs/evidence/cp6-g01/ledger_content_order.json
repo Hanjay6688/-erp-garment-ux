@@ -1,0 +1,686 @@
+{
+ "label": "G01_LEDGER_CONTENT_ORDER",
+ "project_ref": "siimvrusnzxexizpyoib",
+ "summary": {
+  "hosted_rows": 70,
+  "local_files_up_to_v2_6_20": 19,
+  "local_files_matched_by_name": 19,
+  "order_preserved": true,
+  "content": {
+   "IDENTICAL": 18,
+   "IDENTICAL_EXCEPT_FINAL_NEWLINE": 1,
+   "NO_LOCAL_FILE (covered by CP4.5a catalog bootstrap)": 51
+  },
+  "version_stamp_differs": [
+   "erp_v2_6_17a_cp45_pattern_assignment_immutability",
+   "erp_v2_6_18_cutting_persistence_pickup_wip",
+   "erp_v2_6_18a_cutting_bridge_reconciliation",
+   "erp_v2_6_19_cp5_bs_resolution_recovery",
+   "erp_v2_6_19b_cp5_reliability_closure",
+   "erp_v2_6_19c_cp5_atomic_reversal_reconciliation",
+   "erp_v2_6_20_cp6_laundry_qc_fg_authoritative"
+  ],
+  "hosted_only_rows_after_fixture_start": [
+   "manual_reminders_v1_acl_hardening",
+   "erp_v2_6_13a_manual_reminders_acl_hardening",
+   "erp_v2_6_13b_auth_profile_facade_tracking"
+  ]
+ },
+ "rows": [
+  {
+   "hosted_order": 1,
+   "hosted_version": "20260826104553",
+   "name": "compact_export_marker",
+   "hosted_statements_md5": "ccb5b4481bced39454dca6d845601d54",
+   "hosted_chars": 9,
+   "content": "NO_LOCAL_FILE (covered by CP4.5a catalog bootstrap)"
+  },
+  {
+   "hosted_order": 2,
+   "hosted_version": "20260826105139",
+   "name": "enable_pg_net_for_compact_export",
+   "hosted_statements_md5": "c61770d4c5b52f3d689a25fe15aaea67",
+   "hosted_chars": 38,
+   "content": "NO_LOCAL_FILE (covered by CP4.5a catalog bootstrap)"
+  },
+  {
+   "hosted_order": 3,
+   "hosted_version": "20260826105442",
+   "name": "invoke_compact_export_proxy",
+   "hosted_statements_md5": "b2aeab773d5d27f6de6d4ecc9ffefb68",
+   "hosted_chars": 279,
+   "content": "NO_LOCAL_FILE (covered by CP4.5a catalog bootstrap)"
+  },
+  {
+   "hosted_order": 4,
+   "hosted_version": "20260826105822",
+   "name": "invoke_compact_installer_dryrun_validator",
+   "hosted_statements_md5": "92117a4743dabd8c06928323b4a3f899",
+   "hosted_chars": 721,
+   "content": "NO_LOCAL_FILE (covered by CP4.5a catalog bootstrap)"
+  },
+  {
+   "hosted_order": 5,
+   "hosted_version": "20260826105958",
+   "name": "create_compact_validation_snapshot_helper",
+   "hosted_statements_md5": "1b2f9921226dd509f8ede0089fe20380",
+   "hosted_chars": 4675,
+   "content": "NO_LOCAL_FILE (covered by CP4.5a catalog bootstrap)"
+  },
+  {
+   "hosted_order": 6,
+   "hosted_version": "20260826110134",
+   "name": "enable_http_for_compact_validation",
+   "hosted_statements_md5": "b52d1f9a943399dfc867ed9b7c2a9d61",
+   "hosted_chars": 36,
+   "content": "NO_LOCAL_FILE (covered by CP4.5a catalog bootstrap)"
+  },
+  {
+   "hosted_order": 7,
+   "hosted_version": "20260826111946",
+   "name": "overwrite_erp_enteng_reset",
+   "hosted_statements_md5": "3983b302e0269c21517bc13270752d29",
+   "hosted_chars": 53,
+   "content": "NO_LOCAL_FILE (covered by CP4.5a catalog bootstrap)"
+  },
+  {
+   "hosted_order": 8,
+   "hosted_version": "20260826112217",
+   "name": "compact_replay_001",
+   "hosted_statements_md5": "f09937f81fb078f3e4bb77cb1e4c594d",
+   "hosted_chars": 14970,
+   "content": "NO_LOCAL_FILE (covered by CP4.5a catalog bootstrap)"
+  },
+  {
+   "hosted_order": 9,
+   "hosted_version": "20260826123747",
+   "name": "fix_sales_reversal_hpp_chronology",
+   "hosted_statements_md5": "5db0407291c801545248d75d042db25d",
+   "hosted_chars": 7845,
+   "content": "NO_LOCAL_FILE (covered by CP4.5a catalog bootstrap)"
+  },
+  {
+   "hosted_order": 10,
+   "hosted_version": "20260826123756",
+   "name": "fix_no_accessory_bom_integrity_gates",
+   "hosted_statements_md5": "b86294c6201fe57596a2eee549bebead",
+   "hosted_chars": 6369,
+   "content": "NO_LOCAL_FILE (covered by CP4.5a catalog bootstrap)"
+  },
+  {
+   "hosted_order": 11,
+   "hosted_version": "20260826131023",
+   "name": "cleanup_compact_validation_artifacts",
+   "hosted_statements_md5": "e673d5e62ff5a56c9faacbfd4c694050",
+   "hosted_chars": 239,
+   "content": "NO_LOCAL_FILE (covered by CP4.5a catalog bootstrap)"
+  },
+  {
+   "hosted_order": 12,
+   "hosted_version": "20260826131736",
+   "name": "fix_opening_hpp_chained_reversal",
+   "hosted_statements_md5": "d197de7b34b0b3b7bd622f900b73ea91",
+   "hosted_chars": 3297,
+   "content": "NO_LOCAL_FILE (covered by CP4.5a catalog bootstrap)"
+  },
+  {
+   "hosted_order": 13,
+   "hosted_version": "20260826131910",
+   "name": "fix_opening_hpp_reversal_ordering",
+   "hosted_statements_md5": "9c4bf588d9cebf7cbeb3e73c77231196",
+   "hosted_chars": 3400,
+   "content": "NO_LOCAL_FILE (covered by CP4.5a catalog bootstrap)"
+  },
+  {
+   "hosted_order": 14,
+   "hosted_version": "20260826140721",
+   "name": "fix_opening_financial_correction_ordering",
+   "hosted_statements_md5": "765557baa3bc79fb6a0d4743dbc11b5e",
+   "hosted_chars": 10169,
+   "content": "NO_LOCAL_FILE (covered by CP4.5a catalog bootstrap)"
+  },
+  {
+   "hosted_order": 15,
+   "hosted_version": "20260826141228",
+   "name": "fix_material_purchase_cost_correction_ordering",
+   "hosted_statements_md5": "cf82ed8ce43d16e7d55bb65cd2a26edb",
+   "hosted_chars": 11314,
+   "content": "NO_LOCAL_FILE (covered by CP4.5a catalog bootstrap)"
+  },
+  {
+   "hosted_order": 16,
+   "hosted_version": "20260826154125",
+   "name": "rls_performance_hygiene_v260",
+   "hosted_statements_md5": "403777b6595c8256d95f341383922bf6",
+   "hosted_chars": 4664,
+   "content": "NO_LOCAL_FILE (covered by CP4.5a catalog bootstrap)"
+  },
+  {
+   "hosted_order": 17,
+   "hosted_version": "20260826162724",
+   "name": "v261_material_cost_checkpoint_replay",
+   "hosted_statements_md5": "4c9526e4ddd501fa2b1b1273c36374c9",
+   "hosted_chars": 24454,
+   "content": "NO_LOCAL_FILE (covered by CP4.5a catalog bootstrap)"
+  },
+  {
+   "hosted_order": 18,
+   "hosted_version": "20260826163218",
+   "name": "v261_checkpoint_hotpath_indexes",
+   "hosted_statements_md5": "45762325a2cf5187a46aaae7eb09db6d",
+   "hosted_chars": 3035,
+   "content": "NO_LOCAL_FILE (covered by CP4.5a catalog bootstrap)"
+  },
+  {
+   "hosted_order": 19,
+   "hosted_version": "20260826163732",
+   "name": "v261_checkpoint_rls_policy",
+   "hosted_statements_md5": "d9a940f612914dd23608944d7f83b48c",
+   "hosted_chars": 229,
+   "content": "NO_LOCAL_FILE (covered by CP4.5a catalog bootstrap)"
+  },
+  {
+   "hosted_order": 20,
+   "hosted_version": "20260826165735",
+   "name": "v261_use_checkpoint_for_dirty_material_recalc",
+   "hosted_statements_md5": "8864e2c0425cfd446da70603bafa55f4",
+   "hosted_chars": 1913,
+   "content": "NO_LOCAL_FILE (covered by CP4.5a catalog bootstrap)"
+  },
+  {
+   "hosted_order": 21,
+   "hosted_version": "20260827142734",
+   "name": "lock_qc_posting_until_upstream_ready",
+   "hosted_statements_md5": "598d748f033c8b530d6996ffcb321717",
+   "hosted_chars": 248,
+   "content": "NO_LOCAL_FILE (covered by CP4.5a catalog bootstrap)"
+  },
+  {
+   "hosted_order": 22,
+   "hosted_version": "20260827143801",
+   "name": "restore_qc_permissions_after_frontend_disconnect",
+   "hosted_statements_md5": "95ba71ac2b478d7a00704e88262baae1",
+   "hosted_chars": 132,
+   "content": "NO_LOCAL_FILE (covered by CP4.5a catalog bootstrap)"
+  },
+  {
+   "hosted_order": 23,
+   "hosted_version": "20260828070429",
+   "name": "erp_v262_crud_fabric_benchmark",
+   "hosted_statements_md5": "88a40e56854deeb2e40a78a1d08e3a8b",
+   "hosted_chars": 82892,
+   "content": "NO_LOCAL_FILE (covered by CP4.5a catalog bootstrap)"
+  },
+  {
+   "hosted_order": 24,
+   "hosted_version": "20260828070524",
+   "name": "erp_v262a_security_closure",
+   "hosted_statements_md5": "a803a14a9ddde41163e7c84fec66d6bf",
+   "hosted_chars": 1179,
+   "content": "NO_LOCAL_FILE (covered by CP4.5a catalog bootstrap)"
+  },
+  {
+   "hosted_order": 25,
+   "hosted_version": "20260828071056",
+   "name": "erp_v262b_audit_entity_resolver",
+   "hosted_statements_md5": "ca9cdb48200a64c18841f6cc7da8e2de",
+   "hosted_chars": 2274,
+   "content": "NO_LOCAL_FILE (covered by CP4.5a catalog bootstrap)"
+  },
+  {
+   "hosted_order": 26,
+   "hosted_version": "20260828071239",
+   "name": "erp_v262c_advisor_closure",
+   "hosted_statements_md5": "29ec81588f83ad2b7cb593b6d4f13ed4",
+   "hosted_chars": 2228,
+   "content": "NO_LOCAL_FILE (covered by CP4.5a catalog bootstrap)"
+  },
+  {
+   "hosted_order": 27,
+   "hosted_version": "20260828072332",
+   "name": "erp_v263a_payroll_hold_nota",
+   "hosted_statements_md5": "a80b72a85f3853fa1d87160e00d18430",
+   "hosted_chars": 22311,
+   "content": "NO_LOCAL_FILE (covered by CP4.5a catalog bootstrap)"
+  },
+  {
+   "hosted_order": 28,
+   "hosted_version": "20260828072451",
+   "name": "erp_v263a1_nota_increment",
+   "hosted_statements_md5": "9b6b7efd3246e43683ff72d78b982593",
+   "hosted_chars": 4822,
+   "content": "NO_LOCAL_FILE (covered by CP4.5a catalog bootstrap)"
+  },
+  {
+   "hosted_order": 29,
+   "hosted_version": "20260828073640",
+   "name": "erp_v263b_laundry_bs_lineage",
+   "hosted_statements_md5": "14aebb1362533b879f706f2282c12f0d",
+   "hosted_chars": 33601,
+   "content": "NO_LOCAL_FILE (covered by CP4.5a catalog bootstrap)"
+  },
+  {
+   "hosted_order": 30,
+   "hosted_version": "20260828074629",
+   "name": "erp_v263c_bs_rework_hardening",
+   "hosted_statements_md5": "30c28866885d62b96b5c3b7ff4ef10f1",
+   "hosted_chars": 43949,
+   "content": "NO_LOCAL_FILE (covered by CP4.5a catalog bootstrap)"
+  },
+  {
+   "hosted_order": 31,
+   "hosted_version": "20260828075325",
+   "name": "erp_v263d_case_claim_read_models",
+   "hosted_statements_md5": "e7961b8fab753e3f90bd598c0d6aff37",
+   "hosted_chars": 20221,
+   "content": "NO_LOCAL_FILE (covered by CP4.5a catalog bootstrap)"
+  },
+  {
+   "hosted_order": 32,
+   "hosted_version": "20260828080411",
+   "name": "erp_v263e_red_team_closure",
+   "hosted_statements_md5": "42d37c492323529e1a4147794875b583",
+   "hosted_chars": 13951,
+   "content": "NO_LOCAL_FILE (covered by CP4.5a catalog bootstrap)"
+  },
+  {
+   "hosted_order": 33,
+   "hosted_version": "20260828080921",
+   "name": "erp_v264_material_transfer",
+   "hosted_statements_md5": "2ca9899df96f55e5f2f6c5cbb6db621d",
+   "hosted_chars": 26539,
+   "content": "NO_LOCAL_FILE (covered by CP4.5a catalog bootstrap)"
+  },
+  {
+   "hosted_order": 34,
+   "hosted_version": "20260828081426",
+   "name": "erp_v264a_cutting_presewing_reversal",
+   "hosted_statements_md5": "300719b723bedd16eb60bd715a294ef0",
+   "hosted_chars": 12271,
+   "content": "NO_LOCAL_FILE (covered by CP4.5a catalog bootstrap)"
+  },
+  {
+   "hosted_order": 35,
+   "hosted_version": "20260828082102",
+   "name": "erp_v264b_platform_hygiene",
+   "hosted_statements_md5": "90141ff843ad88e94b90e535c23e4391",
+   "hosted_chars": 2132,
+   "content": "NO_LOCAL_FILE (covered by CP4.5a catalog bootstrap)"
+  },
+  {
+   "hosted_order": 36,
+   "hosted_version": "20260828082704",
+   "name": "erp_v265_gudang_write_contracts",
+   "hosted_statements_md5": "f4da9cbf7d865ed233f2d4b701312b78",
+   "hosted_chars": 39795,
+   "content": "NO_LOCAL_FILE (covered by CP4.5a catalog bootstrap)"
+  },
+  {
+   "hosted_order": 37,
+   "hosted_version": "20260828083129",
+   "name": "erp_v265a_audit_coverage",
+   "hosted_statements_md5": "1b0e6540e7d25504a9d12fc4883e41de",
+   "hosted_chars": 6870,
+   "content": "NO_LOCAL_FILE (covered by CP4.5a catalog bootstrap)"
+  },
+  {
+   "hosted_order": 38,
+   "hosted_version": "20260828090017",
+   "name": "erp_v266_gudang_accessory_fg_contracts",
+   "hosted_statements_md5": "5b1df04bb386aec76f79b931b25d8509",
+   "hosted_chars": 34907,
+   "content": "NO_LOCAL_FILE (covered by CP4.5a catalog bootstrap)"
+  },
+  {
+   "hosted_order": 39,
+   "hosted_version": "20260828093617",
+   "name": "erp_v267_financial_truth_grni_late_invoice",
+   "hosted_statements_md5": "bab55565194f4c668caf1439b3a98d52",
+   "hosted_chars": 76002,
+   "content": "NO_LOCAL_FILE (covered by CP4.5a catalog bootstrap)"
+  },
+  {
+   "hosted_order": 40,
+   "hosted_version": "20260828094048",
+   "name": "v2_6_7a_multi_receipt_header_compat",
+   "hosted_statements_md5": "41d5a3e80c75a0eb95ae31081d7b724c",
+   "hosted_chars": 2169,
+   "content": "NO_LOCAL_FILE (covered by CP4.5a catalog bootstrap)"
+  },
+  {
+   "hosted_order": 41,
+   "hosted_version": "20260828094232",
+   "name": "v2_6_7b_reversal_dependency_order",
+   "hosted_statements_md5": "7ef9cc1ea408cd32603ffc113deb6bc3",
+   "hosted_chars": 5519,
+   "content": "NO_LOCAL_FILE (covered by CP4.5a catalog bootstrap)"
+  },
+  {
+   "hosted_order": 42,
+   "hosted_version": "20260828094907",
+   "name": "v2_6_8_owner_financial_truth_reporting",
+   "hosted_statements_md5": "f233cddb307e2faa5598513626f66b9c",
+   "hosted_chars": 19420,
+   "content": "NO_LOCAL_FILE (covered by CP4.5a catalog bootstrap)"
+  },
+  {
+   "hosted_order": 43,
+   "hosted_version": "20260828095008",
+   "name": "v2_6_8a_financial_control_scope",
+   "hosted_statements_md5": "31eb61c43559fcb8c84aade3136e55f7",
+   "hosted_chars": 2402,
+   "content": "NO_LOCAL_FILE (covered by CP4.5a catalog bootstrap)"
+  },
+  {
+   "hosted_order": 44,
+   "hosted_version": "20260828095633",
+   "name": "v2_6_7c_compat_and_trigger_security",
+   "hosted_statements_md5": "677a48a9ecd9d29d50009f3bea2760d6",
+   "hosted_chars": 5679,
+   "content": "NO_LOCAL_FILE (covered by CP4.5a catalog bootstrap)"
+  },
+  {
+   "hosted_order": 45,
+   "hosted_version": "20260828095901",
+   "name": "v2_6_8b_internal_check_hygiene",
+   "hosted_statements_md5": "56a2d8e264ca2d25f82d2033c08db81c",
+   "hosted_chars": 2497,
+   "content": "NO_LOCAL_FILE (covered by CP4.5a catalog bootstrap)"
+  },
+  {
+   "hosted_order": 46,
+   "hosted_version": "20260828100105",
+   "name": "v2_6_8c_control_dedup",
+   "hosted_statements_md5": "dc494a2637a0f5bd513d6629c4666852",
+   "hosted_chars": 1982,
+   "content": "NO_LOCAL_FILE (covered by CP4.5a catalog bootstrap)"
+  },
+  {
+   "hosted_order": 47,
+   "hosted_version": "20260828153334",
+   "name": "erp_v2_6_9_cutting_correction_v2",
+   "hosted_statements_md5": "cc2feb46a6e87c58c6f49f0a3d7b6ae4",
+   "hosted_chars": 19620,
+   "content": "NO_LOCAL_FILE (covered by CP4.5a catalog bootstrap)"
+  },
+  {
+   "hosted_order": 48,
+   "hosted_version": "20260828153601",
+   "name": "erp_v2_6_9a_cutting_correction_indexes",
+   "hosted_statements_md5": "3938a3cda1acf3ed3730c599ea9afe7e",
+   "hosted_chars": 2368,
+   "content": "NO_LOCAL_FILE (covered by CP4.5a catalog bootstrap)"
+  },
+  {
+   "hosted_order": 49,
+   "hosted_version": "20260829185830",
+   "name": "erp_v2_6_10_fg_partial_completion",
+   "hosted_statements_md5": "8ce2b7278c2c0679f116260ae2e505ff",
+   "hosted_chars": 17607,
+   "local_order": 1,
+   "file": "supabase/migrations/20260829185830_erp_v2_6_10_fg_partial_completion.sql",
+   "local_version": "20260829185830",
+   "chars": 17607,
+   "content": "IDENTICAL",
+   "version_stamp": "SAME"
+  },
+  {
+   "hosted_order": 50,
+   "hosted_version": "20260829204632",
+   "name": "erp_v2_6_11_operational_reservations_and_completion_scope",
+   "hosted_statements_md5": "6aa3cfc8210747aa823280d02b5c03e3",
+   "hosted_chars": 32967,
+   "local_order": 2,
+   "file": "supabase/migrations/20260829204632_erp_v2_6_11_operational_reservations_and_completion_scope.sql",
+   "local_version": "20260829204632",
+   "chars": 32967,
+   "content": "IDENTICAL",
+   "version_stamp": "SAME"
+  },
+  {
+   "hosted_order": 51,
+   "hosted_version": "20260830140645",
+   "name": "erp_v2_6_12_attendance_and_stock_explainability",
+   "hosted_statements_md5": "e7917e6247f0b3276425e568da050593",
+   "hosted_chars": 99271,
+   "local_order": 3,
+   "file": "supabase/migrations/20260830140645_erp_v2_6_12_attendance_and_stock_explainability.sql",
+   "local_version": "20260830140645",
+   "chars": 99271,
+   "content": "IDENTICAL",
+   "version_stamp": "SAME"
+  },
+  {
+   "hosted_order": 52,
+   "hosted_version": "20260830190955",
+   "name": "erp_v2_6_13_manual_reminders_v1",
+   "hosted_statements_md5": "77c9b08bc303809257a0c8bc46dbbc83",
+   "hosted_chars": 26376,
+   "local_order": 4,
+   "file": "supabase/migrations/20260830190955_erp_v2_6_13_manual_reminders_v1.sql",
+   "local_version": "20260830190955",
+   "chars": 26376,
+   "content": "IDENTICAL",
+   "version_stamp": "SAME"
+  },
+  {
+   "hosted_order": 53,
+   "hosted_version": "20260831031520",
+   "name": "manual_reminders_v1_acl_hardening",
+   "hosted_statements_md5": "5e100cdddea2600d04e48b57f101f6eb",
+   "hosted_chars": 16026,
+   "content": "NO_LOCAL_FILE (covered by CP4.5a catalog bootstrap)"
+  },
+  {
+   "hosted_order": 54,
+   "hosted_version": "20260831032911",
+   "name": "erp_v2_6_13a_manual_reminders_acl_hardening",
+   "hosted_statements_md5": "25b92a27481cea76d3c7edc19a02ee63",
+   "hosted_chars": 16008,
+   "content": "NO_LOCAL_FILE (covered by CP4.5a catalog bootstrap)"
+  },
+  {
+   "hosted_order": 55,
+   "hosted_version": "20260831032949",
+   "name": "erp_v2_6_13b_auth_profile_facade_tracking",
+   "hosted_statements_md5": "cf96eb40ea281d44388283043fc652e6",
+   "hosted_chars": 15812,
+   "content": "NO_LOCAL_FILE (covered by CP4.5a catalog bootstrap)"
+  },
+  {
+   "hosted_order": 56,
+   "hosted_version": "20260901023000",
+   "name": "erp_v2_6_14_attendance_hpp_sewing_terminal_foundation",
+   "hosted_statements_md5": "6fd67ad530ae616c9907f43020510610",
+   "hosted_chars": 67597,
+   "local_order": 5,
+   "file": "supabase/migrations/20260901023000_erp_v2_6_14_attendance_hpp_sewing_terminal_foundation.sql",
+   "local_version": "20260901023000",
+   "chars": 67597,
+   "content": "IDENTICAL",
+   "version_stamp": "SAME"
+  },
+  {
+   "hosted_order": 57,
+   "hosted_version": "20260901023100",
+   "name": "erp_v2_6_14b_attendance_hpp_candidate_hardening",
+   "hosted_statements_md5": "8e9eb282670ba41da13eed125122d7cd",
+   "hosted_chars": 7946,
+   "local_order": 6,
+   "file": "supabase/migrations/20260901023100_erp_v2_6_14b_attendance_hpp_candidate_hardening.sql",
+   "local_version": "20260901023100",
+   "chars": 7946,
+   "content": "IDENTICAL",
+   "version_stamp": "SAME"
+  },
+  {
+   "hosted_order": 58,
+   "hosted_version": "20260901023200",
+   "name": "erp_v2_6_14c_attendance_hpp_uat_alignment",
+   "hosted_statements_md5": "bb909c1d060f151f1347a5768f9f2ddf",
+   "hosted_chars": 81496,
+   "local_order": 7,
+   "file": "supabase/migrations/20260901023200_erp_v2_6_14c_attendance_hpp_uat_alignment.sql",
+   "local_version": "20260901023200",
+   "chars": 81496,
+   "content": "IDENTICAL",
+   "version_stamp": "SAME"
+  },
+  {
+   "hosted_order": 59,
+   "hosted_version": "20260901023400",
+   "name": "erp_v2_6_14d_cp3_r4_race_and_reversal_hardening",
+   "hosted_statements_md5": "ad5fa2b2620d7c9a9f440f8800beffbc",
+   "hosted_chars": 18420,
+   "local_order": 8,
+   "file": "supabase/migrations/20260901023400_erp_v2_6_14d_cp3_r4_race_and_reversal_hardening.sql",
+   "local_version": "20260901023400",
+   "chars": 18420,
+   "content": "IDENTICAL",
+   "version_stamp": "SAME"
+  },
+  {
+   "hosted_order": 60,
+   "hosted_version": "20260901161322",
+   "name": "erp_v2_6_15_payroll_component_entitlement",
+   "hosted_statements_md5": "e5dcc9f36aed2f6c2d2b5ab87a64e79a",
+   "hosted_chars": 9024,
+   "local_order": 9,
+   "file": "supabase/migrations/20260901161322_erp_v2_6_15_payroll_component_entitlement.sql",
+   "local_version": "20260901161322",
+   "chars": 9024,
+   "content": "IDENTICAL",
+   "version_stamp": "SAME"
+  },
+  {
+   "hosted_order": 61,
+   "hosted_version": "20260902043000",
+   "name": "erp_v2_6_16_cp4_hpp_route_auth_boundary",
+   "hosted_statements_md5": "df2826518290b4fcb6abacf2707aecae",
+   "hosted_chars": 25695,
+   "local_order": 10,
+   "file": "supabase/migrations/20260902043000_erp_v2_6_16_cp4_hpp_route_auth_boundary.sql",
+   "local_version": "20260902043000",
+   "chars": 25695,
+   "content": "IDENTICAL",
+   "version_stamp": "SAME"
+  },
+  {
+   "hosted_order": 62,
+   "hosted_version": "20260902104937",
+   "name": "erp_v2_6_17_access_pattern_wip_control",
+   "hosted_statements_md5": "70a16926f50313c29c52c6bbcdf695f3",
+   "hosted_chars": 98725,
+   "local_order": 11,
+   "file": "supabase/migrations/20260902104937_erp_v2_6_17_access_pattern_wip_control.sql",
+   "local_version": "20260902104937",
+   "chars": 98725,
+   "content": "IDENTICAL",
+   "version_stamp": "SAME"
+  },
+  {
+   "hosted_order": 63,
+   "hosted_version": "20260902185106",
+   "name": "erp_v2_6_17a_cp45_pattern_assignment_immutability",
+   "hosted_statements_md5": "4605b69cb6876848553c40886aad29bc",
+   "hosted_chars": 18304,
+   "local_order": 12,
+   "file": "supabase/migrations/20260902180726_erp_v2_6_17a_cp45_pattern_assignment_immutability.sql",
+   "local_version": "20260902180726",
+   "chars": 18304,
+   "content": "IDENTICAL",
+   "version_stamp": "DIFFERENT_STAMP"
+  },
+  {
+   "hosted_order": 64,
+   "hosted_version": "20260903060213",
+   "name": "erp_v2_6_18_cutting_persistence_pickup_wip",
+   "hosted_statements_md5": "94ae7468cffb960788f4f8111a6d6072",
+   "hosted_chars": 80392,
+   "local_order": 13,
+   "file": "supabase/migrations/20260903022604_erp_v2_6_18_cutting_persistence_pickup_wip.sql",
+   "local_version": "20260903022604",
+   "chars": 80392,
+   "content": "IDENTICAL",
+   "version_stamp": "DIFFERENT_STAMP"
+  },
+  {
+   "hosted_order": 65,
+   "hosted_version": "20260903105741",
+   "name": "erp_v2_6_18a_cutting_bridge_reconciliation",
+   "hosted_statements_md5": "7b3d84405c37713003164ed2d927fbac",
+   "hosted_chars": 21350,
+   "local_order": 14,
+   "file": "supabase/migrations/20260903070931_erp_v2_6_18a_cutting_bridge_reconciliation.sql",
+   "local_version": "20260903070931",
+   "chars": 21350,
+   "content": "IDENTICAL",
+   "version_stamp": "DIFFERENT_STAMP"
+  },
+  {
+   "hosted_order": 66,
+   "hosted_version": "20260903105814",
+   "name": "erp_v2_6_19_cp5_bs_resolution_recovery",
+   "hosted_statements_md5": "def154e4561c6792f849addecec7eecf",
+   "hosted_chars": 67744,
+   "local_order": 15,
+   "file": "supabase/migrations/20260903070932_erp_v2_6_19_cp5_bs_resolution_recovery.sql",
+   "local_version": "20260903070932",
+   "chars": 67744,
+   "content": "IDENTICAL",
+   "version_stamp": "DIFFERENT_STAMP"
+  },
+  {
+   "hosted_order": 67,
+   "hosted_version": "20260903151034",
+   "name": "erp_v2_6_19a_cp5_rework_accessory_lineage",
+   "hosted_statements_md5": "dbbbb57f40bc7659f70a4850663a9bfd",
+   "hosted_chars": 55353,
+   "local_order": 16,
+   "file": "supabase/migrations/20260903151034_erp_v2_6_19a_cp5_rework_accessory_lineage.sql",
+   "local_version": "20260903151034",
+   "chars": 55353,
+   "content": "IDENTICAL",
+   "version_stamp": "SAME"
+  },
+  {
+   "hosted_order": 68,
+   "hosted_version": "20260904032110",
+   "name": "erp_v2_6_19b_cp5_reliability_closure",
+   "hosted_statements_md5": "794037fefbace6a8498c3dc38e98bac4",
+   "hosted_chars": 42020,
+   "local_order": 17,
+   "file": "supabase/migrations/20260904012525_erp_v2_6_19b_cp5_reliability_closure.sql",
+   "local_version": "20260904012525",
+   "chars": 42021,
+   "content": "IDENTICAL_EXCEPT_FINAL_NEWLINE",
+   "version_stamp": "DIFFERENT_STAMP"
+  },
+  {
+   "hosted_order": 69,
+   "hosted_version": "20260904083552",
+   "name": "erp_v2_6_19c_cp5_atomic_reversal_reconciliation",
+   "hosted_statements_md5": "6f4b80991f4c6605159f04505f23b731",
+   "hosted_chars": 13808,
+   "local_order": 18,
+   "file": "supabase/migrations/20260904061346_erp_v2_6_19c_cp5_atomic_reversal_reconciliation.sql",
+   "local_version": "20260904061346",
+   "chars": 13808,
+   "content": "IDENTICAL",
+   "version_stamp": "DIFFERENT_STAMP"
+  },
+  {
+   "hosted_order": 70,
+   "hosted_version": "20260904232442",
+   "name": "erp_v2_6_20_cp6_laundry_qc_fg_authoritative",
+   "hosted_statements_md5": "e3eb3cd330bf29484b422618f4298041",
+   "hosted_chars": 251919,
+   "local_order": 19,
+   "file": "supabase/migrations/20260904111157_erp_v2_6_20_cp6_laundry_qc_fg_authoritative.sql",
+   "local_version": "20260904111157",
+   "chars": 251919,
+   "content": "IDENTICAL",
+   "version_stamp": "DIFFERENT_STAMP"
+  }
+ ]
+}

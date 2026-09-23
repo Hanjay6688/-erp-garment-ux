@@ -1,0 +1,126 @@
+name: CP6 G-01 Hosted-Equivalent Baseline Fingerprint
+'on':
+  push:
+    branches:
+    - claude/new-session-deapao
+    paths:
+    - scripts/cp6_g01_baseline.py
+    - scripts/cp6_g01_fingerprint.py
+    - docs/evidence/cp6-g01/hosted_summary.json
+    - .github/workflows/cp6-g01-baseline.yml
+  workflow_dispatch: null
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: cp6-g01-baseline-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  # Construction plus measurement only. The disposable chain is rebuilt with the
+  # frozen AC bootstrap commands and stopped right after v2.6.20, the last
+  # migration hosted Enteng has. The same read-only catalog fingerprint that was
+  # run on hosted is then captured here and compared kind by kind.
+  baseline:
+    name: Rebuild test chain to v2.6.20 and fingerprint its catalog
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
+      CP6_AC_INDEPENDENT_CONFIRM: postgres
+      CP6_DATABASE_CONTAINER: supabase_db_cp5-local
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        path: auditor
+        fetch-depth: 0
+    - uses: actions/checkout@v4
+      with:
+        path: base
+        fetch-depth: 0
+        ref: 1bdca3766f7c9800d68295ff5122798060b8a05d
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '22'
+    - name: Install pinned disposable runtime
+      shell: bash
+      run: |
+        set -euo pipefail
+        python -m pip install --quiet 'psycopg[binary]==3.2.10' 'PyYAML==6.0.2'
+        sudo apt-get update -qq
+        sudo apt-get install -y -qq ca-certificates curl gnupg
+        sudo install -d /usr/share/postgresql-common/pgdg
+        sudo curl --fail --silent --show-error \
+          -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \
+          https://www.postgresql.org/media/keys/ACCC4CF8.asc
+        key_fingerprint="$(gpg --show-keys --with-colons \
+          /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \
+          | awk -F: '$1 == "fpr" { print $10; exit }')"
+        test "$key_fingerprint" = 'B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8'
+        . /etc/os-release
+        architecture="$(dpkg --print-architecture)"
+        sudo tee /etc/apt/sources.list.d/pgdg.sources >/dev/null <<EOF
+        Types: deb
+        URIs: https://apt.postgresql.org/pub/repos/apt
+        Suites: ${VERSION_CODENAME}-pgdg
+        Architectures: ${architecture}
+        Components: main
+        Signed-By: /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc
+        EOF
+        sudo apt-get update -qq
+        sudo apt-get install -y -qq postgresql-client-17
+        test -x /usr/lib/postgresql/17/bin/psql
+        echo '/usr/lib/postgresql/17/bin' >> "$GITHUB_PATH"
+    - name: Install pinned Supabase CLI
+      uses: supabase/setup-cli@ab058987d8d6c725971f6cf9d0b5c98467e30bd1
+      with:
+        version: 2.116.0
+    - name: Start disposable database
+      working-directory: base
+      shell: bash
+      run: |
+        set -euo pipefail
+        test "$(git rev-parse HEAD)" = 1bdca3766f7c9800d68295ff5122798060b8a05d
+        test "$(git rev-parse HEAD^{tree})" = 334629c626257b8b713826f491cdf62385d5299b
+        test -z "$(git status --porcelain)"
+        mkdir cp5-local
+        supabase init --force --workdir cp5-local
+        mkdir -p cp5-local/supabase/.temp
+        echo '17.6.1.165' > cp5-local/supabase/.temp/postgres-version
+        sed -i '0,/^enable_signup = true$/s//enable_signup = false/' cp5-local/supabase/config.toml
+        supabase start --workdir cp5-local \
+          -x realtime,imgproxy,studio,postgres-meta,edge-runtime,logflare,vector,supavisor \
+          > "$RUNNER_TEMP/cp6-local-start.log" 2>&1
+    - name: Rebuild the frozen test chain and stop after v2.6.20
+      working-directory: base
+      env:
+        GH_TOKEN: ${{ github.token }}
+      shell: bash
+      run: |
+        set -euo pipefail
+        mkdir -p ../auditor/cp6-proof/g01
+        export CP6_AC_WRITER_ARTIFACT="$RUNNER_TEMP/ac-native200.zip"
+        gh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10392910720/zip \
+          > "$CP6_AC_WRITER_ARTIFACT"
+        PYTHONPATH=scripts python ../auditor/scripts/cp6_g01_baseline.py ../auditor/cp6-proof/g01/BASELINE_BUILD.json
+        cat ../auditor/cp6-proof/g01/BASELINE_BUILD.json
+    - name: Capture the read-only fingerprint and compare with hosted
+      working-directory: auditor
+      shell: bash
+      run: |
+        set -euo pipefail
+        python scripts/cp6_g01_fingerprint.py capture cp6-proof/g01/BASELINE_V2620.json
+        python scripts/cp6_g01_fingerprint.py compare docs/evidence/cp6-g01/hosted_summary.json cp6-proof/g01/BASELINE_V2620.json \
+          | tee cp6-proof/g01/COMPARE_HOSTED_BASELINE.json
+    - name: Remove disposable database
+      if: always()
+      working-directory: base
+      run: supabase stop --workdir cp5-local --no-backup
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: cp6-g01-baseline
+        path: auditor/cp6-proof/g01
+        retention-days: 30

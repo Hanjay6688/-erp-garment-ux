@@ -1,0 +1,76 @@
+{
+ "access": "Supabase SQL tool, one SELECT statement over pg_catalog plus the two migration ledgers; no business rows, no mutation",
+ "captured_on": "2026-09-23",
+ "label": "G01_HOSTED_READ_ONLY",
+ "note": "The query text sent to hosted was the rendered SUMMARY without its leading blank line; whitespace only.",
+ "objects": [],
+ "project_ref": "siimvrusnzxexizpyoib",
+ "summary": {
+  "app_ledger": {
+   "md5": "43bbda19488da844085faee510403954",
+   "n": 55
+  },
+  "config_hash": {
+   "md5": "2193b4becca1d4d89e40b444b0a8af29",
+   "n": 6
+  },
+  "constraint": {
+   "md5": "57b3c4bac9a8233736a015a4137a0ed7",
+   "n": 1184
+  },
+  "default_acl": {
+   "md5": "c9c232814a7b3ee3eaadb50e8b7dc7fd",
+   "n": 6
+  },
+  "extension": {
+   "md5": "15a959c38d716ad2af3fe1f1dc4419ef",
+   "n": 6
+  },
+  "function": {
+   "md5": "726169ee518a626ab538a72feba75bf4",
+   "n": 537
+  },
+  "function_owner_acl": {
+   "md5": "e9b45b7586a76303d2d0a5c11d1e1802",
+   "n": 537
+  },
+  "index": {
+   "md5": "1ac2e1ca700d0b77cf128b9b60b25a66",
+   "n": 520
+  },
+  "platform_ledger": {
+   "md5": "70101c86a76c027079b6ccec793cde92",
+   "n": 70
+  },
+  "policy": {
+   "md5": "cdbf37207426191cba21ccfb2c5582c9",
+   "n": 190
+  },
+  "relation": {
+   "md5": "948389935750c108d417282be811b7d4",
+   "n": 237
+  },
+  "relation_owner_acl": {
+   "md5": "24079e3b1084a81c853c2b289a928334",
+   "n": 237
+  },
+  "schema": {
+   "md5": "6ee1ffa742c0945434188ce249e139ca",
+   "n": 2
+  },
+  "sequence": {
+   "md5": "dacd751dd3a5f2f7efbc203171be4ead",
+   "n": 6
+  },
+  "trigger": {
+   "md5": "b52e09278a630d1918cff6176f664a40",
+   "n": 435
+  },
+  "view": {
+   "md5": "8ca20454d3ebffb815ce11e75f3ae965",
+   "n": 51
+  }
+ },
+ "summary_sql_path": "scripts/cp6_g01_fingerprint.py (SUMMARY)",
+ "summary_sql_sha256": "223a9653df576581677627a569186d0213d9a8a9145d4b4ed9346910b897aef5"
+}
