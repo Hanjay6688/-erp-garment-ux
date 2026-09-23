@@ -6,7 +6,9 @@ name: CP6 G-01 Hosted-Equivalent Baseline Fingerprint
     paths:
     - scripts/cp6_g01_baseline.py
     - scripts/cp6_g01_fingerprint.py
+    - scripts/cp6_g01_align.py
     - docs/evidence/cp6-g01/hosted_summary.json
+    - docs/evidence/cp6-g01/hosted_alignment_metadata.json
     - .github/workflows/cp6-g01-baseline.yml
   workflow_dispatch: null
 permissions:
@@ -128,6 +130,25 @@ jobs:
         python scripts/cp6_g01_fingerprint.py capture cp6-proof/g01/BASELINE_V2620.json
         python scripts/cp6_g01_fingerprint.py compare docs/evidence/cp6-g01/hosted_summary.json cp6-proof/g01/BASELINE_V2620.json \
           | tee cp6-proof/g01/COMPARE_HOSTED_BASELINE.json
+    - name: Align the test baseline with hosted (G-01 option 1) and verify every changed object
+      working-directory: auditor
+      shell: bash
+      run: |
+        set -euo pipefail
+        # Test side only: the script asserts the local disposable endpoint and never connects to hosted.
+        python scripts/cp6_g01_align.py sql > cp6-proof/g01/ALIGN.sql
+        status=0
+        python scripts/cp6_g01_align.py apply cp6-proof/g01/ALIGN_PER_OBJECT.json || status=$?
+        cat cp6-proof/g01/ALIGN_PER_OBJECT.json
+        exit "$status"
+    - name: Capture the aligned fingerprint and compare with hosted
+      working-directory: auditor
+      shell: bash
+      run: |
+        set -euo pipefail
+        python scripts/cp6_g01_fingerprint.py capture cp6-proof/g01/ALIGNED_V2620.json > cp6-proof/g01/ALIGNED_CAPTURE.log
+        python scripts/cp6_g01_fingerprint.py compare docs/evidence/cp6-g01/hosted_summary.json cp6-proof/g01/ALIGNED_V2620.json \
+          | tee cp6-proof/g01/COMPARE_HOSTED_ALIGNED.json
     - name: Remove disposable database
       if: always()
       working-directory: base

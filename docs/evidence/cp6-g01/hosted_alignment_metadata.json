@@ -1,0 +1,242 @@
+{
+ "label": "G01_HOSTED_METADATA",
+ "read_at": "2026-09-23",
+ "access": "read-only SELECT on pg_catalog of hosted Enteng; no business rows, no mutation",
+ "owner_decision": "G-01 option 1 (23 Sep 2026): copy only the differing definitions from Enteng read-only; cover the two extra *_seq1 sequences; T3 stays HOLD until every difference is explained and the AO-AV install passes",
+ "constraints": [
+  {
+   "key": "attendance_hpp_journal_line_links.attendance_hpp_journal_line_links_link_type_check",
+   "def": "CHECK (((link_type)::text = ANY ((ARRAY['DESTINATION_DEBIT'::character varying, 'SOURCE_CREDIT'::character varying])::text[])))",
+   "md5_prefix": "72f8ce2c1e"
+  },
+  {
+   "key": "attendance_hpp_pools.attendance_hpp_pools_status_check",
+   "def": "CHECK (((status)::text = ANY ((ARRAY['DRAFT'::character varying, 'ACTIVE'::character varying, 'CANCELLED'::character varying, 'VOIDED'::character varying])::text[])))",
+   "md5_prefix": "e05afeb3b8"
+  },
+  {
+   "key": "attendance_periods.attendance_periods_status_check",
+   "def": "CHECK (((status)::text = ANY ((ARRAY['DRAFT'::character varying, 'POSTED'::character varying, 'CORRECTED'::character varying, 'REVERSED'::character varying])::text[])))",
+   "md5_prefix": "e69cd6fdeb"
+  },
+  {
+   "key": "attendance_records.attendance_records_lifecycle_check",
+   "def": "CHECK (((record_lifecycle IS NULL) OR ((record_lifecycle)::text = ANY ((ARRAY['DRAFT'::character varying, 'POSTED'::character varying, 'CORRECTED'::character varying, 'REVERSED'::character varying])::text[]))))",
+   "md5_prefix": "452991f694"
+  },
+  {
+   "key": "fg_stock_movements.fg_stock_movements_movement_type_check",
+   "def": "CHECK (((movement_type)::text = ANY ((ARRAY['OPENING'::character varying, 'QC_GOOD'::character varying, 'SALE_RESERVE'::character varying, 'SALE'::character varying, 'SALE_RETURN'::character varying, 'REBRAND_OUT'::character varying, 'REBRAND_IN'::character varying, 'BS_OUT'::character varying, 'REWORK_IN'::character varying, 'ADJUSTMENT'::character varying, 'REVERSAL'::character varying])::text[])))",
+   "md5_prefix": "9fbfff8cd0"
+  },
+  {
+   "key": "idempotency_requests.idempotency_requests_status_check",
+   "def": "CHECK (((status)::text = ANY ((ARRAY['IN_PROGRESS'::character varying, 'COMPLETED'::character varying])::text[])))",
+   "md5_prefix": "0d9b2286cf"
+  },
+  {
+   "key": "manual_reminders.manual_reminders_priority_check",
+   "def": "CHECK (((priority)::text = ANY ((ARRAY['URGENT'::character varying, 'NORMAL'::character varying, 'LOW'::character varying])::text[])))",
+   "md5_prefix": "a6e0cfdb2b"
+  },
+  {
+   "key": "manual_reminders.manual_reminders_status_check",
+   "def": "CHECK (((status)::text = ANY ((ARRAY['OPEN'::character varying, 'DONE'::character varying, 'CANCELLED'::character varying])::text[])))",
+   "md5_prefix": "78723b79b2"
+  },
+  {
+   "key": "material_purchase_cost_corrections.material_purchase_cost_corrections_post_seq_state",
+   "def": "CHECK (((((status)::text = 'DRAFT'::text) AND (post_seq IS NULL)) OR (((status)::text = ANY ((ARRAY['POSTED'::character varying, 'REVERSED'::character varying])::text[])) AND (post_seq IS NOT NULL))))",
+   "md5_prefix": "caefcf97c1"
+  },
+  {
+   "key": "material_purchase_items.material_purchase_items_invoice_match_state_check",
+   "def": "CHECK (((invoice_match_state)::text = ANY ((ARRAY['UNMATCHED'::character varying, 'PARTIAL'::character varying, 'MATCHED'::character varying, 'DIRECT_FINAL'::character varying])::text[])))",
+   "md5_prefix": "c7c0506ea2"
+  },
+  {
+   "key": "material_purchase_items.material_purchase_items_price_source_check",
+   "def": "CHECK (((price_source)::text = ANY ((ARRAY['BENCHMARK'::character varying, 'SUPPLIER_QUOTE'::character varying, 'SUPPLIER_INVOICE'::character varying, 'MANUAL_ESTIMATE'::character varying, 'MIGRATION'::character varying])::text[])))",
+   "md5_prefix": "ac30b11606"
+  },
+  {
+   "key": "material_purchase_items.material_purchase_items_price_state_check",
+   "def": "CHECK (((price_state)::text = ANY ((ARRAY['ESTIMATED'::character varying, 'PARTIAL'::character varying, 'FINAL'::character varying])::text[])))",
+   "md5_prefix": "dfa5f56214"
+  },
+  {
+   "key": "material_stock_movements.material_stock_movements_movement_type_check",
+   "def": "CHECK (((movement_type)::text = ANY ((ARRAY['OPENING'::character varying, 'PURCHASE'::character varying, 'CUTTING_ISSUE'::character varying, 'CUTTING_RETURN'::character varying, 'CONTRACTOR_ISSUE'::character varying, 'PERSONAL_USE'::character varying, 'INTERNAL_USE'::character varying, 'SAMPLE'::character varying, 'DAMAGE'::character varying, 'LOSS'::character varying, 'SUPPLIER_RETURN'::character varying, 'ADJUSTMENT'::character varying, 'TRANSFER_OUT'::character varying, 'TRANSFER_IN'::character varying, 'REVERSAL'::character varying])::text[])))",
+   "md5_prefix": "a218ef6894"
+  },
+  {
+   "key": "material_supplier_invoices.material_supplier_invoices_status_check",
+   "def": "CHECK (((status)::text = ANY ((ARRAY['DRAFT'::character varying, 'POSTED'::character varying, 'REVERSED'::character varying])::text[])))",
+   "md5_prefix": "12080adf85"
+  },
+  {
+   "key": "material_transfers.material_transfers_status_check",
+   "def": "CHECK (((status)::text = ANY ((ARRAY['DRAFT'::character varying, 'POSTED'::character varying, 'REVERSED'::character varying])::text[])))",
+   "md5_prefix": "12080adf85"
+  },
+  {
+   "key": "qc_inspections.qc_inspections_completion_mode_check",
+   "def": "CHECK (((completion_mode IS NULL) OR ((completion_mode)::text = ANY ((ARRAY['ALL_READY'::character varying, 'PARTIAL_SELECTION'::character varying])::text[]))))",
+   "md5_prefix": "b1a922fa1a"
+  },
+  {
+   "key": "rework_component_lines.rework_component_lines_rate_basis_check",
+   "def": "CHECK (((rate_basis)::text = ANY ((ARRAY['CONTRACTOR_RATE'::character varying, 'PO_SNAPSHOT'::character varying, 'LAUNDRY_ZERO'::character varying, 'LEGACY_CLIENT'::character varying])::text[])))",
+   "md5_prefix": "8ec02e222b"
+  },
+  {
+   "key": "sewing_terminal_events.sewing_terminal_events_event_kind_check",
+   "def": "CHECK (((event_kind)::text = ANY ((ARRAY['SELESAI_DIJAHIT'::character varying, 'REVERSAL'::character varying])::text[])))",
+   "md5_prefix": "bbd293f60d"
+  },
+  {
+   "key": "stock_explainability_snapshots.stock_explainability_snapshots_basis_source_check",
+   "def": "CHECK (((basis_source)::text = ANY ((ARRAY['BELUM_DIATUR'::character varying, 'MANUAL'::character varying, 'REKOMENDASI_SISTEM'::character varying])::text[])))",
+   "md5_prefix": "d94c5cd613"
+  },
+  {
+   "key": "stock_explainability_snapshots.stock_explainability_snapshots_health_status_check",
+   "def": "CHECK (((health_status)::text = ANY ((ARRAY['BELUM_CUKUP_DATA'::character varying, 'AMAN'::character varying, 'RENDAH'::character varying, 'PERLU_PESAN'::character varying, 'PERLU_PRODUKSI'::character varying, 'KRITIS'::character varying])::text[])))",
+   "md5_prefix": "2ec01ea1f0"
+  },
+  {
+   "key": "stock_explainability_snapshots.stock_explainability_snapshots_subject_type_check",
+   "def": "CHECK (((subject_type)::text = ANY ((ARRAY['FG'::character varying, 'MATERIAL'::character varying])::text[])))",
+   "md5_prefix": "360d893e1b"
+  },
+  {
+   "key": "stock_policy_versions.stock_policy_versions_basis_source_check",
+   "def": "CHECK (((basis_source)::text = ANY ((ARRAY['BELUM_DIATUR'::character varying, 'MANUAL'::character varying, 'REKOMENDASI_SISTEM'::character varying])::text[])))",
+   "md5_prefix": "d94c5cd613"
+  },
+  {
+   "key": "stock_policy_versions.stock_policy_versions_subject_type_check",
+   "def": "CHECK (((subject_type)::text = ANY ((ARRAY['FG'::character varying, 'MATERIAL'::character varying])::text[])))",
+   "md5_prefix": "360d893e1b"
+  }
+ ],
+ "views": [
+  {
+   "view": "erp.v_case_browser",
+   "def": " SELECT ('BS:'::text || (b.id)::text) AS case_key,\n    'BS'::text AS case_type,\n    'bs_cases'::text AS source_table,\n    b.id AS source_id,\n    b.bs_number AS case_number,\n    b.physical_at AS opened_at,\n    (b.status)::text AS status,\n    b.row_version,\n    b.qty_pcs,\n    b.po_id,\n    po.po_number,\n    po.model_id,\n    pm.model_name,\n    b.cutting_group_id,\n    cg.group_number,\n    b.product_id,\n    p.sku,\n    p.product_name,\n    b.responsible_contractor_id,\n    ct.contractor_name,\n    b.responsible_vendor_id,\n    lv.vendor_name,\n    (b.detected_at_stage)::text AS detected_stage,\n    (b.cause_source)::text AS cause_source,\n    (b.untracked_type)::text AS untracked_type,\n    b.source_laundry_receipt_line_id,\n    b.qc_item_id,\n    NULL::uuid AS laundry_delivery_id,\n    0 AS held_payroll_qty,\n    COALESCE(( SELECT (sum(e.remaining_qty))::integer AS sum\n           FROM ((erp.v_payroll_eligible_work_lines e\n             JOIN erp.rework_component_lines rcl ON (((e.source_type = 'REWORK'::text) AND (rcl.id = e.source_id))))\n             JOIN erp.bs_case_components bcc ON ((bcc.id = rcl.bs_case_component_id)))\n          WHERE (bcc.bs_case_id = b.id)), 0) AS nota_eligible_rework_qty,\n    COALESCE(( SELECT (sum(r.qty_pcs))::integer AS sum\n           FROM erp.bs_resolutions r\n          WHERE (r.bs_case_id = b.id)), 0) AS resolved_qty,\n    ((b.status)::text = ANY ((ARRAY['RESOLVED'::character varying, 'SCRAPPED'::character varying, 'WRITTEN_OFF'::character varying, 'CANCELLED'::character varying])::text[])) AS is_closed,\n        CASE\n            WHEN ((b.status)::text = ANY ((ARRAY['OPEN'::character varying, 'PARTIAL'::character varying])::text[])) THEN 'START_REWORK_OR_DISPOSITION'::text\n            WHEN ((b.status)::text = 'IN_REWORK'::text) THEN 'COMPLETE_REWORK'::text\n            ELSE 'VIEW_OR_REVERSE'::text\n        END AS next_action,\n    concat_ws(' '::text, b.bs_number, po.po_number, pm.model_name, cg.group_number, p.sku, p.product_name, ct.contractor_name, lv.vendor_name, b.status, b.cause_source, b.untracked_type, b.legacy_reference, b.notes) AS search_text,\n    b.notes\n   FROM ((((((erp.bs_cases b\n     LEFT JOIN erp.production_orders po ON ((po.id = b.po_id)))\n     LEFT JOIN erp.product_models pm ON ((pm.id = po.model_id)))\n     LEFT JOIN erp.cutting_groups cg ON ((cg.id = b.cutting_group_id)))\n     LEFT JOIN erp.products p ON ((p.id = b.product_id)))\n     LEFT JOIN erp.contractors ct ON ((ct.id = b.responsible_contractor_id)))\n     LEFT JOIN erp.laundry_vendors lv ON ((lv.id = b.responsible_vendor_id)))\nUNION ALL\n SELECT ('LAUNDRY:'::text || (c.id)::text) AS case_key,\n    (c.claim_type)::text AS case_type,\n    'laundry_claims'::text AS source_table,\n    c.id AS source_id,\n    c.claim_number AS case_number,\n    c.opened_at,\n    (c.status)::text AS status,\n    c.row_version,\n    c.qty_claimed AS qty_pcs,\n    ld.po_id,\n    po.po_number,\n    po.model_id,\n    pm.model_name,\n    NULL::uuid AS cutting_group_id,\n    NULL::character varying AS group_number,\n    NULL::uuid AS product_id,\n    NULL::character varying AS sku,\n    NULL::character varying AS product_name,\n    NULL::uuid AS responsible_contractor_id,\n    NULL::character varying AS contractor_name,\n    c.vendor_id AS responsible_vendor_id,\n    lv.vendor_name,\n    'LAUNDRY'::text AS detected_stage,\n    'LAUNDRY'::text AS cause_source,\n    NULL::text AS untracked_type,\n    c.receipt_line_id AS source_laundry_receipt_line_id,\n    NULL::uuid AS qc_item_id,\n    c.delivery_id AS laundry_delivery_id,\n        CASE\n            WHEN (((c.claim_type)::text = ANY ((ARRAY['STUCK'::character varying, 'MISSING'::character varying])::text[])) AND ((c.status)::text <> 'REJECTED'::text)) THEN c.qty_claimed\n            ELSE 0\n        END AS held_payroll_qty,\n    0 AS nota_eligible_rework_qty,\n        CASE\n            WHEN ((c.status)::text = ANY ((ARRAY['SETTLED'::character varying, 'WRITTEN_OFF'::character varying])::text[])) THEN c.qty_claimed\n            ELSE 0\n        END AS resolved_qty,\n    ((c.status)::text = ANY ((ARRAY['SETTLED'::character varying, 'WRITTEN_OFF'::character varying, 'REJECTED'::character varying])::text[])) AS is_closed,\n        CASE\n            WHEN ((c.status)::text = ANY ((ARRAY['OPEN'::character varying, 'ACCEPTED'::character varying])::text[])) THEN 'RESOLVE_CLAIM'::text\n            ELSE 'VIEW_OR_REVERSE'::text\n        END AS next_action,\n    concat_ws(' '::text, c.claim_number, c.claim_type, c.status, ld.delivery_number, po.po_number, pm.model_name, lv.vendor_name, c.qty_claimed, c.compensation_amount, c.notes) AS search_text,\n    c.notes\n   FROM ((((erp.laundry_claims c\n     JOIN erp.laundry_deliveries ld ON ((ld.id = c.delivery_id)))\n     JOIN erp.production_orders po ON ((po.id = ld.po_id)))\n     LEFT JOIN erp.product_models pm ON ((pm.id = po.model_id)))\n     JOIN erp.laundry_vendors lv ON ((lv.id = c.vendor_id)));",
+   "md5": "7056975536aee94c6d8d1783904206a7",
+   "reloptions": [
+    "security_invoker=true"
+   ]
+  },
+  {
+   "view": "erp.v_customer_receivables",
+   "def": " WITH invoice AS (\n         SELECT sh_1.id AS sale_id,\n            (COALESCE(sum(si.line_total), (0)::numeric))::numeric(20,2) AS gross_amount\n           FROM (erp.sales_headers sh_1\n             JOIN erp.sales_items si ON ((si.sale_id = sh_1.id)))\n          GROUP BY sh_1.id\n        ), payment AS (\n         SELECT sp.sale_id,\n            (COALESCE(sum(sp.amount), (0)::numeric))::numeric(20,2) AS paid_amount\n           FROM erp.sales_payments sp\n          WHERE ((sp.status)::text = 'POSTED'::text)\n          GROUP BY sp.sale_id\n        ), returned AS (\n         SELECT sr.sale_id,\n            (COALESCE(sum(sri.refund_amount), (0)::numeric))::numeric(20,2) AS return_amount\n           FROM (erp.sales_returns sr\n             JOIN erp.sales_return_items sri ON ((sri.return_id = sr.id)))\n          WHERE ((sr.status)::text = 'POSTED'::text)\n          GROUP BY sr.sale_id\n        )\n SELECT sh.customer_id,\n    c.customer_name,\n    sh.id AS sale_id,\n    sh.sale_number,\n    sh.sale_date,\n    sh.due_date,\n    i.gross_amount AS invoice_amount,\n    (COALESCE(p.paid_amount, (0)::numeric))::numeric(20,2) AS paid_amount,\n    (GREATEST(((i.gross_amount - COALESCE(r.return_amount, (0)::numeric)) - COALESCE(p.paid_amount, (0)::numeric)), (0)::numeric))::numeric(20,2) AS outstanding_amount,\n    (COALESCE(r.return_amount, (0)::numeric))::numeric(20,2) AS posted_return_amount,\n    (GREATEST((i.gross_amount - COALESCE(r.return_amount, (0)::numeric)), (0)::numeric))::numeric(20,2) AS net_invoice_amount,\n    (GREATEST((COALESCE(p.paid_amount, (0)::numeric) - (i.gross_amount - COALESCE(r.return_amount, (0)::numeric))), (0)::numeric))::numeric(20,2) AS credit_amount\n   FROM ((((erp.sales_headers sh\n     JOIN erp.customers c ON ((c.id = sh.customer_id)))\n     JOIN invoice i ON ((i.sale_id = sh.id)))\n     LEFT JOIN payment p ON ((p.sale_id = sh.id)))\n     LEFT JOIN returned r ON ((r.sale_id = sh.id)))\n  WHERE ((sh.status)::text = ANY ((ARRAY['POSTED'::character varying, 'PARTIAL_PAID'::character varying, 'PAID'::character varying])::text[]));",
+   "md5": "dd5b423149289667606424e199601660",
+   "reloptions": [
+    "security_invoker=true"
+   ]
+  },
+  {
+   "view": "erp.v_laundry_po_operational_progress",
+   "def": " WITH sent AS (\n         SELECT d.po_id,\n            sum(l.qty_sent_pcs) AS sent_qty_pcs\n           FROM (erp.laundry_deliveries d\n             JOIN erp.laundry_delivery_lines l ON ((l.delivery_id = d.id)))\n          WHERE ((d.status)::text <> ALL ((ARRAY['DRAFT'::character varying, 'REVERSED'::character varying])::text[]))\n          GROUP BY d.po_id\n        ), returned AS (\n         SELECT d.po_id,\n            sum(rl.qty_good_received) AS good_returned_qty_pcs,\n            sum(rl.qty_bs_laundry) AS bs_returned_qty_pcs,\n            sum((rl.qty_good_received + rl.qty_bs_laundry)) AS returned_qty_pcs\n           FROM ((erp.laundry_deliveries d\n             JOIN erp.laundry_receipts r_1 ON (((r_1.delivery_id = d.id) AND ((r_1.status)::text = 'POSTED'::text))))\n             JOIN erp.laundry_receipt_lines rl ON ((rl.receipt_id = r_1.id)))\n          WHERE ((d.status)::text <> 'REVERSED'::text)\n          GROUP BY d.po_id\n        ), resolved AS (\n         SELECT d.po_id,\n            sum(c.qty_claimed) AS resolved_claim_qty_pcs\n           FROM (erp.laundry_claims c\n             JOIN erp.laundry_deliveries d ON ((d.id = c.delivery_id)))\n          WHERE (((c.claim_type)::text = ANY ((ARRAY['MISSING'::character varying, 'STUCK'::character varying])::text[])) AND ((c.status)::text = ANY ((ARRAY['SETTLED'::character varying, 'WRITTEN_OFF'::character varying])::text[])) AND ((d.status)::text <> 'REVERSED'::text))\n          GROUP BY d.po_id\n        )\n SELECT po.id AS po_id,\n    po.po_number,\n    po.status AS po_status,\n    COALESCE(s.sent_qty_pcs, (0)::bigint) AS sent_qty_pcs,\n    COALESCE(r.good_returned_qty_pcs, (0)::bigint) AS good_returned_qty_pcs,\n    COALESCE(r.bs_returned_qty_pcs, (0)::bigint) AS bs_returned_qty_pcs,\n    COALESCE(r.returned_qty_pcs, (0)::bigint) AS returned_qty_pcs,\n    COALESCE(x.resolved_claim_qty_pcs, (0)::bigint) AS resolved_claim_qty_pcs,\n    GREATEST(((COALESCE(s.sent_qty_pcs, (0)::bigint) - COALESCE(r.returned_qty_pcs, (0)::bigint)) - COALESCE(x.resolved_claim_qty_pcs, (0)::bigint)), (0)::bigint) AS laundry_outstanding_qty_pcs\n   FROM (((erp.production_orders po\n     JOIN sent s ON ((s.po_id = po.id)))\n     LEFT JOIN returned r ON ((r.po_id = po.id)))\n     LEFT JOIN resolved x ON ((x.po_id = po.id)));",
+   "md5": "e4b0fe144c51d3f7413a94b631d80c30",
+   "reloptions": [
+    "security_invoker=true"
+   ]
+  },
+  {
+   "view": "erp.v_payroll_nota_browser",
+   "def": " SELECT n.id AS payroll_id,\n    n.payroll_number,\n    n.contractor_id,\n    c.contractor_code,\n    c.contractor_name,\n    n.period_start,\n    n.period_end,\n    n.status,\n    n.row_version,\n    n.payment_date,\n    n.settled_at,\n    n.labor_total,\n    n.attendance_total,\n    n.reimburse_total,\n    n.deduction_total,\n    n.manual_adjustment,\n    n.net_payable,\n    COALESCE(x.work_line_count, (0)::bigint) AS work_line_count,\n    COALESCE(x.work_qty, (0)::bigint) AS work_qty,\n    COALESCE(e.eligible_line_count, (0)::bigint) AS eligible_line_count,\n    COALESCE(e.eligible_qty, (0)::bigint) AS eligible_qty,\n    (COALESCE(e.eligible_amount, (0)::numeric))::numeric(24,2) AS eligible_amount,\n    ((n.status)::text = ANY ((ARRAY['DRAFT'::character varying, 'CALCULATED'::character varying, 'REVIEW'::character varying])::text[])) AS can_merge,\n    ((n.status)::text = ANY ((ARRAY['APPROVED'::character varying, 'PAID'::character varying, 'REVERSED'::character varying])::text[])) AS is_locked,\n    n.notes,\n    n.created_at,\n    n.updated_at\n   FROM (((erp.payroll_settlements n\n     JOIN erp.contractors c ON ((c.id = n.contractor_id)))\n     LEFT JOIN LATERAL ( SELECT count(*) AS work_line_count,\n            COALESCE(sum(w.qty_payable), (0)::bigint) AS work_qty\n           FROM erp.payroll_work_items w\n          WHERE (w.payroll_id = n.id)) x ON (true))\n     LEFT JOIN LATERAL ( SELECT count(*) AS eligible_line_count,\n            COALESCE(sum(q.remaining_qty), (0)::bigint) AS eligible_qty,\n            COALESCE(sum(((q.remaining_qty)::numeric * q.rate_snapshot)), (0)::numeric) AS eligible_amount\n           FROM erp.v_payroll_eligible_work_lines q\n          WHERE ((q.contractor_id = n.contractor_id) AND ((q.eligible_at)::date <= n.period_end))) e ON (true));",
+   "md5": "947eb0f63e95b62bda77e77c87134b1d",
+   "reloptions": [
+    "security_invoker=true"
+   ]
+  },
+  {
+   "view": "erp.v_payroll_production_work_eligibility",
+   "def": " WITH laundry_sent AS (\n         SELECT ldl.cutting_group_id,\n            sum(ldl.qty_sent_pcs) AS sent_qty\n           FROM (erp.laundry_delivery_lines ldl\n             JOIN erp.laundry_deliveries ld ON ((ld.id = ldl.delivery_id)))\n          WHERE ((ld.status)::text <> ALL ((ARRAY['DRAFT'::character varying, 'REVERSED'::character varying])::text[]))\n          GROUP BY ldl.cutting_group_id\n        ), laundry_returned AS (\n         SELECT ldl.cutting_group_id,\n            sum((lrl.qty_good_received + lrl.qty_bs_laundry)) AS physically_returned_qty\n           FROM ((erp.laundry_receipt_lines lrl\n             JOIN erp.laundry_receipts lr ON (((lr.id = lrl.receipt_id) AND ((lr.status)::text = 'POSTED'::text))))\n             JOIN erp.laundry_delivery_lines ldl ON ((ldl.id = lrl.delivery_line_id)))\n          GROUP BY ldl.cutting_group_id\n        ), base AS (\n         SELECT wcl.id AS source_id,\n            wce.id AS completion_id,\n            wce.po_id,\n            wce.contractor_id,\n            wce.cutting_group_id,\n            wcl.work_component_id,\n            wce.physical_at,\n            wcl.qty_payable,\n            wcl.rate_snapshot,\n            COALESCE(ls.sent_qty, (0)::bigint) AS laundry_sent_qty,\n            COALESCE(lr.physically_returned_qty, (0)::bigint) AS laundry_returned_qty,\n            (ls.cutting_group_id IS NOT NULL) AS laundry_required\n           FROM (((erp.work_completion_lines wcl\n             JOIN erp.work_completion_events wce ON (((wce.id = wcl.completion_id) AND ((wce.status)::text = 'POSTED'::text))))\n             LEFT JOIN laundry_sent ls ON ((ls.cutting_group_id = wce.cutting_group_id)))\n             LEFT JOIN laundry_returned lr ON ((lr.cutting_group_id = wce.cutting_group_id)))\n        ), allocated AS (\n         SELECT pwi.source_id,\n            pwi.work_component_id,\n            (sum(pwi.qty_payable))::integer AS allocated_qty\n           FROM (erp.payroll_work_items pwi\n             JOIN erp.payroll_settlements ps ON ((ps.id = pwi.payroll_id)))\n          WHERE (((pwi.source_type)::text = 'PRODUCTION'::text) AND ((ps.status)::text <> 'REVERSED'::text))\n          GROUP BY pwi.source_id, pwi.work_component_id\n        )\n SELECT b.source_id,\n    b.completion_id,\n    b.po_id,\n    b.contractor_id,\n    b.cutting_group_id,\n    b.work_component_id,\n    b.physical_at,\n    b.qty_payable AS source_qty_payable,\n    b.rate_snapshot,\n    b.laundry_required,\n    b.laundry_sent_qty,\n    b.laundry_returned_qty,\n    b.qty_payable AS eligible_after_laundry_qty,\n    0 AS held_for_laundry_qty,\n    COALESCE(a.allocated_qty, 0) AS allocated_to_nonreversed_payroll_qty,\n    GREATEST((b.qty_payable - COALESCE(a.allocated_qty, 0)), 0) AS remaining_eligible_qty,\n    round(((GREATEST((b.qty_payable - COALESCE(a.allocated_qty, 0)), 0))::numeric * b.rate_snapshot), 2) AS remaining_eligible_amount,\n        CASE\n            WHEN (NOT b.laundry_required) THEN 'COMPONENT_PAYABLE_NO_LAUNDRY'::text\n            WHEN ((b.laundry_sent_qty > 0) AND (b.laundry_returned_qty >= b.laundry_sent_qty)) THEN 'COMPONENT_PAYABLE_LAUNDRY_COMPLETE'::text\n            ELSE 'COMPONENT_PAYABLE_LAUNDRY_OUTSTANDING'::text\n        END AS eligibility_state\n   FROM (base b\n     LEFT JOIN allocated a ON (((a.source_id = b.source_id) AND (a.work_component_id = b.work_component_id))));",
+   "md5": "004d37be4306832a21a275bd5b7d2b0f",
+   "reloptions": [
+    "security_invoker=true"
+   ]
+  }
+ ],
+ "sequences": {
+  "identity": [
+   {
+    "sequence": "erp.app_access_audit_id_seq",
+    "column": "erp.app_access_audit.id",
+    "deptype": "i"
+   },
+   {
+    "sequence": "erp.production_pattern_audit_id_seq",
+    "column": "erp.production_pattern_audit.id",
+    "deptype": "i"
+   }
+  ],
+  "owned_by": [
+   {
+    "sequence": "erp.audit_logs_id_seq",
+    "column": "erp.audit_logs.id",
+    "deptype": "a"
+   },
+   {
+    "sequence": "erp.cost_recalc_queue_id_seq",
+    "column": "erp.cost_recalc_queue.id",
+    "deptype": "a"
+   }
+  ],
+  "standalone": [
+   "erp.cutting_qty_correction_seq",
+   "erp.fg_stock_book_order_seq"
+  ],
+  "hosted_count": 6
+ },
+ "schema_acl": {
+  "erp": "authenticated:USAGE:false,postgres:CREATE:false,postgres:USAGE:false,service_role:USAGE:false",
+  "public": "PUBLIC:USAGE:false,anon:USAGE:false,authenticated:USAGE:false,pg_database_owner:CREATE:false,pg_database_owner:USAGE:false,postgres:USAGE:false,service_role:USAGE:false"
+ },
+ "group_hashes_hosted": {
+  "view:v": "8ca20454d3",
+  "schema:": "6ee1ffa742",
+  "sequence:a": "04c450a3de",
+  "sequence:c": "3814d8a89a",
+  "sequence:f": "b3b1c47dff",
+  "sequence:p": "f1e0002a50",
+  "constraint:a": "2846853ec5",
+  "constraint:b": "8a3f53ed1e",
+  "constraint:c": "7c5ecc8ef4",
+  "constraint:f": "7e6ab2d1e4",
+  "constraint:h": "bf09e38388",
+  "constraint:i": "855e5c8f52",
+  "constraint:j": "6563c3f67a",
+  "constraint:l": "d48267782e",
+  "constraint:m": "ff33396548",
+  "constraint:o": "f8aec92aa8",
+  "constraint:p": "43f733ccbe",
+  "constraint:q": "48b0375f43",
+  "constraint:r": "8636052889",
+  "constraint:s": "6525fc48f6",
+  "constraint:u": "b42618a7ae",
+  "constraint:v": "2c8702a118",
+  "constraint:w": "7964cc2197",
+  "relation_owner_acl:a": "2c549487c9",
+  "relation_owner_acl:b": "14d403ec7d",
+  "relation_owner_acl:c": "c3ad271f7b",
+  "relation_owner_acl:f": "b5b143dd93",
+  "relation_owner_acl:h": "c2946adf9d",
+  "relation_owner_acl:i": "e8e03e1d10",
+  "relation_owner_acl:j": "85f27d7e38",
+  "relation_owner_acl:l": "9a51e8afd1",
+  "relation_owner_acl:m": "8cb8014524",
+  "relation_owner_acl:o": "4dde5bc493",
+  "relation_owner_acl:p": "3dcb6c1d98",
+  "relation_owner_acl:q": "4cb8e3aeac",
+  "relation_owner_acl:r": "7cc316de24",
+  "relation_owner_acl:s": "883a0dcf61",
+  "relation_owner_acl:u": "bbdd6a5c5a",
+  "relation_owner_acl:v": "f89bc7c18c",
+  "relation_owner_acl:w": "82b21a18eb"
+ }
+}
