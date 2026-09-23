@@ -90,12 +90,20 @@ jobs:
         mkdir -p cp5-local/supabase/.temp
         echo '17.6.1.165' > cp5-local/supabase/.temp/postgres-version
         sed -i '0,/^enable_signup = true$/s//enable_signup = false/' cp5-local/supabase/config.toml
-        if ! supabase start --workdir cp5-local \
-          -x realtime,imgproxy,studio,postgres-meta,edge-runtime,logflare,vector,supavisor \
-          > "$RUNNER_TEMP/cp6-local-start.log" 2>&1; then
-          tail -n 80 "$RUNNER_TEMP/cp6-local-start.log"
-          exit 1
-        fi
+        # Image pulls from ghcr.io can hit its rate limit before anything runs;
+        # retry the start itself (infrastructure only, no test has run yet).
+        for attempt in 1 2 3 4; do
+          if supabase start --workdir cp5-local \
+            -x realtime,imgproxy,studio,postgres-meta,edge-runtime,logflare,vector,supavisor \
+            > "$RUNNER_TEMP/cp6-local-start.log" 2>&1; then
+            echo "supabase start succeeded on attempt $attempt"
+            break
+          fi
+          tail -n 20 "$RUNNER_TEMP/cp6-local-start.log"
+          supabase stop --workdir cp5-local --no-backup || true
+          if [ "$attempt" = 4 ]; then exit 1; fi
+          sleep $((attempt * 90))
+        done
     - name: Rebuild the frozen test chain and stop after v2.6.20
       working-directory: base
       env:
