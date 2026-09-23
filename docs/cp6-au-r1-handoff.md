@@ -1,6 +1,8 @@
 # Handoff Claude → ChatGPT — AU-R1 dan kandidat successor AV
 
 Tanggal: 23 September 2026 (WIB). Writer: Claude Code (sesi cloud). Peninjau berikutnya: ChatGPT.
+
+> **Pembaruan (giliran writer Claude berikutnya, 23 September 2026):** paket yang ditinjau sekarang adalah **AV rev2** (§16), bukan kandidat AV `bb4009c`. Keputusan owner lanjutan ada di §14–§15 dan §16.4. Bagian 1–13 dipertahankan sebagai riwayat.
 Dokumen ini adalah checkpoint utuh sesuai format bagian 8 handoff AU-R1. Tidak ada yang diringkas dari bukti; semua angka di bawah dapat ditelusuri ke run, commit, atau file yang disebut.
 
 > Mulai dari AU `ca7f095`. Writer AU selesai, bukti tersimpan cocok, penerimaan independen belum ada. CP6 tetap HOLD, 12 HOLD historis dipertahankan, production tidak disentuh. Kandidat AU-R1 dari tinjauan chat **sudah terbukti native** dan sebuah kandidat successor **AV** sudah dibuat, diuji native, dan dibekukan untuk ditinjau. AV **bukan** penerimaan independen dan **belum** berada di cabang kompetisi. Di luar AU-R1, **AUD-S06** terbukti native **sebagian**: close tidak membaca status laporan resmi (RECALC_PENDING/BLOCKED). Bahwa close juga menerima antrean yang benar-benar menyentuh periode yang ditutup baru terbukti dari source, belum native (koreksi di bagian 10.1). Temuan ini belum dipatch karena kontraknya menuntut preflight per tanggal satu keluarga dengan AUD-B04; rancangannya ada di bagian 10.1. Master pulih, perubahan pulih, dan addendum CP7 sudah dibaca penuh; kaitannya dengan CP7 ada di bagian 10.2.
@@ -430,3 +432,93 @@ Ketiga kesalahan ini ditangkap peninjau independen. Dicatat supaya setiap sesi b
 3. **Status implementasi tidak boleh dikutip dari dokumen tanpa membaca kode.** Contoh kesalahan: ERP-DEC01 disebut "belum diterapkan" padahal AO/AS sudah menerapkan sebagian.
 4. **Tes baru harus terbukti gagal pada kode lama** sebelum dipakai sebagai bukti perbaikan (diterapkan pada A04-R2).
 5. **Perbaikan minimal; jangan mengubah desain yang sudah ada tanpa alasan.** Contoh: pada A04-R2, penanganan data basi bawaan (`beginRead` menandai ruang kerja basi, KPI "—", penulisan terkunci) dipertahankan, bukan diganti.
+
+## 16. AV rev2: successor keluarga identitas (23 September 2026, giliran writer Claude sesudah audit ChatGPT)
+
+Bagian ini menggantikan kandidat AV lama (`bb4009c`) sebagai paket yang ditinjau. Kandidat lama dihapus dari tree di `ea82532` supaya keduanya tidak pernah terpasang bersama; bukti lamanya tetap di `docs/evidence/cp6-av-pins.json`, `docs/evidence/cp6-au-r1/` dan riwayat Git. Cabang kompetisi tetap `ca7f095` (diperiksa sebelum setiap push). Tidak ada deploy, tidak ada mutasi hosted/legacy/production.
+
+### 16.1 Isi paket
+
+| Hal | Nilai |
+| --- | --- |
+| Migration | `supabase/migrations/20260923110000_erp_v2_6_20av_cp6_identity_new_stock_cutoff.sql`, SHA-256 `193e84efac8ead7cab681071e40070e1f9249f82cec1b7972f0576e8df25a2dc` |
+| Rollback | `supabase/rollbacks/20260923110000_erp_v2_6_20av_cp6_identity_new_stock_cutoff.rollback.sql`, SHA-256 `8c01b942a2d65dbad2876de233cf3d8f89517e04978a4c81753186b1fca2749f` |
+| Pin paket | `docs/evidence/cp6-av-r2-pins.json`, SHA-256 `ceb2f9b1e8a00bd1fadec30ff60d2113e4e6210bc52d5ad1413ae87ed7861daf` (dipakai `scripts/cp6_av_runtime.py`) |
+| Capture katalog native | `docs/evidence/cp6-av-r2-schema-capture.json`, SHA-256 `6c53571d8f09b80f8e101c9c545b5d3c2714995f9f09430cbacbc64f7afa6195`; run 35847809973, job 107138089292; PG17 native, di-rollback |
+| Builder / definisi | `scripts/cp6_av_build.py`, `scripts/cp6_av_definitions.py` |
+
+Delta terhadap AU (katalog lain dipin utuh, 7156 → 7169 objek):
+- **Tiga fungsi diganti.**
+  - `erp.edit_product_identity_effective(...)`: batas successor memakai helper fakta stok baru (FG dan BS), dengan `>=`.
+  - `erp.create_manual_bs_case_v2(jsonb,uuid)`: OUT_OF_NOWHERE divalidasi `NEW_STOCK` pada versi SKU yang berlaku di jam fisik (keputusan owner 1C), lalu asal kasus dicatat.
+  - `erp.post_rework_completion(uuid)`: GOOD hasil rework divalidasi `EXISTING_STOCK` pada versi BS-nya (keputusan owner 2A).
+- **Tiga fungsi privat baru** (ACL hanya `postgres`):
+  - `erp.latest_new_stock_physical_at_v1(uuid)`: fakta stok baru = lot FG kecuali GOOD hasil rework, plus BS dengan jejak QC/laundry atau asal OUT_OF_NOWHERE;
+  - `erp.assert_new_stock_cutoff_coverage_v1()`: registri fail-closed;
+  - `erp.guard_bs_case_manual_origin_immutable_v1()`.
+- **Satu tabel baru** `erp.bs_case_manual_origins_v1`: hanya bisa ditambah; update, delete, dan truncate ditolak trigger; RLS aktif; tanpa grant.
+- **Backfill saat install (tambahan run 3):** BS OUT_OF_NOWHERE yang dibuat sebelum AV mendapat baris asal. Nilainya diambil dari baris audit INSERT `bs_cases`, yang append-only, dan jatuh ke nilai sekarang bila audit tidak ada. Install menolak kecuali isi tabel persis sama dengan himpunan itu.
+
+**Guard cakupan (jawaban AV-GUARD-01).**
+- Guard lama membaca teks fungsi; guard baru adalah registri 23 kolom yang merujuk produk. Rinciannya: 2 NEW_STOCK_FACT, 6 SOURCE_DOCUMENT, 4 MASTER, 3 DERIVED, 2 MOVEMENT, 2 ACCOUNTING, 2 SALES, 1 AUTHORIZATION, 1 REPORT.
+- Kolom yang dideteksi: setiap FK ke `erp.products` di skema mana pun, ditambah kolom uuid bernama `product_id` atau `%_product_id` di `erp`/`public`.
+- Kolom baru yang belum diklasifikasi, kolom terdaftar yang hilang atau berganti nama, helper yang menyempit, dan konsumen yang tidak lagi memakai helper menggagalkan install dan pemeriksaan.
+- **Batas yang terdokumentasi:** producer NEW_STOCK yang menulis ke tabel non-fakta yang sudah diklasifikasi tidak terdeteksi. Klasifikasinya per tabel, bukan per makna producer. Varian `LIMIT_NON_FACT_TABLE_WRITE` membuktikan batas ini secara native.
+
+### 16.2 Bukti native
+
+Semua bukti adalah bukti writer: PG17 native (Supabase CLI 2.116.0, image 17.6.1.165), clone disposable dari AN yang persis, dengan AU dipasang lewat runtime AU. Workflow kualifikasi dipecah menjadi lima job paralel; setiap fase memakai database sendiri dari rantai yang sama.
+
+| Run | Head | Hasil |
+| --- | --- | --- |
+| 35848620445 | `ea82532` | Trial AR174, temporal, dan regresi lulus. Probe **INCOMPLETE** (10 kasus) karena dua cacat harness. |
+| 35849556805 | `2335c0a` | Probe saja; INCOMPLETE yang sama. |
+| **35850597894** | `7a2f895` | **Kelima fase lengkap** (tabel di bawah). Paket belum memuat backfill. |
+| 35851917304 | `01cfd70` | Paket dengan backfill. AR174 (146 + 28), temporal (AT16/AU15 + 10 race), dan regresi (326 tanpa kasus bergeser, 12 HOLD, AS34) **WRITER_PASS**. Install dengan pemeriksaan eksak backfill lulus di ketiga database. Kedua fase probe **INCOMPLETE** sebelum kasus pertama: `AU_FULL_CATALOG_DRIFT` karena fixture pra-install meng-commit grant sesi (cacat harness, §16.5). Bukti: `docs/evidence/cp6-av-r2/run35851917304_*`. |
+| 35852437460 | `acffc8c` | Fixture pra-install diperbaiki. **Sedang berjalan** saat bagian ini ditulis; hasil dicatat pada commit berikutnya. |
+
+Dua cacat harness itu:
+1. Predikat BS stok baru di probe merujuk tabel asal pada AU beku, tempat tabel itu belum ada.
+2. Fixture rework memanggil `ordinary()` dari modul yang salah.
+
+Keduanya cacat probe, bukan cacat paket. Kasus yang gagal disimpan di `docs/evidence/cp6-av-r2/probe_defect_log_run1.json` (10/10 kasus terjelaskan: 6 + 4).
+
+Run 35850597894 (records dan manifest per job di `docs/evidence/cp6-av-r2/run35850597894_*`, log lengkap; baris log = `original_length`):
+
+| Fase | Hasil |
+| --- | --- |
+| Probe before (AU beku) | REVIEW_COMPLETE. **7 COUNTEREXAMPLE** kasus: cutoff laundry BS, cutoff QC semua BS, OUT_OF_NOWHERE cutoff, OUT_OF_NOWHERE sesudah versi berakhir, OUT_OF_NOWHERE terklasifikasi, SKU nonaktif, GOOD rework keliru membatasi successor. 7 CONTROL_PASS, 18 NOT_APPLICABLE (guard hanya ada di AV). Race: laundry BS_FIRST:COMMIT dan dua race BS temuan COUNTEREXAMPLE. AU15 dan AT16 PASS. |
+| Probe after (AU + AV rev2) | REVIEW_COMPLETE, `CANDIDATE_WRITER_PASS`. Kasus AV: 22 PASS dan 10 CONTROL_PASS. 16 varian guard ditolak/diterima sesuai rancangan: nama huruf kecil/besar, tanpa skema, berkutip, komentar di tengah nama, MERGE, EXECUTE dinamis, pembungkus, tabel saja, tanpa FK, awalan di `public`, kolom terdaftar diganti nama, helper menyempit, konsumen tidak memakai helper; kontrol tabel tak terkait; batas terdokumentasi. Race laundry 4/4 dan race BS temuan 4/4 PASS. Dua siklus paket (install, rollback terbuka ditolak atomik, restore AU persis). Post-use refusal PASS. AU15 dan AT16 PASS. |
+| AR 174 | WRITER_PASS: 146 sekuensial + 28 konkurensi PASS. |
+| Temporal | WRITER_PASS: AT16 + 4 race temporal, AU15 + 6 race master. |
+| Regresi | `WRITER_PASS_WITH_12_PRESERVED_HISTORICAL_HOLD`: bisnis 179 PASS + 39 CONTROL_PASS + 12 DATE_POLICY_REVIEW_REQUIRED, impor 31, nilai 65 (= 326), AS34 PASS. `moved_cases` kosong; setiap kelompok `matches_au_outcome`. |
+
+Semua fase: primary tidak berubah, clone 0, database race 0.
+
+### 16.3 Batas klaim
+
+- Bukti writer, bukan penerimaan independen. `production_go=false`. Provenance CLI untuk timestamp migration: **NOT_TESTED**.
+- CodeQL, advisor, dan browser **belum** dijalankan untuk AV. Ketiganya masuk gate gabungan (§11 langkah 6) bersama S06/B04.
+- **Batas backfill:** kasus OUT_OF_NOWHERE tanpa baris audit INSERT dan dengan `untracked_type` yang sudah terhapus tidak bisa dipulihkan. Kasus seperti itu tidak membatasi successor. Uji lokal PG16 (`docs/evidence/cp6-av-r2/local_pg16_backfill.json`) menunjukkan himpunan backfill dan bahwa pemeriksaan eksak menangkap baris yang hilang; bukti native ada pada kasus `MANUAL:PREINSTALL_CLASSIFIED_*` di run 3.
+- Kalimat terakhir docstring `scripts/cp6_av_definitions.py` ("Rows created before this successor have no origin record and keep AU behaviour") **sudah tidak berlaku** sejak backfill run 3; yang benar ada di docstring `scripts/cp6_av_build.py` dan di bagian ini. File definisi tidak diubah karena hash-nya dipin oleh capture native (mengubahnya menuntut capture ulang).
+- BS LEGACY (manual lama dan saldo awal) tidak mendapat baris asal saat backfill. Tidak ada baris asal = tidak membatasi, jadi hasilnya sama.
+- GOOD rework yang selesai sesudah versi BS-nya berakhir diterima sebagai stok lama pada versi itu (keputusan owner 2A; kasus `REWORK:AFTER_SUCCESSOR` menjadi kontrol bahwa assert EXISTING_STOCK baru tidak terlalu ketat).
+- 12 HOLD historis tetap HOLD.
+
+### 16.4 Keputusan owner untuk engine close per tanggal (S06/B04)
+
+Ditanyakan lewat pilihan di chat sesi Claude, 23 September 2026; jawaban dicatat apa adanya.
+
+| Topik | Pilihan owner | Arti yang dipakai engine |
+| --- | --- | --- |
+| Payroll yang melintasi tanggal tutup buku | "Ikut akhir periode (Rekomendasi)" | Upah satu periode payroll diakui pada `period_end`, sama seperti `approve_payroll` sekarang. Payroll dengan `period_end` sesudah tanggal tutup tidak memblokir. Payroll dengan `period_end` pada atau sebelum tanggal tutup wajib APPROVED/PAID. Hari kerja pada atau sebelum tanggal tutup yang punya absensi atau hasil kerja tetapi belum masuk payroll mana pun tetap memblokir. Tidak ada akrual parsial per hari. |
+| Definisi hari kerja untuk blokir absensi kosong | "Pakai aturan yang ada (Rekomendasi)" | Setiap hari pekerja DAILY/HYBRID yang aktif pada kontraktor wajib-absensi harus punya catatan terposting; libur diisi OFF (aturan `post_attendance_period_v1`, M12:1358-1381). Sel kosong di rentang tutup buku = blokir, dengan daftar pekerja dan tanggal. Tidak ada tabel kalender baru. |
+
+Keputusan sebelumnya yang tetap berlaku (§14 no. 3): blokir untuk recost pending/gagal pada periode, selisih stok/jurnal, absensi kosong, payroll belum disetujui, harga laundry belum diketahui sampai owner mengisi estimasi; GRNI boleh ditutup dengan estimasi; blokir dibatasi per periode.
+
+### 16.5 Cacat harness Claude di putaran ini (dicatat sesuai §15.4)
+
+1. Predikat probe merujuk tabel yang belum ada pada fase "before", dan fixture rework memanggil modul yang salah. Keduanya membuat 10 kasus INCOMPLETE di dua run.
+2. Fixture pra-install yang baru meng-commit grant sesi pada skema `erp`, padahal `r1.group` selalu me-rollback grant itu. Akibatnya install AV menolak dengan `AU_FULL_CATALOG_DRIFT` (run 35851917304, kedua fase probe). Perbaikan: grant dicabut, ACL skema dipulihkan persis, dan fixture menolak commit bila inventaris katalog AU berbeda.
+
+Pelajaran tambahan: **fixture yang harus bertahan melewati install successor hanya boleh meng-commit data bisnis**; setiap perubahan katalog dibandingkan dengan inventaris sebelum commit.

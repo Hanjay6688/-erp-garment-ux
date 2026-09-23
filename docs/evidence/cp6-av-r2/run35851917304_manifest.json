@@ -1,0 +1,120 @@
+{
+ "label": "AV_REV2_QUALIFICATION_RUN",
+ "run_id": 35851917304,
+ "head_sha": "01cfd70a3e7963704f6852c9b29c4b0c5bf58627",
+ "source": "MCP get_job_logs content (artifact download is blocked by the session proxy); records are the JSON lines each phase prints",
+ "production_go": false,
+ "independent_acceptance": false,
+ "jobs": {
+  "probe-before": {
+   "job_id": 107151369697,
+   "records_file": "run35851917304_probe-before_records.json",
+   "records_sha256": "6d1170cf2670c7605cc5a3933d8950e7b257a3c45d7ea0e39532b988efc16572",
+   "log_content_sha256": "10de63007274ebf2f516969455322dd045b8037bcfb4199cc3dd8d61536165d9",
+   "log_lines": 1747,
+   "record_count": 6,
+   "groups": {},
+   "phase_status": "INCOMPLETE",
+   "candidate_verdict": null,
+   "moved_cases": null,
+   "primary_unchanged": true,
+   "clone_remaining": 0,
+   "auditor_head": null
+  },
+  "probe-after": {
+   "job_id": 107151369926,
+   "records_file": "run35851917304_probe-after_records.json",
+   "records_sha256": "f928ad9172322c3be398b7d86fc914259aa7bb70144b4e0206e54987b512fc1c",
+   "log_content_sha256": "c18a62eaa37e3f4782bf119056ef7005002d31f9010364fb6a573779138a80fe",
+   "log_lines": 1747,
+   "record_count": 6,
+   "groups": {},
+   "phase_status": "INCOMPLETE",
+   "candidate_verdict": null,
+   "moved_cases": null,
+   "primary_unchanged": true,
+   "clone_remaining": 0,
+   "auditor_head": null
+  },
+  "qualify": {
+   "job_id": 107151369341,
+   "records_file": "run35851917304_qualify_records.json",
+   "records_sha256": "8f9503b9ff3f035fd873ab89e6b5e52264d6012e51f390188ebc510a4f582f1e",
+   "log_content_sha256": "5000668a9a754a33af3a561771cdf2c1dec936168cc8320e25d80d29d9a590c7",
+   "log_lines": 1921,
+   "record_count": 180,
+   "groups": {
+    "AR_SEQUENTIAL": {
+     "PASS": 146
+    },
+    "AR_CONCURRENCY": {
+     "PASS": 28
+    }
+   },
+   "phase_status": "WRITER_PASS",
+   "candidate_verdict": null,
+   "moved_cases": null,
+   "primary_unchanged": true,
+   "clone_remaining": 0,
+   "auditor_head": "01cfd70a3e7963704f6852c9b29c4b0c5bf58627"
+  },
+  "temporal": {
+   "job_id": 107151369594,
+   "records_file": "run35851917304_temporal_records.json",
+   "records_sha256": "eb52410a96be5ec73964a068af1c70658def7db2ca91694211bf2e843d50a64e",
+   "log_content_sha256": "4f961e66bdd107f2d5f2ebed66c057b8809e1e7dd8d4d1742253ec2bc3722a74",
+   "log_lines": 1788,
+   "record_count": 47,
+   "groups": {
+    "AT_CASES": {
+     "PASS": 16
+    },
+    "AT_CONCURRENCY": {
+     "PASS": 4
+    },
+    "AU_CASES": {
+     "PASS": 15
+    },
+    "AU_CONCURRENCY": {
+     "PASS": 6
+    }
+   },
+   "phase_status": "WRITER_PASS",
+   "candidate_verdict": null,
+   "moved_cases": null,
+   "primary_unchanged": true,
+   "clone_remaining": 0,
+   "auditor_head": "01cfd70a3e7963704f6852c9b29c4b0c5bf58627"
+  },
+  "regression": {
+   "job_id": 107151369551,
+   "records_file": "run35851917304_regression_records.json",
+   "records_sha256": "53f02d4164b7a23abb64b77fa4fca7c19550443847a1e177ae3da954ba551d77",
+   "log_content_sha256": "6de20226377c10c884f4ffa750b6be520f73bfef342e6d5a7b79caf2c8ba37e1",
+   "log_lines": 2107,
+   "record_count": 366,
+   "groups": {
+    "BUSINESS": {
+     "PASS": 179,
+     "CONTROL_PASS": 39,
+     "DATE_POLICY_REVIEW_REQUIRED": 12
+    },
+    "IMPORTS": {
+     "PASS": 31
+    },
+    "VALUES": {
+     "PASS": 65
+    },
+    "NEW_CASES": {
+     "PASS": 34
+    }
+   },
+   "phase_status": "WRITER_PASS_WITH_12_PRESERVED_HISTORICAL_HOLD",
+   "candidate_verdict": null,
+   "moved_cases": {},
+   "primary_unchanged": true,
+   "clone_remaining": 0,
+   "auditor_head": "01cfd70a3e7963704f6852c9b29c4b0c5bf58627"
+  }
+ }
+}
