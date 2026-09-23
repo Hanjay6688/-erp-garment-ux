@@ -24,6 +24,7 @@ def seed(cur):
     cases=[]
     for versioned in (False,True):
         f=production.fixture(api,cur,today)
+        api.upload(cur,f['batch'],'BRAND',[dict(brand_code=f['code'],brand_name='AT browser '+f['code'])])
         _,sources=production.finalize(api,cur,f)
         first,model,size=cur.execute('select id,model_id,size_id from erp.products where sku=%s',(f['code'],)).fetchone()
         brand_code=f['code']+'B'

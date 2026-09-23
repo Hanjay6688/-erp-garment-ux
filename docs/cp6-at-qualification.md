@@ -25,10 +25,12 @@ Migration dibuat melalui Supabase CLI 2.116.0 dan menghasilkan `20260923005153_e
 Workflow `CP6 AT Qualification` menjalankan:
 
 1. Delapan kontrol pada AS asli: empat temuan WIP tetap teramati, empat kontrol berhasil. Tidak ada fungsi yang ditambal untuk tes.
-2. Pemulihan AT dua siklus pada AS yang sudah berisi data, pemeriksaan advisor sebelum/sesudah, 174 kasus asli termasuk sesi bersamaan. Empat jadwal master/output baru memakai clone tersendiri, karena kasus AR sengaja menyisakan fixture legacy yang ambigu.
-3. Clone baru: 326 kasus asli sisanya, 34 kasus AS, 12 pemeriksaan kalender, dan 16 kasus temporal AT (delapan WIP, empat BS historis, empat batas hari).
+2. Clone temporal baru: 16 kasus AT (delapan WIP, empat BS historis, empat batas hari), lalu empat jadwal master/output. Kasus AR sengaja menyisakan fixture legacy yang ambigu sehingga kelompok tersebut tidak berbagi clone. Nama merek fixture yang commit harus unik.
+3. Clone recovery: pemulihan AT dua siklus pada AS yang sudah berisi data, advisor sebelum/sesudah, serta 174 kasus asli. Clone regresi berikutnya menjalankan 326 kasus asli sisanya, 34 kasus AS dan 12 pemeriksaan kalender.
 4. Clone baru: Auth/password nyata, browser dan PostgREST publik, penolakan anonim/identitas ambigu tanpa efek, pemilihan merek, HPP/stok, kehilangan balasan setelah commit, reload dan pengulangan payload/UUID persis, serta transaksi balik. Sepuluh observasi diwajibkan. Respons produk tidak diganti dengan mock.
 5. Snapshot primary AN tetap sama, seluruh clone/REST/Auth sementara dihapus. Semua bukti mentah disimpan walaupun gagal.
+
+Kelompok temporal dan browser dijalankan lebih dahulu untuk menemukan masalah pada fixture baru sebelum mengulang kelompok historis yang panjang. Semua kelompok tetap diwajibkan pada source yang sama.
 
 Hasil 12 kasus kalender historis tetap `DATE_POLICY_REVIEW_REQUIRED`; pemeriksaan kebijakan baru tidak mengubah labelnya. Source guard lama tidak dilonggarkan. Workflow lama yang khusus menerima paket AC bukan bukti penerimaan AT dan kegagalannya harus tetap dilaporkan.
 

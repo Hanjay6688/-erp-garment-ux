@@ -149,6 +149,8 @@ async function flow(f,index){
   assert.equal(after.stocks[f.first_product],initial.stocks[f.first_product])
   native('verify')
   pass('EXACT_BRAND_STOCK_HPP_'+index,{product_id:f.expected_product,quantity:4,cost:'20.00',versioned:f.versioned})
+  // A page reload resets the editor selection; the recovered command remains exact.
+  await page.getByLabel('Rincian produksi awal',{exact:true}).selectOption(f.opening_item_id)
   await page.screenshot({path:resolve(dir,'wip-'+index+'.png'),fullPage:true})
   await page.getByLabel('Catatan hasil WIP',{exact:true}).fill('AT restore original WIP with linked inverse')
   await clickWip('Batalkan hasil '+f.day)
@@ -164,8 +166,10 @@ try{
   const f=fixture.cases[0],payload={batch_id:f.batch_id,opening_item_id:f.opening_item_id,expected_remaining:'8',qty_pcs:'4',
     product_sku:f.code,brand_code:f.brand,location_code:f.location,date:f.day,reason:'Denied anonymous request'}
   const before=native('boundary'),denied=await request(null,'erp_save_initial_import_action_v1',{p_action:'WIP_OUTPUT',p_payload:payload,p_client_request_id:randomUUID()})
-  assert.ok([400,401,403].includes(denied.status));assert.deepEqual(native('boundary'),before)
-  pass('ANONYMOUS_REFUSED',{http_status:denied.status,all_erp_data_unchanged:true})
+  assert.ok([400,401,403].includes(denied.status))
+  assert.ok(denied.value.code==='42501'||(denied.value.code==='P0001'&&/required|permission|access/i.test(denied.value.message)),JSON.stringify(denied))
+  assert.deepEqual(native('boundary'),before)
+  pass('ANONYMOUS_REFUSED',{http_status:denied.status,code:denied.value.code,all_erp_data_unchanged:true})
   page=await login(owner);pass('REAL_PASSWORD_BROWSER_LOGIN',{timezone:'Pacific/Honolulu'})
   for(const [index,f] of fixture.cases.entries())await flow(f,index)
   assert.deepEqual(report.console_errors,[]);report.status='PASS'

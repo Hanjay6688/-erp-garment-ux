@@ -152,6 +152,9 @@ def temporal_concurrency(report):
         api.seed(cur)
         predecessor.historical.prior.set_open_period(cur,date(2026,8,31))
     runtime.change('install',PG,os.environ['CP6_ADMISSION_CONTROL_PGURL'])
+    temporal_result=group('AT_CASES',temporal.cases)
+    report['temporal_cases']={k:temporal_result[k] for k in ('status','counts')}
+    assert len(temporal_result['cases'])==16 and temporal_result['status']=='WRITER_PASS',report['temporal_cases']
     with psycopg.connect(ADMIN) as conn,conn.cursor() as cur:
         runtime.verified(cur)
         today=cur.execute("select (statement_timestamp() at time zone 'Asia/Jakarta')::date").fetchone()[0]
@@ -188,7 +191,7 @@ def regress(report):
     report['new_cases']={k:result[k] for k in ('status','counts')}
     assert len(result['cases'])==34 and result['status']=='WRITER_PASS',report['new_cases']
     assert len(report['calendar_policy'])==12 and all(r['status']=='PASS' for r in report['calendar_policy'].values()),report['calendar_policy']
-    temporal_result=group('AT_CASES',temporal.cases)
+    temporal_result=json.loads((OUT/'AT_CASES.json').read_text())
     report['temporal_cases']={k:temporal_result[k] for k in ('status','counts')}
     assert len(temporal_result['cases'])==16 and temporal_result['status']=='WRITER_PASS',report['temporal_cases']
     qualification=json.loads((OUT/'QUALIFY.json').read_text())

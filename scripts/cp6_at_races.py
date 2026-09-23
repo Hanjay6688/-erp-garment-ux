@@ -12,7 +12,9 @@ import cp6_successor_regression as boundary
 
 def fixture(today):
     with psycopg.connect(boundary.ADMIN) as conn,conn.cursor() as cur:
-        f=production.fixture(api,cur,today);_,sources=production.finalize(api,cur,f)
+        f=production.fixture(api,cur,today)
+        api.upload(cur,f['batch'],'BRAND',[dict(brand_code=f['code'],brand_name='AT race '+f['code'])])
+        _,sources=production.finalize(api,cur,f)
         model,size=cur.execute('select model_id,size_id from erp.products where sku=%s',(f['code'],)).fetchone()
         code=f['code']+'RACE';brand=cur.execute('insert into erp.brands(brand_code,brand_name) values(%s,%s) returning id',(code,code)).fetchone()[0]
         old,new=audit.series(cur,f['code'],model,brand,size,peer.invoice.at(today-timedelta(days=6),0),peer.invoice.at(today-timedelta(days=4),0))
