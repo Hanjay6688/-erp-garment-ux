@@ -446,7 +446,10 @@ def snapshot_values(cur,day):
 
 def filings(cur):
     api.admin(cur)
-    return [list(map(str,r)) for r in cur.execute("""select id,closed_through,previous_closed_through,md5(readiness::text),filed_at
+    # filed_at as a UTC instant: B04 changes the session time zone, and a timestamptz rendered in another zone is the
+    # same instant with a different text (iteration 4, run 35905834630, compared the rendered text).
+    return [list(map(str,r)) for r in cur.execute("""select id,closed_through,previous_closed_through,md5(readiness::text),
+        to_char(filed_at at time zone 'UTC','YYYY-MM-DD"T"HH24:MI:SS.US"Z"')
         from erp.accounting_close_filings_v1 order by filed_at,id""").fetchall()]
 
 
@@ -493,21 +496,66 @@ def b04_late_invoice(cur,today,caller_zone):
     values_after=snapshot_values(cur,d2);filed_after=filings(cur)
     own_pending=[b['code'] for b in own_blockers(pre_pending,[fx['po']])]
     own_done=[b['code'] for b in own_blockers(pre_done,[fx['po']])]
+    # The invoice path may recost synchronously (iteration 4 showed no pending row and correct values right after the
+    # invoice); the design requires the engine to show a pending recost only while one exists and to agree with the
+    # report at every point. The pending-then-processed path itself is P07:PROCESSED_AFTER_CLOSE.
     checks=dict(ready_before_close=ready['status']=='READY',close_accepted=closed[0]=='ACCEPTED',values_at_estimate=not pre_errors,
-                queue_pending=bool(pending),recost_pending_shown='RECOST_PENDING' in own_pending,
-                report_equals_engine_pending=rep_pending['status']==pre_pending['status']!='READY',
-                changed_since_filing_pending=rep_pending['changed_since_filing'] is True,
+                pending_shown_iff_queued=bool(pending)==('RECOST_PENDING' in own_pending),
+                report_equals_engine_after_invoice=rep_pending['status']==pre_pending['status'],
+                changed_since_filing_iff_not_ready=rep_pending['changed_since_filing']==(pre_pending['status']!='READY'),
                 recost_cleared=not [c for c in own_done if c.startswith('RECOST')],ready_after=pre_done['status']=='READY',
                 report_equals_engine_done=rep_done['status']==pre_done['status']=='READY',
                 changed_since_filing_done=rep_done['changed_since_filing'] is False,
-                values_at_invoice=not errors,closed_day_gl_unchanged=values_before==values_after,
+                values_at_invoice=not errors,aa_po_queue_done=bool(after['queue']) and all(r[1]=='DONE' for r in after['queue']),
+                closed_day_gl_unchanged=values_before==values_after,
                 filing_unchanged=filed_before==filed_after and len(filed_after)==1)
     return dict(status='PASS' if all(checks.values()) else 'FAIL',caller_zone=caller_zone,checks=checks,
                 closed_through=str(d2),invoice_date=str(d),pre_errors=pre_errors,errors=errors,invoice=response,processed=processed,
+                pending_after_invoice=[list(map(str,r)) for r in pending],po_queue_after=[list(map(str,r)) for r in after['queue']],
                 own_pending=own_pending,own_done=own_done,report_pending=rep_pending,report_done=rep_done,
                 values_closed_day_before=values_before,values_closed_day_after=values_after,filings=filed_after,
                 blockers_pending=blockers_brief(pre_pending),quiet=[quiet_seed_items,quiet_fixture],
                 fixture='AA ordinary purchase, cutting, sewing, laundry, FG and sale RPCs; seed open items cleared by quiet_seed')
+
+
+def processed_after_close(cur,today):
+    """Design case 7: close D READY; a late purchase dated inside the closed period queues a recost for a PO whose facts
+    are on or before D. While unprocessed the engine and the report show it for D (changed since filing); processing
+    posts the delta in the open period, D is READY again, the filing is never rewritten and D's GL values do not move."""
+    if not installed(cur):return dict(status='NOT_APPLICABLE',reason='per-date engine exists only with AW')
+    f,_=recost_fixture(cur,today,False)
+    d=f['purchase_day']+timedelta(days=1)
+    quiet=quiet_seed(cur,f['purchase_day'],d)
+    ready=preflight(cur,d)
+    if ready['status']!='READY':
+        return dict(status='INCOMPLETE',reason='fixture not READY before the close',blockers=blockers_brief(ready),quiet=quiet)
+    closed=close(cur,d,'AW P07 close before a late change')
+    values_before=snapshot_values(cur,d);filed_before=filings(cur)
+    events=lambda:{r[0]:r[1] for r in cur.execute('select id,effective_date from erp.po_hpp_gl_events where po_id=%s',(f['po'],)).fetchall()}
+    events_before=events()
+    chain.prior.post_purchase(cur,f['material'],chain.production.at(f['purchase_day'],22),unit_price=12);api.admin(cur)
+    pending=cur.execute("select status from erp.cost_recalc_queue where entity_type='PO' and entity_id=%s and status in('PENDING','RUNNING','FAILED')",(f['po'],)).fetchall()
+    pre_pending=preflight(cur,d);rep_pending=report(cur,d)
+    chain.production.owner(cur);processed=cur.execute('select erp.process_cost_recalc_queue(100)').fetchone()[0];api.admin(cur)
+    pre_done=preflight(cur,d);rep_done=report(cur,d)
+    new_events={str(k):str(v) for k,v in events().items() if k not in events_before}
+    values_after=snapshot_values(cur,d);filed_after=filings(cur)
+    own_pending=[b['code'] for b in own_blockers(pre_pending,[f['po']])];own_done=[b['code'] for b in own_blockers(pre_done,[f['po']])]
+    checks=dict(ready_before_close=True,close_accepted=closed[0]=='ACCEPTED',queue_pending=bool(pending),
+                recost_pending_shown='RECOST_PENDING' in own_pending,
+                report_equals_engine_pending=rep_pending['status']==pre_pending['status']=='RECALC_PENDING',
+                changed_since_filing_pending=rep_pending['changed_since_filing'] is True,
+                recost_cleared=not [c for c in own_done if c.startswith('RECOST')],
+                report_equals_engine_done=rep_done['status']==pre_done['status']=='READY',
+                changed_since_filing_done=rep_done['changed_since_filing'] is False,
+                delta_in_open_period=bool(new_events) and all(v==str(today) for v in new_events.values()),
+                closed_day_gl_unchanged=values_before==values_after,
+                filing_unchanged=filed_before==filed_after and len(filed_after)==1)
+    return dict(status='PASS' if all(checks.values()) else 'FAIL',checks=checks,closed_through=str(d),processed=processed,
+                pending=[list(map(str,r)) for r in pending],own_pending=own_pending,own_done=own_done,report_pending=rep_pending,
+                report_done=rep_done,new_hpp_events=new_events,values_closed_day_before=values_before,values_closed_day_after=values_after,
+                filings=filed_after,blockers_pending=blockers_brief(pre_pending),quiet=quiet,
+                fixture='AA ordinary purchase and production RPCs; the late purchase through the ordinary purchase RPC')
 
 
 def historical_wrong_today_clean(cur,today):
@@ -576,13 +624,15 @@ def policy_payroll_grni(cur,today):
             values(%s,%s,%s,%s,%s,'DRAFT',%s,%s,0,'AW policy payroll')""",(pid,'AW-'+pid.hex[:12],c,lo,hi,cash,hi))
     pre=preflight(cur,d)
     own_due=[b['code'] for b in own_blockers(pre,[due])];own_straddle=[b['code'] for b in own_blockers(pre,[straddle])]
-    grni=[dict(severity=b['severity'],reference=b['reference']) for b in pre['blockers'] if b['code']=='GRNI_ESTIMATE_OPEN']
+    # INFO items are reported under 'info', never under 'blockers' (iteration 4 looked in 'blockers').
+    grni=[dict(severity=b['severity'],reference=b['reference']) for b in pre['info'] if b['code']=='GRNI_ESTIMATE_OPEN']
+    grni_in_blockers=[b for b in pre['blockers'] if b['code']=='GRNI_ESTIMATE_OPEN']
     chain.prior.as_owner(cur);cur.execute('select erp.populate_payroll_draft(%s)',(due,));cur.execute('select erp.approve_payroll(%s)',(due,));api.admin(cur)
     after=preflight(cur,d)
     ok=('PAYROLL_NOT_APPROVED' in own_due and 'PAYROLL_NOT_APPROVED' not in own_straddle and grni and all(g['severity']=='INFO' for g in grni)
-        and after['status']=='READY')
+        and not grni_in_blockers and after['status']=='READY' and any(b['code']=='GRNI_ESTIMATE_OPEN' for b in after['info']))
     return dict(status='PASS' if ok else 'FAIL',expected=dict(due='PAYROLL_NOT_APPROVED',straddle='none',grni='INFO',after='READY'),
-                observed=dict(due=own_due,straddle=own_straddle,grni=grni,before=pre['status'],after=after['status']),
+                observed=dict(due=own_due,straddle=own_straddle,grni=grni,grni_in_blockers=len(grni_in_blockers),before=pre['status'],after=after['status']),
                 blockers_after=blockers_brief(after),quiet=quiet,fixture='payroll headers inserted as the harness does (no header RPC); approval through the owner RPC')
 
 
@@ -776,6 +826,7 @@ def cases(cur,today):
             ('S06:RECOST_EXHAUSTED_IN_PERIOD',lambda:recost_exhausted(cur,today)),
             ('B04:LATE_INVOICE_JAKARTA',lambda:b04_late_invoice(cur,today,'Asia/Jakarta')),
             ('B04:LATE_INVOICE_KIRITIMATI',lambda:b04_late_invoice(cur,today,'Pacific/Kiritimati')),
+            ('P07:PROCESSED_AFTER_CLOSE',lambda:processed_after_close(cur,today)),
             ('B04:HISTORICAL_WRONG_TODAY_CLEAN',lambda:historical_wrong_today_clean(cur,today)),
             ('S06:CRITICAL_NON_QUEUE',lambda:critical_non_queue(cur,today)),
             ('POLICY:PAYROLL_AND_GRNI',lambda:policy_payroll_grni(cur,today)),
