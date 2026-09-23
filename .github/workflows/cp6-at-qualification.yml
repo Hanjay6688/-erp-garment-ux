@@ -1,0 +1,316 @@
+name: CP6 AT Qualification
+'on':
+  push:
+    branches:
+    - competition/cp6-j-closure-20260911
+    paths:
+    - scripts/cp6_at_*
+    - supabase/migrations/*_erp_v2_6_20at_*
+    - supabase/rollbacks/*_erp_v2_6_20at_*
+    - docs/evidence/cp6-at-*
+    - .github/workflows/cp6-at-qualification.yml
+  workflow_dispatch: null
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: cp6-at-qualification-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  trial:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 80
+    env:
+      PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
+      CP6_AC_INDEPENDENT_CONFIRM: postgres
+      CP6_AF_INDEPENDENT_CONFIRM: postgres
+      CP6_AH_CONFIRM: postgres
+      CP6_AI_CONFIRM: postgres
+      CP6_AH_INDEPENDENT_CONFIRM: postgres
+      CP6_AI_INDEPENDENT_CONFIRM: postgres
+      CP6_AUDIT_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+      CP6_AF_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+      CP6_DATABASE_CONTAINER: supabase_db_cp5-local
+      CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
+      CP6_AR_CONFIRM: cp6_rollback
+      CP6_AT_BROWSER_CONFIRM: cp6_rollback
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        path: writer
+        fetch-depth: 0
+    - uses: actions/checkout@v4
+      with:
+        path: harness
+        fetch-depth: 0
+        ref: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+    - uses: actions/checkout@v4
+      with:
+        path: candidate
+        fetch-depth: 0
+        ref: 25fa4736329e5148dfdb3572bc169952cba23251
+    - uses: actions/checkout@v4
+      with:
+        path: base
+        fetch-depth: 0
+        ref: 1bdca3766f7c9800d68295ff5122798060b8a05d
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '22'
+    - name: Record proposed source and prepare isolated proof paths
+      id: source_scope
+      working-directory: writer
+      run: |
+        set -euo pipefail
+        PYTHONPATH=scripts python -c "import cp6_at_trial; cp6_at_trial.source()"
+        mkdir -p ../candidate/cp6-proof/writer-{ae,af,ah,ai,aj,ak,al,am,an}
+    - name: Install pinned disposable runtime
+      shell: bash
+      run: |
+        set -euo pipefail
+        python -m pip install --quiet 'psycopg[binary]==3.2.10' 'PyYAML==6.0.2'
+        sudo apt-get update -qq
+        sudo apt-get install -y -qq ca-certificates curl gnupg
+        sudo install -d /usr/share/postgresql-common/pgdg
+        sudo curl --fail --silent --show-error \
+          -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \
+          https://www.postgresql.org/media/keys/ACCC4CF8.asc
+        key_fingerprint="$(gpg --show-keys --with-colons \
+          /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \
+          | awk -F: '$1 == "fpr" { print $10; exit }')"
+        test "$key_fingerprint" = 'B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8'
+        . /etc/os-release
+        architecture="$(dpkg --print-architecture)"
+        sudo tee /etc/apt/sources.list.d/pgdg.sources >/dev/null <<EOF
+        Types: deb
+        URIs: https://apt.postgresql.org/pub/repos/apt
+        Suites: ${VERSION_CODENAME}-pgdg
+        Architectures: ${architecture}
+        Components: main
+        Signed-By: /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc
+        EOF
+        sudo apt-get update -qq
+        sudo apt-get install -y -qq postgresql-client-17
+        test -x /usr/lib/postgresql/17/bin/psql
+        echo '/usr/lib/postgresql/17/bin' >> "$GITHUB_PATH"
+    - name: Install pinned Supabase CLI
+      uses: supabase/setup-cli@ab058987d8d6c725971f6cf9d0b5c98467e30bd1
+      with:
+        version: 2.116.0
+    - name: Start disposable database
+      working-directory: base
+      shell: bash
+      run: |
+        set -euo pipefail
+        test "$(git rev-parse HEAD)" = 1bdca3766f7c9800d68295ff5122798060b8a05d
+        test "$(git rev-parse HEAD^{tree})" = 334629c626257b8b713826f491cdf62385d5299b
+        test -z "$(git status --porcelain)"
+        supabase --help >/dev/null
+        supabase init --help >/dev/null
+        supabase start --help >/dev/null
+        mkdir cp5-local
+        supabase init --force --workdir cp5-local
+        mkdir -p cp5-local/supabase/.temp
+        echo '17.6.1.165' > cp5-local/supabase/.temp/postgres-version
+        sed -i '0,/^enable_signup = true$/s//enable_signup = false/' cp5-local/supabase/config.toml
+        supabase start --workdir cp5-local \
+          -x realtime,imgproxy,studio,postgres-meta,edge-runtime,logflare,vector,supavisor \
+          > "$RUNNER_TEMP/cp6-local-start.log" 2>&1
+    - name: Restore exact AC runtime
+      working-directory: base
+      env:
+        GITHUB_SHA: 1bdca3766f7c9800d68295ff5122798060b8a05d
+        GH_TOKEN: ${{ github.token }}
+      shell: bash
+      run: |
+        set -euo pipefail
+        export CP6_AC_WRITER_ARTIFACT="$RUNNER_TEMP/ac-native200.zip"
+        gh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10392910720/zip \
+          > "$CP6_AC_WRITER_ARTIFACT"
+        PYTHONPATH=scripts python ../candidate/scripts/cp6_ac_audit_bootstrap.py
+    - name: Apply exact AD predecessor
+      working-directory: candidate
+      shell: bash
+      run: |
+        set -euo pipefail
+        mkdir -p cp6-proof/writer-ae
+        psql "$PGURL" -X -v ON_ERROR_STOP=1 \
+          -f supabase/migrations/20260915113627_erp_v2_6_20ad_cp6_opening_material_business_day.sql \
+          > cp6-proof/writer-ae/AD_APPLY.log 2>&1
+        PYTHONPATH=scripts python - <<'PY'
+        import os
+        import psycopg
+        import cp6_v2620ad_runtime as runtime
+        with psycopg.connect(os.environ['PGURL']) as connection, connection.cursor() as cur:
+            cur.execute(
+                'insert into supabase_migrations.schema_migrations(version,name,statements) '
+                'values(%s,%s,%s)',
+                (runtime.STAMP, runtime.NAME, [runtime.MIGRATION.read_text()]),
+            )
+            assert len(runtime.verified_successor(cur)) == 274
+        PY
+    - name: Apply exact AE comparison runtime
+      working-directory: candidate
+      shell: bash
+      run: |
+        set -euo pipefail
+        psql "$PGURL" -X -v ON_ERROR_STOP=1 \
+          -f supabase/migrations/20260915201500_erp_v2_6_20ae_cp6_opening_roll_integrity.sql \
+          > cp6-proof/writer-ae/AE_APPLY.log 2>&1
+        PYTHONPATH=scripts python - <<'PY'
+        import os
+        import psycopg
+        import cp6_v2620ae_runtime as runtime
+        with psycopg.connect(os.environ['PGURL']) as connection, connection.cursor() as cur:
+            cur.execute(
+                'insert into supabase_migrations.schema_migrations(version,name,statements) '
+                'values(%s,%s,%s)',
+                (runtime.STAMP, runtime.NAME, [runtime.MIGRATION.read_text()]),
+            )
+            assert len(runtime.verified_successor(cur)) == 276
+        PY
+    - name: Install AF and bind exact 278-object runtime
+      working-directory: candidate
+      shell: bash
+      run: |
+        set -euo pipefail
+        psql "$PGURL" -X -v ON_ERROR_STOP=1 -f supabase/migrations/20260916014332_erp_v2_6_20af_cp6_posted_child_integrity.sql > cp6-proof/writer-af/AF_APPLY.log 2>&1
+        PYTHONPATH=scripts python - <<'PYINSTALL'
+        import os,psycopg
+        import cp6_v2620af_runtime as r
+        with psycopg.connect(os.environ['PGURL']) as conn,conn.cursor() as cur:
+         cur.execute('insert into supabase_migrations.schema_migrations(version,name,statements) values(%s,%s,%s)',(r.STAMP,r.NAME,[r.MIGRATION.read_text()]))
+         assert len(r.verified_successor(cur))==278
+        PYINSTALL
+    - name: Install unchanged AG predecessor and verify 690 objects
+      working-directory: candidate
+      run: |-
+        set -euo pipefail
+        psql "$PGURL" -X -v ON_ERROR_STOP=1 -f supabase/migrations/20260916050822_erp_v2_6_20ag_cp6_sale_reservation_lineage.sql > cp6-proof/writer-ah/AG_APPLY.log 2>&1
+        PYTHONPATH=scripts python - <<'PYINSTALL'
+        import os,psycopg
+        import cp6_v2620ag_runtime as r
+        with psycopg.connect(os.environ['PGURL']) as conn,conn.cursor() as cur:
+         cur.execute('insert into supabase_migrations.schema_migrations(version,name,statements) values(%s,%s,%s)',(r.STAMP,r.NAME,[r.MIGRATION.read_text()]))
+         assert len(r.verified_successor(cur))==690
+        PYINSTALL
+    - name: Install AH and verify all 533 functions and 157 relation objects
+      working-directory: candidate
+      run: |
+        set -euo pipefail
+        psql "$PGURL" -X -v ON_ERROR_STOP=1 -f supabase/migrations/20260916070451_erp_v2_6_20ah_cp6_return_allocation_eligibility.sql > cp6-proof/writer-ah/AH_APPLY.log 2>&1
+        PYTHONPATH=scripts python - <<'PYINSTALL'
+        import os,json,psycopg
+        from pathlib import Path
+        import cp6_v2620ah_runtime as r
+        with psycopg.connect(os.environ['PGURL']) as conn,conn.cursor() as cur:
+         cur.execute('insert into supabase_migrations.schema_migrations(version,name,statements) values(%s,%s,%s)',(r.STAMP,r.NAME,[r.MIGRATION.read_text()]))
+         objects=r.verified_successor(cur);assert len(objects)==690
+         Path('cp6-proof/writer-ah/AH_INSTALLED_RUNTIME.json').write_text(json.dumps({'status':'PASS','head':os.environ['GITHUB_SHA'],'objects':objects,'production_go':False},indent=2)+'\n')
+        PYINSTALL
+    - name: Install AI and bind the full original catalog
+      working-directory: candidate
+      run: |
+        set -euo pipefail
+        psql "$PGURL" -X -v ON_ERROR_STOP=1 -f supabase/migrations/20260916090022_erp_v2_6_20ai_cp6_work_source_lineage.sql > cp6-proof/writer-ai/AI_APPLY.log 2>&1
+        PYTHONPATH=scripts python - <<'PYINSTALL'
+        import os,json,psycopg
+        from pathlib import Path
+        import cp6_v2620ai_runtime as r
+        with psycopg.connect(os.environ['PGURL']) as conn,conn.cursor() as cur:
+         cur.execute('insert into supabase_migrations.schema_migrations(version,name,statements) values(%s,%s,%s)',(r.STAMP,r.NAME,[r.MIGRATION.read_text()]))
+         objects=r.verified_successor(cur);assert len(objects)==690
+         Path('cp6-proof/writer-ai/AI_INSTALLED_RUNTIME.json').write_text(json.dumps(dict(status='PASS',head='25fa4736329e5148dfdb3572bc169952cba23251',objects=objects,production_go=False),indent=2)+'\n')
+        PYINSTALL
+    - name: Install AJ successor with all 690 runtime objects pinned
+      working-directory: candidate
+      run: PYTHONPATH=scripts python ../harness/scripts/cp6_v2620aj_review.py --phase install
+    - name: Install AK successor with all 690 runtime objects pinned
+      working-directory: candidate
+      run: PYTHONPATH=scripts python ../harness/scripts/cp6_v2620ak_review.py --phase install
+    - name: Install AL successor with all 690 runtime objects pinned
+      working-directory: candidate
+      run: PYTHONPATH=scripts python ../harness/scripts/cp6_v2620al_review.py --phase install
+    - name: Install AM transfer family with all 690 runtime objects pinned
+      working-directory: candidate
+      run: PYTHONPATH=scripts python ../harness/scripts/cp6_v2620am_review.py --phase install
+    - name: Install AN versioned selectors with complete inherited catalog pinned
+      id: an_runtime
+      working-directory: candidate
+      run: PYTHONPATH=scripts python ../harness/scripts/cp6_v2620an_review.py --phase install
+    - name: Provision isolated rollback authority
+      working-directory: writer
+      shell: bash
+      run: |
+        set -euo pipefail
+        maintenance_password="$(openssl rand -hex 32)"
+        maintenance_pgurl="postgresql://cp6_maintenance_admission:${maintenance_password}@127.0.0.1:54322/template1"
+        echo "::add-mask::$maintenance_password"
+        echo "::add-mask::$maintenance_pgurl"
+        docker exec -i "$CP6_DATABASE_CONTAINER" \
+          psql -U supabase_admin -d template1 -X -v ON_ERROR_STOP=1 \
+            -v cp6_password="$maintenance_password" <<'SQL'
+        create role cp6_maintenance_admission
+          login superuser noinherit nocreatedb nocreaterole noreplication
+          connection limit 4 password :'cp6_password';
+        SQL
+        printf 'CP6_ADMISSION_CONTROL_PGURL=%s\n' "$maintenance_pgurl" >> "$GITHUB_ENV"
+    - name: Clone exact disposable AN boundary
+      working-directory: writer
+      run: |
+        set -euo pipefail
+        bash scripts/clone-cp6-disposable-database.sh \
+          'postgresql://postgres:postgres@127.0.0.1:54322/postgres' \
+          'postgresql://postgres:postgres@127.0.0.1:54322/template1' \
+          'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \
+          cp6_rollback supabase_db_cp5-local cp6-proof/at/CLONE_QUALIFY
+    - name: Qualify AT recovery, 174 original cases and four temporal races
+      working-directory: writer
+      run: python scripts/cp6_at_trial.py --phase qualify
+    - name: Clone untouched AN for AT regression
+      working-directory: writer
+      run: |
+        set -euo pipefail
+        bash scripts/clone-cp6-disposable-database.sh \
+          'postgresql://postgres:postgres@127.0.0.1:54322/postgres' \
+          'postgresql://postgres:postgres@127.0.0.1:54322/template1' \
+          'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \
+          cp6_rollback supabase_db_cp5-local cp6-proof/at/CLONE_REGRESSION
+    - name: Run 326 original, 34 AS and 16 AT cases with calendar checks
+      working-directory: writer
+      run: python scripts/cp6_at_trial.py --phase regression
+    - name: Clone untouched AN for real Auth and browser qualification
+      working-directory: writer
+      run: |
+        set -euo pipefail
+        bash scripts/clone-cp6-disposable-database.sh \
+          'postgresql://postgres:postgres@127.0.0.1:54322/postgres' \
+          'postgresql://postgres:postgres@127.0.0.1:54322/template1' \
+          'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \
+          cp6_rollback supabase_db_cp5-local cp6-proof/at-browser/CLONE
+    - name: Install browser dependencies
+      working-directory: writer
+      run: |
+        set -euo pipefail
+        npm ci
+        npx playwright install --with-deps chromium
+    - name: Qualify real browser WIP identity and exact replay
+      working-directory: writer
+      run: python scripts/cp6_at_browser_runtime.py
+    - name: Remove disposable database
+      if: always()
+      working-directory: base
+      run: supabase stop --workdir cp5-local --no-backup
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: cp6-at-writer-qualification
+        path: |-
+          writer/cp6-proof/at
+          writer/cp6-proof/at-browser
+          writer/cp6-proof/ap-flow/UI_FIXTURE.json
+          candidate/cp6-proof/writer-an/INSTALL.json
+        retention-days: 30

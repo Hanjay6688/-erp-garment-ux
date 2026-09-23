@@ -1,0 +1,27 @@
+{
+  "version": "v2.6.20at",
+  "stamp": "20260923005153",
+  "name": "erp_v2_6_20at_cp6_wip_temporal_identity",
+  "migration": "supabase/migrations/20260923005153_erp_v2_6_20at_cp6_wip_temporal_identity.sql",
+  "rollback": "supabase/rollbacks/20260923005153_erp_v2_6_20at_cp6_wip_temporal_identity.rollback.sql",
+  "capsule": "erp.cp6_v2620at_rollback_capsule",
+  "previous": "AS",
+  "functions": [
+    {
+      "identity": "erp.complete_initial_import_wip_v1(jsonb)",
+      "predecessor_sha256": "c93f8cca4eeed85d23c1dcd664a9b2d880446e350bc3283fb83faf62c7b5deaa",
+      "installed_sha256": "a2b61b6ebcc6bfdca9e52a841f115fcbc3a051c58799fa9c95f3298e9fb82f09",
+      "owner": "postgres",
+      "acl": [
+        "postgres=X/postgres"
+      ]
+    }
+  ],
+  "migration_sha256": "f114a78918138a65f761488b77cadb1ab8a70ce6a6a88ae58a9d38656d1cfdb4",
+  "rollback_sha256": "873552ff2da76cfee680c7a5f6feb7099e43435e3f411f12a9dbb8b3825018e6",
+  "builder_sha256": "f5e4f752f46c5c7653962394efe4222adf9b7411bad85be86a53b201cf0f5440",
+  "definitions_sha256": "7171fd1d46c5d9accd1ad0714afaf0fe2057eea398fca075357ea35b8b161ca8",
+  "base_pins_sha256": "8bfbb4faf563bd800fc79db65c87c6cdf62539869bfb39f060d65fe2e64be8b8",
+  "production_go": false,
+  "independent_acceptance": false
+}
