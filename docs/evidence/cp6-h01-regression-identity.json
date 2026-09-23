@@ -1,0 +1,88 @@
+{
+ "label": "RECONCILED",
+ "subject": "H-01 per-case regression identity",
+ "selftest": {
+  "status": "PASS",
+  "swap": [
+   "CROSS:DAY:FABRIC:DIRECT:Asia/Jakarta",
+   "CALENDAR:1_MONTHS:UTC:False"
+  ],
+  "unchanged_control": "IDENTICAL_PER_CASE",
+  "moved": [
+   {
+    "case": "CROSS:DAY:FABRIC:DIRECT:Asia/Jakarta",
+    "expected": "PASS",
+    "observed": "DATE_POLICY_REVIEW_REQUIRED"
+   },
+   {
+    "case": "CALENDAR:1_MONTHS:UTC:False",
+    "expected": "DATE_POLICY_REVIEW_REQUIRED",
+    "observed": "PASS"
+   }
+  ],
+  "holds": {
+   "expected": 12,
+   "observed": 12,
+   "identical": false,
+   "expected_count_is_recorded": true,
+   "left_hold": [
+    [
+     "BUSINESS",
+     "CALENDAR:1_MONTHS:UTC:False"
+    ]
+   ],
+   "entered_hold": [
+    [
+     "BUSINESS",
+     "CROSS:DAY:FABRIC:DIRECT:Asia/Jakarta"
+    ]
+   ]
+  }
+ },
+ "av_run35853810855_vs_au_run35822980561": {
+  "groups": {
+   "BUSINESS": {
+    "expected": 230,
+    "observed": 230,
+    "added": [],
+    "removed": [],
+    "moved": [],
+    "order_unchanged": true
+   },
+   "IMPORTS": {
+    "expected": 31,
+    "observed": 31,
+    "added": [],
+    "removed": [],
+    "moved": [],
+    "order_unchanged": true
+   },
+   "VALUES": {
+    "expected": 65,
+    "observed": 65,
+    "added": [],
+    "removed": [],
+    "moved": [],
+    "order_unchanged": true
+   },
+   "NEW_CASES": {
+    "expected": 34,
+    "observed": 34,
+    "added": [],
+    "removed": [],
+    "moved": [],
+    "order_unchanged": true
+   }
+  },
+  "holds": {
+   "expected": 12,
+   "observed": 12,
+   "identical": true,
+   "expected_count_is_recorded": true,
+   "left_hold": [],
+   "entered_hold": []
+  },
+  "status": "IDENTICAL_PER_CASE"
+ },
+ "note": "Reproduces the per-ID check GPT did by hand on the same run; the old count comparator in cp6_av_trial.py is left unchanged as historical evidence."
+}
