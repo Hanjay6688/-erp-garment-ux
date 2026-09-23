@@ -33,12 +33,16 @@ r1.OUT=OUT
 chain=r1.chain
 peer=r1.peer
 now,edit,observe,production,receipt,final=r1.now,r1.edit,r1.observe,r1.production,r1.receipt,r1.final
-MANUAL_FACT="""(b.qc_item_id is not null or b.source_laundry_bs_allocation_id is not null or b.untracked_type='OUT_OF_NOWHERE'
-  or (to_regclass('erp.bs_case_manual_origins_v1') is not null and b.id in (select bs_case_id from erp.bs_case_manual_origins_v1 where origin_type='OUT_OF_NOWHERE')))"""
 
 
 def installed(cur):
     return cur.execute("select to_regclass('erp.bs_case_manual_origins_v1') is not null").fetchone()[0]
+
+
+def manual_fact(cur):
+    """New-stock BS predicate; the origin table is referenced only where it exists (frozen AU has none)."""
+    origin=" or b.id in (select bs_case_id from erp.bs_case_manual_origins_v1 where origin_type='OUT_OF_NOWHERE')" if installed(cur) else ''
+    return f"(b.qc_item_id is not null or b.source_laundry_bs_allocation_id is not null or b.untracked_type='OUT_OF_NOWHERE'{origin})"
 
 
 def manual(cur,product,kind,at,reference=None):
@@ -59,7 +63,7 @@ def bound_after_end(cur,product):
     api.admin(cur)
     ended=cur.execute('select effective_to from erp.products where id=%s',(product,)).fetchone()[0]
     if ended is None:return ended,0
-    count=cur.execute(f'select count(*) from erp.bs_cases b where b.product_id=%s and b.physical_at>=%s and {MANUAL_FACT}',(product,ended)).fetchone()[0]
+    count=cur.execute(f'select count(*) from erp.bs_cases b where b.product_id=%s and b.physical_at>=%s and {manual_fact(cur)}',(product,ended)).fetchone()[0]
     return ended,count
 
 
@@ -145,7 +149,7 @@ def origin_immutable(cur,today):
 def rework_ready(cur,today):
     """AL rework route up to an open laundry rework order on a QC BS; all upstream facts are two days old."""
     f=chain.work.draft(cur,today,Decimal(0));po=f['po']
-    peer.ordinary(cur);cur.execute('select erp.post_work_completion(%s)',(f['completion'],))
+    chain.peer.ordinary(cur);cur.execute('select erp.post_work_completion(%s)',(f['completion'],))
     chain.production.owner(cur)
     cur.execute('select public.erp_record_sewing_terminal_v1(%s::jsonb,%s)',
         (json.dumps(dict(work_completion_id=str(f['completion']),qty_pcs=10,reason='AV rev2 ten original physical pieces')),uuid.uuid4()))
@@ -301,7 +305,7 @@ def found_race(admin,today,first,commit):
         ended=cur.execute('select effective_to from erp.products where id=%s',(product,)).fetchone()[0]
         successors=cur.execute('select count(*) from erp.products where supersedes_product_id=%s',(product,)).fetchone()[0]
         recorded=cur.execute('select count(*) from erp.bs_cases where product_id=%s and physical_at=%s',(product,fact)).fetchone()[0]
-        cut=cur.execute(f'select count(*) from erp.bs_cases b where b.product_id=%s and %s::timestamptz is not null and b.physical_at>=%s and {MANUAL_FACT}',(product,ended,ended)).fetchone()[0]
+        cut=cur.execute(f'select count(*) from erp.bs_cases b where b.product_id=%s and %s::timestamptz is not null and b.physical_at>=%s and {manual_fact(cur)}',(product,ended,ended)).fetchone()[0]
         authority=cur.execute('select count(*) from erp.product_identity_mutation_context_v1').fetchone()[0]
     bs_won=first=='BS' and commit or first=='MASTER' and not commit
     expected=dict(bs_recorded=bs_won,successor_created=not bs_won,contender_outcome_ok=not commit)

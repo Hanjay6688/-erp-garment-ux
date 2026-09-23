@@ -1,0 +1,148 @@
+{
+ "label": "PROBE_DEFECT_LOG",
+ "note": "Failed probe runs kept as evidence. Both defects are in the probe harness, not in the AV rev2 package; the fix is in scripts/cp6_av_probe.py (manual_fact built per phase; rework fixture uses the AL chain peer session helper).",
+ "runs": [
+  {
+   "run_id": 35849556805,
+   "job_id": 107143725079,
+   "head_sha": "2335c0aad35e909b14ca4c8f4a59152d6f14b90c",
+   "incomplete_cases": [
+    {
+     "group": "AV_CASES_BEFORE",
+     "case": "MANUAL_CUTOFF:OUT_OF_NOWHERE",
+     "status": "INCOMPLETE",
+     "error": "relation \"erp.bs_case_manual_origins_v1\" does not exist\nLINE 2: ...) is not null and b.id in (select bs_case_id from erp.bs_cas...\n                                                             ^"
+    },
+    {
+     "group": "AV_CASES_BEFORE",
+     "case": "MANUAL_CUTOFF:LEGACY",
+     "status": "INCOMPLETE",
+     "error": "relation \"erp.bs_case_manual_origins_v1\" does not exist\nLINE 2: ...) is not null and b.id in (select bs_case_id from erp.bs_cas...\n                                                             ^"
+    },
+    {
+     "group": "AV_CASES_BEFORE",
+     "case": "REWORK:GOOD_DOES_NOT_BOUND",
+     "status": "INCOMPLETE",
+     "error": "module 'cp6_at_probe' has no attribute 'ordinary'"
+    },
+    {
+     "group": "AV_CASES_BEFORE",
+     "case": "REWORK:AFTER_SUCCESSOR",
+     "status": "INCOMPLETE",
+     "error": "module 'cp6_at_probe' has no attribute 'ordinary'"
+    },
+    {
+     "group": "FOUND_RACES_BEFORE",
+     "case": "FOUND_RACE:BS_FIRST:ABORT",
+     "status": "INCOMPLETE",
+     "error": "relation \"erp.bs_case_manual_origins_v1\" does not exist\nLINE 2: ...) is not null and b.id in (select bs_case_id from erp.bs_cas...\n                                                             ^"
+    },
+    {
+     "group": "FOUND_RACES_BEFORE",
+     "case": "FOUND_RACE:BS_FIRST:COMMIT",
+     "status": "INCOMPLETE",
+     "error": "relation \"erp.bs_case_manual_origins_v1\" does not exist\nLINE 2: ...) is not null and b.id in (select bs_case_id from erp.bs_cas...\n                                                             ^"
+    },
+    {
+     "group": "FOUND_RACES_BEFORE",
+     "case": "FOUND_RACE:MASTER_FIRST:ABORT",
+     "status": "INCOMPLETE",
+     "error": "relation \"erp.bs_case_manual_origins_v1\" does not exist\nLINE 2: ...) is not null and b.id in (select bs_case_id from erp.bs_cas...\n                                                             ^"
+    },
+    {
+     "group": "FOUND_RACES_BEFORE",
+     "case": "FOUND_RACE:MASTER_FIRST:COMMIT",
+     "status": "INCOMPLETE",
+     "error": "relation \"erp.bs_case_manual_origins_v1\" does not exist\nLINE 2: ...) is not null and b.id in (select bs_case_id from erp.bs_cas...\n                                                             ^"
+    },
+    {
+     "group": "AV_CASES_AFTER",
+     "case": "REWORK:GOOD_DOES_NOT_BOUND",
+     "status": "INCOMPLETE",
+     "error": "module 'cp6_at_probe' has no attribute 'ordinary'"
+    },
+    {
+     "group": "AV_CASES_AFTER",
+     "case": "REWORK:AFTER_SUCCESSOR",
+     "status": "INCOMPLETE",
+     "error": "module 'cp6_at_probe' has no attribute 'ordinary'"
+    }
+   ],
+   "defects": {
+    "MANUAL_FACT_REFERENCES_ABSENT_TABLE": 6,
+    "WRONG_PEER_MODULE": 4
+   }
+  },
+  {
+   "run_id": 35848620445,
+   "job_id": 107140702942,
+   "head_sha": "ea825320639acdcd59dcac68cb313f4171d72881",
+   "incomplete_cases": [
+    {
+     "group": "AV_CASES_BEFORE",
+     "case": "MANUAL_CUTOFF:OUT_OF_NOWHERE",
+     "status": "INCOMPLETE",
+     "error": "relation \"erp.bs_case_manual_origins_v1\" does not exist\nLINE 2: ...) is not null and b.id in (select bs_case_id from erp.bs_cas...\n                                                             ^"
+    },
+    {
+     "group": "AV_CASES_BEFORE",
+     "case": "MANUAL_CUTOFF:LEGACY",
+     "status": "INCOMPLETE",
+     "error": "relation \"erp.bs_case_manual_origins_v1\" does not exist\nLINE 2: ...) is not null and b.id in (select bs_case_id from erp.bs_cas...\n                                                             ^"
+    },
+    {
+     "group": "AV_CASES_BEFORE",
+     "case": "REWORK:GOOD_DOES_NOT_BOUND",
+     "status": "INCOMPLETE",
+     "error": "module 'cp6_at_probe' has no attribute 'ordinary'"
+    },
+    {
+     "group": "AV_CASES_BEFORE",
+     "case": "REWORK:AFTER_SUCCESSOR",
+     "status": "INCOMPLETE",
+     "error": "module 'cp6_at_probe' has no attribute 'ordinary'"
+    },
+    {
+     "group": "FOUND_RACES_BEFORE",
+     "case": "FOUND_RACE:BS_FIRST:ABORT",
+     "status": "INCOMPLETE",
+     "error": "relation \"erp.bs_case_manual_origins_v1\" does not exist\nLINE 2: ...) is not null and b.id in (select bs_case_id from erp.bs_cas...\n                                                             ^"
+    },
+    {
+     "group": "FOUND_RACES_BEFORE",
+     "case": "FOUND_RACE:BS_FIRST:COMMIT",
+     "status": "INCOMPLETE",
+     "error": "relation \"erp.bs_case_manual_origins_v1\" does not exist\nLINE 2: ...) is not null and b.id in (select bs_case_id from erp.bs_cas...\n                                                             ^"
+    },
+    {
+     "group": "FOUND_RACES_BEFORE",
+     "case": "FOUND_RACE:MASTER_FIRST:ABORT",
+     "status": "INCOMPLETE",
+     "error": "relation \"erp.bs_case_manual_origins_v1\" does not exist\nLINE 2: ...) is not null and b.id in (select bs_case_id from erp.bs_cas...\n                                                             ^"
+    },
+    {
+     "group": "FOUND_RACES_BEFORE",
+     "case": "FOUND_RACE:MASTER_FIRST:COMMIT",
+     "status": "INCOMPLETE",
+     "error": "relation \"erp.bs_case_manual_origins_v1\" does not exist\nLINE 2: ...) is not null and b.id in (select bs_case_id from erp.bs_cas...\n                                                             ^"
+    },
+    {
+     "group": "AV_CASES_AFTER",
+     "case": "REWORK:GOOD_DOES_NOT_BOUND",
+     "status": "INCOMPLETE",
+     "error": "module 'cp6_at_probe' has no attribute 'ordinary'"
+    },
+    {
+     "group": "AV_CASES_AFTER",
+     "case": "REWORK:AFTER_SUCCESSOR",
+     "status": "INCOMPLETE",
+     "error": "module 'cp6_at_probe' has no attribute 'ordinary'"
+    }
+   ],
+   "defects": {
+    "MANUAL_FACT_REFERENCES_ABSENT_TABLE": 6,
+    "WRONG_PEER_MODULE": 4
+   }
+  }
+ ]
+}

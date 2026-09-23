@@ -20,9 +20,41 @@ concurrency:
   group: cp6-av-qualification-${{ github.ref }}
   cancel-in-progress: false
 jobs:
-  trial:
+  # One job per phase: each phase gets its own disposable database built from the
+  # same pinned chain, runs in parallel, and publishes its log as soon as it ends.
+  phase:
+    name: ${{ matrix.label }}
     runs-on: ubuntu-24.04
-    timeout-minutes: 240
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        - key: probe-before
+          label: AV rev2 probe on frozen AU (before)
+          script: cp6_av_probe.py
+          phase: before
+          proof: av
+        - key: probe-after
+          label: AV rev2 probe on AU plus AV rev2 (after)
+          script: cp6_av_probe.py
+          phase: after
+          proof: av
+        - key: qualify
+          label: AR 174 original cases, AV package cycles and post-use refusal
+          script: cp6_av_trial.py
+          phase: qualify
+          proof: av-trial
+        - key: temporal
+          label: AT 16 and AU 15 cases with their real races on AU plus AV rev2
+          script: cp6_av_trial.py
+          phase: temporal
+          proof: av-trial
+        - key: regression
+          label: Original 326 business, import and value cases plus AS 34 on AU plus AV rev2
+          script: cp6_av_trial.py
+          phase: regression
+          proof: av-trial
     env:
       PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
       CP6_AC_INDEPENDENT_CONFIRM: postgres
@@ -266,81 +298,19 @@ jobs:
           connection limit 4 password :'cp6_password';
         SQL
         printf 'CP6_ADMISSION_CONTROL_PGURL=%s\n' "$maintenance_pgurl" >> "$GITHUB_ENV"
-    - name: Clone untouched AN for probe before
-      if: always()
+    - name: Clone untouched AN for ${{ matrix.key }}
       working-directory: writer
       run: |
         set -euo pipefail
-        mkdir -p ../auditor/cp6-proof/av
+        mkdir -p '../auditor/cp6-proof/${{ matrix.proof }}'
         bash scripts/clone-cp6-disposable-database.sh \
           'postgresql://postgres:postgres@127.0.0.1:54322/postgres' \
           'postgresql://postgres:postgres@127.0.0.1:54322/template1' \
           'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \
-          cp6_rollback supabase_db_cp5-local ../auditor/cp6-proof/av/CLONE_PROBE_BEFORE
-    - name: AV rev2 probe on frozen AU (before)
-      if: always()
+          cp6_rollback supabase_db_cp5-local '../auditor/cp6-proof/${{ matrix.proof }}/CLONE_${{ matrix.key }}'
+    - name: ${{ matrix.label }}
       working-directory: writer
-      run: python ../auditor/scripts/cp6_av_probe.py --phase before
-    - name: Clone untouched AN for probe after
-      if: always()
-      working-directory: writer
-      run: |
-        set -euo pipefail
-        mkdir -p ../auditor/cp6-proof/av
-        bash scripts/clone-cp6-disposable-database.sh \
-          'postgresql://postgres:postgres@127.0.0.1:54322/postgres' \
-          'postgresql://postgres:postgres@127.0.0.1:54322/template1' \
-          'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \
-          cp6_rollback supabase_db_cp5-local ../auditor/cp6-proof/av/CLONE_PROBE_AFTER
-    - name: AV rev2 probe on AU plus AV rev2 (after)
-      if: always()
-      working-directory: writer
-      run: python ../auditor/scripts/cp6_av_probe.py --phase after
-    - name: Clone untouched AN for trial qualify
-      if: always()
-      working-directory: writer
-      run: |
-        set -euo pipefail
-        mkdir -p ../auditor/cp6-proof/av-trial
-        bash scripts/clone-cp6-disposable-database.sh \
-          'postgresql://postgres:postgres@127.0.0.1:54322/postgres' \
-          'postgresql://postgres:postgres@127.0.0.1:54322/template1' \
-          'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \
-          cp6_rollback supabase_db_cp5-local ../auditor/cp6-proof/av-trial/CLONE_TRIAL_QUALIFY
-    - name: AR 174 original cases, AV package cycles and post-use refusal
-      if: always()
-      working-directory: writer
-      run: python ../auditor/scripts/cp6_av_trial.py --phase qualify
-    - name: Clone untouched AN for trial temporal
-      if: always()
-      working-directory: writer
-      run: |
-        set -euo pipefail
-        mkdir -p ../auditor/cp6-proof/av-trial
-        bash scripts/clone-cp6-disposable-database.sh \
-          'postgresql://postgres:postgres@127.0.0.1:54322/postgres' \
-          'postgresql://postgres:postgres@127.0.0.1:54322/template1' \
-          'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \
-          cp6_rollback supabase_db_cp5-local ../auditor/cp6-proof/av-trial/CLONE_TRIAL_TEMPORAL
-    - name: AT 16 and AU 15 cases with their real races on AU plus AV rev2
-      if: always()
-      working-directory: writer
-      run: python ../auditor/scripts/cp6_av_trial.py --phase temporal
-    - name: Clone untouched AN for trial regression
-      if: always()
-      working-directory: writer
-      run: |
-        set -euo pipefail
-        mkdir -p ../auditor/cp6-proof/av-trial
-        bash scripts/clone-cp6-disposable-database.sh \
-          'postgresql://postgres:postgres@127.0.0.1:54322/postgres' \
-          'postgresql://postgres:postgres@127.0.0.1:54322/template1' \
-          'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \
-          cp6_rollback supabase_db_cp5-local ../auditor/cp6-proof/av-trial/CLONE_TRIAL_REGRESSION
-    - name: Original 326 business, import and value cases plus AS 34 on AU plus AV rev2
-      if: always()
-      working-directory: writer
-      run: python ../auditor/scripts/cp6_av_trial.py --phase regression
+      run: python '../auditor/scripts/${{ matrix.script }}' --phase '${{ matrix.phase }}'
     - name: Remove disposable database
       if: always()
       working-directory: base
@@ -348,8 +318,6 @@ jobs:
     - uses: actions/upload-artifact@v4
       if: always()
       with:
-        name: cp6-av-qualification
-        path: |-
-          auditor/cp6-proof/av
-          auditor/cp6-proof/av-trial
+        name: cp6-av-qualification-${{ matrix.key }}
+        path: auditor/cp6-proof/${{ matrix.proof }}
         retention-days: 30
