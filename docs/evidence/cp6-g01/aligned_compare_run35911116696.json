@@ -1,0 +1,22 @@
+{
+ "label": "G01_ALIGNMENT",
+ "run_id": 35911116696,
+ "job_id": 107350888685,
+ "head_sha": "50e44233b8d94202d60ec85a1041cf04dd76c72c",
+ "owner_decision": "G-01 option 1 (23 Sep 2026): copy only the differing definitions from Enteng read-only; cover the two extra *_seq1 sequences; T3 stays HOLD until every difference is explained and the AO-AV install passes",
+ "per_object": {
+  "status": "ALIGNED_PER_OBJECT",
+  "constraints_equal": true,
+  "views_equal": true,
+  "sequences_equal": true,
+  "schema_equal": true,
+  "detail": "23 CHECK constraints and 5 views equal the hosted md5 after alignment; sequences: app_access_audit_id_seq and production_pattern_audit_id_seq identity-owned, audit_logs_id_seq and cost_recalc_queue_id_seq OWNED BY, cutting_qty_correction_seq and fg_stock_book_order_seq standalone (6, as hosted); schema erp ACL equal"
+ },
+ "compare_hosted_aligned": {
+  "match": ["app_ledger","config_hash","constraint","default_acl","extension","function","function_owner_acl","index","policy","relation","relation_owner_acl","schema","sequence","trigger","view"],
+  "differ": {"platform_ledger": {"hosted": {"md5": "70101c86a76c027079b6ccec793cde92", "n": 70}, "baseline": {"md5": "5c62742300c1b4b7059b134fdbd6b052", "n": 70}}}
+ },
+ "platform_ledger_explained": "expected: the fixture ledger keeps empty statements and the test chain uses repository version stamps; content and order were matched separately in ledger_content_order.json (G-01 round 1)",
+ "conclusion": "Every catalog difference between the rebuilt test baseline and hosted Enteng is explained and, on the test side, aligned; the aligned baseline is catalog-identical to hosted except the platform ledger stamps.",
+ "release_evidence": false
+}
