@@ -511,12 +511,20 @@ def recost_race(admin,today,first,commit):
                 close_result=close_result,queue_rows_after=queue_rows,state=state,after_codes_own=codes(after,[f['po']]),quiet=quiet)
 
 
+def fresh_race_copy(admin,verify):
+    """Every schedule gets its own copy of the untouched clone: committed race fixtures never leak into the next schedule
+    (iteration 2 shared one copy, so filings and payroll periods accumulated; kept as run 35903761656)."""
+    r1.docker('dropdb','-U','supabase_admin','--if-exists','--force','--maintenance-db=template1',RACE_DB)
+    r1.docker('createdb','-U','supabase_admin','--maintenance-db=template1','-T','cp6_rollback',RACE_DB)
+    return race_setup(admin,None,verify)
+
+
 def races(phase,verify):
     admin=boundary.ADMIN.rsplit('/',1)[0]+'/'+RACE_DB
-    report=dict(status='INCOMPLETE',database=RACE_DB,schedules={},production_go=False,independent_acceptance=False,label=LABEL)
-    r1.docker('createdb','-U','supabase_admin','--maintenance-db=template1','-T','cp6_rollback',RACE_DB)
+    report=dict(status='INCOMPLETE',database=RACE_DB,schedules={},production_go=False,independent_acceptance=False,label=LABEL,
+                copy_per_schedule=True)
     try:
-        report['setup']=race_setup(admin,None,verify)
+        report['setup']=fresh_race_copy(admin,verify)
         with psycopg.connect(admin) as conn,conn.cursor() as cur:
             today=cur.execute("select (statement_timestamp() at time zone 'Asia/Jakarta')::date").fetchone()[0]
         if phase=='after':
@@ -524,7 +532,9 @@ def races(phase,verify):
                 for first in firsts:
                     for commit in (False,True):
                         key=f'{kind}_RACE:{first}_FIRST:'+('COMMIT' if commit else 'ABORT')
-                        try:row=fn(admin,today,first,commit)
+                        try:
+                            setup=fresh_race_copy(admin,verify)
+                            row=fn(admin,today,first,commit);row['copy_runtime']=setup['runtime']
                         except Exception as exc:row=dict(status='INCOMPLETE',error=str(exc),traceback=traceback.format_exc())
                         report['schedules'][key]=row;r1.save('RACES_'+phase.upper(),report)
                         print(json.dumps(dict(group='AW_RACES_'+phase.upper(),case=key,**row),default=str),flush=True)

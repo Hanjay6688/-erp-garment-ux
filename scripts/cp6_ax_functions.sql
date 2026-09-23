@@ -155,6 +155,11 @@ begin
   perform erp.assert_non_po_product_hpp_target_book_v2620f(v_product);
 
   v_valuation:=erp.fg_unsourced_valuation_v1(v_product,v_at);
+  -- Owner decision: the average is the value whenever a reference exists; an owner value is only the last tier.
+  if v_override is not null and v_valuation->>'tier'<>'OWNER_INPUT_REQUIRED' then
+    raise exception using message='FG_UNSOURCED_OWNER_VALUE_NOT_ALLOWED: ada pembanding HPP; nilai mengikuti rata-rata pada tanggal fisik',
+      detail=v_valuation::text;
+  end if;
   if v_override is not null then
     v_valuation:=jsonb_build_object('tier','OWNER_VALUE','unit_value',v_override,
       'owner_value_reason',btrim(p_payload->>'owner_value_reason'),'computed',v_valuation);

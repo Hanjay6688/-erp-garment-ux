@@ -103,13 +103,13 @@ def journal_lines(cur,journal):
         from erp.journal_lines l where l.journal_entry_id=%s order by l.debit desc""",(journal,)).fetchall()]
 
 
-def owner_only_model_product(cur):
+def owner_only_model_product(cur,is_active=True,effective_from=None):
     """A SKU of a brand-new model with no lots anywhere: no reference HPP exists (administrative master fixture)."""
     api.admin(cur);model=uuid.uuid4();product=uuid.uuid4()
     cur.execute('insert into erp.product_models(id,model_code,model_name,is_active) values(%s,%s,%s,true)',(model,'AX-'+model.hex[:10],'AX no reference model'))
     cur.execute("""insert into erp.products(id,sku,model_id,brand_id,color_name,size_id,product_name,identity_root_id,effective_from,is_active,is_portal_visible)
-        select %s,%s,%s,brand_id,'AX-NEW',size_id,'AX no reference',%s,effective_from,true,true from erp.products where id=%s""",
-        (product,'AX-'+product.hex[:10],model,product,chain.base.BASE_PRODUCT))
+        select %s,%s,%s,brand_id,'AX-NEW',size_id,'AX no reference',%s,coalesce(%s,effective_from),%s,true from erp.products where id=%s""",
+        (product,'AX-'+product.hex[:10],model,product,effective_from,is_active,chain.base.BASE_PRODUCT))
     cur.execute("""insert into erp.accessory_bom_versions(product_id,version_label,effective_from,is_active,notes)
         values(%s,'AX-EMPTY','2026-01-01',true,'Explicit empty BOM')""",(product,))
     return str(product),None
@@ -184,6 +184,17 @@ def no_reference(cur,today):
         and Decimal(str(zero['total_value']))==0 and zero['journal_entry_id'] is None
         and Decimal(str(valued['total_value']))==Decimal('25001.00') and valued['valuation']['tier']=='OWNER_VALUE')
     return dict(status='PASS' if ok else 'FAIL',preview=view,refusal=refusal,explicit_zero=zero,owner_value=valued)
+
+
+def owner_value_with_reference(cur,today):
+    """Owner decision: when a reference average exists the receipt takes that average; an owner value is refused."""
+    if not ax_installed(cur):return dict(status='NOT_APPLICABLE')
+    f=stocked_product(cur,today);product=str(f['product']);before=counts(cur)
+    _,error=attempt_post(cur,dict(source_kind='FOUND_AT_OPNAME',product_id=product,location_id=chain.base.LOCATION,qty_pcs=1,
+        physical_at=(r1.now(cur)-timedelta(minutes=5)).isoformat(),reason='AX owner value with reference',owner_unit_value='99999',owner_value_reason='AX'))
+    after=counts(cur)
+    ok=error is not None and 'OWNER_VALUE_NOT_ALLOWED' in (error.get('message') or '') and before==after
+    return dict(status='PASS' if ok else 'FAIL',refusal=error,no_residue=before==after)
 
 
 def manual_bs(cur,product,kind,qty,at):
@@ -265,6 +276,53 @@ def backdated(cur,today):
                 note='Physical date today (open) here; a closed physical date needs stock before the close, covered in the next iteration')
 
 
+def backdated_closed(cur,today):
+    """Physical date inside a closed period (owner: value at the physical date). A PO lot produced two days ago is the
+    only stock of the SKU; the period is then closed through that day. The receipt must be valued from the stock as of
+    the physical instant, the journal keeps the physical day as economic date and moves only the GL date into the open
+    period; a preview before the lot existed must not use that lot."""
+    if not ax_installed(cur):return dict(status='NOT_APPLICABLE')
+    f=r1.production(cur,today);day=f['day']
+    source=r1.receipt(cur,f,chain.production.at(day,13),0)
+    r1.final(cur,f,source,chain.production.at(day,14),10)
+    api.admin(cur);product=str(f['product'])
+    lot=str(cur.execute("select id from erp.fg_lots where product_id=%s and lot_origin='PRODUCTION'",(product,)).fetchone()[0])
+    before_lot=preview(cur,product,chain.production.at(day,12))
+    at=chain.production.at(day,16)
+    expected=expected_average(cur,product,at)
+    view=preview(cur,product,at)
+    boundary.historical.prior.set_open_period(cur,day)
+    r=post(cur,dict(source_kind='FOUND_AT_OPNAME',product_id=product,location_id=chain.base.LOCATION,qty_pcs=2,physical_at=at.isoformat(),reason='AX backdated closed'))
+    je=cur.execute('select economic_date,transaction_date from erp.journal_entries where id=%s',(r['journal_entry_id'],)).fetchone()
+    closed=cur.execute('select closed_through from erp.accounting_period_control where singleton_id=1').fetchone()[0]
+    mv=cur.execute('select physical_at from erp.fg_stock_movements where lot_id=%s',(r['lot_id'],)).fetchall()
+    ok=(expected is not None and Decimal(str(r['unit_value']))==expected and view['tier']=='SKU' and lot in json.dumps(view)
+        and lot not in json.dumps(before_lot) and je[0]==day and je[1]>closed and closed==day
+        and len(mv)==1 and mv[0][0]==at)
+    return dict(status='PASS' if ok else 'FAIL',expected_unit=str(expected),receipt=r,preview_before_lot=before_lot,preview_at=view,
+                economic_date=str(je[0]),transaction_date=str(je[1]),closed_through=str(closed),movement_physical_at=[str(m[0]) for m in mv],
+                expected='Unit = stock-on-hand average at the physical instant; economic date = physical day (closed); GL date in the open period')
+
+
+def new_stock_inactive(cur,today):
+    """NEW_STOCK (owner decision 1C): an inactive SKU, or a SKU version not yet effective at the physical instant,
+    cannot receive a new lot, even with an owner value; nothing is left behind."""
+    if not ax_installed(cur):return dict(status='NOT_APPLICABLE')
+    before=counts(cur)
+    inactive,_=owner_only_model_product(cur,is_active=False)
+    later,_=owner_only_model_product(cur,effective_from=r1.now(cur)-timedelta(hours=1))
+    results={}
+    for name,product,at in (('inactive',inactive,r1.now(cur)-timedelta(minutes=5)),('not_yet_effective',later,r1.now(cur)-timedelta(days=1))):
+        _,error=attempt_post(cur,dict(source_kind='FOUND_AT_OPNAME',product_id=product,location_id=chain.base.LOCATION,qty_pcs=1,
+            physical_at=at.isoformat(),reason='AX NEW_STOCK '+name,owner_unit_value='1000',owner_value_reason='AX owner value'))
+        results[name]=error
+    after=counts(cur)
+    ok=(results['inactive'] is not None and 'tidak aktif' in (results['inactive'].get('message') or '')
+        and results['not_yet_effective'] is not None and 'belum berlaku' in (results['not_yet_effective'].get('message') or '')
+        and before==after)
+    return dict(status='PASS' if ok else 'FAIL',refusals=results,no_residue=before==after)
+
+
 def access(cur,today):
     if not ax_installed(cur):return dict(status='NOT_APPLICABLE')
     def stranger():
@@ -298,9 +356,113 @@ def engine_after(cur,today):
 def cases(cur,today):
     return [('AX:FOUND_STOCK_ON_HAND',lambda:found_stock_on_hand(cur,today)),('AX:IDEMPOTENT_REPLAY',lambda:idempotent(cur,today)),
             ('AX:INVALID_NUMBERS',lambda:invalid_numbers(cur,today)),('AX:NO_REFERENCE_OWNER_VALUE',lambda:no_reference(cur,today)),
+            ('AX:OWNER_VALUE_WITH_REFERENCE_REFUSED',lambda:owner_value_with_reference(cur,today)),
             ('AX:GOOD_FROM_FOUND_BS_PARTIAL',lambda:good_from_found_bs(cur,today)),('AX:ORDINARY_BS_STAYS_2A',lambda:ordinary_bs_refused(cur,today)),
             ('AX:REVERSAL_AND_USED_LOT',lambda:reversal(cur,today)),('AX:BACKDATED_OBSERVATION',lambda:backdated(cur,today)),
+            ('AX:BACKDATED_CLOSED_PERIOD',lambda:backdated_closed(cur,today)),('AX:NEW_STOCK_INACTIVE_SKU',lambda:new_stock_inactive(cur,today)),
             ('AX:ACCESS',lambda:access(cur,today)),('AX:ENGINE_CONSISTENCY',lambda:engine_after(cur,today))]
+
+
+# ---------------------------------------------------------------- two-session races (committed, fresh copy per schedule)
+
+def race_fixture(admin,with_sale):
+    """Committed in the race copy: a SKU with no reference (owner value), a found BS of 5 and, for the sale races, an AX
+    lot of 1 piece with a saved sale draft for it."""
+    with psycopg.connect(admin) as conn,conn.cursor() as cur:
+        product,_=owner_only_model_product(cur)
+        case=manual_bs(cur,product,'OUT_OF_NOWHERE',5,r1.now(cur)-timedelta(minutes=30))['result']['bs_case_id']
+        api.admin(cur);f=dict(product=product,case=str(case),good_at=(r1.now(cur)-timedelta(minutes=5)).isoformat())
+        if with_sale:
+            lot=post(cur,dict(source_kind='FOUND_AT_OPNAME',product_id=product,location_id=chain.base.LOCATION,qty_pcs=1,
+                physical_at=(r1.now(cur)-timedelta(minutes=20)).isoformat(),reason='AX race lot',owner_unit_value='10000',owner_value_reason='AX race'))
+            sale=chain.production.rpc(cur,'erp.save_sale_draft_v2',dict(sale_number='AXR-'+uuid.uuid4().hex[:10],
+                customer_id=chain.base.create_customer(cur,'AXR'+uuid.uuid4().hex[:6]),source_location_id=chain.base.LOCATION,
+                sale_date=(r1.now(cur)-timedelta(minutes=10)).isoformat(),reason='AX race sale',
+                items=[dict(product_id=product,qty_pcs=1,unit_price_snapshot=15000,discount_amount=0)]),uuid.uuid4(),None)
+            api.admin(cur);f.update(receipt=lot['receipt_id'],lot=lot['lot_id'],sale=sale['sale_id'],sale_version=int(sale['row_version']))
+        conn.commit()
+    return f
+
+
+def race_state(admin,f):
+    with psycopg.connect(admin) as conn,conn.cursor() as cur:
+        api.admin(cur)
+        state=dict(receipts=cur.execute("select count(*) from erp.fg_unsourced_receipts_v1 where bs_case_id=%s and status='POSTED'",(f['case'],)).fetchone()[0],
+                   resolved=cur.execute("select coalesce(sum(qty_pcs),0) from erp.bs_resolutions where bs_case_id=%s",(f['case'],)).fetchone()[0],
+                   bs_status=cur.execute('select status from erp.bs_cases where id=%s',(f['case'],)).fetchone()[0],
+                   ax_lots=cur.execute("select count(*) from erp.fg_lots where product_id=%s and lot_origin='OTHER'",(f['product'],)).fetchone()[0])
+        if f.get('receipt'):
+            state.update(receipt_status=cur.execute('select status from erp.fg_unsourced_receipts_v1 where id=%s',(f['receipt'],)).fetchone()[0],
+                         sale_status=cur.execute('select status from erp.sales_headers where id=%s',(f['sale'],)).fetchone()[0],
+                         lot_origin=cur.execute('select lot_origin from erp.fg_lots where id=%s',(f['lot'],)).fetchone()[0])
+        issues=cur.execute("select coalesce(sum(issue_count),0) from erp.run_v268_financial_report_checks() where check_name='V2620F_NON_PO_PRODUCT_HPP_BOOK_MISMATCH'").fetchone()[0]
+        state['non_po_book']='BALANCED' if issues==0 else f'{issues} issues'
+        conn.rollback()
+    return state
+
+
+def ax_race(admin,kind,commit):
+    f=race_fixture(admin,kind in('REVERSE_FIRST','SALE_FIRST'))
+    good=lambda qty,request=None:(lambda cur:post(cur,dict(source_kind='GOOD_FROM_UNSOURCED_BS',bs_case_id=f['case'],location_id=chain.base.LOCATION,
+        qty_pcs=qty,physical_at=f['good_at'],reason='AX race GOOD',owner_unit_value='5000',
+        owner_value_reason='AX race'),request))
+    def do_reverse(cur):return reverse(cur,f['receipt'],'AX race reversal')['status']
+    def do_sell(cur):
+        chain.production.owner(cur);cur.execute('select erp.post_sale_v2(%s,%s,%s)',(f['sale'],uuid.uuid4(),f['sale_version']));api.admin(cur);return 'SOLD'
+    if kind=='BS_OVERDRAW':
+        first,second=good(3),good(3)
+    elif kind=='SAME_REQUEST':
+        request=uuid.uuid4();first,second=good(2,request),good(2,request)
+    elif kind=='REVERSE_FIRST':
+        first,second=do_reverse,do_sell
+    else:
+        first,second=do_sell,do_reverse
+    held,contention,outcome=awp.two_sessions(admin,first,second,commit)
+    state=race_state(admin,f)
+    msg=outcome.get('message') or ''
+    if kind=='BS_OVERDRAW':
+        expected=dict(contention='BLOCKED',second='refused QTY_EXCEEDS_OPEN 3 > 2' if commit else 'posted',resolved=3,receipts=1)
+        ok=(contention['kind']=='BLOCKED' and state['resolved']==3 and state['receipts']==1
+            and ((not outcome['ok'] and 'QTY_EXCEEDS_OPEN' in msg) if commit else outcome['ok']))
+    elif kind=='SAME_REQUEST':
+        expected=dict(contention='BLOCKED',second='same response as the first' if commit else 'posted once by itself',resolved=2,receipts=1)
+        same=outcome['ok'] and outcome['result'] is not None and outcome['result'].get('receipt_id')==held.get('receipt_id')
+        ok=contention['kind']=='BLOCKED' and state['resolved']==2 and state['receipts']==1 and (same if commit else outcome['ok'])
+    elif kind=='REVERSE_FIRST':
+        expected=dict(contention='BLOCKED',sale='refused (lot voided)' if commit else 'SOLD',receipt='REVERSED' if commit else 'POSTED')
+        ok=(contention['kind']=='BLOCKED' and state['receipt_status']==('REVERSED' if commit else 'POSTED')
+            and (not outcome['ok'] if commit else outcome['ok']) and state['non_po_book']=='BALANCED')
+    else:
+        expected=dict(contention='BLOCKED',reverse='refused LOT_IN_USE' if commit else 'REVERSED',receipt='POSTED' if commit else 'REVERSED')
+        ok=(contention['kind']=='BLOCKED' and state['receipt_status']==('POSTED' if commit else 'REVERSED')
+            and ((not outcome['ok'] and 'LOT_IN_USE' in msg) if commit else outcome['ok']) and state['non_po_book']=='BALANCED')
+    return dict(status='PASS' if ok else 'FAIL',kind=kind,first_committed=commit,expected=expected,contention=contention,
+                held=held,contender=outcome,state=state)
+
+
+def races(phase,verify):
+    admin=boundary.ADMIN.rsplit('/',1)[0]+'/'+awp.RACE_DB
+    report=dict(status='INCOMPLETE',database=awp.RACE_DB,schedules={},label=LABEL,copy_per_schedule=True,production_go=False)
+    try:
+        report['setup']=awp.fresh_race_copy(admin,verify)
+        if phase=='after':
+            for kind in ('BS_OVERDRAW','SAME_REQUEST','REVERSE_FIRST','SALE_FIRST'):
+                for commit in (False,True):
+                    key=f'AX_RACE:{kind}:'+('COMMIT' if commit else 'ABORT')
+                    try:
+                        setup=awp.fresh_race_copy(admin,verify)
+                        row=ax_race(admin,kind,commit);row['copy_runtime_stage']=setup['runtime'].get('stage')
+                    except Exception as exc:row=dict(status='INCOMPLETE',error=str(exc),traceback=traceback.format_exc())
+                    report['schedules'][key]=row;r1.save('RACES_'+phase.upper(),report)
+                    print(json.dumps(dict(group='AX_RACES_'+phase.upper(),case=key,**row),default=str),flush=True)
+    finally:
+        r1.docker('dropdb','-U','supabase_admin','--if-exists','--force','--maintenance-db=template1',awp.RACE_DB)
+        with psycopg.connect(boundary.PRIMARY_ADMIN) as conn,conn.cursor() as cur:
+            report['race_database_remaining']=cur.execute('select count(*) from pg_database where datname=%s',(awp.RACE_DB,)).fetchone()[0]
+    report['counts']=dict(Counter(r['status'] for r in report['schedules'].values()))
+    bad=report['counts'].get('INCOMPLETE') or report['counts'].get('FAIL') or report['race_database_remaining']
+    report['status']='INCOMPLETE' if bad else 'PASS'
+    r1.save('RACES_'+phase.upper(),report);return report
 
 
 def run(phase):
@@ -321,7 +483,9 @@ def run(phase):
         print(json.dumps(dict(ax_probe_setup={k:report.get(k) for k in ('au_install','av_install','aw_install','ax_install')}),default=str),flush=True)
         group=r1.group('AX_CASES_'+phase.upper(),cases,verify)
         report['ax_cases']={k:group[k] for k in ('status','counts')}
-        report['status']='REVIEW_COMPLETE' if group['status']!='INCOMPLETE' else 'INCOMPLETE'
+        race=races(phase,verify)
+        report['ax_races']={k:race[k] for k in ('status','counts','race_database_remaining')}
+        report['status']='REVIEW_COMPLETE' if group['status']!='INCOMPLETE' and race['status']!='INCOMPLETE' else 'INCOMPLETE'
     except Exception as exc:report.update(status='INCOMPLETE',error=str(exc),traceback=traceback.format_exc())
     finally:
         subprocess.run(['docker','exec','supabase_db_cp5-local','dropdb','-U','supabase_admin','--if-exists','--force','--maintenance-db=template1','cp6_rollback'],check=True)
