@@ -14,7 +14,8 @@ from collections import Counter
 from datetime import date,timedelta
 from decimal import Decimal
 from pathlib import Path
-import argparse,hashlib,json,os,subprocess,sys,traceback,uuid
+from concurrent.futures import ThreadPoolExecutor,TimeoutError as FutureTimeout
+import argparse,hashlib,json,os,queue,subprocess,sys,traceback,uuid
 import psycopg
 
 AUDITOR=Path(__file__).resolve().parents[1]
@@ -345,7 +346,15 @@ def p04_fg_same_instant(cur,today,minus_first):
     """P-04: -1 then +1 at one physical instant is a negative prefix in the posting guard's order (administrative history)."""
     if not installed(cur):return dict(status='NOT_APPLICABLE',reason='dated FG detector exists only with AW')
     api.admin(cur)
-    lot,product=cur.execute("select id,product_id from erp.fg_lots where lot_origin='PRODUCTION' order by produced_at,id limit 1").fetchone()
+    row=cur.execute("select id,product_id from erp.fg_lots order by produced_at,id limit 1").fetchone()
+    if row is None:
+        # No lot exists at this point of the seed: create one administratively (same labelled fixture class).
+        product=chain.base.create_product(cur,'AWP04-'+uuid.uuid4().hex[:10]);lot=uuid.uuid4()
+        cur.execute("set local session_replication_role=replica")
+        cur.execute("""insert into erp.fg_lots(id,lot_number,product_id,initial_qty_pcs,cached_qty_pcs,produced_at,is_open,lot_origin)
+            values(%s,%s,%s,1,0,%s,true,'OTHER')""",(lot,'AWP04-'+lot.hex[:10],product,chain.production.at(today-timedelta(days=10),8)))
+        cur.execute("set local session_replication_role=origin")
+    else:lot,product=row
     loc=uuid.uuid4()
     cur.execute("insert into erp.locations(id,location_code,location_name,location_type,is_active) values(%s,%s,'AW P04 empty FG location','FG_WAREHOUSE',true)",(loc,'AW-'+loc.hex[:12]))
     at=chain.production.at(today-timedelta(days=3),10)
@@ -390,6 +399,145 @@ def access(cur,today):
     return dict(status='PASS' if ok else 'FAIL',results=results,facade_equals_backend=facade==backend)
 
 
+RACE_DB='cp6_aw_race'
+
+
+def race_setup(admin,today,verify):
+    """Committed fixtures in the race copy only: seed, open period, quiet seed, one contractor with posted attendance."""
+    with psycopg.connect(admin) as conn,conn.cursor() as cur:
+        report=dict(runtime=verify(cur));conn.rollback()
+        cur.execute('grant usage on schema erp to authenticated')
+        if not cur.execute('select count(*) from erp.app_users').fetchone()[0]:api.seed(cur)
+        conn.commit()
+    return report
+
+
+def two_sessions(admin,first_op,second_op,commit):
+    """Holder runs first_op and keeps its transaction open; a worker runs second_op; then the holder commits or aborts."""
+    ready=queue.Queue()
+    def worker():
+        try:
+            with psycopg.connect(admin) as conn,conn.cursor() as cur:
+                cur.execute("set local lock_timeout='20s';set local statement_timeout='60s'")
+                ready.put(cur.execute('select pg_backend_pid()').fetchone()[0])
+                result=second_op(cur);conn.commit();return dict(ok=True,result=result)
+        except psycopg.Error as exc:return dict(ok=False,sqlstate=exc.sqlstate,message=exc.diag.message_primary)
+    with psycopg.connect(admin) as holder,holder.cursor() as hcur,ThreadPoolExecutor(max_workers=1) as pool:
+        hpid=hcur.execute('select pg_backend_pid()').fetchone()[0]
+        held=first_op(hcur)
+        future=pool.submit(worker);wpid=ready.get(timeout=20)
+        try:early=future.result(timeout=6)
+        except FutureTimeout:
+            early=None
+            contention=dict(kind='BLOCKED',holder_blocks_worker=hcur.execute('select %s=any(pg_blocking_pids(%s))',(hpid,wpid)).fetchone()[0])
+        else:contention=dict(kind='NO_CONTENTION')
+        (holder.commit if commit else holder.rollback)()
+        outcome=early if early is not None else future.result(timeout=90)
+    return held,contention,outcome
+
+
+def attendance_race(admin,today,first,commit):
+    """Attendance reversal versus close of the same days (neither reads the other's lock): both orders, commit and abort."""
+    c0,d1,d3=today-timedelta(days=4),today-timedelta(days=3),today-timedelta(days=1)
+    with psycopg.connect(admin) as conn,conn.cursor() as cur:
+        boundary.historical.prior.set_open_period(cur,c0)
+        contractor,worker=contractor_with_worker(cur,d1,'AW race')
+        quiet=quiet_seed(cur,d1,d3,exclude=[contractor])
+        period=post_attendance(cur,contractor,d1,d3)
+        ready_before=preflight(cur,d3)['status']
+        conn.commit()
+    def do_close(cur):
+        api.ordinary(cur);r=cur.execute('select erp.close_accounting_through(%s,%s)',(d3,'AW race close')).fetchone()[0];api.admin(cur);return 'CLOSED'
+    def do_reverse(cur):
+        api.ordinary(cur)
+        cur.execute('select public.erp_reverse_attendance_period_v1(%s,%s,%s,%s)',(period['period_id'],'AW race reversal',uuid.uuid4(),period['row_version']))
+        api.admin(cur);return 'REVERSED'
+    ops=dict(CLOSE=do_close,REVERSE=do_reverse);other='REVERSE' if first=='CLOSE' else 'CLOSE'
+    held,contention,outcome=two_sessions(admin,ops[first],ops[other],commit)
+    with psycopg.connect(admin) as conn,conn.cursor() as cur:
+        state=control(cur)
+        reversed_=cur.execute("select status from erp.attendance_periods where id=%s",(period['period_id'],)).fetchone()[0]=='REVERSED'
+        closed=state['closed_through']==str(d3)
+        after=preflight(cur,d3)
+        gap='ATTENDANCE_CELL_MISSING' in codes(after,[worker])
+        filed=cur.execute("select count(*),coalesce(bool_and(readiness->>'status'='READY'),true) from erp.accounting_close_filings_v1").fetchone()
+        conn.rollback()
+    # Neither path takes the other's lock, so each commits on its own; afterwards the engine must reflect what committed.
+    expect_closed=commit if first=='CLOSE' else outcome.get('ok',False)
+    expect_reversed=commit if first=='REVERSE' else outcome.get('ok',False)
+    ok=(ready_before=='READY' and closed==expect_closed and reversed_==expect_reversed and filed[0]==(1 if closed else 0)
+        and filed[1] and gap==reversed_)
+    return dict(status='PASS' if ok else 'FAIL',first=first,first_committed=commit,ready_before=ready_before,contention=contention,
+                contender=outcome,closed=closed,reversed=reversed_,gap_visible_after=gap,filings=filed[0],filings_ready=filed[1],quiet=quiet,
+                expected=dict(closed=expect_closed,reversed=expect_reversed,filings=1 if expect_closed else 0,gap_visible_after=expect_reversed))
+
+
+def recost_race(admin,today,first,commit):
+    """Backdated purchase (recost producer, FOR SHARE on the period row) versus close (FOR UPDATE), both orders."""
+    with psycopg.connect(admin) as conn,conn.cursor() as cur:
+        f,_=recost_fixture(cur,today,False)
+        d=f['purchase_day']+timedelta(days=1)
+        quiet=quiet_seed(cur,f['purchase_day'],d)
+        pre=preflight(cur,d);conn.commit()
+    if pre['status']!='READY':
+        return dict(status='INCOMPLETE',reason='fixture not READY before the race',blockers=blockers_brief(pre),quiet=quiet)
+    def do_purchase(cur):
+        chain.prior.post_purchase(cur,f['material'],chain.production.at(f['purchase_day'],22),unit_price=12);api.admin(cur);return 'PURCHASED'
+    def do_close(cur):
+        api.ordinary(cur)
+        try:
+            cur.execute('savepoint c');cur.execute('select erp.close_accounting_through(%s,%s)',(d,'AW race close'));cur.execute('release savepoint c');r='CLOSED'
+        except psycopg.Error as exc:
+            cur.execute('rollback to savepoint c');r=(exc.diag.message_primary or '')[:400]
+        api.admin(cur);return r
+    ops=dict(PURCHASE=do_purchase,CLOSE=do_close);other='CLOSE' if first=='PURCHASE' else 'PURCHASE'
+    held,contention,outcome=two_sessions(admin,ops[first],ops[other],commit)
+    close_result=held if first=='CLOSE' else (outcome.get('result') if outcome.get('ok') else outcome.get('message'))
+    with psycopg.connect(admin) as conn,conn.cursor() as cur:
+        queue_rows=cur.execute("select count(*) from erp.cost_recalc_queue where entity_type='PO' and entity_id=%s and status in('PENDING','RUNNING','FAILED')",(f['po'],)).fetchone()[0]
+        state=control(cur);after=preflight(cur,d);conn.rollback()
+    closed=state['closed_through']==str(d)
+    if first=='PURCHASE':
+        # The close waits for the producer, then recomputes: committed purchase -> refused with RECOST_PENDING; aborted -> closes.
+        expected=dict(contention='BLOCKED',close='CLOSE_BLOCKED with RECOST_PENDING' if commit else 'CLOSED')
+        ok=contention['kind']=='BLOCKED' and (('RECOST_PENDING' in str(close_result)) if commit else close_result=='CLOSED')
+    else:
+        # The producer waits for the close; after it the queue row is a late change the engine shows for the closed date.
+        expected=dict(contention='BLOCKED',closed=commit,late_change_visible='queue row -> RECOST_PENDING for D' )
+        purchase_ok=outcome.get('ok',False)
+        ok=(contention['kind']=='BLOCKED' and closed==commit and (queue_rows>0)==purchase_ok
+            and (not purchase_ok or 'RECOST_PENDING' in codes(after,[f['po']])))
+    return dict(status='PASS' if ok else 'FAIL',first=first,first_committed=commit,expected=expected,contention=contention,contender=outcome,
+                close_result=close_result,queue_rows_after=queue_rows,state=state,after_codes_own=codes(after,[f['po']]),quiet=quiet)
+
+
+def races(phase,verify):
+    admin=boundary.ADMIN.rsplit('/',1)[0]+'/'+RACE_DB
+    report=dict(status='INCOMPLETE',database=RACE_DB,schedules={},production_go=False,independent_acceptance=False,label=LABEL)
+    r1.docker('createdb','-U','supabase_admin','--maintenance-db=template1','-T','cp6_rollback',RACE_DB)
+    try:
+        report['setup']=race_setup(admin,None,verify)
+        with psycopg.connect(admin) as conn,conn.cursor() as cur:
+            today=cur.execute("select (statement_timestamp() at time zone 'Asia/Jakarta')::date").fetchone()[0]
+        if phase=='after':
+            for kind,fn,firsts in (('ATTENDANCE',attendance_race,('CLOSE','REVERSE')),('RECOST',recost_race,('PURCHASE','CLOSE'))):
+                for first in firsts:
+                    for commit in (False,True):
+                        key=f'{kind}_RACE:{first}_FIRST:'+('COMMIT' if commit else 'ABORT')
+                        try:row=fn(admin,today,first,commit)
+                        except Exception as exc:row=dict(status='INCOMPLETE',error=str(exc),traceback=traceback.format_exc())
+                        report['schedules'][key]=row;r1.save('RACES_'+phase.upper(),report)
+                        print(json.dumps(dict(group='AW_RACES_'+phase.upper(),case=key,**row),default=str),flush=True)
+    finally:
+        r1.docker('dropdb','-U','supabase_admin','--if-exists','--force','--maintenance-db=template1',RACE_DB)
+        with psycopg.connect(boundary.PRIMARY_ADMIN) as conn,conn.cursor() as cur:
+            report['race_database_remaining']=cur.execute('select count(*) from pg_database where datname=%s',(RACE_DB,)).fetchone()[0]
+    report['counts']=dict(Counter(r['status'] for r in report['schedules'].values()))
+    bad=report['counts'].get('INCOMPLETE') or report['counts'].get('FAIL') or report['race_database_remaining']
+    report['status']='INCOMPLETE' if bad else 'PASS'
+    r1.save('RACES_'+phase.upper(),report);return report
+
+
 def cases(cur,today):
     return [('DISCOVERY:SEED',lambda:discovery(cur,today)),
             ('REGISTRY:NATIVE_NAMES',lambda:registry_native(cur,today)),
@@ -421,7 +569,9 @@ def run(phase):
         print(json.dumps(dict(aw_probe_setup={k:report.get(k) for k in ('au_install','av_install','aw_install')}),default=str),flush=True)
         group=r1.group('AW_CASES_'+phase.upper(),cases,verify)
         report['aw_cases']={k:group[k] for k in ('status','counts')}
-        report['status']='REVIEW_COMPLETE' if group['status']!='INCOMPLETE' else 'INCOMPLETE'
+        race=races(phase,verify)
+        report['aw_races']={k:race[k] for k in ('status','counts','race_database_remaining')}
+        report['status']='REVIEW_COMPLETE' if group['status']!='INCOMPLETE' and race['status']!='INCOMPLETE' else 'INCOMPLETE'
     except Exception as exc:report.update(status='INCOMPLETE',error=str(exc),traceback=traceback.format_exc())
     finally:
         subprocess.run(['docker','exec','supabase_db_cp5-local','dropdb','-U','supabase_admin','--if-exists','--force','--maintenance-db=template1','cp6_rollback'],check=True)
