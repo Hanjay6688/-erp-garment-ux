@@ -3,7 +3,9 @@
 The chain below this point is the hosted-faithful baseline (G-01 option 1) upgraded through the frozen path to AN.
 Each stage runs through the same installer the T1/T2 evidence uses, and records PASS or the exact refusal; the first
 refusal stops the run. A refusal is the finding: no guard, pin or oracle is changed here. Owner (23 Sep 2026): T3 stays
-HOLD until every difference is explained and the AO-AV install passes. Label: T3_PREP (not release evidence).
+HOLD until every difference is explained and the AO-AV install passes. After the stages, the backup and restore drill
+(scripts/cp6_t3_backup_restore_drill.py) dumps the clone as installed and restores it into a separate database of the
+same disposable cluster. Label: T3_PREP (not release evidence).
 """
 from pathlib import Path
 import json,os,subprocess,sys,traceback
@@ -15,6 +17,7 @@ sys.path.append(str(AUDITOR/'scripts'))
 import cp6_aw_probe as awp
 import cp6_ax_probe as axp
 import cp6_g01_fingerprint as fp
+import cp6_t3_backup_restore_drill as drill
 
 r1,boundary,prior=awp.r1,awp.boundary,awp.prior
 OUT=AUDITOR/'cp6-proof/t3'
@@ -52,6 +55,10 @@ def run():
             if row['status']!='PASS':break
         report['fingerprint_final']=fingerprint(boundary.ADMIN)
         report['status']='ALL_STAGES_INSTALLED' if all(s['status']=='PASS' for s in report['stages']) and len(report['stages'])==len(stages) else 'REFUSED'
+        # Backup and restore drill of the clone as installed (owner: drill in a separate environment); it records its
+        # own result and never changes the install outcome.
+        report['backup_restore_drill']=drill.run(OUT/'T3_BACKUP_RESTORE_DRILL.json',
+                                                 [s['stage'] for s in report['stages'] if s['status']=='PASS'])['status']
     except Exception as exc:
         report.update(status='INCOMPLETE',error=str(exc),traceback=traceback.format_exc())
     finally:

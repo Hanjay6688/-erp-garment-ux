@@ -1,0 +1,59 @@
+name: CP6 Candidate CodeQL (T3)
+on:
+  # T3 gate on the combined candidate branch; the competition branch keeps its own workflow and is not touched.
+  push:
+    branches: [claude/new-session-deapao]
+    paths:
+      - .github/workflows/cp6-candidate-codeql.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: cp6-candidate-codeql-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  analyze:
+    name: CodeQL ${{ matrix.language }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - language: actions
+            build_mode: none
+          - language: javascript-typescript
+            build_mode: none
+          - language: python
+            build_mode: none
+          - language: c-cpp
+            build_mode: manual
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: github/codeql-action/init@b96794f015dfd88f77b49b1c93e0fa7110f94c63
+        with:
+          languages: ${{ matrix.language }}
+          build-mode: ${{ matrix.build_mode }}
+          queries: security-extended
+      - name: Compile isolated PostgreSQL clock fixture for analysis
+        if: matrix.language == 'c-cpp'
+        run: cc -std=c11 -shared -fPIC -O2 -Wall -Wextra -Werror supabase/tests/support/cp6_clock_offset.c -o /tmp/cp6-aa-clock-codeql.so
+      - uses: github/codeql-action/analyze@b96794f015dfd88f77b49b1c93e0fa7110f94c63
+        with:
+          output: cp6-codeql/sarif
+          upload: never
+          upload-database: false
+          category: candidate/${{ matrix.language }}
+      - name: Verify analysis and bind SARIF to candidate
+        env:
+          CP6_CODEQL_LANGUAGE: ${{ matrix.language }}
+        run: python scripts/cp6_codeql_artifact_gate.py
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: cp6-candidate-codeql-${{ matrix.language }}
+          path: cp6-codeql
+          if-no-files-found: error
+          retention-days: 30
