@@ -1,0 +1,278 @@
+CREATE OR REPLACE FUNCTION erp.guard_fg_unsourced_receipt_immutable_v1()
+ RETURNS trigger
+ LANGUAGE plpgsql
+ SET search_path TO ''
+AS $function$
+begin
+  -- Only the reversal RPC may change a receipt, and only POSTED -> REVERSED with its reversal fields.
+  if tg_op='UPDATE' and current_setting('erp.fg_unsourced_reversal',true)='on' and old.status='POSTED' and new.status='REVERSED'
+     and (to_jsonb(new)-array['status','reversed_by','reversed_at','reversal_reason'])
+       =(to_jsonb(old)-array['status','reversed_by','reversed_at','reversal_reason']) then
+    return new;
+  end if;
+  raise exception 'FG_UNSOURCED_RECEIPT_IMMUTABLE: penerimaan barang tanpa sumber hanya bisa dibatalkan lewat RPC pembatalan';
+end
+$function$
+
+CREATE OR REPLACE FUNCTION erp.fg_unsourced_valuation_v1(p_product_id uuid, p_physical_at timestamp with time zone)
+ RETURNS jsonb
+ LANGUAGE plpgsql
+ STABLE SECURITY DEFINER
+ SET search_path TO ''
+AS $function$
+-- AX valuation (owner §15.1-FG, §19.2): average HPP per pcs at the physical instant, only for goods without an
+-- origin value. Tiers stop at the first positive value: SKU (every version of the same identity) -> same model and
+-- size, other colour -> same model -> owner input. Within a tier the stock on hand at the instant is weighted by
+-- quantity (sum qty x current lot HPP / sum qty); with no stock on hand, lots produced up to the instant are weighted
+-- by their initial quantity. Only production, opening, conversion and return lots count; unsourced (OTHER) and voided
+-- lots never feed the average. Lot HPP has no time dimension, so the current lot HPP is used and the posting freezes
+-- the result. Pattern and fabric are not SKU attributes: they exist only through a SKU's own production lineage,
+-- which already gives tier SKU a value, so they are reported as not available instead of guessed.
+declare
+  v_product erp.products%rowtype;
+  v_tier text;
+  r record;
+begin
+  if p_product_id is null or p_physical_at is null then raise exception 'FG_UNSOURCED_VALUATION_INPUT_REQUIRED'; end if;
+  select * into v_product from erp.products where id=p_product_id;
+  if v_product.id is null then raise exception 'FG_UNSOURCED_PRODUCT_NOT_FOUND'; end if;
+  foreach v_tier in array array['SKU','MODEL_SIZE','MODEL'] loop
+    if v_tier<>'SKU' and v_product.model_id is null then continue; end if;
+    select sum(l.q) filter(where l.q>0) stock_qty,sum(l.q*l.hpp) filter(where l.q>0) stock_value,
+      sum(l.initial_qty) produced_qty,sum(l.initial_qty*l.hpp) produced_value,
+      coalesce(bool_or(l.cost_state='ESTIMATED'),false) has_estimated,
+      to_jsonb((array_agg(jsonb_build_object('lot_id',l.id,'product_id',l.product_id,'qty_at_instant',l.q,
+        'initial_qty',l.initial_qty,'hpp_per_pcs',l.hpp,'cost_state',l.cost_state) order by l.produced_at,l.id))[1:50]) lots
+    into r
+    from (
+      select fl.id,fl.product_id,fl.produced_at,fl.initial_qty_pcs::numeric initial_qty,hv.hpp_per_pcs::numeric hpp,hv.cost_state,
+        coalesce((select sum(m.qty_signed) from erp.fg_stock_movements m where m.lot_id=fl.id and m.physical_at<=p_physical_at),0)::numeric q
+      from erp.fg_lots fl
+      join erp.products p on p.id=fl.product_id
+      join erp.hpp_versions hv on hv.lot_id=fl.id and hv.is_current
+      where fl.lot_origin in('PRODUCTION','OPENING','CONVERSION','RETURN') and fl.produced_at<=p_physical_at
+        and hv.hpp_per_pcs is not null
+        and case v_tier when 'SKU' then coalesce(p.identity_root_id,p.id)=coalesce(v_product.identity_root_id,v_product.id)
+                        when 'MODEL_SIZE' then p.model_id=v_product.model_id and p.size_id is not distinct from v_product.size_id
+                        else p.model_id=v_product.model_id end
+    ) l;
+    if coalesce(r.stock_qty,0)>0 and round(r.stock_value/r.stock_qty,2)>0 then
+      return jsonb_build_object('tier',v_tier,'method','STOCK_ON_HAND_WEIGHTED','unit_value',round(r.stock_value/r.stock_qty,2),
+        'raw_average',r.stock_value/r.stock_qty,'basis_qty',r.stock_qty,'contains_estimated_hpp',r.has_estimated,
+        'physical_at',p_physical_at,'pattern_fabric','NOT_AVAILABLE_WITHOUT_OWN_LINEAGE','lots',r.lots);
+    elsif coalesce(r.produced_qty,0)>0 and round(r.produced_value/r.produced_qty,2)>0 then
+      return jsonb_build_object('tier',v_tier,'method','PRODUCED_WEIGHTED','unit_value',round(r.produced_value/r.produced_qty,2),
+        'raw_average',r.produced_value/r.produced_qty,'basis_qty',r.produced_qty,'contains_estimated_hpp',r.has_estimated,
+        'physical_at',p_physical_at,'pattern_fabric','NOT_AVAILABLE_WITHOUT_OWN_LINEAGE','lots',r.lots);
+    end if;
+  end loop;
+  return jsonb_build_object('tier','OWNER_INPUT_REQUIRED','method',null,'unit_value',null,'physical_at',p_physical_at,
+    'reason','Tidak ada lot pembanding bernilai; owner wajib mengisi nilai per pcs dengan alasan (tidak pernah Rp0 otomatis).');
+end
+$function$
+
+CREATE OR REPLACE FUNCTION erp.post_fg_unsourced_receipt_v1(p_payload jsonb, p_client_request_id uuid)
+ RETURNS jsonb
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO ''
+AS $function$
+-- AX (owner §15.1-FG, §19.2): finished goods entering without a production source: found at stock opname, GOOD from a
+-- found (OUT_OF_NOWHERE) BS case, or a rare mixed re-dye. A new non-PO lot (origin OTHER) valued at the average HPP of
+-- erp.fg_unsourced_valuation_v1 at the physical instant and frozen at posting; never Rp0 unless the owner enters it
+-- with a reason. Journal Dr FG_INVENTORY (with product) / Cr OTHER_INCOME (without product, like the opening equity
+-- side, so the non-PO HPP book stays equal to its target) on the physical date; post_journal moves the GL date into
+-- the open period when that date is closed. GOOD from an ordinary BS stays on rework (decision 2A).
+declare
+  v_kind text:=upper(nullif(btrim(p_payload->>'source_kind'),''));
+  v_reason text:=nullif(btrim(p_payload->>'reason'),'');
+  v_id uuid:=gen_random_uuid();
+  v_hash text;v_cached jsonb;
+  v_product uuid;v_location uuid;v_grade text;v_qty numeric;v_at timestamptz;
+  v_bs erp.bs_cases%rowtype;v_open bigint;v_override numeric;v_override_text text;
+  v_valuation jsonb;v_unit numeric(18,2);v_total numeric(20,2);
+  v_lot uuid;v_movement uuid;v_journal uuid;v_resolution uuid;
+begin
+  perform erp.require_owner_admin();
+  if p_client_request_id is null then raise exception 'FG_UNSOURCED_REQUEST_ID_REQUIRED'; end if;
+  if v_reason is null then raise exception 'FG_UNSOURCED_REASON_REQUIRED'; end if;
+  if v_kind is null or v_kind not in('FOUND_AT_OPNAME','GOOD_FROM_UNSOURCED_BS','REDYE_MIXED') then
+    raise exception 'FG_UNSOURCED_KIND_INVALID';
+  end if;
+  v_hash:=erp._request_hash(p_payload);
+  v_cached:=erp._idempotency_begin('post_fg_unsourced_receipt_v1',p_client_request_id,v_hash);
+  if v_cached is not null then return v_cached; end if;
+  perform set_config('app.change_reason',v_reason,true);
+
+  -- Numbers: whole positive pieces; an owner value is a finite, non-negative amount with at most two decimals.
+  begin v_qty:=(p_payload->>'qty_pcs')::numeric;
+  exception when others then raise exception 'FG_UNSOURCED_QTY_INVALID'; end;
+  if v_qty is null or v_qty='NaN'::numeric or v_qty<=0 or v_qty>2147483647 or v_qty<>trunc(v_qty) then
+    raise exception 'FG_UNSOURCED_QTY_INVALID';
+  end if;
+  v_override_text:=nullif(btrim(p_payload->>'owner_unit_value'),'');
+  if v_override_text is not null then
+    begin v_override:=v_override_text::numeric;
+    exception when others then raise exception 'FG_UNSOURCED_VALUE_INVALID'; end;
+    if v_override='NaN'::numeric or v_override<0 or v_override>=10000000000000000::numeric or v_override<>round(v_override,2) then
+      raise exception 'FG_UNSOURCED_VALUE_INVALID';
+    end if;
+    if nullif(btrim(p_payload->>'owner_value_reason'),'') is null then raise exception 'FG_UNSOURCED_VALUE_REASON_REQUIRED'; end if;
+  end if;
+  begin v_at:=(p_payload->>'physical_at')::timestamptz;
+  exception when others then raise exception 'FG_UNSOURCED_PHYSICAL_AT_INVALID'; end;
+  if v_at is null or not isfinite(v_at) then raise exception 'FG_UNSOURCED_PHYSICAL_AT_INVALID'; end if;
+  if v_at>statement_timestamp()+interval '5 minutes' then raise exception 'FG_UNSOURCED_PHYSICAL_AT_FUTURE'; end if;
+  begin
+    v_location:=(p_payload->>'location_id')::uuid;
+    v_product:=(p_payload->>'product_id')::uuid;
+  exception when others then raise exception 'FG_UNSOURCED_REFERENCE_INVALID'; end;
+  v_grade:=coalesce(nullif(btrim(p_payload->>'quality_grade'),''),'GRADE_A');
+
+  if v_kind='GOOD_FROM_UNSOURCED_BS' then
+    select * into v_bs from erp.bs_cases where id=(p_payload->>'bs_case_id')::uuid for update;
+    if v_bs.id is null then raise exception 'FG_UNSOURCED_BS_NOT_FOUND'; end if;
+    if not exists(select 1 from erp.bs_case_manual_origins_v1 o where o.bs_case_id=v_bs.id and o.origin_type='OUT_OF_NOWHERE') then
+      raise exception 'FG_UNSOURCED_BS_HAS_ORIGIN_VALUE: GOOD dari BS biasa memakai rework (2A)';
+    end if;
+    if v_bs.status in('RESOLVED','SCRAPPED','WRITTEN_OFF','CANCELLED','ON_HOLD') then
+      raise exception 'FG_UNSOURCED_BS_NOT_OPEN: status %',v_bs.status;
+    end if;
+    v_product:=coalesce(v_product,v_bs.product_id);
+    if v_product is null or v_product is distinct from v_bs.product_id then raise exception 'FG_UNSOURCED_BS_PRODUCT_MISMATCH'; end if;
+    select v_bs.qty_pcs-coalesce(sum(r.qty_pcs),0) into v_open from erp.bs_resolutions r where r.bs_case_id=v_bs.id;
+    if v_qty>v_open then raise exception 'FG_UNSOURCED_BS_QTY_EXCEEDS_OPEN: % > %',v_qty,v_open; end if;
+    if v_at<v_bs.physical_at then raise exception 'FG_UNSOURCED_BEFORE_BS_FOUND'; end if;
+  elsif nullif(p_payload->>'bs_case_id','') is not null then
+    raise exception 'FG_UNSOURCED_BS_ONLY_FOR_GOOD_FROM_BS';
+  end if;
+  if v_product is null then raise exception 'FG_UNSOURCED_PRODUCT_REQUIRED'; end if;
+  if v_location is null then raise exception 'FG_UNSOURCED_LOCATION_REQUIRED'; end if;
+
+  -- The SKU version must be active at the physical instant (NEW_STOCK, owner decision 1C).
+  perform erp.assert_product_identity_time(v_product,v_at,'NEW_STOCK');
+  perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));
+  perform erp.assert_non_po_product_hpp_target_book_v2620f(v_product);
+
+  v_valuation:=erp.fg_unsourced_valuation_v1(v_product,v_at);
+  if v_override is not null then
+    v_valuation:=jsonb_build_object('tier','OWNER_VALUE','unit_value',v_override,
+      'owner_value_reason',btrim(p_payload->>'owner_value_reason'),'computed',v_valuation);
+  elsif v_valuation->>'tier'='OWNER_INPUT_REQUIRED' then
+    raise exception using message='FG_UNSOURCED_VALUE_REQUIRED: tidak ada pembanding HPP; owner wajib mengisi nilai per pcs dengan alasan',
+      detail=v_valuation::text;
+  end if;
+  v_unit:=(v_valuation->>'unit_value')::numeric;
+  v_total:=round(v_unit*v_qty,2);
+
+  insert into erp.fg_lots(lot_number,po_id,qc_item_id,product_id,initial_qty_pcs,cached_qty_pcs,produced_at,is_open,lot_origin)
+  values('AX-'||to_char(v_at at time zone 'Asia/Jakarta','YYYYMMDD')||'-'||substr(v_id::text,1,8),null,null,v_product,
+    v_qty::integer,0,v_at,true,'OTHER')
+  returning id into v_lot;
+  insert into erp.hpp_versions(lot_id,version_no,cost_state,qty_basis_pcs,total_cost,is_current,calculation_reason,created_by)
+  values(v_lot,1,'ADJUSTED',v_qty::integer,v_total,true,
+    'Unsourced FG valued at '||(v_valuation->>'tier')||' average HPP; frozen at posting',erp.current_app_user_id());
+  v_movement:=erp.post_fg_movement(v_product,v_lot,v_location,v_grade,'ADJUSTMENT',v_qty::integer,v_unit,null,
+    'FG_UNSOURCED_RECEIPT',v_id,v_at,'Barang jadi tanpa sumber produksi: '||v_kind,false);
+  if v_total>0 then
+    v_journal:=erp.post_journal('FG_UNSOURCED_RECEIPT',v_id,(v_at at time zone 'Asia/Jakarta')::date,
+      'Barang jadi tanpa sumber produksi · '||v_reason,
+      jsonb_build_array(jsonb_build_object('mapping_key','FG_INVENTORY','debit',v_total,'credit',0,'product_id',v_product),
+                        jsonb_build_object('mapping_key','OTHER_INCOME','debit',0,'credit',v_total)));
+  end if;
+  if v_kind='GOOD_FROM_UNSOURCED_BS' then
+    insert into erp.bs_resolutions(bs_case_id,resolution_type,qty_pcs,compensation_amount,physical_at,notes)
+    values(v_bs.id,'OTHER',v_qty::integer,0,v_at,'GOOD dari BS temuan, penerimaan '||v_id)
+    returning id into v_resolution;
+    perform erp.refresh_bs_case_status(v_bs.id);
+  end if;
+  insert into erp.fg_unsourced_receipts_v1(id,source_kind,lot_id,bs_case_id,bs_resolution_id,location_id,quality_grade,qty_pcs,
+    physical_at,unit_value,total_value,valuation,reason,journal_entry_id,movement_id,created_by)
+  values(v_id,v_kind,v_lot,v_bs.id,v_resolution,v_location,v_grade,v_qty::integer,v_at,v_unit,v_total,v_valuation,v_reason,
+    v_journal,v_movement,erp.current_app_user_id());
+  perform erp.assert_non_po_product_hpp_target_book_v2620f(v_product);
+  insert into erp.audit_logs(entity_type,entity_id,action,changed_by,change_reason)
+  values('fg_unsourced_receipts_v1',v_id,'POST',erp.current_app_user_id(),v_reason);
+  return erp._idempotency_complete('post_fg_unsourced_receipt_v1',p_client_request_id,jsonb_build_object(
+    'receipt_id',v_id,'lot_id',v_lot,'product_id',v_product,'source_kind',v_kind,'qty_pcs',v_qty::integer,
+    'unit_value',v_unit,'total_value',v_total,'valuation',v_valuation,'journal_entry_id',v_journal,
+    'bs_resolution_id',v_resolution));
+end
+$function$
+
+CREATE OR REPLACE FUNCTION erp.reverse_fg_unsourced_receipt_v1(p_receipt_id uuid, p_reason text, p_client_request_id uuid)
+ RETURNS jsonb
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO ''
+AS $function$
+-- AX reversal: allowed only while the lot has no downstream use (sale, reservation, conversion). The inflow is
+-- reversed, the lot is voided (it leaves the non-PO HPP target), the journal is reversed and a BS resolution created
+-- by the receipt is removed, so the found BS is open again.
+declare
+  v erp.fg_unsourced_receipts_v1%rowtype;
+  v_product uuid;v_hash text;v_cached jsonb;v_reversal uuid;
+begin
+  perform erp.require_owner_admin();
+  if nullif(btrim(p_reason),'') is null then raise exception 'FG_UNSOURCED_REVERSAL_REASON_REQUIRED'; end if;
+  if p_client_request_id is null then raise exception 'FG_UNSOURCED_REQUEST_ID_REQUIRED'; end if;
+  v_hash:=erp._request_hash(jsonb_build_object('receipt_id',p_receipt_id,'reason',btrim(p_reason)));
+  v_cached:=erp._idempotency_begin('reverse_fg_unsourced_receipt_v1',p_client_request_id,v_hash);
+  if v_cached is not null then return v_cached; end if;
+  perform set_config('app.change_reason',btrim(p_reason),true);
+  perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));
+  select * into v from erp.fg_unsourced_receipts_v1 where id=p_receipt_id for update;
+  if v.id is null then raise exception 'FG_UNSOURCED_RECEIPT_NOT_FOUND'; end if;
+  if v.status<>'POSTED' then raise exception 'FG_UNSOURCED_RECEIPT_ALREADY_REVERSED'; end if;
+  select product_id into v_product from erp.fg_lots where id=v.lot_id for update;
+  if erp.fg_lot_has_active_downstream(v.lot_id,'ADJUSTMENT','FG_UNSOURCED_RECEIPT',v.id) then
+    raise exception 'FG_UNSOURCED_LOT_IN_USE: lot sudah dipakai transaksi lain; batalkan transaksi itu lebih dulu';
+  end if;
+  perform erp.reverse_fg_movement(v.movement_id,btrim(p_reason));
+  update erp.fg_lots set lot_origin='VOIDED_PRODUCTION',is_open=false where id=v.lot_id;
+  if v.journal_entry_id is not null then v_reversal:=erp.reverse_journal(v.journal_entry_id,btrim(p_reason)); end if;
+  if v.bs_resolution_id is not null then
+    delete from erp.bs_resolutions where id=v.bs_resolution_id;
+    perform erp.refresh_bs_case_status(v.bs_case_id);
+  end if;
+  perform set_config('erp.fg_unsourced_reversal','on',true);
+  update erp.fg_unsourced_receipts_v1 set status='REVERSED',reversed_by=erp.current_app_user_id(),
+    reversed_at=clock_timestamp(),reversal_reason=btrim(p_reason) where id=v.id;
+  perform set_config('erp.fg_unsourced_reversal','off',true);
+  perform erp.assert_non_po_product_hpp_target_book_v2620f(v_product);
+  insert into erp.audit_logs(entity_type,entity_id,action,changed_by,change_reason)
+  values('fg_unsourced_receipts_v1',v.id,'REVERSE',erp.current_app_user_id(),btrim(p_reason));
+  return erp._idempotency_complete('reverse_fg_unsourced_receipt_v1',p_client_request_id,jsonb_build_object(
+    'receipt_id',v.id,'status','REVERSED','lot_id',v.lot_id,'reversal_journal_entry_id',v_reversal));
+end
+$function$
+
+CREATE OR REPLACE FUNCTION public.erp_preview_fg_unsourced_value_v1(p_product_id uuid, p_physical_at timestamp with time zone)
+ RETURNS jsonb
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO ''
+AS $function$
+begin
+  perform erp.require_owner_admin();
+  return erp.fg_unsourced_valuation_v1(p_product_id,p_physical_at);
+end
+$function$
+
+CREATE OR REPLACE FUNCTION public.erp_post_fg_unsourced_receipt_v1(p_payload jsonb, p_client_request_id uuid)
+ RETURNS jsonb
+ LANGUAGE sql
+ SECURITY DEFINER
+ SET search_path TO ''
+AS $function$
+ select erp.post_fg_unsourced_receipt_v1(p_payload,p_client_request_id);
+$function$
+
+CREATE OR REPLACE FUNCTION public.erp_reverse_fg_unsourced_receipt_v1(p_receipt_id uuid, p_reason text, p_client_request_id uuid)
+ RETURNS jsonb
+ LANGUAGE sql
+ SECURITY DEFINER
+ SET search_path TO ''
+AS $function$
+ select erp.reverse_fg_unsourced_receipt_v1(p_receipt_id,p_reason,p_client_request_id);
+$function$
