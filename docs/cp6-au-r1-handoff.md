@@ -690,3 +690,101 @@ Setiap run disimpan per job, termasuk yang gagal: 35848620445, 35849556805, 3585
 3. **AX:** backend baru dengan probe T1.
 4. **H-01**, lalu **T2:** regresi per kasus, disposisi, audit independen.
 5. **T3:** paket rilis dari baseline setara hosted, termasuk backup dan restore serta CodeQL, advisor, dan browser.
+
+## 20. Pelaksanaan A+B putaran pertama (23 September 2026, writer Claude)
+
+Semua bukti di bagian ini berlabel **T1_FAMILY** (uji keluarga), kecuali G-01 (baca metadata hosted) dan H-01 (alat uji). Tidak ada yang merupakan bukti rilis. `production_go=false`. Cabang kompetisi tetap `ca7f095`; main, deploy, hosted, legacy dan production tidak diubah.
+
+### 20.1 G-01: hosted Enteng dibandingkan dengan baseline uji (hanya SELECT)
+
+- **Ledger.** 70 riwayat migration hosted cocok dengan 19 file lokal menurut isi dan urutan: 18 identik, 1 identik kecuali baris baru di akhir file (19b). 51 riwayat lama tercakup bootstrap katalog CP4.5a. 7 nomor versi berbeda (hosted memberi nomor sendiri). Isi v2.6.20 di hosted cocok dengan salah satu dari dua hash yang diterima 20a. Bukti: `docs/evidence/cp6-g01/ledger_content_order.json`.
+- **Katalog.** Rantai uji dibangun ulang sampai v2.6.20 (run 35901222287), lalu dibandingkan dengan query sidik jari yang sama (`scripts/cp6_g01_fingerprint.py`).
+  - Identik: 537 fungsi beserta pemilik dan ACL, 520 index, 435 trigger, 190 policy, 55 ledger aplikasi, hash konfigurasi, default ACL dan extension.
+  - Berbeda:
+    - CHECK pada 17 tabel. Fixture CP4.5a menyimpan bentuk "cantik" `IN (...)`; saat dipasang ulang, cast pindah ke tiap elemen array. Artinya sama, teks katalognya berbeda. Terbukti dengan reproduksi lokal: hash 662ff… di baseline vs 12080… di hosted.
+    - Lima view. Sangat mungkin sebabnya sama; teks baseline per view belum dicetak.
+    - Sequence: baseline punya 2 sequence identity tambahan, dan 4 sequence tidak dimiliki kolomnya.
+    - ACL schema `erp`: hosted memberi USAGE ke `authenticated` dan `service_role`; baseline tidak.
+  - Bukti: `docs/evidence/cp6-g01/baseline_compare_run35901222287.json`.
+- **Dampak rilis (STATIC).** Migration AO s.d. AV (8 file) memuat guard katalog penuh yang mengunci teks constraint, view, sequence dan ACL schema dari rantai uji. Di hosted, guard ini sangat mungkin menolak pemasangan. Itu aman (gagal tertutup, tidak merusak), tetapi rilis terhenti. Penolakannya sendiri berstatus RERUN_REQUIRED pada baseline yang setia hosted.
+- **Keputusan yang dibutuhkan (owner bersama GPT), lihat 20.5 no. 4.**
+
+### 20.2 AW: perbaikan temuan GPT
+
+- P-01, P-02, P-04 diperbaiki; P-03 dengan registri 108 nama cek. Rinciannya di `docs/cp6-aw-design.md`, bagian "Revision after GPT audit 757b79a".
+- Uji lokal PG16 dengan stub: 30/30. Pada kode 757b79a, 14 kasus baru gagal atau error, sedangkan kontrol lulus.
+- **Native, T1 (run 35901779495, fase after):**
+  - pemasangan AW T1 dengan teks fungsi identik definisi;
+  - registri mencakup 108/108 nama yang dikeluarkan runner asli;
+  - P-01 dengan RPC absensi dan close asli PASS;
+  - S06 recost dalam periode (pembelian mundur tanggal) PASS, kontrolnya PASS;
+  - P-02 PASS;
+  - akses non-owner dan facade PASS.
+  - P-04 INCOMPLETE karena fixture (sudah diperbaiki). Race dua sesi ditambahkan di iterasi 2.
+
+### 20.3 AX: barang jadi tanpa sumber produksi (backend CP6, UI CP7)
+
+- **Kebijakan owner yang diterapkan:**
+  - lot non-PO baru (asal OTHER);
+  - nilai = HPP rata-rata pada tanggal fisik, dikunci saat posting, hanya untuk barang tanpa nilai asal;
+  - tidak pernah Rp0 kecuali diisi owner dengan alasan;
+  - jurnal Dr Persediaan Barang Jadi / Cr Pendapatan lain;
+  - GOOD dari BS biasa tetap lewat rework (2A).
+- **Mekanisme:**
+  - Kredit Pendapatan lain dibuat **tanpa** product_id, supaya invariant buku HPP non-PO (V2620F) tetap sama dengan targetnya. Polanya sama dengan sisi ekuitas opening.
+  - Tabel penerimaan tidak punya kolom produk, jadi registri cakupan AV tetap lengkap.
+- **Tingkat pembanding:** SKU yang sama (semua versinya) → model dan ukuran sama → model sama → isian owner.
+  - Pola dan bahan bukan atribut SKU. Keduanya hanya ada lewat riwayat produksi SKU itu sendiri, dan kalau riwayat itu ada, tingkat SKU sudah memberi nilai. Karena itu tidak ditebak.
+- **Validasi dan perilaku:**
+  - angka divalidasi;
+  - permintaan idempoten;
+  - NEW_STOCK harus aktif pada jam fisik;
+  - BS temuan boleh diselesaikan sebagian;
+  - pembatalan hanya bila lot belum dipakai.
+- **Bukti:** T1 dipasang dan diuji sintaks di PG16. Probe native dijalankan di CI (`scripts/cp6_ax_probe.py`).
+
+**Contoh angka (satu nilai tidak diakui dua kali).**
+- SKU Kemeja-M-Navy pada 10 September: Lot A (PO-1) sisa 20 pcs @ Rp50.000, Lot B (PO-2) sisa 10 pcs @ Rp56.000. Opname menemukan 3 pcs.
+- Rata-rata = (20×50.000 + 10×56.000) / 30 = **Rp52.000**. Lot baru: 3 × 52.000 = **Rp156.000**.
+- Jurnal: Dr Persediaan BJ 156.000 / Cr Pendapatan lain 156.000. HPP Lot A dan Lot B tidak berubah.
+- Saat 3 pcs itu terjual seharga Rp240.000: HPP penjualan 156.000.
+- Total pengaruh ke laba = pendapatan lain 156.000 + (240.000 − 156.000) = 240.000. Nilai barang temuan diakui sekali sebagai pendapatan lain dan keluar sekali sebagai HPP.
+- GOOD dari BS temuan: BS 5 pcs tanpa nilai. 3 pcs jadi GOOD → lot 3 × rata-rata; 2 pcs tetap BS (terbuka), dan kalau dibuang tidak ada jurnal karena memang tidak bernilai.
+
+### 20.4 H-01
+
+- `scripts/cp6_regression_identity.py` membandingkan status per ID kasus terhadap peta expected dari run AU 35822980561 (2703/2703 baris log).
+- Uji-diri menangkap pertukaran PASS↔HOLD.
+- Run AV 35853810855 identik per kasus, 12 HOLD sama persis (RECONCILED).
+- Pembanding lama di `cp6_av_trial.py` tidak diubah (bukti historis).
+
+### 20.5 Pertanyaan kebijakan untuk owner (dengan contoh angka)
+
+1. **P-03, cek integritas yang bisa diberi tanggal.** Dari 108 cek, 94 cacatnya punya tanggal bisnis, tetapi engine belum membatasinya per tanggal. Saat ini (aman) cek ini menahan **semua** tanggal.
+   - Contoh: invoice supplier bertanggal 20 September salah jurnal. Owner ingin menutup 31 Agustus. Sekarang ditolak, padahal cacatnya sesudah 31 Agustus.
+   - Pilihan:
+     - (a) tetap menahan semua tanggal, paling aman, CP6 tidak bertambah;
+     - (b) buat versi per tanggal untuk 94 cek itu. Pekerjaannya besar dan tiap cek butuh tanggal jangkar serta uji; cek bertanggal NULL tetap menahan semua;
+     - (c) campuran: per tanggal hanya untuk cek yang paling sering, sisanya (a).
+   - Usulan Claude: (a) untuk CP6, (c) sesudah melihat data nyata.
+2. **AX, definisi rata-rata.** Yang dipasang: rata-rata **stok yang ada pada jam fisik**. Kalau stok kosong, rata-rata semua lot yang pernah diproduksi sampai jam itu.
+   - Contoh: Lot C lama 50 pcs @ Rp44.000 sudah habis terjual. Stok sekarang Lot A 20 @ 50.000 dan Lot B 10 @ 56.000.
+     - Cara stok: **Rp52.000**.
+     - Cara seluruh produksi: (100×50.000 + 20×56.000 + 50×44.000) / 170 = **Rp48.941**.
+   - Mohon konfirmasi cara stok.
+3. **AX, upah memperbaiki BS temuan.** BS temuan tidak bisa lewat order rework karena order rework butuh PO.
+   - Contoh: 3 pcs dibetulkan penjahit dengan upah Rp2.000/pcs. Rata-rata SKU Rp52.000.
+   - Pilihan:
+     - (a) nilai lot tetap 52.000 dan upah 6.000 dicatat sebagai beban (sesuai "nilai = HPP rata-rata");
+     - (b) nilai lot 54.000 (rata-rata + upah).
+   - Yang dipasang (a). Upah dibayar lewat jalur biaya yang ada.
+4. **G-01, baseline rilis (T3).** Pilihan:
+   - (a) Bangun baseline dengan menjalankan ulang 70 SQL migration yang tersimpan di ledger hosted, supaya bentuk katalognya persis. Isi SQL itu harus dibaca dari hosted. Itu metadata, tetapi migration awal ("compact export proxy") mungkin memuat URL atau kunci, jadi perlu izin dan pemeriksaan sebelum disimpan (tidak masuk repo).
+   - (b) Samakan rantai uji dengan bentuk hosted: 17 CHECK, 5 view, 4 sequence, ACL `erp` diambil dari hosted dengan SELECT. Paket rilis gabungan lalu mengambil pin dari rantai yang sudah disamakan.
+   - (c) Ubah guard AO–AV menjadi pembanding makna. Ini melonggarkan guard lama, jadi Claude tidak menyarankannya.
+   - Usulan Claude: (b). File migration lama tidak diubah; paket rilis gabungan (T3) memegang pin barunya sendiri.
+
+### 20.6 Catatan teknis putaran ini
+
+- ghcr.io membatasi unduhan image Supabase (`toomanyrequests`) sebelum tes berjalan (run 35898369683, 35899068186, 35899325557). Start kini mencoba ulang dan beralih ke public.ecr.aws dengan tag image yang sama. Tidak ada tes yang diulang.
+- Seed harness memuat open item nyata untuk engine: payroll CALCULATED, sel absensi kosong, kerja belum masuk payroll. Probe menenangkannya dengan RPC owner di dalam savepoint uji (absensi OFF, approve payroll, payroll untuk kerja). Header payroll disisipkan administratif, seperti pola harness yang sudah ada.
