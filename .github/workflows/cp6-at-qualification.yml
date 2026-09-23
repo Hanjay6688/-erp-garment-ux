@@ -60,13 +60,6 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: '22'
-    - name: Record proposed source and prepare isolated proof paths
-      id: source_scope
-      working-directory: writer
-      run: |
-        set -euo pipefail
-        PYTHONPATH=scripts python -c "import cp6_at_trial; cp6_at_trial.source()"
-        mkdir -p ../candidate/cp6-proof/writer-{ae,af,ah,ai,aj,ak,al,am,an}
     - name: Install pinned disposable runtime
       shell: bash
       run: |
@@ -100,6 +93,13 @@ jobs:
       uses: supabase/setup-cli@ab058987d8d6c725971f6cf9d0b5c98467e30bd1
       with:
         version: 2.116.0
+    - name: Record proposed source and prepare isolated proof paths
+      id: source_scope
+      working-directory: writer
+      run: |
+        set -euo pipefail
+        PYTHONPATH=scripts python -c "import cp6_at_trial; cp6_at_trial.source()"
+        mkdir -p ../candidate/cp6-proof/writer-{ae,af,ah,ai,aj,ak,al,am,an}
     - name: Start disposable database
       working-directory: base
       shell: bash
