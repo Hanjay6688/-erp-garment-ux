@@ -1,0 +1,143 @@
+{
+ "label": "AV_REV2_QUALIFICATION_RUN",
+ "run_id": 35852437460,
+ "head_sha": "acffc8cf9548357d1f6387a42940ad38b0829bf4",
+ "source": "MCP get_job_logs content (artifact download is blocked by the session proxy); records are the JSON lines each phase prints",
+ "production_go": false,
+ "independent_acceptance": false,
+ "jobs": {
+  "probe-before": {
+   "job_id": 107154342479,
+   "records_file": "run35852437460_probe-before_records.json",
+   "records_sha256": "f3f5c33a9fad3e4144cf67ab74f1f295897f9eb756c70c2d48479d9f251cf031",
+   "log_content_sha256": "38a0b4b6dcc316f7622e46b0098f9c9da20a8d01a39a14d0a544cf020e0f3d92",
+   "log_lines": 1813,
+   "record_count": 71,
+   "groups": {
+    "AV_CASES_BEFORE": {
+     "COUNTEREXAMPLE": 8,
+     "CONTROL_PASS": 8,
+     "NOT_APPLICABLE": 18
+    },
+    "AU_MASTER_BEFORE": {
+     "PASS": 15
+    },
+    "AT_TEMPORAL_BEFORE": {
+     "PASS": 16
+    }
+   },
+   "phase_status": "INCOMPLETE",
+   "candidate_verdict": null,
+   "moved_cases": null,
+   "primary_unchanged": true,
+   "clone_remaining": 0,
+   "auditor_head": null
+  },
+  "probe-after": {
+   "job_id": 107154341836,
+   "records_file": "run35852437460_probe-after_records.json",
+   "records_sha256": "cf4f30cbea2ac7cdb4f2db87e9f35eb90b2bae6d19068e60285a7261aafa0fee",
+   "log_content_sha256": "8bdf891b0032f5713858b823925331453d97e8a8fb1b6582050d324a42cfc7ed",
+   "log_lines": 1814,
+   "record_count": 72,
+   "groups": {
+    "AV_CASES_AFTER": {
+     "PASS": 23,
+     "CONTROL_PASS": 11
+    },
+    "AU_MASTER_AFTER": {
+     "PASS": 15
+    },
+    "AT_TEMPORAL_AFTER": {
+     "PASS": 16
+    }
+   },
+   "phase_status": "INCOMPLETE",
+   "candidate_verdict": null,
+   "moved_cases": null,
+   "primary_unchanged": true,
+   "clone_remaining": 0,
+   "auditor_head": null
+  },
+  "qualify": {
+   "job_id": 107154342234,
+   "records_file": "run35852437460_qualify_records.json",
+   "records_sha256": "032b7b154e8f452b0320734652029abbbf14f236aa6c4a3d978136976e942249",
+   "log_content_sha256": "67082e2c058bb6b57aac63a0ccba6ca2a9528682f9096a2dd3458409a3ed7490",
+   "log_lines": 1921,
+   "record_count": 180,
+   "groups": {
+    "AR_SEQUENTIAL": {
+     "PASS": 146
+    },
+    "AR_CONCURRENCY": {
+     "PASS": 28
+    }
+   },
+   "phase_status": "WRITER_PASS",
+   "candidate_verdict": null,
+   "moved_cases": null,
+   "primary_unchanged": true,
+   "clone_remaining": 0,
+   "auditor_head": "acffc8cf9548357d1f6387a42940ad38b0829bf4"
+  },
+  "temporal": {
+   "job_id": 107154342289,
+   "records_file": "run35852437460_temporal_records.json",
+   "records_sha256": "afd68beac0996dd98ab24261e10deca4735d4e826f2055301044f7dfbde0f2ac",
+   "log_content_sha256": "61717de83ddc880f81c44dd167833995d7227719c79e8da077d94e4acbc0be59",
+   "log_lines": 1788,
+   "record_count": 47,
+   "groups": {
+    "AT_CASES": {
+     "PASS": 16
+    },
+    "AT_CONCURRENCY": {
+     "PASS": 4
+    },
+    "AU_CASES": {
+     "PASS": 15
+    },
+    "AU_CONCURRENCY": {
+     "PASS": 6
+    }
+   },
+   "phase_status": "WRITER_PASS",
+   "candidate_verdict": null,
+   "moved_cases": null,
+   "primary_unchanged": true,
+   "clone_remaining": 0,
+   "auditor_head": "acffc8cf9548357d1f6387a42940ad38b0829bf4"
+  },
+  "regression": {
+   "job_id": 107154342273,
+   "records_file": "run35852437460_regression_records.json",
+   "records_sha256": "15969492631da88a492268a907037290a7b45c8ca3428909a6e5abd1564dc625",
+   "log_content_sha256": "29974c4d64115c6d98ab98fe63648e3325d98d740b00f9cd78a417daf49ae66a",
+   "log_lines": 2107,
+   "record_count": 366,
+   "groups": {
+    "BUSINESS": {
+     "PASS": 179,
+     "CONTROL_PASS": 39,
+     "DATE_POLICY_REVIEW_REQUIRED": 12
+    },
+    "IMPORTS": {
+     "PASS": 31
+    },
+    "VALUES": {
+     "PASS": 65
+    },
+    "NEW_CASES": {
+     "PASS": 34
+    }
+   },
+   "phase_status": "WRITER_PASS_WITH_12_PRESERVED_HISTORICAL_HOLD",
+   "candidate_verdict": null,
+   "moved_cases": {},
+   "primary_unchanged": true,
+   "clone_remaining": 0,
+   "auditor_head": "acffc8cf9548357d1f6387a42940ad38b0829bf4"
+  }
+ }
+}

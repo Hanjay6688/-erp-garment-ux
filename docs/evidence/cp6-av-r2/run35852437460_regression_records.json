@@ -1,0 +1,1906 @@
+{
+ "run_id": 35852437460,
+ "job_id": 107154342273,
+ "head_sha": "acffc8cf9548357d1f6387a42940ad38b0829bf4",
+ "phase": "regression",
+ "records": [
+  {
+   "status": "PASS",
+   "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+   "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+   "functions": 533,
+   "objects": 690,
+   "production_go": false
+  },
+  {
+   "status": "PASS",
+   "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+   "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+   "functions": 533,
+   "objects": 690,
+   "production_go": false
+  },
+  {
+   "status": "PASS",
+   "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+   "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+   "functions": 533,
+   "objects": 690,
+   "production_go": false
+  },
+  {
+   "status": "PASS",
+   "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+   "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+   "functions": 533,
+   "objects": 690,
+   "production_go": false
+  },
+  {
+   "status": "PASS",
+   "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+   "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+   "erp_functions": 534,
+   "new_public_readers": 1,
+   "objects": 692,
+   "production_go": false
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:FABRIC:DIRECT:Asia/Jakarta",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:FABRIC:DIRECT:UTC",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:FABRIC:DIRECT:Asia/Tokyo",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:FABRIC:DIRECT:Pacific/Kiritimati",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:FABRIC:DIRECT:Etc/GMT+12",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:FABRIC:IMPORT:Asia/Jakarta",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:FABRIC:IMPORT:UTC",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:FABRIC:IMPORT:Asia/Tokyo",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:FABRIC:IMPORT:Pacific/Kiritimati",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:FABRIC:IMPORT:Etc/GMT+12",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:FABRIC_ROLL:DIRECT:Asia/Jakarta",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:FABRIC_ROLL:DIRECT:UTC",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:FABRIC_ROLL:DIRECT:Asia/Tokyo",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:FABRIC_ROLL:DIRECT:Pacific/Kiritimati",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:FABRIC_ROLL:DIRECT:Etc/GMT+12",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:FABRIC_ROLL:IMPORT:Asia/Jakarta",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:FABRIC_ROLL:IMPORT:UTC",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:FABRIC_ROLL:IMPORT:Asia/Tokyo",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:FABRIC_ROLL:IMPORT:Pacific/Kiritimati",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:FABRIC_ROLL:IMPORT:Etc/GMT+12",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:ACCESSORY:DIRECT:Asia/Jakarta",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:ACCESSORY:DIRECT:UTC",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:ACCESSORY:DIRECT:Asia/Tokyo",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:ACCESSORY:DIRECT:Pacific/Kiritimati",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:ACCESSORY:DIRECT:Etc/GMT+12",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:ACCESSORY:IMPORT:Asia/Jakarta",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:ACCESSORY:IMPORT:UTC",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:ACCESSORY:IMPORT:Asia/Tokyo",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:ACCESSORY:IMPORT:Pacific/Kiritimati",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:ACCESSORY:IMPORT:Etc/GMT+12",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:FINISHED_GOODS:DIRECT:Asia/Jakarta",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:FINISHED_GOODS:DIRECT:UTC",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:FINISHED_GOODS:DIRECT:Asia/Tokyo",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:FINISHED_GOODS:DIRECT:Pacific/Kiritimati",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:FINISHED_GOODS:DIRECT:Etc/GMT+12",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:FINISHED_GOODS_PRICE:DIRECT:Asia/Jakarta",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:FINISHED_GOODS_PRICE:DIRECT:UTC",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:FINISHED_GOODS_PRICE:DIRECT:Asia/Tokyo",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:FINISHED_GOODS_PRICE:DIRECT:Pacific/Kiritimati",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:FINISHED_GOODS_PRICE:DIRECT:Etc/GMT+12",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:BS:DIRECT:Asia/Jakarta",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:BS:DIRECT:UTC",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:BS:DIRECT:Asia/Tokyo",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:BS:DIRECT:Pacific/Kiritimati",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:BS:DIRECT:Etc/GMT+12",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:BS_PRODUCT:DIRECT:Asia/Jakarta",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:BS_PRODUCT:DIRECT:UTC",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:BS_PRODUCT:DIRECT:Asia/Tokyo",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:BS_PRODUCT:DIRECT:Pacific/Kiritimati",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:BS_PRODUCT:DIRECT:Etc/GMT+12",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:ATTENDANCE:DIRECT:Asia/Jakarta",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:ATTENDANCE:DIRECT:UTC",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:ATTENDANCE:DIRECT:Asia/Tokyo",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:ATTENDANCE:DIRECT:Pacific/Kiritimati",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:ATTENDANCE:DIRECT:Etc/GMT+12",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:OPENING_SUBLEDGER:OPENING_READY",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:OPENING_SUBLEDGER:OPENING_LAST_CENT",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:OPENING_SUBLEDGER:OPENING_OVERPAY",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:OPENING_SUBLEDGER:OPENING_CORRECTION",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:OPENING_SUBLEDGER:OPENING_REVERSE_CORRECTION",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:OPENING_SUBLEDGER:OPENING_REVERSE_SETTLEMENT",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:OPENING_SUBLEDGER:SUPPLIER_LAST_CENT",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:OPENING_SUBLEDGER:SUPPLIER_OVERPAY",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:OPENING_SUBLEDGER:SUPPLIER_REVERSE_PAYMENT",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:OPENING_SUBLEDGER:SUPPLIER_CORRECTION",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:OPENING_SUBLEDGER:SUPPLIER_REVERSE_CORRECTION",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:OPENING_SUBLEDGER:SUPPLIER_RETURN",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:OPENING_SUBLEDGER:OPENING_PARTIES",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:OPENING_SUBLEDGER:SUPPLIER_VALID_LIFECYCLE",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:OPENING_SUBLEDGER:SUPPLIER_INVOICE_LIFECYCLE",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:OPENING_SUBLEDGER:FRACTIONAL_PURCHASES",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:OPENING_SUBLEDGER:SUPPLIER_AMOUNT_WASH",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:OPENING_SUBLEDGER:OPENING_PARTY_WASH",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:OPENING_SUBLEDGER:OPENING_STATUS_FAULT",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:OPENING_SUBLEDGER:PAYMENT_INVERSE_FAULT",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:SUPPLIER_CENT:CORRECTION_ROUND_DELTA",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:SUPPLIER_CENT:CORRECTION_HALF_CENT",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:SUPPLIER_CENT:MULTI_PURCHASE_INVOICE",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:SUPPLIER_CENT:PARTIAL_INVOICE",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:SUPPLIER_CENT:SPLIT_RETURN",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:SUPPLIER_CENT:CORRECTION_ZERO_INVERSE",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:SUPPLIER_CENT:CORRECTION_CHAIN",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:SUPPLIER_CENT:NONFIFO_INVOICE_INVERSE",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:SUPPLIER_CENT:INVOICE_PAY_REVERSE",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:SUPPLIER_CENT:INVOICE_RETURN_INVERSE",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:SUPPLIER_CENT:NONFIFO_RETURN_INVERSE",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:SUPPLIER_CENT:SUBCENT_RETURN_INVERSE",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:SUPPLIER_CENT:ZERO_CENT_POSTING_FACT",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:SUPPLIER_CENT:FACT_LEDGER_FAULT",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:SUPPLIER_CENT:CROSS_SOURCE_INVERSE_IDENTITY",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:SUPPLIER_RETURN:NO_INVOICE_TWO_ROLL_FULL",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:SUPPLIER_RETURN:DIRECT_FINAL_TWO_ROLL_FULL",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:SUPPLIER_RETURN:FULL_INVOICE_TWO_ROLL_FULL",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:SUPPLIER_RETURN:PARTIAL_ONE_ROLL_FULL",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:SUPPLIER_RETURN:PARTIAL_TWO_RETURN_DOCUMENTS",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:SUPPLIER_RETURN:PARTIAL_TWO_LINES_BELOW_CAP",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:SUPPLIER_RETURN:HIGH_CREDIT_ATOMIC_REFUSAL",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:SUPPLIER_RETURN:PARTIAL_TWO_ROLL_FULL",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:SUPPLIER_RETURN:PARTIAL_TWO_LINES_CROSS_CAP",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:SUPPLIER_RETURN:PARTIAL_THREE_ROLL_FULL",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:SUPPLIER_RETURN:SPLIT_INVOICES_TWO_ROLL_FULL",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:SUPPLIER_RETURN:REPRICED_PARTIAL_TWO_ROLL_FULL",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:SUPPLIER_RETURN:PRIOR_RELIEF_CROSS_REMAINING_CAP",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:SUPPLIER_RETURN:LOW_CREDIT_SILENT_MISPOST",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:SUPPLIER_RETURN:LOW_CREDIT_PAYMENT_CAPACITY",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:SUPPLIER_RETURN:LATE_INVOICE_LAUNDER",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:SUPPLIER_RETURN:RETURN_REVERSE_RESTORE",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:SUPPLIER_RETURN:FRACTIONAL_QUANTITY",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:INVOICE:False:Asia/Jakarta:20",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:INVOICE:False:Asia/Jakarta:20.003",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:INVOICE:False:UTC:20",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:INVOICE:False:UTC:20.003",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:INVOICE:False:Etc/GMT+12:20",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:INVOICE:False:Etc/GMT+12:20.003",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:INVOICE:False:Pacific/Kiritimati:20",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:INVOICE:False:Pacific/Kiritimati:20.003",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:INVOICE:True:Asia/Jakarta:20",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:INVOICE:True:Asia/Jakarta:20.003",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:INVOICE:True:UTC:20",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:INVOICE:True:UTC:20.003",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:INVOICE:True:Etc/GMT+12:20",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:INVOICE:True:Etc/GMT+12:20.003",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:INVOICE:True:Pacific/Kiritimati:20",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:INVOICE:True:Pacific/Kiritimati:20.003",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:CASH_LINKED:0",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:CASH_LINKED:1",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:CASH_LINKED:2",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:CASH_LINKED:3",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:CASH_LINKED:4",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:CASH_LINKED:5",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:CASH_LINKED:6",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:CASH_LINKED:7",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:CASH_LINKED:8",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:CASH_LINKED:9",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:F_A01",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:F_A02",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:F_A03",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:H_R02",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:H_R03_UNDERPAID",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:H_R03_PAID_RETURN",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:H_R03_OVERPAID",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:ORIGINAL_DRAFT_LIFECYCLE",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "WORK:WORK_CENTS",
+   "status": "CONTROL_PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "WORK:WORK_ZERO_RATE",
+   "status": "CONTROL_PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "WORK:WORK_UNPAID",
+   "status": "CONTROL_PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "WORK:WORK_PARTIAL_PAY",
+   "status": "CONTROL_PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "WORK:WORK_TIMEZONE",
+   "status": "CONTROL_PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "WORK:DIRECT_POST",
+   "status": "CONTROL_PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "WORK:PO_CONTRACTOR",
+   "status": "CONTROL_PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "WORK:SNAPSHOT_DELETE",
+   "status": "CONTROL_PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "WORK:PAYABLE_EXCEEDS_COMPLETED",
+   "status": "CONTROL_PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "WORK:NEGATIVE_PAYABLE",
+   "status": "CONTROL_PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "WORK:EMPTY_POST",
+   "status": "CONTROL_PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "WORK:BEFORE_PICKUP",
+   "status": "CONTROL_PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "WORK:FUTURE",
+   "status": "CONTROL_PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "WORK:DOUBLE_POST",
+   "status": "CONTROL_PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "WORK:POSTED_EDIT",
+   "status": "CONTROL_PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "WORK:POSTED_DELETE",
+   "status": "CONTROL_PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "WORK:POSTED_HEADER",
+   "status": "CONTROL_PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "WORK:REVERSE_REUSE",
+   "status": "CONTROL_PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "WORK:ROLE_UNREGISTERED",
+   "status": "CONTROL_PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "WORK:ROLE_INACTIVE_OWNER",
+   "status": "CONTROL_PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "WORK:ROLE_EMPTY_CLAIMS",
+   "status": "CONTROL_PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "WORK:HPP_THROUGH_SALE_0",
+   "status": "CONTROL_PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "WORK:HPP_THROUGH_SALE_1.27",
+   "status": "CONTROL_PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "INVOICE:UTC:4:False",
+   "status": "CONTROL_PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "INVOICE:UTC:4:True",
+   "status": "CONTROL_PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "INVOICE:UTC:7:False",
+   "status": "CONTROL_PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "INVOICE:UTC:7:True",
+   "status": "CONTROL_PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "INVOICE:Asia/Jakarta:4:False",
+   "status": "CONTROL_PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "INVOICE:Asia/Jakarta:4:True",
+   "status": "CONTROL_PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "INVOICE:Asia/Jakarta:7:False",
+   "status": "CONTROL_PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "INVOICE:Asia/Jakarta:7:True",
+   "status": "CONTROL_PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "INVOICE:Pacific/Kiritimati:4:False",
+   "status": "CONTROL_PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "INVOICE:Pacific/Kiritimati:4:True",
+   "status": "CONTROL_PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "INVOICE:Pacific/Kiritimati:7:False",
+   "status": "CONTROL_PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "INVOICE:Pacific/Kiritimati:7:True",
+   "status": "CONTROL_PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "INVOICE:America/Los_Angeles:4:False",
+   "status": "CONTROL_PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "INVOICE:America/Los_Angeles:4:True",
+   "status": "CONTROL_PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "INVOICE:America/Los_Angeles:7:False",
+   "status": "CONTROL_PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "INVOICE:America/Los_Angeles:7:True",
+   "status": "CONTROL_PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:1_MONTHS:UTC:False",
+   "status": "DATE_POLICY_REVIEW_REQUIRED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:1_MONTHS:UTC:True",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:1_MONTHS:Pacific/Kiritimati:False",
+   "status": "DATE_POLICY_REVIEW_REQUIRED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:1_MONTHS:Pacific/Kiritimati:True",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:2_MONTHS:UTC:False",
+   "status": "DATE_POLICY_REVIEW_REQUIRED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:2_MONTHS:UTC:True",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:2_MONTHS:Pacific/Kiritimati:False",
+   "status": "DATE_POLICY_REVIEW_REQUIRED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:2_MONTHS:Pacific/Kiritimati:True",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:3_MONTHS:UTC:False",
+   "status": "DATE_POLICY_REVIEW_REQUIRED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:3_MONTHS:UTC:True",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:3_MONTHS:Pacific/Kiritimati:False",
+   "status": "DATE_POLICY_REVIEW_REQUIRED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:3_MONTHS:Pacific/Kiritimati:True",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:JAN31:UTC:False",
+   "status": "DATE_POLICY_REVIEW_REQUIRED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:JAN31:UTC:True",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:JAN31:Pacific/Kiritimati:False",
+   "status": "DATE_POLICY_REVIEW_REQUIRED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:JAN31:Pacific/Kiritimati:True",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:FEB28:UTC:False",
+   "status": "DATE_POLICY_REVIEW_REQUIRED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:FEB28:UTC:True",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:FEB28:Pacific/Kiritimati:False",
+   "status": "DATE_POLICY_REVIEW_REQUIRED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:FEB28:Pacific/Kiritimati:True",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:MAY31:UTC:False",
+   "status": "DATE_POLICY_REVIEW_REQUIRED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:MAY31:UTC:True",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:MAY31:Pacific/Kiritimati:False",
+   "status": "DATE_POLICY_REVIEW_REQUIRED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:MAY31:Pacific/Kiritimati:True",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "IMPORT:VALID",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "IMPORT:MISSING_LOCATION",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "IMPORT:NEGATIVE_QTY",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "IMPORT:DUPLICATE_SOURCE",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "IMPORT:NONNUMERIC_QTY",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "IMPORT:MISSING_COST",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "IMPORT_VALUE:qty:NaN",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "IMPORT_VALUE:qty:Infinity",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "IMPORT_VALUE:qty:-Infinity",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "IMPORT_VALUE:unit_cost:NaN",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "IMPORT_VALUE:unit_cost:ten",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "IMPORT_VALUE:unit_cost:-1",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "IMPORT_VALUE:unit_cost: ",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "REWORK:0:CONTRACTOR:failed=False",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "REWORK:0:CONTRACTOR:failed=True",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "REWORK:0:LAUNDRY:failed=False",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "REWORK:0:LAUNDRY:failed=True",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "REWORK:4:CONTRACTOR:failed=False",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "REWORK:4:CONTRACTOR:failed=True",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "REWORK:4:LAUNDRY:failed=False",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "REWORK:4:LAUNDRY:failed=True",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "REWORK:MIXED_RATES:CONTRACTOR:failed=False",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "REWORK:MIXED_RATES:CONTRACTOR:failed=True",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "REWORK:MIXED_RATES:LAUNDRY:failed=False",
+   "status": "PASS"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "REWORK:MIXED_RATES:LAUNDRY:failed=True",
+   "status": "PASS"
+  },
+  {
+   "group": "IMPORTS",
+   "case": "OPENING_REF:material_sku",
+   "status": "PASS"
+  },
+  {
+   "group": "IMPORTS",
+   "case": "OPENING_REF:location_code",
+   "status": "PASS"
+  },
+  {
+   "group": "IMPORTS",
+   "case": "OPENING_REF:model_code",
+   "status": "PASS"
+  },
+  {
+   "group": "IMPORTS",
+   "case": "OPENING_REF:contractor_code",
+   "status": "PASS"
+  },
+  {
+   "group": "IMPORTS",
+   "case": "OPENING_REF:customer_code",
+   "status": "PASS"
+  },
+  {
+   "group": "IMPORTS",
+   "case": "OPENING_REF:supplier_code",
+   "status": "PASS"
+  },
+  {
+   "group": "IMPORTS",
+   "case": "OPENING_REF:vendor_code",
+   "status": "PASS"
+  },
+  {
+   "group": "IMPORTS",
+   "case": "OPENING_REF:cash_account_code",
+   "status": "PASS"
+  },
+  {
+   "group": "IMPORTS",
+   "case": "OPENING_REF:product_sku",
+   "status": "PASS"
+  },
+  {
+   "group": "IMPORTS",
+   "case": "EDIT_PREPARED_DRAFT",
+   "status": "PASS"
+  },
+  {
+   "group": "IMPORTS",
+   "case": "MASTER_REF:PRODUCT:model_code",
+   "status": "PASS"
+  },
+  {
+   "group": "IMPORTS",
+   "case": "MASTER_REF:PRODUCT:brand_code",
+   "status": "PASS"
+  },
+  {
+   "group": "IMPORTS",
+   "case": "MASTER_REF:PRODUCT:size_code",
+   "status": "PASS"
+  },
+  {
+   "group": "IMPORTS",
+   "case": "MASTER_REF:MATERIAL:unit_code",
+   "status": "PASS"
+  },
+  {
+   "group": "IMPORTS",
+   "case": "MASTER_REF:MATERIAL:accessory_category_code",
+   "status": "PASS"
+  },
+  {
+   "group": "IMPORTS",
+   "case": "MASTER_REF:OPEN_PO:model_code",
+   "status": "PASS"
+  },
+  {
+   "group": "IMPORTS",
+   "case": "MASTER_REF:OPEN_PO:contractor_code",
+   "status": "PASS"
+  },
+  {
+   "group": "IMPORTS",
+   "case": "STAGED_MATERIAL",
+   "status": "PASS"
+  },
+  {
+   "group": "IMPORTS",
+   "case": "STAGED_INVALID_PARENT",
+   "status": "PASS"
+  },
+  {
+   "group": "IMPORTS",
+   "case": "DUPLICATE_MASTER",
+   "status": "PASS"
+  },
+  {
+   "group": "IMPORTS",
+   "case": "STAGED_PRODUCT",
+   "status": "PASS"
+  },
+  {
+   "group": "IMPORTS",
+   "case": "VALID_PARTY:CONTRACTOR_RECEIVABLE",
+   "status": "PASS"
+  },
+  {
+   "group": "IMPORTS",
+   "case": "VALID_PARTY:CONTRACTOR_PAYABLE",
+   "status": "PASS"
+  },
+  {
+   "group": "IMPORTS",
+   "case": "VALID_PARTY:CUSTOMER_RECEIVABLE",
+   "status": "PASS"
+  },
+  {
+   "group": "IMPORTS",
+   "case": "VALID_PARTY:SUPPLIER_PAYABLE",
+   "status": "PASS"
+  },
+  {
+   "group": "IMPORTS",
+   "case": "VALID_PARTY:VENDOR_PAYABLE",
+   "status": "PASS"
+  },
+  {
+   "group": "IMPORTS",
+   "case": "VALID_PARTY:CASH_BANK",
+   "status": "PASS"
+  },
+  {
+   "group": "IMPORTS",
+   "case": "RECOVERED_SALE:CONTRACTOR:False",
+   "status": "PASS"
+  },
+  {
+   "group": "IMPORTS",
+   "case": "RECOVERED_SALE:CONTRACTOR:True",
+   "status": "PASS"
+  },
+  {
+   "group": "IMPORTS",
+   "case": "RECOVERED_SALE:LAUNDRY:False",
+   "status": "PASS"
+  },
+  {
+   "group": "IMPORTS",
+   "case": "RECOVERED_SALE:LAUNDRY:True",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "DIRECT_MATERIAL_DRAFT",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "DIRECT_STAGE:ROW",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "DIRECT_STAGE:BATCH",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "ROLL_DRAFT:False",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "ROLL_DRAFT:True",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "BS:False:2",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "BS:False:1.5",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "BS:False:-2",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "BS:False:0",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "BS:False:None",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "WIP:False:AMOUNT",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "WIP:False:COST",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "WIP:False:NEGATIVE_AMOUNT",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "WIP:False:NEGATIVE_QTY",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "BS:True:2",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "BS:True:1.5",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "BS:True:-2",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "BS:True:0",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "BS:True:None",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "WIP:True:AMOUNT",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "WIP:True:COST",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "WIP:True:NEGATIVE_AMOUNT",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "WIP:True:NEGATIVE_QTY",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "TYPED:CUSTOMER:is_active",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "TYPED:SIZE:sort_order",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "TYPED:SUPPLIER:supplier_type",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "TYPED:CONTRACTOR:attendance_required",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "BOOL:BRAND",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "BOOL:SIZE",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "BOOL:MODEL",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "BOOL:PRODUCT",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "BOOL:CUSTOMER",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "BOOL:SUPPLIER",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "BOOL:CONTRACTOR",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "BOOL:ACCESSORY_CATEGORY",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "BOOL:MATERIAL",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "PRODUCT_PORTAL_BOOL",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "OPEN_PO:target_qty_pcs:1.5",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "OPEN_PO:target_qty_pcs:-1",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "OPEN_PO:target_dozens:-1",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "OPEN_PO:physical_start_at:not-a-date",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "SIZE_WIDTH",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "VALID_BOOL:False",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "VALID_BOOL:True",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "VALID_BOOL:",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "VALID_BOOL:None",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "VALID_BOOL:no",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "VALID_BOOL:0",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "VALID_ENUM_NORMALIZATION",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "MIXED_REPAIR",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "DIRECT_NAN:MATERIAL:qty",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "DIRECT_NAN:MATERIAL:amount",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "DIRECT_NAN:MATERIAL:unit_cost_snapshot",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "DIRECT_NAN:WIP:qty",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "DIRECT_NAN:WIP:amount",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "DIRECT_NAN:WIP:unit_cost_snapshot",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "DIRECT_NAN:BS:qty",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "DIRECT_NAN:BS:amount",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "DIRECT_NAN:BS:unit_cost_snapshot",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "WIP_EXPLICIT:False:{}",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "WIP_EXPLICIT:False:{\"qty\": \"2\"}",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "WIP_EXPLICIT:False:{\"qty\": \"2\", \"unit_cost\": \"-1\"}",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "WIP_EXPLICIT:True:{}",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "WIP_EXPLICIT:True:{\"qty\": \"2\"}",
+   "status": "PASS"
+  },
+  {
+   "group": "VALUES",
+   "case": "WIP_EXPLICIT:True:{\"qty\": \"2\", \"unit_cost\": \"-1\"}",
+   "status": "PASS"
+  },
+  {
+   "group": "NEW_CASES",
+   "case": "DATE:False:Asia/Jakarta:False:20.003",
+   "status": "PASS"
+  },
+  {
+   "group": "NEW_CASES",
+   "case": "DATE:False:Asia/Jakarta:True:20",
+   "status": "PASS"
+  },
+  {
+   "group": "NEW_CASES",
+   "case": "DATE:False:Asia/Jakarta:True:20.003",
+   "status": "PASS"
+  },
+  {
+   "group": "NEW_CASES",
+   "case": "DATE:False:UTC:False:20.003",
+   "status": "PASS"
+  },
+  {
+   "group": "NEW_CASES",
+   "case": "DATE:False:UTC:True:20",
+   "status": "PASS"
+  },
+  {
+   "group": "NEW_CASES",
+   "case": "DATE:False:UTC:True:20.003",
+   "status": "PASS"
+  },
+  {
+   "group": "NEW_CASES",
+   "case": "DATE:False:Etc/GMT+12:False:20.003",
+   "status": "PASS"
+  },
+  {
+   "group": "NEW_CASES",
+   "case": "DATE:False:Etc/GMT+12:True:20",
+   "status": "PASS"
+  },
+  {
+   "group": "NEW_CASES",
+   "case": "DATE:False:Etc/GMT+12:True:20.003",
+   "status": "PASS"
+  },
+  {
+   "group": "NEW_CASES",
+   "case": "DATE:False:Pacific/Kiritimati:False:20.003",
+   "status": "PASS"
+  },
+  {
+   "group": "NEW_CASES",
+   "case": "DATE:False:Pacific/Kiritimati:True:20",
+   "status": "PASS"
+  },
+  {
+   "group": "NEW_CASES",
+   "case": "DATE:False:Pacific/Kiritimati:True:20.003",
+   "status": "PASS"
+  },
+  {
+   "group": "NEW_CASES",
+   "case": "DATE:True:Asia/Jakarta:False:20.003",
+   "status": "PASS"
+  },
+  {
+   "group": "NEW_CASES",
+   "case": "DATE:True:Asia/Jakarta:True:20",
+   "status": "PASS"
+  },
+  {
+   "group": "NEW_CASES",
+   "case": "DATE:True:Asia/Jakarta:True:20.003",
+   "status": "PASS"
+  },
+  {
+   "group": "NEW_CASES",
+   "case": "DATE:True:UTC:False:20.003",
+   "status": "PASS"
+  },
+  {
+   "group": "NEW_CASES",
+   "case": "DATE:True:UTC:True:20",
+   "status": "PASS"
+  },
+  {
+   "group": "NEW_CASES",
+   "case": "DATE:True:UTC:True:20.003",
+   "status": "PASS"
+  },
+  {
+   "group": "NEW_CASES",
+   "case": "DATE:True:Etc/GMT+12:False:20.003",
+   "status": "PASS"
+  },
+  {
+   "group": "NEW_CASES",
+   "case": "DATE:True:Etc/GMT+12:True:20",
+   "status": "PASS"
+  },
+  {
+   "group": "NEW_CASES",
+   "case": "DATE:True:Etc/GMT+12:True:20.003",
+   "status": "PASS"
+  },
+  {
+   "group": "NEW_CASES",
+   "case": "DATE:True:Pacific/Kiritimati:False:20.003",
+   "status": "PASS"
+  },
+  {
+   "group": "NEW_CASES",
+   "case": "DATE:True:Pacific/Kiritimati:True:20",
+   "status": "PASS"
+  },
+  {
+   "group": "NEW_CASES",
+   "case": "DATE:True:Pacific/Kiritimati:True:20.003",
+   "status": "PASS"
+  },
+  {
+   "group": "NEW_CASES",
+   "case": "WIP_IDENTITY:UNIQUE",
+   "status": "PASS"
+  },
+  {
+   "group": "NEW_CASES",
+   "case": "WIP_IDENTITY:AMBIGUOUS",
+   "status": "PASS"
+  },
+  {
+   "group": "NEW_CASES",
+   "case": "WIP_IDENTITY:EXPLICIT_SECOND",
+   "status": "PASS"
+  },
+  {
+   "group": "NEW_CASES",
+   "case": "STAGED_BS_BRAND_MODEL",
+   "status": "PASS"
+  },
+  {
+   "group": "NEW_CASES",
+   "case": "WIP_GUARD:BRAND_SECOND",
+   "status": "PASS"
+  },
+  {
+   "group": "NEW_CASES",
+   "case": "WIP_GUARD:WRONG_BRAND",
+   "status": "PASS"
+  },
+  {
+   "group": "NEW_CASES",
+   "case": "WIP_GUARD:CONFLICTING_ID",
+   "status": "PASS"
+  },
+  {
+   "group": "NEW_CASES",
+   "case": "WIP_GUARD:FUTURE_ID",
+   "status": "PASS"
+  },
+  {
+   "group": "NEW_CASES",
+   "case": "ADJUSTMENT_DATE:False",
+   "status": "PASS"
+  },
+  {
+   "group": "NEW_CASES",
+   "case": "ADJUSTMENT_DATE:True",
+   "status": "PASS"
+  },
+  {
+   "av_trial_phase": "regression",
+   "status": "WRITER_PASS_WITH_12_PRESERVED_HISTORICAL_HOLD",
+   "phase": "regression",
+   "production_go": false,
+   "independent_acceptance": false,
+   "auditor_head": "acffc8cf9548357d1f6387a42940ad38b0829bf4",
+   "av_pins": "193e84efac8ead7cab681071e40070e1f9249f82cec1b7972f0576e8df25a2dc",
+   "original_oracle_sources": {
+    "scripts/cp6_v2620al_review.py": "5577b261dbab8951454dd2794d7c68f067ba6c4593829a34416ef31f48e06fb9",
+    "scripts/cp6_v2620al_import_review.py": "c0a1217f1437b94e5241c2b568bd7c582be4e2a2292b17214dee959b91a429af",
+    "scripts/cp6_v2620al_value_review.py": "f2386d3472107e465ff8c110f5e91c78863d7eacad021573984c1f9a340a7b58",
+    "scripts/cp6_v2620al_import_concurrency.py": "10dbcaebe616aab10450a31dc047041f2a9c4813f30eb22838bec4cbfa70dd25",
+    "scripts/cp6_v2620al_direct_concurrency.py": "2a755622abc59c6913a2deb17b1f246d79c555b84af346f1c8224bf4dab2d792",
+    "scripts/cp6_final_ak_independent.py": "9644b71e3a8ace79fb0de94ed517686330f175f2706b5e641fc6c7e200d39feb",
+    "scripts/cp6_v2620ai_family.py": "9d18d1ced8f90f75559177cb82c4a2b17f9d97636e1bfd8898e6ecf080dd0ee6",
+    "scripts/cp6_ai_independent_review.py": "0a4949a5f5c1b02ada3a29b369e225d8b3f6c962a9946708b02e4875c7688e83",
+    "scripts/cp6_final_crossflow_review.py": "316125ca0e9350e31efb6af029b7e936a50d51a6714c5d12b884e98a4b394d24",
+    "scripts/cp6_final_gap_native.py": "283ffb4d6f0db9dfdfa1e592b5b52a3809681e3eed5570fdfd6f2930f5bfe9d1"
+   },
+   "au_install": "PASS",
+   "av_install": "PASS",
+   "groups": {
+    "business": {
+     "status": "WRITER_PASS",
+     "counts": {
+      "PASS": 179,
+      "CONTROL_PASS": 39,
+      "DATE_POLICY_REVIEW_REQUIRED": 12
+     },
+     "matches_au_outcome": true
+    },
+    "imports": {
+     "status": "WRITER_PASS",
+     "counts": {
+      "PASS": 31
+     },
+     "matches_au_outcome": true
+    },
+    "values": {
+     "status": "WRITER_PASS",
+     "counts": {
+      "PASS": 65
+     },
+     "matches_au_outcome": true
+    }
+   },
+   "moved_cases": {},
+   "new_cases": {
+    "status": "WRITER_PASS",
+    "counts": {
+     "PASS": 34
+    }
+   },
+   "primary_unchanged": true,
+   "clone_remaining": 0
+  }
+ ]
+}

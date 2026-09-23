@@ -475,7 +475,8 @@ Semua bukti adalah bukti writer: PG17 native (Supabase CLI 2.116.0, image 17.6.1
 | 35849556805 | `2335c0a` | Probe saja; INCOMPLETE yang sama. |
 | **35850597894** | `7a2f895` | **Kelima fase lengkap** (tabel di bawah). Paket belum memuat backfill. |
 | 35851917304 | `01cfd70` | Paket dengan backfill. AR174 (146 + 28), temporal (AT16/AU15 + 10 race), dan regresi (326 tanpa kasus bergeser, 12 HOLD, AS34) **WRITER_PASS**. Install dengan pemeriksaan eksak backfill lulus di ketiga database. Kedua fase probe **INCOMPLETE** sebelum kasus pertama: `AU_FULL_CATALOG_DRIFT` karena fixture pra-install meng-commit grant sesi (cacat harness, §16.5). Bukti: `docs/evidence/cp6-av-r2/run35851917304_*`. |
-| 35852437460 | `acffc8c` | Fixture pra-install diperbaiki. **Sedang berjalan** saat bagian ini ditulis; hasil dicatat pada commit berikutnya. |
+| 35852437460 | `acffc8c` | Fixture pra-install bekerja. Probe after: kasus AV 23 PASS + 11 CONTROL_PASS, termasuk `MANUAL:PREINSTALL_CLASSIFIED_OUT_OF_NOWHERE` **PASS** (successor ditolak dengan pesan cutoff; bukti native backfill) dan kontrol LEGACY. Probe before: kasus yang sama COUNTEREXAMPLE di AU beku. AU15 dan AT16 PASS di kedua fase. Kedua fase **INCOMPLETE** di grup race: seed fondasi dijalankan ulang pada salinan race yang sudah memuat seed dari fixture (cacat harness, §16.5). Trial AR174, temporal, dan regresi **WRITER_PASS** (326 tanpa kasus bergeser, 12 HOLD, AS34). Bukti: `docs/evidence/cp6-av-r2/run35852437460_*`. |
+| (berikutnya) | commit ini | Salinan race hanya di-seed bila belum ber-seed, sama dengan aturan `r1.group`. |
 
 Dua cacat harness itu:
 1. Predikat BS stok baru di probe merujuk tabel asal pada AU beku, tempat tabel itu belum ada.
@@ -521,4 +522,6 @@ Keputusan sebelumnya yang tetap berlaku (§14 no. 3): blokir untuk recost pendin
 1. Predikat probe merujuk tabel yang belum ada pada fase "before", dan fixture rework memanggil modul yang salah. Keduanya membuat 10 kasus INCOMPLETE di dua run.
 2. Fixture pra-install yang baru meng-commit grant sesi pada skema `erp`, padahal `r1.group` selalu me-rollback grant itu. Akibatnya install AV menolak dengan `AU_FULL_CATALOG_DRIFT` (run 35851917304, kedua fase probe). Perbaikan: grant dicabut, ACL skema dipulihkan persis, dan fixture menolak commit bila inventaris katalog AU berbeda.
 
-Pelajaran tambahan: **fixture yang harus bertahan melewati install successor hanya boleh meng-commit data bisnis**; setiap perubahan katalog dibandingkan dengan inventaris sebelum commit.
+3. Seed fondasi yang ikut ter-commit oleh fixture pra-install membuat `r1.races` dan `found_races` gagal dengan duplikat `contractors_pkey` (run 35852437460), karena keduanya men-seed salinan race tanpa syarat. Perbaikan: seed hanya bila `erp.app_users` kosong, aturan yang sama dengan `r1.group`. Pada clone yang belum ber-seed, perilakunya identik.
+
+Pelajaran tambahan: **fixture yang harus bertahan melewati install successor hanya boleh meng-commit data bisnis**; setiap perubahan katalog dibandingkan dengan inventaris sebelum commit, dan setiap langkah sesudahnya yang menyalin clone harus diperiksa apakah ia mengandaikan clone yang masih kosong.

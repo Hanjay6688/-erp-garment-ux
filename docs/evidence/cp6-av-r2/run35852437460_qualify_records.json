@@ -1,0 +1,2672 @@
+{
+ "run_id": 35852437460,
+ "job_id": 107154342234,
+ "head_sha": "acffc8cf9548357d1f6387a42940ad38b0829bf4",
+ "phase": "qualify",
+ "records": [
+  {
+   "status": "PASS",
+   "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+   "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+   "functions": 533,
+   "objects": 690,
+   "production_go": false
+  },
+  {
+   "status": "PASS",
+   "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+   "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+   "functions": 533,
+   "objects": 690,
+   "production_go": false
+  },
+  {
+   "status": "PASS",
+   "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+   "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+   "functions": 533,
+   "objects": 690,
+   "production_go": false
+  },
+  {
+   "status": "PASS",
+   "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+   "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+   "functions": 533,
+   "objects": 690,
+   "production_go": false
+  },
+  {
+   "status": "PASS",
+   "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+   "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+   "erp_functions": 534,
+   "new_public_readers": 1,
+   "objects": 692,
+   "production_go": false
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "CUSTOMER_RECEIVABLE_ORIGINAL_PROBE",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "CUSTOMER_RECEIVABLE_IMPORTED_FIRST",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "CUSTOMER_RECEIVABLE_LEGACY_FIRST",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "CUSTOMER_RECEIVABLE_NONOVERLAP",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "SUPPLIER_PAYABLE_ORIGINAL_PROBE",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "SUPPLIER_PAYABLE_IMPORTED_FIRST",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "SUPPLIER_PAYABLE_LEGACY_FIRST",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "SUPPLIER_PAYABLE_NONOVERLAP",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "VENDOR_PAYABLE_ORIGINAL_PROBE",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "VENDOR_PAYABLE_IMPORTED_FIRST",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "VENDOR_PAYABLE_LEGACY_FIRST",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "VENDOR_PAYABLE_NONOVERLAP",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "CONTRACTOR_RECEIVABLE_ORIGINAL_PROBE",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "CONTRACTOR_RECEIVABLE_IMPORTED_FIRST",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "CONTRACTOR_RECEIVABLE_LEGACY_FIRST",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "CONTRACTOR_RECEIVABLE_NONOVERLAP",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "CONTRACTOR_PAYABLE_ORIGINAL_PROBE",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "CONTRACTOR_PAYABLE_IMPORTED_FIRST",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "CONTRACTOR_PAYABLE_LEGACY_FIRST",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "CONTRACTOR_PAYABLE_NONOVERLAP",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "CASH_BANK_ORIGINAL_PROBE",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "CASH_BANK_IMPORTED_FIRST",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "CASH_BANK_LEGACY_FIRST",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "CASH_BANK_NONOVERLAP",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "MATERIAL_ORIGINAL_PROBE",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "MATERIAL_IMPORTED_FIRST",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "MATERIAL_LEGACY_FIRST",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "MATERIAL_NONOVERLAP",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "FINISHED_GOODS_ORIGINAL_PROBE",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "FINISHED_GOODS_IMPORTED_FIRST",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "FINISHED_GOODS_LEGACY_FIRST",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "FINISHED_GOODS_NONOVERLAP",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "WIP_ORIGINAL_PROBE",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "WIP_IMPORTED_FIRST",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "WIP_LEGACY_FIRST",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "WIP_NONOVERLAP",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "BS_ORIGINAL_PROBE",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "BS_IMPORTED_FIRST",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "BS_LEGACY_FIRST",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "BS_NONOVERLAP",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "RPC_REPLAY_STALE_PAYLOAD_REVOKED",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "LATEST_DRAFT_TOTAL_REPLAY",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "ACCESSORY_CONNECTED:12",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "ACCESSORY_CONNECTED:144",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "ACCESSORY_CONNECTED_ZERO",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "ACCESSORY_CONNECTED_MASTER",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "ACCESSORY_CONNECTED_DELETE",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "ACCESSORY_CONNECTED_AUTHORIZATION",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "ACCESSORY_CONNECTED_REFUSAL:FRACTIONAL",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "ACCESSORY_CONNECTED_REFUSAL:NUMBER",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "ACCESSORY_CONNECTED_REFUSAL:PRICE_PRECISION",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "ACCESSORY_CONNECTED_REFUSAL:PRICE_COMMA",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "ACCESSORY_CONNECTED_REFUSAL:PRICE_NEGATIVE",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "ACCESSORY_CONNECTED_REFUSAL:OVER_STOCK",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "ACCESSORY_CONNECTED_REFUSAL:EMPTY_LOCATION",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "ACCESSORY_CONNECTED_REFUSAL:FUTURE",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "ACCESSORY_CONNECTED_REFUSAL:BAD_DATE",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "ACCESSORY_CONNECTED_REFUSAL:UNKNOWN_FIELD",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "ACCESSORY_CONNECTED_REFUSAL:DUPLICATE",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "ACCESSORY_CONNECTED_REFUSAL:STALE_PRICE",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "ACCESSORY_CONNECTED_REFUSAL:MASTER_FRACTION",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "ACCESSORY_CONNECTED_REFUSAL:STALE_VERSION",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "ACCESSORY_CONNECTED_REFUSAL:POSTED_EDIT",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "RECEIPT_LIFECYCLE:False:False:UTC",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "RECEIPT_LIFECYCLE:True:False:UTC",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "RECEIPT_LIFECYCLE:False:True:UTC",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "RECEIPT_LIFECYCLE:True:True:Pacific/Kiritimati",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "RECEIPT_RETURN:False:False",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "RECEIPT_RETURN:False:True",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "RECEIPT_RETURN:True:False",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "RECEIPT_RETURN:True:True",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "RECEIPT_PRODUCTION:False",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "RECEIPT_PRODUCTION:True",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "RECEIPT_DOCUMENT_CENTS",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "RECEIPT_PAYMENT",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "RECEIPT_SOURCE_DRIFT",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "RECEIPT_REFUSAL:MISSING_SOURCE",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "RECEIPT_REFUSAL:PRE_CUTOVER_CONSUMPTION",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "RECEIPT_REFUSAL:COST_MISMATCH",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "RECEIPT_REFUSAL:FUTURE_RECEIPT",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "RECEIPT_REFUSAL:DUPLICATE_LINE",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "RECEIPT_REFUSAL:CROSS_BATCH",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "RECEIPT_REFUSAL:LEGACY_AFTER_IMPORT",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "RECEIPT_REFUSAL:IMMUTABLE_RECEIPT",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "RECEIPT_REFUSAL:INVOICE_BEFORE_CUTOVER",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "RECEIPT_REFUSAL:SUMMARY_AFTER_IMPORT",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "RECEIPT_REFUSAL:LEGACY_FINALIZE_OMITS_RECEIPT",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "PRODUCTION_ORIGIN:SEWING:False:False",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "PRODUCTION_ORIGIN:LAUNDRY:True:False",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "PRODUCTION_ORIGIN:LAUNDRY:False:True",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "PRODUCTION_ORIGIN_REFUSAL:MISSING_CUSTODY",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "PRODUCTION_ORIGIN_REFUSAL:MISSING_PO",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "PRODUCTION_ORIGIN_REFUSAL:FRACTIONAL_PCS",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "PRODUCTION_ORIGIN_REFUSAL:MISSING_COST",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "PRODUCTION_ORIGIN_REFUSAL:BS_SIZE_MISMATCH",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "PRODUCTION_ORIGIN_REFUSAL:BS_MISSING_HOLDER",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "PRODUCTION_ORIGIN_REFUSAL:PO_TARGET_TOO_SMALL",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "PRODUCTION_ORIGIN_REFUSAL:ORIGIN_OVER_VALUE",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "PRODUCTION_ORIGIN_REFUSAL:ORIGIN_MISSING_TARGET",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "PRODUCTION_ORIGIN_REFUSAL:ORIGIN_DUPLICATE",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "PRODUCTION_ORIGIN_REFUSAL:ORIGIN_MISSING_RECEIPT",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "PRODUCTION_ORIGIN_REFUSAL:MISSING_ORIGIN",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "PRODUCTION_ORIGIN_REFUSAL:BS_CONTROL_VALUE",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "PRODUCTION_ORIGIN_REFUSAL:WIP_CONTROL_QUANTITY",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "PRODUCTION_ORIGIN_REFUSAL:OVER_OUTPUT",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "PRODUCTION_ORIGIN_REFUSAL:STALE_OUTPUT",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "PRODUCTION_ORIGIN_REFUSAL:WRONG_PRODUCT",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "PRODUCTION_ORIGIN_REFUSAL:OUTPUT_BEFORE_CUTOVER",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "PRODUCTION_ORIGIN_REWORK",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "PRODUCTION_ORIGIN_LATEST_DRAFT",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "PRODUCTION_ORIGIN_SOLD",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "PRODUCTION_ORIGIN_GUARDS",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "PRODUCTION_ORIGIN_GUARDS_FULLY_CONSUMED",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "PRODUCTION_ORIGIN_UNCHANGED_PRICE",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "POCKET_LIFECYCLE:USED:False",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "POCKET_LIFECYCLE:USED:True",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "POCKET_LIFECYCLE:REMAINING:False",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "POCKET_LIFECYCLE:REMAINING:True",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "POCKET_REFUSAL:STALE",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "POCKET_REFUSAL:OVER",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "POCKET_REFUSAL:NEGATIVE",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "POCKET_REFUSAL:PRECISION",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "POCKET_REFUSAL:NUMBER",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "POCKET_REFUSAL:FUTURE",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "POCKET_REFUSAL:BEFORE_RECEIPT",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "POCKET_REFUSAL:COUNT_BEFORE_MOVEMENT",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "POCKET_REFUSAL:WRONG_LOCATION",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "POCKET_REFUSAL:NOT_POCKET",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "POCKET_REFUSAL:ZERO",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "POCKET_PROTECTIONS",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "POCKET_AUTHORIZATION",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "POCKET_PERIOD_LIFECYCLE:False:False",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "POCKET_PERIOD_LIFECYCLE:False:True",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "POCKET_PERIOD_LIFECYCLE:True:False",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "POCKET_PERIOD_LIFECYCLE:True:True",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "POCKET_PERIOD_REFUSAL:STALE_COST",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "POCKET_PERIOD_REFUSAL:FUTURE",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "POCKET_PERIOD_REFUSAL:REVERSED_RANGE",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "POCKET_PERIOD_REFUSAL:TOO_LONG",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "POCKET_PERIOD_REFUSAL:EMPTY_REASON",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "POCKET_PERIOD_REFUSAL:OVERLAP",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "POCKET_PERIOD_REFUSAL:NO_OUTPUT",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "POCKET_PERIOD_REFUSAL:EMPTY_PERIOD",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "POCKET_PERIOD_PROTECTIONS",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "POCKET_PERIOD_AUTHORIZATION",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "POCKET_PERIOD_MIXED_ROUNDING",
+   "status": "PASS"
+  },
+  {
+   "group": "AR_CONCURRENCY",
+   "case": "CONCURRENT_CUSTOMER_RECEIVABLE_IMPORTED_FIRST",
+   "status": "PASS",
+   "winner_committed": true,
+   "winner_route": "imported",
+   "blocking_observed": true,
+   "wait_event": "advisory",
+   "second": {
+    "success": false,
+    "sqlstate": "P0001",
+    "error": "AR_OPENING_ROUTE_OVERLAP: saldo/stok awal sudah disahkan melalui jalur lain; rekonsiliasi sumber sebelum mengesahkan\nCONTEXT:  PL/pgSQL function post_opening_balance(uuid) line 161 at RAISE"
+   },
+   "economics": {
+    "headers": [
+     [
+      "8208cac3-dd4a-4bc1-88b7-8730c09ff3c8",
+      "POSTED"
+     ],
+     [
+      "fc9bbccf-29f3-4bb0-b291-f6892d055a59",
+      "DRAFT"
+     ]
+    ],
+    "subledger": [
+     [
+      "1b734305-b3a3-4647-811b-955175633089",
+      "17.25",
+      "0.00"
+     ]
+    ],
+    "material": [],
+    "fg": [],
+    "wip": [],
+    "bs": [],
+    "journals": [
+     [
+      "8208cac3-dd4a-4bc1-88b7-8730c09ff3c8",
+      "POSTED",
+      "2026-09-22",
+      "377d37ea-56a9-4ebc-853a-0158a78bb4ff",
+      "17.25",
+      "0.00"
+     ],
+     [
+      "8208cac3-dd4a-4bc1-88b7-8730c09ff3c8",
+      "POSTED",
+      "2026-09-22",
+      "62f7aa96-1b72-4977-b3d9-36af9041a4d3",
+      "0.00",
+      "17.25"
+     ]
+    ]
+   }
+  },
+  {
+   "group": "AR_CONCURRENCY",
+   "case": "CONCURRENT_CUSTOMER_RECEIVABLE_LEGACY_FIRST",
+   "status": "PASS",
+   "winner_committed": true,
+   "winner_route": "legacy",
+   "blocking_observed": true,
+   "wait_event": "advisory",
+   "second": {
+    "result": {
+     "action": "FINALIZE",
+     "status": "DRAFT",
+     "batch_id": "8189918d-b349-414b-b066-d5de3f93eb17",
+     "revision": "823558e2da0407e752b2e46e5cdd5685ae6c67865a78eb9de1bda8ce7de15b73",
+     "error_rows": 2,
+     "request_id": "517342a5-848c-4584-a17a-8a30b2cfafe7",
+     "total_rows": 3,
+     "valid_rows": 1
+    },
+    "success": false
+   },
+   "economics": {
+    "headers": [
+     [
+      "466dc090-d3ae-494c-a1ef-d009e4c0e792",
+      "DRAFT"
+     ],
+     [
+      "e7e7677b-197b-45bd-860b-54a1132b7e27",
+      "POSTED"
+     ]
+    ],
+    "subledger": [
+     [
+      "cd02518b-e7c3-48ec-bb13-6d665522a4d5",
+      "17.25",
+      "0.00"
+     ]
+    ],
+    "material": [],
+    "fg": [],
+    "wip": [],
+    "bs": [],
+    "journals": [
+     [
+      "e7e7677b-197b-45bd-860b-54a1132b7e27",
+      "POSTED",
+      "2026-09-22",
+      "377d37ea-56a9-4ebc-853a-0158a78bb4ff",
+      "17.25",
+      "0.00"
+     ],
+     [
+      "e7e7677b-197b-45bd-860b-54a1132b7e27",
+      "POSTED",
+      "2026-09-22",
+      "62f7aa96-1b72-4977-b3d9-36af9041a4d3",
+      "0.00",
+      "17.25"
+     ]
+    ]
+   }
+  },
+  {
+   "group": "AR_CONCURRENCY",
+   "case": "CONCURRENT_SUPPLIER_PAYABLE_IMPORTED_FIRST",
+   "status": "PASS",
+   "winner_committed": true,
+   "winner_route": "imported",
+   "blocking_observed": true,
+   "wait_event": "advisory",
+   "second": {
+    "success": false,
+    "sqlstate": "P0001",
+    "error": "AR_OPENING_ROUTE_OVERLAP: saldo/stok awal sudah disahkan melalui jalur lain; rekonsiliasi sumber sebelum mengesahkan\nCONTEXT:  PL/pgSQL function post_opening_balance(uuid) line 161 at RAISE"
+   },
+   "economics": {
+    "headers": [
+     [
+      "5e44f75a-0cac-46f6-8ac1-5b8fe442a812",
+      "DRAFT"
+     ],
+     [
+      "70c58278-a726-4f8f-bbb3-bfbe3b704dd6",
+      "POSTED"
+     ]
+    ],
+    "subledger": [
+     [
+      "aa89a1f4-3f9c-47ca-8ddb-cd93d458da25",
+      "17.25",
+      "0.00"
+     ]
+    ],
+    "material": [],
+    "fg": [],
+    "wip": [],
+    "bs": [],
+    "journals": [
+     [
+      "70c58278-a726-4f8f-bbb3-bfbe3b704dd6",
+      "POSTED",
+      "2026-09-22",
+      "62f7aa96-1b72-4977-b3d9-36af9041a4d3",
+      "17.25",
+      "0.00"
+     ],
+     [
+      "70c58278-a726-4f8f-bbb3-bfbe3b704dd6",
+      "POSTED",
+      "2026-09-22",
+      "b93886b8-30ee-4b3b-80c5-a9c868dd30e6",
+      "0.00",
+      "17.25"
+     ]
+    ]
+   }
+  },
+  {
+   "group": "AR_CONCURRENCY",
+   "case": "CONCURRENT_SUPPLIER_PAYABLE_LEGACY_FIRST",
+   "status": "PASS",
+   "winner_committed": true,
+   "winner_route": "legacy",
+   "blocking_observed": true,
+   "wait_event": "advisory",
+   "second": {
+    "result": {
+     "action": "FINALIZE",
+     "status": "DRAFT",
+     "batch_id": "46bbd5bc-9c98-4da1-9602-dc650daab30d",
+     "revision": "c0c4da8dcb2882f1ee8639cc5edae056ef78e6db031c0850a1affece57a76f2b",
+     "error_rows": 2,
+     "request_id": "4c7e440e-d754-4929-b3a3-9f96759e3dbc",
+     "total_rows": 3,
+     "valid_rows": 1
+    },
+    "success": false
+   },
+   "economics": {
+    "headers": [
+     [
+      "6547f38c-e122-46f7-9ea1-11e36410a5a4",
+      "POSTED"
+     ],
+     [
+      "eb329bc7-3fd9-4540-9ff3-56cd3cc76b90",
+      "DRAFT"
+     ]
+    ],
+    "subledger": [
+     [
+      "b424a267-01a7-466c-ae8b-367251a67083",
+      "17.25",
+      "0.00"
+     ]
+    ],
+    "material": [],
+    "fg": [],
+    "wip": [],
+    "bs": [],
+    "journals": [
+     [
+      "6547f38c-e122-46f7-9ea1-11e36410a5a4",
+      "POSTED",
+      "2026-09-22",
+      "62f7aa96-1b72-4977-b3d9-36af9041a4d3",
+      "17.25",
+      "0.00"
+     ],
+     [
+      "6547f38c-e122-46f7-9ea1-11e36410a5a4",
+      "POSTED",
+      "2026-09-22",
+      "b93886b8-30ee-4b3b-80c5-a9c868dd30e6",
+      "0.00",
+      "17.25"
+     ]
+    ]
+   }
+  },
+  {
+   "group": "AR_CONCURRENCY",
+   "case": "CONCURRENT_VENDOR_PAYABLE_IMPORTED_FIRST",
+   "status": "PASS",
+   "winner_committed": true,
+   "winner_route": "imported",
+   "blocking_observed": true,
+   "wait_event": "advisory",
+   "second": {
+    "success": false,
+    "sqlstate": "P0001",
+    "error": "AR_OPENING_ROUTE_OVERLAP: saldo/stok awal sudah disahkan melalui jalur lain; rekonsiliasi sumber sebelum mengesahkan\nCONTEXT:  PL/pgSQL function post_opening_balance(uuid) line 161 at RAISE"
+   },
+   "economics": {
+    "headers": [
+     [
+      "1190ef7c-62c9-45f9-94b7-d56a3446eecc",
+      "POSTED"
+     ],
+     [
+      "bccfc5ef-e85e-425d-ae6d-d8389fc6a437",
+      "DRAFT"
+     ]
+    ],
+    "subledger": [
+     [
+      "a9d49d94-38b5-4373-8aea-9e07570ffb40",
+      "17.25",
+      "0.00"
+     ]
+    ],
+    "material": [],
+    "fg": [],
+    "wip": [],
+    "bs": [],
+    "journals": [
+     [
+      "1190ef7c-62c9-45f9-94b7-d56a3446eecc",
+      "POSTED",
+      "2026-09-22",
+      "3a2f8f69-ccf3-46ea-b602-11688c3e1d32",
+      "0.00",
+      "17.25"
+     ],
+     [
+      "1190ef7c-62c9-45f9-94b7-d56a3446eecc",
+      "POSTED",
+      "2026-09-22",
+      "62f7aa96-1b72-4977-b3d9-36af9041a4d3",
+      "17.25",
+      "0.00"
+     ]
+    ]
+   }
+  },
+  {
+   "group": "AR_CONCURRENCY",
+   "case": "CONCURRENT_VENDOR_PAYABLE_LEGACY_FIRST",
+   "status": "PASS",
+   "winner_committed": true,
+   "winner_route": "legacy",
+   "blocking_observed": true,
+   "wait_event": "advisory",
+   "second": {
+    "result": {
+     "action": "FINALIZE",
+     "status": "DRAFT",
+     "batch_id": "c2cfeffe-1f8e-4c2e-838e-b0a4534d5154",
+     "revision": "61488fa797ab9e45cde3b809fd67ef16173bbb9d37ad6af7a43fbcccd5999284",
+     "error_rows": 2,
+     "request_id": "ed3d0073-b547-4adb-a57f-05c08839c7b2",
+     "total_rows": 3,
+     "valid_rows": 1
+    },
+    "success": false
+   },
+   "economics": {
+    "headers": [
+     [
+      "313cf984-57a2-4519-a353-ea4c0b72a494",
+      "POSTED"
+     ],
+     [
+      "9a8915ee-8b5c-4913-8332-bec8d5b521c4",
+      "DRAFT"
+     ]
+    ],
+    "subledger": [
+     [
+      "82848f31-008d-4ef4-9d35-7bfeb6f4e7bb",
+      "17.25",
+      "0.00"
+     ]
+    ],
+    "material": [],
+    "fg": [],
+    "wip": [],
+    "bs": [],
+    "journals": [
+     [
+      "313cf984-57a2-4519-a353-ea4c0b72a494",
+      "POSTED",
+      "2026-09-22",
+      "3a2f8f69-ccf3-46ea-b602-11688c3e1d32",
+      "0.00",
+      "17.25"
+     ],
+     [
+      "313cf984-57a2-4519-a353-ea4c0b72a494",
+      "POSTED",
+      "2026-09-22",
+      "62f7aa96-1b72-4977-b3d9-36af9041a4d3",
+      "17.25",
+      "0.00"
+     ]
+    ]
+   }
+  },
+  {
+   "group": "AR_CONCURRENCY",
+   "case": "CONCURRENT_CONTRACTOR_RECEIVABLE_IMPORTED_FIRST",
+   "status": "PASS",
+   "winner_committed": true,
+   "winner_route": "imported",
+   "blocking_observed": true,
+   "wait_event": "advisory",
+   "second": {
+    "success": false,
+    "sqlstate": "P0001",
+    "error": "AR_OPENING_ROUTE_OVERLAP: saldo/stok awal sudah disahkan melalui jalur lain; rekonsiliasi sumber sebelum mengesahkan\nCONTEXT:  PL/pgSQL function post_opening_balance(uuid) line 161 at RAISE"
+   },
+   "economics": {
+    "headers": [
+     [
+      "b9c473fb-f955-4dcf-94d1-58749c01d2aa",
+      "DRAFT"
+     ],
+     [
+      "ff896ec2-1d72-4395-a8fb-0c478e598a19",
+      "POSTED"
+     ]
+    ],
+    "subledger": [
+     [
+      "23300292-9c7c-4e7e-822a-d4d56d41b0c4",
+      "17.25",
+      "0.00"
+     ]
+    ],
+    "material": [],
+    "fg": [],
+    "wip": [],
+    "bs": [],
+    "journals": [
+     [
+      "ff896ec2-1d72-4395-a8fb-0c478e598a19",
+      "POSTED",
+      "2026-09-22",
+      "62f7aa96-1b72-4977-b3d9-36af9041a4d3",
+      "0.00",
+      "17.25"
+     ],
+     [
+      "ff896ec2-1d72-4395-a8fb-0c478e598a19",
+      "POSTED",
+      "2026-09-22",
+      "8a010a94-c1c1-4b2a-b7e7-4e937c65ad47",
+      "17.25",
+      "0.00"
+     ]
+    ]
+   }
+  },
+  {
+   "group": "AR_CONCURRENCY",
+   "case": "CONCURRENT_CONTRACTOR_RECEIVABLE_LEGACY_FIRST",
+   "status": "PASS",
+   "winner_committed": true,
+   "winner_route": "legacy",
+   "blocking_observed": true,
+   "wait_event": "advisory",
+   "second": {
+    "result": {
+     "action": "FINALIZE",
+     "status": "DRAFT",
+     "batch_id": "48d201c3-7985-487b-a1cc-b4c38c8c7661",
+     "revision": "78116a82a1e561e552be57166559c37723d580445dc35a056796335ce62a557f",
+     "error_rows": 2,
+     "request_id": "667f7197-925c-441f-837b-d472c9a7d03d",
+     "total_rows": 3,
+     "valid_rows": 1
+    },
+    "success": false
+   },
+   "economics": {
+    "headers": [
+     [
+      "2c5e6a02-88eb-4225-9efe-407ebf61eb45",
+      "POSTED"
+     ],
+     [
+      "908441fa-77cd-45d1-9117-64c3556fc026",
+      "DRAFT"
+     ]
+    ],
+    "subledger": [
+     [
+      "366269a2-c5e7-4271-b1c0-23006931c40b",
+      "17.25",
+      "0.00"
+     ]
+    ],
+    "material": [],
+    "fg": [],
+    "wip": [],
+    "bs": [],
+    "journals": [
+     [
+      "2c5e6a02-88eb-4225-9efe-407ebf61eb45",
+      "POSTED",
+      "2026-09-22",
+      "62f7aa96-1b72-4977-b3d9-36af9041a4d3",
+      "0.00",
+      "17.25"
+     ],
+     [
+      "2c5e6a02-88eb-4225-9efe-407ebf61eb45",
+      "POSTED",
+      "2026-09-22",
+      "8a010a94-c1c1-4b2a-b7e7-4e937c65ad47",
+      "17.25",
+      "0.00"
+     ]
+    ]
+   }
+  },
+  {
+   "group": "AR_CONCURRENCY",
+   "case": "CONCURRENT_CONTRACTOR_PAYABLE_IMPORTED_FIRST",
+   "status": "PASS",
+   "winner_committed": true,
+   "winner_route": "imported",
+   "blocking_observed": true,
+   "wait_event": "advisory",
+   "second": {
+    "success": false,
+    "sqlstate": "P0001",
+    "error": "AR_OPENING_ROUTE_OVERLAP: saldo/stok awal sudah disahkan melalui jalur lain; rekonsiliasi sumber sebelum mengesahkan\nCONTEXT:  PL/pgSQL function post_opening_balance(uuid) line 161 at RAISE"
+   },
+   "economics": {
+    "headers": [
+     [
+      "01d38c37-9f92-4e7e-b8fe-b1b225911a5a",
+      "DRAFT"
+     ],
+     [
+      "96f5922f-3fd3-47eb-876e-407fc4493741",
+      "POSTED"
+     ]
+    ],
+    "subledger": [
+     [
+      "817f14ed-46a9-4a2b-b3c9-fe29d18896ef",
+      "17.25",
+      "0.00"
+     ]
+    ],
+    "material": [],
+    "fg": [],
+    "wip": [],
+    "bs": [],
+    "journals": [
+     [
+      "96f5922f-3fd3-47eb-876e-407fc4493741",
+      "POSTED",
+      "2026-09-22",
+      "5f27ccb9-107f-4d19-a52c-e7eef8e9d69b",
+      "0.00",
+      "17.25"
+     ],
+     [
+      "96f5922f-3fd3-47eb-876e-407fc4493741",
+      "POSTED",
+      "2026-09-22",
+      "62f7aa96-1b72-4977-b3d9-36af9041a4d3",
+      "17.25",
+      "0.00"
+     ]
+    ]
+   }
+  },
+  {
+   "group": "AR_CONCURRENCY",
+   "case": "CONCURRENT_CONTRACTOR_PAYABLE_LEGACY_FIRST",
+   "status": "PASS",
+   "winner_committed": true,
+   "winner_route": "legacy",
+   "blocking_observed": true,
+   "wait_event": "advisory",
+   "second": {
+    "result": {
+     "action": "FINALIZE",
+     "status": "DRAFT",
+     "batch_id": "2dcf7996-571c-4ae1-b06e-9237e0fb5d65",
+     "revision": "dd8ac98f7b75c5f3f828a9d2034e7880b52d9dee9535290c59d7b7cfcc3b0d66",
+     "error_rows": 2,
+     "request_id": "6d7883af-ec4b-4c78-b50a-100a809785f6",
+     "total_rows": 3,
+     "valid_rows": 1
+    },
+    "success": false
+   },
+   "economics": {
+    "headers": [
+     [
+      "29e401a3-ff66-4422-82bb-9b023dedd51e",
+      "DRAFT"
+     ],
+     [
+      "4e937d98-9eb5-406c-9575-4ecfa4a67009",
+      "POSTED"
+     ]
+    ],
+    "subledger": [
+     [
+      "1a252d04-50bd-4d55-b9b9-6b6d7a329462",
+      "17.25",
+      "0.00"
+     ]
+    ],
+    "material": [],
+    "fg": [],
+    "wip": [],
+    "bs": [],
+    "journals": [
+     [
+      "4e937d98-9eb5-406c-9575-4ecfa4a67009",
+      "POSTED",
+      "2026-09-22",
+      "5f27ccb9-107f-4d19-a52c-e7eef8e9d69b",
+      "0.00",
+      "17.25"
+     ],
+     [
+      "4e937d98-9eb5-406c-9575-4ecfa4a67009",
+      "POSTED",
+      "2026-09-22",
+      "62f7aa96-1b72-4977-b3d9-36af9041a4d3",
+      "17.25",
+      "0.00"
+     ]
+    ]
+   }
+  },
+  {
+   "group": "AR_CONCURRENCY",
+   "case": "CONCURRENT_CASH_BANK_IMPORTED_FIRST",
+   "status": "PASS",
+   "winner_committed": true,
+   "winner_route": "imported",
+   "blocking_observed": true,
+   "wait_event": "advisory",
+   "second": {
+    "success": false,
+    "sqlstate": "P0001",
+    "error": "AR_OPENING_ROUTE_OVERLAP: saldo/stok awal sudah disahkan melalui jalur lain; rekonsiliasi sumber sebelum mengesahkan\nCONTEXT:  PL/pgSQL function post_opening_balance(uuid) line 161 at RAISE"
+   },
+   "economics": {
+    "headers": [
+     [
+      "7c3f6392-51e0-4875-aaa4-c2314c7a46d2",
+      "DRAFT"
+     ],
+     [
+      "cce64265-2bbd-4215-abc7-10f4918e093d",
+      "POSTED"
+     ]
+    ],
+    "subledger": [],
+    "material": [],
+    "fg": [],
+    "wip": [],
+    "bs": [],
+    "journals": [
+     [
+      "cce64265-2bbd-4215-abc7-10f4918e093d",
+      "POSTED",
+      "2026-09-22",
+      "62f7aa96-1b72-4977-b3d9-36af9041a4d3",
+      "0.00",
+      "17.25"
+     ],
+     [
+      "cce64265-2bbd-4215-abc7-10f4918e093d",
+      "POSTED",
+      "2026-09-22",
+      "cf3f5c93-b864-4a9e-a246-9b2f9ff34853",
+      "17.25",
+      "0.00"
+     ]
+    ]
+   }
+  },
+  {
+   "group": "AR_CONCURRENCY",
+   "case": "CONCURRENT_CASH_BANK_LEGACY_FIRST",
+   "status": "PASS",
+   "winner_committed": true,
+   "winner_route": "legacy",
+   "blocking_observed": true,
+   "wait_event": "advisory",
+   "second": {
+    "success": false,
+    "sqlstate": "P0001",
+    "error": "AR_OPENING_ROUTE_OVERLAP: saldo/stok awal sudah disahkan melalui jalur lain; rekonsiliasi sumber sebelum mengesahkan\nCONTEXT:  PL/pgSQL function post_opening_balance(uuid) line 161 at RAISE\nSQL statement \"SELECT erp.post_opening_balance(v_opening)\"\nPL/pgSQL function erp.save_initial_import_action_v1(text,jsonb,uuid) line 129 at PERFORM\nSQL function \"erp_save_initial_import_action_v1\" statement 1"
+   },
+   "economics": {
+    "headers": [
+     [
+      "750a36b3-b28a-4b55-baa7-ac2f8d222455",
+      "POSTED"
+     ],
+     [
+      "8e8e29c9-2c3a-48cf-a2b9-7596178efbbf",
+      "DRAFT"
+     ]
+    ],
+    "subledger": [],
+    "material": [],
+    "fg": [],
+    "wip": [],
+    "bs": [],
+    "journals": [
+     [
+      "750a36b3-b28a-4b55-baa7-ac2f8d222455",
+      "POSTED",
+      "2026-09-22",
+      "62f7aa96-1b72-4977-b3d9-36af9041a4d3",
+      "0.00",
+      "17.25"
+     ],
+     [
+      "750a36b3-b28a-4b55-baa7-ac2f8d222455",
+      "POSTED",
+      "2026-09-22",
+      "a5798a65-7e92-4505-af3e-88a6c38f5b7a",
+      "17.25",
+      "0.00"
+     ]
+    ]
+   }
+  },
+  {
+   "group": "AR_CONCURRENCY",
+   "case": "CONCURRENT_MATERIAL_IMPORTED_FIRST",
+   "status": "PASS",
+   "winner_committed": true,
+   "winner_route": "imported",
+   "blocking_observed": true,
+   "wait_event": "advisory",
+   "second": {
+    "success": false,
+    "sqlstate": "P0001",
+    "error": "AR_OPENING_ROUTE_OVERLAP: saldo/stok awal sudah disahkan melalui jalur lain; rekonsiliasi sumber sebelum mengesahkan\nCONTEXT:  PL/pgSQL function post_opening_balance(uuid) line 161 at RAISE"
+   },
+   "economics": {
+    "headers": [
+     [
+      "3b2139fe-0247-4d76-8e0a-ab7f3f94843e",
+      "POSTED"
+     ],
+     [
+      "ddf6ea35-4465-422e-b779-0962eeb662b5",
+      "DRAFT"
+     ]
+    ],
+    "subledger": [],
+    "material": [
+     [
+      "1ca10a48-d00f-43c1-a6da-1102f43118d3",
+      "7.000000",
+      "2.250000"
+     ]
+    ],
+    "fg": [],
+    "wip": [],
+    "bs": [],
+    "journals": [
+     [
+      "3b2139fe-0247-4d76-8e0a-ab7f3f94843e",
+      "POSTED",
+      "2026-09-22",
+      "62f7aa96-1b72-4977-b3d9-36af9041a4d3",
+      "0.00",
+      "15.75"
+     ],
+     [
+      "3b2139fe-0247-4d76-8e0a-ab7f3f94843e",
+      "POSTED",
+      "2026-09-22",
+      "f9912b87-fe33-4bd8-8a65-0b1fb69316a6",
+      "15.75",
+      "0.00"
+     ]
+    ]
+   }
+  },
+  {
+   "group": "AR_CONCURRENCY",
+   "case": "CONCURRENT_MATERIAL_LEGACY_FIRST",
+   "status": "PASS",
+   "winner_committed": true,
+   "winner_route": "legacy",
+   "blocking_observed": true,
+   "wait_event": "advisory",
+   "second": {
+    "success": false,
+    "sqlstate": "P0001",
+    "error": "AR_OPENING_ROUTE_OVERLAP: saldo/stok awal sudah disahkan melalui jalur lain; rekonsiliasi sumber sebelum mengesahkan\nCONTEXT:  PL/pgSQL function post_opening_balance(uuid) line 161 at RAISE\nSQL statement \"SELECT erp.post_opening_balance(v_opening)\"\nPL/pgSQL function erp.save_initial_import_action_v1(text,jsonb,uuid) line 129 at PERFORM\nSQL function \"erp_save_initial_import_action_v1\" statement 1"
+   },
+   "economics": {
+    "headers": [
+     [
+      "101a91f5-855b-4f9b-9cae-9aa3ff075a24",
+      "DRAFT"
+     ],
+     [
+      "76490df9-c6f6-4049-957a-c2547b78a27c",
+      "POSTED"
+     ]
+    ],
+    "subledger": [],
+    "material": [
+     [
+      "3e2588cb-40a2-448a-80da-7161def167a0",
+      "7.000000",
+      "2.250000"
+     ]
+    ],
+    "fg": [],
+    "wip": [],
+    "bs": [],
+    "journals": [
+     [
+      "76490df9-c6f6-4049-957a-c2547b78a27c",
+      "POSTED",
+      "2026-09-22",
+      "62f7aa96-1b72-4977-b3d9-36af9041a4d3",
+      "0.00",
+      "15.75"
+     ],
+     [
+      "76490df9-c6f6-4049-957a-c2547b78a27c",
+      "POSTED",
+      "2026-09-22",
+      "f9912b87-fe33-4bd8-8a65-0b1fb69316a6",
+      "15.75",
+      "0.00"
+     ]
+    ]
+   }
+  },
+  {
+   "group": "AR_CONCURRENCY",
+   "case": "CONCURRENT_FINISHED_GOODS_IMPORTED_FIRST",
+   "status": "PASS",
+   "winner_committed": true,
+   "winner_route": "imported",
+   "blocking_observed": true,
+   "wait_event": "advisory",
+   "second": {
+    "success": false,
+    "sqlstate": "P0001",
+    "error": "AR_OPENING_ROUTE_OVERLAP: saldo/stok awal sudah disahkan melalui jalur lain; rekonsiliasi sumber sebelum mengesahkan\nCONTEXT:  PL/pgSQL function post_opening_balance(uuid) line 161 at RAISE"
+   },
+   "economics": {
+    "headers": [
+     [
+      "2b752515-f639-4f88-b509-b5164c62ec05",
+      "DRAFT"
+     ],
+     [
+      "ebadbf34-5c7f-494a-985d-d38265ab74f7",
+      "POSTED"
+     ]
+    ],
+    "subledger": [],
+    "material": [],
+    "fg": [
+     [
+      "326c4e02-b031-49e4-9b31-9aa214beae51",
+      7,
+      "2.250000"
+     ]
+    ],
+    "wip": [],
+    "bs": [],
+    "journals": [
+     [
+      "ebadbf34-5c7f-494a-985d-d38265ab74f7",
+      "POSTED",
+      "2026-09-22",
+      "20a7533b-5578-4799-9973-90ab000e9e43",
+      "15.75",
+      "0.00"
+     ],
+     [
+      "ebadbf34-5c7f-494a-985d-d38265ab74f7",
+      "POSTED",
+      "2026-09-22",
+      "62f7aa96-1b72-4977-b3d9-36af9041a4d3",
+      "0.00",
+      "15.75"
+     ]
+    ]
+   }
+  },
+  {
+   "group": "AR_CONCURRENCY",
+   "case": "CONCURRENT_FINISHED_GOODS_LEGACY_FIRST",
+   "status": "PASS",
+   "winner_committed": true,
+   "winner_route": "legacy",
+   "blocking_observed": true,
+   "wait_event": "advisory",
+   "second": {
+    "success": false,
+    "sqlstate": "P0001",
+    "error": "AR_OPENING_ROUTE_OVERLAP: saldo/stok awal sudah disahkan melalui jalur lain; rekonsiliasi sumber sebelum mengesahkan\nCONTEXT:  PL/pgSQL function post_opening_balance(uuid) line 161 at RAISE\nSQL statement \"SELECT erp.post_opening_balance(v_opening)\"\nPL/pgSQL function erp.save_initial_import_action_v1(text,jsonb,uuid) line 129 at PERFORM\nSQL function \"erp_save_initial_import_action_v1\" statement 1"
+   },
+   "economics": {
+    "headers": [
+     [
+      "2f5985f4-19ed-47c6-bacc-d4993741d62c",
+      "DRAFT"
+     ],
+     [
+      "a77569be-5153-41ea-a5db-e19514bcae58",
+      "POSTED"
+     ]
+    ],
+    "subledger": [],
+    "material": [],
+    "fg": [
+     [
+      "5273759d-9db5-4382-9f5e-96f18596775c",
+      7,
+      "2.250000"
+     ]
+    ],
+    "wip": [],
+    "bs": [],
+    "journals": [
+     [
+      "a77569be-5153-41ea-a5db-e19514bcae58",
+      "POSTED",
+      "2026-09-22",
+      "20a7533b-5578-4799-9973-90ab000e9e43",
+      "15.75",
+      "0.00"
+     ],
+     [
+      "a77569be-5153-41ea-a5db-e19514bcae58",
+      "POSTED",
+      "2026-09-22",
+      "62f7aa96-1b72-4977-b3d9-36af9041a4d3",
+      "0.00",
+      "15.75"
+     ]
+    ]
+   }
+  },
+  {
+   "group": "AR_CONCURRENCY",
+   "case": "CONCURRENT_WIP_IMPORTED_FIRST",
+   "status": "PASS",
+   "winner_committed": true,
+   "winner_route": "imported",
+   "blocking_observed": true,
+   "wait_event": "advisory",
+   "second": {
+    "success": false,
+    "sqlstate": "P0001",
+    "error": "AR_OPENING_ROUTE_OVERLAP: saldo/stok awal sudah disahkan melalui jalur lain; rekonsiliasi sumber sebelum mengesahkan\nCONTEXT:  PL/pgSQL function post_opening_balance(uuid) line 161 at RAISE"
+   },
+   "economics": {
+    "headers": [
+     [
+      "a600f3b3-cce8-41c1-95f2-d8988da13d98",
+      "POSTED"
+     ],
+     [
+      "ba05a709-f805-4836-b449-2ffe50395fd2",
+      "DRAFT"
+     ]
+    ],
+    "subledger": [],
+    "material": [],
+    "fg": [],
+    "wip": [],
+    "bs": [],
+    "journals": [
+     [
+      "a600f3b3-cce8-41c1-95f2-d8988da13d98",
+      "POSTED",
+      "2026-09-22",
+      "62f7aa96-1b72-4977-b3d9-36af9041a4d3",
+      "0.00",
+      "17.25"
+     ],
+     [
+      "a600f3b3-cce8-41c1-95f2-d8988da13d98",
+      "POSTED",
+      "2026-09-22",
+      "9ce89e21-9a21-40e5-859d-237b89d5a767",
+      "17.25",
+      "0.00"
+     ]
+    ]
+   }
+  },
+  {
+   "group": "AR_CONCURRENCY",
+   "case": "CONCURRENT_WIP_LEGACY_FIRST",
+   "status": "PASS",
+   "winner_committed": true,
+   "winner_route": "legacy",
+   "blocking_observed": true,
+   "wait_event": "advisory",
+   "second": {
+    "success": false,
+    "sqlstate": "P0001",
+    "error": "AR_OPENING_ROUTE_OVERLAP: saldo/stok awal sudah disahkan melalui jalur lain; rekonsiliasi sumber sebelum mengesahkan\nCONTEXT:  PL/pgSQL function post_opening_balance(uuid) line 161 at RAISE\nSQL statement \"SELECT erp.post_opening_balance(v_opening)\"\nPL/pgSQL function erp.save_initial_import_action_v1(text,jsonb,uuid) line 129 at PERFORM\nSQL function \"erp_save_initial_import_action_v1\" statement 1"
+   },
+   "economics": {
+    "headers": [
+     [
+      "34a218ff-a18e-4051-bf5b-f744f43778f7",
+      "DRAFT"
+     ],
+     [
+      "dd220564-6cf9-43be-9b06-75db9aef2416",
+      "POSTED"
+     ]
+    ],
+    "subledger": [],
+    "material": [],
+    "fg": [],
+    "wip": [],
+    "bs": [],
+    "journals": [
+     [
+      "dd220564-6cf9-43be-9b06-75db9aef2416",
+      "POSTED",
+      "2026-09-22",
+      "62f7aa96-1b72-4977-b3d9-36af9041a4d3",
+      "0.00",
+      "17.25"
+     ],
+     [
+      "dd220564-6cf9-43be-9b06-75db9aef2416",
+      "POSTED",
+      "2026-09-22",
+      "9ce89e21-9a21-40e5-859d-237b89d5a767",
+      "17.25",
+      "0.00"
+     ]
+    ]
+   }
+  },
+  {
+   "group": "AR_CONCURRENCY",
+   "case": "CONCURRENT_BS_IMPORTED_FIRST",
+   "status": "PASS",
+   "winner_committed": true,
+   "winner_route": "imported",
+   "blocking_observed": true,
+   "wait_event": "advisory",
+   "second": {
+    "success": false,
+    "sqlstate": "P0001",
+    "error": "AR_OPENING_ROUTE_OVERLAP: saldo/stok awal sudah disahkan melalui jalur lain; rekonsiliasi sumber sebelum mengesahkan\nCONTEXT:  PL/pgSQL function post_opening_balance(uuid) line 161 at RAISE"
+   },
+   "economics": {
+    "headers": [
+     [
+      "592c6212-d371-4b4a-b00d-94e22525c475",
+      "DRAFT"
+     ],
+     [
+      "70cf37c6-b151-457e-b90e-7b89eb6948fc",
+      "POSTED"
+     ]
+    ],
+    "subledger": [],
+    "material": [],
+    "fg": [],
+    "wip": [],
+    "bs": [
+     [
+      "OBS-MIG-OV67233d0092fc-6e097d0b",
+      7
+     ]
+    ],
+    "journals": []
+   }
+  },
+  {
+   "group": "AR_CONCURRENCY",
+   "case": "CONCURRENT_BS_LEGACY_FIRST",
+   "status": "PASS",
+   "winner_committed": true,
+   "winner_route": "legacy",
+   "blocking_observed": true,
+   "wait_event": "advisory",
+   "second": {
+    "success": false,
+    "sqlstate": "P0001",
+    "error": "AR_OPENING_ROUTE_OVERLAP: saldo/stok awal sudah disahkan melalui jalur lain; rekonsiliasi sumber sebelum mengesahkan\nCONTEXT:  PL/pgSQL function post_opening_balance(uuid) line 161 at RAISE\nSQL statement \"SELECT erp.post_opening_balance(v_opening)\"\nPL/pgSQL function erp.save_initial_import_action_v1(text,jsonb,uuid) line 129 at PERFORM\nSQL function \"erp_save_initial_import_action_v1\" statement 1"
+   },
+   "economics": {
+    "headers": [
+     [
+      "a6af29dc-e58a-4334-b433-6d6090e236ae",
+      "POSTED"
+     ],
+     [
+      "ab9e5050-262e-4bc2-b648-ea474502238a",
+      "DRAFT"
+     ]
+    ],
+    "subledger": [],
+    "material": [],
+    "fg": [],
+    "wip": [],
+    "bs": [
+     [
+      "OBS-OV-LEGACY-e410e82eadc24dddb44fab2507c1e306-009bde1e",
+      7
+     ]
+    ],
+    "journals": []
+   }
+  },
+  {
+   "group": "AR_CONCURRENCY",
+   "case": "WINNER_ABORT_IMPORTED",
+   "status": "PASS",
+   "winner_committed": false,
+   "winner_route": "imported",
+   "blocking_observed": true,
+   "wait_event": "advisory",
+   "second": {
+    "result": {
+     "status": "POSTED"
+    },
+    "success": true
+   },
+   "economics": {
+    "headers": [
+     [
+      "534b5aea-5c64-4080-abdc-e23189ab6e86",
+      "DRAFT"
+     ],
+     [
+      "abb51a07-23de-4155-94f4-3688c1e6a892",
+      "POSTED"
+     ]
+    ],
+    "subledger": [],
+    "material": [
+     [
+      "9d94cda0-d4d9-41c9-8067-3a5e9b717803",
+      "7.000000",
+      "2.250000"
+     ]
+    ],
+    "fg": [],
+    "wip": [],
+    "bs": [],
+    "journals": [
+     [
+      "abb51a07-23de-4155-94f4-3688c1e6a892",
+      "POSTED",
+      "2026-09-22",
+      "62f7aa96-1b72-4977-b3d9-36af9041a4d3",
+      "0.00",
+      "15.75"
+     ],
+     [
+      "abb51a07-23de-4155-94f4-3688c1e6a892",
+      "POSTED",
+      "2026-09-22",
+      "f9912b87-fe33-4bd8-8a65-0b1fb69316a6",
+      "15.75",
+      "0.00"
+     ]
+    ]
+   }
+  },
+  {
+   "group": "AR_CONCURRENCY",
+   "case": "SAME_HEADER_IMPORTED",
+   "status": "PASS",
+   "winner_committed": true,
+   "winner_route": "imported",
+   "blocking_observed": true,
+   "wait_event": "advisory",
+   "second": {
+    "success": false,
+    "sqlstate": "P0001",
+    "error": "AK_OPENING_REQUIRES_CURRENT_VALIDATED_BATCH\nCONTEXT:  PL/pgSQL function post_opening_balance(uuid) line 19 at RAISE"
+   },
+   "economics": {
+    "same_header_once": true
+   }
+  },
+  {
+   "group": "AR_CONCURRENCY",
+   "case": "WINNER_ABORT_LEGACY",
+   "status": "PASS",
+   "winner_committed": false,
+   "winner_route": "legacy",
+   "blocking_observed": true,
+   "wait_event": "advisory",
+   "second": {
+    "result": {
+     "action": "FINALIZE",
+     "status": "POSTED",
+     "batch_id": "a8ef9037-e0dc-458d-a172-1bb0bbe09d7b",
+     "revision": "0baf9140972c8bc56c78ff8bb2b86266655780f456efcb6660c7add9d6de1e4f",
+     "error_rows": 0,
+     "request_id": "dc5e43fc-51f6-444c-b674-cd01bf05fe64",
+     "total_rows": 4,
+     "valid_rows": 4
+    },
+    "success": true
+   },
+   "economics": {
+    "headers": [
+     [
+      "5632c89b-6db4-4a7c-824f-61e66f709d74",
+      "DRAFT"
+     ],
+     [
+      "e8e87bb8-d2a8-4692-88e3-9077ea74b188",
+      "POSTED"
+     ]
+    ],
+    "subledger": [],
+    "material": [
+     [
+      "7120bff2-76d2-4637-89c7-d4f574f94500",
+      "7.000000",
+      "2.250000"
+     ]
+    ],
+    "fg": [],
+    "wip": [],
+    "bs": [],
+    "journals": [
+     [
+      "e8e87bb8-d2a8-4692-88e3-9077ea74b188",
+      "POSTED",
+      "2026-09-22",
+      "62f7aa96-1b72-4977-b3d9-36af9041a4d3",
+      "0.00",
+      "15.75"
+     ],
+     [
+      "e8e87bb8-d2a8-4692-88e3-9077ea74b188",
+      "POSTED",
+      "2026-09-22",
+      "f9912b87-fe33-4bd8-8a65-0b1fb69316a6",
+      "15.75",
+      "0.00"
+     ]
+    ]
+   }
+  },
+  {
+   "group": "AR_CONCURRENCY",
+   "case": "SAME_HEADER_LEGACY",
+   "status": "PASS",
+   "winner_committed": true,
+   "winner_route": "legacy",
+   "blocking_observed": true,
+   "wait_event": "advisory",
+   "second": {
+    "success": false,
+    "sqlstate": "P0001",
+    "error": "Impor yang sudah disahkan tidak dapat diedit atau disahkan ulang dengan permintaan baru\nCONTEXT:  PL/pgSQL function erp.save_initial_import_action_v1(text,jsonb,uuid) line 63 at RAISE\nSQL function \"erp_save_initial_import_action_v1\" statement 1"
+   },
+   "economics": {
+    "same_header_once": true
+   }
+  },
+  {
+   "group": "AR_CONCURRENCY",
+   "case": "REQUEST_CONCURRENT_REPLAY",
+   "status": "PASS",
+   "blocking_observed": true,
+   "same_request_id": true,
+   "variant": "REPLAY",
+   "second": {
+    "result": {
+     "action": "FINALIZE",
+     "status": "POSTED",
+     "batch_id": "57f0db04-c909-4805-895d-8bc40c0a5061",
+     "revision": "0c6e0a49df8fad3bd33112c7af8978a4399d5a0ba985da2a35ae6aa69cacf757",
+     "error_rows": 0,
+     "request_id": "fbbfb575-10b8-4fcc-a49b-ac5bf0d3e740",
+     "total_rows": 4,
+     "valid_rows": 4
+    }
+   },
+   "economics": {
+    "headers": [
+     [
+      "6168e67a-b256-4c50-a8db-4699add4f6e2",
+      "DRAFT"
+     ],
+     [
+      "db6bcb33-991b-4b51-b8ce-5db8de0b2ecd",
+      "POSTED"
+     ]
+    ],
+    "subledger": [],
+    "material": [
+     [
+      "c8272121-0301-41f4-a4be-b886755632f2",
+      "7.000000",
+      "2.250000"
+     ]
+    ],
+    "fg": [],
+    "wip": [],
+    "bs": [],
+    "journals": [
+     [
+      "db6bcb33-991b-4b51-b8ce-5db8de0b2ecd",
+      "POSTED",
+      "2026-09-22",
+      "62f7aa96-1b72-4977-b3d9-36af9041a4d3",
+      "0.00",
+      "15.75"
+     ],
+     [
+      "db6bcb33-991b-4b51-b8ce-5db8de0b2ecd",
+      "POSTED",
+      "2026-09-22",
+      "f9912b87-fe33-4bd8-8a65-0b1fb69316a6",
+      "15.75",
+      "0.00"
+     ]
+    ]
+   }
+  },
+  {
+   "group": "AR_CONCURRENCY",
+   "case": "REQUEST_CONCURRENT_PAYLOAD",
+   "status": "PASS",
+   "blocking_observed": true,
+   "same_request_id": true,
+   "variant": "PAYLOAD",
+   "second": {
+    "sqlstate": "P0001",
+    "error": "client_request_id was already used with a different payload\nCONTEXT:  PL/pgSQL function _idempotency_begin(text,uuid,text) line 28 at RAISE\nPL/pgSQL function erp.save_initial_import_action_v1(text,jsonb,uuid) line 19 at assignment\nSQL function \"erp_save_initial_import_action_v1\" statement 1"
+   },
+   "economics": {
+    "headers": [
+     [
+      "6ff239d0-7e32-423e-b422-d7e34b4cd210",
+      "POSTED"
+     ],
+     [
+      "e10df3d0-85f8-4e1d-a4ec-1dda73e84d67",
+      "DRAFT"
+     ]
+    ],
+    "subledger": [],
+    "material": [
+     [
+      "63d88cba-fb6a-411b-8111-aeafd9bd1398",
+      "7.000000",
+      "2.250000"
+     ]
+    ],
+    "fg": [],
+    "wip": [],
+    "bs": [],
+    "journals": [
+     [
+      "6ff239d0-7e32-423e-b422-d7e34b4cd210",
+      "POSTED",
+      "2026-09-22",
+      "62f7aa96-1b72-4977-b3d9-36af9041a4d3",
+      "0.00",
+      "15.75"
+     ],
+     [
+      "6ff239d0-7e32-423e-b422-d7e34b4cd210",
+      "POSTED",
+      "2026-09-22",
+      "f9912b87-fe33-4bd8-8a65-0b1fb69316a6",
+      "15.75",
+      "0.00"
+     ]
+    ]
+   }
+  },
+  {
+   "group": "AR_CONCURRENCY",
+   "case": "REQUEST_CONCURRENT_ACTION",
+   "status": "PASS",
+   "blocking_observed": true,
+   "same_request_id": true,
+   "variant": "ACTION",
+   "second": {
+    "sqlstate": "P0001",
+    "error": "client_request_id was already used with a different payload\nCONTEXT:  PL/pgSQL function _idempotency_begin(text,uuid,text) line 28 at RAISE\nPL/pgSQL function erp.save_initial_import_action_v1(text,jsonb,uuid) line 19 at assignment\nSQL function \"erp_save_initial_import_action_v1\" statement 1"
+   },
+   "economics": {
+    "headers": [
+     [
+      "19a318e0-79a6-49e9-8c76-e270ea6b5799",
+      "POSTED"
+     ],
+     [
+      "d96dbb7e-699f-4c54-9c51-780cb62f7c0c",
+      "DRAFT"
+     ]
+    ],
+    "subledger": [],
+    "material": [
+     [
+      "3e730b57-d767-49b4-b53b-4c7c0a8c244b",
+      "7.000000",
+      "2.250000"
+     ]
+    ],
+    "fg": [],
+    "wip": [],
+    "bs": [],
+    "journals": [
+     [
+      "19a318e0-79a6-49e9-8c76-e270ea6b5799",
+      "POSTED",
+      "2026-09-22",
+      "62f7aa96-1b72-4977-b3d9-36af9041a4d3",
+      "0.00",
+      "15.75"
+     ],
+     [
+      "19a318e0-79a6-49e9-8c76-e270ea6b5799",
+      "POSTED",
+      "2026-09-22",
+      "f9912b87-fe33-4bd8-8a65-0b1fb69316a6",
+      "15.75",
+      "0.00"
+     ]
+    ]
+   }
+  },
+  {
+   "group": "AR_CONCURRENCY",
+   "case": "STALE_SNAPSHOT_ISOLATION",
+   "status": "PASS",
+   "repeatable_read_refused_atomically": true
+  },
+  {
+   "av_trial_phase": "qualify",
+   "status": "WRITER_PASS",
+   "phase": "qualify",
+   "production_go": false,
+   "independent_acceptance": false,
+   "auditor_head": "acffc8cf9548357d1f6387a42940ad38b0829bf4",
+   "av_pins": "193e84efac8ead7cab681071e40070e1f9249f82cec1b7972f0576e8df25a2dc",
+   "original_oracle_sources": {
+    "scripts/cp6_v2620al_review.py": "5577b261dbab8951454dd2794d7c68f067ba6c4593829a34416ef31f48e06fb9",
+    "scripts/cp6_v2620al_import_review.py": "c0a1217f1437b94e5241c2b568bd7c582be4e2a2292b17214dee959b91a429af",
+    "scripts/cp6_v2620al_value_review.py": "f2386d3472107e465ff8c110f5e91c78863d7eacad021573984c1f9a340a7b58",
+    "scripts/cp6_v2620al_import_concurrency.py": "10dbcaebe616aab10450a31dc047041f2a9c4813f30eb22838bec4cbfa70dd25",
+    "scripts/cp6_v2620al_direct_concurrency.py": "2a755622abc59c6913a2deb17b1f246d79c555b84af346f1c8224bf4dab2d792",
+    "scripts/cp6_final_ak_independent.py": "9644b71e3a8ace79fb0de94ed517686330f175f2706b5e641fc6c7e200d39feb",
+    "scripts/cp6_v2620ai_family.py": "9d18d1ced8f90f75559177cb82c4a2b17f9d97636e1bfd8898e6ecf080dd0ee6",
+    "scripts/cp6_ai_independent_review.py": "0a4949a5f5c1b02ada3a29b369e225d8b3f6c962a9946708b02e4875c7688e83",
+    "scripts/cp6_final_crossflow_review.py": "316125ca0e9350e31efb6af029b7e936a50d51a6714c5d12b884e98a4b394d24",
+    "scripts/cp6_final_gap_native.py": "283ffb4d6f0db9dfdfa1e592b5b52a3809681e3eed5570fdfd6f2930f5bfe9d1"
+   },
+   "au_install": "PASS",
+   "av_package": {
+    "status": "PASS",
+    "cycles": [
+     {
+      "install": {
+       "action": "install",
+       "status": "PASS",
+       "closed_drained": true,
+       "committed_verified": true,
+       "admission_reopened": true,
+       "runtime": {
+        "stage": "AV_REV2",
+        "function_count": 651,
+        "object_count": 7169,
+        "full_catalog_verified": true,
+        "changed_functions": [
+         "erp.edit_product_identity_effective(uuid,text,uuid,uuid,text,uuid,text,timestamp with time zone,text)",
+         "erp.create_manual_bs_case_v2(jsonb,uuid)",
+         "erp.post_rework_completion(uuid)"
+        ],
+        "new_functions": [
+         "erp.guard_bs_case_manual_origin_immutable_v1()",
+         "erp.latest_new_stock_physical_at_v1(uuid)",
+         "erp.assert_new_stock_cutoff_coverage_v1()"
+        ],
+        "new_tables": [
+         "bs_case_manual_origins_v1"
+        ],
+        "coverage": {
+         "registry": {
+          "erp.fg_lots.product_id": {
+           "class": "NEW_STOCK_FACT",
+           "reason": "produced_at of every lot except GOOD returned by rework"
+          },
+          "erp.bs_cases.product_id": {
+           "class": "NEW_STOCK_FACT",
+           "reason": "physical_at of QC/laundry BS and manual OUT_OF_NOWHERE BS"
+          },
+          "erp.sales_items.product_id": {
+           "class": "SALES",
+           "reason": "Sale of existing stock"
+          },
+          "erp.journal_lines.product_id": {
+           "class": "ACCOUNTING",
+           "reason": "Journal dimension"
+          },
+          "erp.fg_stock_movements.product_id": {
+           "class": "MOVEMENT",
+           "reason": "Movement of an existing lot"
+          },
+          "erp.sales_return_items.product_id": {
+           "class": "SALES",
+           "reason": "Return of sold stock"
+          },
+          "erp.fg_adjustment_items.product_id": {
+           "class": "MOVEMENT",
+           "reason": "Adjusts an existing lot"
+          },
+          "erp.fg_inventory_balances.product_id": {
+           "class": "DERIVED",
+           "reason": "Balance cache keyed by product/location/grade"
+          },
+          "erp.opening_balance_items.product_id": {
+           "class": "SOURCE_DOCUMENT",
+           "reason": "Opening document; facts are OPENING lots and LEGACY BS"
+          },
+          "erp.stock_policy_versions.product_id": {
+           "class": "MASTER",
+           "reason": "Effective-dated stock policy"
+          },
+          "erp.accessory_bom_versions.product_id": {
+           "class": "MASTER",
+           "reason": "Effective-dated accessory BOM; no stock instant"
+          },
+          "erp.product_conversions.to_product_id": {
+           "class": "SOURCE_DOCUMENT",
+           "reason": "Conversion target; the fact is the CONVERSION lot in fg_lots"
+          },
+          "erp.product_price_versions.product_id": {
+           "class": "MASTER",
+           "reason": "Effective-dated price"
+          },
+          "erp.product_conversions.from_product_id": {
+           "class": "SOURCE_DOCUMENT",
+           "reason": "Conversion source, validated as EXISTING_STOCK"
+          },
+          "erp.qc_inspection_items.final_product_id": {
+           "class": "SOURCE_DOCUMENT",
+           "reason": "QC input; the facts are fg_lots and bs_cases"
+          },
+          "erp.fg_accessory_cost_snapshots.product_id": {
+           "class": "DERIVED",
+           "reason": "Cost snapshot of an FG lot"
+          },
+          "erp.po_accessory_bom_commitments.product_id": {
+           "class": "MASTER",
+           "reason": "PO accessory BOM commitment"
+          },
+          "erp.stock_explainability_snapshots.product_id": {
+           "class": "REPORT",
+           "reason": "Stock explanation snapshot"
+          },
+          "erp.non_po_hpp_gl_sync_events_v2620f.product_id": {
+           "class": "ACCOUNTING",
+           "reason": "HPP to GL synchronisation event"
+          },
+          "erp.laundry_receipt_batch_size_lines.bs_product_id": {
+           "class": "SOURCE_DOCUMENT",
+           "reason": "Laundry receipt input; the BS fact is bs_cases"
+          },
+          "erp.product_identity_mutation_context_v1.product_id": {
+           "class": "AUTHORIZATION",
+           "reason": "Private one-use identity edit context"
+          },
+          "erp.laundry_receipt_bs_product_allocations.product_id": {
+           "class": "SOURCE_DOCUMENT",
+           "reason": "Validated as NEW_STOCK; the BS fact is bs_cases"
+          },
+          "erp.contractor_accessory_reimbursement_entitlements.product_id": {
+           "class": "DERIVED",
+           "reason": "Accounting entitlement of an FG lot"
+          }
+         },
+         "references": 23,
+         "new_stock_fact_tables": [
+          "bs_cases",
+          "fg_lots"
+         ]
+        },
+        "prior_permanent_sql_unchanged": true
+       },
+       "drain_observations": []
+      },
+      "open_rollback_refused_atomically": true,
+      "restore": {
+       "action": "rollback",
+       "status": "PASS",
+       "closed_drained": true,
+       "committed_verified": true,
+       "admission_reopened": true,
+       "runtime": {
+        "stage": "AU",
+        "function_count": 648,
+        "object_count": 7156,
+        "full_catalog_verified": true,
+        "changed_functions": [
+         "erp.validate_product_identity_period()",
+         "erp.edit_product_identity_effective(uuid,text,uuid,uuid,text,uuid,text,timestamp with time zone,text)",
+         "erp.cancel_product_identity_successor(uuid,text)",
+         "erp.guard_product_identity_version_metadata()",
+         "erp.guard_product_delete_after_identity_history()",
+         "erp.assert_product_identity_time(uuid,timestamp with time zone,text)"
+        ],
+        "prior_permanent_sql_unchanged": true
+       },
+       "drain_observations": []
+      },
+      "exact_au_data_and_history_restored": true
+     },
+     {
+      "install": {
+       "action": "install",
+       "status": "PASS",
+       "closed_drained": true,
+       "committed_verified": true,
+       "admission_reopened": true,
+       "runtime": {
+        "stage": "AV_REV2",
+        "function_count": 651,
+        "object_count": 7169,
+        "full_catalog_verified": true,
+        "changed_functions": [
+         "erp.edit_product_identity_effective(uuid,text,uuid,uuid,text,uuid,text,timestamp with time zone,text)",
+         "erp.create_manual_bs_case_v2(jsonb,uuid)",
+         "erp.post_rework_completion(uuid)"
+        ],
+        "new_functions": [
+         "erp.guard_bs_case_manual_origin_immutable_v1()",
+         "erp.latest_new_stock_physical_at_v1(uuid)",
+         "erp.assert_new_stock_cutoff_coverage_v1()"
+        ],
+        "new_tables": [
+         "bs_case_manual_origins_v1"
+        ],
+        "coverage": {
+         "registry": {
+          "erp.fg_lots.product_id": {
+           "class": "NEW_STOCK_FACT",
+           "reason": "produced_at of every lot except GOOD returned by rework"
+          },
+          "erp.bs_cases.product_id": {
+           "class": "NEW_STOCK_FACT",
+           "reason": "physical_at of QC/laundry BS and manual OUT_OF_NOWHERE BS"
+          },
+          "erp.sales_items.product_id": {
+           "class": "SALES",
+           "reason": "Sale of existing stock"
+          },
+          "erp.journal_lines.product_id": {
+           "class": "ACCOUNTING",
+           "reason": "Journal dimension"
+          },
+          "erp.fg_stock_movements.product_id": {
+           "class": "MOVEMENT",
+           "reason": "Movement of an existing lot"
+          },
+          "erp.sales_return_items.product_id": {
+           "class": "SALES",
+           "reason": "Return of sold stock"
+          },
+          "erp.fg_adjustment_items.product_id": {
+           "class": "MOVEMENT",
+           "reason": "Adjusts an existing lot"
+          },
+          "erp.fg_inventory_balances.product_id": {
+           "class": "DERIVED",
+           "reason": "Balance cache keyed by product/location/grade"
+          },
+          "erp.opening_balance_items.product_id": {
+           "class": "SOURCE_DOCUMENT",
+           "reason": "Opening document; facts are OPENING lots and LEGACY BS"
+          },
+          "erp.stock_policy_versions.product_id": {
+           "class": "MASTER",
+           "reason": "Effective-dated stock policy"
+          },
+          "erp.accessory_bom_versions.product_id": {
+           "class": "MASTER",
+           "reason": "Effective-dated accessory BOM; no stock instant"
+          },
+          "erp.product_conversions.to_product_id": {
+           "class": "SOURCE_DOCUMENT",
+           "reason": "Conversion target; the fact is the CONVERSION lot in fg_lots"
+          },
+          "erp.product_price_versions.product_id": {
+           "class": "MASTER",
+           "reason": "Effective-dated price"
+          },
+          "erp.product_conversions.from_product_id": {
+           "class": "SOURCE_DOCUMENT",
+           "reason": "Conversion source, validated as EXISTING_STOCK"
+          },
+          "erp.qc_inspection_items.final_product_id": {
+           "class": "SOURCE_DOCUMENT",
+           "reason": "QC input; the facts are fg_lots and bs_cases"
+          },
+          "erp.fg_accessory_cost_snapshots.product_id": {
+           "class": "DERIVED",
+           "reason": "Cost snapshot of an FG lot"
+          },
+          "erp.po_accessory_bom_commitments.product_id": {
+           "class": "MASTER",
+           "reason": "PO accessory BOM commitment"
+          },
+          "erp.stock_explainability_snapshots.product_id": {
+           "class": "REPORT",
+           "reason": "Stock explanation snapshot"
+          },
+          "erp.non_po_hpp_gl_sync_events_v2620f.product_id": {
+           "class": "ACCOUNTING",
+           "reason": "HPP to GL synchronisation event"
+          },
+          "erp.laundry_receipt_batch_size_lines.bs_product_id": {
+           "class": "SOURCE_DOCUMENT",
+           "reason": "Laundry receipt input; the BS fact is bs_cases"
+          },
+          "erp.product_identity_mutation_context_v1.product_id": {
+           "class": "AUTHORIZATION",
+           "reason": "Private one-use identity edit context"
+          },
+          "erp.laundry_receipt_bs_product_allocations.product_id": {
+           "class": "SOURCE_DOCUMENT",
+           "reason": "Validated as NEW_STOCK; the BS fact is bs_cases"
+          },
+          "erp.contractor_accessory_reimbursement_entitlements.product_id": {
+           "class": "DERIVED",
+           "reason": "Accounting entitlement of an FG lot"
+          }
+         },
+         "references": 23,
+         "new_stock_fact_tables": [
+          "bs_cases",
+          "fg_lots"
+         ]
+        },
+        "prior_permanent_sql_unchanged": true
+       },
+       "drain_observations": []
+      },
+      "open_rollback_refused_atomically": true,
+      "restore": {
+       "action": "rollback",
+       "status": "PASS",
+       "closed_drained": true,
+       "committed_verified": true,
+       "admission_reopened": true,
+       "runtime": {
+        "stage": "AU",
+        "function_count": 648,
+        "object_count": 7156,
+        "full_catalog_verified": true,
+        "changed_functions": [
+         "erp.validate_product_identity_period()",
+         "erp.edit_product_identity_effective(uuid,text,uuid,uuid,text,uuid,text,timestamp with time zone,text)",
+         "erp.cancel_product_identity_successor(uuid,text)",
+         "erp.guard_product_identity_version_metadata()",
+         "erp.guard_product_delete_after_identity_history()",
+         "erp.assert_product_identity_time(uuid,timestamp with time zone,text)"
+        ],
+        "prior_permanent_sql_unchanged": true
+       },
+       "drain_observations": []
+      },
+      "exact_au_data_and_history_restored": true
+     }
+    ],
+    "production_go": false,
+    "independent_acceptance": false,
+    "nonempty_tables": 121,
+    "final_install": {
+     "action": "install",
+     "status": "PASS",
+     "closed_drained": true,
+     "committed_verified": true,
+     "admission_reopened": true,
+     "runtime": {
+      "stage": "AV_REV2",
+      "function_count": 651,
+      "object_count": 7169,
+      "full_catalog_verified": true,
+      "changed_functions": [
+       "erp.edit_product_identity_effective(uuid,text,uuid,uuid,text,uuid,text,timestamp with time zone,text)",
+       "erp.create_manual_bs_case_v2(jsonb,uuid)",
+       "erp.post_rework_completion(uuid)"
+      ],
+      "new_functions": [
+       "erp.guard_bs_case_manual_origin_immutable_v1()",
+       "erp.latest_new_stock_physical_at_v1(uuid)",
+       "erp.assert_new_stock_cutoff_coverage_v1()"
+      ],
+      "new_tables": [
+       "bs_case_manual_origins_v1"
+      ],
+      "coverage": {
+       "registry": {
+        "erp.fg_lots.product_id": {
+         "class": "NEW_STOCK_FACT",
+         "reason": "produced_at of every lot except GOOD returned by rework"
+        },
+        "erp.bs_cases.product_id": {
+         "class": "NEW_STOCK_FACT",
+         "reason": "physical_at of QC/laundry BS and manual OUT_OF_NOWHERE BS"
+        },
+        "erp.sales_items.product_id": {
+         "class": "SALES",
+         "reason": "Sale of existing stock"
+        },
+        "erp.journal_lines.product_id": {
+         "class": "ACCOUNTING",
+         "reason": "Journal dimension"
+        },
+        "erp.fg_stock_movements.product_id": {
+         "class": "MOVEMENT",
+         "reason": "Movement of an existing lot"
+        },
+        "erp.sales_return_items.product_id": {
+         "class": "SALES",
+         "reason": "Return of sold stock"
+        },
+        "erp.fg_adjustment_items.product_id": {
+         "class": "MOVEMENT",
+         "reason": "Adjusts an existing lot"
+        },
+        "erp.fg_inventory_balances.product_id": {
+         "class": "DERIVED",
+         "reason": "Balance cache keyed by product/location/grade"
+        },
+        "erp.opening_balance_items.product_id": {
+         "class": "SOURCE_DOCUMENT",
+         "reason": "Opening document; facts are OPENING lots and LEGACY BS"
+        },
+        "erp.stock_policy_versions.product_id": {
+         "class": "MASTER",
+         "reason": "Effective-dated stock policy"
+        },
+        "erp.accessory_bom_versions.product_id": {
+         "class": "MASTER",
+         "reason": "Effective-dated accessory BOM; no stock instant"
+        },
+        "erp.product_conversions.to_product_id": {
+         "class": "SOURCE_DOCUMENT",
+         "reason": "Conversion target; the fact is the CONVERSION lot in fg_lots"
+        },
+        "erp.product_price_versions.product_id": {
+         "class": "MASTER",
+         "reason": "Effective-dated price"
+        },
+        "erp.product_conversions.from_product_id": {
+         "class": "SOURCE_DOCUMENT",
+         "reason": "Conversion source, validated as EXISTING_STOCK"
+        },
+        "erp.qc_inspection_items.final_product_id": {
+         "class": "SOURCE_DOCUMENT",
+         "reason": "QC input; the facts are fg_lots and bs_cases"
+        },
+        "erp.fg_accessory_cost_snapshots.product_id": {
+         "class": "DERIVED",
+         "reason": "Cost snapshot of an FG lot"
+        },
+        "erp.po_accessory_bom_commitments.product_id": {
+         "class": "MASTER",
+         "reason": "PO accessory BOM commitment"
+        },
+        "erp.stock_explainability_snapshots.product_id": {
+         "class": "REPORT",
+         "reason": "Stock explanation snapshot"
+        },
+        "erp.non_po_hpp_gl_sync_events_v2620f.product_id": {
+         "class": "ACCOUNTING",
+         "reason": "HPP to GL synchronisation event"
+        },
+        "erp.laundry_receipt_batch_size_lines.bs_product_id": {
+         "class": "SOURCE_DOCUMENT",
+         "reason": "Laundry receipt input; the BS fact is bs_cases"
+        },
+        "erp.product_identity_mutation_context_v1.product_id": {
+         "class": "AUTHORIZATION",
+         "reason": "Private one-use identity edit context"
+        },
+        "erp.laundry_receipt_bs_product_allocations.product_id": {
+         "class": "SOURCE_DOCUMENT",
+         "reason": "Validated as NEW_STOCK; the BS fact is bs_cases"
+        },
+        "erp.contractor_accessory_reimbursement_entitlements.product_id": {
+         "class": "DERIVED",
+         "reason": "Accounting entitlement of an FG lot"
+        }
+       },
+       "references": 23,
+       "new_stock_fact_tables": [
+        "bs_cases",
+        "fg_lots"
+       ]
+      },
+      "prior_permanent_sql_unchanged": true
+     },
+     "drain_observations": []
+    }
+   },
+   "sequential": {
+    "status": "WRITER_PASS",
+    "counts": {
+     "PASS": 146
+    }
+   },
+   "post_use_refusal": {
+    "status": "PASS",
+    "committed_use": "erp.brands one row",
+    "rollback_refused": "AV_POST_USE_ROLLBACK_REFUSED",
+    "all_erp_data_unchanged": true,
+    "platform_unchanged": true
+   },
+   "case_count": 174,
+   "primary_unchanged": true,
+   "clone_remaining": 0
+  }
+ ]
+}

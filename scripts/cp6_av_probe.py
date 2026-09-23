@@ -379,7 +379,9 @@ def found_races(phase,verify):
         with psycopg.connect(admin) as conn,conn.cursor() as cur:
             report['runtime']=verify(cur);conn.rollback()
             cur.execute('grant usage on schema erp to authenticated')
-            api.seed(cur);boundary.historical.prior.set_open_period(cur,date(2026,8,31))
+            # Seed only an unseeded copy (same rule as group); a committed pre-install fixture may already hold it.
+            if not cur.execute('select count(*) from erp.app_users').fetchone()[0]:api.seed(cur)
+            boundary.historical.prior.set_open_period(cur,date(2026,8,31))
             today=cur.execute("select (statement_timestamp() at time zone 'Asia/Jakarta')::date").fetchone()[0]
         for first in ('BS','MASTER'):
             for commit in (False,True):
