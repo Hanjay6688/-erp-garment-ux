@@ -367,7 +367,8 @@ def cases(cur,today):
 
 def race_fixture(admin,with_sale):
     """Committed in the race copy: a SKU with no reference (owner value), a found BS of 5 and, for the sale races, an AX
-    lot of 1 piece with a saved sale draft for it."""
+    lot of 1 piece and a customer. The sale draft is saved inside the race: a saved draft already reserves the lot, and
+    the reversal rightly refuses a reserved lot (iteration 2, run 35905188855, saved the draft in the fixture)."""
     with psycopg.connect(admin) as conn,conn.cursor() as cur:
         product,_=owner_only_model_product(cur)
         case=manual_bs(cur,product,'OUT_OF_NOWHERE',5,r1.now(cur)-timedelta(minutes=30))['result']['bs_case_id']
@@ -375,11 +376,9 @@ def race_fixture(admin,with_sale):
         if with_sale:
             lot=post(cur,dict(source_kind='FOUND_AT_OPNAME',product_id=product,location_id=chain.base.LOCATION,qty_pcs=1,
                 physical_at=(r1.now(cur)-timedelta(minutes=20)).isoformat(),reason='AX race lot',owner_unit_value='10000',owner_value_reason='AX race'))
-            sale=chain.production.rpc(cur,'erp.save_sale_draft_v2',dict(sale_number='AXR-'+uuid.uuid4().hex[:10],
-                customer_id=chain.base.create_customer(cur,'AXR'+uuid.uuid4().hex[:6]),source_location_id=chain.base.LOCATION,
-                sale_date=(r1.now(cur)-timedelta(minutes=10)).isoformat(),reason='AX race sale',
-                items=[dict(product_id=product,qty_pcs=1,unit_price_snapshot=15000,discount_amount=0)]),uuid.uuid4(),None)
-            api.admin(cur);f.update(receipt=lot['receipt_id'],lot=lot['lot_id'],sale=sale['sale_id'],sale_version=int(sale['row_version']))
+            api.admin(cur)
+            f.update(receipt=lot['receipt_id'],lot=lot['lot_id'],customer=str(chain.base.create_customer(cur,'AXR'+uuid.uuid4().hex[:6])),
+                     sale_at=(r1.now(cur)-timedelta(minutes=10)).isoformat())
         conn.commit()
     return f
 
@@ -393,7 +392,7 @@ def race_state(admin,f):
                    ax_lots=cur.execute("select count(*) from erp.fg_lots where product_id=%s and lot_origin='OTHER'",(f['product'],)).fetchone()[0])
         if f.get('receipt'):
             state.update(receipt_status=cur.execute('select status from erp.fg_unsourced_receipts_v1 where id=%s',(f['receipt'],)).fetchone()[0],
-                         sale_status=cur.execute('select status from erp.sales_headers where id=%s',(f['sale'],)).fetchone()[0],
+                         sales_posted=cur.execute("select count(*) from erp.sales_headers h join erp.sales_items i on i.sale_id=h.id where i.product_id=%s and h.status='POSTED'",(f['product'],)).fetchone()[0],
                          lot_origin=cur.execute('select lot_origin from erp.fg_lots where id=%s',(f['lot'],)).fetchone()[0])
         issues=cur.execute("select coalesce(sum(issue_count),0) from erp.run_v268_financial_report_checks() where check_name='V2620F_NON_PO_PRODUCT_HPP_BOOK_MISMATCH'").fetchone()[0]
         state['non_po_book']='BALANCED' if issues==0 else f'{issues} issues'
@@ -408,7 +407,11 @@ def ax_race(admin,kind,commit):
         owner_value_reason='AX race'),request))
     def do_reverse(cur):return reverse(cur,f['receipt'],'AX race reversal')['status']
     def do_sell(cur):
-        chain.production.owner(cur);cur.execute('select erp.post_sale_v2(%s,%s,%s)',(f['sale'],uuid.uuid4(),f['sale_version']));api.admin(cur);return 'SOLD'
+        sale=chain.production.rpc(cur,'erp.save_sale_draft_v2',dict(sale_number='AXR-'+uuid.uuid4().hex[:10],customer_id=f['customer'],
+            source_location_id=chain.base.LOCATION,sale_date=f['sale_at'],reason='AX race sale',
+            items=[dict(product_id=f['product'],qty_pcs=1,unit_price_snapshot=15000,discount_amount=0)]),uuid.uuid4(),None)
+        f['sale']=sale['sale_id']
+        cur.execute('select erp.post_sale_v2(%s,%s,%s)',(sale['sale_id'],uuid.uuid4(),int(sale['row_version'])));api.admin(cur);return 'SOLD'
     if kind=='BS_OVERDRAW':
         first,second=good(3),good(3)
     elif kind=='SAME_REQUEST':
@@ -431,11 +434,12 @@ def ax_race(admin,kind,commit):
     elif kind=='REVERSE_FIRST':
         expected=dict(contention='BLOCKED',sale='refused (lot voided)' if commit else 'SOLD',receipt='REVERSED' if commit else 'POSTED')
         ok=(contention['kind']=='BLOCKED' and state['receipt_status']==('REVERSED' if commit else 'POSTED')
-            and (not outcome['ok'] if commit else outcome['ok']) and state['non_po_book']=='BALANCED')
+            and (not outcome['ok'] if commit else outcome['ok']) and state['sales_posted']==(0 if commit else 1) and state['non_po_book']=='BALANCED')
     else:
         expected=dict(contention='BLOCKED',reverse='refused LOT_IN_USE' if commit else 'REVERSED',receipt='POSTED' if commit else 'REVERSED')
         ok=(contention['kind']=='BLOCKED' and state['receipt_status']==('POSTED' if commit else 'REVERSED')
-            and ((not outcome['ok'] and 'LOT_IN_USE' in msg) if commit else outcome['ok']) and state['non_po_book']=='BALANCED')
+            and ((not outcome['ok'] and 'LOT_IN_USE' in msg) if commit else outcome['ok']) and state['sales_posted']==(1 if commit else 0)
+            and state['non_po_book']=='BALANCED')
     return dict(status='PASS' if ok else 'FAIL',kind=kind,first_committed=commit,expected=expected,contention=contention,
                 held=held,contender=outcome,state=state)
 
