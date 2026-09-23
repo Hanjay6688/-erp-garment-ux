@@ -404,12 +404,15 @@ def successor_after_found_bs(cur,today):
     f=stocked_product(cur,today);old=str(f['product'])
     case=manual_bs(cur,old,'OUT_OF_NOWHERE',2,r1.now(cur)-timedelta(minutes=30))['result']['bs_case_id']
     api.admin(cur)
-    effective=r1.now(cur)-timedelta(minutes=10)
+    # A SKU with history may change identity only from now on (AU rule; iteration 4 tried a past instant and the edit
+    # was refused), so the successor starts one minute ahead and the GOOD is dated just after it (within the posting's
+    # five-minute clock tolerance).
+    effective=r1.now(cur)+timedelta(minutes=1)
     r1.edit(cur,old,effective);api.admin(cur)
     new=str(cur.execute("""select p.id from erp.products p join erp.products o on o.id=%s
         where coalesce(p.identity_root_id,p.id)=coalesce(o.identity_root_id,o.id) and p.id<>o.id and p.effective_from=%s""",(old,effective)).fetchone()[0])
     base=dict(source_kind='GOOD_FROM_UNSOURCED_BS',bs_case_id=case,location_id=chain.base.LOCATION,qty_pcs=1,
-              physical_at=(r1.now(cur)-timedelta(minutes=5)).isoformat(),reason='AX successor')
+              physical_at=(effective+timedelta(seconds=1)).isoformat(),reason='AX successor')
     _,ended=attempt_post(cur,dict(base,product_id=old))
     implicit=post(cur,base)
     explicit=post(cur,dict(base,product_id=new))
