@@ -169,21 +169,37 @@ def temporal_concurrency(report):
     report['master_cases']={k:masters[k] for k in ('status','counts')}
     report['master_races']={}
     with psycopg.connect(ADMIN) as conn,conn.cursor() as cur:
-        had_usage=cur.execute("select has_schema_privilege('authenticated','erp','USAGE')").fetchone()[0]
-        if not had_usage:cur.execute('grant usage on schema erp to authenticated')
+        runtime.verified(cur);parent_before=predecessor.snapshot(cur)
+    race_database='cp6_au_master_fixture'
+    race_admin=ADMIN.rsplit('/',1)[0]+'/'+race_database
     try:
+        subprocess.run(['docker','exec','supabase_db_cp5-local','createdb','-U','supabase_admin','--maintenance-db=template1','-T','cp6_rollback',race_database],check=True)
+        with psycopg.connect(race_admin) as conn,conn.cursor() as cur:
+            runtime.verified(cur);before_catalog=cur.execute(runtime.build.INVENTORY_SQL).fetchone()[0]
+            cur.execute('grant usage on schema erp to authenticated')
+            fixture_catalog=cur.execute(runtime.build.INVENTORY_SQL).fetchone()[0]
+            assert {k for k in before_catalog if before_catalog[k]!=fixture_catalog[k]}=={'SCHEMA:erp'}
+            assert cur.execute("select has_schema_privilege('authenticated','erp','USAGE'),has_schema_privilege('authenticated','erp','CREATE')").fetchone()==(True,False)
+            assert function_pins(cur)==runtime.build.model()[3]['functions']
+            report['master_fixture']=dict(database=race_database,only_catalog_delta='SCHEMA:erp authenticated USAGE',function_owner_acl_unchanged=True)
         for first in ('MASTER','OUTPUT','VALIDATION'):
             for commit in (False,True):
                 key='MASTER_'+first+'_'+('COMMIT' if commit else 'ABORT')
-                try:row=master_races.run(today,first,commit)
+                try:row=master_races.run(today,first,commit,race_admin)
                 except Exception as exc:row=dict(status='INCOMPLETE',error=str(exc),traceback=traceback.format_exc())
                 report['master_races'][key]=row;save('TEMPORAL',report)
                 print(json.dumps(dict(group='AU_CONCURRENCY',case=key,**row),default=str),flush=True)
+        with psycopg.connect(race_admin) as conn,conn.cursor() as cur:
+            assert cur.execute(runtime.build.INVENTORY_SQL).fetchone()[0]==fixture_catalog
+            assert function_pins(cur)==runtime.build.model()[3]['functions']
     finally:
+        subprocess.run(['docker','exec','supabase_db_cp5-local','dropdb','-U','supabase_admin','--if-exists','--force','--maintenance-db=template1',race_database],check=True)
         with psycopg.connect(ADMIN) as conn,conn.cursor() as cur:
-            if not had_usage:cur.execute('revoke usage on schema erp from authenticated')
             runtime.verified(cur)
-        report['master_fixture_schema_acl_restored']=True
+            assert predecessor.snapshot(cur)==parent_before
+            assert cur.execute('select count(*) from pg_database where datname=%s',(race_database,)).fetchone()==(0,)
+        report['master_fixture_parent_exactly_unchanged']=True
+        report['master_fixture_clone_remaining']=0
     assert all(r['status']=='PASS' for r in report['master_races'].values())
     runtime.refuse_post_use(PG,ADMIN,OUT)
     report['post_use_refusal']=json.loads((OUT/'AU_POST_USE_REFUSAL.json').read_text())
