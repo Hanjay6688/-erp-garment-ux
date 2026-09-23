@@ -122,7 +122,10 @@ def preinstall_fixtures():
     """Committed before AV installs (both phases): manual BS cases classified on AU, so the creation-time
     untracked type survives only in the insert audit row. OUT_OF_NOWHERE must keep bounding; LEGACY is the control."""
     with psycopg.connect(boundary.ADMIN) as conn,conn.cursor() as cur:
-        if not cur.execute("select has_schema_privilege('authenticated','erp','USAGE')").fetchone()[0]:cur.execute('grant usage on schema erp to authenticated')
+        catalog=cur.execute(runtime.build.INVENTORY_SQL).fetchone()[0]
+        acl=cur.execute("select nspacl::text from pg_namespace where nspname='erp'").fetchone()[0]
+        granted=not cur.execute("select has_schema_privilege('authenticated','erp','USAGE')").fetchone()[0]
+        if granted:cur.execute('grant usage on schema erp to authenticated')
         if not cur.execute('select count(*) from erp.app_users').fetchone()[0]:api.seed(cur)
         cur.execute("set local timezone='Asia/Jakarta';set local statement_timeout='240s';set local lock_timeout='8s'")
         today=cur.execute("select (statement_timestamp() at time zone 'Asia/Jakarta')::date").fetchone()[0]
@@ -135,6 +138,15 @@ def preinstall_fixtures():
             api.admin(cur)
             PREINSTALL[kind]=dict(product=product,bs_case_id=case,fact_physical_at=fact,
                 untracked_type_after_classification=cur.execute('select untracked_type from erp.bs_cases where id=%s',(case,)).fetchone()[0])
+        if granted:
+            # Only business data may be committed before AV installs. The session grant is
+            # revoked and the schema ACL restored exactly (grant/revoke can materialize a
+            # NULL ACL) on this disposable clone; any other catalog difference refuses.
+            cur.execute('revoke usage on schema erp from authenticated')
+            cur.execute("update pg_catalog.pg_namespace set nspacl=%s::aclitem[] where nspname='erp'",(acl,))
+        after=cur.execute(runtime.build.INVENTORY_SQL).fetchone()[0]
+        drift=sorted(k for k in set(catalog)|set(after) if catalog.get(k)!=after.get(k))
+        assert not drift,'PREINSTALL_CATALOG_DRIFT '+json.dumps(drift[:10])
         conn.commit()
     return PREINSTALL
 
