@@ -25,7 +25,7 @@ Migration dibuat melalui Supabase CLI 2.116.0 dan menghasilkan `20260923005153_e
 Workflow `CP6 AT Qualification` menjalankan:
 
 1. Delapan kontrol pada AS asli: empat temuan WIP tetap teramati, empat kontrol berhasil. Tidak ada fungsi yang ditambal untuk tes.
-2. Pemulihan AT dua siklus pada AS yang sudah berisi data, pemeriksaan advisor sebelum/sesudah, 174 kasus asli termasuk sesi bersamaan, serta empat jadwal master/output baru.
+2. Pemulihan AT dua siklus pada AS yang sudah berisi data, pemeriksaan advisor sebelum/sesudah, 174 kasus asli termasuk sesi bersamaan. Empat jadwal master/output baru memakai clone tersendiri, karena kasus AR sengaja menyisakan fixture legacy yang ambigu.
 3. Clone baru: 326 kasus asli sisanya, 34 kasus AS, 12 pemeriksaan kalender, dan 16 kasus temporal AT (delapan WIP, empat BS historis, empat batas hari).
 4. Clone baru: Auth/password nyata, browser dan PostgREST publik, penolakan anonim/identitas ambigu tanpa efek, pemilihan merek, HPP/stok, kehilangan balasan setelah commit, reload dan pengulangan payload/UUID persis, serta transaksi balik. Sepuluh observasi diwajibkan. Respons produk tidak diganti dengan mock.
 5. Snapshot primary AN tetap sama, seluruh clone/REST/Auth sementara dihapus. Semua bukti mentah disimpan walaupun gagal.

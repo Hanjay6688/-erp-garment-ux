@@ -135,22 +135,39 @@ def qualify(report):
         except Exception as exc:row=dict(status='INCOMPLETE',error=str(exc),traceback=traceback.format_exc())
         report['races'][name]=row;save('QUALIFY',report)
         print(json.dumps(dict(group='AR_CONCURRENCY',case=name,**row),default=str),flush=True)
-    report['temporal_races']={}
-    for first in ('MASTER','OUTPUT'):
-        for commit in (False,True):
-            name='TEMPORAL_'+first+'_'+('COMMIT' if commit else 'ABORT')
-            try:row=temporal_races.run(today,first,commit)
-            except Exception as exc:row=dict(status='INCOMPLETE',error=str(exc),traceback=traceback.format_exc())
-            report['temporal_races'][name]=row;save('QUALIFY',report)
-            print(json.dumps(dict(group='AT_CONCURRENCY',case=name,**row),default=str),flush=True)
-    assert all(r['status']=='PASS' for r in report['temporal_races'].values())
     runtime.refuse_post_use(PG,ADMIN,OUT)
+    report['post_use_refusal']=json.loads((OUT/'AT_POST_USE_REFUSAL.json').read_text())
     with psycopg.connect(ADMIN) as conn,conn.cursor() as cur:runtime.verified(cur)
     report['case_count']=len(seq['cases'])+len(report['races'])
     assert report['case_count']==174 and seq['status']=='WRITER_PASS'
     assert all(r['status']=='PASS' for r in report['races'].values())
     assert len(before['cases'])==8 and before['status']=='PROBE_COMPLETE' and before['counts']['COUNTEREXAMPLE']==4 and before['counts']['PASS']==4,before['counts']
     report['status']='WRITER_PASS'
+
+
+def temporal_concurrency(report):
+    # Old AR races intentionally commit ambiguous legacy opening fixtures.
+    # Use a fresh clone instead of weakening their overlap refusal or deleting history.
+    with psycopg.connect(ADMIN) as conn,conn.cursor() as cur:
+        api.seed(cur)
+        predecessor.historical.prior.set_open_period(cur,date(2026,8,31))
+    runtime.change('install',PG,os.environ['CP6_ADMISSION_CONTROL_PGURL'])
+    with psycopg.connect(ADMIN) as conn,conn.cursor() as cur:
+        runtime.verified(cur)
+        today=cur.execute("select (statement_timestamp() at time zone 'Asia/Jakarta')::date").fetchone()[0]
+    report['temporal_races']={}
+    for first in ('MASTER','OUTPUT'):
+        for commit in (False,True):
+            name='TEMPORAL_'+first+'_'+('COMMIT' if commit else 'ABORT')
+            try:row=temporal_races.run(today,first,commit)
+            except Exception as exc:row=dict(status='INCOMPLETE',error=str(exc),traceback=traceback.format_exc())
+            report['temporal_races'][name]=row;save('TEMPORAL',report)
+            print(json.dumps(dict(group='AT_CONCURRENCY',case=name,**row),default=str),flush=True)
+    assert all(r['status']=='PASS' for r in report['temporal_races'].values())
+    runtime.refuse_post_use(PG,ADMIN,OUT)
+    report['post_use_refusal']=json.loads((OUT/'AT_POST_USE_REFUSAL.json').read_text())
+    with psycopg.connect(ADMIN) as conn,conn.cursor() as cur:runtime.verified(cur)
+    report.update(status='WRITER_PASS',case_count=4)
 
 
 def regress(report):
@@ -177,6 +194,9 @@ def regress(report):
     qualification=json.loads((OUT/'QUALIFY.json').read_text())
     assert qualification['status']=='WRITER_PASS' and qualification['case_count']==174
     assert qualification['primary_unchanged'] and qualification['clone_remaining']==0
+    temporal_report=json.loads((OUT/'TEMPORAL.json').read_text())
+    assert temporal_report['status']=='WRITER_PASS' and temporal_report['case_count']==4
+    assert temporal_report['primary_unchanged'] and temporal_report['clone_remaining']==0
     report.update(status='WRITER_PASS_WITH_12_PRESERVED_HISTORICAL_HOLD',original_cases=500,new_cases_count=34,additional_calendar_policy_checks=12,temporal_cases_count=16,temporal_real_races=4)
 
 
@@ -190,7 +210,7 @@ def run(phase):
         with psycopg.connect(predecessor.PRIMARY_ADMIN) as conn,conn.cursor() as cur:
             prior.verified(cur,'AN');primary=predecessor.snapshot(cur)
         install_as()
-        (qualify if phase=='qualify' else regress)(report)
+        {'qualify':qualify,'regression':regress,'temporal':temporal_concurrency}[phase](report)
     except Exception as exc:
         report.update(status='INCOMPLETE',error=str(exc),traceback=traceback.format_exc())
         print(json.dumps(dict(phase=phase,error=str(exc),traceback=traceback.format_exc())),flush=True)
@@ -206,5 +226,5 @@ def run(phase):
 
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('--phase',choices=('qualify','regression'),required=True)
+    parser=argparse.ArgumentParser();parser.add_argument('--phase',choices=('qualify','regression','temporal'),required=True)
     run(parser.parse_args().phase)

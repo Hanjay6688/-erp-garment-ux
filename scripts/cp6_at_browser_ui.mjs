@@ -2,7 +2,7 @@
 import assert from 'node:assert/strict'
 import { execFileSync, spawn } from 'node:child_process'
 import { randomBytes, randomUUID } from 'node:crypto'
-import { writeFileSync, readFileSync } from 'node:fs'
+import { writeFileSync } from 'node:fs'
 import http from 'node:http'
 import { resolve } from 'node:path'
 import { chromium, expect } from '@playwright/test'
@@ -18,7 +18,7 @@ const report={status:'INCOMPLETE',classification:'WRITER_REAL_AUTH_BROWSER_AT_ID
 const sql=s=>execFileSync('psql',[pg,'-X','-qAt','-v','ON_ERROR_STOP=1','-c',s],{encoding:'utf8',stdio:['ignore','pipe','pipe']}).trim()
 const q=v=>"'"+String(v).replaceAll("'","''")+"'"
 const native=(mode,...args)=>JSON.parse(execFileSync('python',['scripts/cp6_at_browser_fixture.py',mode,...args],{encoding:'utf8',stdio:['ignore','pipe','pipe']}))
-const fixture=JSON.parse(readFileSync(resolve(dir,'FIXTURE.json'),'utf8'))
+const fixture=native('identities')
 const save=()=>writeFileSync(resolve(dir,'FLOW.json'),JSON.stringify(report,null,2)+'\n')
 function phase(id){report.phase=id;save();console.log('AT flow: '+id)}
 function pass(id,detail={}){assert.ok(!cases.some(c=>c.id===id));cases.push({id,status:'PASS',...detail});save()}

@@ -27,7 +27,8 @@ def seed(cur):
         _,sources=production.finalize(api,cur,f)
         first,model,size=cur.execute('select id,model_id,size_id from erp.products where sku=%s',(f['code'],)).fetchone()
         brand_code=f['code']+'B'
-        brand=cur.execute('insert into erp.brands(brand_code,brand_name) values(%s,%s) returning id',(brand_code,brand_code)).fetchone()[0]
+        brand_name='AT browser versioned output' if versioned else 'AT browser cross brand output'
+        brand=cur.execute('insert into erp.brands(brand_code,brand_name) values(%s,%s) returning id',(brand_code,brand_name)).fetchone()[0]
         if versioned:
             _,second=audit.series(cur,f['code'],model,brand,size,peer.invoice.at(today-timedelta(days=6),0),peer.invoice.at(today-timedelta(days=4),12))
         else:
@@ -38,6 +39,26 @@ def seed(cur):
                           opening_item_id=sources['WIP']['opening_item_id'],location=f['code']+'F',day=str(today-timedelta(days=3)),versioned=versioned))
     runtime.verified(cur)
     return dict(cases=cases)
+
+
+def identities(cur):
+    """Resolve only the two known synthetic fixtures from the installed clone.
+
+    The saved fixture file is evidence, never an input to network commands.
+    """
+    rows=cur.execute('''select h.migration_batch_id,p.sku,b.brand_code,original.id,p.id,s.opening_item_id,
+        p.sku||'F',((statement_timestamp() at time zone 'Asia/Jakarta')::date-3)::text,
+        b.brand_name='AT browser versioned output'
+        from erp.brands b join erp.products p on p.brand_id=b.id and p.effective_to is null
+        join erp.products original on original.sku=p.sku and original.brand_id<>b.id
+        join erp.opening_balance_items i on i.product_id=original.id and i.balance_type='BS'
+        join erp.opening_balance_headers h on h.id=i.opening_id
+        join erp.initial_import_production_sources s on s.batch_id=h.migration_batch_id and s.balance_type='WIP'
+        where b.brand_name in ('AT browser cross brand output','AT browser versioned output')
+        order by b.brand_name''').fetchall()
+    assert len(rows)==2 and [r[-1] for r in rows]==[False,True],'AT_BROWSER_FIXTURE_IDENTITIES_MISSING_OR_AMBIGUOUS'
+    keys=('batch_id','code','brand','first_product','expected_product','opening_item_id','location','day','versioned')
+    return dict(cases=[dict(zip(keys,row)) for row in rows])
 
 
 def state(cur,batch):
@@ -65,6 +86,7 @@ def main():
         mode=sys.argv[1]
         if mode=='seed':
             value=seed(cur);(OUT/'FIXTURE.json').write_text(json.dumps(value,indent=2,default=str)+'\n')
+        elif mode=='identities':value=identities(cur)
         elif mode=='boundary':
             snap=data(cur);value=dict(sha256=hashlib.sha256(json.dumps(snap,sort_keys=True,default=str).encode()).hexdigest(),tables=len(snap))
         elif mode=='state':value=state(cur,sys.argv[2])
