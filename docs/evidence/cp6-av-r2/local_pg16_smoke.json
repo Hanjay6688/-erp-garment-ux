@@ -1,0 +1,162 @@
+{
+ "scope": "Local PostgreSQL 16 synthetic catalog; exact AV rev2 helper/guard/trigger text; NOT native Supabase",
+ "cases": [
+  {
+   "name": "GPT lowercase NEW_STOCK",
+   "expected": "REFUSE",
+   "refused": true,
+   "error": "NEW_STOCK_CUTOFF_REFERENCE_UNCLASSIFIED: erp.probe_physical_facts.product_id",
+   "status": "PASS"
+  },
+  {
+   "name": "GPT uppercase PERFORM/INSERT",
+   "expected": "REFUSE",
+   "refused": true,
+   "error": "NEW_STOCK_CUTOFF_REFERENCE_UNCLASSIFIED: erp.probe_physical_facts.product_id",
+   "status": "PASS"
+  },
+  {
+   "name": "GPT unqualified target under search_path",
+   "expected": "REFUSE",
+   "refused": true,
+   "error": "NEW_STOCK_CUTOFF_REFERENCE_UNCLASSIFIED: erp.probe_physical_facts.product_id",
+   "status": "PASS"
+  },
+  {
+   "name": "GPT quoted identifiers",
+   "expected": "REFUSE",
+   "refused": true,
+   "error": "NEW_STOCK_CUTOFF_REFERENCE_UNCLASSIFIED: erp.probe_physical_facts.product_id",
+   "status": "PASS"
+  },
+  {
+   "name": "comment inside qualified name",
+   "expected": "REFUSE",
+   "refused": true,
+   "error": "NEW_STOCK_CUTOFF_REFERENCE_UNCLASSIFIED: erp.probe_physical_facts.product_id",
+   "status": "PASS"
+  },
+  {
+   "name": "MERGE instead of INSERT",
+   "expected": "REFUSE",
+   "refused": true,
+   "error": "NEW_STOCK_CUTOFF_REFERENCE_UNCLASSIFIED: erp.probe_physical_facts.product_id",
+   "status": "PASS"
+  },
+  {
+   "name": "dynamic EXECUTE",
+   "expected": "REFUSE",
+   "refused": true,
+   "error": "NEW_STOCK_CUTOFF_REFERENCE_UNCLASSIFIED: erp.probe_physical_facts.product_id",
+   "status": "PASS"
+  },
+  {
+   "name": "assert through wrapper function",
+   "expected": "REFUSE",
+   "refused": true,
+   "error": "NEW_STOCK_CUTOFF_REFERENCE_UNCLASSIFIED: erp.probe_physical_facts.product_id",
+   "status": "PASS"
+  },
+  {
+   "name": "no producer at all, only a new product FK table",
+   "expected": "REFUSE",
+   "refused": true,
+   "error": "NEW_STOCK_CUTOFF_REFERENCE_UNCLASSIFIED: erp.probe_physical_facts.product_id",
+   "status": "PASS"
+  },
+  {
+   "name": "product_id uuid column without FK",
+   "expected": "REFUSE",
+   "refused": true,
+   "error": "NEW_STOCK_CUTOFF_REFERENCE_UNCLASSIFIED: erp.probe_nofk.product_id",
+   "status": "PASS"
+  },
+  {
+   "name": "prefixed *_product_id column without FK in public",
+   "expected": "REFUSE",
+   "refused": true,
+   "error": "NEW_STOCK_CUTOFF_REFERENCE_UNCLASSIFIED: public.probe_pub.target_product_id",
+   "status": "PASS"
+  },
+  {
+   "name": "renamed registered column (stale registry)",
+   "expected": "REFUSE",
+   "refused": true,
+   "error": "NEW_STOCK_CUTOFF_REFERENCE_UNCLASSIFIED: erp.sales_items.item_product_ref",
+   "status": "PASS"
+  },
+  {
+   "name": "helper rewritten to drop BS source",
+   "expected": "REFUSE",
+   "refused": true,
+   "error": "NEW_STOCK_CUTOFF_HELPER_SCOPE_DRIFT: {fg_lots}",
+   "status": "PASS"
+  },
+  {
+   "name": "consumer no longer calls helper",
+   "expected": "REFUSE",
+   "refused": true,
+   "error": "NEW_STOCK_CUTOFF_CONSUMER_DRIFT",
+   "status": "PASS"
+  },
+  {
+   "name": "CONTROL: new table without product reference",
+   "expected": "ACCEPT",
+   "refused": false,
+   "error": null,
+   "status": "PASS"
+  },
+  {
+   "name": "LIMIT: NEW_STOCK producer writing into a classified non-fact table",
+   "expected": "ACCEPT",
+   "refused": false,
+   "error": null,
+   "status": "PASS"
+  }
+ ],
+ "engine": "PostgreSQL 16.13 (Ubuntu 16.13-0ubuntu0.24.04.1) on x86_64-pc-linux-gnu, compiled by gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, 64-bit",
+ "canonical_pg16_matches": {
+  "erp.guard_bs_case_manual_origin_immutable_v1()": true,
+  "erp.latest_new_stock_physical_at_v1(uuid)": true,
+  "erp.assert_new_stock_cutoff_coverage_v1()": true
+ },
+ "baseline_guard": {
+  "error": null,
+  "references": 23,
+  "facts": [
+   "bs_cases",
+   "fg_lots"
+  ]
+ },
+ "helper_semantics": {
+  "empty": null,
+  "manual_without_origin": null,
+  "legacy_origin": null,
+  "qc_bs": "2026-09-23 09:00:00+00",
+  "out_of_nowhere_origin": "2026-09-23 09:30:00+00",
+  "out_of_nowhere_after_classification_cleared_type": "2026-09-23 09:30:00+00",
+  "rework_good_lot_only_newer": "2026-09-23 09:30:00+00",
+  "qc_good_lot": "2026-09-23 09:45:00+00"
+ },
+ "helper_expected": {
+  "empty": null,
+  "manual_without_origin": null,
+  "legacy_origin": null,
+  "qc_bs": "2026-09-23 09:00:00+00",
+  "out_of_nowhere_origin": "2026-09-23 09:30:00+00",
+  "out_of_nowhere_after_classification_cleared_type": "2026-09-23 09:30:00+00",
+  "rework_good_lot_only_newer": "2026-09-23 09:30:00+00",
+  "qc_good_lot": "2026-09-23 09:45:00+00"
+ },
+ "helper_status": "PASS",
+ "origin_immutability": {
+  "update": "BS_MANUAL_ORIGIN_IMMUTABLE: asal BS manual tidak boleh diubah atau dihapus",
+  "delete": "BS_MANUAL_ORIGIN_IMMUTABLE: asal BS manual tidak boleh diubah atau dihapus",
+  "truncate": "BS_MANUAL_ORIGIN_IMMUTABLE: asal BS manual tidak boleh diubah atau dihapus"
+ },
+ "origin_immutability_status": "PASS",
+ "summary": {
+  "guard_cases": 16,
+  "guard_pass": 16
+ }
+}
