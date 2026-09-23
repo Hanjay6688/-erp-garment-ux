@@ -357,6 +357,41 @@ def p02_engine_rate_invalid(cur):
                 unknown=[b for b in r['blockers'] if b['code']=='LAUNDRY_PRICE_UNKNOWN'])
 
 
+def p03_material_per_key(cur):
+    """A reversal that does not mirror its original leaves a negative total the effective history does not see:
+    the current-state check must then block every date instead of being scoped (per-key confirmation)."""
+    mat,loc,src=U(),U(),U()
+    cur.execute("""insert into erp.material_stock_movements(id,material_id,location_id,movement_type,qty_signed,source_type,physical_at)
+      values(%s,%s,%s,'ISSUE',-3,'T','2026-09-05 10:00+07')""",(src,mat,loc))
+    cur.execute("""insert into erp.material_stock_movements(material_id,location_id,movement_type,qty_signed,source_type,physical_at,reversal_of_id)
+      values(%s,%s,'ISSUE_REVERSAL',2,'T','2026-09-06 10:00+07',%s)""",(mat,loc,src))
+    cur.execute("insert into erp._stub_checks values('integrity','NEGATIVE_MATERIAL_LOCATION_BALANCE','ERROR',1,'neg')")
+    unmirrored=ready(cur,date(2026,9,1))
+    b=[x for x in unmirrored['blockers'] if x['code']=='NEGATIVE_MATERIAL_LOCATION_BALANCE']
+    return dict(status=unmirrored['status'],confirmed=[x['reference']['dated_detector_confirmed'] for x in b],
+                policy=[x['reference']['date_policy'] for x in b])
+
+
+def p03_material_scoped(cur):
+    mat,loc=U(),U()
+    cur.execute("""insert into erp.material_stock_movements(material_id,location_id,movement_type,qty_signed,source_type,physical_at)
+      values(%s,%s,'ISSUE',-1,'T','2026-09-20 10:00+07')""",(mat,loc))
+    cur.execute("insert into erp._stub_checks values('integrity','NEGATIVE_MATERIAL_LOCATION_BALANCE','ERROR',1,'neg')")
+    early=ready(cur,date(2026,9,10));late=ready(cur,date(2026,9,20))
+    return dict(early=early['status'],early_info=[b['code'] for b in early['info'] if b['family']=='INTEGRITY'],
+                late=late['status'],late_codes=codes(late))
+
+
+def recost_unscoped_po(cur):
+    p=po(cur,'PO-NOFACT');queue(cur,p)
+    r=ready(cur,date(2026,9,1));return dict(status=r['status'],codes=codes(r),scope=[b['scope'] for b in r['blockers']])
+
+
+def registry_complete(cur):
+    rows=cur.execute('select check_class,count(*) from erp.period_integrity_check_registry_v1() group by 1 order by 1').fetchall()
+    return dict(classes={k:v for k,v in rows},total=sum(v for _,v in rows))
+
+
 AUDIT_CASES=[
     ('P04_FG_SAME_INSTANT_MINUS_FIRST',lambda c:p04_fg_same_instant(c,True),dict(status='BLOCKED',codes=['FG_QTY_NEGATIVE_ASOF'])),
     ('P04_FG_SAME_INSTANT_PLUS_FIRST_CONTROL',lambda c:p04_fg_same_instant(c,False),dict(status='READY',codes=[])),
@@ -369,6 +404,10 @@ AUDIT_CASES=[
     ('P01_COMPLETENESS_FROM',p01_completeness_from,dict(never='None',no_filing='2026-09-10',engine='2026-09-10',reopened='2026-09-06')),
     ('P02_ESTIMATE_NONFINITE',p02_estimate_nonfinite,dict(refused={'NaN':True,'Infinity':True,'-Infinity':True,'-1':True,'1.005':True,'10000000000000000':True},estimates=0,rate=None,blocked='BLOCKED',table_nan='CheckViolation',after_valid='READY')),
     ('P02_ENGINE_RATE_INVALID',p02_engine_rate_invalid,dict(status='BLOCKED',invalid=['-1.00','NaN'],unknown=[])),
+    ('P03_MATERIAL_UNMIRRORED_REVERSAL_BLOCKS',p03_material_per_key,dict(status='BLOCKED',confirmed=[False],policy=['BLOCKS_EVERY_DATE'])),
+    ('P03_MATERIAL_SCOPED',p03_material_scoped,dict(early='READY',early_info=['NEGATIVE_MATERIAL_LOCATION_BALANCE'],late='BLOCKED',late_codes=['MATERIAL_QTY_NEGATIVE_ASOF'])),
+    ('RECOST_UNSCOPED_PO_BLOCKS_EVERY_DATE',recost_unscoped_po,dict(status='RECALC_PENDING',codes=['RECOST_UNSCOPED_ENTITY'],scope=['CURRENT_STATE'])),
+    ('P03_REGISTRY_COMPLETE',registry_complete,dict(classes={'DATABLE':94,'DATED_EQUIVALENT':2,'QUEUE_FAMILY':1,'SYSTEMIC':9,'UNCERTAIN':2},total=108)),
 ]
 
 

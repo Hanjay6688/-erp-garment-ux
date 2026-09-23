@@ -55,13 +55,122 @@ CREATE OR REPLACE FUNCTION erp.period_integrity_check_registry_v1()
  IMMUTABLE
  SET search_path TO ''
 AS $function$
--- P-03: class of every CRITICAL/ERROR current-state check the close engine reads. DATED_EQUIVALENT means a dated
--- detector of the engine necessarily fires whenever this check fails; the engine then reports the check as INFO and
--- lets the detector scope it by date, but only after the detector confirms it at run time. Every other class blocks
--- every date until the owner decides otherwise; a name missing here is UNCLASSIFIED and blocks too (fail closed).
+-- P-03: class of every CRITICAL/ERROR check the three runners can emit (108 names, STATIC classification in
+-- docs/evidence/cp6-aw/p03_integrity_check_classification.md). DATED_EQUIVALENT: the engine reports the check as INFO
+-- only when every key failing it right now is also found by the named dated detector (confirmed per key at run time);
+-- otherwise it blocks every date. DATABLE: the defect has a business date, but the engine does not scope it yet, so it
+-- blocks every date until the owner decides (handoff §20). SYSTEMIC and UNCERTAIN: configuration, privileges or
+-- current-state totals without a date; block every date. QUEUE_FAMILY: handled per date by the RECOST family. A name
+-- missing here is UNCLASSIFIED and blocks every date (fail closed).
 select x.check_name,x.check_class,x.dated_by from (values
+  ('AP_CASH_ADVANCE_CAPACITY','DATABLE',null),
+  ('AP_CASH_ADVANCE_PAYROLL_JOURNAL','DATABLE',null),
+  ('AP_CASH_ADVANCE_SOURCE','DATABLE',null),
+  ('AP_OPENING_RECEIPT_JOURNAL_DRIFT','DATABLE',null),
+  ('AP_OPENING_RECEIPT_SOURCE_DRIFT','DATABLE',null),
+  ('AP_PERIOD_POCKET_HPP','DATABLE',null),
+  ('AP_PERIOD_POCKET_LEDGER','DATABLE',null),
+  ('AP_PERIOD_POCKET_OVERLAP','DATABLE',null),
+  ('AP_PERIOD_POCKET_SOURCES','DATABLE',null),
+  ('AP_POCKET_EXPENSE_LEDGER','DATABLE',null),
+  ('AP_POCKET_NO_CUTTING','DATABLE',null),
+  ('AP_POCKET_SOURCE','DATABLE',null),
+  ('AP_PREPAYMENT_CAPACITY','DATABLE',null),
+  ('AP_PREPAYMENT_EVENT_JOURNAL','DATABLE',null),
+  ('AP_PREPAYMENT_GL_SUBLEDGER','UNCERTAIN',null),
+  ('AP_PREPAYMENT_OPENING_JOURNAL','DATABLE',null),
+  ('AP_PREPAYMENT_PAYMENT_JOURNAL','DATABLE',null),
+  ('AP_PREPAYMENT_PAYMENT_SOURCE','DATABLE',null),
+  ('BS_RESOLUTION_OVER_QTY','DATABLE',null),
+  ('DUPLICATE_CURRENT_HPP','DATABLE',null),
+  ('FG_CACHE_MISMATCH','SYSTEMIC',null),
+  ('KASBON_PAID_OVERSETTLED','DATABLE',null),
+  ('KASBON_STATUS_MISMATCH','DATABLE',null),
+  ('LAUNDRY_OVER_RETURN','DATABLE',null),
   ('NEGATIVE_FG_BALANCE','DATED_EQUIVALENT','FG_QTY_NEGATIVE_ASOF'),
-  ('NEGATIVE_MATERIAL_LOCATION_BALANCE','DATED_EQUIVALENT','MATERIAL_QTY_NEGATIVE_ASOF')
+  ('NEGATIVE_MATERIAL_LOCATION_BALANCE','DATED_EQUIVALENT','MATERIAL_QTY_NEGATIVE_ASOF'),
+  ('PAYROLL_ATTENDANCE_DUPLICATE','DATABLE',null),
+  ('PAYROLL_PAID_NEGATIVE_NET','DATABLE',null),
+  ('QC_SOURCE_OVER_ALLOCATION','DATABLE',null),
+  ('REWORK_COMPLETION_UNRECONCILED','DATABLE',null),
+  ('REWORK_FG_QTY_MISMATCH','DATABLE',null),
+  ('REWORK_GOOD_WITHOUT_FG','DATABLE',null),
+  ('REWORK_PAYROLL_BEFORE_COST_POST','DATABLE',null),
+  ('UNBALANCED_POSTED_JOURNALS','DATABLE',null),
+  ('V2620AD_OPENING_MATERIAL_TIMELINE_MISMATCH','DATABLE',null),
+  ('V2620AE_OPENING_MATERIAL_ROLL_INTEGRITY','DATABLE',null),
+  ('V2620AF_OPENING_SOURCE_LINEAGE_MISMATCH','DATABLE',null),
+  ('V2620AG_SALE_RESERVATION_LINEAGE_MISMATCH','DATABLE',null),
+  ('V2620AH_RETURN_ALLOCATION_LINEAGE_MISMATCH','DATABLE',null),
+  ('V2620AI_WORK_SOURCE_LINEAGE_MISMATCH','DATABLE',null),
+  ('V2620C_DRAFT_SALE_VALUE_LEAK','DATABLE',null),
+  ('V2620C_HPP_COMPONENT_SUM_MISMATCH','DATABLE',null),
+  ('V2620C_HPP_STATE_HAS_SUBCENT','DATABLE',null),
+  ('V2620C_PO_HPP_BOOK_MISMATCH','DATABLE',null),
+  ('V2620C_PO_HPP_TARGET_STATE_MISMATCH','DATABLE',null),
+  ('V2620C_SALES_RETURN_REPORT_INPUT_MISMATCH','DATABLE',null),
+  ('V2620C_SALE_REVENUE_REPORT_INPUT_MISMATCH','DATABLE',null),
+  ('V2620C_VENDOR_PAYMENT_EXACT_STATUS_MISMATCH','DATABLE',null),
+  ('V2620C_WIP_SOURCE_CONSERVATION_MISMATCH','DATABLE',null),
+  ('V2620D_REDISPATCH_PARTICIPANT_LINEAGE_MISMATCH','DATABLE',null),
+  ('V2620D_SALE_LIFECYCLE_HPP_DIMENSION_MISMATCH','DATABLE',null),
+  ('V2620E_OPENING_FG_GL_MISMATCH','DATABLE',null),
+  ('V2620E_OPENING_HPP_LINEAGE_MISMATCH','DATABLE',null),
+  ('V2620E_REDISPATCH_EVENT_MISMATCH','DATABLE',null),
+  ('V2620E_SALES_RETURN_VALUE_EXCEEDS_SALE','DATABLE',null),
+  ('V2620F_CONVERSION_VALUE_LINEAGE_MISMATCH','DATABLE',null),
+  ('V2620F_NON_PO_PRODUCT_HPP_BOOK_MISMATCH','DATABLE',null),
+  ('V2620G_LAUNDRY_WIP_CUSTODY_MISMATCH','DATABLE',null),
+  ('V2620H_CUSTOMER_AR_BY_CUSTOMER_MISMATCH','DATABLE',null),
+  ('V2620H_CUSTOMER_AR_STATUS_MISMATCH','DATABLE',null),
+  ('V2620H_FAILED_WASH_RETURN_TIME_MISMATCH','DATABLE',null),
+  ('V2620I_SALES_PAYMENT_JOURNAL_LINEAGE_MISMATCH','DATABLE',null),
+  ('V2620J_SALES_PAYMENT_IMMUTABLE_FACT_MISMATCH','DATABLE',null),
+  ('V2620K_PAYMENT_ALLOCATION_DATE_MISMATCH','DATABLE',null),
+  ('V2620L_NEGATIVE_VENDOR_AP','DATABLE',null),
+  ('V2620L_NONFINITE_LEDGER_MONEY','DATABLE',null),
+  ('V2620M_OPENING_SUBLEDGER_STATE','DATABLE',null),
+  ('V2620M_ORPHAN_PAYMENT_JOURNAL','DATABLE',null),
+  ('V2620M_PAYMENT_SOURCE_JOURNAL_MISMATCH','DATABLE',null),
+  ('V2620M_SUPPLIER_PAYMENT_EXACT_STATUS','DATABLE',null),
+  ('V2620N_SUPPLIER_CENT_FACT_LEDGER','DATABLE',null),
+  ('V2620O_SUPPLIER_RETURN_ALLOCATION','DATABLE',null),
+  ('V2620P_SUPPLIER_RETURN_MATCH_STATE','DATABLE',null),
+  ('V2620R_SUPPLIER_INVOICE_SOURCE_STATE','DATABLE',null),
+  ('V2620S_SUPPLIER_PAYMENT_BUSINESS_DATE','DATABLE',null),
+  ('V2620T_JOURNAL_FUTURE_BUSINESS_DATE','UNCERTAIN',null),
+  ('V2620T_MATERIAL_ADJUSTMENT_FACT_LEDGER','DATABLE',null),
+  ('V2620T_MATERIAL_ADJUSTMENT_REVALUATION','DATABLE',null),
+  ('V2620U_JOURNAL_REVERSAL_BUSINESS_DATE','DATABLE',null),
+  ('V2620U_MATERIAL_ADJUSTMENT_BUSINESS_DATE','DATABLE',null),
+  ('V2620U_MATERIAL_RECEIPT_BUSINESS_DATE','DATABLE',null),
+  ('V2620V_MISC_FINANCE_BUSINESS_DATE','DATABLE',null),
+  ('V2620W_SCRAP_BUSINESS_DATE','DATABLE',null),
+  ('V2620Y_OPENING_SETTLEMENT_BUSINESS_DATE','DATABLE',null),
+  ('V2620Y_SALES_PAYMENT_BUSINESS_DATE','DATABLE',null),
+  ('V2620Y_VENDOR_PAYMENT_BUSINESS_DATE','DATABLE',null),
+  ('V267_AP_GL_SUBLEDGER_MISMATCH','SYSTEMIC',null),
+  ('V267_BROWSER_ROLE_DIRECT_INVOICE_WRITE','SYSTEMIC',null),
+  ('V267_ESTIMATED_RECEIPT_MISSING_GRNI_RECLASS','DATABLE',null),
+  ('V267_GRNI_GL_SUBLEDGER_MISMATCH','SYSTEMIC',null),
+  ('V267_GRNI_MAPPING_INVALID','SYSTEMIC',null),
+  ('V267_INVOICE_MATCH_OVER_RECEIPT','DATABLE',null),
+  ('V267_LEGACY_CORRECTION_ON_GRNI','DATABLE',null),
+  ('V267_MISSING_GRNI_MAPPING','SYSTEMIC',null),
+  ('V267_PAYMENT_EXCEEDS_FINAL_AP','DATABLE',null),
+  ('V267_POSTED_INVOICE_MISSING_JOURNAL','DATABLE',null),
+  ('V267_POSTED_RETURN_MISSING_LIABILITY_SNAPSHOT','DATABLE',null),
+  ('V268_ACTIVE_SALE_MISSING_JOURNAL','DATABLE',null),
+  ('V268_AR_GL_SUBLEDGER_MISMATCH','SYSTEMIC',null),
+  ('V268_BALANCE_SHEET_EQUATION','DATABLE',null),
+  ('V268_BROWSER_DIRECT_LEDGER_OR_INVOICE_WRITE','SYSTEMIC',null),
+  ('V268_COST_RECALC_EXHAUSTED','QUEUE_FAMILY','RECOST'),
+  ('V268_DAILY_BALANCE_LEDGER_MISMATCH','DATABLE',null),
+  ('V268_LIABILITY_VIEW_HELPER_PRIVILEGE','SYSTEMIC',null),
+  ('V268_POSTED_CUSTOMER_PAYMENT_MISSING_JOURNAL','DATABLE',null),
+  ('V268_POSTED_SALES_RETURN_MISSING_JOURNAL','DATABLE',null),
+  ('V268_PRODUCTION_FG_WITHOUT_CURRENT_HPP','DATABLE',null),
+  ('V268_UNBALANCED_POSTED_JOURNAL','DATABLE',null)
 ) x(check_name,check_class,dated_by)
 $function$;
 CREATE OR REPLACE FUNCTION erp.period_blockers_v1(p_through date, p_window_from date)
@@ -83,6 +192,8 @@ declare
   v_end timestamptz := ((p_through + 1)::timestamp AT TIME ZONE 'Asia/Jakarta');
   v_fg jsonb;
   v_material jsonb;
+  v_fg_confirmed boolean;
+  v_material_confirmed boolean;
 begin
   if p_through is null then raise exception 'PERIOD_BLOCKERS_DATE_REQUIRED'; end if;
 
@@ -124,6 +235,23 @@ begin
     ) x
   ) f
   where q.entity_type='PO' and q.status in('PENDING','RUNNING','FAILED') and f.first_date is not null;
+
+  -- A PO queue row whose PO has no dated fact at all cannot be scoped to a date: it applies to every date.
+  return query
+  select 'RECOST'::text,'RECOST_UNSCOPED_ENTITY'::text,
+    case when q.status='FAILED' and q.attempt_count>=3 then 'CRITICAL' else 'RECALC' end,'CURRENT_STATE'::text,null::date,
+    jsonb_build_object('queue_id',q.id,'entity_type',q.entity_type,'entity_id',q.entity_id,'status',q.status,'attempt_count',q.attempt_count),
+    format('Antrean hitung ulang PO %s belum selesai dan PO ini belum punya fakta bertanggal; berlaku untuk semua tanggal.',q.entity_id)
+  from erp.cost_recalc_queue q
+  where q.entity_type='PO' and q.status in('PENDING','RUNNING','FAILED') and q.recalc_from is null
+    and not exists(select 1 from erp.material_stock_movements m join erp.cutting_groups cg on cg.id=m.source_id
+      where m.source_type in('CUTTING_GROUP','CUTTING_GROUP_RETURN') and cg.po_id=q.entity_id)
+    and not exists(select 1 from erp.material_stock_movements m join erp.contractor_material_issue_items ii on ii.id=m.source_id
+      join erp.contractor_material_issues cmi on cmi.id=ii.issue_id
+      where m.source_type='CONTRACTOR_MATERIAL_ISSUE_ITEM' and cmi.po_id=q.entity_id)
+    and not exists(select 1 from erp.fg_lots fl where fl.po_id=q.entity_id)
+    and not exists(select 1 from erp.journal_lines jl join erp.journal_entries je on je.id=jl.journal_entry_id
+      where jl.po_id=q.entity_id and je.status in('POSTED','REVERSED'));
 
   -- A queue row for another entity type cannot be scoped to a date: conservative, every date.
   return query
@@ -206,6 +334,21 @@ begin
   from jsonb_array_elements(v_material) k
   where (k->>'first_negative_at')::timestamptz<v_end;
 
+  -- Per-key confirmation (P-03): a current-state check scoped by a detector is INFO only when every key failing it
+  -- now is a key the detector found; an empty or partial match blocks every date.
+  select count(*)>0 and coalesce(bool_and(exists(select 1 from jsonb_array_elements(v_fg) x where x->>'level'='SKU'
+      and x->>'product_id'=k.product_id::text and x->>'location_id' is not distinct from k.location_id::text
+      and x->>'quality_grade' is not distinct from k.quality_grade)),false)
+  into v_fg_confirmed
+  from (select m.product_id,m.location_id,m.quality_grade from erp.fg_stock_movements m
+        group by m.product_id,m.location_id,m.quality_grade having sum(m.qty_signed)<0) k;
+  select count(*)>0 and coalesce(bool_and(exists(select 1 from jsonb_array_elements(v_material) x
+      where x->>'material_id'=k.material_id::text and x->>'location_id' is not distinct from k.location_id::text
+      and x->>'roll_id' is not distinct from k.roll_id::text)),false)
+  into v_material_confirmed
+  from (select m.material_id,m.location_id,m.roll_id from erp.material_stock_movements m
+        group by m.material_id,m.location_id,m.roll_id having sum(m.qty_signed)<-0.000001) k;
+
   -- INTEGRITY (current state), classified (P-03). Queue checks are handled per date by RECOST above.
   return query
   with failing as (
@@ -223,8 +366,8 @@ begin
     select * from erp.period_integrity_check_registry_v1()
   ), classified as (
     select f.*,coalesce(r.check_class,'UNCLASSIFIED') check_class,r.dated_by,
-      case r.dated_by when 'FG_QTY_NEGATIVE_ASOF' then jsonb_array_length(v_fg)>0
-                      when 'MATERIAL_QTY_NEGATIVE_ASOF' then jsonb_array_length(v_material)>0
+      case r.dated_by when 'FG_QTY_NEGATIVE_ASOF' then v_fg_confirmed
+                      when 'MATERIAL_QTY_NEGATIVE_ASOF' then v_material_confirmed
                       else false end confirmed
     from failing f left join registry r on r.check_name=f.check_name
   )

@@ -3,11 +3,11 @@
  "native": false,
  "server_version": "16.13 (Ubuntu 16.13-0ubuntu0.24.04.1)",
  "definitions_sha256": "dc75ba89edaf0a356f5e463270fb8863638c642e21891d17a8f6e4530ebaa6e3",
- "engine_sha256": "75f074b61e7fa33c7c926b5a51472de7c158188bd96118e50b8cd57ca56a0b17",
- "registry_sha256": "4f0c94d2eef229a4825afc3789111279b54656ee6bd7c6f4ad568a1d7fbcc30a",
+ "engine_sha256": "dd59dbb3d9686fbc35930fe003a9b7567bb894a8f7405435a426b1caa0aeb550",
+ "registry_sha256": "a607b1051e8f7535752ef5a05443d04462823789539dc7b51b544e904d62b094",
  "stubs": "run_v268/run_v267/run_integrity_checks, v_payroll_eligible_work_lines, v_material_grni_aging, account_id, require_owner_admin, refresh_material_cost_checkpoint and sync_finished_po_wip_residual are stubs",
  "counts": {
-  "PASS": 26,
+  "PASS": 30,
   "FAIL": 0,
   "ERROR": 0
  },
@@ -484,6 +484,98 @@
      "NaN"
     ],
     "unknown": []
+   }
+  },
+  {
+   "case": "P03_MATERIAL_UNMIRRORED_REVERSAL_BLOCKS",
+   "status": "PASS",
+   "expected": {
+    "status": "BLOCKED",
+    "confirmed": [
+     false
+    ],
+    "policy": [
+     "BLOCKS_EVERY_DATE"
+    ]
+   },
+   "observed": {
+    "status": "BLOCKED",
+    "confirmed": [
+     false
+    ],
+    "policy": [
+     "BLOCKS_EVERY_DATE"
+    ]
+   }
+  },
+  {
+   "case": "P03_MATERIAL_SCOPED",
+   "status": "PASS",
+   "expected": {
+    "early": "READY",
+    "early_info": [
+     "NEGATIVE_MATERIAL_LOCATION_BALANCE"
+    ],
+    "late": "BLOCKED",
+    "late_codes": [
+     "MATERIAL_QTY_NEGATIVE_ASOF"
+    ]
+   },
+   "observed": {
+    "early": "READY",
+    "early_info": [
+     "NEGATIVE_MATERIAL_LOCATION_BALANCE"
+    ],
+    "late": "BLOCKED",
+    "late_codes": [
+     "MATERIAL_QTY_NEGATIVE_ASOF"
+    ]
+   }
+  },
+  {
+   "case": "RECOST_UNSCOPED_PO_BLOCKS_EVERY_DATE",
+   "status": "PASS",
+   "expected": {
+    "status": "RECALC_PENDING",
+    "codes": [
+     "RECOST_UNSCOPED_ENTITY"
+    ],
+    "scope": [
+     "CURRENT_STATE"
+    ]
+   },
+   "observed": {
+    "status": "RECALC_PENDING",
+    "codes": [
+     "RECOST_UNSCOPED_ENTITY"
+    ],
+    "scope": [
+     "CURRENT_STATE"
+    ]
+   }
+  },
+  {
+   "case": "P03_REGISTRY_COMPLETE",
+   "status": "PASS",
+   "expected": {
+    "classes": {
+     "DATABLE": 94,
+     "DATED_EQUIVALENT": 2,
+     "QUEUE_FAMILY": 1,
+     "SYSTEMIC": 9,
+     "UNCERTAIN": 2
+    },
+    "total": 108
+   },
+   "observed": {
+    "classes": {
+     "DATABLE": 94,
+     "DATED_EQUIVALENT": 2,
+     "QUEUE_FAMILY": 1,
+     "SYSTEMIC": 9,
+     "UNCERTAIN": 2
+    },
+    "total": 108
    }
   },
   {

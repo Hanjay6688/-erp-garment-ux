@@ -132,16 +132,20 @@ Where this section differs from an earlier line, this section is what the code i
   and values that do not fit numeric(18,2), with no estimate row, rate change or journal. The estimates table has
   `rate_per_pcs <> 'NaN'`. The engine reports a delivery rate that is NaN or negative as `LAUNDRY_PRICE_INVALID`
   (CRITICAL) instead of treating it as known.
-- **P-03, current-state checks.** `erp.period_integrity_check_registry_v1()` classifies every CRITICAL/ERROR check
-  name. `DATED_EQUIVALENT` checks (a dated detector necessarily fires when they fail) are reported as INFO with
-  `SCOPED_BY_DATED_DETECTOR`, but only when the detector confirms a negative history at run time; otherwise they block
-  (fail closed). Every other failing check, and every unknown name (`UNCLASSIFIED`), blocks every date with
-  `BLOCKS_EVERY_DATE`. Whether datable-but-unscoped checks should keep blocking every date is an owner policy choice
-  (handoff §20), not a claim that the engine is fully per date.
+- **P-03, current-state checks.** `erp.period_integrity_check_registry_v1()` lists all 108 names the three runners
+  can emit as CRITICAL/ERROR (STATIC classification: `docs/evidence/cp6-aw/p03_integrity_check_classification.md`):
+  DATED_EQUIVALENT 2 (negative FG and material balance), DATABLE 94, SYSTEMIC 9, UNCERTAIN 2, QUEUE_FAMILY 1.
+  A DATED_EQUIVALENT check is INFO (`SCOPED_BY_DATED_DETECTOR`) only when every key failing it now is a key its dated
+  detector found (confirmed per key at run time); a reversal that does not mirror its original, or any mismatch,
+  blocks every date. Every other failing check, and every unknown name (`UNCLASSIFIED`), blocks every date with
+  `BLOCKS_EVERY_DATE` and its class. Scoping the 94 DATABLE checks by date is an owner policy choice (handoff §20),
+  not a claim that the engine is fully per date. A PO recost queue row whose PO has no dated fact at all now blocks
+  every date (`RECOST_UNSCOPED_ENTITY`), closing the gap noted in the classification.
 - **P-04, stock history order.** FG is checked per SKU and per lot, prefix by prefix in the posting guard's order
   (physical_at, system_created_at, id), not net per instant. Material follows the cost engine's effective history and
   order, including a transfer-in placed right after its transfer-out.
-- Evidence: `docs/evidence/cp6-aw/local_pg16_smoke_r2.json` (26/26, PG16 with stubs, not native) and
-  `local_pg16_smoke_r2_before_on_757b79a_code.json` (the 10 new non-control cases fail or error on the audited code).
+- Evidence: `docs/evidence/cp6-aw/local_pg16_smoke_r2.json` (30/30, PG16 with stubs, not native) and
+  `local_pg16_smoke_r2_before_on_757b79a_code.json` (the 14 new non-control cases fail or error on the audited code;
+  16 old cases and controls pass).
 - T1 install: `supabase/dev/cp6_aw_t1_family.sql` from `scripts/cp6_aw_build.py`, label T1_FAMILY, not a release
   package (no capsule, no rollback); guards: AV recorded, AW absent, close and snapshot text unchanged.

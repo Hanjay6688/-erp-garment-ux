@@ -8,8 +8,8 @@
  "stubs": "run_v268/run_v267/run_integrity_checks, v_payroll_eligible_work_lines, v_material_grni_aging, account_id, require_owner_admin, refresh_material_cost_checkpoint and sync_finished_po_wip_residual are stubs",
  "counts": {
   "PASS": 16,
-  "FAIL": 6,
-  "ERROR": 4
+  "FAIL": 8,
+  "ERROR": 6
  },
  "cases": [
   {
@@ -401,6 +401,57 @@
     "invalid": [],
     "unknown": []
    }
+  },
+  {
+   "case": "P03_MATERIAL_UNMIRRORED_REVERSAL_BLOCKS",
+   "status": "ERROR",
+   "error": "'dated_detector_confirmed'"
+  },
+  {
+   "case": "P03_MATERIAL_SCOPED",
+   "status": "FAIL",
+   "expected": {
+    "early": "READY",
+    "early_info": [
+     "NEGATIVE_MATERIAL_LOCATION_BALANCE"
+    ],
+    "late": "BLOCKED",
+    "late_codes": [
+     "MATERIAL_QTY_NEGATIVE_ASOF"
+    ]
+   },
+   "observed": {
+    "early": "BLOCKED",
+    "early_info": [],
+    "late": "BLOCKED",
+    "late_codes": [
+     "MATERIAL_QTY_NEGATIVE_ASOF",
+     "NEGATIVE_MATERIAL_LOCATION_BALANCE"
+    ]
+   }
+  },
+  {
+   "case": "RECOST_UNSCOPED_PO_BLOCKS_EVERY_DATE",
+   "status": "FAIL",
+   "expected": {
+    "status": "RECALC_PENDING",
+    "codes": [
+     "RECOST_UNSCOPED_ENTITY"
+    ],
+    "scope": [
+     "CURRENT_STATE"
+    ]
+   },
+   "observed": {
+    "status": "READY",
+    "codes": [],
+    "scope": []
+   }
+  },
+  {
+   "case": "P03_REGISTRY_COMPLETE",
+   "status": "ERROR",
+   "error": "function erp.period_integrity_check_registry_v1() does not exist\nLINE 1: select check_class,count(*) from erp.period_integrity_check_...\n                                         ^\nHINT:  No function matches the given name and argument types. You might need to add explicit type casts."
   },
   {
    "case": "CLOSE_GATE",

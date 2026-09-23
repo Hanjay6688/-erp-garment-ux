@@ -17,6 +17,8 @@ declare
   v_end timestamptz := ((p_through + 1)::timestamp AT TIME ZONE 'Asia/Jakarta');
   v_fg jsonb;
   v_material jsonb;
+  v_fg_confirmed boolean;
+  v_material_confirmed boolean;
 begin
   if p_through is null then raise exception 'PERIOD_BLOCKERS_DATE_REQUIRED'; end if;
 
@@ -58,6 +60,23 @@ begin
     ) x
   ) f
   where q.entity_type='PO' and q.status in('PENDING','RUNNING','FAILED') and f.first_date is not null;
+
+  -- A PO queue row whose PO has no dated fact at all cannot be scoped to a date: it applies to every date.
+  return query
+  select 'RECOST'::text,'RECOST_UNSCOPED_ENTITY'::text,
+    case when q.status='FAILED' and q.attempt_count>=3 then 'CRITICAL' else 'RECALC' end,'CURRENT_STATE'::text,null::date,
+    jsonb_build_object('queue_id',q.id,'entity_type',q.entity_type,'entity_id',q.entity_id,'status',q.status,'attempt_count',q.attempt_count),
+    format('Antrean hitung ulang PO %s belum selesai dan PO ini belum punya fakta bertanggal; berlaku untuk semua tanggal.',q.entity_id)
+  from erp.cost_recalc_queue q
+  where q.entity_type='PO' and q.status in('PENDING','RUNNING','FAILED') and q.recalc_from is null
+    and not exists(select 1 from erp.material_stock_movements m join erp.cutting_groups cg on cg.id=m.source_id
+      where m.source_type in('CUTTING_GROUP','CUTTING_GROUP_RETURN') and cg.po_id=q.entity_id)
+    and not exists(select 1 from erp.material_stock_movements m join erp.contractor_material_issue_items ii on ii.id=m.source_id
+      join erp.contractor_material_issues cmi on cmi.id=ii.issue_id
+      where m.source_type='CONTRACTOR_MATERIAL_ISSUE_ITEM' and cmi.po_id=q.entity_id)
+    and not exists(select 1 from erp.fg_lots fl where fl.po_id=q.entity_id)
+    and not exists(select 1 from erp.journal_lines jl join erp.journal_entries je on je.id=jl.journal_entry_id
+      where jl.po_id=q.entity_id and je.status in('POSTED','REVERSED'));
 
   -- A queue row for another entity type cannot be scoped to a date: conservative, every date.
   return query
@@ -140,6 +159,21 @@ begin
   from jsonb_array_elements(v_material) k
   where (k->>'first_negative_at')::timestamptz<v_end;
 
+  -- Per-key confirmation (P-03): a current-state check scoped by a detector is INFO only when every key failing it
+  -- now is a key the detector found; an empty or partial match blocks every date.
+  select count(*)>0 and coalesce(bool_and(exists(select 1 from jsonb_array_elements(v_fg) x where x->>'level'='SKU'
+      and x->>'product_id'=k.product_id::text and x->>'location_id' is not distinct from k.location_id::text
+      and x->>'quality_grade' is not distinct from k.quality_grade)),false)
+  into v_fg_confirmed
+  from (select m.product_id,m.location_id,m.quality_grade from erp.fg_stock_movements m
+        group by m.product_id,m.location_id,m.quality_grade having sum(m.qty_signed)<0) k;
+  select count(*)>0 and coalesce(bool_and(exists(select 1 from jsonb_array_elements(v_material) x
+      where x->>'material_id'=k.material_id::text and x->>'location_id' is not distinct from k.location_id::text
+      and x->>'roll_id' is not distinct from k.roll_id::text)),false)
+  into v_material_confirmed
+  from (select m.material_id,m.location_id,m.roll_id from erp.material_stock_movements m
+        group by m.material_id,m.location_id,m.roll_id having sum(m.qty_signed)<-0.000001) k;
+
   -- INTEGRITY (current state), classified (P-03). Queue checks are handled per date by RECOST above.
   return query
   with failing as (
@@ -157,8 +191,8 @@ begin
     select * from erp.period_integrity_check_registry_v1()
   ), classified as (
     select f.*,coalesce(r.check_class,'UNCLASSIFIED') check_class,r.dated_by,
-      case r.dated_by when 'FG_QTY_NEGATIVE_ASOF' then jsonb_array_length(v_fg)>0
-                      when 'MATERIAL_QTY_NEGATIVE_ASOF' then jsonb_array_length(v_material)>0
+      case r.dated_by when 'FG_QTY_NEGATIVE_ASOF' then v_fg_confirmed
+                      when 'MATERIAL_QTY_NEGATIVE_ASOF' then v_material_confirmed
                       else false end confirmed
     from failing f left join registry r on r.check_name=f.check_name
   )
