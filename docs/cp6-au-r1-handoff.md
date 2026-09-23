@@ -533,6 +533,7 @@ Pelajaran tambahan: **fixture yang harus bertahan melewati install successor han
 **Status: definisi dan uji lokal saja.** Belum ada paket migration, belum ada bukti native PG17, belum ditinjau. Cara pembungkusan paket menunggu keputusan owner tentang standar bukti (opsi A/B sedang dibicarakan owner dengan GPT; belum menjadi keputusan).
 
 **File:**
+- `docs/cp6-aw-design.md`: desain, jendela tanggal, atomisitas, kasus penerimaan 1–11, dan penyempurnaan dari peta kode. Sumber fakta kodenya ada di `docs/evidence/cp6-aw/static_code_map_s06.md` dan `static_code_map_engine_queries.md` (STATIC, read-only).
 - `scripts/cp6_aw_engine.sql`: `erp.period_blockers_v1(date,date)` dan `erp.period_readiness_v1(date,date)`.
 - `scripts/cp6_aw_definitions.py`: teks lama kanonik `close_accounting_through` dan `get_owner_financial_snapshot_v2`, yang cocok dengan pin katalog AV rev2, beserta teks barunya, fungsi baru, facade, tabel, dan trigger.
 - `scripts/cp6_aw_local_smoke.py` dan `docs/evidence/cp6-aw/local_pg16_smoke.json`.
@@ -580,7 +581,7 @@ Tiga mutasi sengaja (abaikan fakta lot, jangan buang pasangan reversal, anggap D
 
 **Sisa pekerjaan AW:**
 1. Pembungkusan paket (menunggu keputusan standar bukti).
-2. Probe native: kasus 1–11 di desain, termasuk invoice terlambat B04, race dua sesi, akses non-owner, dan facade sama dengan backend.
+2. Probe native: kasus 1–11 di `docs/cp6-aw-design.md` (bagian "Acceptance cases"), termasuk invoice terlambat B04, race dua sesi, akses non-owner, dan facade sama dengan backend.
 3. Regresi 326 + AS34 + AR174 + AT/AU. Delapan modul lama memanggil close di tengah skenario; setiap kasus yang bergeser didisposisi per kasus tanpa mengubah oracle.
 
 ## 18. Keputusan owner: standar bukti A + B, dan pembekuan writer Claude (23 September 2026)
@@ -641,3 +642,15 @@ Setiap run disimpan per job, termasuk yang gagal: 35848620445, 35849556805, 3585
   - Temuan di dalam daftar diperbaiki.
   - Temuan di luar daftar masuk daftar tunggu dengan tingkat keparahan, dan owner yang memutuskan: masuk CP6 bila P0/P1, atau dibawa ke CP7/nanti.
 - Usulan ini disampaikan ke owner di chat dan belum dijawab; **bukan keputusan**.
+
+### 18.5 Pernyataan owner lain di percakapan ini (dicatat apa adanya supaya tidak hilang)
+
+| Topik | Kutipan owner | Tempat yang terkait |
+| --- | --- | --- |
+| Kebutuhan bisnis di balik jalur barang jadi tanpa sumber | "BS out of nowhere tidak bisa di-rework jadi GOOD. … ini kenapa gabisa ya, tujuannya apa dong bs out of nowhere di bikin kalo gabisa di rework? aneh. loh tujuan stock adjustment kan buat masukin barang barang yang tiba tiba muncul saat stock opname kenapa bisa ditolak jadi gabisa??? kok banyak celah aneh" | Fakta kode §15.2; keputusan §15.1-FG (belum dibangun) |
+| Pertanyaan fitur | "oh ya kita juga punya fitur stock adjust right?" | §15.2: `post_fg_adjustment` hanya untuk lot yang sudah ada; halaman Stock Adjustment masih simulasi |
+| Prioritas | "cp7 penting banget" | Urutan CP tetap (§14 no. 4); CP7 dimulai sesudah gate CP6 dan mandat owner |
+| Maksud opsi A | "emang gw tuh maunya lu selesain semua nih sampe akhir baru kita cari salahnya gitu ga sih buat yang A?" | §18.1 |
+| Urutan sesudah pembekuan | "nanti akan dimulai dari gpt last audit kerjaan lu dan gw akan suruh lu gabungin semua a, b itu, tanya gpt balik, abis tu baru ke fable the powerful buat libas semua" | §18.1: audit GPT → penggabungan A+B oleh Claude → GPT → eksekusi oleh sesi berikutnya |
+| Aturan giliran | "jangan ngapa ngapain dl, disebelah dia lagi jadi writer tunggu giliran lu" | Aturan single writer; Claude hanya menulis pada gilirannya |
+| Harapan atas kesalahan writer | "well disini udah ada cacat produksi ya dari lu sampe ketangkep gpt. lu bisa terus belajar kan?" | Pelajaran §15.4 dan §16.5 |
