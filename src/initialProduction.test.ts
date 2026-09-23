@@ -19,4 +19,8 @@ describe('opening production response boundary', () => {
   it('refuses duplicated sources before rendering control totals', () => {
     expect(() => parseInitialProductionSources([row, row])).toThrow('dua kali')
   })
+  it('treats a missing collection as unreadable and only an explicit list as zero', () => {
+    expect(() => parseInitialProductionSources(undefined)).toThrow('tidak terbaca lengkap')
+    expect(parseInitialProductionSources([])).toEqual([])
+  })
 })

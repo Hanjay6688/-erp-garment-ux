@@ -284,7 +284,9 @@ export default function ConnectedWipStatusPage() {
           {row.open_flags.length > 0 && <div className="cwip-flags">{row.open_flags.map((openFlag) => <span key={openFlag.id}><Flag/><strong>{openFlag.type.replaceAll('_', ' ')}</strong>{openFlag.note}</span>)}</div>}
           <footer><span><SlidersHorizontal/> Row version {row.row_version} · diperbarui {new Date(row.updated_at).toLocaleString('id-ID')}</span>{row.control_status === 'ACTIVE' && <button disabled={!canAdjust || flagging} onClick={() => void flag(row)}><Flag/> {flagging ? 'Menyimpan…' : 'Tandai tindak lanjut'}</button>}</footer>
         </article>
-      })}{rows.length === 0 && openingRows.length === 0 && <div className="cwip-empty"><Check/><strong>{filter === 'ACTIVE' ? 'Tidak ada WIP aktif.' : 'Tidak ada data pada filter ini.'}</strong><span>Filter tidak mengubah state bisnis.</span></div>}</div>}
+      })}{rows.length === 0 && openingRows.length === 0 && (totalsKnown
+        ? <div className="cwip-empty"><Check/><strong>{filter === 'ACTIVE' ? 'Tidak ada WIP aktif.' : 'Tidak ada data pada filter ini.'}</strong><span>Filter tidak mengubah state bisnis.</span></div>
+        : <div className="cwip-empty" role="status"><AlertTriangle/><strong>WIP belum dapat dipastikan.</strong><span>Data terakhir tidak terbaca lengkap. Muat ulang sebelum mengambil keputusan.</span></div>)}</div>}
     </section>
   </section>
 }

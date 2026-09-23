@@ -22,4 +22,9 @@ describe('WIP facts must remain unknown when the response is malformed', () => {
     fixture.rows[0].open_flag_count = 1
     expect(() => parseWipResponse(fixture)).toThrow()
   })
+  it('rejects a response that omits the opening balance collection', () => {
+    const fixture = wipFixture()
+    Reflect.deleteProperty(fixture, 'opening_rows')
+    expect(() => parseWipResponse(fixture)).toThrow('tidak terbaca lengkap')
+  })
 })

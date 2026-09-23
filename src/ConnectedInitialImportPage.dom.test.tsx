@@ -81,7 +81,7 @@ describe('connected CSV import',()=>{
   await act(async()=>root.render(<ConnectedInitialImportPage/>));expect(client.rpc).not.toHaveBeenCalled();expect(container.textContent).toContain('owner dan admin')
  })
  it('fails closed on malformed response while accepting optional null values',()=>{
-  const value={recent:[],batch:{id,code:'A',status:'DRAFT',cutover_at:'2026-09-20T00:00:00Z',revision:rev(1),rows:[{id:rowId,entity:'CUSTOMER',source_row_no:2,payload:{customer_code:'A',address:null},validation_status:'PENDING',errors:[],applied:false}]}}
+  const value={recent:[],batch:{id,code:'A',status:'DRAFT',cutover_at:'2026-09-20T00:00:00Z',revision:rev(1),rows:[{id:rowId,entity:'CUSTOMER',source_row_no:2,payload:{customer_code:'A',address:null},validation_status:'PENDING',errors:[],applied:false}],cash_advances:[],advance_payrolls:[],prepayments:[],prepayment_cash_accounts:[],production_sources:[]}}
   expect(parseInitialImportWorkspace(value).batch?.rows[0].payload.address).toBe('')
   expect(()=>parseInitialImportWorkspace({...value,batch:{...value.batch,revision:'wrong'}})).toThrow()
  })
@@ -119,7 +119,7 @@ describe('connected CSV import',()=>{
   expect(writes()[0][1].p_payload).toMatchObject({balance_id:rowId,payroll_id:rowId,expected_payroll_version:'8',amount:'0'})
  })
  it('refuses malformed, rounded numeric, or negative cash advance state',()=>{
-  const wrap=(a:unknown)=>({recent:[],batch:{id,code:'A',status:'POSTED',cutover_at:'2026-09-20T00:00:00Z',revision:rev(1),rows:[],cash_advances:[a]}})
+  const wrap=(a:unknown)=>({recent:[],batch:{id,code:'A',status:'POSTED',cutover_at:'2026-09-20T00:00:00Z',revision:rev(1),rows:[],cash_advances:[a],advance_payrolls:[],prepayments:[],prepayment_cash_accounts:[],production_sources:[]}})
   expect(parseInitialImportWorkspace(wrap(advance())).batch?.cash_advances[0].original_amount).toBe('9007199254740993.01')
   expect(()=>parseInitialImportWorkspace(wrap({...advance(),available_amount:'-0.01'}))).toThrow('Saldo kasbon')
   expect(()=>parseInitialImportWorkspace(wrap({...advance(),original_amount:9007199254740993.01}))).toThrow('Saldo kasbon')
@@ -164,7 +164,7 @@ describe('connected CSV import',()=>{
   expect(writes()[1][1].p_payload).toMatchObject({operation:'REVERSE_PAYMENT',payment_id:id,reason:'Kelebihan DP',expected_revision:rev(2)})
  })
  it('fails closed on malformed prepayment amounts, history or cross-party targets',()=>{
-  const p=prepay(),wrap=(entry:unknown)=>({recent:[],batch:{id,code:'A',status:'POSTED',cutover_at:'2026-09-20T00:00:00Z',revision:rev(1),rows:[],prepayments:[entry]}})
+  const p=prepay(),wrap=(entry:unknown)=>({recent:[],batch:{id,code:'A',status:'POSTED',cutover_at:'2026-09-20T00:00:00Z',revision:rev(1),rows:[],cash_advances:[],advance_payrolls:[],prepayments:[entry],prepayment_cash_accounts:[],production_sources:[]}})
   expect(parseInitialImportWorkspace(wrap(p)).batch?.prepayments[0].original_amount).toBe('9007199254740993.01')
   expect(()=>parseInitialImportWorkspace(wrap({...p,remaining_amount:'-0.01'}))).toThrow('Saldo uang muka')
   expect(()=>parseInitialImportWorkspace(wrap({...p,original_amount:1.25}))).toThrow('Saldo uang muka')
@@ -188,5 +188,11 @@ describe('opening WIP continuation',()=>{
   expect(readProductionRecovery('disposable:actor-1').pending.INITIAL_IMPORT?.id).toBe(sent.p_client_request_id)
   expect(button('Sahkan hasil WIP awal').disabled).toBe(true)
   s.lose=false;await click('Reconcile');expect(writes()[1][1]).toEqual(sent);expect(s.effects).toBe(1)
+ })
+ it.each(['cash_advances','advance_payrolls','prepayments','prepayment_cash_accounts','production_sources'])('refuses a batch whose %s collection is missing instead of reading none',field=>{
+  const batch:Record<string,unknown>={id,code:'A',status:'POSTED',cutover_at:'2026-09-20T00:00:00Z',revision:rev(1),rows:[],cash_advances:[],advance_payrolls:[],prepayments:[],prepayment_cash_accounts:[],production_sources:[]}
+  expect(parseInitialImportWorkspace({recent:[],batch}).batch?.production_sources).toEqual([])
+  Reflect.deleteProperty(batch,field)
+  expect(()=>parseInitialImportWorkspace({recent:[],batch})).toThrow('tidak terbaca lengkap')
  })
 })

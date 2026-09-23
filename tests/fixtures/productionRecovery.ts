@@ -82,6 +82,6 @@ export function wipFixture() {
     pending_final_sku_handoff_qty_pcs: 0, remaining_final_sku_qty_pcs: 10,
     open_bs_count: 0, open_rework_count: 0, open_flag_count: 0, open_flags: [],
     distribution: null, control_status: 'ACTIVE', updated_at: '2026-09-21T12:00:00Z', row_version: 1,
-  }] }
+  }], opening_rows: [] }
 }
 

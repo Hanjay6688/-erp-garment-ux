@@ -24,7 +24,8 @@ function money(value: unknown): string {
   return value
 }
 export function parseInitialProductionSources(value: unknown, withMoney = false): InitialProductionSource[] {
-  if (value === undefined) return []
+  // A missing collection is an incomplete read, not an empty one; only an explicit [] establishes zero.
+  if (value === undefined) throw new Error('Daftar saldo produksi tidak terbaca lengkap.')
   if (!Array.isArray(value)) throw new Error('Daftar saldo produksi tidak valid.')
   const seen = new Set<string>()
   return value.map(candidate => {

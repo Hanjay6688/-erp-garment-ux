@@ -92,17 +92,21 @@ export function parseInitialImportWorkspace(value: unknown): Workspace {
       payload: Object.fromEntries(Object.entries(payload).map(([key, v]) => [key, v === null ? '' : String(v)])),
       validation_status: r.validation_status, errors: r.errors as string[], applied: r.applied }
   })
-  if ((b.cash_advances !== undefined && !Array.isArray(b.cash_advances)) || (b.advance_payrolls !== undefined && !Array.isArray(b.advance_payrolls))) throw new Error('Daftar kasbon tidak valid.')
-  const cash_advances = ((b.cash_advances ?? []) as unknown[]).map(cashAdvance)
-  const advance_payrolls = ((b.advance_payrolls ?? []) as unknown[]).map((value): AdvancePayroll => {
+  // Every collection is required: a missing key is an incomplete read, never "no balances".
+  const list = (value: unknown, label: string): unknown[] => {
+    if (value === undefined) throw new Error(`${label} tidak terbaca lengkap.`)
+    if (!Array.isArray(value)) throw new Error(`${label} tidak valid.`)
+    return value
+  }
+  const cash_advances = list(b.cash_advances, 'Daftar kasbon').map(cashAdvance)
+  const advance_payrolls = list(b.advance_payrolls, 'Pilihan payroll kasbon').map((value): AdvancePayroll => {
     const p = object(value)
     if (typeof p.id !== 'string' || !uuid.test(p.id) || typeof p.contractor_id !== 'string' || !uuid.test(p.contractor_id)
       || typeof p.payroll_number !== 'string' || !versionText(p.row_version)) throw new Error('Pilihan payroll kasbon tidak valid.')
     return { id:p.id, contractor_id:p.contractor_id, payroll_number:p.payroll_number, row_version:p.row_version }
   })
-  if ((b.prepayments !== undefined && !Array.isArray(b.prepayments)) || (b.prepayment_cash_accounts !== undefined && !Array.isArray(b.prepayment_cash_accounts))) throw new Error('Daftar uang muka tidak valid.')
-  const prepayments = ((b.prepayments ?? []) as unknown[]).map(prepayment)
-  const prepayment_cash_accounts = ((b.prepayment_cash_accounts ?? []) as unknown[]).map((value): CashAccount => {
+  const prepayments = list(b.prepayments, 'Daftar uang muka').map(prepayment)
+  const prepayment_cash_accounts = list(b.prepayment_cash_accounts, 'Rekening pengembalian uang muka').map((value): CashAccount => {
     const c = object(value)
     if (typeof c.id !== 'string' || !uuid.test(c.id) || typeof c.name !== 'string') throw new Error('Rekening pengembalian uang muka tidak valid.')
     return { id:c.id, name:c.name }

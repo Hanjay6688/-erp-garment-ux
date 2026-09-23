@@ -1,0 +1,266 @@
+{
+ "total": 454,
+ "passed": 454,
+ "failed": 0,
+ "suites": 104,
+ "files": [
+  {
+   "file": "src/BsReworkPage.test.tsx",
+   "status": "passed",
+   "tests": 5,
+   "failed": 0
+  },
+  {
+   "file": "src/ConnectedAccessoryIssuePage.dom.test.tsx",
+   "status": "passed",
+   "tests": 15,
+   "failed": 0
+  },
+  {
+   "file": "src/ConnectedBsResolutionPage.dom.test.tsx",
+   "status": "passed",
+   "tests": 19,
+   "failed": 0
+  },
+  {
+   "file": "src/ConnectedInitialImportPage.dom.test.tsx",
+   "status": "passed",
+   "tests": 19,
+   "failed": 0
+  },
+  {
+   "file": "src/ConnectedLaundryQcSelectors.dom.test.tsx",
+   "status": "passed",
+   "tests": 6,
+   "failed": 0
+  },
+  {
+   "file": "src/ConnectedPocketFabricPage.dom.test.tsx",
+   "status": "passed",
+   "tests": 12,
+   "failed": 0
+  },
+  {
+   "file": "src/ConnectedProductionRecovery.dom.test.tsx",
+   "status": "passed",
+   "tests": 23,
+   "failed": 0
+  },
+  {
+   "file": "src/ConnectedWipStatusPage.dom.test.tsx",
+   "status": "passed",
+   "tests": 5,
+   "failed": 0
+  },
+  {
+   "file": "src/ConnectedWipStatusPage.test.ts",
+   "status": "passed",
+   "tests": 15,
+   "failed": 0
+  },
+  {
+   "file": "src/MasterDataPages.dom.test.tsx",
+   "status": "passed",
+   "tests": 1,
+   "failed": 0
+  },
+  {
+   "file": "src/MovementBookRow.test.tsx",
+   "status": "passed",
+   "tests": 2,
+   "failed": 0
+  },
+  {
+   "file": "src/OperationsAdminPages.disclosure.test.tsx",
+   "status": "passed",
+   "tests": 3,
+   "failed": 0
+  },
+  {
+   "file": "src/UnassignedRollCard.test.tsx",
+   "status": "passed",
+   "tests": 6,
+   "failed": 0
+  },
+  {
+   "file": "src/accessProductionControl.test.ts",
+   "status": "passed",
+   "tests": 6,
+   "failed": 0
+  },
+  {
+   "file": "src/accessoryIssue.test.ts",
+   "status": "passed",
+   "tests": 19,
+   "failed": 0
+  },
+  {
+   "file": "src/attendance/AttendancePage.test.tsx",
+   "status": "passed",
+   "tests": 7,
+   "failed": 0
+  },
+  {
+   "file": "src/attendance/domain.test.ts",
+   "status": "passed",
+   "tests": 18,
+   "failed": 0
+  },
+  {
+   "file": "src/auth/AuthFlow.dom.test.tsx",
+   "status": "passed",
+   "tests": 3,
+   "failed": 0
+  },
+  {
+   "file": "src/auth/AuthGate.test.ts",
+   "status": "passed",
+   "tests": 1,
+   "failed": 0
+  },
+  {
+   "file": "src/auth/AuthProvider.lifecycle.test.tsx",
+   "status": "passed",
+   "tests": 12,
+   "failed": 0
+  },
+  {
+   "file": "src/auth/AuthProvider.test.ts",
+   "status": "passed",
+   "tests": 9,
+   "failed": 0
+  },
+  {
+   "file": "src/auth/InviteAcceptance.dom.test.tsx",
+   "status": "passed",
+   "tests": 3,
+   "failed": 0
+  },
+  {
+   "file": "src/auth/InviteAcceptance.test.ts",
+   "status": "passed",
+   "tests": 20,
+   "failed": 0
+  },
+  {
+   "file": "src/auth/accessCatalog.test.ts",
+   "status": "passed",
+   "tests": 4,
+   "failed": 0
+  },
+  {
+   "file": "src/bsResolutionModel.test.ts",
+   "status": "passed",
+   "tests": 6,
+   "failed": 0
+  },
+  {
+   "file": "src/config/runtime.test.ts",
+   "status": "passed",
+   "tests": 26,
+   "failed": 0
+  },
+  {
+   "file": "src/cp6BusinessTime.test.ts",
+   "status": "passed",
+   "tests": 2,
+   "failed": 0
+  },
+  {
+   "file": "src/cuttingPersistence.test.ts",
+   "status": "passed",
+   "tests": 8,
+   "failed": 0
+  },
+  {
+   "file": "src/cuttingSelectors.test.ts",
+   "status": "passed",
+   "tests": 7,
+   "failed": 0
+  },
+  {
+   "file": "src/fgNota.test.ts",
+   "status": "passed",
+   "tests": 1,
+   "failed": 0
+  },
+  {
+   "file": "src/initialImport.test.ts",
+   "status": "passed",
+   "tests": 32,
+   "failed": 0
+  },
+  {
+   "file": "src/initialProduction.test.ts",
+   "status": "passed",
+   "tests": 9,
+   "failed": 0
+  },
+  {
+   "file": "src/laundryQcModel.test.ts",
+   "status": "passed",
+   "tests": 18,
+   "failed": 0
+  },
+  {
+   "file": "src/lib/clientError.test.ts",
+   "status": "passed",
+   "tests": 2,
+   "failed": 0
+  },
+  {
+   "file": "src/payroll/regularWorkEntitlement.test.ts",
+   "status": "passed",
+   "tests": 2,
+   "failed": 0
+  },
+  {
+   "file": "src/productionRecovery.test.ts",
+   "status": "passed",
+   "tests": 28,
+   "failed": 0
+  },
+  {
+   "file": "src/quantityInput.test.ts",
+   "status": "passed",
+   "tests": 27,
+   "failed": 0
+  },
+  {
+   "file": "src/sales/distributeDozensEvenly.test.ts",
+   "status": "passed",
+   "tests": 5,
+   "failed": 0
+  },
+  {
+   "file": "src/sales/salesEligibility.test.ts",
+   "status": "passed",
+   "tests": 3,
+   "failed": 0
+  },
+  {
+   "file": "src/stock/StockHealthExplainability.test.tsx",
+   "status": "passed",
+   "tests": 1,
+   "failed": 0
+  },
+  {
+   "file": "src/stock/stockHealth.test.ts",
+   "status": "passed",
+   "tests": 24,
+   "failed": 0
+  },
+  {
+   "file": "src/useLaundryQcWorkspace.dom.test.tsx",
+   "status": "passed",
+   "tests": 10,
+   "failed": 0
+  },
+  {
+   "file": "src/wipControlPolicy.test.ts",
+   "status": "passed",
+   "tests": 10,
+   "failed": 0
+  }
+ ]
+}

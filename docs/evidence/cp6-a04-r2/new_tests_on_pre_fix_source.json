@@ -1,0 +1,332 @@
+{
+ "total": 54,
+ "passed": 45,
+ "failed": 9,
+ "suites": 11,
+ "cases": [
+  {
+   "file": "ConnectedInitialImportPage.dom.test.tsx",
+   "title": "connected CSV import uploads actual file bytes, edits before saving and finalizes only after server validation",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "ConnectedInitialImportPage.dom.test.tsx",
+   "title": "connected CSV import replays the exact saved envelope after a lost response and remount",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "ConnectedInitialImportPage.dom.test.tsx",
+   "title": "connected CSV import retains edits but refuses to rebase them silently after stale version rejection",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "ConnectedInitialImportPage.dom.test.tsx",
+   "title": "connected CSV import denies unauthorized roles without reading data",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "ConnectedInitialImportPage.dom.test.tsx",
+   "title": "connected CSV import fails closed on malformed response while accepting optional null values",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "ConnectedInitialImportPage.dom.test.tsx",
+   "title": "connected CSV import shows exact cash advance amounts and sends an allocation only for a payroll of that contractor",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "ConnectedInitialImportPage.dom.test.tsx",
+   "title": "connected CSV import recovers a lost cash advance allocation response with the same request and does not issue it twice",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "ConnectedInitialImportPage.dom.test.tsx",
+   "title": "connected CSV import releases draft allocations with zero and locks approved or paid allocations",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "ConnectedInitialImportPage.dom.test.tsx",
+   "title": "connected CSV import refuses malformed, rounded numeric, or negative cash advance state",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "ConnectedInitialImportPage.dom.test.tsx",
+   "title": "connected CSV import applies a prepayment with exact money text, selected target and explicit economic date",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "ConnectedInitialImportPage.dom.test.tsx",
+   "title": "connected CSV import reconciles a lost prepayment response using the original request without a second application",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "ConnectedInitialImportPage.dom.test.tsx",
+   "title": "connected CSV import requires a cash account for refunds and sends linked reversals only with a reason",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "ConnectedInitialImportPage.dom.test.tsx",
+   "title": "connected CSV import fails closed on malformed prepayment amounts, history or cross-party targets",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "ConnectedInitialImportPage.dom.test.tsx",
+   "title": "opening WIP continuation sends exact remaining quantity and keeps a lost response locked for recovery",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "ConnectedInitialImportPage.dom.test.tsx",
+   "title": "opening WIP continuation refuses a batch whose cash_advances collection is missing instead of reading none",
+   "status": "failed",
+   "failure": "AssertionError: expected [Function] to throw an error"
+  },
+  {
+   "file": "ConnectedInitialImportPage.dom.test.tsx",
+   "title": "opening WIP continuation refuses a batch whose advance_payrolls collection is missing instead of reading none",
+   "status": "failed",
+   "failure": "AssertionError: expected [Function] to throw an error"
+  },
+  {
+   "file": "ConnectedInitialImportPage.dom.test.tsx",
+   "title": "opening WIP continuation refuses a batch whose prepayments collection is missing instead of reading none",
+   "status": "failed",
+   "failure": "AssertionError: expected [Function] to throw an error"
+  },
+  {
+   "file": "ConnectedInitialImportPage.dom.test.tsx",
+   "title": "opening WIP continuation refuses a batch whose prepayment_cash_accounts collection is missing instead of reading none",
+   "status": "failed",
+   "failure": "AssertionError: expected [Function] to throw an error"
+  },
+  {
+   "file": "ConnectedInitialImportPage.dom.test.tsx",
+   "title": "opening WIP continuation refuses a batch whose production_sources collection is missing instead of reading none",
+   "status": "failed",
+   "failure": "AssertionError: expected [Function] to throw an error"
+  },
+  {
+   "file": "ConnectedWipStatusPage.dom.test.tsx",
+   "title": "WIP totals stay unknown unless the whole response was read shows a real zero only for an explicit empty opening collection",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "ConnectedWipStatusPage.dom.test.tsx",
+   "title": "WIP totals stay unknown unless the whole response was read counts complete opening WIP as quantity and open action",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "ConnectedWipStatusPage.dom.test.tsx",
+   "title": "WIP totals stay unknown unless the whole response was read refuses a response without the opening collection instead of reading zero",
+   "status": "failed",
+   "failure": "AssertionError: expected [ '0', '0 pcs', '0' ] to deeply equal [ '—', '—', '—' ]"
+  },
+  {
+   "file": "ConnectedWipStatusPage.dom.test.tsx",
+   "title": "WIP totals stay unknown unless the whole response was read does not replace eight known pieces with zero when a refetch loses the opening collection",
+   "status": "failed",
+   "failure": "AssertionError: expected [ '0', '0 pcs', '0' ] to deeply equal [ '—', '—', '—' ]"
+  },
+  {
+   "file": "ConnectedWipStatusPage.dom.test.tsx",
+   "title": "WIP totals stay unknown unless the whole response was read does not keep earlier totals as current after a failed refetch",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "ConnectedWipStatusPage.test.ts",
+   "title": "WIP facts must remain unknown when the response is malformed accepts real zero quantities and legacy nullable Pattern/distribution",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "ConnectedWipStatusPage.test.ts",
+   "title": "WIP facts must remain unknown when the response is malformed rejects invalid COUNT not-a-number",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "ConnectedWipStatusPage.test.ts",
+   "title": "WIP facts must remain unknown when the response is malformed rejects invalid COUNT null",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "ConnectedWipStatusPage.test.ts",
+   "title": "WIP facts must remain unknown when the response is malformed rejects invalid COUNT undefined",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "ConnectedWipStatusPage.test.ts",
+   "title": "WIP facts must remain unknown when the response is malformed rejects invalid COUNT ",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "ConnectedWipStatusPage.test.ts",
+   "title": "WIP facts must remain unknown when the response is malformed rejects invalid COUNT true",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "ConnectedWipStatusPage.test.ts",
+   "title": "WIP facts must remain unknown when the response is malformed rejects invalid COUNT -1",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "ConnectedWipStatusPage.test.ts",
+   "title": "WIP facts must remain unknown when the response is malformed rejects invalid COUNT 1.5",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "ConnectedWipStatusPage.test.ts",
+   "title": "WIP facts must remain unknown when the response is malformed rejects invalid COUNT 9007199254740992",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "ConnectedWipStatusPage.test.ts",
+   "title": "WIP facts must remain unknown when the response is malformed rejects missing required field row_version",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "ConnectedWipStatusPage.test.ts",
+   "title": "WIP facts must remain unknown when the response is malformed rejects missing required field open_flags",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "ConnectedWipStatusPage.test.ts",
+   "title": "WIP facts must remain unknown when the response is malformed rejects missing required field updated_at",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "ConnectedWipStatusPage.test.ts",
+   "title": "WIP facts must remain unknown when the response is malformed rejects missing required field distribution",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "ConnectedWipStatusPage.test.ts",
+   "title": "WIP facts must remain unknown when the response is malformed rejects flags inconsistent with their count",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "ConnectedWipStatusPage.test.ts",
+   "title": "WIP facts must remain unknown when the response is malformed rejects a response that omits the opening balance collection",
+   "status": "failed",
+   "failure": "AssertionError: expected [Function] to throw an error"
+  },
+  {
+   "file": "accessProductionControl.test.ts",
+   "title": "connected access, Pola, and WIP response boundaries groups only relevant permission actions by module",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "accessProductionControl.test.ts",
+   "title": "connected access, Pola, and WIP response boundaries sorts Pola deterministically and keeps inactive history readable",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "accessProductionControl.test.ts",
+   "title": "connected access, Pola, and WIP response boundaries supports an empty Master Pola and auto-selects one canonical quick-create result once",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "accessProductionControl.test.ts",
+   "title": "connected access, Pola, and WIP response boundaries keeps Potongan save fail-closed until a canonical pattern_id is selected",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "accessProductionControl.test.ts",
+   "title": "connected access, Pola, and WIP response boundaries preserves authoritative WIP status and exposes every active blocker",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "accessProductionControl.test.ts",
+   "title": "connected access, Pola, and WIP response boundaries rejects malformed persisted Batch Distribusi instead of inventing WIP lineage",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "initialProduction.test.ts",
+   "title": "opening production response boundary preserves exact money as text and distinct physical quantities",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "initialProduction.test.ts",
+   "title": "opening production response boundary keeps the production reader free of finance values",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "initialProduction.test.ts",
+   "title": "opening production response boundary rejects inconsistent source responses {\"remaining_qty_pcs\":6}",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "initialProduction.test.ts",
+   "title": "opening production response boundary rejects inconsistent source responses {\"qty_pcs\":8.5}",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "initialProduction.test.ts",
+   "title": "opening production response boundary rejects inconsistent source responses {\"stage\":\"MISSING\"}",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "initialProduction.test.ts",
+   "title": "opening production response boundary rejects inconsistent source responses {\"outputs\":null}",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "initialProduction.test.ts",
+   "title": "opening production response boundary rejects inconsistent source responses {\"original_amount\":1.25}",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "initialProduction.test.ts",
+   "title": "opening production response boundary refuses duplicated sources before rendering control totals",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "initialProduction.test.ts",
+   "title": "opening production response boundary treats a missing collection as unreadable and only an explicit list as zero",
+   "status": "failed",
+   "failure": "AssertionError: expected [Function] to throw an error"
+  }
+ ]
+}

@@ -1,0 +1,80 @@
+{
+ "total": 12,
+ "passed": 12,
+ "failed": 0,
+ "suites": 2,
+ "cases": [
+  {
+   "file": "opening-response-contract.test.tsx",
+   "title": "independent completeness contract for opening facts CONTROL: explicit empty opening_rows can establish real zero",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "opening-response-contract.test.tsx",
+   "title": "independent completeness contract for opening facts CONTROL: complete opening WIP contributes quantity and blocker",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "opening-response-contract.test.tsx",
+   "title": "independent completeness contract for opening facts CONTROL: explicit null opening_rows is refused",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "opening-response-contract.test.tsx",
+   "title": "independent completeness contract for opening facts CONTRACT: missing opening_rows must be refused by parser",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "opening-response-contract.test.tsx",
+   "title": "independent completeness contract for opening facts CONTRACT: missing opening_rows must keep real UI totals unknown",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "opening-response-contract.test.tsx",
+   "title": "independent completeness contract for opening facts CONTROL: malformed opening_rows preserves unknown totals",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "opening-response-contract.test.tsx",
+   "title": "independent completeness contract for opening facts CONTRACT: a refetch losing known opening facts must not replace eight PCS with zero",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "opening-response-contract.test.tsx",
+   "title": "independent completeness contract for opening facts CONTRACT: an invalid first response must not declare no active WIP",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "opening-response-contract.test.tsx",
+   "title": "independent completeness contract for opening facts CONTROL: explicit empty import child collections are accepted",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "opening-response-contract.test.tsx",
+   "title": "independent completeness contract for opening facts CONTRACT: missing import production_sources must remain unknown",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "opening-response-contract.test.tsx",
+   "title": "independent completeness contract for opening facts CONTRACT: missing import cash_advances must remain unknown",
+   "status": "passed",
+   "failure": null
+  },
+  {
+   "file": "opening-response-contract.test.tsx",
+   "title": "independent completeness contract for opening facts CONTRACT: missing import prepayments must remain unknown",
+   "status": "passed",
+   "failure": null
+  }
+ ]
+}

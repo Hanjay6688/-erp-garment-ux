@@ -63,6 +63,7 @@ describe('connected access, Pola, and WIP response boundaries', () => {
           batches: [{ id: 'batch-1', batch_no: 1, notes: 'Navy', qty_pcs: 100, sizes: [{ size_code: 'M', qty_pcs: 100 }] }],
         },
       }],
+      opening_rows: [],
     })
     expect(response.rows[0].control_status).toBe('ACTIVE')
     expect(activeBlockerLabels(response.rows[0])).toEqual([
@@ -79,6 +80,7 @@ describe('connected access, Pola, and WIP response boundaries', () => {
         po_number: 'PO-1', group_number: 'CUT-1', model_code: 'M', model_name: 'Model', executor_name: null, pattern_id: null, pattern_code: null, pattern_revision: null, pattern_name: null, pattern_sort_order: null,
         effective_qty_pcs: 1, sewn_qty_pcs: 0, unfinished_sewing_qty_pcs: 1, unsent_ready_qty_pcs: 0, laundry_draft_qty_pcs: 0, laundry_in_transit_qty_pcs: 0, unresolved_laundry_issue_qty_pcs: 0, pending_final_sku_handoff_qty_pcs: 0, remaining_final_sku_qty_pcs: 1, open_bs_count: 0, open_rework_count: 0,
         distribution: { pickup_id: 'pickup-1', allocation_mode: 'ROLL', batches: [{ batch_no: 0 }] } }],
+      opening_rows: [],
     })).toThrow(/WIP/)
   })
 })

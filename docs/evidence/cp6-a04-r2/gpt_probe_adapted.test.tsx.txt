@@ -1,0 +1,124 @@
+import fs from 'node:fs'
+import path from 'node:path'
+import { act } from 'react'
+import { createRoot, type Root } from 'react-dom/client'
+import { afterAll, afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import ConnectedWipStatusPage, { parseWipResponse } from '../av-independent-review/src/ConnectedWipStatusPage'
+import { parseInitialImportWorkspace } from '../av-independent-review/src/ConnectedInitialImportPage'
+import { recoveryIdentity, recoveryPatterns } from '../av-independent-review/tests/fixtures/productionRecovery'
+
+// Product modules are imported directly from frozen a58c057; only RPC transport
+// and authenticated identity are synthetic. This is not browser/HTTP/DB proof.
+const authState = vi.hoisted(() => ({ current: null as unknown }))
+const client = vi.hoisted(() => ({ rpc: vi.fn() }))
+vi.mock('../av-independent-review/src/auth/AuthProvider', () => ({ useAuth: () => authState.current }))
+vi.mock('../av-independent-review/src/lib/supabase', () => ({ getUatSupabaseClient: () => client }))
+
+const observations: unknown[] = []
+const capture = (fn: () => unknown) => { try { return { returned: fn() } } catch (error) { return { threw: (error as Error).message } } }
+const emptyWip = () => ({ filter: 'ACTIVE', sort: 'PATTERN', pattern_id: null, rows: [], opening_rows: [] })
+const opening = {
+  opening_item_id: '11111111-1111-4111-8111-111111111111',
+  batch_id: '22222222-2222-4222-8222-222222222222', source_key: 'OPEN-001',
+  po_number: 'PO-OPEN-001', balance_type: 'WIP', stage: 'SEWING', size_code: 'M',
+  qty_pcs: 8, remaining_qty_pcs: 8, completed_qty_pcs: 0,
+  contractor_name: 'Mandor audit', vendor_name: null, outputs: [],
+  original_amount: '80.00', current_amount: '80.00',
+}
+const workspace = () => ({ recent: [], batch: {
+  id: '22222222-2222-4222-8222-222222222222', code: 'AUDIT-OPEN', status: 'APPLIED',
+  cutover_at: '2026-09-22T17:00:00Z', revision: 'a'.repeat(64), rows: [],
+  cash_advances: [], advance_payrolls: [], prepayments: [], prepayment_cash_accounts: [], production_sources: [],
+} })
+let root: Root
+let container: HTMLDivElement
+beforeEach(() => {
+  ;(globalThis as typeof globalThis & { IS_REACT_ACT_ENVIRONMENT: boolean }).IS_REACT_ACT_ENVIRONMENT = true
+  localStorage.clear(); client.rpc.mockReset(); authState.current = recoveryIdentity
+  Object.defineProperty(navigator, 'locks', { configurable: true, value: {
+    request: async (name: string, _options: unknown, callback: (lock: unknown) => Promise<unknown>) => callback({ name, mode: 'exclusive' }),
+  } })
+  container = document.createElement('div'); document.body.append(container); root = createRoot(container)
+})
+afterEach(async () => {
+  await act(async () => root.unmount()); container.remove(); localStorage.clear()
+  Reflect.deleteProperty(navigator, 'locks'); vi.restoreAllMocks()
+})
+afterAll(() => {
+  fs.writeFileSync(path.resolve(process.cwd(), './OBSERVATIONS_ADAPTED.json'),
+    JSON.stringify({ scope: 'Independent actual parser + mounted React DOM; mocked RPC and identity; NOT browser/HTTP/native DB', observations }, null, 2) + '\n')
+})
+async function mount(response: unknown, label: string) {
+  client.rpc.mockImplementation(async (name: string) => {
+    if (name === 'erp_list_patterns_v1') return { data: recoveryPatterns, error: null }
+    if (name === 'erp_get_wip_control_v1') return { data: response, error: null }
+    throw new Error(`Unexpected RPC: ${name}`)
+  })
+  await act(async () => root.render(<ConnectedWipStatusPage/>))
+  await act(async () => { await new Promise(resolve => setTimeout(resolve, 0)) })
+  return recordFacts(label)
+}
+function recordFacts(label: string) {
+  const facts = {
+    label,
+    kpis: [...container.querySelectorAll('.cwip-kpis strong')].map(x => x.textContent),
+    alert: container.querySelector('[role="alert"]')?.textContent ?? null,
+    declaresNoActiveWip: container.textContent?.includes('Tidak ada WIP aktif.') ?? false,
+    openingSectionVisible: container.querySelector('[aria-label="WIP saldo awal"]') !== null,
+  }
+  observations.push(facts)
+  return facts
+}
+describe('independent completeness contract for opening facts', () => {
+  it('CONTROL: explicit empty opening_rows can establish real zero', async () => {
+    const actual = await mount(emptyWip(), 'explicit empty opening_rows')
+    expect(actual.kpis).toEqual(['0', '0 pcs', '0']); expect(actual.alert).toBe(null)
+  })
+  it('CONTROL: complete opening WIP contributes quantity and blocker', async () => {
+    const actual = await mount({ ...emptyWip(), opening_rows: [opening] }, 'complete eight-piece opening WIP')
+    expect(actual.kpis).toEqual(['1', '8 pcs', '1']); expect(actual.openingSectionVisible).toBe(true)
+  })
+  it('CONTROL: explicit null opening_rows is refused', () => {
+    expect(() => parseWipResponse({ ...emptyWip(), opening_rows: null })).toThrow()
+  })
+  it('CONTRACT: missing opening_rows must be refused by parser', () => {
+    const value = emptyWip(); Reflect.deleteProperty(value, 'opening_rows')
+    observations.push({ label: 'parser missing opening_rows', actual: capture(() => parseWipResponse(value)) })
+    expect(() => parseWipResponse(value)).toThrow()
+  })
+  it('CONTRACT: missing opening_rows must keep real UI totals unknown', async () => {
+    const value = emptyWip(); Reflect.deleteProperty(value, 'opening_rows')
+    const actual = await mount(value, 'missing opening_rows')
+    expect(actual.kpis).toEqual(['—', '—', '—']); expect(actual.alert).not.toBe(null)
+  })
+  it('CONTROL: malformed opening_rows preserves unknown totals', async () => {
+    const actual = await mount({ ...emptyWip(), opening_rows: null }, 'explicit null opening_rows')
+    expect(actual.kpis).toEqual(['—', '—', '—']); expect(actual.alert).not.toBe(null)
+  })
+  it('CONTRACT: a refetch losing known opening facts must not replace eight PCS with zero', async () => {
+    await mount({ ...emptyWip(), opening_rows: [opening] }, 'before truncated refetch: eight PCS')
+    const value = emptyWip(); Reflect.deleteProperty(value, 'opening_rows')
+    client.rpc.mockImplementation(async (name: string) => {
+      if (name === 'erp_list_patterns_v1') return { data: recoveryPatterns, error: null }
+      if (name === 'erp_get_wip_control_v1') return { data: value, error: null }
+      throw new Error(`Unexpected RPC: ${name}`)
+    })
+    const refetch = container.querySelector<HTMLButtonElement>('.cwip-hero button')!
+    await act(async () => refetch.click())
+    await act(async () => { await new Promise(resolve => setTimeout(resolve, 0)) })
+    const actual = recordFacts('after refetch loses previously present eight PCS')
+    expect(actual.kpis).toEqual(['—', '—', '—']); expect(actual.declaresNoActiveWip).toBe(false)
+  })
+  it('CONTRACT: an invalid first response must not declare no active WIP', async () => {
+    const actual = await mount({ ...emptyWip(), opening_rows: null }, 'unknown response empty-state claim')
+    expect(actual.declaresNoActiveWip).toBe(false)
+  })
+  it('CONTROL: explicit empty import child collections are accepted', () => {
+    expect(parseInitialImportWorkspace(workspace()).batch?.production_sources).toEqual([])
+  })
+  it.each(['production_sources', 'cash_advances', 'prepayments'])('CONTRACT: missing import %s must remain unknown', field => {
+    const value = workspace(); Reflect.deleteProperty(value.batch, field)
+    observations.push({ label: `import missing ${field}`, actual: capture(() => parseInitialImportWorkspace(value)) })
+    expect(() => parseInitialImportWorkspace(value)).toThrow()
+  })
+})
