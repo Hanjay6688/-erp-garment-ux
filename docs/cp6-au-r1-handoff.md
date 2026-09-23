@@ -654,3 +654,39 @@ Setiap run disimpan per job, termasuk yang gagal: 35848620445, 35849556805, 3585
 | Urutan sesudah pembekuan | "nanti akan dimulai dari gpt last audit kerjaan lu dan gw akan suruh lu gabungin semua a, b itu, tanya gpt balik, abis tu baru ke fable the powerful buat libas semua" | §18.1: audit GPT → penggabungan A+B oleh Claude → GPT → eksekusi oleh sesi berikutnya |
 | Aturan giliran | "jangan ngapa ngapain dl, disebelah dia lagi jadi writer tunggu giliran lu" | Aturan single writer; Claude hanya menulis pada gilirannya |
 | Harapan atas kesalahan writer | "well disini udah ada cacat produksi ya dari lu sampe ketangkep gpt. lu bisa terus belajar kan?" | Pelajaran §15.4 dan §16.5 |
+
+## 19. Mandat owner: kerjakan A+B dan semua temuan audit GPT (23 September 2026)
+
+### 19.1 Dasar
+
+- **Audit independen GPT atas `757b79a`:** `docs/reviews/ERP_CP6_Audit_757b79a_20260923.md`, disalin apa adanya.
+  - A04-R2 dan AV rev2 **diterima dalam batas pengujian audit**; kelima fase AV diulang native oleh peninjau.
+  - AW belum siap: temuan P-01 (P1), P-02 (P2), P-03 (P2), P-04 (P3).
+  - Temuan alat uji H-01 (P2) dan gap rilis G-01 (P1).
+  - Tidak ada P0 baru dalam lingkup audit.
+  - Lampiran audit yang dirujuk (`02_FEEDBACK_CLAUDE.md`, `03_SCOPE_CP6.md`, `04_BASELINE_AB.md`, file bukti JSON) **belum diterima writer**; hanya laporan utama.
+- **Draf keputusan GPT yang diteruskan owner:**
+  - A+B disetujui.
+  - Cakupan CP6 dikunci pada A04-R2, AV, AW, AX, dan gerbang rilis. Temuan lain dicatat terpisah; P0/P1 tidak otomatis memperlebar pekerjaan tanpa keputusan owner.
+  - Metadata hosted boleh diperiksa **read-only** (query dan hasilnya ditunjukkan, tanpa data bisnis, tanpa mutasi). 70 riwayat migrasi hosted dan 19 file lokal dicocokkan menurut isi dan urutan.
+  - Uji paket rilis menyertakan backup dan latihan pemulihan di lingkungan terpisah.
+  - Kasus AX: pengulangan request, rework sebagian, pembalikan, valuasi mundur, akses bersamaan, angka tidak valid.
+  - 12 HOLD tetap, CP6 tetap HOLD, belum untuk deployment. Pilihan kebijakan bisnis baru dikirim dengan contoh angka.
+- **Mandat owner** (dicatat apa adanya): "yaudah gas yuk beresin semua A+B , sekalian semua revisi yang ditemukan gpt untuk dibereskan juga."
+
+### 19.2 Keputusan owner yang dikoreksi atau ditambahkan di percakapan ini
+
+| Topik | Kutipan owner | Arti yang dipakai |
+| --- | --- | --- |
+| Nilai barang tanpa sumber (AX) | "kalo bs from no where gimana bisa ada data nya? kalo good emang dari bs ya jelas ada nilainya dong? gimana cara dapet nilai barang yang out of no where? kecuali kasus celup langka yang mungkin ada nilai bawaannya tapi tercampur jadi satu jelas susah mau mngakui nya piece bs yg mana right? lu jangan pelintir omongan gw dah" | HPP rata-rata **hanya** untuk barang tanpa nilai asal: barang temuan stock opname, GOOD dari BS out-of-nowhere, dan celup ulang yang tercampur. GOOD dari BS biasa membawa nilai BS tercatat ditambah biaya rework di SKU asal (2A). Ini maksud asli §15.1-FG; Claude sempat keliru menyebutnya perubahan keputusan. |
+| Dasar tanggal valuasi | (draf keputusan GPT yang disetujui owner) | HPP rata-rata dihitung pada **tanggal fisik kejadian**. |
+| Akun kredit barang temuan | — (terjawab dari kode) | `post_fg_adjustment` (lot non-PO) dan adjustment bahan sudah memakai Pendapatan lain untuk selisih plus dan Beban lain untuk selisih minus. AX mengikuti pola ini. Pemisahan tampilan "selisih opname" di laporan dikerjakan di CP7. |
+| Cadangan dan pemulihan | "supabase kecil soalnya gratis lu bisa cek di drive gw kok ada kode nya segala enkripsi." | Supabase memakai paket gratis, jadi cadangan utama ke Google Drive dengan kode backup dan enkripsi milik owner (belum dibaca Claude; konektor Drive belum tersambung). Operasionalnya CP7C. Latihan restore wajib di paket rilis. |
+
+### 19.3 Rencana kerja (keluarga dan tingkat bukti sesuai §18)
+
+1. **G-01:** cocokkan metadata hosted (read-only) dengan baseline uji.
+2. **AW:** perbaiki P-01..P-04, bungkus sebagai migration pengembangan (T1), lalu probe native.
+3. **AX:** backend baru dengan probe T1.
+4. **H-01**, lalu **T2:** regresi per kasus, disposisi, audit independen.
+5. **T3:** paket rilis dari baseline setara hosted, termasuk backup dan restore serta CodeQL, advisor, dan browser.
