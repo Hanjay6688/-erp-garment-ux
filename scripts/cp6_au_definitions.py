@@ -114,3 +114,11 @@ replace(name,"  perform set_config('app.product_identity_controlled','on',true);
  '  n:=prev;n.effective_to:=p.effective_to;\n  '+authorize('prev','n'))
 for name in ('edit_product_identity_effective','cancel_product_identity_successor','assert_product_identity_time'):
  replace(name," SET search_path TO 'erp', 'public', 'pg_temp'"," SET search_path TO ''")
+
+# Include both immutable key and predecessor columns in the trigger's UPDATE
+# event list; checking them inside the function is insufficient if it never runs.
+TRIGGER_KEY='TRIGGER:erp.products.trg_validate_product_identity_period'
+OLD_TRIGGER='CREATE TRIGGER trg_validate_product_identity_period BEFORE INSERT OR UPDATE OF sku, model_id, brand_id, color_name, size_id, identity_root_id, effective_from, effective_to ON erp.products FOR EACH ROW EXECUTE FUNCTION erp.validate_product_identity_period()'
+NEW_TRIGGER=OLD_TRIGGER.replace('UPDATE OF sku,','UPDATE OF id, sku,').replace('effective_to ON','effective_to, supersedes_product_id ON')
+TRIGGERS='drop trigger trg_validate_product_identity_period on erp.products;\n'+NEW_TRIGGER+';\n'
+RESTORE_TRIGGERS='drop trigger trg_validate_product_identity_period on erp.products;\n'+OLD_TRIGGER+';\n'

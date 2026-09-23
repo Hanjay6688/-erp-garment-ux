@@ -22,7 +22,7 @@ do $platform$ begin
  if not exists(select 1 from erp.schema_migrations where version='v2.6.20au')
   or (select count(*) from supabase_migrations.schema_migrations where name='erp_v2_6_20au_cp6_controlled_product_lifecycle')<>1
   or not exists(select 1 from supabase_migrations.schema_migrations where version='20260923045944' and name='erp_v2_6_20au_cp6_controlled_product_lifecycle'
-   and encode(extensions.digest(convert_to(array_to_string(statements,E'\n'),'UTF8'),'sha256'),'hex')='cd332456ec89943a5fef395947e446d1325462652857bd00bd83801a99357796')
+   and encode(extensions.digest(convert_to(array_to_string(statements,E'\n'),'UTF8'),'sha256'),'hex')='4fd07f99f5cd8d9b7a2b2ff8c04800cdf1c47689ead2b316502b01b6632f6423')
   or exists(select 1 from supabase_migrations.schema_migrations where version>'20260923045944')
  then raise exception 'AU_ROLLBACK_PLATFORM_OR_SUCCESSOR';end if;
 end $platform$;
@@ -89,7 +89,7 @@ with relations as (
 select coalesce(jsonb_object_agg(k,encode(extensions.digest(convert_to(v::text,'UTF8'),'sha256'),'hex')),'{}'::jsonb) from objects
 ) catalog;
  select count(*),encode(extensions.digest(convert_to(coalesce(string_agg(length(key)::text||':'||key||':'||value,E'\n' order by key collate "C"),''),'UTF8'),'sha256'),'hex') into object_count,fingerprint from jsonb_each_text(actual);
- if object_count<>7156 or fingerprint is distinct from '52f0d70acd315ba3d9e3380041ad13861469fb81a61459743dde790f98775ef7' then
+ if object_count<>7156 or fingerprint is distinct from '8a3331a15c73fdb8e03097bc0001a0a17c2a7e5f38181376ddda26f8ae2f916b' then
   raise exception 'AU_ROLLBACK_CATALOG_DRIFT';
  end if;
 end $catalog_guard$;
@@ -383,6 +383,9 @@ do $pre_use$ declare v_table text;v_hash jsonb;v_after jsonb;b jsonb; begin
  then raise exception 'AU_PRIOR_HISTORY_DRIFT';end if;
 end $pre_use$;
 do $restore_function$ declare r record; begin for r in select object_definition from erp.cp6_v2620au_rollback_capsule order by object_regidentity loop execute r.object_definition;end loop;end $restore_function$;
+drop trigger trg_validate_product_identity_period on erp.products;
+CREATE TRIGGER trg_validate_product_identity_period BEFORE INSERT OR UPDATE OF sku, model_id, brand_id, color_name, size_id, identity_root_id, effective_from, effective_to ON erp.products FOR EACH ROW EXECUTE FUNCTION erp.validate_product_identity_period();
+
 drop table erp.product_identity_mutation_context_v1;
 drop table erp.cp6_v2620au_rollback_capsule;
 delete from erp.schema_migrations where version='v2.6.20au';

@@ -730,6 +730,8 @@ begin
     raise exception 'Mode validasi identitas SKU tidak dikenal';
   end if;
 end$function$;
+drop trigger trg_validate_product_identity_period on erp.products;
+CREATE TRIGGER trg_validate_product_identity_period BEFORE INSERT OR UPDATE OF id, sku, model_id, brand_id, color_name, size_id, identity_root_id, effective_from, effective_to, supersedes_product_id ON erp.products FOR EACH ROW EXECUTE FUNCTION erp.validate_product_identity_period();
 do $catalog_guard$
 declare actual jsonb;fingerprint text;object_count bigint;
 begin
@@ -793,7 +795,7 @@ with relations as (
 select coalesce(jsonb_object_agg(k,encode(extensions.digest(convert_to(v::text,'UTF8'),'sha256'),'hex')),'{}'::jsonb) from objects
 ) catalog;
  select count(*),encode(extensions.digest(convert_to(coalesce(string_agg(length(key)::text||':'||key||':'||value,E'\n' order by key collate "C"),''),'UTF8'),'sha256'),'hex') into object_count,fingerprint from jsonb_each_text(actual);
- if object_count<>7156 or fingerprint is distinct from '52f0d70acd315ba3d9e3380041ad13861469fb81a61459743dde790f98775ef7' then
+ if object_count<>7156 or fingerprint is distinct from '8a3331a15c73fdb8e03097bc0001a0a17c2a7e5f38181376ddda26f8ae2f916b' then
   raise exception 'AU_INSTALLED_CATALOG_DRIFT';
  end if;
 end $catalog_guard$;

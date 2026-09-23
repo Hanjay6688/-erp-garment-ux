@@ -41,10 +41,10 @@ def source():
     head=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()
     tree=subprocess.check_output(['git','rev-parse','HEAD^{tree}'],text=True).strip()
     changed=subprocess.check_output(['git','diff','--name-only',BASE,head],text=True).splitlines()
-    allowed={'.github/workflows/cp6-au-review.yml','.github/workflows/cp6-au-capture.yml','.github/workflows/cp6-au-qualification.yml',
+    allowed={'.github/workflows/cp6-au-review.yml','.github/workflows/cp6-au-capture.yml','.github/workflows/cp6-au-qualification.yml','.github/workflows/cp6-au-identity-review.yml',
              'docs/cp6-au-review.md','docs/cp6-au-qualification.md','docs/evidence/cp6-au-schema-capture.json',
              str(runtime.build.MIGRATION),str(runtime.build.ROLLBACK),str(runtime.build.PINS),str(runtime.build.PROVENANCE)}
-    allowed.update('scripts/cp6_au_'+name+'.py' for name in ('probe','capture','definitions','build','runtime','cases','races','trial','browser_fixture','browser_runtime'))
+    allowed.update('scripts/cp6_au_'+name+'.py' for name in ('probe','identity_probe','capture','definitions','build','runtime','cases','races','trial','browser_fixture','browser_runtime'))
     allowed.add('scripts/cp6_au_browser_ui.mjs')
     assert set(changed)==allowed,('AU_SCOPE',changed)
     assert not subprocess.check_output(['git','diff','HEAD','--name-only'],text=True).strip(),'AU_TRACKED_WORKTREE_DIRTY'
@@ -165,7 +165,7 @@ def temporal_concurrency(report):
             print(json.dumps(dict(group='AT_CONCURRENCY',case=name,**row),default=str),flush=True)
     assert all(r['status']=='PASS' for r in report['temporal_races'].values())
     masters=group('AU_CASES',master.cases)
-    assert len(masters['cases'])==14 and masters['status']=='WRITER_PASS',masters['counts']
+    assert len(masters['cases'])==15 and masters['status']=='WRITER_PASS',masters['counts']
     report['master_cases']={k:masters[k] for k in ('status','counts')}
     report['master_races']={}
     for first in ('MASTER','OUTPUT'):
@@ -209,7 +209,7 @@ def regress(report):
     temporal_report=json.loads((OUT/'TEMPORAL.json').read_text())
     assert temporal_report['status']=='WRITER_PASS' and temporal_report['case_count']==4 and len(temporal_report['master_races'])==4
     assert temporal_report['primary_unchanged'] and temporal_report['clone_remaining']==0
-    report.update(status='WRITER_PASS_WITH_12_PRESERVED_HISTORICAL_HOLD',original_cases=500,new_cases_count=34,additional_calendar_policy_checks=12,temporal_cases_count=16,temporal_real_races=4,master_cases_count=14,master_real_races=4)
+    report.update(status='WRITER_PASS_WITH_12_PRESERVED_HISTORICAL_HOLD',original_cases=500,new_cases_count=34,additional_calendar_policy_checks=12,temporal_cases_count=16,temporal_real_races=4,master_cases_count=15,master_real_races=4)
 
 
 def run(phase):

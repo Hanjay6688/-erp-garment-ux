@@ -29,6 +29,7 @@ try:
    assert cur.execute('select pg_get_functiondef(to_regprocedure(%s))',(identity,)).fetchone()[0]==old,identity
   cur.execute('set local role postgres');cur.execute(proposal.SCHEMA,prepare=False)
   for new in proposal.FUNCTIONS.values():cur.execute(new,prepare=False)
+  if getattr(proposal,'TRIGGERS',''):cur.execute(proposal.TRIGGERS,prepare=False)
   report['after']=dict(objects=cur.execute(runtime.build.INVENTORY_SQL).fetchone()[0],functions=function_pins(cur))
   report['canonical_definitions']={i:cur.execute('select pg_get_functiondef(to_regprocedure(%s))',(i,)).fetchone()[0] for i in proposal.FUNCTIONS}
   assert report['canonical_definitions']==proposal.FUNCTIONS

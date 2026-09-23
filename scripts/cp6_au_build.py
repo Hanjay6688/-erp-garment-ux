@@ -4,7 +4,7 @@ import copy,json
 import cp6_ao_ap_build as package
 import cp6_ao_ap_inventory as inventory
 import cp6_at_build as predecessor
-from cp6_au_definitions import OLD,FUNCTIONS,SCHEMA
+from cp6_au_definitions import OLD,FUNCTIONS,SCHEMA,TRIGGER_KEY,OLD_TRIGGER,NEW_TRIGGER,TRIGGERS,RESTORE_TRIGGERS
 
 ROOT=Path(__file__).resolve().parents[1]
 STAMP='20260923045944'
@@ -38,6 +38,8 @@ def model():
     assert len(additions)==8 and all(CONTEXT in k for k in additions)
     assert set(native['changed_existing_objects'])=={'FUNCTION:'+k for k in FUNCTIONS}
     after['objects'].update(additions)
+    assert before['objects'][TRIGGER_KEY]==sha(json.dumps([OLD_TRIGGER,'O']))
+    after['objects'][TRIGGER_KEY]=sha(json.dumps([NEW_TRIGGER,'O']))
     for identity,new in FUNCTIONS.items():
         original=before['functions'][identity];old=OLD[identity]
         assert sha(old)==original['sha256']
@@ -88,7 +90,7 @@ do $before_data$ declare v_table text;v_hash jsonb;v_before jsonb; begin
  {package.data_sql('v_before',['schema_migrations',cap_name])}
  update {CAP} set boundary_snapshot=jsonb_build_object('before',v_before,'platform_before',{package.history_hash('supabase_migrations','schema_migrations')},'markers_before',{package.history_hash('erp','schema_migrations')});
 end $before_data$;
-"""+SCHEMA+''.join(new.rstrip(';\n')+';\n' for new in FUNCTIONS.values())+guard(after['objects'],'AU_INSTALLED')
+"""+SCHEMA+''.join(new.rstrip(';\n')+';\n' for new in FUNCTIONS.values())+TRIGGERS+guard(after['objects'],'AU_INSTALLED')
     s+=f"""update {CAP} set installed_definition_sha256=encode(extensions.digest(convert_to(pg_get_functiondef(to_regprocedure(object_regidentity)),'UTF8'),'sha256'),'hex');
 do $after_data$ declare v_table text;v_hash jsonb;v_after jsonb; begin
  {package.data_sql('v_after',['schema_migrations',cap_name])}
@@ -118,6 +120,7 @@ do $pre_use$ declare v_table text;v_hash jsonb;v_after jsonb;b jsonb; begin
  then raise exception 'AU_PRIOR_HISTORY_DRIFT';end if;
 end $pre_use$;
 do $restore_function$ declare r record; begin for r in select object_definition from {CAP} order by object_regidentity loop execute r.object_definition;end loop;end $restore_function$;
+{RESTORE_TRIGGERS}
 drop table erp.{CONTEXT};
 drop table {CAP};
 delete from erp.schema_migrations where version={q(VERSION)};
