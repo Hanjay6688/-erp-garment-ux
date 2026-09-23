@@ -788,3 +788,98 @@ Semua bukti di bagian ini berlabel **T1_FAMILY** (uji keluarga), kecuali G-01 (b
 
 - ghcr.io membatasi unduhan image Supabase (`toomanyrequests`) sebelum tes berjalan (run 35898369683, 35899068186, 35899325557). Start kini mencoba ulang dan beralih ke public.ecr.aws dengan tag image yang sama. Tidak ada tes yang diulang.
 - Seed harness memuat open item nyata untuk engine: payroll CALCULATED, sel absensi kosong, kerja belum masuk payroll. Probe menenangkannya dengan RPC owner di dalam savepoint uji (absensi OFF, approve payroll, payroll untuk kerja). Header payroll disisipkan administratif, seperti pola harness yang sudah ada.
+
+## 21. Pelaksanaan A+B putaran kedua: bukti native T1, keputusan owner, G-01 (23 September 2026, writer Claude)
+
+Semua bukti di bagian ini berlabel **T1_FAMILY**: uji keluarga di rantai disposable AN → AS/AT → AU → AV (+AW, +AX dari file `supabase/dev`). Ini **bukan** bukti rilis dan **bukan** penerimaan independen. CP6 tetap HOLD, 12 HOLD historis tetap HOLD. Production, hosted Enteng, main, dan Cloudflare tidak dimutasi. Log gagal disimpan, dan oracle lama tidak dilonggarkan. Setiap koreksi probe di bawah memperbaiki salah ukur di pihak probe, bukan menurunkan ekspektasi.
+
+### 21.1 Keputusan owner di percakapan ini (dicatat apa adanya)
+
+| No | Topik | Kata-kata owner | Yang dijalankan |
+|---|---|---|---|
+| 1 | P-03 cek integritas per tanggal | memilih "Tahan semua, bertahap nanti" | CP6: semua cek yang belum dibatasi tanggal tetap menahan semua tanggal (perilaku sekarang). Pembatasan per tanggal dibuat bertahap sesudah ada data nyata. |
+| 2 | AX definisi rata-rata | memilih "Stok yang ada" | Rata-rata HPP dari lot yang masih ada di gudang pada jam fisik (sudah terpasang). |
+| 3 | AX upah perbaikan BS temuan | "sebenarnya B, tapi biasa kan bikin bagus gada biayanya" | Prinsip B: upah ditambahkan ke nilai lot. Biasanya tanpa biaya, jadi nilai lot = rata-rata. Jalur untuk upah > 0 **belum dibuat** (lihat 21.6). |
+| 4 | G-01 baseline rilis | "Pilih 1 — 'Salin definisi yang beda.' … samakan database uji lewat pembacaan metadata Enteng secara baca-saja, lalu uji pemasangan paket rilis di database uji." Tambahan: "Cakup juga dua sequence tambahan yang tercatat di perbandingan katalog; T3 tetap HOLD sampai seluruh selisih dijelaskan dan pemasangan AO–AV lulus." | Lihat 21.4. |
+| 5 | Stok yang direservasi draft | "tapi secara stok harus keluar bro, karena data real time gudang, kalo udah reserved harus kurang karena orang toko jangan sampai anggap stok masih ada paham kan?" Lalu, untuk rata-rata HPP barang temuan, memilih "Ikut dihitung". | Stok tersedia tetap langsung berkurang saat direservasi (tidak diubah). Hanya perhitungan rata-rata HPP barang temuan yang menghitung barang yang direservasi tetapi belum terjual. |
+| 6 | Lampiran audit dan backup Drive | "audit gpt kan udah? google drive juga back up an lama cp 5 doang itu." | Audit GPT sudah ada di repo dan sedang dikerjakan; permintaan lampiran dicabut. Backup Google Drive adalah backup lama CP5, tidak dipakai. Uji backup dan restore untuk rilis dilakukan di database uji terpisah (T3); backup operasional tetap CP7C. |
+| 7 | Cara kerja sesi ini | "khusus sesi ini sampai selesai lu gausah minta konfirmasi ya buat sql gitu. lu beresin sampe beres bisa?" | SQL tidak lagi meminta konfirmasi di sesi ini. Batas tetap: Enteng hanya SELECT metadata, tidak ada mutasi, tidak ada deploy. |
+
+### 21.2 AW (engine tutup buku per tanggal): T1 selesai
+
+| Iterasi | Run | Hasil | Catatan |
+|---|---|---|---|
+| 1 | 35901779495 | 5 PASS, 2 INCOMPLETE | Fixture P-04 tidak menemukan lot. |
+| 2 | 35903761656 | kasus lulus; race 2 FAIL + 3 INCOMPLETE | Fixture: semua race memakai satu salinan database, sehingga filing dan payroll terbawa ke race berikutnya. Kini tiap jadwal mendapat salinan segar. |
+| 3 | 35905188928 | 9 kasus + 8 race lulus | |
+| 4 | 35905834630 | 3 FAIL (probe) | (a) B04 mengira invoice terlambat meninggalkan antrean recost; ternyata jalur invoice langsung menghitung ulang, jadi READY memang benar. (b) Filing dibandingkan sebagai teks sesudah zona sesi berubah; kini dibandingkan sebagai instan UTC. (c) GRNI adalah INFO dan tercatat di `info`, bukan `blockers`. |
+| 5 | **35909687266** | **16 kasus + 8 race lulus** | Primary tidak berubah, clone 0. |
+
+Fase "before" pada run yang sama (AU+AV tanpa AW, job 107346092117) punya 4 **COUNTEREXAMPLE**:
+- P-01 (absensi dibatalkan sesudah close);
+- S06 recost dalam periode;
+- recost gagal tiga kali;
+- jurnal tidak seimbang.
+
+Pada dua kasus terakhir, laporan sendiri sudah menyatakan BLOCKED, tetapi close lama tetap menerima. Artinya kasus ini menangkap masalah nyata yang diperbaiki AW, bukan sekadar lulus. Bukti: `docs/evidence/cp6-aw/native_t1_run35909687266_before_iter5.json`.
+
+Kasus yang lulus di iterasi 5:
+- P-01, P-02, P-04;
+- S06 recost di dalam dan sesudah periode, recost gagal tiga kali (CRITICAL);
+- B04 invoice terlambat di Jakarta dan Kiritimati. Nilai mengikuti oracle AA tanpa diubah, delta diakui di periode terbuka, GL hari yang sudah ditutup tidak bergeser, dan filing tidak ditimpa;
+- P07: antrean recost muncul sesudah close, lalu diproses sampai READY lagi;
+- histori salah yang sudah diperbaiki;
+- CRITICAL non-antrean;
+- kebijakan payroll dan GRNI;
+- akses.
+
+Race dua sesi: absensi dibatalkan vs close, dan pembelian mundur vs close, masing-masing dua urutan dan commit/abort.
+
+Bukti: `docs/evidence/cp6-aw/native_t1_run*_after_iter*.json`.
+
+### 21.3 AX (barang jadi tanpa sumber produksi)
+
+| Iterasi | Run | Hasil |
+|---|---|---|
+| 1 | 35904115299 | 9 PASS, 1 OBSERVED |
+| 2 | 35905188855 | 13 kasus lulus; race batal-vs-jual gagal karena fixture (draft sudah mereservasi lot) |
+| 3 | 35906065887 | 12 kasus + 8 race lulus |
+| 4 | 35909687233 | 28 PASS; 1 INCOMPLETE (fixture: identitas SKU yang sudah punya histori hanya boleh diganti mulai sekarang atau ke depan) |
+| 5 | (menunggu) | fixture versi penerus diperbaiki |
+
+**Perubahan AX putaran ini:**
+- **Nilai isian owner hanya bila tidak ada pembanding.** Versi awal masih menerimanya walau rata-rata ada; itu menyimpang dari keputusan owner, sekarang ditolak.
+- **Tinjauan adversarial independen** (sub-agent, baca-saja): `docs/evidence/cp6-ax/independent_review_20260923.md`. Tujuh temuan terbukti diperbaiki:
+  - stok yang direservasi ikut dihitung dalam rata-rata;
+  - resolusi BS milik penerimaan AX tidak bisa dibatalkan dari layar BS;
+  - urutan kunci diseragamkan;
+  - pcs yang sedang di-rework tidak tersedia;
+  - versi SKU penerus berlaku sesudah BS ditemukan;
+  - batas nilai sesuai kolom `numeric(18,6)`;
+  - hanya GRADE_A.
+- Dua temuan tidak diubah, dengan alasan yang dicatat di file tinjauan.
+- Satu temuan dicatat untuk owner, lihat 21.6.
+
+### 21.4 G-01 opsi 1: baseline uji disamakan dengan Enteng
+
+- **Cara baca Enteng:** hanya SELECT katalog. Pertama hash per kelompok, lalu per objek khusus untuk kelompok yang berbeda, lalu teks definisinya. Tidak ada data bisnis yang dibaca dan tidak ada mutasi.
+- **Kelompok yang cocok:** 26 dari 40 kelompok hash cocok persis. Selain itu fungsi (537), indeks, trigger, policy, relasi, dan ACL semua relasi lain juga cocok.
+- **Semua selisih dan penjelasannya:**
+  - **23 aturan CHECK di 17 tabel dan 5 view:** maknanya sama, teksnya beda. Daftar `IN (...)` pada kolom varchar disimpan Postgres sebagai `= ANY ((ARRAY[...])::text[])`. Fixture CP4.5a menyimpan teks hasil deparse itu, dan saat dibaca ulang, cast pindah ke tiap elemen. Bentuk sumber `IN` / `NOT IN` disusun ulang. Untuk ke-23 aturan CHECK, hasilnya persis hash Enteng di PG16 lokal; untuk view, pembuktiannya di CI.
+  - **Sequence:** restore fixture meninggalkan `app_access_audit_id_seq` dan `production_pattern_audit_id_seq` yang berdiri sendiri. Akibatnya sequence identity yang sebenarnya bernama `*_seq1`; ini dua sequence tambahan yang disebut owner. Selain itu `audit_logs_id_seq` dan `cost_recalc_queue_id_seq` belum `OWNED BY` kolomnya.
+  - **Schema `erp`:** Enteng memberi USAGE ke `authenticated` dan `service_role`.
+  - **Hak akses relasi:** satu-satunya selisih adalah dua sequence `*_seq1` itu.
+  - **Ledger platform:** sudah dijelaskan di G-01 putaran pertama (isi dan urutan cocok).
+- **Alat:**
+  - `docs/evidence/cp6-g01/hosted_alignment_metadata.json`: teks Enteng, tiap teks diverifikasi md5.
+  - `scripts/cp6_g01_align.py`: hanya berjalan di endpoint disposable lokal (dipastikan lewat assert), lalu memeriksa tiap objek terhadap hash Enteng.
+  - Workflow G-01 kini menyelaraskan baseline lalu membandingkan ulang semua jenis objek dengan Enteng.
+- **Status:** T3 tetap HOLD, sesuai kata owner. Langkah berikutnya adalah menguji jalur pemasangan AO–AV (dan pendahulunya) di baseline yang sudah disamakan. Guard lama yang mengunci teks katalog rantai uji diperkirakan menolak; hasilnya dicatat apa adanya, dan guard lama tidak dilonggarkan.
+
+### 21.5 T2 (regresi penuh)
+
+Runner `scripts/cp6_t2_regression.py` sudah siap. Workflow-nya disiapkan dan dijalankan sesudah AX T1 lulus penuh. Regresi berjalan tanpa mengubah oracle. Delapan modul memanggil close di tengah skenario; dengan AW, close ditolak bila seed masih punya open item. Setiap kasus yang berpindah hasil akan didaftar per ID (H-01) untuk disposisi.
+
+### 21.6 Hal terbuka untuk owner
+- **Upah perbaikan BS temuan > 0 (keputusan B):** jalurnya belum ada. Pola rework yang sudah ada mencatat Dr WIP / Cr Hutang kontraktor lewat payroll, dan itu terikat PO. Untuk barang temuan (tanpa PO) perlu satu pilihan: dibayar tunai saat itu (Dr Persediaan BJ / Cr Kas), atau lewat payroll penjahit (butuh jalur baru di payroll). Karena biasanya tanpa biaya, CP6 tidak tertahan oleh ini.
+- **Konversi (rebranding) terblokir oleh stok AX:** aturan lama menolak konversi SKU bila di lokasi yang sama ada lot non-PO. Tidak ada angka yang salah (transaksi ditolak, bukan dihitung keliru). Membukanya butuh alur HPP konversi lot non-PO dan dicatat sebagai backlog.
