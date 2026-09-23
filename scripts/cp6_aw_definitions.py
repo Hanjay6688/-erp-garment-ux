@@ -13,8 +13,11 @@ Owner policy (handoff §14 no. 3 and §16.4): recost pending/failed for the peri
 attendance cell on a working day (existing rule: holidays are recorded OFF), payroll due and not approved (labour
 recognised at payroll period_end; a payroll ending after the date does not block), paid attendance or eligible work
 not taken by any payroll, laundry price unknown until the owner enters an estimate. GRNI may close with an estimate
-(INFO only). Open items use every fact dated on or before the date; attendance completeness uses the window after
-the current closed_through. Current-state integrity checks cannot be dated and block every date (conservative).
+(INFO only). Open items use every fact dated on or before the date. Attendance completeness uses the window from
+erp.period_completeness_from_v1() (the first date the engine was responsible for) to the date, so a closed date is
+re-checked after a later reversal; before that window a cell that lost its posted record is still reported (P-01).
+Current-state integrity checks are classified by erp.period_integrity_check_registry_v1(): a check scoped by a dated
+detector that confirms it is INFO; every other failing check, and any unknown name, blocks every date (P-03).
 
 Atomicity: producers that read closed_through take FOR SHARE on the control row and wait for close; producers that
 never read it do not depend on close, so a fact they commit during close is ordered after it (a late change).
@@ -35,6 +38,8 @@ PREFLIGHT='erp.accounting_close_preflight_v1(date)'
 FILING_GUARD='erp.guard_accounting_close_filing_immutable_v1()'
 ESTIMATE='erp.set_laundry_rate_owner_estimate_v1(uuid,numeric,text)'
 ESTIMATE_GUARD='erp.guard_laundry_rate_owner_estimate_immutable_v1()'
+COMPLETENESS_FROM='erp.period_completeness_from_v1()'
+REGISTRY='erp.period_integrity_check_registry_v1()'
 FACADE_PREFLIGHT='public.erp_accounting_close_preflight_v1(date)'
 FACADE_CLOSE='public.erp_close_accounting_through_v1(date,text)'
 FACADE_ESTIMATE='public.erp_set_laundry_rate_owner_estimate_v1(uuid,numeric,text)'
@@ -47,6 +52,7 @@ OLD={CLOSE:av.canonical_from_migration(AC,'close_accounting_through'),
      SNAPSHOT:av.canonical_from_migration(AC,'get_owner_financial_snapshot_v2')}
 replace_once=av.replace_once
 ENGINE_SQL=(ROOT/'scripts/cp6_aw_engine.sql').read_text()
+REGISTRY_SQL=(ROOT/'scripts/cp6_aw_integrity_registry.sql').read_text()
 
 
 def _function(text,name):
@@ -62,7 +68,7 @@ close=replace_once(close,"""    raise exception 'Untuk membuka kembali periode g
 ""","""    raise exception 'Untuk membuka kembali periode gunakan reopen_accounting_through(); periode saat ini sudah ditutup sampai %',v_old;
   end if;
   -- One engine, evaluated after the control row lock so posting paths that read closed_through wait for this close.
-  v_readiness:=erp.period_readiness_v1(p_closed_through,v_old+1);
+  v_readiness:=erp.period_readiness_v1(p_closed_through,erp.period_completeness_from_v1());
   if v_readiness->>'status'<>'READY' then
     raise exception using message=format('CLOSE_BLOCKED: tutup buku sampai %s ditolak, %s penghalang (%s).',p_closed_through,
       v_readiness->>'blocker_count',(select string_agg(distinct b->>'code',', ') from jsonb_array_elements(v_readiness->'blockers') b)),
@@ -83,7 +89,7 @@ end;""")
 
 snapshot=OLD[SNAPSHOT]
 snapshot=replace_once(snapshot,"  v_critical bigint:=0;v_warning bigint:=0;v_pending bigint:=0;",
-  "  v_critical bigint:=0;v_warning bigint:=0;v_pending bigint:=0;\n  v_closed date;v_readiness jsonb;v_warnings jsonb:='[]'::jsonb;")
+  "  v_critical bigint:=0;v_warning bigint:=0;v_pending bigint:=0;\n  v_closed date;v_readiness jsonb;v_warnings jsonb:='[]'::jsonb;v_filing jsonb;")
 snapshot=replace_once(snapshot,"""  select coalesce(sum(issue_count) filter(where severity='CRITICAL'),0)::bigint,
          coalesce(sum(issue_count) filter(where severity='WARNING'),0)::bigint
   into v_critical,v_warning from erp.run_v268_financial_report_checks();
@@ -93,9 +99,15 @@ snapshot=replace_once(snapshot,"""  select coalesce(sum(issue_count) filter(wher
   into v_failed_checks from erp.run_v268_financial_report_checks() c
   where c.issue_count>0;
 ""","""  -- Confidence for the requested date comes from the close engine (AUD-S06/B04): open items dated on or before
-  -- p_as_of, attendance completeness after closed_through, current-state integrity for every date.
+  -- p_as_of, attendance completeness from the engine's first date, classified current-state integrity. A filed date
+  -- shows its filing next to the current-corrected status; the filing itself is never rewritten.
   select closed_through into v_closed from erp.accounting_period_control where singleton_id=1;
-  v_readiness:=erp.period_readiness_v1(p_as_of,case when v_closed is null then null when p_as_of>v_closed then v_closed+1 else p_as_of+1 end);
+  v_readiness:=erp.period_readiness_v1(p_as_of,erp.period_completeness_from_v1());
+  select jsonb_build_object('filing_id',f.id,'closed_through',f.closed_through,'previous_closed_through',
+    f.previous_closed_through,'filed_at',f.filed_at,'filed_status',f.readiness->>'status')
+  into v_filing from erp.accounting_close_filings_v1 f
+  where f.closed_through>=p_as_of and (f.previous_closed_through is null or f.previous_closed_through<p_as_of)
+  order by f.filed_at desc,f.id desc limit 1;
   v_critical:=(v_readiness->>'critical_count')::bigint+(v_readiness->>'policy_count')::bigint;
   v_pending:=(v_readiness->>'recalc_count')::bigint;
   select coalesce(jsonb_agg(jsonb_build_object(
@@ -116,7 +128,8 @@ snapshot=replace_once(snapshot,"""  select count(*)::bigint into v_pending from 
 snapshot=replace_once(snapshot,"""      'pending_cost_recalc_count',v_pending,'failed_checks',v_failed_checks
     ),""","""      'pending_cost_recalc_count',v_pending,'failed_checks',v_failed_checks,
       'engine',v_readiness->>'engine','as_of',p_as_of,'window_from',v_readiness->'window_from',
-      'closed_through',v_closed,'blockers',v_readiness->'blockers','info',v_readiness->'info'
+      'closed_through',v_closed,'blockers',v_readiness->'blockers','info',v_readiness->'info',
+      'filing',v_filing,'changed_since_filing',v_filing is not null and v_readiness->>'status'<>'READY'
     ),""")
 
 FUNCTIONS={CLOSE:close,SNAPSHOT:snapshot}
@@ -124,6 +137,8 @@ FUNCTIONS={CLOSE:close,SNAPSHOT:snapshot}
 NEW_FUNCTIONS={
 BLOCKERS:_function(ENGINE_SQL,'erp.period_blockers_v1'),
 READINESS:_function(ENGINE_SQL,'erp.period_readiness_v1'),
+COMPLETENESS_FROM:_function(ENGINE_SQL,'erp.period_completeness_from_v1'),
+REGISTRY:_function(REGISTRY_SQL,'erp.period_integrity_check_registry_v1'),
 PREFLIGHT:"""CREATE OR REPLACE FUNCTION erp.accounting_close_preflight_v1(p_through date)
  RETURNS jsonb
  LANGUAGE plpgsql
@@ -136,7 +151,7 @@ begin
   if p_through is null then raise exception 'Tanggal tutup buku wajib diisi'; end if;
   select closed_through into v_closed from erp.accounting_period_control where singleton_id=1;
   -- Same engine and window as close_accounting_through; close repeats it after its lock.
-  return erp.period_readiness_v1(p_through,v_closed+1)||jsonb_build_object(
+  return erp.period_readiness_v1(p_through,erp.period_completeness_from_v1())||jsonb_build_object(
     'closed_through',v_closed,
     'date_allowed',p_through<erp._cp3_business_date(statement_timestamp()) and (v_closed is null or p_through>=v_closed));
 end
@@ -175,7 +190,12 @@ declare
 begin
   perform erp.require_owner_admin();
   if nullif(btrim(p_reason),'') is null then raise exception 'LAUNDRY_ESTIMATE_REASON_REQUIRED'; end if;
-  if p_rate is null or p_rate<0 or p_rate<>round(p_rate,2) then raise exception 'LAUNDRY_ESTIMATE_RATE_INVALID'; end if;
+  -- A price is a finite, non-negative amount with at most two decimals that fits numeric(18,2) (P-02). NaN and
+  -- Infinity are numeric values in PostgreSQL and pass the sign and scale tests, so they are refused by name.
+  if p_rate is null or p_rate='NaN'::numeric or p_rate<0 or p_rate>=10000000000000000::numeric
+     or p_rate<>round(p_rate,2) then
+    raise exception 'LAUNDRY_ESTIMATE_RATE_INVALID';
+  end if;
   select * into v_line from erp.laundry_delivery_lines where id=p_delivery_line_id for update;
   if v_line.id is null then raise exception 'LAUNDRY_ESTIMATE_LINE_NOT_FOUND'; end if;
   select * into v_delivery from erp.laundry_deliveries where id=v_line.delivery_id for update;
@@ -252,7 +272,7 @@ alter table erp.{FILINGS} enable row level security;
 revoke all on erp.{FILINGS} from public,anon,authenticated,service_role;
 create table erp.{ESTIMATES} (
   delivery_line_id uuid primary key references erp.laundry_delivery_lines(id),
-  rate_per_pcs numeric(18,2) not null check (rate_per_pcs>=0),
+  rate_per_pcs numeric(18,2) not null check (rate_per_pcs>=0 and rate_per_pcs<>'NaN'::numeric),
   reason text not null check (length(btrim(reason))>0),
   estimated_by uuid,
   estimated_at timestamptz not null default statement_timestamp()

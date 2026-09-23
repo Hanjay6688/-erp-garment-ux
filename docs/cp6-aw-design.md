@@ -113,3 +113,35 @@ S06 table (GPT audit §6) + owner policy. Real business paths where possible; ad
   engine's effective history (exclude reversed source+reversal pairs, AO:240-251).
 - RECOST impact SQL: sub-agent sketch §4(b) (recalc_from, cutting/contractor consumption, fg_lots, PO journals by
   economic_date). journal_entries.economic_date has no index: acceptable for close/report frequency; note it.
+
+## Revision after GPT audit 757b79a (P-01..P-04), 23 September 2026
+Where this section differs from an earlier line, this section is what the code implements.
+
+- **P-01, completeness after close.** The earlier window rule ("for a report date X <= C the window is empty; later
+  corrections surface through open-item families") was an unverified assumption: a reversed attendance record is
+  neither posted nor paid, so no open-item family saw it. New rule:
+  - `erp.period_completeness_from_v1()` returns E, the first date the engine is responsible for: C+1 before the first
+    filing; afterwards the first filing's `previous_closed_through + 1` (null if that was null), lowered to C+1 after a
+    reopen below it. Close, preflight and the report all use the window [E, D]. A date already closed by the engine
+    is therefore re-checked; its filing stays untouched and the report shows `filing` and `changed_since_filing`.
+  - Before E (dates closed before the engine existed) never-recorded legacy days are not reported, but a cell that
+    had a posted record which was later reversed and not replaced is: `ATTENDANCE_CELL_REVERSED_UNREPLACED` (POLICY).
+  - Attendance can be recorded again for a closed date (posting does not read closed_through), so the blocker can
+    always be cleared by the owner; no correction is forbidden.
+- **P-02, non-finite laundry estimate.** The RPC refuses NaN, Infinity, -Infinity, negative, more than two decimals
+  and values that do not fit numeric(18,2), with no estimate row, rate change or journal. The estimates table has
+  `rate_per_pcs <> 'NaN'`. The engine reports a delivery rate that is NaN or negative as `LAUNDRY_PRICE_INVALID`
+  (CRITICAL) instead of treating it as known.
+- **P-03, current-state checks.** `erp.period_integrity_check_registry_v1()` classifies every CRITICAL/ERROR check
+  name. `DATED_EQUIVALENT` checks (a dated detector necessarily fires when they fail) are reported as INFO with
+  `SCOPED_BY_DATED_DETECTOR`, but only when the detector confirms a negative history at run time; otherwise they block
+  (fail closed). Every other failing check, and every unknown name (`UNCLASSIFIED`), blocks every date with
+  `BLOCKS_EVERY_DATE`. Whether datable-but-unscoped checks should keep blocking every date is an owner policy choice
+  (handoff §20), not a claim that the engine is fully per date.
+- **P-04, stock history order.** FG is checked per SKU and per lot, prefix by prefix in the posting guard's order
+  (physical_at, system_created_at, id), not net per instant. Material follows the cost engine's effective history and
+  order, including a transfer-in placed right after its transfer-out.
+- Evidence: `docs/evidence/cp6-aw/local_pg16_smoke_r2.json` (26/26, PG16 with stubs, not native) and
+  `local_pg16_smoke_r2_before_on_757b79a_code.json` (the 10 new non-control cases fail or error on the audited code).
+- T1 install: `supabase/dev/cp6_aw_t1_family.sql` from `scripts/cp6_aw_build.py`, label T1_FAMILY, not a release
+  package (no capsule, no rollback); guards: AV recorded, AW absent, close and snapshot text unchanged.

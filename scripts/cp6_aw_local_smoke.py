@@ -203,6 +203,175 @@ def grni_info(cur):
 
 
 
+# ---- GPT audit 757b79a regressions (P-01..P-04). Old cases above keep their expected values unchanged. ----
+
+def fg_move(cur,prod,loc,qty,at,created,lot_id=None):
+    cur.execute("""insert into erp.fg_stock_movements(product_id,lot_id,location_id,movement_type,qty_signed,source_type,physical_at,system_created_at)
+      values(%s,%s,%s,%s,%s,'T',%s,%s)""",(prod,lot_id,loc,'IN' if qty>0 else 'OUT',qty,at,created))
+
+
+def p04_fg_same_instant(cur,minus_first):
+    prod,loc=U(),U()
+    order=[(-1,'2026-09-05 10:00:01+07'),(1,'2026-09-05 10:00:02+07')] if minus_first else [(1,'2026-09-05 10:00:01+07'),(-1,'2026-09-05 10:00:02+07')]
+    for q,created in order:fg_move(cur,prod,loc,q,'2026-09-05 10:00+07',created)
+    r=ready(cur,D);return dict(status=r['status'],codes=codes(r))
+
+
+def p04_fg_lot_level(cur):
+    prod,loc,lot_a,lot_b=U(),U(),U(),U()
+    fg_move(cur,prod,loc,5,'2026-09-05 10:00+07','2026-09-05 10:00+07',lot_b)
+    fg_move(cur,prod,loc,-1,'2026-09-06 10:00+07','2026-09-06 10:00+07',lot_a)
+    r=ready(cur,D);return dict(status=r['status'],levels=sorted(b['reference']['level'] for b in r['blockers']))
+
+
+def p04_material_transfer_order(cur):
+    """A transfer-in is ordered right after its transfer-out (cost engine rule), not by its own creation time."""
+    mat,a,b,src=U(),U(),U(),U()
+    rows=[(a,'OPENING',5,'OPENING_BALANCE_ITEM',U(),'2026-09-05 09:00+07','2026-09-05 09:00+07'),
+          (a,'TRANSFER_OUT',-2,'MATERIAL_TRANSFER',src,'2026-09-05 10:00+07','2026-09-05 10:00:01+07'),
+          (b,'ISSUE',-2,'T',U(),'2026-09-05 10:00+07','2026-09-05 10:00:02+07'),
+          (b,'TRANSFER_IN',2,'MATERIAL_TRANSFER',src,'2026-09-05 10:00+07','2026-09-05 10:00:03+07')]
+    for loc,mt,q,st,sid,at,created in rows:
+        cur.execute("""insert into erp.material_stock_movements(material_id,location_id,movement_type,qty_signed,source_type,source_id,physical_at,system_created_at)
+          values(%s,%s,%s,%s,%s,%s,%s,%s)""",(mat,loc,mt,q,st,sid,at,created))
+    paired=ready(cur,D)
+    cur.execute("delete from erp.material_stock_movements where movement_type='TRANSFER_IN'")
+    cur.execute("""insert into erp.material_stock_movements(material_id,location_id,movement_type,qty_signed,source_type,source_id,physical_at,system_created_at)
+      values(%s,%s,'ADJUST_IN',2,'T',%s,'2026-09-05 10:00+07','2026-09-05 10:00:03+07')""",(mat,b,U()))
+    unpaired=ready(cur,D)
+    return dict(paired=paired['status'],unpaired=codes(unpaired))
+
+
+def p03_scoped(cur):
+    """AW-04: an FG defect dated 20 September must not block 10 September; it blocks 20 September."""
+    prod,loc=U(),U()
+    fg_move(cur,prod,loc,-1,'2026-09-20 10:00+07','2026-09-20 10:00+07')
+    cur.execute("insert into erp._stub_checks values('integrity','NEGATIVE_FG_BALANCE','ERROR',1,'neg')")
+    early=ready(cur,date(2026,9,10));late=ready(cur,date(2026,9,20))
+    info=[b for b in early['info'] if b['code']=='NEGATIVE_FG_BALANCE']
+    return dict(early=early['status'],early_info_policy=[b['reference']['date_policy'] for b in info],
+                late=late['status'],late_codes=codes(late))
+
+
+def p03_unconfirmed_and_unknown(cur):
+    cur.execute("insert into erp._stub_checks values('integrity','NEGATIVE_FG_BALANCE','ERROR',1,'neg'),('v268','V9999_NEW_CHECK','CRITICAL',2,'new')")
+    r=ready(cur,date(2026,9,1))
+    by={b['code']:b['reference'] for b in r['blockers']}
+    return dict(status=r['status'],fg_class=by['NEGATIVE_FG_BALANCE']['class'],fg_confirmed=by['NEGATIVE_FG_BALANCE']['dated_detector_confirmed'],
+                new_class=by['V9999_NEW_CHECK']['class'],new_policy=by['V9999_NEW_CHECK']['date_policy'])
+
+
+def worker(cur,code,started):
+    c=U();w=U()
+    cur.execute("insert into erp.contractors(id,contractor_code,contractor_name,attendance_required) values(%s,%s,'Mandor',true)",(c,code))
+    cur.execute("insert into erp.contractor_workers(id,contractor_id,worker_name,pay_scheme) values(%s,%s,'Budi','DAILY')",(w,c))
+    cur.execute("insert into erp.worker_employment_periods(worker_id,started_on,start_reason) values(%s,%s,'t')",(w,started))
+    return c,w
+
+
+def off(cur,c,w,day,lifecycle='POSTED'):
+    rid=U()
+    cur.execute("insert into erp.attendance_records(id,contractor_id,worker_id,attendance_date,status,paid_fraction,record_lifecycle) values(%s,%s,%s,%s,'OFF',0,%s)",(rid,c,w,day,lifecycle))
+    return rid
+
+
+def completeness(cur,through):
+    return cur.execute('select erp.period_readiness_v1(%s,erp.period_completeness_from_v1())',(through,)).fetchone()[0]
+
+
+def p01_reverse_after_close(cur):
+    """AW-01: OFF on 10 Sept, close 10 Sept, reverse it, then the report for 10 Sept and close 11 Sept must block."""
+    cur.execute("insert into erp.accounting_period_control(singleton_id,closed_through) values(1,'2026-09-09')")
+    c,w=worker(cur,'P01','2026-09-10')
+    rid=off(cur,c,w,'2026-09-10')
+    filed=cur.execute("select public.erp_close_accounting_through_v1('2026-09-10','p01')").fetchone()[0]
+    cur.execute("update erp.attendance_records set record_lifecycle='REVERSED' where id=%s",(rid,))
+    off(cur,c,w,'2026-09-11')
+    report10=completeness(cur,date(2026,9,10))
+    pre11=cur.execute("select erp.accounting_close_preflight_v1('2026-09-11')").fetchone()[0]
+    cur.execute('savepoint g')
+    try:cur.execute("select erp.close_accounting_through('2026-09-11','p01 blocked')");refusal=None
+    except psycopg.Error as exc:refusal=str(exc).split(':')[0]
+    cur.execute('rollback to savepoint g')
+    off(cur,c,w,'2026-09-10')
+    after_fix=cur.execute("select erp.accounting_close_preflight_v1('2026-09-11')->>'status'").fetchone()[0]
+    filings=cur.execute('select count(*),min(readiness->>\'status\') from erp.accounting_close_filings_v1').fetchone()
+    return dict(filed=filed['readiness']['status'],report10=report10['status'],
+                report10_missing=[b['reference']['first_missing'] for b in report10['blockers'] if b['code']=='ATTENDANCE_CELL_MISSING'],
+                pre11=pre11['status'],refusal=refusal,after_fix=after_fix,filings=[filings[0],filings[1]])
+
+
+def p01_pre_engine_lost_cell(cur):
+    """Before the engine's first date only a cell that lost its posted record is reported; never-recorded legacy days are not."""
+    cur.execute("insert into erp.accounting_period_control(singleton_id,closed_through) values(1,'2026-09-09')")
+    c,w=worker(cur,'P01B','2026-09-01')
+    rid=off(cur,c,w,'2026-09-05','REVERSED')
+    for d in range(10,16):off(cur,c,w,'2026-09-%02d'%d)
+    lost=completeness(cur,D)
+    off(cur,c,w,'2026-09-05')
+    fixed=completeness(cur,D)
+    return dict(lost=lost['status'],lost_codes=codes(lost),lost_days=[b['reference']['sample_days'] for b in lost['blockers']],fixed=fixed['status'])
+
+
+def p01_completeness_from(cur):
+    f=lambda:str(cur.execute('select erp.period_completeness_from_v1()').fetchone()[0])
+    cur.execute("insert into erp.accounting_period_control(singleton_id,closed_through) values(1,null)")
+    never=f()
+    cur.execute("update erp.accounting_period_control set closed_through='2026-09-09'")
+    no_filing=f()
+    cur.execute("insert into erp.accounting_close_filings_v1(closed_through,previous_closed_through,reason,readiness,gl_balances) values('2026-09-15','2026-09-09','t','{\"status\":\"READY\"}','{}')")
+    cur.execute("update erp.accounting_period_control set closed_through='2026-09-15'")
+    engine=f()
+    cur.execute("update erp.accounting_period_control set closed_through='2026-09-05'")
+    reopened=f()
+    return dict(never=never,no_filing=no_filing,engine=engine,reopened=reopened)
+
+
+def p02_estimate_nonfinite(cur):
+    p=po(cur,'PO-P02');d=U();l=U()
+    cur.execute("insert into erp.laundry_deliveries(id,delivery_number,po_id,vendor_id,target_dyeing_color,physical_at,status) values(%s,'LD-P02',%s,%s,'NAVY','2026-09-05 10:00+07','SENT')",(d,p,U()))
+    cur.execute('insert into erp.laundry_delivery_lines(id,delivery_id,cutting_group_id,qty_sent_pcs) values(%s,%s,%s,10)',(l,d,U()))
+    refused={}
+    for v in ('NaN','Infinity','-Infinity','-1','1.005','10000000000000000'):
+        cur.execute('savepoint g')
+        try:cur.execute('select erp.set_laundry_rate_owner_estimate_v1(%s,%s::numeric,%s)',(l,v,'t'));refused[v]='ACCEPTED'
+        except psycopg.Error as exc:refused[v]='LAUNDRY_ESTIMATE_RATE_INVALID' in str(exc)
+        cur.execute('rollback to savepoint g')
+    residue=cur.execute('select (select count(*) from erp.laundry_rate_owner_estimates_v1),(select estimated_rate_snapshot from erp.laundry_delivery_lines where id=%s)',(l,)).fetchone()
+    blocked=ready(cur,D)['status']
+    cur.execute('savepoint g')
+    try:cur.execute("insert into erp.laundry_rate_owner_estimates_v1(delivery_line_id,rate_per_pcs,reason) values(%s,'NaN','t')",(l,));table='ACCEPTED'
+    except psycopg.Error as exc:table=type(exc).__name__
+    cur.execute('rollback to savepoint g')
+    cur.execute('select erp.set_laundry_rate_owner_estimate_v1(%s,12.50,%s)',(l,'owner estimate'))
+    return dict(refused=refused,estimates=residue[0],rate=residue[1],blocked=blocked,table_nan=table,after_valid=ready(cur,D)['status'])
+
+
+def p02_engine_rate_invalid(cur):
+    p=po(cur,'PO-P02B');d=U()
+    cur.execute("insert into erp.laundry_deliveries(id,delivery_number,po_id,vendor_id,target_dyeing_color,physical_at,status) values(%s,'LD-P02B',%s,%s,'NAVY','2026-09-05 10:00+07','SENT')",(d,p,U()))
+    for rate in ('NaN','-1'):
+        cur.execute('insert into erp.laundry_delivery_lines(delivery_id,cutting_group_id,qty_sent_pcs,estimated_rate_snapshot) values(%s,%s,10,%s::numeric)',(d,U(),rate))
+    r=ready(cur,D)
+    return dict(status=r['status'],invalid=sorted(b['reference']['rate'] for b in r['blockers'] if b['code']=='LAUNDRY_PRICE_INVALID'),
+                unknown=[b for b in r['blockers'] if b['code']=='LAUNDRY_PRICE_UNKNOWN'])
+
+
+AUDIT_CASES=[
+    ('P04_FG_SAME_INSTANT_MINUS_FIRST',lambda c:p04_fg_same_instant(c,True),dict(status='BLOCKED',codes=['FG_QTY_NEGATIVE_ASOF'])),
+    ('P04_FG_SAME_INSTANT_PLUS_FIRST_CONTROL',lambda c:p04_fg_same_instant(c,False),dict(status='READY',codes=[])),
+    ('P04_FG_LOT_LEVEL',p04_fg_lot_level,dict(status='BLOCKED',levels=['LOT'])),
+    ('P04_MATERIAL_TRANSFER_ORDER',p04_material_transfer_order,dict(paired='READY',unpaired=['MATERIAL_QTY_NEGATIVE_ASOF'])),
+    ('P03_DATED_EQUIVALENT_SCOPED',p03_scoped,dict(early='READY',early_info_policy=['SCOPED_BY_DATED_DETECTOR'],late='BLOCKED',late_codes=['FG_QTY_NEGATIVE_ASOF'])),
+    ('P03_UNCONFIRMED_AND_UNKNOWN_BLOCK',p03_unconfirmed_and_unknown,dict(status='BLOCKED',fg_class='DATED_EQUIVALENT',fg_confirmed=False,new_class='UNCLASSIFIED',new_policy='BLOCKS_EVERY_DATE')),
+    ('P01_REVERSE_AFTER_CLOSE',p01_reverse_after_close,dict(filed='READY',report10='BLOCKED',report10_missing=['2026-09-10'],pre11='BLOCKED',refusal='CLOSE_BLOCKED',after_fix='READY',filings=[1,'READY'])),
+    ('P01_PRE_ENGINE_LOST_CELL',p01_pre_engine_lost_cell,dict(lost='BLOCKED',lost_codes=['ATTENDANCE_CELL_REVERSED_UNREPLACED'],lost_days=[['2026-09-05']],fixed='READY')),
+    ('P01_COMPLETENESS_FROM',p01_completeness_from,dict(never='None',no_filing='2026-09-10',engine='2026-09-10',reopened='2026-09-06')),
+    ('P02_ESTIMATE_NONFINITE',p02_estimate_nonfinite,dict(refused={'NaN':True,'Infinity':True,'-Infinity':True,'-1':True,'1.005':True,'10000000000000000':True},estimates=0,rate=None,blocked='BLOCKED',table_nan='CheckViolation',after_valid='READY')),
+    ('P02_ENGINE_RATE_INVALID',p02_engine_rate_invalid,dict(status='BLOCKED',invalid=['-1.00','NaN'],unknown=[])),
+]
+
+
 CASES=[
     ('RECOST_IN_PERIOD',recost_in_period,dict(status='RECALC_PENDING',codes=['RECOST_PENDING'],facts=['FG_LOT'],impact='2026-09-10')),
     ('RECOST_AFTER_PERIOD',recost_after_period,dict(status='READY',codes=[])),
@@ -248,13 +417,14 @@ def close_gate(cur):
 
 if __name__=='__main__':
     build()
-    for name,fn,expect in CASES:case(name,fn,expect)
+    for name,fn,expect in CASES+AUDIT_CASES:case(name,fn,expect)
     case('CLOSE_GATE',close_gate,dict(ready_status='READY',filed_through='2026-09-10',filed_status='READY',immutable=[True,True,True],
          blocked_status='RECALC_PENDING',refusal_code='CLOSE_BLOCKED',closed_through_after='2026-09-10',filings_after=1,before_lot_status='READY'))
     with psycopg.connect(ADMIN_URL+' dbname=postgres',autocommit=True) as c:
         ver=c.execute('show server_version').fetchone()[0];c.execute('drop database if exists '+DB)
     report=dict(label='LOCAL_PG16_SMOKE',native=False,server_version=ver,definitions_sha256=__import__('hashlib').sha256((ROOT/'scripts/cp6_aw_definitions.py').read_bytes()).hexdigest(),
                 engine_sha256=__import__('hashlib').sha256((ROOT/'scripts/cp6_aw_engine.sql').read_bytes()).hexdigest(),
+                registry_sha256=__import__('hashlib').sha256((ROOT/'scripts/cp6_aw_integrity_registry.sql').read_bytes()).hexdigest(),
                 stubs='run_v268/run_v267/run_integrity_checks, v_payroll_eligible_work_lines, v_material_grni_aging, account_id, require_owner_admin, refresh_material_cost_checkpoint and sync_finished_po_wip_residual are stubs',
                 counts={s:sum(r['status']==s for r in results) for s in ('PASS','FAIL','ERROR')},cases=results)
     OUT.write_text(json.dumps(report,indent=1,default=str)+'\n')

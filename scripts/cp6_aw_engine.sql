@@ -6,10 +6,17 @@ CREATE OR REPLACE FUNCTION erp.period_blockers_v1(p_through date, p_window_from 
 AS $function$
 -- One engine for close, preview and report confidence (S06/B04).
 -- Open items (recost, laundry price, payroll due, dated integrity) use every fact dated on or before p_through.
--- Completeness (attendance cells) uses the window [p_window_from, p_through]; a null start means unbounded.
--- Current-state integrity checks cannot be dated and therefore apply to every date (scope CURRENT_STATE).
+-- Completeness (attendance cells) uses the window [p_window_from, p_through]; a null start means unbounded. Callers
+-- pass erp.period_completeness_from_v1(), the first date this engine was responsible for, so a closed date inside
+-- the engine's era is re-checked after a later correction (P-01). Before that start only cells that once had a
+-- posted record and lost it (reversed, not replaced) are reported.
+-- Stock history follows the posting guards' own order (P-04). A current-state check whose defect is scoped by a
+-- dated detector is reported as INFO once the detector confirms it; every other failing current-state check blocks
+-- every date and names its class (P-03). Unknown check names block (fail closed).
 declare
   v_end timestamptz := ((p_through + 1)::timestamp AT TIME ZONE 'Asia/Jakarta');
+  v_fg jsonb;
+  v_material jsonb;
 begin
   if p_through is null then raise exception 'PERIOD_BLOCKERS_DATE_REQUIRED'; end if;
 
@@ -60,21 +67,112 @@ begin
   from erp.cost_recalc_queue q
   where q.entity_type<>'PO' and q.status in('PENDING','RUNNING','FAILED');
 
-  -- INTEGRITY (current state): failing CRITICAL/ERROR checks, queue checks excluded (handled per date above).
+  -- FG history per SKU and per lot, in the order the posting guard uses (physical_at, system_created_at, id): every
+  -- prefix, not the net per instant (P-04). Computed over the whole history once; a key blocks the dates from its
+  -- first negative instant.
+  select coalesce(jsonb_agg(z.k),'[]'::jsonb) into v_fg from (
+    select jsonb_build_object('level',s.lvl,'product_id',min(s.product_id::text),'lot_id',s.lot_id,
+      'location_id',s.location_id,'quality_grade',s.quality_grade,
+      'first_negative_at',min(s.physical_at) filter(where s.balance<0),
+      'lowest_qty',min(s.balance)) k
+    from (
+      select 'SKU'::text lvl,m.product_id,null::uuid lot_id,m.location_id,m.quality_grade,m.physical_at,
+        sum(m.qty_signed) over(partition by m.product_id,m.location_id,m.quality_grade
+          order by m.physical_at,m.system_created_at,m.id rows unbounded preceding) balance
+      from erp.fg_stock_movements m
+      union all
+      select 'LOT'::text,m.product_id,m.lot_id,m.location_id,m.quality_grade,m.physical_at,
+        sum(m.qty_signed) over(partition by m.lot_id,m.location_id,m.quality_grade
+          order by m.physical_at,m.system_created_at,m.id rows unbounded preceding)
+      from erp.fg_stock_movements m where m.lot_id is not null
+    ) s
+    group by s.lvl,case when s.lvl='SKU' then s.product_id end,s.lot_id,s.location_id,s.quality_grade
+    having bool_or(s.balance<0)
+  ) z;
+
   return query
-  select distinct on (c.check_name) 'INTEGRITY'::text,c.check_name,'CRITICAL'::text,'CURRENT_STATE'::text,null::date,
-    jsonb_build_object('check_name',c.check_name,'issue_count',c.issue_count,'source',c.src),
-    coalesce(c.details,c.check_name)
-  from (
-    select 'run_v268_financial_report_checks' src,r.check_name,r.severity,r.issue_count,r.details from erp.run_v268_financial_report_checks() r
-    union all
-    select 'run_v267_financial_truth_checks',r.check_name,r.severity,r.issue_count,r.details from erp.run_v267_financial_truth_checks() r
-    union all
-    select 'run_integrity_checks',r.check_name,r.severity,r.issue_count,r.details from erp.run_integrity_checks() r
-  ) c
-  where c.issue_count>0 and c.severity in('CRITICAL','ERROR')
-    and c.check_name not in('V268_COST_RECALC_EXHAUSTED','V268_COST_RECALC_PENDING','STALE_RECOST_QUEUE','FAILED_RECOST_QUEUE')
-  order by c.check_name,c.src;
+  select 'INTEGRITY'::text,'FG_QTY_NEGATIVE_ASOF'::text,'CRITICAL'::text,'AS_OF'::text,
+    erp._cp3_business_date((k->>'first_negative_at')::timestamptz),k,
+    format('Stok barang jadi (%s) negatif sejak %s untuk produk %s di lokasi %s.',
+      k->>'level',k->>'first_negative_at',k->>'product_id',k->>'location_id')
+  from jsonb_array_elements(v_fg) k
+  where (k->>'first_negative_at')::timestamptz<v_end;
+
+  -- Material history on the cost engine's effective history and its exact order (reversed pairs excluded, a
+  -- transfer-in ordered right after its transfer-out), per material, location and roll.
+  select coalesce(jsonb_agg(z.k),'[]'::jsonb) into v_material from (
+    with active as (
+      select m.*,row_number() over(partition by m.material_id,m.source_id,m.roll_id,m.physical_at,
+          abs(m.qty_signed),m.movement_type order by m.system_created_at,m.id) ordinal
+      from erp.material_stock_movements m
+      where m.source_type='MATERIAL_TRANSFER' and m.reversal_of_id is null
+        and not exists(select 1 from erp.material_stock_movements rv where rv.reversal_of_id=m.id)
+    ), pairs as (
+      select i.id incoming,o.id outgoing,o.system_created_at out_created
+      from active i join active o on o.material_id=i.material_id and o.source_id=i.source_id
+        and o.roll_id is not distinct from i.roll_id and o.physical_at=i.physical_at
+        and o.qty_signed=-i.qty_signed and o.ordinal=i.ordinal
+        and o.movement_type='TRANSFER_OUT' and o.qty_signed<0
+      where i.movement_type='TRANSFER_IN' and i.qty_signed>0
+        and (o.physical_at,o.system_created_at,o.id)<(i.physical_at,i.system_created_at,i.id)
+        and o.location_id<>i.location_id
+    ), history as (
+      select m.material_id,m.location_id,m.roll_id,m.physical_at,
+        sum(m.qty_signed) over(partition by m.material_id,m.location_id,m.roll_id
+          order by m.physical_at,coalesce(p.out_created,m.system_created_at),coalesce(p.outgoing,m.id),
+            (p.outgoing is not null) rows unbounded preceding) balance
+      from erp.material_stock_movements m
+      left join pairs p on p.incoming=m.id
+      where m.reversal_of_id is null
+        and not exists(select 1 from erp.material_stock_movements rv where rv.reversal_of_id=m.id)
+    )
+    select jsonb_build_object('material_id',h.material_id,'location_id',h.location_id,'roll_id',h.roll_id,
+      'first_negative_at',min(h.physical_at) filter(where h.balance<0),'lowest_qty',min(h.balance)) k
+    from history h
+    group by h.material_id,h.location_id,h.roll_id
+    having bool_or(h.balance<0)
+  ) z;
+
+  return query
+  select 'INTEGRITY'::text,'MATERIAL_QTY_NEGATIVE_ASOF'::text,'CRITICAL'::text,'AS_OF'::text,
+    erp._cp3_business_date((k->>'first_negative_at')::timestamptz),k,
+    format('Stok bahan negatif sejak %s untuk bahan %s.',k->>'first_negative_at',k->>'material_id')
+  from jsonb_array_elements(v_material) k
+  where (k->>'first_negative_at')::timestamptz<v_end;
+
+  -- INTEGRITY (current state), classified (P-03). Queue checks are handled per date by RECOST above.
+  return query
+  with failing as (
+    select distinct on (c.check_name) c.check_name,c.src,c.issue_count,c.details from (
+      select 'run_v268_financial_report_checks' src,r.check_name,r.severity,r.issue_count,r.details from erp.run_v268_financial_report_checks() r
+      union all
+      select 'run_v267_financial_truth_checks',r.check_name,r.severity,r.issue_count,r.details from erp.run_v267_financial_truth_checks() r
+      union all
+      select 'run_integrity_checks',r.check_name,r.severity,r.issue_count,r.details from erp.run_integrity_checks() r
+    ) c
+    where c.issue_count>0 and c.severity in('CRITICAL','ERROR')
+      and c.check_name not in('V268_COST_RECALC_EXHAUSTED','V268_COST_RECALC_PENDING','STALE_RECOST_QUEUE','FAILED_RECOST_QUEUE')
+    order by c.check_name,c.src
+  ), registry(check_name,check_class,dated_by) as (
+    select * from erp.period_integrity_check_registry_v1()
+  ), classified as (
+    select f.*,coalesce(r.check_class,'UNCLASSIFIED') check_class,r.dated_by,
+      case r.dated_by when 'FG_QTY_NEGATIVE_ASOF' then jsonb_array_length(v_fg)>0
+                      when 'MATERIAL_QTY_NEGATIVE_ASOF' then jsonb_array_length(v_material)>0
+                      else false end confirmed
+    from failing f left join registry r on r.check_name=f.check_name
+  )
+  select 'INTEGRITY'::text,c.check_name,
+    case when c.check_class='DATED_EQUIVALENT' and c.confirmed then 'INFO' else 'CRITICAL' end,
+    'CURRENT_STATE'::text,null::date,
+    jsonb_build_object('check_name',c.check_name,'issue_count',c.issue_count,'source',c.src,'class',c.check_class,
+      'dated_by',c.dated_by,'dated_detector_confirmed',c.confirmed,
+      'date_policy',case when c.check_class='DATED_EQUIVALENT' and c.confirmed then 'SCOPED_BY_DATED_DETECTOR'
+                         else 'BLOCKS_EVERY_DATE' end),
+    case when c.check_class='DATED_EQUIVALENT' and c.confirmed
+      then format('%s: dibatasi per tanggal oleh %s.',coalesce(c.details,c.check_name),c.dated_by)
+      else coalesce(c.details,c.check_name) end
+  from classified c;
 
   -- INTEGRITY (dated): GL inventory balance negative at any balance date on or before the date.
   return query
@@ -91,52 +189,12 @@ begin
   where g.balance<-0.005
   group by g.mapping_key;
 
-  -- INTEGRITY (dated): FG quantity negative after any physical instant on or before the date.
-  return query
-  select 'INTEGRITY'::text,'FG_QTY_NEGATIVE_ASOF'::text,'CRITICAL'::text,'AS_OF'::text,
-    erp._cp3_business_date(min(s.physical_at)),
-    jsonb_build_object('product_id',s.product_id,'location_id',s.location_id,'quality_grade',s.quality_grade,
-      'first_negative_at',min(s.physical_at),'lowest_qty',min(s.balance)),
-    format('Stok barang jadi negatif sejak %s untuk produk %s di lokasi %s.',min(s.physical_at),s.product_id,s.location_id)
-  from (
-    select i.product_id,i.location_id,i.quality_grade,i.physical_at,
-      sum(i.qty) over(partition by i.product_id,i.location_id,i.quality_grade order by i.physical_at) balance
-    from (
-      select m.product_id,m.location_id,m.quality_grade,m.physical_at,sum(m.qty_signed) qty
-      from erp.fg_stock_movements m where m.physical_at<v_end
-      group by 1,2,3,4
-    ) i
-  ) s
-  where s.balance<0
-  group by s.product_id,s.location_id,s.quality_grade;
-
-  -- INTEGRITY (dated): material quantity negative on the cost engine's effective history (reversed pairs excluded).
-  return query
-  select 'INTEGRITY'::text,'MATERIAL_QTY_NEGATIVE_ASOF'::text,'CRITICAL'::text,'AS_OF'::text,
-    erp._cp3_business_date(min(s.physical_at)),
-    jsonb_build_object('material_id',s.material_id,'location_id',s.location_id,'roll_id',s.roll_id,
-      'first_negative_at',min(s.physical_at),'lowest_qty',min(s.balance)),
-    format('Stok bahan negatif sejak %s untuk bahan %s.',min(s.physical_at),s.material_id)
-  from (
-    select i.material_id,i.location_id,i.roll_id,i.physical_at,
-      sum(i.qty) over(partition by i.material_id,i.location_id,i.roll_id order by i.physical_at) balance
-    from (
-      select m.material_id,m.location_id,m.roll_id,m.physical_at,sum(m.qty_signed) qty
-      from erp.material_stock_movements m
-      where m.physical_at<v_end and m.reversal_of_id is null
-        and not exists(select 1 from erp.material_stock_movements rv where rv.reversal_of_id=m.id)
-      group by 1,2,3,4
-    ) i
-  ) s
-  where s.balance<-0.000001
-  group by s.material_id,s.location_id,s.roll_id;
-
   -- ATTENDANCE (window): eligible worker-days without a current posted record (owner: existing rule, OFF recorded).
   return query
   select 'ATTENDANCE'::text,'ATTENDANCE_CELL_MISSING'::text,'POLICY'::text,'WINDOW'::text,min(x.work_day),
     jsonb_build_object('contractor_id',x.contractor_id,'contractor_name',x.contractor_name,'worker_id',x.worker_id,
       'worker_name',x.worker_name,'missing_days',count(*),'first_missing',min(x.work_day),'last_missing',max(x.work_day),
-      'sample_days',(array_agg(x.work_day order by x.work_day))[1:10]),
+      'sample_days',(array_agg(x.work_day order by x.work_day))[1:10],'window_from',p_window_from),
     format('Absensi %s (%s) kosong %s hari antara %s dan %s; hari libur dicatat OFF.',
       x.worker_name,x.contractor_name,count(*),min(x.work_day),max(x.work_day))
   from (
@@ -150,6 +208,30 @@ begin
     where c.attendance_required and w.pay_scheme in('DAILY','HYBRID')
       and not exists(select 1 from erp.attendance_records a
         where a.worker_id=w.id and a.attendance_date=gs.d::date and coalesce(a.record_lifecycle,'POSTED')='POSTED')
+  ) x
+  group by x.contractor_id,x.contractor_name,x.worker_id,x.worker_name;
+
+  -- ATTENDANCE (before the window): an eligible worker-day that had a posted record which was later reversed and
+  -- never replaced. The date was complete when it was accepted; a later change removed it (P-01).
+  return query
+  select 'ATTENDANCE'::text,'ATTENDANCE_CELL_REVERSED_UNREPLACED'::text,'POLICY'::text,'AS_OF'::text,min(x.work_day),
+    jsonb_build_object('contractor_id',x.contractor_id,'contractor_name',x.contractor_name,'worker_id',x.worker_id,
+      'worker_name',x.worker_name,'missing_days',count(*),'first_missing',min(x.work_day),'last_missing',max(x.work_day),
+      'sample_days',(array_agg(x.work_day order by x.work_day))[1:10],'window_from',p_window_from),
+    format('Absensi %s (%s) pada %s hari antara %s dan %s sudah dibatalkan dan belum dicatat ulang.',
+      x.worker_name,x.contractor_name,count(*),min(x.work_day),max(x.work_day))
+  from (
+    select distinct w.contractor_id,c.contractor_name,w.id worker_id,w.worker_name,r.attendance_date work_day
+    from erp.attendance_records r
+    join erp.contractor_workers w on w.id=r.worker_id
+    join erp.contractors c on c.id=w.contractor_id
+    where p_window_from is not null and r.attendance_date<p_window_from and r.attendance_date<=p_through
+      and r.record_lifecycle='REVERSED'
+      and c.attendance_required and w.pay_scheme in('DAILY','HYBRID')
+      and exists(select 1 from erp.worker_employment_periods e where e.worker_id=w.id
+        and r.attendance_date between e.started_on and coalesce(e.ended_on,r.attendance_date))
+      and not exists(select 1 from erp.attendance_records a
+        where a.worker_id=w.id and a.attendance_date=r.attendance_date and coalesce(a.record_lifecycle,'POSTED')='POSTED')
   ) x
   group by x.contractor_id,x.contractor_name,x.worker_id,x.worker_name;
 
@@ -205,6 +287,19 @@ begin
   where ld.status not in('DRAFT','REVERSED') and ldl.estimated_rate_snapshot is null
     and ld.physical_at<v_end and ldl.qty_sent_pcs-coalesce(rc.costed_qty,0)>0;
 
+  -- LAUNDRY: a delivery rate that is not a finite non-negative number is not a known price (P-02).
+  return query
+  select 'LAUNDRY'::text,'LAUNDRY_PRICE_INVALID'::text,'CRITICAL'::text,'AS_OF'::text,
+    erp._cp3_business_date(ld.physical_at),
+    jsonb_build_object('delivery_id',ld.id,'delivery_number',ld.delivery_number,'delivery_line_id',ldl.id,
+      'po_id',ld.po_id,'rate',ldl.estimated_rate_snapshot::text),
+    format('Harga laundry kiriman %s tidak valid (%s); harga harus angka hingga dan tidak negatif.',
+      ld.delivery_number,ldl.estimated_rate_snapshot::text)
+  from erp.laundry_delivery_lines ldl
+  join erp.laundry_deliveries ld on ld.id=ldl.delivery_id
+  where ld.status not in('DRAFT','REVERSED') and ld.physical_at<v_end
+    and (ldl.estimated_rate_snapshot='NaN'::numeric or ldl.estimated_rate_snapshot<0);
+
   -- GRNI: owner allows close with an estimate; reported, never blocking.
   return query
   select 'GRNI'::text,'GRNI_ESTIMATE_OPEN'::text,'INFO'::text,'CURRENT_STATE'::text,
@@ -232,6 +327,27 @@ select jsonb_build_object(
   'policy_count',count(*) filter(where b.severity='POLICY'),
   'recalc_count',count(*) filter(where b.severity='RECALC'),
   'blockers',coalesce(jsonb_agg(to_jsonb(b) order by b.family,b.code,b.impact_date nulls first,b.reference::text) filter(where b.severity<>'INFO'),'[]'::jsonb),
-  'info',coalesce(jsonb_agg(to_jsonb(b) order by b.family,b.code) filter(where b.severity='INFO'),'[]'::jsonb))
+  'info',coalesce(jsonb_agg(to_jsonb(b) order by b.family,b.code,b.reference::text) filter(where b.severity='INFO'),'[]'::jsonb))
 from erp.period_blockers_v1(p_through,p_window_from) b
+$function$
+
+CREATE OR REPLACE FUNCTION erp.period_completeness_from_v1()
+ RETURNS date
+ LANGUAGE sql
+ STABLE SECURITY DEFINER
+ SET search_path TO ''
+AS $function$
+-- First date whose completeness this engine enforces (P-01). Before the first filing it is the day after the
+-- current closed_through; afterwards it stays at the day after the first filing's previous cutoff, so every date
+-- closed by the engine is re-checked after a later correction. A reopen below that day moves it back. Null means
+-- unbounded (nothing was ever closed, or the first filing started from an empty cutoff).
+select case
+  when c.closed_through is null then null
+  when f.id is null then c.closed_through+1
+  when f.previous_closed_through is null then null
+  else least(f.previous_closed_through+1,c.closed_through+1) end
+from erp.accounting_period_control c
+left join lateral (select x.id,x.previous_closed_through from erp.accounting_close_filings_v1 x
+  order by x.filed_at,x.id limit 1) f on true
+where c.singleton_id=1
 $function$

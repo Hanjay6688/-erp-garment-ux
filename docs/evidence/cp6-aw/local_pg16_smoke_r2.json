@@ -1,0 +1,524 @@
+{
+ "label": "LOCAL_PG16_SMOKE",
+ "native": false,
+ "server_version": "16.13 (Ubuntu 16.13-0ubuntu0.24.04.1)",
+ "definitions_sha256": "dc75ba89edaf0a356f5e463270fb8863638c642e21891d17a8f6e4530ebaa6e3",
+ "engine_sha256": "75f074b61e7fa33c7c926b5a51472de7c158188bd96118e50b8cd57ca56a0b17",
+ "registry_sha256": "4f0c94d2eef229a4825afc3789111279b54656ee6bd7c6f4ad568a1d7fbcc30a",
+ "stubs": "run_v268/run_v267/run_integrity_checks, v_payroll_eligible_work_lines, v_material_grni_aging, account_id, require_owner_admin, refresh_material_cost_checkpoint and sync_finished_po_wip_residual are stubs",
+ "counts": {
+  "PASS": 26,
+  "FAIL": 0,
+  "ERROR": 0
+ },
+ "cases": [
+  {
+   "case": "RECOST_IN_PERIOD",
+   "status": "PASS",
+   "expected": {
+    "status": "RECALC_PENDING",
+    "codes": [
+     "RECOST_PENDING"
+    ],
+    "facts": [
+     "FG_LOT"
+    ],
+    "impact": "2026-09-10"
+   },
+   "observed": {
+    "status": "RECALC_PENDING",
+    "codes": [
+     "RECOST_PENDING"
+    ],
+    "facts": [
+     "FG_LOT"
+    ],
+    "impact": "2026-09-10"
+   }
+  },
+  {
+   "case": "RECOST_AFTER_PERIOD",
+   "status": "PASS",
+   "expected": {
+    "status": "READY",
+    "codes": []
+   },
+   "observed": {
+    "status": "READY",
+    "codes": []
+   }
+  },
+  {
+   "case": "RECOST_JAKARTA_BOUNDARY",
+   "status": "PASS",
+   "expected": {
+    "status": "RECALC_PENDING",
+    "pos": [
+     "PO-EDGE"
+    ]
+   },
+   "observed": {
+    "status": "RECALC_PENDING",
+    "pos": [
+     "PO-EDGE"
+    ]
+   }
+  },
+  {
+   "case": "RECOST_EXHAUSTED",
+   "status": "PASS",
+   "expected": {
+    "status": "BLOCKED",
+    "codes": [
+     "RECOST_FAILED_EXHAUSTED"
+    ],
+    "critical": 1
+   },
+   "observed": {
+    "status": "BLOCKED",
+    "codes": [
+     "RECOST_FAILED_EXHAUSTED"
+    ],
+    "critical": 1
+   }
+  },
+  {
+   "case": "INTEGRITY_CURRENT",
+   "status": "PASS",
+   "expected": {
+    "status": "BLOCKED",
+    "codes": [
+     "NEGATIVE_FG_BALANCE",
+     "V268_UNBALANCED_POSTED_JOURNAL"
+    ]
+   },
+   "observed": {
+    "status": "BLOCKED",
+    "codes": [
+     "NEGATIVE_FG_BALANCE",
+     "V268_UNBALANCED_POSTED_JOURNAL"
+    ]
+   }
+  },
+  {
+   "case": "GL_NEGATIVE_HISTORICAL_TODAY_CLEAN",
+   "status": "PASS",
+   "expected": {
+    "status": "BLOCKED",
+    "codes": [
+     "GL_INVENTORY_NEGATIVE_ASOF"
+    ]
+   },
+   "observed": {
+    "status": "BLOCKED",
+    "codes": [
+     "GL_INVENTORY_NEGATIVE_ASOF"
+    ]
+   }
+  },
+  {
+   "case": "GL_NEGATIVE_AFTER_DATE_CONTROL",
+   "status": "PASS",
+   "expected": {
+    "status": "READY",
+    "codes": []
+   },
+   "observed": {
+    "status": "READY",
+    "codes": []
+   }
+  },
+  {
+   "case": "FG_NEGATIVE_HISTORICAL",
+   "status": "PASS",
+   "expected": {
+    "status": "BLOCKED",
+    "codes": [
+     "FG_QTY_NEGATIVE_ASOF"
+    ]
+   },
+   "observed": {
+    "status": "BLOCKED",
+    "codes": [
+     "FG_QTY_NEGATIVE_ASOF"
+    ]
+   }
+  },
+  {
+   "case": "FG_NEGATIVE_AFTER_DATE_CONTROL",
+   "status": "PASS",
+   "expected": {
+    "status": "READY",
+    "codes": []
+   },
+   "observed": {
+    "status": "READY",
+    "codes": []
+   }
+  },
+  {
+   "case": "MATERIAL_REVERSED_PAIR",
+   "status": "PASS",
+   "expected": {
+    "reversed_pair": "READY",
+    "real_negative": [
+     "MATERIAL_QTY_NEGATIVE_ASOF"
+    ]
+   },
+   "observed": {
+    "reversed_pair": "READY",
+    "real_negative": [
+     "MATERIAL_QTY_NEGATIVE_ASOF"
+    ]
+   }
+  },
+  {
+   "case": "ATTENDANCE_CELLS",
+   "status": "PASS",
+   "expected": {
+    "status": "BLOCKED",
+    "missing": [
+     [
+      "2026-09-02"
+     ]
+    ],
+    "empty_window_attendance": []
+   },
+   "observed": {
+    "status": "BLOCKED",
+    "missing": [
+     [
+      "2026-09-02"
+     ]
+    ],
+    "empty_window_attendance": []
+   }
+  },
+  {
+   "case": "PAYROLL_POLICY",
+   "status": "PASS",
+   "expected": {
+    "status": "BLOCKED",
+    "not_approved": [
+     "PR-DUE"
+    ],
+    "uncovered_attendance": [
+     1
+    ],
+    "uncovered_work": [
+     5
+    ]
+   },
+   "observed": {
+    "status": "BLOCKED",
+    "not_approved": [
+     "PR-DUE"
+    ],
+    "uncovered_attendance": [
+     1
+    ],
+    "uncovered_work": [
+     5
+    ]
+   }
+  },
+  {
+   "case": "LAUNDRY_UNKNOWN",
+   "status": "PASS",
+   "expected": {
+    "status": "BLOCKED",
+    "unknown_lines": [
+     true
+    ]
+   },
+   "observed": {
+    "status": "BLOCKED",
+    "unknown_lines": [
+     true
+    ]
+   }
+  },
+  {
+   "case": "GRNI_INFO_ONLY",
+   "status": "PASS",
+   "expected": {
+    "status": "READY",
+    "info": [
+     "GRNI_ESTIMATE_OPEN"
+    ]
+   },
+   "observed": {
+    "status": "READY",
+    "info": [
+     "GRNI_ESTIMATE_OPEN"
+    ]
+   }
+  },
+  {
+   "case": "P04_FG_SAME_INSTANT_MINUS_FIRST",
+   "status": "PASS",
+   "expected": {
+    "status": "BLOCKED",
+    "codes": [
+     "FG_QTY_NEGATIVE_ASOF"
+    ]
+   },
+   "observed": {
+    "status": "BLOCKED",
+    "codes": [
+     "FG_QTY_NEGATIVE_ASOF"
+    ]
+   }
+  },
+  {
+   "case": "P04_FG_SAME_INSTANT_PLUS_FIRST_CONTROL",
+   "status": "PASS",
+   "expected": {
+    "status": "READY",
+    "codes": []
+   },
+   "observed": {
+    "status": "READY",
+    "codes": []
+   }
+  },
+  {
+   "case": "P04_FG_LOT_LEVEL",
+   "status": "PASS",
+   "expected": {
+    "status": "BLOCKED",
+    "levels": [
+     "LOT"
+    ]
+   },
+   "observed": {
+    "status": "BLOCKED",
+    "levels": [
+     "LOT"
+    ]
+   }
+  },
+  {
+   "case": "P04_MATERIAL_TRANSFER_ORDER",
+   "status": "PASS",
+   "expected": {
+    "paired": "READY",
+    "unpaired": [
+     "MATERIAL_QTY_NEGATIVE_ASOF"
+    ]
+   },
+   "observed": {
+    "paired": "READY",
+    "unpaired": [
+     "MATERIAL_QTY_NEGATIVE_ASOF"
+    ]
+   }
+  },
+  {
+   "case": "P03_DATED_EQUIVALENT_SCOPED",
+   "status": "PASS",
+   "expected": {
+    "early": "READY",
+    "early_info_policy": [
+     "SCOPED_BY_DATED_DETECTOR"
+    ],
+    "late": "BLOCKED",
+    "late_codes": [
+     "FG_QTY_NEGATIVE_ASOF"
+    ]
+   },
+   "observed": {
+    "early": "READY",
+    "early_info_policy": [
+     "SCOPED_BY_DATED_DETECTOR"
+    ],
+    "late": "BLOCKED",
+    "late_codes": [
+     "FG_QTY_NEGATIVE_ASOF"
+    ]
+   }
+  },
+  {
+   "case": "P03_UNCONFIRMED_AND_UNKNOWN_BLOCK",
+   "status": "PASS",
+   "expected": {
+    "status": "BLOCKED",
+    "fg_class": "DATED_EQUIVALENT",
+    "fg_confirmed": false,
+    "new_class": "UNCLASSIFIED",
+    "new_policy": "BLOCKS_EVERY_DATE"
+   },
+   "observed": {
+    "status": "BLOCKED",
+    "fg_class": "DATED_EQUIVALENT",
+    "fg_confirmed": false,
+    "new_class": "UNCLASSIFIED",
+    "new_policy": "BLOCKS_EVERY_DATE"
+   }
+  },
+  {
+   "case": "P01_REVERSE_AFTER_CLOSE",
+   "status": "PASS",
+   "expected": {
+    "filed": "READY",
+    "report10": "BLOCKED",
+    "report10_missing": [
+     "2026-09-10"
+    ],
+    "pre11": "BLOCKED",
+    "refusal": "CLOSE_BLOCKED",
+    "after_fix": "READY",
+    "filings": [
+     1,
+     "READY"
+    ]
+   },
+   "observed": {
+    "filed": "READY",
+    "report10": "BLOCKED",
+    "report10_missing": [
+     "2026-09-10"
+    ],
+    "pre11": "BLOCKED",
+    "refusal": "CLOSE_BLOCKED",
+    "after_fix": "READY",
+    "filings": [
+     1,
+     "READY"
+    ]
+   }
+  },
+  {
+   "case": "P01_PRE_ENGINE_LOST_CELL",
+   "status": "PASS",
+   "expected": {
+    "lost": "BLOCKED",
+    "lost_codes": [
+     "ATTENDANCE_CELL_REVERSED_UNREPLACED"
+    ],
+    "lost_days": [
+     [
+      "2026-09-05"
+     ]
+    ],
+    "fixed": "READY"
+   },
+   "observed": {
+    "lost": "BLOCKED",
+    "lost_codes": [
+     "ATTENDANCE_CELL_REVERSED_UNREPLACED"
+    ],
+    "lost_days": [
+     [
+      "2026-09-05"
+     ]
+    ],
+    "fixed": "READY"
+   }
+  },
+  {
+   "case": "P01_COMPLETENESS_FROM",
+   "status": "PASS",
+   "expected": {
+    "never": "None",
+    "no_filing": "2026-09-10",
+    "engine": "2026-09-10",
+    "reopened": "2026-09-06"
+   },
+   "observed": {
+    "never": "None",
+    "no_filing": "2026-09-10",
+    "engine": "2026-09-10",
+    "reopened": "2026-09-06"
+   }
+  },
+  {
+   "case": "P02_ESTIMATE_NONFINITE",
+   "status": "PASS",
+   "expected": {
+    "refused": {
+     "NaN": true,
+     "Infinity": true,
+     "-Infinity": true,
+     "-1": true,
+     "1.005": true,
+     "10000000000000000": true
+    },
+    "estimates": 0,
+    "rate": null,
+    "blocked": "BLOCKED",
+    "table_nan": "CheckViolation",
+    "after_valid": "READY"
+   },
+   "observed": {
+    "refused": {
+     "NaN": true,
+     "Infinity": true,
+     "-Infinity": true,
+     "-1": true,
+     "1.005": true,
+     "10000000000000000": true
+    },
+    "estimates": 0,
+    "rate": null,
+    "blocked": "BLOCKED",
+    "table_nan": "CheckViolation",
+    "after_valid": "READY"
+   }
+  },
+  {
+   "case": "P02_ENGINE_RATE_INVALID",
+   "status": "PASS",
+   "expected": {
+    "status": "BLOCKED",
+    "invalid": [
+     "-1.00",
+     "NaN"
+    ],
+    "unknown": []
+   },
+   "observed": {
+    "status": "BLOCKED",
+    "invalid": [
+     "-1.00",
+     "NaN"
+    ],
+    "unknown": []
+   }
+  },
+  {
+   "case": "CLOSE_GATE",
+   "status": "PASS",
+   "expected": {
+    "ready_status": "READY",
+    "filed_through": "2026-09-10",
+    "filed_status": "READY",
+    "immutable": [
+     true,
+     true,
+     true
+    ],
+    "blocked_status": "RECALC_PENDING",
+    "refusal_code": "CLOSE_BLOCKED",
+    "closed_through_after": "2026-09-10",
+    "filings_after": 1,
+    "before_lot_status": "READY"
+   },
+   "observed": {
+    "ready_status": "READY",
+    "filed_through": "2026-09-10",
+    "filed_status": "READY",
+    "immutable": [
+     true,
+     true,
+     true
+    ],
+    "blocked_status": "RECALC_PENDING",
+    "refusal_code": "CLOSE_BLOCKED",
+    "closed_through_after": "2026-09-10",
+    "filings_after": 1,
+    "before_lot_status": "READY"
+   }
+  }
+ ]
+}
