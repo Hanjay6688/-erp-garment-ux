@@ -269,14 +269,18 @@ def p01_reverse_after_close(cur,today):
                 fixture='ordinary owner RPCs for roster, attendance save/post/reverse and close; closed_through moved administratively')
 
 
+class OrdinaryDraftCursor:
+    """The AA production recipe inserts sewing drafts; those inserts run as the ordinary operator, as in the app."""
+    def __init__(self,cur):self._cur=cur
+    def __getattr__(self,name):return getattr(self._cur,name)
+    def execute(self,query,params=None,**kwargs):
+        if 'insert into erp.work_completion_events(' in str(query) or 'insert into erp.work_completion_lines(' in str(query):chain.peer.ordinary(self._cur)
+        return self._cur.execute(query,params,**kwargs)
+
+
 def recost_fixture(cur,today,backdate):
     f=chain.production.estimated_receipt(cur,today)
-    class OrdinaryDraftCursor:
-        def __getattr__(self,name):return getattr(cur,name)
-        def execute(self,query,params=None,**kwargs):
-            if 'insert into erp.work_completion_events(' in str(query) or 'insert into erp.work_completion_lines(' in str(query):chain.peer.ordinary(cur)
-            return cur.execute(query,params,**kwargs)
-    chain.production.partial_production(OrdinaryDraftCursor(),f)
+    chain.production.partial_production(OrdinaryDraftCursor(cur),f)
     api.admin(cur)
     if backdate:chain.prior.post_purchase(cur,f['material'],chain.production.at(f['purchase_day'],22),unit_price=12)
     api.admin(cur)
@@ -342,19 +346,38 @@ def p02_estimate(cur,today):
                 fixture='real laundry chain; the delivery rate set to NULL administratively (legacy/import state, no RPC produces it)')
 
 
+def any_lot(cur,today):
+    api.admin(cur)
+    row=cur.execute("select id,product_id from erp.fg_lots order by produced_at,id limit 1").fetchone()
+    if row is not None:return row
+    # No lot exists at this point of the seed: create one administratively (same labelled fixture class).
+    product=chain.base.create_product(cur,'AWP04-'+uuid.uuid4().hex[:10]);lot=uuid.uuid4()
+    cur.execute("set local session_replication_role=replica")
+    cur.execute("""insert into erp.fg_lots(id,lot_number,product_id,initial_qty_pcs,cached_qty_pcs,produced_at,is_open,lot_origin)
+        values(%s,%s,%s,1,0,%s,true,'OTHER')""",(lot,'AWP04-'+lot.hex[:10],product,chain.production.at(today-timedelta(days=10),8)))
+    cur.execute("set local session_replication_role=origin")
+    return lot,product
+
+
+def fg_history(cur,product,lot,location,moves):
+    """Administrative FG movements (triggers disabled): the posting guards refuse negative history on ordinary paths."""
+    cur.execute("set local session_replication_role=replica")
+    for i,(q,at) in enumerate(moves):
+        cur.execute("""insert into erp.fg_stock_movements(product_id,lot_id,location_id,quality_grade,movement_type,qty_signed,unit_hpp_snapshot,source_type,source_id,physical_at,system_created_at)
+            values(%s,%s,%s,'GRADE_A','ADJUSTMENT',%s,0,'AW_P04_FIXTURE',%s,%s,%s)""",(product,lot,location,q,uuid.uuid4(),at,at+timedelta(seconds=i+1)))
+    cur.execute("set local session_replication_role=origin")
+
+
+def empty_fg_location(cur,label):
+    loc=uuid.uuid4()
+    cur.execute("insert into erp.locations(id,location_code,location_name,location_type,is_active) values(%s,%s,%s,'FG_WAREHOUSE',true)",(loc,'AW-'+loc.hex[:12],label))
+    return loc
+
+
 def p04_fg_same_instant(cur,today,minus_first):
     """P-04: -1 then +1 at one physical instant is a negative prefix in the posting guard's order (administrative history)."""
     if not installed(cur):return dict(status='NOT_APPLICABLE',reason='dated FG detector exists only with AW')
-    api.admin(cur)
-    row=cur.execute("select id,product_id from erp.fg_lots order by produced_at,id limit 1").fetchone()
-    if row is None:
-        # No lot exists at this point of the seed: create one administratively (same labelled fixture class).
-        product=chain.base.create_product(cur,'AWP04-'+uuid.uuid4().hex[:10]);lot=uuid.uuid4()
-        cur.execute("set local session_replication_role=replica")
-        cur.execute("""insert into erp.fg_lots(id,lot_number,product_id,initial_qty_pcs,cached_qty_pcs,produced_at,is_open,lot_origin)
-            values(%s,%s,%s,1,0,%s,true,'OTHER')""",(lot,'AWP04-'+lot.hex[:10],product,chain.production.at(today-timedelta(days=10),8)))
-        cur.execute("set local session_replication_role=origin")
-    else:lot,product=row
+    lot,product=any_lot(cur,today)
     loc=uuid.uuid4()
     cur.execute("insert into erp.locations(id,location_code,location_name,location_type,is_active) values(%s,%s,'AW P04 empty FG location','FG_WAREHOUSE',true)",(loc,'AW-'+loc.hex[:12]))
     at=chain.production.at(today-timedelta(days=3),10)
@@ -369,6 +392,198 @@ def p04_fg_same_instant(cur,today,minus_first):
     expected=dict(on_day=['LOT','SKU'] if minus_first else [],day_before=[])
     return dict(status=('PASS' if minus_first else 'CONTROL_PASS') if observed==expected else 'FAIL',expected=expected,observed=observed,
                 fixture='administrative movements with triggers disabled (the posting guard refuses this history on ordinary paths)')
+
+
+def own_blockers(r,ids):
+    if r is None:return None
+    return [dict(code=b['code'],severity=b['severity'],impact=b['impact_date']) for b in r['blockers']
+            if any(str(x) in json.dumps(b['reference']) for x in ids)]
+
+
+def recost_after_period(cur,today):
+    """Design case 2 (control against over-blocking): the PO's facts are all after D, so its queue row does not block D."""
+    f,queue=recost_fixture(cur,today,True)
+    d=f['purchase_day']
+    quiet=quiet_seed(cur,d,d)
+    pre=preflight(cur,d);own=own_blockers(pre,[f['po']])
+    closed=close(cur,d,'AW recost after period')
+    state=control(cur)
+    observed=dict(queue=[list(map(str,r)) for r in queue],own=own,status=pre and pre['status'],close=closed[0],state=state)
+    if not installed(cur):return dict(status='OBSERVED',observed=observed,quiet=quiet)
+    ok=bool(queue) and own==[] and pre['status']=='READY' and closed[0]=='ACCEPTED' and state['filings']==1
+    return dict(status='CONTROL_PASS' if ok else 'FAIL',expected=dict(own=[],status='READY',close='ACCEPTED'),observed=observed,
+                blockers=blockers_brief(pre),close_error=closed[1],quiet=quiet)
+
+
+def recost_exhausted(cur,today):
+    """Design case 3: a recost that failed three times for a PO with facts on or before D is CRITICAL; close refused."""
+    f,queue=recost_fixture(cur,today,True)
+    d=f['purchase_day']+timedelta(days=1)
+    api.admin(cur)
+    # Administrative fixture: no business RPC makes the recost fail deterministically.
+    cur.execute("""update erp.cost_recalc_queue set status='FAILED',attempt_count=3,error_message='AW fixture: exhausted'
+        where entity_type='PO' and entity_id=%s and status in('PENDING','RUNNING','FAILED')""",(f['po'],))
+    pre=preflight(cur,d);rep=report(cur,d)
+    closed=close(cur,d,'AW recost exhausted')
+    observed=dict(queue=[list(map(str,r)) for r in queue],own=own_blockers(pre,[f['po']]),preview=pre and pre['status'],report=rep['status'],close=closed[0])
+    if not installed(cur):
+        return dict(status='COUNTEREXAMPLE' if closed[0]=='ACCEPTED' else 'CONTROL_PASS',observed=observed,
+                    expected='Owner policy: a failed recost for the period blocks close; frozen AU+AV')
+    ok=(any(b['code']=='RECOST_FAILED_EXHAUSTED' and b['severity']=='CRITICAL' for b in observed['own'])
+        and pre['status']=='BLOCKED' and rep['status']=='BLOCKED' and closed[0]=='CLOSE_BLOCKED')
+    return dict(status='PASS' if ok else 'FAIL',expected=dict(own='RECOST_FAILED_EXHAUSTED CRITICAL',preview='BLOCKED',report='BLOCKED',close='CLOSE_BLOCKED'),
+                observed=observed,close_error=closed[1],fixture='queue row set FAILED/3 administratively')
+
+
+def snapshot_values(cur,day):
+    api.ordinary(cur)
+    snap=cur.execute('select erp.get_owner_financial_snapshot_v2(%s,%s,%s)',(day,day,day)).fetchone()[0]
+    api.admin(cur)
+    values={k:str(snap['financial_position'][f]) for k,f in chain.production.REPORT_KEYS.items()}
+    values['COGS']=str(snap['performance']['cogs_gl'])
+    return values
+
+
+def filings(cur):
+    api.admin(cur)
+    return [list(map(str,r)) for r in cur.execute("""select id,closed_through,previous_closed_through,md5(readiness::text),filed_at
+        from erp.accounting_close_filings_v1 order by filed_at,id""").fetchall()]
+
+
+def b04_late_invoice(cur,today,caller_zone):
+    """Design cases 4 and 7 (AUD-B04, ERP-DEC01): estimate 10/unit, consumption, FG, part sold, period closed through the
+    consumption day, supplier invoice 10.70/unit arriving late. The AA value oracle is reused unchanged
+    (chain.production.differences); the engine expectations are the owner policy: the pending recost shows for the
+    closed day while unprocessed (report equals engine, changed since filing), processing clears it, the GL delta is
+    recognised in the open period, the filing is never rewritten and the closed day's GL values do not move."""
+    if not installed(cur):return dict(status='NOT_APPLICABLE',reason='per-date engine exists only with AW')
+    prod=chain.production
+    d=today-timedelta(days=3);d2=d+timedelta(days=1)
+    boundary.historical.prior.set_open_period(cur,d-timedelta(days=1))
+    quiet_seed_items=quiet_seed(cur,d,d2,exclude=[prod.CONTRACTOR])
+    ledger_baseline=prod.ledger(cur);report_baseline=prod.reports(cur,today)
+    fx=prod.estimated_receipt(cur,today)
+    assert fx['purchase_day']==d,('AW_B04_PURCHASE_DAY',fx['purchase_day'],d)
+    fx.update(ledger_baseline=ledger_baseline,report_baseline=report_baseline)
+    prod.partial_production(OrdinaryDraftCursor(cur),fx);api.admin(cur)
+    quiet_fixture=quiet_seed(cur,d,d2)
+    ready=preflight(cur,d2)
+    if ready['status']!='READY':
+        return dict(status='INCOMPLETE',reason='fixture not READY before the close',blockers=blockers_brief(ready),quiet=[quiet_seed_items,quiet_fixture])
+    closed=close(cur,d2,'AW B04 close after consumption, FG and sale')
+    before=prod.observe(cur,fx,today)
+    pre_errors=prod.differences(before,10,True,False)
+    values_before=snapshot_values(cur,d2);filed_before=filings(cur)
+    version=int(cur.execute('select row_version from erp.material_purchase_headers where id=%s',(fx['purchase'],)).fetchone()[0])
+    payload=dict(purchase_id=fx['purchase'],supplier_invoice_number='AW-B04-'+uuid.uuid4().hex[:12],invoice_date=d,
+                 received_at=prod.at(today-timedelta(days=1),15),reason='AW B04 late supplier invoice at 10.70',
+                 lines=[dict(purchase_item_id=fx['item'],qty_invoiced=10,final_unit_price='10.70')])
+    prod.zone(cur,caller_zone)
+    response=prod.rpc(cur,'erp.finalize_material_purchase_invoice_v2',payload,uuid.uuid4(),version)
+    api.admin(cur)
+    pending=cur.execute("select status from erp.cost_recalc_queue where entity_type='PO' and entity_id=%s and status in('PENDING','RUNNING','FAILED')",(fx['po'],)).fetchall()
+    pre_pending=preflight(cur,d2);rep_pending=report(cur,d2)
+    prod.owner(cur);processed=cur.execute('select erp.process_cost_recalc_queue(100)').fetchone()[0];api.admin(cur)
+    pre_done=preflight(cur,d2);rep_done=report(cur,d2)
+    after=prod.observe(cur,fx,today)
+    errors=prod.differences(after,'10.70',True,True)
+    for key in ('revaluation_events','hpp_events'):
+        old={r[0] for r in before[key]};new=[r for r in after[key] if r[0] not in old]
+        if not new or any(r[1]!=today for r in new):errors[key+'.business_day']=dict(expected=str(today),actual=[list(map(str,r)) for r in new])
+    values_after=snapshot_values(cur,d2);filed_after=filings(cur)
+    own_pending=[b['code'] for b in own_blockers(pre_pending,[fx['po']])]
+    own_done=[b['code'] for b in own_blockers(pre_done,[fx['po']])]
+    checks=dict(ready_before_close=ready['status']=='READY',close_accepted=closed[0]=='ACCEPTED',values_at_estimate=not pre_errors,
+                queue_pending=bool(pending),recost_pending_shown='RECOST_PENDING' in own_pending,
+                report_equals_engine_pending=rep_pending['status']==pre_pending['status']!='READY',
+                changed_since_filing_pending=rep_pending['changed_since_filing'] is True,
+                recost_cleared=not [c for c in own_done if c.startswith('RECOST')],ready_after=pre_done['status']=='READY',
+                report_equals_engine_done=rep_done['status']==pre_done['status']=='READY',
+                changed_since_filing_done=rep_done['changed_since_filing'] is False,
+                values_at_invoice=not errors,closed_day_gl_unchanged=values_before==values_after,
+                filing_unchanged=filed_before==filed_after and len(filed_after)==1)
+    return dict(status='PASS' if all(checks.values()) else 'FAIL',caller_zone=caller_zone,checks=checks,
+                closed_through=str(d2),invoice_date=str(d),pre_errors=pre_errors,errors=errors,invoice=response,processed=processed,
+                own_pending=own_pending,own_done=own_done,report_pending=rep_pending,report_done=rep_done,
+                values_closed_day_before=values_before,values_closed_day_after=values_after,filings=filed_after,
+                blockers_pending=blockers_brief(pre_pending),quiet=[quiet_seed_items,quiet_fixture],
+                fixture='AA ordinary purchase, cutting, sewing, laundry, FG and sale RPCs; seed open items cleared by quiet_seed')
+
+
+def historical_wrong_today_clean(cur,today):
+    """Design case 5: stock negative at a date on or before D and repaired later blocks D although today is clean;
+    reverse control: a defect dated only after D does not block D."""
+    if not installed(cur):return dict(status='NOT_APPLICABLE',reason='dated FG detector exists only with AW')
+    lot,product=any_lot(cur,today)
+    early,late=empty_fg_location(cur,'AW B04 repaired history'),empty_fg_location(cur,'AW B04 later defect')
+    x=today-timedelta(days=6);at=chain.production.at
+    fg_history(cur,product,lot,early,[(-1,at(x,10)),(1,at(x+timedelta(days=2),10))])
+    fg_history(cur,product,lot,late,[(-1,at(x+timedelta(days=4),10)),(1,at(x+timedelta(days=5),10))])
+    def own(day):
+        r=preflight(cur,day)
+        return {name:sorted({b['reference'].get('level') for b in r['blockers'] if b['code']=='FG_QTY_NEGATIVE_ASOF'
+                             and b['reference'].get('location_id')==str(loc)}) for name,loc in (('early',early),('late',late))}
+    observed={str(k):own(x+timedelta(days=k)) for k in (-1,1,3,4)}
+    both=['LOT','SKU']
+    expected={'-1':dict(early=[],late=[]),'1':dict(early=both,late=[]),'3':dict(early=both,late=[]),'4':dict(early=both,late=both)}
+    today_qty=cur.execute('select coalesce(sum(qty_signed),0) from erp.fg_stock_movements where location_id in(%s,%s)',(early,late)).fetchone()[0]
+    ok=observed==expected and today_qty==0
+    return dict(status='PASS' if ok else 'FAIL',expected=expected,observed=observed,today_qty=today_qty,day_zero=str(x),
+                fixture='administrative movements with triggers disabled (the posting guard refuses this history on ordinary paths)')
+
+
+def critical_non_queue(cur,today):
+    """Design case 6: a current-state CRITICAL check (unbalanced posted journal) blocks every date; preview, report and
+    close agree and the close refusal is atomic."""
+    d=today-timedelta(days=2)
+    boundary.historical.prior.set_open_period(cur,d-timedelta(days=1))
+    quiet=quiet_seed(cur,d,d)
+    base=preflight(cur,d)
+    api.admin(cur);entry=uuid.uuid4()
+    cur.execute("set local session_replication_role=replica")
+    cur.execute("""insert into erp.journal_entries(id,journal_number,economic_date,transaction_date,posting_at,source_type,source_id,description,status)
+        values(%s,%s,%s,%s,statement_timestamp(),'AW_FIXTURE',%s,'AW unbalanced fixture','POSTED')""",(entry,'AW-'+entry.hex[:12],d,d,uuid.uuid4()))
+    cur.execute("""insert into erp.journal_lines(journal_entry_id,account_id,description,debit,credit)
+        values(%s,erp.account_id('OTHER_INCOME'),'AW unbalanced fixture',1,0)""",(entry,))
+    cur.execute("set local session_replication_role=origin")
+    pre=preflight(cur,d);older=preflight(cur,d-timedelta(days=20));rep=report(cur,d)
+    closed=close(cur,d,'AW critical non-queue')
+    crit=lambda r:sorted({b['code'] for b in r['blockers'] if b['family']=='INTEGRITY' and b['severity']=='CRITICAL'
+                          and b['reference'].get('date_policy')=='BLOCKS_EVERY_DATE'}) if r else None
+    observed=dict(base=base and base['status'],critical=crit(pre),older_critical=crit(older),preview=pre and pre['status'],report=rep['status'],close=closed[0])
+    if not installed(cur):
+        return dict(status='COUNTEREXAMPLE' if closed[0]=='ACCEPTED' else 'CONTROL_PASS',observed=observed,quiet=quiet)
+    unbalanced={'UNBALANCED_POSTED_JOURNALS','V268_UNBALANCED_POSTED_JOURNAL'}
+    ok=(base['status']=='READY' and unbalanced & set(observed['critical']) and unbalanced & set(observed['older_critical'])
+        and pre['status']=='BLOCKED' and rep['status']=='BLOCKED' and closed[0]=='CLOSE_BLOCKED')
+    return dict(status='PASS' if ok else 'FAIL',expected=dict(base='READY',critical='an unbalanced-journal check, BLOCKS_EVERY_DATE, also 20 days earlier',
+                preview='BLOCKED',report='BLOCKED',close='CLOSE_BLOCKED'),observed=observed,close_error=closed[1],quiet=quiet,
+                fixture='one-sided posted journal inserted with triggers disabled')
+
+
+def policy_payroll_grni(cur,today):
+    """Design case 9: a payroll ending on or before D and not approved blocks; one straddling D does not; an open
+    estimated receipt (GRNI) is INFO and never blocks; approving the due payroll makes D READY."""
+    if not installed(cur):return dict(status='NOT_APPLICABLE',reason='per-date engine exists only with AW')
+    fx=chain.production.estimated_receipt(cur,today);d=fx['purchase_day']
+    quiet=quiet_seed(cur,d,d)
+    due_c,_=contractor_with_worker(cur,today,'AW payroll due');straddle_c,_=contractor_with_worker(cur,today,'AW payroll straddle')
+    api.admin(cur)
+    cash=cur.execute('select id from erp.cash_accounts where is_active order by cash_account_code limit 1').fetchone()[0]
+    due,straddle=uuid.uuid4(),uuid.uuid4()
+    for pid,c,lo,hi in ((due,due_c,d-timedelta(days=1),d),(straddle,straddle_c,d,d+timedelta(days=2))):
+        cur.execute("""insert into erp.payroll_settlements(id,payroll_number,contractor_id,period_start,period_end,status,payment_cash_account_id,payment_date,manual_adjustment,notes)
+            values(%s,%s,%s,%s,%s,'DRAFT',%s,%s,0,'AW policy payroll')""",(pid,'AW-'+pid.hex[:12],c,lo,hi,cash,hi))
+    pre=preflight(cur,d)
+    own_due=[b['code'] for b in own_blockers(pre,[due])];own_straddle=[b['code'] for b in own_blockers(pre,[straddle])]
+    grni=[dict(severity=b['severity'],reference=b['reference']) for b in pre['blockers'] if b['code']=='GRNI_ESTIMATE_OPEN']
+    chain.prior.as_owner(cur);cur.execute('select erp.populate_payroll_draft(%s)',(due,));cur.execute('select erp.approve_payroll(%s)',(due,));api.admin(cur)
+    after=preflight(cur,d)
+    ok=('PAYROLL_NOT_APPROVED' in own_due and 'PAYROLL_NOT_APPROVED' not in own_straddle and grni and all(g['severity']=='INFO' for g in grni)
+        and after['status']=='READY')
+    return dict(status='PASS' if ok else 'FAIL',expected=dict(due='PAYROLL_NOT_APPROVED',straddle='none',grni='INFO',after='READY'),
+                observed=dict(due=own_due,straddle=own_straddle,grni=grni,before=pre['status'],after=after['status']),
+                blockers_after=blockers_brief(after),quiet=quiet,fixture='payroll headers inserted as the harness does (no header RPC); approval through the owner RPC')
 
 
 def access(cur,today):
@@ -557,6 +772,13 @@ def cases(cur,today):
             ('P02:OWNER_ESTIMATE',lambda:p02_estimate(cur,today)),
             ('P04:FG_SAME_INSTANT_MINUS_FIRST',lambda:p04_fg_same_instant(cur,today,True)),
             ('P04:FG_SAME_INSTANT_PLUS_FIRST',lambda:p04_fg_same_instant(cur,today,False)),
+            ('S06:RECOST_AFTER_PERIOD',lambda:recost_after_period(cur,today)),
+            ('S06:RECOST_EXHAUSTED_IN_PERIOD',lambda:recost_exhausted(cur,today)),
+            ('B04:LATE_INVOICE_JAKARTA',lambda:b04_late_invoice(cur,today,'Asia/Jakarta')),
+            ('B04:LATE_INVOICE_KIRITIMATI',lambda:b04_late_invoice(cur,today,'Pacific/Kiritimati')),
+            ('B04:HISTORICAL_WRONG_TODAY_CLEAN',lambda:historical_wrong_today_clean(cur,today)),
+            ('S06:CRITICAL_NON_QUEUE',lambda:critical_non_queue(cur,today)),
+            ('POLICY:PAYROLL_AND_GRNI',lambda:policy_payroll_grni(cur,today)),
             ('ACCESS:NON_OWNER_AND_FACADE',lambda:access(cur,today))]
 
 
