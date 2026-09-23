@@ -1,16 +1,16 @@
-"""Closed-admission AV candidate install/restore; exact AU remains the pinned predecessor."""
+"""Closed-admission AV rev2 install/restore; exact AU remains the pinned predecessor."""
 from pathlib import Path
 import json,os,time
 import psycopg
 from psycopg import sql
-import cp6_au_r1_build as build
+import cp6_av_build as build
 import cp6_au_runtime as predecessor
 import cp6_ao_ap_runtime as prior
 import cp6_ao_ap_maintenance as maintenance
 import cp6_preuse_rollback_maintenance as core
 from cp6_ao_ap_inventory import data,function_pins,platform,sha
 
-EXPECTED_PINS='0f9a5e1578656fdcbcae09bc5d1e67fda07c7beea863150358980d1cf10b1f2e'
+EXPECTED_PINS='a653539d49e326fc2b6b0567b29856ea3c7c6dce02eba59b047f70cb725f516e'
 
 
 def pins():
@@ -34,8 +34,8 @@ def verified(cur):
     assert cur.execute('select version,name,statements from supabase_migrations.schema_migrations where version=%s or name=%s',(build.STAMP,build.NAME)).fetchall()==[(build.STAMP,build.NAME,[build.MIGRATION.read_text()])]
     assert not cur.execute('select 1 from supabase_migrations.schema_migrations where version>%s',(build.STAMP,)).fetchone()
     coverage=cur.execute('select erp.assert_new_stock_cutoff_coverage_v1()').fetchone()[0]
-    return dict(stage='AV_CANDIDATE',function_count=len(after['functions']),object_count=len(after['objects']),full_catalog_verified=True,
-                changed_functions=[f['identity'] for f in p['functions']],new_functions=[f['identity'] for f in p['new_functions']],
+    return dict(stage='AV_REV2',function_count=len(after['functions']),object_count=len(after['objects']),full_catalog_verified=True,
+                changed_functions=[f['identity'] for f in p['functions']],new_functions=[f['identity'] for f in p['new_functions']],new_tables=p['new_tables'],
                 coverage=coverage,prior_permanent_sql_unchanged=True)
 
 

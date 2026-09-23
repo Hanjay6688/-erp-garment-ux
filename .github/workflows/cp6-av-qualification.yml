@@ -1,24 +1,28 @@
-name: CP6 AU-R1 Successor Physical Cutoff Probe
+name: CP6 AV Rev2 Qualification
 'on':
   push:
     branches:
     - claude/new-session-deapao
     paths:
-    - scripts/cp6_au_r1_*
+    - scripts/cp6_av_build.py
+    - scripts/cp6_av_runtime.py
+    - scripts/cp6_av_probe.py
+    - scripts/cp6_av_trial.py
     - supabase/migrations/*_erp_v2_6_20av_*
     - supabase/rollbacks/*_erp_v2_6_20av_*
-    - .github/workflows/cp6-au-r1-probe.yml
+    - docs/evidence/cp6-av-r2-*.json
+    - .github/workflows/cp6-av-qualification.yml
   workflow_dispatch: null
 permissions:
   contents: read
   actions: read
 concurrency:
-  group: cp6-au-r1-probe-${{ github.ref }}
+  group: cp6-av-qualification-${{ github.ref }}
   cancel-in-progress: false
 jobs:
   trial:
     runs-on: ubuntu-24.04
-    timeout-minutes: 90
+    timeout-minutes: 240
     env:
       PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
       CP6_AC_INDEPENDENT_CONFIRM: postgres
@@ -262,35 +266,81 @@ jobs:
           connection limit 4 password :'cp6_password';
         SQL
         printf 'CP6_ADMISSION_CONTROL_PGURL=%s\n' "$maintenance_pgurl" >> "$GITHUB_ENV"
-    - name: Clone untouched AN for AU-R1 before cases
+    - name: Clone untouched AN for probe before
+      if: always()
       working-directory: writer
       run: |
         set -euo pipefail
-        mkdir -p ../auditor/cp6-proof/au-r1
+        mkdir -p ../auditor/cp6-proof/av
         bash scripts/clone-cp6-disposable-database.sh \
           'postgresql://postgres:postgres@127.0.0.1:54322/postgres' \
           'postgresql://postgres:postgres@127.0.0.1:54322/template1' \
           'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \
-          cp6_rollback supabase_db_cp5-local ../auditor/cp6-proof/au-r1/CLONE_BEFORE
-    - name: Observe AU-R1 on frozen AU
-      id: before
+          cp6_rollback supabase_db_cp5-local ../auditor/cp6-proof/av/CLONE_PROBE_BEFORE
+    - name: AV rev2 probe on frozen AU (before)
+      if: always()
       working-directory: writer
-      run: python ../auditor/scripts/cp6_au_r1_probe.py --phase before
-    - name: Clone untouched AN for AU-R1 after cases
+      run: python ../auditor/scripts/cp6_av_probe.py --phase before
+    - name: Clone untouched AN for probe after
+      if: always()
       working-directory: writer
       run: |
         set -euo pipefail
-        mkdir -p ../auditor/cp6-proof/au-r1
+        mkdir -p ../auditor/cp6-proof/av
         bash scripts/clone-cp6-disposable-database.sh \
           'postgresql://postgres:postgres@127.0.0.1:54322/postgres' \
           'postgresql://postgres:postgres@127.0.0.1:54322/template1' \
           'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \
-          cp6_rollback supabase_db_cp5-local ../auditor/cp6-proof/au-r1/CLONE_AFTER
-      if: always() && hashFiles('auditor/scripts/cp6_au_r1_candidate.py') != ''
-    - name: Replay AU-R1 on frozen AU plus candidate successor
-      if: always() && hashFiles('auditor/scripts/cp6_au_r1_candidate.py') != ''
+          cp6_rollback supabase_db_cp5-local ../auditor/cp6-proof/av/CLONE_PROBE_AFTER
+    - name: AV rev2 probe on AU plus AV rev2 (after)
+      if: always()
       working-directory: writer
-      run: python ../auditor/scripts/cp6_au_r1_probe.py --phase after
+      run: python ../auditor/scripts/cp6_av_probe.py --phase after
+    - name: Clone untouched AN for trial qualify
+      if: always()
+      working-directory: writer
+      run: |
+        set -euo pipefail
+        mkdir -p ../auditor/cp6-proof/av-trial
+        bash scripts/clone-cp6-disposable-database.sh \
+          'postgresql://postgres:postgres@127.0.0.1:54322/postgres' \
+          'postgresql://postgres:postgres@127.0.0.1:54322/template1' \
+          'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \
+          cp6_rollback supabase_db_cp5-local ../auditor/cp6-proof/av-trial/CLONE_TRIAL_QUALIFY
+    - name: AR 174 original cases, AV package cycles and post-use refusal
+      if: always()
+      working-directory: writer
+      run: python ../auditor/scripts/cp6_av_trial.py --phase qualify
+    - name: Clone untouched AN for trial temporal
+      if: always()
+      working-directory: writer
+      run: |
+        set -euo pipefail
+        mkdir -p ../auditor/cp6-proof/av-trial
+        bash scripts/clone-cp6-disposable-database.sh \
+          'postgresql://postgres:postgres@127.0.0.1:54322/postgres' \
+          'postgresql://postgres:postgres@127.0.0.1:54322/template1' \
+          'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \
+          cp6_rollback supabase_db_cp5-local ../auditor/cp6-proof/av-trial/CLONE_TRIAL_TEMPORAL
+    - name: AT 16 and AU 15 cases with their real races on AU plus AV rev2
+      if: always()
+      working-directory: writer
+      run: python ../auditor/scripts/cp6_av_trial.py --phase temporal
+    - name: Clone untouched AN for trial regression
+      if: always()
+      working-directory: writer
+      run: |
+        set -euo pipefail
+        mkdir -p ../auditor/cp6-proof/av-trial
+        bash scripts/clone-cp6-disposable-database.sh \
+          'postgresql://postgres:postgres@127.0.0.1:54322/postgres' \
+          'postgresql://postgres:postgres@127.0.0.1:54322/template1' \
+          'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \
+          cp6_rollback supabase_db_cp5-local ../auditor/cp6-proof/av-trial/CLONE_TRIAL_REGRESSION
+    - name: Original 326 business, import and value cases plus AS 34 on AU plus AV rev2
+      if: always()
+      working-directory: writer
+      run: python ../auditor/scripts/cp6_av_trial.py --phase regression
     - name: Remove disposable database
       if: always()
       working-directory: base
@@ -298,6 +348,8 @@ jobs:
     - uses: actions/upload-artifact@v4
       if: always()
       with:
-        name: cp6-au-r1-probe
-        path: auditor/cp6-proof/au-r1
+        name: cp6-av-qualification
+        path: |-
+          auditor/cp6-proof/av
+          auditor/cp6-proof/av-trial
         retention-days: 30

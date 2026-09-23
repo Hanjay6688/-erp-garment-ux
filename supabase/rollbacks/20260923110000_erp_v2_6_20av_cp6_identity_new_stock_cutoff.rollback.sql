@@ -1,4 +1,4 @@
--- CP6 AV candidate (AU-R1): the successor cutoff reads every NEW_STOCK physical fact.
+-- CP6 AV rev2: exact pre-use restore to AU under closed admission.
 begin;
 set local lock_timeout='10s';set local statement_timeout='240s';set local timezone='UTC';set local search_path='';
 set local role postgres;
@@ -18,12 +18,14 @@ begin
   execute format('lock table erp.%I in share row exclusive mode',n);
  end loop;
 end $lock_business$;
-do $admission$ begin
- if exists(select 1 from erp.schema_migrations where version='v2.6.20av') or to_regclass('erp.cp6_v2620av_rollback_capsule') is not null
-  or to_regprocedure('erp.latest_new_stock_physical_at_v1(uuid)') is not null or to_regprocedure('erp.assert_new_stock_cutoff_coverage_v1()') is not null
-  or exists(select 1 from supabase_migrations.schema_migrations where version>'20260923045944')
- then raise exception 'AV_EXACT_AU_WITHOUT_SUCCESSOR_REQUIRED';end if;
-end $admission$;
+do $platform$ begin
+ if not exists(select 1 from erp.schema_migrations where version='v2.6.20av')
+  or (select count(*) from supabase_migrations.schema_migrations where name='erp_v2_6_20av_cp6_identity_new_stock_cutoff')<>1
+  or not exists(select 1 from supabase_migrations.schema_migrations where version='20260923110000' and name='erp_v2_6_20av_cp6_identity_new_stock_cutoff'
+   and encode(extensions.digest(convert_to(array_to_string(statements,E'\n'),'UTF8'),'sha256'),'hex')='79d223da9ba20a1490a8182e1d62a53e4d284b1dd4de240efe35e7196d065cd9')
+  or exists(select 1 from supabase_migrations.schema_migrations where version>'20260923110000')
+ then raise exception 'AV_ROLLBACK_PLATFORM_OR_SUCCESSOR';end if;
+end $platform$;
 do $catalog_guard$
 declare actual jsonb;fingerprint text;object_count bigint;
 begin
@@ -87,8 +89,8 @@ with relations as (
 select coalesce(jsonb_object_agg(k,encode(extensions.digest(convert_to(v::text,'UTF8'),'sha256'),'hex')),'{}'::jsonb) from objects
 ) catalog;
  select count(*),encode(extensions.digest(convert_to(coalesce(string_agg(length(key)::text||':'||key||':'||value,E'\n' order by key collate "C"),''),'UTF8'),'sha256'),'hex') into object_count,fingerprint from jsonb_each_text(actual);
- if object_count<>7156 or fingerprint is distinct from 'ccb46dce421d27b7fad935e691fb17579a8529cd8590a0b7cea7858e9bb58d62' then
-  raise exception 'AV_PREDECESSOR_CATALOG_DRIFT';
+ if object_count<>7169 or fingerprint is distinct from '683b557e76ae2e444e368342536c7528434c9df097c4d93d1b61e89bad0971c3' then
+  raise exception 'AV_ROLLBACK_CATALOG_DRIFT';
  end if;
 end $catalog_guard$;
 do $historical_capsules$
@@ -372,187 +374,61 @@ do $au_platform$ begin
    and encode(extensions.digest(convert_to(array_to_string(statements,E'\n'),'UTF8'),'sha256'),'hex')='593b06092c2d47e03644afb1b7b5aef46c1442a56613f853a151b78ef738f2c2')
  then raise exception 'AV_PRIOR_AU_PLATFORM_DRIFT';end if;
 end $au_platform$;
-create table erp.cp6_v2620av_rollback_capsule(like erp.cp6_v2620an_rollback_capsule including all);
-alter table erp.cp6_v2620av_rollback_capsule enable row level security;
-revoke all on erp.cp6_v2620av_rollback_capsule from public,anon,authenticated,service_role;
-insert into erp.cp6_v2620av_rollback_capsule(object_identity,object_regidentity,object_definition,definition_sha256,acl_snapshot,owner_snapshot)
-select format('%I.%I(%s)',n.nspname,p.proname,pg_get_function_identity_arguments(p.oid)),i.identity,pg_get_functiondef(p.oid),
- encode(extensions.digest(convert_to(pg_get_functiondef(p.oid),'UTF8'),'sha256'),'hex'),
- array(select a::text from unnest(p.proacl)a order by a::text),pg_get_userbyid(p.proowner)
-from unnest(array['erp.edit_product_identity_effective(uuid,text,uuid,uuid,text,uuid,text,timestamp with time zone,text)']) i(identity)
-join pg_proc p on p.oid=i.identity::regprocedure join pg_namespace n on n.oid=p.pronamespace;
-do $before_data$ declare v_table text;v_hash jsonb;v_before jsonb; begin
- v_before:='{}'::jsonb;
+do $capsule_guard$
+declare r record;c record;e jsonb;boundary jsonb;actual jsonb;expected jsonb;
+begin
+ if not exists(select 1 from pg_class where oid='erp.cp6_v2620av_rollback_capsule'::regclass and relrowsecurity and not relforcerowsecurity and pg_get_userbyid(relowner)='postgres')
+  or exists(select 1 from pg_class p cross join lateral aclexplode(coalesce(p.relacl,acldefault('r',p.relowner)))a where p.oid='erp.cp6_v2620av_rollback_capsule'::regclass and a.grantee<>p.relowner)
+  or exists(select 1 from pg_attribute p cross join lateral aclexplode(p.attacl)a where p.attrelid='erp.cp6_v2620av_rollback_capsule'::regclass and a.grantee<>'postgres'::regrole)
+  or exists(select 1 from pg_policy where polrelid='erp.cp6_v2620av_rollback_capsule'::regclass)
+  or exists(select 1 from pg_trigger where tgrelid='erp.cp6_v2620av_rollback_capsule'::regclass and not tgisinternal)
+  or (select count(*) from erp.cp6_v2620av_rollback_capsule)<>3 then raise exception 'AV_CAPSULE_SECURITY_OR_COUNT';end if;
+ -- Match the complete visible column/constraint/index shape to the source-pinned
+ -- AN template. Names of generated capsule indexes are intentionally immaterial.
+ for r in select unnest(array['erp.cp6_v2620av_rollback_capsule','erp.cp6_v2620an_rollback_capsule']) as rel loop
+  select jsonb_build_object(
+   'relation',(select jsonb_build_array(relkind,relpersistence,relreplident,relispartition,reloptions) from pg_class where oid=r.rel::regclass),
+   'columns',(select jsonb_agg(jsonb_build_array(a.attname,format_type(a.atttypid,a.atttypmod),a.attnotnull,a.attidentity,a.attgenerated,pg_get_expr(d.adbin,d.adrelid)) order by a.attnum) from pg_attribute a left join pg_attrdef d on d.adrelid=a.attrelid and d.adnum=a.attnum where a.attrelid=r.rel::regclass and a.attnum>0 and not a.attisdropped),
+   'constraints',(select jsonb_agg(jsonb_build_array(contype,pg_get_constraintdef(oid),condeferrable,condeferred,convalidated) order by contype,pg_get_constraintdef(oid)) from pg_constraint where conrelid=r.rel::regclass),
+   'indexes',(select jsonb_agg(jsonb_build_array(indisunique,indisprimary,indisexclusion,indisvalid,indisready,indkey::text,indclass::text,indoption::text,pg_get_expr(indexprs,indrelid),pg_get_expr(indpred,indrelid)) order by indkey::text) from pg_index where indrelid=r.rel::regclass)) into actual;
+  if expected is null then expected:=actual;elsif actual is distinct from expected then raise exception 'AV_CAPSULE_SHAPE_DRIFT';end if;
+ end loop;
+ select boundary_snapshot into boundary from erp.cp6_v2620av_rollback_capsule limit 1;
+ if boundary is null or exists(select 1 from erp.cp6_v2620av_rollback_capsule where boundary_snapshot is distinct from boundary)
+  or not(boundary ?& array['before','after','platform_before','markers_before']) then raise exception 'AV_CAPSULE_BOUNDARY';end if;
+ for r in select * from jsonb_each('{"erp.create_manual_bs_case_v2(jsonb,uuid)":{"acl":["postgres=X/postgres","service_role=X/postgres"],"identity":"erp.create_manual_bs_case_v2(jsonb,uuid)","installed_sha256":"d9f44e4e5f9cd493558661cb0296ebe210f2ad79c5bf738f1e35d85c7b60700f","owner":"postgres","predecessor_sha256":"8d905e876d9ffd084412dda5840c666fc9637185605e18eaa298897cd631160c"},"erp.edit_product_identity_effective(uuid,text,uuid,uuid,text,uuid,text,timestamp with time zone,text)":{"acl":["authenticated=X/postgres","postgres=X/postgres","service_role=X/postgres"],"identity":"erp.edit_product_identity_effective(uuid,text,uuid,uuid,text,uuid,text,timestamp with time zone,text)","installed_sha256":"049f3e0ebe2eca3fd23182d854ce3210e77cde721e87ea223cd02e1ba15afccb","owner":"postgres","predecessor_sha256":"b856072c5e85cc3694850ec953bcd32a38bf254001b79b85effe420ff2aa710c"},"erp.post_rework_completion(uuid)":{"acl":["postgres=X/postgres","service_role=X/postgres"],"identity":"erp.post_rework_completion(uuid)","installed_sha256":"da2e61f07646849b517de25ef799c7a3d1d3edddaa016d2007e2715dbfed2f49","owner":"postgres","predecessor_sha256":"63116e419dbbb6e59296416793288d785a348a30cdc46aad7eb44d097444d6c3"}}'::jsonb) loop
+  select * into c from erp.cp6_v2620av_rollback_capsule where object_regidentity=r.key;e:=r.value;
+  if c.object_regidentity is null or c.definition_sha256 is distinct from e->>'predecessor_sha256'
+   or encode(extensions.digest(convert_to(c.object_definition,'UTF8'),'sha256'),'hex') is distinct from e->>'predecessor_sha256'
+   or c.installed_definition_sha256 is distinct from e->>'installed_sha256'
+   or c.owner_snapshot is distinct from e->>'owner' or to_jsonb(c.acl_snapshot) is distinct from e->'acl' then
+   raise exception 'AV_CAPSULE_SOURCE_DRIFT: %',r.key;
+  end if;
+ end loop;
+end $capsule_guard$;
+create temporary table cp6_av_restore_boundary on commit drop as select boundary_snapshot from erp.cp6_v2620av_rollback_capsule limit 1;
+do $pre_use$ declare v_table text;v_hash jsonb;v_after jsonb;b jsonb; begin
+ select boundary_snapshot into b from erp.cp6_v2620av_rollback_capsule limit 1;
+ v_after:='{}'::jsonb;
  for v_table in select c.relname from pg_class c join pg_namespace n on n.oid=c.relnamespace
   where n.nspname='erp' and c.relkind in('r','p') and c.relname<>all(array['schema_migrations','cp6_v2620av_rollback_capsule']::text[]) order by 1 loop
   execute format($data$select jsonb_build_object('count',count(*),'sha256',encode(extensions.digest(convert_to(coalesce(string_agg(h,',' order by h),''),'UTF8'),'sha256'),'hex')) from(select encode(extensions.digest(convert_to((to_jsonb(t))::text,'UTF8'),'sha256'),'hex') h from erp.%I t)s$data$,v_table) into v_hash;
-  v_before:=v_before||jsonb_build_object(v_table,v_hash);
+  v_after:=v_after||jsonb_build_object(v_table,v_hash);
  end loop;
 
- update erp.cp6_v2620av_rollback_capsule set boundary_snapshot=jsonb_build_object('before',v_before,'platform_before',(select encode(extensions.digest(convert_to(coalesce(jsonb_agg(to_jsonb(t) order by version),'[]'::jsonb)::text,'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations t where not(false)),'markers_before',(select encode(extensions.digest(convert_to(coalesce(jsonb_agg(to_jsonb(t) order by version),'[]'::jsonb)::text,'UTF8'),'sha256'),'hex') from erp.schema_migrations t where not(false)));
-end $before_data$;
-CREATE OR REPLACE FUNCTION erp.latest_new_stock_physical_at_v1(p_product_id uuid)
- RETURNS timestamp with time zone
- LANGUAGE sql
- STABLE
- SET search_path TO ''
-AS $function$
-select max(f.physical_at) from (
-  select l.produced_at as physical_at from erp.fg_lots l where l.product_id=p_product_id
-  union all
-  select b.physical_at from erp.bs_cases b
-  where b.product_id=p_product_id
-    and (b.qc_item_id is not null or b.source_laundry_bs_allocation_id is not null)
-) f
-$function$;
-revoke all on function erp.latest_new_stock_physical_at_v1(uuid) from public,anon,authenticated,service_role;
-CREATE OR REPLACE FUNCTION erp.assert_new_stock_cutoff_coverage_v1()
- RETURNS jsonb
- LANGUAGE plpgsql
- STABLE
- SET search_path TO ''
-AS $function$
-declare
-  v_covered text[]:=array['bs_cases','fg_lots'];
-  v_derived text[]:=array['fg_inventory_balances'];
-  v_helper text[];
-  v_missing text[];
-  v_producers jsonb;
-begin
-  select array_agg(distinct m[1] order by m[1]) into v_helper
-  from pg_proc p cross join lateral regexp_matches(p.prosrc,'erp\.([a-z0-9_]+)','g') m
-  where p.oid='erp.latest_new_stock_physical_at_v1(uuid)'::regprocedure;
-  if v_helper is distinct from v_covered then
-    raise exception 'NEW_STOCK_CUTOFF_HELPER_SCOPE_DRIFT: %',v_helper;
-  end if;
-  if (select p.prosrc from pg_proc p where p.oid='erp.edit_product_identity_effective(uuid,text,uuid,uuid,text,uuid,text,timestamp with time zone,text)'::regprocedure)
-     !~ 'erp\.latest_new_stock_physical_at_v1\s*\(' then
-    raise exception 'NEW_STOCK_CUTOFF_CONSUMER_DRIFT';
-  end if;
-  with producers as (
-    select p.oid::regprocedure::text fn,p.prosrc
-    from pg_proc p join pg_namespace n on n.oid=p.pronamespace
-    where n.nspname in('erp','public') and p.prokind in('f','p')
-      and p.oid<>'erp.assert_product_identity_time(uuid,timestamp with time zone,text)'::regprocedure
-      and exists(select 1 from regexp_matches(p.prosrc,'assert_product_identity_time\s*\(([^;]*)\)\s*;','g') c
-                 where c[1] !~ '''EXISTING_STOCK''\s*$')
-  ), targets as (
-    select distinct pr.fn,lower(m[1]) relname
-    from producers pr cross join lateral regexp_matches(pr.prosrc,'insert\s+into\s+erp\.([a-z0-9_]+)','gi') m
-  )
-  select coalesce(jsonb_object_agg(x.fn,x.tables),'{}'::jsonb),
-         array_agg(x.missing) filter(where x.missing is not null)
-    into v_producers,v_missing
-  from (
-    select t.fn,jsonb_agg(t.relname order by t.relname) tables,
-           string_agg(case when t.relname<>all(v_covered) and t.relname<>all(v_derived)
-             and exists(select 1 from pg_constraint fk join pg_class c on c.oid=fk.conrelid
-                        join pg_namespace cn on cn.oid=c.relnamespace
-                        where fk.contype='f' and fk.confrelid='erp.products'::regclass
-                          and cn.nspname='erp' and c.relname=t.relname)
-             then t.fn||' -> erp.'||t.relname end,'; ' order by t.relname) missing
-    from targets t group by t.fn
-  ) x;
-  if v_missing is not null then
-    raise exception 'NEW_STOCK_CUTOFF_COVERAGE_MISSING: %',array_to_string(v_missing,'; ');
-  end if;
-  return jsonb_build_object('covered',v_covered,'derived_without_physical_instant',v_derived,'new_stock_producers',v_producers);
-end;
-$function$;
-revoke all on function erp.assert_new_stock_cutoff_coverage_v1() from public,anon,authenticated,service_role;
-CREATE OR REPLACE FUNCTION erp.edit_product_identity_effective(p_product_id uuid, p_sku text, p_model_id uuid, p_brand_id uuid, p_color_name text, p_size_id uuid, p_product_name text, p_effective_from timestamp with time zone DEFAULT clock_timestamp(), p_reason text DEFAULT NULL::text)
- RETURNS uuid
- LANGUAGE plpgsql
- SECURITY DEFINER
- SET search_path TO ''
-AS $function$
-declare
-  p erp.products%rowtype; n erp.products%rowtype; child erp.products%rowtype; r record; v_root uuid; v_new uuid; v_used boolean; v_eff timestamptz:=coalesce(p_effective_from,clock_timestamp()); v_last timestamptz;
-begin
-  perform erp.require_owner_admin();
-  if nullif(trim(p_reason),'') is null then raise exception 'Alasan perubahan SKU wajib diisi'; end if;
-  if nullif(trim(p_sku),'') is null or nullif(trim(p_color_name),'') is null or nullif(trim(p_product_name),'') is null then
-    raise exception 'SKU, warna, dan nama produk wajib diisi';
-  end if;
-
-  perform erp.pocket_period_lock_v1();
-  perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));
-  select identity_root_id into v_root from erp.products where id=p_product_id;
-  if v_root is not null then perform pg_advisory_xact_lock(hashtextextended('SKUROOT:'||v_root::text,0));end if;
-  select * into p from erp.products where id=p_product_id for update;
-  if p.id is null then raise exception 'SKU tidak ditemukan'; end if;
-  p_sku:=btrim(p_sku);p_color_name:=btrim(p_color_name);p_product_name:=btrim(p_product_name);
-  if p_model_id is null or p_brand_id is null or p_size_id is null or not isfinite(v_eff) then
-    raise exception 'Identitas dan tanggal efektif SKU wajib lengkap dan finite';
-  end if;
-
-  if row(p.sku,p.model_id,p.brand_id,p.color_name,p.size_id)
-     is not distinct from row(p_sku,p_model_id,p_brand_id,p_color_name,p_size_id) then
-    if p.product_name is not distinct from p_product_name then return p.id;end if;
-    update erp.products set product_name=p_product_name,updated_at=statement_timestamp() where id=p.id;
-    insert into erp.audit_logs(entity_type,entity_id,action,changed_by,change_reason,new_data)
-    values('products',p.id,'UPDATE',erp.current_app_user_id(),p_reason,jsonb_build_object('product_name',p_product_name));
-    return p.id;
-  end if;
-
-
-  v_used:=false;
-  for r in
-    select ns.nspname,c.relname,a.attname
-    from pg_constraint fk join pg_class c on c.oid=fk.conrelid
-    join pg_namespace ns on ns.oid=c.relnamespace
-    join pg_attribute a on a.attrelid=c.oid and a.attnum=any(fk.conkey)
-    where fk.contype='f' and fk.confrelid='erp.products'::regclass
-      and fk.conrelid<>'erp.products'::regclass
-  loop
-    execute format('select exists(select 1 from %I.%I where %I=$1)',r.nspname,r.relname,r.attname) into v_used using p.id;
-    exit when v_used;
-  end loop;
-  if not v_used and not exists(select 1 from erp.products x where x.identity_root_id=p.identity_root_id and x.id<>p.id) then
-    n:=p;n.sku:=p_sku;n.model_id:=p_model_id;n.brand_id:=p_brand_id;n.color_name:=p_color_name;n.size_id:=p_size_id;
-    insert into erp.product_identity_mutation_context_v1 values(pg_backend_pid(),txid_current(),p.id,jsonb_build_array(p.id,p.sku,p.model_id,p.brand_id,p.color_name,p.size_id,p.identity_root_id,p.effective_from,p.effective_to,p.supersedes_product_id),jsonb_build_array(n.id,n.sku,n.model_id,n.brand_id,n.color_name,n.size_id,n.identity_root_id,n.effective_from,n.effective_to,n.supersedes_product_id));
-    update erp.products
-    set sku=trim(p_sku),model_id=p_model_id,brand_id=p_brand_id,color_name=trim(p_color_name),size_id=p_size_id,
-        product_name=trim(p_product_name),updated_at=statement_timestamp()
-    where id=p.id;
-    insert into erp.audit_logs(entity_type,entity_id,action,changed_by,change_reason,new_data)
-    values('products',p.id,'UPDATE',erp.current_app_user_id(),p_reason,
-      jsonb_build_object('sku',p_sku,'model_id',p_model_id,'brand_id',p_brand_id,'color_name',p_color_name,'size_id',p_size_id));
-    return p.id;
-  end if;
-
-  select * into child from erp.products where supersedes_product_id=p.id for update;
-  if child.id is not null then
-    if row(child.sku,child.model_id,child.brand_id,child.color_name,child.size_id,child.product_name,child.effective_from)
-       is not distinct from row(p_sku,p_model_id,p_brand_id,p_color_name,p_size_id,p_product_name,v_eff) then return child.id;end if;
-    raise exception 'Versi SKU sudah punya successor; gunakan versi paling akhir atau batalkan successor yang belum dipakai';
-  end if;
-  v_last:=erp.latest_new_stock_physical_at_v1(p.id);
-  if v_last>=v_eff then
-    raise exception 'Tanggal efektif SKU akan memotong histori produksi yang sudah tercatat (fakta fisik stok baru terakhir %). Pilih tanggal efektif sesudahnya.',v_last;
-  end if;
-  if v_eff<clock_timestamp()-interval '5 minutes' then
-    raise exception 'Perubahan identitas SKU yang sudah punya histori hanya boleh berlaku mulai sekarang atau tanggal mendatang';
-  end if;
-  if v_eff<=p.effective_from or (p.effective_to is not null and v_eff>=p.effective_to) then
-    raise exception 'Tanggal mulai perubahan harus berada setelah awal versi lama dan sebelum akhir versinya';
-  end if;
-
-  n:=p;n.effective_to:=v_eff;
-  insert into erp.product_identity_mutation_context_v1 values(pg_backend_pid(),txid_current(),p.id,jsonb_build_array(p.id,p.sku,p.model_id,p.brand_id,p.color_name,p.size_id,p.identity_root_id,p.effective_from,p.effective_to,p.supersedes_product_id),jsonb_build_array(n.id,n.sku,n.model_id,n.brand_id,n.color_name,n.size_id,n.identity_root_id,n.effective_from,n.effective_to,n.supersedes_product_id));
-  update erp.products set effective_to=v_eff,updated_at=statement_timestamp() where id=p.id;
-  insert into erp.products(sku,model_id,brand_id,color_name,size_id,product_name,is_portal_visible,is_active,
-                           identity_root_id,effective_from,effective_to,supersedes_product_id)
-  values(trim(p_sku),p_model_id,p_brand_id,trim(p_color_name),p_size_id,trim(p_product_name),p.is_portal_visible,p.is_active,
-         p.identity_root_id,v_eff,p.effective_to,p.id)
-  returning id into v_new;
-
-  insert into erp.audit_logs(entity_type,entity_id,action,changed_by,change_reason,new_data)
-  values('products',p.id,'UPDATE',erp.current_app_user_id(),p_reason,
-    jsonb_build_object('successor_product_id',v_new,'effective_from',v_eff,'old_identity_preserved',true,'economics_shared_by_identity_root',true));
-  return v_new;
-end;
-$function$;
+ if v_after is distinct from b->'after' then raise exception 'AV_POST_USE_ROLLBACK_REFUSED';end if;
+ if (select encode(extensions.digest(convert_to(coalesce(jsonb_agg(to_jsonb(t) order by version),'[]'::jsonb)::text,'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations t where not(version='20260923110000')) is distinct from b->>'platform_before'
+  or (select encode(extensions.digest(convert_to(coalesce(jsonb_agg(to_jsonb(t) order by version),'[]'::jsonb)::text,'UTF8'),'sha256'),'hex') from erp.schema_migrations t where not(version='v2.6.20av')) is distinct from b->>'markers_before'
+ then raise exception 'AV_PRIOR_HISTORY_DRIFT';end if;
+end $pre_use$;
+do $restore_function$ declare r record; begin for r in select object_definition from erp.cp6_v2620av_rollback_capsule order by object_regidentity loop execute r.object_definition;end loop;end $restore_function$;
+drop table erp.bs_case_manual_origins_v1;
+drop function erp.guard_bs_case_manual_origin_immutable_v1();
+drop function erp.latest_new_stock_physical_at_v1(uuid);
+drop function erp.assert_new_stock_cutoff_coverage_v1();
+drop table erp.cp6_v2620av_rollback_capsule;
+delete from erp.schema_migrations where version='v2.6.20av';
+delete from supabase_migrations.schema_migrations where version='20260923110000' and name='erp_v2_6_20av_cp6_identity_new_stock_cutoff';
 do $catalog_guard$
 declare actual jsonb;fingerprint text;object_count bigint;
 begin
@@ -616,54 +492,22 @@ with relations as (
 select coalesce(jsonb_object_agg(k,encode(extensions.digest(convert_to(v::text,'UTF8'),'sha256'),'hex')),'{}'::jsonb) from objects
 ) catalog;
  select count(*),encode(extensions.digest(convert_to(coalesce(string_agg(length(key)::text||':'||key||':'||value,E'\n' order by key collate "C"),''),'UTF8'),'sha256'),'hex') into object_count,fingerprint from jsonb_each_text(actual);
- if object_count<>7158 or fingerprint is distinct from '3d1c7c45a133b5277fd6fb98e5ba499e05e6a66a3f3b9b27d55626594290cb67' then
-  raise exception 'AV_INSTALLED_CATALOG_DRIFT';
+ if object_count<>7156 or fingerprint is distinct from 'ccb46dce421d27b7fad935e691fb17579a8529cd8590a0b7cea7858e9bb58d62' then
+  raise exception 'AV_RESTORED_CATALOG_DRIFT';
  end if;
 end $catalog_guard$;
-update erp.cp6_v2620av_rollback_capsule set installed_definition_sha256=encode(extensions.digest(convert_to(pg_get_functiondef(to_regprocedure(object_regidentity)),'UTF8'),'sha256'),'hex');
-do $after_data$ declare v_table text;v_hash jsonb;v_after jsonb; begin
- v_after:='{}'::jsonb;
+do $restored_data$ declare v_table text;v_hash jsonb;v_before jsonb;b jsonb; begin
+ select boundary_snapshot into b from pg_temp.cp6_av_restore_boundary;
+ v_before:='{}'::jsonb;
  for v_table in select c.relname from pg_class c join pg_namespace n on n.oid=c.relnamespace
-  where n.nspname='erp' and c.relkind in('r','p') and c.relname<>all(array['schema_migrations','cp6_v2620av_rollback_capsule']::text[]) order by 1 loop
+  where n.nspname='erp' and c.relkind in('r','p') and c.relname<>all(array['schema_migrations']::text[]) order by 1 loop
   execute format($data$select jsonb_build_object('count',count(*),'sha256',encode(extensions.digest(convert_to(coalesce(string_agg(h,',' order by h),''),'UTF8'),'sha256'),'hex')) from(select encode(extensions.digest(convert_to((to_jsonb(t))::text,'UTF8'),'sha256'),'hex') h from erp.%I t)s$data$,v_table) into v_hash;
-  v_after:=v_after||jsonb_build_object(v_table,v_hash);
+  v_before:=v_before||jsonb_build_object(v_table,v_hash);
  end loop;
 
- if v_after is distinct from (select boundary_snapshot->'before' from erp.cp6_v2620av_rollback_capsule limit 1) then raise exception 'AV_INSTALL_CHANGED_DATA';end if;
- update erp.cp6_v2620av_rollback_capsule set boundary_snapshot=boundary_snapshot||jsonb_build_object('after',v_after);
-end $after_data$;
-do $coverage$ begin perform erp.assert_new_stock_cutoff_coverage_v1();end $coverage$;
-insert into erp.schema_migrations(version,description) values('v2.6.20av','Successor cutoff covers every NEW_STOCK physical fact (AU-R1 candidate)');
-do $capsule_guard$
-declare r record;c record;e jsonb;boundary jsonb;actual jsonb;expected jsonb;
-begin
- if not exists(select 1 from pg_class where oid='erp.cp6_v2620av_rollback_capsule'::regclass and relrowsecurity and not relforcerowsecurity and pg_get_userbyid(relowner)='postgres')
-  or exists(select 1 from pg_class p cross join lateral aclexplode(coalesce(p.relacl,acldefault('r',p.relowner)))a where p.oid='erp.cp6_v2620av_rollback_capsule'::regclass and a.grantee<>p.relowner)
-  or exists(select 1 from pg_attribute p cross join lateral aclexplode(p.attacl)a where p.attrelid='erp.cp6_v2620av_rollback_capsule'::regclass and a.grantee<>'postgres'::regrole)
-  or exists(select 1 from pg_policy where polrelid='erp.cp6_v2620av_rollback_capsule'::regclass)
-  or exists(select 1 from pg_trigger where tgrelid='erp.cp6_v2620av_rollback_capsule'::regclass and not tgisinternal)
-  or (select count(*) from erp.cp6_v2620av_rollback_capsule)<>1 then raise exception 'AV_CAPSULE_SECURITY_OR_COUNT';end if;
- -- Match the complete visible column/constraint/index shape to the source-pinned
- -- AN template. Names of generated capsule indexes are intentionally immaterial.
- for r in select unnest(array['erp.cp6_v2620av_rollback_capsule','erp.cp6_v2620an_rollback_capsule']) as rel loop
-  select jsonb_build_object(
-   'relation',(select jsonb_build_array(relkind,relpersistence,relreplident,relispartition,reloptions) from pg_class where oid=r.rel::regclass),
-   'columns',(select jsonb_agg(jsonb_build_array(a.attname,format_type(a.atttypid,a.atttypmod),a.attnotnull,a.attidentity,a.attgenerated,pg_get_expr(d.adbin,d.adrelid)) order by a.attnum) from pg_attribute a left join pg_attrdef d on d.adrelid=a.attrelid and d.adnum=a.attnum where a.attrelid=r.rel::regclass and a.attnum>0 and not a.attisdropped),
-   'constraints',(select jsonb_agg(jsonb_build_array(contype,pg_get_constraintdef(oid),condeferrable,condeferred,convalidated) order by contype,pg_get_constraintdef(oid)) from pg_constraint where conrelid=r.rel::regclass),
-   'indexes',(select jsonb_agg(jsonb_build_array(indisunique,indisprimary,indisexclusion,indisvalid,indisready,indkey::text,indclass::text,indoption::text,pg_get_expr(indexprs,indrelid),pg_get_expr(indpred,indrelid)) order by indkey::text) from pg_index where indrelid=r.rel::regclass)) into actual;
-  if expected is null then expected:=actual;elsif actual is distinct from expected then raise exception 'AV_CAPSULE_SHAPE_DRIFT';end if;
- end loop;
- select boundary_snapshot into boundary from erp.cp6_v2620av_rollback_capsule limit 1;
- if boundary is null or exists(select 1 from erp.cp6_v2620av_rollback_capsule where boundary_snapshot is distinct from boundary)
-  or not(boundary ?& array['before','after','platform_before','markers_before']) then raise exception 'AV_CAPSULE_BOUNDARY';end if;
- for r in select * from jsonb_each('{"erp.edit_product_identity_effective(uuid,text,uuid,uuid,text,uuid,text,timestamp with time zone,text)":{"acl":["authenticated=X/postgres","postgres=X/postgres","service_role=X/postgres"],"identity":"erp.edit_product_identity_effective(uuid,text,uuid,uuid,text,uuid,text,timestamp with time zone,text)","installed_sha256":"049f3e0ebe2eca3fd23182d854ce3210e77cde721e87ea223cd02e1ba15afccb","owner":"postgres","predecessor_sha256":"b856072c5e85cc3694850ec953bcd32a38bf254001b79b85effe420ff2aa710c"}}'::jsonb) loop
-  select * into c from erp.cp6_v2620av_rollback_capsule where object_regidentity=r.key;e:=r.value;
-  if c.object_regidentity is null or c.definition_sha256 is distinct from e->>'predecessor_sha256'
-   or encode(extensions.digest(convert_to(c.object_definition,'UTF8'),'sha256'),'hex') is distinct from e->>'predecessor_sha256'
-   or c.installed_definition_sha256 is distinct from e->>'installed_sha256'
-   or c.owner_snapshot is distinct from e->>'owner' or to_jsonb(c.acl_snapshot) is distinct from e->'acl' then
-   raise exception 'AV_CAPSULE_SOURCE_DRIFT: %',r.key;
-  end if;
- end loop;
-end $capsule_guard$;
+ if v_before is distinct from b->'before'
+  or (select encode(extensions.digest(convert_to(coalesce(jsonb_agg(to_jsonb(t) order by version),'[]'::jsonb)::text,'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations t where not(false)) is distinct from b->>'platform_before'
+  or (select encode(extensions.digest(convert_to(coalesce(jsonb_agg(to_jsonb(t) order by version),'[]'::jsonb)::text,'UTF8'),'sha256'),'hex') from erp.schema_migrations t where not(false)) is distinct from b->>'markers_before'
+ then raise exception 'AV_EXACT_RESTORE_FAILED';end if;
+end $restored_data$;
 commit;

@@ -1,0 +1,149 @@
+{
+  "after_counts": {
+    "functions": 651,
+    "objects": 7169
+  },
+  "au_install": "PASS",
+  "auditor_head": "e5e21821dfd3824813c00b3dbd7b044009c02d7a",
+  "before_counts": {
+    "functions": 648,
+    "objects": 7156
+  },
+  "before_sha256": {
+    "functions": "66385bb7210cec35246252bef03731b3250cd7661912d7c4c9dc6121b2723e99",
+    "objects": "c305f0c6bcdae8e4462b4e970e7a1eae0eed76cb847d39ee6f2f25f69c51c8ca"
+  },
+  "canonical_matches": {
+    "erp.assert_new_stock_cutoff_coverage_v1()": true,
+    "erp.create_manual_bs_case_v2(jsonb,uuid)": true,
+    "erp.edit_product_identity_effective(uuid,text,uuid,uuid,text,uuid,text,timestamp with time zone,text)": true,
+    "erp.guard_bs_case_manual_origin_immutable_v1()": true,
+    "erp.latest_new_stock_physical_at_v1(uuid)": true,
+    "erp.post_rework_completion(uuid)": true
+  },
+  "canonical_mismatch_text": {},
+  "changed_existing_objects": [
+    "FUNCTION:erp.create_manual_bs_case_v2(jsonb,uuid)",
+    "FUNCTION:erp.edit_product_identity_effective(uuid,text,uuid,uuid,text,uuid,text,timestamp with time zone,text)",
+    "FUNCTION:erp.post_rework_completion(uuid)"
+  ],
+  "changed_function_pins": {
+    "erp.create_manual_bs_case_v2(jsonb,uuid)": {
+      "acl": [
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ],
+      "owner": "postgres",
+      "sha256": "d9f44e4e5f9cd493558661cb0296ebe210f2ad79c5bf738f1e35d85c7b60700f"
+    },
+    "erp.edit_product_identity_effective(uuid,text,uuid,uuid,text,uuid,text,timestamp with time zone,text)": {
+      "acl": [
+        "authenticated=X/postgres",
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ],
+      "owner": "postgres",
+      "sha256": "049f3e0ebe2eca3fd23182d854ce3210e77cde721e87ea223cd02e1ba15afccb"
+    },
+    "erp.post_rework_completion(uuid)": {
+      "acl": [
+        "postgres=X/postgres",
+        "service_role=X/postgres"
+      ],
+      "owner": "postgres",
+      "sha256": "da2e61f07646849b517de25ef799c7a3d1d3edddaa016d2007e2715dbfed2f49"
+    }
+  },
+  "clone_remaining": 0,
+  "complete_boundary_restored": true,
+  "coverage": {
+    "new_stock_fact_tables": [
+      "bs_cases",
+      "fg_lots"
+    ],
+    "references": 23
+  },
+  "definitions_sha256": "576c975bcd02b0c8173871faebe242fc4f26b5b3bed80957d5bd2d71ca3156f8",
+  "independent_acceptance": false,
+  "native_product_references": [
+    "erp.accessory_bom_versions.product_id",
+    "erp.bs_cases.product_id",
+    "erp.contractor_accessory_reimbursement_entitlements.product_id",
+    "erp.fg_accessory_cost_snapshots.product_id",
+    "erp.fg_adjustment_items.product_id",
+    "erp.fg_inventory_balances.product_id",
+    "erp.fg_lots.product_id",
+    "erp.fg_stock_movements.product_id",
+    "erp.journal_lines.product_id",
+    "erp.laundry_receipt_batch_size_lines.bs_product_id",
+    "erp.laundry_receipt_bs_product_allocations.product_id",
+    "erp.non_po_hpp_gl_sync_events_v2620f.product_id",
+    "erp.opening_balance_items.product_id",
+    "erp.po_accessory_bom_commitments.product_id",
+    "erp.product_conversions.from_product_id",
+    "erp.product_conversions.to_product_id",
+    "erp.product_price_versions.product_id",
+    "erp.qc_inspection_items.final_product_id",
+    "erp.sales_items.product_id",
+    "erp.sales_return_items.product_id",
+    "erp.stock_explainability_snapshots.product_id",
+    "erp.stock_policy_versions.product_id"
+  ],
+  "new_function_pins": {
+    "erp.assert_new_stock_cutoff_coverage_v1()": {
+      "acl": [
+        "postgres=X/postgres"
+      ],
+      "owner": "postgres",
+      "sha256": "6ec8cacbb951ca1954deff5db9f51e71e8f3c4e60f0e2a7eb4f620d97a1d8592"
+    },
+    "erp.guard_bs_case_manual_origin_immutable_v1()": {
+      "acl": [
+        "postgres=X/postgres"
+      ],
+      "owner": "postgres",
+      "sha256": "5a17e3db9b056fce1d9ac9f220d78e5383c1f34cad350caf683e07055b8f8c91"
+    },
+    "erp.latest_new_stock_physical_at_v1(uuid)": {
+      "acl": [
+        "postgres=X/postgres"
+      ],
+      "owner": "postgres",
+      "sha256": "d37e5b10484a440a7eddd45d5d853675b9917d61ba438f4b16f7ebcf70139402"
+    }
+  },
+  "new_objects": {
+    "COLUMN:erp.bs_case_manual_origins_v1.bs_case_id": "b9c5111089df0642d26a12332658293f87966d82010b8c048b2d76401fb7473e",
+    "COLUMN:erp.bs_case_manual_origins_v1.origin_type": "fa17b95986a10c690ba87f59ff32f895b6912a1b433e800ff43a4a02be489bcc",
+    "COLUMN:erp.bs_case_manual_origins_v1.recorded_at": "ccbaf104348e17e70e52a885516529d7cef9e2e5f30ee4833302b54cec1f528c",
+    "CONSTRAINT:erp.bs_case_manual_origins_v1.bs_case_manual_origins_v1_bs_case_id_fkey": "4d75dafd81c410183815484065aa9e0bedc99c8283404c4de848792e398486c0",
+    "CONSTRAINT:erp.bs_case_manual_origins_v1.bs_case_manual_origins_v1_origin_type_check": "751075fe24968dc302a1183c8b0d7e5aa6c16506c73c5567b0f31e8809775397",
+    "CONSTRAINT:erp.bs_case_manual_origins_v1.bs_case_manual_origins_v1_pkey": "290a93ee84f576be5b6f4366a601c9ea472386e5d351ef95935b0e5524a27d84",
+    "FUNCTION:erp.assert_new_stock_cutoff_coverage_v1()": "72a6e6c00ff96916b77548ba43f8507784c5acd39deb323c441c22af3bbb4154",
+    "FUNCTION:erp.guard_bs_case_manual_origin_immutable_v1()": "5399a4ad8851f2f0e18ec684d96098c3eaa011247724cdc6198e8e98fe477408",
+    "FUNCTION:erp.latest_new_stock_physical_at_v1(uuid)": "23824643010635da774f9ecc301d15bf0cf8da8eb067db2bf5587a2f01104a18",
+    "INDEX:erp.bs_case_manual_origins_v1_pkey": "300ac98f764b1a447383635791c35d6cb02e1e66a5902b30ec5051c513cb0fb1",
+    "RELATION:erp.bs_case_manual_origins_v1": "bb69e01077a41e08562b2d16f08941ce147420e516bdaa226036dd7abab60608",
+    "TRIGGER:erp.bs_case_manual_origins_v1.trg_bs_case_manual_origin_immutable": "08a58dc10a841a98e728f228dfa92f87d4acd5d24c76823dd9b68c1ae3fbb2e7",
+    "TRIGGER:erp.bs_case_manual_origins_v1.trg_bs_case_manual_origin_no_truncate": "5c499cbccf874c218080091fe40ff306c6f9aa5191fbe9ffbb0477381786c010"
+  },
+  "old_definitions_match": {
+    "erp.create_manual_bs_case_v2(jsonb,uuid)": true,
+    "erp.edit_product_identity_effective(uuid,text,uuid,uuid,text,uuid,text,timestamp with time zone,text)": true,
+    "erp.post_rework_completion(uuid)": true
+  },
+  "primary_unchanged": true,
+  "production_go": false,
+  "removed_objects": [],
+  "schema_sha256": "fa3ffee18cf9352f00f88743c4af756f781ddfb66d65a21c4639b484eb414ad2",
+  "source": {
+    "artifact": 10744321286,
+    "artifact_zip_sha256": "54ace6f44e491260aa77eb861bf8b7c85466cc58e92e95ab587b357c3e7acda7",
+    "extraction": "AV_CAPTURE_JSON line of the job log; the artifact was not downloadable from the writer container",
+    "job": 107138089292,
+    "workflow_run": 35847809973
+  },
+  "status": "CAPTURE_PASS",
+  "triggers_sha256": "fea5bed63e2409d4b5542d253e15c320ab98228a76b8e2f510ccb19830973162",
+  "writer_head": "ca7f09556397801c50a2277bdb65b1bf019f9a05"
+}

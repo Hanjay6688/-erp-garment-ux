@@ -1,4 +1,4 @@
--- CP6 AV candidate: exact pre-use restore to AU under closed admission.
+-- CP6 AV rev2: NEW_STOCK physical cutoff, manual BS origin (1C), rework GOOD as existing stock (2A), fail-closed coverage registry.
 begin;
 set local lock_timeout='10s';set local statement_timeout='240s';set local timezone='UTC';set local search_path='';
 set local role postgres;
@@ -18,14 +18,13 @@ begin
   execute format('lock table erp.%I in share row exclusive mode',n);
  end loop;
 end $lock_business$;
-do $platform$ begin
- if not exists(select 1 from erp.schema_migrations where version='v2.6.20av')
-  or (select count(*) from supabase_migrations.schema_migrations where name='erp_v2_6_20av_cp6_new_stock_physical_cutoff')<>1
-  or not exists(select 1 from supabase_migrations.schema_migrations where version='20260923090000' and name='erp_v2_6_20av_cp6_new_stock_physical_cutoff'
-   and encode(extensions.digest(convert_to(array_to_string(statements,E'\n'),'UTF8'),'sha256'),'hex')='3bd2f94fc3415072b3f92b313ef8473d4b3e365b22daaa4e8416d0bea6426199')
-  or exists(select 1 from supabase_migrations.schema_migrations where version>'20260923090000')
- then raise exception 'AV_ROLLBACK_PLATFORM_OR_SUCCESSOR';end if;
-end $platform$;
+do $admission$ begin
+ if exists(select 1 from erp.schema_migrations where version='v2.6.20av') or to_regclass('erp.cp6_v2620av_rollback_capsule') is not null
+  or to_regclass('erp.bs_case_manual_origins_v1') is not null or to_regprocedure('erp.latest_new_stock_physical_at_v1(uuid)') is not null
+  or to_regprocedure('erp.assert_new_stock_cutoff_coverage_v1()') is not null or to_regprocedure('erp.guard_bs_case_manual_origin_immutable_v1()') is not null
+  or exists(select 1 from supabase_migrations.schema_migrations where version>'20260923045944')
+ then raise exception 'AV_EXACT_AU_WITHOUT_SUCCESSOR_REQUIRED';end if;
+end $admission$;
 do $catalog_guard$
 declare actual jsonb;fingerprint text;object_count bigint;
 begin
@@ -89,8 +88,8 @@ with relations as (
 select coalesce(jsonb_object_agg(k,encode(extensions.digest(convert_to(v::text,'UTF8'),'sha256'),'hex')),'{}'::jsonb) from objects
 ) catalog;
  select count(*),encode(extensions.digest(convert_to(coalesce(string_agg(length(key)::text||':'||key||':'||value,E'\n' order by key collate "C"),''),'UTF8'),'sha256'),'hex') into object_count,fingerprint from jsonb_each_text(actual);
- if object_count<>7158 or fingerprint is distinct from '3d1c7c45a133b5277fd6fb98e5ba499e05e6a66a3f3b9b27d55626594290cb67' then
-  raise exception 'AV_ROLLBACK_CATALOG_DRIFT';
+ if object_count<>7156 or fingerprint is distinct from 'ccb46dce421d27b7fad935e691fb17579a8529cd8590a0b7cea7858e9bb58d62' then
+  raise exception 'AV_PREDECESSOR_CATALOG_DRIFT';
  end if;
 end $catalog_guard$;
 do $historical_capsules$
@@ -374,59 +373,407 @@ do $au_platform$ begin
    and encode(extensions.digest(convert_to(array_to_string(statements,E'\n'),'UTF8'),'sha256'),'hex')='593b06092c2d47e03644afb1b7b5aef46c1442a56613f853a151b78ef738f2c2')
  then raise exception 'AV_PRIOR_AU_PLATFORM_DRIFT';end if;
 end $au_platform$;
-do $capsule_guard$
-declare r record;c record;e jsonb;boundary jsonb;actual jsonb;expected jsonb;
-begin
- if not exists(select 1 from pg_class where oid='erp.cp6_v2620av_rollback_capsule'::regclass and relrowsecurity and not relforcerowsecurity and pg_get_userbyid(relowner)='postgres')
-  or exists(select 1 from pg_class p cross join lateral aclexplode(coalesce(p.relacl,acldefault('r',p.relowner)))a where p.oid='erp.cp6_v2620av_rollback_capsule'::regclass and a.grantee<>p.relowner)
-  or exists(select 1 from pg_attribute p cross join lateral aclexplode(p.attacl)a where p.attrelid='erp.cp6_v2620av_rollback_capsule'::regclass and a.grantee<>'postgres'::regrole)
-  or exists(select 1 from pg_policy where polrelid='erp.cp6_v2620av_rollback_capsule'::regclass)
-  or exists(select 1 from pg_trigger where tgrelid='erp.cp6_v2620av_rollback_capsule'::regclass and not tgisinternal)
-  or (select count(*) from erp.cp6_v2620av_rollback_capsule)<>1 then raise exception 'AV_CAPSULE_SECURITY_OR_COUNT';end if;
- -- Match the complete visible column/constraint/index shape to the source-pinned
- -- AN template. Names of generated capsule indexes are intentionally immaterial.
- for r in select unnest(array['erp.cp6_v2620av_rollback_capsule','erp.cp6_v2620an_rollback_capsule']) as rel loop
-  select jsonb_build_object(
-   'relation',(select jsonb_build_array(relkind,relpersistence,relreplident,relispartition,reloptions) from pg_class where oid=r.rel::regclass),
-   'columns',(select jsonb_agg(jsonb_build_array(a.attname,format_type(a.atttypid,a.atttypmod),a.attnotnull,a.attidentity,a.attgenerated,pg_get_expr(d.adbin,d.adrelid)) order by a.attnum) from pg_attribute a left join pg_attrdef d on d.adrelid=a.attrelid and d.adnum=a.attnum where a.attrelid=r.rel::regclass and a.attnum>0 and not a.attisdropped),
-   'constraints',(select jsonb_agg(jsonb_build_array(contype,pg_get_constraintdef(oid),condeferrable,condeferred,convalidated) order by contype,pg_get_constraintdef(oid)) from pg_constraint where conrelid=r.rel::regclass),
-   'indexes',(select jsonb_agg(jsonb_build_array(indisunique,indisprimary,indisexclusion,indisvalid,indisready,indkey::text,indclass::text,indoption::text,pg_get_expr(indexprs,indrelid),pg_get_expr(indpred,indrelid)) order by indkey::text) from pg_index where indrelid=r.rel::regclass)) into actual;
-  if expected is null then expected:=actual;elsif actual is distinct from expected then raise exception 'AV_CAPSULE_SHAPE_DRIFT';end if;
- end loop;
- select boundary_snapshot into boundary from erp.cp6_v2620av_rollback_capsule limit 1;
- if boundary is null or exists(select 1 from erp.cp6_v2620av_rollback_capsule where boundary_snapshot is distinct from boundary)
-  or not(boundary ?& array['before','after','platform_before','markers_before']) then raise exception 'AV_CAPSULE_BOUNDARY';end if;
- for r in select * from jsonb_each('{"erp.edit_product_identity_effective(uuid,text,uuid,uuid,text,uuid,text,timestamp with time zone,text)":{"acl":["authenticated=X/postgres","postgres=X/postgres","service_role=X/postgres"],"identity":"erp.edit_product_identity_effective(uuid,text,uuid,uuid,text,uuid,text,timestamp with time zone,text)","installed_sha256":"049f3e0ebe2eca3fd23182d854ce3210e77cde721e87ea223cd02e1ba15afccb","owner":"postgres","predecessor_sha256":"b856072c5e85cc3694850ec953bcd32a38bf254001b79b85effe420ff2aa710c"}}'::jsonb) loop
-  select * into c from erp.cp6_v2620av_rollback_capsule where object_regidentity=r.key;e:=r.value;
-  if c.object_regidentity is null or c.definition_sha256 is distinct from e->>'predecessor_sha256'
-   or encode(extensions.digest(convert_to(c.object_definition,'UTF8'),'sha256'),'hex') is distinct from e->>'predecessor_sha256'
-   or c.installed_definition_sha256 is distinct from e->>'installed_sha256'
-   or c.owner_snapshot is distinct from e->>'owner' or to_jsonb(c.acl_snapshot) is distinct from e->'acl' then
-   raise exception 'AV_CAPSULE_SOURCE_DRIFT: %',r.key;
-  end if;
- end loop;
-end $capsule_guard$;
-create temporary table cp6_av_restore_boundary on commit drop as select boundary_snapshot from erp.cp6_v2620av_rollback_capsule limit 1;
-do $pre_use$ declare v_table text;v_hash jsonb;v_after jsonb;b jsonb; begin
- select boundary_snapshot into b from erp.cp6_v2620av_rollback_capsule limit 1;
- v_after:='{}'::jsonb;
+create table erp.cp6_v2620av_rollback_capsule(like erp.cp6_v2620an_rollback_capsule including all);
+alter table erp.cp6_v2620av_rollback_capsule enable row level security;
+revoke all on erp.cp6_v2620av_rollback_capsule from public,anon,authenticated,service_role;
+insert into erp.cp6_v2620av_rollback_capsule(object_identity,object_regidentity,object_definition,definition_sha256,acl_snapshot,owner_snapshot)
+select format('%I.%I(%s)',n.nspname,p.proname,pg_get_function_identity_arguments(p.oid)),i.identity,pg_get_functiondef(p.oid),
+ encode(extensions.digest(convert_to(pg_get_functiondef(p.oid),'UTF8'),'sha256'),'hex'),
+ array(select a::text from unnest(p.proacl)a order by a::text),pg_get_userbyid(p.proowner)
+from unnest(array['erp.edit_product_identity_effective(uuid,text,uuid,uuid,text,uuid,text,timestamp with time zone,text)','erp.create_manual_bs_case_v2(jsonb,uuid)','erp.post_rework_completion(uuid)']) i(identity)
+join pg_proc p on p.oid=i.identity::regprocedure join pg_namespace n on n.oid=p.pronamespace;
+do $before_data$ declare v_table text;v_hash jsonb;v_before jsonb; begin
+ v_before:='{}'::jsonb;
  for v_table in select c.relname from pg_class c join pg_namespace n on n.oid=c.relnamespace
   where n.nspname='erp' and c.relkind in('r','p') and c.relname<>all(array['schema_migrations','cp6_v2620av_rollback_capsule']::text[]) order by 1 loop
   execute format($data$select jsonb_build_object('count',count(*),'sha256',encode(extensions.digest(convert_to(coalesce(string_agg(h,',' order by h),''),'UTF8'),'sha256'),'hex')) from(select encode(extensions.digest(convert_to((to_jsonb(t))::text,'UTF8'),'sha256'),'hex') h from erp.%I t)s$data$,v_table) into v_hash;
-  v_after:=v_after||jsonb_build_object(v_table,v_hash);
+  v_before:=v_before||jsonb_build_object(v_table,v_hash);
  end loop;
 
- if v_after is distinct from b->'after' then raise exception 'AV_POST_USE_ROLLBACK_REFUSED';end if;
- if (select encode(extensions.digest(convert_to(coalesce(jsonb_agg(to_jsonb(t) order by version),'[]'::jsonb)::text,'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations t where not(version='20260923090000')) is distinct from b->>'platform_before'
-  or (select encode(extensions.digest(convert_to(coalesce(jsonb_agg(to_jsonb(t) order by version),'[]'::jsonb)::text,'UTF8'),'sha256'),'hex') from erp.schema_migrations t where not(version='v2.6.20av')) is distinct from b->>'markers_before'
- then raise exception 'AV_PRIOR_HISTORY_DRIFT';end if;
-end $pre_use$;
-do $restore_function$ declare r record; begin for r in select object_definition from erp.cp6_v2620av_rollback_capsule order by object_regidentity loop execute r.object_definition;end loop;end $restore_function$;
-drop function erp.latest_new_stock_physical_at_v1(uuid);
-drop function erp.assert_new_stock_cutoff_coverage_v1();
-drop table erp.cp6_v2620av_rollback_capsule;
-delete from erp.schema_migrations where version='v2.6.20av';
-delete from supabase_migrations.schema_migrations where version='20260923090000' and name='erp_v2_6_20av_cp6_new_stock_physical_cutoff';
+ update erp.cp6_v2620av_rollback_capsule set boundary_snapshot=jsonb_build_object('before',v_before,'platform_before',(select encode(extensions.digest(convert_to(coalesce(jsonb_agg(to_jsonb(t) order by version),'[]'::jsonb)::text,'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations t where not(false)),'markers_before',(select encode(extensions.digest(convert_to(coalesce(jsonb_agg(to_jsonb(t) order by version),'[]'::jsonb)::text,'UTF8'),'sha256'),'hex') from erp.schema_migrations t where not(false)));
+end $before_data$;
+create table erp.bs_case_manual_origins_v1 (
+ bs_case_id uuid primary key references erp.bs_cases(id),
+ origin_type text not null check (origin_type in ('LEGACY','OUT_OF_NOWHERE')),
+ recorded_at timestamptz not null default statement_timestamp()
+);
+alter table erp.bs_case_manual_origins_v1 enable row level security;
+revoke all on erp.bs_case_manual_origins_v1 from public,anon,authenticated,service_role;
+CREATE OR REPLACE FUNCTION erp.guard_bs_case_manual_origin_immutable_v1()
+ RETURNS trigger
+ LANGUAGE plpgsql
+ SET search_path TO ''
+AS $function$
+begin
+  raise exception 'BS_MANUAL_ORIGIN_IMMUTABLE: asal BS manual tidak boleh diubah atau dihapus';
+end;
+$function$;
+revoke all on function erp.guard_bs_case_manual_origin_immutable_v1() from public,anon,authenticated,service_role;
+CREATE OR REPLACE FUNCTION erp.latest_new_stock_physical_at_v1(p_product_id uuid)
+ RETURNS timestamp with time zone
+ LANGUAGE sql
+ STABLE
+ SET search_path TO ''
+AS $function$
+select max(f.physical_at) from (
+  select l.produced_at as physical_at from erp.fg_lots l
+  where l.product_id=p_product_id
+    and not exists(select 1 from erp.rework_orders r where r.good_fg_lot_id=l.id)
+  union all
+  select b.physical_at from erp.bs_cases b
+  where b.product_id=p_product_id
+    and (b.qc_item_id is not null or b.source_laundry_bs_allocation_id is not null
+      or exists(select 1 from erp.bs_case_manual_origins_v1 o where o.bs_case_id=b.id and o.origin_type='OUT_OF_NOWHERE'))
+) f
+$function$;
+revoke all on function erp.latest_new_stock_physical_at_v1(uuid) from public,anon,authenticated,service_role;
+CREATE OR REPLACE FUNCTION erp.assert_new_stock_cutoff_coverage_v1()
+ RETURNS jsonb
+ LANGUAGE plpgsql
+ STABLE
+ SET search_path TO ''
+AS $function$
+declare
+  v_registry jsonb:='{"erp.accessory_bom_versions.product_id":{"class":"MASTER","reason":"Effective-dated accessory BOM; no stock instant"},"erp.bs_cases.product_id":{"class":"NEW_STOCK_FACT","reason":"physical_at of QC/laundry BS and manual OUT_OF_NOWHERE BS"},"erp.contractor_accessory_reimbursement_entitlements.product_id":{"class":"DERIVED","reason":"Accounting entitlement of an FG lot"},"erp.fg_accessory_cost_snapshots.product_id":{"class":"DERIVED","reason":"Cost snapshot of an FG lot"},"erp.fg_adjustment_items.product_id":{"class":"MOVEMENT","reason":"Adjusts an existing lot"},"erp.fg_inventory_balances.product_id":{"class":"DERIVED","reason":"Balance cache keyed by product/location/grade"},"erp.fg_lots.product_id":{"class":"NEW_STOCK_FACT","reason":"produced_at of every lot except GOOD returned by rework"},"erp.fg_stock_movements.product_id":{"class":"MOVEMENT","reason":"Movement of an existing lot"},"erp.journal_lines.product_id":{"class":"ACCOUNTING","reason":"Journal dimension"},"erp.laundry_receipt_batch_size_lines.bs_product_id":{"class":"SOURCE_DOCUMENT","reason":"Laundry receipt input; the BS fact is bs_cases"},"erp.laundry_receipt_bs_product_allocations.product_id":{"class":"SOURCE_DOCUMENT","reason":"Validated as NEW_STOCK; the BS fact is bs_cases"},"erp.non_po_hpp_gl_sync_events_v2620f.product_id":{"class":"ACCOUNTING","reason":"HPP to GL synchronisation event"},"erp.opening_balance_items.product_id":{"class":"SOURCE_DOCUMENT","reason":"Opening document; facts are OPENING lots and LEGACY BS"},"erp.po_accessory_bom_commitments.product_id":{"class":"MASTER","reason":"PO accessory BOM commitment"},"erp.product_conversions.from_product_id":{"class":"SOURCE_DOCUMENT","reason":"Conversion source, validated as EXISTING_STOCK"},"erp.product_conversions.to_product_id":{"class":"SOURCE_DOCUMENT","reason":"Conversion target; the fact is the CONVERSION lot in fg_lots"},"erp.product_identity_mutation_context_v1.product_id":{"class":"AUTHORIZATION","reason":"Private one-use identity edit context"},"erp.product_price_versions.product_id":{"class":"MASTER","reason":"Effective-dated price"},"erp.qc_inspection_items.final_product_id":{"class":"SOURCE_DOCUMENT","reason":"QC input; the facts are fg_lots and bs_cases"},"erp.sales_items.product_id":{"class":"SALES","reason":"Sale of existing stock"},"erp.sales_return_items.product_id":{"class":"SALES","reason":"Return of sold stock"},"erp.stock_explainability_snapshots.product_id":{"class":"REPORT","reason":"Stock explanation snapshot"},"erp.stock_policy_versions.product_id":{"class":"MASTER","reason":"Effective-dated stock policy"}}';
+  v_helper_tables text[]:=array['bs_case_manual_origins_v1','bs_cases','fg_lots','rework_orders'];
+  v_actual text[];
+  v_unclassified text[];
+  v_stale text[];
+  v_facts text[];
+  v_helper text[];
+begin
+  -- Structural catalog read: any FK to erp.products in any schema, plus any
+  -- product-named uuid column in erp/public that no FK protects.
+  select array_agg(distinct ref order by ref) into v_actual from (
+    select format('%s.%s.%s',n.nspname,c.relname,a.attname) ref
+    from pg_constraint fk join pg_class c on c.oid=fk.conrelid
+    join pg_namespace n on n.oid=c.relnamespace
+    join pg_attribute a on a.attrelid=c.oid and a.attnum=any(fk.conkey)
+    where fk.contype='f' and fk.confrelid='erp.products'::regclass and fk.conrelid<>'erp.products'::regclass
+    union
+    select format('%s.%s.%s',n.nspname,c.relname,a.attname)
+    from pg_attribute a join pg_class c on c.oid=a.attrelid join pg_namespace n on n.oid=c.relnamespace
+    where n.nspname in('erp','public') and c.relkind in('r','p') and c.oid<>'erp.products'::regclass
+      and a.attnum>0 and not a.attisdropped and a.atttypid='uuid'::regtype
+      and (a.attname='product_id' or a.attname like '%\_product\_id')
+  ) r;
+  select array_agg(k order by k) into v_unclassified from unnest(v_actual) k where not v_registry ? k;
+  if v_unclassified is not null then
+    raise exception 'NEW_STOCK_CUTOFF_REFERENCE_UNCLASSIFIED: %',array_to_string(v_unclassified,', ');
+  end if;
+  select array_agg(k order by k) into v_stale from jsonb_object_keys(v_registry) k where k<>all(v_actual);
+  if v_stale is not null then
+    raise exception 'NEW_STOCK_CUTOFF_REGISTRY_STALE: %',array_to_string(v_stale,', ');
+  end if;
+  select array_agg(distinct split_part(key,'.',2) order by split_part(key,'.',2)) into v_facts
+  from jsonb_each(v_registry) where value->>'class'='NEW_STOCK_FACT';
+  select array_agg(distinct m[1] order by m[1]) into v_helper
+  from pg_proc p cross join lateral regexp_matches(lower(p.prosrc),'erp\.([a-z0-9_]+)','g') m
+  where p.oid='erp.latest_new_stock_physical_at_v1(uuid)'::regprocedure;
+  if v_helper is null or not (v_helper @> v_helper_tables and v_helper <@ v_helper_tables and v_helper @> v_facts) then
+    raise exception 'NEW_STOCK_CUTOFF_HELPER_SCOPE_DRIFT: %',v_helper;
+  end if;
+  if lower((select p.prosrc from pg_proc p where p.oid='erp.edit_product_identity_effective(uuid,text,uuid,uuid,text,uuid,text,timestamp with time zone,text)'::regprocedure))
+     !~ 'erp\.latest_new_stock_physical_at_v1\s*\(' then
+    raise exception 'NEW_STOCK_CUTOFF_CONSUMER_DRIFT';
+  end if;
+  return jsonb_build_object('references',coalesce(array_length(v_actual,1),0),'new_stock_fact_tables',v_facts,'registry',v_registry);
+end;
+$function$;
+revoke all on function erp.assert_new_stock_cutoff_coverage_v1() from public,anon,authenticated,service_role;
+CREATE OR REPLACE FUNCTION erp.edit_product_identity_effective(p_product_id uuid, p_sku text, p_model_id uuid, p_brand_id uuid, p_color_name text, p_size_id uuid, p_product_name text, p_effective_from timestamp with time zone DEFAULT clock_timestamp(), p_reason text DEFAULT NULL::text)
+ RETURNS uuid
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO ''
+AS $function$
+declare
+  p erp.products%rowtype; n erp.products%rowtype; child erp.products%rowtype; r record; v_root uuid; v_new uuid; v_used boolean; v_eff timestamptz:=coalesce(p_effective_from,clock_timestamp()); v_last timestamptz;
+begin
+  perform erp.require_owner_admin();
+  if nullif(trim(p_reason),'') is null then raise exception 'Alasan perubahan SKU wajib diisi'; end if;
+  if nullif(trim(p_sku),'') is null or nullif(trim(p_color_name),'') is null or nullif(trim(p_product_name),'') is null then
+    raise exception 'SKU, warna, dan nama produk wajib diisi';
+  end if;
+
+  perform erp.pocket_period_lock_v1();
+  perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));
+  select identity_root_id into v_root from erp.products where id=p_product_id;
+  if v_root is not null then perform pg_advisory_xact_lock(hashtextextended('SKUROOT:'||v_root::text,0));end if;
+  select * into p from erp.products where id=p_product_id for update;
+  if p.id is null then raise exception 'SKU tidak ditemukan'; end if;
+  p_sku:=btrim(p_sku);p_color_name:=btrim(p_color_name);p_product_name:=btrim(p_product_name);
+  if p_model_id is null or p_brand_id is null or p_size_id is null or not isfinite(v_eff) then
+    raise exception 'Identitas dan tanggal efektif SKU wajib lengkap dan finite';
+  end if;
+
+  if row(p.sku,p.model_id,p.brand_id,p.color_name,p.size_id)
+     is not distinct from row(p_sku,p_model_id,p_brand_id,p_color_name,p_size_id) then
+    if p.product_name is not distinct from p_product_name then return p.id;end if;
+    update erp.products set product_name=p_product_name,updated_at=statement_timestamp() where id=p.id;
+    insert into erp.audit_logs(entity_type,entity_id,action,changed_by,change_reason,new_data)
+    values('products',p.id,'UPDATE',erp.current_app_user_id(),p_reason,jsonb_build_object('product_name',p_product_name));
+    return p.id;
+  end if;
+
+
+  v_used:=false;
+  for r in
+    select ns.nspname,c.relname,a.attname
+    from pg_constraint fk join pg_class c on c.oid=fk.conrelid
+    join pg_namespace ns on ns.oid=c.relnamespace
+    join pg_attribute a on a.attrelid=c.oid and a.attnum=any(fk.conkey)
+    where fk.contype='f' and fk.confrelid='erp.products'::regclass
+      and fk.conrelid<>'erp.products'::regclass
+  loop
+    execute format('select exists(select 1 from %I.%I where %I=$1)',r.nspname,r.relname,r.attname) into v_used using p.id;
+    exit when v_used;
+  end loop;
+  if not v_used and not exists(select 1 from erp.products x where x.identity_root_id=p.identity_root_id and x.id<>p.id) then
+    n:=p;n.sku:=p_sku;n.model_id:=p_model_id;n.brand_id:=p_brand_id;n.color_name:=p_color_name;n.size_id:=p_size_id;
+    insert into erp.product_identity_mutation_context_v1 values(pg_backend_pid(),txid_current(),p.id,jsonb_build_array(p.id,p.sku,p.model_id,p.brand_id,p.color_name,p.size_id,p.identity_root_id,p.effective_from,p.effective_to,p.supersedes_product_id),jsonb_build_array(n.id,n.sku,n.model_id,n.brand_id,n.color_name,n.size_id,n.identity_root_id,n.effective_from,n.effective_to,n.supersedes_product_id));
+    update erp.products
+    set sku=trim(p_sku),model_id=p_model_id,brand_id=p_brand_id,color_name=trim(p_color_name),size_id=p_size_id,
+        product_name=trim(p_product_name),updated_at=statement_timestamp()
+    where id=p.id;
+    insert into erp.audit_logs(entity_type,entity_id,action,changed_by,change_reason,new_data)
+    values('products',p.id,'UPDATE',erp.current_app_user_id(),p_reason,
+      jsonb_build_object('sku',p_sku,'model_id',p_model_id,'brand_id',p_brand_id,'color_name',p_color_name,'size_id',p_size_id));
+    return p.id;
+  end if;
+
+  select * into child from erp.products where supersedes_product_id=p.id for update;
+  if child.id is not null then
+    if row(child.sku,child.model_id,child.brand_id,child.color_name,child.size_id,child.product_name,child.effective_from)
+       is not distinct from row(p_sku,p_model_id,p_brand_id,p_color_name,p_size_id,p_product_name,v_eff) then return child.id;end if;
+    raise exception 'Versi SKU sudah punya successor; gunakan versi paling akhir atau batalkan successor yang belum dipakai';
+  end if;
+  v_last:=erp.latest_new_stock_physical_at_v1(p.id);
+  if v_last>=v_eff then
+    raise exception 'Tanggal efektif SKU akan memotong histori produksi yang sudah tercatat (fakta fisik stok baru terakhir %). Pilih tanggal efektif sesudahnya.',v_last;
+  end if;
+  if v_eff<clock_timestamp()-interval '5 minutes' then
+    raise exception 'Perubahan identitas SKU yang sudah punya histori hanya boleh berlaku mulai sekarang atau tanggal mendatang';
+  end if;
+  if v_eff<=p.effective_from or (p.effective_to is not null and v_eff>=p.effective_to) then
+    raise exception 'Tanggal mulai perubahan harus berada setelah awal versi lama dan sebelum akhir versinya';
+  end if;
+
+  n:=p;n.effective_to:=v_eff;
+  insert into erp.product_identity_mutation_context_v1 values(pg_backend_pid(),txid_current(),p.id,jsonb_build_array(p.id,p.sku,p.model_id,p.brand_id,p.color_name,p.size_id,p.identity_root_id,p.effective_from,p.effective_to,p.supersedes_product_id),jsonb_build_array(n.id,n.sku,n.model_id,n.brand_id,n.color_name,n.size_id,n.identity_root_id,n.effective_from,n.effective_to,n.supersedes_product_id));
+  update erp.products set effective_to=v_eff,updated_at=statement_timestamp() where id=p.id;
+  insert into erp.products(sku,model_id,brand_id,color_name,size_id,product_name,is_portal_visible,is_active,
+                           identity_root_id,effective_from,effective_to,supersedes_product_id)
+  values(trim(p_sku),p_model_id,p_brand_id,trim(p_color_name),p_size_id,trim(p_product_name),p.is_portal_visible,p.is_active,
+         p.identity_root_id,v_eff,p.effective_to,p.id)
+  returning id into v_new;
+
+  insert into erp.audit_logs(entity_type,entity_id,action,changed_by,change_reason,new_data)
+  values('products',p.id,'UPDATE',erp.current_app_user_id(),p_reason,
+    jsonb_build_object('successor_product_id',v_new,'effective_from',v_eff,'old_identity_preserved',true,'economics_shared_by_identity_root',true));
+  return v_new;
+end;
+$function$;
+CREATE OR REPLACE FUNCTION erp.create_manual_bs_case_v2(p_payload jsonb, p_client_request_id uuid)
+ RETURNS jsonb
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO 'erp', 'public', 'auth', 'extensions', 'pg_temp'
+AS $function$
+declare
+  v_hash text;v_cached jsonb;v_response jsonb;
+  v_id uuid:=gen_random_uuid();
+  v_type text:=upper(coalesce(p_payload->>'untracked_type',''));
+  v_ref text:=nullif(btrim(p_payload->>'legacy_reference'),'');
+  v_reason text:=nullif(btrim(p_payload->>'change_reason'),'');
+  v_physical timestamptz:=nullif(p_payload->>'physical_at','')::timestamptz;
+  v_component jsonb;
+  v_case erp.bs_cases%rowtype;
+begin
+  perform erp.require_internal();
+  if v_type not in('LEGACY','OUT_OF_NOWHERE') then
+    raise exception 'Manual BS is allowed only for LEGACY or OUT_OF_NOWHERE';
+  end if;
+  if v_ref is null then raise exception 'legacy_reference is required for manual BS traceability'; end if;
+  if v_reason is null then raise exception 'change_reason is required'; end if;
+  if v_physical is null or v_physical>clock_timestamp()+interval '5 minutes' then
+    raise exception 'Valid non-future physical_at is required';
+  end if;
+  if coalesce(nullif(p_payload->>'qty_pcs','')::integer,0)<=0 then raise exception 'qty_pcs must be positive'; end if;
+  v_hash:=erp._request_hash(p_payload);
+  v_cached:=erp._idempotency_begin('create_manual_bs_case_v2',p_client_request_id,v_hash);
+  if v_cached is not null then return v_cached; end if;
+  if v_type='OUT_OF_NOWHERE' and nullif(p_payload->>'product_id','') is not null then
+    perform erp.assert_product_identity_time(nullif(p_payload->>'product_id','')::uuid,v_physical,'NEW_STOCK');
+  end if;
+  perform set_config('app.change_reason',v_reason,true);
+  insert into erp.bs_cases(
+    id,bs_number,po_id,cutting_group_id,qc_item_id,product_id,
+    detected_at_stage,cause_source,untracked_type,
+    responsible_contractor_id,responsible_vendor_id,qty_pcs,status,
+    physical_at,legacy_reference,notes
+  ) values(
+    v_id,coalesce(nullif(btrim(p_payload->>'bs_number'),''),
+      'BS-MAN-'||to_char((v_physical AT TIME ZONE 'Asia/Jakarta'),'YYYYMMDD')||'-'||substr(v_id::text,1,8)),
+    null,null,null,nullif(p_payload->>'product_id','')::uuid,
+    'UNKNOWN','UNKNOWN',v_type,
+    nullif(p_payload->>'responsible_contractor_id','')::uuid,
+    nullif(p_payload->>'responsible_vendor_id','')::uuid,
+    (p_payload->>'qty_pcs')::integer,'OPEN',v_physical,v_ref,
+    nullif(btrim(p_payload->>'notes'),'')
+  ) returning * into v_case;
+  insert into erp.bs_case_manual_origins_v1(bs_case_id,origin_type) values(v_case.id,v_type);
+  if p_payload?'components' then
+    if jsonb_typeof(p_payload->'components')<>'array' then raise exception 'components must be an array'; end if;
+    for v_component in select value from jsonb_array_elements(p_payload->'components') loop
+      insert into erp.bs_case_components(
+        bs_case_id,po_component_snapshot_id,work_component_id,completed_before_bs_qty,notes
+      ) values(
+        v_case.id,null,(v_component->>'work_component_id')::uuid,
+        coalesce(nullif(v_component->>'completed_before_bs_qty','')::integer,0),
+        nullif(btrim(v_component->>'notes'),'')
+      );
+    end loop;
+  end if;
+  select * into v_case from erp.bs_cases where id=v_case.id;
+  v_response:=jsonb_build_object(
+    'bs_case_id',v_case.id,'bs_number',v_case.bs_number,'status',v_case.status,
+    'row_version',v_case.row_version,'untracked_type',v_case.untracked_type
+  );
+  return erp._idempotency_complete('create_manual_bs_case_v2',p_client_request_id,v_response);
+end;
+$function$;
+CREATE OR REPLACE FUNCTION erp.post_rework_completion(p_rework_order_id uuid)
+ RETURNS void
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO 'erp', 'public'
+AS $function$
+declare
+  r erp.rework_orders%rowtype;
+  b erp.bs_cases%rowtype;
+  v_total numeric(20,2):=0;
+  v_location uuid;
+  v_location_count integer:=0;
+  v_lot uuid;
+  v_lot_number text;
+  v_hpp numeric(18,6):=0;
+  v_remaining integer:=0;
+  v_completed_at timestamptz;
+begin
+  perform erp.require_internal();
+  select * into r from erp.rework_orders where id=p_rework_order_id for update;
+  if r.id is null then raise exception 'Rework order not found'; end if;
+  if r.status<>'COMPLETED' then raise exception 'Rework must be COMPLETED before posting'; end if;
+  if r.qty_good_returned+r.qty_bs_returned<>r.qty_sent then
+    raise exception 'Rework completion must reconcile exactly: GOOD + BS must equal qty sent';
+  end if;
+  if r.cost_posted then return; end if;
+  if not exists(
+    select 1 from erp.rework_accessory_decisions d where d.rework_order_id=r.id
+  ) then raise exception 'Rework accessory decision lineage is missing'; end if;
+  select * into b from erp.bs_cases where id=r.bs_case_id for update;
+  if b.id is null then raise exception 'BS case not found'; end if;
+  v_completed_at:=coalesce(r.completed_at,clock_timestamp());
+
+  if r.qty_good_returned>0 then
+    if b.po_id is null or b.product_id is null then
+      raise exception 'GOOD rework return requires native production PO and product lineage';
+    end if;
+    perform erp.assert_product_identity_time(b.product_id,v_completed_at,'EXISTING_STOCK');
+    if r.return_fg_location_id is not null then
+      select id into v_location from erp.locations
+      where id=r.return_fg_location_id and is_active and location_type='FG_WAREHOUSE';
+      if v_location is null then
+        raise exception 'Selected rework return location must be an active FG warehouse';
+      end if;
+    else
+      select count(*),(array_agg(id order by id))[1]
+      into v_location_count,v_location
+      from erp.locations where is_active and location_type='FG_WAREHOUSE';
+      if v_location_count<>1 then
+        raise exception 'Select return FG warehouse for rework GOOD output; active FG warehouse count is %',v_location_count;
+      end if;
+    end if;
+    v_lot_number:='RW-'||r.rework_number||'-'||substr(r.id::text,1,8);
+    insert into erp.fg_lots(
+      lot_number,po_id,qc_item_id,cutting_group_id,product_id,
+      initial_qty_pcs,cached_qty_pcs,produced_at,is_open,lot_origin
+    ) values(
+      -- qc_item_id identifies the single original QC output. Recovery is
+      -- identified by rework_orders.good_fg_lot_id -> bs_cases -> source QC.
+      v_lot_number,b.po_id,null,b.cutting_group_id,b.product_id,
+      r.qty_good_returned,0,v_completed_at,true,'PRODUCTION'
+    ) returning id into v_lot;
+    perform erp.post_fg_movement(
+      b.product_id,v_lot,v_location,'GRADE_A','REWORK_IN',r.qty_good_returned,
+      0,null,'REWORK_ORDER',r.id,v_completed_at,'GOOD returned from rework',false
+    );
+    -- Link the lot before snapshotting so the immutable selection, including
+    -- an explicit empty selection, is the only source the snapshotter can use.
+    update erp.rework_orders
+    set good_fg_lot_id=v_lot,return_fg_location_id=v_location,completed_at=v_completed_at
+    where id=r.id;
+    perform erp.ensure_fg_accessory_cost_snapshot(v_lot);
+    perform erp.post_accessory_reimbursement_accrual(v_lot);
+    insert into erp.bs_resolutions(
+      bs_case_id,resolution_type,qty_pcs,compensation_amount,
+      responsible_contractor_id,responsible_vendor_id,
+      source_rework_order_id,physical_at,notes
+    ) values(
+      b.id,case when r.destination_type='CONTRACTOR'
+        then 'REWORK_SEWING' else 'REWORK_LAUNDRY' end,
+      r.qty_good_returned,0,r.contractor_id,r.vendor_id,r.id,v_completed_at,
+      'Recovered to GOOD FG from rework'
+    );
+  else
+    update erp.rework_orders set completed_at=v_completed_at where id=r.id;
+  end if;
+
+  select greatest(b.qty_pcs-coalesce(sum(br.qty_pcs),0),0)::integer
+  into v_remaining from erp.bs_resolutions br where br.bs_case_id=b.id;
+  update erp.bs_cases
+  set status=case when v_remaining=0 then 'RESOLVED' else 'PARTIAL' end,
+      updated_at=clock_timestamp()
+  where id=b.id;
+  if r.destination_type='CONTRACTOR' then
+    select coalesce(sum(amount_payable),0) into v_total
+    from erp.rework_component_lines where rework_order_id=r.id;
+    if v_total>0 then
+      perform erp.post_journal(
+        'REWORK_COMPLETION',r.id,(v_completed_at AT TIME ZONE 'Asia/Jakarta')::date,'Rework labor completion',
+        jsonb_build_array(
+          jsonb_build_object(
+            'mapping_key','WIP','debit',round(v_total,2),'credit',0,
+            'contractor_id',r.contractor_id,'po_id',b.po_id
+          ),
+          jsonb_build_object(
+            'mapping_key','CONTRACTOR_PAYABLE','debit',0,'credit',round(v_total,2),
+            'contractor_id',r.contractor_id,'po_id',b.po_id
+          )
+        )
+      );
+    end if;
+  end if;
+  update erp.rework_orders set cost_posted=true where id=r.id;
+  if b.po_id is not null and exists(select 1 from erp.fg_lots where po_id=b.po_id) then
+    perform erp.rebuild_po_hpp(b.po_id,'Rework completion posted with physical GOOD return');
+    perform erp.propagate_conversion_hpp_for_po(b.po_id);
+    perform erp.sync_po_hpp_to_gl(b.po_id,(v_completed_at AT TIME ZONE 'Asia/Jakarta')::date);
+    if v_lot is not null then
+      select coalesce(hpp_per_pcs,0) into v_hpp
+      from erp.v_current_hpp where lot_id=v_lot;
+      update erp.fg_stock_movements set unit_hpp_snapshot=v_hpp
+      where lot_id=v_lot and movement_type='REWORK_IN'
+        and source_type='REWORK_ORDER' and source_id=r.id;
+    end if;
+  end if;
+end
+$function$;
+create trigger trg_bs_case_manual_origin_immutable before update or delete on erp.bs_case_manual_origins_v1
+ for each row execute function erp.guard_bs_case_manual_origin_immutable_v1();
+create trigger trg_bs_case_manual_origin_no_truncate before truncate on erp.bs_case_manual_origins_v1
+ for each statement execute function erp.guard_bs_case_manual_origin_immutable_v1();
 do $catalog_guard$
 declare actual jsonb;fingerprint text;object_count bigint;
 begin
@@ -490,22 +837,54 @@ with relations as (
 select coalesce(jsonb_object_agg(k,encode(extensions.digest(convert_to(v::text,'UTF8'),'sha256'),'hex')),'{}'::jsonb) from objects
 ) catalog;
  select count(*),encode(extensions.digest(convert_to(coalesce(string_agg(length(key)::text||':'||key||':'||value,E'\n' order by key collate "C"),''),'UTF8'),'sha256'),'hex') into object_count,fingerprint from jsonb_each_text(actual);
- if object_count<>7156 or fingerprint is distinct from 'ccb46dce421d27b7fad935e691fb17579a8529cd8590a0b7cea7858e9bb58d62' then
-  raise exception 'AV_RESTORED_CATALOG_DRIFT';
+ if object_count<>7169 or fingerprint is distinct from '683b557e76ae2e444e368342536c7528434c9df097c4d93d1b61e89bad0971c3' then
+  raise exception 'AV_INSTALLED_CATALOG_DRIFT';
  end if;
 end $catalog_guard$;
-do $restored_data$ declare v_table text;v_hash jsonb;v_before jsonb;b jsonb; begin
- select boundary_snapshot into b from pg_temp.cp6_av_restore_boundary;
- v_before:='{}'::jsonb;
+update erp.cp6_v2620av_rollback_capsule set installed_definition_sha256=encode(extensions.digest(convert_to(pg_get_functiondef(to_regprocedure(object_regidentity)),'UTF8'),'sha256'),'hex');
+do $after_data$ declare v_table text;v_hash jsonb;v_after jsonb; begin
+ v_after:='{}'::jsonb;
  for v_table in select c.relname from pg_class c join pg_namespace n on n.oid=c.relnamespace
-  where n.nspname='erp' and c.relkind in('r','p') and c.relname<>all(array['schema_migrations']::text[]) order by 1 loop
+  where n.nspname='erp' and c.relkind in('r','p') and c.relname<>all(array['schema_migrations','cp6_v2620av_rollback_capsule']::text[]) order by 1 loop
   execute format($data$select jsonb_build_object('count',count(*),'sha256',encode(extensions.digest(convert_to(coalesce(string_agg(h,',' order by h),''),'UTF8'),'sha256'),'hex')) from(select encode(extensions.digest(convert_to((to_jsonb(t))::text,'UTF8'),'sha256'),'hex') h from erp.%I t)s$data$,v_table) into v_hash;
-  v_before:=v_before||jsonb_build_object(v_table,v_hash);
+  v_after:=v_after||jsonb_build_object(v_table,v_hash);
  end loop;
 
- if v_before is distinct from b->'before'
-  or (select encode(extensions.digest(convert_to(coalesce(jsonb_agg(to_jsonb(t) order by version),'[]'::jsonb)::text,'UTF8'),'sha256'),'hex') from supabase_migrations.schema_migrations t where not(false)) is distinct from b->>'platform_before'
-  or (select encode(extensions.digest(convert_to(coalesce(jsonb_agg(to_jsonb(t) order by version),'[]'::jsonb)::text,'UTF8'),'sha256'),'hex') from erp.schema_migrations t where not(false)) is distinct from b->>'markers_before'
- then raise exception 'AV_EXACT_RESTORE_FAILED';end if;
-end $restored_data$;
+ if (v_after-'bs_case_manual_origins_v1') is distinct from (select boundary_snapshot->'before' from erp.cp6_v2620av_rollback_capsule limit 1) or (v_after->'bs_case_manual_origins_v1'->>'count')::bigint<>0 then raise exception 'AV_INSTALL_CHANGED_DATA';end if;
+ update erp.cp6_v2620av_rollback_capsule set boundary_snapshot=boundary_snapshot||jsonb_build_object('after',v_after);
+end $after_data$;
+do $coverage$ begin perform erp.assert_new_stock_cutoff_coverage_v1();end $coverage$;
+insert into erp.schema_migrations(version,description) values('v2.6.20av','Identity family: NEW_STOCK physical cutoff, manual BS origin and rework GOOD as existing stock (AV rev2)');
+do $capsule_guard$
+declare r record;c record;e jsonb;boundary jsonb;actual jsonb;expected jsonb;
+begin
+ if not exists(select 1 from pg_class where oid='erp.cp6_v2620av_rollback_capsule'::regclass and relrowsecurity and not relforcerowsecurity and pg_get_userbyid(relowner)='postgres')
+  or exists(select 1 from pg_class p cross join lateral aclexplode(coalesce(p.relacl,acldefault('r',p.relowner)))a where p.oid='erp.cp6_v2620av_rollback_capsule'::regclass and a.grantee<>p.relowner)
+  or exists(select 1 from pg_attribute p cross join lateral aclexplode(p.attacl)a where p.attrelid='erp.cp6_v2620av_rollback_capsule'::regclass and a.grantee<>'postgres'::regrole)
+  or exists(select 1 from pg_policy where polrelid='erp.cp6_v2620av_rollback_capsule'::regclass)
+  or exists(select 1 from pg_trigger where tgrelid='erp.cp6_v2620av_rollback_capsule'::regclass and not tgisinternal)
+  or (select count(*) from erp.cp6_v2620av_rollback_capsule)<>3 then raise exception 'AV_CAPSULE_SECURITY_OR_COUNT';end if;
+ -- Match the complete visible column/constraint/index shape to the source-pinned
+ -- AN template. Names of generated capsule indexes are intentionally immaterial.
+ for r in select unnest(array['erp.cp6_v2620av_rollback_capsule','erp.cp6_v2620an_rollback_capsule']) as rel loop
+  select jsonb_build_object(
+   'relation',(select jsonb_build_array(relkind,relpersistence,relreplident,relispartition,reloptions) from pg_class where oid=r.rel::regclass),
+   'columns',(select jsonb_agg(jsonb_build_array(a.attname,format_type(a.atttypid,a.atttypmod),a.attnotnull,a.attidentity,a.attgenerated,pg_get_expr(d.adbin,d.adrelid)) order by a.attnum) from pg_attribute a left join pg_attrdef d on d.adrelid=a.attrelid and d.adnum=a.attnum where a.attrelid=r.rel::regclass and a.attnum>0 and not a.attisdropped),
+   'constraints',(select jsonb_agg(jsonb_build_array(contype,pg_get_constraintdef(oid),condeferrable,condeferred,convalidated) order by contype,pg_get_constraintdef(oid)) from pg_constraint where conrelid=r.rel::regclass),
+   'indexes',(select jsonb_agg(jsonb_build_array(indisunique,indisprimary,indisexclusion,indisvalid,indisready,indkey::text,indclass::text,indoption::text,pg_get_expr(indexprs,indrelid),pg_get_expr(indpred,indrelid)) order by indkey::text) from pg_index where indrelid=r.rel::regclass)) into actual;
+  if expected is null then expected:=actual;elsif actual is distinct from expected then raise exception 'AV_CAPSULE_SHAPE_DRIFT';end if;
+ end loop;
+ select boundary_snapshot into boundary from erp.cp6_v2620av_rollback_capsule limit 1;
+ if boundary is null or exists(select 1 from erp.cp6_v2620av_rollback_capsule where boundary_snapshot is distinct from boundary)
+  or not(boundary ?& array['before','after','platform_before','markers_before']) then raise exception 'AV_CAPSULE_BOUNDARY';end if;
+ for r in select * from jsonb_each('{"erp.create_manual_bs_case_v2(jsonb,uuid)":{"acl":["postgres=X/postgres","service_role=X/postgres"],"identity":"erp.create_manual_bs_case_v2(jsonb,uuid)","installed_sha256":"d9f44e4e5f9cd493558661cb0296ebe210f2ad79c5bf738f1e35d85c7b60700f","owner":"postgres","predecessor_sha256":"8d905e876d9ffd084412dda5840c666fc9637185605e18eaa298897cd631160c"},"erp.edit_product_identity_effective(uuid,text,uuid,uuid,text,uuid,text,timestamp with time zone,text)":{"acl":["authenticated=X/postgres","postgres=X/postgres","service_role=X/postgres"],"identity":"erp.edit_product_identity_effective(uuid,text,uuid,uuid,text,uuid,text,timestamp with time zone,text)","installed_sha256":"049f3e0ebe2eca3fd23182d854ce3210e77cde721e87ea223cd02e1ba15afccb","owner":"postgres","predecessor_sha256":"b856072c5e85cc3694850ec953bcd32a38bf254001b79b85effe420ff2aa710c"},"erp.post_rework_completion(uuid)":{"acl":["postgres=X/postgres","service_role=X/postgres"],"identity":"erp.post_rework_completion(uuid)","installed_sha256":"da2e61f07646849b517de25ef799c7a3d1d3edddaa016d2007e2715dbfed2f49","owner":"postgres","predecessor_sha256":"63116e419dbbb6e59296416793288d785a348a30cdc46aad7eb44d097444d6c3"}}'::jsonb) loop
+  select * into c from erp.cp6_v2620av_rollback_capsule where object_regidentity=r.key;e:=r.value;
+  if c.object_regidentity is null or c.definition_sha256 is distinct from e->>'predecessor_sha256'
+   or encode(extensions.digest(convert_to(c.object_definition,'UTF8'),'sha256'),'hex') is distinct from e->>'predecessor_sha256'
+   or c.installed_definition_sha256 is distinct from e->>'installed_sha256'
+   or c.owner_snapshot is distinct from e->>'owner' or to_jsonb(c.acl_snapshot) is distinct from e->'acl' then
+   raise exception 'AV_CAPSULE_SOURCE_DRIFT: %',r.key;
+  end if;
+ end loop;
+end $capsule_guard$;
 commit;
