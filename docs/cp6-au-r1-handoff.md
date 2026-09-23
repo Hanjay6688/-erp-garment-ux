@@ -582,3 +582,62 @@ Tiga mutasi sengaja (abaikan fakta lot, jangan buang pasangan reversal, anggap D
 1. Pembungkusan paket (menunggu keputusan standar bukti).
 2. Probe native: kasus 1–11 di desain, termasuk invoice terlambat B04, race dua sesi, akses non-owner, dan facade sama dengan backend.
 3. Regresi 326 + AS34 + AR174 + AT/AU. Delapan modul lama memanggil close di tengah skenario; setiap kasus yang bergeser didisposisi per kasus tanpa mengubah oracle.
+
+## 18. Keputusan owner: standar bukti A + B, dan pembekuan writer Claude (23 September 2026)
+
+### 18.1 Keputusan
+
+Owner menyetujui opsi A + B, sesudah berdiskusi dengan GPT. Rumusan pelaksanaan dari owner dicatat apa adanya:
+
+> "Gue setuju A + B, bro. Kritik Claude soal biaya prosesnya masuk akal: pemeriksaan untuk paket rilis terlalu sering diulang pada kandidat yang masih diuji.
+> * A — bukti proporsional: setiap perubahan menjalankan tes terarah untuk seluruh keluarga masalahnya. Setelah kandidat stabil, jalankan regresi penuh dan audit independen. Pembuktian instalasi serta pemulihan lengkap dilakukan pada paket rilis gabungan sebelum masuk hosted.
+> * B — gabung sisa CP6: satu kandidat penutup, tetapi pengerjaannya tetap dibagi per keluarga masalah dengan bukti masing-masing. Tutup buku dan jalur stok tetap punya expected yang jelas, sehingga kegagalan mudah ditelusuri."
+
+Dua penjaga teknis yang wajib:
+1. **Bukti dan migration lama tetap utuh.** Cara pengembangan baru dibuat eksplisit. Pemeriksaan lama tidak boleh dihapus supaya runner terlihat lulus.
+2. **Paket gabungan diuji berangkat dari versi yang mewakili hosted sebenarnya**, bukan hanya database uji paling baru, karena di situlah risiko pemasangan. Catatan fakta: menurut §1, hosted Enteng hanya dibaca dan memuat 70 migration sampai `20260904232442`, tanpa satu pun dari 47 successor CP6. Rantai kualifikasi yang ada sekarang berangkat dari bootstrap AC sampai AN di database disposable. Baseline yang mewakili hosted **belum** dibuat. Hosted tetap tidak boleh dimutasi.
+
+Yang tetap berlaku:
+- 12 HOLD tetap dilaporkan;
+- aturan bisnis tetap diuji;
+- penerimaan independen tetap diperlukan.
+
+Yang dikurangi hanya pekerjaan berulang.
+
+Catatan owner/GPT untuk CP7: tes tampilan memang cepat, tetapi planner, stok, dan Business Report tetap memerlukan pengujian perhitungan serta alur data.
+
+**Berlaku mulai putaran berikutnya.** Urutan yang disampaikan owner:
+1. GPT mengaudit pekerjaan Claude sejak audit terakhirnya;
+2. owner meminta Claude menggabungkan pekerjaan sesuai A + B;
+3. hasilnya kembali ke GPT;
+4. sesudah itu eksekusi berikutnya.
+
+### 18.2 Status beku writer Claude
+
+- Writer Claude **berhenti** sesudah commit dokumen ini. Tidak ada pekerjaan yang sedang berjalan dan tidak ada pengingat terjadwal yang aktif.
+- Cabang kompetisi tetap `ca7f095`. Tidak ada deploy. Tidak ada mutasi hosted, legacy, atau production.
+- AV rev2: writer-qualified (§16), menunggu audit.
+- AW: definisi dan uji lokal saja (§17), belum dibungkus, belum native.
+- Jalur barang jadi tanpa sumber produksi (§15.1-FG): **belum dimulai**.
+- Gate gabungan (CodeQL, advisor, browser): **belum dijalankan**.
+
+### 18.3 Cakupan audit untuk GPT (commit sesudah `2257431`, yaitu dokumen terakhir yang sudah direkonsiliasi di audit sebelumnya)
+
+| Commit | Isi | Yang perlu diaudit | Bukti |
+| --- | --- | --- | --- |
+| `9323caa` | Perbaikan AUD-A04-R2 (frontend: koleksi saldo awal yang hilang tidak lagi dibaca kosong/nol) | Parser dan tampilan kosong/unknown, fixture yang dilengkapi | `docs/evidence/cp6-a04-r2/` (tes baru gagal di kode lama; 454/454; probe GPT versi adaptasi 12/12) |
+| `368665a` | Handoff §15 | Keputusan owner jalur FG, rekonsiliasi audit, pelajaran | — |
+| `e5e2182`, `ea82532` | AV rev2: definisi, capture native, paket | Delta 3 fungsi diganti + 3 fungsi privat + tabel asal; registri cakupan (jawaban AV-GUARD-01) | `docs/evidence/cp6-av-r2-*.json`, `cp6-av-r2/local_pg16_smoke.json` |
+| `2335c0a`, `7a2f895` | Workflow dan dua cacat harness probe | Kasus INCOMPLETE di run lama, apakah semuanya terjelaskan | `cp6-av-r2/probe_defect_log_run1.json` |
+| `01cfd70` | Backfill asal BS OUT_OF_NOWHERE saat install (dari baris audit INSERT) | Himpunan backfill, pemeriksaan eksak, batas kasus tanpa audit | `cp6-av-r2/local_pg16_backfill.json`; native pada run 35852437460 dan 35853810855 |
+| `acffc8c`, `633176a` | Dua cacat harness fixture pra-install | Fixture hanya meng-commit data bisnis; seed race bersyarat | run 35851917304 dan 35852437460 (gagal, disimpan) |
+| `46a7089`, `fc67844` | Bukti run, handoff §16–§17, definisi AW | Kelengkapan klaim; desain dan SQL engine tutup buku | `cp6-av-r2/run35853810855_*` (lima fase lulus); `cp6-aw/local_pg16_smoke.json` |
+
+Setiap run disimpan per job, termasuk yang gagal: 35848620445, 35849556805, 35850597894, 35851917304, 35852437460, 35853810855.
+
+### 18.4 Usulan writer yang belum menjadi keputusan
+
+- **Kunci daftar selesai CP6:** AV rev2, engine tutup buku S06/B04, jalur barang jadi tanpa sumber (backend), dan gate akhir.
+  - Temuan di dalam daftar diperbaiki.
+  - Temuan di luar daftar masuk daftar tunggu dengan tingkat keparahan, dan owner yang memutuskan: masuk CP6 bila P0/P1, atau dibawa ke CP7/nanti.
+- Usulan ini disampaikan ke owner di chat dan belum dijawab; **bukan keputusan**.
