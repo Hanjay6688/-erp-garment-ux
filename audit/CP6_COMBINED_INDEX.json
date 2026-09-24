@@ -55,7 +55,11 @@
       "sha256": "d510df61b4168361153358331f9634c9a3d50dac51fd068cbd84a260f06061e7",
       "change": "permission join column fixed (permission_key), case logic unchanged",
       "run_id": 36066079063,
-      "status": "DISPATCHED_PENDING"
+      "status": "RUN",
+      "job_id": 107856040296,
+      "result": "COUNTEREXAMPLE",
+      "detail": "51 DRAFT dibuat; recent=50 (= global top 50); draf tertua ada di DB, terbaca via UUID, TIDAK ada di recent; UI hanya merender recent tanpa search/paging",
+      "results_json": "audit/runs_fable/auditor_sel51_36066079063.json"
     }
   },
   "findings": [
@@ -111,12 +115,12 @@
       ],
       "title": "Selector memotong sumber lama yang masih valid",
       "priority": "P2",
-      "status": "CONFIRMED_SOURCE_NATIVE_PARTIAL",
+      "status": "CONFIRMED_NATIVE_BS_AND_IMPORT",
       "oracle": "M1691,3826,4486,5307; M495 pocket: sumber sah tetap dapat dicari/dipilih di daftar besar.",
       "evidence": "BSLIMIT100 dan UI filterlokal; XA2job107807966805 omittedoldqty10. Import/pocket50 dan payroll/prepayment100 source review saja. Reconstructed initial-import51case now prepared: UI discovery is limited, but known-UUID public reader works; nativeNOT_RUN.",
       "next": "Pisahkan subcakupan BS/import/pocket/payroll/prepay; fixture101/51 sah, netclaimable, search/paging dan UI action. NativeBS cloning bukan fullproducerproof.",
-      "fable_native_update": "BS 101 (Fable XA2) CONFIRMED native; import 51-draft GPT INCOMPLETE (fixture join) → rerun Fable run 36066079063 pending.",
-      "updated_at": "2026-09-24T22:14:39Z"
+      "fable_native_update": "BS 101 (Fable XA2, run 36051514868) CONFIRMED; import 51-draft (GPT case, Fable fix run 36066079063 job 107856040296) COUNTEREXAMPLE: draf tertua hilang dari selector recent(50), terbaca via UUID. Pocket/payroll/prepayment selector belum native.",
+      "updated_at": "2026-09-24T22:17:06Z"
     },
     {
       "id": "CP6-05",
@@ -584,8 +588,10 @@
       "run_id": 36066079063,
       "head": "d284e9b",
       "scenario_sha256": "d510df61b4168361153358331f9634c9a3d50dac51fd068cbd84a260f06061e7",
-      "status": "PENDING"
+      "status": "RUN_COMPLETE",
+      "job_id": 107856040296,
+      "result": "COUNTEREXAMPLE"
     }
   ],
-  "fable_last_update": "2026-09-24T22:14:39Z"
+  "fable_last_update": "2026-09-24T22:17:06Z"
 }

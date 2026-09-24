@@ -286,11 +286,11 @@ Produk acuan tetap 9add57e; head alat yang di-checkout job: d284e9b (diff produk
 |---|---|---|---|
 | 36065350201 | 107853710984 | combined_native15_reconstructed.py (cec2ad52…) phase after | 10 COUNTEREXAMPLE / 4 PASS / 1 INCOMPLETE (fixture GPT selector-51); primary_unchanged |
 | 36065517737 | 107854232896 | xaudit_5.py (815781e1…) races+http_cases | races 3 COUNTEREXAMPLE (R1 overlap dua sesi; R2 filing ganda; R3 pesan kunci sibuk — aman), http 1 CE (artefak argumen dummy) / 2 PASS (revocation, unmapped); cleanup bersih |
-| 36066079063 | — | import_selector_fable_fix.py (d510df61…) | BERJALAN (perbaikan join izin pada rekonstruksi GPT) |
+| 36066079063 | 107856040296 | import_selector_fable_fix.py (d510df61…) | COUNTEREXAMPLE: 51 DRAFT dibuat, recent=50, draf tertua ada di DB & terbaca via UUID tetapi tidak ada di selector; UI tanpa search/paging → CP6-04 (import) CONFIRMED native |
 Register: CP6-07 → P1 native; CP6-18/19 → COUNTEREXAMPLE native (oracle/reachability terbuka); CP6-09 → dua sesi; CP6-02/03 → dikonfirmasi ulang; baru CP6-24 (filing ganda, P2), CP6-25 (pesan, P3). Status: CP6 HOLD, audit_complete=false, production_go=false.
 
 ### LANGKAH BERIKUTNYA (Fable)
-1. Catat hasil run 36066079063 (selector-51) ke index/out.
+1. (SELESAI) selector-51 run 36066079063: COUNTEREXAMPLE, dicatat di index dan out.
 2. Browser→HTTP→runtime UI untuk facade CP6 dan F1-14 (zona waktu) — belum ada mode browser di runtime auditor; minta writer (mode browser memakai `cp6_t3_browser`) atau tes Playwright auditor terhadap stack sekali pakai.
 3. Oracle CP6-09 tambahan: negative same-source (nomor dokumen/roll sama lintas batch) dan positive distinct-source/partial-import.
 4. AC..AV varian rilis NOT_BUILT (writer); guard digest AC rilis.

@@ -31,7 +31,7 @@ Ringkasan runner: `RUN_COMPLETE`; races 3 COUNTEREXAMPLE (database_remaining 0);
 Batas: HTTP memakai user Auth sungguhan (GoTrue admin API + sign-in password) → PostgREST kontainer pada salinan DB tanpa grant test-only; **jalur browser→HTTP→runtime (UI) belum** (tidak ada browser di mode ini). Race memakai grant USAGE test-only pada salinan (dibutuhkan helper fixture writer); oracle race untuk R1/R2 memanggil jalur publik/ordinary yang sama seperti UI.
 
 ## 3. Dispatch tambahan
-- `import_selector_fable_fix.py` (perbaikan join izin pada rekonstruksi GPT; logika kasus tidak diubah): run — lihat AUDIT_PROGRESS/CP6_COMBINED_INDEX.
+- `import_selector_fable_fix.py` (sha d510df61…; perbaikan join izin pada rekonstruksi GPT, logika kasus tidak diubah): run 36066079063, job 107856040296, head d284e9b → **COUNTEREXAMPLE**: 51 DRAFT dibuat via `erp_save_initial_import_action_v1/CREATE`; `recent` = 50 = top-50 global; draf tertua ada di DB (DRAFT), terbaca via `erp_get_initial_import_workspace_v1(p_batch_id)`, tetapi tidak ada di `recent`; UI hanya merender `recent` tanpa search/paging → CP6-04 varian impor CONFIRMED native (M:1691 'selector lengkap'). primary_unchanged=true; fixture di-rollback.
 
 ## 4. Dampak pada register gabungan
 - CP6-02, CP6-03: dikonfirmasi ulang oleh batch GPT (oracle independen kedua).
