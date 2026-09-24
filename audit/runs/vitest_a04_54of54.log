@@ -1,0 +1,64 @@
+
+ RUN  v4.1.11 /tmp/claude-0/-home-user--erp-garment-ux/2a0eb6c3-bb79-5f14-b9f8-6487e74e773f/scratchpad/cand
+
+ ✓ src/accessProductionControl.test.ts > connected access, Pola, and WIP response boundaries > groups only relevant permission actions by module 4ms
+ ✓ src/accessProductionControl.test.ts > connected access, Pola, and WIP response boundaries > sorts Pola deterministically and keeps inactive history readable 9ms
+ ✓ src/accessProductionControl.test.ts > connected access, Pola, and WIP response boundaries > supports an empty Master Pola and auto-selects one canonical quick-create result once 2ms
+ ✓ src/accessProductionControl.test.ts > connected access, Pola, and WIP response boundaries > keeps Potongan save fail-closed until a canonical pattern_id is selected 0ms
+ ✓ src/accessProductionControl.test.ts > connected access, Pola, and WIP response boundaries > preserves authoritative WIP status and exposes every active blocker 1ms
+ ✓ src/accessProductionControl.test.ts > connected access, Pola, and WIP response boundaries > rejects malformed persisted Batch Distribusi instead of inventing WIP lineage 1ms
+ ✓ src/initialProduction.test.ts > opening production response boundary > preserves exact money as text and distinct physical quantities 3ms
+ ✓ src/initialProduction.test.ts > opening production response boundary > keeps the production reader free of finance values 1ms
+ ✓ src/initialProduction.test.ts > opening production response boundary > rejects inconsistent source responses {"remaining_qty_pcs":6} 1ms
+ ✓ src/initialProduction.test.ts > opening production response boundary > rejects inconsistent source responses {"qty_pcs":8.5} 0ms
+ ✓ src/initialProduction.test.ts > opening production response boundary > rejects inconsistent source responses {"stage":"MISSING"} 0ms
+ ✓ src/initialProduction.test.ts > opening production response boundary > rejects inconsistent source responses {"outputs":null} 0ms
+ ✓ src/initialProduction.test.ts > opening production response boundary > rejects inconsistent source responses {"original_amount":1.25} 0ms
+ ✓ src/initialProduction.test.ts > opening production response boundary > refuses duplicated sources before rendering control totals 0ms
+ ✓ src/initialProduction.test.ts > opening production response boundary > treats a missing collection as unreadable and only an explicit list as zero 1ms
+ ✓ src/ConnectedWipStatusPage.dom.test.tsx > WIP totals stay unknown unless the whole response was read > shows a real zero only for an explicit empty opening collection 67ms
+ ✓ src/ConnectedWipStatusPage.dom.test.tsx > WIP totals stay unknown unless the whole response was read > counts complete opening WIP as quantity and open action 23ms
+ ✓ src/ConnectedWipStatusPage.dom.test.tsx > WIP totals stay unknown unless the whole response was read > refuses a response without the opening collection instead of reading zero 34ms
+ ✓ src/ConnectedWipStatusPage.dom.test.tsx > WIP totals stay unknown unless the whole response was read > does not replace eight known pieces with zero when a refetch loses the opening collection 41ms
+ ✓ src/ConnectedWipStatusPage.dom.test.tsx > WIP totals stay unknown unless the whole response was read > does not keep earlier totals as current after a failed refetch 33ms
+ ✓ src/ConnectedInitialImportPage.dom.test.tsx > connected CSV import > uploads actual file bytes, edits before saving and finalizes only after server validation 206ms
+ ✓ src/ConnectedInitialImportPage.dom.test.tsx > connected CSV import > replays the exact saved envelope after a lost response and remount 86ms
+ ✓ src/ConnectedInitialImportPage.dom.test.tsx > connected CSV import > retains edits but refuses to rebase them silently after stale version rejection 66ms
+ ✓ src/ConnectedInitialImportPage.dom.test.tsx > connected CSV import > denies unauthorized roles without reading data 7ms
+ ✓ src/ConnectedInitialImportPage.dom.test.tsx > connected CSV import > fails closed on malformed response while accepting optional null values 2ms
+ ✓ src/ConnectedInitialImportPage.dom.test.tsx > connected CSV import > shows exact cash advance amounts and sends an allocation only for a payroll of that contractor 65ms
+ ✓ src/ConnectedWipStatusPage.test.ts > WIP facts must remain unknown when the response is malformed > accepts real zero quantities and legacy nullable Pattern/distribution 2ms
+ ✓ src/ConnectedWipStatusPage.test.ts > WIP facts must remain unknown when the response is malformed > rejects invalid COUNT not-a-number 1ms
+ ✓ src/ConnectedWipStatusPage.test.ts > WIP facts must remain unknown when the response is malformed > rejects invalid COUNT null 0ms
+ ✓ src/ConnectedWipStatusPage.test.ts > WIP facts must remain unknown when the response is malformed > rejects invalid COUNT undefined 0ms
+ ✓ src/ConnectedWipStatusPage.test.ts > WIP facts must remain unknown when the response is malformed > rejects invalid COUNT  0ms
+ ✓ src/ConnectedWipStatusPage.test.ts > WIP facts must remain unknown when the response is malformed > rejects invalid COUNT true 0ms
+ ✓ src/ConnectedWipStatusPage.test.ts > WIP facts must remain unknown when the response is malformed > rejects invalid COUNT -1 0ms
+ ✓ src/ConnectedWipStatusPage.test.ts > WIP facts must remain unknown when the response is malformed > rejects invalid COUNT 1.5 0ms
+ ✓ src/ConnectedWipStatusPage.test.ts > WIP facts must remain unknown when the response is malformed > rejects invalid COUNT 9007199254740992 3ms
+ ✓ src/ConnectedWipStatusPage.test.ts > WIP facts must remain unknown when the response is malformed > rejects missing required field row_version 1ms
+ ✓ src/ConnectedWipStatusPage.test.ts > WIP facts must remain unknown when the response is malformed > rejects missing required field open_flags 0ms
+ ✓ src/ConnectedWipStatusPage.test.ts > WIP facts must remain unknown when the response is malformed > rejects missing required field updated_at 0ms
+ ✓ src/ConnectedWipStatusPage.test.ts > WIP facts must remain unknown when the response is malformed > rejects missing required field distribution 0ms
+ ✓ src/ConnectedWipStatusPage.test.ts > WIP facts must remain unknown when the response is malformed > rejects flags inconsistent with their count 6ms
+ ✓ src/ConnectedWipStatusPage.test.ts > WIP facts must remain unknown when the response is malformed > rejects a response that omits the opening balance collection 0ms
+ ✓ src/ConnectedInitialImportPage.dom.test.tsx > connected CSV import > recovers a lost cash advance allocation response with the same request and does not issue it twice 78ms
+ ✓ src/ConnectedInitialImportPage.dom.test.tsx > connected CSV import > releases draft allocations with zero and locks approved or paid allocations 51ms
+ ✓ src/ConnectedInitialImportPage.dom.test.tsx > connected CSV import > refuses malformed, rounded numeric, or negative cash advance state 2ms
+ ✓ src/ConnectedInitialImportPage.dom.test.tsx > connected CSV import > applies a prepayment with exact money text, selected target and explicit economic date 50ms
+ ✓ src/ConnectedInitialImportPage.dom.test.tsx > connected CSV import > reconciles a lost prepayment response using the original request without a second application 75ms
+ ✓ src/ConnectedInitialImportPage.dom.test.tsx > connected CSV import > requires a cash account for refunds and sends linked reversals only with a reason 74ms
+ ✓ src/ConnectedInitialImportPage.dom.test.tsx > connected CSV import > fails closed on malformed prepayment amounts, history or cross-party targets 2ms
+ ✓ src/ConnectedInitialImportPage.dom.test.tsx > opening WIP continuation > sends exact remaining quantity and keeps a lost response locked for recovery 76ms
+ ✓ src/ConnectedInitialImportPage.dom.test.tsx > opening WIP continuation > refuses a batch whose cash_advances collection is missing instead of reading none 1ms
+ ✓ src/ConnectedInitialImportPage.dom.test.tsx > opening WIP continuation > refuses a batch whose advance_payrolls collection is missing instead of reading none 1ms
+ ✓ src/ConnectedInitialImportPage.dom.test.tsx > opening WIP continuation > refuses a batch whose prepayments collection is missing instead of reading none 1ms
+ ✓ src/ConnectedInitialImportPage.dom.test.tsx > opening WIP continuation > refuses a batch whose prepayment_cash_accounts collection is missing instead of reading none 1ms
+ ✓ src/ConnectedInitialImportPage.dom.test.tsx > opening WIP continuation > refuses a batch whose production_sources collection is missing instead of reading none 1ms
+
+ Test Files  5 passed (5)
+      Tests  54 passed (54)
+   Start at  18:54:08
+   Duration  2.12s (transform 1.31s, setup 0ms, import 2.36s, tests 1.09s, environment 982ms)
+
+vitest exit 0
