@@ -140,4 +140,22 @@ This follow-up narrows the earlier payroll coverage gap and supplies one reprodu
 
 ## Lead counter-review after persistence
 
-The lead separately read the candidate's connected classification editor and rework action. ConnectedBsResolutionPage.tsx:250 initializes selection from server defaults; :256 defines canStart using OPEN/PARTIAL status, positive available quantity and no active orders. The inspected UI condition has no case-specific component confirmation. Lines285–293 allow manual component selection and submit performed quantities. This narrows the frontend counterargument; final backend save preconditions and the lawful native fixture remain to be qualified. No native finding is promoted.
+The lead separately read the candidate's connected classification editor and rework action. ConnectedBsResolutionPage.tsx:250 initializes selection from server defaults; :256 defines canStart using OPEN/PARTIAL status, positive available quantity and no active orders. The inspected UI condition has no case-specific component confirmation. Lines285–293 allow manual component selection and submit performed quantities. This narrows the frontend counterargument. The subsequent bounded backend check below closes the mandatory-confirmation counterargument at source level; the lawful native fixture remains to be qualified. No native finding is promoted.
+
+## Final bounded backend countercheck
+
+Exact candidate remains9add57e. Searching the retained67 migrations and four AW–AZ bodies found this effective source path:
+
+| Path | Function/lines | Result |
+|---|---|---|
+| CP19 `20260903070932_erp_v2_6_19_cp5_bs_resolution_recovery.sql` | public.erp_save_bs_resolution_action_v1:1127–1138; grants1140–1147 | Public wrapper forwards; authenticated execute is present. This alone does not prove the complete ordinary native actor/ACL context. |
+| CP19 | erp.save_bs_resolution_action_v1:858–1105; SAVE_REWORK928–937 | New order requires an existing OPEN/PARTIAL case, then directly calls save_rework_order_v2. |
+| CP19a `20260903151034_erp_v2_6_19a_cp5_rework_accessory_lineage.sql` | erp.save_rework_order_v2:300–586; inserts477–492 | Validates request/accessory/order facts; inserts supplied component IDs and quantities. No mandatory case-specific classification, confirmation or correction of completed_before_bs_qty on this path. |
+| Baseline B | prepare_rework_component_line:15470–15555; BEFORE INSERT trigger30839 | Payable=min(performed,max(BS qty−existing baseline−prior newly completed,0)). |
+| Baseline B | rebuild_bs_component_counters:15817–15866 | Updates lifetime newly-completed/paid counters, leaving the initial completed-before baseline unchanged. |
+
+Relevant guards were checked: B validate_rework_quantity_state25886–25920, validate_bs_component_qty25227–25231, guard_bs_case_component_state8940–8978, protect_rework_component_line15795–15813; final AG guard_child_by_parent_status150–208 and CP19 refresh_bs_case_status290–327. They provide lifecycle, capacity, locking and immutability checks, without establishing the affected BS pieces' component history.
+
+The lead separately fetched the exact SAVE_REWORK dispatcher928–937 and the CP19a300–586 body; reviewed the relevant creation guards and component inserts477–492. CLASSIFY_BS remains an optional correction path before rework. It is not a mandatory prerequisite on the inspected source path, and the baseline is frozen once rework lines exist.
+
+**Disposition unchanged:** source-supported attribution risk, native NOT_RUN/UNVERIFIED. Source inspection narrows the guard counterargument; it does not prove lawful initial fixture creation, installed trigger/ACL equivalence, actual lost wage50, or the complete downstream payroll lifecycle. No confirmed finding/priority is assigned and no native run ID exists for this example.
