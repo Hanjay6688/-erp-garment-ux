@@ -404,7 +404,16 @@ def ao_trial_cases(cur,today):
     actors,base,production,foundation=ns['actors'],ns['base'],ns['production'],ns['foundation']
     avt.predecessor.historical.prior.set_open_period(cur,REOPEN)
     actors.admin(cur);cur.execute('grant usage on schema erp to authenticated')
-    actors.actors.claims(cur,dict(sub=base.OPERATOR_AUTH,role='authenticated'));base.load_fixture_foundation(cur);actors.admin(cur)
+    actors.actors.claims(cur,dict(sub=base.OPERATOR_AUTH,role='authenticated'))
+    # The runner loads the CP3 seed and the CP6 laundry/QC seed on genuine AN; the T2 clone already carries the CP3 seed
+    # (the AU seed), so only the laundry/QC seed is loaded, and only when its race PO is missing (T2 run 12 stopped on the
+    # duplicate CP3 contractor).
+    AO_SOURCE['foundation']='PRESENT'
+    if not cur.execute("select count(*) from erp.production_orders where po_number='CP6-RACE-PO'").fetchone()[0]:
+        reader=getattr(base,'read_psql_seed',None) or __import__('cp6_v2620e_counterexample_regression').read_psql_seed
+        cur.execute(reader(Path('supabase/tests/cp6_laundry_qc_concurrency_seed.sql')),prepare=False)
+        AO_SOURCE['foundation']='LAUNDRY_QC_SEED_LOADED'
+    actors.admin(cur)
     start=production.at(today-timedelta(days=1),0)
     model,contractor=cur.execute("select model_id,contractor_id from erp.production_orders where po_number='CP6-RACE-PO'").fetchone()
     foundation.OWNER=base.OPERATOR_AUTH
@@ -443,7 +452,7 @@ def regression_phase(report):
     # AO trial (added coverage, 24 Sep): its recorded outcome at AO was 12 PASS (WRITER_TRIAL_PASS).
     try:
         ao=avt.group('AO_TRIAL',ao_trial_cases)
-        report['ao_trial']=dict(status=ao['status'],counts=ao['counts'],source_sha256=AO_SOURCE.get('sha256'),
+        report['ao_trial']=dict(status=ao['status'],counts=ao['counts'],source_sha256=AO_SOURCE.get('sha256'),foundation=AO_SOURCE.get('foundation'),
                                 moved={k:r['status'] for k,r in ao['cases'].items() if r['status']!='PASS'})
     except Exception as exc:
         report['ao_trial']=dict(status='INCOMPLETE',error=str(exc)[:2000])
