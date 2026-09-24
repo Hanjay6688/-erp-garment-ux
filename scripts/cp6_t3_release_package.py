@@ -54,7 +54,7 @@ def sha(data):return hashlib.sha256(data.encode() if isinstance(data,str) else d
 def package():
     rows=[]
     for key in KEYS:
-        [path]=sorted((SOURCES if key in('aw','ax','ay') else MIGRATIONS).glob('*_erp_v2_6_20%s_*.sql'%key))
+        [path]=sorted((SOURCES if key in('aw','ax','ay','az') else MIGRATIONS).glob('*_erp_v2_6_20%s_*.sql'%key))
         stamp,name=re.match(r'(\d{14})_(.+)\.sql$',path.name).groups()
         text=path.read_text()
         rows.append(dict(key=key.upper(),path=str(path.relative_to(ROOT)),stamp=stamp,name=name,
