@@ -1,0 +1,4263 @@
+{
+ "label": "T3_PREP",
+ "run": 36011358760,
+ "head": "208afce",
+ "production_go": false,
+ "release_evidence": false,
+ "note": "Final T3 after GPT audit AB-01",
+ "workflow": "CP6 T3 Release Package (hosted-faithful baseline)",
+ "head_sha": "208afce03cc4a1eca3b02ded6fc32c3e4e8b9fbe",
+ "conclusion": "success",
+ "extraction": "Complete job logs (every line, none truncated). A JSON line is a log line whose content after the timestamp prefix starts with \"{\"; \"line\" is its 1-based line number in the job log and json.dumps(entry[\"json\"]) reproduces the logged text exactly.",
+ "jobs": {
+  "install": {
+   "job": 107672602006,
+   "name": "Hosted-faithful baseline to AB, committed 24-file package AC..AZ, AW/AX/AY/AZ verify, advisors, restore drill (T3_PREP)",
+   "conclusion": "success",
+   "log_lines": 1439,
+   "json_line_count": 33,
+   "json_lines": [
+    {
+     "line": 1093,
+     "json": {
+      "status": "ALIGNED_PER_OBJECT",
+      "constraints_equal": true,
+      "views_equal": true,
+      "sequences_equal": true,
+      "schema_equal": true,
+      "capsules_equal": true,
+      "capsules": [
+       {
+        "view": "erp.v_fg_partial_completion_progress",
+        "status": "ALIGNED",
+        "replay_sha256": "efb2d15345589645f2184c3a749da42acc11bad1d4585988c3e02c5c762464e6",
+        "hosted_sha256": "7897479ca27144e599b6607b60f5b9bed08bdea57171ff6ba8ec81ce46f20037",
+        "hosted_md5_equal": true
+       },
+       {
+        "view": "erp.v_wip_control_status_v1",
+        "status": "ALIGNED",
+        "replay_sha256": "a823510e0e5e5f57dc124001db93ec9636e8120970281473e10fedc54089420a",
+        "hosted_sha256": "2aa2bab69b86be921b022eaca8142a1523124c05bd639b8a641ccf572ac8ded4",
+        "hosted_md5_equal": true
+       }
+      ]
+     }
+    },
+    {
+     "line": 1095,
+     "json": {
+      "group": "T3_HOSTED_FINGERPRINT",
+      "equal": true,
+      "kinds": 16,
+      "differ": {},
+      "explained": {
+       "platform_ledger": "fixture ledger keeps empty statements and repository stamps (G-01 round 1, ledger_content_order.json)"
+      }
+     }
+    },
+    {
+     "line": 1124,
+     "json": {
+      "status": "PASS_ALIGNED_CHAIN_TO_AB",
+      "refused_step": null,
+      "alignment": {
+       "label": "G01_ALIGNMENT",
+       "sql_sha256": "4e59a131ecec997fbb7b8bbcb9a9fd02c4913be59172d0182ee8e9736863deb2",
+       "constraints": {
+        "attendance_hpp_journal_line_links.attendance_hpp_journal_line_links_link_type_check": {
+         "hosted": "72f8ce2c1e",
+         "aligned": "72f8ce2c1e"
+        },
+        "attendance_hpp_pools.attendance_hpp_pools_status_check": {
+         "hosted": "e05afeb3b8",
+         "aligned": "e05afeb3b8"
+        },
+        "attendance_periods.attendance_periods_status_check": {
+         "hosted": "e69cd6fdeb",
+         "aligned": "e69cd6fdeb"
+        },
+        "attendance_records.attendance_records_lifecycle_check": {
+         "hosted": "452991f694",
+         "aligned": "452991f694"
+        },
+        "fg_stock_movements.fg_stock_movements_movement_type_check": {
+         "hosted": "9fbfff8cd0",
+         "aligned": "9fbfff8cd0"
+        },
+        "idempotency_requests.idempotency_requests_status_check": {
+         "hosted": "0d9b2286cf",
+         "aligned": "0d9b2286cf"
+        },
+        "manual_reminders.manual_reminders_priority_check": {
+         "hosted": "a6e0cfdb2b",
+         "aligned": "a6e0cfdb2b"
+        },
+        "manual_reminders.manual_reminders_status_check": {
+         "hosted": "78723b79b2",
+         "aligned": "78723b79b2"
+        },
+        "material_purchase_cost_corrections.material_purchase_cost_corrections_post_seq_state": {
+         "hosted": "caefcf97c1",
+         "aligned": "caefcf97c1"
+        },
+        "material_purchase_items.material_purchase_items_invoice_match_state_check": {
+         "hosted": "c7c0506ea2",
+         "aligned": "c7c0506ea2"
+        },
+        "material_purchase_items.material_purchase_items_price_source_check": {
+         "hosted": "ac30b11606",
+         "aligned": "ac30b11606"
+        },
+        "material_purchase_items.material_purchase_items_price_state_check": {
+         "hosted": "dfa5f56214",
+         "aligned": "dfa5f56214"
+        },
+        "material_stock_movements.material_stock_movements_movement_type_check": {
+         "hosted": "a218ef6894",
+         "aligned": "a218ef6894"
+        },
+        "material_supplier_invoices.material_supplier_invoices_status_check": {
+         "hosted": "12080adf85",
+         "aligned": "12080adf85"
+        },
+        "material_transfers.material_transfers_status_check": {
+         "hosted": "12080adf85",
+         "aligned": "12080adf85"
+        },
+        "qc_inspections.qc_inspections_completion_mode_check": {
+         "hosted": "b1a922fa1a",
+         "aligned": "b1a922fa1a"
+        },
+        "rework_component_lines.rework_component_lines_rate_basis_check": {
+         "hosted": "8ec02e222b",
+         "aligned": "8ec02e222b"
+        },
+        "sewing_terminal_events.sewing_terminal_events_event_kind_check": {
+         "hosted": "bbd293f60d",
+         "aligned": "bbd293f60d"
+        },
+        "stock_explainability_snapshots.stock_explainability_snapshots_basis_source_check": {
+         "hosted": "d94c5cd613",
+         "aligned": "d94c5cd613"
+        },
+        "stock_explainability_snapshots.stock_explainability_snapshots_health_status_check": {
+         "hosted": "2ec01ea1f0",
+         "aligned": "2ec01ea1f0"
+        },
+        "stock_explainability_snapshots.stock_explainability_snapshots_subject_type_check": {
+         "hosted": "360d893e1b",
+         "aligned": "360d893e1b"
+        },
+        "stock_policy_versions.stock_policy_versions_basis_source_check": {
+         "hosted": "d94c5cd613",
+         "aligned": "d94c5cd613"
+        },
+        "stock_policy_versions.stock_policy_versions_subject_type_check": {
+         "hosted": "360d893e1b",
+         "aligned": "360d893e1b"
+        }
+       },
+       "views": {
+        "erp.v_case_browser": {
+         "hosted": "7056975536aee94c6d8d1783904206a7",
+         "aligned": "7056975536aee94c6d8d1783904206a7"
+        },
+        "erp.v_customer_receivables": {
+         "hosted": "dd5b423149289667606424e199601660",
+         "aligned": "dd5b423149289667606424e199601660"
+        },
+        "erp.v_laundry_po_operational_progress": {
+         "hosted": "e4b0fe144c51d3f7413a94b631d80c30",
+         "aligned": "e4b0fe144c51d3f7413a94b631d80c30"
+        },
+        "erp.v_payroll_nota_browser": {
+         "hosted": "947eb0f63e95b62bda77e77c87134b1d",
+         "aligned": "947eb0f63e95b62bda77e77c87134b1d"
+        },
+        "erp.v_payroll_production_work_eligibility": {
+         "hosted": "004d37be4306832a21a275bd5b7d2b0f",
+         "aligned": "004d37be4306832a21a275bd5b7d2b0f"
+        }
+       },
+       "sequences": {
+        "aligned": {
+         "erp.app_access_audit_id_seq": "i:erp.app_access_audit.id",
+         "erp.audit_logs_id_seq": "a:erp.audit_logs.id",
+         "erp.cost_recalc_queue_id_seq": "a:erp.cost_recalc_queue.id",
+         "erp.cutting_qty_correction_seq": null,
+         "erp.fg_stock_book_order_seq": null,
+         "erp.production_pattern_audit_id_seq": "i:erp.production_pattern_audit.id"
+        },
+        "hosted_owned": {
+         "erp.app_access_audit_id_seq": "i:erp.app_access_audit.id",
+         "erp.production_pattern_audit_id_seq": "i:erp.production_pattern_audit.id",
+         "erp.audit_logs_id_seq": "a:erp.audit_logs.id",
+         "erp.cost_recalc_queue_id_seq": "a:erp.cost_recalc_queue.id"
+        },
+        "hosted_count": 6
+       },
+       "schema_erp": {
+        "hosted": "authenticated:USAGE:false,postgres:CREATE:false,postgres:USAGE:false,service_role:USAGE:false",
+        "aligned": "authenticated:USAGE:false,postgres:CREATE:false,postgres:USAGE:false,service_role:USAGE:false"
+       },
+       "constraints_equal": true,
+       "views_equal": true,
+       "sequences_equal": true,
+       "schema_equal": true,
+       "capsules": [
+        {
+         "view": "erp.v_fg_partial_completion_progress",
+         "status": "ALIGNED",
+         "replay_sha256": "efb2d15345589645f2184c3a749da42acc11bad1d4585988c3e02c5c762464e6",
+         "hosted_sha256": "7897479ca27144e599b6607b60f5b9bed08bdea57171ff6ba8ec81ce46f20037",
+         "hosted_md5_equal": true
+        },
+        {
+         "view": "erp.v_wip_control_status_v1",
+         "status": "ALIGNED",
+         "replay_sha256": "a823510e0e5e5f57dc124001db93ec9636e8120970281473e10fedc54089420a",
+         "hosted_sha256": "2aa2bab69b86be921b022eaca8142a1523124c05bd639b8a641ccf572ac8ded4",
+         "hosted_md5_equal": true
+        }
+       ],
+       "capsules_equal": true,
+       "status": "ALIGNED_PER_OBJECT"
+      }
+     }
+    },
+    {
+     "line": 1256,
+     "json": {
+      "group": "T3_HOSTED_CAPSULES",
+      "equal": true,
+      "capsules": {
+       "bs_resolution_v2619_rollback_capsule": {
+        "hosted": "28ab388833da7da87384766ecaedadc66b4d048c303ee91e16f3939e34afdc39",
+        "clone": "28ab388833da7da87384766ecaedadc66b4d048c303ee91e16f3939e34afdc39",
+        "equal": true
+       },
+       "bs_resolution_v2619a_rollback_capsule": {
+        "hosted": "de8dfaab7b63b8742d383a089cdb05e73b629aad9f4df149e6a3c9fb590ef560",
+        "clone": "de8dfaab7b63b8742d383a089cdb05e73b629aad9f4df149e6a3c9fb590ef560",
+        "equal": true
+       },
+       "bs_resolution_v2619b_rollback_capsule": {
+        "hosted": "d6d4f7457743d51679b5d25bf166ed69ca4b4f098cf5902ff985937531c2505d",
+        "clone": "d6d4f7457743d51679b5d25bf166ed69ca4b4f098cf5902ff985937531c2505d",
+        "equal": true
+       },
+       "bs_resolution_v2619c_rollback_capsule": {
+        "hosted": "0207ba4f2ffba8ed61584709bbd884f1d2ee1a5981194fd7189a45afe8b3cbe1",
+        "clone": "0207ba4f2ffba8ed61584709bbd884f1d2ee1a5981194fd7189a45afe8b3cbe1",
+        "equal": true
+       },
+       "cp3_r4_rollback_capsule": {
+        "hosted": "7c01add62e66a4e2774a7199c2e77a04cca5e5942dbbba54d22cef720f82bc1d",
+        "clone": "7c01add62e66a4e2774a7199c2e77a04cca5e5942dbbba54d22cef720f82bc1d",
+        "equal": true
+       },
+       "cp45_v2617_rollback_capsule": {
+        "hosted": "b9a43ce463de9905e94dd6538fd2a4952b0586a78c145f6f9d88aab7d6da3d80",
+        "clone": "b9a43ce463de9905e94dd6538fd2a4952b0586a78c145f6f9d88aab7d6da3d80",
+        "equal": true
+       },
+       "cp45_v2617a_rollback_capsule": {
+        "hosted": "b065dbcfdf1b59cb799e9f58caf6dd5ca7686e9f70826fce6a1ba8f140610022",
+        "clone": "b065dbcfdf1b59cb799e9f58caf6dd5ca7686e9f70826fce6a1ba8f140610022",
+        "equal": true
+       },
+       "cp4_v2616_rollback_capsule": {
+        "hosted": "dde0a005dbe7cc93709bdfc6b961f4b9a76bf4db06fd7177d21dc79048af4d2f",
+        "clone": "dde0a005dbe7cc93709bdfc6b961f4b9a76bf4db06fd7177d21dc79048af4d2f",
+        "equal": true
+       },
+       "cp6_v2620_rollback_capsule": {
+        "hosted": "b42b94c2380f0768259a3d8f7fb645c76ebd6f92e8bae6a37d802352f7effd4f",
+        "clone": "b42b94c2380f0768259a3d8f7fb645c76ebd6f92e8bae6a37d802352f7effd4f",
+        "equal": true
+       },
+       "cutting_bridge_v2618_rollback_capsule": {
+        "hosted": "535d1abd25668bc5bee79d82a602afe5efe4e8ce313bf1fb5170ae2004e3cb2d",
+        "clone": "535d1abd25668bc5bee79d82a602afe5efe4e8ce313bf1fb5170ae2004e3cb2d",
+        "equal": true
+       },
+       "cutting_bridge_v2618a_rollback_capsule": {
+        "hosted": "db0608e690b3d936fa20b62cc4cfb9b1f9e86718212526eb6131562578b8bf60",
+        "clone": "db0608e690b3d936fa20b62cc4cfb9b1f9e86718212526eb6131562578b8bf60",
+        "equal": true
+       }
+      },
+      "cp6_v2620_rows_differing": []
+     }
+    },
+    {
+     "line": 1257,
+     "json": {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AC",
+      "status": "PASS"
+     }
+    },
+    {
+     "line": 1258,
+     "json": {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AD",
+      "status": "PASS"
+     }
+    },
+    {
+     "line": 1259,
+     "json": {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AE",
+      "status": "PASS"
+     }
+    },
+    {
+     "line": 1260,
+     "json": {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AF",
+      "status": "PASS"
+     }
+    },
+    {
+     "line": 1261,
+     "json": {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AG",
+      "status": "PASS"
+     }
+    },
+    {
+     "line": 1262,
+     "json": {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AH",
+      "status": "PASS"
+     }
+    },
+    {
+     "line": 1263,
+     "json": {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AI",
+      "status": "PASS"
+     }
+    },
+    {
+     "line": 1264,
+     "json": {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AJ",
+      "status": "PASS"
+     }
+    },
+    {
+     "line": 1265,
+     "json": {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AK",
+      "status": "PASS"
+     }
+    },
+    {
+     "line": 1266,
+     "json": {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AL",
+      "status": "PASS"
+     }
+    },
+    {
+     "line": 1267,
+     "json": {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AM",
+      "status": "PASS"
+     }
+    },
+    {
+     "line": 1268,
+     "json": {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AN",
+      "status": "PASS"
+     }
+    },
+    {
+     "line": 1269,
+     "json": {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AO",
+      "status": "PASS"
+     }
+    },
+    {
+     "line": 1270,
+     "json": {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AP",
+      "status": "PASS"
+     }
+    },
+    {
+     "line": 1271,
+     "json": {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AQ",
+      "status": "PASS"
+     }
+    },
+    {
+     "line": 1272,
+     "json": {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AR",
+      "status": "PASS"
+     }
+    },
+    {
+     "line": 1273,
+     "json": {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AS",
+      "status": "PASS"
+     }
+    },
+    {
+     "line": 1274,
+     "json": {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AT",
+      "status": "PASS"
+     }
+    },
+    {
+     "line": 1275,
+     "json": {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AU",
+      "status": "PASS"
+     }
+    },
+    {
+     "line": 1276,
+     "json": {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AV",
+      "status": "PASS"
+     }
+    },
+    {
+     "line": 1277,
+     "json": {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AW",
+      "status": "PASS"
+     }
+    },
+    {
+     "line": 1278,
+     "json": {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AX",
+      "status": "PASS"
+     }
+    },
+    {
+     "line": 1279,
+     "json": {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AY",
+      "status": "PASS"
+     }
+    },
+    {
+     "line": 1280,
+     "json": {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AZ",
+      "status": "PASS"
+     }
+    },
+    {
+     "line": 1281,
+     "json": {
+      "group": "T3_PACKAGE_RUN",
+      "stage": "PACKAGE",
+      "status": "PASS",
+      "result": "ALL_FILES_INSTALLED"
+     }
+    },
+    {
+     "line": 1282,
+     "json": {
+      "group": "T3_PACKAGE_RUN",
+      "stage": "AW_AX_AY_AZ_VERIFY",
+      "status": "PASS",
+      "result": {
+       "stage": "AV_PLUS_AW_AX_AY_AZ_T1",
+       "functions": 13,
+       "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+       "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+       "ay_sql_sha256": "29b8977613012431b9efa927c7cee10654aef8a016368a0430e7c3789070af43",
+       "az_sql_sha256": "9007eefc5b8e8d3ae47dbdc496aca61fb281152385b27c9791284b68fc8125c9"
+      }
+     }
+    },
+    {
+     "line": 1283,
+     "json": {
+      "group": "T3_SECURITY_ADVISORS",
+      "status": "REVIEW_REQUIRED",
+      "before": 73,
+      "after": 127,
+      "added": [
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "accounting_close_filings_v1",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bs_case_manual_origins_v1",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620ac_relation_rollback_capsule",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620ac_rollback_capsule",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620ad_rollback_capsule",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620ae_rollback_capsule",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620af_rollback_capsule",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620ag_rollback_capsule",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620ah_rollback_capsule",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620ai_rollback_capsule",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620aj_rollback_capsule",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620ak_rollback_capsule",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620al_rollback_capsule",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620am_rollback_capsule",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620an_rollback_capsule",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620ao_rollback_capsule",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620ap_rollback_capsule",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620aq_rollback_capsule",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620ar_rollback_capsule",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620as_rollback_capsule",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620at_rollback_capsule",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620au_rollback_capsule",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620av_rollback_capsule",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620aw_rollback_capsule",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620ax_rollback_capsule",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620ay_rollback_capsule",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620az_rollback_capsule",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "fg_unsourced_receipts_v1",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "fg_unsourced_repair_wages_v1",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "initial_import_bs_value_events",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "initial_import_cost_origins",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "initial_import_financial_sources",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "initial_import_opening_stock_sources",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "initial_import_origin_cost_events",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "initial_import_prepayment_events",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "initial_import_prepayment_payments",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "initial_import_prepayments",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "initial_import_production_sources",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "initial_import_receipt_headers",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "initial_import_receipt_lines",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "initial_import_wip_output_reversals",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "initial_import_wip_outputs",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "invoice_recost_execution_context",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "laundry_rate_owner_estimates_v1",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "po_hpp_gl_lot_state_v1",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "po_hpp_gl_material_state_v1",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "pocket_fabric_execution_context",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "pocket_fabric_materials",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "pocket_fabric_usage",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "pocket_period_destinations",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "pocket_period_events",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "pocket_period_sources",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "pocket_periods",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "product_identity_mutation_context_v1",
+        "table"
+       ]
+      ],
+      "removed": []
+     }
+    },
+    {
+     "line": 1284,
+     "json": {
+      "t3_backup_restore_drill": {
+       "status": "RESTORED_SAME_MEANING",
+       "checks": {
+        "restore_errors_only_pg_cron": true,
+        "catalog_explained": true,
+        "data_identical": true,
+        "engine_answer_present": true,
+        "engine_equal": true
+       },
+       "dump": {
+        "exit": 0,
+        "stderr": "",
+        "seconds": 0.7,
+        "bytes": 6360449
+       },
+       "restore": {
+        "exit": 1,
+        "seconds": 3.0,
+        "error_count": 19,
+        "ignored_reported": 19,
+        "unexplained": [],
+        "errors": [
+         "pg_restore: error: could not execute query: ERROR:  can only create extension in database postgres",
+         "pg_restore: error: could not execute query: ERROR:  extension \"pg_cron\" does not exist",
+         "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+         "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+         "pg_restore: error: could not execute query: ERROR:  relation \"cron.jobid_seq\" does not exist",
+         "pg_restore: error: could not execute query: ERROR:  relation \"cron.runid_seq\" does not exist",
+         "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+         "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+         "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+         "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+         "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+         "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+         "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+         "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+         "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+         "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+         "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+         "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+         "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist"
+        ]
+       },
+       "catalog": {
+        "match": [
+         "app_ledger",
+         "config_hash",
+         "default_acl",
+         "function",
+         "function_owner_acl",
+         "platform_ledger",
+         "policy",
+         "relation",
+         "relation_owner_acl",
+         "schema",
+         "sequence",
+         "trigger"
+        ],
+        "differ": {
+         "constraint": {
+          "source": {
+           "n": 1550,
+           "md5": "f53a774867ae319283c1fc6211840083"
+          },
+          "restored": {
+           "n": 1550,
+           "md5": "19f41a2cb641ed73f888c827f40a795d"
+          }
+         },
+         "extension": {
+          "source": {
+           "n": 6,
+           "md5": "15a959c38d716ad2af3fe1f1dc4419ef"
+          },
+          "restored": {
+           "n": 5,
+           "md5": "2193000efffb6e05911a1c3af1f57381"
+          }
+         },
+         "index": {
+          "source": {
+           "n": 734,
+           "md5": "861d40e797f8c6fe9273143b668c264d"
+          },
+          "restored": {
+           "n": 734,
+           "md5": "2139062f86c792a238423ce92c35e4d6"
+          }
+         },
+         "view": {
+          "source": {
+           "n": 51,
+           "md5": "c08bd89cf82d60763558b988fea065b3"
+          },
+          "restored": {
+           "n": 51,
+           "md5": "1fdac63ca8f241d961df89bbc0cbcbaf"
+          }
+         }
+        },
+        "objects": {
+         "constraint": {
+          "differing": 29,
+          "by_class": {
+           "VARCHAR_IN_LIST_REPARSE": 29
+          },
+          "detail": null,
+          "unclassified": []
+         },
+         "extension": {
+          "differing": 1,
+          "by_class": {
+           "PG_CRON_ONLY_IN_DATABASE_POSTGRES": 1
+          },
+          "detail": null,
+          "unclassified": []
+         },
+         "index": {
+          "differing": 1,
+          "by_class": {
+           "VARCHAR_IN_LIST_REPARSE": 1
+          },
+          "detail": null,
+          "unclassified": []
+         },
+         "view": {
+          "differing": 6,
+          "by_class": {
+           "VARCHAR_IN_LIST_REPARSE": 6
+          },
+          "detail": null,
+          "unclassified": []
+         }
+        }
+       },
+       "data": {
+        "tables": 318,
+        "rows": 1647,
+        "schemas": [
+         "_realtime",
+         "auth",
+         "erp",
+         "realtime",
+         "storage",
+         "supabase_functions",
+         "supabase_migrations",
+         "vault"
+        ],
+        "differ": {}
+       },
+       "engine": {
+        "day": "2026-09-23",
+        "equal": true,
+        "source_status": "READY",
+        "restored_status": "READY"
+       },
+       "source_cron_jobs": 0,
+       "error": null
+      }
+     }
+    },
+    {
+     "line": 1285,
+     "json": {
+      "t3_package_run": {
+       "label": "T3_PREP",
+       "mode": "install",
+       "status": "ALL_STAGES_INSTALLED",
+       "production_go": false,
+       "release_evidence": false,
+       "auth_users_before": 0,
+       "ledger_start": {
+        "app": [
+         "v2.6.20aa",
+         "v2.6.20ab"
+        ],
+        "platform_last": "20260914190500"
+       },
+       "fingerprint_AB": {
+        "view": {
+         "n": 51,
+         "md5": "68b2fbf688881496413307954006bdbe"
+        },
+        "index": {
+         "n": 605,
+         "md5": "65816b59b4bd7675995b7b9bc98fa4c5"
+        },
+        "policy": {
+         "n": 190,
+         "md5": "48bb358e009dc8d19417bbb3982f6d3f"
+        },
+        "schema": {
+         "n": 2,
+         "md5": "6ee1ffa742c0945434188ce249e139ca"
+        },
+        "trigger": {
+         "n": 448,
+         "md5": "971341de44cfecc9a587fc140c6cf30a"
+        },
+        "function": {
+         "n": 574,
+         "md5": "5e235119482f9767a74ba3fe7fbd2619"
+        },
+        "relation": {
+         "n": 272,
+         "md5": "5a8c31607ad25d70808ba9f7699bf690"
+        },
+        "sequence": {
+         "n": 6,
+         "md5": "dacd751dd3a5f2f7efbc203171be4ead"
+        },
+        "extension": {
+         "n": 6,
+         "md5": "15a959c38d716ad2af3fe1f1dc4419ef"
+        },
+        "app_ledger": {
+         "n": 83,
+         "md5": "7ad6fed4ecef5f62d3be04fffdbc9e69"
+        },
+        "constraint": {
+         "n": 1308,
+         "md5": "1a354c9c9ddc0b40782e80339e1dbacd"
+        },
+        "config_hash": {
+         "n": 6,
+         "md5": "2193b4becca1d4d89e40b444b0a8af29"
+        },
+        "default_acl": {
+         "n": 6,
+         "md5": "c9c232814a7b3ee3eaadb50e8b7dc7fd"
+        },
+        "platform_ledger": {
+         "n": 98,
+         "md5": "39e21c0d5d36ef100d312dd736898487"
+        },
+        "function_owner_acl": {
+         "n": 574,
+         "md5": "12a9878282b3db31bec2d8e34eb57c59"
+        },
+        "relation_owner_acl": {
+         "n": 272,
+         "md5": "bf0e6b7cd7ea3e25b7b94918cd3cc844"
+        }
+       },
+       "hosted_capsules": {
+        "equal": true,
+        "capsules": {
+         "bs_resolution_v2619_rollback_capsule": {
+          "hosted": "28ab388833da7da87384766ecaedadc66b4d048c303ee91e16f3939e34afdc39",
+          "clone": "28ab388833da7da87384766ecaedadc66b4d048c303ee91e16f3939e34afdc39",
+          "equal": true
+         },
+         "bs_resolution_v2619a_rollback_capsule": {
+          "hosted": "de8dfaab7b63b8742d383a089cdb05e73b629aad9f4df149e6a3c9fb590ef560",
+          "clone": "de8dfaab7b63b8742d383a089cdb05e73b629aad9f4df149e6a3c9fb590ef560",
+          "equal": true
+         },
+         "bs_resolution_v2619b_rollback_capsule": {
+          "hosted": "d6d4f7457743d51679b5d25bf166ed69ca4b4f098cf5902ff985937531c2505d",
+          "clone": "d6d4f7457743d51679b5d25bf166ed69ca4b4f098cf5902ff985937531c2505d",
+          "equal": true
+         },
+         "bs_resolution_v2619c_rollback_capsule": {
+          "hosted": "0207ba4f2ffba8ed61584709bbd884f1d2ee1a5981194fd7189a45afe8b3cbe1",
+          "clone": "0207ba4f2ffba8ed61584709bbd884f1d2ee1a5981194fd7189a45afe8b3cbe1",
+          "equal": true
+         },
+         "cp3_r4_rollback_capsule": {
+          "hosted": "7c01add62e66a4e2774a7199c2e77a04cca5e5942dbbba54d22cef720f82bc1d",
+          "clone": "7c01add62e66a4e2774a7199c2e77a04cca5e5942dbbba54d22cef720f82bc1d",
+          "equal": true
+         },
+         "cp45_v2617_rollback_capsule": {
+          "hosted": "b9a43ce463de9905e94dd6538fd2a4952b0586a78c145f6f9d88aab7d6da3d80",
+          "clone": "b9a43ce463de9905e94dd6538fd2a4952b0586a78c145f6f9d88aab7d6da3d80",
+          "equal": true
+         },
+         "cp45_v2617a_rollback_capsule": {
+          "hosted": "b065dbcfdf1b59cb799e9f58caf6dd5ca7686e9f70826fce6a1ba8f140610022",
+          "clone": "b065dbcfdf1b59cb799e9f58caf6dd5ca7686e9f70826fce6a1ba8f140610022",
+          "equal": true
+         },
+         "cp4_v2616_rollback_capsule": {
+          "hosted": "dde0a005dbe7cc93709bdfc6b961f4b9a76bf4db06fd7177d21dc79048af4d2f",
+          "clone": "dde0a005dbe7cc93709bdfc6b961f4b9a76bf4db06fd7177d21dc79048af4d2f",
+          "equal": true
+         },
+         "cp6_v2620_rollback_capsule": {
+          "hosted": "b42b94c2380f0768259a3d8f7fb645c76ebd6f92e8bae6a37d802352f7effd4f",
+          "clone": "b42b94c2380f0768259a3d8f7fb645c76ebd6f92e8bae6a37d802352f7effd4f",
+          "equal": true
+         },
+         "cutting_bridge_v2618_rollback_capsule": {
+          "hosted": "535d1abd25668bc5bee79d82a602afe5efe4e8ce313bf1fb5170ae2004e3cb2d",
+          "clone": "535d1abd25668bc5bee79d82a602afe5efe4e8ce313bf1fb5170ae2004e3cb2d",
+          "equal": true
+         },
+         "cutting_bridge_v2618a_rollback_capsule": {
+          "hosted": "db0608e690b3d936fa20b62cc4cfb9b1f9e86718212526eb6131562578b8bf60",
+          "clone": "db0608e690b3d936fa20b62cc4cfb9b1f9e86718212526eb6131562578b8bf60",
+          "equal": true
+         }
+        },
+        "cp6_v2620_rows_differing": []
+       },
+       "ledger_final": {
+        "app": [
+         "v2.6.20aa",
+         "v2.6.20ab",
+         "v2.6.20ac",
+         "v2.6.20ad",
+         "v2.6.20ae",
+         "v2.6.20af",
+         "v2.6.20ag",
+         "v2.6.20ah",
+         "v2.6.20ai",
+         "v2.6.20aj",
+         "v2.6.20ak",
+         "v2.6.20al",
+         "v2.6.20am",
+         "v2.6.20an",
+         "v2.6.20ao",
+         "v2.6.20ap",
+         "v2.6.20aq",
+         "v2.6.20ar",
+         "v2.6.20as",
+         "v2.6.20at",
+         "v2.6.20au",
+         "v2.6.20av",
+         "v2.6.20aw",
+         "v2.6.20ax",
+         "v2.6.20ay",
+         "v2.6.20az"
+        ],
+        "platform_last": "20260924010300"
+       },
+       "fingerprint_final": {
+        "view": {
+         "n": 51,
+         "md5": "c08bd89cf82d60763558b988fea065b3"
+        },
+        "index": {
+         "n": 734,
+         "md5": "861d40e797f8c6fe9273143b668c264d"
+        },
+        "policy": {
+         "n": 190,
+         "md5": "48bb358e009dc8d19417bbb3982f6d3f"
+        },
+        "schema": {
+         "n": 2,
+         "md5": "6ee1ffa742c0945434188ce249e139ca"
+        },
+        "trigger": {
+         "n": 487,
+         "md5": "1295b62fe55e08382e060f0b1cbdf9ce"
+        },
+        "function": {
+         "n": 673,
+         "md5": "8ead289885b4c6d64926e054559f760f"
+        },
+        "relation": {
+         "n": 326,
+         "md5": "dae94cb450a2b3e357e73867ea589e9f"
+        },
+        "sequence": {
+         "n": 6,
+         "md5": "dacd751dd3a5f2f7efbc203171be4ead"
+        },
+        "extension": {
+         "n": 6,
+         "md5": "15a959c38d716ad2af3fe1f1dc4419ef"
+        },
+        "app_ledger": {
+         "n": 107,
+         "md5": "e30d1e0a012e1d7eee4ba43e8af52ffb"
+        },
+        "constraint": {
+         "n": 1550,
+         "md5": "f53a774867ae319283c1fc6211840083"
+        },
+        "config_hash": {
+         "n": 6,
+         "md5": "2193b4becca1d4d89e40b444b0a8af29"
+        },
+        "default_acl": {
+         "n": 6,
+         "md5": "c9c232814a7b3ee3eaadb50e8b7dc7fd"
+        },
+        "platform_ledger": {
+         "n": 122,
+         "md5": "21dde1384e3ef12025b331893e2d5199"
+        },
+        "function_owner_acl": {
+         "n": 673,
+         "md5": "8df01a31c892b422ff2e787b3db675aa"
+        },
+        "relation_owner_acl": {
+         "n": 326,
+         "md5": "94ae6fdaab1b888b9ee15bf7ecd1e1b4"
+        }
+       },
+       "backup_restore_drill": "RESTORED_SAME_MEANING",
+       "primary_unchanged": true,
+       "auth_users_after": 0
+      }
+     }
+    }
+   ]
+  },
+  "capture": {
+   "job": 107672602188,
+   "name": "Hosted-faithful baseline to AB, pins captured again and compared with the committed package (T3_PREP)",
+   "conclusion": "success",
+   "log_lines": 1452,
+   "json_line_count": 34,
+   "pins_log": "T3_PINS_SHA256 80e30b961a6cb8e20e77db0daa9c078f31d643c90fc33fbda772367f88e23068 65237",
+   "json_lines": [
+    {
+     "line": 1093,
+     "json": {
+      "status": "ALIGNED_PER_OBJECT",
+      "constraints_equal": true,
+      "views_equal": true,
+      "sequences_equal": true,
+      "schema_equal": true,
+      "capsules_equal": true,
+      "capsules": [
+       {
+        "view": "erp.v_fg_partial_completion_progress",
+        "status": "ALIGNED",
+        "replay_sha256": "efb2d15345589645f2184c3a749da42acc11bad1d4585988c3e02c5c762464e6",
+        "hosted_sha256": "7897479ca27144e599b6607b60f5b9bed08bdea57171ff6ba8ec81ce46f20037",
+        "hosted_md5_equal": true
+       },
+       {
+        "view": "erp.v_wip_control_status_v1",
+        "status": "ALIGNED",
+        "replay_sha256": "a823510e0e5e5f57dc124001db93ec9636e8120970281473e10fedc54089420a",
+        "hosted_sha256": "2aa2bab69b86be921b022eaca8142a1523124c05bd639b8a641ccf572ac8ded4",
+        "hosted_md5_equal": true
+       }
+      ]
+     }
+    },
+    {
+     "line": 1095,
+     "json": {
+      "group": "T3_HOSTED_FINGERPRINT",
+      "equal": true,
+      "kinds": 16,
+      "differ": {},
+      "explained": {
+       "platform_ledger": "fixture ledger keeps empty statements and repository stamps (G-01 round 1, ledger_content_order.json)"
+      }
+     }
+    },
+    {
+     "line": 1124,
+     "json": {
+      "status": "PASS_ALIGNED_CHAIN_TO_AB",
+      "refused_step": null,
+      "alignment": {
+       "label": "G01_ALIGNMENT",
+       "sql_sha256": "4e59a131ecec997fbb7b8bbcb9a9fd02c4913be59172d0182ee8e9736863deb2",
+       "constraints": {
+        "attendance_hpp_journal_line_links.attendance_hpp_journal_line_links_link_type_check": {
+         "hosted": "72f8ce2c1e",
+         "aligned": "72f8ce2c1e"
+        },
+        "attendance_hpp_pools.attendance_hpp_pools_status_check": {
+         "hosted": "e05afeb3b8",
+         "aligned": "e05afeb3b8"
+        },
+        "attendance_periods.attendance_periods_status_check": {
+         "hosted": "e69cd6fdeb",
+         "aligned": "e69cd6fdeb"
+        },
+        "attendance_records.attendance_records_lifecycle_check": {
+         "hosted": "452991f694",
+         "aligned": "452991f694"
+        },
+        "fg_stock_movements.fg_stock_movements_movement_type_check": {
+         "hosted": "9fbfff8cd0",
+         "aligned": "9fbfff8cd0"
+        },
+        "idempotency_requests.idempotency_requests_status_check": {
+         "hosted": "0d9b2286cf",
+         "aligned": "0d9b2286cf"
+        },
+        "manual_reminders.manual_reminders_priority_check": {
+         "hosted": "a6e0cfdb2b",
+         "aligned": "a6e0cfdb2b"
+        },
+        "manual_reminders.manual_reminders_status_check": {
+         "hosted": "78723b79b2",
+         "aligned": "78723b79b2"
+        },
+        "material_purchase_cost_corrections.material_purchase_cost_corrections_post_seq_state": {
+         "hosted": "caefcf97c1",
+         "aligned": "caefcf97c1"
+        },
+        "material_purchase_items.material_purchase_items_invoice_match_state_check": {
+         "hosted": "c7c0506ea2",
+         "aligned": "c7c0506ea2"
+        },
+        "material_purchase_items.material_purchase_items_price_source_check": {
+         "hosted": "ac30b11606",
+         "aligned": "ac30b11606"
+        },
+        "material_purchase_items.material_purchase_items_price_state_check": {
+         "hosted": "dfa5f56214",
+         "aligned": "dfa5f56214"
+        },
+        "material_stock_movements.material_stock_movements_movement_type_check": {
+         "hosted": "a218ef6894",
+         "aligned": "a218ef6894"
+        },
+        "material_supplier_invoices.material_supplier_invoices_status_check": {
+         "hosted": "12080adf85",
+         "aligned": "12080adf85"
+        },
+        "material_transfers.material_transfers_status_check": {
+         "hosted": "12080adf85",
+         "aligned": "12080adf85"
+        },
+        "qc_inspections.qc_inspections_completion_mode_check": {
+         "hosted": "b1a922fa1a",
+         "aligned": "b1a922fa1a"
+        },
+        "rework_component_lines.rework_component_lines_rate_basis_check": {
+         "hosted": "8ec02e222b",
+         "aligned": "8ec02e222b"
+        },
+        "sewing_terminal_events.sewing_terminal_events_event_kind_check": {
+         "hosted": "bbd293f60d",
+         "aligned": "bbd293f60d"
+        },
+        "stock_explainability_snapshots.stock_explainability_snapshots_basis_source_check": {
+         "hosted": "d94c5cd613",
+         "aligned": "d94c5cd613"
+        },
+        "stock_explainability_snapshots.stock_explainability_snapshots_health_status_check": {
+         "hosted": "2ec01ea1f0",
+         "aligned": "2ec01ea1f0"
+        },
+        "stock_explainability_snapshots.stock_explainability_snapshots_subject_type_check": {
+         "hosted": "360d893e1b",
+         "aligned": "360d893e1b"
+        },
+        "stock_policy_versions.stock_policy_versions_basis_source_check": {
+         "hosted": "d94c5cd613",
+         "aligned": "d94c5cd613"
+        },
+        "stock_policy_versions.stock_policy_versions_subject_type_check": {
+         "hosted": "360d893e1b",
+         "aligned": "360d893e1b"
+        }
+       },
+       "views": {
+        "erp.v_case_browser": {
+         "hosted": "7056975536aee94c6d8d1783904206a7",
+         "aligned": "7056975536aee94c6d8d1783904206a7"
+        },
+        "erp.v_customer_receivables": {
+         "hosted": "dd5b423149289667606424e199601660",
+         "aligned": "dd5b423149289667606424e199601660"
+        },
+        "erp.v_laundry_po_operational_progress": {
+         "hosted": "e4b0fe144c51d3f7413a94b631d80c30",
+         "aligned": "e4b0fe144c51d3f7413a94b631d80c30"
+        },
+        "erp.v_payroll_nota_browser": {
+         "hosted": "947eb0f63e95b62bda77e77c87134b1d",
+         "aligned": "947eb0f63e95b62bda77e77c87134b1d"
+        },
+        "erp.v_payroll_production_work_eligibility": {
+         "hosted": "004d37be4306832a21a275bd5b7d2b0f",
+         "aligned": "004d37be4306832a21a275bd5b7d2b0f"
+        }
+       },
+       "sequences": {
+        "aligned": {
+         "erp.app_access_audit_id_seq": "i:erp.app_access_audit.id",
+         "erp.audit_logs_id_seq": "a:erp.audit_logs.id",
+         "erp.cost_recalc_queue_id_seq": "a:erp.cost_recalc_queue.id",
+         "erp.cutting_qty_correction_seq": null,
+         "erp.fg_stock_book_order_seq": null,
+         "erp.production_pattern_audit_id_seq": "i:erp.production_pattern_audit.id"
+        },
+        "hosted_owned": {
+         "erp.app_access_audit_id_seq": "i:erp.app_access_audit.id",
+         "erp.production_pattern_audit_id_seq": "i:erp.production_pattern_audit.id",
+         "erp.audit_logs_id_seq": "a:erp.audit_logs.id",
+         "erp.cost_recalc_queue_id_seq": "a:erp.cost_recalc_queue.id"
+        },
+        "hosted_count": 6
+       },
+       "schema_erp": {
+        "hosted": "authenticated:USAGE:false,postgres:CREATE:false,postgres:USAGE:false,service_role:USAGE:false",
+        "aligned": "authenticated:USAGE:false,postgres:CREATE:false,postgres:USAGE:false,service_role:USAGE:false"
+       },
+       "constraints_equal": true,
+       "views_equal": true,
+       "sequences_equal": true,
+       "schema_equal": true,
+       "capsules": [
+        {
+         "view": "erp.v_fg_partial_completion_progress",
+         "status": "ALIGNED",
+         "replay_sha256": "efb2d15345589645f2184c3a749da42acc11bad1d4585988c3e02c5c762464e6",
+         "hosted_sha256": "7897479ca27144e599b6607b60f5b9bed08bdea57171ff6ba8ec81ce46f20037",
+         "hosted_md5_equal": true
+        },
+        {
+         "view": "erp.v_wip_control_status_v1",
+         "status": "ALIGNED",
+         "replay_sha256": "a823510e0e5e5f57dc124001db93ec9636e8120970281473e10fedc54089420a",
+         "hosted_sha256": "2aa2bab69b86be921b022eaca8142a1523124c05bd639b8a641ccf572ac8ded4",
+         "hosted_md5_equal": true
+        }
+       ],
+       "capsules_equal": true,
+       "status": "ALIGNED_PER_OBJECT"
+      }
+     }
+    },
+    {
+     "line": 1256,
+     "json": {
+      "group": "T3_HOSTED_CAPSULES",
+      "equal": true,
+      "capsules": {
+       "bs_resolution_v2619_rollback_capsule": {
+        "hosted": "28ab388833da7da87384766ecaedadc66b4d048c303ee91e16f3939e34afdc39",
+        "clone": "28ab388833da7da87384766ecaedadc66b4d048c303ee91e16f3939e34afdc39",
+        "equal": true
+       },
+       "bs_resolution_v2619a_rollback_capsule": {
+        "hosted": "de8dfaab7b63b8742d383a089cdb05e73b629aad9f4df149e6a3c9fb590ef560",
+        "clone": "de8dfaab7b63b8742d383a089cdb05e73b629aad9f4df149e6a3c9fb590ef560",
+        "equal": true
+       },
+       "bs_resolution_v2619b_rollback_capsule": {
+        "hosted": "d6d4f7457743d51679b5d25bf166ed69ca4b4f098cf5902ff985937531c2505d",
+        "clone": "d6d4f7457743d51679b5d25bf166ed69ca4b4f098cf5902ff985937531c2505d",
+        "equal": true
+       },
+       "bs_resolution_v2619c_rollback_capsule": {
+        "hosted": "0207ba4f2ffba8ed61584709bbd884f1d2ee1a5981194fd7189a45afe8b3cbe1",
+        "clone": "0207ba4f2ffba8ed61584709bbd884f1d2ee1a5981194fd7189a45afe8b3cbe1",
+        "equal": true
+       },
+       "cp3_r4_rollback_capsule": {
+        "hosted": "7c01add62e66a4e2774a7199c2e77a04cca5e5942dbbba54d22cef720f82bc1d",
+        "clone": "7c01add62e66a4e2774a7199c2e77a04cca5e5942dbbba54d22cef720f82bc1d",
+        "equal": true
+       },
+       "cp45_v2617_rollback_capsule": {
+        "hosted": "b9a43ce463de9905e94dd6538fd2a4952b0586a78c145f6f9d88aab7d6da3d80",
+        "clone": "b9a43ce463de9905e94dd6538fd2a4952b0586a78c145f6f9d88aab7d6da3d80",
+        "equal": true
+       },
+       "cp45_v2617a_rollback_capsule": {
+        "hosted": "b065dbcfdf1b59cb799e9f58caf6dd5ca7686e9f70826fce6a1ba8f140610022",
+        "clone": "b065dbcfdf1b59cb799e9f58caf6dd5ca7686e9f70826fce6a1ba8f140610022",
+        "equal": true
+       },
+       "cp4_v2616_rollback_capsule": {
+        "hosted": "dde0a005dbe7cc93709bdfc6b961f4b9a76bf4db06fd7177d21dc79048af4d2f",
+        "clone": "dde0a005dbe7cc93709bdfc6b961f4b9a76bf4db06fd7177d21dc79048af4d2f",
+        "equal": true
+       },
+       "cp6_v2620_rollback_capsule": {
+        "hosted": "b42b94c2380f0768259a3d8f7fb645c76ebd6f92e8bae6a37d802352f7effd4f",
+        "clone": "b42b94c2380f0768259a3d8f7fb645c76ebd6f92e8bae6a37d802352f7effd4f",
+        "equal": true
+       },
+       "cutting_bridge_v2618_rollback_capsule": {
+        "hosted": "535d1abd25668bc5bee79d82a602afe5efe4e8ce313bf1fb5170ae2004e3cb2d",
+        "clone": "535d1abd25668bc5bee79d82a602afe5efe4e8ce313bf1fb5170ae2004e3cb2d",
+        "equal": true
+       },
+       "cutting_bridge_v2618a_rollback_capsule": {
+        "hosted": "db0608e690b3d936fa20b62cc4cfb9b1f9e86718212526eb6131562578b8bf60",
+        "clone": "db0608e690b3d936fa20b62cc4cfb9b1f9e86718212526eb6131562578b8bf60",
+        "equal": true
+       }
+      },
+      "cp6_v2620_rows_differing": []
+     }
+    },
+    {
+     "line": 1257,
+     "json": {
+      "group": "T3_PACKAGE_CAPTURE",
+      "key": "AC",
+      "status": "PASS",
+      "subs": [
+       {
+        "kind": "AC_VIEW",
+        "what": "erp.v_payroll_nota_browser source"
+       },
+       {
+        "kind": "AC_VIEW",
+        "what": "erp.v_payroll_nota_browser restore statement sha256"
+       }
+      ]
+     }
+    },
+    {
+     "line": 1258,
+     "json": {
+      "group": "T3_PACKAGE_CAPTURE",
+      "key": "AD",
+      "status": "PASS",
+      "subs": [
+       {
+        "kind": "LEDGER",
+        "what": "AC"
+       }
+      ]
+     }
+    },
+    {
+     "line": 1259,
+     "json": {
+      "group": "T3_PACKAGE_CAPTURE",
+      "key": "AE",
+      "status": "PASS",
+      "subs": [
+       {
+        "kind": "LEDGER",
+        "what": "AD"
+       }
+      ]
+     }
+    },
+    {
+     "line": 1260,
+     "json": {
+      "group": "T3_PACKAGE_CAPTURE",
+      "key": "AF",
+      "status": "PASS",
+      "subs": [
+       {
+        "kind": "LEDGER",
+        "what": "AE"
+       }
+      ]
+     }
+    },
+    {
+     "line": 1261,
+     "json": {
+      "group": "T3_PACKAGE_CAPTURE",
+      "key": "AG",
+      "status": "PASS",
+      "subs": [
+       {
+        "kind": "LEDGER",
+        "what": "AF"
+       }
+      ]
+     }
+    },
+    {
+     "line": 1262,
+     "json": {
+      "group": "T3_PACKAGE_CAPTURE",
+      "key": "AH",
+      "status": "PASS",
+      "subs": [
+       {
+        "kind": "LEDGER",
+        "what": "AG"
+       }
+      ]
+     }
+    },
+    {
+     "line": 1263,
+     "json": {
+      "group": "T3_PACKAGE_CAPTURE",
+      "key": "AI",
+      "status": "PASS",
+      "subs": [
+       {
+        "kind": "LEDGER",
+        "what": "AH"
+       }
+      ]
+     }
+    },
+    {
+     "line": 1264,
+     "json": {
+      "group": "T3_PACKAGE_CAPTURE",
+      "key": "AJ",
+      "status": "PASS",
+      "subs": [
+       {
+        "kind": "LEDGER",
+        "what": "AI"
+       }
+      ]
+     }
+    },
+    {
+     "line": 1265,
+     "json": {
+      "group": "T3_PACKAGE_CAPTURE",
+      "key": "AK",
+      "status": "PASS",
+      "subs": [
+       {
+        "kind": "LEDGER",
+        "what": "AJ"
+       }
+      ]
+     }
+    },
+    {
+     "line": 1266,
+     "json": {
+      "group": "T3_PACKAGE_CAPTURE",
+      "key": "AL",
+      "status": "PASS",
+      "subs": [
+       {
+        "kind": "LEDGER",
+        "what": "AK"
+       }
+      ]
+     }
+    },
+    {
+     "line": 1267,
+     "json": {
+      "group": "T3_PACKAGE_CAPTURE",
+      "key": "AM",
+      "status": "PASS",
+      "subs": [
+       {
+        "kind": "LEDGER",
+        "what": "AL"
+       }
+      ]
+     }
+    },
+    {
+     "line": 1268,
+     "json": {
+      "group": "T3_PACKAGE_CAPTURE",
+      "key": "AN",
+      "status": "PASS",
+      "subs": [
+       {
+        "kind": "LEDGER",
+        "what": "AM"
+       }
+      ]
+     }
+    },
+    {
+     "line": 1269,
+     "json": {
+      "group": "T3_PACKAGE_CAPTURE",
+      "key": "AO",
+      "status": "PASS",
+      "subs": [
+       {
+        "kind": "LEDGER",
+        "what": "AN"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620_rollback_capsule"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620ac_relation_rollback_capsule"
+       },
+       {
+        "kind": "CATALOG",
+        "what": "AO_PREDECESSOR_CATALOG_DRIFT"
+       },
+       {
+        "kind": "CATALOG",
+        "what": "AO_INSTALLED_CATALOG_DRIFT"
+       }
+      ]
+     }
+    },
+    {
+     "line": 1270,
+     "json": {
+      "group": "T3_PACKAGE_CAPTURE",
+      "key": "AP",
+      "status": "PASS",
+      "subs": [
+       {
+        "kind": "LEDGER",
+        "what": "AO"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620_rollback_capsule"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620ac_relation_rollback_capsule"
+       },
+       {
+        "kind": "CATALOG",
+        "what": "AP_PREDECESSOR_CATALOG_DRIFT"
+       },
+       {
+        "kind": "CATALOG",
+        "what": "AP_INSTALLED_CATALOG_DRIFT"
+       }
+      ]
+     }
+    },
+    {
+     "line": 1271,
+     "json": {
+      "group": "T3_PACKAGE_CAPTURE",
+      "key": "AQ",
+      "status": "PASS",
+      "subs": [
+       {
+        "kind": "LEDGER",
+        "what": "AO"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AP"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620_rollback_capsule"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620ac_relation_rollback_capsule"
+       },
+       {
+        "kind": "CATALOG",
+        "what": "AQ_PREDECESSOR_CATALOG_DRIFT"
+       },
+       {
+        "kind": "CATALOG",
+        "what": "AQ_INSTALLED_CATALOG_DRIFT"
+       }
+      ]
+     }
+    },
+    {
+     "line": 1272,
+     "json": {
+      "group": "T3_PACKAGE_CAPTURE",
+      "key": "AR",
+      "status": "PASS",
+      "subs": [
+       {
+        "kind": "LEDGER",
+        "what": "AO"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AP"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AQ"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620_rollback_capsule"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620ac_relation_rollback_capsule"
+       },
+       {
+        "kind": "CATALOG",
+        "what": "AR_PREDECESSOR_CATALOG_DRIFT"
+       },
+       {
+        "kind": "CATALOG",
+        "what": "AR_INSTALLED_CATALOG_DRIFT"
+       }
+      ]
+     }
+    },
+    {
+     "line": 1273,
+     "json": {
+      "group": "T3_PACKAGE_CAPTURE",
+      "key": "AS",
+      "status": "PASS",
+      "subs": [
+       {
+        "kind": "LEDGER",
+        "what": "AO"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AP"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AQ"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AR"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620_rollback_capsule"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620ac_relation_rollback_capsule"
+       },
+       {
+        "kind": "CATALOG",
+        "what": "AS_PREDECESSOR_CATALOG_DRIFT"
+       },
+       {
+        "kind": "CATALOG",
+        "what": "AS_INSTALLED_CATALOG_DRIFT"
+       }
+      ]
+     }
+    },
+    {
+     "line": 1274,
+     "json": {
+      "group": "T3_PACKAGE_CAPTURE",
+      "key": "AT",
+      "status": "PASS",
+      "subs": [
+       {
+        "kind": "LEDGER",
+        "what": "AO"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AP"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AQ"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AR"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AS"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620_rollback_capsule"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620ac_relation_rollback_capsule"
+       },
+       {
+        "kind": "CATALOG",
+        "what": "AT_PREDECESSOR_CATALOG_DRIFT"
+       },
+       {
+        "kind": "CATALOG",
+        "what": "AT_INSTALLED_CATALOG_DRIFT"
+       }
+      ]
+     }
+    },
+    {
+     "line": 1275,
+     "json": {
+      "group": "T3_PACKAGE_CAPTURE",
+      "key": "AU",
+      "status": "PASS",
+      "subs": [
+       {
+        "kind": "LEDGER",
+        "what": "AO"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AP"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AQ"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AR"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AS"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AT"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620_rollback_capsule"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620ac_relation_rollback_capsule"
+       },
+       {
+        "kind": "CATALOG",
+        "what": "AU_PREDECESSOR_CATALOG_DRIFT"
+       },
+       {
+        "kind": "CATALOG",
+        "what": "AU_INSTALLED_CATALOG_DRIFT"
+       }
+      ]
+     }
+    },
+    {
+     "line": 1276,
+     "json": {
+      "group": "T3_PACKAGE_CAPTURE",
+      "key": "AV",
+      "status": "PASS",
+      "subs": [
+       {
+        "kind": "LEDGER",
+        "what": "AO"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AP"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AQ"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AR"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AS"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AT"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AU"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620_rollback_capsule"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620ac_relation_rollback_capsule"
+       },
+       {
+        "kind": "CATALOG",
+        "what": "AV_PREDECESSOR_CATALOG_DRIFT"
+       },
+       {
+        "kind": "CATALOG",
+        "what": "AV_INSTALLED_CATALOG_DRIFT"
+       }
+      ]
+     }
+    },
+    {
+     "line": 1277,
+     "json": {
+      "group": "T3_PACKAGE_CAPTURE",
+      "key": "AW",
+      "status": "PASS",
+      "subs": [
+       {
+        "kind": "LEDGER",
+        "what": "AC"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AD"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AE"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AF"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AG"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AH"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AI"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AJ"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AK"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AL"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AM"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AN"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AO"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AP"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AQ"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AR"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AS"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AT"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AU"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AV"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620_rollback_capsule"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620ac_relation_rollback_capsule"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620ao_rollback_capsule"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620ap_rollback_capsule"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620aq_rollback_capsule"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620ar_rollback_capsule"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620as_rollback_capsule"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620at_rollback_capsule"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620au_rollback_capsule"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620av_rollback_capsule"
+       },
+       {
+        "kind": "CATALOG",
+        "what": "AW_PREDECESSOR_CATALOG_DRIFT"
+       },
+       {
+        "kind": "CATALOG",
+        "what": "AW_INSTALLED_CATALOG_DRIFT"
+       }
+      ]
+     }
+    },
+    {
+     "line": 1278,
+     "json": {
+      "group": "T3_PACKAGE_CAPTURE",
+      "key": "AX",
+      "status": "PASS",
+      "subs": [
+       {
+        "kind": "LEDGER",
+        "what": "AC"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AD"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AE"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AF"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AG"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AH"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AI"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AJ"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AK"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AL"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AM"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AN"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AO"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AP"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AQ"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AR"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AS"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AT"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AU"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AV"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AW"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620_rollback_capsule"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620ac_relation_rollback_capsule"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620ao_rollback_capsule"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620ap_rollback_capsule"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620aq_rollback_capsule"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620ar_rollback_capsule"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620as_rollback_capsule"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620at_rollback_capsule"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620au_rollback_capsule"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620av_rollback_capsule"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620aw_rollback_capsule"
+       },
+       {
+        "kind": "CATALOG",
+        "what": "AX_PREDECESSOR_CATALOG_DRIFT"
+       },
+       {
+        "kind": "CATALOG",
+        "what": "AX_INSTALLED_CATALOG_DRIFT"
+       }
+      ]
+     }
+    },
+    {
+     "line": 1279,
+     "json": {
+      "group": "T3_PACKAGE_CAPTURE",
+      "key": "AY",
+      "status": "PASS",
+      "subs": [
+       {
+        "kind": "LEDGER",
+        "what": "AC"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AD"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AE"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AF"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AG"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AH"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AI"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AJ"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AK"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AL"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AM"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AN"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AO"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AP"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AQ"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AR"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AS"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AT"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AU"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AV"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AW"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AX"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620_rollback_capsule"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620ac_relation_rollback_capsule"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620ao_rollback_capsule"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620ap_rollback_capsule"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620aq_rollback_capsule"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620ar_rollback_capsule"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620as_rollback_capsule"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620at_rollback_capsule"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620au_rollback_capsule"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620av_rollback_capsule"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620aw_rollback_capsule"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620ax_rollback_capsule"
+       },
+       {
+        "kind": "CATALOG",
+        "what": "AY_PREDECESSOR_CATALOG_DRIFT"
+       },
+       {
+        "kind": "CATALOG",
+        "what": "AY_INSTALLED_CATALOG_DRIFT"
+       }
+      ]
+     }
+    },
+    {
+     "line": 1280,
+     "json": {
+      "group": "T3_PACKAGE_CAPTURE",
+      "key": "AZ",
+      "status": "PASS",
+      "subs": [
+       {
+        "kind": "LEDGER",
+        "what": "AC"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AD"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AE"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AF"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AG"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AH"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AI"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AJ"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AK"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AL"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AM"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AN"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AO"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AP"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AQ"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AR"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AS"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AT"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AU"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AV"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AW"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AX"
+       },
+       {
+        "kind": "LEDGER",
+        "what": "AY"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620_rollback_capsule"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620ac_relation_rollback_capsule"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620ao_rollback_capsule"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620ap_rollback_capsule"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620aq_rollback_capsule"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620ar_rollback_capsule"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620as_rollback_capsule"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620at_rollback_capsule"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620au_rollback_capsule"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620av_rollback_capsule"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620aw_rollback_capsule"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620ax_rollback_capsule"
+       },
+       {
+        "kind": "CAPSULE",
+        "what": "cp6_v2620ay_rollback_capsule"
+       },
+       {
+        "kind": "CATALOG",
+        "what": "AZ_PREDECESSOR_CATALOG_DRIFT"
+       },
+       {
+        "kind": "CATALOG",
+        "what": "AZ_INSTALLED_CATALOG_DRIFT"
+       }
+      ]
+     }
+    },
+    {
+     "line": 1293,
+     "json": {
+      "group": "T3_PACKAGE_RUN",
+      "stage": "PACKAGE",
+      "status": "PASS",
+      "result": "CAPTURED_AND_INSTALLED"
+     }
+    },
+    {
+     "line": 1294,
+     "json": {
+      "group": "T3_PACKAGE_RUN",
+      "stage": "AW_AX_AY_AZ_VERIFY",
+      "status": "PASS",
+      "result": {
+       "stage": "AV_PLUS_AW_AX_AY_AZ_T1",
+       "functions": 13,
+       "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+       "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+       "ay_sql_sha256": "29b8977613012431b9efa927c7cee10654aef8a016368a0430e7c3789070af43",
+       "az_sql_sha256": "9007eefc5b8e8d3ae47dbdc496aca61fb281152385b27c9791284b68fc8125c9"
+      }
+     }
+    },
+    {
+     "line": 1295,
+     "json": {
+      "group": "T3_PINS_REPRODUCED",
+      "equal": true,
+      "differ": []
+     }
+    },
+    {
+     "line": 1296,
+     "json": {
+      "group": "T3_SECURITY_ADVISORS",
+      "status": "REVIEW_REQUIRED",
+      "before": 73,
+      "after": 127,
+      "added": [
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "accounting_close_filings_v1",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "bs_case_manual_origins_v1",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620ac_relation_rollback_capsule",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620ac_rollback_capsule",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620ad_rollback_capsule",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620ae_rollback_capsule",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620af_rollback_capsule",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620ag_rollback_capsule",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620ah_rollback_capsule",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620ai_rollback_capsule",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620aj_rollback_capsule",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620ak_rollback_capsule",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620al_rollback_capsule",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620am_rollback_capsule",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620an_rollback_capsule",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620ao_rollback_capsule",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620ap_rollback_capsule",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620aq_rollback_capsule",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620ar_rollback_capsule",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620as_rollback_capsule",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620at_rollback_capsule",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620au_rollback_capsule",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620av_rollback_capsule",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620aw_rollback_capsule",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620ax_rollback_capsule",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620ay_rollback_capsule",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "cp6_v2620az_rollback_capsule",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "fg_unsourced_receipts_v1",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "fg_unsourced_repair_wages_v1",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "initial_import_bs_value_events",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "initial_import_cost_origins",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "initial_import_financial_sources",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "initial_import_opening_stock_sources",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "initial_import_origin_cost_events",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "initial_import_prepayment_events",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "initial_import_prepayment_payments",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "initial_import_prepayments",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "initial_import_production_sources",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "initial_import_receipt_headers",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "initial_import_receipt_lines",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "initial_import_wip_output_reversals",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "initial_import_wip_outputs",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "invoice_recost_execution_context",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "laundry_rate_owner_estimates_v1",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "po_hpp_gl_lot_state_v1",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "po_hpp_gl_material_state_v1",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "pocket_fabric_execution_context",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "pocket_fabric_materials",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "pocket_fabric_usage",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "pocket_period_destinations",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "pocket_period_events",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "pocket_period_sources",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "pocket_periods",
+        "table"
+       ],
+       [
+        "rls_enabled_no_policy",
+        "INFO",
+        "erp",
+        "product_identity_mutation_context_v1",
+        "table"
+       ]
+      ],
+      "removed": []
+     }
+    },
+    {
+     "line": 1297,
+     "json": {
+      "t3_backup_restore_drill": {
+       "status": "RESTORED_SAME_MEANING",
+       "checks": {
+        "restore_errors_only_pg_cron": true,
+        "catalog_explained": true,
+        "data_identical": true,
+        "engine_answer_present": true,
+        "engine_equal": true
+       },
+       "dump": {
+        "exit": 0,
+        "stderr": "",
+        "seconds": 0.7,
+        "bytes": 6360732
+       },
+       "restore": {
+        "exit": 1,
+        "seconds": 3.0,
+        "error_count": 19,
+        "ignored_reported": 19,
+        "unexplained": [],
+        "errors": [
+         "pg_restore: error: could not execute query: ERROR:  can only create extension in database postgres",
+         "pg_restore: error: could not execute query: ERROR:  extension \"pg_cron\" does not exist",
+         "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+         "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+         "pg_restore: error: could not execute query: ERROR:  relation \"cron.jobid_seq\" does not exist",
+         "pg_restore: error: could not execute query: ERROR:  relation \"cron.runid_seq\" does not exist",
+         "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+         "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+         "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+         "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+         "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+         "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+         "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+         "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+         "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+         "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+         "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+         "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+         "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist"
+        ]
+       },
+       "catalog": {
+        "match": [
+         "app_ledger",
+         "config_hash",
+         "default_acl",
+         "function",
+         "function_owner_acl",
+         "platform_ledger",
+         "policy",
+         "relation",
+         "relation_owner_acl",
+         "schema",
+         "sequence",
+         "trigger"
+        ],
+        "differ": {
+         "constraint": {
+          "source": {
+           "n": 1550,
+           "md5": "f53a774867ae319283c1fc6211840083"
+          },
+          "restored": {
+           "n": 1550,
+           "md5": "19f41a2cb641ed73f888c827f40a795d"
+          }
+         },
+         "extension": {
+          "source": {
+           "n": 6,
+           "md5": "15a959c38d716ad2af3fe1f1dc4419ef"
+          },
+          "restored": {
+           "n": 5,
+           "md5": "2193000efffb6e05911a1c3af1f57381"
+          }
+         },
+         "index": {
+          "source": {
+           "n": 734,
+           "md5": "861d40e797f8c6fe9273143b668c264d"
+          },
+          "restored": {
+           "n": 734,
+           "md5": "2139062f86c792a238423ce92c35e4d6"
+          }
+         },
+         "view": {
+          "source": {
+           "n": 51,
+           "md5": "c08bd89cf82d60763558b988fea065b3"
+          },
+          "restored": {
+           "n": 51,
+           "md5": "1fdac63ca8f241d961df89bbc0cbcbaf"
+          }
+         }
+        },
+        "objects": {
+         "constraint": {
+          "differing": 29,
+          "by_class": {
+           "VARCHAR_IN_LIST_REPARSE": 29
+          },
+          "detail": null,
+          "unclassified": []
+         },
+         "extension": {
+          "differing": 1,
+          "by_class": {
+           "PG_CRON_ONLY_IN_DATABASE_POSTGRES": 1
+          },
+          "detail": null,
+          "unclassified": []
+         },
+         "index": {
+          "differing": 1,
+          "by_class": {
+           "VARCHAR_IN_LIST_REPARSE": 1
+          },
+          "detail": null,
+          "unclassified": []
+         },
+         "view": {
+          "differing": 6,
+          "by_class": {
+           "VARCHAR_IN_LIST_REPARSE": 6
+          },
+          "detail": null,
+          "unclassified": []
+         }
+        }
+       },
+       "data": {
+        "tables": 318,
+        "rows": 1647,
+        "schemas": [
+         "_realtime",
+         "auth",
+         "erp",
+         "realtime",
+         "storage",
+         "supabase_functions",
+         "supabase_migrations",
+         "vault"
+        ],
+        "differ": {}
+       },
+       "engine": {
+        "day": "2026-09-23",
+        "equal": true,
+        "source_status": "READY",
+        "restored_status": "READY"
+       },
+       "source_cron_jobs": 0,
+       "error": null
+      }
+     }
+    },
+    {
+     "line": 1298,
+     "json": {
+      "t3_package_run": {
+       "label": "T3_PREP",
+       "mode": "capture",
+       "status": "ALL_STAGES_INSTALLED",
+       "production_go": false,
+       "release_evidence": false,
+       "auth_users_before": 0,
+       "ledger_start": {
+        "app": [
+         "v2.6.20aa",
+         "v2.6.20ab"
+        ],
+        "platform_last": "20260914190500"
+       },
+       "fingerprint_AB": {
+        "view": {
+         "n": 51,
+         "md5": "68b2fbf688881496413307954006bdbe"
+        },
+        "index": {
+         "n": 605,
+         "md5": "65816b59b4bd7675995b7b9bc98fa4c5"
+        },
+        "policy": {
+         "n": 190,
+         "md5": "48bb358e009dc8d19417bbb3982f6d3f"
+        },
+        "schema": {
+         "n": 2,
+         "md5": "6ee1ffa742c0945434188ce249e139ca"
+        },
+        "trigger": {
+         "n": 448,
+         "md5": "971341de44cfecc9a587fc140c6cf30a"
+        },
+        "function": {
+         "n": 574,
+         "md5": "5e235119482f9767a74ba3fe7fbd2619"
+        },
+        "relation": {
+         "n": 272,
+         "md5": "5a8c31607ad25d70808ba9f7699bf690"
+        },
+        "sequence": {
+         "n": 6,
+         "md5": "dacd751dd3a5f2f7efbc203171be4ead"
+        },
+        "extension": {
+         "n": 6,
+         "md5": "15a959c38d716ad2af3fe1f1dc4419ef"
+        },
+        "app_ledger": {
+         "n": 83,
+         "md5": "7ad6fed4ecef5f62d3be04fffdbc9e69"
+        },
+        "constraint": {
+         "n": 1308,
+         "md5": "1a354c9c9ddc0b40782e80339e1dbacd"
+        },
+        "config_hash": {
+         "n": 6,
+         "md5": "2193b4becca1d4d89e40b444b0a8af29"
+        },
+        "default_acl": {
+         "n": 6,
+         "md5": "c9c232814a7b3ee3eaadb50e8b7dc7fd"
+        },
+        "platform_ledger": {
+         "n": 98,
+         "md5": "39e21c0d5d36ef100d312dd736898487"
+        },
+        "function_owner_acl": {
+         "n": 574,
+         "md5": "12a9878282b3db31bec2d8e34eb57c59"
+        },
+        "relation_owner_acl": {
+         "n": 272,
+         "md5": "bf0e6b7cd7ea3e25b7b94918cd3cc844"
+        }
+       },
+       "hosted_capsules": {
+        "equal": true,
+        "capsules": {
+         "bs_resolution_v2619_rollback_capsule": {
+          "hosted": "28ab388833da7da87384766ecaedadc66b4d048c303ee91e16f3939e34afdc39",
+          "clone": "28ab388833da7da87384766ecaedadc66b4d048c303ee91e16f3939e34afdc39",
+          "equal": true
+         },
+         "bs_resolution_v2619a_rollback_capsule": {
+          "hosted": "de8dfaab7b63b8742d383a089cdb05e73b629aad9f4df149e6a3c9fb590ef560",
+          "clone": "de8dfaab7b63b8742d383a089cdb05e73b629aad9f4df149e6a3c9fb590ef560",
+          "equal": true
+         },
+         "bs_resolution_v2619b_rollback_capsule": {
+          "hosted": "d6d4f7457743d51679b5d25bf166ed69ca4b4f098cf5902ff985937531c2505d",
+          "clone": "d6d4f7457743d51679b5d25bf166ed69ca4b4f098cf5902ff985937531c2505d",
+          "equal": true
+         },
+         "bs_resolution_v2619c_rollback_capsule": {
+          "hosted": "0207ba4f2ffba8ed61584709bbd884f1d2ee1a5981194fd7189a45afe8b3cbe1",
+          "clone": "0207ba4f2ffba8ed61584709bbd884f1d2ee1a5981194fd7189a45afe8b3cbe1",
+          "equal": true
+         },
+         "cp3_r4_rollback_capsule": {
+          "hosted": "7c01add62e66a4e2774a7199c2e77a04cca5e5942dbbba54d22cef720f82bc1d",
+          "clone": "7c01add62e66a4e2774a7199c2e77a04cca5e5942dbbba54d22cef720f82bc1d",
+          "equal": true
+         },
+         "cp45_v2617_rollback_capsule": {
+          "hosted": "b9a43ce463de9905e94dd6538fd2a4952b0586a78c145f6f9d88aab7d6da3d80",
+          "clone": "b9a43ce463de9905e94dd6538fd2a4952b0586a78c145f6f9d88aab7d6da3d80",
+          "equal": true
+         },
+         "cp45_v2617a_rollback_capsule": {
+          "hosted": "b065dbcfdf1b59cb799e9f58caf6dd5ca7686e9f70826fce6a1ba8f140610022",
+          "clone": "b065dbcfdf1b59cb799e9f58caf6dd5ca7686e9f70826fce6a1ba8f140610022",
+          "equal": true
+         },
+         "cp4_v2616_rollback_capsule": {
+          "hosted": "dde0a005dbe7cc93709bdfc6b961f4b9a76bf4db06fd7177d21dc79048af4d2f",
+          "clone": "dde0a005dbe7cc93709bdfc6b961f4b9a76bf4db06fd7177d21dc79048af4d2f",
+          "equal": true
+         },
+         "cp6_v2620_rollback_capsule": {
+          "hosted": "b42b94c2380f0768259a3d8f7fb645c76ebd6f92e8bae6a37d802352f7effd4f",
+          "clone": "b42b94c2380f0768259a3d8f7fb645c76ebd6f92e8bae6a37d802352f7effd4f",
+          "equal": true
+         },
+         "cutting_bridge_v2618_rollback_capsule": {
+          "hosted": "535d1abd25668bc5bee79d82a602afe5efe4e8ce313bf1fb5170ae2004e3cb2d",
+          "clone": "535d1abd25668bc5bee79d82a602afe5efe4e8ce313bf1fb5170ae2004e3cb2d",
+          "equal": true
+         },
+         "cutting_bridge_v2618a_rollback_capsule": {
+          "hosted": "db0608e690b3d936fa20b62cc4cfb9b1f9e86718212526eb6131562578b8bf60",
+          "clone": "db0608e690b3d936fa20b62cc4cfb9b1f9e86718212526eb6131562578b8bf60",
+          "equal": true
+         }
+        },
+        "cp6_v2620_rows_differing": []
+       },
+       "pins_reproduced": {
+        "equal": true,
+        "differ": []
+       },
+       "ledger_final": {
+        "app": [
+         "v2.6.20aa",
+         "v2.6.20ab",
+         "v2.6.20ac",
+         "v2.6.20ad",
+         "v2.6.20ae",
+         "v2.6.20af",
+         "v2.6.20ag",
+         "v2.6.20ah",
+         "v2.6.20ai",
+         "v2.6.20aj",
+         "v2.6.20ak",
+         "v2.6.20al",
+         "v2.6.20am",
+         "v2.6.20an",
+         "v2.6.20ao",
+         "v2.6.20ap",
+         "v2.6.20aq",
+         "v2.6.20ar",
+         "v2.6.20as",
+         "v2.6.20at",
+         "v2.6.20au",
+         "v2.6.20av",
+         "v2.6.20aw",
+         "v2.6.20ax",
+         "v2.6.20ay",
+         "v2.6.20az"
+        ],
+        "platform_last": "20260924010300"
+       },
+       "fingerprint_final": {
+        "view": {
+         "n": 51,
+         "md5": "c08bd89cf82d60763558b988fea065b3"
+        },
+        "index": {
+         "n": 734,
+         "md5": "861d40e797f8c6fe9273143b668c264d"
+        },
+        "policy": {
+         "n": 190,
+         "md5": "48bb358e009dc8d19417bbb3982f6d3f"
+        },
+        "schema": {
+         "n": 2,
+         "md5": "6ee1ffa742c0945434188ce249e139ca"
+        },
+        "trigger": {
+         "n": 487,
+         "md5": "1295b62fe55e08382e060f0b1cbdf9ce"
+        },
+        "function": {
+         "n": 673,
+         "md5": "8ead289885b4c6d64926e054559f760f"
+        },
+        "relation": {
+         "n": 326,
+         "md5": "dae94cb450a2b3e357e73867ea589e9f"
+        },
+        "sequence": {
+         "n": 6,
+         "md5": "dacd751dd3a5f2f7efbc203171be4ead"
+        },
+        "extension": {
+         "n": 6,
+         "md5": "15a959c38d716ad2af3fe1f1dc4419ef"
+        },
+        "app_ledger": {
+         "n": 107,
+         "md5": "e30d1e0a012e1d7eee4ba43e8af52ffb"
+        },
+        "constraint": {
+         "n": 1550,
+         "md5": "f53a774867ae319283c1fc6211840083"
+        },
+        "config_hash": {
+         "n": 6,
+         "md5": "2193b4becca1d4d89e40b444b0a8af29"
+        },
+        "default_acl": {
+         "n": 6,
+         "md5": "c9c232814a7b3ee3eaadb50e8b7dc7fd"
+        },
+        "platform_ledger": {
+         "n": 122,
+         "md5": "21dde1384e3ef12025b331893e2d5199"
+        },
+        "function_owner_acl": {
+         "n": 673,
+         "md5": "8df01a31c892b422ff2e787b3db675aa"
+        },
+        "relation_owner_acl": {
+         "n": 326,
+         "md5": "94ae6fdaab1b888b9ee15bf7ecd1e1b4"
+        }
+       },
+       "backup_restore_drill": "RESTORED_SAME_MEANING",
+       "primary_unchanged": true,
+       "auth_users_after": 0
+      }
+     }
+    }
+   ]
+  },
+  "browser": {
+   "job": 107672601701,
+   "name": "Hosted-faithful baseline to AB, committed 24-file package, AU browser flow with the candidate UI (T3_PREP)",
+   "conclusion": "success",
+   "log_lines": 1713,
+   "json_line_count": 32,
+   "json_lines": [
+    {
+     "line": 1093,
+     "json": {
+      "status": "ALIGNED_PER_OBJECT",
+      "constraints_equal": true,
+      "views_equal": true,
+      "sequences_equal": true,
+      "schema_equal": true,
+      "capsules_equal": true,
+      "capsules": [
+       {
+        "view": "erp.v_fg_partial_completion_progress",
+        "status": "ALIGNED",
+        "replay_sha256": "efb2d15345589645f2184c3a749da42acc11bad1d4585988c3e02c5c762464e6",
+        "hosted_sha256": "7897479ca27144e599b6607b60f5b9bed08bdea57171ff6ba8ec81ce46f20037",
+        "hosted_md5_equal": true
+       },
+       {
+        "view": "erp.v_wip_control_status_v1",
+        "status": "ALIGNED",
+        "replay_sha256": "a823510e0e5e5f57dc124001db93ec9636e8120970281473e10fedc54089420a",
+        "hosted_sha256": "2aa2bab69b86be921b022eaca8142a1523124c05bd639b8a641ccf572ac8ded4",
+        "hosted_md5_equal": true
+       }
+      ]
+     }
+    },
+    {
+     "line": 1095,
+     "json": {
+      "group": "T3_HOSTED_FINGERPRINT",
+      "equal": true,
+      "kinds": 16,
+      "differ": {},
+      "explained": {
+       "platform_ledger": "fixture ledger keeps empty statements and repository stamps (G-01 round 1, ledger_content_order.json)"
+      }
+     }
+    },
+    {
+     "line": 1124,
+     "json": {
+      "status": "PASS_ALIGNED_CHAIN_TO_AB",
+      "refused_step": null,
+      "alignment": {
+       "label": "G01_ALIGNMENT",
+       "sql_sha256": "4e59a131ecec997fbb7b8bbcb9a9fd02c4913be59172d0182ee8e9736863deb2",
+       "constraints": {
+        "attendance_hpp_journal_line_links.attendance_hpp_journal_line_links_link_type_check": {
+         "hosted": "72f8ce2c1e",
+         "aligned": "72f8ce2c1e"
+        },
+        "attendance_hpp_pools.attendance_hpp_pools_status_check": {
+         "hosted": "e05afeb3b8",
+         "aligned": "e05afeb3b8"
+        },
+        "attendance_periods.attendance_periods_status_check": {
+         "hosted": "e69cd6fdeb",
+         "aligned": "e69cd6fdeb"
+        },
+        "attendance_records.attendance_records_lifecycle_check": {
+         "hosted": "452991f694",
+         "aligned": "452991f694"
+        },
+        "fg_stock_movements.fg_stock_movements_movement_type_check": {
+         "hosted": "9fbfff8cd0",
+         "aligned": "9fbfff8cd0"
+        },
+        "idempotency_requests.idempotency_requests_status_check": {
+         "hosted": "0d9b2286cf",
+         "aligned": "0d9b2286cf"
+        },
+        "manual_reminders.manual_reminders_priority_check": {
+         "hosted": "a6e0cfdb2b",
+         "aligned": "a6e0cfdb2b"
+        },
+        "manual_reminders.manual_reminders_status_check": {
+         "hosted": "78723b79b2",
+         "aligned": "78723b79b2"
+        },
+        "material_purchase_cost_corrections.material_purchase_cost_corrections_post_seq_state": {
+         "hosted": "caefcf97c1",
+         "aligned": "caefcf97c1"
+        },
+        "material_purchase_items.material_purchase_items_invoice_match_state_check": {
+         "hosted": "c7c0506ea2",
+         "aligned": "c7c0506ea2"
+        },
+        "material_purchase_items.material_purchase_items_price_source_check": {
+         "hosted": "ac30b11606",
+         "aligned": "ac30b11606"
+        },
+        "material_purchase_items.material_purchase_items_price_state_check": {
+         "hosted": "dfa5f56214",
+         "aligned": "dfa5f56214"
+        },
+        "material_stock_movements.material_stock_movements_movement_type_check": {
+         "hosted": "a218ef6894",
+         "aligned": "a218ef6894"
+        },
+        "material_supplier_invoices.material_supplier_invoices_status_check": {
+         "hosted": "12080adf85",
+         "aligned": "12080adf85"
+        },
+        "material_transfers.material_transfers_status_check": {
+         "hosted": "12080adf85",
+         "aligned": "12080adf85"
+        },
+        "qc_inspections.qc_inspections_completion_mode_check": {
+         "hosted": "b1a922fa1a",
+         "aligned": "b1a922fa1a"
+        },
+        "rework_component_lines.rework_component_lines_rate_basis_check": {
+         "hosted": "8ec02e222b",
+         "aligned": "8ec02e222b"
+        },
+        "sewing_terminal_events.sewing_terminal_events_event_kind_check": {
+         "hosted": "bbd293f60d",
+         "aligned": "bbd293f60d"
+        },
+        "stock_explainability_snapshots.stock_explainability_snapshots_basis_source_check": {
+         "hosted": "d94c5cd613",
+         "aligned": "d94c5cd613"
+        },
+        "stock_explainability_snapshots.stock_explainability_snapshots_health_status_check": {
+         "hosted": "2ec01ea1f0",
+         "aligned": "2ec01ea1f0"
+        },
+        "stock_explainability_snapshots.stock_explainability_snapshots_subject_type_check": {
+         "hosted": "360d893e1b",
+         "aligned": "360d893e1b"
+        },
+        "stock_policy_versions.stock_policy_versions_basis_source_check": {
+         "hosted": "d94c5cd613",
+         "aligned": "d94c5cd613"
+        },
+        "stock_policy_versions.stock_policy_versions_subject_type_check": {
+         "hosted": "360d893e1b",
+         "aligned": "360d893e1b"
+        }
+       },
+       "views": {
+        "erp.v_case_browser": {
+         "hosted": "7056975536aee94c6d8d1783904206a7",
+         "aligned": "7056975536aee94c6d8d1783904206a7"
+        },
+        "erp.v_customer_receivables": {
+         "hosted": "dd5b423149289667606424e199601660",
+         "aligned": "dd5b423149289667606424e199601660"
+        },
+        "erp.v_laundry_po_operational_progress": {
+         "hosted": "e4b0fe144c51d3f7413a94b631d80c30",
+         "aligned": "e4b0fe144c51d3f7413a94b631d80c30"
+        },
+        "erp.v_payroll_nota_browser": {
+         "hosted": "947eb0f63e95b62bda77e77c87134b1d",
+         "aligned": "947eb0f63e95b62bda77e77c87134b1d"
+        },
+        "erp.v_payroll_production_work_eligibility": {
+         "hosted": "004d37be4306832a21a275bd5b7d2b0f",
+         "aligned": "004d37be4306832a21a275bd5b7d2b0f"
+        }
+       },
+       "sequences": {
+        "aligned": {
+         "erp.app_access_audit_id_seq": "i:erp.app_access_audit.id",
+         "erp.audit_logs_id_seq": "a:erp.audit_logs.id",
+         "erp.cost_recalc_queue_id_seq": "a:erp.cost_recalc_queue.id",
+         "erp.cutting_qty_correction_seq": null,
+         "erp.fg_stock_book_order_seq": null,
+         "erp.production_pattern_audit_id_seq": "i:erp.production_pattern_audit.id"
+        },
+        "hosted_owned": {
+         "erp.app_access_audit_id_seq": "i:erp.app_access_audit.id",
+         "erp.production_pattern_audit_id_seq": "i:erp.production_pattern_audit.id",
+         "erp.audit_logs_id_seq": "a:erp.audit_logs.id",
+         "erp.cost_recalc_queue_id_seq": "a:erp.cost_recalc_queue.id"
+        },
+        "hosted_count": 6
+       },
+       "schema_erp": {
+        "hosted": "authenticated:USAGE:false,postgres:CREATE:false,postgres:USAGE:false,service_role:USAGE:false",
+        "aligned": "authenticated:USAGE:false,postgres:CREATE:false,postgres:USAGE:false,service_role:USAGE:false"
+       },
+       "constraints_equal": true,
+       "views_equal": true,
+       "sequences_equal": true,
+       "schema_equal": true,
+       "capsules": [
+        {
+         "view": "erp.v_fg_partial_completion_progress",
+         "status": "ALIGNED",
+         "replay_sha256": "efb2d15345589645f2184c3a749da42acc11bad1d4585988c3e02c5c762464e6",
+         "hosted_sha256": "7897479ca27144e599b6607b60f5b9bed08bdea57171ff6ba8ec81ce46f20037",
+         "hosted_md5_equal": true
+        },
+        {
+         "view": "erp.v_wip_control_status_v1",
+         "status": "ALIGNED",
+         "replay_sha256": "a823510e0e5e5f57dc124001db93ec9636e8120970281473e10fedc54089420a",
+         "hosted_sha256": "2aa2bab69b86be921b022eaca8142a1523124c05bd639b8a641ccf572ac8ded4",
+         "hosted_md5_equal": true
+        }
+       ],
+       "capsules_equal": true,
+       "status": "ALIGNED_PER_OBJECT"
+      }
+     }
+    },
+    {
+     "line": 1526,
+     "json": {
+      "group": "T3_HOSTED_CAPSULES",
+      "equal": true,
+      "capsules": {
+       "bs_resolution_v2619_rollback_capsule": {
+        "hosted": "28ab388833da7da87384766ecaedadc66b4d048c303ee91e16f3939e34afdc39",
+        "clone": "28ab388833da7da87384766ecaedadc66b4d048c303ee91e16f3939e34afdc39",
+        "equal": true
+       },
+       "bs_resolution_v2619a_rollback_capsule": {
+        "hosted": "de8dfaab7b63b8742d383a089cdb05e73b629aad9f4df149e6a3c9fb590ef560",
+        "clone": "de8dfaab7b63b8742d383a089cdb05e73b629aad9f4df149e6a3c9fb590ef560",
+        "equal": true
+       },
+       "bs_resolution_v2619b_rollback_capsule": {
+        "hosted": "d6d4f7457743d51679b5d25bf166ed69ca4b4f098cf5902ff985937531c2505d",
+        "clone": "d6d4f7457743d51679b5d25bf166ed69ca4b4f098cf5902ff985937531c2505d",
+        "equal": true
+       },
+       "bs_resolution_v2619c_rollback_capsule": {
+        "hosted": "0207ba4f2ffba8ed61584709bbd884f1d2ee1a5981194fd7189a45afe8b3cbe1",
+        "clone": "0207ba4f2ffba8ed61584709bbd884f1d2ee1a5981194fd7189a45afe8b3cbe1",
+        "equal": true
+       },
+       "cp3_r4_rollback_capsule": {
+        "hosted": "7c01add62e66a4e2774a7199c2e77a04cca5e5942dbbba54d22cef720f82bc1d",
+        "clone": "7c01add62e66a4e2774a7199c2e77a04cca5e5942dbbba54d22cef720f82bc1d",
+        "equal": true
+       },
+       "cp45_v2617_rollback_capsule": {
+        "hosted": "b9a43ce463de9905e94dd6538fd2a4952b0586a78c145f6f9d88aab7d6da3d80",
+        "clone": "b9a43ce463de9905e94dd6538fd2a4952b0586a78c145f6f9d88aab7d6da3d80",
+        "equal": true
+       },
+       "cp45_v2617a_rollback_capsule": {
+        "hosted": "b065dbcfdf1b59cb799e9f58caf6dd5ca7686e9f70826fce6a1ba8f140610022",
+        "clone": "b065dbcfdf1b59cb799e9f58caf6dd5ca7686e9f70826fce6a1ba8f140610022",
+        "equal": true
+       },
+       "cp4_v2616_rollback_capsule": {
+        "hosted": "dde0a005dbe7cc93709bdfc6b961f4b9a76bf4db06fd7177d21dc79048af4d2f",
+        "clone": "dde0a005dbe7cc93709bdfc6b961f4b9a76bf4db06fd7177d21dc79048af4d2f",
+        "equal": true
+       },
+       "cp6_v2620_rollback_capsule": {
+        "hosted": "b42b94c2380f0768259a3d8f7fb645c76ebd6f92e8bae6a37d802352f7effd4f",
+        "clone": "b42b94c2380f0768259a3d8f7fb645c76ebd6f92e8bae6a37d802352f7effd4f",
+        "equal": true
+       },
+       "cutting_bridge_v2618_rollback_capsule": {
+        "hosted": "535d1abd25668bc5bee79d82a602afe5efe4e8ce313bf1fb5170ae2004e3cb2d",
+        "clone": "535d1abd25668bc5bee79d82a602afe5efe4e8ce313bf1fb5170ae2004e3cb2d",
+        "equal": true
+       },
+       "cutting_bridge_v2618a_rollback_capsule": {
+        "hosted": "db0608e690b3d936fa20b62cc4cfb9b1f9e86718212526eb6131562578b8bf60",
+        "clone": "db0608e690b3d936fa20b62cc4cfb9b1f9e86718212526eb6131562578b8bf60",
+        "equal": true
+       }
+      },
+      "cp6_v2620_rows_differing": []
+     }
+    },
+    {
+     "line": 1527,
+     "json": {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AC",
+      "status": "PASS"
+     }
+    },
+    {
+     "line": 1528,
+     "json": {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AD",
+      "status": "PASS"
+     }
+    },
+    {
+     "line": 1529,
+     "json": {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AE",
+      "status": "PASS"
+     }
+    },
+    {
+     "line": 1530,
+     "json": {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AF",
+      "status": "PASS"
+     }
+    },
+    {
+     "line": 1531,
+     "json": {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AG",
+      "status": "PASS"
+     }
+    },
+    {
+     "line": 1532,
+     "json": {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AH",
+      "status": "PASS"
+     }
+    },
+    {
+     "line": 1533,
+     "json": {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AI",
+      "status": "PASS"
+     }
+    },
+    {
+     "line": 1534,
+     "json": {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AJ",
+      "status": "PASS"
+     }
+    },
+    {
+     "line": 1535,
+     "json": {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AK",
+      "status": "PASS"
+     }
+    },
+    {
+     "line": 1536,
+     "json": {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AL",
+      "status": "PASS"
+     }
+    },
+    {
+     "line": 1537,
+     "json": {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AM",
+      "status": "PASS"
+     }
+    },
+    {
+     "line": 1538,
+     "json": {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AN",
+      "status": "PASS"
+     }
+    },
+    {
+     "line": 1539,
+     "json": {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AO",
+      "status": "PASS"
+     }
+    },
+    {
+     "line": 1540,
+     "json": {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AP",
+      "status": "PASS"
+     }
+    },
+    {
+     "line": 1541,
+     "json": {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AQ",
+      "status": "PASS"
+     }
+    },
+    {
+     "line": 1542,
+     "json": {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AR",
+      "status": "PASS"
+     }
+    },
+    {
+     "line": 1543,
+     "json": {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AS",
+      "status": "PASS"
+     }
+    },
+    {
+     "line": 1544,
+     "json": {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AT",
+      "status": "PASS"
+     }
+    },
+    {
+     "line": 1545,
+     "json": {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AU",
+      "status": "PASS"
+     }
+    },
+    {
+     "line": 1546,
+     "json": {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AV",
+      "status": "PASS"
+     }
+    },
+    {
+     "line": 1547,
+     "json": {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AW",
+      "status": "PASS"
+     }
+    },
+    {
+     "line": 1548,
+     "json": {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AX",
+      "status": "PASS"
+     }
+    },
+    {
+     "line": 1549,
+     "json": {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AY",
+      "status": "PASS"
+     }
+    },
+    {
+     "line": 1550,
+     "json": {
+      "group": "T3_PACKAGE_INSTALL",
+      "key": "AZ",
+      "status": "PASS"
+     }
+    },
+    {
+     "line": 1551,
+     "json": {
+      "group": "T3_PACKAGE_RUN",
+      "stage": "PACKAGE",
+      "status": "PASS",
+      "result": "ALL_FILES_INSTALLED"
+     }
+    },
+    {
+     "line": 1552,
+     "json": {
+      "group": "T3_PACKAGE_RUN",
+      "stage": "AW_AX_AY_AZ_VERIFY",
+      "status": "PASS",
+      "result": {
+       "stage": "AV_PLUS_AW_AX_AY_AZ_T1",
+       "functions": 13,
+       "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+       "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+       "ay_sql_sha256": "29b8977613012431b9efa927c7cee10654aef8a016368a0430e7c3789070af43",
+       "az_sql_sha256": "9007eefc5b8e8d3ae47dbdc496aca61fb281152385b27c9791284b68fc8125c9"
+      }
+     }
+    },
+    {
+     "line": 1558,
+     "json": {
+      "t3_browser": {
+       "label": "T3_PREP_BROWSER",
+       "status": "PASS",
+       "frontend": "candidate branch checkout (auditor)",
+       "production_go": false,
+       "release_evidence": false,
+       "seed": {
+        "exit": 0,
+        "stderr": ""
+       },
+       "flow_exit_code": 0,
+       "cases": {
+        "REAL_LOGIN_PAGE": "PASS",
+        "ANONYMOUS_REFUSED": "PASS",
+        "REAL_PASSWORD_BROWSER_LOGIN": "PASS",
+        "AMBIGUOUS_REFUSED_0": "PASS",
+        "LOST_REPLY_RELOAD_EXACT_REPLAY": "PASS",
+        "EXACT_BRAND_STOCK_HPP_0": "PASS",
+        "LINKED_INVERSE_0": "PASS",
+        "AMBIGUOUS_REFUSED_1": "PASS",
+        "EXACT_BRAND_STOCK_HPP_1": "PASS",
+        "LINKED_INVERSE_1": "PASS"
+       },
+       "flow_status": "PASS",
+       "console_errors": 0,
+       "candidate_verified_after_flow": "T3_PACKAGE_PLUS_AW_AX_AY_AZ_T1",
+       "rest_remaining": false
+      }
+     }
+    },
+    {
+     "line": 1559,
+     "json": {
+      "t3_package_run": {
+       "label": "T3_PREP",
+       "mode": "browser",
+       "status": "BROWSER_PASS",
+       "production_go": false,
+       "release_evidence": false,
+       "auth_users_before": 0,
+       "ledger_start": {
+        "app": [
+         "v2.6.20aa",
+         "v2.6.20ab"
+        ],
+        "platform_last": "20260914190500"
+       },
+       "fingerprint_AB": {
+        "view": {
+         "n": 51,
+         "md5": "68b2fbf688881496413307954006bdbe"
+        },
+        "index": {
+         "n": 605,
+         "md5": "65816b59b4bd7675995b7b9bc98fa4c5"
+        },
+        "policy": {
+         "n": 190,
+         "md5": "48bb358e009dc8d19417bbb3982f6d3f"
+        },
+        "schema": {
+         "n": 2,
+         "md5": "6ee1ffa742c0945434188ce249e139ca"
+        },
+        "trigger": {
+         "n": 448,
+         "md5": "971341de44cfecc9a587fc140c6cf30a"
+        },
+        "function": {
+         "n": 574,
+         "md5": "5e235119482f9767a74ba3fe7fbd2619"
+        },
+        "relation": {
+         "n": 272,
+         "md5": "5a8c31607ad25d70808ba9f7699bf690"
+        },
+        "sequence": {
+         "n": 6,
+         "md5": "dacd751dd3a5f2f7efbc203171be4ead"
+        },
+        "extension": {
+         "n": 6,
+         "md5": "15a959c38d716ad2af3fe1f1dc4419ef"
+        },
+        "app_ledger": {
+         "n": 83,
+         "md5": "7ad6fed4ecef5f62d3be04fffdbc9e69"
+        },
+        "constraint": {
+         "n": 1308,
+         "md5": "1a354c9c9ddc0b40782e80339e1dbacd"
+        },
+        "config_hash": {
+         "n": 6,
+         "md5": "2193b4becca1d4d89e40b444b0a8af29"
+        },
+        "default_acl": {
+         "n": 6,
+         "md5": "c9c232814a7b3ee3eaadb50e8b7dc7fd"
+        },
+        "platform_ledger": {
+         "n": 98,
+         "md5": "39e21c0d5d36ef100d312dd736898487"
+        },
+        "function_owner_acl": {
+         "n": 574,
+         "md5": "12a9878282b3db31bec2d8e34eb57c59"
+        },
+        "relation_owner_acl": {
+         "n": 272,
+         "md5": "bf0e6b7cd7ea3e25b7b94918cd3cc844"
+        }
+       },
+       "hosted_capsules": {
+        "equal": true,
+        "capsules": {
+         "bs_resolution_v2619_rollback_capsule": {
+          "hosted": "28ab388833da7da87384766ecaedadc66b4d048c303ee91e16f3939e34afdc39",
+          "clone": "28ab388833da7da87384766ecaedadc66b4d048c303ee91e16f3939e34afdc39",
+          "equal": true
+         },
+         "bs_resolution_v2619a_rollback_capsule": {
+          "hosted": "de8dfaab7b63b8742d383a089cdb05e73b629aad9f4df149e6a3c9fb590ef560",
+          "clone": "de8dfaab7b63b8742d383a089cdb05e73b629aad9f4df149e6a3c9fb590ef560",
+          "equal": true
+         },
+         "bs_resolution_v2619b_rollback_capsule": {
+          "hosted": "d6d4f7457743d51679b5d25bf166ed69ca4b4f098cf5902ff985937531c2505d",
+          "clone": "d6d4f7457743d51679b5d25bf166ed69ca4b4f098cf5902ff985937531c2505d",
+          "equal": true
+         },
+         "bs_resolution_v2619c_rollback_capsule": {
+          "hosted": "0207ba4f2ffba8ed61584709bbd884f1d2ee1a5981194fd7189a45afe8b3cbe1",
+          "clone": "0207ba4f2ffba8ed61584709bbd884f1d2ee1a5981194fd7189a45afe8b3cbe1",
+          "equal": true
+         },
+         "cp3_r4_rollback_capsule": {
+          "hosted": "7c01add62e66a4e2774a7199c2e77a04cca5e5942dbbba54d22cef720f82bc1d",
+          "clone": "7c01add62e66a4e2774a7199c2e77a04cca5e5942dbbba54d22cef720f82bc1d",
+          "equal": true
+         },
+         "cp45_v2617_rollback_capsule": {
+          "hosted": "b9a43ce463de9905e94dd6538fd2a4952b0586a78c145f6f9d88aab7d6da3d80",
+          "clone": "b9a43ce463de9905e94dd6538fd2a4952b0586a78c145f6f9d88aab7d6da3d80",
+          "equal": true
+         },
+         "cp45_v2617a_rollback_capsule": {
+          "hosted": "b065dbcfdf1b59cb799e9f58caf6dd5ca7686e9f70826fce6a1ba8f140610022",
+          "clone": "b065dbcfdf1b59cb799e9f58caf6dd5ca7686e9f70826fce6a1ba8f140610022",
+          "equal": true
+         },
+         "cp4_v2616_rollback_capsule": {
+          "hosted": "dde0a005dbe7cc93709bdfc6b961f4b9a76bf4db06fd7177d21dc79048af4d2f",
+          "clone": "dde0a005dbe7cc93709bdfc6b961f4b9a76bf4db06fd7177d21dc79048af4d2f",
+          "equal": true
+         },
+         "cp6_v2620_rollback_capsule": {
+          "hosted": "b42b94c2380f0768259a3d8f7fb645c76ebd6f92e8bae6a37d802352f7effd4f",
+          "clone": "b42b94c2380f0768259a3d8f7fb645c76ebd6f92e8bae6a37d802352f7effd4f",
+          "equal": true
+         },
+         "cutting_bridge_v2618_rollback_capsule": {
+          "hosted": "535d1abd25668bc5bee79d82a602afe5efe4e8ce313bf1fb5170ae2004e3cb2d",
+          "clone": "535d1abd25668bc5bee79d82a602afe5efe4e8ce313bf1fb5170ae2004e3cb2d",
+          "equal": true
+         },
+         "cutting_bridge_v2618a_rollback_capsule": {
+          "hosted": "db0608e690b3d936fa20b62cc4cfb9b1f9e86718212526eb6131562578b8bf60",
+          "clone": "db0608e690b3d936fa20b62cc4cfb9b1f9e86718212526eb6131562578b8bf60",
+          "equal": true
+         }
+        },
+        "cp6_v2620_rows_differing": []
+       },
+       "browser": {
+        "label": "T3_PREP_BROWSER",
+        "status": "PASS",
+        "frontend": "candidate branch checkout (auditor)",
+        "production_go": false,
+        "release_evidence": false,
+        "seed": {
+         "exit": 0,
+         "stderr": ""
+        },
+        "flow_exit_code": 0,
+        "cases": {
+         "REAL_LOGIN_PAGE": "PASS",
+         "ANONYMOUS_REFUSED": "PASS",
+         "REAL_PASSWORD_BROWSER_LOGIN": "PASS",
+         "AMBIGUOUS_REFUSED_0": "PASS",
+         "LOST_REPLY_RELOAD_EXACT_REPLAY": "PASS",
+         "EXACT_BRAND_STOCK_HPP_0": "PASS",
+         "LINKED_INVERSE_0": "PASS",
+         "AMBIGUOUS_REFUSED_1": "PASS",
+         "EXACT_BRAND_STOCK_HPP_1": "PASS",
+         "LINKED_INVERSE_1": "PASS"
+        },
+        "flow_status": "PASS",
+        "console_errors": 0,
+        "candidate_verified_after_flow": "T3_PACKAGE_PLUS_AW_AX_AY_AZ_T1",
+        "rest_remaining": false
+       },
+       "primary_unchanged": true,
+       "auth_users_after": 0
+      }
+     }
+    }
+   ]
+  }
+ },
+ "artifacts": [
+  {
+   "name": "cp6-t3-release-package-install",
+   "id": 10812428194,
+   "size_in_bytes": 1615615,
+   "digest": "sha256:2c1a42f7562ef3ef5aea158cdd9bf46c7d7317bac00257990f0284a48208472a"
+  },
+  {
+   "name": "cp6-t3-release-package-capture",
+   "id": 10812168517,
+   "size_in_bytes": 1623052,
+   "digest": "sha256:7c99b1df8904eb5cfd42cfe4966365b766a2bda108b2716ed16a59647d90af1b"
+  },
+  {
+   "name": "cp6-t3-release-package-browser",
+   "id": 10813291211,
+   "size_in_bytes": 1609497,
+   "digest": "sha256:ac987878bf6135768ac6abe57af5265f696cef5b0b8564796810c1be2e198690"
+  }
+ ]
+}

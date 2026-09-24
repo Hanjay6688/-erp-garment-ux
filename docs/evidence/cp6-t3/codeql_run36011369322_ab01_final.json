@@ -1,0 +1,303 @@
+{
+ "label": "T3_PREP",
+ "run": 36011369322,
+ "head": "208afce",
+ "production_go": false,
+ "release_evidence": false,
+ "workflow": "CP6 Candidate CodeQL (T3)",
+ "head_sha": "208afce03cc4a1eca3b02ded6fc32c3e4e8b9fbe",
+ "extraction": "Complete job logs (every line, none truncated). Kept: every line that parses as a JSON object/array, and every line mentioning result_count, sarif, sha256 or manifest (case-insensitive), verbatim with the timestamp prefix removed; \"line\" is the 1-based line number in the job log.",
+ "sarif_manifest_note": "scripts/cp6_codeql_artifact_gate.py writes the per-SARIF sha256/bytes/rule_count/result_count into cp6-codeql/manifest.json inside each artifact and prints only the summary JSON line to the log, so the SARIF file hashes are not in the logs; each manifest.json and SARIF file is bound by the artifact zip digest listed under \"artifacts\" (same value as the \"SHA256 digest of uploaded artifact zip\" log line).",
+ "jobs": {
+  "python": {
+   "job": 107672659829,
+   "name": "CodeQL python",
+   "conclusion": "success",
+   "log_lines": 1868,
+   "json_line_count": 1,
+   "lines": [
+    {
+     "line": 162,
+     "text": "    \"databaseInterpretResultsSupportsSarifRunProperty\": true,"
+    },
+    {
+     "line": 173,
+     "text": "    \"sarifMergeRunsFromEqualCategory\": true,"
+    },
+    {
+     "line": 992,
+     "text": "  output: cp6-codeql/sarif"
+    },
+    {
+     "line": 1009,
+     "text": "  CODEQL_ACTION_FEATURE_SARIF_COMBINE: true"
+    },
+    {
+     "line": 1783,
+     "text": "Exporting results to SARIF..."
+    },
+    {
+     "line": 1784,
+     "text": "Exported results to SARIF (253ms)."
+    },
+    {
+     "line": 1788,
+     "text": "Post-processing sarif files: [\"/home/runner/work/-erp-garment-ux/-erp-garment-ux/cp6-codeql/sarif/python.sarif\"]"
+    },
+    {
+     "line": 1789,
+     "text": "Adding fingerprints to SARIF file. See https://docs.github.com/en/code-security/reference/code-scanning/sarif-support-for-code-scanning#data-for-preventing-duplicated-alerts for more information."
+    },
+    {
+     "line": 1798,
+     "text": "  CODEQL_ACTION_FEATURE_SARIF_COMBINE: true"
+    },
+    {
+     "line": 1807,
+     "text": "  CODEQL_ACTION_SARIF_RESULTS_OUTPUT_DIR: cp6-codeql/sarif"
+    },
+    {
+     "line": 1811,
+     "text": "{\"status\": \"PASS\", \"language\": \"python\", \"result_count\": 0, \"production_go\": false}"
+    },
+    {
+     "line": 1825,
+     "text": "  CODEQL_ACTION_FEATURE_SARIF_COMBINE: true"
+    },
+    {
+     "line": 1834,
+     "text": "  CODEQL_ACTION_SARIF_RESULTS_OUTPUT_DIR: cp6-codeql/sarif"
+    },
+    {
+     "line": 1846,
+     "text": "SHA256 digest of uploaded artifact zip is 4ecca0f6b01f3d7ec1020a346604c3df078243673da05a95cd1c9dbdf20e68a9"
+    }
+   ]
+  },
+  "actions": {
+   "job": 107672659745,
+   "name": "CodeQL actions",
+   "conclusion": "success",
+   "log_lines": 1388,
+   "json_line_count": 1,
+   "lines": [
+    {
+     "line": 162,
+     "text": "    \"databaseInterpretResultsSupportsSarifRunProperty\": true,"
+    },
+    {
+     "line": 173,
+     "text": "    \"sarifMergeRunsFromEqualCategory\": true,"
+    },
+    {
+     "line": 993,
+     "text": "  output: cp6-codeql/sarif"
+    },
+    {
+     "line": 1010,
+     "text": "  CODEQL_ACTION_FEATURE_SARIF_COMBINE: true"
+    },
+    {
+     "line": 1303,
+     "text": "Exporting results to SARIF..."
+    },
+    {
+     "line": 1304,
+     "text": "Exported results to SARIF (241ms)."
+    },
+    {
+     "line": 1308,
+     "text": "Post-processing sarif files: [\"/home/runner/work/-erp-garment-ux/-erp-garment-ux/cp6-codeql/sarif/actions.sarif\"]"
+    },
+    {
+     "line": 1309,
+     "text": "Adding fingerprints to SARIF file. See https://docs.github.com/en/code-security/reference/code-scanning/sarif-support-for-code-scanning#data-for-preventing-duplicated-alerts for more information."
+    },
+    {
+     "line": 1318,
+     "text": "  CODEQL_ACTION_FEATURE_SARIF_COMBINE: true"
+    },
+    {
+     "line": 1327,
+     "text": "  CODEQL_ACTION_SARIF_RESULTS_OUTPUT_DIR: cp6-codeql/sarif"
+    },
+    {
+     "line": 1331,
+     "text": "{\"status\": \"PASS\", \"language\": \"actions\", \"result_count\": 0, \"production_go\": false}"
+    },
+    {
+     "line": 1345,
+     "text": "  CODEQL_ACTION_FEATURE_SARIF_COMBINE: true"
+    },
+    {
+     "line": 1354,
+     "text": "  CODEQL_ACTION_SARIF_RESULTS_OUTPUT_DIR: cp6-codeql/sarif"
+    },
+    {
+     "line": 1366,
+     "text": "SHA256 digest of uploaded artifact zip is 9022dd3d567afdd872b46add4adb1044d2d496282e32ab20ffc97c77de5097f5"
+    }
+   ]
+  },
+  "c-cpp": {
+   "job": 107672660078,
+   "name": "CodeQL c-cpp",
+   "conclusion": "success",
+   "log_lines": 1854,
+   "json_line_count": 1,
+   "lines": [
+    {
+     "line": 162,
+     "text": "    \"databaseInterpretResultsSupportsSarifRunProperty\": true,"
+    },
+    {
+     "line": 173,
+     "text": "    \"sarifMergeRunsFromEqualCategory\": true,"
+    },
+    {
+     "line": 998,
+     "text": "  CODEQL_ACTION_FEATURE_SARIF_COMBINE: true"
+    },
+    {
+     "line": 1035,
+     "text": "  output: cp6-codeql/sarif"
+    },
+    {
+     "line": 1052,
+     "text": "  CODEQL_ACTION_FEATURE_SARIF_COMBINE: true"
+    },
+    {
+     "line": 1719,
+     "text": "Exporting results to SARIF..."
+    },
+    {
+     "line": 1720,
+     "text": "Exported results to SARIF (225ms)."
+    },
+    {
+     "line": 1724,
+     "text": "Post-processing sarif files: [\"/home/runner/work/-erp-garment-ux/-erp-garment-ux/cp6-codeql/sarif/cpp.sarif\"]"
+    },
+    {
+     "line": 1725,
+     "text": "Adding fingerprints to SARIF file. See https://docs.github.com/en/code-security/reference/code-scanning/sarif-support-for-code-scanning#data-for-preventing-duplicated-alerts for more information."
+    },
+    {
+     "line": 1734,
+     "text": "  CODEQL_ACTION_FEATURE_SARIF_COMBINE: true"
+    },
+    {
+     "line": 1768,
+     "text": "  CODEQL_ACTION_SARIF_RESULTS_OUTPUT_DIR: cp6-codeql/sarif"
+    },
+    {
+     "line": 1772,
+     "text": "{\"status\": \"PASS\", \"language\": \"c-cpp\", \"result_count\": 0, \"production_go\": false}"
+    },
+    {
+     "line": 1786,
+     "text": "  CODEQL_ACTION_FEATURE_SARIF_COMBINE: true"
+    },
+    {
+     "line": 1820,
+     "text": "  CODEQL_ACTION_SARIF_RESULTS_OUTPUT_DIR: cp6-codeql/sarif"
+    },
+    {
+     "line": 1832,
+     "text": "SHA256 digest of uploaded artifact zip is e0063423ae8953b9527644ddc833f8c8ffab7a6d62fb86c4e59ffd6f15c101f4"
+    }
+   ]
+  },
+  "javascript-typescript": {
+   "job": 107672659348,
+   "name": "CodeQL javascript-typescript",
+   "conclusion": "success",
+   "log_lines": 2477,
+   "json_line_count": 1,
+   "lines": [
+    {
+     "line": 167,
+     "text": "    \"databaseInterpretResultsSupportsSarifRunProperty\": true,"
+    },
+    {
+     "line": 178,
+     "text": "    \"sarifMergeRunsFromEqualCategory\": true,"
+    },
+    {
+     "line": 998,
+     "text": "  output: cp6-codeql/sarif"
+    },
+    {
+     "line": 1015,
+     "text": "  CODEQL_ACTION_FEATURE_SARIF_COMBINE: true"
+    },
+    {
+     "line": 2392,
+     "text": "Exporting results to SARIF..."
+    },
+    {
+     "line": 2393,
+     "text": "Exported results to SARIF (225ms)."
+    },
+    {
+     "line": 2397,
+     "text": "Post-processing sarif files: [\"/home/runner/work/-erp-garment-ux/-erp-garment-ux/cp6-codeql/sarif/javascript.sarif\"]"
+    },
+    {
+     "line": 2398,
+     "text": "Adding fingerprints to SARIF file. See https://docs.github.com/en/code-security/reference/code-scanning/sarif-support-for-code-scanning#data-for-preventing-duplicated-alerts for more information."
+    },
+    {
+     "line": 2407,
+     "text": "  CODEQL_ACTION_FEATURE_SARIF_COMBINE: true"
+    },
+    {
+     "line": 2416,
+     "text": "  CODEQL_ACTION_SARIF_RESULTS_OUTPUT_DIR: cp6-codeql/sarif"
+    },
+    {
+     "line": 2420,
+     "text": "{\"status\": \"PASS\", \"language\": \"javascript-typescript\", \"result_count\": 0, \"production_go\": false}"
+    },
+    {
+     "line": 2434,
+     "text": "  CODEQL_ACTION_FEATURE_SARIF_COMBINE: true"
+    },
+    {
+     "line": 2443,
+     "text": "  CODEQL_ACTION_SARIF_RESULTS_OUTPUT_DIR: cp6-codeql/sarif"
+    },
+    {
+     "line": 2455,
+     "text": "SHA256 digest of uploaded artifact zip is 8ab5346fb9e7ba31150bab1e94173899581ce082ca7c784dc2729c5de4340a14"
+    }
+   ]
+  }
+ },
+ "artifacts": [
+  {
+   "name": "cp6-candidate-codeql-actions",
+   "id": 10812567638,
+   "size_in_bytes": 33985,
+   "digest": "sha256:9022dd3d567afdd872b46add4adb1044d2d496282e32ab20ffc97c77de5097f5"
+  },
+  {
+   "name": "cp6-candidate-codeql-c-cpp",
+   "id": 10812023614,
+   "size_in_bytes": 76096,
+   "digest": "sha256:e0063423ae8953b9527644ddc833f8c8ffab7a6d62fb86c4e59ffd6f15c101f4"
+  },
+  {
+   "name": "cp6-candidate-codeql-javascript-typescript",
+   "id": 10813086339,
+   "size_in_bytes": 99430,
+   "digest": "sha256:8ab5346fb9e7ba31150bab1e94173899581ce082ca7c784dc2729c5de4340a14"
+  },
+  {
+   "name": "cp6-candidate-codeql-python",
+   "id": 10812119610,
+   "size_in_bytes": 60075,
+   "digest": "sha256:4ecca0f6b01f3d7ec1020a346604c3df078243673da05a95cd1c9dbdf20e68a9"
+  }
+ ]
+}

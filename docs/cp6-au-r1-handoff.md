@@ -2,9 +2,10 @@
 
 Tanggal: 23 September 2026 (WIB). Writer: Claude Code (sesi cloud). Peninjau berikutnya: ChatGPT.
 
-> **Pembaruan terbaru (24 September 2026, putaran ketujuh, writer Claude): baca §26, lalu §25, lalu §24, lalu §23.**
+> **Pembaruan terbaru (24 September 2026, tindak lanjut audit GPT atas `737649b`): baca §27, lalu §26, §25, §24, dan §23.**
+> - §27: AB-01 (pembalikan pemakaian kain kantong) terbukti native lalu diperbaiki; AB-02 fixture; AB-03 arsip T3/CodeQL; runtime **CP6 Auditor Scenario** untuk skenario auditor sendiri; T1/T2/T3/CodeQL akhir pada `208afce`.
 > - §26 menutup sisa keluarga ini: AY rev7.2–rev7.4 (revaluasi pada harinya, pengenceran batch, kain kantong per pool, bahan potong yang dibatalkan keluar dari HPP), AZ rev2/rev2.1 (kantong, BS impor awal, lot pembuka non-PO, recost aksesori, invoice dan koreksi harga bertanggal sebelum barang diterima, gerakan potong dan penghapusan bahan yang dibalik dinilai ulang pada harinya), keputusan owner opsi 1, pemeriksaan independen `b110e54` beserta disposisinya, dan T1/T2/T3/CodeQL akhir.
-> - Yang masih terbuka ada di §26.7. Tidak ada keputusan owner yang tertunda.
+> - Yang masih terbuka ada di §26.7 (kecuali pembalikan kain kantong, ditutup di §27.1). Penerimaan independen rev7.4/rev2.1 masih RERUN_REQUIRED. Tidak ada keputusan owner yang tertunda.
 > - §25 berisi AY rev7/rev7.1: setiap fakta bahan dicatat pada hari fisiknya, relabel tidak berayun lewat akun lain, dan kinerja dengan running sum serta JIT dimatikan.
 > - §24 berisi riwayat rev6/rev6.1. §23 berisi keputusan owner, oracle yang disetujui, AZ, dan penelusuran `ADJUSTMENT_DATE`.
 > - MATCH adalah oracle yang disetujui, bukan PASS kasus beku. Semua bukti berlabel T1_FAMILY/T2_REGRESSION/T3_PREP, bukan bukti rilis.
@@ -1753,7 +1754,7 @@ Kode akhir: **AY rev7.4** (SQL sha256 `29b89776…af43`, sejak `769abfe`) dan **
 **Riwayat putaran ini:** AY T1 dan AZ T1 hijau pada `c7eeabc` (rev7.3: 35996090230, 35996090212) dan `ff9afb7` (36000143793, 36000143836).
 
 ### 26.7 Yang masih terbuka (jujur)
-- **Pemakaian kain kantong yang dibalik** tidak diberi kaki interim; aturan periode kantong (§26.1) yang berlaku. Tidak ada fixture pembalikan pemakaian kantong dengan invoice terlambat.
+- ~~**Pemakaian kain kantong yang dibalik** tidak diberi kaki interim.~~ Ditemukan auditor (AB-01), terbukti native, dan diperbaiki di §27.1.
 - **F10:** tanggal jurnal dibatasi hari ini (tidak boleh di masa depan). Ini disengaja.
 - **Fixture native** kontraktor memakai satuan lama `yd` yang didaftarkan fixture ke `uom_definitions`. Fixture invoice dan koreksi harga memakai satu penerimaan per dokumen; aturan "hari terima terakhir dari baris-barisnya" untuk invoice multi-penerimaan hanya diuji lewat kode, belum native.
 - **Beban tulis state** (kunci `M:` per rebuild) belum diukur di data besar.
@@ -1765,3 +1766,90 @@ Kode akhir: **AY rev7.4** (SQL sha256 `29b89776…af43`, sejak `769abfe`) dan **
 - Menelusuri "risiko sisa" sampai ke kode produk menghasilkan temuan nyata (rev7.4). Risiko yang hanya dicatat bisa menyembunyikan cacat.
 - Aturan owner untuk satu dokumen (invoice) perlu dicek ke semua dokumen yang memakai kolom yang sama (koreksi harga pembelian).
 - Fixture baru yang memakai alur produk yang belum pernah dipakai probe (pembatalan potong, koreksi harga) kini punya savepoint atau pemeriksaan fixture sendiri, supaya kegagalan setup terbaca sebagai kegagalan fixture, bukan temuan produk.
+
+## 27. Tindak lanjut audit GPT atas `737649b` (24 September 2026, writer Claude)
+
+Label: T1_FAMILY, T2_REGRESSION, T3_PREP, AUDITOR_SCENARIO; bukan bukti rilis dan bukan penerimaan independen. CP6 tetap HOLD, 12 HOLD historis tetap HOLD, `production_go=false`. Tidak ada SQL ke hosted; cabang kompetisi tetap `ca7f095`.
+
+Audit GPT (baca-saja, `INDEPENDENT_SOURCE_REVIEW` + `INDEPENDENT_ARTIFACT_CHECK`) belum menerima A+B sebagai gate CP6 selesai. Ada tiga temuan (AB-01 P1 sementara, AB-02 P2, AB-03 P3) dan empat permintaan balik. Semuanya ditangani di bawah ini.
+
+### 27.1 AB-01 (P1): pembalikan pemakaian kain kantong — terbukti native, diperbaiki
+- **Percobaan pertama tidak sah (writer).**
+  - Run 36008799715 (`b0afb99`): fixture memanggil fungsi internal `erp.save_pocket_fabric_action_v1`, mendapat "permission denied" pada REGISTER, lalu mencatat penolakan itu sebagai PASS. Ini oracle yang dilonggarkan oleh fixture writer.
+  - Diperbaiki di `b746153`: aksi lewat RPC publik yang dipakai UI (`public.erp_save_pocket_fabric_action_v1`), dan setiap error membuat kasus INCOMPLETE.
+  - Aturan yang sama diterapkan pada fixture koreksi harga. Run CI-nya selama ini sudah melewati jalur nyata, jadi hasilnya tidak berubah.
+  - Bukti run yang tidak sah tetap disimpan dengan catatan: `docs/evidence/cp6-az/native_t1_run36008799715_*_ab01.json`.
+- **Reproduksi pada AZ akhir yang belum diubah** (AZ T1 run 36009699973, `b746153`), urutan dari auditor:
+  - pembelian 10 unit @ 10 pada 21 Sep;
+  - pemakaian kain kantong 10 unit pada 22 Sep (tanpa periode kantong);
+  - pembalikan pada 24 Sep;
+  - invoice terlambat 8,25 bertanggal ekonomi 21 Sep.
+
+  Hasilnya:
+  - MATERIAL_INVENTORY −17,50 pada 22–23 Sep, padahal 0 unit di tangan;
+  - AW `GL_INVENTORY_NEGATIVE_ASOF` CRITICAL per 22, 23, dan 24 Sep;
+  - invoice hanya memposting jurnalnya sendiri pada 21 Sep (AP −82,50, GRNI +100,00, persediaan −17,50).
+
+  Fase sebelum AZ sama (COUNTEREXAMPLE). Fase sesudah: 28 PASS + kasus ini FAIL. Angkanya sama dengan hitungan auditor.
+  - Bukti: `docs/evidence/cp6-az/native_t1_run36009699973_*_ab01_repro.json`.
+- **Penyebab:** kaki interim penghapusan bahan yang dibalik (AZ rev2.1) mengecualikan pemakaian kain kantong.
+- **Perbaikan (`46ad845`):** pengecualian dicabut.
+  - Pembalikan pemakaian kantong hanya bisa dilakukan selama tidak ada periode kantong aktif yang mencakupnya (`guard_pocket_period_v1`: "Batalkan alokasi periode sebelum membatalkan pengeluaran kain kantong"). Karena itu, saat dibalik, ia adalah penghapusan bahan biasa melawan OTHER_EXPENSE, akun yang juga dipakai `pocket_fabric_checks_v1` dan revaluasi dokumen penyesuaian.
+  - Uji stub `docs/evidence/cp6-az/rev21-logic/pocket.sql`: +17,50 pada hari pemakaian, −17,50 pada hari pembalikan.
+- **Sesudah perbaikan:** AZ T1 run 36010562795 (`46ad845`):
+  - Sebelum AZ: 24 COUNTEREXAMPLE + 5 PASS.
+  - Sesudah AZ: **29/29 PASS**.
+  - Kasus AB-01 sesudah AZ: persediaan −17,50 / 0,00 / 0,00 / −17,50 (21–24 Sep, yaitu harga invoice × unit di tangan).
+  - Jurnal tambahan: MATERIAL_COST_REVALUATION +17,50 persediaan / −17,50 OTHER_EXPENSE pada 22 Sep, dan kebalikannya pada 24 Sep.
+  - Tidak ada blocker AW per 22, 23, atau 24 Sep.
+  - Bukti: `docs/evidence/cp6-az/native_t1_run36010562795_*_ab01_fix.json`.
+
+### 27.2 AB-02 (P2): cakupan fixture
+Kasus native baru `AZ:POCKET_USAGE_REVERSED_THEN_LATE_INVOICE_LOWER`. Yang diperiksa:
+- saldo harian per akun;
+- baris jurnal invoice per tanggal dan akun;
+- blocker AW per 22, 23, dan 24 Sep.
+
+Kontrol yang sudah PASS: `AZ:WRITE_OFF_REVERSED_THEN_LATE_INVOICE_LOWER`.
+
+### 27.3 AB-03 (P3): arsip bukti T3 dan CodeQL
+- `docs/evidence/cp6-t3/run36001514536_package24_final.json`: semua baris JSON dari tiga job T3 akhir, baris `T3_PINS_SHA256`, dan digest ketiga artefak.
+- `docs/evidence/cp6-t3/codeql_run36001525302_final.json`: baris gate keempat bahasa (`result_count` 0) dan digest keempat artefak.
+- `manifest.json` per SARIF ada di dalam artefak Actions. Proxy sesi ini menolak unduhan artefak (403), jadi yang tercatat adalah digest zip artefak dari API. Artefak kedaluwarsa 24 Okt 2026; owner atau auditor dapat mengunduh dan mencocokkannya dengan digest itu sebelum tanggal tersebut.
+- Arsip yang sama untuk run akhir sesudah AB-01: `run36011358760_package24_ab01_final.json` dan `codeql_run36011369322_ab01_final.json`.
+
+### 27.4 Permintaan 3: runtime untuk skenario auditor sendiri
+Workflow baru: **CP6 Auditor Scenario** (`.github/workflows/cp6-auditor-scenario.yml`, runner `scripts/cp6_auditor_scenario.py`).
+- Rantainya sama dengan probe: klon AN, lalu AU, AV, AW, AX, AY, dan (fase `after`) AZ dari berkas T1 yang di-commit. Kandidat diverifikasi dulu.
+- Tiap kasus auditor berjalan dalam savepoint yang di-rollback, dan hasil lengkapnya dicetak sebagai satu baris JSON. sha256 berkas skenario dicetak di awal log.
+- Job hanya gagal bila run-nya sendiri tidak lengkap; hasil kasus (PASS/FAIL/COUNTEREXAMPLE) dibaca auditor.
+- Uji asap pada `d5761d3` (run 36009043825) hijau. Uji asap itu hanya memutar ulang kasus kontrol writer.
+- Cara pakai:
+  1. Tulis `scenario.py` yang mendefinisikan `def cases(cur, today): return [(id, fungsi_tanpa_argumen), ...]`. Fungsi mengembalikan dict dengan `status`. Helper yang boleh diimpor: `cp6_az_probe` (`produce`, `cut_only`, `invoice`, `ledger_days`, `adjust`, `final_receipt`, dan lain-lain), `cp6_aw_probe.preflight`, serta RPC produk lewat `awp.chain.production`.
+  2. `base64 -w0 scenario.py`.
+  3. Di GitHub: Actions → CP6 Auditor Scenario → Run workflow → cabang `claude/new-session-deapao` → tempel base64 ke `scenario_b64` → `phase` = after.
+  4. Baca baris `{"group": "AUDITOR_CASES_AFTER", ...}` di log.
+- Hanya pemegang akses tulis repo yang bisa men-dispatch. Skenario hanya berjalan pada database sekali pakai milik job itu, tanpa secret.
+
+### 27.5 Hasil CI akhir
+Kode akhir: AY rev7.4 (SQL `29b89776…af43`, tidak berubah) dan AZ rev2.1 dengan perbaikan AB-01 (SQL `9007eefc…25c9`, `46ad845`). Paket T3 dibangun ulang di `208afce` dari pin run 36010562618: blob `80e30b96…3068`, 65.237 byte, dan sha di log cocok. Hanya berkas AZ dan manifest yang berubah.
+
+| Uji | Run (head) | Hasil |
+| --- | --- | --- |
+| AZ T1 | 36010562795 (`46ad845`) | Sebelum AZ 24 COUNTEREXAMPLE + 5 PASS; sesudah AZ 29/29 PASS |
+| AY T1 | 36000143793 (`ff9afb7`) | 8/8 PASS; SQL AY tidak berubah sejak itu |
+| T2 | 36011365657 (`208afce`) | Identik dengan run 36001522757 pada semua status, jumlah, ID kasus, 12 HOLD, dan oracle yang disetujui (MATCH); beda hanya metadata dan 48 UUID |
+| T3 | 36011358760 (`208afce`) | Hijau: `T3_PINS_REPRODUCED` equal true, 24 file terpasang, AW/AX/AY/AZ terverifikasi, RESTORED_SAME_MEANING (318 tabel / 1.647 baris; 19 error restore pg_cron terklasifikasi), browser 10/10, advisor 73 → 127 (54 INFO `rls_enabled_no_policy`) |
+| CodeQL | 36011369322 (`208afce`) | 0 hasil di keempat bahasa |
+| Runtime auditor | 36011380669 (`208afce`) | RUN_COMPLETE; kasus contoh PASS; primary tidak berubah, clone 0 |
+
+Bukti: `docs/evidence/cp6-t2/run36011365657_ab01_fix.json`, `docs/evidence/cp6-t3/run36011358760_package24_ab01_final.json`, dan `docs/evidence/cp6-t3/codeql_run36011369322_ab01_final.json`.
+
+### 27.6 Status
+- AB-01 terbukti native dan diperbaiki; AB-02 dan AB-03 ditangani.
+- Penerimaan independen AY rev7.4, AZ rev2.1, dan perbaikan AB-01 masih `RERUN_REQUIRED`: menunggu auditor menjalankan skenarionya sendiri lewat §27.4.
+- CP6 tetap HOLD sampai penerimaan itu ada.
+
+### 27.7 Pelajaran
+- Fixture yang mengubah penolakan apa pun menjadi PASS adalah oracle yang dilonggarkan. Penolakan yang memang diharapkan harus dicocokkan dengan pesan produknya (seperti `AZ:BATCH_PARTNER_PO`); selain itu, error membuat kasus INCOMPLETE.
+- Pengecualian yang ditulis "demi aman" (pemakaian kantong) perlu dibuktikan aman secara native. Temuan auditor muncul tepat di pengecualian itu.
