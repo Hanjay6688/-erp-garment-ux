@@ -1,6 +1,6 @@
 -- CP6 AY: PO HPP corrections dated from the goods. Release candidate of the T3 combined package; closed, drained maintenance required.
 begin;
--- Built by scripts/cp6_t3_awx_release.py from supabase/dev/cp6_ay_t1_family.sql (sha256 6c3502cff2fb40d707f1b8d678f00c010e9e6f5ea47d1dabf840e05c86a1d9d1): the T1 body below is unchanged apart from the
+-- Built by scripts/cp6_t3_awx_release.py from supabase/dev/cp6_ay_t1_family.sql (sha256 7a24c1636f1e177c94f1c3ee9d1413599763e5de51c8dcedbd7d01b7cb8de16c): the T1 body below is unchanged apart from the
 -- ledger description; guards follow AO..AV. Capsule and catalog pins are placeholders until the T3 capture.
 set local lock_timeout='10s';set local statement_timeout='240s';set local timezone='UTC';set local search_path='';
 set local role postgres;
@@ -22,7 +22,7 @@ begin
 end $lock_business$;
 do $admission$ begin
  if exists(select 1 from erp.schema_migrations where version='v2.6.20ay') or to_regclass('erp.cp6_v2620ay_rollback_capsule') is not null
-  or to_regclass('erp.po_hpp_gl_lot_state_v1') is not null
+  or to_regclass('erp.po_hpp_gl_lot_state_v1') is not null or to_regclass('erp.po_hpp_gl_group_state_v1') is not null
  then raise exception 'AY_EXACT_PREDECESSOR_WITHOUT_SUCCESSOR_REQUIRED';end if;
 end $admission$;
 do $predecessor$
@@ -169,16 +169,24 @@ set local lock_timeout='10s';set local statement_timeout='240s';set local search
 do $t1_guard$
 begin
  if (select count(*) from erp.schema_migrations where version in('v2.6.20av','v2.6.20aw','v2.6.20ax'))<>3 then raise exception 'AY_T1_REQUIRES_AV_AW_AX'; end if;
- if exists(select 1 from erp.schema_migrations where version='v2.6.20ay') or to_regprocedure('erp.po_hpp_gl_leg_add_v1(jsonb,date,numeric,numeric,numeric)') is not null or to_regclass('erp.po_hpp_gl_lot_state_v1') is not null then raise exception 'AY_T1_ALREADY_INSTALLED'; end if;
+ if exists(select 1 from erp.schema_migrations where version='v2.6.20ay') or to_regprocedure('erp.po_hpp_gl_leg_add_v1(jsonb,date,numeric,numeric,numeric)') is not null or to_regclass('erp.po_hpp_gl_lot_state_v1') is not null or to_regclass('erp.po_hpp_gl_group_state_v1') is not null then raise exception 'AY_T1_ALREADY_INSTALLED'; end if;
 end $t1_guard$;
 create table erp.po_hpp_gl_lot_state_v1(
   lot_id uuid primary key,
   po_id uuid not null,
   hpp_per_pcs numeric not null,
   updated_at timestamptz not null default statement_timestamp());
-comment on table erp.po_hpp_gl_lot_state_v1 is 'AY: HPP per piece of each lot as erp.sync_po_hpp_to_gl last posted it (base of the per-lot change of the next sync).';
+comment on table erp.po_hpp_gl_lot_state_v1 is 'AY: HPP per piece of each lot as erp.sync_po_hpp_to_gl last posted it (base of the per-lot correction of the next sync).';
 alter table erp.po_hpp_gl_lot_state_v1 enable row level security;
 revoke all on erp.po_hpp_gl_lot_state_v1 from public,anon,authenticated,service_role;
+create table erp.po_hpp_gl_group_state_v1(
+  cutting_group_id uuid primary key,
+  po_id uuid not null,
+  material_value numeric not null,
+  updated_at timestamptz not null default statement_timestamp());
+comment on table erp.po_hpp_gl_group_state_v1 is 'AY rev6: material value of each cutting group at the last erp.sync_po_hpp_to_gl (base of the batch-pool correction by cutting day).';
+alter table erp.po_hpp_gl_group_state_v1 enable row level security;
+revoke all on erp.po_hpp_gl_group_state_v1 from public,anon,authenticated,service_role;
 CREATE OR REPLACE FUNCTION erp.po_hpp_gl_leg_add_v1(p_acc jsonb, p_day date, p_fg numeric, p_cogs numeric, p_other numeric)
  RETURNS jsonb
  LANGUAGE sql
@@ -209,7 +217,7 @@ declare
   v_df numeric(24,6);v_dc numeric(24,6);v_do numeric(24,6);v_sum numeric(24,6);
   v_lines jsonb:='[]'::jsonb;v_event uuid;v_journal uuid;v_documented_gain numeric(24,6):=0;
   v_acc jsonb:='{}'::jsonb;v_f numeric(24,6);v_c numeric(24,6);v_o numeric(24,6);v_wip numeric(24,6);r record;
-  v_cap date;v_lots jsonb;v_end date;v_sf numeric(24,6):=0;v_sc numeric(24,6):=0;v_so numeric(24,6):=0;
+  v_cap date;v_end date;v_sf numeric(24,6):=0;v_sc numeric(24,6):=0;v_so numeric(24,6):=0;
 begin
   perform erp.require_internal();
   p_effective_date:=coalesce(erp.invoice_recost_economic_date_v1(),p_effective_date);
@@ -256,36 +264,20 @@ begin
   v_do:=v_target_other-round(coalesce(s.other_out_value,0),2);
   v_sum:=v_df+v_dc+v_do;
 
-  -- AY (owner, 24 Sep 2026): on the late supplier invoice path the correction reaches FG from the physical date of the
-  -- goods and COGS from the sale date, never before the goods existed, with the decided closed/open period rule. Totals
-  -- per account are exactly the previous single journal (cents; remainders on the latest date of the legs).
-  -- The period rule is applied as before AY when the effective date E is already closed: every leg stays on E, so the
-  -- correction is one journal with economic date E that post_journal (erp.resolve_accounting_transaction_date) posts on
-  -- the recognition day; no report before that day changes and the economic date is kept. Only an open E moves forward
-  -- to the goods (v_cap caps the physical dates at E when E is closed; every date after an open E is open as well; an
-  -- open E caps them at today, since the product allows a physical time a few minutes ahead of the clock).
+  -- AY (owner, 24 Sep 2026): on the late supplier invoice path the correction of each piece is dated from the physical
+  -- facts of that piece: WIP -> FG when it enters FG, FG -> COGS when it is sold (back when returned or when the sale is
+  -- reversed), FG -> other when it is written off, BS'd or relabelled; never before the piece was there. Per-account
+  -- totals equal the previous single journal (the last date takes the exact remainder).
+  -- The period rule is applied as before AY when the effective date E is already closed: every date is capped at E,
+  -- so the correction is one journal with economic date E that post_journal (erp.resolve_accounting_transaction_date)
+  -- posts on the recognition day; no report before that day changes and the economic date is kept. Only an open E
+  -- moves forward to the goods (an open E caps the physical dates at today: the product allows a physical time a few
+  -- minutes ahead of the clock).
   v_cap:=erp._cp3_business_date(statement_timestamp());
   if exists(select 1 from erp.accounting_period_control c
             where c.singleton_id=1 and c.closed_through is not null and p_effective_date<=c.closed_through) then
     v_cap:=p_effective_date;
   end if;
-  -- Per lot: its date, its current HPP per piece and its HPP change since the last sync. The previous HPP is the one this
-  -- function last posted for the lot (erp.po_hpp_gl_lot_state_v1, when written together with or after the PO state) or
-  -- else the lot's HPP version current at the last sync (calculated_at <= the state's updated_at); a lot never synced
-  -- counts from zero (erp.rebuild_po_hpp allocates material per cutting-group lineage, so lots of one PO change by
-  -- different amounts per piece; rev3 split the PO change by pieces, AZ T1 run 35968507694).
-  select coalesce(jsonb_object_agg(x.id::text,jsonb_build_object('d',x.d,'h',x.h,'dh',x.h-x.o)),'{}'::jsonb)
-  into v_lots
-  from(
-    select fl.id,greatest(p_effective_date,least(v_cap,erp._cp3_business_date(fl.produced_at))) d,
-      coalesce((select case when coalesce(hv.qty_basis_pcs,0)>0 then hv.total_cost/hv.qty_basis_pcs else 0 end
-                from erp.hpp_versions hv where hv.lot_id=fl.id and hv.is_current),0)::numeric h,
-      coalesce((select ls.hpp_per_pcs from erp.po_hpp_gl_lot_state_v1 ls where ls.lot_id=fl.id and ls.updated_at>=s.updated_at),
-               (select case when coalesce(ov.qty_basis_pcs,0)>0 then ov.total_cost/ov.qty_basis_pcs else 0 end
-                from erp.hpp_versions ov where ov.lot_id=fl.id and ov.calculated_at<=s.updated_at
-                order by ov.calculated_at desc,ov.version_no desc limit 1),0)::numeric o
-    from erp.fg_lots fl where fl.po_id=p_po_id and fl.lot_origin in('PRODUCTION','CONVERSION')
-  ) x;
   if erp.invoice_recost_economic_date_v1() is null then
   -- Independent review 24 Sep (M1): outside a late supplier invoice the posting is exactly the AS posting (one journal on
   -- the caller's date); several callers pass a physical date (FG adjustment, QC, laundry receipt, ...), whose write-off
@@ -317,48 +309,79 @@ begin
   end if;
 
   else
-  -- Invoice path: each piece's correction follows the piece. For every FG movement of a lot, on its physical date
-  -- (not before the lot's date): production in (QC_GOOD, REWORK_IN, OPENING) moves the lot's HPP change x pieces from WIP
-  -- to FG; ADJUSTMENT, BS_OUT and REBRAND_OUT/IN move it between FG and the other bucket (independent review 24 Sep, B1:
-  -- rev4 counted current pieces only, so a write-off or conversion left WIP negative between the lot and its date).
-  -- A reversal counts as its original's kind. Sales move FG -> COGS on the sale (or return) date (allocations, as the
-  -- target counts them). What rounding or an unexplained difference leaves goes to the latest date of the legs.
+  -- rev6 (independent reviews 24 Sep of rev4 and rev5): daily balances. For every date D of a physical fact (an FG
+  -- movement of the PO's lots, including reversals and voided lots; the cutting day of a group in a cutting batch) the
+  -- correction held in FG, COGS and other is each lot's per-piece correction as of D times its pieces in FG, sold
+  -- (sales and returns and their reversals) and out otherwise (adjustment, BS, relabel, and their reversals) as of D;
+  -- each date posts the change of those balances (cents), WIP balancing, and the last date the exact remainder to the
+  -- targets. Per-piece correction of a lot: its HPP now minus the HPP last posted (erp.po_hpp_gl_lot_state_v1 when
+  -- written with or after the PO state; else the version current at the last sync; else the lot's first version, for a
+  -- lot made by a flow that does not sync, e.g. a relabel; else zero). A voided lot takes the correction of the live
+  -- lots of its cutting group. A lot of a cutting batch (erp.rebuild_po_hpp pools material over the batch) takes, as of
+  -- D, the batch's material correction of the groups cut by D over their pieces, plus its own non-material part; the
+  -- group corrections come from erp.po_hpp_gl_group_state_v1 (material value at the last sync); a batch without fresh
+  -- group state falls back to the lot's constant correction.
   v_end:=p_effective_date;
-  for r in select x.d,sum(x.a) a,sum(x.c) c from(
-      select greatest((l.value->>'d')::date,least(v_cap,erp._cp3_business_date(m.physical_at))) d,
-        case when coalesce(o.movement_type,m.movement_type) in('QC_GOOD','REWORK_IN','OPENING')
-          then m.qty_signed*(l.value->>'dh')::numeric else 0 end a,
-        case when coalesce(o.movement_type,m.movement_type) in('ADJUSTMENT','BS_OUT','REBRAND_OUT','REBRAND_IN')
-          then m.qty_signed*(l.value->>'dh')::numeric else 0 end c
-      from erp.fg_stock_movements m join jsonb_each(v_lots) l on l.key=m.lot_id::text
+  for r in
+    with lot as(
+      select fl.id,fl.lot_origin,coalesce(fl.cutting_group_id,qi.cutting_group_id) grp,cg.cutting_batch_id pool,
+        coalesce((select max(case when coalesce(hv.qty_basis_pcs,0)>0 then hv.total_cost/hv.qty_basis_pcs else 0 end)
+                  from erp.hpp_versions hv where hv.lot_id=fl.id and hv.is_current),0)::numeric h,
+        coalesce((select ls.hpp_per_pcs from erp.po_hpp_gl_lot_state_v1 ls where ls.lot_id=fl.id and ls.updated_at>=s.updated_at),
+                 (select case when coalesce(ov.qty_basis_pcs,0)>0 then ov.total_cost/ov.qty_basis_pcs else 0 end
+                  from erp.hpp_versions ov where ov.lot_id=fl.id and ov.calculated_at<=s.updated_at
+                  order by ov.calculated_at desc,ov.version_no desc limit 1),
+                 (select case when coalesce(fv.qty_basis_pcs,0)>0 then fv.total_cost/fv.qty_basis_pcs else 0 end
+                  from erp.hpp_versions fv where fv.lot_id=fl.id order by fv.version_no,fv.calculated_at limit 1),0)::numeric o
+      from erp.fg_lots fl left join erp.qc_inspection_items qi on qi.id=fl.qc_item_id
+      left join erp.cutting_groups cg on cg.id=coalesce(fl.cutting_group_id,qi.cutting_group_id)
+      where fl.po_id=p_po_id and fl.lot_origin in('PRODUCTION','CONVERSION','VOIDED_PRODUCTION')
+    ), lotd as(
+      select l.id,l.pool,case when l.lot_origin='VOIDED_PRODUCTION'
+          then coalesce((select avg(l2.h-l2.o) from lot l2 where l2.grp=l.grp and l2.lot_origin='PRODUCTION'),0)
+          else l.h-l.o end dh
+      from lot l
+    ), pg as(
+      select g.id,g.cutting_batch_id pool,
+        greatest(p_effective_date,least(v_cap,coalesce((select min(erp._cp3_business_date(mm.physical_at)) from erp.material_stock_movements mm
+          where mm.source_id=g.id and mm.source_type='CUTTING_GROUP'),erp._cp3_business_date(g.cut_at)))) cd,
+        coalesce((select gt.total_pcs from erp.v_cutting_group_totals gt where gt.cutting_group_id=g.id),0)::numeric pcs,
+        coalesce((select sum(-mm.qty_signed*mm.unit_cost_snapshot) from erp.material_stock_movements mm
+          where mm.source_id=g.id and mm.source_type in('CUTTING_GROUP','CUTTING_GROUP_RETURN')),0)::numeric mv,
+        (select gs.material_value from erp.po_hpp_gl_group_state_v1 gs where gs.cutting_group_id=g.id and gs.updated_at>=s.updated_at) mv_old
+      from erp.cutting_groups g where g.cutting_batch_id in(select l.pool from lotd l where l.pool is not null)
+    ), pool_ok as(
+      select pool,sum(mv-mv_old)/sum(pcs) dm_final from pg group by pool having bool_and(mv_old is not null) and sum(pcs)>0
+    ), ev as(
+      select m.lot_id,greatest(p_effective_date,least(v_cap,erp._cp3_business_date(m.physical_at))) d,
+        coalesce(o.movement_type,m.movement_type) k,m.qty_signed::numeric q
+      from erp.fg_stock_movements m join lotd l on l.id=m.lot_id
       left join erp.fg_stock_movements o on m.movement_type='REVERSAL' and o.id=m.reversal_of_id
-      where coalesce(o.movement_type,m.movement_type) in('QC_GOOD','REWORK_IN','OPENING','ADJUSTMENT','BS_OUT','REBRAND_OUT','REBRAND_IN')) x
-    group by x.d order by x.d
+      where coalesce(o.movement_type,m.movement_type) in('QC_GOOD','REWORK_IN','OPENING','SALE','SALE_RETURN',
+                                                         'ADJUSTMENT','BS_OUT','REBRAND_OUT','REBRAND_IN')
+    ), dates as(
+      select d from ev union select pg.cd from pg join pool_ok k on k.pool=pg.pool
+    ), cum as(
+      select dt.d,e.lot_id,
+        sum(case when e.k in('QC_GOOD','REWORK_IN','OPENING') then e.q else 0 end) p,
+        sum(case when e.k in('SALE','SALE_RETURN') then -e.q else 0 end) sd,
+        sum(case when e.k in('ADJUSTMENT','BS_OUT','REBRAND_OUT','REBRAND_IN') then -e.q else 0 end) ot
+      from dates dt join ev e on e.d<=dt.d group by dt.d,e.lot_id
+    ), cval as(
+      select c.d,c.p,c.sd,c.ot,
+        case when k.pool is null then l.dh
+          else coalesce((select sum(g.mv-g.mv_old)/nullif(sum(g.pcs),0) from pg g where g.pool=k.pool and g.cd<=c.d),0)+(l.dh-k.dm_final)
+        end cv
+      from cum c join lotd l on l.id=c.lot_id left join pool_ok k on k.pool=l.pool
+    )
+    select d,sum(cv*(p-sd-ot)) f,sum(cv*sd) c,sum(cv*ot) o from cval group by d order by d
   loop
-    v_acc:=erp.po_hpp_gl_leg_add_v1(v_acc,r.d,round(r.a,2)+round(r.c,2),0,-round(r.c,2));
-    v_sf:=v_sf+round(r.a,2)+round(r.c,2);v_so:=v_so-round(r.c,2);v_end:=greatest(v_end,r.d);
+    -- The change of the rounded balances since the previous date.
+    v_acc:=erp.po_hpp_gl_leg_add_v1(v_acc,r.d,round(r.f,2)-v_sf,round(r.c,2)-v_sc,round(r.o,2)-v_so);
+    v_sf:=round(r.f,2);v_sc:=round(r.c,2);v_so:=round(r.o,2);v_end:=greatest(v_end,r.d);
   end loop;
-  for r in select f.d,sum(f.a) a from(
-      select greatest((l.value->>'d')::date,least(v_cap,erp._cp3_business_date(h.sale_date))) d,
-             a.qty_pcs::numeric*(l.value->>'dh')::numeric a
-      from erp.sale_stock_allocations a join erp.sales_items i on i.id=a.sale_item_id
-      join erp.sales_headers h on h.id=i.sale_id join jsonb_each(v_lots) l on l.key=a.lot_id::text
-      where h.status in('POSTED','PARTIAL_PAID','PAID')
-      union all
-      select greatest((l.value->>'d')::date,least(v_cap,erp._cp3_business_date(h.physical_at))),
-             -ri.qty_pcs::numeric*(l.value->>'dh')::numeric
-      from erp.sales_return_items ri join erp.sales_returns h on h.id=ri.return_id join jsonb_each(v_lots) l on l.key=ri.lot_id::text
-      where h.status='POSTED') f
-    group by f.d order by f.d
-  loop
-    v_acc:=erp.po_hpp_gl_leg_add_v1(v_acc,r.d,-round(r.a,2),round(r.a,2),0);
-    v_sf:=v_sf-round(r.a,2);v_sc:=v_sc+round(r.a,2);v_end:=greatest(v_end,r.d);
-  end loop;
-  select greatest(v_end,coalesce(max((value->>'d')::date),v_end)) into v_end from jsonb_each(v_lots);
-  -- Remainders on the latest date: COGS (FG -> COGS), other (WIP balances), FG (WIP balances); totals equal v_df/v_dc/v_do.
-  v_acc:=erp.po_hpp_gl_leg_add_v1(v_acc,v_end,-(v_dc-v_sc),v_dc-v_sc,0);
-  v_sf:=v_sf-(v_dc-v_sc);
-  v_acc:=erp.po_hpp_gl_leg_add_v1(v_acc,v_end,v_df-v_sf,0,v_do-v_so);
+  -- The last date takes the exact remainder to the targets (rounding, or anything the balances do not explain).
+  v_acc:=erp.po_hpp_gl_leg_add_v1(v_acc,v_end,v_df-v_sf,v_dc-v_sc,v_do-v_so);
   -- One event and one journal per requested date; WIP balances each date.
   for r in select key::date d,value v from jsonb_each(v_acc) order by 1 loop
     v_f:=(r.v->>'fg')::numeric;v_c:=(r.v->>'cogs')::numeric;v_o:=(r.v->>'other')::numeric;v_wip:=-(v_f+v_c+v_o);
@@ -389,10 +412,17 @@ begin
     end if;
   end loop;
   end if;
-  -- The HPP this sync posted for each lot, the base of the next sync's per-lot change.
+  -- The HPP this sync posted for each lot and the material value of each cutting group: the bases of the next sync.
   insert into erp.po_hpp_gl_lot_state_v1(lot_id,po_id,hpp_per_pcs,updated_at)
-  select key::uuid,p_po_id,(value->>'h')::numeric,statement_timestamp() from jsonb_each(v_lots)
+  select fl.id,p_po_id,coalesce((select max(case when coalesce(hv.qty_basis_pcs,0)>0 then hv.total_cost/hv.qty_basis_pcs else 0 end)
+    from erp.hpp_versions hv where hv.lot_id=fl.id and hv.is_current),0),statement_timestamp()
+  from erp.fg_lots fl where fl.po_id=p_po_id and fl.lot_origin in('PRODUCTION','CONVERSION','VOIDED_PRODUCTION')
   on conflict(lot_id) do update set po_id=excluded.po_id,hpp_per_pcs=excluded.hpp_per_pcs,updated_at=excluded.updated_at;
+  insert into erp.po_hpp_gl_group_state_v1(cutting_group_id,po_id,material_value,updated_at)
+  select g.id,p_po_id,coalesce((select sum(-mm.qty_signed*mm.unit_cost_snapshot) from erp.material_stock_movements mm
+    where mm.source_id=g.id and mm.source_type in('CUTTING_GROUP','CUTTING_GROUP_RETURN')),0),statement_timestamp()
+  from erp.cutting_groups g where g.po_id=p_po_id
+  on conflict(cutting_group_id) do update set po_id=excluded.po_id,material_value=excluded.material_value,updated_at=excluded.updated_at;
 
   insert into erp.po_hpp_gl_state(po_id,base_output_qty,hpp_total_cost,fg_value,cogs_value,other_out_value,updated_at)
   values(p_po_id,v_target_qty,v_target_hpp,v_target_fg,v_target_cogs,v_target_other,statement_timestamp())
@@ -465,7 +495,7 @@ with relations as (
 select coalesce(jsonb_object_agg(k,encode(extensions.digest(convert_to(v::text,'UTF8'),'sha256'),'hex')),'{}'::jsonb) from objects
 ) catalog;
  select count(*),encode(extensions.digest(convert_to(coalesce(string_agg(length(key)::text||':'||key||':'||value,E'\n' order by key collate "C"),''),'UTF8'),'sha256'),'hex') into object_count,fingerprint from jsonb_each_text(actual);
- if object_count<>7288 or fingerprint is distinct from 'f61e59dbfceb105b3049e884423bdc65cf27d47ec94a3139bbf8254e21544e13' then
+ if object_count<>7295 or fingerprint is distinct from 'b3cff186648414b5692e9c544573682f74606598dd5836609046a9919173d60a' then
   raise exception 'AY_INSTALLED_CATALOG_DRIFT';
  end if;
 end $catalog_guard$;
@@ -478,7 +508,7 @@ do $after_data$ declare v_table text;v_hash jsonb;v_after jsonb;v_before jsonb; 
   v_after:=v_after||jsonb_build_object(v_table,v_hash);
  end loop;
  select snapshot->'before' into v_before from pg_temp.cp6_release_boundary;
- if (v_after-array['po_hpp_gl_lot_state_v1']::text[]) is distinct from v_before or exists(select 1 from unnest(array['po_hpp_gl_lot_state_v1']::text[]) t where (v_after->t->>'count') is distinct from '0')
+ if (v_after-array['po_hpp_gl_lot_state_v1','po_hpp_gl_group_state_v1']::text[]) is distinct from v_before or exists(select 1 from unnest(array['po_hpp_gl_lot_state_v1','po_hpp_gl_group_state_v1']::text[]) t where (v_after->t->>'count') is distinct from '0')
   then raise exception 'AY_INSTALL_CHANGED_DATA';end if;
  if exists(with live as (select p.oid::regprocedure::text as identity,encode(extensions.digest(convert_to(pg_get_functiondef(p.oid),'UTF8'),'sha256'),'hex') as definition_sha256,
   array(select a::text from unnest(p.proacl)a order by a::text) as acl,pg_get_userbyid(p.proowner) as owner

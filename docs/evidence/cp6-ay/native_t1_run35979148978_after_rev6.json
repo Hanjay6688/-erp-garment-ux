@@ -1,0 +1,2539 @@
+{
+ "label": "T1_FAMILY",
+ "run": 35979148978,
+ "job": 107566617537,
+ "head": "0330375",
+ "phase": "after",
+ "production_go": false,
+ "release_evidence": false,
+ "note": "AY rev6 (daily balances per lot) + AZ; F1/F2/F4/M2 fixtures",
+ "lines": [
+  {
+   "status": "PASS",
+   "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+   "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+   "functions": 533,
+   "objects": 690,
+   "production_go": false
+  },
+  {
+   "status": "PASS",
+   "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+   "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+   "functions": 533,
+   "objects": 690,
+   "production_go": false
+  },
+  {
+   "status": "PASS",
+   "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+   "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+   "functions": 533,
+   "objects": 690,
+   "production_go": false
+  },
+  {
+   "status": "PASS",
+   "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+   "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+   "functions": 533,
+   "objects": 690,
+   "production_go": false
+  },
+  {
+   "status": "PASS",
+   "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+   "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+   "erp_functions": 534,
+   "new_public_readers": 1,
+   "objects": 692,
+   "production_go": false
+  },
+  {
+   "ay_probe_setup": {
+    "au_install": "PASS",
+    "av_install": "PASS",
+    "aw_install": {
+     "stage": "AV_PLUS_AW_T1",
+     "label": "T1_FAMILY",
+     "functions": 13,
+     "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32"
+    },
+    "ax_install": {
+     "stage": "AV_PLUS_AW_PLUS_AX_T1",
+     "label": "T1_FAMILY",
+     "functions": 13,
+     "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+     "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+     "av_coverage": {
+      "registry": {
+       "erp.fg_lots.product_id": {
+        "class": "NEW_STOCK_FACT",
+        "reason": "produced_at of every lot except GOOD returned by rework"
+       },
+       "erp.bs_cases.product_id": {
+        "class": "NEW_STOCK_FACT",
+        "reason": "physical_at of QC/laundry BS and manual OUT_OF_NOWHERE BS"
+       },
+       "erp.sales_items.product_id": {
+        "class": "SALES",
+        "reason": "Sale of existing stock"
+       },
+       "erp.journal_lines.product_id": {
+        "class": "ACCOUNTING",
+        "reason": "Journal dimension"
+       },
+       "erp.fg_stock_movements.product_id": {
+        "class": "MOVEMENT",
+        "reason": "Movement of an existing lot"
+       },
+       "erp.sales_return_items.product_id": {
+        "class": "SALES",
+        "reason": "Return of sold stock"
+       },
+       "erp.fg_adjustment_items.product_id": {
+        "class": "MOVEMENT",
+        "reason": "Adjusts an existing lot"
+       },
+       "erp.fg_inventory_balances.product_id": {
+        "class": "DERIVED",
+        "reason": "Balance cache keyed by product/location/grade"
+       },
+       "erp.opening_balance_items.product_id": {
+        "class": "SOURCE_DOCUMENT",
+        "reason": "Opening document; facts are OPENING lots and LEGACY BS"
+       },
+       "erp.stock_policy_versions.product_id": {
+        "class": "MASTER",
+        "reason": "Effective-dated stock policy"
+       },
+       "erp.accessory_bom_versions.product_id": {
+        "class": "MASTER",
+        "reason": "Effective-dated accessory BOM; no stock instant"
+       },
+       "erp.product_conversions.to_product_id": {
+        "class": "SOURCE_DOCUMENT",
+        "reason": "Conversion target; the fact is the CONVERSION lot in fg_lots"
+       },
+       "erp.product_price_versions.product_id": {
+        "class": "MASTER",
+        "reason": "Effective-dated price"
+       },
+       "erp.product_conversions.from_product_id": {
+        "class": "SOURCE_DOCUMENT",
+        "reason": "Conversion source, validated as EXISTING_STOCK"
+       },
+       "erp.qc_inspection_items.final_product_id": {
+        "class": "SOURCE_DOCUMENT",
+        "reason": "QC input; the facts are fg_lots and bs_cases"
+       },
+       "erp.fg_accessory_cost_snapshots.product_id": {
+        "class": "DERIVED",
+        "reason": "Cost snapshot of an FG lot"
+       },
+       "erp.po_accessory_bom_commitments.product_id": {
+        "class": "MASTER",
+        "reason": "PO accessory BOM commitment"
+       },
+       "erp.stock_explainability_snapshots.product_id": {
+        "class": "REPORT",
+        "reason": "Stock explanation snapshot"
+       },
+       "erp.non_po_hpp_gl_sync_events_v2620f.product_id": {
+        "class": "ACCOUNTING",
+        "reason": "HPP to GL synchronisation event"
+       },
+       "erp.laundry_receipt_batch_size_lines.bs_product_id": {
+        "class": "SOURCE_DOCUMENT",
+        "reason": "Laundry receipt input; the BS fact is bs_cases"
+       },
+       "erp.product_identity_mutation_context_v1.product_id": {
+        "class": "AUTHORIZATION",
+        "reason": "Private one-use identity edit context"
+       },
+       "erp.laundry_receipt_bs_product_allocations.product_id": {
+        "class": "SOURCE_DOCUMENT",
+        "reason": "Validated as NEW_STOCK; the BS fact is bs_cases"
+       },
+       "erp.contractor_accessory_reimbursement_entitlements.product_id": {
+        "class": "DERIVED",
+        "reason": "Accounting entitlement of an FG lot"
+       }
+      },
+      "references": 23,
+      "new_stock_fact_tables": [
+       "bs_cases",
+       "fg_lots"
+      ]
+     }
+    },
+    "ay_install": {
+     "stage": "AV_PLUS_AW_AX_AY_T1",
+     "label": "T1_FAMILY",
+     "functions": 13,
+     "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+     "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+     "av_coverage": {
+      "registry": {
+       "erp.fg_lots.product_id": {
+        "class": "NEW_STOCK_FACT",
+        "reason": "produced_at of every lot except GOOD returned by rework"
+       },
+       "erp.bs_cases.product_id": {
+        "class": "NEW_STOCK_FACT",
+        "reason": "physical_at of QC/laundry BS and manual OUT_OF_NOWHERE BS"
+       },
+       "erp.sales_items.product_id": {
+        "class": "SALES",
+        "reason": "Sale of existing stock"
+       },
+       "erp.journal_lines.product_id": {
+        "class": "ACCOUNTING",
+        "reason": "Journal dimension"
+       },
+       "erp.fg_stock_movements.product_id": {
+        "class": "MOVEMENT",
+        "reason": "Movement of an existing lot"
+       },
+       "erp.sales_return_items.product_id": {
+        "class": "SALES",
+        "reason": "Return of sold stock"
+       },
+       "erp.fg_adjustment_items.product_id": {
+        "class": "MOVEMENT",
+        "reason": "Adjusts an existing lot"
+       },
+       "erp.fg_inventory_balances.product_id": {
+        "class": "DERIVED",
+        "reason": "Balance cache keyed by product/location/grade"
+       },
+       "erp.opening_balance_items.product_id": {
+        "class": "SOURCE_DOCUMENT",
+        "reason": "Opening document; facts are OPENING lots and LEGACY BS"
+       },
+       "erp.stock_policy_versions.product_id": {
+        "class": "MASTER",
+        "reason": "Effective-dated stock policy"
+       },
+       "erp.accessory_bom_versions.product_id": {
+        "class": "MASTER",
+        "reason": "Effective-dated accessory BOM; no stock instant"
+       },
+       "erp.product_conversions.to_product_id": {
+        "class": "SOURCE_DOCUMENT",
+        "reason": "Conversion target; the fact is the CONVERSION lot in fg_lots"
+       },
+       "erp.product_price_versions.product_id": {
+        "class": "MASTER",
+        "reason": "Effective-dated price"
+       },
+       "erp.product_conversions.from_product_id": {
+        "class": "SOURCE_DOCUMENT",
+        "reason": "Conversion source, validated as EXISTING_STOCK"
+       },
+       "erp.qc_inspection_items.final_product_id": {
+        "class": "SOURCE_DOCUMENT",
+        "reason": "QC input; the facts are fg_lots and bs_cases"
+       },
+       "erp.fg_accessory_cost_snapshots.product_id": {
+        "class": "DERIVED",
+        "reason": "Cost snapshot of an FG lot"
+       },
+       "erp.po_accessory_bom_commitments.product_id": {
+        "class": "MASTER",
+        "reason": "PO accessory BOM commitment"
+       },
+       "erp.stock_explainability_snapshots.product_id": {
+        "class": "REPORT",
+        "reason": "Stock explanation snapshot"
+       },
+       "erp.non_po_hpp_gl_sync_events_v2620f.product_id": {
+        "class": "ACCOUNTING",
+        "reason": "HPP to GL synchronisation event"
+       },
+       "erp.laundry_receipt_batch_size_lines.bs_product_id": {
+        "class": "SOURCE_DOCUMENT",
+        "reason": "Laundry receipt input; the BS fact is bs_cases"
+       },
+       "erp.product_identity_mutation_context_v1.product_id": {
+        "class": "AUTHORIZATION",
+        "reason": "Private one-use identity edit context"
+       },
+       "erp.laundry_receipt_bs_product_allocations.product_id": {
+        "class": "SOURCE_DOCUMENT",
+        "reason": "Validated as NEW_STOCK; the BS fact is bs_cases"
+       },
+       "erp.contractor_accessory_reimbursement_entitlements.product_id": {
+        "class": "DERIVED",
+        "reason": "Accounting entitlement of an FG lot"
+       }
+      },
+      "references": 23,
+      "new_stock_fact_tables": [
+       "bs_cases",
+       "fg_lots"
+      ]
+     },
+     "ay_sql_sha256": "7a24c1636f1e177c94f1c3ee9d1413599763e5de51c8dcedbd7d01b7cb8de16c"
+    }
+   }
+  },
+  {
+   "group": "AY_CASES_AFTER",
+   "case": "AY:LATE_INVOICE_LOWER_OPEN_RECEIPT_DAY",
+   "status": "PASS",
+   "price": "8.25",
+   "receipt_day": "2026-09-21",
+   "fg_and_sale_day": "2026-09-22",
+   "closed_through_before_invoice": null,
+   "checks": {
+    "values_at_estimate": true,
+    "values_at_invoice": true,
+    "hpp_events_created": true,
+    "hpp_events_not_before_goods": true,
+    "hpp_event_totals": true,
+    "report_receipt_day_fg_cogs_unchanged": true,
+    "report_fg_day": true,
+    "no_negative_daily_inventory": true,
+    "engine_ready_fg_day": true,
+    "close_after_invoice": true,
+    "journal_dates": true
+   },
+   "errors": {},
+   "pre_errors": {},
+   "new_hpp_events": [
+    [
+     "f07dc0d8-b973-45e3-aecb-4b024147879b",
+     "2026-09-22",
+     "-5.250000",
+     "-3.500000",
+     "0.000000"
+    ]
+   ],
+   "hpp_journals": [
+    [
+     "f07dc0d8-b973-45e3-aecb-4b024147879b",
+     "2026-09-22",
+     "2026-09-22"
+    ]
+   ],
+   "report_receipt_day": {
+    "before": {
+     "MATERIAL_INVENTORY": "100.0",
+     "WIP": "1759.0",
+     "FG_INVENTORY": "0.0",
+     "AP_SUPPLIER": "0.0",
+     "GRNI_MATERIAL": "100.0",
+     "COGS": "0.0"
+    },
+    "after": {
+     "MATERIAL_INVENTORY": "100.0",
+     "WIP": "1741.5",
+     "FG_INVENTORY": "0.0",
+     "AP_SUPPLIER": "82.5",
+     "GRNI_MATERIAL": "0.0",
+     "COGS": "0.0"
+    }
+   },
+   "report_fg_day": {
+    "before": {
+     "MATERIAL_INVENTORY": "0.0",
+     "WIP": "1844.0",
+     "FG_INVENTORY": "51.0",
+     "AP_SUPPLIER": "0.0",
+     "GRNI_MATERIAL": "100.0",
+     "COGS": "34.0"
+    },
+    "after": {
+     "MATERIAL_INVENTORY": "0.0",
+     "WIP": "1835.25",
+     "FG_INVENTORY": "45.75",
+     "AP_SUPPLIER": "82.5",
+     "GRNI_MATERIAL": "0.0",
+     "COGS": "30.5"
+    }
+   },
+   "report_day_before_today": {
+    "day": "2026-09-23",
+    "before": {
+     "MATERIAL_INVENTORY": "0.0",
+     "WIP": "1844.0",
+     "FG_INVENTORY": "51.0",
+     "AP_SUPPLIER": "0.0",
+     "GRNI_MATERIAL": "100.0",
+     "COGS": "0.0"
+    },
+    "after": {
+     "MATERIAL_INVENTORY": "0.0",
+     "WIP": "1835.25",
+     "FG_INVENTORY": "45.75",
+     "AP_SUPPLIER": "82.5",
+     "GRNI_MATERIAL": "0.0",
+     "COGS": "0.0"
+    }
+   },
+   "fg_move": "-5.25",
+   "cogs_move": "-3.5",
+   "expected_move": {
+    "fg": "-5.25",
+    "cogs": "-3.50"
+   },
+   "negative_blockers": [],
+   "own_blockers": [],
+   "engine_status_fg_day": "READY",
+   "blockers_fg_day": [],
+   "close_after": [
+    "ACCEPTED",
+    null
+   ],
+   "closed_before": null,
+   "invoice": {
+    "price_state": "FINAL",
+    "purchase_id": "5a39167a-4995-4b79-a0db-ca8e17027e29",
+    "row_version": 3,
+    "correction_id": "7db4bfc8-d988-4841-b97a-bfbede66e050",
+    "supplier_invoice_id": "7db4bfc8-d988-4841-b97a-bfbede66e050",
+    "supplier_invoice_number": "AY-cbb22572fcd3"
+   },
+   "quiet": [
+    {
+     "attendance": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000002",
+       "days": 2,
+       "lines": 2,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-22",
+         "period_id": "0a01e48b-55fa-48bb-b2b1-d68985c11e24",
+         "row_version": 3,
+         "days": 2,
+         "lines": 2
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000003",
+       "days": 2,
+       "lines": 2,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-22",
+         "period_id": "c9152c1d-f959-4ee4-be53-76455078ea9b",
+         "row_version": 3,
+         "days": 2,
+         "lines": 2
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000005",
+       "days": 2,
+       "lines": 2,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-22",
+         "period_id": "8bca6425-f31d-43de-a622-e16b50342471",
+         "row_version": 3,
+         "days": 2,
+         "lines": 2
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      }
+     ],
+     "approved": [
+      "a6000000-0000-0000-0000-000000000021"
+     ],
+     "work_payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000004",
+       "start": "2026-01-01",
+       "end": "2026-01-01"
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000006",
+       "start": "2026-04-01",
+       "end": "2026-04-01"
+      }
+     ],
+     "refused": []
+    },
+    {
+     "attendance": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "days": 2,
+       "lines": 2,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-22",
+         "period_id": "0ed85d04-f5d9-4408-8ab5-66a7d793a31f",
+         "row_version": 3,
+         "days": 2,
+         "lines": 2
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      }
+     ],
+     "approved": [],
+     "work_payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "start": "2026-08-30",
+       "end": "2026-09-22"
+      }
+     ],
+     "refused": []
+    }
+   ],
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AY_CASES_AFTER",
+   "case": "AY:LATE_INVOICE_LOWER_OPEN_KIRITIMATI",
+   "status": "PASS",
+   "price": "8.25",
+   "receipt_day": "2026-09-21",
+   "fg_and_sale_day": "2026-09-22",
+   "closed_through_before_invoice": null,
+   "checks": {
+    "values_at_estimate": true,
+    "values_at_invoice": true,
+    "hpp_events_created": true,
+    "hpp_events_not_before_goods": true,
+    "hpp_event_totals": true,
+    "report_receipt_day_fg_cogs_unchanged": true,
+    "report_fg_day": true,
+    "no_negative_daily_inventory": true,
+    "engine_ready_fg_day": true,
+    "close_after_invoice": true,
+    "journal_dates": true
+   },
+   "errors": {},
+   "pre_errors": {},
+   "new_hpp_events": [
+    [
+     "ef935794-4bea-4281-b1e0-5cf96a0c5ed2",
+     "2026-09-22",
+     "-5.250000",
+     "-3.500000",
+     "0.000000"
+    ]
+   ],
+   "hpp_journals": [
+    [
+     "ef935794-4bea-4281-b1e0-5cf96a0c5ed2",
+     "2026-09-22",
+     "2026-09-22"
+    ]
+   ],
+   "report_receipt_day": {
+    "before": {
+     "MATERIAL_INVENTORY": "100.0",
+     "WIP": "1759.0",
+     "FG_INVENTORY": "0.0",
+     "AP_SUPPLIER": "0.0",
+     "GRNI_MATERIAL": "100.0",
+     "COGS": "0.0"
+    },
+    "after": {
+     "MATERIAL_INVENTORY": "100.0",
+     "WIP": "1741.5",
+     "FG_INVENTORY": "0.0",
+     "AP_SUPPLIER": "82.5",
+     "GRNI_MATERIAL": "0.0",
+     "COGS": "0.0"
+    }
+   },
+   "report_fg_day": {
+    "before": {
+     "MATERIAL_INVENTORY": "0.0",
+     "WIP": "1844.0",
+     "FG_INVENTORY": "51.0",
+     "AP_SUPPLIER": "0.0",
+     "GRNI_MATERIAL": "100.0",
+     "COGS": "34.0"
+    },
+    "after": {
+     "MATERIAL_INVENTORY": "0.0",
+     "WIP": "1835.25",
+     "FG_INVENTORY": "45.75",
+     "AP_SUPPLIER": "82.5",
+     "GRNI_MATERIAL": "0.0",
+     "COGS": "30.5"
+    }
+   },
+   "report_day_before_today": {
+    "day": "2026-09-23",
+    "before": {
+     "MATERIAL_INVENTORY": "0.0",
+     "WIP": "1844.0",
+     "FG_INVENTORY": "51.0",
+     "AP_SUPPLIER": "0.0",
+     "GRNI_MATERIAL": "100.0",
+     "COGS": "0.0"
+    },
+    "after": {
+     "MATERIAL_INVENTORY": "0.0",
+     "WIP": "1835.25",
+     "FG_INVENTORY": "45.75",
+     "AP_SUPPLIER": "82.5",
+     "GRNI_MATERIAL": "0.0",
+     "COGS": "0.0"
+    }
+   },
+   "fg_move": "-5.25",
+   "cogs_move": "-3.5",
+   "expected_move": {
+    "fg": "-5.25",
+    "cogs": "-3.50"
+   },
+   "negative_blockers": [],
+   "own_blockers": [],
+   "engine_status_fg_day": "READY",
+   "blockers_fg_day": [],
+   "close_after": [
+    "ACCEPTED",
+    null
+   ],
+   "closed_before": null,
+   "invoice": {
+    "price_state": "FINAL",
+    "purchase_id": "cbad7642-2fe0-4e2c-bd51-6bd2e62a847e",
+    "row_version": 3,
+    "correction_id": "2c0010ac-8026-4f8d-9574-32d3dab268df",
+    "supplier_invoice_id": "2c0010ac-8026-4f8d-9574-32d3dab268df",
+    "supplier_invoice_number": "AY-d25bd8fc44ac"
+   },
+   "quiet": [
+    {
+     "attendance": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000002",
+       "days": 2,
+       "lines": 2,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-22",
+         "period_id": "3743bfd2-89d8-414c-a0d3-3a2ade36c279",
+         "row_version": 3,
+         "days": 2,
+         "lines": 2
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000003",
+       "days": 2,
+       "lines": 2,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-22",
+         "period_id": "9d793293-f677-4079-b513-dfc2106ed7c6",
+         "row_version": 3,
+         "days": 2,
+         "lines": 2
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000005",
+       "days": 2,
+       "lines": 2,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-22",
+         "period_id": "f4257d7b-6371-472f-abc6-9636a0ad0a06",
+         "row_version": 3,
+         "days": 2,
+         "lines": 2
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      }
+     ],
+     "approved": [
+      "a6000000-0000-0000-0000-000000000021"
+     ],
+     "work_payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000004",
+       "start": "2026-01-01",
+       "end": "2026-01-01"
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000006",
+       "start": "2026-04-01",
+       "end": "2026-04-01"
+      }
+     ],
+     "refused": []
+    },
+    {
+     "attendance": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "days": 2,
+       "lines": 2,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-22",
+         "period_id": "0abb99d8-eb39-4c33-9d40-f135265dcddf",
+         "row_version": 3,
+         "days": 2,
+         "lines": 2
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      }
+     ],
+     "approved": [],
+     "work_payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "start": "2026-08-30",
+       "end": "2026-09-22"
+      }
+     ],
+     "refused": []
+    }
+   ],
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AY_CASES_AFTER",
+   "case": "AY:LATE_INVOICE_HIGHER_OPEN_RECEIPT_DAY",
+   "status": "PASS",
+   "price": "10.70",
+   "receipt_day": "2026-09-21",
+   "fg_and_sale_day": "2026-09-22",
+   "closed_through_before_invoice": null,
+   "checks": {
+    "values_at_estimate": true,
+    "values_at_invoice": true,
+    "hpp_events_created": true,
+    "hpp_events_not_before_goods": true,
+    "hpp_event_totals": true,
+    "report_receipt_day_fg_cogs_unchanged": true,
+    "report_fg_day": true,
+    "no_negative_daily_inventory": true,
+    "engine_ready_fg_day": true,
+    "close_after_invoice": true,
+    "journal_dates": true
+   },
+   "errors": {},
+   "pre_errors": {},
+   "new_hpp_events": [
+    [
+     "18689569-5959-402e-bd33-d35f9999bc30",
+     "2026-09-22",
+     "2.100000",
+     "1.400000",
+     "0.000000"
+    ]
+   ],
+   "hpp_journals": [
+    [
+     "18689569-5959-402e-bd33-d35f9999bc30",
+     "2026-09-22",
+     "2026-09-22"
+    ]
+   ],
+   "report_receipt_day": {
+    "before": {
+     "MATERIAL_INVENTORY": "100.0",
+     "WIP": "1759.0",
+     "FG_INVENTORY": "0.0",
+     "AP_SUPPLIER": "0.0",
+     "GRNI_MATERIAL": "100.0",
+     "COGS": "0.0"
+    },
+    "after": {
+     "MATERIAL_INVENTORY": "100.0",
+     "WIP": "1766.0",
+     "FG_INVENTORY": "0.0",
+     "AP_SUPPLIER": "107.0",
+     "GRNI_MATERIAL": "0.0",
+     "COGS": "0.0"
+    }
+   },
+   "report_fg_day": {
+    "before": {
+     "MATERIAL_INVENTORY": "0.0",
+     "WIP": "1844.0",
+     "FG_INVENTORY": "51.0",
+     "AP_SUPPLIER": "0.0",
+     "GRNI_MATERIAL": "100.0",
+     "COGS": "34.0"
+    },
+    "after": {
+     "MATERIAL_INVENTORY": "0.0",
+     "WIP": "1847.5",
+     "FG_INVENTORY": "53.1",
+     "AP_SUPPLIER": "107.0",
+     "GRNI_MATERIAL": "0.0",
+     "COGS": "35.4"
+    }
+   },
+   "report_day_before_today": {
+    "day": "2026-09-23",
+    "before": {
+     "MATERIAL_INVENTORY": "0.0",
+     "WIP": "1844.0",
+     "FG_INVENTORY": "51.0",
+     "AP_SUPPLIER": "0.0",
+     "GRNI_MATERIAL": "100.0",
+     "COGS": "0.0"
+    },
+    "after": {
+     "MATERIAL_INVENTORY": "0.0",
+     "WIP": "1847.5",
+     "FG_INVENTORY": "53.1",
+     "AP_SUPPLIER": "107.0",
+     "GRNI_MATERIAL": "0.0",
+     "COGS": "0.0"
+    }
+   },
+   "fg_move": "2.1",
+   "cogs_move": "1.4",
+   "expected_move": {
+    "fg": "2.10",
+    "cogs": "1.40"
+   },
+   "negative_blockers": [],
+   "own_blockers": [],
+   "engine_status_fg_day": "READY",
+   "blockers_fg_day": [],
+   "close_after": [
+    "ACCEPTED",
+    null
+   ],
+   "closed_before": null,
+   "invoice": {
+    "price_state": "FINAL",
+    "purchase_id": "cc000e06-eec2-40d6-99b8-d624f90757fa",
+    "row_version": 3,
+    "correction_id": "ac899850-0675-4265-bf32-af6b52bd7f2f",
+    "supplier_invoice_id": "ac899850-0675-4265-bf32-af6b52bd7f2f",
+    "supplier_invoice_number": "AY-ffea541ce87c"
+   },
+   "quiet": [
+    {
+     "attendance": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000002",
+       "days": 2,
+       "lines": 2,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-22",
+         "period_id": "3ecc9299-4ac1-4679-aa09-3cc06ae0e35d",
+         "row_version": 3,
+         "days": 2,
+         "lines": 2
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000003",
+       "days": 2,
+       "lines": 2,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-22",
+         "period_id": "243a31a3-d368-486b-a7a5-38d35a364396",
+         "row_version": 3,
+         "days": 2,
+         "lines": 2
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000005",
+       "days": 2,
+       "lines": 2,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-22",
+         "period_id": "d4e117cd-a964-4679-98c5-2dd105575e9b",
+         "row_version": 3,
+         "days": 2,
+         "lines": 2
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      }
+     ],
+     "approved": [
+      "a6000000-0000-0000-0000-000000000021"
+     ],
+     "work_payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000004",
+       "start": "2026-01-01",
+       "end": "2026-01-01"
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000006",
+       "start": "2026-04-01",
+       "end": "2026-04-01"
+      }
+     ],
+     "refused": []
+    },
+    {
+     "attendance": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "days": 2,
+       "lines": 2,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-22",
+         "period_id": "58b934e0-ef25-4671-adfd-0f49323dbefb",
+         "row_version": 3,
+         "days": 2,
+         "lines": 2
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      }
+     ],
+     "approved": [],
+     "work_payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "start": "2026-08-30",
+       "end": "2026-09-22"
+      }
+     ],
+     "refused": []
+    }
+   ],
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AY_CASES_AFTER",
+   "case": "AY:LATE_INVOICE_LOWER_CLOSED_HISTORY",
+   "status": "PASS",
+   "price": "8.25",
+   "receipt_day": "2026-09-21",
+   "fg_and_sale_day": "2026-09-22",
+   "closed_through_before_invoice": "2026-09-22",
+   "checks": {
+    "values_at_estimate": true,
+    "values_at_invoice": true,
+    "hpp_events_created": true,
+    "hpp_events_not_before_goods": true,
+    "hpp_event_totals": true,
+    "report_receipt_day_fg_cogs_unchanged": true,
+    "report_fg_day": true,
+    "no_negative_daily_inventory": true,
+    "engine_ready_fg_day": true,
+    "close_after_invoice": true,
+    "journal_dates": true,
+    "closed_day_gl_unchanged": true,
+    "history_before_invoice_unchanged": true
+   },
+   "errors": {},
+   "pre_errors": {},
+   "new_hpp_events": [
+    [
+     "e7ed91ad-9e5e-46a8-a3c0-25cc7212e405",
+     "2026-09-24",
+     "-5.250000",
+     "-3.500000",
+     "0.000000"
+    ]
+   ],
+   "hpp_journals": [
+    [
+     "e7ed91ad-9e5e-46a8-a3c0-25cc7212e405",
+     "2026-09-21",
+     "2026-09-24"
+    ]
+   ],
+   "report_receipt_day": {
+    "before": {
+     "MATERIAL_INVENTORY": "100.0",
+     "WIP": "1759.0",
+     "FG_INVENTORY": "0.0",
+     "AP_SUPPLIER": "0.0",
+     "GRNI_MATERIAL": "100.0",
+     "COGS": "0.0"
+    },
+    "after": {
+     "MATERIAL_INVENTORY": "100.0",
+     "WIP": "1759.0",
+     "FG_INVENTORY": "0.0",
+     "AP_SUPPLIER": "0.0",
+     "GRNI_MATERIAL": "100.0",
+     "COGS": "0.0"
+    }
+   },
+   "report_fg_day": {
+    "before": {
+     "MATERIAL_INVENTORY": "0.0",
+     "WIP": "1844.0",
+     "FG_INVENTORY": "51.0",
+     "AP_SUPPLIER": "0.0",
+     "GRNI_MATERIAL": "100.0",
+     "COGS": "34.0"
+    },
+    "after": {
+     "MATERIAL_INVENTORY": "0.0",
+     "WIP": "1844.0",
+     "FG_INVENTORY": "51.0",
+     "AP_SUPPLIER": "0.0",
+     "GRNI_MATERIAL": "100.0",
+     "COGS": "34.0"
+    }
+   },
+   "report_day_before_today": {
+    "day": "2026-09-23",
+    "before": {
+     "MATERIAL_INVENTORY": "0.0",
+     "WIP": "1844.0",
+     "FG_INVENTORY": "51.0",
+     "AP_SUPPLIER": "0.0",
+     "GRNI_MATERIAL": "100.0",
+     "COGS": "0.0"
+    },
+    "after": {
+     "MATERIAL_INVENTORY": "0.0",
+     "WIP": "1844.0",
+     "FG_INVENTORY": "51.0",
+     "AP_SUPPLIER": "0.0",
+     "GRNI_MATERIAL": "100.0",
+     "COGS": "0.0"
+    }
+   },
+   "fg_move": "0.0",
+   "cogs_move": "0.0",
+   "expected_move": {
+    "fg": "-5.25",
+    "cogs": "-3.50"
+   },
+   "negative_blockers": [],
+   "own_blockers": [],
+   "engine_status_fg_day": "READY",
+   "blockers_fg_day": [],
+   "close_after": [
+    "ALREADY_CLOSED",
+    null
+   ],
+   "closed_before": [
+    "ACCEPTED",
+    null
+   ],
+   "invoice": {
+    "price_state": "FINAL",
+    "purchase_id": "a65c4b72-6900-4280-801e-88e29e544b2b",
+    "row_version": 3,
+    "correction_id": "4bee57e7-3e06-4c17-b079-4c053b418b95",
+    "supplier_invoice_id": "4bee57e7-3e06-4c17-b079-4c053b418b95",
+    "supplier_invoice_number": "AY-0b202c0bd27b"
+   },
+   "quiet": [
+    {
+     "attendance": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000002",
+       "days": 2,
+       "lines": 2,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-22",
+         "period_id": "54a4e064-a96b-47b2-aea1-928f240cd0c0",
+         "row_version": 3,
+         "days": 2,
+         "lines": 2
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000003",
+       "days": 2,
+       "lines": 2,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-22",
+         "period_id": "057fb066-d6af-4a38-a889-9785bce75e3c",
+         "row_version": 3,
+         "days": 2,
+         "lines": 2
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000005",
+       "days": 2,
+       "lines": 2,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-22",
+         "period_id": "23accef4-c18f-437d-8120-539f20375ce7",
+         "row_version": 3,
+         "days": 2,
+         "lines": 2
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      }
+     ],
+     "approved": [
+      "a6000000-0000-0000-0000-000000000021"
+     ],
+     "work_payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000004",
+       "start": "2026-01-01",
+       "end": "2026-01-01"
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000006",
+       "start": "2026-04-01",
+       "end": "2026-04-01"
+      }
+     ],
+     "refused": []
+    },
+    {
+     "attendance": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "days": 2,
+       "lines": 2,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-22",
+         "period_id": "bd21f293-3a46-4c86-a64f-e68c51aa4ed9",
+         "row_version": 3,
+         "days": 2,
+         "lines": 2
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      }
+     ],
+     "approved": [],
+     "work_payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "start": "2026-08-30",
+       "end": "2026-09-22"
+      }
+     ],
+     "refused": []
+    }
+   ],
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AY_CASES_AFTER",
+   "case": "AY:LATE_INVOICE_HIGHER_CLOSED_HISTORY",
+   "status": "PASS",
+   "price": "10.70",
+   "receipt_day": "2026-09-21",
+   "fg_and_sale_day": "2026-09-22",
+   "closed_through_before_invoice": "2026-09-22",
+   "checks": {
+    "values_at_estimate": true,
+    "values_at_invoice": true,
+    "hpp_events_created": true,
+    "hpp_events_not_before_goods": true,
+    "hpp_event_totals": true,
+    "report_receipt_day_fg_cogs_unchanged": true,
+    "report_fg_day": true,
+    "no_negative_daily_inventory": true,
+    "engine_ready_fg_day": true,
+    "close_after_invoice": true,
+    "journal_dates": true,
+    "closed_day_gl_unchanged": true,
+    "history_before_invoice_unchanged": true
+   },
+   "errors": {},
+   "pre_errors": {},
+   "new_hpp_events": [
+    [
+     "90b1e4e4-f097-49a9-9bec-ac2c3329ff85",
+     "2026-09-24",
+     "2.100000",
+     "1.400000",
+     "0.000000"
+    ]
+   ],
+   "hpp_journals": [
+    [
+     "90b1e4e4-f097-49a9-9bec-ac2c3329ff85",
+     "2026-09-21",
+     "2026-09-24"
+    ]
+   ],
+   "report_receipt_day": {
+    "before": {
+     "MATERIAL_INVENTORY": "100.0",
+     "WIP": "1759.0",
+     "FG_INVENTORY": "0.0",
+     "AP_SUPPLIER": "0.0",
+     "GRNI_MATERIAL": "100.0",
+     "COGS": "0.0"
+    },
+    "after": {
+     "MATERIAL_INVENTORY": "100.0",
+     "WIP": "1759.0",
+     "FG_INVENTORY": "0.0",
+     "AP_SUPPLIER": "0.0",
+     "GRNI_MATERIAL": "100.0",
+     "COGS": "0.0"
+    }
+   },
+   "report_fg_day": {
+    "before": {
+     "MATERIAL_INVENTORY": "0.0",
+     "WIP": "1844.0",
+     "FG_INVENTORY": "51.0",
+     "AP_SUPPLIER": "0.0",
+     "GRNI_MATERIAL": "100.0",
+     "COGS": "34.0"
+    },
+    "after": {
+     "MATERIAL_INVENTORY": "0.0",
+     "WIP": "1844.0",
+     "FG_INVENTORY": "51.0",
+     "AP_SUPPLIER": "0.0",
+     "GRNI_MATERIAL": "100.0",
+     "COGS": "34.0"
+    }
+   },
+   "report_day_before_today": {
+    "day": "2026-09-23",
+    "before": {
+     "MATERIAL_INVENTORY": "0.0",
+     "WIP": "1844.0",
+     "FG_INVENTORY": "51.0",
+     "AP_SUPPLIER": "0.0",
+     "GRNI_MATERIAL": "100.0",
+     "COGS": "0.0"
+    },
+    "after": {
+     "MATERIAL_INVENTORY": "0.0",
+     "WIP": "1844.0",
+     "FG_INVENTORY": "51.0",
+     "AP_SUPPLIER": "0.0",
+     "GRNI_MATERIAL": "100.0",
+     "COGS": "0.0"
+    }
+   },
+   "fg_move": "0.0",
+   "cogs_move": "0.0",
+   "expected_move": {
+    "fg": "2.10",
+    "cogs": "1.40"
+   },
+   "negative_blockers": [],
+   "own_blockers": [],
+   "engine_status_fg_day": "READY",
+   "blockers_fg_day": [],
+   "close_after": [
+    "ALREADY_CLOSED",
+    null
+   ],
+   "closed_before": [
+    "ACCEPTED",
+    null
+   ],
+   "invoice": {
+    "price_state": "FINAL",
+    "purchase_id": "93ef2c02-8695-452e-901f-ea3ebf786c43",
+    "row_version": 3,
+    "correction_id": "7908268f-0772-4d4d-95b2-bb47b32f0356",
+    "supplier_invoice_id": "7908268f-0772-4d4d-95b2-bb47b32f0356",
+    "supplier_invoice_number": "AY-284f55f30123"
+   },
+   "quiet": [
+    {
+     "attendance": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000002",
+       "days": 2,
+       "lines": 2,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-22",
+         "period_id": "65f4cef9-9bc7-468f-b692-387037132a8b",
+         "row_version": 3,
+         "days": 2,
+         "lines": 2
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000003",
+       "days": 2,
+       "lines": 2,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-22",
+         "period_id": "bd81c81b-22e9-4f61-bd0a-cbc54125053b",
+         "row_version": 3,
+         "days": 2,
+         "lines": 2
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000005",
+       "days": 2,
+       "lines": 2,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-22",
+         "period_id": "5513a410-5619-481d-be34-dd18be80725f",
+         "row_version": 3,
+         "days": 2,
+         "lines": 2
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      }
+     ],
+     "approved": [
+      "a6000000-0000-0000-0000-000000000021"
+     ],
+     "work_payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000004",
+       "start": "2026-01-01",
+       "end": "2026-01-01"
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000006",
+       "start": "2026-04-01",
+       "end": "2026-04-01"
+      }
+     ],
+     "refused": []
+    },
+    {
+     "attendance": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "days": 2,
+       "lines": 2,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-22",
+         "period_id": "7bdadd38-48c8-46f3-bf97-d5410379b213",
+         "row_version": 3,
+         "days": 2,
+         "lines": 2
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      }
+     ],
+     "approved": [],
+     "work_payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "start": "2026-08-30",
+       "end": "2026-09-22"
+      }
+     ],
+     "refused": []
+    }
+   ],
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AY_CASES_AFTER",
+   "case": "AY:LATE_INVOICE_LOWER_CLOSED_RECEIPT_OPEN_GOODS",
+   "status": "PASS",
+   "price": "8.25",
+   "receipt_day": "2026-09-21",
+   "fg_and_sale_day": "2026-09-22",
+   "closed_through_before_invoice": "2026-09-21",
+   "checks": {
+    "values_at_estimate": true,
+    "values_at_invoice": true,
+    "hpp_events_created": true,
+    "hpp_events_not_before_goods": true,
+    "hpp_event_totals": true,
+    "report_receipt_day_fg_cogs_unchanged": true,
+    "report_fg_day": true,
+    "no_negative_daily_inventory": true,
+    "engine_ready_fg_day": true,
+    "close_after_invoice": true,
+    "journal_dates": true,
+    "history_before_invoice_unchanged": true
+   },
+   "errors": {},
+   "pre_errors": {},
+   "new_hpp_events": [
+    [
+     "d2d322fa-623a-4fa1-bea1-c5a3d9782a31",
+     "2026-09-24",
+     "-5.250000",
+     "-3.500000",
+     "0.000000"
+    ]
+   ],
+   "hpp_journals": [
+    [
+     "d2d322fa-623a-4fa1-bea1-c5a3d9782a31",
+     "2026-09-21",
+     "2026-09-24"
+    ]
+   ],
+   "report_receipt_day": {
+    "before": {
+     "MATERIAL_INVENTORY": "100.0",
+     "WIP": "1759.0",
+     "FG_INVENTORY": "0.0",
+     "AP_SUPPLIER": "0.0",
+     "GRNI_MATERIAL": "100.0",
+     "COGS": "0.0"
+    },
+    "after": {
+     "MATERIAL_INVENTORY": "100.0",
+     "WIP": "1759.0",
+     "FG_INVENTORY": "0.0",
+     "AP_SUPPLIER": "0.0",
+     "GRNI_MATERIAL": "100.0",
+     "COGS": "0.0"
+    }
+   },
+   "report_fg_day": {
+    "before": {
+     "MATERIAL_INVENTORY": "0.0",
+     "WIP": "1844.0",
+     "FG_INVENTORY": "51.0",
+     "AP_SUPPLIER": "0.0",
+     "GRNI_MATERIAL": "100.0",
+     "COGS": "34.0"
+    },
+    "after": {
+     "MATERIAL_INVENTORY": "0.0",
+     "WIP": "1844.0",
+     "FG_INVENTORY": "51.0",
+     "AP_SUPPLIER": "0.0",
+     "GRNI_MATERIAL": "100.0",
+     "COGS": "34.0"
+    }
+   },
+   "report_day_before_today": {
+    "day": "2026-09-23",
+    "before": {
+     "MATERIAL_INVENTORY": "0.0",
+     "WIP": "1844.0",
+     "FG_INVENTORY": "51.0",
+     "AP_SUPPLIER": "0.0",
+     "GRNI_MATERIAL": "100.0",
+     "COGS": "0.0"
+    },
+    "after": {
+     "MATERIAL_INVENTORY": "0.0",
+     "WIP": "1844.0",
+     "FG_INVENTORY": "51.0",
+     "AP_SUPPLIER": "0.0",
+     "GRNI_MATERIAL": "100.0",
+     "COGS": "0.0"
+    }
+   },
+   "fg_move": "0.0",
+   "cogs_move": "0.0",
+   "expected_move": {
+    "fg": "-5.25",
+    "cogs": "-3.50"
+   },
+   "negative_blockers": [],
+   "own_blockers": [],
+   "engine_status_fg_day": "READY",
+   "blockers_fg_day": [],
+   "close_after": [
+    "ACCEPTED",
+    null
+   ],
+   "closed_before": [
+    "ACCEPTED",
+    null
+   ],
+   "invoice": {
+    "price_state": "FINAL",
+    "purchase_id": "144c1a5c-45fb-4e88-9353-6337b8c1da38",
+    "row_version": 3,
+    "correction_id": "a31d3cb2-74af-4a39-b270-77264ec9157b",
+    "supplier_invoice_id": "a31d3cb2-74af-4a39-b270-77264ec9157b",
+    "supplier_invoice_number": "AY-4c3ea8857e69"
+   },
+   "quiet": [
+    {
+     "attendance": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000002",
+       "days": 2,
+       "lines": 2,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-22",
+         "period_id": "6859e5e7-9ae7-49fe-9d67-c1e55023d9d6",
+         "row_version": 3,
+         "days": 2,
+         "lines": 2
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000003",
+       "days": 2,
+       "lines": 2,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-22",
+         "period_id": "ff91d8d2-4591-4eb3-9d27-69d1ebe76275",
+         "row_version": 3,
+         "days": 2,
+         "lines": 2
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000005",
+       "days": 2,
+       "lines": 2,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-22",
+         "period_id": "ddecaff6-819e-47d6-919c-78099de55c59",
+         "row_version": 3,
+         "days": 2,
+         "lines": 2
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      }
+     ],
+     "approved": [
+      "a6000000-0000-0000-0000-000000000021"
+     ],
+     "work_payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000004",
+       "start": "2026-01-01",
+       "end": "2026-01-01"
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000006",
+       "start": "2026-04-01",
+       "end": "2026-04-01"
+      }
+     ],
+     "refused": []
+    },
+    {
+     "attendance": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "days": 2,
+       "lines": 2,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-22",
+         "period_id": "88768bb6-02f1-4662-8363-8013b137e1c7",
+         "row_version": 3,
+         "days": 2,
+         "lines": 2
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      }
+     ],
+     "approved": [],
+     "work_payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "start": "2026-08-30",
+       "end": "2026-09-22"
+      }
+     ],
+     "refused": []
+    }
+   ],
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AY_CASES_AFTER",
+   "case": "AY:LATE_INVOICE_HIGHER_CLOSED_RECEIPT_OPEN_GOODS",
+   "status": "PASS",
+   "price": "10.70",
+   "receipt_day": "2026-09-21",
+   "fg_and_sale_day": "2026-09-22",
+   "closed_through_before_invoice": "2026-09-21",
+   "checks": {
+    "values_at_estimate": true,
+    "values_at_invoice": true,
+    "hpp_events_created": true,
+    "hpp_events_not_before_goods": true,
+    "hpp_event_totals": true,
+    "report_receipt_day_fg_cogs_unchanged": true,
+    "report_fg_day": true,
+    "no_negative_daily_inventory": true,
+    "engine_ready_fg_day": true,
+    "close_after_invoice": true,
+    "journal_dates": true,
+    "history_before_invoice_unchanged": true
+   },
+   "errors": {},
+   "pre_errors": {},
+   "new_hpp_events": [
+    [
+     "cff924aa-f3a8-4408-80fe-e0f50774e132",
+     "2026-09-24",
+     "2.100000",
+     "1.400000",
+     "0.000000"
+    ]
+   ],
+   "hpp_journals": [
+    [
+     "cff924aa-f3a8-4408-80fe-e0f50774e132",
+     "2026-09-21",
+     "2026-09-24"
+    ]
+   ],
+   "report_receipt_day": {
+    "before": {
+     "MATERIAL_INVENTORY": "100.0",
+     "WIP": "1759.0",
+     "FG_INVENTORY": "0.0",
+     "AP_SUPPLIER": "0.0",
+     "GRNI_MATERIAL": "100.0",
+     "COGS": "0.0"
+    },
+    "after": {
+     "MATERIAL_INVENTORY": "100.0",
+     "WIP": "1759.0",
+     "FG_INVENTORY": "0.0",
+     "AP_SUPPLIER": "0.0",
+     "GRNI_MATERIAL": "100.0",
+     "COGS": "0.0"
+    }
+   },
+   "report_fg_day": {
+    "before": {
+     "MATERIAL_INVENTORY": "0.0",
+     "WIP": "1844.0",
+     "FG_INVENTORY": "51.0",
+     "AP_SUPPLIER": "0.0",
+     "GRNI_MATERIAL": "100.0",
+     "COGS": "34.0"
+    },
+    "after": {
+     "MATERIAL_INVENTORY": "0.0",
+     "WIP": "1844.0",
+     "FG_INVENTORY": "51.0",
+     "AP_SUPPLIER": "0.0",
+     "GRNI_MATERIAL": "100.0",
+     "COGS": "34.0"
+    }
+   },
+   "report_day_before_today": {
+    "day": "2026-09-23",
+    "before": {
+     "MATERIAL_INVENTORY": "0.0",
+     "WIP": "1844.0",
+     "FG_INVENTORY": "51.0",
+     "AP_SUPPLIER": "0.0",
+     "GRNI_MATERIAL": "100.0",
+     "COGS": "0.0"
+    },
+    "after": {
+     "MATERIAL_INVENTORY": "0.0",
+     "WIP": "1844.0",
+     "FG_INVENTORY": "51.0",
+     "AP_SUPPLIER": "0.0",
+     "GRNI_MATERIAL": "100.0",
+     "COGS": "0.0"
+    }
+   },
+   "fg_move": "0.0",
+   "cogs_move": "0.0",
+   "expected_move": {
+    "fg": "2.10",
+    "cogs": "1.40"
+   },
+   "negative_blockers": [],
+   "own_blockers": [],
+   "engine_status_fg_day": "READY",
+   "blockers_fg_day": [],
+   "close_after": [
+    "ACCEPTED",
+    null
+   ],
+   "closed_before": [
+    "ACCEPTED",
+    null
+   ],
+   "invoice": {
+    "price_state": "FINAL",
+    "purchase_id": "186124df-5b41-4a96-b1e3-4e56444db5af",
+    "row_version": 3,
+    "correction_id": "1f34ec0e-63fa-4dd1-a600-00f959a75613",
+    "supplier_invoice_id": "1f34ec0e-63fa-4dd1-a600-00f959a75613",
+    "supplier_invoice_number": "AY-4948bd15a3fb"
+   },
+   "quiet": [
+    {
+     "attendance": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000002",
+       "days": 2,
+       "lines": 2,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-22",
+         "period_id": "9bb0b44f-a070-4319-9a80-41e37137f084",
+         "row_version": 3,
+         "days": 2,
+         "lines": 2
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000003",
+       "days": 2,
+       "lines": 2,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-22",
+         "period_id": "ce3d4426-d24d-4d3e-9b39-4a1f401a09d1",
+         "row_version": 3,
+         "days": 2,
+         "lines": 2
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000005",
+       "days": 2,
+       "lines": 2,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-22",
+         "period_id": "217a526f-64a8-4ba5-8c4c-f339f1a905bb",
+         "row_version": 3,
+         "days": 2,
+         "lines": 2
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      }
+     ],
+     "approved": [
+      "a6000000-0000-0000-0000-000000000021"
+     ],
+     "work_payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000004",
+       "start": "2026-01-01",
+       "end": "2026-01-01"
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000006",
+       "start": "2026-04-01",
+       "end": "2026-04-01"
+      }
+     ],
+     "refused": []
+    },
+    {
+     "attendance": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "days": 2,
+       "lines": 2,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-22",
+         "period_id": "4cc4e4bb-5862-4456-9b29-5067e04868fc",
+         "row_version": 3,
+         "days": 2,
+         "lines": 2
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      }
+     ],
+     "approved": [],
+     "work_payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "start": "2026-08-30",
+       "end": "2026-09-22"
+      }
+     ],
+     "refused": []
+    }
+   ],
+   "full_boundary_restored": true
+  },
+  {
+   "ay_probe_phase": "after",
+   "status": "REVIEW_COMPLETE",
+   "label": "T1_FAMILY",
+   "phase": "after",
+   "source": {
+    "auditor_head": "03303750c12bbf48a7c27e2687bb6e25c8a609aa",
+    "auditor_tree": "e88bd80bbbc11e5266a514f20fe4ac2449ff4421",
+    "frozen_writer": "ca7f09556397801c50a2277bdb65b1bf019f9a05",
+    "changed_from_frozen": [
+     ".github/workflows/cp6-av-capture.yml",
+     ".github/workflows/cp6-av-qualification.yml",
+     ".github/workflows/cp6-aw-t1-probe.yml",
+     ".github/workflows/cp6-ax-t1-probe.yml",
+     ".github/workflows/cp6-ay-t1-probe.yml",
+     ".github/workflows/cp6-az-t1-probe.yml",
+     ".github/workflows/cp6-candidate-codeql.yml",
+     ".github/workflows/cp6-g01-baseline.yml",
+     ".github/workflows/cp6-s06-close-probe.yml",
+     ".github/workflows/cp6-t2-regression.yml",
+     ".github/workflows/cp6-t3-aligned-install.yml",
+     ".github/workflows/cp6-t3-release-package.yml",
+     "docs/cp6-au-r1-handoff.md",
+     "docs/cp6-aw-design.md",
+     "docs/evidence/cp6-a04-r2/README.md",
+     "docs/evidence/cp6-a04-r2/full_suite_after_fix.json",
+     "docs/evidence/cp6-a04-r2/full_suite_before_fix.json",
+     "docs/evidence/cp6-a04-r2/gpt_probe_adapted.test.tsx.txt",
+     "docs/evidence/cp6-a04-r2/gpt_probe_on_2257431_before_fix.json",
+     "docs/evidence/cp6-a04-r2/gpt_probe_on_fix_adapted_capture.json",
+     "docs/evidence/cp6-a04-r2/gpt_probe_on_fix_unmodified.json",
+     "docs/evidence/cp6-a04-r2/new_tests_on_pre_fix_source.json",
+     "docs/evidence/cp6-au-r1/MANIFEST.json",
+     "docs/evidence/cp6-au-r1/raw/run_35837408181_job_107104064445.log",
+     "docs/evidence/cp6-au-r1/raw/run_35838014072_job_107106040737.log",
+     "docs/evidence/cp6-au-r1/raw/run_35838611997_job_107108022412.log",
+     "docs/evidence/cp6-au-r1/raw/run_35839202630_job_107109943350.log",
+     "docs/evidence/cp6-au-r1/run_35837408181_records.json",
+     "docs/evidence/cp6-au-r1/run_35838014072_records.json",
+     "docs/evidence/cp6-au-r1/run_35838611997_records.json",
+     "docs/evidence/cp6-au-r1/run_35839202630_records.json",
+     "docs/evidence/cp6-av-pins.json",
+     "docs/evidence/cp6-av-r2-pins.json",
+     "docs/evidence/cp6-av-r2-schema-capture.json",
+     "docs/evidence/cp6-av-r2/local_pg16_backfill.json",
+     "docs/evidence/cp6-av-r2/local_pg16_smoke.json",
+     "docs/evidence/cp6-av-r2/probe_defect_log_run1.json",
+     "docs/evidence/cp6-av-r2/run35850597894_manifest.json",
+     "docs/evidence/cp6-av-r2/run35850597894_probe-after_records.json",
+     "docs/evidence/cp6-av-r2/run35850597894_probe-before_records.json",
+     "docs/evidence/cp6-av-r2/run35850597894_qualify_records.json",
+     "docs/evidence/cp6-av-r2/run35850597894_regression_records.json",
+     "docs/evidence/cp6-av-r2/run35850597894_temporal_records.json",
+     "docs/evidence/cp6-av-r2/run35851917304_manifest.json",
+     "docs/evidence/cp6-av-r2/run35851917304_probe-after_records.json",
+     "docs/evidence/cp6-av-r2/run35851917304_probe-before_records.json",
+     "docs/evidence/cp6-av-r2/run35851917304_qualify_records.json",
+     "docs/evidence/cp6-av-r2/run35851917304_regression_records.json",
+     "docs/evidence/cp6-av-r2/run35851917304_temporal_records.json",
+     "docs/evidence/cp6-av-r2/run35852437460_manifest.json",
+     "docs/evidence/cp6-av-r2/run35852437460_probe-after_records.json",
+     "docs/evidence/cp6-av-r2/run35852437460_probe-before_records.json",
+     "docs/evidence/cp6-av-r2/run35852437460_qualify_records.json",
+     "docs/evidence/cp6-av-r2/run35852437460_regression_records.json",
+     "docs/evidence/cp6-av-r2/run35852437460_temporal_records.json",
+     "docs/evidence/cp6-av-r2/run35853810855_manifest.json",
+     "docs/evidence/cp6-av-r2/run35853810855_probe-after_records.json",
+     "docs/evidence/cp6-av-r2/run35853810855_probe-before_records.json",
+     "docs/evidence/cp6-av-r2/run35853810855_qualify_records.json",
+     "docs/evidence/cp6-av-r2/run35853810855_regression_records.json",
+     "docs/evidence/cp6-av-r2/run35853810855_temporal_records.json",
+     "docs/evidence/cp6-aw/local_pg16_smoke.json",
+     "docs/evidence/cp6-aw/local_pg16_smoke_r2.json",
+     "docs/evidence/cp6-aw/local_pg16_smoke_r2_before_on_757b79a_code.json",
+     "docs/evidence/cp6-aw/native_t1_run35901779495_after_iter1.json",
+     "docs/evidence/cp6-aw/native_t1_run35903761656_after_iter2.json",
+     "docs/evidence/cp6-aw/native_t1_run35905188928_after_iter3.json",
+     "docs/evidence/cp6-aw/native_t1_run35905834630_after_iter4.json",
+     "docs/evidence/cp6-aw/native_t1_run35909687266_after_iter5.json",
+     "docs/evidence/cp6-aw/native_t1_run35909687266_before_iter5.json",
+     "docs/evidence/cp6-aw/p03_integrity_check_classification.md",
+     "docs/evidence/cp6-aw/static_code_map_engine_queries.md",
+     "docs/evidence/cp6-aw/static_code_map_s06.md",
+     "docs/evidence/cp6-ax/independent_review_20260923.md",
+     "docs/evidence/cp6-ax/native_t1_run35904115299_after_iter1.json",
+     "docs/evidence/cp6-ax/native_t1_run35905188855_after_iter2.json",
+     "docs/evidence/cp6-ax/native_t1_run35906065887_after_iter3.json",
+     "docs/evidence/cp6-ax/native_t1_run35909687233_after_iter4.json",
+     "docs/evidence/cp6-ax/native_t1_run35910555547_after_iter5.json",
+     "docs/evidence/cp6-ax/native_t1_run35949833558_after_repair_wage.json",
+     "docs/evidence/cp6-ay/native_t1_run35950629646_after.json",
+     "docs/evidence/cp6-ay/native_t1_run35950629646_before.json",
+     "docs/evidence/cp6-ay/native_t1_run35952201365_after_rev2.json",
+     "docs/evidence/cp6-ay/native_t1_run35952201365_before_rev2.json",
+     "docs/evidence/cp6-ay/native_t1_run35952988290_after_rev3.json",
+     "docs/evidence/cp6-ay/native_t1_run35952988290_before_rev3.json",
+     "docs/evidence/cp6-ay/native_t1_run35969287144_after.json",
+     "docs/evidence/cp6-ay/native_t1_run35969287144_before.json",
+     "docs/evidence/cp6-ay/native_t1_run35972503616_after_rev5.json",
+     "docs/evidence/cp6-ay/native_t1_run35972503616_before_rev5.json",
+     "docs/evidence/cp6-az/native_t1_run35964635432_after.json",
+     "docs/evidence/cp6-az/native_t1_run35964635432_before.json",
+     "docs/evidence/cp6-az/native_t1_run35968507694_after_ay_rev3_multicut.json",
+     "docs/evidence/cp6-az/native_t1_run35969287098_after.json",
+     "docs/evidence/cp6-az/native_t1_run35969287098_before.json",
+     "docs/evidence/cp6-az/native_t1_run35973285008_after.json",
+     "docs/evidence/cp6-az/native_t1_run35973285008_before.json",
+     "docs/evidence/cp6-g01/aligned_compare_run35911116696.json",
+     "docs/evidence/cp6-g01/baseline_compare_run35901222287.json",
+     "docs/evidence/cp6-g01/baseline_objects_run35901222287.json.gz",
+     "docs/evidence/cp6-g01/hosted_alignment_metadata.json",
+     "docs/evidence/cp6-g01/hosted_summary.json",
+     "docs/evidence/cp6-g01/ledger_content_order.json",
+     "docs/evidence/cp6-h01-regression-identity.json",
+     "docs/evidence/cp6-regression-expected-au-run35822980561.json",
+     "docs/evidence/cp6-t2/disposition_20260924.json",
+     "docs/evidence/cp6-t2/disposition_run6_20260924.json",
+     "docs/evidence/cp6-t2/run35911656309_seed_as_is.json",
+     "docs/evidence/cp6-t2/run35914912522_seed_quieted.json",
+     "docs/evidence/cp6-t2/run35944088575_fixture_completed.json",
+     "docs/evidence/cp6-t2/run35945041135_fixture_redone.json",
+     "docs/evidence/cp6-t2/run35950296669_repair_wage_no_ay.json",
+     "docs/evidence/cp6-t2/run35950787577_ay_first_text.json",
+     "docs/evidence/cp6-t2/run35952233525_ay_rev2.json",
+     "docs/evidence/cp6-t2/run35952990109_ay_rev3_final.json",
+     "docs/evidence/cp6-t2/run35964210199_approved_oracle_mechanics.json",
+     "docs/evidence/cp6-t2/run35964820289_az.json",
+     "docs/evidence/cp6-t2/run35966109275_az_ao_trial.json",
+     "docs/evidence/cp6-t2/run35969330544_ay_rev4_approved_b.json",
+     "docs/evidence/cp6-t2/run35972527139_ay_rev5_final.json",
+     "docs/evidence/cp6-t3/awx_guard_selftest_local.json",
+     "docs/evidence/cp6-t3/browser_run35940618298.json",
+     "docs/evidence/cp6-t3/capture_run35914317409.json",
+     "docs/evidence/cp6-t3/hosted_capsule_hashes.json",
+     "docs/evidence/cp6-t3/release_pins.json",
+     "docs/evidence/cp6-t3/run35941885984_package22.json",
+     "docs/evidence/cp6-t3/run35943232759_review_fixes.json",
+     "docs/evidence/cp6-t3/run35943599257_package22_guarded.json",
+     "docs/evidence/cp6-t3/run35950297492_package22_repair_wage.json",
+     "docs/evidence/cp6-t3/run35951093685_package23_ay.json",
+     "docs/evidence/cp6-t3/run35952446339_package23_ay_rev2.json",
+     "docs/evidence/cp6-t3/run35953286010_package23_ay_rev3_final.json",
+     "docs/evidence/cp6-t3/run35965246358_package24_az.json",
+     "docs/evidence/hosted_access_log_20260924.json",
+     "docs/reviews/ERP_CP6_Audit_757b79a_20260923.md",
+     "scripts/cp6_au_browser_fixture.py",
+     "scripts/cp6_au_r1_probe.py",
+     "scripts/cp6_av_backfill_smoke.py",
+     "scripts/cp6_av_build.py",
+     "scripts/cp6_av_capture.py",
+     "scripts/cp6_av_definitions.py",
+     "scripts/cp6_av_local_smoke.py",
+     "scripts/cp6_av_probe.py",
+     "scripts/cp6_av_runtime.py",
+     "scripts/cp6_av_trial.py",
+     "scripts/cp6_aw_build.py",
+     "scripts/cp6_aw_definitions.py",
+     "scripts/cp6_aw_engine.sql",
+     "scripts/cp6_aw_integrity_registry.sql",
+     "scripts/cp6_aw_local_smoke.py",
+     "scripts/cp6_aw_probe.py",
+     "scripts/cp6_ax_build.py",
+     "scripts/cp6_ax_functions.sql",
+     "scripts/cp6_ax_probe.py",
+     "scripts/cp6_ay_build.py",
+     "scripts/cp6_ay_probe.py",
+     "scripts/cp6_az_build.py",
+     "scripts/cp6_az_probe.py",
+     "scripts/cp6_g01_align.py",
+     "scripts/cp6_g01_baseline.py",
+     "scripts/cp6_g01_fingerprint.py",
+     "scripts/cp6_regression_identity.py",
+     "scripts/cp6_s06_close_probe.py",
+     "scripts/cp6_t2_regression.py",
+     "scripts/cp6_t3_aligned_chain.py",
+     "scripts/cp6_t3_aligned_install.py",
+     "scripts/cp6_t3_awx_guard_selftest.py",
+     "scripts/cp6_t3_awx_release.py",
+     "scripts/cp6_t3_backup_restore_drill.py",
+     "scripts/cp6_t3_browser.py",
+     "scripts/cp6_t3_browser_verify.py",
+     "scripts/cp6_t3_package_run.py",
+     "scripts/cp6_t3_release_package.py",
+     "src/ConnectedInitialImportPage.dom.test.tsx",
+     "src/ConnectedInitialImportPage.tsx",
+     "src/ConnectedWipStatusPage.dom.test.tsx",
+     "src/ConnectedWipStatusPage.test.ts",
+     "src/ConnectedWipStatusPage.tsx",
+     "src/accessProductionControl.test.ts",
+     "src/initialProduction.test.ts",
+     "src/initialProduction.ts",
+     "supabase/dev/cp6_aw_t1_family.sql",
+     "supabase/dev/cp6_ax_t1_family.sql",
+     "supabase/dev/cp6_ay_t1_family.sql",
+     "supabase/dev/cp6_az_t1_family.sql",
+     "supabase/migrations/20260923110000_erp_v2_6_20av_cp6_identity_new_stock_cutoff.sql",
+     "supabase/release/cp6-t3-src/20260924010000_erp_v2_6_20aw_cp6_close_readiness_engine.sql",
+     "supabase/release/cp6-t3-src/20260924010100_erp_v2_6_20ax_cp6_fg_unsourced_receipts.sql",
+     "supabase/release/cp6-t3-src/20260924010200_erp_v2_6_20ay_cp6_hpp_dated_from_goods.sql",
+     "supabase/release/cp6-t3-src/20260924010300_erp_v2_6_20az_cp6_material_recost_dated_from_movement.sql",
+     "supabase/release/cp6-t3/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.sql",
+     "supabase/release/cp6-t3/20260915113627_erp_v2_6_20ad_cp6_opening_material_business_day.sql",
+     "supabase/release/cp6-t3/20260915201500_erp_v2_6_20ae_cp6_opening_roll_integrity.sql",
+     "supabase/release/cp6-t3/20260916014332_erp_v2_6_20af_cp6_posted_child_integrity.sql",
+     "supabase/release/cp6-t3/20260916050822_erp_v2_6_20ag_cp6_sale_reservation_lineage.sql",
+     "supabase/release/cp6-t3/20260916070451_erp_v2_6_20ah_cp6_return_allocation_eligibility.sql",
+     "supabase/release/cp6-t3/20260916090022_erp_v2_6_20ai_cp6_work_source_lineage.sql",
+     "supabase/release/cp6-t3/20260916202400_erp_v2_6_20aj_cp6_rework_output_lineage.sql",
+     "supabase/release/cp6-t3/20260917033516_erp_v2_6_20ak_cp6_import_reference_preview.sql",
+     "supabase/release/cp6-t3/20260917054049_erp_v2_6_20al_cp6_opening_value_validation.sql",
+     "supabase/release/cp6-t3/20260921214120_erp_v2_6_20am_cp6_transfer_integrity.sql",
+     "supabase/release/cp6-t3/20260921223438_erp_v2_6_20an_cp6_cutting_selectors.sql",
+     "supabase/release/cp6-t3/20260922135612_erp_v2_6_20ao_cp6_invoice_retail.sql",
+     "supabase/release/cp6-t3/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql",
+     "supabase/release/cp6-t3/20260922161019_erp_v2_6_20aq_cp6_accessory_lock_order.sql",
+     "supabase/release/cp6-t3/20260922185015_erp_v2_6_20ar_cp6_opening_overlap.sql",
+     "supabase/release/cp6-t3/20260922210815_erp_v2_6_20as_cp6_event_dates_product_identity.sql",
+     "supabase/release/cp6-t3/20260923005153_erp_v2_6_20at_cp6_wip_temporal_identity.sql",
+     "supabase/release/cp6-t3/20260923045944_erp_v2_6_20au_cp6_controlled_product_lifecycle.sql",
+     "supabase/release/cp6-t3/20260923110000_erp_v2_6_20av_cp6_identity_new_stock_cutoff.sql",
+     "supabase/release/cp6-t3/20260924010000_erp_v2_6_20aw_cp6_close_readiness_engine.sql",
+     "supabase/release/cp6-t3/20260924010100_erp_v2_6_20ax_cp6_fg_unsourced_receipts.sql",
+     "supabase/release/cp6-t3/20260924010200_erp_v2_6_20ay_cp6_hpp_dated_from_goods.sql",
+     "supabase/release/cp6-t3/20260924010300_erp_v2_6_20az_cp6_material_recost_dated_from_movement.sql",
+     "supabase/release/cp6-t3/MANIFEST.json",
+     "supabase/rollbacks/20260923110000_erp_v2_6_20av_cp6_identity_new_stock_cutoff.rollback.sql",
+     "tests/fixtures/productionRecovery.ts"
+    ],
+    "sha256": {
+     ".github/workflows/cp6-av-capture.yml": "f52858c18196a4161b540e438c01ea228630912bc22fd762acee4f6f5729b02c",
+     ".github/workflows/cp6-av-qualification.yml": "f81e76a920ee282a5519490badf124444cec754b5d59454280169e695446f588",
+     ".github/workflows/cp6-aw-t1-probe.yml": "0c2f13d34cd022b32b9403bddecadb62ce6c9616a03b8cb33260b8ec77c81b02",
+     ".github/workflows/cp6-ax-t1-probe.yml": "5c1e1ddbb4d7258991c81974c16a2d4764c413a190b00408a0398ac44fa52a29",
+     ".github/workflows/cp6-ay-t1-probe.yml": "27db8246d93f0f7d94ad85a9871aced5e6a0f23a50bcb2af300b37d9de51fe4e",
+     ".github/workflows/cp6-az-t1-probe.yml": "a8b0ea2214ad30e6d2ca530f4069e4984dff8a25e4e512b58a4241ee5937ca28",
+     ".github/workflows/cp6-candidate-codeql.yml": "1b66241cc4dddb3a2a80ea97ba73ff4f7379455b6f571740ce6cd71a2c1c8d4b",
+     ".github/workflows/cp6-g01-baseline.yml": "9d42f0315a521e36a054963fd6a4cd25ddddb8d9e616cdbcbe3594fae868d92f",
+     ".github/workflows/cp6-s06-close-probe.yml": "aba4afc833ae3ddb21c049700206544a4b08a0ce72a57fa4851b592192afeaf5",
+     ".github/workflows/cp6-t2-regression.yml": "11a8ec5d78491b175d931ab784dee942415e4b001840b7bfc4dc33bba9d8146c",
+     ".github/workflows/cp6-t3-aligned-install.yml": "d10142b671ee38d6b6d663285aee3aa1be2111d83bb6a3ce16d67a89570bee53",
+     ".github/workflows/cp6-t3-release-package.yml": "6dcfff3621a8d9871b618f5b4adaea2a6cb24bee43a8fc25d50f21fd2f9a881c",
+     "docs/cp6-au-r1-handoff.md": "49684235c01abbc3abb4b7fb81473fea7708f54a1ed3caf173ed79dced57c9e7",
+     "docs/cp6-aw-design.md": "2d8bc53b7e49ceb94e8460d4811e5ab0ad74ae2b58c694a8eec5a1b3ec981e1c",
+     "docs/evidence/cp6-a04-r2/README.md": "1ba66546d59643b9c0ff5ee0171af908afef96daa5b363665b38e31975811e95",
+     "docs/evidence/cp6-a04-r2/full_suite_after_fix.json": "67562d3691071165ad8f27997f54d19164fba09f29ed2f5fd368e8a4530b07f2",
+     "docs/evidence/cp6-a04-r2/full_suite_before_fix.json": "25cc15e63158cbab45c317cfbbb2866b9d05619889ed3f7f8614be99c0971c03",
+     "docs/evidence/cp6-a04-r2/gpt_probe_adapted.test.tsx.txt": "37642a236e264dc8ad991d8e5c9efa833b23453a30a0a95ce051be5c90cae3a5",
+     "docs/evidence/cp6-a04-r2/gpt_probe_on_2257431_before_fix.json": "08031001b582af39839e2539674bfd200a3c4245b687c5dee75c7db777790143",
+     "docs/evidence/cp6-a04-r2/gpt_probe_on_fix_adapted_capture.json": "69f5fa2bcad065ed176118d86b71e573538282ad9cadc6920e9699047373cb00",
+     "docs/evidence/cp6-a04-r2/gpt_probe_on_fix_unmodified.json": "8604f48427a2b839162c09b5dcf8e624999713598781797ee39c0669e64289c8",
+     "docs/evidence/cp6-a04-r2/new_tests_on_pre_fix_source.json": "833fe4aaf84acc30212232ce270c3ccbe993929431b2debf3c7b994b61fb5114",
+     "docs/evidence/cp6-au-r1/MANIFEST.json": "f88ed69e098976292d9684c817b23c73053e4413fa6cc2d2154d7111fbbe3ec4",
+     "docs/evidence/cp6-au-r1/raw/run_35837408181_job_107104064445.log": "b703ea4aad989b447e6bbf2c91959aa1f8d0e07c2885bc5e89032e16c6a0b3a0",
+     "docs/evidence/cp6-au-r1/raw/run_35838014072_job_107106040737.log": "bdc8edd1e5f9b4eb408f1d003d6cd0978c6443d7bcb423d825c0a3dbcb42ca86",
+     "docs/evidence/cp6-au-r1/raw/run_35838611997_job_107108022412.log": "da324ba508c126317e9a6ca26e2d67d5871025683856725caaceb245dea86df3",
+     "docs/evidence/cp6-au-r1/raw/run_35839202630_job_107109943350.log": "7e3ed1ae7fda3d8cb5892ac00724ebca820d7856e416bd78c121ff6ca0f92742",
+     "docs/evidence/cp6-au-r1/run_35837408181_records.json": "660b8d06ff9b4de0e9e5bef0da2bd060cbe7d1445ac75dee4d1e305aa4b8545e",
+     "docs/evidence/cp6-au-r1/run_35838014072_records.json": "a83a393e0945c5432340bef26817e87710a868b94a08a756136c2522ccf033a7",
+     "docs/evidence/cp6-au-r1/run_35838611997_records.json": "55f054dfd9990961680fccdba7e9f813e1fed37bafd99cdd507ae7a949480c2d",
+     "docs/evidence/cp6-au-r1/run_35839202630_records.json": "ac1816a197b378073e0941d9fbe9ddbf573773b22e98073578de7d01304ac80d",
+     "docs/evidence/cp6-av-pins.json": "0f9a5e1578656fdcbcae09bc5d1e67fda07c7beea863150358980d1cf10b1f2e",
+     "docs/evidence/cp6-av-r2-pins.json": "ceb2f9b1e8a00bd1fadec30ff60d2113e4e6210bc52d5ad1413ae87ed7861daf",
+     "docs/evidence/cp6-av-r2-schema-capture.json": "6c53571d8f09b80f8e101c9c545b5d3c2714995f9f09430cbacbc64f7afa6195",
+     "docs/evidence/cp6-av-r2/local_pg16_backfill.json": "72f1adfb397d55d3840a1f01d2b769718b7e66eafec19427ba28dbb8a98cec52",
+     "docs/evidence/cp6-av-r2/local_pg16_smoke.json": "824cd33b69d2b9bb093fdcaf062ce09469192242edf2aa5523296adfd2b84f27",
+     "docs/evidence/cp6-av-r2/probe_defect_log_run1.json": "eb33dac327436d03cdf877314b77ef3095f4efb40d3fe4709995dadfa39ac711",
+     "docs/evidence/cp6-av-r2/run35850597894_manifest.json": "f3a5d2ee8374c164b6aa905b09540dbf74ed13a652cdadfc36325bec77b5479a",
+     "docs/evidence/cp6-av-r2/run35850597894_probe-after_records.json": "f23226348f717ed5edcf6bcac54cd475e9573a379ff4aea6d6792f31b0f50dde",
+     "docs/evidence/cp6-av-r2/run35850597894_probe-before_records.json": "2b160fadd1965c0a15cc55e2fd080a7de4c5fa79e0b235b0cde62f6a19f3edf3",
+     "docs/evidence/cp6-av-r2/run35850597894_qualify_records.json": "3c12ad62e15473fd50a468845e53cc69a63140802ac3a0266885dfac01965b7f",
+     "docs/evidence/cp6-av-r2/run35850597894_regression_records.json": "ace3f863389602fe28528ede8f0812227eed121385c2807fff230dea547fb3aa",
+     "docs/evidence/cp6-av-r2/run35850597894_temporal_records.json": "79fb6634ce135853300de87c8a6935dd5f9e877c980ed55aed9ea95d5daa7557",
+     "docs/evidence/cp6-av-r2/run35851917304_manifest.json": "94774190041d07b21b30f8989aa5494b5bf5e593380df60d4e93a19a7994b5f0",
+     "docs/evidence/cp6-av-r2/run35851917304_probe-after_records.json": "f928ad9172322c3be398b7d86fc914259aa7bb70144b4e0206e54987b512fc1c",
+     "docs/evidence/cp6-av-r2/run35851917304_probe-before_records.json": "6d1170cf2670c7605cc5a3933d8950e7b257a3c45d7ea0e39532b988efc16572",
+     "docs/evidence/cp6-av-r2/run35851917304_qualify_records.json": "8f9503b9ff3f035fd873ab89e6b5e52264d6012e51f390188ebc510a4f582f1e",
+     "docs/evidence/cp6-av-r2/run35851917304_regression_records.json": "53f02d4164b7a23abb64b77fa4fca7c19550443847a1e177ae3da954ba551d77",
+     "docs/evidence/cp6-av-r2/run35851917304_temporal_records.json": "eb52410a96be5ec73964a068af1c70658def7db2ca91694211bf2e843d50a64e",
+     "docs/evidence/cp6-av-r2/run35852437460_manifest.json": "9aa313ee7aefc38978e3254365e85798ed070af7a65eed85c63c3aa797fbc741",
+     "docs/evidence/cp6-av-r2/run35852437460_probe-after_records.json": "cf4f30cbea2ac7cdb4f2db87e9f35eb90b2bae6d19068e60285a7261aafa0fee",
+     "docs/evidence/cp6-av-r2/run35852437460_probe-before_records.json": "f3f5c33a9fad3e4144cf67ab74f1f295897f9eb756c70c2d48479d9f251cf031",
+     "docs/evidence/cp6-av-r2/run35852437460_qualify_records.json": "032b7b154e8f452b0320734652029abbbf14f236aa6c4a3d978136976e942249",
+     "docs/evidence/cp6-av-r2/run35852437460_regression_records.json": "15969492631da88a492268a907037290a7b45c8ca3428909a6e5abd1564dc625",
+     "docs/evidence/cp6-av-r2/run35852437460_temporal_records.json": "afd68beac0996dd98ab24261e10deca4735d4e826f2055301044f7dfbde0f2ac",
+     "docs/evidence/cp6-av-r2/run35853810855_manifest.json": "3a94ae179340cee1cc265e3128d8425bb3c716327e5177a6d65da64c2381c475",
+     "docs/evidence/cp6-av-r2/run35853810855_probe-after_records.json": "3a33e113d995e30849f34d7a77c35774081c29dc7133ebee15d07002279d56b0",
+     "docs/evidence/cp6-av-r2/run35853810855_probe-before_records.json": "d8649522680e8b061d2165e5bddc5b5c261361039a73c97a42f72f821b15419a",
+     "docs/evidence/cp6-av-r2/run35853810855_qualify_records.json": "a011686e8ed1eabdef85c102bbe65a2139afdfb8f2e0836afd40c10ede28632e",
+     "docs/evidence/cp6-av-r2/run35853810855_regression_records.json": "163e532a56e38b0b1d842a19dc4f770045f299f1a1caff85b77433ae034d0fca",
+     "docs/evidence/cp6-av-r2/run35853810855_temporal_records.json": "bd20a3f19ab6b5bba5c0e6676a3dc4f4cbe875bef94a3e8d437db5f308249b93",
+     "docs/evidence/cp6-aw/local_pg16_smoke.json": "9fcb00733fcc1260049de8bb853031f33c84c1316e9e05aadabf6bfa6f300d37",
+     "docs/evidence/cp6-aw/local_pg16_smoke_r2.json": "64f787b6f91ad9b03ccb706f27a12439cd5971e694b6edf1905028e687faf11a",
+     "docs/evidence/cp6-aw/local_pg16_smoke_r2_before_on_757b79a_code.json": "3e240de1fd49eb19e8eecfdc9e33f8a4908495780f097e27b72af8dd973387f4",
+     "docs/evidence/cp6-aw/native_t1_run35901779495_after_iter1.json": "08ab05fbb27ff789ff3f8901285bb7516c0c43f92cfbdeb196fde80633e7cd08",
+     "docs/evidence/cp6-aw/native_t1_run35903761656_after_iter2.json": "1e1773557d2b9314908fcc09e3ab857f7f2e441ce3858d7b5bad4935c6996a09",
+     "docs/evidence/cp6-aw/native_t1_run35905188928_after_iter3.json": "024bfddfbd8ea0d6fec74871398901d11d4dd39b21bfdc8209997ee9571d8fe6",
+     "docs/evidence/cp6-aw/native_t1_run35905834630_after_iter4.json": "969748559af24f13cb4efa02840cdb0a52d6b0ef74136e01e44d02647aac36a8",
+     "docs/evidence/cp6-aw/native_t1_run35909687266_after_iter5.json": "e7b0f797d399950e8351795dc2b05b91c927069dab029f20c4f85de37eb32f74",
+     "docs/evidence/cp6-aw/native_t1_run35909687266_before_iter5.json": "e6560549da488bc82c618ac2e7fdd6845e4b9d69316c3fde01f5680bb8260ba9",
+     "docs/evidence/cp6-aw/p03_integrity_check_classification.md": "c4e5c30457e59c46638da8066610f6a6e68f830cf60a5c90121687b5b1537d9f",
+     "docs/evidence/cp6-aw/static_code_map_engine_queries.md": "b33441b5b063961c6b09f6ee8866ac83c94e50a8dd60bc97e2335df58624159c",
+     "docs/evidence/cp6-aw/static_code_map_s06.md": "90194789e6a3e28e27a1142114018240f3912977bbf2826cfd2f1577f05b868d",
+     "docs/evidence/cp6-ax/independent_review_20260923.md": "ad4de2e4b50b5522b6a59ea316ad3286eb8d28cf8fba18fc37766152c31680a8",
+     "docs/evidence/cp6-ax/native_t1_run35904115299_after_iter1.json": "ebd298fb87396f550e317306362fb3b6cf756abbe808665619f39aec91b2063c",
+     "docs/evidence/cp6-ax/native_t1_run35905188855_after_iter2.json": "5a914ad9f96e5a765e614cea63c4af8f342799dec12e1f3c272fdca3b206a6c7",
+     "docs/evidence/cp6-ax/native_t1_run35906065887_after_iter3.json": "3acad139a4996b58e0ab58421564fefc10591ccb50708baa5a44bcb2b4f26fa9",
+     "docs/evidence/cp6-ax/native_t1_run35909687233_after_iter4.json": "a9f5c2579b4f3e31e5edd9673ff7803289959a2271bd37530b7400378b1b8968",
+     "docs/evidence/cp6-ax/native_t1_run35910555547_after_iter5.json": "318cf86bfcd9788dff16319b4119566f45d9cebb62433fd899601f7ce8335c39",
+     "docs/evidence/cp6-ax/native_t1_run35949833558_after_repair_wage.json": "17dd08e60d26fb1a0e911bdab5fff3b5f9989d9d153377d48f53b78dd48d312d",
+     "docs/evidence/cp6-ay/native_t1_run35950629646_after.json": "7a713d1078c9580a92db1bf57b2b77a78b029ce9afcb4910ead6af0673e5c4db",
+     "docs/evidence/cp6-ay/native_t1_run35950629646_before.json": "baef602b5c8e21086421ee62f7472cabec85687116071b8f54d47c72c543b4a1",
+     "docs/evidence/cp6-ay/native_t1_run35952201365_after_rev2.json": "95d7e5ccbc4f2af3c9e84f4a8416cd2b5985e6b202251a8a36da95cb05222ac3",
+     "docs/evidence/cp6-ay/native_t1_run35952201365_before_rev2.json": "b0fe55f7a1a756457a028ab86a6cb6809f6f323d5ae14e80e98d9916e55fddef",
+     "docs/evidence/cp6-ay/native_t1_run35952988290_after_rev3.json": "aa9c468d944ea84b47d24975f014644c40a319459ae901a5586d3b089847ab7c",
+     "docs/evidence/cp6-ay/native_t1_run35952988290_before_rev3.json": "474fe9f7580e62c751fd5991b1ed3cf89ff07ee90841ab2049cabbab4b25111c",
+     "docs/evidence/cp6-ay/native_t1_run35969287144_after.json": "459568fdc5e019dca7008a2de79f24fee8d37db77b3e5a8e4123af3860abe9a5",
+     "docs/evidence/cp6-ay/native_t1_run35969287144_before.json": "87bbe14213a97b3937a09807a57c06a2907ae5a6df32f7436d9eb23057b6be49",
+     "docs/evidence/cp6-ay/native_t1_run35972503616_after_rev5.json": "e3fbcc7922179be8f930beca93093a31e06beab944067e88966e6be6dc82880c",
+     "docs/evidence/cp6-ay/native_t1_run35972503616_before_rev5.json": "8bff85713e73fff0714c2659e156d1836a0d48c587b76b2bd34a26ce971040a9",
+     "docs/evidence/cp6-az/native_t1_run35964635432_after.json": "5e42438a3c97a3a8f994506a9153f58d009d5a89c3c084001abd36f990db68e5",
+     "docs/evidence/cp6-az/native_t1_run35964635432_before.json": "711dd0f4eccf07cd6228ba64218f82900a6348ad87718cd125e6b78f4cf0a294",
+     "docs/evidence/cp6-az/native_t1_run35968507694_after_ay_rev3_multicut.json": "4aa098a1d766196ceba44f6e0ed052bbb00569c07cdd9bddb057c9e200c1ff1d",
+     "docs/evidence/cp6-az/native_t1_run35969287098_after.json": "88338a1c32bc7e1f95e57379056384bdbb634d087e621828864858c3f313f25a",
+     "docs/evidence/cp6-az/native_t1_run35969287098_before.json": "f839dab382ba6f6765f98bcc5fd3a56ad71b1b5dedb0ee0646513e8957cdc281",
+     "docs/evidence/cp6-az/native_t1_run35973285008_after.json": "df944b6de34759bdbab95f3d58a90890c98626833cc8d00099bd1f4ec7a6cf4f",
+     "docs/evidence/cp6-az/native_t1_run35973285008_before.json": "b73e3afbb35a4ff290e2202c46e77a72fcc9c3b11a7746ba7200d2508a04994a",
+     "docs/evidence/cp6-g01/aligned_compare_run35911116696.json": "4fe327b6dfee56fc36900c6ad99b0467bbd42a587e3ca77393cc52b54397f296",
+     "docs/evidence/cp6-g01/baseline_compare_run35901222287.json": "5365312f51e6ed0bdf402ddccb46332aea2d4fae527ac3cb87dc55f66e06ec30",
+     "docs/evidence/cp6-g01/baseline_objects_run35901222287.json.gz": "85c8184067dcf9c2b743f5da5b46925bf058ea64ac368117f265071cd247aec6",
+     "docs/evidence/cp6-g01/hosted_alignment_metadata.json": "da87a0b1a85d744ac5e1d08f9f58efb84da1bddd3b1a1a4382eeb9ef0d2eecce",
+     "docs/evidence/cp6-g01/hosted_summary.json": "78f33b7fd6ed6f494cebbc871e3ec3671acb94ddea60a4d57a9c5f667a31213f",
+     "docs/evidence/cp6-g01/ledger_content_order.json": "71728ebdfde9501b4b79ebe243f2e674ffde07d44b491b59858673e269a59962",
+     "docs/evidence/cp6-h01-regression-identity.json": "245ba0b2ec817032438f9213fc50ea9f751636976a41b3a61a5d919732fb6e80",
+     "docs/evidence/cp6-regression-expected-au-run35822980561.json": "821e99f2655a8b6c52617163c1118c0d3b09aefdada3fa7f06d0e1ad74835d53",
+     "docs/evidence/cp6-t2/disposition_20260924.json": "851c8da2853bc196f799312eac0b11559f56fbb8b3bb43bf1e8e5a43e8edbcb7",
+     "docs/evidence/cp6-t2/disposition_run6_20260924.json": "498457ed13610d34883e784ba8633a11c6cff056bfc7a0fb9324e82cbefc2bbc",
+     "docs/evidence/cp6-t2/run35911656309_seed_as_is.json": "6ce5978b0407c47b8ba151f934e1876e13f6e352100500ab8195a8b3ad4e726f",
+     "docs/evidence/cp6-t2/run35914912522_seed_quieted.json": "49e9e45b45073e4a91086dff6a8218cdaec1224c1ef68a4369fb5e30aa3cae33",
+     "docs/evidence/cp6-t2/run35944088575_fixture_completed.json": "6033301ec7cd79fa48b3ace3d3edb243f7bf0757b6e36eb1c9afe1d43b34446d",
+     "docs/evidence/cp6-t2/run35945041135_fixture_redone.json": "5663aa8a774aae78146ad47e56711d4f1c7fa8079f8ff772ecd33d1eebb72f0b",
+     "docs/evidence/cp6-t2/run35950296669_repair_wage_no_ay.json": "bc99657f0a46ebd4aa22b0bc4aeb88873c4f95d0737913dbed6d43f7a70f4fe2",
+     "docs/evidence/cp6-t2/run35950787577_ay_first_text.json": "8bacc25ffbaadaa5fd8b8a5801227813d6c7539950252f38e0543d9353cebf03",
+     "docs/evidence/cp6-t2/run35952233525_ay_rev2.json": "df174faaf44a86a8ee403fc2b1d4482ce841fe7ef69e6650d9328a213062159d",
+     "docs/evidence/cp6-t2/run35952990109_ay_rev3_final.json": "64d64da5e5b0b6b98608f1bad35863e7fa8a7ac26202ca2955ef9489c9998161",
+     "docs/evidence/cp6-t2/run35964210199_approved_oracle_mechanics.json": "bc3ec8772e38b83bb06a0e039e2001de64b7c064c8bf37642f24a7c8669933de",
+     "docs/evidence/cp6-t2/run35964820289_az.json": "7a75d80b0687a3b9c0b0381f8c5f3fc1983b25ef67abd158e617f1329a3a73b8",
+     "docs/evidence/cp6-t2/run35966109275_az_ao_trial.json": "61148421f0daeef864b0e48388760081783ead71e229d75c21b7636f711a034c",
+     "docs/evidence/cp6-t2/run35969330544_ay_rev4_approved_b.json": "583135cfd2da732385580aa198c1640260e1231cc71010471f28bc274a530b0f",
+     "docs/evidence/cp6-t2/run35972527139_ay_rev5_final.json": "ac1b7e9ab9e876d833398ce5a2cb56e9bef3c858c3c3fcb9b9d787c4b8d6228d",
+     "docs/evidence/cp6-t3/awx_guard_selftest_local.json": "1bd781afc6e3ca12288001f91ad735fa723c528059eb06db13002e93601b4b1c",
+     "docs/evidence/cp6-t3/browser_run35940618298.json": "fe8993cfee1dba7174157a4339b743b123fe9324e11dfefcc1e70f2b8048a084",
+     "docs/evidence/cp6-t3/capture_run35914317409.json": "3830b44c1f86759ae748ba0802aa3377d5aa922b98b779c862225d94fc929a1d",
+     "docs/evidence/cp6-t3/hosted_capsule_hashes.json": "a3a52ad876be9c5eca5a3e6fb5477b918a40e9eb593e294e04f0a7bf6abd7148",
+     "docs/evidence/cp6-t3/release_pins.json": "fe78de7535bc559f8c36112c6970f8a5b6ec7afd13812340f8d17dfb8e4268c8",
+     "docs/evidence/cp6-t3/run35941885984_package22.json": "2d02be94055610495aa978161036d97d87e35b4c4db9bfbd9a92451a3196cc92",
+     "docs/evidence/cp6-t3/run35943232759_review_fixes.json": "928f9ae088d215b16f24dffea7f51bacc06c460a67977344fedb39d61200c612",
+     "docs/evidence/cp6-t3/run35943599257_package22_guarded.json": "ed3ed96de7f624fabad83581fafffbe1cfc4bf89cc16dc68ce5adc376d984cf6",
+     "docs/evidence/cp6-t3/run35950297492_package22_repair_wage.json": "d13646807010b0280b9f656e0fa193b9f7869a298760cf56473ca2483188d83f",
+     "docs/evidence/cp6-t3/run35951093685_package23_ay.json": "6038f20d7dcbf42bc837dd6e98bfcec197b821327c98b510ec4de5bde23bdec9",
+     "docs/evidence/cp6-t3/run35952446339_package23_ay_rev2.json": "6f066d16d269c66a671f2524871d0010d7a6a676cf2956bf6a239e5f8f5fff03",
+     "docs/evidence/cp6-t3/run35953286010_package23_ay_rev3_final.json": "d39a7c385ba04f04f49ddbebd0ae344ac402ce4442a5037b7b97e0a9702e5d46",
+     "docs/evidence/cp6-t3/run35965246358_package24_az.json": "62a9046c65eb6aef12b8321185f4ee9b1d5e60ee07ee8a8c179431de47bc45b4",
+     "docs/evidence/hosted_access_log_20260924.json": "96c676047721555993f824f01d256484cefbf0583ba685d5decb052073b137aa",
+     "docs/reviews/ERP_CP6_Audit_757b79a_20260923.md": "eb72a2ac5d6192ca322823ac84a7043bede7a4dc3a566d953d58848642a5dd91",
+     "scripts/cp6_au_browser_fixture.py": "98ac75b35b8c2bded3f67951337db388d1a2dca84f6dcf308ed777280fe00cdd",
+     "scripts/cp6_au_r1_probe.py": "451d3d5cbf34fed8f6ba0bf6445cee08e5198d6979f1fd1fbc68f9e299d3724b",
+     "scripts/cp6_av_backfill_smoke.py": "16b0e528f945c5fac51fc3fc17ac4980c3fa0e29bfcc97512696747100cf0931",
+     "scripts/cp6_av_build.py": "8764eabeefed02c6751c3880711e5b1d94c4b8e8f31d1a17ef536eccff3d73ce",
+     "scripts/cp6_av_capture.py": "07caad5d472b52933919c08783575648c722118173b151e6879829c0258cb6de",
+     "scripts/cp6_av_definitions.py": "576c975bcd02b0c8173871faebe242fc4f26b5b3bed80957d5bd2d71ca3156f8",
+     "scripts/cp6_av_local_smoke.py": "1645460b11cac301552cbbbfc0942ceb85b18a05ca5129c228e0afab735e4ba3",
+     "scripts/cp6_av_probe.py": "6b6366a0131211bac7dabc1bd90b83415935723b5bac3a19d605668258335088",
+     "scripts/cp6_av_runtime.py": "37214c5975d6307e7ab581e9703cb79a525814dd91645f14f21d41f871706654",
+     "scripts/cp6_av_trial.py": "298d646f937549d34bf48be6b53187b8300d1bda73290e7b6e8fb96ae1e95ad4",
+     "scripts/cp6_aw_build.py": "38020ca53d2cbb53a27874586513d572f0d92782fb2b2db5fc853ff9127104e4",
+     "scripts/cp6_aw_definitions.py": "dc75ba89edaf0a356f5e463270fb8863638c642e21891d17a8f6e4530ebaa6e3",
+     "scripts/cp6_aw_engine.sql": "dd59dbb3d9686fbc35930fe003a9b7567bb894a8f7405435a426b1caa0aeb550",
+     "scripts/cp6_aw_integrity_registry.sql": "a607b1051e8f7535752ef5a05443d04462823789539dc7b51b544e904d62b094",
+     "scripts/cp6_aw_local_smoke.py": "833b8a3b1bb11a9ec610bbde03d21dc4c57552bfe8c91fcdf3ca4c4f49a3e9f2",
+     "scripts/cp6_aw_probe.py": "e41357147bcd6e8d29c0e295821e3092c671179f723fa12ce7794618fba025d1",
+     "scripts/cp6_ax_build.py": "8c3025d50a3e243028a7b2dd0f8fbbe22936fc4d9cbf0010fe81fb0bfa7abfb1",
+     "scripts/cp6_ax_functions.sql": "1522b37976f7a13bc3035d94ac33e63f11e7f73761c15b04117868e0416e2389",
+     "scripts/cp6_ax_probe.py": "9130c19080f16c350e7220a7bb5b56950d64db19c7894f9d2f54ef924550c2e4",
+     "scripts/cp6_ay_build.py": "c2f00aaffab64e422c39e1787ba7d4b9f545a2493f20efdee10bf733bdca5d97",
+     "scripts/cp6_ay_probe.py": "85e28ebabcfe7565739b1991662d55ceee3032e1962fb3e64a62ff1aad21429c",
+     "scripts/cp6_az_build.py": "f216704728a747d71261a98f780aef0a930d6f1101ed56d92611cb006a0c28e9",
+     "scripts/cp6_az_probe.py": "be17b4401f54e85105535f7670905da2e3ac4c7c4800ddec4ac1690068559941",
+     "scripts/cp6_g01_align.py": "023a9542037b9ad1bc7860b9fabb42d8062173371fb8af728ac2c9bae376c458",
+     "scripts/cp6_g01_baseline.py": "d445506566038bd5e810a6444679dd95fa1a1dfda43a8e473f3ee13dfe8a49b5",
+     "scripts/cp6_g01_fingerprint.py": "4794bc4a5dea4408bce9f1d484d3ce15aeeaffba4b8aa1bd9467b87c54339580",
+     "scripts/cp6_regression_identity.py": "25d3f7e54b2124505b3d43c8e3ce58d3ffccccb846b42d794134dc28e2691062",
+     "scripts/cp6_s06_close_probe.py": "5521c90311f7245ccf6d5f82e3b89ad1b3062375849a3c85930f7f706daedc18",
+     "scripts/cp6_t2_regression.py": "8743fe0ec762fc29e91226eed5286fd3fdf85b9a172a338d4d5f733e58e0e2ac",
+     "scripts/cp6_t3_aligned_chain.py": "70fd57c501bab10417ff0f522e6233cc56b431bbe1a80ffdd85a3dae244c4f5a",
+     "scripts/cp6_t3_aligned_install.py": "afecc12be5d87263df9084a1d8bc0bcc8e9095be940dea6c809a8930918a3d69",
+     "scripts/cp6_t3_awx_guard_selftest.py": "35a73d0ad52907618c09e8f69b22c615eff3ab7341298ce526f67ce1cfca66d7",
+     "scripts/cp6_t3_awx_release.py": "9168373bbe09ffd54b5045f71aa4c3a06a933a13864c5230e78834aabc4cdb40",
+     "scripts/cp6_t3_backup_restore_drill.py": "dc64f7c2079cfff2aa585d8edbc6474a185913f042576fc3cc65dfc870dca94f",
+     "scripts/cp6_t3_browser.py": "742cc97c0407c8044b90a3789f7f4579ddf64fb754266b9ea3a6bfccf97ae348",
+     "scripts/cp6_t3_browser_verify.py": "39b1a04114891d04ac4f5d0569246055af786b0069c85bda7892342426a3652f",
+     "scripts/cp6_t3_package_run.py": "3de31038a18a8c70571c0090d026695a0c6bd666b2cf97307b19b0507a0cd4b9",
+     "scripts/cp6_t3_release_package.py": "46448ee29b1d3d4d4e61773f93ab08dee3e1b041dbec95d8dd9e9f898f145833",
+     "src/ConnectedInitialImportPage.dom.test.tsx": "429ac89e7596c41bf84347146bd05bb569f7965ec1f89e032c78d47482f8bf09",
+     "src/ConnectedInitialImportPage.tsx": "9e46d813f30c80e7bea5a79c443af3101202a598cd8e520a098325e9a0d50f36",
+     "src/ConnectedWipStatusPage.dom.test.tsx": "07de971847025b9337ff096126edce354f8bb1b2306830b17ea0d94777e02f3e",
+     "src/ConnectedWipStatusPage.test.ts": "c47f29bf81c1166e771c732f89c8e5ba46ed54ccea25f3baf373798f0bcb2a56",
+     "src/ConnectedWipStatusPage.tsx": "c8320e13befef018f9d1cd7f34904cf699665b45c078a1f8a8100ad7766e5982",
+     "src/accessProductionControl.test.ts": "2db4ec0c3fde613be5d02d3967a97c04ae5bf70c2252c9ac0772fb288cd44c51",
+     "src/initialProduction.test.ts": "de4819265af82bedae590b3975ae691e34c45ccd65d705e7ef141b98fec05d36",
+     "src/initialProduction.ts": "7d879445b3181dacd856158d6691819aa28526e124f7f3c71f8664e1117c3255",
+     "supabase/dev/cp6_aw_t1_family.sql": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+     "supabase/dev/cp6_ax_t1_family.sql": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+     "supabase/dev/cp6_ay_t1_family.sql": "7a24c1636f1e177c94f1c3ee9d1413599763e5de51c8dcedbd7d01b7cb8de16c",
+     "supabase/dev/cp6_az_t1_family.sql": "823fe2bbf072d543216f65c846188893ca6bec9455c17b5b93deae26c0ef5f0a",
+     "supabase/migrations/20260923110000_erp_v2_6_20av_cp6_identity_new_stock_cutoff.sql": "193e84efac8ead7cab681071e40070e1f9249f82cec1b7972f0576e8df25a2dc",
+     "supabase/release/cp6-t3-src/20260924010000_erp_v2_6_20aw_cp6_close_readiness_engine.sql": "08826a25c14f8f18f5a168040b6f96dc4efe15c4498be5e92b0834601e77407c",
+     "supabase/release/cp6-t3-src/20260924010100_erp_v2_6_20ax_cp6_fg_unsourced_receipts.sql": "32b4d33ebd80ed55951736c23be71b7eb79343c4c8dd623a32ae673924fc0a18",
+     "supabase/release/cp6-t3-src/20260924010200_erp_v2_6_20ay_cp6_hpp_dated_from_goods.sql": "0aa3aa5ee912f1e45a421f96a12eb3510ec302e6339bc0f4375c88ca124853eb",
+     "supabase/release/cp6-t3-src/20260924010300_erp_v2_6_20az_cp6_material_recost_dated_from_movement.sql": "9d15ef7b141459fa77d53470b843f41480862ccbe82a450530b1f3cd9f814aca",
+     "supabase/release/cp6-t3/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.sql": "871fb32b1d4a1e7f9aedfef684b0f2c766092732c38552620eb394061f6240d1",
+     "supabase/release/cp6-t3/20260915113627_erp_v2_6_20ad_cp6_opening_material_business_day.sql": "58f8f1050e6c325339d7400a43b8c8f3d2375d2067f0c418d3eedfe85430a563",
+     "supabase/release/cp6-t3/20260915201500_erp_v2_6_20ae_cp6_opening_roll_integrity.sql": "0c6bbf77a68142ddfdae99761a5cc2cd6e2e538be50b391f3303922c748c39d6",
+     "supabase/release/cp6-t3/20260916014332_erp_v2_6_20af_cp6_posted_child_integrity.sql": "3764349ab314c7990f6202d3f0de38b516aff53df2a3b1c4f272bc49667f6db4",
+     "supabase/release/cp6-t3/20260916050822_erp_v2_6_20ag_cp6_sale_reservation_lineage.sql": "085b84cb6917617c5e6a2d375fd5177542ebe3f021a20de48e239159e34d66c0",
+     "supabase/release/cp6-t3/20260916070451_erp_v2_6_20ah_cp6_return_allocation_eligibility.sql": "ade908ca9f55b2333c5eac5793b41aaabe0d57879dbb233e428fc882bab5738b",
+     "supabase/release/cp6-t3/20260916090022_erp_v2_6_20ai_cp6_work_source_lineage.sql": "1ea5a602c5a5fcc9697355d9cca526709a06ee20e4eb4cdb765b2b7345c18d25",
+     "supabase/release/cp6-t3/20260916202400_erp_v2_6_20aj_cp6_rework_output_lineage.sql": "b36a6359c57ad59d93ea5cb8dc5f7e90a0dd9cd59d48c331b037aa365d400986",
+     "supabase/release/cp6-t3/20260917033516_erp_v2_6_20ak_cp6_import_reference_preview.sql": "9d06a91bd849c80e1ef99a6ac8996863527a30ef3b4079188be58bd8f3d4311d",
+     "supabase/release/cp6-t3/20260917054049_erp_v2_6_20al_cp6_opening_value_validation.sql": "2d16461cababd4a27827cfb8de01dd993a3a343460cdf049d427b44dd4cb6ea2",
+     "supabase/release/cp6-t3/20260921214120_erp_v2_6_20am_cp6_transfer_integrity.sql": "8fff82f72f9c76dd032778fa43aa37fd3fde98c4304de033d9c484db54f04a60",
+     "supabase/release/cp6-t3/20260921223438_erp_v2_6_20an_cp6_cutting_selectors.sql": "4df51d65fdb9a644fe2eeba92af23446e0c0389a1ebf9f336a0a396c144d7b71",
+     "supabase/release/cp6-t3/20260922135612_erp_v2_6_20ao_cp6_invoice_retail.sql": "696a75c5969b756ce1973191a757a8c7deade06cb57e96dc5a16d648a4c48520",
+     "supabase/release/cp6-t3/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql": "70503bb0247c811e066830ba752960a50b7afdfdb4c0c7697dee9a265ef1778a",
+     "supabase/release/cp6-t3/20260922161019_erp_v2_6_20aq_cp6_accessory_lock_order.sql": "34cee78ee58f612187f7683280565ce2651e788e61efb62ced5e8c4dce7f9ada",
+     "supabase/release/cp6-t3/20260922185015_erp_v2_6_20ar_cp6_opening_overlap.sql": "c5c973d47a4665723351205ccbcbe2c658c57bff7230f5552c5c2b7ca757371e",
+     "supabase/release/cp6-t3/20260922210815_erp_v2_6_20as_cp6_event_dates_product_identity.sql": "d13e46b3451386309a0a8dc1c89a4817ad8751568b9377f94c790832f8fa53a3",
+     "supabase/release/cp6-t3/20260923005153_erp_v2_6_20at_cp6_wip_temporal_identity.sql": "5e1ea5bfba73ada9aba5a8561efa9056b02154025d39bd10d47d3e4f2494110d",
+     "supabase/release/cp6-t3/20260923045944_erp_v2_6_20au_cp6_controlled_product_lifecycle.sql": "7d6265f081125499cb1813fe3f24c3b203363252727b5dcdfc7f74e311b85481",
+     "supabase/release/cp6-t3/20260923110000_erp_v2_6_20av_cp6_identity_new_stock_cutoff.sql": "c63a1fe3bf76dfc396921e07f57eb043e3bb864425b3289a9546bf66e08169a5",
+     "supabase/release/cp6-t3/20260924010000_erp_v2_6_20aw_cp6_close_readiness_engine.sql": "c38edc9da084f4a90ee615bde16e6fea72e1072f79d6820d9d3bef27cc2a8ecb",
+     "supabase/release/cp6-t3/20260924010100_erp_v2_6_20ax_cp6_fg_unsourced_receipts.sql": "c736049386c65f75c82fa790b502cd32c999512738207b7be17d711185c3d9f2",
+     "supabase/release/cp6-t3/20260924010200_erp_v2_6_20ay_cp6_hpp_dated_from_goods.sql": "141abb224495d8c3011de4344d74ff5b41addff054cff3cb53bf2be7666dff73",
+     "supabase/release/cp6-t3/20260924010300_erp_v2_6_20az_cp6_material_recost_dated_from_movement.sql": "16013c48a6c4690c94a4bd10b60f0160a08ea79f7be11597936813126d94b30e",
+     "supabase/release/cp6-t3/MANIFEST.json": "9a306e07e5b05c8bd5a00bac0495fe2a3d42174540e6b07a02bee405cae91301",
+     "supabase/rollbacks/20260923110000_erp_v2_6_20av_cp6_identity_new_stock_cutoff.rollback.sql": "8c01b942a2d65dbad2876de233cf3d8f89517e04978a4c81753186b1fca2749f",
+     "tests/fixtures/productionRecovery.ts": "cee25d2fc0660378448e986f4dc7c0ef6276bb627a1dbae9e8f74fdca89b27f1"
+    }
+   },
+   "production_go": false,
+   "independent_acceptance": false,
+   "release_evidence": false,
+   "au_install": "PASS",
+   "av_install": "PASS",
+   "aw_install": {
+    "stage": "AV_PLUS_AW_T1",
+    "label": "T1_FAMILY",
+    "functions": 13,
+    "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32"
+   },
+   "ax_install": {
+    "stage": "AV_PLUS_AW_PLUS_AX_T1",
+    "label": "T1_FAMILY",
+    "functions": 13,
+    "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+    "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+    "av_coverage": {
+     "registry": {
+      "erp.fg_lots.product_id": {
+       "class": "NEW_STOCK_FACT",
+       "reason": "produced_at of every lot except GOOD returned by rework"
+      },
+      "erp.bs_cases.product_id": {
+       "class": "NEW_STOCK_FACT",
+       "reason": "physical_at of QC/laundry BS and manual OUT_OF_NOWHERE BS"
+      },
+      "erp.sales_items.product_id": {
+       "class": "SALES",
+       "reason": "Sale of existing stock"
+      },
+      "erp.journal_lines.product_id": {
+       "class": "ACCOUNTING",
+       "reason": "Journal dimension"
+      },
+      "erp.fg_stock_movements.product_id": {
+       "class": "MOVEMENT",
+       "reason": "Movement of an existing lot"
+      },
+      "erp.sales_return_items.product_id": {
+       "class": "SALES",
+       "reason": "Return of sold stock"
+      },
+      "erp.fg_adjustment_items.product_id": {
+       "class": "MOVEMENT",
+       "reason": "Adjusts an existing lot"
+      },
+      "erp.fg_inventory_balances.product_id": {
+       "class": "DERIVED",
+       "reason": "Balance cache keyed by product/location/grade"
+      },
+      "erp.opening_balance_items.product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Opening document; facts are OPENING lots and LEGACY BS"
+      },
+      "erp.stock_policy_versions.product_id": {
+       "class": "MASTER",
+       "reason": "Effective-dated stock policy"
+      },
+      "erp.accessory_bom_versions.product_id": {
+       "class": "MASTER",
+       "reason": "Effective-dated accessory BOM; no stock instant"
+      },
+      "erp.product_conversions.to_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Conversion target; the fact is the CONVERSION lot in fg_lots"
+      },
+      "erp.product_price_versions.product_id": {
+       "class": "MASTER",
+       "reason": "Effective-dated price"
+      },
+      "erp.product_conversions.from_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Conversion source, validated as EXISTING_STOCK"
+      },
+      "erp.qc_inspection_items.final_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "QC input; the facts are fg_lots and bs_cases"
+      },
+      "erp.fg_accessory_cost_snapshots.product_id": {
+       "class": "DERIVED",
+       "reason": "Cost snapshot of an FG lot"
+      },
+      "erp.po_accessory_bom_commitments.product_id": {
+       "class": "MASTER",
+       "reason": "PO accessory BOM commitment"
+      },
+      "erp.stock_explainability_snapshots.product_id": {
+       "class": "REPORT",
+       "reason": "Stock explanation snapshot"
+      },
+      "erp.non_po_hpp_gl_sync_events_v2620f.product_id": {
+       "class": "ACCOUNTING",
+       "reason": "HPP to GL synchronisation event"
+      },
+      "erp.laundry_receipt_batch_size_lines.bs_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Laundry receipt input; the BS fact is bs_cases"
+      },
+      "erp.product_identity_mutation_context_v1.product_id": {
+       "class": "AUTHORIZATION",
+       "reason": "Private one-use identity edit context"
+      },
+      "erp.laundry_receipt_bs_product_allocations.product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Validated as NEW_STOCK; the BS fact is bs_cases"
+      },
+      "erp.contractor_accessory_reimbursement_entitlements.product_id": {
+       "class": "DERIVED",
+       "reason": "Accounting entitlement of an FG lot"
+      }
+     },
+     "references": 23,
+     "new_stock_fact_tables": [
+      "bs_cases",
+      "fg_lots"
+     ]
+    }
+   },
+   "ay_install": {
+    "stage": "AV_PLUS_AW_AX_AY_T1",
+    "label": "T1_FAMILY",
+    "functions": 13,
+    "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+    "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+    "av_coverage": {
+     "registry": {
+      "erp.fg_lots.product_id": {
+       "class": "NEW_STOCK_FACT",
+       "reason": "produced_at of every lot except GOOD returned by rework"
+      },
+      "erp.bs_cases.product_id": {
+       "class": "NEW_STOCK_FACT",
+       "reason": "physical_at of QC/laundry BS and manual OUT_OF_NOWHERE BS"
+      },
+      "erp.sales_items.product_id": {
+       "class": "SALES",
+       "reason": "Sale of existing stock"
+      },
+      "erp.journal_lines.product_id": {
+       "class": "ACCOUNTING",
+       "reason": "Journal dimension"
+      },
+      "erp.fg_stock_movements.product_id": {
+       "class": "MOVEMENT",
+       "reason": "Movement of an existing lot"
+      },
+      "erp.sales_return_items.product_id": {
+       "class": "SALES",
+       "reason": "Return of sold stock"
+      },
+      "erp.fg_adjustment_items.product_id": {
+       "class": "MOVEMENT",
+       "reason": "Adjusts an existing lot"
+      },
+      "erp.fg_inventory_balances.product_id": {
+       "class": "DERIVED",
+       "reason": "Balance cache keyed by product/location/grade"
+      },
+      "erp.opening_balance_items.product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Opening document; facts are OPENING lots and LEGACY BS"
+      },
+      "erp.stock_policy_versions.product_id": {
+       "class": "MASTER",
+       "reason": "Effective-dated stock policy"
+      },
+      "erp.accessory_bom_versions.product_id": {
+       "class": "MASTER",
+       "reason": "Effective-dated accessory BOM; no stock instant"
+      },
+      "erp.product_conversions.to_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Conversion target; the fact is the CONVERSION lot in fg_lots"
+      },
+      "erp.product_price_versions.product_id": {
+       "class": "MASTER",
+       "reason": "Effective-dated price"
+      },
+      "erp.product_conversions.from_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Conversion source, validated as EXISTING_STOCK"
+      },
+      "erp.qc_inspection_items.final_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "QC input; the facts are fg_lots and bs_cases"
+      },
+      "erp.fg_accessory_cost_snapshots.product_id": {
+       "class": "DERIVED",
+       "reason": "Cost snapshot of an FG lot"
+      },
+      "erp.po_accessory_bom_commitments.product_id": {
+       "class": "MASTER",
+       "reason": "PO accessory BOM commitment"
+      },
+      "erp.stock_explainability_snapshots.product_id": {
+       "class": "REPORT",
+       "reason": "Stock explanation snapshot"
+      },
+      "erp.non_po_hpp_gl_sync_events_v2620f.product_id": {
+       "class": "ACCOUNTING",
+       "reason": "HPP to GL synchronisation event"
+      },
+      "erp.laundry_receipt_batch_size_lines.bs_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Laundry receipt input; the BS fact is bs_cases"
+      },
+      "erp.product_identity_mutation_context_v1.product_id": {
+       "class": "AUTHORIZATION",
+       "reason": "Private one-use identity edit context"
+      },
+      "erp.laundry_receipt_bs_product_allocations.product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Validated as NEW_STOCK; the BS fact is bs_cases"
+      },
+      "erp.contractor_accessory_reimbursement_entitlements.product_id": {
+       "class": "DERIVED",
+       "reason": "Accounting entitlement of an FG lot"
+      }
+     },
+     "references": 23,
+     "new_stock_fact_tables": [
+      "bs_cases",
+      "fg_lots"
+     ]
+    },
+    "ay_sql_sha256": "7a24c1636f1e177c94f1c3ee9d1413599763e5de51c8dcedbd7d01b7cb8de16c"
+   },
+   "ay_cases": {
+    "status": "PASS",
+    "counts": {
+     "PASS": 7
+    }
+   },
+   "primary_unchanged": true,
+   "clone_remaining": 0
+  }
+ ]
+}
