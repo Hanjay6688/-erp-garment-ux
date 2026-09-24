@@ -1,6 +1,6 @@
 -- CP6 AY: PO HPP corrections dated from the goods. Release candidate of the T3 combined package; closed, drained maintenance required.
 begin;
--- Built by scripts/cp6_t3_awx_release.py from supabase/dev/cp6_ay_t1_family.sql (sha256 4ee1500de11f61d697f018b008f20655ce2bbeb119091843f45619ee2caf67bd): the T1 body below is unchanged apart from the
+-- Built by scripts/cp6_t3_awx_release.py from supabase/dev/cp6_ay_t1_family.sql (sha256 7a24c1636f1e177c94f1c3ee9d1413599763e5de51c8dcedbd7d01b7cb8de16c): the T1 body below is unchanged apart from the
 -- ledger description; guards follow AO..AV. Capsule and catalog pins are placeholders until the T3 capture.
 set local lock_timeout='10s';set local statement_timeout='240s';set local timezone='UTC';set local search_path='';
 set local role postgres;
@@ -345,7 +345,7 @@ begin
       select g.id,g.cutting_batch_id pool,
         greatest(p_effective_date,least(v_cap,coalesce((select min(erp._cp3_business_date(mm.physical_at)) from erp.material_stock_movements mm
           where mm.source_id=g.id and mm.source_type='CUTTING_GROUP'),erp._cp3_business_date(g.cut_at)))) cd,
-        coalesce((select t.total_pcs from erp.v_cutting_group_totals t where t.cutting_group_id=g.id),0)::numeric pcs,
+        coalesce((select gt.total_pcs from erp.v_cutting_group_totals gt where gt.cutting_group_id=g.id),0)::numeric pcs,
         coalesce((select sum(-mm.qty_signed*mm.unit_cost_snapshot) from erp.material_stock_movements mm
           where mm.source_id=g.id and mm.source_type in('CUTTING_GROUP','CUTTING_GROUP_RETURN')),0)::numeric mv,
         (select gs.material_value from erp.po_hpp_gl_group_state_v1 gs where gs.cutting_group_id=g.id and gs.updated_at>=s.updated_at) mv_old

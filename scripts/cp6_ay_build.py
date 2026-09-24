@@ -118,7 +118,7 @@ POST_NEW_TAIL="""  else
       select g.id,g.cutting_batch_id pool,
         greatest(p_effective_date,least(v_cap,coalesce((select min(erp._cp3_business_date(mm.physical_at)) from erp.material_stock_movements mm
           where mm.source_id=g.id and mm.source_type='CUTTING_GROUP'),erp._cp3_business_date(g.cut_at)))) cd,
-        coalesce((select t.total_pcs from erp.v_cutting_group_totals t where t.cutting_group_id=g.id),0)::numeric pcs,
+        coalesce((select gt.total_pcs from erp.v_cutting_group_totals gt where gt.cutting_group_id=g.id),0)::numeric pcs,
         coalesce((select sum(-mm.qty_signed*mm.unit_cost_snapshot) from erp.material_stock_movements mm
           where mm.source_id=g.id and mm.source_type in('CUTTING_GROUP','CUTTING_GROUP_RETURN')),0)::numeric mv,
         (select gs.material_value from erp.po_hpp_gl_group_state_v1 gs where gs.cutting_group_id=g.id and gs.updated_at>=s.updated_at) mv_old
