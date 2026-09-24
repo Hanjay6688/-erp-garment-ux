@@ -183,7 +183,7 @@ Default combined batch:15 cases, native **NOT_RUN**, run_id:null,job_id:null.
 - continuation/auth_selector_scenarios.py:1case; SHA256 2276140a28ce27e9cd8e18b03285bdeee9aa33aee4118fe701eca20442bc3bd4.
 Syntax, embedded-byte/hash equality, JSON roundtrip and unique factory IDs were checked. Factory enumeration used inert runtime imports. No case lambda/SQL executed.
 
-Pembaruan recovery: exact stock_import_scenario.py dan money_dates_scenario.py (8kasus) telah dipulihkan dan disalin ke audit/scenarios/ dengan hash di atas. File gabungan15 dan revisi terakhir business6+selector1 belum pulih utuh. Versi bisnis/matrix lebih lama sudah ditemukan, tetapi hash berbeda; tidak diganti diam-diam sebagai versi final.
+Pembaruan recovery: exact stock_import_scenario.py dan money_dates_scenario.py (8kasus) telah dipulihkan dan disalin ke audit/scenarios/ dengan hash di atas. Byte final lama gabungan15/business6/selector1 tidak pulih utuh. Kini business6+selector1 telah direkonstruksi dengan hash baru dan digabung bersama8kasus exact menjadi payload15baru; native tetap NOT_RUN. Matrix lama tetap berbeda hash dari versi final.
 
 Empat kasus COUNT yang membutuhkan kualifikasi privilege dikeluarkan dari batch default. Runner yang disetujui mempunyai conditional schema USAGE grant; keberhasilan di bawah grant tersebut tidak membuktikan ordinary reachability pada ACL kandidat yang belum diubah.
 
@@ -206,3 +206,8 @@ Tidak ada produk, main, cabang kompetisi/writer, hosted/legacy/production databa
 Owner meminta audit GPT dan Claude digabung tanpa mengulang temuan yang sama. [AUDIT_HANDOFF_CP6.md](AUDIT_HANDOFF_CP6.md) menjadi pintu masuk lanjut: satu ID gabungan per isu, alias kedua audit, tingkat bukti, status disagreement,4hambatan runtime dan next actions. [AUDIT_CLAUDE_CROSS_REVIEW.md](AUDIT_CLAUDE_CROSS_REVIEW.md) menjelaskan verifikasi dan batas tiap klaim. Laporan asli/hasil gagal tetap dipertahankan melalui referensi commit.
 
 Koreksi penting: ALL sudah disetujui menurutM1024; F1-02 bukan konflik keputusan aktif. F1-12 numeriknya terbukti tetapi identitas sumber fisik lintas batch belum ditentukan. Run race rev2 memakaiSHA5d640e42..., bukanSHA3915e006... milikrev1. Hasil tersebut belum menjadi penerimaan seluruh gate. Tidak ada custom native run baru selama recovery/cross-review.
+
+
+## Sumber native15 siap, eksekusi belum berjalan
+
+Payload audit/scenarios/combined_native15_reconstructed.py mempunyai SHA256`cec2ad521835476cf702119486e637d3eff4b62d8f72197a9ca2c2d50cf1fadb`,47183bytes dan15caseID unik. Manifest audit/scenarios/native15_manifest.json mengikat8kasus frozen exact dan7rekonstruksi post-lock. Sintaks, registrasi tanpa DB, source embedding dan hash sudah diperiksa; **belum ada native run atau hasil bisnis**. RunID/jobIDnull. BatasoracleSI01, moneyDOWN, advance danUIselector dicatat pada manifest. Ini tidak mengubah HOLD atau audit_complete=false.

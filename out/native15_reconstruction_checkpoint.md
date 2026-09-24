@@ -1,7 +1,7 @@
-# Native15 reconstruction checkpoint
+# Native15 preparation checkpoint
 
-The original combined15 batch remains NOT_RUN. After the owner asked whether it had been completed, GPT explicitly clarified that it had not. Current preparation reconstructs only six advance chronology/control cases and one initial-import51draft selector case under new source hashes. The original stock/import4 and money4 files remain byte-identical to their frozen hashes. New scripts are post-lock continuations, not recovered originals and not native proof.
+The15case sources are now complete:8frozen exact and7post-lock reconstructions. All remain nativeNOT_RUN;run_id:null;job_id:null. No new workflow is in flight for this batch.
 
-No new workflow is running for this batch. A supported, authorized workflow-dispatch executor is still required. Writer Opus's proposed race/Auth/rollback changes are separate from this single-session business batch and do not by themselves execute it.
+CombinedSHA256: cec2ad521835476cf702119486e637d3eff4b62d8f72197a9ca2c2d50cf1fadb. See audit/scenarios/native15_manifest.json and AUDIT_HANDOFF_CP6.md. Local checks covered syntax, pure registration,15uniqueIDs and embedded source hashes; zero business operations were executed. The original final lost hash968cac54... is not attributed to this replacement.
 
-Incremental notes: out/advance_scenario_reconstruction.md and out/import_selector_reconstruction.md. Final source, combined payload, hashes and case manifest will be committed when ready. Do not send an old partial payload or silently substitute the old business checkpoint with four held COUNT cases.
+Writer's race/Auth/rollback runtime work is separate. Use an authorized custom-dispatch executor for the ordinary single-session15casebatch, after source/tool review. Do not request credentials, modify oracle forgreenresults, or label reused Claude observations as execution of these15IDs.

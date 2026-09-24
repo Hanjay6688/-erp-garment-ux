@@ -97,10 +97,10 @@ Rincian gabungan: [blocker_and_recovery_assessment.md](out/blocker_and_recovery_
 |---|---:|---|
 | Stock/import: SI01identity, SI02datedcapacity, SI03retry, SI04prepare-edit |4| [stock_import_scenario.py](audit/scenarios/stock_import_scenario.py), exact hashff92e8d9… dipulihkan |
 | Money: DIRECT/INVOICE × UP/DOWN |4| [money_dates_scenario.py](audit/scenarios/money_dates_scenario.py), exact hashcfa1157b… dipulihkan |
-| Advance: supplier/customer/vendor × ordered/backdated |6| Final44b075c7… belum pulih; checkpoint lama7720ced7… berbeda. Empat COUNT cases tetap ditahan. |
-| Selector:51draft import |1| Final2276140a… belum pulih. Ini berbeda dari kasus BS101 milik Fable. |
+| Advance: supplier/customer/vendor × ordered/backdated |6| [business_scenarios_reconstructed.py](audit/scenarios/business_scenarios_reconstructed.py), hash90625484… baru. Original44b075c7… tidak dipalsukan sebagai pulih; COUNT tetap dikecualikan. |
+| Selector:51draft import |1| [import_selector_reconstructed.py](audit/scenarios/import_selector_reconstructed.py), hash66d0524c… baru. UI discovery; known-UUID reader positif. Berbeda dari BS101 Fable. |
 
-Batch final968cac54…: **NOT_RUN, run_id=null, job_id=null**. Hash lengkap di progress. Delapan kasus exact sudah ada di repo; hasil Fable tidak mengganti status ID original ini.
+**Sumber15kasus kini lengkap:**8exact frozen+7rekonstruksi. [Payload gabungan](audit/scenarios/combined_native15_reconstructed.py) SHA256`cec2ad521835476cf702119486e637d3eff4b62d8f72197a9ca2c2d50cf1fadb`,47183bytes; [manifest](audit/scenarios/native15_manifest.json) berisi15ID unik dan hash tiap member. Status tetap **NOT_RUN, run_id=null, job_id=null**. Pemeriksaan lokal hanya sintaks/registrasi/hash. Payload lama968cac54… belum pulih byte-identik; versi baru tidak memakai hash lama. Hasil Fable tidak mengganti status eksekusi batch ini.
 
 Dispatch custom sudah diizinkan handoff. Connector sesi GPT hanya menyediakan GET dan rerun job existing, belum POST dispatch baru. Jangan meminta password/token/kunci. Ketika executor yang berwenang tersedia, kirim byte file langsung dan cocokkan hash/planned IDs dalam log.
 
@@ -108,7 +108,7 @@ Dispatch custom sudah diizinkan handoff. Connector sesi GPT hanya menyediakan GE
 
 1. Writer dapat mengerjakan tiga alat/artifact di atas setelah instruksi owner. Auditor memanfaatkan waktu untuk menajamkan oracle dan fixture; kedua kegiatan dapat berjalan tanpa dua writer produk.
 2. Review diff writer terhadap9add, pastikan lingkup file tidak melebar, lalu verifikasi mode runtime/rollback baru dengan kontrol kegagalan.
-3. Rekonstruksi hanya7revisi kasus yang hilang dengan hash baru. Jangan mengganti versi final memakai checkpoint lama tanpa mengungkap perbedaannya.
+3. Review7rekonstruksi dan8sumber frozen yang kini tersimpan, termasuk batas oracle SI01/moneyDOWN/advance. Jalankan payload15melalui executor disposable yang berwenang; tidak perlu merekonstruksi ulang file yang sudah selesai.
 4. Prioritaskan WIP prefix, recost dan WIB UI; lanjut advance/payroll, selector, recovery dan unknown sampai konsumen/inverse/report.
 5. Lengkapi ALL22state/6family, Auth/action/location/revocation, browser, race, transitive HPP/producers dan adapter residual. Crosswalk ALL/payroll ada di out/.
 6. Perbarui putusan tiap gate pada exact source yang diuji. Penyelesaian handoff ini tidak menyelesaikan audit seluruh CP6 atau mengizinkan produksi.

@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "candidate_product_sha": "9add57ea8c2b6b2dc37c0134717d4d39ba30b5dc",
+  "preparation_status": "SOURCE_PREPARED_SYNTAX_AND_REGISTRATION_CHECKED",
+  "native_status": "NOT_RUN",
+  "run_id": null,
+  "job_id": null,
+  "combined_file": "combined_native15_reconstructed.py",
+  "combined_sha256": "cec2ad521835476cf702119486e637d3eff4b62d8f72197a9ca2c2d50cf1fadb",
+  "combined_bytes": 47183,
+  "scenario_b64_characters": 62912,
+  "original_lost_combined_sha256": "968cac54ac7fa7fe4e3fc1d666e257b04944faf1beec1f45a209274db00869d1",
+  "original_lost_bytes_recovered": false,
+  "planned_case_ids": [
+    "SI-01-identified-wip-output-identity",
+    "SI-02-reversed-wip-dated-capacity",
+    "SI-03-wip-retry-exact-envelope",
+    "SI-04-prepared-wip-latest-item",
+    "BLIND-MONEY-CENT-DIRECT-UP",
+    "BLIND-MONEY-CENT-DIRECT-DOWN",
+    "BLIND-MONEY-CENT-INVOICE-UP",
+    "BLIND-MONEY-CENT-INVOICE-DOWN",
+    "BCR1-ADVANCE-SUPPLIER-ORDERED_CONTROL",
+    "BCR1-ADVANCE-SUPPLIER-DATED_CAPACITY",
+    "BCR1-ADVANCE-CUSTOMER-ORDERED_CONTROL",
+    "BCR1-ADVANCE-CUSTOMER-DATED_CAPACITY",
+    "BCR1-ADVANCE-VENDOR-ORDERED_CONTROL",
+    "BCR1-ADVANCE-VENDOR-DATED_CAPACITY",
+    "XI:C_SEL_01_INITIAL_IMPORT_51_DRAFT_SELECTOR"
+  ],
+  "members": [
+    {
+      "file": "stock_import_scenario.py",
+      "sha256": "ff92e8d973ebb75c05ba8ac6b47da96565c9b50760c91b247f331a765d18df81",
+      "bytes": 11938,
+      "case_ids": [
+        "SI-01-identified-wip-output-identity",
+        "SI-02-reversed-wip-dated-capacity",
+        "SI-03-wip-retry-exact-envelope",
+        "SI-04-prepared-wip-latest-item"
+      ],
+      "provenance": "FROZEN_EXACT"
+    },
+    {
+      "file": "money_dates_scenario.py",
+      "sha256": "cfa1157b7ea39e6f5162d85a540ed5e22c30d8fef9ddfe840b5a9bf2f631d9ef",
+      "bytes": 9812,
+      "case_ids": [
+        "BLIND-MONEY-CENT-DIRECT-UP",
+        "BLIND-MONEY-CENT-DIRECT-DOWN",
+        "BLIND-MONEY-CENT-INVOICE-UP",
+        "BLIND-MONEY-CENT-INVOICE-DOWN"
+      ],
+      "provenance": "FROZEN_EXACT"
+    },
+    {
+      "file": "business_scenarios_reconstructed.py",
+      "sha256": "90625484eded3a0a68e8852f9c19e9e9286887c1d905821abc89931b42029618",
+      "bytes": 12443,
+      "case_ids": [
+        "BCR1-ADVANCE-SUPPLIER-ORDERED_CONTROL",
+        "BCR1-ADVANCE-SUPPLIER-DATED_CAPACITY",
+        "BCR1-ADVANCE-CUSTOMER-ORDERED_CONTROL",
+        "BCR1-ADVANCE-CUSTOMER-DATED_CAPACITY",
+        "BCR1-ADVANCE-VENDOR-ORDERED_CONTROL",
+        "BCR1-ADVANCE-VENDOR-DATED_CAPACITY"
+      ],
+      "provenance": "RECONSTRUCTED_POST_LOCK"
+    },
+    {
+      "file": "import_selector_reconstructed.py",
+      "sha256": "66d0524c7665a5a68b55f3dbf6934bc5742395ed5832ffbd2301cd7d70d5e6ac",
+      "bytes": 7670,
+      "case_ids": [
+        "XI:C_SEL_01_INITIAL_IMPORT_51_DRAFT_SELECTOR"
+      ],
+      "provenance": "RECONSTRUCTED_POST_LOCK"
+    }
+  ],
+  "limitations": [
+    "Syntax and pure registration checks do not validate database fixtures or native outcomes.",
+    "SI01 optional-product oracle unresolved; original SI04 requires ordinary draft-edit privileges.",
+    "Money DOWN must be assessed against canonical posted rounding, not blindly copied expectations.",
+    "Advance prefix interpretation is an explicit inference; unexpected refusal remains INCOMPLETE.",
+    "Selector is UI discovery through workspace data; known-UUID backend retrieval is a positive control.",
+    "No side-connection, HTTP credential materialization, rollback qualification, or product fix is included."
+  ],
+  "dispatch": {
+    "workflow": "cp6-auditor-scenario.yml",
+    "phase": "after",
+    "ref": "claude/new-session-deapao",
+    "require_current_ref_product_and_tool_review": true,
+    "note": "Do not dispatch blindly if writer branch has moved; review diff and record checkout/tool SHA separately."
+  }
+}

@@ -1,7 +1,7 @@
 # CP6 audit — GPT recovery checkpoint
 Date: 2026-09-24 UTC.
 Status: **INCOMPLETE; full CP6 acceptance audit is NOT COMPLETE. Recommendation HOLD. production_go=false. Cross-review and consolidated handoff completed.**
-Active phase: consolidated GPT/Fable handoff saved; writer Opus implementation proposal integrated. Await a concrete writer tool/rollback diff and supported native dispatch, while remaining CP6 oracle/fixture work stays open. Workspace/contracts/frozen8casebytes are recovered. Historical entries below are snapshots, not current capability/status.
+Active phase: joint GPT/Fable handoff complete; native15 source preparation complete (8frozen+7reconstructed), NOT_RUN. Await supported native dispatch and concrete Opus writer tool/rollback diff; wider CP6 coverage remains open. Historical entries below are snapshots.
 
 ## Identity and authority
 - Repository: Hanjay6688/-erp-garment-ux.
@@ -212,6 +212,19 @@ Handoff andindex updated atb38b4cf5d8e1102fe149f4ea93e7d5fe64a5ef84 and42adc6f9e
 
 1. Start from AUDIT_HANDOFF_CP6.md andaudit/CP6_COMBINED_INDEX.json; preserve candidate9add/sourcehashes and phase1lock. Do not redo completedcross-review or missingrollback investigation.
 2. Writer Opus may start the three bounded tool/artifact changes onceownerinstructs. Whencommitprovided, auditdiff exactfiles, sourcepins, isolation, identity, requestpaths andfail-closedoracles. No product/writerbranchwrites byGPT.
-3. Rebuild only missing7case revisions(advance6+importselector1), withnewhashes and validfixtures;8exactcasebytes alreadyinrepo. Do not silently use olderbusiness/matrixcheckpoint asfinal.
+3. The7missingcase replacements are now reconstructed and committed withnewhashes;8frozenmembercases remainexact. Review oracle qualifications and execute the new15casepayload; do not redo completed reconstruction or claim lost originals recovered.
 4. Through an authorized dispatch-capable environment, run auditedcases on exact product+toolcommits; verify plannedIDs,per-caseerrors,zero residue,source/primaryrestoration. Existingjobrerun cannot submit newpayload.
 5. Finish remainingCP6families: UIWIB/recovery/unknown, fullAuthroles/action/location/revocation, concurrency, advance/payroll/HPP/transitiveproducers, ALLadapters/lifecycles androllbackqualification. Cross-reviewcompletion doesnotclose thewholeaudit.
+
+
+## Native15 source reconstruction completed — latest checkpoint
+
+- Owner asked whether15nativecases were finished. GPT explicitly answered NO; no native run/job exists. Source preparation then continued and is now complete.
+- Business six-case replacement: audit/scenarios/business_scenarios_reconstructed.py SHA25690625484eded3a0a68e8852f9c19e9e9286887c1d905821abc89931b42029618. FourCOUNTcases excluded. Factualsourceimmutability only, exactcontrol/replay/events/dates, arbitrarySQLrefusalINCOMPLETE. Prefixadvanceoracle remains explicit inference.
+- Initial-import51draft selector replacement: audit/scenarios/import_selector_reconstructed.py SHA25666d0524c7665a5a68b55f3dbf6934bc5742395ed5832ffbd2301cd7d70d5e6ac. OrdinarypublicCREATE, positiveactor/knownUUIDread, exactrecentmembership, ownsavepointrollback. Scope narrowed toUI discovery; servercanretrieve knownUUID. NotBS101.
+- Combined: audit/scenarios/combined_native15_reconstructed.py SHA256cec2ad521835476cf702119486e637d3eff4b62d8f72197a9ca2c2d50cf1fadb;47183bytes;62912base64characters;15uniqueIDs. Manifest audit/scenarios/native15_manifest.json. Builder audit/tools/build_native15.py reproduces embedding/manifest. Old968cac54... hash remains receipt oflostoriginal, not reused.
+- Validation: memberAST/compile; purecase registration withNoDatabaseguard;4+4+6+1counts;15uniqueIDs; original8hashes unchanged; exactembeddedbytes andmanifestSHA match. **Businessoperations executed0; native NOT_RUN; run_id:null;job_id:null.** These checks do not establish fixture validity or productPASS.
+- Incremental reconstruction notes persisted underout/advance_scenario_reconstruction.md andout/import_selector_reconstruction.md. NewcaseIDs explicitlyBCR1/XI toavoid pretending exactlostsource.
+- Native15is single-session DB business proof only. It doesnot implement writer's race/AuthHTTP/rollback modes or cover fullCP6. SI01identitybinding, moneyDOWNrounding andadvanceprefixoracle qualifications remain visible inpayload/manifest.
+
+Current next action: authorized dispatch-capable executor reviews newpayload and writerref/toolSHA, dispatches phaseafter, records run/job/attempt/head/scenarioSHA and each15outcome/cleanup. GPT connector lacksPOSTdispatch; no native run iscurrently in-flight for thisbatch. WriterOpuscan separately proceed on the3bounded tools/artifacts afterownerinstructions; auditor reviewsnewdiffwithout re-investigating knownmissingrollbackfiles.
