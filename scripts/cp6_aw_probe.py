@@ -156,10 +156,35 @@ def reverse_attendance(cur,period):
     api.admin(cur);return r
 
 
-def quiet_seed(cur,start,end,exclude=()):
+def split_range(start,end,separate=()):
+    """[start,end] cut so that every (a,b) of separate inside it is a range of its own (no day lost or doubled)."""
+    out=[];cursor=start
+    for a,b in sorted(separate):
+        if b<start or a>end:continue
+        a,b=max(a,start),min(b,end)
+        if cursor<a:out.append((cursor,a-timedelta(days=1)))
+        out.append((a,b));cursor=b+timedelta(days=1)
+    if cursor<=end:out.append((cursor,end))
+    return out
+
+
+def free_ranges(start,end,occupied):
+    """The parts of [start,end] outside every occupied (a,b) range."""
+    out=[];cursor=start
+    for a,b in sorted(occupied):
+        if b<cursor:continue
+        if a>end:break
+        if cursor<a:out.append((cursor,a-timedelta(days=1)))
+        cursor=max(cursor,b+timedelta(days=1))
+    if cursor<=end:out.append((cursor,end))
+    return out
+
+
+def quiet_seed(cur,start,end,exclude=(),separate=()):
     """Clear seed open items for [start,end] the way the owner would, with owner RPCs where they exist:
     record OFF for every attendance-required seed contractor, approve due payrolls, and take eligible seed work into
-    an approved payroll. Administrative only where no RPC exists (payroll header insert, as the harness does)."""
+    an approved payroll. Administrative only where no RPC exists (payroll header insert, as the harness does).
+    separate: date ranges posted as attendance periods of their own, so a caller can reverse exactly those days."""
     done=dict(attendance=[],approved=[],work_payrolls=[],refused=[])
     api.admin(cur)
     for (c,) in cur.execute("""select c.id from erp.contractors c where c.attendance_required and c.id<>all(%s::uuid[])
@@ -167,9 +192,23 @@ def quiet_seed(cur,start,end,exclude=()):
         ([str(x) for x in exclude],)).fetchall():
         try:
             cur.execute('savepoint aw_quiet')
-            p=post_attendance(cur,c,start,end)
+            periods=[];posted_drafts=[]
+            # A seed draft period that is already due is posted as the owner would; OFF then fills only the days no
+            # active (DRAFT/POSTED) period of the contractor holds, so no existing attendance is overwritten.
+            for pid,version in cur.execute("""select id,row_version from erp.attendance_periods where contractor_id=%s and status='DRAFT'
+                and period_start<=%s and period_end>=%s and period_end<=%s order by period_start""",(c,end,start,end)).fetchall():
+                api.ordinary(cur)
+                cur.execute('select public.erp_post_attendance_period_v1(%s,%s,%s,%s)',(pid,'T2 seed draft posted',uuid.uuid4(),version))
+                api.admin(cur);posted_drafts.append(str(pid))
+            occupied=[(a,b) for a,b in cur.execute("""select period_start,period_end from erp.attendance_periods where contractor_id=%s
+                and status in('DRAFT','POSTED') and period_start<=%s and period_end>=%s order by 1""",(c,end,start)).fetchall()]
+            for a,b in free_ranges(start,end,occupied):
+                for x,y in split_range(a,b,separate):
+                    p=post_attendance(cur,c,x,y)
+                    if p:periods.append(dict(start=str(x),end=str(y),**{k:p[k] for k in ('period_id','row_version','days','lines')}))
             cur.execute('release savepoint aw_quiet')
-            if p:done['attendance'].append(dict(contractor=str(c),**{k:p[k] for k in ('days','lines')}))
+            if periods or posted_drafts:done['attendance'].append(dict(contractor=str(c),days=sum(x['days'] for x in periods),
+                lines=sum(x['lines'] for x in periods),periods=periods,occupied=[(str(a),str(b)) for a,b in occupied],posted_drafts=posted_drafts))
         except psycopg.Error as exc:
             cur.execute('rollback to savepoint aw_quiet');api.admin(cur)
             done['refused'].append(dict(step='attendance',contractor=str(c),message=exc.diag.message_primary))

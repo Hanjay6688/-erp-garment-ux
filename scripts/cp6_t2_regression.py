@@ -20,10 +20,23 @@ the seed items over the whole reopened range (not only the last 120 days), and r
 for that whole range before the closing date is put back; any refused step or a range that is not READY stops the group
 (its cases are not run). The run-3 side channel is opt-in (CP6_T2_DIAG=1) and reads inside a savepoint that is rolled
 back, so the case starts in the session state it had without it.
+
+Run 5 (owner, 24 Sep): "lengkapi persiapan tes yang tidak sedang menguji payroll, perbaiki lima benturan absensi, lalu
+jalankan ulang"; an approved payroll may still be a debt, so no test is made to pay, and tests about unpaid or partly
+paid wages keep testing that. CP6_T2_FIXTURE=PAYROLL_APPROVED (default) therefore completes each case's own fixture
+the way the owner policy asks, in the harness (the oracle files stay hash-pinned and unchanged): right before a case
+reads readiness (owner report, preflight, close), every paid attendance day and payable work line that the case itself
+created and no payroll has taken goes into a new payroll of that contractor, populated and APPROVED (cost recognised,
+contractor payable; no payment), and the case's session is put back exactly. Items that existed before the case are not
+touched. No case of the old sets tests uncovered work (they predate the policy); WORK_UNPAID has 0 payable pcs and
+WORK_PARTIAL_PAY asserts 5 payable of 7 done before the report, so neither is changed by an approved, unpaid payroll.
+The five CROSS:DAY:ATTENDANCE cases post PRESENT for the seed contractor on today-3 and today-2, days the quieting had
+covered with OFF: those two days are now an OFF period of their own, reversed with the owner RPC inside the case's
+savepoint only, so the case posts its own days and every other case keeps the full OFF cover.
 """
 from datetime import date,timedelta
 from pathlib import Path
-import argparse,json,os,sys,types
+import argparse,json,os,re,sys,types
 
 AUDITOR=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(Path.cwd()/'scripts'))
@@ -38,6 +51,12 @@ LABEL=os.environ.get('CP6_T2_LABEL','T2_PRELIMINARY')
 SEED=os.environ.get('CP6_T2_SEED','AS_IS')
 REOPEN=date(2026,1,1)
 DIAG=os.environ.get('CP6_T2_DIAG')=='1'
+FIXTURE=os.environ.get('CP6_T2_FIXTURE','PAYROLL_APPROVED')
+assert FIXTURE in ('NONE','PAYROLL_APPROVED')
+# cp6_successor_specs runs the business declarations with day=today-3; cp6_ac_independent_audit.attendance_case posts
+# PRESENT for this seed contractor on day and day+1.
+ATTENDANCE_OFFSET=3
+ATTENDANCE_CONTRACTOR='a1000000-0000-0000-0000-000000000001'
 avt.OUT=AUDITOR/'cp6-proof/t2'
 assert SEED in ('AS_IS','QUIETED')
 
@@ -58,23 +77,119 @@ def group(name,factory):
         found=cur.execute('select closed_through from erp.accounting_period_control where singleton_id=1').fetchone()[0]
         assert found is not None and REOPEN<found<today,('T2_UNEXPECTED_GROUP_CLOSE',found)
         prior.set_open_period(cur,REOPEN)
-        done=awp.quiet_seed(cur,REOPEN+timedelta(days=1),today)
+        case_days=(today-timedelta(days=ATTENDANCE_OFFSET),today-timedelta(days=ATTENDANCE_OFFSET-1))
+        done=awp.quiet_seed(cur,REOPEN+timedelta(days=1),today,separate=[case_days])
         reopened=awp.preflight(cur,found)
         prior.set_open_period(cur,found)
         after=awp.preflight(cur,today)
         print(json.dumps(dict(group='T2_SEED_QUIETED',target=name,closed_through=found,window=[str(REOPEN+timedelta(days=1)),str(today)],
-                              attendance=len(done['attendance']),approved=done['approved'],work_payrolls=len(done['work_payrolls']),
+                              attendance=[dict(contractor=a['contractor'],periods=[(x['start'],x['end']) for x in a['periods']]) for a in done['attendance']],approved=done['approved'],work_payrolls=len(done['work_payrolls']),
                               refused=done['refused'],reopened_range=[str(REOPEN+timedelta(days=1)),str(found)],
                               reopened_status=reopened and reopened['status'],reopened_blockers=awp.blockers_brief(reopened),
                               after_status=after and after['status'],after_blockers=awp.blockers_brief(after)),default=str),flush=True)
         assert not done['refused'],('T2_SEED_QUIETING_REFUSED',done['refused'])
         assert reopened and reopened['status']=='READY',('T2_REOPENED_RANGE_NOT_READY',awp.blockers_brief(reopened))
         assert after and after['status']=='READY',('T2_QUIETED_SEED_NOT_READY',awp.blockers_brief(after))
-        return [(key,diagnosed(key,op,cur,today)) for key,op in factory(cur,today)]
+        own=[x for a in done['attendance'] if a['contractor']==ATTENDANCE_CONTRACTOR for x in a['periods']
+             if (x['start'],x['end'])==tuple(map(str,case_days))]
+        assert len(own)==1,('T2_ATTENDANCE_CASE_DAYS_NOT_SEPARATE',own)
+        return [(key,fixture(key,diagnosed(key,op,cur,today),cur,own[0])) for key,op in factory(cur,today)]
     return ORIGINAL_GROUP(name,quieted)
 
 
 ELIGIBLE="select coalesce(array_agg(md5(e::text)),'{}') from erp.v_payroll_eligible_work_lines e where e.remaining_qty>0"
+# What the AW engine counts as not taken by any payroll (PAYROLL_WORK_UNCOVERED, PAYROLL_ATTENDANCE_UNCOVERED).
+UNCOVERED="""select 'W:'||md5(e::text),e.contractor_id,(e.eligible_at at time zone 'Asia/Jakarta')::date
+ from erp.v_payroll_eligible_work_lines e where e.remaining_qty>0
+union all
+select 'A:'||ar.id::text,ar.contractor_id,ar.attendance_date from erp.attendance_records ar
+ join erp.contractor_workers w on w.id=ar.worker_id join erp.contractors c on c.id=ar.contractor_id
+ where coalesce(ar.record_lifecycle,'POSTED')='POSTED' and ar.paid_fraction>0 and w.pay_scheme in('DAILY','HYBRID') and c.attendance_required
+  and not exists(select 1 from erp.payroll_attendance_items pai join erp.payroll_settlements ps on ps.id=pai.payroll_id
+   where pai.attendance_record_id=ar.id and ps.status<>'REVERSED')"""
+READINESS=re.compile(r'(get_owner_financial_snapshot|close_accounting_through|accounting_close_preflight|period_readiness|period_blockers)\w*\s*\(')
+STATE=dict(conn=None,case=None,before=None,busy=False)
+FIXTURES=[]
+
+
+def session_state(cur):
+    s=cur.execute("select session_user,current_user,coalesce(current_setting('request.jwt.claims',true),''),current_setting('TimeZone'),current_setting('search_path')").fetchone()
+    return tuple(s)
+
+
+def restore_session(cur,state):
+    from psycopg import sql
+    session,current,claims,zone,path=state
+    awp.api.admin(cur)
+    cur.execute("select set_config('request.jwt.claims',%s,true),set_config('TimeZone',%s,true),set_config('search_path',%s,true)",(claims,zone,path))
+    if session!=cur.execute('select session_user').fetchone()[0]:
+        cur.execute(sql.SQL('set local session authorization {}').format(sql.Identifier(session)))
+    if current!=session:cur.execute(sql.SQL('set local role {}').format(sql.Identifier(current)))
+    assert session_state(cur)==state,('T2_FIXTURE_SESSION_NOT_RESTORED',session_state(cur),state)
+
+
+def complete_payroll(cur):
+    """Owner fixture completion: the case's own uncovered attendance and work into an APPROVED payroll (not paid)."""
+    STATE['busy']=True
+    state=session_state(cur);record=dict(case=STATE['case'],payrolls=[],refused=None)
+    try:
+        cur.execute('savepoint t2_fixture')
+        try:
+            awp.api.admin(cur)
+            rows=[r for r in cur.execute(UNCOVERED).fetchall() if r[0] not in STATE['before']]
+            by={}
+            for key,contractor,day in rows:by.setdefault(contractor,[]).append((key,day))
+            cash=cur.execute('select id from erp.cash_accounts where is_active order by cash_account_code limit 1').fetchone()[0]
+            for contractor,items in sorted(by.items(),key=lambda x:str(x[0])):
+                lo,hi=min(d for _,d in items),max(d for _,d in items);pid=awp.uuid.uuid4()
+                cur.execute("""insert into erp.payroll_settlements(id,payroll_number,contractor_id,period_start,period_end,status,payment_cash_account_id,payment_date,manual_adjustment,notes)
+                    values(%s,%s,%s,%s,%s,'DRAFT',%s,%s,0,'T2 fixture completion: case work and attendance into an approved payroll (not paid)')""",
+                    (pid,'T2-'+pid.hex[:12],contractor,lo,hi,cash,hi))
+                awp.chain.prior.as_owner(cur)
+                cur.execute('select erp.populate_payroll_draft(%s)',(pid,));cur.execute('select erp.approve_payroll(%s)',(pid,))
+                awp.api.admin(cur)
+                status=cur.execute('select status from erp.payroll_settlements where id=%s',(pid,)).fetchone()[0]
+                assert status=='APPROVED',('T2_FIXTURE_PAYROLL_NOT_APPROVED',status)
+                record['payrolls'].append(dict(contractor=str(contractor),start=str(lo),end=str(hi),status=status,
+                    work_lines=sum(k.startswith('W:') for k,_ in items),attendance_days=sum(k.startswith('A:') for k,_ in items)))
+            cur.execute('release savepoint t2_fixture')
+        except awp.psycopg.Error as exc:
+            cur.execute('rollback to savepoint t2_fixture');record['refused']=exc.diag.message_primary
+    finally:
+        restore_session(cur,state);STATE['busy']=False
+    if record['payrolls'] or record['refused']:
+        FIXTURES.append(record);print(json.dumps(dict(group='T2_FIXTURE_PAYROLL',**record),default=str),flush=True)
+
+
+EXECUTE=awp.psycopg.Cursor.execute
+
+
+def execute(self,query,params=None,**kwargs):
+    if STATE['conn'] is not None and self.connection is STATE['conn'] and not STATE['busy'] \
+       and READINESS.search(query if isinstance(query,str) else str(query)):
+        complete_payroll(self)
+    return EXECUTE(self,query,params,**kwargs)
+
+
+awp.psycopg.Cursor.execute=execute
+
+
+def fixture(key,op,cur,case_period):
+    """Arm the fixture completion for one case; the attendance cases get their two days back from the quieting."""
+    if FIXTURE=='NONE':return op
+    def run():
+        cur.execute('savepoint t2_before')
+        try:
+            awp.api.admin(cur);before={r[0] for r in cur.execute(UNCOVERED).fetchall()}
+        finally:
+            cur.execute('rollback to savepoint t2_before');cur.execute('release savepoint t2_before')
+        if key.startswith('CROSS:DAY:ATTENDANCE:'):awp.reverse_attendance(cur,case_period)
+        STATE.update(conn=cur.connection,case=key,before=before)
+        try:
+            return op()
+        finally:
+            STATE.update(conn=None,case=None,before=None)
+    return run
 
 
 def diagnosed(key,op,cur,today):
