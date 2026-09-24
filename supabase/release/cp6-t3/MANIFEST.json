@@ -1166,8 +1166,8 @@
       "name": "erp_v2_6_20az_cp6_material_recost_dated_from_movement",
       "closed_admission": true,
       "source": "supabase/release/cp6-t3-src/20260924010300_erp_v2_6_20az_cp6_material_recost_dated_from_movement.sql",
-      "source_sha256": "ba8b2867467a5825fdd16dc7dc6d7b2ff9c84c28c4a4c1019d9f9a2709bccd38",
-      "package_sha256": "eb3445927a873b30c9d65ddb29af20c3d7c7a6f7d45b903b96357b81031d5564",
+      "source_sha256": "576749761dbfb711005f76962f5c0287a151a80f6c6fe97b4e8f28e70671c0c2",
+      "package_sha256": "e515d12a995a1806537ac08b7b0da15eb817480ead3103b035fc651b62977b8d",
       "substitutions": [
         {
           "kind": "LEDGER",
@@ -1367,7 +1367,7 @@
   "rollbacks": "NOT_TESTED",
   "pins": {
     "file": "docs/evidence/cp6-t3/release_pins.json",
-    "blob_sha256": "cb02b815d951d0f0f29f687f930a262a6f683009be6b4bed1a8cf4db6d028ab4",
+    "blob_sha256": "80e30b961a6cb8e20e77db0daa9c078f31d643c90fc33fbda772367f88e23068",
     "blob_bytes": 65237
   }
 }
