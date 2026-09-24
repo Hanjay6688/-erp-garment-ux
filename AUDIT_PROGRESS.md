@@ -1,13 +1,13 @@
 # CP6 audit — GPT recovery checkpoint
 Date: 2026-09-24 UTC.
-Status: **BLOCKED / INCOMPLETE; full CP6 acceptance audit is NOT COMPLETE. Recommendation HOLD. production_go=false.**
-Active phase: workspace recovered; contracts and frozen phase-1 sources restored; post-lock Claude report/blocker review in progress (authorized by latest user request). The audit remains INCOMPLETE. Native custom dispatch and several scenario revisions remain unavailable. Historical offline entries below are retained as dated evidence, not current workspace status.
+Status: **INCOMPLETE; full CP6 acceptance audit is NOT COMPLETE. Recommendation HOLD. production_go=false. Cross-review and consolidated handoff completed.**
+Active phase: consolidated GPT/Fable handoff saved; writer Opus implementation proposal integrated. Await a concrete writer tool/rollback diff and supported native dispatch, while remaining CP6 oracle/fixture work stays open. Workspace/contracts/frozen8casebytes are recovered. Historical entries below are snapshots, not current capability/status.
 
 ## Identity and authority
 - Repository: Hanjay6688/-erp-garment-ux.
 - Product candidate: `9add57ea8c2b6b2dc37c0134717d4d39ba30b5dc`; tree `5d5f833b2e75e23184c643d5ac469781f1c3ce5e`.
 - Baseline comparison: `ca7f09556397801c50a2277bdb65b1bf019f9a05`.
-- This recovery branch: `audit/cp6-final-20260924-gpt-a0bcadf`, created directly from the frozen candidate. It is distinct from the other auditor's branch. Only audit documentation is written here.
+- This recovery branch: `audit/cp6-final-20260924-gpt-a0bcadf`, created directly from the frozen candidate. It is distinct from the other auditor's branch. Only audit documentation, evidence ledgers and auditor scenario files are written here; no product code.
 - No product code, main, competition branch, writer branch, hosted/legacy/production database, deployment, or person-directed message was changed by this recovery action.
 
 Only the three supplied contracts define gates/oracles:
@@ -33,11 +33,11 @@ C6-01..10 are audit groupings. ACCEPT for a narrow operation does not accept the
 | Gate | Status | Contract file/lines | Current basis |
 |---|---|---|---|
 |C6-01 evidence identity/completeness|HOLD|M1624–1626,1693,1762–1767,4391–4393,4521–4525|Exact SHA/jobs bound; runner duplicate-ID loss; T2 disposition and missing independent cases remain.|
-|C6-02 atomicity/immutable facts/exact state|UNVERIFIED|M3816–3826,5048–5052|Broad source review, no complete native lifecycle proof; historical capacity/cent risks remain.|
+|C6-02 atomicity/immutable facts/exact state|HOLD|M3816–3826,5048–5052|U02/U03 corroborated from independently reviewed external native logs: historical WIP prefix and zero-qty inventory value counterexamples. REUSED_EVIDENCE; full lifecycle acceptance absent.|
 |C6-03 recovery/input/unknown/selectors|HOLD|M1678–1679,1691,3817–3820,3825–3826,3939|Wrong WIB payloads, unstable request recovery and failed-read zero display reproduced locally; selector tails source-supported.|
 |C6-04 ALL initial import|UNVERIFIED|M44–45,359–365,749–755,829–843,934–938,1024–1025,1691; P966–967|Template count is insufficient; 22-state semantic crosswalk persisted; native continuation and unmapped adapter obligations remain.|
-|C6-05 dates/recost/HPP/journals/reports|HOLD|M375,377,837,1022,1059–1065,1666,1691,3816,3820,3825|F01 wrong WIB payload; U03 cent risk; full dated financial acceptance absent.|
-|C6-06 production/AP/AR/payroll/advances|UNVERIFIED|M359–379,629–648,749–757,3822–3824|Source bodies reviewed with explicit limits; U02 and advance dated-capacity candidate need native results; payroll source follow-up persisted; BS attribution risk remains native-unverified.|
+|C6-05 dates/recost/HPP/journals/reports|HOLD|M375,377,837,1022,1059–1065,1666,1691,3816,3820,3825|F01 wrong WIB payload; U02/U03 native WIP/cent counterexamples corroborated via REUSED_EVIDENCE. Full dated financial acceptance absent.|
+|C6-06 production/AP/AR/payroll/advances|HOLD|M359–379,629–648,749–757,3822–3824|U02 WIP counterexample corroborated via REUSED_EVIDENCE. Advance and payroll/BS attribution hypotheses still NOT_RUN; broader lifecycle coverage absent.|
 |C6-07 accepted accessories/pocket|UNVERIFIED|M44–48,466–472,495,557–561,1023,3900–3902,3951,5192–5199|Positive local controls and source mechanisms; whole lifecycle/races not independently accepted; expanded CR scope separate.|
 |C6-08 Auth/permissions/connected UI|UNVERIFIED|M1691,4486,5046–5052,5209,5213–5224|27 public RPCs traced;10 browser cases rerun; full real Auth/action/location/revocation matrix absent.|
 |C6-09 concurrency/stale state|UNVERIFIED|M751–755,1025,4165,4486,5048–5052|Existing AR/AT/AU races rerun;20 AR observations independently checked narrowly; own full schedules absent.|
@@ -68,9 +68,9 @@ No P0 demonstrated. Priorities do not assert observed production loss.
 | ID | Priority/status | Independent oracle and evidence |
 |---|---|---|
 |F01|P1/local confirmed|M3820 WIB input2026-09-20T00:30 must serializeSep19T17:30Z on every device. Active Cutting/Pickup/BS serialize via device timezone.34exact-source checks28PASS/6FAIL; actual persisted ledger impact not native-tested.|
-|U01|P2/native UNVERIFIED|M1691 complete BS sources. Reader caps100 before claimable filtering; no selector continuation. Valid101-source fixture NOT_RUN.|
-|U02|P1/native UNVERIFIED|M3816,3820–3823 immutable dated WIP prefixes. Opening8,complete8D−3,reverseD,complete8D−1 predicts negative historicalWIP. Source-supported; SI02 NOT_RUN.|
-|U03|P2/native UNVERIFIED|M1022,3818,3820 endpoint money conservation. Qty1 at10.005→10.014 rounds both receipts10.01; recost rounded delta may move0.01 and leave raw−0.01/WIP10.02. Four cases NOT_RUN; compensation not ruled out natively.|
+|U01|P2/source CONFIRMED,native corroboration limited|M1691 complete selectors. Claude XA2 returned100 recent eligible delivery rows while omitting oldqty10. Fixture uses privileged cloning; full legal producer/claim/UI sequence unverified. REUSED_EVIDENCE run36051514868/job107807966805.|
+|U02|P1/CONFIRMED via REUSED_EVIDENCE|M3816,3820–3823. Claude XA1 on9add: second completion POSTED, stageprefix−8 and WIPGLPO−20. Run36048357523/job107797410652. Our original SI02 file remains NOT_RUN; reviewed equivalent native case is separately attributed.|
+|U03|P2/CONFIRMED via REUSED_EVIDENCE|M1022,3818,3820. Claude XA1/XA2 correction+invoice paths endrawqty0 with inventory−0.01/up or+0.01/down. Up WIP10.02 vs10.01. Down half-tie oracle qualified; residual still confirmed. Jobs107797410652/107807966805. Our four original cases remain NOT_RUN.|
 |R01|P2/local confirmed|M1767,4391–4393 traceable evidence. Duplicate IDs overwrite earlier INCOMPLETE in actual unchanged runner AST with I/O doubles. Raw logs retain both. Current indexed native cases had no duplicate group/ID.|
 |R02|P2/qualification gap|M3826,4306–4314,5198–5209. FinalAW–AZ rollback files/qualified downgrade/refusal absent; manifestNOT_TESTED. Successful installed-backup restore is not predecessor rollback.|
 |C-AUTH-01|P2/local confirmed,post-lock|M1679,3819 retain exact request envelope. Pattern/Access retries regenerate UUID; quick-create can reuse UUID with changed payload.7local checks4PASS/3FAIL. Server uniqueness/version protections acknowledged; no committed duplicate/data-corruption claim.|
@@ -144,7 +144,7 @@ Updated 2026-09-24T20:39:59.893Z.
 - Pending work includes actual audit work (fixtures, tests, policy mapping), not just waiting for tools. No whole gate was promoted to ACCEPT.
 - After the final verification, AUDIT_RECOVERY_RECEIPT.json records the exact remotely available files and missing artifacts. It is a checkpoint receipt, not the old offline full evidence receipt and not a new evidence ZIP.
 
-## LANGKAH BERIKUTNYA
+## LANGKAH BERIKUTNYA — checkpoint lama (digantikan oleh bagian TERKINI di akhir)
 1. Resume on audit/cp6-final-20260924-gpt-a0bcadf and read this document, AUDIT_REPORT_CP6.md, and AUDIT_RECOVERY_RECEIPT.json. The ALL/payroll source passes are done; do not repeat them or start the queued external-report review yet. Recover workspace/native capability and continue the unperformed acceptance work below.
 2. When workspace reconnects, inspect existing files before restoring anything. Verify candidate/tree/clean status and phase1 hashes. Do not overwrite later local work with older version1 ZIP.
 3. Recover/verify15-case payload and four member hashes above. If files are missing, restore the latest durable checkpoint and regenerate only missing continuation artifacts; do not pretend reconstructed bytes match an old hash without checking.
@@ -185,3 +185,33 @@ Current tasks: inspect existing multi-connection/runtime fixture support, HTTP/A
 - Exact candidate recursive tree is untruncated and has no AW/AX/AY/AZ rollback files. T3 package workflow offers install/capture/browser; runner accepts those three modes only. MANIFEST.json:1367 says rollbacks NOT_TESTED. Package cleanup/backup restore does not qualify migration downgrade. AC rollback:15-16 only admits old digests whereas manifest:14 pins the release AC digest871fb32b.... No guard relaxation is authorized.
 
 Current next steps: finish and persist blocker/rollback specification; preserve recovered8 case bytes on this audit branch; independently verify Claude economic findings from run logs/scenarios/contracts and publish a cross-review with REUSED_EVIDENCE labels. Then rebuild only genuinely missing scenario revisions under new hashes and submit through a supported, authorized disposable workflow-dispatch capability when available. Full CP6 acceptance remains unavailable until outstanding scope is actually covered.
+
+
+## Consolidated handoff completed — 2026-09-24
+
+Owner requested the GPT audit and Claude Fable audit be combined without duplicating findings. AUDIT_HANDOFF_CP6.md is now the starting point; audit/CP6_COMBINED_INDEX.json contains23 deduplicated entries with original aliases, priority, status, oracle, evidence and next action. These23entries include hypotheses, INFO and withdrawn claims; they are not23confirmed bugs. All4blockers supplied in chat are included separately and linked to their related entries.
+
+- Cross-review report committed atc0cd8ac0909b930579f3b7b684f19210755e066d; root/agent notes and case ledger are inout/. Original failed run records and prior snapshots are preserved.
+- Native observations reviewed from Actions: open2run36045629594/job107788356714; XA1run36048357523/job107797410652; XA2run36051514868/job107807966805; race1run36051535647/job107808033765; race2run36052066150/job107809808216. Allattempt1/head9add;20unique case rows across these5runs, case-level values and full scenario hashes inout/claude_cross_review_native_ledger.json. No new native run was dispatched by GPT in this recovery/cross-review.
+- U02(P1) and U03(P2) now CONFIRMED via independently reviewed REUSED_EVIDENCE, not relabeled original-case execution. C6-02 andC6-06 move toHOLD; total6HOLD/4UNVERIFIED/0whole-gateACCEPT. U01sourceconfirmed with bounded nativecloningfixture corroboration.
+- FableF1-02 active ALL approval contradiction REFUTED byM1024 explicit supersession. ALLimplementation remainsopen. F1-12 numeric7→14/+15.75confirmed, physical-source identity oracleUNVERIFIED/conditionalrisk. Downwardmoney half-even oracle qualified. Race2 reporthashcorrected fromrev1's3915e006... to5d640e42....
+- Eight exact scenario cases persisted and readback-verified in audit/scenarios/ at3f578212/07f3a19a, indexed at1210afcc. Latestcombined15source remainsNOT_RUN and not fullyrecovered. The 51draft-import selector case is distinct from Fable's BS101delivery case.
+- AUDIT_REPORT_CP6.md updated at22175777f508d7902f0cde3e487bdfc6b9e9fa56 to reflect current evidence/status and changed user ordering. It is still an incomplete-scope report.
+
+## Writer proposal supplied by owner
+
+Participants clarified: Claude Opus Max=writer; Claude Fable Ultracode andGPT=auditors. Owner pasted writer proposal for(1)AW..AZ rollback/modeT3,(2)committed-copy two-session runtime,(3)realGoTrueAuth→PostgREST runtime. GPT recommends owner givegasnow for this bounded work; it need not wait for fullCP6audit. This is a recommendation/proposal record, not proof writer started, not a message sent to writer, and not a nativePASS.
+
+Writer's promised unchanged scope: migrations, devSQL, frontend,24releaseSQLfiles. On receiving a concrete commit, auditors reviewdiff against9add and bind productSHA separately from newtool/rollbackSHA. Writer doesimplementation; auditors own contractoracle/scenarios and reviewtoolbehaviour/results.
+
+Do not investigate the old missing AW..AZfiles again. It is a recordedHOLD awaitingnewartifact. AZ→AW proves returntoAV only; wholeAC..AZ→ABqualification and ACvariantdigestremain separate. Auth→HTTP still needs UIbrowser→HTTP→runtime cases for the fullcontract. Do not promise classifierapproval or reroute rejectedsecretmaterialization.
+
+Handoff andindex updated atb38b4cf5d8e1102fe149f4ea93e7d5fe64a5ef84 and42adc6f9ed2fbe83e32ce1dcf68a1fa396dfe0c5. Fourblockers and disputedoracles are explicit forFablecontinuation.
+
+## LANGKAH BERIKUTNYA — TERKINI
+
+1. Start from AUDIT_HANDOFF_CP6.md andaudit/CP6_COMBINED_INDEX.json; preserve candidate9add/sourcehashes and phase1lock. Do not redo completedcross-review or missingrollback investigation.
+2. Writer Opus may start the three bounded tool/artifact changes onceownerinstructs. Whencommitprovided, auditdiff exactfiles, sourcepins, isolation, identity, requestpaths andfail-closedoracles. No product/writerbranchwrites byGPT.
+3. Rebuild only missing7case revisions(advance6+importselector1), withnewhashes and validfixtures;8exactcasebytes alreadyinrepo. Do not silently use olderbusiness/matrixcheckpoint asfinal.
+4. Through an authorized dispatch-capable environment, run auditedcases on exact product+toolcommits; verify plannedIDs,per-caseerrors,zero residue,source/primaryrestoration. Existingjobrerun cannot submit newpayload.
+5. Finish remainingCP6families: UIWIB/recovery/unknown, fullAuthroles/action/location/revocation, concurrency, advance/payroll/HPP/transitiveproducers, ALLadapters/lifecycles androllbackqualification. Cross-reviewcompletion doesnotclose thewholeaudit.
