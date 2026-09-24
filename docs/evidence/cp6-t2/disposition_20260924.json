@@ -1,0 +1,575 @@
+{
+ "label": "T2_REGRESSION",
+ "title": "T2 disposition per case (runs 35911656309, 35914912522, 35940435661)",
+ "production_go": false,
+ "release_evidence": false,
+ "runs": {
+  "run1": {
+   "id": 35911656309,
+   "seed": "AS_IS",
+   "moved": 152
+  },
+  "run2": {
+   "id": 35914912522,
+   "seed": "QUIETED",
+   "moved": 75
+  },
+  "run3": {
+   "id": 35940435661,
+   "seed": "QUIETED",
+   "diagnostics": 26,
+   "outcomes_identical_to_run2": true
+  }
+ },
+ "unchanged": {
+  "temporal": "AT 16 + AU 15 cases and 4 + 6 races PASS (runs 1, 2 and 3)",
+  "ar": "142/146 sequential + 28/28 races PASS",
+  "regression": "VALUES 65/65 and NEW_CASES 34/34 identical to AU; BUSINESS 163/230 and IMPORTS 27/31 identical to AU"
+ },
+ "by_disposition": {
+  "MOVED_BY_OWNER_POLICY": 70,
+  "NOT_TESTED_TEST_INTERACTION": 5
+ },
+ "by_class": {
+  "CASE_WORK_UNCOVERED": 62,
+  "CASE_WORK_UNCOVERED_AND_SEED_ATTENDANCE_OUTSIDE_WINDOW": 8,
+  "QUIETING_OVERLAP": 5
+ },
+ "meaning": {
+  "MOVED_BY_OWNER_POLICY": "The case builds its own production fixture, which leaves contractor work outside any payroll, and then expects READY or a successful close. The recorded AW owner policy blocks close while eligible work is not covered by a payroll. The engine answers as the policy says; the old oracle predates the policy. The downstream assertions of these cases are not re-proven on the combined candidate.",
+  "NOT_TESTED_TEST_INTERACTION": "The attendance cases post a period for a seed contractor that overlaps the OFF period used to clear the seed; with the seed as is they are blocked by the seed attendance instead. Neither run reaches their assertions."
+ },
+ "historical_holds": "The 12 DATE_POLICY_REVIEW_REQUIRED calendar cases stop at fixture qualification (MOVED_BY_OWNER_POLICY); they stay HOLD by owner decision and were not re-observed.",
+ "follow_up": [
+  "Fixtures that are not about unpaid work (INVOICE, CALENDAR, REWORK, RECOVERED_SALE, CASH_LINKED, H_R02, WORK:HPP_*) could pay their own work before reading the report: a fixture change to old tests, for GPT/owner review.",
+  "WORK:WORK_UNPAID and WORK:WORK_PARTIAL_PAY test unpaid work itself: under the owner policy their expected answer is BLOCKED, i.e. an oracle change, for owner/GPT decision; not changed here.",
+  "Attendance cases: a seed without open items (or a per-case clearing that skips the case day) is needed before they can be re-run."
+ ],
+ "cases": [
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "POCKET_PERIOD_LIFECYCLE:False:True",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 2 blockers: GRNI_ESTIMATE_OPEN, PAYROLL_WORK_UNCOVERED"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "POCKET_PERIOD_LIFECYCLE:True:True",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 2 blockers: GRNI_ESTIMATE_OPEN, PAYROLL_WORK_UNCOVERED"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "RECEIPT_PRODUCTION:False",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 2 blockers: GRNI_ESTIMATE_OPEN, PAYROLL_WORK_UNCOVERED"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "RECEIPT_PRODUCTION:True",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 2 blockers: GRNI_ESTIMATE_OPEN, PAYROLL_WORK_UNCOVERED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:1_MONTHS:Pacific/Kiritimati:False",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 2 blockers: GRNI_ESTIMATE_OPEN, PAYROLL_WORK_UNCOVERED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:1_MONTHS:Pacific/Kiritimati:True",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 2 blockers: GRNI_ESTIMATE_OPEN, PAYROLL_WORK_UNCOVERED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:1_MONTHS:UTC:False",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 2 blockers: GRNI_ESTIMATE_OPEN, PAYROLL_WORK_UNCOVERED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:1_MONTHS:UTC:True",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 2 blockers: GRNI_ESTIMATE_OPEN, PAYROLL_WORK_UNCOVERED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:2_MONTHS:Pacific/Kiritimati:False",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 2 blockers: GRNI_ESTIMATE_OPEN, PAYROLL_WORK_UNCOVERED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:2_MONTHS:Pacific/Kiritimati:True",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 2 blockers: GRNI_ESTIMATE_OPEN, PAYROLL_WORK_UNCOVERED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:2_MONTHS:UTC:False",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 2 blockers: GRNI_ESTIMATE_OPEN, PAYROLL_WORK_UNCOVERED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:2_MONTHS:UTC:True",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 2 blockers: GRNI_ESTIMATE_OPEN, PAYROLL_WORK_UNCOVERED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:3_MONTHS:Pacific/Kiritimati:False",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 2 blockers: GRNI_ESTIMATE_OPEN, PAYROLL_WORK_UNCOVERED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:3_MONTHS:Pacific/Kiritimati:True",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 2 blockers: GRNI_ESTIMATE_OPEN, PAYROLL_WORK_UNCOVERED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:3_MONTHS:UTC:False",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 2 blockers: GRNI_ESTIMATE_OPEN, PAYROLL_WORK_UNCOVERED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:3_MONTHS:UTC:True",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 2 blockers: GRNI_ESTIMATE_OPEN, PAYROLL_WORK_UNCOVERED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:FEB28:Pacific/Kiritimati:False",
+   "cls": "CASE_WORK_UNCOVERED_AND_SEED_ATTENDANCE_OUTSIDE_WINDOW",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 2 blockers: ATTENDANCE_CELL_MISSING, GRNI_ESTIMATE_OPEN, PAYROLL_WORK_UNCOVERED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:FEB28:Pacific/Kiritimati:True",
+   "cls": "CASE_WORK_UNCOVERED_AND_SEED_ATTENDANCE_OUTSIDE_WINDOW",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 2 blockers: ATTENDANCE_CELL_MISSING, GRNI_ESTIMATE_OPEN, PAYROLL_WORK_UNCOVERED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:FEB28:UTC:False",
+   "cls": "CASE_WORK_UNCOVERED_AND_SEED_ATTENDANCE_OUTSIDE_WINDOW",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 2 blockers: ATTENDANCE_CELL_MISSING, GRNI_ESTIMATE_OPEN, PAYROLL_WORK_UNCOVERED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:FEB28:UTC:True",
+   "cls": "CASE_WORK_UNCOVERED_AND_SEED_ATTENDANCE_OUTSIDE_WINDOW",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 2 blockers: ATTENDANCE_CELL_MISSING, GRNI_ESTIMATE_OPEN, PAYROLL_WORK_UNCOVERED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:JAN31:Pacific/Kiritimati:False",
+   "cls": "CASE_WORK_UNCOVERED_AND_SEED_ATTENDANCE_OUTSIDE_WINDOW",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 2 blockers: ATTENDANCE_CELL_MISSING, GRNI_ESTIMATE_OPEN, PAYROLL_WORK_UNCOVERED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:JAN31:Pacific/Kiritimati:True",
+   "cls": "CASE_WORK_UNCOVERED_AND_SEED_ATTENDANCE_OUTSIDE_WINDOW",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 2 blockers: ATTENDANCE_CELL_MISSING, GRNI_ESTIMATE_OPEN, PAYROLL_WORK_UNCOVERED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:JAN31:UTC:False",
+   "cls": "CASE_WORK_UNCOVERED_AND_SEED_ATTENDANCE_OUTSIDE_WINDOW",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 2 blockers: ATTENDANCE_CELL_MISSING, GRNI_ESTIMATE_OPEN, PAYROLL_WORK_UNCOVERED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:JAN31:UTC:True",
+   "cls": "CASE_WORK_UNCOVERED_AND_SEED_ATTENDANCE_OUTSIDE_WINDOW",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 2 blockers: ATTENDANCE_CELL_MISSING, GRNI_ESTIMATE_OPEN, PAYROLL_WORK_UNCOVERED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:MAY31:Pacific/Kiritimati:False",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 2 blockers: GRNI_ESTIMATE_OPEN, PAYROLL_WORK_UNCOVERED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:MAY31:Pacific/Kiritimati:True",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 2 blockers: GRNI_ESTIMATE_OPEN, PAYROLL_WORK_UNCOVERED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:MAY31:UTC:False",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 2 blockers: GRNI_ESTIMATE_OPEN, PAYROLL_WORK_UNCOVERED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:MAY31:UTC:True",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 2 blockers: GRNI_ESTIMATE_OPEN, PAYROLL_WORK_UNCOVERED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:CASH_LINKED:1",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 3 diagnostic: engine BLOCKED only by PAYROLL_WORK_UNCOVERED, 1 work line(s) created by the case itself"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:CASH_LINKED:4",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 3 diagnostic: engine BLOCKED only by PAYROLL_WORK_UNCOVERED, 1 work line(s) created by the case itself"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:ATTENDANCE:DIRECT:Asia/Jakarta",
+   "cls": "QUIETING_OVERLAP",
+   "disposition": "NOT_TESTED_TEST_INTERACTION",
+   "proof": "Active attendance periods for one contractor cannot overlap\nCONTEXT:  PL/pgSQL function guard_attendance_period_overlap() line 16 at RAISE\nSQL statement \"insert"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:ATTENDANCE:DIRECT:Asia/Tokyo",
+   "cls": "QUIETING_OVERLAP",
+   "disposition": "NOT_TESTED_TEST_INTERACTION",
+   "proof": "Active attendance periods for one contractor cannot overlap\nCONTEXT:  PL/pgSQL function guard_attendance_period_overlap() line 16 at RAISE\nSQL statement \"insert"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:ATTENDANCE:DIRECT:Etc/GMT+12",
+   "cls": "QUIETING_OVERLAP",
+   "disposition": "NOT_TESTED_TEST_INTERACTION",
+   "proof": "Active attendance periods for one contractor cannot overlap\nCONTEXT:  PL/pgSQL function guard_attendance_period_overlap() line 16 at RAISE\nSQL statement \"insert"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:ATTENDANCE:DIRECT:Pacific/Kiritimati",
+   "cls": "QUIETING_OVERLAP",
+   "disposition": "NOT_TESTED_TEST_INTERACTION",
+   "proof": "Active attendance periods for one contractor cannot overlap\nCONTEXT:  PL/pgSQL function guard_attendance_period_overlap() line 16 at RAISE\nSQL statement \"insert"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:ATTENDANCE:DIRECT:UTC",
+   "cls": "QUIETING_OVERLAP",
+   "disposition": "NOT_TESTED_TEST_INTERACTION",
+   "proof": "Active attendance periods for one contractor cannot overlap\nCONTEXT:  PL/pgSQL function guard_attendance_period_overlap() line 16 at RAISE\nSQL statement \"insert"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:H_R02",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 3 diagnostic: engine BLOCKED only by PAYROLL_WORK_UNCOVERED, 1 work line(s) created by the case itself"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "INVOICE:America/Los_Angeles:4:False",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 2 blockers: GRNI_ESTIMATE_OPEN, PAYROLL_WORK_UNCOVERED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "INVOICE:America/Los_Angeles:4:True",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 2 blockers: GRNI_ESTIMATE_OPEN, PAYROLL_WORK_UNCOVERED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "INVOICE:America/Los_Angeles:7:False",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 2 blockers: GRNI_ESTIMATE_OPEN, PAYROLL_WORK_UNCOVERED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "INVOICE:America/Los_Angeles:7:True",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 2 blockers: GRNI_ESTIMATE_OPEN, PAYROLL_WORK_UNCOVERED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "INVOICE:Asia/Jakarta:4:False",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 2 blockers: GRNI_ESTIMATE_OPEN, PAYROLL_WORK_UNCOVERED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "INVOICE:Asia/Jakarta:4:True",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 2 blockers: GRNI_ESTIMATE_OPEN, PAYROLL_WORK_UNCOVERED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "INVOICE:Asia/Jakarta:7:False",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 2 blockers: GRNI_ESTIMATE_OPEN, PAYROLL_WORK_UNCOVERED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "INVOICE:Asia/Jakarta:7:True",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 2 blockers: GRNI_ESTIMATE_OPEN, PAYROLL_WORK_UNCOVERED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "INVOICE:Pacific/Kiritimati:4:False",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 2 blockers: GRNI_ESTIMATE_OPEN, PAYROLL_WORK_UNCOVERED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "INVOICE:Pacific/Kiritimati:4:True",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 2 blockers: GRNI_ESTIMATE_OPEN, PAYROLL_WORK_UNCOVERED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "INVOICE:Pacific/Kiritimati:7:False",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 2 blockers: GRNI_ESTIMATE_OPEN, PAYROLL_WORK_UNCOVERED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "INVOICE:Pacific/Kiritimati:7:True",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 2 blockers: GRNI_ESTIMATE_OPEN, PAYROLL_WORK_UNCOVERED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "INVOICE:UTC:4:False",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 2 blockers: GRNI_ESTIMATE_OPEN, PAYROLL_WORK_UNCOVERED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "INVOICE:UTC:4:True",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 2 blockers: GRNI_ESTIMATE_OPEN, PAYROLL_WORK_UNCOVERED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "INVOICE:UTC:7:False",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 2 blockers: GRNI_ESTIMATE_OPEN, PAYROLL_WORK_UNCOVERED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "INVOICE:UTC:7:True",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 2 blockers: GRNI_ESTIMATE_OPEN, PAYROLL_WORK_UNCOVERED"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "REWORK:0:CONTRACTOR:failed=False",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 3 diagnostic: engine BLOCKED only by PAYROLL_WORK_UNCOVERED, 1 work line(s) created by the case itself"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "REWORK:0:CONTRACTOR:failed=True",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 3 diagnostic: engine BLOCKED only by PAYROLL_WORK_UNCOVERED, 1 work line(s) created by the case itself"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "REWORK:0:LAUNDRY:failed=False",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 3 diagnostic: engine BLOCKED only by PAYROLL_WORK_UNCOVERED, 1 work line(s) created by the case itself"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "REWORK:0:LAUNDRY:failed=True",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 3 diagnostic: engine BLOCKED only by PAYROLL_WORK_UNCOVERED, 1 work line(s) created by the case itself"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "REWORK:4:CONTRACTOR:failed=False",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 3 diagnostic: engine BLOCKED only by PAYROLL_WORK_UNCOVERED, 1 work line(s) created by the case itself"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "REWORK:4:CONTRACTOR:failed=True",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 3 diagnostic: engine BLOCKED only by PAYROLL_WORK_UNCOVERED, 1 work line(s) created by the case itself"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "REWORK:4:LAUNDRY:failed=False",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 3 diagnostic: engine BLOCKED only by PAYROLL_WORK_UNCOVERED, 1 work line(s) created by the case itself"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "REWORK:4:LAUNDRY:failed=True",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 3 diagnostic: engine BLOCKED only by PAYROLL_WORK_UNCOVERED, 1 work line(s) created by the case itself"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "REWORK:MIXED_RATES:CONTRACTOR:failed=False",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 3 diagnostic: engine BLOCKED only by PAYROLL_WORK_UNCOVERED, 1 work line(s) created by the case itself"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "REWORK:MIXED_RATES:CONTRACTOR:failed=True",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 3 diagnostic: engine BLOCKED only by PAYROLL_WORK_UNCOVERED, 1 work line(s) created by the case itself"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "REWORK:MIXED_RATES:LAUNDRY:failed=False",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 3 diagnostic: engine BLOCKED only by PAYROLL_WORK_UNCOVERED, 1 work line(s) created by the case itself"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "REWORK:MIXED_RATES:LAUNDRY:failed=True",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 3 diagnostic: engine BLOCKED only by PAYROLL_WORK_UNCOVERED, 1 work line(s) created by the case itself"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "WORK:HPP_THROUGH_SALE_0",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 3 diagnostic: engine BLOCKED only by PAYROLL_WORK_UNCOVERED, 1 work line(s) created by the case itself"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "WORK:HPP_THROUGH_SALE_1.27",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 3 diagnostic: engine BLOCKED only by PAYROLL_WORK_UNCOVERED, 1 work line(s) created by the case itself"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "WORK:REVERSE_REUSE",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 3 diagnostic: engine BLOCKED only by PAYROLL_WORK_UNCOVERED, 1 work line(s) created by the case itself"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "WORK:WORK_CENTS",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 3 diagnostic: engine BLOCKED only by PAYROLL_WORK_UNCOVERED, 1 work line(s) created by the case itself"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "WORK:WORK_PARTIAL_PAY",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 3 diagnostic: engine BLOCKED only by PAYROLL_WORK_UNCOVERED, 1 work line(s) created by the case itself"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "WORK:WORK_TIMEZONE",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 3 diagnostic: engine BLOCKED only by PAYROLL_WORK_UNCOVERED, 1 work line(s) created by the case itself"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "WORK:WORK_ZERO_RATE",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 3 diagnostic: engine BLOCKED only by PAYROLL_WORK_UNCOVERED, 1 work line(s) created by the case itself"
+  },
+  {
+   "group": "IMPORTS",
+   "case": "RECOVERED_SALE:CONTRACTOR:False",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 3 diagnostic: engine BLOCKED only by PAYROLL_WORK_UNCOVERED, 1 work line(s) created by the case itself"
+  },
+  {
+   "group": "IMPORTS",
+   "case": "RECOVERED_SALE:CONTRACTOR:True",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 3 diagnostic: engine BLOCKED only by PAYROLL_WORK_UNCOVERED, 1 work line(s) created by the case itself"
+  },
+  {
+   "group": "IMPORTS",
+   "case": "RECOVERED_SALE:LAUNDRY:False",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 3 diagnostic: engine BLOCKED only by PAYROLL_WORK_UNCOVERED, 1 work line(s) created by the case itself"
+  },
+  {
+   "group": "IMPORTS",
+   "case": "RECOVERED_SALE:LAUNDRY:True",
+   "cls": "CASE_WORK_UNCOVERED",
+   "disposition": "MOVED_BY_OWNER_POLICY",
+   "proof": "run 3 diagnostic: engine BLOCKED only by PAYROLL_WORK_UNCOVERED, 1 work line(s) created by the case itself"
+  }
+ ]
+}
