@@ -1,0 +1,97 @@
+NOTICE:  database "az_rev2_logic" does not exist, skipping
+=== nonpo open
+ sync_non_po_product_hpp_to_gl_v2620f 
+ 
+     d      |      k       |  amt  
+------------+--------------+-------
+ 2026-09-21 | FG_INVENTORY |  2.00
+ 2026-09-21 | OTHER_INCOME | -2.00
+ 2026-09-22 | COGS         | -3.00
+ 2026-09-22 | FG_INVENTORY |  3.00
+ 2026-09-23 | COGS         |  1.00
+ 2026-09-23 | FG_INVENTORY | -1.00
+ effective_date | fg_delta | cogs_delta | other_delta 
+----------------+----------+------------+-------------
+ 2026-09-21     |     2.00 |       0.00 |       -2.00
+ 2026-09-22     |     3.00 |      -3.00 |        0.00
+ 2026-09-23     |    -1.00 |       1.00 |        0.00
+=== nonpo closed
+ sync_non_po_product_hpp_to_gl_v2620f 
+ 
+     d      |      k       |  amt  
+------------+--------------+-------
+ 2026-09-19 | COGS         | -2.00
+ 2026-09-19 | FG_INVENTORY |  4.00
+ 2026-09-19 | OTHER_INCOME | -2.00
+ effective_date | fg_delta | cogs_delta | other_delta 
+----------------+----------+------------+-------------
+ 2026-09-19     |     4.00 |      -2.00 |       -2.00
+=== nonpo noninv
+ sync_non_po_product_hpp_to_gl_v2620f 
+ 
+     d      |      k       |  amt  
+------------+--------------+-------
+ 2026-09-19 | COGS         | -2.00
+ 2026-09-19 | FG_INVENTORY |  4.00
+ 2026-09-19 | OTHER_INCOME | -2.00
+ effective_date | fg_delta | cogs_delta | other_delta 
+----------------+----------+------------+-------------
+ 2026-09-19     |     4.00 |      -2.00 |       -2.00
+=== bsv open
+ sync_initial_import_bs_value_v1 
+ 
+     d      |       k       |  amt  
+------------+---------------+-------
+ 2026-09-20 | OTHER_EXPENSE | -2.00
+ 2026-09-20 | WIP           |  2.00
+ 2026-09-23 | OTHER_EXPENSE | -3.00
+ 2026-09-23 | WIP           |  3.00
+ economic_date | disposed_qty | previous_amount | target_amount 
+---------------+--------------+-----------------+---------------
+ 2026-09-23    |            5 |               0 |            50
+ 2026-09-23    |            5 |           48.00 |         45.00
+ 2026-09-20    |            2 |              50 |         48.00
+=== bsv closed
+ sync_initial_import_bs_value_v1 
+ 
+     d      |       k       |  amt  
+------------+---------------+-------
+ 2026-09-19 | OTHER_EXPENSE | -5.00
+ 2026-09-19 | WIP           |  5.00
+ economic_date | disposed_qty | previous_amount | target_amount 
+---------------+--------------+-----------------+---------------
+ 2026-09-23    |            5 |               0 |            50
+ 2026-09-19    |            5 |              50 |         45.00
+=== acc open
+ refresh_accessory_hpp_after_material_recost 
+                                           1
+     source_type      | transaction_date |         mapping_key          | debit | credit 
+----------------------+------------------+------------------------------+-------+--------
+ ACCESSORY_HPP_RECOST | 2026-09-22       | ACCESSORY_REIMBURSE_VARIANCE |     0 |   2.00
+ ACCESSORY_HPP_RECOST | 2026-09-22       | WIP                          |  2.00 |      0
+=== acc closed
+ refresh_accessory_hpp_after_material_recost 
+                                           1
+     source_type      | transaction_date |         mapping_key          | debit | credit 
+----------------------+------------------+------------------------------+-------+--------
+ ACCESSORY_HPP_RECOST | 2026-09-19       | ACCESSORY_REIMBURSE_VARIANCE |     0 |   2.00
+ ACCESSORY_HPP_RECOST | 2026-09-19       | WIP                          |  2.00 |      0
+=== acc noninv
+ refresh_accessory_hpp_after_material_recost 
+                                           1
+     source_type      | transaction_date |         mapping_key          | debit | credit 
+----------------------+------------------+------------------------------+-------+--------
+ ACCESSORY_HPP_RECOST | 2026-09-24       | ACCESSORY_REIMBURSE_VARIANCE |     0 |   2.00
+ ACCESSORY_HPP_RECOST | 2026-09-24       | WIP                          |  2.00 |      0
+=== pocket open
+     d      |  kind  
+------------+--------
+ 2026-09-21 | RECOST
+=== pocket closed
+     d      |  kind  
+------------+--------
+ 2026-09-18 | RECOST
+=== pocket noninv
+     d      |  kind  
+------------+--------
+ 2026-09-24 | RECOST

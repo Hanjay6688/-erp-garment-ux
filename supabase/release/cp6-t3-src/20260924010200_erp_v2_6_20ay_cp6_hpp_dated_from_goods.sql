@@ -1,6 +1,6 @@
 -- CP6 AY: PO HPP corrections dated from the goods. Release candidate of the T3 combined package; closed, drained maintenance required.
 begin;
--- Built by scripts/cp6_t3_awx_release.py from supabase/dev/cp6_ay_t1_family.sql (sha256 8b23a824ec30872d9ef34e5fdca47155ff4c73e698ef0e8934834cd5b26a61da): the T1 body below is unchanged apart from the
+-- Built by scripts/cp6_t3_awx_release.py from supabase/dev/cp6_ay_t1_family.sql (sha256 9a3c770e3fbf6bf904e579831ec530ea5796d865e3d4851c88331ccac9ea4acf): the T1 body below is unchanged apart from the
 -- ledger description; guards follow AO..AV. Capsule and catalog pins are placeholders until the T3 capture.
 set local lock_timeout='10s';set local statement_timeout='240s';set local timezone='UTC';set local search_path='';
 set local role postgres;
@@ -326,7 +326,7 @@ begin
       select fl.id,fl.lot_origin,coalesce(fl.cutting_group_id,qi.cutting_group_id) grp,
         coalesce((select max(case when coalesce(hv.qty_basis_pcs,0)>0 then hv.total_cost/hv.qty_basis_pcs else 0 end)
                   from erp.hpp_versions hv where hv.lot_id=fl.id and hv.is_current),0)::numeric h,
-        coalesce((select ls.hpp_per_pcs from erp.po_hpp_gl_lot_state_v1 ls where ls.lot_id=fl.id and ls.updated_at>=s.updated_at),
+        coalesce((select ls.hpp_per_pcs from erp.po_hpp_gl_lot_state_v1 ls where ls.lot_id=fl.id),
                  (select case when coalesce(ov.qty_basis_pcs,0)>0 then ov.total_cost/ov.qty_basis_pcs else 0 end
                   from erp.hpp_versions ov where ov.lot_id=fl.id and ov.calculated_at<=s.updated_at
                   order by ov.calculated_at desc,ov.version_no desc limit 1),
@@ -334,7 +334,16 @@ begin
                   from erp.hpp_versions fv where fv.lot_id=fl.id order by fv.version_no,fv.calculated_at limit 1),0)::numeric o,
         (select pa.source_lot_id from erp.product_conversion_allocations pa where pa.destination_lot_id=fl.id order by pa.id limit 1) src,
         (select pc.status from erp.product_conversion_allocations pa join erp.product_conversions pc on pc.id=pa.conversion_id
-          where pa.destination_lot_id=fl.id order by pa.id limit 1) cst
+          where pa.destination_lot_id=fl.id order by pa.id limit 1) cst,
+        -- The pocket-fabric part of the lot HPP (erp.rebuild_po_hpp: component from POCKET_PERIOD_ALLOCATION) changed in this
+        -- statement, per piece: now less the version before this statement.
+        coalesce((select (coalesce((select sum(c.total_cost) from erp.hpp_version_components c
+                    where c.hpp_version_id=hv.id and c.source_type='POCKET_PERIOD_ALLOCATION'),0)
+                  -coalesce((select sum(c.total_cost) from erp.hpp_version_components c
+                    where c.hpp_version_id=(select pv.id from erp.hpp_versions pv where pv.lot_id=fl.id and pv.calculated_at<statement_timestamp()
+                                             order by pv.calculated_at desc,pv.version_no desc limit 1)
+                      and c.source_type='POCKET_PERIOD_ALLOCATION'),0))/nullif(hv.qty_basis_pcs,0)
+          from erp.hpp_versions hv where hv.lot_id=fl.id and hv.is_current and hv.calculated_at>=statement_timestamp()),0)::numeric dp
       from erp.fg_lots fl left join erp.qc_inspection_items qi on qi.id=fl.qc_item_id
       where fl.po_id=p_po_id and fl.lot_origin in('PRODUCTION','CONVERSION','VOIDED_PRODUCTION')
     ), grp as(
@@ -358,43 +367,67 @@ begin
       select (select ms.updated_at from erp.po_hpp_gl_material_state_v1 ms where ms.po_id=p_po_id and ms.source_key='SYNC') ts,
         (select max(hv.calculated_at) from erp.hpp_versions hv join erp.fg_lots fl on fl.id=hv.lot_id
           where fl.po_id=p_po_id and hv.calculated_at<statement_timestamp()) tp
-    ), mat as(
+    ), fct as(
       -- Every material fact behind the PO's HPP (erp.rebuild_po_hpp): cutting issues and returns of each group (pooled per
       -- cutting batch when the group is in one; the PO-wide pool takes the PO's own groups) and non-accessory contractor
-      -- issues (PO-wide over the source quantity), each on the physical day erp.sync_material_cost_revaluation dates its
-      -- WIP revaluation (AZ), with its change since the HPP last posted: its state; else zero for a fact created after
-      -- the state was written (no posted HPP has it); else, for a PO without material state (produced before AY; independent
-      -- review of rev7, F1), zero for a fact created after tp and, for one created by tp, minus the revaluations of its
-      -- movement since tp (erp.sync_material_cost_revaluation: the inventory delta of a movement moves opposite to its
-      -- value in the HPP); else unknown (null: the pool keeps the constant correction).
+      -- issues (PO-wide over the source quantity), on the physical day erp.sync_material_cost_revaluation dates its WIP
+      -- revaluation (AZ), with its value now (cur) and its value in the HPP last posted (ov): its state; else zero for a
+      -- fact created after the state was written (no posted HPP has it); else, for a PO without material state
+      -- (produced before AY; independent review of rev7, F1), zero for a fact created after tp and, for one created by
+      -- tp, its value less the revaluations of its movement since tp (the inventory delta of a movement moves opposite
+      -- to its value in the HPP); else unknown (null: the pool keeps the constant correction). anc: the revaluations of
+      -- its movement after this instant are part of the change.
       select case when gr.batch is not null then 'B:'||gr.batch::text else 'G:'||gr.id::text end pool,gr.po_id=p_po_id own,
-        greatest(p_effective_date,least(v_cap,erp._cp3_business_date(mm.physical_at))) d,
-        case when ms.material_value is not null then -mm.qty_signed*mm.unit_cost_snapshot-ms.material_value
-             when mk.ts is not null then case when mm.system_created_at>mk.ts then -mm.qty_signed*mm.unit_cost_snapshot end
-             when mm.system_created_at>mk.tp then -mm.qty_signed*mm.unit_cost_snapshot
-             when mm.system_created_at<=mk.tp then -coalesce((select sum(e.delta_amount) from erp.material_cost_revaluation_events e
-               where e.movement_id=mm.id and e.created_at>mk.tp),0) end dv
+        greatest(p_effective_date,least(v_cap,erp._cp3_business_date(mm.physical_at))) d,-mm.qty_signed*mm.unit_cost_snapshot cur,
+        gr.id gid,ms.material_value is null and mm.system_created_at>coalesce(mk.ts,mk.tp) fresh,mm.id fid,array[mm.id] mids,
+        case when ms.material_value is not null then ms.material_value
+             when mk.ts is not null then case when mm.system_created_at>mk.ts then 0 end
+             when mm.system_created_at>mk.tp then 0
+             when mm.system_created_at<=mk.tp then -mm.qty_signed*mm.unit_cost_snapshot+coalesce((select sum(e.delta_amount)
+               from erp.material_cost_revaluation_events e where e.movement_id=mm.id and e.created_at>mk.tp),0) end ov,
+        case when ms.material_value is not null then ms.updated_at
+             when mm.system_created_at>coalesce(mk.ts,mk.tp) then '-infinity'::timestamptz else mk.tp end anc
       from erp.material_stock_movements mm join grp gr on gr.id=mm.source_id cross join mk
       left join erp.po_hpp_gl_material_state_v1 ms on ms.po_id=p_po_id and ms.source_key='M:'||mm.id::text
       where mm.source_type in('CUTTING_GROUP','CUTTING_GROUP_RETURN')
       union all
       select 'CONTRACTOR',false,greatest(p_effective_date,least(v_cap,erp._cp3_business_date(coalesce(cv.pa,cm.physical_at)))),
-        case when ms.material_value is not null then ci.qty*ci.unit_cost_snapshot-ms.material_value
-             when mk.ts is not null then case when cv.ca>mk.ts then ci.qty*ci.unit_cost_snapshot end
-             when cv.ca>mk.tp then ci.qty*ci.unit_cost_snapshot
-             when cv.ca<=mk.tp then -coalesce((select sum(e.delta_amount) from erp.material_cost_revaluation_events e
-               join erp.material_stock_movements em on em.id=e.movement_id
-               where em.source_type='CONTRACTOR_MATERIAL_ISSUE_ITEM' and em.source_id=ci.id and e.created_at>mk.tp),0) end
+        ci.qty*ci.unit_cost_snapshot,null::uuid,false,ci.id,cv.ids,
+        case when ms.material_value is not null then ms.material_value
+             when mk.ts is not null then case when cv.ca>mk.ts then 0 end
+             when cv.ca>mk.tp then 0
+             when cv.ca<=mk.tp then ci.qty*ci.unit_cost_snapshot+coalesce((select sum(e.delta_amount)
+               from erp.material_cost_revaluation_events e where e.movement_id=any(cv.ids) and e.created_at>mk.tp),0) end,
+        case when ms.material_value is not null then ms.updated_at
+             when cv.ca>coalesce(mk.ts,mk.tp) then '-infinity'::timestamptz else mk.tp end
       from erp.contractor_material_issue_items ci join erp.contractor_material_issues cm on cm.id=ci.issue_id
       join erp.materials mt on mt.id=ci.material_id cross join mk
-      cross join lateral(select min(cm2.physical_at) pa,min(cm2.system_created_at) ca from erp.material_stock_movements cm2
+      cross join lateral(select min(cm2.physical_at) pa,min(cm2.system_created_at) ca,array_agg(cm2.id) ids
+        from erp.material_stock_movements cm2
         where cm2.source_type='CONTRACTOR_MATERIAL_ISSUE_ITEM' and cm2.source_id=ci.id) cv
       left join erp.po_hpp_gl_material_state_v1 ms on ms.po_id=p_po_id and ms.source_key='C:'||ci.id::text
       where cm.po_id=p_po_id and cm.status='POSTED' and mt.material_type<>'ACCESSORY'
+    ), fev as(
+      -- The revaluations (erp.material_cost_revaluation_events) of each fact's movement inside its change, each on the
+      -- day it moved the value into WIP (AZ: the movement day of an invoice recost, today for any other recost). A
+      -- correction then leaves WIP no earlier than it entered it, also for a non-invoice recost still queued when the
+      -- invoice is processed (independent review of rev7, residual risk).
+      select f.fid,f.pool,f.own,greatest(p_effective_date,least(v_cap,coalesce(e.effective_date,f.d))) d,-e.delta_amount dv
+      from fct f join erp.material_cost_revaluation_events e on e.movement_id=any(f.mids) and e.created_at>f.anc
+      where f.ov is not null
+    ), mat as(
+      -- Each fact's change: its revaluations on their own days, the rest (a new fact's value, anything the revaluations
+      -- do not explain) on its physical day; cur, gid and fresh only on the fact row.
+      select f.pool,f.own,f.d,f.cur,f.gid,f.fresh,
+        f.cur-f.ov-coalesce((select sum(v.dv) from fev v where v.fid=f.fid),0) dv
+      from fct f
+      union all
+      select v.pool,v.own,v.d,0,null::uuid,null::boolean,v.dv from fev v
     ), matp as(
-      select pool,d,dv from mat union all select 'PO',d,dv from mat where own
+      select pool,d,cur,dv from mat union all select 'PO',d,cur,dv from mat where own
     ), pools as(
-      select pool,bool_and(dv is not null) ok,coalesce(sum(dv),0) dvf from matp group by pool
+      -- Each pool: all its facts known (ok), its material correction (dvf) and its material now (mnow).
+      select pool,bool_and(dv is not null) ok,coalesce(sum(dv),0) dvf,coalesce(sum(cur),0) mnow from matp group by pool
     ), lot as(
       -- The material pool of each lot as erp.rebuild_po_hpp allocates it (its cutting batch over the batch's effective
       -- pieces, else its lineage group over the group's pieces, else the PO over the PO's production pieces) and qf, the
@@ -409,7 +442,7 @@ begin
     ), srcq as(
       select nullif(erp.cp6_po_source_qty_v2620c(p_po_id),0)::numeric q
     ), lotd as(
-      select l.id,l.pool,l.qf,l.batch,l.src,l.cst,case when l.lot_origin='VOIDED_PRODUCTION'
+      select l.id,l.pool,l.qf,l.batch,l.src,l.cst,case when l.lot_origin='VOIDED_PRODUCTION' then 0 else l.dp end dp,case when l.lot_origin='VOIDED_PRODUCTION'
           then coalesce((select avg(l2.h-l2.o) from lot0 l2 where l2.grp=l.grp and l2.lot_origin='PRODUCTION'),
                         coalesce((select p.dvf/l.qf from pools p where p.pool=l.pool and p.ok),0)
                         +coalesce((select p.dvf/(select q from srcq) from pools p where p.pool='CONTRACTOR' and p.ok),0))
@@ -422,9 +455,15 @@ begin
       left join erp.fg_stock_movements o on m.movement_type='REVERSAL' and o.id=m.reversal_of_id
       where coalesce(o.movement_type,m.movement_type) in('QC_GOOD','REWORK_IN','OPENING','SALE','SALE_RETURN',
                                                          'ADJUSTMENT','BS_OUT','REBRAND_OUT','REBRAND_IN')
+    ), pk as(
+      -- The pocket-fabric allocation of the PO is posted at the end of its period (erp.save_pocket_period_action_v1); a change
+      -- of its pocket-fabric part is dated no earlier (the recost journal too, AZ).
+      select greatest(p_effective_date,least(v_cap,max(pp.period_end))) d from erp.pocket_period_destinations pd
+      join erp.pocket_periods pp on pp.id=pd.pool_id where pd.po_id=p_po_id
     ), dates as(
       select d from ev union select m.d from matp m join pools p on p.pool=m.pool and p.ok
       union select gr.cd from grp gr where gr.batch is not null
+      union select pk.d from pk where pk.d is not null and exists(select 1 from lot0 where dp<>0)
     ), daily as(
       select lot_id,d,
         sum(case when k in('QC_GOOD','REWORK_IN','OPENING') then q else 0 end) p,
@@ -452,17 +491,34 @@ begin
              else b.eff end pcs
       from bt b cross join dates dt
       left join (select gr.batch,gr.cd,sum(gr.pcs) pcs from grp gr where gr.batch is not null group by 1,2) bd on bd.batch=b.batch and bd.cd=dt.d
+    ), newg as(
+      -- Groups the HPP posted last did not have (every cutting fact of the group is new).
+      select m.gid from mat m where m.gid is not null group by m.gid having bool_and(m.fresh)
+    ), bnew as(
+      -- Effective pieces of each batch's new groups: cut by each date, and in total.
+      select b.batch,dt.d,
+        case when b.spcs>0 then b.eff*sum(coalesce(nd.pcs,0)) over(partition by b.batch order by dt.d rows unbounded preceding)/b.spcs else 0 end pcs,
+        case when b.spcs>0 then b.eff*coalesce((select sum(g.pcs) from grp g join newg n on n.gid=g.id where g.batch=b.batch),0)/b.spcs else 0 end tot
+      from bt b cross join dates dt
+      left join (select gr.batch,gr.cd,sum(gr.pcs) pcs from grp gr join newg n on n.gid=gr.id where gr.batch is not null group by 1,2) nd
+        on nd.batch=b.batch and nd.cd=dt.d
     ), cl as(
       -- Per-piece correction of each lot as of each date: its correction now, less the part of its pool's (and the PO's
       -- contractor) material correction whose fact is not there yet on that date. A batch divides by the (effective)
-      -- pieces of the groups cut by then.
+      -- pieces of the groups cut by then. A batch that got a new group since the HPP posted last also spreads its old
+      -- material over the new pieces; that dilution (old material x (1/pieces by D - 1/pieces now), pieces by D counting the
+      -- new groups cut by D) is dated on the new group's cut day (independent review of rev7, F4).
       select c.lot_id,c.d,c.p,c.sd,c.ot,
         l.dh+coalesce(pc.dv/nullif(case when l.pool like 'B:%' then bc.pcs else l.qf end,0),0)-coalesce(pp.dvf/l.qf,0)
-          +coalesce((cc.dv-cp.dvf)/(select q from srcq),0) cv
+          +coalesce(case when l.pool like 'B:%' and bn.tot>0
+                         then (pp.mnow-pp.dvf)*(1/nullif(l.qf-bn.tot+bn.pcs,0)-1/l.qf) end,0)
+          +coalesce((cc.dv-cp.dvf)/(select q from srcq),0)
+          -case when l.dp<>0 and c.d<(select pk.d from pk) then l.dp else 0 end cv
       from cumq c join lotd l on l.id=c.lot_id
       left join pools pp on pp.pool=l.pool and pp.ok
       left join pcum pc on pc.pool=l.pool and pc.d=c.d
       left join bcum bc on bc.batch=l.batch and bc.d=c.d
+      left join bnew bn on bn.batch=l.batch and bn.d=c.d
       left join pools cp on cp.pool='CONTRACTOR' and cp.ok
       left join pcum cc on cc.pool='CONTRACTOR' and cc.d=c.d
     ), chain as(

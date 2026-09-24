@@ -1,0 +1,29 @@
+create schema erp;
+create table erp.settings(k text primary key, v text);
+create function erp.require_internal() returns void language sql as $$select$$;
+create function erp.current_app_user_id() returns uuid language sql as $$select null::uuid$$;
+create function erp.invoice_recost_economic_date_v1() returns date language sql as $$select (select v::date from erp.settings where k='E')$$;
+create function erp._cp3_business_date(p timestamptz) returns date language sql immutable as $$select (p at time zone 'Asia/Jakarta')::date$$;
+create table erp.accounting_period_control(singleton_id int primary key, closed_through date); insert into erp.accounting_period_control values(1,null);
+create table erp.fg_lots(id uuid primary key, product_id uuid, po_id uuid, lot_origin text);
+create table erp.hpp_versions(id uuid primary key default gen_random_uuid(), lot_id uuid, version_no int, qty_basis_pcs numeric, total_cost numeric, is_current boolean, calculated_at timestamptz);
+create table erp.fg_stock_movements(id uuid primary key default gen_random_uuid(), lot_id uuid, movement_type text, qty_signed int, physical_at timestamptz, reversal_of_id uuid);
+create table erp.product_conversions(id uuid primary key, status text);
+create table erp.product_conversion_allocations(id uuid primary key default gen_random_uuid(), conversion_id uuid, source_lot_id uuid, destination_lot_id uuid);
+create table erp.tb(k text primary key, hpp numeric, fg numeric, cogs numeric, oth numeric);
+create function erp.compute_non_po_product_hpp_targets_v2620f(p uuid) returns table(hpp_total_cost numeric,fg_value numeric,cogs_value numeric,other_out_value numeric) language sql as $$select hpp,fg,cogs,oth from erp.tb where k='t'$$;
+create function erp.compute_non_po_product_hpp_book_v2620f(p uuid) returns table(hpp_total_cost numeric,fg_value numeric,cogs_value numeric,other_out_value numeric) language sql as $$select hpp,fg,cogs,oth from erp.tb where k='b'$$;
+create function erp.assert_non_po_product_hpp_target_book_v2620f(p uuid) returns void language sql as $$select$$;
+create table erp.non_po_hpp_gl_sync_events_v2620f(id uuid primary key, product_id uuid, trigger_source_type text, trigger_source_id uuid, effective_date date, old_fg_value numeric, new_fg_value numeric, fg_delta numeric, old_cogs_value numeric, new_cogs_value numeric, cogs_delta numeric, old_other_out_value numeric, new_other_out_value numeric, other_delta numeric, journal_entry_id uuid, reason text, created_by uuid);
+create table erp.journal_entries(id uuid primary key default gen_random_uuid(), source_type text, source_id uuid, transaction_date date, description text);
+create table erp.journal_lines(journal_entry_id uuid, mapping_key text, debit numeric, credit numeric, po_id uuid, product_id uuid);
+create function erp.post_journal(p_source text, p_source_id uuid, p_date date, p_desc text, p_lines jsonb) returns uuid language plpgsql as $$
+declare v uuid; begin
+ insert into erp.journal_entries(source_type,source_id,transaction_date,description) values(p_source,p_source_id,p_date,p_desc) returning id into v;
+ insert into erp.journal_lines select v,x->>'mapping_key',(x->>'debit')::numeric,(x->>'credit')::numeric,(x->>'po_id')::uuid,(x->>'product_id')::uuid from jsonb_array_elements(p_lines) x;
+ return v; end $$;
+create table erp.initial_import_production_sources(opening_item_id uuid primary key, po_id uuid, bs_case_id uuid, qty_pcs int);
+create table erp.bs_resolutions(id uuid primary key default gen_random_uuid(), bs_case_id uuid, qty_pcs int, physical_at timestamptz, source_rework_order_id uuid, resolution_type text);
+create table erp.initial_import_bs_value_events(id uuid primary key, opening_item_id uuid, disposed_qty int, previous_amount numeric, target_amount numeric, economic_date date, journal_entry_id uuid, created_by uuid);
+create function erp.initial_import_source_value_v1(p uuid) returns numeric language sql as $$select (select v::numeric from erp.settings where k='SRCV')$$;
+create view public.jl as select j.transaction_date d,l.mapping_key k,sum(l.debit-l.credit) amt from erp.journal_entries j join erp.journal_lines l on l.journal_entry_id=j.id group by 1,2 order by 1,2;

@@ -38,15 +38,20 @@ OUT=AUDITOR/'cp6-proof/az'
 AZ_SQL=AUDITOR/'supabase/dev/cp6_az_t1_family.sql'
 LABEL='T1_FAMILY'
 KEYS=('MATERIAL_INVENTORY','WIP','FG_INVENTORY','COGS')
-FUNCTIONS=('erp.sync_material_cost_revaluation(uuid)','erp._cp6_sync_material_adjustment_revaluation(uuid,uuid)','erp.sync_finished_po_wip_residual(uuid,date,text)')
+FUNCTIONS=('erp.sync_material_cost_revaluation(uuid)','erp._cp6_sync_material_adjustment_revaluation(uuid,uuid)','erp.sync_finished_po_wip_residual(uuid,date,text)',
+           # AZ rev2 (round six): the rest of the family (handoff §23.7, independent review of AY rev7).
+           'erp.guard_pocket_period_v1()','erp.sync_initial_import_bs_value_v1(uuid,date)',
+           'erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)','erp.refresh_accessory_hpp_after_material_recost(uuid,text)',
+           'erp._recalculate_material_cost_core(uuid,timestamp with time zone,boolean)')
 
 
 def dev_source(signature):
     """The body of one AZ function exactly as the committed dev file defines it."""
+    import re
     name=signature.split('(')[0]
     text=AZ_SQL.read_text()
-    head=text.index('CREATE OR REPLACE FUNCTION '+name+'(')
-    start=text.index('AS $function$',head)+len('AS $function$');end=text.index('$function$;',start)
+    head=re.search(r'(?i)create or replace function '+re.escape(name)+r'\(',text).start()
+    start=re.compile(r'(?i)\bas \$function\$').search(text,head).end();end=text.index('$function$;',start)
     return text[start:end]
 
 
@@ -530,6 +535,59 @@ def contractor_after_lot(cur,today,price):
                 wip_po={k:str(v) for k,v in wip_po.items()},negative_blockers=negative,invoice=response,quiet=[quiet,quiet_fixture])
 
 
+def batch_partner(cur,today,price):
+    """Independent review of AY rev7 (batch partner not queued): erp.rebuild_po_hpp pools cutting material over the cutting
+    batch, groups of other POs included, but _recalculate_material_cost_core queued only the POs whose own groups used the
+    recosted material. Fixture: PO A cuts 4 units of the invoiced fabric into 8 pcs on d+1 in a cutting batch; PO B cuts 6
+    units of another fabric into 3 pcs on d+1 into the same batch. Late invoice for the first fabric on d. Expected (AZ rev2):
+    PO B is rebuilt and synced too (its posted HPP equals its target). When the product refuses a cutting batch across POs,
+    the case records that refusal (the partner queue can then never be needed)."""
+    prod=chain.production
+    d=today-timedelta(days=3);d2=d+timedelta(days=1)
+    days=[d+timedelta(days=i) for i in range(4)]
+    boundary.historical.prior.set_open_period(cur,d-timedelta(days=1))
+    quiet=awp.quiet_seed(cur,d,today-timedelta(days=1),exclude=[prod.CONTRACTOR])
+    fx=prod.estimated_receipt(cur,today)
+    fx2=prod.estimated_receipt(cur,today)
+    api.admin(cur)
+    po_a=uuid.uuid4();po_b=uuid.uuid4()
+    product_a=prod.base.create_product(cur,uuid.uuid4().hex[:16]);product_b=prod.base.create_product(cur,uuid.uuid4().hex[:16])
+    for po,label in ((po_a,'A'),(po_b,'B')):
+        cur.execute("""insert into erp.production_orders(id,po_number,model_id,target_qty_pcs,status,current_stage,physical_start_at,notes)
+          values(%s,%s,%s,11,'CUTTING','CUTTING',%s,'AZ batch partner probe')""",(po,'AZ-BP-%s-%s'%(label,po),prod.MODEL,prod.at(d2,7)))
+    pool=uuid.uuid4()
+    cur.execute("insert into erp.cutting_batches(id,po_id,batch_number,cut_at,status,notes) values(%s,%s,%s,%s,'OPEN','AZ batch partner probe')",
+                (pool,po_a,'AZ-BP-'+pool.hex[:12],prod.at(d2,8)))
+    produce(cur,fx,po_a,product_a,d2,4,8,batch=pool)
+    cur.execute('savepoint az_batch_partner')
+    try:
+        produce(cur,fx2,po_b,product_b,d2,6,3,batch=pool)
+    except psycopg.Error as exc:
+        cur.execute('rollback to savepoint az_batch_partner');api.admin(cur)
+        refused='batch' in str(exc).lower() or 'po' in str(exc).lower()
+        return dict(status='PASS' if refused else 'FAIL',finding='independent review of AY rev7: batch partner PO not queued',
+                    checks=dict(cross_po_batch_refused_by_product=refused),error=str(exc)[:400],
+                    note='The product refuses a cutting group of another PO in a cutting batch; the partner queue of AZ rev2 is a no-op.')
+    api.admin(cur)
+    lot_b=cur.execute("select id from erp.fg_lots where po_id=%s and lot_origin='PRODUCTION'",(po_b,)).fetchone()[0]
+    version=lambda:cur.execute('select id,total_cost from erp.hpp_versions where lot_id=%s and is_current',(lot_b,)).fetchone()
+    quiet_fixture=awp.quiet_seed(cur,d,today-timedelta(days=1))
+    before_b=version()
+    response=invoice(cur,fx,today,price,d)
+    after_b=version()
+    target=cur.execute('select round(hpp_total_cost,2) from erp.compute_po_hpp_gl_targets_v2620d(%s)',(po_b,)).fetchone()[0]
+    posted=cur.execute('select hpp_total_cost from erp.po_hpp_gl_state where po_id=%s',(po_b,)).fetchone()
+    pre=awp.preflight(cur,today)
+    negative=[b for b in pre['blockers'] if b['code']=='GL_INVENTORY_NEGATIVE_ASOF'] if pre else None
+    checks=dict(partner_hpp_rebuilt=after_b[0]!=before_b[0] and dec(after_b[1])!=dec(before_b[1]),
+                partner_posted_hpp_equals_target=posted is not None and dec(posted[0])==dec(target),
+                no_negative_daily_inventory=negative==[])
+    status='PASS' if all(checks.values()) else ('COUNTEREXAMPLE' if not az_installed(cur) else 'FAIL')
+    return dict(status=status,finding='independent review of AY rev7: batch partner PO not queued',price=price,checks=checks,
+                partner_hpp=[str(before_b[1]),str(after_b[1])],partner_target=str(target),partner_posted=str(posted[0]) if posted else None,
+                negative_blockers=negative,invoice=response,quiet=[quiet,quiet_fixture])
+
+
 def goods_flow(cur,today,price,flow):
     """Branches without a native fixture until 24 Sep (independent review): a lot of 10 pcs (one cut of 10 units) on d+1,
     then RETURN (3 pcs sold on d+1, 1 returned on d+2), REVERSED (all 10 sold on d+2, the sale reversed today before the
@@ -653,7 +711,8 @@ def cases(cur,today):
             ('AZ:BATCH_ACROSS_DAYS_HIGHER',lambda:multi_cut(cur,today,'10.70',batch=True)),
             ('AZ:BATCH_ACROSS_DAYS_LOWER',lambda:multi_cut(cur,today,'8.25',batch=True)),
             ('AZ:CONTRACTOR_AFTER_LOT_HIGHER',lambda:contractor_after_lot(cur,today,'10.70')),
-            ('AZ:CONTRACTOR_AFTER_LOT_LOWER',lambda:contractor_after_lot(cur,today,'8.25'))]
+            ('AZ:CONTRACTOR_AFTER_LOT_LOWER',lambda:contractor_after_lot(cur,today,'8.25')),
+            ('AZ:BATCH_PARTNER_PO',lambda:batch_partner(cur,today,'10.70'))]
 
 
 def run(phase):

@@ -21,6 +21,16 @@ exactly as before (one journal with economic date E that post_journal posts on t
 keeps). A physical date after today (the product allows a few minutes of clock skew) is capped at today. Amounts,
 accounts, state and events are unchanged. Outside an invoice E is today and nothing moves; the residual close below is
 changed on the invoice path only (independent review 24 Sep: its other callers pass other dates).
+AZ rev2 (round seven, writer; handoff §23.7 and the independent review of AY rev7), same rule for the rest of the family:
+  - pocket-fabric recost (erp.guard_pocket_period_v1): not before the period's allocation (its end day) while open;
+  - opening WIP/BS value (erp.sync_initial_import_bs_value_v1): on a late invoice the change reaches each disposed BS piece
+    on its disposal day (pro rata by pieces);
+  - opening (non-PO) lots (erp.sync_non_po_product_hpp_to_gl_v2620f): on a late invoice the COGS/other legs follow each
+    sale, return and adjustment day (per-lot HPP change x pieces), FG balancing;
+  - accessory recost (erp.refresh_accessory_hpp_after_material_recost): an accrued lot's accessory HPP change enters WIP
+    against the reimbursement variance, dated as the PO HPP sync dates it (it moved it out of WIP without a WIP debit);
+  - batch partners (erp._recalculate_material_cost_core): every PO of the cutting batch is queued and drained.
+  Closed dates and every non-invoice caller keep their previous posting.
 Label T1_FAMILY: development install on the disposable chain AN -> AU -> AV -> AW -> AX -> AY, not a release package.
 
 Usage: python3 scripts/cp6_az_build.py            # writes supabase/dev/cp6_az_t1_family.sql
@@ -105,6 +115,198 @@ RESIDUAL_NEW='''  if abs(v_residual)<=0.005 then return; end if;
   insert into erp.po_wip_close_events'''
 
 
+# ================================================================ AZ rev2 (writer, 24 Sep 2026, round six): the rest of the family
+# "a value correction must not be dated before the physical fact it corrects" (handoff §23.7, independent review of AY rev7).
+AP=ROOT/'supabase/migrations/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql'
+F20=ROOT/'supabase/migrations/20260909174713_erp_v2_6_20f_cp6_final_runtime_reliability.sql'
+TODAY="erp._cp3_business_date(statement_timestamp())"
+def closed(expr):
+    return ("exists(select 1 from erp.accounting_period_control c where c.singleton_id=1 and c.closed_through is not null and "
+            +expr+"<=c.closed_through)")
+
+# ---------------------------------------------------------------- erp.guard_pocket_period_v1 (AP): pocket-fabric recost
+POCKET_HEAD="create or replace function erp.guard_pocket_period_v1() returns trigger"
+POCKET_OLD=""" perform erp.sync_pocket_period_v1(v_pool,new.effective_date,'RECOST','Koreksi harga kain kantong');end loop;"""
+POCKET_NEW=""" -- AZ: a pocket recost is not dated before the period's own allocation (its end day) while the date is open; a closed date
+   -- keeps its economic date (post_journal posts it on the recognition day), a non-invoice recost stays on today.
+   perform erp.sync_pocket_period_v1(v_pool,case when """+closed("new.effective_date")+""" then new.effective_date
+     else least(greatest(new.effective_date,(select p.period_end from erp.pocket_periods p where p.id=v_pool)),"""+TODAY+""") end,
+     'RECOST','Koreksi harga kain kantong');end loop;"""
+
+# ---------------------------------------------------------------- erp.sync_initial_import_bs_value_v1 (AP): opening BS value
+BSV_HEAD="create or replace function erp.sync_initial_import_bs_value_v1(p_item uuid,p_date date) returns void"
+BSV_DECLARE_OLD="declare s erp.initial_import_production_sources%rowtype;v_qty integer;v_target numeric;v_prior numeric;v_delta numeric;v_event uuid;v_journal uuid;\nbegin"
+BSV_DECLARE_NEW="declare s erp.initial_import_production_sources%rowtype;v_qty integer;v_target numeric;v_prior numeric;v_delta numeric;v_event uuid;v_journal uuid;\n d record;v_left numeric;v_part numeric;v_run numeric;v_done integer:=0;\nbegin"
+BSV_OLD=""" v_delta:=v_target-v_prior;if v_delta=0 then return;end if;
+ v_event:=gen_random_uuid();"""
+BSV_NEW=""" v_delta:=v_target-v_prior;if v_delta=0 then return;end if;
+ -- AZ: on a late supplier invoice with an open date the change reaches each disposed BS piece on the day it was disposed
+ -- (bs_resolutions.physical_at), pro rata by pieces, never before the invoice date nor after today; the last day takes the
+ -- remainder. Every other caller (the disposition trigger on its physical day, a closed date) posts once, as before.
+ if erp.invoice_recost_economic_date_v1() is not null and v_qty>0 and not """+closed("p_date")+""" then
+  v_left:=v_delta;v_run:=v_prior;
+  for d in select least(greatest(p_date,erp._cp3_business_date(r.physical_at)),"""+TODAY+""") bday,sum(r.qty_pcs) q
+    from erp.bs_resolutions r where r.bs_case_id=s.bs_case_id and r.source_rework_order_id is null
+      and r.resolution_type not in('REWORK_SEWING','REWORK_LAUNDRY') group by 1 order by 1 loop
+   v_done:=v_done+d.q;
+   v_part:=case when v_done>=v_qty then v_left else round(v_delta*d.q/v_qty,2) end;
+   v_left:=v_left-v_part;
+   if v_part<>0 then
+    v_event:=gen_random_uuid();
+    v_journal:=erp.post_journal('INITIAL_IMPORT_BS_VALUE',v_event,d.bday,'Nilai BS saldo awal yang dikeluarkan atau dikembalikan · tanggal pengeluaran BS',jsonb_build_array(
+     jsonb_build_object('mapping_key','OTHER_EXPENSE','debit',greatest(v_part,0),'credit',greatest(-v_part,0),'po_id',s.po_id),
+     jsonb_build_object('mapping_key','WIP','debit',greatest(-v_part,0),'credit',greatest(v_part,0),'po_id',s.po_id)));
+    insert into erp.initial_import_bs_value_events(id,opening_item_id,disposed_qty,previous_amount,target_amount,economic_date,journal_entry_id,created_by)
+    values(v_event,p_item,least(v_done,v_qty),v_run,v_run+v_part,d.bday,v_journal,erp.current_app_user_id());
+    v_run:=v_run+v_part;
+   end if;
+  end loop;
+  if v_left<>0 then raise exception 'INITIAL_IMPORT_BS_VALUE_SPLIT_REMAINDER %',v_left;end if;
+  return;
+ end if;
+ v_event:=gen_random_uuid();"""
+
+# ---------------------------------------------------------------- erp.sync_non_po_product_hpp_to_gl_v2620f (20f): opening lots
+NONPO_HEAD="create function erp.sync_non_po_product_hpp_to_gl_v2620f("
+NONPO_DECLARE_OLD="""  v_lines jsonb:='[]'::jsonb;
+begin"""
+NONPO_DECLARE_NEW="""  v_lines jsonb:='[]'::jsonb;
+  r record;v_acc jsonb:='{}'::jsonb;v_c numeric(20,2);v_o numeric(20,2);v_f numeric(20,2);
+  v_sc numeric(20,2):=0;v_so numeric(20,2):=0;v_end date;v_ev uuid;v_rf numeric;v_rc numeric;v_ro numeric;
+begin"""
+NONPO_OLD="""  if abs(v_df)<=0.005 and abs(v_dc)<=0.005 and abs(v_do)<=0.005 then
+    return;
+  end if;
+"""
+NONPO_NEW="""  if abs(v_df)<=0.005 and abs(v_dc)<=0.005 and abs(v_do)<=0.005 then
+    return;
+  end if;
+
+  -- AZ (handoff §23.7): on a late supplier invoice with an open date the COGS and other legs follow each piece: the change
+  -- of a lot's HPP in this statement (per piece) times its pieces sold (sales, returns, their reversals) or out otherwise
+  -- (adjustment, BS, relabel, their reversals) as of each day of those movements, never before the invoice date nor after
+  -- today; each day posts the change of those balances, FG balancing, and the last day takes the exact remainder. The FG
+  -- source leg of the opening lot itself (OPENING_HPP_SOURCE, at the invoice date) is unchanged: the lot exists since
+  -- cutover. Every other caller and a closed date post one journal on the caller's date, as before.
+  if erp.invoice_recost_economic_date_v1() is not null and (abs(v_dc)>0.005 or abs(v_do)>0.005)
+     and not """+closed("p_effective_date")+""" then
+    for r in
+      with lots as(
+        select fl.id,
+          coalesce((select case when coalesce(hv.qty_basis_pcs,0)>0 then hv.total_cost/hv.qty_basis_pcs else 0 end
+            from erp.hpp_versions hv where hv.lot_id=fl.id and hv.is_current),0)
+          -coalesce((select case when coalesce(pv.qty_basis_pcs,0)>0 then pv.total_cost/pv.qty_basis_pcs else 0 end
+            from erp.hpp_versions pv where pv.lot_id=fl.id and pv.calculated_at<statement_timestamp()
+            order by pv.calculated_at desc,pv.version_no desc limit 1),0) dh
+        from erp.fg_lots fl where fl.product_id=p_product_id and fl.po_id is null
+          and fl.lot_origin not in('CONVERSION','VOIDED_PRODUCTION')
+      ), ev as(
+        select greatest(p_effective_date,least("""+TODAY+""",erp._cp3_business_date(m.physical_at))) d,l.dh,
+          coalesce(o.movement_type,m.movement_type) k,m.qty_signed::numeric q
+        from erp.fg_stock_movements m join lots l on l.id=m.lot_id and l.dh<>0
+        left join erp.fg_stock_movements o on m.movement_type='REVERSAL' and o.id=m.reversal_of_id
+        where coalesce(o.movement_type,m.movement_type) in('SALE','SALE_RETURN','ADJUSTMENT','BS_OUT','REBRAND_OUT','REBRAND_IN')
+      )
+      select d,sum(sum(case when k in('SALE','SALE_RETURN') then -q*dh else 0 end)) over(order by d) c,
+        sum(sum(case when k in('SALE','SALE_RETURN') then 0 else -q*dh end)) over(order by d) o
+      from ev group by d order by d
+    loop
+      v_c:=round(r.c,2);v_o:=round(r.o,2);
+      v_acc:=v_acc||jsonb_build_object(r.d::text,jsonb_build_object('c',v_c-v_sc,'o',v_o-v_so));
+      v_sc:=v_c;v_so:=v_o;v_end:=greatest(coalesce(v_end,r.d),r.d);
+    end loop;
+    v_end:=coalesce(v_end,p_effective_date);
+    v_acc:=v_acc||jsonb_build_object(v_end::text,jsonb_build_object(
+      'c',coalesce((v_acc->(v_end::text)->>'c')::numeric,0)+v_dc-v_sc,
+      'o',coalesce((v_acc->(v_end::text)->>'o')::numeric,0)+v_do-v_so));
+    v_rf:=b.fg_value;v_rc:=b.cogs_value;v_ro:=b.other_out_value;
+    for r in select key::date d,value v from jsonb_each(v_acc) order by 1 loop
+      v_c:=(r.v->>'c')::numeric;v_o:=(r.v->>'o')::numeric;v_f:=-(v_c+v_o);
+      continue when abs(v_c)<=0.005 and abs(v_o)<=0.005;
+      v_lines:='[]'::jsonb;
+      if abs(v_f)>0.005 then v_lines:=v_lines||jsonb_build_array(jsonb_build_object('mapping_key','FG_INVENTORY',
+        'debit',greatest(v_f,0),'credit',greatest(-v_f,0),'product_id',p_product_id)); end if;
+      if abs(v_c)>0.005 then v_lines:=v_lines||jsonb_build_array(jsonb_build_object('mapping_key','COGS',
+        'debit',greatest(v_c,0),'credit',greatest(-v_c,0),'product_id',p_product_id)); end if;
+      -- The other bucket stays on the one account the single journal would use for the product's total other change.
+      if abs(v_o)>0.005 then v_lines:=v_lines||jsonb_build_array(jsonb_build_object('mapping_key',
+        case when v_do>0 then 'OTHER_EXPENSE' else 'OTHER_INCOME' end,
+        'debit',greatest(v_o,0),'credit',greatest(-v_o,0),'product_id',p_product_id)); end if;
+      v_ev:=gen_random_uuid();
+      v_journal:=erp.post_journal('NON_PO_HPP_GL_SYNC_V2620F',v_ev,r.d,
+        'Cumulative non-PO HPP redistribution · dated from the goods · '||p_reason,v_lines);
+      insert into erp.non_po_hpp_gl_sync_events_v2620f(
+        id,product_id,trigger_source_type,trigger_source_id,effective_date,
+        old_fg_value,new_fg_value,fg_delta,old_cogs_value,new_cogs_value,cogs_delta,
+        old_other_out_value,new_other_out_value,other_delta,journal_entry_id,reason,created_by
+      ) values(
+        v_ev,p_product_id,p_trigger_source_type,p_trigger_source_id,r.d,
+        v_rf,v_rf+v_f,v_f,v_rc,v_rc+v_c,v_c,v_ro,v_ro+v_o,v_o,v_journal,p_reason,erp.current_app_user_id());
+      v_rf:=v_rf+v_f;v_rc:=v_rc+v_c;v_ro:=v_ro+v_o;
+    end loop;
+    perform erp.assert_non_po_product_hpp_target_book_v2620f(p_product_id);
+    return;
+  end if;
+"""
+
+# ---------------------------------------------------------------- erp.refresh_accessory_hpp_after_material_recost (AC)
+ACC_AC=ROOT/'supabase/migrations/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.sql'
+ACC_HEAD="CREATE OR REPLACE FUNCTION erp.refresh_accessory_hpp_after_material_recost(p_material_id uuid, p_reason text DEFAULT 'Accessory historical moving-average recost'::text)"
+ACC_DECLARE_OLD="""  v_po uuid;
+begin"""
+ACC_DECLARE_NEW="""  v_po uuid;
+  v_rev uuid;v_old numeric;v_newtot numeric;v_d numeric;v_lot uuid;v_lot_po uuid;v_prod uuid;v_lotday date;v_e date;v_date date;
+begin"""
+ACC_OLD="""      insert into erp.fg_accessory_cost_revisions(snapshot_id,material_id,old_category_avg_cost,new_category_avg_cost,old_hpp_unit_cost,new_hpp_unit_cost,reason,changed_by)
+      values(r.id,p_material_id,r.category_avg_cost_base_snapshot,v_new,r.hpp_unit_cost_base_snapshot,v_new,coalesce(nullif(trim(p_reason),''),'Accessory historical moving-average recost'),erp.current_app_user_id());
+      update erp.fg_accessory_cost_snapshots
+      set category_avg_cost_base_snapshot=v_new,hpp_unit_cost_base_snapshot=v_new
+      where id=r.id;"""
+ACC_NEW="""      insert into erp.fg_accessory_cost_revisions(snapshot_id,material_id,old_category_avg_cost,new_category_avg_cost,old_hpp_unit_cost,new_hpp_unit_cost,reason,changed_by)
+      values(r.id,p_material_id,r.category_avg_cost_base_snapshot,v_new,r.hpp_unit_cost_base_snapshot,v_new,coalesce(nullif(trim(p_reason),''),'Accessory historical moving-average recost'),erp.current_app_user_id())
+      returning id into v_rev;
+      select total_hpp_cost,lot_id into v_old,v_lot from erp.fg_accessory_cost_snapshots where id=r.id;
+      update erp.fg_accessory_cost_snapshots
+      set category_avg_cost_base_snapshot=v_new,hpp_unit_cost_base_snapshot=v_new
+      where id=r.id;
+      -- AZ (independent review of AY rev7): the lot's accessory HPP entered WIP once, with the accrual
+      -- (ACCESSORY_REIMBURSE_ACCRUAL: WIP against the Mandor reimbursement and its variance); the PO HPP sync below moves the
+      -- change of that HPP out of WIP, so an accrued lot's change enters WIP against the reimbursement variance (the
+      -- reimbursement itself is fixed), dated as the sync dates it: the lot day (never before the invoice date, never after
+      -- today) on a late invoice with an open date, the invoice date when closed, today otherwise.
+      select total_hpp_cost into v_newtot from erp.fg_accessory_cost_snapshots where id=r.id;
+      v_d:=round(coalesce(v_newtot,0)-coalesce(v_old,0),2);
+      if abs(v_d)>0.005 and exists(select 1 from erp.journal_entries where source_type='ACCESSORY_REIMBURSE_ACCRUAL'
+                                     and source_id=v_lot and status='POSTED') then
+        select fl.po_id,fl.product_id,erp._cp3_business_date(fl.produced_at) into v_lot_po,v_prod,v_lotday from erp.fg_lots fl where fl.id=v_lot;
+        v_e:=erp.invoice_recost_economic_date_v1();
+        v_date:=case when v_e is null then """+TODAY+"""
+                     when """+closed("v_e")+""" then v_e
+                     else least(greatest(v_e,v_lotday),"""+TODAY+""") end;
+        perform erp.post_journal('ACCESSORY_HPP_RECOST',v_rev,v_date,'Accessory HPP recost of an accrued lot: WIP against the reimbursement variance',
+          jsonb_build_array(
+            jsonb_build_object('mapping_key','WIP','debit',greatest(v_d,0),'credit',greatest(-v_d,0),'po_id',v_lot_po,'product_id',v_prod),
+            jsonb_build_object('mapping_key','ACCESSORY_REIMBURSE_VARIANCE','debit',greatest(-v_d,0),'credit',greatest(v_d,0),'po_id',v_lot_po,'product_id',v_prod)));
+      end if;"""
+
+# ---------------------------------------------------------------- erp._recalculate_material_cost_core (AO): batch partners
+CORE_HEAD="CREATE OR REPLACE FUNCTION erp._recalculate_material_cost_core(p_material_id uuid, p_recalc_from timestamp with time zone, p_allow_checkpoint boolean)"
+CORE_Q_OLD="""  from erp.material_stock_movements msm
+  join erp.cutting_groups cg on msm.source_type in('CUTTING_GROUP','CUTTING_GROUP_RETURN') and msm.source_id=cg.id
+  where msm.material_id=p_material_id"""
+CORE_Q_NEW="""  from erp.material_stock_movements msm
+  join erp.cutting_groups cg0 on msm.source_type in('CUTTING_GROUP','CUTTING_GROUP_RETURN') and msm.source_id=cg0.id
+  -- AZ (independent review of AY rev7): every PO of the cutting batch; erp.rebuild_po_hpp pools cutting material over it.
+  join erp.cutting_groups cg on cg.id=cg0.id or (cg0.cutting_batch_id is not null and cg.cutting_batch_id=cg0.cutting_batch_id)
+  where msm.material_id=p_material_id"""
+CORE_D_OLD="""          select cg.po_id from erp.cutting_groups cg join erp.material_stock_movements m
+            on m.source_type in('CUTTING_GROUP','CUTTING_GROUP_RETURN') and m.source_id=cg.id where m.material_id=p_material_id"""
+CORE_D_NEW="""          select cg.po_id from erp.cutting_groups cg0 join erp.material_stock_movements m
+            on m.source_type in('CUTTING_GROUP','CUTTING_GROUP_RETURN') and m.source_id=cg0.id
+          join erp.cutting_groups cg on cg.id=cg0.id or (cg0.cutting_batch_id is not null and cg.cutting_batch_id=cg0.cutting_batch_id)
+          where m.material_id=p_material_id"""
+
+
 def function(path,head,subs,once=True):
     text=path.read_text()
     assert text.count(head)==1,(path.name,head)
@@ -122,13 +324,18 @@ def build():
                                   (REVAL_EVENT_OLD,REVAL_EVENT_NEW),(REVAL_JOURNAL_OLD,REVAL_JOURNAL_NEW)])
     adj=function(AO,ADJ_HEAD,[(ADJ_DECLARE_OLD,ADJ_DECLARE_NEW),(ADJ_DATE_OLD,ADJ_DATE_NEW)])
     residual=function(RESIDUAL_AC,RESIDUAL_HEAD,[(RESIDUAL_OLD,RESIDUAL_NEW)],once=False)
+    pocket=function(AP,POCKET_HEAD,[(POCKET_OLD,POCKET_NEW)],once=False)
+    bsv=function(AP,BSV_HEAD,[(BSV_DECLARE_OLD,BSV_DECLARE_NEW),(BSV_OLD,BSV_NEW)],once=False)
+    nonpo=function(F20,NONPO_HEAD,[(NONPO_DECLARE_OLD,NONPO_DECLARE_NEW),(NONPO_OLD,NONPO_NEW)],once=False).replace(NONPO_HEAD,'CREATE OR REPLACE FUNCTION erp.sync_non_po_product_hpp_to_gl_v2620f(',1)
+    acc=function(ACC_AC,ACC_HEAD,[(ACC_DECLARE_OLD,ACC_DECLARE_NEW),(ACC_OLD,ACC_NEW)],once=False)
+    core=function(AO,CORE_HEAD,[(CORE_Q_OLD,CORE_Q_NEW),(CORE_D_OLD,CORE_D_NEW)],once=False)
     parts=['-- CP6 AZ material recost corrections dated from the physical movement: T1_FAMILY development install (NOT a release package).',
            '-- Generated by scripts/cp6_az_build.py from the AS/AO definitions; do not edit by hand.',
            'begin;',"set local lock_timeout='10s';set local statement_timeout='240s';set local search_path='';",
            'do $t1_guard$','begin',
            " if (select count(*) from erp.schema_migrations where version in('v2.6.20av','v2.6.20aw','v2.6.20ax','v2.6.20ay'))<>4 then raise exception 'AZ_T1_REQUIRES_AV_AW_AX_AY'; end if;",
            f" if exists(select 1 from erp.schema_migrations where version='{VERSION}') then raise exception 'AZ_T1_ALREADY_INSTALLED'; end if;",
-           'end $t1_guard$;',reval,adj,residual,
+           'end $t1_guard$;',reval,adj,residual,pocket,bsv,nonpo,acc,core,
            f"insert into erp.schema_migrations(version,description) values('{VERSION}',"
            "'T1_FAMILY development install of AZ (material recost corrections dated from the physical movement); not a release package');",'commit;','']
     return '\n'.join(parts)

@@ -33,4 +33,7 @@ create table erp.materials(id uuid primary key, material_type text);
 create table erp.product_conversions(id uuid primary key, status text);
 create table erp.product_conversion_allocations(id uuid primary key default gen_random_uuid(), conversion_id uuid, source_lot_id uuid, destination_lot_id uuid);
 create function erp.cp6_po_source_qty_v2620c(p uuid) returns numeric language sql as $$select coalesce((select v::numeric from erp.settings where k='SRCQ'),(select sum(initial_qty_pcs) from erp.fg_lots where po_id=p and lot_origin='PRODUCTION'))$$;
-create table erp.material_cost_revaluation_events(id uuid primary key default gen_random_uuid(), movement_id uuid, delta_amount numeric, created_at timestamptz default statement_timestamp());
+create table erp.material_cost_revaluation_events(id uuid primary key default gen_random_uuid(), movement_id uuid, delta_amount numeric, created_at timestamptz default statement_timestamp(), effective_date date);
+create table erp.hpp_version_components(id uuid primary key default gen_random_uuid(), hpp_version_id uuid, component_type text, total_cost numeric, source_type text, source_id uuid);
+create table erp.pocket_periods(id uuid primary key, period_start date, period_end date);
+create table erp.pocket_period_destinations(id uuid primary key default gen_random_uuid(), pool_id uuid, po_id uuid);

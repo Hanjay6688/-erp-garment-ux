@@ -24,7 +24,10 @@ Skenario (tanggal relatif hari ini d; E = tanggal invoice):
 | r12_fresh_state | state ditulis hanya bila HPP baru di-rebuild pada statement yang sama | state C:/M:/SYNC tertulis |
 | r13_no_state_derived | F1 pemeriksaan rev7: PO dari sebelum AY (tanpa state/penanda), nilai lama dari revaluasi sesudah rebuild terakhir | sama dengan r1; state ditulis |
 | r14_relabel_chain | F3 pemeriksaan rev7: rantai relabel dua tingkat | tidak ada baris akun lainnya; −35,00 lalu +3,50 |
+| r15_batch_dilution | F4 pemeriksaan rev7: grup baru dalam batch sesudah sync terakhir | −7,00 pada hari lot, +37,69 pada hari potong grup baru |
+| r16_queued_recost | recost non-invoice yang masih mengantre saat invoice diproses | −7,50 pada hari lot (bagian invoice), −10,00 pada hari recost tertunda |
+| r17_pocket_part | bagian kain kantong di HPP lot | −10,00 pada akhir periode kantong, bukan hari lot |
 | f1, m2, f1_noninv, f1_closed | skenario dasar rev6 | tidak berubah; E tertutup dan jalur non-invoice tetap satu jurnal |
 | perf.sql | M-4 | lihat `perf.txt` |
 
-Output: `output_rev7_0bbfd55.txt` (rev7) dan `output_rev7_1.txt` (rev7.1, sesudah pemeriksaan independen rev7).
+Output: `output_rev7_0bbfd55.txt` (rev7), `output_rev7_1.txt` (rev7.1) dan `output_rev7_2.txt` (rev7.2, putaran ketujuh).

@@ -217,5 +217,651 @@ begin
   update erp.po_wip_close_events set journal_entry_id=v_journal where id=v_event;
 end;
 $function$;
+create or replace function erp.guard_pocket_period_v1() returns trigger
+language plpgsql security definer set search_path='' as $function$
+declare v_pool uuid;v_date date;v_po uuid;v_prior uuid;
+begin
+ if tg_table_name in('pocket_periods','pocket_period_sources','pocket_period_destinations','pocket_period_events') then
+  raise exception 'Riwayat alokasi periode tetap; gunakan pembatalan tertaut';end if;
+ if tg_table_name='material_stock_movements' then
+ if new.reversal_of_id is null or not exists(
+  select 1 from erp.material_stock_movements m join erp.material_adjustment_items i on i.id=m.source_id and m.source_type='MATERIAL_ADJUSTMENT_ITEM'
+  join erp.pocket_fabric_usage u on u.adjustment_id=i.adjustment_id where m.id=new.reversal_of_id) then return new;end if;
+ elsif tg_table_name='material_adjustment_revaluation_facts' then
+  if not exists(select 1 from erp.pocket_fabric_usage where adjustment_id=new.adjustment_id) then return new;end if;
+ elsif tg_table_name='work_completion_events' then
+  if old.status<>'POSTED' or new.status='POSTED' then return new;end if;
+ end if;
+ perform erp.pocket_period_lock_v1();
+ if tg_table_name='material_adjustment_revaluation_facts' then
+  for v_pool in select s.pool_id from erp.pocket_period_sources s where s.adjustment_id=new.adjustment_id and erp.pocket_period_active_v1(s.pool_id) order by s.pool_id loop
+   -- AZ: a pocket recost is not dated before the period's own allocation (its end day) while the date is open; a closed date
+   -- keeps its economic date (post_journal posts it on the recognition day), a non-invoice recost stays on today.
+   perform erp.sync_pocket_period_v1(v_pool,case when exists(select 1 from erp.accounting_period_control c where c.singleton_id=1 and c.closed_through is not null and new.effective_date<=c.closed_through) then new.effective_date
+     else least(greatest(new.effective_date,(select p.period_end from erp.pocket_periods p where p.id=v_pool)),erp._cp3_business_date(statement_timestamp())) end,
+     'RECOST','Koreksi harga kain kantong');end loop;
+ elsif tg_table_name='pocket_fabric_usage' then
+  select erp._cp3_business_date(physical_at) into v_date from erp.material_adjustments where id=new.adjustment_id;
+  if exists(select 1 from erp.pocket_periods p where erp.pocket_period_active_v1(p.id) and v_date between p.period_start and p.period_end) then
+   raise exception 'Batalkan alokasi periode sebelum menambah pengeluaran di periode itu';end if;
+ elsif tg_table_name='material_stock_movements' then
+  if new.reversal_of_id is not null and exists(select 1 from erp.material_stock_movements m
+   join erp.material_adjustment_items i on i.id=m.source_id and m.source_type='MATERIAL_ADJUSTMENT_ITEM'
+   join erp.pocket_period_sources s on s.adjustment_id=i.adjustment_id
+   where m.id=new.reversal_of_id and erp.pocket_period_active_v1(s.pool_id)) then
+   raise exception 'Batalkan alokasi periode sebelum membatalkan pengeluaran kain kantong';end if;
+ elsif tg_table_name in('sewing_terminal_events','work_completion_events') then
+  if tg_table_name='work_completion_events' then
+   if old.status<>'POSTED' or new.status='POSTED' then return new;end if;
+   v_date:=erp._cp3_business_date(old.physical_at);v_po:=old.po_id;
+  else
+   v_date:=erp._cp3_business_date(new.physical_at);v_po:=new.po_id;v_prior:=new.reversal_of_id;
+   if v_prior is not null then select erp._cp3_business_date(physical_at) into v_date from erp.sewing_terminal_events where id=v_prior;end if;
+  end if;
+  if exists(select 1 from erp.pocket_periods p where erp.pocket_period_active_v1(p.id) and
+   (v_date between p.period_start and p.period_end or exists(select 1 from erp.pocket_period_destinations d
+    join erp.sewing_terminal_events e on e.id=d.event_id where d.pool_id=p.id and d.po_id=v_po and erp._cp3_business_date(e.physical_at)>=v_date))) then
+   raise exception 'Batalkan alokasi kain kantong terkait sebelum mengoreksi hasil jahit';end if;
+ end if;
+ return new;
+end;$function$;
+create or replace function erp.sync_initial_import_bs_value_v1(p_item uuid,p_date date) returns void
+language plpgsql security definer set search_path='' as $function$
+declare s erp.initial_import_production_sources%rowtype;v_qty integer;v_target numeric;v_prior numeric;v_delta numeric;v_event uuid;v_journal uuid;
+ d record;v_left numeric;v_part numeric;v_run numeric;v_done integer:=0;
+begin
+ perform erp.require_internal();
+ if not pg_try_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0)) then raise exception 'WIP_VALUE_BUSY: penilaian stok sedang berubah, coba ulang';end if;
+ select * into s from erp.initial_import_production_sources where opening_item_id=p_item for update;
+ if s.bs_case_id is null then return;end if;
+ select coalesce(sum(qty_pcs),0) into v_qty from erp.bs_resolutions where bs_case_id=s.bs_case_id
+  and source_rework_order_id is null and resolution_type not in('REWORK_SEWING','REWORK_LAUNDRY');
+ if v_qty>s.qty_pcs then raise exception 'Pengeluaran BS melebihi saldo fisik';end if;
+ v_target:=round(erp.initial_import_source_value_v1(p_item)*v_qty/s.qty_pcs,2);
+ select coalesce(sum(target_amount-previous_amount),0) into v_prior from erp.initial_import_bs_value_events where opening_item_id=p_item;
+ v_delta:=v_target-v_prior;if v_delta=0 then return;end if;
+ -- AZ: on a late supplier invoice with an open date the change reaches each disposed BS piece on the day it was disposed
+ -- (bs_resolutions.physical_at), pro rata by pieces, never before the invoice date nor after today; the last day takes the
+ -- remainder. Every other caller (the disposition trigger on its physical day, a closed date) posts once, as before.
+ if erp.invoice_recost_economic_date_v1() is not null and v_qty>0 and not exists(select 1 from erp.accounting_period_control c where c.singleton_id=1 and c.closed_through is not null and p_date<=c.closed_through) then
+  v_left:=v_delta;v_run:=v_prior;
+  for d in select least(greatest(p_date,erp._cp3_business_date(r.physical_at)),erp._cp3_business_date(statement_timestamp())) bday,sum(r.qty_pcs) q
+    from erp.bs_resolutions r where r.bs_case_id=s.bs_case_id and r.source_rework_order_id is null
+      and r.resolution_type not in('REWORK_SEWING','REWORK_LAUNDRY') group by 1 order by 1 loop
+   v_done:=v_done+d.q;
+   v_part:=case when v_done>=v_qty then v_left else round(v_delta*d.q/v_qty,2) end;
+   v_left:=v_left-v_part;
+   if v_part<>0 then
+    v_event:=gen_random_uuid();
+    v_journal:=erp.post_journal('INITIAL_IMPORT_BS_VALUE',v_event,d.bday,'Nilai BS saldo awal yang dikeluarkan atau dikembalikan · tanggal pengeluaran BS',jsonb_build_array(
+     jsonb_build_object('mapping_key','OTHER_EXPENSE','debit',greatest(v_part,0),'credit',greatest(-v_part,0),'po_id',s.po_id),
+     jsonb_build_object('mapping_key','WIP','debit',greatest(-v_part,0),'credit',greatest(v_part,0),'po_id',s.po_id)));
+    insert into erp.initial_import_bs_value_events(id,opening_item_id,disposed_qty,previous_amount,target_amount,economic_date,journal_entry_id,created_by)
+    values(v_event,p_item,least(v_done,v_qty),v_run,v_run+v_part,d.bday,v_journal,erp.current_app_user_id());
+    v_run:=v_run+v_part;
+   end if;
+  end loop;
+  if v_left<>0 then raise exception 'INITIAL_IMPORT_BS_VALUE_SPLIT_REMAINDER %',v_left;end if;
+  return;
+ end if;
+ v_event:=gen_random_uuid();
+ v_journal:=erp.post_journal('INITIAL_IMPORT_BS_VALUE',v_event,p_date,'Nilai BS saldo awal yang dikeluarkan atau dikembalikan',jsonb_build_array(
+  jsonb_build_object('mapping_key','OTHER_EXPENSE','debit',greatest(v_delta,0),'credit',greatest(-v_delta,0),'po_id',s.po_id),
+  jsonb_build_object('mapping_key','WIP','debit',greatest(-v_delta,0),'credit',greatest(v_delta,0),'po_id',s.po_id)));
+ insert into erp.initial_import_bs_value_events(id,opening_item_id,disposed_qty,previous_amount,target_amount,economic_date,journal_entry_id,created_by)
+ values(v_event,p_item,v_qty,v_prior,v_target,p_date,v_journal,erp.current_app_user_id());
+end;$function$;
+CREATE OR REPLACE FUNCTION erp.sync_non_po_product_hpp_to_gl_v2620f(
+  p_product_id uuid,
+  p_effective_date date,
+  p_trigger_source_type text,
+  p_trigger_source_id uuid,
+  p_reason text
+)
+returns void
+language plpgsql
+security definer
+set search_path to 'erp','public'
+as $function$
+declare
+  t record;
+  b record;
+  v_df numeric(20,2);
+  v_dc numeric(20,2);
+  v_do numeric(20,2);
+  v_event uuid:=gen_random_uuid();
+  v_journal uuid;
+  v_lines jsonb:='[]'::jsonb;
+  r record;v_acc jsonb:='{}'::jsonb;v_c numeric(20,2);v_o numeric(20,2);v_f numeric(20,2);
+  v_sc numeric(20,2):=0;v_so numeric(20,2):=0;v_end date;v_ev uuid;v_rf numeric;v_rc numeric;v_ro numeric;
+begin
+  perform erp.require_internal();
+  perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));
+  if nullif(btrim(p_trigger_source_type),'') is null
+     or nullif(btrim(p_reason),'') is null then
+    raise exception 'Non-PO HPP synchronization requires source and reason';
+  end if;
+  if exists(
+    select 1
+    from erp.product_conversion_allocations a
+    join erp.product_conversions c on c.id=a.conversion_id and c.status='POSTED'
+    join erp.fg_lots s on s.id=a.source_lot_id
+    join erp.fg_lots d on d.id=a.destination_lot_id
+    where(s.po_id is null or d.po_id is null)
+      and(s.product_id=p_product_id or d.product_id=p_product_id)
+  ) then
+    raise exception 'NON_PO_CONVERSION_REQUIRES_SOURCED_HPP_WORKFLOW';
+  end if;
+
+  select * into t
+  from erp.compute_non_po_product_hpp_targets_v2620f(p_product_id);
+  select * into b
+  from erp.compute_non_po_product_hpp_book_v2620f(p_product_id);
+  if abs(t.hpp_total_cost-b.hpp_total_cost)>0.005 then
+    raise exception 'NON_PO_HPP_SOURCE_VALUE_MISMATCH: product %, target total %, book total %',
+      p_product_id,t.hpp_total_cost,b.hpp_total_cost;
+  end if;
+
+  v_df:=round(t.fg_value-b.fg_value,2);
+  v_dc:=round(t.cogs_value-b.cogs_value,2);
+  v_do:=round(t.other_out_value-b.other_out_value,2);
+  if abs(v_df+v_dc+v_do)>0.005 then
+    raise exception 'NON_PO_HPP_DELTA_NOT_CONSERVED: product %, fg %, cogs %, other %',
+      p_product_id,v_df,v_dc,v_do;
+  end if;
+  if abs(v_df)<=0.005 and abs(v_dc)<=0.005 and abs(v_do)<=0.005 then
+    return;
+  end if;
+
+  -- AZ (handoff §23.7): on a late supplier invoice with an open date the COGS and other legs follow each piece: the change
+  -- of a lot's HPP in this statement (per piece) times its pieces sold (sales, returns, their reversals) or out otherwise
+  -- (adjustment, BS, relabel, their reversals) as of each day of those movements, never before the invoice date nor after
+  -- today; each day posts the change of those balances, FG balancing, and the last day takes the exact remainder. The FG
+  -- source leg of the opening lot itself (OPENING_HPP_SOURCE, at the invoice date) is unchanged: the lot exists since
+  -- cutover. Every other caller and a closed date post one journal on the caller's date, as before.
+  if erp.invoice_recost_economic_date_v1() is not null and (abs(v_dc)>0.005 or abs(v_do)>0.005)
+     and not exists(select 1 from erp.accounting_period_control c where c.singleton_id=1 and c.closed_through is not null and p_effective_date<=c.closed_through) then
+    for r in
+      with lots as(
+        select fl.id,
+          coalesce((select case when coalesce(hv.qty_basis_pcs,0)>0 then hv.total_cost/hv.qty_basis_pcs else 0 end
+            from erp.hpp_versions hv where hv.lot_id=fl.id and hv.is_current),0)
+          -coalesce((select case when coalesce(pv.qty_basis_pcs,0)>0 then pv.total_cost/pv.qty_basis_pcs else 0 end
+            from erp.hpp_versions pv where pv.lot_id=fl.id and pv.calculated_at<statement_timestamp()
+            order by pv.calculated_at desc,pv.version_no desc limit 1),0) dh
+        from erp.fg_lots fl where fl.product_id=p_product_id and fl.po_id is null
+          and fl.lot_origin not in('CONVERSION','VOIDED_PRODUCTION')
+      ), ev as(
+        select greatest(p_effective_date,least(erp._cp3_business_date(statement_timestamp()),erp._cp3_business_date(m.physical_at))) d,l.dh,
+          coalesce(o.movement_type,m.movement_type) k,m.qty_signed::numeric q
+        from erp.fg_stock_movements m join lots l on l.id=m.lot_id and l.dh<>0
+        left join erp.fg_stock_movements o on m.movement_type='REVERSAL' and o.id=m.reversal_of_id
+        where coalesce(o.movement_type,m.movement_type) in('SALE','SALE_RETURN','ADJUSTMENT','BS_OUT','REBRAND_OUT','REBRAND_IN')
+      )
+      select d,sum(sum(case when k in('SALE','SALE_RETURN') then -q*dh else 0 end)) over(order by d) c,
+        sum(sum(case when k in('SALE','SALE_RETURN') then 0 else -q*dh end)) over(order by d) o
+      from ev group by d order by d
+    loop
+      v_c:=round(r.c,2);v_o:=round(r.o,2);
+      v_acc:=v_acc||jsonb_build_object(r.d::text,jsonb_build_object('c',v_c-v_sc,'o',v_o-v_so));
+      v_sc:=v_c;v_so:=v_o;v_end:=greatest(coalesce(v_end,r.d),r.d);
+    end loop;
+    v_end:=coalesce(v_end,p_effective_date);
+    v_acc:=v_acc||jsonb_build_object(v_end::text,jsonb_build_object(
+      'c',coalesce((v_acc->(v_end::text)->>'c')::numeric,0)+v_dc-v_sc,
+      'o',coalesce((v_acc->(v_end::text)->>'o')::numeric,0)+v_do-v_so));
+    v_rf:=b.fg_value;v_rc:=b.cogs_value;v_ro:=b.other_out_value;
+    for r in select key::date d,value v from jsonb_each(v_acc) order by 1 loop
+      v_c:=(r.v->>'c')::numeric;v_o:=(r.v->>'o')::numeric;v_f:=-(v_c+v_o);
+      continue when abs(v_c)<=0.005 and abs(v_o)<=0.005;
+      v_lines:='[]'::jsonb;
+      if abs(v_f)>0.005 then v_lines:=v_lines||jsonb_build_array(jsonb_build_object('mapping_key','FG_INVENTORY',
+        'debit',greatest(v_f,0),'credit',greatest(-v_f,0),'product_id',p_product_id)); end if;
+      if abs(v_c)>0.005 then v_lines:=v_lines||jsonb_build_array(jsonb_build_object('mapping_key','COGS',
+        'debit',greatest(v_c,0),'credit',greatest(-v_c,0),'product_id',p_product_id)); end if;
+      -- The other bucket stays on the one account the single journal would use for the product's total other change.
+      if abs(v_o)>0.005 then v_lines:=v_lines||jsonb_build_array(jsonb_build_object('mapping_key',
+        case when v_do>0 then 'OTHER_EXPENSE' else 'OTHER_INCOME' end,
+        'debit',greatest(v_o,0),'credit',greatest(-v_o,0),'product_id',p_product_id)); end if;
+      v_ev:=gen_random_uuid();
+      v_journal:=erp.post_journal('NON_PO_HPP_GL_SYNC_V2620F',v_ev,r.d,
+        'Cumulative non-PO HPP redistribution · dated from the goods · '||p_reason,v_lines);
+      insert into erp.non_po_hpp_gl_sync_events_v2620f(
+        id,product_id,trigger_source_type,trigger_source_id,effective_date,
+        old_fg_value,new_fg_value,fg_delta,old_cogs_value,new_cogs_value,cogs_delta,
+        old_other_out_value,new_other_out_value,other_delta,journal_entry_id,reason,created_by
+      ) values(
+        v_ev,p_product_id,p_trigger_source_type,p_trigger_source_id,r.d,
+        v_rf,v_rf+v_f,v_f,v_rc,v_rc+v_c,v_c,v_ro,v_ro+v_o,v_o,v_journal,p_reason,erp.current_app_user_id());
+      v_rf:=v_rf+v_f;v_rc:=v_rc+v_c;v_ro:=v_ro+v_o;
+    end loop;
+    perform erp.assert_non_po_product_hpp_target_book_v2620f(p_product_id);
+    return;
+  end if;
+
+  if abs(v_df)>0.005 then
+    v_lines:=v_lines||jsonb_build_array(case when v_df>0
+      then jsonb_build_object('mapping_key','FG_INVENTORY','debit',v_df,
+        'credit',0,'product_id',p_product_id)
+      else jsonb_build_object('mapping_key','FG_INVENTORY','debit',0,
+        'credit',abs(v_df),'product_id',p_product_id) end);
+  end if;
+  if abs(v_dc)>0.005 then
+    v_lines:=v_lines||jsonb_build_array(case when v_dc>0
+      then jsonb_build_object('mapping_key','COGS','debit',v_dc,
+        'credit',0,'product_id',p_product_id)
+      else jsonb_build_object('mapping_key','COGS','debit',0,
+        'credit',abs(v_dc),'product_id',p_product_id) end);
+  end if;
+  if abs(v_do)>0.005 then
+    v_lines:=v_lines||jsonb_build_array(case when v_do>0
+      then jsonb_build_object('mapping_key','OTHER_EXPENSE','debit',v_do,
+        'credit',0,'product_id',p_product_id)
+      else jsonb_build_object('mapping_key','OTHER_INCOME','debit',0,
+        'credit',abs(v_do),'product_id',p_product_id) end);
+  end if;
+
+  v_journal:=erp.post_journal(
+    'NON_PO_HPP_GL_SYNC_V2620F',v_event,p_effective_date,
+    'Cumulative non-PO HPP redistribution · '||p_reason,v_lines
+  );
+  insert into erp.non_po_hpp_gl_sync_events_v2620f(
+    id,product_id,trigger_source_type,trigger_source_id,effective_date,
+    old_fg_value,new_fg_value,fg_delta,
+    old_cogs_value,new_cogs_value,cogs_delta,
+    old_other_out_value,new_other_out_value,other_delta,
+    journal_entry_id,reason,created_by
+  ) values(
+    v_event,p_product_id,p_trigger_source_type,p_trigger_source_id,
+    p_effective_date,b.fg_value,t.fg_value,v_df,
+    b.cogs_value,t.cogs_value,v_dc,
+    b.other_out_value,t.other_out_value,v_do,
+    v_journal,p_reason,erp.current_app_user_id()
+  );
+  perform erp.assert_non_po_product_hpp_target_book_v2620f(p_product_id);
+end
+$function$;
+CREATE OR REPLACE FUNCTION erp.refresh_accessory_hpp_after_material_recost(p_material_id uuid, p_reason text DEFAULT 'Accessory historical moving-average recost'::text)
+ RETURNS integer
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO 'erp', 'public', 'pg_temp'
+AS $function$
+declare
+  v_category uuid;
+  r record;
+  v_new numeric(18,6);
+  v_changed integer:=0;
+  v_po uuid;
+  v_rev uuid;v_old numeric;v_newtot numeric;v_d numeric;v_lot uuid;v_lot_po uuid;v_prod uuid;v_lotday date;v_e date;v_date date;
+begin
+  perform erp.require_internal();
+  select accessory_category_id into v_category from erp.materials where id=p_material_id and material_type='ACCESSORY';
+  if v_category is null then return 0; end if;
+  perform pg_advisory_xact_lock(hashtextextended('ACCESSORY_HPP_CATEGORY|'||v_category::text,0));
+
+  create temporary table if not exists pg_temp.erp_accessory_hpp_changed_pos(po_id uuid primary key) on commit drop;
+  truncate pg_temp.erp_accessory_hpp_changed_pos;
+
+  for r in
+    select s.id,s.po_id,s.costing_basis_at,s.category_avg_cost_base_snapshot,s.hpp_unit_cost_base_snapshot
+    from erp.fg_accessory_cost_snapshots s
+    where s.category_id=v_category and s.hpp_method='CATEGORY_MOVING_AVG'
+    order by s.costing_basis_at,s.id
+    for update
+  loop
+    v_new:=erp.accessory_category_weighted_avg_cost_at(v_category,r.costing_basis_at);
+    if v_new is null then
+      raise exception 'Historical accessory recost would remove the valuation basis for FG accessory snapshot %. Correct/reverse the upstream inventory event first.',r.id;
+    end if;
+    if abs(v_new-r.hpp_unit_cost_base_snapshot)>0.000001 then
+      insert into erp.fg_accessory_cost_revisions(snapshot_id,material_id,old_category_avg_cost,new_category_avg_cost,old_hpp_unit_cost,new_hpp_unit_cost,reason,changed_by)
+      values(r.id,p_material_id,r.category_avg_cost_base_snapshot,v_new,r.hpp_unit_cost_base_snapshot,v_new,coalesce(nullif(trim(p_reason),''),'Accessory historical moving-average recost'),erp.current_app_user_id())
+      returning id into v_rev;
+      select total_hpp_cost,lot_id into v_old,v_lot from erp.fg_accessory_cost_snapshots where id=r.id;
+      update erp.fg_accessory_cost_snapshots
+      set category_avg_cost_base_snapshot=v_new,hpp_unit_cost_base_snapshot=v_new
+      where id=r.id;
+      -- AZ (independent review of AY rev7): the lot's accessory HPP entered WIP once, with the accrual
+      -- (ACCESSORY_REIMBURSE_ACCRUAL: WIP against the Mandor reimbursement and its variance); the PO HPP sync below moves the
+      -- change of that HPP out of WIP, so an accrued lot's change enters WIP against the reimbursement variance (the
+      -- reimbursement itself is fixed), dated as the sync dates it: the lot day (never before the invoice date, never after
+      -- today) on a late invoice with an open date, the invoice date when closed, today otherwise.
+      select total_hpp_cost into v_newtot from erp.fg_accessory_cost_snapshots where id=r.id;
+      v_d:=round(coalesce(v_newtot,0)-coalesce(v_old,0),2);
+      if abs(v_d)>0.005 and exists(select 1 from erp.journal_entries where source_type='ACCESSORY_REIMBURSE_ACCRUAL'
+                                     and source_id=v_lot and status='POSTED') then
+        select fl.po_id,fl.product_id,erp._cp3_business_date(fl.produced_at) into v_lot_po,v_prod,v_lotday from erp.fg_lots fl where fl.id=v_lot;
+        v_e:=erp.invoice_recost_economic_date_v1();
+        v_date:=case when v_e is null then erp._cp3_business_date(statement_timestamp())
+                     when exists(select 1 from erp.accounting_period_control c where c.singleton_id=1 and c.closed_through is not null and v_e<=c.closed_through) then v_e
+                     else least(greatest(v_e,v_lotday),erp._cp3_business_date(statement_timestamp())) end;
+        perform erp.post_journal('ACCESSORY_HPP_RECOST',v_rev,v_date,'Accessory HPP recost of an accrued lot: WIP against the reimbursement variance',
+          jsonb_build_array(
+            jsonb_build_object('mapping_key','WIP','debit',greatest(v_d,0),'credit',greatest(-v_d,0),'po_id',v_lot_po,'product_id',v_prod),
+            jsonb_build_object('mapping_key','ACCESSORY_REIMBURSE_VARIANCE','debit',greatest(-v_d,0),'credit',greatest(v_d,0),'po_id',v_lot_po,'product_id',v_prod)));
+      end if;
+      insert into pg_temp.erp_accessory_hpp_changed_pos(po_id) values(r.po_id) on conflict do nothing;
+      v_changed:=v_changed+1;
+    end if;
+  end loop;
+
+  for v_po in select po_id from pg_temp.erp_accessory_hpp_changed_pos order by po_id loop
+    perform erp.rebuild_po_hpp(v_po,'Accessory moving-average recost: '||coalesce(nullif(trim(p_reason),''),'historical material recost'));
+    perform erp.propagate_conversion_hpp_for_po(v_po);
+    perform erp.sync_po_hpp_to_gl(v_po,((statement_timestamp() AT TIME ZONE 'Asia/Jakarta'::text))::date);
+  end loop;
+  return v_changed;
+end;
+$function$;
+CREATE OR REPLACE FUNCTION erp._recalculate_material_cost_core(p_material_id uuid, p_recalc_from timestamp with time zone, p_allow_checkpoint boolean)
+ RETURNS void
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO 'erp', 'public'
+AS $function$
+declare
+  r erp.material_stock_movements%rowtype;
+  rr record;
+  v_stock numeric(18,6):=0;
+  v_avg numeric(18,6):=0;
+  v_stock_before numeric(18,6);
+  v_avg_before numeric(18,6);
+  v_cost numeric(18,6);
+  v_new_stock numeric(18,6);
+  v_new_avg numeric(18,6);
+  v_closed date;
+  v_cp erp.material_cost_checkpoints%rowtype;
+  v_use_checkpoint boolean:=false;
+  v_cutoff timestamptz;
+  v_transfer_pairs jsonb;
+  v_transfer_rows bigint;
+  v_transfer_pair_count bigint;
+  v_location_minimum numeric;
+  v_invoice_date date;
+  v_queue record;
+begin
+  perform erp.require_internal();
+  select closed_through into v_closed from erp.accounting_period_control where singleton_id=1 for share;
+  perform 1 from erp.materials where id=p_material_id for update;
+  if not found then raise exception 'Material not found'; end if;
+
+  with active as (
+    select m.*,row_number() over(partition by m.source_id,m.roll_id,m.physical_at,
+        abs(m.qty_signed),m.movement_type order by m.system_created_at,m.id) ordinal
+    from erp.material_stock_movements m
+    where m.material_id=p_material_id and m.source_type='MATERIAL_TRANSFER'
+      and m.reversal_of_id is null
+      and not exists(select 1 from erp.material_stock_movements rv where rv.reversal_of_id=m.id)
+  ), pairs as (
+    select i.id incoming,o.id outgoing
+    from active i join active o on o.source_id=i.source_id
+      and o.roll_id is not distinct from i.roll_id and o.physical_at=i.physical_at
+      and o.qty_signed=-i.qty_signed and o.ordinal=i.ordinal
+      and o.movement_type='TRANSFER_OUT' and o.qty_signed<0
+    where i.movement_type='TRANSFER_IN' and i.qty_signed>0
+      and (o.physical_at,o.system_created_at,o.id)<(i.physical_at,i.system_created_at,i.id)
+      and o.location_id<>i.location_id
+  )
+  select coalesce((select jsonb_object_agg(incoming::text,outgoing::text) from pairs),'{}'::jsonb),
+    (select count(*) from active),(select count(*) from pairs)
+  into v_transfer_pairs,v_transfer_rows,v_transfer_pair_count;
+  if v_transfer_rows<>2*v_transfer_pair_count then
+    raise exception 'AM_TRANSFER_PAIR_LINEAGE_UNPROVEN for material %',p_material_id;
+  end if;
+
+  -- The cost engine excludes a source and its linked inverse together. Apply
+  -- the identical effective-history rule at each physical location/roll too;
+  -- this preserves atomic receipt replacement and existing cancellation rules.
+  select min(prefix) into v_location_minimum from (
+    select sum(m.qty_signed) over(partition by m.location_id,m.roll_id
+      order by m.physical_at,coalesce(o.system_created_at,m.system_created_at),
+        coalesce(o.id,m.id),(o.id is not null) rows unbounded preceding) prefix
+    from erp.material_stock_movements m
+    left join erp.material_stock_movements o on o.id=(v_transfer_pairs->>m.id::text)::uuid
+    where m.material_id=p_material_id and m.reversal_of_id is null
+      and not exists(select 1 from erp.material_stock_movements rv where rv.reversal_of_id=m.id)
+  ) effective_history;
+  if v_location_minimum<0 then
+    raise exception 'AM_BACKDATE_WOULD_CREATE_NEGATIVE_LOCATION_ROLL_HISTORY for material %',p_material_id;
+  end if;
+
+  if p_allow_checkpoint and p_recalc_from is not null and v_closed is not null then
+    select * into v_cp from erp.material_cost_checkpoints where material_id=p_material_id;
+    if v_cp.material_id is not null
+       and v_cp.checkpoint_date<=v_closed
+       and erp._cp3_business_date(p_recalc_from)>v_cp.checkpoint_date then
+      v_cutoff:=((v_cp.checkpoint_date+1)::timestamp at time zone 'Asia/Jakarta');
+
+  if exists(
+    with history as (
+      select msm.id,msm.qty_signed,msm.unit_cost_snapshot,msm.movement_type,msm.source_type,
+        h.movement_id,h.stock_before,h.stock_after,h.average_before,h.average_after,
+        h.movement_qty,h.movement_unit_cost,paired_out.unit_cost_snapshot paired_cost,
+        sum(msm.qty_signed) over w expected_stock,
+        lag(h.average_after,1,0::numeric) over w previous_average
+      from erp.material_stock_movements msm
+      left join erp.material_cost_history h on h.movement_id=msm.id and h.material_id=msm.material_id
+      left join erp.material_stock_movements paired_out on paired_out.id=(v_transfer_pairs->>msm.id::text)::uuid
+      where msm.material_id=p_material_id and msm.physical_at<v_cutoff
+        and msm.reversal_of_id is null
+        and not exists(select 1 from erp.material_stock_movements rv where rv.reversal_of_id=msm.id)
+      window w as(order by msm.physical_at,coalesce(paired_out.system_created_at,msm.system_created_at),
+        coalesce(paired_out.id,msm.id),(paired_out.id is not null) rows unbounded preceding)
+    )
+    select 1 from history where movement_id is null
+      or movement_qty is distinct from qty_signed
+      or movement_unit_cost is distinct from unit_cost_snapshot
+      or stock_before is distinct from expected_stock-qty_signed
+      or stock_after is distinct from expected_stock
+      or average_before is distinct from previous_average
+      or (qty_signed<0 and movement_unit_cost is distinct from average_before)
+      or (movement_type='TRANSFER_IN' and source_type='MATERIAL_TRANSFER'
+          and movement_unit_cost is distinct from paired_cost)
+      or average_after is distinct from case
+        when stock_after=0 then 0
+        when qty_signed<0 then average_before
+        else round((stock_before*average_before+qty_signed*movement_unit_cost)/nullif(stock_after,0),6)
+      end
+  ) then
+    raise exception 'AM_LEGACY_COST_CHECKPOINT_REQUIRES_HISTORY_REVIEW for material %',p_material_id;
+  end if;
+
+      v_use_checkpoint:=true;
+      v_stock:=v_cp.stock_qty;
+      v_avg:=v_cp.moving_average_cost;
+    end if;
+  end if;
+
+  if v_use_checkpoint then
+    if v_cp.last_movement_id is null then
+      delete from erp.material_cost_history where material_id=p_material_id;
+    else
+      delete from erp.material_cost_history h
+      using erp.material_stock_movements msm
+      where h.material_id=p_material_id and h.movement_id=msm.id
+        and erp._cp3_business_date(msm.physical_at)>v_cp.checkpoint_date;
+    end if;
+  else
+    delete from erp.material_cost_history where material_id=p_material_id;
+  end if;
+
+  for r in
+    select msm.* from erp.material_stock_movements msm
+  left join erp.material_stock_movements paired_out
+    on paired_out.id=(v_transfer_pairs->>msm.id::text)::uuid
+    where msm.material_id=p_material_id
+      and msm.reversal_of_id is null
+      and not exists(select 1 from erp.material_stock_movements rv where rv.reversal_of_id=msm.id)
+      and (
+        not v_use_checkpoint
+        or v_cp.last_movement_id is null
+        or erp._cp3_business_date(msm.physical_at)>v_cp.checkpoint_date
+      )
+    order by msm.physical_at,coalesce(paired_out.system_created_at,msm.system_created_at),
+      coalesce(paired_out.id,msm.id),(paired_out.id is not null)
+    for update of msm
+  loop
+    v_stock_before:=v_stock;
+    v_avg_before:=v_avg;
+    if r.qty_signed>0 then
+      if r.movement_type='TRANSFER_IN' and r.source_type='MATERIAL_TRANSFER' then
+        -- The paired OUT must already have been replayed (or retained by the
+        -- closed-period checkpoint). Its historical cost is the incoming cost,
+        -- including a transfer of the entire balance that temporarily hits 0.
+        select o.unit_cost_snapshot into v_cost
+        from erp.material_stock_movements o
+        join erp.material_cost_history h on h.movement_id=o.id and h.material_id=o.material_id
+        where o.id=(v_transfer_pairs->>r.id::text)::uuid and o.material_id=p_material_id
+          and o.is_cost_recalculated;
+        if not found or v_cost is null then
+          raise exception 'AM_TRANSFER_OUT_COST_NOT_REPLAYED for movement %',r.id;
+        end if;
+      elsif r.movement_type='REVERSAL' and r.reversal_of_id is not null then
+        select x.unit_cost_snapshot into v_cost from erp.material_stock_movements x where x.id=r.reversal_of_id;
+        v_cost:=coalesce(v_cost,r.input_unit_cost,r.unit_cost_snapshot,v_avg);
+      elsif r.movement_type='CUTTING_RETURN' and r.source_type='CUTTING_GROUP_RETURN' then
+        select x.unit_cost_snapshot into v_cost
+        from erp.material_stock_movements x
+        where x.material_id=r.material_id
+          and x.source_type='CUTTING_GROUP' and x.source_id=r.source_id
+          and x.movement_type='CUTTING_ISSUE'
+          and x.roll_id is not distinct from r.roll_id
+        order by x.physical_at desc,x.system_created_at desc,x.id desc limit 1;
+        v_cost:=coalesce(v_cost,r.input_unit_cost,r.unit_cost_snapshot,v_avg);
+      else
+        v_cost:=coalesce(r.input_unit_cost,r.unit_cost_snapshot,v_avg);
+      end if;
+      v_new_stock:=v_stock+r.qty_signed;
+      if v_new_stock>0 then
+        v_new_avg:=((v_stock*v_avg)+(r.qty_signed*v_cost))/v_new_stock;
+      else
+        v_new_avg:=0;
+      end if;
+    else
+      v_new_stock:=v_stock+r.qty_signed;
+      if v_new_stock<0 then
+        raise exception 'Backdate/correction would create negative material stock for material %, movement %',p_material_id,r.id;
+      end if;
+      v_cost:=v_avg;
+      v_new_avg:=case when v_new_stock=0 then 0 else v_avg end;
+    end if;
+
+    update erp.material_stock_movements
+    set original_unit_cost_snapshot=coalesce(original_unit_cost_snapshot,v_cost),
+        unit_cost_snapshot=v_cost,
+        is_cost_recalculated=true
+    where id=r.id;
+
+    insert into erp.material_cost_history(material_id,movement_id,physical_at,stock_before,average_before,movement_qty,movement_unit_cost,stock_after,average_after)
+    values(p_material_id,r.id,r.physical_at,v_stock_before,v_avg_before,r.qty_signed,v_cost,v_new_stock,v_new_avg);
+    v_stock:=v_new_stock;
+    v_avg:=v_new_avg;
+  end loop;
+
+  for rr in
+    select mr.id as roll_id,coalesce(sum(msm.qty_signed),0)::numeric as roll_qty
+    from erp.material_rolls mr
+    left join erp.material_stock_movements msm on msm.roll_id=mr.id
+    where mr.material_id=p_material_id
+    group by mr.id
+  loop
+    if rr.roll_qty<0 then raise exception 'Correction would create negative roll stock for roll %',rr.roll_id; end if;
+    update erp.material_rolls
+    set cached_qty=rr.roll_qty,
+        status=case when rr.roll_qty=0 then 'EXHAUSTED' when rr.roll_qty<original_qty then 'HALF_USED' else 'AVAILABLE' end,
+        updated_at=statement_timestamp()
+    where id=rr.roll_id and status<>'RETURNED_SUPPLIER';
+  end loop;
+
+  update erp.cutting_group_rolls cgr
+  set unit_cost_snapshot=(
+    select msm.unit_cost_snapshot
+    from erp.material_stock_movements msm
+    where msm.material_id=p_material_id and msm.source_type='CUTTING_GROUP'
+      and msm.source_id=cgr.cutting_group_id and msm.movement_type='CUTTING_ISSUE'
+      and msm.roll_id is not distinct from cgr.roll_id
+    order by msm.physical_at desc,msm.system_created_at desc,msm.id desc limit 1
+  )
+  where exists(
+    select 1 from erp.material_stock_movements msm
+    where msm.material_id=p_material_id and msm.source_type='CUTTING_GROUP'
+      and msm.source_id=cgr.cutting_group_id and msm.movement_type='CUTTING_ISSUE'
+      and msm.roll_id is not distinct from cgr.roll_id
+  );
+
+  update erp.contractor_material_issue_items ii
+  set unit_cost_snapshot=(
+    select msm.unit_cost_snapshot from erp.material_stock_movements msm
+    where msm.material_id=p_material_id and msm.source_type='CONTRACTOR_MATERIAL_ISSUE_ITEM'
+      and msm.source_id=ii.id and msm.movement_type='CONTRACTOR_ISSUE'
+    order by msm.physical_at desc,msm.system_created_at desc,msm.id desc limit 1
+  )
+  where ii.material_id=p_material_id and exists(
+    select 1 from erp.material_stock_movements msm
+    where msm.material_id=p_material_id and msm.source_type='CONTRACTOR_MATERIAL_ISSUE_ITEM'
+      and msm.source_id=ii.id and msm.movement_type='CONTRACTOR_ISSUE'
+  );
+
+  update erp.materials set cached_stock_qty=v_stock,moving_average_cost=v_avg,updated_at=statement_timestamp() where id=p_material_id;
+
+  perform erp.sync_material_cost_revaluation(p_material_id);
+
+  insert into erp.cost_recalc_queue(entity_type,entity_id,recalc_from,reason)
+  select distinct 'PO',cg.po_id,min(msm.physical_at),'Material moving-average/backdate recalculation'
+  from erp.material_stock_movements msm
+  join erp.cutting_groups cg0 on msm.source_type in('CUTTING_GROUP','CUTTING_GROUP_RETURN') and msm.source_id=cg0.id
+  -- AZ (independent review of AY rev7): every PO of the cutting batch; erp.rebuild_po_hpp pools cutting material over it.
+  join erp.cutting_groups cg on cg.id=cg0.id or (cg0.cutting_batch_id is not null and cg.cutting_batch_id=cg0.cutting_batch_id)
+  where msm.material_id=p_material_id
+    and exists(select 1 from erp.fg_lots fl where fl.po_id=cg.po_id)
+    and not exists(select 1 from erp.cost_recalc_queue q where q.entity_type='PO' and q.entity_id=cg.po_id and (q.status in('PENDING','RUNNING') or (q.status='FAILED' and q.attempt_count<3)))
+  group by cg.po_id;
+
+  insert into erp.cost_recalc_queue(entity_type,entity_id,recalc_from,reason)
+  select distinct 'PO',cmi.po_id,min(msm.physical_at),'Contractor material moving-average/backdate recalculation'
+  from erp.material_stock_movements msm
+  join erp.contractor_material_issue_items ii on msm.source_type='CONTRACTOR_MATERIAL_ISSUE_ITEM' and msm.source_id=ii.id
+  join erp.contractor_material_issues cmi on cmi.id=ii.issue_id
+  where msm.material_id=p_material_id and cmi.po_id is not null
+    and exists(select 1 from erp.fg_lots fl where fl.po_id=cmi.po_id)
+    and not exists(select 1 from erp.cost_recalc_queue q where q.entity_type='PO' and q.entity_id=cmi.po_id and (q.status in('PENDING','RUNNING') or (q.status='FAILED' and q.attempt_count<3)))
+  group by cmi.po_id;
+
+  insert into erp.audit_logs(entity_type,entity_id,action,new_data,changed_by,change_reason)
+  values('materials',p_material_id,'RECALCULATE',jsonb_build_object('cached_stock_qty',v_stock,'moving_average_cost',v_avg,'original_movement_snapshots_preserved',true,'gl_revaluation_synced',true,'checkpoint_used',v_use_checkpoint,'recalc_from',p_recalc_from),erp.current_app_user_id(),'Material chronological moving-average recalculation');
+
+  perform erp.refresh_accessory_hpp_after_material_recost(p_material_id,'Material chronological moving-average recalculation');
+
+  v_invoice_date:=erp.invoice_recost_economic_date_v1();
+  if v_invoice_date is not null then
+    for v_queue in
+      select q.* from erp.cost_recalc_queue q where q.entity_type='PO'
+        and q.status in('PENDING','FAILED')
+        and q.entity_id in(
+          select cg.po_id from erp.cutting_groups cg0 join erp.material_stock_movements m
+            on m.source_type in('CUTTING_GROUP','CUTTING_GROUP_RETURN') and m.source_id=cg0.id
+          join erp.cutting_groups cg on cg.id=cg0.id or (cg0.cutting_batch_id is not null and cg.cutting_batch_id=cg0.cutting_batch_id)
+          where m.material_id=p_material_id
+          union select i.po_id from erp.contractor_material_issues i join erp.contractor_material_issue_items l on l.issue_id=i.id
+            where l.material_id=p_material_id and i.po_id is not null
+        ) order by q.entity_id,q.queued_at,q.id for update
+    loop
+      perform erp.rebuild_po_hpp(v_queue.entity_id,v_queue.reason);
+      perform erp.propagate_conversion_hpp_for_po(v_queue.entity_id);
+      perform erp.sync_po_hpp_to_gl(v_queue.entity_id,v_invoice_date);
+      if exists(select 1 from erp.production_orders where id=v_queue.entity_id and status='FINISHED') then
+        perform erp.sync_finished_po_wip_residual(v_queue.entity_id,v_invoice_date,'Invoice-date material correction');
+      end if;
+      update erp.cost_recalc_queue set status='DONE',started_at=statement_timestamp(),completed_at=statement_timestamp(),
+        last_attempt_at=statement_timestamp(),attempt_count=attempt_count+1,error_message=null,next_attempt_at=null where id=v_queue.id;
+    end loop;
+  end if;
+
+  if not v_use_checkpoint and v_closed is not null then
+    perform erp.refresh_material_cost_checkpoint(p_material_id,v_closed);
+  end if;
+end;
+$function$;
 insert into erp.schema_migrations(version,description) values('v2.6.20az','T1_FAMILY development install of AZ (material recost corrections dated from the physical movement); not a release package');
 commit;
