@@ -974,8 +974,8 @@
       "name": "erp_v2_6_20ay_cp6_hpp_dated_from_goods",
       "closed_admission": true,
       "source": "supabase/release/cp6-t3-src/20260924010200_erp_v2_6_20ay_cp6_hpp_dated_from_goods.sql",
-      "source_sha256": "f6329ebd307dec59e80a766f2cefd890ab5344feaa8058d68c692dbc59720211",
-      "package_sha256": "d37987de9c990bcce6bd9f36f071f806a4354697384a92a3163ec47429762661",
+      "source_sha256": "702b21ddb3370eecb6f01ca28b6eb3543de02dc4d2525c0d9daef1fc53da5a5e",
+      "package_sha256": "91908d03649afe0310f6b962de48380ec28b274b6288b8a0b1d4577dc42102ff",
       "substitutions": [
         {
           "kind": "LEDGER",
@@ -1166,8 +1166,8 @@
       "name": "erp_v2_6_20az_cp6_material_recost_dated_from_movement",
       "closed_admission": true,
       "source": "supabase/release/cp6-t3-src/20260924010300_erp_v2_6_20az_cp6_material_recost_dated_from_movement.sql",
-      "source_sha256": "839c12fae4837a8b20599a6e3e9ea6052d3e6dcc06666600b83bfd41a5956b54",
-      "package_sha256": "ffaea8ce948019ec6ae875fddc0d01497ce459122c98edad56b6910aa8179449",
+      "source_sha256": "6e14b6c8c055b4ba1632b9e505ee69fcfe6a059f1448f84edb25bf5187904b28",
+      "package_sha256": "8c996ff12a51a04509161d4190e4e039f8d46cf5ae3b07f9afee22a523e446e4",
       "substitutions": [
         {
           "kind": "LEDGER",
@@ -1367,7 +1367,7 @@
   "rollbacks": "NOT_TESTED",
   "pins": {
     "file": "docs/evidence/cp6-t3/release_pins.json",
-    "blob_sha256": "a776e0667cdc74e928c77af91c18a0ef5e45baa9e9c5073d2cbe0e307d4f6740",
+    "blob_sha256": "4eaa1c17d03dbc48862419cb94b1c56a3b20d69fac7ec75d576785725cc3d097",
     "blob_bytes": 65237
   }
 }

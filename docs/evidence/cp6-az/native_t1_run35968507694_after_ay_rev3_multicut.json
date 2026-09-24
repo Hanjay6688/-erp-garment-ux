@@ -1,0 +1,3050 @@
+{
+ "label": "T1_FAMILY",
+ "run": 35968507694,
+ "head": "e690eef",
+ "phase": "after",
+ "production_go": false,
+ "release_evidence": false,
+ "note": "AY rev3 + AZ: MULTI_CUT_HIGHER/LOWER COUNTEREXAMPLE (independent review finding #3 proven natively); fixed by AY rev4, see run 35969287098",
+ "lines": [
+  {
+   "az_probe_setup": {
+    "au_install": "PASS",
+    "av_install": "PASS",
+    "ay_install": {
+     "stage": "AV_PLUS_AW_AX_AY_T1",
+     "label": "T1_FAMILY",
+     "functions": 13,
+     "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+     "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+     "av_coverage": {
+      "registry": {
+       "erp.fg_lots.product_id": {
+        "class": "NEW_STOCK_FACT",
+        "reason": "produced_at of every lot except GOOD returned by rework"
+       },
+       "erp.bs_cases.product_id": {
+        "class": "NEW_STOCK_FACT",
+        "reason": "physical_at of QC/laundry BS and manual OUT_OF_NOWHERE BS"
+       },
+       "erp.sales_items.product_id": {
+        "class": "SALES",
+        "reason": "Sale of existing stock"
+       },
+       "erp.journal_lines.product_id": {
+        "class": "ACCOUNTING",
+        "reason": "Journal dimension"
+       },
+       "erp.fg_stock_movements.product_id": {
+        "class": "MOVEMENT",
+        "reason": "Movement of an existing lot"
+       },
+       "erp.sales_return_items.product_id": {
+        "class": "SALES",
+        "reason": "Return of sold stock"
+       },
+       "erp.fg_adjustment_items.product_id": {
+        "class": "MOVEMENT",
+        "reason": "Adjusts an existing lot"
+       },
+       "erp.fg_inventory_balances.product_id": {
+        "class": "DERIVED",
+        "reason": "Balance cache keyed by product/location/grade"
+       },
+       "erp.opening_balance_items.product_id": {
+        "class": "SOURCE_DOCUMENT",
+        "reason": "Opening document; facts are OPENING lots and LEGACY BS"
+       },
+       "erp.stock_policy_versions.product_id": {
+        "class": "MASTER",
+        "reason": "Effective-dated stock policy"
+       },
+       "erp.accessory_bom_versions.product_id": {
+        "class": "MASTER",
+        "reason": "Effective-dated accessory BOM; no stock instant"
+       },
+       "erp.product_conversions.to_product_id": {
+        "class": "SOURCE_DOCUMENT",
+        "reason": "Conversion target; the fact is the CONVERSION lot in fg_lots"
+       },
+       "erp.product_price_versions.product_id": {
+        "class": "MASTER",
+        "reason": "Effective-dated price"
+       },
+       "erp.product_conversions.from_product_id": {
+        "class": "SOURCE_DOCUMENT",
+        "reason": "Conversion source, validated as EXISTING_STOCK"
+       },
+       "erp.qc_inspection_items.final_product_id": {
+        "class": "SOURCE_DOCUMENT",
+        "reason": "QC input; the facts are fg_lots and bs_cases"
+       },
+       "erp.fg_accessory_cost_snapshots.product_id": {
+        "class": "DERIVED",
+        "reason": "Cost snapshot of an FG lot"
+       },
+       "erp.po_accessory_bom_commitments.product_id": {
+        "class": "MASTER",
+        "reason": "PO accessory BOM commitment"
+       },
+       "erp.stock_explainability_snapshots.product_id": {
+        "class": "REPORT",
+        "reason": "Stock explanation snapshot"
+       },
+       "erp.non_po_hpp_gl_sync_events_v2620f.product_id": {
+        "class": "ACCOUNTING",
+        "reason": "HPP to GL synchronisation event"
+       },
+       "erp.laundry_receipt_batch_size_lines.bs_product_id": {
+        "class": "SOURCE_DOCUMENT",
+        "reason": "Laundry receipt input; the BS fact is bs_cases"
+       },
+       "erp.product_identity_mutation_context_v1.product_id": {
+        "class": "AUTHORIZATION",
+        "reason": "Private one-use identity edit context"
+       },
+       "erp.laundry_receipt_bs_product_allocations.product_id": {
+        "class": "SOURCE_DOCUMENT",
+        "reason": "Validated as NEW_STOCK; the BS fact is bs_cases"
+       },
+       "erp.contractor_accessory_reimbursement_entitlements.product_id": {
+        "class": "DERIVED",
+        "reason": "Accounting entitlement of an FG lot"
+       }
+      },
+      "references": 23,
+      "new_stock_fact_tables": [
+       "bs_cases",
+       "fg_lots"
+      ]
+     },
+     "ay_sql_sha256": "bbecb24e4d3e79e77b63a25d2e3cd141da51fc996de3a5f0cefcd8407611bb6c"
+    },
+    "az_install": {
+     "stage": "AV_PLUS_AW_AX_AY_AZ_T1",
+     "label": "T1_FAMILY",
+     "functions": 13,
+     "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+     "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+     "av_coverage": {
+      "registry": {
+       "erp.fg_lots.product_id": {
+        "class": "NEW_STOCK_FACT",
+        "reason": "produced_at of every lot except GOOD returned by rework"
+       },
+       "erp.bs_cases.product_id": {
+        "class": "NEW_STOCK_FACT",
+        "reason": "physical_at of QC/laundry BS and manual OUT_OF_NOWHERE BS"
+       },
+       "erp.sales_items.product_id": {
+        "class": "SALES",
+        "reason": "Sale of existing stock"
+       },
+       "erp.journal_lines.product_id": {
+        "class": "ACCOUNTING",
+        "reason": "Journal dimension"
+       },
+       "erp.fg_stock_movements.product_id": {
+        "class": "MOVEMENT",
+        "reason": "Movement of an existing lot"
+       },
+       "erp.sales_return_items.product_id": {
+        "class": "SALES",
+        "reason": "Return of sold stock"
+       },
+       "erp.fg_adjustment_items.product_id": {
+        "class": "MOVEMENT",
+        "reason": "Adjusts an existing lot"
+       },
+       "erp.fg_inventory_balances.product_id": {
+        "class": "DERIVED",
+        "reason": "Balance cache keyed by product/location/grade"
+       },
+       "erp.opening_balance_items.product_id": {
+        "class": "SOURCE_DOCUMENT",
+        "reason": "Opening document; facts are OPENING lots and LEGACY BS"
+       },
+       "erp.stock_policy_versions.product_id": {
+        "class": "MASTER",
+        "reason": "Effective-dated stock policy"
+       },
+       "erp.accessory_bom_versions.product_id": {
+        "class": "MASTER",
+        "reason": "Effective-dated accessory BOM; no stock instant"
+       },
+       "erp.product_conversions.to_product_id": {
+        "class": "SOURCE_DOCUMENT",
+        "reason": "Conversion target; the fact is the CONVERSION lot in fg_lots"
+       },
+       "erp.product_price_versions.product_id": {
+        "class": "MASTER",
+        "reason": "Effective-dated price"
+       },
+       "erp.product_conversions.from_product_id": {
+        "class": "SOURCE_DOCUMENT",
+        "reason": "Conversion source, validated as EXISTING_STOCK"
+       },
+       "erp.qc_inspection_items.final_product_id": {
+        "class": "SOURCE_DOCUMENT",
+        "reason": "QC input; the facts are fg_lots and bs_cases"
+       },
+       "erp.fg_accessory_cost_snapshots.product_id": {
+        "class": "DERIVED",
+        "reason": "Cost snapshot of an FG lot"
+       },
+       "erp.po_accessory_bom_commitments.product_id": {
+        "class": "MASTER",
+        "reason": "PO accessory BOM commitment"
+       },
+       "erp.stock_explainability_snapshots.product_id": {
+        "class": "REPORT",
+        "reason": "Stock explanation snapshot"
+       },
+       "erp.non_po_hpp_gl_sync_events_v2620f.product_id": {
+        "class": "ACCOUNTING",
+        "reason": "HPP to GL synchronisation event"
+       },
+       "erp.laundry_receipt_batch_size_lines.bs_product_id": {
+        "class": "SOURCE_DOCUMENT",
+        "reason": "Laundry receipt input; the BS fact is bs_cases"
+       },
+       "erp.product_identity_mutation_context_v1.product_id": {
+        "class": "AUTHORIZATION",
+        "reason": "Private one-use identity edit context"
+       },
+       "erp.laundry_receipt_bs_product_allocations.product_id": {
+        "class": "SOURCE_DOCUMENT",
+        "reason": "Validated as NEW_STOCK; the BS fact is bs_cases"
+       },
+       "erp.contractor_accessory_reimbursement_entitlements.product_id": {
+        "class": "DERIVED",
+        "reason": "Accounting entitlement of an FG lot"
+       }
+      },
+      "references": 23,
+      "new_stock_fact_tables": [
+       "bs_cases",
+       "fg_lots"
+      ]
+     },
+     "ay_sql_sha256": "bbecb24e4d3e79e77b63a25d2e3cd141da51fc996de3a5f0cefcd8407611bb6c",
+     "az_sql_sha256": "823fe2bbf072d543216f65c846188893ca6bec9455c17b5b93deae26c0ef5f0a"
+    }
+   }
+  },
+  {
+   "group": "AZ_CASES_AFTER",
+   "case": "AZ:ONE_CUT_LOWER",
+   "status": "PASS",
+   "price": "8.25",
+   "receipt_day": "2026-09-21",
+   "invoice_date": "2026-09-21",
+   "cuts": [
+    [
+     "2026-09-22",
+     10
+    ]
+   ],
+   "adjustments": [],
+   "closed_through": null,
+   "checks": {
+    "revaluation_events_created": true,
+    "revaluation_event_totals": true,
+    "supplier_invoice_on_invoice_date": true,
+    "revaluation_on_cutting_day": true,
+    "material_before_cut_at_invoice_price": true,
+    "wip_po_never_negative": true,
+    "wip_po_zero_before_its_cut": true,
+    "no_negative_daily_inventory": true
+   },
+   "new_revaluation_events": [
+    [
+     "1442e7eb-a9c6-465c-b4b6-73f25db1b697",
+     "2026-09-22",
+     "17.50",
+     "WIP",
+     "cc36d5b8-32ee-43ca-8585-b835aeb86bc4",
+     "2026-09-22",
+     "2026-09-22"
+    ]
+   ],
+   "adjustment_facts": [],
+   "invoice_journals": [
+    [
+     "2026-09-21",
+     "2026-09-21"
+    ]
+   ],
+   "stock_units": {
+    "2026-09-21": 10,
+    "2026-09-22": 0,
+    "2026-09-23": 0,
+    "2026-09-24": 0
+   },
+   "daily_move": {
+    "2026-09-21": {
+     "MATERIAL_INVENTORY": "-17.50",
+     "WIP": "0.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-22": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "-17.50",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-23": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "-17.50",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-24": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "-17.50",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    }
+   },
+   "wip_po": {
+    "2026-09-21": {
+     "cc36d5b8-32ee-43ca-8585-b835aeb86bc4": "0"
+    },
+    "2026-09-22": {
+     "cc36d5b8-32ee-43ca-8585-b835aeb86bc4": "82.50"
+    },
+    "2026-09-23": {
+     "cc36d5b8-32ee-43ca-8585-b835aeb86bc4": "82.50"
+    },
+    "2026-09-24": {
+     "cc36d5b8-32ee-43ca-8585-b835aeb86bc4": "82.50"
+    }
+   },
+   "negative_blockers": [],
+   "closed_before": null,
+   "invoice": {
+    "price_state": "FINAL",
+    "purchase_id": "bff7f57a-c287-46fd-a6ba-4cf3d82dafe9",
+    "row_version": 3,
+    "correction_id": "ed5cdf54-67a1-4f97-8117-927b7d98eaf4",
+    "supplier_invoice_id": "ed5cdf54-67a1-4f97-8117-927b7d98eaf4",
+    "supplier_invoice_number": "AZ-2f0007a63126"
+   },
+   "quiet": [
+    {
+     "attendance": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000002",
+       "days": 3,
+       "lines": 3,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-23",
+         "period_id": "724cccfd-4993-496c-88a0-79cbf7f9073d",
+         "row_version": 3,
+         "days": 3,
+         "lines": 3
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000003",
+       "days": 3,
+       "lines": 3,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-23",
+         "period_id": "b7bae33c-3fed-4505-a316-c26f265c1d36",
+         "row_version": 3,
+         "days": 3,
+         "lines": 3
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000005",
+       "days": 3,
+       "lines": 3,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-23",
+         "period_id": "73225d7e-2c39-4932-908c-564f91a9a83d",
+         "row_version": 3,
+         "days": 3,
+         "lines": 3
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      }
+     ],
+     "approved": [
+      "a6000000-0000-0000-0000-000000000021"
+     ],
+     "work_payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000004",
+       "start": "2026-01-01",
+       "end": "2026-01-01"
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000006",
+       "start": "2026-04-01",
+       "end": "2026-04-01"
+      }
+     ],
+     "refused": []
+    },
+    {
+     "attendance": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "days": 3,
+       "lines": 3,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-23",
+         "period_id": "2dfbf4ae-50f6-4e65-8232-44a18b51352e",
+         "row_version": 3,
+         "days": 3,
+         "lines": 3
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      }
+     ],
+     "approved": [],
+     "work_payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "start": "2026-08-30",
+       "end": "2026-09-01"
+      }
+     ],
+     "refused": []
+    }
+   ],
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AZ_CASES_AFTER",
+   "case": "AZ:ONE_CUT_HIGHER",
+   "status": "PASS",
+   "price": "10.70",
+   "receipt_day": "2026-09-21",
+   "invoice_date": "2026-09-21",
+   "cuts": [
+    [
+     "2026-09-22",
+     10
+    ]
+   ],
+   "adjustments": [],
+   "closed_through": null,
+   "checks": {
+    "revaluation_events_created": true,
+    "revaluation_event_totals": true,
+    "supplier_invoice_on_invoice_date": true,
+    "revaluation_on_cutting_day": true,
+    "material_before_cut_at_invoice_price": true,
+    "wip_po_never_negative": true,
+    "wip_po_zero_before_its_cut": true,
+    "no_negative_daily_inventory": true
+   },
+   "new_revaluation_events": [
+    [
+     "71cf0926-89da-414b-965e-9acb1942f73f",
+     "2026-09-22",
+     "-7.00",
+     "WIP",
+     "d80d9993-7ae3-4dda-9a0c-7a6171ff0f16",
+     "2026-09-22",
+     "2026-09-22"
+    ]
+   ],
+   "adjustment_facts": [],
+   "invoice_journals": [
+    [
+     "2026-09-21",
+     "2026-09-21"
+    ]
+   ],
+   "stock_units": {
+    "2026-09-21": 10,
+    "2026-09-22": 0,
+    "2026-09-23": 0,
+    "2026-09-24": 0
+   },
+   "daily_move": {
+    "2026-09-21": {
+     "MATERIAL_INVENTORY": "7.00",
+     "WIP": "0.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-22": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "7.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-23": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "7.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-24": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "7.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    }
+   },
+   "wip_po": {
+    "2026-09-21": {
+     "d80d9993-7ae3-4dda-9a0c-7a6171ff0f16": "0"
+    },
+    "2026-09-22": {
+     "d80d9993-7ae3-4dda-9a0c-7a6171ff0f16": "107.00"
+    },
+    "2026-09-23": {
+     "d80d9993-7ae3-4dda-9a0c-7a6171ff0f16": "107.00"
+    },
+    "2026-09-24": {
+     "d80d9993-7ae3-4dda-9a0c-7a6171ff0f16": "107.00"
+    }
+   },
+   "negative_blockers": [],
+   "closed_before": null,
+   "invoice": {
+    "price_state": "FINAL",
+    "purchase_id": "d89c1102-d67b-4e94-8b4f-217b9d18d448",
+    "row_version": 3,
+    "correction_id": "d03aa522-0753-4a07-81a2-a478d3449e4d",
+    "supplier_invoice_id": "d03aa522-0753-4a07-81a2-a478d3449e4d",
+    "supplier_invoice_number": "AZ-2f185c202c9d"
+   },
+   "quiet": [
+    {
+     "attendance": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000002",
+       "days": 3,
+       "lines": 3,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-23",
+         "period_id": "a0b362f0-2ab7-4c3a-a6e0-5af72ba50845",
+         "row_version": 3,
+         "days": 3,
+         "lines": 3
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000003",
+       "days": 3,
+       "lines": 3,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-23",
+         "period_id": "eb49340f-871a-462b-a1b4-6f8c75f774ba",
+         "row_version": 3,
+         "days": 3,
+         "lines": 3
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000005",
+       "days": 3,
+       "lines": 3,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-23",
+         "period_id": "f89b61c0-db39-42a9-a77f-b39cfe22a661",
+         "row_version": 3,
+         "days": 3,
+         "lines": 3
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      }
+     ],
+     "approved": [
+      "a6000000-0000-0000-0000-000000000021"
+     ],
+     "work_payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000004",
+       "start": "2026-01-01",
+       "end": "2026-01-01"
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000006",
+       "start": "2026-04-01",
+       "end": "2026-04-01"
+      }
+     ],
+     "refused": []
+    },
+    {
+     "attendance": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "days": 3,
+       "lines": 3,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-23",
+         "period_id": "37a82dd3-6ecb-43b7-9c14-21102269cef8",
+         "row_version": 3,
+         "days": 3,
+         "lines": 3
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      }
+     ],
+     "approved": [],
+     "work_payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "start": "2026-08-30",
+       "end": "2026-09-01"
+      }
+     ],
+     "refused": []
+    }
+   ],
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AZ_CASES_AFTER",
+   "case": "AZ:TWO_CUT_DAYS_LOWER",
+   "status": "PASS",
+   "price": "8.25",
+   "receipt_day": "2026-09-21",
+   "invoice_date": "2026-09-21",
+   "cuts": [
+    [
+     "2026-09-22",
+     5
+    ],
+    [
+     "2026-09-23",
+     5
+    ]
+   ],
+   "adjustments": [],
+   "closed_through": null,
+   "checks": {
+    "revaluation_events_created": true,
+    "revaluation_event_totals": true,
+    "supplier_invoice_on_invoice_date": true,
+    "revaluation_on_cutting_day": true,
+    "material_before_cut_at_invoice_price": true,
+    "wip_po_never_negative": true,
+    "wip_po_zero_before_its_cut": true,
+    "no_negative_daily_inventory": true
+   },
+   "new_revaluation_events": [
+    [
+     "e7902289-83e0-40e0-9b97-3e9ba6f80e3c",
+     "2026-09-22",
+     "8.75",
+     "WIP",
+     "b7af80f0-8ce4-4365-ace8-6f53b6c53f69",
+     "2026-09-22",
+     "2026-09-22"
+    ],
+    [
+     "96faa9bf-9e93-41fc-aa7a-4df0a95eeec4",
+     "2026-09-23",
+     "8.75",
+     "WIP",
+     "d0117ab8-5faf-4f76-9e6c-fe8da15d584a",
+     "2026-09-23",
+     "2026-09-23"
+    ]
+   ],
+   "adjustment_facts": [],
+   "invoice_journals": [
+    [
+     "2026-09-21",
+     "2026-09-21"
+    ]
+   ],
+   "stock_units": {
+    "2026-09-21": 10,
+    "2026-09-22": 5,
+    "2026-09-23": 0,
+    "2026-09-24": 0
+   },
+   "daily_move": {
+    "2026-09-21": {
+     "MATERIAL_INVENTORY": "-17.50",
+     "WIP": "0.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-22": {
+     "MATERIAL_INVENTORY": "-8.75",
+     "WIP": "-8.75",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-23": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "-17.50",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-24": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "-17.50",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    }
+   },
+   "wip_po": {
+    "2026-09-21": {
+     "b7af80f0-8ce4-4365-ace8-6f53b6c53f69": "0",
+     "d0117ab8-5faf-4f76-9e6c-fe8da15d584a": "0"
+    },
+    "2026-09-22": {
+     "b7af80f0-8ce4-4365-ace8-6f53b6c53f69": "41.25",
+     "d0117ab8-5faf-4f76-9e6c-fe8da15d584a": "0"
+    },
+    "2026-09-23": {
+     "b7af80f0-8ce4-4365-ace8-6f53b6c53f69": "41.25",
+     "d0117ab8-5faf-4f76-9e6c-fe8da15d584a": "41.25"
+    },
+    "2026-09-24": {
+     "b7af80f0-8ce4-4365-ace8-6f53b6c53f69": "41.25",
+     "d0117ab8-5faf-4f76-9e6c-fe8da15d584a": "41.25"
+    }
+   },
+   "negative_blockers": [],
+   "closed_before": null,
+   "invoice": {
+    "price_state": "FINAL",
+    "purchase_id": "e7e5cbb6-55d6-48f0-a69e-52c9f65021ff",
+    "row_version": 3,
+    "correction_id": "1a626d9d-824e-41d5-a078-c4f3ccdb3bab",
+    "supplier_invoice_id": "1a626d9d-824e-41d5-a078-c4f3ccdb3bab",
+    "supplier_invoice_number": "AZ-e0357a09c509"
+   },
+   "quiet": [
+    {
+     "attendance": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000002",
+       "days": 3,
+       "lines": 3,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-23",
+         "period_id": "0fdba4c1-791c-4897-a68c-fe63f41c665d",
+         "row_version": 3,
+         "days": 3,
+         "lines": 3
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000003",
+       "days": 3,
+       "lines": 3,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-23",
+         "period_id": "9cb35da1-76e0-4ad1-9760-48a591892bca",
+         "row_version": 3,
+         "days": 3,
+         "lines": 3
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000005",
+       "days": 3,
+       "lines": 3,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-23",
+         "period_id": "87ac9dad-81e2-4cf9-984e-19f93c87da5a",
+         "row_version": 3,
+         "days": 3,
+         "lines": 3
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      }
+     ],
+     "approved": [
+      "a6000000-0000-0000-0000-000000000021"
+     ],
+     "work_payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000004",
+       "start": "2026-01-01",
+       "end": "2026-01-01"
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000006",
+       "start": "2026-04-01",
+       "end": "2026-04-01"
+      }
+     ],
+     "refused": []
+    },
+    {
+     "attendance": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "days": 3,
+       "lines": 3,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-23",
+         "period_id": "338f417b-a3b1-41f5-adbd-9646b4d6e76c",
+         "row_version": 3,
+         "days": 3,
+         "lines": 3
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      }
+     ],
+     "approved": [],
+     "work_payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "start": "2026-08-30",
+       "end": "2026-09-01"
+      }
+     ],
+     "refused": []
+    }
+   ],
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AZ_CASES_AFTER",
+   "case": "AZ:TWO_CUT_DAYS_KIRITIMATI",
+   "status": "PASS",
+   "price": "10.70",
+   "receipt_day": "2026-09-21",
+   "invoice_date": "2026-09-21",
+   "cuts": [
+    [
+     "2026-09-22",
+     4
+    ],
+    [
+     "2026-09-23",
+     6
+    ]
+   ],
+   "adjustments": [],
+   "closed_through": null,
+   "checks": {
+    "revaluation_events_created": true,
+    "revaluation_event_totals": true,
+    "supplier_invoice_on_invoice_date": true,
+    "revaluation_on_cutting_day": true,
+    "material_before_cut_at_invoice_price": true,
+    "wip_po_never_negative": true,
+    "wip_po_zero_before_its_cut": true,
+    "no_negative_daily_inventory": true
+   },
+   "new_revaluation_events": [
+    [
+     "e168dc24-8ed3-459c-b5e6-cd740caa89a9",
+     "2026-09-22",
+     "-2.80",
+     "WIP",
+     "adcf4504-ae29-4b3b-9a06-0a9a28179a6f",
+     "2026-09-22",
+     "2026-09-22"
+    ],
+    [
+     "ab3a9f39-e333-4c9c-a94e-3d598b787ca2",
+     "2026-09-23",
+     "-4.20",
+     "WIP",
+     "d7454f28-333a-4827-bf3e-75af3113b42b",
+     "2026-09-23",
+     "2026-09-23"
+    ]
+   ],
+   "adjustment_facts": [],
+   "invoice_journals": [
+    [
+     "2026-09-21",
+     "2026-09-21"
+    ]
+   ],
+   "stock_units": {
+    "2026-09-21": 10,
+    "2026-09-22": 6,
+    "2026-09-23": 0,
+    "2026-09-24": 0
+   },
+   "daily_move": {
+    "2026-09-21": {
+     "MATERIAL_INVENTORY": "7.00",
+     "WIP": "0.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-22": {
+     "MATERIAL_INVENTORY": "4.20",
+     "WIP": "2.80",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-23": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "7.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-24": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "7.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    }
+   },
+   "wip_po": {
+    "2026-09-21": {
+     "adcf4504-ae29-4b3b-9a06-0a9a28179a6f": "0",
+     "d7454f28-333a-4827-bf3e-75af3113b42b": "0"
+    },
+    "2026-09-22": {
+     "adcf4504-ae29-4b3b-9a06-0a9a28179a6f": "42.80",
+     "d7454f28-333a-4827-bf3e-75af3113b42b": "0"
+    },
+    "2026-09-23": {
+     "adcf4504-ae29-4b3b-9a06-0a9a28179a6f": "42.80",
+     "d7454f28-333a-4827-bf3e-75af3113b42b": "64.20"
+    },
+    "2026-09-24": {
+     "adcf4504-ae29-4b3b-9a06-0a9a28179a6f": "42.80",
+     "d7454f28-333a-4827-bf3e-75af3113b42b": "64.20"
+    }
+   },
+   "negative_blockers": [],
+   "closed_before": null,
+   "invoice": {
+    "price_state": "FINAL",
+    "purchase_id": "256c0657-e775-452a-8658-3f56df9f0106",
+    "row_version": 3,
+    "correction_id": "5ae9b117-ed9e-4360-8ac3-d7be48e2c990",
+    "supplier_invoice_id": "5ae9b117-ed9e-4360-8ac3-d7be48e2c990",
+    "supplier_invoice_number": "AZ-bdfbe723fcc6"
+   },
+   "quiet": [
+    {
+     "attendance": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000002",
+       "days": 3,
+       "lines": 3,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-23",
+         "period_id": "633cf3b5-dd66-4323-88d3-e0044e59dc91",
+         "row_version": 3,
+         "days": 3,
+         "lines": 3
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000003",
+       "days": 3,
+       "lines": 3,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-23",
+         "period_id": "8a45f1c4-0d9b-4cda-bdcc-63459a77f299",
+         "row_version": 3,
+         "days": 3,
+         "lines": 3
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000005",
+       "days": 3,
+       "lines": 3,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-23",
+         "period_id": "aa3f61e3-0e0d-45e0-a09a-1a846e09a58a",
+         "row_version": 3,
+         "days": 3,
+         "lines": 3
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      }
+     ],
+     "approved": [
+      "a6000000-0000-0000-0000-000000000021"
+     ],
+     "work_payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000004",
+       "start": "2026-01-01",
+       "end": "2026-01-01"
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000006",
+       "start": "2026-04-01",
+       "end": "2026-04-01"
+      }
+     ],
+     "refused": []
+    },
+    {
+     "attendance": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "days": 3,
+       "lines": 3,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-23",
+         "period_id": "5ab8741d-9bb5-475f-aebf-58e4c48370d9",
+         "row_version": 3,
+         "days": 3,
+         "lines": 3
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      }
+     ],
+     "approved": [],
+     "work_payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "start": "2026-08-30",
+       "end": "2026-09-01"
+      }
+     ],
+     "refused": []
+    }
+   ],
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AZ_CASES_AFTER",
+   "case": "AZ:INVOICE_AFTER_CUT",
+   "status": "PASS",
+   "price": "8.25",
+   "receipt_day": "2026-09-21",
+   "invoice_date": "2026-09-23",
+   "cuts": [
+    [
+     "2026-09-22",
+     10
+    ]
+   ],
+   "adjustments": [],
+   "closed_through": null,
+   "checks": {
+    "revaluation_events_created": true,
+    "revaluation_event_totals": true,
+    "supplier_invoice_on_invoice_date": true,
+    "revaluation_on_cutting_day": true,
+    "material_before_cut_at_invoice_price": true,
+    "wip_po_never_negative": true,
+    "wip_po_zero_before_its_cut": true,
+    "no_negative_daily_inventory": true
+   },
+   "new_revaluation_events": [
+    [
+     "3e79eeeb-eb20-4dc2-8101-a09a10408eb3",
+     "2026-09-23",
+     "17.50",
+     "WIP",
+     "dadb57a0-d95f-4e32-9f38-a1a4d4878004",
+     "2026-09-23",
+     "2026-09-23"
+    ]
+   ],
+   "adjustment_facts": [],
+   "invoice_journals": [
+    [
+     "2026-09-23",
+     "2026-09-23"
+    ]
+   ],
+   "stock_units": {
+    "2026-09-21": 10,
+    "2026-09-22": 0,
+    "2026-09-23": 0,
+    "2026-09-24": 0
+   },
+   "daily_move": {
+    "2026-09-21": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "0.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-22": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "0.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-23": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "-17.50",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-24": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "-17.50",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    }
+   },
+   "wip_po": {
+    "2026-09-21": {
+     "dadb57a0-d95f-4e32-9f38-a1a4d4878004": "0"
+    },
+    "2026-09-22": {
+     "dadb57a0-d95f-4e32-9f38-a1a4d4878004": "100.00"
+    },
+    "2026-09-23": {
+     "dadb57a0-d95f-4e32-9f38-a1a4d4878004": "82.50"
+    },
+    "2026-09-24": {
+     "dadb57a0-d95f-4e32-9f38-a1a4d4878004": "82.50"
+    }
+   },
+   "negative_blockers": [],
+   "closed_before": null,
+   "invoice": {
+    "price_state": "FINAL",
+    "purchase_id": "48f49922-9558-4379-939d-9fcaf72007e1",
+    "row_version": 3,
+    "correction_id": "73fa2951-a05e-44a6-a34e-8622a9c0dfea",
+    "supplier_invoice_id": "73fa2951-a05e-44a6-a34e-8622a9c0dfea",
+    "supplier_invoice_number": "AZ-736b53b0c312"
+   },
+   "quiet": [
+    {
+     "attendance": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000002",
+       "days": 3,
+       "lines": 3,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-23",
+         "period_id": "3b3be2d0-25a8-491e-80ac-50b629407bd1",
+         "row_version": 3,
+         "days": 3,
+         "lines": 3
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000003",
+       "days": 3,
+       "lines": 3,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-23",
+         "period_id": "852f62a3-55e3-4921-a23b-77f7b7da9243",
+         "row_version": 3,
+         "days": 3,
+         "lines": 3
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000005",
+       "days": 3,
+       "lines": 3,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-23",
+         "period_id": "efdfbcac-9877-4992-9edc-617fdd83e158",
+         "row_version": 3,
+         "days": 3,
+         "lines": 3
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      }
+     ],
+     "approved": [
+      "a6000000-0000-0000-0000-000000000021"
+     ],
+     "work_payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000004",
+       "start": "2026-01-01",
+       "end": "2026-01-01"
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000006",
+       "start": "2026-04-01",
+       "end": "2026-04-01"
+      }
+     ],
+     "refused": []
+    },
+    {
+     "attendance": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "days": 3,
+       "lines": 3,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-23",
+         "period_id": "8d33b1be-3e65-4347-92f6-068ea2c394f3",
+         "row_version": 3,
+         "days": 3,
+         "lines": 3
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      }
+     ],
+     "approved": [],
+     "work_payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "start": "2026-08-30",
+       "end": "2026-09-01"
+      }
+     ],
+     "refused": []
+    }
+   ],
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AZ_CASES_AFTER",
+   "case": "AZ:CLOSED_RECEIPT_OPEN_CUT",
+   "status": "PASS",
+   "price": "8.25",
+   "receipt_day": "2026-09-21",
+   "invoice_date": "2026-09-21",
+   "cuts": [
+    [
+     "2026-09-22",
+     10
+    ]
+   ],
+   "adjustments": [],
+   "closed_through": "2026-09-21",
+   "checks": {
+    "revaluation_events_created": true,
+    "revaluation_event_totals": true,
+    "supplier_invoice_on_invoice_date": true,
+    "revaluation_on_E_posted_today": true,
+    "history_before_today_unchanged": true,
+    "no_negative_daily_inventory": true
+   },
+   "new_revaluation_events": [
+    [
+     "0177cb40-9e53-459d-90d4-b5740d668b7c",
+     "2026-09-24",
+     "17.50",
+     "WIP",
+     "3ed9360d-4fcd-463a-b88e-7c200ca0fe35",
+     "2026-09-21",
+     "2026-09-24"
+    ]
+   ],
+   "adjustment_facts": [],
+   "invoice_journals": [
+    [
+     "2026-09-21",
+     "2026-09-24"
+    ]
+   ],
+   "stock_units": {
+    "2026-09-21": 10,
+    "2026-09-22": 0,
+    "2026-09-23": 0,
+    "2026-09-24": 0
+   },
+   "daily_move": {
+    "2026-09-21": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "0.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-22": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "0.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-23": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "0.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-24": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "-17.50",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    }
+   },
+   "wip_po": {
+    "2026-09-21": {
+     "3ed9360d-4fcd-463a-b88e-7c200ca0fe35": "0"
+    },
+    "2026-09-22": {
+     "3ed9360d-4fcd-463a-b88e-7c200ca0fe35": "100.00"
+    },
+    "2026-09-23": {
+     "3ed9360d-4fcd-463a-b88e-7c200ca0fe35": "100.00"
+    },
+    "2026-09-24": {
+     "3ed9360d-4fcd-463a-b88e-7c200ca0fe35": "82.50"
+    }
+   },
+   "negative_blockers": [],
+   "closed_before": [
+    "ACCEPTED",
+    null
+   ],
+   "invoice": {
+    "price_state": "FINAL",
+    "purchase_id": "afb75ee9-eb1c-4c41-8912-3f0cfd2f5355",
+    "row_version": 3,
+    "correction_id": "2afbf150-5a07-49f9-9947-8cf6e149d3c2",
+    "supplier_invoice_id": "2afbf150-5a07-49f9-9947-8cf6e149d3c2",
+    "supplier_invoice_number": "AZ-861f173d0205"
+   },
+   "quiet": [
+    {
+     "attendance": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000002",
+       "days": 3,
+       "lines": 3,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-23",
+         "period_id": "b36f5578-d4b5-4529-8c2c-4696c28dc390",
+         "row_version": 3,
+         "days": 3,
+         "lines": 3
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000003",
+       "days": 3,
+       "lines": 3,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-23",
+         "period_id": "51f8c183-a9d2-43ce-a1bc-76ccce6f6d4d",
+         "row_version": 3,
+         "days": 3,
+         "lines": 3
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000005",
+       "days": 3,
+       "lines": 3,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-23",
+         "period_id": "b281dcdf-6e94-44ff-b250-2fcd425f8fa0",
+         "row_version": 3,
+         "days": 3,
+         "lines": 3
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      }
+     ],
+     "approved": [
+      "a6000000-0000-0000-0000-000000000021"
+     ],
+     "work_payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000004",
+       "start": "2026-01-01",
+       "end": "2026-01-01"
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000006",
+       "start": "2026-04-01",
+       "end": "2026-04-01"
+      }
+     ],
+     "refused": []
+    },
+    {
+     "attendance": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "days": 3,
+       "lines": 3,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-23",
+         "period_id": "4a55b8aa-fdf1-42a6-b22a-b9a3a5e22703",
+         "row_version": 3,
+         "days": 3,
+         "lines": 3
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      }
+     ],
+     "approved": [],
+     "work_payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "start": "2026-08-30",
+       "end": "2026-09-01"
+      }
+     ],
+     "refused": []
+    }
+   ],
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AZ_CASES_AFTER",
+   "case": "AZ:CLOSED_THROUGH_CUT",
+   "status": "PASS",
+   "price": "8.25",
+   "receipt_day": "2026-09-21",
+   "invoice_date": "2026-09-21",
+   "cuts": [
+    [
+     "2026-09-22",
+     10
+    ]
+   ],
+   "adjustments": [],
+   "closed_through": "2026-09-22",
+   "checks": {
+    "revaluation_events_created": true,
+    "revaluation_event_totals": true,
+    "supplier_invoice_on_invoice_date": true,
+    "revaluation_on_E_posted_today": true,
+    "history_before_today_unchanged": true,
+    "no_negative_daily_inventory": true
+   },
+   "new_revaluation_events": [
+    [
+     "9699c3bf-22e6-4501-ad5f-5c90873e1625",
+     "2026-09-24",
+     "17.50",
+     "WIP",
+     "9ac47920-cc40-4a8a-ad2e-633530722569",
+     "2026-09-21",
+     "2026-09-24"
+    ]
+   ],
+   "adjustment_facts": [],
+   "invoice_journals": [
+    [
+     "2026-09-21",
+     "2026-09-24"
+    ]
+   ],
+   "stock_units": {
+    "2026-09-21": 10,
+    "2026-09-22": 0,
+    "2026-09-23": 0,
+    "2026-09-24": 0
+   },
+   "daily_move": {
+    "2026-09-21": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "0.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-22": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "0.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-23": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "0.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-24": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "-17.50",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    }
+   },
+   "wip_po": {
+    "2026-09-21": {
+     "9ac47920-cc40-4a8a-ad2e-633530722569": "0"
+    },
+    "2026-09-22": {
+     "9ac47920-cc40-4a8a-ad2e-633530722569": "100.00"
+    },
+    "2026-09-23": {
+     "9ac47920-cc40-4a8a-ad2e-633530722569": "100.00"
+    },
+    "2026-09-24": {
+     "9ac47920-cc40-4a8a-ad2e-633530722569": "82.50"
+    }
+   },
+   "negative_blockers": [],
+   "closed_before": [
+    "ACCEPTED",
+    null
+   ],
+   "invoice": {
+    "price_state": "FINAL",
+    "purchase_id": "118fe134-550f-45db-9617-83fb4e3dd976",
+    "row_version": 3,
+    "correction_id": "4cca0a58-435c-4c66-84a9-77c1f151aa0a",
+    "supplier_invoice_id": "4cca0a58-435c-4c66-84a9-77c1f151aa0a",
+    "supplier_invoice_number": "AZ-d2f8a5176082"
+   },
+   "quiet": [
+    {
+     "attendance": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000002",
+       "days": 3,
+       "lines": 3,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-23",
+         "period_id": "f4e45146-45dd-4d1c-b5df-9b8f049c4e85",
+         "row_version": 3,
+         "days": 3,
+         "lines": 3
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000003",
+       "days": 3,
+       "lines": 3,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-23",
+         "period_id": "6b1e3b97-cac7-41b7-a5f4-bfd82de1c504",
+         "row_version": 3,
+         "days": 3,
+         "lines": 3
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000005",
+       "days": 3,
+       "lines": 3,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-23",
+         "period_id": "dd996d5a-28a0-4a6d-858d-185e3d29b7f1",
+         "row_version": 3,
+         "days": 3,
+         "lines": 3
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      }
+     ],
+     "approved": [
+      "a6000000-0000-0000-0000-000000000021"
+     ],
+     "work_payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000004",
+       "start": "2026-01-01",
+       "end": "2026-01-01"
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000006",
+       "start": "2026-04-01",
+       "end": "2026-04-01"
+      }
+     ],
+     "refused": []
+    },
+    {
+     "attendance": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "days": 3,
+       "lines": 3,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-23",
+         "period_id": "cc6e6eae-1387-44ea-8bce-6bb7dd2be38c",
+         "row_version": 3,
+         "days": 3,
+         "lines": 3
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      }
+     ],
+     "approved": [],
+     "work_payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "start": "2026-08-30",
+       "end": "2026-09-01"
+      }
+     ],
+     "refused": []
+    }
+   ],
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AZ_CASES_AFTER",
+   "case": "AZ:ADJUSTMENT_AFTER_RECEIPT",
+   "status": "PASS",
+   "price": "8.25",
+   "receipt_day": "2026-09-21",
+   "invoice_date": "2026-09-21",
+   "cuts": [
+    [
+     "2026-09-23",
+     8
+    ]
+   ],
+   "adjustments": [
+    [
+     "2026-09-22",
+     2
+    ]
+   ],
+   "closed_through": null,
+   "checks": {
+    "revaluation_events_created": true,
+    "revaluation_event_totals": true,
+    "supplier_invoice_on_invoice_date": true,
+    "revaluation_on_cutting_day": true,
+    "material_before_cut_at_invoice_price": true,
+    "wip_po_never_negative": true,
+    "wip_po_zero_before_its_cut": true,
+    "adjustment_revaluation_on_adjustment_day": true,
+    "no_negative_daily_inventory": true
+   },
+   "new_revaluation_events": [
+    [
+     "63b79332-73f6-41dd-bf50-3eccfd940eef",
+     "2026-09-23",
+     "14.00",
+     "WIP",
+     "676d08de-6f74-422f-96e5-52b710a7974a",
+     "2026-09-23",
+     "2026-09-23"
+    ]
+   ],
+   "adjustment_facts": [
+    [
+     "c9548574-c63c-4e1e-a140-a3ed3281a3bd",
+     "2026-09-22",
+     "2026-09-22",
+     "2026-09-22"
+    ]
+   ],
+   "invoice_journals": [
+    [
+     "2026-09-21",
+     "2026-09-21"
+    ]
+   ],
+   "stock_units": {
+    "2026-09-21": 10,
+    "2026-09-22": 8,
+    "2026-09-23": 0,
+    "2026-09-24": 0
+   },
+   "daily_move": {
+    "2026-09-21": {
+     "MATERIAL_INVENTORY": "-17.50",
+     "WIP": "0.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-22": {
+     "MATERIAL_INVENTORY": "-14.00",
+     "WIP": "0.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-23": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "-14.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-24": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "-14.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    }
+   },
+   "wip_po": {
+    "2026-09-21": {
+     "676d08de-6f74-422f-96e5-52b710a7974a": "0"
+    },
+    "2026-09-22": {
+     "676d08de-6f74-422f-96e5-52b710a7974a": "0"
+    },
+    "2026-09-23": {
+     "676d08de-6f74-422f-96e5-52b710a7974a": "66.00"
+    },
+    "2026-09-24": {
+     "676d08de-6f74-422f-96e5-52b710a7974a": "66.00"
+    }
+   },
+   "negative_blockers": [],
+   "closed_before": null,
+   "invoice": {
+    "price_state": "FINAL",
+    "purchase_id": "e319f0b4-5511-4e96-bf76-6ab5bf088e44",
+    "row_version": 3,
+    "correction_id": "09163c22-c60d-44c9-9b35-0f2741e65953",
+    "supplier_invoice_id": "09163c22-c60d-44c9-9b35-0f2741e65953",
+    "supplier_invoice_number": "AZ-a59fc9b9013e"
+   },
+   "quiet": [
+    {
+     "attendance": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000002",
+       "days": 3,
+       "lines": 3,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-23",
+         "period_id": "64367ff5-87d8-4bb3-9a92-7f84da097fc4",
+         "row_version": 3,
+         "days": 3,
+         "lines": 3
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000003",
+       "days": 3,
+       "lines": 3,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-23",
+         "period_id": "15ac8e9b-6081-49eb-b613-51ec12dd5baf",
+         "row_version": 3,
+         "days": 3,
+         "lines": 3
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000005",
+       "days": 3,
+       "lines": 3,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-23",
+         "period_id": "7d365a8d-7cf1-4911-ba52-88b65b8ad4ff",
+         "row_version": 3,
+         "days": 3,
+         "lines": 3
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      }
+     ],
+     "approved": [
+      "a6000000-0000-0000-0000-000000000021"
+     ],
+     "work_payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000004",
+       "start": "2026-01-01",
+       "end": "2026-01-01"
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000006",
+       "start": "2026-04-01",
+       "end": "2026-04-01"
+      }
+     ],
+     "refused": []
+    },
+    {
+     "attendance": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "days": 3,
+       "lines": 3,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-23",
+         "period_id": "b84b9356-56c2-4faf-b107-fbd9300dec19",
+         "row_version": 3,
+         "days": 3,
+         "lines": 3
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      }
+     ],
+     "approved": [],
+     "work_payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "start": "2026-08-30",
+       "end": "2026-09-01"
+      }
+     ],
+     "refused": []
+    }
+   ],
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AZ_CASES_AFTER",
+   "case": "AZ:ADJUSTMENT_CLOSED_RECEIPT",
+   "status": "PASS",
+   "price": "8.25",
+   "receipt_day": "2026-09-21",
+   "invoice_date": "2026-09-21",
+   "cuts": [
+    [
+     "2026-09-23",
+     8
+    ]
+   ],
+   "adjustments": [
+    [
+     "2026-09-22",
+     2
+    ]
+   ],
+   "closed_through": "2026-09-21",
+   "checks": {
+    "revaluation_events_created": true,
+    "revaluation_event_totals": true,
+    "supplier_invoice_on_invoice_date": true,
+    "revaluation_on_E_posted_today": true,
+    "history_before_today_unchanged": true,
+    "adjustment_revaluation_on_E_posted_today": true,
+    "no_negative_daily_inventory": true
+   },
+   "new_revaluation_events": [
+    [
+     "f2822458-4cd5-463b-83f5-ec20c2c096bf",
+     "2026-09-24",
+     "14.00",
+     "WIP",
+     "097b408c-6186-4c4b-a77b-0beadb8326f0",
+     "2026-09-21",
+     "2026-09-24"
+    ]
+   ],
+   "adjustment_facts": [
+    [
+     "e1bd73b6-b153-415d-848d-e1bf007af051",
+     "2026-09-21",
+     "2026-09-21",
+     "2026-09-24"
+    ]
+   ],
+   "invoice_journals": [
+    [
+     "2026-09-21",
+     "2026-09-24"
+    ]
+   ],
+   "stock_units": {
+    "2026-09-21": 10,
+    "2026-09-22": 8,
+    "2026-09-23": 0,
+    "2026-09-24": 0
+   },
+   "daily_move": {
+    "2026-09-21": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "0.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-22": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "0.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-23": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "0.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-24": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "-14.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    }
+   },
+   "wip_po": {
+    "2026-09-21": {
+     "097b408c-6186-4c4b-a77b-0beadb8326f0": "0"
+    },
+    "2026-09-22": {
+     "097b408c-6186-4c4b-a77b-0beadb8326f0": "0"
+    },
+    "2026-09-23": {
+     "097b408c-6186-4c4b-a77b-0beadb8326f0": "80.00"
+    },
+    "2026-09-24": {
+     "097b408c-6186-4c4b-a77b-0beadb8326f0": "66.00"
+    }
+   },
+   "negative_blockers": [],
+   "closed_before": [
+    "ACCEPTED",
+    null
+   ],
+   "invoice": {
+    "price_state": "FINAL",
+    "purchase_id": "dd864a2e-408f-4bba-8b9e-b82d6bdc5b14",
+    "row_version": 3,
+    "correction_id": "a406a3f9-ea6f-403c-9688-477b415ac36f",
+    "supplier_invoice_id": "a406a3f9-ea6f-403c-9688-477b415ac36f",
+    "supplier_invoice_number": "AZ-659cb97365a9"
+   },
+   "quiet": [
+    {
+     "attendance": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000002",
+       "days": 3,
+       "lines": 3,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-23",
+         "period_id": "2364d465-49e9-4781-b2e8-d5c1bc9dc21a",
+         "row_version": 3,
+         "days": 3,
+         "lines": 3
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000003",
+       "days": 3,
+       "lines": 3,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-23",
+         "period_id": "77e32114-c157-4d09-b035-79276b39ea50",
+         "row_version": 3,
+         "days": 3,
+         "lines": 3
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000005",
+       "days": 3,
+       "lines": 3,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-23",
+         "period_id": "d260579f-91f3-4d90-81e5-bb6ebefb2155",
+         "row_version": 3,
+         "days": 3,
+         "lines": 3
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      }
+     ],
+     "approved": [
+      "a6000000-0000-0000-0000-000000000021"
+     ],
+     "work_payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000004",
+       "start": "2026-01-01",
+       "end": "2026-01-01"
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000006",
+       "start": "2026-04-01",
+       "end": "2026-04-01"
+      }
+     ],
+     "refused": []
+    },
+    {
+     "attendance": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "days": 3,
+       "lines": 3,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-23",
+         "period_id": "df317a3a-8f3b-4702-9f5e-fc89eb754acf",
+         "row_version": 3,
+         "days": 3,
+         "lines": 3
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      }
+     ],
+     "approved": [],
+     "work_payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "start": "2026-08-30",
+       "end": "2026-09-01"
+      }
+     ],
+     "refused": []
+    }
+   ],
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AZ_CASES_AFTER",
+   "case": "AZ:SALE_AFTER_GOODS_DAY",
+   "status": "PASS",
+   "price": "8.25",
+   "receipt_day": "2026-09-21",
+   "goods_day": "2026-09-22",
+   "later_sale_day": "2026-09-23",
+   "checks": {
+    "hpp_events_on_goods_and_sale_days": true,
+    "cogs_of_later_sale_on_its_day": true,
+    "cogs_of_first_sale_on_goods_day": true,
+    "fg_day_moves": true,
+    "receipt_day_fg_cogs_unchanged": true,
+    "wip_po_never_negative": true,
+    "wip_po_zero_before_cut": true,
+    "no_negative_daily_inventory": true
+   },
+   "hpp_events": [
+    [
+     "e67f836e-c56f-4f84-b17c-172716aaad61",
+     "2026-09-22",
+     "-5.250000",
+     "-3.500000"
+    ],
+    [
+     "915fa02a-6d89-48fe-bb5b-630e181b3208",
+     "2026-09-23",
+     "1.750000",
+     "-1.750000"
+    ]
+   ],
+   "hpp_by_day": {
+    "2026-09-22": [
+     "-5.250000",
+     "-3.500000"
+    ],
+    "2026-09-23": [
+     "1.750000",
+     "-1.750000"
+    ]
+   },
+   "daily_move": {
+    "2026-09-21": {
+     "MATERIAL_INVENTORY": "-17.50",
+     "WIP": "0.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-22": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "-8.75",
+     "FG_INVENTORY": "-5.25",
+     "COGS": "-3.50"
+    },
+    "2026-09-23": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "-8.75",
+     "FG_INVENTORY": "-3.50",
+     "COGS": "-5.25"
+    },
+    "2026-09-24": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "-8.75",
+     "FG_INVENTORY": "-3.50",
+     "COGS": "-5.25"
+    }
+   },
+   "wip_po": {
+    "2026-09-21": "0",
+    "2026-09-22": "76.25",
+    "2026-09-23": "76.25",
+    "2026-09-24": "76.25"
+   },
+   "negative_blockers": [],
+   "invoice": {
+    "price_state": "FINAL",
+    "purchase_id": "1f39d7d7-62b6-49e7-a1dc-95b6bcc583e8",
+    "row_version": 3,
+    "correction_id": "e48ec758-5169-4880-9208-e57ab064fa35",
+    "supplier_invoice_id": "e48ec758-5169-4880-9208-e57ab064fa35",
+    "supplier_invoice_number": "AZ-2ae07a691eb2"
+   },
+   "quiet": [
+    {
+     "attendance": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000002",
+       "days": 3,
+       "lines": 3,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-23",
+         "period_id": "352cbc14-74a9-4f85-9fca-7b228f65c8f6",
+         "row_version": 3,
+         "days": 3,
+         "lines": 3
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000003",
+       "days": 3,
+       "lines": 3,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-23",
+         "period_id": "d554fbf7-fe55-4514-8a25-4dbd38bc2bda",
+         "row_version": 3,
+         "days": 3,
+         "lines": 3
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000005",
+       "days": 3,
+       "lines": 3,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-23",
+         "period_id": "9986f036-d983-470a-9aa4-fc5e0895ab5f",
+         "row_version": 3,
+         "days": 3,
+         "lines": 3
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      }
+     ],
+     "approved": [
+      "a6000000-0000-0000-0000-000000000021"
+     ],
+     "work_payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000004",
+       "start": "2026-01-01",
+       "end": "2026-01-01"
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000006",
+       "start": "2026-04-01",
+       "end": "2026-04-01"
+      }
+     ],
+     "refused": []
+    },
+    {
+     "attendance": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "days": 3,
+       "lines": 3,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-23",
+         "period_id": "a0147126-ba95-4621-961d-9ab2f3b24c2a",
+         "row_version": 3,
+         "days": 3,
+         "lines": 3
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      }
+     ],
+     "approved": [],
+     "work_payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "start": "2026-08-30",
+       "end": "2026-09-22"
+      }
+     ],
+     "refused": []
+    }
+   ],
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AZ_CASES_AFTER",
+   "case": "AZ:MULTI_CUT_HIGHER",
+   "status": "COUNTEREXAMPLE",
+   "finding": "independent review 24 Sep #3 (open)",
+   "price": "10.70",
+   "receipt_day": "2026-09-21",
+   "lots": [
+    [
+     "050f38a0-3a52-497f-85ad-4558d9d2a2e0",
+     "2026-09-22",
+     8
+    ],
+    [
+     "a8e6a0f0-c340-466e-afae-75a888d0b2b5",
+     "2026-09-23",
+     3
+    ]
+   ],
+   "checks": {
+    "fixture_two_lots_two_days": true,
+    "fg_change_by_lineage": false,
+    "material_at_invoice_price": true,
+    "wip_po_never_negative": false,
+    "wip_po_correction_zero_each_day": false,
+    "no_negative_daily_inventory": true
+   },
+   "hpp_events": [
+    [
+     "2bf405fc-72a4-4440-92cf-61ea843d0ded",
+     "2026-09-22",
+     "5.090000",
+     "0.000000"
+    ],
+    [
+     "7bba0d14-7950-4e6f-8093-c892e05da8d9",
+     "2026-09-23",
+     "1.910000",
+     "0.000000"
+    ]
+   ],
+   "daily_move": {
+    "2026-09-21": {
+     "MATERIAL_INVENTORY": "7.00",
+     "WIP": "0.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-22": {
+     "MATERIAL_INVENTORY": "4.20",
+     "WIP": "-2.29",
+     "FG_INVENTORY": "5.09",
+     "COGS": "0"
+    },
+    "2026-09-23": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "0.00",
+     "FG_INVENTORY": "7.00",
+     "COGS": "0"
+    },
+    "2026-09-24": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "0.00",
+     "FG_INVENTORY": "7.00",
+     "COGS": "0"
+    }
+   },
+   "wip_po": {
+    "2026-09-21": "0",
+    "2026-09-22": "-2.29",
+    "2026-09-23": "0.00",
+    "2026-09-24": "0.00"
+   },
+   "negative_blockers": [],
+   "invoice": {
+    "price_state": "FINAL",
+    "purchase_id": "4d6a5f81-f4be-4e4f-aeb1-7d1e962ffdac",
+    "row_version": 3,
+    "correction_id": "799cbf3b-09ad-468e-89aa-4b0ceb643dc4",
+    "supplier_invoice_id": "799cbf3b-09ad-468e-89aa-4b0ceb643dc4",
+    "supplier_invoice_number": "AZ-7d815dbf1eef"
+   },
+   "quiet": [
+    {
+     "attendance": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000002",
+       "days": 3,
+       "lines": 3,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-23",
+         "period_id": "dec35225-f3a1-433d-b3a2-c4384357ac19",
+         "row_version": 3,
+         "days": 3,
+         "lines": 3
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000003",
+       "days": 3,
+       "lines": 3,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-23",
+         "period_id": "0e6f98d5-ab4e-41a2-90cb-a4dbba720539",
+         "row_version": 3,
+         "days": 3,
+         "lines": 3
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000005",
+       "days": 3,
+       "lines": 3,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-23",
+         "period_id": "82ff660c-5294-43b2-8860-c07a85ee44fb",
+         "row_version": 3,
+         "days": 3,
+         "lines": 3
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      }
+     ],
+     "approved": [
+      "a6000000-0000-0000-0000-000000000021"
+     ],
+     "work_payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000004",
+       "start": "2026-01-01",
+       "end": "2026-01-01"
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000006",
+       "start": "2026-04-01",
+       "end": "2026-04-01"
+      }
+     ],
+     "refused": []
+    },
+    {
+     "attendance": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "days": 3,
+       "lines": 3,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-23",
+         "period_id": "9bc7a195-b939-49e4-9494-409e53866a6a",
+         "row_version": 3,
+         "days": 3,
+         "lines": 3
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      }
+     ],
+     "approved": [],
+     "work_payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "start": "2026-08-30",
+       "end": "2026-09-23"
+      }
+     ],
+     "refused": []
+    }
+   ],
+   "full_boundary_restored": true
+  },
+  {
+   "group": "AZ_CASES_AFTER",
+   "case": "AZ:MULTI_CUT_LOWER",
+   "status": "COUNTEREXAMPLE",
+   "finding": "independent review 24 Sep #3 (open)",
+   "price": "8.25",
+   "receipt_day": "2026-09-21",
+   "lots": [
+    [
+     "ec970fb3-62b8-4314-92e2-b5126e8a5e0c",
+     "2026-09-22",
+     8
+    ],
+    [
+     "6bcf1986-4599-4768-b5ad-a27f81f3a16c",
+     "2026-09-23",
+     3
+    ]
+   ],
+   "checks": {
+    "fixture_two_lots_two_days": true,
+    "fg_change_by_lineage": false,
+    "material_at_invoice_price": true,
+    "wip_po_never_negative": true,
+    "wip_po_correction_zero_each_day": false,
+    "no_negative_daily_inventory": true
+   },
+   "hpp_events": [
+    [
+     "ed57cd1c-e5da-4ffb-95cc-0aaf8d333015",
+     "2026-09-22",
+     "-12.730000",
+     "0.000000"
+    ],
+    [
+     "53a6ba3b-024b-4f4f-8942-666fbbe3ce35",
+     "2026-09-23",
+     "-4.770000",
+     "0.000000"
+    ]
+   ],
+   "daily_move": {
+    "2026-09-21": {
+     "MATERIAL_INVENTORY": "-17.50",
+     "WIP": "0.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-22": {
+     "MATERIAL_INVENTORY": "-10.50",
+     "WIP": "5.73",
+     "FG_INVENTORY": "-12.73",
+     "COGS": "0"
+    },
+    "2026-09-23": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "0.00",
+     "FG_INVENTORY": "-17.50",
+     "COGS": "0"
+    },
+    "2026-09-24": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "0.00",
+     "FG_INVENTORY": "-17.50",
+     "COGS": "0"
+    }
+   },
+   "wip_po": {
+    "2026-09-21": "0",
+    "2026-09-22": "5.73",
+    "2026-09-23": "0.00",
+    "2026-09-24": "0.00"
+   },
+   "negative_blockers": [],
+   "invoice": {
+    "price_state": "FINAL",
+    "purchase_id": "45cfcba3-7c73-4aea-9f06-faa31b1b7e92",
+    "row_version": 3,
+    "correction_id": "6f57b91d-cf54-4bd7-8864-9d500eba1d94",
+    "supplier_invoice_id": "6f57b91d-cf54-4bd7-8864-9d500eba1d94",
+    "supplier_invoice_number": "AZ-9a16e1f6b2ff"
+   },
+   "quiet": [
+    {
+     "attendance": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000002",
+       "days": 3,
+       "lines": 3,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-23",
+         "period_id": "1115db59-18a5-4e1f-a053-58a2777187bb",
+         "row_version": 3,
+         "days": 3,
+         "lines": 3
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000003",
+       "days": 3,
+       "lines": 3,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-23",
+         "period_id": "f4a4ef7b-0aa8-4313-b4d8-e3cc9b1b517d",
+         "row_version": 3,
+         "days": 3,
+         "lines": 3
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000005",
+       "days": 3,
+       "lines": 3,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-23",
+         "period_id": "9f9dc3ec-547a-428b-a849-55a2d3b6211b",
+         "row_version": 3,
+         "days": 3,
+         "lines": 3
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      }
+     ],
+     "approved": [
+      "a6000000-0000-0000-0000-000000000021"
+     ],
+     "work_payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000004",
+       "start": "2026-01-01",
+       "end": "2026-01-01"
+      },
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000006",
+       "start": "2026-04-01",
+       "end": "2026-04-01"
+      }
+     ],
+     "refused": []
+    },
+    {
+     "attendance": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "days": 3,
+       "lines": 3,
+       "periods": [
+        {
+         "start": "2026-09-21",
+         "end": "2026-09-23",
+         "period_id": "972fce36-3b21-4b06-93ee-7b940e5c092a",
+         "row_version": 3,
+         "days": 3,
+         "lines": 3
+        }
+       ],
+       "occupied": [],
+       "posted_drafts": []
+      }
+     ],
+     "approved": [],
+     "work_payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "start": "2026-08-30",
+       "end": "2026-09-23"
+      }
+     ],
+     "refused": []
+    }
+   ],
+   "full_boundary_restored": true
+  },
+  {
+   "az_probe_phase": "after",
+   "status": "REVIEW_COMPLETE",
+   "label": "T1_FAMILY",
+   "phase": "after",
+   "production_go": false,
+   "independent_acceptance": false,
+   "release_evidence": false,
+   "au_install": "PASS",
+   "av_install": "PASS",
+   "aw_install": {
+    "stage": "AV_PLUS_AW_T1",
+    "label": "T1_FAMILY",
+    "functions": 13,
+    "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32"
+   },
+   "ax_install": {
+    "stage": "AV_PLUS_AW_PLUS_AX_T1",
+    "label": "T1_FAMILY",
+    "functions": 13,
+    "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+    "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+    "av_coverage": {
+     "registry": {
+      "erp.fg_lots.product_id": {
+       "class": "NEW_STOCK_FACT",
+       "reason": "produced_at of every lot except GOOD returned by rework"
+      },
+      "erp.bs_cases.product_id": {
+       "class": "NEW_STOCK_FACT",
+       "reason": "physical_at of QC/laundry BS and manual OUT_OF_NOWHERE BS"
+      },
+      "erp.sales_items.product_id": {
+       "class": "SALES",
+       "reason": "Sale of existing stock"
+      },
+      "erp.journal_lines.product_id": {
+       "class": "ACCOUNTING",
+       "reason": "Journal dimension"
+      },
+      "erp.fg_stock_movements.product_id": {
+       "class": "MOVEMENT",
+       "reason": "Movement of an existing lot"
+      },
+      "erp.sales_return_items.product_id": {
+       "class": "SALES",
+       "reason": "Return of sold stock"
+      },
+      "erp.fg_adjustment_items.product_id": {
+       "class": "MOVEMENT",
+       "reason": "Adjusts an existing lot"
+      },
+      "erp.fg_inventory_balances.product_id": {
+       "class": "DERIVED",
+       "reason": "Balance cache keyed by product/location/grade"
+      },
+      "erp.opening_balance_items.product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Opening document; facts are OPENING lots and LEGACY BS"
+      },
+      "erp.stock_policy_versions.product_id": {
+       "class": "MASTER",
+       "reason": "Effective-dated stock policy"
+      },
+      "erp.accessory_bom_versions.product_id": {
+       "class": "MASTER",
+       "reason": "Effective-dated accessory BOM; no stock instant"
+      },
+      "erp.product_conversions.to_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Conversion target; the fact is the CONVERSION lot in fg_lots"
+      },
+      "erp.product_price_versions.product_id": {
+       "class": "MASTER",
+       "reason": "Effective-dated price"
+      },
+      "erp.product_conversions.from_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Conversion source, validated as EXISTING_STOCK"
+      },
+      "erp.qc_inspection_items.final_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "QC input; the facts are fg_lots and bs_cases"
+      },
+      "erp.fg_accessory_cost_snapshots.product_id": {
+       "class": "DERIVED",
+       "reason": "Cost snapshot of an FG lot"
+      },
+      "erp.po_accessory_bom_commitments.product_id": {
+       "class": "MASTER",
+       "reason": "PO accessory BOM commitment"
+      },
+      "erp.stock_explainability_snapshots.product_id": {
+       "class": "REPORT",
+       "reason": "Stock explanation snapshot"
+      },
+      "erp.non_po_hpp_gl_sync_events_v2620f.product_id": {
+       "class": "ACCOUNTING",
+       "reason": "HPP to GL synchronisation event"
+      },
+      "erp.laundry_receipt_batch_size_lines.bs_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Laundry receipt input; the BS fact is bs_cases"
+      },
+      "erp.product_identity_mutation_context_v1.product_id": {
+       "class": "AUTHORIZATION",
+       "reason": "Private one-use identity edit context"
+      },
+      "erp.laundry_receipt_bs_product_allocations.product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Validated as NEW_STOCK; the BS fact is bs_cases"
+      },
+      "erp.contractor_accessory_reimbursement_entitlements.product_id": {
+       "class": "DERIVED",
+       "reason": "Accounting entitlement of an FG lot"
+      }
+     },
+     "references": 23,
+     "new_stock_fact_tables": [
+      "bs_cases",
+      "fg_lots"
+     ]
+    }
+   },
+   "ay_install": {
+    "stage": "AV_PLUS_AW_AX_AY_T1",
+    "label": "T1_FAMILY",
+    "functions": 13,
+    "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+    "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+    "av_coverage": {
+     "registry": {
+      "erp.fg_lots.product_id": {
+       "class": "NEW_STOCK_FACT",
+       "reason": "produced_at of every lot except GOOD returned by rework"
+      },
+      "erp.bs_cases.product_id": {
+       "class": "NEW_STOCK_FACT",
+       "reason": "physical_at of QC/laundry BS and manual OUT_OF_NOWHERE BS"
+      },
+      "erp.sales_items.product_id": {
+       "class": "SALES",
+       "reason": "Sale of existing stock"
+      },
+      "erp.journal_lines.product_id": {
+       "class": "ACCOUNTING",
+       "reason": "Journal dimension"
+      },
+      "erp.fg_stock_movements.product_id": {
+       "class": "MOVEMENT",
+       "reason": "Movement of an existing lot"
+      },
+      "erp.sales_return_items.product_id": {
+       "class": "SALES",
+       "reason": "Return of sold stock"
+      },
+      "erp.fg_adjustment_items.product_id": {
+       "class": "MOVEMENT",
+       "reason": "Adjusts an existing lot"
+      },
+      "erp.fg_inventory_balances.product_id": {
+       "class": "DERIVED",
+       "reason": "Balance cache keyed by product/location/grade"
+      },
+      "erp.opening_balance_items.product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Opening document; facts are OPENING lots and LEGACY BS"
+      },
+      "erp.stock_policy_versions.product_id": {
+       "class": "MASTER",
+       "reason": "Effective-dated stock policy"
+      },
+      "erp.accessory_bom_versions.product_id": {
+       "class": "MASTER",
+       "reason": "Effective-dated accessory BOM; no stock instant"
+      },
+      "erp.product_conversions.to_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Conversion target; the fact is the CONVERSION lot in fg_lots"
+      },
+      "erp.product_price_versions.product_id": {
+       "class": "MASTER",
+       "reason": "Effective-dated price"
+      },
+      "erp.product_conversions.from_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Conversion source, validated as EXISTING_STOCK"
+      },
+      "erp.qc_inspection_items.final_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "QC input; the facts are fg_lots and bs_cases"
+      },
+      "erp.fg_accessory_cost_snapshots.product_id": {
+       "class": "DERIVED",
+       "reason": "Cost snapshot of an FG lot"
+      },
+      "erp.po_accessory_bom_commitments.product_id": {
+       "class": "MASTER",
+       "reason": "PO accessory BOM commitment"
+      },
+      "erp.stock_explainability_snapshots.product_id": {
+       "class": "REPORT",
+       "reason": "Stock explanation snapshot"
+      },
+      "erp.non_po_hpp_gl_sync_events_v2620f.product_id": {
+       "class": "ACCOUNTING",
+       "reason": "HPP to GL synchronisation event"
+      },
+      "erp.laundry_receipt_batch_size_lines.bs_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Laundry receipt input; the BS fact is bs_cases"
+      },
+      "erp.product_identity_mutation_context_v1.product_id": {
+       "class": "AUTHORIZATION",
+       "reason": "Private one-use identity edit context"
+      },
+      "erp.laundry_receipt_bs_product_allocations.product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Validated as NEW_STOCK; the BS fact is bs_cases"
+      },
+      "erp.contractor_accessory_reimbursement_entitlements.product_id": {
+       "class": "DERIVED",
+       "reason": "Accounting entitlement of an FG lot"
+      }
+     },
+     "references": 23,
+     "new_stock_fact_tables": [
+      "bs_cases",
+      "fg_lots"
+     ]
+    },
+    "ay_sql_sha256": "bbecb24e4d3e79e77b63a25d2e3cd141da51fc996de3a5f0cefcd8407611bb6c"
+   },
+   "az_install": {
+    "stage": "AV_PLUS_AW_AX_AY_AZ_T1",
+    "label": "T1_FAMILY",
+    "functions": 13,
+    "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+    "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+    "av_coverage": {
+     "registry": {
+      "erp.fg_lots.product_id": {
+       "class": "NEW_STOCK_FACT",
+       "reason": "produced_at of every lot except GOOD returned by rework"
+      },
+      "erp.bs_cases.product_id": {
+       "class": "NEW_STOCK_FACT",
+       "reason": "physical_at of QC/laundry BS and manual OUT_OF_NOWHERE BS"
+      },
+      "erp.sales_items.product_id": {
+       "class": "SALES",
+       "reason": "Sale of existing stock"
+      },
+      "erp.journal_lines.product_id": {
+       "class": "ACCOUNTING",
+       "reason": "Journal dimension"
+      },
+      "erp.fg_stock_movements.product_id": {
+       "class": "MOVEMENT",
+       "reason": "Movement of an existing lot"
+      },
+      "erp.sales_return_items.product_id": {
+       "class": "SALES",
+       "reason": "Return of sold stock"
+      },
+      "erp.fg_adjustment_items.product_id": {
+       "class": "MOVEMENT",
+       "reason": "Adjusts an existing lot"
+      },
+      "erp.fg_inventory_balances.product_id": {
+       "class": "DERIVED",
+       "reason": "Balance cache keyed by product/location/grade"
+      },
+      "erp.opening_balance_items.product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Opening document; facts are OPENING lots and LEGACY BS"
+      },
+      "erp.stock_policy_versions.product_id": {
+       "class": "MASTER",
+       "reason": "Effective-dated stock policy"
+      },
+      "erp.accessory_bom_versions.product_id": {
+       "class": "MASTER",
+       "reason": "Effective-dated accessory BOM; no stock instant"
+      },
+      "erp.product_conversions.to_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Conversion target; the fact is the CONVERSION lot in fg_lots"
+      },
+      "erp.product_price_versions.product_id": {
+       "class": "MASTER",
+       "reason": "Effective-dated price"
+      },
+      "erp.product_conversions.from_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Conversion source, validated as EXISTING_STOCK"
+      },
+      "erp.qc_inspection_items.final_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "QC input; the facts are fg_lots and bs_cases"
+      },
+      "erp.fg_accessory_cost_snapshots.product_id": {
+       "class": "DERIVED",
+       "reason": "Cost snapshot of an FG lot"
+      },
+      "erp.po_accessory_bom_commitments.product_id": {
+       "class": "MASTER",
+       "reason": "PO accessory BOM commitment"
+      },
+      "erp.stock_explainability_snapshots.product_id": {
+       "class": "REPORT",
+       "reason": "Stock explanation snapshot"
+      },
+      "erp.non_po_hpp_gl_sync_events_v2620f.product_id": {
+       "class": "ACCOUNTING",
+       "reason": "HPP to GL synchronisation event"
+      },
+      "erp.laundry_receipt_batch_size_lines.bs_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Laundry receipt input; the BS fact is bs_cases"
+      },
+      "erp.product_identity_mutation_context_v1.product_id": {
+       "class": "AUTHORIZATION",
+       "reason": "Private one-use identity edit context"
+      },
+      "erp.laundry_receipt_bs_product_allocations.product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Validated as NEW_STOCK; the BS fact is bs_cases"
+      },
+      "erp.contractor_accessory_reimbursement_entitlements.product_id": {
+       "class": "DERIVED",
+       "reason": "Accounting entitlement of an FG lot"
+      }
+     },
+     "references": 23,
+     "new_stock_fact_tables": [
+      "bs_cases",
+      "fg_lots"
+     ]
+    },
+    "ay_sql_sha256": "bbecb24e4d3e79e77b63a25d2e3cd141da51fc996de3a5f0cefcd8407611bb6c",
+    "az_sql_sha256": "823fe2bbf072d543216f65c846188893ca6bec9455c17b5b93deae26c0ef5f0a"
+   },
+   "az_cases": {
+    "status": "COUNTEREXAMPLE",
+    "counts": {
+     "PASS": 10,
+     "COUNTEREXAMPLE": 2
+    }
+   },
+   "primary_unchanged": true,
+   "clone_remaining": 0
+  }
+ ]
+}
