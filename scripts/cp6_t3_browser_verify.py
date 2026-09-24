@@ -21,9 +21,9 @@ def verified(cur):
         from supabase_migrations.schema_migrations where version>%s""",(AB_STAMP,)).fetchall())
     assert live==expected,('T3_BROWSER_PACKAGE_LEDGER_DRIFT',sorted(set(live)^set(expected)),
                            sorted(k for k in expected if live.get(k)!=expected[k]))
-    import cp6_ay_probe as ayp
-    ax=ayp.ay_verified(cur)
-    # The whole erp/public catalog (definitions, owners, ACLs) equals the installed pin of the last package file (AY),
+    import cp6_az_probe as azp
+    ax=azp.az_verified(cur)
+    # The whole erp/public catalog (definitions, owners, ACLs) equals the installed pin of the last package file (AZ),
     # read on a separate read-only connection so the caller's session settings are untouched.
     import psycopg
     import cp6_t3_release_package as package
@@ -33,6 +33,6 @@ def verified(cur):
         conn.read_only=True
         live=package.live_catalog(check,block);conn.rollback()
     assert live==(block['count'],block['fingerprint']),('T3_BROWSER_CATALOG_DRIFT',last['key'],live)
-    return dict(stage='T3_PACKAGE_PLUS_AW_AX_AY_T1',package_files=len(expected),aw_ax_ay=ax['stage'],ax_sql_sha256=ax['ax_sql_sha256'],
-                ay_sql_sha256=ax['ay_sql_sha256'],
+    return dict(stage='T3_PACKAGE_PLUS_AW_AX_AY_AZ_T1',package_files=len(expected),aw_ax_ay_az=ax['stage'],ax_sql_sha256=ax['ax_sql_sha256'],
+                ay_sql_sha256=ax['ay_sql_sha256'],az_sql_sha256=ax['az_sql_sha256'],
                 catalog=dict(file=last['key'],object_count=live[0],fingerprint=live[1]))

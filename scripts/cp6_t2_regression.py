@@ -1,4 +1,4 @@
-"""T2 regression for the combined CP6 candidate: AU + AV + AW, AX and AY (T1 installs).
+"""T2 regression for the combined CP6 candidate: AU + AV + AW, AX, AY and AZ (T1 installs).
 
 Owner decision A+B: once every family passes its T1 probe, the whole existing regression runs once on the combined
 candidate, then goes to independent audit. The case declarations, oracles and race schedules are the unchanged ones
@@ -63,6 +63,7 @@ import cp6_av_runtime as av_runtime
 import cp6_aw_probe as awp
 import cp6_ax_probe as axp
 import cp6_ay_probe as ayp
+import cp6_az_probe as azp
 import cp6_regression_identity as identity
 
 LABEL=os.environ.get('CP6_T2_LABEL','T2_PRELIMINARY')
@@ -320,15 +321,15 @@ avt.group=group
 
 
 def change(kind,pg,control_url):
-    """AV through its own closed-admission runtime, then the AW, AX and AY T1 installs (development files)."""
+    """AV through its own closed-admission runtime, then the AW, AX, AY and AZ T1 installs (development files)."""
     assert kind=='install'
     av=av_runtime.change('install',pg,control_url)
-    aw=awp.install_aw();ax=axp.install_ax();ay=ayp.install_ay()
-    return dict(status='PASS' if av['status']=='PASS' else 'FAIL',av=av['status'],aw=aw,ax=ax,ay=ay)
+    aw=awp.install_aw();ax=axp.install_ax();ay=ayp.install_ay();az=azp.install_az()
+    return dict(status='PASS' if av['status']=='PASS' else 'FAIL',av=av['status'],aw=aw,ax=ax,ay=ay,az=az)
 
 
 # The trial modules read `runtime`; point them at the combined candidate without touching their code.
-avt.runtime=types.SimpleNamespace(change=change,verified=ayp.ay_verified,pins=av_runtime.pins,
+avt.runtime=types.SimpleNamespace(change=change,verified=azp.az_verified,pins=av_runtime.pins,
                                   qualify=None,refuse_post_use=None)
 
 
@@ -340,7 +341,7 @@ def ar_phase(report):
     seq=avt.group('AR_SEQUENTIAL',avt.ar_sequential)
     report['sequential']={k:seq[k] for k in ('status','counts')}
     with avt.psycopg.connect(avt.ADMIN) as conn,conn.cursor() as cur:
-        ayp.ay_verified(cur)
+        azp.az_verified(cur)
         today=cur.execute("select (statement_timestamp() at time zone 'Asia/Jakarta')::date").fetchone()[0]
     races=[]
     for kind in avt.inherited.KINDS:

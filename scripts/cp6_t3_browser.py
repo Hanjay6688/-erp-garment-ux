@@ -56,7 +56,7 @@ def run(out):
         verify=subprocess.run(['python','scripts/cp6_au_browser_fixture.py','verify'],cwd=AUDITOR,env=env,capture_output=True,text=True)
         report['candidate_verified_after_flow']=verify.returncode==0 and json.loads(verify.stdout.splitlines()[-1]).get('stage')
         ok=(result.returncode==0 and evidence.get('status')=='PASS' and len(report['cases'])==10
-            and all(s=='PASS' for s in report['cases'].values()) and report['candidate_verified_after_flow']=='T3_PACKAGE_PLUS_AW_AX_AY_T1')
+            and all(s=='PASS' for s in report['cases'].values()) and report['candidate_verified_after_flow']=='T3_PACKAGE_PLUS_AW_AX_AY_AZ_T1')
         report['status']='PASS' if ok else 'FAIL'
     except Exception as exc:
         report.update(status='INCOMPLETE',error=str(exc)[:1500])

@@ -14,13 +14,15 @@ name: CP6 T3 Release Package (hosted-faithful baseline)
     - scripts/cp6_t3_aligned_chain.py
     - scripts/cp6_t3_backup_restore_drill.py
     - supabase/release/cp6-t3/**
-    # the AW/AX/AY verification reads these (ay_verified requires the installed AY body to equal the dev text)
+    # the AW/AX/AY/AZ verification reads these (ay/az_verified require the installed bodies to equal the dev text)
     - scripts/cp6_aw_probe.py
     - scripts/cp6_ax_probe.py
     - scripts/cp6_ay_probe.py
+    - scripts/cp6_az_probe.py
     - supabase/dev/cp6_aw_t1_family.sql
     - supabase/dev/cp6_ax_t1_family.sql
     - supabase/dev/cp6_ay_t1_family.sql
+    - supabase/dev/cp6_az_t1_family.sql
     - .github/workflows/cp6-t3-release-package.yml
   workflow_dispatch: null
 permissions:
@@ -43,19 +45,19 @@ jobs:
       fail-fast: false
       matrix:
         include:
-        # install: the committed package (supabase/release/cp6-t3, 23 files, pins captured
-        # in run 35950787494) on a fresh hosted-faithful clone at AB. capture: derive the
+        # install: the committed package (supabase/release/cp6-t3, 24 files, pins captured
+        # in the T3 capture job) on a fresh hosted-faithful clone at AB. capture: derive the
         # pins again and compare them with the committed ones (determinism).
         - key: install
-          label: Hosted-faithful baseline to AB, committed 23-file package AC..AY, AW/AX/AY verify, advisors, restore drill (T3_PREP)
+          label: Hosted-faithful baseline to AB, committed 24-file package AC..AZ, AW/AX/AY/AZ verify, advisors, restore drill (T3_PREP)
           proof: t3
         - key: capture
           label: Hosted-faithful baseline to AB, pins captured again and compared with the committed package (T3_PREP)
           proof: t3
         # browser: the unchanged AU browser flow (10 cases, real Auth, PostgREST) on the
-        # committed 23-file package, with this branch's UI.
+        # committed 24-file package, with this branch's UI.
         - key: browser
-          label: Hosted-faithful baseline to AB, committed 23-file package, AU browser flow with the candidate UI (T3_PREP)
+          label: Hosted-faithful baseline to AB, committed 24-file package, AU browser flow with the candidate UI (T3_PREP)
           proof: t3
     env:
       PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres

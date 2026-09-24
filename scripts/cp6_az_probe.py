@@ -38,7 +38,7 @@ OUT=AUDITOR/'cp6-proof/az'
 AZ_SQL=AUDITOR/'supabase/dev/cp6_az_t1_family.sql'
 LABEL='T1_FAMILY'
 KEYS=('MATERIAL_INVENTORY','WIP','FG_INVENTORY','COGS')
-FUNCTIONS=('erp.sync_material_cost_revaluation(uuid)','erp._cp6_sync_material_adjustment_revaluation(uuid,uuid)')
+FUNCTIONS=('erp.sync_material_cost_revaluation(uuid)','erp._cp6_sync_material_adjustment_revaluation(uuid,uuid)','erp.sync_finished_po_wip_residual(uuid,date,text)')
 
 
 def dev_source(signature):
@@ -91,8 +91,9 @@ def ledger_days(cur,days,pos):
     return out
 
 
-def cut(cur,fx,day,qty,remaining,hour=8):
-    """One cutting group of `qty` units of the fixture roll for a new PO on `day` (ordinary cutting RPC)."""
+def cut(cur,fx,day,qty,hour=8):
+    """One cutting group of `qty` units of the fixture roll for a new PO on `day` (ordinary cutting RPC; the reported
+    remaining of the issued quantity is 0, the RPC requires issued = consumed + remaining)."""
     prod=chain.production
     api.admin(cur)
     po=uuid.uuid4()
@@ -100,7 +101,7 @@ def cut(cur,fx,day,qty,remaining,hour=8):
       values(%s,%s,%s,%s,'CUTTING','CUTTING',%s,'AZ probe cutting day')""",(po,'AZ-PO-'+str(po),prod.MODEL,qty,prod.at(day,7)))
     payload=dict(action='SAVE_DRAFT',po_id=po,pattern_id=prod.PATTERN,source_location_id=fx['location'],cut_at=prod.at(day,hour),
                  change_reason='AZ probe cutting of %s units'%qty,size_slots=[dict(slot_no=1,size_id=prod.base.SIZE,drawing_no=1)],
-                 rolls=[dict(roll_id=fx['roll'],qty_issued=qty,qty_consumed=qty,qty_reported_remaining=remaining,yields=[dict(slot_no=1,qty_pcs=qty)])])
+                 rolls=[dict(roll_id=fx['roll'],qty_issued=qty,qty_consumed=qty,qty_reported_remaining=0,yields=[dict(slot_no=1,qty_pcs=qty)])])
     draft=prod.rpc(cur,'public.erp_save_cutting_group_before_sewing_v2',payload)
     group=uuid.UUID(draft['cutting_group_id'])
     prod.rpc(cur,'public.erp_save_cutting_group_before_sewing_v2',dict(payload,id=group,action='POST'),expected_version=int(draft['row_version']))
@@ -149,8 +150,10 @@ def material_case(cur,today,price,cuts,closed=None,invoice_offset=0,adjustments=
     events=[(o,'CUT',q) for o,q in cuts]+[(o,'ADJ',q) for o,q in adjustments]
     for offset,kind,qty in sorted(events):
         left-=qty
-        if kind=='CUT':pos.append(cut(cur,fx,d+timedelta(days=offset),qty,left))
+        if kind=='CUT':pos.append(cut(cur,fx,d+timedelta(days=offset),qty))
         else:adjs.append(adjust(cur,fx,d+timedelta(days=offset),qty))
+    # The seed contractor was left out of the first quieting (as in the AY probe); clear it now over the fixture window.
+    quiet_fixture=awp.quiet_seed(cur,d,today-timedelta(days=1))
     closed_through=d+timedelta(days=closed) if closed is not None else None
     closed_before=None
     if closed is not None:
@@ -215,7 +218,7 @@ def material_case(cur,today,price,cuts,closed=None,invoice_offset=0,adjustments=
                 checks=checks,new_revaluation_events=[[str(v) for v in e] for e in new_events],adjustment_facts=[[str(v) for v in f] for f in adj_facts],
                 invoice_journals=[[str(v) for v in j] for j in invoice_journals],stock_units=stock,
                 daily_move={k:{kk:str(vv) for kk,vv in v.items()} for k,v in move.items()},wip_po={k:{kk:str(vv) for kk,vv in v.items()} for k,v in wip_po.items()},
-                negative_blockers=negative,closed_before=closed_before,invoice=response,quiet=quiet)
+                negative_blockers=negative,closed_before=closed_before,invoice=response,quiet=[quiet,quiet_fixture])
 
 
 def sale_after_goods(cur,today,price):

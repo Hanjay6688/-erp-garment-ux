@@ -47,6 +47,11 @@ FILES=[
          body=ROOT/'supabase/dev/cp6_ay_t1_family.sql',title='PO HPP corrections dated from the goods',
          description='PO HPP corrections dated from the goods: FG from the lot date, COGS from the sale date',
          replaced=['erp.sync_po_hpp_to_gl(uuid,date)'],new_tables=[]),
+    dict(key='AZ',stamp='20260924010300',name='erp_v2_6_20az_cp6_material_recost_dated_from_movement',version='v2.6.20az',
+         body=ROOT/'supabase/dev/cp6_az_t1_family.sql',title='material recost corrections dated from the physical movement',
+         description='Material recost corrections dated from the physical movement: WIP from the cutting day, material until then',
+         replaced=['erp.sync_material_cost_revaluation(uuid)','erp._cp6_sync_material_adjustment_revaluation(uuid,uuid)',
+                   'erp.sync_finished_po_wip_residual(uuid,date,text)'],new_tables=[]),
 ]
 PLACEHOLDER='0'*64
 # The package capsules AO..AV (AO..AW for AX) are checked like AV checks AO..AU; the capsules of this builder are left out
@@ -230,8 +235,11 @@ def build():
         text+=closed
         text+="lock table erp.schema_migrations,supabase_migrations.schema_migrations in share row exclusive mode;\n"
         text+=business+admission(f,capsule)+predecessor(code,previous)+prior_platform(code,previous)
-        # AW and AX leave out the capsules AV..AX by name; later files add their own capsule to that list.
-        own=inner if code in ('AW','AX') else inner.replace("'cp6_v2620ax_rollback_capsule')","'cp6_v2620ax_rollback_capsule','%s')"%capsule.split('.')[1])
+        # AW and AX leave out the capsules AV..AX by name; each later file adds the capsules after AX up to its own
+        # (AY: ay; AZ: ay, az), so the AY text is unchanged.
+        later=[c['key'].lower() for c in FILES[FILES.index(f)::-1] if c['key'] not in ('AW','AX')][::-1]
+        own=inner if code in ('AW','AX') else inner.replace("'cp6_v2620ax_rollback_capsule')","'cp6_v2620ax_rollback_capsule',%s)"%
+                                                              ','.join("'cp6_v2620%s_rollback_capsule'"%k for k in later))
         text+=catalog_guard(own,guard['agg'],code+'_PREDECESSOR_CATALOG_DRIFT')
         text+=historical(av_history,capsules,code)+prior_capsules(code,capsules)
         text+=capsule_create(f,capsule)+before_data(capsule)

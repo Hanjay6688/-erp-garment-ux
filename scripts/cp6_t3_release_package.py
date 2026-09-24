@@ -34,7 +34,7 @@ ROOT=Path(__file__).resolve().parents[1]
 MIGRATIONS=ROOT/'supabase/migrations'
 RELEASE=ROOT/'supabase/release/cp6-t3'
 META=ROOT/'docs/evidence/cp6-g01/hosted_alignment_metadata.json'
-KEYS=['ac','ad','ae','af','ag','ah','ai','aj','ak','al','am','an','ao','ap','aq','ar','as','at','au','av','aw','ax','ay']
+KEYS=['ac','ad','ae','af','ag','ah','ai','aj','ak','al','am','an','ao','ap','aq','ar','as','at','au','av','aw','ax','ay','az']
 # AW, AX and AY release candidates are built by scripts/cp6_t3_awx_release.py (T1 bodies wrapped with AO..AV guards).
 SOURCES=ROOT/'supabase/release/cp6-t3-src'
 CLONE='postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback'
