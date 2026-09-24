@@ -1,0 +1,66 @@
+{
+ "frozen_target": {
+  "repo": "Hanjay6688/-erp-garment-ux",
+  "branch": "claude/new-session-deapao",
+  "head_sha": "9add57ea8c2b6b2dc37c0134717d4d39ba30b5dc",
+  "tree": "5d5f833b2e75e23184c643d5ac469781f1c3ce5e"
+ },
+ "baseline": {
+  "branch": "competition/cp6-j-closure-20260911",
+  "sha": "ca7f09556397801c50a2277bdb65b1bf019f9a05"
+ },
+ "dispatched_by_auditor": [
+  {
+   "workflow": "cp6-t2-regression.yml",
+   "run_id": 36037873682,
+   "head_sha": "9add57ea8c2b6b2dc37c0134717d4d39ba30b5dc",
+   "event": "workflow_dispatch",
+   "created_at": "2026-09-24T17:57:20Z",
+   "label": "INDEPENDENT_NATIVE_RERUN"
+  },
+  {
+   "workflow": "cp6-t3-release-package.yml",
+   "run_id": 36037876338,
+   "head_sha": "9add57ea8c2b6b2dc37c0134717d4d39ba30b5dc",
+   "event": "workflow_dispatch",
+   "created_at": "2026-09-24T17:57:21Z",
+   "label": "INDEPENDENT_NATIVE_RERUN"
+  },
+  {
+   "workflow": "cp6-candidate-codeql.yml",
+   "run_id": 36037878419,
+   "head_sha": "9add57ea8c2b6b2dc37c0134717d4d39ba30b5dc",
+   "event": "workflow_dispatch",
+   "created_at": "2026-09-24T17:57:22Z",
+   "conclusion": "success",
+   "jobs": {
+    "javascript-typescript": 107762403880,
+    "python": 107762404091,
+    "actions": 107762404177,
+    "c-cpp": 107762404232
+   },
+   "label": "INDEPENDENT_NATIVE_RERUN"
+  },
+  {
+   "workflow": "cp6-auditor-scenario.yml",
+   "run_id": 36039753521,
+   "job_id": 107768697263,
+   "head_sha": "9add57ea8c2b6b2dc37c0134717d4d39ba30b5dc",
+   "phase": "after",
+   "scenario": "scen/rt_probe_1.py",
+   "scenario_sha256": "13b3b800900e55d5ae60d67baafffec6aa07216da76bf6b7a95534f42da0c33a",
+   "conclusion": "success",
+   "label": "INDEPENDENT_NATIVE_RERUN",
+   "note": "runtime probe 1"
+  }
+ ],
+ "reused_evidence_phase2_only": [
+  {
+   "workflow": "cp6-auditor-scenario.yml",
+   "run_id": 36034620907,
+   "head_sha": "9add57ea8c2b6b2dc37c0134717d4d39ba30b5dc",
+   "note": "GPT four scenarios; REUSED_EVIDENCE, only for the paths it tested; logs not read in phase 1"
+  }
+ ],
+ "protocol_note": "Commit message subject/bodies were exposed incidentally by git worktree add output and by GitHub API run listings (head_commit.message); recorded as incidental exposure, not used as oracle."
+}

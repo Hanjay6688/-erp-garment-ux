@@ -1,0 +1,145 @@
+==================== t2_ar_107762384861.log
+  group AR_SEQUENTIAL {'PASS': 146}
+  group T2_FIXTURE_PAYROLL {'None': 6}
+  group AR_CONCURRENCY {'PASS': 28}
+  other: {"status": "PASS", "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b", "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b", "functions": 533, "objects": 690, "production_go": false}
+  other: {"status": "PASS", "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b", "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b", "erp_functions": 534, "new_public_readers": 1, "objects": 692, "production_go": false}
+  other: {"t2_label": "T2_REGRESSION", "phase": "ar", "seed": "QUIETED"}
+  other: {"group": "T2_SEED_QUIETED", "target": "AR_SEQUENTIAL", "closed_through": "2026-08-31", "window": ["2026-01-02", "2026-09-25"], "attendance": [{"contractor": "a1000000-0000-0000-0000-000000000001", "periods": [["2026-01-02", "2026-01-31"], ["2026-02-02", "2026-02-28"], ["2026-03-02", "2026-03-31"], ["2026-04-02", "2026-09-21"], ["2026-09-22", "2026-09-23"], ["2026-09-24", "2026-09-25"]]}, {"contractor": "a1000000-000
+  other: {"av_trial_phase": "qualify", "status": "WRITER_PASS", "phase": "qualify", "production_go": false, "independent_acceptance": false, "auditor_head": "9add57ea8c2b6b2dc37c0134717d4d39ba30b5dc", "av_pins": "193e84efac8ead7cab681071e40070e1f9249f82cec1b7972f0576e8df25a2dc", "original_oracle_sources": {"scripts/cp6_v2620al_review.py": "5577b261dbab8951454dd2794d7c68f067ba6c4593829a34416ef31f48e06fb9", "scripts/cp6_v2620al
+==================== t2_regression_107762385235.log
+  group BUSINESS {'PASS': 179, 'CONTROL_PASS': 39, 'DATE_POLICY_REVIEW_REQUIRED': 12}
+  group T2_FIXTURE_PAYROLL {'None': 103}
+  group IMPORTS {'PASS': 31}
+  group VALUES {'PASS': 65}
+  group NEW_CASES {'PASS': 25, 'COUNTEREXAMPLE': 8, 'INCOMPLETE': 1}
+  group T2_APPROVED_ORACLE {'MATCH': 8}
+  group T2_CALENDAR_POLICY {'COUNTEREXAMPLE': 12}
+  group AO_TRIAL {'PASS': 8, 'INCOMPLETE': 4}
+  group APPROVED_ORACLE_B {'PASS': 5}
+  other: {"status": "PASS", "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b", "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b", "functions": 533, "objects": 690, "production_go": false}
+  other: {"status": "PASS", "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b", "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b", "erp_functions": 534, "new_public_readers": 1, "objects": 692, "production_go": false}
+  other: {"t2_label": "T2_REGRESSION", "phase": "regression", "seed": "QUIETED"}
+  other: {"group": "T2_SEED_QUIETED", "target": "BUSINESS", "closed_through": "2026-08-31", "window": ["2026-01-02", "2026-09-25"], "attendance": [{"contractor": "a1000000-0000-0000-0000-000000000001", "periods": [["2026-01-02", "2026-01-31"], ["2026-02-02", "2026-02-28"], ["2026-03-02", "2026-03-31"], ["2026-04-02", "2026-09-21"], ["2026-09-22", "2026-09-23"], ["2026-09-24", "2026-09-25"]]}, {"contractor": "a1000000-0000-000
+  other: {"group": "T2_SEED_QUIETED", "target": "IMPORTS", "closed_through": "2026-08-31", "window": ["2026-01-02", "2026-09-25"], "attendance": [{"contractor": "a1000000-0000-0000-0000-000000000001", "periods": [["2026-01-02", "2026-01-31"], ["2026-02-02", "2026-02-28"], ["2026-03-02", "2026-03-31"], ["2026-04-02", "2026-09-21"], ["2026-09-22", "2026-09-23"], ["2026-09-24", "2026-09-25"]]}, {"contractor": "a1000000-0000-0000
+  other: {"group": "T2_SEED_QUIETED", "target": "VALUES", "closed_through": "2026-08-31", "window": ["2026-01-02", "2026-09-25"], "attendance": [{"contractor": "a1000000-0000-0000-0000-000000000001", "periods": [["2026-01-02", "2026-01-31"], ["2026-02-02", "2026-02-28"], ["2026-03-02", "2026-03-31"], ["2026-04-02", "2026-09-21"], ["2026-09-22", "2026-09-23"], ["2026-09-24", "2026-09-25"]]}, {"contractor": "a1000000-0000-0000-
+  other: {"group": "T2_SEED_QUIETED", "target": "NEW_CASES", "closed_through": "2026-08-31", "window": ["2026-01-02", "2026-09-25"], "attendance": [{"contractor": "a1000000-0000-0000-0000-000000000001", "periods": [["2026-01-02", "2026-01-31"], ["2026-02-02", "2026-02-28"], ["2026-03-02", "2026-03-31"], ["2026-04-02", "2026-09-21"], ["2026-09-22", "2026-09-23"], ["2026-09-24", "2026-09-25"]]}, {"contractor": "a1000000-0000-00
+  other: {"group": "T2_REGRESSION_VERDICT", "status": "DISPOSITION_REQUIRED", "new_cases": {"status": "INCOMPLETE", "counts": {"PASS": 25, "COUNTEREXAMPLE": 8, "INCOMPLETE": 1}}, "calendar_policy_count": 12}
+  other: {"group": "T2_SEED_QUIETED", "target": "AO_TRIAL", "closed_through": "2026-08-31", "window": ["2026-01-02", "2026-09-25"], "attendance": [{"contractor": "a1000000-0000-0000-0000-000000000001", "periods": [["2026-01-02", "2026-01-31"], ["2026-02-02", "2026-02-28"], ["2026-03-02", "2026-03-31"], ["2026-04-02", "2026-09-21"], ["2026-09-22", "2026-09-23"], ["2026-09-24", "2026-09-25"]]}, {"contractor": "a1000000-0000-000
+  other: {"group": "T2_AO_TRIAL", "status": "INCOMPLETE", "counts": {"PASS": 8, "INCOMPLETE": 4}, "source_sha256": "279f0091e8cdfd93b651b5423fc59ad830b899392ebc069db21738366b83ce3f", "foundation": "PRESENT", "moved": {"INVOICE:UTC:False": "INCOMPLETE", "INVOICE:UTC:True": "INCOMPLETE", "INVOICE:Pacific/Kiritimati:False": "INCOMPLETE", "INVOICE:Pacific/Kiritimati:True": "INCOMPLETE"}}
+  other: {"group": "T2_SEED_QUIETED", "target": "APPROVED_ORACLE_B", "closed_through": "2026-08-31", "window": ["2026-01-02", "2026-09-25"], "attendance": [{"contractor": "a1000000-0000-0000-0000-000000000001", "periods": [["2026-01-02", "2026-01-31"], ["2026-02-02", "2026-02-28"], ["2026-03-02", "2026-03-31"], ["2026-04-02", "2026-09-21"], ["2026-09-22", "2026-09-23"], ["2026-09-24", "2026-09-25"]]}, {"contractor": "a1000000
+  other: {"group": "T2_APPROVED_ORACLE_B", "status": "WRITER_PASS", "counts": {"PASS": 5}, "cases": {"AS:ADJUSTMENT_DATE:False": {"approved_oracle": "MATCH", "decision": "Owner 24 Sep: ADJUSTMENT_DATE tidak disahkan otomatis; telusuri pembaca effective_date, bila aman ubah oracle tanggalnya dengan bukti. Writer trace: readers are run_v267_financial_truth_checks V2620T_MATERIAL_ADJUSTMENT_FACT_LEDGER (fact effective_date = its
+  other: {"group": "T2_APPROVED_ORACLE_SUMMARY", "results": {"DATE:False:Asia/Jakarta:True:20": "MATCH", "DATE:False:Asia/Jakarta:True:20.003": "MATCH", "DATE:False:UTC:True:20": "MATCH", "DATE:False:UTC:True:20.003": "MATCH", "DATE:False:Etc/GMT+12:True:20": "MATCH", "DATE:False:Etc/GMT+12:True:20.003": "MATCH", "DATE:False:Pacific/Kiritimati:True:20": "MATCH", "DATE:False:Pacific/Kiritimati:True:20.003": "MATCH"}, "match": 
+  other: {"group": "T2_IDENTITY", "groups": {"BUSINESS": {"expected": 230, "observed": 230, "added": [], "removed": [], "moved": [], "order_unchanged": true}, "IMPORTS": {"expected": 31, "observed": 31, "added": [], "removed": [], "moved": [], "order_unchanged": true}, "VALUES": {"expected": 65, "observed": 65, "added": [], "removed": [], "moved": [], "order_unchanged": true}, "NEW_CASES": {"expected": 34, "observed": 34, "ad
+  other: {"av_trial_phase": "regression", "status": "DISPOSITION_REQUIRED", "phase": "regression", "production_go": false, "independent_acceptance": false, "auditor_head": "9add57ea8c2b6b2dc37c0134717d4d39ba30b5dc", "av_pins": "193e84efac8ead7cab681071e40070e1f9249f82cec1b7972f0576e8df25a2dc", "original_oracle_sources": {"scripts/cp6_v2620al_review.py": "5577b261dbab8951454dd2794d7c68f067ba6c4593829a34416ef31f48e06fb9", "scri
+==================== t2_temporal_107762384959.log
+  group AT_CASES {'PASS': 16}
+  group AT_CONCURRENCY {'PASS': 4}
+  group AU_CASES {'PASS': 15}
+  group AU_CONCURRENCY {'PASS': 6}
+  other: {"status": "PASS", "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b", "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b", "functions": 533, "objects": 690, "production_go": false}
+  other: {"status": "PASS", "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b", "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b", "erp_functions": 534, "new_public_readers": 1, "objects": 692, "production_go": false}
+  other: {"t2_label": "T2_REGRESSION", "phase": "temporal", "seed": "AS_IS"}
+  other: {"av_trial_phase": "temporal", "status": "WRITER_PASS", "phase": "temporal", "production_go": false, "independent_acceptance": false, "auditor_head": "9add57ea8c2b6b2dc37c0134717d4d39ba30b5dc", "av_pins": "193e84efac8ead7cab681071e40070e1f9249f82cec1b7972f0576e8df25a2dc", "original_oracle_sources": {"scripts/cp6_v2620al_review.py": "5577b261dbab8951454dd2794d7c68f067ba6c4593829a34416ef31f48e06fb9", "scripts/cp6_v2620
+==================== t3_browser_107762395187.log
+  other: {"status": "ALIGNED_PER_OBJECT", "constraints_equal": true, "views_equal": true, "sequences_equal": true, "schema_equal": true, "capsules_equal": true, "capsules": [{"view": "erp.v_fg_partial_completion_progress", "status": "ALIGNED", "replay_sha256": "efb2d15345589645f2184c3a749da42acc11bad1d4585988c3e02c5c762464e6", "hosted_sha256": "7897479ca27144e599b6607b60f5b9bed08bdea57171ff6ba8ec81ce46f20037", "hosted_md5_equ
+  other: {"group": "T3_HOSTED_FINGERPRINT", "equal": true, "kinds": 16, "differ": {}, "explained": {"platform_ledger": "fixture ledger keeps empty statements and repository stamps (G-01 round 1, ledger_content_order.json)"}}
+  other: {"status": "PASS_ALIGNED_CHAIN_TO_AB", "refused_step": null, "alignment": {"label": "G01_ALIGNMENT", "sql_sha256": "4e59a131ecec997fbb7b8bbcb9a9fd02c4913be59172d0182ee8e9736863deb2", "constraints": {"attendance_hpp_journal_line_links.attendance_hpp_journal_line_links_link_type_check": {"hosted": "72f8ce2c1e", "aligned": "72f8ce2c1e"}, "attendance_hpp_pools.attendance_hpp_pools_status_check": {"hosted": "e05afeb3b8", 
+  other: {"group": "T3_HOSTED_CAPSULES", "equal": true, "capsules": {"bs_resolution_v2619_rollback_capsule": {"hosted": "28ab388833da7da87384766ecaedadc66b4d048c303ee91e16f3939e34afdc39", "clone": "28ab388833da7da87384766ecaedadc66b4d048c303ee91e16f3939e34afdc39", "equal": true}, "bs_resolution_v2619a_rollback_capsule": {"hosted": "de8dfaab7b63b8742d383a089cdb05e73b629aad9f4df149e6a3c9fb590ef560", "clone": "de8dfaab7b63b8742d
+  other: {"group": "T3_PACKAGE_INSTALL", "key": "AC", "status": "PASS"}
+  other: {"group": "T3_PACKAGE_INSTALL", "key": "AD", "status": "PASS"}
+  other: {"group": "T3_PACKAGE_INSTALL", "key": "AE", "status": "PASS"}
+  other: {"group": "T3_PACKAGE_INSTALL", "key": "AF", "status": "PASS"}
+  other: {"group": "T3_PACKAGE_INSTALL", "key": "AG", "status": "PASS"}
+  other: {"group": "T3_PACKAGE_INSTALL", "key": "AH", "status": "PASS"}
+  other: {"group": "T3_PACKAGE_INSTALL", "key": "AI", "status": "PASS"}
+  other: {"group": "T3_PACKAGE_INSTALL", "key": "AJ", "status": "PASS"}
+  other: {"group": "T3_PACKAGE_INSTALL", "key": "AK", "status": "PASS"}
+  other: {"group": "T3_PACKAGE_INSTALL", "key": "AL", "status": "PASS"}
+  other: {"group": "T3_PACKAGE_INSTALL", "key": "AM", "status": "PASS"}
+  other: {"group": "T3_PACKAGE_INSTALL", "key": "AN", "status": "PASS"}
+  other: {"group": "T3_PACKAGE_INSTALL", "key": "AO", "status": "PASS"}
+  other: {"group": "T3_PACKAGE_INSTALL", "key": "AP", "status": "PASS"}
+  other: {"group": "T3_PACKAGE_INSTALL", "key": "AQ", "status": "PASS"}
+  other: {"group": "T3_PACKAGE_INSTALL", "key": "AR", "status": "PASS"}
+  other: {"group": "T3_PACKAGE_INSTALL", "key": "AS", "status": "PASS"}
+  other: {"group": "T3_PACKAGE_INSTALL", "key": "AT", "status": "PASS"}
+  other: {"group": "T3_PACKAGE_INSTALL", "key": "AU", "status": "PASS"}
+  other: {"group": "T3_PACKAGE_INSTALL", "key": "AV", "status": "PASS"}
+  other: {"group": "T3_PACKAGE_INSTALL", "key": "AW", "status": "PASS"}
+  other: {"group": "T3_PACKAGE_INSTALL", "key": "AX", "status": "PASS"}
+  other: {"group": "T3_PACKAGE_INSTALL", "key": "AY", "status": "PASS"}
+  other: {"group": "T3_PACKAGE_INSTALL", "key": "AZ", "status": "PASS"}
+  other: {"group": "T3_PACKAGE_RUN", "stage": "PACKAGE", "status": "PASS", "result": "ALL_FILES_INSTALLED"}
+  other: {"group": "T3_PACKAGE_RUN", "stage": "AW_AX_AY_AZ_VERIFY", "status": "PASS", "result": {"stage": "AV_PLUS_AW_AX_AY_AZ_T1", "functions": 13, "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32", "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503", "ay_sql_sha256": "29b8977613012431b9efa927c7cee10654aef8a016368a0430e7c3789070af43", "az_sql_sha256": "9007eefc5b
+  other: {"t3_browser": {"label": "T3_PREP_BROWSER", "status": "PASS", "frontend": "candidate branch checkout (auditor)", "production_go": false, "release_evidence": false, "seed": {"exit": 0, "stderr": ""}, "flow_exit_code": 0, "cases": {"REAL_LOGIN_PAGE": "PASS", "ANONYMOUS_REFUSED": "PASS", "REAL_PASSWORD_BROWSER_LOGIN": "PASS", "AMBIGUOUS_REFUSED_0": "PASS", "LOST_REPLY_RELOAD_EXACT_REPLAY": "PASS", "EXACT_BRAND_STOCK_HPP
+  other: {"t3_package_run": {"label": "T3_PREP", "mode": "browser", "status": "BROWSER_PASS", "production_go": false, "release_evidence": false, "auth_users_before": 0, "ledger_start": {"app": ["v2.6.20aa", "v2.6.20ab"], "platform_last": "20260914190500"}, "fingerprint_AB": {"view": {"n": 51, "md5": "68b2fbf688881496413307954006bdbe"}, "index": {"n": 605, "md5": "65816b59b4bd7675995b7b9bc98fa4c5"}, "policy": {"n": 190, "md5":
+==================== t3_capture_107762394813.log
+  other: {"status": "ALIGNED_PER_OBJECT", "constraints_equal": true, "views_equal": true, "sequences_equal": true, "schema_equal": true, "capsules_equal": true, "capsules": [{"view": "erp.v_fg_partial_completion_progress", "status": "ALIGNED", "replay_sha256": "efb2d15345589645f2184c3a749da42acc11bad1d4585988c3e02c5c762464e6", "hosted_sha256": "7897479ca27144e599b6607b60f5b9bed08bdea57171ff6ba8ec81ce46f20037", "hosted_md5_equ
+  other: {"group": "T3_HOSTED_FINGERPRINT", "equal": true, "kinds": 16, "differ": {}, "explained": {"platform_ledger": "fixture ledger keeps empty statements and repository stamps (G-01 round 1, ledger_content_order.json)"}}
+  other: {"status": "PASS_ALIGNED_CHAIN_TO_AB", "refused_step": null, "alignment": {"label": "G01_ALIGNMENT", "sql_sha256": "4e59a131ecec997fbb7b8bbcb9a9fd02c4913be59172d0182ee8e9736863deb2", "constraints": {"attendance_hpp_journal_line_links.attendance_hpp_journal_line_links_link_type_check": {"hosted": "72f8ce2c1e", "aligned": "72f8ce2c1e"}, "attendance_hpp_pools.attendance_hpp_pools_status_check": {"hosted": "e05afeb3b8", 
+  other: {"group": "T3_HOSTED_CAPSULES", "equal": true, "capsules": {"bs_resolution_v2619_rollback_capsule": {"hosted": "28ab388833da7da87384766ecaedadc66b4d048c303ee91e16f3939e34afdc39", "clone": "28ab388833da7da87384766ecaedadc66b4d048c303ee91e16f3939e34afdc39", "equal": true}, "bs_resolution_v2619a_rollback_capsule": {"hosted": "de8dfaab7b63b8742d383a089cdb05e73b629aad9f4df149e6a3c9fb590ef560", "clone": "de8dfaab7b63b8742d
+  other: {"group": "T3_PACKAGE_CAPTURE", "key": "AC", "status": "PASS", "subs": [{"kind": "AC_VIEW", "what": "erp.v_payroll_nota_browser source"}, {"kind": "AC_VIEW", "what": "erp.v_payroll_nota_browser restore statement sha256"}]}
+  other: {"group": "T3_PACKAGE_CAPTURE", "key": "AD", "status": "PASS", "subs": [{"kind": "LEDGER", "what": "AC"}]}
+  other: {"group": "T3_PACKAGE_CAPTURE", "key": "AE", "status": "PASS", "subs": [{"kind": "LEDGER", "what": "AD"}]}
+  other: {"group": "T3_PACKAGE_CAPTURE", "key": "AF", "status": "PASS", "subs": [{"kind": "LEDGER", "what": "AE"}]}
+  other: {"group": "T3_PACKAGE_CAPTURE", "key": "AG", "status": "PASS", "subs": [{"kind": "LEDGER", "what": "AF"}]}
+  other: {"group": "T3_PACKAGE_CAPTURE", "key": "AH", "status": "PASS", "subs": [{"kind": "LEDGER", "what": "AG"}]}
+  other: {"group": "T3_PACKAGE_CAPTURE", "key": "AI", "status": "PASS", "subs": [{"kind": "LEDGER", "what": "AH"}]}
+  other: {"group": "T3_PACKAGE_CAPTURE", "key": "AJ", "status": "PASS", "subs": [{"kind": "LEDGER", "what": "AI"}]}
+  other: {"group": "T3_PACKAGE_CAPTURE", "key": "AK", "status": "PASS", "subs": [{"kind": "LEDGER", "what": "AJ"}]}
+  other: {"group": "T3_PACKAGE_CAPTURE", "key": "AL", "status": "PASS", "subs": [{"kind": "LEDGER", "what": "AK"}]}
+  other: {"group": "T3_PACKAGE_CAPTURE", "key": "AM", "status": "PASS", "subs": [{"kind": "LEDGER", "what": "AL"}]}
+  other: {"group": "T3_PACKAGE_CAPTURE", "key": "AN", "status": "PASS", "subs": [{"kind": "LEDGER", "what": "AM"}]}
+  other: {"group": "T3_PACKAGE_CAPTURE", "key": "AO", "status": "PASS", "subs": [{"kind": "LEDGER", "what": "AN"}, {"kind": "CAPSULE", "what": "cp6_v2620_rollback_capsule"}, {"kind": "CAPSULE", "what": "cp6_v2620ac_relation_rollback_capsule"}, {"kind": "CATALOG", "what": "AO_PREDECESSOR_CATALOG_DRIFT"}, {"kind": "CATALOG", "what": "AO_INSTALLED_CATALOG_DRIFT"}]}
+  other: {"group": "T3_PACKAGE_CAPTURE", "key": "AP", "status": "PASS", "subs": [{"kind": "LEDGER", "what": "AO"}, {"kind": "CAPSULE", "what": "cp6_v2620_rollback_capsule"}, {"kind": "CAPSULE", "what": "cp6_v2620ac_relation_rollback_capsule"}, {"kind": "CATALOG", "what": "AP_PREDECESSOR_CATALOG_DRIFT"}, {"kind": "CATALOG", "what": "AP_INSTALLED_CATALOG_DRIFT"}]}
+  other: {"group": "T3_PACKAGE_CAPTURE", "key": "AQ", "status": "PASS", "subs": [{"kind": "LEDGER", "what": "AO"}, {"kind": "LEDGER", "what": "AP"}, {"kind": "CAPSULE", "what": "cp6_v2620_rollback_capsule"}, {"kind": "CAPSULE", "what": "cp6_v2620ac_relation_rollback_capsule"}, {"kind": "CATALOG", "what": "AQ_PREDECESSOR_CATALOG_DRIFT"}, {"kind": "CATALOG", "what": "AQ_INSTALLED_CATALOG_DRIFT"}]}
+  other: {"group": "T3_PACKAGE_CAPTURE", "key": "AR", "status": "PASS", "subs": [{"kind": "LEDGER", "what": "AO"}, {"kind": "LEDGER", "what": "AP"}, {"kind": "LEDGER", "what": "AQ"}, {"kind": "CAPSULE", "what": "cp6_v2620_rollback_capsule"}, {"kind": "CAPSULE", "what": "cp6_v2620ac_relation_rollback_capsule"}, {"kind": "CATALOG", "what": "AR_PREDECESSOR_CATALOG_DRIFT"}, {"kind": "CATALOG", "what": "AR_INSTALLED_CATALOG_DRIFT"
+  other: {"group": "T3_PACKAGE_CAPTURE", "key": "AS", "status": "PASS", "subs": [{"kind": "LEDGER", "what": "AO"}, {"kind": "LEDGER", "what": "AP"}, {"kind": "LEDGER", "what": "AQ"}, {"kind": "LEDGER", "what": "AR"}, {"kind": "CAPSULE", "what": "cp6_v2620_rollback_capsule"}, {"kind": "CAPSULE", "what": "cp6_v2620ac_relation_rollback_capsule"}, {"kind": "CATALOG", "what": "AS_PREDECESSOR_CATALOG_DRIFT"}, {"kind": "CATALOG", "w
+  other: {"group": "T3_PACKAGE_CAPTURE", "key": "AT", "status": "PASS", "subs": [{"kind": "LEDGER", "what": "AO"}, {"kind": "LEDGER", "what": "AP"}, {"kind": "LEDGER", "what": "AQ"}, {"kind": "LEDGER", "what": "AR"}, {"kind": "LEDGER", "what": "AS"}, {"kind": "CAPSULE", "what": "cp6_v2620_rollback_capsule"}, {"kind": "CAPSULE", "what": "cp6_v2620ac_relation_rollback_capsule"}, {"kind": "CATALOG", "what": "AT_PREDECESSOR_CATAL
+  other: {"group": "T3_PACKAGE_CAPTURE", "key": "AU", "status": "PASS", "subs": [{"kind": "LEDGER", "what": "AO"}, {"kind": "LEDGER", "what": "AP"}, {"kind": "LEDGER", "what": "AQ"}, {"kind": "LEDGER", "what": "AR"}, {"kind": "LEDGER", "what": "AS"}, {"kind": "LEDGER", "what": "AT"}, {"kind": "CAPSULE", "what": "cp6_v2620_rollback_capsule"}, {"kind": "CAPSULE", "what": "cp6_v2620ac_relation_rollback_capsule"}, {"kind": "CATAL
+  other: {"group": "T3_PACKAGE_CAPTURE", "key": "AV", "status": "PASS", "subs": [{"kind": "LEDGER", "what": "AO"}, {"kind": "LEDGER", "what": "AP"}, {"kind": "LEDGER", "what": "AQ"}, {"kind": "LEDGER", "what": "AR"}, {"kind": "LEDGER", "what": "AS"}, {"kind": "LEDGER", "what": "AT"}, {"kind": "LEDGER", "what": "AU"}, {"kind": "CAPSULE", "what": "cp6_v2620_rollback_capsule"}, {"kind": "CAPSULE", "what": "cp6_v2620ac_relation_r
+  other: {"group": "T3_PACKAGE_CAPTURE", "key": "AW", "status": "PASS", "subs": [{"kind": "LEDGER", "what": "AC"}, {"kind": "LEDGER", "what": "AD"}, {"kind": "LEDGER", "what": "AE"}, {"kind": "LEDGER", "what": "AF"}, {"kind": "LEDGER", "what": "AG"}, {"kind": "LEDGER", "what": "AH"}, {"kind": "LEDGER", "what": "AI"}, {"kind": "LEDGER", "what": "AJ"}, {"kind": "LEDGER", "what": "AK"}, {"kind": "LEDGER", "what": "AL"}, {"kind":
+  other: {"group": "T3_PACKAGE_CAPTURE", "key": "AX", "status": "PASS", "subs": [{"kind": "LEDGER", "what": "AC"}, {"kind": "LEDGER", "what": "AD"}, {"kind": "LEDGER", "what": "AE"}, {"kind": "LEDGER", "what": "AF"}, {"kind": "LEDGER", "what": "AG"}, {"kind": "LEDGER", "what": "AH"}, {"kind": "LEDGER", "what": "AI"}, {"kind": "LEDGER", "what": "AJ"}, {"kind": "LEDGER", "what": "AK"}, {"kind": "LEDGER", "what": "AL"}, {"kind":
+  other: {"group": "T3_PACKAGE_CAPTURE", "key": "AY", "status": "PASS", "subs": [{"kind": "LEDGER", "what": "AC"}, {"kind": "LEDGER", "what": "AD"}, {"kind": "LEDGER", "what": "AE"}, {"kind": "LEDGER", "what": "AF"}, {"kind": "LEDGER", "what": "AG"}, {"kind": "LEDGER", "what": "AH"}, {"kind": "LEDGER", "what": "AI"}, {"kind": "LEDGER", "what": "AJ"}, {"kind": "LEDGER", "what": "AK"}, {"kind": "LEDGER", "what": "AL"}, {"kind":
+  other: {"group": "T3_PACKAGE_CAPTURE", "key": "AZ", "status": "PASS", "subs": [{"kind": "LEDGER", "what": "AC"}, {"kind": "LEDGER", "what": "AD"}, {"kind": "LEDGER", "what": "AE"}, {"kind": "LEDGER", "what": "AF"}, {"kind": "LEDGER", "what": "AG"}, {"kind": "LEDGER", "what": "AH"}, {"kind": "LEDGER", "what": "AI"}, {"kind": "LEDGER", "what": "AJ"}, {"kind": "LEDGER", "what": "AK"}, {"kind": "LEDGER", "what": "AL"}, {"kind":
+  other: {"group": "T3_PACKAGE_RUN", "stage": "PACKAGE", "status": "PASS", "result": "CAPTURED_AND_INSTALLED"}
+  other: {"group": "T3_PACKAGE_RUN", "stage": "AW_AX_AY_AZ_VERIFY", "status": "PASS", "result": {"stage": "AV_PLUS_AW_AX_AY_AZ_T1", "functions": 13, "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32", "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503", "ay_sql_sha256": "29b8977613012431b9efa927c7cee10654aef8a016368a0430e7c3789070af43", "az_sql_sha256": "9007eefc5b
+  other: {"group": "T3_PINS_REPRODUCED", "equal": true, "differ": []}
+  other: {"group": "T3_SECURITY_ADVISORS", "status": "REVIEW_REQUIRED", "before": 73, "after": 127, "added": [["rls_enabled_no_policy", "INFO", "erp", "accounting_close_filings_v1", "table"], ["rls_enabled_no_policy", "INFO", "erp", "bs_case_manual_origins_v1", "table"], ["rls_enabled_no_policy", "INFO", "erp", "cp6_v2620ac_relation_rollback_capsule", "table"], ["rls_enabled_no_policy", "INFO", "erp", "cp6_v2620ac_rollback_ca
+  other: {"t3_backup_restore_drill": {"status": "RESTORED_SAME_MEANING", "checks": {"restore_errors_only_pg_cron": true, "catalog_explained": true, "data_identical": true, "engine_answer_present": true, "engine_equal": true}, "dump": {"exit": 0, "stderr": "", "seconds": 0.6, "bytes": 6360138}, "restore": {"exit": 1, "seconds": 2.4, "error_count": 19, "ignored_reported": 19, "unexplained": [], "errors": ["pg_restore: error: co
+  other: {"t3_package_run": {"label": "T3_PREP", "mode": "capture", "status": "ALL_STAGES_INSTALLED", "production_go": false, "release_evidence": false, "auth_users_before": 0, "ledger_start": {"app": ["v2.6.20aa", "v2.6.20ab"], "platform_last": "20260914190500"}, "fingerprint_AB": {"view": {"n": 51, "md5": "68b2fbf688881496413307954006bdbe"}, "index": {"n": 605, "md5": "65816b59b4bd7675995b7b9bc98fa4c5"}, "policy": {"n": 190
+==================== t3_install_107762395202.log
+  other: {"status": "ALIGNED_PER_OBJECT", "constraints_equal": true, "views_equal": true, "sequences_equal": true, "schema_equal": true, "capsules_equal": true, "capsules": [{"view": "erp.v_fg_partial_completion_progress", "status": "ALIGNED", "replay_sha256": "efb2d15345589645f2184c3a749da42acc11bad1d4585988c3e02c5c762464e6", "hosted_sha256": "7897479ca27144e599b6607b60f5b9bed08bdea57171ff6ba8ec81ce46f20037", "hosted_md5_equ
+  other: {"group": "T3_HOSTED_FINGERPRINT", "equal": true, "kinds": 16, "differ": {}, "explained": {"platform_ledger": "fixture ledger keeps empty statements and repository stamps (G-01 round 1, ledger_content_order.json)"}}
+  other: {"status": "PASS_ALIGNED_CHAIN_TO_AB", "refused_step": null, "alignment": {"label": "G01_ALIGNMENT", "sql_sha256": "4e59a131ecec997fbb7b8bbcb9a9fd02c4913be59172d0182ee8e9736863deb2", "constraints": {"attendance_hpp_journal_line_links.attendance_hpp_journal_line_links_link_type_check": {"hosted": "72f8ce2c1e", "aligned": "72f8ce2c1e"}, "attendance_hpp_pools.attendance_hpp_pools_status_check": {"hosted": "e05afeb3b8", 
+  other: {"group": "T3_HOSTED_CAPSULES", "equal": true, "capsules": {"bs_resolution_v2619_rollback_capsule": {"hosted": "28ab388833da7da87384766ecaedadc66b4d048c303ee91e16f3939e34afdc39", "clone": "28ab388833da7da87384766ecaedadc66b4d048c303ee91e16f3939e34afdc39", "equal": true}, "bs_resolution_v2619a_rollback_capsule": {"hosted": "de8dfaab7b63b8742d383a089cdb05e73b629aad9f4df149e6a3c9fb590ef560", "clone": "de8dfaab7b63b8742d
+  other: {"group": "T3_PACKAGE_INSTALL", "key": "AC", "status": "PASS"}
+  other: {"group": "T3_PACKAGE_INSTALL", "key": "AD", "status": "PASS"}
+  other: {"group": "T3_PACKAGE_INSTALL", "key": "AE", "status": "PASS"}
+  other: {"group": "T3_PACKAGE_INSTALL", "key": "AF", "status": "PASS"}
+  other: {"group": "T3_PACKAGE_INSTALL", "key": "AG", "status": "PASS"}
+  other: {"group": "T3_PACKAGE_INSTALL", "key": "AH", "status": "PASS"}
+  other: {"group": "T3_PACKAGE_INSTALL", "key": "AI", "status": "PASS"}
+  other: {"group": "T3_PACKAGE_INSTALL", "key": "AJ", "status": "PASS"}
+  other: {"group": "T3_PACKAGE_INSTALL", "key": "AK", "status": "PASS"}
+  other: {"group": "T3_PACKAGE_INSTALL", "key": "AL", "status": "PASS"}
+  other: {"group": "T3_PACKAGE_INSTALL", "key": "AM", "status": "PASS"}
+  other: {"group": "T3_PACKAGE_INSTALL", "key": "AN", "status": "PASS"}
+  other: {"group": "T3_PACKAGE_INSTALL", "key": "AO", "status": "PASS"}
+  other: {"group": "T3_PACKAGE_INSTALL", "key": "AP", "status": "PASS"}
+  other: {"group": "T3_PACKAGE_INSTALL", "key": "AQ", "status": "PASS"}
+  other: {"group": "T3_PACKAGE_INSTALL", "key": "AR", "status": "PASS"}
+  other: {"group": "T3_PACKAGE_INSTALL", "key": "AS", "status": "PASS"}
+  other: {"group": "T3_PACKAGE_INSTALL", "key": "AT", "status": "PASS"}
+  other: {"group": "T3_PACKAGE_INSTALL", "key": "AU", "status": "PASS"}
+  other: {"group": "T3_PACKAGE_INSTALL", "key": "AV", "status": "PASS"}
+  other: {"group": "T3_PACKAGE_INSTALL", "key": "AW", "status": "PASS"}
+  other: {"group": "T3_PACKAGE_INSTALL", "key": "AX", "status": "PASS"}
+  other: {"group": "T3_PACKAGE_INSTALL", "key": "AY", "status": "PASS"}
+  other: {"group": "T3_PACKAGE_INSTALL", "key": "AZ", "status": "PASS"}
+  other: {"group": "T3_PACKAGE_RUN", "stage": "PACKAGE", "status": "PASS", "result": "ALL_FILES_INSTALLED"}
+  other: {"group": "T3_PACKAGE_RUN", "stage": "AW_AX_AY_AZ_VERIFY", "status": "PASS", "result": {"stage": "AV_PLUS_AW_AX_AY_AZ_T1", "functions": 13, "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32", "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503", "ay_sql_sha256": "29b8977613012431b9efa927c7cee10654aef8a016368a0430e7c3789070af43", "az_sql_sha256": "9007eefc5b
+  other: {"group": "T3_SECURITY_ADVISORS", "status": "REVIEW_REQUIRED", "before": 73, "after": 127, "added": [["rls_enabled_no_policy", "INFO", "erp", "accounting_close_filings_v1", "table"], ["rls_enabled_no_policy", "INFO", "erp", "bs_case_manual_origins_v1", "table"], ["rls_enabled_no_policy", "INFO", "erp", "cp6_v2620ac_relation_rollback_capsule", "table"], ["rls_enabled_no_policy", "INFO", "erp", "cp6_v2620ac_rollback_ca
+  other: {"t3_backup_restore_drill": {"status": "RESTORED_SAME_MEANING", "checks": {"restore_errors_only_pg_cron": true, "catalog_explained": true, "data_identical": true, "engine_answer_present": true, "engine_equal": true}, "dump": {"exit": 0, "stderr": "", "seconds": 0.7, "bytes": 6360295}, "restore": {"exit": 1, "seconds": 2.8, "error_count": 19, "ignored_reported": 19, "unexplained": [], "errors": ["pg_restore: error: co
+  other: {"t3_package_run": {"label": "T3_PREP", "mode": "install", "status": "ALL_STAGES_INSTALLED", "production_go": false, "release_evidence": false, "auth_users_before": 0, "ledger_start": {"app": ["v2.6.20aa", "v2.6.20ab"], "platform_last": "20260914190500"}, "fingerprint_AB": {"view": {"n": 51, "md5": "68b2fbf688881496413307954006bdbe"}, "index": {"n": 605, "md5": "65816b59b4bd7675995b7b9bc98fa4c5"}, "policy": {"n": 190
