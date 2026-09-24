@@ -381,6 +381,55 @@ def multi_cut(cur,today,price):
                 wip_po={k:str(v) for k,v in wip_po.items()},negative_blockers=negative,invoice=response,quiet=[quiet,quiet_fixture])
 
 
+def write_off(cur,today,price):
+    """Independent review 24 Sep (B1): pieces that leave a lot other than by sale. One cut of 10 units into 10 pcs and a FG
+    lot of 10 pcs on d+1, 4 pcs written off (FG adjustment LOSS) on d+2, late invoice on d (open). Expected: FG +10x on
+    d+1, -4x on d+2 (the written-off pieces' correction leaves FG on the write-off day), the PO's WIP change 0 every day,
+    and the write-off itself (posted before the invoice, outside the invoice path) dated d+2 as before AY (M1)."""
+    prod=chain.production
+    d=today-timedelta(days=3);d2=d+timedelta(days=1);d3=d+timedelta(days=2)
+    days=[d+timedelta(days=i) for i in range(4)]
+    boundary.historical.prior.set_open_period(cur,d-timedelta(days=1))
+    quiet=awp.quiet_seed(cur,d,today-timedelta(days=1),exclude=[prod.CONTRACTOR])
+    fx=prod.estimated_receipt(cur,today)
+    api.admin(cur)
+    po=uuid.uuid4();product=prod.base.create_product(cur,uuid.uuid4().hex[:16])
+    cur.execute("""insert into erp.production_orders(id,po_number,model_id,target_qty_pcs,status,current_stage,physical_start_at,notes)
+      values(%s,%s,%s,10,'CUTTING','CUTTING',%s,'AZ write-off probe')""",(po,'AZ-WO-PO-'+str(po),prod.MODEL,prod.at(d2,7)))
+    produce(cur,fx,po,product,d2,10,10)
+    lot=cur.execute("select id from erp.fg_lots where po_id=%s and lot_origin='PRODUCTION'",(po,)).fetchone()[0]
+    prior_ledger=ledger_days(cur,days,[po])
+    prod.owner(cur)
+    adjustment=cur.execute('select erp.save_fg_adjustment_draft_v2(%s::jsonb,%s::uuid,null)',(json.dumps(dict(
+        adjustment_number='AZ-WO-'+uuid.uuid4().hex,location_id=str(prod.base.LOCATION),physical_at=prod.at(d3,12).isoformat(),
+        reason_code='LOSS',reason='AZ write-off after the lot day',change_reason='AZ B1 probe write-off',
+        items=[dict(lot_id=str(lot),product_id=str(product),quality_grade='GRADE_A',qty_signed=-4,notes='AZ written off')])),str(uuid.uuid4()))).fetchone()[0]
+    cur.execute('select erp.post_fg_adjustment(%s)',(adjustment['fg_adjustment_id'],))
+    api.admin(cur)
+    quiet_fixture=awp.quiet_seed(cur,d,today-timedelta(days=1))
+    before=ledger_days(cur,days,[po])
+    response=invoice(cur,fx,today,price,d)
+    after=ledger_days(cur,days,[po])
+    x=dec(price)-10
+    move={str(day):{k:dec(after[str(day)][k])-dec(before[str(day)][k]) for k in KEYS} for day in days}
+    wip_po={str(day):dec(after[str(day)]['WIP_PO'][str(po)]) for day in days}
+    write_off_day={str(day):dec(before[str(day)]['FG_INVENTORY'])-dec(prior_ledger[str(day)]['FG_INVENTORY']) for day in days}
+    stock={str(d):10,str(d2):0,str(d3):0,str(today):0}
+    pre=awp.preflight(cur,today)
+    negative=[b for b in pre['blockers'] if b['code']=='GL_INVENTORY_NEGATIVE_ASOF'] if pre else None
+    checks=dict(fg_change_follows_pieces=move[str(d2)]['FG_INVENTORY']==10*x and move[str(d3)]['FG_INVENTORY']==6*x and move[str(today)]['FG_INVENTORY']==6*x,
+                material_at_invoice_price=all(move[str(day)]['MATERIAL_INVENTORY']==x*stock[str(day)] for day in days),
+                wip_po_never_negative=all(v>=0 for v in wip_po.values()),
+                wip_po_correction_zero_each_day=all(move[str(day)]['WIP']==0 for day in days),
+                write_off_posted_on_its_day=write_off_day[str(d2)]==0 and write_off_day[str(d3)]<0,
+                no_negative_daily_inventory=negative==[])
+    status='PASS' if all(checks.values()) else ('COUNTEREXAMPLE' if not az_installed(cur) else 'FAIL')
+    return dict(status=status,finding='independent review 24 Sep B1 (write-off) and M1 (write-off date outside the invoice path)',price=price,
+                receipt_day=str(d),checks=checks,daily_move={k:{kk:str(vv) for kk,vv in v.items()} for k,v in move.items()},
+                wip_po={k:str(v) for k,v in wip_po.items()},write_off_fg_by_day={k:str(v) for k,v in write_off_day.items()},
+                negative_blockers=negative,invoice=response,quiet=[quiet,quiet_fixture])
+
+
 def cases(cur,today):
     return [('AZ:ONE_CUT_LOWER',lambda:material_case(cur,today,'8.25',[(1,10)])),
             ('AZ:ONE_CUT_HIGHER',lambda:material_case(cur,today,'10.70',[(1,10)])),
@@ -393,7 +442,9 @@ def cases(cur,today):
             ('AZ:ADJUSTMENT_CLOSED_RECEIPT',lambda:material_case(cur,today,'8.25',[(2,8)],adjustments=[(1,2)],closed=0)),
             ('AZ:SALE_AFTER_GOODS_DAY',lambda:sale_after_goods(cur,today,'8.25')),
             ('AZ:MULTI_CUT_HIGHER',lambda:multi_cut(cur,today,'10.70')),
-            ('AZ:MULTI_CUT_LOWER',lambda:multi_cut(cur,today,'8.25'))]
+            ('AZ:MULTI_CUT_LOWER',lambda:multi_cut(cur,today,'8.25')),
+            ('AZ:WRITE_OFF_AFTER_LOT_HIGHER',lambda:write_off(cur,today,'10.70')),
+            ('AZ:WRITE_OFF_AFTER_LOT_LOWER',lambda:write_off(cur,today,'8.25'))]
 
 
 def run(phase):
