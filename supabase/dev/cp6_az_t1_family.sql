@@ -814,5 +814,146 @@ begin
  perform erp.sync_po_hpp_to_gl(s.po_id,v_date);
  return jsonb_build_object('output_id',v_output,'lot_id',v_lot,'operation',v_op);
 end;$function$;
+CREATE OR REPLACE FUNCTION erp.post_material_supplier_invoice(p_invoice_id uuid)
+ RETURNS void
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO 'erp', 'public', 'pg_temp'
+AS $function$
+declare
+  v_n_before jsonb;v_n_purchases uuid[];
+  h erp.material_supplier_invoices%rowtype;
+  r record;
+  v_capacity numeric;
+  v_matched numeric;
+  v_old_cost numeric;
+  v_new_cost numeric;
+  v_basis_qty numeric;
+  v_delta_before numeric;
+  v_delta_after numeric;
+  v_inventory_delta numeric;
+  v_liability_delta numeric;
+  v_bridge numeric;
+  v_purchase uuid;
+  v_paid numeric;
+  v_payable numeric;
+  v_book_date date;
+begin
+  perform erp.require_owner_admin();
+  select * into h from erp.material_supplier_invoices where id=p_invoice_id for update;
+  if h.id is null or h.status<>'DRAFT' then raise exception 'Material supplier invoice must be DRAFT'; end if;
+  -- AZ rev2 (owner, 24 Sep 2026, option 1): booked no earlier than the latest receipt day of its lines; the invoice date
+  -- stays the document date (due date, AP ageing).
+  select greatest(h.invoice_date,coalesce(max(erp._cp3_business_date(ph.physical_at)),h.invoice_date)) into v_book_date
+  from erp.material_supplier_invoice_lines l join erp.material_purchase_items i on i.id=l.purchase_item_id
+  join erp.material_purchase_headers ph on ph.id=i.purchase_id where l.invoice_id=h.id;
+  insert into erp.invoice_recost_execution_context(transaction_id,invoice_date,source_id) values(txid_current(),v_book_date,h.id);
+  if h.invoice_date>((statement_timestamp() AT TIME ZONE 'Asia/Jakarta'::text))::date then raise exception 'Supplier invoice date cannot be in the future'; end if;
+  if (h.received_at AT TIME ZONE 'Asia/Jakarta')::date>((statement_timestamp() AT TIME ZONE 'Asia/Jakarta'::text))::date then raise exception 'Supplier invoice received_at cannot be in the future'; end if;
+  if not exists(select 1 from erp.material_supplier_invoice_lines where invoice_id=h.id) then
+    raise exception 'Material supplier invoice has no lines';
+  end if;
+
+  -- Deterministic lock order protects concurrent invoice/payment/return clicks.
+  for v_purchase in
+    select distinct i.purchase_id
+    from erp.material_supplier_invoice_lines l
+    join erp.material_purchase_items i on i.id=l.purchase_item_id
+    where l.invoice_id=h.id order by i.purchase_id
+  loop
+    perform 1 from erp.material_purchase_headers where id=v_purchase for update;
+  end loop;
+  select array_agg(distinct i.purchase_id order by i.purchase_id) into v_n_purchases
+  from erp.material_supplier_invoice_lines l join erp.material_purchase_items i on i.id=l.purchase_item_id where l.invoice_id=h.id;
+  perform 1 from erp.material_purchase_headers where id=any(v_n_purchases) order by id for update;
+  v_n_before:=erp._cp6_supplier_cent_state(v_n_purchases);
+  for r in
+    select distinct i.id
+    from erp.material_supplier_invoice_lines l
+    join erp.material_purchase_items i on i.id=l.purchase_item_id
+    where l.invoice_id=h.id order by i.id
+  loop
+    perform 1 from erp.material_purchase_items where id=r.id for update;
+  end loop;
+
+  for r in
+    select l.*,i.qty as receipt_qty,i.unit_price as estimate_unit_cost,
+           i.material_id,i.purchase_id,i.invoice_match_state,
+           ph.supplier_id,ph.physical_at
+    from erp.material_supplier_invoice_lines l
+    join erp.material_purchase_items i on i.id=l.purchase_item_id
+    join erp.material_purchase_headers ph on ph.id=i.purchase_id
+    where l.invoice_id=h.id order by i.id
+  loop
+    if r.supplier_id is distinct from h.supplier_id then
+      raise exception 'Invoice supplier does not match receipt supplier for item %',r.purchase_item_id;
+    end if;
+    if r.invoice_match_state='DIRECT_FINAL' then
+      raise exception 'Receipt item % was already final-invoiced at physical receipt',r.purchase_item_id;
+    end if;
+    v_capacity:=erp.material_purchase_invoice_capacity(r.purchase_item_id);
+    v_matched:=erp.material_purchase_posted_invoice_qty(r.purchase_item_id);
+    if v_matched+r.qty_invoiced>v_capacity then
+      raise exception 'Invoice quantity exceeds unmatched receipt quantity for item %. Capacity %, already matched %, requested %',
+        r.purchase_item_id,v_capacity,v_matched,r.qty_invoiced;
+    end if;
+
+    v_old_cost:=erp.material_purchase_current_unit_cost(r.purchase_item_id);
+    v_basis_qty:=v_capacity;
+    select coalesce(sum(x.net_amount-(x.qty_invoiced*r.estimate_unit_cost)),0)
+    into v_delta_before
+    from erp.material_supplier_invoice_lines x
+    join erp.material_supplier_invoices xh on xh.id=x.invoice_id
+    where x.purchase_item_id=r.purchase_item_id and xh.status='POSTED';
+    v_delta_after:=v_delta_before+(r.net_amount-(r.qty_invoiced*r.estimate_unit_cost));
+    v_new_cost:=greatest(((v_basis_qty*r.estimate_unit_cost)+v_delta_after)/v_basis_qty,0);
+    v_inventory_delta:=r.receipt_qty*(v_new_cost-v_old_cost);
+    v_liability_delta:=r.net_amount-(r.qty_invoiced*r.estimate_unit_cost);
+    v_bridge:=v_inventory_delta-v_liability_delta;
+
+    update erp.material_supplier_invoice_lines
+    set receipt_estimate_unit_cost_snapshot=r.estimate_unit_cost,
+        prior_blended_unit_cost_snapshot=v_old_cost,
+        posted_blended_unit_cost_snapshot=v_new_cost,
+        grni_clear_amount_snapshot=r.qty_invoiced*r.estimate_unit_cost,
+        ap_create_amount_snapshot=r.net_amount,
+        inventory_revaluation_snapshot=v_inventory_delta,
+        bridge_variance_snapshot=v_bridge
+    where id=r.id;
+
+  end loop;
+
+  update erp.material_supplier_invoices
+  set status='POSTED',posted_at=clock_timestamp(),posting_reason=coalesce(posting_reason,'Supplier invoice posted')
+  where id=h.id;
+
+  for r in
+    select distinct l.purchase_item_id
+    from erp.material_supplier_invoice_lines l
+    where l.invoice_id=h.id order by l.purchase_item_id
+  loop
+    perform erp.refresh_material_purchase_item_cost(r.purchase_item_id);
+    perform erp.refresh_material_purchase_item_match_state(r.purchase_item_id);
+  end loop;
+
+  for v_purchase in
+    select distinct i.purchase_id
+    from erp.material_supplier_invoice_lines l
+    join erp.material_purchase_items i on i.id=l.purchase_item_id
+    where l.invoice_id=h.id order by i.purchase_id
+  loop
+    select erp.material_purchase_final_ap_total(v_purchase),
+           coalesce((select sum(amount) from erp.supplier_payments where purchase_id=v_purchase and status='POSTED'),0)
+    into v_payable,v_paid;
+    update erp.material_purchase_headers
+    set supplier_invoice_number=h.invoice_number,
+        due_date=coalesce(h.due_date,due_date),
+        payment_status=case when v_paid=round(v_payable,2) then 'PAID' when v_paid>0 then 'PARTIAL' else 'UNPAID' end
+    where id=v_purchase;
+  end loop;
+  perform erp._cp6_apply_supplier_cent_event('MATERIAL_SUPPLIER_INVOICE',h.id,v_book_date,'Supplier document cents '||h.id::text,v_n_before,false);
+  delete from erp.invoice_recost_execution_context where transaction_id=txid_current();
+end;
+$function$;
 insert into erp.schema_migrations(version,description) values('v2.6.20az','T1_FAMILY development install of AZ (material recost corrections dated from the physical movement); not a release package');
 commit;

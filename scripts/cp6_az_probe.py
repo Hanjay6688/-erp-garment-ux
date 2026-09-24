@@ -42,7 +42,8 @@ FUNCTIONS=('erp.sync_material_cost_revaluation(uuid)','erp._cp6_sync_material_ad
            # AZ rev2 (round six): the rest of the family (handoff §23.7, independent review of AY rev7).
            'erp.guard_pocket_period_v1()','erp.sync_initial_import_bs_value_v1(uuid,date)',
            'erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)','erp.refresh_accessory_hpp_after_material_recost(uuid,text)',
-           'erp.reverse_qc(uuid,text)','erp.reverse_rework_completion(uuid,text)','erp.complete_initial_import_wip_v1(jsonb)')
+           'erp.reverse_qc(uuid,text)','erp.reverse_rework_completion(uuid,text)','erp.complete_initial_import_wip_v1(jsonb)',
+           'erp.post_material_supplier_invoice(uuid)')
 
 
 def dev_source(signature):
@@ -588,6 +589,41 @@ def batch_partner(cur,today,price):
                 negative_blockers=negative,invoice=response,quiet=[quiet,quiet_fixture])
 
 
+def invoice_before_receipt(cur,today,price):
+    """Owner decision 24 Sep 2026 (option 1): a supplier invoice dated before its goods were received is booked on the
+    receipt day; the invoice date stays the document date. Fixture: the AA estimated receipt (10 units at 10 on d, 23:30);
+    the invoice is dated d-1 (open). Expected: the MATERIAL_SUPPLIER_INVOICE journal and the recost context on d, the
+    invoice document keeps d-1, no ledger change on d-1, material at the invoice price from d."""
+    prod=chain.production
+    d=today-timedelta(days=3);d0=d-timedelta(days=1)
+    days=[d0+timedelta(days=i) for i in range(5)]
+    boundary.historical.prior.set_open_period(cur,d0-timedelta(days=1))
+    quiet=awp.quiet_seed(cur,d0,today-timedelta(days=1),exclude=[prod.CONTRACTOR])
+    fx=prod.estimated_receipt(cur,today)
+    api.admin(cur)
+    before=ledger_days(cur,days,[])
+    response=invoice(cur,fx,today,price,d0)
+    after=ledger_days(cur,days,[])
+    inv=cur.execute("""select h.id,h.invoice_date from erp.material_supplier_invoices h join erp.material_supplier_invoice_lines l on l.invoice_id=h.id
+      where l.purchase_item_id=%s order by h.invoice_date,h.id desc limit 1""",(fx['item'],)).fetchone()
+    booked=[r[0] for r in cur.execute("""select distinct transaction_date from erp.journal_entries
+      where source_type='MATERIAL_SUPPLIER_INVOICE' and source_id=%s""",(inv[0],)).fetchall()]
+    x=dec(price)-10
+    move={str(day):{k:dec(after[str(day)][k])-dec(before[str(day)][k]) for k in KEYS} for day in days}
+    pre=awp.preflight(cur,today)
+    negative=[b for b in pre['blockers'] if b['code']=='GL_INVENTORY_NEGATIVE_ASOF'] if pre else None
+    checks=dict(invoice_document_date_kept=inv[1]==d0,
+                journal_on_receipt_day=booked==[d],
+                nothing_before_receipt=all(v==0 for v in move[str(d0)].values()),
+                material_at_invoice_price_from_receipt=move[str(d)]['MATERIAL_INVENTORY']==10*x,
+                no_negative_daily_inventory=negative==[])
+    status='PASS' if all(checks.values()) else ('COUNTEREXAMPLE' if not az_installed(cur) else 'FAIL')
+    return dict(status=status,finding='owner decision 24 Sep 2026 option 1: invoice dated before the receipt is booked on the receipt day',
+                price=price,receipt_day=str(d),invoice_date=str(d0),booked=[str(b) for b in booked],checks=checks,
+                daily_move={k:{kk:str(vv) for kk,vv in v.items()} for k,v in move.items()},negative_blockers=negative,
+                invoice=response,quiet=quiet)
+
+
 def goods_flow(cur,today,price,flow):
     """Branches without a native fixture until 24 Sep (independent review): a lot of 10 pcs (one cut of 10 units) on d+1,
     then RETURN (3 pcs sold on d+1, 1 returned on d+2), REVERSED (all 10 sold on d+2, the sale reversed today before the
@@ -712,7 +748,8 @@ def cases(cur,today):
             ('AZ:BATCH_ACROSS_DAYS_LOWER',lambda:multi_cut(cur,today,'8.25',batch=True)),
             ('AZ:CONTRACTOR_AFTER_LOT_HIGHER',lambda:contractor_after_lot(cur,today,'10.70')),
             ('AZ:CONTRACTOR_AFTER_LOT_LOWER',lambda:contractor_after_lot(cur,today,'8.25')),
-            ('AZ:BATCH_PARTNER_PO',lambda:batch_partner(cur,today,'10.70'))]
+            ('AZ:BATCH_PARTNER_PO',lambda:batch_partner(cur,today,'10.70')),
+            ('AZ:INVOICE_BEFORE_RECEIPT_LOWER',lambda:invoice_before_receipt(cur,today,'8.25'))]
 
 
 def run(phase):
