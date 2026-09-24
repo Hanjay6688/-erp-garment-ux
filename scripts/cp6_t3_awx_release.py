@@ -12,7 +12,8 @@ description stops saying "development install") with the guards AO..AV carry:
     AO..AV's own);
   * every historical rollback capsule pinned by content hash, now including AO..AV (and AW for AX), and every AO..AV
     capsule checked for security, shape (AN template) and boundary like AV's per-capsule guards;
-  * an own rollback capsule of the functions the file replaces (AW: 2, AX: none, it only adds objects), completeness
+  * an own rollback capsule of the functions the file replaces (AW: 2; AX: 2, the payroll work-item validator and the
+    merge RPC that learn the FG_REPAIR repair-wage source), completeness
     checked against every erp/public function before the body, and a before/after hash of every erp table (the install
     changes no data; new tables stay empty).
 The capsule and catalog pins start as placeholders that refuse, until scripts/cp6_t3_release_package.py capture derives
@@ -40,7 +41,8 @@ FILES=[
     dict(key='AX',stamp='20260924010100',name='erp_v2_6_20ax_cp6_fg_unsourced_receipts',version='v2.6.20ax',
          body=ROOT/'supabase/dev/cp6_ax_t1_family.sql',title='finished goods without a production source',
          description='Finished goods without a production source: owner receipt with average HPP and reversal',
-         replaced=[],new_tables=['fg_unsourced_receipts_v1']),
+         replaced=['erp.merge_eligible_work_into_payroll_v2(uuid,jsonb,uuid,bigint)','erp.validate_payroll_work_item_source()'],
+         new_tables=['fg_unsourced_receipts_v1','fg_unsourced_repair_wages_v1']),
 ]
 PLACEHOLDER='0'*64
 # The package capsules AO..AV (AO..AW for AX) are checked like AV checks AO..AU; the capsules of this builder are left out

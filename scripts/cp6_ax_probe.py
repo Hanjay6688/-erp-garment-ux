@@ -452,6 +452,132 @@ def access(cur,today):
     return dict(status='PASS' if ok else 'FAIL',results=results)
 
 
+def repair_fixture(cur,today,qty=2,found=5):
+    """A found (OUT_OF_NOWHERE) BS of a stocked SKU, a fresh contractor with no other work (no attendance) and an active
+    work component: the contractor's payroll then holds only the repair wage (administrative master fixtures)."""
+    f=stocked_product(cur,today);product=str(f['product']);found_at=r1.now(cur)-timedelta(minutes=15)
+    case=manual_bs(cur,product,'OUT_OF_NOWHERE',found,found_at)['result']['bs_case_id']
+    api.admin(cur);contractor=uuid.uuid4()
+    cur.execute("""insert into erp.contractors(id,contractor_code,contractor_name,contractor_type,attendance_required,is_active)
+        values(%s,%s,'AX repair contractor','MANDOR',false,true)""",(contractor,'AXR-'+contractor.hex[:10]))
+    component=cur.execute('select id from erp.work_components where is_active order by component_code,id limit 1').fetchone()[0]
+    return dict(product=product,case=case,contractor=str(contractor),component=str(component),
+                at=(r1.now(cur)-timedelta(minutes=5)).isoformat())
+
+
+def repair_payload(fx,qty,rate='2000',**extra):
+    return dict(dict(source_kind='GOOD_FROM_UNSOURCED_BS',bs_case_id=fx['case'],location_id=chain.base.LOCATION,qty_pcs=qty,
+        physical_at=fx['at'],reason='AX found BS repaired (paid)',
+        repair=dict(contractor_id=fx['contractor'],work_component_id=fx['component'],rate_per_pcs=rate,rate_reason='AX repair wage')),**extra)
+
+
+def payable_balance(cur,contractor):
+    return Decimal(cur.execute("""select coalesce(sum(l.credit-l.debit),0) from erp.journal_lines l join erp.journal_entries e on e.id=l.journal_entry_id
+        where l.account_id=erp.account_id('CONTRACTOR_PAYABLE') and l.contractor_id=%s and e.status in('POSTED','REVERSED')""",(contractor,)).fetchone()[0])
+
+
+def payroll_for(cur,contractor,day):
+    """Owner payroll for the contractor: administrative DRAFT header (as the harness does), then populate and approve
+    through the owner session; APPROVED is a debt, nothing is paid here."""
+    api.admin(cur);pid=uuid.uuid4()
+    cash=cur.execute('select id from erp.cash_accounts where is_active order by cash_account_code limit 1').fetchone()[0]
+    cur.execute("""insert into erp.payroll_settlements(id,payroll_number,contractor_id,period_start,period_end,status,payment_cash_account_id,payment_date,manual_adjustment,notes)
+        values(%s,%s,%s,%s,%s,'DRAFT',%s,%s,0,'AX repair wage payroll')""",(pid,'AXR-'+pid.hex[:12],contractor,day,day,cash,day))
+    chain.prior.as_owner(cur)
+    cur.execute('select erp.populate_payroll_draft(%s)',(pid,));cur.execute('select erp.approve_payroll(%s)',(pid,))
+    api.admin(cur);return pid
+
+
+def repair_wage_payroll(cur,today):
+    """Owner 24 Sep 2026 ("Utang, dibayar via payroll"): a found BS repaired to GOOD with a wage of 2,000 per pcs. The lot
+    value is the average plus the wage; the wage is a contractor debt at the receipt, reaches the payroll as a FG_REPAIR
+    work line, keeps the AW engine blocked until a payroll takes it, blocks the AX reversal while that payroll is active
+    and is settled by the ordinary payroll payment."""
+    if not ax_installed(cur):return dict(status='NOT_APPLICABLE')
+    fx=repair_fixture(cur,today);at=fx['at']
+    base=expected_average(cur,fx['product'],at)
+    r=post(cur,repair_payload(fx,2))
+    unit=Decimal(str(r['unit_value']));total=Decimal(str(r['total_value']))
+    lines=cur.execute("""select case l.account_id when erp.account_id('FG_INVENTORY') then 'FG_INVENTORY' when erp.account_id('OTHER_INCOME') then 'OTHER_INCOME'
+          when erp.account_id('CONTRACTOR_PAYABLE') then 'CONTRACTOR_PAYABLE' else l.account_id::text end,l.debit,l.credit,l.contractor_id
+        from erp.journal_lines l where l.journal_entry_id=%s order by 1""",(r['journal_entry_id'],)).fetchall()
+    book={k:(Decimal(d),Decimal(c),str(x) if x else None) for k,d,c,x in lines}
+    wage=cur.execute('select status,amount,qty_pcs,rate_per_pcs from erp.fg_unsourced_repair_wages_v1 where receipt_id=%s',(r['receipt_id'],)).fetchone()
+    eligible=cur.execute("""select remaining_qty,remaining_amount,po_id from erp.v_payroll_eligible_work_lines
+        where source_type='FG_REPAIR' and contractor_id=%s""",(fx['contractor'],)).fetchall()
+    pre=awp.preflight(cur,today)
+    uncovered=[b for b in pre['blockers'] if b['code']=='PAYROLL_WORK_UNCOVERED' and b['reference'].get('contractor_id')==fx['contractor']]
+    payable_after_receipt=payable_balance(cur,fx['contractor'])
+    pid=payroll_for(cur,fx['contractor'],today)
+    payroll=cur.execute('select status,labor_total,net_payable from erp.payroll_settlements where id=%s',(pid,)).fetchone()
+    items=cur.execute("select source_type,qty_payable,rate_snapshot,amount from erp.payroll_work_items where payroll_id=%s",(pid,)).fetchall()
+    approval_journals=cur.execute("select count(*) from erp.journal_entries where source_id=%s and source_type like 'PAYROLL%%'",(pid,)).fetchone()[0]
+    after=awp.preflight(cur,today)
+    still=[b for b in after['blockers'] if b['code']=='PAYROLL_WORK_UNCOVERED' and b['reference'].get('contractor_id')==fx['contractor']]
+    _,blocked=r1.peer.attempt(cur,lambda:reverse(cur,r['receipt_id']))
+    chain.prior.as_owner(cur);cur.execute('select erp.post_payroll_payment(%s)',(pid,));api.admin(cur)
+    paid=cur.execute('select status from erp.payroll_settlements where id=%s',(pid,)).fetchone()[0]
+    payable_after_payment=payable_balance(cur,fx['contractor'])
+    expected_unit=(base+Decimal('2000')) if base is not None else None
+    ok=(base is not None and unit==expected_unit and total==expected_unit*2
+        and book.get('FG_INVENTORY')==(total,Decimal(0),None) and book.get('OTHER_INCOME')==(Decimal(0),base*2,None)
+        and book.get('CONTRACTOR_PAYABLE')==(Decimal(0),Decimal('4000'),fx['contractor'])
+        and wage and wage[0]=='POSTED' and Decimal(wage[1])==Decimal('4000') and wage[2]==2
+        and eligible==[(2,Decimal('4000.00'),None)] and len(uncovered)==1 and payable_after_receipt==Decimal('4000')
+        and payroll[0]=='APPROVED' and Decimal(payroll[1])==Decimal('4000') and Decimal(payroll[2])==Decimal('4000')
+        and [(i[0],i[1]) for i in items]==[('FG_REPAIR',2)] and approval_journals==0 and not still
+        and blocked is not None and 'REPAIR_WAGE_IN_PAYROLL' in (blocked.get('message') or '')
+        and paid=='PAID' and payable_after_payment==Decimal('0'))
+    return dict(status='PASS' if ok else 'FAIL',base_unit=str(base),unit=str(unit),total=str(total),book={k:[str(x) for x in v] for k,v in book.items()},
+                wage=[str(x) for x in wage] if wage else None,eligible=[[str(x) for x in e] for e in eligible],uncovered_before_payroll=len(uncovered),
+                payable_after_receipt=str(payable_after_receipt),payroll=[str(x) for x in payroll],items=[[str(x) for x in i] for i in items],
+                approval_journals=approval_journals,uncovered_after_payroll=len(still),reversal_while_in_payroll=blocked,
+                payroll_after_payment=paid,payable_after_payment=str(payable_after_payment),
+                expected='unit = average + 2000; Dr FG total / Cr OTHER_INCOME base / Cr CONTRACTOR_PAYABLE 4000; payroll FG_REPAIR 2 pcs = 4000; paid -> payable 0')
+
+
+def repair_wage_cancel_then_reverse(cur,today):
+    """A payroll that took the wage is cancelled unpaid (cancel_unpaid_payroll), then the AX reversal goes through: the
+    wage is REVERSED, it leaves the eligible lines, the contractor payable returns to zero and the BS is open again."""
+    if not ax_installed(cur):return dict(status='NOT_APPLICABLE')
+    fx=repair_fixture(cur,today)
+    r=post(cur,repair_payload(fx,3))
+    pid=payroll_for(cur,fx['contractor'],today)
+    chain.prior.as_owner(cur);cur.execute('select erp.cancel_unpaid_payroll(%s,%s)',(pid,'AX repair payroll cancelled'));api.admin(cur)
+    back=reverse(cur,r['receipt_id'])
+    wage=cur.execute('select status from erp.fg_unsourced_repair_wages_v1 where receipt_id=%s',(r['receipt_id'],)).fetchone()[0]
+    eligible=cur.execute("select count(*) from erp.v_payroll_eligible_work_lines where source_type='FG_REPAIR' and contractor_id=%s",(fx['contractor'],)).fetchone()[0]
+    bs=cur.execute('select status from erp.bs_cases where id=%s',(fx['case'],)).fetchone()[0]
+    payable=payable_balance(cur,fx['contractor'])
+    _,direct=r1.peer.attempt(cur,lambda:(api.admin(cur),cur.execute("update erp.fg_unsourced_repair_wages_v1 set amount=1 where receipt_id=%s",(r['receipt_id'],))))
+    ok=back['status']=='REVERSED' and wage=='REVERSED' and eligible==0 and bs=='OPEN' and payable==Decimal('0') and direct is not None \
+        and 'REPAIR_WAGE_IMMUTABLE' in (direct.get('message') or '')
+    return dict(status='PASS' if ok else 'FAIL',reversal=back,wage_status=wage,eligible_after=eligible,bs_status=bs,payable_after=str(payable),direct_edit=direct)
+
+
+def repair_wage_refusals(cur,today):
+    """Refusals: a repair wage only for GOOD from a found BS, above zero with at most two decimals, with a reason, an
+    active contractor and an active work component. A free repair (no repair object) keeps the average value."""
+    if not ax_installed(cur):return dict(status='NOT_APPLICABLE')
+    fx=repair_fixture(cur,today);refusals={}
+    tries=dict(OPNAME=dict(source_kind='FOUND_AT_OPNAME',product_id=fx['product'],location_id=chain.base.LOCATION,qty_pcs=1,physical_at=fx['at'],
+                           reason='AX opname with repair',repair=dict(contractor_id=fx['contractor'],work_component_id=fx['component'],rate_per_pcs='2000',rate_reason='x')),
+               ZERO=repair_payload(fx,1,'0'),NEGATIVE=repair_payload(fx,1,'-1'),NAN=repair_payload(fx,1,'NaN'),THREE_DECIMALS=repair_payload(fx,1,'1.234'),
+               TEXT=repair_payload(fx,1,'abc'))
+    no_reason=repair_payload(fx,1);no_reason['repair']=dict(no_reason['repair'],rate_reason=' ');tries['NO_REASON']=no_reason
+    unknown=repair_payload(fx,1);unknown['repair']=dict(unknown['repair'],contractor_id=str(uuid.uuid4()));tries['UNKNOWN_CONTRACTOR']=unknown
+    comp=repair_payload(fx,1);comp['repair']=dict(comp['repair'],work_component_id=str(uuid.uuid4()));tries['UNKNOWN_COMPONENT']=comp
+    for k,payload in tries.items():
+        _,e=attempt_post(cur,payload);refusals[k]=(e or {}).get('message')
+    expected=dict(OPNAME='REPAIR_ONLY_FOR_FOUND_BS',ZERO='REPAIR_RATE_INVALID',NEGATIVE='REPAIR_RATE_INVALID',NAN='REPAIR_RATE_INVALID',
+                  THREE_DECIMALS='REPAIR_RATE_INVALID',TEXT='REPAIR_INVALID',NO_REASON='REPAIR_REASON_REQUIRED',
+                  UNKNOWN_CONTRACTOR='REPAIR_CONTRACTOR_INVALID',UNKNOWN_COMPONENT='REPAIR_COMPONENT_INVALID')
+    free=post(cur,dict(source_kind='GOOD_FROM_UNSOURCED_BS',bs_case_id=fx['case'],location_id=chain.base.LOCATION,qty_pcs=1,physical_at=fx['at'],reason='AX free repair'))
+    base=expected_average(cur,fx['product'],fx['at'])
+    ok=all(v and expected[k] in v for k,v in refusals.items()) and Decimal(str(free['unit_value']))==base and free.get('repair_wage') is None
+    return dict(status='PASS' if ok else 'FAIL',refusals=refusals,expected=expected,free_unit=str(free['unit_value']),average=str(base))
+
+
 def engine_after(cur,today):
     """After AX postings the AW engine sees no new integrity blocker for the product."""
     if not ax_installed(cur):return dict(status='NOT_APPLICABLE')
@@ -472,7 +598,10 @@ def cases(cur,today):
             ('AX:RESERVED_STOCK_COUNTS_AS_ON_HAND',lambda:reserved_stock_on_hand(cur,today)),('AX:BS_RESOLUTION_OWNED',lambda:resolution_owned(cur,today)),
             ('AX:REWORK_IN_PROGRESS_NOT_AVAILABLE',lambda:rework_in_progress(cur,today)),
             ('AX:SUCCESSOR_AFTER_FOUND_BS',lambda:successor_after_found_bs(cur,today)),('AX:LOCK_ORDER_STATIC',lambda:lock_order_static(cur,today)),
-            ('AX:ACCESS',lambda:access(cur,today)),('AX:ENGINE_CONSISTENCY',lambda:engine_after(cur,today))]
+            ('AX:ACCESS',lambda:access(cur,today)),('AX:ENGINE_CONSISTENCY',lambda:engine_after(cur,today)),
+            ('AX:REPAIR_WAGE_PAYROLL',lambda:repair_wage_payroll(cur,today)),
+            ('AX:REPAIR_WAGE_CANCEL_THEN_REVERSE',lambda:repair_wage_cancel_then_reverse(cur,today)),
+            ('AX:REPAIR_WAGE_REFUSALS',lambda:repair_wage_refusals(cur,today))]
 
 
 # ---------------------------------------------------------------- two-session races (committed, fresh copy per schedule)

@@ -31,6 +31,21 @@ begin
 end
 $function$
 
+CREATE OR REPLACE FUNCTION erp.guard_fg_unsourced_repair_wage_immutable_v1()
+ RETURNS trigger
+ LANGUAGE plpgsql
+ SET search_path TO ''
+AS $function$
+begin
+  -- A repair wage changes only with its receipt: the AX reversal turns POSTED into REVERSED and nothing else.
+  if tg_op='UPDATE' and current_setting('erp.fg_unsourced_reversal',true)='on' and old.status='POSTED' and new.status='REVERSED'
+     and (to_jsonb(new)-array['status','reversed_at'])=(to_jsonb(old)-array['status','reversed_at']) then
+    return new;
+  end if;
+  raise exception 'FG_UNSOURCED_REPAIR_WAGE_IMMUTABLE: upah perbaikan hanya berubah lewat pembatalan penerimaan AX';
+end
+$function$
+
 CREATE OR REPLACE FUNCTION erp.fg_unsourced_valuation_v1(p_product_id uuid, p_physical_at timestamp with time zone)
  RETURNS jsonb
  LANGUAGE plpgsql
@@ -104,6 +119,10 @@ AS $function$
 -- with a reason. Journal Dr FG_INVENTORY (with product) / Cr OTHER_INCOME (without product, like the opening equity
 -- side, so the non-PO HPP book stays equal to its target) on the physical date; post_journal moves the GL date into
 -- the open period when that date is closed. GOOD from an ordinary BS stays on rework (decision 2A).
+-- Repair wage (owner 24 Sep 2026, "Utang, dibayar via payroll"): GOOD repaired from a found BS may carry a wage per pcs
+-- paid to a contractor. The lot value is the base value plus the wage (Rp52.000 + Rp2.000 = Rp54.000/pcs); the wage part
+-- is credited to CONTRACTOR_PAYABLE (a debt) and reaches the contractor's payroll as a FG_REPAIR work line, paid by the
+-- ordinary payroll payment. Without a repair wage the receipt is unchanged (a free repair keeps the base value).
 declare
   v_kind text:=upper(nullif(btrim(p_payload->>'source_kind'),''));
   v_reason text:=nullif(btrim(p_payload->>'reason'),'');
@@ -113,6 +132,8 @@ declare
   v_bs erp.bs_cases%rowtype;v_open bigint;v_in_rework bigint;v_root uuid;v_override numeric;v_override_text text;
   v_valuation jsonb;v_unit numeric(18,2);v_total numeric(20,2);
   v_lot uuid;v_movement uuid;v_journal uuid;v_resolution uuid;
+  v_repair jsonb:=p_payload->'repair';v_rate numeric;v_contractor uuid;v_component uuid;v_rate_reason text;
+  v_base numeric(18,2);v_wage numeric(20,2):=0;v_wage_id uuid;v_lines jsonb;
 begin
   perform erp.require_owner_admin();
   if p_client_request_id is null then raise exception 'FG_UNSOURCED_REQUEST_ID_REQUIRED'; end if;
@@ -190,6 +211,29 @@ begin
   end if;
   if v_product is null then raise exception 'FG_UNSOURCED_PRODUCT_REQUIRED'; end if;
   if v_location is null then raise exception 'FG_UNSOURCED_LOCATION_REQUIRED'; end if;
+  if v_repair is not null and jsonb_typeof(v_repair)<>'null' then
+    if v_kind<>'GOOD_FROM_UNSOURCED_BS' then
+      raise exception 'FG_UNSOURCED_REPAIR_ONLY_FOR_FOUND_BS: upah perbaikan hanya untuk GOOD dari BS temuan';
+    end if;
+    if jsonb_typeof(v_repair)<>'object' then raise exception 'FG_UNSOURCED_REPAIR_INVALID'; end if;
+    begin
+      v_rate:=(v_repair->>'rate_per_pcs')::numeric;
+      v_contractor:=(v_repair->>'contractor_id')::uuid;
+      v_component:=(v_repair->>'work_component_id')::uuid;
+    exception when others then raise exception 'FG_UNSOURCED_REPAIR_INVALID'; end;
+    v_rate_reason:=nullif(btrim(v_repair->>'rate_reason'),'');
+    -- A paid repair has a wage above zero (a free repair sends no repair object); same bounds as a unit value.
+    if v_rate is null or v_rate='NaN'::numeric or v_rate<=0 or v_rate>=1000000000000::numeric or v_rate<>round(v_rate,2) then
+      raise exception 'FG_UNSOURCED_REPAIR_RATE_INVALID';
+    end if;
+    if v_rate_reason is null then raise exception 'FG_UNSOURCED_REPAIR_REASON_REQUIRED'; end if;
+    if v_contractor is null or not exists(select 1 from erp.contractors c where c.id=v_contractor and c.is_active) then
+      raise exception 'FG_UNSOURCED_REPAIR_CONTRACTOR_INVALID';
+    end if;
+    if v_component is null or not exists(select 1 from erp.work_components w where w.id=v_component and w.is_active) then
+      raise exception 'FG_UNSOURCED_REPAIR_COMPONENT_INVALID';
+    end if;
+  end if;
 
   -- The SKU version must be active at the physical instant (NEW_STOCK, owner decision 1C).
   perform erp.assert_product_identity_time(v_product,v_at,'NEW_STOCK');
@@ -209,6 +253,13 @@ begin
       detail=v_valuation::text;
   end if;
   v_unit:=(v_valuation->>'unit_value')::numeric;
+  if v_rate is not null then
+    v_base:=v_unit;v_unit:=v_base+v_rate;
+    if v_unit>=1000000000000::numeric then raise exception 'FG_UNSOURCED_VALUE_INVALID: nilai per pcs melebihi batas penyimpanan'; end if;
+    v_valuation:=v_valuation||jsonb_build_object('base_unit_value',v_base,'repair_wage_per_pcs',v_rate,'unit_value',v_unit,
+      'repair_contractor_id',v_contractor,'repair_work_component_id',v_component,'repair_rate_reason',v_rate_reason);
+    v_wage:=round(v_rate*v_qty,2);
+  end if;
   if v_unit*v_qty>=1000000000000000000::numeric then raise exception 'FG_UNSOURCED_VALUE_INVALID: total melebihi batas penyimpanan'; end if;
   v_total:=round(v_unit*v_qty,2);
 
@@ -218,14 +269,21 @@ begin
   returning id into v_lot;
   insert into erp.hpp_versions(lot_id,version_no,cost_state,qty_basis_pcs,total_cost,is_current,calculation_reason,created_by)
   values(v_lot,1,'ADJUSTED',v_qty::integer,v_total,true,
-    'Unsourced FG valued at '||(v_valuation->>'tier')||' average HPP; frozen at posting',erp.current_app_user_id());
+    'Unsourced FG valued at '||(v_valuation->>'tier')||' average HPP'
+      ||case when v_rate is not null then ' plus repair wage '||v_rate||' per pcs' else '' end||'; frozen at posting',erp.current_app_user_id());
   v_movement:=erp.post_fg_movement(v_product,v_lot,v_location,v_grade,'ADJUSTMENT',v_qty::integer,v_unit,null,
     'FG_UNSOURCED_RECEIPT',v_id,v_at,'Barang jadi tanpa sumber produksi: '||v_kind,false);
   if v_total>0 then
+    v_lines:=jsonb_build_array(jsonb_build_object('mapping_key','FG_INVENTORY','debit',v_total,'credit',0,'product_id',v_product));
+    if v_total-v_wage>0 then
+      v_lines:=v_lines||jsonb_build_array(jsonb_build_object('mapping_key','OTHER_INCOME','debit',0,'credit',v_total-v_wage));
+    end if;
+    if v_wage>0 then
+      v_lines:=v_lines||jsonb_build_array(jsonb_build_object('mapping_key','CONTRACTOR_PAYABLE','debit',0,'credit',v_wage,
+        'contractor_id',v_contractor));
+    end if;
     v_journal:=erp.post_journal('FG_UNSOURCED_RECEIPT',v_id,(v_at at time zone 'Asia/Jakarta')::date,
-      'Barang jadi tanpa sumber produksi · '||v_reason,
-      jsonb_build_array(jsonb_build_object('mapping_key','FG_INVENTORY','debit',v_total,'credit',0,'product_id',v_product),
-                        jsonb_build_object('mapping_key','OTHER_INCOME','debit',0,'credit',v_total)));
+      'Barang jadi tanpa sumber produksi · '||v_reason,v_lines);
   end if;
   if v_kind='GOOD_FROM_UNSOURCED_BS' then
     insert into erp.bs_resolutions(bs_case_id,resolution_type,qty_pcs,compensation_amount,physical_at,notes)
@@ -237,13 +295,19 @@ begin
     physical_at,unit_value,total_value,valuation,reason,journal_entry_id,movement_id,created_by)
   values(v_id,v_kind,v_lot,v_bs.id,v_resolution,v_location,v_grade,v_qty::integer,v_at,v_unit,v_total,v_valuation,v_reason,
     v_journal,v_movement,erp.current_app_user_id());
+  if v_rate is not null then
+    insert into erp.fg_unsourced_repair_wages_v1(receipt_id,contractor_id,work_component_id,qty_pcs,rate_per_pcs,amount,physical_at,rate_reason)
+    values(v_id,v_contractor,v_component,v_qty::integer,v_rate,v_wage,v_at,v_rate_reason)
+    returning id into v_wage_id;
+  end if;
   perform erp.assert_non_po_product_hpp_target_book_v2620f(v_product);
   insert into erp.audit_logs(entity_type,entity_id,action,changed_by,change_reason)
   values('fg_unsourced_receipts_v1',v_id,'POST',erp.current_app_user_id(),v_reason);
   return erp._idempotency_complete('post_fg_unsourced_receipt_v1',p_client_request_id,jsonb_build_object(
     'receipt_id',v_id,'lot_id',v_lot,'product_id',v_product,'source_kind',v_kind,'qty_pcs',v_qty::integer,
     'unit_value',v_unit,'total_value',v_total,'valuation',v_valuation,'journal_entry_id',v_journal,
-    'bs_resolution_id',v_resolution));
+    'bs_resolution_id',v_resolution,'repair_wage',case when v_wage_id is null then null else jsonb_build_object(
+      'wage_id',v_wage_id,'contractor_id',v_contractor,'work_component_id',v_component,'rate_per_pcs',v_rate,'amount',v_wage) end));
 end
 $function$
 
@@ -255,7 +319,9 @@ CREATE OR REPLACE FUNCTION erp.reverse_fg_unsourced_receipt_v1(p_receipt_id uuid
 AS $function$
 -- AX reversal: allowed only while the lot has no downstream use (sale, reservation, conversion). The inflow is
 -- reversed, the lot is voided (it leaves the non-PO HPP target), the journal is reversed and a BS resolution created
--- by the receipt is removed, so the found BS is open again.
+-- by the receipt is removed, so the found BS is open again. A repair wage that a payroll (not reversed) has taken blocks
+-- the reversal until that payroll is cancelled; otherwise the wage is reversed with the receipt (the one journal reversal
+-- also reverses its CONTRACTOR_PAYABLE credit).
 declare
   v erp.fg_unsourced_receipts_v1%rowtype;
   v_product uuid;v_hash text;v_cached jsonb;v_reversal uuid;
@@ -275,12 +341,20 @@ begin
   if erp.fg_lot_has_active_downstream(v.lot_id,'ADJUSTMENT','FG_UNSOURCED_RECEIPT',v.id) then
     raise exception 'FG_UNSOURCED_LOT_IN_USE: lot sudah dipakai transaksi lain; batalkan transaksi itu lebih dulu';
   end if;
+  perform 1 from erp.fg_unsourced_repair_wages_v1 w where w.receipt_id=v.id for update;
+  if exists(select 1 from erp.fg_unsourced_repair_wages_v1 w
+      join erp.payroll_work_items pwi on pwi.source_type='FG_REPAIR' and pwi.source_id=w.id
+      join erp.payroll_settlements ps on ps.id=pwi.payroll_id
+      where w.receipt_id=v.id and ps.status<>'REVERSED') then
+    raise exception 'FG_UNSOURCED_REPAIR_WAGE_IN_PAYROLL: upah perbaikan sudah masuk payroll; batalkan payroll itu lebih dulu';
+  end if;
   perform erp.reverse_fg_movement(v.movement_id,btrim(p_reason));
   update erp.fg_lots set lot_origin='VOIDED_PRODUCTION',is_open=false where id=v.lot_id;
   if v.journal_entry_id is not null then v_reversal:=erp.reverse_journal(v.journal_entry_id,btrim(p_reason)); end if;
   perform set_config('erp.fg_unsourced_reversal','on',true);
   update erp.fg_unsourced_receipts_v1 set status='REVERSED',reversed_by=erp.current_app_user_id(),
     reversed_at=clock_timestamp(),reversal_reason=btrim(p_reason) where id=v.id;
+  update erp.fg_unsourced_repair_wages_v1 set status='REVERSED',reversed_at=clock_timestamp() where receipt_id=v.id and status='POSTED';
   perform set_config('erp.fg_unsourced_reversal','off',true);
   if v.bs_resolution_id is not null then
     delete from erp.bs_resolutions where id=v.bs_resolution_id;
