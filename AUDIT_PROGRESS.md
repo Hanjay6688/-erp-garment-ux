@@ -1,6 +1,7 @@
 # CP6 audit — GPT recovery checkpoint
 Date: 2026-09-24 UTC.
-Status: **IN_PROGRESS; full CP6 acceptance audit is NOT COMPLETE. Recommendation HOLD. production_go=false.**
+Status: **BLOCKED / INCOMPLETE; full CP6 acceptance audit is NOT COMPLETE. Recommendation HOLD. production_go=false.**
+Active phase: recovery checkpoint saved; bounded ALL/payroll source continuation finished. Further acceptance requires the offline artifacts/contracts and native execution capabilities described below. No external-auditor report review has started.
 
 ## Identity and authority
 - Repository: Hanjay6688/-erp-garment-ux.
@@ -127,14 +128,24 @@ Updated 2026-09-24T20:37:04.320Z.
 
 - [AUDIT_REPORT_CP6.md](AUDIT_REPORT_CP6.md): expanded checkpoint, commit cb1a0a5d34c8a67aba58431805d26c5edb10689e. Explicit HOLD, production_go=false, audit_complete=false.
 - [out/all_open_documents.md](out/all_open_documents.md) and [JSON](out/all_open_documents.json): six families/22 states; ALL_NOT_ESTABLISHED. Source blobs/line ranges validated. Open adapters and proposed scenarios remain unperformed, not assumed defects.
-- [out/payroll_source_followup.md](out/payroll_source_followup.md): positive source eliminations, retained-oracle provenance and BS attribution counterarguments. Root confirmed UI canStart does not itself require component confirmation; backend preconditions are undergoing one bounded final check.
+- [out/payroll_source_followup.md](out/payroll_source_followup.md): positive source eliminations, retained-oracle provenance and BS attribution counterarguments. Root confirmed UI canStart does not itself require component confirmation. Final source dispatcher→save_rework→trigger review also found no mandatory classification/correction. Optional CLASSIFY_BS remains available before rework; lawful native fixture and installed behavior remain UNVERIFIED.
 - [out/native_case_ledger.json](out/native_case_ledger.json): nine original job logs retrieved again; exact structured per-case output, installation stage records, restore details, line references and per-group counts. No new runtime execution. Additional final source/coverage work remains.
 - For phase1 T2/T3/JS logs, old file digests reproduced exactly by adding the one LF used by the original local save. Both fetched-text and original-save-convention hashes are retained. No unexplained evidence-byte mismatch remains for those three.
 - Latest minimal workspace read still409offline. Candidate comparison at cb1a0a5d shows only six added audit files; no product changes. Readback of report and source notes matched intended contents.
 - All other-auditor reports remain unopened under the user's requested order. Our own missing native/source work is not closed merely to move to comparison.
 
+## Final state of this continuation
+Updated 2026-09-24T20:39:59.893Z.
+
+- Bounded ALL semantic mapping and payroll source follow-ups are finished and persisted. Full CP6 acceptance is not finished.
+- Final BS source counter-review is in payroll note commit b9917e3826b722e33963e8ea78c5d09fba556b53; report update20f13262975489d0b668b6e3c88b6b073076af89. Source dispatcher SAVE_REWORK, final save function and relevant triggers do not require case-specific baseline confirmation or auto-correct it. The source risk remains UNVERIFIED/NOT_RUN, with no confirmed priority.
+- All nine selected native executions were previously completed; no fresh custom scenario was dispatched during recovery.15 default prepared cases remain NOT_RUN, run_id:null,job_id:null.
+- Workspace remains409offline after the latest minimal read. Custom dispatch remains unavailable through the exposed tool set. Contract Special clauses and final offline artifact bytes cannot be honestly replaced by source comments or hash-only receipts.
+- Pending work includes actual audit work (fixtures, tests, policy mapping), not just waiting for tools. No whole gate was promoted to ACCEPT.
+- After the final verification, AUDIT_RECOVERY_RECEIPT.json records the exact remotely available files and missing artifacts. It is a checkpoint receipt, not the old offline full evidence receipt and not a new evidence ZIP.
+
 ## LANGKAH BERIKUTNYA
-1. Finish the bounded BS backend precondition counter-review and record its outcome. Verify the final remote documentation/ledger bytes and write a recovery receipt. The full CP6 audit remains incomplete; do not start the queued external-report review yet.
+1. Resume on audit/cp6-final-20260924-gpt-a0bcadf and read this document, AUDIT_REPORT_CP6.md, and AUDIT_RECOVERY_RECEIPT.json. The ALL/payroll source passes are done; do not repeat them or start the queued external-report review yet. Recover workspace/native capability and continue the unperformed acceptance work below.
 2. When workspace reconnects, inspect existing files before restoring anything. Verify candidate/tree/clean status and phase1 hashes. Do not overwrite later local work with older version1 ZIP.
 3. Recover/verify15-case payload and four member hashes above. If files are missing, restore the latest durable checkpoint and regenerate only missing continuation artifacts; do not pretend reconstructed bytes match an old hash without checking.
 4. Upon workspace recovery, reconcile the offline final132-row matrix, scenario bytes and revised local report with these later GitHub notes. Restore/update hash manifest and evidence ZIP without overwriting later work. The remote report and native-case ledger already exist; a complete new evidence ZIP does not.
@@ -142,3 +153,5 @@ Updated 2026-09-24T20:37:04.320Z.
 6. Remaining unperformed work is broader than dispatch: valid pocket/payroll/prepayment/BS tail fixtures; real browser timezone/unknown/recovery; complete Auth/action/location; own concurrency schedules; transitive HPP/producers; semantic ALL; rollback/refusal qualification. Do not attribute every gap to tooling or promote a suite count to full CP6 PASS.
 7. Owner acceptance/production decision remains withheld. No product repair is performed by this auditor.
 
+
+8. Only after our current full audit is complete, locate the Claude report on GitHub and verify each finding independently against the three contracts, exact candidate, actual reproduction and material impact. User-provided competitor run IDs remain leads, not inherited conclusions. No permission rejection is to be bypassed.
