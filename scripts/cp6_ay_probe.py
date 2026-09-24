@@ -108,6 +108,9 @@ def late_invoice(cur,today,price,closed,zone='Asia/Jakarta'):
     after=prod.observe(cur,fx,today)
     errors=prod.differences(after,price,True,True)
     new=[e for e in events() if e[0] not in old]
+    journals=[(str(r[0]),r[1],r[2]) for r in cur.execute(
+        "select e.id,j.economic_date,j.transaction_date from erp.po_hpp_gl_events e join erp.journal_entries j on j.id=e.journal_entry_id"
+        " where j.source_type='PO_HPP_GL_SYNC' and e.id=any(%s::uuid[]) order by j.transaction_date",([e[0] for e in new],)).fetchall()]
     day_d_after=awp.snapshot_values(cur,d);day_d2_after=awp.snapshot_values(cur,d2);eve_after=awp.snapshot_values(cur,eve)
     # Negative daily inventory balances: the AS_OF check over every balance date up to today. Readiness and the close
     # are judged on the fixture's own window (d..d+1, cleared by quiet_seed); later seed days are not part of the case.
@@ -128,12 +131,16 @@ def late_invoice(cur,today,price,closed,zone='Asia/Jakarta'):
                 report_fg_day=(fg_move,cogs_move)==((Decimal(0),Decimal(0)) if closed else (3*x,2*x)),
                 no_negative_daily_inventory=not negative,engine_ready_fg_day=pre_d2['status']=='READY',
                 close_after_invoice=close_after[0] in ('ACCEPTED','ALREADY_CLOSED'))
+    # Journal dates: a closed receipt keeps its economic date d and is posted on the recognition day (today), as before AY
+    # (the AR oracles); an open one is dated from the goods, economic and posting date equal.
+    checks['journal_dates']=len(journals)==len(new) and all((ec,tr)==((d,today) if closed else (tr,tr)) and (closed or tr>=d2) for _,ec,tr in journals)
     if closed=='goods':checks['closed_day_gl_unchanged']=day_d2_before==day_d2_after
     if closed:checks['history_before_invoice_unchanged']=(day_d2_before,eve_before)==(day_d2_after,eve_after)
     ok=all(checks.values())
     status='PASS' if ok else ('COUNTEREXAMPLE' if not ay_installed(cur) else 'FAIL')
     return dict(status=status,price=price,receipt_day=str(d),fg_and_sale_day=str(d2),closed_through_before_invoice=str(closed_through) if closed else None,
                 checks=checks,errors=errors,pre_errors=pre_errors,new_hpp_events=[[str(v) for v in e] for e in new],
+                hpp_journals=[[str(v) for v in j] for j in journals],
                 report_receipt_day=dict(before=day_d_before,after=day_d_after),report_fg_day=dict(before=day_d2_before,after=day_d2_after),
                 report_day_before_today=dict(day=str(eve),before=eve_before,after=eve_after),
                 fg_move=str(fg_move),cogs_move=str(cogs_move),expected_move=dict(fg=str(3*x),cogs=str(2*x)),
