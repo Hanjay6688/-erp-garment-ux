@@ -1,0 +1,1457 @@
+[
+ {
+  "status": "PASS",
+  "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+  "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+  "functions": 533,
+  "objects": 690,
+  "production_go": false
+ },
+ {
+  "status": "PASS",
+  "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+  "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+  "functions": 533,
+  "objects": 690,
+  "production_go": false
+ },
+ {
+  "status": "PASS",
+  "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+  "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+  "functions": 533,
+  "objects": 690,
+  "production_go": false
+ },
+ {
+  "status": "PASS",
+  "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+  "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+  "functions": 533,
+  "objects": 690,
+  "production_go": false
+ },
+ {
+  "status": "PASS",
+  "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+  "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+  "erp_functions": 534,
+  "new_public_readers": 1,
+  "objects": 692,
+  "production_go": false
+ },
+ {
+  "auditor_scenario_sha256": "44f09ad11948e15cbfc0df20925c10acec055888f6f4b46c6b577eb3f4f4a9a8",
+  "bytes": 15114,
+  "phase": "after"
+ },
+ {
+  "auditor_setup": {
+   "au_install": "PASS",
+   "av_install": "PASS",
+   "ay_install": {
+    "stage": "AV_PLUS_AW_AX_AY_T1",
+    "label": "T1_FAMILY",
+    "functions": 13,
+    "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+    "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+    "av_coverage": {
+     "registry": {
+      "erp.fg_lots.product_id": {
+       "class": "NEW_STOCK_FACT",
+       "reason": "produced_at of every lot except GOOD returned by rework"
+      },
+      "erp.bs_cases.product_id": {
+       "class": "NEW_STOCK_FACT",
+       "reason": "physical_at of QC/laundry BS and manual OUT_OF_NOWHERE BS"
+      },
+      "erp.sales_items.product_id": {
+       "class": "SALES",
+       "reason": "Sale of existing stock"
+      },
+      "erp.journal_lines.product_id": {
+       "class": "ACCOUNTING",
+       "reason": "Journal dimension"
+      },
+      "erp.fg_stock_movements.product_id": {
+       "class": "MOVEMENT",
+       "reason": "Movement of an existing lot"
+      },
+      "erp.sales_return_items.product_id": {
+       "class": "SALES",
+       "reason": "Return of sold stock"
+      },
+      "erp.fg_adjustment_items.product_id": {
+       "class": "MOVEMENT",
+       "reason": "Adjusts an existing lot"
+      },
+      "erp.fg_inventory_balances.product_id": {
+       "class": "DERIVED",
+       "reason": "Balance cache keyed by product/location/grade"
+      },
+      "erp.opening_balance_items.product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Opening document; facts are OPENING lots and LEGACY BS"
+      },
+      "erp.stock_policy_versions.product_id": {
+       "class": "MASTER",
+       "reason": "Effective-dated stock policy"
+      },
+      "erp.accessory_bom_versions.product_id": {
+       "class": "MASTER",
+       "reason": "Effective-dated accessory BOM; no stock instant"
+      },
+      "erp.product_conversions.to_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Conversion target; the fact is the CONVERSION lot in fg_lots"
+      },
+      "erp.product_price_versions.product_id": {
+       "class": "MASTER",
+       "reason": "Effective-dated price"
+      },
+      "erp.product_conversions.from_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Conversion source, validated as EXISTING_STOCK"
+      },
+      "erp.qc_inspection_items.final_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "QC input; the facts are fg_lots and bs_cases"
+      },
+      "erp.fg_accessory_cost_snapshots.product_id": {
+       "class": "DERIVED",
+       "reason": "Cost snapshot of an FG lot"
+      },
+      "erp.po_accessory_bom_commitments.product_id": {
+       "class": "MASTER",
+       "reason": "PO accessory BOM commitment"
+      },
+      "erp.stock_explainability_snapshots.product_id": {
+       "class": "REPORT",
+       "reason": "Stock explanation snapshot"
+      },
+      "erp.non_po_hpp_gl_sync_events_v2620f.product_id": {
+       "class": "ACCOUNTING",
+       "reason": "HPP to GL synchronisation event"
+      },
+      "erp.laundry_receipt_batch_size_lines.bs_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Laundry receipt input; the BS fact is bs_cases"
+      },
+      "erp.product_identity_mutation_context_v1.product_id": {
+       "class": "AUTHORIZATION",
+       "reason": "Private one-use identity edit context"
+      },
+      "erp.laundry_receipt_bs_product_allocations.product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Validated as NEW_STOCK; the BS fact is bs_cases"
+      },
+      "erp.contractor_accessory_reimbursement_entitlements.product_id": {
+       "class": "DERIVED",
+       "reason": "Accounting entitlement of an FG lot"
+      }
+     },
+     "references": 23,
+     "new_stock_fact_tables": [
+      "bs_cases",
+      "fg_lots"
+     ]
+    },
+    "ay_sql_sha256": "29b8977613012431b9efa927c7cee10654aef8a016368a0430e7c3789070af43",
+    "catalog": {
+     "revaluation_movement_indexes": [],
+     "accessory_total_hpp_cost": [
+      "s",
+      "(((good_qty_pcs)::numeric * qty_per_good_fg_base) * hpp_unit_cost_base_snapshot)"
+     ]
+    }
+   },
+   "az_install": {
+    "stage": "AV_PLUS_AW_AX_AY_AZ_T1",
+    "label": "T1_FAMILY",
+    "functions": 13,
+    "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+    "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+    "av_coverage": {
+     "registry": {
+      "erp.fg_lots.product_id": {
+       "class": "NEW_STOCK_FACT",
+       "reason": "produced_at of every lot except GOOD returned by rework"
+      },
+      "erp.bs_cases.product_id": {
+       "class": "NEW_STOCK_FACT",
+       "reason": "physical_at of QC/laundry BS and manual OUT_OF_NOWHERE BS"
+      },
+      "erp.sales_items.product_id": {
+       "class": "SALES",
+       "reason": "Sale of existing stock"
+      },
+      "erp.journal_lines.product_id": {
+       "class": "ACCOUNTING",
+       "reason": "Journal dimension"
+      },
+      "erp.fg_stock_movements.product_id": {
+       "class": "MOVEMENT",
+       "reason": "Movement of an existing lot"
+      },
+      "erp.sales_return_items.product_id": {
+       "class": "SALES",
+       "reason": "Return of sold stock"
+      },
+      "erp.fg_adjustment_items.product_id": {
+       "class": "MOVEMENT",
+       "reason": "Adjusts an existing lot"
+      },
+      "erp.fg_inventory_balances.product_id": {
+       "class": "DERIVED",
+       "reason": "Balance cache keyed by product/location/grade"
+      },
+      "erp.opening_balance_items.product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Opening document; facts are OPENING lots and LEGACY BS"
+      },
+      "erp.stock_policy_versions.product_id": {
+       "class": "MASTER",
+       "reason": "Effective-dated stock policy"
+      },
+      "erp.accessory_bom_versions.product_id": {
+       "class": "MASTER",
+       "reason": "Effective-dated accessory BOM; no stock instant"
+      },
+      "erp.product_conversions.to_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Conversion target; the fact is the CONVERSION lot in fg_lots"
+      },
+      "erp.product_price_versions.product_id": {
+       "class": "MASTER",
+       "reason": "Effective-dated price"
+      },
+      "erp.product_conversions.from_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Conversion source, validated as EXISTING_STOCK"
+      },
+      "erp.qc_inspection_items.final_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "QC input; the facts are fg_lots and bs_cases"
+      },
+      "erp.fg_accessory_cost_snapshots.product_id": {
+       "class": "DERIVED",
+       "reason": "Cost snapshot of an FG lot"
+      },
+      "erp.po_accessory_bom_commitments.product_id": {
+       "class": "MASTER",
+       "reason": "PO accessory BOM commitment"
+      },
+      "erp.stock_explainability_snapshots.product_id": {
+       "class": "REPORT",
+       "reason": "Stock explanation snapshot"
+      },
+      "erp.non_po_hpp_gl_sync_events_v2620f.product_id": {
+       "class": "ACCOUNTING",
+       "reason": "HPP to GL synchronisation event"
+      },
+      "erp.laundry_receipt_batch_size_lines.bs_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Laundry receipt input; the BS fact is bs_cases"
+      },
+      "erp.product_identity_mutation_context_v1.product_id": {
+       "class": "AUTHORIZATION",
+       "reason": "Private one-use identity edit context"
+      },
+      "erp.laundry_receipt_bs_product_allocations.product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Validated as NEW_STOCK; the BS fact is bs_cases"
+      },
+      "erp.contractor_accessory_reimbursement_entitlements.product_id": {
+       "class": "DERIVED",
+       "reason": "Accounting entitlement of an FG lot"
+      }
+     },
+     "references": 23,
+     "new_stock_fact_tables": [
+      "bs_cases",
+      "fg_lots"
+     ]
+    },
+    "ay_sql_sha256": "29b8977613012431b9efa927c7cee10654aef8a016368a0430e7c3789070af43",
+    "catalog": {
+     "revaluation_movement_indexes": [],
+     "accessory_total_hpp_cost": [
+      "s",
+      "(((good_qty_pcs)::numeric * qty_per_good_fg_base) * hpp_unit_cost_base_snapshot)"
+     ]
+    },
+    "az_sql_sha256": "9007eefc5b8e8d3ae47dbdc496aca61fb281152385b27c9791284b68fc8125c9"
+   }
+  }
+ },
+ {
+  "group": "AUDITOR_CASES_AFTER",
+  "case": "DATE2:OPEN:INVOICE_AFTER_CUT:HIGHER_12",
+  "status": "PASS",
+  "checks": {
+   "supplier_invoice_journal_created": true,
+   "correction_conserved_in_four_accounts_by_today": true,
+   "supplier_invoice_dated_E": true,
+   "STRICT_every_revaluation_dated_E": true,
+   "days_before_E_unchanged": true,
+   "material_inventory_from_E_equals_x_times_units_in_stock": true,
+   "no_negative_daily_inventory_blocker": true,
+   "wip_never_negative_any_day": true
+  },
+  "observed": {
+   "receipt_day": "2026-09-22",
+   "invoice_date": "2026-09-24",
+   "price": "12",
+   "x": "2",
+   "cuts": [
+    [
+     "2026-09-23",
+     4
+    ]
+   ],
+   "closed_through": null,
+   "closed_before": null,
+   "new_revaluation_events": [
+    {
+     "id": "d09ac9b0-49c4-4972-b966-9a00db31c009",
+     "effective": "2026-09-24",
+     "delta": "-8.00",
+     "counterpart": "WIP",
+     "po": "35d89f23-9e98-49e4-bddb-2ce89e915193",
+     "economic": "2026-09-24",
+     "transaction": "2026-09-24"
+    }
+   ],
+   "new_journals": [
+    {
+     "id": "1f475aac-df05-42e7-9a25-572798d32e29",
+     "source": "MATERIAL_COST_REVALUATION",
+     "economic": "2026-09-24",
+     "transaction": "2026-09-24",
+     "status": "POSTED"
+    },
+    {
+     "id": "958990bf-f873-4248-95da-870a1d50c910",
+     "source": "MATERIAL_SUPPLIER_INVOICE",
+     "economic": "2026-09-24",
+     "transaction": "2026-09-24",
+     "status": "POSTED"
+    }
+   ],
+   "daily_move": {
+    "2026-09-22": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "0.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-23": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "0.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-24": {
+     "MATERIAL_INVENTORY": "12.00",
+     "WIP": "8.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-25": {
+     "MATERIAL_INVENTORY": "12.00",
+     "WIP": "8.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    }
+   },
+   "wip_po_after": {
+    "2026-09-22": {
+     "35d89f23-9e98-49e4-bddb-2ce89e915193": "0"
+    },
+    "2026-09-23": {
+     "35d89f23-9e98-49e4-bddb-2ce89e915193": "40.00"
+    },
+    "2026-09-24": {
+     "35d89f23-9e98-49e4-bddb-2ce89e915193": "48.00"
+    },
+    "2026-09-25": {
+     "35d89f23-9e98-49e4-bddb-2ce89e915193": "48.00"
+    }
+   },
+   "negative": {
+    "status": "BLOCKED",
+    "negative": [],
+    "codes": [
+     "ATTENDANCE_CELL_MISSING"
+    ]
+   },
+   "reading_PHYSICAL_max_E_cutday_matches": true,
+   "contract_shape": "UNAMBIGUOUS (invoice on/after every cut)"
+  },
+  "expected": "ERP-DEC01 (Master 1057-1062): open period -> every leg on the invoice date E; closed period -> existing controlled adjustment, closed days untouched",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AUDITOR_CASES_AFTER",
+  "case": "DATE2:OPEN:INVOICE_AFTER_CUT:LOWER_8",
+  "status": "PASS",
+  "checks": {
+   "supplier_invoice_journal_created": true,
+   "correction_conserved_in_four_accounts_by_today": true,
+   "supplier_invoice_dated_E": true,
+   "STRICT_every_revaluation_dated_E": true,
+   "days_before_E_unchanged": true,
+   "material_inventory_from_E_equals_x_times_units_in_stock": true,
+   "no_negative_daily_inventory_blocker": true,
+   "wip_never_negative_any_day": true
+  },
+  "observed": {
+   "receipt_day": "2026-09-22",
+   "invoice_date": "2026-09-24",
+   "price": "8",
+   "x": "-2",
+   "cuts": [
+    [
+     "2026-09-23",
+     4
+    ]
+   ],
+   "closed_through": null,
+   "closed_before": null,
+   "new_revaluation_events": [
+    {
+     "id": "29c1bed5-46f8-475b-ad40-a25aa2e780fb",
+     "effective": "2026-09-24",
+     "delta": "8.00",
+     "counterpart": "WIP",
+     "po": "bdc2b4b9-99a0-4458-ac31-07cfb9b1cfc4",
+     "economic": "2026-09-24",
+     "transaction": "2026-09-24"
+    }
+   ],
+   "new_journals": [
+    {
+     "id": "7b146e59-b7f5-4fe2-be34-d3772b5588bd",
+     "source": "MATERIAL_COST_REVALUATION",
+     "economic": "2026-09-24",
+     "transaction": "2026-09-24",
+     "status": "POSTED"
+    },
+    {
+     "id": "2f84a413-f440-43bf-ad28-df57f4b06ed0",
+     "source": "MATERIAL_SUPPLIER_INVOICE",
+     "economic": "2026-09-24",
+     "transaction": "2026-09-24",
+     "status": "POSTED"
+    }
+   ],
+   "daily_move": {
+    "2026-09-22": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "0.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-23": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "0.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-24": {
+     "MATERIAL_INVENTORY": "-12.00",
+     "WIP": "-8.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-25": {
+     "MATERIAL_INVENTORY": "-12.00",
+     "WIP": "-8.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    }
+   },
+   "wip_po_after": {
+    "2026-09-22": {
+     "bdc2b4b9-99a0-4458-ac31-07cfb9b1cfc4": "0"
+    },
+    "2026-09-23": {
+     "bdc2b4b9-99a0-4458-ac31-07cfb9b1cfc4": "40.00"
+    },
+    "2026-09-24": {
+     "bdc2b4b9-99a0-4458-ac31-07cfb9b1cfc4": "32.00"
+    },
+    "2026-09-25": {
+     "bdc2b4b9-99a0-4458-ac31-07cfb9b1cfc4": "32.00"
+    }
+   },
+   "negative": {
+    "status": "BLOCKED",
+    "negative": [],
+    "codes": [
+     "ATTENDANCE_CELL_MISSING"
+    ]
+   },
+   "reading_PHYSICAL_max_E_cutday_matches": true,
+   "contract_shape": "UNAMBIGUOUS (invoice on/after every cut)"
+  },
+  "expected": "ERP-DEC01 (Master 1057-1062): open period -> every leg on the invoice date E; closed period -> existing controlled adjustment, closed days untouched",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AUDITOR_CASES_AFTER",
+  "case": "DATE2:OPEN:TWO_CUTS_INVOICE_LAST_CUT_DAY:LOWER_8",
+  "status": "PASS",
+  "checks": {
+   "supplier_invoice_journal_created": true,
+   "correction_conserved_in_four_accounts_by_today": true,
+   "supplier_invoice_dated_E": true,
+   "STRICT_every_revaluation_dated_E": true,
+   "days_before_E_unchanged": true,
+   "material_inventory_from_E_equals_x_times_units_in_stock": true,
+   "no_negative_daily_inventory_blocker": true,
+   "wip_never_negative_any_day": true
+  },
+  "observed": {
+   "receipt_day": "2026-09-22",
+   "invoice_date": "2026-09-24",
+   "price": "8",
+   "x": "-2",
+   "cuts": [
+    [
+     "2026-09-23",
+     3
+    ],
+    [
+     "2026-09-24",
+     4
+    ]
+   ],
+   "closed_through": null,
+   "closed_before": null,
+   "new_revaluation_events": [
+    {
+     "id": "7e389239-1b34-4b71-83ae-89b3ec35538d",
+     "effective": "2026-09-24",
+     "delta": "6.00",
+     "counterpart": "WIP",
+     "po": "c0221c74-c48d-430f-a00c-8d66aafe4ae0",
+     "economic": "2026-09-24",
+     "transaction": "2026-09-24"
+    },
+    {
+     "id": "97368c29-066a-449f-be5f-1abbf64acecc",
+     "effective": "2026-09-24",
+     "delta": "8.00",
+     "counterpart": "WIP",
+     "po": "38ec1bc0-6eb4-4640-912c-ba20a7531921",
+     "economic": "2026-09-24",
+     "transaction": "2026-09-24"
+    }
+   ],
+   "new_journals": [
+    {
+     "id": "759bac6a-686e-4e40-99b1-dfdbe86fa406",
+     "source": "MATERIAL_COST_REVALUATION",
+     "economic": "2026-09-24",
+     "transaction": "2026-09-24",
+     "status": "POSTED"
+    },
+    {
+     "id": "6e2a27da-72c3-4691-a94b-4f4463260b56",
+     "source": "MATERIAL_COST_REVALUATION",
+     "economic": "2026-09-24",
+     "transaction": "2026-09-24",
+     "status": "POSTED"
+    },
+    {
+     "id": "2ffda064-d551-4b09-84d7-0823e53b54b5",
+     "source": "MATERIAL_SUPPLIER_INVOICE",
+     "economic": "2026-09-24",
+     "transaction": "2026-09-24",
+     "status": "POSTED"
+    }
+   ],
+   "daily_move": {
+    "2026-09-22": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "0.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-23": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "0.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-24": {
+     "MATERIAL_INVENTORY": "-6.00",
+     "WIP": "-14.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-25": {
+     "MATERIAL_INVENTORY": "-6.00",
+     "WIP": "-14.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    }
+   },
+   "wip_po_after": {
+    "2026-09-22": {
+     "c0221c74-c48d-430f-a00c-8d66aafe4ae0": "0",
+     "38ec1bc0-6eb4-4640-912c-ba20a7531921": "0"
+    },
+    "2026-09-23": {
+     "c0221c74-c48d-430f-a00c-8d66aafe4ae0": "30.00",
+     "38ec1bc0-6eb4-4640-912c-ba20a7531921": "0"
+    },
+    "2026-09-24": {
+     "c0221c74-c48d-430f-a00c-8d66aafe4ae0": "24.00",
+     "38ec1bc0-6eb4-4640-912c-ba20a7531921": "32.00"
+    },
+    "2026-09-25": {
+     "c0221c74-c48d-430f-a00c-8d66aafe4ae0": "24.00",
+     "38ec1bc0-6eb4-4640-912c-ba20a7531921": "32.00"
+    }
+   },
+   "negative": {
+    "status": "BLOCKED",
+    "negative": [],
+    "codes": [
+     "ATTENDANCE_CELL_MISSING"
+    ]
+   },
+   "reading_PHYSICAL_max_E_cutday_matches": true,
+   "contract_shape": "UNAMBIGUOUS (invoice on/after every cut)"
+  },
+  "expected": "ERP-DEC01 (Master 1057-1062): open period -> every leg on the invoice date E; closed period -> existing controlled adjustment, closed days untouched",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AUDITOR_CASES_AFTER",
+  "case": "DATE2:OPEN:INVOICE_BETWEEN_TWO_CUTS_AMBIGUOUS:LOWER_8",
+  "status": "COUNTEREXAMPLE",
+  "checks": {
+   "supplier_invoice_journal_created": true,
+   "correction_conserved_in_four_accounts_by_today": true,
+   "supplier_invoice_dated_E": true,
+   "STRICT_every_revaluation_dated_E": false,
+   "days_before_E_unchanged": true,
+   "material_inventory_from_E_equals_x_times_units_in_stock": true,
+   "no_negative_daily_inventory_blocker": true,
+   "wip_never_negative_any_day": true
+  },
+  "observed": {
+   "receipt_day": "2026-09-22",
+   "invoice_date": "2026-09-23",
+   "price": "8",
+   "x": "-2",
+   "cuts": [
+    [
+     "2026-09-23",
+     3
+    ],
+    [
+     "2026-09-24",
+     4
+    ]
+   ],
+   "closed_through": null,
+   "closed_before": null,
+   "new_revaluation_events": [
+    {
+     "id": "91c489c6-d901-46b9-bbd8-890165ce4cf6",
+     "effective": "2026-09-23",
+     "delta": "6.00",
+     "counterpart": "WIP",
+     "po": "59508acf-25b6-4a74-9ac8-c39354aa694a",
+     "economic": "2026-09-23",
+     "transaction": "2026-09-23"
+    },
+    {
+     "id": "25d6da4e-e94f-4dab-86e7-a6411ce5c807",
+     "effective": "2026-09-24",
+     "delta": "8.00",
+     "counterpart": "WIP",
+     "po": "485faa4f-52c0-4888-80a3-61017b3ce455",
+     "economic": "2026-09-24",
+     "transaction": "2026-09-24"
+    }
+   ],
+   "new_journals": [
+    {
+     "id": "46ae7e1a-a1e8-4dfc-b2ad-e28ae7c3f387",
+     "source": "MATERIAL_COST_REVALUATION",
+     "economic": "2026-09-23",
+     "transaction": "2026-09-23",
+     "status": "POSTED"
+    },
+    {
+     "id": "63a0ff3a-01e9-4ddb-a3e6-7b61d1c869de",
+     "source": "MATERIAL_SUPPLIER_INVOICE",
+     "economic": "2026-09-23",
+     "transaction": "2026-09-23",
+     "status": "POSTED"
+    },
+    {
+     "id": "fc0a784f-e04b-4e9b-848d-f34a937440ba",
+     "source": "MATERIAL_COST_REVALUATION",
+     "economic": "2026-09-24",
+     "transaction": "2026-09-24",
+     "status": "POSTED"
+    }
+   ],
+   "daily_move": {
+    "2026-09-22": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "0.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-23": {
+     "MATERIAL_INVENTORY": "-14.00",
+     "WIP": "-6.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-24": {
+     "MATERIAL_INVENTORY": "-6.00",
+     "WIP": "-14.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-25": {
+     "MATERIAL_INVENTORY": "-6.00",
+     "WIP": "-14.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    }
+   },
+   "wip_po_after": {
+    "2026-09-22": {
+     "59508acf-25b6-4a74-9ac8-c39354aa694a": "0",
+     "485faa4f-52c0-4888-80a3-61017b3ce455": "0"
+    },
+    "2026-09-23": {
+     "59508acf-25b6-4a74-9ac8-c39354aa694a": "24.00",
+     "485faa4f-52c0-4888-80a3-61017b3ce455": "0"
+    },
+    "2026-09-24": {
+     "59508acf-25b6-4a74-9ac8-c39354aa694a": "24.00",
+     "485faa4f-52c0-4888-80a3-61017b3ce455": "32.00"
+    },
+    "2026-09-25": {
+     "59508acf-25b6-4a74-9ac8-c39354aa694a": "24.00",
+     "485faa4f-52c0-4888-80a3-61017b3ce455": "32.00"
+    }
+   },
+   "negative": {
+    "status": "BLOCKED",
+    "negative": [],
+    "codes": [
+     "ATTENDANCE_CELL_MISSING"
+    ]
+   },
+   "reading_PHYSICAL_max_E_cutday_matches": true,
+   "contract_shape": "AMBIGUOUS (invoice dated before a cut): contract says invoice date, which would date WIP before the cut exists; DECISION_MISSING in contract"
+  },
+  "expected": "ERP-DEC01 (Master 1057-1062): open period -> every leg on the invoice date E; closed period -> existing controlled adjustment, closed days untouched",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AUDITOR_CASES_AFTER",
+  "case": "DATE2:CLOSED:CUT_CLOSED_INVOICE_DATED_IN_CLOSED:HIGHER_12",
+  "status": "PASS",
+  "checks": {
+   "supplier_invoice_journal_created": true,
+   "correction_conserved_in_four_accounts_by_today": true,
+   "no_new_journal_posted_inside_closed_period": true,
+   "closed_days_ledger_unchanged": true,
+   "economic_date_E_retained_on_events": true,
+   "correction_visible_by_today": true,
+   "no_negative_daily_inventory_blocker": true
+  },
+  "observed": {
+   "receipt_day": "2026-09-22",
+   "invoice_date": "2026-09-22",
+   "price": "12",
+   "x": "2",
+   "cuts": [
+    [
+     "2026-09-23",
+     4
+    ]
+   ],
+   "closed_through": "2026-09-23",
+   "closed_before": [
+    "ACCEPTED",
+    null
+   ],
+   "new_revaluation_events": [
+    {
+     "id": "b4c557a2-d09c-4cba-a155-74b531a0edeb",
+     "effective": "2026-09-25",
+     "delta": "-8.00",
+     "counterpart": "WIP",
+     "po": "5f8078ea-5a62-479b-8e53-98b745169fde",
+     "economic": "2026-09-22",
+     "transaction": "2026-09-25"
+    }
+   ],
+   "new_journals": [
+    {
+     "id": "5a03dc4c-1fc9-4e15-ba91-f540198b0b4b",
+     "source": "MATERIAL_COST_REVALUATION",
+     "economic": "2026-09-22",
+     "transaction": "2026-09-25",
+     "status": "POSTED"
+    },
+    {
+     "id": "f09f59f1-ce7a-4f71-8977-ebd39107e8b6",
+     "source": "MATERIAL_SUPPLIER_INVOICE",
+     "economic": "2026-09-22",
+     "transaction": "2026-09-25",
+     "status": "POSTED"
+    }
+   ],
+   "daily_move": {
+    "2026-09-22": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "0.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-23": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "0.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-24": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "0.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-25": {
+     "MATERIAL_INVENTORY": "12.00",
+     "WIP": "8.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    }
+   },
+   "wip_po_after": {
+    "2026-09-22": {
+     "5f8078ea-5a62-479b-8e53-98b745169fde": "0"
+    },
+    "2026-09-23": {
+     "5f8078ea-5a62-479b-8e53-98b745169fde": "40.00"
+    },
+    "2026-09-24": {
+     "5f8078ea-5a62-479b-8e53-98b745169fde": "40.00"
+    },
+    "2026-09-25": {
+     "5f8078ea-5a62-479b-8e53-98b745169fde": "48.00"
+    }
+   },
+   "negative": {
+    "status": "BLOCKED",
+    "negative": [],
+    "codes": [
+     "ATTENDANCE_CELL_MISSING"
+    ]
+   }
+  },
+  "expected": "ERP-DEC01 (Master 1057-1062): open period -> every leg on the invoice date E; closed period -> existing controlled adjustment, closed days untouched",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AUDITOR_CASES_AFTER",
+  "case": "DATE2:CLOSED:CUT_CLOSED_INVOICE_DATED_IN_CLOSED:LOWER_8",
+  "status": "PASS",
+  "checks": {
+   "supplier_invoice_journal_created": true,
+   "correction_conserved_in_four_accounts_by_today": true,
+   "no_new_journal_posted_inside_closed_period": true,
+   "closed_days_ledger_unchanged": true,
+   "economic_date_E_retained_on_events": true,
+   "correction_visible_by_today": true,
+   "no_negative_daily_inventory_blocker": true
+  },
+  "observed": {
+   "receipt_day": "2026-09-22",
+   "invoice_date": "2026-09-23",
+   "price": "8",
+   "x": "-2",
+   "cuts": [
+    [
+     "2026-09-23",
+     4
+    ]
+   ],
+   "closed_through": "2026-09-23",
+   "closed_before": [
+    "ACCEPTED",
+    null
+   ],
+   "new_revaluation_events": [
+    {
+     "id": "2e9acd56-f377-4905-83ea-7dd553b3b894",
+     "effective": "2026-09-25",
+     "delta": "8.00",
+     "counterpart": "WIP",
+     "po": "34087a06-8290-432a-99e7-2e2b1e14a172",
+     "economic": "2026-09-23",
+     "transaction": "2026-09-25"
+    }
+   ],
+   "new_journals": [
+    {
+     "id": "d99db3ff-7b45-4ab6-a424-7f23d221b84b",
+     "source": "MATERIAL_COST_REVALUATION",
+     "economic": "2026-09-23",
+     "transaction": "2026-09-25",
+     "status": "POSTED"
+    },
+    {
+     "id": "7ddb9474-13ab-4da0-80e5-d5f349f9e9dc",
+     "source": "MATERIAL_SUPPLIER_INVOICE",
+     "economic": "2026-09-23",
+     "transaction": "2026-09-25",
+     "status": "POSTED"
+    }
+   ],
+   "daily_move": {
+    "2026-09-22": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "0.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-23": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "0.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-24": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "0.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-25": {
+     "MATERIAL_INVENTORY": "-12.00",
+     "WIP": "-8.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    }
+   },
+   "wip_po_after": {
+    "2026-09-22": {
+     "34087a06-8290-432a-99e7-2e2b1e14a172": "0"
+    },
+    "2026-09-23": {
+     "34087a06-8290-432a-99e7-2e2b1e14a172": "40.00"
+    },
+    "2026-09-24": {
+     "34087a06-8290-432a-99e7-2e2b1e14a172": "40.00"
+    },
+    "2026-09-25": {
+     "34087a06-8290-432a-99e7-2e2b1e14a172": "32.00"
+    }
+   },
+   "negative": {
+    "status": "BLOCKED",
+    "negative": [],
+    "codes": [
+     "ATTENDANCE_CELL_MISSING"
+    ]
+   }
+  },
+  "expected": "ERP-DEC01 (Master 1057-1062): open period -> every leg on the invoice date E; closed period -> existing controlled adjustment, closed days untouched",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AUDITOR_CASES_AFTER",
+  "case": "DATE2:S04:SAME_DAY_CUT_BEFORE_RECEIPT_TIME:LOWER_8",
+  "status": "PASS",
+  "checks": {
+   "cut_before_receipt_refused": true
+  },
+  "observed": {
+   "receipt_physical_at": "2026-09-22 23:30:00+07:00",
+   "cut_at": "2026-09-22 08:00:00+07:00",
+   "cut_accepted": false,
+   "cut_error": "AM_BACKDATE_WOULD_CREATE_NEGATIVE_LOCATION_ROLL_HISTORY for material a60f06b6-f9c8-4dd7-8da8-eb41ecf7e126"
+  },
+  "expected": "AUD-S04 (M:6002-6026): a cut at 08:00 from a roll received 23:30 the same day must be refused by historical per-location validation; if accepted, the later invoice must still be bookable",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AUDITOR_CASES_AFTER",
+  "case": "DATE2:GOODS:INVOICE_BEFORE_GOODS_AMBIGUOUS:HIGHER_12",
+  "status": "COUNTEREXAMPLE",
+  "checks": {
+   "supplier_invoice_dated_E": true,
+   "correction_conserved_in_four_accounts_by_today": true,
+   "STRICT_every_new_journal_dated_E": false,
+   "days_before_E_unchanged": true,
+   "no_negative_daily_inventory_blocker": true,
+   "readiness_goods_day_ready_after_invoice": true,
+   "close_goods_day_accepted_after_invoice": true
+  },
+  "observed": {
+   "receipt_day": "2026-09-22",
+   "goods_and_sale_day": "2026-09-23",
+   "invoice_date": "2026-09-22",
+   "price": "12",
+   "x": "2",
+   "daily_move": {
+    "2026-09-22": {
+     "MATERIAL_INVENTORY": "20.00",
+     "WIP": "0.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-23": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "10.00",
+     "FG_INVENTORY": "6.00",
+     "COGS": "4.00"
+    },
+    "2026-09-24": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "10.00",
+     "FG_INVENTORY": "6.00",
+     "COGS": "4.00"
+    },
+    "2026-09-25": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "10.00",
+     "FG_INVENTORY": "6.00",
+     "COGS": "4.00"
+    }
+   },
+   "new_journals": [
+    {
+     "id": "c2819606-975c-4781-93bc-8009332bc38d",
+     "source": "MATERIAL_SUPPLIER_INVOICE",
+     "economic": "2026-09-22",
+     "transaction": "2026-09-22",
+     "status": "POSTED"
+    },
+    {
+     "id": "d963ba23-771f-4f4f-bf5a-126e1483f77e",
+     "source": "MATERIAL_COST_REVALUATION",
+     "economic": "2026-09-23",
+     "transaction": "2026-09-23",
+     "status": "POSTED"
+    },
+    {
+     "id": "900d56b1-b904-4f5a-8303-f572f423fb34",
+     "source": "PO_HPP_GL_SYNC",
+     "economic": "2026-09-23",
+     "transaction": "2026-09-23",
+     "status": "POSTED"
+    }
+   ],
+   "new_hpp_events": [
+    {
+     "id": "8777289e-c7a9-490e-bb78-82c7d5631034",
+     "effective": "2026-09-23",
+     "fg": "6.000000",
+     "cogs": "4.000000",
+     "other": "0.000000"
+    }
+   ],
+   "conserved_by_today": "20.00",
+   "negative": {
+    "status": "BLOCKED",
+    "negative": [],
+    "codes": [
+     "ATTENDANCE_CELL_MISSING"
+    ]
+   },
+   "readiness_d2": "READY",
+   "readiness_d2_codes": [],
+   "close_after": [
+    "ACCEPTED",
+    null
+   ],
+   "contract_shape": "AMBIGUOUS (invoice before goods day): DECISION_MISSING in contract"
+  },
+  "expected": "ERP-DEC01: every leg (material, WIP, FG, COGS) of the 10x correction dated on invoice date E; readiness consistent; close accepted",
+  "full_boundary_restored": true
+ },
+ {
+  "auditor_phase": "after",
+  "status": "RUN_COMPLETE",
+  "label": "AUDITOR_SCENARIO",
+  "phase": "after",
+  "scenario_sha256": "44f09ad11948e15cbfc0df20925c10acec055888f6f4b46c6b577eb3f4f4a9a8",
+  "production_go": false,
+  "independent_acceptance": false,
+  "release_evidence": false,
+  "au_install": "PASS",
+  "av_install": "PASS",
+  "aw_install": {
+   "stage": "AV_PLUS_AW_T1",
+   "label": "T1_FAMILY",
+   "functions": 13,
+   "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32"
+  },
+  "ax_install": {
+   "stage": "AV_PLUS_AW_PLUS_AX_T1",
+   "label": "T1_FAMILY",
+   "functions": 13,
+   "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+   "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+   "av_coverage": {
+    "registry": {
+     "erp.fg_lots.product_id": {
+      "class": "NEW_STOCK_FACT",
+      "reason": "produced_at of every lot except GOOD returned by rework"
+     },
+     "erp.bs_cases.product_id": {
+      "class": "NEW_STOCK_FACT",
+      "reason": "physical_at of QC/laundry BS and manual OUT_OF_NOWHERE BS"
+     },
+     "erp.sales_items.product_id": {
+      "class": "SALES",
+      "reason": "Sale of existing stock"
+     },
+     "erp.journal_lines.product_id": {
+      "class": "ACCOUNTING",
+      "reason": "Journal dimension"
+     },
+     "erp.fg_stock_movements.product_id": {
+      "class": "MOVEMENT",
+      "reason": "Movement of an existing lot"
+     },
+     "erp.sales_return_items.product_id": {
+      "class": "SALES",
+      "reason": "Return of sold stock"
+     },
+     "erp.fg_adjustment_items.product_id": {
+      "class": "MOVEMENT",
+      "reason": "Adjusts an existing lot"
+     },
+     "erp.fg_inventory_balances.product_id": {
+      "class": "DERIVED",
+      "reason": "Balance cache keyed by product/location/grade"
+     },
+     "erp.opening_balance_items.product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Opening document; facts are OPENING lots and LEGACY BS"
+     },
+     "erp.stock_policy_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated stock policy"
+     },
+     "erp.accessory_bom_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated accessory BOM; no stock instant"
+     },
+     "erp.product_conversions.to_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Conversion target; the fact is the CONVERSION lot in fg_lots"
+     },
+     "erp.product_price_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated price"
+     },
+     "erp.product_conversions.from_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Conversion source, validated as EXISTING_STOCK"
+     },
+     "erp.qc_inspection_items.final_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "QC input; the facts are fg_lots and bs_cases"
+     },
+     "erp.fg_accessory_cost_snapshots.product_id": {
+      "class": "DERIVED",
+      "reason": "Cost snapshot of an FG lot"
+     },
+     "erp.po_accessory_bom_commitments.product_id": {
+      "class": "MASTER",
+      "reason": "PO accessory BOM commitment"
+     },
+     "erp.stock_explainability_snapshots.product_id": {
+      "class": "REPORT",
+      "reason": "Stock explanation snapshot"
+     },
+     "erp.non_po_hpp_gl_sync_events_v2620f.product_id": {
+      "class": "ACCOUNTING",
+      "reason": "HPP to GL synchronisation event"
+     },
+     "erp.laundry_receipt_batch_size_lines.bs_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Laundry receipt input; the BS fact is bs_cases"
+     },
+     "erp.product_identity_mutation_context_v1.product_id": {
+      "class": "AUTHORIZATION",
+      "reason": "Private one-use identity edit context"
+     },
+     "erp.laundry_receipt_bs_product_allocations.product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Validated as NEW_STOCK; the BS fact is bs_cases"
+     },
+     "erp.contractor_accessory_reimbursement_entitlements.product_id": {
+      "class": "DERIVED",
+      "reason": "Accounting entitlement of an FG lot"
+     }
+    },
+    "references": 23,
+    "new_stock_fact_tables": [
+     "bs_cases",
+     "fg_lots"
+    ]
+   }
+  },
+  "ay_install": {
+   "stage": "AV_PLUS_AW_AX_AY_T1",
+   "label": "T1_FAMILY",
+   "functions": 13,
+   "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+   "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+   "av_coverage": {
+    "registry": {
+     "erp.fg_lots.product_id": {
+      "class": "NEW_STOCK_FACT",
+      "reason": "produced_at of every lot except GOOD returned by rework"
+     },
+     "erp.bs_cases.product_id": {
+      "class": "NEW_STOCK_FACT",
+      "reason": "physical_at of QC/laundry BS and manual OUT_OF_NOWHERE BS"
+     },
+     "erp.sales_items.product_id": {
+      "class": "SALES",
+      "reason": "Sale of existing stock"
+     },
+     "erp.journal_lines.product_id": {
+      "class": "ACCOUNTING",
+      "reason": "Journal dimension"
+     },
+     "erp.fg_stock_movements.product_id": {
+      "class": "MOVEMENT",
+      "reason": "Movement of an existing lot"
+     },
+     "erp.sales_return_items.product_id": {
+      "class": "SALES",
+      "reason": "Return of sold stock"
+     },
+     "erp.fg_adjustment_items.product_id": {
+      "class": "MOVEMENT",
+      "reason": "Adjusts an existing lot"
+     },
+     "erp.fg_inventory_balances.product_id": {
+      "class": "DERIVED",
+      "reason": "Balance cache keyed by product/location/grade"
+     },
+     "erp.opening_balance_items.product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Opening document; facts are OPENING lots and LEGACY BS"
+     },
+     "erp.stock_policy_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated stock policy"
+     },
+     "erp.accessory_bom_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated accessory BOM; no stock instant"
+     },
+     "erp.product_conversions.to_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Conversion target; the fact is the CONVERSION lot in fg_lots"
+     },
+     "erp.product_price_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated price"
+     },
+     "erp.product_conversions.from_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Conversion source, validated as EXISTING_STOCK"
+     },
+     "erp.qc_inspection_items.final_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "QC input; the facts are fg_lots and bs_cases"
+     },
+     "erp.fg_accessory_cost_snapshots.product_id": {
+      "class": "DERIVED",
+      "reason": "Cost snapshot of an FG lot"
+     },
+     "erp.po_accessory_bom_commitments.product_id": {
+      "class": "MASTER",
+      "reason": "PO accessory BOM commitment"
+     },
+     "erp.stock_explainability_snapshots.product_id": {
+      "class": "REPORT",
+      "reason": "Stock explanation snapshot"
+     },
+     "erp.non_po_hpp_gl_sync_events_v2620f.product_id": {
+      "class": "ACCOUNTING",
+      "reason": "HPP to GL synchronisation event"
+     },
+     "erp.laundry_receipt_batch_size_lines.bs_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Laundry receipt input; the BS fact is bs_cases"
+     },
+     "erp.product_identity_mutation_context_v1.product_id": {
+      "class": "AUTHORIZATION",
+      "reason": "Private one-use identity edit context"
+     },
+     "erp.laundry_receipt_bs_product_allocations.product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Validated as NEW_STOCK; the BS fact is bs_cases"
+     },
+     "erp.contractor_accessory_reimbursement_entitlements.product_id": {
+      "class": "DERIVED",
+      "reason": "Accounting entitlement of an FG lot"
+     }
+    },
+    "references": 23,
+    "new_stock_fact_tables": [
+     "bs_cases",
+     "fg_lots"
+    ]
+   },
+   "ay_sql_sha256": "29b8977613012431b9efa927c7cee10654aef8a016368a0430e7c3789070af43",
+   "catalog": {
+    "revaluation_movement_indexes": [],
+    "accessory_total_hpp_cost": [
+     "s",
+     "(((good_qty_pcs)::numeric * qty_per_good_fg_base) * hpp_unit_cost_base_snapshot)"
+    ]
+   }
+  },
+  "az_install": {
+   "stage": "AV_PLUS_AW_AX_AY_AZ_T1",
+   "label": "T1_FAMILY",
+   "functions": 13,
+   "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+   "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+   "av_coverage": {
+    "registry": {
+     "erp.fg_lots.product_id": {
+      "class": "NEW_STOCK_FACT",
+      "reason": "produced_at of every lot except GOOD returned by rework"
+     },
+     "erp.bs_cases.product_id": {
+      "class": "NEW_STOCK_FACT",
+      "reason": "physical_at of QC/laundry BS and manual OUT_OF_NOWHERE BS"
+     },
+     "erp.sales_items.product_id": {
+      "class": "SALES",
+      "reason": "Sale of existing stock"
+     },
+     "erp.journal_lines.product_id": {
+      "class": "ACCOUNTING",
+      "reason": "Journal dimension"
+     },
+     "erp.fg_stock_movements.product_id": {
+      "class": "MOVEMENT",
+      "reason": "Movement of an existing lot"
+     },
+     "erp.sales_return_items.product_id": {
+      "class": "SALES",
+      "reason": "Return of sold stock"
+     },
+     "erp.fg_adjustment_items.product_id": {
+      "class": "MOVEMENT",
+      "reason": "Adjusts an existing lot"
+     },
+     "erp.fg_inventory_balances.product_id": {
+      "class": "DERIVED",
+      "reason": "Balance cache keyed by product/location/grade"
+     },
+     "erp.opening_balance_items.product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Opening document; facts are OPENING lots and LEGACY BS"
+     },
+     "erp.stock_policy_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated stock policy"
+     },
+     "erp.accessory_bom_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated accessory BOM; no stock instant"
+     },
+     "erp.product_conversions.to_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Conversion target; the fact is the CONVERSION lot in fg_lots"
+     },
+     "erp.product_price_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated price"
+     },
+     "erp.product_conversions.from_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Conversion source, validated as EXISTING_STOCK"
+     },
+     "erp.qc_inspection_items.final_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "QC input; the facts are fg_lots and bs_cases"
+     },
+     "erp.fg_accessory_cost_snapshots.product_id": {
+      "class": "DERIVED",
+      "reason": "Cost snapshot of an FG lot"
+     },
+     "erp.po_accessory_bom_commitments.product_id": {
+      "class": "MASTER",
+      "reason": "PO accessory BOM commitment"
+     },
+     "erp.stock_explainability_snapshots.product_id": {
+      "class": "REPORT",
+      "reason": "Stock explanation snapshot"
+     },
+     "erp.non_po_hpp_gl_sync_events_v2620f.product_id": {
+      "class": "ACCOUNTING",
+      "reason": "HPP to GL synchronisation event"
+     },
+     "erp.laundry_receipt_batch_size_lines.bs_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Laundry receipt input; the BS fact is bs_cases"
+     },
+     "erp.product_identity_mutation_context_v1.product_id": {
+      "class": "AUTHORIZATION",
+      "reason": "Private one-use identity edit context"
+     },
+     "erp.laundry_receipt_bs_product_allocations.product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Validated as NEW_STOCK; the BS fact is bs_cases"
+     },
+     "erp.contractor_accessory_reimbursement_entitlements.product_id": {
+      "class": "DERIVED",
+      "reason": "Accounting entitlement of an FG lot"
+     }
+    },
+    "references": 23,
+    "new_stock_fact_tables": [
+     "bs_cases",
+     "fg_lots"
+    ]
+   },
+   "ay_sql_sha256": "29b8977613012431b9efa927c7cee10654aef8a016368a0430e7c3789070af43",
+   "catalog": {
+    "revaluation_movement_indexes": [],
+    "accessory_total_hpp_cost": [
+     "s",
+     "(((good_qty_pcs)::numeric * qty_per_good_fg_base) * hpp_unit_cost_base_snapshot)"
+    ]
+   },
+   "az_sql_sha256": "9007eefc5b8e8d3ae47dbdc496aca61fb281152385b27c9791284b68fc8125c9"
+  },
+  "auditor_cases": {
+   "status": "COUNTEREXAMPLE",
+   "counts": {
+    "PASS": 6,
+    "COUNTEREXAMPLE": 2
+   }
+  },
+  "primary_unchanged": true,
+  "clone_remaining": 0
+ }
+]
