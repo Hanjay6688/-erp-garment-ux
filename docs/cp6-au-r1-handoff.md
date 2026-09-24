@@ -2,7 +2,12 @@
 
 Tanggal: 23 September 2026 (WIB). Writer: Claude Code (sesi cloud). Peninjau berikutnya: ChatGPT.
 
-> **Pembaruan terbaru (24 September 2026, putaran kelima, writer Claude): baca §24 lalu §23.** §24 berisi AY rev6/rev6.1: koreksi HPP dicatat mengikuti saldo harian per lot (penjualan dan pembatalannya, retur, write-off, relabel, lot VOIDED, batch potong lintas hari), hasil dua pemeriksaan independen, serta T1/T2/T3/CodeQL akhir. Temuan yang masih terbuka ada di §24.4. §23 berisi keputusan owner, oracle yang disetujui, AZ, dan penelusuran `ADJUSTMENT_DATE`. MATCH adalah oracle yang disetujui, bukan PASS kasus beku. Semua T1_FAMILY/T2_REGRESSION/T3_PREP, bukan bukti rilis. CP6 tetap HOLD, 12 HOLD historis tetap HOLD, `production_go=false`.
+> **Pembaruan terbaru (24 September 2026, putaran keenam, writer Claude): baca §25, lalu §24, lalu §23.**
+> - §25 berisi AY rev7/rev7.1. Setiap fakta bahan (retur potong, bahan ke mandor, kolam PO, batch lintas PO) dicatat pada hari fisiknya. Relabel, termasuk rantai relabel, tidak berayun lewat akun lain. Kinerja dengan running sum dan JIT dimatikan. Juga hasil pemeriksaan independen rev7 dan T1/T2/T3/CodeQL akhir.
+> - Yang masih terbuka ada di §25.4. Tidak ada keputusan owner yang tertunda.
+> - §24 berisi riwayat rev6/rev6.1. §23 berisi keputusan owner, oracle yang disetujui, AZ, dan penelusuran `ADJUSTMENT_DATE`.
+> - MATCH adalah oracle yang disetujui, bukan PASS kasus beku. Semua bukti berlabel T1_FAMILY/T2_REGRESSION/T3_PREP, bukan bukti rilis.
+> - CP6 tetap HOLD, 12 HOLD historis tetap HOLD, `production_go=false`.
 
 > **Pembaruan (giliran writer Claude berikutnya, 23 September 2026):** paket yang ditinjau sekarang adalah **AV rev2** (§16), bukan kandidat AV `bb4009c`. Keputusan owner lanjutan ada di §14–§15 dan §16.4. Bagian 1–13 dipertahankan sebagai riwayat.
 Dokumen ini adalah checkpoint utuh sesuai format bagian 8 handoff AU-R1. Tidak ada yang diringkas dari bukti; semua angka di bawah dapat ditelusuri ke run, commit, atau file yang disebut.
@@ -1479,3 +1484,135 @@ Dicatat, **belum** diperbaiki di putaran ini:
 ### 24.5 Pelajaran
 - Error pertama rev6 di CI (alias `t` bentrok dengan record `t` plpgsql) lolos dari cek sintaks lokal. Sejak itu fungsi diuji di **harness stub lokal** (PostgreSQL sekali pakai, skema minimal) dengan skenario angka sebelum push. Putaran uji turun dari ±30 menit ke hitungan detik.
 - Ekspektasi fixture `SALE_REVERSED` yang pertama salah: penjualan yang dibatalkan dianggap tidak pernah terjual. Karena itu rev5 lolos padahal F1 ada. Sekarang ekspektasinya mengikuti tanggal fisik: pcs keluar pada hari jual dan kembali pada hari pembatalan.
+
+## 25. Putaran keenam: AY rev7 (fakta bahan per tanggal fisik, relabel, kinerja) (24 September 2026, writer Claude)
+
+Label: T1_FAMILY, T2_REGRESSION, T3_PREP; bukan bukti rilis dan bukan penerimaan independen. CP6 tetap HOLD, 12 HOLD historis tetap HOLD, `production_go=false`. Tidak ada SQL ke hosted; cabang kompetisi tetap `ca7f095`. Bagian ini menggantikan §24.4 untuk M-1, F6, dan M-4. Keputusan owner dan oracle yang disetujui tetap di §23.
+
+### 25.1 Yang diperbaiki
+- **M-1 (fakta bahan sesudah tanggal lot).** Setiap fakta bahan di balik HPP PO kini punya tanggal sendiri, sama dengan tanggal AZ untuk revaluasi WIP-nya:
+  - pengeluaran dan retur bahan potong (per pergerakan);
+  - bahan kontraktor non-aksesori (per item, tanggal gerakan stoknya).
+  Kolamnya mengikuti `rebuild_po_hpp`: cutting batch (dibagi `effective_pcs`, termasuk grup PO lain dalam batch yang sama), grup lineage, atau kolam PO; bahan kontraktor dibagi `cp6_po_source_qty_v2620c`.
+  Koreksi per pcs lot pada tanggal D = koreksi lot sekarang, dikurangi bagian koreksi bahan yang faktanya baru ada sesudah D.
+- **State per fakta.** Tabel baru `erp.po_hpp_gl_material_state_v1 (po_id, source_key)` menggantikan `po_hpp_gl_group_state_v1`. Isinya nilai tiap fakta di dalam HPP yang terakhir diposting (`M:<gerakan>`, `C:<item>`), ditambah penanda `SYNC`.
+  - State hanya ditulis bila HPP di-rebuild pada statement yang sama. Semua pemanggil `rebuild_po_hpp` langsung memanggil sync; lima pemanggil sync tidak me-rebuild (penyesuaian FG, pembatalan penjualan/retur/konversi), dan pada mereka state lama tetap berlaku karena HPP yang diposting juga masih HPP rebuild terakhir.
+  - Fakta yang dibuat sesudah penanda `SYNC` belum ada di HPP mana pun, jadi nilai lamanya nol. Contoh: bahan ke mandor sesudah lot, yang tidak me-rebuild HPP.
+  - rev7: fakta tanpa state dari sebelum AY dipasang tetap memakai koreksi konstan. rev7.1 menggantinya (F1 di §25.1a): nilai lamanya diturunkan dari HPP yang terakhir di-rebuild.
+- **F6 (relabel dibatalkan).** Lot hasil relabel mengikuti koreksi lot sumbernya: relabel yang dibatalkan saling meniadakan, relabel yang diposting menambah selisih koreksinya sendiri. rev7.1 memperluasnya ke rantai relabel (F3 di §25.1a).
+- **M-4 (kinerja).** Saldo per lot per tanggal dan saldo bahan per kolam dihitung dengan running sum (window), tanpa join tanggal × pergerakan.
+
+### 25.1a Pemeriksaan independen rev7 dan rev7.1
+Pemeriksa sub-agent read-only memakai database stub sekali pakai sendiri: rev7, rev6.1 untuk pembanding waktu, dan salinan fungsi AS sebagai acuan; ditambah fuzz 400 seed × 3 mode. Tidak ada BLOCKER.
+
+**Terbukti beres:**
+- M-1 untuk PO yang punya state (retur, kontraktor, kolam PO, harga naik).
+- Relabel tunggal, dibatalkan atau diposting.
+- Batch lintas dua PO.
+- Dua bahan dalam satu statement.
+- Data pinggir tanpa error.
+- Jalur non-invoice dan E tertutup identik dengan AS.
+- Total per akun = AS pada semua seed yang diterima AS sendiri.
+- Model kolam sama dengan `rebuild_po_hpp`; aturan state segar dan penanda SYNC; keamanan tabel baru.
+
+**Temuan:**
+- **F1 MAJOR** (terbukti): PO yang diproduksi sebelum AY dipasang belum punya state bahan, jadi M-1 tetap terjadi pada invoice terlambat pertamanya (repro x2: WIP PO −3,50). Justru PO seperti ini yang paling sering menunggu invoice.
+  - Usul pemeriksa, yaitu mengisi state saat instalasi, **tidak dipakai**: guard rilis mewajibkan tabel baru kosong saat instalasi, dan guard lama tidak dilonggarkan.
+  - **rev7.1:** untuk PO tanpa state, nilai lama tiap fakta diambil dari HPP yang terakhir di-rebuild (tp = versi terbaru lot PO sebelum statement ini). Fakta yang dibuat sesudah tp bernilai lama nol. Fakta yang ada pada tp bernilai lama = nilainya sekarang dikurangi revaluasi gerakannya sejak tp (`material_cost_revaluation_events`; delta persediaan bergerak berlawanan dengan nilai di HPP).
+  - Harness r13: −17,50 pada hari lot dan +3,50 pada hari retur, sama dengan PO yang punya state; state ikut tertulis.
+- **F2 MAJOR bila JIT aktif di hosted** (terbukti di stub): perencana salah menaksir query saldo harian lalu mengompilasi JIT ±4 s di bawah lock global `FG_HPP_SALES_V2620C`.
+  - **rev7.1:** fungsi berjalan dengan `SET jit TO 'off'`, dan probe AY memeriksanya.
+  - Stub pemeriksa: 300 lot 5,3 s → 1,09 s (rev6.1: 1,8 s); 1000 lot 10,6 s → 6,27 s.
+- **F3 MINOR** (terbukti): rantai relabel (b1→c1→c2) masih berayun ±0,70 lewat akun lainnya.
+  - **rev7.1:** lot relabel mengikuti lot akarnya lewat seluruh rantai (CTE rekursif), ditambah selisih sendiri dari relabel yang diposting.
+  - Harness r14 (= repro x1): tidak ada baris akun lainnya.
+- **F4 MINOR** (terbukti, **tidak diubah**): pengenceran kolam batch oleh grup yang dipotong sesudah penanda state tercatat pada hari lot.
+  - Contoh: FG −17,91 pada 21 Sep dan +48,60 pada 23 Sep, padahal seharusnya −7,00 dan +37,69.
+  - Tidak membuat saldo negatif: FG terlalu rendah di awal dan WIP terlalu tinggi.
+  - Perbaikannya perlu menyimpan pcs kolam di state (dicatat di §25.4).
+
+Fuzz yang sama pada rev7.1: 0 error AY, 0 selisih total; 111 penolakan, semuanya dari cek konsistensi AS pada data acak. Repro dan fuzz: `docs/evidence/cp6-ay/rev7-review/`.
+
+### 25.2 Bukti harness lokal (sebelum CI)
+Harness stub ada di `docs/evidence/cp6-ay/rev7-harness/`. Isinya skema minimal, fungsi target asli, 18 skenario (14 skenario r1–r14 ditambah f1, m2, f1_noninv, f1_closed), `perf.sql`, `run.sh`, dan output. Semua skenario keluar sesuai harapan tanpa error:
+- **Retur potong sesudah lot** (contoh pemeriksa rev6): FG −17,50 pada hari lot, lalu +3,50 pada hari retur. WIP PO ditambah AZ = 0 setiap hari (rev6.1: −3,50 pada 21–22 Sep).
+- **Bahan kontraktor sesudah lot:** koreksi jatuh pada hari gerakan stoknya (23), bukan hari header (22) atau hari lot.
+- **Lot tanpa grup (kolam PO):** sama dengan retur potong.
+- **Relabel dibatalkan:** tidak ada baris akun lainnya. Relabel diposting dengan anak ikut di-recost: hanya FG pada hari lot.
+- **Batch berisi grup dua PO:** +2,80 lalu +2,29, bahan PO lain masuk kolam pada harinya.
+- **Fakta sesudah penanda SYNC:** bahan kontraktor 8,00 masuk pada harinya. Tanpa penanda (r10 `marker=no`), versi HPP stub tidak dibuat pada statement yang sama, jadi hasilnya koreksi konstan. Jalur rev7.1 untuk PO tanpa state diuji di r13.
+- **rev7.1:**
+  - r13, PO tanpa state (F1): −17,50 / +3,50, sama dengan r1.
+  - r14, rantai relabel (F3): tidak ada baris akun lainnya.
+  - r1–r12 tidak berubah (`output_rev7_1.txt`).
+- **Skenario lama tetap sama:** f1, m2, E tertutup, jalur non-invoice, write-off (OTHER_INCOME netto −5,25 = AS), pembulatan hari jual (WIP 0), dan batch lalu jual.
+- **Kinerja** (`perf.txt`, stub):
+
+  | Pergerakan FG | Hari | rev7 | rev6.1 |
+  | --- | --- | --- | --- |
+  | 40 ribu | 400 | 1,28 s | 4,50 s |
+  | 100 ribu | 700 | 1,72 s | 23,32 s |
+
+### 25.3 Hasil CI (database uji sekali pakai; tidak ada SQL ke hosted)
+Head kode akhir **AY rev7.1 `e51614a`**, SQL sha256 `8b23a824…`. Commit sesudahnya:
+- `017001f`: paket T3;
+- `adc8d67`: guard alias di builder, SQL identik;
+- sisanya bukti dan dokumen.
+
+**Akhir (rev7.1):**
+- **AY T1 run 35988403292** (`e51614a`):
+  - sebelum AY: 3 COUNTEREXAMPLE + 4 PASS; 4 yang PASS memang tidak boleh berubah;
+  - sesudah AY: **7/7 PASS**;
+  - primary tidak berubah, clone 0.
+- **AZ T1 run 35988403143** (`e51614a`):
+  - sesudah AZ: **23/23 PASS**; sebelum AZ: 19 COUNTEREXAMPLE + 4 PASS;
+  - kasus baru `CONTRACTOR_AFTER_LOT_{HIGHER,LOWER}`: 6 unit dipotong menjadi lot 10 pcs pada 22 Sep, lalu 4 unit kain yang sama diserahkan ke mandor PO pada 23 Sep, lalu invoice terlambat. Penyerahan ke mandor tidak me-rebuild HPP, jadi invoice membawa bahan mandor ke HPP untuk pertama kali.
+    - Harga 10,70: FG +4,20 pada 22 Sep (hanya bahan potong). Saldo FG 47,00 pada 23 Sep (40 bahan mandor + 7,00 koreksi). WIP PO 0 setiap hari.
+    - Harga 8,25: FG −10,50 pada 22 Sep, lalu saldo 22,50 pada 23 Sep. WIP PO 0 setiap hari.
+    - Komponen MATERIAL HPP 60 → 107 / 82,5. State tertulis: `C:` 42,80 / 33,00, `M:` 64,20 / 49,50, dan `SYNC`.
+  - Pada fase sebelum AZ (angka dari run rev7 35986418146), pencatatan FG oleh AY sudah benar. COUNTEREXAMPLE-nya datang dari revaluasi bahan tanpa AZ: WIP PO −17,50 pada 21 Sep untuk harga 8,25.
+- **T2 run 35988415205** (`e51614a`; seed QUIETED, fixture PAYROLL_APPROVED): semua nilai ringkasan sama dengan rev7 (35985750159) dan rev6.1 (35981556942).
+  - Grup lama 230/31/65: tidak ada yang bertambah, hilang, atau pindah. 12 HOLD identik.
+  - AR 146 + 28 PASS; temporal 16 + 15 dan race 4 + 6 PASS.
+  - Oracle beku tercatat apa adanya: NEW_CASES 8 COUNTEREXAMPLE + 1 INCOMPLETE, trial AO 4 INCOMPLETE, kalender 12 COUNTEREXAMPLE.
+  - Oracle yang disetujui: AS 8/8, kalender 12/12, AO INVOICE 4/4, dan `ADJUSTMENT_DATE`, semuanya MATCH.
+  - Bukti: `docs/evidence/cp6-t2/run35988415205_ay_rev7_1_final.json`.
+- **T3 run 35988838581** (`017001f`): hijau.
+  - Pin sama: blob `5647147f…`, 65.237 byte, ditangkap run 35988403137 yang gagal karena paket basi, seperti biasa.
+  - Instalasi 24 file AC..AZ; AW/AX/AY/AZ terverifikasi (`ay_sql_sha256` `8b23a824…`).
+  - Backup/restore RESTORED_SAME_MEANING (318 tabel sama). Browser 10/10 PASS, 0 error konsol.
+  - Advisor 73 → 127: tambahannya hanya INFO `rls_enabled_no_policy` untuk tabel internal, termasuk `po_hpp_gl_lot_state_v1` dan `po_hpp_gl_material_state_v1`.
+- **CodeQL run 35988417934** (`e51614a`): sukses.
+- Bukti: `docs/evidence/cp6-ay/native_t1_run35988403292_*_rev7_1.json`, `docs/evidence/cp6-az/native_t1_run35988403143_*_rev7_1.json`.
+
+**Riwayat rev7 (`0bbfd55`, sebelum pemeriksaan independen):**
+- AY T1 35985019228: 7/7 PASS.
+- AZ T1 35986418146 (`99e1175`): 23/23 PASS.
+- T2 35985750159: nilai ringkasan sama dengan rev6.1.
+- T3 35986418270: hijau.
+- CodeQL 35985752683: sukses.
+- Dua putaran AZ T1 sebelumnya (35985019097, 35985740578) berhenti di penyiapan fixture: harga jual bahan ke mandor belum diisi, lalu satuan lama `yd` pada bahan tiruan belum terdaftar di `uom_definitions`. Keduanya kesalahan fixture writer. Pada kedua run itu 21 kasus lainnya PASS.
+
+### 25.4 Yang masih terbuka (jujur)
+Dicatat, **tidak** diperbaiki di putaran ini:
+- **F4 MINOR (pemeriksaan rev7): pengenceran kolam batch.**
+  - Bila grup baru dalam batch dipotong sesudah penanda state tanpa rebuild PO ini, perubahan pembagi kolam dicatat sejak hari lot, bukan hari potong grup baru.
+  - Tidak membuat saldo negatif (FG terlalu rendah di awal, WIP terlalu tinggi), dan total per akun tetap sama.
+  - Perbaikan: simpan pcs kolam di state (mis. kunci `Q:<kolam>`) dan beri tanggal pengencerannya pada hari potong.
+- **PO tanpa state sama sekali (jalur F1):**
+  - Bila tidak ada versi HPP sebelum statement ini (tp kosong), koreksi tetap konstan sejak hari lot (perilaku rev6).
+  - Bila gerakan bahan dibatalkan dengan gerakan REVERSAL sesudah tp, revaluasinya ditargetkan nol dan gerakan REVERSAL tidak direvaluasi. Tanggal koreksinya bisa salah (tidak diuji; jarang, karena pembatalan potong dikunci sesudah dipakai fisik).
+- **Antrean recost non-invoice.** Pemeriksa (tidak diuji): bila antrean `cost_recalc_queue` masih berisi recost non-invoice saat invoice tiba, AZ memberi tanggal hari ini untuk perubahan itu, sedangkan AY memberi tanggal hari faktanya, yang bisa lebih awal.
+- **Ditemukan pemeriksa, sudah ada sebelum rev7 (tidak diuji native):**
+  - Recost aksesori mengkredit WIP tanpa pasangan debit WIP dari AZ (AZ memposting ke ACCESSORY_RECOVERY_COGS).
+  - PO pasangan batch yang tidak memakai bahan yang di-invoice tidak masuk antrean, sehingga HPP-nya basi.
+- **Dari writer (harness r9):** batch lintas PO membuat WIP per PO saling berlawanan (contoh: −2,29 / +2,29), sedangkan WIP per akun tetap benar. Ini akibat pengumpulan bahan lintas PO di `rebuild_po_hpp`, bukan akibat penanggalan. Pemeriksaan saldo negatif AW berjalan per akun.
+- **Beban tulis state:** tiap rebuild menulis ulang semua kunci `M:` PO dan pasangan batch-nya. Belum diukur di data besar.
+- **F9/F10 dari §24.4** (jam campuran pada fallback, batas "hari ini" menjelang tengah malam): tetap terbuka. Tanggal jurnal tidak boleh di masa depan.
+- **Dari §23.7:** anggota keluarga lain (impor awal/cutover) tetap terbuka.
+- **Fixture native kontraktor** memakai bahan tiruan dengan satuan lama `yd` yang didaftarkan fixture ke `uom_definitions`. Satuan bahan produksi sungguhan tidak diperiksa di sini.
+
+### 25.5 Pelajaran
+- Alias SQL yang sama dengan variabel plpgsql (`s`, sebelumnya `t`) baru ketahuan saat fungsi dijalankan. Harness lokal menangkapnya sebelum CI. Sekarang builder dicek juga dengan pemindai alias.
+- Dua putaran AZ T1 terbuang karena fixture baru (bahan ke mandor) belum lengkap: harga jual mandor, lalu satuan bahan. Fixture baru yang memakai alur produk yang belum pernah dipakai probe perlu dicoba dulu di database disposable lokal, bukan langsung di CI.
+- Usul perbaikan pemeriksa (mengisi state saat instalasi) berbenturan dengan guard rilis yang mewajibkan tabel baru kosong. Guard tidak dilonggarkan; nilai lama diturunkan dari data revaluasi yang sudah ada.
