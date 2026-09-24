@@ -7,7 +7,21 @@ Cabang audit: `audit/cp6-final-20260924-gpt-a0bcadf`.
 
 Owner: **Hansen**. Writer yang disebut owner: **Claude Opus Max**. Auditor: **GPT dan Claude Fable Ultracode**. Nama “Claude” dalam laporan sumber merujuk audit Fable, kecuali dinyatakan writer.
 
-## Pembaruan writer 81fef32 — cek log selesai
+## Pembaruan terbaru — rollback 6140edb
+
+Diperiksa 2026-09-24T21:55:57.301Z. Produk acuan tetap9add57e; commit alat dan rollback yang dijalankan `6140edb1acd182efc84a4c85879860785335e688`.
+
+- Empat file rollback AW..AZ dan ROLLBACKS.json kini ada di `supabase/release/cp6-t3-rollbacks/`. Hash keempat SQL dan builder cocok manifest. Capture dari log cocok SHA256 `62bb0e2a9a0bb69106538d32569239bf67bb8c79e05325808f837ad6f8450cf6`,18380bytes.
+- Run **36063754595**, job **107848561550**, attempt1, selesai **success**. Log memuat **22 check PASS**: install, identical rebuild, dua siklus AZ→AW dan pasang ulang, serta empat refusal dengan state pembanding tidak berubah. Summary: mode=cycle, status=PASS, primary_unchanged=true.
+- Diff9add57e..6140edb kosong untuk `supabase/migrations supabase/dev supabase/release/cp6-t3 src`. Folder baru `cp6-t3-rollbacks/` memang berisi tambahan rollback; 24 file forward dan MANIFEST tetap sama.
+- **AW..AZ: tersedia, writer cycle PASS. Gate rollback keseluruhan: HOLD.** AC..AV varian paket rilis masih NOT_BUILT. AZ→AW hanya kembali ke AV; rollback AV dev teramati menolak rantai rilis tanpa perubahan state.
+- Batas bukti: siklus2 AZ/AY/AX dan semua reinstall menormalisasi capsule dengan mengabaikan captured_at serta boundary_snapshot. Refusal post-use memakai INSERT audit_logs ter-commit. Ini belum penerimaan independen seluruh inverse chain atau seluruh transaksi bisnis.
+
+[Catatan verifikasi](out/writer_6140edb_review.md) dan [ledger22check](out/writer_6140edb_run_ledger.json) menyimpan hash, baris log, actual/expected, dan batas comparator. Hasil writer berlabel REUSED_WRITER_EVIDENCE.
+
+**Fable bisa lanjut sekarang:** review helper/oracle yang tersisa dan dispatch native15 satu batch phaseafter, lalu race/Auth/browser independen. Native15 tetap NOT_RUN dalam ledger audit. Tidak perlu menunggu atau mengulang capture/cycle AW..AZ yang sudah selesai hanya untuk memperbarui status. Perbaikan AC..AV memerlukan pekerjaan writer terpisah. Putusan tetap6HOLD/4UNVERIFIED, audit_complete=false, production_go=false.
+
+## Riwayat checkpoint 81fef32 — sebelum file rollback tersedia
 
 Checked UTC: 2026-09-24T21:46:44.114Z. **Tooling sudah di-push; audit keseluruhan belum selesai.** Diff lengkap 9add57e..81fef32 berisi enam berkas workflow/script, tanpa perubahan produk.
 
@@ -18,7 +32,7 @@ Checked UTC: 2026-09-24T21:46:44.114Z. **Tooling sudah di-push; audit keseluruha
 
 Sample race melaporkan `NO_CONTENTION`. HTTP memakai Auth nyata: OWNER200, GUDANG400, anon401. Scenario sample SHA256`90bf69cb838428d72a1ce61f2cc95cd74518ed8a53c8d5413fde33d8059dc28e`. [Catatan cek](out/writer_81fef32_review.md) dan [ledger](out/writer_81fef32_run_ledger.json) merekam batas buktinya.
 
-**Langkah Fable sekarang:** review lengkap tool diff/helper, lalu dispatch15kasus auditor yang sudah siap dalam satu batch phaseafter, dan adaptasikan race/HTTP independen ke API baru. Tidak perlu menunggu rollback writer untuk mulai review dan kasus biasa. Produk acuan9add tetap; actual runhead alat wajib dicatat. Writer masih melanjutkan file rollback AW..AZ dan cycle; AC..AV varian release NOT_BUILT menurut writer. Gate tetap6HOLD/4UNVERIFIED, production_go=false.
+**Langkah Fable sekarang:** review lengkap tool diff/helper, lalu dispatch15kasus auditor yang sudah siap dalam satu batch phaseafter, dan adaptasikan race/HTTP independen ke API baru. Tidak perlu menunggu rollback writer untuk mulai review dan kasus biasa. Produk acuan9add tetap; actual runhead alat wajib dicatat. Pada checkpoint81fef32, file rollback dan cycle masih menyusul; keduanya sudah tersedia pada pembaruan6140edb di atas. AC..AV varian release tetap NOT_BUILT. Gate tetap6HOLD/4UNVERIFIED, production_go=false.
 
 ## Pembagian kerja dan batas independensi
 
@@ -36,7 +50,7 @@ Catatan batas yang wajib dipertahankan:
 - AZ→AW membuktikan kembali ke **AV**. Itu belum membuktikan rollback seluruh AC..AZ ke **AB**, dan tidak otomatis menyelesaikan guard digest AC varian rilis.
 - Auth login→PostgREST membuktikan jalur Auth/HTTP; kontrak browser→HTTP→runtime tetap memerlukan kasus UI nyata.
 - Saat alat/rollback berubah, catat **commit produk acuan** dan **commit alat yang dijalankan** secara terpisah. Jangan memberi label head9add pada job yang checkout commit baru.
-- Jangan selidiki ulang absennya rollback AW..AZ sekarang. Gap itu sudah jelas HOLD; tunggu artifact/diff writer untuk direview.
+- Jangan selidiki ulang absennya rollback pada9add. AW..AZ telah ditambahkan dan cycle writer lulus pada6140edb; lanjut review batas buktinya dan gap AC..AV versi paket rilis.
 - Auditor tetap menyusun oracle dari kontrak dan menilai alat writer. Hasil writer bukan independent PASS; jangan melonggarkan guard atau menyesuaikan expected agar hijau.
 
 ## Cara melanjutkan
@@ -67,7 +81,7 @@ Kolom alias memakai ID GPT dan/atau Fable. CONFIRMED source/lokal berbeda dari n
 |CP6-09|F1-12|Identitas sumber opening lintas batch|Angka posting terbukti; oracle duplikasi bersyarat|
 |CP6-10|R01 / F1-04|Integritas hasil dan isolasi runner|P2 alat; subklaim dibedakan|
 |CP6-11|O01 / F1-18|Assertion T3 melewatkan hasil restore/cleanup|P2 alat; source terkonfirmasi|
-|CP6-12|R02 / F1-05, F1-11|Rollback rilis belum terkualifikasi, termasuk AV|HOLD; implementasi diarahkan ke writer|
+|CP6-12|R02 / F1-05, F1-11|Rollback seluruh paket rilis belum terkualifikasi|HOLD; AW..AZ writercycle22PASS, AC..AV releaseNOT_BUILT|
 |CP6-13|T2 disposition / F1-01|Oracle tanggal dan disposition T2|HOLD; bukan otomatis 25 bug|
 |CP6-14|F1-03|Fixture QUIETED/PAYROLL_APPROVED pada T2|Bukti bersyarat; review fixture|
 |CP6-15|advisor54_review / F1-06|Disposition 54 advisor INFO|P3 review; bukan bukti exposure|
@@ -88,7 +102,7 @@ Bukti native yang ditinjau ulang berlabel **REUSED_EVIDENCE**, bukan run baru GP
 |---|---|---|
 | BLOCKER-01 — race | Dua run lama gagal setup.81fef32 menyediakan salinan committed; smoke36063106227/job107846480764 PASS tetapi NO_CONTENTION. | Review helper dan adaptasikan oracle auditor; buktikan dua sesi/overlap/efek domain. Spec: [race review](out/race_blocker_review.md). |
 | BLOCKER-02 — HTTP/JWT |81fef32 menyediakan Auth nyata; smoke OWNER/GUDANG/anon pada36063106227/job107846480764 PASS. Ini tidak menjalankan xaudit4 atau matrix auditor. | Review alat, adaptasikan http_cases, lengkapi role/action/state/browser. Spec: [HTTP review](out/http_blocker_review.md). Penolakan classifier lama tidak diakali. |
-| BLOCKER-03 — rollback | Gap di9add tetapHOLD.81fef32 menambah workflow;36063106225/job107846479593 baru CAPTURED. File AW..AZ/cycle menyusul; AC..AV release NOT_BUILT menurut writer. | **Jangan selidiki ulang gap lama.** Review artifact/commit/cycle baru; AZ→AW keAV bukan fullrollback keAB. |
+| BLOCKER-03 — rollback |6140edb menambah empat rollback AW..AZ. Run36063754595/job107848561550 memuat22writercheckPASS. AC..AV versi release masihNOT_BUILT; gateHOLD. | Review generatedSQL/helper, normalisasi capsule dan ruang lingkup oracle. Jangan ulang capture/gapabsent lama. AZ→AW keAV belum AC..AZ→AB. |
 | BLOCKER-04 — agen | Reset kuota Claude22:20/trigger22:26 tidak diverifikasi di sini. Dua agen GPT sudah menyelesaikan review race/HTTP dan temuan ekonomi. | Review dapat dilanjutkan dari repo; tidak perlu menunggu kuota Claude untuk pekerjaan GPT. Native gate tetap terbuka. |
 
 Rincian gabungan: [blocker_and_recovery_assessment.md](out/blocker_and_recovery_assessment.md). Empat catatan agen tersimpan di out/. Tidak ada kontak hosted/legacy/production atau pesan ke pihak lain.
@@ -119,8 +133,8 @@ Dispatch custom sudah diizinkan handoff. Connector sesi GPT hanya menyediakan GE
 
 ## Urutan audit selanjutnya
 
-1. Review tooling81fef32 dan smoke/capture yang telah selesai. Writer melanjutkan rollback artifact/cycle; auditor dapat melanjutkan review serta15kasus tanpa menunggu seluruh rollback selesai.
-2. Lingkup diff81fef32 terhadap9add sudah terbatas enamfile alat/workflow. Lanjut review perilaku helper dan kontrol kegagalan; ulang scopecheck bila ada commit berikutnya.
+1. Review tooling81fef32 serta artifact/cycle6140edb yang telah selesai. Fable dapat menjalankan15kasus auditor setelah review helper/oracle, sambil writer menangani gap AC..AV versi release secara terpisah.
+2. Scope diff6140edb terhadap9add sudah diperiksa; forward product tetap sama, folder rollback bertambah. Lanjut review helper, generatedSQL, normalisasi capsule dan kontrol kegagalan. Ulang scopecheck bila memakai commit berikutnya.
 3. Review7rekonstruksi dan8sumber frozen yang kini tersimpan, termasuk batas oracle SI01/moneyDOWN/advance. Jalankan payload15melalui executor disposable yang berwenang; tidak perlu merekonstruksi ulang file yang sudah selesai.
 4. Prioritaskan WIP prefix, recost dan WIB UI; lanjut advance/payroll, selector, recovery dan unknown sampai konsumen/inverse/report.
 5. Lengkapi ALL22state/6family, Auth/action/location/revocation, browser, race, transitive HPP/producers dan adapter residual. Crosswalk ALL/payroll ada di out/.

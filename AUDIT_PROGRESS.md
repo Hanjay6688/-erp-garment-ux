@@ -1,7 +1,7 @@
 # CP6 audit — GPT recovery checkpoint
 Date: 2026-09-24 UTC.
 Status: **INCOMPLETE; full CP6 acceptance audit is NOT COMPLETE. Recommendation HOLD. production_go=false. Cross-review and consolidated handoff completed.**
-Active phase: writer81fef32 scope/log checkpoint completed (capture+3writer smokePASS); Fable continuation prepared. Native15 sources complete but NOT_RUN. Full tooling review, independent cases and rollback cycle remain open. Historical entries below are snapshots.
+Active phase: handoff updated after rollback6140edb, 22 writer cycle checks PASS verified from Actions logs. AW..AZ artifacts available; full release rollback gate HOLD. Native15 remains NOT_RUN; independent tool/scenario review and broader CP6 audit remain open. Historical entries below are snapshots.
 
 ## Identity and authority
 - Repository: Hanjay6688/-erp-garment-ux.
@@ -246,10 +246,36 @@ Sample race melaporkan `NO_CONTENTION`. HTTP memakai Auth nyata: OWNER200, GUDAN
 
 Native15 remains NOT_RUN with null run/job. Actual new native auditor executions in this checkpoint:0. Detailed expected/actual and source-log line numbers are inout/writer_81fef32_run_ledger.json. No new product finding or gate promotion; priorities/oracles previously locked remainunchanged.
 
-### LANGKAH BERIKUTNYA — setelah81fef32
+### Riwayat langkah berikutnya — snapshot setelah81fef32
 
 1. Fable reads the updated AUDIT_HANDOFF_CP6.md and reviews six-file tool diff/helper chain.
 2. Dispatch audit/scenarios/combined_native15_reconstructed.py (SHA256cec2ad521835476cf702119486e637d3eff4b62d8f72197a9ca2c2d50cf1fadb) once, phaseafter. Read memberoraclequalifications; record actual toolhead separately from product9add.
 3. Adapt independent races/http_cases to newAPIs and prove actual overlap/identity/role/refusal/state/cleanup; smokePASS isnot acceptance.
 4. Waitfor writerAW..AZartifactcommit+cycle and inspect newdiff/logs; AC..AVreleaseNOT_BUILT andACdigestremainopen. No repeatabsenceinvestigation.
 5. Commit casehashes,run/job/attempt/head/results and nextsteps after everycompletedrun; continuefullCP6scope. Handoffcomplete doesnotmean auditcomplete.
+
+
+## Pembaruan terbaru — rollback 6140edb
+
+Diperiksa 2026-09-24T21:55:57.301Z. Produk acuan tetap9add57e; commit alat dan rollback yang dijalankan `6140edb1acd182efc84a4c85879860785335e688`.
+
+- Empat file rollback AW..AZ dan ROLLBACKS.json kini ada di `supabase/release/cp6-t3-rollbacks/`. Hash keempat SQL dan builder cocok manifest. Capture dari log cocok SHA256 `62bb0e2a9a0bb69106538d32569239bf67bb8c79e05325808f837ad6f8450cf6`,18380bytes.
+- Run **36063754595**, job **107848561550**, attempt1, selesai **success**. Log memuat **22 check PASS**: install, identical rebuild, dua siklus AZ→AW dan pasang ulang, serta empat refusal dengan state pembanding tidak berubah. Summary: mode=cycle, status=PASS, primary_unchanged=true.
+- Diff9add57e..6140edb kosong untuk `supabase/migrations supabase/dev supabase/release/cp6-t3 src`. Folder baru `cp6-t3-rollbacks/` memang berisi tambahan rollback; 24 file forward dan MANIFEST tetap sama.
+- **AW..AZ: tersedia, writer cycle PASS. Gate rollback keseluruhan: HOLD.** AC..AV varian paket rilis masih NOT_BUILT. AZ→AW hanya kembali ke AV; rollback AV dev teramati menolak rantai rilis tanpa perubahan state.
+- Batas bukti: siklus2 AZ/AY/AX dan semua reinstall menormalisasi capsule dengan mengabaikan captured_at serta boundary_snapshot. Refusal post-use memakai INSERT audit_logs ter-commit. Ini belum penerimaan independen seluruh inverse chain atau seluruh transaksi bisnis.
+
+[Catatan verifikasi](out/writer_6140edb_review.md) dan [ledger22check](out/writer_6140edb_run_ledger.json) menyimpan hash, baris log, actual/expected, dan batas comparator. Hasil writer berlabel REUSED_WRITER_EVIDENCE.
+
+**Fable bisa lanjut sekarang:** review helper/oracle yang tersisa dan dispatch native15 satu batch phaseafter, lalu race/Auth/browser independen. Native15 tetap NOT_RUN dalam ledger audit. Tidak perlu menunggu atau mengulang capture/cycle AW..AZ yang sudah selesai hanya untuk memperbarui status. Perbaikan AC..AV memerlukan pekerjaan writer terpisah. Putusan tetap6HOLD/4UNVERIFIED, audit_complete=false, production_go=false.
+
+## LANGKAH BERIKUTNYA — TERKINI setelah6140edb
+
+1. Baca AUDIT_HANDOFF_CP6.md, audit/CP6_COMBINED_INDEX.json, dan out/writer_6140edb_review.md. Capture dan22cyclecheck sudah diverifikasi; jangan mengulang penyelidikan absennya rollback pada9add.
+2. Fable review remaining helper/oracle lalu dispatch audit/scenarios/combined_native15_reconstructed.py satu kali, phaseafter. SHA256 tetap cec2ad521835476cf702119486e637d3eff4b62d8f72197a9ca2c2d50cf1fadb; sumber15kasus tersedia dan belum ada run/job yang tercatat untuk batchini.
+3. Catat actual toolhead saat eksekusi secara terpisah dari kandidatforward9add. Perintah diff produk memakai supabase/release/cp6-t3, karena cp6-t3-rollbacks adalah folder tambahan yang disengaja.
+4. Lanjutkan race dan HTTP auditor dengan API baru. Sample race NO_CONTENTION dan HTTP smoke belum membuktikan full overlap/role/action/location/revocation/browser.
+5. Untukrollback, review SQL/helper dan kecukupan comparator: strict pada siklus1 dan AW→AV; stablecapsule pada siklus2 AZ/AY/AX serta reinstall mengecualikan captured_at DAN boundary_snapshot. Post-usefixture saatini satu INSERTaudit_logs. AC..AV versi release NOT_BUILT dan gapdigestAC tetap terbuka.
+6. Simpan hasil perkasus, hash, run/job/attempt/head, expected/actual dan cleanup ke repo setelah setiap run. SeluruhCP6 masih HOLD; tidak ada gate baru yang dipromosikan menjadiACCEPT.
+
+Bukti baru checkpointini: run36063754595/job107848561550/attempt1/head6140edb1acd182efc84a4c85879860785335e688. Logsummary cyclePASS/primary_unchangedtrue; tidak ada explicit clone_remainingcount. Ledger22check, hash empatrollback/builder/capture dan catatan keterbatasan disimpan di out/. Tidak ada skenario baru atau run baru GPT; tidak ada temuan produk baru.

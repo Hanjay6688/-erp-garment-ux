@@ -1,0 +1,410 @@
+{
+  "schema_version": 1,
+  "checked_at": "2026-09-24T21:55:57.301Z",
+  "product_candidate_sha": "9add57ea8c2b6b2dc37c0134717d4d39ba30b5dc",
+  "tooling_and_rollback_sha": "6140edb1acd182efc84a4c85879860785335e688",
+  "provenance": "REUSED_WRITER_EVIDENCE; Actions metadata and native job log, exact commit compare, artifact hash checks and targeted runner source review",
+  "run": {
+    "run_id": 36063754595,
+    "job_id": 107848561550,
+    "attempt": 1,
+    "head_sha": "6140edb1acd182efc84a4c85879860785335e688",
+    "status": "completed",
+    "conclusion": "success",
+    "updated_at": "2026-09-24T21:51:59Z",
+    "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36063754595",
+    "log_summary": {
+      "mode": "cycle",
+      "status": "PASS",
+      "primary_unchanged": true,
+      "error": null
+    }
+  },
+  "counts": {
+    "PASS": 22
+  },
+  "checks": [
+    {
+      "line": 1325,
+      "group": "T3_ROLLBACK_CYCLE",
+      "check": "ROLLBACK_FILES_REBUILT_IDENTICALLY",
+      "status": "PASS"
+    },
+    {
+      "line": 1326,
+      "group": "T3_ROLLBACK_CYCLE",
+      "check": "PACKAGE_INSTALLED",
+      "status": "PASS",
+      "files": 24
+    },
+    {
+      "line": 1327,
+      "group": "T3_ROLLBACK_CYCLE",
+      "check": "REFUSED_OUT_OF_ORDER_AY_WHILE_AZ_INSTALLED",
+      "status": "PASS",
+      "expected": "AY_ROLLBACK_PLATFORM_OR_SUCCESSOR",
+      "error": "AY_ROLLBACK_PLATFORM_OR_SUCCESSOR\nCONTEXT:  PL/pgSQL function inline_code_block line 7 at RAISE",
+      "sqlstate": "P0001",
+      "changed": {}
+    },
+    {
+      "line": 1328,
+      "group": "T3_ROLLBACK_CYCLE",
+      "check": "REFUSED_OPEN_ADMISSION",
+      "status": "PASS",
+      "expected": "PACKAGE_REQUIRES_CLOSED_DRAINED_DATABASE",
+      "error": "PACKAGE_REQUIRES_CLOSED_DRAINED_DATABASE\nCONTEXT:  PL/pgSQL function inline_code_block line 6 at RAISE",
+      "sqlstate": "P0001",
+      "changed": {}
+    },
+    {
+      "line": 1329,
+      "group": "T3_ROLLBACK_CYCLE",
+      "check": "CYCLE_1_ROLLBACK_AZ_RESTORES_PREDECESSOR",
+      "status": "PASS",
+      "error": null,
+      "differences": {},
+      "strict": true
+    },
+    {
+      "line": 1330,
+      "group": "T3_ROLLBACK_CYCLE",
+      "check": "CYCLE_1_ROLLBACK_AY_RESTORES_PREDECESSOR",
+      "status": "PASS",
+      "error": null,
+      "differences": {},
+      "strict": true
+    },
+    {
+      "line": 1331,
+      "group": "T3_ROLLBACK_CYCLE",
+      "check": "CYCLE_1_ROLLBACK_AX_RESTORES_PREDECESSOR",
+      "status": "PASS",
+      "error": null,
+      "differences": {},
+      "strict": true
+    },
+    {
+      "line": 1332,
+      "group": "T3_ROLLBACK_CYCLE",
+      "check": "CYCLE_1_ROLLBACK_AW_RESTORES_PREDECESSOR",
+      "status": "PASS",
+      "error": null,
+      "differences": {},
+      "strict": true
+    },
+    {
+      "line": 1333,
+      "group": "T3_ROLLBACK_CYCLE",
+      "check": "CYCLE_1_REINSTALL_AW",
+      "status": "PASS",
+      "error": null,
+      "differences": {}
+    },
+    {
+      "line": 1334,
+      "group": "T3_ROLLBACK_CYCLE",
+      "check": "CYCLE_1_REINSTALL_AX",
+      "status": "PASS",
+      "error": null,
+      "differences": {}
+    },
+    {
+      "line": 1335,
+      "group": "T3_ROLLBACK_CYCLE",
+      "check": "CYCLE_1_REINSTALL_AY",
+      "status": "PASS",
+      "error": null,
+      "differences": {}
+    },
+    {
+      "line": 1336,
+      "group": "T3_ROLLBACK_CYCLE",
+      "check": "CYCLE_1_REINSTALL_AZ",
+      "status": "PASS",
+      "error": null,
+      "differences": {}
+    },
+    {
+      "line": 1337,
+      "group": "T3_ROLLBACK_CYCLE",
+      "check": "CYCLE_2_ROLLBACK_AZ_RESTORES_PREDECESSOR",
+      "status": "PASS",
+      "error": null,
+      "differences": {},
+      "strict": false
+    },
+    {
+      "line": 1338,
+      "group": "T3_ROLLBACK_CYCLE",
+      "check": "CYCLE_2_ROLLBACK_AY_RESTORES_PREDECESSOR",
+      "status": "PASS",
+      "error": null,
+      "differences": {},
+      "strict": false
+    },
+    {
+      "line": 1339,
+      "group": "T3_ROLLBACK_CYCLE",
+      "check": "CYCLE_2_ROLLBACK_AX_RESTORES_PREDECESSOR",
+      "status": "PASS",
+      "error": null,
+      "differences": {},
+      "strict": false
+    },
+    {
+      "line": 1340,
+      "group": "T3_ROLLBACK_CYCLE",
+      "check": "CYCLE_2_ROLLBACK_AW_RESTORES_PREDECESSOR",
+      "status": "PASS",
+      "error": null,
+      "differences": {},
+      "strict": true
+    },
+    {
+      "line": 1341,
+      "group": "T3_ROLLBACK_CYCLE",
+      "check": "ORIGINAL_AV_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+      "status": "PASS",
+      "expected": "AV_ROLLBACK",
+      "error": "AV_ROLLBACK_PLATFORM_OR_SUCCESSOR\nCONTEXT:  PL/pgSQL function inline_code_block line 7 at RAISE",
+      "sqlstate": "P0001",
+      "changed": {}
+    },
+    {
+      "line": 1342,
+      "group": "T3_ROLLBACK_CYCLE",
+      "check": "CYCLE_2_REINSTALL_AW",
+      "status": "PASS",
+      "error": null,
+      "differences": {}
+    },
+    {
+      "line": 1343,
+      "group": "T3_ROLLBACK_CYCLE",
+      "check": "CYCLE_2_REINSTALL_AX",
+      "status": "PASS",
+      "error": null,
+      "differences": {}
+    },
+    {
+      "line": 1344,
+      "group": "T3_ROLLBACK_CYCLE",
+      "check": "CYCLE_2_REINSTALL_AY",
+      "status": "PASS",
+      "error": null,
+      "differences": {}
+    },
+    {
+      "line": 1345,
+      "group": "T3_ROLLBACK_CYCLE",
+      "check": "CYCLE_2_REINSTALL_AZ",
+      "status": "PASS",
+      "error": null,
+      "differences": {}
+    },
+    {
+      "line": 1346,
+      "group": "T3_ROLLBACK_CYCLE",
+      "check": "REFUSED_AFTER_COMMITTED_DATA_CHANGE",
+      "status": "PASS",
+      "expected": "AZ_POST_USE_ROLLBACK_REFUSED",
+      "error": "AZ_POST_USE_ROLLBACK_REFUSED\nCONTEXT:  PL/pgSQL function inline_code_block line 9 at RAISE",
+      "sqlstate": "P0001",
+      "changed": {}
+    }
+  ],
+  "source_scope": {
+    "compare": "9add57ea8c2b6b2dc37c0134717d4d39ba30b5dc..6140edb1acd182efc84a4c85879860785335e688",
+    "changed_files": [
+      {
+        "filename": ".github/workflows/cp6-auditor-scenario.yml",
+        "status": "modified",
+        "additions": 2,
+        "deletions": 1,
+        "changes": 3,
+        "previous_filename": null
+      },
+      {
+        "filename": ".github/workflows/cp6-t3-rollback.yml",
+        "status": "added",
+        "additions": 216,
+        "deletions": 0,
+        "changes": 216,
+        "previous_filename": null
+      },
+      {
+        "filename": "docs/evidence/cp6-t3/rollback_capture.json",
+        "status": "added",
+        "additions": 273,
+        "deletions": 0,
+        "changes": 273,
+        "previous_filename": null
+      },
+      {
+        "filename": "scripts/cp6_auditor_modes.py",
+        "status": "added",
+        "additions": 256,
+        "deletions": 0,
+        "changes": 256,
+        "previous_filename": null
+      },
+      {
+        "filename": "scripts/cp6_auditor_scenario.py",
+        "status": "modified",
+        "additions": 18,
+        "deletions": 5,
+        "changes": 23,
+        "previous_filename": null
+      },
+      {
+        "filename": "scripts/cp6_auditor_scenario_sample.py",
+        "status": "modified",
+        "additions": 20,
+        "deletions": 2,
+        "changes": 22,
+        "previous_filename": null
+      },
+      {
+        "filename": "scripts/cp6_t3_rollback.py",
+        "status": "added",
+        "additions": 469,
+        "deletions": 0,
+        "changes": 469,
+        "previous_filename": null
+      },
+      {
+        "filename": "supabase/release/cp6-t3-rollbacks/20260924010000_erp_v2_6_20aw_cp6_close_readiness_engine.rollback.sql",
+        "status": "added",
+        "additions": 290,
+        "deletions": 0,
+        "changes": 290,
+        "previous_filename": null
+      },
+      {
+        "filename": "supabase/release/cp6-t3-rollbacks/20260924010100_erp_v2_6_20ax_cp6_fg_unsourced_receipts.rollback.sql",
+        "status": "added",
+        "additions": 336,
+        "deletions": 0,
+        "changes": 336,
+        "previous_filename": null
+      },
+      {
+        "filename": "supabase/release/cp6-t3-rollbacks/20260924010200_erp_v2_6_20ay_cp6_hpp_dated_from_goods.rollback.sql",
+        "status": "added",
+        "additions": 281,
+        "deletions": 0,
+        "changes": 281,
+        "previous_filename": null
+      },
+      {
+        "filename": "supabase/release/cp6-t3-rollbacks/20260924010300_erp_v2_6_20az_cp6_material_recost_dated_from_movement.rollback.sql",
+        "status": "added",
+        "additions": 277,
+        "deletions": 0,
+        "changes": 277,
+        "previous_filename": null
+      },
+      {
+        "filename": "supabase/release/cp6-t3-rollbacks/ROLLBACKS.json",
+        "status": "added",
+        "additions": 43,
+        "deletions": 0,
+        "changes": 43,
+        "previous_filename": null
+      }
+    ],
+    "unchanged_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release/cp6-t3",
+      "src"
+    ],
+    "rollback_artifact_directory": "supabase/release/cp6-t3-rollbacks"
+  },
+  "artifact_hash_checks": [
+    {
+      "key": "AW",
+      "expected": "a31e6c1ea23b377cd6a07e32c6bcbf51d42b702f0a9e5b96550a8ec26b5fda53",
+      "bytes": 35768,
+      "sha256": "a31e6c1ea23b377cd6a07e32c6bcbf51d42b702f0a9e5b96550a8ec26b5fda53",
+      "match": true
+    },
+    {
+      "key": "AX",
+      "expected": "5a55c6955949605332f3e7a9fe9888924b19c591bcc58d2cb05189b0566f6034",
+      "bytes": 38686,
+      "sha256": "5a55c6955949605332f3e7a9fe9888924b19c591bcc58d2cb05189b0566f6034",
+      "match": true
+    },
+    {
+      "key": "AY",
+      "expected": "317180db18e5ab27e734c0c45966fd6651129b1d7866c11f177bad540c58877a",
+      "bytes": 35849,
+      "sha256": "317180db18e5ab27e734c0c45966fd6651129b1d7866c11f177bad540c58877a",
+      "match": true
+    },
+    {
+      "key": "AZ",
+      "expected": "4b0432215dd08c25a8e91f807793476f4c939700e8b74134a0c791aca21d70ff",
+      "bytes": 36570,
+      "sha256": "4b0432215dd08c25a8e91f807793476f4c939700e8b74134a0c791aca21d70ff",
+      "match": true
+    },
+    {
+      "key": "builder",
+      "expected": "3a425c35fcbc31887697bca3d8968a613b169620a3485ddc3da3d92d1316bcc6",
+      "bytes": 30071,
+      "sha256": "3a425c35fcbc31887697bca3d8968a613b169620a3485ddc3da3d92d1316bcc6",
+      "match": true
+    },
+    {
+      "key": "capture_blob_from_actions",
+      "expected": "62bb0e2a9a0bb69106538d32569239bf67bb8c79e05325808f837ad6f8450cf6",
+      "bytes": 18380,
+      "sha256": "62bb0e2a9a0bb69106538d32569239bf67bb8c79e05325808f837ad6f8450cf6",
+      "match": true
+    }
+  ],
+  "capture": {
+    "run_id": 36063106225,
+    "job_id": 107846479593,
+    "head_sha": "81fef32ddca7bc2c8e4d37dd965a618648f479eb",
+    "source": "Reconstructed four numbered T3_ROLLBACK_CAPTURE_CHUNK records from Actions log",
+    "blob_sha256": "62bb0e2a9a0bb69106538d32569239bf67bb8c79e05325808f837ad6f8450cf6",
+    "bytes": 18380,
+    "status": "CAPTURED",
+    "writer_evidence_file_not_read": true
+  },
+  "manifest_not_built": "AC..AV rollbacks re-pinned for the release package (the files in supabase/rollbacks pin the test chain)",
+  "interpretation": {
+    "aw_az": "Artifacts exist; 22 writer cycle checks PASS verified in native log. Full independent rollback acceptance not claimed.",
+    "scope": "Two AZ,AY,AX,AW rollbacks end at AV; AC..AV release variant remains NOT_BUILT. Original AV rollback refused on release chain (P0001/AV_ROLLBACK_PLATFORM_OR_SUCCESSOR), with no compared state change.",
+    "cycle1": "All four predecessor comparisons use full ERP row hashes; catalog map and both migration ledgers compared.",
+    "cycle2": "AZ/AY/AX predecessor comparisons and every reinstall compare stable rollback capsule hashes excluding captured_at AND boundary_snapshot; AW->AV comparisons remain strict. This is not byte-for-byte identity of every capsule in the second cycle.",
+    "post_use": "Fixture is a committed INSERT into erp.audit_logs (runner49-50,429), then AZ refused with AZ_POST_USE_ROLLBACK_REFUSED and changed={}; not a completed matrix of business transaction producers.",
+    "comparator": "Catalog comparison uses the AZ guard object query, which excludes package capsule objects by name; ERP table rows and both migration ledgers are separately compared. Source327-358,380-428.",
+    "cleanup": "Runner455-456 drops cp6_rollback using check=True before summary; summary primary_unchanged=true and error=null. No explicit clone_remaining count in this run's summary; do not fabricate one.",
+    "review_limits": "Artifact byte hashes, native results, runner comparator/refusal/cleanup logic checked. Complete adversarial review of generated SQL and all imported helpers not performed in this handoff update.",
+    "native15": "NOT_RUN in current audit ledger; this rollback run and earlier smoke run are not the 15 auditor cases.",
+    "oracle": "Gate acceptance only from three contracts. Writer checks are observations, not replacement contract oracles."
+  },
+  "gate_status": {
+    "C6_10": "HOLD",
+    "counts": {
+      "HOLD": 6,
+      "UNVERIFIED": 4,
+      "ACCEPT": 0
+    },
+    "audit_complete": false,
+    "production_go": false
+  },
+  "new_gpt_native_runs": 0,
+  "next": [
+    "Fable reviews remaining tool/helper and independent scenario oracles, then dispatches combined_native15_reconstructed.py once, phaseafter, using its pinned SHA256cec2ad521835476cf702119486e637d3eff4b62d8f72197a9ca2c2d50cf1fadb.",
+    "Record actual tooling head at execution separately from unchanged forward product candidate9add; recheck current ref and full diff if writer advances.",
+    "Use new races/http_cases APIs for independent overlap, role/action/location/revocation and browser tests; writer smoke is not full acceptance.",
+    "Review generated rollback SQL, capsule normalization allowances and guard/catalog/data/ACL/ledger coverage. Preserve AC..AV release NOT_BUILT and existing AC digest qualification gap.",
+    "Do not repeat already-completed capture/absence investigation or cycle run only to update wording. Persist run/case results and continue remaining CP6 gates."
+  ]
+}

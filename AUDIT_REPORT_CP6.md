@@ -16,6 +16,12 @@ Dari sepuluh kelompok gate auditor, enam HOLD dan empat UNVERIFIED; belum ada AC
 
 HOLD berarti bukti dan pemenuhan kontrak belum cukup untuk menyetujui kandidat. Dokumen ini tidak menyatakan telah terjadi kehilangan uang atau insiden produksi.
 
+## Pembaruan6140edb: sebagian bukti rollback tersedia
+
+Run36063754595/job107848561550, attempt1/head6140edb1acd182efc84a4c85879860785335e688, telah diverifikasi dari log Actions: **22 pemeriksaan writer PASS**, mencakup dua siklus rollback AW..AZ dan pasang ulang serta empat refusal tanpa perubahan state pembanding. EmpatSQLrollback dan builder cocok hash manifest; capture18380bytes direkonstruksi dari log, SHA25662bb0e2a9a0bb69106538d32569239bf67bb8c79e05325808f837ad6f8450cf6. Produk forward tetap9add; tidak ada diff pada migrations/dev/release/cp6-t3/src.
+
+**C6-10 tetap HOLD:** AW..AZ sudah tersedia dan diuji writer, sementara AC..AV versi release NOT_BUILT. AZ→AW kembali ke AV. Batas bukti: normalisasi capsule pada siklus2/reinstall mengecualikan captured_at dan boundary_snapshot; post-usefixture memakai satu INSERTaudit_logs. Review independen SQL/helper dan kecukupan oracle belum selesai. [Ledger](out/writer_6140edb_run_ledger.json) dan [catatan](out/writer_6140edb_review.md) menyimpan detail. Ini REUSED_WRITER_EVIDENCE; native15 tetap NOT_RUN.
+
 ## Dasar dan batas otoritas
 
 Gate dan oracle berasal hanya dari tiga kontrak yang diserahkan pengguna:
@@ -39,7 +45,7 @@ C6-01 sampai C6-10 adalah pengelompokan auditor. Satu operasi yang lolos pemerik
 |C6-07 accepted accessories/pocket|UNVERIFIED|M44–48,466–472,495,557–561,1023,3900–3902,3951,5192–5199|Positive local controls and source mechanisms; whole lifecycle/races not independently accepted; expanded CR scope separate.|
 |C6-08 Auth/permissions/connected UI|UNVERIFIED|M1691,4486,5046–5052,5209,5213–5224|27 public RPCs traced;10 browser cases rerun; full real Auth/action/location/revocation matrix absent.|
 |C6-09 concurrency/stale state|UNVERIFIED|M751–755,1025,4165,4486,5048–5052|Existing AR/AT/AU races rerun;20 AR observations independently checked narrowly; own full schedules absent.|
-|C6-10 install/compatibility/rollback/cleanup|HOLD|M1767,3826,4306–4314,4486,5192–5209|Install/backup restore scoped positive; whole-candidate rollback/refusal unqualified.|
+|C6-10 install/compatibility/rollback/cleanup|HOLD|M1767,3826,4306–4314,4486,5192–5209|Install/backup restore scoped positive;6140edb AW..AZ writercycle22PASS; AC..AV releaseNOT_BUILT and full rollback qualification remain open.|
 
 ## Cakupan yang telah dicatat
 
@@ -111,7 +117,7 @@ Prioritas adalah dampak potensial bila jalur dan kondisi yang dijelaskan terpenu
 |U02|P1/CONFIRMED via REUSED_EVIDENCE|M3816,3820–3823. Claude XA1 on9add: second completion POSTED, stageprefix−8 and WIPGLPO−20. Run36048357523/job107797410652. Our original SI02 file remains NOT_RUN; reviewed equivalent native case is separately attributed.|
 |U03|P2/CONFIRMED via REUSED_EVIDENCE|M1022,3818,3820. Claude XA1/XA2 correction+invoice paths endrawqty0 with inventory−0.01/up or+0.01/down. Up WIP10.02 vs10.01. Down half-tie oracle qualified; residual still confirmed. Jobs107797410652/107807966805. Our four original cases remain NOT_RUN.|
 |R01|P2/local confirmed|M1767,4391–4393 traceable evidence. Duplicate IDs overwrite earlier INCOMPLETE in actual unchanged runner AST with I/O doubles. Raw logs retain both. Current indexed native cases had no duplicate group/ID.|
-|R02|P2/qualification gap|M3826,4306–4314,5198–5209. FinalAW–AZ rollback files/qualified downgrade/refusal absent; manifestNOT_TESTED. Successful installed-backup restore is not predecessor rollback.|
+|R02|P2/qualification gap|M3826,4306–4314,5198–5209. At9add AW–AZ rollback absent. At6140edb four artifacts and22writercyclechecks PASS; AC..AV releaseNOT_BUILT, full inverse qualification open. Forward MANIFEST remainsNOT_TESTED; product unchanged.|
 |C-AUTH-01|P2/local confirmed,post-lock|M1679,3819 retain exact request envelope. Pattern/Access retries regenerate UUID; quick-create can reuse UUID with changed payload.7local checks4PASS/3FAIL. Server uniqueness/version protections acknowledged; no committed duplicate/data-corruption claim.|
 |C-SEL-01|P2/source confirmed,nativeUNVERIFIED|M1691,3826,4486;M495 for pocket cancel. Initial-import latest50 and pocket-period latest50 are sole action selectors; payroll/prepayment targets cap100. One public51draft scenario prepared; other valid fixtures unwritten.|
 |C-UNK-01|P2/local confirmed,post-lock|M3825 unknown is not zero. Failed initial Laundry/QC workspace read leaves null but unconditional KPI expressions render0.4local checks2PASS/2FAIL. Error banners and writer locks remain; no financial finality or mutation bypass claim.|
@@ -134,7 +140,7 @@ Prioritas adalah dampak potensial bila jalur dan kondisi yang dijelaskan terpenu
 
 **U02/U03 — prefix WIP dan satu sen recost.** Oracle fase1 kami sekarang mendapat corroboration native dari kasus Claude pada exact kandidat. U02 menghasilkan stageprefix−8/WIPGLPO−20; U03 meninggalkan nilai persediaan±0.01 saat qty0 pada correction dan invoice. Ini REUSED_EVIDENCE yang diperiksa dari log asli, bukan run baru kami. Oracle half-even pada arah turun tidak dipakai untuk mengklaim WIP10.00 sendiri salah. Detail fixture, hash dan batas dampak ada di AUDIT_CLAUDE_CROSS_REVIEW.md.
 
-**R02 — kualifikasi rollback belum tersedia.** Tidak ada rollback AW–AZ yang memenuhi whole-candidate chain. Guard rollback AC menolak hash kandidat penuh yang tidak dikenalnya; guard ini tidak boleh dilemahkan untuk memperoleh PASS. Perlu downgrade aman atau penolakan terkontrol dengan bukti bahwa state tetap utuh, sesuai kontrak. Restore backup dari state terpasang membuktikan sasaran yang berbeda.
+**R02 — kualifikasi rollback seluruh paket belum lengkap.** Writer menambah empat rollback AW–AZ pada6140edb; dua siklus dan refusal tercatat PASS dalam22check native writer. Ini kembali ke AV; AC..AV versi paket rilis masihNOT_BUILT. OriginalAV teramati menolak releasechain tanpa perubahan state. GuarddigestAC tetap tidak boleh dilemahkan. Auditor perlu menilai generatedSQL/helper, normalisasi capsule dan cakupan oracle. Bukti AW..AZ ini dicatat sebagai kemajuan yang terbatas, dengan C6-10 tetapHOLD.
 
 H01 identitas optional WIP, H02 perubahan alternate-route item draft, nullable expected_version pada deactivation, COUNT pecahan, dan kebijakan GRNI_ESTIMATE_OPEN tetap lead/kesenjangan yang belum dipromosikan.
 
