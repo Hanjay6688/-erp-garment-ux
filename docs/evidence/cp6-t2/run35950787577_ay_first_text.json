@@ -1,0 +1,1585 @@
+{
+ "label": "T2_REGRESSION",
+ "run": 35950787577,
+ "head": "cd0c9eb",
+ "seed": "QUIETED",
+ "fixture": "PAYROLL_APPROVED",
+ "production_go": false,
+ "release_evidence": false,
+ "quieting": [
+  {
+   "target": "BUSINESS",
+   "closed_through": "2026-08-31",
+   "refused": [],
+   "reopened_status": "READY",
+   "after_status": "READY"
+  },
+  {
+   "target": "IMPORTS",
+   "closed_through": "2026-08-31",
+   "refused": [],
+   "reopened_status": "READY",
+   "after_status": "READY"
+  },
+  {
+   "target": "VALUES",
+   "closed_through": "2026-08-31",
+   "refused": [],
+   "reopened_status": "READY",
+   "after_status": "READY"
+  },
+  {
+   "target": "NEW_CASES",
+   "closed_through": "2026-08-31",
+   "refused": [],
+   "reopened_status": "READY",
+   "after_status": "READY"
+  },
+  {
+   "target": "AR_SEQUENTIAL",
+   "closed_through": "2026-08-31",
+   "refused": [],
+   "reopened_status": "READY",
+   "after_status": "READY"
+  }
+ ],
+ "groups": {
+  "AR": {
+   "status": "WRITER_PASS",
+   "sequential": {
+    "status": "WRITER_PASS",
+    "counts": {
+     "PASS": 146
+    }
+   },
+   "case_count": 174,
+   "races": {}
+  },
+  "business": {
+   "status": "INCOMPLETE",
+   "counts": {
+    "PASS": 159,
+    "INCOMPLETE": 8,
+    "CONTROL_PASS": 31,
+    "BUG_PROVEN": 20,
+    "DATE_POLICY_REVIEW_REQUIRED": 12
+   },
+   "matches_au_outcome": false
+  },
+  "imports": {
+   "status": "WRITER_PASS",
+   "counts": {
+    "PASS": 31
+   },
+   "matches_au_outcome": true
+  },
+  "values": {
+   "status": "WRITER_PASS",
+   "counts": {
+    "PASS": 65
+   },
+   "matches_au_outcome": true
+  },
+  "NEW_CASES": {
+   "status": "COUNTEREXAMPLE",
+   "counts": {
+    "PASS": 18,
+    "COUNTEREXAMPLE": 16
+   }
+  }
+ },
+ "fixture_payrolls": {
+  "records": 101,
+  "approved": 101,
+  "redone_unpaid": 11,
+  "refused": {},
+  "cases": 101
+ },
+ "moved": [
+  {
+   "case": "CROSS:INVOICE:True:Asia/Jakarta:20",
+   "expected": "PASS",
+   "observed": "INCOMPLETE",
+   "cause": {
+    "error": "AE_INVOICE_ORACLE_FAILED:{'status': 'COUNTEREXAMPLE', 'severity': 'P2', 'stage': 'AFTER_INVOICE', 'caller_zone': 'Asia/Jakarta', 'partial': True, 'final_unit_cost': '20', 'fixture': {'material': UUID('c6027d1f-5343-4c17-9acc-a65e1c494fc2'), 'purchase': UUID('92664670-dab1-4776-9046-983321cdd57b'), 'item': UUID('de1df2a8-5b35-40c6-8486-f1f30cf8ae3f'), 'roll': UUID('e0b01dd2-6709-44da-aa91-5df20e32a3ab'), 'movement': UUID('c5d9195a-825f-41aa-8761-3df34eebb4ee'), 'location': UUID('e04dace2-6eb9-48be-b849-243beda16bbc'), 'purchase_day': datetime.date(2026, 9, 21), 'ledger_baseline': {'AP_SUPPLIER': Decimal('0'), 'COGS': Decimal('0'), 'FG_INVENTORY': Decimal('0'), 'GRNI_MATERIAL': Decimal('0'), 'MATERIAL_INVENTORY': Decimal('0'), 'WIP': Decimal('1829.00')}, 'report_baseline': {'2026-09-23': {'basis': {'period_to': '2026-09-23', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-23', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', 'performance_reconciliation_basis': 'OPERATIONAL_NET_SALES_MINUS_SALES_REVENUE_GL'}, 'quality': {'qc_bs_pcs': 0, 'qc_good_pcs': 0, 'laundry_bs_pcs': 0, 'qc_defect_rate_pct': None, 'laundry_outstanding_pcs': 10, 'legacy_receipt_stuck_pcs': 0, 'laundry_good_received_pcs': 0, 'legacy_receipt_missing_pcs': 0, 'laundry_bs_rate_on_resolved_receipts_pct': None}, 'performance': {'cogs_gl': 0.0, 'net_profit': 0.0, 'gross_profit': 0.0, 'other_income': 0.0, 'line_discounts': 0.0, 'net_margin_pct': None, 'gross_margin_pct': None, 'sales_revenue_gl': 0.0, 'posted_sales_returns': 0.0, 'operational_net_sales': 0.0, 'sales_revenue_reconciled': True, 'sales_revenue_bridge_delta': 0.0, 'gross_sales_before_discount': 0.0, 'operating_and_other_expense': 0.0}, 'data_confidence': {'info': [], 'as_of': '2026-09-23', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-01', 'failed_checks': [], 'closed_through': '2026-08-31', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'supplier_exposure': {'oldest_unfinalized_days': 0, 'overdue_final_ap_amount': 0.0, 'unfinalized_receipt_count': 0, 'open_final_ap_document_count': 0}, 'financial_position': {'cash': 0.0, 'assets': 1829.0, 'customer_ar': 0.0, 'liabilities': 1829.0, 'fg_inventory': 0.0, 'wip_inventory': 1829.0, 'recorded_equity': 0.0, 'current_earnings': 0.0, 'supplier_final_ap': 0.0, 'balance_difference': 0.0, 'material_inventory': 0.0, 'liabilities_plus_equity': 1829.0, 'grni_estimated_liability': 0.0}}, '2026-09-24': {'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', 'performance_reconciliation_basis': 'OPERATIONAL_NET_SALES_MINUS_SALES_REVENUE_GL'}, 'quality': {'qc_bs_pcs': 0, 'qc_good_pcs': 0, 'laundry_bs_pcs': 0, 'qc_defect_rate_pct': None, 'laundry_outstanding_pcs': 10, 'legacy_receipt_stuck_pcs': 0, 'laundry_good_received_pcs': 0, 'legacy_receipt_missing_pcs': 0, 'laundry_bs_rate_on_resolved_receipts_pct': None}, 'performance': {'cogs_gl': 0.0, 'net_profit': 0.0, 'gross_profit': 0.0, 'other_income': 0.0, 'line_discounts': 0.0, 'net_margin_pct': None, 'gross_margin_pct': None, 'sales_revenue_gl': 0.0, 'posted_sales_returns': 0.0, 'operational_net_sales': 0.0, 'sales_revenue_reconciled': True, 'sales_revenue_bridge_delta': 0.0, 'gross_sales_before_discount': 0.0, 'operating_and_other_expense': 0.0}, 'data_confidence': {'info': [], 'as_of': '2026-09-24', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-01', 'failed_checks': [], 'closed_through': '2026-08-31', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'supplier_exposure': {'oldest_unfinalized_days': 0, 'overdue_final_ap_amount': 0.0, 'unfinalized_receipt_count': 0, 'open_final_ap_document_count': 0}, 'financial_position': {'cash': 0.0, 'assets': 1829.0, 'customer_ar': 0.0, 'liabilities': 1829.0, 'fg_inventory': 0.0, 'wip_inventory': 1829.0, 'recorded_equity': 0.0, 'current_earnings': 0.0, 'supplier_final_ap': 0.0, 'balance_difference': 0.0, 'material_inventory': 0.0, 'liabilities_plus_equity': 1829.0, 'grni_estimated_liability': 0.0}}}, 'po': UUID('383dbc95-2f47-4ad7-ae76-7382e0ad7c64'), 'group': UUID('e19594fc-155c-4795-8a58-faa2e2ab8b21'), 'product': '84ee1161-ca4a-4194-9713-c84b7afb506e', 'sale': '06a6c577-3a23-4d7e-a0a5-99cf143dcc26', 'delivery': 'cc611fc2-1218-4a31-938c-c1ffa152c6b7', 'receipt': 'ea5e8ea7-65ee-4526-a4e0-5875c3e504a3', 'final': {'po_id': '383dbc95-2f47-4ad7-ae76-7382e0ad7c64', 'action': 'POST_FINAL_SKU', 'committed': True, 'bs_qty_pcs': 0, 'hpp_effect': 'SERVER_REBUILT_FROM_IMMUTABLE_SNAPSHOTS', 'row_version': 9, 'good_qty_pcs': 5, 'stock_effect': 'FG_GOOD_AND_QC_BS_POSTED', 'posted_qty_pcs': 5, 'qc_row_version': 3, 'completion_mode': 'PARTIAL_SELECTION', 'document_status': 'POSTED', 'completion_count': 1, 'contract_version': 'CP6_V2620', 'cutting_group_id': 'e19594fc-155c-4795-8a58-faa2e2ab8b21', 'qc_inspection_id': 'fa55de0d-d60e-4962-b6a4-5e78db695644', 'client_request_id': '03b9ae7d-7406-445f-9d10-90afaa7ed31e', 'completion_status': 'PARTIAL_SELECTION', 'inspection_number': 'FGP-260922-03B9AE7D7406445F9D1090AFAA7ED31E', 'fg_stock_in_qty_pcs': 5, 'browser_formula_used': False, 'fg_stock_event_count': 1, 'ready_for_qc_qty_pcs': 3, 'remaining_qc_qty_pcs': 5, 'cumulative_qc_qty_pcs': 5, 'laundry_outstanding_qty_pcs': 2}}, 'invoice_response': {'price_state': 'FINAL', 'purchase_id': '92664670-dab1-4776-9046-983321cdd57b', 'row_version': 3, 'correction_id': '91b67e5d-d86c-4b8f-8b82-ac032a0a1770', 'supplier_invoice_id': '91b67e5d-d86c-4b8f-8b82-ac032a0a1770', 'supplier_invoice_number': 'AA-FINAL-79eb3e51-56b0-4882-996e-b65c8ba61960'}, 'replay_boundary_exact': True, 'processed': 0, 'invocation_clocks': {'transaction': datetime.datetime(2026, 9, 24, 10, 23, 44, 887142, tzinfo=zoneinfo.ZoneInfo(key='Asia/Jakarta')), 'statement': datetime.datetime(2026, 9, 24, 10, 25, 33, 597614, tzinfo=zoneinfo.ZoneInfo(key='Asia/Jakarta')), 'wall': datetime.datetime(2026, 9, 24, 10, 25, 33, 597648, tzinfo=zoneinfo.ZoneInfo(key='Asia/Jakarta'))}, 'before': {'ap': 0, 'grni': 100.0, 'raw_qty': 0.0, 'input_cost': 10.0, 'raw_average': 0.0, 'purchase_cost': 10.0, 'ledger_delta': {'AP_SUPPLIER': Decimal('0.00'), 'COGS': Decimal('34.00'), 'FG_INVENTORY': Decimal('51.00'), 'GRNI_MATERIAL': Decimal('-100.00'), 'MATERIAL_INVENTORY': Decimal('0.00'), 'WIP': Decimal('85.00')}, 'production': {'fg_qty': 3, 'fg_value': 51.0, 'hpp_total': 85.0, 'wip_value': 85.0, 'cogs_value': 34.0, 'base_output': 5, 'other_value': 0.0}, 'custody': {'sent': 10, 'sold': 2, 'received': 8}, 'queue': [], 'revaluation_events': [], 'hpp_events': [(UUID('9efafccb-9c1d-474b-89f3-457d06f2f1ce'), datetime.date(2026, 9, 22), Decimal('85.000000'), Decimal('0.000000'), Decimal('0.000000'))], 'reports_by_day': {'2026-09-23': {'basis': {'period_to': '2026-09-23', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-23', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', 'performance_reconciliation_basis': 'OPERATIONAL_NET_SALES_MINUS_SALES_REVENUE_GL'}, 'quality': {'qc_bs_pcs': 0, 'qc_good_pcs': 5, 'laundry_bs_pcs': 0, 'qc_defect_rate_pct': 0.0, 'laundry_outstanding_pcs': 12, 'legacy_receipt_stuck_pcs': 0, 'laundry_good_received_pcs': 8, 'legacy_receipt_missing_pcs': 0, 'laundry_bs_rate_on_resolved_receipts_pct': 0.0}, 'performance': {'cogs_gl': 34.0, 'net_profit': 46.0, 'gross_profit': 46.0, 'other_income': 0.0, 'line_discounts': 0.0, 'net_margin_pct': 57.5, 'gross_margin_pct': 57.5, 'sales_revenue_gl': 80.0, 'posted_sales_returns': 0.0, 'operational_net_sales': 80.0, 'sales_revenue_reconciled': True, 'sales_revenue_bridge_delta': 0.0, 'gross_sales_before_discount': 80.0, 'operating_and_other_expense': 0.0}, 'data_confidence': {'info': [{'code': 'GRNI_ESTIMATE_OPEN', 'scope': 'CURRENT_STATE', 'family': 'GRNI', 'reason': '1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.', 'severity': 'INFO', 'reference': {'receipts': 1, 'estimated_amount': 100.0}, 'impact_date': '2026-09-21'}], 'as_of': '2026-09-23', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-21', 'failed_checks': [], 'closed_through': '2026-09-21', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'supplier_exposure': {'oldest_unfinalized_days': 3, 'overdue_final_ap_amount': 0.0, 'unfinalized_receipt_count': 1, 'open_final_ap_document_count': 0}, 'financial_position': {'cash': 0.0, 'assets': 2045.0, 'customer_ar': 80.0, 'liabilities': 1999.0, 'fg_inventory': 51.0, 'wip_inventory': 1914.0, 'recorded_equity': 0.0, 'current_earnings': 46.0, 'supplier_final_ap': 0.0, 'balance_difference': 0.0, 'material_inventory': 0.0, 'liabilities_plus_equity': 2045.0, 'grni_estimated_liability': 100.0}}, '2026-09-24': {'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', 'performance_reconciliation_basis': 'OPERATIONAL_NET_SALES_MINUS_SALES_REVENUE_GL'}, 'quality': {'qc_bs_pcs': 0, 'qc_good_pcs': 5, 'laundry_bs_pcs': 0, 'qc_defect_rate_pct': 0.0, 'laundry_outstanding_pcs': 12, 'legacy_receipt_stuck_pcs': 0, 'laundry_good_received_pcs': 8, 'legacy_receipt_missing_pcs': 0, 'laundry_bs_rate_on_resolved_receipts_pct': 0.0}, 'performance': {'cogs_gl': 34.0, 'net_profit': 46.0, 'gross_profit': 46.0, 'other_income': 0.0, 'line_discounts': 0.0, 'net_margin_pct': 57.5, 'gross_margin_pct': 57.5, 'sales_revenue_gl': 80.0, 'posted_sales_returns': 0.0, 'operational_net_sales': 80.0, 'sales_revenue_reconciled': True, 'sales_revenue_bridge_delta': 0.0, 'gross_sales_before_discount': 80.0, 'operating_and_other_expense': 0.0}, 'data_confidence': {'info': [{'code': 'GRNI_ESTIMATE_OPEN', 'scope': 'CURRENT_STATE', 'family': 'GRNI', 'reason': '1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.', 'severity': 'INFO', 'reference': {'receipts': 1, 'estimated_amount': 100.0}, 'impact_date': '2026-09-21'}], 'as_of': '2026-09-24', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-21', 'failed_checks': [], 'closed_through': '2026-09-21', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'supplier_exposure': {'oldest_unfinalized_days': 3, 'overdue_final_ap_amount': 0.0, 'unfinalized_receipt_count': 1, 'open_final_ap_document_count': 0}, 'financial_position': {'cash': 0.0, 'assets': 2045.0, 'customer_ar': 80.0, 'liabilities': 1999.0, 'fg_inventory': 51.0, 'wip_inventory': 1914.0, 'recorded_equity': 0.0, 'current_earnings': 46.0, 'supplier_final_ap': 0.0, 'balance_difference': 0.0, 'material_inventory': 0.0, 'liabilities_plus_equity': 2045.0, 'grni_estimated_liability': 100.0}}}, 'confidence': {'info': [{'code': 'GRNI_ESTIMATE_OPEN', 'scope': 'CURRENT_STATE', 'family': 'GRNI', 'reason': '1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.', 'severity': 'INFO', 'reference': {'receipts': 1, 'estimated_amount': 100.0}, 'impact_date': '2026-09-21'}], 'as_of': '2026-09-24', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-21', 'failed_checks': [], 'closed_through': '2026-09-21', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'report_delta': {'MATERIAL_INVENTORY': Decimal('0.0'), 'WIP': Decimal('85.0'), 'FG_INVENTORY': Decimal('51.0'), 'AP_SUPPLIER': Decimal('0.0'), 'GRNI_MATERIAL': Decimal('100.0'), 'COGS': Decimal('34.0')}}, 'after': {'ap': 200.0, 'grni': 0.0, 'raw_qty': 0.0, 'input_cost': 20.0, 'raw_average': 0.0, 'purchase_cost': 20.0, 'ledger_delta': {'AP_SUPPLIER': Decimal('-200.00'), 'COGS': Decimal('54.00'), 'FG_INVENTORY': Decimal('81.00'), 'GRNI_MATERIAL': Decimal('0.00'), 'MATERIAL_INVENTORY': Decimal('0.00'), 'WIP': Decimal('135.00')}, 'production': {'fg_qty': 3, 'fg_value': 81.0, 'hpp_total': 135.0, 'wip_value': 135.0, 'cogs_value': 54.0, 'base_output': 5, 'other_value': 0.0}, 'custody': {'sent': 10, 'sold': 2, 'received': 8}, 'queue': [(1, 'DONE', 1, None)], 'revaluation_events': [(UUID('f84159a3-d855-42d6-b206-950fe6cbe0cf'), datetime.date(2026, 9, 24), Decimal('-100.00'), 'WIP')], 'hpp_events': [(UUID('42dcd6bb-ad05-4e4e-9ab6-6d19d753d3dc'), datetime.date(2026, 9, 22), Decimal('30.000000'), Decimal('20.000000'), Decimal('0.000000')), (UUID('9efafccb-9c1d-474b-89f3-457d06f2f1ce'), datetime.date(2026, 9, 22), Decimal('85.000000'), Decimal('0.000000'), Decimal('0.000000'))], 'reports_by_day': {'2026-09-23': {'basis': {'period_to': '2026-09-23', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-23', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', 'performance_reconciliation_basis': 'OPERATIONAL_NET_SALES_MINUS_SALES_REVENUE_GL'}, 'quality': {'qc_bs_pcs': 0, 'qc_good_pcs': 5, 'laundry_bs_pcs': 0, 'qc_defect_rate_pct': 0.0, 'laundry_outstanding_pcs': 12, 'legacy_receipt_stuck_pcs': 0, 'laundry_good_received_pcs': 8, 'legacy_receipt_missing_pcs': 0, 'laundry_bs_rate_on_resolved_receipts_pct': 0.0}, 'performance': {'cogs_gl': 54.0, 'net_profit': 26.0, 'gross_profit': 26.0, 'other_income': 0.0, 'line_discounts': 0.0, 'net_margin_pct': 32.5, 'gross_margin_pct': 32.5, 'sales_revenue_gl': 80.0, 'posted_sales_returns': 0.0, 'operational_net_sales': 80.0, 'sales_revenue_reconciled': True, 'sales_revenue_bridge_delta': 0.0, 'gross_sales_before_discount': 80.0, 'operating_and_other_expense': 0.0}, 'data_confidence': {'info': [], 'as_of': '2026-09-23', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-21', 'failed_checks': [], 'closed_through': '2026-09-21', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'supplier_exposure': {'oldest_unfinalized_days': 0, 'overdue_final_ap_amount': 0.0, 'unfinalized_receipt_count': 0, 'open_final_ap_document_count': 1}, 'financial_position': {'cash': 0.0, 'assets': 2025.0, 'customer_ar': 80.0, 'liabilities': 1999.0, 'fg_inventory': 81.0, 'wip_inventory': 1864.0, 'recorded_equity': 0.0, 'current_earnings': 26.0, 'supplier_final_ap': 0.0, 'balance_difference': 0.0, 'material_inventory': 0.0, 'liabilities_plus_equity': 2025.0, 'grni_estimated_liability': 100.0}}, '2026-09-24': {'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', 'performance_reconciliation_basis': 'OPERATIONAL_NET_SALES_MINUS_SALES_REVENUE_GL'}, 'quality': {'qc_bs_pcs': 0, 'qc_good_pcs': 5, 'laundry_bs_pcs': 0, 'qc_defect_rate_pct': 0.0, 'laundry_outstanding_pcs': 12, 'legacy_receipt_stuck_pcs': 0, 'laundry_good_received_pcs': 8, 'legacy_receipt_missing_pcs': 0, 'laundry_bs_rate_on_resolved_receipts_pct': 0.0}, 'performance': {'cogs_gl': 54.0, 'net_profit': 26.0, 'gross_profit': 26.0, 'other_income': 0.0, 'line_discounts': 0.0, 'net_margin_pct': 32.5, 'gross_margin_pct': 32.5, 'sales_revenue_gl': 80.0, 'posted_sales_returns': 0.0, 'operational_net_sales': 80.0, 'sales_revenue_reconciled': True, 'sales_revenue_bridge_delta': 0.0, 'gross_sales_before_discount': 80.0, 'operating_and_other_expense': 0.0}, 'data_confidence': {'info': [], 'as_of': '2026-09-24', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-21', 'failed_checks': [], 'closed_through': '2026-09-21', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'supplier_exposure': {'oldest_unfinalized_days': 0, 'overdue_final_ap_amount': 0.0, 'unfinalized_receipt_count': 0, 'open_final_ap_document_count': 1}, 'financial_position': {'cash': 0.0, 'assets': 2125.0, 'customer_ar': 80.0, 'liabilities': 2099.0, 'fg_inventory': 81.0, 'wip_inventory': 1964.0, 'recorded_equity': 0.0, 'current_earnings': 26.0, 'supplier_final_ap': 200.0, 'balance_difference': 0.0, 'material_inventory': 0.0, 'liabilities_plus_equity': 2125.0, 'grni_estimated_liability': 0.0}}}, 'confidence': {'info': [], 'as_of': '2026-09-24', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-21', 'failed_checks': [], 'closed_through': '2026-09-21', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'report_delta': {'MATERIAL_INVENTORY': Decimal('0.0'), 'WIP': Decimal('135.0'), 'FG_INVENTORY': Decimal('81.0'), 'AP_SUPPLIER': Decimal('200.0'), 'GRNI_MATERIAL': Decimal('0.0'), 'COGS': Decimal('54.0')}}, 'mismatches': {'hpp_events.business_day': {'expected': '2026-09-24', 'actual': [(UUID('42dcd6bb-ad05-4e4e-9ab6-6d19d753d3dc'), datetime.date(2026, 9, 22), Decimal('30.000000'), Decimal('20.000000'), Decimal('0.000000'))]}, 'prior_report.wip_inventory.business_day': {'day': '2026-09-23', 'expected': Decimal('1914.0'), 'actual': Decimal('1864.0')}, 'prior_report.fg_inventory.business_day': {'day': '2026-09-23', 'expected': Decimal('51.0'), 'actual': Decimal('81.0')}, 'prior_report.cogs_gl.business_day': {'day': '2026-09-23', 'expected': Decimal('34.0'), 'actual': Decimal('54.0')}}, 'silent_if_ready': True}",
+    "stage": null,
+    "fixture": {
+     "group": "T2_FIXTURE_PAYROLL",
+     "case": "CROSS:INVOICE:True:Asia/Jakarta:20",
+     "payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "start": "2026-09-22",
+       "end": "2026-09-22",
+       "status": "APPROVED",
+       "work_lines": 1,
+       "attendance_days": 0,
+       "redone_unpaid": []
+      }
+     ],
+     "refused": null
+    }
+   }
+  },
+  {
+   "case": "CROSS:INVOICE:True:Asia/Jakarta:20.003",
+   "expected": "PASS",
+   "observed": "INCOMPLETE",
+   "cause": {
+    "error": "AE_INVOICE_ORACLE_FAILED:{'status': 'COUNTEREXAMPLE', 'severity': 'P2', 'stage': 'AFTER_INVOICE', 'caller_zone': 'Asia/Jakarta', 'partial': True, 'final_unit_cost': '20.003', 'fixture': {'material': UUID('4da5bc45-afe7-4d34-8c95-cd5c7b833ad4'), 'purchase': UUID('56cc9429-0695-4b39-9b14-c68e57a4f2d4'), 'item': UUID('ccbf03bc-3741-476f-ad3e-d131000075d8'), 'roll': UUID('94da9aae-a5e8-4e95-ba4e-85b81029d93e'), 'movement': UUID('91a3bd49-221f-4899-9143-4f2a8ee91307'), 'location': UUID('c548b7ca-1d18-4f8d-b898-8b725ff751d9'), 'purchase_day': datetime.date(2026, 9, 21), 'ledger_baseline': {'AP_SUPPLIER': Decimal('0'), 'COGS': Decimal('0'), 'FG_INVENTORY': Decimal('0'), 'GRNI_MATERIAL': Decimal('0'), 'MATERIAL_INVENTORY': Decimal('0'), 'WIP': Decimal('1829.00')}, 'report_baseline': {'2026-09-23': {'basis': {'period_to': '2026-09-23', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-23', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', 'performance_reconciliation_basis': 'OPERATIONAL_NET_SALES_MINUS_SALES_REVENUE_GL'}, 'quality': {'qc_bs_pcs': 0, 'qc_good_pcs': 0, 'laundry_bs_pcs': 0, 'qc_defect_rate_pct': None, 'laundry_outstanding_pcs': 10, 'legacy_receipt_stuck_pcs': 0, 'laundry_good_received_pcs': 0, 'legacy_receipt_missing_pcs': 0, 'laundry_bs_rate_on_resolved_receipts_pct': None}, 'performance': {'cogs_gl': 0.0, 'net_profit': 0.0, 'gross_profit': 0.0, 'other_income': 0.0, 'line_discounts': 0.0, 'net_margin_pct': None, 'gross_margin_pct': None, 'sales_revenue_gl': 0.0, 'posted_sales_returns': 0.0, 'operational_net_sales': 0.0, 'sales_revenue_reconciled': True, 'sales_revenue_bridge_delta': 0.0, 'gross_sales_before_discount': 0.0, 'operating_and_other_expense': 0.0}, 'data_confidence': {'info': [], 'as_of': '2026-09-23', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-01', 'failed_checks': [], 'closed_through': '2026-08-31', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'supplier_exposure': {'oldest_unfinalized_days': 0, 'overdue_final_ap_amount': 0.0, 'unfinalized_receipt_count': 0, 'open_final_ap_document_count': 0}, 'financial_position': {'cash': 0.0, 'assets': 1829.0, 'customer_ar': 0.0, 'liabilities': 1829.0, 'fg_inventory': 0.0, 'wip_inventory': 1829.0, 'recorded_equity': 0.0, 'current_earnings': 0.0, 'supplier_final_ap': 0.0, 'balance_difference': 0.0, 'material_inventory': 0.0, 'liabilities_plus_equity': 1829.0, 'grni_estimated_liability': 0.0}}, '2026-09-24': {'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', 'performance_reconciliation_basis': 'OPERATIONAL_NET_SALES_MINUS_SALES_REVENUE_GL'}, 'quality': {'qc_bs_pcs': 0, 'qc_good_pcs': 0, 'laundry_bs_pcs': 0, 'qc_defect_rate_pct': None, 'laundry_outstanding_pcs': 10, 'legacy_receipt_stuck_pcs': 0, 'laundry_good_received_pcs': 0, 'legacy_receipt_missing_pcs': 0, 'laundry_bs_rate_on_resolved_receipts_pct': None}, 'performance': {'cogs_gl': 0.0, 'net_profit': 0.0, 'gross_profit': 0.0, 'other_income': 0.0, 'line_discounts': 0.0, 'net_margin_pct': None, 'gross_margin_pct': None, 'sales_revenue_gl': 0.0, 'posted_sales_returns': 0.0, 'operational_net_sales': 0.0, 'sales_revenue_reconciled': True, 'sales_revenue_bridge_delta': 0.0, 'gross_sales_before_discount': 0.0, 'operating_and_other_expense': 0.0}, 'data_confidence': {'info': [], 'as_of': '2026-09-24', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-01', 'failed_checks': [], 'closed_through': '2026-08-31', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'supplier_exposure': {'oldest_unfinalized_days': 0, 'overdue_final_ap_amount': 0.0, 'unfinalized_receipt_count': 0, 'open_final_ap_document_count': 0}, 'financial_position': {'cash': 0.0, 'assets': 1829.0, 'customer_ar': 0.0, 'liabilities': 1829.0, 'fg_inventory': 0.0, 'wip_inventory': 1829.0, 'recorded_equity': 0.0, 'current_earnings': 0.0, 'supplier_final_ap': 0.0, 'balance_difference': 0.0, 'material_inventory': 0.0, 'liabilities_plus_equity': 1829.0, 'grni_estimated_liability': 0.0}}}, 'po': UUID('43a36a85-3d14-4e9e-a16a-a9d0e76bd800'), 'group': UUID('d0da066f-a48a-4b08-88d1-aa17b6689996'), 'product': '07d9b496-ed18-485b-9df6-db40ddbfecbe', 'sale': 'ac576b39-334c-4cbf-840a-c3d041068b61', 'delivery': 'a67c435a-bb10-4d30-aa70-6a2523383e26', 'receipt': '9c12aabe-6fb9-4e2c-a50d-fd7d3724c969', 'final': {'po_id': '43a36a85-3d14-4e9e-a16a-a9d0e76bd800', 'action': 'POST_FINAL_SKU', 'committed': True, 'bs_qty_pcs': 0, 'hpp_effect': 'SERVER_REBUILT_FROM_IMMUTABLE_SNAPSHOTS', 'row_version': 9, 'good_qty_pcs': 5, 'stock_effect': 'FG_GOOD_AND_QC_BS_POSTED', 'posted_qty_pcs': 5, 'qc_row_version': 3, 'completion_mode': 'PARTIAL_SELECTION', 'document_status': 'POSTED', 'completion_count': 1, 'contract_version': 'CP6_V2620', 'cutting_group_id': 'd0da066f-a48a-4b08-88d1-aa17b6689996', 'qc_inspection_id': '6e83e080-1176-4ca3-96bc-23c49c548626', 'client_request_id': 'b216869a-92fd-4c13-9111-0c3525af86e0', 'completion_status': 'PARTIAL_SELECTION', 'inspection_number': 'FGP-260922-B216869A92FD4C1391110C3525AF86E0', 'fg_stock_in_qty_pcs': 5, 'browser_formula_used': False, 'fg_stock_event_count': 1, 'ready_for_qc_qty_pcs': 3, 'remaining_qc_qty_pcs': 5, 'cumulative_qc_qty_pcs': 5, 'laundry_outstanding_qty_pcs': 2}}, 'invoice_response': {'price_state': 'FINAL', 'purchase_id': '56cc9429-0695-4b39-9b14-c68e57a4f2d4', 'row_version': 3, 'correction_id': 'ad0abf58-bed1-42e1-8908-9b9bb0066bb0', 'supplier_invoice_id': 'ad0abf58-bed1-42e1-8908-9b9bb0066bb0', 'supplier_invoice_number': 'AA-FINAL-22a7c0fb-dd3b-4215-8505-77895eb44fd6'}, 'replay_boundary_exact': True, 'processed': 0, 'invocation_clocks': {'transaction': datetime.datetime(2026, 9, 24, 10, 23, 44, 887142, tzinfo=zoneinfo.ZoneInfo(key='Asia/Jakarta')), 'statement': datetime.datetime(2026, 9, 24, 10, 25, 35, 902770, tzinfo=zoneinfo.ZoneInfo(key='Asia/Jakarta')), 'wall': datetime.datetime(2026, 9, 24, 10, 25, 35, 902803, tzinfo=zoneinfo.ZoneInfo(key='Asia/Jakarta'))}, 'before': {'ap': 0, 'grni': 100.0, 'raw_qty': 0.0, 'input_cost': 10.0, 'raw_average': 0.0, 'purchase_cost': 10.0, 'ledger_delta': {'AP_SUPPLIER': Decimal('0.00'), 'COGS': Decimal('34.00'), 'FG_INVENTORY': Decimal('51.00'), 'GRNI_MATERIAL': Decimal('-100.00'), 'MATERIAL_INVENTORY': Decimal('0.00'), 'WIP': Decimal('85.00')}, 'production': {'fg_qty': 3, 'fg_value': 51.0, 'hpp_total': 85.0, 'wip_value': 85.0, 'cogs_value': 34.0, 'base_output': 5, 'other_value': 0.0}, 'custody': {'sent': 10, 'sold': 2, 'received': 8}, 'queue': [], 'revaluation_events': [], 'hpp_events': [(UUID('1c9d2172-e9f9-4f17-ad1a-16e387e4ef59'), datetime.date(2026, 9, 22), Decimal('85.000000'), Decimal('0.000000'), Decimal('0.000000'))], 'reports_by_day': {'2026-09-23': {'basis': {'period_to': '2026-09-23', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-23', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', 'performance_reconciliation_basis': 'OPERATIONAL_NET_SALES_MINUS_SALES_REVENUE_GL'}, 'quality': {'qc_bs_pcs': 0, 'qc_good_pcs': 5, 'laundry_bs_pcs': 0, 'qc_defect_rate_pct': 0.0, 'laundry_outstanding_pcs': 12, 'legacy_receipt_stuck_pcs': 0, 'laundry_good_received_pcs': 8, 'legacy_receipt_missing_pcs': 0, 'laundry_bs_rate_on_resolved_receipts_pct': 0.0}, 'performance': {'cogs_gl': 34.0, 'net_profit': 46.0, 'gross_profit': 46.0, 'other_income': 0.0, 'line_discounts': 0.0, 'net_margin_pct': 57.5, 'gross_margin_pct': 57.5, 'sales_revenue_gl': 80.0, 'posted_sales_returns': 0.0, 'operational_net_sales': 80.0, 'sales_revenue_reconciled': True, 'sales_revenue_bridge_delta': 0.0, 'gross_sales_before_discount': 80.0, 'operating_and_other_expense': 0.0}, 'data_confidence': {'info': [{'code': 'GRNI_ESTIMATE_OPEN', 'scope': 'CURRENT_STATE', 'family': 'GRNI', 'reason': '1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.', 'severity': 'INFO', 'reference': {'receipts': 1, 'estimated_amount': 100.0}, 'impact_date': '2026-09-21'}], 'as_of': '2026-09-23', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-21', 'failed_checks': [], 'closed_through': '2026-09-21', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'supplier_exposure': {'oldest_unfinalized_days': 3, 'overdue_final_ap_amount': 0.0, 'unfinalized_receipt_count': 1, 'open_final_ap_document_count': 0}, 'financial_position': {'cash': 0.0, 'assets': 2045.0, 'customer_ar': 80.0, 'liabilities': 1999.0, 'fg_inventory': 51.0, 'wip_inventory': 1914.0, 'recorded_equity': 0.0, 'current_earnings': 46.0, 'supplier_final_ap': 0.0, 'balance_difference': 0.0, 'material_inventory': 0.0, 'liabilities_plus_equity': 2045.0, 'grni_estimated_liability': 100.0}}, '2026-09-24': {'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', 'performance_reconciliation_basis': 'OPERATIONAL_NET_SALES_MINUS_SALES_REVENUE_GL'}, 'quality': {'qc_bs_pcs': 0, 'qc_good_pcs': 5, 'laundry_bs_pcs': 0, 'qc_defect_rate_pct': 0.0, 'laundry_outstanding_pcs': 12, 'legacy_receipt_stuck_pcs': 0, 'laundry_good_received_pcs': 8, 'legacy_receipt_missing_pcs': 0, 'laundry_bs_rate_on_resolved_receipts_pct': 0.0}, 'performance': {'cogs_gl': 34.0, 'net_profit': 46.0, 'gross_profit': 46.0, 'other_income': 0.0, 'line_discounts': 0.0, 'net_margin_pct': 57.5, 'gross_margin_pct': 57.5, 'sales_revenue_gl': 80.0, 'posted_sales_returns': 0.0, 'operational_net_sales': 80.0, 'sales_revenue_reconciled': True, 'sales_revenue_bridge_delta': 0.0, 'gross_sales_before_discount': 80.0, 'operating_and_other_expense': 0.0}, 'data_confidence': {'info': [{'code': 'GRNI_ESTIMATE_OPEN', 'scope': 'CURRENT_STATE', 'family': 'GRNI', 'reason': '1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.', 'severity': 'INFO', 'reference': {'receipts': 1, 'estimated_amount': 100.0}, 'impact_date': '2026-09-21'}], 'as_of': '2026-09-24', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-21', 'failed_checks': [], 'closed_through': '2026-09-21', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'supplier_exposure': {'oldest_unfinalized_days': 3, 'overdue_final_ap_amount': 0.0, 'unfinalized_receipt_count': 1, 'open_final_ap_document_count': 0}, 'financial_position': {'cash': 0.0, 'assets': 2045.0, 'customer_ar': 80.0, 'liabilities': 1999.0, 'fg_inventory': 51.0, 'wip_inventory': 1914.0, 'recorded_equity': 0.0, 'current_earnings': 46.0, 'supplier_final_ap': 0.0, 'balance_difference': 0.0, 'material_inventory': 0.0, 'liabilities_plus_equity': 2045.0, 'grni_estimated_liability': 100.0}}}, 'confidence': {'info': [{'code': 'GRNI_ESTIMATE_OPEN', 'scope': 'CURRENT_STATE', 'family': 'GRNI', 'reason': '1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.', 'severity': 'INFO', 'reference': {'receipts': 1, 'estimated_amount': 100.0}, 'impact_date': '2026-09-21'}], 'as_of': '2026-09-24', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-21', 'failed_checks': [], 'closed_through': '2026-09-21', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'report_delta': {'MATERIAL_INVENTORY': Decimal('0.0'), 'WIP': Decimal('85.0'), 'FG_INVENTORY': Decimal('51.0'), 'AP_SUPPLIER': Decimal('0.0'), 'GRNI_MATERIAL': Decimal('100.0'), 'COGS': Decimal('34.0')}}, 'after': {'ap': 200.03, 'grni': 0.0, 'raw_qty': 0.0, 'input_cost': 20.003, 'raw_average': 0.0, 'purchase_cost': 20.003, 'ledger_delta': {'AP_SUPPLIER': Decimal('-200.03'), 'COGS': Decimal('54.01'), 'FG_INVENTORY': Decimal('81.01'), 'GRNI_MATERIAL': Decimal('0.00'), 'MATERIAL_INVENTORY': Decimal('0.00'), 'WIP': Decimal('135.01')}, 'production': {'fg_qty': 3, 'fg_value': 81.01, 'hpp_total': 135.02, 'wip_value': 135.01, 'cogs_value': 54.01, 'base_output': 5, 'other_value': 0.0}, 'custody': {'sent': 10, 'sold': 2, 'received': 8}, 'queue': [(2, 'DONE', 1, None)], 'revaluation_events': [(UUID('ea3ba8c6-37a4-40f0-aa67-d13f532c9949'), datetime.date(2026, 9, 24), Decimal('-100.03'), 'WIP')], 'hpp_events': [(UUID('2db7ab6c-dd76-47cd-9603-97588781cc0d'), datetime.date(2026, 9, 22), Decimal('30.010000'), Decimal('20.010000'), Decimal('0.000000')), (UUID('1c9d2172-e9f9-4f17-ad1a-16e387e4ef59'), datetime.date(2026, 9, 22), Decimal('85.000000'), Decimal('0.000000'), Decimal('0.000000'))], 'reports_by_day': {'2026-09-23': {'basis': {'period_to': '2026-09-23', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-23', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', 'performance_reconciliation_basis': 'OPERATIONAL_NET_SALES_MINUS_SALES_REVENUE_GL'}, 'quality': {'qc_bs_pcs': 0, 'qc_good_pcs': 5, 'laundry_bs_pcs': 0, 'qc_defect_rate_pct': 0.0, 'laundry_outstanding_pcs': 12, 'legacy_receipt_stuck_pcs': 0, 'laundry_good_received_pcs': 8, 'legacy_receipt_missing_pcs': 0, 'laundry_bs_rate_on_resolved_receipts_pct': 0.0}, 'performance': {'cogs_gl': 54.01, 'net_profit': 25.99, 'gross_profit': 25.99, 'other_income': 0.0, 'line_discounts': 0.0, 'net_margin_pct': 32.4875, 'gross_margin_pct': 32.4875, 'sales_revenue_gl': 80.0, 'posted_sales_returns': 0.0, 'operational_net_sales': 80.0, 'sales_revenue_reconciled': True, 'sales_revenue_bridge_delta': 0.0, 'gross_sales_before_discount': 80.0, 'operating_and_other_expense': 0.0}, 'data_confidence': {'info': [], 'as_of': '2026-09-23', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-21', 'failed_checks': [], 'closed_through': '2026-09-21', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'supplier_exposure': {'oldest_unfinalized_days': 0, 'overdue_final_ap_amount': 0.0, 'unfinalized_receipt_count': 0, 'open_final_ap_document_count': 1}, 'financial_position': {'cash': 0.0, 'assets': 2024.99, 'customer_ar': 80.0, 'liabilities': 1999.0, 'fg_inventory': 81.01, 'wip_inventory': 1863.98, 'recorded_equity': 0.0, 'current_earnings': 25.99, 'supplier_final_ap': 0.0, 'balance_difference': 0.0, 'material_inventory': 0.0, 'liabilities_plus_equity': 2024.99, 'grni_estimated_liability': 100.0}}, '2026-09-24': {'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', 'performance_reconciliation_basis': 'OPERATIONAL_NET_SALES_MINUS_SALES_REVENUE_GL'}, 'quality': {'qc_bs_pcs': 0, 'qc_good_pcs': 5, 'laundry_bs_pcs': 0, 'qc_defect_rate_pct': 0.0, 'laundry_outstanding_pcs': 12, 'legacy_receipt_stuck_pcs': 0, 'laundry_good_received_pcs': 8, 'legacy_receipt_missing_pcs': 0, 'laundry_bs_rate_on_resolved_receipts_pct': 0.0}, 'performance': {'cogs_gl': 54.01, 'net_profit': 25.99, 'gross_profit': 25.99, 'other_income': 0.0, 'line_discounts': 0.0, 'net_margin_pct': 32.4875, 'gross_margin_pct': 32.4875, 'sales_revenue_gl': 80.0, 'posted_sales_returns': 0.0, 'operational_net_sales': 80.0, 'sales_revenue_reconciled': True, 'sales_revenue_bridge_delta': 0.0, 'gross_sales_before_discount': 80.0, 'operating_and_other_expense': 0.0}, 'data_confidence': {'info': [], 'as_of': '2026-09-24', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-21', 'failed_checks': [], 'closed_through': '2026-09-21', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'supplier_exposure': {'oldest_unfinalized_days': 0, 'overdue_final_ap_amount': 0.0, 'unfinalized_receipt_count': 0, 'open_final_ap_document_count': 1}, 'financial_position': {'cash': 0.0, 'assets': 2125.02, 'customer_ar': 80.0, 'liabilities': 2099.03, 'fg_inventory': 81.01, 'wip_inventory': 1964.01, 'recorded_equity': 0.0, 'current_earnings': 25.99, 'supplier_final_ap': 200.03, 'balance_difference': 0.0, 'material_inventory': 0.0, 'liabilities_plus_equity': 2125.02, 'grni_estimated_liability': 0.0}}}, 'confidence': {'info': [], 'as_of': '2026-09-24', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-21', 'failed_checks': [], 'closed_through': '2026-09-21', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'report_delta': {'MATERIAL_INVENTORY': Decimal('0.0'), 'WIP': Decimal('135.01'), 'FG_INVENTORY': Decimal('81.01'), 'AP_SUPPLIER': Decimal('200.03'), 'GRNI_MATERIAL': Decimal('0.0'), 'COGS': Decimal('54.01')}}, 'mismatches': {'hpp_events.business_day': {'expected': '2026-09-24', 'actual': [(UUID('2db7ab6c-dd76-47cd-9603-97588781cc0d'), datetime.date(2026, 9, 22), Decimal('30.010000'), Decimal('20.010000'), Decimal('0.000000'))]}, 'prior_report.wip_inventory.business_day': {'day': '2026-09-23', 'expected': Decimal('1914.0'), 'actual': Decimal('1863.98')}, 'prior_report.fg_inventory.business_day': {'day': '2026-09-23', 'expected': Decimal('51.0'), 'actual': Decimal('81.01')}, 'prior_report.cogs_gl.business_day': {'day': '2026-09-23', 'expected': Decimal('34.0'), 'actual': Decimal('54.01')}}, 'silent_if_ready': True}",
+    "stage": null,
+    "fixture": {
+     "group": "T2_FIXTURE_PAYROLL",
+     "case": "CROSS:INVOICE:True:Asia/Jakarta:20.003",
+     "payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "start": "2026-09-22",
+       "end": "2026-09-22",
+       "status": "APPROVED",
+       "work_lines": 1,
+       "attendance_days": 0,
+       "redone_unpaid": []
+      }
+     ],
+     "refused": null
+    }
+   }
+  },
+  {
+   "case": "CROSS:INVOICE:True:UTC:20",
+   "expected": "PASS",
+   "observed": "INCOMPLETE",
+   "cause": {
+    "error": "AE_INVOICE_ORACLE_FAILED:{'status': 'COUNTEREXAMPLE', 'severity': 'P2', 'stage': 'AFTER_INVOICE', 'caller_zone': 'UTC', 'partial': True, 'final_unit_cost': '20', 'fixture': {'material': UUID('1204922c-a867-4b78-b9f2-d6b680c1e8a4'), 'purchase': UUID('0a52419d-c929-4ee7-92ed-8b70e85790ef'), 'item': UUID('f60e43a5-7fb8-4892-8c3e-ba4e2bc468fc'), 'roll': UUID('37856e85-be20-4618-b73f-3d6de349328b'), 'movement': UUID('ee2d87a5-0fab-408a-91ca-56c7e083d161'), 'location': UUID('da1cd285-bef2-4462-bf3e-fb73eb2ad800'), 'purchase_day': datetime.date(2026, 9, 21), 'ledger_baseline': {'AP_SUPPLIER': Decimal('0'), 'COGS': Decimal('0'), 'FG_INVENTORY': Decimal('0'), 'GRNI_MATERIAL': Decimal('0'), 'MATERIAL_INVENTORY': Decimal('0'), 'WIP': Decimal('1829.00')}, 'report_baseline': {'2026-09-23': {'basis': {'period_to': '2026-09-23', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-23', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', 'performance_reconciliation_basis': 'OPERATIONAL_NET_SALES_MINUS_SALES_REVENUE_GL'}, 'quality': {'qc_bs_pcs': 0, 'qc_good_pcs': 0, 'laundry_bs_pcs': 0, 'qc_defect_rate_pct': None, 'laundry_outstanding_pcs': 10, 'legacy_receipt_stuck_pcs': 0, 'laundry_good_received_pcs': 0, 'legacy_receipt_missing_pcs': 0, 'laundry_bs_rate_on_resolved_receipts_pct': None}, 'performance': {'cogs_gl': 0.0, 'net_profit': 0.0, 'gross_profit': 0.0, 'other_income': 0.0, 'line_discounts': 0.0, 'net_margin_pct': None, 'gross_margin_pct': None, 'sales_revenue_gl': 0.0, 'posted_sales_returns': 0.0, 'operational_net_sales': 0.0, 'sales_revenue_reconciled': True, 'sales_revenue_bridge_delta': 0.0, 'gross_sales_before_discount': 0.0, 'operating_and_other_expense': 0.0}, 'data_confidence': {'info': [], 'as_of': '2026-09-23', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-01', 'failed_checks': [], 'closed_through': '2026-08-31', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'supplier_exposure': {'oldest_unfinalized_days': 0, 'overdue_final_ap_amount': 0.0, 'unfinalized_receipt_count': 0, 'open_final_ap_document_count': 0}, 'financial_position': {'cash': 0.0, 'assets': 1829.0, 'customer_ar': 0.0, 'liabilities': 1829.0, 'fg_inventory': 0.0, 'wip_inventory': 1829.0, 'recorded_equity': 0.0, 'current_earnings': 0.0, 'supplier_final_ap': 0.0, 'balance_difference': 0.0, 'material_inventory': 0.0, 'liabilities_plus_equity': 1829.0, 'grni_estimated_liability': 0.0}}, '2026-09-24': {'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', 'performance_reconciliation_basis': 'OPERATIONAL_NET_SALES_MINUS_SALES_REVENUE_GL'}, 'quality': {'qc_bs_pcs': 0, 'qc_good_pcs': 0, 'laundry_bs_pcs': 0, 'qc_defect_rate_pct': None, 'laundry_outstanding_pcs': 10, 'legacy_receipt_stuck_pcs': 0, 'laundry_good_received_pcs': 0, 'legacy_receipt_missing_pcs': 0, 'laundry_bs_rate_on_resolved_receipts_pct': None}, 'performance': {'cogs_gl': 0.0, 'net_profit': 0.0, 'gross_profit': 0.0, 'other_income': 0.0, 'line_discounts': 0.0, 'net_margin_pct': None, 'gross_margin_pct': None, 'sales_revenue_gl': 0.0, 'posted_sales_returns': 0.0, 'operational_net_sales': 0.0, 'sales_revenue_reconciled': True, 'sales_revenue_bridge_delta': 0.0, 'gross_sales_before_discount': 0.0, 'operating_and_other_expense': 0.0}, 'data_confidence': {'info': [], 'as_of': '2026-09-24', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-01', 'failed_checks': [], 'closed_through': '2026-08-31', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'supplier_exposure': {'oldest_unfinalized_days': 0, 'overdue_final_ap_amount': 0.0, 'unfinalized_receipt_count': 0, 'open_final_ap_document_count': 0}, 'financial_position': {'cash': 0.0, 'assets': 1829.0, 'customer_ar': 0.0, 'liabilities': 1829.0, 'fg_inventory': 0.0, 'wip_inventory': 1829.0, 'recorded_equity': 0.0, 'current_earnings': 0.0, 'supplier_final_ap': 0.0, 'balance_difference': 0.0, 'material_inventory': 0.0, 'liabilities_plus_equity': 1829.0, 'grni_estimated_liability': 0.0}}}, 'po': UUID('acfacbf7-9bc7-492a-9b54-675d0ab63763'), 'group': UUID('81acabf9-fac9-4ffa-bbda-927d7794b998'), 'product': 'bb69eb08-fa2d-4018-91fc-3b2b91101ec0', 'sale': 'ca442fef-6ae8-4ca0-9591-8d1ae908841b', 'delivery': 'f6433e94-9f0f-4587-88c1-486067ec0290', 'receipt': 'a4b1b13b-1de6-4749-b6c0-196681c5191d', 'final': {'po_id': 'acfacbf7-9bc7-492a-9b54-675d0ab63763', 'action': 'POST_FINAL_SKU', 'committed': True, 'bs_qty_pcs': 0, 'hpp_effect': 'SERVER_REBUILT_FROM_IMMUTABLE_SNAPSHOTS', 'row_version': 9, 'good_qty_pcs': 5, 'stock_effect': 'FG_GOOD_AND_QC_BS_POSTED', 'posted_qty_pcs': 5, 'qc_row_version': 3, 'completion_mode': 'PARTIAL_SELECTION', 'document_status': 'POSTED', 'completion_count': 1, 'contract_version': 'CP6_V2620', 'cutting_group_id': '81acabf9-fac9-4ffa-bbda-927d7794b998', 'qc_inspection_id': '6457e528-e0c5-4f63-ba31-074736fa0325', 'client_request_id': 'eb8089f3-36a3-4b34-9d91-e5d8588aeb3c', 'completion_status': 'PARTIAL_SELECTION', 'inspection_number': 'FGP-260922-EB8089F336A34B349D91E5D8588AEB3C', 'fg_stock_in_qty_pcs': 5, 'browser_formula_used': False, 'fg_stock_event_count': 1, 'ready_for_qc_qty_pcs': 3, 'remaining_qc_qty_pcs': 5, 'cumulative_qc_qty_pcs': 5, 'laundry_outstanding_qty_pcs': 2}}, 'invoice_response': {'price_state': 'FINAL', 'purchase_id': '0a52419d-c929-4ee7-92ed-8b70e85790ef', 'row_version': 3, 'correction_id': '204b83f8-eeb9-4c06-b0cf-262a41bcf511', 'supplier_invoice_id': '204b83f8-eeb9-4c06-b0cf-262a41bcf511', 'supplier_invoice_number': 'AA-FINAL-3a771fef-3bec-44d4-bb6a-202597a36ec3'}, 'replay_boundary_exact': True, 'processed': 0, 'invocation_clocks': {'transaction': datetime.datetime(2026, 9, 24, 3, 23, 44, 887142, tzinfo=datetime.timezone.utc), 'statement': datetime.datetime(2026, 9, 24, 3, 25, 38, 147176, tzinfo=datetime.timezone.utc), 'wall': datetime.datetime(2026, 9, 24, 3, 25, 38, 147212, tzinfo=datetime.timezone.utc)}, 'before': {'ap': 0, 'grni': 100.0, 'raw_qty': 0.0, 'input_cost': 10.0, 'raw_average': 0.0, 'purchase_cost': 10.0, 'ledger_delta': {'AP_SUPPLIER': Decimal('0.00'), 'COGS': Decimal('34.00'), 'FG_INVENTORY': Decimal('51.00'), 'GRNI_MATERIAL': Decimal('-100.00'), 'MATERIAL_INVENTORY': Decimal('0.00'), 'WIP': Decimal('85.00')}, 'production': {'fg_qty': 3, 'fg_value': 51.0, 'hpp_total': 85.0, 'wip_value': 85.0, 'cogs_value': 34.0, 'base_output': 5, 'other_value': 0.0}, 'custody': {'sent': 10, 'sold': 2, 'received': 8}, 'queue': [], 'revaluation_events': [], 'hpp_events': [(UUID('01ea2b88-b9cf-45d1-9c70-fca42455366e'), datetime.date(2026, 9, 22), Decimal('85.000000'), Decimal('0.000000'), Decimal('0.000000'))], 'reports_by_day': {'2026-09-23': {'basis': {'period_to': '2026-09-23', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-23', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', 'performance_reconciliation_basis': 'OPERATIONAL_NET_SALES_MINUS_SALES_REVENUE_GL'}, 'quality': {'qc_bs_pcs': 0, 'qc_good_pcs': 5, 'laundry_bs_pcs': 0, 'qc_defect_rate_pct': 0.0, 'laundry_outstanding_pcs': 12, 'legacy_receipt_stuck_pcs': 0, 'laundry_good_received_pcs': 8, 'legacy_receipt_missing_pcs': 0, 'laundry_bs_rate_on_resolved_receipts_pct': 0.0}, 'performance': {'cogs_gl': 34.0, 'net_profit': 46.0, 'gross_profit': 46.0, 'other_income': 0.0, 'line_discounts': 0.0, 'net_margin_pct': 57.5, 'gross_margin_pct': 57.5, 'sales_revenue_gl': 80.0, 'posted_sales_returns': 0.0, 'operational_net_sales': 80.0, 'sales_revenue_reconciled': True, 'sales_revenue_bridge_delta': 0.0, 'gross_sales_before_discount': 80.0, 'operating_and_other_expense': 0.0}, 'data_confidence': {'info': [{'code': 'GRNI_ESTIMATE_OPEN', 'scope': 'CURRENT_STATE', 'family': 'GRNI', 'reason': '1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.', 'severity': 'INFO', 'reference': {'receipts': 1, 'estimated_amount': 100.0}, 'impact_date': '2026-09-21'}], 'as_of': '2026-09-23', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-21', 'failed_checks': [], 'closed_through': '2026-09-21', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'supplier_exposure': {'oldest_unfinalized_days': 3, 'overdue_final_ap_amount': 0.0, 'unfinalized_receipt_count': 1, 'open_final_ap_document_count': 0}, 'financial_position': {'cash': 0.0, 'assets': 2045.0, 'customer_ar': 80.0, 'liabilities': 1999.0, 'fg_inventory': 51.0, 'wip_inventory': 1914.0, 'recorded_equity': 0.0, 'current_earnings': 46.0, 'supplier_final_ap': 0.0, 'balance_difference': 0.0, 'material_inventory': 0.0, 'liabilities_plus_equity': 2045.0, 'grni_estimated_liability': 100.0}}, '2026-09-24': {'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', 'performance_reconciliation_basis': 'OPERATIONAL_NET_SALES_MINUS_SALES_REVENUE_GL'}, 'quality': {'qc_bs_pcs': 0, 'qc_good_pcs': 5, 'laundry_bs_pcs': 0, 'qc_defect_rate_pct': 0.0, 'laundry_outstanding_pcs': 12, 'legacy_receipt_stuck_pcs': 0, 'laundry_good_received_pcs': 8, 'legacy_receipt_missing_pcs': 0, 'laundry_bs_rate_on_resolved_receipts_pct': 0.0}, 'performance': {'cogs_gl': 34.0, 'net_profit': 46.0, 'gross_profit': 46.0, 'other_income': 0.0, 'line_discounts': 0.0, 'net_margin_pct': 57.5, 'gross_margin_pct': 57.5, 'sales_revenue_gl': 80.0, 'posted_sales_returns': 0.0, 'operational_net_sales': 80.0, 'sales_revenue_reconciled': True, 'sales_revenue_bridge_delta': 0.0, 'gross_sales_before_discount': 80.0, 'operating_and_other_expense': 0.0}, 'data_confidence': {'info': [{'code': 'GRNI_ESTIMATE_OPEN', 'scope': 'CURRENT_STATE', 'family': 'GRNI', 'reason': '1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.', 'severity': 'INFO', 'reference': {'receipts': 1, 'estimated_amount': 100.0}, 'impact_date': '2026-09-21'}], 'as_of': '2026-09-24', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-21', 'failed_checks': [], 'closed_through': '2026-09-21', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'supplier_exposure': {'oldest_unfinalized_days': 3, 'overdue_final_ap_amount': 0.0, 'unfinalized_receipt_count': 1, 'open_final_ap_document_count': 0}, 'financial_position': {'cash': 0.0, 'assets': 2045.0, 'customer_ar': 80.0, 'liabilities': 1999.0, 'fg_inventory': 51.0, 'wip_inventory': 1914.0, 'recorded_equity': 0.0, 'current_earnings': 46.0, 'supplier_final_ap': 0.0, 'balance_difference': 0.0, 'material_inventory': 0.0, 'liabilities_plus_equity': 2045.0, 'grni_estimated_liability': 100.0}}}, 'confidence': {'info': [{'code': 'GRNI_ESTIMATE_OPEN', 'scope': 'CURRENT_STATE', 'family': 'GRNI', 'reason': '1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.', 'severity': 'INFO', 'reference': {'receipts': 1, 'estimated_amount': 100.0}, 'impact_date': '2026-09-21'}], 'as_of': '2026-09-24', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-21', 'failed_checks': [], 'closed_through': '2026-09-21', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'report_delta': {'MATERIAL_INVENTORY': Decimal('0.0'), 'WIP': Decimal('85.0'), 'FG_INVENTORY': Decimal('51.0'), 'AP_SUPPLIER': Decimal('0.0'), 'GRNI_MATERIAL': Decimal('100.0'), 'COGS': Decimal('34.0')}}, 'after': {'ap': 200.0, 'grni': 0.0, 'raw_qty': 0.0, 'input_cost': 20.0, 'raw_average': 0.0, 'purchase_cost': 20.0, 'ledger_delta': {'AP_SUPPLIER': Decimal('-200.00'), 'COGS': Decimal('54.00'), 'FG_INVENTORY': Decimal('81.00'), 'GRNI_MATERIAL': Decimal('0.00'), 'MATERIAL_INVENTORY': Decimal('0.00'), 'WIP': Decimal('135.00')}, 'production': {'fg_qty': 3, 'fg_value': 81.0, 'hpp_total': 135.0, 'wip_value': 135.0, 'cogs_value': 54.0, 'base_output': 5, 'other_value': 0.0}, 'custody': {'sent': 10, 'sold': 2, 'received': 8}, 'queue': [(3, 'DONE', 1, None)], 'revaluation_events': [(UUID('b8491f69-a1b8-4849-9874-1f1720dc4609'), datetime.date(2026, 9, 24), Decimal('-100.00'), 'WIP')], 'hpp_events': [(UUID('6d7de248-93bb-4cbe-92bf-87763d4a3497'), datetime.date(2026, 9, 22), Decimal('30.000000'), Decimal('20.000000'), Decimal('0.000000')), (UUID('01ea2b88-b9cf-45d1-9c70-fca42455366e'), datetime.date(2026, 9, 22), Decimal('85.000000'), Decimal('0.000000'), Decimal('0.000000'))], 'reports_by_day': {'2026-09-23': {'basis': {'period_to': '2026-09-23', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-23', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', 'performance_reconciliation_basis': 'OPERATIONAL_NET_SALES_MINUS_SALES_REVENUE_GL'}, 'quality': {'qc_bs_pcs': 0, 'qc_good_pcs': 5, 'laundry_bs_pcs': 0, 'qc_defect_rate_pct': 0.0, 'laundry_outstanding_pcs': 12, 'legacy_receipt_stuck_pcs': 0, 'laundry_good_received_pcs': 8, 'legacy_receipt_missing_pcs': 0, 'laundry_bs_rate_on_resolved_receipts_pct': 0.0}, 'performance': {'cogs_gl': 54.0, 'net_profit': 26.0, 'gross_profit': 26.0, 'other_income': 0.0, 'line_discounts': 0.0, 'net_margin_pct': 32.5, 'gross_margin_pct': 32.5, 'sales_revenue_gl': 80.0, 'posted_sales_returns': 0.0, 'operational_net_sales': 80.0, 'sales_revenue_reconciled': True, 'sales_revenue_bridge_delta': 0.0, 'gross_sales_before_discount': 80.0, 'operating_and_other_expense': 0.0}, 'data_confidence': {'info': [], 'as_of': '2026-09-23', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-21', 'failed_checks': [], 'closed_through': '2026-09-21', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'supplier_exposure': {'oldest_unfinalized_days': 0, 'overdue_final_ap_amount': 0.0, 'unfinalized_receipt_count': 0, 'open_final_ap_document_count': 1}, 'financial_position': {'cash': 0.0, 'assets': 2025.0, 'customer_ar': 80.0, 'liabilities': 1999.0, 'fg_inventory': 81.0, 'wip_inventory': 1864.0, 'recorded_equity': 0.0, 'current_earnings': 26.0, 'supplier_final_ap': 0.0, 'balance_difference': 0.0, 'material_inventory': 0.0, 'liabilities_plus_equity': 2025.0, 'grni_estimated_liability': 100.0}}, '2026-09-24': {'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', 'performance_reconciliation_basis': 'OPERATIONAL_NET_SALES_MINUS_SALES_REVENUE_GL'}, 'quality': {'qc_bs_pcs': 0, 'qc_good_pcs': 5, 'laundry_bs_pcs': 0, 'qc_defect_rate_pct': 0.0, 'laundry_outstanding_pcs': 12, 'legacy_receipt_stuck_pcs': 0, 'laundry_good_received_pcs': 8, 'legacy_receipt_missing_pcs': 0, 'laundry_bs_rate_on_resolved_receipts_pct': 0.0}, 'performance': {'cogs_gl': 54.0, 'net_profit': 26.0, 'gross_profit': 26.0, 'other_income': 0.0, 'line_discounts': 0.0, 'net_margin_pct': 32.5, 'gross_margin_pct': 32.5, 'sales_revenue_gl': 80.0, 'posted_sales_returns': 0.0, 'operational_net_sales': 80.0, 'sales_revenue_reconciled': True, 'sales_revenue_bridge_delta': 0.0, 'gross_sales_before_discount': 80.0, 'operating_and_other_expense': 0.0}, 'data_confidence': {'info': [], 'as_of': '2026-09-24', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-21', 'failed_checks': [], 'closed_through': '2026-09-21', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'supplier_exposure': {'oldest_unfinalized_days': 0, 'overdue_final_ap_amount': 0.0, 'unfinalized_receipt_count': 0, 'open_final_ap_document_count': 1}, 'financial_position': {'cash': 0.0, 'assets': 2125.0, 'customer_ar': 80.0, 'liabilities': 2099.0, 'fg_inventory': 81.0, 'wip_inventory': 1964.0, 'recorded_equity': 0.0, 'current_earnings': 26.0, 'supplier_final_ap': 200.0, 'balance_difference': 0.0, 'material_inventory': 0.0, 'liabilities_plus_equity': 2125.0, 'grni_estimated_liability': 0.0}}}, 'confidence': {'info': [], 'as_of': '2026-09-24', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-21', 'failed_checks': [], 'closed_through': '2026-09-21', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'report_delta': {'MATERIAL_INVENTORY': Decimal('0.0'), 'WIP': Decimal('135.0'), 'FG_INVENTORY': Decimal('81.0'), 'AP_SUPPLIER': Decimal('200.0'), 'GRNI_MATERIAL': Decimal('0.0'), 'COGS': Decimal('54.0')}}, 'mismatches': {'hpp_events.business_day': {'expected': '2026-09-24', 'actual': [(UUID('6d7de248-93bb-4cbe-92bf-87763d4a3497'), datetime.date(2026, 9, 22), Decimal('30.000000'), Decimal('20.000000'), Decimal('0.000000'))]}, 'prior_report.wip_inventory.business_day': {'day': '2026-09-23', 'expected': Decimal('1914.0'), 'actual': Decimal('1864.0')}, 'prior_report.fg_inventory.business_day': {'day': '2026-09-23', 'expected': Decimal('51.0'), 'actual': Decimal('81.0')}, 'prior_report.cogs_gl.business_day': {'day': '2026-09-23', 'expected': Decimal('34.0'), 'actual': Decimal('54.0')}}, 'silent_if_ready': True}",
+    "stage": null,
+    "fixture": {
+     "group": "T2_FIXTURE_PAYROLL",
+     "case": "CROSS:INVOICE:True:UTC:20",
+     "payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "start": "2026-09-22",
+       "end": "2026-09-22",
+       "status": "APPROVED",
+       "work_lines": 1,
+       "attendance_days": 0,
+       "redone_unpaid": []
+      }
+     ],
+     "refused": null
+    }
+   }
+  },
+  {
+   "case": "CROSS:INVOICE:True:UTC:20.003",
+   "expected": "PASS",
+   "observed": "INCOMPLETE",
+   "cause": {
+    "error": "AE_INVOICE_ORACLE_FAILED:{'status': 'COUNTEREXAMPLE', 'severity': 'P2', 'stage': 'AFTER_INVOICE', 'caller_zone': 'UTC', 'partial': True, 'final_unit_cost': '20.003', 'fixture': {'material': UUID('4d42c251-452e-410d-a0fb-e453f8814fbb'), 'purchase': UUID('d18d94a4-ac7d-4717-9340-ba2bbb9a7532'), 'item': UUID('92877e07-88ef-459e-9888-983c1ffdab6c'), 'roll': UUID('aa004d3a-393f-4fa5-b244-b246c1495e80'), 'movement': UUID('e638e2d2-dd30-4c87-8afa-a6af5acfdcd0'), 'location': UUID('d795d065-10fa-4921-b35d-99064db8fc03'), 'purchase_day': datetime.date(2026, 9, 21), 'ledger_baseline': {'AP_SUPPLIER': Decimal('0'), 'COGS': Decimal('0'), 'FG_INVENTORY': Decimal('0'), 'GRNI_MATERIAL': Decimal('0'), 'MATERIAL_INVENTORY': Decimal('0'), 'WIP': Decimal('1829.00')}, 'report_baseline': {'2026-09-23': {'basis': {'period_to': '2026-09-23', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-23', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', 'performance_reconciliation_basis': 'OPERATIONAL_NET_SALES_MINUS_SALES_REVENUE_GL'}, 'quality': {'qc_bs_pcs': 0, 'qc_good_pcs': 0, 'laundry_bs_pcs': 0, 'qc_defect_rate_pct': None, 'laundry_outstanding_pcs': 10, 'legacy_receipt_stuck_pcs': 0, 'laundry_good_received_pcs': 0, 'legacy_receipt_missing_pcs': 0, 'laundry_bs_rate_on_resolved_receipts_pct': None}, 'performance': {'cogs_gl': 0.0, 'net_profit': 0.0, 'gross_profit': 0.0, 'other_income': 0.0, 'line_discounts': 0.0, 'net_margin_pct': None, 'gross_margin_pct': None, 'sales_revenue_gl': 0.0, 'posted_sales_returns': 0.0, 'operational_net_sales': 0.0, 'sales_revenue_reconciled': True, 'sales_revenue_bridge_delta': 0.0, 'gross_sales_before_discount': 0.0, 'operating_and_other_expense': 0.0}, 'data_confidence': {'info': [], 'as_of': '2026-09-23', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-01', 'failed_checks': [], 'closed_through': '2026-08-31', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'supplier_exposure': {'oldest_unfinalized_days': 0, 'overdue_final_ap_amount': 0.0, 'unfinalized_receipt_count': 0, 'open_final_ap_document_count': 0}, 'financial_position': {'cash': 0.0, 'assets': 1829.0, 'customer_ar': 0.0, 'liabilities': 1829.0, 'fg_inventory': 0.0, 'wip_inventory': 1829.0, 'recorded_equity': 0.0, 'current_earnings': 0.0, 'supplier_final_ap': 0.0, 'balance_difference': 0.0, 'material_inventory': 0.0, 'liabilities_plus_equity': 1829.0, 'grni_estimated_liability': 0.0}}, '2026-09-24': {'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', 'performance_reconciliation_basis': 'OPERATIONAL_NET_SALES_MINUS_SALES_REVENUE_GL'}, 'quality': {'qc_bs_pcs': 0, 'qc_good_pcs': 0, 'laundry_bs_pcs': 0, 'qc_defect_rate_pct': None, 'laundry_outstanding_pcs': 10, 'legacy_receipt_stuck_pcs': 0, 'laundry_good_received_pcs': 0, 'legacy_receipt_missing_pcs': 0, 'laundry_bs_rate_on_resolved_receipts_pct': None}, 'performance': {'cogs_gl': 0.0, 'net_profit': 0.0, 'gross_profit': 0.0, 'other_income': 0.0, 'line_discounts': 0.0, 'net_margin_pct': None, 'gross_margin_pct': None, 'sales_revenue_gl': 0.0, 'posted_sales_returns': 0.0, 'operational_net_sales': 0.0, 'sales_revenue_reconciled': True, 'sales_revenue_bridge_delta': 0.0, 'gross_sales_before_discount': 0.0, 'operating_and_other_expense': 0.0}, 'data_confidence': {'info': [], 'as_of': '2026-09-24', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-01', 'failed_checks': [], 'closed_through': '2026-08-31', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'supplier_exposure': {'oldest_unfinalized_days': 0, 'overdue_final_ap_amount': 0.0, 'unfinalized_receipt_count': 0, 'open_final_ap_document_count': 0}, 'financial_position': {'cash': 0.0, 'assets': 1829.0, 'customer_ar': 0.0, 'liabilities': 1829.0, 'fg_inventory': 0.0, 'wip_inventory': 1829.0, 'recorded_equity': 0.0, 'current_earnings': 0.0, 'supplier_final_ap': 0.0, 'balance_difference': 0.0, 'material_inventory': 0.0, 'liabilities_plus_equity': 1829.0, 'grni_estimated_liability': 0.0}}}, 'po': UUID('f4def5a8-d543-4770-9b61-8b92d4e0a16c'), 'group': UUID('f53596bc-86af-4923-81d3-412ea49330f1'), 'product': '6d0e556c-794e-449e-944f-f3af1eea905f', 'sale': '4526ab0e-534f-4143-8267-75eb75a6cc87', 'delivery': '351d1e82-15d2-433b-a4b3-2c0f3605a1b0', 'receipt': 'cd8c7714-ab48-46b9-972a-6b2b8b506c15', 'final': {'po_id': 'f4def5a8-d543-4770-9b61-8b92d4e0a16c', 'action': 'POST_FINAL_SKU', 'committed': True, 'bs_qty_pcs': 0, 'hpp_effect': 'SERVER_REBUILT_FROM_IMMUTABLE_SNAPSHOTS', 'row_version': 9, 'good_qty_pcs': 5, 'stock_effect': 'FG_GOOD_AND_QC_BS_POSTED', 'posted_qty_pcs': 5, 'qc_row_version': 3, 'completion_mode': 'PARTIAL_SELECTION', 'document_status': 'POSTED', 'completion_count': 1, 'contract_version': 'CP6_V2620', 'cutting_group_id': 'f53596bc-86af-4923-81d3-412ea49330f1', 'qc_inspection_id': '729cf862-7a5e-423e-8c9a-514f509b6d26', 'client_request_id': 'eb49ed2f-2b16-44ee-b8fb-417e467fd7ff', 'completion_status': 'PARTIAL_SELECTION', 'inspection_number': 'FGP-260922-EB49ED2F2B1644EEB8FB417E467FD7FF', 'fg_stock_in_qty_pcs': 5, 'browser_formula_used': False, 'fg_stock_event_count': 1, 'ready_for_qc_qty_pcs': 3, 'remaining_qc_qty_pcs': 5, 'cumulative_qc_qty_pcs': 5, 'laundry_outstanding_qty_pcs': 2}}, 'invoice_response': {'price_state': 'FINAL', 'purchase_id': 'd18d94a4-ac7d-4717-9340-ba2bbb9a7532', 'row_version': 3, 'correction_id': '2fcbb1de-0f2e-4a25-bcaf-a1531bdb2667', 'supplier_invoice_id': '2fcbb1de-0f2e-4a25-bcaf-a1531bdb2667', 'supplier_invoice_number': 'AA-FINAL-28d901ea-6a0a-4439-9336-81b3e95623de'}, 'replay_boundary_exact': True, 'processed': 0, 'invocation_clocks': {'transaction': datetime.datetime(2026, 9, 24, 3, 23, 44, 887142, tzinfo=datetime.timezone.utc), 'statement': datetime.datetime(2026, 9, 24, 3, 25, 40, 374938, tzinfo=datetime.timezone.utc), 'wall': datetime.datetime(2026, 9, 24, 3, 25, 40, 374974, tzinfo=datetime.timezone.utc)}, 'before': {'ap': 0, 'grni': 100.0, 'raw_qty': 0.0, 'input_cost': 10.0, 'raw_average': 0.0, 'purchase_cost': 10.0, 'ledger_delta': {'AP_SUPPLIER': Decimal('0.00'), 'COGS': Decimal('34.00'), 'FG_INVENTORY': Decimal('51.00'), 'GRNI_MATERIAL': Decimal('-100.00'), 'MATERIAL_INVENTORY': Decimal('0.00'), 'WIP': Decimal('85.00')}, 'production': {'fg_qty': 3, 'fg_value': 51.0, 'hpp_total': 85.0, 'wip_value': 85.0, 'cogs_value': 34.0, 'base_output': 5, 'other_value': 0.0}, 'custody': {'sent': 10, 'sold': 2, 'received': 8}, 'queue': [], 'revaluation_events': [], 'hpp_events': [(UUID('943e1791-7161-4ef1-b91b-1a534e744777'), datetime.date(2026, 9, 22), Decimal('85.000000'), Decimal('0.000000'), Decimal('0.000000'))], 'reports_by_day': {'2026-09-23': {'basis': {'period_to': '2026-09-23', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-23', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', 'performance_reconciliation_basis': 'OPERATIONAL_NET_SALES_MINUS_SALES_REVENUE_GL'}, 'quality': {'qc_bs_pcs': 0, 'qc_good_pcs': 5, 'laundry_bs_pcs': 0, 'qc_defect_rate_pct': 0.0, 'laundry_outstanding_pcs': 12, 'legacy_receipt_stuck_pcs': 0, 'laundry_good_received_pcs': 8, 'legacy_receipt_missing_pcs': 0, 'laundry_bs_rate_on_resolved_receipts_pct': 0.0}, 'performance': {'cogs_gl': 34.0, 'net_profit': 46.0, 'gross_profit': 46.0, 'other_income': 0.0, 'line_discounts': 0.0, 'net_margin_pct': 57.5, 'gross_margin_pct': 57.5, 'sales_revenue_gl': 80.0, 'posted_sales_returns': 0.0, 'operational_net_sales': 80.0, 'sales_revenue_reconciled': True, 'sales_revenue_bridge_delta': 0.0, 'gross_sales_before_discount': 80.0, 'operating_and_other_expense': 0.0}, 'data_confidence': {'info': [{'code': 'GRNI_ESTIMATE_OPEN', 'scope': 'CURRENT_STATE', 'family': 'GRNI', 'reason': '1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.', 'severity': 'INFO', 'reference': {'receipts': 1, 'estimated_amount': 100.0}, 'impact_date': '2026-09-21'}], 'as_of': '2026-09-23', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-21', 'failed_checks': [], 'closed_through': '2026-09-21', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'supplier_exposure': {'oldest_unfinalized_days': 3, 'overdue_final_ap_amount': 0.0, 'unfinalized_receipt_count': 1, 'open_final_ap_document_count': 0}, 'financial_position': {'cash': 0.0, 'assets': 2045.0, 'customer_ar': 80.0, 'liabilities': 1999.0, 'fg_inventory': 51.0, 'wip_inventory': 1914.0, 'recorded_equity': 0.0, 'current_earnings': 46.0, 'supplier_final_ap': 0.0, 'balance_difference': 0.0, 'material_inventory': 0.0, 'liabilities_plus_equity': 2045.0, 'grni_estimated_liability': 100.0}}, '2026-09-24': {'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', 'performance_reconciliation_basis': 'OPERATIONAL_NET_SALES_MINUS_SALES_REVENUE_GL'}, 'quality': {'qc_bs_pcs': 0, 'qc_good_pcs': 5, 'laundry_bs_pcs': 0, 'qc_defect_rate_pct': 0.0, 'laundry_outstanding_pcs': 12, 'legacy_receipt_stuck_pcs': 0, 'laundry_good_received_pcs': 8, 'legacy_receipt_missing_pcs': 0, 'laundry_bs_rate_on_resolved_receipts_pct': 0.0}, 'performance': {'cogs_gl': 34.0, 'net_profit': 46.0, 'gross_profit': 46.0, 'other_income': 0.0, 'line_discounts': 0.0, 'net_margin_pct': 57.5, 'gross_margin_pct': 57.5, 'sales_revenue_gl': 80.0, 'posted_sales_returns': 0.0, 'operational_net_sales': 80.0, 'sales_revenue_reconciled': True, 'sales_revenue_bridge_delta': 0.0, 'gross_sales_before_discount': 80.0, 'operating_and_other_expense': 0.0}, 'data_confidence': {'info': [{'code': 'GRNI_ESTIMATE_OPEN', 'scope': 'CURRENT_STATE', 'family': 'GRNI', 'reason': '1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.', 'severity': 'INFO', 'reference': {'receipts': 1, 'estimated_amount': 100.0}, 'impact_date': '2026-09-21'}], 'as_of': '2026-09-24', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-21', 'failed_checks': [], 'closed_through': '2026-09-21', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'supplier_exposure': {'oldest_unfinalized_days': 3, 'overdue_final_ap_amount': 0.0, 'unfinalized_receipt_count': 1, 'open_final_ap_document_count': 0}, 'financial_position': {'cash': 0.0, 'assets': 2045.0, 'customer_ar': 80.0, 'liabilities': 1999.0, 'fg_inventory': 51.0, 'wip_inventory': 1914.0, 'recorded_equity': 0.0, 'current_earnings': 46.0, 'supplier_final_ap': 0.0, 'balance_difference': 0.0, 'material_inventory': 0.0, 'liabilities_plus_equity': 2045.0, 'grni_estimated_liability': 100.0}}}, 'confidence': {'info': [{'code': 'GRNI_ESTIMATE_OPEN', 'scope': 'CURRENT_STATE', 'family': 'GRNI', 'reason': '1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.', 'severity': 'INFO', 'reference': {'receipts': 1, 'estimated_amount': 100.0}, 'impact_date': '2026-09-21'}], 'as_of': '2026-09-24', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-21', 'failed_checks': [], 'closed_through': '2026-09-21', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'report_delta': {'MATERIAL_INVENTORY': Decimal('0.0'), 'WIP': Decimal('85.0'), 'FG_INVENTORY': Decimal('51.0'), 'AP_SUPPLIER': Decimal('0.0'), 'GRNI_MATERIAL': Decimal('100.0'), 'COGS': Decimal('34.0')}}, 'after': {'ap': 200.03, 'grni': 0.0, 'raw_qty': 0.0, 'input_cost': 20.003, 'raw_average': 0.0, 'purchase_cost': 20.003, 'ledger_delta': {'AP_SUPPLIER': Decimal('-200.03'), 'COGS': Decimal('54.01'), 'FG_INVENTORY': Decimal('81.01'), 'GRNI_MATERIAL': Decimal('0.00'), 'MATERIAL_INVENTORY': Decimal('0.00'), 'WIP': Decimal('135.01')}, 'production': {'fg_qty': 3, 'fg_value': 81.01, 'hpp_total': 135.02, 'wip_value': 135.01, 'cogs_value': 54.01, 'base_output': 5, 'other_value': 0.0}, 'custody': {'sent': 10, 'sold': 2, 'received': 8}, 'queue': [(4, 'DONE', 1, None)], 'revaluation_events': [(UUID('aad6dcc4-c04e-423a-be23-f57289258b54'), datetime.date(2026, 9, 24), Decimal('-100.03'), 'WIP')], 'hpp_events': [(UUID('30c6b72c-0642-406d-b32d-189977d35ae7'), datetime.date(2026, 9, 22), Decimal('30.010000'), Decimal('20.010000'), Decimal('0.000000')), (UUID('943e1791-7161-4ef1-b91b-1a534e744777'), datetime.date(2026, 9, 22), Decimal('85.000000'), Decimal('0.000000'), Decimal('0.000000'))], 'reports_by_day': {'2026-09-23': {'basis': {'period_to': '2026-09-23', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-23', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', 'performance_reconciliation_basis': 'OPERATIONAL_NET_SALES_MINUS_SALES_REVENUE_GL'}, 'quality': {'qc_bs_pcs': 0, 'qc_good_pcs': 5, 'laundry_bs_pcs': 0, 'qc_defect_rate_pct': 0.0, 'laundry_outstanding_pcs': 12, 'legacy_receipt_stuck_pcs': 0, 'laundry_good_received_pcs': 8, 'legacy_receipt_missing_pcs': 0, 'laundry_bs_rate_on_resolved_receipts_pct': 0.0}, 'performance': {'cogs_gl': 54.01, 'net_profit': 25.99, 'gross_profit': 25.99, 'other_income': 0.0, 'line_discounts': 0.0, 'net_margin_pct': 32.4875, 'gross_margin_pct': 32.4875, 'sales_revenue_gl': 80.0, 'posted_sales_returns': 0.0, 'operational_net_sales': 80.0, 'sales_revenue_reconciled': True, 'sales_revenue_bridge_delta': 0.0, 'gross_sales_before_discount': 80.0, 'operating_and_other_expense': 0.0}, 'data_confidence': {'info': [], 'as_of': '2026-09-23', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-21', 'failed_checks': [], 'closed_through': '2026-09-21', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'supplier_exposure': {'oldest_unfinalized_days': 0, 'overdue_final_ap_amount': 0.0, 'unfinalized_receipt_count': 0, 'open_final_ap_document_count': 1}, 'financial_position': {'cash': 0.0, 'assets': 2024.99, 'customer_ar': 80.0, 'liabilities': 1999.0, 'fg_inventory': 81.01, 'wip_inventory': 1863.98, 'recorded_equity': 0.0, 'current_earnings': 25.99, 'supplier_final_ap': 0.0, 'balance_difference': 0.0, 'material_inventory': 0.0, 'liabilities_plus_equity': 2024.99, 'grni_estimated_liability': 100.0}}, '2026-09-24': {'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', 'performance_reconciliation_basis': 'OPERATIONAL_NET_SALES_MINUS_SALES_REVENUE_GL'}, 'quality': {'qc_bs_pcs': 0, 'qc_good_pcs': 5, 'laundry_bs_pcs': 0, 'qc_defect_rate_pct': 0.0, 'laundry_outstanding_pcs': 12, 'legacy_receipt_stuck_pcs': 0, 'laundry_good_received_pcs': 8, 'legacy_receipt_missing_pcs': 0, 'laundry_bs_rate_on_resolved_receipts_pct': 0.0}, 'performance': {'cogs_gl': 54.01, 'net_profit': 25.99, 'gross_profit': 25.99, 'other_income': 0.0, 'line_discounts': 0.0, 'net_margin_pct': 32.4875, 'gross_margin_pct': 32.4875, 'sales_revenue_gl': 80.0, 'posted_sales_returns': 0.0, 'operational_net_sales': 80.0, 'sales_revenue_reconciled': True, 'sales_revenue_bridge_delta': 0.0, 'gross_sales_before_discount': 80.0, 'operating_and_other_expense': 0.0}, 'data_confidence': {'info': [], 'as_of': '2026-09-24', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-21', 'failed_checks': [], 'closed_through': '2026-09-21', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'supplier_exposure': {'oldest_unfinalized_days': 0, 'overdue_final_ap_amount': 0.0, 'unfinalized_receipt_count': 0, 'open_final_ap_document_count': 1}, 'financial_position': {'cash': 0.0, 'assets': 2125.02, 'customer_ar': 80.0, 'liabilities': 2099.03, 'fg_inventory': 81.01, 'wip_inventory': 1964.01, 'recorded_equity': 0.0, 'current_earnings': 25.99, 'supplier_final_ap': 200.03, 'balance_difference': 0.0, 'material_inventory': 0.0, 'liabilities_plus_equity': 2125.02, 'grni_estimated_liability': 0.0}}}, 'confidence': {'info': [], 'as_of': '2026-09-24', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-21', 'failed_checks': [], 'closed_through': '2026-09-21', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'report_delta': {'MATERIAL_INVENTORY': Decimal('0.0'), 'WIP': Decimal('135.01'), 'FG_INVENTORY': Decimal('81.01'), 'AP_SUPPLIER': Decimal('200.03'), 'GRNI_MATERIAL': Decimal('0.0'), 'COGS': Decimal('54.01')}}, 'mismatches': {'hpp_events.business_day': {'expected': '2026-09-24', 'actual': [(UUID('30c6b72c-0642-406d-b32d-189977d35ae7'), datetime.date(2026, 9, 22), Decimal('30.010000'), Decimal('20.010000'), Decimal('0.000000'))]}, 'prior_report.wip_inventory.business_day': {'day': '2026-09-23', 'expected': Decimal('1914.0'), 'actual': Decimal('1863.98')}, 'prior_report.fg_inventory.business_day': {'day': '2026-09-23', 'expected': Decimal('51.0'), 'actual': Decimal('81.01')}, 'prior_report.cogs_gl.business_day': {'day': '2026-09-23', 'expected': Decimal('34.0'), 'actual': Decimal('54.01')}}, 'silent_if_ready': True}",
+    "stage": null,
+    "fixture": {
+     "group": "T2_FIXTURE_PAYROLL",
+     "case": "CROSS:INVOICE:True:UTC:20.003",
+     "payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "start": "2026-09-22",
+       "end": "2026-09-22",
+       "status": "APPROVED",
+       "work_lines": 1,
+       "attendance_days": 0,
+       "redone_unpaid": []
+      }
+     ],
+     "refused": null
+    }
+   }
+  },
+  {
+   "case": "CROSS:INVOICE:True:Etc/GMT+12:20",
+   "expected": "PASS",
+   "observed": "INCOMPLETE",
+   "cause": {
+    "error": "AE_INVOICE_ORACLE_FAILED:{'status': 'COUNTEREXAMPLE', 'severity': 'P2', 'stage': 'AFTER_INVOICE', 'caller_zone': 'Etc/GMT+12', 'partial': True, 'final_unit_cost': '20', 'fixture': {'material': UUID('d94a0a1e-58cb-4969-8548-1e3434085f3b'), 'purchase': UUID('824c8a9f-ff5c-4267-a480-9103acb4fedb'), 'item': UUID('938525ad-e4ce-4007-821a-1be34693d021'), 'roll': UUID('b295da09-d135-47c0-9976-74140e05639e'), 'movement': UUID('d651bb97-4f6e-4e87-adb2-8fff6328f204'), 'location': UUID('c074267c-cd98-4338-aa49-0bc32ccd4da3'), 'purchase_day': datetime.date(2026, 9, 21), 'ledger_baseline': {'AP_SUPPLIER': Decimal('0'), 'COGS': Decimal('0'), 'FG_INVENTORY': Decimal('0'), 'GRNI_MATERIAL': Decimal('0'), 'MATERIAL_INVENTORY': Decimal('0'), 'WIP': Decimal('1829.00')}, 'report_baseline': {'2026-09-23': {'basis': {'period_to': '2026-09-23', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-23', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', 'performance_reconciliation_basis': 'OPERATIONAL_NET_SALES_MINUS_SALES_REVENUE_GL'}, 'quality': {'qc_bs_pcs': 0, 'qc_good_pcs': 0, 'laundry_bs_pcs': 0, 'qc_defect_rate_pct': None, 'laundry_outstanding_pcs': 10, 'legacy_receipt_stuck_pcs': 0, 'laundry_good_received_pcs': 0, 'legacy_receipt_missing_pcs': 0, 'laundry_bs_rate_on_resolved_receipts_pct': None}, 'performance': {'cogs_gl': 0.0, 'net_profit': 0.0, 'gross_profit': 0.0, 'other_income': 0.0, 'line_discounts': 0.0, 'net_margin_pct': None, 'gross_margin_pct': None, 'sales_revenue_gl': 0.0, 'posted_sales_returns': 0.0, 'operational_net_sales': 0.0, 'sales_revenue_reconciled': True, 'sales_revenue_bridge_delta': 0.0, 'gross_sales_before_discount': 0.0, 'operating_and_other_expense': 0.0}, 'data_confidence': {'info': [], 'as_of': '2026-09-23', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-01', 'failed_checks': [], 'closed_through': '2026-08-31', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'supplier_exposure': {'oldest_unfinalized_days': 0, 'overdue_final_ap_amount': 0.0, 'unfinalized_receipt_count': 0, 'open_final_ap_document_count': 0}, 'financial_position': {'cash': 0.0, 'assets': 1829.0, 'customer_ar': 0.0, 'liabilities': 1829.0, 'fg_inventory': 0.0, 'wip_inventory': 1829.0, 'recorded_equity': 0.0, 'current_earnings': 0.0, 'supplier_final_ap': 0.0, 'balance_difference': 0.0, 'material_inventory': 0.0, 'liabilities_plus_equity': 1829.0, 'grni_estimated_liability': 0.0}}, '2026-09-24': {'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', 'performance_reconciliation_basis': 'OPERATIONAL_NET_SALES_MINUS_SALES_REVENUE_GL'}, 'quality': {'qc_bs_pcs': 0, 'qc_good_pcs': 0, 'laundry_bs_pcs': 0, 'qc_defect_rate_pct': None, 'laundry_outstanding_pcs': 10, 'legacy_receipt_stuck_pcs': 0, 'laundry_good_received_pcs': 0, 'legacy_receipt_missing_pcs': 0, 'laundry_bs_rate_on_resolved_receipts_pct': None}, 'performance': {'cogs_gl': 0.0, 'net_profit': 0.0, 'gross_profit': 0.0, 'other_income': 0.0, 'line_discounts': 0.0, 'net_margin_pct': None, 'gross_margin_pct': None, 'sales_revenue_gl': 0.0, 'posted_sales_returns': 0.0, 'operational_net_sales': 0.0, 'sales_revenue_reconciled': True, 'sales_revenue_bridge_delta': 0.0, 'gross_sales_before_discount': 0.0, 'operating_and_other_expense': 0.0}, 'data_confidence': {'info': [], 'as_of': '2026-09-24', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-01', 'failed_checks': [], 'closed_through': '2026-08-31', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'supplier_exposure': {'oldest_unfinalized_days': 0, 'overdue_final_ap_amount': 0.0, 'unfinalized_receipt_count': 0, 'open_final_ap_document_count': 0}, 'financial_position': {'cash': 0.0, 'assets': 1829.0, 'customer_ar': 0.0, 'liabilities': 1829.0, 'fg_inventory': 0.0, 'wip_inventory': 1829.0, 'recorded_equity': 0.0, 'current_earnings': 0.0, 'supplier_final_ap': 0.0, 'balance_difference': 0.0, 'material_inventory': 0.0, 'liabilities_plus_equity': 1829.0, 'grni_estimated_liability': 0.0}}}, 'po': UUID('2d3b6101-21a7-4d71-b7cb-47e42112c4b6'), 'group': UUID('1da619e2-953b-496d-bbdb-36a54a589769'), 'product': '5a2730b8-7b7e-4591-91cb-8433136b5c4c', 'sale': 'e6c0f369-13cf-4c1a-97d0-9023f99305ad', 'delivery': '2170f1aa-ea33-4a6b-b678-c7ef36988a8c', 'receipt': '1a765f46-5e63-4aed-b3c4-343b05c10cf3', 'final': {'po_id': '2d3b6101-21a7-4d71-b7cb-47e42112c4b6', 'action': 'POST_FINAL_SKU', 'committed': True, 'bs_qty_pcs': 0, 'hpp_effect': 'SERVER_REBUILT_FROM_IMMUTABLE_SNAPSHOTS', 'row_version': 9, 'good_qty_pcs': 5, 'stock_effect': 'FG_GOOD_AND_QC_BS_POSTED', 'posted_qty_pcs': 5, 'qc_row_version': 3, 'completion_mode': 'PARTIAL_SELECTION', 'document_status': 'POSTED', 'completion_count': 1, 'contract_version': 'CP6_V2620', 'cutting_group_id': '1da619e2-953b-496d-bbdb-36a54a589769', 'qc_inspection_id': '7dc94d48-f3a7-43fb-b83e-b34e1a7cba4c', 'client_request_id': 'a1c87b1a-004c-444e-9194-a6b8eef8b1b4', 'completion_status': 'PARTIAL_SELECTION', 'inspection_number': 'FGP-260922-A1C87B1A004C444E9194A6B8EEF8B1B4', 'fg_stock_in_qty_pcs': 5, 'browser_formula_used': False, 'fg_stock_event_count': 1, 'ready_for_qc_qty_pcs': 3, 'remaining_qc_qty_pcs': 5, 'cumulative_qc_qty_pcs': 5, 'laundry_outstanding_qty_pcs': 2}}, 'invoice_response': {'price_state': 'FINAL', 'purchase_id': '824c8a9f-ff5c-4267-a480-9103acb4fedb', 'row_version': 3, 'correction_id': '6ef584bd-39ef-45ef-a4d1-d8053f7d7eec', 'supplier_invoice_id': '6ef584bd-39ef-45ef-a4d1-d8053f7d7eec', 'supplier_invoice_number': 'AA-FINAL-5592e59c-d646-4438-9f7d-0e7457a6899d'}, 'replay_boundary_exact': True, 'processed': 0, 'invocation_clocks': {'transaction': datetime.datetime(2026, 9, 23, 15, 23, 44, 887142, tzinfo=zoneinfo.ZoneInfo(key='Etc/GMT+12')), 'statement': datetime.datetime(2026, 9, 23, 15, 25, 42, 609625, tzinfo=zoneinfo.ZoneInfo(key='Etc/GMT+12')), 'wall': datetime.datetime(2026, 9, 23, 15, 25, 42, 609658, tzinfo=zoneinfo.ZoneInfo(key='Etc/GMT+12'))}, 'before': {'ap': 0, 'grni': 100.0, 'raw_qty': 0.0, 'input_cost': 10.0, 'raw_average': 0.0, 'purchase_cost': 10.0, 'ledger_delta': {'AP_SUPPLIER': Decimal('0.00'), 'COGS': Decimal('34.00'), 'FG_INVENTORY': Decimal('51.00'), 'GRNI_MATERIAL': Decimal('-100.00'), 'MATERIAL_INVENTORY': Decimal('0.00'), 'WIP': Decimal('85.00')}, 'production': {'fg_qty': 3, 'fg_value': 51.0, 'hpp_total': 85.0, 'wip_value': 85.0, 'cogs_value': 34.0, 'base_output': 5, 'other_value': 0.0}, 'custody': {'sent': 10, 'sold': 2, 'received': 8}, 'queue': [], 'revaluation_events': [], 'hpp_events': [(UUID('75c4a389-4907-4724-aa98-fcd2c5614f24'), datetime.date(2026, 9, 22), Decimal('85.000000'), Decimal('0.000000'), Decimal('0.000000'))], 'reports_by_day': {'2026-09-23': {'basis': {'period_to': '2026-09-23', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-23', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', 'performance_reconciliation_basis': 'OPERATIONAL_NET_SALES_MINUS_SALES_REVENUE_GL'}, 'quality': {'qc_bs_pcs': 0, 'qc_good_pcs': 5, 'laundry_bs_pcs': 0, 'qc_defect_rate_pct': 0.0, 'laundry_outstanding_pcs': 12, 'legacy_receipt_stuck_pcs': 0, 'laundry_good_received_pcs': 8, 'legacy_receipt_missing_pcs': 0, 'laundry_bs_rate_on_resolved_receipts_pct': 0.0}, 'performance': {'cogs_gl': 34.0, 'net_profit': 46.0, 'gross_profit': 46.0, 'other_income': 0.0, 'line_discounts': 0.0, 'net_margin_pct': 57.5, 'gross_margin_pct': 57.5, 'sales_revenue_gl': 80.0, 'posted_sales_returns': 0.0, 'operational_net_sales': 80.0, 'sales_revenue_reconciled': True, 'sales_revenue_bridge_delta': 0.0, 'gross_sales_before_discount': 80.0, 'operating_and_other_expense': 0.0}, 'data_confidence': {'info': [{'code': 'GRNI_ESTIMATE_OPEN', 'scope': 'CURRENT_STATE', 'family': 'GRNI', 'reason': '1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.', 'severity': 'INFO', 'reference': {'receipts': 1, 'estimated_amount': 100.0}, 'impact_date': '2026-09-21'}], 'as_of': '2026-09-23', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-21', 'failed_checks': [], 'closed_through': '2026-09-21', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'supplier_exposure': {'oldest_unfinalized_days': 3, 'overdue_final_ap_amount': 0.0, 'unfinalized_receipt_count': 1, 'open_final_ap_document_count': 0}, 'financial_position': {'cash': 0.0, 'assets': 2045.0, 'customer_ar': 80.0, 'liabilities': 1999.0, 'fg_inventory': 51.0, 'wip_inventory': 1914.0, 'recorded_equity': 0.0, 'current_earnings': 46.0, 'supplier_final_ap': 0.0, 'balance_difference': 0.0, 'material_inventory': 0.0, 'liabilities_plus_equity': 2045.0, 'grni_estimated_liability': 100.0}}, '2026-09-24': {'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', 'performance_reconciliation_basis': 'OPERATIONAL_NET_SALES_MINUS_SALES_REVENUE_GL'}, 'quality': {'qc_bs_pcs': 0, 'qc_good_pcs': 5, 'laundry_bs_pcs': 0, 'qc_defect_rate_pct': 0.0, 'laundry_outstanding_pcs': 12, 'legacy_receipt_stuck_pcs': 0, 'laundry_good_received_pcs': 8, 'legacy_receipt_missing_pcs': 0, 'laundry_bs_rate_on_resolved_receipts_pct': 0.0}, 'performance': {'cogs_gl': 34.0, 'net_profit': 46.0, 'gross_profit': 46.0, 'other_income': 0.0, 'line_discounts': 0.0, 'net_margin_pct': 57.5, 'gross_margin_pct': 57.5, 'sales_revenue_gl': 80.0, 'posted_sales_returns': 0.0, 'operational_net_sales': 80.0, 'sales_revenue_reconciled': True, 'sales_revenue_bridge_delta': 0.0, 'gross_sales_before_discount': 80.0, 'operating_and_other_expense': 0.0}, 'data_confidence': {'info': [{'code': 'GRNI_ESTIMATE_OPEN', 'scope': 'CURRENT_STATE', 'family': 'GRNI', 'reason': '1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.', 'severity': 'INFO', 'reference': {'receipts': 1, 'estimated_amount': 100.0}, 'impact_date': '2026-09-21'}], 'as_of': '2026-09-24', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-21', 'failed_checks': [], 'closed_through': '2026-09-21', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'supplier_exposure': {'oldest_unfinalized_days': 3, 'overdue_final_ap_amount': 0.0, 'unfinalized_receipt_count': 1, 'open_final_ap_document_count': 0}, 'financial_position': {'cash': 0.0, 'assets': 2045.0, 'customer_ar': 80.0, 'liabilities': 1999.0, 'fg_inventory': 51.0, 'wip_inventory': 1914.0, 'recorded_equity': 0.0, 'current_earnings': 46.0, 'supplier_final_ap': 0.0, 'balance_difference': 0.0, 'material_inventory': 0.0, 'liabilities_plus_equity': 2045.0, 'grni_estimated_liability': 100.0}}}, 'confidence': {'info': [{'code': 'GRNI_ESTIMATE_OPEN', 'scope': 'CURRENT_STATE', 'family': 'GRNI', 'reason': '1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.', 'severity': 'INFO', 'reference': {'receipts': 1, 'estimated_amount': 100.0}, 'impact_date': '2026-09-21'}], 'as_of': '2026-09-24', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-21', 'failed_checks': [], 'closed_through': '2026-09-21', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'report_delta': {'MATERIAL_INVENTORY': Decimal('0.0'), 'WIP': Decimal('85.0'), 'FG_INVENTORY': Decimal('51.0'), 'AP_SUPPLIER': Decimal('0.0'), 'GRNI_MATERIAL': Decimal('100.0'), 'COGS': Decimal('34.0')}}, 'after': {'ap': 200.0, 'grni': 0.0, 'raw_qty': 0.0, 'input_cost': 20.0, 'raw_average': 0.0, 'purchase_cost': 20.0, 'ledger_delta': {'AP_SUPPLIER': Decimal('-200.00'), 'COGS': Decimal('54.00'), 'FG_INVENTORY': Decimal('81.00'), 'GRNI_MATERIAL': Decimal('0.00'), 'MATERIAL_INVENTORY': Decimal('0.00'), 'WIP': Decimal('135.00')}, 'production': {'fg_qty': 3, 'fg_value': 81.0, 'hpp_total': 135.0, 'wip_value': 135.0, 'cogs_value': 54.0, 'base_output': 5, 'other_value': 0.0}, 'custody': {'sent': 10, 'sold': 2, 'received': 8}, 'queue': [(5, 'DONE', 1, None)], 'revaluation_events': [(UUID('49b36a81-330e-4fb3-bca0-29ed8db18abc'), datetime.date(2026, 9, 24), Decimal('-100.00'), 'WIP')], 'hpp_events': [(UUID('2f8de222-3aaf-4156-a5a3-2c4a016cd071'), datetime.date(2026, 9, 22), Decimal('30.000000'), Decimal('20.000000'), Decimal('0.000000')), (UUID('75c4a389-4907-4724-aa98-fcd2c5614f24'), datetime.date(2026, 9, 22), Decimal('85.000000'), Decimal('0.000000'), Decimal('0.000000'))], 'reports_by_day': {'2026-09-23': {'basis': {'period_to': '2026-09-23', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-23', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', 'performance_reconciliation_basis': 'OPERATIONAL_NET_SALES_MINUS_SALES_REVENUE_GL'}, 'quality': {'qc_bs_pcs': 0, 'qc_good_pcs': 5, 'laundry_bs_pcs': 0, 'qc_defect_rate_pct': 0.0, 'laundry_outstanding_pcs': 12, 'legacy_receipt_stuck_pcs': 0, 'laundry_good_received_pcs': 8, 'legacy_receipt_missing_pcs': 0, 'laundry_bs_rate_on_resolved_receipts_pct': 0.0}, 'performance': {'cogs_gl': 54.0, 'net_profit': 26.0, 'gross_profit': 26.0, 'other_income': 0.0, 'line_discounts': 0.0, 'net_margin_pct': 32.5, 'gross_margin_pct': 32.5, 'sales_revenue_gl': 80.0, 'posted_sales_returns': 0.0, 'operational_net_sales': 80.0, 'sales_revenue_reconciled': True, 'sales_revenue_bridge_delta': 0.0, 'gross_sales_before_discount': 80.0, 'operating_and_other_expense': 0.0}, 'data_confidence': {'info': [], 'as_of': '2026-09-23', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-21', 'failed_checks': [], 'closed_through': '2026-09-21', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'supplier_exposure': {'oldest_unfinalized_days': 0, 'overdue_final_ap_amount': 0.0, 'unfinalized_receipt_count': 0, 'open_final_ap_document_count': 1}, 'financial_position': {'cash': 0.0, 'assets': 2025.0, 'customer_ar': 80.0, 'liabilities': 1999.0, 'fg_inventory': 81.0, 'wip_inventory': 1864.0, 'recorded_equity': 0.0, 'current_earnings': 26.0, 'supplier_final_ap': 0.0, 'balance_difference': 0.0, 'material_inventory': 0.0, 'liabilities_plus_equity': 2025.0, 'grni_estimated_liability': 100.0}}, '2026-09-24': {'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', 'performance_reconciliation_basis': 'OPERATIONAL_NET_SALES_MINUS_SALES_REVENUE_GL'}, 'quality': {'qc_bs_pcs': 0, 'qc_good_pcs': 5, 'laundry_bs_pcs': 0, 'qc_defect_rate_pct': 0.0, 'laundry_outstanding_pcs': 12, 'legacy_receipt_stuck_pcs': 0, 'laundry_good_received_pcs': 8, 'legacy_receipt_missing_pcs': 0, 'laundry_bs_rate_on_resolved_receipts_pct': 0.0}, 'performance': {'cogs_gl': 54.0, 'net_profit': 26.0, 'gross_profit': 26.0, 'other_income': 0.0, 'line_discounts': 0.0, 'net_margin_pct': 32.5, 'gross_margin_pct': 32.5, 'sales_revenue_gl': 80.0, 'posted_sales_returns': 0.0, 'operational_net_sales': 80.0, 'sales_revenue_reconciled': True, 'sales_revenue_bridge_delta': 0.0, 'gross_sales_before_discount': 80.0, 'operating_and_other_expense': 0.0}, 'data_confidence': {'info': [], 'as_of': '2026-09-24', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-21', 'failed_checks': [], 'closed_through': '2026-09-21', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'supplier_exposure': {'oldest_unfinalized_days': 0, 'overdue_final_ap_amount': 0.0, 'unfinalized_receipt_count': 0, 'open_final_ap_document_count': 1}, 'financial_position': {'cash': 0.0, 'assets': 2125.0, 'customer_ar': 80.0, 'liabilities': 2099.0, 'fg_inventory': 81.0, 'wip_inventory': 1964.0, 'recorded_equity': 0.0, 'current_earnings': 26.0, 'supplier_final_ap': 200.0, 'balance_difference': 0.0, 'material_inventory': 0.0, 'liabilities_plus_equity': 2125.0, 'grni_estimated_liability': 0.0}}}, 'confidence': {'info': [], 'as_of': '2026-09-24', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-21', 'failed_checks': [], 'closed_through': '2026-09-21', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'report_delta': {'MATERIAL_INVENTORY': Decimal('0.0'), 'WIP': Decimal('135.0'), 'FG_INVENTORY': Decimal('81.0'), 'AP_SUPPLIER': Decimal('200.0'), 'GRNI_MATERIAL': Decimal('0.0'), 'COGS': Decimal('54.0')}}, 'mismatches': {'hpp_events.business_day': {'expected': '2026-09-24', 'actual': [(UUID('2f8de222-3aaf-4156-a5a3-2c4a016cd071'), datetime.date(2026, 9, 22), Decimal('30.000000'), Decimal('20.000000'), Decimal('0.000000'))]}, 'prior_report.wip_inventory.business_day': {'day': '2026-09-23', 'expected': Decimal('1914.0'), 'actual': Decimal('1864.0')}, 'prior_report.fg_inventory.business_day': {'day': '2026-09-23', 'expected': Decimal('51.0'), 'actual': Decimal('81.0')}, 'prior_report.cogs_gl.business_day': {'day': '2026-09-23', 'expected': Decimal('34.0'), 'actual': Decimal('54.0')}}, 'silent_if_ready': True}",
+    "stage": null,
+    "fixture": {
+     "group": "T2_FIXTURE_PAYROLL",
+     "case": "CROSS:INVOICE:True:Etc/GMT+12:20",
+     "payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "start": "2026-09-22",
+       "end": "2026-09-22",
+       "status": "APPROVED",
+       "work_lines": 1,
+       "attendance_days": 0,
+       "redone_unpaid": []
+      }
+     ],
+     "refused": null
+    }
+   }
+  },
+  {
+   "case": "CROSS:INVOICE:True:Etc/GMT+12:20.003",
+   "expected": "PASS",
+   "observed": "INCOMPLETE",
+   "cause": {
+    "error": "AE_INVOICE_ORACLE_FAILED:{'status': 'COUNTEREXAMPLE', 'severity': 'P2', 'stage': 'AFTER_INVOICE', 'caller_zone': 'Etc/GMT+12', 'partial': True, 'final_unit_cost': '20.003', 'fixture': {'material': UUID('cf5f0363-a850-4553-81c4-326c25adf40d'), 'purchase': UUID('0400ab60-b1f0-4dc3-a09b-4c3dea428c28'), 'item': UUID('92bfecfc-0b04-4240-b82f-585a27311b1c'), 'roll': UUID('d30027d0-725a-4786-8d9f-0c5d7cccb9f3'), 'movement': UUID('0df875ac-656d-42c6-8b49-28cf902be2ce'), 'location': UUID('b9c748c7-e9a3-4a73-af43-06826dd10dd3'), 'purchase_day': datetime.date(2026, 9, 21), 'ledger_baseline': {'AP_SUPPLIER': Decimal('0'), 'COGS': Decimal('0'), 'FG_INVENTORY': Decimal('0'), 'GRNI_MATERIAL': Decimal('0'), 'MATERIAL_INVENTORY': Decimal('0'), 'WIP': Decimal('1829.00')}, 'report_baseline': {'2026-09-23': {'basis': {'period_to': '2026-09-23', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-23', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', 'performance_reconciliation_basis': 'OPERATIONAL_NET_SALES_MINUS_SALES_REVENUE_GL'}, 'quality': {'qc_bs_pcs': 0, 'qc_good_pcs': 0, 'laundry_bs_pcs': 0, 'qc_defect_rate_pct': None, 'laundry_outstanding_pcs': 10, 'legacy_receipt_stuck_pcs': 0, 'laundry_good_received_pcs': 0, 'legacy_receipt_missing_pcs': 0, 'laundry_bs_rate_on_resolved_receipts_pct': None}, 'performance': {'cogs_gl': 0.0, 'net_profit': 0.0, 'gross_profit': 0.0, 'other_income': 0.0, 'line_discounts': 0.0, 'net_margin_pct': None, 'gross_margin_pct': None, 'sales_revenue_gl': 0.0, 'posted_sales_returns': 0.0, 'operational_net_sales': 0.0, 'sales_revenue_reconciled': True, 'sales_revenue_bridge_delta': 0.0, 'gross_sales_before_discount': 0.0, 'operating_and_other_expense': 0.0}, 'data_confidence': {'info': [], 'as_of': '2026-09-23', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-01', 'failed_checks': [], 'closed_through': '2026-08-31', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'supplier_exposure': {'oldest_unfinalized_days': 0, 'overdue_final_ap_amount': 0.0, 'unfinalized_receipt_count': 0, 'open_final_ap_document_count': 0}, 'financial_position': {'cash': 0.0, 'assets': 1829.0, 'customer_ar': 0.0, 'liabilities': 1829.0, 'fg_inventory': 0.0, 'wip_inventory': 1829.0, 'recorded_equity': 0.0, 'current_earnings': 0.0, 'supplier_final_ap': 0.0, 'balance_difference': 0.0, 'material_inventory': 0.0, 'liabilities_plus_equity': 1829.0, 'grni_estimated_liability': 0.0}}, '2026-09-24': {'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', 'performance_reconciliation_basis': 'OPERATIONAL_NET_SALES_MINUS_SALES_REVENUE_GL'}, 'quality': {'qc_bs_pcs': 0, 'qc_good_pcs': 0, 'laundry_bs_pcs': 0, 'qc_defect_rate_pct': None, 'laundry_outstanding_pcs': 10, 'legacy_receipt_stuck_pcs': 0, 'laundry_good_received_pcs': 0, 'legacy_receipt_missing_pcs': 0, 'laundry_bs_rate_on_resolved_receipts_pct': None}, 'performance': {'cogs_gl': 0.0, 'net_profit': 0.0, 'gross_profit': 0.0, 'other_income': 0.0, 'line_discounts': 0.0, 'net_margin_pct': None, 'gross_margin_pct': None, 'sales_revenue_gl': 0.0, 'posted_sales_returns': 0.0, 'operational_net_sales': 0.0, 'sales_revenue_reconciled': True, 'sales_revenue_bridge_delta': 0.0, 'gross_sales_before_discount': 0.0, 'operating_and_other_expense': 0.0}, 'data_confidence': {'info': [], 'as_of': '2026-09-24', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-01', 'failed_checks': [], 'closed_through': '2026-08-31', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'supplier_exposure': {'oldest_unfinalized_days': 0, 'overdue_final_ap_amount': 0.0, 'unfinalized_receipt_count': 0, 'open_final_ap_document_count': 0}, 'financial_position': {'cash': 0.0, 'assets': 1829.0, 'customer_ar': 0.0, 'liabilities': 1829.0, 'fg_inventory': 0.0, 'wip_inventory': 1829.0, 'recorded_equity': 0.0, 'current_earnings': 0.0, 'supplier_final_ap': 0.0, 'balance_difference': 0.0, 'material_inventory': 0.0, 'liabilities_plus_equity': 1829.0, 'grni_estimated_liability': 0.0}}}, 'po': UUID('ba44a357-1ec6-479e-bead-f5813ea2af5c'), 'group': UUID('09be1a20-a0ab-4b8b-a9e4-7e9d9efeb9ae'), 'product': '8059f3b6-8d14-4db1-baad-bdf4ab731997', 'sale': 'f4ef4c1b-6d6c-4a7b-9415-505bf9f13403', 'delivery': '034f2216-16ea-425f-bfa4-bb580e3fd90f', 'receipt': '8606da9b-e863-4f8e-ad23-551f0f5dbd19', 'final': {'po_id': 'ba44a357-1ec6-479e-bead-f5813ea2af5c', 'action': 'POST_FINAL_SKU', 'committed': True, 'bs_qty_pcs': 0, 'hpp_effect': 'SERVER_REBUILT_FROM_IMMUTABLE_SNAPSHOTS', 'row_version': 9, 'good_qty_pcs': 5, 'stock_effect': 'FG_GOOD_AND_QC_BS_POSTED', 'posted_qty_pcs': 5, 'qc_row_version': 3, 'completion_mode': 'PARTIAL_SELECTION', 'document_status': 'POSTED', 'completion_count': 1, 'contract_version': 'CP6_V2620', 'cutting_group_id': '09be1a20-a0ab-4b8b-a9e4-7e9d9efeb9ae', 'qc_inspection_id': 'd555a6aa-396c-4d09-9043-6b2f94fad1be', 'client_request_id': 'b55de72f-71a8-496a-b2d1-9dd8cb81b654', 'completion_status': 'PARTIAL_SELECTION', 'inspection_number': 'FGP-260922-B55DE72F71A8496AB2D19DD8CB81B654', 'fg_stock_in_qty_pcs': 5, 'browser_formula_used': False, 'fg_stock_event_count': 1, 'ready_for_qc_qty_pcs': 3, 'remaining_qc_qty_pcs': 5, 'cumulative_qc_qty_pcs': 5, 'laundry_outstanding_qty_pcs': 2}}, 'invoice_response': {'price_state': 'FINAL', 'purchase_id': '0400ab60-b1f0-4dc3-a09b-4c3dea428c28', 'row_version': 3, 'correction_id': 'a8c139bc-8940-4a80-a06e-f48e6f0847f3', 'supplier_invoice_id': 'a8c139bc-8940-4a80-a06e-f48e6f0847f3', 'supplier_invoice_number': 'AA-FINAL-a2d5087f-d544-42b9-996d-dcf987d7c42b'}, 'replay_boundary_exact': True, 'processed': 0, 'invocation_clocks': {'transaction': datetime.datetime(2026, 9, 23, 15, 23, 44, 887142, tzinfo=zoneinfo.ZoneInfo(key='Etc/GMT+12')), 'statement': datetime.datetime(2026, 9, 23, 15, 25, 44, 850732, tzinfo=zoneinfo.ZoneInfo(key='Etc/GMT+12')), 'wall': datetime.datetime(2026, 9, 23, 15, 25, 44, 850762, tzinfo=zoneinfo.ZoneInfo(key='Etc/GMT+12'))}, 'before': {'ap': 0, 'grni': 100.0, 'raw_qty': 0.0, 'input_cost': 10.0, 'raw_average': 0.0, 'purchase_cost': 10.0, 'ledger_delta': {'AP_SUPPLIER': Decimal('0.00'), 'COGS': Decimal('34.00'), 'FG_INVENTORY': Decimal('51.00'), 'GRNI_MATERIAL': Decimal('-100.00'), 'MATERIAL_INVENTORY': Decimal('0.00'), 'WIP': Decimal('85.00')}, 'production': {'fg_qty': 3, 'fg_value': 51.0, 'hpp_total': 85.0, 'wip_value': 85.0, 'cogs_value': 34.0, 'base_output': 5, 'other_value': 0.0}, 'custody': {'sent': 10, 'sold': 2, 'received': 8}, 'queue': [], 'revaluation_events': [], 'hpp_events': [(UUID('7f40ec80-ed9a-4562-b94b-0c762ab24591'), datetime.date(2026, 9, 22), Decimal('85.000000'), Decimal('0.000000'), Decimal('0.000000'))], 'reports_by_day': {'2026-09-23': {'basis': {'period_to': '2026-09-23', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-23', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', 'performance_reconciliation_basis': 'OPERATIONAL_NET_SALES_MINUS_SALES_REVENUE_GL'}, 'quality': {'qc_bs_pcs': 0, 'qc_good_pcs': 5, 'laundry_bs_pcs': 0, 'qc_defect_rate_pct': 0.0, 'laundry_outstanding_pcs': 12, 'legacy_receipt_stuck_pcs': 0, 'laundry_good_received_pcs': 8, 'legacy_receipt_missing_pcs': 0, 'laundry_bs_rate_on_resolved_receipts_pct': 0.0}, 'performance': {'cogs_gl': 34.0, 'net_profit': 46.0, 'gross_profit': 46.0, 'other_income': 0.0, 'line_discounts': 0.0, 'net_margin_pct': 57.5, 'gross_margin_pct': 57.5, 'sales_revenue_gl': 80.0, 'posted_sales_returns': 0.0, 'operational_net_sales': 80.0, 'sales_revenue_reconciled': True, 'sales_revenue_bridge_delta': 0.0, 'gross_sales_before_discount': 80.0, 'operating_and_other_expense': 0.0}, 'data_confidence': {'info': [{'code': 'GRNI_ESTIMATE_OPEN', 'scope': 'CURRENT_STATE', 'family': 'GRNI', 'reason': '1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.', 'severity': 'INFO', 'reference': {'receipts': 1, 'estimated_amount': 100.0}, 'impact_date': '2026-09-21'}], 'as_of': '2026-09-23', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-21', 'failed_checks': [], 'closed_through': '2026-09-21', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'supplier_exposure': {'oldest_unfinalized_days': 3, 'overdue_final_ap_amount': 0.0, 'unfinalized_receipt_count': 1, 'open_final_ap_document_count': 0}, 'financial_position': {'cash': 0.0, 'assets': 2045.0, 'customer_ar': 80.0, 'liabilities': 1999.0, 'fg_inventory': 51.0, 'wip_inventory': 1914.0, 'recorded_equity': 0.0, 'current_earnings': 46.0, 'supplier_final_ap': 0.0, 'balance_difference': 0.0, 'material_inventory': 0.0, 'liabilities_plus_equity': 2045.0, 'grni_estimated_liability': 100.0}}, '2026-09-24': {'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', 'performance_reconciliation_basis': 'OPERATIONAL_NET_SALES_MINUS_SALES_REVENUE_GL'}, 'quality': {'qc_bs_pcs': 0, 'qc_good_pcs': 5, 'laundry_bs_pcs': 0, 'qc_defect_rate_pct': 0.0, 'laundry_outstanding_pcs': 12, 'legacy_receipt_stuck_pcs': 0, 'laundry_good_received_pcs': 8, 'legacy_receipt_missing_pcs': 0, 'laundry_bs_rate_on_resolved_receipts_pct': 0.0}, 'performance': {'cogs_gl': 34.0, 'net_profit': 46.0, 'gross_profit': 46.0, 'other_income': 0.0, 'line_discounts': 0.0, 'net_margin_pct': 57.5, 'gross_margin_pct': 57.5, 'sales_revenue_gl': 80.0, 'posted_sales_returns': 0.0, 'operational_net_sales': 80.0, 'sales_revenue_reconciled': True, 'sales_revenue_bridge_delta': 0.0, 'gross_sales_before_discount': 80.0, 'operating_and_other_expense': 0.0}, 'data_confidence': {'info': [{'code': 'GRNI_ESTIMATE_OPEN', 'scope': 'CURRENT_STATE', 'family': 'GRNI', 'reason': '1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.', 'severity': 'INFO', 'reference': {'receipts': 1, 'estimated_amount': 100.0}, 'impact_date': '2026-09-21'}], 'as_of': '2026-09-24', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-21', 'failed_checks': [], 'closed_through': '2026-09-21', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'supplier_exposure': {'oldest_unfinalized_days': 3, 'overdue_final_ap_amount': 0.0, 'unfinalized_receipt_count': 1, 'open_final_ap_document_count': 0}, 'financial_position': {'cash': 0.0, 'assets': 2045.0, 'customer_ar': 80.0, 'liabilities': 1999.0, 'fg_inventory': 51.0, 'wip_inventory': 1914.0, 'recorded_equity': 0.0, 'current_earnings': 46.0, 'supplier_final_ap': 0.0, 'balance_difference': 0.0, 'material_inventory': 0.0, 'liabilities_plus_equity': 2045.0, 'grni_estimated_liability': 100.0}}}, 'confidence': {'info': [{'code': 'GRNI_ESTIMATE_OPEN', 'scope': 'CURRENT_STATE', 'family': 'GRNI', 'reason': '1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.', 'severity': 'INFO', 'reference': {'receipts': 1, 'estimated_amount': 100.0}, 'impact_date': '2026-09-21'}], 'as_of': '2026-09-24', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-21', 'failed_checks': [], 'closed_through': '2026-09-21', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'report_delta': {'MATERIAL_INVENTORY': Decimal('0.0'), 'WIP': Decimal('85.0'), 'FG_INVENTORY': Decimal('51.0'), 'AP_SUPPLIER': Decimal('0.0'), 'GRNI_MATERIAL': Decimal('100.0'), 'COGS': Decimal('34.0')}}, 'after': {'ap': 200.03, 'grni': 0.0, 'raw_qty': 0.0, 'input_cost': 20.003, 'raw_average': 0.0, 'purchase_cost': 20.003, 'ledger_delta': {'AP_SUPPLIER': Decimal('-200.03'), 'COGS': Decimal('54.01'), 'FG_INVENTORY': Decimal('81.01'), 'GRNI_MATERIAL': Decimal('0.00'), 'MATERIAL_INVENTORY': Decimal('0.00'), 'WIP': Decimal('135.01')}, 'production': {'fg_qty': 3, 'fg_value': 81.01, 'hpp_total': 135.02, 'wip_value': 135.01, 'cogs_value': 54.01, 'base_output': 5, 'other_value': 0.0}, 'custody': {'sent': 10, 'sold': 2, 'received': 8}, 'queue': [(6, 'DONE', 1, None)], 'revaluation_events': [(UUID('84fd3027-2735-4794-be39-678ab659ff3e'), datetime.date(2026, 9, 24), Decimal('-100.03'), 'WIP')], 'hpp_events': [(UUID('ff63b64b-ab01-4aa7-b82a-335cd944cc27'), datetime.date(2026, 9, 22), Decimal('30.010000'), Decimal('20.010000'), Decimal('0.000000')), (UUID('7f40ec80-ed9a-4562-b94b-0c762ab24591'), datetime.date(2026, 9, 22), Decimal('85.000000'), Decimal('0.000000'), Decimal('0.000000'))], 'reports_by_day': {'2026-09-23': {'basis': {'period_to': '2026-09-23', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-23', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', 'performance_reconciliation_basis': 'OPERATIONAL_NET_SALES_MINUS_SALES_REVENUE_GL'}, 'quality': {'qc_bs_pcs': 0, 'qc_good_pcs': 5, 'laundry_bs_pcs': 0, 'qc_defect_rate_pct': 0.0, 'laundry_outstanding_pcs': 12, 'legacy_receipt_stuck_pcs': 0, 'laundry_good_received_pcs': 8, 'legacy_receipt_missing_pcs': 0, 'laundry_bs_rate_on_resolved_receipts_pct': 0.0}, 'performance': {'cogs_gl': 54.01, 'net_profit': 25.99, 'gross_profit': 25.99, 'other_income': 0.0, 'line_discounts': 0.0, 'net_margin_pct': 32.4875, 'gross_margin_pct': 32.4875, 'sales_revenue_gl': 80.0, 'posted_sales_returns': 0.0, 'operational_net_sales': 80.0, 'sales_revenue_reconciled': True, 'sales_revenue_bridge_delta': 0.0, 'gross_sales_before_discount': 80.0, 'operating_and_other_expense': 0.0}, 'data_confidence': {'info': [], 'as_of': '2026-09-23', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-21', 'failed_checks': [], 'closed_through': '2026-09-21', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'supplier_exposure': {'oldest_unfinalized_days': 0, 'overdue_final_ap_amount': 0.0, 'unfinalized_receipt_count': 0, 'open_final_ap_document_count': 1}, 'financial_position': {'cash': 0.0, 'assets': 2024.99, 'customer_ar': 80.0, 'liabilities': 1999.0, 'fg_inventory': 81.01, 'wip_inventory': 1863.98, 'recorded_equity': 0.0, 'current_earnings': 25.99, 'supplier_final_ap': 0.0, 'balance_difference': 0.0, 'material_inventory': 0.0, 'liabilities_plus_equity': 2024.99, 'grni_estimated_liability': 100.0}}, '2026-09-24': {'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', 'performance_reconciliation_basis': 'OPERATIONAL_NET_SALES_MINUS_SALES_REVENUE_GL'}, 'quality': {'qc_bs_pcs': 0, 'qc_good_pcs': 5, 'laundry_bs_pcs': 0, 'qc_defect_rate_pct': 0.0, 'laundry_outstanding_pcs': 12, 'legacy_receipt_stuck_pcs': 0, 'laundry_good_received_pcs': 8, 'legacy_receipt_missing_pcs': 0, 'laundry_bs_rate_on_resolved_receipts_pct': 0.0}, 'performance': {'cogs_gl': 54.01, 'net_profit': 25.99, 'gross_profit': 25.99, 'other_income': 0.0, 'line_discounts': 0.0, 'net_margin_pct': 32.4875, 'gross_margin_pct': 32.4875, 'sales_revenue_gl': 80.0, 'posted_sales_returns': 0.0, 'operational_net_sales': 80.0, 'sales_revenue_reconciled': True, 'sales_revenue_bridge_delta': 0.0, 'gross_sales_before_discount': 80.0, 'operating_and_other_expense': 0.0}, 'data_confidence': {'info': [], 'as_of': '2026-09-24', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-21', 'failed_checks': [], 'closed_through': '2026-09-21', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'supplier_exposure': {'oldest_unfinalized_days': 0, 'overdue_final_ap_amount': 0.0, 'unfinalized_receipt_count': 0, 'open_final_ap_document_count': 1}, 'financial_position': {'cash': 0.0, 'assets': 2125.02, 'customer_ar': 80.0, 'liabilities': 2099.03, 'fg_inventory': 81.01, 'wip_inventory': 1964.01, 'recorded_equity': 0.0, 'current_earnings': 25.99, 'supplier_final_ap': 200.03, 'balance_difference': 0.0, 'material_inventory': 0.0, 'liabilities_plus_equity': 2125.02, 'grni_estimated_liability': 0.0}}}, 'confidence': {'info': [], 'as_of': '2026-09-24', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-21', 'failed_checks': [], 'closed_through': '2026-09-21', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'report_delta': {'MATERIAL_INVENTORY': Decimal('0.0'), 'WIP': Decimal('135.01'), 'FG_INVENTORY': Decimal('81.01'), 'AP_SUPPLIER': Decimal('200.03'), 'GRNI_MATERIAL': Decimal('0.0'), 'COGS': Decimal('54.01')}}, 'mismatches': {'hpp_events.business_day': {'expected': '2026-09-24', 'actual': [(UUID('ff63b64b-ab01-4aa7-b82a-335cd944cc27'), datetime.date(2026, 9, 22), Decimal('30.010000'), Decimal('20.010000'), Decimal('0.000000'))]}, 'prior_report.wip_inventory.business_day': {'day': '2026-09-23', 'expected': Decimal('1914.0'), 'actual': Decimal('1863.98')}, 'prior_report.fg_inventory.business_day': {'day': '2026-09-23', 'expected': Decimal('51.0'), 'actual': Decimal('81.01')}, 'prior_report.cogs_gl.business_day': {'day': '2026-09-23', 'expected': Decimal('34.0'), 'actual': Decimal('54.01')}}, 'silent_if_ready': True}",
+    "stage": null,
+    "fixture": {
+     "group": "T2_FIXTURE_PAYROLL",
+     "case": "CROSS:INVOICE:True:Etc/GMT+12:20.003",
+     "payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "start": "2026-09-22",
+       "end": "2026-09-22",
+       "status": "APPROVED",
+       "work_lines": 1,
+       "attendance_days": 0,
+       "redone_unpaid": []
+      }
+     ],
+     "refused": null
+    }
+   }
+  },
+  {
+   "case": "CROSS:INVOICE:True:Pacific/Kiritimati:20",
+   "expected": "PASS",
+   "observed": "INCOMPLETE",
+   "cause": {
+    "error": "AE_INVOICE_ORACLE_FAILED:{'status': 'COUNTEREXAMPLE', 'severity': 'P2', 'stage': 'AFTER_INVOICE', 'caller_zone': 'Pacific/Kiritimati', 'partial': True, 'final_unit_cost': '20', 'fixture': {'material': UUID('c87c2234-371e-42e5-981e-e60a4ac0cbf7'), 'purchase': UUID('407850bc-546d-4cca-9de8-a158c51ce181'), 'item': UUID('89023b1e-74f1-4c5c-a98d-6fb151c06a7d'), 'roll': UUID('36206466-35ea-461e-a390-0f66fca7faf4'), 'movement': UUID('01db258c-7c2d-4982-a8d0-82b2df1b9e29'), 'location': UUID('330f81b3-04b6-4ae1-b48c-e8d88d84c5f7'), 'purchase_day': datetime.date(2026, 9, 21), 'ledger_baseline': {'AP_SUPPLIER': Decimal('0'), 'COGS': Decimal('0'), 'FG_INVENTORY': Decimal('0'), 'GRNI_MATERIAL': Decimal('0'), 'MATERIAL_INVENTORY': Decimal('0'), 'WIP': Decimal('1829.00')}, 'report_baseline': {'2026-09-23': {'basis': {'period_to': '2026-09-23', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-23', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', 'performance_reconciliation_basis': 'OPERATIONAL_NET_SALES_MINUS_SALES_REVENUE_GL'}, 'quality': {'qc_bs_pcs': 0, 'qc_good_pcs': 0, 'laundry_bs_pcs': 0, 'qc_defect_rate_pct': None, 'laundry_outstanding_pcs': 10, 'legacy_receipt_stuck_pcs': 0, 'laundry_good_received_pcs': 0, 'legacy_receipt_missing_pcs': 0, 'laundry_bs_rate_on_resolved_receipts_pct': None}, 'performance': {'cogs_gl': 0.0, 'net_profit': 0.0, 'gross_profit': 0.0, 'other_income': 0.0, 'line_discounts': 0.0, 'net_margin_pct': None, 'gross_margin_pct': None, 'sales_revenue_gl': 0.0, 'posted_sales_returns': 0.0, 'operational_net_sales': 0.0, 'sales_revenue_reconciled': True, 'sales_revenue_bridge_delta': 0.0, 'gross_sales_before_discount': 0.0, 'operating_and_other_expense': 0.0}, 'data_confidence': {'info': [], 'as_of': '2026-09-23', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-01', 'failed_checks': [], 'closed_through': '2026-08-31', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'supplier_exposure': {'oldest_unfinalized_days': 0, 'overdue_final_ap_amount': 0.0, 'unfinalized_receipt_count': 0, 'open_final_ap_document_count': 0}, 'financial_position': {'cash': 0.0, 'assets': 1829.0, 'customer_ar': 0.0, 'liabilities': 1829.0, 'fg_inventory': 0.0, 'wip_inventory': 1829.0, 'recorded_equity': 0.0, 'current_earnings': 0.0, 'supplier_final_ap': 0.0, 'balance_difference': 0.0, 'material_inventory': 0.0, 'liabilities_plus_equity': 1829.0, 'grni_estimated_liability': 0.0}}, '2026-09-24': {'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', 'performance_reconciliation_basis': 'OPERATIONAL_NET_SALES_MINUS_SALES_REVENUE_GL'}, 'quality': {'qc_bs_pcs': 0, 'qc_good_pcs': 0, 'laundry_bs_pcs': 0, 'qc_defect_rate_pct': None, 'laundry_outstanding_pcs': 10, 'legacy_receipt_stuck_pcs': 0, 'laundry_good_received_pcs': 0, 'legacy_receipt_missing_pcs': 0, 'laundry_bs_rate_on_resolved_receipts_pct': None}, 'performance': {'cogs_gl': 0.0, 'net_profit': 0.0, 'gross_profit': 0.0, 'other_income': 0.0, 'line_discounts': 0.0, 'net_margin_pct': None, 'gross_margin_pct': None, 'sales_revenue_gl': 0.0, 'posted_sales_returns': 0.0, 'operational_net_sales': 0.0, 'sales_revenue_reconciled': True, 'sales_revenue_bridge_delta': 0.0, 'gross_sales_before_discount': 0.0, 'operating_and_other_expense': 0.0}, 'data_confidence': {'info': [], 'as_of': '2026-09-24', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-01', 'failed_checks': [], 'closed_through': '2026-08-31', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'supplier_exposure': {'oldest_unfinalized_days': 0, 'overdue_final_ap_amount': 0.0, 'unfinalized_receipt_count': 0, 'open_final_ap_document_count': 0}, 'financial_position': {'cash': 0.0, 'assets': 1829.0, 'customer_ar': 0.0, 'liabilities': 1829.0, 'fg_inventory': 0.0, 'wip_inventory': 1829.0, 'recorded_equity': 0.0, 'current_earnings': 0.0, 'supplier_final_ap': 0.0, 'balance_difference': 0.0, 'material_inventory': 0.0, 'liabilities_plus_equity': 1829.0, 'grni_estimated_liability': 0.0}}}, 'po': UUID('0f00b919-56f2-4e8e-9160-860fd778c1f4'), 'group': UUID('5de22f94-a000-4598-9db9-37c356de416a'), 'product': '5f9f24aa-1d50-4443-8c19-a8d47e941cd6', 'sale': 'f094e5c3-b5cf-4470-8b11-3984d0d7e699', 'delivery': '822403ea-a3f9-4045-97a3-cb8ed3c5b84a', 'receipt': 'b0a0787f-d1bb-4687-9fcc-858d3ebc7b1b', 'final': {'po_id': '0f00b919-56f2-4e8e-9160-860fd778c1f4', 'action': 'POST_FINAL_SKU', 'committed': True, 'bs_qty_pcs': 0, 'hpp_effect': 'SERVER_REBUILT_FROM_IMMUTABLE_SNAPSHOTS', 'row_version': 9, 'good_qty_pcs': 5, 'stock_effect': 'FG_GOOD_AND_QC_BS_POSTED', 'posted_qty_pcs': 5, 'qc_row_version': 3, 'completion_mode': 'PARTIAL_SELECTION', 'document_status': 'POSTED', 'completion_count': 1, 'contract_version': 'CP6_V2620', 'cutting_group_id': '5de22f94-a000-4598-9db9-37c356de416a', 'qc_inspection_id': '07fc1259-4fbe-4c95-94b3-096017725da8', 'client_request_id': 'df8dd014-2faf-439a-a7d8-51b800600412', 'completion_status': 'PARTIAL_SELECTION', 'inspection_number': 'FGP-260922-DF8DD0142FAF439AA7D851B800600412', 'fg_stock_in_qty_pcs': 5, 'browser_formula_used': False, 'fg_stock_event_count': 1, 'ready_for_qc_qty_pcs': 3, 'remaining_qc_qty_pcs': 5, 'cumulative_qc_qty_pcs': 5, 'laundry_outstanding_qty_pcs': 2}}, 'invoice_response': {'price_state': 'FINAL', 'purchase_id': '407850bc-546d-4cca-9de8-a158c51ce181', 'row_version': 3, 'correction_id': 'd2bd61f1-6499-46a2-89cf-6defec363f28', 'supplier_invoice_id': 'd2bd61f1-6499-46a2-89cf-6defec363f28', 'supplier_invoice_number': 'AA-FINAL-4495f596-605b-48b3-b5ad-954c5ec8dc19'}, 'replay_boundary_exact': True, 'processed': 0, 'invocation_clocks': {'transaction': datetime.datetime(2026, 9, 24, 17, 23, 44, 887142, tzinfo=zoneinfo.ZoneInfo(key='Pacific/Kiritimati')), 'statement': datetime.datetime(2026, 9, 24, 17, 25, 47, 27989, tzinfo=zoneinfo.ZoneInfo(key='Pacific/Kiritimati')), 'wall': datetime.datetime(2026, 9, 24, 17, 25, 47, 28024, tzinfo=zoneinfo.ZoneInfo(key='Pacific/Kiritimati'))}, 'before': {'ap': 0, 'grni': 100.0, 'raw_qty': 0.0, 'input_cost': 10.0, 'raw_average': 0.0, 'purchase_cost': 10.0, 'ledger_delta': {'AP_SUPPLIER': Decimal('0.00'), 'COGS': Decimal('34.00'), 'FG_INVENTORY': Decimal('51.00'), 'GRNI_MATERIAL': Decimal('-100.00'), 'MATERIAL_INVENTORY': Decimal('0.00'), 'WIP': Decimal('85.00')}, 'production': {'fg_qty': 3, 'fg_value': 51.0, 'hpp_total': 85.0, 'wip_value': 85.0, 'cogs_value': 34.0, 'base_output': 5, 'other_value': 0.0}, 'custody': {'sent': 10, 'sold': 2, 'received': 8}, 'queue': [], 'revaluation_events': [], 'hpp_events': [(UUID('17998b75-21a7-4af7-b996-f0ab23906edf'), datetime.date(2026, 9, 22), Decimal('85.000000'), Decimal('0.000000'), Decimal('0.000000'))], 'reports_by_day': {'2026-09-23': {'basis': {'period_to': '2026-09-23', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-23', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', 'performance_reconciliation_basis': 'OPERATIONAL_NET_SALES_MINUS_SALES_REVENUE_GL'}, 'quality': {'qc_bs_pcs': 0, 'qc_good_pcs': 5, 'laundry_bs_pcs': 0, 'qc_defect_rate_pct': 0.0, 'laundry_outstanding_pcs': 12, 'legacy_receipt_stuck_pcs': 0, 'laundry_good_received_pcs': 8, 'legacy_receipt_missing_pcs': 0, 'laundry_bs_rate_on_resolved_receipts_pct': 0.0}, 'performance': {'cogs_gl': 34.0, 'net_profit': 46.0, 'gross_profit': 46.0, 'other_income': 0.0, 'line_discounts': 0.0, 'net_margin_pct': 57.5, 'gross_margin_pct': 57.5, 'sales_revenue_gl': 80.0, 'posted_sales_returns': 0.0, 'operational_net_sales': 80.0, 'sales_revenue_reconciled': True, 'sales_revenue_bridge_delta': 0.0, 'gross_sales_before_discount': 80.0, 'operating_and_other_expense': 0.0}, 'data_confidence': {'info': [{'code': 'GRNI_ESTIMATE_OPEN', 'scope': 'CURRENT_STATE', 'family': 'GRNI', 'reason': '1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.', 'severity': 'INFO', 'reference': {'receipts': 1, 'estimated_amount': 100.0}, 'impact_date': '2026-09-21'}], 'as_of': '2026-09-23', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-21', 'failed_checks': [], 'closed_through': '2026-09-21', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'supplier_exposure': {'oldest_unfinalized_days': 3, 'overdue_final_ap_amount': 0.0, 'unfinalized_receipt_count': 1, 'open_final_ap_document_count': 0}, 'financial_position': {'cash': 0.0, 'assets': 2045.0, 'customer_ar': 80.0, 'liabilities': 1999.0, 'fg_inventory': 51.0, 'wip_inventory': 1914.0, 'recorded_equity': 0.0, 'current_earnings': 46.0, 'supplier_final_ap': 0.0, 'balance_difference': 0.0, 'material_inventory': 0.0, 'liabilities_plus_equity': 2045.0, 'grni_estimated_liability': 100.0}}, '2026-09-24': {'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', 'performance_reconciliation_basis': 'OPERATIONAL_NET_SALES_MINUS_SALES_REVENUE_GL'}, 'quality': {'qc_bs_pcs': 0, 'qc_good_pcs': 5, 'laundry_bs_pcs': 0, 'qc_defect_rate_pct': 0.0, 'laundry_outstanding_pcs': 12, 'legacy_receipt_stuck_pcs': 0, 'laundry_good_received_pcs': 8, 'legacy_receipt_missing_pcs': 0, 'laundry_bs_rate_on_resolved_receipts_pct': 0.0}, 'performance': {'cogs_gl': 34.0, 'net_profit': 46.0, 'gross_profit': 46.0, 'other_income': 0.0, 'line_discounts': 0.0, 'net_margin_pct': 57.5, 'gross_margin_pct': 57.5, 'sales_revenue_gl': 80.0, 'posted_sales_returns': 0.0, 'operational_net_sales': 80.0, 'sales_revenue_reconciled': True, 'sales_revenue_bridge_delta': 0.0, 'gross_sales_before_discount': 80.0, 'operating_and_other_expense': 0.0}, 'data_confidence': {'info': [{'code': 'GRNI_ESTIMATE_OPEN', 'scope': 'CURRENT_STATE', 'family': 'GRNI', 'reason': '1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.', 'severity': 'INFO', 'reference': {'receipts': 1, 'estimated_amount': 100.0}, 'impact_date': '2026-09-21'}], 'as_of': '2026-09-24', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-21', 'failed_checks': [], 'closed_through': '2026-09-21', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'supplier_exposure': {'oldest_unfinalized_days': 3, 'overdue_final_ap_amount': 0.0, 'unfinalized_receipt_count': 1, 'open_final_ap_document_count': 0}, 'financial_position': {'cash': 0.0, 'assets': 2045.0, 'customer_ar': 80.0, 'liabilities': 1999.0, 'fg_inventory': 51.0, 'wip_inventory': 1914.0, 'recorded_equity': 0.0, 'current_earnings': 46.0, 'supplier_final_ap': 0.0, 'balance_difference': 0.0, 'material_inventory': 0.0, 'liabilities_plus_equity': 2045.0, 'grni_estimated_liability': 100.0}}}, 'confidence': {'info': [{'code': 'GRNI_ESTIMATE_OPEN', 'scope': 'CURRENT_STATE', 'family': 'GRNI', 'reason': '1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.', 'severity': 'INFO', 'reference': {'receipts': 1, 'estimated_amount': 100.0}, 'impact_date': '2026-09-21'}], 'as_of': '2026-09-24', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-21', 'failed_checks': [], 'closed_through': '2026-09-21', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'report_delta': {'MATERIAL_INVENTORY': Decimal('0.0'), 'WIP': Decimal('85.0'), 'FG_INVENTORY': Decimal('51.0'), 'AP_SUPPLIER': Decimal('0.0'), 'GRNI_MATERIAL': Decimal('100.0'), 'COGS': Decimal('34.0')}}, 'after': {'ap': 200.0, 'grni': 0.0, 'raw_qty': 0.0, 'input_cost': 20.0, 'raw_average': 0.0, 'purchase_cost': 20.0, 'ledger_delta': {'AP_SUPPLIER': Decimal('-200.00'), 'COGS': Decimal('54.00'), 'FG_INVENTORY': Decimal('81.00'), 'GRNI_MATERIAL': Decimal('0.00'), 'MATERIAL_INVENTORY': Decimal('0.00'), 'WIP': Decimal('135.00')}, 'production': {'fg_qty': 3, 'fg_value': 81.0, 'hpp_total': 135.0, 'wip_value': 135.0, 'cogs_value': 54.0, 'base_output': 5, 'other_value': 0.0}, 'custody': {'sent': 10, 'sold': 2, 'received': 8}, 'queue': [(7, 'DONE', 1, None)], 'revaluation_events': [(UUID('e66d8cb4-2c6d-431a-8965-1b554d2cf847'), datetime.date(2026, 9, 24), Decimal('-100.00'), 'WIP')], 'hpp_events': [(UUID('2210d384-1c5f-4332-a796-1f9f7bff334c'), datetime.date(2026, 9, 22), Decimal('30.000000'), Decimal('20.000000'), Decimal('0.000000')), (UUID('17998b75-21a7-4af7-b996-f0ab23906edf'), datetime.date(2026, 9, 22), Decimal('85.000000'), Decimal('0.000000'), Decimal('0.000000'))], 'reports_by_day': {'2026-09-23': {'basis': {'period_to': '2026-09-23', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-23', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', 'performance_reconciliation_basis': 'OPERATIONAL_NET_SALES_MINUS_SALES_REVENUE_GL'}, 'quality': {'qc_bs_pcs': 0, 'qc_good_pcs': 5, 'laundry_bs_pcs': 0, 'qc_defect_rate_pct': 0.0, 'laundry_outstanding_pcs': 12, 'legacy_receipt_stuck_pcs': 0, 'laundry_good_received_pcs': 8, 'legacy_receipt_missing_pcs': 0, 'laundry_bs_rate_on_resolved_receipts_pct': 0.0}, 'performance': {'cogs_gl': 54.0, 'net_profit': 26.0, 'gross_profit': 26.0, 'other_income': 0.0, 'line_discounts': 0.0, 'net_margin_pct': 32.5, 'gross_margin_pct': 32.5, 'sales_revenue_gl': 80.0, 'posted_sales_returns': 0.0, 'operational_net_sales': 80.0, 'sales_revenue_reconciled': True, 'sales_revenue_bridge_delta': 0.0, 'gross_sales_before_discount': 80.0, 'operating_and_other_expense': 0.0}, 'data_confidence': {'info': [], 'as_of': '2026-09-23', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-21', 'failed_checks': [], 'closed_through': '2026-09-21', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'supplier_exposure': {'oldest_unfinalized_days': 0, 'overdue_final_ap_amount': 0.0, 'unfinalized_receipt_count': 0, 'open_final_ap_document_count': 1}, 'financial_position': {'cash': 0.0, 'assets': 2025.0, 'customer_ar': 80.0, 'liabilities': 1999.0, 'fg_inventory': 81.0, 'wip_inventory': 1864.0, 'recorded_equity': 0.0, 'current_earnings': 26.0, 'supplier_final_ap': 0.0, 'balance_difference': 0.0, 'material_inventory': 0.0, 'liabilities_plus_equity': 2025.0, 'grni_estimated_liability': 100.0}}, '2026-09-24': {'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', 'performance_reconciliation_basis': 'OPERATIONAL_NET_SALES_MINUS_SALES_REVENUE_GL'}, 'quality': {'qc_bs_pcs': 0, 'qc_good_pcs': 5, 'laundry_bs_pcs': 0, 'qc_defect_rate_pct': 0.0, 'laundry_outstanding_pcs': 12, 'legacy_receipt_stuck_pcs': 0, 'laundry_good_received_pcs': 8, 'legacy_receipt_missing_pcs': 0, 'laundry_bs_rate_on_resolved_receipts_pct': 0.0}, 'performance': {'cogs_gl': 54.0, 'net_profit': 26.0, 'gross_profit': 26.0, 'other_income': 0.0, 'line_discounts': 0.0, 'net_margin_pct': 32.5, 'gross_margin_pct': 32.5, 'sales_revenue_gl': 80.0, 'posted_sales_returns': 0.0, 'operational_net_sales': 80.0, 'sales_revenue_reconciled': True, 'sales_revenue_bridge_delta': 0.0, 'gross_sales_before_discount': 80.0, 'operating_and_other_expense': 0.0}, 'data_confidence': {'info': [], 'as_of': '2026-09-24', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-21', 'failed_checks': [], 'closed_through': '2026-09-21', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'supplier_exposure': {'oldest_unfinalized_days': 0, 'overdue_final_ap_amount': 0.0, 'unfinalized_receipt_count': 0, 'open_final_ap_document_count': 1}, 'financial_position': {'cash': 0.0, 'assets': 2125.0, 'customer_ar': 80.0, 'liabilities': 2099.0, 'fg_inventory': 81.0, 'wip_inventory': 1964.0, 'recorded_equity': 0.0, 'current_earnings': 26.0, 'supplier_final_ap': 200.0, 'balance_difference': 0.0, 'material_inventory': 0.0, 'liabilities_plus_equity': 2125.0, 'grni_estimated_liability': 0.0}}}, 'confidence': {'info': [], 'as_of': '2026-09-24', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-21', 'failed_checks': [], 'closed_through': '2026-09-21', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'report_delta': {'MATERIAL_INVENTORY': Decimal('0.0'), 'WIP': Decimal('135.0'), 'FG_INVENTORY': Decimal('81.0'), 'AP_SUPPLIER': Decimal('200.0'), 'GRNI_MATERIAL': Decimal('0.0'), 'COGS': Decimal('54.0')}}, 'mismatches': {'hpp_events.business_day': {'expected': '2026-09-24', 'actual': [(UUID('2210d384-1c5f-4332-a796-1f9f7bff334c'), datetime.date(2026, 9, 22), Decimal('30.000000'), Decimal('20.000000'), Decimal('0.000000'))]}, 'prior_report.wip_inventory.business_day': {'day': '2026-09-23', 'expected': Decimal('1914.0'), 'actual': Decimal('1864.0')}, 'prior_report.fg_inventory.business_day': {'day': '2026-09-23', 'expected': Decimal('51.0'), 'actual': Decimal('81.0')}, 'prior_report.cogs_gl.business_day': {'day': '2026-09-23', 'expected': Decimal('34.0'), 'actual': Decimal('54.0')}}, 'silent_if_ready': True}",
+    "stage": null,
+    "fixture": {
+     "group": "T2_FIXTURE_PAYROLL",
+     "case": "CROSS:INVOICE:True:Pacific/Kiritimati:20",
+     "payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "start": "2026-09-22",
+       "end": "2026-09-22",
+       "status": "APPROVED",
+       "work_lines": 1,
+       "attendance_days": 0,
+       "redone_unpaid": []
+      }
+     ],
+     "refused": null
+    }
+   }
+  },
+  {
+   "case": "CROSS:INVOICE:True:Pacific/Kiritimati:20.003",
+   "expected": "PASS",
+   "observed": "INCOMPLETE",
+   "cause": {
+    "error": "AE_INVOICE_ORACLE_FAILED:{'status': 'COUNTEREXAMPLE', 'severity': 'P2', 'stage': 'AFTER_INVOICE', 'caller_zone': 'Pacific/Kiritimati', 'partial': True, 'final_unit_cost': '20.003', 'fixture': {'material': UUID('36c9cf39-3a37-49d1-a739-1ad9ce96f245'), 'purchase': UUID('a2883e3f-bf9e-49c2-8652-5b6f6055d799'), 'item': UUID('890c2519-cd55-457c-91d4-84392235b7db'), 'roll': UUID('e82fe037-f8f8-4e72-b6de-03caff785f92'), 'movement': UUID('dada425e-c012-4120-bc24-61522f85f9fd'), 'location': UUID('e46cfef1-88b0-4ee0-a0a1-d1574c2aeea7'), 'purchase_day': datetime.date(2026, 9, 21), 'ledger_baseline': {'AP_SUPPLIER': Decimal('0'), 'COGS': Decimal('0'), 'FG_INVENTORY': Decimal('0'), 'GRNI_MATERIAL': Decimal('0'), 'MATERIAL_INVENTORY': Decimal('0'), 'WIP': Decimal('1829.00')}, 'report_baseline': {'2026-09-23': {'basis': {'period_to': '2026-09-23', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-23', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', 'performance_reconciliation_basis': 'OPERATIONAL_NET_SALES_MINUS_SALES_REVENUE_GL'}, 'quality': {'qc_bs_pcs': 0, 'qc_good_pcs': 0, 'laundry_bs_pcs': 0, 'qc_defect_rate_pct': None, 'laundry_outstanding_pcs': 10, 'legacy_receipt_stuck_pcs': 0, 'laundry_good_received_pcs': 0, 'legacy_receipt_missing_pcs': 0, 'laundry_bs_rate_on_resolved_receipts_pct': None}, 'performance': {'cogs_gl': 0.0, 'net_profit': 0.0, 'gross_profit': 0.0, 'other_income': 0.0, 'line_discounts': 0.0, 'net_margin_pct': None, 'gross_margin_pct': None, 'sales_revenue_gl': 0.0, 'posted_sales_returns': 0.0, 'operational_net_sales': 0.0, 'sales_revenue_reconciled': True, 'sales_revenue_bridge_delta': 0.0, 'gross_sales_before_discount': 0.0, 'operating_and_other_expense': 0.0}, 'data_confidence': {'info': [], 'as_of': '2026-09-23', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-01', 'failed_checks': [], 'closed_through': '2026-08-31', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'supplier_exposure': {'oldest_unfinalized_days': 0, 'overdue_final_ap_amount': 0.0, 'unfinalized_receipt_count': 0, 'open_final_ap_document_count': 0}, 'financial_position': {'cash': 0.0, 'assets': 1829.0, 'customer_ar': 0.0, 'liabilities': 1829.0, 'fg_inventory': 0.0, 'wip_inventory': 1829.0, 'recorded_equity': 0.0, 'current_earnings': 0.0, 'supplier_final_ap': 0.0, 'balance_difference': 0.0, 'material_inventory': 0.0, 'liabilities_plus_equity': 1829.0, 'grni_estimated_liability': 0.0}}, '2026-09-24': {'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', 'performance_reconciliation_basis': 'OPERATIONAL_NET_SALES_MINUS_SALES_REVENUE_GL'}, 'quality': {'qc_bs_pcs': 0, 'qc_good_pcs': 0, 'laundry_bs_pcs': 0, 'qc_defect_rate_pct': None, 'laundry_outstanding_pcs': 10, 'legacy_receipt_stuck_pcs': 0, 'laundry_good_received_pcs': 0, 'legacy_receipt_missing_pcs': 0, 'laundry_bs_rate_on_resolved_receipts_pct': None}, 'performance': {'cogs_gl': 0.0, 'net_profit': 0.0, 'gross_profit': 0.0, 'other_income': 0.0, 'line_discounts': 0.0, 'net_margin_pct': None, 'gross_margin_pct': None, 'sales_revenue_gl': 0.0, 'posted_sales_returns': 0.0, 'operational_net_sales': 0.0, 'sales_revenue_reconciled': True, 'sales_revenue_bridge_delta': 0.0, 'gross_sales_before_discount': 0.0, 'operating_and_other_expense': 0.0}, 'data_confidence': {'info': [], 'as_of': '2026-09-24', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-01', 'failed_checks': [], 'closed_through': '2026-08-31', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'supplier_exposure': {'oldest_unfinalized_days': 0, 'overdue_final_ap_amount': 0.0, 'unfinalized_receipt_count': 0, 'open_final_ap_document_count': 0}, 'financial_position': {'cash': 0.0, 'assets': 1829.0, 'customer_ar': 0.0, 'liabilities': 1829.0, 'fg_inventory': 0.0, 'wip_inventory': 1829.0, 'recorded_equity': 0.0, 'current_earnings': 0.0, 'supplier_final_ap': 0.0, 'balance_difference': 0.0, 'material_inventory': 0.0, 'liabilities_plus_equity': 1829.0, 'grni_estimated_liability': 0.0}}}, 'po': UUID('f82cf8ce-d88c-4b24-b1b1-61c5c5ef738a'), 'group': UUID('0e9a1aba-733c-4d55-9660-98a154c48c29'), 'product': '64678f62-1553-496e-81d1-90464b2eb148', 'sale': '1f8d3ce6-2fc3-4a3b-8b49-73b4203e9da6', 'delivery': 'e606c1fe-675a-464e-9a66-c54fc8a73b47', 'receipt': '4d8db701-6437-4309-bdd5-622012c1576e', 'final': {'po_id': 'f82cf8ce-d88c-4b24-b1b1-61c5c5ef738a', 'action': 'POST_FINAL_SKU', 'committed': True, 'bs_qty_pcs': 0, 'hpp_effect': 'SERVER_REBUILT_FROM_IMMUTABLE_SNAPSHOTS', 'row_version': 9, 'good_qty_pcs': 5, 'stock_effect': 'FG_GOOD_AND_QC_BS_POSTED', 'posted_qty_pcs': 5, 'qc_row_version': 3, 'completion_mode': 'PARTIAL_SELECTION', 'document_status': 'POSTED', 'completion_count': 1, 'contract_version': 'CP6_V2620', 'cutting_group_id': '0e9a1aba-733c-4d55-9660-98a154c48c29', 'qc_inspection_id': 'c9eae007-20fe-42a4-9741-95ee3886ecbd', 'client_request_id': '9a53a09b-3949-449b-abd6-c3c1b5bfb00f', 'completion_status': 'PARTIAL_SELECTION', 'inspection_number': 'FGP-260922-9A53A09B3949449BABD6C3C1B5BFB00F', 'fg_stock_in_qty_pcs': 5, 'browser_formula_used': False, 'fg_stock_event_count': 1, 'ready_for_qc_qty_pcs': 3, 'remaining_qc_qty_pcs': 5, 'cumulative_qc_qty_pcs': 5, 'laundry_outstanding_qty_pcs': 2}}, 'invoice_response': {'price_state': 'FINAL', 'purchase_id': 'a2883e3f-bf9e-49c2-8652-5b6f6055d799', 'row_version': 3, 'correction_id': 'a725982a-632f-400c-ae30-a55f30a54a75', 'supplier_invoice_id': 'a725982a-632f-400c-ae30-a55f30a54a75', 'supplier_invoice_number': 'AA-FINAL-02a6719d-a0c5-4559-bbf8-f95c33b19001'}, 'replay_boundary_exact': True, 'processed': 0, 'invocation_clocks': {'transaction': datetime.datetime(2026, 9, 24, 17, 23, 44, 887142, tzinfo=zoneinfo.ZoneInfo(key='Pacific/Kiritimati')), 'statement': datetime.datetime(2026, 9, 24, 17, 25, 49, 194549, tzinfo=zoneinfo.ZoneInfo(key='Pacific/Kiritimati')), 'wall': datetime.datetime(2026, 9, 24, 17, 25, 49, 194581, tzinfo=zoneinfo.ZoneInfo(key='Pacific/Kiritimati'))}, 'before': {'ap': 0, 'grni': 100.0, 'raw_qty': 0.0, 'input_cost': 10.0, 'raw_average': 0.0, 'purchase_cost': 10.0, 'ledger_delta': {'AP_SUPPLIER': Decimal('0.00'), 'COGS': Decimal('34.00'), 'FG_INVENTORY': Decimal('51.00'), 'GRNI_MATERIAL': Decimal('-100.00'), 'MATERIAL_INVENTORY': Decimal('0.00'), 'WIP': Decimal('85.00')}, 'production': {'fg_qty': 3, 'fg_value': 51.0, 'hpp_total': 85.0, 'wip_value': 85.0, 'cogs_value': 34.0, 'base_output': 5, 'other_value': 0.0}, 'custody': {'sent': 10, 'sold': 2, 'received': 8}, 'queue': [], 'revaluation_events': [], 'hpp_events': [(UUID('80311f85-7b4e-4868-b2ec-11b65d9b137c'), datetime.date(2026, 9, 22), Decimal('85.000000'), Decimal('0.000000'), Decimal('0.000000'))], 'reports_by_day': {'2026-09-23': {'basis': {'period_to': '2026-09-23', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-23', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', 'performance_reconciliation_basis': 'OPERATIONAL_NET_SALES_MINUS_SALES_REVENUE_GL'}, 'quality': {'qc_bs_pcs': 0, 'qc_good_pcs': 5, 'laundry_bs_pcs': 0, 'qc_defect_rate_pct': 0.0, 'laundry_outstanding_pcs': 12, 'legacy_receipt_stuck_pcs': 0, 'laundry_good_received_pcs': 8, 'legacy_receipt_missing_pcs': 0, 'laundry_bs_rate_on_resolved_receipts_pct': 0.0}, 'performance': {'cogs_gl': 34.0, 'net_profit': 46.0, 'gross_profit': 46.0, 'other_income': 0.0, 'line_discounts': 0.0, 'net_margin_pct': 57.5, 'gross_margin_pct': 57.5, 'sales_revenue_gl': 80.0, 'posted_sales_returns': 0.0, 'operational_net_sales': 80.0, 'sales_revenue_reconciled': True, 'sales_revenue_bridge_delta': 0.0, 'gross_sales_before_discount': 80.0, 'operating_and_other_expense': 0.0}, 'data_confidence': {'info': [{'code': 'GRNI_ESTIMATE_OPEN', 'scope': 'CURRENT_STATE', 'family': 'GRNI', 'reason': '1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.', 'severity': 'INFO', 'reference': {'receipts': 1, 'estimated_amount': 100.0}, 'impact_date': '2026-09-21'}], 'as_of': '2026-09-23', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-21', 'failed_checks': [], 'closed_through': '2026-09-21', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'supplier_exposure': {'oldest_unfinalized_days': 3, 'overdue_final_ap_amount': 0.0, 'unfinalized_receipt_count': 1, 'open_final_ap_document_count': 0}, 'financial_position': {'cash': 0.0, 'assets': 2045.0, 'customer_ar': 80.0, 'liabilities': 1999.0, 'fg_inventory': 51.0, 'wip_inventory': 1914.0, 'recorded_equity': 0.0, 'current_earnings': 46.0, 'supplier_final_ap': 0.0, 'balance_difference': 0.0, 'material_inventory': 0.0, 'liabilities_plus_equity': 2045.0, 'grni_estimated_liability': 100.0}}, '2026-09-24': {'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', 'performance_reconciliation_basis': 'OPERATIONAL_NET_SALES_MINUS_SALES_REVENUE_GL'}, 'quality': {'qc_bs_pcs': 0, 'qc_good_pcs': 5, 'laundry_bs_pcs': 0, 'qc_defect_rate_pct': 0.0, 'laundry_outstanding_pcs': 12, 'legacy_receipt_stuck_pcs': 0, 'laundry_good_received_pcs': 8, 'legacy_receipt_missing_pcs': 0, 'laundry_bs_rate_on_resolved_receipts_pct': 0.0}, 'performance': {'cogs_gl': 34.0, 'net_profit': 46.0, 'gross_profit': 46.0, 'other_income': 0.0, 'line_discounts': 0.0, 'net_margin_pct': 57.5, 'gross_margin_pct': 57.5, 'sales_revenue_gl': 80.0, 'posted_sales_returns': 0.0, 'operational_net_sales': 80.0, 'sales_revenue_reconciled': True, 'sales_revenue_bridge_delta': 0.0, 'gross_sales_before_discount': 80.0, 'operating_and_other_expense': 0.0}, 'data_confidence': {'info': [{'code': 'GRNI_ESTIMATE_OPEN', 'scope': 'CURRENT_STATE', 'family': 'GRNI', 'reason': '1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.', 'severity': 'INFO', 'reference': {'receipts': 1, 'estimated_amount': 100.0}, 'impact_date': '2026-09-21'}], 'as_of': '2026-09-24', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-21', 'failed_checks': [], 'closed_through': '2026-09-21', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'supplier_exposure': {'oldest_unfinalized_days': 3, 'overdue_final_ap_amount': 0.0, 'unfinalized_receipt_count': 1, 'open_final_ap_document_count': 0}, 'financial_position': {'cash': 0.0, 'assets': 2045.0, 'customer_ar': 80.0, 'liabilities': 1999.0, 'fg_inventory': 51.0, 'wip_inventory': 1914.0, 'recorded_equity': 0.0, 'current_earnings': 46.0, 'supplier_final_ap': 0.0, 'balance_difference': 0.0, 'material_inventory': 0.0, 'liabilities_plus_equity': 2045.0, 'grni_estimated_liability': 100.0}}}, 'confidence': {'info': [{'code': 'GRNI_ESTIMATE_OPEN', 'scope': 'CURRENT_STATE', 'family': 'GRNI', 'reason': '1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.', 'severity': 'INFO', 'reference': {'receipts': 1, 'estimated_amount': 100.0}, 'impact_date': '2026-09-21'}], 'as_of': '2026-09-24', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-21', 'failed_checks': [], 'closed_through': '2026-09-21', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'report_delta': {'MATERIAL_INVENTORY': Decimal('0.0'), 'WIP': Decimal('85.0'), 'FG_INVENTORY': Decimal('51.0'), 'AP_SUPPLIER': Decimal('0.0'), 'GRNI_MATERIAL': Decimal('100.0'), 'COGS': Decimal('34.0')}}, 'after': {'ap': 200.03, 'grni': 0.0, 'raw_qty': 0.0, 'input_cost': 20.003, 'raw_average': 0.0, 'purchase_cost': 20.003, 'ledger_delta': {'AP_SUPPLIER': Decimal('-200.03'), 'COGS': Decimal('54.01'), 'FG_INVENTORY': Decimal('81.01'), 'GRNI_MATERIAL': Decimal('0.00'), 'MATERIAL_INVENTORY': Decimal('0.00'), 'WIP': Decimal('135.01')}, 'production': {'fg_qty': 3, 'fg_value': 81.01, 'hpp_total': 135.02, 'wip_value': 135.01, 'cogs_value': 54.01, 'base_output': 5, 'other_value': 0.0}, 'custody': {'sent': 10, 'sold': 2, 'received': 8}, 'queue': [(8, 'DONE', 1, None)], 'revaluation_events': [(UUID('492f9a16-21ed-4668-86aa-c04b100427f5'), datetime.date(2026, 9, 24), Decimal('-100.03'), 'WIP')], 'hpp_events': [(UUID('804e293a-668b-4f70-8d6c-806d8e37c22b'), datetime.date(2026, 9, 22), Decimal('30.010000'), Decimal('20.010000'), Decimal('0.000000')), (UUID('80311f85-7b4e-4868-b2ec-11b65d9b137c'), datetime.date(2026, 9, 22), Decimal('85.000000'), Decimal('0.000000'), Decimal('0.000000'))], 'reports_by_day': {'2026-09-23': {'basis': {'period_to': '2026-09-23', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-23', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', 'performance_reconciliation_basis': 'OPERATIONAL_NET_SALES_MINUS_SALES_REVENUE_GL'}, 'quality': {'qc_bs_pcs': 0, 'qc_good_pcs': 5, 'laundry_bs_pcs': 0, 'qc_defect_rate_pct': 0.0, 'laundry_outstanding_pcs': 12, 'legacy_receipt_stuck_pcs': 0, 'laundry_good_received_pcs': 8, 'legacy_receipt_missing_pcs': 0, 'laundry_bs_rate_on_resolved_receipts_pct': 0.0}, 'performance': {'cogs_gl': 54.01, 'net_profit': 25.99, 'gross_profit': 25.99, 'other_income': 0.0, 'line_discounts': 0.0, 'net_margin_pct': 32.4875, 'gross_margin_pct': 32.4875, 'sales_revenue_gl': 80.0, 'posted_sales_returns': 0.0, 'operational_net_sales': 80.0, 'sales_revenue_reconciled': True, 'sales_revenue_bridge_delta': 0.0, 'gross_sales_before_discount': 80.0, 'operating_and_other_expense': 0.0}, 'data_confidence': {'info': [], 'as_of': '2026-09-23', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-21', 'failed_checks': [], 'closed_through': '2026-09-21', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'supplier_exposure': {'oldest_unfinalized_days': 0, 'overdue_final_ap_amount': 0.0, 'unfinalized_receipt_count': 0, 'open_final_ap_document_count': 1}, 'financial_position': {'cash': 0.0, 'assets': 2024.99, 'customer_ar': 80.0, 'liabilities': 1999.0, 'fg_inventory': 81.01, 'wip_inventory': 1863.98, 'recorded_equity': 0.0, 'current_earnings': 25.99, 'supplier_final_ap': 0.0, 'balance_difference': 0.0, 'material_inventory': 0.0, 'liabilities_plus_equity': 2024.99, 'grni_estimated_liability': 100.0}}, '2026-09-24': {'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', 'performance_reconciliation_basis': 'OPERATIONAL_NET_SALES_MINUS_SALES_REVENUE_GL'}, 'quality': {'qc_bs_pcs': 0, 'qc_good_pcs': 5, 'laundry_bs_pcs': 0, 'qc_defect_rate_pct': 0.0, 'laundry_outstanding_pcs': 12, 'legacy_receipt_stuck_pcs': 0, 'laundry_good_received_pcs': 8, 'legacy_receipt_missing_pcs': 0, 'laundry_bs_rate_on_resolved_receipts_pct': 0.0}, 'performance': {'cogs_gl': 54.01, 'net_profit': 25.99, 'gross_profit': 25.99, 'other_income': 0.0, 'line_discounts': 0.0, 'net_margin_pct': 32.4875, 'gross_margin_pct': 32.4875, 'sales_revenue_gl': 80.0, 'posted_sales_returns': 0.0, 'operational_net_sales': 80.0, 'sales_revenue_reconciled': True, 'sales_revenue_bridge_delta': 0.0, 'gross_sales_before_discount': 80.0, 'operating_and_other_expense': 0.0}, 'data_confidence': {'info': [], 'as_of': '2026-09-24', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-21', 'failed_checks': [], 'closed_through': '2026-09-21', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'supplier_exposure': {'oldest_unfinalized_days': 0, 'overdue_final_ap_amount': 0.0, 'unfinalized_receipt_count': 0, 'open_final_ap_document_count': 1}, 'financial_position': {'cash': 0.0, 'assets': 2125.02, 'customer_ar': 80.0, 'liabilities': 2099.03, 'fg_inventory': 81.01, 'wip_inventory': 1964.01, 'recorded_equity': 0.0, 'current_earnings': 25.99, 'supplier_final_ap': 200.03, 'balance_difference': 0.0, 'material_inventory': 0.0, 'liabilities_plus_equity': 2125.02, 'grni_estimated_liability': 0.0}}}, 'confidence': {'info': [], 'as_of': '2026-09-24', 'engine': 'PERIOD_READINESS_V1', 'filing': None, 'status': 'READY', 'blockers': [], 'window_from': '2026-09-21', 'failed_checks': [], 'closed_through': '2026-09-21', 'warning_issue_count': 0, 'changed_since_filing': False, 'critical_issue_count': 0, 'pending_cost_recalc_count': 0}, 'report_delta': {'MATERIAL_INVENTORY': Decimal('0.0'), 'WIP': Decimal('135.01'), 'FG_INVENTORY': Decimal('81.01'), 'AP_SUPPLIER': Decimal('200.03'), 'GRNI_MATERIAL': Decimal('0.0'), 'COGS': Decimal('54.01')}}, 'mismatches': {'hpp_events.business_day': {'expected': '2026-09-24', 'actual': [(UUID('804e293a-668b-4f70-8d6c-806d8e37c22b'), datetime.date(2026, 9, 22), Decimal('30.010000'), Decimal('20.010000'), Decimal('0.000000'))]}, 'prior_report.wip_inventory.business_day': {'day': '2026-09-23', 'expected': Decimal('1914.0'), 'actual': Decimal('1863.98')}, 'prior_report.fg_inventory.business_day': {'day': '2026-09-23', 'expected': Decimal('51.0'), 'actual': Decimal('81.01')}, 'prior_report.cogs_gl.business_day': {'day': '2026-09-23', 'expected': Decimal('34.0'), 'actual': Decimal('54.01')}}, 'silent_if_ready': True}",
+    "stage": null,
+    "fixture": {
+     "group": "T2_FIXTURE_PAYROLL",
+     "case": "CROSS:INVOICE:True:Pacific/Kiritimati:20.003",
+     "payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "start": "2026-09-22",
+       "end": "2026-09-22",
+       "status": "APPROVED",
+       "work_lines": 1,
+       "attendance_days": 0,
+       "redone_unpaid": []
+      }
+     ],
+     "refused": null
+    }
+   }
+  },
+  {
+   "case": "INVOICE:UTC:4:True",
+   "expected": "CONTROL_PASS",
+   "observed": "BUG_PROVEN",
+   "cause": {
+    "error": null,
+    "stage": "NORMAL_STAGED_INVOICE",
+    "fixture": {
+     "group": "T2_FIXTURE_PAYROLL",
+     "case": "INVOICE:UTC:4:True",
+     "payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "start": "2026-09-22",
+       "end": "2026-09-22",
+       "status": "APPROVED",
+       "work_lines": 1,
+       "attendance_days": 0,
+       "redone_unpaid": []
+      }
+     ],
+     "refused": null
+    }
+   }
+  },
+  {
+   "case": "INVOICE:UTC:7:True",
+   "expected": "CONTROL_PASS",
+   "observed": "BUG_PROVEN",
+   "cause": {
+    "error": null,
+    "stage": "NORMAL_STAGED_INVOICE",
+    "fixture": {
+     "group": "T2_FIXTURE_PAYROLL",
+     "case": "INVOICE:UTC:7:True",
+     "payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "start": "2026-09-22",
+       "end": "2026-09-22",
+       "status": "APPROVED",
+       "work_lines": 1,
+       "attendance_days": 0,
+       "redone_unpaid": []
+      }
+     ],
+     "refused": null
+    }
+   }
+  },
+  {
+   "case": "INVOICE:Asia/Jakarta:4:True",
+   "expected": "CONTROL_PASS",
+   "observed": "BUG_PROVEN",
+   "cause": {
+    "error": null,
+    "stage": "NORMAL_STAGED_INVOICE",
+    "fixture": {
+     "group": "T2_FIXTURE_PAYROLL",
+     "case": "INVOICE:Asia/Jakarta:4:True",
+     "payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "start": "2026-09-22",
+       "end": "2026-09-22",
+       "status": "APPROVED",
+       "work_lines": 1,
+       "attendance_days": 0,
+       "redone_unpaid": []
+      }
+     ],
+     "refused": null
+    }
+   }
+  },
+  {
+   "case": "INVOICE:Asia/Jakarta:7:True",
+   "expected": "CONTROL_PASS",
+   "observed": "BUG_PROVEN",
+   "cause": {
+    "error": null,
+    "stage": "NORMAL_STAGED_INVOICE",
+    "fixture": {
+     "group": "T2_FIXTURE_PAYROLL",
+     "case": "INVOICE:Asia/Jakarta:7:True",
+     "payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "start": "2026-09-22",
+       "end": "2026-09-22",
+       "status": "APPROVED",
+       "work_lines": 1,
+       "attendance_days": 0,
+       "redone_unpaid": []
+      }
+     ],
+     "refused": null
+    }
+   }
+  },
+  {
+   "case": "INVOICE:Pacific/Kiritimati:4:True",
+   "expected": "CONTROL_PASS",
+   "observed": "BUG_PROVEN",
+   "cause": {
+    "error": null,
+    "stage": "NORMAL_STAGED_INVOICE",
+    "fixture": {
+     "group": "T2_FIXTURE_PAYROLL",
+     "case": "INVOICE:Pacific/Kiritimati:4:True",
+     "payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "start": "2026-09-22",
+       "end": "2026-09-22",
+       "status": "APPROVED",
+       "work_lines": 1,
+       "attendance_days": 0,
+       "redone_unpaid": []
+      }
+     ],
+     "refused": null
+    }
+   }
+  },
+  {
+   "case": "INVOICE:Pacific/Kiritimati:7:True",
+   "expected": "CONTROL_PASS",
+   "observed": "BUG_PROVEN",
+   "cause": {
+    "error": null,
+    "stage": "NORMAL_STAGED_INVOICE",
+    "fixture": {
+     "group": "T2_FIXTURE_PAYROLL",
+     "case": "INVOICE:Pacific/Kiritimati:7:True",
+     "payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "start": "2026-09-22",
+       "end": "2026-09-22",
+       "status": "APPROVED",
+       "work_lines": 1,
+       "attendance_days": 0,
+       "redone_unpaid": []
+      }
+     ],
+     "refused": null
+    }
+   }
+  },
+  {
+   "case": "INVOICE:America/Los_Angeles:4:True",
+   "expected": "CONTROL_PASS",
+   "observed": "BUG_PROVEN",
+   "cause": {
+    "error": null,
+    "stage": "NORMAL_STAGED_INVOICE",
+    "fixture": {
+     "group": "T2_FIXTURE_PAYROLL",
+     "case": "INVOICE:America/Los_Angeles:4:True",
+     "payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "start": "2026-09-22",
+       "end": "2026-09-22",
+       "status": "APPROVED",
+       "work_lines": 1,
+       "attendance_days": 0,
+       "redone_unpaid": []
+      }
+     ],
+     "refused": null
+    }
+   }
+  },
+  {
+   "case": "INVOICE:America/Los_Angeles:7:True",
+   "expected": "CONTROL_PASS",
+   "observed": "BUG_PROVEN",
+   "cause": {
+    "error": null,
+    "stage": "NORMAL_STAGED_INVOICE",
+    "fixture": {
+     "group": "T2_FIXTURE_PAYROLL",
+     "case": "INVOICE:America/Los_Angeles:7:True",
+     "payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "start": "2026-09-22",
+       "end": "2026-09-22",
+       "status": "APPROVED",
+       "work_lines": 1,
+       "attendance_days": 0,
+       "redone_unpaid": []
+      }
+     ],
+     "refused": null
+    }
+   }
+  },
+  {
+   "case": "CALENDAR:1_MONTHS:UTC:True",
+   "expected": "PASS",
+   "observed": "BUG_PROVEN",
+   "cause": {
+    "error": null,
+    "stage": "ORDINARY_INVOICE_LIFECYCLE",
+    "fixture": {
+     "group": "T2_FIXTURE_PAYROLL",
+     "case": "CALENDAR:1_MONTHS:UTC:True",
+     "payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "start": "2026-08-24",
+       "end": "2026-08-24",
+       "status": "APPROVED",
+       "work_lines": 1,
+       "attendance_days": 0,
+       "redone_unpaid": []
+      }
+     ],
+     "refused": null
+    }
+   }
+  },
+  {
+   "case": "CALENDAR:1_MONTHS:Pacific/Kiritimati:True",
+   "expected": "PASS",
+   "observed": "BUG_PROVEN",
+   "cause": {
+    "error": null,
+    "stage": "ORDINARY_INVOICE_LIFECYCLE",
+    "fixture": {
+     "group": "T2_FIXTURE_PAYROLL",
+     "case": "CALENDAR:1_MONTHS:Pacific/Kiritimati:True",
+     "payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "start": "2026-08-24",
+       "end": "2026-08-24",
+       "status": "APPROVED",
+       "work_lines": 1,
+       "attendance_days": 0,
+       "redone_unpaid": []
+      }
+     ],
+     "refused": null
+    }
+   }
+  },
+  {
+   "case": "CALENDAR:2_MONTHS:UTC:True",
+   "expected": "PASS",
+   "observed": "BUG_PROVEN",
+   "cause": {
+    "error": null,
+    "stage": "ORDINARY_INVOICE_LIFECYCLE",
+    "fixture": {
+     "group": "T2_FIXTURE_PAYROLL",
+     "case": "CALENDAR:2_MONTHS:UTC:True",
+     "payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "start": "2026-07-24",
+       "end": "2026-07-24",
+       "status": "APPROVED",
+       "work_lines": 1,
+       "attendance_days": 0,
+       "redone_unpaid": []
+      }
+     ],
+     "refused": null
+    }
+   }
+  },
+  {
+   "case": "CALENDAR:2_MONTHS:Pacific/Kiritimati:True",
+   "expected": "PASS",
+   "observed": "BUG_PROVEN",
+   "cause": {
+    "error": null,
+    "stage": "ORDINARY_INVOICE_LIFECYCLE",
+    "fixture": {
+     "group": "T2_FIXTURE_PAYROLL",
+     "case": "CALENDAR:2_MONTHS:Pacific/Kiritimati:True",
+     "payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "start": "2026-07-24",
+       "end": "2026-07-24",
+       "status": "APPROVED",
+       "work_lines": 1,
+       "attendance_days": 0,
+       "redone_unpaid": []
+      }
+     ],
+     "refused": null
+    }
+   }
+  },
+  {
+   "case": "CALENDAR:3_MONTHS:UTC:True",
+   "expected": "PASS",
+   "observed": "BUG_PROVEN",
+   "cause": {
+    "error": null,
+    "stage": "ORDINARY_INVOICE_LIFECYCLE",
+    "fixture": {
+     "group": "T2_FIXTURE_PAYROLL",
+     "case": "CALENDAR:3_MONTHS:UTC:True",
+     "payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "start": "2026-06-24",
+       "end": "2026-06-24",
+       "status": "APPROVED",
+       "work_lines": 1,
+       "attendance_days": 0,
+       "redone_unpaid": []
+      }
+     ],
+     "refused": null
+    }
+   }
+  },
+  {
+   "case": "CALENDAR:3_MONTHS:Pacific/Kiritimati:True",
+   "expected": "PASS",
+   "observed": "BUG_PROVEN",
+   "cause": {
+    "error": null,
+    "stage": "ORDINARY_INVOICE_LIFECYCLE",
+    "fixture": {
+     "group": "T2_FIXTURE_PAYROLL",
+     "case": "CALENDAR:3_MONTHS:Pacific/Kiritimati:True",
+     "payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "start": "2026-06-24",
+       "end": "2026-06-24",
+       "status": "APPROVED",
+       "work_lines": 1,
+       "attendance_days": 0,
+       "redone_unpaid": []
+      }
+     ],
+     "refused": null
+    }
+   }
+  },
+  {
+   "case": "CALENDAR:JAN31:UTC:True",
+   "expected": "PASS",
+   "observed": "BUG_PROVEN",
+   "cause": {
+    "error": null,
+    "stage": "ORDINARY_INVOICE_LIFECYCLE",
+    "fixture": {
+     "group": "T2_FIXTURE_PAYROLL",
+     "case": "CALENDAR:JAN31:UTC:True",
+     "payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "start": "2026-02-01",
+       "end": "2026-02-01",
+       "status": "APPROVED",
+       "work_lines": 1,
+       "attendance_days": 0,
+       "redone_unpaid": [
+        {
+         "id": "a6000000-0000-0000-0000-000000000020",
+         "status": "APPROVED",
+         "start": "2026-02-01",
+         "end": "2026-02-01"
+        }
+       ]
+      }
+     ],
+     "refused": null
+    }
+   }
+  },
+  {
+   "case": "CALENDAR:JAN31:Pacific/Kiritimati:True",
+   "expected": "PASS",
+   "observed": "BUG_PROVEN",
+   "cause": {
+    "error": null,
+    "stage": "ORDINARY_INVOICE_LIFECYCLE",
+    "fixture": {
+     "group": "T2_FIXTURE_PAYROLL",
+     "case": "CALENDAR:JAN31:Pacific/Kiritimati:True",
+     "payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "start": "2026-02-01",
+       "end": "2026-02-01",
+       "status": "APPROVED",
+       "work_lines": 1,
+       "attendance_days": 0,
+       "redone_unpaid": [
+        {
+         "id": "a6000000-0000-0000-0000-000000000020",
+         "status": "APPROVED",
+         "start": "2026-02-01",
+         "end": "2026-02-01"
+        }
+       ]
+      }
+     ],
+     "refused": null
+    }
+   }
+  },
+  {
+   "case": "CALENDAR:FEB28:UTC:True",
+   "expected": "PASS",
+   "observed": "BUG_PROVEN",
+   "cause": {
+    "error": null,
+    "stage": "ORDINARY_INVOICE_LIFECYCLE",
+    "fixture": {
+     "group": "T2_FIXTURE_PAYROLL",
+     "case": "CALENDAR:FEB28:UTC:True",
+     "payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "start": "2026-03-01",
+       "end": "2026-03-01",
+       "status": "APPROVED",
+       "work_lines": 1,
+       "attendance_days": 0,
+       "redone_unpaid": [
+        {
+         "id": "a6000000-0000-0000-0000-000000000030",
+         "status": "APPROVED",
+         "start": "2026-03-01",
+         "end": "2026-03-01"
+        }
+       ]
+      }
+     ],
+     "refused": null
+    }
+   }
+  },
+  {
+   "case": "CALENDAR:FEB28:Pacific/Kiritimati:True",
+   "expected": "PASS",
+   "observed": "BUG_PROVEN",
+   "cause": {
+    "error": null,
+    "stage": "ORDINARY_INVOICE_LIFECYCLE",
+    "fixture": {
+     "group": "T2_FIXTURE_PAYROLL",
+     "case": "CALENDAR:FEB28:Pacific/Kiritimati:True",
+     "payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "start": "2026-03-01",
+       "end": "2026-03-01",
+       "status": "APPROVED",
+       "work_lines": 1,
+       "attendance_days": 0,
+       "redone_unpaid": [
+        {
+         "id": "a6000000-0000-0000-0000-000000000030",
+         "status": "APPROVED",
+         "start": "2026-03-01",
+         "end": "2026-03-01"
+        }
+       ]
+      }
+     ],
+     "refused": null
+    }
+   }
+  },
+  {
+   "case": "CALENDAR:MAY31:UTC:True",
+   "expected": "PASS",
+   "observed": "BUG_PROVEN",
+   "cause": {
+    "error": null,
+    "stage": "ORDINARY_INVOICE_LIFECYCLE",
+    "fixture": {
+     "group": "T2_FIXTURE_PAYROLL",
+     "case": "CALENDAR:MAY31:UTC:True",
+     "payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "start": "2026-06-01",
+       "end": "2026-06-01",
+       "status": "APPROVED",
+       "work_lines": 1,
+       "attendance_days": 0,
+       "redone_unpaid": []
+      }
+     ],
+     "refused": null
+    }
+   }
+  },
+  {
+   "case": "CALENDAR:MAY31:Pacific/Kiritimati:True",
+   "expected": "PASS",
+   "observed": "BUG_PROVEN",
+   "cause": {
+    "error": null,
+    "stage": "ORDINARY_INVOICE_LIFECYCLE",
+    "fixture": {
+     "group": "T2_FIXTURE_PAYROLL",
+     "case": "CALENDAR:MAY31:Pacific/Kiritimati:True",
+     "payrolls": [
+      {
+       "contractor": "a1000000-0000-0000-0000-000000000001",
+       "start": "2026-06-01",
+       "end": "2026-06-01",
+       "status": "APPROVED",
+       "work_lines": 1,
+       "attendance_days": 0,
+       "redone_unpaid": []
+      }
+     ],
+     "refused": null
+    }
+   }
+  }
+ ],
+ "new_cases_not_pass": [
+  {
+   "case": "DATE:False:Asia/Jakarta:True:20",
+   "status": "COUNTEREXAMPLE",
+   "closed": false,
+   "mismatch_keys": [
+    "hpp_events",
+    "journal_posting_date"
+   ],
+   "hpp_events": [
+    [
+     "f927e663-6d46-41ad-abdb-95ac2f5d7131",
+     "2026-09-22",
+     "30.000000",
+     "20.000000",
+     "0.000000"
+    ]
+   ],
+   "journals": [
+    [
+     "2eff48a5-7a1e-4845-b9d4-a8bf5f4008a6",
+     "MATERIAL_SUPPLIER_INVOICE",
+     "2026-09-21",
+     "2026-09-21",
+     "POSTED"
+    ],
+    [
+     "cfa2e573-fde4-4d5a-ac1e-d402c03b54cf",
+     "PO_HPP_GL_SYNC",
+     "2026-09-22",
+     "2026-09-22",
+     "POSTED"
+    ],
+    [
+     "e3b84786-7830-4a2e-9f7f-c84e025a0248",
+     "MATERIAL_COST_REVALUATION",
+     "2026-09-21",
+     "2026-09-21",
+     "POSTED"
+    ]
+   ],
+   "expected": "2026-09-21"
+  },
+  {
+   "case": "DATE:False:Asia/Jakarta:True:20.003",
+   "status": "COUNTEREXAMPLE",
+   "closed": false,
+   "mismatch_keys": [
+    "hpp_events",
+    "journal_posting_date"
+   ],
+   "hpp_events": [
+    [
+     "a3dc7065-7a61-4941-9578-81a155fa546f",
+     "2026-09-22",
+     "30.010000",
+     "20.010000",
+     "0.000000"
+    ]
+   ],
+   "journals": [
+    [
+     "587d6100-3fc9-481a-927f-21409eca8ea4",
+     "MATERIAL_SUPPLIER_INVOICE",
+     "2026-09-21",
+     "2026-09-21",
+     "POSTED"
+    ],
+    [
+     "8389bb76-7961-43c0-b090-971c6ee1483d",
+     "PO_HPP_GL_SYNC",
+     "2026-09-22",
+     "2026-09-22",
+     "POSTED"
+    ],
+    [
+     "8bf1641c-0719-4b16-a507-77332bd9a2bc",
+     "MATERIAL_COST_REVALUATION",
+     "2026-09-21",
+     "2026-09-21",
+     "POSTED"
+    ]
+   ],
+   "expected": "2026-09-21"
+  },
+  {
+   "case": "DATE:False:UTC:True:20",
+   "status": "COUNTEREXAMPLE",
+   "closed": false,
+   "mismatch_keys": [
+    "hpp_events",
+    "journal_posting_date"
+   ],
+   "hpp_events": [
+    [
+     "fa77d09f-7b9e-48f4-8558-ea3fd4e2ccad",
+     "2026-09-22",
+     "30.000000",
+     "20.000000",
+     "0.000000"
+    ]
+   ],
+   "journals": [
+    [
+     "5ac6d8f3-30c1-40a3-bb52-f1eda0a562b0",
+     "MATERIAL_COST_REVALUATION",
+     "2026-09-21",
+     "2026-09-21",
+     "POSTED"
+    ],
+    [
+     "62b6f747-cf4f-422c-89f1-470fdf5287a0",
+     "MATERIAL_SUPPLIER_INVOICE",
+     "2026-09-21",
+     "2026-09-21",
+     "POSTED"
+    ],
+    [
+     "faf6d9d9-8fc1-4407-ae6c-6b05bc66094a",
+     "PO_HPP_GL_SYNC",
+     "2026-09-22",
+     "2026-09-22",
+     "POSTED"
+    ]
+   ],
+   "expected": "2026-09-21"
+  },
+  {
+   "case": "DATE:False:UTC:True:20.003",
+   "status": "COUNTEREXAMPLE",
+   "closed": false,
+   "mismatch_keys": [
+    "hpp_events",
+    "journal_posting_date"
+   ],
+   "hpp_events": [
+    [
+     "6b984374-4b51-4dea-afec-bd355be07b5d",
+     "2026-09-22",
+     "30.010000",
+     "20.010000",
+     "0.000000"
+    ]
+   ],
+   "journals": [
+    [
+     "551c091e-1ef9-405b-88f4-bb72458d20f1",
+     "MATERIAL_COST_REVALUATION",
+     "2026-09-21",
+     "2026-09-21",
+     "POSTED"
+    ],
+    [
+     "88b37ab9-f53b-44b5-b666-be9913b8768e",
+     "MATERIAL_SUPPLIER_INVOICE",
+     "2026-09-21",
+     "2026-09-21",
+     "POSTED"
+    ],
+    [
+     "e52b1cf9-62a7-4a52-a31f-bd617e2b2c6e",
+     "PO_HPP_GL_SYNC",
+     "2026-09-22",
+     "2026-09-22",
+     "POSTED"
+    ]
+   ],
+   "expected": "2026-09-21"
+  },
+  {
+   "case": "DATE:False:Etc/GMT+12:True:20",
+   "status": "COUNTEREXAMPLE",
+   "closed": false,
+   "mismatch_keys": [
+    "hpp_events",
+    "journal_posting_date"
+   ],
+   "hpp_events": [
+    [
+     "17fe4d3a-25c3-4a23-807c-e475c12fd26a",
+     "2026-09-22",
+     "30.000000",
+     "20.000000",
+     "0.000000"
+    ]
+   ],
+   "journals": [
+    [
+     "033e0094-4c7e-469d-98b2-cf978a2bb9e3",
+     "MATERIAL_COST_REVALUATION",
+     "2026-09-21",
+     "2026-09-21",
+     "POSTED"
+    ],
+    [
+     "2a6b0a2e-b76a-40ee-a3a0-fb765ec6d6dd",
+     "MATERIAL_SUPPLIER_INVOICE",
+     "2026-09-21",
+     "2026-09-21",
+     "POSTED"
+    ],
+    [
+     "a32ff320-902a-4fb6-89cb-1d23a514c26f",
+     "PO_HPP_GL_SYNC",
+     "2026-09-22",
+     "2026-09-22",
+     "POSTED"
+    ]
+   ],
+   "expected": "2026-09-21"
+  },
+  {
+   "case": "DATE:False:Etc/GMT+12:True:20.003",
+   "status": "COUNTEREXAMPLE",
+   "closed": false,
+   "mismatch_keys": [
+    "hpp_events",
+    "journal_posting_date"
+   ],
+   "hpp_events": [
+    [
+     "82c4336f-489e-4b5b-8e83-c2d1edebc309",
+     "2026-09-22",
+     "30.010000",
+     "20.010000",
+     "0.000000"
+    ]
+   ],
+   "journals": [
+    [
+     "088cf0e0-2a7c-42c7-b408-18007e43506a",
+     "PO_HPP_GL_SYNC",
+     "2026-09-22",
+     "2026-09-22",
+     "POSTED"
+    ],
+    [
+     "38f26133-9ae8-4e80-949c-410c311c4289",
+     "MATERIAL_COST_REVALUATION",
+     "2026-09-21",
+     "2026-09-21",
+     "POSTED"
+    ],
+    [
+     "8653abd1-3282-426c-9218-79eff1cbb7cf",
+     "MATERIAL_SUPPLIER_INVOICE",
+     "2026-09-21",
+     "2026-09-21",
+     "POSTED"
+    ]
+   ],
+   "expected": "2026-09-21"
+  },
+  {
+   "case": "DATE:False:Pacific/Kiritimati:True:20",
+   "status": "COUNTEREXAMPLE",
+   "closed": false,
+   "mismatch_keys": [
+    "hpp_events",
+    "journal_posting_date"
+   ],
+   "hpp_events": [
+    [
+     "fa173a5c-24db-4cb9-bb37-e92a37e53ee0",
+     "2026-09-22",
+     "30.000000",
+     "20.000000",
+     "0.000000"
+    ]
+   ],
+   "journals": [
+    [
+     "25f11b32-4fd8-43fd-b0a4-d2b0e4df0828",
+     "MATERIAL_SUPPLIER_INVOICE",
+     "2026-09-21",
+     "2026-09-21",
+     "POSTED"
+    ],
+    [
+     "b449bb45-1ad1-4786-aa12-51454f7592c1",
+     "MATERIAL_COST_REVALUATION",
+     "2026-09-21",
+     "2026-09-21",
+     "POSTED"
+    ],
+    [
+     "eb0cbbdb-33d9-45fb-b35d-add6fbbafa34",
+     "PO_HPP_GL_SYNC",
+     "2026-09-22",
+     "2026-09-22",
+     "POSTED"
+    ]
+   ],
+   "expected": "2026-09-21"
+  },
+  {
+   "case": "DATE:False:Pacific/Kiritimati:True:20.003",
+   "status": "COUNTEREXAMPLE",
+   "closed": false,
+   "mismatch_keys": [
+    "hpp_events",
+    "journal_posting_date"
+   ],
+   "hpp_events": [
+    [
+     "c9e23dc2-0c27-4896-967e-8df0baad300b",
+     "2026-09-22",
+     "30.010000",
+     "20.010000",
+     "0.000000"
+    ]
+   ],
+   "journals": [
+    [
+     "0c9f77f5-c31c-41b4-a66d-416a13dc1207",
+     "MATERIAL_SUPPLIER_INVOICE",
+     "2026-09-21",
+     "2026-09-21",
+     "POSTED"
+    ],
+    [
+     "65d49bf6-8b5b-4a0b-af58-78dc31260a22",
+     "MATERIAL_COST_REVALUATION",
+     "2026-09-21",
+     "2026-09-21",
+     "POSTED"
+    ],
+    [
+     "770b991f-ab65-44bc-9c1d-685502d2be8f",
+     "PO_HPP_GL_SYNC",
+     "2026-09-22",
+     "2026-09-22",
+     "POSTED"
+    ]
+   ],
+   "expected": "2026-09-21"
+  },
+  {
+   "case": "DATE:True:Asia/Jakarta:True:20",
+   "status": "COUNTEREXAMPLE",
+   "closed": true,
+   "mismatch_keys": [
+    "historical_report.cogs_gl",
+    "historical_report.fg_inventory",
+    "historical_report.wip_inventory",
+    "hpp_events",
+    "journal_posting_date"
+   ],
+   "hpp_events": [
+    [
+     "37a7a6a3-8ccb-4c56-89a3-0b9503577081",
+     "2026-09-22",
+     "30.000000",
+     "20.000000",
+     "0.000000"
+    ]
+   ],
+   "journals": [
+    [
+     "21d94ff7-f8d1-4820-aed4-c1c54aabdba0",
+     "MATERIAL_COST_REVALUATION",
+     "2026-09-21",
+     "2026-09-24",
+     "POSTED"
+    ],
+    [
+     "3195db74-639d-43f6-b815-f355d491c1b7",
+     "PO_HPP_GL_SYNC",
+     "2026-09-22",
+     "2026-09-22",
+     "POSTED"
+    ],
+    [
+     "e7141016-bb42-43ec-8073-26486564ccb7",
+     "MATERIAL_SUPPLIER_INVOICE",
+     "2026-09-21",
+     "2026-09-24",
+     "POSTED"
+    ]
+   ],
+   "expected": "2026-09-24"
+  },
+  {
+   "case": "DATE:True:Asia/Jakarta:True:20.003",
+   "status": "COUNTEREXAMPLE",
+   "closed": true,
+   "mismatch_keys": [
+    "historical_report.cogs_gl",
+    "historical_report.fg_inventory",
+    "historical_report.wip_inventory",
+    "hpp_events",
+    "journal_posting_date"
+   ],
+   "hpp_events": [
+    [
+     "62b53b40-f54b-4aa4-95f0-a5b432342d51",
+     "2026-09-22",
+     "30.010000",
+     "20.010000",
+     "0.000000"
+    ]
+   ],
+   "journals": [
+    [
+     "15b9c477-8e68-4a05-b87e-a6a0a250f91d",
+     "MATERIAL_COST_REVALUATION",
+     "2026-09-21",
+     "2026-09-24",
+     "POSTED"
+    ],
+    [
+     "690a4150-44ef-47d6-bbb4-8323fde8d008",
+     "PO_HPP_GL_SYNC",
+     "2026-09-22",
+     "2026-09-22",
+     "POSTED"
+    ],
+    [
+     "73f10355-ee3b-4942-9a8b-5e794a713e42",
+     "MATERIAL_SUPPLIER_INVOICE",
+     "2026-09-21",
+     "2026-09-24",
+     "POSTED"
+    ]
+   ],
+   "expected": "2026-09-24"
+  },
+  {
+   "case": "DATE:True:UTC:True:20",
+   "status": "COUNTEREXAMPLE",
+   "closed": true,
+   "mismatch_keys": [
+    "historical_report.cogs_gl",
+    "historical_report.fg_inventory",
+    "historical_report.wip_inventory",
+    "hpp_events",
+    "journal_posting_date"
+   ],
+   "hpp_events": [
+    [
+     "2cb47112-0d86-4243-a80a-a6db2c52c590",
+     "2026-09-22",
+     "30.000000",
+     "20.000000",
+     "0.000000"
+    ]
+   ],
+   "journals": [
+    [
+     "19974172-5f5b-4fe4-8453-8757b5122a59",
+     "MATERIAL_COST_REVALUATION",
+     "2026-09-21",
+     "2026-09-24",
+     "POSTED"
+    ],
+    [
+     "7e57c36c-4622-4f69-b9f9-22b5ee7fb81f",
+     "PO_HPP_GL_SYNC",
+     "2026-09-22",
+     "2026-09-22",
+     "POSTED"
+    ],
+    [
+     "fd213226-32e4-43ee-9fc2-0a4ffd0491e2",
+     "MATERIAL_SUPPLIER_INVOICE",
+     "2026-09-21",
+     "2026-09-24",
+     "POSTED"
+    ]
+   ],
+   "expected": "2026-09-24"
+  },
+  {
+   "case": "DATE:True:UTC:True:20.003",
+   "status": "COUNTEREXAMPLE",
+   "closed": true,
+   "mismatch_keys": [
+    "historical_report.cogs_gl",
+    "historical_report.fg_inventory",
+    "historical_report.wip_inventory",
+    "hpp_events",
+    "journal_posting_date"
+   ],
+   "hpp_events": [
+    [
+     "dae6a1bd-bc1f-4133-9ee0-487736fb482e",
+     "2026-09-22",
+     "30.010000",
+     "20.010000",
+     "0.000000"
+    ]
+   ],
+   "journals": [
+    [
+     "110dd187-559b-47ff-a926-854a54d22b87",
+     "PO_HPP_GL_SYNC",
+     "2026-09-22",
+     "2026-09-22",
+     "POSTED"
+    ],
+    [
+     "6e30a08e-5c4d-433d-8db7-3d4360c04760",
+     "MATERIAL_SUPPLIER_INVOICE",
+     "2026-09-21",
+     "2026-09-24",
+     "POSTED"
+    ],
+    [
+     "c6e34ab8-7d4b-4531-b439-e43d3cc3264e",
+     "MATERIAL_COST_REVALUATION",
+     "2026-09-21",
+     "2026-09-24",
+     "POSTED"
+    ]
+   ],
+   "expected": "2026-09-24"
+  },
+  {
+   "case": "DATE:True:Etc/GMT+12:True:20",
+   "status": "COUNTEREXAMPLE",
+   "closed": true,
+   "mismatch_keys": [
+    "historical_report.cogs_gl",
+    "historical_report.fg_inventory",
+    "historical_report.wip_inventory",
+    "hpp_events",
+    "journal_posting_date"
+   ],
+   "hpp_events": [
+    [
+     "fb7ac563-76db-45d7-84eb-181e9c598711",
+     "2026-09-22",
+     "30.000000",
+     "20.000000",
+     "0.000000"
+    ]
+   ],
+   "journals": [
+    [
+     "254e70c9-7509-479a-bf32-17b9ddd3cb3b",
+     "PO_HPP_GL_SYNC",
+     "2026-09-22",
+     "2026-09-22",
+     "POSTED"
+    ],
+    [
+     "33a02c5f-65da-4b49-880e-7873619dd508",
+     "MATERIAL_SUPPLIER_INVOICE",
+     "2026-09-21",
+     "2026-09-24",
+     "POSTED"
+    ],
+    [
+     "f6ea74ef-36c2-4e05-8cea-4ac103c5ad5b",
+     "MATERIAL_COST_REVALUATION",
+     "2026-09-21",
+     "2026-09-24",
+     "POSTED"
+    ]
+   ],
+   "expected": "2026-09-24"
+  },
+  {
+   "case": "DATE:True:Etc/GMT+12:True:20.003",
+   "status": "COUNTEREXAMPLE",
+   "closed": true,
+   "mismatch_keys": [
+    "historical_report.cogs_gl",
+    "historical_report.fg_inventory",
+    "historical_report.wip_inventory",
+    "hpp_events",
+    "journal_posting_date"
+   ],
+   "hpp_events": [
+    [
+     "12311660-9deb-4280-9a53-d411861d7234",
+     "2026-09-22",
+     "30.010000",
+     "20.010000",
+     "0.000000"
+    ]
+   ],
+   "journals": [
+    [
+     "70b5bd1b-c40b-4187-bdec-e3b22ded66ed",
+     "MATERIAL_COST_REVALUATION",
+     "2026-09-21",
+     "2026-09-24",
+     "POSTED"
+    ],
+    [
+     "cace3dc9-3f23-4525-b9ae-a69bd8ad4051",
+     "MATERIAL_SUPPLIER_INVOICE",
+     "2026-09-21",
+     "2026-09-24",
+     "POSTED"
+    ],
+    [
+     "f509d205-26c9-41e9-a8e0-a9a2210e2dd5",
+     "PO_HPP_GL_SYNC",
+     "2026-09-22",
+     "2026-09-22",
+     "POSTED"
+    ]
+   ],
+   "expected": "2026-09-24"
+  },
+  {
+   "case": "DATE:True:Pacific/Kiritimati:True:20",
+   "status": "COUNTEREXAMPLE",
+   "closed": true,
+   "mismatch_keys": [
+    "historical_report.cogs_gl",
+    "historical_report.fg_inventory",
+    "historical_report.wip_inventory",
+    "hpp_events",
+    "journal_posting_date"
+   ],
+   "hpp_events": [
+    [
+     "7fadb4e2-c515-47aa-ae88-fd297c112d01",
+     "2026-09-22",
+     "30.000000",
+     "20.000000",
+     "0.000000"
+    ]
+   ],
+   "journals": [
+    [
+     "8cd4ca24-cb60-4ed6-bc01-84f26611b8e2",
+     "MATERIAL_COST_REVALUATION",
+     "2026-09-21",
+     "2026-09-24",
+     "POSTED"
+    ],
+    [
+     "d450e1a0-2c48-4dee-a506-03b125abfd45",
+     "PO_HPP_GL_SYNC",
+     "2026-09-22",
+     "2026-09-22",
+     "POSTED"
+    ],
+    [
+     "df0eda10-fb24-4a30-a835-8c44ce4f7ee3",
+     "MATERIAL_SUPPLIER_INVOICE",
+     "2026-09-21",
+     "2026-09-24",
+     "POSTED"
+    ]
+   ],
+   "expected": "2026-09-24"
+  },
+  {
+   "case": "DATE:True:Pacific/Kiritimati:True:20.003",
+   "status": "COUNTEREXAMPLE",
+   "closed": true,
+   "mismatch_keys": [
+    "historical_report.cogs_gl",
+    "historical_report.fg_inventory",
+    "historical_report.wip_inventory",
+    "hpp_events",
+    "journal_posting_date"
+   ],
+   "hpp_events": [
+    [
+     "fdf671fc-6475-448e-bb33-70f264fc2285",
+     "2026-09-22",
+     "30.010000",
+     "20.010000",
+     "0.000000"
+    ]
+   ],
+   "journals": [
+    [
+     "255b4fe3-0df6-4009-9673-f1eee0b3e4c9",
+     "PO_HPP_GL_SYNC",
+     "2026-09-22",
+     "2026-09-22",
+     "POSTED"
+    ],
+    [
+     "b6752557-96c0-4e33-9911-af94937e6ed2",
+     "MATERIAL_COST_REVALUATION",
+     "2026-09-21",
+     "2026-09-24",
+     "POSTED"
+    ],
+    [
+     "cae2d30d-d274-4ff9-90f4-8670d8140534",
+     "MATERIAL_SUPPLIER_INVOICE",
+     "2026-09-21",
+     "2026-09-24",
+     "POSTED"
+    ]
+   ],
+   "expected": "2026-09-24"
+  }
+ ],
+ "finding_20260924": {
+  "cause": "First AY text (sync_po_hpp_to_gl, dev sha 10d66583) applied the closed/open rule per leg date instead of to the recognition date of the invoice correction. With the receipt day closed and the FG/sale day still open, part of the correction was dated on the open FG day, before the invoice arrived, so reports of days before the invoice changed. The decided rule (erp.resolve_accounting_transaction_date) recognizes the correction of a closed receipt whole on its recognition day.",
+  "writer_error": true,
+  "cases_closed_receipt": [
+   "CROSS:INVOICE:True:Asia/Jakarta:20",
+   "CROSS:INVOICE:True:Asia/Jakarta:20.003",
+   "CROSS:INVOICE:True:UTC:20",
+   "CROSS:INVOICE:True:UTC:20.003",
+   "CROSS:INVOICE:True:Etc/GMT+12:20",
+   "CROSS:INVOICE:True:Etc/GMT+12:20.003",
+   "CROSS:INVOICE:True:Pacific/Kiritimati:20",
+   "CROSS:INVOICE:True:Pacific/Kiritimati:20.003",
+   "INVOICE:UTC:4:True",
+   "INVOICE:UTC:7:True",
+   "INVOICE:Asia/Jakarta:4:True",
+   "INVOICE:Asia/Jakarta:7:True",
+   "INVOICE:Pacific/Kiritimati:4:True",
+   "INVOICE:Pacific/Kiritimati:7:True",
+   "INVOICE:America/Los_Angeles:4:True",
+   "INVOICE:America/Los_Angeles:7:True",
+   "CALENDAR:1_MONTHS:UTC:True",
+   "CALENDAR:1_MONTHS:Pacific/Kiritimati:True",
+   "CALENDAR:2_MONTHS:UTC:True",
+   "CALENDAR:2_MONTHS:Pacific/Kiritimati:True",
+   "CALENDAR:3_MONTHS:UTC:True",
+   "CALENDAR:3_MONTHS:Pacific/Kiritimati:True",
+   "CALENDAR:JAN31:UTC:True",
+   "CALENDAR:JAN31:Pacific/Kiritimati:True",
+   "CALENDAR:FEB28:UTC:True",
+   "CALENDAR:FEB28:Pacific/Kiritimati:True",
+   "CALENDAR:MAY31:UTC:True",
+   "CALENDAR:MAY31:Pacific/Kiritimati:True",
+   "DATE:True:Asia/Jakarta:True:20",
+   "DATE:True:Asia/Jakarta:True:20.003",
+   "DATE:True:UTC:True:20",
+   "DATE:True:UTC:True:20.003",
+   "DATE:True:Etc/GMT+12:True:20",
+   "DATE:True:Etc/GMT+12:True:20.003",
+   "DATE:True:Pacific/Kiritimati:True:20",
+   "DATE:True:Pacific/Kiritimati:True:20.003"
+  ],
+  "fix": "AY rev2 (dev sha e631bef7): v_from = E when E is open, else resolve_accounting_transaction_date(E); every leg date = greatest(v_from, physical date). Local logic test and new T1 cases CLOSED_RECEIPT_OPEN_GOODS.",
+  "open_receipt_partial_as_cases": [
+   "DATE:False:Asia/Jakarta:True:20",
+   "DATE:False:Asia/Jakarta:True:20.003",
+   "DATE:False:UTC:True:20",
+   "DATE:False:UTC:True:20.003",
+   "DATE:False:Etc/GMT+12:True:20",
+   "DATE:False:Etc/GMT+12:True:20.003",
+   "DATE:False:Pacific/Kiritimati:True:20",
+   "DATE:False:Pacific/Kiritimati:True:20.003"
+  ],
+  "open_receipt_partial_note": "AS oracle (frozen ca7f095) expects the PO HPP event and journal on the invoice economic date (purchase day d); AY dates them on the FG day d+1 per the owner decision of 24 Sep. Only the PO_HPP_GL_SYNC event/journal date differs; amounts, the material revaluation and the supplier invoice journal stay on d. Not called PASS; reported to owner/GPT for the oracle decision.",
+  "returned_to_au": [
+   "INVOICE:*:4:False (4)",
+   "CALENDAR:*:False (12 historical HOLD, back to DATE_POLICY_REVIEW_REQUIRED)"
+  ]
+ },
+ "note": "T2 run 8 on cd0c9eb: candidate AU+AV+AW+AX+AY (first AY text). Superseded by the AY rev2 run."
+}

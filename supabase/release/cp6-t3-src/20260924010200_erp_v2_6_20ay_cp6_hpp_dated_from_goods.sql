@@ -1,6 +1,6 @@
 -- CP6 AY: PO HPP corrections dated from the goods. Release candidate of the T3 combined package; closed, drained maintenance required.
 begin;
--- Built by scripts/cp6_t3_awx_release.py from supabase/dev/cp6_ay_t1_family.sql (sha256 10d6658392f97474e9632049995f706678fe71564f5c8b13474911bbb1d8a5d5): the T1 body below is unchanged apart from the
+-- Built by scripts/cp6_t3_awx_release.py from supabase/dev/cp6_ay_t1_family.sql (sha256 e631bef72bf985524408549a966fc190811c6962b99ea3ce048108ad2058ce41): the T1 body below is unchanged apart from the
 -- ledger description; guards follow AO..AV. Capsule and catalog pins are placeholders until the T3 capture.
 set local lock_timeout='10s';set local statement_timeout='240s';set local timezone='UTC';set local search_path='';
 set local role postgres;
@@ -202,6 +202,7 @@ declare
   v_lines jsonb:='[]'::jsonb;v_event uuid;v_journal uuid;v_documented_gain numeric(24,6):=0;
   v_acc jsonb:='{}'::jsonb;v_t numeric(24,6);v_q numeric;v_w numeric;v_n integer;v_i integer;v_left numeric(24,6);
   v_amt numeric(24,6);v_last date;v_f numeric(24,6);v_c numeric(24,6);v_o numeric(24,6);v_wip numeric(24,6);r record;
+  v_from date;
 begin
   perform erp.require_internal();
   p_effective_date:=coalesce(erp.invoice_recost_economic_date_v1(),p_effective_date);
@@ -249,17 +250,26 @@ begin
   v_sum:=v_df+v_dc+v_do;
 
   -- AY (owner, 24 Sep 2026): the correction reaches FG from the physical date of the goods and COGS from the sale date,
-  -- never before the goods existed; post_journal keeps the closed/open period rule. Totals per account are exactly the
+  -- never before the goods existed, with the decided closed/open period rule. Totals per account are exactly the
   -- previous single journal (cents, remainder on the last bucket).
+  -- The period rule applies to the recognition date of the correction first: an effective date inside the closed period
+  -- is recognized where the rule puts it (erp.resolve_accounting_transaction_date, the date post_journal uses), so the
+  -- correction of a closed receipt stays whole on that day and no report before it changes, as before AY. Only an open
+  -- effective date moves forward to the goods; every later date is open as well.
+  v_from:=p_effective_date;
+  if exists(select 1 from erp.accounting_period_control c
+            where c.singleton_id=1 and c.closed_through is not null and p_effective_date<=c.closed_through) then
+    v_from:=erp.resolve_accounting_transaction_date(p_effective_date);
+  end if;
   v_t:=v_df+v_dc;
   -- Leg A: per lot date of the PO's lots, weighted by output pcs.
-  select count(distinct greatest(p_effective_date,erp._cp3_business_date(fl.produced_at))),coalesce(sum(fl.initial_qty_pcs),0)
+  select count(distinct greatest(v_from,erp._cp3_business_date(fl.produced_at))),coalesce(sum(fl.initial_qty_pcs),0)
   into v_n,v_q
   from erp.fg_lots fl where fl.po_id=p_po_id and fl.lot_origin in('PRODUCTION','CONVERSION') and fl.initial_qty_pcs>0;
-  v_last:=p_effective_date;
+  v_last:=v_from;
   if v_q>0 then
     v_i:=0;v_left:=v_t;
-    for r in select greatest(p_effective_date,erp._cp3_business_date(fl.produced_at)) d,sum(fl.initial_qty_pcs)::numeric q
+    for r in select greatest(v_from,erp._cp3_business_date(fl.produced_at)) d,sum(fl.initial_qty_pcs)::numeric q
       from erp.fg_lots fl where fl.po_id=p_po_id and fl.lot_origin in('PRODUCTION','CONVERSION') and fl.initial_qty_pcs>0
       group by 1 order by 1
     loop
@@ -270,12 +280,12 @@ begin
       v_last:=r.d;
     end loop;
   else
-    v_acc:=erp.po_hpp_gl_leg_add_v1(v_acc,p_effective_date,v_t,0,0);
+    v_acc:=erp.po_hpp_gl_leg_add_v1(v_acc,v_from,v_t,0,0);
   end if;
   v_acc:=erp.po_hpp_gl_leg_add_v1(v_acc,v_last,0,0,v_do);
   -- Leg B: the sold change moves FG -> COGS on the sale (or return) date, weighted by net sold pcs.
   with lots as(
-    select fl.id,greatest(p_effective_date,erp._cp3_business_date(fl.produced_at)) d
+    select fl.id,greatest(v_from,erp._cp3_business_date(fl.produced_at)) d
     from erp.fg_lots fl where fl.po_id=p_po_id and fl.lot_origin in('PRODUCTION','CONVERSION')
   ), flows as(
     select greatest(l.d,erp._cp3_business_date(h.sale_date)) d,a.qty_pcs::numeric w
@@ -291,7 +301,7 @@ begin
   if v_w<>0 then
     v_i:=0;v_left:=v_dc;
     for r in with lots as(
-        select fl.id,greatest(p_effective_date,erp._cp3_business_date(fl.produced_at)) d
+        select fl.id,greatest(v_from,erp._cp3_business_date(fl.produced_at)) d
         from erp.fg_lots fl where fl.po_id=p_po_id and fl.lot_origin in('PRODUCTION','CONVERSION')
       ), flows as(
         select greatest(l.d,erp._cp3_business_date(h.sale_date)) d,a.qty_pcs::numeric w
