@@ -1,0 +1,140 @@
+{
+  "label": "T3_PREP",
+  "release_evidence": false,
+  "production_go": false,
+  "workflow": "CP6 T3 Rollback (.github/workflows/cp6-t3-rollback.yml)",
+  "capture": {
+    "run": 36063106225,
+    "job": 107846479593,
+    "commit": "81fef32ddca7bc2c8e4d37dd965a618648f479eb",
+    "status": "CAPTURED",
+    "primary_unchanged": true,
+    "blob_sha256": "62bb0e2a9a0bb69106538d32569239bf67bb8c79e05325808f837ad6f8450cf6",
+    "artifact_zip_sha256": "3ead1931bee57a10810b8ecc41b2b7a3a8a64ef6aa5866b1c5a7db491b14ad1f"
+  },
+  "cycle": {
+    "run": 36063754595,
+    "job": 107848561550,
+    "commit": "6140edb1acd182efc84a4c85879860785335e688",
+    "status": "PASS",
+    "primary_unchanged": true,
+    "artifact_zip_sha256": "037cdf15095a13b25c1da7fc7f81f7f5109c7bc0242e291e01e251405288a62f",
+    "checks": [
+      {
+        "check": "ROLLBACK_FILES_REBUILT_IDENTICALLY",
+        "status": "PASS",
+        "detail": null
+      },
+      {
+        "check": "PACKAGE_INSTALLED",
+        "status": "PASS",
+        "detail": "files=24"
+      },
+      {
+        "check": "REFUSED_OUT_OF_ORDER_AY_WHILE_AZ_INSTALLED",
+        "status": "PASS",
+        "detail": "AY_ROLLBACK_PLATFORM_OR_SUCCESSOR, changed {}"
+      },
+      {
+        "check": "REFUSED_OPEN_ADMISSION",
+        "status": "PASS",
+        "detail": "PACKAGE_REQUIRES_CLOSED_DRAINED_DATABASE, changed {}"
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_AZ_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "detail": "strict, differences {}"
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_AY_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "detail": "strict, differences {}"
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_AX_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "detail": "strict, differences {}"
+      },
+      {
+        "check": "CYCLE_1_ROLLBACK_AW_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "detail": "strict, differences {}"
+      },
+      {
+        "check": "CYCLE_1_REINSTALL_AW",
+        "status": "PASS",
+        "detail": "differences {}"
+      },
+      {
+        "check": "CYCLE_1_REINSTALL_AX",
+        "status": "PASS",
+        "detail": "differences {}"
+      },
+      {
+        "check": "CYCLE_1_REINSTALL_AY",
+        "status": "PASS",
+        "detail": "differences {}"
+      },
+      {
+        "check": "CYCLE_1_REINSTALL_AZ",
+        "status": "PASS",
+        "detail": "differences {}"
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_AZ_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "detail": "stable (capsule capture time excluded), differences {}"
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_AY_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "detail": "stable, differences {}"
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_AX_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "detail": "stable, differences {}"
+      },
+      {
+        "check": "CYCLE_2_ROLLBACK_AW_RESTORES_PREDECESSOR",
+        "status": "PASS",
+        "detail": "strict, differences {}"
+      },
+      {
+        "check": "ORIGINAL_AV_ROLLBACK_REFUSED_ON_RELEASE_CHAIN",
+        "status": "PASS",
+        "detail": "AV_ROLLBACK_PLATFORM_OR_SUCCESSOR, changed {}"
+      },
+      {
+        "check": "CYCLE_2_REINSTALL_AW",
+        "status": "PASS",
+        "detail": "differences {}"
+      },
+      {
+        "check": "CYCLE_2_REINSTALL_AX",
+        "status": "PASS",
+        "detail": "differences {}"
+      },
+      {
+        "check": "CYCLE_2_REINSTALL_AY",
+        "status": "PASS",
+        "detail": "differences {}"
+      },
+      {
+        "check": "CYCLE_2_REINSTALL_AZ",
+        "status": "PASS",
+        "detail": "differences {}"
+      },
+      {
+        "check": "REFUSED_AFTER_COMMITTED_DATA_CHANGE",
+        "status": "PASS",
+        "detail": "AZ_POST_USE_ROLLBACK_REFUSED, changed {}"
+      }
+    ]
+  },
+  "not_covered": [
+    "AC..AV rollbacks of the release package: NOT_BUILT (the files in supabase/rollbacks pin the test chain; the original AV rollback refuses on the release chain, check above)",
+    "post-use refusal uses a committed audit_logs row as the data change, not a business RPC"
+  ],
+  "source": "log lines {\"group\": \"T3_ROLLBACK_CYCLE\", ...} of the jobs above, transcribed; artifacts expire after 30 days"
+}
