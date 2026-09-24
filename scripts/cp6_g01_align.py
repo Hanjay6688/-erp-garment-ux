@@ -10,6 +10,9 @@ docs/evidence/cp6-g01/hosted_alignment_metadata.json (every text verified by md5
   * sequences: the fixture restore left a standalone `<t>_id_seq` next to the identity sequence `<t>_id_seq1`
     for two identity columns, and two serial sequences are not OWNED BY their columns.
   * schema erp: hosted grants USAGE to authenticated and service_role.
+  * the v2.6.20 rollback capsule keeps the pre-install text of two views; hosted kept its own deparse, the fixture
+    chain the CI replay (v2.6.20 accepts both). Those two capsule rows get the hosted text, verified by the hosted
+    sha256, because AO..AV pin a hash of every historical capsule.
 
 It runs only on the local disposable endpoint (asserted) and never on hosted. Label: G01_ALIGNMENT (test side only).
 
@@ -67,6 +70,43 @@ def sql(meta):
     return '\n'.join(out)+'\n'
 
 
+HOSTED_CAPSULES=ROOT/'docs/evidence/cp6-t3/hosted_capsule_hashes.json'
+# v2.6.20 captured pg_get_viewdef(view,true) of two views it then replaced. pg_get_viewdef is not a parse/deparse fixed
+# point (v2.6.20 says so and accepts both hashes), so the fixture chain stored the CI replay text while hosted stored
+# its own. Candidate rewrites of a varchar list from the replayed form to the hosted form; a row is aligned only when
+# the rewrite gives exactly the hosted sha256 read from Enteng (docs/evidence/cp6-t3/hosted_capsule_hashes.json).
+CAPSULE_VIEWS=('erp.v_fg_partial_completion_progress','erp.v_wip_control_status_v1')
+REWRITES=(
+    (re.compile(r"ARRAY\[((?:\('[^']*'::character varying\)::text(?:, )?)+)\]"),"ARRAY[{}]::text[]"),
+    (re.compile(r"ARRAY\[((?:'[^']*'::character varying::text(?:, )?)+)\]"),"ARRAY[{}]::text[]"),
+)
+
+
+def capsule_candidates(text):
+    out=[]
+    for pattern,template in REWRITES:
+        out.append(pattern.sub(lambda m:template.format(', '.join("'%s'::character varying"%v for v in re.findall(r"'([^']*)'",m.group(1)))),text))
+    return out
+
+
+def align_capsules(cur):
+    hosted={r['object']:r for r in json.loads(HOSTED_CAPSULES.read_text())['cp6_v2620_rows']}
+    rows=[]
+    for view in CAPSULE_VIEWS:
+        text,sha=cur.execute('select object_definition,definition_sha256 from erp.cp6_v2620_rollback_capsule where object_identity=%s',(view,)).fetchone()
+        want=hosted[view]['definition_sha256']
+        if sha==want:rows.append(dict(view=view,status='ALREADY_HOSTED'));continue
+        match=[c for c in capsule_candidates(text) if hashlib.sha256(c.encode()).hexdigest()==want]
+        if not match:
+            first=next((i for i,(a,b) in enumerate(zip(text.splitlines(),capsule_candidates(text)[0].splitlines())) if a!=b),None)
+            rows.append(dict(view=view,status='NO_REWRITE_MATCHES_HOSTED',replay_sha256=sha,hosted_sha256=want,
+                             replay_lines_with_arrays=[l.strip()[:300] for l in text.splitlines() if 'ARRAY[' in l][:8]))
+            continue
+        cur.execute('update erp.cp6_v2620_rollback_capsule set object_definition=%s,definition_sha256=%s where object_identity=%s',(match[0],want,view))
+        rows.append(dict(view=view,status='ALIGNED',replay_sha256=sha,hosted_sha256=want,hosted_md5_equal=hashlib.md5(match[0].encode()).hexdigest()==hosted[view]['definition_md5']))
+    return rows
+
+
 VERIFY=r"""
 select jsonb_build_object(
  'constraints',(select jsonb_object_agg(c.relname||'.'||co.conname,left(md5(co.contype::text||'|'||pg_get_constraintdef(co.oid)||'|'||co.convalidated),10))
@@ -91,6 +131,7 @@ def apply(out):
     meta=load();text=sql(meta)
     with psycopg.connect(LOCAL) as conn,conn.cursor() as cur:
         cur.execute(text,prepare=False)
+        capsules=align_capsules(cur)
         got=cur.execute(VERIFY,dict(constraints=[c['key'] for c in meta['constraints']],views=[v['view'] for v in meta['views']])).fetchone()[0]
         conn.commit()
     want_c={c['key']:c['md5_prefix'] for c in meta['constraints']};want_v={v['view']:v['md5'] for v in meta['views']}
@@ -107,9 +148,11 @@ def apply(out):
         and all(got_seq.get(k)==v for k,v in hosted_seq.items())
         and all(got_seq.get(k) is None for k in meta['sequences']['standalone']))
     report['schema_equal']=report['schema_erp']['hosted']==report['schema_erp']['aligned']
-    report['status']='ALIGNED_PER_OBJECT' if all(report[k] for k in ('constraints_equal','views_equal','sequences_equal','schema_equal')) else 'DIFFERENCES_REMAIN'
+    report['capsules']=capsules
+    report['capsules_equal']=all(r['status'] in ('ALIGNED','ALREADY_HOSTED') for r in capsules)
+    report['status']='ALIGNED_PER_OBJECT' if all(report[k] for k in ('constraints_equal','views_equal','sequences_equal','schema_equal','capsules_equal')) else 'DIFFERENCES_REMAIN'
     Path(out).write_text(json.dumps(report,indent=2)+'\n')
-    print(json.dumps({k:report[k] for k in ('status','constraints_equal','views_equal','sequences_equal','schema_equal')}))
+    print(json.dumps({k:report[k] for k in ('status','constraints_equal','views_equal','sequences_equal','schema_equal','capsules_equal','capsules')}))
     return 0 if report['status']=='ALIGNED_PER_OBJECT' else 1
 
 

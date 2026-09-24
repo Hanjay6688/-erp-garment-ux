@@ -5,6 +5,7 @@ name: CP6 T3 Release Package (hosted-faithful baseline)
     - claude/new-session-deapao
     paths:
     - scripts/cp6_t3_release_package.py
+    - scripts/cp6_g01_align.py
     - scripts/cp6_t3_package_run.py
     - scripts/cp6_t3_browser.py
     - scripts/cp6_t3_browser_verify.py
