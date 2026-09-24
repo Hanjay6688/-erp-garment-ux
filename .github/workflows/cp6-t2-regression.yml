@@ -25,12 +25,14 @@ jobs:
       fail-fast: false
       matrix:
         include:
+        # Run 3 = run 2 plus a side-channel diagnostic for cases failing on a Python
+        # assertion (engine answer, work lines the case created); outcomes unchanged.
         # Run 2: run 1 (35911656309) moved 152 cases, all stopped by the seed's own POLICY
         # open items; ar and regression now clear those seed items once per group
         # (CP6_T2_SEED=QUIETED, owner RPCs, oracles unchanged). temporal passed in
         # run 1 and is reproduced with the seed as is.
         - key: ar
-          label: AR 174 original cases and races on AU plus AV plus AW plus AX, seed quieted (T2 run 2)
+          label: AR 174 original cases and races on AU plus AV plus AW plus AX, seed quieted, diagnostics (T2 run 3)
           script: cp6_t2_regression.py
           phase: ar
           proof: t2
@@ -42,7 +44,7 @@ jobs:
           proof: t2
           seed: AS_IS
         - key: regression
-          label: Original 326 plus AS 34 with per-case identity, seed quieted (T2 run 2)
+          label: Original 326 plus AS 34 with per-case identity, seed quieted, diagnostics (T2 run 3)
           script: cp6_t2_regression.py
           phase: regression
           proof: t2

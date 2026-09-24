@@ -1,0 +1,1276 @@
+{
+ "label": "T2_REGRESSION",
+ "run": 35914912522,
+ "seed": "QUIETED",
+ "head": "b180b4b4fec186cc38f51a60cf5db54413a4f630",
+ "production_go": false,
+ "release_evidence": false,
+ "quieting": {
+  "window": [
+   "2026-05-27",
+   "2026-09-24"
+  ],
+  "per_group": [
+   {
+    "target": "BUSINESS",
+    "attendance": 4,
+    "approved": 1,
+    "work_payrolls": 3,
+    "refused": [],
+    "after_status": "READY"
+   },
+   {
+    "target": "IMPORTS",
+    "attendance": 4,
+    "approved": 1,
+    "work_payrolls": 3,
+    "refused": [],
+    "after_status": "READY"
+   },
+   {
+    "target": "VALUES",
+    "attendance": 4,
+    "approved": 1,
+    "work_payrolls": 3,
+    "refused": [],
+    "after_status": "READY"
+   },
+   {
+    "target": "NEW_CASES",
+    "attendance": 4,
+    "approved": 1,
+    "work_payrolls": 3,
+    "refused": [],
+    "after_status": "READY"
+   },
+   {
+    "target": "AR_SEQUENTIAL",
+    "attendance": 4,
+    "approved": 1,
+    "work_payrolls": 3,
+    "refused": [],
+    "after_status": "READY"
+   }
+  ]
+ },
+ "phases": {
+  "temporal": "WRITER_PASS (reproduced with the seed as is: AT 16, AU 15, 4 + 6 races)",
+  "ar": {
+   "counts": {
+    "AR_SEQUENTIAL:PASS": 142,
+    "AR_SEQUENTIAL:INCOMPLETE": 4,
+    "AR_CONCURRENCY:PASS": 28
+   }
+  },
+  "regression": {
+   "counts": {
+    "BUSINESS:PASS": 147,
+    "BUSINESS:INCOMPLETE": 67,
+    "BUSINESS:CONTROL_PASS": 16,
+    "IMPORTS:PASS": 27,
+    "IMPORTS:INCOMPLETE": 4,
+    "VALUES:PASS": 65,
+    "NEW_CASES:PASS": 34
+   },
+   "per_case_identity": {
+    "BUSINESS": {
+     "expected": 230,
+     "observed": 230,
+     "added": 0,
+     "removed": 0,
+     "moved": 67,
+     "order_unchanged": true
+    },
+    "IMPORTS": {
+     "expected": 31,
+     "observed": 31,
+     "added": 0,
+     "removed": 0,
+     "moved": 4,
+     "order_unchanged": true
+    },
+    "VALUES": {
+     "expected": 65,
+     "observed": 65,
+     "added": 0,
+     "removed": 0,
+     "moved": 0,
+     "order_unchanged": true
+    },
+    "NEW_CASES": {
+     "expected": 34,
+     "observed": 34,
+     "added": 0,
+     "removed": 0,
+     "moved": 0,
+     "order_unchanged": true
+    }
+   },
+   "holds": {
+    "expected": 12,
+    "observed": 0,
+    "identical": false,
+    "expected_count_is_recorded": true,
+    "left_hold": 12,
+    "entered_hold": 0
+   }
+  }
+ },
+ "moved": [
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:ATTENDANCE:DIRECT:Asia/Jakarta",
+   "status": "INCOMPLETE",
+   "stage": null,
+   "cls": "QUIETING_OVERLAP",
+   "blocker_codes": [],
+   "work_uncovered": [],
+   "error_head": "Active attendance periods for one contractor cannot overlap\nCONTEXT:  PL/pgSQL function guard_attendance_period_overlap() line 16 at RAISE\nSQL statement \"insert into erp.attendance_periods(\n      peri"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:ATTENDANCE:DIRECT:UTC",
+   "status": "INCOMPLETE",
+   "stage": null,
+   "cls": "QUIETING_OVERLAP",
+   "blocker_codes": [],
+   "work_uncovered": [],
+   "error_head": "Active attendance periods for one contractor cannot overlap\nCONTEXT:  PL/pgSQL function guard_attendance_period_overlap() line 16 at RAISE\nSQL statement \"insert into erp.attendance_periods(\n      peri"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:ATTENDANCE:DIRECT:Asia/Tokyo",
+   "status": "INCOMPLETE",
+   "stage": null,
+   "cls": "QUIETING_OVERLAP",
+   "blocker_codes": [],
+   "work_uncovered": [],
+   "error_head": "Active attendance periods for one contractor cannot overlap\nCONTEXT:  PL/pgSQL function guard_attendance_period_overlap() line 16 at RAISE\nSQL statement \"insert into erp.attendance_periods(\n      peri"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:ATTENDANCE:DIRECT:Pacific/Kiritimati",
+   "status": "INCOMPLETE",
+   "stage": null,
+   "cls": "QUIETING_OVERLAP",
+   "blocker_codes": [],
+   "work_uncovered": [],
+   "error_head": "Active attendance periods for one contractor cannot overlap\nCONTEXT:  PL/pgSQL function guard_attendance_period_overlap() line 16 at RAISE\nSQL statement \"insert into erp.attendance_periods(\n      peri"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:DAY:ATTENDANCE:DIRECT:Etc/GMT+12",
+   "status": "INCOMPLETE",
+   "stage": null,
+   "cls": "QUIETING_OVERLAP",
+   "blocker_codes": [],
+   "work_uncovered": [],
+   "error_head": "Active attendance periods for one contractor cannot overlap\nCONTEXT:  PL/pgSQL function guard_attendance_period_overlap() line 16 at RAISE\nSQL statement \"insert into erp.attendance_periods(\n      peri"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:CASH_LINKED:1",
+   "status": "INCOMPLETE",
+   "stage": null,
+   "cls": "READY_ASSERT_WITHOUT_BLOCKER_TEXT",
+   "blocker_codes": [],
+   "work_uncovered": [],
+   "error_head": "INDEPENDENT_PAYMENT_FIXTURE_NOT_READY"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:CASH_LINKED:4",
+   "status": "INCOMPLETE",
+   "stage": null,
+   "cls": "READY_ASSERT_WITHOUT_BLOCKER_TEXT",
+   "blocker_codes": [],
+   "work_uncovered": [],
+   "error_head": "INDEPENDENT_PAYMENT_FIXTURE_NOT_READY"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CROSS:H_R02",
+   "status": "INCOMPLETE",
+   "stage": null,
+   "cls": "READY_ASSERT_WITHOUT_BLOCKER_TEXT",
+   "blocker_codes": [],
+   "work_uncovered": [],
+   "error_head": "R02 lawful baseline is not READY"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "WORK:WORK_CENTS",
+   "status": "INCOMPLETE",
+   "stage": null,
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": "{'basis': {'period_to': '2026-09-21', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-21', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_ba"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "WORK:WORK_ZERO_RATE",
+   "status": "INCOMPLETE",
+   "stage": null,
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": "{'basis': {'period_to': '2026-09-21', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-21', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_ba"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "WORK:WORK_PARTIAL_PAY",
+   "status": "INCOMPLETE",
+   "stage": null,
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (5 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": "{'basis': {'period_to': '2026-09-21', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-21', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_ba"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "WORK:WORK_TIMEZONE",
+   "status": "INCOMPLETE",
+   "stage": null,
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": "{'basis': {'period_to': '2026-09-21', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-21', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_ba"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "WORK:REVERSE_REUSE",
+   "status": "INCOMPLETE",
+   "stage": null,
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": "{'basis': {'period_to': '2026-09-21', 'period_from': '2026-09-21', 'balance_sheet_as_of': '2026-09-21', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_ba"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "WORK:HPP_THROUGH_SALE_0",
+   "status": "INCOMPLETE",
+   "stage": null,
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": "{'info': [{'code': 'GRNI_ESTIMATE_OPEN', 'scope': 'CURRENT_STATE', 'family': 'GRNI', 'reason': '1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.'"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "WORK:HPP_THROUGH_SALE_1.27",
+   "status": "INCOMPLETE",
+   "stage": null,
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": "{'info': [{'code': 'GRNI_ESTIMATE_OPEN', 'scope': 'CURRENT_STATE', 'family': 'GRNI', 'reason': '1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.'"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "INVOICE:UTC:4:False",
+   "status": "INCOMPLETE",
+   "stage": "FIXTURE_QUALIFICATION",
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": ""
+  },
+  {
+   "group": "BUSINESS",
+   "case": "INVOICE:UTC:4:True",
+   "status": "INCOMPLETE",
+   "stage": "FIXTURE_QUALIFICATION",
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": ""
+  },
+  {
+   "group": "BUSINESS",
+   "case": "INVOICE:UTC:7:False",
+   "status": "INCOMPLETE",
+   "stage": "FIXTURE_QUALIFICATION",
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": ""
+  },
+  {
+   "group": "BUSINESS",
+   "case": "INVOICE:UTC:7:True",
+   "status": "INCOMPLETE",
+   "stage": "FIXTURE_QUALIFICATION",
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": ""
+  },
+  {
+   "group": "BUSINESS",
+   "case": "INVOICE:Asia/Jakarta:4:False",
+   "status": "INCOMPLETE",
+   "stage": "FIXTURE_QUALIFICATION",
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": ""
+  },
+  {
+   "group": "BUSINESS",
+   "case": "INVOICE:Asia/Jakarta:4:True",
+   "status": "INCOMPLETE",
+   "stage": "FIXTURE_QUALIFICATION",
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": ""
+  },
+  {
+   "group": "BUSINESS",
+   "case": "INVOICE:Asia/Jakarta:7:False",
+   "status": "INCOMPLETE",
+   "stage": "FIXTURE_QUALIFICATION",
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": ""
+  },
+  {
+   "group": "BUSINESS",
+   "case": "INVOICE:Asia/Jakarta:7:True",
+   "status": "INCOMPLETE",
+   "stage": "FIXTURE_QUALIFICATION",
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": ""
+  },
+  {
+   "group": "BUSINESS",
+   "case": "INVOICE:Pacific/Kiritimati:4:False",
+   "status": "INCOMPLETE",
+   "stage": "FIXTURE_QUALIFICATION",
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": ""
+  },
+  {
+   "group": "BUSINESS",
+   "case": "INVOICE:Pacific/Kiritimati:4:True",
+   "status": "INCOMPLETE",
+   "stage": "FIXTURE_QUALIFICATION",
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": ""
+  },
+  {
+   "group": "BUSINESS",
+   "case": "INVOICE:Pacific/Kiritimati:7:False",
+   "status": "INCOMPLETE",
+   "stage": "FIXTURE_QUALIFICATION",
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": ""
+  },
+  {
+   "group": "BUSINESS",
+   "case": "INVOICE:Pacific/Kiritimati:7:True",
+   "status": "INCOMPLETE",
+   "stage": "FIXTURE_QUALIFICATION",
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": ""
+  },
+  {
+   "group": "BUSINESS",
+   "case": "INVOICE:America/Los_Angeles:4:False",
+   "status": "INCOMPLETE",
+   "stage": "FIXTURE_QUALIFICATION",
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": ""
+  },
+  {
+   "group": "BUSINESS",
+   "case": "INVOICE:America/Los_Angeles:4:True",
+   "status": "INCOMPLETE",
+   "stage": "FIXTURE_QUALIFICATION",
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": ""
+  },
+  {
+   "group": "BUSINESS",
+   "case": "INVOICE:America/Los_Angeles:7:False",
+   "status": "INCOMPLETE",
+   "stage": "FIXTURE_QUALIFICATION",
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": ""
+  },
+  {
+   "group": "BUSINESS",
+   "case": "INVOICE:America/Los_Angeles:7:True",
+   "status": "INCOMPLETE",
+   "stage": "FIXTURE_QUALIFICATION",
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": ""
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:1_MONTHS:UTC:False",
+   "status": "INCOMPLETE",
+   "stage": "FIXTURE_QUALIFICATION",
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": ""
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:1_MONTHS:UTC:True",
+   "status": "INCOMPLETE",
+   "stage": "FIXTURE_QUALIFICATION",
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": ""
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:1_MONTHS:Pacific/Kiritimati:False",
+   "status": "INCOMPLETE",
+   "stage": "FIXTURE_QUALIFICATION",
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": ""
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:1_MONTHS:Pacific/Kiritimati:True",
+   "status": "INCOMPLETE",
+   "stage": "FIXTURE_QUALIFICATION",
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": ""
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:2_MONTHS:UTC:False",
+   "status": "INCOMPLETE",
+   "stage": "FIXTURE_QUALIFICATION",
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": ""
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:2_MONTHS:UTC:True",
+   "status": "INCOMPLETE",
+   "stage": "FIXTURE_QUALIFICATION",
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": ""
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:2_MONTHS:Pacific/Kiritimati:False",
+   "status": "INCOMPLETE",
+   "stage": "FIXTURE_QUALIFICATION",
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": ""
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:2_MONTHS:Pacific/Kiritimati:True",
+   "status": "INCOMPLETE",
+   "stage": "FIXTURE_QUALIFICATION",
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": ""
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:3_MONTHS:UTC:False",
+   "status": "INCOMPLETE",
+   "stage": "FIXTURE_QUALIFICATION",
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": ""
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:3_MONTHS:UTC:True",
+   "status": "INCOMPLETE",
+   "stage": "FIXTURE_QUALIFICATION",
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": ""
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:3_MONTHS:Pacific/Kiritimati:False",
+   "status": "INCOMPLETE",
+   "stage": "FIXTURE_QUALIFICATION",
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": ""
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:3_MONTHS:Pacific/Kiritimati:True",
+   "status": "INCOMPLETE",
+   "stage": "FIXTURE_QUALIFICATION",
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": ""
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:JAN31:UTC:False",
+   "status": "INCOMPLETE",
+   "stage": "FIXTURE_QUALIFICATION",
+   "cls": "CASE_WORK_UNCOVERED_AND_SEED_ATTENDANCE_OUTSIDE_WINDOW",
+   "blocker_codes": [
+    "ATTENDANCE_CELL_MISSING",
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": ""
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:JAN31:UTC:True",
+   "status": "INCOMPLETE",
+   "stage": "FIXTURE_QUALIFICATION",
+   "cls": "CASE_WORK_UNCOVERED_AND_SEED_ATTENDANCE_OUTSIDE_WINDOW",
+   "blocker_codes": [
+    "ATTENDANCE_CELL_MISSING",
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": ""
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:JAN31:Pacific/Kiritimati:False",
+   "status": "INCOMPLETE",
+   "stage": "FIXTURE_QUALIFICATION",
+   "cls": "CASE_WORK_UNCOVERED_AND_SEED_ATTENDANCE_OUTSIDE_WINDOW",
+   "blocker_codes": [
+    "ATTENDANCE_CELL_MISSING",
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": ""
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:JAN31:Pacific/Kiritimati:True",
+   "status": "INCOMPLETE",
+   "stage": "FIXTURE_QUALIFICATION",
+   "cls": "CASE_WORK_UNCOVERED_AND_SEED_ATTENDANCE_OUTSIDE_WINDOW",
+   "blocker_codes": [
+    "ATTENDANCE_CELL_MISSING",
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": ""
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:FEB28:UTC:False",
+   "status": "INCOMPLETE",
+   "stage": "FIXTURE_QUALIFICATION",
+   "cls": "CASE_WORK_UNCOVERED_AND_SEED_ATTENDANCE_OUTSIDE_WINDOW",
+   "blocker_codes": [
+    "ATTENDANCE_CELL_MISSING",
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": ""
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:FEB28:UTC:True",
+   "status": "INCOMPLETE",
+   "stage": "FIXTURE_QUALIFICATION",
+   "cls": "CASE_WORK_UNCOVERED_AND_SEED_ATTENDANCE_OUTSIDE_WINDOW",
+   "blocker_codes": [
+    "ATTENDANCE_CELL_MISSING",
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": ""
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:FEB28:Pacific/Kiritimati:False",
+   "status": "INCOMPLETE",
+   "stage": "FIXTURE_QUALIFICATION",
+   "cls": "CASE_WORK_UNCOVERED_AND_SEED_ATTENDANCE_OUTSIDE_WINDOW",
+   "blocker_codes": [
+    "ATTENDANCE_CELL_MISSING",
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": ""
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:FEB28:Pacific/Kiritimati:True",
+   "status": "INCOMPLETE",
+   "stage": "FIXTURE_QUALIFICATION",
+   "cls": "CASE_WORK_UNCOVERED_AND_SEED_ATTENDANCE_OUTSIDE_WINDOW",
+   "blocker_codes": [
+    "ATTENDANCE_CELL_MISSING",
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": ""
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:MAY31:UTC:False",
+   "status": "INCOMPLETE",
+   "stage": "FIXTURE_QUALIFICATION",
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": ""
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:MAY31:UTC:True",
+   "status": "INCOMPLETE",
+   "stage": "FIXTURE_QUALIFICATION",
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": ""
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:MAY31:Pacific/Kiritimati:False",
+   "status": "INCOMPLETE",
+   "stage": "FIXTURE_QUALIFICATION",
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": ""
+  },
+  {
+   "group": "BUSINESS",
+   "case": "CALENDAR:MAY31:Pacific/Kiritimati:True",
+   "status": "INCOMPLETE",
+   "stage": "FIXTURE_QUALIFICATION",
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": ""
+  },
+  {
+   "group": "BUSINESS",
+   "case": "REWORK:0:CONTRACTOR:failed=False",
+   "status": "INCOMPLETE",
+   "stage": null,
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": "{'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-24', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_ba"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "REWORK:0:CONTRACTOR:failed=True",
+   "status": "INCOMPLETE",
+   "stage": null,
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": "{'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-24', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_ba"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "REWORK:0:LAUNDRY:failed=False",
+   "status": "INCOMPLETE",
+   "stage": null,
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": "{'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-24', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_ba"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "REWORK:0:LAUNDRY:failed=True",
+   "status": "INCOMPLETE",
+   "stage": null,
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": "{'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-24', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_ba"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "REWORK:4:CONTRACTOR:failed=False",
+   "status": "INCOMPLETE",
+   "stage": null,
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": "{'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-24', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_ba"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "REWORK:4:CONTRACTOR:failed=True",
+   "status": "INCOMPLETE",
+   "stage": null,
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": "{'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-24', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_ba"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "REWORK:4:LAUNDRY:failed=False",
+   "status": "INCOMPLETE",
+   "stage": null,
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": "{'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-24', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_ba"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "REWORK:4:LAUNDRY:failed=True",
+   "status": "INCOMPLETE",
+   "stage": null,
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": "{'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-24', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_ba"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "REWORK:MIXED_RATES:CONTRACTOR:failed=False",
+   "status": "INCOMPLETE",
+   "stage": null,
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": "{'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-24', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_ba"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "REWORK:MIXED_RATES:CONTRACTOR:failed=True",
+   "status": "INCOMPLETE",
+   "stage": null,
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": "{'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-24', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_ba"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "REWORK:MIXED_RATES:LAUNDRY:failed=False",
+   "status": "INCOMPLETE",
+   "stage": null,
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": "{'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-24', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_ba"
+  },
+  {
+   "group": "BUSINESS",
+   "case": "REWORK:MIXED_RATES:LAUNDRY:failed=True",
+   "status": "INCOMPLETE",
+   "stage": null,
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": "{'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-24', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_ba"
+  },
+  {
+   "group": "IMPORTS",
+   "case": "RECOVERED_SALE:CONTRACTOR:False",
+   "status": "INCOMPLETE",
+   "stage": null,
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": "{'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-24', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_ba"
+  },
+  {
+   "group": "IMPORTS",
+   "case": "RECOVERED_SALE:CONTRACTOR:True",
+   "status": "INCOMPLETE",
+   "stage": null,
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": "{'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-24', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_ba"
+  },
+  {
+   "group": "IMPORTS",
+   "case": "RECOVERED_SALE:LAUNDRY:False",
+   "status": "INCOMPLETE",
+   "stage": null,
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": "{'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-24', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_ba"
+  },
+  {
+   "group": "IMPORTS",
+   "case": "RECOVERED_SALE:LAUNDRY:True",
+   "status": "INCOMPLETE",
+   "stage": null,
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": "{'basis': {'period_to': '2026-09-24', 'period_from': '2026-09-24', 'balance_sheet_as_of': '2026-09-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_ba"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "RECEIPT_PRODUCTION:False",
+   "status": "INCOMPLETE",
+   "stage": null,
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": "{'confidence': {'info': [{'code': 'GRNI_ESTIMATE_OPEN', 'scope': 'CURRENT_STATE', 'family': 'GRNI', 'reason': '1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup de"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "RECEIPT_PRODUCTION:True",
+   "status": "INCOMPLETE",
+   "stage": null,
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": "{'confidence': {'info': [{'code': 'GRNI_ESTIMATE_OPEN', 'scope': 'CURRENT_STATE', 'family': 'GRNI', 'reason': '1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup de"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "POCKET_PERIOD_LIFECYCLE:False:True",
+   "status": "INCOMPLETE",
+   "stage": null,
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": "CLOSE_BLOCKED: tutup buku sampai 2026-09-23 ditolak, 1 penghalang (PAYROLL_WORK_UNCOVERED).\nDETAIL:  {\"info\": [{\"code\": \"GRNI_ESTIMATE_OPEN\", \"scope\": \"CURRENT_STATE\", \"family\": \"GRNI\", \"reason\": \"2 p"
+  },
+  {
+   "group": "AR_SEQUENTIAL",
+   "case": "POCKET_PERIOD_LIFECYCLE:True:True",
+   "status": "INCOMPLETE",
+   "stage": null,
+   "cls": "CASE_WORK_UNCOVERED",
+   "blocker_codes": [
+    "GRNI_ESTIMATE_OPEN",
+    "PAYROLL_WORK_UNCOVERED"
+   ],
+   "work_uncovered": [
+    "Hasil kerja kontraktor ff443e82-81ce-40d8-b1b9-01a0b1f35c61: 1 baris (10 pcs) pada atau sebelum D belum masuk payroll."
+   ],
+   "error_head": "CLOSE_BLOCKED: tutup buku sampai 2026-09-23 ditolak, 1 penghalang (PAYROLL_WORK_UNCOVERED).\nDETAIL:  {\"info\": [{\"code\": \"GRNI_ESTIMATE_OPEN\", \"scope\": \"CURRENT_STATE\", \"family\": \"GRNI\", \"reason\": \"2 p"
+  }
+ ],
+ "moved_by_class": {
+  "QUIETING_OVERLAP": 5,
+  "READY_ASSERT_WITHOUT_BLOCKER_TEXT": 3,
+  "CASE_WORK_UNCOVERED": 59,
+  "CASE_WORK_UNCOVERED_AND_SEED_ATTENDANCE_OUTSIDE_WINDOW": 8
+ },
+ "compared_with_run1": {
+  "regression_moved_run1": 145,
+  "regression_moved_run2": 71,
+  "ar_moved_run1": 7,
+  "ar_moved_run2": 4,
+  "recovered": "NEW_CASES 13 of 13 and BUSINESS 61 recovered once the seed items were cleared. Every regression case still moved went to INCOMPLETE before its own assertion (AU outcome PASS 36, CONTROL_PASS 23, historical HOLD 12); none turned into FAIL, BUG_PROVEN or COUNTEREXAMPLE."
+ }
+}

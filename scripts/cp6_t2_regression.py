@@ -54,8 +54,31 @@ def group(name,factory):
                               attendance=len(done['attendance']),approved=len(done['approved']),work_payrolls=len(done['work_payrolls']),
                               refused=done['refused'],after_status=after and after['status'],after_blockers=awp.blockers_brief(after)),
                          default=str),flush=True)
-        return factory(cur,today)
+        return [(key,diagnosed(key,op,cur,today)) for key,op in factory(cur,today)]
     return ORIGINAL_GROUP(name,quieted)
+
+
+ELIGIBLE="select coalesce(array_agg(md5(e::text)),'{}') from erp.v_payroll_eligible_work_lines e where e.remaining_qty>0"
+
+
+def diagnosed(key,op,cur,today):
+    """Side channel only: when a case fails with a Python assertion (its transaction still usable), print the engine
+    answer and how many payroll-eligible work lines the case itself created. The case outcome is re-raised unchanged."""
+    def run():
+        awp.api.admin(cur);before=set(cur.execute(ELIGIBLE).fetchone()[0])
+        try:
+            return op()
+        except Exception as exc:
+            if not isinstance(exc,awp.psycopg.Error):
+                try:
+                    r=awp.preflight(cur,today);awp.api.admin(cur)
+                    created=set(cur.execute(ELIGIBLE).fetchone()[0])-before
+                    print(json.dumps(dict(group='T2_CASE_DIAG',case=key,engine_status=r and r['status'],blockers=awp.blockers_brief(r),
+                                          uncovered_work_lines_created_by_case=len(created)),default=str),flush=True)
+                except Exception as diag:
+                    print(json.dumps(dict(group='T2_CASE_DIAG',case=key,diagnostic_error=str(diag)[:300])),flush=True)
+            raise
+    return run
 
 
 avt.group=group
