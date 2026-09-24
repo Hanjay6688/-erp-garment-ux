@@ -1,0 +1,406 @@
+{
+  "label": "T3_PREP",
+  "run": 35941885984,
+  "head": "3d8a2ff0b49f8a0cad763ff0a4307b095d167448",
+  "package": "supabase/release/cp6-t3 (22 files AC..AX, pins blob sha256 55aca6bcae00482f02ec980484375f00f4db5636f9ecb3581f15147785983cfd, 33799 bytes; pins from capture run 35940962700)",
+  "baseline": "rebuilt to v2.6.20, aligned with hosted (G-01 option 1, catalog objects and the two v2.6.20 capsule rows), frozen path to AB, clone cp6_rollback",
+  "production_go": false,
+  "release_evidence": false,
+  "jobs": {
+    "install": {
+      "job": 107451350696,
+      "hosted_capsules": {
+        "equal": 11,
+        "of": 11,
+        "rows_differing": 0
+      },
+      "files": {
+        "AC": "PASS",
+        "AD": "PASS",
+        "AE": "PASS",
+        "AF": "PASS",
+        "AG": "PASS",
+        "AH": "PASS",
+        "AI": "PASS",
+        "AJ": "PASS",
+        "AK": "PASS",
+        "AL": "PASS",
+        "AM": "PASS",
+        "AN": "PASS",
+        "AO": "PASS",
+        "AP": "PASS",
+        "AQ": "PASS",
+        "AR": "PASS",
+        "AS": "PASS",
+        "AT": "PASS",
+        "AU": "PASS",
+        "AV": "PASS",
+        "AW": "PASS",
+        "AX": "PASS"
+      },
+      "stages": [
+        {
+          "stage": "PACKAGE",
+          "status": "PASS"
+        },
+        {
+          "stage": "AW_AX_VERIFY",
+          "status": "PASS"
+        }
+      ],
+      "security_advisors": {
+        "status": "REVIEW_REQUIRED",
+        "before": 73,
+        "after": 120,
+        "added": {
+          "rls_enabled_no_policy/INFO": 47
+        },
+        "removed": [],
+        "added_objects": [
+          "accounting_close_filings_v1",
+          "bs_case_manual_origins_v1",
+          "cp6_v2620ac_relation_rollback_capsule",
+          "cp6_v2620ac_rollback_capsule",
+          "cp6_v2620ad_rollback_capsule",
+          "cp6_v2620ae_rollback_capsule",
+          "cp6_v2620af_rollback_capsule",
+          "cp6_v2620ag_rollback_capsule",
+          "cp6_v2620ah_rollback_capsule",
+          "cp6_v2620ai_rollback_capsule",
+          "cp6_v2620aj_rollback_capsule",
+          "cp6_v2620ak_rollback_capsule",
+          "cp6_v2620al_rollback_capsule",
+          "cp6_v2620am_rollback_capsule",
+          "cp6_v2620an_rollback_capsule",
+          "cp6_v2620ao_rollback_capsule",
+          "cp6_v2620ap_rollback_capsule",
+          "cp6_v2620aq_rollback_capsule",
+          "cp6_v2620ar_rollback_capsule",
+          "cp6_v2620as_rollback_capsule",
+          "cp6_v2620at_rollback_capsule",
+          "cp6_v2620au_rollback_capsule",
+          "cp6_v2620av_rollback_capsule",
+          "fg_unsourced_receipts_v1",
+          "initial_import_bs_value_events",
+          "initial_import_cost_origins",
+          "initial_import_financial_sources",
+          "initial_import_opening_stock_sources",
+          "initial_import_origin_cost_events",
+          "initial_import_prepayment_events",
+          "initial_import_prepayment_payments",
+          "initial_import_prepayments",
+          "initial_import_production_sources",
+          "initial_import_receipt_headers",
+          "initial_import_receipt_lines",
+          "initial_import_wip_output_reversals",
+          "initial_import_wip_outputs",
+          "invoice_recost_execution_context",
+          "laundry_rate_owner_estimates_v1",
+          "pocket_fabric_execution_context",
+          "pocket_fabric_materials",
+          "pocket_fabric_usage",
+          "pocket_period_destinations",
+          "pocket_period_events",
+          "pocket_period_sources",
+          "pocket_periods",
+          "product_identity_mutation_context_v1"
+        ],
+        "note": "every added finding is INFO rls_enabled_no_policy (47 tables created by AC..AX: rollback capsules, import, pocket and AV/AW/AX tables): RLS on and no policy. No WARN or ERROR finding was added or removed. Who can reach these tables is decided by their ACLs, which are part of the pinned catalog of each file; the advisor does not check ACLs (service_role bypasses RLS in Supabase)."
+      },
+      "backup_restore_drill": {
+        "status": "RESTORED_SAME_MEANING",
+        "rules": "pre-review rules (tightened afterwards, see the next run)",
+        "restore_errors": 20,
+        "error_kinds": [
+          "can only create extension in database postgres",
+          "extension \"pg_cron\" does not exist",
+          "pg_restore: warning: errors ignored on restore: 19",
+          "relation \"cron.jobid_seq\" does not exist",
+          "relation \"cron.runid_seq\" does not exist",
+          "schema \"cron\" does not exist"
+        ],
+        "data_tables": 262,
+        "data_differ": {},
+        "engine": {
+          "day": "2026-09-23",
+          "equal": true,
+          "source_status": "READY",
+          "restored_status": "READY"
+        },
+        "source_cron_jobs": 0,
+        "catalog_classes": {
+          "constraint": {
+            "VARCHAR_IN_LIST_REPARSE": 29
+          },
+          "extension": {
+            "PG_CRON_ONLY_IN_DATABASE_POSTGRES": 1
+          },
+          "index": {
+            "VARCHAR_IN_LIST_REPARSE": 1
+          },
+          "view": {
+            "VARCHAR_IN_LIST_REPARSE": 6
+          }
+        }
+      },
+      "status": "ALL_STAGES_INSTALLED",
+      "primary_unchanged": true,
+      "auth_users": [
+        0,
+        0
+      ],
+      "ledger_final": {
+        "app": [
+          "v2.6.20aa",
+          "v2.6.20ab",
+          "v2.6.20ac",
+          "v2.6.20ad",
+          "v2.6.20ae",
+          "v2.6.20af",
+          "v2.6.20ag",
+          "v2.6.20ah",
+          "v2.6.20ai",
+          "v2.6.20aj",
+          "v2.6.20ak",
+          "v2.6.20al",
+          "v2.6.20am",
+          "v2.6.20an",
+          "v2.6.20ao",
+          "v2.6.20ap",
+          "v2.6.20aq",
+          "v2.6.20ar",
+          "v2.6.20as",
+          "v2.6.20at",
+          "v2.6.20au",
+          "v2.6.20av",
+          "v2.6.20aw",
+          "v2.6.20ax"
+        ],
+        "platform_last": "20260924010100"
+      }
+    },
+    "capture": {
+      "job": 107451350430,
+      "hosted_capsules": {
+        "equal": 11,
+        "of": 11,
+        "rows_differing": 0
+      },
+      "stages": [
+        {
+          "stage": "PACKAGE",
+          "status": "PASS"
+        },
+        {
+          "stage": "AW_AX_VERIFY",
+          "status": "PASS"
+        }
+      ],
+      "pins_reproduced": {
+        "group": "T3_PINS_REPRODUCED",
+        "equal": true,
+        "differ": []
+      },
+      "pins_log": "T3_PINS_SHA256 55aca6bcae00482f02ec980484375f00f4db5636f9ecb3581f15147785983cfd 33799",
+      "security_advisors": {
+        "status": "REVIEW_REQUIRED",
+        "before": 73,
+        "after": 120,
+        "added": {
+          "rls_enabled_no_policy/INFO": 47
+        },
+        "removed": [],
+        "added_objects": [
+          "accounting_close_filings_v1",
+          "bs_case_manual_origins_v1",
+          "cp6_v2620ac_relation_rollback_capsule",
+          "cp6_v2620ac_rollback_capsule",
+          "cp6_v2620ad_rollback_capsule",
+          "cp6_v2620ae_rollback_capsule",
+          "cp6_v2620af_rollback_capsule",
+          "cp6_v2620ag_rollback_capsule",
+          "cp6_v2620ah_rollback_capsule",
+          "cp6_v2620ai_rollback_capsule",
+          "cp6_v2620aj_rollback_capsule",
+          "cp6_v2620ak_rollback_capsule",
+          "cp6_v2620al_rollback_capsule",
+          "cp6_v2620am_rollback_capsule",
+          "cp6_v2620an_rollback_capsule",
+          "cp6_v2620ao_rollback_capsule",
+          "cp6_v2620ap_rollback_capsule",
+          "cp6_v2620aq_rollback_capsule",
+          "cp6_v2620ar_rollback_capsule",
+          "cp6_v2620as_rollback_capsule",
+          "cp6_v2620at_rollback_capsule",
+          "cp6_v2620au_rollback_capsule",
+          "cp6_v2620av_rollback_capsule",
+          "fg_unsourced_receipts_v1",
+          "initial_import_bs_value_events",
+          "initial_import_cost_origins",
+          "initial_import_financial_sources",
+          "initial_import_opening_stock_sources",
+          "initial_import_origin_cost_events",
+          "initial_import_prepayment_events",
+          "initial_import_prepayment_payments",
+          "initial_import_prepayments",
+          "initial_import_production_sources",
+          "initial_import_receipt_headers",
+          "initial_import_receipt_lines",
+          "initial_import_wip_output_reversals",
+          "initial_import_wip_outputs",
+          "invoice_recost_execution_context",
+          "laundry_rate_owner_estimates_v1",
+          "pocket_fabric_execution_context",
+          "pocket_fabric_materials",
+          "pocket_fabric_usage",
+          "pocket_period_destinations",
+          "pocket_period_events",
+          "pocket_period_sources",
+          "pocket_periods",
+          "product_identity_mutation_context_v1"
+        ],
+        "note": "every added finding is INFO rls_enabled_no_policy: new tables and capsules with RLS on and no policy, reachable only through SECURITY DEFINER functions (same pattern as the AN chain)"
+      },
+      "backup_restore_drill": {
+        "status": "RESTORED_SAME_MEANING",
+        "rules": "pre-review rules (tightened afterwards, see the next run)",
+        "restore_errors": 20,
+        "error_kinds": [
+          "can only create extension in database postgres",
+          "extension \"pg_cron\" does not exist",
+          "pg_restore: warning: errors ignored on restore: 19",
+          "relation \"cron.jobid_seq\" does not exist",
+          "relation \"cron.runid_seq\" does not exist",
+          "schema \"cron\" does not exist"
+        ],
+        "data_tables": 262,
+        "data_differ": {},
+        "engine": {
+          "day": "2026-09-23",
+          "equal": true,
+          "source_status": "READY",
+          "restored_status": "READY"
+        },
+        "source_cron_jobs": 0,
+        "catalog_classes": {
+          "constraint": {
+            "VARCHAR_IN_LIST_REPARSE": 29
+          },
+          "extension": {
+            "PG_CRON_ONLY_IN_DATABASE_POSTGRES": 1
+          },
+          "index": {
+            "VARCHAR_IN_LIST_REPARSE": 1
+          },
+          "view": {
+            "VARCHAR_IN_LIST_REPARSE": 6
+          }
+        }
+      },
+      "status": "ALL_STAGES_INSTALLED",
+      "primary_unchanged": true,
+      "auth_users": [
+        0,
+        0
+      ],
+      "ledger_final": {
+        "app": [
+          "v2.6.20aa",
+          "v2.6.20ab",
+          "v2.6.20ac",
+          "v2.6.20ad",
+          "v2.6.20ae",
+          "v2.6.20af",
+          "v2.6.20ag",
+          "v2.6.20ah",
+          "v2.6.20ai",
+          "v2.6.20aj",
+          "v2.6.20ak",
+          "v2.6.20al",
+          "v2.6.20am",
+          "v2.6.20an",
+          "v2.6.20ao",
+          "v2.6.20ap",
+          "v2.6.20aq",
+          "v2.6.20ar",
+          "v2.6.20as",
+          "v2.6.20at",
+          "v2.6.20au",
+          "v2.6.20av",
+          "v2.6.20aw",
+          "v2.6.20ax"
+        ],
+        "platform_last": "20260924010100"
+      }
+    },
+    "browser": {
+      "job": 107451350684,
+      "hosted_capsules": {
+        "equal": 11,
+        "of": 11,
+        "rows_differing": 0
+      },
+      "files": {
+        "AC": "PASS",
+        "AD": "PASS",
+        "AE": "PASS",
+        "AF": "PASS",
+        "AG": "PASS",
+        "AH": "PASS",
+        "AI": "PASS",
+        "AJ": "PASS",
+        "AK": "PASS",
+        "AL": "PASS",
+        "AM": "PASS",
+        "AN": "PASS",
+        "AO": "PASS",
+        "AP": "PASS",
+        "AQ": "PASS",
+        "AR": "PASS",
+        "AS": "PASS",
+        "AT": "PASS",
+        "AU": "PASS",
+        "AV": "PASS",
+        "AW": "PASS",
+        "AX": "PASS"
+      },
+      "stages": [
+        {
+          "stage": "PACKAGE",
+          "status": "PASS"
+        },
+        {
+          "stage": "AW_AX_VERIFY",
+          "status": "PASS"
+        }
+      ],
+      "browser": {
+        "status": "PASS",
+        "cases": {
+          "REAL_LOGIN_PAGE": "PASS",
+          "ANONYMOUS_REFUSED": "PASS",
+          "REAL_PASSWORD_BROWSER_LOGIN": "PASS",
+          "AMBIGUOUS_REFUSED_0": "PASS",
+          "LOST_REPLY_RELOAD_EXACT_REPLAY": "PASS",
+          "EXACT_BRAND_STOCK_HPP_0": "PASS",
+          "LINKED_INVERSE_0": "PASS",
+          "AMBIGUOUS_REFUSED_1": "PASS",
+          "EXACT_BRAND_STOCK_HPP_1": "PASS",
+          "LINKED_INVERSE_1": "PASS"
+        },
+        "flow_status": "PASS",
+        "console_errors": 0,
+        "candidate_verified_after_flow": "T3_PACKAGE_PLUS_AW_AX_T1",
+        "rest_remaining": false
+      },
+      "status": "ALL_STAGES_INSTALLED",
+      "primary_unchanged": true,
+      "auth_users": [
+        0,
+        0
+      ],
+      "ledger_final": null
+    }
+  },
+  "review": "Independent review of 24 Sep: the AW/AX release candidates of this package lack part of the AO..AV guard set, the browser job status did not depend on the flow (here the flow itself printed PASS for 10 of 10), and the drill rules were too permissive. This run is kept as the record of the 22-file package before those fixes; the package is rebuilt afterwards."
+}

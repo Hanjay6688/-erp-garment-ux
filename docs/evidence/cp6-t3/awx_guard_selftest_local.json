@@ -1,0 +1,90 @@
+{
+  "label": "T3_PREP_LOCAL_SELFTEST",
+  "server": "16.13 (Ubuntu 16.13-0ubuntu0.24.04.1)",
+  "positive": {
+    "AW": {
+      "result": "INSTALLED",
+      "capsule": [
+        [
+          "erp.close_accounting_through(date,text)",
+          true,
+          true
+        ],
+        [
+          "erp.get_owner_financial_snapshot_v2(date,date,date)",
+          true,
+          true
+        ]
+      ]
+    },
+    "AX": {
+      "result": "INSTALLED",
+      "capsule": []
+    }
+  },
+  "negative": [
+    {
+      "case": "capsule row altered after pinning",
+      "expected": "AW_HISTORICAL_CAPSULE_DRIFT",
+      "refusal": "AW_HISTORICAL_CAPSULE_DRIFT: cp6_v2620ao_rollback_capsule",
+      "ok": true
+    },
+    {
+      "case": "grant on a package capsule",
+      "expected": "AW_PRIOR_CAPSULE_SECURITY",
+      "refusal": "AW_PRIOR_CAPSULE_SECURITY: erp.cp6_v2620ap_rollback_capsule",
+      "ok": true
+    },
+    {
+      "case": "prior ledger statements altered",
+      "expected": "AW_PRIOR_PLATFORM_DRIFT",
+      "refusal": "AW_PRIOR_PLATFORM_DRIFT: erp_v2_6_20ao_cp6_invoice_retail",
+      "ok": true
+    },
+    {
+      "case": "prior app marker missing",
+      "expected": "AW_PRIOR_PLATFORM_DRIFT",
+      "refusal": "AW_PRIOR_PLATFORM_DRIFT: erp_v2_6_20ar_cp6_opening_overlap",
+      "ok": true
+    },
+    {
+      "case": "successor ledger row present",
+      "expected": "AW_EXACT_PREDECESSOR_REQUIRED",
+      "refusal": "AW_EXACT_PREDECESSOR_REQUIRED",
+      "ok": true
+    },
+    {
+      "case": "body changes an unlisted function",
+      "expected": "AW_CAPSULE_INCOMPLETE",
+      "refusal": "AW_CAPSULE_INCOMPLETE",
+      "ok": true
+    },
+    {
+      "case": "body changes the ACL of an unlisted function",
+      "expected": "AW_CAPSULE_INCOMPLETE",
+      "refusal": "AW_CAPSULE_INCOMPLETE",
+      "ok": true
+    },
+    {
+      "case": "body changes business data",
+      "expected": "AW_INSTALL_CHANGED_DATA",
+      "refusal": "AW_INSTALL_CHANGED_DATA",
+      "ok": true
+    },
+    {
+      "case": "body fills a new table",
+      "expected": "AW_INSTALL_CHANGED_DATA",
+      "refusal": "AW_INSTALL_CHANGED_DATA",
+      "ok": true
+    },
+    {
+      "case": "body changes a function after the pins (installed catalog pin kept)",
+      "expected": "AW_INSTALLED_CATALOG_DRIFT",
+      "refusal": "AW_INSTALLED_CATALOG_DRIFT",
+      "ok": true
+    }
+  ],
+  "production_go": false,
+  "release_evidence": false,
+  "status": "PASS"
+}

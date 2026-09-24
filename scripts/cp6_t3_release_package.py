@@ -20,7 +20,10 @@ in place with the same strictness; only these expected values change, each one r
 Modes (the chain modes run only on the local disposable clone cp6_rollback, asserted):
   capture PINS.json  build AC'..AV' step by step on the aligned clone at AB, capturing each live value, and install each
                      re-pinned file with the same applier as install; then AW/AX T1. Prints the pins in the log.
-  build PINS.json    write supabase/release/cp6-t3/*.sql and MANIFEST.json from the original files and the pins (no DB).
+  build PINS.json [BLOB_SHA256]  write supabase/release/cp6-t3/*.sql and MANIFEST.json from the original files and the pins
+                     (no DB): the pins must cover every package file in order, every substitution must be one reviewed kind
+                     replacing exactly one guard pin of its file (LEDGER and AC_VIEW are derived again), and the pins blob
+                     sha256 printed by the capture is recorded (and checked when given).
   install OUT.json   install the committed package on the aligned clone at AB, file by file, recording PASS or refusal.
 Label: T3_PREP (not release evidence). Rollback files of the package are NOT_TESTED.
 """
@@ -129,6 +132,31 @@ def catalog_sub(block,count,fingerprint):
     old="if object_count<>%d or fingerprint is distinct from '%s' then\n  raise exception '%s';"%(block['count'],block['fingerprint'],block['code'])
     new="if object_count<>%d or fingerprint is distinct from '%s' then\n  raise exception '%s';"%(count,fingerprint,block['code'])
     return dict(kind='CATALOG',what=block['code'],old=old,new=new,count=1)
+
+
+CATALOG_SUB=re.compile(r"if object_count<>\d+ or fingerprint is distinct from '[0-9a-f]{64}' then\n  raise exception '(?P<code>[A-Z_]+)';\Z")
+CAPSULE_SUB=re.compile(r'"(?P<key>[a-z0-9_]+_rollback_capsule)":"[0-9a-f]{64}"\Z')
+
+
+def check_subs(row,text,subs):
+    """Every recorded substitution is one of the four reviewed kinds and replaces exactly one guard pin of this file."""
+    blocks=catalog_blocks(text);hist=history(text)
+    catalog_old={catalog_sub(b,b['count'],b['fingerprint'])['old']:b['code'] for b in blocks}
+    capsule_old={'"%s":"%s"'%(k,v):k for k,v in (hist['pins'].items() if hist else [])}
+    for s in subs:
+        assert s['kind'] in ('AC_VIEW','LEDGER','CATALOG','CAPSULE'),('T3_SUB_KIND',row['key'],s['kind'])
+        assert s['kind']!='AC_VIEW' or row['key']=='AC',('T3_SUB_AC_VIEW_OUTSIDE_AC',row['key'])
+        if s['kind']=='CATALOG':
+            o=CATALOG_SUB.match(s['old']);n=CATALOG_SUB.match(s['new'])
+            assert o and n and o['code']==n['code']==catalog_old.get(s['old']) and s['count']==1,('T3_SUB_CATALOG',row['key'],s.get('what'))
+        if s['kind']=='CAPSULE':
+            o=CAPSULE_SUB.match(s['old']);n=CAPSULE_SUB.match(s['new'])
+            assert o and n and o['key']==n['key']==capsule_old.get(s['old'])==s['what'] and s['count']==1,('T3_SUB_CAPSULE',row['key'],s.get('what'))
+    final=apply_subs(text,subs)
+    after=catalog_blocks(final)
+    assert [b['code'] for b in after]==[b['code'] for b in blocks] and len(after)==(2 if row['closed'] else 0),('T3_SUB_CATALOG_SHAPE',row['key'])
+    assert (history(final) is None)==(hist is None) and (hist is None or list(history(final)['pins'])==list(hist['pins'])),('T3_SUB_HISTORY_SHAPE',row['key'])
+    return final
 
 
 def history(text):
@@ -273,7 +301,7 @@ def capture(out):
             try:
                 applier.install(row,final);entry['status']='PASS'
             except Exception as exc:
-                entry.update(status='REFUSED',error=str(exc)[:3000]);raise
+                entry.update(status='REFUSED' if getattr(exc,'sqlstate',None)=='P0001' else 'ERROR',error=str(exc)[:3000]);raise
             if final!=text:renamed.append(dict(key=row['key'],old=row['source_sha256'],new=entry['package_sha256']))
             print(json.dumps(dict(group='T3_PACKAGE_CAPTURE',key=row['key'],status=entry['status'],
                                   subs=[dict(kind=s['kind'],what=s['what']) for s in subs]),default=str),flush=True)
@@ -293,14 +321,19 @@ def capture(out):
     return report
 
 
-def build(pins_path):
+def build(pins_path,expected_blob=None):
     """Write the committed package from the original files and the recorded substitutions (no database)."""
     pins=json.loads(Path(pins_path).read_text())
     assert pins['format']=='CP6_T3_RELEASE_PINS_V1' and pins['status']=='CAPTURED_AND_INSTALLED'
+    # The pins must cover the whole package, in order; the blob sha256 is the one the capture printed in its log.
     rows={r['key']:r for r in package()}
+    assert [f['key'] for f in pins['files']]==list(rows),('T3_PINS_DO_NOT_COVER_THE_PACKAGE',[f['key'] for f in pins['files']])
+    blob=json.dumps(pins,separators=(',',':'))
+    if expected_blob:assert sha(blob)==expected_blob,('T3_PINS_BLOB_SHA256',sha(blob))
     RELEASE.mkdir(parents=True,exist_ok=True)
     manifest=dict(format='CP6_T3_RELEASE_PACKAGE_V1',label='T3_PREP',decision='G-01 option (b), owner 23 Sep 2026',files=[],
-                  production_go=False,release_evidence=False,rollbacks='NOT_TESTED')
+                  production_go=False,release_evidence=False,rollbacks='NOT_TESTED',
+                  pins=dict(file=os.path.relpath(Path(pins_path).resolve(),ROOT),blob_sha256=sha(blob),blob_bytes=len(blob)))
     renamed=[]
     for f in pins['files']:
         row=rows[f['key']];text=(ROOT/row['path']).read_text()
@@ -308,7 +341,7 @@ def build(pins_path):
         expected=[s for s in f['subs'] if s['kind']=='LEDGER']
         assert expected==ledger_subs(text,renamed),('T3_LEDGER_CASCADE_MISMATCH',f['key'])
         if f['key']=='AC':assert [s for s in f['subs'] if s['kind']=='AC_VIEW']==ac_view_subs(text)
-        final=apply_subs(text,f['subs'])
+        final=check_subs(row,text,f['subs'])
         assert sha(final)==f['package_sha256'],('T3_PACKAGE_SHA_MISMATCH',f['key'])
         target=RELEASE/Path(row['path']).name
         target.write_text(final)
@@ -334,11 +367,12 @@ def install(out):
             try:
                 applier.install(row,text);entry=dict(key=f['key'],status='PASS')
             except Exception as exc:
-                entry=dict(key=f['key'],status='REFUSED',error=str(exc)[:3000])
+                # Only a guard's own refusal (raise exception, SQLSTATE P0001) is a REFUSED file; anything else is an error.
+                entry=dict(key=f['key'],status='REFUSED' if getattr(exc,'sqlstate',None)=='P0001' else 'ERROR',error=str(exc)[:3000])
             report['files'].append(entry);print(json.dumps(dict(group='T3_PACKAGE_INSTALL',**entry),default=str),flush=True)
             if entry['status']!='PASS':break
         report['status']='ALL_FILES_INSTALLED' if len(report['files'])==len(manifest['files']) and all(
-            f['status']=='PASS' for f in report['files']) else 'REFUSED'
+            f['status']=='PASS' for f in report['files']) else ('REFUSED' if report['files'][-1]['status']=='REFUSED' else 'INCOMPLETE')
     except Exception as exc:
         report.update(status='INCOMPLETE',error=str(exc)[:3000],traceback=traceback.format_exc()[-3000:])
     finally:
@@ -350,6 +384,6 @@ if __name__=='__main__':
     mode=sys.argv[1]
     if mode=='plan':print(json.dumps(package(),indent=1))
     elif mode=='capture':raise SystemExit(0 if capture(sys.argv[2])['status']=='CAPTURED_AND_INSTALLED' else 1)
-    elif mode=='build':build(sys.argv[2])
+    elif mode=='build':build(sys.argv[2],sys.argv[3] if len(sys.argv)>3 else None)
     elif mode=='install':raise SystemExit(0 if install(sys.argv[2])['status']=='ALL_FILES_INSTALLED' else 1)
     else:raise SystemExit(__doc__)

@@ -14,6 +14,12 @@ work outside any payroll) under the recorded owner policy of AW (P-03: hold ever
 seed items once per group, before any case, the way the owner would (awp.quiet_seed: attendance OFF through the
 attendance RPCs, payroll approval, seed work into an approved payroll), inside the group transaction that is rolled
 back afterwards. Oracles, cases and races are unchanged; a case that still moves is disposed of on its own.
+
+Run 4 (independent review of 24 Sep): the quieting reads the closing date the group set instead of assuming it, clears
+the seed items over the whole reopened range (not only the last 120 days), and requires the AW engine to answer READY
+for that whole range before the closing date is put back; any refused step or a range that is not READY stops the group
+(its cases are not run). The run-3 side channel is opt-in (CP6_T2_DIAG=1) and reads inside a savepoint that is rolled
+back, so the case starts in the session state it had without it.
 """
 from datetime import date,timedelta
 from pathlib import Path
@@ -30,7 +36,8 @@ import cp6_regression_identity as identity
 
 LABEL=os.environ.get('CP6_T2_LABEL','T2_PRELIMINARY')
 SEED=os.environ.get('CP6_T2_SEED','AS_IS')
-QUIET_DAYS=120
+REOPEN=date(2026,1,1)
+DIAG=os.environ.get('CP6_T2_DIAG')=='1'
 avt.OUT=AUDITOR/'cp6-proof/t2'
 assert SEED in ('AS_IS','QUIETED')
 
@@ -42,18 +49,27 @@ def group(name,factory):
     """Run 2 only: clear the seed's own open items in the group transaction before the cases are built."""
     if SEED!='QUIETED':return ORIGINAL_GROUP(name,factory)
     def quieted(cur,today):
-        # group() has just closed through 2026-08-31. The seed payroll ends 2026-02-01 and the calendar cases reopen up
-        # to three months back, so the seed items are cleared with the books open from 2026-01-02, then the group's
-        # boundary is put back (the same administrative helper group() uses).
+        # group() has just closed the books (read here, not assumed). The seed payroll ends 2026-02-01 and the calendar
+        # cases reopen up to three months back, so the seed items are cleared over the whole range from 2026-01-02 to
+        # today with the books open, the AW engine must answer READY for every date of the reopened range, and only then
+        # is the group's closing date put back (the same administrative helper group() uses).
         prior=avt.predecessor.historical.prior
-        prior.set_open_period(cur,date(2026,1,1))
-        done=awp.quiet_seed(cur,today-timedelta(days=QUIET_DAYS),today)
-        prior.set_open_period(cur,date(2026,8,31))
+        awp.api.admin(cur)
+        found=cur.execute('select closed_through from erp.accounting_period_control where singleton_id=1').fetchone()[0]
+        assert found is not None and REOPEN<found<today,('T2_UNEXPECTED_GROUP_CLOSE',found)
+        prior.set_open_period(cur,REOPEN)
+        done=awp.quiet_seed(cur,REOPEN+timedelta(days=1),today)
+        reopened=awp.preflight(cur,found)
+        prior.set_open_period(cur,found)
         after=awp.preflight(cur,today)
-        print(json.dumps(dict(group='T2_SEED_QUIETED',target=name,window=[str(today-timedelta(days=QUIET_DAYS)),str(today)],
-                              attendance=len(done['attendance']),approved=len(done['approved']),work_payrolls=len(done['work_payrolls']),
-                              refused=done['refused'],after_status=after and after['status'],after_blockers=awp.blockers_brief(after)),
-                         default=str),flush=True)
+        print(json.dumps(dict(group='T2_SEED_QUIETED',target=name,closed_through=found,window=[str(REOPEN+timedelta(days=1)),str(today)],
+                              attendance=len(done['attendance']),approved=done['approved'],work_payrolls=len(done['work_payrolls']),
+                              refused=done['refused'],reopened_range=[str(REOPEN+timedelta(days=1)),str(found)],
+                              reopened_status=reopened and reopened['status'],reopened_blockers=awp.blockers_brief(reopened),
+                              after_status=after and after['status'],after_blockers=awp.blockers_brief(after)),default=str),flush=True)
+        assert not done['refused'],('T2_SEED_QUIETING_REFUSED',done['refused'])
+        assert reopened and reopened['status']=='READY',('T2_REOPENED_RANGE_NOT_READY',awp.blockers_brief(reopened))
+        assert after and after['status']=='READY',('T2_QUIETED_SEED_NOT_READY',awp.blockers_brief(after))
         return [(key,diagnosed(key,op,cur,today)) for key,op in factory(cur,today)]
     return ORIGINAL_GROUP(name,quieted)
 
@@ -62,17 +78,27 @@ ELIGIBLE="select coalesce(array_agg(md5(e::text)),'{}') from erp.v_payroll_eligi
 
 
 def diagnosed(key,op,cur,today):
-    """Side channel only: when a case fails with a Python assertion (its transaction still usable), print the engine
-    answer and how many payroll-eligible work lines the case itself created. The case outcome is re-raised unchanged."""
+    """Side channel only (CP6_T2_DIAG=1): when a case fails with a Python assertion (its transaction still usable), print
+    the engine answer and how many payroll-eligible work lines the case itself created. The case outcome is re-raised
+    unchanged. The reads happen inside savepoints that are rolled back, which also undoes their SET LOCAL/role changes."""
+    if not DIAG:return op
+    def read(query=None):
+        cur.execute('savepoint t2_diag')
+        try:
+            if query is None:
+                r=awp.preflight(cur,today);return r
+            awp.api.admin(cur);return set(cur.execute(query).fetchone()[0])
+        finally:
+            cur.execute('rollback to savepoint t2_diag');cur.execute('release savepoint t2_diag')
     def run():
-        awp.api.admin(cur);before=set(cur.execute(ELIGIBLE).fetchone()[0])
+        try:before=read(ELIGIBLE)
+        except awp.psycopg.Error:before=None
         try:
             return op()
         except Exception as exc:
-            if not isinstance(exc,awp.psycopg.Error):
+            if not isinstance(exc,awp.psycopg.Error) and before is not None:
                 try:
-                    r=awp.preflight(cur,today);awp.api.admin(cur)
-                    created=set(cur.execute(ELIGIBLE).fetchone()[0])-before
+                    r=read();created=read(ELIGIBLE)-before
                     print(json.dumps(dict(group='T2_CASE_DIAG',case=key,engine_status=r and r['status'],blockers=awp.blockers_brief(r),
                                           uncovered_work_lines_created_by_case=len(created)),default=str),flush=True)
                 except Exception as diag:

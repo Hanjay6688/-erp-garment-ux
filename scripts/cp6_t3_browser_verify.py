@@ -3,8 +3,8 @@
 The AU browser fixture checks `cp6_au_runtime.verified`, which pins the AU catalog; AV..AX change that catalog on
 purpose, so on the combined candidate the fixture checks this instead (set CP6_T3_BROWSER=1): every package file is in
 the platform ledger with exactly the statements of supabase/release/cp6-t3 (sha256 from MANIFEST.json), nothing else
-was applied after AB, and AW/AX T1 verify (function texts and the AV coverage registry). The browser cases and their
-oracles are unchanged. Label: T3_PREP.
+was applied after AB, AW/AX T1 verify (function texts and the AV coverage registry), and the whole erp/public catalog
+equals the installed pin of the last package file. The browser cases and their oracles are unchanged. Label: T3_PREP.
 """
 from pathlib import Path
 import json
@@ -23,4 +23,15 @@ def verified(cur):
                            sorted(k for k in expected if live.get(k)!=expected[k]))
     import cp6_ax_probe as axp
     ax=axp.ax_verified(cur)
-    return dict(stage='T3_PACKAGE_PLUS_AW_AX_T1',package_files=len(expected),aw_ax=ax['stage'],ax_sql_sha256=ax['ax_sql_sha256'])
+    # The whole erp/public catalog (definitions, owners, ACLs) equals the installed pin of the last package file (AX),
+    # read on a separate read-only connection so the caller's session settings are untouched.
+    import psycopg
+    import cp6_t3_release_package as package
+    last=manifest['files'][-1]
+    block=package.catalog_blocks((ROOT/last['file']).read_text())[1]
+    with psycopg.connect(package.CLONE) as conn,conn.cursor() as check:
+        conn.read_only=True
+        live=package.live_catalog(check,block);conn.rollback()
+    assert live==(block['count'],block['fingerprint']),('T3_BROWSER_CATALOG_DRIFT',last['key'],live)
+    return dict(stage='T3_PACKAGE_PLUS_AW_AX_T1',package_files=len(expected),aw_ax=ax['stage'],ax_sql_sha256=ax['ax_sql_sha256'],
+                catalog=dict(file=last['key'],object_count=live[0],fingerprint=live[1]))

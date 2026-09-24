@@ -21,6 +21,23 @@ AC_STEP='Apply exact AC temporal surface closure and verify 272 runtime objects'
 AB_STEP='Apply AB statement-time Jakarta business dates before every final-runtime proof'
 
 
+HOSTED_SUMMARY=AUDITOR/'docs/evidence/cp6-g01/hosted_summary.json'
+EXPLAINED={'platform_ledger':'fixture ledger keeps empty statements and repository stamps (G-01 round 1, ledger_content_order.json)'}
+
+
+def hosted_fingerprint():
+    import psycopg
+    import cp6_g01_fingerprint as fp
+    hosted=json.loads(HOSTED_SUMMARY.read_text())
+    assert hosted['project_ref']=='siimvrusnzxexizpyoib' and hosted['summary_sql_sha256']==fp.sha(fp.SUMMARY),'T3_HOSTED_SUMMARY_QUERY_DRIFT'
+    with psycopg.connect(os.environ['PGURL']) as conn:
+        conn.read_only=True
+        live=conn.execute(fp.SUMMARY).fetchone()[0]
+    kinds=sorted(set(hosted['summary'])|set(live))
+    differ={k:dict(hosted=hosted['summary'].get(k),aligned=live.get(k)) for k in kinds if k not in EXPLAINED and hosted['summary'].get(k)!=live.get(k)}
+    return dict(equal=not differ,kinds=len(kinds),differ=differ,explained=EXPLAINED)
+
+
 def run(out,stop=AC_STEP):
     assert subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()==ac.HEAD
     assert os.environ.get('PGURL')=='postgresql://postgres:postgres@127.0.0.1:54322/postgres'
@@ -57,6 +74,12 @@ def run(out,stop=AC_STEP):
             print(align.stdout[-2000:],align.stderr[-2000:],flush=True)
             if align.returncode:
                 report['status']='ALIGNMENT_FAILED';Path(out).write_text(json.dumps(report,indent=2)+'\n');return align.returncode
+            # The whole catalog must now equal hosted (read-only summary of 23 Sep, same query), not only the objects the
+            # alignment touched; the platform ledger stamps are the one explained difference (G-01 round 1).
+            report['hosted_fingerprint']=hosted_fingerprint()
+            print(json.dumps(dict(group='T3_HOSTED_FINGERPRINT',**report['hosted_fingerprint'])),flush=True)
+            if not report['hosted_fingerprint']['equal']:
+                report['status']='NOT_HOSTED_FAITHFUL';Path(out).write_text(json.dumps(report,indent=2)+'\n');return 1
             aligned=True
         if name==stop:break
     assert report['steps'][-1]['name']==stop and aligned

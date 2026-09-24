@@ -37,5 +37,12 @@
  "auth_users_after": 0,
  "production_go": false,
  "release_evidence": false,
- "note": "Run on the 20-file package with AW/AX as T1 files; it is repeated on the 22-file package (AW/AX release candidates) after the pins are rebuilt."
+ "note": "Run on the 20-file package with AW/AX as T1 files; it is repeated on the 22-file package (AW/AX release candidates) after the pins are rebuilt.",
+ "review_20260924": {
+  "superseded_by": "docs/evidence/cp6-t3/run35941885984_package22.json (browser job, 22-file package, 10 of 10 PASS)",
+  "corrections": [
+   "Run on the 20-file package whose v2.6.20 capsule pin was the fixture value (not hosted), with AW/AX as T1 files.",
+   "At that time the job status did not depend on the flow result; the flow itself printed PASS for 10 of 10 (kept above). The runner now fails the job unless the flow passes."
+  ]
+ }
 }

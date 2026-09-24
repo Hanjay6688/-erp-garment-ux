@@ -493,5 +493,12 @@
   "error": null
  },
  "production_go": false,
- "release_evidence": false
+ "release_evidence": false,
+ "review_20260924": {
+  "superseded_by": "docs/evidence/cp6-t3/run35941885984_package22.json and the runs after the review fixes",
+  "corrections": [
+   "At this run the clone was not yet hosted-faithful in one respect: the v2.6.20 rollback capsule still held the fixture view texts (hash 01f1e4e2...; hosted b42b94c2...). The alignment was extended in 70a816f and the pins were captured again.",
+   "summary.status ALL_STAGES_INSTALLED is the install status only; the security advisors are REVIEW_REQUIRED (73 to 120 findings) and are reported separately."
+  ]
+ }
 }

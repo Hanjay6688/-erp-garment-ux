@@ -1,12 +1,7 @@
 name: CP6 T3 Prep Aligned Install Path
 'on':
-  push:
-    branches:
-    - claude/new-session-deapao
-    paths:
-    - scripts/cp6_t3_aligned_chain.py
-    - scripts/cp6_t3_aligned_install.py
-    - .github/workflows/cp6-t3-aligned-install.yml
+  # Record of the frozen path refusing at AC on the aligned chain (run 35911530080); superseded by
+  # cp6-t3-release-package.yml, so it runs only on request.
   workflow_dispatch: null
 permissions:
   contents: read

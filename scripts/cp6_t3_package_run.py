@@ -51,7 +51,8 @@ def capsule_compare(url):
     """Hosted capsule hashes (read-only, docs/evidence/cp6-t3/hosted_capsule_hashes.json) against this clone, per capsule
     and, for cp6_v2620_rollback_capsule, per row and field."""
     hosted=json.loads(HOSTED_CAPSULES.read_text())
-    formula=package.history((AUDITOR/package.package()[12]['path']).read_text())['query']
+    [ao]=[r for r in package.package() if r['key']=='AO']
+    formula=package.history((AUDITOR/ao['path']).read_text())['query']
     with psycopg.connect(url) as conn,conn.cursor() as cur:
         conn.read_only=True
         live=package.live_history(cur,formula,list(hosted['capsules']))
@@ -63,8 +64,8 @@ def capsule_compare(url):
         if c['row_hash']==h['row_hash']:continue
         per_row.append(dict(object=h['object'],fields=[k for k in ('definition_sha256','acl_snapshot','definition_md5') if c[k]!=h[k]],
                             acl_hosted=h['acl_snapshot'],acl_clone=c['acl_snapshot'],acl_same_set=sorted(h['acl_snapshot'])==sorted(c['acl_snapshot'] or [])))
-    return dict(capsules={k:dict(hosted=v[1],clone=live[k],equal=live[k]==v[1]) for k,v in hosted['capsules'].items()},
-                cp6_v2620_rows_differing=per_row)
+    capsules={k:dict(hosted=v[1],clone=live[k],equal=live[k]==v[1]) for k,v in hosted['capsules'].items()}
+    return dict(equal=all(c['equal'] for c in capsules.values()) and not per_row,capsules=capsules,cp6_v2620_rows_differing=per_row)
 
 
 def verify_awx():
@@ -88,6 +89,9 @@ def run(mode):
         report['fingerprint_AB']=fingerprint(boundary.ADMIN)
         report['hosted_capsules']=capsule_compare(boundary.ADMIN)
         print(json.dumps(dict(group='T3_HOSTED_CAPSULES',**report['hosted_capsules']),default=str),flush=True)
+        # Pins are only taken or checked on a baseline whose historical capsules equal hosted (the catalog is checked
+        # against hosted right after the alignment, scripts/cp6_t3_aligned_chain.py).
+        assert report['hosted_capsules']['equal'],'T3_CLONE_CAPSULES_NOT_HOSTED'
         advisors_AB=advisors(boundary.PG)
         committed=AUDITOR/'docs/evidence/cp6-t3/release_pins.json'
         # AC..AV and the AW/AX release candidates are all files of the one package; AW/AX T1 verification follows.
@@ -110,9 +114,12 @@ def run(mode):
             report['pins_reproduced']=dict(equal=now==then,differ=sorted(k for k in set(now)|set(then) if now.get(k)!=then.get(k)))
             print(json.dumps(dict(group='T3_PINS_REPRODUCED',**report['pins_reproduced'])),flush=True)
         if mode=='browser':
-            # Browser mode: the unchanged AU browser flow on the installed combined candidate, then cleanup.
-            report['browser']=browser.run(OUT/'T3_BROWSER.json') if len(report['stages'])==len(stages) and all(s['status']=='PASS' for s in report['stages']) else 'NOT_RUN'
-            report['status']='ALL_STAGES_INSTALLED' if report['browser']!='NOT_RUN' else 'REFUSED'
+            # Browser mode: the unchanged AU browser flow on the installed combined candidate, then cleanup. The status is
+            # the flow's own result: 10 cases PASS and the candidate verified again afterwards.
+            installed=len(report['stages'])==len(stages) and all(s['status']=='PASS' for s in report['stages'])
+            report['browser']=browser.run(OUT/'T3_BROWSER.json') if installed else 'NOT_RUN'
+            flow=report['browser'].get('status') if isinstance(report['browser'],dict) else None
+            report['status']='BROWSER_PASS' if flow=='PASS' else ('REFUSED' if not installed else 'BROWSER_'+str(flow))
         else:
             report['ledger_final']=ledger(boundary.ADMIN)
             report['fingerprint_final']=fingerprint(boundary.ADMIN)
@@ -135,8 +142,9 @@ def run(mode):
             report['auth_users_after']=cur.execute('select count(*) from auth.users').fetchone()[0]
         save()
     print(json.dumps(dict(t3_package_run={k:v for k,v in report.items() if k not in('stages','security_advisors')}),default=str)[:8000],flush=True)
-    # A refusal is a recorded finding, not a crash; only an incomplete run fails the job.
-    assert report['status']!='INCOMPLETE',report.get('error')
+    # Every outcome is recorded above; the job is green only when the whole candidate installed (and, in browser mode,
+    # the flow passed), so a green job can be cited without reading the log.
+    assert report['status'] in ('ALL_STAGES_INSTALLED','BROWSER_PASS'),(report['status'],report.get('error'))
 
 
 if __name__=='__main__':run(sys.argv[1])

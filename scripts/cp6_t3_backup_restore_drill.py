@@ -3,13 +3,15 @@
 Source: the clone the T3 install used (cp6_rollback, candidate installed, harness seed plus a small business fixture).
   1. pg_dump -Fc of the whole source database, inside the disposable container (never hosted).
   2. createdb from template0 and pg_restore as the cluster admin; every restore error is recorded as it is.
-  3. Compare source and restored: the G-01 catalog fingerprint per kind (schemas erp and public), and per table of erp
-     the row count and an md5 of the ordered rows.
+  3. Compare source and restored: the G-01 catalog fingerprint per kind (schemas erp and public), and per table of every
+     non-system schema (erp, public, auth, storage, the platform ledgers, ...) the row count and an md5 of the rows.
   4. Run the same read-only engine call on both (AW preflight for yesterday) and compare the answers.
 The operational backup (where and how often, encryption) is CP7C; this drill proves the dump restores into an
-identical ERP. RESTORED_SAME_MEANING means identical rows and engine answers, and every catalog difference is a known
-same-meaning form: a varchar IN list re-parsed by the restore (the G-01 mechanism), or pg_cron, which can exist only in
-the database named postgres. Label: T3_PREP (not release evidence).
+identical ERP. RESTORED_SAME_MEANING needs all of: identical rows in every compared table; the engine answer present and
+equal on both; every pg_restore error line about pg_cron (it can exist only in the database named postgres) with no cron
+job in the source; and every catalog kind that differs explained object by object as a known same-meaning form (a varchar
+IN list re-parsed by the restore, the G-01 mechanism, or the missing pg_cron extension). Anything else is
+DIFFERENCES_RECORDED. Label: T3_PREP (not release evidence).
 """
 from pathlib import Path
 import hashlib,json,os,re,subprocess,sys,time
@@ -53,9 +55,15 @@ REPARSED=re.compile(r"ARRAY\[((?:\('[^']*'::character varying\)::text(?:, )?)+)\
 
 
 def same_meaning(a,b):
-    norm=lambda t:REPARSED.sub(lambda m:'ARRAY<%s>'%','.join(re.findall(r"'([^']*)'",m.group(1))),
-                               STORED.sub(lambda m:'ARRAY<%s>'%','.join(re.findall(r"'([^']*)'",m.group(1))),t))
+    # The element list is kept as a JSON list, so 'a,b' never equals 'a','b'.
+    values=lambda m:'ARRAY<%s>'%json.dumps(re.findall(r"'([^']*)'",m.group(1)))
+    norm=lambda t:REPARSED.sub(values,STORED.sub(values,t))
     return a is not None and b is not None and norm(a)==norm(b)
+
+
+# pg_restore error lines the drill can explain: only pg_cron, which cannot be created outside the database postgres.
+CRON_ERROR=re.compile(r'^pg_restore: error: could not execute query: ERROR:  (can only create extension in database postgres'
+                      r'|extension "pg_cron" does not exist|schema "cron" does not exist|relation "cron\.[a-z_]+" does not exist)$')
 
 
 def texts(db,kind):
@@ -83,15 +91,17 @@ def classify(kinds):
 
 
 def data_hashes(db):
+    """Every table of every non-system schema (cron aside: it cannot exist outside the database postgres)."""
     with psycopg.connect(url(db)) as conn,conn.cursor() as cur:
         conn.read_only=True
-        tables=[r[0] for r in cur.execute("""select c.relname from pg_class c join pg_namespace n on n.oid=c.relnamespace
-            where n.nspname='erp' and c.relkind in('r','p') order by 1""").fetchall()]
+        tables=cur.execute("""select n.nspname,c.relname from pg_class c join pg_namespace n on n.oid=c.relnamespace
+            where c.relkind in('r','p') and n.nspname not in('pg_catalog','information_schema','cron')
+            and n.nspname not like 'pg\\_toast%' and n.nspname not like 'pg\\_temp%' order by 1,2""").fetchall()
         out={}
-        for t in tables:
-            n,h=cur.execute(f"""select count(*),md5(coalesce(string_agg(x::text,chr(10) order by x::text),''))
-                from erp.{sql.Identifier(t).as_string(conn)} x""").fetchone()
-            out[t]=dict(rows=n,md5=h)
+        for schema,t in tables:
+            n,h=cur.execute(sql.SQL("select count(*),md5(coalesce(string_agg(x::text,chr(10) order by x::text),'')) from {}.{} x").format(
+                sql.Identifier(schema),sql.Identifier(t))).fetchone()
+            out[schema+'.'+t]=dict(rows=n,md5=h)
         return out
 
 
@@ -122,8 +132,11 @@ def run(out,installed=None):
         docker('createdb','-U','supabase_admin','-T','template0',TARGET)
         t1=time.monotonic()
         r=docker('pg_restore','-U','supabase_admin','-d',TARGET,'--no-password',DUMP,check=False)
-        errors=[l for l in r.stderr.splitlines() if 'error' in l.lower()]
-        report['restore']=dict(exit=r.returncode,seconds=round(time.monotonic()-t1,1),error_count=len(errors),errors=errors[:80])
+        errors=[l for l in r.stderr.splitlines() if l.startswith('pg_restore: error:')]
+        unexplained=[l for l in errors if not CRON_ERROR.match(l)]
+        ignored=re.findall(r'errors ignored on restore: (\d+)',r.stderr)
+        report['restore']=dict(exit=r.returncode,seconds=round(time.monotonic()-t1,1),error_count=len(errors),
+                               ignored_reported=int(ignored[-1]) if ignored else 0,unexplained=unexplained[:40],errors=errors[:80])
         with psycopg.connect(url(SOURCE)) as conn,conn.cursor() as cur:
             day=cur.execute("select (statement_timestamp() at time zone 'Asia/Jakarta')::date-1").fetchone()[0]
         src,dst=catalog(SOURCE),catalog(TARGET)
@@ -131,7 +144,7 @@ def run(out,installed=None):
                                differ={k:dict(source=src.get(k),restored=dst.get(k)) for k in sorted(set(src)|set(dst)) if src.get(k)!=dst.get(k)})
         report['catalog']['objects']=classify(sorted(report['catalog']['differ']))
         a,b=data_hashes(SOURCE),data_hashes(TARGET)
-        report['data']=dict(tables=len(a),rows=sum(v['rows'] for v in a.values()),
+        report['data']=dict(tables=len(a),rows=sum(v['rows'] for v in a.values()),schemas=sorted({t.split('.')[0] for t in a}),
                             differ={t:dict(source=a.get(t),restored=b.get(t)) for t in sorted(set(a)|set(b)) if a.get(t)!=b.get(t)})
         e1,e2=engine(SOURCE,day),engine(TARGET,day)
         report['engine']=dict(day=str(day),equal=e1==e2,source_status=e1 and e1.get('status'),restored_status=e2 and e2.get('status'))
@@ -141,8 +154,14 @@ def run(out,installed=None):
             report['source_cron_jobs']=cur.execute('select count(*) from cron.job').fetchone()[0] if has_cron else None
         known={'VARCHAR_IN_LIST_REPARSE','PG_CRON_ONLY_IN_DATABASE_POSTGRES'}
         classes={o['cls'] for v in report['catalog']['objects'].values() for o in v.get('objects',[])}
-        explained=all('objects' in v for v in report['catalog']['objects'].values()) and classes<=known
-        same=not report['data']['differ'] and report['engine']['equal']
+        # A kind whose fingerprint differs is explained only by at least one differing object, each of a known class.
+        explained=all('objects' in v and v['differing']>0 for v in report['catalog']['objects'].values()) and classes<=known
+        restore_ok=(not report['restore']['unexplained'] and report['restore']['ignored_reported']==len(errors)
+                    and (r.returncode==0 or errors) and report['source_cron_jobs'] in (0,None))
+        report['checks']=dict(restore_errors_only_pg_cron=restore_ok,catalog_explained=explained,
+                              data_identical=not report['data']['differ'],engine_answer_present=e1 is not None and e2 is not None,
+                              engine_equal=report['engine']['equal'])
+        same=restore_ok and not report['data']['differ'] and e1 is not None and report['engine']['equal']
         report['status']=('RESTORED_IDENTICAL' if same and not report['catalog']['differ'] else
                           'RESTORED_SAME_MEANING' if same and explained else 'DIFFERENCES_RECORDED')
     except Exception as exc:
@@ -155,7 +174,7 @@ def run(out,installed=None):
     brief['catalog']=dict(match=cat.get('match'),differ=cat.get('differ'),
         objects={k:{x:v.get(x) for x in ('differing','by_class','detail')}|dict(unclassified=[o for o in v.get('objects',[]) if o['cls']=='UNCLASSIFIED'][:10])
                  for k,v in (cat.get('objects') or {}).items()})
-    print(json.dumps(dict(t3_backup_restore_drill={k:brief.get(k) for k in ('status','dump','restore','catalog','data','engine','source_cron_jobs','error')}),default=str)[:20000],flush=True)
+    print(json.dumps(dict(t3_backup_restore_drill={k:brief.get(k) for k in ('status','checks','dump','restore','catalog','data','engine','source_cron_jobs','error')}),default=str)[:20000],flush=True)
     return report
 
 

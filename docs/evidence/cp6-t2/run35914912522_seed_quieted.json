@@ -1272,5 +1272,13 @@
   "ar_moved_run1": 7,
   "ar_moved_run2": 4,
   "recovered": "NEW_CASES 13 of 13 and BUSINESS 61 recovered once the seed items were cleared. Every regression case still moved went to INCOMPLETE before its own assertion (AU outcome PASS 36, CONTROL_PASS 23, historical HOLD 12); none turned into FAIL, BUG_PROVEN or COUNTEREXAMPLE."
+ },
+ "review_20260924": {
+  "source": "independent review of the T2/T3 tooling, 24 Sep (sub-agent, read-only)",
+  "corrections": [
+   "CASE_WORK_UNCOVERED: 58 of the 59 name the seed contractor a1000000-0000-0000-0000-000000000001. The uncovered line is dated inside the case window after the seed work was cleared, and run 3 (35940435661) proved for 26 cases that the case itself created it; for the others the attribution to the case fixture is inferred from the run 2 blocker text, not proven.",
+   "\"none turned into FAIL\" does not show that the oracles held: the trial group records every Python exception of a case, oracle assertions included, as INCOMPLETE. What the runs show is that each moved case stopped where the engine answered BLOCKED; its later assertions were not reached.",
+   "The quieting of this run posted OFF attendance and approved seed payrolls with the books reopened to 2026-01-01, then put the closing date back with the administrative helper and a hard-coded 2026-08-31, checking the engine only from 09-01. Run 4 reads the closing date, quiets the whole reopened range and requires READY for it."
+  ]
  }
 }
