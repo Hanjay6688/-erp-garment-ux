@@ -277,12 +277,17 @@ def produce(cur,fx,po,product,day,units,pcs,batch=None):
                  rolls=[dict(roll_id=fx['roll'],qty_issued=units,qty_consumed=units,qty_reported_remaining=0,yields=[dict(slot_no=1,qty_pcs=pcs)])])
     cut=prod.rpc(cur,'public.erp_save_cutting_group_before_sewing_v2',payload)
     group=uuid.UUID(cut['cutting_group_id'])
+    if batch is not None:
+        # Fixture setup only: erp.assign_cutting_group_to_batch is internal (no RPC in the current flow) and the batch link
+        # is locked after physical use (validate_cutting_batch_link), so the draft is linked before the cut is posted.
+        api.admin(cur)
+        cur.execute('select erp.assign_cutting_group_to_batch(%s,%s)',(group,batch))
+        cut['row_version']=cur.execute('select row_version from erp.cutting_groups where id=%s',(group,)).fetchone()[0]
     cut=prod.rpc(cur,'public.erp_save_cutting_group_before_sewing_v2',dict(payload,id=group,action='POST'),expected_version=int(cut['row_version']))
     api.admin(cur)
     if batch is not None:
-        # Fixture setup only: erp.assign_cutting_group_to_batch is internal (no RPC in the current flow); the same update.
-        cur.execute('update erp.cutting_groups set cutting_batch_id=%s,updated_at=statement_timestamp() where id=%s',(batch,group))
-        cut['row_version']=cur.execute('select row_version from erp.cutting_groups where id=%s',(group,)).fetchone()[0]
+        linked=cur.execute('select cutting_batch_id from erp.cutting_groups where id=%s',(group,)).fetchone()[0]
+        assert linked==batch,('AZ_M2_BATCH_LINK_NOT_KEPT',linked)
     y=cur.execute("""select y.id from erp.cutting_roll_yields y join erp.cutting_group_rolls r on r.id=y.cutting_group_roll_id
       where r.cutting_group_id=%s and y.qty_pcs=%s""",(group,pcs)).fetchall()
     assert len(y)==1,('AZ_MULTI_CUT_YIELD',y)
