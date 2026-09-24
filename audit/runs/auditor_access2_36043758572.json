@@ -1,0 +1,1040 @@
+[
+ {
+  "status": "PASS",
+  "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+  "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+  "functions": 533,
+  "objects": 690,
+  "production_go": false
+ },
+ {
+  "status": "PASS",
+  "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+  "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+  "functions": 533,
+  "objects": 690,
+  "production_go": false
+ },
+ {
+  "status": "PASS",
+  "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+  "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+  "functions": 533,
+  "objects": 690,
+  "production_go": false
+ },
+ {
+  "status": "PASS",
+  "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+  "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+  "functions": 533,
+  "objects": 690,
+  "production_go": false
+ },
+ {
+  "status": "PASS",
+  "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+  "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+  "erp_functions": 534,
+  "new_public_readers": 1,
+  "objects": 692,
+  "production_go": false
+ },
+ {
+  "auditor_scenario_sha256": "e1f4093c9c683627af1a46a0f9a18ae0955718c1e6b72bc52a9abfd733acc310",
+  "bytes": 6931,
+  "phase": "after"
+ },
+ {
+  "auditor_setup": {
+   "au_install": "PASS",
+   "av_install": "PASS",
+   "ay_install": {
+    "stage": "AV_PLUS_AW_AX_AY_T1",
+    "label": "T1_FAMILY",
+    "functions": 13,
+    "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+    "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+    "av_coverage": {
+     "registry": {
+      "erp.fg_lots.product_id": {
+       "class": "NEW_STOCK_FACT",
+       "reason": "produced_at of every lot except GOOD returned by rework"
+      },
+      "erp.bs_cases.product_id": {
+       "class": "NEW_STOCK_FACT",
+       "reason": "physical_at of QC/laundry BS and manual OUT_OF_NOWHERE BS"
+      },
+      "erp.sales_items.product_id": {
+       "class": "SALES",
+       "reason": "Sale of existing stock"
+      },
+      "erp.journal_lines.product_id": {
+       "class": "ACCOUNTING",
+       "reason": "Journal dimension"
+      },
+      "erp.fg_stock_movements.product_id": {
+       "class": "MOVEMENT",
+       "reason": "Movement of an existing lot"
+      },
+      "erp.sales_return_items.product_id": {
+       "class": "SALES",
+       "reason": "Return of sold stock"
+      },
+      "erp.fg_adjustment_items.product_id": {
+       "class": "MOVEMENT",
+       "reason": "Adjusts an existing lot"
+      },
+      "erp.fg_inventory_balances.product_id": {
+       "class": "DERIVED",
+       "reason": "Balance cache keyed by product/location/grade"
+      },
+      "erp.opening_balance_items.product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Opening document; facts are OPENING lots and LEGACY BS"
+      },
+      "erp.stock_policy_versions.product_id": {
+       "class": "MASTER",
+       "reason": "Effective-dated stock policy"
+      },
+      "erp.accessory_bom_versions.product_id": {
+       "class": "MASTER",
+       "reason": "Effective-dated accessory BOM; no stock instant"
+      },
+      "erp.product_conversions.to_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Conversion target; the fact is the CONVERSION lot in fg_lots"
+      },
+      "erp.product_price_versions.product_id": {
+       "class": "MASTER",
+       "reason": "Effective-dated price"
+      },
+      "erp.product_conversions.from_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Conversion source, validated as EXISTING_STOCK"
+      },
+      "erp.qc_inspection_items.final_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "QC input; the facts are fg_lots and bs_cases"
+      },
+      "erp.fg_accessory_cost_snapshots.product_id": {
+       "class": "DERIVED",
+       "reason": "Cost snapshot of an FG lot"
+      },
+      "erp.po_accessory_bom_commitments.product_id": {
+       "class": "MASTER",
+       "reason": "PO accessory BOM commitment"
+      },
+      "erp.stock_explainability_snapshots.product_id": {
+       "class": "REPORT",
+       "reason": "Stock explanation snapshot"
+      },
+      "erp.non_po_hpp_gl_sync_events_v2620f.product_id": {
+       "class": "ACCOUNTING",
+       "reason": "HPP to GL synchronisation event"
+      },
+      "erp.laundry_receipt_batch_size_lines.bs_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Laundry receipt input; the BS fact is bs_cases"
+      },
+      "erp.product_identity_mutation_context_v1.product_id": {
+       "class": "AUTHORIZATION",
+       "reason": "Private one-use identity edit context"
+      },
+      "erp.laundry_receipt_bs_product_allocations.product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Validated as NEW_STOCK; the BS fact is bs_cases"
+      },
+      "erp.contractor_accessory_reimbursement_entitlements.product_id": {
+       "class": "DERIVED",
+       "reason": "Accounting entitlement of an FG lot"
+      }
+     },
+     "references": 23,
+     "new_stock_fact_tables": [
+      "bs_cases",
+      "fg_lots"
+     ]
+    },
+    "ay_sql_sha256": "29b8977613012431b9efa927c7cee10654aef8a016368a0430e7c3789070af43",
+    "catalog": {
+     "revaluation_movement_indexes": [],
+     "accessory_total_hpp_cost": [
+      "s",
+      "(((good_qty_pcs)::numeric * qty_per_good_fg_base) * hpp_unit_cost_base_snapshot)"
+     ]
+    }
+   },
+   "az_install": {
+    "stage": "AV_PLUS_AW_AX_AY_AZ_T1",
+    "label": "T1_FAMILY",
+    "functions": 13,
+    "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+    "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+    "av_coverage": {
+     "registry": {
+      "erp.fg_lots.product_id": {
+       "class": "NEW_STOCK_FACT",
+       "reason": "produced_at of every lot except GOOD returned by rework"
+      },
+      "erp.bs_cases.product_id": {
+       "class": "NEW_STOCK_FACT",
+       "reason": "physical_at of QC/laundry BS and manual OUT_OF_NOWHERE BS"
+      },
+      "erp.sales_items.product_id": {
+       "class": "SALES",
+       "reason": "Sale of existing stock"
+      },
+      "erp.journal_lines.product_id": {
+       "class": "ACCOUNTING",
+       "reason": "Journal dimension"
+      },
+      "erp.fg_stock_movements.product_id": {
+       "class": "MOVEMENT",
+       "reason": "Movement of an existing lot"
+      },
+      "erp.sales_return_items.product_id": {
+       "class": "SALES",
+       "reason": "Return of sold stock"
+      },
+      "erp.fg_adjustment_items.product_id": {
+       "class": "MOVEMENT",
+       "reason": "Adjusts an existing lot"
+      },
+      "erp.fg_inventory_balances.product_id": {
+       "class": "DERIVED",
+       "reason": "Balance cache keyed by product/location/grade"
+      },
+      "erp.opening_balance_items.product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Opening document; facts are OPENING lots and LEGACY BS"
+      },
+      "erp.stock_policy_versions.product_id": {
+       "class": "MASTER",
+       "reason": "Effective-dated stock policy"
+      },
+      "erp.accessory_bom_versions.product_id": {
+       "class": "MASTER",
+       "reason": "Effective-dated accessory BOM; no stock instant"
+      },
+      "erp.product_conversions.to_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Conversion target; the fact is the CONVERSION lot in fg_lots"
+      },
+      "erp.product_price_versions.product_id": {
+       "class": "MASTER",
+       "reason": "Effective-dated price"
+      },
+      "erp.product_conversions.from_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Conversion source, validated as EXISTING_STOCK"
+      },
+      "erp.qc_inspection_items.final_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "QC input; the facts are fg_lots and bs_cases"
+      },
+      "erp.fg_accessory_cost_snapshots.product_id": {
+       "class": "DERIVED",
+       "reason": "Cost snapshot of an FG lot"
+      },
+      "erp.po_accessory_bom_commitments.product_id": {
+       "class": "MASTER",
+       "reason": "PO accessory BOM commitment"
+      },
+      "erp.stock_explainability_snapshots.product_id": {
+       "class": "REPORT",
+       "reason": "Stock explanation snapshot"
+      },
+      "erp.non_po_hpp_gl_sync_events_v2620f.product_id": {
+       "class": "ACCOUNTING",
+       "reason": "HPP to GL synchronisation event"
+      },
+      "erp.laundry_receipt_batch_size_lines.bs_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Laundry receipt input; the BS fact is bs_cases"
+      },
+      "erp.product_identity_mutation_context_v1.product_id": {
+       "class": "AUTHORIZATION",
+       "reason": "Private one-use identity edit context"
+      },
+      "erp.laundry_receipt_bs_product_allocations.product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Validated as NEW_STOCK; the BS fact is bs_cases"
+      },
+      "erp.contractor_accessory_reimbursement_entitlements.product_id": {
+       "class": "DERIVED",
+       "reason": "Accounting entitlement of an FG lot"
+      }
+     },
+     "references": 23,
+     "new_stock_fact_tables": [
+      "bs_cases",
+      "fg_lots"
+     ]
+    },
+    "ay_sql_sha256": "29b8977613012431b9efa927c7cee10654aef8a016368a0430e7c3789070af43",
+    "catalog": {
+     "revaluation_movement_indexes": [],
+     "accessory_total_hpp_cost": [
+      "s",
+      "(((good_qty_pcs)::numeric * qty_per_good_fg_base) * hpp_unit_cost_base_snapshot)"
+     ]
+    },
+    "az_sql_sha256": "9007eefc5b8e8d3ae47dbdc496aca61fb281152385b27c9791284b68fc8125c9"
+   }
+  }
+ },
+ {
+  "group": "AUDITOR_CASES_AFTER",
+  "case": "ACCESS2:OPERATOR_POSITIVE",
+  "status": "PASS",
+  "preflight": {
+   "refused": false,
+   "result": "{'info': [], 'engine': 'PERIOD_READINESS_V1', 'status': 'BLOCKED', 'through': '2026-09-23', 'blockers': [{'code': 'ATTENDANCE_CELL_MISSING', 'scope': 'WINDOW', ",
+   "identity": [
+    "authenticated",
+    "authenticated",
+    "{\"sub\": \"c8c00000-0000-4000-8000-000000000101\", \"role\": \"authenticated\"}"
+   ]
+  },
+  "workspace": {
+   "refused": false,
+   "result": "{'orders': [], 'filters': {}, 'history': [], 'document': None, 'locations': [], 'materials': [], 'contractors': [{'id': 'a1000000-0000-0000-0000-000000000004', ",
+   "identity": [
+    "authenticated",
+    "authenticated",
+    "{\"sub\": \"c8c00000-0000-4000-8000-000000000101\", \"role\": \"authenticated\"}"
+   ]
+  },
+  "operator_role": [
+   "OWNER",
+   "True"
+  ],
+  "expected": "seeded operator (owner) allowed; proves the identity switch is effective",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AUDITOR_CASES_AFTER",
+  "case": "ACCESS2:ANON",
+  "status": "PASS",
+  "who": "anon",
+  "sub": null,
+  "calls": {
+   "preflight": {
+    "refused": true,
+    "sqlstate": "42501",
+    "message": "permission denied for function erp_accounting_close_preflight_v1"
+   },
+   "close": {
+    "refused": true,
+    "sqlstate": "42501",
+    "message": "permission denied for function erp_close_accounting_through_v1"
+   },
+   "laundry_estimate": {
+    "refused": true,
+    "sqlstate": "42501",
+    "message": "permission denied for function erp_set_laundry_rate_owner_estimate_v1"
+   },
+   "fg_preview": {
+    "refused": true,
+    "sqlstate": "42501",
+    "message": "permission denied for function erp_preview_fg_unsourced_value_v1"
+   },
+   "fg_post": {
+    "refused": true,
+    "sqlstate": "42501",
+    "message": "permission denied for function erp_post_fg_unsourced_receipt_v1"
+   },
+   "fg_reverse": {
+    "refused": true,
+    "sqlstate": "42501",
+    "message": "permission denied for function erp_reverse_fg_unsourced_receipt_v1"
+   },
+   "accessory_workspace": {
+    "refused": true,
+    "sqlstate": "42501",
+    "message": "permission denied for function erp_get_accessory_issue_workspace_v1"
+   },
+   "accessory_save": {
+    "refused": true,
+    "sqlstate": "42501",
+    "message": "permission denied for function erp_save_accessory_issue_action_v1"
+   },
+   "pocket_workspace": {
+    "refused": true,
+    "sqlstate": "42501",
+    "message": "permission denied for function erp_get_pocket_fabric_workspace_v1"
+   },
+   "import_workspace": {
+    "refused": true,
+    "sqlstate": "42501",
+    "message": "permission denied for function erp_get_initial_import_workspace_v1"
+   }
+  },
+  "verdict": {
+   "preflight": true,
+   "close": true,
+   "laundry_estimate": true,
+   "fg_preview": true,
+   "fg_post": true,
+   "fg_reverse": true,
+   "accessory_workspace": true,
+   "accessory_save": true,
+   "pocket_workspace": true,
+   "import_workspace": true
+  },
+  "control_before": {
+   "closed_through": "2026-08-31",
+   "filings": 0,
+   "fg": 0,
+   "journals": 12
+  },
+  "control_after": {
+   "closed_through": "2026-08-31",
+   "filings": 0,
+   "fg": 0,
+   "journals": 12
+  },
+  "expected": "SQLSTATE 42501 (execute revoked from anon)",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AUDITOR_CASES_AFTER",
+  "case": "ACCESS2:UNMAPPED_AUTHENTICATED",
+  "status": "COUNTEREXAMPLE",
+  "who": "auth",
+  "sub": "aabc6c55-cb16-430f-ab80-dd70e578ab48",
+  "calls": {
+   "preflight": {
+    "refused": true,
+    "sqlstate": "P0001",
+    "message": "OWNER or ADMIN access required"
+   },
+   "close": {
+    "refused": true,
+    "sqlstate": "P0001",
+    "message": "OWNER or ADMIN access required"
+   },
+   "laundry_estimate": {
+    "refused": true,
+    "sqlstate": "P0001",
+    "message": "OWNER or ADMIN access required"
+   },
+   "fg_preview": {
+    "refused": true,
+    "sqlstate": "P0001",
+    "message": "OWNER or ADMIN access required"
+   },
+   "fg_post": {
+    "refused": true,
+    "sqlstate": "P0001",
+    "message": "OWNER or ADMIN access required"
+   },
+   "fg_reverse": {
+    "refused": true,
+    "sqlstate": "P0001",
+    "message": "OWNER or ADMIN access required"
+   },
+   "accessory_workspace": {
+    "refused": true,
+    "sqlstate": "42501",
+    "message": "PERMISSION_DENIED: finance.contractor_accessory.view"
+   },
+   "accessory_save": {
+    "refused": true,
+    "sqlstate": "42501",
+    "message": "PERMISSION_DENIED: finance.contractor_accessory.view"
+   },
+   "pocket_workspace": {
+    "refused": true,
+    "sqlstate": "P0001",
+    "message": "OWNER or ADMIN access required"
+   },
+   "import_workspace": {
+    "refused": true,
+    "sqlstate": "P0001",
+    "message": "OWNER or ADMIN access required"
+   }
+  },
+  "verdict": {
+   "preflight": true,
+   "close": true,
+   "laundry_estimate": true,
+   "fg_preview": true,
+   "fg_post": true,
+   "fg_reverse": true,
+   "accessory_workspace": false,
+   "accessory_save": false,
+   "pocket_workspace": true,
+   "import_workspace": true
+  },
+  "control_before": {
+   "closed_through": "2026-08-31",
+   "filings": 0,
+   "fg": 0,
+   "journals": 12
+  },
+  "control_after": {
+   "closed_through": "2026-08-31",
+   "filings": 0,
+   "fg": 0,
+   "journals": 12
+  },
+  "expected": "'OWNER or ADMIN access required'",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AUDITOR_CASES_AFTER",
+  "case": "ACCESS2:VIEWER_ROLE",
+  "status": "COUNTEREXAMPLE",
+  "who": "auth",
+  "sub": "263ef6d3-7a9d-4d57-9459-880fcfd86a97",
+  "calls": {
+   "preflight": {
+    "refused": false,
+    "result": "{'info': [], 'engine': 'PERIOD_READINESS_V1', 'status': 'BLOCKED', 'through': '2026-09-23', 'blockers': [{'code': 'ATTENDANCE_CELL_MISSING', 'scope': 'WINDOW', ",
+    "identity": [
+     "authenticated",
+     "authenticated",
+     "{\"sub\": \"263ef6d3-7a9d-4d57-9459-880fcfd86a97\", \"role\": \"authenticated\"}"
+    ]
+   },
+   "close": {
+    "refused": true,
+    "sqlstate": "P0001",
+    "message": "CLOSE_BLOCKED: tutup buku sampai 2026-09-23 ditolak, 8 penghalang (ATTENDANCE_CELL_MISSING, PAYROLL_NOT_APPROVED, PAYROLL_WORK_UNCOVERED)."
+   },
+   "laundry_estimate": {
+    "refused": true,
+    "sqlstate": "P0001",
+    "message": "LAUNDRY_ESTIMATE_LINE_NOT_FOUND"
+   },
+   "fg_preview": {
+    "refused": true,
+    "sqlstate": "P0001",
+    "message": "FG_UNSOURCED_PRODUCT_NOT_FOUND"
+   },
+   "fg_post": {
+    "refused": true,
+    "sqlstate": "P0001",
+    "message": "FG_UNSOURCED_REASON_REQUIRED"
+   },
+   "fg_reverse": {
+    "refused": true,
+    "sqlstate": "P0001",
+    "message": "FG_UNSOURCED_RECEIPT_NOT_FOUND"
+   },
+   "accessory_workspace": {
+    "refused": false,
+    "result": "{'orders': [], 'filters': {}, 'history': [], 'document': None, 'locations': [], 'materials': [], 'contractors': [{'id': 'a1000000-0000-0000-0000-000000000004', ",
+    "identity": [
+     "authenticated",
+     "authenticated",
+     "{\"sub\": \"263ef6d3-7a9d-4d57-9459-880fcfd86a97\", \"role\": \"authenticated\"}"
+    ]
+   },
+   "accessory_save": {
+    "refused": true,
+    "sqlstate": "P0001",
+    "message": "accessory issue payload requires non-null key reason"
+   },
+   "pocket_workspace": {
+    "refused": false,
+    "result": "{'rolls': [], 'history': [], 'periods': [], 'materials': [], 'roll_count': 0}",
+    "identity": [
+     "authenticated",
+     "authenticated",
+     "{\"sub\": \"263ef6d3-7a9d-4d57-9459-880fcfd86a97\", \"role\": \"authenticated\"}"
+    ]
+   },
+   "import_workspace": {
+    "refused": false,
+    "result": "{'batch': None, 'recent': []}",
+    "identity": [
+     "authenticated",
+     "authenticated",
+     "{\"sub\": \"263ef6d3-7a9d-4d57-9459-880fcfd86a97\", \"role\": \"authenticated\"}"
+    ]
+   }
+  },
+  "verdict": {
+   "preflight": false,
+   "close": false,
+   "laundry_estimate": false,
+   "fg_preview": false,
+   "fg_post": false,
+   "fg_reverse": false,
+   "accessory_workspace": false,
+   "accessory_save": false,
+   "pocket_workspace": false,
+   "import_workspace": false
+  },
+  "control_before": {
+   "closed_through": "2026-08-31",
+   "filings": 0,
+   "fg": 0,
+   "journals": 12
+  },
+  "control_after": {
+   "closed_through": "2026-08-31",
+   "filings": 0,
+   "fg": 0,
+   "journals": 12
+  },
+  "expected": "an authorization refusal, never a business validation message",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AUDITOR_CASES_AFTER",
+  "case": "ACCESS2:INACTIVE_OWNER",
+  "status": "PASS",
+  "who": "auth",
+  "sub": "ccee1366-e595-47b9-8145-49d37453cbd3",
+  "calls": {
+   "preflight": {
+    "refused": true,
+    "sqlstate": "P0001",
+    "message": "OWNER or ADMIN access required"
+   },
+   "close": {
+    "refused": true,
+    "sqlstate": "P0001",
+    "message": "OWNER or ADMIN access required"
+   },
+   "laundry_estimate": {
+    "refused": true,
+    "sqlstate": "P0001",
+    "message": "OWNER or ADMIN access required"
+   },
+   "fg_preview": {
+    "refused": true,
+    "sqlstate": "P0001",
+    "message": "OWNER or ADMIN access required"
+   },
+   "fg_post": {
+    "refused": true,
+    "sqlstate": "P0001",
+    "message": "OWNER or ADMIN access required"
+   },
+   "fg_reverse": {
+    "refused": true,
+    "sqlstate": "P0001",
+    "message": "OWNER or ADMIN access required"
+   },
+   "accessory_workspace": {
+    "refused": true,
+    "sqlstate": "42501",
+    "message": "PERMISSION_DENIED: finance.contractor_accessory.view"
+   },
+   "accessory_save": {
+    "refused": true,
+    "sqlstate": "42501",
+    "message": "PERMISSION_DENIED: finance.contractor_accessory.view"
+   },
+   "pocket_workspace": {
+    "refused": true,
+    "sqlstate": "P0001",
+    "message": "OWNER or ADMIN access required"
+   },
+   "import_workspace": {
+    "refused": true,
+    "sqlstate": "P0001",
+    "message": "OWNER or ADMIN access required"
+   }
+  },
+  "verdict": {
+   "preflight": true,
+   "close": true,
+   "laundry_estimate": true,
+   "fg_preview": true,
+   "fg_post": true,
+   "fg_reverse": true,
+   "accessory_workspace": true,
+   "accessory_save": true,
+   "pocket_workspace": true,
+   "import_workspace": true
+  },
+  "control_before": {
+   "closed_through": "2026-08-31",
+   "filings": 0,
+   "fg": 0,
+   "journals": 12
+  },
+  "control_after": {
+   "closed_through": "2026-08-31",
+   "filings": 0,
+   "fg": 0,
+   "journals": 12
+  },
+  "expected": "an authorization refusal, never a business validation message",
+  "full_boundary_restored": true
+ },
+ {
+  "auditor_phase": "after",
+  "status": "RUN_COMPLETE",
+  "label": "AUDITOR_SCENARIO",
+  "phase": "after",
+  "scenario_sha256": "e1f4093c9c683627af1a46a0f9a18ae0955718c1e6b72bc52a9abfd733acc310",
+  "production_go": false,
+  "independent_acceptance": false,
+  "release_evidence": false,
+  "au_install": "PASS",
+  "av_install": "PASS",
+  "aw_install": {
+   "stage": "AV_PLUS_AW_T1",
+   "label": "T1_FAMILY",
+   "functions": 13,
+   "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32"
+  },
+  "ax_install": {
+   "stage": "AV_PLUS_AW_PLUS_AX_T1",
+   "label": "T1_FAMILY",
+   "functions": 13,
+   "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+   "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+   "av_coverage": {
+    "registry": {
+     "erp.fg_lots.product_id": {
+      "class": "NEW_STOCK_FACT",
+      "reason": "produced_at of every lot except GOOD returned by rework"
+     },
+     "erp.bs_cases.product_id": {
+      "class": "NEW_STOCK_FACT",
+      "reason": "physical_at of QC/laundry BS and manual OUT_OF_NOWHERE BS"
+     },
+     "erp.sales_items.product_id": {
+      "class": "SALES",
+      "reason": "Sale of existing stock"
+     },
+     "erp.journal_lines.product_id": {
+      "class": "ACCOUNTING",
+      "reason": "Journal dimension"
+     },
+     "erp.fg_stock_movements.product_id": {
+      "class": "MOVEMENT",
+      "reason": "Movement of an existing lot"
+     },
+     "erp.sales_return_items.product_id": {
+      "class": "SALES",
+      "reason": "Return of sold stock"
+     },
+     "erp.fg_adjustment_items.product_id": {
+      "class": "MOVEMENT",
+      "reason": "Adjusts an existing lot"
+     },
+     "erp.fg_inventory_balances.product_id": {
+      "class": "DERIVED",
+      "reason": "Balance cache keyed by product/location/grade"
+     },
+     "erp.opening_balance_items.product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Opening document; facts are OPENING lots and LEGACY BS"
+     },
+     "erp.stock_policy_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated stock policy"
+     },
+     "erp.accessory_bom_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated accessory BOM; no stock instant"
+     },
+     "erp.product_conversions.to_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Conversion target; the fact is the CONVERSION lot in fg_lots"
+     },
+     "erp.product_price_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated price"
+     },
+     "erp.product_conversions.from_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Conversion source, validated as EXISTING_STOCK"
+     },
+     "erp.qc_inspection_items.final_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "QC input; the facts are fg_lots and bs_cases"
+     },
+     "erp.fg_accessory_cost_snapshots.product_id": {
+      "class": "DERIVED",
+      "reason": "Cost snapshot of an FG lot"
+     },
+     "erp.po_accessory_bom_commitments.product_id": {
+      "class": "MASTER",
+      "reason": "PO accessory BOM commitment"
+     },
+     "erp.stock_explainability_snapshots.product_id": {
+      "class": "REPORT",
+      "reason": "Stock explanation snapshot"
+     },
+     "erp.non_po_hpp_gl_sync_events_v2620f.product_id": {
+      "class": "ACCOUNTING",
+      "reason": "HPP to GL synchronisation event"
+     },
+     "erp.laundry_receipt_batch_size_lines.bs_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Laundry receipt input; the BS fact is bs_cases"
+     },
+     "erp.product_identity_mutation_context_v1.product_id": {
+      "class": "AUTHORIZATION",
+      "reason": "Private one-use identity edit context"
+     },
+     "erp.laundry_receipt_bs_product_allocations.product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Validated as NEW_STOCK; the BS fact is bs_cases"
+     },
+     "erp.contractor_accessory_reimbursement_entitlements.product_id": {
+      "class": "DERIVED",
+      "reason": "Accounting entitlement of an FG lot"
+     }
+    },
+    "references": 23,
+    "new_stock_fact_tables": [
+     "bs_cases",
+     "fg_lots"
+    ]
+   }
+  },
+  "ay_install": {
+   "stage": "AV_PLUS_AW_AX_AY_T1",
+   "label": "T1_FAMILY",
+   "functions": 13,
+   "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+   "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+   "av_coverage": {
+    "registry": {
+     "erp.fg_lots.product_id": {
+      "class": "NEW_STOCK_FACT",
+      "reason": "produced_at of every lot except GOOD returned by rework"
+     },
+     "erp.bs_cases.product_id": {
+      "class": "NEW_STOCK_FACT",
+      "reason": "physical_at of QC/laundry BS and manual OUT_OF_NOWHERE BS"
+     },
+     "erp.sales_items.product_id": {
+      "class": "SALES",
+      "reason": "Sale of existing stock"
+     },
+     "erp.journal_lines.product_id": {
+      "class": "ACCOUNTING",
+      "reason": "Journal dimension"
+     },
+     "erp.fg_stock_movements.product_id": {
+      "class": "MOVEMENT",
+      "reason": "Movement of an existing lot"
+     },
+     "erp.sales_return_items.product_id": {
+      "class": "SALES",
+      "reason": "Return of sold stock"
+     },
+     "erp.fg_adjustment_items.product_id": {
+      "class": "MOVEMENT",
+      "reason": "Adjusts an existing lot"
+     },
+     "erp.fg_inventory_balances.product_id": {
+      "class": "DERIVED",
+      "reason": "Balance cache keyed by product/location/grade"
+     },
+     "erp.opening_balance_items.product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Opening document; facts are OPENING lots and LEGACY BS"
+     },
+     "erp.stock_policy_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated stock policy"
+     },
+     "erp.accessory_bom_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated accessory BOM; no stock instant"
+     },
+     "erp.product_conversions.to_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Conversion target; the fact is the CONVERSION lot in fg_lots"
+     },
+     "erp.product_price_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated price"
+     },
+     "erp.product_conversions.from_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Conversion source, validated as EXISTING_STOCK"
+     },
+     "erp.qc_inspection_items.final_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "QC input; the facts are fg_lots and bs_cases"
+     },
+     "erp.fg_accessory_cost_snapshots.product_id": {
+      "class": "DERIVED",
+      "reason": "Cost snapshot of an FG lot"
+     },
+     "erp.po_accessory_bom_commitments.product_id": {
+      "class": "MASTER",
+      "reason": "PO accessory BOM commitment"
+     },
+     "erp.stock_explainability_snapshots.product_id": {
+      "class": "REPORT",
+      "reason": "Stock explanation snapshot"
+     },
+     "erp.non_po_hpp_gl_sync_events_v2620f.product_id": {
+      "class": "ACCOUNTING",
+      "reason": "HPP to GL synchronisation event"
+     },
+     "erp.laundry_receipt_batch_size_lines.bs_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Laundry receipt input; the BS fact is bs_cases"
+     },
+     "erp.product_identity_mutation_context_v1.product_id": {
+      "class": "AUTHORIZATION",
+      "reason": "Private one-use identity edit context"
+     },
+     "erp.laundry_receipt_bs_product_allocations.product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Validated as NEW_STOCK; the BS fact is bs_cases"
+     },
+     "erp.contractor_accessory_reimbursement_entitlements.product_id": {
+      "class": "DERIVED",
+      "reason": "Accounting entitlement of an FG lot"
+     }
+    },
+    "references": 23,
+    "new_stock_fact_tables": [
+     "bs_cases",
+     "fg_lots"
+    ]
+   },
+   "ay_sql_sha256": "29b8977613012431b9efa927c7cee10654aef8a016368a0430e7c3789070af43",
+   "catalog": {
+    "revaluation_movement_indexes": [],
+    "accessory_total_hpp_cost": [
+     "s",
+     "(((good_qty_pcs)::numeric * qty_per_good_fg_base) * hpp_unit_cost_base_snapshot)"
+    ]
+   }
+  },
+  "az_install": {
+   "stage": "AV_PLUS_AW_AX_AY_AZ_T1",
+   "label": "T1_FAMILY",
+   "functions": 13,
+   "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+   "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+   "av_coverage": {
+    "registry": {
+     "erp.fg_lots.product_id": {
+      "class": "NEW_STOCK_FACT",
+      "reason": "produced_at of every lot except GOOD returned by rework"
+     },
+     "erp.bs_cases.product_id": {
+      "class": "NEW_STOCK_FACT",
+      "reason": "physical_at of QC/laundry BS and manual OUT_OF_NOWHERE BS"
+     },
+     "erp.sales_items.product_id": {
+      "class": "SALES",
+      "reason": "Sale of existing stock"
+     },
+     "erp.journal_lines.product_id": {
+      "class": "ACCOUNTING",
+      "reason": "Journal dimension"
+     },
+     "erp.fg_stock_movements.product_id": {
+      "class": "MOVEMENT",
+      "reason": "Movement of an existing lot"
+     },
+     "erp.sales_return_items.product_id": {
+      "class": "SALES",
+      "reason": "Return of sold stock"
+     },
+     "erp.fg_adjustment_items.product_id": {
+      "class": "MOVEMENT",
+      "reason": "Adjusts an existing lot"
+     },
+     "erp.fg_inventory_balances.product_id": {
+      "class": "DERIVED",
+      "reason": "Balance cache keyed by product/location/grade"
+     },
+     "erp.opening_balance_items.product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Opening document; facts are OPENING lots and LEGACY BS"
+     },
+     "erp.stock_policy_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated stock policy"
+     },
+     "erp.accessory_bom_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated accessory BOM; no stock instant"
+     },
+     "erp.product_conversions.to_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Conversion target; the fact is the CONVERSION lot in fg_lots"
+     },
+     "erp.product_price_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated price"
+     },
+     "erp.product_conversions.from_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Conversion source, validated as EXISTING_STOCK"
+     },
+     "erp.qc_inspection_items.final_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "QC input; the facts are fg_lots and bs_cases"
+     },
+     "erp.fg_accessory_cost_snapshots.product_id": {
+      "class": "DERIVED",
+      "reason": "Cost snapshot of an FG lot"
+     },
+     "erp.po_accessory_bom_commitments.product_id": {
+      "class": "MASTER",
+      "reason": "PO accessory BOM commitment"
+     },
+     "erp.stock_explainability_snapshots.product_id": {
+      "class": "REPORT",
+      "reason": "Stock explanation snapshot"
+     },
+     "erp.non_po_hpp_gl_sync_events_v2620f.product_id": {
+      "class": "ACCOUNTING",
+      "reason": "HPP to GL synchronisation event"
+     },
+     "erp.laundry_receipt_batch_size_lines.bs_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Laundry receipt input; the BS fact is bs_cases"
+     },
+     "erp.product_identity_mutation_context_v1.product_id": {
+      "class": "AUTHORIZATION",
+      "reason": "Private one-use identity edit context"
+     },
+     "erp.laundry_receipt_bs_product_allocations.product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Validated as NEW_STOCK; the BS fact is bs_cases"
+     },
+     "erp.contractor_accessory_reimbursement_entitlements.product_id": {
+      "class": "DERIVED",
+      "reason": "Accounting entitlement of an FG lot"
+     }
+    },
+    "references": 23,
+    "new_stock_fact_tables": [
+     "bs_cases",
+     "fg_lots"
+    ]
+   },
+   "ay_sql_sha256": "29b8977613012431b9efa927c7cee10654aef8a016368a0430e7c3789070af43",
+   "catalog": {
+    "revaluation_movement_indexes": [],
+    "accessory_total_hpp_cost": [
+     "s",
+     "(((good_qty_pcs)::numeric * qty_per_good_fg_base) * hpp_unit_cost_base_snapshot)"
+    ]
+   },
+   "az_sql_sha256": "9007eefc5b8e8d3ae47dbdc496aca61fb281152385b27c9791284b68fc8125c9"
+  },
+  "auditor_cases": {
+   "status": "COUNTEREXAMPLE",
+   "counts": {
+    "PASS": 3,
+    "COUNTEREXAMPLE": 2
+   }
+  },
+  "primary_unchanged": true,
+  "clone_remaining": 0
+ }
+]
