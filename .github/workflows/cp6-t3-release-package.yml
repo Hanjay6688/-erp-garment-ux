@@ -14,6 +14,13 @@ name: CP6 T3 Release Package (hosted-faithful baseline)
     - scripts/cp6_t3_aligned_chain.py
     - scripts/cp6_t3_backup_restore_drill.py
     - supabase/release/cp6-t3/**
+    # the AW/AX/AY verification reads these (ay_verified requires the installed AY body to equal the dev text)
+    - scripts/cp6_aw_probe.py
+    - scripts/cp6_ax_probe.py
+    - scripts/cp6_ay_probe.py
+    - supabase/dev/cp6_aw_t1_family.sql
+    - supabase/dev/cp6_ax_t1_family.sql
+    - supabase/dev/cp6_ay_t1_family.sql
     - .github/workflows/cp6-t3-release-package.yml
   workflow_dispatch: null
 permissions:
