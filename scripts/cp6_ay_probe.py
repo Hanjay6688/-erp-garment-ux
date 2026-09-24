@@ -57,7 +57,7 @@ def ay_verified(cur):
     assert 'po_hpp_gl_leg_add_v1' in src,'AY_T1_SYNC_NOT_INSTALLED'
     # The installed body is exactly the committed AY text (a stale AY install, e.g. an older package, is refused).
     assert src==sync_source(),'AY_T1_SYNC_NOT_CURRENT'
-    assert cur.execute("select to_regclass('erp.po_hpp_gl_lot_state_v1') is not null and to_regclass('erp.po_hpp_gl_group_state_v1') is not null").fetchone()[0],'AY_T1_STATE_TABLES_MISSING'
+    assert cur.execute("select to_regclass('erp.po_hpp_gl_lot_state_v1') is not null and to_regclass('erp.po_hpp_gl_material_state_v1') is not null").fetchone()[0],'AY_T1_STATE_TABLES_MISSING'
     import hashlib
     return dict(base,stage='AV_PLUS_AW_AX_AY_T1',ay_sql_sha256=hashlib.sha256(AY_SQL.read_bytes()).hexdigest())
 

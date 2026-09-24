@@ -454,6 +454,69 @@ def write_off(cur,today,price):
                 negative_blockers=negative,invoice=response,quiet=[quiet,quiet_fixture])
 
 
+def contractor_after_lot(cur,today,price):
+    """Independent review of AY rev6 (M-1): a material fact behind the lot HPP that happens after the lot. One cut of 6 units
+    into 10 pcs and a FG lot of 10 pcs on d+1; 4 units of the same fabric issued to the PO's contractor on d+2 (non-accessory:
+    erp.rebuild_po_hpp shares it over the PO's source quantity, 10 pcs); late invoice on d (open). The contractor issue does
+    not rebuild the HPP, so the invoice brings the contractor material into the lot for the first time. Expected (AY rev7):
+    FG +6x on d+1 (the cut material only), the rest of the lot change (the contractor material and its correction) on d+2,
+    the PO's WIP never negative, and material at the invoice price for the units in stock."""
+    prod=chain.production
+    d=today-timedelta(days=3);d2=d+timedelta(days=1);d3=d+timedelta(days=2)
+    days=[d+timedelta(days=i) for i in range(4)]
+    boundary.historical.prior.set_open_period(cur,d-timedelta(days=1))
+    quiet=awp.quiet_seed(cur,d,today-timedelta(days=1),exclude=[prod.CONTRACTOR])
+    fx=prod.estimated_receipt(cur,today)
+    api.admin(cur)
+    po=uuid.uuid4();product=prod.base.create_product(cur,uuid.uuid4().hex[:16])
+    cur.execute("""insert into erp.production_orders(id,po_number,model_id,contractor_id,target_qty_pcs,status,current_stage,physical_start_at,notes)
+      values(%s,%s,%s,%s,10,'CUTTING','CUTTING',%s,'AZ contractor material probe')""",(po,'AZ-CM-PO-'+str(po),prod.MODEL,prod.CONTRACTOR,prod.at(d2,7)))
+    produce(cur,fx,po,product,d2,6,10)
+    lot=cur.execute("select id from erp.fg_lots where po_id=%s and lot_origin='PRODUCTION'",(po,)).fetchone()[0]
+    prod.owner(cur)
+    # erp.save_contractor_material_issue_draft_v2 / erp.post_contractor_material_issue are internal (require_internal): the
+    # privileged session with the owner claims kept, as in the write-off fixture.
+    prod.prior.actors.session(cur,'supabase_admin')
+    draft=cur.execute('select erp.save_contractor_material_issue_draft_v2(%s::jsonb,%s::uuid,null)',(json.dumps(dict(
+        issue_number='AZ-CM-'+uuid.uuid4().hex,contractor_id=str(prod.CONTRACTOR),po_id=str(po),physical_at=prod.at(d3,10).isoformat(),
+        location_id=str(fx['location']),change_reason='AZ M-1 probe: contractor material after the lot',
+        items=[dict(material_id=str(fx['material']),roll_id=str(fx['roll']),qty=4)])),str(uuid.uuid4()))).fetchone()[0]
+    cur.execute('select erp.post_contractor_material_issue(%s)',(draft['contractor_material_issue_id'],))
+    api.admin(cur)
+    issued=cur.execute("""select erp._cp3_business_date(m.physical_at),m.qty_signed from erp.material_stock_movements m
+      join erp.contractor_material_issue_items i on i.id=m.source_id where m.source_type='CONTRACTOR_MATERIAL_ISSUE_ITEM'
+      and i.issue_id=%s""",(draft['contractor_material_issue_id'],)).fetchall()
+    quiet_fixture=awp.quiet_seed(cur,d,today-timedelta(days=1))
+    hpp=lambda:dec(cur.execute('select total_cost from erp.hpp_versions where lot_id=%s and is_current',(lot,)).fetchone()[0])
+    hpp_before=hpp()
+    before=ledger_days(cur,days,[po])
+    response=invoice(cur,fx,today,price,d)
+    after=ledger_days(cur,days,[po])
+    hpp_after=hpp()
+    x=dec(price)-10
+    move={str(day):{k:dec(after[str(day)][k])-dec(before[str(day)][k]) for k in KEYS} for day in days}
+    wip_po={str(day):dec(after[str(day)]['WIP_PO'][str(po)]) for day in days}
+    stock={str(d):10,str(d2):4,str(d3):0,str(today):0}
+    state=[[r[0][:2],str(r[1])] for r in cur.execute("""select source_key,material_value from erp.po_hpp_gl_material_state_v1
+      where po_id=%s order by 1""",(po,)).fetchall()] if az_installed(cur) or ayp.ay_installed(cur) else None
+    pre=awp.preflight(cur,today)
+    negative=[b for b in pre['blockers'] if b['code']=='GL_INVENTORY_NEGATIVE_ASOF'] if pre else None
+    gap=10*10-hpp_before
+    checks=dict(fixture_issue_after_lot=[(r[0],dec(r[1])) for r in issued]==[(d3,Decimal(-4))],
+                hpp_includes_contractor_material=hpp_after==10*dec(price),
+                fg_lot_day_cut_material_only=move[str(d2)]['FG_INVENTORY']==6*x,
+                fg_rest_on_contractor_day=move[str(d3)]['FG_INVENTORY']==hpp_after-hpp_before and move[str(today)]['FG_INVENTORY']==hpp_after-hpp_before,
+                material_at_invoice_price=all(move[str(day)]['MATERIAL_INVENTORY']==x*stock[str(day)] for day in days),
+                wip_po_never_negative=all(v>=0 for v in wip_po.values()),
+                wip_po_change_only_the_contractor_material=move[str(d)]['WIP']==0 and move[str(d2)]['WIP']==0 and move[str(d3)]['WIP']==-gap and move[str(today)]['WIP']==-gap,
+                no_negative_daily_inventory=negative==[])
+    status='PASS' if all(checks.values()) else ('COUNTEREXAMPLE' if not az_installed(cur) else 'FAIL')
+    return dict(status=status,finding='independent review of AY rev6, M-1 (material fact after the lot); AY rev7 dates each material fact on its own day',
+                price=price,receipt_day=str(d),hpp_before=str(hpp_before),hpp_after=str(hpp_after),issued=[[str(a),str(b)] for a,b in issued],
+                material_state=state,checks=checks,daily_move={k:{kk:str(vv) for kk,vv in v.items()} for k,v in move.items()},
+                wip_po={k:str(v) for k,v in wip_po.items()},negative_blockers=negative,invoice=response,quiet=[quiet,quiet_fixture])
+
+
 def goods_flow(cur,today,price,flow):
     """Branches without a native fixture until 24 Sep (independent review): a lot of 10 pcs (one cut of 10 units) on d+1,
     then RETURN (3 pcs sold on d+1, 1 returned on d+2), REVERSED (all 10 sold on d+2, the sale reversed today before the
@@ -575,7 +638,9 @@ def cases(cur,today):
             ('AZ:CONVERSION_THEN_SALE',lambda:goods_flow(cur,today,'10.70','CONVERSION_SALE')),
             ('AZ:QC_REVERSED_AND_REDONE',lambda:goods_flow(cur,today,'8.25','QC_REDO')),
             ('AZ:BATCH_ACROSS_DAYS_HIGHER',lambda:multi_cut(cur,today,'10.70',batch=True)),
-            ('AZ:BATCH_ACROSS_DAYS_LOWER',lambda:multi_cut(cur,today,'8.25',batch=True))]
+            ('AZ:BATCH_ACROSS_DAYS_LOWER',lambda:multi_cut(cur,today,'8.25',batch=True)),
+            ('AZ:CONTRACTOR_AFTER_LOT_HIGHER',lambda:contractor_after_lot(cur,today,'10.70')),
+            ('AZ:CONTRACTOR_AFTER_LOT_LOWER',lambda:contractor_after_lot(cur,today,'8.25'))]
 
 
 def run(phase):
