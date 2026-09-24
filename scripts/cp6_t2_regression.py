@@ -367,6 +367,63 @@ def ar_phase(report):
 ORIGINAL_REGRESSION=avt.regression
 
 
+def ao_trial_namespace():
+    """The AO initial-import trial's own case functions from the frozen writer file, without its module-level runner
+    (the file runs its whole trial on import); only its imports, its actors/base/production binding and its function
+    definitions are taken, unchanged."""
+    import ast
+    source=(Path.cwd()/'scripts/cp6_initial_import_ao_trial.py').read_text()
+    tree=ast.parse(source)
+    skip={'cp6_v2620an_runtime','cp6_v2620ao_definitions','cp6_v2620n_rollback_guards'}
+    keep=[]
+    for node in tree.body:
+        if isinstance(node,ast.Import) and not any(a.name in skip for a in node.names):keep.append(node)
+        elif isinstance(node,ast.ImportFrom) and node.module not in skip:keep.append(node)
+        elif isinstance(node,ast.Assign) and ast.unparse(node.targets[0]).strip('()')=='actors, base, production':keep.append(node)
+        elif isinstance(node,ast.FunctionDef) and node.name in ('retail','invoice_date','direct_correction_reversal'):keep.append(node)
+    names=sorted(n.name for n in keep if isinstance(n,ast.FunctionDef))
+    assert names==['direct_correction_reversal','invoice_date','retail'],names
+    assert sum(isinstance(n,ast.Assign) for n in keep)==1,'AO_TRIAL_ACTORS_BINDING'
+    namespace={'__name__':'cp6_initial_import_ao_trial_cases'}
+    exec(compile(ast.Module(body=keep,type_ignores=[]),'cp6_initial_import_ao_trial.py','exec'),namespace)
+    return namespace,hashlib_sha(source)
+
+
+def hashlib_sha(text):
+    import hashlib
+    return hashlib.sha256(text.encode()).hexdigest()
+
+
+def ao_trial_cases(cur,today):
+    """The AO trial's 12 cases (RETAIL, BAD_PRICE, FRACTIONAL_PCS, INVOICE x4, DIRECT_CORRECTION_REVERSAL x2) with the
+    foundation its runner sets up. Added to T2 on 24 Sep: the AO trial exercises the invoice recost path that AY and AZ
+    change and was not part of the T2 set. The period is opened from 2026-01-02 as on genuine AN; the closed variants
+    close their own receipt day."""
+    ns,sha=ao_trial_namespace()
+    AO_SOURCE['sha256']=sha
+    actors,base,production,foundation=ns['actors'],ns['base'],ns['production'],ns['foundation']
+    avt.predecessor.historical.prior.set_open_period(cur,REOPEN)
+    actors.admin(cur);cur.execute('grant usage on schema erp to authenticated')
+    actors.actors.claims(cur,dict(sub=base.OPERATOR_AUTH,role='authenticated'));base.load_fixture_foundation(cur);actors.admin(cur)
+    start=production.at(today-timedelta(days=1),0)
+    model,contractor=cur.execute("select model_id,contractor_id from erp.production_orders where po_number='CP6-RACE-PO'").fetchone()
+    foundation.OWNER=base.OPERATOR_AUTH
+    foundation.MASTER=dict(model=model,contractor=contractor,start=start,
+        supplier=cur.execute("select id from erp.suppliers where supplier_code='CP6-RACE-SUP'").fetchone()[0],
+        pcs=cur.execute("select unit_code from erp.uom_definitions where upper(unit_code)='PCS' and dimension='COUNT'").fetchone()[0],
+        t0=start+timedelta(hours=1),t3=start+timedelta(hours=4))
+    retail,invoice_date,reversal=ns['retail'],ns['invoice_date'],ns['direct_correction_reversal']
+    cases=[('RETAIL:'+str(f),lambda f=f:retail(cur,today,f)) for f in (12,144)]
+    cases+=[('BAD_PRICE:'+p,lambda p=p:retail(cur,today,12,p)) for p in ('-1','NaN','0.005')]
+    cases+=[('FRACTIONAL_PCS',lambda:retail(cur,today,12,qty='7.0000001'))]
+    cases+=[('INVOICE:'+z+':'+str(c),lambda z=z,c=c:invoice_date(cur,today,z,c)) for z in ('UTC','Pacific/Kiritimati') for c in (False,True)]
+    cases+=[('DIRECT_CORRECTION_REVERSAL:'+str(c),lambda c=c:reversal(cur,today,c)) for c in (False,True)]
+    return cases
+
+
+AO_SOURCE={}
+
+
 def regression_phase(report):
     ORIGINAL_REGRESSION(report)
     # The calendar policy oracle of the 12 historical HOLD cases (part of the regression's own verdict) is in the report
@@ -383,6 +440,14 @@ def regression_phase(report):
         observed[name.upper()]={k:r['status'] for k,r in json.loads(path.read_text())['cases'].items()}
     new=json.loads((avt.OUT/'NEW_CASES.json').read_text())
     observed['NEW_CASES']={k:r['status'] for k,r in new['cases'].items()}
+    # AO trial (added coverage, 24 Sep): its recorded outcome at AO was 12 PASS (WRITER_TRIAL_PASS).
+    try:
+        ao=avt.group('AO_TRIAL',ao_trial_cases)
+        report['ao_trial']=dict(status=ao['status'],counts=ao['counts'],source_sha256=AO_SOURCE.get('sha256'),
+                                moved={k:r['status'] for k,r in ao['cases'].items() if r['status']!='PASS'})
+    except Exception as exc:
+        report['ao_trial']=dict(status='INCOMPLETE',error=str(exc)[:2000])
+    print(json.dumps(dict(group='T2_AO_TRIAL',**report['ao_trial']),default=str),flush=True)
     report['per_case_identity']=identity.compare(identity.load_expected(),observed)
     print(json.dumps(dict(group='T2_IDENTITY',**report['per_case_identity']),default=str),flush=True)
     if report['per_case_identity']['status']!='IDENTICAL_PER_CASE':report['status']='DISPOSITION_REQUIRED'
