@@ -69,9 +69,10 @@ def capsule_compare(url):
 
 
 def verify_awx():
+    import cp6_ay_probe as ayp
     with psycopg.connect(boundary.ADMIN) as conn,conn.cursor() as cur:
-        result=axp.ax_verified(cur);conn.rollback()
-    return {k:result.get(k) for k in ('stage','functions','sql_sha256','ax_sql_sha256')}
+        result=ayp.ay_verified(cur);conn.rollback()
+    return {k:result.get(k) for k in ('stage','functions','sql_sha256','ax_sql_sha256','ay_sql_sha256')}
 
 
 def run(mode):

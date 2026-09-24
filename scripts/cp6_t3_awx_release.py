@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""T3: AW and AX as release candidates of the combined package, with the AO..AV guard set.
+"""T3: AW, AX and AY as release candidates of the combined package, with the AO..AV guard set.
 
 AW (close readiness engine) and AX (finished goods without a production source) passed T1 as development files
 (supabase/dev/cp6_aw_t1_family.sql, cp6_ax_t1_family.sql). This builder wraps each T1 body unchanged (only the ledger
@@ -43,6 +43,10 @@ FILES=[
          description='Finished goods without a production source: owner receipt with average HPP and reversal',
          replaced=['erp.merge_eligible_work_into_payroll_v2(uuid,jsonb,uuid,bigint)','erp.validate_payroll_work_item_source()'],
          new_tables=['fg_unsourced_receipts_v1','fg_unsourced_repair_wages_v1']),
+    dict(key='AY',stamp='20260924010200',name='erp_v2_6_20ay_cp6_hpp_dated_from_goods',version='v2.6.20ay',
+         body=ROOT/'supabase/dev/cp6_ay_t1_family.sql',title='PO HPP corrections dated from the goods',
+         description='PO HPP corrections dated from the goods: FG from the lot date, COGS from the sale date',
+         replaced=['erp.sync_po_hpp_to_gl(uuid,date)'],new_tables=[]),
 ]
 PLACEHOLDER='0'*64
 # The package capsules AO..AV (AO..AW for AX) are checked like AV checks AO..AU; the capsules of this builder are left out
@@ -95,7 +99,7 @@ def migration(key):
 
 
 def admission(f,capsule):
-    new=' or '.join("to_regclass('erp.%s') is not null"%t for t in f['new_tables'])
+    new=' or '.join("to_regclass('erp.%s') is not null"%t for t in f['new_tables']) or 'false'
     return ("do $admission$ begin\n if exists(select 1 from erp.schema_migrations where version='%s') or to_regclass('%s') is not null\n  or %s\n"
             " then raise exception '%s_EXACT_PREDECESSOR_WITHOUT_SUCCESSOR_REQUIRED';end if;\nend $admission$;\n")%(f['version'],capsule,new,f['key'])
 
@@ -226,11 +230,13 @@ def build():
         text+=closed
         text+="lock table erp.schema_migrations,supabase_migrations.schema_migrations in share row exclusive mode;\n"
         text+=business+admission(f,capsule)+predecessor(code,previous)+prior_platform(code,previous)
-        text+=catalog_guard(inner,guard['agg'],code+'_PREDECESSOR_CATALOG_DRIFT')
+        # AW and AX leave out the capsules AV..AX by name; later files add their own capsule to that list.
+        own=inner if code in ('AW','AX') else inner.replace("'cp6_v2620ax_rollback_capsule')","'cp6_v2620ax_rollback_capsule','%s')"%capsule.split('.')[1])
+        text+=catalog_guard(own,guard['agg'],code+'_PREDECESSOR_CATALOG_DRIFT')
         text+=historical(av_history,capsules,code)+prior_capsules(code,capsules)
         text+=capsule_create(f,capsule)+before_data(capsule)
         text+=body(f['body'],f['version'],f['description'])
-        text+=catalog_guard(inner,guard['agg'],code+'_INSTALLED_CATALOG_DRIFT')
+        text+=catalog_guard(own,guard['agg'],code+'_INSTALLED_CATALOG_DRIFT')
         text+=after_data(f,capsule)+capsule_guard(f,capsule)
         text+="commit;\n"
         assert len(package.catalog_blocks(text))==2 and package.history(text)

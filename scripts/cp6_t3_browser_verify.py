@@ -21,8 +21,8 @@ def verified(cur):
         from supabase_migrations.schema_migrations where version>%s""",(AB_STAMP,)).fetchall())
     assert live==expected,('T3_BROWSER_PACKAGE_LEDGER_DRIFT',sorted(set(live)^set(expected)),
                            sorted(k for k in expected if live.get(k)!=expected[k]))
-    import cp6_ax_probe as axp
-    ax=axp.ax_verified(cur)
+    import cp6_ay_probe as ayp
+    ax=ayp.ay_verified(cur)
     # The whole erp/public catalog (definitions, owners, ACLs) equals the installed pin of the last package file (AX),
     # read on a separate read-only connection so the caller's session settings are untouched.
     import psycopg
