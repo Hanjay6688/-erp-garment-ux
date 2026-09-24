@@ -1,6 +1,6 @@
 -- CP6 AX: finished goods without a production source. Release candidate of the T3 combined package; closed, drained maintenance required.
 begin;
--- Built by scripts/cp6_t3_awx_release.py from supabase/dev/cp6_ax_t1_family.sql (sha256 c5f9df1202a0d379908be4965dd158b10d064913061cd1481cb3e543034ca3c4): the T1 body below is unchanged apart from the
+-- Built by scripts/cp6_t3_awx_release.py from supabase/dev/cp6_ax_t1_family.sql (sha256 2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503): the T1 body below is unchanged apart from the
 -- ledger description; guards follow AO..AV. Capsule and catalog pins are placeholders until the T3 capture.
 set local lock_timeout='10s';set local statement_timeout='240s';set local timezone='UTC';set local search_path='';
 set local role postgres;
@@ -22,7 +22,7 @@ begin
 end $lock_business$;
 do $admission$ begin
  if exists(select 1 from erp.schema_migrations where version='v2.6.20ax') or to_regclass('erp.cp6_v2620ax_rollback_capsule') is not null
-  or to_regclass('erp.fg_unsourced_receipts_v1') is not null
+  or to_regclass('erp.fg_unsourced_receipts_v1') is not null or to_regclass('erp.fg_unsourced_repair_wages_v1') is not null
  then raise exception 'AX_EXACT_PREDECESSOR_WITHOUT_SUCCESSOR_REQUIRED';end if;
 end $admission$;
 do $predecessor$
@@ -144,6 +144,12 @@ end $prior_capsules$;
 create table erp.cp6_v2620ax_rollback_capsule(like erp.cp6_v2620an_rollback_capsule including all);
 alter table erp.cp6_v2620ax_rollback_capsule enable row level security;
 revoke all on erp.cp6_v2620ax_rollback_capsule from public,anon,authenticated,service_role;
+insert into erp.cp6_v2620ax_rollback_capsule(object_identity,object_regidentity,object_definition,definition_sha256,acl_snapshot,owner_snapshot)
+select format('%I.%I(%s)',n.nspname,p.proname,pg_get_function_identity_arguments(p.oid)),i.identity,pg_get_functiondef(p.oid),
+ encode(extensions.digest(convert_to(pg_get_functiondef(p.oid),'UTF8'),'sha256'),'hex'),
+ array(select a::text from unnest(p.proacl)a order by a::text),pg_get_userbyid(p.proowner)
+from unnest(array['erp.merge_eligible_work_into_payroll_v2(uuid,jsonb,uuid,bigint)','erp.validate_payroll_work_item_source()']) i(identity)
+join pg_proc p on p.oid=i.identity::regprocedure join pg_namespace n on n.oid=p.pronamespace;
 create temp table cp6_release_functions on commit drop as
 select p.oid::regprocedure::text as identity,encode(extensions.digest(convert_to(pg_get_functiondef(p.oid),'UTF8'),'sha256'),'hex') as definition_sha256,
   array(select a::text from unnest(p.proacl)a order by a::text) as acl,pg_get_userbyid(p.proowner) as owner
@@ -193,6 +199,25 @@ create table erp.fg_unsourced_receipts_v1 (
 alter table erp.fg_unsourced_receipts_v1 enable row level security;
 revoke all on erp.fg_unsourced_receipts_v1 from public,anon,authenticated,service_role;
 create index idx_fg_unsourced_receipts_v1_bs_case on erp.fg_unsourced_receipts_v1(bs_case_id) where bs_case_id is not null;
+create table erp.fg_unsourced_repair_wages_v1 (
+  id uuid primary key default gen_random_uuid(),
+  receipt_id uuid not null unique references erp.fg_unsourced_receipts_v1(id),
+  contractor_id uuid not null references erp.contractors(id),
+  work_component_id uuid not null references erp.work_components(id),
+  qty_pcs integer not null check (qty_pcs>0),
+  rate_per_pcs numeric(18,2) not null check (rate_per_pcs>0 and rate_per_pcs<>'NaN'::numeric),
+  amount numeric(20,2) not null check (amount>0 and amount<>'NaN'::numeric),
+  physical_at timestamptz not null,
+  rate_reason text not null check (length(btrim(rate_reason))>0),
+  status text not null default 'POSTED' check (status in('POSTED','REVERSED')),
+  created_at timestamptz not null default statement_timestamp(),
+  reversed_at timestamptz,
+  check (amount=round(qty_pcs::numeric*rate_per_pcs,2)),
+  check ((status='REVERSED')=(reversed_at is not null))
+);
+alter table erp.fg_unsourced_repair_wages_v1 enable row level security;
+revoke all on erp.fg_unsourced_repair_wages_v1 from public,anon,authenticated,service_role;
+create index idx_fg_unsourced_repair_wages_v1_contractor on erp.fg_unsourced_repair_wages_v1(contractor_id) where status='POSTED';
 CREATE OR REPLACE FUNCTION erp.guard_fg_unsourced_receipt_immutable_v1()
  RETURNS trigger
  LANGUAGE plpgsql
@@ -222,6 +247,20 @@ begin
     raise exception 'FG_UNSOURCED_BS_RESOLUTION_OWNED: resolusi BS ini dibuat penerimaan barang tanpa sumber; batalkan penerimaan itu lewat pembatalan AX';
   end if;
   return case when tg_op='DELETE' then old else new end;
+end
+$function$;
+CREATE OR REPLACE FUNCTION erp.guard_fg_unsourced_repair_wage_immutable_v1()
+ RETURNS trigger
+ LANGUAGE plpgsql
+ SET search_path TO ''
+AS $function$
+begin
+  -- A repair wage changes only with its receipt: the AX reversal turns POSTED into REVERSED and nothing else.
+  if tg_op='UPDATE' and current_setting('erp.fg_unsourced_reversal',true)='on' and old.status='POSTED' and new.status='REVERSED'
+     and (to_jsonb(new)-array['status','reversed_at'])=(to_jsonb(old)-array['status','reversed_at']) then
+    return new;
+  end if;
+  raise exception 'FG_UNSOURCED_REPAIR_WAGE_IMMUTABLE: upah perbaikan hanya berubah lewat pembatalan penerimaan AX';
 end
 $function$;
 CREATE OR REPLACE FUNCTION erp.fg_unsourced_valuation_v1(p_product_id uuid, p_physical_at timestamp with time zone)
@@ -296,6 +335,10 @@ AS $function$
 -- with a reason. Journal Dr FG_INVENTORY (with product) / Cr OTHER_INCOME (without product, like the opening equity
 -- side, so the non-PO HPP book stays equal to its target) on the physical date; post_journal moves the GL date into
 -- the open period when that date is closed. GOOD from an ordinary BS stays on rework (decision 2A).
+-- Repair wage (owner 24 Sep 2026, "Utang, dibayar via payroll"): GOOD repaired from a found BS may carry a wage per pcs
+-- paid to a contractor. The lot value is the base value plus the wage (Rp52.000 + Rp2.000 = Rp54.000/pcs); the wage part
+-- is credited to CONTRACTOR_PAYABLE (a debt) and reaches the contractor's payroll as a FG_REPAIR work line, paid by the
+-- ordinary payroll payment. Without a repair wage the receipt is unchanged (a free repair keeps the base value).
 declare
   v_kind text:=upper(nullif(btrim(p_payload->>'source_kind'),''));
   v_reason text:=nullif(btrim(p_payload->>'reason'),'');
@@ -305,6 +348,8 @@ declare
   v_bs erp.bs_cases%rowtype;v_open bigint;v_in_rework bigint;v_root uuid;v_override numeric;v_override_text text;
   v_valuation jsonb;v_unit numeric(18,2);v_total numeric(20,2);
   v_lot uuid;v_movement uuid;v_journal uuid;v_resolution uuid;
+  v_repair jsonb:=p_payload->'repair';v_rate numeric;v_contractor uuid;v_component uuid;v_rate_reason text;
+  v_base numeric(18,2);v_wage numeric(20,2):=0;v_wage_id uuid;v_lines jsonb;
 begin
   perform erp.require_owner_admin();
   if p_client_request_id is null then raise exception 'FG_UNSOURCED_REQUEST_ID_REQUIRED'; end if;
@@ -382,6 +427,29 @@ begin
   end if;
   if v_product is null then raise exception 'FG_UNSOURCED_PRODUCT_REQUIRED'; end if;
   if v_location is null then raise exception 'FG_UNSOURCED_LOCATION_REQUIRED'; end if;
+  if v_repair is not null and jsonb_typeof(v_repair)<>'null' then
+    if v_kind<>'GOOD_FROM_UNSOURCED_BS' then
+      raise exception 'FG_UNSOURCED_REPAIR_ONLY_FOR_FOUND_BS: upah perbaikan hanya untuk GOOD dari BS temuan';
+    end if;
+    if jsonb_typeof(v_repair)<>'object' then raise exception 'FG_UNSOURCED_REPAIR_INVALID'; end if;
+    begin
+      v_rate:=(v_repair->>'rate_per_pcs')::numeric;
+      v_contractor:=(v_repair->>'contractor_id')::uuid;
+      v_component:=(v_repair->>'work_component_id')::uuid;
+    exception when others then raise exception 'FG_UNSOURCED_REPAIR_INVALID'; end;
+    v_rate_reason:=nullif(btrim(v_repair->>'rate_reason'),'');
+    -- A paid repair has a wage above zero (a free repair sends no repair object); same bounds as a unit value.
+    if v_rate is null or v_rate='NaN'::numeric or v_rate<=0 or v_rate>=1000000000000::numeric or v_rate<>round(v_rate,2) then
+      raise exception 'FG_UNSOURCED_REPAIR_RATE_INVALID';
+    end if;
+    if v_rate_reason is null then raise exception 'FG_UNSOURCED_REPAIR_REASON_REQUIRED'; end if;
+    if v_contractor is null or not exists(select 1 from erp.contractors c where c.id=v_contractor and c.is_active) then
+      raise exception 'FG_UNSOURCED_REPAIR_CONTRACTOR_INVALID';
+    end if;
+    if v_component is null or not exists(select 1 from erp.work_components w where w.id=v_component and w.is_active) then
+      raise exception 'FG_UNSOURCED_REPAIR_COMPONENT_INVALID';
+    end if;
+  end if;
 
   -- The SKU version must be active at the physical instant (NEW_STOCK, owner decision 1C).
   perform erp.assert_product_identity_time(v_product,v_at,'NEW_STOCK');
@@ -401,6 +469,13 @@ begin
       detail=v_valuation::text;
   end if;
   v_unit:=(v_valuation->>'unit_value')::numeric;
+  if v_rate is not null then
+    v_base:=v_unit;v_unit:=v_base+v_rate;
+    if v_unit>=1000000000000::numeric then raise exception 'FG_UNSOURCED_VALUE_INVALID: nilai per pcs melebihi batas penyimpanan'; end if;
+    v_valuation:=v_valuation||jsonb_build_object('base_unit_value',v_base,'repair_wage_per_pcs',v_rate,'unit_value',v_unit,
+      'repair_contractor_id',v_contractor,'repair_work_component_id',v_component,'repair_rate_reason',v_rate_reason);
+    v_wage:=round(v_rate*v_qty,2);
+  end if;
   if v_unit*v_qty>=1000000000000000000::numeric then raise exception 'FG_UNSOURCED_VALUE_INVALID: total melebihi batas penyimpanan'; end if;
   v_total:=round(v_unit*v_qty,2);
 
@@ -410,14 +485,21 @@ begin
   returning id into v_lot;
   insert into erp.hpp_versions(lot_id,version_no,cost_state,qty_basis_pcs,total_cost,is_current,calculation_reason,created_by)
   values(v_lot,1,'ADJUSTED',v_qty::integer,v_total,true,
-    'Unsourced FG valued at '||(v_valuation->>'tier')||' average HPP; frozen at posting',erp.current_app_user_id());
+    'Unsourced FG valued at '||(v_valuation->>'tier')||' average HPP'
+      ||case when v_rate is not null then ' plus repair wage '||v_rate||' per pcs' else '' end||'; frozen at posting',erp.current_app_user_id());
   v_movement:=erp.post_fg_movement(v_product,v_lot,v_location,v_grade,'ADJUSTMENT',v_qty::integer,v_unit,null,
     'FG_UNSOURCED_RECEIPT',v_id,v_at,'Barang jadi tanpa sumber produksi: '||v_kind,false);
   if v_total>0 then
+    v_lines:=jsonb_build_array(jsonb_build_object('mapping_key','FG_INVENTORY','debit',v_total,'credit',0,'product_id',v_product));
+    if v_total-v_wage>0 then
+      v_lines:=v_lines||jsonb_build_array(jsonb_build_object('mapping_key','OTHER_INCOME','debit',0,'credit',v_total-v_wage));
+    end if;
+    if v_wage>0 then
+      v_lines:=v_lines||jsonb_build_array(jsonb_build_object('mapping_key','CONTRACTOR_PAYABLE','debit',0,'credit',v_wage,
+        'contractor_id',v_contractor));
+    end if;
     v_journal:=erp.post_journal('FG_UNSOURCED_RECEIPT',v_id,(v_at at time zone 'Asia/Jakarta')::date,
-      'Barang jadi tanpa sumber produksi · '||v_reason,
-      jsonb_build_array(jsonb_build_object('mapping_key','FG_INVENTORY','debit',v_total,'credit',0,'product_id',v_product),
-                        jsonb_build_object('mapping_key','OTHER_INCOME','debit',0,'credit',v_total)));
+      'Barang jadi tanpa sumber produksi · '||v_reason,v_lines);
   end if;
   if v_kind='GOOD_FROM_UNSOURCED_BS' then
     insert into erp.bs_resolutions(bs_case_id,resolution_type,qty_pcs,compensation_amount,physical_at,notes)
@@ -429,13 +511,19 @@ begin
     physical_at,unit_value,total_value,valuation,reason,journal_entry_id,movement_id,created_by)
   values(v_id,v_kind,v_lot,v_bs.id,v_resolution,v_location,v_grade,v_qty::integer,v_at,v_unit,v_total,v_valuation,v_reason,
     v_journal,v_movement,erp.current_app_user_id());
+  if v_rate is not null then
+    insert into erp.fg_unsourced_repair_wages_v1(receipt_id,contractor_id,work_component_id,qty_pcs,rate_per_pcs,amount,physical_at,rate_reason)
+    values(v_id,v_contractor,v_component,v_qty::integer,v_rate,v_wage,v_at,v_rate_reason)
+    returning id into v_wage_id;
+  end if;
   perform erp.assert_non_po_product_hpp_target_book_v2620f(v_product);
   insert into erp.audit_logs(entity_type,entity_id,action,changed_by,change_reason)
   values('fg_unsourced_receipts_v1',v_id,'POST',erp.current_app_user_id(),v_reason);
   return erp._idempotency_complete('post_fg_unsourced_receipt_v1',p_client_request_id,jsonb_build_object(
     'receipt_id',v_id,'lot_id',v_lot,'product_id',v_product,'source_kind',v_kind,'qty_pcs',v_qty::integer,
     'unit_value',v_unit,'total_value',v_total,'valuation',v_valuation,'journal_entry_id',v_journal,
-    'bs_resolution_id',v_resolution));
+    'bs_resolution_id',v_resolution,'repair_wage',case when v_wage_id is null then null else jsonb_build_object(
+      'wage_id',v_wage_id,'contractor_id',v_contractor,'work_component_id',v_component,'rate_per_pcs',v_rate,'amount',v_wage) end));
 end
 $function$;
 CREATE OR REPLACE FUNCTION erp.reverse_fg_unsourced_receipt_v1(p_receipt_id uuid, p_reason text, p_client_request_id uuid)
@@ -446,7 +534,9 @@ CREATE OR REPLACE FUNCTION erp.reverse_fg_unsourced_receipt_v1(p_receipt_id uuid
 AS $function$
 -- AX reversal: allowed only while the lot has no downstream use (sale, reservation, conversion). The inflow is
 -- reversed, the lot is voided (it leaves the non-PO HPP target), the journal is reversed and a BS resolution created
--- by the receipt is removed, so the found BS is open again.
+-- by the receipt is removed, so the found BS is open again. A repair wage that a payroll (not reversed) has taken blocks
+-- the reversal until that payroll is cancelled; otherwise the wage is reversed with the receipt (the one journal reversal
+-- also reverses its CONTRACTOR_PAYABLE credit).
 declare
   v erp.fg_unsourced_receipts_v1%rowtype;
   v_product uuid;v_hash text;v_cached jsonb;v_reversal uuid;
@@ -466,12 +556,20 @@ begin
   if erp.fg_lot_has_active_downstream(v.lot_id,'ADJUSTMENT','FG_UNSOURCED_RECEIPT',v.id) then
     raise exception 'FG_UNSOURCED_LOT_IN_USE: lot sudah dipakai transaksi lain; batalkan transaksi itu lebih dulu';
   end if;
+  perform 1 from erp.fg_unsourced_repair_wages_v1 w where w.receipt_id=v.id for update;
+  if exists(select 1 from erp.fg_unsourced_repair_wages_v1 w
+      join erp.payroll_work_items pwi on pwi.source_type='FG_REPAIR' and pwi.source_id=w.id
+      join erp.payroll_settlements ps on ps.id=pwi.payroll_id
+      where w.receipt_id=v.id and ps.status<>'REVERSED') then
+    raise exception 'FG_UNSOURCED_REPAIR_WAGE_IN_PAYROLL: upah perbaikan sudah masuk payroll; batalkan payroll itu lebih dulu';
+  end if;
   perform erp.reverse_fg_movement(v.movement_id,btrim(p_reason));
   update erp.fg_lots set lot_origin='VOIDED_PRODUCTION',is_open=false where id=v.lot_id;
   if v.journal_entry_id is not null then v_reversal:=erp.reverse_journal(v.journal_entry_id,btrim(p_reason)); end if;
   perform set_config('erp.fg_unsourced_reversal','on',true);
   update erp.fg_unsourced_receipts_v1 set status='REVERSED',reversed_by=erp.current_app_user_id(),
     reversed_at=clock_timestamp(),reversal_reason=btrim(p_reason) where id=v.id;
+  update erp.fg_unsourced_repair_wages_v1 set status='REVERSED',reversed_at=clock_timestamp() where receipt_id=v.id and status='POSTED';
   perform set_config('erp.fg_unsourced_reversal','off',true);
   if v.bs_resolution_id is not null then
     delete from erp.bs_resolutions where id=v.bs_resolution_id;
@@ -512,14 +610,252 @@ CREATE OR REPLACE FUNCTION public.erp_reverse_fg_unsourced_receipt_v1(p_receipt_
 AS $function$
  select erp.reverse_fg_unsourced_receipt_v1(p_receipt_id,p_reason,p_client_request_id);
 $function$;
+alter table erp.payroll_work_items drop constraint payroll_work_items_source_type_check;
+alter table erp.payroll_work_items add constraint payroll_work_items_source_type_check CHECK (source_type::text = ANY (ARRAY['PRODUCTION'::text, 'REWORK'::text, 'FG_REPAIR'::text]));
+create or replace view "erp"."v_payroll_eligible_work_lines" with (security_invoker=true) as
+ SELECT 'PRODUCTION'::text AS source_type,
+    p.source_id,
+    p.contractor_id,
+    p.po_id,
+    p.cutting_group_id,
+    NULL::uuid AS bs_case_id,
+    p.work_component_id,
+    p.physical_at AS eligible_at,
+    p.source_qty_payable AS source_qty,
+    p.eligible_after_laundry_qty AS eligible_qty,
+    p.allocated_to_nonreversed_payroll_qty AS allocated_qty,
+    p.remaining_eligible_qty AS remaining_qty,
+    p.held_for_laundry_qty AS held_qty,
+    p.rate_snapshot,
+    p.remaining_eligible_amount AS remaining_amount,
+    p.eligibility_state AS eligibility_reason
+   FROM erp.v_payroll_production_work_eligibility p
+  WHERE p.remaining_eligible_qty > 0
+UNION ALL
+ SELECT 'REWORK'::text AS source_type,
+    rcl.id AS source_id,
+    ro.contractor_id,
+    bc.po_id,
+    bc.cutting_group_id,
+    bc.id AS bs_case_id,
+    bcc.work_component_id,
+    COALESCE(ro.completed_at, ro.physical_sent_at) AS eligible_at,
+    rcl.qty_newly_payable AS source_qty,
+    rcl.qty_newly_payable AS eligible_qty,
+    COALESCE(a.allocated_qty, 0) AS allocated_qty,
+    GREATEST(rcl.qty_newly_payable - COALESCE(a.allocated_qty, 0), 0) AS remaining_qty,
+    0 AS held_qty,
+    rcl.rate_snapshot,
+    round(GREATEST(rcl.qty_newly_payable - COALESCE(a.allocated_qty, 0), 0)::numeric * rcl.rate_snapshot, 2) AS remaining_amount,
+    'BS_CASE_RESOLVED'::text AS eligibility_reason
+   FROM erp.rework_component_lines rcl
+     JOIN erp.rework_orders ro ON ro.id = rcl.rework_order_id
+     JOIN erp.bs_case_components bcc ON bcc.id = rcl.bs_case_component_id
+     JOIN erp.bs_cases bc ON bc.id = bcc.bs_case_id
+     LEFT JOIN LATERAL ( SELECT sum(pwi.qty_payable)::integer AS allocated_qty
+           FROM erp.payroll_work_items pwi
+             JOIN erp.payroll_settlements ps ON ps.id = pwi.payroll_id
+          WHERE pwi.source_type::text = 'REWORK'::text AND pwi.source_id = rcl.id AND ps.status::text <> 'REVERSED'::text) a ON true
+  WHERE ro.destination_type::text = 'CONTRACTOR'::text AND ro.status::text = 'COMPLETED'::text AND ro.cost_posted AND bc.status::text = 'RESOLVED'::text AND GREATEST(rcl.qty_newly_payable - COALESCE(a.allocated_qty, 0), 0) > 0
+UNION ALL
+ SELECT 'FG_REPAIR'::text AS source_type,
+    w.id AS source_id,
+    w.contractor_id,
+    NULL::uuid AS po_id,
+    NULL::uuid AS cutting_group_id,
+    r.bs_case_id,
+    w.work_component_id,
+    w.physical_at AS eligible_at,
+    w.qty_pcs AS source_qty,
+    w.qty_pcs AS eligible_qty,
+    COALESCE(a.allocated_qty, 0) AS allocated_qty,
+    GREATEST(w.qty_pcs - COALESCE(a.allocated_qty, 0), 0) AS remaining_qty,
+    0 AS held_qty,
+    w.rate_per_pcs AS rate_snapshot,
+    round(GREATEST(w.qty_pcs - COALESCE(a.allocated_qty, 0), 0)::numeric * w.rate_per_pcs, 2) AS remaining_amount,
+    'FG_UNSOURCED_REPAIR_POSTED'::text AS eligibility_reason
+   FROM erp.fg_unsourced_repair_wages_v1 w
+     JOIN erp.fg_unsourced_receipts_v1 r ON r.id = w.receipt_id
+     LEFT JOIN LATERAL ( SELECT sum(pwi.qty_payable)::integer AS allocated_qty
+           FROM erp.payroll_work_items pwi
+             JOIN erp.payroll_settlements ps ON ps.id = pwi.payroll_id
+          WHERE pwi.source_type::text = 'FG_REPAIR'::text AND pwi.source_id = w.id AND ps.status::text <> 'REVERSED'::text) a ON true
+  WHERE w.status = 'POSTED'::text AND r.status = 'POSTED'::text AND GREATEST(w.qty_pcs - COALESCE(a.allocated_qty, 0), 0) > 0;
+CREATE OR REPLACE FUNCTION erp.validate_payroll_work_item_source()
+ RETURNS trigger
+ LANGUAGE plpgsql
+ SET search_path TO 'erp', 'public', 'pg_temp'
+AS $function$
+declare
+  v_source_qty integer;
+  v_source_component uuid;
+  v_source_po uuid;
+  v_source_contractor uuid;
+  v_payroll_contractor uuid;
+  v_already integer;
+begin
+  perform pg_advisory_xact_lock(hashtextextended(
+    'PAYWORK|'||new.source_type||'|'||new.source_id::text||'|'||new.work_component_id::text,0
+  ));
+  select contractor_id into v_payroll_contractor
+  from erp.payroll_settlements where id=new.payroll_id;
+
+  if new.source_type='PRODUCTION' then
+    select eligible_after_laundry_qty,work_component_id,po_id,contractor_id
+    into v_source_qty,v_source_component,v_source_po,v_source_contractor
+    from erp.v_payroll_production_work_eligibility
+    where source_id=new.source_id;
+  elsif new.source_type='REWORK' then
+    select rcl.qty_newly_payable,bcc.work_component_id,bc.po_id,ro.contractor_id
+    into v_source_qty,v_source_component,v_source_po,v_source_contractor
+    from erp.rework_component_lines rcl
+    join erp.bs_case_components bcc on bcc.id=rcl.bs_case_component_id
+    join erp.bs_cases bc on bc.id=bcc.bs_case_id
+    join erp.rework_orders ro on ro.id=rcl.rework_order_id
+    where rcl.id=new.source_id
+      and ro.destination_type='CONTRACTOR'
+      and ro.status='COMPLETED'
+      and ro.cost_posted
+      and bc.status='RESOLVED';
+  elsif new.source_type='FG_REPAIR' then
+    -- AX repair wage of a found BS repaired to GOOD (owner 24 Sep 2026): a contractor debt paid through payroll. The row
+    -- is locked FOR SHARE so an AX reversal (FOR UPDATE) and a payroll line on the same wage serialize.
+    select w.qty_pcs,w.work_component_id,null::uuid,w.contractor_id
+    into v_source_qty,v_source_component,v_source_po,v_source_contractor
+    from erp.fg_unsourced_repair_wages_v1 w
+    where w.id=new.source_id and w.status='POSTED'
+    for share;
+  else
+    raise exception 'Payroll source_type must be PRODUCTION, REWORK or FG_REPAIR';
+  end if;
+
+  if v_source_qty is null then raise exception 'Payroll source is not currently eligible'; end if;
+  if new.work_component_id<>v_source_component then raise exception 'Payroll work component does not match source'; end if;
+  if new.po_id is distinct from v_source_po then raise exception 'Payroll PO does not match source'; end if;
+  if v_source_contractor is not null and v_payroll_contractor<>v_source_contractor then
+    raise exception 'Payroll contractor does not match work source';
+  end if;
+
+  select coalesce(sum(pwi.qty_payable),0) into v_already
+  from erp.payroll_work_items pwi
+  join erp.payroll_settlements ps on ps.id=pwi.payroll_id
+  where pwi.source_type=new.source_type and pwi.source_id=new.source_id
+    and pwi.work_component_id=new.work_component_id and pwi.id<>new.id
+    and ps.status<>'REVERSED';
+  if v_already+new.qty_payable>v_source_qty then
+    raise exception 'Payroll would overpay/early-pay work source. Eligible %, already %, new %',
+      v_source_qty,v_already,new.qty_payable;
+  end if;
+  return new;
+end;
+$function$;
+CREATE OR REPLACE FUNCTION erp.merge_eligible_work_into_payroll_v2(p_payroll_id uuid, p_lines jsonb, p_client_request_id uuid, p_expected_version bigint)
+ RETURNS jsonb
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO 'erp', 'public', 'auth', 'extensions', 'pg_temp'
+AS $function$
+declare
+  v_hash text;
+  v_cached jsonb;
+  v_response jsonb;
+  v_payroll erp.payroll_settlements%rowtype;
+  v_line jsonb;
+  v_eligible record;
+  v_qty integer;
+  v_added_qty integer:=0;
+  v_added_amount numeric(24,2):=0;
+begin
+  perform erp.require_internal();
+  if p_expected_version is null then raise exception 'expected_version is required'; end if;
+  if coalesce(jsonb_typeof(p_lines),'null')<>'array' then
+    raise exception 'Eligible lines must be a JSON array';
+  end if;
+  if jsonb_array_length(p_lines)=0 then raise exception 'At least one eligible line is required'; end if;
+  v_hash:=erp._request_hash(jsonb_build_object(
+    'payroll_id',p_payroll_id,'lines',p_lines,'expected_version',p_expected_version
+  ));
+  v_cached:=erp._idempotency_begin('merge_eligible_work_into_payroll_v2',p_client_request_id,v_hash);
+  if v_cached is not null then return v_cached; end if;
+
+  select * into v_payroll from erp.payroll_settlements where id=p_payroll_id for update;
+  if v_payroll.id is null then raise exception 'Nota payroll not found'; end if;
+  if v_payroll.status not in ('DRAFT','CALCULATED','REVIEW') then
+    raise exception 'APPROVED/PAID/REVERSED Nota is locked; use reversal/correction';
+  end if;
+  if v_payroll.row_version<>p_expected_version then
+    raise exception 'STALE_VERSION expected %, current %',p_expected_version,v_payroll.row_version;
+  end if;
+  perform pg_advisory_xact_lock(hashtextextended(v_payroll.contractor_id::text,0));
+
+  for v_line in
+    select value from jsonb_array_elements(p_lines)
+    order by value->>'source_type',value->>'source_id'
+  loop
+    if upper(v_line->>'source_type')='PRODUCTION' then
+      perform 1 from erp.work_completion_lines
+      where id=(v_line->>'source_id')::uuid for update;
+    elsif upper(v_line->>'source_type')='REWORK' then
+      perform 1 from erp.rework_component_lines
+      where id=(v_line->>'source_id')::uuid for update;
+    elsif upper(v_line->>'source_type')='FG_REPAIR' then
+      perform 1 from erp.fg_unsourced_repair_wages_v1
+      where id=(v_line->>'source_id')::uuid for update;
+    else
+      raise exception 'Unknown eligible source_type';
+    end if;
+
+    select * into v_eligible
+    from erp.v_payroll_eligible_work_lines e
+    where e.source_type=upper(v_line->>'source_type')
+      and e.source_id=(v_line->>'source_id')::uuid;
+    if v_eligible.source_id is null then raise exception 'Selected work line is no longer eligible'; end if;
+    if v_eligible.contractor_id<>v_payroll.contractor_id then
+      raise exception 'Eligible work belongs to a different Mandor';
+    end if;
+    if (v_eligible.eligible_at AT TIME ZONE 'Asia/Jakarta')::date>v_payroll.period_end then
+      raise exception 'Eligible work is after the Nota period end';
+    end if;
+    v_qty:=coalesce(nullif(v_line->>'qty','')::integer,v_eligible.remaining_qty);
+    if v_qty<=0 or v_qty>v_eligible.remaining_qty then
+      raise exception 'Requested qty % exceeds remaining eligible qty %',v_qty,v_eligible.remaining_qty;
+    end if;
+    insert into erp.payroll_work_items(
+      payroll_id,po_id,work_component_id,source_type,source_id,qty_payable,rate_snapshot
+    ) values(
+      v_payroll.id,v_eligible.po_id,v_eligible.work_component_id,
+      v_eligible.source_type,v_eligible.source_id,v_qty,v_eligible.rate_snapshot
+    )
+    on conflict (payroll_id,source_type,source_id,work_component_id) do update
+    set qty_payable=erp.payroll_work_items.qty_payable+excluded.qty_payable,
+        rate_snapshot=excluded.rate_snapshot;
+    v_added_qty:=v_added_qty+v_qty;
+    v_added_amount:=v_added_amount+round(v_qty*v_eligible.rate_snapshot,2);
+  end loop;
+
+  perform erp.recalculate_payroll(v_payroll.id);
+  select * into v_payroll from erp.payroll_settlements where id=v_payroll.id;
+  v_response:=jsonb_build_object(
+    'payroll_id',v_payroll.id,'status',v_payroll.status,
+    'row_version',v_payroll.row_version,'added_qty',v_added_qty,
+    'added_amount',v_added_amount,'net_payable',v_payroll.net_payable
+  );
+  return erp._idempotency_complete('merge_eligible_work_into_payroll_v2',p_client_request_id,v_response);
+end;
+$function$;
 create trigger trg_guard_fg_unsourced_receipts_v1_immutable before update or delete on erp.fg_unsourced_receipts_v1
   for each row execute function erp.guard_fg_unsourced_receipt_immutable_v1();
 create trigger trg_guard_fg_unsourced_receipts_v1_truncate before truncate on erp.fg_unsourced_receipts_v1
   for each statement execute function erp.guard_fg_unsourced_receipt_immutable_v1();
 create trigger trg_guard_bs_resolution_fg_unsourced_v1 before update or delete on erp.bs_resolutions
   for each row execute function erp.guard_bs_resolution_fg_unsourced_v1();
+create trigger trg_guard_fg_unsourced_repair_wages_v1_immutable before update or delete on erp.fg_unsourced_repair_wages_v1
+  for each row execute function erp.guard_fg_unsourced_repair_wage_immutable_v1();
+create trigger trg_guard_fg_unsourced_repair_wages_v1_truncate before truncate on erp.fg_unsourced_repair_wages_v1
+  for each statement execute function erp.guard_fg_unsourced_repair_wage_immutable_v1();
 revoke all on function erp.guard_fg_unsourced_receipt_immutable_v1() from public,anon,authenticated,service_role;
 revoke all on function erp.guard_bs_resolution_fg_unsourced_v1() from public,anon,authenticated,service_role;
+revoke all on function erp.guard_fg_unsourced_repair_wage_immutable_v1() from public,anon,authenticated,service_role;
 revoke all on function erp.fg_unsourced_valuation_v1(uuid,timestamp with time zone) from public,anon,authenticated,service_role;
 revoke all on function erp.post_fg_unsourced_receipt_v1(jsonb,uuid) from public,anon,authenticated,service_role;
 revoke all on function erp.reverse_fg_unsourced_receipt_v1(uuid,text,uuid) from public,anon,authenticated,service_role;
@@ -594,7 +930,7 @@ with relations as (
 select coalesce(jsonb_object_agg(k,encode(extensions.digest(convert_to(v::text,'UTF8'),'sha256'),'hex')),'{}'::jsonb) from objects
 ) catalog;
  select count(*),encode(extensions.digest(convert_to(coalesce(string_agg(length(key)::text||':'||key||':'||value,E'\n' order by key collate "C"),''),'UTF8'),'sha256'),'hex') into object_count,fingerprint from jsonb_each_text(actual);
- if object_count<>7249 or fingerprint is distinct from '951a31b1afd52ecee5b9c978864ae9b1e733c8145101deeca0f4c457353514f1' then
+ if object_count<>7280 or fingerprint is distinct from 'd27ef6c2d2d1b55e96d9ac2fc2b110dd631486154bfba353f3257a67c55b69ef' then
   raise exception 'AX_INSTALLED_CATALOG_DRIFT';
  end if;
 end $catalog_guard$;
@@ -607,7 +943,7 @@ do $after_data$ declare v_table text;v_hash jsonb;v_after jsonb;v_before jsonb; 
   v_after:=v_after||jsonb_build_object(v_table,v_hash);
  end loop;
  select snapshot->'before' into v_before from pg_temp.cp6_release_boundary;
- if (v_after-array['fg_unsourced_receipts_v1']::text[]) is distinct from v_before or exists(select 1 from unnest(array['fg_unsourced_receipts_v1']::text[]) t where (v_after->t->>'count') is distinct from '0')
+ if (v_after-array['fg_unsourced_receipts_v1','fg_unsourced_repair_wages_v1']::text[]) is distinct from v_before or exists(select 1 from unnest(array['fg_unsourced_receipts_v1','fg_unsourced_repair_wages_v1']::text[]) t where (v_after->t->>'count') is distinct from '0')
   then raise exception 'AX_INSTALL_CHANGED_DATA';end if;
  if exists(with live as (select p.oid::regprocedure::text as identity,encode(extensions.digest(convert_to(pg_get_functiondef(p.oid),'UTF8'),'sha256'),'hex') as definition_sha256,
   array(select a::text from unnest(p.proacl)a order by a::text) as acl,pg_get_userbyid(p.proowner) as owner
@@ -625,7 +961,7 @@ begin
    or exists(select 1 from pg_attribute p cross join lateral aclexplode(p.attacl)a where p.attrelid='erp.cp6_v2620ax_rollback_capsule'::regclass and a.grantee<>'postgres'::regrole)
    or exists(select 1 from pg_policy where polrelid='erp.cp6_v2620ax_rollback_capsule'::regclass)
    or exists(select 1 from pg_trigger where tgrelid='erp.cp6_v2620ax_rollback_capsule'::regclass and not tgisinternal)
-   or (select count(*) from erp.cp6_v2620ax_rollback_capsule)<>0 then raise exception 'AX_CAPSULE_SECURITY_OR_COUNT';end if;
+   or (select count(*) from erp.cp6_v2620ax_rollback_capsule)<>2 then raise exception 'AX_CAPSULE_SECURITY_OR_COUNT';end if;
  select jsonb_build_object(
    'relation',(select jsonb_build_array(relkind,relpersistence,relreplident,relispartition,reloptions) from pg_class where oid='erp.cp6_v2620an_rollback_capsule'::regclass),
    'columns',(select jsonb_agg(jsonb_build_array(a.attname,format_type(a.atttypid,a.atttypmod),a.attnotnull,a.attidentity,a.attgenerated,pg_get_expr(d.adbin,d.adrelid)) order by a.attnum) from pg_attribute a left join pg_attrdef d on d.adrelid=a.attrelid and d.adnum=a.attnum where a.attrelid='erp.cp6_v2620an_rollback_capsule'::regclass and a.attnum>0 and not a.attisdropped),
@@ -638,9 +974,9 @@ begin
    'indexes',(select jsonb_agg(jsonb_build_array(indisunique,indisprimary,indisexclusion,indisvalid,indisready,indkey::text,indclass::text,indoption::text,pg_get_expr(indexprs,indrelid),pg_get_expr(indpred,indrelid)) order by indkey::text) from pg_index where indrelid='erp.cp6_v2620ax_rollback_capsule'::regclass)) into actual;
  if actual is distinct from expected then raise exception 'AX_CAPSULE_SHAPE_DRIFT';end if;
  select boundary_snapshot into boundary from erp.cp6_v2620ax_rollback_capsule limit 1;
- if 0>0 and (boundary is null or exists(select 1 from erp.cp6_v2620ax_rollback_capsule where boundary_snapshot is distinct from boundary)
+ if 2>0 and (boundary is null or exists(select 1 from erp.cp6_v2620ax_rollback_capsule where boundary_snapshot is distinct from boundary)
   or not(boundary ?& array['before','after','platform_before','markers_before'])) then raise exception 'AX_CAPSULE_BOUNDARY';end if;
- if exists(select 1 from erp.cp6_v2620ax_rollback_capsule where object_regidentity<>all(array['']::text[])
+ if exists(select 1 from erp.cp6_v2620ax_rollback_capsule where object_regidentity<>all(array['erp.merge_eligible_work_into_payroll_v2(uuid,jsonb,uuid,bigint)','erp.validate_payroll_work_item_source()']::text[])
    or definition_sha256 is distinct from encode(extensions.digest(convert_to(object_definition,'UTF8'),'sha256'),'hex')
    or installed_definition_sha256 is null or installed_definition_sha256=definition_sha256
    or installed_definition_sha256 is distinct from encode(extensions.digest(convert_to(pg_get_functiondef(to_regprocedure(object_regidentity)),'UTF8'),'sha256'),'hex'))

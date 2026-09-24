@@ -1,0 +1,160 @@
+{
+ "label": "T1_FAMILY",
+ "release_evidence": false,
+ "run_id": 35949833558,
+ "job_id": 107475774099,
+ "head_sha": "b2b832e",
+ "phase": "after",
+ "owner_decision_20260924": "Upah perbaikan BS temuan: \"Utang, dibayar via payroll\" (contoh Rp52.000 + Rp2.000 = Rp54.000/pcs)",
+ "status_counts": {
+  "OBSERVED": 1,
+  "PASS": 32
+ },
+ "repair_cases": {
+  "AX:REPAIR_WAGE_PAYROLL": {
+   "group": "AX_CASES_AFTER",
+   "case": "AX:REPAIR_WAGE_PAYROLL",
+   "status": "PASS",
+   "base_unit": "17.00",
+   "unit": "2017.0",
+   "total": "4034.0",
+   "book": {
+    "CONTRACTOR_PAYABLE": [
+     "0.00",
+     "4000.00",
+     "eb6a5302-0d98-4465-8f71-77ac18b82e34"
+    ],
+    "FG_INVENTORY": [
+     "4034.00",
+     "0.00",
+     "None"
+    ],
+    "OTHER_INCOME": [
+     "0.00",
+     "34.00",
+     "None"
+    ]
+   },
+   "wage": [
+    "POSTED",
+    "4000.00",
+    "2",
+    "2000.00"
+   ],
+   "eligible": [
+    [
+     "2",
+     "4000.00",
+     "None"
+    ]
+   ],
+   "uncovered_before_payroll": 1,
+   "payable_after_receipt": "4000.00",
+   "payroll": [
+    "APPROVED",
+    "4000.00",
+    "4000.00"
+   ],
+   "items": [
+    [
+     "FG_REPAIR",
+     "2",
+     "2000.00",
+     "4000.00"
+    ]
+   ],
+   "approval_journals": 0,
+   "uncovered_after_payroll": 0,
+   "reversal_while_in_payroll": {
+    "sqlstate": "P0001",
+    "message": "FG_UNSOURCED_REPAIR_WAGE_IN_PAYROLL: upah perbaikan sudah masuk payroll; batalkan payroll itu lebih dulu"
+   },
+   "payroll_after_payment": "PAID",
+   "payable_after_payment": "0.00",
+   "expected": "unit = average + 2000; Dr FG total / Cr OTHER_INCOME base / Cr CONTRACTOR_PAYABLE 4000; payroll FG_REPAIR 2 pcs = 4000; paid -> payable 0",
+   "full_boundary_restored": true
+  },
+  "AX:REPAIR_WAGE_CANCEL_THEN_REVERSE": {
+   "group": "AX_CASES_AFTER",
+   "case": "AX:REPAIR_WAGE_CANCEL_THEN_REVERSE",
+   "status": "PASS",
+   "reversal": {
+    "lot_id": "4d9ed900-dd05-4fba-abe2-6b29ee3b67e9",
+    "status": "REVERSED",
+    "receipt_id": "6fdb471e-1e28-4b66-bde1-096a750bcb3d",
+    "reversal_journal_entry_id": "c713b9b5-1db1-48e3-9771-a5e3442fd4df"
+   },
+   "wage_status": "REVERSED",
+   "eligible_after": 0,
+   "bs_status": "OPEN",
+   "payable_after": "0.00",
+   "direct_edit": {
+    "sqlstate": "P0001",
+    "message": "FG_UNSOURCED_REPAIR_WAGE_IMMUTABLE: upah perbaikan hanya berubah lewat pembatalan penerimaan AX"
+   },
+   "full_boundary_restored": true
+  },
+  "AX:REPAIR_WAGE_REFUSALS": {
+   "group": "AX_CASES_AFTER",
+   "case": "AX:REPAIR_WAGE_REFUSALS",
+   "status": "PASS",
+   "refusals": {
+    "OPNAME": "FG_UNSOURCED_REPAIR_ONLY_FOR_FOUND_BS: upah perbaikan hanya untuk GOOD dari BS temuan",
+    "ZERO": "FG_UNSOURCED_REPAIR_RATE_INVALID",
+    "NEGATIVE": "FG_UNSOURCED_REPAIR_RATE_INVALID",
+    "NAN": "FG_UNSOURCED_REPAIR_RATE_INVALID",
+    "THREE_DECIMALS": "FG_UNSOURCED_REPAIR_RATE_INVALID",
+    "TEXT": "FG_UNSOURCED_REPAIR_INVALID",
+    "NO_REASON": "FG_UNSOURCED_REPAIR_REASON_REQUIRED",
+    "UNKNOWN_CONTRACTOR": "FG_UNSOURCED_REPAIR_CONTRACTOR_INVALID",
+    "UNKNOWN_COMPONENT": "FG_UNSOURCED_REPAIR_COMPONENT_INVALID"
+   },
+   "expected": {
+    "OPNAME": "REPAIR_ONLY_FOR_FOUND_BS",
+    "ZERO": "REPAIR_RATE_INVALID",
+    "NEGATIVE": "REPAIR_RATE_INVALID",
+    "NAN": "REPAIR_RATE_INVALID",
+    "THREE_DECIMALS": "REPAIR_RATE_INVALID",
+    "TEXT": "REPAIR_INVALID",
+    "NO_REASON": "REPAIR_REASON_REQUIRED",
+    "UNKNOWN_CONTRACTOR": "REPAIR_CONTRACTOR_INVALID",
+    "UNKNOWN_COMPONENT": "REPAIR_COMPONENT_INVALID"
+   },
+   "free_unit": "17.0",
+   "average": "17.00",
+   "full_boundary_restored": true
+  }
+ },
+ "other_cases": {
+  "AX:FOUND_STOCK_ON_HAND": "PASS",
+  "AX:IDEMPOTENT_REPLAY": "PASS",
+  "AX:INVALID_NUMBERS": "PASS",
+  "AX:NO_REFERENCE_OWNER_VALUE": "PASS",
+  "AX:OWNER_VALUE_WITH_REFERENCE_REFUSED": "PASS",
+  "AX:GOOD_FROM_FOUND_BS_PARTIAL": "PASS",
+  "AX:ORDINARY_BS_STAYS_2A": "PASS",
+  "AX:REVERSAL_AND_USED_LOT": "PASS",
+  "AX:BACKDATED_OBSERVATION": "OBSERVED",
+  "AX:BACKDATED_CLOSED_PERIOD": "PASS",
+  "AX:NEW_STOCK_INACTIVE_SKU": "PASS",
+  "AX:RESERVED_STOCK_COUNTS_AS_ON_HAND": "PASS",
+  "AX:BS_RESOLUTION_OWNED": "PASS",
+  "AX:REWORK_IN_PROGRESS_NOT_AVAILABLE": "PASS",
+  "AX:SUCCESSOR_AFTER_FOUND_BS": "PASS",
+  "AX:LOCK_ORDER_STATIC": "PASS",
+  "AX:ACCESS": "PASS",
+  "AX:ENGINE_CONSISTENCY": "PASS",
+  "AX_RACE:BS_OVERDRAW:ABORT": "PASS",
+  "AX_RACE:BS_OVERDRAW:COMMIT": "PASS",
+  "AX_RACE:SAME_REQUEST:ABORT": "PASS",
+  "AX_RACE:SAME_REQUEST:COMMIT": "PASS",
+  "AX_RACE:REVERSE_FIRST:ABORT": "PASS",
+  "AX_RACE:REVERSE_FIRST:COMMIT": "PASS",
+  "AX_RACE:SALE_FIRST:ABORT": "PASS",
+  "AX_RACE:SALE_FIRST:COMMIT": "PASS",
+  "AX_RACE:BS_REVERSE_FIRST:ABORT": "PASS",
+  "AX_RACE:BS_REVERSE_FIRST:COMMIT": "PASS",
+  "AX_RACE:BS_POST_FIRST:ABORT": "PASS",
+  "AX_RACE:BS_POST_FIRST:COMMIT": "PASS"
+ }
+}
