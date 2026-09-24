@@ -1,0 +1,43 @@
+# Hasil native Audit A (Fable) — native15 + xaudit_5 (24 Sep 2026 22:04–22:10 UTC)
+
+Produk acuan: `9add57e` (tree 5d5f833). **Head alat yang di-checkout job: `d284e9b`** (diff produk terhadap 9add57e kosong, diverifikasi lokal: `supabase/migrations supabase/dev supabase/release/cp6-t3 src`). Label: INDEPENDENT_NATIVE_RERUN (dispatch dan pembacaan per kasus oleh Audit A; skenario native15 milik GPT dengan review oracle Audit A; xaudit_5 milik Audit A). Status dibaca per baris JSON, bukan warna job.
+
+## 1. native15 — run 36065350201, job 107853710984, attempt 1, head d284e9b, sha skenario cec2ad52… (cocok manifest), phase after
+Ringkasan runner: `RUN_COMPLETE`=tidak (INCOMPLETE karena 1 kasus INCOMPLETE), `auditor_cases` = 10 COUNTEREXAMPLE / 4 PASS / 1 INCOMPLETE, `primary_unchanged=true`, full_boundary_restored=true untuk semua kasus.
+
+| Kasus | Status mentah | Expected (oracle GPT, kontrak) | Actual | Penilaian Audit A / alias |
+|---|---|---|---|---|
+| SI-01-identified-wip-output-identity | COUNTEREXAMPLE | WIP saldo awal yang teridentifikasi (produk A, brand A, Blue) tidak boleh menjadi FG produk B (brand B, Red) tanpa sumber konversi (M:3822, M:369) | `WIP_OUTPUT COMPLETE` product_sku B → POSTED; lot FG product B/Red/brand B, qty 4 dari sumber A/Blue/brand A qty 8 | **CP6-18 naik dari hipotesis ke COUNTEREXAMPLE native**. Sumber: `cp6_az_t1_family.sql:855-862` memilih produk dari sku payload + model PO + size, tanpa merujuk `opening_balance_items.product_id/brand`. Keputusan kontrak (apakah pengikatan produk opsional wajib) tetap perlu owner; secara "identitas exact" ini pelanggaran. P2 (kandidat). |
+| SI-02-reversed-wip-dated-capacity | COUNTEREXAMPLE | prefix WIP tidak negatif (M:3820) | timeline SEWING: 8 → 0 (21 Sep) → **−8 (23 Sep)** → 0 (reversal 24 Sep) | = CP6-02 (F1-16/U02), dikonfirmasi ketiga kalinya (xaudit_1 sebelumnya) |
+| SI-03-wip-retry-exact-envelope | PASS | replay identik; UUID sama + payload beda ditolak persis | `client_request_id was already used with a different payload`; fakta tak berubah | = XA:SI03 Audit A; CP6-05 (retry) tidak terbukti pada jalur ini |
+| SI-04-prepared-wip-latest-item | COUNTEREXAMPLE | draf yang diedit setelah prepare harus direkonsiliasi sebelum posting (M:3817-3818) | item qty 4/amount 20 diedit; FINALIZE POSTED; sumber produksi qty 8 / 40.00; wip_stage_events 8 | **CP6-19 naik ke COUNTEREXAMPLE native** dengan caveat: edit item DRAFT dilakukan langsung via SQL sebagai actor ordinary (jalur UI biasa untuk edit item prepared belum dibuktikan) dan runtime memberi grant USAGE test-only. P2 (kandidat, reachability terbuka). |
+| BLIND-MONEY-CENT-DIRECT-UP/DOWN, INVOICE-UP/DOWN | 4× COUNTEREXAMPLE | 1 unit habis dikonsumsi → qty & nilai bahan 0; WIP = nilai terkoreksi dibulatkan | UP: persediaan −0,01, WIP 10,02; DOWN: persediaan +0,01, WIP 10,00; INVOICE sama (GRNI/AP endpoint dibulatkan −10,01) | = CP6-03 (F1-17/U03), kini dikonfirmasi oleh oracle GPT juga (termasuk AP/GRNI) |
+| BCR1-ADVANCE-{SUPPLIER,CUSTOMER,VENDOR}-ORDERED_CONTROL | 3× PASS | koreksi lalu refund berurutan: saldo per hari, jurnal tanggal ekonomi = posting, event, sumber immutable, replay exact | sesuai expected (67,25 → 100 → 0; bank ±100) | kontrol positif lulus |
+| BCR1-ADVANCE-{SUPPLIER,CUSTOMER,VENDOR}-DATED_CAPACITY | 3× COUNTEREXAMPLE | refund backdated 100 (21 Sep) sebelum koreksi (23 Sep) tidak boleh membuat kapasitas uang muka negatif pada prefix (M:629-646, M:3820) | REFUND diterima; saldo uang muka **−32,75 pada 21–22 Sep**, bank +100 pada 21 Sep; baru 0 pada 23 Sep | **CP6-07 naik dari kandidat ke COUNTEREXAMPLE native (P1)**: refund memakai kapasitas koreksi masa depan; 3 jenis pihak |
+| XI:C_SEL_01_INITIAL_IMPORT_51_DRAFT_SELECTOR | INCOMPLETE | — | error fixture GPT: `column p.id does not exist` (join `erp.app_permissions` memakai `permission_key`, bukan `id`) | bukan produk; Audit A memperbaiki join dan men-dispatch ulang satu kasus (`import_selector_fable_fix.py`, lihat §3) |
+
+## 2. xaudit_5 — run 36065517737, job 107854232896, attempt 1, head d284e9b, sha skenario 815781e1…, phase after (mode races + http)
+Ringkasan runner: `RUN_COMPLETE`; races 3 COUNTEREXAMPLE (database_remaining 0); http 1 COUNTEREXAMPLE / 2 PASS; cleanup users_created 5, cleanup_failures [], rest_remaining false; auth_counts primer sebelum=sesudah [0,0,0,0]; primary_unchanged=true.
+
+| Kasus | Status mentah | Expected (oracle Audit A) | Actual | Penilaian |
+|---|---|---|---|---|
+| XA5:R1 dua sesi FINALIZE batch impor kedua item sama | COUNTEREXAMPLE | tidak ada POSTED lagi untuk item yang sama (M:138/M:1043) | holder POSTED; kontensi BLOCKED (holder memblokir worker → ada kunci); setelah commit worker juga POSTED → 3 header POSTED, qty 21 untuk 7 unit fisik | **CP6-09 (F1-12) terbukti juga di bawah dua sesi nyata**: kunci ada tetapi tidak ada guard identitas lintas batch setelah kunci lepas. P1 tetap. |
+| XA5:R2 dua sesi tutup buku tanggal sama (READY) | COUNTEREXAMPLE | tepat satu filing; yang kedua ditolak | preflight READY; holder close sukses; worker BLOCKED lalu **juga sukses**; `accounting_close_filings_v1` untuk tanggal itu = **2**; closed_through benar | **Temuan baru CP6-24 (P2)**: close tanggal yang sama tidak idempoten — guard hanya menolak tanggal lebih awal (`cp6_aw_t1_family.sql:632`) sehingga close ulang tanggal yang sudah tertutup membuat filing kedua (juga secara berurutan, bukan hanya race). Filing immutable (trigger :907-909) sehingga duplikat tidak bisa dihapus. |
+| XA5:R3 dua sesi COMPLETE WIP expected_remaining sama | COUNTEREXAMPLE (oracle pesan) | kedua ditolak `STALE_VERSION`; total output ≤ sumber | holder POSTED; worker ditolak `POCKET_PERIOD_BUSY: alokasi kain kantong sedang berubah. Coba kembali dengan data terbaru` (P0001, NO_CONTENTION: kunci pocket period gagal cepat); output total 8 (1 output) | Penilaian: **aman (fail-closed, tidak ada output ganda)**; hanya teks penolakan berbeda dari oracle auditor (kunci sibuk vs versi usang). Bukan cacat state; catatan P3 pesan. |
+| XA5:H1 matriks 10 facade × {anon, GUDANG, AUDITOR_VIEW_ONLY, OWNER baca} via Auth nyata + PostgREST | COUNTEREXAMPLE (2 cek oracle) | anon & GUDANG ditolak semua; viewer ditolak kecuali baca aksesori (M:281); OWNER baca 200 | anon: 10/10 HTTP 401 `permission denied for function …` (42501); GUDANG: 10/10 ditolak (P0001 `OWNER or ADMIN access required` / 42501 `PERMISSION_DENIED: finance.contractor_accessory.view`); AUDITOR_VIEW_ONLY: 9 ditolak, `accessory_workspace` 200 (sesuai M:281), `accessory_save` 400 `Tindakan nota tidak dikenal` (aksi dummy probe, validasi sebelum izin); OWNER: preflight 200, accessory 200, pocket 200, `import_workspace` 400 `Batch impor tidak ditemukan` (UUID dummy probe) | **Substansi LULUS**: fail-closed pada jalur Auth/HTTP nyata untuk anon/GUDANG/viewer/OWNER. Dua cek gagal = artefak argumen dummy probe (aksi teks acak, UUID acak), bukan produk. (Kesalahan oracle Audit A, dicatat, status mentah dipertahankan.) |
+| XA5:H2 token OWNER valid tetapi app_users nonaktif | PASS | ditolak | sebelum 200; sesudah nonaktif 400 `OWNER or ADMIN access required`; dipulihkan | M:281 "pengguna nonaktif tidak dapat membaca" terbukti di jalur HTTP nyata |
+| XA5:H3 token OWNER tanpa baris app_users | PASS | ditolak semua facade | preflight 400 `OWNER or ADMIN access required`; accessory 403 `PERMISSION_DENIED: finance.contractor_accessory.view` | M:1322 unmapped fail-closed di HTTP nyata |
+
+Batas: HTTP memakai user Auth sungguhan (GoTrue admin API + sign-in password) → PostgREST kontainer pada salinan DB tanpa grant test-only; **jalur browser→HTTP→runtime (UI) belum** (tidak ada browser di mode ini). Race memakai grant USAGE test-only pada salinan (dibutuhkan helper fixture writer); oracle race untuk R1/R2 memanggil jalur publik/ordinary yang sama seperti UI.
+
+## 3. Dispatch tambahan
+- `import_selector_fable_fix.py` (perbaikan join izin pada rekonstruksi GPT; logika kasus tidak diubah): run — lihat AUDIT_PROGRESS/CP6_COMBINED_INDEX.
+
+## 4. Dampak pada register gabungan
+- CP6-02, CP6-03: dikonfirmasi ulang oleh batch GPT (oracle independen kedua).
+- CP6-07: **P1 CONFIRMED native** (3 jenis pihak).
+- CP6-09: dikonfirmasi di bawah dua sesi nyata (kunci ada, guard tidak).
+- CP6-18, CP6-19: COUNTEREXAMPLE native (caveat reachability/oracle kontrak dicatat).
+- **CP6-24 (baru)**: close tanggal sama membuat filing ganda (P2).
+- BLOCKER-01 (race) dan BLOCKER-02 (HTTP/Auth): alat writer bekerja; oracle auditor dijalankan; hasil di atas. Browser UI tetap terbuka.
+- Cleanup: semua run `primary_unchanged=true`; salinan DB/kontainer/user Auth dibersihkan (dicatat runner).
