@@ -5539,7 +5539,9 @@
             "clone_remaining": 0
           }
         }
-      ]
+      ],
+      "installation_records": [],
+      "restore_records": []
     },
     {
       "run_id": 36037876338,
@@ -5577,6 +5579,391 @@
             "auth_users_before": 0,
             "auth_users_after": 0,
             "backup_restore_drill": "RESTORED_SAME_MEANING"
+          }
+        }
+      ],
+      "installation_records": [
+        {
+          "line": 1302,
+          "record": {
+            "group": "T3_PACKAGE_INSTALL",
+            "key": "AC",
+            "status": "PASS"
+          }
+        },
+        {
+          "line": 1303,
+          "record": {
+            "group": "T3_PACKAGE_INSTALL",
+            "key": "AD",
+            "status": "PASS"
+          }
+        },
+        {
+          "line": 1304,
+          "record": {
+            "group": "T3_PACKAGE_INSTALL",
+            "key": "AE",
+            "status": "PASS"
+          }
+        },
+        {
+          "line": 1305,
+          "record": {
+            "group": "T3_PACKAGE_INSTALL",
+            "key": "AF",
+            "status": "PASS"
+          }
+        },
+        {
+          "line": 1306,
+          "record": {
+            "group": "T3_PACKAGE_INSTALL",
+            "key": "AG",
+            "status": "PASS"
+          }
+        },
+        {
+          "line": 1307,
+          "record": {
+            "group": "T3_PACKAGE_INSTALL",
+            "key": "AH",
+            "status": "PASS"
+          }
+        },
+        {
+          "line": 1308,
+          "record": {
+            "group": "T3_PACKAGE_INSTALL",
+            "key": "AI",
+            "status": "PASS"
+          }
+        },
+        {
+          "line": 1309,
+          "record": {
+            "group": "T3_PACKAGE_INSTALL",
+            "key": "AJ",
+            "status": "PASS"
+          }
+        },
+        {
+          "line": 1310,
+          "record": {
+            "group": "T3_PACKAGE_INSTALL",
+            "key": "AK",
+            "status": "PASS"
+          }
+        },
+        {
+          "line": 1311,
+          "record": {
+            "group": "T3_PACKAGE_INSTALL",
+            "key": "AL",
+            "status": "PASS"
+          }
+        },
+        {
+          "line": 1312,
+          "record": {
+            "group": "T3_PACKAGE_INSTALL",
+            "key": "AM",
+            "status": "PASS"
+          }
+        },
+        {
+          "line": 1313,
+          "record": {
+            "group": "T3_PACKAGE_INSTALL",
+            "key": "AN",
+            "status": "PASS"
+          }
+        },
+        {
+          "line": 1314,
+          "record": {
+            "group": "T3_PACKAGE_INSTALL",
+            "key": "AO",
+            "status": "PASS"
+          }
+        },
+        {
+          "line": 1315,
+          "record": {
+            "group": "T3_PACKAGE_INSTALL",
+            "key": "AP",
+            "status": "PASS"
+          }
+        },
+        {
+          "line": 1316,
+          "record": {
+            "group": "T3_PACKAGE_INSTALL",
+            "key": "AQ",
+            "status": "PASS"
+          }
+        },
+        {
+          "line": 1317,
+          "record": {
+            "group": "T3_PACKAGE_INSTALL",
+            "key": "AR",
+            "status": "PASS"
+          }
+        },
+        {
+          "line": 1318,
+          "record": {
+            "group": "T3_PACKAGE_INSTALL",
+            "key": "AS",
+            "status": "PASS"
+          }
+        },
+        {
+          "line": 1319,
+          "record": {
+            "group": "T3_PACKAGE_INSTALL",
+            "key": "AT",
+            "status": "PASS"
+          }
+        },
+        {
+          "line": 1320,
+          "record": {
+            "group": "T3_PACKAGE_INSTALL",
+            "key": "AU",
+            "status": "PASS"
+          }
+        },
+        {
+          "line": 1321,
+          "record": {
+            "group": "T3_PACKAGE_INSTALL",
+            "key": "AV",
+            "status": "PASS"
+          }
+        },
+        {
+          "line": 1322,
+          "record": {
+            "group": "T3_PACKAGE_INSTALL",
+            "key": "AW",
+            "status": "PASS"
+          }
+        },
+        {
+          "line": 1323,
+          "record": {
+            "group": "T3_PACKAGE_INSTALL",
+            "key": "AX",
+            "status": "PASS"
+          }
+        },
+        {
+          "line": 1324,
+          "record": {
+            "group": "T3_PACKAGE_INSTALL",
+            "key": "AY",
+            "status": "PASS"
+          }
+        },
+        {
+          "line": 1325,
+          "record": {
+            "group": "T3_PACKAGE_INSTALL",
+            "key": "AZ",
+            "status": "PASS"
+          }
+        },
+        {
+          "line": 1326,
+          "record": {
+            "group": "T3_PACKAGE_RUN",
+            "stage": "PACKAGE",
+            "status": "PASS",
+            "result": "ALL_FILES_INSTALLED"
+          }
+        },
+        {
+          "line": 1327,
+          "record": {
+            "group": "T3_PACKAGE_RUN",
+            "stage": "AW_AX_AY_AZ_VERIFY",
+            "status": "PASS",
+            "result": {
+              "stage": "AV_PLUS_AW_AX_AY_AZ_T1",
+              "functions": 13,
+              "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+              "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+              "ay_sql_sha256": "29b8977613012431b9efa927c7cee10654aef8a016368a0430e7c3789070af43",
+              "az_sql_sha256": "9007eefc5b8e8d3ae47dbdc496aca61fb281152385b27c9791284b68fc8125c9"
+            }
+          }
+        }
+      ],
+      "restore_records": [
+        {
+          "line": 1329,
+          "record": {
+            "t3_backup_restore_drill": {
+              "status": "RESTORED_SAME_MEANING",
+              "checks": {
+                "restore_errors_only_pg_cron": true,
+                "catalog_explained": true,
+                "data_identical": true,
+                "engine_answer_present": true,
+                "engine_equal": true
+              },
+              "dump": {
+                "exit": 0,
+                "stderr": "",
+                "seconds": 0.7,
+                "bytes": 6360315
+              },
+              "restore": {
+                "exit": 1,
+                "seconds": 3,
+                "error_count": 19,
+                "ignored_reported": 19,
+                "unexplained": [],
+                "errors": [
+                  "pg_restore: error: could not execute query: ERROR:  can only create extension in database postgres",
+                  "pg_restore: error: could not execute query: ERROR:  extension \"pg_cron\" does not exist",
+                  "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+                  "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+                  "pg_restore: error: could not execute query: ERROR:  relation \"cron.jobid_seq\" does not exist",
+                  "pg_restore: error: could not execute query: ERROR:  relation \"cron.runid_seq\" does not exist",
+                  "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+                  "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+                  "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+                  "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+                  "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+                  "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+                  "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+                  "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+                  "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+                  "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+                  "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+                  "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+                  "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist"
+                ]
+              },
+              "catalog": {
+                "match": [
+                  "app_ledger",
+                  "config_hash",
+                  "default_acl",
+                  "function",
+                  "function_owner_acl",
+                  "platform_ledger",
+                  "policy",
+                  "relation",
+                  "relation_owner_acl",
+                  "schema",
+                  "sequence",
+                  "trigger"
+                ],
+                "differ": {
+                  "constraint": {
+                    "source": {
+                      "n": 1550,
+                      "md5": "f53a774867ae319283c1fc6211840083"
+                    },
+                    "restored": {
+                      "n": 1550,
+                      "md5": "19f41a2cb641ed73f888c827f40a795d"
+                    }
+                  },
+                  "extension": {
+                    "source": {
+                      "n": 6,
+                      "md5": "15a959c38d716ad2af3fe1f1dc4419ef"
+                    },
+                    "restored": {
+                      "n": 5,
+                      "md5": "2193000efffb6e05911a1c3af1f57381"
+                    }
+                  },
+                  "index": {
+                    "source": {
+                      "n": 734,
+                      "md5": "861d40e797f8c6fe9273143b668c264d"
+                    },
+                    "restored": {
+                      "n": 734,
+                      "md5": "2139062f86c792a238423ce92c35e4d6"
+                    }
+                  },
+                  "view": {
+                    "source": {
+                      "n": 51,
+                      "md5": "c08bd89cf82d60763558b988fea065b3"
+                    },
+                    "restored": {
+                      "n": 51,
+                      "md5": "1fdac63ca8f241d961df89bbc0cbcbaf"
+                    }
+                  }
+                },
+                "objects": {
+                  "constraint": {
+                    "differing": 29,
+                    "by_class": {
+                      "VARCHAR_IN_LIST_REPARSE": 29
+                    },
+                    "detail": null,
+                    "unclassified": []
+                  },
+                  "extension": {
+                    "differing": 1,
+                    "by_class": {
+                      "PG_CRON_ONLY_IN_DATABASE_POSTGRES": 1
+                    },
+                    "detail": null,
+                    "unclassified": []
+                  },
+                  "index": {
+                    "differing": 1,
+                    "by_class": {
+                      "VARCHAR_IN_LIST_REPARSE": 1
+                    },
+                    "detail": null,
+                    "unclassified": []
+                  },
+                  "view": {
+                    "differing": 6,
+                    "by_class": {
+                      "VARCHAR_IN_LIST_REPARSE": 6
+                    },
+                    "detail": null,
+                    "unclassified": []
+                  }
+                }
+              },
+              "data": {
+                "tables": 318,
+                "rows": 1647,
+                "schemas": [
+                  "_realtime",
+                  "auth",
+                  "erp",
+                  "realtime",
+                  "storage",
+                  "supabase_functions",
+                  "supabase_migrations",
+                  "vault"
+                ],
+                "differ": {}
+              },
+              "engine": {
+                "day": "2026-09-24",
+                "equal": true,
+                "source_status": "READY",
+                "restored_status": "READY"
+              },
+              "source_cron_jobs": 0,
+              "error": null
+            }
           }
         }
       ]
@@ -5618,7 +6005,9 @@
             "production_go": false
           }
         }
-      ]
+      ],
+      "installation_records": [],
+      "restore_records": []
     },
     {
       "run_id": 36037873682,
@@ -8699,7 +9088,9 @@
             "clone_remaining": 0
           }
         }
-      ]
+      ],
+      "installation_records": [],
+      "restore_records": []
     },
     {
       "run_id": 36037876338,
@@ -8843,7 +9234,227 @@
             }
           }
         }
-      ]
+      ],
+      "installation_records": [
+        {
+          "line": 1577,
+          "record": {
+            "group": "T3_PACKAGE_INSTALL",
+            "key": "AC",
+            "status": "PASS"
+          }
+        },
+        {
+          "line": 1578,
+          "record": {
+            "group": "T3_PACKAGE_INSTALL",
+            "key": "AD",
+            "status": "PASS"
+          }
+        },
+        {
+          "line": 1579,
+          "record": {
+            "group": "T3_PACKAGE_INSTALL",
+            "key": "AE",
+            "status": "PASS"
+          }
+        },
+        {
+          "line": 1580,
+          "record": {
+            "group": "T3_PACKAGE_INSTALL",
+            "key": "AF",
+            "status": "PASS"
+          }
+        },
+        {
+          "line": 1581,
+          "record": {
+            "group": "T3_PACKAGE_INSTALL",
+            "key": "AG",
+            "status": "PASS"
+          }
+        },
+        {
+          "line": 1582,
+          "record": {
+            "group": "T3_PACKAGE_INSTALL",
+            "key": "AH",
+            "status": "PASS"
+          }
+        },
+        {
+          "line": 1583,
+          "record": {
+            "group": "T3_PACKAGE_INSTALL",
+            "key": "AI",
+            "status": "PASS"
+          }
+        },
+        {
+          "line": 1584,
+          "record": {
+            "group": "T3_PACKAGE_INSTALL",
+            "key": "AJ",
+            "status": "PASS"
+          }
+        },
+        {
+          "line": 1585,
+          "record": {
+            "group": "T3_PACKAGE_INSTALL",
+            "key": "AK",
+            "status": "PASS"
+          }
+        },
+        {
+          "line": 1586,
+          "record": {
+            "group": "T3_PACKAGE_INSTALL",
+            "key": "AL",
+            "status": "PASS"
+          }
+        },
+        {
+          "line": 1587,
+          "record": {
+            "group": "T3_PACKAGE_INSTALL",
+            "key": "AM",
+            "status": "PASS"
+          }
+        },
+        {
+          "line": 1588,
+          "record": {
+            "group": "T3_PACKAGE_INSTALL",
+            "key": "AN",
+            "status": "PASS"
+          }
+        },
+        {
+          "line": 1589,
+          "record": {
+            "group": "T3_PACKAGE_INSTALL",
+            "key": "AO",
+            "status": "PASS"
+          }
+        },
+        {
+          "line": 1590,
+          "record": {
+            "group": "T3_PACKAGE_INSTALL",
+            "key": "AP",
+            "status": "PASS"
+          }
+        },
+        {
+          "line": 1591,
+          "record": {
+            "group": "T3_PACKAGE_INSTALL",
+            "key": "AQ",
+            "status": "PASS"
+          }
+        },
+        {
+          "line": 1592,
+          "record": {
+            "group": "T3_PACKAGE_INSTALL",
+            "key": "AR",
+            "status": "PASS"
+          }
+        },
+        {
+          "line": 1593,
+          "record": {
+            "group": "T3_PACKAGE_INSTALL",
+            "key": "AS",
+            "status": "PASS"
+          }
+        },
+        {
+          "line": 1594,
+          "record": {
+            "group": "T3_PACKAGE_INSTALL",
+            "key": "AT",
+            "status": "PASS"
+          }
+        },
+        {
+          "line": 1595,
+          "record": {
+            "group": "T3_PACKAGE_INSTALL",
+            "key": "AU",
+            "status": "PASS"
+          }
+        },
+        {
+          "line": 1596,
+          "record": {
+            "group": "T3_PACKAGE_INSTALL",
+            "key": "AV",
+            "status": "PASS"
+          }
+        },
+        {
+          "line": 1597,
+          "record": {
+            "group": "T3_PACKAGE_INSTALL",
+            "key": "AW",
+            "status": "PASS"
+          }
+        },
+        {
+          "line": 1598,
+          "record": {
+            "group": "T3_PACKAGE_INSTALL",
+            "key": "AX",
+            "status": "PASS"
+          }
+        },
+        {
+          "line": 1599,
+          "record": {
+            "group": "T3_PACKAGE_INSTALL",
+            "key": "AY",
+            "status": "PASS"
+          }
+        },
+        {
+          "line": 1600,
+          "record": {
+            "group": "T3_PACKAGE_INSTALL",
+            "key": "AZ",
+            "status": "PASS"
+          }
+        },
+        {
+          "line": 1601,
+          "record": {
+            "group": "T3_PACKAGE_RUN",
+            "stage": "PACKAGE",
+            "status": "PASS",
+            "result": "ALL_FILES_INSTALLED"
+          }
+        },
+        {
+          "line": 1602,
+          "record": {
+            "group": "T3_PACKAGE_RUN",
+            "stage": "AW_AX_AY_AZ_VERIFY",
+            "status": "PASS",
+            "result": {
+              "stage": "AV_PLUS_AW_AX_AY_AZ_T1",
+              "functions": 13,
+              "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+              "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+              "ay_sql_sha256": "29b8977613012431b9efa927c7cee10654aef8a016368a0430e7c3789070af43",
+              "az_sql_sha256": "9007eefc5b8e8d3ae47dbdc496aca61fb281152385b27c9791284b68fc8125c9"
+            }
+          }
+        }
+      ],
+      "restore_records": []
     },
     {
       "run_id": 36037878419,
@@ -8882,7 +9493,9 @@
             "production_go": false
           }
         }
-      ]
+      ],
+      "installation_records": [],
+      "restore_records": []
     },
     {
       "run_id": 36037878419,
@@ -8921,7 +9534,9 @@
             "production_go": false
           }
         }
-      ]
+      ],
+      "installation_records": [],
+      "restore_records": []
     },
     {
       "run_id": 36037873682,
@@ -9674,7 +10289,9 @@
             "clone_remaining": 0
           }
         }
-      ]
+      ],
+      "installation_records": [],
+      "restore_records": []
     },
     {
       "run_id": 36037878419,
@@ -9713,7 +10330,9 @@
             "production_go": false
           }
         }
-      ]
+      ],
+      "installation_records": [],
+      "restore_records": []
     }
   ]
 }
