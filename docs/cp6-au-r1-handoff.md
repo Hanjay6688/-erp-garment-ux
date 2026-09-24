@@ -1200,3 +1200,193 @@ Yang dicatat tanpa diubah:
   - Pelajaran: untuk perubahan tanggal, sebelum T1 daftar semua kombinasi status periode (terbuka/tertutup) untuk setiap tanggal yang disentuh, lalu periksa **kedua** tanggal jurnal (ekonomi dan posting) terhadap perilaku lama pada kombinasi yang tidak dimaksudkan berubah.
 - **Job capture T3 hijau walau pin berbeda:** perbandingannya hanya dicatat, tidak menentukan status job. Sudah diperbaiki; jenis celahnya sama dengan temuan audit no. 1.
 - **Klaim di depan bukti:** beberapa klaim alat dan bukti mendahului buktinya (browser hijau, "same guard pattern" untuk AW/AX, drill longgar). Audit independen menangkapnya, dan semua sudah diperbaiki di 22.5. Pelajaran: sebelum menyebut guard "setara", uji dengan perusakan (sekarang ada self-test lokal).
+
+## 23. Putaran keempat: 8 kasus AS, keluarga AZ (bahan → WIP → barang jadi → penjualan), celah cakupan T2 (24 September 2026, writer Claude)
+
+Label: T1_FAMILY, T2_REGRESSION, T3_PREP; bukan bukti rilis dan bukan penerimaan independen. CP6 tetap HOLD, 12 HOLD historis tetap HOLD, `production_go=false`. Tidak ada SQL ke hosted; cabang kompetisi tetap `ca7f095`.
+
+### 23.1 Keputusan owner (dikutip)
+- **8 kasus AS:** "Saya setujui penyesuaian oracle hanya untuk delapan kasus AS tersebut: event/jurnal HPP PO mengikuti 22 Sep pada fixture ini, karena barang jadi dan penjualan terjadi hari itu. Nominal, tanggal invoice, dan revaluasi bahan tetap sesuai oracle lama. ... Jangan sebut delapan kasus AS lulus sebelum oracle yang disetujui diuji ulang dan diperiksa independen." Juga: "Kalau kelak tanggal jual berbeda dari tanggal barang jadi, bagian HPP mengikuti tanggal jual."
+- **WIP:** "setujui prinsip `max(tanggal ekonomi invoice, tanggal fisik potong)` saat tanggal ekonomi masih terbuka. WIP belum ada pada 1–2 Sep, jadi koreksi −Rp10 tidak boleh membuat saldo WIP negatif di dua hari itu. Claude perlu membuktikan dulu kasusnya di database uji, lalu menguji alokasi nilai bahan sebelum dipotong, beberapa tanggal potong, serta aturan jurnal bila periode sudah tertutup. Menggeser tanggal WIP saja belum cukup bila saldo bahan menjadi salah."
+- **Konflik yang ditanyakan writer** (fixture AS memotong bahan 22 Sep, padahal persetujuan AS menyebut revaluasi tetap 21 Sep): owner memilih **"Ikut prinsip WIP"**. Revaluasi bahan→WIP 22 Sep, jurnal invoice tetap 21 Sep, dan oracle kebijakan 12 HOLD ikut bergeser dengan cara yang sama (tetap HOLD, dilaporkan).
+- **Jawaban kedua owner (dikutip):** "Boleh untuk tiga kelompok; AS `ADJUSTMENT_DATE` jangan disahkan otomatis. ... lanjutkan pengecek otomatis dan perbarui tiga kelompok pertama sesuai aturan per kasus. Untuk `ADJUSTMENT_DATE`, telusuri pembaca `effective_date` dulu; bila aman, ubah oracle tanggalnya dengan bukti. Bila tidak, benahi model tanggalnya. Nominal dan ekspektasi lain tetap. Belum ada izin menyebut kasus yang masih `INCOMPLETE` sebagai PASS." Tiga kelompok itu: 12 kalender HOLD (perpindahan nilai ke WIP mengikuti hari potong; tetap HOLD), AO periode terbuka (koreksi WIP/FG mengikuti hari barang berpindah tahap; jurnal invoice tetap pada tanggal invoice), dan AO periode tertutup (posting pada hari pengakuan, tanggal ekonomi invoice tetap tersimpan; sudah ada sejak AS).
+- **Arahan proses owner:** keputusan teknis diambil writer sendiri; pertanyaan dikirim sekaligus.
+- **Kritik owner atas proses writer (dicatat):** begitu pola "koreksi nilai mendahului barang fisik" ketemu di FG, seharusnya seluruh alur bahan → WIP → FG → penjualan langsung diperiksa sebagai satu keluarga, bukan diajukan sebagai pertanyaan terpisah. Prosesnya juga terlalu panjang dan sering baru menemukan langkah berikutnya setelah satu putaran selesai.
+
+### 23.2 AZ: koreksi recost bahan bertanggal dari pergerakan fisiknya
+**Bukti dulu (fase sebelum AZ, T1 run 35964635432, `docs/evidence/cp6-az/native_t1_run35964635432_before.json`):**
+- Fixture: bahan 10 unit Rp10 diterima 21 Sep. Invoice terlambat Rp8,25 (turun Rp1,75/unit) dengan tanggal ekonomi 21 Sep (terbuka).
+- ONE_CUT_LOWER (10 unit dipotong 22 Sep): event revaluasi bahan→WIP 21 Sep. WIP PO **−Rp17,50 pada 21 Sep**, sebelum bahannya dipotong. Nilai bahan 21 Sep tidak turun ke harga invoice, padahal 10 unit masih di gudang.
+- TWO_CUT_DAYS_LOWER (5 unit 22 Sep, 5 unit 23 Sep): WIP PO kedua **−Rp8,75 pada 21 dan 22 Sep**. Ini persis contoh "WIP belum ada pada 1–2 Sep" dari owner.
+- Juga terbukti pada harga naik, dua zona waktu, penyesuaian bahan sehari sesudah hari terima, dan penjualan sehari sesudah hari barang jadi.
+- 4 kasus yang memang tidak boleh berubah (invoice sesudah potong, hari terima tertutup, tertutup sampai hari potong, penyesuaian tertutup) PASS sebelum AZ.
+
+**Isi AZ (satu file rilis ke-24, `supabase/release/cp6-t3/20260924010300_erp_v2_6_20az_cp6_material_recost_dated_from_movement.sql`; sumber T1 `supabase/dev/cp6_az_t1_family.sql`, dibangun oleh `scripts/cp6_az_build.py`):**
+- Jurnal invoice pemasok tetap pada E: bahan dikoreksi penuh untuk seluruh unit yang diterima.
+- `erp.sync_material_cost_revaluation` (potong, retur potong, issue kontraktor termasuk aksesori, retur pemasok): koreksi tiap pergerakan dipindah keluar dari bahan pada `greatest(E, tanggal fisik pergerakan)` bila E terbuka.
+- `erp._cp6_sync_material_adjustment_revaluation`: pada `greatest(E, tanggal fisik dokumen penyesuaian)` bila E terbuka.
+- Bila E tertutup, tidak ada yang berubah dibanding sebelumnya: tanggal ekonomi tetap E, diposting pada hari pengakuan.
+- Nominal, akun, state, dan event tidak berubah; yang berubah hanya tanggal. Di luar invoice, E = hari ini, jadi tidak ada yang bergeser.
+- Konsekuensi yang ditemukan writer sebelum T2: penutupan sisa WIP PO FINISHED di jalur invoice (`erp.sync_finished_po_wip_residual`) tadinya diposting pada E. Sekarang tidak didahulukan dari posting WIP terakhir PO itu bila E terbuka. Ini hanya diuji logika lokal; fixture native PO FINISHED dengan sisa WIP belum ada.
+- Recost periode pocket memakai tanggal fakta revaluasi penyesuaian, jadi otomatis ikut hari penyesuaian (efek berantai AZ). Suite pocket di AR tetap PASS.
+
+**Sesudah AZ (fase sesudah, `..._after.json`): 10/10 PASS.** Primary tidak berubah dan clone 0.
+- Dua tanggal potong: bahan −17,50 (21 Sep, 10 unit di gudang), −8,75 (22 Sep, 5 unit), 0 (23 Sep). WIP tiap PO 0 sampai hari potongnya, lalu Rp41,25.
+- Penjualan sehari sesudah barang jadi: 22 Sep FG −5,25 dan HPP −3,50; 23 Sep FG +1,75 dan HPP −1,75 (1 pcs dijual hari itu). Bagian HPP ikut tanggal jual.
+- Periode tertutup: jurnal bertanggal ekonomi 21 Sep, diposting 24 Sep, dan laporan hari-hari sebelumnya tidak berubah.
+- Penyesuaian: revaluasinya 22 Sep (hari penyesuaian), potong 8 unit 23 Sep.
+
+Run T1 pertama AZ (35964210256) INCOMPLETE di fixture probe sendiri: RPC potong mensyaratkan keluar = terpakai + sisa, dan kontraktor seed belum dibersihkan sebelum tutup buku. Keduanya sudah diperbaiki; kasus dengan fixture yang benar sudah PASS di run itu.
+
+### 23.3 8 kasus AS: oracle tanggal yang disetujui
+- Pembungkus di runner T2 (`approved_oracle`, `scripts/cp6_t2_regression.py`) hanya menyala untuk 8 ID `DATE:False:<zona>:True:<biaya>`, dan dicek ada tepat 8.
+- Oracle AS beku dijalankan apa adanya, dan statusnya tetap tercatat (COUNTEREXAMPLE pada tanggal).
+- Di dalam savepoint kasus, pembungkus membaca dari database: tanggal potong, tanggal lot barang jadi, tanggal jual (tanpa retur), jurnal event HPP, dan jurnal revaluasi. Hasilnya `approved_oracle_20260924`.
+- MATCH hanya bila semua benar:
+  - fixture potong = barang jadi = jual pada satu hari L sesudah E;
+  - event dan jurnal HPP PO pada L (ekonomi dan posting);
+  - event dan jurnal revaluasi bahan pada L;
+  - jurnal lain (invoice pemasok) pada E;
+  - oracle lama hanya gagal pada kunci tanggal;
+  - replay persis dan konteks bersih.
+- Run 11 (tanpa AZ): 8/8 MISMATCH hanya pada tanggal revaluasi. Ini membuktikan pembungkusnya tidak asal lolos.
+- Run 12 (dengan AZ): **8/8 MATCH**. T2 akhir (run 35972527139, AY rev5): **8/8 MATCH**.
+- Sesuai arahan owner, kasus ini **belum disebut lulus** sebelum pemeriksaan independen: pemeriksaan independen read-only (agen terpisah) menemukan satu BLOCKER dan beberapa perbaikan kecil (§23.9). Setelah diperbaiki, oracle yang disetujui diuji ulang di T2 akhir (§23.5). Statusnya tetap **approved oracle MATCH**, bukan PASS kasus beku; kasus beku tetap COUNTEREXAMPLE.
+
+### 23.4 Celah cakupan T2 yang ditemukan writer (dan ditutup)
+- **Oracle kebijakan kalender 12 HOLD** (bagian dari putusan regresi sendiri) hanya tersimpan di file laporan, tidak di log. Hasilnya tidak saya periksa di run 6–10. Sekarang dicetak: 12/12 PASS pada AY rev3 (run 11).
+- **Trial AO** (`cp6_initial_import_ao_trial.py`, 12 kasus, termasuk INVOICE yang mengunci tanggal jurnal recost) tidak termasuk set T2, padahal menjalankan jalur yang diubah AY/AZ. Filenya menjalankan seluruh trial saat di-import (ke database utama), jadi T2 hanya mengambil tiga fungsi kasusnya lewat `ast` tanpa mengubahnya, lalu menyiapkan fondasi seperti runner aslinya. Hasil: 8 PASS; 4 INVOICE berubah (lihat §23.6). Keputusan owner atas keempatnya ada di §23.6.
+
+### 23.5 Hasil akhir (AY rev5 + AZ)
+Head kode akhir `f8c9e96`. Commit sesudahnya hanya dokumen dan bukti. Semua uji di database uji sekali pakai atau CI; tidak ada SQL ke hosted.
+
+**T1:**
+- AZ run 35973285008: sesudah AZ **14/14 PASS**, termasuk `MULTI_CUT_*` dan `WRITE_OFF_AFTER_LOT_*`. Sebelum AZ: 10 COUNTEREXAMPLE, 4 PASS; 4 yang PASS itu kasus yang memang tidak boleh berubah.
+- AY run 35972503616: sesudah AY **7/7 PASS**.
+- Primary tidak berubah, clone 0.
+- Contoh write-off (harga naik): FG +7,00 pada hari lot, lalu +4,20 sesudah write-off 4 dari 10 pcs pada hari berikutnya; WIP PO 0 setiap hari. Write-off itu sendiri, yang diposting sebelum invoice di luar jalur invoice, tetap bertanggal hari write-off.
+
+**T2 run 35972527139 (`4be3f05`, AY rev5 + AZ; seed QUIETED, fixture PAYROLL_APPROVED):**
+- Grup lama sama per kasus dengan AU: BUSINESS 230 (179 PASS, 39 CONTROL_PASS, 12 HOLD), IMPORTS 31, VALUES 65. 12 HOLD identik.
+- AR 174 PASS (146 + 28). Temporal: AT 16 + AU 15 PASS, race 4 + 6 PASS.
+- Hasil oracle beku tetap tercatat apa adanya: NEW_CASES 25 PASS, 8 COUNTEREXAMPLE (AS DATE), 1 INCOMPLETE (ADJUSTMENT_DATE); trial AO 8 PASS, 4 INCOMPLETE (INVOICE); oracle kalender 12 COUNTEREXAMPLE hanya pada `material_event_date`. Verdict `DISPOSITION_REQUIRED`.
+- Oracle yang disetujui (kunci terpisah):
+  - AS 8 kasus: **8/8 MATCH**, 10 cek per kasus semua benar.
+  - Kalender: **12/12 MATCH**; kasusnya tetap HOLD.
+  - AO INVOICE: **4/4 MATCH**. Seluruh teks kasus beku ikut dijalankan, termasuk bagian yang tak pernah tercapai karena assert tanggal pertama gagal.
+  - AS `ADJUSTMENT_DATE:False`: **MATCH**. Syarat MATCH-nya juga mencakup jumlah temuan `V2620T_MATERIAL_ADJUSTMENT_*` dan cek kantong tidak naik sesudah invoice dan sesudah invoice dibatalkan. Angkanya ada di file laporan run, tidak dicetak di log.
+- Bukti: `docs/evidence/cp6-t2/run35972527139_ay_rev5_final.json`. Run 17 (35969330544, AY rev4) juga disimpan.
+
+**T3 run 35973311813 (`f8c9e96`): hijau.** Tiga job lulus:
+- Capture: pin yang ditangkap ulang sama dengan paket (blob `fe78de75`, 65.237 byte; sha256 dan panjang dicek).
+- Instal paket 24 file AC..AZ; AW/AX/AY/AZ terverifikasi; backup/restore RESTORED_SAME_MEANING.
+- Browser.
+- Advisor: 73 → 126. Satu tambahan dibanding paket AZ sebelumnya: INFO `rls_enabled_no_policy` untuk tabel internal baru `erp.po_hpp_gl_lot_state_v1`, pola yang sama dengan tabel internal lain.
+
+**CodeQL** run 35973863330 pada `e4584a3` (kode sama dengan `f8c9e96`): sukses.
+
+### 23.6 Pergeseran oracle beku (satu daftar, dengan alasan)
+Semua kasus yang ekspektasi bekunya bergeser pada putaran ini. Oracle beku tidak diubah; hasil bekunya tetap tercatat. Oracle yang disetujui berjalan terpisah dengan kunci sendiri (`approved_oracle_20260924` / `approved_oracle_20260924b`): teks kasus beku yang sama, hanya dengan substitusi tanggal yang tercantum, dan tiap substitusi diperiksa terjadi tepat sekali.
+
+| Kasus | Penyebab | Keputusan owner | Status |
+|---|---|---|---|
+| AS `DATE:False:<4 zona>:True:<20\|20.003>` (8) | AY (HPP dari hari barang/jual) + AZ (revaluasi dari hari potong); fixture memotong, menyelesaikan, dan menjual pada 22 Sep | Disetujui 24 Sep: HPP 22 Sep; nominal dan tanggal invoice tetap; revaluasi ikut prinsip WIP | Oracle disetujui MATCH; kasus beku tetap COUNTEREXAMPLE |
+| Oracle kebijakan kalender 12 HOLD historis | AZ: revaluasi bahan→WIP Rp5,25 pada hari potong (hari beli +1) | Disetujui 24 Sep (jawaban kedua): tanggal perpindahan nilai ke WIP mengikuti hari potong; status tetap HOLD | Oracle disetujui: lihat §23.5; 12 kasus tetap HOLD |
+| AO trial `INVOICE:<UTC\|Kiritimati>:False` (2) | AY + AZ: revaluasi dan PO_HPP_GL_SYNC pada hari potong/barang (invoice +1) | Disetujui 24 Sep: koreksi WIP/FG mengikuti hari barang berpindah tahap; jurnal invoice tetap pada tanggal invoice | Oracle disetujui: lihat §23.5; kasus beku tetap INCOMPLETE |
+| AO trial `INVOICE:<UTC\|Kiritimati>:True` (2) | Sudah ada sejak AS, bukan AY/AZ: AS menetapkan tanggal event revaluasi = tanggal posting (hari pengakuan); trial AO ditulis sebelum AS dan tidak dijalankan ulang sesudah AS | Disetujui 24 Sep: posting pada hari pengakuan, tanggal ekonomi invoice tetap tersimpan | Oracle disetujui: lihat §23.5; kasus beku tetap INCOMPLETE |
+| AS `ADJUSTMENT_DATE:False` (1) | AZ: revaluasi penyesuaian bahan pada hari penyesuaian (22 Sep), bukan tanggal invoice (21 Sep) | Owner: jangan disahkan otomatis. Telusuri pembaca `effective_date`; bila aman, ubah oracle tanggalnya dengan bukti | Penelusuran dan bukti: di bawah; kasus beku tetap INCOMPLETE |
+
+**Penelusuran `effective_date` fakta penyesuaian (ADJUSTMENT_DATE).** Pembaca di definisi terakhir, di luar fungsi penulisnya sendiri:
+1. `erp.run_v267_financial_truth_checks`, cek `V2620T_MATERIAL_ADJUSTMENT_FACT_LEDGER`. Syaratnya `j.economic_date = f.effective_date` antara fakta dan jurnalnya sendiri. Cek ini tidak membandingkan dengan tanggal invoice. AZ menulis keduanya dengan nilai yang sama (`v_date`), dan untuk tanggal tertutup tetap E.
+2. Trigger `pocket_period_recost` (`erp.guard_pocket_period_v1`), yang memanggil `erp.sync_pocket_period_v1(pool, new.effective_date, 'RECOST', ...)`. Tanggal fakta menjadi tanggal jurnal recost periode kantong, sehingga jurnal itu ikut bergeser dari E ke hari pengeluaran kain kantong. Arahnya sesuai prinsip (tidak mendahului fakta fisik). Cek kantong (`pocket_period_checks_v1`, `pocket_fabric_checks_v1`) tidak memuat syarat tanggal. Pocket suite AR PASS dengan AZ.
+3. Registry AW (`V2620T_MATERIAL_ADJUSTMENT_*` = DATABLE) tidak membaca tanggal fakta. `erp.reverse_journal` menolak jurnal ini tanpa melihat tanggal.
+
+Kesimpulan penelusuran: tidak ada pembaca yang membutuhkan tanggal invoice. Buktinya ada di dalam kasus: oracle yang disetujui menjalankan teks kasus beku dengan tanggal hari penyesuaian, ditambah cek (1) dan kedua cek kantong sebelum invoice, sesudah invoice, dan sesudah invoice dibatalkan. Jumlah temuannya tidak boleh naik. Hasilnya di §23.5.
+
+### 23.7 Anggota keluarga yang belum dikerjakan (jalur impor awal/cutover)
+Dipetakan oleh agen read-only (daftar lengkap di catatan writer). Belum dikerjakan, dan tidak boleh diklaim tertutup:
+- **Recost periode kantong vs tanggal alokasi**: jurnal recost periode kantong kini mengikuti hari pengeluaran kain (efek AZ lewat fakta penyesuaian), tetapi tujuan alokasinya (event jahit) bisa jatuh lebih lambat di periode itu.
+- **Nilai BS impor awal** (`INITIAL_IMPORT_BS_VALUE`): resolusi BS sesudah E.
+- **Lot pembuka non-PO** (`NON_PO_HPP_GL_SYNC_V2620F`): penjualan, retur, dan penyesuaian FG sesudah E, hanya di kaki COGS/lainnya.
+- **Kaki "other" AY** (write-off/BS) masih diletakkan pada tanggal lot terakhir, bukan tanggal write-off.
+- **Invoice bertanggal sebelum barang diterima**: tidak ada guard; belum diverifikasi.
+- `INITIAL_IMPORT_ORIGIN_RECOST` dan `OPENING_HPP_SOURCE_V2620G` tidak bisa mendahului barangnya (guard cutover memaksa E ≥ tanggal cutover).
+
+Batasan yang diketahui:
+- Pergerakan yang dibalik (reversed) memakai tanggal pembalikan. Ini sudah ada sebelum putaran ini.
+- Cabang AZ tanpa fixture native: retur pemasok, issue kontraktor/aksesori, retur potong, penyesuaian positif.
+- Penutupan sisa WIP PO FINISHED di jalur invoice hanya diuji logika lokal.
+- AY rev4: lot yang terakhir di-sync sebelum tabel `po_hpp_gl_lot_state_v1` ada memakai versi HPP yang berlaku saat sync terakhir (`calculated_at <= updated_at`). Cabang ini tidak punya fixture native (semua probe dan T2 membuat lot sesudah instalasi, kecuali data seed AU di T2).
+
+### 23.8 Kesalahan metode writer di putaran ini
+- **Keluarga masalah tidak dipetakan sejak awal.** Begitu FG terbukti dikoreksi sebelum barangnya ada (AY), bahan→WIP (AZ), penjualan, dan PO dengan beberapa tanggal potong seharusnya langsung diperiksa. Yang terjadi, masing-masing baru ditemukan satu per satu setelah satu putaran selesai (kritik owner, valid).
+- **AY tiga revisi berturut-turut.** rev1 memberi tanggal koreksi mendahului invoice pada hari terima yang sudah tertutup; rev2 menghilangkan tanggal ekonomi E (AR gagal); rev3 benar untuk satu kali potong, tetapi membagi per pcs (temuan pemeriksa independen, terbukti native, lalu rev4). Semua terlihat di T2/T1, tetapi bisa dihindari dengan menurunkan aturan dari definisi `rebuild_po_hpp` sebelum menulis kode.
+- **`package()` T3 tidak diuji lokal** sebelum push, sehingga satu putaran capture terbuang (AZ dicari di folder migrasi).
+- **Fixture probe salah dua kali** (syarat RPC potong; kontraktor seed belum dibersihkan).
+- **Oracle kebijakan kalender tidak dicetak di log pada run 6–10**, jadi hasilnya tidak saya periksa. Trial AO tidak termasuk set T2 walaupun menjalankan jalur yang diubah.
+- **Kata-kata bukti terlalu kuat:** laporan menyebut pergeseran kalender "diterima owner", padahal owner hanya memilih opsi yang menyebut pergeseran itu akan terjadi dan dilaporkan. Sudah dikoreksi (catatan `review_20260924` di JSON bukti).
+- **Terlalu banyak pertanyaan terpisah ke owner.** Mulai sekarang keputusan teknis dalam prinsip yang sudah disetujui diambil writer, dan pertanyaan kebijakan dikirim sekaligus dalam satu daftar.
+
+### 23.9 Pemeriksaan independen dan tindak lanjutnya
+Pemeriksaan independen read-only pertama (agen terpisah, terhadap oracle AS dan AZ):
+- **BLOCKER:** bukti menyebut pergeseran kebijakan kalender "diterima owner". Dikoreksi: catatan `review_20260924` di dua JSON bukti T2. Sesudah itu owner memang menyetujuinya (jawaban kedua, §23.6).
+- Pembungkus oracle AS dibuat lebih ketat:
+  - jurnal lain harus berupa invoice pemasok pada E;
+  - pembungkus berjalan dalam savepoint sendiri;
+  - kedelapan kasus wajib dievaluasi;
+  - hasil trial AO yang bukan 12 PASS memaksa disposisi.
+- AY/AZ: tanggal fisik dibatasi hari ini saat E terbuka. Penutupan sisa WIP hanya diubah di jalur invoice.
+- **Temuan #3 (satu PO, dua tanggal potong)** dibuktikan native, lalu diperbaiki (§23.10).
+
+Pemeriksaan independen read-only kedua (agen terpisah, terhadap AY rev4) menghasilkan 1 BLOCKER, 2 MAJOR, dan 4 MINOR:
+- **B1 BLOCKER** (terbukti dari kode, belum ada tes): rev4 hanya menghitung pcs yang masih dimiliki dan yang terjual. Pcs yang di-write-off atau dikonversi membuat WIP PO negatif antara tanggal lot dan tanggal write-off/konversi. Contoh reviewer: konversi 40 dari 100 pcs pada hari 5 membuat WIP −40 pada hari 2–4. Masalah ini sudah ada sejak AY rev1 dalam bentuk lain, karena bobot pcs awal. **Diperbaiki di rev5** dan diuji native (`AZ:WRITE_OFF_AFTER_LOT_*`). Konversi belum punya fixture native.
+- **M1 MAJOR** (terbukti dari kode): pemanggil di luar invoice mengirim tanggal fisik (penyesuaian FG, QC, penerimaan laundry, rework, koreksi potong, invoice vendor). AY memindahkan posting mereka ke tanggal lot; contoh reviewer: write-off stock opname 10 Sep jatuh ke tanggal lot 12 Sep. Ini juga sudah ada sejak AY rev1. **Diperbaiki di rev5**: di luar invoice, blok posting AS dipakai tanpa diubah.
+- **M2 MAJOR** (dugaan): bila grup potong digabung dalam satu cutting batch lintas hari, `rebuild_po_hpp` merata-ratakan bahan se-batch, sehingga lot awal bisa ikut menanggung koreksi potongan yang lebih lambat. **Terbuka**; belum dibuktikan native.
+- **N1**: `refresh_po_hpp_gl_baseline` (posting jual/retur) menulis ulang state PO tanpa state per lot. **Diperbaiki**: state per lot hanya dipakai bila ditulis bersamaan dengan atau sesudah state PO.
+- **N2**: baris untuk lot VOIDED tidak dibersihkan; capsule rollback tidak mencakup tabel baru (rollback memang belum diuji). Grant, RLS, dan guard "instalasi tidak mengubah data" dinyatakan aman.
+- **N3**: tanggal fisik dibatasi hari ini. Menjelang tengah malam, koreksi COGS bisa bertanggal sehari sebelum penjualan.
+- **N4**: retur di kaki B tidak diberi batas bawah per lot seperti target; selisihnya bergeser ke tanggal terakhir.
+- Yang dinyatakan benar: total per akun sama dengan satu jurnal lama; kuantitas yang dipakai sama dengan `compute_po_hpp_gl_targets_v2620d`; E tertutup identik dengan AS.
+- Yang belum diuji native: konversi, retur, penjualan dibatalkan, batch, beberapa lot dari satu grup pada hari berbeda, E tertutup dengan beberapa tanggal, jalur fallback state per lot, dan beberapa sync dalam satu statement.
+
+### 23.10 AY rev4 → rev5: koreksi per lot, lalu per pcs
+**Bukti dulu** (AZ T1 run 35968507694, AY rev3 + AZ). Satu PO dipotong dua kali:
+- 22 Sep: 4 unit jadi 8 pcs, langsung menjadi lot FG 8 pcs.
+- 23 Sep: 6 unit jadi 3 pcs, lot FG 3 pcs.
+
+`erp.rebuild_po_hpp` membagi bahan ke lot menurut kelompok potongnya, sehingga lot 1 berubah 4x dan lot 2 berubah 6x. rev3 membagi perubahan PO per pcs (8/11 dan 3/11):
+- Harga naik: FG 22 Sep **+5,09**, seharusnya +2,80; WIP PO **−2,29**.
+- Harga turun: FG −12,73, seharusnya −7,00; WIP PO +5,73.
+
+Bukti: `docs/evidence/cp6-az/native_t1_run35968507694_after_ay_rev3_multicut.json`.
+
+**Isi rev4:**
+- Kaki A: tiap lot mendapat perubahan HPP-nya sendiri sejak sync terakhir × (FG dimiliki + terjual bersih), pada tanggal lot.
+- Kaki B: perubahan HPP lot × pcs terjual pada tanggal jual/retur.
+- Sisa pembulatan ke tanggal terakhir.
+- HPP sebelumnya diambil dari tabel baru `erp.po_hpp_gl_lot_state_v1` (kosong saat instalasi, tanpa FK). Untuk lot yang terakhir di-sync sebelum tabel itu ada, dipakai versi HPP yang berlaku saat sync terakhir.
+- Total per akun, aturan tanggal tertutup, dan jalur di luar invoice (satu tanggal E) tidak berubah.
+
+**Sesudah rev4:**
+- Harga naik: FG +2,80 (22 Sep) dan +4,20 (23 Sep).
+- Harga turun: FG −7,00 dan −10,50.
+- WIP PO 0 setiap hari, dan bahan tetap bernilai harga invoice untuk stok yang tersisa.
+
+**rev5** (sesudah pemeriksaan independen rev4):
+- Di luar invoice: blok posting AS apa adanya, satu jurnal pada tanggal pemanggil (M1).
+- Di jalur invoice, koreksi tiap pcs mengikuti pcs itu (B1), dengan perubahan HPP lotnya sendiri:
+  - produksi masuk (QC_GOOD/REWORK_IN/OPENING): WIP→FG pada tanggal pergerakan;
+  - ADJUSTMENT/BS_OUT/REBRAND_OUT/IN: FG↔lainnya pada tanggalnya;
+  - penjualan: FG→HPP pada tanggal jual; retur sebaliknya;
+  - sisa pembulatan ke tanggal paling akhir.
+- Hasil uji: lihat §23.5. Rev4 sudah lolos T2 run 17 dan T3 run 35970077436 sebelum pemeriksaan independen; rev5 menggantikannya. Yang belum diuji native: konversi (REBRAND), BS_OUT, retur, penjualan dibatalkan, batch lintas hari (M2), jalur fallback state per lot, dan penutupan sisa WIP PO FINISHED.
+
+### 23.11 Status dan yang masih terbuka
+- **Belum ada yang disebut PASS dari kasus beku yang berubah.** MATCH adalah oracle yang disetujui owner. Keputusan apakah hasil ini diterima sebagai regresi yang lulus ada pada peninjau independen/owner.
+- CP6 tetap HOLD, 12 HOLD historis tetap HOLD, `production_go=false`, cabang kompetisi tetap `ca7f095`.
+- Temuan terbuka:
+  - **M2**: batch potong lintas hari, masih dugaan.
+  - Anggota keluarga di §23.7.
+  - Cabang tanpa fixture native (§23.10).
+  - N2–N4 dari pemeriksaan independen.
+- AY rev5 **belum** diperiksa independen lagi sesudah perbaikannya.
