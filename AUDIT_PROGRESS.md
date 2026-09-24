@@ -279,3 +279,19 @@ Diperiksa 2026-09-24T21:55:57.301Z. Produk acuan tetap9add57e; commit alat dan r
 6. Simpan hasil perkasus, hash, run/job/attempt/head, expected/actual dan cleanup ke repo setelah setiap run. SeluruhCP6 masih HOLD; tidak ada gate baru yang dipromosikan menjadiACCEPT.
 
 Bukti baru checkpointini: run36063754595/job107848561550/attempt1/head6140edb1acd182efc84a4c85879860785335e688. Logsummary cyclePASS/primary_unchangedtrue; tidak ada explicit clone_remainingcount. Ledger22check, hash empatrollback/builder/capture dan catatan keterbatasan disimpan di out/. Tidak ada skenario baru atau run baru GPT; tidak ada temuan produk baru.
+
+## Fable — eksekusi native15 + race/HTTP pada runtime writer (24 Sep 2026 22:04–22:15 UTC)
+Produk acuan tetap 9add57e; head alat yang di-checkout job: d284e9b (diff produk kosong, diverifikasi lokal). Review alat/oracle: `out/fable_tool_review_d284e9b.md`. Hasil per kasus (expected/actual): `out/fable_native15_xaudit5_results.md`. JSON per run: `audit/runs_fable/`.
+| Run | Job | Skenario (sha) | Hasil |
+|---|---|---|---|
+| 36065350201 | 107853710984 | combined_native15_reconstructed.py (cec2ad52…) phase after | 10 COUNTEREXAMPLE / 4 PASS / 1 INCOMPLETE (fixture GPT selector-51); primary_unchanged |
+| 36065517737 | 107854232896 | xaudit_5.py (815781e1…) races+http_cases | races 3 COUNTEREXAMPLE (R1 overlap dua sesi; R2 filing ganda; R3 pesan kunci sibuk — aman), http 1 CE (artefak argumen dummy) / 2 PASS (revocation, unmapped); cleanup bersih |
+| 36066079063 | — | import_selector_fable_fix.py (d510df61…) | BERJALAN (perbaikan join izin pada rekonstruksi GPT) |
+Register: CP6-07 → P1 native; CP6-18/19 → COUNTEREXAMPLE native (oracle/reachability terbuka); CP6-09 → dua sesi; CP6-02/03 → dikonfirmasi ulang; baru CP6-24 (filing ganda, P2), CP6-25 (pesan, P3). Status: CP6 HOLD, audit_complete=false, production_go=false.
+
+### LANGKAH BERIKUTNYA (Fable)
+1. Catat hasil run 36066079063 (selector-51) ke index/out.
+2. Browser→HTTP→runtime UI untuk facade CP6 dan F1-14 (zona waktu) — belum ada mode browser di runtime auditor; minta writer (mode browser memakai `cp6_t3_browser`) atau tes Playwright auditor terhadap stack sekali pakai.
+3. Oracle CP6-09 tambahan: negative same-source (nomor dokumen/roll sama lintas batch) dan positive distinct-source/partial-import.
+4. AC..AV varian rilis NOT_BUILT (writer); guard digest AC rilis.
+5. Keputusan owner: pengikatan produk opsional WIP (CP6-18), reachability edit item prepared (CP6-19), tanggal 24 Sep (CP6-13), ALL coverage (CP6-17), CR aksesori/laundry.
