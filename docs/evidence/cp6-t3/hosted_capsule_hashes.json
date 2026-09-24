@@ -1,0 +1,200 @@
+{
+ "label": "T3_PREP_HOSTED_METADATA",
+ "project_ref": "siimvrusnzxexizpyoib",
+ "access": "read-only SELECT; capsule tables hold object definitions, ACL and owner snapshots only (no business rows)",
+ "reason": "AO..AV pin a hash of every historical rollback capsule; G-01 compared the catalog, not capsule contents.",
+ "query": "per capsule: select encode(extensions.digest(convert_to(coalesce(string_agg(h,',' order by h),''),'UTF8'),'sha256'),'hex') from(select encode(extensions.digest(convert_to((to_jsonb(t)-array['captured_at','boundary_snapshot'])::text,'UTF8'),'sha256'),'hex') h from erp.<capsule> t)s  (the AO..AV guard formula)",
+ "capsules": {
+  "bs_resolution_v2619_rollback_capsule": [
+   30,
+   "28ab388833da7da87384766ecaedadc66b4d048c303ee91e16f3939e34afdc39"
+  ],
+  "bs_resolution_v2619a_rollback_capsule": [
+   6,
+   "de8dfaab7b63b8742d383a089cdb05e73b629aad9f4df149e6a3c9fb590ef560"
+  ],
+  "bs_resolution_v2619b_rollback_capsule": [
+   7,
+   "d6d4f7457743d51679b5d25bf166ed69ca4b4f098cf5902ff985937531c2505d"
+  ],
+  "bs_resolution_v2619c_rollback_capsule": [
+   1,
+   "0207ba4f2ffba8ed61584709bbd884f1d2ee1a5981194fd7189a45afe8b3cbe1"
+  ],
+  "cp3_r4_rollback_capsule": [
+   7,
+   "7c01add62e66a4e2774a7199c2e77a04cca5e5942dbbba54d22cef720f82bc1d"
+  ],
+  "cp45_v2617_rollback_capsule": [
+   3,
+   "b9a43ce463de9905e94dd6538fd2a4952b0586a78c145f6f9d88aab7d6da3d80"
+  ],
+  "cp45_v2617a_rollback_capsule": [
+   2,
+   "b065dbcfdf1b59cb799e9f58caf6dd5ca7686e9f70826fce6a1ba8f140610022"
+  ],
+  "cp4_v2616_rollback_capsule": [
+   4,
+   "dde0a005dbe7cc93709bdfc6b961f4b9a76bf4db06fd7177d21dc79048af4d2f"
+  ],
+  "cp6_v2620_rollback_capsule": [
+   13,
+   "b42b94c2380f0768259a3d8f7fb645c76ebd6f92e8bae6a37d802352f7effd4f"
+  ],
+  "cutting_bridge_v2618_rollback_capsule": [
+   17,
+   "535d1abd25668bc5bee79d82a602afe5efe4e8ce313bf1fb5170ae2004e3cb2d"
+  ],
+  "cutting_bridge_v2618a_rollback_capsule": [
+   8,
+   "db0608e690b3d936fa20b62cc4cfb9b1f9e86718212526eb6131562578b8bf60"
+  ]
+ },
+ "compared_with_package": "10 of 11 equal the AO..AV pins of supabase/release/cp6-t3; cp6_v2620_rollback_capsule differs (pinned 01f1e4e2..., hosted b42b94c2...).",
+ "cp6_v2620_rows": [
+  {
+   "kind": "FUNCTION",
+   "object": "erp.apply_migration_master_rows(p_batch_id uuid)",
+   "row_hash": "bbce4816bec77b56ec60ee315b3ea25de63dd60d0ae20bb9d5b5e2c83f139b82",
+   "definition_sha256": "52fb4f2d17d6e253b2e7cf8d7638d2b832c3edd0b769eee51ec65b62c95fb2f2",
+   "acl_snapshot": [
+    "postgres=X/postgres",
+    "authenticated=X/postgres",
+    "service_role=X/postgres"
+   ],
+   "definition_md5": "0272a1db007565dcd49b95ed888afef7"
+  },
+  {
+   "kind": "FUNCTION",
+   "object": "erp.desired_laundry_accrual(p_po_id uuid)",
+   "row_hash": "ea5e299364e2abef541525d9e7ba34a7edafc7632a92f6f3347df21a3356b8eb",
+   "definition_sha256": "32956616d75838b224e7f14b121315eb6a3944230d6e6a798608a6dcd8d59111",
+   "acl_snapshot": [
+    "postgres=X/postgres",
+    "service_role=X/postgres"
+   ],
+   "definition_md5": "4ded5af2c9c604357d18c783b00dcdb9"
+  },
+  {
+   "kind": "FUNCTION",
+   "object": "erp.guard_laundry_receipt_source_capacity_on_post()",
+   "row_hash": "8c0051992cbf5ca58fe70304c1220338a1c060df3b13583ffb4f993d1d093a99",
+   "definition_sha256": "d0e9e9ca63faf7103c753faaa1455b5b36f9c73de46bd7c38874e4ef35610240",
+   "acl_snapshot": [
+    "postgres=X/postgres"
+   ],
+   "definition_md5": "a2666231dad8315b67ae5ea15b959a69"
+  },
+  {
+   "kind": "FUNCTION",
+   "object": "erp.post_fg_partial_completion_v2_legacy_v2610(p_payload jsonb, p_client_request_id uuid, p_expected_version bigint)",
+   "row_hash": "423764540ec7cd6023b3316d3ec3ce833372548365e4db8849cd3ad66b3b87a1",
+   "definition_sha256": "c6473d63894085f07d06fdf63f992b688eb8b685e790fd374977e6f58e76192c",
+   "acl_snapshot": [
+    "postgres=X/postgres",
+    "service_role=X/postgres"
+   ],
+   "definition_md5": "4704db79cbcd2ad70384c6dbdfe85572"
+  },
+  {
+   "kind": "FUNCTION",
+   "object": "erp.rebuild_po_hpp(p_po_id uuid, p_reason text)",
+   "row_hash": "8a296b4b6078fbf795d81727d207cffee3a5ee9737127d0891b72620d2904aaf",
+   "definition_sha256": "ba3b58bffc6750030cea07c4af09caadc8d5ad8fb11bce9614ebd2ad82b8aa9a",
+   "acl_snapshot": [
+    "postgres=X/postgres",
+    "service_role=X/postgres"
+   ],
+   "definition_md5": "bf5593c35375abb35c0c6d531ee375e6"
+  },
+  {
+   "kind": "FUNCTION",
+   "object": "erp.require_internal()",
+   "row_hash": "89ce15a2f98a399db40c88b782b6419fe7d98820352d79f774f1a945524cc7a5",
+   "definition_sha256": "567292858785a520b77721c7516a75f4e5fac2618c01f70d7e3ed9f28e855671",
+   "acl_snapshot": [
+    "postgres=X/postgres",
+    "service_role=X/postgres"
+   ],
+   "definition_md5": "8027894e8403d6b5a289056e37151ee8"
+  },
+  {
+   "kind": "FUNCTION",
+   "object": "erp.run_v259_integrity_checks()",
+   "row_hash": "2bdf5f53f4bc7cc2cc0d4ae289015f8f8800006cafdb73e716495d49951f6deb",
+   "definition_sha256": "75a3711024a56f76e7d8ad8214a40a945631f0fda8322ea305e469842e9c931d",
+   "acl_snapshot": [
+    "postgres=X/postgres",
+    "authenticated=X/postgres",
+    "service_role=X/postgres"
+   ],
+   "definition_md5": "2ffff9a88888675822e7d8ab69674415"
+  },
+  {
+   "kind": "FUNCTION",
+   "object": "erp.sync_laundry_accrual(p_po_id uuid, p_effective_date date)",
+   "row_hash": "51b87794fbc6780c01409a42fd06d326794dcc46e2ecec56b2c0215b66ac7629",
+   "definition_sha256": "8f17afd651adb7e0bd9a545fa4538e090347e32d8eb3f3ce2f6c2371a139afa5",
+   "acl_snapshot": [
+    "postgres=X/postgres",
+    "service_role=X/postgres"
+   ],
+   "definition_md5": "9d5afd8d5c23e81a924a87cb4ef0037d"
+  },
+  {
+   "kind": "VIEW",
+   "object": "erp.v_fg_partial_completion_progress",
+   "row_hash": "df40c709f9de6a7ff3f14b48da418a33fe9d99dcf222289e1ff704ae64b17392",
+   "definition_sha256": "7897479ca27144e599b6607b60f5b9bed08bdea57171ff6ba8ec81ce46f20037",
+   "acl_snapshot": [
+    "postgres=arwdDxtm/postgres",
+    "authenticated=r/postgres",
+    "service_role=r/postgres"
+   ],
+   "definition_md5": "7181a72f556a928bfd057a354a830e9b"
+  },
+  {
+   "kind": "VIEW",
+   "object": "erp.v_wip_control_status_v1",
+   "row_hash": "650d11cd3d53aa58af96c426fc1f1ada9db994f3f51dfe2dc4a504536ffd9e05",
+   "definition_sha256": "2aa2bab69b86be921b022eaca8142a1523124c05bd639b8a641ccf572ac8ded4",
+   "acl_snapshot": [
+    "postgres=arwdDxtm/postgres"
+   ],
+   "definition_md5": "c8be58552b53fc7277c37dc464fb2b5a"
+  },
+  {
+   "kind": "FUNCTION",
+   "object": "erp.validate_laundry_receipt_line()",
+   "row_hash": "246e325737a96fcab5510b6c4ccaed01ad5ecbfa50084a10c4c711db6fe4188d",
+   "definition_sha256": "0080fd2f35d14939edaa013943a9cda66efefeade1812c186c206d53cd996a88",
+   "acl_snapshot": [
+    "postgres=X/postgres",
+    "service_role=X/postgres"
+   ],
+   "definition_md5": "eefc0197092de53df2dd1031c5706ea3"
+  },
+  {
+   "kind": "FUNCTION",
+   "object": "erp.validate_product_identity_period()",
+   "row_hash": "a0ec60e69cab5de0ebe1fc9ff8fc07761920e627ff6ea0099f4db6780e03d93a",
+   "definition_sha256": "3604b6d5157b1804f03d91b364d3df94561f78145643adadaee8e27fcb1db8a0",
+   "acl_snapshot": [
+    "postgres=X/postgres"
+   ],
+   "definition_md5": "7cdee5936a160a1e71a2aa2840da48c4"
+  },
+  {
+   "kind": "FUNCTION",
+   "object": "public.erp_post_final_sku_allocation_v1(p_payload jsonb, p_client_request_id uuid, p_expected_version bigint)",
+   "row_hash": "e0d5836e584e1cf0065b5625cc154780e87e202d9addb6ec8ba13d8379bb83c4",
+   "definition_sha256": "bc48e8977117bee5576f217e3bbc3cfa78e8eea05a3d6cac5d35b944469d03d5",
+   "acl_snapshot": [
+    "postgres=X/postgres",
+    "authenticated=X/postgres",
+    "service_role=X/postgres"
+   ],
+   "definition_md5": "66cc50518b1f6613db77a039f5717b4c"
+  }
+ ]
+}

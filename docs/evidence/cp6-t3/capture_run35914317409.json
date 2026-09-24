@@ -1,0 +1,497 @@
+{
+ "label": "T3_PREP",
+ "run": 35914317409,
+ "head": "08c778e9158be96ba45194e7149cc5826aa033f8",
+ "mode": "capture",
+ "baseline": "rebuilt to v2.6.20, aligned with hosted (G-01 option 1, ALIGNED_PER_OBJECT), frozen path to AB, clone cp6_rollback",
+ "package_files": [
+  {
+   "key": "AC",
+   "status": "PASS",
+   "subs": [
+    "AC_VIEW:erp.v_payroll_nota_browser source",
+    "AC_VIEW:erp.v_payroll_nota_browser restore statement sha256"
+   ]
+  },
+  {
+   "key": "AD",
+   "status": "PASS",
+   "subs": [
+    "LEDGER:AC"
+   ]
+  },
+  {
+   "key": "AE",
+   "status": "PASS",
+   "subs": [
+    "LEDGER:AD"
+   ]
+  },
+  {
+   "key": "AF",
+   "status": "PASS",
+   "subs": [
+    "LEDGER:AE"
+   ]
+  },
+  {
+   "key": "AG",
+   "status": "PASS",
+   "subs": [
+    "LEDGER:AF"
+   ]
+  },
+  {
+   "key": "AH",
+   "status": "PASS",
+   "subs": [
+    "LEDGER:AG"
+   ]
+  },
+  {
+   "key": "AI",
+   "status": "PASS",
+   "subs": [
+    "LEDGER:AH"
+   ]
+  },
+  {
+   "key": "AJ",
+   "status": "PASS",
+   "subs": [
+    "LEDGER:AI"
+   ]
+  },
+  {
+   "key": "AK",
+   "status": "PASS",
+   "subs": [
+    "LEDGER:AJ"
+   ]
+  },
+  {
+   "key": "AL",
+   "status": "PASS",
+   "subs": [
+    "LEDGER:AK"
+   ]
+  },
+  {
+   "key": "AM",
+   "status": "PASS",
+   "subs": [
+    "LEDGER:AL"
+   ]
+  },
+  {
+   "key": "AN",
+   "status": "PASS",
+   "subs": [
+    "LEDGER:AM"
+   ]
+  },
+  {
+   "key": "AO",
+   "status": "PASS",
+   "subs": [
+    "LEDGER:AN",
+    "CAPSULE:cp6_v2620ac_relation_rollback_capsule",
+    "CATALOG:AO_PREDECESSOR_CATALOG_DRIFT",
+    "CATALOG:AO_INSTALLED_CATALOG_DRIFT"
+   ]
+  },
+  {
+   "key": "AP",
+   "status": "PASS",
+   "subs": [
+    "LEDGER:AO",
+    "CAPSULE:cp6_v2620ac_relation_rollback_capsule",
+    "CATALOG:AP_PREDECESSOR_CATALOG_DRIFT",
+    "CATALOG:AP_INSTALLED_CATALOG_DRIFT"
+   ]
+  },
+  {
+   "key": "AQ",
+   "status": "PASS",
+   "subs": [
+    "LEDGER:AO",
+    "LEDGER:AP",
+    "CAPSULE:cp6_v2620ac_relation_rollback_capsule",
+    "CATALOG:AQ_PREDECESSOR_CATALOG_DRIFT",
+    "CATALOG:AQ_INSTALLED_CATALOG_DRIFT"
+   ]
+  },
+  {
+   "key": "AR",
+   "status": "PASS",
+   "subs": [
+    "LEDGER:AO",
+    "LEDGER:AP",
+    "LEDGER:AQ",
+    "CAPSULE:cp6_v2620ac_relation_rollback_capsule",
+    "CATALOG:AR_PREDECESSOR_CATALOG_DRIFT",
+    "CATALOG:AR_INSTALLED_CATALOG_DRIFT"
+   ]
+  },
+  {
+   "key": "AS",
+   "status": "PASS",
+   "subs": [
+    "LEDGER:AO",
+    "LEDGER:AP",
+    "LEDGER:AQ",
+    "LEDGER:AR",
+    "CAPSULE:cp6_v2620ac_relation_rollback_capsule",
+    "CATALOG:AS_PREDECESSOR_CATALOG_DRIFT",
+    "CATALOG:AS_INSTALLED_CATALOG_DRIFT"
+   ]
+  },
+  {
+   "key": "AT",
+   "status": "PASS",
+   "subs": [
+    "LEDGER:AO",
+    "LEDGER:AP",
+    "LEDGER:AQ",
+    "LEDGER:AR",
+    "LEDGER:AS",
+    "CAPSULE:cp6_v2620ac_relation_rollback_capsule",
+    "CATALOG:AT_PREDECESSOR_CATALOG_DRIFT",
+    "CATALOG:AT_INSTALLED_CATALOG_DRIFT"
+   ]
+  },
+  {
+   "key": "AU",
+   "status": "PASS",
+   "subs": [
+    "LEDGER:AO",
+    "LEDGER:AP",
+    "LEDGER:AQ",
+    "LEDGER:AR",
+    "LEDGER:AS",
+    "LEDGER:AT",
+    "CAPSULE:cp6_v2620ac_relation_rollback_capsule",
+    "CATALOG:AU_PREDECESSOR_CATALOG_DRIFT",
+    "CATALOG:AU_INSTALLED_CATALOG_DRIFT"
+   ]
+  },
+  {
+   "key": "AV",
+   "status": "PASS",
+   "subs": [
+    "LEDGER:AO",
+    "LEDGER:AP",
+    "LEDGER:AQ",
+    "LEDGER:AR",
+    "LEDGER:AS",
+    "LEDGER:AT",
+    "LEDGER:AU",
+    "CAPSULE:cp6_v2620ac_relation_rollback_capsule",
+    "CATALOG:AV_PREDECESSOR_CATALOG_DRIFT",
+    "CATALOG:AV_INSTALLED_CATALOG_DRIFT"
+   ]
+  }
+ ],
+ "stages": [
+  {
+   "stage": "PACKAGE",
+   "status": "PASS",
+   "result": "CAPTURED_AND_INSTALLED"
+  },
+  {
+   "stage": "AW_T1",
+   "status": "PASS",
+   "result": {
+    "stage": "AV_PLUS_AW_T1",
+    "label": "T1_FAMILY",
+    "functions": 13,
+    "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+    "ax_sql_sha256": null
+   }
+  },
+  {
+   "stage": "AX_T1",
+   "status": "PASS",
+   "result": {
+    "stage": "AV_PLUS_AW_PLUS_AX_T1",
+    "label": "T1_FAMILY",
+    "functions": 13,
+    "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+    "ax_sql_sha256": "c5f9df1202a0d379908be4965dd158b10d064913061cd1481cb3e543034ca3c4"
+   }
+  }
+ ],
+ "summary": {
+  "status": "ALL_STAGES_INSTALLED",
+  "ledger_start": {
+   "app": [
+    "v2.6.20aa",
+    "v2.6.20ab"
+   ],
+   "platform_last": "20260914190500"
+  },
+  "ledger_final": {
+   "app": [
+    "v2.6.20aa",
+    "v2.6.20ab",
+    "v2.6.20ac",
+    "v2.6.20ad",
+    "v2.6.20ae",
+    "v2.6.20af",
+    "v2.6.20ag",
+    "v2.6.20ah",
+    "v2.6.20ai",
+    "v2.6.20aj",
+    "v2.6.20ak",
+    "v2.6.20al",
+    "v2.6.20am",
+    "v2.6.20an",
+    "v2.6.20ao",
+    "v2.6.20ap",
+    "v2.6.20aq",
+    "v2.6.20ar",
+    "v2.6.20as",
+    "v2.6.20at",
+    "v2.6.20au",
+    "v2.6.20av",
+    "v2.6.20aw",
+    "v2.6.20ax"
+   ],
+   "platform_last": "20260923110000"
+  },
+  "fingerprint_AB": {
+   "view": {
+    "n": 51,
+    "md5": "68b2fbf688881496413307954006bdbe"
+   },
+   "index": {
+    "n": 605,
+    "md5": "65816b59b4bd7675995b7b9bc98fa4c5"
+   },
+   "policy": {
+    "n": 190,
+    "md5": "48bb358e009dc8d19417bbb3982f6d3f"
+   },
+   "schema": {
+    "n": 2,
+    "md5": "6ee1ffa742c0945434188ce249e139ca"
+   },
+   "trigger": {
+    "n": 448,
+    "md5": "971341de44cfecc9a587fc140c6cf30a"
+   },
+   "function": {
+    "n": 574,
+    "md5": "5e235119482f9767a74ba3fe7fbd2619"
+   },
+   "relation": {
+    "n": 272,
+    "md5": "5a8c31607ad25d70808ba9f7699bf690"
+   },
+   "sequence": {
+    "n": 6,
+    "md5": "dacd751dd3a5f2f7efbc203171be4ead"
+   },
+   "extension": {
+    "n": 6,
+    "md5": "15a959c38d716ad2af3fe1f1dc4419ef"
+   },
+   "app_ledger": {
+    "n": 83,
+    "md5": "7ad6fed4ecef5f62d3be04fffdbc9e69"
+   },
+   "constraint": {
+    "n": 1308,
+    "md5": "1a354c9c9ddc0b40782e80339e1dbacd"
+   },
+   "config_hash": {
+    "n": 6,
+    "md5": "2193b4becca1d4d89e40b444b0a8af29"
+   },
+   "default_acl": {
+    "n": 6,
+    "md5": "c9c232814a7b3ee3eaadb50e8b7dc7fd"
+   },
+   "platform_ledger": {
+    "n": 98,
+    "md5": "39e21c0d5d36ef100d312dd736898487"
+   },
+   "function_owner_acl": {
+    "n": 574,
+    "md5": "12a9878282b3db31bec2d8e34eb57c59"
+   },
+   "relation_owner_acl": {
+    "n": 272,
+    "md5": "bf0e6b7cd7ea3e25b7b94918cd3cc844"
+   }
+  },
+  "fingerprint_final": {
+   "view": {
+    "n": 51,
+    "md5": "f0e321e1b2a8101b3bdd1c3343b43de1"
+   },
+   "index": {
+    "n": 721,
+    "md5": "5c119389b106f91ff7a96b9aee42db7d"
+   },
+   "policy": {
+    "n": 190,
+    "md5": "48bb358e009dc8d19417bbb3982f6d3f"
+   },
+   "schema": {
+    "n": 2,
+    "md5": "6ee1ffa742c0945434188ce249e139ca"
+   },
+   "trigger": {
+    "n": 485,
+    "md5": "53c1ac98f507ded7852c125814269eec"
+   },
+   "function": {
+    "n": 670,
+    "md5": "1ab2329eb17d512f37d267293db9b41e"
+   },
+   "relation": {
+    "n": 319,
+    "md5": "b073475acf2b54ea6de4f1eb683b74c2"
+   },
+   "sequence": {
+    "n": 6,
+    "md5": "dacd751dd3a5f2f7efbc203171be4ead"
+   },
+   "extension": {
+    "n": 6,
+    "md5": "15a959c38d716ad2af3fe1f1dc4419ef"
+   },
+   "app_ledger": {
+    "n": 105,
+    "md5": "8c77dc2cf66b29fef7c33d64f7167552"
+   },
+   "constraint": {
+    "n": 1528,
+    "md5": "8a8604ca1f9274b6c89dd237e462b5c6"
+   },
+   "config_hash": {
+    "n": 6,
+    "md5": "2193b4becca1d4d89e40b444b0a8af29"
+   },
+   "default_acl": {
+    "n": 6,
+    "md5": "c9c232814a7b3ee3eaadb50e8b7dc7fd"
+   },
+   "platform_ledger": {
+    "n": 118,
+    "md5": "7288a408db6a8002dadc2952e3bfcb82"
+   },
+   "function_owner_acl": {
+    "n": 670,
+    "md5": "2d23aba3ab54a22d9f1b9bce11ee9ab3"
+   },
+   "relation_owner_acl": {
+    "n": 319,
+    "md5": "51f15245188f25fee7a1e0af2811aba3"
+   }
+  },
+  "backup_restore_drill": "DIFFERENCES_RECORDED",
+  "primary_unchanged": true
+ },
+ "security_advisors": {
+  "status": "REVIEW_REQUIRED",
+  "before": 73,
+  "after": 120,
+  "note": "The full list was cut in this run log; the compact list is printed from the next run on (install and capture jobs)."
+ },
+ "backup_restore_drill": {
+  "status": "DIFFERENCES_RECORDED",
+  "dump": {
+   "exit": 0,
+   "stderr": "",
+   "seconds": 0.6,
+   "bytes": 6051300
+  },
+  "restore": {
+   "exit": 1,
+   "seconds": 2.3,
+   "error_count": 20,
+   "errors": [
+    "pg_restore: error: could not execute query: ERROR:  can only create extension in database postgres",
+    "pg_restore: error: could not execute query: ERROR:  extension \"pg_cron\" does not exist",
+    "pg_restore: error: could not execute query: ERROR:  relation \"cron.jobid_seq\" does not exist",
+    "pg_restore: error: could not execute query: ERROR:  relation \"cron.runid_seq\" does not exist",
+    "pg_restore: error: could not execute query: ERROR:  schema \"cron\" does not exist",
+    "pg_restore: warning: errors ignored on restore: 19"
+   ]
+  },
+  "catalog": {
+   "match": [
+    "app_ledger",
+    "config_hash",
+    "default_acl",
+    "function",
+    "function_owner_acl",
+    "platform_ledger",
+    "policy",
+    "relation",
+    "relation_owner_acl",
+    "schema",
+    "sequence",
+    "trigger"
+   ],
+   "differ": {
+    "constraint": {
+     "source": {
+      "n": 1528,
+      "md5": "8a8604ca1f9274b6c89dd237e462b5c6"
+     },
+     "restored": {
+      "n": 1528,
+      "md5": "abf236fab9fb3502099f47e5c34a76b2"
+     }
+    },
+    "extension": {
+     "source": {
+      "n": 6,
+      "md5": "15a959c38d716ad2af3fe1f1dc4419ef"
+     },
+     "restored": {
+      "n": 5,
+      "md5": "2193000efffb6e05911a1c3af1f57381"
+     }
+    },
+    "index": {
+     "source": {
+      "n": 721,
+      "md5": "5c119389b106f91ff7a96b9aee42db7d"
+     },
+     "restored": {
+      "n": 721,
+      "md5": "5f7cbf98a0e93ee21920090360d5262f"
+     }
+    },
+    "view": {
+     "source": {
+      "n": 51,
+      "md5": "f0e321e1b2a8101b3bdd1c3343b43de1"
+     },
+     "restored": {
+      "n": 51,
+      "md5": "ab52355c181d70088748c88172ffe0df"
+     }
+    }
+   }
+  },
+  "data": {
+   "tables": 262,
+   "rows": 1246,
+   "differ": {}
+  },
+  "engine": {
+   "day": "2026-09-23",
+   "equal": true,
+   "source_status": "READY",
+   "restored_status": "READY"
+  },
+  "error": null
+ },
+ "production_go": false,
+ "release_evidence": false
+}

@@ -41,6 +41,31 @@ def ledger(url):
                     platform_last=cur.execute('select max(version) from supabase_migrations.schema_migrations').fetchone()[0])
 
 
+HOSTED_CAPSULES=AUDITOR/'docs/evidence/cp6-t3/hosted_capsule_hashes.json'
+CAPSULE_ROWS="""select t.object_identity,encode(extensions.digest(convert_to((to_jsonb(t)-array['captured_at','boundary_snapshot'])::text,'UTF8'),'sha256'),'hex'),
+ t.definition_sha256,t.acl_snapshot,md5(t.object_definition) from erp.cp6_v2620_rollback_capsule t order by 1"""
+
+
+def capsule_compare(url):
+    """Hosted capsule hashes (read-only, docs/evidence/cp6-t3/hosted_capsule_hashes.json) against this clone, per capsule
+    and, for cp6_v2620_rollback_capsule, per row and field."""
+    hosted=json.loads(HOSTED_CAPSULES.read_text())
+    formula=package.history((AUDITOR/package.package()[12]['path']).read_text())['query']
+    with psycopg.connect(url) as conn,conn.cursor() as cur:
+        conn.read_only=True
+        live=package.live_history(cur,formula,list(hosted['capsules']))
+        rows={r[0]:dict(row_hash=r[1],definition_sha256=r[2],acl_snapshot=r[3],definition_md5=r[4]) for r in cur.execute(CAPSULE_ROWS).fetchall()}
+    per_row=[]
+    for h in hosted['cp6_v2620_rows']:
+        c=rows.get(h['object'])
+        if c is None:per_row.append(dict(object=h['object'],missing_on_clone=True));continue
+        if c['row_hash']==h['row_hash']:continue
+        per_row.append(dict(object=h['object'],fields=[k for k in ('definition_sha256','acl_snapshot','definition_md5') if c[k]!=h[k]],
+                            acl_hosted=h['acl_snapshot'],acl_clone=c['acl_snapshot'],acl_same_set=sorted(h['acl_snapshot'])==sorted(c['acl_snapshot'] or [])))
+    return dict(capsules={k:dict(hosted=v[1],clone=live[k],equal=live[k]==v[1]) for k,v in hosted['capsules'].items()},
+                cp6_v2620_rows_differing=per_row)
+
+
 def run(mode):
     assert mode in ('capture','install')
     assert os.environ.get('CP6_AR_CONFIRM')=='cp6_rollback' and os.environ.get('CP6_DATABASE_CONTAINER')=='supabase_db_cp5-local'
@@ -53,6 +78,8 @@ def run(mode):
         start=ledger(boundary.ADMIN);report['ledger_start']=start
         assert start['app'][-1]=='v2.6.20ab' and start['platform_last']=='20260914190500',('T3_CLONE_NOT_AT_AB',start)
         report['fingerprint_AB']=fingerprint(boundary.ADMIN)
+        report['hosted_capsules']=capsule_compare(boundary.ADMIN)
+        print(json.dumps(dict(group='T3_HOSTED_CAPSULES',**report['hosted_capsules']),default=str),flush=True)
         advisors_AB=advisors(boundary.PG)
         committed=AUDITOR/'docs/evidence/cp6-t3/release_pins.json'
         stages=[('PACKAGE',lambda:(package.capture if mode=='capture' else package.install)(OUT/('T3_PACKAGE_FILES_%s.json'%mode.upper()))['status']),
