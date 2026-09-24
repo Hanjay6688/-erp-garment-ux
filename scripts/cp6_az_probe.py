@@ -669,14 +669,8 @@ def cost_correction_before_receipt(cur,today,price):
       values(%s,%s,%s,%s) returning id""",('AZ-CC-'+uuid.uuid4().hex[:12],fx['purchase'],d0,'AZ cost correction dated before the receipt')).fetchone()[0]
     cur.execute('insert into erp.material_purchase_cost_correction_items(correction_id,purchase_item_id,new_unit_price) values(%s,%s,%s)',(corr,fx['item'],price))
     ids=[r[0] for r in cur.execute('select id from erp.journal_entries').fetchall()]
-    cur.execute('savepoint az_cost_correction')
-    try:
-        prod.owner(cur);cur.execute('select erp.post_material_purchase_cost_correction(%s)',(corr,))
-    except psycopg.Error as exc:
-        # The product may refuse a correction dated before its receipt; then there is nothing to date (recorded as such).
-        cur.execute('rollback to savepoint az_cost_correction');api.admin(cur)
-        return dict(status='PASS',finding='product refuses a purchase cost correction dated before its receipt',refused=str(exc).splitlines()[0],
-                    receipt_day=str(d),invoice_date=str(d0),quiet=quiet)
+    # Any error, a product refusal included, leaves the case INCOMPLETE with its message (never scored as PASS).
+    prod.owner(cur);cur.execute('select erp.post_material_purchase_cost_correction(%s)',(corr,))
     prod.owner(cur);cur.execute('select erp.process_cost_recalc_queue(100)');api.admin(cur)
     after=ledger_days(cur,days,[])
     fresh=[(r[0],r[1],r[2]) for r in cur.execute("""select source_type,economic_date,transaction_date from erp.journal_entries
@@ -823,7 +817,9 @@ def pocket_usage_reversal(cur,today,price):
     invoice at `price` dated d. Expected: material at the invoice price for the units on hand each day (10 on d, 0 on d+1 and
     d+2, 10 today) and no negative daily balance. Recorded as the auditor asked: the journal lines the invoice posts per date
     and account, and the AW close preflight blockers as of d+1, d+2 and today. Control case:
-    AZ:WRITE_OFF_REVERSED_THEN_LATE_INVOICE_LOWER. A product refusal of the sequence is reported with its step and message."""
+    AZ:WRITE_OFF_REVERSED_THEN_LATE_INVOICE_LOWER. The actions go through the public RPC the UI uses
+    (public.erp_save_pocket_fabric_action_v1); any error, a product refusal included, leaves the case INCOMPLETE with its
+    message (run 36008799715 scored a privilege error of the internal function as PASS: fixture error, corrected)."""
     prod=chain.production
     d=today-timedelta(days=3);d2=d+timedelta(days=1);d3=d2+timedelta(days=1)
     days=[d+timedelta(days=i) for i in range(4)]
@@ -832,26 +828,17 @@ def pocket_usage_reversal(cur,today,price):
     fx=prod.estimated_receipt(cur,today)
     api.admin(cur)
     material_type=cur.execute('select material_type from erp.materials where id=%s',(fx['material'],)).fetchone()[0]
-    def act(step,action,payload):
-        cur.execute('savepoint az_pocket_step')
-        try:
-            prod.owner(cur)
-            out=cur.execute('select erp.save_pocket_fabric_action_v1(%s,%s::jsonb,%s)',(action,json.dumps(payload,default=str),uuid.uuid4())).fetchone()[0]
-            api.admin(cur);return out
-        except psycopg.Error as exc:
-            cur.execute('rollback to savepoint az_pocket_step');api.admin(cur)
-            raise RuntimeError('%s refused: %s'%(step,str(exc).splitlines()[0]))
-    try:
-        act('REGISTER','REGISTER',dict(material_id=str(fx['material']),reason='AZ AB-01 probe: pocket fabric master'))
-        revision=cur.execute('select erp.pocket_fabric_roll_revision_v1(%s)',(fx['roll'],)).fetchone()[0]
-        posted=act('POST','POST',dict(roll_id=str(fx['roll']),location_id=str(fx['location']),expected_revision=revision,date=str(d2),
-                                      mode='USED',quantity='10',reason='AZ AB-01 probe: pocket fabric used'))
-        usage=uuid.UUID(posted['id'])
-        version=cur.execute('select row_version from erp.material_adjustments where id=%s',(usage,)).fetchone()[0]
-        reversal=act('REVERSE','REVERSE',dict(id=str(usage),expected_version=str(version),reason='AZ AB-01 probe: pocket fabric usage reversed'))
-    except RuntimeError as exc:
-        return dict(status='PASS',finding='GPT AB-01: the product refuses the sequence (no dated gap to correct)',refused=str(exc),
-                    material_type=material_type,receipt_day=str(d),quiet=quiet)
+    def act(action,payload):
+        prod.owner(cur)
+        out=cur.execute('select public.erp_save_pocket_fabric_action_v1(%s,%s::jsonb,%s)',(action,json.dumps(payload,default=str),uuid.uuid4())).fetchone()[0]
+        api.admin(cur);return out
+    act('REGISTER',dict(material_id=str(fx['material']),reason='AZ AB-01 probe: pocket fabric master'))
+    revision=cur.execute('select erp.pocket_fabric_roll_revision_v1(%s)',(fx['roll'],)).fetchone()[0]
+    posted=act('POST',dict(roll_id=str(fx['roll']),location_id=str(fx['location']),expected_revision=revision,date=str(d2),
+                           mode='USED',quantity='10',reason='AZ AB-01 probe: pocket fabric used'))
+    usage=uuid.UUID(posted['id'])
+    version=cur.execute('select row_version from erp.material_adjustments where id=%s',(usage,)).fetchone()[0]
+    reversal=act('REVERSE',dict(id=str(usage),expected_version=str(version),reason='AZ AB-01 probe: pocket fabric usage reversed'))
     status_doc=cur.execute('select status from erp.material_adjustments where id=%s',(usage,)).fetchone()[0]
     reversed_moves=[(r[0],dec(r[1])) for r in cur.execute("""select erp._cp3_business_date(rv.physical_at),rv.qty_signed
       from erp.material_stock_movements rv join erp.material_stock_movements m on m.id=rv.reversal_of_id
