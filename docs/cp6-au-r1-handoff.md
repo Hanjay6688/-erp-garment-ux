@@ -1462,7 +1462,7 @@ Head kode akhir `768196a` (rev6.1); commit sesudahnya hanya paket, bukti, dan do
 - Instal paket 24 file; AW/AX/AY/AZ terverifikasi; backup/restore RESTORED_SAME_MEANING; browser lulus.
 - Advisor 73 → 127. Tambahannya hanya INFO `rls_enabled_no_policy` untuk tabel internal, termasuk dua tabel baru AY (`po_hpp_gl_lot_state_v1`, `po_hpp_gl_group_state_v1`).
 
-**CodeQL:** run 35982826747 pada `ed6c4e7` (hasil: lihat commit sesudah bagian ini).
+**CodeQL:** run 35982826747 pada `ed6c4e7` (kode sama dengan `768196a`): sukses.
 
 ### 24.4 Temuan yang masih terbuka
 Dicatat, **belum** diperbaiki di putaran ini:
