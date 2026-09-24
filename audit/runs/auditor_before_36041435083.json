@@ -1,0 +1,850 @@
+[
+ {
+  "status": "PASS",
+  "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+  "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+  "functions": 533,
+  "objects": 690,
+  "production_go": false
+ },
+ {
+  "status": "PASS",
+  "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+  "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+  "functions": 533,
+  "objects": 690,
+  "production_go": false
+ },
+ {
+  "status": "PASS",
+  "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+  "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+  "functions": 533,
+  "objects": 690,
+  "production_go": false
+ },
+ {
+  "status": "PASS",
+  "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+  "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+  "functions": 533,
+  "objects": 690,
+  "production_go": false
+ },
+ {
+  "status": "PASS",
+  "head": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+  "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+  "erp_functions": 534,
+  "new_public_readers": 1,
+  "objects": 692,
+  "production_go": false
+ },
+ {
+  "auditor_scenario_sha256": "492908b5dcf3184bacabcb99a878630c1b206e67c5d6f96586f02105f4a537d0",
+  "bytes": 12737,
+  "phase": "before"
+ },
+ {
+  "auditor_setup": {
+   "au_install": "PASS",
+   "av_install": "PASS",
+   "ay_install": {
+    "stage": "AV_PLUS_AW_AX_AY_T1",
+    "label": "T1_FAMILY",
+    "functions": 13,
+    "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+    "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+    "av_coverage": {
+     "registry": {
+      "erp.fg_lots.product_id": {
+       "class": "NEW_STOCK_FACT",
+       "reason": "produced_at of every lot except GOOD returned by rework"
+      },
+      "erp.bs_cases.product_id": {
+       "class": "NEW_STOCK_FACT",
+       "reason": "physical_at of QC/laundry BS and manual OUT_OF_NOWHERE BS"
+      },
+      "erp.sales_items.product_id": {
+       "class": "SALES",
+       "reason": "Sale of existing stock"
+      },
+      "erp.journal_lines.product_id": {
+       "class": "ACCOUNTING",
+       "reason": "Journal dimension"
+      },
+      "erp.fg_stock_movements.product_id": {
+       "class": "MOVEMENT",
+       "reason": "Movement of an existing lot"
+      },
+      "erp.sales_return_items.product_id": {
+       "class": "SALES",
+       "reason": "Return of sold stock"
+      },
+      "erp.fg_adjustment_items.product_id": {
+       "class": "MOVEMENT",
+       "reason": "Adjusts an existing lot"
+      },
+      "erp.fg_inventory_balances.product_id": {
+       "class": "DERIVED",
+       "reason": "Balance cache keyed by product/location/grade"
+      },
+      "erp.opening_balance_items.product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Opening document; facts are OPENING lots and LEGACY BS"
+      },
+      "erp.stock_policy_versions.product_id": {
+       "class": "MASTER",
+       "reason": "Effective-dated stock policy"
+      },
+      "erp.accessory_bom_versions.product_id": {
+       "class": "MASTER",
+       "reason": "Effective-dated accessory BOM; no stock instant"
+      },
+      "erp.product_conversions.to_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Conversion target; the fact is the CONVERSION lot in fg_lots"
+      },
+      "erp.product_price_versions.product_id": {
+       "class": "MASTER",
+       "reason": "Effective-dated price"
+      },
+      "erp.product_conversions.from_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Conversion source, validated as EXISTING_STOCK"
+      },
+      "erp.qc_inspection_items.final_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "QC input; the facts are fg_lots and bs_cases"
+      },
+      "erp.fg_accessory_cost_snapshots.product_id": {
+       "class": "DERIVED",
+       "reason": "Cost snapshot of an FG lot"
+      },
+      "erp.po_accessory_bom_commitments.product_id": {
+       "class": "MASTER",
+       "reason": "PO accessory BOM commitment"
+      },
+      "erp.stock_explainability_snapshots.product_id": {
+       "class": "REPORT",
+       "reason": "Stock explanation snapshot"
+      },
+      "erp.non_po_hpp_gl_sync_events_v2620f.product_id": {
+       "class": "ACCOUNTING",
+       "reason": "HPP to GL synchronisation event"
+      },
+      "erp.laundry_receipt_batch_size_lines.bs_product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Laundry receipt input; the BS fact is bs_cases"
+      },
+      "erp.product_identity_mutation_context_v1.product_id": {
+       "class": "AUTHORIZATION",
+       "reason": "Private one-use identity edit context"
+      },
+      "erp.laundry_receipt_bs_product_allocations.product_id": {
+       "class": "SOURCE_DOCUMENT",
+       "reason": "Validated as NEW_STOCK; the BS fact is bs_cases"
+      },
+      "erp.contractor_accessory_reimbursement_entitlements.product_id": {
+       "class": "DERIVED",
+       "reason": "Accounting entitlement of an FG lot"
+      }
+     },
+     "references": 23,
+     "new_stock_fact_tables": [
+      "bs_cases",
+      "fg_lots"
+     ]
+    },
+    "ay_sql_sha256": "29b8977613012431b9efa927c7cee10654aef8a016368a0430e7c3789070af43",
+    "catalog": {
+     "revaluation_movement_indexes": [],
+     "accessory_total_hpp_cost": [
+      "s",
+      "(((good_qty_pcs)::numeric * qty_per_good_fg_base) * hpp_unit_cost_base_snapshot)"
+     ]
+    }
+   },
+   "az_install": null
+  }
+ },
+ {
+  "group": "AUDITOR_CASES_BEFORE",
+  "case": "DATE:OPEN:INVOICE_AFTER_CUT:HIGHER_12",
+  "status": "INCOMPLETE",
+  "error": "AM_BACKDATE_WOULD_CREATE_NEGATIVE_LOCATION_ROLL_HISTORY for material 8b8c9450-51ce-41d5-be6d-6fae26f4b314\nCONTEXT:  PL/pgSQL function _recalculate_material_cost_core(uuid,timestamp with time zone,boolean) line 65 at RAISE\nSQL statement \"SELECT erp._recalculate_material_cost_core(p_material_id,v_recalc_from,true)\"\nPL/pgSQL function recalculate_material_cost(uuid) line 31 at PERFORM\nSQL statement \"SELECT erp.recalculate_material_cost(r.material_id)\"\nPL/pgSQL function erp.post_cutting_material_issue(uuid,uuid) line 69 at PERFORM\nSQL statement \"SELECT erp.post_cutting_material_issue(v_id,v_location_id)\"\nPL/pgSQL function erp.save_cutting_group_before_sewing_v2(jsonb,uuid,bigint) line 199 at PERFORM\nPL/pgSQL function public.erp_save_cutting_group_before_sewing_v2(jsonb,uuid,bigint) line 1 at RETURN",
+  "traceback": " in rpc\n    return one(cur, f'select {name}(%s::jsonb,%s::uuid,%s::bigint)',\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_z_expanded_integrity_audit.py\", line 67, in one\n    return base.one(cur, query, params)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_v2620e_counterexample_regression.py\", line 87, in one\n    cur.execute(query, params)\n  File \"/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.RaiseException: AM_BACKDATE_WOULD_CREATE_NEGATIVE_LOCATION_ROLL_HISTORY for material 8b8c9450-51ce-41d5-be6d-6fae26f4b314\nCONTEXT:  PL/pgSQL function _recalculate_material_cost_core(uuid,timestamp with time zone,boolean) line 65 at RAISE\nSQL statement \"SELECT erp._recalculate_material_cost_core(p_material_id,v_recalc_from,true)\"\nPL/pgSQL function recalculate_material_cost(uuid) line 31 at PERFORM\nSQL statement \"SELECT erp.recalculate_material_cost(r.material_id)\"\nPL/pgSQL function erp.post_cutting_material_issue(uuid,uuid) line 69 at PERFORM\nSQL statement \"SELECT erp.post_cutting_material_issue(v_id,v_location_id)\"\nPL/pgSQL function erp.save_cutting_group_before_sewing_v2(jsonb,uuid,bigint) line 199 at PERFORM\nPL/pgSQL function public.erp_save_cutting_group_before_sewing_v2(jsonb,uuid,bigint) line 1 at RETURN\n",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AUDITOR_CASES_BEFORE",
+  "case": "DATE:OPEN:INVOICE_AFTER_CUT:LOWER_8",
+  "status": "INCOMPLETE",
+  "error": "AM_BACKDATE_WOULD_CREATE_NEGATIVE_LOCATION_ROLL_HISTORY for material 3ee09b27-2f30-4f4d-b747-f21f6f4df523\nCONTEXT:  PL/pgSQL function _recalculate_material_cost_core(uuid,timestamp with time zone,boolean) line 65 at RAISE\nSQL statement \"SELECT erp._recalculate_material_cost_core(p_material_id,v_recalc_from,true)\"\nPL/pgSQL function recalculate_material_cost(uuid) line 31 at PERFORM\nSQL statement \"SELECT erp.recalculate_material_cost(r.material_id)\"\nPL/pgSQL function erp.post_cutting_material_issue(uuid,uuid) line 69 at PERFORM\nSQL statement \"SELECT erp.post_cutting_material_issue(v_id,v_location_id)\"\nPL/pgSQL function erp.save_cutting_group_before_sewing_v2(jsonb,uuid,bigint) line 199 at PERFORM\nSQL expression \"erp.save_cutting_group_before_sewing_v2(p_payload,p_client_request_id,p_expected_version)\"\nPL/pgSQL function public.erp_save_cutting_group_before_sewing_v2(jsonb,uuid,bigint) line ",
+  "traceback": "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_z_expanded_integrity_audit.py\", line 67, in one\n    return base.one(cur, query, params)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_v2620e_counterexample_regression.py\", line 87, in one\n    cur.execute(query, params)\n  File \"/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.RaiseException: AM_BACKDATE_WOULD_CREATE_NEGATIVE_LOCATION_ROLL_HISTORY for material 3ee09b27-2f30-4f4d-b747-f21f6f4df523\nCONTEXT:  PL/pgSQL function _recalculate_material_cost_core(uuid,timestamp with time zone,boolean) line 65 at RAISE\nSQL statement \"SELECT erp._recalculate_material_cost_core(p_material_id,v_recalc_from,true)\"\nPL/pgSQL function recalculate_material_cost(uuid) line 31 at PERFORM\nSQL statement \"SELECT erp.recalculate_material_cost(r.material_id)\"\nPL/pgSQL function erp.post_cutting_material_issue(uuid,uuid) line 69 at PERFORM\nSQL statement \"SELECT erp.post_cutting_material_issue(v_id,v_location_id)\"\nPL/pgSQL function erp.save_cutting_group_before_sewing_v2(jsonb,uuid,bigint) line 199 at PERFORM\nSQL expression \"erp.save_cutting_group_before_sewing_v2(p_payload,p_client_request_id,p_expected_version)\"\nPL/pgSQL function public.erp_save_cutting_group_before_sewing_v2(jsonb,uuid,bigint) line 1 at RETURN\n",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AUDITOR_CASES_BEFORE",
+  "case": "DATE:OPEN:TWO_CUTS_INVOICE_LAST_DAY:LOWER_8",
+  "status": "INCOMPLETE",
+  "error": "AM_BACKDATE_WOULD_CREATE_NEGATIVE_LOCATION_ROLL_HISTORY for material 343a35ba-cab1-4d64-a3b5-a1db77bcc4b5\nCONTEXT:  PL/pgSQL function _recalculate_material_cost_core(uuid,timestamp with time zone,boolean) line 65 at RAISE\nSQL statement \"SELECT erp._recalculate_material_cost_core(p_material_id,v_recalc_from,true)\"\nPL/pgSQL function recalculate_material_cost(uuid) line 31 at PERFORM\nSQL statement \"SELECT erp.recalculate_material_cost(r.material_id)\"\nPL/pgSQL function erp.post_cutting_material_issue(uuid,uuid) line 69 at PERFORM\nSQL statement \"SELECT erp.post_cutting_material_issue(v_id,v_location_id)\"\nPL/pgSQL function erp.save_cutting_group_before_sewing_v2(jsonb,uuid,bigint) line 199 at PERFORM\nSQL expression \"erp.save_cutting_group_before_sewing_v2(p_payload,p_client_request_id,p_expected_version)\"\nPL/pgSQL function public.erp_save_cutting_group_before_sewing_v2(jsonb,uuid,bigint) line ",
+  "traceback": "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_z_expanded_integrity_audit.py\", line 67, in one\n    return base.one(cur, query, params)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_v2620e_counterexample_regression.py\", line 87, in one\n    cur.execute(query, params)\n  File \"/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.RaiseException: AM_BACKDATE_WOULD_CREATE_NEGATIVE_LOCATION_ROLL_HISTORY for material 343a35ba-cab1-4d64-a3b5-a1db77bcc4b5\nCONTEXT:  PL/pgSQL function _recalculate_material_cost_core(uuid,timestamp with time zone,boolean) line 65 at RAISE\nSQL statement \"SELECT erp._recalculate_material_cost_core(p_material_id,v_recalc_from,true)\"\nPL/pgSQL function recalculate_material_cost(uuid) line 31 at PERFORM\nSQL statement \"SELECT erp.recalculate_material_cost(r.material_id)\"\nPL/pgSQL function erp.post_cutting_material_issue(uuid,uuid) line 69 at PERFORM\nSQL statement \"SELECT erp.post_cutting_material_issue(v_id,v_location_id)\"\nPL/pgSQL function erp.save_cutting_group_before_sewing_v2(jsonb,uuid,bigint) line 199 at PERFORM\nSQL expression \"erp.save_cutting_group_before_sewing_v2(p_payload,p_client_request_id,p_expected_version)\"\nPL/pgSQL function public.erp_save_cutting_group_before_sewing_v2(jsonb,uuid,bigint) line 1 at RETURN\n",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AUDITOR_CASES_BEFORE",
+  "case": "DATE:OPEN:INVOICE_BEFORE_CUT_AMBIGUOUS:LOWER_8",
+  "status": "COUNTEREXAMPLE",
+  "checks": {
+   "supplier_invoice_journal_created": true,
+   "revaluation_total_equals_10x": false,
+   "supplier_invoice_dated_E": true,
+   "STRICT_every_revaluation_dated_E": true,
+   "days_before_E_unchanged": true,
+   "material_inventory_from_E_equals_x_times_units_in_stock": false,
+   "no_negative_daily_inventory_blocker": true,
+   "wip_never_negative_any_day": false
+  },
+  "observed": {
+   "receipt_day": "2026-09-22",
+   "invoice_date": "2026-09-22",
+   "price": "8",
+   "x": "-2",
+   "cuts": [
+    [
+     "2026-09-23",
+     4
+    ]
+   ],
+   "closed_through": null,
+   "closed_before": null,
+   "new_revaluation_events": [
+    {
+     "id": "5feb4a1e-e1fc-43f3-ac39-6291fa48be4c",
+     "effective": "2026-09-22",
+     "delta": "8.00",
+     "counterpart": "WIP",
+     "po": "8dbb7111-ae86-4d30-83f9-459855c43adf",
+     "economic": "2026-09-22",
+     "transaction": "2026-09-22"
+    }
+   ],
+   "new_journals": [
+    {
+     "id": "15a73880-f4b9-444c-a46b-e98b010b562c",
+     "source": "MATERIAL_COST_REVALUATION",
+     "economic": "2026-09-22",
+     "transaction": "2026-09-22",
+     "status": "POSTED"
+    },
+    {
+     "id": "9fb31990-4a02-4bde-a581-697a38e1fd1c",
+     "source": "MATERIAL_SUPPLIER_INVOICE",
+     "economic": "2026-09-22",
+     "transaction": "2026-09-22",
+     "status": "POSTED"
+    }
+   ],
+   "daily_move": {
+    "2026-09-22": {
+     "MATERIAL_INVENTORY": "-12.00",
+     "WIP": "-8.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-23": {
+     "MATERIAL_INVENTORY": "-12.00",
+     "WIP": "-8.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-24": {
+     "MATERIAL_INVENTORY": "-12.00",
+     "WIP": "-8.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-25": {
+     "MATERIAL_INVENTORY": "-12.00",
+     "WIP": "-8.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    }
+   },
+   "wip_po_after": {
+    "2026-09-22": {
+     "8dbb7111-ae86-4d30-83f9-459855c43adf": "-8.00"
+    },
+    "2026-09-23": {
+     "8dbb7111-ae86-4d30-83f9-459855c43adf": "32.00"
+    },
+    "2026-09-24": {
+     "8dbb7111-ae86-4d30-83f9-459855c43adf": "32.00"
+    },
+    "2026-09-25": {
+     "8dbb7111-ae86-4d30-83f9-459855c43adf": "32.00"
+    }
+   },
+   "negative": {
+    "status": "BLOCKED",
+    "negative": [],
+    "codes": [
+     "ATTENDANCE_CELL_MISSING"
+    ]
+   },
+   "reading_PHYSICAL_max_E_cutday_matches": false,
+   "contract_shape": "AMBIGUOUS (invoice dated before a cut): contract says invoice date, which would date WIP before the cut exists; DECISION_MISSING in contract"
+  },
+  "expected": "ERP-DEC01 (Master 1057-1062): open period -> every leg on the invoice date E; closed period -> existing controlled adjustment, closed days untouched",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AUDITOR_CASES_BEFORE",
+  "case": "DATE:CLOSED:RECEIPT_AND_CUT_CLOSED_INVOICE_IN_CLOSED:HIGHER_12",
+  "status": "INCOMPLETE",
+  "error": "AM_BACKDATE_WOULD_CREATE_NEGATIVE_LOCATION_ROLL_HISTORY for material fb92094c-76a6-4800-8b84-c05a0b02bdec\nCONTEXT:  PL/pgSQL function _recalculate_material_cost_core(uuid,timestamp with time zone,boolean) line 65 at RAISE\nSQL statement \"SELECT erp._recalculate_material_cost_core(p_material_id,v_recalc_from,true)\"\nPL/pgSQL function recalculate_material_cost(uuid) line 31 at PERFORM\nSQL statement \"SELECT erp.recalculate_material_cost(r.material_id)\"\nPL/pgSQL function erp.post_cutting_material_issue(uuid,uuid) line 69 at PERFORM\nSQL statement \"SELECT erp.post_cutting_material_issue(v_id,v_location_id)\"\nPL/pgSQL function erp.save_cutting_group_before_sewing_v2(jsonb,uuid,bigint) line 199 at PERFORM\nSQL expression \"erp.save_cutting_group_before_sewing_v2(p_payload,p_client_request_id,p_expected_version)\"\nPL/pgSQL function public.erp_save_cutting_group_before_sewing_v2(jsonb,uuid,bigint) line ",
+  "traceback": "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_z_expanded_integrity_audit.py\", line 67, in one\n    return base.one(cur, query, params)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_v2620e_counterexample_regression.py\", line 87, in one\n    cur.execute(query, params)\n  File \"/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.RaiseException: AM_BACKDATE_WOULD_CREATE_NEGATIVE_LOCATION_ROLL_HISTORY for material fb92094c-76a6-4800-8b84-c05a0b02bdec\nCONTEXT:  PL/pgSQL function _recalculate_material_cost_core(uuid,timestamp with time zone,boolean) line 65 at RAISE\nSQL statement \"SELECT erp._recalculate_material_cost_core(p_material_id,v_recalc_from,true)\"\nPL/pgSQL function recalculate_material_cost(uuid) line 31 at PERFORM\nSQL statement \"SELECT erp.recalculate_material_cost(r.material_id)\"\nPL/pgSQL function erp.post_cutting_material_issue(uuid,uuid) line 69 at PERFORM\nSQL statement \"SELECT erp.post_cutting_material_issue(v_id,v_location_id)\"\nPL/pgSQL function erp.save_cutting_group_before_sewing_v2(jsonb,uuid,bigint) line 199 at PERFORM\nSQL expression \"erp.save_cutting_group_before_sewing_v2(p_payload,p_client_request_id,p_expected_version)\"\nPL/pgSQL function public.erp_save_cutting_group_before_sewing_v2(jsonb,uuid,bigint) line 1 at RETURN\n",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AUDITOR_CASES_BEFORE",
+  "case": "DATE:GOODS:INVOICE_ON_GOODS_DAY:LOWER_8",
+  "status": "PASS",
+  "checks": {
+   "supplier_invoice_dated_E": true,
+   "correction_conserved_in_four_accounts_by_today": true,
+   "STRICT_every_new_journal_dated_E": true,
+   "days_before_E_unchanged": true,
+   "no_negative_daily_inventory_blocker": true,
+   "readiness_goods_day_ready_after_invoice": true,
+   "close_goods_day_accepted_after_invoice": true
+  },
+  "observed": {
+   "receipt_day": "2026-09-22",
+   "goods_and_sale_day": "2026-09-23",
+   "invoice_date": "2026-09-23",
+   "price": "8",
+   "x": "-2",
+   "daily_move": {
+    "2026-09-22": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "0.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-23": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "-10.00",
+     "FG_INVENTORY": "-6.00",
+     "COGS": "-4.00"
+    },
+    "2026-09-24": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "-10.00",
+     "FG_INVENTORY": "-6.00",
+     "COGS": "-4.00"
+    },
+    "2026-09-25": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "-10.00",
+     "FG_INVENTORY": "-6.00",
+     "COGS": "-4.00"
+    }
+   },
+   "new_journals": [
+    {
+     "id": "5e9d8378-4884-4388-ae0c-c1e3df1b9e86",
+     "source": "MATERIAL_COST_REVALUATION",
+     "economic": "2026-09-23",
+     "transaction": "2026-09-23",
+     "status": "POSTED"
+    },
+    {
+     "id": "5d72c575-db1d-4f10-afa2-ce8b422e7859",
+     "source": "MATERIAL_SUPPLIER_INVOICE",
+     "economic": "2026-09-23",
+     "transaction": "2026-09-23",
+     "status": "POSTED"
+    },
+    {
+     "id": "ab9f1373-dcb0-4fcd-ba9c-f4cb849e3780",
+     "source": "PO_HPP_GL_SYNC",
+     "economic": "2026-09-23",
+     "transaction": "2026-09-23",
+     "status": "POSTED"
+    }
+   ],
+   "new_hpp_events": [
+    {
+     "id": "d8184e89-9afb-4b4c-9741-2dbc8cff20e5",
+     "effective": "2026-09-23",
+     "fg": "-6.000000",
+     "cogs": "-4.000000",
+     "other": "0.000000"
+    }
+   ],
+   "conserved_by_today": "-20.00",
+   "negative": {
+    "status": "BLOCKED",
+    "negative": [],
+    "codes": [
+     "ATTENDANCE_CELL_MISSING"
+    ]
+   },
+   "readiness_d2": "READY",
+   "readiness_d2_codes": [],
+   "close_after": [
+    "ACCEPTED",
+    null
+   ],
+   "contract_shape": "UNAMBIGUOUS (invoice on goods/sale day)"
+  },
+  "expected": "ERP-DEC01: every leg (material, WIP, FG, COGS) of the 10x correction dated on invoice date E; readiness consistent; close accepted",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AUDITOR_CASES_BEFORE",
+  "case": "DATE:GOODS:INVOICE_ON_GOODS_DAY:HIGHER_12",
+  "status": "PASS",
+  "checks": {
+   "supplier_invoice_dated_E": true,
+   "correction_conserved_in_four_accounts_by_today": true,
+   "STRICT_every_new_journal_dated_E": true,
+   "days_before_E_unchanged": true,
+   "no_negative_daily_inventory_blocker": true,
+   "readiness_goods_day_ready_after_invoice": true,
+   "close_goods_day_accepted_after_invoice": true
+  },
+  "observed": {
+   "receipt_day": "2026-09-22",
+   "goods_and_sale_day": "2026-09-23",
+   "invoice_date": "2026-09-23",
+   "price": "12",
+   "x": "2",
+   "daily_move": {
+    "2026-09-22": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "0.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-23": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "10.00",
+     "FG_INVENTORY": "6.00",
+     "COGS": "4.00"
+    },
+    "2026-09-24": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "10.00",
+     "FG_INVENTORY": "6.00",
+     "COGS": "4.00"
+    },
+    "2026-09-25": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "10.00",
+     "FG_INVENTORY": "6.00",
+     "COGS": "4.00"
+    }
+   },
+   "new_journals": [
+    {
+     "id": "ccbe4752-1ef5-46f4-bd11-6abfbbf58095",
+     "source": "MATERIAL_COST_REVALUATION",
+     "economic": "2026-09-23",
+     "transaction": "2026-09-23",
+     "status": "POSTED"
+    },
+    {
+     "id": "1b9faac5-e6e1-4a35-93bd-3de26584b255",
+     "source": "MATERIAL_SUPPLIER_INVOICE",
+     "economic": "2026-09-23",
+     "transaction": "2026-09-23",
+     "status": "POSTED"
+    },
+    {
+     "id": "e104f343-b881-4f25-abb1-3eb367a25a56",
+     "source": "PO_HPP_GL_SYNC",
+     "economic": "2026-09-23",
+     "transaction": "2026-09-23",
+     "status": "POSTED"
+    }
+   ],
+   "new_hpp_events": [
+    {
+     "id": "fc18a381-da71-4d57-a6b3-27dd0e964393",
+     "effective": "2026-09-23",
+     "fg": "6.000000",
+     "cogs": "4.000000",
+     "other": "0.000000"
+    }
+   ],
+   "conserved_by_today": "20.00",
+   "negative": {
+    "status": "BLOCKED",
+    "negative": [],
+    "codes": [
+     "ATTENDANCE_CELL_MISSING"
+    ]
+   },
+   "readiness_d2": "READY",
+   "readiness_d2_codes": [],
+   "close_after": [
+    "ACCEPTED",
+    null
+   ],
+   "contract_shape": "UNAMBIGUOUS (invoice on goods/sale day)"
+  },
+  "expected": "ERP-DEC01: every leg (material, WIP, FG, COGS) of the 10x correction dated on invoice date E; readiness consistent; close accepted",
+  "full_boundary_restored": true
+ },
+ {
+  "group": "AUDITOR_CASES_BEFORE",
+  "case": "DATE:GOODS:INVOICE_BEFORE_GOODS_AMBIGUOUS:LOWER_8",
+  "status": "COUNTEREXAMPLE",
+  "checks": {
+   "supplier_invoice_dated_E": true,
+   "correction_conserved_in_four_accounts_by_today": true,
+   "STRICT_every_new_journal_dated_E": false,
+   "days_before_E_unchanged": true,
+   "no_negative_daily_inventory_blocker": true,
+   "readiness_goods_day_ready_after_invoice": true,
+   "close_goods_day_accepted_after_invoice": true
+  },
+  "observed": {
+   "receipt_day": "2026-09-22",
+   "goods_and_sale_day": "2026-09-23",
+   "invoice_date": "2026-09-22",
+   "price": "8",
+   "x": "-2",
+   "daily_move": {
+    "2026-09-22": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "-20.00",
+     "FG_INVENTORY": "0",
+     "COGS": "0"
+    },
+    "2026-09-23": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "-10.00",
+     "FG_INVENTORY": "-6.00",
+     "COGS": "-4.00"
+    },
+    "2026-09-24": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "-10.00",
+     "FG_INVENTORY": "-6.00",
+     "COGS": "-4.00"
+    },
+    "2026-09-25": {
+     "MATERIAL_INVENTORY": "0.00",
+     "WIP": "-10.00",
+     "FG_INVENTORY": "-6.00",
+     "COGS": "-4.00"
+    }
+   },
+   "new_journals": [
+    {
+     "id": "505a5bdb-2e70-4d79-a611-aa49abb85204",
+     "source": "MATERIAL_COST_REVALUATION",
+     "economic": "2026-09-22",
+     "transaction": "2026-09-22",
+     "status": "POSTED"
+    },
+    {
+     "id": "2124cb71-e6b6-4eb9-b39c-239f96f9f393",
+     "source": "MATERIAL_SUPPLIER_INVOICE",
+     "economic": "2026-09-22",
+     "transaction": "2026-09-22",
+     "status": "POSTED"
+    },
+    {
+     "id": "877d4b55-ee41-4b74-9cbf-86e9f0905703",
+     "source": "PO_HPP_GL_SYNC",
+     "economic": "2026-09-23",
+     "transaction": "2026-09-23",
+     "status": "POSTED"
+    }
+   ],
+   "new_hpp_events": [
+    {
+     "id": "bd1dc432-0921-4f92-8ff3-0d175bc16330",
+     "effective": "2026-09-23",
+     "fg": "-6.000000",
+     "cogs": "-4.000000",
+     "other": "0.000000"
+    }
+   ],
+   "conserved_by_today": "-20.00",
+   "negative": {
+    "status": "BLOCKED",
+    "negative": [],
+    "codes": [
+     "ATTENDANCE_CELL_MISSING"
+    ]
+   },
+   "readiness_d2": "READY",
+   "readiness_d2_codes": [],
+   "close_after": [
+    "ACCEPTED",
+    null
+   ],
+   "contract_shape": "AMBIGUOUS (invoice before goods day): DECISION_MISSING in contract"
+  },
+  "expected": "ERP-DEC01: every leg (material, WIP, FG, COGS) of the 10x correction dated on invoice date E; readiness consistent; close accepted",
+  "full_boundary_restored": true
+ },
+ {
+  "auditor_phase": "before",
+  "status": "INCOMPLETE",
+  "label": "AUDITOR_SCENARIO",
+  "phase": "before",
+  "scenario_sha256": "492908b5dcf3184bacabcb99a878630c1b206e67c5d6f96586f02105f4a537d0",
+  "production_go": false,
+  "independent_acceptance": false,
+  "release_evidence": false,
+  "au_install": "PASS",
+  "av_install": "PASS",
+  "aw_install": {
+   "stage": "AV_PLUS_AW_T1",
+   "label": "T1_FAMILY",
+   "functions": 13,
+   "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32"
+  },
+  "ax_install": {
+   "stage": "AV_PLUS_AW_PLUS_AX_T1",
+   "label": "T1_FAMILY",
+   "functions": 13,
+   "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+   "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+   "av_coverage": {
+    "registry": {
+     "erp.fg_lots.product_id": {
+      "class": "NEW_STOCK_FACT",
+      "reason": "produced_at of every lot except GOOD returned by rework"
+     },
+     "erp.bs_cases.product_id": {
+      "class": "NEW_STOCK_FACT",
+      "reason": "physical_at of QC/laundry BS and manual OUT_OF_NOWHERE BS"
+     },
+     "erp.sales_items.product_id": {
+      "class": "SALES",
+      "reason": "Sale of existing stock"
+     },
+     "erp.journal_lines.product_id": {
+      "class": "ACCOUNTING",
+      "reason": "Journal dimension"
+     },
+     "erp.fg_stock_movements.product_id": {
+      "class": "MOVEMENT",
+      "reason": "Movement of an existing lot"
+     },
+     "erp.sales_return_items.product_id": {
+      "class": "SALES",
+      "reason": "Return of sold stock"
+     },
+     "erp.fg_adjustment_items.product_id": {
+      "class": "MOVEMENT",
+      "reason": "Adjusts an existing lot"
+     },
+     "erp.fg_inventory_balances.product_id": {
+      "class": "DERIVED",
+      "reason": "Balance cache keyed by product/location/grade"
+     },
+     "erp.opening_balance_items.product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Opening document; facts are OPENING lots and LEGACY BS"
+     },
+     "erp.stock_policy_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated stock policy"
+     },
+     "erp.accessory_bom_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated accessory BOM; no stock instant"
+     },
+     "erp.product_conversions.to_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Conversion target; the fact is the CONVERSION lot in fg_lots"
+     },
+     "erp.product_price_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated price"
+     },
+     "erp.product_conversions.from_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Conversion source, validated as EXISTING_STOCK"
+     },
+     "erp.qc_inspection_items.final_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "QC input; the facts are fg_lots and bs_cases"
+     },
+     "erp.fg_accessory_cost_snapshots.product_id": {
+      "class": "DERIVED",
+      "reason": "Cost snapshot of an FG lot"
+     },
+     "erp.po_accessory_bom_commitments.product_id": {
+      "class": "MASTER",
+      "reason": "PO accessory BOM commitment"
+     },
+     "erp.stock_explainability_snapshots.product_id": {
+      "class": "REPORT",
+      "reason": "Stock explanation snapshot"
+     },
+     "erp.non_po_hpp_gl_sync_events_v2620f.product_id": {
+      "class": "ACCOUNTING",
+      "reason": "HPP to GL synchronisation event"
+     },
+     "erp.laundry_receipt_batch_size_lines.bs_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Laundry receipt input; the BS fact is bs_cases"
+     },
+     "erp.product_identity_mutation_context_v1.product_id": {
+      "class": "AUTHORIZATION",
+      "reason": "Private one-use identity edit context"
+     },
+     "erp.laundry_receipt_bs_product_allocations.product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Validated as NEW_STOCK; the BS fact is bs_cases"
+     },
+     "erp.contractor_accessory_reimbursement_entitlements.product_id": {
+      "class": "DERIVED",
+      "reason": "Accounting entitlement of an FG lot"
+     }
+    },
+    "references": 23,
+    "new_stock_fact_tables": [
+     "bs_cases",
+     "fg_lots"
+    ]
+   }
+  },
+  "ay_install": {
+   "stage": "AV_PLUS_AW_AX_AY_T1",
+   "label": "T1_FAMILY",
+   "functions": 13,
+   "sql_sha256": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+   "ax_sql_sha256": "2427b901ce6991c1e36bf1b51e3e756d4d000ae39fe7608ad2888ce7b9e42503",
+   "av_coverage": {
+    "registry": {
+     "erp.fg_lots.product_id": {
+      "class": "NEW_STOCK_FACT",
+      "reason": "produced_at of every lot except GOOD returned by rework"
+     },
+     "erp.bs_cases.product_id": {
+      "class": "NEW_STOCK_FACT",
+      "reason": "physical_at of QC/laundry BS and manual OUT_OF_NOWHERE BS"
+     },
+     "erp.sales_items.product_id": {
+      "class": "SALES",
+      "reason": "Sale of existing stock"
+     },
+     "erp.journal_lines.product_id": {
+      "class": "ACCOUNTING",
+      "reason": "Journal dimension"
+     },
+     "erp.fg_stock_movements.product_id": {
+      "class": "MOVEMENT",
+      "reason": "Movement of an existing lot"
+     },
+     "erp.sales_return_items.product_id": {
+      "class": "SALES",
+      "reason": "Return of sold stock"
+     },
+     "erp.fg_adjustment_items.product_id": {
+      "class": "MOVEMENT",
+      "reason": "Adjusts an existing lot"
+     },
+     "erp.fg_inventory_balances.product_id": {
+      "class": "DERIVED",
+      "reason": "Balance cache keyed by product/location/grade"
+     },
+     "erp.opening_balance_items.product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Opening document; facts are OPENING lots and LEGACY BS"
+     },
+     "erp.stock_policy_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated stock policy"
+     },
+     "erp.accessory_bom_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated accessory BOM; no stock instant"
+     },
+     "erp.product_conversions.to_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Conversion target; the fact is the CONVERSION lot in fg_lots"
+     },
+     "erp.product_price_versions.product_id": {
+      "class": "MASTER",
+      "reason": "Effective-dated price"
+     },
+     "erp.product_conversions.from_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Conversion source, validated as EXISTING_STOCK"
+     },
+     "erp.qc_inspection_items.final_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "QC input; the facts are fg_lots and bs_cases"
+     },
+     "erp.fg_accessory_cost_snapshots.product_id": {
+      "class": "DERIVED",
+      "reason": "Cost snapshot of an FG lot"
+     },
+     "erp.po_accessory_bom_commitments.product_id": {
+      "class": "MASTER",
+      "reason": "PO accessory BOM commitment"
+     },
+     "erp.stock_explainability_snapshots.product_id": {
+      "class": "REPORT",
+      "reason": "Stock explanation snapshot"
+     },
+     "erp.non_po_hpp_gl_sync_events_v2620f.product_id": {
+      "class": "ACCOUNTING",
+      "reason": "HPP to GL synchronisation event"
+     },
+     "erp.laundry_receipt_batch_size_lines.bs_product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Laundry receipt input; the BS fact is bs_cases"
+     },
+     "erp.product_identity_mutation_context_v1.product_id": {
+      "class": "AUTHORIZATION",
+      "reason": "Private one-use identity edit context"
+     },
+     "erp.laundry_receipt_bs_product_allocations.product_id": {
+      "class": "SOURCE_DOCUMENT",
+      "reason": "Validated as NEW_STOCK; the BS fact is bs_cases"
+     },
+     "erp.contractor_accessory_reimbursement_entitlements.product_id": {
+      "class": "DERIVED",
+      "reason": "Accounting entitlement of an FG lot"
+     }
+    },
+    "references": 23,
+    "new_stock_fact_tables": [
+     "bs_cases",
+     "fg_lots"
+    ]
+   },
+   "ay_sql_sha256": "29b8977613012431b9efa927c7cee10654aef8a016368a0430e7c3789070af43",
+   "catalog": {
+    "revaluation_movement_indexes": [],
+    "accessory_total_hpp_cost": [
+     "s",
+     "(((good_qty_pcs)::numeric * qty_per_good_fg_base) * hpp_unit_cost_base_snapshot)"
+    ]
+   }
+  },
+  "auditor_cases": {
+   "status": "INCOMPLETE",
+   "counts": {
+    "INCOMPLETE": 4,
+    "COUNTEREXAMPLE": 2,
+    "PASS": 2
+   }
+  },
+  "primary_unchanged": true,
+  "clone_remaining": 0
+ }
+]
