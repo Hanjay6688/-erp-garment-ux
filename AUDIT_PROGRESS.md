@@ -1,7 +1,7 @@
 # CP6 audit — GPT recovery checkpoint
 Date: 2026-09-24 UTC.
 Status: **INCOMPLETE; full CP6 acceptance audit is NOT COMPLETE. Recommendation HOLD. production_go=false. Cross-review and consolidated handoff completed.**
-Active phase: joint GPT/Fable handoff complete; native15 source preparation complete (8frozen+7reconstructed), NOT_RUN. Await supported native dispatch and concrete Opus writer tool/rollback diff; wider CP6 coverage remains open. Historical entries below are snapshots.
+Active phase: writer81fef32 scope/log checkpoint completed (capture+3writer smokePASS); Fable continuation prepared. Native15 sources complete but NOT_RUN. Full tooling review, independent cases and rollback cycle remain open. Historical entries below are snapshots.
 
 ## Identity and authority
 - Repository: Hanjay6688/-erp-garment-ux.
@@ -211,7 +211,7 @@ Handoff andindex updated atb38b4cf5d8e1102fe149f4ea93e7d5fe64a5ef84 and42adc6f9e
 ## LANGKAH BERIKUTNYA — TERKINI
 
 1. Start from AUDIT_HANDOFF_CP6.md andaudit/CP6_COMBINED_INDEX.json; preserve candidate9add/sourcehashes and phase1lock. Do not redo completedcross-review or missingrollback investigation.
-2. Writer Opus may start the three bounded tool/artifact changes onceownerinstructs. Whencommitprovided, auditdiff exactfiles, sourcepins, isolation, identity, requestpaths andfail-closedoracles. No product/writerbranchwrites byGPT.
+2. Writer tooling81fef32 is available; scope and two run logs verified below. Reviewfullhelperbehaviour/isolation/identity/results before independent scenarios. Writer continuesrollbackartifacts/cycle. No product/writerbranchwrites byGPT.
 3. The7missingcase replacements are now reconstructed and committed withnewhashes;8frozenmembercases remainexact. Review oracle qualifications and execute the new15casepayload; do not redo completed reconstruction or claim lost originals recovered.
 4. Through an authorized dispatch-capable environment, run auditedcases on exact product+toolcommits; verify plannedIDs,per-caseerrors,zero residue,source/primaryrestoration. Existingjobrerun cannot submit newpayload.
 5. Finish remainingCP6families: UIWIB/recovery/unknown, fullAuthroles/action/location/revocation, concurrency, advance/payroll/HPP/transitiveproducers, ALLadapters/lifecycles androllbackqualification. Cross-reviewcompletion doesnotclose thewholeaudit.
@@ -227,4 +227,29 @@ Handoff andindex updated atb38b4cf5d8e1102fe149f4ea93e7d5fe64a5ef84 and42adc6f9e
 - Incremental reconstruction notes persisted underout/advance_scenario_reconstruction.md andout/import_selector_reconstruction.md. NewcaseIDs explicitlyBCR1/XI toavoid pretending exactlostsource.
 - Native15is single-session DB business proof only. It doesnot implement writer's race/AuthHTTP/rollback modes or cover fullCP6. SI01identitybinding, moneyDOWNrounding andadvanceprefixoracle qualifications remain visible inpayload/manifest.
 
-Current next action: authorized dispatch-capable executor reviews newpayload and writerref/toolSHA, dispatches phaseafter, records run/job/attempt/head/scenarioSHA and each15outcome/cleanup. GPT connector lacksPOSTdispatch; no native run iscurrently in-flight for thisbatch. WriterOpuscan separately proceed on the3bounded tools/artifacts afterownerinstructions; auditor reviewsnewdiffwithout re-investigating knownmissingrollbackfiles.
+Current next action: authorized dispatch-capable executor reviews newpayload and writerref/toolSHA, dispatches phaseafter, records run/job/attempt/head/scenarioSHA and each15outcome/cleanup. GPT connector lacksPOSTdispatch; no native run iscurrently in-flight for thisbatch. WriterOpus has sincepushed tooling81fef32; currentverifiedstate is in thenextcheckpoint. Do notre-investigate knownmissingrollbackfiles.
+
+
+## Pembaruan writer 81fef32 — cek log selesai
+
+Checked UTC: 2026-09-24T21:46:44.114Z. **Tooling sudah di-push; audit keseluruhan belum selesai.** Diff lengkap 9add57e..81fef32 berisi enam berkas workflow/script, tanpa perubahan produk.
+
+| Run / job (attempt1, head81fef32ddca7bc2c8e4d37dd965a618648f479eb) | Hasil terverifikasi dari log | Arti |
+|---|---|---|
+|36063106225 / 107846479593|T3 `mode=capture,status=CAPTURED,primary_unchanged=true`; workflow success.|Capture selesai. Rollback/cycle belum dibuktikan.|
+|36063106227 / 107846480764|1kasus biasa+1race+1HTTP semuanya PASS; RUN_COMPLETE; primary/cleanup flags baik.|Smoke writer saja; bukan15kasus auditor atau penerimaan gate.|
+
+Sample race melaporkan `NO_CONTENTION`. HTTP memakai Auth nyata: OWNER200, GUDANG400, anon401. Scenario sample SHA256`90bf69cb838428d72a1ce61f2cc95cd74518ed8a53c8d5413fde33d8059dc28e`. [Catatan cek](out/writer_81fef32_review.md) dan [ledger](out/writer_81fef32_run_ledger.json) merekam batas buktinya.
+
+**Langkah Fable sekarang:** review lengkap tool diff/helper, lalu dispatch15kasus auditor yang sudah siap dalam satu batch phaseafter, dan adaptasikan race/HTTP independen ke API baru. Tidak perlu menunggu rollback writer untuk mulai review dan kasus biasa. Produk acuan9add tetap; actual runhead alat wajib dicatat. Writer masih melanjutkan file rollback AW..AZ dan cycle; AC..AV varian release NOT_BUILT menurut writer. Gate tetap6HOLD/4UNVERIFIED, production_go=false.
+
+
+Native15 remains NOT_RUN with null run/job. Actual new native auditor executions in this checkpoint:0. Detailed expected/actual and source-log line numbers are inout/writer_81fef32_run_ledger.json. No new product finding or gate promotion; priorities/oracles previously locked remainunchanged.
+
+### LANGKAH BERIKUTNYA — setelah81fef32
+
+1. Fable reads the updated AUDIT_HANDOFF_CP6.md and reviews six-file tool diff/helper chain.
+2. Dispatch audit/scenarios/combined_native15_reconstructed.py (SHA256cec2ad521835476cf702119486e637d3eff4b62d8f72197a9ca2c2d50cf1fadb) once, phaseafter. Read memberoraclequalifications; record actual toolhead separately from product9add.
+3. Adapt independent races/http_cases to newAPIs and prove actual overlap/identity/role/refusal/state/cleanup; smokePASS isnot acceptance.
+4. Waitfor writerAW..AZartifactcommit+cycle and inspect newdiff/logs; AC..AVreleaseNOT_BUILT andACdigestremainopen. No repeatabsenceinvestigation.
+5. Commit casehashes,run/job/attempt/head/results and nextsteps after everycompletedrun; continuefullCP6scope. Handoffcomplete doesnotmean auditcomplete.

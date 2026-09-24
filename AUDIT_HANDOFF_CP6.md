@@ -7,9 +7,22 @@ Cabang audit: `audit/cp6-final-20260924-gpt-a0bcadf`.
 
 Owner: **Hansen**. Writer yang disebut owner: **Claude Opus Max**. Auditor: **GPT dan Claude Fable Ultracode**. Nama “Claude” dalam laporan sumber merujuk audit Fable, kecuali dinyatakan writer.
 
-## Pembagian kerja terbaru: writer dapat mulai, auditor tetap lanjut
+## Pembaruan writer 81fef32 — cek log selesai
 
-Owner menyampaikan proposal writer untuk rollback dan dua perbaikan runtime. **Rekomendasi GPT: owner dapat memberi “gas” sekarang untuk tiga pekerjaan terbatas di bawah; tidak perlu menunggu seluruh audit CP6 selesai.** Proposal tersebut belum diperlakukan sebagai implementasi, run baru, atau PASS. GPT tidak mengirim instruksi/pesan ke writer dan tidak memutasi cabang writer.
+Checked UTC: 2026-09-24T21:46:44.114Z. **Tooling sudah di-push; audit keseluruhan belum selesai.** Diff lengkap 9add57e..81fef32 berisi enam berkas workflow/script, tanpa perubahan produk.
+
+| Run / job (attempt1, head81fef32ddca7bc2c8e4d37dd965a618648f479eb) | Hasil terverifikasi dari log | Arti |
+|---|---|---|
+|36063106225 / 107846479593|T3 `mode=capture,status=CAPTURED,primary_unchanged=true`; workflow success.|Capture selesai. Rollback/cycle belum dibuktikan.|
+|36063106227 / 107846480764|1kasus biasa+1race+1HTTP semuanya PASS; RUN_COMPLETE; primary/cleanup flags baik.|Smoke writer saja; bukan15kasus auditor atau penerimaan gate.|
+
+Sample race melaporkan `NO_CONTENTION`. HTTP memakai Auth nyata: OWNER200, GUDANG400, anon401. Scenario sample SHA256`90bf69cb838428d72a1ce61f2cc95cd74518ed8a53c8d5413fde33d8059dc28e`. [Catatan cek](out/writer_81fef32_review.md) dan [ledger](out/writer_81fef32_run_ledger.json) merekam batas buktinya.
+
+**Langkah Fable sekarang:** review lengkap tool diff/helper, lalu dispatch15kasus auditor yang sudah siap dalam satu batch phaseafter, dan adaptasikan race/HTTP independen ke API baru. Tidak perlu menunggu rollback writer untuk mulai review dan kasus biasa. Produk acuan9add tetap; actual runhead alat wajib dicatat. Writer masih melanjutkan file rollback AW..AZ dan cycle; AC..AV varian release NOT_BUILT menurut writer. Gate tetap6HOLD/4UNVERIFIED, production_go=false.
+
+## Pembagian kerja dan batas independensi
+
+Writer telah menyediakan tooling pada81fef32; hasil smoke/capture tercatat di atas. Auditor tetap menulis skenario/oracle sendiri dan menilai implementasi serta log. GPT tidak mengirim instruksi/pesan ke writer atau Fable dan tidak memutasi cabang writer.
 
 | Pekerjaan writer Opus | Batas implementasi | Verifikasi GPT/Fable |
 |---|---|---|
@@ -17,7 +30,7 @@ Owner menyampaikan proposal writer untuk rollback dan dua perbaikan runtime. **R
 | Runtime dua sesi | Rantai dan fixture committed dalam database salinan disposable; tiap koneksi menyiapkan identitas sendiri. | Actor/role/JWT/grant preflight pada dua koneksi, pekerja benar-benar berjalan, jadwal overlap, exact refusal, satu efek domain, sumber/primary tetap. |
 | Runtime Auth/HTTP | Login Auth sungguhan pada stack disposable, kemudian PostgREST; gunakan dasar T3 existing. | Skenario/oracle milik auditor, identitas dan izin nyata, status+pesan penolakan, state tidak berubah, cleanup. Sertakan jalur UI browser→HTTP→runtime. |
 
-Writer menyatakan **migrasi, paket dev, frontend, dan 24 file SQL paket rilis tidak berubah**. Ini klaim rencana yang harus diperiksa lewat diff terhadap9add57e ketika commit baru tersedia. Tidak ada diff implementasi baru yang sudah diperiksa dalam handoff ini.
+**Diff9add57e..81fef32 sudah diperiksa: migrasi, paket dev, frontend, dan24fileSQLrilis tidak berubah.** Enam file yang berubah hanya alat/workflow. Pemeriksaan lingkup diff dan log smoke selesai; review adversarial lengkap alat dan acceptance kontrak masih terbuka.
 
 Catatan batas yang wajib dipertahankan:
 - AZ→AW membuktikan kembali ke **AV**. Itu belum membuktikan rollback seluruh AC..AZ ke **AB**, dan tidak otomatis menyelesaikan guard digest AC varian rilis.
@@ -73,9 +86,9 @@ Bukti native yang ditinjau ulang berlabel **REUSED_EVIDENCE**, bukan run baru GP
 
 | ID | Keadaan kini | Langkah berikutnya |
 |---|---|---|
-| BLOCKER-01 — race | Run36051535647/job107808033765 dan36052066150/job107809808216 gagal saat setup, sebelum race. Identitas/grant belum terlihat dari koneksi kedua. | Writer Opus menyediakan runtime salinan committed. Spec: [race review](out/race_blocker_review.md). Jangan retry skrip lama tanpa dukungan tersebut. |
-| BLOCKER-02 — HTTP/JWT | xaudit_4 mengekstrak signing secret dan membuat token sendiri. Kejadian classifier hanya laporan eksternal; skrip juga tidak membuktikan login Auth. | Writer Opus memakai Auth nyata dari T3; auditor menyusun matrix role/action dan browser. Spec: [HTTP review](out/http_blocker_review.md). Tidak ada jaminan classifier akan menyetujui; jangan mengakali penolakan. |
-| BLOCKER-03 — rollback | AW..AZ absent, manifestNOT_TESTED, mode T3 rollback absent. HOLD sudah tercatat. | **Hentikan penyelidikan ulang gap lama.** Tunggu implementasi writer, lalu review artifact dan native qualification. Batas AV vs seluruh paket tetap berlaku. |
+| BLOCKER-01 — race | Dua run lama gagal setup.81fef32 menyediakan salinan committed; smoke36063106227/job107846480764 PASS tetapi NO_CONTENTION. | Review helper dan adaptasikan oracle auditor; buktikan dua sesi/overlap/efek domain. Spec: [race review](out/race_blocker_review.md). |
+| BLOCKER-02 — HTTP/JWT |81fef32 menyediakan Auth nyata; smoke OWNER/GUDANG/anon pada36063106227/job107846480764 PASS. Ini tidak menjalankan xaudit4 atau matrix auditor. | Review alat, adaptasikan http_cases, lengkapi role/action/state/browser. Spec: [HTTP review](out/http_blocker_review.md). Penolakan classifier lama tidak diakali. |
+| BLOCKER-03 — rollback | Gap di9add tetapHOLD.81fef32 menambah workflow;36063106225/job107846479593 baru CAPTURED. File AW..AZ/cycle menyusul; AC..AV release NOT_BUILT menurut writer. | **Jangan selidiki ulang gap lama.** Review artifact/commit/cycle baru; AZ→AW keAV bukan fullrollback keAB. |
 | BLOCKER-04 — agen | Reset kuota Claude22:20/trigger22:26 tidak diverifikasi di sini. Dua agen GPT sudah menyelesaikan review race/HTTP dan temuan ekonomi. | Review dapat dilanjutkan dari repo; tidak perlu menunggu kuota Claude untuk pekerjaan GPT. Native gate tetap terbuka. |
 
 Rincian gabungan: [blocker_and_recovery_assessment.md](out/blocker_and_recovery_assessment.md). Empat catatan agen tersimpan di out/. Tidak ada kontak hosted/legacy/production atau pesan ke pihak lain.
@@ -106,8 +119,8 @@ Dispatch custom sudah diizinkan handoff. Connector sesi GPT hanya menyediakan GE
 
 ## Urutan audit selanjutnya
 
-1. Writer dapat mengerjakan tiga alat/artifact di atas setelah instruksi owner. Auditor memanfaatkan waktu untuk menajamkan oracle dan fixture; kedua kegiatan dapat berjalan tanpa dua writer produk.
-2. Review diff writer terhadap9add, pastikan lingkup file tidak melebar, lalu verifikasi mode runtime/rollback baru dengan kontrol kegagalan.
+1. Review tooling81fef32 dan smoke/capture yang telah selesai. Writer melanjutkan rollback artifact/cycle; auditor dapat melanjutkan review serta15kasus tanpa menunggu seluruh rollback selesai.
+2. Lingkup diff81fef32 terhadap9add sudah terbatas enamfile alat/workflow. Lanjut review perilaku helper dan kontrol kegagalan; ulang scopecheck bila ada commit berikutnya.
 3. Review7rekonstruksi dan8sumber frozen yang kini tersimpan, termasuk batas oracle SI01/moneyDOWN/advance. Jalankan payload15melalui executor disposable yang berwenang; tidak perlu merekonstruksi ulang file yang sudah selesai.
 4. Prioritaskan WIP prefix, recost dan WIB UI; lanjut advance/payroll, selector, recovery dan unknown sampai konsumen/inverse/report.
 5. Lengkapi ALL22state/6family, Auth/action/location/revocation, browser, race, transitive HPP/producers dan adapter residual. Crosswalk ALL/payroll ada di out/.

@@ -1,0 +1,276 @@
+{
+  "checked_at": "2026-09-24T21:46:44.114Z",
+  "source": "GitHub Actions run/job metadata and native job logs; exact commit comparison; limited runtime/sample source reading.",
+  "product_candidate": "9add57ea8c2b6b2dc37c0134717d4d39ba30b5dc",
+  "tooling_head": "81fef32ddca7bc2c8e4d37dd965a618648f479eb",
+  "product_paths_changed": [],
+  "tooling_files": [
+    {
+      "filename": ".github/workflows/cp6-auditor-scenario.yml",
+      "status": "modified",
+      "additions": 2,
+      "deletions": 1,
+      "changes": 3,
+      "previous_filename": null
+    },
+    {
+      "filename": ".github/workflows/cp6-t3-rollback.yml",
+      "status": "added",
+      "additions": 216,
+      "deletions": 0,
+      "changes": 216,
+      "previous_filename": null
+    },
+    {
+      "filename": "scripts/cp6_auditor_modes.py",
+      "status": "added",
+      "additions": 256,
+      "deletions": 0,
+      "changes": 256,
+      "previous_filename": null
+    },
+    {
+      "filename": "scripts/cp6_auditor_scenario.py",
+      "status": "modified",
+      "additions": 18,
+      "deletions": 5,
+      "changes": 23,
+      "previous_filename": null
+    },
+    {
+      "filename": "scripts/cp6_auditor_scenario_sample.py",
+      "status": "modified",
+      "additions": 20,
+      "deletions": 2,
+      "changes": 22,
+      "previous_filename": null
+    },
+    {
+      "filename": "scripts/cp6_t3_rollback.py",
+      "status": "added",
+      "additions": 469,
+      "deletions": 0,
+      "changes": 469,
+      "previous_filename": null
+    }
+  ],
+  "runs": [
+    {
+      "run_id": 36063106225,
+      "job_id": 107846479593,
+      "attempt": 1,
+      "head_sha": "81fef32ddca7bc2c8e4d37dd965a618648f479eb",
+      "workflow_conclusion": "success",
+      "mode": "capture",
+      "result": {
+        "mode": "capture",
+        "status": "CAPTURED",
+        "primary_unchanged": true,
+        "error": null
+      },
+      "capture_objects": [
+        {
+          "line": 1325,
+          "group": "T3_ROLLBACK_CAPTURE",
+          "key": "AW",
+          "added": 39,
+          "changed": [
+            "FUNCTION:erp.close_accounting_through(date,text)",
+            "FUNCTION:erp.get_owner_financial_snapshot_v2(date,date,date)"
+          ],
+          "removed": []
+        },
+        {
+          "line": 1326,
+          "group": "T3_ROLLBACK_CAPTURE",
+          "key": "AX",
+          "added": 82,
+          "changed": [
+            "CONSTRAINT:erp.payroll_work_items.payroll_work_items_source_type_check",
+            "FUNCTION:erp.merge_eligible_work_into_payroll_v2(uuid,jsonb,uuid,bigint)",
+            "FUNCTION:erp.validate_payroll_work_item_source()",
+            "VIEW:erp.v_payroll_eligible_work_lines"
+          ],
+          "removed": []
+        },
+        {
+          "line": 1327,
+          "group": "T3_ROLLBACK_CAPTURE",
+          "key": "AY",
+          "added": 17,
+          "changed": [
+            "FUNCTION:erp.rebuild_po_hpp(uuid,text)",
+            "FUNCTION:erp.sync_po_hpp_to_gl(uuid,date)"
+          ],
+          "removed": []
+        },
+        {
+          "line": 1328,
+          "group": "T3_ROLLBACK_CAPTURE",
+          "key": "AZ",
+          "added": 0,
+          "changed": [
+            "FUNCTION:erp._cp6_sync_material_adjustment_revaluation(uuid,uuid)",
+            "FUNCTION:erp.complete_initial_import_wip_v1(jsonb)",
+            "FUNCTION:erp.guard_pocket_period_v1()",
+            "FUNCTION:erp.post_material_purchase_cost_correction(uuid)",
+            "FUNCTION:erp.post_material_supplier_invoice(uuid)",
+            "FUNCTION:erp.refresh_accessory_hpp_after_material_recost(uuid,text)",
+            "FUNCTION:erp.reverse_qc(uuid,text)",
+            "FUNCTION:erp.reverse_rework_completion(uuid,text)",
+            "FUNCTION:erp.sync_finished_po_wip_residual(uuid,date,text)",
+            "FUNCTION:erp.sync_initial_import_bs_value_v1(uuid,date)",
+            "FUNCTION:erp.sync_material_cost_revaluation(uuid)",
+            "FUNCTION:erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)"
+          ],
+          "removed": []
+        }
+      ],
+      "verdict": "CAPTURE_ONLY; migration rollback/cycle not executed in this run"
+    },
+    {
+      "run_id": 36063106227,
+      "job_id": 107846480764,
+      "attempt": 1,
+      "head_sha": "81fef32ddca7bc2c8e4d37dd965a618648f479eb",
+      "workflow_conclusion": "success",
+      "scenario_sha256": "90bf69cb838428d72a1ce61f2cc95cd74518ed8a53c8d5413fde33d8059dc28e",
+      "scenario_bytes": 1580,
+      "provenance": "writer sample, reused evidence; not native15 and not independent acceptance",
+      "cases": [
+        {
+          "line": 1688,
+          "group": "AUDITOR_CASES_AFTER",
+          "case": "SAMPLE:WRITE_OFF_REVERSED_THEN_LATE_INVOICE_LOWER",
+          "status": "PASS",
+          "checks": {
+            "fixture_writeoff_reversed_today": true,
+            "material_at_invoice_price_for_units_on_hand": true,
+            "no_negative_daily_inventory": true
+          },
+          "full_boundary_restored": true
+        },
+        {
+          "line": 1690,
+          "group": "AUDITOR_RACES_AFTER",
+          "race": "SAMPLE_RACE:ATTENDANCE_CLOSE_FIRST_COMMIT",
+          "status": "PASS",
+          "first": "CLOSE",
+          "first_committed": true,
+          "ready_before": "READY",
+          "contention": {
+            "kind": "NO_CONTENTION"
+          },
+          "contender": {
+            "ok": true,
+            "result": "REVERSED"
+          },
+          "closed": true,
+          "reversed": true,
+          "gap_visible_after": true,
+          "filings": 1,
+          "filings_ready": true,
+          "expected": {
+            "closed": true,
+            "reversed": true,
+            "filings": 1,
+            "gap_visible_after": true
+          }
+        },
+        {
+          "line": 1692,
+          "group": "AUDITOR_HTTP_AFTER",
+          "case": "SAMPLE_HTTP:PREFLIGHT_OWNER_ALLOWED_GUDANG_AND_ANON_REFUSED",
+          "status": "PASS",
+          "owner": {
+            "status": 200,
+            "readiness": "BLOCKED"
+          },
+          "gudang": {
+            "status": 400,
+            "body": {
+              "code": "P0001",
+              "details": null,
+              "hint": null,
+              "message": "OWNER or ADMIN access required"
+            }
+          },
+          "anon": {
+            "status": 401,
+            "body": {
+              "code": "42501",
+              "details": null,
+              "hint": null,
+              "message": "permission denied for function erp_accounting_close_preflight_v1"
+            }
+          }
+        }
+      ],
+      "summary": {
+        "status": "RUN_COMPLETE",
+        "label": "AUDITOR_SCENARIO",
+        "phase": "after",
+        "production_go": false,
+        "independent_acceptance": false,
+        "release_evidence": false,
+        "auditor_cases": {
+          "status": "PASS",
+          "counts": {
+            "PASS": 1
+          }
+        },
+        "auditor_races": {
+          "status": "RUN_COMPLETE",
+          "counts": {
+            "PASS": 1
+          },
+          "database_remaining": 0,
+          "error": null
+        },
+        "auditor_http": {
+          "status": "RUN_COMPLETE",
+          "counts": {
+            "PASS": 1
+          },
+          "database_remaining": 0,
+          "cleanup": {
+            "users_created": 2,
+            "cleanup_failures": [],
+            "rest_remaining": false
+          },
+          "auth_counts": {
+            "before": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "after": [
+              0,
+              0,
+              0,
+              0
+            ],
+            "restored": true
+          },
+          "error": null
+        },
+        "primary_unchanged": true,
+        "clone_remaining": 0
+      }
+    }
+  ],
+  "new_auditor_runs": 0,
+  "native15_status": "NOT_RUN",
+  "audit_complete": false,
+  "production_go": false,
+  "cp6_verdict": "HOLD",
+  "review_limit": "Commit scope, run results and cp6_auditor_modes/sample source inspected. Not a completed adversarial review of all tooling, full Auth/browser/race matrix or rollback qualification.",
+  "next_steps": [
+    "Review the full six-file tooling diff and helper call chain before dispatching auditor cases; verify ordinary/race/HTTP case result integrity, identity on each connection, residue and cleanup.",
+    "Dispatch the single native15 combined scenario at audit source commit24ed27046ca332ebcc86c48544a3cec7c776302b, SHA256cec2ad521835476cf702119486e637d3eff4b62d8f72197a9ca2c2d50cf1fadb; phase=after. Verify current writer ref and preserve exact actual tooling head.",
+    "Adapt Fable race and HTTP scenarios to races(tools,today)/http_cases(http,today), preserving contract oracles. The sample race reports NO_CONTENTION; do not count it as adversarial overlap proof.",
+    "Wait for writer capture/rollback file commit, then review cycle and post-use refusal logs/catalog results; preserve AC..AV release rollback NOT_BUILT gap. Do not repeat absence investigation at9add.",
+    "Persist scenario hashes and expected/actual per case, run/job/attempt/head, state/cleanup invariants to audit repo; continue wider CP6 coverage."
+  ]
+}
