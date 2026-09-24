@@ -6,7 +6,7 @@ Sumber kebenaran: hanya `ERP_V3_2_Master_Pulih_20260923.md` (M), `ERP_V3_2_Perub
 `production_go=false`. Auditor hanya merekomendasikan.
 
 ## FASE AKTIF
-LAPORAN v2 + ADDENDUM §10: `AUDIT_REPORT_CP6.md` sha256 `85fd1023e0dbc45362c66683a01fe11eedce81acf7347a35441e482376666006`. Addendum: F1-17 CONFIRMED juga di jalur invoice; F1-15 CONFIRMED native (pengiriman lama claimable hilang dari lookups 100); AV edit identitas sebelum/sesudah fakta stok baru PASS; race dua sesi tidak bisa di runtime (batas alat); HTTP/JWT (xaudit_4) diblok classifier izin sesi; rollback T3 native tidak mungkin tanpa berkas rollback writer. Verdict tetap: CP6 HOLD, production_go=false.
+AUDIT SILANG LANJUTAN dikerjakan di cabang gabungan `audit/cp6-final-20260924-gpt-a0bcadf` (handoff GPT 46ee4c2 → commit Fable terbaru; lihat `out/fable_native15_xaudit5_results.md`, `out/fable_tool_review_d284e9b.md`, `audit/CP6_COMBINED_INDEX.json` di sana). Run Fable pada head alat d284e9b (produk 9add57e tidak berubah): native15 36065350201 (10 CE/4 PASS/1 INC), xaudit_5 36065517737 (race+HTTP Auth nyata), selector-51 36066079063 (CE). Temuan baru: CP6-07 P1 native (uang muka backdated negatif), CP6-24 P2 (close tanggal sama → filing ganda), CP6-18/19 CE native. Verdict tetap CP6 HOLD, production_go=false. Cabang ini (audit/cp6-final-20260924) tidak lagi diperbarui untuk hasil baru; rujuk cabang gabungan.
 
 ## Rencana kerja (prioritas owner)
 1. Daftar gate + temuan fase 1 → kunci + hash ke berkas ini.
