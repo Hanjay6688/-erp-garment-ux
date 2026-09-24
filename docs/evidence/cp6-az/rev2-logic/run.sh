@@ -16,7 +16,7 @@ PY
 psql -qc "drop database if exists $DB" -c "create database $DB" >/dev/null
 psql -d $DB -v ON_ERROR_STOP=1 -q -f "$H/schema.sql" -f "$H/acc_schema.sql" -f "$H/pocket_schema.sql" -f /tmp/az_rev2_logic_fns.sql \
   -c "create trigger g after insert on erp.material_adjustment_revaluation_facts for each row execute function erp.guard_pocket_period_v1()"
-for s in nonpo bsv acc pocket; do for m in open closed noninv; do
-  [ "$s" = bsv ] && [ "$m" = noninv ] && continue
+for s in nonpo nonpo_two_recosts bsv acc pocket; do for m in open closed noninv; do
+  { [ "$s" = bsv ] || [ "$s" = nonpo_two_recosts ]; } && [ "$m" = noninv ] && continue
   echo "=== $s $m"; psql -d $DB -v ON_ERROR_STOP=1 -v mode=$m -f "$H/$s.sql" 2>&1 | grep -v '^$\|^-*$\|^(1 row)' || true
 done; done

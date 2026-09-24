@@ -386,7 +386,10 @@ begin
         select fl.id,
           coalesce((select case when coalesce(hv.qty_basis_pcs,0)>0 then hv.total_cost/hv.qty_basis_pcs else 0 end
             from erp.hpp_versions hv where hv.lot_id=fl.id and hv.is_current),0)
-          -coalesce((select case when coalesce(pv.qty_basis_pcs,0)>0 then pv.total_cost/pv.qty_basis_pcs else 0 end
+          -- Independent review of AZ rev2 (3): against what the last opening-lot sync posted (its state is written after
+          -- this call), so a second sync in the same statement does not count the first one's change again.
+          -coalesce((select os.current_hpp from erp.opening_lot_hpp_gl_state os where os.lot_id=fl.id),
+            (select case when coalesce(pv.qty_basis_pcs,0)>0 then pv.total_cost/pv.qty_basis_pcs else 0 end
             from erp.hpp_versions pv where pv.lot_id=fl.id and pv.calculated_at<statement_timestamp()
             order by pv.calculated_at desc,pv.version_no desc limit 1),0) dh
         from erp.fg_lots fl where fl.product_id=p_product_id and fl.po_id is null
@@ -554,5 +557,262 @@ begin
   return v_changed;
 end;
 $function$;
+CREATE OR REPLACE FUNCTION erp.reverse_qc(p_qc_id uuid, p_reason text)
+ RETURNS void
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO 'erp', 'public'
+AS $function$
+declare
+  h erp.qc_inspections%rowtype;
+  r record; l record; b record;
+  v_journal uuid;
+  v_po_status text;
+begin
+  perform erp.require_internal();
+  if nullif(trim(p_reason),'') is null then raise exception 'Alasan reversal QC wajib diisi'; end if;
+  select * into h from erp.qc_inspections where id=p_qc_id for update;
+  if h.id is null then raise exception 'QC tidak ditemukan'; end if;
+  if h.status='REVERSED' then return; end if;
+  if h.status<>'POSTED' then raise exception 'Hanya QC POSTED yang dapat direverse'; end if;
+  select status into v_po_status from erp.production_orders where id=h.po_id for update;
+  if v_po_status='FINISHED' then raise exception 'PO sudah FINISHED. Reopen/koreksi downstream terlebih dahulu sebelum reversal QC.'; end if;
+
+  for b in select bc.* from erp.bs_cases bc where bc.qc_item_id in (select id from erp.qc_inspection_items where inspection_id=h.id) and bc.status<>'CANCELLED' for update loop
+    if exists(select 1 from erp.rework_orders where bs_case_id=b.id and status<>'CANCELLED')
+       or exists(select 1 from erp.bs_resolutions where bs_case_id=b.id) then
+      raise exception 'BS hasil QC ini sudah diproses/rework. Batalkan downstream BS terlebih dahulu.';
+    end if;
+  end loop;
+
+  for l in
+    select fl.* from erp.fg_lots fl
+    where fl.qc_item_id in (select id from erp.qc_inspection_items where inspection_id=h.id)
+      and fl.lot_origin='PRODUCTION'
+    for update
+  loop
+    if erp.fg_lot_has_active_downstream(l.id,'QC_GOOD','QC_ITEM',l.qc_item_id) then
+      raise exception 'FG hasil QC masih dipakai transaksi downstream aktif. Reverse transaksi downstream terlebih dahulu.';
+    end if;
+    if exists(select 1 from erp.contractor_accessory_reimbursement_entitlements e where e.lot_id=l.id and e.payroll_status<>'UNALLOCATED') then
+      raise exception 'Hak reimbursement aksesori dari QC ini sudah masuk payroll. Cancel/reverse payroll terlebih dahulu.';
+    end if;
+  end loop;
+
+  for l in
+    select fl.* from erp.fg_lots fl
+    where fl.qc_item_id in (select id from erp.qc_inspection_items where inspection_id=h.id) and fl.lot_origin='PRODUCTION'
+    for update
+  loop
+    select id into v_journal from erp.journal_entries
+    where source_type='ACCESSORY_REIMBURSE_ACCRUAL' and source_id=l.id and status='POSTED'
+    order by posting_at desc,id desc limit 1;
+    if v_journal is not null then perform erp.reverse_journal(v_journal,p_reason); end if;
+    -- AZ rev2: the lot's accessory HPP recost journals go with its accrual.
+    for v_journal in select je.id from erp.journal_entries je join erp.fg_accessory_cost_revisions rv on rv.id=je.source_id
+      join erp.fg_accessory_cost_snapshots sn on sn.id=rv.snapshot_id
+      where je.source_type='ACCESSORY_HPP_RECOST' and je.status='POSTED' and sn.lot_id=l.id order by je.posting_at,je.id
+    loop perform erp.reverse_journal(v_journal,p_reason); end loop;
+    update erp.contractor_accessory_reimbursement_entitlements set payroll_status='CANCELLED' where lot_id=l.id and payroll_status='UNALLOCATED';
+    for r in select fm.id from erp.fg_stock_movements fm where fm.lot_id=l.id and fm.movement_type='QC_GOOD' and fm.source_type='QC_ITEM' and fm.source_id=l.qc_item_id and not exists(select 1 from erp.fg_stock_movements rv where rv.reversal_of_id=fm.id) loop
+      perform erp.reverse_fg_movement(r.id,p_reason);
+    end loop;
+    update erp.fg_lots set lot_origin='VOIDED_PRODUCTION',is_open=false where id=l.id;
+  end loop;
+
+  update erp.bs_cases set status='CANCELLED',notes=concat_ws(E'\n',notes,'CANCELLED karena source QC direverse: '||p_reason),updated_at=statement_timestamp()
+  where qc_item_id in (select id from erp.qc_inspection_items where inspection_id=h.id) and status<>'CANCELLED';
+  update erp.qc_inspections set status='REVERSED',updated_at=statement_timestamp() where id=h.id;
+
+  if v_po_status not in ('ON_HOLD','CANCELLED') then
+    if exists(select 1 from erp.qc_inspections where po_id=h.po_id and status='POSTED')
+       or exists(select 1 from erp.laundry_receipts lr join erp.laundry_deliveries ld on ld.id=lr.delivery_id where ld.po_id=h.po_id and lr.status='POSTED' and ld.status<>'REVERSED') then
+      update erp.production_orders set status='QC',current_stage='QC',updated_at=statement_timestamp() where id=h.po_id;
+    elsif exists(select 1 from erp.laundry_deliveries where po_id=h.po_id and status not in('DRAFT','REVERSED')) then
+      update erp.production_orders set status='LAUNDRY',current_stage='LAUNDRY',updated_at=statement_timestamp() where id=h.po_id;
+    elsif exists(select 1 from erp.cutting_groups where po_id=h.po_id and picked_up_at is not null) then
+      update erp.production_orders set status='SEWING',current_stage='SEWING',updated_at=statement_timestamp() where id=h.po_id;
+    else
+      update erp.production_orders set status='CUTTING',current_stage='CUTTING',updated_at=statement_timestamp() where id=h.po_id;
+    end if;
+  end if;
+
+  perform erp.sync_laundry_accrual(h.po_id,((statement_timestamp() AT TIME ZONE 'Asia/Jakarta'::text))::date);
+  perform erp.rebuild_po_hpp(h.po_id,'QC reversed: '||p_reason);
+  perform erp.propagate_conversion_hpp_for_po(h.po_id);
+  perform erp.sync_po_hpp_to_gl(h.po_id,((statement_timestamp() AT TIME ZONE 'Asia/Jakarta'::text))::date);
+
+  insert into erp.audit_logs(entity_type,entity_id,action,changed_by,change_reason)
+  values('qc_inspections',h.id,'REVERSE',erp.current_app_user_id(),p_reason);
+end;
+$function$;
+CREATE OR REPLACE FUNCTION erp.reverse_rework_completion(p_rework_order_id uuid, p_reason text)
+ RETURNS void
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO 'erp', 'public'
+AS $function$
+declare
+  r erp.rework_orders%rowtype;
+  b erp.bs_cases%rowtype;
+  x record;
+  v_journal uuid;
+  v_total numeric(24,6):=0;
+  v_remaining integer:=0;
+begin
+  perform erp.require_owner_admin();
+  if nullif(trim(p_reason),'') is null then raise exception 'Alasan reversal hasil rework wajib diisi'; end if;
+  select * into r from erp.rework_orders where id=p_rework_order_id for update;
+  if r.id is null then raise exception 'Rework order tidak ditemukan'; end if;
+  if r.status='CANCELLED' and r.cost_posted then return; end if;
+  if r.status<>'COMPLETED' or not r.cost_posted then raise exception 'Hanya rework COMPLETED yang sudah diposting biayanya yang dapat direverse'; end if;
+  select * into b from erp.bs_cases where id=r.bs_case_id for update;
+
+  if exists(
+    select 1 from erp.payroll_work_items pwi
+    join erp.payroll_settlements ps on ps.id=pwi.payroll_id
+    join erp.rework_component_lines rcl on rcl.id=pwi.source_id
+    where pwi.source_type='REWORK' and rcl.rework_order_id=r.id and ps.status<>'REVERSED'
+  ) then raise exception 'Upah rework ini sudah masuk payroll. Cancel/reverse payroll aktif terlebih dahulu.'; end if;
+
+  if r.good_fg_lot_id is not null then
+    if erp.fg_lot_has_active_downstream(r.good_fg_lot_id,'REWORK_IN','REWORK_ORDER',r.id) then
+      raise exception 'FG hasil rework masih dipakai transaksi downstream aktif. Reverse transaksi downstream terlebih dahulu.';
+    end if;
+    if exists(select 1 from erp.contractor_accessory_reimbursement_entitlements e where e.lot_id=r.good_fg_lot_id and e.payroll_status<>'UNALLOCATED') then
+      raise exception 'Reimbursement aksesori hasil rework sudah masuk payroll. Cancel/reverse payroll terlebih dahulu.';
+    end if;
+  end if;
+
+  select coalesce(sum(amount_payable),0) into v_total from erp.rework_component_lines where rework_order_id=r.id;
+  select id into v_journal from erp.journal_entries where source_type='REWORK_COMPLETION' and source_id=r.id and status='POSTED' order by posting_at desc,id desc limit 1;
+  if r.destination_type='CONTRACTOR' and v_total>0.005 and v_journal is null then raise exception 'Jurnal biaya/upah rework tidak ditemukan; reversal dibatalkan agar hutang mandor/HPP tidak rusak'; end if;
+
+  if r.good_fg_lot_id is not null then
+    select id into v_journal from erp.journal_entries where source_type='ACCESSORY_REIMBURSE_ACCRUAL' and source_id=r.good_fg_lot_id and status='POSTED' order by posting_at desc,id desc limit 1;
+    if v_journal is not null then perform erp.reverse_journal(v_journal,p_reason); end if;
+    -- AZ rev2: the lot's accessory HPP recost journals go with its accrual.
+    for v_journal in select je.id from erp.journal_entries je join erp.fg_accessory_cost_revisions rv on rv.id=je.source_id
+      join erp.fg_accessory_cost_snapshots sn on sn.id=rv.snapshot_id
+      where je.source_type='ACCESSORY_HPP_RECOST' and je.status='POSTED' and sn.lot_id=r.good_fg_lot_id order by je.posting_at,je.id
+    loop perform erp.reverse_journal(v_journal,p_reason); end loop;
+    update erp.contractor_accessory_reimbursement_entitlements set payroll_status='CANCELLED' where lot_id=r.good_fg_lot_id and payroll_status='UNALLOCATED';
+    for x in select fm.id from erp.fg_stock_movements fm where fm.lot_id=r.good_fg_lot_id and fm.movement_type='REWORK_IN' and fm.source_type='REWORK_ORDER' and fm.source_id=r.id and not exists(select 1 from erp.fg_stock_movements rv where rv.reversal_of_id=fm.id)
+    loop perform erp.reverse_fg_movement(x.id,p_reason); end loop;
+    update erp.fg_lots set lot_origin='VOIDED_PRODUCTION',is_open=false where id=r.good_fg_lot_id and lot_origin='PRODUCTION';
+  end if;
+
+  select id into v_journal from erp.journal_entries where source_type='REWORK_COMPLETION' and source_id=r.id and status='POSTED' order by posting_at desc,id desc limit 1;
+  if v_journal is not null then perform erp.reverse_journal(v_journal,p_reason); end if;
+  delete from erp.bs_resolutions where source_rework_order_id=r.id;
+  update erp.rework_orders set status='CANCELLED',updated_at=statement_timestamp(),notes=concat_ws(E'\n',notes,'CANCELLED after posted completion reversal: '||p_reason) where id=r.id;
+
+  select greatest(b.qty_pcs-coalesce(sum(br.qty_pcs),0),0)::integer into v_remaining from erp.bs_resolutions br where br.bs_case_id=b.id;
+  if v_remaining<=0 then update erp.bs_cases set status='RESOLVED',updated_at=statement_timestamp() where id=b.id;
+  elsif exists(select 1 from erp.rework_orders ro where ro.bs_case_id=b.id and ro.id<>r.id and ro.status in ('OPEN','IN_PROGRESS','PARTIAL')) then update erp.bs_cases set status='IN_REWORK',updated_at=statement_timestamp() where id=b.id;
+  elsif v_remaining<b.qty_pcs then update erp.bs_cases set status='PARTIAL',updated_at=statement_timestamp() where id=b.id;
+  else update erp.bs_cases set status='OPEN',updated_at=statement_timestamp() where id=b.id; end if;
+
+  if b.po_id is not null then
+    perform erp.rebuild_po_hpp(b.po_id,'Rework completion reversed: '||p_reason);
+    perform erp.propagate_conversion_hpp_for_po(b.po_id);
+    perform erp.sync_po_hpp_to_gl(b.po_id,((statement_timestamp() AT TIME ZONE 'Asia/Jakarta'::text))::date);
+  end if;
+  insert into erp.audit_logs(entity_type,entity_id,action,changed_by,change_reason) values('rework_orders',r.id,'REVERSE',erp.current_app_user_id(),p_reason);
+end;
+$function$;
+CREATE OR REPLACE FUNCTION erp.complete_initial_import_wip_v1(p_payload jsonb)
+ RETURNS jsonb
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO ''
+ SET "DateStyle" TO 'ISO, YMD'
+AS $function$
+declare s erp.initial_import_production_sources%rowtype;i erp.opening_balance_items%rowtype;
+ v_product_count integer;v_batch uuid;v_product uuid;v_location uuid;v_qty integer;v_remaining integer;v_lot uuid;v_output uuid;v_date date;v_at timestamptz;
+ v_reason text;v_hpp numeric;v_prior record;v_movement uuid;v_po_status text;v_op text:=coalesce(p_payload->>'operation','COMPLETE');
+begin
+ perform erp.require_owner_admin();perform erp.require_permission('settings.erp.view');
+ perform erp.pocket_period_lock_v1();
+ perform pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0));
+ v_batch:=(p_payload->>'batch_id')::uuid;v_reason:=nullif(btrim(p_payload->>'reason'),'');
+ if v_reason is null then raise exception 'reason: catatan penyelesaian wajib diisi';end if;
+ select * into s from erp.initial_import_production_sources where opening_item_id=(p_payload->>'opening_item_id')::uuid and batch_id=v_batch for update;
+ if s.opening_item_id is null or s.bs_case_id is not null then raise exception 'Saldo fisik WIP tidak ditemukan';end if;
+ select status into v_po_status from erp.production_orders where id=s.po_id for update;
+ if v_po_status in('FINISHED','CANCELLED') then raise exception 'Buka kembali PO sebelum mengubah hasil WIP saldo awal';end if;
+ select * into strict i from erp.opening_balance_items where id=s.opening_item_id;
+ if i.balance_type<>'WIP' or not exists(select 1 from erp.opening_balance_headers where id=i.opening_id and status='POSTED')
+   or not exists(select 1 from erp.migration_batches where id=v_batch and status='POSTED') then raise exception 'Saldo awal harus sudah disahkan';end if;
+ select s.qty_pcs-coalesce(sum(o.qty_pcs),0) into v_remaining from erp.initial_import_wip_outputs o where o.opening_item_id=i.id
+   and not exists(select 1 from erp.initial_import_wip_output_reversals rv where rv.output_id=o.id);
+ if coalesce(p_payload->>'expected_remaining','') !~ '^[0-9]+$' or (p_payload->>'expected_remaining')::numeric<>v_remaining then
+  raise exception 'STALE_VERSION: sisa WIP berubah, muat ulang';end if;
+ perform set_config('app.change_reason',v_reason,true);
+ if v_op='REVERSE' then
+  select o.* into v_prior from erp.initial_import_wip_outputs o where o.id=(p_payload->>'output_id')::uuid and o.opening_item_id=i.id
+    and not exists(select 1 from erp.initial_import_wip_output_reversals rv where rv.output_id=o.id) for update;
+  if v_prior.id is null then raise exception 'Hasil WIP tidak ditemukan atau sudah dibatalkan';end if;
+  if erp.fg_lot_has_active_downstream(v_prior.lot_id,'QC_GOOD','INITIAL_IMPORT_WIP',v_prior.id) then raise exception 'Hasil WIP masih dipakai transaksi lanjutan; batalkan transaksi tersebut dahulu';end if;
+  if exists(select 1 from erp.contractor_accessory_reimbursement_entitlements where lot_id=v_prior.lot_id and payroll_status<>'UNALLOCATED') then raise exception 'Reimbursement sudah masuk payroll';end if;
+  for v_movement in select id from erp.journal_entries where source_type='ACCESSORY_REIMBURSE_ACCRUAL' and source_id=v_prior.lot_id and status='POSTED' loop
+   perform erp.reverse_journal(v_movement,v_reason);
+  end loop;
+    -- AZ rev2: the lot's accessory HPP recost journals go with its accrual.
+    for v_movement in select je.id from erp.journal_entries je join erp.fg_accessory_cost_revisions rv on rv.id=je.source_id
+      join erp.fg_accessory_cost_snapshots sn on sn.id=rv.snapshot_id
+      where je.source_type='ACCESSORY_HPP_RECOST' and je.status='POSTED' and sn.lot_id=v_prior.lot_id order by je.posting_at,je.id
+    loop perform erp.reverse_journal(v_movement,v_reason); end loop;
+  update erp.contractor_accessory_reimbursement_entitlements set payroll_status='CANCELLED' where lot_id=v_prior.lot_id and payroll_status='UNALLOCATED';
+  for v_movement in select id from erp.fg_stock_movements where lot_id=v_prior.lot_id and source_type='INITIAL_IMPORT_WIP' and source_id=v_prior.id and movement_type='QC_GOOD'
+   and not exists(select 1 from erp.fg_stock_movements rv where rv.reversal_of_id=erp.fg_stock_movements.id) loop
+   perform erp.reverse_fg_movement(v_movement,v_reason);
+  end loop;
+  v_at:=statement_timestamp();v_date:=erp._cp3_business_date(v_at);
+  insert into erp.initial_import_wip_output_reversals(output_id,reason,physical_at,created_by) values(v_prior.id,v_reason,v_at,erp.current_app_user_id());
+  update erp.fg_lots set lot_origin='VOIDED_PRODUCTION',is_open=false where id=v_prior.lot_id;
+  insert into erp.wip_stage_events(po_id,stage_from,stage_to,qty_pcs,contractor_id,source_type,source_id,physical_at,created_by,notes)
+   values(s.po_id,'FINISHED',s.stage,v_prior.qty_pcs,i.contractor_id,'INITIAL_IMPORT_WIP_REVERSE',v_prior.id,v_at,erp.current_app_user_id(),v_reason);
+  v_output:=v_prior.id;v_lot:=v_prior.lot_id;
+ elsif v_op='COMPLETE' then
+  if coalesce(p_payload->>'qty_pcs','') !~ '^[1-9][0-9]{0,9}$' or (p_payload->>'qty_pcs')::numeric>v_remaining then raise exception 'qty_pcs: jumlah harus bulat positif dan tidak melebihi sisa WIP';end if;
+  v_qty:=(p_payload->>'qty_pcs')::integer;
+  if coalesce(p_payload->>'date','') !~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}$' then raise exception 'date: gunakan YYYY-MM-DD';end if;
+  v_date:=(p_payload->>'date')::date;
+  if v_date::text<>p_payload->>'date' or v_date<(select opening_date from erp.opening_balance_headers where id=i.opening_id)
+    or v_date>erp._cp3_business_date(statement_timestamp()) then raise exception 'date: tanggal hasil harus sejak cutover dan tidak di masa depan';end if;
+  select count(*),(array_agg(x.id order by x.id))[1] into v_product_count,v_product
+  from (
+    select p.id from erp.products p join erp.production_orders po on po.id=s.po_id
+    join erp.brands b on b.id=p.brand_id
+    where lower(btrim(p.sku))=lower(btrim(p_payload->>'product_sku'))
+      and p.is_active and p.model_id=po.model_id and p.size_id=s.size_id
+      and p.effective_from<(v_date+1)::timestamp at time zone 'Asia/Jakarta'
+      and (p.effective_to is null or p.effective_to>v_date::timestamp at time zone 'Asia/Jakarta')
+      and (nullif(btrim(p_payload->>'brand_code'),'') is null
+        or lower(btrim(b.brand_code))=lower(btrim(p_payload->>'brand_code')))
+      and (nullif(p_payload->>'product_id','') is null or p.id=(p_payload->>'product_id')::uuid)
+    order by p.id for share of p
+  ) x;
+  if v_product_count=0 then raise exception 'product_sku: pilih produk aktif dengan merek, model PO, ukuran saldo, dan tanggal hasil yang sesuai';end if;
+  if v_product_count<>1 then raise exception 'AS_WIP_PRODUCT_AMBIGUOUS: SKU ada pada beberapa identitas produk; pilih merek atau identitas produk yang tepat';end if;
+  select id into v_location from erp.locations where location_code=p_payload->>'location_code' and is_active and location_type='FG_WAREHOUSE';
+  if v_location is null then raise exception 'location_code: pilih gudang barang jadi aktif';end if;
+  v_at:=erp.product_opening_physical_at(v_product,v_date);v_output:=gen_random_uuid();
+  insert into erp.fg_lots(lot_number,po_id,product_id,initial_qty_pcs,cached_qty_pcs,produced_at,is_open,lot_origin)
+   values('OWIP-'||v_output::text,s.po_id,v_product,v_qty,0,v_at,true,'PRODUCTION') returning id into v_lot;
+  insert into erp.initial_import_wip_outputs(id,opening_item_id,lot_id,qty_pcs,physical_at,reason,created_by)
+   values(v_output,i.id,v_lot,v_qty,v_at,v_reason,erp.current_app_user_id());
+  perform erp.post_fg_movement(v_product,v_lot,v_location,'GRADE_A','QC_GOOD',v_qty,0,null,'INITIAL_IMPORT_WIP',v_output,v_at,v_reason,false);
+  perform erp.ensure_fg_accessory_cost_snapshot(v_lot);
+  perform erp.post_accessory_reimbursement_accrual(v_lot);
+  insert into erp.wip_stage_events(po_id,stage_from,stage_to,qty_pcs,contractor_id,source_type,source_id,physical_at,created_by,notes)
+   values(s.po_id,s.stage,'FINISHED',v_qty,i.contractor_id,'INITIAL_IMPORT_WIP',v_output,v_at,erp.current_app_user_id(),v_reason);
+ else raise exception 'Aksi hasil WIP tidak dikenal';end if;
+ perform erp.rebuild_po_hpp(s.po_id,'Penyelesaian atau inverse WIP saldo awal');
+ perform erp.propagate_conversion_hpp_for_po(s.po_id);
+ perform erp.sync_po_hpp_to_gl(s.po_id,v_date);
+ return jsonb_build_object('output_id',v_output,'lot_id',v_lot,'operation',v_op);
+end;$function$;
 insert into erp.schema_migrations(version,description) values('v2.6.20az','T1_FAMILY development install of AZ (material recost corrections dated from the physical movement); not a release package');
 commit;

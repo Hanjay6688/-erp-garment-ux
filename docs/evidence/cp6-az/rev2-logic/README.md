@@ -6,6 +6,7 @@ lokal sekali pakai. Tiap fungsi diuji pada tiga mode: E terbuka, E tertutup, dan
 | Skenario | Fungsi | Harapan |
 | --- | --- | --- |
 | nonpo | `sync_non_po_product_hpp_to_gl_v2620f` | E terbuka: lainnya −2 (21 Sep), HPP −3 (22 Sep), HPP +1 (23 Sep); tertutup/tanpa invoice: satu jurnal |
+| nonpo_two_recosts | `sync_non_po_product_hpp_to_gl_v2620f`, dua recost dalam satu statement (repro n1 pemeriksa) | E terbuka: HPP +54 pada hari jual 9 pcs, +6 pada hari jual 1 pcs, tanpa ayunan; tertutup: satu jurnal pada E |
 | bsv | `sync_initial_import_bs_value_v1` | E terbuka: −2 pada hari 2 pcs keluar, −3 pada hari 3 pcs keluar; tertutup: satu jurnal pada E |
 | acc | `refresh_accessory_hpp_after_material_recost` | WIP +2 / selisih penggantian −2 pada hari lot (terbuka), E (tertutup), hari ini (tanpa invoice) |
 | pocket | `guard_pocket_period_v1` | RECOST pada akhir periode (terbuka), E (tertutup), hari ini (tanpa invoice) |

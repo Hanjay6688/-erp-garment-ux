@@ -39,4 +39,6 @@ run r14_relabel_chain
 run r15_batch_dilution
 run r16_queued_recost -v old=10 -v new=8.25
 run r17_pocket_part -v old=12 -v new=11
+run r18_pocket_two_pools
+run r19_pocket_voided
 for f in f1 m2 f1_noninv f1_closed; do run $f; done

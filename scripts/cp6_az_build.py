@@ -195,7 +195,10 @@ NONPO_NEW="""  if abs(v_df)<=0.005 and abs(v_dc)<=0.005 and abs(v_do)<=0.005 the
         select fl.id,
           coalesce((select case when coalesce(hv.qty_basis_pcs,0)>0 then hv.total_cost/hv.qty_basis_pcs else 0 end
             from erp.hpp_versions hv where hv.lot_id=fl.id and hv.is_current),0)
-          -coalesce((select case when coalesce(pv.qty_basis_pcs,0)>0 then pv.total_cost/pv.qty_basis_pcs else 0 end
+          -- Independent review of AZ rev2 (3): against what the last opening-lot sync posted (its state is written after
+          -- this call), so a second sync in the same statement does not count the first one's change again.
+          -coalesce((select os.current_hpp from erp.opening_lot_hpp_gl_state os where os.lot_id=fl.id),
+            (select case when coalesce(pv.qty_basis_pcs,0)>0 then pv.total_cost/pv.qty_basis_pcs else 0 end
             from erp.hpp_versions pv where pv.lot_id=fl.id and pv.calculated_at<statement_timestamp()
             order by pv.calculated_at desc,pv.version_no desc limit 1),0) dh
         from erp.fg_lots fl where fl.product_id=p_product_id and fl.po_id is null
@@ -293,6 +296,38 @@ ACC_NEW="""      insert into erp.fg_accessory_cost_revisions(snapshot_id,materia
 # product refuses a cutting group of another PO in a cutting batch (validate_cutting_batch_link: "Cutting batch must belong
 # to the same production order"), so every PO of a batch is already the PO whose groups used the material.
 
+# ---------------------------------------------------------------- accrual reversals (AC, AT): the accessory recost goes too
+# Independent review of AZ rev2 (4): QC reversal, rework reversal and initial-import WIP output reversal reverse the lot's
+# ACCESSORY_REIMBURSE_ACCRUAL; the lot's ACCESSORY_HPP_RECOST journals (source: fg_accessory_cost_revisions) go with it.
+def recost_reversal(lot,var,reason):
+    return ("    -- AZ rev2: the lot's accessory HPP recost journals go with its accrual.\n"
+            "    for "+var+" in select je.id from erp.journal_entries je join erp.fg_accessory_cost_revisions rv on rv.id=je.source_id\n"
+            "      join erp.fg_accessory_cost_snapshots sn on sn.id=rv.snapshot_id\n"
+            "      where je.source_type='ACCESSORY_HPP_RECOST' and je.status='POSTED' and sn.lot_id="+lot+" order by je.posting_at,je.id\n"
+            "    loop perform erp.reverse_journal("+var+","+reason+"); end loop;\n")
+RQC_HEAD="CREATE OR REPLACE FUNCTION erp.reverse_qc(p_qc_id uuid, p_reason text)"
+RQC_OLD="""    if v_journal is not null then perform erp.reverse_journal(v_journal,p_reason); end if;
+    update erp.contractor_accessory_reimbursement_entitlements set payroll_status='CANCELLED' where lot_id=l.id and payroll_status='UNALLOCATED';
+"""
+RQC_NEW="""    if v_journal is not null then perform erp.reverse_journal(v_journal,p_reason); end if;
+"""+recost_reversal('l.id','v_journal','p_reason')+"""    update erp.contractor_accessory_reimbursement_entitlements set payroll_status='CANCELLED' where lot_id=l.id and payroll_status='UNALLOCATED';
+"""
+RRW_HEAD="CREATE OR REPLACE FUNCTION erp.reverse_rework_completion(p_rework_order_id uuid, p_reason text)"
+RRW_OLD="""    if v_journal is not null then perform erp.reverse_journal(v_journal,p_reason); end if;
+    update erp.contractor_accessory_reimbursement_entitlements set payroll_status='CANCELLED' where lot_id=r.good_fg_lot_id and payroll_status='UNALLOCATED';
+"""
+RRW_NEW="""    if v_journal is not null then perform erp.reverse_journal(v_journal,p_reason); end if;
+"""+recost_reversal('r.good_fg_lot_id','v_journal','p_reason')+"""    update erp.contractor_accessory_reimbursement_entitlements set payroll_status='CANCELLED' where lot_id=r.good_fg_lot_id and payroll_status='UNALLOCATED';
+"""
+AT_MIG=ROOT/'supabase/migrations/20260923005153_erp_v2_6_20at_cp6_wip_temporal_identity.sql'
+WIP_HEAD="CREATE OR REPLACE FUNCTION erp.complete_initial_import_wip_v1(p_payload jsonb)"
+WIP_OLD="""  for v_movement in select id from erp.journal_entries where source_type='ACCESSORY_REIMBURSE_ACCRUAL' and source_id=v_prior.lot_id and status='POSTED' loop
+   perform erp.reverse_journal(v_movement,v_reason);
+  end loop;
+"""
+WIP_NEW=WIP_OLD+recost_reversal('v_prior.lot_id','v_movement','v_reason')
+
+
 def function(path,head,subs,once=True):
     text=path.read_text()
     assert text.count(head)==1,(path.name,head)
@@ -314,13 +349,16 @@ def build():
     bsv=function(AP,BSV_HEAD,[(BSV_DECLARE_OLD,BSV_DECLARE_NEW),(BSV_OLD,BSV_NEW)],once=False)
     nonpo=function(F20,NONPO_HEAD,[(NONPO_DECLARE_OLD,NONPO_DECLARE_NEW),(NONPO_OLD,NONPO_NEW)],once=False).replace(NONPO_HEAD,'CREATE OR REPLACE FUNCTION erp.sync_non_po_product_hpp_to_gl_v2620f(',1)
     acc=function(ACC_AC,ACC_HEAD,[(ACC_DECLARE_OLD,ACC_DECLARE_NEW),(ACC_OLD,ACC_NEW)],once=False)
+    rqc=function(ACC_AC,RQC_HEAD,[(RQC_OLD,RQC_NEW)],once=False)
+    rrw=function(ACC_AC,RRW_HEAD,[(RRW_OLD,RRW_NEW)],once=False)
+    wip=function(AT_MIG,WIP_HEAD,[(WIP_OLD,WIP_NEW)],once=False)
     parts=['-- CP6 AZ material recost corrections dated from the physical movement: T1_FAMILY development install (NOT a release package).',
            '-- Generated by scripts/cp6_az_build.py from the AS/AO definitions; do not edit by hand.',
            'begin;',"set local lock_timeout='10s';set local statement_timeout='240s';set local search_path='';",
            'do $t1_guard$','begin',
            " if (select count(*) from erp.schema_migrations where version in('v2.6.20av','v2.6.20aw','v2.6.20ax','v2.6.20ay'))<>4 then raise exception 'AZ_T1_REQUIRES_AV_AW_AX_AY'; end if;",
            f" if exists(select 1 from erp.schema_migrations where version='{VERSION}') then raise exception 'AZ_T1_ALREADY_INSTALLED'; end if;",
-           'end $t1_guard$;',reval,adj,residual,pocket,bsv,nonpo,acc,
+           'end $t1_guard$;',reval,adj,residual,pocket,bsv,nonpo,acc,rqc,rrw,wip,
            f"insert into erp.schema_migrations(version,description) values('{VERSION}',"
            "'T1_FAMILY development install of AZ (material recost corrections dated from the physical movement); not a release package');",'commit;','']
     return '\n'.join(parts)

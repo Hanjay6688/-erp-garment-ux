@@ -27,3 +27,4 @@ create table erp.bs_resolutions(id uuid primary key default gen_random_uuid(), b
 create table erp.initial_import_bs_value_events(id uuid primary key, opening_item_id uuid, disposed_qty int, previous_amount numeric, target_amount numeric, economic_date date, journal_entry_id uuid, created_by uuid);
 create function erp.initial_import_source_value_v1(p uuid) returns numeric language sql as $$select (select v::numeric from erp.settings where k='SRCV')$$;
 create view public.jl as select j.transaction_date d,l.mapping_key k,sum(l.debit-l.credit) amt from erp.journal_entries j join erp.journal_lines l on l.journal_entry_id=j.id group by 1,2 order by 1,2;
+create table erp.opening_lot_hpp_gl_state(lot_id uuid primary key, current_hpp numeric);

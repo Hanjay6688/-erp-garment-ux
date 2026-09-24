@@ -37,3 +37,6 @@ create table erp.material_cost_revaluation_events(id uuid primary key default ge
 create table erp.hpp_version_components(id uuid primary key default gen_random_uuid(), hpp_version_id uuid, component_type text, total_cost numeric, source_type text, source_id uuid);
 create table erp.pocket_periods(id uuid primary key, period_start date, period_end date);
 create table erp.pocket_period_destinations(id uuid primary key default gen_random_uuid(), pool_id uuid, po_id uuid);
+-- Stub of the AY rev7.3 helper erp.po_hpp_gl_pocket_by_pool_v1 (the real one splits erp.pocket_lot_cost_v1 per pool).
+create table erp.stub_pocket_by_pool(lot_id uuid, pool_id uuid, amount numeric);
+create function erp.po_hpp_gl_pocket_by_pool_v1(p uuid) returns table(pool_id uuid, amount numeric) language sql as $$select pool_id,amount from erp.stub_pocket_by_pool where lot_id=p$$;

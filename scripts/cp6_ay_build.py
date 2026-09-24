@@ -46,6 +46,11 @@ delta is posted:
   the new group's cut day (review of rev7, F4); the lot state is used as the last sync wrote it (F9: the baseline refresh
   moves the PO state clock without an HPP change); the pocket-fabric part of a lot's HPP change is dated no earlier than
   the PO's pocket allocation (period end), as the pocket recost journal (AZ rev2).
+  rev7.3 (independent review of rev7.2): the pocket-fabric part is split per pocket pool (erp.po_hpp_gl_pocket_by_pool_v1,
+  the per-pool split of erp.pocket_lot_cost_v1) against the per-pool amounts the last sync posted (lot state
+  pocket_by_pool), each dated as its pool's recost (not before the pool's period end while open), so one statement that
+  recosts several pools dates each part on its own day and a second sync does not count it again; a voided lot takes the
+  live lots' per-pool change; the revaluation join goes through unnest (no nested scan).
   E is the recost date as before (invoice date on the invoice path, the caller's date otherwise). When E is already
   closed, every leg stays on E (the physical dates are capped at E): one journal with economic date E that post_journal
   posts on the recognition day of the decided period rule (erp.resolve_accounting_transaction_date), exactly as before AY,
@@ -74,7 +79,7 @@ DECLARE_OLD="""  v_lines jsonb:='[]'::jsonb;v_event uuid;v_journal uuid;v_docume
 begin"""
 DECLARE_NEW="""  v_lines jsonb:='[]'::jsonb;v_event uuid;v_journal uuid;v_documented_gain numeric(24,6):=0;
   v_acc jsonb:='{}'::jsonb;v_f numeric(24,6);v_c numeric(24,6);v_o numeric(24,6);v_wip numeric(24,6);r record;
-  v_cap date;v_end date;v_sf numeric(24,6):=0;v_sc numeric(24,6):=0;v_so numeric(24,6):=0;
+  v_cap date;v_end date;v_sf numeric(24,6):=0;v_sc numeric(24,6):=0;v_so numeric(24,6):=0;v_caller date:=p_effective_date;
 begin"""
 
 JIT_OLD=""" SECURITY DEFINER
@@ -132,15 +137,15 @@ POST_NEW_TAIL="""  else
         (select pa.source_lot_id from erp.product_conversion_allocations pa where pa.destination_lot_id=fl.id order by pa.id limit 1) src,
         (select pc.status from erp.product_conversion_allocations pa join erp.product_conversions pc on pc.id=pa.conversion_id
           where pa.destination_lot_id=fl.id order by pa.id limit 1) cst,
-        -- The pocket-fabric part of the lot HPP (erp.rebuild_po_hpp: component from POCKET_PERIOD_ALLOCATION) changed in this
-        -- statement, per piece: now less the version before this statement.
-        coalesce((select (coalesce((select sum(c.total_cost) from erp.hpp_version_components c
-                    where c.hpp_version_id=hv.id and c.source_type='POCKET_PERIOD_ALLOCATION'),0)
-                  -coalesce((select sum(c.total_cost) from erp.hpp_version_components c
-                    where c.hpp_version_id=(select pv.id from erp.hpp_versions pv where pv.lot_id=fl.id and pv.calculated_at<statement_timestamp()
-                                             order by pv.calculated_at desc,pv.version_no desc limit 1)
-                      and c.source_type='POCKET_PERIOD_ALLOCATION'),0))/nullif(hv.qty_basis_pcs,0)
-          from erp.hpp_versions hv where hv.lot_id=fl.id and hv.is_current and hv.calculated_at>=statement_timestamp()),0)::numeric dp
+        -- Fallback for a lot without per-pool pocket state (synced before AY rev7.3): the pocket-fabric part of the lot HPP
+        -- (component POCKET_PERIOD_ALLOCATION) per piece now less the version before this statement.
+        coalesce((select coalesce((select sum(c.total_cost) from erp.hpp_version_components c
+                    where c.hpp_version_id=hv.id and c.source_type='POCKET_PERIOD_ALLOCATION'),0)/nullif(hv.qty_basis_pcs,0)
+                  -coalesce((select coalesce((select sum(c.total_cost) from erp.hpp_version_components c
+                        where c.hpp_version_id=pv.id and c.source_type='POCKET_PERIOD_ALLOCATION'),0)/nullif(pv.qty_basis_pcs,0)
+                      from erp.hpp_versions pv where pv.lot_id=fl.id and pv.calculated_at<statement_timestamp()
+                      order by pv.calculated_at desc,pv.version_no desc limit 1),0)
+          from erp.hpp_versions hv where hv.lot_id=fl.id and hv.is_current),0)::numeric dpf,fl.initial_qty_pcs::numeric qty
       from erp.fg_lots fl left join erp.qc_inspection_items qi on qi.id=fl.qc_item_id
       where fl.po_id=p_po_id and fl.lot_origin in('PRODUCTION','CONVERSION','VOIDED_PRODUCTION')
     ), grp as(
@@ -210,7 +215,8 @@ POST_NEW_TAIL="""  else
       -- correction then leaves WIP no earlier than it entered it, also for a non-invoice recost still queued when the
       -- invoice is processed (independent review of rev7, residual risk).
       select f.fid,f.pool,f.own,greatest(p_effective_date,least(v_cap,coalesce(e.effective_date,f.d))) d,-e.delta_amount dv
-      from fct f join erp.material_cost_revaluation_events e on e.movement_id=any(f.mids) and e.created_at>f.anc
+      from fct f cross join lateral unnest(f.mids) fm(mid)
+      join erp.material_cost_revaluation_events e on e.movement_id=fm.mid and e.created_at>f.anc
       where f.ov is not null
     ), mat as(
       -- Each fact's change: its revaluations on their own days, the rest (a new fact's value, anything the revaluations
@@ -239,7 +245,7 @@ POST_NEW_TAIL="""  else
     ), srcq as(
       select nullif(erp.cp6_po_source_qty_v2620c(p_po_id),0)::numeric q
     ), lotd as(
-      select l.id,l.pool,l.qf,l.batch,l.src,l.cst,case when l.lot_origin='VOIDED_PRODUCTION' then 0 else l.dp end dp,case when l.lot_origin='VOIDED_PRODUCTION'
+      select l.id,l.pool,l.qf,l.batch,l.src,l.cst,case when l.lot_origin='VOIDED_PRODUCTION'
           then coalesce((select avg(l2.h-l2.o) from lot0 l2 where l2.grp=l.grp and l2.lot_origin='PRODUCTION'),
                         coalesce((select p.dvf/l.qf from pools p where p.pool=l.pool and p.ok),0)
                         +coalesce((select p.dvf/(select q from srcq) from pools p where p.pool='CONTRACTOR' and p.ok),0))
@@ -252,15 +258,33 @@ POST_NEW_TAIL="""  else
       left join erp.fg_stock_movements o on m.movement_type='REVERSAL' and o.id=m.reversal_of_id
       where coalesce(o.movement_type,m.movement_type) in('QC_GOOD','REWORK_IN','OPENING','SALE','SALE_RETURN',
                                                          'ADJUSTMENT','BS_OUT','REBRAND_OUT','REBRAND_IN')
-    ), pk as(
-      -- The pocket-fabric allocation of the PO is posted at the end of its period (erp.save_pocket_period_action_v1); a change
-      -- of its pocket-fabric part is dated no earlier (the recost journal too, AZ).
-      select greatest(p_effective_date,least(v_cap,max(pp.period_end))) d from erp.pocket_period_destinations pd
-      join erp.pocket_periods pp on pp.id=pd.pool_id where pd.po_id=p_po_id
+    ), lpp as(
+      -- The pocket-fabric part of each production lot per pocket pool (erp.po_hpp_gl_pocket_by_pool_v1, the per-pool split
+      -- of erp.pocket_lot_cost_v1 that erp.rebuild_po_hpp uses) now less what the last sync posted (lot state), per piece,
+      -- dated as the pool's recost is (AZ rev2: not before the pool's period end while open; E when closed). Independent
+      -- review of rev7.2 (1, 2): per pool and against the state, so one statement recosting several pools dates each part
+      -- on its own pool's day. A lot without per-pool state: its pocket change on the caller's date (rev7.2).
+      select l.id lot_id,(coalesce(x.now_amt,0)-coalesce(x.old_amt,0))/nullif(l.qty,0) dpp,
+        greatest(p_effective_date,least(v_cap,coalesce((select pp.period_end from erp.pocket_periods pp where pp.id=x.pool_id),v_caller))) pd
+      from lot0 l join erp.po_hpp_gl_lot_state_v1 ls on ls.lot_id=l.id and ls.pocket_by_pool is not null
+      cross join lateral(select coalesce(n.pool_id,o.key::uuid) pool_id,n.amount now_amt,o.value::numeric old_amt
+        from erp.po_hpp_gl_pocket_by_pool_v1(l.id) n full join jsonb_each_text(ls.pocket_by_pool) o on o.key=n.pool_id::text) x
+      where l.lot_origin='PRODUCTION'
+      union all
+      select l.id,l.dpf,greatest(p_effective_date,least(v_cap,v_caller))
+      from lot0 l left join erp.po_hpp_gl_lot_state_v1 ls on ls.lot_id=l.id
+      where l.lot_origin='PRODUCTION' and ls.pocket_by_pool is null and l.dpf<>0
+    ), lppa as(
+      -- A voided lot takes the pocket change of the live lots of its cutting group (as its correction, lotd).
+      select lot_id,dpp,pd from lpp where dpp<>0
+      union all
+      select v.id,sum(sp.dpp)/nullif((select count(*) from lot0 l3 where l3.grp=v.grp and l3.lot_origin='PRODUCTION'),0),sp.pd
+      from lot0 v join lot0 l2 on l2.grp=v.grp and l2.lot_origin='PRODUCTION' join lpp sp on sp.lot_id=l2.id and sp.dpp<>0
+      where v.lot_origin='VOIDED_PRODUCTION' group by v.id,v.grp,sp.pd
     ), dates as(
       select d from ev union select m.d from matp m join pools p on p.pool=m.pool and p.ok
       union select gr.cd from grp gr where gr.batch is not null
-      union select pk.d from pk where pk.d is not null and exists(select 1 from lot0 where dp<>0)
+      union select pd from lppa
     ), daily as(
       select lot_id,d,
         sum(case when k in('QC_GOOD','REWORK_IN','OPENING') then q else 0 end) p,
@@ -310,7 +334,7 @@ POST_NEW_TAIL="""  else
           +coalesce(case when l.pool like 'B:%' and bn.tot>0
                          then (pp.mnow-pp.dvf)*(1/nullif(l.qf-bn.tot+bn.pcs,0)-1/l.qf) end,0)
           +coalesce((cc.dv-cp.dvf)/(select q from srcq),0)
-          -case when l.dp<>0 and c.d<(select pk.d from pk) then l.dp else 0 end cv
+          -coalesce((select sum(x.dpp) from lppa x where x.lot_id=l.id and c.d<x.pd),0) cv
       from cumq c join lotd l on l.id=c.lot_id
       left join pools pp on pp.pool=l.pool and pp.ok
       left join pcum pc on pc.pool=l.pool and pc.d=c.d
@@ -372,11 +396,14 @@ POST_NEW_TAIL="""  else
   end loop;
   end if;
   -- The HPP this sync posted for each lot and the value of each material fact it saw: the bases of the next sync.
-  insert into erp.po_hpp_gl_lot_state_v1(lot_id,po_id,hpp_per_pcs,updated_at)
+  insert into erp.po_hpp_gl_lot_state_v1(lot_id,po_id,hpp_per_pcs,pocket_by_pool,updated_at)
   select fl.id,p_po_id,coalesce((select max(case when coalesce(hv.qty_basis_pcs,0)>0 then hv.total_cost/hv.qty_basis_pcs else 0 end)
-    from erp.hpp_versions hv where hv.lot_id=fl.id and hv.is_current),0),statement_timestamp()
+    from erp.hpp_versions hv where hv.lot_id=fl.id and hv.is_current),0),
+    coalesce((select jsonb_object_agg(pb.pool_id::text,pb.amount) from erp.po_hpp_gl_pocket_by_pool_v1(fl.id) pb),'{}'::jsonb),
+    statement_timestamp()
   from erp.fg_lots fl where fl.po_id=p_po_id and fl.lot_origin in('PRODUCTION','CONVERSION','VOIDED_PRODUCTION')
-  on conflict(lot_id) do update set po_id=excluded.po_id,hpp_per_pcs=excluded.hpp_per_pcs,updated_at=excluded.updated_at;
+  on conflict(lot_id) do update set po_id=excluded.po_id,hpp_per_pcs=excluded.hpp_per_pcs,pocket_by_pool=excluded.pocket_by_pool,
+    updated_at=excluded.updated_at;
   -- The material state is the value of each fact inside the HPP just posted, so it is written only when that HPP was
   -- rebuilt in this statement (every erp.rebuild_po_hpp caller syncs right after it; a sync without a rebuild, e.g. FG
   -- adjustment or a sale reversal, posts the HPP of the last rebuild, which the kept state still describes).
@@ -403,7 +430,8 @@ TABLE="""create table erp.po_hpp_gl_lot_state_v1(
   lot_id uuid primary key,
   po_id uuid not null,
   hpp_per_pcs numeric not null,
-  updated_at timestamptz not null default statement_timestamp());
+  updated_at timestamptz not null default statement_timestamp(),
+  pocket_by_pool jsonb);
 comment on table erp.po_hpp_gl_lot_state_v1 is 'AY: HPP per piece of each lot as erp.sync_po_hpp_to_gl last posted it (base of the per-lot correction of the next sync).';
 alter table erp.po_hpp_gl_lot_state_v1 enable row level security;
 revoke all on erp.po_hpp_gl_lot_state_v1 from public,anon,authenticated,service_role;
@@ -429,6 +457,26 @@ select coalesce(p_acc,'{}'::jsonb)||jsonb_build_object(p_day::text,jsonb_build_o
   'cogs',coalesce((p_acc->(p_day::text)->>'cogs')::numeric,0)+coalesce(p_cogs,0),
   'other',coalesce((p_acc->(p_day::text)->>'other')::numeric,0)+coalesce(p_other,0)))
 $function$;"""
+
+
+POCKET_SRC=ROOT/'supabase/migrations/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql'
+POCKET_HEAD="CREATE OR REPLACE FUNCTION erp.pocket_lot_cost_v1(p_lot_id uuid)\n RETURNS numeric"
+POCKET_SUBS=[(POCKET_HEAD,"CREATE OR REPLACE FUNCTION erp.po_hpp_gl_pocket_by_pool_v1(p_lot_id uuid)\n RETURNS TABLE(pool_id uuid, amount numeric)"),
+             ("  select a.cutting_group_id,a.sewing_qty::numeric source_qty,","  select a.pool_id,a.cutting_group_id,a.sewing_qty::numeric source_qty,"),
+             ("select coalesce(sum(\n  greatest(least(","select a.pool_id,coalesce(sum(\n  greatest(least("),
+             ("from position p left join alloc a on true\n$function$","from position p join alloc a on true group by a.pool_id\n$function$")]
+
+
+def pocket_helper():
+    """AY rev7.3: erp.pocket_lot_cost_v1 (AP) split per pocket pool, from its own text (checked substitutions)."""
+    text=POCKET_SRC.read_text()
+    assert text.count(POCKET_HEAD)==1
+    start=text.index(POCKET_HEAD);end=text.index('$function$;',start)+len('$function$;')
+    body=text[start:end]
+    for old,new in POCKET_SUBS:
+        assert body.count(old)==1,old
+        body=body.replace(old,new)
+    return body
 
 
 def sync_function():
@@ -470,6 +518,8 @@ def build():
            f" if exists(select 1 from erp.schema_migrations where version='{VERSION}') or to_regprocedure('erp.po_hpp_gl_leg_add_v1(jsonb,date,numeric,numeric,numeric)') is not null or to_regclass('erp.po_hpp_gl_lot_state_v1') is not null or to_regclass('erp.po_hpp_gl_material_state_v1') is not null then raise exception 'AY_T1_ALREADY_INSTALLED'; end if;",
            'end $t1_guard$;',TABLE,HELPER,
            'revoke all on function erp.po_hpp_gl_leg_add_v1(jsonb,date,numeric,numeric,numeric) from public,anon,authenticated,service_role;',
+           pocket_helper(),
+           'revoke all on function erp.po_hpp_gl_pocket_by_pool_v1(uuid) from public,anon,authenticated,service_role;',
            (lambda fn:(fn,assert_no_alias_collision(fn))[0])(sync_function()),
            f"insert into erp.schema_migrations(version,description) values('{VERSION}',"
            "'T1_FAMILY development install of AY (PO HPP corrections dated from the goods); not a release package');",'commit;','']

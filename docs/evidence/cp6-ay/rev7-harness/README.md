@@ -1,7 +1,7 @@
 # Harness stub AY rev7 (T1_FAMILY, bukan bukti rilis)
 
 Tujuan: menguji `erp.sync_po_hpp_to_gl` hasil `scripts/cp6_ay_build.py` dengan angka, di PostgreSQL lokal sekali pakai,
-sebelum CI. Skema di `schema.sql` hanya stub minimal (tabel/kolom yang dibaca fungsi; `post_journal` stub mencatat
+sebelum CI. Skema di `schema.sql` hanya stub minimal (termasuk stub `erp.po_hpp_gl_pocket_by_pool_v1` dari tabel `erp.stub_pocket_by_pool`) (tabel/kolom yang dibaca fungsi; `post_journal` stub mencatat
 tanggal apa adanya). `targets_fn.sql` adalah `erp.compute_po_hpp_gl_targets_v2620d` apa adanya dari definisi terakhirnya (migration v2.6.20f).
 Harness ini **tidak** menggantikan uji native (AZ/AY T1 di CI); ia menangkap salah hitung dan error runtime lebih awal.
 
@@ -27,7 +27,9 @@ Skenario (tanggal relatif hari ini d; E = tanggal invoice):
 | r15_batch_dilution | F4 pemeriksaan rev7: grup baru dalam batch sesudah sync terakhir | −7,00 pada hari lot, +37,69 pada hari potong grup baru |
 | r16_queued_recost | recost non-invoice yang masih mengantre saat invoice diproses | −7,50 pada hari lot (bagian invoice), −10,00 pada hari recost tertunda |
 | r17_pocket_part | bagian kain kantong di HPP lot | −10,00 pada akhir periode kantong, bukan hari lot |
+| r18_pocket_two_pools | dua periode kantong dalam satu statement (urutan realistis, repro p6 pemeriksa rev7.2) | −5 pada akhir periode 1, −5 pada akhir periode 2; sync kedua tidak memposting; WIP PO 0 |
+| r19_pocket_voided | lot VOIDED dan bagian kantong (repro p4 pemeriksa rev7.2) | tidak ada koreksi sebelum hari periode |
 | f1, m2, f1_noninv, f1_closed | skenario dasar rev6 | tidak berubah; E tertutup dan jalur non-invoice tetap satu jurnal |
 | perf.sql | M-4 | lihat `perf.txt` |
 
-Output: `output_rev7_0bbfd55.txt` (rev7), `output_rev7_1.txt` (rev7.1) dan `output_rev7_2.txt` (rev7.2, putaran ketujuh).
+Output: `output_rev7_0bbfd55.txt` (rev7), `output_rev7_1.txt` (rev7.1) dan `output_rev7_2.txt` (rev7.2) dan `output_rev7_3.txt` (rev7.3, sesudah pemeriksaan independen rev7.2).

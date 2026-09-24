@@ -41,7 +41,8 @@ KEYS=('MATERIAL_INVENTORY','WIP','FG_INVENTORY','COGS')
 FUNCTIONS=('erp.sync_material_cost_revaluation(uuid)','erp._cp6_sync_material_adjustment_revaluation(uuid,uuid)','erp.sync_finished_po_wip_residual(uuid,date,text)',
            # AZ rev2 (round six): the rest of the family (handoff §23.7, independent review of AY rev7).
            'erp.guard_pocket_period_v1()','erp.sync_initial_import_bs_value_v1(uuid,date)',
-           'erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)','erp.refresh_accessory_hpp_after_material_recost(uuid,text)')
+           'erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)','erp.refresh_accessory_hpp_after_material_recost(uuid,text)',
+           'erp.reverse_qc(uuid,text)','erp.reverse_rework_completion(uuid,text)','erp.complete_initial_import_wip_v1(jsonb)')
 
 
 def dev_source(signature):
@@ -563,7 +564,7 @@ def batch_partner(cur,today,price):
         produce(cur,fx2,po_b,product_b,d2,6,3,batch=pool)
     except psycopg.Error as exc:
         cur.execute('rollback to savepoint az_batch_partner');api.admin(cur)
-        refused='batch' in str(exc).lower() or 'po' in str(exc).lower()
+        refused='Cutting batch must belong to the same production order' in str(exc)
         return dict(status='PASS' if refused else 'FAIL',finding='independent review of AY rev7: batch partner PO not queued',
                     checks=dict(cross_po_batch_refused_by_product=refused),error=str(exc)[:400],
                     note='The product refuses a cutting group of another PO in a cutting batch; the partner queue of AZ rev2 is a no-op.')
