@@ -1252,8 +1252,8 @@
    "stamp": "20260924010200",
    "name": "erp_v2_6_20ay_cp6_hpp_dated_from_goods",
    "closed": true,
-   "source_sha256": "89e019cfcebfb32ead08b05d300bdaa210197aa3732dfa697d9e34d8bba2d036",
-   "package_sha256": "001e0445884d8a4776f89789ea67463e6ad166eb7cd7333ac7d9567009890eac",
+   "source_sha256": "9591f4edbbae545ef6495f4fc018f752a8eaee712551d01b1b970fe65e7d236e",
+   "package_sha256": "d55a23a4d054c63aa8e55db2678019499a2a1359c6ff608a4ad88ff760cab2fd",
    "subs": [
     {
      "kind": "LEDGER",
@@ -1504,7 +1504,7 @@
      "kind": "CATALOG",
      "what": "AY_INSTALLED_CATALOG_DRIFT",
      "old": "if object_count<>0 or fingerprint is distinct from '0000000000000000000000000000000000000000000000000000000000000000' then\n  raise exception 'AY_INSTALLED_CATALOG_DRIFT';",
-     "new": "if object_count<>7281 or fingerprint is distinct from 'cb3dd9247d069fe7bb7b6fe5433a848af6cfaa5d18ad15680baa7381a71675fc' then\n  raise exception 'AY_INSTALLED_CATALOG_DRIFT';",
+     "new": "if object_count<>7281 or fingerprint is distinct from 'da55287ee9ad22cfa9c4d5ed0241e197c904f81be17c9dfdba415e1ff9ba15b2' then\n  raise exception 'AY_INSTALLED_CATALOG_DRIFT';",
      "count": 1
     }
    ],

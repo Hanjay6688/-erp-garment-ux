@@ -974,8 +974,8 @@
       "name": "erp_v2_6_20ay_cp6_hpp_dated_from_goods",
       "closed_admission": true,
       "source": "supabase/release/cp6-t3-src/20260924010200_erp_v2_6_20ay_cp6_hpp_dated_from_goods.sql",
-      "source_sha256": "89e019cfcebfb32ead08b05d300bdaa210197aa3732dfa697d9e34d8bba2d036",
-      "package_sha256": "001e0445884d8a4776f89789ea67463e6ad166eb7cd7333ac7d9567009890eac",
+      "source_sha256": "9591f4edbbae545ef6495f4fc018f752a8eaee712551d01b1b970fe65e7d236e",
+      "package_sha256": "d55a23a4d054c63aa8e55db2678019499a2a1359c6ff608a4ad88ff760cab2fd",
       "substitutions": [
         {
           "kind": "LEDGER",
@@ -1165,7 +1165,7 @@
   "rollbacks": "NOT_TESTED",
   "pins": {
     "file": "docs/evidence/cp6-t3/release_pins.json",
-    "blob_sha256": "e6cb0d41f4e1ec97aa2a03c98fb8e118ea3596d6492f9f9237db7439fabb93d7",
+    "blob_sha256": "252121309808cd62cd48765502c6b4cca5d0799a29686ae7899fe7e4d583a17f",
     "blob_bytes": 55928
   }
 }

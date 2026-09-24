@@ -146,6 +146,10 @@ def run(mode):
     # Every outcome is recorded above; the job is green only when the whole candidate installed (and, in browser mode,
     # the flow passed), so a green job can be cited without reading the log.
     assert report['status'] in ('ALL_STAGES_INSTALLED','BROWSER_PASS'),(report['status'],report.get('error'))
+    if mode=='capture':
+        # The capture job also compares with the committed package: a difference means the committed package is stale, so
+        # the job is red; the new pins are in the log (T3_PINS_CHUNK) for the rebuild.
+        assert (report.get('pins_reproduced') or {}).get('equal'),('T3_COMMITTED_PACKAGE_STALE',report.get('pins_reproduced'))
 
 
 if __name__=='__main__':run(sys.argv[1])
