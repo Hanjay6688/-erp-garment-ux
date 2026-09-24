@@ -1,0 +1,41 @@
+{
+ "label": "T3_PREP_BROWSER",
+ "run": 35940618298,
+ "head": "980abd25aaaf2bf25f5855f979577f75907d8cc7",
+ "candidate": "hosted-faithful clone at AB + committed package AC..AV (20 files) + AW/AX T1 files; UI built from this branch",
+ "flow": "scripts/cp6_au_browser_ui.mjs unchanged: real Auth/JWT, public PostgREST on the clone only, 10 cases",
+ "result": {
+  "label": "T3_PREP_BROWSER",
+  "status": "PASS",
+  "frontend": "candidate branch checkout (auditor)",
+  "production_go": false,
+  "release_evidence": false,
+  "seed": {
+   "exit": 0,
+   "stderr": ""
+  },
+  "flow_exit_code": 0,
+  "cases": {
+   "REAL_LOGIN_PAGE": "PASS",
+   "ANONYMOUS_REFUSED": "PASS",
+   "REAL_PASSWORD_BROWSER_LOGIN": "PASS",
+   "AMBIGUOUS_REFUSED_0": "PASS",
+   "LOST_REPLY_RELOAD_EXACT_REPLAY": "PASS",
+   "EXACT_BRAND_STOCK_HPP_0": "PASS",
+   "LINKED_INVERSE_0": "PASS",
+   "AMBIGUOUS_REFUSED_1": "PASS",
+   "EXACT_BRAND_STOCK_HPP_1": "PASS",
+   "LINKED_INVERSE_1": "PASS"
+  },
+  "flow_status": "PASS",
+  "console_errors": 0,
+  "candidate_verified_after_flow": "T3_PACKAGE_PLUS_AW_AX_T1",
+  "rest_remaining": false
+ },
+ "primary_unchanged": true,
+ "auth_users_before": 0,
+ "auth_users_after": 0,
+ "production_go": false,
+ "release_evidence": false,
+ "note": "Run on the 20-file package with AW/AX as T1 files; it is repeated on the 22-file package (AW/AX release candidates) after the pins are rebuilt."
+}
