@@ -29,7 +29,8 @@ Skenario (tanggal relatif hari ini d; E = tanggal invoice):
 | r17_pocket_part | bagian kain kantong di HPP lot | −10,00 pada akhir periode kantong, bukan hari lot |
 | r18_pocket_two_pools | dua periode kantong dalam satu statement (urutan realistis, repro p6 pemeriksa rev7.2) | −5 pada akhir periode 1, −5 pada akhir periode 2; sync kedua tidak memposting; WIP PO 0 |
 | r19_pocket_voided | lot VOIDED dan bagian kantong (repro p4 pemeriksa rev7.2) | tidak ada koreksi sebelum hari periode |
+| r20_presewing_reversal | rev7.4: pengeluaran bahan potong dibatalkan sebelum jahit sesudah sync terakhir (kolam PO) | −17,50 pada hari lot, −40,00 pada hari pembatalan; WIP PO + AZ + jurnal pembatalan = 0 tiap hari |
 | f1, m2, f1_noninv, f1_closed | skenario dasar rev6 | tidak berubah; E tertutup dan jalur non-invoice tetap satu jurnal |
 | perf.sql | M-4 | lihat `perf.txt` |
 
-Output: `output_rev7_0bbfd55.txt` (rev7), `output_rev7_1.txt` (rev7.1) dan `output_rev7_2.txt` (rev7.2) dan `output_rev7_3.txt` (rev7.3, sesudah pemeriksaan independen rev7.2).
+Output: `output_rev7_0bbfd55.txt` (rev7), `output_rev7_1.txt` (rev7.1) dan `output_rev7_2.txt` (rev7.2) dan `output_rev7_3.txt` (rev7.3, sesudah pemeriksaan independen rev7.2) dan `output_rev7_4.txt` (rev7.4: r20 baru; r1–r19 dan f1/m2 sama dengan rev7.3 kecuali UUID dan jam acak).
