@@ -1,0 +1,924 @@
+{
+  "candidate_sha": "9add57ea8c2b6b2dc37c0134717d4d39ba30b5dc",
+  "reviewed_report_sha": "cf301a6f0c128ac8c221ab11e22c95db0ce1c896",
+  "evidence_label": "REUSED_EVIDENCE",
+  "review_scope": "Case-level observations and metadata from direct Actions logs. No new native run; fixture/oracle limitations in AUDIT_CLAUDE_CROSS_REVIEW.md.",
+  "runs": [
+    {
+      "run_id": 36045629594,
+      "job_id": 107788356714,
+      "path": "audit/scenarios/open_2.py",
+      "label": "REUSED_EVIDENCE",
+      "metadata": {
+        "id": 36045629594,
+        "head_sha": "9add57ea8c2b6b2dc37c0134717d4d39ba30b5dc",
+        "head_branch": "claude/new-session-deapao",
+        "run_attempt": 1,
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36045629594",
+        "created_at": "2026-09-24T19:04:24Z"
+      },
+      "case_rows": [
+        {
+          "log_line": 1678,
+          "observation": {
+            "group": "AUDITOR_CASES_AFTER",
+            "case": "OPEN2:MATERIAL_SECOND_BATCH_SAME_CUTOVER",
+            "status": "COUNTEREXAMPLE",
+            "kind": "MATERIAL",
+            "second_cutover": "2026-09-24",
+            "first_opening_date": "2026-09-24",
+            "checks": {
+              "second_batch_not_posted": false,
+              "ledger_unchanged": false,
+              "posted_items_unchanged": false
+            },
+            "second_result": "{'action': 'FINALIZE', 'status': 'POSTED', 'batch_id': '292d219e-88b5-499d-b54e-0076653fb3f1', 'revision': '3952328825cc131590e39820490044a75655529d35816e37c2bd861450e16ece', 'error_rows': 0, 'request_id': '2c864b64-bccf-4e75-bbc4-43276192d922', 'total_rows': 2, 'valid_rows': 2}",
+            "refusal": null,
+            "ledger_delta_second": {
+              "MATERIAL_INVENTORY": "15.75"
+            },
+            "posted_items_before": {
+              "items": 1,
+              "qty": "7.000000",
+              "amount": "0",
+              "posted_headers": 1
+            },
+            "posted_items_after": {
+              "items": 2,
+              "qty": "14.000000",
+              "amount": "0",
+              "posted_headers": 2
+            },
+            "expected": "M:138/M:1043: a second import batch re-declaring the same opening item (same item, location, cutover) is refused or not POSTED; ledger and POSTED opening items unchanged",
+            "full_boundary_restored": true
+          }
+        },
+        {
+          "log_line": 1679,
+          "observation": {
+            "group": "AUDITOR_CASES_AFTER",
+            "case": "OPEN2:MATERIAL_SECOND_BATCH_EARLIER_CUTOVER",
+            "status": "COUNTEREXAMPLE",
+            "kind": "MATERIAL",
+            "second_cutover": "2026-09-23",
+            "first_opening_date": "2026-09-24",
+            "checks": {
+              "second_batch_not_posted": false,
+              "ledger_unchanged": false,
+              "posted_items_unchanged": false
+            },
+            "second_result": "{'action': 'FINALIZE', 'status': 'POSTED', 'batch_id': 'bfa26283-16fa-4389-9f2e-d7fb7674186f', 'revision': 'ba4b821ab45e6ccac5ed668781bab7c01eb453dc446da873405515a12c32c199', 'error_rows': 0, 'request_id': '2c48a7dc-4f38-423e-a407-ecd2a7292150', 'total_rows': 2, 'valid_rows': 2}",
+            "refusal": null,
+            "ledger_delta_second": {
+              "MATERIAL_INVENTORY": "15.75"
+            },
+            "posted_items_before": {
+              "items": 1,
+              "qty": "7.000000",
+              "amount": "0",
+              "posted_headers": 1
+            },
+            "posted_items_after": {
+              "items": 2,
+              "qty": "14.000000",
+              "amount": "0",
+              "posted_headers": 2
+            },
+            "expected": "M:138/M:1043: a second import batch re-declaring the same opening item (same item, location, cutover) is refused or not POSTED; ledger and POSTED opening items unchanged",
+            "full_boundary_restored": true
+          }
+        },
+        {
+          "log_line": 1680,
+          "observation": {
+            "group": "AUDITOR_CASES_AFTER",
+            "case": "OPEN2:FG_SECOND_BATCH_SAME_CUTOVER",
+            "status": "COUNTEREXAMPLE",
+            "kind": "FINISHED_GOODS",
+            "second_cutover": "2026-09-24",
+            "first_opening_date": "2026-09-24",
+            "checks": {
+              "second_batch_not_posted": false,
+              "ledger_unchanged": false,
+              "posted_items_unchanged": false
+            },
+            "second_result": "{'action': 'FINALIZE', 'status': 'POSTED', 'batch_id': '0ae9e0b9-18ca-480b-80de-101fb10a6482', 'revision': '3f75d1dc91ae983bc023acf3f384de13aa4082d3a7f8ec8cb3b5668fc97e9a78', 'error_rows': 0, 'request_id': 'ae627e4c-f4c7-427d-939b-7bf51bbf6709', 'total_rows': 2, 'valid_rows': 2}",
+            "refusal": null,
+            "ledger_delta_second": {
+              "FG_INVENTORY": "15.75"
+            },
+            "posted_items_before": {
+              "items": 1,
+              "qty": "7.000000",
+              "amount": "0",
+              "posted_headers": 1
+            },
+            "posted_items_after": {
+              "items": 2,
+              "qty": "14.000000",
+              "amount": "0",
+              "posted_headers": 2
+            },
+            "expected": "M:138/M:1043: a second import batch re-declaring the same opening item (same item, location, cutover) is refused or not POSTED; ledger and POSTED opening items unchanged",
+            "full_boundary_restored": true
+          }
+        },
+        {
+          "log_line": 1681,
+          "observation": {
+            "group": "AUDITOR_CASES_AFTER",
+            "case": "OPEN2:MATERIAL_SAME_BATCH_FINALIZE_REPLAY",
+            "status": "PASS",
+            "checks": {
+              "ledger_unchanged": true,
+              "posted_items_unchanged": true
+            },
+            "replay_result": null,
+            "refusal": {
+              "sqlstate": "P0001",
+              "message": "Impor yang sudah disahkan tidak dapat diedit atau disahkan ulang dengan permintaan baru"
+            },
+            "posted_items_after": {
+              "items": 1,
+              "qty": "7.000000",
+              "amount": "0",
+              "posted_headers": 1
+            },
+            "ledger_delta": {},
+            "expected": "M:1043: FINALIZE replay on an already POSTED batch is a no-op (no second posting)",
+            "full_boundary_restored": true
+          }
+        },
+        {
+          "log_line": 1682,
+          "observation": {
+            "group": "AUDITOR_CASES_AFTER",
+            "case": "OPEN2:STOCK_READERS_CATALOG",
+            "status": "OBSERVED",
+            "tables": [
+              "account_daily_balances",
+              "fg_inventory_balances",
+              "fg_stock_movements",
+              "initial_import_opening_stock_sources",
+              "material_stock_movements",
+              "opening_balance_headers",
+              "opening_balance_items",
+              "opening_subledger_balances",
+              "sale_stock_allocations",
+              "stock_explainability_snapshots",
+              "stock_policy_versions",
+              "v_fg_stock_balance",
+              "v_fg_stock_card",
+              "v_fg_stock_mutations",
+              "v_fg_stock_position_v1",
+              "v_material_stock_balance",
+              "v_material_stock_card",
+              "v_material_stock_mutations"
+            ],
+            "functions": [
+              "_reverse_material_purchase_stock_at_source_time",
+              "_stage_reverse_material_purchase_stock_at_source_time",
+              "assert_new_stock_cutoff_coverage_v1",
+              "check_opening_cash_advance_payroll_v1",
+              "customer_stock_catalog",
+              "guard_material_negative_stock",
+              "guard_opening_balance_post_date",
+              "guard_opening_cash_advance_balance_v1",
+              "guard_opening_cash_advance_deduction_v1",
+              "guard_opening_hpp_correction_effective_date",
+              "guard_stock_explainability_immutable",
+              "guard_stock_policy_version",
+              "latest_new_stock_physical_at_v1",
+              "link_initial_import_stock_source_v1",
+              "move_fg_stock_card_row",
+              "move_fg_stock_card_row_to_position",
+              "move_fg_stock_mutation_row",
+              "move_fg_stock_mutation_row_to_position",
+              "opening_cash_advance_state_v1",
+              "post_opening_balance",
+              "post_opening_financial_correction",
+              "post_opening_hpp_correction",
+              "post_opening_hpp_correction_from_price_percent",
+              "post_opening_subledger_settlement",
+              "prepare_migration_opening_balance",
+              "product_opening_physical_at",
+              "reset_fg_stock_card_order",
+              "reset_fg_stock_mutation_book_order",
+              "reset_fg_stock_mutation_order",
+              "resolve_opening_fg_unit_hpp",
+              "resolve_opening_product_identity",
+              "reverse_opening_financial_correction",
+              "reverse_opening_hpp_correction",
+              "reverse_opening_subledger_settlement",
+              "set_fg_stock_policy_v1",
+              "set_opening_cash_advance_payroll_v1",
+              "set_opening_fg_hpp_percent",
+              "sync_opening_hpp_after_fg_adjustment_status",
+              "sync_opening_hpp_after_return_status",
+              "sync_opening_hpp_after_sale_status",
+              "sync_opening_lot_hpp_to_gl",
+              "validate_material_stock_movement_lineage",
+              "validate_migration_opening_stock_costs"
+            ],
+            "expected": "informational: readers that could expose a doubled opening (for follow-up)",
+            "full_boundary_restored": true
+          }
+        }
+      ],
+      "scenario_sha256": "e8b84000396cc6e9ee27cdd49a50ea3d3806386a7b916e7868fc9b974709e9e0",
+      "scenario_bytes": 5913,
+      "phase": "after",
+      "source_hash_log_line": 1676,
+      "summary_log_line": 1683,
+      "runner_summary": {
+        "status": "RUN_COMPLETE",
+        "auditor_cases": {
+          "status": "COUNTEREXAMPLE",
+          "counts": {
+            "COUNTEREXAMPLE": 3,
+            "PASS": 1,
+            "OBSERVED": 1
+          }
+        },
+        "primary_unchanged": true,
+        "clone_remaining": 0,
+        "production_go": false
+      },
+      "case_ids_unique": true
+    },
+    {
+      "run_id": 36048357523,
+      "job_id": 107797410652,
+      "path": "audit/scenarios/xaudit_1.py",
+      "label": "REUSED_EVIDENCE",
+      "metadata": {
+        "id": 36048357523,
+        "head_sha": "9add57ea8c2b6b2dc37c0134717d4d39ba30b5dc",
+        "head_branch": "claude/new-session-deapao",
+        "run_attempt": 1,
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36048357523",
+        "created_at": "2026-09-24T19:28:13Z"
+      },
+      "case_rows": [
+        {
+          "log_line": 1683,
+          "observation": {
+            "group": "AUDITOR_CASES_AFTER",
+            "case": "XA:U02_WIP_RECOMPLETION_DATED_BEFORE_REVERSAL",
+            "status": "COUNTEREXAMPLE",
+            "checks": {
+              "second_completion_refused": false,
+              "no_negative_stage_prefix": false,
+              "no_negative_wip_gl_prefix": false
+            },
+            "cutover": "2026-09-17",
+            "stage": "SEWING",
+            "first_completion_date": "2026-09-22",
+            "reversal_day": "2026-09-25",
+            "second_completion_date": "2026-09-24",
+            "second_result": "{'action': 'WIP_OUTPUT', 'lot_id': '0dc1f62b-b4cd-4546-b931-9233c323344f', 'status': 'POSTED', 'batch_id': '32d8e290-a9eb-4da5-8830-c1e01d596245', 'operation': 'COMPLETE', 'output_id': '46a80c6a-59f5-",
+            "refusal": null,
+            "remaining_before_second": 8,
+            "stage_balance_mid": {
+              "2026-09-17": "8",
+              "2026-09-18": "8",
+              "2026-09-19": "8",
+              "2026-09-20": "8",
+              "2026-09-21": "8",
+              "2026-09-22": "0",
+              "2026-09-23": "0",
+              "2026-09-24": "0",
+              "2026-09-25": "8"
+            },
+            "stage_balance_after": {
+              "2026-09-17": "8",
+              "2026-09-18": "8",
+              "2026-09-19": "8",
+              "2026-09-20": "8",
+              "2026-09-21": "8",
+              "2026-09-22": "0",
+              "2026-09-23": "0",
+              "2026-09-24": "-8",
+              "2026-09-25": "0"
+            },
+            "wip_gl_po_after": {
+              "2026-09-17": "60.00",
+              "2026-09-18": "60.00",
+              "2026-09-19": "60.00",
+              "2026-09-20": "60.00",
+              "2026-09-21": "60.00",
+              "2026-09-22": "20.00",
+              "2026-09-23": "20.00",
+              "2026-09-24": "-20.00",
+              "2026-09-25": "20.00"
+            },
+            "negative_stage_days": [
+              "2026-09-24"
+            ],
+            "negative_gl_days": [
+              "2026-09-24"
+            ],
+            "expected": "M:369-371/M:3820: a completion dated before the reversal of an earlier completion is refused, or the stage qty and WIP GL prefix stay non-negative on every day",
+            "full_boundary_restored": true
+          }
+        },
+        {
+          "log_line": 1684,
+          "observation": {
+            "group": "AUDITOR_CASES_AFTER",
+            "case": "XA:U03_ROUNDING_UP_10.005_TO_10.014",
+            "status": "COUNTEREXAMPLE",
+            "checks": {
+              "correction_posted": true,
+              "raw_qty_zero": true,
+              "inventory_value_zero_at_end": false,
+              "wip_equals_rounded_corrected_value": false,
+              "no_negative_daily_inventory": false
+            },
+            "receipt_day": "2026-09-21",
+            "cut_day": "2026-09-22",
+            "correction_day": "2026-09-23",
+            "p0": "10.005",
+            "p1": "10.014",
+            "delta_after_cut": {
+              "MATERIAL_INVENTORY": "0.00",
+              "WIP": "10.01",
+              "FG_INVENTORY": "0",
+              "COGS": "0"
+            },
+            "delta_end": {
+              "MATERIAL_INVENTORY": "-0.01",
+              "WIP": "10.02",
+              "FG_INVENTORY": "0",
+              "COGS": "0"
+            },
+            "expected_wip": "10.01",
+            "raw_qty": "0.000000",
+            "movements": [
+              [
+                "PURCHASE",
+                "1.000000",
+                "10.014000",
+                "10.005000"
+              ],
+              [
+                "CUTTING_ISSUE",
+                "-1.000000",
+                "10.014000",
+                "10.005000"
+              ]
+            ],
+            "daily_delta": {
+              "2026-09-21": {
+                "MATERIAL_INVENTORY": "10.01",
+                "WIP": "0.00"
+              },
+              "2026-09-22": {
+                "MATERIAL_INVENTORY": "0.00",
+                "WIP": "10.01"
+              },
+              "2026-09-23": {
+                "MATERIAL_INVENTORY": "-0.01",
+                "WIP": "10.02"
+              },
+              "2026-09-24": {
+                "MATERIAL_INVENTORY": "-0.01",
+                "WIP": "10.02"
+              },
+              "2026-09-25": {
+                "MATERIAL_INVENTORY": "-0.01",
+                "WIP": "10.02"
+              }
+            },
+            "refusal": null,
+            "expected": "M:1022/M:1059-1065/M:3820: one unit received and fully consumed leaves raw qty and inventory value 0 at the end; WIP carries the corrected value rounded to cents (1 x p1); daily inventory never negative",
+            "full_boundary_restored": true
+          }
+        },
+        {
+          "log_line": 1685,
+          "observation": {
+            "group": "AUDITOR_CASES_AFTER",
+            "case": "XA:U03_ROUNDING_DOWN_10.014_TO_10.005",
+            "status": "COUNTEREXAMPLE",
+            "checks": {
+              "correction_posted": true,
+              "raw_qty_zero": true,
+              "inventory_value_zero_at_end": false,
+              "wip_equals_rounded_corrected_value": true,
+              "no_negative_daily_inventory": true
+            },
+            "receipt_day": "2026-09-21",
+            "cut_day": "2026-09-22",
+            "correction_day": "2026-09-23",
+            "p0": "10.014",
+            "p1": "10.005",
+            "delta_after_cut": {
+              "MATERIAL_INVENTORY": "0.00",
+              "WIP": "10.01",
+              "FG_INVENTORY": "0",
+              "COGS": "0"
+            },
+            "delta_end": {
+              "MATERIAL_INVENTORY": "0.01",
+              "WIP": "10.00",
+              "FG_INVENTORY": "0",
+              "COGS": "0"
+            },
+            "expected_wip": "10.00",
+            "raw_qty": "0.000000",
+            "movements": [
+              [
+                "PURCHASE",
+                "1.000000",
+                "10.005000",
+                "10.014000"
+              ],
+              [
+                "CUTTING_ISSUE",
+                "-1.000000",
+                "10.005000",
+                "10.014000"
+              ]
+            ],
+            "daily_delta": {
+              "2026-09-21": {
+                "MATERIAL_INVENTORY": "10.01",
+                "WIP": "0.00"
+              },
+              "2026-09-22": {
+                "MATERIAL_INVENTORY": "0.00",
+                "WIP": "10.01"
+              },
+              "2026-09-23": {
+                "MATERIAL_INVENTORY": "0.01",
+                "WIP": "10.00"
+              },
+              "2026-09-24": {
+                "MATERIAL_INVENTORY": "0.01",
+                "WIP": "10.00"
+              },
+              "2026-09-25": {
+                "MATERIAL_INVENTORY": "0.01",
+                "WIP": "10.00"
+              }
+            },
+            "refusal": null,
+            "expected": "M:1022/M:1059-1065/M:3820: one unit received and fully consumed leaves raw qty and inventory value 0 at the end; WIP carries the corrected value rounded to cents (1 x p1); daily inventory never negative",
+            "full_boundary_restored": true
+          }
+        },
+        {
+          "log_line": 1686,
+          "observation": {
+            "group": "AUDITOR_CASES_AFTER",
+            "case": "XA:SI03_IDEMPOTENT_REPLAY_DIFFERENT_PAYLOAD",
+            "status": "PASS",
+            "checks": {
+              "same_payload_replays_identically": true,
+              "different_payload_refused": true
+            },
+            "first": "{'action': 'CREATE', 'status': 'DRAFT', 'batch_id': '021ac066-91a6-4fa8-a378-37b234d28970', 'revision': '94b875aaaa89ba638e93630b7ae03ed21e3fe3a255d005947df20b5e144aa174', 'error_rows': None, 'request",
+            "replay": "{'action': 'CREATE', 'status': 'DRAFT', 'batch_id': '021ac066-91a6-4fa8-a378-37b234d28970', 'revision': '94b875aaaa89ba638e93630b7ae03ed21e3fe3a255d005947df20b5e144aa174', 'error_rows': None, 'request",
+            "replay_error": null,
+            "different_payload_result": null,
+            "refusal": {
+              "sqlstate": "P0001",
+              "message": "client_request_id was already used with a different payload"
+            },
+            "expected": "M:3819: same UUID + same payload replays exactly; same UUID + different payload is refused (message recorded verbatim; the second auditor's expected text is not present in the candidate SQL)",
+            "full_boundary_restored": true
+          }
+        }
+      ],
+      "scenario_sha256": "32a872e5ca4bfbae4a49ca05ca746454e2fc8d3c007c0e8bb10609f7b233d4a4",
+      "scenario_bytes": 9124,
+      "phase": "after",
+      "source_hash_log_line": 1681,
+      "summary_log_line": 1687,
+      "runner_summary": {
+        "status": "RUN_COMPLETE",
+        "auditor_cases": {
+          "status": "COUNTEREXAMPLE",
+          "counts": {
+            "COUNTEREXAMPLE": 3,
+            "PASS": 1
+          }
+        },
+        "primary_unchanged": true,
+        "clone_remaining": 0,
+        "production_go": false
+      },
+      "case_ids_unique": true
+    },
+    {
+      "run_id": 36051514868,
+      "job_id": 107807966805,
+      "path": "audit/scenarios/xaudit_2.py",
+      "label": "REUSED_EVIDENCE",
+      "metadata": {
+        "id": 36051514868,
+        "head_sha": "9add57ea8c2b6b2dc37c0134717d4d39ba30b5dc",
+        "head_branch": "claude/new-session-deapao",
+        "run_attempt": 1,
+        "status": "completed",
+        "conclusion": "success",
+        "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36051514868",
+        "created_at": "2026-09-24T19:56:25Z"
+      },
+      "case_rows": [
+        {
+          "log_line": 1683,
+          "observation": {
+            "group": "AUDITOR_CASES_AFTER",
+            "case": "XA2:F1-17_INVOICE_PATH_UP_10.005_TO_10.014",
+            "status": "COUNTEREXAMPLE",
+            "checks": {
+              "invoice_posted": true,
+              "raw_qty_zero": true,
+              "inventory_value_zero_at_end": false,
+              "wip_equals_rounded_invoiced_value": false,
+              "no_negative_daily_inventory": false
+            },
+            "receipt_day": "2026-09-21",
+            "cut_day": "2026-09-22",
+            "invoice_day": "2026-09-23",
+            "p0": "10.005",
+            "p1": "10.014",
+            "delta_after_cut": {
+              "MATERIAL_INVENTORY": "0.00",
+              "WIP": "10.01",
+              "FG_INVENTORY": "0",
+              "COGS": "0"
+            },
+            "delta_end": {
+              "MATERIAL_INVENTORY": "-0.01",
+              "WIP": "10.02",
+              "FG_INVENTORY": "0",
+              "COGS": "0"
+            },
+            "expected_wip": "10.01",
+            "raw_qty": "0.000000",
+            "movements": [
+              [
+                "PURCHASE",
+                "1.000000",
+                "10.014000",
+                "10.005000"
+              ],
+              [
+                "CUTTING_ISSUE",
+                "-1.000000",
+                "10.014000",
+                "10.005000"
+              ]
+            ],
+            "daily_delta": {
+              "2026-09-21": {
+                "MATERIAL_INVENTORY": "10.01",
+                "WIP": "0.00"
+              },
+              "2026-09-22": {
+                "MATERIAL_INVENTORY": "0.00",
+                "WIP": "10.01"
+              },
+              "2026-09-23": {
+                "MATERIAL_INVENTORY": "-0.01",
+                "WIP": "10.02"
+              },
+              "2026-09-24": {
+                "MATERIAL_INVENTORY": "-0.01",
+                "WIP": "10.02"
+              },
+              "2026-09-25": {
+                "MATERIAL_INVENTORY": "-0.01",
+                "WIP": "10.02"
+              }
+            },
+            "refusal": null,
+            "expected": "M:1022/M:1059-1065/M:3820 (invoice path): fully consumed unit leaves inventory qty and value 0; WIP = invoiced value rounded to cents; no negative daily inventory",
+            "full_boundary_restored": true
+          }
+        },
+        {
+          "log_line": 1684,
+          "observation": {
+            "group": "AUDITOR_CASES_AFTER",
+            "case": "XA2:F1-17_INVOICE_PATH_DOWN_10.014_TO_10.005",
+            "status": "COUNTEREXAMPLE",
+            "checks": {
+              "invoice_posted": true,
+              "raw_qty_zero": true,
+              "inventory_value_zero_at_end": false,
+              "wip_equals_rounded_invoiced_value": true,
+              "no_negative_daily_inventory": true
+            },
+            "receipt_day": "2026-09-21",
+            "cut_day": "2026-09-22",
+            "invoice_day": "2026-09-23",
+            "p0": "10.014",
+            "p1": "10.005",
+            "delta_after_cut": {
+              "MATERIAL_INVENTORY": "0.00",
+              "WIP": "10.01",
+              "FG_INVENTORY": "0",
+              "COGS": "0"
+            },
+            "delta_end": {
+              "MATERIAL_INVENTORY": "0.01",
+              "WIP": "10.00",
+              "FG_INVENTORY": "0",
+              "COGS": "0"
+            },
+            "expected_wip": "10.00",
+            "raw_qty": "0.000000",
+            "movements": [
+              [
+                "PURCHASE",
+                "1.000000",
+                "10.005000",
+                "10.014000"
+              ],
+              [
+                "CUTTING_ISSUE",
+                "-1.000000",
+                "10.005000",
+                "10.014000"
+              ]
+            ],
+            "daily_delta": {
+              "2026-09-21": {
+                "MATERIAL_INVENTORY": "10.01",
+                "WIP": "0.00"
+              },
+              "2026-09-22": {
+                "MATERIAL_INVENTORY": "0.00",
+                "WIP": "10.01"
+              },
+              "2026-09-23": {
+                "MATERIAL_INVENTORY": "0.01",
+                "WIP": "10.00"
+              },
+              "2026-09-24": {
+                "MATERIAL_INVENTORY": "0.01",
+                "WIP": "10.00"
+              },
+              "2026-09-25": {
+                "MATERIAL_INVENTORY": "0.01",
+                "WIP": "10.00"
+              }
+            },
+            "refusal": null,
+            "expected": "M:1022/M:1059-1065/M:3820 (invoice path): fully consumed unit leaves inventory qty and value 0; WIP = invoiced value rounded to cents; no negative daily inventory",
+            "full_boundary_restored": true
+          }
+        },
+        {
+          "log_line": 1685,
+          "observation": {
+            "group": "AUDITOR_CASES_AFTER",
+            "case": "XA2:F1-15_SELECTOR_101_LAUNDRY_SOURCES",
+            "status": "COUNTEREXAMPLE",
+            "checks": {
+              "old_claimable_in_db": true,
+              "old_selectable": false,
+              "lookups_capped_at_100": true
+            },
+            "lookups_count": 100,
+            "claimable_in_lookups": 100,
+            "old_id": "81e0ee55-40d2-4f66-bd55-57fc847498fd",
+            "old_qty": "10",
+            "newest_in_lookups": [
+              "XA2-NEW-099",
+              "XA2-NEW-098"
+            ],
+            "oldest_in_lookups": [
+              "XA2-NEW-001",
+              "XA2-NEW-000"
+            ],
+            "expected": "M:1691/M:3826/M:4486: an older delivery that is still claimable must be selectable from the claim form lookups (any list/search/paging)",
+            "full_boundary_restored": true
+          }
+        },
+        {
+          "log_line": 1686,
+          "observation": {
+            "group": "AUDITOR_CASES_AFTER",
+            "case": "XA2:AV_IDENTITY_EDIT_BEFORE_NEW_STOCK_FACT",
+            "status": "PASS",
+            "checks": {
+              "refused": true
+            },
+            "latest_new_stock_fact": "2026-09-25 02:41:05.091454+07:00",
+            "effective_from": "2026-09-25 01:41:05.091454+07:00",
+            "result": null,
+            "refusal": {
+              "sqlstate": "P0001",
+              "message": "Tanggal efektif SKU akan memotong histori produksi yang sudah tercatat (fakta fisik stok baru terakhir 2026-09-25 02:41:05.091454+07). Pilih tanggal efektif sesudahnya."
+            },
+            "versions": [
+              "1",
+              "2026-01-01 07:00:00+07",
+              "2026-01-01 07:00:00+07"
+            ],
+            "old_row": [
+              "None",
+              "CP6-E-AUR1-e61e2472d967"
+            ],
+            "expected": "M:3817/M:3820: an identity change effective BEFORE the latest new-stock fact of the SKU is refused (posted facts keep their identity); refusal recorded verbatim",
+            "full_boundary_restored": true
+          }
+        },
+        {
+          "log_line": 1687,
+          "observation": {
+            "group": "AUDITOR_CASES_AFTER",
+            "case": "XA2:AV_IDENTITY_EDIT_AFTER_NEW_STOCK_FACT",
+            "status": "PASS",
+            "checks": {
+              "accepted": true,
+              "old_version_closed": true,
+              "old_sku_unchanged": true
+            },
+            "latest_new_stock_fact": "2026-09-25 02:41:05.530732+07:00",
+            "effective_from": "2026-09-25 03:41:05.530732+07:00",
+            "result": "3a1b57c1-19a2-4adb-bd02-aead19ed8817",
+            "refusal": null,
+            "versions": [
+              "2",
+              "2026-01-01 07:00:00+07",
+              "2026-09-25 03:41:05.530732+07"
+            ],
+            "old_row": [
+              "2026-09-25 03:41:05.530732+07",
+              "CP6-E-AUR1-d4cd1b772834"
+            ],
+            "expected": "M:3822/M:6784: an identity change effective AFTER the latest fact creates a new version and keeps the old version (effective_to set, old SKU text unchanged)",
+            "full_boundary_restored": true
+          }
+        }
+      ],
+      "scenario_sha256": "108b3ebcdfb9076e99c0f1d1be82339490e85e8f522c2cfa00cab216434441a8",
+      "scenario_bytes": 11170,
+      "phase": "after",
+      "source_hash_log_line": 1681,
+      "summary_log_line": 1688,
+      "runner_summary": {
+        "status": "RUN_COMPLETE",
+        "auditor_cases": {
+          "status": "COUNTEREXAMPLE",
+          "counts": {
+            "COUNTEREXAMPLE": 3,
+            "PASS": 2
+          }
+        },
+        "primary_unchanged": true,
+        "clone_remaining": 0,
+        "production_go": false
+      },
+      "case_ids_unique": true
+    },
+    {
+      "run_id": 36051535647,
+      "job_id": 107808033765,
+      "path": "audit/scenarios/xaudit_3.py",
+      "label": "REUSED_EVIDENCE",
+      "metadata": {
+        "id": 36051535647,
+        "head_sha": "9add57ea8c2b6b2dc37c0134717d4d39ba30b5dc",
+        "head_branch": "claude/new-session-deapao",
+        "run_attempt": 1,
+        "status": "completed",
+        "conclusion": "failure",
+        "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36051535647",
+        "created_at": "2026-09-24T19:56:36Z"
+      },
+      "case_rows": [
+        {
+          "log_line": 1683,
+          "observation": {
+            "group": "AUDITOR_CASES_AFTER",
+            "case": "XA3:RACE_TWO_SESSIONS_SECOND_IMPORT_BATCH_SAME_ITEM",
+            "status": "INCOMPLETE",
+            "error": "permission denied to set session authorization \"supabase_admin\"",
+            "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/_temp/auditor_scenario.py\", line 85, in run\n    try:return fn(cur,today)\n               ^^^^^^^^^^^^^\n  File \"/home/runner/work/_temp/auditor_scenario.py\", line 44, in race_import\n    c,k=side();first=ovp.imported(k,today,'MATERIAL');c.commit()\n        ^^^^^^\n  File \"/home/runner/work/_temp/auditor_scenario.py\", line 17, in side\n    c=psycopg.connect(boundary.PG,autocommit=False);k=c.cursor();api.admin(k);return c,k\n                                                                 ^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_ao_ap_installed.py\", line 17, in admin\n    def admin(cur):actors.admin(cur)\n                   ^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_x_independent_audit.py\", line 56, in admin\n    actors.session(cur, 'supabase_admin')\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_v2620x_internal_role_regression.py\", line 27, in session\n    cur.execute('set session authorization '+name)\n  File \"/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.InsufficientPrivilege: permission denied to set session authorization \"supabase_admin\"\n",
+            "full_boundary_restored": true
+          }
+        },
+        {
+          "log_line": 1684,
+          "observation": {
+            "group": "AUDITOR_CASES_AFTER",
+            "case": "XA3:RACE_TWO_SESSIONS_CLOSE_SAME_DATE",
+            "status": "INCOMPLETE",
+            "error": "permission denied to set session authorization \"supabase_admin\"",
+            "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/_temp/auditor_scenario.py\", line 85, in run\n    try:return fn(cur,today)\n               ^^^^^^^^^^^^^\n  File \"/home/runner/work/_temp/auditor_scenario.py\", line 58, in race_close\n    c,k=side();prod.owner(k);pre=k.execute('select public.erp_accounting_close_preflight_v1(%s::date)',(d,)).fetchone()[0];c.rollback();c.close()\n        ^^^^^^\n  File \"/home/runner/work/_temp/auditor_scenario.py\", line 17, in side\n    c=psycopg.connect(boundary.PG,autocommit=False);k=c.cursor();api.admin(k);return c,k\n                                                                 ^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_ao_ap_installed.py\", line 17, in admin\n    def admin(cur):actors.admin(cur)\n                   ^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_x_independent_audit.py\", line 56, in admin\n    actors.session(cur, 'supabase_admin')\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_v2620x_internal_role_regression.py\", line 27, in session\n    cur.execute('set session authorization '+name)\n  File \"/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.InsufficientPrivilege: permission denied to set session authorization \"supabase_admin\"\n",
+            "full_boundary_restored": true
+          }
+        },
+        {
+          "log_line": 1685,
+          "observation": {
+            "group": "AUDITOR_CASES_AFTER",
+            "case": "XA3:RACE_TWO_SESSIONS_WIP_COMPLETE_SAME_REMAINING",
+            "status": "INCOMPLETE",
+            "error": "permission denied to set session authorization \"supabase_admin\"",
+            "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/_temp/auditor_scenario.py\", line 85, in run\n    try:return fn(cur,today)\n               ^^^^^^^^^^^^^\n  File \"/home/runner/work/_temp/auditor_scenario.py\", line 69, in race_wip\n    c,k=side();f=pt.fixture(api,k,today);receipt,sources=pt.finalize(api,k,f);c.commit()\n        ^^^^^^\n  File \"/home/runner/work/_temp/auditor_scenario.py\", line 17, in side\n    c=psycopg.connect(boundary.PG,autocommit=False);k=c.cursor();api.admin(k);return c,k\n                                                                 ^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_ao_ap_installed.py\", line 17, in admin\n    def admin(cur):actors.admin(cur)\n                   ^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_x_independent_audit.py\", line 56, in admin\n    actors.session(cur, 'supabase_admin')\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_v2620x_internal_role_regression.py\", line 27, in session\n    cur.execute('set session authorization '+name)\n  File \"/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.InsufficientPrivilege: permission denied to set session authorization \"supabase_admin\"\n",
+            "full_boundary_restored": true
+          }
+        }
+      ],
+      "scenario_sha256": "3915e006486e068dc71754a3f7e7aed0c80af414d7a3c7b581e6ce87a82420b4",
+      "scenario_bytes": 6874,
+      "phase": "after",
+      "source_hash_log_line": 1681,
+      "summary_log_line": 1686,
+      "runner_summary": {
+        "status": "INCOMPLETE",
+        "auditor_cases": {
+          "status": "INCOMPLETE",
+          "counts": {
+            "INCOMPLETE": 3
+          }
+        },
+        "primary_unchanged": true,
+        "clone_remaining": 0,
+        "production_go": false
+      },
+      "case_ids_unique": true
+    },
+    {
+      "run_id": 36052066150,
+      "job_id": 107809808216,
+      "path": "audit/scenarios/xaudit_3.py",
+      "label": "REUSED_EVIDENCE",
+      "metadata": {
+        "id": 36052066150,
+        "head_sha": "9add57ea8c2b6b2dc37c0134717d4d39ba30b5dc",
+        "head_branch": "claude/new-session-deapao",
+        "run_attempt": 1,
+        "status": "completed",
+        "conclusion": "failure",
+        "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36052066150",
+        "created_at": "2026-09-24T20:01:25Z"
+      },
+      "case_rows": [
+        {
+          "log_line": 1683,
+          "observation": {
+            "group": "AUDITOR_CASES_AFTER",
+            "case": "XA3:RACE_TWO_SESSIONS_SECOND_IMPORT_BATCH_SAME_ITEM",
+            "status": "INCOMPLETE",
+            "error": "OWNER or ADMIN access required\nCONTEXT:  PL/pgSQL function erp.require_owner_admin() line 12 at RAISE\nSQL statement \"SELECT erp.require_owner_admin()\"\nPL/pgSQL function erp.save_initial_import_action_v1(text,jsonb,uuid) line 9 at PERFORM\nSQL function \"erp_save_initial_import_action_v1\" statement 1",
+            "traceback": "n\n    try:return fn(cur,today)\n               ^^^^^^^^^^^^^\n  File \"/home/runner/work/_temp/auditor_scenario.py\", line 44, in race_import\n    c,k=side();first=ovp.imported(k,today,'MATERIAL');c.commit()\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_opening_overlap_probe.py\", line 23, in imported\n    batch=api.call(cur,'CREATE',dict(batch_code=tag,cutover_date=str(today-timedelta(days=1))))['batch_id']\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_ao_ap_installed.py\", line 25, in call\n    result=cur.execute('select public.erp_save_initial_import_action_v1(%s,%s::jsonb,%s)',(action,json.dumps(payload,default=str),key or uuid.uuid4())).fetchone()[0]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.RaiseException: OWNER or ADMIN access required\nCONTEXT:  PL/pgSQL function erp.require_owner_admin() line 12 at RAISE\nSQL statement \"SELECT erp.require_owner_admin()\"\nPL/pgSQL function erp.save_initial_import_action_v1(text,jsonb,uuid) line 9 at PERFORM\nSQL function \"erp_save_initial_import_action_v1\" statement 1\n",
+            "full_boundary_restored": true
+          }
+        },
+        {
+          "log_line": 1684,
+          "observation": {
+            "group": "AUDITOR_CASES_AFTER",
+            "case": "XA3:RACE_TWO_SESSIONS_CLOSE_SAME_DATE",
+            "status": "INCOMPLETE",
+            "error": "permission denied for schema erp\nLINE 1: select current_user,session_user,erp.current_app_role()\n                                         ^",
+            "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/_temp/auditor_scenario.py\", line 85, in run\n    try:return fn(cur,today)\n               ^^^^^^^^^^^^^\n  File \"/home/runner/work/_temp/auditor_scenario.py\", line 58, in race_close\n    c,k=side();prod.owner(k);pre=k.execute('select public.erp_accounting_close_preflight_v1(%s::date)',(d,)).fetchone()[0];c.rollback();c.close()\n               ^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_z_expanded_integrity_audit.py\", line 81, in as_owner\n    cur.execute('select current_user,session_user,erp.current_app_role()')\n  File \"/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.InsufficientPrivilege: permission denied for schema erp\nLINE 1: select current_user,session_user,erp.current_app_role()\n                                         ^\n",
+            "full_boundary_restored": true
+          }
+        },
+        {
+          "log_line": 1685,
+          "observation": {
+            "group": "AUDITOR_CASES_AFTER",
+            "case": "XA3:RACE_TWO_SESSIONS_WIP_COMPLETE_SAME_REMAINING",
+            "status": "INCOMPLETE",
+            "error": "OWNER or ADMIN access required\nCONTEXT:  PL/pgSQL function erp.require_owner_admin() line 12 at RAISE\nSQL statement \"SELECT erp.require_owner_admin()\"\nPL/pgSQL function erp.save_initial_import_action_v1(text,jsonb,uuid) line 9 at PERFORM\nSQL function \"erp_save_initial_import_action_v1\" statement 1",
+            "traceback": "ux/writer/scripts/cp6_initial_import_production_trial.py\", line 10, in fixture\n    f=receipts.fixture(a,cur,today,qty='12',cost='10');b=f['batch'];code=f['code']\n      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_initial_import_receipt_trial.py\", line 16, in fixture\n    batch=a.call(cur,'CREATE',dict(batch_code='AP-'+uuid.uuid4().hex,cutover_date=str(today-timedelta(days=8))))['batch_id']\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_ao_ap_installed.py\", line 25, in call\n    result=cur.execute('select public.erp_save_initial_import_action_v1(%s,%s::jsonb,%s)',(action,json.dumps(payload,default=str),key or uuid.uuid4())).fetchone()[0]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.RaiseException: OWNER or ADMIN access required\nCONTEXT:  PL/pgSQL function erp.require_owner_admin() line 12 at RAISE\nSQL statement \"SELECT erp.require_owner_admin()\"\nPL/pgSQL function erp.save_initial_import_action_v1(text,jsonb,uuid) line 9 at PERFORM\nSQL function \"erp_save_initial_import_action_v1\" statement 1\n",
+            "full_boundary_restored": true
+          }
+        }
+      ],
+      "scenario_sha256": "5d640e42b31688718603a17724891d10c3924fef809df9fbbaa7788a5b4dfbfc",
+      "scenario_bytes": 7012,
+      "phase": "after",
+      "source_hash_log_line": 1681,
+      "summary_log_line": 1688,
+      "runner_summary": {
+        "status": "INCOMPLETE",
+        "auditor_cases": {
+          "status": "INCOMPLETE",
+          "counts": {
+            "INCOMPLETE": 3
+          }
+        },
+        "primary_unchanged": true,
+        "clone_remaining": 0,
+        "production_go": false
+      },
+      "case_ids_unique": true
+    }
+  ]
+}
