@@ -1,4 +1,4 @@
-"""AUDITOR SCENARIO xaudit_3 — two-session races on 9add57e (independent auditor). BY DESIGN this run ends INCOMPLETE:
+"""AUDITOR SCENARIO xaudit_3 (rev2: side connections use the admin URL; rev1 run 36051535647 was INCOMPLETE on the fixture, not the product) — two-session races on 9add57e (independent auditor). BY DESIGN this run ends INCOMPLETE:
 the races need committed data visible to a second connection, so the side connections COMMIT to the disposable clone and
 the runtime's boundary snapshot will differ (the clone is dropped after the job). Read the per-case JSON, not the job colour.
 Races: (1) two sessions FINALIZE two different import batches of the SAME opening item at once (F1-12 under concurrency);
@@ -14,7 +14,7 @@ import cp6_initial_import_production_trial as pt
 api,boundary=awp.api,awp.boundary;prod=awp.chain.production
 
 def side():
-    c=psycopg.connect(boundary.PG,autocommit=False);k=c.cursor();api.admin(k);return c,k
+    c=psycopg.connect(getattr(boundary,'ADMIN',boundary.PG),autocommit=False);k=c.cursor();api.admin(k);return c,k
 
 def race(fns):
     """Run callables concurrently (one per side connection); each commits its own transaction. Returns per-thread result/error."""
