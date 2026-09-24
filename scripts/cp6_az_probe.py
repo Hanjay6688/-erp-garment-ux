@@ -477,6 +477,12 @@ def contractor_after_lot(cur,today,price):
     # normalize_contractor_issue_item_uom_price); it only drives the contractor receivable, not the checked accounts.
     cur.execute("""insert into erp.contractor_material_price_versions(material_id,contractor_id,selling_price,effective_from,notes)
       values(%s,%s,12,%s,'AZ probe contractor selling price')""",(fx['material'],prod.CONTRACTOR,prod.at(d,0)))
+    # The issue line takes the material's unit as its transaction unit (fk_contractor_issue_transaction_uom). The AA base
+    # material the fixture clones carries the legacy unit 'yd', not registered in erp.uom_definitions of the test chain
+    # (materials entering through the import must use a registered unit), so the fixture registers it.
+    cur.execute("""insert into erp.uom_definitions(unit_code,unit_name,dimension,is_active)
+      select m.unit_code,'AZ probe fabric unit','LENGTH',true from erp.materials m where m.id=%s
+      and not exists(select 1 from erp.uom_definitions u where u.unit_code=m.unit_code)""",(fx['material'],))
     prod.owner(cur)
     # erp.save_contractor_material_issue_draft_v2 / erp.post_contractor_material_issue are internal (require_internal): the
     # privileged session with the owner claims kept, as in the write-off fixture.
@@ -492,11 +498,13 @@ def contractor_after_lot(cur,today,price):
       and i.issue_id=%s""",(draft['contractor_material_issue_id'],)).fetchall()
     quiet_fixture=awp.quiet_seed(cur,d,today-timedelta(days=1))
     hpp=lambda:dec(cur.execute('select total_cost from erp.hpp_versions where lot_id=%s and is_current',(lot,)).fetchone()[0])
-    hpp_before=hpp()
+    material=lambda:dec(cur.execute("""select c.total_cost from erp.hpp_version_components c join erp.hpp_versions v on v.id=c.hpp_version_id
+      where v.lot_id=%s and v.is_current and c.component_type='MATERIAL'""",(lot,)).fetchone()[0])
+    hpp_before=hpp();material_before=material()
     before=ledger_days(cur,days,[po])
     response=invoice(cur,fx,today,price,d)
     after=ledger_days(cur,days,[po])
-    hpp_after=hpp()
+    hpp_after=hpp();material_after=material()
     x=dec(price)-10
     move={str(day):{k:dec(after[str(day)][k])-dec(before[str(day)][k]) for k in KEYS} for day in days}
     wip_po={str(day):dec(after[str(day)]['WIP_PO'][str(po)]) for day in days}
@@ -505,9 +513,10 @@ def contractor_after_lot(cur,today,price):
       where po_id=%s order by 1""",(po,)).fetchall()] if az_installed(cur) or ayp.ay_installed(cur) else None
     pre=awp.preflight(cur,today)
     negative=[b for b in pre['blockers'] if b['code']=='GL_INVENTORY_NEGATIVE_ASOF'] if pre else None
-    gap=10*10-hpp_before
+    # The contractor material (4 units at 10) the HPP did not carry before the invoice (0 or 40).
+    gap=10*10-material_before
     checks=dict(fixture_issue_after_lot=[(r[0],dec(r[1])) for r in issued]==[(d3,Decimal(-4))],
-                hpp_includes_contractor_material=hpp_after==10*dec(price),
+                hpp_material_cut_plus_contractor=material_after==10*dec(price) and hpp_after-hpp_before==material_after-material_before,
                 fg_lot_day_cut_material_only=move[str(d2)]['FG_INVENTORY']==6*x,
                 fg_rest_on_contractor_day=move[str(d3)]['FG_INVENTORY']==hpp_after-hpp_before and move[str(today)]['FG_INVENTORY']==hpp_after-hpp_before,
                 material_at_invoice_price=all(move[str(day)]['MATERIAL_INVENTORY']==x*stock[str(day)] for day in days),
@@ -516,7 +525,7 @@ def contractor_after_lot(cur,today,price):
                 no_negative_daily_inventory=negative==[])
     status='PASS' if all(checks.values()) else ('COUNTEREXAMPLE' if not az_installed(cur) else 'FAIL')
     return dict(status=status,finding='independent review of AY rev6, M-1 (material fact after the lot); AY rev7 dates each material fact on its own day',
-                price=price,receipt_day=str(d),hpp_before=str(hpp_before),hpp_after=str(hpp_after),issued=[[str(a),str(b)] for a,b in issued],
+                price=price,receipt_day=str(d),hpp_before=str(hpp_before),hpp_after=str(hpp_after),material_before=str(material_before),material_after=str(material_after),issued=[[str(a),str(b)] for a,b in issued],
                 material_state=state,checks=checks,daily_move={k:{kk:str(vv) for kk,vv in v.items()} for k,v in move.items()},
                 wip_po={k:str(v) for k,v in wip_po.items()},negative_blockers=negative,invoice=response,quiet=[quiet,quiet_fixture])
 
