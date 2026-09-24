@@ -17,7 +17,7 @@ Special-policy compliance remains **UNVERIFIED** because its precise normative p
 
 ## Oracle and retrieval
 
-The retained Master rule, M3824:
+The retained Master rule, M3824. Provenance: root-supplied excerpt; independently read in Master3810–3829 before the outage, but not reread for this follow-up:
 
 > Upah berbeda dari reimbursement: upah reguler mengikuti selesai dijahit dikurangi komponen BS/Stuck yang belum dikerjakan; GOOD bukan pengali upah. Reimburse aksesori tetap pada entitlement/BOM yang sah. Approval mengakui kewajiban; pembayaran menyelesaikan, tidak mengakui biaya kedua.
 
@@ -137,3 +137,7 @@ These facts do not authorize a wage exemption, validate the attendance allocatio
 - Installed triggers/ACL equivalence and native payroll/source concurrency.
 
 This follow-up narrows the earlier payroll coverage gap and supplies one reproducible source-risk specification. It does not complete payroll or CP6 acceptance.
+
+## Lead counter-review after persistence
+
+The lead separately read the candidate's connected classification editor and rework action. ConnectedBsResolutionPage.tsx:250 initializes selection from server defaults; :256 defines canStart using OPEN/PARTIAL status, positive available quantity and no active orders. The inspected UI condition has no case-specific component confirmation. Lines285–293 allow manual component selection and submit performed quantities. This narrows the frontend counterargument; final backend save preconditions and the lawful native fixture remain to be qualified. No native finding is promoted.
