@@ -1,0 +1,355 @@
+{
+  "schema_version": 1,
+  "title": "CP6 GPT recovery checkpoint receipt",
+  "created_at": "2026-09-24T20:42:11.374Z",
+  "repository": "Hanjay6688/-erp-garment-ux",
+  "branch": "audit/cp6-final-20260924-gpt-a0bcadf",
+  "candidate": "9add57ea8c2b6b2dc37c0134717d4d39ba30b5dc",
+  "candidate_tree": "5d5f833b2e75e23184c643d5ac469781f1c3ce5e",
+  "baseline": "ca7f09556397801c50a2277bdb65b1bf019f9a05",
+  "artifact_snapshot_commit": "6b012f36c9f7eaae3fbaf4be72347bd774be2599",
+  "status": "BLOCKED_INCOMPLETE",
+  "recommendation": "HOLD",
+  "production_go": false,
+  "audit_complete": false,
+  "whole_gate_dispositions": {
+    "ACCEPT": 0,
+    "HOLD": 4,
+    "UNVERIFIED": 6
+  },
+  "receipt_scope": "The six remotely verified artifacts listed below. This receipt is not the offline full-evidence receipt, not a final evidence ZIP, and does not assert that missing scenario/matrix files have been recovered.",
+  "artifacts": [
+    {
+      "path": "AUDIT_PROGRESS.md",
+      "blob_sha": "0abfdd517e7d7ef8d8f515aacb714491b4de4ecd",
+      "sha256": "8ca48d7b1c27888af7790fd2974385dc24cab1a2c55a64a96846c7321380712e",
+      "utf8_bytes": 21929,
+      "readback_matches": true
+    },
+    {
+      "path": "AUDIT_REPORT_CP6.md",
+      "blob_sha": "244e09f387f2ef8c31134395bb94bc06d4e92596",
+      "sha256": "a29de0d4a849c9dba3f5dfb1d83947adca301ee5dc5662e685149e74f3016aaf",
+      "utf8_bytes": 24733,
+      "readback_matches": true
+    },
+    {
+      "path": "out/all_open_documents.md",
+      "blob_sha": "cc850a5830432949fcbdc18d86d56decdda14c50",
+      "sha256": "71c78eb29373acdceed2d87e3812f8a2d352e2d6115adea3fbc5d24c878ba343",
+      "utf8_bytes": 28428,
+      "readback_matches": true
+    },
+    {
+      "path": "out/all_open_documents.json",
+      "blob_sha": "641fd13f9b331f1fae47d17f6a0b2a014b0c08e3",
+      "sha256": "ea5ec0070c4f23861a7bfa5a63edb3525127434f721c2a64d5c0df2e26067616",
+      "utf8_bytes": 34587,
+      "readback_matches": true
+    },
+    {
+      "path": "out/payroll_source_followup.md",
+      "blob_sha": "d2dc8c1b4c9b04f69f667b34eef3e5f444e5de6a",
+      "sha256": "d1f3ff69e5c05b019cc49b49183d92355163891ab21ae9dea3a219d9744f1f8b",
+      "utf8_bytes": 16047,
+      "readback_matches": true
+    },
+    {
+      "path": "out/native_case_ledger.json",
+      "blob_sha": "6fe5433df880957c87fd2dbcafdae79aa55cf49f",
+      "sha256": "b7bb1ea4f5401651c43ff0adea58e44f862952ec9cad3fa614c7927b2df14708",
+      "utf8_bytes": 327642,
+      "readback_matches": true
+    }
+  ],
+  "verification": {
+    "remote_readback_all_exact": true,
+    "branch_diff": {
+      "base": "9add57ea8c2b6b2dc37c0134717d4d39ba30b5dc",
+      "head": "6b012f36c9f7eaae3fbaf4be72347bd774be2599",
+      "merge_base": "9add57ea8c2b6b2dc37c0134717d4d39ba30b5dc",
+      "ahead_by": 13,
+      "files": [
+        {
+          "path": "AUDIT_PROGRESS.md",
+          "status": "added"
+        },
+        {
+          "path": "AUDIT_REPORT_CP6.md",
+          "status": "added"
+        },
+        {
+          "path": "out/all_open_documents.json",
+          "status": "added"
+        },
+        {
+          "path": "out/all_open_documents.md",
+          "status": "added"
+        },
+        {
+          "path": "out/native_case_ledger.json",
+          "status": "added"
+        },
+        {
+          "path": "out/payroll_source_followup.md",
+          "status": "added"
+        }
+      ]
+    },
+    "source_blobs_checked_against_frozen_tree": 9,
+    "semantic_crosswalk": {
+      "families": 6,
+      "states": 22,
+      "unique_ids": 22,
+      "status": "ALL_NOT_ESTABLISHED",
+      "native_scenarios_executed": 0
+    },
+    "native_logs": {
+      "selected_jobs": 9,
+      "interpretation": "Existing completed executions retrieved again; no new runtime execution during recovery.",
+      "cases_have_line_references": true,
+      "fixture_diagnostics_excluded": true,
+      "duplicate_group_case_keys": 0
+    },
+    "sha256_method": "UTF-8 content SHA256. Runtime implementation checked against empty, abc, quick-brown-fox and million-a known vectors. Three recovered phase1 log hashes also matched prior file receipts after retaining their one-added-LF save convention.",
+    "scenario_execution": "NOT_RUN",
+    "product_code_changes": false,
+    "protected_branch_changes": false,
+    "other_auditor_report_read": false
+  },
+  "native_log_receipts": [
+    {
+      "run_id": 36037873682,
+      "job_id": 107772639059,
+      "attempt": 2,
+      "actual_start_retained": "2026-09-24T18:23:54Z",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36037873682/job/107772639059",
+      "sha256_as_fetched": "8cb167cdf0f9c408a6acec40303bb1a215c5c19167ec6412442f5facf7be6f99",
+      "sha256_previous_local_save_convention": "f0be4b154f3e0ffc6f8cf15e158c7e5e4a804a8a983597164b5c3075844c5404",
+      "log_lines": 2358
+    },
+    {
+      "run_id": 36037876338,
+      "job_id": 107772603343,
+      "attempt": 2,
+      "actual_start_retained": "2026-09-24T18:23:48Z",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36037876338/job/107772603343",
+      "sha256_as_fetched": "f0894cc4b1a43a87884045650789fc46f5aee15ae5fc553e69dede1dae2fbf12",
+      "sha256_previous_local_save_convention": "e82c5b61dcfb60b1ba45c6c1645eb2c602bf538d0d5b5f04be716fdde0f38042",
+      "log_lines": 1485
+    },
+    {
+      "run_id": 36037878419,
+      "job_id": 107772676223,
+      "attempt": 2,
+      "actual_start_retained": "2026-09-24T18:24:00Z",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36037878419/job/107772676223",
+      "sha256_as_fetched": "79b13b9cce11c0ffadf878bc29eb936790514eee2d0966714673c25e9844f518",
+      "sha256_previous_local_save_convention": "a8d0c4b672e57e0e978ac26484987f8ea8ce83afbaf7792a4378779f14e6f0b3",
+      "log_lines": 2473
+    },
+    {
+      "run_id": 36037873682,
+      "job_id": 107792476681,
+      "attempt": 3,
+      "actual_start_retained": "2026-09-24T19:15:14Z",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36037873682/job/107792476681",
+      "sha256_as_fetched": "10a73088c897c646566e888bca7227965e9ec37eb25188b7fd8bbd122dedd38c",
+      "sha256_previous_local_save_convention": "9eb9fee8fb763e8db9256638e131e2cbfd86944a199ee9af340e3d2816e698d3",
+      "log_lines": 2023
+    },
+    {
+      "run_id": 36037876338,
+      "job_id": 107792486765,
+      "attempt": 3,
+      "actual_start_retained": "2026-09-24T19:15:17Z",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36037876338/job/107792486765",
+      "sha256_as_fetched": "ced14b98257cdf8f4074824956e05a93bb45c282416efcac7789be42968744a4",
+      "sha256_previous_local_save_convention": "056d27ae4d78ecc8675103fe10b2e26c8cbeb61c1566b08a5724d106b82f1b20",
+      "log_lines": 1764
+    },
+    {
+      "run_id": 36037878419,
+      "job_id": 107792495809,
+      "attempt": 3,
+      "actual_start_retained": "2026-09-24T19:15:18Z",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36037878419/job/107792495809",
+      "sha256_as_fetched": "2d7c8a601d2237c009abfcd97ceac13cab5f9b76274aed15b648889ebe1127c2",
+      "sha256_previous_local_save_convention": "2ae42ad0ca3c401e83e4209403bf9e211544b64bb2431ee0739f051069563ad5",
+      "log_lines": 1389
+    },
+    {
+      "run_id": 36037878419,
+      "job_id": 107794260297,
+      "attempt": 4,
+      "actual_start_retained": "2026-09-24T19:19:58Z",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36037878419/job/107794260297",
+      "sha256_as_fetched": "bc8b48df0ed30f43cc92e39eb816f05fdf99e6ee6ac068d0042f957bd8de6fe3",
+      "sha256_previous_local_save_convention": "20d1ac42fe4e2341d1db00adce3202dd99441f4c6397d0e4def134cb9e5d09f0",
+      "log_lines": 1869
+    },
+    {
+      "run_id": 36037873682,
+      "job_id": 107795483321,
+      "attempt": 4,
+      "actual_start_retained": "2026-09-24T19:23:12Z",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36037873682/job/107795483321",
+      "sha256_as_fetched": "51cebcc12dbc9e832f506088d8ff414a3d0f9a82f56fc7ee8ccb01379d1fc359",
+      "sha256_previous_local_save_convention": "e1b7e25a75e7a8681e82a48639e34118033c2c359f507a2c526e7ed4610d325d",
+      "log_lines": 1898
+    },
+    {
+      "run_id": 36037878419,
+      "job_id": 107795615827,
+      "attempt": 5,
+      "actual_start_retained": "2026-09-24T19:23:33Z",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36037878419/job/107795615827",
+      "sha256_as_fetched": "c375a95b7b89764fb58f5f85e2c293ea7b9bca56c18075e472691da6de5d3ea7",
+      "sha256_previous_local_save_convention": "847af8c512185dabeb7356fbbd586f65ffed6fd28ffa73a01d4ad5dd322509b2",
+      "log_lines": 1855
+    }
+  ],
+  "missing_offline_artifacts": [
+    {
+      "path": "continuation/coverage_matrix.json",
+      "sha256": "e5fdcc9fc6fdd165ee701094e2c60e8639b87673ec73bc9b1554c4c11491fd1d",
+      "state": "Final bytes not recovered; prior 132-row matrix checkpoint exists separately. No reconstitution with old-hash claim."
+    },
+    {
+      "path": "continuation/coverage_completion.md",
+      "sha256": "c5bb9160e0f6005e8d530a826504b0a61348d1bc8ba081278b70182e4c973394",
+      "state": "Final bytes not recovered."
+    },
+    {
+      "path": "continuation/dispatch/combined_scenarios.py",
+      "sha256": "968cac54ac7fa7fe4e3fc1d666e257b04944faf1beec1f45a209274db00869d1",
+      "bytes": 25248,
+      "base64_characters": 33664,
+      "default_cases": 15,
+      "state": "Prepared and statically validated before outage; exact bytes not copied to recovery branch; NOT_RUN.",
+      "run_id": null,
+      "job_id": null
+    },
+    {
+      "path": "work/stock_import_scenario.py",
+      "sha256": "ff92e8d973ebb75c05ba8ac6b47da96565c9b50760c91b247f331a765d18df81",
+      "default_cases": 4,
+      "state": "In earlier frozen checkpoint; not copied to this branch."
+    },
+    {
+      "path": "work/money_dates_scenario.py",
+      "sha256": "cfa1157b7ea39e6f5162d85a540ed5e22c30d8fef9ddfe840b5a9bf2f631d9ef",
+      "default_cases": 4,
+      "state": "In earlier frozen checkpoint; not copied to this branch."
+    },
+    {
+      "path": "continuation/business/business_scenarios.py",
+      "sha256": "44b075c763a5d6962322d51e4b4ed0b75360b6e0135575420208ac39152b342b",
+      "default_cases": 6,
+      "held_cases": 4,
+      "state": "Final bytes unavailable in agent retained stores; no reconstruction."
+    },
+    {
+      "path": "continuation/auth_selector_scenarios.py",
+      "sha256": "2276140a28ce27e9cd8e18b03285bdeee9aa33aee4118fe701eca20442bc3bd4",
+      "default_cases": 1,
+      "state": "Final local file existed and was syntax-checked before outage; not copied to recovery branch."
+    },
+    {
+      "path": "input/kontrak/ERP_V3_2_Master_Pulih_20260923.md",
+      "sha256": "f21ac70360915a1f1021b42a3918e862ca7d11cf88c1b90c5627b4490c69af07",
+      "state": "Original supplied contract in frozen input package; not freshly retrievable here for detailed Special clauses."
+    },
+    {
+      "path": "input/kontrak/ERP_V3_2_Perubahan_Pulih_20260923.md",
+      "sha256": "92966cd6ed27e64123be6c52e2263bfbdb3db91c97f2e441c3bdc98589397676",
+      "state": "Original supplied contract in frozen input package; not copied to recovery branch."
+    },
+    {
+      "path": "input/kontrak/ERP_ADDENDUM_BUSINESS_REPORT_CP7_2026-09-18.md",
+      "sha256": "4566ab6f1c8e53bc21c70c0c777f780b526305815e04d5913a5c858dfaa85886",
+      "state": "Original supplied contract; later-stage boundary only; not copied to recovery branch."
+    }
+  ],
+  "phase1_lock_receipts": [
+    {
+      "path": "PHASE1_FINDINGS_LOCK.md",
+      "sha256": "cbca0c6cb3150f0005bbea877d1a6b0371afa6103d9907c21899b1e235e46156"
+    },
+    {
+      "path": "PHASE1_SHA256SUMS",
+      "sha256": "50ba9228c863d4c483404bd425d8d64aac3073c3cd6726e35d9ca840d653438a"
+    }
+  ],
+  "earlier_durable_checkpoints": [
+    {
+      "name": "CP6_PHASE1_LOCKED_9add57e.zip",
+      "scope": "Frozen blind phase1 bundle,68 inputs/workfiles."
+    },
+    {
+      "name": "CP6_AUDIT_PROGRESS.md",
+      "version": 1,
+      "scope": "Before outage; older than GitHub progress."
+    },
+    {
+      "name": "CP6_AUDIT_CONTINUATION_CHECKPOINT.zip",
+      "version": 1,
+      "bytes": 1580593,
+      "scope": "Before final local follow-ups; do not overwrite later local files with this checkpoint."
+    },
+    {
+      "name": "AUDIT_REPORT_CP6.md",
+      "version": 0,
+      "sha256": "eea36bd9b49a6b85256a47b40ed2f42606b69417aa44134f390e7062ffbbe38c",
+      "scope": "Original partial report; not final audit."
+    },
+    {
+      "name": "CP6_AUDIT_EVIDENCE_9add57e.zip",
+      "version": 0,
+      "sha256": "8ff9069838cf25b1fa678a5e8ae8c474c49e48e6df37ea063bf4c68f4d1627e1",
+      "scope": "Original partial evidence, not refreshed after outage."
+    }
+  ],
+  "blockers": [
+    {
+      "kind": "execution_environment",
+      "observed": "exec/apply_patch unavailable;409 environment_offline; final upload failed."
+    },
+    {
+      "kind": "custom_dispatch_capability",
+      "observed": "Existing-job rerun is callable; arbitrary approved workflow-dispatch POST/local database is not callable in this session."
+    },
+    {
+      "kind": "artifact_and_oracle_access",
+      "observed": "Final prepared payload and detailed Special contract passages remain in unavailable workspace/upload package."
+    },
+    {
+      "kind": "rollback_qualification",
+      "observed": "Whole-candidate AW–AZ downgrade/refusal path remains unqualified."
+    }
+  ],
+  "unperformed_work": [
+    "Run the prepared15 default cases and record lawful actor/grants, exact candidate, raw outcomes, restoration and cleanup.",
+    "Prepare legitimate pocket/payroll/prepayment/BS selector-tail fixtures.",
+    "Verify real browser timezone/unknown/recovery and full Auth/action/location cases.",
+    "Complete own concurrency schedules and transitive HPP/source producer tests.",
+    "Resolve ALL alternative adapters/policies and remaining native lifecycle cases.",
+    "Verify Special/rate normative passages against recovered original contracts.",
+    "Reconcile final132-row matrix and offline scenario hashes into a new complete evidence receipt/ZIP."
+  ],
+  "queued_task": {
+    "request": "Read Claude's GitHub report and verify validity and significance of each finding.",
+    "condition": "Only after our current full CP6 audit is completely finished, as instructed by the user.",
+    "state": "QUEUED_NOT_STARTED",
+    "user_provided_external_leads": {
+      "race_runs": [
+        36051535647,
+        36052066150
+      ],
+      "http_scenario": "xaudit_4.py",
+      "claimed_block": "Credential Materialization",
+      "verification": "Not independently read or verified; no permission boundary bypass."
+    }
+  },
+  "next_step": "Read AUDIT_PROGRESS.md LANGKAH BERIKUTNYA. Recover the workspace/authorized native capabilities and continue unperformed work without repeating phase1 or treating this receipt as completion."
+}
