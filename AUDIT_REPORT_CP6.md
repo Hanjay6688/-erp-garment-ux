@@ -12,7 +12,7 @@ Cabang audit: `audit/cp6-final-20260924-gpt-a0bcadf`.
 
 Audit yang diminta mencakup seluruh CP6. Laporan pertama berhenti terlalu dini; laporan itu tetap berstatus checkpoint parsial. Dokumen ini memperluas cakupan dan menyimpan hasil lanjutan, tetapi belum menutup seluruh kewajiban audit.
 
-Dari sepuluh kelompok gate auditor, empat HOLD dan enam UNVERIFIED; belum ada ACCEPT untuk keseluruhan gate. Tidak ada P0 yang dibuktikan. Ada cacat lokal/source yang dapat direproduksi, kandidat masalah akuntansi yang belum diuji native, serta kekurangan bukti penerimaan. Ketiga kategori itu dibedakan di bawah.
+Dari sepuluh kelompok gate auditor, enam HOLD dan empat UNVERIFIED; belum ada ACCEPT untuk keseluruhan gate. Tidak ada P0 yang dibuktikan. U02/U03 telah dikonfirmasi melalui review independen atas log native Claude, berlabel REUSED_EVIDENCE; kasus original kami tetap NOT_RUN. Handoff gabungan tanpa duplikasi tersedia di AUDIT_HANDOFF_CP6.md; batas oracle dan koreksi laporan Claude ada di AUDIT_CLAUDE_CROSS_REVIEW.md.
 
 HOLD berarti bukti dan pemenuhan kontrak belum cukup untuk menyetujui kandidat. Dokumen ini tidak menyatakan telah terjadi kehilangan uang atau insiden produksi.
 
@@ -31,11 +31,11 @@ C6-01 sampai C6-10 adalah pengelompokan auditor. Satu operasi yang lolos pemerik
 | Gate | Status | Contract file/lines | Current basis |
 |---|---|---|---|
 |C6-01 evidence identity/completeness|HOLD|M1624–1626,1693,1762–1767,4391–4393,4521–4525|Exact SHA/jobs bound; runner duplicate-ID loss; T2 disposition and missing independent cases remain.|
-|C6-02 atomicity/immutable facts/exact state|UNVERIFIED|M3816–3826,5048–5052|Broad source review, no complete native lifecycle proof; historical capacity/cent risks remain.|
+|C6-02 atomicity/immutable facts/exact state|HOLD|M3816–3826,5048–5052|U02/U03 corroborated from independently reviewed external native logs: historical WIP prefix and zero-qty inventory value counterexamples. REUSED_EVIDENCE; full lifecycle acceptance absent.|
 |C6-03 recovery/input/unknown/selectors|HOLD|M1678–1679,1691,3817–3820,3825–3826,3939|Wrong WIB payloads, unstable request recovery and failed-read zero display reproduced locally; selector tails source-supported.|
 |C6-04 ALL initial import|UNVERIFIED|M44–45,359–365,749–755,829–843,934–938,1024–1025,1691; P966–967|22-state semantic crosswalk persisted; native continuation and unmapped adapter obligations remain.|
-|C6-05 dates/recost/HPP/journals/reports|HOLD|M375,377,837,1022,1059–1065,1666,1691,3816,3820,3825|F01 wrong WIB payload; U03 cent risk; full dated financial acceptance absent.|
-|C6-06 production/AP/AR/payroll/advances|UNVERIFIED|M359–379,629–648,749–757,3822–3824|Source bodies reviewed with explicit limits; U02 and advance dated-capacity candidate need native results; payroll source follow-up persisted; BS attribution risk remains native-unverified.|
+|C6-05 dates/recost/HPP/journals/reports|HOLD|M375,377,837,1022,1059–1065,1666,1691,3816,3820,3825|F01 wrong WIB payload; U02/U03 native WIP/cent counterexamples corroborated via REUSED_EVIDENCE. Full dated financial acceptance absent.|
+|C6-06 production/AP/AR/payroll/advances|HOLD|M359–379,629–648,749–757,3822–3824|U02 WIP counterexample corroborated via REUSED_EVIDENCE. Advance and payroll/BS attribution hypotheses still NOT_RUN; broader lifecycle coverage absent.|
 |C6-07 accepted accessories/pocket|UNVERIFIED|M44–48,466–472,495,557–561,1023,3900–3902,3951,5192–5199|Positive local controls and source mechanisms; whole lifecycle/races not independently accepted; expanded CR scope separate.|
 |C6-08 Auth/permissions/connected UI|UNVERIFIED|M1691,4486,5046–5052,5209,5213–5224|27 public RPCs traced;10 browser cases rerun; full real Auth/action/location/revocation matrix absent.|
 |C6-09 concurrency/stale state|UNVERIFIED|M751–755,1025,4165,4486,5048–5052|Existing AR/AT/AU races rerun;20 AR observations independently checked narrowly; own full schedules absent.|
@@ -107,9 +107,9 @@ Prioritas adalah dampak potensial bila jalur dan kondisi yang dijelaskan terpenu
 | ID | Priority/status | Independent oracle and evidence |
 |---|---|---|
 |F01|P1/local confirmed|M3820 WIB input2026-09-20T00:30 must serializeSep19T17:30Z on every device. Active Cutting/Pickup/BS serialize via device timezone.34exact-source checks28PASS/6FAIL; actual persisted ledger impact not native-tested.|
-|U01|P2/native UNVERIFIED|M1691 complete BS sources. Reader caps100 before claimable filtering; no selector continuation. Valid101-source fixture NOT_RUN.|
-|U02|P1/native UNVERIFIED|M3816,3820–3823 immutable dated WIP prefixes. Opening8,complete8D−3,reverseD,complete8D−1 predicts negative historicalWIP. Source-supported; SI02 NOT_RUN.|
-|U03|P2/native UNVERIFIED|M1022,3818,3820 endpoint money conservation. Qty1 at10.005→10.014 rounds both receipts10.01; recost rounded delta may move0.01 and leave raw−0.01/WIP10.02. Four cases NOT_RUN; compensation not ruled out natively.|
+|U01|P2/source CONFIRMED,native corroboration limited|M1691 complete selectors. Claude XA2 returned100 recent eligible delivery rows while omitting oldqty10. Fixture uses privileged cloning; full legal producer/claim/UI sequence unverified. REUSED_EVIDENCE run36051514868/job107807966805.|
+|U02|P1/CONFIRMED via REUSED_EVIDENCE|M3816,3820–3823. Claude XA1 on9add: second completion POSTED, stageprefix−8 and WIPGLPO−20. Run36048357523/job107797410652. Our original SI02 file remains NOT_RUN; reviewed equivalent native case is separately attributed.|
+|U03|P2/CONFIRMED via REUSED_EVIDENCE|M1022,3818,3820. Claude XA1/XA2 correction+invoice paths endrawqty0 with inventory−0.01/up or+0.01/down. Up WIP10.02 vs10.01. Down half-tie oracle qualified; residual still confirmed. Jobs107797410652/107807966805. Our four original cases remain NOT_RUN.|
 |R01|P2/local confirmed|M1767,4391–4393 traceable evidence. Duplicate IDs overwrite earlier INCOMPLETE in actual unchanged runner AST with I/O doubles. Raw logs retain both. Current indexed native cases had no duplicate group/ID.|
 |R02|P2/qualification gap|M3826,4306–4314,5198–5209. FinalAW–AZ rollback files/qualified downgrade/refusal absent; manifestNOT_TESTED. Successful installed-backup restore is not predecessor rollback.|
 |C-AUTH-01|P2/local confirmed,post-lock|M1679,3819 retain exact request envelope. Pattern/Access retries regenerate UUID; quick-create can reuse UUID with changed payload.7local checks4PASS/3FAIL. Server uniqueness/version protections acknowledged; no committed duplicate/data-corruption claim.|
@@ -132,7 +132,7 @@ Prioritas adalah dampak potensial bila jalur dan kondisi yang dijelaskan terpenu
 
 **C-BIZ-01 — kapasitas advance pada tanggal historis.** Sumber67,25 padaD−8, koreksi menjadi100 padaD−2, refund100 padaD−4 diprediksi menghasilkan saldo normal−32,75 padaD−4 meskipun saldo sekarang0. Berlaku tanda aset untuk supplier/vendor dan tanda kewajiban untuk customer. Public dispatcher, state reducer dan period guard telah ditelusuri; koreksi dan refund memakai kapasitas kini. Enam skenario termasuk kontrol urutan disiapkan. Penerapan aturan dated-prefix M3816–3820 ke kapasitas uang muka dinyatakan sebagai inferensi auditor bersama M629–646; belum ada hasil native.
 
-**U02/U03 — prefix WIP dan satu sen recost.** Masing-masing mempunyai state sequence dan nilai expected independen di receipt/progress. Pembatalan pada tanggal kini belum boleh membuat kapasitas masa lalu tersedia secara retrospektif; perubahan rounded endpoint biaya tidak boleh mengubah saldo bersih satu sen ketika endpoint sama. Jalur kompensasi/runtime belum sepenuhnya dieliminasi, sehingga tetap UNVERIFIED.
+**U02/U03 — prefix WIP dan satu sen recost.** Oracle fase1 kami sekarang mendapat corroboration native dari kasus Claude pada exact kandidat. U02 menghasilkan stageprefix−8/WIPGLPO−20; U03 meninggalkan nilai persediaan±0.01 saat qty0 pada correction dan invoice. Ini REUSED_EVIDENCE yang diperiksa dari log asli, bukan run baru kami. Oracle half-even pada arah turun tidak dipakai untuk mengklaim WIP10.00 sendiri salah. Detail fixture, hash dan batas dampak ada di AUDIT_CLAUDE_CROSS_REVIEW.md.
 
 **R02 — kualifikasi rollback belum tersedia.** Tidak ada rollback AW–AZ yang memenuhi whole-candidate chain. Guard rollback AC menolak hash kandidat penuh yang tidak dikenalnya; guard ini tidak boleh dilemahkan untuk memperoleh PASS. Perlu downgrade aman atau penolakan terkontrol dengan bukti bahwa state tetap utuh, sesuai kontrak. Restore backup dari state terpasang membuktikan sasaran yang berbeda.
 
@@ -171,7 +171,7 @@ Paparan sebelum lock tetap diungkap: ingatan audit sebelumnya, nama berkas terla
 
 Rekonsiliasi mempertahankan batas klaim: install PASS tidak menerima rollback, browser10 tidak menerima semua flow/Auth, MATCH writer tidak mengganti status raw T2, INFO advisor bukan exposure otomatis, dan source/release40 body-match bukan bukti lengkap katalog terpasang. Tidak ada temuan native baru hanya karena dokumen writer menyebutnya.
 
-Permintaan pengguna untuk memeriksa laporan Claude berada dalam antrean **setelah audit kita selesai total**. Laporan itu belum dibuka dalam lanjutan ini. Run36051535647 dan36052066150, hambatan koneksi kedua, xaudit_4.py/HTTP-JWT serta penolakan Credential Materialization hanya informasi yang diberikan pengguna, belum diverifikasi oleh auditor ini. Tidak ada upaya melewati penolakan izin atau mengambil credential.
+Instruksi owner terbaru mengubah urutan: laporan Claude diminta diperiksa sekarang dan hasilnya digabung ke repo. Review dilakukan post-lock pada snapshotcf301a6, dengan kontrak/source/log Actions sebagai pembanding. Race36051535647/36052066150 terverifikasi gagal sebelum balapan; sumber xaudit_4 dibaca, tetapi kejadian classifier sendiri tetap laporan eksternal. Tidak ada upaya melewati penolakan izin atau mengambil credential. Lihat AUDIT_HANDOFF_CP6.md dan AUDIT_CLAUDE_CROSS_REVIEW.md.
 
 ## Skenario yang disiapkan
 
@@ -183,7 +183,7 @@ Default combined batch:15 cases, native **NOT_RUN**, run_id:null,job_id:null.
 - continuation/auth_selector_scenarios.py:1case; SHA256 2276140a28ce27e9cd8e18b03285bdeee9aa33aee4118fe701eca20442bc3bd4.
 Syntax, embedded-byte/hash equality, JSON roundtrip and unique factory IDs were checked. Factory enumeration used inert runtime imports. No case lambda/SQL executed.
 
-Receipt ini tidak berarti byte skenario telah disalin ke cabang pemulihan. Empat sumber dan payload gabungan terakhir masih berada di workspace yang offline; sebagian checkpoint lebih awal sudah disimpan sebelum gangguan. Restore harus memeriksa hash, bukan menganggap berkas lama sama dengan versi final.
+Pembaruan recovery: exact stock_import_scenario.py dan money_dates_scenario.py (8kasus) telah dipulihkan dan disalin ke audit/scenarios/ dengan hash di atas. File gabungan15 dan revisi terakhir business6+selector1 belum pulih utuh. Versi bisnis/matrix lebih lama sudah ditemukan, tetapi hash berbeda; tidak diganti diam-diam sebagai versi final.
 
 Empat kasus COUNT yang membutuhkan kualifikasi privilege dikeluarkan dari batch default. Runner yang disetujui mempunyai conditional schema USAGE grant; keberhasilan di bawah grant tersebut tidak membuktikan ordinary reachability pada ACL kandidat yang belum diubah.
 
@@ -191,11 +191,18 @@ Empat kasus COUNT yang membutuhkan kualifikasi privilege dikeluarkan dari batch 
 
 | Jenis | Keadaan aktual | Syarat lanjut |
 |---|---|---|
-| Workspace | exec dan apply_patch gagal409 environment_offline; upload final bundle juga gagal. | Pulihkan workspace, periksa file yang sudah ada dan hash sebelum menggunakan checkpoint lama. |
+| Workspace | Sudah online lagi; folder lama hilang. Penyebab platform dari409 terdahulu tidak teramati. | Kontrak, lock fase1 dan8kasus exact sudah pulih. Rekonstruksi hanya revisi yang hilang dengan hash baru; jangan mengaku sebagai byte lama. |
 | Dispatch | Tool sesi ini dapat rerun job existing; tidak menyediakan custom workflow-dispatch POST atau DB lokal. | Jalankan payload yang sudah disiapkan melalui endpoint disposable yang disetujui dari lingkungan berkemampuan dispatch. Jangan ubah workflow atau produk untuk melewati batas. |
 | Oracle Special/rate | Bagian kontrak rinci tidak tersedia untuk dibaca ulang pada fallback ini. | Pulihkan kontrak asli dan verifikasi hash/baris sebelum putusan normatif. |
 | Rollback | Jalur AW–AZ lengkap belum tersedia/terkualifikasi. | Writer menyediakan downgrade atau demonstrasi refusal aman yang memenuhi kontrak; auditor memverifikasi native. |
 | Pekerjaan audit belum dilakukan | Native15, fixture selector lain, browser timezone/unknown/recovery, Auth/action/location, jadwal concurrency sendiri, transitive HPP/source producers dan sejumlah adapter ALL. | Siapkan fixture sah dan oracle independen, jalankan serta catat dampak, replay/inverse, rollback/cleanup. Ini bukan semuanya hambatan alat. |
-| Laporan auditor lain | Diperintahkan setelah pekerjaan audit ini selesai total. | Tetap antre; validitas dan signifikansinya belum dinilai. |
+| Laporan auditor lain | Owner terbaru meminta review sekarang dan penggabungan repo. | Cross-review selesai untuk temuan/hambatan prioritas; hasil deduplikasi dan queue lanjut ada di AUDIT_HANDOFF_CP6.md. Seluruh CP6 tetap belum selesai. |
 
 Tidak ada produk, main, cabang kompetisi/writer, hosted/legacy/production database atau deployment yang diubah oleh pekerjaan pemulihan. Cabang ini berisi artefak audit. Laporan dan log di sini memungkinkan sesi berikut melanjutkan tanpa mengulang fase1 atau mengandalkan chat sebagai satu-satunya checkpoint.
+
+
+## Pembaruan integrasi audit silang — 24 September2026
+
+Owner meminta audit GPT dan Claude digabung tanpa mengulang temuan yang sama. [AUDIT_HANDOFF_CP6.md](AUDIT_HANDOFF_CP6.md) menjadi pintu masuk lanjut: satu ID gabungan per isu, alias kedua audit, tingkat bukti, status disagreement,4hambatan runtime dan next actions. [AUDIT_CLAUDE_CROSS_REVIEW.md](AUDIT_CLAUDE_CROSS_REVIEW.md) menjelaskan verifikasi dan batas tiap klaim. Laporan asli/hasil gagal tetap dipertahankan melalui referensi commit.
+
+Koreksi penting: ALL sudah disetujui menurutM1024; F1-02 bukan konflik keputusan aktif. F1-12 numeriknya terbukti tetapi identitas sumber fisik lintas batch belum ditentukan. Run race rev2 memakaiSHA5d640e42..., bukanSHA3915e006... milikrev1. Hasil tersebut belum menjadi penerimaan seluruh gate. Tidak ada custom native run baru selama recovery/cross-review.
