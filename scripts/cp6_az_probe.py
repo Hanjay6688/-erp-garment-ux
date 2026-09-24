@@ -266,7 +266,7 @@ def sale_after_goods(cur,today,price):
                 negative_blockers=negative,invoice=response,quiet=[quiet,quiet_fixture])
 
 
-def produce(cur,fx,po,product,day,units,pcs):
+def produce(cur,fx,po,product,day,units,pcs,batch=None):
     """One cutting group of `units` units yielding `pcs` pieces for the existing PO `po` on `day`, carried through pickup,
     sewing, laundry and final SKU (ALL_READY) to one FG lot of `pcs` pieces on the same day (ordinary RPCs; the AA recipe
     with the quantities as parameters)."""
@@ -279,6 +279,10 @@ def produce(cur,fx,po,product,day,units,pcs):
     group=uuid.UUID(cut['cutting_group_id'])
     cut=prod.rpc(cur,'public.erp_save_cutting_group_before_sewing_v2',dict(payload,id=group,action='POST'),expected_version=int(cut['row_version']))
     api.admin(cur)
+    if batch is not None:
+        # Fixture setup only: erp.assign_cutting_group_to_batch is internal (no RPC in the current flow); the same update.
+        cur.execute('update erp.cutting_groups set cutting_batch_id=%s,updated_at=statement_timestamp() where id=%s',(batch,group))
+        cut['row_version']=cur.execute('select row_version from erp.cutting_groups where id=%s',(group,)).fetchone()[0]
     y=cur.execute("""select y.id from erp.cutting_roll_yields y join erp.cutting_group_rolls r on r.id=y.cutting_group_roll_id
       where r.cutting_group_id=%s and y.qty_pcs=%s""",(group,pcs)).fetchall()
     assert len(y)==1,('AZ_MULTI_CUT_YIELD',y)
@@ -334,7 +338,7 @@ def produce(cur,fx,po,product,day,units,pcs):
     return group
 
 
-def multi_cut(cur,today,price):
+def multi_cut(cur,today,price,batch=False):
     """Independent review finding (24 Sep, open): one PO cut on two days with a FG lot between the cuts and different yields.
     Cut 1 on d+1: 4 units into 8 pcs, FG lot of 8 pcs on d+1; cut 2 on d+2: 6 units into 3 pcs, FG lot of 3 pcs on d+2.
     The lot HPP is allocated per cutting-group lineage (erp.rebuild_po_hpp: group material x lot pcs / group pcs), so a late
@@ -352,8 +356,15 @@ def multi_cut(cur,today,price):
     po=uuid.uuid4();product=prod.base.create_product(cur,uuid.uuid4().hex[:16])
     cur.execute("""insert into erp.production_orders(id,po_number,model_id,target_qty_pcs,status,current_stage,physical_start_at,notes)
       values(%s,%s,%s,11,'CUTTING','CUTTING',%s,'AZ multi-cut probe')""",(po,'AZ-MC-PO-'+str(po),prod.MODEL,prod.at(d2,7)))
-    g1=produce(cur,fx,po,product,d2,4,8)
-    g2=produce(cur,fx,po,product,d3,6,3)
+    pool=None
+    if batch:
+        # Independent review 24 Sep, M2 (suspected): both cutting groups in one cutting batch, cut on different days;
+        # erp.rebuild_po_hpp then pools the batch material over the batch pieces.
+        pool=uuid.uuid4()
+        cur.execute("insert into erp.cutting_batches(id,po_id,batch_number,cut_at,status,notes) values(%s,%s,%s,%s,'OPEN','AZ M2 probe batch')",
+                    (pool,po,'AZ-M2-'+pool.hex[:12],prod.at(d2,8)))
+    g1=produce(cur,fx,po,product,d2,4,8,batch=pool)
+    g2=produce(cur,fx,po,product,d3,6,3,batch=pool)
     quiet_fixture=awp.quiet_seed(cur,d,today-timedelta(days=1))
     lots=[(str(r[0]),r[1],r[2]) for r in cur.execute("""select cutting_group_id,erp._cp3_business_date(produced_at),initial_qty_pcs
       from erp.fg_lots where po_id=%s and lot_origin='PRODUCTION' order by produced_at""",(po,)).fetchall()]
@@ -433,6 +444,78 @@ def write_off(cur,today,price):
                 negative_blockers=negative,invoice=response,quiet=[quiet,quiet_fixture])
 
 
+def goods_flow(cur,today,price,flow):
+    """Branches without a native fixture until 24 Sep (independent review): a lot of 10 pcs (one cut of 10 units) on d+1,
+    then RETURN (3 pcs sold on d+1, 1 returned on d+2), REVERSED (3 pcs sold on d+2, the sale reversed before the invoice)
+    or CONVERSION (4 pcs relabelled to another product on d+2); late invoice on d (open). Expected: FG gets each piece's
+    correction from the day it entered FG, COGS from the sale day, the return back on the return day; a reversed sale
+    counts as not sold (as the target counts it); a conversion moves FG to FG; the PO's WIP change is 0 every day."""
+    prod=chain.production
+    d=today-timedelta(days=3);d2=d+timedelta(days=1);d3=d+timedelta(days=2)
+    days=[d+timedelta(days=i) for i in range(4)]
+    boundary.historical.prior.set_open_period(cur,d-timedelta(days=1))
+    quiet=awp.quiet_seed(cur,d,today-timedelta(days=1),exclude=[prod.CONTRACTOR])
+    fx=prod.estimated_receipt(cur,today)
+    api.admin(cur)
+    po=uuid.uuid4();product=prod.base.create_product(cur,uuid.uuid4().hex[:16])
+    cur.execute("""insert into erp.production_orders(id,po_number,model_id,target_qty_pcs,status,current_stage,physical_start_at,notes)
+      values(%s,%s,%s,10,'CUTTING','CUTTING',%s,'AZ goods flow probe')""",(po,'AZ-GF-PO-'+str(po),prod.MODEL,prod.at(d2,7)))
+    produce(cur,fx,po,product,d2,10,10)
+    fixture={}
+    if flow in('RETURN','REVERSED'):
+        customer=prod.base.create_customer(cur,uuid.uuid4().hex[:16])
+        sale=prod.rpc(cur,'erp.save_sale_draft_v2',{'sale_number':'AZ-GF-SALE-'+str(uuid.uuid4()),'customer_id':customer,
+            'source_location_id':prod.base.LOCATION,'sale_date':prod.at(d2 if flow=='RETURN' else d3,14 if flow=='RETURN' else 10),
+            'reason':'AZ goods flow sale','items':[dict(product_id=product,qty_pcs=3,unit_price_snapshot=40,discount_amount=0)]})
+        cur.execute('select erp.post_sale_v2(%s,%s,%s)',(sale['sale_id'],uuid.uuid4(),int(sale['row_version'])))
+        api.admin(cur)
+        if flow=='RETURN':
+            allocation=cur.execute("""select a.id from erp.sale_stock_allocations a join erp.sales_items i on i.id=a.sale_item_id
+              where i.sale_id=%s""",(sale['sale_id'],)).fetchall()
+            assert len(allocation)==1,('AZ_GF_ALLOCATION',allocation)
+            rid=uuid.uuid4()
+            cur.execute("insert into erp.sales_returns(id,return_number,sale_id,customer_id,physical_at,status) values(%s,%s,%s,%s,%s,'DRAFT')",
+                        (rid,'AZ-GF-RET-'+rid.hex,sale['sale_id'],customer,prod.at(d3,12)))
+            cur.execute("""insert into erp.sales_return_items(return_id,sale_stock_allocation_id,location_id,qty_pcs,refund_amount,quality_grade)
+              values(%s,%s,%s,1,40,'GRADE_A')""",(rid,allocation[0][0],prod.base.LOCATION))
+            prod.owner(cur);cur.execute('select erp.post_sales_return(%s)',(rid,));api.admin(cur)
+            fixture['return']=str(rid)
+        else:
+            prod.owner(cur);cur.execute('select erp.reverse_sale(%s,%s)',(sale['sale_id'],'AZ goods flow: sale reversed before the invoice'));api.admin(cur)
+        fixture['sale']=str(sale['sale_id'])
+    elif flow=='CONVERSION':
+        target=prod.base.create_product(cur,uuid.uuid4().hex[:16])
+        conversion=uuid.uuid4()
+        cur.execute("""insert into erp.product_conversions(id,conversion_number,from_product_id,to_product_id,location_id,qty_pcs,conversion_type,
+            physical_at,status,conversion_cost_total,notes,created_by) values(%s,%s,%s,%s,%s,4,'RELABEL',%s,'DRAFT',0,'AZ goods flow conversion',%s)""",
+            (conversion,'AZ-GF-CONV-'+conversion.hex,product,target,prod.base.LOCATION,prod.at(d3,9),prod.base.OPERATOR_APP))
+        prod.owner(cur);prod.prior.actors.session(cur,'supabase_admin')
+        cur.execute('select erp.post_product_conversion(%s)',(conversion,));api.admin(cur)
+        fixture['conversion']=str(conversion)
+    quiet_fixture=awp.quiet_seed(cur,d,today-timedelta(days=1))
+    before=ledger_days(cur,days,[po])
+    response=invoice(cur,fx,today,price,d)
+    after=ledger_days(cur,days,[po])
+    x=dec(price)-10
+    move={str(day):{k:dec(after[str(day)][k])-dec(before[str(day)][k]) for k in KEYS} for day in days}
+    wip_po={str(day):dec(after[str(day)]['WIP_PO'][str(po)]) for day in days}
+    fg={str(d):0,str(d2):10,str(d3):10,str(today):10};cogs=dict.fromkeys(fg,0)
+    if flow=='RETURN':fg.update({str(d2):7,str(d3):8,str(today):8});cogs.update({str(d2):3,str(d3):2,str(today):2})
+    pre=awp.preflight(cur,today)
+    negative=[b for b in pre['blockers'] if b['code']=='GL_INVENTORY_NEGATIVE_ASOF'] if pre else None
+    checks=dict(material_at_invoice_price=move[str(d)]['MATERIAL_INVENTORY']==10*x and all(move[str(day)]['MATERIAL_INVENTORY']==0 for day in days[1:]),
+                fg_on_goods_days=all(move[k]['FG_INVENTORY']==v*x for k,v in fg.items()) if flow!='CONVERSION'
+                    else move[str(d2)]['FG_INVENTORY']==10*x and move[str(d)]['FG_INVENTORY']==0,
+                cogs_on_sale_days=all(move[k]['COGS']==v*x for k,v in cogs.items()),
+                wip_po_never_negative=all(v>=0 for v in wip_po.values()),
+                wip_po_correction_zero_each_day=all(move[str(day)]['WIP']==0 for day in days),
+                no_negative_daily_inventory=negative==[])
+    status='PASS' if all(checks.values()) else ('COUNTEREXAMPLE' if not az_installed(cur) else 'FAIL')
+    return dict(status=status,flow=flow,price=price,receipt_day=str(d),checks=checks,fixture=fixture,
+                daily_move={k:{kk:str(vv) for kk,vv in v.items()} for k,v in move.items()},wip_po={k:str(v) for k,v in wip_po.items()},
+                negative_blockers=negative,invoice=response,quiet=[quiet,quiet_fixture])
+
+
 def cases(cur,today):
     return [('AZ:ONE_CUT_LOWER',lambda:material_case(cur,today,'8.25',[(1,10)])),
             ('AZ:ONE_CUT_HIGHER',lambda:material_case(cur,today,'10.70',[(1,10)])),
@@ -447,7 +530,12 @@ def cases(cur,today):
             ('AZ:MULTI_CUT_HIGHER',lambda:multi_cut(cur,today,'10.70')),
             ('AZ:MULTI_CUT_LOWER',lambda:multi_cut(cur,today,'8.25')),
             ('AZ:WRITE_OFF_AFTER_LOT_HIGHER',lambda:write_off(cur,today,'10.70')),
-            ('AZ:WRITE_OFF_AFTER_LOT_LOWER',lambda:write_off(cur,today,'8.25'))]
+            ('AZ:WRITE_OFF_AFTER_LOT_LOWER',lambda:write_off(cur,today,'8.25')),
+            ('AZ:SALE_THEN_RETURN',lambda:goods_flow(cur,today,'10.70','RETURN')),
+            ('AZ:SALE_REVERSED_BEFORE_INVOICE',lambda:goods_flow(cur,today,'8.25','REVERSED')),
+            ('AZ:CONVERSION_AFTER_LOT',lambda:goods_flow(cur,today,'10.70','CONVERSION')),
+            ('AZ:BATCH_ACROSS_DAYS_HIGHER',lambda:multi_cut(cur,today,'10.70',batch=True)),
+            ('AZ:BATCH_ACROSS_DAYS_LOWER',lambda:multi_cut(cur,today,'8.25',batch=True))]
 
 
 def run(phase):
