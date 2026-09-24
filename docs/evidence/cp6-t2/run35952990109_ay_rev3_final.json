@@ -1,0 +1,456 @@
+{
+ "label": "T2_REGRESSION",
+ "run": 35952990109,
+ "head": "8b1d555",
+ "seed": "QUIETED",
+ "fixture": "PAYROLL_APPROVED",
+ "production_go": false,
+ "release_evidence": false,
+ "quieting": [
+  {
+   "target": "BUSINESS",
+   "closed_through": "2026-08-31",
+   "refused": [],
+   "reopened_status": "READY",
+   "after_status": "READY"
+  },
+  {
+   "target": "IMPORTS",
+   "closed_through": "2026-08-31",
+   "refused": [],
+   "reopened_status": "READY",
+   "after_status": "READY"
+  },
+  {
+   "target": "VALUES",
+   "closed_through": "2026-08-31",
+   "refused": [],
+   "reopened_status": "READY",
+   "after_status": "READY"
+  },
+  {
+   "target": "NEW_CASES",
+   "closed_through": "2026-08-31",
+   "refused": [],
+   "reopened_status": "READY",
+   "after_status": "READY"
+  },
+  {
+   "target": "AR_SEQUENTIAL",
+   "closed_through": "2026-08-31",
+   "refused": [],
+   "reopened_status": "READY",
+   "after_status": "READY"
+  }
+ ],
+ "groups": {
+  "AR": {
+   "status": "WRITER_PASS",
+   "sequential": {
+    "status": "WRITER_PASS",
+    "counts": {
+     "PASS": 146
+    }
+   },
+   "case_count": 174,
+   "races": {}
+  },
+  "business": {
+   "status": "WRITER_PASS",
+   "counts": {
+    "PASS": 179,
+    "CONTROL_PASS": 39,
+    "DATE_POLICY_REVIEW_REQUIRED": 12
+   },
+   "matches_au_outcome": true
+  },
+  "imports": {
+   "status": "WRITER_PASS",
+   "counts": {
+    "PASS": 31
+   },
+   "matches_au_outcome": true
+  },
+  "values": {
+   "status": "WRITER_PASS",
+   "counts": {
+    "PASS": 65
+   },
+   "matches_au_outcome": true
+  },
+  "NEW_CASES": {
+   "status": "COUNTEREXAMPLE",
+   "counts": {
+    "PASS": 26,
+    "COUNTEREXAMPLE": 8
+   }
+  }
+ },
+ "fixture_payrolls": {
+  "records": 101,
+  "approved": 101,
+  "redone_unpaid": 11,
+  "refused": {},
+  "cases": 101
+ },
+ "moved": [],
+ "new_cases_not_pass": [
+  {
+   "case": "DATE:False:Asia/Jakarta:True:20",
+   "status": "COUNTEREXAMPLE",
+   "mismatch_keys": [
+    "hpp_events",
+    "journal_posting_date"
+   ],
+   "hpp_events": [
+    [
+     "90607fea-e4cb-46e4-8fdf-7ecf2e8e8bf7",
+     "2026-09-22",
+     "30.000000",
+     "20.000000",
+     "0.000000"
+    ]
+   ],
+   "journals": [
+    [
+     "31a832bc-86c9-4592-b152-9cfe9cdbce0c",
+     "PO_HPP_GL_SYNC",
+     "2026-09-22",
+     "2026-09-22",
+     "POSTED"
+    ],
+    [
+     "9bc7ddf6-4df6-4b67-805c-aa221af6e3b4",
+     "MATERIAL_SUPPLIER_INVOICE",
+     "2026-09-21",
+     "2026-09-21",
+     "POSTED"
+    ],
+    [
+     "ba164cc6-30d3-455e-92ca-e0125f0a8e09",
+     "MATERIAL_COST_REVALUATION",
+     "2026-09-21",
+     "2026-09-21",
+     "POSTED"
+    ]
+   ],
+   "expected": "2026-09-21"
+  },
+  {
+   "case": "DATE:False:Asia/Jakarta:True:20.003",
+   "status": "COUNTEREXAMPLE",
+   "mismatch_keys": [
+    "hpp_events",
+    "journal_posting_date"
+   ],
+   "hpp_events": [
+    [
+     "366f6d9d-9b5d-448a-86d6-7633bb188fa8",
+     "2026-09-22",
+     "30.010000",
+     "20.010000",
+     "0.000000"
+    ]
+   ],
+   "journals": [
+    [
+     "45f45629-ac15-4744-877d-d839ab821def",
+     "MATERIAL_SUPPLIER_INVOICE",
+     "2026-09-21",
+     "2026-09-21",
+     "POSTED"
+    ],
+    [
+     "4ebe16b6-a40f-4f2a-914e-67156a172803",
+     "PO_HPP_GL_SYNC",
+     "2026-09-22",
+     "2026-09-22",
+     "POSTED"
+    ],
+    [
+     "5fe5e361-a6b1-4c02-945c-e012397919a6",
+     "MATERIAL_COST_REVALUATION",
+     "2026-09-21",
+     "2026-09-21",
+     "POSTED"
+    ]
+   ],
+   "expected": "2026-09-21"
+  },
+  {
+   "case": "DATE:False:UTC:True:20",
+   "status": "COUNTEREXAMPLE",
+   "mismatch_keys": [
+    "hpp_events",
+    "journal_posting_date"
+   ],
+   "hpp_events": [
+    [
+     "5fa23fac-88f6-45d5-ab35-861abe4480ce",
+     "2026-09-22",
+     "30.000000",
+     "20.000000",
+     "0.000000"
+    ]
+   ],
+   "journals": [
+    [
+     "3223d274-b9c5-471c-971d-62be8697071e",
+     "PO_HPP_GL_SYNC",
+     "2026-09-22",
+     "2026-09-22",
+     "POSTED"
+    ],
+    [
+     "5c491b5b-472f-4d25-a88d-fcb670d53200",
+     "MATERIAL_COST_REVALUATION",
+     "2026-09-21",
+     "2026-09-21",
+     "POSTED"
+    ],
+    [
+     "fca7b483-c187-4e8c-ab3e-e345d5c37d4d",
+     "MATERIAL_SUPPLIER_INVOICE",
+     "2026-09-21",
+     "2026-09-21",
+     "POSTED"
+    ]
+   ],
+   "expected": "2026-09-21"
+  },
+  {
+   "case": "DATE:False:UTC:True:20.003",
+   "status": "COUNTEREXAMPLE",
+   "mismatch_keys": [
+    "hpp_events",
+    "journal_posting_date"
+   ],
+   "hpp_events": [
+    [
+     "6189e0aa-550c-4d11-a390-c6bb1f7208df",
+     "2026-09-22",
+     "30.010000",
+     "20.010000",
+     "0.000000"
+    ]
+   ],
+   "journals": [
+    [
+     "9e8eb971-2561-4349-a36d-5a61d8193456",
+     "PO_HPP_GL_SYNC",
+     "2026-09-22",
+     "2026-09-22",
+     "POSTED"
+    ],
+    [
+     "eb9f6023-b749-4923-a8b5-562c08322dae",
+     "MATERIAL_COST_REVALUATION",
+     "2026-09-21",
+     "2026-09-21",
+     "POSTED"
+    ],
+    [
+     "fa58f5da-c9a2-4ba9-885d-5115cf7e7976",
+     "MATERIAL_SUPPLIER_INVOICE",
+     "2026-09-21",
+     "2026-09-21",
+     "POSTED"
+    ]
+   ],
+   "expected": "2026-09-21"
+  },
+  {
+   "case": "DATE:False:Etc/GMT+12:True:20",
+   "status": "COUNTEREXAMPLE",
+   "mismatch_keys": [
+    "hpp_events",
+    "journal_posting_date"
+   ],
+   "hpp_events": [
+    [
+     "fe896c28-26f5-4cb8-9ba2-5410aa608e06",
+     "2026-09-22",
+     "30.000000",
+     "20.000000",
+     "0.000000"
+    ]
+   ],
+   "journals": [
+    [
+     "06327ace-b753-42bd-97fe-f96e1a1f637e",
+     "MATERIAL_SUPPLIER_INVOICE",
+     "2026-09-21",
+     "2026-09-21",
+     "POSTED"
+    ],
+    [
+     "4181e0bb-b611-4eed-9994-b5ab4f82f84a",
+     "PO_HPP_GL_SYNC",
+     "2026-09-22",
+     "2026-09-22",
+     "POSTED"
+    ],
+    [
+     "6b37d8ae-5306-4e9d-b366-0de450c4ab5e",
+     "MATERIAL_COST_REVALUATION",
+     "2026-09-21",
+     "2026-09-21",
+     "POSTED"
+    ]
+   ],
+   "expected": "2026-09-21"
+  },
+  {
+   "case": "DATE:False:Etc/GMT+12:True:20.003",
+   "status": "COUNTEREXAMPLE",
+   "mismatch_keys": [
+    "hpp_events",
+    "journal_posting_date"
+   ],
+   "hpp_events": [
+    [
+     "6be64357-4986-4fc2-9139-071756c5f640",
+     "2026-09-22",
+     "30.010000",
+     "20.010000",
+     "0.000000"
+    ]
+   ],
+   "journals": [
+    [
+     "aa4a5151-4c9b-407f-9265-e0c0f6de49ab",
+     "MATERIAL_COST_REVALUATION",
+     "2026-09-21",
+     "2026-09-21",
+     "POSTED"
+    ],
+    [
+     "ba58d20f-4016-436c-b1d5-6cb447a30e4d",
+     "MATERIAL_SUPPLIER_INVOICE",
+     "2026-09-21",
+     "2026-09-21",
+     "POSTED"
+    ],
+    [
+     "ddc09aea-5e3a-4c5c-a419-1dcc6c88f8a3",
+     "PO_HPP_GL_SYNC",
+     "2026-09-22",
+     "2026-09-22",
+     "POSTED"
+    ]
+   ],
+   "expected": "2026-09-21"
+  },
+  {
+   "case": "DATE:False:Pacific/Kiritimati:True:20",
+   "status": "COUNTEREXAMPLE",
+   "mismatch_keys": [
+    "hpp_events",
+    "journal_posting_date"
+   ],
+   "hpp_events": [
+    [
+     "1da03c57-f3a1-4e04-8040-8cc89b8dd629",
+     "2026-09-22",
+     "30.000000",
+     "20.000000",
+     "0.000000"
+    ]
+   ],
+   "journals": [
+    [
+     "0c01b628-3172-404a-ab37-95809088b5eb",
+     "PO_HPP_GL_SYNC",
+     "2026-09-22",
+     "2026-09-22",
+     "POSTED"
+    ],
+    [
+     "69f6f1d2-eee6-4dc1-9f8c-a98451bcad44",
+     "MATERIAL_COST_REVALUATION",
+     "2026-09-21",
+     "2026-09-21",
+     "POSTED"
+    ],
+    [
+     "7658b62b-1267-4eff-86c5-d4a6ff85504c",
+     "MATERIAL_SUPPLIER_INVOICE",
+     "2026-09-21",
+     "2026-09-21",
+     "POSTED"
+    ]
+   ],
+   "expected": "2026-09-21"
+  },
+  {
+   "case": "DATE:False:Pacific/Kiritimati:True:20.003",
+   "status": "COUNTEREXAMPLE",
+   "mismatch_keys": [
+    "hpp_events",
+    "journal_posting_date"
+   ],
+   "hpp_events": [
+    [
+     "e2ae0424-f757-4ca3-8f96-b07eef466dae",
+     "2026-09-22",
+     "30.010000",
+     "20.010000",
+     "0.000000"
+    ]
+   ],
+   "journals": [
+    [
+     "18de5fba-9233-4d3e-b2c3-b100579f748e",
+     "MATERIAL_COST_REVALUATION",
+     "2026-09-21",
+     "2026-09-21",
+     "POSTED"
+    ],
+    [
+     "681d74fa-9567-4b30-8f01-e50fd604fe3b",
+     "MATERIAL_SUPPLIER_INVOICE",
+     "2026-09-21",
+     "2026-09-21",
+     "POSTED"
+    ],
+    [
+     "e4ccc7c3-1afb-4fca-bb93-42a91aafe554",
+     "PO_HPP_GL_SYNC",
+     "2026-09-22",
+     "2026-09-22",
+     "POSTED"
+    ]
+   ],
+   "expected": "2026-09-21"
+  }
+ ],
+ "temporal": {
+  "AT_CASES": 16,
+  "AU_CASES": 15,
+  "AT_CONCURRENCY": 4,
+  "AU_CONCURRENCY": 6,
+  "status": "WRITER_PASS"
+ },
+ "ar_races": 28,
+ "returned_to_au": [
+  "INVOICE:*:4:False (4, CONTROL_PASS)",
+  "CALENDAR:*:False (12 historical HOLD, DATE_POLICY_REVIEW_REQUIRED, stay HOLD)",
+  "the 28 closed-receipt BUSINESS cases and 8 AS DATE:True:*:True:* moved in run 8",
+  "the 3 AR cases moved in run 9"
+ ],
+ "awaiting_owner_decision": {
+  "cases": [
+   "DATE:False:Asia/Jakarta:True:20",
+   "DATE:False:Asia/Jakarta:True:20.003",
+   "DATE:False:UTC:True:20",
+   "DATE:False:UTC:True:20.003",
+   "DATE:False:Etc/GMT+12:True:20",
+   "DATE:False:Etc/GMT+12:True:20.003",
+   "DATE:False:Pacific/Kiritimati:True:20",
+   "DATE:False:Pacific/Kiritimati:True:20.003"
+  ],
+  "reason": "Open receipt day, goods produced the next day (partial production). The frozen AS oracle (ca7f095, written before the owner decision of 24 Sep) expects the PO HPP event and PO_HPP_GL_SYNC journal on the invoice economic date (purchase day 2026-09-21); AY dates them on the FG day 2026-09-22, as the owner decided (\"Jangan catat ... ketika barang jadinya baru ada ...\"). Amounts, the material revaluation and the supplier invoice journal stay on 2026-09-21. Not called PASS.",
+  "proposal": "Expected PO HPP event/journal date = greatest(invoice economic date, FG day); everything else unchanged."
+ },
+ "note": "T2 run 10 on 8b1d555: candidate AU+AV+AW+AX (repair wage)+AY rev3 (final). Every group equals AU except 8 AS NEW_CASES awaiting the oracle decision."
+}

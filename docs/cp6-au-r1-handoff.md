@@ -2,6 +2,8 @@
 
 Tanggal: 23 September 2026 (WIB). Writer: Claude Code (sesi cloud). Peninjau berikutnya: ChatGPT.
 
+> **Pembaruan terbaru (24 September 2026, writer Claude): baca §22 lebih dulu.** Isinya T2 regresi gabungan (run 10: semua grup sama dengan AU, kecuali 8 kasus AS yang menunggu keputusan oracle) dan T3 paket rilis 23 file (AC..AY) di baseline setara Enteng. Juga dua keputusan owner 24 Sep yang sudah dikerjakan: upah perbaikan BS temuan lewat payroll (AX) dan tanggal recost dari barang jadi (AY rev3). Semua itu T2_REGRESSION/T3_PREP, bukan bukti rilis. CP6 tetap HOLD, 12 HOLD historis tetap HOLD, `production_go=false`.
+
 > **Pembaruan (giliran writer Claude berikutnya, 23 September 2026):** paket yang ditinjau sekarang adalah **AV rev2** (§16), bukan kandidat AV `bb4009c`. Keputusan owner lanjutan ada di §14–§15 dan §16.4. Bagian 1–13 dipertahankan sebagai riwayat.
 Dokumen ini adalah checkpoint utuh sesuai format bagian 8 handoff AU-R1. Tidak ada yang diringkas dari bukti; semua angka di bawah dapat ditelusuri ke run, commit, atau file yang disebut.
 
@@ -883,3 +885,318 @@ Runner `scripts/cp6_t2_regression.py` sudah siap. Workflow-nya disiapkan dan dij
 ### 21.6 Hal terbuka untuk owner
 - **Upah perbaikan BS temuan > 0 (keputusan B):** jalurnya belum ada. Pola rework yang sudah ada mencatat Dr WIP / Cr Hutang kontraktor lewat payroll, dan itu terikat PO. Untuk barang temuan (tanpa PO) perlu satu pilihan: dibayar tunai saat itu (Dr Persediaan BJ / Cr Kas), atau lewat payroll penjahit (butuh jalur baru di payroll). Karena biasanya tanpa biaya, CP6 tidak tertahan oleh ini.
 - **Konversi (rebranding) terblokir oleh stok AX:** aturan lama menolak konversi SKU bila di lokasi yang sama ada lot non-PO. Tidak ada angka yang salah (transaksi ditolak, bukan dihitung keliru). Membukanya butuh alur HPP konversi lot non-PO dan dicatat sebagai backlog.
+
+## 22. Pelaksanaan A+B putaran ketiga: T2, T3, audit independen, upah perbaikan, tanggal recost (23–24 September 2026, writer Claude)
+
+Label bukti: **T2_REGRESSION** untuk regresi gabungan dan **T3_PREP** untuk paket rilis. Keduanya **bukan** bukti rilis dan **bukan** penerimaan independen. CP6 tetap HOLD, 12 HOLD historis tetap HOLD, `production_go=false`.
+
+Batas yang dijaga:
+- Tidak ada mutasi pada main, deploy Cloudflare, Enteng (`siimvrusnzxexizpyoib`), ERP-Garment lama (`vlxdhpkjeevubjxexnfo`), maupun production.
+- Cabang kompetisi tetap `ca7f095` (dicek sebelum setiap push).
+- Akses ke Enteng hanya SELECT metadata: definisi dan hash, tanpa data bisnis. Sejak owner meminta berhenti, tidak ada SQL ke hosted sama sekali (22.7).
+
+### 22.1 Ringkasan status
+
+| Item | Status | Bukti |
+|---|---|---|
+| AW T1 | selesai: 16 kasus + 8 race lulus (iterasi 5) | §21.2 |
+| AX T1 | selesai: iterasi 5 (run 35910555547) 29 PASS + 1 OBSERVED; dengan upah perbaikan (run 35949833558) 32 PASS + 1 OBSERVED | 22.2c |
+| Upah perbaikan BS temuan > Rp0 (keputusan owner 24 Sep: "Utang, dibayar via payroll") | selesai di AX: T1 3 kasus baru PASS, T3 PASS, T2 run 7 tidak memindahkan kasus apa pun | 22.2c |
+| Tanggal recost invoice terlambat (keputusan owner 24 Sep: "Geser tanggal recost") | AY rev3: T1 7/7 PASS (run 35952988290), T3 PASS (run 35953286010), T2 run 10: semua grup sama dengan AU, kecuali 8 kasus AS yang menunggu keputusan oracle | 22.2a, 22.2b |
+| G-01 baseline | sama dengan Enteng: seluruh katalog kecuali stempel ledger platform, dan 11 dari 11 kapsul historis | 22.4 |
+| T2 regresi gabungan | run 6: BUSINESS 214/230 sama dengan AU, sisanya 16 kasus temuan 22.2a. Run 7 (dengan upah perbaikan): sama dengan run 6. Run 8 (AY teks pertama) dan run 9 (AY rev2): 16 kasus itu kembali ke AU, tetapi masing-masing memperlihatkan satu kesalahan writer (22.2b). Run 10 (AY rev3): AR 146/146 + 28/28 race, BUSINESS 230/230, IMPORTS 31/31, dan VALUES 65/65 sama dengan AU; temporal lulus; NEW_CASES 26 PASS + 8 kasus AS yang menunggu keputusan oracle (22.2b). | 22.2, 22.2b |
+| T3 paket rilis gabungan | 23 file (AC..AY, run akhir 35953286010, head b242d45): terpasang di baseline setara Enteng, pin deterministik (kini wajib), browser 10/10, restore ketat lulus, advisor hanya INFO. Rollback NOT_TESTED. | 22.3, 22.6 |
+| Audit independen alat T2/T3 | 7 temuan, semua diperbaiki | 22.5 |
+| CodeQL (security-extended) | run 35944124414 di head 13dbcb1: 0 temuan; diulang di head akhir: run 35953312746 di head b242d45: 0 temuan | 22.6 |
+| Akses hosted | 21 panggilan Supabase, 0 menulis, legacy 0 | 22.7 |
+
+### 22.2 T2: regresi gabungan AU + AV + AW + AX (+ AY)
+
+Arahan owner 24 September (inti, dicatat apa adanya):
+- lengkapi persiapan tes yang tidak sedang menguji payroll, perbaiki lima benturan absensi, lalu jalankan ulang; 75 kasus itu belum boleh disebut lulus;
+- "belum masuk payroll berbeda dengan belum dibayar": payroll yang sudah disetujui boleh masih berupa utang, jadi tes tidak boleh dipaksa membayar semuanya;
+- tes khusus upah belum lunas atau baru dibayar sebagian harus tetap menguji kondisi itu;
+- melengkapi data contoh sesuai kebijakan yang sah boleh; mengubah hasil yang diharapkan perlu diperiksa alasannya.
+
+Runner: `scripts/cp6_t2_regression.py`. Kasus, oracle, dan jadwal race tidak diubah. Setiap kasus dibandingkan per ID dengan hasil AU (komparator H-01).
+
+| Run | Seed | Hasil |
+|---|---|---|
+| 1 (35911656309) | AS_IS | 152 kasus berpindah. Semuanya berhenti karena open item milik seed sendiri (absensi, payroll CALCULATED, kerja kontraktor seed di luar payroll) di bawah kebijakan owner AW (P-03: tahan semua tanggal). |
+| 2 (35914912522) | QUIETED | 75 berpindah. Open item seed dibersihkan sekali per grup dengan RPC owner. |
+| 3 (35940435661) | QUIETED + diagnostik | Hasil sama persis dengan run 2. Diagnostik membuktikan untuk 26 kasus bahwa baris kerja yang belum dibayar dibuat oleh kasus itu sendiri. |
+| 4 (35943232674) | QUIETED, aturan baru (22.5 no. 6) | Berhenti di gerbang pembersih, sesuai rancangan: OFF untuk seluruh rentang bertabrakan dengan periode absensi milik seed sendiri (kontraktor …0001 dan …0005), jadi grup tidak dijalankan. Temporal tetap lulus. |
+| 5 (35944088575) | QUIETED + fixture kasus dilengkapi (arahan owner 24 Sep) | AR 174/174 WRITER_PASS; IMPORTS 31/31, VALUES 65/65, NEW_CASES 34/34 sama dengan AU; temporal lulus. BUSINESS: yang berpindah turun dari 75 menjadi 23. Rinciannya: 11 INCOMPLETE (payroll kasus ditolak karena bertabrakan dengan payroll seed yang disetujui) dan 12 BUG_PROVEN (temuan 22.2a). WORK, REWORK, RECOVERED_SALE, POCKET, RECEIPT, dan lima kasus absensi kembali sama dengan AU. |
+| 6 (35945041135) | seperti run 5, ditambah payroll belum-dibayar yang bertabrakan dibuat ulang | 101 payroll fixture disetujui (11 dibuat ulang, 0 ditolak). BUSINESS 214/230 sama dengan AU; 59 dari 75 kasus run 2/3 kembali ke hasil AU. Sisa 16 = temuan 22.2a. Grup lain seperti run 5. |
+| 7 (35950296669, bc650c3) | seperti run 6; AX kini dengan upah perbaikan | Semua grup sama dengan run 6; tidak ada kasus yang berpindah karena upah perbaikan (`docs/evidence/cp6-t2/run35950296669_repair_wage_no_ay.json`). |
+| 8 (35950787577, cd0c9eb) | seperti run 7, ditambah AY teks pertama | 16 kasus temuan 22.2a kembali ke hasil AU. 28 kasus BUSINESS dan 16 kasus AS berpindah: 8 AS karena keputusan owner, sisanya karena kesalahan writer (22.2b). (`docs/evidence/cp6-t2/run35950787577_ay_first_text.json`) |
+| 9 (35952233525, 09250d0) | seperti run 8, dengan AY rev2 | BUSINESS 230/230, IMPORTS 31/31, dan VALUES 65/65 sama dengan AU. AR: 3 INCOMPLETE (kesalahan rev2, 22.2b). NEW_CASES: 26 PASS + 8 AS yang menunggu keputusan oracle (22.2b). |
+| 10 (35952990109, 8b1d555) | seperti run 9, dengan AY rev3 | AR 146/146 + 28/28 race; BUSINESS 230/230, IMPORTS 31/31, dan VALUES 65/65 sama dengan AU; temporal 16 + 15 kasus dan 4 + 6 race PASS. NEW_CASES 26 PASS + 8 kasus AS yang menunggu keputusan oracle. Tidak ada kasus yang berpindah dari AU. (`docs/evidence/cp6-t2/run35952990109_ay_rev3_final.json`) |
+
+Pada run 1–3, bagian berikut tidak berubah:
+- temporal: AT 16 + AU 15 kasus serta 4 + 6 race PASS;
+- AR: 142/146 sekuensial + 28/28 race PASS;
+- VALUES 65/65 dan NEW_CASES 34/34 identik dengan AU;
+- BUSINESS 163/230 dan IMPORTS 27/31 identik dengan AU.
+
+Disposisi sementara run 2/3 (`docs/evidence/cp6-t2/disposition_20260924.json`: 70 tertahan kebijakan, 5 benturan absensi) **sudah digantikan** oleh arahan owner di atas. Kasus-kasus itu tidak disebut lulus, tetapi dijalankan ulang dengan persiapan yang lengkap.
+
+**Cara melengkapi persiapan (harness, file oracle tetap terkunci hash):**
+- Tepat sebelum kasus membaca kesiapan (laporan owner, preflight, tutup buku), setiap hari absensi berbayar dan baris kerja payable **yang dibuat kasus itu sendiri** dan belum masuk payroll dimasukkan ke payroll baru kontraktor tersebut, di-*populate*, lalu **disetujui**. Persetujuan hanya mengakui biaya ke utang kontraktor (`approve_payroll`: tidak ada kas keluar); tidak ada pembayaran.
+- Item yang sudah ada sebelum kasus tidak disentuh. Sesi kasus (session user, role, klaim JWT, zona waktu, search_path) dikembalikan persis dan dicek.
+- Bila hari kasus jatuh di dalam payroll kontraktor yang sudah disetujui tetapi belum dibayar, payroll itu dibatalkan dengan `cancel_unpaid_payroll`, lalu satu payroll untuk rentang gabungan disetujui lagi (run 6). Payroll yang sudah PAID tidak disentuh: kasusnya ditolak dan dicatat.
+- **WORK_UNPAID** berarti 10 pcs selesai dengan 0 pcs payable, jadi tidak ada yang dimasukkan ke payroll. **WORK_PARTIAL_PAY** berarti 7 pcs selesai dan 5 pcs payable (bukan "dibayar sebagian"); nominalnya diasersi sebelum laporan dibaca. Kedua asersi tidak berubah; kasusnya tetap menguji kondisinya sendiri, dan upahnya tetap utang.
+- **Lima kasus absensi:** kasus memposting PRESENT untuk kontraktor seed pada hari-3 dan hari-2. Kedua hari itu kini dijadikan periode OFF tersendiri oleh pembersih seed, lalu dibatalkan dengan RPC owner hanya di dalam savepoint kasus itu.
+
+**Pembersih seed (run 4 → 5):**
+- Tanggal tutup dibaca, tidak diasumsikan.
+- Periode absensi seed yang masih DRAFT dan sudah jatuh tempo diposting.
+- OFF hanya mengisi hari yang belum dipegang periode aktif.
+- Engine wajib menjawab READY untuk seluruh rentang yang dibuka (2 Jan s/d tanggal tutup).
+
+Hasil run 5 dan 6: lihat tabel di atas. Rincian per kasus: `docs/evidence/cp6-t2/run35944088575_fixture_completed.json` dan `docs/evidence/cp6-t2/run35945041135_fixture_redone.json`; disposisi akhir: `docs/evidence/cp6-t2/disposition_run6_20260924.json`.
+
+### 22.2a Temuan dari T2 run 5: saldo barang jadi negatif setelah invoice terlambat yang menurunkan harga
+
+Setelah fixture dilengkapi, 12 kasus (INVOICE *:4:False dan CALENDAR 1/2/3 bulan serta MAY31 dengan hari terima masih terbuka) akhirnya mencapai asersi utamanya. Engine AW lalu menjawab BLOCKED dengan `GL_INVENTORY_NEGATIVE_ASOF` (CRITICAL). Mekanismenya (dari kode dan angka bukti, bukan dugaan):
+
+- Contoh CALENDAR 1 bulan:
+  - bahan diterima 23 Agu dengan harga estimasi Rp10/unit (GRNI 100);
+  - barang jadi masuk 24 Agu (nilai 85);
+  - 2 pcs terjual;
+  - invoice datang 23 Sep dengan harga Rp8,25 (lebih murah).
+- Recost menurunkan nilai barang jadi Rp1,57 dan HPP penjualan Rp1,05, tetapi **mencatatnya pada 23 Agu**, yaitu hari bahan diterima. Barang jadinya baru ada 24 Agu, sehingga saldo buku FG_INVENTORY pada 23 Agu = −Rp1,57.
+- Engine AW (`supabase/dev/cp6_aw_t1_family.sql:386-399`) menghitung saldo berjalan harian persediaan sampai tanggal tutup. Saldo negatif di tanggal mana pun dianggap CRITICAL. Karena saldo 23 Agu itu permanen di histori, **setiap tutup buku sesudahnya tertahan** sampai ada keputusan.
+- Pada kasus INVOICE *:4:False hasilnya sama: −Rp1,50 pada hari terima.
+- Kasus dengan hari terima sudah ditutup (closed=True) lulus, karena selisihnya digeser ke periode terbuka.
+- Kaitan dengan HOLD: 8 kasus CALENDAR ini termasuk 12 HOLD historis (kebijakan tanggal), dan statusnya tetap HOLD. Yang baru terlihat adalah akibat konkretnya di bawah engine AW. 4 kasus INVOICE dulu CONTROL_PASS karena laporan AU belum punya pengecekan ini.
+- **Keputusan owner (24 Sep, dikutip):** "Saya pilih Geser tanggal recost. Jangan catat penurunan nilai barang jadi pada 23 Agustus ketika barang jadinya baru ada 24 Agustus. Alokasikan koreksi ke barang jadi sejak tanggal fisiknya dan ke HPP untuk bagian yang terjual, dengan tanggal jurnal mengikuti aturan periode terbuka/tertutup yang sudah diputuskan. Pertahankan pemeriksaan saldo negatif per tanggal. Tolong uji ulang empat kasus INVOICE, saldo harian, laporan menurut tanggal, serta tutup buku sebelum menyatakan beres. 12 HOLD historis tetap HOLD sampai dibuktikan dan diputus terpisah."
+- Status: dikerjakan sebagai AY, lihat 22.2b. Versi akhir AY rev3: T2 run 10 mengembalikan ke-16 kasus ke hasil AU tanpa memindahkan kasus lain. Yang tersisa adalah keputusan oracle untuk 8 kasus AS (22.2b).
+
+### 22.2b AY: koreksi HPP invoice terlambat diberi tanggal sejak barang jadinya ada (keputusan owner 24 Sep)
+
+**Isi perubahan (AY rev3, versi akhir).** Hanya satu fungsi yang diganti: `erp.sync_po_hpp_to_gl(uuid,date)`, ditambah satu helper `erp.po_hpp_gl_leg_add_v1` (IMMUTABLE SQL, tanpa akses tabel). Sumber T1: `supabase/dev/cp6_ay_t1_family.sql` (dibangun oleh `scripts/cp6_ay_build.py` dari teks AS). Kandidat rilis: `supabase/release/cp6-t3/20260924010200_erp_v2_6_20ay_cp6_hpp_dated_from_goods.sql`, dengan guard yang sama seperti AW/AX. Tidak ada tabel baru dan tidak ada perubahan data saat instalasi.
+
+Cara selisih HPP satu PO (FG, HPP terjual, dan lawannya WIP) diposting:
+- **Bila E (tanggal ekonomi invoice) sudah ditutup:** tidak ada yang berubah dibanding sebelum AY. Semua kaki tetap pada E, jadi hasilnya satu jurnal dengan tanggal ekonomi E, dan `post_journal` memostingnya pada hari pengakuan menurut aturan yang sudah diputuskan (`resolve_accounting_transaction_date`: hari ini atau hari pertama sesudah tanggal tutup). Laporan sebelum hari itu tidak berubah, dan tanggal ekonominya tetap tercatat.
+- **Bila E masih terbuka**, selisihnya dibagi ke tanggal fisik:
+  - **Kaki A, per lot barang jadi:** tanggalnya `greatest(E, tanggal bisnis lot)`. Bobotnya pcs output lot. Seluruh selisih lot itu (bagian yang masih di gudang maupun yang sudah terjual) masuk ke FG_INVENTORY pada tanggal itu, dengan lawan WIP.
+  - **Kaki B, per penjualan/retur:** pada `greatest(tanggal kaki A lotnya, tanggal penjualan atau retur)`, bagian yang terjual dipindah dari FG_INVENTORY ke COGS (retur ke arah sebaliknya). Bobotnya pcs terjual bersih.
+- Pembulatan sen dengan sisa ke baris terakhir, jadi total per akun sama persis dengan total lama.
+- Satu event dan satu jurnal per tanggal yang dihasilkan. `post_journal` tidak diubah.
+- Pemeriksaan saldo negatif per tanggal (`GL_INVENTORY_NEGATIVE_ASOF`, AW) **tidak diubah**.
+
+**Contoh angka (kasus AY:LATE_INVOICE_LOWER_OPEN_RECEIPT_DAY):**
+- bahan diterima 21 Sep dengan harga estimasi; barang jadi dan penjualan 22 Sep; invoice datang dengan harga Rp8,25 (lebih murah); periode masih terbuka.
+- **Sebelum AY:** satu event bertanggal 21 Sep (FG −5,25, COGS −3,50). Saldo FG 21 Sep = −5,25 → engine BLOCKED, tutup buku ditolak.
+- Selisih per pcs −1,75: 3 pcs masih di gudang (FG −5,25) dan 2 pcs terjual (COGS −3,50); lawannya WIP +8,75.
+- **Sesudah AY:** event bertanggal 22 Sep, hari barang jadi dan penjualan: FG −5,25, COGS −3,50. Laporan 21 Sep untuk FG dan COGS tidak berubah, tidak ada saldo negatif harian, engine READY, tutup buku diterima.
+- Revaluasi bahan (GRNI/bahan → WIP, −17,50) tetap bertanggal 21 Sep, lihat catatan di akhir bagian ini.
+
+**Bukti T1 (label T1_FAMILY, bukan bukti rilis):**
+- Teks pertama, run 35950629646 (`docs/evidence/cp6-ay/native_t1_run35950629646_{before,after}.json`): 5 kasus. Sebelum AY 3 COUNTEREXAMPLE + 2 PASS, sesudah 5/5 PASS. Kombinasi hari terima tertutup dengan barang jadi terbuka belum diuji, dan justru di situ kesalahannya (lihat di bawah).
+- AY rev2, run 35952201365 (`docs/evidence/cp6-ay/native_t1_run35952201365_{before,after}_rev2.json`): 7 kasus, sesudah 7/7 PASS. Probe ini belum memeriksa tanggal ekonomi jurnal, sehingga kesalahan rev2 lolos T1 dan baru tertangkap T2 run 9.
+- **AY rev3 (versi akhir), run 35952988290** (`docs/evidence/cp6-ay/native_t1_run35952988290_{before,after}_rev3.json`): 7 kasus plus cek tanggal jurnal. Sebelum AY 3 COUNTEREXAMPLE + 4 PASS, sesudah **7/7 PASS**. Primary tidak berubah dan clone 0 di kedua fase.
+
+| Kasus (AY rev3) | Sebelum AY | Sesudah AY rev3 |
+|---|---|---|
+| LATE_INVOICE_LOWER_OPEN_RECEIPT_DAY (UTC) | COUNTEREXAMPLE: event dan jurnal 21 Sep, FG −5,25 pada hari terima, close ditolak | PASS: event dan jurnal 22 Sep (ekonomi = posting), FG −5,25, COGS −3,50 |
+| LATE_INVOICE_LOWER_OPEN_KIRITIMATI | COUNTEREXAMPLE (sama) | PASS |
+| LATE_INVOICE_HIGHER_OPEN_RECEIPT_DAY (harga naik) | COUNTEREXAMPLE: kenaikan dicatat sebelum barangnya ada | PASS: +2,10 FG / +1,40 COGS pada 22 Sep |
+| LATE_INVOICE_LOWER_CLOSED_HISTORY (tutup s/d hari barang jadi) | PASS: jurnal ekonomi 21 Sep, posting 24 Sep | PASS: sama persis dengan sebelum AY |
+| LATE_INVOICE_HIGHER_CLOSED_HISTORY | PASS | PASS |
+| LATE_INVOICE_LOWER_CLOSED_RECEIPT_OPEN_GOODS (tutup s/d hari terima saja) | PASS: ekonomi 21 Sep, posting 24 Sep | PASS: sama; laporan 22 dan 23 Sep tidak berubah |
+| LATE_INVOICE_HIGHER_CLOSED_RECEIPT_OPEN_GOODS (Kiritimati) | PASS | PASS |
+
+Setiap kasus memeriksa: nilai pada harga estimasi dan harga invoice, tanggal ekonomi dan posting jurnal HPP, tanggal event tidak mendahului barang jadi (atau tepat pada hari pengakuan bila hari terima tertutup), total event, laporan hari terima (FG/COGS tidak berubah), laporan hari barang jadi, saldo harian tidak negatif, jawaban engine untuk hari barang jadi, dan tutup buku sesudah invoice. Untuk kasus dengan hari terima tertutup, laporan hari barang jadi dan hari sebelum hari ini juga wajib tidak berubah. Primary tidak berubah dan clone 0 di kedua fase.
+
+**Dua kesalahan writer yang ditangkap T2 sebelum AY dinyatakan beres:**
+- **Run 8 (35950787577, AY teks pertama).**
+  - Hasil baik: 16 kasus temuan 22.2a kembali ke hasil AU. 4 INVOICE `*:4:False` kembali CONTROL_PASS, dan 12 HOLD historis kembali ke DATE_POLICY_REVIEW_REQUIRED (tetap HOLD).
+  - Hasil buruk: kasus dengan **hari terima sudah ditutup** ikut berpindah, yaitu 28 kasus BUSINESS (8 `CROSS:INVOICE:True:*`, 8 `INVOICE:*:{4,7}:True`, 12 `CALENDAR:*:True`) dan 8 kasus AS `DATE:True:*:True:*`.
+  - Penyebab: aturan buka/tutup saya terapkan per tanggal kaki. Bila hari terima tertutup tetapi hari barang jadi masih terbuka, sebagian koreksi masuk ke hari barang jadi (22 Sep), padahal invoice baru datang 23 Sep, sehingga laporan hari-hari sebelum invoice ikut berubah.
+  - Bukti: `docs/evidence/cp6-t2/run35950787577_ay_first_text.json`.
+- **Run 9 (35952233525, AY rev2).**
+  - Rev2 menaruh koreksi atas penerimaan tertutup pada tanggal pengakuan (`v_from`).
+  - Hasil: BUSINESS, IMPORTS, dan VALUES kembali sama dengan AU, tetapi 3 kasus AR menjadi INCOMPLETE: `PRODUCTION_ORIGIN:LAUNDRY:True:False` dan `POCKET_PERIOD_LIFECYCLE:*:True`.
+  - Penyebab: oracle AR (beku) mensyaratkan jurnal itu bertanggal ekonomi E dan bertanggal posting hari ini, seperti sebelum AY. Rev2 memberinya tanggal ekonomi hari ini, sehingga tanggal ekonomi aslinya hilang.
+  - Bukti: `docs/evidence/cp6-t2/run35952233525_ay_rev2.json`.
+- **Rev3 (versi akhir):** bila E tertutup, semua kaki tetap pada E, persis seperti sebelum AY. Hanya E yang terbuka yang digeser ke tanggal barang jadi.
+  - Uji logika lokal mencakup: tertutup s/d hari terima, tertutup s/d hari barang jadi, dua lot dengan penjualan dan retur sesudahnya, dan E terbuka.
+  - Probe T1 mendapat 2 kasus `CLOSED_RECEIPT_OPEN_GOODS` dan cek tanggal jurnal (tertutup: ekonomi d, posting hari ini; terbuka: ekonomi = posting, pada/sesudah hari barang jadi).
+  - `ay_verified` mewajibkan badan fungsi terpasang sama persis dengan teks AY yang di-commit.
+
+**8 kasus AS `DATE:False:*:True:*` (hari terima terbuka, sebagian sudah diproduksi) — perlu keputusan owner/GPT atas oracle:**
+- Oracle AS (beku di `ca7f095`, ditulis sebelum keputusan 24 Sep) mengharapkan event dan jurnal HPP PO pada tanggal ekonomi invoice (hari beli, 21 Sep).
+- AY menaruhnya pada hari barang jadi (22 Sep), sesuai keputusan owner. Contohnya: harga naik Rp10 → Rp20 untuk 10 unit, 3 pcs di gudang (+30) dan 2 pcs terjual (+20). Sebelum AY, kenaikan FG +30 tercatat 21 Sep, padahal barangnya baru ada 22 Sep.
+- Selain tanggal jurnal `PO_HPP_GL_SYNC` itu tidak ada yang berbeda: nominal sama, revaluasi bahan (WIP) dan jurnal invoice pemasok tetap 21 Sep.
+- Oracle tidak diubah dan kasusnya **tidak** disebut lulus. Yang diusulkan: hasil yang diharapkan untuk event/jurnal HPP PO menjadi `greatest(tanggal ekonomi invoice, tanggal barang jadi)`, sisanya tetap.
+
+**Uji ulang yang diminta owner (AY rev3):** T2 run 10 (35952990109, head 8b1d555, `docs/evidence/cp6-t2/run35952990109_ay_rev3_final.json`):
+- 4 kasus INVOICE `*:4:False` kembali CONTROL_PASS, sama dengan AU. Di run 5/6 keempatnya tertahan `GL_INVENTORY_NEGATIVE_ASOF`; kini tidak lagi.
+- 12 HOLD historis kembali ke DATE_POLICY_REVIEW_REQUIRED, dan statusnya **tetap HOLD** sampai dibuktikan dan diputus terpisah.
+- Tidak ada kasus lain yang berpindah dari AU: AR 146/146 + 28/28 race, BUSINESS 230/230, IMPORTS 31/31, VALUES 65/65, temporal 16 + 15 kasus dan 4 + 6 race PASS.
+- NEW_CASES: 26 PASS; 8 kasus AS menunggu keputusan oracle (di atas).
+- Saldo harian, laporan per tanggal, dan tutup buku juga diuji langsung di T1 rev3 (7 kasus, tabel di atas). T3 akhir (run 35953286010) memasang paket 23 file dengan AY rev3.
+
+**Belum diubah, diusulkan terpisah (prinsip sama, belum diputus owner):** revaluasi bahan yang sudah dipakai (`sync_material_cost_revaluation`, MATERIAL/GRNI → WIP) masih bertanggal E. Bila pemotongan bahannya terjadi sesudah E dan WIP pada hari itu kosong, WIP bisa negatif di antara E dan hari potong. Contoh: bahan diterima 1 Sep, dipotong 3 Sep, invoice turun Rp1,00/unit untuk 10 unit → WIP 1–2 Sep −10. Di seed T2 hal ini tertutup karena WIP seed besar; belum ada kasus yang membuktikannya secara native. Usulan: tanggal revaluasi WIP = `greatest(E, tanggal potong)`. Perlu keputusan owner sebelum dikerjakan.
+
+### 22.2c AX: upah perbaikan BS temuan di atas Rp0 (keputusan owner 24 Sep: "Utang, dibayar via payroll")
+
+Contoh owner: BS temuan diperbaiki menjadi GOOD, nilai dasar Rp52.000 dan ongkos perbaikan Rp2.000 → nilai akhir Rp54.000/pcs.
+
+**Isi perubahan (di dalam AX, bukan file baru):**
+- `post_fg_unsourced_receipt_v1` menerima objek `repair` (tarif per pcs > 0 dengan paling banyak 2 desimal, alasan, kontraktor, komponen) **hanya** untuk GOOD dari BS temuan. Jurnal: Dr FG_INVENTORY (nilai dasar + upah) / Cr pendapatan lain (nilai dasar, jalur lama) / Cr CONTRACTOR_PAYABLE (upah). Unit lot = nilai dasar + tarif.
+- Tabel baru `erp.fg_unsourced_repair_wages_v1` (RLS aktif, semua hak dicabut, immutable kecuali lewat pembatalan AX).
+- Upah muncul sebagai baris kerja payroll `FG_REPAIR` kontraktor itu. Payroll mengambilnya seperti upah biasa. Persetujuan payroll tidak membuat jurnal kedua untuk upah ini (di bukti: 0 jurnal persetujuan), jadi utang tidak dobel; `post_payroll_payment` melunasi utangnya.
+- Pembatalan penerimaan ditolak (`FG_UNSOURCED_REPAIR_WAGE_IN_PAYROLL`) selama upahnya ada di payroll yang belum dibatalkan. Sesudah payroll dibatalkan, pembatalan penerimaan juga membatalkan baris upahnya.
+- Empat objek payroll dasar diganti agar mengenal sumber `FG_REPAIR`: `merge_eligible_work_into_payroll_v2`, `validate_payroll_work_item_source`, view `v_payroll_eligible_work_lines`, dan CHECK `payroll_work_items.source_type`.
+
+**Bukti:**
+- T1 AX run 35949833558: 32 PASS + 1 OBSERVED (`docs/evidence/cp6-ax/native_t1_run35949833558_after_repair_wage.json`). Tiga kasus baru:
+  - REPAIR_WAGE_PAYROLL: 2 pcs, dasar Rp17 (rata-rata stok uji), tarif Rp2.000 → unit Rp2.017, total Rp4.034; utang kontraktor Rp4.000; payroll FG_REPAIR 2 pcs Rp4.000, APPROVED tanpa jurnal persetujuan tambahan; pembatalan ditolak selama di payroll; sesudah dibayar utang 0.
+  - REPAIR_WAGE_CANCEL_THEN_REVERSE: payroll dibatalkan lalu penerimaan dibatalkan; upah REVERSED, BS kembali OPEN, utang 0, edit langsung ditolak.
+  - REPAIR_WAGE_REFUSALS: 9 penolakan dengan kodenya sendiri (bukan BS temuan, tarif 0/negatif/NaN/3 desimal/teks, tanpa alasan, kontraktor atau komponen tidak dikenal).
+- T3 run 35950297492: paket 22 file dengan AX baru terpasang di baseline setara Enteng, capture ulang identik, browser 10/10 (`docs/evidence/cp6-t3/run35950297492_package22_repair_wage.json`).
+- T2 run 7 (35950296669, head bc650c3): hasil semua grup sama dengan run 6, tidak ada kasus baru yang berpindah (`docs/evidence/cp6-t2/run35950296669_repair_wage_no_ay.json`).
+
+UI (form upah perbaikan) adalah pekerjaan CP7; backend-nya sudah siap.
+
+### 22.3 T3: paket rilis gabungan (G-01 opsi b)
+
+**Mengapa paket ulang:** di baseline yang sudah disamakan dengan Enteng, jalur beku menolak di AC (run 35911530080, `AC_VIEW_PREDECESSOR_MISMATCH: erp.v_payroll_nota_browser`), karena beberapa guard mengunci teks yang hanya ada di rantai fixture uji. Sesuai keputusan owner:
+- file migrasi lama tidak diubah;
+- salinan paket di `supabase/release/cp6-t3/` mengambil pin dari rantai yang sudah disamakan;
+- **tidak ada guard yang dilonggarkan**; yang berubah hanya nilai yang diharapkan.
+
+**Isi paket:** 23 file, AC..AV ditambah kandidat rilis AW, AX, dan AY (sumbernya `supabase/release/cp6-t3-src/`, dibangun oleh `scripts/cp6_t3_awx_release.py`). Angka substitusi di tabel ini dari paket 22 file; AY menambah substitusinya sendiri dengan jenis yang sama. Setiap substitusi tercatat di `MANIFEST.json` dan termasuk salah satu dari empat jenis:
+
+| Jenis | Jumlah | Isi |
+|---|---|---|
+| AC_VIEW | 2 | Sumber `v_payroll_nota_browser` diganti bentuk IN-list yang di-parse menjadi teks Enteng; ikut sha256 statement restore-nya. |
+| LEDGER | 42 | sha256 statement file pendahulu yang ikut di-pin ulang (berantai). |
+| CATALOG | 20 | Jumlah objek dan fingerprint katalog erp/public sebelum dan sesudah AO..AX, dihitung dengan query guard itu sendiri. |
+| CAPSULE | 16 | Hash kapsul historis yang isinya berbeda di rantai yang disamakan. |
+
+**Sesudah audit (22.5):**
+- AW/AX dibangun ulang dengan guard lengkap. Capture di rantai nyata (run 35943232759) memasang ke-22 file dari sumber.
+- Pin AC..AV identik dengan yang sudah di-commit; hanya pin AW/AX yang baru (blob `079b4b1d…`, 47122 byte). Jumlah substitusi AW: LEDGER 20, CAPSULE 10, CATALOG 2. AX: LEDGER 21, CAPSULE 11, CATALOG 2.
+- Paket dibangun ulang dengan `build` yang memvalidasi: AC..AV identik byte per byte; hanya AW, AX, dan `MANIFEST.json` yang berubah.
+- **Hasil akhir (run 35943599257, `docs/evidence/cp6-t3/run35943599257_package22_guarded.json`):**
+  - baseline: katalog sama dengan ringkasan Enteng di 16 jenis, dan 11/11 kapsul sama (keduanya kini wajib);
+  - install: 22/22 PASS, AW/AX terverifikasi, primary tidak berubah;
+  - capture ulang: pin identik (determinisme);
+  - browser: 10/10 PASS dengan status job yang kini mengikuti hasil alur.
+
+**Paket 23 file (AY, 24 Sep):**
+- Run 35950297492 (paket 22 file dengan AX + upah perbaikan): lulus penuh (`docs/evidence/cp6-t3/run35950297492_package22_repair_wage.json`).
+- Run 35950787494: paket 22 file yang di-commit terpasang, lalu **ditolak di `AY_T1_MARKER`** karena kandidatnya kini memuat AY. Ini sesuai rancangan (fail-closed). Capture di run yang sama mengambil pin 23 file; paket dibangun ulang dengan AC..AX identik byte per byte.
+- Run 35951093685 (AY teks pertama): lulus penuh (`docs/evidence/cp6-t3/run35951093685_package23_ay.json`), tetapi teks AY itu kemudian diganti rev2 (22.2b).
+- Run 35952201363: paket yang di-commit masih memuat teks AY lama, dan **ditolak di `AY_T1_SYNC_NOT_CURRENT`**. Cek baru ini mewajibkan badan fungsi terpasang sama persis dengan teks AY yang di-commit. Capture mereproduksi semua pin kecuali AY, tetapi job-nya tetap hijau; kini job capture merah bila pin berbeda dengan paket yang di-commit.
+- Run 35952446339 (AY rev2, head 958c286, `docs/evidence/cp6-t3/run35952446339_package23_ay_rev2.json`), digantikan rev3:
+  - install: 23/23 PASS, AW/AX/AY terverifikasi;
+  - capture: pin identik dengan yang di-commit (blob `25212130…`, 55928 byte);
+  - katalog: 16 jenis sama dengan Enteng, dan 11/11 kapsul sama;
+  - drill restore ketat: RESTORED_SAME_MEANING;
+  - advisor: 73 → 124 (+51 INFO);
+  - browser: 10/10 PASS, 0 error konsol;
+  - primary tidak berubah.
+- Run 35952758220 (paket AY rev2, head 311e0cc): lulus penuh, tetapi digantikan rev3.
+- Run 35952988259 (head 8b1d555, sumber AY rev3 dengan paket AY rev2): install ditolak di `AY_T1_SYNC_NOT_CURRENT`, capture merah dengan `T3_COMMITTED_PACKAGE_STALE` (hanya AY berbeda). Keduanya sesuai rancangan. Paket dibangun ulang dari pin itu (blob `1ec41066…`); hanya file AY dan MANIFEST yang berubah.
+- **Run 35953286010 (AY rev3, head b242d45, versi akhir):** `docs/evidence/cp6-t3/run35953286010_package23_ay_rev3_final.json`
+  - install: 23/23 PASS, AW/AX/AY terverifikasi (badan AY sama persis);
+  - capture: pin identik dengan yang di-commit (blob `1ec41066…`, 55928 byte);
+  - katalog: 16 jenis sama dengan Enteng, dan 11/11 kapsul sama;
+  - drill restore ketat: RESTORED_SAME_MEANING (315 tabel identik);
+  - advisor: 73 → 124 (+51 INFO saja);
+  - browser: 10/10 PASS, 0 error konsol, 0 user Auth tersisa;
+  - primary tidak berubah.
+
+Hasil pada paket 22 file versi sebelum audit (run 35941885984, `docs/evidence/cp6-t3/run35941885984_package22.json`):
+- 22/22 file terpasang;
+- pin diambil ulang dan identik (blob sha256 `55aca6bc…`, 33799 byte, sama dengan run sumber pin 35940962700);
+- AW/AX terverifikasi;
+- kapsul hosted 11/11 sama;
+- browser 10/10 PASS;
+- primary tidak berubah, 0 user Auth tersisa.
+
+Belum diuji (NOT_TESTED):
+- file rollback paket;
+- prosedur rilis ke hosted (CP8). Ledger ditulis dengan `statements` = seluruh teks file, jadi rilis nyata harus memakai stempel versi yang sama persis dan database yang ditutup. Supabase CLI biasa memecah statement, dan itu akan ditolak oleh guard ledger penerus.
+
+### 22.4 Selisih kapsul v2.6.20 (dijelaskan dan disamakan)
+- **Temuan:** perbandingan hash kapsul historis dengan Enteng (baca-saja, hanya hash) menemukan satu selisih, `erp.cp6_v2620_rollback_capsule`. Selisih ada di dua baris view (`v_fg_partial_completion_progress`, `v_wip_control_status_v1`) dan hanya pada teks definisi serta sha256-nya.
+- **Penyebab:** v2.6.20 sendiri menyimpan `pg_get_viewdef(view,true)`, yang bukan titik tetap parse/deparse. v2.6.20 menerima dua hash, milik hosted dan milik replay CI. Rantai fixture menyimpan teks replay, hosted menyimpan teksnya sendiri. Maknanya sama, byte-nya beda.
+- **Hipotesis awal yang salah:** saya sempat mengira penyebabnya urutan ACL. Itu salah dan sudah dicatat.
+- **Perbaikan:** `scripts/cp6_g01_align.py` menulis teks hosted ke dua baris itu di baseline disposable, dan hanya bila hasilnya persis sama dengan sha256 hosted. Hasilnya 11/11 kapsul sama.
+- **Gerbang baru (audit no. 3):** runner kini **menolak** bila ada kapsul yang tidak sama dengan hosted. Setelah penyelarasan, rantai juga membandingkan seluruh katalog dengan ringkasan hosted.
+
+### 22.5 Audit independen alat T2/T3 (sub-agent baca-saja, 24 Sep) dan tindak lanjutnya
+
+Auditor membangun ulang sumber AW/AX dan ke-22 file paket dari `release_pins.json`, dan hasilnya identik byte per byte. Pin kapsul dan rantai pin katalog (AV → AW → AX) juga benar. Tujuh temuan:
+
+| No | Temuan | Perbaikan | Bukti |
+|---|---|---|---|
+| 1 | Status job browser tidak bergantung pada hasil alur. Alurnya sendiri tetap 10/10 PASS, tetapi job akan hijau walau gagal. | Status = hasil alur. Job merah kecuali 10/10 PASS dan kandidat terverifikasi ulang. Semua mode merah kecuali seluruh kandidat terpasang. | `scripts/cp6_t3_package_run.py` |
+| 2 | Guard AW/AX lebih sedikit daripada AO..AV: tanpa kapsul historis, tanpa cek kapsul AO..AV, predecessor hanya satu, tanpa kapsul rollback, tanpa hash data. | Semua guard itu ditambahkan (daftar di bawah tabel). | Self-test lokal: keduanya terpasang, 10/10 perusakan ditolak dengan kodenya sendiri (`docs/evidence/cp6-t3/awx_guard_selftest_local.json`) |
+| 3 | Pin diambil dari clone tanpa dicek terhadap hosted. Sudah pernah terjadi: pin kapsul v2.6.20 memakai nilai fixture. | Seluruh katalog wajib sama dengan ringkasan hosted setelah penyelarasan (kecuali stempel ledger platform). Setiap kapsul hosted wajib sama, kalau tidak runner menolak. | `scripts/cp6_t3_aligned_chain.py`, `cp6_t3_package_run.py` |
+| 4 | `build` mempercayai substitusi CATALOG/CAPSULE apa adanya dan tidak memeriksa kelengkapan pin. | Pin wajib mencakup seluruh paket secara berurutan. Tiap substitusi harus satu jenis yang direview dan mengganti tepat satu pin guard di filenya. Bentuk guard dicek ulang. sha256 blob pin dicatat (dan dicek bila diberikan). | Pin lama membangun ulang 22 file byte per byte; 4 pin palsu ditolak |
+| 5 | Status RESTORED_SAME_MEANING drill terlalu longgar. | Setiap galat pg_restore harus soal pg_cron dan tanpa job cron di sumber. Semua skema non-sistem dibandingkan. Jawaban engine wajib ada. Nilai IN-list dibandingkan sebagai list JSON. Setiap jenis yang berbeda wajib punya objek yang dijelaskan. | `scripts/cp6_t3_backup_restore_drill.py` |
+| 6 | Pembersih seed T2: tanggal tutup dikodekan mati, hanya 120 hari yang dibersihkan, rentang yang dibuka tidak dicek engine, langkah gagal ditelan, diagnostik membaca di luar try. | Tanggal tutup dibaca, seluruh rentang yang dibuka dibersihkan, engine wajib menjawab READY untuk rentang itu, dan langkah yang ditolak menghentikan grup. Diagnostik jadi opsional dan diisolasi savepoint. | run 4 |
+| 7 | Beberapa klaim bukti melebihi data. | Catatan `review_20260924` ditambahkan ke bukti lama (atribusi "fixture kasus" masih inferensi untuk yang tidak didiagnosis, arti INCOMPLETE, baseline lama belum setara hosted), dan bukti run 35941885984 ditulis. | `docs/evidence/cp6-t2/…`, `docs/evidence/cp6-t3/…` |
+
+Guard yang ditambahkan ke AW/AX (temuan no. 2):
+- setiap file paket sebelumnya ada di kedua ledger dengan sha256 persis;
+- hash semua kapsul historis, termasuk AO..AV (dan AW untuk AX);
+- cek keamanan, bentuk, dan boundary kapsul AO..AV, sama seperti AV;
+- kapsul rollback sendiri (AW: 2 fungsi yang diganti; AX: tidak ada), yang dibuktikan lengkap terhadap semua fungsi erp/public;
+- hash sebelum/sesudah semua tabel erp: instalasi tidak mengubah data dan tabel baru tetap kosong.
+
+Catatan auditor yang juga ditindaklanjuti:
+- REFUSED kini hanya untuk penolakan guard (SQLSTATE P0001); galat lain menjadi ERROR/INCOMPLETE.
+- Verifikasi browser mengecek seluruh katalog terhadap pin terpasang file terakhir.
+- Indeks AO tidak lagi dikodekan mati.
+
+Yang dicatat tanpa diubah:
+- guard Python memakai `assert`, jadi jangan dijalankan dengan `-O` (CI tidak memakai `-O`);
+- urutan `sys.path` penulis/auditor: modul yang tertimpa saat ini identik.
+
+### 22.6 Browser, drill, advisor, CodeQL
+- **Browser:** alur AU yang tidak diubah (Auth/JWT nyata, PostgREST publik hanya ke clone, UI cabang ini). Hasilnya 10/10 PASS, 0 error konsol. Sesudah alur, kandidat diverifikasi ulang, termasuk seluruh katalog terhadap pin terpasang file terakhir (kini AY). Tidak ada user Auth dan container REST yang tersisa.
+- **Drill backup/restore (aturan ketat):** RESTORED_SAME_MEANING, dengan semua pengecekan benar:
+  - 311 tabel (paket 22 file) dan 315 tabel (paket 23 file, run akhir) di 8 skema (erp, auth, storage, vault, realtime, _realtime, supabase_functions, supabase_migrations) identik;
+  - 19 galat pg_restore, semuanya soal pg_cron (hanya bisa ada di database `postgres`), dan 0 job cron di sumber;
+  - selisih katalog seluruhnya bentuk IN-list varchar yang di-parse ulang (29 constraint, 1 indeks, 6 view) ditambah ekstensi pg_cron;
+  - jawaban engine AW untuk kemarin READY di sumber maupun hasil restore.
+- **Advisor keamanan Supabase:** 73 → 122 pada paket 22 file, dan 73 → 124 pada paket 23 file. Semua tambahan INFO `rls_enabled_no_policy`: 49 untuk tabel yang dibuat AC..AX (kapsul rollback, tabel import/pocket, tabel AV/AW/AX), +1 tabel upah perbaikan AX, dan +1 kapsul rollback AY. Tidak ada WARN atau ERROR yang bertambah atau hilang. Siapa yang bisa mengakses tabel itu ditentukan ACL, yang ikut di-pin di katalog tiap file. Advisor tidak memeriksa ACL, dan `service_role` melewati RLS.
+- **CodeQL:** workflow `cp6-candidate-codeql.yml` (security-extended) dijalankan manual di head `13dbcb1` (run 35944124414). Keempat bahasa (actions, javascript-typescript, python, c-cpp) lolos gerbang `scripts/cp6_codeql_artifact_gate.py` dengan 0 temuan; gerbang itu gagal bila ada satu temuan saja. Diulang di head `311e0cc` (run 35952781538, AY rev2) dan terakhir di head `b242d45` (run 35953312746, semua kode AX upah perbaikan dan AY rev3 sudah masuk; sesudahnya hanya dokumen dan bukti yang berubah): keempat bahasa lulus gerbang dengan 0 temuan.
+
+### 22.7 Akses hosted di sesi ini
+- Log dibuat dari transkrip saja, tanpa menjalankan apa pun: `docs/evidence/hosted_access_log_20260924.json`.
+- Isinya 21 panggilan Supabase:
+  - 18 `execute_sql`, 2 di antaranya tidak jadi dijalankan;
+  - 0 `apply_migration`;
+  - 20 ke Enteng, 0 ke legacy;
+  - **0 yang menulis data atau skema**.
+- Setelah owner meminta berhenti, tidak ada SQL ke hosted lagi. Semua pekerjaan sesudahnya hanya di CI disposable dan Postgres lokal sekali pakai.
+
+### 22.8 Yang belum selesai (jujur)
+- **Rollback paket T3:** NOT_TESTED, termasuk file rollback AW/AX/AY yang belum ada.
+- **Prosedur rilis CP8:** stempel versi persis, `statements` utuh, database ditutup. Belum dibuat.
+- **T2:** 8 kasus AS `DATE:False:*:True:*` menunggu keputusan owner/GPT atas oracle (22.2b). Hasil lain run 10 sama dengan AU.
+- **Upah perbaikan BS temuan > Rp0:** selesai di backend (22.2c). Form UI-nya pekerjaan CP7.
+- **Saldo barang jadi negatif setelah invoice terlambat (22.2a):** dikerjakan sebagai AY rev3 (22.2b). Masih terbuka dua hal: keputusan atas oracle 8 kasus AS `DATE:False:*:True:*`, dan usulan tanggal revaluasi WIP. Keduanya menunggu owner/GPT.
+- **Konversi lot non-PO:** backlog (§21.6).
+- **HOLD tetap:** 12 HOLD historis tetap HOLD, dan CP6 tetap HOLD.
+
+### 22.9 Kesalahan metode writer di putaran ini
+- **Pembersih seed T2 terlambat:** baru disiapkan sesudah run 1 menunjukkan 152 perpindahan akibat seed. Seharusnya dipetakan sebelum run pertama.
+- **T3 tanpa analisis statis lebih dulu:** T3 dijalankan sebelum analisis statis guard mana yang mengunci teks fixture. Akibatnya tiga run terbuang.
+- **AY butuh tiga teks:**
+  - Teks pertama menerapkan aturan buka/tutup per tanggal kaki, bukan pada tanggal pengakuan invoice.
+  - Rev2 memperbaiki itu, tetapi membuang tanggal ekonomi asli jurnal.
+  - T1 hanya menguji sebagian kombinasi status periode dan belum memeriksa tanggal ekonomi jurnal, sehingga kedua kesalahan baru tertangkap T2 (run 8 dan run 9).
+  - Karena owner meminta uji ulang T2 sebelum menyatakan beres, tidak ada versi yang sempat disebut beres.
+  - Pelajaran: untuk perubahan tanggal, sebelum T1 daftar semua kombinasi status periode (terbuka/tertutup) untuk setiap tanggal yang disentuh, lalu periksa **kedua** tanggal jurnal (ekonomi dan posting) terhadap perilaku lama pada kombinasi yang tidak dimaksudkan berubah.
+- **Job capture T3 hijau walau pin berbeda:** perbandingannya hanya dicatat, tidak menentukan status job. Sudah diperbaiki; jenis celahnya sama dengan temuan audit no. 1.
+- **Klaim di depan bukti:** beberapa klaim alat dan bukti mendahului buktinya (browser hijau, "same guard pattern" untuk AW/AX, drill longgar). Audit independen menangkapnya, dan semua sudah diperbaiki di 22.5. Pelajaran: sebelum menyebut guard "setara", uji dengan perusakan (sekarang ada self-test lokal).
