@@ -38,6 +38,18 @@ Run 6: run 5 left 11 cases whose days fall inside a payroll of the same contract
 seed payroll ending 2026-02-01 and the quieting's seed work payrolls); the product allows one active payroll per day, so
 the completion does what the owner would: cancel_unpaid_payroll on the overlapping unpaid payrolls and one approved,
 unpaid payroll over the union (a PAID overlap is refused and recorded).
+
+Owner decisions 24 Sep (AS oracle, quoted): "Saya setujui penyesuaian oracle hanya untuk delapan kasus AS tersebut:
+event/jurnal HPP PO mengikuti 22 Sep pada fixture ini, karena barang jadi dan penjualan terjadi hari itu. Nominal, tanggal
+invoice, dan revaluasi bahan tetap sesuai oracle lama." Then, asked about the conflict with the approved WIP principle
+(the fixture cuts the material on 22 Sep), the owner chose "Ikut prinsip WIP": the material-to-WIP revaluation follows
+the cutting day (22 Sep), the invoice journal stays on 21 Sep. The eight NEW_CASES ids DATE:False:<zone>:True:<cost> keep
+the frozen AS oracle's own result (status unchanged); the harness adds approved_oracle_20260924, evaluated inside the
+case savepoint from the database: the fixture's cutting, FG lots and sales must share one day L after the invoice date E;
+every new PO HPP event and PO_HPP_GL_SYNC journal (economic and posting date), every new revaluation event and
+MATERIAL_COST_REVALUATION journal must be on L; every other new journal (the supplier invoice) on E as the old oracle
+requires; and the old oracle may have failed on its date checks only. No other case, nominal or check is touched. MATCH
+is not called PASS until independently reviewed.
 """
 from datetime import date,timedelta
 from pathlib import Path
@@ -99,8 +111,71 @@ def group(name,factory):
         own=[x for a in done['attendance'] if a['contractor']==ATTENDANCE_CONTRACTOR for x in a['periods']
              if (x['start'],x['end'])==tuple(map(str,case_days))]
         assert len(own)==1,('T2_ATTENDANCE_CASE_DAYS_NOT_SEPARATE',own)
-        return [(key,fixture(key,diagnosed(key,op,cur,today),cur,own[0])) for key,op in factory(cur,today)]
+        cases=[(key,fixture(key,approved(key,diagnosed(key,op,cur,today),cur),cur,own[0])) for key,op in factory(cur,today)]
+        if name=='NEW_CASES':
+            assert sorted(k for k,_ in cases if k in APPROVED_AS_CASES)==sorted(APPROVED_AS_CASES),'T2_APPROVED_AS_CASES_NOT_FOUND'
+        return cases
     return ORIGINAL_GROUP(name,quieted)
+
+
+APPROVED_AS_CASES=tuple('DATE:False:%s:True:%s'%(z,c) for z in ('Asia/Jakarta','UTC','Etc/GMT+12','Pacific/Kiritimati') for c in ('20','20.003'))
+APPROVED_DECISION=('Owner 24 Sep: event/jurnal HPP PO mengikuti 22 Sep pada fixture ini, karena barang jadi dan penjualan terjadi hari itu; '
+                   'nominal dan tanggal invoice tetap sesuai oracle lama; revaluasi bahan ke WIP ikut prinsip WIP (hari potong, 22 Sep); '
+                   'hanya delapan kasus AS ini.')
+
+
+def approved_oracle(cur,row):
+    """The owner-approved date oracle for the eight AS cases, read from the database before the case savepoint is undone."""
+    obs=row.get('observations') or {}
+    E=str(row.get('invoice_date'))
+    hpp=obs.get('hpp_events') or [];reval=obs.get('revaluation_events') or [];journals=obs.get('journals') or []
+    checks=dict(scope=row.get('closed') is False and row.get('partial') is True and str(row.get('recognition_date'))==E,
+                replay_exact=row.get('replay_exact') is True,context_cleared=row.get('context_cleared') is True)
+    awp.api.admin(cur)
+    ids=[str(h[0]) for h in hpp]
+    pos=[r[0] for r in cur.execute('select distinct po_id from erp.po_hpp_gl_events where id=any(%s::uuid[])',(ids,)).fetchall()]
+    fixture=dict(po=pos)
+    if len(pos)==1:
+        fixture['lot_days']=sorted({str(r[0]) for r in cur.execute(
+            "select erp._cp3_business_date(produced_at) from erp.fg_lots where po_id=%s and lot_origin in('PRODUCTION','CONVERSION') and initial_qty_pcs>0",(pos[0],))})
+        fixture['sale_days']=sorted({str(r[0]) for r in cur.execute(
+            """select erp._cp3_business_date(h.sale_date) from erp.sale_stock_allocations a join erp.sales_items i on i.id=a.sale_item_id
+               join erp.sales_headers h on h.id=i.sale_id join erp.fg_lots l on l.id=a.lot_id
+               where l.po_id=%s and h.status in('POSTED','PARTIAL_PAID','PAID')""",(pos[0],))})
+        fixture['returns']=cur.execute("select count(*) from erp.sales_return_items ri join erp.fg_lots l on l.id=ri.lot_id where l.po_id=%s",(pos[0],)).fetchone()[0]
+        fixture['cut_days']=sorted({str(r[0]) for r in cur.execute(
+            """select erp._cp3_business_date(m.physical_at) from erp.material_stock_movements m join erp.cutting_groups cg on cg.id=m.source_id
+               where cg.po_id=%s and m.source_type in('CUTTING_GROUP','CUTTING_GROUP_RETURN') and m.reversal_of_id is null""",(pos[0],))})
+        fixture['revaluation_journals']=sorted(str(r[0]) for r in cur.execute(
+            'select journal_entry_id from erp.material_cost_revaluation_events where id=any(%s::uuid[])',([str(r[0]) for r in reval],)).fetchall())
+        fixture['event_journals']=sorted(str(r[0]) for r in cur.execute('select journal_entry_id from erp.po_hpp_gl_events where id=any(%s::uuid[])',(ids,)).fetchall())
+    applicable=len(pos)==1 and len(fixture.get('lot_days',[]))==1 and fixture.get('sale_days')==fixture.get('lot_days') \
+               and fixture.get('cut_days')==fixture.get('lot_days') and fixture.get('returns')==0 and fixture['lot_days'][0]>E
+    L=fixture['lot_days'][0] if applicable else None
+    sync=[j for j in journals if j[1]=='PO_HPP_GL_SYNC'];recost=[j for j in journals if j[1]=='MATERIAL_COST_REVALUATION']
+    other=[j for j in journals if j[1] not in ('PO_HPP_GL_SYNC','MATERIAL_COST_REVALUATION')]
+    checks.update(fixture_cut_goods_and_sale_one_day_after_invoice=applicable,
+                  revaluation_events_on_cutting_day=bool(reval) and all(str(r[1])==L for r in reval),
+                  revaluation_journals_on_cutting_day=bool(recost) and all(str(j[2])==L and str(j[3])==L for j in recost)
+                      and sorted(str(j[0]) for j in recost)==fixture.get('revaluation_journals'),
+                  hpp_events_on_goods_and_sale_day=bool(hpp) and all(str(h[1])==L for h in hpp),
+                  hpp_journals_on_goods_and_sale_day=bool(sync) and all(str(j[2])==L and str(j[3])==L for j in sync)
+                      and sorted(str(j[0]) for j in sync)==fixture.get('event_journals'),
+                  other_journals_on_invoice_date=bool(other) and all(str(j[3])==E for j in other))
+    checks['old_oracle_failed_only_on_dates']=set((row.get('mismatches') or {}))<={'hpp_events','journal_posting_date','revaluation_events'}
+    status='NOT_APPLICABLE' if not applicable else 'MATCH' if all(checks.values()) else 'MISMATCH'
+    return dict(decision=APPROVED_DECISION,status=status,invoice_date=E,cut_goods_and_sale_day=L,checks=checks,fixture=fixture,
+                old_oracle_status=row.get('status'),old_oracle_mismatch_keys=sorted((row.get('mismatches') or {})))
+
+
+def approved(key,op,cur):
+    if key not in APPROVED_AS_CASES:return op
+    def run():
+        row=op()
+        row['approved_oracle_20260924']=approved_oracle(cur,row)
+        print(json.dumps(dict(group='T2_APPROVED_ORACLE',case=key,**row['approved_oracle_20260924']),default=str),flush=True)
+        return row
+    return run
 
 
 ELIGIBLE="select coalesce(array_agg(md5(e::text)),'{}') from erp.v_payroll_eligible_work_lines e where e.remaining_qty>0"
@@ -293,6 +368,13 @@ ORIGINAL_REGRESSION=avt.regression
 
 def regression_phase(report):
     ORIGINAL_REGRESSION(report)
+    # The calendar policy oracle of the 12 historical HOLD cases (part of the regression's own verdict) is in the report
+    # file only; print it so the log shows it too (it was not visible in runs 1-10).
+    for key,policy in sorted((report.get('calendar_policy') or {}).items()):
+        print(json.dumps(dict(group='T2_CALENDAR_POLICY',case=key,status=policy.get('status'),
+                              mismatches=[o.get('mismatches') for o in policy.get('observations',[])]),default=str),flush=True)
+    print(json.dumps(dict(group='T2_REGRESSION_VERDICT',status=report.get('status'),new_cases=report.get('new_cases'),
+                          calendar_policy_count=len(report.get('calendar_policy') or {})),default=str),flush=True)
     # H-01: per-case identity against the AU recorded outcome, next to the old count summary.
     observed={}
     for name in ('business','imports','values'):

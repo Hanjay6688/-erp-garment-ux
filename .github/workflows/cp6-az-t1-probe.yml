@@ -1,22 +1,23 @@
-name: CP6 T2 Combined Regression
+name: CP6 AZ T1 Family Probe
 'on':
   push:
     branches:
     - claude/new-session-deapao
     paths:
-    - scripts/cp6_t2_regression.py
-    - .github/workflows/cp6-t2-regression.yml
+    - scripts/cp6_az_probe.py
+    - scripts/cp6_az_build.py
+    - supabase/dev/cp6_az_t1_family.sql
+    - .github/workflows/cp6-az-t1-probe.yml
   workflow_dispatch: null
 permissions:
   contents: read
   actions: read
 concurrency:
-  group: cp6-t2-regression-${{ github.ref }}
+  group: cp6-az-t1-probe-${{ github.ref }}
   cancel-in-progress: false
 jobs:
-  # T2 (owner decision A+B): the unchanged regression on the combined candidate
-  # AU + AV + AW + AX once every family passed T1; not release evidence (T3 is).
-  # One job per phase, same pinned chain; every case compared per id (H-01).
+  # T1_FAMILY evidence only (owner decision A+B): targeted family tests on the
+  # disposable chain; not release evidence. One job per phase, same pinned chain.
   phase:
     name: ${{ matrix.label }}
     runs-on: ubuntu-24.04
@@ -25,38 +26,16 @@ jobs:
       fail-fast: false
       matrix:
         include:
-        # Run 6: run 5 (35944088575) left 11 cases whose days fall inside an approved,
-        # unpaid payroll; the completion now cancels it (cancel_unpaid_payroll) and
-        # approves one unpaid payroll over the union, as the owner would.
-        # Run 5 (owner, 24 Sep): each case's own fixture is completed as the owner
-        # policy asks (its own work and paid attendance into an APPROVED payroll, not
-        # paid), and the attendance cases get their two days back from the quieting.
-        # Run 4 (35943232674) stopped at the stricter quieting: OFF overlapped the
-        # seed's own attendance periods; OFF now fills only days no period holds.
-        # Run 3 = run 2 plus a side-channel diagnostic for cases failing on a Python
-        # assertion (engine answer, work lines the case created); outcomes unchanged.
-        # Run 2: run 1 (35911656309) moved 152 cases, all stopped by the seed's own POLICY
-        # open items; ar and regression now clear those seed items once per group
-        # (CP6_T2_SEED=QUIETED, owner RPCs, oracles unchanged). temporal passed in
-        # run 1 and is reproduced with the seed as is.
-        - key: ar
-          label: AR 174 original cases and races on the combined candidate, seed quieted, own fixture completed (T2)
-          script: cp6_t2_regression.py
-          phase: ar
-          proof: t2
-          seed: QUIETED
-        - key: temporal
-          label: AT 16 and AU 15 cases with their real races on the combined candidate (T2)
-          script: cp6_t2_regression.py
-          phase: temporal
-          proof: t2
-          seed: AS_IS
-        - key: regression
-          label: Original 326 plus AS 34 with per-case identity, approved AS date oracle, calendar policy printed (T2)
-          script: cp6_t2_regression.py
-          phase: regression
-          proof: t2
-          seed: QUIETED
+        - key: probe-before
+          label: AZ probe on AU plus AV plus AW plus AX plus AY (before, T1_FAMILY)
+          script: cp6_az_probe.py
+          phase: before
+          proof: az
+        - key: probe-after
+          label: AZ probe on AU plus AV plus AW plus AX plus AY plus AZ T1 (after, T1_FAMILY)
+          script: cp6_az_probe.py
+          phase: after
+          proof: az
     env:
       PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
       CP6_AC_INDEPENDENT_CONFIRM: postgres
@@ -71,9 +50,6 @@ jobs:
       CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
       CP6_AR_CONFIRM: cp6_rollback
       CP6_AU_BROWSER_CONFIRM: cp6_rollback
-      # AW and AX T1 both passed in full (runs 35909687266 and 35910555547).
-      CP6_T2_LABEL: T2_REGRESSION
-      CP6_T2_SEED: ${{ matrix.seed }}
     steps:
     - uses: actions/checkout@v4
       with:
@@ -335,6 +311,6 @@ jobs:
     - uses: actions/upload-artifact@v4
       if: always()
       with:
-        name: cp6-t2-regression-${{ matrix.key }}
+        name: cp6-az-t1-probe-${{ matrix.key }}
         path: auditor/cp6-proof/${{ matrix.proof }}
         retention-days: 30
