@@ -22,6 +22,7 @@ import cp6_ax_probe as axp
 import cp6_g01_fingerprint as fp
 import cp6_t3_backup_restore_drill as drill
 import cp6_t3_release_package as package
+import cp6_t3_browser as browser
 from cp6_t3_aligned_install import advisors,advisor_delta
 
 boundary=awp.boundary
@@ -67,14 +68,15 @@ def capsule_compare(url):
 
 
 def run(mode):
-    assert mode in ('capture','install')
+    assert mode in ('capture','install','browser')
     assert os.environ.get('CP6_AR_CONFIRM')=='cp6_rollback' and os.environ.get('CP6_DATABASE_CONTAINER')=='supabase_db_cp5-local'
     OUT.mkdir(parents=True,exist_ok=True)
     report=dict(label='T3_PREP',mode=mode,status='INCOMPLETE',stages=[],production_go=False,release_evidence=False)
     def save():(OUT/('T3_PACKAGE_%s.json'%mode.upper())).write_text(json.dumps(report,indent=2,default=str)+'\n')
     primary=None
     try:
-        with psycopg.connect(boundary.PRIMARY_ADMIN) as conn,conn.cursor() as cur:primary=boundary.snapshot(cur)
+        with psycopg.connect(boundary.PRIMARY_ADMIN) as conn,conn.cursor() as cur:
+            primary=boundary.snapshot(cur);report['auth_users_before']=cur.execute('select count(*) from auth.users').fetchone()[0]
         start=ledger(boundary.ADMIN);report['ledger_start']=start
         assert start['app'][-1]=='v2.6.20ab' and start['platform_last']=='20260914190500',('T3_CLONE_NOT_AT_AB',start)
         report['fingerprint_AB']=fingerprint(boundary.ADMIN)
@@ -101,17 +103,22 @@ def run(mode):
             then={f['key']:f['package_sha256'] for f in json.loads(committed.read_text())['files']}
             report['pins_reproduced']=dict(equal=now==then,differ=sorted(k for k in set(now)|set(then) if now.get(k)!=then.get(k)))
             print(json.dumps(dict(group='T3_PINS_REPRODUCED',**report['pins_reproduced'])),flush=True)
-        report['ledger_final']=ledger(boundary.ADMIN)
-        report['fingerprint_final']=fingerprint(boundary.ADMIN)
-        advisors_final=advisors(boundary.PG)
-        installed=[s['stage'] for s in report['stages'] if s['status']=='PASS']
-        report['security_advisors']=dict(AB=advisors_AB,final=advisors_final,delta=advisor_delta(advisors_AB,advisors_final),installed_stages=installed)
-        delta=report['security_advisors']['delta']
-        compact=lambda f:[f.get('name'),f.get('level'),(f.get('metadata') or {}).get('schema'),(f.get('metadata') or {}).get('name'),(f.get('metadata') or {}).get('type')]
-        print(json.dumps(dict(group='T3_SECURITY_ADVISORS',status=delta.get('status'),before=delta.get('before'),after=delta.get('after'),
-                              added=[compact(f) for f in delta.get('added',[])],removed=[compact(f) for f in delta.get('removed',[])]),default=str),flush=True)
-        report['status']='ALL_STAGES_INSTALLED' if len(installed)==len(stages) else 'REFUSED'
-        report['backup_restore_drill']=drill.run(OUT/'T3_BACKUP_RESTORE_DRILL.json',installed)['status']
+        if mode=='browser':
+            # Browser mode: the unchanged AU browser flow on the installed combined candidate, then cleanup.
+            report['browser']=browser.run(OUT/'T3_BROWSER.json') if len(report['stages'])==3 and all(s['status']=='PASS' for s in report['stages']) else 'NOT_RUN'
+            report['status']='ALL_STAGES_INSTALLED' if report['browser']!='NOT_RUN' else 'REFUSED'
+        else:
+            report['ledger_final']=ledger(boundary.ADMIN)
+            report['fingerprint_final']=fingerprint(boundary.ADMIN)
+            advisors_final=advisors(boundary.PG)
+            installed=[s['stage'] for s in report['stages'] if s['status']=='PASS']
+            report['security_advisors']=dict(AB=advisors_AB,final=advisors_final,delta=advisor_delta(advisors_AB,advisors_final),installed_stages=installed)
+            delta=report['security_advisors']['delta']
+            compact=lambda f:[f.get('name'),f.get('level'),(f.get('metadata') or {}).get('schema'),(f.get('metadata') or {}).get('name'),(f.get('metadata') or {}).get('type')]
+            print(json.dumps(dict(group='T3_SECURITY_ADVISORS',status=delta.get('status'),before=delta.get('before'),after=delta.get('after'),
+                                  added=[compact(f) for f in delta.get('added',[])],removed=[compact(f) for f in delta.get('removed',[])]),default=str),flush=True)
+            report['status']='ALL_STAGES_INSTALLED' if len(installed)==len(stages) else 'REFUSED'
+            report['backup_restore_drill']=drill.run(OUT/'T3_BACKUP_RESTORE_DRILL.json',installed)['status']
     except Exception as exc:
         report.update(status='INCOMPLETE',error=str(exc)[:4000],traceback=traceback.format_exc()[-4000:])
     finally:
@@ -119,6 +126,7 @@ def run(mode):
                         '--maintenance-db=template1','cp6_rollback'],check=True)
         with psycopg.connect(boundary.PRIMARY_ADMIN) as conn,conn.cursor() as cur:
             report['primary_unchanged']=primary is not None and boundary.snapshot(cur)==primary
+            report['auth_users_after']=cur.execute('select count(*) from auth.users').fetchone()[0]
         save()
     print(json.dumps(dict(t3_package_run={k:v for k,v in report.items() if k not in('stages','security_advisors')}),default=str)[:8000],flush=True)
     # A refusal is a recorded finding, not a crash; only an incomplete run fails the job.

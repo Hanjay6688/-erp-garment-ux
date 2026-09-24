@@ -6,7 +6,6 @@ name: CP6 T3 Prep Aligned Install Path
     paths:
     - scripts/cp6_t3_aligned_chain.py
     - scripts/cp6_t3_aligned_install.py
-    - scripts/cp6_t3_backup_restore_drill.py
     - .github/workflows/cp6-t3-aligned-install.yml
   workflow_dispatch: null
 permissions:

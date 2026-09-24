@@ -8,7 +8,11 @@ import cp6_initial_import_production_trial as production
 import cp6_ap_flow_fixture as browser_seed
 import cp6_as_probe as peer
 import cp6_at_probe as audit
-import cp6_au_runtime as runtime
+if os.environ.get('CP6_T3_BROWSER')=='1':
+    # T3: the combined candidate (release package + AW/AX T1); see scripts/cp6_t3_browser_verify.py.
+    import cp6_t3_browser_verify as runtime
+else:
+    import cp6_au_runtime as runtime
 from cp6_ao_ap_inventory import data
 
 ADMIN='postgresql://supabase_admin:postgres@127.0.0.1:54322/cp6_rollback'
