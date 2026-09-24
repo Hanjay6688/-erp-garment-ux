@@ -1,0 +1,904 @@
+{
+ "label": "T2_REGRESSION",
+ "run": 35966109275,
+ "head": "80be18f",
+ "seed": "QUIETED",
+ "fixture": "PAYROLL_APPROVED",
+ "production_go": false,
+ "release_evidence": false,
+ "quieting": [
+  {
+   "target": "BUSINESS",
+   "closed_through": "2026-08-31",
+   "refused": [],
+   "reopened_status": "READY",
+   "after_status": "READY"
+  },
+  {
+   "target": "IMPORTS",
+   "closed_through": "2026-08-31",
+   "refused": [],
+   "reopened_status": "READY",
+   "after_status": "READY"
+  },
+  {
+   "target": "VALUES",
+   "closed_through": "2026-08-31",
+   "refused": [],
+   "reopened_status": "READY",
+   "after_status": "READY"
+  },
+  {
+   "target": "NEW_CASES",
+   "closed_through": "2026-08-31",
+   "refused": [],
+   "reopened_status": "READY",
+   "after_status": "READY"
+  },
+  {
+   "target": "AO_TRIAL",
+   "closed_through": "2026-08-31",
+   "refused": [],
+   "reopened_status": "READY",
+   "after_status": "READY"
+  },
+  {
+   "target": "AR_SEQUENTIAL",
+   "closed_through": "2026-08-31",
+   "refused": [],
+   "reopened_status": "READY",
+   "after_status": "READY"
+  }
+ ],
+ "groups": {
+  "AR": {
+   "status": "WRITER_PASS",
+   "sequential": {
+    "status": "WRITER_PASS",
+    "counts": {
+     "PASS": 146
+    }
+   },
+   "case_count": 174,
+   "races": {}
+  },
+  "business": {
+   "status": "WRITER_PASS",
+   "counts": {
+    "PASS": 179,
+    "CONTROL_PASS": 39,
+    "DATE_POLICY_REVIEW_REQUIRED": 12
+   },
+   "matches_au_outcome": true
+  },
+  "imports": {
+   "status": "WRITER_PASS",
+   "counts": {
+    "PASS": 31
+   },
+   "matches_au_outcome": true
+  },
+  "values": {
+   "status": "WRITER_PASS",
+   "counts": {
+    "PASS": 65
+   },
+   "matches_au_outcome": true
+  },
+  "NEW_CASES": {
+   "status": "INCOMPLETE",
+   "counts": {
+    "PASS": 25,
+    "COUNTEREXAMPLE": 8,
+    "INCOMPLETE": 1
+   }
+  }
+ },
+ "fixture_payrolls": {
+  "records": 105,
+  "approved": 105,
+  "redone_unpaid": 11,
+  "refused": {},
+  "cases": 105
+ },
+ "moved": [],
+ "approved_oracle_20260924": [
+  {
+   "case": "DATE:False:Asia/Jakarta:True:20",
+   "status": "MATCH",
+   "checks": {
+    "scope": true,
+    "replay_exact": true,
+    "context_cleared": true,
+    "fixture_cut_goods_and_sale_one_day_after_invoice": true,
+    "revaluation_events_on_cutting_day": true,
+    "revaluation_journals_on_cutting_day": true,
+    "hpp_events_on_goods_and_sale_day": true,
+    "hpp_journals_on_goods_and_sale_day": true,
+    "other_journals_on_invoice_date": true,
+    "old_oracle_failed_only_on_dates": true
+   },
+   "invoice_date": "2026-09-21",
+   "cut_goods_and_sale_day": "2026-09-22",
+   "fixture": {
+    "po": [
+     "bfc1e54b-6a32-4a16-bf34-a5404137b71d"
+    ],
+    "lot_days": [
+     "2026-09-22"
+    ],
+    "sale_days": [
+     "2026-09-22"
+    ],
+    "returns": 0,
+    "cut_days": [
+     "2026-09-22"
+    ],
+    "revaluation_journals": [
+     "bb30bd69-b236-4f47-a3d0-d59f53934869"
+    ],
+    "event_journals": [
+     "014f3bd5-2111-4848-9959-93b0ea57d25d"
+    ]
+   },
+   "old_oracle_mismatch_keys": [
+    "hpp_events",
+    "journal_posting_date",
+    "revaluation_events"
+   ],
+   "old_oracle_status": "COUNTEREXAMPLE"
+  },
+  {
+   "case": "DATE:False:Asia/Jakarta:True:20.003",
+   "status": "MATCH",
+   "checks": {
+    "scope": true,
+    "replay_exact": true,
+    "context_cleared": true,
+    "fixture_cut_goods_and_sale_one_day_after_invoice": true,
+    "revaluation_events_on_cutting_day": true,
+    "revaluation_journals_on_cutting_day": true,
+    "hpp_events_on_goods_and_sale_day": true,
+    "hpp_journals_on_goods_and_sale_day": true,
+    "other_journals_on_invoice_date": true,
+    "old_oracle_failed_only_on_dates": true
+   },
+   "invoice_date": "2026-09-21",
+   "cut_goods_and_sale_day": "2026-09-22",
+   "fixture": {
+    "po": [
+     "079edc69-21e5-44c0-ba31-dda535947c39"
+    ],
+    "lot_days": [
+     "2026-09-22"
+    ],
+    "sale_days": [
+     "2026-09-22"
+    ],
+    "returns": 0,
+    "cut_days": [
+     "2026-09-22"
+    ],
+    "revaluation_journals": [
+     "85fa8bd5-b168-4924-8e83-1574185d3813"
+    ],
+    "event_journals": [
+     "793629c3-3d42-42cb-b59a-07fc47b873fc"
+    ]
+   },
+   "old_oracle_mismatch_keys": [
+    "hpp_events",
+    "journal_posting_date",
+    "revaluation_events"
+   ],
+   "old_oracle_status": "COUNTEREXAMPLE"
+  },
+  {
+   "case": "DATE:False:UTC:True:20",
+   "status": "MATCH",
+   "checks": {
+    "scope": true,
+    "replay_exact": true,
+    "context_cleared": true,
+    "fixture_cut_goods_and_sale_one_day_after_invoice": true,
+    "revaluation_events_on_cutting_day": true,
+    "revaluation_journals_on_cutting_day": true,
+    "hpp_events_on_goods_and_sale_day": true,
+    "hpp_journals_on_goods_and_sale_day": true,
+    "other_journals_on_invoice_date": true,
+    "old_oracle_failed_only_on_dates": true
+   },
+   "invoice_date": "2026-09-21",
+   "cut_goods_and_sale_day": "2026-09-22",
+   "fixture": {
+    "po": [
+     "30d41d4e-76f5-4efe-bafe-a2fdfc485eca"
+    ],
+    "lot_days": [
+     "2026-09-22"
+    ],
+    "sale_days": [
+     "2026-09-22"
+    ],
+    "returns": 0,
+    "cut_days": [
+     "2026-09-22"
+    ],
+    "revaluation_journals": [
+     "e166eda5-b306-4f2d-b012-51556b38e984"
+    ],
+    "event_journals": [
+     "61c2ec79-a48c-46e1-8412-fe25444c9c01"
+    ]
+   },
+   "old_oracle_mismatch_keys": [
+    "hpp_events",
+    "journal_posting_date",
+    "revaluation_events"
+   ],
+   "old_oracle_status": "COUNTEREXAMPLE"
+  },
+  {
+   "case": "DATE:False:UTC:True:20.003",
+   "status": "MATCH",
+   "checks": {
+    "scope": true,
+    "replay_exact": true,
+    "context_cleared": true,
+    "fixture_cut_goods_and_sale_one_day_after_invoice": true,
+    "revaluation_events_on_cutting_day": true,
+    "revaluation_journals_on_cutting_day": true,
+    "hpp_events_on_goods_and_sale_day": true,
+    "hpp_journals_on_goods_and_sale_day": true,
+    "other_journals_on_invoice_date": true,
+    "old_oracle_failed_only_on_dates": true
+   },
+   "invoice_date": "2026-09-21",
+   "cut_goods_and_sale_day": "2026-09-22",
+   "fixture": {
+    "po": [
+     "75161aa7-e248-41d5-a551-427cae911793"
+    ],
+    "lot_days": [
+     "2026-09-22"
+    ],
+    "sale_days": [
+     "2026-09-22"
+    ],
+    "returns": 0,
+    "cut_days": [
+     "2026-09-22"
+    ],
+    "revaluation_journals": [
+     "72702cf0-908d-4c34-bea3-6f40a3ccdbaf"
+    ],
+    "event_journals": [
+     "8d4907fd-cd05-450b-9436-fca9ebd2a04a"
+    ]
+   },
+   "old_oracle_mismatch_keys": [
+    "hpp_events",
+    "journal_posting_date",
+    "revaluation_events"
+   ],
+   "old_oracle_status": "COUNTEREXAMPLE"
+  },
+  {
+   "case": "DATE:False:Etc/GMT+12:True:20",
+   "status": "MATCH",
+   "checks": {
+    "scope": true,
+    "replay_exact": true,
+    "context_cleared": true,
+    "fixture_cut_goods_and_sale_one_day_after_invoice": true,
+    "revaluation_events_on_cutting_day": true,
+    "revaluation_journals_on_cutting_day": true,
+    "hpp_events_on_goods_and_sale_day": true,
+    "hpp_journals_on_goods_and_sale_day": true,
+    "other_journals_on_invoice_date": true,
+    "old_oracle_failed_only_on_dates": true
+   },
+   "invoice_date": "2026-09-21",
+   "cut_goods_and_sale_day": "2026-09-22",
+   "fixture": {
+    "po": [
+     "f3f2bf8a-b0f1-4063-8f77-8fe5fd89d796"
+    ],
+    "lot_days": [
+     "2026-09-22"
+    ],
+    "sale_days": [
+     "2026-09-22"
+    ],
+    "returns": 0,
+    "cut_days": [
+     "2026-09-22"
+    ],
+    "revaluation_journals": [
+     "98b55eef-a3cd-4763-bb5e-afa235e286df"
+    ],
+    "event_journals": [
+     "a66c34e8-fa03-4ba0-b410-85cd93f7e625"
+    ]
+   },
+   "old_oracle_mismatch_keys": [
+    "hpp_events",
+    "journal_posting_date",
+    "revaluation_events"
+   ],
+   "old_oracle_status": "COUNTEREXAMPLE"
+  },
+  {
+   "case": "DATE:False:Etc/GMT+12:True:20.003",
+   "status": "MATCH",
+   "checks": {
+    "scope": true,
+    "replay_exact": true,
+    "context_cleared": true,
+    "fixture_cut_goods_and_sale_one_day_after_invoice": true,
+    "revaluation_events_on_cutting_day": true,
+    "revaluation_journals_on_cutting_day": true,
+    "hpp_events_on_goods_and_sale_day": true,
+    "hpp_journals_on_goods_and_sale_day": true,
+    "other_journals_on_invoice_date": true,
+    "old_oracle_failed_only_on_dates": true
+   },
+   "invoice_date": "2026-09-21",
+   "cut_goods_and_sale_day": "2026-09-22",
+   "fixture": {
+    "po": [
+     "56b74666-1bfb-436c-b9d2-f9b447057883"
+    ],
+    "lot_days": [
+     "2026-09-22"
+    ],
+    "sale_days": [
+     "2026-09-22"
+    ],
+    "returns": 0,
+    "cut_days": [
+     "2026-09-22"
+    ],
+    "revaluation_journals": [
+     "e7db0e44-bffc-4644-8cd7-71ede0040fa2"
+    ],
+    "event_journals": [
+     "2562e329-1e22-4f36-a570-8ccee6b74a52"
+    ]
+   },
+   "old_oracle_mismatch_keys": [
+    "hpp_events",
+    "journal_posting_date",
+    "revaluation_events"
+   ],
+   "old_oracle_status": "COUNTEREXAMPLE"
+  },
+  {
+   "case": "DATE:False:Pacific/Kiritimati:True:20",
+   "status": "MATCH",
+   "checks": {
+    "scope": true,
+    "replay_exact": true,
+    "context_cleared": true,
+    "fixture_cut_goods_and_sale_one_day_after_invoice": true,
+    "revaluation_events_on_cutting_day": true,
+    "revaluation_journals_on_cutting_day": true,
+    "hpp_events_on_goods_and_sale_day": true,
+    "hpp_journals_on_goods_and_sale_day": true,
+    "other_journals_on_invoice_date": true,
+    "old_oracle_failed_only_on_dates": true
+   },
+   "invoice_date": "2026-09-21",
+   "cut_goods_and_sale_day": "2026-09-22",
+   "fixture": {
+    "po": [
+     "a3f1236b-252d-4bab-874d-56706fb5075a"
+    ],
+    "lot_days": [
+     "2026-09-22"
+    ],
+    "sale_days": [
+     "2026-09-22"
+    ],
+    "returns": 0,
+    "cut_days": [
+     "2026-09-22"
+    ],
+    "revaluation_journals": [
+     "8105d601-098b-46dc-b8df-09a5f5ac9a7e"
+    ],
+    "event_journals": [
+     "ad6bd1c8-0e45-4403-9b1a-5babb493e729"
+    ]
+   },
+   "old_oracle_mismatch_keys": [
+    "hpp_events",
+    "journal_posting_date",
+    "revaluation_events"
+   ],
+   "old_oracle_status": "COUNTEREXAMPLE"
+  },
+  {
+   "case": "DATE:False:Pacific/Kiritimati:True:20.003",
+   "status": "MATCH",
+   "checks": {
+    "scope": true,
+    "replay_exact": true,
+    "context_cleared": true,
+    "fixture_cut_goods_and_sale_one_day_after_invoice": true,
+    "revaluation_events_on_cutting_day": true,
+    "revaluation_journals_on_cutting_day": true,
+    "hpp_events_on_goods_and_sale_day": true,
+    "hpp_journals_on_goods_and_sale_day": true,
+    "other_journals_on_invoice_date": true,
+    "old_oracle_failed_only_on_dates": true
+   },
+   "invoice_date": "2026-09-21",
+   "cut_goods_and_sale_day": "2026-09-22",
+   "fixture": {
+    "po": [
+     "8ed3a20c-f1f4-4e8d-841e-e0888d3794f5"
+    ],
+    "lot_days": [
+     "2026-09-22"
+    ],
+    "sale_days": [
+     "2026-09-22"
+    ],
+    "returns": 0,
+    "cut_days": [
+     "2026-09-22"
+    ],
+    "revaluation_journals": [
+     "c6cfd90f-e3ad-4327-9bc4-04162ba3b401"
+    ],
+    "event_journals": [
+     "524119b5-71cd-446c-8260-b10b3a08fb40"
+    ]
+   },
+   "old_oracle_mismatch_keys": [
+    "hpp_events",
+    "journal_posting_date",
+    "revaluation_events"
+   ],
+   "old_oracle_status": "COUNTEREXAMPLE"
+  }
+ ],
+ "calendar_policy": [
+  {
+   "case": "CALENDAR:1_MONTHS:Pacific/Kiritimati:False",
+   "status": "COUNTEREXAMPLE",
+   "mismatches": [
+    {
+     "material_event_date": [
+      "6a425b48-7a55-486f-88f6-684ef86a9e0a",
+      "2026-08-24",
+      "5.25",
+      "WIP"
+     ]
+    },
+    {
+     "material_event_date": [
+      "6a425b48-7a55-486f-88f6-684ef86a9e0a",
+      "2026-08-24",
+      "5.25",
+      "WIP"
+     ]
+    }
+   ]
+  },
+  {
+   "case": "CALENDAR:1_MONTHS:UTC:False",
+   "status": "COUNTEREXAMPLE",
+   "mismatches": [
+    {
+     "material_event_date": [
+      "edb7f440-43c9-4fb2-bfda-e088ee7e9539",
+      "2026-08-24",
+      "5.25",
+      "WIP"
+     ]
+    },
+    {
+     "material_event_date": [
+      "edb7f440-43c9-4fb2-bfda-e088ee7e9539",
+      "2026-08-24",
+      "5.25",
+      "WIP"
+     ]
+    }
+   ]
+  },
+  {
+   "case": "CALENDAR:2_MONTHS:Pacific/Kiritimati:False",
+   "status": "COUNTEREXAMPLE",
+   "mismatches": [
+    {
+     "material_event_date": [
+      "59291e12-586c-4603-88a8-e85fdd551b9e",
+      "2026-07-24",
+      "5.25",
+      "WIP"
+     ]
+    },
+    {
+     "material_event_date": [
+      "59291e12-586c-4603-88a8-e85fdd551b9e",
+      "2026-07-24",
+      "5.25",
+      "WIP"
+     ]
+    }
+   ]
+  },
+  {
+   "case": "CALENDAR:2_MONTHS:UTC:False",
+   "status": "COUNTEREXAMPLE",
+   "mismatches": [
+    {
+     "material_event_date": [
+      "553fbf1d-3825-442d-abfd-f67a6df449ad",
+      "2026-07-24",
+      "5.25",
+      "WIP"
+     ]
+    },
+    {
+     "material_event_date": [
+      "553fbf1d-3825-442d-abfd-f67a6df449ad",
+      "2026-07-24",
+      "5.25",
+      "WIP"
+     ]
+    }
+   ]
+  },
+  {
+   "case": "CALENDAR:3_MONTHS:Pacific/Kiritimati:False",
+   "status": "COUNTEREXAMPLE",
+   "mismatches": [
+    {
+     "material_event_date": [
+      "d488e36b-1df3-40a6-be51-5b2944cb9a79",
+      "2026-06-24",
+      "5.25",
+      "WIP"
+     ]
+    },
+    {
+     "material_event_date": [
+      "d488e36b-1df3-40a6-be51-5b2944cb9a79",
+      "2026-06-24",
+      "5.25",
+      "WIP"
+     ]
+    }
+   ]
+  },
+  {
+   "case": "CALENDAR:3_MONTHS:UTC:False",
+   "status": "COUNTEREXAMPLE",
+   "mismatches": [
+    {
+     "material_event_date": [
+      "c730e2e4-edbd-464b-be15-5fd9e93fc245",
+      "2026-06-24",
+      "5.25",
+      "WIP"
+     ]
+    },
+    {
+     "material_event_date": [
+      "c730e2e4-edbd-464b-be15-5fd9e93fc245",
+      "2026-06-24",
+      "5.25",
+      "WIP"
+     ]
+    }
+   ]
+  },
+  {
+   "case": "CALENDAR:FEB28:Pacific/Kiritimati:False",
+   "status": "COUNTEREXAMPLE",
+   "mismatches": [
+    {
+     "material_event_date": [
+      "0654f4df-47c1-44e6-bed6-be736b58a850",
+      "2026-03-01",
+      "5.25",
+      "WIP"
+     ]
+    },
+    {
+     "material_event_date": [
+      "0654f4df-47c1-44e6-bed6-be736b58a850",
+      "2026-03-01",
+      "5.25",
+      "WIP"
+     ]
+    }
+   ]
+  },
+  {
+   "case": "CALENDAR:FEB28:UTC:False",
+   "status": "COUNTEREXAMPLE",
+   "mismatches": [
+    {
+     "material_event_date": [
+      "7c2e4198-9e12-43da-98d9-c75959cc8458",
+      "2026-03-01",
+      "5.25",
+      "WIP"
+     ]
+    },
+    {
+     "material_event_date": [
+      "7c2e4198-9e12-43da-98d9-c75959cc8458",
+      "2026-03-01",
+      "5.25",
+      "WIP"
+     ]
+    }
+   ]
+  },
+  {
+   "case": "CALENDAR:JAN31:Pacific/Kiritimati:False",
+   "status": "COUNTEREXAMPLE",
+   "mismatches": [
+    {
+     "material_event_date": [
+      "bedb023e-a144-4212-ba17-853abc2946a5",
+      "2026-02-01",
+      "5.25",
+      "WIP"
+     ]
+    },
+    {
+     "material_event_date": [
+      "bedb023e-a144-4212-ba17-853abc2946a5",
+      "2026-02-01",
+      "5.25",
+      "WIP"
+     ]
+    }
+   ]
+  },
+  {
+   "case": "CALENDAR:JAN31:UTC:False",
+   "status": "COUNTEREXAMPLE",
+   "mismatches": [
+    {
+     "material_event_date": [
+      "1b0690a9-c356-453f-81a4-3b97406e82cc",
+      "2026-02-01",
+      "5.25",
+      "WIP"
+     ]
+    },
+    {
+     "material_event_date": [
+      "1b0690a9-c356-453f-81a4-3b97406e82cc",
+      "2026-02-01",
+      "5.25",
+      "WIP"
+     ]
+    }
+   ]
+  },
+  {
+   "case": "CALENDAR:MAY31:Pacific/Kiritimati:False",
+   "status": "COUNTEREXAMPLE",
+   "mismatches": [
+    {
+     "material_event_date": [
+      "66feae89-74d3-42b5-a20b-3642857cb07e",
+      "2026-06-01",
+      "5.25",
+      "WIP"
+     ]
+    },
+    {
+     "material_event_date": [
+      "66feae89-74d3-42b5-a20b-3642857cb07e",
+      "2026-06-01",
+      "5.25",
+      "WIP"
+     ]
+    }
+   ]
+  },
+  {
+   "case": "CALENDAR:MAY31:UTC:False",
+   "status": "COUNTEREXAMPLE",
+   "mismatches": [
+    {
+     "material_event_date": [
+      "a79e7d1d-7800-4787-ba57-74488d097002",
+      "2026-06-01",
+      "5.25",
+      "WIP"
+     ]
+    },
+    {
+     "material_event_date": [
+      "a79e7d1d-7800-4787-ba57-74488d097002",
+      "2026-06-01",
+      "5.25",
+      "WIP"
+     ]
+    }
+   ]
+  }
+ ],
+ "verdict": {
+  "group": "T2_REGRESSION_VERDICT",
+  "status": "DISPOSITION_REQUIRED",
+  "new_cases": {
+   "status": "INCOMPLETE",
+   "counts": {
+    "PASS": 25,
+    "COUNTEREXAMPLE": 8,
+    "INCOMPLETE": 1
+   }
+  },
+  "calendar_policy_count": 12
+ },
+ "ao_trial": {
+  "group": "T2_AO_TRIAL",
+  "status": "INCOMPLETE",
+  "counts": {
+   "PASS": 8,
+   "INCOMPLETE": 4
+  },
+  "source_sha256": "279f0091e8cdfd93b651b5423fc59ad830b899392ebc069db21738366b83ce3f",
+  "foundation": "PRESENT",
+  "moved": {
+   "INVOICE:UTC:False": "INCOMPLETE",
+   "INVOICE:UTC:True": "INCOMPLETE",
+   "INVOICE:Pacific/Kiritimati:False": "INCOMPLETE",
+   "INVOICE:Pacific/Kiritimati:True": "INCOMPLETE"
+  }
+ },
+ "ao_trial_cases": [
+  {
+   "case": "RETAIL:12",
+   "status": "PASS",
+   "error": null
+  },
+  {
+   "case": "RETAIL:144",
+   "status": "PASS",
+   "error": null
+  },
+  {
+   "case": "BAD_PRICE:-1",
+   "status": "PASS",
+   "error": null
+  },
+  {
+   "case": "BAD_PRICE:NaN",
+   "status": "PASS",
+   "error": null
+  },
+  {
+   "case": "BAD_PRICE:0.005",
+   "status": "PASS",
+   "error": null
+  },
+  {
+   "case": "FRACTIONAL_PCS",
+   "status": "PASS",
+   "error": null
+  },
+  {
+   "case": "INVOICE:UTC:False",
+   "status": "INCOMPLETE",
+   "error": "[(UUID('480f2c94-aeee-4c72-94fa-29542445b23d'), 'MATERIAL_COST_REVALUATION', datetime.date(2026, 7, 24), datetime.date(2026, 7, 24)), (UUID('2d825609-7546-48fa-8723-157136df1779'), 'MATERIAL_SUPPLIER_INVOICE', datetime.date(2026, 7, 23), datetime.date(2026, 7, 23)), (UUID('8c3e761d-a793-46fc-bd0d-9a276f18e224'), 'PO_HPP_GL_SYNC', datetime.date(2026, 7, 24), datetime.date(2026, 7, 24))]"
+  },
+  {
+   "case": "INVOICE:UTC:True",
+   "status": "INCOMPLETE",
+   "error": "[(UUID('d6a3dc59-3b7d-479b-8b65-91c775dc06cc'), datetime.date(2026, 9, 24), Decimal('5.25'), 'WIP')]"
+  },
+  {
+   "case": "INVOICE:Pacific/Kiritimati:False",
+   "status": "INCOMPLETE",
+   "error": "[(UUID('12f865a2-78d5-4c0e-9791-0e3d39ceb365'), 'MATERIAL_COST_REVALUATION', datetime.date(2026, 7, 24), datetime.date(2026, 7, 24)), (UUID('c45d9a92-f155-41f5-9c47-580917b44915'), 'MATERIAL_SUPPLIER_INVOICE', datetime.date(2026, 7, 23), datetime.date(2026, 7, 23)), (UUID('dc1dc40f-1848-418f-aefd-ae06cd33f5b4'), 'PO_HPP_GL_SYNC', datetime.date(2026, 7, 24), datetime.date(2026, 7, 24))]"
+  },
+  {
+   "case": "INVOICE:Pacific/Kiritimati:True",
+   "status": "INCOMPLETE",
+   "error": "[(UUID('4ef00f72-bc60-49d8-9ad9-730fbcb3f69f'), datetime.date(2026, 9, 24), Decimal('5.25'), 'WIP')]"
+  },
+  {
+   "case": "DIRECT_CORRECTION_REVERSAL:False",
+   "status": "PASS",
+   "error": null
+  },
+  {
+   "case": "DIRECT_CORRECTION_REVERSAL:True",
+   "status": "PASS",
+   "error": null
+  }
+ ],
+ "new_cases_not_pass": [
+  {
+   "case": "DATE:False:Asia/Jakarta:True:20",
+   "status": "COUNTEREXAMPLE",
+   "error": null
+  },
+  {
+   "case": "DATE:False:Asia/Jakarta:True:20.003",
+   "status": "COUNTEREXAMPLE",
+   "error": null
+  },
+  {
+   "case": "DATE:False:UTC:True:20",
+   "status": "COUNTEREXAMPLE",
+   "error": null
+  },
+  {
+   "case": "DATE:False:UTC:True:20.003",
+   "status": "COUNTEREXAMPLE",
+   "error": null
+  },
+  {
+   "case": "DATE:False:Etc/GMT+12:True:20",
+   "status": "COUNTEREXAMPLE",
+   "error": null
+  },
+  {
+   "case": "DATE:False:Etc/GMT+12:True:20.003",
+   "status": "COUNTEREXAMPLE",
+   "error": null
+  },
+  {
+   "case": "DATE:False:Pacific/Kiritimati:True:20",
+   "status": "COUNTEREXAMPLE",
+   "error": null
+  },
+  {
+   "case": "DATE:False:Pacific/Kiritimati:True:20.003",
+   "status": "COUNTEREXAMPLE",
+   "error": null
+  },
+  {
+   "case": "ADJUSTMENT_DATE:False",
+   "status": "INCOMPLETE",
+   "error": "[(datetime.date(2026, 9, 22), datetime.date(2026, 9, 22), datetime.date(2026, 9, 22), {'1487cd75-3cf9-424b-84ca-f7545b70b023': 20.01, 'f9912b87-fe33-4bd8-8a65-0b1fb69316a6': -20.01})]"
+  }
+ ],
+ "frozen_oracle_moves": [
+  {
+   "cases": "AS DATE:False:<4 zones>:True:<20|20.003> (8)",
+   "cause": "AY (HPP from the goods/sale day) + AZ (revaluation from the cutting day); fixture cuts, completes and sells on 22 Sep",
+   "owner": "approved 24 Sep (Ikut prinsip WIP)",
+   "state": "approved oracle MATCH 8/8; not PASS before independent review"
+  },
+  {
+   "cases": "AS ADJUSTMENT_DATE:False (1)",
+   "cause": "AZ: the material adjustment revaluation is dated on the adjustment day (22 Sep) instead of the invoice date (21 Sep); frozen assertion expects 21 Sep",
+   "owner": "decision needed",
+   "state": "INCOMPLETE (frozen assertion)"
+  },
+  {
+   "cases": "calendar policy oracle of the 12 historical HOLD cases",
+   "cause": "AZ: WIP revaluation on the cutting day (purchase day + 1); only material_event_date differs",
+   "owner": "accepted 24 Sep (bergeser sama, tetap HOLD, dilaporkan)",
+   "state": "COUNTEREXAMPLE on material_event_date only; cases stay HOLD"
+  },
+  {
+   "cases": "AO trial INVOICE:<UTC|Kiritimati>:False (2)",
+   "cause": "AY + AZ: MATERIAL_COST_REVALUATION and PO_HPP_GL_SYNC on the cutting/goods day (invoice date + 1); frozen AO assertion expects every fresh journal on the invoice date",
+   "owner": "decision needed",
+   "state": "INCOMPLETE (frozen assertion)"
+  },
+  {
+   "cases": "AO trial INVOICE:<UTC|Kiritimati>:True (2)",
+   "cause": "pre-existing since AS (not AY/AZ): AS sets the revaluation event date to the posting date (recognition day, AS migration line 356); the AO trial (written before AS) expects the invoice date; the AO trial was not re-run after AS",
+   "owner": "decision needed (AS rule already decided)",
+   "state": "INCOMPLETE (frozen assertion)"
+  }
+ ],
+ "note": "T2 run 13 on 80be18f: candidate AU+AV+AW+AX+AY rev3+AZ, AO trial added. Every old group equals AU. See frozen_oracle_moves for the complete list of moved frozen expectations with causes."
+}
