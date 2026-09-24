@@ -1,0 +1,1200 @@
+{
+ "label": "T2_REGRESSION",
+ "run": 35985750159,
+ "head": "702f5f0",
+ "seed": "QUIETED",
+ "fixture": "PAYROLL_APPROVED",
+ "production_go": false,
+ "release_evidence": false,
+ "jobs": {
+  "regression": {
+   "job": 107587890440,
+   "status": "DISPOSITION_REQUIRED"
+  },
+  "ar": {
+   "job": 107587889936,
+   "status": "WRITER_PASS",
+   "sequential": {
+    "PASS": 146
+   },
+   "concurrency": {
+    "PASS": 28
+   }
+  },
+  "temporal": {
+   "job": 107587890417,
+   "status": "WRITER_PASS",
+   "at": {
+    "PASS": 16
+   },
+   "au": {
+    "PASS": 15
+   },
+   "races": "4 + 6 PASS"
+  }
+ },
+ "final_regression_line": {
+  "av_trial_phase": "regression",
+  "status": "DISPOSITION_REQUIRED",
+  "phase": "regression",
+  "production_go": false,
+  "independent_acceptance": false,
+  "auditor_head": "702f5f0a97cb092ffc061832868846783df0762d",
+  "av_pins": "193e84efac8ead7cab681071e40070e1f9249f82cec1b7972f0576e8df25a2dc",
+  "original_oracle_sources": {
+   "scripts/cp6_v2620al_review.py": "5577b261dbab8951454dd2794d7c68f067ba6c4593829a34416ef31f48e06fb9",
+   "scripts/cp6_v2620al_import_review.py": "c0a1217f1437b94e5241c2b568bd7c582be4e2a2292b17214dee959b91a429af",
+   "scripts/cp6_v2620al_value_review.py": "f2386d3472107e465ff8c110f5e91c78863d7eacad021573984c1f9a340a7b58",
+   "scripts/cp6_v2620al_import_concurrency.py": "10dbcaebe616aab10450a31dc047041f2a9c4813f30eb22838bec4cbfa70dd25",
+   "scripts/cp6_v2620al_direct_concurrency.py": "2a755622abc59c6913a2deb17b1f246d79c555b84af346f1c8224bf4dab2d792",
+   "scripts/cp6_final_ak_independent.py": "9644b71e3a8ace79fb0de94ed517686330f175f2706b5e641fc6c7e200d39feb",
+   "scripts/cp6_v2620ai_family.py": "9d18d1ced8f90f75559177cb82c4a2b17f9d97636e1bfd8898e6ecf080dd0ee6",
+   "scripts/cp6_ai_independent_review.py": "0a4949a5f5c1b02ada3a29b369e225d8b3f6c962a9946708b02e4875c7688e83",
+   "scripts/cp6_final_crossflow_review.py": "316125ca0e9350e31efb6af029b7e936a50d51a6714c5d12b884e98a4b394d24",
+   "scripts/cp6_final_gap_native.py": "283ffb4d6f0db9dfdfa1e592b5b52a3809681e3eed5570fdfd6f2930f5bfe9d1"
+  },
+  "au_install": "PASS",
+  "av_install": "PASS",
+  "groups": {
+   "business": {
+    "status": "WRITER_PASS",
+    "counts": {
+     "PASS": 179,
+     "CONTROL_PASS": 39,
+     "DATE_POLICY_REVIEW_REQUIRED": 12
+    },
+    "matches_au_outcome": true
+   },
+   "imports": {
+    "status": "WRITER_PASS",
+    "counts": {
+     "PASS": 31
+    },
+    "matches_au_outcome": true
+   },
+   "values": {
+    "status": "WRITER_PASS",
+    "counts": {
+     "PASS": 65
+    },
+    "matches_au_outcome": true
+   }
+  },
+  "moved_cases": {},
+  "new_cases": {
+   "status": "INCOMPLETE",
+   "counts": {
+    "PASS": 25,
+    "COUNTEREXAMPLE": 8,
+    "INCOMPLETE": 1
+   }
+  },
+  "ao_trial": {
+   "status": "INCOMPLETE",
+   "counts": {
+    "PASS": 8,
+    "INCOMPLETE": 4
+   },
+   "source_sha256": "279f0091e8cdfd93b651b5423fc59ad830b899392ebc069db21738366b83ce3f",
+   "foundation": "PRESENT",
+   "moved": {
+    "INVOICE:UTC:False": "INCOMPLETE",
+    "INVOICE:UTC:True": "INCOMPLETE",
+    "INVOICE:Pacific/Kiritimati:False": "INCOMPLETE",
+    "INVOICE:Pacific/Kiritimati:True": "INCOMPLETE"
+   }
+  },
+  "approved_oracle_20260924b": {
+   "status": "WRITER_PASS",
+   "counts": {
+    "PASS": 5
+   },
+   "cases": {
+    "AS:ADJUSTMENT_DATE:False": {
+     "approved_oracle": "MATCH",
+     "decision": "Owner 24 Sep: ADJUSTMENT_DATE tidak disahkan otomatis; telusuri pembaca effective_date, bila aman ubah oracle tanggalnya dengan bukti. Writer trace: readers are run_v267_financial_truth_checks V2620T_MATERIAL_ADJUSTMENT_FACT_LEDGER (fact effective_date = its own journal economic_date; AZ sets both to the same date) and the pocket_period_recost trigger (pocket recost journal date); no reader requires the invoice date. Proof in the case: those checks and the pocket checks do not increase after the invoice and after its reversal."
+    },
+    "AO:INVOICE:UTC:False": {
+     "approved_oracle": "MATCH",
+     "decision": "Owner 24 Sep: AO periode terbuka - tanggal koreksi WIP/FG mengikuti hari barangnya berpindah tahap; jurnal invoice tetap pada tanggal invoice."
+    },
+    "AO:INVOICE:UTC:True": {
+     "approved_oracle": "MATCH",
+     "decision": "Owner 24 Sep: AO periode tertutup - tanggal posting mengikuti hari pengakuan, tanggal ekonomi invoice tetap tersimpan (sejak AS)."
+    },
+    "AO:INVOICE:Pacific/Kiritimati:False": {
+     "approved_oracle": "MATCH",
+     "decision": "Owner 24 Sep: AO periode terbuka - tanggal koreksi WIP/FG mengikuti hari barangnya berpindah tahap; jurnal invoice tetap pada tanggal invoice."
+    },
+    "AO:INVOICE:Pacific/Kiritimati:True": {
+     "approved_oracle": "MATCH",
+     "decision": "Owner 24 Sep: AO periode tertutup - tanggal posting mengikuti hari pengakuan, tanggal ekonomi invoice tetap tersimpan (sejak AS)."
+    }
+   },
+   "error": null,
+   "sources": {
+    "invoice_date": "6866fc38df433df26deea728b738d873e328463b31dcd76e8c62ad145848a2db",
+    "adjustment_date": "a97ea019627259998b975aff866e10eb6775e9f9bc70999602a79ff7013e39fc"
+   },
+   "calendar_policy": {
+    "CALENDAR:1_MONTHS:UTC:False": "MATCH",
+    "CALENDAR:1_MONTHS:Pacific/Kiritimati:False": "MATCH",
+    "CALENDAR:2_MONTHS:UTC:False": "MATCH",
+    "CALENDAR:2_MONTHS:Pacific/Kiritimati:False": "MATCH",
+    "CALENDAR:3_MONTHS:UTC:False": "MATCH",
+    "CALENDAR:3_MONTHS:Pacific/Kiritimati:False": "MATCH",
+    "CALENDAR:JAN31:UTC:False": "MATCH",
+    "CALENDAR:JAN31:Pacific/Kiritimati:False": "MATCH",
+    "CALENDAR:FEB28:UTC:False": "MATCH",
+    "CALENDAR:FEB28:Pacific/Kiritimati:False": "MATCH",
+    "CALENDAR:MAY31:UTC:False": "MATCH",
+    "CALENDAR:MAY31:Pacific/Kiritimati:False": "MATCH"
+   },
+   "calendar_decision": "Owner 24 Sep: 12 kalender HOLD - tanggal perpindahan nilai ke WIP mengikuti hari potong; status tetap HOLD.",
+   "note": "Frozen results stand (INCOMPLETE/COUNTEREXAMPLE/HOLD); MATCH is the approved oracle, not a frozen PASS."
+  },
+  "approved_oracle_20260924": {
+   "results": {
+    "DATE:False:Asia/Jakarta:True:20": "MATCH",
+    "DATE:False:Asia/Jakarta:True:20.003": "MATCH",
+    "DATE:False:UTC:True:20": "MATCH",
+    "DATE:False:UTC:True:20.003": "MATCH",
+    "DATE:False:Etc/GMT+12:True:20": "MATCH",
+    "DATE:False:Etc/GMT+12:True:20.003": "MATCH",
+    "DATE:False:Pacific/Kiritimati:True:20": "MATCH",
+    "DATE:False:Pacific/Kiritimati:True:20.003": "MATCH"
+   },
+   "match": 8,
+   "of": 8
+  },
+  "per_case_identity": {
+   "groups": {
+    "BUSINESS": {
+     "expected": 230,
+     "observed": 230,
+     "added": [],
+     "removed": [],
+     "moved": [],
+     "order_unchanged": true
+    },
+    "IMPORTS": {
+     "expected": 31,
+     "observed": 31,
+     "added": [],
+     "removed": [],
+     "moved": [],
+     "order_unchanged": true
+    },
+    "VALUES": {
+     "expected": 65,
+     "observed": 65,
+     "added": [],
+     "removed": [],
+     "moved": [],
+     "order_unchanged": true
+    },
+    "NEW_CASES": {
+     "expected": 34,
+     "observed": 34,
+     "added": [],
+     "removed": [],
+     "moved": [
+      {
+       "case": "DATE:False:Asia/Jakarta:True:20",
+       "expected": "PASS",
+       "observed": "COUNTEREXAMPLE"
+      },
+      {
+       "case": "DATE:False:Asia/Jakarta:True:20.003",
+       "expected": "PASS",
+       "observed": "COUNTEREXAMPLE"
+      },
+      {
+       "case": "DATE:False:UTC:True:20",
+       "expected": "PASS",
+       "observed": "COUNTEREXAMPLE"
+      },
+      {
+       "case": "DATE:False:UTC:True:20.003",
+       "expected": "PASS",
+       "observed": "COUNTEREXAMPLE"
+      },
+      {
+       "case": "DATE:False:Etc/GMT+12:True:20",
+       "expected": "PASS",
+       "observed": "COUNTEREXAMPLE"
+      },
+      {
+       "case": "DATE:False:Etc/GMT+12:True:20.003",
+       "expected": "PASS",
+       "observed": "COUNTEREXAMPLE"
+      },
+      {
+       "case": "DATE:False:Pacific/Kiritimati:True:20",
+       "expected": "PASS",
+       "observed": "COUNTEREXAMPLE"
+      },
+      {
+       "case": "DATE:False:Pacific/Kiritimati:True:20.003",
+       "expected": "PASS",
+       "observed": "COUNTEREXAMPLE"
+      },
+      {
+       "case": "ADJUSTMENT_DATE:False",
+       "expected": "PASS",
+       "observed": "INCOMPLETE"
+      }
+     ],
+     "order_unchanged": true
+    }
+   },
+   "holds": {
+    "expected": 12,
+    "observed": 12,
+    "identical": true,
+    "expected_count_is_recorded": true,
+    "left_hold": [],
+    "entered_hold": []
+   },
+   "status": "DISPOSITION_REQUIRED"
+  },
+  "primary_unchanged": true,
+  "clone_remaining": 0
+ },
+ "approved_oracle_20260924": [
+  {
+   "group": "T2_APPROVED_ORACLE",
+   "case": "DATE:False:Asia/Jakarta:True:20",
+   "decision": "Owner 24 Sep: event/jurnal HPP PO mengikuti 22 Sep pada fixture ini, karena barang jadi dan penjualan terjadi hari itu; nominal dan tanggal invoice tetap sesuai oracle lama; revaluasi bahan ke WIP ikut prinsip WIP (hari potong, 22 Sep); hanya delapan kasus AS ini.",
+   "status": "MATCH",
+   "invoice_date": "2026-09-21",
+   "cut_goods_and_sale_day": "2026-09-22",
+   "checks": {
+    "scope": true,
+    "replay_exact": true,
+    "context_cleared": true,
+    "fixture_cut_goods_and_sale_one_day_after_invoice": true,
+    "revaluation_events_on_cutting_day": true,
+    "revaluation_journals_on_cutting_day": true,
+    "hpp_events_on_goods_and_sale_day": true,
+    "hpp_journals_on_goods_and_sale_day": true,
+    "other_journals_are_the_supplier_invoice_on_E": true,
+    "old_oracle_failed_only_on_dates": true
+   },
+   "fixture": {
+    "po": [
+     "4f8b57f7-3e24-4a32-9c3c-53a0ca09d5a4"
+    ],
+    "lot_days": [
+     "2026-09-22"
+    ],
+    "sale_days": [
+     "2026-09-22"
+    ],
+    "returns": 0,
+    "cut_days": [
+     "2026-09-22"
+    ],
+    "revaluation_journals": [
+     "98068a39-9b97-4496-877c-a7dda21fe9d3"
+    ],
+    "event_journals": [
+     "d019e02d-f9ba-461a-a732-c8648ec1c4bd"
+    ],
+    "other_journals": [
+     [
+      "MATERIAL_SUPPLIER_INVOICE",
+      "2026-09-21",
+      "2026-09-21"
+     ]
+    ]
+   },
+   "old_oracle_status": "COUNTEREXAMPLE",
+   "old_oracle_mismatch_keys": [
+    "hpp_events",
+    "journal_posting_date",
+    "revaluation_events"
+   ]
+  },
+  {
+   "group": "T2_APPROVED_ORACLE",
+   "case": "DATE:False:Asia/Jakarta:True:20.003",
+   "decision": "Owner 24 Sep: event/jurnal HPP PO mengikuti 22 Sep pada fixture ini, karena barang jadi dan penjualan terjadi hari itu; nominal dan tanggal invoice tetap sesuai oracle lama; revaluasi bahan ke WIP ikut prinsip WIP (hari potong, 22 Sep); hanya delapan kasus AS ini.",
+   "status": "MATCH",
+   "invoice_date": "2026-09-21",
+   "cut_goods_and_sale_day": "2026-09-22",
+   "checks": {
+    "scope": true,
+    "replay_exact": true,
+    "context_cleared": true,
+    "fixture_cut_goods_and_sale_one_day_after_invoice": true,
+    "revaluation_events_on_cutting_day": true,
+    "revaluation_journals_on_cutting_day": true,
+    "hpp_events_on_goods_and_sale_day": true,
+    "hpp_journals_on_goods_and_sale_day": true,
+    "other_journals_are_the_supplier_invoice_on_E": true,
+    "old_oracle_failed_only_on_dates": true
+   },
+   "fixture": {
+    "po": [
+     "b568dcb8-e670-4c1a-963e-85a581067150"
+    ],
+    "lot_days": [
+     "2026-09-22"
+    ],
+    "sale_days": [
+     "2026-09-22"
+    ],
+    "returns": 0,
+    "cut_days": [
+     "2026-09-22"
+    ],
+    "revaluation_journals": [
+     "240687b3-4b23-431e-aec3-c4e7b0d32614"
+    ],
+    "event_journals": [
+     "af60b0bb-25a9-4b9c-a795-69e6623a01d7"
+    ],
+    "other_journals": [
+     [
+      "MATERIAL_SUPPLIER_INVOICE",
+      "2026-09-21",
+      "2026-09-21"
+     ]
+    ]
+   },
+   "old_oracle_status": "COUNTEREXAMPLE",
+   "old_oracle_mismatch_keys": [
+    "hpp_events",
+    "journal_posting_date",
+    "revaluation_events"
+   ]
+  },
+  {
+   "group": "T2_APPROVED_ORACLE",
+   "case": "DATE:False:UTC:True:20",
+   "decision": "Owner 24 Sep: event/jurnal HPP PO mengikuti 22 Sep pada fixture ini, karena barang jadi dan penjualan terjadi hari itu; nominal dan tanggal invoice tetap sesuai oracle lama; revaluasi bahan ke WIP ikut prinsip WIP (hari potong, 22 Sep); hanya delapan kasus AS ini.",
+   "status": "MATCH",
+   "invoice_date": "2026-09-21",
+   "cut_goods_and_sale_day": "2026-09-22",
+   "checks": {
+    "scope": true,
+    "replay_exact": true,
+    "context_cleared": true,
+    "fixture_cut_goods_and_sale_one_day_after_invoice": true,
+    "revaluation_events_on_cutting_day": true,
+    "revaluation_journals_on_cutting_day": true,
+    "hpp_events_on_goods_and_sale_day": true,
+    "hpp_journals_on_goods_and_sale_day": true,
+    "other_journals_are_the_supplier_invoice_on_E": true,
+    "old_oracle_failed_only_on_dates": true
+   },
+   "fixture": {
+    "po": [
+     "1e2237b4-a2a7-4e7e-a1d2-308d4bdbf3a2"
+    ],
+    "lot_days": [
+     "2026-09-22"
+    ],
+    "sale_days": [
+     "2026-09-22"
+    ],
+    "returns": 0,
+    "cut_days": [
+     "2026-09-22"
+    ],
+    "revaluation_journals": [
+     "f76da42a-a005-4e74-aabc-4841a437dbba"
+    ],
+    "event_journals": [
+     "9ccfa784-b6fa-4842-a13b-00b7a4d3dcb4"
+    ],
+    "other_journals": [
+     [
+      "MATERIAL_SUPPLIER_INVOICE",
+      "2026-09-21",
+      "2026-09-21"
+     ]
+    ]
+   },
+   "old_oracle_status": "COUNTEREXAMPLE",
+   "old_oracle_mismatch_keys": [
+    "hpp_events",
+    "journal_posting_date",
+    "revaluation_events"
+   ]
+  },
+  {
+   "group": "T2_APPROVED_ORACLE",
+   "case": "DATE:False:UTC:True:20.003",
+   "decision": "Owner 24 Sep: event/jurnal HPP PO mengikuti 22 Sep pada fixture ini, karena barang jadi dan penjualan terjadi hari itu; nominal dan tanggal invoice tetap sesuai oracle lama; revaluasi bahan ke WIP ikut prinsip WIP (hari potong, 22 Sep); hanya delapan kasus AS ini.",
+   "status": "MATCH",
+   "invoice_date": "2026-09-21",
+   "cut_goods_and_sale_day": "2026-09-22",
+   "checks": {
+    "scope": true,
+    "replay_exact": true,
+    "context_cleared": true,
+    "fixture_cut_goods_and_sale_one_day_after_invoice": true,
+    "revaluation_events_on_cutting_day": true,
+    "revaluation_journals_on_cutting_day": true,
+    "hpp_events_on_goods_and_sale_day": true,
+    "hpp_journals_on_goods_and_sale_day": true,
+    "other_journals_are_the_supplier_invoice_on_E": true,
+    "old_oracle_failed_only_on_dates": true
+   },
+   "fixture": {
+    "po": [
+     "a1429f63-b440-46b5-8c10-c84f26ef3c36"
+    ],
+    "lot_days": [
+     "2026-09-22"
+    ],
+    "sale_days": [
+     "2026-09-22"
+    ],
+    "returns": 0,
+    "cut_days": [
+     "2026-09-22"
+    ],
+    "revaluation_journals": [
+     "6c62c34f-a9c1-451c-82b3-6fbad70842e7"
+    ],
+    "event_journals": [
+     "8c88ef5f-91cd-4ff0-9a1f-e5f847429a3a"
+    ],
+    "other_journals": [
+     [
+      "MATERIAL_SUPPLIER_INVOICE",
+      "2026-09-21",
+      "2026-09-21"
+     ]
+    ]
+   },
+   "old_oracle_status": "COUNTEREXAMPLE",
+   "old_oracle_mismatch_keys": [
+    "hpp_events",
+    "journal_posting_date",
+    "revaluation_events"
+   ]
+  },
+  {
+   "group": "T2_APPROVED_ORACLE",
+   "case": "DATE:False:Etc/GMT+12:True:20",
+   "decision": "Owner 24 Sep: event/jurnal HPP PO mengikuti 22 Sep pada fixture ini, karena barang jadi dan penjualan terjadi hari itu; nominal dan tanggal invoice tetap sesuai oracle lama; revaluasi bahan ke WIP ikut prinsip WIP (hari potong, 22 Sep); hanya delapan kasus AS ini.",
+   "status": "MATCH",
+   "invoice_date": "2026-09-21",
+   "cut_goods_and_sale_day": "2026-09-22",
+   "checks": {
+    "scope": true,
+    "replay_exact": true,
+    "context_cleared": true,
+    "fixture_cut_goods_and_sale_one_day_after_invoice": true,
+    "revaluation_events_on_cutting_day": true,
+    "revaluation_journals_on_cutting_day": true,
+    "hpp_events_on_goods_and_sale_day": true,
+    "hpp_journals_on_goods_and_sale_day": true,
+    "other_journals_are_the_supplier_invoice_on_E": true,
+    "old_oracle_failed_only_on_dates": true
+   },
+   "fixture": {
+    "po": [
+     "230e1972-ce07-4f04-9a6e-69c00e38c1ed"
+    ],
+    "lot_days": [
+     "2026-09-22"
+    ],
+    "sale_days": [
+     "2026-09-22"
+    ],
+    "returns": 0,
+    "cut_days": [
+     "2026-09-22"
+    ],
+    "revaluation_journals": [
+     "63a93be3-41c5-42b9-973a-88bb4ae1c885"
+    ],
+    "event_journals": [
+     "10d852d9-bfbf-4677-9f80-55fcea9d1351"
+    ],
+    "other_journals": [
+     [
+      "MATERIAL_SUPPLIER_INVOICE",
+      "2026-09-21",
+      "2026-09-21"
+     ]
+    ]
+   },
+   "old_oracle_status": "COUNTEREXAMPLE",
+   "old_oracle_mismatch_keys": [
+    "hpp_events",
+    "journal_posting_date",
+    "revaluation_events"
+   ]
+  },
+  {
+   "group": "T2_APPROVED_ORACLE",
+   "case": "DATE:False:Etc/GMT+12:True:20.003",
+   "decision": "Owner 24 Sep: event/jurnal HPP PO mengikuti 22 Sep pada fixture ini, karena barang jadi dan penjualan terjadi hari itu; nominal dan tanggal invoice tetap sesuai oracle lama; revaluasi bahan ke WIP ikut prinsip WIP (hari potong, 22 Sep); hanya delapan kasus AS ini.",
+   "status": "MATCH",
+   "invoice_date": "2026-09-21",
+   "cut_goods_and_sale_day": "2026-09-22",
+   "checks": {
+    "scope": true,
+    "replay_exact": true,
+    "context_cleared": true,
+    "fixture_cut_goods_and_sale_one_day_after_invoice": true,
+    "revaluation_events_on_cutting_day": true,
+    "revaluation_journals_on_cutting_day": true,
+    "hpp_events_on_goods_and_sale_day": true,
+    "hpp_journals_on_goods_and_sale_day": true,
+    "other_journals_are_the_supplier_invoice_on_E": true,
+    "old_oracle_failed_only_on_dates": true
+   },
+   "fixture": {
+    "po": [
+     "5bfa8aed-1698-49e2-9309-d9c26eac612f"
+    ],
+    "lot_days": [
+     "2026-09-22"
+    ],
+    "sale_days": [
+     "2026-09-22"
+    ],
+    "returns": 0,
+    "cut_days": [
+     "2026-09-22"
+    ],
+    "revaluation_journals": [
+     "382cd0c4-235f-4129-a7c9-4b8d0281e8c0"
+    ],
+    "event_journals": [
+     "45410c35-23e6-4ef7-b494-35bf42357562"
+    ],
+    "other_journals": [
+     [
+      "MATERIAL_SUPPLIER_INVOICE",
+      "2026-09-21",
+      "2026-09-21"
+     ]
+    ]
+   },
+   "old_oracle_status": "COUNTEREXAMPLE",
+   "old_oracle_mismatch_keys": [
+    "hpp_events",
+    "journal_posting_date",
+    "revaluation_events"
+   ]
+  },
+  {
+   "group": "T2_APPROVED_ORACLE",
+   "case": "DATE:False:Pacific/Kiritimati:True:20",
+   "decision": "Owner 24 Sep: event/jurnal HPP PO mengikuti 22 Sep pada fixture ini, karena barang jadi dan penjualan terjadi hari itu; nominal dan tanggal invoice tetap sesuai oracle lama; revaluasi bahan ke WIP ikut prinsip WIP (hari potong, 22 Sep); hanya delapan kasus AS ini.",
+   "status": "MATCH",
+   "invoice_date": "2026-09-21",
+   "cut_goods_and_sale_day": "2026-09-22",
+   "checks": {
+    "scope": true,
+    "replay_exact": true,
+    "context_cleared": true,
+    "fixture_cut_goods_and_sale_one_day_after_invoice": true,
+    "revaluation_events_on_cutting_day": true,
+    "revaluation_journals_on_cutting_day": true,
+    "hpp_events_on_goods_and_sale_day": true,
+    "hpp_journals_on_goods_and_sale_day": true,
+    "other_journals_are_the_supplier_invoice_on_E": true,
+    "old_oracle_failed_only_on_dates": true
+   },
+   "fixture": {
+    "po": [
+     "1e670176-8318-458f-8393-9b73dbe50d48"
+    ],
+    "lot_days": [
+     "2026-09-22"
+    ],
+    "sale_days": [
+     "2026-09-22"
+    ],
+    "returns": 0,
+    "cut_days": [
+     "2026-09-22"
+    ],
+    "revaluation_journals": [
+     "6df9e3a3-aafa-44c5-80b7-425267ac55a3"
+    ],
+    "event_journals": [
+     "f5b0dc96-db79-4c75-a4cf-f013f3190aa2"
+    ],
+    "other_journals": [
+     [
+      "MATERIAL_SUPPLIER_INVOICE",
+      "2026-09-21",
+      "2026-09-21"
+     ]
+    ]
+   },
+   "old_oracle_status": "COUNTEREXAMPLE",
+   "old_oracle_mismatch_keys": [
+    "hpp_events",
+    "journal_posting_date",
+    "revaluation_events"
+   ]
+  },
+  {
+   "group": "T2_APPROVED_ORACLE",
+   "case": "DATE:False:Pacific/Kiritimati:True:20.003",
+   "decision": "Owner 24 Sep: event/jurnal HPP PO mengikuti 22 Sep pada fixture ini, karena barang jadi dan penjualan terjadi hari itu; nominal dan tanggal invoice tetap sesuai oracle lama; revaluasi bahan ke WIP ikut prinsip WIP (hari potong, 22 Sep); hanya delapan kasus AS ini.",
+   "status": "MATCH",
+   "invoice_date": "2026-09-21",
+   "cut_goods_and_sale_day": "2026-09-22",
+   "checks": {
+    "scope": true,
+    "replay_exact": true,
+    "context_cleared": true,
+    "fixture_cut_goods_and_sale_one_day_after_invoice": true,
+    "revaluation_events_on_cutting_day": true,
+    "revaluation_journals_on_cutting_day": true,
+    "hpp_events_on_goods_and_sale_day": true,
+    "hpp_journals_on_goods_and_sale_day": true,
+    "other_journals_are_the_supplier_invoice_on_E": true,
+    "old_oracle_failed_only_on_dates": true
+   },
+   "fixture": {
+    "po": [
+     "5c14b934-4f30-40b2-a157-8628ccf105af"
+    ],
+    "lot_days": [
+     "2026-09-22"
+    ],
+    "sale_days": [
+     "2026-09-22"
+    ],
+    "returns": 0,
+    "cut_days": [
+     "2026-09-22"
+    ],
+    "revaluation_journals": [
+     "c2ddf15e-2f79-47cd-b3e5-1142c28dfc92"
+    ],
+    "event_journals": [
+     "859cec09-3da6-4886-beef-237bcca435d1"
+    ],
+    "other_journals": [
+     [
+      "MATERIAL_SUPPLIER_INVOICE",
+      "2026-09-21",
+      "2026-09-21"
+     ]
+    ]
+   },
+   "old_oracle_status": "COUNTEREXAMPLE",
+   "old_oracle_mismatch_keys": [
+    "hpp_events",
+    "journal_posting_date",
+    "revaluation_events"
+   ]
+  }
+ ],
+ "approved_oracle_summary": [
+  {
+   "group": "T2_APPROVED_ORACLE_SUMMARY",
+   "results": {
+    "DATE:False:Asia/Jakarta:True:20": "MATCH",
+    "DATE:False:Asia/Jakarta:True:20.003": "MATCH",
+    "DATE:False:UTC:True:20": "MATCH",
+    "DATE:False:UTC:True:20.003": "MATCH",
+    "DATE:False:Etc/GMT+12:True:20": "MATCH",
+    "DATE:False:Etc/GMT+12:True:20.003": "MATCH",
+    "DATE:False:Pacific/Kiritimati:True:20": "MATCH",
+    "DATE:False:Pacific/Kiritimati:True:20.003": "MATCH"
+   },
+   "match": 8,
+   "of": 8
+  }
+ ],
+ "approved_oracle_20260924b": [
+  {
+   "group": "T2_APPROVED_ORACLE_B",
+   "status": "WRITER_PASS",
+   "counts": {
+    "PASS": 5
+   },
+   "cases": {
+    "AS:ADJUSTMENT_DATE:False": {
+     "approved_oracle": "MATCH",
+     "decision": "Owner 24 Sep: ADJUSTMENT_DATE tidak disahkan otomatis; telusuri pembaca effective_date, bila aman ubah oracle tanggalnya dengan bukti. Writer trace: readers are run_v267_financial_truth_checks V2620T_MATERIAL_ADJUSTMENT_FACT_LEDGER (fact effective_date = its own journal economic_date; AZ sets both to the same date) and the pocket_period_recost trigger (pocket recost journal date); no reader requires the invoice date. Proof in the case: those checks and the pocket checks do not increase after the invoice and after its reversal."
+    },
+    "AO:INVOICE:UTC:False": {
+     "approved_oracle": "MATCH",
+     "decision": "Owner 24 Sep: AO periode terbuka - tanggal koreksi WIP/FG mengikuti hari barangnya berpindah tahap; jurnal invoice tetap pada tanggal invoice."
+    },
+    "AO:INVOICE:UTC:True": {
+     "approved_oracle": "MATCH",
+     "decision": "Owner 24 Sep: AO periode tertutup - tanggal posting mengikuti hari pengakuan, tanggal ekonomi invoice tetap tersimpan (sejak AS)."
+    },
+    "AO:INVOICE:Pacific/Kiritimati:False": {
+     "approved_oracle": "MATCH",
+     "decision": "Owner 24 Sep: AO periode terbuka - tanggal koreksi WIP/FG mengikuti hari barangnya berpindah tahap; jurnal invoice tetap pada tanggal invoice."
+    },
+    "AO:INVOICE:Pacific/Kiritimati:True": {
+     "approved_oracle": "MATCH",
+     "decision": "Owner 24 Sep: AO periode tertutup - tanggal posting mengikuti hari pengakuan, tanggal ekonomi invoice tetap tersimpan (sejak AS)."
+    }
+   },
+   "error": null,
+   "sources": {
+    "invoice_date": "6866fc38df433df26deea728b738d873e328463b31dcd76e8c62ad145848a2db",
+    "adjustment_date": "a97ea019627259998b975aff866e10eb6775e9f9bc70999602a79ff7013e39fc"
+   },
+   "calendar_policy": {
+    "CALENDAR:1_MONTHS:UTC:False": "MATCH",
+    "CALENDAR:1_MONTHS:Pacific/Kiritimati:False": "MATCH",
+    "CALENDAR:2_MONTHS:UTC:False": "MATCH",
+    "CALENDAR:2_MONTHS:Pacific/Kiritimati:False": "MATCH",
+    "CALENDAR:3_MONTHS:UTC:False": "MATCH",
+    "CALENDAR:3_MONTHS:Pacific/Kiritimati:False": "MATCH",
+    "CALENDAR:JAN31:UTC:False": "MATCH",
+    "CALENDAR:JAN31:Pacific/Kiritimati:False": "MATCH",
+    "CALENDAR:FEB28:UTC:False": "MATCH",
+    "CALENDAR:FEB28:Pacific/Kiritimati:False": "MATCH",
+    "CALENDAR:MAY31:UTC:False": "MATCH",
+    "CALENDAR:MAY31:Pacific/Kiritimati:False": "MATCH"
+   },
+   "calendar_decision": "Owner 24 Sep: 12 kalender HOLD - tanggal perpindahan nilai ke WIP mengikuti hari potong; status tetap HOLD.",
+   "note": "Frozen results stand (INCOMPLETE/COUNTEREXAMPLE/HOLD); MATCH is the approved oracle, not a frozen PASS."
+  }
+ ],
+ "approved_oracle_b_cases": [
+  {
+   "group": "APPROVED_ORACLE_B",
+   "case": "AS:ADJUSTMENT_DATE:False",
+   "status": "PASS"
+  },
+  {
+   "group": "APPROVED_ORACLE_B",
+   "case": "AO:INVOICE:UTC:False",
+   "status": "PASS"
+  },
+  {
+   "group": "APPROVED_ORACLE_B",
+   "case": "AO:INVOICE:UTC:True",
+   "status": "PASS"
+  },
+  {
+   "group": "APPROVED_ORACLE_B",
+   "case": "AO:INVOICE:Pacific/Kiritimati:False",
+   "status": "PASS"
+  },
+  {
+   "group": "APPROVED_ORACLE_B",
+   "case": "AO:INVOICE:Pacific/Kiritimati:True",
+   "status": "PASS"
+  }
+ ],
+ "calendar_policy_frozen": [
+  {
+   "group": "T2_CALENDAR_POLICY",
+   "case": "CALENDAR:1_MONTHS:Pacific/Kiritimati:False",
+   "status": "COUNTEREXAMPLE",
+   "mismatches": [
+    {
+     "material_event_date": [
+      "5888c37a-684f-4938-8e14-345508cebc19",
+      "2026-08-24",
+      "5.25",
+      "WIP"
+     ]
+    },
+    {
+     "material_event_date": [
+      "5888c37a-684f-4938-8e14-345508cebc19",
+      "2026-08-24",
+      "5.25",
+      "WIP"
+     ]
+    }
+   ]
+  },
+  {
+   "group": "T2_CALENDAR_POLICY",
+   "case": "CALENDAR:1_MONTHS:UTC:False",
+   "status": "COUNTEREXAMPLE",
+   "mismatches": [
+    {
+     "material_event_date": [
+      "94a41f37-74db-49c0-bd74-e4e5bf51f4b9",
+      "2026-08-24",
+      "5.25",
+      "WIP"
+     ]
+    },
+    {
+     "material_event_date": [
+      "94a41f37-74db-49c0-bd74-e4e5bf51f4b9",
+      "2026-08-24",
+      "5.25",
+      "WIP"
+     ]
+    }
+   ]
+  },
+  {
+   "group": "T2_CALENDAR_POLICY",
+   "case": "CALENDAR:2_MONTHS:Pacific/Kiritimati:False",
+   "status": "COUNTEREXAMPLE",
+   "mismatches": [
+    {
+     "material_event_date": [
+      "7e0ff9fc-2e99-4ec0-a9d2-8caaf71b4dc7",
+      "2026-07-24",
+      "5.25",
+      "WIP"
+     ]
+    },
+    {
+     "material_event_date": [
+      "7e0ff9fc-2e99-4ec0-a9d2-8caaf71b4dc7",
+      "2026-07-24",
+      "5.25",
+      "WIP"
+     ]
+    }
+   ]
+  },
+  {
+   "group": "T2_CALENDAR_POLICY",
+   "case": "CALENDAR:2_MONTHS:UTC:False",
+   "status": "COUNTEREXAMPLE",
+   "mismatches": [
+    {
+     "material_event_date": [
+      "d3b09ac2-d0b4-4e69-9f8b-43ecc7c4bcf9",
+      "2026-07-24",
+      "5.25",
+      "WIP"
+     ]
+    },
+    {
+     "material_event_date": [
+      "d3b09ac2-d0b4-4e69-9f8b-43ecc7c4bcf9",
+      "2026-07-24",
+      "5.25",
+      "WIP"
+     ]
+    }
+   ]
+  },
+  {
+   "group": "T2_CALENDAR_POLICY",
+   "case": "CALENDAR:3_MONTHS:Pacific/Kiritimati:False",
+   "status": "COUNTEREXAMPLE",
+   "mismatches": [
+    {
+     "material_event_date": [
+      "e26325d0-87e1-4555-85f6-8030124294fd",
+      "2026-06-24",
+      "5.25",
+      "WIP"
+     ]
+    },
+    {
+     "material_event_date": [
+      "e26325d0-87e1-4555-85f6-8030124294fd",
+      "2026-06-24",
+      "5.25",
+      "WIP"
+     ]
+    }
+   ]
+  },
+  {
+   "group": "T2_CALENDAR_POLICY",
+   "case": "CALENDAR:3_MONTHS:UTC:False",
+   "status": "COUNTEREXAMPLE",
+   "mismatches": [
+    {
+     "material_event_date": [
+      "0175bb0d-9ed7-4507-b6a5-ecc9313fb85d",
+      "2026-06-24",
+      "5.25",
+      "WIP"
+     ]
+    },
+    {
+     "material_event_date": [
+      "0175bb0d-9ed7-4507-b6a5-ecc9313fb85d",
+      "2026-06-24",
+      "5.25",
+      "WIP"
+     ]
+    }
+   ]
+  },
+  {
+   "group": "T2_CALENDAR_POLICY",
+   "case": "CALENDAR:FEB28:Pacific/Kiritimati:False",
+   "status": "COUNTEREXAMPLE",
+   "mismatches": [
+    {
+     "material_event_date": [
+      "9d845251-b794-4ffb-9b34-a8eb434c39af",
+      "2026-03-01",
+      "5.25",
+      "WIP"
+     ]
+    },
+    {
+     "material_event_date": [
+      "9d845251-b794-4ffb-9b34-a8eb434c39af",
+      "2026-03-01",
+      "5.25",
+      "WIP"
+     ]
+    }
+   ]
+  },
+  {
+   "group": "T2_CALENDAR_POLICY",
+   "case": "CALENDAR:FEB28:UTC:False",
+   "status": "COUNTEREXAMPLE",
+   "mismatches": [
+    {
+     "material_event_date": [
+      "614be732-c0de-4b99-bdab-b16762124f43",
+      "2026-03-01",
+      "5.25",
+      "WIP"
+     ]
+    },
+    {
+     "material_event_date": [
+      "614be732-c0de-4b99-bdab-b16762124f43",
+      "2026-03-01",
+      "5.25",
+      "WIP"
+     ]
+    }
+   ]
+  },
+  {
+   "group": "T2_CALENDAR_POLICY",
+   "case": "CALENDAR:JAN31:Pacific/Kiritimati:False",
+   "status": "COUNTEREXAMPLE",
+   "mismatches": [
+    {
+     "material_event_date": [
+      "b29e7b4d-184c-45f4-85a3-8b06ec42824d",
+      "2026-02-01",
+      "5.25",
+      "WIP"
+     ]
+    },
+    {
+     "material_event_date": [
+      "b29e7b4d-184c-45f4-85a3-8b06ec42824d",
+      "2026-02-01",
+      "5.25",
+      "WIP"
+     ]
+    }
+   ]
+  },
+  {
+   "group": "T2_CALENDAR_POLICY",
+   "case": "CALENDAR:JAN31:UTC:False",
+   "status": "COUNTEREXAMPLE",
+   "mismatches": [
+    {
+     "material_event_date": [
+      "dc7b58ee-4d12-4531-81a5-2f7e880e7407",
+      "2026-02-01",
+      "5.25",
+      "WIP"
+     ]
+    },
+    {
+     "material_event_date": [
+      "dc7b58ee-4d12-4531-81a5-2f7e880e7407",
+      "2026-02-01",
+      "5.25",
+      "WIP"
+     ]
+    }
+   ]
+  },
+  {
+   "group": "T2_CALENDAR_POLICY",
+   "case": "CALENDAR:MAY31:Pacific/Kiritimati:False",
+   "status": "COUNTEREXAMPLE",
+   "mismatches": [
+    {
+     "material_event_date": [
+      "e9343e3e-fd83-4e3c-94a8-913fcc262fe0",
+      "2026-06-01",
+      "5.25",
+      "WIP"
+     ]
+    },
+    {
+     "material_event_date": [
+      "e9343e3e-fd83-4e3c-94a8-913fcc262fe0",
+      "2026-06-01",
+      "5.25",
+      "WIP"
+     ]
+    }
+   ]
+  },
+  {
+   "group": "T2_CALENDAR_POLICY",
+   "case": "CALENDAR:MAY31:UTC:False",
+   "status": "COUNTEREXAMPLE",
+   "mismatches": [
+    {
+     "material_event_date": [
+      "e7fdf940-7166-4b0c-8589-d9565d036cc7",
+      "2026-06-01",
+      "5.25",
+      "WIP"
+     ]
+    },
+    {
+     "material_event_date": [
+      "e7fdf940-7166-4b0c-8589-d9565d036cc7",
+      "2026-06-01",
+      "5.25",
+      "WIP"
+     ]
+    }
+   ]
+  }
+ ],
+ "ao_trial": [
+  {
+   "group": "T2_AO_TRIAL",
+   "status": "INCOMPLETE",
+   "counts": {
+    "PASS": 8,
+    "INCOMPLETE": 4
+   },
+   "source_sha256": "279f0091e8cdfd93b651b5423fc59ad830b899392ebc069db21738366b83ce3f",
+   "foundation": "PRESENT",
+   "moved": {
+    "INVOICE:UTC:False": "INCOMPLETE",
+    "INVOICE:UTC:True": "INCOMPLETE",
+    "INVOICE:Pacific/Kiritimati:False": "INCOMPLETE",
+    "INVOICE:Pacific/Kiritimati:True": "INCOMPLETE"
+   }
+  }
+ ],
+ "identity": [
+  {
+   "group": "T2_IDENTITY",
+   "groups": {
+    "BUSINESS": {
+     "expected": 230,
+     "observed": 230,
+     "added": [],
+     "removed": [],
+     "moved": [],
+     "order_unchanged": true
+    },
+    "IMPORTS": {
+     "expected": 31,
+     "observed": 31,
+     "added": [],
+     "removed": [],
+     "moved": [],
+     "order_unchanged": true
+    },
+    "VALUES": {
+     "expected": 65,
+     "observed": 65,
+     "added": [],
+     "removed": [],
+     "moved": [],
+     "order_unchanged": true
+    },
+    "NEW_CASES": {
+     "expected": 34,
+     "observed": 34,
+     "added": [],
+     "removed": [],
+     "moved": [
+      {
+       "case": "DATE:False:Asia/Jakarta:True:20",
+       "expected": "PASS",
+       "observed": "COUNTEREXAMPLE"
+      },
+      {
+       "case": "DATE:False:Asia/Jakarta:True:20.003",
+       "expected": "PASS",
+       "observed": "COUNTEREXAMPLE"
+      },
+      {
+       "case": "DATE:False:UTC:True:20",
+       "expected": "PASS",
+       "observed": "COUNTEREXAMPLE"
+      },
+      {
+       "case": "DATE:False:UTC:True:20.003",
+       "expected": "PASS",
+       "observed": "COUNTEREXAMPLE"
+      },
+      {
+       "case": "DATE:False:Etc/GMT+12:True:20",
+       "expected": "PASS",
+       "observed": "COUNTEREXAMPLE"
+      },
+      {
+       "case": "DATE:False:Etc/GMT+12:True:20.003",
+       "expected": "PASS",
+       "observed": "COUNTEREXAMPLE"
+      },
+      {
+       "case": "DATE:False:Pacific/Kiritimati:True:20",
+       "expected": "PASS",
+       "observed": "COUNTEREXAMPLE"
+      },
+      {
+       "case": "DATE:False:Pacific/Kiritimati:True:20.003",
+       "expected": "PASS",
+       "observed": "COUNTEREXAMPLE"
+      },
+      {
+       "case": "ADJUSTMENT_DATE:False",
+       "expected": "PASS",
+       "observed": "INCOMPLETE"
+      }
+     ],
+     "order_unchanged": true
+    }
+   },
+   "holds": {
+    "expected": 12,
+    "observed": 12,
+    "identical": true,
+    "expected_count_is_recorded": true,
+    "left_hold": [],
+    "entered_hold": []
+   },
+   "status": "DISPOSITION_REQUIRED"
+  }
+ ],
+ "verdict": [
+  {
+   "group": "T2_REGRESSION_VERDICT",
+   "status": "DISPOSITION_REQUIRED",
+   "new_cases": {
+    "status": "INCOMPLETE",
+    "counts": {
+     "PASS": 25,
+     "COUNTEREXAMPLE": 8,
+     "INCOMPLETE": 1
+    }
+   },
+   "calendar_policy_count": 12
+  }
+ ],
+ "note": "T2 of round six: AY rev7 (material facts per physical day, relabel follows source, window sums) + AZ."
+}
