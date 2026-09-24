@@ -43,7 +43,7 @@ Auditor menjalankan `npx vitest run` (tanpa exclude) pada 9add57e: **Tests 454 p
 Rerun auditor 36037873682 job 107762385235 (head 9add57e):
 - `T2_APPROVED_ORACLE_SUMMARY`: 8/8 MATCH → klaim AS **CONFIRMED sebagai reproduksi harness writer**; perilaku produk pada bentuk yang sama (invoice sebelum potong/barang) juga direproduksi dengan oracle auditor sendiri (date_family_1/2: leg bahan pada E, leg WIP/FG pada hari pergerakan) → perilaku CONFIRMED; penerimaannya tetap keputusan owner di luar kontrak (UNVERIFIED_OWNER_DECISION).
 - `APPROVED_ORACLE_B`: 5 PASS (AO 4 + ADJUSTMENT_DATE, masing-masing approved_oracle MATCH) → **CONFIRMED (reproduksi)**.
-- Kalender 12/12 MATCH: di log rerun auditor hanya ada `T2_CALENDAR_POLICY` 12× COUNTEREXAMPLE (oracle beku; mismatch `material_event_date`) dan string `calendar_decision`; baris MATCH 12/12 terpisah: lihat kutipan mentah di bawah. Bila tidak ada hitungan MATCH di log, klaim ini **UNVERIFIED** (hanya di berkas laporan run writer).
+- Kalender 12/12 MATCH: **CONFIRMED (reproduksi)** — log rerun auditor baris 2196/2199 (`T2_APPROVED_ORACLE_B` / ringkasan) memuat `"calendar_policy": {12 id: "MATCH"}` dengan catatan writer "Frozen results stand …; MATCH is the approved oracle, not a frozen PASS"; oracle beku `T2_CALENDAR_POLICY` tetap 12× COUNTEREXAMPLE (mismatch `material_event_date`).
 - `T2_REGRESSION_VERDICT` DISPOSITION_REQUIRED, `T2_AO_TRIAL` 8 PASS / 4 INCOMPLETE, `T2_IDENTITY` grup lama moved [] → **CONFIRMED** identik dengan klaim §26.6/§27.5.
 Kutipan mentah baris calendar_decision dari log rerun auditor:
 ```
@@ -74,7 +74,7 @@ head_sha 9add57e (diverifikasi via API), job 107751512664, skenario sha256 dfd9a
 |---|---|
 | T2 identik per kasus dengan AU; 12 HOLD identik; verdict DISPOSITION_REQUIRED | CONFIRMED (rerun 36037873682) |
 | Approved oracle AS 8/8 MATCH, AO 4/4, ADJUSTMENT_DATE MATCH | CONFIRMED sebagai reproduksi harness; penerimaan = UNVERIFIED_OWNER_DECISION |
-| Approved oracle kalender 12/12 MATCH | lihat D2 (UNVERIFIED bila tidak ada di log) |
+| Approved oracle kalender 12/12 MATCH | CONFIRMED (reproduksi harness; log rerun baris 2196/2199); penerimaan = UNVERIFIED_OWNER_DECISION |
 | T3 hijau, 24 file, RESTORED_SAME_MEANING, advisor 127, browser 10/10 | CONFIRMED (rerun 36037876338) kecuali browser: job browser rerun auditor dibaca hijau tetapi isi 10/10 tidak diperiksa per kasus → UNVERIFIED rincian |
 | CodeQL 0 hasil 4 bahasa | CONFIRMED (rerun 36037878419) — batas: SQL/PLpgSQL tidak dianalisis |
 | Rollback paket belum diuji (NOT_TESTED) | CONFIRMED (manifest) — F1-05 |
