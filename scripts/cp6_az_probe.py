@@ -473,6 +473,10 @@ def contractor_after_lot(cur,today,price):
       values(%s,%s,%s,%s,10,'CUTTING','CUTTING',%s,'AZ contractor material probe')""",(po,'AZ-CM-PO-'+str(po),prod.MODEL,prod.CONTRACTOR,prod.at(d2,7)))
     produce(cur,fx,po,product,d2,6,10)
     lot=cur.execute("select id from erp.fg_lots where po_id=%s and lot_origin='PRODUCTION'",(po,)).fetchone()[0]
+    # A contractor issue needs the contractor selling price of the material in effect at the issue time (AO,
+    # normalize_contractor_issue_item_uom_price); it only drives the contractor receivable, not the checked accounts.
+    cur.execute("""insert into erp.contractor_material_price_versions(material_id,contractor_id,selling_price,effective_from,notes)
+      values(%s,%s,12,%s,'AZ probe contractor selling price')""",(fx['material'],prod.CONTRACTOR,prod.at(d,0)))
     prod.owner(cur)
     # erp.save_contractor_material_issue_draft_v2 / erp.post_contractor_material_issue are internal (require_internal): the
     # privileged session with the owner claims kept, as in the write-off fixture.
