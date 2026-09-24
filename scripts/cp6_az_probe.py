@@ -816,6 +816,71 @@ def writeoff_reversal(cur,today,price):
                 quiet=[quiet,quiet_fixture])
 
 
+def pocket_usage_reversal(cur,today,price):
+    """GPT audit of 737649b, AB-01 (24 Sep 2026; source-level, P1 provisional): a reversed pocket-fabric usage. Receipt of 10
+    units at 10 on d (open); the material registered as pocket fabric and all 10 units used as pocket fabric on d+1
+    (erp.save_pocket_fabric_action_v1 POST, mode USED; no pocket period); the usage reversed today (REVERSE); then a late
+    invoice at `price` dated d. Expected: material at the invoice price for the units on hand each day (10 on d, 0 on d+1 and
+    d+2, 10 today) and no negative daily balance. Recorded as the auditor asked: the journal lines the invoice posts per date
+    and account, and the AW close preflight blockers as of d+1, d+2 and today. Control case:
+    AZ:WRITE_OFF_REVERSED_THEN_LATE_INVOICE_LOWER. A product refusal of the sequence is reported with its step and message."""
+    prod=chain.production
+    d=today-timedelta(days=3);d2=d+timedelta(days=1);d3=d2+timedelta(days=1)
+    days=[d+timedelta(days=i) for i in range(4)]
+    boundary.historical.prior.set_open_period(cur,d-timedelta(days=1))
+    quiet=awp.quiet_seed(cur,d,today-timedelta(days=1),exclude=[prod.CONTRACTOR])
+    fx=prod.estimated_receipt(cur,today)
+    api.admin(cur)
+    material_type=cur.execute('select material_type from erp.materials where id=%s',(fx['material'],)).fetchone()[0]
+    def act(step,action,payload):
+        cur.execute('savepoint az_pocket_step')
+        try:
+            prod.owner(cur)
+            out=cur.execute('select erp.save_pocket_fabric_action_v1(%s,%s::jsonb,%s)',(action,json.dumps(payload,default=str),uuid.uuid4())).fetchone()[0]
+            api.admin(cur);return out
+        except psycopg.Error as exc:
+            cur.execute('rollback to savepoint az_pocket_step');api.admin(cur)
+            raise RuntimeError('%s refused: %s'%(step,str(exc).splitlines()[0]))
+    try:
+        act('REGISTER','REGISTER',dict(material_id=str(fx['material']),reason='AZ AB-01 probe: pocket fabric master'))
+        revision=cur.execute('select erp.pocket_fabric_roll_revision_v1(%s)',(fx['roll'],)).fetchone()[0]
+        posted=act('POST','POST',dict(roll_id=str(fx['roll']),location_id=str(fx['location']),expected_revision=revision,date=str(d2),
+                                      mode='USED',quantity='10',reason='AZ AB-01 probe: pocket fabric used'))
+        usage=uuid.UUID(posted['id'])
+        version=cur.execute('select row_version from erp.material_adjustments where id=%s',(usage,)).fetchone()[0]
+        reversal=act('REVERSE','REVERSE',dict(id=str(usage),expected_version=str(version),reason='AZ AB-01 probe: pocket fabric usage reversed'))
+    except RuntimeError as exc:
+        return dict(status='PASS',finding='GPT AB-01: the product refuses the sequence (no dated gap to correct)',refused=str(exc),
+                    material_type=material_type,receipt_day=str(d),quiet=quiet)
+    status_doc=cur.execute('select status from erp.material_adjustments where id=%s',(usage,)).fetchone()[0]
+    reversed_moves=[(r[0],dec(r[1])) for r in cur.execute("""select erp._cp3_business_date(rv.physical_at),rv.qty_signed
+      from erp.material_stock_movements rv join erp.material_stock_movements m on m.id=rv.reversal_of_id
+      join erp.material_adjustment_items i on i.id=m.source_id where m.source_type='MATERIAL_ADJUSTMENT_ITEM' and i.adjustment_id=%s""",(usage,)).fetchall()]
+    usage_day=cur.execute('select erp._cp3_business_date(physical_at) from erp.material_adjustments where id=%s',(usage,)).fetchone()[0]
+    quiet_fixture=awp.quiet_seed(cur,d,today-timedelta(days=1))
+    before=ledger_days(cur,days,[])
+    ids=[r[0] for r in cur.execute('select id from erp.journal_entries').fetchall()]
+    response=invoice(cur,fx,today,price,d)
+    after=ledger_days(cur,days,[])
+    lines=[[str(r[0]),r[1],r[2],str(r[3])] for r in cur.execute("""select j.transaction_date,j.source_type,a.mapping_key,sum(l.debit-l.credit)
+      from erp.journal_entries j join erp.journal_lines l on l.journal_entry_id=j.id join erp.accounting_account_mappings a on a.account_id=l.account_id
+      where j.id<>all(%s::uuid[]) group by 1,2,3 order by 1,2,3""",(ids,)).fetchall()]
+    x=dec(price)-10
+    move={str(day):{k:dec(after[str(day)][k])-dec(before[str(day)][k]) for k in KEYS} for day in days}
+    stock={str(d):10,str(d2):0,str(d3):0,str(today):10}
+    blockers={str(day):[dict(code=b['code'],severity=b.get('severity'),detail=b.get('message') or b.get('detail')) for b in (awp.preflight(cur,day) or {}).get('blockers',[])
+                        if b['code']=='GL_INVENTORY_NEGATIVE_ASOF'] for day in (d2,d3,today)}
+    checks=dict(fixture_usage_on_lot_day_reversed_today=status_doc=='REVERSED' and usage_day==d2 and reversed_moves==[(today,Decimal(10))],
+                material_at_invoice_price_for_units_on_hand=all(move[k]['MATERIAL_INVENTORY']==x*stock[k] for k in stock),
+                no_negative_daily_inventory=all(v==[] for v in blockers.values()))
+    status='PASS' if all(checks.values()) else ('COUNTEREXAMPLE' if not az_installed(cur) else 'FAIL')
+    return dict(status=status,finding='GPT audit AB-01 (737649b): a reversed pocket-fabric usage kept its posting cost while the stock it came from was revalued',
+                price=price,receipt_day=str(d),usage_day=str(usage_day),material_type=material_type,reversal=reversal,
+                reversed_moves=[[str(a),str(b)] for a,b in reversed_moves],checks=checks,invoice_journal_lines=lines,
+                daily_move={k:{kk:str(vv) for kk,vv in v.items()} for k,v in move.items()},negative_blockers_asof=blockers,invoice=response,
+                quiet=[quiet,quiet_fixture])
+
+
 def goods_flow(cur,today,price,flow):
     """Branches without a native fixture until 24 Sep (independent review): a lot of 10 pcs (one cut of 10 units) on d+1,
     then RETURN (3 pcs sold on d+1, 1 returned on d+2), REVERSED (all 10 sold on d+2, the sale reversed today before the
@@ -944,7 +1009,8 @@ def cases(cur,today):
             ('AZ:INVOICE_BEFORE_RECEIPT_LOWER',lambda:invoice_before_receipt(cur,today,'8.25')),
             ('AZ:COST_CORRECTION_BEFORE_RECEIPT_LOWER',lambda:cost_correction_before_receipt(cur,today,'8.25')),
             ('AZ:PRESEWING_REVERSAL_THEN_LATE_INVOICE_LOWER',lambda:presewing_reversal(cur,today,'8.25')),
-            ('AZ:WRITE_OFF_REVERSED_THEN_LATE_INVOICE_LOWER',lambda:writeoff_reversal(cur,today,'8.25'))]
+            ('AZ:WRITE_OFF_REVERSED_THEN_LATE_INVOICE_LOWER',lambda:writeoff_reversal(cur,today,'8.25')),
+            ('AZ:POCKET_USAGE_REVERSED_THEN_LATE_INVOICE_LOWER',lambda:pocket_usage_reversal(cur,today,'8.25'))]
 
 
 def run(phase):
