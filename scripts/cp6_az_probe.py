@@ -404,6 +404,9 @@ def write_off(cur,today,price):
         adjustment_number='AZ-WO-'+uuid.uuid4().hex,location_id=str(prod.base.LOCATION),physical_at=prod.at(d3,12).isoformat(),
         reason_code='LOSS',reason='AZ write-off after the lot day',change_reason='AZ B1 probe write-off',
         items=[dict(lot_id=str(lot),product_id=str(product),quality_grade='GRADE_A',qty_signed=-4,notes='AZ written off')])),str(uuid.uuid4()))).fetchone()[0]
+    # erp.post_fg_adjustment is not granted to authenticated (postgres, service_role); as in the E regression it is called
+    # by the privileged session with the owner claims kept (require_owner_admin reads the claims).
+    prod.prior.actors.session(cur,'supabase_admin')
     cur.execute('select erp.post_fg_adjustment(%s)',(adjustment['fg_adjustment_id'],))
     api.admin(cur)
     quiet_fixture=awp.quiet_seed(cur,d,today-timedelta(days=1))
