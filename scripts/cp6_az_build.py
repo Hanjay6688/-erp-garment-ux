@@ -18,7 +18,9 @@ stock: with a lower invoice price WIP is negative between E and the cutting day.
 AZ changes only the date of those two postings (and, as their consequence, of the finished-PO residual WIP close below): D = greatest(E, business date of the movement's physical_at) (for an
 adjustment document, of the document's physical_at) when E is open; when E is already closed every posting stays on E
 exactly as before (one journal with economic date E that post_journal posts on the recognition day, the rule AY rev3
-keeps). Amounts, accounts, state and events are unchanged. Outside an invoice E is today and nothing moves.
+keeps). A physical date after today (the product allows a few minutes of clock skew) is capped at today. Amounts,
+accounts, state and events are unchanged. Outside an invoice E is today and nothing moves; the residual close below is
+changed on the invoice path only (independent review 24 Sep: its other callers pass other dates).
 Label T1_FAMILY: development install on the disposable chain AN -> AU -> AV -> AW -> AX -> AY, not a release package.
 
 Usage: python3 scripts/cp6_az_build.py            # writes supabase/dev/cp6_az_t1_family.sql
@@ -58,7 +60,8 @@ begin
 REVAL_DIFF_OLD="""    if abs(v_diff)>0.005 then
       if v_diff>0 then"""
 REVAL_DIFF_NEW="""    if abs(v_diff)>0.005 then
-      v_date:=case when v_closed then v_e else greatest(v_e,erp._cp3_business_date(r.physical_at)) end;
+      v_date:=case when v_closed then v_e
+        else least(greatest(v_e,erp._cp3_business_date(r.physical_at)),erp._cp3_business_date(statement_timestamp())) end;
       if v_diff>0 then"""
 REVAL_EVENT_OLD="values(p_material_id,r.id,"+E_EXPR+",v_old,v_target,v_diff,v_counterpart,v_po,v_contractor)"
 REVAL_EVENT_NEW="values(p_material_id,r.id,v_date,v_old,v_target,v_diff,v_counterpart,v_po,v_contractor)"
@@ -74,7 +77,8 @@ ADJ_DATE_NEW=""" v_event:=gen_random_uuid();
  -- AZ: dated from the adjustment document's physical day when the recost date E is open; a closed E stays on E.
  v_e:="""+E_EXPR+""";
  v_date:=case when """+CLOSED+""" then v_e
-   else greatest(v_e,(select erp._cp3_business_date(a.physical_at) from erp.material_adjustments a where a.id=p_adjustment)) end;"""
+   else least(greatest(v_e,(select erp._cp3_business_date(a.physical_at) from erp.material_adjustments a where a.id=p_adjustment)),
+              erp._cp3_business_date(statement_timestamp())) end;"""
 
 
 # ---------------------------------------------------------------- erp.sync_finished_po_wip_residual (AC)
@@ -87,10 +91,12 @@ RESIDUAL_HEAD="CREATE OR REPLACE FUNCTION erp.sync_finished_po_wip_residual(p_po
 RESIDUAL_OLD='''  if abs(v_residual)<=0.005 then return; end if;
   insert into erp.po_wip_close_events'''
 RESIDUAL_NEW='''  if abs(v_residual)<=0.005 then return; end if;
-  -- AZ: not before the PO's last WIP posting while the date is open; a closed date stays as before.
-  if not exists(select 1 from erp.accounting_period_control c
+  -- AZ: on the invoice path only (a late supplier invoice), not before the PO's last WIP posting while the date is open,
+  -- never after today; a closed date and every other caller (finish, laundry estimate, pocket) stay as before.
+  if erp.invoice_recost_economic_date_v1() is not null and not exists(select 1 from erp.accounting_period_control c
                 where c.singleton_id=1 and c.closed_through is not null and p_effective_date<=c.closed_through) then
-    select greatest(p_effective_date,coalesce(max(je.transaction_date),p_effective_date)) into p_effective_date
+    select least(greatest(p_effective_date,coalesce(max(je.transaction_date),p_effective_date)),erp._cp3_business_date(statement_timestamp()))
+      into p_effective_date
     from erp.journal_lines jl
     join erp.journal_entries je on je.id=jl.journal_entry_id
     where je.status in ('POSTED','REVERSED')

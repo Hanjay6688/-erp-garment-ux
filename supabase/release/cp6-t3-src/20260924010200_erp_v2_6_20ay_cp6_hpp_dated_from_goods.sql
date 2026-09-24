@@ -1,6 +1,6 @@
 -- CP6 AY: PO HPP corrections dated from the goods. Release candidate of the T3 combined package; closed, drained maintenance required.
 begin;
--- Built by scripts/cp6_t3_awx_release.py from supabase/dev/cp6_ay_t1_family.sql (sha256 fa35bd88c2e911c9e6b351f55d52f60b942bb8be399ba0da281d8dde63f85b96): the T1 body below is unchanged apart from the
+-- Built by scripts/cp6_t3_awx_release.py from supabase/dev/cp6_ay_t1_family.sql (sha256 bbecb24e4d3e79e77b63a25d2e3cd141da51fc996de3a5f0cefcd8407611bb6c): the T1 body below is unchanged apart from the
 -- ledger description; guards follow AO..AV. Capsule and catalog pins are placeholders until the T3 capture.
 set local lock_timeout='10s';set local statement_timeout='240s';set local timezone='UTC';set local search_path='';
 set local role postgres;
@@ -255,8 +255,9 @@ begin
   -- The period rule is applied as before AY when the effective date E is already closed: every leg stays on E, so the
   -- correction is one journal with economic date E that post_journal (erp.resolve_accounting_transaction_date) posts on
   -- the recognition day; no report before that day changes and the economic date is kept. Only an open E moves forward
-  -- to the goods (v_cap caps the physical dates at E when E is closed; every date after an open E is open as well).
-  v_cap:='infinity'::date;
+  -- to the goods (v_cap caps the physical dates at E when E is closed; every date after an open E is open as well; an
+  -- open E caps them at today, since the product allows a physical time a few minutes ahead of the clock).
+  v_cap:=erp._cp3_business_date(statement_timestamp());
   if exists(select 1 from erp.accounting_period_control c
             where c.singleton_id=1 and c.closed_through is not null and p_effective_date<=c.closed_through) then
     v_cap:=p_effective_date;

@@ -77,7 +77,8 @@ begin
     v_diff:=round(v_target-v_old,2);
 
     if abs(v_diff)>0.005 then
-      v_date:=case when v_closed then v_e else greatest(v_e,erp._cp3_business_date(r.physical_at)) end;
+      v_date:=case when v_closed then v_e
+        else least(greatest(v_e,erp._cp3_business_date(r.physical_at)),erp._cp3_business_date(statement_timestamp())) end;
       if v_diff>0 then
         v_lines:=jsonb_build_array(
           jsonb_build_object('mapping_key','MATERIAL_INVENTORY','debit',v_diff,'credit',0,'po_id',v_po,'contractor_id',v_contractor),
@@ -149,7 +150,8 @@ begin
  v_e:=coalesce(erp.invoice_recost_economic_date_v1(),erp._cp3_business_date(statement_timestamp()));
  v_date:=case when exists(select 1 from erp.accounting_period_control c
             where c.singleton_id=1 and c.closed_through is not null and v_e<=c.closed_through) then v_e
-   else greatest(v_e,(select erp._cp3_business_date(a.physical_at) from erp.material_adjustments a where a.id=p_adjustment)) end;
+   else least(greatest(v_e,(select erp._cp3_business_date(a.physical_at) from erp.material_adjustments a where a.id=p_adjustment)),
+              erp._cp3_business_date(statement_timestamp())) end;
  v_journal:=erp.post_journal('MATERIAL_ADJUSTMENT_REVALUATION',v_event,v_date,
   'Document cumulative material adjustment recost: '||p_adjustment::text,v_lines);
  insert into erp.material_adjustment_revaluation_facts(
@@ -188,10 +190,12 @@ begin
     and jl.po_id=p_po_id and jl.account_id=v_wip_account;
 
   if abs(v_residual)<=0.005 then return; end if;
-  -- AZ: not before the PO's last WIP posting while the date is open; a closed date stays as before.
-  if not exists(select 1 from erp.accounting_period_control c
+  -- AZ: on the invoice path only (a late supplier invoice), not before the PO's last WIP posting while the date is open,
+  -- never after today; a closed date and every other caller (finish, laundry estimate, pocket) stay as before.
+  if erp.invoice_recost_economic_date_v1() is not null and not exists(select 1 from erp.accounting_period_control c
                 where c.singleton_id=1 and c.closed_through is not null and p_effective_date<=c.closed_through) then
-    select greatest(p_effective_date,coalesce(max(je.transaction_date),p_effective_date)) into p_effective_date
+    select least(greatest(p_effective_date,coalesce(max(je.transaction_date),p_effective_date)),erp._cp3_business_date(statement_timestamp()))
+      into p_effective_date
     from erp.journal_lines jl
     join erp.journal_entries je on je.id=jl.journal_entry_id
     where je.status in ('POSTED','REVERSED')

@@ -884,7 +884,7 @@
   {
    "cases": "calendar policy oracle of the 12 historical HOLD cases",
    "cause": "AZ: WIP revaluation on the cutting day (purchase day + 1); only material_event_date differs",
-   "owner": "accepted 24 Sep (bergeser sama, tetap HOLD, dilaporkan)",
+   "owner": "reported per the option the owner chose; new expected result not decided",
    "state": "COUNTEREXAMPLE on material_event_date only; cases stay HOLD"
   },
   {
@@ -900,5 +900,6 @@
    "state": "INCOMPLETE (frozen assertion)"
   }
  ],
- "note": "T2 run 13 on 80be18f: candidate AU+AV+AW+AX+AY rev3+AZ, AO trial added. Every old group equals AU. See frozen_oracle_moves for the complete list of moved frozen expectations with causes."
+ "note": "T2 run 13 on 80be18f: candidate AU+AV+AW+AX+AY rev3+AZ, AO trial added. Every old group equals AU. See frozen_oracle_moves for the complete list of moved frozen expectations with causes.",
+ "review_20260924": "Correction after the independent review: the calendar policy moves of the 12 historical HOLD cases were described as \"accepted by the owner\". That overstates the owner answer: the owner chose the option that said these moves would happen and be reported (the cases stay HOLD); no new expected result for the calendar policy oracle has been decided. The frozen oracle is unchanged and its COUNTEREXAMPLE stands until the owner decides. Same for AS ADJUSTMENT_DATE:False and the four AO INVOICE cases."
 }

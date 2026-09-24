@@ -57,8 +57,9 @@ POST_NEW="""  -- AY (owner, 24 Sep 2026): the correction reaches FG from the phy
   -- The period rule is applied as before AY when the effective date E is already closed: every leg stays on E, so the
   -- correction is one journal with economic date E that post_journal (erp.resolve_accounting_transaction_date) posts on
   -- the recognition day; no report before that day changes and the economic date is kept. Only an open E moves forward
-  -- to the goods (v_cap caps the physical dates at E when E is closed; every date after an open E is open as well).
-  v_cap:='infinity'::date;
+  -- to the goods (v_cap caps the physical dates at E when E is closed; every date after an open E is open as well; an
+  -- open E caps them at today, since the product allows a physical time a few minutes ahead of the clock).
+  v_cap:=erp._cp3_business_date(statement_timestamp());
   if exists(select 1 from erp.accounting_period_control c
             where c.singleton_id=1 and c.closed_through is not null and p_effective_date<=c.closed_through) then
     v_cap:=p_effective_date;

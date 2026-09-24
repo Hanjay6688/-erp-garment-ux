@@ -155,6 +155,7 @@ def approved_oracle(cur,row):
     L=fixture['lot_days'][0] if applicable else None
     sync=[j for j in journals if j[1]=='PO_HPP_GL_SYNC'];recost=[j for j in journals if j[1]=='MATERIAL_COST_REVALUATION']
     other=[j for j in journals if j[1] not in ('PO_HPP_GL_SYNC','MATERIAL_COST_REVALUATION')]
+    fixture['other_journals']=[[str(v) for v in j[1:4]] for j in other]
     checks.update(fixture_cut_goods_and_sale_one_day_after_invoice=applicable,
                   revaluation_events_on_cutting_day=bool(reval) and all(str(r[1])==L for r in reval),
                   revaluation_journals_on_cutting_day=bool(recost) and all(str(j[2])==L and str(j[3])==L for j in recost)
@@ -162,7 +163,7 @@ def approved_oracle(cur,row):
                   hpp_events_on_goods_and_sale_day=bool(hpp) and all(str(h[1])==L for h in hpp),
                   hpp_journals_on_goods_and_sale_day=bool(sync) and all(str(j[2])==L and str(j[3])==L for j in sync)
                       and sorted(str(j[0]) for j in sync)==fixture.get('event_journals'),
-                  other_journals_on_invoice_date=bool(other) and all(str(j[3])==E for j in other))
+                  other_journals_are_the_supplier_invoice_on_E=bool(other) and all(j[1]=='MATERIAL_SUPPLIER_INVOICE' and str(j[2])==E and str(j[3])==E for j in other))
     checks['old_oracle_failed_only_on_dates']=set((row.get('mismatches') or {}))<={'hpp_events','journal_posting_date','revaluation_events'}
     status='NOT_APPLICABLE' if not applicable else 'MATCH' if all(checks.values()) else 'MISMATCH'
     return dict(decision=APPROVED_DECISION,status=status,invoice_date=E,cut_goods_and_sale_day=L,checks=checks,fixture=fixture,
@@ -173,10 +174,22 @@ def approved(key,op,cur):
     if key not in APPROVED_AS_CASES:return op
     def run():
         row=op()
-        row['approved_oracle_20260924']=approved_oracle(cur,row)
-        print(json.dumps(dict(group='T2_APPROVED_ORACLE',case=key,**row['approved_oracle_20260924']),default=str),flush=True)
+        # Own savepoint: an error here is recorded under the approved key and never changes the frozen oracle's status.
+        cur.execute('savepoint t2_approved')
+        try:
+            result=approved_oracle(cur,row)
+        except Exception as exc:
+            cur.execute('rollback to savepoint t2_approved')
+            result=dict(decision=APPROVED_DECISION,status='ERROR',error=str(exc)[:1000],old_oracle_status=row.get('status'))
+        finally:
+            cur.execute('release savepoint t2_approved')
+        row['approved_oracle_20260924']=result;APPROVED_RESULTS[key]=result['status']
+        print(json.dumps(dict(group='T2_APPROVED_ORACLE',case=key,**result),default=str),flush=True)
         return row
     return run
+
+
+APPROVED_RESULTS={}
 
 
 ELIGIBLE="select coalesce(array_agg(md5(e::text)),'{}') from erp.v_payroll_eligible_work_lines e where e.remaining_qty>0"
@@ -383,9 +396,11 @@ def ao_trial_namespace():
         elif isinstance(node,ast.FunctionDef) and node.name in ('retail','invoice_date','direct_correction_reversal'):keep.append(node)
     names=sorted(n.name for n in keep if isinstance(n,ast.FunctionDef))
     assert names==['direct_correction_reversal','invoice_date','retail'],names
+    AO_SOURCE['functions']={n.name:ast.get_source_segment(source,n) for n in keep if isinstance(n,ast.FunctionDef)}
     assert sum(isinstance(n,ast.Assign) for n in keep)==1,'AO_TRIAL_ACTORS_BINDING'
     namespace={'__name__':'cp6_initial_import_ao_trial_cases'}
     exec(compile(ast.Module(body=keep,type_ignores=[]),'cp6_initial_import_ao_trial.py','exec'),namespace)
+    AO_SOURCE['namespace']=namespace
     return namespace,hashlib_sha(source)
 
 
@@ -433,6 +448,110 @@ def ao_trial_cases(cur,today):
 AO_SOURCE={}
 
 
+# ------------------------------------------------------------------ pending owner decision (24 Sep), NOT approved
+# The frozen oracles of 17 cases moved with AY/AZ (see frozen_oracle_moves). The writer asked the owner once whether their
+# date expectations may follow the rule already approved (a correction is dated from the physical fact when the recost
+# date is open; a closed date keeps economic date E and is posted on the recognition day; amounts unchanged). Until the
+# owner answers, each frozen oracle stays as it is and its result stands; the checks below only run the same frozen case
+# text with exactly the listed date substitutions (each asserted to occur once), so that the answer needs no new round.
+PENDING_DECISION=('PENDING OWNER 24 Sep: date expectations of AS ADJUSTMENT_DATE:False, the calendar policy oracle of the 12 '
+                  'historical HOLD cases and the four AO INVOICE cases follow the approved physical-date rule; amounts unchanged. '
+                  'Not approved; the frozen results stand.')
+
+
+def principle_variant(name,source,namespace,subs):
+    """The frozen function text with exactly the listed substitutions (each must occur once), compiled in its own globals."""
+    import textwrap
+    text=textwrap.dedent(source)
+    for old,new in subs:
+        assert text.count(old)==1,('T2_PRINCIPLE_SUBSTITUTION',name,old[:80])
+        text=text.replace(old,new)
+    scope=dict(namespace)
+    exec(compile(text,'<principle:%s>'%name,'exec'),scope)
+    return scope[name],hashlib_sha(text)
+
+
+def principle_goods_day(cur,purchase):
+    """The one business day on which the fixture of this purchase was cut, finished and sold (AA partial production)."""
+    rows=cur.execute("""with po as(select distinct cg.po_id,cg.id from erp.cutting_groups cg
+        join erp.material_stock_movements m on m.source_id=cg.id and m.source_type='CUTTING_GROUP' and m.reversal_of_id is null
+        join erp.material_purchase_items i on i.material_id=m.material_id where i.purchase_id=%s)
+      select 'CUT',erp._cp3_business_date(m.physical_at) from erp.material_stock_movements m join po on po.id=m.source_id
+        where m.source_type='CUTTING_GROUP' and m.reversal_of_id is null
+      union select 'LOT',erp._cp3_business_date(fl.produced_at) from erp.fg_lots fl join po on po.po_id=fl.po_id
+        where fl.lot_origin in('PRODUCTION','CONVERSION') and fl.initial_qty_pcs>0
+      union select 'SALE',erp._cp3_business_date(h.sale_date) from erp.sale_stock_allocations a join erp.sales_items si on si.id=a.sale_item_id
+        join erp.sales_headers h on h.id=si.sale_id join erp.fg_lots fl on fl.id=a.lot_id join po on po.po_id=fl.po_id
+        where h.status in('POSTED','PARTIAL_PAID','PAID')""",(purchase,)).fetchall()
+    days={d for _,d in rows}
+    assert {k for k,_ in rows}=={'CUT','LOT','SALE'} and len(days)==1,('T2_PRINCIPLE_ONE_GOODS_DAY',rows)
+    return days.pop()
+
+
+AO_INVOICE_SUBS=[
+    ("   fresh=[r for r in fresh if r[0] not in before]\n",
+     "   fresh=[r for r in fresh if r[0] not in before]\n   principle_day[:]=[principle_goods_day(cursor,payload['purchase_id'])]\n"),
+    ("assert all(r[2]==invoice and r[3]==(today if closed else invoice) for r in fresh),fresh",
+     "assert all(r[2]==(invoice if closed or r[1]=='MATERIAL_SUPPLIER_INVOICE' else principle_day[0]) and "
+     "r[3]==(today if closed else invoice if r[1]=='MATERIAL_SUPPLIER_INVOICE' else principle_day[0]) for r in fresh),fresh"),
+    (" dated_journals=[]\n"," dated_journals=[]\n principle_day=[]\n"),
+    ("all(r[1]==invoice for r in o['state']['revaluation_events'])",
+     "all(r[1]==(today if closed else principle_day[0]) for r in o['state']['revaluation_events'])")]
+AS_ADJUSTMENT_SUBS=[
+    ("""    if closed:
+        cur.execute('select erp.close_accounting_through(%s,%s)',(f['purchase_day'],'AS adjustment close'))""",
+     """    api.admin(cur)
+    adjustment_day=max(f['purchase_day'],cur.execute('select erp._cp3_business_date(physical_at) from erp.material_adjustments where id=%s',(adjustment,)).fetchone()[0])
+    api.ordinary(cur)
+    if closed:
+        cur.execute('select erp.close_accounting_through(%s,%s)',(f['purchase_day'],'AS adjustment close'))"""),
+    ("assert rows and all(r[1]==f['purchase_day'] for r in rows), rows",
+     "assert rows and all(r[1]==(f['purchase_day'] if closed else adjustment_day) for r in rows), rows"),
+    ("expected = today if closed else f['purchase_day']","expected = today if closed else adjustment_day"),
+    ("errors = [r for r in rows if r[0]!=f['purchase_day'] or r[2]!=expected]",
+     "errors = [r for r in rows if r[0]!=(f['purchase_day'] if closed else adjustment_day) or r[2]!=expected]")]
+CALENDAR_SUBS=[
+    ("if str(event[1])!=str(raw['purchase_date']):differences['material_event_date']=event",
+     # the cutting day of the calendar fixture (AA partial production cuts, finishes and sells on purchase day + 1)
+     "if str(event[1])!=str(date.fromisoformat(str(raw['purchase_date']))+timedelta(days=1)):differences['material_event_date']=event")]
+PENDING={}
+
+
+def pending_owner_cases(cur,today):
+    """The five case checks of the pending decision (the calendar policy oracle is checked where it runs, see below)."""
+    ao_trial_cases(cur,today)   # the AO trial's foundation for its invoice cases
+    ns=AO_SOURCE['namespace']
+    invoice_principle,sha_invoice=principle_variant('invoice_date',AO_SOURCE['functions']['invoice_date'],
+                                                    dict(ns,principle_goods_day=principle_goods_day),AO_INVOICE_SUBS)
+    import inspect
+    adjustment_principle,sha_adjustment=principle_variant('adjustment_date',inspect.getsource(avt.independent.adjustment_date),
+                                                          vars(avt.independent),AS_ADJUSTMENT_SUBS)
+    PENDING['sources']=dict(invoice_date=sha_invoice,adjustment_date=sha_adjustment)
+    cases=[('AS:ADJUSTMENT_DATE:False',lambda:adjustment_principle(cur,today,False))]
+    cases+=[('AO:INVOICE:%s:%s'%(z,c),lambda z=z,c=c:invoice_principle(cur,today,z,c)) for z in ('UTC','Pacific/Kiritimati') for c in (False,True)]
+    return cases
+
+
+ORIGINAL_CALENDAR_POLICY=avt.independent.calendar_policy
+
+
+def calendar_policy_with_pending(raw):
+    """The frozen calendar policy oracle, unchanged; the pending-decision variant is recorded next to it."""
+    result=ORIGINAL_CALENDAR_POLICY(raw)
+    try:
+        variant,sha=principle_variant('calendar_policy',__import__('inspect').getsource(ORIGINAL_CALENDAR_POLICY),
+                                      dict(vars(avt.independent),date=date,timedelta=timedelta),CALENDAR_SUBS)
+        pending=variant(raw)
+        result['pending_owner_20260924']=dict(decision=PENDING_DECISION,status=pending['status'],source_sha256=sha,
+                                              mismatches=[o['mismatches'] for o in pending['observations']])
+    except Exception as exc:
+        result['pending_owner_20260924']=dict(decision=PENDING_DECISION,status='ERROR',error=str(exc)[:1000])
+    return result
+
+
+avt.independent.calendar_policy=calendar_policy_with_pending
+
+
 def regression_phase(report):
     ORIGINAL_REGRESSION(report)
     # The calendar policy oracle of the 12 historical HOLD cases (part of the regression's own verdict) is in the report
@@ -457,9 +576,25 @@ def regression_phase(report):
     except Exception as exc:
         report['ao_trial']=dict(status='INCOMPLETE',error=str(exc)[:2000])
     print(json.dumps(dict(group='T2_AO_TRIAL',**report['ao_trial']),default=str),flush=True)
+    # Pending owner decision (24 Sep): the frozen case texts with the approved-rule date substitutions; recorded only.
+    try:
+        pending=avt.group('PENDING_OWNER',pending_owner_cases)
+        cases={k:r['status'] for k,r in pending['cases'].items()}
+    except Exception as exc:
+        pending,cases=dict(status='INCOMPLETE',counts={},error=str(exc)[:2000]),{}
+    calendar={k:(v.get('pending_owner_20260924') or {}).get('status') for k,v in (report.get('calendar_policy') or {}).items()}
+    report['pending_owner_20260924']=dict(decision=PENDING_DECISION,status=pending['status'],counts=pending.get('counts'),cases=cases,
+                                          error=pending.get('error'),sources=PENDING.get('sources'),calendar_policy=calendar)
+    print(json.dumps(dict(group='T2_PENDING_OWNER',**report['pending_owner_20260924']),default=str),flush=True)
+    # The approved AS oracle: all eight evaluated (the wrapper is active only with the quieted seed).
+    report['approved_oracle_20260924']=dict(results=APPROVED_RESULTS,match=sum(v=='MATCH' for v in APPROVED_RESULTS.values()),of=len(APPROVED_AS_CASES))
+    print(json.dumps(dict(group='T2_APPROVED_ORACLE_SUMMARY',**report['approved_oracle_20260924'])),flush=True)
+    assert SEED!='QUIETED' or sorted(APPROVED_RESULTS)==sorted(APPROVED_AS_CASES),('T2_APPROVED_ORACLE_NOT_EVALUATED',sorted(APPROVED_RESULTS))
     report['per_case_identity']=identity.compare(identity.load_expected(),observed)
     print(json.dumps(dict(group='T2_IDENTITY',**report['per_case_identity']),default=str),flush=True)
     if report['per_case_identity']['status']!='IDENTICAL_PER_CASE':report['status']='DISPOSITION_REQUIRED'
+    # The AO trial's recorded outcome is 12 PASS; any other result needs a disposition too (independent review 24 Sep).
+    if report['ao_trial'].get('status')!='WRITER_PASS':report['status']='DISPOSITION_REQUIRED'
 
 
 def run(phase):
