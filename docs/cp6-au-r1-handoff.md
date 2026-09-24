@@ -2,7 +2,7 @@
 
 Tanggal: 23 September 2026 (WIB). Writer: Claude Code (sesi cloud). Peninjau berikutnya: ChatGPT.
 
-> **Pembaruan terbaru (24 September 2026, writer Claude): baca §22 lebih dulu.** Isinya T2 regresi gabungan (run 10: semua grup sama dengan AU, kecuali 8 kasus AS yang menunggu keputusan oracle) dan T3 paket rilis 23 file (AC..AY) di baseline setara Enteng. Juga dua keputusan owner 24 Sep yang sudah dikerjakan: upah perbaikan BS temuan lewat payroll (AX) dan tanggal recost dari barang jadi (AY rev3). Semua itu T2_REGRESSION/T3_PREP, bukan bukti rilis. CP6 tetap HOLD, 12 HOLD historis tetap HOLD, `production_go=false`.
+> **Pembaruan terbaru (24 September 2026, putaran keempat, writer Claude): baca §23 lebih dulu.** Isinya: oracle tanggal 8 kasus AS dan tiga kelompok lain yang disetujui owner, penelusuran `ADJUSTMENT_DATE`, AZ (koreksi recost bahan bertanggal dari pergerakan fisik), AY rev4 dan rev5 (koreksi per lot, lalu per pcs; hasil pemeriksaan independen), serta T2/T3/CodeQL akhir. Hasil oracle beku tetap tercatat; MATCH adalah oracle yang disetujui, bukan PASS kasus beku. Semua T1_FAMILY/T2_REGRESSION/T3_PREP, bukan bukti rilis. CP6 tetap HOLD, 12 HOLD historis tetap HOLD, `production_go=false`. §22 dipertahankan sebagai riwayat.
 
 > **Pembaruan (giliran writer Claude berikutnya, 23 September 2026):** paket yang ditinjau sekarang adalah **AV rev2** (§16), bukan kandidat AV `bb4009c`. Keputusan owner lanjutan ada di §14–§15 dan §16.4. Bagian 1–13 dipertahankan sebagai riwayat.
 Dokumen ini adalah checkpoint utuh sesuai format bagian 8 handoff AU-R1. Tidak ada yang diringkas dari bukti; semua angka di bawah dapat ditelusuri ke run, commit, atau file yang disebut.
