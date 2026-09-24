@@ -2,7 +2,7 @@
 
 Tanggal: 23 September 2026 (WIB). Writer: Claude Code (sesi cloud). Peninjau berikutnya: ChatGPT.
 
-> **Pembaruan terbaru (24 September 2026, putaran keempat, writer Claude): baca §23 lebih dulu.** Isinya: oracle tanggal 8 kasus AS dan tiga kelompok lain yang disetujui owner, penelusuran `ADJUSTMENT_DATE`, AZ (koreksi recost bahan bertanggal dari pergerakan fisik), AY rev4 dan rev5 (koreksi per lot, lalu per pcs; hasil pemeriksaan independen), serta T2/T3/CodeQL akhir. Hasil oracle beku tetap tercatat; MATCH adalah oracle yang disetujui, bukan PASS kasus beku. Semua T1_FAMILY/T2_REGRESSION/T3_PREP, bukan bukti rilis. CP6 tetap HOLD, 12 HOLD historis tetap HOLD, `production_go=false`. §22 dipertahankan sebagai riwayat.
+> **Pembaruan terbaru (24 September 2026, putaran kelima, writer Claude): baca §24 lalu §23.** §24 berisi AY rev6/rev6.1: koreksi HPP dicatat mengikuti saldo harian per lot (penjualan dan pembatalannya, retur, write-off, relabel, lot VOIDED, batch potong lintas hari), hasil dua pemeriksaan independen, serta T1/T2/T3/CodeQL akhir. Temuan yang masih terbuka ada di §24.4. §23 berisi keputusan owner, oracle yang disetujui, AZ, dan penelusuran `ADJUSTMENT_DATE`. MATCH adalah oracle yang disetujui, bukan PASS kasus beku. Semua T1_FAMILY/T2_REGRESSION/T3_PREP, bukan bukti rilis. CP6 tetap HOLD, 12 HOLD historis tetap HOLD, `production_go=false`.
 
 > **Pembaruan (giliran writer Claude berikutnya, 23 September 2026):** paket yang ditinjau sekarang adalah **AV rev2** (§16), bukan kandidat AV `bb4009c`. Keputusan owner lanjutan ada di §14–§15 dan §16.4. Bagian 1–13 dipertahankan sebagai riwayat.
 Dokumen ini adalah checkpoint utuh sesuai format bagian 8 handoff AU-R1. Tidak ada yang diringkas dari bukti; semua angka di bawah dapat ditelusuri ke run, commit, atau file yang disebut.
@@ -1390,3 +1390,92 @@ Bukti: `docs/evidence/cp6-az/native_t1_run35968507694_after_ay_rev3_multicut.jso
   - Cabang tanpa fixture native (§23.10).
   - N2–N4 dari pemeriksaan independen.
 - AY rev5 **belum** diperiksa independen lagi sesudah perbaikannya.
+
+## 24. Putaran kelima: AY rev6/rev6.1 (saldo harian per lot) sesudah pemeriksaan independen rev5 (24 September 2026, writer Claude)
+
+Label: T1_FAMILY, T2_REGRESSION, T3_PREP; bukan bukti rilis dan bukan penerimaan independen. CP6 tetap HOLD, 12 HOLD historis tetap HOLD, `production_go=false`. Tidak ada SQL ke hosted; cabang kompetisi tetap `ca7f095`. §23 tetap berlaku untuk keputusan owner dan oracle yang disetujui; bagian ini menggantikan §23.10–§23.11 untuk AY.
+
+### 24.1 Kenapa rev6
+Pemeriksaan independen read-only terhadap rev5 menemukan:
+- **F1 BLOCKER:** penjualan yang dibatalkan belakangan tidak dihitung. Contoh: 10 pcs terjual 23 Sep, dibatalkan 25 Sep, harga 8,25. FG PO −17,50 pada 23–24 Sep.
+- **F2:** lot yang di-void (Final SKU dibatalkan) membuat WIP PO negatif sampai QC ulang.
+- **F3/M2:** grup potong dalam satu cutting batch yang dipotong pada hari berbeda. `rebuild_po_hpp` merata-ratakan bahan se-batch.
+  - Terbukti native di AZ T1 run 35977288454 (fixture `BATCH_ACROSS_DAYS_*`, harga 10,70): FG +5,09 pada 22 Sep padahal bahan yang sudah dipotong baru +2,80, sehingga WIP PO **−2,29**.
+  - Batch dapat dibuat pengguna lewat `save_cutting_batch_v2` (grant `authenticated`).
+- **F4:** lot hasil relabel tanpa sync sendiri dihitung dari nol, sehingga terjadi ayunan lewat akun lainnya.
+- F5–F10 minor (lihat §24.4).
+
+Akar masalahnya sama sejak rev3: koreksi dihitung dari posisi barang **sekarang**, bukan mengikuti pergerakan tiap pcs dari hari ke hari. Menambal per alur (rev3→rev4→rev5) selalu meninggalkan alur lain, jadi rev6 diganti modelnya.
+
+### 24.2 Isi rev6
+Hanya jalur invoice; di luar invoice tetap blok posting AS apa adanya (M1).
+- Untuk tiap tanggal fakta fisik (pergerakan FG lot PO termasuk pembatalan dan lot VOIDED, serta hari potong grup dalam batch), saldo koreksi di FG, HPP, dan lainnya = koreksi per pcs lot per tanggal itu × pcs lot itu yang ada di FG / terjual / keluar lainnya pada tanggal itu.
+  - Terjual: SALE, SALE_RETURN, dan pembatalannya.
+  - Keluar lainnya: ADJUSTMENT, BS_OUT, REBRAND, dan pembatalannya.
+- Tiap tanggal memposting perubahan saldonya (sen) dengan WIP sebagai penyeimbang; tanggal terakhir mengambil sisa persis ke target. Total per akun sama dengan satu jurnal lama.
+- **Koreksi per pcs** = HPP lot sekarang − HPP yang terakhir diposting. Sumber HPP lama, berurutan:
+  1. `po_hpp_gl_lot_state_v1` bila ditulis bersama atau sesudah state PO;
+  2. versi HPP saat sync terakhir;
+  3. versi pertama lot (untuk relabel);
+  4. nol.
+- Lot VOIDED memakai koreksi lot hidup dari grup potongnya.
+- Lot dalam batch memakai rata-rata ulang per hari potong: koreksi bahan grup yang sudah dipotong dibagi pcs-nya, ditambah bagian non-bahan lot itu. Nilai bahan grup saat sync terakhir disimpan di tabel baru `erp.po_hpp_gl_group_state_v1` (kosong saat instalasi). Batch tanpa state segar memakai koreksi konstan lot.
+- E tertutup tetap satu jurnal pada E (seperti AS).
+
+### 24.2a rev6.1 (sesudah pemeriksaan independen rev6)
+Pemeriksaan independen read-only terhadap rev6 memakai database sekali pakai sendiri, dengan harness stub dan fungsi target asli. Hasilnya: F1, F4, F7 terbukti beres; F2 dan F3 beres sebagian. Temuan yang diperbaiki di rev6.1:
+- **B-1 BLOCKER** (terbukti): perbaikan batch mati sendiri sesudah penjualan/retur/void/relabel. Penyebabnya, `refresh_po_hpp_gl_baseline` menulis ulang state PO dengan `clock_timestamp()`, sehingga state grup dianggap basi dan WIP PO kembali −2,29. State grup sekarang dipakai seperti ditulis sync terakhir; refresh tidak pernah mengubah nilai bahan.
+- **M-2** (terbukti): lot VOIDED tanpa lot hidup di grupnya mendapat nol. Sekarang ia memakai koreksi bahan per pcs grupnya dari state grup.
+- **M-3/F5** (terbukti): akun lainnya terpecah menjadi OTHER_INCOME dan OTHER_EXPENSE antartanggal. Sekarang tetap di satu akun, yaitu akun yang dipakai jurnal AS untuk total "other" PO (debit atau kredit), sehingga total per akun sama dengan AS.
+- **m-1** (terbukti): pembulatan terpisah menggerakkan 1 sen lewat WIP pada hari jual murni. Sekarang total per tanggal dibulatkan sekali dan FG mengambil sisanya.
+
+Harness lokal sesudah perbaikan:
+- f1 dan m2 tidak berubah.
+- s5 (skenario pemeriksa): OTHER_INCOME Dr 1,75 / Cr 7,00, netto 5,25 seperti AS.
+- s7b: WIP 0 pada hari jual.
+- s4b dengan urutan waktu realistis (versi recost sesudah refresh): FG +2,80 / +4,20 pada hari potong, WIP 0.
+
+### 24.3 Hasil
+Head kode akhir `768196a` (rev6.1); commit sesudahnya hanya paket, bukti, dan dokumen. Semua di database uji sekali pakai, CI, atau PostgreSQL lokal sekali pakai; tidak ada SQL ke hosted.
+
+**T1:**
+- AZ run 35981539090: sesudah AZ **21/21 PASS**. Sebelum AZ: 17 COUNTEREXAMPLE dan 4 PASS; 4 yang PASS itu kasus yang memang tidak boleh berubah.
+- Kasus baru putaran ini:
+  - `SALE_REVERSED_BEFORE_INVOICE`: 10 pcs terjual 23 Sep, kembali 24 Sep.
+  - `QC_REVERSED_AND_REDONE`, `CONVERSION_THEN_SALE`, `BATCH_ACROSS_DAYS_HIGHER/LOWER`.
+  - `SALE_THEN_RETURN`, `CONVERSION_AFTER_LOT`, `WRITE_OFF_AFTER_LOT_*`.
+- Contoh angka:
+  - Penjualan dibatalkan (harga 8,25): FG −17,50 / 0,00 / −17,50 dan HPP 0 / −17,50 / 0 pada 22/23/24 Sep.
+  - Batch (harga 10,70): FG +2,80 lalu +7,00; WIP PO 0 setiap hari.
+- AY run 35981539187: sesudah AY **7/7 PASS**.
+- Primary tidak berubah, clone 0.
+- Bukti: `docs/evidence/cp6-az/native_t1_run35981539090_*_rev6_1.json`, `docs/evidence/cp6-ay/native_t1_run35981539187_*_rev6_1.json`, serta run rev6 (35979149009/35979148978) dan run rev3 yang membuktikan M2.
+
+**T2 run 35981556942 (`768196a`; seed QUIETED, fixture PAYROLL_APPROVED):**
+- Grup lama sama per kasus dengan AU (230/31/65); 12 HOLD identik. AR 174 PASS. Temporal 31 PASS, race 4 + 6 PASS.
+- Hasil oracle beku tetap tercatat apa adanya: NEW_CASES 8 COUNTEREXAMPLE + 1 INCOMPLETE, trial AO 4 INCOMPLETE, oracle kalender 12 COUNTEREXAMPLE.
+- Oracle yang disetujui: AS 8/8, kalender 12/12, AO INVOICE 4/4, dan `ADJUSTMENT_DATE`, semuanya MATCH.
+- Bukti: `docs/evidence/cp6-t2/run35981556942_ay_rev6_1_final.json` (run rev6: `run35979546348_ay_rev6.json`).
+
+**T3 run 35982196363 (`ed6c4e7`): hijau.**
+- Capture: pin sama dengan paket (blob `f7e68a49`, 65.237 byte; sha256 dan panjang dicek).
+- Instal paket 24 file; AW/AX/AY/AZ terverifikasi; backup/restore RESTORED_SAME_MEANING; browser lulus.
+- Advisor 73 → 127. Tambahannya hanya INFO `rls_enabled_no_policy` untuk tabel internal, termasuk dua tabel baru AY (`po_hpp_gl_lot_state_v1`, `po_hpp_gl_group_state_v1`).
+
+**CodeQL:** run 35982826747 pada `ed6c4e7` (hasil: lihat commit sesudah bagian ini).
+
+### 24.4 Temuan yang masih terbuka
+Dicatat, **belum** diperbaiki di putaran ini:
+- **M-1 MAJOR** (terbukti di harness untuk retur potong; sisanya dari kode): fakta bahan sesudah tanggal lot. Koreksi lot yang bukan batch, dan bagian non-bahan lot batch, konstan sejak tanggal lot. AZ memberi tanggal tiap pergerakan bahan pada harinya sendiri.
+  - Contoh: potong 10 unit 20 Sep, lot 21 Sep, retur 2 unit 23 Sep, harga 8,25. AY: FG −14,00 pada 21 Sep; AZ: WIP −17,50 pada 20 Sep dan +3,50 pada 23 Sep. **WIP PO −3,50 pada 21–22 Sep.**
+  - Kelas yang sama (dari kode, belum dijalankan): grup yang dipotong beberapa hari, bahan kontraktor non-aksesori yang dikeluarkan sesudah lot awal, dan lot tanpa grup potong (kolam bahan per PO).
+  - Rancangan perbaikan: semua kolam bahan (grup, batch, kolam kontraktor dan kolam PO) diperlakukan seperti batch, dengan koreksi per pergerakan bahan pada tanggalnya sendiri. State disimpan per pergerakan, bukan per grup.
+- **F6 MINOR**: relabel yang dibatalkan. Lot anak dari konversi REVERSED tidak di-recost, sehingga terjadi ayunan lewat akun lainnya di antara tanggal konversi dan pembatalannya (contoh pemeriksa: 7,00).
+- **M-4 MAJOR (kinerja)**: CTE `cum` menggabungkan tanggal × pergerakan di bawah lock global `FG_HPP_SALES_V2620C`. Waktu yang diukur di stub: 1,4 s untuk 5 ribu pergerakan / 251 tanggal; 12,5 s untuk 50 ribu / 731. PO normal jauh lebih kecil. Rancangan perbaikan: running sum per lot dan tanggal (window function).
+- **F9/F10 MINOR**: jam campuran (`now()`, `statement_timestamp()`, `clock_timestamp()`) pada fallback state, dan batas "hari ini" menjelang tengah malam.
+- **Tanpa uji native**: skenario B-1 (batch lalu penjualan) hanya diuji di harness lokal. Jalur fallback state untuk data sebelum instalasi, E tertutup dengan banyak tanggal, dan beberapa sync dalam satu statement juga belum diuji native.
+- Dari §23: anggota keluarga lain (§23.7) tetap terbuka.
+
+### 24.5 Pelajaran
+- Error pertama rev6 di CI (alias `t` bentrok dengan record `t` plpgsql) lolos dari cek sintaks lokal. Sejak itu fungsi diuji di **harness stub lokal** (PostgreSQL sekali pakai, skema minimal) dengan skenario angka sebelum push. Putaran uji turun dari ±30 menit ke hitungan detik.
+- Ekspektasi fixture `SALE_REVERSED` yang pertama salah: penjualan yang dibatalkan dianggap tidak pernah terjual. Karena itu rev5 lolos padahal F1 ada. Sekarang ekspektasinya mengikuti tanggal fisik: pcs keluar pada hari jual dan kembali pada hari pembatalan.
