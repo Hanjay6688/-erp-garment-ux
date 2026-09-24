@@ -1,7 +1,7 @@
 # CP6 audit — GPT recovery checkpoint
 Date: 2026-09-24 UTC.
 Status: **BLOCKED / INCOMPLETE; full CP6 acceptance audit is NOT COMPLETE. Recommendation HOLD. production_go=false.**
-Active phase: recovery checkpoint saved; bounded ALL/payroll source continuation finished. Further acceptance requires the offline artifacts/contracts and native execution capabilities described below. No external-auditor report review has started.
+Active phase: workspace recovered; contracts and frozen phase-1 sources restored; post-lock Claude report/blocker review in progress (authorized by latest user request). The audit remains INCOMPLETE. Native custom dispatch and several scenario revisions remain unavailable. Historical offline entries below are retained as dated evidence, not current workspace status.
 
 ## Identity and authority
 - Repository: Hanjay6688/-erp-garment-ux.
@@ -169,3 +169,19 @@ Two race runs fetched directly from Actions:36051535647/job107808033765 and36052
 xaudit_4.py explicitly reads PGRST_JWT_SECRET from a disposable PostgREST container and manually signs HS256 tokens, and disclaims GoTrue login. The session-classifier rejection is user-reported, not independently accessible as an approval event here. No denied action is retried by disguising it or extracting credentials. Assess an Auth-login-based disposable path and explicit boundary/permission requirements.
 
 Current tasks: inspect existing multi-connection/runtime fixture support, HTTP/Auth setup, whole-package rollback availability and independent review capacity; persist a concrete blocker assessment. Then finish validity/significance review of the external findings against contracts/logs/source, with evidence provenance and limits.
+
+
+## Recovery and blocker checkpoint — 2026-09-24 (current session)
+
+- Workspace now responds; the old cp6_audit directory is missing. Original exact cause of the earlier exec-server disconnect/409 is not observable; do not attribute it to ERP infrastructure.
+- All three contract files recovered from the owner pack and SHA256 verified against this register. Frozen PHASE1_FINDINGS_LOCK.md recovered with hash cbca0c6cb3150f0005bbea877d1a6b0371afa6103d9907c21899b1e235e46156.
+- Recovered exact frozen stock_import_scenario.py (4 cases; ff92e8d973ebb75c05ba8ac6b47da96565c9b50760c91b247f331a765d18df81) and money_dates_scenario.py (4 cases; cfa1157b7ea39e6f5162d85a540ed5e22c30d8fef9ddfe840b5a9bf2f631d9ef). Persistence to audit/scenarios follows. The latest combined15 payload remains NOT_RUN, run_id:null,job_id:null.
+- Older durable business_scenarios.py recovered with hash 7720ced7417375ba766e4552dae03804673ae080d3377d7a3835f1822b9e93d0, which DOES NOT match the final revision 44b075c7... in the prior receipt. Older coverage_matrix.json hash c5edb7204c57ebe3cdc3822e7bcb5400d8cbdc8a154343f55b97523f940f5a60 also differs from final e5fdcc9f.... Neither is silently substituted as the final artifact.
+- The 15 figure means 15 CASES in a planned combined dispatch: 4 stock/import,4 money,6 advance chronology/control,1 selector. It is not15 completed workflow runs. Custom input dispatch is authorized by handoff, but no callable workflow-dispatch POST exists in this session's GitHub tools; GET and rerun of an existing job cannot submit those new cases. Do not request user credentials or mutate workflows as a workaround.
+- Other unfinished scope (ALL, browser timezone/recovery/unknown, action/location Auth, two sessions, HPP/transitive producers, rollback/refusal, eligible selector tails) includes unbuilt/unreviewed tests; it is not all caused by offline tooling. Completion claims must retain this distinction.
+- Two bounded adversarial reviews completed and persisted: out/http_blocker_review.md commit19e049820d60d764e8e44e3fde167763cc4b4a30 and out/race_blocker_review.md commitbf8b9140e1e371afc41f417c879852800ccc9859. This session does not need Claude's account quota reset to perform those reviews.
+- Race runs36051535647/job107808033765 and36052066150/job107809808216 are setup INCOMPLETE, not concurrency pass/failure. Existing clone-copy helpers require a post-group hook because the normal scenario keeps the template source connection open. Safe design and stronger refusal/worker oracles are in the race note; no runtime fix/run claimed.
+- HTTP xaudit_4 extracts a JWT signing secret and mints tokens; the external classifier rejection is reported, not independently observed. Even successful execution would not prove real GoTrue login/full role matrix. Existing disposable T3 real-Auth path is the appropriate basis for a distinct ten-facade matrix. Do not retry the rejected operation through another interface.
+- Exact candidate recursive tree is untruncated and has no AW/AX/AY/AZ rollback files. T3 package workflow offers install/capture/browser; runner accepts those three modes only. MANIFEST.json:1367 says rollbacks NOT_TESTED. Package cleanup/backup restore does not qualify migration downgrade. AC rollback:15-16 only admits old digests whereas manifest:14 pins the release AC digest871fb32b.... No guard relaxation is authorized.
+
+Current next steps: finish and persist blocker/rollback specification; preserve recovered8 case bytes on this audit branch; independently verify Claude economic findings from run logs/scenarios/contracts and publish a cross-review with REUSED_EVIDENCE labels. Then rebuild only genuinely missing scenario revisions under new hashes and submit through a supported, authorized disposable workflow-dispatch capability when available. Full CP6 acceptance remains unavailable until outstanding scope is actually covered.
