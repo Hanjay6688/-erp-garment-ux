@@ -222,3 +222,34 @@ Per-kasus: `AUDIT_PROGRESS.md` tabel d) dan JSON di `audit/runs/`. Skenario NOT_
 
 ### 9C. Berkas
 `audit/PHASE1_FINDINGS.md` (kunci fase 1 A), `audit/input/AUDIT_REPORT_CP6_auditor2.md` (laporan B), `audit/out/C1_gates.md`, `audit/out/T2_classification.md`, `audit/out/RT_probe1_findings.md`, `audit/out/RT_probe2_findings.md`, `audit/out/DATE_family_results.md`, `audit/out/phase2_reconciliation.md`, `audit/tools/` (dispatch_scenario.py, parse_saved_log.py, tzprobe.mjs, phase1_derive.js, phase1_verify.js), `audit/runs/` (JSON per run, ledger dispatch, log vitest).
+
+## 10. Addendum (2026-09-24 20:06 UTC): pemeriksaan native lanjutan atas item yang semula 'belum diperiksa'
+
+Run xaudit_2: 36051514868 job 107807966805 (sha skenario 108b3ebc…): ringkasan {"status": "RUN_COMPLETE", "auditor_cases": {"status": "COUNTEREXAMPLE", "counts": {"COUNTEREXAMPLE": 3, "PASS": 2}}, "primary_unchanged": true, "error": null}.
+Run xaudit_3: 36052066150 job 107809808216 (sha 3915e006…; INCOMPLETE by design karena koneksi kedua COMMIT ke clone): ringkasan {"status": "INCOMPLETE", "auditor_cases": {"status": "INCOMPLETE", "counts": {"INCOMPLETE": 3}}, "primary_unchanged": true, "error": null}.
+
+| Item | Kasus | Hasil |
+|---|---|---|
+| F1-17 jalur invoice naik | `XA2:F1-17_INVOICE_PATH_UP_10.005_TO_10.014` | **COUNTEREXAMPLE** — checks={"invoice_posted": true, "raw_qty_zero": true, "inventory_value_zero_at_end": false, "wip_equals_rounded_invoiced_value": false, "no_negative_daily_inventory": false}; {"delta_end": {"MATERIAL_INVENTORY": "-0.01", "WIP": "10.02", "FG_INVENTORY": "0", "COGS": "0"}, "delta_after_cut": {"MATERIAL_INVENTORY": "0.00", "WIP": "10.01", "FG_INVENTORY": "0", "COGS": "0"}, "expected_wip": "10.01", "raw_qty": "0.000000", "refusal": null} |
+| F1-17 jalur invoice turun | `XA2:F1-17_INVOICE_PATH_DOWN_10.014_TO_10.005` | **COUNTEREXAMPLE** — checks={"invoice_posted": true, "raw_qty_zero": true, "inventory_value_zero_at_end": false, "wip_equals_rounded_invoiced_value": true, "no_negative_daily_inventory": true}; {"delta_end": {"MATERIAL_INVENTORY": "0.01", "WIP": "10.00", "FG_INVENTORY": "0", "COGS": "0"}, "delta_after_cut": {"MATERIAL_INVENTORY": "0.00", "WIP": "10.01", "FG_INVENTORY": "0", "COGS": "0"}, "expected_wip": "10.00", "raw_qty": "0.000000", "refusal": null} |
+| F1-15 selector 101 sumber | `XA2:F1-15_SELECTOR_101_LAUNDRY_SOURCES` | **COUNTEREXAMPLE** — checks={"old_claimable_in_db": true, "old_selectable": false, "lookups_capped_at_100": true}; {"lookups_count": 100, "claimable_in_lookups": 100, "old_qty": "10", "newest_in_lookups": ["XA2-NEW-099", "XA2-NEW-098"], "oldest_in_lookups": ["XA2-NEW-001", "XA2-NEW-000"]} |
+| AV identitas: edit efektif SEBELUM fakta stok baru | `XA2:AV_IDENTITY_EDIT_BEFORE_NEW_STOCK_FACT` | **PASS** — checks={"refused": true}; {"latest_new_stock_fact": "2026-09-25 02:41:05.091454+07:00", "effective_from": "2026-09-25 01:41:05.091454+07:00", "refusal": {"sqlstate": "P0001", "message": "Tanggal efektif SKU akan memotong histori produksi yang sudah tercatat (fakta fisik stok baru terakhir 2026-09-25 02:41:05.091454+07). Pilih tanggal efektif sesudahnya."}, "result": null, "versions": ["1", "2026-01-01 07:00:00+07", "2026-01-01 07:00:00+07"], "old_row": ["None", "CP6-E-AUR1-e61e2472d967"]} |
+| AV identitas: edit efektif SESUDAH fakta | `XA2:AV_IDENTITY_EDIT_AFTER_NEW_STOCK_FACT` | **PASS** — checks={"accepted": true, "old_version_closed": true, "old_sku_unchanged": true}; {"latest_new_stock_fact": "2026-09-25 02:41:05.530732+07:00", "effective_from": "2026-09-25 03:41:05.530732+07:00", "refusal": null, "result": "3a1b57c1-19a2-4adb-bd02-aead19ed8817", "versions": ["2", "2026-01-01 07:00:00+07", "2026-09-25 03:41:05.530732+07"], "old_row": ["2026-09-25 03:41:05.530732+07", "CP6-E-AUR1-d4cd1b772834"]} |
+| Race dua sesi: batch impor kedua item sama | `XA3:RACE_TWO_SESSIONS_SECOND_IMPORT_BATCH_SAME_ITEM` | **INCOMPLETE** — checks=null; {} ; error=OWNER or ADMIN access required
+CONTEXT:  PL/pgSQL function erp.require_owner_admin() line 12 at RAISE
+SQL statement "SELECT erp.require_owner_admin()"
+PL/pgSQL function erp.save_initial_import_action_v1(text,jsonb,uuid) line 9 at PERFORM
+SQL function "erp_save_initial_import_action_v1" statement 1 |
+| Race dua sesi: tutup buku tanggal sama | `XA3:RACE_TWO_SESSIONS_CLOSE_SAME_DATE` | **INCOMPLETE** — checks=null; {} ; error=permission denied for schema erp
+LINE 1: select current_user,session_user,erp.current_app_role()
+                                         ^ |
+| Race dua sesi: COMPLETE WIP expected_remaining sama | `XA3:RACE_TWO_SESSIONS_WIP_COMPLETE_SAME_REMAINING` | **INCOMPLETE** — checks=null; {} ; error=OWNER or ADMIN access required
+CONTEXT:  PL/pgSQL function erp.require_owner_admin() line 12 at RAISE
+SQL statement "SELECT erp.require_owner_admin()"
+PL/pgSQL function erp.save_initial_import_action_v1(text,jsonb,uuid) line 9 at PERFORM
+SQL function "erp_save_initial_import_action_v1" statement 1 |
+
+**Race dua sesi (xaudit_3):** tidak dapat dijalankan di runtime skenario auditor: identitas operator, klaim JWT, dan grant `usage on schema erp to authenticated` yang dipakai helper writer bersifat transaksi-lokal pada koneksi utama runtime (rev2: koneksi samping admin mendapat `OWNER or ADMIN access required` / `permission denied for schema erp`). Race butuh dukungan runtime dari writer (fixture ter-commit atau mode dua sesi) — dicatat sebagai batas alat (perluasan F1-04). Bukti concurrency yang ada tetap milik writer (T2 AR_CONCURRENCY 28, AT/AU race 10).
+
+**Tidak dapat dijalankan dari sesi ini:** (a) jalur HTTP/JWT nyata — skenario `xaudit_4.py` (sha 2cde1c4f…; kontainer PostgREST ke clone + JWT HS256 dari secret stack, hanya penolakan dan pembacaan) ditulis tetapi dispatch-nya DIBLOK oleh classifier izin sesi ("Credential Materialization"); owner/writer dapat men-dispatch berkas itu sendiri lewat API dengan `phase=after`; (b) rollback paket T3 native — tidak ada berkas rollback AW..AZ dan workflow T3 tidak punya mode rollback (butuh perubahan writer); (c) verifikasi adversarial oleh agen terpisah — batas sesi akun sampai 22:20 UTC (trigger 22:26 UTC terpasang).
+JSON: `audit/runs/auditor_xaudit2_36051514868.json`, `audit/runs/auditor_xaudit3_36052066150.json`.
