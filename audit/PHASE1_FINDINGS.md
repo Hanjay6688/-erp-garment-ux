@@ -1,19 +1,10 @@
-# AUDIT_PROGRESS — audit independen akhir CP6 (buta, dua fase)
+# PHASE1_FINDINGS — audit independen buta CP6 (kunci fase 1)
 
-Cabang audit: `audit/cp6-final-20260924` (dibuat dari `9add57ea8c2b6b2dc37c0134717d4d39ba30b5dc`, tree `5d5f833b2e75e23184c643d5ac469781f1c3ce5e`). Tidak ada kode produk yang diubah di cabang ini; semua berkas audit ada di `audit/` dan berkas ini.
-Baseline pembanding: `competition/cp6-j-closure-20260911` @ `ca7f09556397801c50a2277bdb65b1bf019f9a05`.
-Sumber kebenaran: hanya `ERP_V3_2_Master_Pulih_20260923.md` (M), `ERP_V3_2_Perubahan_Pulih_20260923.md` (P), `ERP_ADDENDUM_BUSINESS_REPORT_CP7_2026-09-18.md` (A, batas CP6/CP7 saja). Rujukan ditulis `M:<baris>`. Berkas kontrak tidak di-commit (milik owner); hash: M `f21ac703…9af07`, P `92966cd6…7676`, A `4566ab6f…5886`.
-`production_go=false`. Auditor hanya merekomendasikan.
-
-## FASE AKTIF
-**Fase 1 (buta) — berjalan.** Temuan fase 1 belum dikunci/di-hash. `docs/cp6-*.md`, `docs/evidence/`, laporan auditor lain, dan isi pesan commit belum dibaca dengan sengaja (lihat "Kontaminasi").
-
-## Rencana kerja (prioritas owner)
-1. Daftar gate + temuan fase 1 → kunci + hash ke berkas ini.
-2. Run native: T2, T3, CodeQL (sudah), skenario auditor per keluarga (berjalan).
-3. Fase 2 rekonsiliasi (setelah hash fase 1 dicatat).
-4. Laporan akhir `AUDIT_REPORT_CP6.md` di cabang ini.
-Aturan token: satu workflow per fase, ≤4 agen sekaligus, effort rendah–sedang untuk pembaca, tinggi hanya untuk oracle/verifikasi; tiap agen menulis `audit/out/<agen>.md` bertahap; batas ±150k token/agen.
+Target beku: `Hanjay6688/-erp-garment-ux` cabang `claude/new-session-deapao` @ `9add57ea8c2b6b2dc37c0134717d4d39ba30b5dc` (tree `5d5f833b2e75e23184c643d5ac469781f1c3ce5e`); baseline `competition/cp6-j-closure-20260911` @ `ca7f09556397801c50a2277bdb65b1bf019f9a05`.
+Sumber kebenaran: hanya M (`ERP_V3_2_Master_Pulih_20260923.md`, sha256 f21ac703…), P (`ERP_V3_2_Perubahan_Pulih_20260923.md`, 92966cd6…), A (`ERP_ADDENDUM_BUSINESS_REPORT_CP7_2026-09-18.md`, 4566ab6f…). Rujukan `M:n` = nomor baris Master.
+Dikunci: 2026-09-24 19:04 UTC. Berkas ini TIDAK diubah setelah dikunci; hash-nya dicatat di `AUDIT_PROGRESS.md`. Koreksi pasca-kunci hanya ditulis di fase 2 / laporan akhir dengan rujukan ke berkas ini.
+Protokol buta dipatuhi: `docs/cp6-*.md`, `docs/evidence/`, `docs/reviews/`, `docs/runbooks/`, audit lama, laporan auditor lain TIDAK dibuka. Kontaminasi yang tercatat: baris subjek/pesan commit terpapar lewat `git worktree add` dan API run (tidak dipakai sebagai oracle); docstring skrip writer dibaca sebagai klaim pembuat data, bukan oracle.
+Label bukti: INDEPENDENT_NATIVE_RERUN (run yang saya dispatch sendiri pada head 9add57e, status dibaca per kasus), INDEPENDENT_SOURCE_REVIEW (pembacaan sumber kandidat), INDEPENDENT_ARTIFACT_CHECK (artefak/manifest run), REUSED_EVIDENCE (belum dipakai di fase 1). Semua run: head_sha 9add57e (diverifikasi via runtime probe IDENTITY). Belum ada keputusan gate; auditor hanya merekomendasikan; production_go=false sampai owner memutuskan.
 
 ## a) Gate CP6 yang diturunkan dari kontrak (ringkas; rincian kutipan di `audit/out/C1_gates.md`)
 | Gate | Isi | Rujukan kontrak | Status kontrak (23 Sep) | Status audit |
@@ -36,13 +27,9 @@ Aturan token: satu workflow per fase, ≤4 agen sekaligus, effort rendah–sedan
 | GATE-16 | CR aksesori/laundry: tuntas di kandidat final atau dikecualikan owner secara eksplisit | M:1755-1756, M:1697 | tanpa pernyataan owner | BELUM |
 Keputusan owner DI KONTRAK: ERP-DEC01 (koreksi periode terbuka ikut tanggal invoice, M:1057-1062), ACC-DEC02 (harga eceran manual, 7 PCS tepat 7, M:1066-1071), 7 PCS = aksesori (M:44), total kontrol impor tidak dibukukan (M:43-46). PENDING di kontrak: ERP-DEC03 (CSV, M:1072-1078). Keputusan yang hanya dikutip writer di skrip (24 Sep: "geser tanggal recost", max(tanggal invoice, hari potong), 8 kasus AS, ADJUSTMENT_DATE, AO terbuka/tertutup, payroll APPROVED sebagai fixture) = **UNVERIFIED_OWNER_DECISION** (0 hit di ketiga berkas kontrak).
 
-## b) Status per gate
-Lihat kolom "Status audit" di atas. Belum ada ACCEPT. Putusan akhir menunggu skenario native per keluarga dan fase 2.
-
 ## c) Skenario auditor (berkas di `audit/scenarios/`, hash di `audit/scenarios/SHA256SUMS`)
 | Berkas | sha256 | Isi |
 |---|---|---|
-| open_2.py | e8b84000396cc6e9ee27cdd49a50ea3d3806386a7b916e7868fc9b974709e9e0 | GATE-01 / F1-12: kuantifikasi tumpang tindih impor→impor (batch kedua material sama, cutover sama & lebih awal; FG sama; replay FINALIZE batch POSTED; katalog pembaca stok) |
 | open_1.py | 983a66f58524aeebb8f57826023ada76b2bb5757b80ed61680cca0c3cb125333 | GATE-01: legacy `erp.post_opening_balance` menduplikasi opening impor untuk 10 jenis saldo; impor material sama dua kali; total kontrol mismatch & tidak dibukukan; diagnostik reversal FG |
 | access_3.py | 1f1a25bc069d947db0441d64e4db30b9bc1a70e66d6267a6ef54c66be4453afd | akses: setiap role aktif non-OWNER/ADMIN di erp.app_roles (role_id sungguhan) × 10 facade + positif operator |
 | access_2.py | e1f4093c9c683627af1a46a0f9a18ae0955718c1e6b72bc52a9abfd733acc310 | akses fail-closed diulang dengan attempt savepoint sendiri (anon, unmapped, VIEWER, OWNER nonaktif, positif operator) × 10 facade |
@@ -71,7 +58,6 @@ Alat: `audit/tools/dispatch_scenario.py <file> <after|before>` (menolak bila hea
 | cp6-auditor-scenario.yml | 36043758572 | 107782073208 | access_2: OPERATOR_POSITIVE PASS (identitas benar-benar berganti: session_user=authenticated, sub operator). ANON PASS: 10/10 facade `permission denied for function …` (42501). UNMAPPED authenticated: 10/10 ditolak — 8× `OWNER or ADMIN access required`, 2× `PERMISSION_DENIED: finance.contractor_accessory.view` (42501) (oracle auditor terlalu sempit untuk dua facade aksesori; secara substansi PASS). INACTIVE OWNER PASS (10/10 ditolak). VIEWER_ROLE tidak valid: baris user yang diseed auditor menyalin role_id operator sehingga efektif OWNER — diulang di access_3. Kontrol tabel tak berubah di semua kasus. |
 | cp6-auditor-scenario.yml | 36044022037 | 107782968845 | open_1 (after): RUN_COMPLETE 12 PASS / 1 COUNTEREXAMPLE. `OPEN:OVERLAP_LEGACY_AFTER_IMPORT:<10 jenis>` PASS: jalur lama `erp.post_opening_balance` setelah impor DITOLAK persis `AR_OPENING_ROUTE_OVERLAP: saldo/stok awal sudah disahkan melalui jalur lain; rekonsiliasi sumber sebelum mengesahkan`, ledger tak berubah, tidak ada header POSTED kedua. `OPEN:CONTROL_TOTAL_MISMATCH_AND_NOT_POSTED` PASS (mismatch → FINALIZE status DRAFT error_rows 1, ledger tak berubah; setelah diperbaiki POSTED dengan delta ledger hanya MATERIAL_INVENTORY +15,75 = item, total kontrol tidak dibukukan). `OPEN:IMPORT_SAME_MATERIAL_TWICE` COUNTEREXAMPLE: batch impor KEDUA dengan material+lokasi+cutover+qty yang sama (tag batch baru) FINALIZE → `status POSTED, valid_rows 2, error_rows 0` → F1-12. `FG:REVERSE_DIAGNOSTIC` PASS (selisih ledger setelah reversal kosong; lot VOIDED_PRODUCTION; jurnal REVERSED + jurnal balik POSTED). JSON: `audit/runs/auditor_open1_36044022037.json`. |
 | cp6-auditor-scenario.yml | 36044313409 | 107783945930 | access_3 (after): RUN_COMPLETE 5 PASS / 2 COUNTEREXAMPLE. Role aktif non-OWNER/ADMIN di seed: AUDITOR_VIEW_ONLY, GUDANG, KEUANGAN, PRODUKSI_QC, SALES_KASIR (role_id sungguhan dari erp.app_roles; identitas berganti terbukti: session_user=authenticated, sub pengguna uji). 8 facade owner-only (preflight, close, laundry_estimate, fg_preview/post/reverse, pocket_workspace, import_workspace) ditolak untuk KELIMA role persis `OWNER or ADMIN access required` (P0001). Workspace aksesori: GUDANG/PRODUKSI_QC/SALES_KASIR ditolak `PERMISSION_DENIED: finance.contractor_accessory.view` (42501); AUDITOR_VIEW_ONLY dan KEUANGAN DAPAT MEMBACA workspace, tetapi save ditolak `PERMISSION_DENIED: finance.contractor_accessory.create` (42501) → status kasus COUNTEREXAMPLE terhadap oracle auditor ("semua panggilan ditolak"), DIBANTAH oleh kontrak M:281 (pembaca memeriksa izin view; auditor dengan izin baca boleh melihat tanpa hak tulis) → F1-13 (cacat oracle, bukan produk). Tabel kontrol (closed_through, filings, fg, journals) identik sebelum/sesudah untuk semua role. JSON: `audit/runs/auditor_access3_36044313409.json`. |
-| cp6-auditor-scenario.yml | 36045629594 | 107788356714 | open_2 (after) — BERJALAN (dispatch 19:04 UTC): delta ledger & item POSTED untuk batch impor kedua (material sama, cutover sama/lebih awal; FG), replay FINALIZE, katalog pembaca stok |
 Ledger: `audit/runs/runs_dispatched.json`, `audit/runs/dispatch_ledger.jsonl`, ringkasan log `audit/runs/gate_runs_summary.txt`, `audit/runs/auditor_36039753521.json`. Log mentah tidak di-commit; ambil ulang dengan run/job ID.
 REUSED_EVIDENCE (fase 2 saja): run 36034620907 (empat skenario GPT) — belum dibaca.
 
@@ -88,22 +74,75 @@ REUSED_EVIDENCE (fase 2 saja): run 36034620907 (empat skenario GPT) — belum di
 | F1-09 | DITARIK (REFUTED) | PRODUK | Potongan 4 unit pada d 08:00 dari roll yang baru diterima d 23:30 DITERIMA oleh RPC cutting, lalu invoice susulan ditolak `AM_BACKDATE_WOULD_CREATE_NEGATIVE_LOCATION_ROLL_HISTORY` (recost). Dua guard tidak konsisten: cutting tidak memvalidasi saldo historis per waktu (AUD-S04, M:6002-6026 "Validasi current dan histori adalah dua hal berbeda"), recost memvalidasinya, sehingga invoice tidak pernah bisa dibukukan. REFUTED oleh probe DATE2:S04 (run 36042210333/36042223829): error itu muncul saat POTONGAN diposting (RPC cutting menolak), bukan saat invoice; validasi saldo historis per lokasi ada di jalur cutting. Tidak ada temuan produk. | AUD-S04 M:6002-6026 | run 36042210333 DATE2:S04 PASS (cut_accepted=false) |
 | F1-10 | INFO | TOOLING | Modul helper yang berbeda antara baseline dan kandidat (`cp6_au_browser_fixture.py`) diimpor dari baseline oleh sys.path, TETAPI job T3 browser menjalankannya sebagai skrip dari checkout auditor (`cp6_t3_browser.py:27,56` cwd=AUDITOR) sehingga versi kandidat (cabang `CP6_T3_BROWSER=1` → `cp6_t3_browser_verify`) yang dipakai; tidak ada dampak bukti. | pack §4 | probe 2 RT2:MODULE_ORIGINS; diff base↔cand |
 | F1-11 | INFO (perlu telaah) | PRODUK | Rollback AV (`supabase/rollbacks/…20av…rollback.sql`) menghapus 3 fungsi baru + 2 tabel, tetapi pemulihan 3 fungsi yang DIGANTI AV (`post_rework_completion`, `edit_product_identity_effective`, `create_manual_bs_case_v1`) tidak tampak sebagai CREATE OR REPLACE statis; kemungkinan dipulihkan dari kapsul secara dinamis (94 rujukan capsule). Belum diverifikasi native (T3 tidak menguji rollback). | M:206 | grep migrasi vs rollback AV |
-| F1-12 | P2 | PRODUK + CONTRACT_GAP | Jalur impor tidak punya pelindung tumpang tindih LINTAS BATCH: batch impor kedua dengan material_sku+location+cutover_date+qty yang sama (tag batch baru) di-FINALIZE menjadi POSTED (valid_rows 2, error_rows 0) — tidak ada penolakan, tidak ada rekonsiliasi. AR hanya melindungi jalur lama vs impor (10/10 ditolak). Kontrak M:1043 sendiri menyatakan "identitas dokumen lintas batch dan tumpang tindih saldo awal vs dokumen operasional masih perlu kontrak/tes" → item terbuka yang terbukti belum ditutup pada 9add57e. Batas: pemeriksaan delta ledger batch kedua dalam skenario auditor tidak terisolasi (cek `ledger_unchanged_by_second` trivially true) → besaran dobel-posting perlu run lanjutan; roll FABRIC punya guard `Migration roll already exists` (migrasi AP:2198-2201), material non-roll tidak. AKAR (INDEPENDENT_SOURCE_REVIEW): predikat guard AR `20260922185015_…20ar_cp6_opening_overlap.sql:372` `((h.migration_batch_id is null)<>(oh.migration_batch_id is null))` hanya membandingkan opening dengan opening POSTED dari JALUR LAIN (impor vs legacy); dua batch impor (keduanya migration_batch_id not null) tidak pernah dibandingkan → tumpang tindih impor→impor by design tidak dijaga. Kuantifikasi: run 36045629594 (open_2). | GATE-01 (M:138 "semua jalur"), M:1043, M:43-46 | run 36044022037 job 107782968845 kasus OPEN:IMPORT_SAME_MATERIAL_TWICE; skenario open_1.py:39-58 (sha 983a66f5…) |
+| F1-12 | P2 | PRODUK + CONTRACT_GAP | Jalur impor tidak punya pelindung tumpang tindih LINTAS BATCH: batch impor kedua dengan material_sku+location+cutover_date+qty yang sama (tag batch baru) di-FINALIZE menjadi POSTED (valid_rows 2, error_rows 0) — tidak ada penolakan, tidak ada rekonsiliasi. AR hanya melindungi jalur lama vs impor (10/10 ditolak). Kontrak M:1043 sendiri menyatakan "identitas dokumen lintas batch dan tumpang tindih saldo awal vs dokumen operasional masih perlu kontrak/tes" → item terbuka yang terbukti belum ditutup pada 9add57e. Batas: pemeriksaan delta ledger batch kedua dalam skenario auditor tidak terisolasi (cek `ledger_unchanged_by_second` trivially true) → besaran dobel-posting perlu run lanjutan; roll FABRIC punya guard `Migration roll already exists` (migrasi AP:2198-2201), material non-roll tidak. | GATE-01 (M:138 "semua jalur"), M:1043, M:43-46 | run 36044022037 job 107782968845 kasus OPEN:IMPORT_SAME_MATERIAL_TWICE; skenario open_1.py:39-58 (sha 983a66f5…) |
 | F1-13 | DITARIK (oracle auditor salah) | TOOLING/AUDITOR | access_3: AUDITOR_VIEW_ONLY dan KEUANGAN dapat membaca workspace aksesori (izin `finance.contractor_accessory.view` di seed role), save ditolak `PERMISSION_DENIED: finance.contractor_accessory.create`. Oracle auditor menuntut penolakan untuk semua panggilan; kontrak M:281 justru menetapkan pembaca memeriksa izin view dan auditor beriizin baca boleh melihat tanpa hak tulis. Produk SESUAI kontrak; status COUNTEREXAMPLE di run dipertahankan apa adanya. | M:281 | run 36044313409 job 107783945930 |
 | F1-08 | INFO | PROTOCOL | Rantai runtime auditor/T2: skrip writer dari checkout baseline ca7f095 mendahului skrip kandidat di sys.path (writer/scripts di posisi 0); modul yang ada di keduanya diimpor dari baseline. Fungsi dev AW..AZ tetap terpasang verbatim dari 9add57e (probe 1). | pack §4 | run 36039753521 RT:IDENTITY sys_path_head |
 
-## Kontaminasi / catatan protokol buta
-- `docs/cp6-*.md`, `docs/evidence/`, `docs/reviews/`, `docs/runbooks/` TIDAK dibuka.
-- Pesan commit terpapar tanpa sengaja: (1) baris subjek commit 9add57e dicetak oleh `git worktree add`; (2) GitHub API `list_workflow_runs` mengembalikan `head_commit.message` untuk run T2/T3/CodeQL/auditor-scenario (commit 9add57e, 208afce, 0628a68, b110e54, e51614a, 702f5f0, ed6c4e7, 6c65eff, e4584a3, 95954aa, b242d45, 311e0cc, 13dbcb1, 4de42cf, d5761d3, 46ad845). Isinya tidak dipakai sebagai oracle; oracle diturunkan dari kontrak. Sejak itu listing run diparse dengan pesan dibuang.
-- Docstring/komentar skrip writer dibaca sebagai klaim writer (pembuat data), bukan oracle.
-- 24 Sep 18:58 UTC: `get_workflow_run` 36044313409 (MCP) kembali memuat `head_commit.message` 9add57e (sama dengan paparan sebelumnya). Tidak dipakai sebagai oracle.
+## e2) Klasifikasi kasus T2 beku/HOLD (dari `audit/out/T2_classification.md`)
 
-## Kejadian sesi
-- 24 Sep 18:05-18:15 UTC: 16 agen pembaca (workflow) mati karena batas sesi akun ("session limit, reset 22:20 UTC"); hanya C1-gates selesai (`audit/out/C1_gates.md`). Pengulangan: ≤4 agen sekaligus, model murah untuk tugas mekanis, catatan bertahap ke `audit/out/`.
+# T2 frozen / HOLD case classification (auditor, blind phase 1)
 
-## f) LANGKAH BERIKUTNYA (untuk sesi baru: checkout cabang ini, baca berkas ini, lanjut dari sini)
-1. KUNCI FASE 1: tulis `audit/PHASE1_FINDINGS.md` (gate table + temuan e) + klasifikasi T2 `audit/out/T2_classification.md`), catat sha256-nya di bagian "Kunci fase 1" berkas ini, commit + push. Sebelum kunci, boleh satu dispatch lanjutan `open_2.py` untuk mengukur delta ledger batch impor kedua (F1-12) — opsional.
-2. Setelah 22:20 UTC (trigger send_later 22:26 UTC sudah dipasang): verifikasi adversarial temuan P1–P2 (F1-01, F1-02, F1-05, F1-12) dengan `audit/tools/phase1_verify.js` (args.findings), ≤4 agen, model murah, catatan bertahap ke `audit/out/`. Pembaca fase 1 yang mati (15 kunci di `phase1_derive.js`) hanya diulang bila masih berguna setelah kunci; hasilnya dicatat sebagai tambahan pasca-kunci, bukan mengubah PHASE1_FINDINGS.md.
-3. FASE 2 (hanya setelah hash kunci tercatat): baca `docs/cp6-au-r1-handoff.md` §18–20, §23–27 dan `docs/evidence/`; cocokkan daftar selesai writer (A04-R2, AV, AW/S06/B04, AX, AY/AZ, T2, T3) dua arah; disposisi T2 writer vs klasifikasi auditor; keputusan owner hanya di handoff = UNVERIFIED_OWNER_DECISION; run 36034620907 = REUSED_EVIDENCE hanya untuk jalur yang diujinya; label tiap klaim CONFIRMED/REFUTED/UNVERIFIED. Catatan ke `audit/out/phase2_reconciliation.md`.
-4. `AUDIT_REPORT_CP6.md` sesuai blind pack §6 (verdict per gate + file:line, temuan P0–P3 produk vs tooling, label bukti per klaim, daftar yang tidak diperiksa, production_go=false); commit ke cabang ini.
-Belum diperiksa native oleh auditor: concurrency/deadlock AQ (hanya T2 AR_CONCURRENCY writer), jalur HTTP/JWT/browser nyata, IDENT/AV, rollback T3 (writer NOT_TESTED), transport CSV browser→RPC, cakupan ALL impor.
+Source of evidence: my own T2 rerun on head 9add57ea8c2b6b2dc37c0134717d4d39ba30b5dc, run 36037873682 (INDEPENDENT_NATIVE_RERUN), jobs 107762384861 (ar), 107762384959 (temporal), 107762385235 (regression). Statuses read per case from the JSON lines, not from job colour. Job colour was green for all three jobs; the regression job's own verdict line is `T2_REGRESSION_VERDICT status=DISPOSITION_REQUIRED`.
+
+Classes (blind pack): COVERED_BY_OWNER_DECISION+PROVEN / DECISION_EXISTS_EVIDENCE_MISSING / DECISION_MISSING. "Owner decision" counts only when written in the three contract files. Writer-quoted decisions of 24 Sep that appear only in scripts (`cp6_t2_regression.py:42-52`, `APPROVED_DECISION`, the `T2_APPROVED_ORACLE_B` decision strings in the run log) are UNVERIFIED_OWNER_DECISION until the owner confirms them. No frozen case is relabelled PASS here.
+
+## Counts observed (regression job)
+| group | statuses |
+|---|---|
+| BUSINESS | PASS 179, CONTROL_PASS 39, DATE_POLICY_REVIEW_REQUIRED 12 |
+| IMPORTS | PASS 31 |
+| VALUES | PASS 65 |
+| NEW_CASES (AS 34) | PASS 25, COUNTEREXAMPLE 8, INCOMPLETE 1 |
+| T2_APPROVED_ORACLE (harness re-scoring of the same 8) | MATCH 8 |
+| T2_CALENDAR_POLICY (harness re-scoring of the 12 HOLD) | COUNTEREXAMPLE 12 |
+| AO_TRIAL | PASS 8, INCOMPLETE 4 |
+| APPROVED_ORACLE_B (harness) | PASS 5 |
+| T2_IDENTITY | BUSINESS/IMPORTS/VALUES moved []; NEW_CASES moved 9 (8 PASS→COUNTEREXAMPLE, 1 PASS→INCOMPLETE); holds 12 identical |
+
+ar job: AR_SEQUENTIAL PASS 146, AR_CONCURRENCY PASS 28. temporal job: AT 16 PASS + 4 races PASS, AU 15 PASS + 6 races PASS.
+
+## 1. The 12 calendar date cases (BUSINESS, status DATE_POLICY_REVIEW_REQUIRED; harness T2_CALENDAR_POLICY = COUNTEREXAMPLE)
+Ids: CALENDAR:{1_MONTHS,2_MONTHS,3_MONTHS,JAN31,FEB28,MAY31}:{UTC,Pacific/Kiritimati}:False.
+Observed (my run): each shows `material_event_date` mismatch: the WIP revaluation event is dated on the cutting day (e.g. 2026-08-25, 2026-07-25, 2026-03-01, 2026-02-01, 2026-06-01) where the frozen oracle expects the invoice date.
+Contract: ERP-DEC01 is DECIDED: "koreksi biaya/invoice pada periode yang masih terbuka mengikuti tanggal invoice. Ini harus konsisten pada nilai persediaan, jurnal, barang dalam proses, barang jadi, harga pokok penjualan, laporan menurut tanggal, dan indikator kesiapan data" (Master 1057-1062, Perubahan 999-1004). The same layer says the 12 date cases "masih perlu perbaikan serta bukti" and "Keputusan owner bukan hasil tes" (Master 1082-1086). R3.5: "12 HOLD tetap sampai kebijakan dan bukti lengkap" (Master 1406).
+Classification: **DECISION_EXISTS_EVIDENCE_MISSING**. The contract decision exists (invoice date). The only evidence on 9add57e contradicts it (cut-day dating of the WIP leg). The harness's `calendar_decision` string ("Owner 24 Sep: 12 kalender HOLD - tanggal perpindahan nilai ke WIP mengikuti hari potong; status tetap HOLD") is not in the contract → UNVERIFIED_OWNER_DECISION. Status stays HOLD either way.
+
+## 2. The 8 AS date cases (NEW_CASES COUNTEREXAMPLE; harness T2_APPROVED_ORACLE = MATCH)
+Ids: DATE:False:{Asia/Jakarta,UTC,Etc/GMT+12,Pacific/Kiritimati}:True:{20,20.003}.
+Observed: invoice date 2026-09-22; revaluation events, PO HPP events and the PO_HPP_GL_SYNC / MATERIAL_COST_REVALUATION journals dated 2026-09-23 (the cut/goods/sale day); the supplier-invoice journal stays 2026-09-22. The frozen oracle (recorded reference PASS at AU) expects 2026-09-22 for all of them, consistent with ERP-DEC01. T2_IDENTITY lists all 8 as moved PASS→COUNTEREXAMPLE.
+Contract: ERP-DEC01 (invoice date) as above. Nothing in the three files adopts "HPP PO mengikuti hari barang jadi/penjualan" or "revaluasi bahan ke WIP ikut hari potong" (grep for "Ikut prinsip WIP", "delapan kasus", "hari potong" in the contract: 0 hits).
+Classification: **DECISION_MISSING** for the behaviour the candidate implements; under the contract's own decision the observed result is a COUNTEREXAMPLE, so these cannot count as passing. The harness MATCH is a writer verdict against a writer-quoted decision (`cp6_t2_regression.py:42-52`) → UNVERIFIED_OWNER_DECISION; it does not resolve the disposition.
+
+## 3. ADJUSTMENT_DATE:False (NEW_CASES INCOMPLETE)
+Observed: Python assertion error inside the frozen oracle (`[(2026-09-23, 2026-09-23, 2026-09-23, {...: 20.01, ...: -20.01})]`), i.e. the oracle's expectation about the adjustment date no longer holds and the case did not complete. Harness APPROVED_ORACLE_B re-scores it MATCH under "Owner 24 Sep: ADJUSTMENT_DATE tidak disahkan otomatis; telusuri pembaca effective_date..." (writer-quoted).
+Contract: no decision on the material-adjustment revaluation date beyond ERP-DEC01 (invoice date for cost corrections) and the AQ/AP rule that adjustments follow the physical date of the adjustment (Master 4304-4316 is about migration; the adjustment-date rule itself is not stated for this case).
+Classification: **DECISION_MISSING**; per Master 4324 ("Tool error/setup error/missing data = INCOMPLETE, bukan BUG_PROVEN atau PASS") it stays INCOMPLETE.
+
+## 4. AO_TRIAL INVOICE:{UTC,Pacific/Kiritimati}:{False,True} (4 INCOMPLETE)
+Observed: oracle assertion errors: open-period cases show MATERIAL_COST_REVALUATION and PO_HPP_GL_SYNC journals on 2026-07-25 while the invoice journal is 2026-07-24 (invoice date); closed-period cases show a WIP revaluation event on 2026-09-25 (recognition day). The AO trial oracle expected invoice-date behaviour. Harness APPROVED_ORACLE_B re-scores all four MATCH under "Owner 24 Sep: AO periode terbuka - tanggal koreksi WIP/FG mengikuti hari barangnya berpindah tahap ..." / "AO periode tertutup - tanggal posting mengikuti hari pengakuan" (writer-quoted).
+Contract: ERP-DEC01 for the open period (invoice date); for the closed period "Aturan periode tertutup tetap memakai penyesuaian terkendali yang sudah ada" (Master 1061). The closed-period recognition-day posting is consistent with the contract's closed-period rule only if "penyesuaian terkendali yang sudah ada" means recognition-day posting with the economic date kept; the open-period behaviour contradicts ERP-DEC01 as written.
+Classification: open-period pair **DECISION_MISSING** (behaviour follows an unverified 24 Sep decision); closed-period pair **DECISION_EXISTS_EVIDENCE_MISSING** (contract rule exists, the trial oracle did not complete, so no proof).
+
+## 5. What is COVERED_BY_OWNER_DECISION+PROVEN in T2 as run
+- The 179 BUSINESS PASS, 39 CONTROL_PASS, 31 IMPORTS, 65 VALUES, 25 NEW_CASES PASS, AR 174, AT/AU 31 + races: these reproduce the AU reference per id (moved []). They are covered by the contract's standing rules and reproduced on 9add57e. Caveat: they ran with the harness fixture completion CP6_T2_FIXTURE=PAYROLL_APPROVED (each case's own uncovered attendance/work put into an APPROVED, unpaid payroll before readiness reads) and CP6_T2_SEED=QUIETED. Both are harness-side changes justified by writer-quoted 24 Sep owner policy (`cp6_t2_regression.py:24-40`), not by the contract. The contract's own rule is that setup differences must be declared (Master 4322-4324). So: PROVEN for the business assertions themselves; the readiness-dependent subset is proven only under the harness's payroll completion, which is UNVERIFIED_OWNER_DECISION.
+
+## 6. Disposition summary
+| bucket | count | class |
+|---|---|---|
+| 12 calendar HOLD | 12 | DECISION_EXISTS_EVIDENCE_MISSING (evidence contradicts ERP-DEC01; harness rule unverified) |
+| 8 AS DATE COUNTEREXAMPLE | 8 | DECISION_MISSING (candidate follows a rule absent from the contract) |
+| ADJUSTMENT_DATE INCOMPLETE | 1 | DECISION_MISSING; stays INCOMPLETE |
+| AO trial INCOMPLETE (open period) | 2 | DECISION_MISSING |
+| AO trial INCOMPLETE (closed period) | 2 | DECISION_EXISTS_EVIDENCE_MISSING |
+| everything else | 174+31+31+65+230+25 (+races) | COVERED+PROVEN with the fixture-completion caveat |
+
+T2 verdict as a gate (contract R1.6 no. 6, Master 1769: "Jangan menghapus assertion atau mengganti expected HOLD menjadi PASS"): the regression is reproduced and identical per id; it is NOT green. 25 case-results (12+8+1+4) depend on an owner decision that is not in the contract. The gate cannot be ACCEPTED on the contract alone; it is HOLD pending the owner's written confirmation of the 24 Sep dating decisions (or a contract update), after which the 12+8+4 would need re-oracling and rerun, not relabelling.
+
+## g) Yang TIDAK diperiksa auditor pada fase 1 (batas klaim)
+- Concurrency/deadlock AQ (urutan kunci) — hanya T2 AR_CONCURRENCY milik writer (28 PASS) yang dijalankan ulang, bukan oracle auditor.
+- Jalur HTTP/JWT/browser nyata (browser→HTTP→RPC) — semua skenario auditor memakai identitas via `set_config('request.jwt.claims')` + `set local session authorization` di dalam satu sesi Postgres.
+- IDENT/AV (perilaku identitas produk) — hanya observasi statis rollback AV (F1-11).
+- Rollback paket T3 — writer menyatakan NOT_TESTED; auditor tidak menjalankannya (F1-05).
+- Transport CSV browser→RPC dan cakupan ALL impor (F1-02) — hanya pembacaan sumber.
+- Semua keluarga yang tidak tercakup skenario auditor (lihat tabel c) dan d)); hasil T2/T3/CodeQL writer dibaca per kasus tetapi oracle-nya milik writer.
+- Runtime auditor sendiri punya celah isolasi (F1-04): commit lewat koneksi kedua tidak terdeteksi, id ganda menimpa, status bebas diterima — hasil PASS skenario auditor berlaku di bawah batas ini.
