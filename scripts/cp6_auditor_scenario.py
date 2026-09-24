@@ -8,9 +8,12 @@ T1 family files, exactly as scripts/cp6_az_probe.py installs them. The committed
 (AY/AZ function text equal to the committed files, T1 markers).
 
 The scenario is plain Python supplied at dispatch time (workflow input, base64), written by the auditor, not by the writer.
-It must define
+It defines at least one of
     def cases(cur, today): return [(case_id, zero_argument_callable), ...]
-where each callable returns a dict with at least 'status'. It may import the probe helpers already on sys.path
+    def races(tools, today): return [(race_id, zero_argument_callable), ...]      (two sessions, committed copy per race)
+    def http_cases(http, today): return [(case_id, zero_argument_callable), ...]  (real Auth login, real PostgREST)
+where each callable returns a dict with at least 'status'. Races and HTTP cases are described in
+scripts/cp6_auditor_modes.py. It may import the probe helpers already on sys.path
 (import cp6_az_probe as azp: produce, cut_only, invoice, ledger_days, adjust, final_receipt, ...; cp6_aw_probe as awp:
 preflight; chain.production for the ordinary product RPCs). Each case runs inside a savepoint that is rolled back (as in
 the writer's probes); its full result is printed as one JSON line. The scenario file's sha256 is printed first, so the
@@ -30,6 +33,7 @@ import cp6_aw_probe as awp
 import cp6_ax_probe as axp
 import cp6_ay_probe as ayp
 import cp6_az_probe as azp
+import cp6_auditor_modes as modes
 r1,boundary,prior=awp.r1,awp.boundary,awp.prior
 
 OUT=AUDITOR/'cp6-proof/auditor'
@@ -39,7 +43,7 @@ LABEL='AUDITOR_SCENARIO'
 def load(path):
     spec=importlib.util.spec_from_file_location('auditor_scenario',path)
     module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
-    assert callable(getattr(module,'cases',None)),'AUDITOR_SCENARIO_NEEDS_cases(cur,today)'
+    assert any(callable(getattr(module,n,None)) for n in ('cases','races','http_cases')),'AUDITOR_SCENARIO_NEEDS_cases_races_OR_http_cases'
     return module
 
 
@@ -61,9 +65,18 @@ def run(phase,scenario):
         report['aw_install']=awp.install_aw();report['ax_install']=axp.install_ax();report['ay_install']=ayp.install_ay();verify=ayp.ay_verified
         if phase=='after':report['az_install']=azp.install_az();verify=azp.az_verified
         print(json.dumps(dict(auditor_setup={k:report.get(k) for k in ('au_install','av_install','ay_install','az_install')}),default=str),flush=True)
-        group=r1.group('AUDITOR_CASES_'+phase.upper(),module.cases,verify)
+        group=r1.group('AUDITOR_CASES_'+phase.upper(),getattr(module,'cases',None) or (lambda cur,today:[]),verify)
         report['auditor_cases']={k:group[k] for k in ('status','counts')}
-        report['status']='RUN_COMPLETE' if group['status']!='INCOMPLETE' else 'INCOMPLETE'
+        complete=group['status']!='INCOMPLETE'
+        # Two-session and HTTP modes run on committed copies of the installed clone, after the savepoint cases.
+        if callable(getattr(module,'races',None)):
+            races=modes.run_races(module,verify,phase);report['auditor_races']={k:races.get(k) for k in ('status','counts','database_remaining','error')}
+            complete=complete and races['status']=='RUN_COMPLETE'
+        if callable(getattr(module,'http_cases',None)):
+            http=modes.run_http(module,verify,phase)
+            report['auditor_http']={k:http.get(k) for k in ('status','counts','database_remaining','cleanup','auth_counts','error')}
+            complete=complete and http['status']=='RUN_COMPLETE'
+        report['status']='RUN_COMPLETE' if complete else 'INCOMPLETE'
     except Exception as exc:report.update(status='INCOMPLETE',error=str(exc),traceback=traceback.format_exc())
     finally:
         subprocess.run(['docker','exec','supabase_db_cp5-local','dropdb','-U','supabase_admin','--if-exists','--force','--maintenance-db=template1','cp6_rollback'],check=True)

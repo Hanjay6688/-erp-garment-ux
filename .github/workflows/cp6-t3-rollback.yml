@@ -1,0 +1,216 @@
+name: CP6 T3 Rollback (AW..AZ of the release package, hosted-faithful baseline)
+'on':
+  push:
+    branches:
+    - claude/new-session-deapao
+    paths:
+    - scripts/cp6_t3_rollback.py
+    - supabase/release/cp6-t3-rollbacks/**
+    - docs/evidence/cp6-t3/rollback_capture.json
+    - .github/workflows/cp6-t3-rollback.yml
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: capture (learn each file's catalog delta) or cycle (refusals, two rollback and reinstall cycles)
+        required: false
+        default: ''
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: cp6-t3-rollback-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  # T3_PREP: rollback files for AW, AX, AY and AZ of the committed release package (scripts/cp6_t3_rollback.py).
+  # Without a mode, a push runs capture until the rollback files exist and cycle afterwards.
+  rollback:
+    name: Hosted-faithful baseline to AB, committed 24-file package, AW..AZ rollback ${{ inputs.mode || 'auto' }} (T3_PREP)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    env:
+      PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
+      CP6_AC_INDEPENDENT_CONFIRM: postgres
+      CP6_AF_INDEPENDENT_CONFIRM: postgres
+      CP6_AH_CONFIRM: postgres
+      CP6_AI_CONFIRM: postgres
+      CP6_AH_INDEPENDENT_CONFIRM: postgres
+      CP6_AI_INDEPENDENT_CONFIRM: postgres
+      CP6_AUDIT_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+      CP6_AF_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+      CP6_DATABASE_CONTAINER: supabase_db_cp5-local
+      CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
+      CP6_AR_CONFIRM: cp6_rollback
+      CP6_AU_BROWSER_CONFIRM: cp6_rollback
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        path: writer
+        fetch-depth: 0
+        ref: ca7f09556397801c50a2277bdb65b1bf019f9a05
+    - uses: actions/checkout@v4
+      with:
+        path: auditor
+        fetch-depth: 0
+    - uses: actions/checkout@v4
+      with:
+        path: harness
+        fetch-depth: 0
+        ref: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+    - uses: actions/checkout@v4
+      with:
+        path: candidate
+        fetch-depth: 0
+        ref: 25fa4736329e5148dfdb3572bc169952cba23251
+    - uses: actions/checkout@v4
+      with:
+        path: base
+        fetch-depth: 0
+        ref: 1bdca3766f7c9800d68295ff5122798060b8a05d
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '22'
+    - name: Install pinned disposable runtime
+      shell: bash
+      run: |
+        set -euo pipefail
+        python -m pip install --quiet 'psycopg[binary]==3.2.10' 'PyYAML==6.0.2'
+        sudo apt-get update -qq
+        sudo apt-get install -y -qq ca-certificates curl gnupg
+        sudo install -d /usr/share/postgresql-common/pgdg
+        sudo curl --fail --silent --show-error \
+          -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \
+          https://www.postgresql.org/media/keys/ACCC4CF8.asc
+        key_fingerprint="$(gpg --show-keys --with-colons \
+          /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \
+          | awk -F: '$1 == "fpr" { print $10; exit }')"
+        test "$key_fingerprint" = 'B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8'
+        . /etc/os-release
+        architecture="$(dpkg --print-architecture)"
+        sudo tee /etc/apt/sources.list.d/pgdg.sources >/dev/null <<EOF
+        Types: deb
+        URIs: https://apt.postgresql.org/pub/repos/apt
+        Suites: ${VERSION_CODENAME}-pgdg
+        Architectures: ${architecture}
+        Components: main
+        Signed-By: /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc
+        EOF
+        sudo apt-get update -qq
+        sudo apt-get install -y -qq postgresql-client-17
+        test -x /usr/lib/postgresql/17/bin/psql
+        echo '/usr/lib/postgresql/17/bin' >> "$GITHUB_PATH"
+    - name: Install pinned Supabase CLI
+      uses: supabase/setup-cli@ab058987d8d6c725971f6cf9d0b5c98467e30bd1
+      with:
+        version: 2.116.0
+    - name: Record proposed source and prepare isolated proof paths
+      id: source_scope
+      working-directory: writer
+      run: |
+        set -euo pipefail
+        PYTHONPATH=scripts python -c "import cp6_au_trial; cp6_au_trial.source()"
+        mkdir -p ../candidate/cp6-proof/writer-{ae,af,ah,ai,aj,ak,al,am,an}
+    - name: Start disposable database
+      working-directory: base
+      shell: bash
+      run: |
+        set -euo pipefail
+        test "$(git rev-parse HEAD)" = 1bdca3766f7c9800d68295ff5122798060b8a05d
+        test "$(git rev-parse HEAD^{tree})" = 334629c626257b8b713826f491cdf62385d5299b
+        test -z "$(git status --porcelain)"
+        supabase --help >/dev/null
+        supabase init --help >/dev/null
+        supabase start --help >/dev/null
+        mkdir cp5-local
+        supabase init --force --workdir cp5-local
+        mkdir -p cp5-local/supabase/.temp
+        echo '17.6.1.165' > cp5-local/supabase/.temp/postgres-version
+        sed -i '0,/^enable_signup = true$/s//enable_signup = false/' cp5-local/supabase/config.toml
+        # ghcr.io can rate-limit image pulls before anything runs. Retry the start
+        # only (no test has run), falling back to the same image tags on public.ecr.aws.
+        for attempt in 1 2 3 4; do
+          if [ "$attempt" -ge 2 ]; then export SUPABASE_INTERNAL_IMAGE_REGISTRY=public.ecr.aws; fi
+          if supabase start --workdir cp5-local \
+            -x realtime,imgproxy,studio,postgres-meta,edge-runtime,logflare,vector,supavisor \
+            > "$RUNNER_TEMP/cp6-local-start.log" 2>&1; then
+            echo "supabase start succeeded on attempt $attempt from ${SUPABASE_INTERNAL_IMAGE_REGISTRY:-default}"
+            break
+          fi
+          tail -n 20 "$RUNNER_TEMP/cp6-local-start.log"
+          supabase stop --workdir cp5-local --no-backup || true
+          if [ "$attempt" = 4 ]; then exit 1; fi
+          sleep $((attempt * 60))
+        done
+    - name: Rebuild to v2.6.20, align with hosted, continue the frozen path to AB
+      working-directory: base
+      env:
+        GITHUB_SHA: 1bdca3766f7c9800d68295ff5122798060b8a05d
+        GH_TOKEN: ${{ github.token }}
+      shell: bash
+      run: |
+        set -euo pipefail
+        export CP6_AC_WRITER_ARTIFACT="$RUNNER_TEMP/ac-native200.zip"
+        gh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10392910720/zip \
+          > "$CP6_AC_WRITER_ARTIFACT"
+        mkdir -p ../auditor/cp6-proof/t3
+        status=0
+        PYTHONPATH=scripts python ../auditor/scripts/cp6_t3_aligned_chain.py ../auditor/cp6-proof/t3/ALIGNED_CHAIN.json --stop-after-ab || status=$?
+        python - <<'PY'
+        import json
+        d=json.load(open('../auditor/cp6-proof/t3/ALIGNED_CHAIN.json'))
+        print(json.dumps({k:d.get(k) for k in ('status','refused_step','alignment')},default=str)[:6000])
+        print(json.dumps([(s['name'],s['exit_code'],s['after_alignment']) for s in d['steps']])[:6000])
+        PY
+        exit "$status"
+    - name: Provision isolated rollback authority
+      working-directory: writer
+      shell: bash
+      run: |
+        set -euo pipefail
+        maintenance_password="$(openssl rand -hex 32)"
+        maintenance_pgurl="postgresql://cp6_maintenance_admission:${maintenance_password}@127.0.0.1:54322/template1"
+        echo "::add-mask::$maintenance_password"
+        echo "::add-mask::$maintenance_pgurl"
+        docker exec -i "$CP6_DATABASE_CONTAINER" \
+          psql -U supabase_admin -d template1 -X -v ON_ERROR_STOP=1 \
+            -v cp6_password="$maintenance_password" <<'SQL'
+        create role cp6_maintenance_admission
+          login superuser noinherit nocreatedb nocreaterole noreplication
+          connection limit 4 password :'cp6_password';
+        SQL
+        printf 'CP6_ADMISSION_CONTROL_PGURL=%s\n' "$maintenance_pgurl" >> "$GITHUB_ENV"
+    - name: Clone the aligned AB state
+      working-directory: writer
+      run: |
+        set -euo pipefail
+        mkdir -p '../auditor/cp6-proof/t3'
+        bash scripts/clone-cp6-disposable-database.sh \
+          'postgresql://postgres:postgres@127.0.0.1:54322/postgres' \
+          'postgresql://postgres:postgres@127.0.0.1:54322/template1' \
+          'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \
+          cp6_rollback supabase_db_cp5-local '../auditor/cp6-proof/t3/CLONE_rollback'
+    - name: Rollback ${{ inputs.mode || 'auto' }}
+      working-directory: writer
+      env:
+        MODE_INPUT: ${{ inputs.mode }}
+      run: |
+        set -euo pipefail
+        mode="${MODE_INPUT:-}"
+        if [ -z "$mode" ]; then
+          if [ -f ../auditor/supabase/release/cp6-t3-rollbacks/ROLLBACKS.json ]; then mode=cycle; else mode=capture; fi
+        fi
+        case "$mode" in capture|cycle) ;; *) echo "unknown mode $mode"; exit 1;; esac
+        echo "mode=$mode"
+        python '../auditor/scripts/cp6_t3_rollback.py' "$mode"
+    - name: Remove disposable database
+      if: always()
+      working-directory: base
+      run: supabase stop --workdir cp5-local --no-backup
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: cp6-t3-rollback
+        path: auditor/cp6-proof/t3
+        retention-days: 30

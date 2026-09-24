@@ -6,11 +6,12 @@ name: CP6 Auditor Scenario
     paths:
     - scripts/cp6_auditor_scenario.py
     - scripts/cp6_auditor_scenario_sample.py
+    - scripts/cp6_auditor_modes.py
     - .github/workflows/cp6-auditor-scenario.yml
   workflow_dispatch:
     inputs:
       scenario_b64:
-        description: Base64 of the auditor's Python scenario (defines cases(cur, today)); empty runs the sample
+        description: Base64 of the auditor's Python scenario (defines cases, races and/or http_cases); empty runs the sample
         required: false
         default: ''
       phase:
