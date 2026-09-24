@@ -36,7 +36,7 @@ C6-01..10 are audit groupings. ACCEPT for a narrow operation does not accept the
 |C6-03 recovery/input/unknown/selectors|HOLD|M1678–1679,1691,3817–3820,3825–3826,3939|Wrong WIB payloads, unstable request recovery and failed-read zero display reproduced locally; selector tails source-supported.|
 |C6-04 ALL initial import|UNVERIFIED|M44–45,359–365,749–755,829–843,934–938,1024–1025,1691; P966–967|Template count is insufficient; semantic open-document continuation mapping being extended.|
 |C6-05 dates/recost/HPP/journals/reports|HOLD|M375,377,837,1022,1059–1065,1666,1691,3816,3820,3825|F01 wrong WIB payload; U03 cent risk; full dated financial acceptance absent.|
-|C6-06 production/AP/AR/payroll/advances|UNVERIFIED|M359–379,629–648,749–757,3822–3824|Source bodies reviewed with explicit limits; U02 and advance dated-capacity candidate need native results; payroll producer follow-up active.|
+|C6-06 production/AP/AR/payroll/advances|UNVERIFIED|M359–379,629–648,749–757,3822–3824|Source bodies reviewed with explicit limits; U02 and advance dated-capacity candidate need native results; payroll source follow-up persisted; BS attribution risk remains native-unverified.|
 |C6-07 accepted accessories/pocket|UNVERIFIED|M44–48,466–472,495,557–561,1023,3900–3902,3951,5192–5199|Positive local controls and source mechanisms; whole lifecycle/races not independently accepted; expanded CR scope separate.|
 |C6-08 Auth/permissions/connected UI|UNVERIFIED|M1691,4486,5046–5052,5209,5213–5224|27 public RPCs traced;10 browser cases rerun; full real Auth/action/location/revocation matrix absent.|
 |C6-09 concurrency/stale state|UNVERIFIED|M751–755,1025,4165,4486,5048–5052|Existing AR/AT/AU races rerun;20 AR observations independently checked narrowly; own full schedules absent.|
@@ -107,10 +107,23 @@ Last known local root: /workspace/scratch/a0bcadfadc7e/cp6_audit.
 Final coverage hashes observed before interruption:
 - continuation/coverage_completion.md: c5bb9160e0f6005e8d530a826504b0a61348d1bc8ba081278b70182e4c973394.
 - continuation/coverage_matrix.json: e5fdcc9fc6fdd165ee701094e2c60e8639b87673ec73bc9b1554c4c11491fd1d.
-New follow-up files for semantic ALL mapping and payroll source producers had NOT been written when the workspace disconnected. GitHub exact-candidate read fallback is now being used; any resulting notes need separate persistence here.
+The payroll follow-up is now durably committed as out/payroll_source_followup.md (commit a3419f1c1fb4cc978d4a75b002c08983f1d2642e). The semantic ALL note is being completed via exact-candidate GitHub reads and still needs separate persistence. The 15-case source/payload and final 132-row matrix remain offline; their hashes above are receipts, not copies.
+
+## Post-lock payroll continuation and queued external review
+Updated 2026-09-24T20:23:20.689Z.
+
+- Payroll source follow-up: [out/payroll_source_followup.md](out/payroll_source_followup.md), commit a3419f1c1fb4cc978d4a75b002c08983f1d2642e.
+- The exact-candidate compressed baseline was recovered read-only in the agent tool runtime: blob f7e970d72e0bcd44015c8f7d092fcc725baeb158; compressed308353/uncompressed2126909bytes; GZIP length and CRC321271493035 checked. This removes the compressed-baseline retrieval limit for the targeted source bodies, not the native/catalog verification limit.
+- Source evidence eliminates GOOD/laundry scaling of regular wages and the inspected duplicate-component capacity bypass. Rate snapshots and effective-rate guards were traced. These are bounded source conclusions.
+- New unpromoted BS attribution risk: group10 with componentB completed only on GOOD8 and unfinished on BS2 can seed BS completed-before baseline min(2,8)=2 from the group aggregate. Native rework formula would then grant zero new B entitlement instead of the fact-specific2×25=50. Manual CLASSIFY_BS can correct baseline before rework and is a material counterargument. No executable lawful-fixture case or native confirmation exists. Status UNVERIFIED; no confirmed priority assigned.
+- Exact Special normative clauses still need rereading; source mechanics and comments do not establish policy.
+- Root independently reread CP15 eligibility36–122, AC snapshot2561–2612, AC classify2320–2396, and selected connected BS caller sections. Full installed successor/ACL/native lifecycle proof remains open.
+- Workspace minimal read reattempt still failed409 environment_offline. GitHub documentation/source access remains available.
+- User has requested later verification of Claude's GitHub report, including validity and significance, **only after our current audit is completely finished**. That report has not been opened in this continuation; the task remains queued. Do not use it to fill our independent coverage.
+- Additional competitor claims supplied in chat are external leads, not our evidence: race attempts run36051535647/rev1 and36052066150/rev2 reportedly lack committed second-session identities/JWT/schema context; xaudit_4.py HTTP/JWT dispatch reportedly blocked for Credential Materialization; AW–AZ rollback reportedly unavailable; their agent quota reset reportedly22:20UTC. No listed competitor run, scenario or report was read/verified here. Do not bypass a permission rejection or extract/materialize credentials on the strength of this disclosure.
 
 ## LANGKAH BERIKUTNYA
-1. Continue bounded semantic ALL open-document and payroll eligibility/rate/Special source review via exact9add GitHub reads. Persist complete notes on this isolated audit branch; mark unavailable compressed-baseline/source paths precisely.
+1. Persist the completed six-family semantic ALL mapping and its JSON on this isolated branch when the agent delivers them. Payroll source follow-up is committed; retain its native and Special-policy limits. Finish the revised checkpoint report without declaring the full CP6 audit complete.
 2. When workspace reconnects, inspect existing files before restoring anything. Verify candidate/tree/clean status and phase1 hashes. Do not overwrite later local work with older version1 ZIP.
 3. Recover/verify15-case payload and four member hashes above. If files are missing, restore the latest durable checkpoint and regenerate only missing continuation artifacts; do not pretend reconstructed bytes match an old hash without checking.
 4. Complete revised report,132-row matrix consistency,case/run ledger,hash manifest and checkpoint ZIP. Preserve original report as partial; new receipt must say audit_incomplete.
