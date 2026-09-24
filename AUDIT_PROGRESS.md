@@ -34,7 +34,7 @@ C6-01..10 are audit groupings. ACCEPT for a narrow operation does not accept the
 |C6-01 evidence identity/completeness|HOLD|M1624–1626,1693,1762–1767,4391–4393,4521–4525|Exact SHA/jobs bound; runner duplicate-ID loss; T2 disposition and missing independent cases remain.|
 |C6-02 atomicity/immutable facts/exact state|UNVERIFIED|M3816–3826,5048–5052|Broad source review, no complete native lifecycle proof; historical capacity/cent risks remain.|
 |C6-03 recovery/input/unknown/selectors|HOLD|M1678–1679,1691,3817–3820,3825–3826,3939|Wrong WIB payloads, unstable request recovery and failed-read zero display reproduced locally; selector tails source-supported.|
-|C6-04 ALL initial import|UNVERIFIED|M44–45,359–365,749–755,829–843,934–938,1024–1025,1691; P966–967|Template count is insufficient; semantic open-document continuation mapping being extended.|
+|C6-04 ALL initial import|UNVERIFIED|M44–45,359–365,749–755,829–843,934–938,1024–1025,1691; P966–967|Template count is insufficient; 22-state semantic crosswalk persisted; native continuation and unmapped adapter obligations remain.|
 |C6-05 dates/recost/HPP/journals/reports|HOLD|M375,377,837,1022,1059–1065,1666,1691,3816,3820,3825|F01 wrong WIB payload; U03 cent risk; full dated financial acceptance absent.|
 |C6-06 production/AP/AR/payroll/advances|UNVERIFIED|M359–379,629–648,749–757,3822–3824|Source bodies reviewed with explicit limits; U02 and advance dated-capacity candidate need native results; payroll source follow-up persisted; BS attribution risk remains native-unverified.|
 |C6-07 accepted accessories/pocket|UNVERIFIED|M44–48,466–472,495,557–561,1023,3900–3902,3951,5192–5199|Positive local controls and source mechanisms; whole lifecycle/races not independently accepted; expanded CR scope separate.|
@@ -91,7 +91,7 @@ Default combined batch:15 cases, native **NOT_RUN**, run_id:null,job_id:null.
 Syntax, embedded-byte/hash equality, JSON roundtrip and unique factory IDs were checked. Factory enumeration used inert runtime imports. No case lambda/SQL executed.
 
 The approved scenario runner grants authenticated erp schemaUSAGE before cases when absent. No auditor grant/revoke added. This limits unmodified-ACL proof; it does not authorize widening any production permission.
-The session can rerun existing jobs but has no callable arbitrary workflow-dispatch POST or local DB. Approved API endpoint and exact body are in the offline workspace's continuation/dispatch/. Check branch still equals frozenSHA before dispatch. Do not claim the source files/payload have been copied to this branch: only this recovery document is persisted here at this checkpoint.
+The session can rerun existing jobs but has no callable arbitrary workflow-dispatch POST or local DB. Approved API endpoint and exact body are in the offline workspace's continuation/dispatch/. Check branch still equals frozenSHA before dispatch. Do not claim the source files/payload have been copied to this branch: the report, source follow-ups and recovered native-case ledger are now persisted here; the 15-case source/payload bytes are still not copied.
 
 ## Persistence and actual interruption
 Last confirmed durable upload before interruption:
@@ -107,7 +107,7 @@ Last known local root: /workspace/scratch/a0bcadfadc7e/cp6_audit.
 Final coverage hashes observed before interruption:
 - continuation/coverage_completion.md: c5bb9160e0f6005e8d530a826504b0a61348d1bc8ba081278b70182e4c973394.
 - continuation/coverage_matrix.json: e5fdcc9fc6fdd165ee701094e2c60e8639b87673ec73bc9b1554c4c11491fd1d.
-The payroll follow-up is now durably committed as out/payroll_source_followup.md (commit a3419f1c1fb4cc978d4a75b002c08983f1d2642e). The semantic ALL note is being completed via exact-candidate GitHub reads and still needs separate persistence. The 15-case source/payload and final 132-row matrix remain offline; their hashes above are receipts, not copies.
+Payroll source follow-up is durably committed at out/payroll_source_followup.md (first commit a3419f1c; provenance/UI review update5e8737ad). The six-family/22-state ALL crosswalk is committed as out/all_open_documents.md and .json (commits a4e4f5cc and864c5810). Recovered native observations are in out/native_case_ledger.json (latest88828e61). AUDIT_REPORT_CP6.md is committed at cb1a0a5d. The 15-case source/payload and final 132-row matrix remain offline; their hashes above are receipts, not copies. Both agents checked retained tool-session keys and could not recover the exact final matrix/business-scenario bytes; no false hash-preserving reconstruction was made.
 
 ## Post-lock payroll continuation and queued external review
 Updated 2026-09-24T20:23:20.689Z.
@@ -122,11 +122,22 @@ Updated 2026-09-24T20:23:20.689Z.
 - User has requested later verification of Claude's GitHub report, including validity and significance, **only after our current audit is completely finished**. That report has not been opened in this continuation; the task remains queued. Do not use it to fill our independent coverage.
 - Additional competitor claims supplied in chat are external leads, not our evidence: race attempts run36051535647/rev1 and36052066150/rev2 reportedly lack committed second-session identities/JWT/schema context; xaudit_4.py HTTP/JWT dispatch reportedly blocked for Credential Materialization; AW–AZ rollback reportedly unavailable; their agent quota reset reportedly22:20UTC. No listed competitor run, scenario or report was read/verified here. Do not bypass a permission rejection or extract/materialize credentials on the strength of this disclosure.
 
+## Completed recovery outputs
+Updated 2026-09-24T20:37:04.320Z.
+
+- [AUDIT_REPORT_CP6.md](AUDIT_REPORT_CP6.md): expanded checkpoint, commit cb1a0a5d34c8a67aba58431805d26c5edb10689e. Explicit HOLD, production_go=false, audit_complete=false.
+- [out/all_open_documents.md](out/all_open_documents.md) and [JSON](out/all_open_documents.json): six families/22 states; ALL_NOT_ESTABLISHED. Source blobs/line ranges validated. Open adapters and proposed scenarios remain unperformed, not assumed defects.
+- [out/payroll_source_followup.md](out/payroll_source_followup.md): positive source eliminations, retained-oracle provenance and BS attribution counterarguments. Root confirmed UI canStart does not itself require component confirmation; backend preconditions are undergoing one bounded final check.
+- [out/native_case_ledger.json](out/native_case_ledger.json): nine original job logs retrieved again; exact structured per-case output, installation stage records, restore details, line references and per-group counts. No new runtime execution. Additional final source/coverage work remains.
+- For phase1 T2/T3/JS logs, old file digests reproduced exactly by adding the one LF used by the original local save. Both fetched-text and original-save-convention hashes are retained. No unexplained evidence-byte mismatch remains for those three.
+- Latest minimal workspace read still409offline. Candidate comparison at cb1a0a5d shows only six added audit files; no product changes. Readback of report and source notes matched intended contents.
+- All other-auditor reports remain unopened under the user's requested order. Our own missing native/source work is not closed merely to move to comparison.
+
 ## LANGKAH BERIKUTNYA
-1. Persist the completed six-family semantic ALL mapping and its JSON on this isolated branch when the agent delivers them. Payroll source follow-up is committed; retain its native and Special-policy limits. Finish the revised checkpoint report without declaring the full CP6 audit complete.
+1. Finish the bounded BS backend precondition counter-review and record its outcome. Verify the final remote documentation/ledger bytes and write a recovery receipt. The full CP6 audit remains incomplete; do not start the queued external-report review yet.
 2. When workspace reconnects, inspect existing files before restoring anything. Verify candidate/tree/clean status and phase1 hashes. Do not overwrite later local work with older version1 ZIP.
 3. Recover/verify15-case payload and four member hashes above. If files are missing, restore the latest durable checkpoint and regenerate only missing continuation artifacts; do not pretend reconstructed bytes match an old hash without checking.
-4. Complete revised report,132-row matrix consistency,case/run ledger,hash manifest and checkpoint ZIP. Preserve original report as partial; new receipt must say audit_incomplete.
+4. Upon workspace recovery, reconcile the offline final132-row matrix, scenario bytes and revised local report with these later GitHub notes. Restore/update hash manifest and evidence ZIP without overwriting later work. The remote report and native-case ledger already exist; a complete new evidence ZIP does not.
 5. Run15cases through the explicitly approved disposable custom-dispatch endpoint once an authorized dispatch-capable environment is available. Verify SHA/head/phase/plannedIDs/each result/restoration/cleanup; unexpected refusals stay INCOMPLETE.
 6. Remaining unperformed work is broader than dispatch: valid pocket/payroll/prepayment/BS tail fixtures; real browser timezone/unknown/recovery; complete Auth/action/location; own concurrency schedules; transitive HPP/producers; semantic ALL; rollback/refusal qualification. Do not attribute every gap to tooling or promote a suite count to full CP6 PASS.
 7. Owner acceptance/production decision remains withheld. No product repair is performed by this auditor.
