@@ -1,5 +1,4 @@
-NOTICE:  database "az_rev21_logic" does not exist, skipping
-=== mode=open
+=== scenario mode=open
  
  mv | day_from_today | new_inventory_delta | delta_amount | counterpart_mapping_key 
 ----+----------------+---------------------+--------------+-------------------------
@@ -14,7 +13,7 @@ NOTICE:  database "az_rev21_logic" does not exist, skipping
  
  events_after_second_run 
                        3
-=== mode=closed
+=== scenario mode=closed
  
  mv | day_from_today | new_inventory_delta | delta_amount | counterpart_mapping_key 
 ----+----------------+---------------------+--------------+-------------------------
@@ -27,7 +26,7 @@ NOTICE:  database "az_rev21_logic" does not exist, skipping
  
  events_after_second_run 
                        1
-=== mode=noninv
+=== scenario mode=noninv
  
  mv | day_from_today | new_inventory_delta | delta_amount | counterpart_mapping_key 
 ----+----------------+---------------------+--------------+-------------------------
@@ -40,3 +39,53 @@ NOTICE:  database "az_rev21_logic" does not exist, skipping
  
  events_after_second_run 
                        1
+=== writeoff mode=open
+ 
+ mv | day_from_today | delta_amount | counterpart_mapping_key 
+----+----------------+--------------+-------------------------
+ f5 |             -2 |        17.50 | OTHER_EXPENSE
+ f5 |              0 |       -17.50 | OTHER_EXPENSE
+    mapping_key     | day_from_today |  sum   
+--------------------+----------------+--------
+ MATERIAL_INVENTORY |             -2 |  17.50
+ OTHER_EXPENSE      |             -2 | -17.50
+ MATERIAL_INVENTORY |              0 | -17.50
+ OTHER_EXPENSE      |              0 |  17.50
+ 
+ events_after_second_run 
+                       2
+=== writeoff mode=closed
+ 
+ mv | day_from_today | delta_amount | counterpart_mapping_key 
+----+----------------+--------------+-------------------------
+ mapping_key | day_from_today | sum 
+-------------+----------------+-----
+ 
+ events_after_second_run 
+                       0
+=== writeoff mode=noninv
+ 
+ mv | day_from_today | delta_amount | counterpart_mapping_key 
+----+----------------+--------------+-------------------------
+ mapping_key | day_from_today | sum 
+-------------+----------------+-----
+ 
+ events_after_second_run 
+                       0
+=== sequence (open, no invoice, open again at 8.00)
+ 
+ 
+ 
+ mv | day_from_today | delta_amount 
+----+----------------+--------------
+ f1 |             -2 |         1.00
+ f1 |             -2 |         7.00
+ f2 |             -2 |         1.50
+ f2 |             -2 |        10.50
+ f3 |              0 |       -10.50
+ f3 |              0 |        -1.50
+ mv | applied_inventory_delta 
+----+-------------------------
+ f1 |                    8.00
+ f2 |                   12.00
+ f3 |                  -12.00

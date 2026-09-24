@@ -81,12 +81,12 @@ begin
           order by x.physical_at desc,x.system_created_at desc,x.id desc limit 1) end;
       v_target:=case when v_would is null then 0
         else round((r.qty_signed*(v_would-coalesce(r.original_unit_cost_snapshot,r.unit_cost_snapshot)))::numeric,2) end;
-      -- Both legs on one day (a closed E, a recost without a late invoice, a reversal on the movement's own day): net zero
-      -- that day, so no legs (the previous posting).
+      -- Both legs on one day (a closed E, a recost without a late invoice): the movement keeps what it has (its interim until
+      -- the reversal) and the reversal nets the pair to zero that day, as the previous single posting did.
       if v_closed or least(greatest(v_e,erp._cp3_business_date(r.physical_at)),erp._cp3_business_date(statement_timestamp()))
          >=(select min(least(greatest(v_e,erp._cp3_business_date(rv.physical_at)),erp._cp3_business_date(statement_timestamp())))
             from erp.material_stock_movements rv where rv.reversal_of_id=r.id) then
-        v_target:=0;
+        v_target:=coalesce((select s.applied_inventory_delta from erp.material_cost_revaluation_state s where s.movement_id=r.id),0);
       end if;
     else
       v_target:=round((r.qty_signed*(r.unit_cost_snapshot-coalesce(r.original_unit_cost_snapshot,r.unit_cost_snapshot)))::numeric,2);
@@ -130,6 +130,49 @@ begin
     values(q.mid,q.tgt,statement_timestamp())
     on conflict(movement_id) do update set applied_inventory_delta=excluded.applied_inventory_delta,updated_at=statement_timestamp();
     end loop;
+  end loop;
+  -- AZ rev2.1: a reversed write-off (outbound item of a material adjustment; a pocket-fabric usage keeps its own period rule)
+  -- left at its posting cost while the stock it came from is revalued, and the adjustment document's own cumulative
+  -- revaluation (erp._cp6_sync_material_adjustment_revaluation) targets it to zero once reversed. Between the adjustment
+  -- day and the reversal day the write-off carries the replayed cost: +I against the write-off account on its day, -I on the
+  -- reversal's day (event and state on the reversal movement, outside the document's own book). Both legs on one day: kept.
+  for r in select msm.*,rv.id rv_id,rv.physical_at rv_at
+      from erp.material_stock_movements msm join erp.material_adjustment_items i on i.id=msm.source_id
+      join erp.material_stock_movements rv on rv.reversal_of_id=msm.id
+    where msm.material_id=p_material_id and msm.source_type='MATERIAL_ADJUSTMENT_ITEM' and msm.reversal_of_id is null
+      and msm.qty_signed<0 and not exists(select 1 from erp.pocket_fabric_usage u where u.adjustment_id=i.adjustment_id)
+    order by msm.physical_at,msm.system_created_at,msm.id
+  loop
+    select s.applied_inventory_delta into v_old from erp.material_cost_revaluation_state s where s.movement_id=r.rv_id for update;
+    v_old:=coalesce(v_old,0);
+    v_would:=(select h.average_after from erp.material_cost_history h join erp.material_stock_movements hm on hm.id=h.movement_id
+          where h.material_id=p_material_id and (hm.physical_at,hm.system_created_at,hm.id)<(r.physical_at,r.system_created_at,r.id)
+          order by hm.physical_at desc,hm.system_created_at desc,hm.id desc limit 1);
+    v_target:=case when v_would is null then 0
+      else round((r.qty_signed*(v_would-coalesce(r.original_unit_cost_snapshot,r.unit_cost_snapshot)))::numeric,2) end;
+    if (case when v_closed then v_e else least(greatest(v_e,erp._cp3_business_date(r.physical_at)),erp._cp3_business_date(statement_timestamp())) end)>=(case when v_closed then v_e else least(greatest(v_e,erp._cp3_business_date(r.rv_at)),erp._cp3_business_date(statement_timestamp())) end) then v_target:=v_old; end if;
+    v_diff:=round(v_target-v_old,2);
+    if abs(v_diff)>0.005 then
+      for q in select case when v_closed then v_e else least(greatest(v_e,erp._cp3_business_date(r.physical_at)),erp._cp3_business_date(statement_timestamp())) end d,v_diff amt union all select case when v_closed then v_e else least(greatest(v_e,erp._cp3_business_date(r.rv_at)),erp._cp3_business_date(statement_timestamp())) end,-v_diff
+      loop
+        v_lines:=case when q.amt>0 then jsonb_build_array(
+            jsonb_build_object('mapping_key','MATERIAL_INVENTORY','debit',q.amt,'credit',0),
+            jsonb_build_object('mapping_key','OTHER_EXPENSE','debit',0,'credit',q.amt))
+          else jsonb_build_array(
+            jsonb_build_object('mapping_key','OTHER_EXPENSE','debit',abs(q.amt),'credit',0),
+            jsonb_build_object('mapping_key','MATERIAL_INVENTORY','debit',0,'credit',abs(q.amt))) end;
+        insert into erp.material_cost_revaluation_events(material_id,movement_id,effective_date,old_inventory_delta,new_inventory_delta,delta_amount,counterpart_mapping_key,po_id,contractor_id)
+        values(p_material_id,r.rv_id,q.d,v_old,v_target,q.amt,'OTHER_EXPENSE',null,null)
+        returning id into v_event;
+        v_journal:=erp.post_journal('MATERIAL_COST_REVALUATION',v_event,q.d,
+          'Automatic material moving-average recost: reversed write-off until its reversal',v_lines);
+        update erp.material_cost_revaluation_events set journal_entry_id=v_journal,
+        effective_date=(select transaction_date from erp.journal_entries where id=v_journal) where id=v_event;
+      end loop;
+    end if;
+    insert into erp.material_cost_revaluation_state(movement_id,applied_inventory_delta,updated_at)
+    values(r.rv_id,v_target,statement_timestamp())
+    on conflict(movement_id) do update set applied_inventory_delta=excluded.applied_inventory_delta,updated_at=statement_timestamp();
   end loop;
   for r in select distinct i.adjustment_id
     from erp.material_adjustment_items i

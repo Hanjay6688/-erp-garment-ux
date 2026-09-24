@@ -776,6 +776,46 @@ def presewing_reversal(cur,today,price=None,installed=None):
                 negative_blockers=negative,invoice=response,quiet=[quiet,quiet_fixture])
 
 
+def writeoff_reversal(cur,today,price):
+    """AZ rev2.1: a reversed write-off. Receipt of 10 units at 10 on d (open); a material adjustment writes all 10 units off on
+    d+1 (count correction); it is reversed today (erp.reverse_material_adjustment_v2); then a late invoice at `price` dated d.
+    The cost engine replays history without the write-off and its reversal, and the adjustment's own revaluation targets it
+    to zero once reversed. Expected: material at the invoice price for the units on hand each day (10 on d, 0 on d+1 and
+    d+2, 10 today), no negative daily balance."""
+    prod=chain.production
+    d=today-timedelta(days=3);d2=d+timedelta(days=1)
+    days=[d+timedelta(days=i) for i in range(4)]
+    boundary.historical.prior.set_open_period(cur,d-timedelta(days=1))
+    quiet=awp.quiet_seed(cur,d,today-timedelta(days=1),exclude=[prod.CONTRACTOR])
+    fx=prod.estimated_receipt(cur,today)
+    adjustment=adjust(cur,fx,d2,10)
+    version=cur.execute('select row_version from erp.material_adjustments where id=%s',(adjustment,)).fetchone()[0]
+    prod.owner(cur)
+    cur.execute('select erp.reverse_material_adjustment_v2(%s,%s,%s,%s)',(adjustment,'AZ rev2.1 probe: write-off reversed',uuid.uuid4(),version))
+    api.admin(cur)
+    status_doc=cur.execute('select status from erp.material_adjustments where id=%s',(adjustment,)).fetchone()[0]
+    reversed_moves=[(r[0],dec(r[1])) for r in cur.execute("""select erp._cp3_business_date(rv.physical_at),rv.qty_signed
+      from erp.material_stock_movements rv join erp.material_stock_movements m on m.id=rv.reversal_of_id
+      join erp.material_adjustment_items i on i.id=m.source_id where m.source_type='MATERIAL_ADJUSTMENT_ITEM' and i.adjustment_id=%s""",(adjustment,)).fetchall()]
+    quiet_fixture=awp.quiet_seed(cur,d,today-timedelta(days=1))
+    before=ledger_days(cur,days,[])
+    response=invoice(cur,fx,today,price,d)
+    after=ledger_days(cur,days,[])
+    x=dec(price)-10
+    move={str(day):{k:dec(after[str(day)][k])-dec(before[str(day)][k]) for k in KEYS} for day in days}
+    stock={str(d):10,str(d2):0,str(d2+timedelta(days=1)):0,str(today):10}
+    pre=awp.preflight(cur,today)
+    negative=[b for b in pre['blockers'] if b['code']=='GL_INVENTORY_NEGATIVE_ASOF'] if pre else None
+    checks=dict(fixture_writeoff_reversed_today=status_doc=='REVERSED' and reversed_moves==[(today,Decimal(10))],
+                material_at_invoice_price_for_units_on_hand=all(move[k]['MATERIAL_INVENTORY']==x*stock[k] for k in stock),
+                no_negative_daily_inventory=negative==[])
+    status='PASS' if all(checks.values()) else ('COUNTEREXAMPLE' if not az_installed(cur) else 'FAIL')
+    return dict(status=status,finding='writer 24 Sep 2026 (AZ rev2.1): a reversed write-off kept its posting cost while the stock it came from was revalued',
+                price=price,receipt_day=str(d),reversed_moves=[[str(a),str(b)] for a,b in reversed_moves],checks=checks,
+                daily_move={k:{kk:str(vv) for kk,vv in v.items()} for k,v in move.items()},negative_blockers=negative,invoice=response,
+                quiet=[quiet,quiet_fixture])
+
+
 def goods_flow(cur,today,price,flow):
     """Branches without a native fixture until 24 Sep (independent review): a lot of 10 pcs (one cut of 10 units) on d+1,
     then RETURN (3 pcs sold on d+1, 1 returned on d+2), REVERSED (all 10 sold on d+2, the sale reversed today before the
@@ -903,7 +943,8 @@ def cases(cur,today):
             ('AZ:BATCH_PARTNER_PO',lambda:batch_partner(cur,today,'10.70')),
             ('AZ:INVOICE_BEFORE_RECEIPT_LOWER',lambda:invoice_before_receipt(cur,today,'8.25')),
             ('AZ:COST_CORRECTION_BEFORE_RECEIPT_LOWER',lambda:cost_correction_before_receipt(cur,today,'8.25')),
-            ('AZ:PRESEWING_REVERSAL_THEN_LATE_INVOICE_LOWER',lambda:presewing_reversal(cur,today,'8.25'))]
+            ('AZ:PRESEWING_REVERSAL_THEN_LATE_INVOICE_LOWER',lambda:presewing_reversal(cur,today,'8.25')),
+            ('AZ:WRITE_OFF_REVERSED_THEN_LATE_INVOICE_LOWER',lambda:writeoff_reversal(cur,today,'8.25'))]
 
 
 def run(phase):

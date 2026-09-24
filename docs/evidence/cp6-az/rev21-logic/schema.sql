@@ -22,5 +22,6 @@ create table erp.journal_lines(journal_entry_id uuid, mapping_key text, debit nu
 create function erp.post_journal(p_source text, p_id uuid, p_date date, p_desc text, p_lines jsonb) returns uuid language plpgsql as $$
 declare v uuid; begin insert into erp.journal_entries(transaction_date) values(p_date) returning id into v;
  insert into erp.journal_lines select v,x->>'mapping_key',(x->>'debit')::numeric,(x->>'credit')::numeric from jsonb_array_elements(p_lines) x; return v; end $$;
-create table erp.material_adjustment_items(id uuid, adjustment_id uuid);
+create table erp.material_adjustment_items(id uuid, adjustment_id uuid, material_id uuid);
+create table erp.pocket_fabric_usage(adjustment_id uuid);
 create function erp._cp6_sync_material_adjustment_revaluation(a uuid, m uuid) returns void language sql as $$select$$;
