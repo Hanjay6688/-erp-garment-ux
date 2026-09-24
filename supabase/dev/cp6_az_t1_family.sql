@@ -28,6 +28,8 @@ declare
   v_e date;
   v_closed boolean;
   v_date date;
+  v_would numeric(24,6);
+  q record;
 begin
   perform erp.require_internal();
   -- AZ (owner, 24 Sep 2026): a correction is dated from the physical movement it corrects when the recost date E is
@@ -66,19 +68,42 @@ begin
     if v_counterpart is null then continue; end if;
 
     if exists(select 1 from erp.material_stock_movements rv where rv.reversal_of_id=r.id) then
-      v_target:=0;
+      -- AZ rev2.1: revalued like the replay would value it, on its own day; its reversal takes it back (legs below).
+      v_would:=case when r.qty_signed<0 then (select h.average_after from erp.material_cost_history h join erp.material_stock_movements hm on hm.id=h.movement_id
+          where h.material_id=p_material_id and (hm.physical_at,hm.system_created_at,hm.id)<(r.physical_at,r.system_created_at,r.id)
+          order by hm.physical_at desc,hm.system_created_at desc,hm.id desc limit 1)
+        when r.source_type='CUTTING_GROUP_RETURN' then (select case when exists(select 1 from erp.material_stock_movements rv where rv.reversal_of_id=x.id)
+            then (select h.average_after from erp.material_cost_history h join erp.material_stock_movements hm on hm.id=h.movement_id
+          where h.material_id=p_material_id and (hm.physical_at,hm.system_created_at,hm.id)<(x.physical_at,x.system_created_at,x.id)
+          order by hm.physical_at desc,hm.system_created_at desc,hm.id desc limit 1) else x.unit_cost_snapshot end
+          from erp.material_stock_movements x where x.material_id=r.material_id and x.source_type='CUTTING_GROUP'
+            and x.source_id=r.source_id and x.movement_type='CUTTING_ISSUE' and x.roll_id is not distinct from r.roll_id
+          order by x.physical_at desc,x.system_created_at desc,x.id desc limit 1) end;
+      v_target:=case when v_would is null then 0
+        else round((r.qty_signed*(v_would-coalesce(r.original_unit_cost_snapshot,r.unit_cost_snapshot)))::numeric,2) end;
+      -- Both legs on one day (a closed E, a recost without a late invoice, a reversal on the movement's own day): net zero
+      -- that day, so no legs (the previous posting).
+      if v_closed or least(greatest(v_e,erp._cp3_business_date(r.physical_at)),erp._cp3_business_date(statement_timestamp()))
+         >=(select min(least(greatest(v_e,erp._cp3_business_date(rv.physical_at)),erp._cp3_business_date(statement_timestamp())))
+            from erp.material_stock_movements rv where rv.reversal_of_id=r.id) then
+        v_target:=0;
+      end if;
     else
       v_target:=round((r.qty_signed*(r.unit_cost_snapshot-coalesce(r.original_unit_cost_snapshot,r.unit_cost_snapshot)))::numeric,2);
     end if;
 
+    -- AZ rev2.1: the movement, then each of its reversals with the opposite target on the reversal's own day.
+    for q in select r.id mid,r.physical_at pat,v_target tgt
+             union all select rv.id,rv.physical_at,-v_target from erp.material_stock_movements rv where rv.reversal_of_id=r.id
+    loop
     select s.applied_inventory_delta into v_old
-    from erp.material_cost_revaluation_state s where s.movement_id=r.id for update;
+    from erp.material_cost_revaluation_state s where s.movement_id=q.mid for update;
     v_old:=coalesce(v_old,0);
-    v_diff:=round(v_target-v_old,2);
+    v_diff:=round(q.tgt-v_old,2);
 
     if abs(v_diff)>0.005 then
       v_date:=case when v_closed then v_e
-        else least(greatest(v_e,erp._cp3_business_date(r.physical_at)),erp._cp3_business_date(statement_timestamp())) end;
+        else least(greatest(v_e,erp._cp3_business_date(q.pat)),erp._cp3_business_date(statement_timestamp())) end;
       if v_diff>0 then
         v_lines:=jsonb_build_array(
           jsonb_build_object('mapping_key','MATERIAL_INVENTORY','debit',v_diff,'credit',0,'po_id',v_po,'contractor_id',v_contractor),
@@ -92,7 +117,7 @@ begin
       end if;
 
       insert into erp.material_cost_revaluation_events(material_id,movement_id,effective_date,old_inventory_delta,new_inventory_delta,delta_amount,counterpart_mapping_key,po_id,contractor_id)
-      values(p_material_id,r.id,v_date,v_old,v_target,v_diff,v_counterpart,v_po,v_contractor)
+      values(p_material_id,q.mid,v_date,v_old,q.tgt,v_diff,v_counterpart,v_po,v_contractor)
       returning id into v_event;
 
       v_journal:=erp.post_journal('MATERIAL_COST_REVALUATION',v_event,v_date,
@@ -102,8 +127,9 @@ begin
     end if;
 
     insert into erp.material_cost_revaluation_state(movement_id,applied_inventory_delta,updated_at)
-    values(r.id,v_target,statement_timestamp())
+    values(q.mid,q.tgt,statement_timestamp())
     on conflict(movement_id) do update set applied_inventory_delta=excluded.applied_inventory_delta,updated_at=statement_timestamp();
+    end loop;
   end loop;
   for r in select distinct i.adjustment_id
     from erp.material_adjustment_items i

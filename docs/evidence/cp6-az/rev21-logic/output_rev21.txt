@@ -1,0 +1,42 @@
+NOTICE:  database "az_rev21_logic" does not exist, skipping
+=== mode=open
+ 
+ mv | day_from_today | new_inventory_delta | delta_amount | counterpart_mapping_key 
+----+----------------+---------------------+--------------+-------------------------
+ f1 |             -2 |                7.00 |         7.00 | WIP
+ f2 |             -2 |               10.50 |        10.50 | WIP
+ f3 |              0 |              -10.50 |       -10.50 | WIP
+ mv | applied_inventory_delta 
+----+-------------------------
+ f1 |                    7.00
+ f2 |                   10.50
+ f3 |                  -10.50
+ 
+ events_after_second_run 
+                       3
+=== mode=closed
+ 
+ mv | day_from_today | new_inventory_delta | delta_amount | counterpart_mapping_key 
+----+----------------+---------------------+--------------+-------------------------
+ f1 |             -3 |                7.00 |         7.00 | WIP
+ mv | applied_inventory_delta 
+----+-------------------------
+ f1 |                    7.00
+ f2 |                    0.00
+ f3 |                    0.00
+ 
+ events_after_second_run 
+                       1
+=== mode=noninv
+ 
+ mv | day_from_today | new_inventory_delta | delta_amount | counterpart_mapping_key 
+----+----------------+---------------------+--------------+-------------------------
+ f1 |              0 |                7.00 |         7.00 | WIP
+ mv | applied_inventory_delta 
+----+-------------------------
+ f1 |                    7.00
+ f2 |                    0.00
+ f3 |                    0.00
+ 
+ events_after_second_run 
+                       1

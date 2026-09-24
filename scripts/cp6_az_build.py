@@ -29,6 +29,9 @@ AZ rev2 (round seven, writer; handoff §23.7 and the independent review of AY re
     sale, return and adjustment day (per-lot HPP change x pieces), FG balancing;
   - accessory recost (erp.refresh_accessory_hpp_after_material_recost): an accrued lot's accessory HPP change enters WIP
     against the reimbursement variance, dated as the PO HPP sync dates it (it moved it out of WIP without a WIP debit);
+  - reversed movements (AZ rev2.1; native AY:PRESEWING_REVERSAL_THEN_LATE_INVOICE_LOWER on 769abfe, MATERIAL_INVENTORY
+    -10.50 between a cut and its pre-sewing reversal): revalued at the replay's cost on their own day, the reversal takes it
+    back on its own day, when a late invoice with an open E dates the two days apart (else zero as before);
   - batch partners: no change needed; the product keeps a cutting batch inside one PO (fixture AZ:BATCH_PARTNER_PO);
   - supplier invoice dated before its goods were received (erp.post_material_supplier_invoice; owner, option 1): booked on
     the receipt day, the invoice date kept as the document date; the purchase cost correction
@@ -62,6 +65,8 @@ REVAL_DECLARE_NEW="""  v_journal uuid;
   v_e date;
   v_closed boolean;
   v_date date;
+  v_would numeric(24,6);
+  q record;
 begin
   perform erp.require_internal();
   -- AZ (owner, 24 Sep 2026): a correction is dated from the physical movement it corrects when the recost date E is
@@ -74,12 +79,67 @@ REVAL_DIFF_OLD="""    if abs(v_diff)>0.005 then
       if v_diff>0 then"""
 REVAL_DIFF_NEW="""    if abs(v_diff)>0.005 then
       v_date:=case when v_closed then v_e
-        else least(greatest(v_e,erp._cp3_business_date(r.physical_at)),erp._cp3_business_date(statement_timestamp())) end;
+        else least(greatest(v_e,erp._cp3_business_date(q.pat)),erp._cp3_business_date(statement_timestamp())) end;
       if v_diff>0 then"""
 REVAL_EVENT_OLD="values(p_material_id,r.id,"+E_EXPR+",v_old,v_target,v_diff,v_counterpart,v_po,v_contractor)"
-REVAL_EVENT_NEW="values(p_material_id,r.id,v_date,v_old,v_target,v_diff,v_counterpart,v_po,v_contractor)"
+REVAL_EVENT_NEW="values(p_material_id,q.mid,v_date,v_old,q.tgt,v_diff,v_counterpart,v_po,v_contractor)"
 REVAL_JOURNAL_OLD="v_journal:=erp.post_journal('MATERIAL_COST_REVALUATION',v_event,"+E_EXPR+","
 REVAL_JOURNAL_NEW="v_journal:=erp.post_journal('MATERIAL_COST_REVALUATION',v_event,v_date,"
+# AZ rev2.1 (writer, 24 Sep 2026; native AY:PRESEWING_REVERSAL_THEN_LATE_INVOICE_LOWER on 769abfe: MATERIAL_INVENTORY
+# -10.50 between the cut and its reversal, GL_INVENTORY_NEGATIVE_ASOF CRITICAL). The cost engine replays a reversed
+# movement and its reversal as if neither happened (erp._recalculate_material_cost_core), so the reversed movement keeps
+# its posting cost and its revaluation was targeted to zero. Physically its units were out (in WIP for a cutting issue)
+# from its day to the reversal's day, so a revaluation of the stock they came from must follow them there. A reversed
+# movement is now revalued at the cost the replay gives the same movement (outbound: the replayed average before it; a
+# cutting return: the cost of its issue) on its own day, and each reversal takes that back on its own day (state per
+# movement; net zero once reversed).
+REVAL_REVERSED_OLD="""    if exists(select 1 from erp.material_stock_movements rv where rv.reversal_of_id=r.id) then
+      v_target:=0;
+    else"""
+AVG_BEFORE="""(select h.average_after from erp.material_cost_history h join erp.material_stock_movements hm on hm.id=h.movement_id
+          where h.material_id=p_material_id and (hm.physical_at,hm.system_created_at,hm.id)<({m}.physical_at,{m}.system_created_at,{m}.id)
+          order by hm.physical_at desc,hm.system_created_at desc,hm.id desc limit 1)"""
+REVAL_REVERSED_NEW="""    if exists(select 1 from erp.material_stock_movements rv where rv.reversal_of_id=r.id) then
+      -- AZ rev2.1: revalued like the replay would value it, on its own day; its reversal takes it back (legs below).
+      v_would:=case when r.qty_signed<0 then """+AVG_BEFORE.format(m='r')+"""
+        when r.source_type='CUTTING_GROUP_RETURN' then (select case when exists(select 1 from erp.material_stock_movements rv where rv.reversal_of_id=x.id)
+            then """+AVG_BEFORE.format(m='x')+""" else x.unit_cost_snapshot end
+          from erp.material_stock_movements x where x.material_id=r.material_id and x.source_type='CUTTING_GROUP'
+            and x.source_id=r.source_id and x.movement_type='CUTTING_ISSUE' and x.roll_id is not distinct from r.roll_id
+          order by x.physical_at desc,x.system_created_at desc,x.id desc limit 1) end;
+      v_target:=case when v_would is null then 0
+        else round((r.qty_signed*(v_would-coalesce(r.original_unit_cost_snapshot,r.unit_cost_snapshot)))::numeric,2) end;
+      -- Both legs on one day (a closed E, a recost without a late invoice, a reversal on the movement's own day): net zero
+      -- that day, so no legs (the previous posting).
+      if v_closed or least(greatest(v_e,erp._cp3_business_date(r.physical_at)),erp._cp3_business_date(statement_timestamp()))
+         >=(select min(least(greatest(v_e,erp._cp3_business_date(rv.physical_at)),erp._cp3_business_date(statement_timestamp())))
+            from erp.material_stock_movements rv where rv.reversal_of_id=r.id) then
+        v_target:=0;
+      end if;
+    else"""
+REVAL_LEGS_OLD="""    select s.applied_inventory_delta into v_old
+    from erp.material_cost_revaluation_state s where s.movement_id=r.id for update;
+    v_old:=coalesce(v_old,0);
+    v_diff:=round(v_target-v_old,2);
+"""
+REVAL_LEGS_NEW="""    -- AZ rev2.1: the movement, then each of its reversals with the opposite target on the reversal's own day.
+    for q in select r.id mid,r.physical_at pat,v_target tgt
+             union all select rv.id,rv.physical_at,-v_target from erp.material_stock_movements rv where rv.reversal_of_id=r.id
+    loop
+    select s.applied_inventory_delta into v_old
+    from erp.material_cost_revaluation_state s where s.movement_id=q.mid for update;
+    v_old:=coalesce(v_old,0);
+    v_diff:=round(q.tgt-v_old,2);
+"""
+REVAL_STATE_OLD="""    insert into erp.material_cost_revaluation_state(movement_id,applied_inventory_delta,updated_at)
+    values(r.id,v_target,statement_timestamp())
+    on conflict(movement_id) do update set applied_inventory_delta=excluded.applied_inventory_delta,updated_at=statement_timestamp();
+  end loop;"""
+REVAL_STATE_NEW="""    insert into erp.material_cost_revaluation_state(movement_id,applied_inventory_delta,updated_at)
+    values(q.mid,q.tgt,statement_timestamp())
+    on conflict(movement_id) do update set applied_inventory_delta=excluded.applied_inventory_delta,updated_at=statement_timestamp();
+    end loop;
+  end loop;"""
 
 # ---------------------------------------------------------------- erp._cp6_sync_material_adjustment_revaluation (AO)
 ADJ_HEAD='CREATE OR REPLACE FUNCTION erp._cp6_sync_material_adjustment_revaluation(p_adjustment uuid, p_material uuid)'
@@ -386,7 +446,8 @@ def function(path,head,subs,once=True):
 
 def build():
     reval=function(AS,REVAL_HEAD,[(REVAL_DECLARE_OLD,REVAL_DECLARE_NEW),(REVAL_DIFF_OLD,REVAL_DIFF_NEW),
-                                  (REVAL_EVENT_OLD,REVAL_EVENT_NEW),(REVAL_JOURNAL_OLD,REVAL_JOURNAL_NEW)])
+                                  (REVAL_EVENT_OLD,REVAL_EVENT_NEW),(REVAL_JOURNAL_OLD,REVAL_JOURNAL_NEW),
+                                  (REVAL_REVERSED_OLD,REVAL_REVERSED_NEW),(REVAL_LEGS_OLD,REVAL_LEGS_NEW),(REVAL_STATE_OLD,REVAL_STATE_NEW)])
     adj=function(AO,ADJ_HEAD,[(ADJ_DECLARE_OLD,ADJ_DECLARE_NEW),(ADJ_DATE_OLD,ADJ_DATE_NEW)])
     residual=function(RESIDUAL_AC,RESIDUAL_HEAD,[(RESIDUAL_OLD,RESIDUAL_NEW)],once=False)
     pocket=function(AP,POCKET_HEAD,[(POCKET_OLD,POCKET_NEW)],once=False)

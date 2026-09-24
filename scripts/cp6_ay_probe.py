@@ -164,78 +164,6 @@ def late_invoice(cur,today,price,closed,zone='Asia/Jakarta'):
                 closed_before=closed_before,invoice=response,quiet=[quiet_items,quiet_fixture])
 
 
-def presewing_reversal(cur,today,price=None):
-    """rev7.4 (writer, 24 Sep 2026): erp.rebuild_po_hpp summed a cutting issue reversed before sewing. Receipt of 10 units
-    at 10 on d (open); one PO and one cutting batch on d+1: group 2 cuts 6 units into 2 pcs (posted, not picked up), group 1
-    cuts 4 units into 8 pcs carried to a FG lot of 8 pcs; today group 2's material flow is reversed before sewing
-    (erp.reverse_cutting_material_flow_before_sewing_v2: the 6 units back in the warehouse, the issue journal out of WIP;
-    the reversal recalculates the material and queues the PO). Without `price` the queue is processed; with `price` a late
-    invoice at `price` dated d processes it (invoice path). Expected: the lot HPP carries only group 1's material (4 units
-    over the batch pieces, x 8 pcs), the PO's WIP never negative; on the invoice path group 1's correction on d+1 and group 2's
-    material leaving the lot on the reversal day (today), not before."""
-    import cp6_az_probe as azp
-    prod=chain.production
-    d=today-timedelta(days=3);d2=d+timedelta(days=1)
-    days=[d+timedelta(days=i) for i in range(4)]
-    boundary.historical.prior.set_open_period(cur,d-timedelta(days=1))
-    quiet=awp.quiet_seed(cur,d,today-timedelta(days=1),exclude=[prod.CONTRACTOR])
-    fx=prod.estimated_receipt(cur,today)
-    api.admin(cur)
-    po=uuid.uuid4();product=prod.base.create_product(cur,uuid.uuid4().hex[:16])
-    cur.execute("""insert into erp.production_orders(id,po_number,model_id,target_qty_pcs,status,current_stage,physical_start_at,notes)
-      values(%s,%s,%s,10,'CUTTING','CUTTING',%s,'AY pre-sewing reversal probe')""",(po,'AY-RV-PO-'+str(po),prod.MODEL,prod.at(d2,7)))
-    batch=uuid.uuid4()
-    cur.execute("insert into erp.cutting_batches(id,po_id,batch_number,cut_at,status,notes) values(%s,%s,%s,%s,'OPEN','AY pre-sewing reversal batch')",
-                (batch,po,'AY-RV-'+batch.hex[:12],prod.at(d2,8)))
-    g2,_=azp.cut_only(cur,fx,po,d2,6,2,batch=batch)
-    g1=azp.produce(cur,fx,po,product,d2,4,8,batch=batch)
-    lot=cur.execute("select id from erp.fg_lots where po_id=%s and lot_origin='PRODUCTION'",(po,)).fetchone()[0]
-    material=lambda:dec(cur.execute("""select c.total_cost from erp.hpp_version_components c join erp.hpp_versions v on v.id=c.hpp_version_id
-      where v.lot_id=%s and v.is_current and c.component_type='MATERIAL'""",(lot,)).fetchone()[0])
-    material_lot=material()
-    eff0=dec(cur.execute('select effective_pcs from erp.v_cutting_batch_totals where cutting_batch_id=%s',(batch,)).fetchone()[0])
-    quiet_fixture=awp.quiet_seed(cur,d,today-timedelta(days=1))
-    before=azp.ledger_days(cur,days,[po])
-    version=cur.execute('select row_version from erp.cutting_groups where id=%s',(g2,)).fetchone()[0]
-    prod.owner(cur)
-    reversal=cur.execute('select erp.reverse_cutting_material_flow_before_sewing_v2(%s,%s,%s,%s)',
-                         (g2,'AY rev7.4 probe: pre-sewing reversal',uuid.uuid4(),version)).fetchone()[0]
-    api.admin(cur)
-    reversed_moves=cur.execute("""select erp._cp3_business_date(rv.physical_at),rv.qty_signed from erp.material_stock_movements rv
-      join erp.material_stock_movements m on m.id=rv.reversal_of_id where m.source_id=%s and m.source_type='CUTTING_GROUP'""",(g2,)).fetchall()
-    queued=cur.execute("select count(*) from erp.cost_recalc_queue where entity_type='PO' and entity_id=%s and status='PENDING'",(po,)).fetchone()[0]
-    if price is None:
-        response=None;prod.owner(cur);cur.execute('select erp.process_cost_recalc_queue(100)');api.admin(cur)
-    else:
-        response=azp.invoice(cur,fx,today,price,d)
-    after=azp.ledger_days(cur,days,[po])
-    eff=dec(cur.execute('select effective_pcs from erp.v_cutting_batch_totals where cutting_batch_id=%s',(batch,)).fetchone()[0])
-    unit=dec(price) if price is not None else Decimal(10)
-    expected=(4*unit*8/eff).quantize(Decimal('0.01'))
-    material_now=material()
-    move={str(day):{k:dec(after[str(day)][k])-dec(before[str(day)][k]) for k in azp.KEYS} for day in days}
-    wip_po={str(day):dec(after[str(day)]['WIP_PO'][str(po)]) for day in days}
-    pre=awp.preflight(cur,today)
-    negative=[b for b in pre['blockers'] if b['code']=='GL_INVENTORY_NEGATIVE_ASOF'] if pre else None
-    checks=dict(fixture_reversed_before_sewing=[(r[0],dec(r[1])) for r in reversed_moves]==[(today,Decimal(6))] and int(reversal['reversed_movement_count'])==1,
-                fixture_lot_took_both_groups_before=abs(material_lot-Decimal(100)*8/eff0)<=Decimal('0.01'),
-                fixture_po_queued_by_reversal=queued==1,
-                hpp_material_without_reversed_issue=abs(material_now-expected)<=Decimal('0.01'),
-                wip_po_never_negative=all(v>=0 for v in wip_po.values()),
-                no_negative_daily_inventory=negative==[])
-    if price is not None:
-        x=dec(price)-10
-        checks.update(fg_group1_correction_on_lot_day=move[str(d2)]['FG_INVENTORY']==(4*x*8/eff).quantize(Decimal('0.01')),
-                      fg_reversed_material_leaves_on_reversal_day=move[str(today)]['FG_INVENTORY']==(4*x*8/eff).quantize(Decimal('0.01'))-(Decimal(60)*8/eff).quantize(Decimal('0.01')),
-                      nothing_on_receipt_day=move[str(d)]['FG_INVENTORY']==0)
-    status='PASS' if all(checks.values()) else ('COUNTEREXAMPLE' if not ay_installed(cur) else 'FAIL')
-    return dict(status=status,finding='writer 24 Sep 2026: erp.rebuild_po_hpp kept a cutting issue reversed before sewing in the HPP (AY rev7.4)',
-                price=price,receipt_day=str(d),effective_pcs_at_lot=str(eff0),effective_pcs=str(eff),material_lot=str(material_lot),material_now=str(material_now),expected_material=str(expected),
-                reversal=reversal,reversed_moves=[[str(a),str(b)] for a,b in reversed_moves],queued=queued,checks=checks,
-                daily_move={k:{kk:str(vv) for kk,vv in v.items()} for k,v in move.items()},wip_po={k:str(v) for k,v in wip_po.items()},
-                negative_blockers=negative,invoice=response,quiet=[quiet,quiet_fixture])
-
-
 def cases(cur,today):
     return [('AY:LATE_INVOICE_LOWER_OPEN_RECEIPT_DAY',lambda:late_invoice(cur,today,'8.25',False)),
             ('AY:LATE_INVOICE_LOWER_OPEN_KIRITIMATI',lambda:late_invoice(cur,today,'8.25',False,'Pacific/Kiritimati')),
@@ -244,8 +172,7 @@ def cases(cur,today):
             ('AY:LATE_INVOICE_HIGHER_CLOSED_HISTORY',lambda:late_invoice(cur,today,'10.70','goods')),
             ('AY:LATE_INVOICE_LOWER_CLOSED_RECEIPT_OPEN_GOODS',lambda:late_invoice(cur,today,'8.25','receipt')),
             ('AY:LATE_INVOICE_HIGHER_CLOSED_RECEIPT_OPEN_GOODS',lambda:late_invoice(cur,today,'10.70','receipt','Pacific/Kiritimati')),
-            ('AY:PRESEWING_REVERSAL_QUEUE',lambda:presewing_reversal(cur,today)),
-            ('AY:PRESEWING_REVERSAL_THEN_LATE_INVOICE_LOWER',lambda:presewing_reversal(cur,today,'8.25'))]
+            ('AY:PRESEWING_REVERSAL_QUEUE',lambda:__import__('cp6_az_probe').presewing_reversal(cur,today,installed=ay_installed))]
 
 
 def run(phase):
