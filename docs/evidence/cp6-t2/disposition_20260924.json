@@ -571,5 +571,6 @@
    "disposition": "MOVED_BY_OWNER_POLICY",
    "proof": "run 3 diagnostic: engine BLOCKED only by PAYROLL_WORK_UNCOVERED, 1 work line(s) created by the case itself"
   }
- ]
+ ],
+ "superseded_by": "docs/evidence/cp6-t2/disposition_run6_20260924.json (owner instruction of 24 Sep: fixture completed, rerun)"
 }

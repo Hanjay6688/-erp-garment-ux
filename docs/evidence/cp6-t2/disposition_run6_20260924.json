@@ -1,0 +1,282 @@
+{
+ "label": "T2_REGRESSION",
+ "title": "T2 disposition after the owner-directed fixture completion (runs 35944088575 and 35945041135)",
+ "production_go": false,
+ "release_evidence": false,
+ "supersedes": "docs/evidence/cp6-t2/disposition_20260924.json (runs 1-3: 70 MOVED_BY_OWNER_POLICY + 5 NOT_TESTED, before the owner instruction of 24 Sep)",
+ "owner_instruction_20260924": "lengkapi persiapan tes yang tidak sedang menguji payroll, perbaiki lima benturan absensi, lalu jalankan ulang; payroll disetujui boleh tetap utang; tes upah belum lunas/sebagian tetap menguji kondisinya; 75 kasus belum boleh disebut lulus",
+ "result": {
+  "AR": "174 WRITER_PASS (146 sequential + 28 races)",
+  "IMPORTS": "31/31 = AU",
+  "VALUES": "65/65 = AU",
+  "NEW_CASES": "34/34",
+  "TEMPORAL": "AT 16 + AU 15 and races PASS",
+  "BUSINESS": "214/230 = AU; 16 moved",
+  "fixture_payrolls": {
+   "records": 101,
+   "approved": 101,
+   "redone_unpaid": 11,
+   "refused": {},
+   "cases": 101
+  }
+ },
+ "of_the_75": {
+  "back_to_au": 59,
+  "still_moved": 16,
+  "note": "The 75 moved cases of runs 2/3: 59 now equal their AU outcome with the fixture completed per owner policy (approved, unpaid payroll); 16 reach their main assertion and are stopped by one finding."
+ },
+ "finding": {
+  "code": "GL_INVENTORY_NEGATIVE_ASOF",
+  "severity": "CRITICAL (AW engine)",
+  "mechanism": "A late supplier invoice that lowers the material price after the material was consumed into FG produced the next day: the recost posts the FG part (and COGS part) of the delta dated on the material receipt day, before the FG lot existed, so the daily FG_INVENTORY balance is negative on that day (-1.50 / -1.57). The AW engine counts any negative daily inventory balance up to the close date as CRITICAL (supabase/dev/cp6_aw_t1_family.sql:386-399), so every later close is held. Cases whose receipt day was closed pass (the delta moves into the open period).",
+  "example": "CALENDAR 1 month: receipt 23 Aug at estimated Rp10/unit, FG in 24 Aug (value 85), 2 pcs sold, invoice 23 Sep at Rp8.25: FG delta -1.57 and COGS delta -1.05 dated 23 Aug.",
+  "options": [
+   "(a) date the FG/COGS part of the recost on the affected FG or sale day (or the invoice processing day) - recost family change",
+   "(b) the engine judges only the balance at the close date - loosens a check, owner permission required",
+   "(c) keep HOLD"
+  ],
+  "decision": "owner/GPT; not changed by the writer"
+ },
+ "cases": [
+  {
+   "case": "INVOICE:UTC:4:False",
+   "au": "CONTROL_PASS",
+   "observed": "BUG_PROVEN",
+   "cause": {
+    "blockers": [
+     [
+      "GL_INVENTORY_NEGATIVE_ASOF",
+      "2026-09-21",
+      -1.5
+     ]
+    ]
+   },
+   "disposition": "FINDING_OWNER_DECISION"
+  },
+  {
+   "case": "INVOICE:Asia/Jakarta:4:False",
+   "au": "CONTROL_PASS",
+   "observed": "BUG_PROVEN",
+   "cause": {
+    "blockers": [
+     [
+      "GL_INVENTORY_NEGATIVE_ASOF",
+      "2026-09-21",
+      -1.5
+     ]
+    ]
+   },
+   "disposition": "FINDING_OWNER_DECISION"
+  },
+  {
+   "case": "INVOICE:Pacific/Kiritimati:4:False",
+   "au": "CONTROL_PASS",
+   "observed": "BUG_PROVEN",
+   "cause": {
+    "blockers": [
+     [
+      "GL_INVENTORY_NEGATIVE_ASOF",
+      "2026-09-21",
+      -1.5
+     ]
+    ]
+   },
+   "disposition": "FINDING_OWNER_DECISION"
+  },
+  {
+   "case": "INVOICE:America/Los_Angeles:4:False",
+   "au": "CONTROL_PASS",
+   "observed": "BUG_PROVEN",
+   "cause": {
+    "blockers": [
+     [
+      "GL_INVENTORY_NEGATIVE_ASOF",
+      "2026-09-21",
+      -1.5
+     ]
+    ]
+   },
+   "disposition": "FINDING_OWNER_DECISION"
+  },
+  {
+   "case": "CALENDAR:1_MONTHS:UTC:False",
+   "au": "DATE_POLICY_REVIEW_REQUIRED",
+   "observed": "BUG_PROVEN",
+   "cause": {
+    "blockers": [
+     [
+      "GL_INVENTORY_NEGATIVE_ASOF",
+      "2026-08-23",
+      -1.57
+     ]
+    ]
+   },
+   "disposition": "HISTORICAL_HOLD_PRESERVED_FINDING"
+  },
+  {
+   "case": "CALENDAR:1_MONTHS:Pacific/Kiritimati:False",
+   "au": "DATE_POLICY_REVIEW_REQUIRED",
+   "observed": "BUG_PROVEN",
+   "cause": {
+    "blockers": [
+     [
+      "GL_INVENTORY_NEGATIVE_ASOF",
+      "2026-08-23",
+      -1.57
+     ]
+    ]
+   },
+   "disposition": "HISTORICAL_HOLD_PRESERVED_FINDING"
+  },
+  {
+   "case": "CALENDAR:2_MONTHS:UTC:False",
+   "au": "DATE_POLICY_REVIEW_REQUIRED",
+   "observed": "BUG_PROVEN",
+   "cause": {
+    "blockers": [
+     [
+      "GL_INVENTORY_NEGATIVE_ASOF",
+      "2026-07-23",
+      -1.57
+     ]
+    ]
+   },
+   "disposition": "HISTORICAL_HOLD_PRESERVED_FINDING"
+  },
+  {
+   "case": "CALENDAR:2_MONTHS:Pacific/Kiritimati:False",
+   "au": "DATE_POLICY_REVIEW_REQUIRED",
+   "observed": "BUG_PROVEN",
+   "cause": {
+    "blockers": [
+     [
+      "GL_INVENTORY_NEGATIVE_ASOF",
+      "2026-07-23",
+      -1.57
+     ]
+    ]
+   },
+   "disposition": "HISTORICAL_HOLD_PRESERVED_FINDING"
+  },
+  {
+   "case": "CALENDAR:3_MONTHS:UTC:False",
+   "au": "DATE_POLICY_REVIEW_REQUIRED",
+   "observed": "BUG_PROVEN",
+   "cause": {
+    "blockers": [
+     [
+      "GL_INVENTORY_NEGATIVE_ASOF",
+      "2026-06-23",
+      -1.57
+     ]
+    ]
+   },
+   "disposition": "HISTORICAL_HOLD_PRESERVED_FINDING"
+  },
+  {
+   "case": "CALENDAR:3_MONTHS:Pacific/Kiritimati:False",
+   "au": "DATE_POLICY_REVIEW_REQUIRED",
+   "observed": "BUG_PROVEN",
+   "cause": {
+    "blockers": [
+     [
+      "GL_INVENTORY_NEGATIVE_ASOF",
+      "2026-06-23",
+      -1.57
+     ]
+    ]
+   },
+   "disposition": "HISTORICAL_HOLD_PRESERVED_FINDING"
+  },
+  {
+   "case": "CALENDAR:JAN31:UTC:False",
+   "au": "DATE_POLICY_REVIEW_REQUIRED",
+   "observed": "BUG_PROVEN",
+   "cause": {
+    "blockers": [
+     [
+      "GL_INVENTORY_NEGATIVE_ASOF",
+      "2026-01-31",
+      -1.57
+     ]
+    ]
+   },
+   "disposition": "HISTORICAL_HOLD_PRESERVED_FINDING"
+  },
+  {
+   "case": "CALENDAR:JAN31:Pacific/Kiritimati:False",
+   "au": "DATE_POLICY_REVIEW_REQUIRED",
+   "observed": "BUG_PROVEN",
+   "cause": {
+    "blockers": [
+     [
+      "GL_INVENTORY_NEGATIVE_ASOF",
+      "2026-01-31",
+      -1.57
+     ]
+    ]
+   },
+   "disposition": "HISTORICAL_HOLD_PRESERVED_FINDING"
+  },
+  {
+   "case": "CALENDAR:FEB28:UTC:False",
+   "au": "DATE_POLICY_REVIEW_REQUIRED",
+   "observed": "BUG_PROVEN",
+   "cause": {
+    "blockers": [
+     [
+      "GL_INVENTORY_NEGATIVE_ASOF",
+      "2026-02-28",
+      -1.57
+     ]
+    ]
+   },
+   "disposition": "HISTORICAL_HOLD_PRESERVED_FINDING"
+  },
+  {
+   "case": "CALENDAR:FEB28:Pacific/Kiritimati:False",
+   "au": "DATE_POLICY_REVIEW_REQUIRED",
+   "observed": "BUG_PROVEN",
+   "cause": {
+    "blockers": [
+     [
+      "GL_INVENTORY_NEGATIVE_ASOF",
+      "2026-02-28",
+      -1.57
+     ]
+    ]
+   },
+   "disposition": "HISTORICAL_HOLD_PRESERVED_FINDING"
+  },
+  {
+   "case": "CALENDAR:MAY31:UTC:False",
+   "au": "DATE_POLICY_REVIEW_REQUIRED",
+   "observed": "BUG_PROVEN",
+   "cause": {
+    "blockers": [
+     [
+      "GL_INVENTORY_NEGATIVE_ASOF",
+      "2026-05-31",
+      -1.57
+     ]
+    ]
+   },
+   "disposition": "HISTORICAL_HOLD_PRESERVED_FINDING"
+  },
+  {
+   "case": "CALENDAR:MAY31:Pacific/Kiritimati:False",
+   "au": "DATE_POLICY_REVIEW_REQUIRED",
+   "observed": "BUG_PROVEN",
+   "cause": {
+    "blockers": [
+     [
+      "GL_INVENTORY_NEGATIVE_ASOF",
+      "2026-05-31",
+      -1.57
+     ]
+    ]
+   },
+   "disposition": "HISTORICAL_HOLD_PRESERVED_FINDING"
+  }
+ ]
+}

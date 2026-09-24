@@ -1,0 +1,321 @@
+{
+ "label": "T2_REGRESSION",
+ "run": 35945041135,
+ "head": "75641f1",
+ "seed": "QUIETED",
+ "fixture": "PAYROLL_APPROVED",
+ "production_go": false,
+ "release_evidence": false,
+ "quieting": [
+  {
+   "target": "BUSINESS",
+   "closed_through": "2026-08-31",
+   "refused": [],
+   "reopened_status": "READY",
+   "after_status": "READY"
+  },
+  {
+   "target": "IMPORTS",
+   "closed_through": "2026-08-31",
+   "refused": [],
+   "reopened_status": "READY",
+   "after_status": "READY"
+  },
+  {
+   "target": "VALUES",
+   "closed_through": "2026-08-31",
+   "refused": [],
+   "reopened_status": "READY",
+   "after_status": "READY"
+  },
+  {
+   "target": "NEW_CASES",
+   "closed_through": "2026-08-31",
+   "refused": [],
+   "reopened_status": "READY",
+   "after_status": "READY"
+  },
+  {
+   "target": "AR_SEQUENTIAL",
+   "closed_through": "2026-08-31",
+   "refused": [],
+   "reopened_status": "READY",
+   "after_status": "READY"
+  }
+ ],
+ "groups": {
+  "AR": {
+   "status": "WRITER_PASS",
+   "sequential": {
+    "status": "WRITER_PASS",
+    "counts": {
+     "PASS": 146
+    }
+   },
+   "case_count": 174,
+   "races": {}
+  },
+  "business": {
+   "status": "INCOMPLETE",
+   "counts": {
+    "PASS": 179,
+    "CONTROL_PASS": 35,
+    "BUG_PROVEN": 16
+   },
+   "matches_au_outcome": false
+  },
+  "imports": {
+   "status": "WRITER_PASS",
+   "counts": {
+    "PASS": 31
+   },
+   "matches_au_outcome": true
+  },
+  "values": {
+   "status": "WRITER_PASS",
+   "counts": {
+    "PASS": 65
+   },
+   "matches_au_outcome": true
+  },
+  "NEW_CASES": {
+   "status": "WRITER_PASS",
+   "counts": {
+    "PASS": 34
+   }
+  }
+ },
+ "fixture_payrolls": {
+  "records": 101,
+  "approved": 101,
+  "redone_unpaid": 11,
+  "refused": {},
+  "cases": 101
+ },
+ "moved": [
+  {
+   "case": "INVOICE:UTC:4:False",
+   "expected": "CONTROL_PASS",
+   "observed": "BUG_PROVEN",
+   "cause": {
+    "blockers": [
+     [
+      "GL_INVENTORY_NEGATIVE_ASOF",
+      "2026-09-21",
+      -1.5
+     ]
+    ]
+   }
+  },
+  {
+   "case": "INVOICE:Asia/Jakarta:4:False",
+   "expected": "CONTROL_PASS",
+   "observed": "BUG_PROVEN",
+   "cause": {
+    "blockers": [
+     [
+      "GL_INVENTORY_NEGATIVE_ASOF",
+      "2026-09-21",
+      -1.5
+     ]
+    ]
+   }
+  },
+  {
+   "case": "INVOICE:Pacific/Kiritimati:4:False",
+   "expected": "CONTROL_PASS",
+   "observed": "BUG_PROVEN",
+   "cause": {
+    "blockers": [
+     [
+      "GL_INVENTORY_NEGATIVE_ASOF",
+      "2026-09-21",
+      -1.5
+     ]
+    ]
+   }
+  },
+  {
+   "case": "INVOICE:America/Los_Angeles:4:False",
+   "expected": "CONTROL_PASS",
+   "observed": "BUG_PROVEN",
+   "cause": {
+    "blockers": [
+     [
+      "GL_INVENTORY_NEGATIVE_ASOF",
+      "2026-09-21",
+      -1.5
+     ]
+    ]
+   }
+  },
+  {
+   "case": "CALENDAR:1_MONTHS:UTC:False",
+   "expected": "DATE_POLICY_REVIEW_REQUIRED",
+   "observed": "BUG_PROVEN",
+   "cause": {
+    "blockers": [
+     [
+      "GL_INVENTORY_NEGATIVE_ASOF",
+      "2026-08-23",
+      -1.57
+     ]
+    ]
+   }
+  },
+  {
+   "case": "CALENDAR:1_MONTHS:Pacific/Kiritimati:False",
+   "expected": "DATE_POLICY_REVIEW_REQUIRED",
+   "observed": "BUG_PROVEN",
+   "cause": {
+    "blockers": [
+     [
+      "GL_INVENTORY_NEGATIVE_ASOF",
+      "2026-08-23",
+      -1.57
+     ]
+    ]
+   }
+  },
+  {
+   "case": "CALENDAR:2_MONTHS:UTC:False",
+   "expected": "DATE_POLICY_REVIEW_REQUIRED",
+   "observed": "BUG_PROVEN",
+   "cause": {
+    "blockers": [
+     [
+      "GL_INVENTORY_NEGATIVE_ASOF",
+      "2026-07-23",
+      -1.57
+     ]
+    ]
+   }
+  },
+  {
+   "case": "CALENDAR:2_MONTHS:Pacific/Kiritimati:False",
+   "expected": "DATE_POLICY_REVIEW_REQUIRED",
+   "observed": "BUG_PROVEN",
+   "cause": {
+    "blockers": [
+     [
+      "GL_INVENTORY_NEGATIVE_ASOF",
+      "2026-07-23",
+      -1.57
+     ]
+    ]
+   }
+  },
+  {
+   "case": "CALENDAR:3_MONTHS:UTC:False",
+   "expected": "DATE_POLICY_REVIEW_REQUIRED",
+   "observed": "BUG_PROVEN",
+   "cause": {
+    "blockers": [
+     [
+      "GL_INVENTORY_NEGATIVE_ASOF",
+      "2026-06-23",
+      -1.57
+     ]
+    ]
+   }
+  },
+  {
+   "case": "CALENDAR:3_MONTHS:Pacific/Kiritimati:False",
+   "expected": "DATE_POLICY_REVIEW_REQUIRED",
+   "observed": "BUG_PROVEN",
+   "cause": {
+    "blockers": [
+     [
+      "GL_INVENTORY_NEGATIVE_ASOF",
+      "2026-06-23",
+      -1.57
+     ]
+    ]
+   }
+  },
+  {
+   "case": "CALENDAR:JAN31:UTC:False",
+   "expected": "DATE_POLICY_REVIEW_REQUIRED",
+   "observed": "BUG_PROVEN",
+   "cause": {
+    "blockers": [
+     [
+      "GL_INVENTORY_NEGATIVE_ASOF",
+      "2026-01-31",
+      -1.57
+     ]
+    ]
+   }
+  },
+  {
+   "case": "CALENDAR:JAN31:Pacific/Kiritimati:False",
+   "expected": "DATE_POLICY_REVIEW_REQUIRED",
+   "observed": "BUG_PROVEN",
+   "cause": {
+    "blockers": [
+     [
+      "GL_INVENTORY_NEGATIVE_ASOF",
+      "2026-01-31",
+      -1.57
+     ]
+    ]
+   }
+  },
+  {
+   "case": "CALENDAR:FEB28:UTC:False",
+   "expected": "DATE_POLICY_REVIEW_REQUIRED",
+   "observed": "BUG_PROVEN",
+   "cause": {
+    "blockers": [
+     [
+      "GL_INVENTORY_NEGATIVE_ASOF",
+      "2026-02-28",
+      -1.57
+     ]
+    ]
+   }
+  },
+  {
+   "case": "CALENDAR:FEB28:Pacific/Kiritimati:False",
+   "expected": "DATE_POLICY_REVIEW_REQUIRED",
+   "observed": "BUG_PROVEN",
+   "cause": {
+    "blockers": [
+     [
+      "GL_INVENTORY_NEGATIVE_ASOF",
+      "2026-02-28",
+      -1.57
+     ]
+    ]
+   }
+  },
+  {
+   "case": "CALENDAR:MAY31:UTC:False",
+   "expected": "DATE_POLICY_REVIEW_REQUIRED",
+   "observed": "BUG_PROVEN",
+   "cause": {
+    "blockers": [
+     [
+      "GL_INVENTORY_NEGATIVE_ASOF",
+      "2026-05-31",
+      -1.57
+     ]
+    ]
+   }
+  },
+  {
+   "case": "CALENDAR:MAY31:Pacific/Kiritimati:False",
+   "expected": "DATE_POLICY_REVIEW_REQUIRED",
+   "observed": "BUG_PROVEN",
+   "cause": {
+    "blockers": [
+     [
+      "GL_INVENTORY_NEGATIVE_ASOF",
+      "2026-05-31",
+      -1.57
+     ]
+    ]
+   }
+  }
+ ]
+}
