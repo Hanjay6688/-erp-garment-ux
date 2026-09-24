@@ -1,0 +1,678 @@
+{
+  "label": "T3_PREP",
+  "run": 35965246358,
+  "head": "2c1cebd",
+  "production_go": false,
+  "release_evidence": false,
+  "jobs": {
+    "install": {
+      "job": 107522269080,
+      "hosted_fingerprint": {
+        "equal": true,
+        "kinds": 16,
+        "differ": {},
+        "explained": [
+          "platform_ledger"
+        ]
+      },
+      "hosted_capsules": {
+        "equal_flag": true,
+        "equal": 11,
+        "of": 11,
+        "rows_differing": 0
+      },
+      "files": {
+        "AC": "PASS",
+        "AD": "PASS",
+        "AE": "PASS",
+        "AF": "PASS",
+        "AG": "PASS",
+        "AH": "PASS",
+        "AI": "PASS",
+        "AJ": "PASS",
+        "AK": "PASS",
+        "AL": "PASS",
+        "AM": "PASS",
+        "AN": "PASS",
+        "AO": "PASS",
+        "AP": "PASS",
+        "AQ": "PASS",
+        "AR": "PASS",
+        "AS": "PASS",
+        "AT": "PASS",
+        "AU": "PASS",
+        "AV": "PASS",
+        "AW": "PASS",
+        "AX": "PASS",
+        "AY": "PASS",
+        "AZ": "PASS"
+      },
+      "file_errors": [],
+      "stages": [
+        {
+          "stage": "PACKAGE",
+          "status": "PASS",
+          "error": null
+        },
+        {
+          "stage": "AW_AX_AY_AZ_VERIFY",
+          "status": "PASS",
+          "error": null
+        }
+      ],
+      "security_advisors": {
+        "status": "REVIEW_REQUIRED",
+        "before": 73,
+        "after": 125,
+        "added": {
+          "rls_enabled_no_policy/INFO": 52
+        },
+        "removed": [],
+        "added_objects": [
+          "accounting_close_filings_v1",
+          "bs_case_manual_origins_v1",
+          "cp6_v2620ac_relation_rollback_capsule",
+          "cp6_v2620ac_rollback_capsule",
+          "cp6_v2620ad_rollback_capsule",
+          "cp6_v2620ae_rollback_capsule",
+          "cp6_v2620af_rollback_capsule",
+          "cp6_v2620ag_rollback_capsule",
+          "cp6_v2620ah_rollback_capsule",
+          "cp6_v2620ai_rollback_capsule",
+          "cp6_v2620aj_rollback_capsule",
+          "cp6_v2620ak_rollback_capsule",
+          "cp6_v2620al_rollback_capsule",
+          "cp6_v2620am_rollback_capsule",
+          "cp6_v2620an_rollback_capsule",
+          "cp6_v2620ao_rollback_capsule",
+          "cp6_v2620ap_rollback_capsule",
+          "cp6_v2620aq_rollback_capsule",
+          "cp6_v2620ar_rollback_capsule",
+          "cp6_v2620as_rollback_capsule",
+          "cp6_v2620at_rollback_capsule",
+          "cp6_v2620au_rollback_capsule",
+          "cp6_v2620av_rollback_capsule",
+          "cp6_v2620aw_rollback_capsule",
+          "cp6_v2620ax_rollback_capsule",
+          "cp6_v2620ay_rollback_capsule",
+          "cp6_v2620az_rollback_capsule",
+          "fg_unsourced_receipts_v1",
+          "fg_unsourced_repair_wages_v1",
+          "initial_import_bs_value_events",
+          "initial_import_cost_origins",
+          "initial_import_financial_sources",
+          "initial_import_opening_stock_sources",
+          "initial_import_origin_cost_events",
+          "initial_import_prepayment_events",
+          "initial_import_prepayment_payments",
+          "initial_import_prepayments",
+          "initial_import_production_sources",
+          "initial_import_receipt_headers",
+          "initial_import_receipt_lines",
+          "initial_import_wip_output_reversals",
+          "initial_import_wip_outputs",
+          "invoice_recost_execution_context",
+          "laundry_rate_owner_estimates_v1",
+          "pocket_fabric_execution_context",
+          "pocket_fabric_materials",
+          "pocket_fabric_usage",
+          "pocket_period_destinations",
+          "pocket_period_events",
+          "pocket_period_sources",
+          "pocket_periods",
+          "product_identity_mutation_context_v1"
+        ]
+      },
+      "backup_restore_drill": {
+        "status": "RESTORED_SAME_MEANING",
+        "checks": {
+          "restore_errors_only_pg_cron": true,
+          "catalog_explained": true,
+          "data_identical": true,
+          "engine_answer_present": true,
+          "engine_equal": true
+        },
+        "restore": {
+          "exit": 1,
+          "error_count": 19,
+          "ignored_reported": 19,
+          "unexplained": []
+        },
+        "error_kinds": [
+          "can only create extension in database postgres",
+          "extension \"pg_cron\" does not exist",
+          "relation \"cron.jobid_seq\" does not exist",
+          "relation \"cron.runid_seq\" does not exist",
+          "schema \"cron\" does not exist"
+        ],
+        "data": {
+          "tables": 316,
+          "rows": 1637,
+          "schemas": [
+            "_realtime",
+            "auth",
+            "erp",
+            "realtime",
+            "storage",
+            "supabase_functions",
+            "supabase_migrations",
+            "vault"
+          ],
+          "differ": {}
+        },
+        "engine": {
+          "day": "2026-09-23",
+          "equal": true,
+          "source_status": "READY",
+          "restored_status": "READY"
+        },
+        "source_cron_jobs": 0,
+        "catalog_classes": {
+          "constraint": {
+            "VARCHAR_IN_LIST_REPARSE": 29
+          },
+          "extension": {
+            "PG_CRON_ONLY_IN_DATABASE_POSTGRES": 1
+          },
+          "index": {
+            "VARCHAR_IN_LIST_REPARSE": 1
+          },
+          "view": {
+            "VARCHAR_IN_LIST_REPARSE": 6
+          }
+        },
+        "error": null
+      },
+      "status": "ALL_STAGES_INSTALLED",
+      "error": null,
+      "primary_unchanged": true,
+      "auth_users": [
+        0,
+        0
+      ],
+      "ledger_final": {
+        "app": [
+          "v2.6.20aa",
+          "v2.6.20ab",
+          "v2.6.20ac",
+          "v2.6.20ad",
+          "v2.6.20ae",
+          "v2.6.20af",
+          "v2.6.20ag",
+          "v2.6.20ah",
+          "v2.6.20ai",
+          "v2.6.20aj",
+          "v2.6.20ak",
+          "v2.6.20al",
+          "v2.6.20am",
+          "v2.6.20an",
+          "v2.6.20ao",
+          "v2.6.20ap",
+          "v2.6.20aq",
+          "v2.6.20ar",
+          "v2.6.20as",
+          "v2.6.20at",
+          "v2.6.20au",
+          "v2.6.20av",
+          "v2.6.20aw",
+          "v2.6.20ax",
+          "v2.6.20ay",
+          "v2.6.20az"
+        ],
+        "platform_last": "20260924010300"
+      },
+      "browser_status": null
+    },
+    "capture": {
+      "job": 107522268919,
+      "hosted_fingerprint": {
+        "equal": true,
+        "kinds": 16,
+        "differ": {},
+        "explained": [
+          "platform_ledger"
+        ]
+      },
+      "hosted_capsules": {
+        "equal_flag": true,
+        "equal": 11,
+        "of": 11,
+        "rows_differing": 0
+      },
+      "captured": {
+        "AC": {
+          "status": "PASS",
+          "subs": {
+            "AC_VIEW": 2
+          }
+        },
+        "AD": {
+          "status": "PASS",
+          "subs": {
+            "LEDGER": 1
+          }
+        },
+        "AE": {
+          "status": "PASS",
+          "subs": {
+            "LEDGER": 1
+          }
+        },
+        "AF": {
+          "status": "PASS",
+          "subs": {
+            "LEDGER": 1
+          }
+        },
+        "AG": {
+          "status": "PASS",
+          "subs": {
+            "LEDGER": 1
+          }
+        },
+        "AH": {
+          "status": "PASS",
+          "subs": {
+            "LEDGER": 1
+          }
+        },
+        "AI": {
+          "status": "PASS",
+          "subs": {
+            "LEDGER": 1
+          }
+        },
+        "AJ": {
+          "status": "PASS",
+          "subs": {
+            "LEDGER": 1
+          }
+        },
+        "AK": {
+          "status": "PASS",
+          "subs": {
+            "LEDGER": 1
+          }
+        },
+        "AL": {
+          "status": "PASS",
+          "subs": {
+            "LEDGER": 1
+          }
+        },
+        "AM": {
+          "status": "PASS",
+          "subs": {
+            "LEDGER": 1
+          }
+        },
+        "AN": {
+          "status": "PASS",
+          "subs": {
+            "LEDGER": 1
+          }
+        },
+        "AO": {
+          "status": "PASS",
+          "subs": {
+            "LEDGER": 1,
+            "CAPSULE": 2,
+            "CATALOG": 2
+          }
+        },
+        "AP": {
+          "status": "PASS",
+          "subs": {
+            "LEDGER": 1,
+            "CAPSULE": 2,
+            "CATALOG": 2
+          }
+        },
+        "AQ": {
+          "status": "PASS",
+          "subs": {
+            "LEDGER": 2,
+            "CAPSULE": 2,
+            "CATALOG": 2
+          }
+        },
+        "AR": {
+          "status": "PASS",
+          "subs": {
+            "LEDGER": 3,
+            "CAPSULE": 2,
+            "CATALOG": 2
+          }
+        },
+        "AS": {
+          "status": "PASS",
+          "subs": {
+            "LEDGER": 4,
+            "CAPSULE": 2,
+            "CATALOG": 2
+          }
+        },
+        "AT": {
+          "status": "PASS",
+          "subs": {
+            "LEDGER": 5,
+            "CAPSULE": 2,
+            "CATALOG": 2
+          }
+        },
+        "AU": {
+          "status": "PASS",
+          "subs": {
+            "LEDGER": 6,
+            "CAPSULE": 2,
+            "CATALOG": 2
+          }
+        },
+        "AV": {
+          "status": "PASS",
+          "subs": {
+            "LEDGER": 7,
+            "CAPSULE": 2,
+            "CATALOG": 2
+          }
+        },
+        "AW": {
+          "status": "PASS",
+          "subs": {
+            "LEDGER": 20,
+            "CAPSULE": 10,
+            "CATALOG": 2
+          }
+        },
+        "AX": {
+          "status": "PASS",
+          "subs": {
+            "LEDGER": 21,
+            "CAPSULE": 11,
+            "CATALOG": 2
+          }
+        },
+        "AY": {
+          "status": "PASS",
+          "subs": {
+            "LEDGER": 22,
+            "CAPSULE": 12,
+            "CATALOG": 2
+          }
+        },
+        "AZ": {
+          "status": "PASS",
+          "subs": {
+            "LEDGER": 23,
+            "CAPSULE": 13,
+            "CATALOG": 2
+          }
+        }
+      },
+      "stages": [
+        {
+          "stage": "PACKAGE",
+          "status": "PASS",
+          "error": null
+        },
+        {
+          "stage": "AW_AX_AY_AZ_VERIFY",
+          "status": "PASS",
+          "error": null
+        }
+      ],
+      "pins_reproduced": {
+        "equal": true,
+        "differ": []
+      },
+      "pins_log": "T3_PINS_SHA256 a776e0667cdc74e928c77af91c18a0ef5e45baa9e9c5073d2cbe0e307d4f6740 65237",
+      "security_advisors": {
+        "status": "REVIEW_REQUIRED",
+        "before": 73,
+        "after": 125,
+        "added": {
+          "rls_enabled_no_policy/INFO": 52
+        },
+        "removed": [],
+        "added_objects": [
+          "accounting_close_filings_v1",
+          "bs_case_manual_origins_v1",
+          "cp6_v2620ac_relation_rollback_capsule",
+          "cp6_v2620ac_rollback_capsule",
+          "cp6_v2620ad_rollback_capsule",
+          "cp6_v2620ae_rollback_capsule",
+          "cp6_v2620af_rollback_capsule",
+          "cp6_v2620ag_rollback_capsule",
+          "cp6_v2620ah_rollback_capsule",
+          "cp6_v2620ai_rollback_capsule",
+          "cp6_v2620aj_rollback_capsule",
+          "cp6_v2620ak_rollback_capsule",
+          "cp6_v2620al_rollback_capsule",
+          "cp6_v2620am_rollback_capsule",
+          "cp6_v2620an_rollback_capsule",
+          "cp6_v2620ao_rollback_capsule",
+          "cp6_v2620ap_rollback_capsule",
+          "cp6_v2620aq_rollback_capsule",
+          "cp6_v2620ar_rollback_capsule",
+          "cp6_v2620as_rollback_capsule",
+          "cp6_v2620at_rollback_capsule",
+          "cp6_v2620au_rollback_capsule",
+          "cp6_v2620av_rollback_capsule",
+          "cp6_v2620aw_rollback_capsule",
+          "cp6_v2620ax_rollback_capsule",
+          "cp6_v2620ay_rollback_capsule",
+          "cp6_v2620az_rollback_capsule",
+          "fg_unsourced_receipts_v1",
+          "fg_unsourced_repair_wages_v1",
+          "initial_import_bs_value_events",
+          "initial_import_cost_origins",
+          "initial_import_financial_sources",
+          "initial_import_opening_stock_sources",
+          "initial_import_origin_cost_events",
+          "initial_import_prepayment_events",
+          "initial_import_prepayment_payments",
+          "initial_import_prepayments",
+          "initial_import_production_sources",
+          "initial_import_receipt_headers",
+          "initial_import_receipt_lines",
+          "initial_import_wip_output_reversals",
+          "initial_import_wip_outputs",
+          "invoice_recost_execution_context",
+          "laundry_rate_owner_estimates_v1",
+          "pocket_fabric_execution_context",
+          "pocket_fabric_materials",
+          "pocket_fabric_usage",
+          "pocket_period_destinations",
+          "pocket_period_events",
+          "pocket_period_sources",
+          "pocket_periods",
+          "product_identity_mutation_context_v1"
+        ]
+      },
+      "backup_restore_drill": {
+        "status": "RESTORED_SAME_MEANING",
+        "checks": {
+          "restore_errors_only_pg_cron": true,
+          "catalog_explained": true,
+          "data_identical": true,
+          "engine_answer_present": true,
+          "engine_equal": true
+        },
+        "restore": {
+          "exit": 1,
+          "error_count": 19,
+          "ignored_reported": 19,
+          "unexplained": []
+        },
+        "error_kinds": [
+          "can only create extension in database postgres",
+          "extension \"pg_cron\" does not exist",
+          "relation \"cron.jobid_seq\" does not exist",
+          "relation \"cron.runid_seq\" does not exist",
+          "schema \"cron\" does not exist"
+        ],
+        "data": {
+          "tables": 316,
+          "rows": 1637,
+          "schemas": [
+            "_realtime",
+            "auth",
+            "erp",
+            "realtime",
+            "storage",
+            "supabase_functions",
+            "supabase_migrations",
+            "vault"
+          ],
+          "differ": {}
+        },
+        "engine": {
+          "day": "2026-09-23",
+          "equal": true,
+          "source_status": "READY",
+          "restored_status": "READY"
+        },
+        "source_cron_jobs": 0,
+        "catalog_classes": {
+          "constraint": {
+            "VARCHAR_IN_LIST_REPARSE": 29
+          },
+          "extension": {
+            "PG_CRON_ONLY_IN_DATABASE_POSTGRES": 1
+          },
+          "index": {
+            "VARCHAR_IN_LIST_REPARSE": 1
+          },
+          "view": {
+            "VARCHAR_IN_LIST_REPARSE": 6
+          }
+        },
+        "error": null
+      },
+      "status": "ALL_STAGES_INSTALLED",
+      "error": null,
+      "primary_unchanged": true,
+      "auth_users": [
+        0,
+        0
+      ],
+      "ledger_final": {
+        "app": [
+          "v2.6.20aa",
+          "v2.6.20ab",
+          "v2.6.20ac",
+          "v2.6.20ad",
+          "v2.6.20ae",
+          "v2.6.20af",
+          "v2.6.20ag",
+          "v2.6.20ah",
+          "v2.6.20ai",
+          "v2.6.20aj",
+          "v2.6.20ak",
+          "v2.6.20al",
+          "v2.6.20am",
+          "v2.6.20an",
+          "v2.6.20ao",
+          "v2.6.20ap",
+          "v2.6.20aq",
+          "v2.6.20ar",
+          "v2.6.20as",
+          "v2.6.20at",
+          "v2.6.20au",
+          "v2.6.20av",
+          "v2.6.20aw",
+          "v2.6.20ax",
+          "v2.6.20ay",
+          "v2.6.20az"
+        ],
+        "platform_last": "20260924010300"
+      },
+      "browser_status": null
+    },
+    "browser": {
+      "job": 107522269127,
+      "hosted_fingerprint": {
+        "equal": true,
+        "kinds": 16,
+        "differ": {},
+        "explained": [
+          "platform_ledger"
+        ]
+      },
+      "hosted_capsules": {
+        "equal_flag": true,
+        "equal": 11,
+        "of": 11,
+        "rows_differing": 0
+      },
+      "files": {
+        "AC": "PASS",
+        "AD": "PASS",
+        "AE": "PASS",
+        "AF": "PASS",
+        "AG": "PASS",
+        "AH": "PASS",
+        "AI": "PASS",
+        "AJ": "PASS",
+        "AK": "PASS",
+        "AL": "PASS",
+        "AM": "PASS",
+        "AN": "PASS",
+        "AO": "PASS",
+        "AP": "PASS",
+        "AQ": "PASS",
+        "AR": "PASS",
+        "AS": "PASS",
+        "AT": "PASS",
+        "AU": "PASS",
+        "AV": "PASS",
+        "AW": "PASS",
+        "AX": "PASS",
+        "AY": "PASS",
+        "AZ": "PASS"
+      },
+      "file_errors": [],
+      "stages": [
+        {
+          "stage": "PACKAGE",
+          "status": "PASS",
+          "error": null
+        },
+        {
+          "stage": "AW_AX_AY_AZ_VERIFY",
+          "status": "PASS",
+          "error": null
+        }
+      ],
+      "browser": {
+        "status": "PASS",
+        "cases": {
+          "REAL_LOGIN_PAGE": "PASS",
+          "ANONYMOUS_REFUSED": "PASS",
+          "REAL_PASSWORD_BROWSER_LOGIN": "PASS",
+          "AMBIGUOUS_REFUSED_0": "PASS",
+          "LOST_REPLY_RELOAD_EXACT_REPLAY": "PASS",
+          "EXACT_BRAND_STOCK_HPP_0": "PASS",
+          "LINKED_INVERSE_0": "PASS",
+          "AMBIGUOUS_REFUSED_1": "PASS",
+          "EXACT_BRAND_STOCK_HPP_1": "PASS",
+          "LINKED_INVERSE_1": "PASS"
+        },
+        "flow_status": "PASS",
+        "console_errors": 0,
+        "candidate_verified_after_flow": "T3_PACKAGE_PLUS_AW_AX_AY_AZ_T1",
+        "rest_remaining": false,
+        "error": null
+      },
+      "status": "BROWSER_PASS",
+      "error": null,
+      "primary_unchanged": true,
+      "auth_users": [
+        0,
+        0
+      ],
+      "ledger_final": null,
+      "browser_status": null
+    }
+  }
+}
