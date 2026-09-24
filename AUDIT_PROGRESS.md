@@ -155,3 +155,17 @@ Updated 2026-09-24T20:39:59.893Z.
 
 
 8. Only after our current full audit is complete, locate the Claude report on GitHub and verify each finding independently against the three contracts, exact candidate, actual reproduction and material impact. User-provided competitor run IDs remain leads, not inherited conclusions. No permission rejection is to be bypassed.
+
+## 2026-09-24 — user-requested blocker diagnosis and external cross-review
+
+The user explicitly changed the earlier ordering: check the workspace outage and read Claude's GitHub report now; then prioritized diagnosis/remediation of four reported execution blockers before the broader report verdict. Our own full CP6 audit remains incomplete. This review is post-lock and externally informed; external claims are leads, never replacement contract oracles.
+
+Workspace check at2026-09-24T20:49:22Z succeeded. The old cp6_audit directory is absent, uptime approximately798seconds, available disk28.92GiB. This is consistent with a fresh/replaced execution environment; the underlying infrastructure restart/disconnect cause is not visible. Earlier409 environment_offline was a real service connection failure; it is not currently reproducing. GitHub checkpoint19117b17 remains intact. gh, docker and psql are absent.
+
+External snapshot read: audit/cp6-final-20260924 and claude/cp6-garment-final-audit-5oh53t both point to cf301a6f0c128ac8c221ab11e22c95db0ce1c896. AUDIT_REPORT_CP6.md and scenarios xaudit_3.py/xaudit_4.py have been opened under the new user instruction. Candidate remains9add57ea8c2b6b2dc37c0134717d4d39ba30b5dc.
+
+Two race runs fetched directly from Actions:36051535647/job107808033765 and36052066150/job107809808216. All three cases INCOMPLETE; errors include OWNER or ADMIN access required and permission denied for schema erp. They did not reach the business race. Existing report's failed runs must not be counted as concurrency counterexamples or acceptance.
+
+xaudit_4.py explicitly reads PGRST_JWT_SECRET from a disposable PostgREST container and manually signs HS256 tokens, and disclaims GoTrue login. The session-classifier rejection is user-reported, not independently accessible as an approval event here. No denied action is retried by disguising it or extracting credentials. Assess an Auth-login-based disposable path and explicit boundary/permission requirements.
+
+Current tasks: inspect existing multi-connection/runtime fixture support, HTTP/Auth setup, whole-package rollback availability and independent review capacity; persist a concrete blocker assessment. Then finish validity/significance review of the external findings against contracts/logs/source, with evidence provenance and limits.
