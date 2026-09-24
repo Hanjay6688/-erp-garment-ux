@@ -31,7 +31,9 @@ ROOT=Path(__file__).resolve().parents[1]
 MIGRATIONS=ROOT/'supabase/migrations'
 RELEASE=ROOT/'supabase/release/cp6-t3'
 META=ROOT/'docs/evidence/cp6-g01/hosted_alignment_metadata.json'
-KEYS=['ac','ad','ae','af','ag','ah','ai','aj','ak','al','am','an','ao','ap','aq','ar','as','at','au','av']
+KEYS=['ac','ad','ae','af','ag','ah','ai','aj','ak','al','am','an','ao','ap','aq','ar','as','at','au','av','aw','ax']
+# AW and AX release candidates are built by scripts/cp6_t3_awx_release.py (T1 bodies wrapped with AO..AV guards).
+SOURCES=ROOT/'supabase/release/cp6-t3-src'
 CLONE='postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback'
 VIEW='erp.v_payroll_nota_browser'
 
@@ -49,7 +51,7 @@ def sha(data):return hashlib.sha256(data.encode() if isinstance(data,str) else d
 def package():
     rows=[]
     for key in KEYS:
-        [path]=sorted(MIGRATIONS.glob('*_erp_v2_6_20%s_*.sql'%key))
+        [path]=sorted((SOURCES if key in('aw','ax') else MIGRATIONS).glob('*_erp_v2_6_20%s_*.sql'%key))
         stamp,name=re.match(r'(\d{14})_(.+)\.sql$',path.name).groups()
         text=path.read_text()
         rows.append(dict(key=key.upper(),path=str(path.relative_to(ROOT)),stamp=stamp,name=name,

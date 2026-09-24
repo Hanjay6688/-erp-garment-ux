@@ -67,6 +67,12 @@ def capsule_compare(url):
                 cp6_v2620_rows_differing=per_row)
 
 
+def verify_awx():
+    with psycopg.connect(boundary.ADMIN) as conn,conn.cursor() as cur:
+        result=axp.ax_verified(cur);conn.rollback()
+    return {k:result.get(k) for k in ('stage','functions','sql_sha256','ax_sql_sha256')}
+
+
 def run(mode):
     assert mode in ('capture','install','browser')
     assert os.environ.get('CP6_AR_CONFIRM')=='cp6_rollback' and os.environ.get('CP6_DATABASE_CONTAINER')=='supabase_db_cp5-local'
@@ -84,9 +90,9 @@ def run(mode):
         print(json.dumps(dict(group='T3_HOSTED_CAPSULES',**report['hosted_capsules']),default=str),flush=True)
         advisors_AB=advisors(boundary.PG)
         committed=AUDITOR/'docs/evidence/cp6-t3/release_pins.json'
+        # AC..AV and the AW/AX release candidates are all files of the one package; AW/AX T1 verification follows.
         stages=[('PACKAGE',lambda:(package.capture if mode=='capture' else package.install)(OUT/('T3_PACKAGE_FILES_%s.json'%mode.upper()))['status']),
-                ('AW_T1',lambda:awp.install_aw()),
-                ('AX_T1',lambda:axp.install_ax())]
+                ('AW_AX_VERIFY',lambda:verify_awx())]
         for name,operation in stages:
             try:
                 result=operation()
@@ -105,7 +111,7 @@ def run(mode):
             print(json.dumps(dict(group='T3_PINS_REPRODUCED',**report['pins_reproduced'])),flush=True)
         if mode=='browser':
             # Browser mode: the unchanged AU browser flow on the installed combined candidate, then cleanup.
-            report['browser']=browser.run(OUT/'T3_BROWSER.json') if len(report['stages'])==3 and all(s['status']=='PASS' for s in report['stages']) else 'NOT_RUN'
+            report['browser']=browser.run(OUT/'T3_BROWSER.json') if len(report['stages'])==len(stages) and all(s['status']=='PASS' for s in report['stages']) else 'NOT_RUN'
             report['status']='ALL_STAGES_INSTALLED' if report['browser']!='NOT_RUN' else 'REFUSED'
         else:
             report['ledger_final']=ledger(boundary.ADMIN)

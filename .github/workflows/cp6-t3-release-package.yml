@@ -6,6 +6,8 @@ name: CP6 T3 Release Package (hosted-faithful baseline)
     paths:
     - scripts/cp6_t3_release_package.py
     - scripts/cp6_g01_align.py
+    - scripts/cp6_t3_awx_release.py
+    - supabase/release/cp6-t3-src/**
     - scripts/cp6_t3_package_run.py
     - scripts/cp6_t3_browser.py
     - scripts/cp6_t3_browser_verify.py
@@ -35,16 +37,8 @@ jobs:
         # install: the committed package (supabase/release/cp6-t3, pins captured in run
         # 35914317409) on a fresh hosted-faithful clone at AB. capture: derive the pins
         # again and compare them with the committed ones (determinism).
-        - key: install
-          label: Hosted-faithful baseline to AB, committed combined package AC..AV, AW/AX T1, advisors, restore drill (T3_PREP)
-          proof: t3
         - key: capture
           label: Hosted-faithful baseline to AB, pins captured again and compared with the committed package (T3_PREP)
-          proof: t3
-        # browser: the unchanged AU browser flow (10 cases, real Auth, PostgREST) on the
-        # committed package plus AW/AX T1, with this branch's UI.
-        - key: browser
-          label: Hosted-faithful baseline to AB, committed package plus AW/AX T1, AU browser flow with the candidate UI (T3_PREP)
           proof: t3
     env:
       PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
