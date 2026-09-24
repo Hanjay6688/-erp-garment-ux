@@ -244,13 +244,20 @@
    "name": "erp_v2_6_20ao_cp6_invoice_retail",
    "closed": true,
    "source_sha256": "5687bb0236528d7e485e738ee2f96c2be0f4bde7e0d41c16bacee3a58183bdbb",
-   "package_sha256": "f48f4a9611031631dca9bc787247b5beab624dcbe1f8e5635215953d16ee3448",
+   "package_sha256": "696a75c5969b756ce1973191a757a8c7deade06cb57e96dc5a16d648a4c48520",
    "subs": [
     {
      "kind": "LEDGER",
      "what": "AN",
      "old": "21ac97ded4ed0cee9175c7fac7ef28ab6713d08b00766e1e5adc86bd38205e6c",
      "new": "4df51d65fdb9a644fe2eeba92af23446e0c0389a1ebf9f336a0a396c144d7b71",
+     "count": 1
+    },
+    {
+     "kind": "CAPSULE",
+     "what": "cp6_v2620_rollback_capsule",
+     "old": "\"cp6_v2620_rollback_capsule\":\"01f1e4e23211cff3c399d2d768a41be57980bfab00790715aa759b00a515e032\"",
+     "new": "\"cp6_v2620_rollback_capsule\":\"b42b94c2380f0768259a3d8f7fb645c76ebd6f92e8bae6a37d802352f7effd4f\"",
      "count": 1
     },
     {
@@ -284,13 +291,20 @@
    "name": "erp_v2_6_20ap_cp6_connected_import_materials",
    "closed": true,
    "source_sha256": "fb8e14f0fd505edf730c0908f7e1c500cf850e29bcc0e90b3a51877224edd61b",
-   "package_sha256": "513834106e2e70c8e1f1f095cdd4934a85f0bf9cdba566e2d8f699751d15e099",
+   "package_sha256": "70503bb0247c811e066830ba752960a50b7afdfdb4c0c7697dee9a265ef1778a",
    "subs": [
     {
      "kind": "LEDGER",
      "what": "AO",
      "old": "5687bb0236528d7e485e738ee2f96c2be0f4bde7e0d41c16bacee3a58183bdbb",
-     "new": "f48f4a9611031631dca9bc787247b5beab624dcbe1f8e5635215953d16ee3448",
+     "new": "696a75c5969b756ce1973191a757a8c7deade06cb57e96dc5a16d648a4c48520",
+     "count": 1
+    },
+    {
+     "kind": "CAPSULE",
+     "what": "cp6_v2620_rollback_capsule",
+     "old": "\"cp6_v2620_rollback_capsule\":\"01f1e4e23211cff3c399d2d768a41be57980bfab00790715aa759b00a515e032\"",
+     "new": "\"cp6_v2620_rollback_capsule\":\"b42b94c2380f0768259a3d8f7fb645c76ebd6f92e8bae6a37d802352f7effd4f\"",
      "count": 1
     },
     {
@@ -324,20 +338,27 @@
    "name": "erp_v2_6_20aq_cp6_accessory_lock_order",
    "closed": true,
    "source_sha256": "b1b4e449ca84ad524189640bcd76302cb277b9b690ed89f739ad5706e3cfac5a",
-   "package_sha256": "10131f9605527ab1febe31bfe7774ce3f8ebed5faa0cf8227a602ecdfadb3ad4",
+   "package_sha256": "34cee78ee58f612187f7683280565ce2651e788e61efb62ced5e8c4dce7f9ada",
    "subs": [
     {
      "kind": "LEDGER",
      "what": "AO",
      "old": "5687bb0236528d7e485e738ee2f96c2be0f4bde7e0d41c16bacee3a58183bdbb",
-     "new": "f48f4a9611031631dca9bc787247b5beab624dcbe1f8e5635215953d16ee3448",
+     "new": "696a75c5969b756ce1973191a757a8c7deade06cb57e96dc5a16d648a4c48520",
      "count": 1
     },
     {
      "kind": "LEDGER",
      "what": "AP",
      "old": "fb8e14f0fd505edf730c0908f7e1c500cf850e29bcc0e90b3a51877224edd61b",
-     "new": "513834106e2e70c8e1f1f095cdd4934a85f0bf9cdba566e2d8f699751d15e099",
+     "new": "70503bb0247c811e066830ba752960a50b7afdfdb4c0c7697dee9a265ef1778a",
+     "count": 1
+    },
+    {
+     "kind": "CAPSULE",
+     "what": "cp6_v2620_rollback_capsule",
+     "old": "\"cp6_v2620_rollback_capsule\":\"01f1e4e23211cff3c399d2d768a41be57980bfab00790715aa759b00a515e032\"",
+     "new": "\"cp6_v2620_rollback_capsule\":\"b42b94c2380f0768259a3d8f7fb645c76ebd6f92e8bae6a37d802352f7effd4f\"",
      "count": 1
     },
     {
@@ -371,27 +392,34 @@
    "name": "erp_v2_6_20ar_cp6_opening_overlap",
    "closed": true,
    "source_sha256": "7da20a87d48493b4b64c10c395e8e54f87c1c40a835fbd09bbf2cdbc8866fa10",
-   "package_sha256": "792b176cc572e4fc7374ff41c2e10954b52d2ff9bd6058b47c3a293b6e168dfd",
+   "package_sha256": "c5c973d47a4665723351205ccbcbe2c658c57bff7230f5552c5c2b7ca757371e",
    "subs": [
     {
      "kind": "LEDGER",
      "what": "AO",
      "old": "5687bb0236528d7e485e738ee2f96c2be0f4bde7e0d41c16bacee3a58183bdbb",
-     "new": "f48f4a9611031631dca9bc787247b5beab624dcbe1f8e5635215953d16ee3448",
+     "new": "696a75c5969b756ce1973191a757a8c7deade06cb57e96dc5a16d648a4c48520",
      "count": 1
     },
     {
      "kind": "LEDGER",
      "what": "AP",
      "old": "fb8e14f0fd505edf730c0908f7e1c500cf850e29bcc0e90b3a51877224edd61b",
-     "new": "513834106e2e70c8e1f1f095cdd4934a85f0bf9cdba566e2d8f699751d15e099",
+     "new": "70503bb0247c811e066830ba752960a50b7afdfdb4c0c7697dee9a265ef1778a",
      "count": 1
     },
     {
      "kind": "LEDGER",
      "what": "AQ",
      "old": "b1b4e449ca84ad524189640bcd76302cb277b9b690ed89f739ad5706e3cfac5a",
-     "new": "10131f9605527ab1febe31bfe7774ce3f8ebed5faa0cf8227a602ecdfadb3ad4",
+     "new": "34cee78ee58f612187f7683280565ce2651e788e61efb62ced5e8c4dce7f9ada",
+     "count": 1
+    },
+    {
+     "kind": "CAPSULE",
+     "what": "cp6_v2620_rollback_capsule",
+     "old": "\"cp6_v2620_rollback_capsule\":\"01f1e4e23211cff3c399d2d768a41be57980bfab00790715aa759b00a515e032\"",
+     "new": "\"cp6_v2620_rollback_capsule\":\"b42b94c2380f0768259a3d8f7fb645c76ebd6f92e8bae6a37d802352f7effd4f\"",
      "count": 1
     },
     {
@@ -425,34 +453,41 @@
    "name": "erp_v2_6_20as_cp6_event_dates_product_identity",
    "closed": true,
    "source_sha256": "84e95211698eb2426995fd59d702bb42674f9fff675401be4861c9aa568cc1a8",
-   "package_sha256": "5cd3e5dcd84104c6f4d348b568cf8dc39b4d19c3003c6dd30cfb8bc9c8e99167",
+   "package_sha256": "d13e46b3451386309a0a8dc1c89a4817ad8751568b9377f94c790832f8fa53a3",
    "subs": [
     {
      "kind": "LEDGER",
      "what": "AO",
      "old": "5687bb0236528d7e485e738ee2f96c2be0f4bde7e0d41c16bacee3a58183bdbb",
-     "new": "f48f4a9611031631dca9bc787247b5beab624dcbe1f8e5635215953d16ee3448",
+     "new": "696a75c5969b756ce1973191a757a8c7deade06cb57e96dc5a16d648a4c48520",
      "count": 1
     },
     {
      "kind": "LEDGER",
      "what": "AP",
      "old": "fb8e14f0fd505edf730c0908f7e1c500cf850e29bcc0e90b3a51877224edd61b",
-     "new": "513834106e2e70c8e1f1f095cdd4934a85f0bf9cdba566e2d8f699751d15e099",
+     "new": "70503bb0247c811e066830ba752960a50b7afdfdb4c0c7697dee9a265ef1778a",
      "count": 1
     },
     {
      "kind": "LEDGER",
      "what": "AQ",
      "old": "b1b4e449ca84ad524189640bcd76302cb277b9b690ed89f739ad5706e3cfac5a",
-     "new": "10131f9605527ab1febe31bfe7774ce3f8ebed5faa0cf8227a602ecdfadb3ad4",
+     "new": "34cee78ee58f612187f7683280565ce2651e788e61efb62ced5e8c4dce7f9ada",
      "count": 1
     },
     {
      "kind": "LEDGER",
      "what": "AR",
      "old": "7da20a87d48493b4b64c10c395e8e54f87c1c40a835fbd09bbf2cdbc8866fa10",
-     "new": "792b176cc572e4fc7374ff41c2e10954b52d2ff9bd6058b47c3a293b6e168dfd",
+     "new": "c5c973d47a4665723351205ccbcbe2c658c57bff7230f5552c5c2b7ca757371e",
+     "count": 1
+    },
+    {
+     "kind": "CAPSULE",
+     "what": "cp6_v2620_rollback_capsule",
+     "old": "\"cp6_v2620_rollback_capsule\":\"01f1e4e23211cff3c399d2d768a41be57980bfab00790715aa759b00a515e032\"",
+     "new": "\"cp6_v2620_rollback_capsule\":\"b42b94c2380f0768259a3d8f7fb645c76ebd6f92e8bae6a37d802352f7effd4f\"",
      "count": 1
     },
     {
@@ -486,41 +521,48 @@
    "name": "erp_v2_6_20at_cp6_wip_temporal_identity",
    "closed": true,
    "source_sha256": "f114a78918138a65f761488b77cadb1ab8a70ce6a6a88ae58a9d38656d1cfdb4",
-   "package_sha256": "a575495862df559cdd2dcded39975f554c98b7687489d44efa2c49e67a9bdccb",
+   "package_sha256": "5e1ea5bfba73ada9aba5a8561efa9056b02154025d39bd10d47d3e4f2494110d",
    "subs": [
     {
      "kind": "LEDGER",
      "what": "AO",
      "old": "5687bb0236528d7e485e738ee2f96c2be0f4bde7e0d41c16bacee3a58183bdbb",
-     "new": "f48f4a9611031631dca9bc787247b5beab624dcbe1f8e5635215953d16ee3448",
+     "new": "696a75c5969b756ce1973191a757a8c7deade06cb57e96dc5a16d648a4c48520",
      "count": 1
     },
     {
      "kind": "LEDGER",
      "what": "AP",
      "old": "fb8e14f0fd505edf730c0908f7e1c500cf850e29bcc0e90b3a51877224edd61b",
-     "new": "513834106e2e70c8e1f1f095cdd4934a85f0bf9cdba566e2d8f699751d15e099",
+     "new": "70503bb0247c811e066830ba752960a50b7afdfdb4c0c7697dee9a265ef1778a",
      "count": 1
     },
     {
      "kind": "LEDGER",
      "what": "AQ",
      "old": "b1b4e449ca84ad524189640bcd76302cb277b9b690ed89f739ad5706e3cfac5a",
-     "new": "10131f9605527ab1febe31bfe7774ce3f8ebed5faa0cf8227a602ecdfadb3ad4",
+     "new": "34cee78ee58f612187f7683280565ce2651e788e61efb62ced5e8c4dce7f9ada",
      "count": 1
     },
     {
      "kind": "LEDGER",
      "what": "AR",
      "old": "7da20a87d48493b4b64c10c395e8e54f87c1c40a835fbd09bbf2cdbc8866fa10",
-     "new": "792b176cc572e4fc7374ff41c2e10954b52d2ff9bd6058b47c3a293b6e168dfd",
+     "new": "c5c973d47a4665723351205ccbcbe2c658c57bff7230f5552c5c2b7ca757371e",
      "count": 1
     },
     {
      "kind": "LEDGER",
      "what": "AS",
      "old": "84e95211698eb2426995fd59d702bb42674f9fff675401be4861c9aa568cc1a8",
-     "new": "5cd3e5dcd84104c6f4d348b568cf8dc39b4d19c3003c6dd30cfb8bc9c8e99167",
+     "new": "d13e46b3451386309a0a8dc1c89a4817ad8751568b9377f94c790832f8fa53a3",
+     "count": 1
+    },
+    {
+     "kind": "CAPSULE",
+     "what": "cp6_v2620_rollback_capsule",
+     "old": "\"cp6_v2620_rollback_capsule\":\"01f1e4e23211cff3c399d2d768a41be57980bfab00790715aa759b00a515e032\"",
+     "new": "\"cp6_v2620_rollback_capsule\":\"b42b94c2380f0768259a3d8f7fb645c76ebd6f92e8bae6a37d802352f7effd4f\"",
      "count": 1
     },
     {
@@ -554,48 +596,55 @@
    "name": "erp_v2_6_20au_cp6_controlled_product_lifecycle",
    "closed": true,
    "source_sha256": "593b06092c2d47e03644afb1b7b5aef46c1442a56613f853a151b78ef738f2c2",
-   "package_sha256": "1cdefe8ee39221f620d5d21f6f928e0ce4794ac5277401180bf2b859c98a9b07",
+   "package_sha256": "7d6265f081125499cb1813fe3f24c3b203363252727b5dcdfc7f74e311b85481",
    "subs": [
     {
      "kind": "LEDGER",
      "what": "AO",
      "old": "5687bb0236528d7e485e738ee2f96c2be0f4bde7e0d41c16bacee3a58183bdbb",
-     "new": "f48f4a9611031631dca9bc787247b5beab624dcbe1f8e5635215953d16ee3448",
+     "new": "696a75c5969b756ce1973191a757a8c7deade06cb57e96dc5a16d648a4c48520",
      "count": 1
     },
     {
      "kind": "LEDGER",
      "what": "AP",
      "old": "fb8e14f0fd505edf730c0908f7e1c500cf850e29bcc0e90b3a51877224edd61b",
-     "new": "513834106e2e70c8e1f1f095cdd4934a85f0bf9cdba566e2d8f699751d15e099",
+     "new": "70503bb0247c811e066830ba752960a50b7afdfdb4c0c7697dee9a265ef1778a",
      "count": 1
     },
     {
      "kind": "LEDGER",
      "what": "AQ",
      "old": "b1b4e449ca84ad524189640bcd76302cb277b9b690ed89f739ad5706e3cfac5a",
-     "new": "10131f9605527ab1febe31bfe7774ce3f8ebed5faa0cf8227a602ecdfadb3ad4",
+     "new": "34cee78ee58f612187f7683280565ce2651e788e61efb62ced5e8c4dce7f9ada",
      "count": 1
     },
     {
      "kind": "LEDGER",
      "what": "AR",
      "old": "7da20a87d48493b4b64c10c395e8e54f87c1c40a835fbd09bbf2cdbc8866fa10",
-     "new": "792b176cc572e4fc7374ff41c2e10954b52d2ff9bd6058b47c3a293b6e168dfd",
+     "new": "c5c973d47a4665723351205ccbcbe2c658c57bff7230f5552c5c2b7ca757371e",
      "count": 1
     },
     {
      "kind": "LEDGER",
      "what": "AS",
      "old": "84e95211698eb2426995fd59d702bb42674f9fff675401be4861c9aa568cc1a8",
-     "new": "5cd3e5dcd84104c6f4d348b568cf8dc39b4d19c3003c6dd30cfb8bc9c8e99167",
+     "new": "d13e46b3451386309a0a8dc1c89a4817ad8751568b9377f94c790832f8fa53a3",
      "count": 1
     },
     {
      "kind": "LEDGER",
      "what": "AT",
      "old": "f114a78918138a65f761488b77cadb1ab8a70ce6a6a88ae58a9d38656d1cfdb4",
-     "new": "a575495862df559cdd2dcded39975f554c98b7687489d44efa2c49e67a9bdccb",
+     "new": "5e1ea5bfba73ada9aba5a8561efa9056b02154025d39bd10d47d3e4f2494110d",
+     "count": 1
+    },
+    {
+     "kind": "CAPSULE",
+     "what": "cp6_v2620_rollback_capsule",
+     "old": "\"cp6_v2620_rollback_capsule\":\"01f1e4e23211cff3c399d2d768a41be57980bfab00790715aa759b00a515e032\"",
+     "new": "\"cp6_v2620_rollback_capsule\":\"b42b94c2380f0768259a3d8f7fb645c76ebd6f92e8bae6a37d802352f7effd4f\"",
      "count": 1
     },
     {
@@ -629,55 +678,62 @@
    "name": "erp_v2_6_20av_cp6_identity_new_stock_cutoff",
    "closed": true,
    "source_sha256": "193e84efac8ead7cab681071e40070e1f9249f82cec1b7972f0576e8df25a2dc",
-   "package_sha256": "9501fbf1915295e8eea29b16ab14bf76e27ea97b6d6a8535487f839c54599974",
+   "package_sha256": "c63a1fe3bf76dfc396921e07f57eb043e3bb864425b3289a9546bf66e08169a5",
    "subs": [
     {
      "kind": "LEDGER",
      "what": "AO",
      "old": "5687bb0236528d7e485e738ee2f96c2be0f4bde7e0d41c16bacee3a58183bdbb",
-     "new": "f48f4a9611031631dca9bc787247b5beab624dcbe1f8e5635215953d16ee3448",
+     "new": "696a75c5969b756ce1973191a757a8c7deade06cb57e96dc5a16d648a4c48520",
      "count": 1
     },
     {
      "kind": "LEDGER",
      "what": "AP",
      "old": "fb8e14f0fd505edf730c0908f7e1c500cf850e29bcc0e90b3a51877224edd61b",
-     "new": "513834106e2e70c8e1f1f095cdd4934a85f0bf9cdba566e2d8f699751d15e099",
+     "new": "70503bb0247c811e066830ba752960a50b7afdfdb4c0c7697dee9a265ef1778a",
      "count": 1
     },
     {
      "kind": "LEDGER",
      "what": "AQ",
      "old": "b1b4e449ca84ad524189640bcd76302cb277b9b690ed89f739ad5706e3cfac5a",
-     "new": "10131f9605527ab1febe31bfe7774ce3f8ebed5faa0cf8227a602ecdfadb3ad4",
+     "new": "34cee78ee58f612187f7683280565ce2651e788e61efb62ced5e8c4dce7f9ada",
      "count": 1
     },
     {
      "kind": "LEDGER",
      "what": "AR",
      "old": "7da20a87d48493b4b64c10c395e8e54f87c1c40a835fbd09bbf2cdbc8866fa10",
-     "new": "792b176cc572e4fc7374ff41c2e10954b52d2ff9bd6058b47c3a293b6e168dfd",
+     "new": "c5c973d47a4665723351205ccbcbe2c658c57bff7230f5552c5c2b7ca757371e",
      "count": 1
     },
     {
      "kind": "LEDGER",
      "what": "AS",
      "old": "84e95211698eb2426995fd59d702bb42674f9fff675401be4861c9aa568cc1a8",
-     "new": "5cd3e5dcd84104c6f4d348b568cf8dc39b4d19c3003c6dd30cfb8bc9c8e99167",
+     "new": "d13e46b3451386309a0a8dc1c89a4817ad8751568b9377f94c790832f8fa53a3",
      "count": 1
     },
     {
      "kind": "LEDGER",
      "what": "AT",
      "old": "f114a78918138a65f761488b77cadb1ab8a70ce6a6a88ae58a9d38656d1cfdb4",
-     "new": "a575495862df559cdd2dcded39975f554c98b7687489d44efa2c49e67a9bdccb",
+     "new": "5e1ea5bfba73ada9aba5a8561efa9056b02154025d39bd10d47d3e4f2494110d",
      "count": 1
     },
     {
      "kind": "LEDGER",
      "what": "AU",
      "old": "593b06092c2d47e03644afb1b7b5aef46c1442a56613f853a151b78ef738f2c2",
-     "new": "1cdefe8ee39221f620d5d21f6f928e0ce4794ac5277401180bf2b859c98a9b07",
+     "new": "7d6265f081125499cb1813fe3f24c3b203363252727b5dcdfc7f74e311b85481",
+     "count": 1
+    },
+    {
+     "kind": "CAPSULE",
+     "what": "cp6_v2620_rollback_capsule",
+     "old": "\"cp6_v2620_rollback_capsule\":\"01f1e4e23211cff3c399d2d768a41be57980bfab00790715aa759b00a515e032\"",
+     "new": "\"cp6_v2620_rollback_capsule\":\"b42b94c2380f0768259a3d8f7fb645c76ebd6f92e8bae6a37d802352f7effd4f\"",
      "count": 1
     },
     {
@@ -699,6 +755,72 @@
      "what": "AV_INSTALLED_CATALOG_DRIFT",
      "old": "if object_count<>7169 or fingerprint is distinct from '683b557e76ae2e444e368342536c7528434c9df097c4d93d1b61e89bad0971c3' then\n  raise exception 'AV_INSTALLED_CATALOG_DRIFT';",
      "new": "if object_count<>7159 or fingerprint is distinct from 'f345b9f9cdefd97250814cb29c459cde447c1a26846354c516f058abb23a9fdf' then\n  raise exception 'AV_INSTALLED_CATALOG_DRIFT';",
+     "count": 1
+    }
+   ],
+   "status": "PASS"
+  },
+  {
+   "key": "AW",
+   "path": "supabase/release/cp6-t3-src/20260924010000_erp_v2_6_20aw_cp6_close_readiness_engine.sql",
+   "stamp": "20260924010000",
+   "name": "erp_v2_6_20aw_cp6_close_readiness_engine",
+   "closed": true,
+   "source_sha256": "72e1f6169b9ab93bbedcf4082bef4e9c31167b24bcce92812161775fde08f61a",
+   "package_sha256": "c8a606e27984aa8e9619dac4314bd601f4962101a107d48a06dd70d6bb86b600",
+   "subs": [
+    {
+     "kind": "LEDGER",
+     "what": "AV",
+     "old": "193e84efac8ead7cab681071e40070e1f9249f82cec1b7972f0576e8df25a2dc",
+     "new": "c63a1fe3bf76dfc396921e07f57eb043e3bb864425b3289a9546bf66e08169a5",
+     "count": 1
+    },
+    {
+     "kind": "CATALOG",
+     "what": "AW_PREDECESSOR_CATALOG_DRIFT",
+     "old": "if object_count<>0 or fingerprint is distinct from '0000000000000000000000000000000000000000000000000000000000000000' then\n  raise exception 'AW_PREDECESSOR_CATALOG_DRIFT';",
+     "new": "if object_count<>7159 or fingerprint is distinct from 'f345b9f9cdefd97250814cb29c459cde447c1a26846354c516f058abb23a9fdf' then\n  raise exception 'AW_PREDECESSOR_CATALOG_DRIFT';",
+     "count": 1
+    },
+    {
+     "kind": "CATALOG",
+     "what": "AW_INSTALLED_CATALOG_DRIFT",
+     "old": "if object_count<>0 or fingerprint is distinct from '0000000000000000000000000000000000000000000000000000000000000000' then\n  raise exception 'AW_INSTALLED_CATALOG_DRIFT';",
+     "new": "if object_count<>7198 or fingerprint is distinct from '1d844c41d8ef5b8c9aefbc1afe6dbd5a106d43e9a4457bcd873fcf035dcdbbf1' then\n  raise exception 'AW_INSTALLED_CATALOG_DRIFT';",
+     "count": 1
+    }
+   ],
+   "status": "PASS"
+  },
+  {
+   "key": "AX",
+   "path": "supabase/release/cp6-t3-src/20260924010100_erp_v2_6_20ax_cp6_fg_unsourced_receipts.sql",
+   "stamp": "20260924010100",
+   "name": "erp_v2_6_20ax_cp6_fg_unsourced_receipts",
+   "closed": true,
+   "source_sha256": "0d47a7459192b1bbf053a6eabebca9c35bfacf501e980bc04971cd80c5a88244",
+   "package_sha256": "4ce2ced8143d1b13d5759b19936a6b46d7cfc0109527c855916a2e836242d804",
+   "subs": [
+    {
+     "kind": "LEDGER",
+     "what": "AW",
+     "old": "72e1f6169b9ab93bbedcf4082bef4e9c31167b24bcce92812161775fde08f61a",
+     "new": "c8a606e27984aa8e9619dac4314bd601f4962101a107d48a06dd70d6bb86b600",
+     "count": 1
+    },
+    {
+     "kind": "CATALOG",
+     "what": "AX_PREDECESSOR_CATALOG_DRIFT",
+     "old": "if object_count<>0 or fingerprint is distinct from '0000000000000000000000000000000000000000000000000000000000000000' then\n  raise exception 'AX_PREDECESSOR_CATALOG_DRIFT';",
+     "new": "if object_count<>7198 or fingerprint is distinct from '1d844c41d8ef5b8c9aefbc1afe6dbd5a106d43e9a4457bcd873fcf035dcdbbf1' then\n  raise exception 'AX_PREDECESSOR_CATALOG_DRIFT';",
+     "count": 1
+    },
+    {
+     "kind": "CATALOG",
+     "what": "AX_INSTALLED_CATALOG_DRIFT",
+     "old": "if object_count<>0 or fingerprint is distinct from '0000000000000000000000000000000000000000000000000000000000000000' then\n  raise exception 'AX_INSTALLED_CATALOG_DRIFT';",
+     "new": "if object_count<>7249 or fingerprint is distinct from '951a31b1afd52ecee5b9c978864ae9b1e733c8145101deeca0f4c457353514f1' then\n  raise exception 'AX_INSTALLED_CATALOG_DRIFT';",
      "count": 1
     }
    ],
