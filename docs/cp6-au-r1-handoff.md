@@ -845,7 +845,7 @@ Bukti: `docs/evidence/cp6-aw/native_t1_run*_after_iter*.json`.
 | 2 | 35905188855 | 13 kasus lulus; race batal-vs-jual gagal karena fixture (draft sudah mereservasi lot) |
 | 3 | 35906065887 | 12 kasus + 8 race lulus |
 | 4 | 35909687233 | 28 PASS; 1 INCOMPLETE (fixture: identitas SKU yang sudah punya histori hanya boleh diganti mulai sekarang atau ke depan) |
-| 5 | (menunggu) | fixture versi penerus diperbaiki |
+| 5 | 35910555547 | 29 PASS + 1 OBSERVED (fixture versi penerus diperbaiki; lihat §22.1) |
 
 **Perubahan AX putaran ini:**
 - **Nilai isian owner hanya bila tidak ada pembanding.** Versi awal masih menerimanya walau rata-rata ada; itu menyimpang dari keputusan owner, sekarang ditolak.
