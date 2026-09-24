@@ -266,6 +266,9 @@ def sale_after_goods(cur,today,price):
                 negative_blockers=negative,invoice=response,quiet=[quiet,quiet_fixture])
 
 
+PRODUCED={}
+
+
 def produce(cur,fx,po,product,day,units,pcs,batch=None):
     """One cutting group of `units` units yielding `pcs` pieces for the existing PO `po` on `day`, carried through pickup,
     sewing, laundry and final SKU (ALL_READY) to one FG lot of `pcs` pieces on the same day (ordinary RPCs; the AA recipe
@@ -335,11 +338,13 @@ def produce(cur,fx,po,product,day,units,pcs,batch=None):
     assert len(rows)==1,('AZ_MULTI_CUT_RECEIPT',rows)
     gv=base.group_version(cur,str(group))
     prod.owner(cur)
-    base.action(cur,'POST_FINAL_SKU',{'cutting_group_id':str(group),'destination_location_id':base.LOCATION,
-        'physical_at':prod.at(day,13).isoformat(),'reason':'AZ multi-cut final SKU','good_qty_pcs':pcs,'completion_mode':'ALL_READY',
+    final_sku=lambda at,version:base.action(cur,'POST_FINAL_SKU',{'cutting_group_id':str(group),'destination_location_id':base.LOCATION,
+        'physical_at':at,'reason':'AZ multi-cut final SKU','good_qty_pcs':pcs,'completion_mode':'ALL_READY',
         'lines':[dict(final_product_id=product,qty_good_pcs=pcs,qty_bs_pcs=0,source_laundry_receipt_line_id=str(rows[0][1]),
-                      source_laundry_receipt_batch_size_line_id=str(rows[0][0]))]},gv)
+                      source_laundry_receipt_batch_size_line_id=str(rows[0][0]))]},version)
+    final=final_sku(prod.at(day,13).isoformat(),gv)
     api.admin(cur)
+    PRODUCED[str(group)]=dict(final=final,redo=final_sku)
     return group
 
 
@@ -451,8 +456,10 @@ def write_off(cur,today,price):
 
 def goods_flow(cur,today,price,flow):
     """Branches without a native fixture until 24 Sep (independent review): a lot of 10 pcs (one cut of 10 units) on d+1,
-    then RETURN (3 pcs sold on d+1, 1 returned on d+2), REVERSED (3 pcs sold on d+2, the sale reversed before the invoice)
-    or CONVERSION (4 pcs relabelled to another product on d+2); late invoice on d (open). Expected: FG gets each piece's
+    then RETURN (3 pcs sold on d+1, 1 returned on d+2), REVERSED (all 10 sold on d+2, the sale reversed today before the
+    invoice; review F1), CONVERSION (4 pcs relabelled to another product on d+2), CONVERSION_SALE (the same, then 2
+    relabelled pcs sold today; review F4) or QC_REDO (the Final SKU reversed and posted again today; review F2); late
+    invoice on d (open). Expected: FG gets each piece's
     correction from the day it entered FG, COGS from the sale day, the return back on the return day; a reversed sale
     counts as not sold (as the target counts it); a conversion moves FG to FG; the PO's WIP change is 0 every day."""
     prod=chain.production
@@ -465,13 +472,27 @@ def goods_flow(cur,today,price,flow):
     po=uuid.uuid4();product=prod.base.create_product(cur,uuid.uuid4().hex[:16])
     cur.execute("""insert into erp.production_orders(id,po_number,model_id,target_qty_pcs,status,current_stage,physical_start_at,notes)
       values(%s,%s,%s,10,'CUTTING','CUTTING',%s,'AZ goods flow probe')""",(po,'AZ-GF-PO-'+str(po),prod.MODEL,prod.at(d2,7)))
-    produce(cur,fx,po,product,d2,10,10)
+    group=produce(cur,fx,po,product,d2,10,10)
     fixture={}
+    if flow=='QC_REDO':
+        # Independent review F2: the Final SKU is reversed (the lot becomes VOIDED_PRODUCTION) and posted again today.
+        done=PRODUCED[str(group)]
+        prod.owner(cur)
+        reversed_=prod.base.action(cur,'REVERSE_FINAL_SKU',{'qc_inspection_id':str(done['final']['qc_inspection_id']),
+            'reason':'AZ QC reversed after the lot day'},int(done['final']['qc_row_version']))
+        api.admin(cur)
+        assert reversed_.get('status')=='REVERSED',('AZ_QC_REDO_REVERSE',reversed_)
+        gv=prod.base.group_version(cur,str(group))
+        prod.owner(cur)
+        again=done['redo'](cur.execute('select statement_timestamp()').fetchone()[0].isoformat(),gv)
+        api.admin(cur)
+        fixture.update(reversed=reversed_.get('status'),redo=again.get('qc_inspection_id'),
+                       voided=cur.execute("select count(*) from erp.fg_lots where po_id=%s and lot_origin='VOIDED_PRODUCTION'",(po,)).fetchone()[0])
     if flow in('RETURN','REVERSED'):
         customer=prod.base.create_customer(cur,uuid.uuid4().hex[:16])
         sale=prod.rpc(cur,'erp.save_sale_draft_v2',{'sale_number':'AZ-GF-SALE-'+str(uuid.uuid4()),'customer_id':customer,
             'source_location_id':prod.base.LOCATION,'sale_date':prod.at(d2 if flow=='RETURN' else d3,14 if flow=='RETURN' else 10),
-            'reason':'AZ goods flow sale','items':[dict(product_id=product,qty_pcs=3,unit_price_snapshot=40,discount_amount=0)]})
+            'reason':'AZ goods flow sale','items':[dict(product_id=product,qty_pcs=3 if flow=='RETURN' else 10,unit_price_snapshot=40,discount_amount=0)]})
         cur.execute('select erp.post_sale_v2(%s,%s,%s)',(sale['sale_id'],uuid.uuid4(),int(sale['row_version'])))
         api.admin(cur)
         if flow=='RETURN':
@@ -488,7 +509,7 @@ def goods_flow(cur,today,price,flow):
         else:
             prod.owner(cur);cur.execute('select erp.reverse_sale(%s,%s)',(sale['sale_id'],'AZ goods flow: sale reversed before the invoice'));api.admin(cur)
         fixture['sale']=str(sale['sale_id'])
-    elif flow=='CONVERSION':
+    elif flow in('CONVERSION','CONVERSION_SALE'):
         target=prod.base.create_product(cur,uuid.uuid4().hex[:16])
         conversion=uuid.uuid4()
         cur.execute("""insert into erp.product_conversions(id,conversion_number,from_product_id,to_product_id,location_id,qty_pcs,conversion_type,
@@ -497,6 +518,15 @@ def goods_flow(cur,today,price,flow):
         prod.owner(cur);prod.prior.actors.session(cur,'supabase_admin')
         cur.execute('select erp.post_product_conversion(%s)',(conversion,));api.admin(cur)
         fixture['conversion']=str(conversion)
+        if flow=='CONVERSION_SALE':
+            # Independent review F4: the relabelled lot has no sync of its own; a later leg (2 relabelled pcs sold today).
+            customer=prod.base.create_customer(cur,uuid.uuid4().hex[:16])
+            sale=prod.rpc(cur,'erp.save_sale_draft_v2',{'sale_number':'AZ-GF-SALE-'+str(uuid.uuid4()),'customer_id':customer,
+                'source_location_id':prod.base.LOCATION,'sale_date':cur.execute("select statement_timestamp()").fetchone()[0],
+                'reason':'AZ relabelled pieces sold','items':[dict(product_id=target,qty_pcs=2,unit_price_snapshot=40,discount_amount=0)]})
+            cur.execute('select erp.post_sale_v2(%s,%s,%s)',(sale['sale_id'],uuid.uuid4(),int(sale['row_version'])))
+            api.admin(cur)
+            fixture['sale']=str(sale['sale_id'])
     quiet_fixture=awp.quiet_seed(cur,d,today-timedelta(days=1))
     before=ledger_days(cur,days,[po])
     response=invoice(cur,fx,today,price,d)
@@ -506,10 +536,13 @@ def goods_flow(cur,today,price,flow):
     wip_po={str(day):dec(after[str(day)]['WIP_PO'][str(po)]) for day in days}
     fg={str(d):0,str(d2):10,str(d3):10,str(today):10};cogs=dict.fromkeys(fg,0)
     if flow=='RETURN':fg.update({str(d2):7,str(d3):8,str(today):8});cogs.update({str(d2):3,str(d3):2,str(today):2})
+    # A sale reversed later: the pieces leave FG on the sale day and come back on the reversal day (review F1).
+    if flow=='REVERSED':fg.update({str(d3):0});cogs.update({str(d3):10,str(today):0})
+    if flow=='CONVERSION_SALE':fg.update({str(today):8});cogs.update({str(today):2})
     pre=awp.preflight(cur,today)
     negative=[b for b in pre['blockers'] if b['code']=='GL_INVENTORY_NEGATIVE_ASOF'] if pre else None
     checks=dict(material_at_invoice_price=move[str(d)]['MATERIAL_INVENTORY']==10*x and all(move[str(day)]['MATERIAL_INVENTORY']==0 for day in days[1:]),
-                fg_on_goods_days=all(move[k]['FG_INVENTORY']==v*x for k,v in fg.items()) if flow!='CONVERSION'
+                fg_on_goods_days=all(move[k]['FG_INVENTORY']==v*x for k,v in fg.items()) if flow not in('CONVERSION',)
                     else move[str(d2)]['FG_INVENTORY']==10*x and move[str(d)]['FG_INVENTORY']==0,
                 cogs_on_sale_days=all(move[k]['COGS']==v*x for k,v in cogs.items()),
                 wip_po_never_negative=all(v>=0 for v in wip_po.values()),
@@ -539,6 +572,8 @@ def cases(cur,today):
             ('AZ:SALE_THEN_RETURN',lambda:goods_flow(cur,today,'10.70','RETURN')),
             ('AZ:SALE_REVERSED_BEFORE_INVOICE',lambda:goods_flow(cur,today,'8.25','REVERSED')),
             ('AZ:CONVERSION_AFTER_LOT',lambda:goods_flow(cur,today,'10.70','CONVERSION')),
+            ('AZ:CONVERSION_THEN_SALE',lambda:goods_flow(cur,today,'10.70','CONVERSION_SALE')),
+            ('AZ:QC_REVERSED_AND_REDONE',lambda:goods_flow(cur,today,'8.25','QC_REDO')),
             ('AZ:BATCH_ACROSS_DAYS_HIGHER',lambda:multi_cut(cur,today,'10.70',batch=True)),
             ('AZ:BATCH_ACROSS_DAYS_LOWER',lambda:multi_cut(cur,today,'8.25',batch=True))]
 

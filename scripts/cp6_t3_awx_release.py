@@ -46,7 +46,7 @@ FILES=[
     dict(key='AY',stamp='20260924010200',name='erp_v2_6_20ay_cp6_hpp_dated_from_goods',version='v2.6.20ay',
          body=ROOT/'supabase/dev/cp6_ay_t1_family.sql',title='PO HPP corrections dated from the goods',
          description='PO HPP corrections dated from the goods: FG from the lot date, COGS from the sale date',
-         replaced=['erp.sync_po_hpp_to_gl(uuid,date)'],new_tables=['po_hpp_gl_lot_state_v1']),
+         replaced=['erp.sync_po_hpp_to_gl(uuid,date)'],new_tables=['po_hpp_gl_lot_state_v1','po_hpp_gl_group_state_v1']),
     dict(key='AZ',stamp='20260924010300',name='erp_v2_6_20az_cp6_material_recost_dated_from_movement',version='v2.6.20az',
          body=ROOT/'supabase/dev/cp6_az_t1_family.sql',title='material recost corrections dated from the physical movement',
          description='Material recost corrections dated from the physical movement: WIP from the cutting day, material until then',
