@@ -2,9 +2,10 @@
 
 Tanggal: 23 September 2026 (WIB). Writer: Claude Code (sesi cloud). Peninjau berikutnya: ChatGPT.
 
-> **Pembaruan terbaru (24 September 2026, putaran keenam, writer Claude): baca §25, lalu §24, lalu §23.**
-> - §25 berisi AY rev7/rev7.1. Setiap fakta bahan (retur potong, bahan ke mandor, kolam PO, batch lintas PO) dicatat pada hari fisiknya. Relabel, termasuk rantai relabel, tidak berayun lewat akun lain. Kinerja dengan running sum dan JIT dimatikan. Juga hasil pemeriksaan independen rev7 dan T1/T2/T3/CodeQL akhir.
-> - Yang masih terbuka ada di §25.4. Tidak ada keputusan owner yang tertunda.
+> **Pembaruan terbaru (24 September 2026, putaran ketujuh, writer Claude): baca §26, lalu §25, lalu §24, lalu §23.**
+> - §26 menutup sisa keluarga ini: AY rev7.2–rev7.4 (revaluasi pada harinya, pengenceran batch, kain kantong per pool, bahan potong yang dibatalkan keluar dari HPP), AZ rev2/rev2.1 (kantong, BS impor awal, lot pembuka non-PO, recost aksesori, invoice dan koreksi harga bertanggal sebelum barang diterima, gerakan potong dan penghapusan bahan yang dibalik dinilai ulang pada harinya), keputusan owner opsi 1, pemeriksaan independen `b110e54` beserta disposisinya, dan T1/T2/T3/CodeQL akhir.
+> - Yang masih terbuka ada di §26.7. Tidak ada keputusan owner yang tertunda.
+> - §25 berisi AY rev7/rev7.1: setiap fakta bahan dicatat pada hari fisiknya, relabel tidak berayun lewat akun lain, dan kinerja dengan running sum serta JIT dimatikan.
 > - §24 berisi riwayat rev6/rev6.1. §23 berisi keputusan owner, oracle yang disetujui, AZ, dan penelusuran `ADJUSTMENT_DATE`.
 > - MATCH adalah oracle yang disetujui, bukan PASS kasus beku. Semua bukti berlabel T1_FAMILY/T2_REGRESSION/T3_PREP, bukan bukti rilis.
 > - CP6 tetap HOLD, 12 HOLD historis tetap HOLD, `production_go=false`.
@@ -1617,3 +1618,150 @@ Dicatat, **tidak** diperbaiki di putaran ini:
 - Alias SQL yang sama dengan variabel plpgsql (`s`, sebelumnya `t`) baru ketahuan saat fungsi dijalankan. Harness lokal menangkapnya sebelum CI. Sekarang builder dicek juga dengan pemindai alias.
 - Dua putaran AZ T1 terbuang karena fixture baru (bahan ke mandor) belum lengkap: harga jual mandor, lalu satuan bahan. Fixture baru yang memakai alur produk yang belum pernah dipakai probe perlu dicoba dulu di database disposable lokal, bukan langsung di CI.
 - Usul perbaikan pemeriksa (mengisi state saat instalasi) berbenturan dengan guard rilis yang mewajibkan tabel baru kosong. Guard tidak dilonggarkan; nilai lama diturunkan dari data revaluasi yang sudah ada.
+
+## 26. Putaran ketujuh: sisa keluarga "koreksi nilai tidak boleh mendahului fakta fisiknya" (24 September 2026, writer Claude)
+
+Label: T1_FAMILY, T2_REGRESSION, T3_PREP; bukan bukti rilis dan bukan penerimaan independen. CP6 tetap HOLD, 12 HOLD historis tetap HOLD, `production_go=false`. Tidak ada SQL ke hosted; cabang kompetisi tetap `ca7f095`.
+
+Bagian ini menutup §25.4 dan §23.7. Semua item di sini adalah pekerjaan CP6, bukan CP7. Master pulih L1400 melarang memindahkan blocker CP6 ke CP7, dan L2745 menetapkan bahwa CP7 baru mulai sesudah semua gate CP6 selesai. Tidak ada keputusan owner yang tertunda.
+
+### 26.1 Yang diubah
+**AY rev7.2 → rev7.3 → rev7.4** (`erp.sync_po_hpp_to_gl` jalur invoice; di luar invoice dan E tertutup tetap satu jurnal seperti AS; plus `erp.rebuild_po_hpp` di rev7.4):
+- **Revaluasi pada harinya sendiri (rev7.2).** Bagian perubahan fakta bahan yang dijelaskan oleh revaluasinya (`material_cost_revaluation_events` sesudah jangkar fakta) diberi tanggal pada tanggal efektif revaluasi itu. Recost non-invoice yang masih mengantre saat invoice diproses masuk WIP pada harinya sendiri, dan AY memindahkannya pada hari yang sama. Sisa yang tidak dijelaskan revaluasi (misalnya nilai fakta baru) tetap pada hari fisik fakta. Harness r16: −7,50 / −10,00.
+- **F4, pengenceran batch (rev7.2).** Grup baru dalam cutting batch sejak sync terakhir mengencerkan bahan lama. Pengenceran itu kini diberi tanggal pada hari potong grup baru. Harness r15 = repro x6 pemeriksa: −7,00 / +37,69.
+- **F9 (rev7.2).** State lot dipakai sebagaimana ditulis sync terakhir. `refresh_po_hpp_gl_baseline` hanya menggeser jam state PO tanpa mengubah HPP.
+- **Kain kantong (rev7.3).** Bagian kain kantong di HPP lot dipecah per pool kantong lewat helper baru `erp.po_hpp_gl_pocket_by_pool_v1`, yaitu pemecahan per pool dari `erp.pocket_lot_cost_v1` yang dipakai `rebuild_po_hpp`. Nilainya dibandingkan dengan nilai per pool yang diposting sync terakhir (kolom state lot `pocket_by_pool`). Tiap bagian diberi tanggal seperti recost pool-nya: tidak sebelum akhir periodenya selama terbuka, dan E bila tertutup.
+  - Satu invoice yang mengenai beberapa periode mencatat tiap bagian pada harinya sendiri, dan sync kedua dalam statement yang sama tidak menghitungnya lagi (harness r18).
+  - Lot VOIDED mengikuti perubahan per pool dari lot hidup di grupnya (r19).
+- **Kinerja.** Fungsi berjalan dengan `SET jit TO 'off'` (dari rev7.1). Join revaluasi lewat `unnest` (rev7.3).
+- **Bahan potong yang dibatalkan sebelum jahit (rev7.4, temuan writer saat menutup daftar risiko sisa pemeriksa).**
+  - `erp.rebuild_po_hpp` (AP) menjumlahkan semua gerakan `CUTTING_GROUP`/`CUTTING_GROUP_RETURN`, termasuk yang sudah dibalik oleh `erp.reverse_cutting_material_flow_before_sewing_v2`.
+  - Pembalikan itu mengembalikan bahan ke gudang, membalik jurnal pengeluaran dari WIP, dan revaluasinya ditargetkan nol (AS/AZ). Akibatnya HPP membawa bahan yang tidak lagi ada di WIP.
+  - Dampaknya dua: sync berikutnya membuat WIP PO negatif, dan bila potongan diterbitkan ulang, bahannya terhitung dua kali.
+  - Perbaikan: gerakan yang dibalik dikeluarkan dari semua kolam bahan di `rebuild_po_hpp` (kolam PO, batch, dan grup). Sync memberi fakta itu nilai nol sejak hari fisik pembalikannya, termasuk di state bahan.
+  - Harness r20: FG −17,50 pada hari lot dan −40,00 pada hari pembatalan; WIP PO ditambah AZ dan jurnal pembatalan = 0 setiap hari.
+  - Fixture native: `AY:PRESEWING_REVERSAL_QUEUE`. Varian dengan invoice terlambat ada di probe AZ (`AZ:PRESEWING_REVERSAL_THEN_LATE_INVOICE_LOWER`), karena pemeriksaan WIP dan persediaannya butuh AZ terpasang (§26.6).
+
+**AZ rev2** (builder AZ yang sama):
+- **Recost kain kantong** (`guard_pocket_period_v1`): tidak sebelum akhir periode alokasinya selama terbuka; E bila tertutup; hari ini bila non-invoice.
+- **Nilai BS impor awal** (`sync_initial_import_bs_value_v1`): pada invoice terlambat dengan E terbuka, perubahan dibagi per hari pengeluaran BS secara pro rata pcs.
+- **Lot pembuka non-PO** (`sync_non_po_product_hpp_to_gl_v2620f`): pada invoice terlambat dengan E terbuka, kaki HPP dan kaki lainnya mengikuti hari jual, retur, dan penyesuaian. Bobotnya perubahan HPP per pcs tiap lot terhadap HPP yang terakhir diposting sync lot pembuka (`opening_lot_hpp_gl_state.current_hpp`). FG menjadi penyeimbang; kaki lainnya tetap di satu akun.
+- **Recost aksesori** (`refresh_accessory_hpp_after_material_recost`): lot yang akrualnya sudah diposting kini mendapat jurnal `ACCESSORY_HPP_RECOST`, yaitu WIP melawan `ACCESSORY_REIMBURSE_VARIANCE`, dengan tanggal yang sama dengan pemindahan oleh sinkronisasi HPP PO. Tanpa jurnal ini, sinkronisasi mengkredit WIP tanpa debit, dan WIP PO bergeser di semua jalur.
+  - **Perubahan perilaku:** jurnal ini juga muncul di jalur non-invoice dan E tertutup, karena bug WIP-nya ada di semua jalur.
+  - Jurnal ini ikut dibatalkan bersama akrual di `reverse_qc`, `reverse_rework_completion`, dan `complete_initial_import_wip_v1`.
+- **Invoice bertanggal sebelum barangnya diterima** (`post_material_supplier_invoice`; keputusan owner §26.2): dibukukan pada hari terima, yaitu hari terima terakhir dari baris-barisnya. Tanggal invoice tetap menjadi tanggal dokumen. Konteks recost (E) memakai hari buku yang sama. Invoice bertanggal pada atau sesudah hari terima tidak berubah.
+- **Gerakan yang dibalik (AZ rev2.1, temuan native).**
+  - Kasus: invoice terlambat dengan harga lebih rendah untuk bahan yang pengeluaran potongnya sebagian dibatalkan sebelum jahit.
+  - Akibatnya MATERIAL_INVENTORY −10,50 antara hari potong dan hari pembatalan, dan engine tutup buku menandainya `GL_INVENTORY_NEGATIVE_ASOF` CRITICAL (run AY T1 35998326956, `769abfe`).
+  - Penyebab: mesin biaya memutar ulang riwayat tanpa gerakan yang dibalik dan pembaliknya, dan revaluasinya ditargetkan nol. Unit yang secara fisik ada di WIP tetap tercatat keluar pada harga lama, sementara stok asalnya sudah dinilai ulang.
+  - Perbaikan (`sync_material_cost_revaluation`): gerakan yang dibalik dinilai ulang dengan biaya yang akan diberikan pemutaran ulang (rata-rata sebelum gerakan itu; untuk retur potong, biaya pengeluarannya) pada hari gerakan itu. Pembaliknya mengambil nilai itu kembali pada hari pembalik. Bila kedua kaki jatuh pada hari yang sama (E tertutup, recost tanpa invoice terlambat), nilai interim gerakan asal dipertahankan dan pembaliknya menetralkan pasangan pada hari itu. Buku per hari sama dengan posting tunggal sebelumnya.
+  - Teks rev2.1 pertama (`ff9afb7`) menolkan target pada kasus hari yang sama, sehingga invoice terbuka berikutnya akan memposting interim lagi. Ini ditemukan writer saat meninjau `ff9afb7`; CI-nya hijau karena tidak menguji urutan itu. Diperbaiki di `0280d47` dan diuji di stub (`sequence.sql`).
+  - Penghapusan bahan (item keluar penyesuaian bahan, bukan pemakaian kain kantong) yang dibalik punya celah yang sama. Sekarang ia membawa biaya hasil pemutaran ulang, melawan OTHER_EXPENSE, dari hari penyesuaian sampai hari pembalikan. Event dan state-nya dicatat pada gerakan pembalik, di luar buku kumulatif dokumen penyesuaian.
+  - Uji stub `docs/evidence/cp6-az/rev21-logic/`:
+    - potong, terbuka: +7,00 / +10,50 pada hari potong dan −10,50 pada hari pembatalan;
+    - penghapusan bahan, terbuka: +17,50 / −17,50;
+    - tertutup dan tanpa invoice: sama seperti sebelumnya;
+    - urutan invoice → recost tanpa invoice → invoice lagi: hanya selisihnya yang ditambahkan.
+  - Fixture native: `AZ:PRESEWING_REVERSAL_THEN_LATE_INVOICE_LOWER` dan `AZ:WRITE_OFF_REVERSED_THEN_LATE_INVOICE_LOWER`.
+- **Koreksi harga pembelian** (`post_material_purchase_cost_correction`): dokumen ini juga membawa tanggal invoice untuk konteks dan kejadian sen pemasok, jadi aturan yang sama berlaku: dibukukan tidak sebelum hari terima pembeliannya, dan tanggal invoice tetap menjadi tanggal dokumen.
+- **PO pasangan batch: tidak diubah.** Fixture native `AZ:BATCH_PARTNER_PO` membuktikan produk menolak grup PO lain dalam satu cutting batch: `validate_cutting_batch_link`, "Cutting batch must belong to the same production order". Perubahan antrean core yang sempat ditulis dicabut (`787e8a7`). Karena itu skenario harness r9 (batch dua PO) tidak mungkin terjadi di produk, dan WIP per PO yang saling berlawanan dari r9 juga tidak.
+
+### 26.2 Keputusan owner (24 September 2026)
+Pertanyaan: invoice pemasok diberi tanggal sebelum barangnya diterima. Pilihan owner: **"1"**, yaitu dibukukan pada hari terima, dengan tanggal invoice tetap sebagai tanggal dokumen (jatuh tempo dan umur utang). Writer menerapkan aturan yang sama pada koreksi harga pembelian karena dokumen itu memakai tanggal invoice dengan cara yang sama.
+
+### 26.3 Pemeriksaan independen `b110e54` (AY rev7.2 + AZ rev2) dan disposisinya
+Pemeriksa: sub-agent read-only dengan database stub sendiri. Repro ada di `docs/evidence/cp6-ay/rev72-review/`. Tidak ada BLOCKER.
+
+| Temuan | Tingkat | Disposisi |
+| --- | --- | --- |
+| 1. Bagian kantong dibandingkan dengan versi sebelum statement, bukan dengan yang diposting sync terakhir | MAJOR | Per pool terhadap state lot (`pocket_by_pool`); harness r18 |
+| 2. Satu tanggal kantong (maks akhir periode) untuk semua pool | MAJOR | Tiap pool pada tanggal recost-nya; harness r18 |
+| 3. Non-PO: baseline versi sebelum statement (dua recost dalam satu statement) | MAJOR | Baseline `opening_lot_hpp_gl_state.current_hpp`; uji `rev2-logic/nonpo_two_recosts` |
+| 4a. Jurnal recost aksesori juga di jalur non-invoice/E tertutup | MAJOR (kebijakan) | Dipertahankan sebagai perbaikan bug (§26.1) |
+| 4b. Jurnal recost aksesori tidak ikut dibatalkan bersama akrual | MINOR | Dibatalkan di `reverse_qc`, `reverse_rework_completion`, `complete_initial_import_wip_v1` |
+| 5. Lot VOIDED: bagian kantong tanpa tanggal | MINOR | Rata-rata perubahan per pool lot hidup; harness r19 |
+| 6. Join `any(mids)` tanpa indeks | MINOR (kinerja) | `unnest` lateral (1,12 s tanpa indeks pada 200 ribu event, stub pemeriksa) |
+| 7. Pengecek fixture batch terlalu longgar | MINOR (oracle) | Mencocokkan pesan produk persis |
+
+Yang diperiksa dan OK menurut pemeriksa: harness r1–r17 identik; fuzz 400 seed × 3 mode dengan event revaluasi, grup baru, dan komponen kantong (0 error AY, 0 selisih total per akun terhadap AS; semua penolakan berasal dari pemeriksaan konsistensi AS sendiri); repro x1, x5–x10 tanpa regresi; F9 tanpa jalur state basi; tidak ada alias yang membayangi variabel; tidak ada fungsi SECURITY DEFINER baru.
+
+Fuzz yang sama pada rev7.3 (`docs/evidence/cp6-ay/rev7-review/fuzz_out_rev7_3.txt`): 400 seed × 3 mode, 0 error AY, 0 selisih total; 111 penolakan, semuanya dari AS.
+
+### 26.4 Daftar risiko sisa pemeriksa: disposisi
+1. **`total_hpp_cost` pada recost aksesori dianggap kolom generated.** Tidak bergantung pada anggapan itu: `v_d` membaca kolom yang sama yang dijumlahkan `rebuild_po_hpp`, sebelum dan sesudah update snapshot. Jadi `v_d` sama dengan yang dipindahkan sync, entah kolomnya generated atau diisi trigger. Fakta katalog dari rantai uji yang mengikuti hosted (AY T1 run 36000143793): kolomnya generated, `(good_qty_pcs * qty_per_good_fg_base) * hpp_unit_cost_base_snapshot`.
+2. **Indeks `material_cost_revaluation_events(movement_id)` di hosted tidak diketahui.** Join `fev` sekarang lewat `unnest` (hash join, 1,12 s tanpa indeks pada 200 ribu event di stub pemeriksa). Subquery `ov` per gerakan hanya berjalan pada sync pertama sebuah PO sesudah instalasi (jalur F1). Fakta katalog dari rantai uji yang mengikuti hosted (run yang sama): tidak ada indeks yang diawali `movement_id`. Tanpa indeks, join `unnest` tetap satu hash join per sync (1,12 s pada 200 ribu event di stub pemeriksa), jadi indeks tidak ditambahkan. Hosted sendiri tidak dibaca (tidak ada SQL ke hosted).
+3. **Recost non-invoice yang mengantre dengan tanggal sebelum E dipindahkan pada E.** Ini aturan yang sudah disetujui, bukan cacat keluarga ini. Di luar invoice, `process_cost_recalc_queue` memindahkannya pada hari pemrosesan antrean (keputusan M1: jalur non-invoice = AS). Jalur invoice tidak pernah lebih lambat dari itu: `greatest(E, hari recost)`. Memberi tanggal sebelum E butuh saldo pcs sebelum E, yang tidak termasuk aturan yang disetujui.
+4. **Gerakan potong yang dibalik dan punya event revaluasi.** Penelusuran item ini menemukan dua cacat, keduanya sudah diperbaiki (§26.1):
+   - HPP masih membawa bahan yang dibalik (AY rev7.4);
+   - revaluasi pasangan yang dibalik ditargetkan nol, sehingga persediaan bahan negatif di antara dua hari itu (AZ rev2.1).
+   AY memberi tanggal bagian yang dijelaskan revaluasi gerakan asal pada harinya dan sisanya pada hari pembalik, sama dengan kaki AZ.
+5. **Pemeriksaan WIP negatif per PO vs per akun.** Fixture T1 memeriksa WIP per PO (lebih ketat). Engine tutup buku AW memeriksa saldo negatif per akun per tanggal, sesuai keputusan owner ("Pertahankan pemeriksaan saldo negatif per tanggal"). Semua jalur yang pernah membuat WIP per PO negatif (batch lintas PO, pembatalan potong) kini tidak mungkin atau sudah diperbaiki.
+
+### 26.5 Bukti lokal (sebelum CI)
+- **Harness AY** (`docs/evidence/cp6-ay/rev7-harness/`): r1–r20 dan f1/m2/f1_noninv/f1_closed tanpa error. `output_rev7_3.txt` untuk rev7.3 dan `output_rev7_4.txt` untuk rev7.4. Pada rev7.4, r1–r19 sama dengan rev7.3 kecuali UUID dan jam acak.
+- **Fuzz** rev7.3: lihat §26.3.
+- **Logika AZ** (`docs/evidence/cp6-az/rev2-logic/`): nonpo, nonpo_two_recosts, bsv, acc, pocket pada mode E terbuka, E tertutup, dan tanpa invoice; semua sesuai harapan (`output_rev2.txt`).
+- Fungsi AZ `post_material_supplier_invoice`, `post_material_purchase_cost_correction`, dan fungsi AY `rebuild_po_hpp` dikompilasi di PostgreSQL lokal sekali pakai sebelum push.
+
+### 26.6 Hasil CI (database uji sekali pakai; tidak ada SQL ke hosted)
+Kode akhir: **AY rev7.4** (SQL sha256 `29b89776…af43`, sejak `769abfe`) dan **AZ rev2.1** (SQL sha256 `e1968c8f…3028971`, `0280d47`). Paket T3 dibangun ulang di `0628a68` dari pin run 36000747775: blob `cb02b815…8ab4`, 65.237 byte, dan sha di log cocok.
+
+**AY T1 run 36000143793** (`ff9afb7`; SQL AY sama dengan akhir):
+- Sebelum AY: 4 COUNTEREXAMPLE + 4 PASS.
+- Sesudah AY: **8/8 PASS**, primary tidak berubah, clone 0.
+- `AY:PRESEWING_REVERSAL_QUEUE`:
+  - sebelum: materi lot tetap 80,00 (harapan 32,00) dan WIP PO −40,00 pada hari pembatalan;
+  - sesudah: 32,00, WIP PO 0 / 20,00 / 20,00 / 8,00, dan FG −48,00 pada hari pembatalan.
+- Fakta katalog: lihat §26.4.
+- Bukti: `docs/evidence/cp6-ay/native_t1_run36000143793_*_rev7_4.json`.
+
+**AZ T1 run 36000747815** (`0280d47`):
+- Sebelum AZ: 23 COUNTEREXAMPLE + 5 PASS.
+- Sesudah AZ: **28/28 PASS**, primary tidak berubah, clone 0.
+- Kasus baru putaran ini:
+  - `INVOICE_BEFORE_RECEIPT_LOWER` (run 35996572941, `9b5fc09`): invoice bertanggal 20 Sep untuk barang yang diterima 21 Sep. Sebelum AZ jurnalnya 24 Sep (hari ini); sesudah AZ pada 21 Sep, tanggal dokumen tetap 20 Sep, dan tidak ada gerakan pada 20 Sep.
+  - `COST_CORRECTION_BEFORE_RECEIPT_LOWER`: sebelum AZ jurnal 20 Sep dan persediaan −17,50 sejak 20 Sep (CRITICAL). Sesudah AZ jurnal 21 Sep, 0 pada 20 Sep, dan tidak ada blocker.
+  - `PRESEWING_REVERSAL_THEN_LATE_INVOICE_LOWER`: sebelum AZ persediaan −10,50 sejak 22 Sep (CRITICAL) dan WIP PO −7,00 pada 21 Sep. Sesudah AZ persediaan −17,50 / 0 / 0 / −10,50 (harga invoice × unit di tangan), FG −14,00 pada hari lot dan −53,60 kumulatif pada hari pembatalan, WIP PO 0 / 16,50 / 16,50 / 6,60, dan tidak ada blocker.
+  - `WRITE_OFF_REVERSED_THEN_LATE_INVOICE_LOWER`: sebelum AZ persediaan −17,50 sejak 22 Sep (CRITICAL). Sesudah AZ −17,50 / 0 / 0 / −17,50, tanpa blocker.
+- Bukti: `docs/evidence/cp6-az/native_t1_run36000747815_*_rev2_1b.json` dan `native_t1_run35996572941_*_rev2_1.json`.
+
+**Run yang gagal di putaran ini (dicatat apa adanya):**
+- `769abfe`:
+  - AY T1 35998326956 gagal pada `AY:PRESEWING_REVERSAL_THEN_LATE_INVOICE_LOWER`. Ini temuan produk yang menghasilkan AZ rev2.1. Pemeriksaan fixture yang bergantung pada AZ lalu dipindah ke probe AZ.
+  - AZ T1 35998326947 INCOMPLETE di kedua fase karena label bahan tiruan melebihi varchar(60). Ini kesalahan fixture writer.
+- T3 35993480811, 35996090223, 35996572950, 35998327146, 36000143854, dan 36000747775 merah karena paket basi. Ini memang disengaja: run-run itu menangkap pin untuk paket berikutnya.
+
+**T2 run 36001522757** (`0628a68`, kode akhir; seed QUIETED, fixture PAYROLL_APPROVED):
+- **Identik** dengan run 35992864405 (`b110e54`) pada semua nilai ringkasan, jumlah grup, status kasus, ID kasus, dan urutannya. Yang berbeda hanya run, job, head, catatan, dan 48 UUID hasil generate.
+- Grup lama 230/31/65: tidak ada yang bertambah, hilang, atau pindah. 12 HOLD identik.
+- AR 146 + 28 PASS; temporal 16 + 15 dan race 4 + 6 PASS.
+- Oracle beku tercatat apa adanya: NEW_CASES 8 COUNTEREXAMPLE + 1 INCOMPLETE, trial AO 4 INCOMPLETE, kalender 12 COUNTEREXAMPLE.
+- Oracle yang disetujui: AS 8/8, kalender 12/12, AO INVOICE 4/4, dan `ADJUSTMENT_DATE`, semuanya MATCH.
+- Di luar berkas bukti, log hanya berbeda pada urutan baris jurnal dalam 5 contoh balik NEW_CASES dan satu error trial AO (himpunan barisnya sama), UUID dan hash per run di AR konkurensi, serta sha256 AY/AZ di baris akhir AR.
+- Bukti: `docs/evidence/cp6-t2/run36001522757_ay_rev7_4_az_rev2_1.json`.
+
+**T3 run 36001514536** (`0628a68`): **hijau**, ketiga job sukses.
+- `T3_PINS_REPRODUCED` equal true.
+- Instalasi 24 file AC..AZ PASS; AW/AX/AY/AZ terverifikasi dengan sha256 AY `29b89776…` dan AZ `e1968c8f…`.
+- Backup/restore RESTORED_SAME_MEANING: 318 tabel dan 1.647 baris sama. 19 error restore semuanya pg_cron, dan perbedaan katalog semuanya terklasifikasi.
+- Browser 10/10 PASS, 0 error konsol.
+- Advisor 73 → 127: 54 tambahan, semuanya INFO `rls_enabled_no_policy` untuk tabel internal. Termasuk di dalamnya `invoice_recost_execution_context`, `po_hpp_gl_lot_state_v1`, dan `po_hpp_gl_material_state_v1`.
+- Fingerprint hosted sama (16 jenis) dan kapsul 11/11.
+
+**CodeQL run 36001525302** (`0628a68`): sukses, 0 hasil untuk python, actions, c-cpp, dan javascript-typescript.
+
+**Riwayat putaran ini:** AY T1 dan AZ T1 hijau pada `c7eeabc` (rev7.3: 35996090230, 35996090212) dan `ff9afb7` (36000143793, 36000143836).
+
+### 26.7 Yang masih terbuka (jujur)
+- **Pemakaian kain kantong yang dibalik** tidak diberi kaki interim; aturan periode kantong (§26.1) yang berlaku. Tidak ada fixture pembalikan pemakaian kantong dengan invoice terlambat.
+- **F10:** tanggal jurnal dibatasi hari ini (tidak boleh di masa depan). Ini disengaja.
+- **Fixture native** kontraktor memakai satuan lama `yd` yang didaftarkan fixture ke `uom_definitions`. Fixture invoice dan koreksi harga memakai satu penerimaan per dokumen; aturan "hari terima terakhir dari baris-barisnya" untuk invoice multi-penerimaan hanya diuji lewat kode, belum native.
+- **Beban tulis state** (kunci `M:` per rebuild) belum diukur di data besar.
+
+### 26.8 Pelajaran
+- Item yang hampir dicatat sebagai "desain dasar, total benar" (pasangan yang dibalik) ternyata membuat saldo persediaan negatif CRITICAL begitu diuji native. Uji native dulu sebelum mengklasifikasi risiko sebagai bukan cacat.
+- Fixture di probe AY yang ikut memeriksa WIP dan persediaan bergantung pada AZ. Pemeriksaan yang melibatkan dua paket dijalankan di probe tempat keduanya terpasang (probe AZ).
+- Satu putaran AZ T1 gagal karena label bahan tiruan melebihi varchar(60). Itu kesalahan fixture writer, bukan temuan produk.
+- Menelusuri "risiko sisa" sampai ke kode produk menghasilkan temuan nyata (rev7.4). Risiko yang hanya dicatat bisa menyembunyikan cacat.
+- Aturan owner untuk satu dokumen (invoice) perlu dicek ke semua dokumen yang memakai kolom yang sama (koreksi harga pembelian).
+- Fixture baru yang memakai alur produk yang belum pernah dipakai probe (pembatalan potong, koreksi harga) kini punya savepoint atau pemeriksaan fixture sendiri, supaya kegagalan setup terbaca sebagai kegagalan fixture, bukan temuan produk.
