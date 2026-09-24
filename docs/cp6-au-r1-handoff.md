@@ -1583,6 +1583,7 @@ Head kode akhir **AY rev7.1 `e51614a`**, SQL sha256 `8b23a824…`. Commit sesuda
   - Backup/restore RESTORED_SAME_MEANING (318 tabel sama). Browser 10/10 PASS, 0 error konsol.
   - Advisor 73 → 127: tambahannya hanya INFO `rls_enabled_no_policy` untuk tabel internal, termasuk `po_hpp_gl_lot_state_v1` dan `po_hpp_gl_material_state_v1`.
 - **CodeQL run 35988417934** (`e51614a`): sukses.
+- **AY T1 run 35989442151 dan AZ T1 run 35989442123** (`adc8d67`, guard alias di builder, SQL identik): keduanya sukses.
 - Bukti: `docs/evidence/cp6-ay/native_t1_run35988403292_*_rev7_1.json`, `docs/evidence/cp6-az/native_t1_run35988403143_*_rev7_1.json`.
 
 **Riwayat rev7 (`0bbfd55`, sebelum pemeriksaan independen):**
