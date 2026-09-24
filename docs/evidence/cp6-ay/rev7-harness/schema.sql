@@ -1,0 +1,35 @@
+create schema erp;
+create table erp.settings(k text primary key, v text);
+create function erp.require_internal() returns void language sql as $$select$$;
+create function erp.invoice_recost_economic_date_v1() returns date language sql as $$select (select v::date from erp.settings where k='E')$$;
+create function erp._cp3_business_date(p timestamptz) returns date language sql immutable as $$select (p at time zone 'Asia/Jakarta')::date$$;
+create table erp.accounting_period_control(singleton_id int primary key, closed_through date);
+insert into erp.accounting_period_control values(1,null);
+create table erp.fg_lots(id uuid primary key, po_id uuid, lot_origin text, initial_qty_pcs int, produced_at timestamptz, cutting_group_id uuid, qc_item_id uuid, product_id uuid);
+create table erp.hpp_versions(id uuid primary key default gen_random_uuid(), lot_id uuid, version_no int, qty_basis_pcs numeric, total_cost numeric, is_current boolean, calculated_at timestamptz);
+create table erp.fg_stock_movements(id uuid primary key default gen_random_uuid(), lot_id uuid, movement_type text, qty_signed int, physical_at timestamptz, reversal_of_id uuid, source_type text);
+create table erp.sale_stock_allocations(id uuid primary key default gen_random_uuid(), sale_item_id uuid, lot_id uuid, qty_pcs int);
+create table erp.sales_items(id uuid primary key, sale_id uuid);
+create table erp.sales_headers(id uuid primary key, status text, sale_date timestamptz);
+create table erp.sales_return_items(id uuid primary key default gen_random_uuid(), return_id uuid, lot_id uuid, qty_pcs int);
+create table erp.sales_returns(id uuid primary key, status text, physical_at timestamptz);
+create table erp.qc_inspection_items(id uuid primary key, cutting_group_id uuid);
+create table erp.cutting_groups(id uuid primary key, po_id uuid, cutting_batch_id uuid, cut_at timestamptz);
+create table erp.material_stock_movements(id uuid primary key default gen_random_uuid(), source_id uuid, source_type text, qty_signed numeric, unit_cost_snapshot numeric, physical_at timestamptz, system_created_at timestamptz default now()-interval '3 hour');
+create table erp.v_cutting_group_totals(cutting_group_id uuid, total_pcs int);
+create table erp.po_hpp_gl_state(po_id uuid primary key,base_output_qty int,hpp_total_cost numeric,fg_value numeric,cogs_value numeric,other_out_value numeric,updated_at timestamptz);
+create table erp.po_hpp_gl_events(id uuid primary key default gen_random_uuid(), po_id uuid, effective_date date, old_hpp_total numeric, new_hpp_total numeric, fg_delta numeric, cogs_delta numeric, other_delta numeric, journal_entry_id uuid);
+create table erp.journal_entries(id uuid primary key default gen_random_uuid(), source_type text, source_id uuid, transaction_date date, economic_date date, description text);
+create table erp.journal_lines(journal_entry_id uuid, mapping_key text, debit numeric, credit numeric, po_id uuid);
+create function erp.post_journal(p_source text, p_source_id uuid, p_date date, p_desc text, p_lines jsonb) returns uuid language plpgsql as $$
+declare v uuid; begin
+ insert into erp.journal_entries(source_type,source_id,transaction_date,economic_date,description) values(p_source,p_source_id,p_date,p_date,p_desc) returning id into v;
+ insert into erp.journal_lines select v,x->>'mapping_key',(x->>'debit')::numeric,(x->>'credit')::numeric,(x->>'po_id')::uuid from jsonb_array_elements(p_lines) x;
+ return v; end $$;
+create table erp.v_cutting_batch_totals(cutting_batch_id uuid, effective_pcs int);
+create table erp.contractor_material_issues(id uuid primary key, po_id uuid, status text, physical_at timestamptz);
+create table erp.contractor_material_issue_items(id uuid primary key default gen_random_uuid(), issue_id uuid, material_id uuid, qty numeric, unit_cost_snapshot numeric);
+create table erp.materials(id uuid primary key, material_type text);
+create table erp.product_conversions(id uuid primary key, status text);
+create table erp.product_conversion_allocations(id uuid primary key default gen_random_uuid(), conversion_id uuid, source_lot_id uuid, destination_lot_id uuid);
+create function erp.cp6_po_source_qty_v2620c(p uuid) returns numeric language sql as $$select coalesce((select v::numeric from erp.settings where k='SRCQ'),(select sum(initial_qty_pcs) from erp.fg_lots where po_id=p and lot_origin='PRODUCTION'))$$;

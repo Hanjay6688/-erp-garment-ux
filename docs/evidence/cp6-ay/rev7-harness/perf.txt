@@ -1,0 +1,5 @@
+AY M-4 performance, local stub (PostgreSQL 16, 20 lots, sales spread over ndays; one invoice-path sync):
+ndays=30  nper=200   (4k FG movements):   rev7 0.31 s  | rev6.1 0.13 s
+ndays=400 nper=2000  (40k FG movements):  rev7 1.28 s  | rev6.1 4.50 s
+ndays=700 nper=5000  (100k FG movements): rev7 1.72 s  | rev6.1 23.32 s
+Run: psql -v ndays=N -v nper=M -f scenarios/perf.sql (after run.sh built the db). Stub timings only; not a production SLA.
