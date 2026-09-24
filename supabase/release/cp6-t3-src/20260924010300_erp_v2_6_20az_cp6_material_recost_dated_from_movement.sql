@@ -1,6 +1,6 @@
 -- CP6 AZ: material recost corrections dated from the physical movement. Release candidate of the T3 combined package; closed, drained maintenance required.
 begin;
--- Built by scripts/cp6_t3_awx_release.py from supabase/dev/cp6_az_t1_family.sql (sha256 994566eead30533a8c6e1eb1ca589d71b68274b37cf0f7130a3e16a3cbc73eba): the T1 body below is unchanged apart from the
+-- Built by scripts/cp6_t3_awx_release.py from supabase/dev/cp6_az_t1_family.sql (sha256 b4dacbfbeea4a682a61b45667d91ac8a4e3a51fe27475e7895ae2b5b5a2d73dc): the T1 body below is unchanged apart from the
 -- ledger description; guards follow AO..AV. Capsule and catalog pins are placeholders until the T3 capture.
 set local lock_timeout='10s';set local statement_timeout='240s';set local timezone='UTC';set local search_path='';
 set local role postgres;
@@ -148,7 +148,7 @@ insert into erp.cp6_v2620az_rollback_capsule(object_identity,object_regidentity,
 select format('%I.%I(%s)',n.nspname,p.proname,pg_get_function_identity_arguments(p.oid)),i.identity,pg_get_functiondef(p.oid),
  encode(extensions.digest(convert_to(pg_get_functiondef(p.oid),'UTF8'),'sha256'),'hex'),
  array(select a::text from unnest(p.proacl)a order by a::text),pg_get_userbyid(p.proowner)
-from unnest(array['erp.sync_material_cost_revaluation(uuid)','erp._cp6_sync_material_adjustment_revaluation(uuid,uuid)','erp.sync_finished_po_wip_residual(uuid,date,text)','erp.guard_pocket_period_v1()','erp.sync_initial_import_bs_value_v1(uuid,date)','erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)','erp.refresh_accessory_hpp_after_material_recost(uuid,text)','erp._recalculate_material_cost_core(uuid,timestamp with time zone,boolean)']) i(identity)
+from unnest(array['erp.sync_material_cost_revaluation(uuid)','erp._cp6_sync_material_adjustment_revaluation(uuid,uuid)','erp.sync_finished_po_wip_residual(uuid,date,text)','erp.guard_pocket_period_v1()','erp.sync_initial_import_bs_value_v1(uuid,date)','erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)','erp.refresh_accessory_hpp_after_material_recost(uuid,text)']) i(identity)
 join pg_proc p on p.oid=i.identity::regprocedure join pg_namespace n on n.oid=p.pronamespace;
 create temp table cp6_release_functions on commit drop as
 select p.oid::regprocedure::text as identity,encode(extensions.digest(convert_to(pg_get_functiondef(p.oid),'UTF8'),'sha256'),'hex') as definition_sha256,
@@ -718,315 +718,6 @@ begin
   return v_changed;
 end;
 $function$;
-CREATE OR REPLACE FUNCTION erp._recalculate_material_cost_core(p_material_id uuid, p_recalc_from timestamp with time zone, p_allow_checkpoint boolean)
- RETURNS void
- LANGUAGE plpgsql
- SECURITY DEFINER
- SET search_path TO 'erp', 'public'
-AS $function$
-declare
-  r erp.material_stock_movements%rowtype;
-  rr record;
-  v_stock numeric(18,6):=0;
-  v_avg numeric(18,6):=0;
-  v_stock_before numeric(18,6);
-  v_avg_before numeric(18,6);
-  v_cost numeric(18,6);
-  v_new_stock numeric(18,6);
-  v_new_avg numeric(18,6);
-  v_closed date;
-  v_cp erp.material_cost_checkpoints%rowtype;
-  v_use_checkpoint boolean:=false;
-  v_cutoff timestamptz;
-  v_transfer_pairs jsonb;
-  v_transfer_rows bigint;
-  v_transfer_pair_count bigint;
-  v_location_minimum numeric;
-  v_invoice_date date;
-  v_queue record;
-begin
-  perform erp.require_internal();
-  select closed_through into v_closed from erp.accounting_period_control where singleton_id=1 for share;
-  perform 1 from erp.materials where id=p_material_id for update;
-  if not found then raise exception 'Material not found'; end if;
-
-  with active as (
-    select m.*,row_number() over(partition by m.source_id,m.roll_id,m.physical_at,
-        abs(m.qty_signed),m.movement_type order by m.system_created_at,m.id) ordinal
-    from erp.material_stock_movements m
-    where m.material_id=p_material_id and m.source_type='MATERIAL_TRANSFER'
-      and m.reversal_of_id is null
-      and not exists(select 1 from erp.material_stock_movements rv where rv.reversal_of_id=m.id)
-  ), pairs as (
-    select i.id incoming,o.id outgoing
-    from active i join active o on o.source_id=i.source_id
-      and o.roll_id is not distinct from i.roll_id and o.physical_at=i.physical_at
-      and o.qty_signed=-i.qty_signed and o.ordinal=i.ordinal
-      and o.movement_type='TRANSFER_OUT' and o.qty_signed<0
-    where i.movement_type='TRANSFER_IN' and i.qty_signed>0
-      and (o.physical_at,o.system_created_at,o.id)<(i.physical_at,i.system_created_at,i.id)
-      and o.location_id<>i.location_id
-  )
-  select coalesce((select jsonb_object_agg(incoming::text,outgoing::text) from pairs),'{}'::jsonb),
-    (select count(*) from active),(select count(*) from pairs)
-  into v_transfer_pairs,v_transfer_rows,v_transfer_pair_count;
-  if v_transfer_rows<>2*v_transfer_pair_count then
-    raise exception 'AM_TRANSFER_PAIR_LINEAGE_UNPROVEN for material %',p_material_id;
-  end if;
-
-  -- The cost engine excludes a source and its linked inverse together. Apply
-  -- the identical effective-history rule at each physical location/roll too;
-  -- this preserves atomic receipt replacement and existing cancellation rules.
-  select min(prefix) into v_location_minimum from (
-    select sum(m.qty_signed) over(partition by m.location_id,m.roll_id
-      order by m.physical_at,coalesce(o.system_created_at,m.system_created_at),
-        coalesce(o.id,m.id),(o.id is not null) rows unbounded preceding) prefix
-    from erp.material_stock_movements m
-    left join erp.material_stock_movements o on o.id=(v_transfer_pairs->>m.id::text)::uuid
-    where m.material_id=p_material_id and m.reversal_of_id is null
-      and not exists(select 1 from erp.material_stock_movements rv where rv.reversal_of_id=m.id)
-  ) effective_history;
-  if v_location_minimum<0 then
-    raise exception 'AM_BACKDATE_WOULD_CREATE_NEGATIVE_LOCATION_ROLL_HISTORY for material %',p_material_id;
-  end if;
-
-  if p_allow_checkpoint and p_recalc_from is not null and v_closed is not null then
-    select * into v_cp from erp.material_cost_checkpoints where material_id=p_material_id;
-    if v_cp.material_id is not null
-       and v_cp.checkpoint_date<=v_closed
-       and erp._cp3_business_date(p_recalc_from)>v_cp.checkpoint_date then
-      v_cutoff:=((v_cp.checkpoint_date+1)::timestamp at time zone 'Asia/Jakarta');
-
-  if exists(
-    with history as (
-      select msm.id,msm.qty_signed,msm.unit_cost_snapshot,msm.movement_type,msm.source_type,
-        h.movement_id,h.stock_before,h.stock_after,h.average_before,h.average_after,
-        h.movement_qty,h.movement_unit_cost,paired_out.unit_cost_snapshot paired_cost,
-        sum(msm.qty_signed) over w expected_stock,
-        lag(h.average_after,1,0::numeric) over w previous_average
-      from erp.material_stock_movements msm
-      left join erp.material_cost_history h on h.movement_id=msm.id and h.material_id=msm.material_id
-      left join erp.material_stock_movements paired_out on paired_out.id=(v_transfer_pairs->>msm.id::text)::uuid
-      where msm.material_id=p_material_id and msm.physical_at<v_cutoff
-        and msm.reversal_of_id is null
-        and not exists(select 1 from erp.material_stock_movements rv where rv.reversal_of_id=msm.id)
-      window w as(order by msm.physical_at,coalesce(paired_out.system_created_at,msm.system_created_at),
-        coalesce(paired_out.id,msm.id),(paired_out.id is not null) rows unbounded preceding)
-    )
-    select 1 from history where movement_id is null
-      or movement_qty is distinct from qty_signed
-      or movement_unit_cost is distinct from unit_cost_snapshot
-      or stock_before is distinct from expected_stock-qty_signed
-      or stock_after is distinct from expected_stock
-      or average_before is distinct from previous_average
-      or (qty_signed<0 and movement_unit_cost is distinct from average_before)
-      or (movement_type='TRANSFER_IN' and source_type='MATERIAL_TRANSFER'
-          and movement_unit_cost is distinct from paired_cost)
-      or average_after is distinct from case
-        when stock_after=0 then 0
-        when qty_signed<0 then average_before
-        else round((stock_before*average_before+qty_signed*movement_unit_cost)/nullif(stock_after,0),6)
-      end
-  ) then
-    raise exception 'AM_LEGACY_COST_CHECKPOINT_REQUIRES_HISTORY_REVIEW for material %',p_material_id;
-  end if;
-
-      v_use_checkpoint:=true;
-      v_stock:=v_cp.stock_qty;
-      v_avg:=v_cp.moving_average_cost;
-    end if;
-  end if;
-
-  if v_use_checkpoint then
-    if v_cp.last_movement_id is null then
-      delete from erp.material_cost_history where material_id=p_material_id;
-    else
-      delete from erp.material_cost_history h
-      using erp.material_stock_movements msm
-      where h.material_id=p_material_id and h.movement_id=msm.id
-        and erp._cp3_business_date(msm.physical_at)>v_cp.checkpoint_date;
-    end if;
-  else
-    delete from erp.material_cost_history where material_id=p_material_id;
-  end if;
-
-  for r in
-    select msm.* from erp.material_stock_movements msm
-  left join erp.material_stock_movements paired_out
-    on paired_out.id=(v_transfer_pairs->>msm.id::text)::uuid
-    where msm.material_id=p_material_id
-      and msm.reversal_of_id is null
-      and not exists(select 1 from erp.material_stock_movements rv where rv.reversal_of_id=msm.id)
-      and (
-        not v_use_checkpoint
-        or v_cp.last_movement_id is null
-        or erp._cp3_business_date(msm.physical_at)>v_cp.checkpoint_date
-      )
-    order by msm.physical_at,coalesce(paired_out.system_created_at,msm.system_created_at),
-      coalesce(paired_out.id,msm.id),(paired_out.id is not null)
-    for update of msm
-  loop
-    v_stock_before:=v_stock;
-    v_avg_before:=v_avg;
-    if r.qty_signed>0 then
-      if r.movement_type='TRANSFER_IN' and r.source_type='MATERIAL_TRANSFER' then
-        -- The paired OUT must already have been replayed (or retained by the
-        -- closed-period checkpoint). Its historical cost is the incoming cost,
-        -- including a transfer of the entire balance that temporarily hits 0.
-        select o.unit_cost_snapshot into v_cost
-        from erp.material_stock_movements o
-        join erp.material_cost_history h on h.movement_id=o.id and h.material_id=o.material_id
-        where o.id=(v_transfer_pairs->>r.id::text)::uuid and o.material_id=p_material_id
-          and o.is_cost_recalculated;
-        if not found or v_cost is null then
-          raise exception 'AM_TRANSFER_OUT_COST_NOT_REPLAYED for movement %',r.id;
-        end if;
-      elsif r.movement_type='REVERSAL' and r.reversal_of_id is not null then
-        select x.unit_cost_snapshot into v_cost from erp.material_stock_movements x where x.id=r.reversal_of_id;
-        v_cost:=coalesce(v_cost,r.input_unit_cost,r.unit_cost_snapshot,v_avg);
-      elsif r.movement_type='CUTTING_RETURN' and r.source_type='CUTTING_GROUP_RETURN' then
-        select x.unit_cost_snapshot into v_cost
-        from erp.material_stock_movements x
-        where x.material_id=r.material_id
-          and x.source_type='CUTTING_GROUP' and x.source_id=r.source_id
-          and x.movement_type='CUTTING_ISSUE'
-          and x.roll_id is not distinct from r.roll_id
-        order by x.physical_at desc,x.system_created_at desc,x.id desc limit 1;
-        v_cost:=coalesce(v_cost,r.input_unit_cost,r.unit_cost_snapshot,v_avg);
-      else
-        v_cost:=coalesce(r.input_unit_cost,r.unit_cost_snapshot,v_avg);
-      end if;
-      v_new_stock:=v_stock+r.qty_signed;
-      if v_new_stock>0 then
-        v_new_avg:=((v_stock*v_avg)+(r.qty_signed*v_cost))/v_new_stock;
-      else
-        v_new_avg:=0;
-      end if;
-    else
-      v_new_stock:=v_stock+r.qty_signed;
-      if v_new_stock<0 then
-        raise exception 'Backdate/correction would create negative material stock for material %, movement %',p_material_id,r.id;
-      end if;
-      v_cost:=v_avg;
-      v_new_avg:=case when v_new_stock=0 then 0 else v_avg end;
-    end if;
-
-    update erp.material_stock_movements
-    set original_unit_cost_snapshot=coalesce(original_unit_cost_snapshot,v_cost),
-        unit_cost_snapshot=v_cost,
-        is_cost_recalculated=true
-    where id=r.id;
-
-    insert into erp.material_cost_history(material_id,movement_id,physical_at,stock_before,average_before,movement_qty,movement_unit_cost,stock_after,average_after)
-    values(p_material_id,r.id,r.physical_at,v_stock_before,v_avg_before,r.qty_signed,v_cost,v_new_stock,v_new_avg);
-    v_stock:=v_new_stock;
-    v_avg:=v_new_avg;
-  end loop;
-
-  for rr in
-    select mr.id as roll_id,coalesce(sum(msm.qty_signed),0)::numeric as roll_qty
-    from erp.material_rolls mr
-    left join erp.material_stock_movements msm on msm.roll_id=mr.id
-    where mr.material_id=p_material_id
-    group by mr.id
-  loop
-    if rr.roll_qty<0 then raise exception 'Correction would create negative roll stock for roll %',rr.roll_id; end if;
-    update erp.material_rolls
-    set cached_qty=rr.roll_qty,
-        status=case when rr.roll_qty=0 then 'EXHAUSTED' when rr.roll_qty<original_qty then 'HALF_USED' else 'AVAILABLE' end,
-        updated_at=statement_timestamp()
-    where id=rr.roll_id and status<>'RETURNED_SUPPLIER';
-  end loop;
-
-  update erp.cutting_group_rolls cgr
-  set unit_cost_snapshot=(
-    select msm.unit_cost_snapshot
-    from erp.material_stock_movements msm
-    where msm.material_id=p_material_id and msm.source_type='CUTTING_GROUP'
-      and msm.source_id=cgr.cutting_group_id and msm.movement_type='CUTTING_ISSUE'
-      and msm.roll_id is not distinct from cgr.roll_id
-    order by msm.physical_at desc,msm.system_created_at desc,msm.id desc limit 1
-  )
-  where exists(
-    select 1 from erp.material_stock_movements msm
-    where msm.material_id=p_material_id and msm.source_type='CUTTING_GROUP'
-      and msm.source_id=cgr.cutting_group_id and msm.movement_type='CUTTING_ISSUE'
-      and msm.roll_id is not distinct from cgr.roll_id
-  );
-
-  update erp.contractor_material_issue_items ii
-  set unit_cost_snapshot=(
-    select msm.unit_cost_snapshot from erp.material_stock_movements msm
-    where msm.material_id=p_material_id and msm.source_type='CONTRACTOR_MATERIAL_ISSUE_ITEM'
-      and msm.source_id=ii.id and msm.movement_type='CONTRACTOR_ISSUE'
-    order by msm.physical_at desc,msm.system_created_at desc,msm.id desc limit 1
-  )
-  where ii.material_id=p_material_id and exists(
-    select 1 from erp.material_stock_movements msm
-    where msm.material_id=p_material_id and msm.source_type='CONTRACTOR_MATERIAL_ISSUE_ITEM'
-      and msm.source_id=ii.id and msm.movement_type='CONTRACTOR_ISSUE'
-  );
-
-  update erp.materials set cached_stock_qty=v_stock,moving_average_cost=v_avg,updated_at=statement_timestamp() where id=p_material_id;
-
-  perform erp.sync_material_cost_revaluation(p_material_id);
-
-  insert into erp.cost_recalc_queue(entity_type,entity_id,recalc_from,reason)
-  select distinct 'PO',cg.po_id,min(msm.physical_at),'Material moving-average/backdate recalculation'
-  from erp.material_stock_movements msm
-  join erp.cutting_groups cg0 on msm.source_type in('CUTTING_GROUP','CUTTING_GROUP_RETURN') and msm.source_id=cg0.id
-  -- AZ (independent review of AY rev7): every PO of the cutting batch; erp.rebuild_po_hpp pools cutting material over it.
-  join erp.cutting_groups cg on cg.id=cg0.id or (cg0.cutting_batch_id is not null and cg.cutting_batch_id=cg0.cutting_batch_id)
-  where msm.material_id=p_material_id
-    and exists(select 1 from erp.fg_lots fl where fl.po_id=cg.po_id)
-    and not exists(select 1 from erp.cost_recalc_queue q where q.entity_type='PO' and q.entity_id=cg.po_id and (q.status in('PENDING','RUNNING') or (q.status='FAILED' and q.attempt_count<3)))
-  group by cg.po_id;
-
-  insert into erp.cost_recalc_queue(entity_type,entity_id,recalc_from,reason)
-  select distinct 'PO',cmi.po_id,min(msm.physical_at),'Contractor material moving-average/backdate recalculation'
-  from erp.material_stock_movements msm
-  join erp.contractor_material_issue_items ii on msm.source_type='CONTRACTOR_MATERIAL_ISSUE_ITEM' and msm.source_id=ii.id
-  join erp.contractor_material_issues cmi on cmi.id=ii.issue_id
-  where msm.material_id=p_material_id and cmi.po_id is not null
-    and exists(select 1 from erp.fg_lots fl where fl.po_id=cmi.po_id)
-    and not exists(select 1 from erp.cost_recalc_queue q where q.entity_type='PO' and q.entity_id=cmi.po_id and (q.status in('PENDING','RUNNING') or (q.status='FAILED' and q.attempt_count<3)))
-  group by cmi.po_id;
-
-  insert into erp.audit_logs(entity_type,entity_id,action,new_data,changed_by,change_reason)
-  values('materials',p_material_id,'RECALCULATE',jsonb_build_object('cached_stock_qty',v_stock,'moving_average_cost',v_avg,'original_movement_snapshots_preserved',true,'gl_revaluation_synced',true,'checkpoint_used',v_use_checkpoint,'recalc_from',p_recalc_from),erp.current_app_user_id(),'Material chronological moving-average recalculation');
-
-  perform erp.refresh_accessory_hpp_after_material_recost(p_material_id,'Material chronological moving-average recalculation');
-
-  v_invoice_date:=erp.invoice_recost_economic_date_v1();
-  if v_invoice_date is not null then
-    for v_queue in
-      select q.* from erp.cost_recalc_queue q where q.entity_type='PO'
-        and q.status in('PENDING','FAILED')
-        and q.entity_id in(
-          select cg.po_id from erp.cutting_groups cg0 join erp.material_stock_movements m
-            on m.source_type in('CUTTING_GROUP','CUTTING_GROUP_RETURN') and m.source_id=cg0.id
-          join erp.cutting_groups cg on cg.id=cg0.id or (cg0.cutting_batch_id is not null and cg.cutting_batch_id=cg0.cutting_batch_id)
-          where m.material_id=p_material_id
-          union select i.po_id from erp.contractor_material_issues i join erp.contractor_material_issue_items l on l.issue_id=i.id
-            where l.material_id=p_material_id and i.po_id is not null
-        ) order by q.entity_id,q.queued_at,q.id for update
-    loop
-      perform erp.rebuild_po_hpp(v_queue.entity_id,v_queue.reason);
-      perform erp.propagate_conversion_hpp_for_po(v_queue.entity_id);
-      perform erp.sync_po_hpp_to_gl(v_queue.entity_id,v_invoice_date);
-      if exists(select 1 from erp.production_orders where id=v_queue.entity_id and status='FINISHED') then
-        perform erp.sync_finished_po_wip_residual(v_queue.entity_id,v_invoice_date,'Invoice-date material correction');
-      end if;
-      update erp.cost_recalc_queue set status='DONE',started_at=statement_timestamp(),completed_at=statement_timestamp(),
-        last_attempt_at=statement_timestamp(),attempt_count=attempt_count+1,error_message=null,next_attempt_at=null where id=v_queue.id;
-    end loop;
-  end if;
-
-  if not v_use_checkpoint and v_closed is not null then
-    perform erp.refresh_material_cost_checkpoint(p_material_id,v_closed);
-  end if;
-end;
-$function$;
 insert into erp.schema_migrations(version,description) values('v2.6.20az','Material recost corrections dated from the physical movement: WIP from the cutting day, material until then');
 do $catalog_guard$
 declare actual jsonb;fingerprint text;object_count bigint;
@@ -1122,7 +813,7 @@ begin
    or exists(select 1 from pg_attribute p cross join lateral aclexplode(p.attacl)a where p.attrelid='erp.cp6_v2620az_rollback_capsule'::regclass and a.grantee<>'postgres'::regrole)
    or exists(select 1 from pg_policy where polrelid='erp.cp6_v2620az_rollback_capsule'::regclass)
    or exists(select 1 from pg_trigger where tgrelid='erp.cp6_v2620az_rollback_capsule'::regclass and not tgisinternal)
-   or (select count(*) from erp.cp6_v2620az_rollback_capsule)<>8 then raise exception 'AZ_CAPSULE_SECURITY_OR_COUNT';end if;
+   or (select count(*) from erp.cp6_v2620az_rollback_capsule)<>7 then raise exception 'AZ_CAPSULE_SECURITY_OR_COUNT';end if;
  select jsonb_build_object(
    'relation',(select jsonb_build_array(relkind,relpersistence,relreplident,relispartition,reloptions) from pg_class where oid='erp.cp6_v2620an_rollback_capsule'::regclass),
    'columns',(select jsonb_agg(jsonb_build_array(a.attname,format_type(a.atttypid,a.atttypmod),a.attnotnull,a.attidentity,a.attgenerated,pg_get_expr(d.adbin,d.adrelid)) order by a.attnum) from pg_attribute a left join pg_attrdef d on d.adrelid=a.attrelid and d.adnum=a.attnum where a.attrelid='erp.cp6_v2620an_rollback_capsule'::regclass and a.attnum>0 and not a.attisdropped),
@@ -1135,9 +826,9 @@ begin
    'indexes',(select jsonb_agg(jsonb_build_array(indisunique,indisprimary,indisexclusion,indisvalid,indisready,indkey::text,indclass::text,indoption::text,pg_get_expr(indexprs,indrelid),pg_get_expr(indpred,indrelid)) order by indkey::text) from pg_index where indrelid='erp.cp6_v2620az_rollback_capsule'::regclass)) into actual;
  if actual is distinct from expected then raise exception 'AZ_CAPSULE_SHAPE_DRIFT';end if;
  select boundary_snapshot into boundary from erp.cp6_v2620az_rollback_capsule limit 1;
- if 8>0 and (boundary is null or exists(select 1 from erp.cp6_v2620az_rollback_capsule where boundary_snapshot is distinct from boundary)
+ if 7>0 and (boundary is null or exists(select 1 from erp.cp6_v2620az_rollback_capsule where boundary_snapshot is distinct from boundary)
   or not(boundary ?& array['before','after','platform_before','markers_before'])) then raise exception 'AZ_CAPSULE_BOUNDARY';end if;
- if exists(select 1 from erp.cp6_v2620az_rollback_capsule where object_regidentity<>all(array['erp.sync_material_cost_revaluation(uuid)','erp._cp6_sync_material_adjustment_revaluation(uuid,uuid)','erp.sync_finished_po_wip_residual(uuid,date,text)','erp.guard_pocket_period_v1()','erp.sync_initial_import_bs_value_v1(uuid,date)','erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)','erp.refresh_accessory_hpp_after_material_recost(uuid,text)','erp._recalculate_material_cost_core(uuid,timestamp with time zone,boolean)']::text[])
+ if exists(select 1 from erp.cp6_v2620az_rollback_capsule where object_regidentity<>all(array['erp.sync_material_cost_revaluation(uuid)','erp._cp6_sync_material_adjustment_revaluation(uuid,uuid)','erp.sync_finished_po_wip_residual(uuid,date,text)','erp.guard_pocket_period_v1()','erp.sync_initial_import_bs_value_v1(uuid,date)','erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)','erp.refresh_accessory_hpp_after_material_recost(uuid,text)']::text[])
    or definition_sha256 is distinct from encode(extensions.digest(convert_to(object_definition,'UTF8'),'sha256'),'hex')
    or installed_definition_sha256 is null or installed_definition_sha256=definition_sha256
    or installed_definition_sha256 is distinct from encode(extensions.digest(convert_to(pg_get_functiondef(to_regprocedure(object_regidentity)),'UTF8'),'sha256'),'hex'))

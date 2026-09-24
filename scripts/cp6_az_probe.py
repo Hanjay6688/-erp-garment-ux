@@ -41,8 +41,7 @@ KEYS=('MATERIAL_INVENTORY','WIP','FG_INVENTORY','COGS')
 FUNCTIONS=('erp.sync_material_cost_revaluation(uuid)','erp._cp6_sync_material_adjustment_revaluation(uuid,uuid)','erp.sync_finished_po_wip_residual(uuid,date,text)',
            # AZ rev2 (round six): the rest of the family (handoff §23.7, independent review of AY rev7).
            'erp.guard_pocket_period_v1()','erp.sync_initial_import_bs_value_v1(uuid,date)',
-           'erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)','erp.refresh_accessory_hpp_after_material_recost(uuid,text)',
-           'erp._recalculate_material_cost_core(uuid,timestamp with time zone,boolean)')
+           'erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)','erp.refresh_accessory_hpp_after_material_recost(uuid,text)')
 
 
 def dev_source(signature):
@@ -539,9 +538,9 @@ def batch_partner(cur,today,price):
     """Independent review of AY rev7 (batch partner not queued): erp.rebuild_po_hpp pools cutting material over the cutting
     batch, groups of other POs included, but _recalculate_material_cost_core queued only the POs whose own groups used the
     recosted material. Fixture: PO A cuts 4 units of the invoiced fabric into 8 pcs on d+1 in a cutting batch; PO B cuts 6
-    units of another fabric into 3 pcs on d+1 into the same batch. Late invoice for the first fabric on d. Expected (AZ rev2):
-    PO B is rebuilt and synced too (its posted HPP equals its target). When the product refuses a cutting batch across POs,
-    the case records that refusal (the partner queue can then never be needed)."""
+    units of another fabric into 3 pcs on d+1 into the same batch. Late invoice for the first fabric on d. T1 run 35992859006:
+    the product refuses the cross-PO batch (validate_cutting_batch_link), so the case records that refusal and the core is
+    not changed; should the product ever accept it, the case checks that PO B is rebuilt and synced (sentinel)."""
     prod=chain.production
     d=today-timedelta(days=3);d2=d+timedelta(days=1)
     days=[d+timedelta(days=i) for i in range(4)]

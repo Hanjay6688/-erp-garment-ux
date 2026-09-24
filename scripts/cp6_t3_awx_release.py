@@ -53,8 +53,7 @@ FILES=[
          replaced=['erp.sync_material_cost_revaluation(uuid)','erp._cp6_sync_material_adjustment_revaluation(uuid,uuid)',
                    'erp.sync_finished_po_wip_residual(uuid,date,text)','erp.guard_pocket_period_v1()',
                    'erp.sync_initial_import_bs_value_v1(uuid,date)','erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)',
-                   'erp.refresh_accessory_hpp_after_material_recost(uuid,text)',
-                   'erp._recalculate_material_cost_core(uuid,timestamp with time zone,boolean)'],new_tables=[]),
+                   'erp.refresh_accessory_hpp_after_material_recost(uuid,text)'],new_tables=[]),
 ]
 PLACEHOLDER='0'*64
 # The package capsules AO..AV (AO..AW for AX) are checked like AV checks AO..AU; the capsules of this builder are left out
