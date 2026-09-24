@@ -95,9 +95,9 @@ def run(mode):
         assert report['hosted_capsules']['equal'],'T3_CLONE_CAPSULES_NOT_HOSTED'
         advisors_AB=advisors(boundary.PG)
         committed=AUDITOR/'docs/evidence/cp6-t3/release_pins.json'
-        # AC..AV and the AW/AX release candidates are all files of the one package; AW/AX T1 verification follows.
+        # AC..AV and the AW/AX/AY release candidates are all files of the one package; AW/AX/AY T1 verification follows.
         stages=[('PACKAGE',lambda:(package.capture if mode=='capture' else package.install)(OUT/('T3_PACKAGE_FILES_%s.json'%mode.upper()))['status']),
-                ('AW_AX_VERIFY',lambda:verify_awx())]
+                ('AW_AX_AY_VERIFY',lambda:verify_awx())]
         for name,operation in stages:
             try:
                 result=operation()
