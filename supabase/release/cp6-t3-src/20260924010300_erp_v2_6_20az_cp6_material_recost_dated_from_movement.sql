@@ -1,6 +1,6 @@
 -- CP6 AZ: material recost corrections dated from the physical movement. Release candidate of the T3 combined package; closed, drained maintenance required.
 begin;
--- Built by scripts/cp6_t3_awx_release.py from supabase/dev/cp6_az_t1_family.sql (sha256 e1968c8fe40d65274ed6e3f4e126641c744aca2f822d1cbf6d357297a3028971): the T1 body below is unchanged apart from the
+-- Built by scripts/cp6_t3_awx_release.py from supabase/dev/cp6_az_t1_family.sql (sha256 9007eefc5b8e8d3ae47dbdc496aca61fb281152385b27c9791284b68fc8125c9): the T1 body below is unchanged apart from the
 -- ledger description; guards follow AO..AV. Capsule and catalog pins are placeholders until the T3 capture.
 set local lock_timeout='10s';set local statement_timeout='240s';set local timezone='UTC';set local search_path='';
 set local role postgres;
@@ -295,8 +295,9 @@ begin
     on conflict(movement_id) do update set applied_inventory_delta=excluded.applied_inventory_delta,updated_at=statement_timestamp();
     end loop;
   end loop;
-  -- AZ rev2.1: a reversed write-off (outbound item of a material adjustment; a pocket-fabric usage keeps its own period rule)
-  -- left at its posting cost while the stock it came from is revalued, and the adjustment document's own cumulative
+  -- AZ rev2.1: a reversed write-off (outbound item of a material adjustment, a pocket-fabric usage included: its reversal
+  -- is only possible while no pocket period covers it, so it is then a plain write-off against OTHER_EXPENSE; GPT audit of
+  -- 737649b, AB-01) left at its posting cost while the stock it came from is revalued, and the adjustment document's own cumulative
   -- revaluation (erp._cp6_sync_material_adjustment_revaluation) targets it to zero once reversed. Between the adjustment
   -- day and the reversal day the write-off carries the replayed cost: +I against the write-off account on its day, -I on the
   -- reversal's day (event and state on the reversal movement, outside the document's own book). Both legs on one day: kept.
@@ -304,7 +305,7 @@ begin
       from erp.material_stock_movements msm join erp.material_adjustment_items i on i.id=msm.source_id
       join erp.material_stock_movements rv on rv.reversal_of_id=msm.id
     where msm.material_id=p_material_id and msm.source_type='MATERIAL_ADJUSTMENT_ITEM' and msm.reversal_of_id is null
-      and msm.qty_signed<0 and not exists(select 1 from erp.pocket_fabric_usage u where u.adjustment_id=i.adjustment_id)
+      and msm.qty_signed<0
     order by msm.physical_at,msm.system_created_at,msm.id
   loop
     select s.applied_inventory_delta into v_old from erp.material_cost_revaluation_state s where s.movement_id=r.rv_id for update;

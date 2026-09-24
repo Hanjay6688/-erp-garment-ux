@@ -32,7 +32,8 @@ AZ rev2 (round seven, writer; handoff §23.7 and the independent review of AY re
   - reversed movements (AZ rev2.1; native AY:PRESEWING_REVERSAL_THEN_LATE_INVOICE_LOWER on 769abfe, MATERIAL_INVENTORY
     -10.50 between a cut and its pre-sewing reversal): revalued at the replay's cost on their own day, the reversal takes it
     back on its own day, when a late invoice with an open E dates the two days apart (else the reversal nets the pair that
-    day, as before); a reversed write-off (material adjustment) the same way against the write-off account;
+    day, as before); a reversed write-off (material adjustment, a pocket-fabric usage included; GPT audit AB-01) the same
+    way against the write-off account;
   - batch partners: no change needed; the product keeps a cutting batch inside one PO (fixture AZ:BATCH_PARTNER_PO);
   - supplier invoice dated before its goods were received (erp.post_material_supplier_invoice; owner, option 1): booked on
     the receipt day, the invoice date kept as the document date; the purchase cost correction
@@ -134,8 +135,9 @@ REVAL_LEGS_NEW="""    -- AZ rev2.1: the movement, then each of its reversals wit
 """
 LEG_DATE="""case when v_closed then v_e else least(greatest(v_e,erp._cp3_business_date({t})),erp._cp3_business_date(statement_timestamp())) end"""
 REVAL_ADJ_OLD="""  for r in select distinct i.adjustment_id"""
-REVAL_ADJ_NEW="""  -- AZ rev2.1: a reversed write-off (outbound item of a material adjustment; a pocket-fabric usage keeps its own period rule)
-  -- left at its posting cost while the stock it came from is revalued, and the adjustment document's own cumulative
+REVAL_ADJ_NEW="""  -- AZ rev2.1: a reversed write-off (outbound item of a material adjustment, a pocket-fabric usage included: its reversal
+  -- is only possible while no pocket period covers it, so it is then a plain write-off against OTHER_EXPENSE; GPT audit of
+  -- 737649b, AB-01) left at its posting cost while the stock it came from is revalued, and the adjustment document's own cumulative
   -- revaluation (erp._cp6_sync_material_adjustment_revaluation) targets it to zero once reversed. Between the adjustment
   -- day and the reversal day the write-off carries the replayed cost: +I against the write-off account on its day, -I on the
   -- reversal's day (event and state on the reversal movement, outside the document's own book). Both legs on one day: kept.
@@ -143,7 +145,7 @@ REVAL_ADJ_NEW="""  -- AZ rev2.1: a reversed write-off (outbound item of a materi
       from erp.material_stock_movements msm join erp.material_adjustment_items i on i.id=msm.source_id
       join erp.material_stock_movements rv on rv.reversal_of_id=msm.id
     where msm.material_id=p_material_id and msm.source_type='MATERIAL_ADJUSTMENT_ITEM' and msm.reversal_of_id is null
-      and msm.qty_signed<0 and not exists(select 1 from erp.pocket_fabric_usage u where u.adjustment_id=i.adjustment_id)
+      and msm.qty_signed<0
     order by msm.physical_at,msm.system_created_at,msm.id
   loop
     select s.applied_inventory_delta into v_old from erp.material_cost_revaluation_state s where s.movement_id=r.rv_id for update;

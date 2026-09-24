@@ -72,6 +72,39 @@
  
  events_after_second_run 
                        0
+=== pocket mode=open
+ 
+ mv | day_from_today | delta_amount | counterpart_mapping_key 
+----+----------------+--------------+-------------------------
+ f5 |             -2 |        17.50 | OTHER_EXPENSE
+ f5 |              0 |       -17.50 | OTHER_EXPENSE
+    mapping_key     | day_from_today |  sum   
+--------------------+----------------+--------
+ MATERIAL_INVENTORY |             -2 |  17.50
+ OTHER_EXPENSE      |             -2 | -17.50
+ MATERIAL_INVENTORY |              0 | -17.50
+ OTHER_EXPENSE      |              0 |  17.50
+ 
+ events_after_second_run 
+                       2
+=== pocket mode=closed
+ 
+ mv | day_from_today | delta_amount | counterpart_mapping_key 
+----+----------------+--------------+-------------------------
+ mapping_key | day_from_today | sum 
+-------------+----------------+-----
+ 
+ events_after_second_run 
+                       0
+=== pocket mode=noninv
+ 
+ mv | day_from_today | delta_amount | counterpart_mapping_key 
+----+----------------+--------------+-------------------------
+ mapping_key | day_from_today | sum 
+-------------+----------------+-----
+ 
+ events_after_second_run 
+                       0
 === sequence (open, no invoice, open again at 8.00)
  
  
