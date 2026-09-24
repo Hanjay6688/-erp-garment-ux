@@ -35,9 +35,9 @@ Batas: HTTP memakai user Auth sungguhan (GoTrue admin API + sign-in password) â†
 
 ## 4. Dampak pada register gabungan
 - CP6-02, CP6-03: dikonfirmasi ulang oleh batch GPT (oracle independen kedua).
-- CP6-07: **P1 CONFIRMED native** (3 jenis pihak).
+- CP6-07: CONFIRMED native (3 jenis pihak); setelah verifikasi adversarial diturunkan ke **P2** (guard kapasitas saat ini sesuai M:629-646; as-of negatif = kelas AUD-S04/B04).
 - CP6-09: dikonfirmasi di bawah dua sesi nyata (kunci ada, guard tidak).
 - CP6-18, CP6-19: COUNTEREXAMPLE native (caveat reachability/oracle kontrak dicatat).
-- **CP6-24 (baru)**: close tanggal sama membuat filing ganda (P2).
+- **CP6-24 (baru)**: close tanggal sama membuat filing ganda; setelah verifikasi adversarial **P3** (tanpa dampak terbukti; pembaca mengabaikan filing degeneratif; oracle S06 terpenuhi).
 - BLOCKER-01 (race) dan BLOCKER-02 (HTTP/Auth): alat writer bekerja; oracle auditor dijalankan; hasil di atas. Browser UI tetap terbuka.
 - Cleanup: semua run `primary_unchanged=true`; salinan DB/kontainer/user Auth dibersihkan (dicatat runner).

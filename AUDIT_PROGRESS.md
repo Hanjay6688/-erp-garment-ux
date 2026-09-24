@@ -295,3 +295,12 @@ Register: CP6-07 → P1 native; CP6-18/19 → COUNTEREXAMPLE native (oracle/reac
 3. Oracle CP6-09 tambahan: negative same-source (nomor dokumen/roll sama lintas batch) dan positive distinct-source/partial-import.
 4. AC..AV varian rilis NOT_BUILT (writer); guard digest AC rilis.
 5. Keputusan owner: pengikatan produk opsional WIP (CP6-18), reachability edit item prepared (CP6-19), tanggal 24 Sep (CP6-13), ALL coverage (CP6-17), CR aksesori/laundry.
+
+### Verifikasi adversarial (agen terpisah, 4× sonnet, lensa kode + kontrak; 22:27–22:45 UTC)
+| Temuan | Verdict | Prioritas | Catatan |
+|---|---|---|---|
+| CP6-09 (F1-12) | CONFIRMED | P1 | AR:372 XOR; tidak ada identitas dokumen item stok; race dua sesi; risiko sudah diungkap writer |
+| CP6-01 (F1-14) | CONFIRMED | P1 | halaman aktif CONNECTED; RPC cast tanpa validasi WIB; guard +07:00 ada di facade aksesori tetapi tidak dipakai |
+| CP6-07 | PARTIALLY_REFUTED (fakta benar, prioritas/oracle direvisi) | P1→**P2** | guard = kapasitas saat ini (sesuai M:629-646); as-of negatif = pola AUD-S04 "P2 sementara"; tidak ada laporan as-of di UI |
+| CP6-24 | PARTIALLY_REFUTED (fakta benar, dampak tidak terbukti) | P2→**P3** | filing degeneratif diabaikan pembaca; oracle awal salah sasaran; S06 terpenuhi |
+Catatan lengkap: `out/verify_CP6-09.md`, `verify_CP6-01.md`, `verify_CP6-07.md`, `verify_CP6-24.md`. Index diperbarui (`adversarial_verification`).

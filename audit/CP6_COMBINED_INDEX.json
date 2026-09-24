@@ -74,7 +74,14 @@
       "status": "CONFIRMED_LOCAL_SOURCE",
       "oracle": "M3820: input WIB harus menghasilkan instant yang sama di semua zona perangkat.",
       "evidence": "34 exact-source checks:28PASS/6FAIL; tiga caller aktif Cutting/Pickup/BS. Bukan browser→ledger native.",
-      "next": "Uji UI asli lintas Jakarta/Makassar/UTC/Kiritimati dan persist/refetch; writer memperbaiki seluruh caller terdampak."
+      "next": "Uji UI asli lintas Jakarta/Makassar/UTC/Kiritimati dan persist/refetch; writer memperbaiki seluruh caller terdampak.",
+      "adversarial_verification": {
+        "verdict": "CONFIRMED",
+        "priority_after": "P1",
+        "notes": "out/verify_CP6-01.md: tiga halaman aktif di mode CONNECTED (src/config/runtime.ts) tanpa guard zona perangkat; RPC cast ::timestamptz tanpa validasi WIB; facade aksesori (…20ap…:502-503) justru memaksa sufiks +07:00 (guard ada, tidak dipakai); scope CP6 via M:1708/1710.",
+        "verified_at": "2026-09-24T22:33:14Z",
+        "model": "sonnet (agen terpisah, lensa kode+kontrak)"
+      }
     },
     {
       "id": "CP6-02",
@@ -152,13 +159,20 @@
         "GPT:C-BIZ-01"
       ],
       "title": "Refund backdate memakai kapasitas uang muka masa depan",
-      "priority": "candidate P1",
+      "priority": "P2",
       "status": "CONFIRMED_NATIVE_P1",
       "oracle": "M629–646,3816,3820; penerapan aturan prefix ke kapasitas moneter advance adalah inferensi eksplisit.",
       "evidence": "Opening67.25D−8,correction100D−2,refund100D−4 memprediksi−32.75;6kasus supplier/customer/vendor belumrun.",
       "next": "Run newly reconstructed six-case advance source with reviewed actor/fixtures and exact ordered/backdated ledger oracles; original missing hash not reused. Unexpected refusal INCOMPLETE; no native execution yet.",
       "fable_native_update": "BCR1-ADVANCE-{SUPPLIER,CUSTOMER,VENDOR}-DATED_CAPACITY COUNTEREXAMPLE (run 36065350201): refund backdated 100 sebelum koreksi → saldo uang muka −32,75 pada 21–22 Sep; ORDERED_CONTROL 3× PASS.",
-      "updated_at": "2026-09-24T22:14:39Z"
+      "updated_at": "2026-09-24T22:14:39Z",
+      "adversarial_verification": {
+        "verdict": "CONFIRMED_TECHNICAL_PRIORITY_REVISED",
+        "priority_after": "P2",
+        "notes": "out/verify_CP6-07.md: guard CORRECT/REFUND (…20ap…:1059-1071, 1323, 1349-1350) memeriksa saldo kumulatif SAAT INI tanpa filter effective_date; refund 100 tanpa koreksi memang ditolak; nilai −32,75 hanya muncul pada pembacaan as-of (account_daily_balances). Kontrak M:629-646 = aturan kapasitas saat ini; pola identik untuk stok dinilai kontrak sendiri \"P2 sementara/Hipotesis\" (AUD-S04, M:6008-6021); as-of/restatement = HOLD AUD-B04. Tidak ada UI/laporan as-of yang mengekspos nilai ini saat ini. Diturunkan P1→P2, rujuk silang AUD-S04/AUD-B04.",
+        "verified_at": "2026-09-24T22:33:14Z",
+        "model": "sonnet (agen terpisah, lensa kode+kontrak)"
+      }
     },
     {
       "id": "CP6-08",
@@ -178,13 +192,20 @@
         "Claude:F1-12"
       ],
       "title": "Identitas sumber stok awal lintas batch belum dibuktikan",
-      "priority": "conditional P1 risk",
+      "priority": "P1",
       "status": "CONFIRMED_NATIVE_INCL_TWO_SESSIONS",
       "oracle": "M138,1043,1025: cegah penggandaan sumber yang sama; kontrak belum membuatSKU+lokasi+tanggal+qty menjadi identitas global.",
       "evidence": "Open2run36045629594/job107788356714 menerima batchbaru,qty7→14,inventory+15.75; tidak ada sharedphysical/documentID.",
       "next": "Tetapkan identitas dokumen/sumber; negative same-source dan positive distinct-source/partialimport. Jangan syaratkan semua sameSKU/date ditolak.",
       "fable_native_update": "XA5:R1 (run 36065517737): holder memblokir worker (kunci ada), setelah commit worker juga POSTED → 3 header POSTED / qty 21 untuk 7 unit. Oracle identitas sumber fisik sama tetap perlu kasus negative same-source/positive distinct-source.",
-      "updated_at": "2026-09-24T22:14:39Z"
+      "updated_at": "2026-09-24T22:14:39Z",
+      "adversarial_verification": {
+        "verdict": "CONFIRMED",
+        "priority_after": "P1",
+        "notes": "out/verify_CP6-09.md: predikat XOR AR:372 tidak pernah membandingkan impor vs impor; tidak ada indeks unik/identitas dokumen untuk item MATERIAL/FG; delta ledger non-vacuous (open_2) + race dua sesi. Risiko sudah diungkap writer (docs/cp6-ar-opening-overlap.md:59-62) — instance terukur dari gap yang diakui.",
+        "verified_at": "2026-09-24T22:33:14Z",
+        "model": "sonnet (agen terpisah, lensa kode+kontrak)"
+      }
     },
     {
       "id": "CP6-10",
@@ -388,12 +409,19 @@
         "Fable:XA5-R2"
       ],
       "title": "Tutup buku tanggal yang sama dapat diulang dan membuat filing kedua (tidak idempoten)",
-      "priority": "P2",
+      "priority": "P3",
       "status": "CONFIRMED_NATIVE_TWO_SESSIONS",
       "oracle": "M:3816 (atomic/idempotent), M:1057-1065/S06: satu penutupan per tanggal; filing immutable (cp6_aw_t1_family.sql:907-909)",
       "evidence": "XA5:R2 run 36065517737 job 107854232896: preflight READY; holder close sukses; worker BLOCKED lalu sukses; accounting_close_filings_v1 untuk tanggal itu = 2. Guard hanya menolak tanggal lebih awal (cp6_aw_t1_family.sql:632).",
       "next": "Writer: close tanggal == closed_through saat ini harus ditolak/idempoten (tanpa filing baru); tes berurutan dan dua sesi.",
-      "updated_at": "2026-09-24T22:14:39Z"
+      "updated_at": "2026-09-24T22:14:39Z",
+      "adversarial_verification": {
+        "verdict": "CONFIRMED_TECHNICAL_PRIORITY_REVISED",
+        "priority_after": "P3",
+        "notes": "out/verify_CP6-24.md: filing kedua memang dibuat (juga sekuensial; guard identik dengan pendahulu AC:2398+), tetapi tanpa dampak terbukti: refresh checkpoint upsert idempoten, pembaca snapshot (previous_closed_through<as_of<=closed_through) mengabaikan filing degeneratif; beberapa filing per tanggal memang pola reopen/reclose. Oracle awal (M:3816-3819 UUID idempoten; M:1057-1065) salah sasaran; S06 (M:5777, 6049-6072) terpenuhi. Diturunkan P2→P3: perbaikan kebersihan (no-op/unique index).",
+        "verified_at": "2026-09-24T22:33:14Z",
+        "model": "sonnet (agen terpisah, lensa kode+kontrak)"
+      }
     },
     {
       "id": "CP6-25",
@@ -593,5 +621,17 @@
       "result": "COUNTEREXAMPLE"
     }
   ],
-  "fable_last_update": "2026-09-24T22:17:06Z"
+  "fable_last_update": "2026-09-24T22:17:06Z",
+  "adversarial_verification_round": {
+    "at": "2026-09-24T22:33:14Z",
+    "findings": [
+      "CP6-09",
+      "CP6-01",
+      "CP6-07",
+      "CP6-24"
+    ],
+    "agents": 4,
+    "model": "sonnet",
+    "notes_dir": "out/verify_*.md"
+  }
 }
