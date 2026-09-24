@@ -25,6 +25,9 @@ jobs:
       fail-fast: false
       matrix:
         include:
+        # Run 6: run 5 (35944088575) left 11 cases whose days fall inside an approved,
+        # unpaid payroll; the completion now cancels it (cancel_unpaid_payroll) and
+        # approves one unpaid payroll over the union, as the owner would.
         # Run 5 (owner, 24 Sep): each case's own fixture is completed as the owner
         # policy asks (its own work and paid attendance into an APPROVED payroll, not
         # paid), and the attendance cases get their two days back from the quieting.
@@ -37,7 +40,7 @@ jobs:
         # (CP6_T2_SEED=QUIETED, owner RPCs, oracles unchanged). temporal passed in
         # run 1 and is reproduced with the seed as is.
         - key: ar
-          label: AR 174 original cases and races on AU plus AV plus AW plus AX, seed quieted, own fixture completed (T2 run 5)
+          label: AR 174 original cases and races on AU plus AV plus AW plus AX, seed quieted, own fixture completed (T2 run 6)
           script: cp6_t2_regression.py
           phase: ar
           proof: t2
@@ -49,7 +52,7 @@ jobs:
           proof: t2
           seed: AS_IS
         - key: regression
-          label: Original 326 plus AS 34 with per-case identity, seed quieted, own fixture completed (T2 run 5)
+          label: Original 326 plus AS 34 with per-case identity, seed quieted, own fixture completed (T2 run 6)
           script: cp6_t2_regression.py
           phase: regression
           proof: t2

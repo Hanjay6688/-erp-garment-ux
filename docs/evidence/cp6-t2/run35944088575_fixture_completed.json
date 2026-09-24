@@ -1,0 +1,318 @@
+{
+ "label": "T2_REGRESSION",
+ "run": 35944088575,
+ "head": "13dbcb12e9ab62241cdcfac36bb8d413f30c0110",
+ "seed": "QUIETED",
+ "fixture": "PAYROLL_APPROVED",
+ "production_go": false,
+ "release_evidence": false,
+ "owner_instruction_20260924": "lengkapi persiapan tes yang tidak sedang menguji payroll, perbaiki lima benturan absensi, lalu jalankan ulang; payroll yang sudah disetujui boleh masih berupa utang; tes upah belum lunas/sebagian tetap menguji kondisinya; 75 kasus belum boleh disebut lulus",
+ "quieting": [
+  {
+   "target": "BUSINESS",
+   "closed_through": "2026-08-31",
+   "window": [
+    "2026-01-02",
+    "2026-09-24"
+   ],
+   "refused": [],
+   "reopened_status": "READY",
+   "after_status": "READY"
+  },
+  {
+   "target": "IMPORTS",
+   "closed_through": "2026-08-31",
+   "window": [
+    "2026-01-02",
+    "2026-09-24"
+   ],
+   "refused": [],
+   "reopened_status": "READY",
+   "after_status": "READY"
+  },
+  {
+   "target": "VALUES",
+   "closed_through": "2026-08-31",
+   "window": [
+    "2026-01-02",
+    "2026-09-24"
+   ],
+   "refused": [],
+   "reopened_status": "READY",
+   "after_status": "READY"
+  },
+  {
+   "target": "NEW_CASES",
+   "closed_through": "2026-08-31",
+   "window": [
+    "2026-01-02",
+    "2026-09-24"
+   ],
+   "refused": [],
+   "reopened_status": "READY",
+   "after_status": "READY"
+  },
+  {
+   "target": "AR_SEQUENTIAL",
+   "closed_through": "2026-08-31",
+   "window": [
+    "2026-01-02",
+    "2026-09-24"
+   ],
+   "refused": [],
+   "reopened_status": "READY",
+   "after_status": "READY"
+  }
+ ],
+ "groups": {
+  "AR": {
+   "status": "WRITER_PASS",
+   "sequential": {
+    "status": "WRITER_PASS",
+    "counts": {
+     "PASS": 146
+    }
+   },
+   "case_count": 174
+  },
+  "business": {
+   "status": "INCOMPLETE",
+   "counts": {
+    "PASS": 172,
+    "INCOMPLETE": 11,
+    "CONTROL_PASS": 35,
+    "BUG_PROVEN": 12
+   },
+   "matches_au_outcome": false
+  },
+  "imports": {
+   "status": "WRITER_PASS",
+   "counts": {
+    "PASS": 31
+   },
+   "matches_au_outcome": true
+  },
+  "values": {
+   "status": "WRITER_PASS",
+   "counts": {
+    "PASS": 65
+   },
+   "matches_au_outcome": true
+  },
+  "NEW_CASES": {
+   "status": "WRITER_PASS",
+   "counts": {
+    "PASS": 34
+   }
+  }
+ },
+ "fixture_payrolls": {
+  "records": 111,
+  "approved": 90,
+  "refused": {
+   "Payroll period overlaps another active payroll for this contractor": 21
+  },
+  "cases": 101
+ },
+ "moved": [
+  {
+   "case": "CROSS:CASH_LINKED:1",
+   "expected": "PASS",
+   "observed": "INCOMPLETE",
+   "cause": {
+    "error": "INDEPENDENT_PAYMENT_FIXTURE_NOT_READY",
+    "fixture_refused": "Payroll period overlaps another active payroll for this contractor"
+   }
+  },
+  {
+   "case": "CROSS:CASH_LINKED:4",
+   "expected": "PASS",
+   "observed": "INCOMPLETE",
+   "cause": {
+    "error": "INDEPENDENT_PAYMENT_FIXTURE_NOT_READY",
+    "fixture_refused": "Payroll period overlaps another active payroll for this contractor"
+   }
+  },
+  {
+   "case": "CROSS:H_R02",
+   "expected": "PASS",
+   "observed": "INCOMPLETE",
+   "cause": {
+    "error": "R02 lawful baseline is not READY",
+    "fixture_refused": "Payroll period overlaps another active payroll for this contractor"
+   }
+  },
+  {
+   "case": "INVOICE:UTC:4:False",
+   "expected": "CONTROL_PASS",
+   "observed": "BUG_PROVEN",
+   "cause": [
+    "GL_INVENTORY_NEGATIVE_ASOF"
+   ]
+  },
+  {
+   "case": "INVOICE:Asia/Jakarta:4:False",
+   "expected": "CONTROL_PASS",
+   "observed": "BUG_PROVEN",
+   "cause": [
+    "GL_INVENTORY_NEGATIVE_ASOF"
+   ]
+  },
+  {
+   "case": "INVOICE:Pacific/Kiritimati:4:False",
+   "expected": "CONTROL_PASS",
+   "observed": "BUG_PROVEN",
+   "cause": [
+    "GL_INVENTORY_NEGATIVE_ASOF"
+   ]
+  },
+  {
+   "case": "INVOICE:America/Los_Angeles:4:False",
+   "expected": "CONTROL_PASS",
+   "observed": "BUG_PROVEN",
+   "cause": [
+    "GL_INVENTORY_NEGATIVE_ASOF"
+   ]
+  },
+  {
+   "case": "CALENDAR:1_MONTHS:UTC:False",
+   "expected": "DATE_POLICY_REVIEW_REQUIRED",
+   "observed": "BUG_PROVEN",
+   "cause": [
+    "GL_INVENTORY_NEGATIVE_ASOF"
+   ]
+  },
+  {
+   "case": "CALENDAR:1_MONTHS:Pacific/Kiritimati:False",
+   "expected": "DATE_POLICY_REVIEW_REQUIRED",
+   "observed": "BUG_PROVEN",
+   "cause": [
+    "GL_INVENTORY_NEGATIVE_ASOF"
+   ]
+  },
+  {
+   "case": "CALENDAR:2_MONTHS:UTC:False",
+   "expected": "DATE_POLICY_REVIEW_REQUIRED",
+   "observed": "BUG_PROVEN",
+   "cause": [
+    "GL_INVENTORY_NEGATIVE_ASOF"
+   ]
+  },
+  {
+   "case": "CALENDAR:2_MONTHS:Pacific/Kiritimati:False",
+   "expected": "DATE_POLICY_REVIEW_REQUIRED",
+   "observed": "BUG_PROVEN",
+   "cause": [
+    "GL_INVENTORY_NEGATIVE_ASOF"
+   ]
+  },
+  {
+   "case": "CALENDAR:3_MONTHS:UTC:False",
+   "expected": "DATE_POLICY_REVIEW_REQUIRED",
+   "observed": "BUG_PROVEN",
+   "cause": [
+    "GL_INVENTORY_NEGATIVE_ASOF"
+   ]
+  },
+  {
+   "case": "CALENDAR:3_MONTHS:Pacific/Kiritimati:False",
+   "expected": "DATE_POLICY_REVIEW_REQUIRED",
+   "observed": "BUG_PROVEN",
+   "cause": [
+    "GL_INVENTORY_NEGATIVE_ASOF"
+   ]
+  },
+  {
+   "case": "CALENDAR:JAN31:UTC:False",
+   "expected": "DATE_POLICY_REVIEW_REQUIRED",
+   "observed": "INCOMPLETE",
+   "cause": {
+    "error": null,
+    "fixture_refused": "Payroll period overlaps another active payroll for this contractor"
+   }
+  },
+  {
+   "case": "CALENDAR:JAN31:UTC:True",
+   "expected": "PASS",
+   "observed": "INCOMPLETE",
+   "cause": {
+    "error": null,
+    "fixture_refused": "Payroll period overlaps another active payroll for this contractor"
+   }
+  },
+  {
+   "case": "CALENDAR:JAN31:Pacific/Kiritimati:False",
+   "expected": "DATE_POLICY_REVIEW_REQUIRED",
+   "observed": "INCOMPLETE",
+   "cause": {
+    "error": null,
+    "fixture_refused": "Payroll period overlaps another active payroll for this contractor"
+   }
+  },
+  {
+   "case": "CALENDAR:JAN31:Pacific/Kiritimati:True",
+   "expected": "PASS",
+   "observed": "INCOMPLETE",
+   "cause": {
+    "error": null,
+    "fixture_refused": "Payroll period overlaps another active payroll for this contractor"
+   }
+  },
+  {
+   "case": "CALENDAR:FEB28:UTC:False",
+   "expected": "DATE_POLICY_REVIEW_REQUIRED",
+   "observed": "INCOMPLETE",
+   "cause": {
+    "error": null,
+    "fixture_refused": "Payroll period overlaps another active payroll for this contractor"
+   }
+  },
+  {
+   "case": "CALENDAR:FEB28:UTC:True",
+   "expected": "PASS",
+   "observed": "INCOMPLETE",
+   "cause": {
+    "error": null,
+    "fixture_refused": "Payroll period overlaps another active payroll for this contractor"
+   }
+  },
+  {
+   "case": "CALENDAR:FEB28:Pacific/Kiritimati:False",
+   "expected": "DATE_POLICY_REVIEW_REQUIRED",
+   "observed": "INCOMPLETE",
+   "cause": {
+    "error": null,
+    "fixture_refused": "Payroll period overlaps another active payroll for this contractor"
+   }
+  },
+  {
+   "case": "CALENDAR:FEB28:Pacific/Kiritimati:True",
+   "expected": "PASS",
+   "observed": "INCOMPLETE",
+   "cause": {
+    "error": null,
+    "fixture_refused": "Payroll period overlaps another active payroll for this contractor"
+   }
+  },
+  {
+   "case": "CALENDAR:MAY31:UTC:False",
+   "expected": "DATE_POLICY_REVIEW_REQUIRED",
+   "observed": "BUG_PROVEN",
+   "cause": [
+    "GL_INVENTORY_NEGATIVE_ASOF"
+   ]
+  },
+  {
+   "case": "CALENDAR:MAY31:Pacific/Kiritimati:False",
+   "expected": "DATE_POLICY_REVIEW_REQUIRED",
+   "observed": "BUG_PROVEN",
+   "cause": [
+    "GL_INVENTORY_NEGATIVE_ASOF"
+   ]
+  }
+ ],
+ "previous": {
+  "run2_moved": 75,
+  "run5_moved": 23
+ }
+}

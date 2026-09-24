@@ -33,6 +33,11 @@ WORK_PARTIAL_PAY asserts 5 payable of 7 done before the report, so neither is ch
 The five CROSS:DAY:ATTENDANCE cases post PRESENT for the seed contractor on today-3 and today-2, days the quieting had
 covered with OFF: those two days are now an OFF period of their own, reversed with the owner RPC inside the case's
 savepoint only, so the case posts its own days and every other case keeps the full OFF cover.
+
+Run 6: run 5 left 11 cases whose days fall inside a payroll of the same contractor that is approved but not paid (the
+seed payroll ending 2026-02-01 and the quieting's seed work payrolls); the product allows one active payroll per day, so
+the completion does what the owner would: cancel_unpaid_payroll on the overlapping unpaid payrolls and one approved,
+unpaid payroll over the union (a PAID overlap is refused and recorded).
 """
 from datetime import date,timedelta
 from pathlib import Path
@@ -141,7 +146,19 @@ def complete_payroll(cur):
             for key,contractor,day in rows:by.setdefault(contractor,[]).append((key,day))
             cash=cur.execute('select id from erp.cash_accounts where is_active order by cash_account_code limit 1').fetchone()[0]
             for contractor,items in sorted(by.items(),key=lambda x:str(x[0])):
-                lo,hi=min(d for _,d in items),max(d for _,d in items);pid=awp.uuid.uuid4()
+                lo,hi=min(d for _,d in items),max(d for _,d in items)
+                # One active payroll per contractor and day (product rule). When the case's days fall inside a payroll
+                # that is approved but not paid, the owner cancels it (cancel_unpaid_payroll) and approves one payroll
+                # over the union again: still a debt, nothing paid. A PAID overlap is refused and recorded.
+                overlap=cur.execute("""select id,status,period_start,period_end from erp.payroll_settlements where contractor_id=%s
+                    and status<>'REVERSED' and period_start<=%s and period_end>=%s order by period_start""",(contractor,hi,lo)).fetchall()
+                assert all(o[1]!='PAID' for o in overlap),('T2_FIXTURE_OVERLAPS_PAID_PAYROLL',[str(o[0]) for o in overlap])
+                if overlap:
+                    awp.chain.prior.as_owner(cur)
+                    for o in overlap:cur.execute('select erp.cancel_unpaid_payroll(%s,%s)',(o[0],'T2 fixture: late case work in this period; payroll redone unpaid'))
+                    awp.api.admin(cur)
+                    lo,hi=min([lo]+[o[2] for o in overlap]),max([hi]+[o[3] for o in overlap])
+                pid=awp.uuid.uuid4()
                 cur.execute("""insert into erp.payroll_settlements(id,payroll_number,contractor_id,period_start,period_end,status,payment_cash_account_id,payment_date,manual_adjustment,notes)
                     values(%s,%s,%s,%s,%s,'DRAFT',%s,%s,0,'T2 fixture completion: case work and attendance into an approved payroll (not paid)')""",
                     (pid,'T2-'+pid.hex[:12],contractor,lo,hi,cash,hi))
@@ -151,7 +168,8 @@ def complete_payroll(cur):
                 status=cur.execute('select status from erp.payroll_settlements where id=%s',(pid,)).fetchone()[0]
                 assert status=='APPROVED',('T2_FIXTURE_PAYROLL_NOT_APPROVED',status)
                 record['payrolls'].append(dict(contractor=str(contractor),start=str(lo),end=str(hi),status=status,
-                    work_lines=sum(k.startswith('W:') for k,_ in items),attendance_days=sum(k.startswith('A:') for k,_ in items)))
+                    work_lines=sum(k.startswith('W:') for k,_ in items),attendance_days=sum(k.startswith('A:') for k,_ in items),
+                    redone_unpaid=[dict(id=str(o[0]),status=o[1],start=str(o[2]),end=str(o[3])) for o in overlap]))
             cur.execute('release savepoint t2_fixture')
         except awp.psycopg.Error as exc:
             cur.execute('rollback to savepoint t2_fixture');record['refused']=exc.diag.message_primary
