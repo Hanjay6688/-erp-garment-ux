@@ -1,0 +1,83 @@
+#!/usr/bin/env python3
+"""Run an auditor's own scenario on the final CP6 candidate in a disposable clone (GPT audit of 737649b, request 3:
+independent acceptance of AY rev7.4 and AZ rev2.1 needs a runtime the auditor controls). Label AUDITOR_SCENARIO:
+not release evidence, production_go=false.
+
+Chain: the untouched AN clone of the CP6 probe workflows, then AU, AV, AW, AX, AY and (phase after) AZ from the committed
+T1 family files, exactly as scripts/cp6_az_probe.py installs them. The committed candidate is verified before any case runs
+(AY/AZ function text equal to the committed files, T1 markers).
+
+The scenario is plain Python supplied at dispatch time (workflow input, base64), written by the auditor, not by the writer.
+It must define
+    def cases(cur, today): return [(case_id, zero_argument_callable), ...]
+where each callable returns a dict with at least 'status'. It may import the probe helpers already on sys.path
+(import cp6_az_probe as azp: produce, cut_only, invoice, ledger_days, adjust, final_receipt, ...; cp6_aw_probe as awp:
+preflight; chain.production for the ordinary product RPCs). Each case runs inside a savepoint that is rolled back (as in
+the writer's probes); its full result is printed as one JSON line. The scenario file's sha256 is printed first, so the
+auditor can tie the log to the file.
+
+Usage (workflow .github/workflows/cp6-auditor-scenario.yml):
+    python scripts/cp6_auditor_scenario.py --phase after --scenario /path/to/scenario.py
+"""
+from pathlib import Path
+import argparse,hashlib,importlib.util,json,os,subprocess,sys,traceback
+import psycopg
+
+AUDITOR=Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(Path.cwd()/'scripts'))
+sys.path.append(str(AUDITOR/'scripts'))
+import cp6_aw_probe as awp
+import cp6_ax_probe as axp
+import cp6_ay_probe as ayp
+import cp6_az_probe as azp
+r1,boundary,prior=awp.r1,awp.boundary,awp.prior
+
+OUT=AUDITOR/'cp6-proof/auditor'
+LABEL='AUDITOR_SCENARIO'
+
+
+def load(path):
+    spec=importlib.util.spec_from_file_location('auditor_scenario',path)
+    module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+    assert callable(getattr(module,'cases',None)),'AUDITOR_SCENARIO_NEEDS_cases(cur,today)'
+    return module
+
+
+def run(phase,scenario):
+    assert os.environ.get('CP6_AR_CONFIRM')=='cp6_rollback' and os.environ.get('CP6_DATABASE_CONTAINER')=='supabase_db_cp5-local'
+    text=Path(scenario).read_bytes()
+    print(json.dumps(dict(auditor_scenario_sha256=hashlib.sha256(text).hexdigest(),bytes=len(text),phase=phase)),flush=True)
+    module=load(scenario)
+    r1.OUT=OUT
+    report=dict(status='INCOMPLETE',label=LABEL,phase=phase,scenario_sha256=hashlib.sha256(text).hexdigest(),
+                production_go=False,independent_acceptance=False,release_evidence=False)
+    primary=None
+    try:
+        with psycopg.connect(boundary.PRIMARY_ADMIN) as conn,conn.cursor() as cur:prior.verified(cur,'AN');primary=boundary.snapshot(cur)
+        r1.writer.install_at()
+        control_url=os.environ['CP6_ADMISSION_CONTROL_PGURL']
+        report['au_install']=awp.au_runtime.change('install',boundary.PG,control_url)['status']
+        report['av_install']=awp.av_runtime.change('install',boundary.PG,control_url)['status']
+        report['aw_install']=awp.install_aw();report['ax_install']=axp.install_ax();report['ay_install']=ayp.install_ay();verify=ayp.ay_verified
+        if phase=='after':report['az_install']=azp.install_az();verify=azp.az_verified
+        print(json.dumps(dict(auditor_setup={k:report.get(k) for k in ('au_install','av_install','ay_install','az_install')}),default=str),flush=True)
+        group=r1.group('AUDITOR_CASES_'+phase.upper(),module.cases,verify)
+        report['auditor_cases']={k:group[k] for k in ('status','counts')}
+        report['status']='RUN_COMPLETE' if group['status']!='INCOMPLETE' else 'INCOMPLETE'
+    except Exception as exc:report.update(status='INCOMPLETE',error=str(exc),traceback=traceback.format_exc())
+    finally:
+        subprocess.run(['docker','exec','supabase_db_cp5-local','dropdb','-U','supabase_admin','--if-exists','--force','--maintenance-db=template1','cp6_rollback'],check=True)
+        with psycopg.connect(boundary.PRIMARY_ADMIN) as conn,conn.cursor() as cur:
+            prior.verified(cur,'AN');report['primary_unchanged']=primary is not None and boundary.snapshot(cur)==primary
+            report['clone_remaining']=cur.execute("select count(*) from pg_database where datname='cp6_rollback'").fetchone()[0]
+        if not report['primary_unchanged'] or report['clone_remaining']:report['status']='INCOMPLETE'
+    print(json.dumps(dict(auditor_phase=phase,**report),default=str),flush=True)
+    # The job fails only when the run itself is incomplete; case outcomes (PASS/FAIL/COUNTEREXAMPLE) are the auditor's to read.
+    assert report['status']=='RUN_COMPLETE',report.get('error','AUDITOR_RUN_INCOMPLETE')
+
+
+if __name__=='__main__':
+    parser=argparse.ArgumentParser()
+    parser.add_argument('--phase',choices=('before','after'),required=True)
+    parser.add_argument('--scenario',required=True)
+    args=parser.parse_args();run(args.phase,args.scenario)
