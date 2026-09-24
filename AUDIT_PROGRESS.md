@@ -6,7 +6,7 @@ Sumber kebenaran: hanya `ERP_V3_2_Master_Pulih_20260923.md` (M), `ERP_V3_2_Perub
 `production_go=false`. Auditor hanya merekomendasikan.
 
 ## FASE AKTIF
-**Fase 1 (buta) — berjalan.** Temuan fase 1 belum dikunci/di-hash. `docs/cp6-*.md`, `docs/evidence/`, laporan auditor lain, dan isi pesan commit belum dibaca dengan sengaja (lihat "Kontaminasi").
+Fase 2 (rekonsiliasi) SELESAI dibaca: handoff §18–20, §23–27, daftar docs/evidence, README A04-R2, run GPT 36034620907 (REUSED_EVIDENCE). Catatan: `audit/out/phase2_reconciliation.md`. Berikutnya: tulis `AUDIT_REPORT_CP6.md`.
 
 ## Rencana kerja (prioritas owner)
 1. Daftar gate + temuan fase 1 → kunci + hash ke berkas ini.
@@ -107,6 +107,6 @@ Berkas: `audit/PHASE1_FINDINGS.md` — sha256 `72ccbfe8613fca783be4050f0f7220962
 ## f) LANGKAH BERIKUTNYA (untuk sesi baru: checkout cabang ini, baca berkas ini, lanjut dari sini)
 1. (SELESAI) Fase 1 dikunci — lihat bagian "Kunci fase 1". Jangan mengubah `audit/PHASE1_FINDINGS.md`.
 2. Setelah 22:20 UTC (trigger send_later 22:26 UTC sudah dipasang): verifikasi adversarial temuan P1–P2 (F1-01, F1-02, F1-05, F1-12) dengan `audit/tools/phase1_verify.js` (args.findings), ≤4 agen, model murah, catatan bertahap ke `audit/out/`. Pembaca fase 1 yang mati (15 kunci di `phase1_derive.js`) hanya diulang bila masih berguna setelah kunci; hasilnya dicatat sebagai tambahan pasca-kunci, bukan mengubah PHASE1_FINDINGS.md.
-3. FASE 2 (hanya setelah hash kunci tercatat): baca `docs/cp6-au-r1-handoff.md` §18–20, §23–27 dan `docs/evidence/`; cocokkan daftar selesai writer (A04-R2, AV, AW/S06/B04, AX, AY/AZ, T2, T3) dua arah; disposisi T2 writer vs klasifikasi auditor; keputusan owner hanya di handoff = UNVERIFIED_OWNER_DECISION; run 36034620907 = REUSED_EVIDENCE hanya untuk jalur yang diujinya; label tiap klaim CONFIRMED/REFUTED/UNVERIFIED. Catatan ke `audit/out/phase2_reconciliation.md`.
+3. (SELESAI, lihat `audit/out/phase2_reconciliation.md`) FASE 2: baca `docs/cp6-au-r1-handoff.md` §18–20, §23–27 dan `docs/evidence/`; cocokkan daftar selesai writer (A04-R2, AV, AW/S06/B04, AX, AY/AZ, T2, T3) dua arah; disposisi T2 writer vs klasifikasi auditor; keputusan owner hanya di handoff = UNVERIFIED_OWNER_DECISION; run 36034620907 = REUSED_EVIDENCE hanya untuk jalur yang diujinya; label tiap klaim CONFIRMED/REFUTED/UNVERIFIED. Catatan ke `audit/out/phase2_reconciliation.md`.
 4. `AUDIT_REPORT_CP6.md` sesuai blind pack §6 (verdict per gate + file:line, temuan P0–P3 produk vs tooling, label bukti per klaim, daftar yang tidak diperiksa, production_go=false); commit ke cabang ini.
 Belum diperiksa native oleh auditor: concurrency/deadlock AQ (hanya T2 AR_CONCURRENCY writer), jalur HTTP/JWT/browser nyata, IDENT/AV, rollback T3 (writer NOT_TESTED), transport CSV browser→RPC, cakupan ALL impor.
