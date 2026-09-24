@@ -338,9 +338,9 @@ def multi_cut(cur,today,price):
     """Independent review finding (24 Sep, open): one PO cut on two days with a FG lot between the cuts and different yields.
     Cut 1 on d+1: 4 units into 8 pcs, FG lot of 8 pcs on d+1; cut 2 on d+2: 6 units into 3 pcs, FG lot of 3 pcs on d+2.
     The lot HPP is allocated per cutting-group lineage (erp.rebuild_po_hpp: group material x lot pcs / group pcs), so a late
-    invoice changes lot 1 by 4x and lot 2 by 6x (x = price - 10). AY leg A spreads the PO change 10x over the lot dates by
-    pieces (8/11 and 3/11), i.e. 7.27x on d+1 while only 4x of corrected material was cut by then: for a higher price the
-    PO's WIP would be negative on d+1. Expected here (the physical principle the owner approved): FG change on d+1 = 4x and
+    invoice changes lot 1 by 4x and lot 2 by 6x (x = price - 10). AY rev3 spread the PO change 10x over the lot dates by
+    pieces (8/11 and 3/11), i.e. 7.27x on d+1 while only 4x of corrected material was cut by then: run 35968507694 showed
+    the PO's WIP at -2.29 on d+1 for a higher price (FG +5.09 instead of +2.80). AY rev4 posts each lot's own change. Expected here (the physical principle the owner approved): FG change on d+1 = 4x and
     on d+2 = 6x, WIP of the PO never negative, material at the invoice price for the units in stock."""
     prod=chain.production
     d=today-timedelta(days=3);d2=d+timedelta(days=1);d3=d+timedelta(days=2)
@@ -375,8 +375,8 @@ def multi_cut(cur,today,price):
                 wip_po_never_negative=all(v>=0 for v in wip_po.values()),
                 wip_po_correction_zero_each_day=all(move[str(day)]['WIP']==0 for day in days),
                 no_negative_daily_inventory=negative==[])
-    status='PASS' if all(checks.values()) else 'COUNTEREXAMPLE'
-    return dict(status=status,finding='independent review 24 Sep #3 (open)',price=price,receipt_day=str(d),lots=lots,checks=checks,
+    status='PASS' if all(checks.values()) else ('COUNTEREXAMPLE' if not az_installed(cur) else 'FAIL')
+    return dict(status=status,finding='independent review 24 Sep #3; proven by run 35968507694 on AY rev3; AY rev4 dates each lot its own change',price=price,receipt_day=str(d),lots=lots,checks=checks,
                 hpp_events=[[str(v) for v in e] for e in new],daily_move={k:{kk:str(vv) for kk,vv in v.items()} for k,v in move.items()},
                 wip_po={k:str(v) for k,v in wip_po.items()},negative_blockers=negative,invoice=response,quiet=[quiet,quiet_fixture])
 

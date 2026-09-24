@@ -7,6 +7,8 @@ name: CP6 AZ T1 Family Probe
     - scripts/cp6_az_probe.py
     - scripts/cp6_az_build.py
     - supabase/dev/cp6_az_t1_family.sql
+    - scripts/cp6_ay_build.py
+    - supabase/dev/cp6_ay_t1_family.sql
     - .github/workflows/cp6-az-t1-probe.yml
   workflow_dispatch: null
 permissions:
