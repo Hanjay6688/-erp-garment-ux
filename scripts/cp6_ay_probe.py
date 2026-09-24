@@ -57,6 +57,8 @@ def ay_verified(cur):
     assert 'po_hpp_gl_leg_add_v1' in src,'AY_T1_SYNC_NOT_INSTALLED'
     # The installed body is exactly the committed AY text (a stale AY install, e.g. an older package, is refused).
     assert src==sync_source(),'AY_T1_SYNC_NOT_CURRENT'
+    # Independent review of rev7 (F2): the function runs with jit off.
+    assert 'jit=off' in (cur.execute("select proconfig from pg_proc where oid='erp.sync_po_hpp_to_gl(uuid,date)'::regprocedure").fetchone()[0] or []),'AY_T1_SYNC_JIT_NOT_OFF'
     assert cur.execute("select to_regclass('erp.po_hpp_gl_lot_state_v1') is not null and to_regclass('erp.po_hpp_gl_material_state_v1') is not null").fetchone()[0],'AY_T1_STATE_TABLES_MISSING'
     import hashlib
     return dict(base,stage='AV_PLUS_AW_AX_AY_T1',ay_sql_sha256=hashlib.sha256(AY_SQL.read_bytes()).hexdigest())

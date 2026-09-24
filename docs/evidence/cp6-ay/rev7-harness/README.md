@@ -22,7 +22,9 @@ Skenario (tanggal relatif hari ini d; E = tanggal invoice):
 | r9_batch_two_pos | batch berisi grup dua PO | +2,80 lalu +2,29 (bahan PO lain masuk kolam pada harinya) |
 | r10_contractor_new | fakta kontraktor sesudah penanda SYNC / tanpa penanda | +8,00 pada harinya / konstan (data sebelum AY) |
 | r12_fresh_state | state ditulis hanya bila HPP baru di-rebuild pada statement yang sama | state C:/M:/SYNC tertulis |
+| r13_no_state_derived | F1 pemeriksaan rev7: PO dari sebelum AY (tanpa state/penanda), nilai lama dari revaluasi sesudah rebuild terakhir | sama dengan r1; state ditulis |
+| r14_relabel_chain | F3 pemeriksaan rev7: rantai relabel dua tingkat | tidak ada baris akun lainnya; −35,00 lalu +3,50 |
 | f1, m2, f1_noninv, f1_closed | skenario dasar rev6 | tidak berubah; E tertutup dan jalur non-invoice tetap satu jurnal |
 | perf.sql | M-4 | lihat `perf.txt` |
 
-Output run pada commit `0bbfd55`: `output_rev7_0bbfd55.txt`.
+Output: `output_rev7_0bbfd55.txt` (rev7) dan `output_rev7_1.txt` (rev7.1, sesudah pemeriksaan independen rev7).

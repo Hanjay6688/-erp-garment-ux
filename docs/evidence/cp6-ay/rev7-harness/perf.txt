@@ -3,3 +3,9 @@ ndays=30  nper=200   (4k FG movements):   rev7 0.31 s  | rev6.1 0.13 s
 ndays=400 nper=2000  (40k FG movements):  rev7 1.28 s  | rev6.1 4.50 s
 ndays=700 nper=5000  (100k FG movements): rev7 1.72 s  | rev6.1 23.32 s
 Run: psql -v ndays=N -v nper=M -f scenarios/perf.sql (after run.sh built the db). Stub timings only; not a production SLA.
+
+Independent review of rev7 (F2): with jit=on (PostgreSQL default) the planner misestimates the daily-balance query and
+JIT-compiles it. Reviewer stub x_perf_lots.sql (ngrp=20, nother=20, nsale=20; docs/evidence/cp6-ay/rev7-review/):
+lots  rev7 jit on | rev6.1 jit on | rev7.1 (function SET jit TO 'off')
+ 300     5.3 s    |     1.8 s     |  1.09 s
+1000    10.6 s    |      -        |  6.27 s

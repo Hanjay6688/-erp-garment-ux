@@ -1,0 +1,325 @@
+78 open ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/open_78.sql:55: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+78 closed ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/closed_78.sql:56: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+78 noninv ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/noninv_78.sql:54: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+85 open ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/open_85.sql:53: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+85 closed ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/closed_85.sql:54: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+85 noninv ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/noninv_85.sql:52: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+86 open ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/open_86.sql:38: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+86 closed ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/closed_86.sql:39: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+86 noninv ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/noninv_86.sql:37: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+95 open ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/open_95.sql:68: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+95 closed ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/closed_95.sql:69: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+95 noninv ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/noninv_95.sql:67: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+124 open ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/open_124.sql:34: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+124 closed ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/closed_124.sql:35: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+124 noninv ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/noninv_124.sql:33: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+134 open ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/open_134.sql:60: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+134 closed ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/closed_134.sql:61: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+134 noninv ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/noninv_134.sql:59: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+153 open ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/open_153.sql:57: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+153 closed ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/closed_153.sql:58: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+153 noninv ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/noninv_153.sql:56: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+155 open ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/open_155.sql:52: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+155 closed ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/closed_155.sql:53: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+155 noninv ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/noninv_155.sql:51: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+197 open ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/open_197.sql:69: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+197 closed ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/closed_197.sql:70: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+197 noninv ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/noninv_197.sql:68: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+202 open ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/open_202.sql:43: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+202 closed ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/closed_202.sql:44: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+202 noninv ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/noninv_202.sql:42: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+213 open ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/open_213.sql:45: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+213 closed ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/closed_213.sql:46: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+213 noninv ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/noninv_213.sql:44: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+219 open ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/open_219.sql:52: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+219 closed ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/closed_219.sql:53: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+219 noninv ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/noninv_219.sql:51: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+222 open ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/open_222.sql:52: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+222 closed ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/closed_222.sql:53: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+222 noninv ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/noninv_222.sql:51: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+234 open ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/open_234.sql:48: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+234 closed ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/closed_234.sql:49: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+234 noninv ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/noninv_234.sql:47: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+243 open ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/open_243.sql:51: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+243 closed ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/closed_243.sql:52: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+243 noninv ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/noninv_243.sql:50: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+250 open ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/open_250.sql:64: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+250 closed ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/closed_250.sql:65: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+250 noninv ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/noninv_250.sql:63: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+256 open ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/open_256.sql:44: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+256 closed ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/closed_256.sql:45: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+256 noninv ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/noninv_256.sql:43: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+257 open ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/open_257.sql:45: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+257 closed ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/closed_257.sql:46: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+257 noninv ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/noninv_257.sql:44: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+263 open ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/open_263.sql:59: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+263 closed ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/closed_263.sql:60: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+263 noninv ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/noninv_263.sql:58: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+265 open ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/open_265.sql:52: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+265 closed ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/closed_265.sql:53: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+265 noninv ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/noninv_265.sql:51: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+268 open ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/open_268.sql:35: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+268 closed ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/closed_268.sql:36: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+268 noninv ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/noninv_268.sql:34: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+276 open ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/open_276.sql:51: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+276 closed ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/closed_276.sql:52: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+276 noninv ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/noninv_276.sql:50: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+284 open ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/open_284.sql:46: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+284 closed ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/closed_284.sql:47: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+284 noninv ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/noninv_284.sql:45: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+289 open ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/open_289.sql:47: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+289 closed ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/closed_289.sql:48: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+289 noninv ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/noninv_289.sql:46: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+307 open ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/open_307.sql:60: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+307 closed ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/closed_307.sql:61: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+307 noninv ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/noninv_307.sql:59: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+313 open ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/open_313.sql:40: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+313 closed ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/closed_313.sql:41: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+313 noninv ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/noninv_313.sql:39: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+328 open ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/open_328.sql:62: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+328 closed ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/closed_328.sql:63: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+328 noninv ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/noninv_328.sql:61: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+339 open ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/open_339.sql:75: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+339 closed ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/closed_339.sql:76: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+339 noninv ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/noninv_339.sql:74: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+362 open ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/open_362.sql:58: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+362 closed ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/closed_362.sql:59: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+362 noninv ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/noninv_362.sql:57: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+364 open ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/open_364.sql:63: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+364 closed ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/closed_364.sql:64: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+364 noninv ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/noninv_364.sql:62: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+367 open ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/open_367.sql:71: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+367 closed ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/closed_367.sql:72: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+367 noninv ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/noninv_367.sql:70: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+369 open ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/open_369.sql:79: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+369 closed ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/closed_369.sql:80: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+369 noninv ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/noninv_369.sql:78: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+379 open ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/open_379.sql:63: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+379 closed ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/closed_379.sql:64: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+379 noninv ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/noninv_379.sql:62: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+386 open ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/open_386.sql:71: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+386 closed ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/closed_386.sql:72: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+386 noninv ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/noninv_386.sql:70: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+390 open ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/open_390.sql:58: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+390 closed ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/closed_390.sql:59: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+390 noninv ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/noninv_390.sql:57: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+393 open ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/open_393.sql:57: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+393 closed ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/closed_393.sql:58: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+393 noninv ERR psql:/tmp/claude-0/-home-user--erp-garment-ux/6ab391f1-e30c-52b5-862e-6737ef5df873/scratchpad/rev7review/fuzz/noninv_393.sql:56: ERROR:  PO HPP allocation inconsistent: financial FG + net sold exceeds production output without a matching documented positive FG adjustment
+CONTEXT:  PL/pgSQL function sync_po_hpp_to_gl_as(uuid,date) line 46 at RAISE
+
+done 400 bad 108

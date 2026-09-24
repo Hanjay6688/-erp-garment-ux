@@ -34,4 +34,6 @@ run r9_batch_two_pos -v st='1 hour'
 run r10_contractor_new -v old=10 -v new=10 -v marker=yes
 run r10_contractor_new -v old=10 -v new=10 -v marker=no
 run r12_fresh_state -v old=10 -v new=10 -v marker=yes
+run r13_no_state_derived -v old=8 -v new=6.6
+run r14_relabel_chain
 for f in f1 m2 f1_noninv f1_closed; do run $f; done

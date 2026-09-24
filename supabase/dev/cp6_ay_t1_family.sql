@@ -42,6 +42,7 @@ CREATE OR REPLACE FUNCTION erp.sync_po_hpp_to_gl(p_po_id uuid, p_effective_date 
  LANGUAGE plpgsql
  SECURITY DEFINER
  SET search_path TO 'erp', 'public'
+ SET jit TO 'off'
 AS $function$
 declare
   t record;
@@ -157,7 +158,7 @@ begin
   -- zero), less the part of its material correction whose fact (erp.po_hpp_gl_material_state_v1) is dated after D.
   v_end:=p_effective_date;
   for r in
-    with lot0 as(
+    with recursive lot0 as(
       select fl.id,fl.lot_origin,coalesce(fl.cutting_group_id,qi.cutting_group_id) grp,
         coalesce((select max(case when coalesce(hv.qty_basis_pcs,0)>0 then hv.total_cost/hv.qty_basis_pcs else 0 end)
                   from erp.hpp_versions hv where hv.lot_id=fl.id and hv.is_current),0)::numeric h,
@@ -188,23 +189,38 @@ begin
         coalesce((select vb.effective_pcs from erp.v_cutting_batch_totals vb where vb.cutting_batch_id=gr.batch),0)::numeric eff
       from grp gr where gr.batch is not null group by gr.batch
     ), mk as(
-      -- When the material state was last written (a sync right after erp.rebuild_po_hpp).
-      select (select ms.updated_at from erp.po_hpp_gl_material_state_v1 ms where ms.po_id=p_po_id and ms.source_key='SYNC') ts
+      -- When the material state was last written (a sync right after erp.rebuild_po_hpp), and tp, when the HPP posted
+      -- last was rebuilt (the latest version of the PO's lots before this statement).
+      select (select ms.updated_at from erp.po_hpp_gl_material_state_v1 ms where ms.po_id=p_po_id and ms.source_key='SYNC') ts,
+        (select max(hv.calculated_at) from erp.hpp_versions hv join erp.fg_lots fl on fl.id=hv.lot_id
+          where fl.po_id=p_po_id and hv.calculated_at<statement_timestamp()) tp
     ), mat as(
       -- Every material fact behind the PO's HPP (erp.rebuild_po_hpp): cutting issues and returns of each group (pooled per
       -- cutting batch when the group is in one; the PO-wide pool takes the PO's own groups) and non-accessory contractor
       -- issues (PO-wide over the source quantity), each on the physical day erp.sync_material_cost_revaluation dates its
-      -- WIP revaluation (AZ), with its change since the HPP last posted: its state, else zero for a fact created after
-      -- the state was written (no posted HPP has it), else unknown (null: the pool keeps the constant correction).
+      -- WIP revaluation (AZ), with its change since the HPP last posted: its state; else zero for a fact created after
+      -- the state was written (no posted HPP has it); else, for a PO without material state (produced before AY; independent
+      -- review of rev7, F1), zero for a fact created after tp and, for one created by tp, minus the revaluations of its
+      -- movement since tp (erp.sync_material_cost_revaluation: the inventory delta of a movement moves opposite to its
+      -- value in the HPP); else unknown (null: the pool keeps the constant correction).
       select case when gr.batch is not null then 'B:'||gr.batch::text else 'G:'||gr.id::text end pool,gr.po_id=p_po_id own,
         greatest(p_effective_date,least(v_cap,erp._cp3_business_date(mm.physical_at))) d,
-        -mm.qty_signed*mm.unit_cost_snapshot-coalesce(ms.material_value,case when mm.system_created_at>mk.ts then 0 end) dv
+        case when ms.material_value is not null then -mm.qty_signed*mm.unit_cost_snapshot-ms.material_value
+             when mk.ts is not null then case when mm.system_created_at>mk.ts then -mm.qty_signed*mm.unit_cost_snapshot end
+             when mm.system_created_at>mk.tp then -mm.qty_signed*mm.unit_cost_snapshot
+             when mm.system_created_at<=mk.tp then -coalesce((select sum(e.delta_amount) from erp.material_cost_revaluation_events e
+               where e.movement_id=mm.id and e.created_at>mk.tp),0) end dv
       from erp.material_stock_movements mm join grp gr on gr.id=mm.source_id cross join mk
       left join erp.po_hpp_gl_material_state_v1 ms on ms.po_id=p_po_id and ms.source_key='M:'||mm.id::text
       where mm.source_type in('CUTTING_GROUP','CUTTING_GROUP_RETURN')
       union all
       select 'CONTRACTOR',false,greatest(p_effective_date,least(v_cap,erp._cp3_business_date(coalesce(cv.pa,cm.physical_at)))),
-        ci.qty*ci.unit_cost_snapshot-coalesce(ms.material_value,case when cv.ca>mk.ts then 0 end)
+        case when ms.material_value is not null then ci.qty*ci.unit_cost_snapshot-ms.material_value
+             when mk.ts is not null then case when cv.ca>mk.ts then ci.qty*ci.unit_cost_snapshot end
+             when cv.ca>mk.tp then ci.qty*ci.unit_cost_snapshot
+             when cv.ca<=mk.tp then -coalesce((select sum(e.delta_amount) from erp.material_cost_revaluation_events e
+               join erp.material_stock_movements em on em.id=e.movement_id
+               where em.source_type='CONTRACTOR_MATERIAL_ISSUE_ITEM' and em.source_id=ci.id and e.created_at>mk.tp),0) end
       from erp.contractor_material_issue_items ci join erp.contractor_material_issues cm on cm.id=ci.issue_id
       join erp.materials mt on mt.id=ci.material_id cross join mk
       cross join lateral(select min(cm2.physical_at) pa,min(cm2.system_created_at) ca from erp.material_stock_movements cm2
@@ -285,14 +301,19 @@ begin
       left join bcum bc on bc.batch=l.batch and bc.d=c.d
       left join pools cp on cp.pool='CONTRACTOR' and cp.ok
       left join pcum cc on cc.pool='CONTRACTOR' and cc.d=c.d
+    ), chain as(
+      -- Relabel lineage: every lot of the PO with its root lot (a lot not relabelled from a lot of this PO) and the sum of
+      -- the own differences of its posted relabels (a reversed relabel adds none).
+      select l.id,l.id root,0::numeric off,0 depth from lotd l where l.src is null or not exists(select 1 from lotd px where px.id=l.src)
+      union all
+      select l.id,c.root,c.off+case when l.cst='POSTED' then l.dh-px.dh else 0 end,c.depth+1
+      from chain c join lotd l on l.src=c.id join lotd px on px.id=c.id where c.depth<100
     ), cl2 as(
-      -- A relabelled lot follows its source lot (independent review of rev6, F6: a reversed relabel takes the source's
-      -- correction, so the pair nets out; a posted one adds its own difference).
-      select c.d,c.p,c.sd,c.ot,
-        case when l.src is not null and cs.cv is not null
-          then cs.cv+case when l.cst='POSTED' then l.dh-ls.dh else 0 end else c.cv end cv
-      from cl c join lotd l on l.id=c.lot_id
-      left join cl cs on cs.lot_id=l.src and cs.d=c.d left join lotd ls on ls.id=l.src
+      -- A relabelled lot follows its root lot (independent reviews of rev6, F6, and rev7, F3: a relabel, reversed or in a
+      -- chain, moves pieces at the same correction, so nothing swings through the other account).
+      select c.d,c.p,c.sd,c.ot,coalesce(cr.cv+ch.off,c.cv) cv
+      from cl c left join chain ch on ch.id=c.lot_id and ch.root<>c.lot_id
+      left join cl cr on cr.lot_id=ch.root and cr.d=c.d
     )
     select d,sum(cv*(p-sd-ot)) f,sum(cv*sd) c,sum(cv*ot) o from cl2 group by d order by d
   loop
