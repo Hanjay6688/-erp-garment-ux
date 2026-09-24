@@ -109,9 +109,16 @@ POST_NEW_TAIL="""  else
       from erp.fg_lots fl left join erp.qc_inspection_items qi on qi.id=fl.qc_item_id
       left join erp.cutting_groups cg on cg.id=coalesce(fl.cutting_group_id,qi.cutting_group_id)
       where fl.po_id=p_po_id and fl.lot_origin in('PRODUCTION','CONVERSION','VOIDED_PRODUCTION')
+    ), gd as(
+      -- Material correction per piece of each cutting group of the PO since the last sync (group state).
+      select g.id,(coalesce((select sum(-mm.qty_signed*mm.unit_cost_snapshot) from erp.material_stock_movements mm
+          where mm.source_id=g.id and mm.source_type in('CUTTING_GROUP','CUTTING_GROUP_RETURN')),0)
+          -gs.material_value)/nullif((select gt.total_pcs from erp.v_cutting_group_totals gt where gt.cutting_group_id=g.id),0) dm
+      from erp.cutting_groups g join erp.po_hpp_gl_group_state_v1 gs on gs.cutting_group_id=g.id where g.po_id=p_po_id
     ), lotd as(
       select l.id,l.pool,case when l.lot_origin='VOIDED_PRODUCTION'
-          then coalesce((select avg(l2.h-l2.o) from lot l2 where l2.grp=l.grp and l2.lot_origin='PRODUCTION'),0)
+          then coalesce((select avg(l2.h-l2.o) from lot l2 where l2.grp=l.grp and l2.lot_origin='PRODUCTION'),
+                        (select gd.dm from gd where gd.id=l.grp),0)
           else l.h-l.o end dh
       from lot l
     ), pg as(
@@ -121,7 +128,7 @@ POST_NEW_TAIL="""  else
         coalesce((select gt.total_pcs from erp.v_cutting_group_totals gt where gt.cutting_group_id=g.id),0)::numeric pcs,
         coalesce((select sum(-mm.qty_signed*mm.unit_cost_snapshot) from erp.material_stock_movements mm
           where mm.source_id=g.id and mm.source_type in('CUTTING_GROUP','CUTTING_GROUP_RETURN')),0)::numeric mv,
-        (select gs.material_value from erp.po_hpp_gl_group_state_v1 gs where gs.cutting_group_id=g.id and gs.updated_at>=s.updated_at) mv_old
+        (select gs.material_value from erp.po_hpp_gl_group_state_v1 gs where gs.cutting_group_id=g.id) mv_old
       from erp.cutting_groups g where g.cutting_batch_id in(select l.pool from lotd l where l.pool is not null)
     ), pool_ok as(
       select pool,sum(mv-mv_old)/sum(pcs) dm_final from pg group by pool having bool_and(mv_old is not null) and sum(pcs)>0
@@ -149,9 +156,11 @@ POST_NEW_TAIL="""  else
     )
     select d,sum(cv*(p-sd-ot)) f,sum(cv*sd) c,sum(cv*ot) o from cval group by d order by d
   loop
-    -- The change of the rounded balances since the previous date.
-    v_acc:=erp.po_hpp_gl_leg_add_v1(v_acc,r.d,round(r.f,2)-v_sf,round(r.c,2)-v_sc,round(r.o,2)-v_so);
-    v_sf:=round(r.f,2);v_sc:=round(r.c,2);v_so:=round(r.o,2);v_end:=greatest(v_end,r.d);
+    -- The change of the rounded balances since the previous date; the total is rounded once and FG takes the rest, so a
+    -- pure sale day (FG -> COGS) moves no cent through WIP (independent review of rev6, m-1).
+    v_f:=round(r.f+r.c+r.o,2)-round(r.c,2)-round(r.o,2);
+    v_acc:=erp.po_hpp_gl_leg_add_v1(v_acc,r.d,v_f-v_sf,round(r.c,2)-v_sc,round(r.o,2)-v_so);
+    v_sf:=v_f;v_sc:=round(r.c,2);v_so:=round(r.o,2);v_end:=greatest(v_end,r.d);
   end loop;
   -- The last date takes the exact remainder to the targets (rounding, or anything the balances do not explain).
   v_acc:=erp.po_hpp_gl_leg_add_v1(v_acc,v_end,v_df-v_sf,v_dc-v_sc,v_do-v_so);
@@ -165,12 +174,11 @@ POST_NEW_TAIL="""  else
     if abs(v_c)>0.005 then v_lines:=v_lines||jsonb_build_array(case when v_c>0
       then jsonb_build_object('mapping_key','COGS','debit',v_c,'credit',0,'po_id',p_po_id)
       else jsonb_build_object('mapping_key','COGS','debit',0,'credit',abs(v_c),'po_id',p_po_id) end); end if;
-    if abs(v_o)>0.005 then
-      if v_o>0 then v_lines:=v_lines||jsonb_build_array(jsonb_build_object(
-        'mapping_key','OTHER_EXPENSE','debit',v_o,'credit',0,'po_id',p_po_id));
-      else v_lines:=v_lines||jsonb_build_array(jsonb_build_object(
-        'mapping_key','OTHER_INCOME','debit',0,'credit',abs(v_o),'po_id',p_po_id)); end if;
-    end if;
+    -- The other bucket stays on one account, the one the AS journal would use for the PO's total other change, so each
+    -- account's total equals the AS journal (independent review of rev6, M-3/F5).
+    if abs(v_o)>0.005 then v_lines:=v_lines||jsonb_build_array(jsonb_build_object(
+      'mapping_key',case when v_do>=0 then 'OTHER_EXPENSE' else 'OTHER_INCOME' end,
+      'debit',greatest(v_o,0),'credit',greatest(-v_o,0),'po_id',p_po_id)); end if;
     if abs(v_wip)>0.005 then v_lines:=v_lines||jsonb_build_array(case when v_wip>0
       then jsonb_build_object('mapping_key','WIP','debit',v_wip,'credit',0,'po_id',p_po_id)
       else jsonb_build_object('mapping_key','WIP','debit',0,'credit',abs(v_wip),'po_id',p_po_id) end); end if;
