@@ -46,7 +46,7 @@ FILES=[
     dict(key='AY',stamp='20260924010200',name='erp_v2_6_20ay_cp6_hpp_dated_from_goods',version='v2.6.20ay',
          body=ROOT/'supabase/dev/cp6_ay_t1_family.sql',title='PO HPP corrections dated from the goods',
          description='PO HPP corrections dated from the goods: FG from the lot date, COGS from the sale date',
-         replaced=['erp.sync_po_hpp_to_gl(uuid,date)'],new_tables=['po_hpp_gl_lot_state_v1','po_hpp_gl_material_state_v1']),
+         replaced=['erp.sync_po_hpp_to_gl(uuid,date)','erp.rebuild_po_hpp(uuid,text)'],new_tables=['po_hpp_gl_lot_state_v1','po_hpp_gl_material_state_v1']),
     dict(key='AZ',stamp='20260924010300',name='erp_v2_6_20az_cp6_material_recost_dated_from_movement',version='v2.6.20az',
          body=ROOT/'supabase/dev/cp6_az_t1_family.sql',title='material recost corrections dated from the physical movement',
          description='Material recost corrections dated from the physical movement: WIP from the cutting day, material until then',
@@ -55,7 +55,7 @@ FILES=[
                    'erp.sync_initial_import_bs_value_v1(uuid,date)','erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)',
                    'erp.refresh_accessory_hpp_after_material_recost(uuid,text)','erp.reverse_qc(uuid,text)',
                    'erp.reverse_rework_completion(uuid,text)','erp.complete_initial_import_wip_v1(jsonb)',
-                   'erp.post_material_supplier_invoice(uuid)'],new_tables=[]),
+                   'erp.post_material_supplier_invoice(uuid)','erp.post_material_purchase_cost_correction(uuid)'],new_tables=[]),
 ]
 PLACEHOLDER='0'*64
 # The package capsules AO..AV (AO..AW for AX) are checked like AV checks AO..AU; the capsules of this builder are left out

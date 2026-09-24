@@ -955,5 +955,91 @@ begin
   delete from erp.invoice_recost_execution_context where transaction_id=txid_current();
 end;
 $function$;
+CREATE OR REPLACE FUNCTION erp.post_material_purchase_cost_correction(p_correction_id uuid)
+ RETURNS void
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO 'erp', 'public'
+AS $function$
+declare
+  v_n_before jsonb;v_n_purchases uuid[];
+  h erp.material_purchase_cost_corrections%rowtype;
+  p erp.material_purchase_headers%rowtype;
+  m record;
+  r record;
+  v_delta_payable numeric(24,6);
+  v_old_cost numeric(18,6);
+  v_current_payable numeric(24,6);
+  v_proposed_payable numeric(24,6);
+  v_paid numeric(24,6);
+  v_post_seq bigint;
+  v_book_date date;
+begin
+  perform erp.require_owner_admin();
+  select * into h from erp.material_purchase_cost_corrections where id=p_correction_id for update;
+  if h.id is null or h.status<>'DRAFT' then raise exception 'Material purchase cost correction must be DRAFT'; end if;
+  select * into p from erp.material_purchase_headers where id=h.purchase_id for update;
+  -- AZ rev2 (owner, 24 Sep 2026, option 1, as erp.post_material_supplier_invoice): booked no earlier than the receipt day of
+  -- its purchase; the invoice date stays the document date.
+  v_book_date:=greatest(h.invoice_date,coalesce(erp._cp3_business_date(p.physical_at),h.invoice_date));
+  insert into erp.invoice_recost_execution_context(transaction_id,invoice_date,source_id) values(txid_current(),v_book_date,h.id);
+  if p.id is null or p.status<>'POSTED' then raise exception 'Source material purchase must be POSTED'; end if;
+  v_n_purchases:=array[p.id];v_n_before:=erp._cp6_supplier_cent_state(v_n_purchases);
+  if not exists(select 1 from erp.material_purchase_cost_correction_items where correction_id=h.id) then raise exception 'Cost correction has no lines'; end if;
+
+  select coalesce(max(c.post_seq),0)+1 into v_post_seq
+  from erp.material_purchase_cost_corrections c
+  where c.purchase_id=p.id and c.post_seq is not null;
+
+  select erp.material_purchase_payable_total(p.id) into v_current_payable;
+  select coalesce(sum(mpi.qty*(ci.new_unit_price-erp.material_purchase_current_unit_cost(mpi.id))),0)
+  into v_delta_payable
+  from erp.material_purchase_cost_correction_items ci
+  join erp.material_purchase_items mpi on mpi.id=ci.purchase_item_id
+  where ci.correction_id=h.id;
+  v_proposed_payable:=v_current_payable+v_delta_payable;
+  select coalesce(sum(sp.amount),0) into v_paid from erp.supplier_payments sp where sp.purchase_id=p.id and sp.status='POSTED';
+  if round(v_proposed_payable,2)<0 then raise exception 'Corrected purchase payable cannot become negative'; end if;
+  if v_paid>round(v_proposed_payable,2) then raise exception 'Cost correction would make supplier payments exceed corrected payable. Use supplier credit/receivable correction flow'; end if;
+
+  for m in
+    select distinct mpi.material_id
+    from erp.material_purchase_cost_correction_items ci join erp.material_purchase_items mpi on mpi.id=ci.purchase_item_id
+    where ci.correction_id=h.id
+  loop
+    for r in
+      select ci.id as correction_item_id,ci.purchase_item_id,ci.new_unit_price,mpi.qty,mpi.material_id
+      from erp.material_purchase_cost_correction_items ci
+      join erp.material_purchase_items mpi on mpi.id=ci.purchase_item_id
+      where ci.correction_id=h.id and mpi.material_id=m.material_id
+      order by ci.id
+    loop
+      v_old_cost:=erp.material_purchase_current_unit_cost(r.purchase_item_id);
+      update erp.material_purchase_cost_correction_items
+      set old_unit_cost_snapshot=v_old_cost,qty_basis=r.qty,delta_amount=r.qty*(r.new_unit_price-v_old_cost)
+      where id=r.correction_item_id;
+      update erp.material_stock_movements msm
+      set input_unit_cost=r.new_unit_price
+      where msm.movement_type='PURCHASE' and msm.qty_signed>0 and (
+        (msm.source_type='MATERIAL_PURCHASE_ITEM' and msm.source_id=r.purchase_item_id)
+        or (msm.source_type='MATERIAL_PURCHASE_ROLL' and msm.source_id in(select mr.id from erp.material_rolls mr where mr.purchase_item_id=r.purchase_item_id))
+      );
+      if not found then raise exception 'Original purchase stock movement not found for purchase item %',r.purchase_item_id; end if;
+    end loop;
+
+    perform erp.recalculate_material_cost(m.material_id,p.physical_at);
+
+  end loop;
+
+  update erp.material_purchase_cost_corrections
+  set status='POSTED',posted_at=clock_timestamp(),post_seq=v_post_seq
+  where id=h.id;
+  select erp.material_purchase_payable_total(p.id) into v_proposed_payable;
+  select coalesce(sum(sp.amount),0) into v_paid from erp.supplier_payments sp where sp.purchase_id=p.id and sp.status='POSTED';
+  update erp.material_purchase_headers set payment_status=case when v_paid=round(v_proposed_payable,2) then 'PAID' when v_paid>0 then 'PARTIAL' else 'UNPAID' end where id=p.id;
+  perform erp._cp6_apply_supplier_cent_event('MATERIAL_PURCHASE_COST_CORRECTION',h.id,v_book_date,'Supplier document cents '||h.id::text,v_n_before,false);
+  delete from erp.invoice_recost_execution_context where transaction_id=txid_current();
+end;
+$function$;
 insert into erp.schema_migrations(version,description) values('v2.6.20az','T1_FAMILY development install of AZ (material recost corrections dated from the physical movement); not a release package');
 commit;

@@ -51,6 +51,10 @@ delta is posted:
   pocket_by_pool), each dated as its pool's recost (not before the pool's period end while open), so one statement that
   recosts several pools dates each part on its own day and a second sync does not count it again; a voided lot takes the
   live lots' per-pool change; the revaluation join goes through unnest (no nested scan).
+  rev7.4 (writer, 24 Sep 2026): a cutting movement reversed before sewing is out of the HPP. erp.rebuild_po_hpp (AP)
+  summed it although the reversal returned the material and took it out of WIP (HPP above WIP, PO WIP negative after the
+  next sync, a re-issue counted twice); it now leaves reversed movements out of every material pool, and the sync gives
+  such a fact the value zero from its reversal's physical day (also in the material state).
   E is the recost date as before (invoice date on the invoice path, the caller's date otherwise). When E is already
   closed, every leg stays on E (the physical dates are capped at E): one journal with economic date E that post_journal
   posts on the recognition day of the decided period rule (erp.resolve_accounting_transaction_date), exactly as before AY,
@@ -180,7 +184,8 @@ POST_NEW_TAIL="""  else
       -- to its value in the HPP); else unknown (null: the pool keeps the constant correction). anc: the revaluations of
       -- its movement after this instant are part of the change.
       select case when gr.batch is not null then 'B:'||gr.batch::text else 'G:'||gr.id::text end pool,gr.po_id=p_po_id own,
-        greatest(p_effective_date,least(v_cap,erp._cp3_business_date(mm.physical_at))) d,-mm.qty_signed*mm.unit_cost_snapshot cur,
+        greatest(p_effective_date,least(v_cap,erp._cp3_business_date(coalesce(rvm.pa,mm.physical_at)))) d,
+        case when rvm.pa is null then -mm.qty_signed*mm.unit_cost_snapshot else 0 end cur,
         gr.id gid,ms.material_value is null and mm.system_created_at>coalesce(mk.ts,mk.tp) fresh,mm.id fid,array[mm.id] mids,
         case when ms.material_value is not null then ms.material_value
              when mk.ts is not null then case when mm.system_created_at>mk.ts then 0 end
@@ -191,6 +196,9 @@ POST_NEW_TAIL="""  else
              when mm.system_created_at>coalesce(mk.ts,mk.tp) then '-infinity'::timestamptz else mk.tp end anc
       from erp.material_stock_movements mm join grp gr on gr.id=mm.source_id cross join mk
       left join erp.po_hpp_gl_material_state_v1 ms on ms.po_id=p_po_id and ms.source_key='M:'||mm.id::text
+      -- rev7.4: a movement reversed (erp.reverse_cutting_material_flow_before_sewing_v2) is out of the HPP (erp.rebuild_po_hpp,
+      -- AY) from its reversal day on: value zero, its change dated on the reversal's physical day.
+      left join lateral(select min(rv.physical_at) pa from erp.material_stock_movements rv where rv.reversal_of_id=mm.id) rvm on true
       where mm.source_type in('CUTTING_GROUP','CUTTING_GROUP_RETURN')
       union all
       select 'CONTRACTOR',false,greatest(p_effective_date,least(v_cap,erp._cp3_business_date(coalesce(cv.pa,cm.physical_at)))),
@@ -410,7 +418,8 @@ POST_NEW_TAIL="""  else
   if exists(select 1 from erp.hpp_versions hv join erp.fg_lots fl on fl.id=hv.lot_id
             where fl.po_id=p_po_id and hv.is_current and hv.calculated_at>=statement_timestamp()) then
     insert into erp.po_hpp_gl_material_state_v1(po_id,source_key,material_value,updated_at)
-    select p_po_id,'M:'||mm.id::text,-mm.qty_signed*mm.unit_cost_snapshot,statement_timestamp()
+    select p_po_id,'M:'||mm.id::text,case when exists(select 1 from erp.material_stock_movements rv where rv.reversal_of_id=mm.id) then 0
+      else -mm.qty_signed*mm.unit_cost_snapshot end,statement_timestamp()
     from erp.material_stock_movements mm join erp.cutting_groups g on g.id=mm.source_id
     where mm.source_type in('CUTTING_GROUP','CUTTING_GROUP_RETURN')
       and (g.po_id=p_po_id or g.cutting_batch_id in(select g0.cutting_batch_id from erp.cutting_groups g0
@@ -479,6 +488,44 @@ def pocket_helper():
     return body
 
 
+# rev7.4 (writer, 24 Sep 2026): erp.rebuild_po_hpp (AP) summed every cutting movement of a group, batch or PO, also one
+# reversed before sewing (erp.reverse_cutting_material_flow_before_sewing_v2 returns the material to the warehouse, reverses
+# the issue journal out of WIP and AZ/AS target its revaluation to zero). The HPP then carried material WIP no longer held:
+# after a reversal the PO HPP sync moved it out of WIP (WIP of the PO negative) and a re-issue counted it twice. A reversed
+# movement is now out of every material pool.
+REBUILD_SRC=POCKET_SRC
+REBUILD_HEAD="CREATE OR REPLACE FUNCTION erp.rebuild_po_hpp(p_po_id uuid, p_reason text DEFAULT 'Recalculate HPP'::text)"
+NOT_REVERSED="and not exists(select 1 from erp.material_stock_movements rv where rv.reversal_of_id=msm.id)"
+REBUILD_SUBS=[
+ ("""  where (msm.source_type='CUTTING_GROUP' and msm.source_id in (select id from erp.cutting_groups where po_id=p_po_id))
+     or (msm.source_type='CUTTING_GROUP_RETURN' and msm.source_id in (select id from erp.cutting_groups where po_id=p_po_id));""",
+  """  where ((msm.source_type='CUTTING_GROUP' and msm.source_id in (select id from erp.cutting_groups where po_id=p_po_id))
+     or (msm.source_type='CUTTING_GROUP_RETURN' and msm.source_id in (select id from erp.cutting_groups where po_id=p_po_id)))
+    """+NOT_REVERSED+";"),
+ ("""        where (msm.source_type='CUTTING_GROUP' and msm.source_id in (select id from erp.cutting_groups where cutting_batch_id=v_batch_id))
+           or (msm.source_type='CUTTING_GROUP_RETURN' and msm.source_id in (select id from erp.cutting_groups where cutting_batch_id=v_batch_id));""",
+  """        where ((msm.source_type='CUTTING_GROUP' and msm.source_id in (select id from erp.cutting_groups where cutting_batch_id=v_batch_id))
+           or (msm.source_type='CUTTING_GROUP_RETURN' and msm.source_id in (select id from erp.cutting_groups where cutting_batch_id=v_batch_id)))
+          """+NOT_REVERSED+";"),
+ ("""        where msm.source_id=r.lineage_group_id and msm.source_type in ('CUTTING_GROUP','CUTTING_GROUP_RETURN');""",
+  """        where msm.source_id=r.lineage_group_id and msm.source_type in ('CUTTING_GROUP','CUTTING_GROUP_RETURN')
+          """+NOT_REVERSED+";")]
+
+
+def rebuild_function():
+    """AY rev7.4: erp.rebuild_po_hpp (AP) without reversed cutting movements (checked substitutions)."""
+    text=REBUILD_SRC.read_text()
+    assert text.count(REBUILD_HEAD)==1
+    start=text.index(REBUILD_HEAD);end=text.index('$function$;',start)+len('$function$;')
+    body=text[start:end]
+    assert body.count("msm.source_type")==5,body.count("msm.source_type")
+    for old,new in REBUILD_SUBS:
+        assert body.count(old)==1,old[:80]
+        body=body.replace(old,new)
+    assert body.count(NOT_REVERSED)==3
+    return body
+
+
 def sync_function():
     text=AS.read_text()
     assert text.count(HEAD)==1
@@ -520,6 +567,7 @@ def build():
            'revoke all on function erp.po_hpp_gl_leg_add_v1(jsonb,date,numeric,numeric,numeric) from public,anon,authenticated,service_role;',
            pocket_helper(),
            'revoke all on function erp.po_hpp_gl_pocket_by_pool_v1(uuid) from public,anon,authenticated,service_role;',
+           rebuild_function(),
            (lambda fn:(fn,assert_no_alias_collision(fn))[0])(sync_function()),
            f"insert into erp.schema_migrations(version,description) values('{VERSION}',"
            "'T1_FAMILY development install of AY (PO HPP corrections dated from the goods); not a release package');",'commit;','']

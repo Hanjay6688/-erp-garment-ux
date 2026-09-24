@@ -15,7 +15,7 @@ create table erp.sales_return_items(id uuid primary key default gen_random_uuid(
 create table erp.sales_returns(id uuid primary key, status text, physical_at timestamptz);
 create table erp.qc_inspection_items(id uuid primary key, cutting_group_id uuid);
 create table erp.cutting_groups(id uuid primary key, po_id uuid, cutting_batch_id uuid, cut_at timestamptz);
-create table erp.material_stock_movements(id uuid primary key default gen_random_uuid(), source_id uuid, source_type text, qty_signed numeric, unit_cost_snapshot numeric, physical_at timestamptz, system_created_at timestamptz default now()-interval '3 hour');
+create table erp.material_stock_movements(id uuid primary key default gen_random_uuid(), source_id uuid, source_type text, qty_signed numeric, unit_cost_snapshot numeric, physical_at timestamptz, system_created_at timestamptz default now()-interval '3 hour', reversal_of_id uuid);
 create table erp.v_cutting_group_totals(cutting_group_id uuid, total_pcs int);
 create table erp.po_hpp_gl_state(po_id uuid primary key,base_output_qty int,hpp_total_cost numeric,fg_value numeric,cogs_value numeric,other_out_value numeric,updated_at timestamptz);
 create table erp.po_hpp_gl_events(id uuid primary key default gen_random_uuid(), po_id uuid, effective_date date, old_hpp_total numeric, new_hpp_total numeric, fg_delta numeric, cogs_delta numeric, other_delta numeric, journal_entry_id uuid);

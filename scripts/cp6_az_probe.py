@@ -43,7 +43,7 @@ FUNCTIONS=('erp.sync_material_cost_revaluation(uuid)','erp._cp6_sync_material_ad
            'erp.guard_pocket_period_v1()','erp.sync_initial_import_bs_value_v1(uuid,date)',
            'erp.sync_non_po_product_hpp_to_gl_v2620f(uuid,date,text,uuid,text)','erp.refresh_accessory_hpp_after_material_recost(uuid,text)',
            'erp.reverse_qc(uuid,text)','erp.reverse_rework_completion(uuid,text)','erp.complete_initial_import_wip_v1(jsonb)',
-           'erp.post_material_supplier_invoice(uuid)')
+           'erp.post_material_supplier_invoice(uuid)','erp.post_material_purchase_cost_correction(uuid)')
 
 
 def dev_source(signature):
@@ -275,10 +275,9 @@ def sale_after_goods(cur,today,price):
 PRODUCED={}
 
 
-def produce(cur,fx,po,product,day,units,pcs,batch=None):
-    """One cutting group of `units` units yielding `pcs` pieces for the existing PO `po` on `day`, carried through pickup,
-    sewing, laundry and final SKU (ALL_READY) to one FG lot of `pcs` pieces on the same day (ordinary RPCs; the AA recipe
-    with the quantities as parameters)."""
+def cut_only(cur,fx,po,day,units,pcs,batch=None):
+    """One posted cutting group (material issued, not picked up) of `units` units yielding `pcs` pieces for the existing PO
+    `po` on `day`, optionally in cutting batch `batch` (ordinary cutting RPC). Returns the group and the RPC response."""
     prod=chain.production;base=prod.base
     api.admin(cur)
     payload=dict(action='SAVE_DRAFT',po_id=po,pattern_id=prod.PATTERN,source_location_id=fx['location'],cut_at=prod.at(day,8),
@@ -297,6 +296,15 @@ def produce(cur,fx,po,product,day,units,pcs,batch=None):
     if batch is not None:
         linked=cur.execute('select cutting_batch_id from erp.cutting_groups where id=%s',(group,)).fetchone()[0]
         assert linked==batch,('AZ_M2_BATCH_LINK_NOT_KEPT',linked)
+    return group,cut
+
+
+def produce(cur,fx,po,product,day,units,pcs,batch=None):
+    """One cutting group of `units` units yielding `pcs` pieces for the existing PO `po` on `day`, carried through pickup,
+    sewing, laundry and final SKU (ALL_READY) to one FG lot of `pcs` pieces on the same day (ordinary RPCs; the AA recipe
+    with the quantities as parameters)."""
+    prod=chain.production;base=prod.base
+    group,cut=cut_only(cur,fx,po,day,units,pcs,batch)
     y=cur.execute("""select y.id from erp.cutting_roll_yields y join erp.cutting_group_rolls r on r.id=y.cutting_group_roll_id
       where r.cutting_group_id=%s and y.qty_pcs=%s""",(group,pcs)).fetchall()
     assert len(y)==1,('AZ_MULTI_CUT_YIELD',y)
@@ -624,6 +632,71 @@ def invoice_before_receipt(cur,today,price):
                 invoice=response,quiet=quiet)
 
 
+def final_receipt(cur,day,qty=10,price=10):
+    """A direct FINAL receipt (supplier invoice number on the receipt, price SUPPLIER_INVOICE) of `qty` units at `price` on
+    `day` 10:00, as the AO direct-correction trial (ordinary purchase RPCs)."""
+    prod=chain.production;prior=prod.prior
+    api.admin(cur);prod.zone(cur,'Asia/Jakarta')
+    material=prior.clone_material(cur,'az-cost-correction')
+    location=uuid.uuid4()
+    cur.execute("insert into erp.locations(id,location_code,location_name,location_type,is_active) values(%s,%s,'AZ cost correction raw warehouse','RAW_MATERIAL_WAREHOUSE',true)",
+                (location,'AZ-LOC-'+location.hex[:20]))
+    draft=prod.rpc(cur,'erp.save_material_purchase_draft_v2',dict(purchase_number='AZ-CC-PUR-'+str(uuid.uuid4()),supplier_id=prior.BASE_SUPPLIER,
+        location_id=location,supplier_invoice_number='AZ-CC-INV-'+uuid.uuid4().hex[:12],physical_at=prod.at(day,10),
+        change_reason='AZ direct final receipt',lines=[dict(material_id=material,qty=qty,unit_price=price,price_state='FINAL',
+        price_source='SUPPLIER_INVOICE',rolls=[dict(roll_number='AZ-CC-ROLL-'+str(uuid.uuid4()),qty=qty)])]))
+    purchase=uuid.UUID(draft['purchase_id'])
+    cur.execute('select erp.post_material_purchase_v2(%s,%s,%s,%s)',(purchase,uuid.uuid4(),int(draft['row_version']),'AZ direct final receipt post'))
+    api.admin(cur)
+    item=cur.execute('select id from erp.material_purchase_items where purchase_id=%s',(purchase,)).fetchone()[0]
+    return dict(material=material,purchase=purchase,item=item,location=location)
+
+
+def cost_correction_before_receipt(cur,today,price):
+    """Owner decision 24 Sep 2026 (option 1) applied to the purchase cost correction (erp.post_material_purchase_cost_correction,
+    which carries an invoice date like a supplier invoice): a direct FINAL receipt of 10 units at 10 on d; a cost correction
+    to `price` with invoice date d-1 (open). Expected: its journals on d (economic and transaction date), nothing on d-1,
+    the correction keeps d-1 as its document date, material at `price` from d."""
+    prod=chain.production
+    d=today-timedelta(days=3);d0=d-timedelta(days=1)
+    days=[d0+timedelta(days=i) for i in range(5)]
+    boundary.historical.prior.set_open_period(cur,d0-timedelta(days=1))
+    quiet=awp.quiet_seed(cur,d0,today-timedelta(days=1),exclude=[prod.CONTRACTOR])
+    fx=final_receipt(cur,d)
+    before=ledger_days(cur,days,[])
+    api.admin(cur)
+    corr=cur.execute("""insert into erp.material_purchase_cost_corrections(correction_number,purchase_id,invoice_date,reason)
+      values(%s,%s,%s,%s) returning id""",('AZ-CC-'+uuid.uuid4().hex[:12],fx['purchase'],d0,'AZ cost correction dated before the receipt')).fetchone()[0]
+    cur.execute('insert into erp.material_purchase_cost_correction_items(correction_id,purchase_item_id,new_unit_price) values(%s,%s,%s)',(corr,fx['item'],price))
+    ids=[r[0] for r in cur.execute('select id from erp.journal_entries').fetchall()]
+    cur.execute('savepoint az_cost_correction')
+    try:
+        prod.owner(cur);cur.execute('select erp.post_material_purchase_cost_correction(%s)',(corr,))
+    except psycopg.Error as exc:
+        # The product may refuse a correction dated before its receipt; then there is nothing to date (recorded as such).
+        cur.execute('rollback to savepoint az_cost_correction');api.admin(cur)
+        return dict(status='PASS',finding='product refuses a purchase cost correction dated before its receipt',refused=str(exc).splitlines()[0],
+                    receipt_day=str(d),invoice_date=str(d0),quiet=quiet)
+    prod.owner(cur);cur.execute('select erp.process_cost_recalc_queue(100)');api.admin(cur)
+    after=ledger_days(cur,days,[])
+    fresh=[(r[0],r[1],r[2]) for r in cur.execute("""select source_type,economic_date,transaction_date from erp.journal_entries
+      where id<>all(%s::uuid[]) order by source_type,economic_date""",(ids,)).fetchall()]
+    kept=cur.execute('select invoice_date,status from erp.material_purchase_cost_corrections where id=%s',(corr,)).fetchone()
+    x=dec(price)-10
+    move={str(day):{k:dec(after[str(day)][k])-dec(before[str(day)][k]) for k in KEYS} for day in days}
+    pre=awp.preflight(cur,today)
+    negative=[b for b in pre['blockers'] if b['code']=='GL_INVENTORY_NEGATIVE_ASOF'] if pre else None
+    checks=dict(correction_document_date_kept=kept[0]==d0 and kept[1]=='POSTED',
+                journals_on_receipt_day=bool(fresh) and all(e==d and t==d for _,e,t in fresh),
+                nothing_before_receipt=all(v==0 for v in move[str(d0)].values()),
+                material_at_corrected_price_from_receipt=all(move[str(day)]['MATERIAL_INVENTORY']==10*x for day in days[1:]),
+                no_negative_daily_inventory=negative==[])
+    status='PASS' if all(checks.values()) else ('COUNTEREXAMPLE' if not az_installed(cur) else 'FAIL')
+    return dict(status=status,finding='owner decision 24 Sep 2026 option 1, same rule for the purchase cost correction',price=price,
+                receipt_day=str(d),invoice_date=str(d0),journals=[[a,str(b),str(c)] for a,b,c in fresh],checks=checks,
+                daily_move={k:{kk:str(vv) for kk,vv in v.items()} for k,v in move.items()},negative_blockers=negative,quiet=quiet)
+
+
 def goods_flow(cur,today,price,flow):
     """Branches without a native fixture until 24 Sep (independent review): a lot of 10 pcs (one cut of 10 units) on d+1,
     then RETURN (3 pcs sold on d+1, 1 returned on d+2), REVERSED (all 10 sold on d+2, the sale reversed today before the
@@ -749,7 +822,8 @@ def cases(cur,today):
             ('AZ:CONTRACTOR_AFTER_LOT_HIGHER',lambda:contractor_after_lot(cur,today,'10.70')),
             ('AZ:CONTRACTOR_AFTER_LOT_LOWER',lambda:contractor_after_lot(cur,today,'8.25')),
             ('AZ:BATCH_PARTNER_PO',lambda:batch_partner(cur,today,'10.70')),
-            ('AZ:INVOICE_BEFORE_RECEIPT_LOWER',lambda:invoice_before_receipt(cur,today,'8.25'))]
+            ('AZ:INVOICE_BEFORE_RECEIPT_LOWER',lambda:invoice_before_receipt(cur,today,'8.25')),
+            ('AZ:COST_CORRECTION_BEFORE_RECEIPT_LOWER',lambda:cost_correction_before_receipt(cur,today,'8.25'))]
 
 
 def run(phase):
