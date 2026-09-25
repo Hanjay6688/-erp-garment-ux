@@ -1,4 +1,10 @@
-# CP6 audit — active round 8 checkpoint
+# CP6 audit — writer round 9 intake; auditor rerun pending
+
+## Writer putaran 9 diterima untuk audit — checkpoint provisional, 25 September 2026
+
+Writer head `e10260be85049f0078227f5ddb5767ffe481a0d9`; produk BA `b6d81f9`, frontend `21acae1`. Baca `out/gpt_writer_r9_intake.md` untuk status, semua run/job yang dibaca, temuan LAU-T14, peta ALL, sumber kontrak, batas, dan LANGKAH BERIKUTNYA. **Semua verifikasi produk writer putaran9 masih UNVERIFIED oleh auditor; GATE-16/D06 HOLD. CP6 HOLD, audit_complete=false, production_go=false.** 12 HOLD historis tetap historis; gate C6-01..10 di bawah berasal dari kandidat putaran8 dan belum dinaikkan untuk head baru. Empat kasus W8 PASS sebelum/sesudah BA menurut log writer; kegagalan a095a9d adalah regresi BA awal. Tidak ada skenario baru pada intake. Tidak ada run auditor yang sedang berjalan.
+
+## Arsip checkpoint auditor putaran 8
 
 <!-- GPT_R8_CURRENT_PROGRESS_BEGIN -->
 ## LANGKAH BERIKUTNYA — checkpoint aktif, 25 September 2026
