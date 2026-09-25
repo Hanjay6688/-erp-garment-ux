@@ -1,5 +1,86 @@
 # CP6 audit — round8 addendum and historical report
 
+<!-- GPT_R8_CURRENT_REPORT_BEGIN -->
+## Putusan terkini — audit silang putaran 8, 25 September 2026
+
+**CP6 HOLD · audit_complete=false · production_go=false.** Produk yang dinilai: `a095a9d804d29643721e18635c2c3e26adcd56ea`; alat: `9dd7bc2b9309d008e8a2e50d81876d831f3e5ea7`. Bagian ini menggantikan status sementara putaran 8 di bawah; hasil kandidat lama tetap historis. Audit seluruh CP6 belum selesai.
+
+### Hasil yang sudah ditutup dan yang masih terbuka
+
+| Lingkup | Kesimpulan pada kandidat ini | Bukti dan batas |
+|---|---|---|
+| CP6-01 / A2, waktu WIB | **VERIFIED_INDEPENDENT**, 12/12 kasus browser | Tiga halaman Potongan, Bagi Potongan, BS × Jakarta/UTC/GMT−12/Kiritimati. Login form nyata, simpan melalui HTTP, baca kembali database. Run36099496005 memberi8PASS dan4INCOMPLETE locator; run36100064157 menutup4pickup dengan locator yang benar. Nilai00:30WIB menjadi17:30Z hari sebelumnya di semua zona. |
+| CP6-02/A3, CP6-07/A9, CP6-09/A1, CP6-18/A10 | **VERIFIED_INDEPENDENT untuk kasus yang tercatat** | GPT menguji penolakan bertanggal/identitas/impor ganda dan kontrol positif. Fable menambah jenis impor, bypass dan race impor. Ini bukan penerimaan seluruh ALL, semua jenis saldo, atau seluruh jalur payroll. |
+| CP6-03 / A4 | **HOLD, P2 produk: residu multi-penerimaan masih terbukti** | Empat kasus GPT, dua arah × koreksi langsung/invoice. Saat qty0: UP persediaan0,01/WIP20,01, expected0/20,02; DOWN persediaan−0,01/WIP20,01, expected0/20,00. Kasus satu penerimaan PASS tidak menutup kasus ini. Satu ID temuan tetap CP6-03. |
+| CP6-04 / A5 | **VERIFIED_INDEPENDENT untuk dua selector lama** | GPT impor51PASS; log Fable selector101 dibaca langsung:102 sumber claimable muncul, sumber lama tetap selectable. Bukan bukti seluruh UX pencarian/paging. |
+| CP6-24 / A6, close tanggal sama | **VERIFIED_INDEPENDENT untuk race yang diuji** | Dua sesi, tepat satu filing; kontrol close sesudah reopen ada pada run Fable. |
+| CP6-10 / B1, alias R8-B1-01 | **HOLD, P2 alat: race/HTTP belum ketat** | Ordinary self-test lulus. Pada race dan HTTP, ID ganda menimpa INCOMPLETE dengan PASS; status tidak dikenal diterima; job tetap RUN_COMPLETE. Perlu strict group di kedua mode. |
+| CP6-05 / W10, identitas request setelah commit ambigu | **CONFIRMED_NATIVE_BROWSER_SCOPED**, P2 GPT / P3 Fable | Pola dan duplikasi Role: first save benar-benar commit HTTP200, hanya balasan diputus. Klik ulang membuat UUID baru (Role juga kodeCUSTOM), ditolak409; database tetap satu row. Dua COUNTEREXAMPLE M:1679/3819, bukan duplikasi data atau eskalasi hak. |
+| CP6-06 / W13, KPI saat data unknown | **HOLD, P2 produk; Laundry dan QC terkonfirmasi native** | Laundry rev5 healthy20/refetch20 PASS; QC rev6 healthy10/refetch10 PASS. Read awal gagal menampilkan empat KPI0 disertai banner error dan write lock. Dua COUNTEREXAMPLE M:3825. Tidak ada bug refetch yang terbukti pada fixture valid ini. |
+| W11 / W12, diagnosis fixture dan pesan error | **P3 UX / pertanyaan kualitas data** | Parser asli menolak UUID seed versi0, lalu exception diberi pesan seolah jaringan gagal. Kontrol baru memakai API UUIDv4 dan isolasi seed hanya pada salinan. Hambatan kontrol selesai; W12 bukan izin auditor memeriksa hosted/legacy. |
+| C0 D01, 25 oracle uang/tanggal baru | **25/25 PASS**, terpisah dari hasil beku | AS8 + kalender12 + AO4 pada36098555186; ADJUSTMENT_DATE pada36099496005. Membandingkan jurnal, saldo per prefix, tanggal dan laporan. Retry adjustment hanya memulihkan schema USAGE alat setelah helper mencabutnya. Tidak mengubah produk atau oracle. |
+| HTTP dengan Auth sungguhan | **PASS dalam matriks tercatat** | Matriks argumen valid18cek, pencabutan user OWNER, dan jangkauan helper prepare. Kasus dummy-argument lama ditarik sebagai kesalahan probe. Helper prepare private tidak terjangkau HTTP publik pada runtime ini; bukan bukti seluruh jalur legacy aman. |
+| CP6-11/B2, CP6-12/B3, T3 | **Subgate teknis T3_PREP diterima dengan batas yang dinyatakan** | Log install25/pins/gate/restore/browser dan rollback127check dibaca; comparator rollback direview. Kekurangan lama rollback AC..AV NOT_BUILT sudah teratasi. Ini bukan izin rilis. |
+| C6 / D06 / GATE-16 | **HOLD** | Usulan split ACC-04/LAU-05 sudah disepakati dalam audit silang. Crosswalk75ID asli selesai sebagai daftar cakupan, bukan75PASS. Inventaris implementasi CR, revisi lampiran dan ratifikasi D06 masih diperlukan. |
+| C0 §3.4, penanda laporan | **UNVERIFIED, pertanyaan semantik W9** | Dua kasus AO tertutup: filing tetap, uang/tanggal benar, tetapi `changed_since_filing=false`. Implementasi hanya memeriksa readiness. Klausa addendum perlu dicocokkan terhadap maksud penanda; belum diklaim sebagai kerugian finansial atau P2 baru. |
+
+CP6-03 penting karena nominal dokumen yang sah tidak habis teralokasi setelah bahan fisik habis; toleransi0,01 per penerimaan belum disahkan kontrak. Oracle M:835,3818–3820,6625,6632 memakai jumlah sen masing-masing dokumen, bukan pembulatan ulang total gabungan. R8-B1-01 penting bagi keutuhan bukti: hasil yang belum lengkap dapat hilang dan memberi kesan run selesai. Ini tidak membatalkan hasil bisnis dengan ID unik/status sah yang sudah diperiksa satu per satu.
+
+### Buku run dan asal bukti
+
+| Run / job | Asal dan hasil yang diperiksa |
+|---|---|
+| 36097284096 / 107952094985 | Skenario GPT: ordinary28PASS/4COUNTEREXAMPLE/1INCOMPLETE; race2PASS; HTTP lama2PASS/1counterexample argumen salah. Ledger `out/gpt_round8_run_36097284096.json`. |
+| 36097284096 / 107952095105,107952095197 | Self-test ordinary SELFTEST_PASS; sentinel race/HTTP menunjukkan R8-B1-01. Sentinel hijau bukan PASS oracle auditor. |
+| 36098555186 / 107955933618 | Oracle C0 baru24PASS/1INCOMPLETE helper; ledger `out/gpt_c0_run_36098555186.json`. |
+| 36099496005 / 107958771209 | Adjustment retry1PASS; HTTP3PASS; browser8PASS/4INCOMPLETE locator; ledger `out/gpt_browser_run_36099496005.json`. |
+| 36100064157 / 107960458342 | Pickup browser4PASS; ledger `out/gpt_pickup_run_36100064157.json`. Semua12 browser memakai Auth nyata; Auth pulih, console0, salinan dibuang, primary tidak berubah. |
+| 36101907250 / 107966011162 | Run recovery awal NOT_RUN/INCOMPLETE akibat path browser workflow audit; hasil tetap. Ledger `out/gpt_recovery_run_36101907250.json`. |
+| 36102303107 / 107967209608 | Browser recovery Pola/Role2COUNTEREXAMPLE; Laundry/QC2INCOMPLETE sebelum diagnosis fixture. Ledger `out/gpt_recovery_run_36102303107.json`. |
+| 36102938451 / 107969167045; 36103599807 / 107971184469 | Masing-masing2INCOMPLETE. Rev3 parser kandidat tanpa perubahan source membuktikan penolakan UUID seed mandor/model. Ledger `out/gpt_unknown_run_<run>.json`. |
+| 36105734698 / 107977705679 | Rev4 setup memanggil fungsi policy private yang EXECUTE-nya ditolak;4INCOMPLETE, fixture rollback dan browser users0. Kesalahan setup auditor, bukan temuan produk. |
+| 36106291785 / 107979461548 | Rev5 Laundry1PASS healthy+1COUNTEREXAMPLE unknown, refetchPASS; QC2INCOMPLETE karena nama merek helper bertabrakan. Ledger `out/gpt_unknown_run_36106291785.json`. |
+| 36106777202 / 107980988537 | Rev6 QC1PASS healthy+1COUNTEREXAMPLE unknown, refetchPASS. RUN_COMPLETE/job hijau berarti hasil lengkap, bukan produkPASS. Ledger `out/gpt_unknown_run_36106777202.json`. |
+| 36095707100 / 107947426273,107947426182,107947426290 | Run Fable atas harness writer, log direview GPT: identitas230/31/65 tetap; historicalHOLD12 tetap; AR146sequential+28race, AT16+4, AU15+6. QUIETED/PAYROLL_APPROVED tercatat; hasil ini tidak menerima semua cek negatif readiness. |
+| 36096194323 / 107948864042 | Log skenario Fable: selector101PASS (102 sumber), koreksi invoiceUP/DOWN dan kontrol AV PASS. Dipakai ulang dengan asal bukti tetap jelas. |
+| 36095715362 / 107947449272,107947449368,107947449378 | Run Fable T3, direview GPT:25file, pin cocok, restore RESTORED_SAME_MEANING, browser10PASS. Data320tabel/1657baris sama;19error pg_cron dengan0job sumber, normalisasi katalog terbatas. Bukan byte-identical restore. Advisor mentah REVIEW_REQUIRED; tambahan hanya INFO internalERP. |
+| 36095723676 / 107947475610 | Run Fable rollback, direview GPT:127/127PASS, dua siklus BA→AC→AB,25post-use refusal. Setiap keluarga memakai satu transaksi saldo awal AR17,25; guard membandingkan seluruh dataERP, tetapi tidak menguji setiap bentuk transaksi. |
+| 36090824553 / 107932695282,107932695376,107932695412,107932695437 | CodeQL writer pada d113bed:0hasil tiap bahasa, log dibaca GPT. Sesudah scan hanya satu perubahan kode alat: port preview4177→4176 pada origin dan process args. Diff direview dan browser diuji; jangan menyebut scan dijalankan pada9dd7bc2 atau sebagai bukti SQL/bisnis aman. |
+
+Bukti silang lengkap: `out/gpt_round8_t3_crossreview.json` dan `out/gpt_round8_final_crossreview.json`. Semua bukti di atas berasal dari LOG Actions, bukan isi `docs/evidence/`. Tidak ada run baru yang diklaim untuk pekerjaan Fable/writer. Semua label tetap AUDITOR_SCENARIO, T2_REGRESSION atau T3_PREP; tidak ada bukti produksi/rilis.
+
+### Kontrak, oracle dan scope C6
+
+- C0 SHA256 `e83d56e66812011c9a7a4057bf29987d0bcf62aabc17ad23ab422170abb00c99`. Bagian1–8 sama persis dengan versi disahkan di5d54472, SHA256 seluruh versi tersebut `d39762da0520f30268a73244e7471b7d990138e3cbe36475d639c7cfca8e926d`. D01–D05 sah menurut handoff owner dan konfirmasi owner-ke-auditor yang dicatat Fable; tidak diminta lagi.
+- D03§5.3: WIP tanpa produk/atribut lengkap boleh diposting dengan provenance unknown. ModelPO/ukuran dan atribut yang terisi tetap mengikat; unknown tidak dianggap cocok. Bukti harus mempertahankan alasan penetapan produk hasil.
+- Oracle baru dibekukan di `out/gpt_c0_oracle_freeze.md`. Hasil beku12HOLD dan25kasus terkait tetap historis; 25PASS baru adalah bukti terpisah. Integrasi oracle ke harness berulang adalah pekerjaan W2, bukan alasan mengulang pertanyaan kebijakan D01.
+- C6 SHA256 `72621c8a978573506b8c829a2a8790de948f6cb10e83ecd14dfddf35d495bc0d`. M:1691–1699 dan1753–1757 mengizinkan penundaan fitur baru yang disahkan owner, tetapi tidak penundaan cacat/perilaku lama. M:4448–4479 tidak membuka lagi persetujuan master vendor yang sudah diberikan.
+- `out/gpt_c6_scope_amendment.md` memisahkan baseline dari perluasan baru. `out/gpt_c6_75_case_crosswalk.{md,json}` memetakan39ACC +36LAU ke klausul/oracle asli. Semua baris full-case masih UNVERIFIED sampai punya bukti yang sesuai; satu uji7PCS atau browserWIP bukan bukti semua baris.
+
+### Batas pembuktian browser recovery/unknown
+
+Kontrol Laundry/QC memakai identitas UUIDv4 dari API dan pencarian UI asli berdasarkan model baru. Satu produk seed tidak valid disisihkan dengan flag visibility hanya di salinan; ledger FG sebelum/sesudah flag sama. Parser dan respons HTTP tidak diubah. Jadi kontrol menerima workspace yang difilter ini, bukan seluruh data seed tanpa filter. Kedua run memulihkan Auth counts, membuang browser DB/clone, dan membuktikan primary tidak berubah. Tidak ada pemeriksaan hosted/legacy/production. W11 membedakan error data/parser dari error jaringan; W12 adalah tindak lanjut writer pada drill/artifact yang diizinkan.
+
+### Yang belum selesai
+
+CP6-03, B1, CP6-05 dan CP6-06 tetap terbuka untuk perbaikan. CP6-05 kini terbukti native pada Pola/Role; CP6-06 terbukti native pada Laundry/QC dengan healthy dan refetch controls PASS. Rincian oracle, setup, hash, raw results dan batas klaim ada di `out/gpt_recovery_unknown_final.md`. Run lama tetap INCOMPLETE; hasil baru tidak melabel ulang sejarah.
+
+Cakupan ALL22state/6keluarga, matriks izin/lokasi dan jalur sumber–HPP/payroll belum selesai. `out/gpt_all_round8_binding.md` mengikat9blob sumber pada kandidat; kesamaan source tidak menerima seluruh runtime karena BA dapat mengganti fungsi. Hipotesis BS/payroll CP6-08 serta COUNT pecahan CP6-20 belum menjadi bug terbukti.
+
+A7/CP6-25 opsional P3: refusal aman, pesan terlalu umum. A8/CP6-19 tidak terbukti sebagai stale post pada jalur aplikasi sah; ordinary edit PASS, prepare langsung lalu edit ditolak, helper private HTTP404. Hardening grant dapat dikerjakan writer, tetapi bukan alasan menghidupkan ulang klaim bypass browser. Editabilitas jalur prepared legacy yang diwajibkan M:1025/3817 tetap memerlukan route yang sah jika masih didukung.
+
+Lanjut melalui tugas aktif di `AUDIT_WRITER_HANDOFF_CP6.md`, cakupan di `AUDIT_HANDOFF_CP6.md`, serta status terstruktur `audit/CP6_COMBINED_INDEX.json`. Tutup hanya kasus/gate yang benar-benar terbukti; rerun hanya bukti yang terdampak successor.
+
+
+Handoff ringkas Fable untuk successor: `WRITER_HANDOFF_R9_20260925.md`. Penomoran W10/W11/W12/W13 dipakai bersama; tidak ada duplikasi temuan CP6-05/06. Perbedaan prioritas W10 P2 GPT/P3 Fable tetap terbuka dan fakta runtime sama.
+<!-- GPT_R8_CURRENT_REPORT_END -->
+
+---
+
+## Arsip checkpoint sebelumnya
+
+Catatan di bawah mempertahankan status saat dicatat. Instruksi pending dan penilaian lama yang bertentangan dengan bagian aktif di atas sudah digantikan; hasil run beku tidak dilabel ulang.
+
 ## Rev5: CP6-06 Laundry terkonfirmasi native; QC perlu fixture tanpa benturan nama
 
 Run **36106291785/job107979461548**, audit **a4b65b9**, LOG SHA256**c671cb4ee423900d2f4fb58679850ad756eda9d7b1eb463d584d32142bf99304**. Hasil **1PASS +1COUNTEREXAMPLE +2INCOMPLETE**.
@@ -20,72 +101,6 @@ Run **36102303107/job107967209608**, audit6156adb, exact9dd7bc2/a095a9d. Browser
 Laundry/QC: **2INCOMPLETE**, positive Auth RPCs observed nonzero20/10, but successful-render/refetch assertion remained0 and threw before recording error details. These are not promoted to CP6-06 native proof yet. Add diagnostics preserving the initial UI, response metadata and post-refetch error before evaluating the positive control. Keep oracle fixed; test only these two cases next.
 
 Cleanup:4browser users, Auth counts restored[0,0,0,0], console errors0, browser database0, clone0, primary unchanged. Ledger `out/gpt_recovery_run_36102303107.json`, log SHA2565eef7922fa41727ab263d962731792c3d19542dc6c0963f751743166d860fba4. Previous36101907250 NOT_RUN path failure preserved. LANGKAH BERIKUTNYA: diagnostic-only unknown2retry; then update reports/index without duplicate findings. CP6 HOLD.
-
-
-<!-- GPT_R8_CURRENT_REPORT_BEGIN -->
-## Putusan terkini — audit silang putaran 8, 25 September 2026
-
-**CP6 HOLD · audit_complete=false · production_go=false.** Produk yang dinilai: `a095a9d804d29643721e18635c2c3e26adcd56ea`; alat: `9dd7bc2b9309d008e8a2e50d81876d831f3e5ea7`. Bagian ini menggantikan status sementara putaran 8 di bawah; hasil kandidat lama tetap historis. Audit seluruh CP6 belum selesai.
-
-### Hasil yang sudah ditutup dan yang masih terbuka
-
-| Lingkup | Kesimpulan pada kandidat ini | Bukti dan batas |
-|---|---|---|
-| CP6-01 / A2, waktu WIB | **VERIFIED_INDEPENDENT**, 12/12 kasus browser | Tiga halaman Potongan, Bagi Potongan, BS × Jakarta/UTC/GMT−12/Kiritimati. Login form nyata, simpan melalui HTTP, baca kembali database. Run36099496005 memberi8PASS dan4INCOMPLETE locator; run36100064157 menutup4pickup dengan locator yang benar. Nilai00:30WIB menjadi17:30Z hari sebelumnya di semua zona. |
-| CP6-02/A3, CP6-07/A9, CP6-09/A1, CP6-18/A10 | **VERIFIED_INDEPENDENT untuk kasus yang tercatat** | GPT menguji penolakan bertanggal/identitas/impor ganda dan kontrol positif. Fable menambah jenis impor, bypass dan race impor. Ini bukan penerimaan seluruh ALL, semua jenis saldo, atau seluruh jalur payroll. |
-| CP6-03 / A4 | **HOLD, P2 produk: residu multi-penerimaan masih terbukti** | Empat kasus GPT, dua arah × koreksi langsung/invoice. Saat qty0: UP persediaan0,01/WIP20,01, expected0/20,02; DOWN persediaan−0,01/WIP20,01, expected0/20,00. Kasus satu penerimaan PASS tidak menutup kasus ini. Satu ID temuan tetap CP6-03. |
-| CP6-04 / A5 | **VERIFIED_INDEPENDENT untuk dua selector lama** | GPT impor51PASS; log Fable selector101 dibaca langsung:102 sumber claimable muncul, sumber lama tetap selectable. Bukan bukti seluruh UX pencarian/paging. |
-| CP6-24 / A6, close tanggal sama | **VERIFIED_INDEPENDENT untuk race yang diuji** | Dua sesi, tepat satu filing; kontrol close sesudah reopen ada pada run Fable. |
-| CP6-10 / B1, alias R8-B1-01 | **HOLD, P2 alat: race/HTTP belum ketat** | Ordinary self-test lulus. Pada race dan HTTP, ID ganda menimpa INCOMPLETE dengan PASS; status tidak dikenal diterima; job tetap RUN_COMPLETE. Perlu strict group di kedua mode. |
-| C0 D01, 25 oracle uang/tanggal baru | **25/25 PASS**, terpisah dari hasil beku | AS8 + kalender12 + AO4 pada36098555186; ADJUSTMENT_DATE pada36099496005. Membandingkan jurnal, saldo per prefix, tanggal dan laporan. Retry adjustment hanya memulihkan schema USAGE alat setelah helper mencabutnya. Tidak mengubah produk atau oracle. |
-| HTTP dengan Auth sungguhan | **PASS dalam matriks tercatat** | Matriks argumen valid18cek, pencabutan user OWNER, dan jangkauan helper prepare. Kasus dummy-argument lama ditarik sebagai kesalahan probe. Helper prepare private tidak terjangkau HTTP publik pada runtime ini; bukan bukti seluruh jalur legacy aman. |
-| CP6-11/B2, CP6-12/B3, T3 | **Subgate teknis T3_PREP diterima dengan batas yang dinyatakan** | Log install25/pins/gate/restore/browser dan rollback127check dibaca; comparator rollback direview. Kekurangan lama rollback AC..AV NOT_BUILT sudah teratasi. Ini bukan izin rilis. |
-| C6 / D06 / GATE-16 | **HOLD** | Usulan split ACC-04/LAU-05 sudah disepakati dalam audit silang. Crosswalk75ID asli selesai sebagai daftar cakupan, bukan75PASS. Inventaris implementasi CR, revisi lampiran dan ratifikasi D06 masih diperlukan. |
-| C0 §3.4, penanda laporan | **UNVERIFIED, pertanyaan semantik W9** | Dua kasus AO tertutup: filing tetap, uang/tanggal benar, tetapi `changed_since_filing=false`. Implementasi hanya memeriksa readiness. Klausa addendum perlu dicocokkan terhadap maksud penanda; belum diklaim sebagai kerugian finansial atau P2 baru. |
-
-CP6-03 penting karena nominal dokumen yang sah tidak habis teralokasi setelah bahan fisik habis; toleransi0,01 per penerimaan belum disahkan kontrak. Oracle M:835,3818–3820,6625,6632 memakai jumlah sen masing-masing dokumen, bukan pembulatan ulang total gabungan. R8-B1-01 penting bagi keutuhan bukti: hasil yang belum lengkap dapat hilang dan memberi kesan run selesai. Ini tidak membatalkan hasil bisnis dengan ID unik/status sah yang sudah diperiksa satu per satu.
-
-### Buku run dan asal bukti
-
-| Run / job | Asal dan hasil yang diperiksa |
-|---|---|
-| 36097284096 / 107952094985 | Skenario GPT: ordinary28PASS/4COUNTEREXAMPLE/1INCOMPLETE; race2PASS; HTTP lama2PASS/1counterexample argumen salah. Ledger `out/gpt_round8_run_36097284096.json`. |
-| 36097284096 / 107952095105,107952095197 | Self-test ordinary SELFTEST_PASS; sentinel race/HTTP menunjukkan R8-B1-01. Sentinel hijau bukan PASS oracle auditor. |
-| 36098555186 / 107955933618 | Oracle C0 baru24PASS/1INCOMPLETE helper; ledger `out/gpt_c0_run_36098555186.json`. |
-| 36099496005 / 107958771209 | Adjustment retry1PASS; HTTP3PASS; browser8PASS/4INCOMPLETE locator; ledger `out/gpt_browser_run_36099496005.json`. |
-| 36100064157 / 107960458342 | Pickup browser4PASS; ledger `out/gpt_pickup_run_36100064157.json`. Semua12 browser memakai Auth nyata; Auth pulih, console0, salinan dibuang, primary tidak berubah. |
-| 36095707100 / 107947426273,107947426182,107947426290 | Run Fable atas harness writer, log direview GPT: identitas230/31/65 tetap; historicalHOLD12 tetap; AR146sequential+28race, AT16+4, AU15+6. QUIETED/PAYROLL_APPROVED tercatat; hasil ini tidak menerima semua cek negatif readiness. |
-| 36096194323 / 107948864042 | Log skenario Fable: selector101PASS (102 sumber), koreksi invoiceUP/DOWN dan kontrol AV PASS. Dipakai ulang dengan asal bukti tetap jelas. |
-| 36095715362 / 107947449272,107947449368,107947449378 | Run Fable T3, direview GPT:25file, pin cocok, restore RESTORED_SAME_MEANING, browser10PASS. Data320tabel/1657baris sama;19error pg_cron dengan0job sumber, normalisasi katalog terbatas. Bukan byte-identical restore. Advisor mentah REVIEW_REQUIRED; tambahan hanya INFO internalERP. |
-| 36095723676 / 107947475610 | Run Fable rollback, direview GPT:127/127PASS, dua siklus BA→AC→AB,25post-use refusal. Setiap keluarga memakai satu transaksi saldo awal AR17,25; guard membandingkan seluruh dataERP, tetapi tidak menguji setiap bentuk transaksi. |
-| 36090824553 / 107932695282,107932695376,107932695412,107932695437 | CodeQL writer pada d113bed:0hasil tiap bahasa, log dibaca GPT. Sesudah scan hanya satu perubahan kode alat: port preview4177→4176 pada origin dan process args. Diff direview dan browser diuji; jangan menyebut scan dijalankan pada9dd7bc2 atau sebagai bukti SQL/bisnis aman. |
-
-Bukti silang lengkap: `out/gpt_round8_t3_crossreview.json` dan `out/gpt_round8_final_crossreview.json`. Semua bukti di atas berasal dari LOG Actions, bukan isi `docs/evidence/`. Tidak ada run baru yang diklaim untuk pekerjaan Fable/writer. Semua label tetap AUDITOR_SCENARIO, T2_REGRESSION atau T3_PREP; tidak ada bukti produksi/rilis.
-
-### Kontrak, oracle dan scope C6
-
-- C0 SHA256 `e83d56e66812011c9a7a4057bf29987d0bcf62aabc17ad23ab422170abb00c99`. Bagian1–8 sama persis dengan versi disahkan di5d54472, SHA256 seluruh versi tersebut `d39762da0520f30268a73244e7471b7d990138e3cbe36475d639c7cfca8e926d`. D01–D05 sah menurut handoff owner dan konfirmasi owner-ke-auditor yang dicatat Fable; tidak diminta lagi.
-- D03§5.3: WIP tanpa produk/atribut lengkap boleh diposting dengan provenance unknown. ModelPO/ukuran dan atribut yang terisi tetap mengikat; unknown tidak dianggap cocok. Bukti harus mempertahankan alasan penetapan produk hasil.
-- Oracle baru dibekukan di `out/gpt_c0_oracle_freeze.md`. Hasil beku12HOLD dan25kasus terkait tetap historis; 25PASS baru adalah bukti terpisah. Integrasi oracle ke harness berulang adalah pekerjaan W2, bukan alasan mengulang pertanyaan kebijakan D01.
-- C6 SHA256 `72621c8a978573506b8c829a2a8790de948f6cb10e83ecd14dfddf35d495bc0d`. M:1691–1699 dan1753–1757 mengizinkan penundaan fitur baru yang disahkan owner, tetapi tidak penundaan cacat/perilaku lama. M:4448–4479 tidak membuka lagi persetujuan master vendor yang sudah diberikan.
-- `out/gpt_c6_scope_amendment.md` memisahkan baseline dari perluasan baru. `out/gpt_c6_75_case_crosswalk.{md,json}` memetakan39ACC +36LAU ke klausul/oracle asli. Semua baris full-case masih UNVERIFIED sampai punya bukti yang sesuai; satu uji7PCS atau browserWIP bukan bukti semua baris.
-
-### Yang belum selesai
-
-Selain CP6-03 dan B1, pertahankan CP6-05 (retry/UUID setelah respons ambigu), CP6-06 (failed read menjadi nol), ALL22state/6keluarga, matriks izin/lokasi dan jalur sumber–HPP/payroll yang belum terbukti. CP6-05/06 berasal dari bukti lokal kandidat lama dan belum diuji ulang pada putaran8; jangan mengklaim duplikasi atau salah saldo nyata tanpa run yang relevan. Hipotesis BS/payroll CP6-08 serta COUNT pecahan CP6-20 belum menjadi bug terbukti.
-
-A7/CP6-25 opsional P3: refusal aman, pesan terlalu umum. A8/CP6-19 tidak terbukti sebagai stale post pada jalur aplikasi sah; ordinary edit PASS, prepare langsung lalu edit ditolak, helper private HTTP404. Hardening grant dapat dikerjakan writer, tetapi bukan alasan menghidupkan ulang klaim bypass browser. Editabilitas jalur prepared legacy yang diwajibkan M:1025/3817 tetap memerlukan route yang sah jika masih didukung.
-
-Lanjut melalui tugas aktif di `AUDIT_WRITER_HANDOFF_CP6.md`, cakupan di `AUDIT_HANDOFF_CP6.md`, serta status terstruktur `audit/CP6_COMBINED_INDEX.json`. Tutup hanya kasus/gate yang benar-benar terbukti; rerun hanya bukti yang terdampak successor.
-
----
-
-## Arsip checkpoint dan penilaian sebelumnya
-
-Bagian berikut merekam apa yang diketahui pada saat itu. Pernyataan lama seperti pickup menunggu, oracle C0 belum dijalankan, AC..AV NOT_BUILT, atau owner D01–D05 belum mengesahkan telah digantikan secara eksplisit di atas.
-
-
-<!-- GPT_R8_CURRENT_REPORT_END -->
 
 ## GPT round8 — independent native results (25 September 2026)
 **CP6 HOLD · audit_complete=false · production_go=false.** Candidate tool `9dd7bc2`, product `a095a9d`. Historical 12 HOLD unchanged. This section supersedes the earlier IN_FLIGHT entry for run 36097284096 only; it does not relabel old candidates.

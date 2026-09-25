@@ -156,10 +156,10 @@
    "oracle": "M1679,3819: UUID/payload yang commitnya ambigu dipertahankan untuk rekonsiliasi.",
    "evidence": "Pattern/Access/quick-create7localchecks4PASS/3FAIL; tidak ada bukti committed duplicate.",
    "next": "Lost response setelah commit melalui UI/Auth/RPC nyata, reload/tab-switch, rekonsiliasi UUID lama dan tepat satu efek domain.",
-   "status_r8": "CONFIRMED_NATIVE_BROWSER_SCOPED (GPT run 36102303107; Fable source survey: only PatternPage/AccessControlPage regenerate request id; CONNECTED pages use envelope.id)",
+   "status_r8": "CONFIRMED_NATIVE_BROWSER_SCOPED",
    "evidence_r8": "36102303107/job107967209608: Pattern and role duplicate firstHTTP200 truly committed, dropped reply, retry newUUID (role newcode), HTTP409; one row retained by unique guard. M1679/M3819 envelope/replay failure, not data duplication.",
-   "gpt_updated_at": "2026-09-25T06:03:00Z",
-   "next_r8": "W10 preserve exact pending envelope and reconcile original request; rerun same two browser cases.",
+   "gpt_updated_at": "2026-09-25T07:40:52Z",
+   "next_r8": "W10 retain exact pending envelope and reconcile original result; rerun same two browser cases on successor. P2 GPT / P3 Fable disagreement retained.",
    "fable_priority": "P3 (GPT: P2)",
    "updated_at": "2026-09-25T06:27:23Z"
   },
@@ -174,10 +174,10 @@
    "oracle": "M3825: unknown bukan nol.",
    "evidence": "Laundry/QC failed initial workspace null;4localchecks2PASS/2FAIL. Banner error/lock tetap ada.",
    "next": "Browser initial-load/refetch failure dengan server state diketahui; KPI unknown, retry/sync dan tidak falsefinancialfinal.",
-   "status_r8": "CONFIRMED_NATIVE_BROWSER_LAUNDRY_AND_QC (GPT runs 36106291785 + 36106777202, logs read by Fable): failed initial read -> KPI 0 with error banner/write lock; refetch restores 20/10",
-   "evidence_r8": "36106291785/job107979461548: actual Auth RPC/parser/browser healthy20; failed initial read KPI0 + error/write lock; post-fault refetch200/parser/UI20. QC fixture refused duplicate Cutover brand; not evaluated.",
-   "gpt_updated_at": "2026-09-25T06:03:00Z",
-   "next_r8": "CP6-06 writer renders unknown separately from0. Auditor runs QC rev6 only with unique API brand; do not relabel prior INCOMPLETEs.",
+   "status_r8": "CONFIRMED_NATIVE_BROWSER_LAUNDRY_AND_QC",
+   "evidence_r8": "Laundry36106291785/job107979461548 healthy20, initial-read failure KPI0/error/write lock, refetch20; QC36106777202/job107980988537 healthy10, initial-read failure KPI0/error/write lock, refetch10. Actual Auth HTTP/parser/UI controls PASS; old INCOMPLETE runs retained.",
+   "gpt_updated_at": "2026-09-25T07:40:52Z",
+   "next_r8": "W13 render unknown separately from0; review successor and rerun healthy/unknown/refetch controls using unique-brand setup. No further same-candidate fixture diagnosis needed.",
    "fable_priority": "P2",
    "updated_at": "2026-09-25T07:22:38Z"
   },
@@ -379,8 +379,8 @@
    "fable_update": "Owner 25 Sep: ALL diputuskan M:1024. Bukan pertanyaan owner. Tugas auditor: bukti cakupan 22 state/6 keluarga (transport CSV, caller, lifecycle, browser).",
    "updated_at": "2026-09-25T01:02:13Z",
    "status_r8": "ALL_CONTRACT_DECIDED_FULL_COVERAGE_UNVERIFIED",
-   "evidence_r8": "22state/6family full lifecycle map not yet verified. Historical native15 execution is complete; it is not complete ALL acceptance.",
-   "gpt_updated_at": "2026-09-25T06:03:00Z"
+   "evidence_r8": "Nine source blobs bound to exact round8 tool head; ALL22state/6family full lifecycle remains UNVERIFIED because source identity is not runtime acceptance and BA can replace functions. Historical native15 executed; not complete ALL acceptance.",
+   "gpt_updated_at": "2026-09-25T07:40:52Z"
   },
   {
    "id": "CP6-18",
@@ -1001,13 +1001,13 @@
  "active_candidate": {
   "tool_head": "9dd7bc2b9309d008e8a2e50d81876d831f3e5ea7",
   "product_ref": "a095a9d804d29643721e18635c2c3e26adcd56ea",
-  "audited_at": "2026-09-25T06:03:00Z"
+  "audited_at": "2026-09-25T07:40:52Z"
  },
  "gpt_round8": {
-  "updated_at": "2026-09-25T06:03:00Z",
+  "updated_at": "2026-09-25T07:40:52Z",
   "tool_head": "9dd7bc2b9309d008e8a2e50d81876d831f3e5ea7",
   "product_ref": "a095a9d804d29643721e18635c2c3e26adcd56ea",
-  "status": "ROUND8_SELECTED_REVIEW_CONSOLIDATED_FULL_CP6_INCOMPLETE",
+  "status": "ROUND8_SELECTED_REVIEW_AND_CP6_05_06_NATIVE_COMPLETE_FULL_CP6_INCOMPLETE",
   "verdict": {
    "CP6": "HOLD",
    "audit_complete": false,
@@ -1038,14 +1038,14 @@
     "scope": "C6-03 recovery/input/unknown/selector",
     "status": "HOLD",
     "contract_refs": "Master Pulih1678–1679,1691,3817–3820,3825–3826,3939",
-    "basis": "WIB12browser dan dua selector terverifikasi. CP6-05/06 bukti lokal lama belum direvalidasi; lost response, reload dan unknown belum mendapat penutupan."
+    "basis": "WIB12browser dan dua selector terverifikasi. CP6-05 native: envelope berubah setelah commit ambigu. CP6-06 native pada Laundry/QC: healthy dan refetch20/10 PASS, initial read gagal menampilkan0. Kedua temuan tetap terbuka."
    },
    {
     "id": "C6-04",
     "scope": "C6-04 ALL saldo awal",
     "status": "UNVERIFIED",
     "contract_refs": "Master Pulih44–45,359–365,749–755,829–843,934–938,1024–1025,1691; Perubahan Pulih966–967",
-    "basis": "ALL sudah disetujui;22state/6keluarga belum semua memiliki bukti source→ledger→UI. Native15 sudah pernah dijalankan; jangan ulang dari snapshot NOT_RUN."
+    "basis": "ALL sudah disetujui;22state/6keluarga belum semua memiliki bukti source→ledger→UI. Native15 sudah pernah dijalankan; jangan ulang dari snapshot NOT_RUN. Nine source blobs bound to exact tool head in out/gpt_all_round8_binding.md; BA runtime replacements and remaining full-case coverage still unverified."
    },
    {
     "id": "C6-05",
@@ -1134,7 +1134,9 @@
     "counts": {
      "COUNTEREXAMPLE": 2,
      "INCOMPLETE": 2
-    }
+    },
+    "summary": "NATIVE_RECOVERY_CE_UNKNOWN_CONTROLS_INCOMPLETE",
+    "status": "COMPLETED"
    },
    {
     "run_id": 36106291785,
@@ -1146,7 +1148,70 @@
      "PASS": 1,
      "COUNTEREXAMPLE": 1,
      "INCOMPLETE": 2
-    }
+    },
+    "summary": "LAUNDRY_COMPLETE_QC_BRAND_FIXTURE_CONFLICT",
+    "status": "COMPLETED"
+   },
+   {
+    "run_id": 36101907250,
+    "job_ids": [
+     107966011162
+    ],
+    "ledger": "out/gpt_recovery_run_36101907250.json",
+    "counts": {
+     "INCOMPLETE": 4
+    },
+    "summary": "NOT_RUN_PATH_ERROR",
+    "status": "COMPLETED"
+   },
+   {
+    "run_id": 36102938451,
+    "job_ids": [
+     107969167045
+    ],
+    "ledger": "out/gpt_unknown_run_36102938451.json",
+    "counts": {
+     "INCOMPLETE": 2
+    },
+    "summary": "HTTP200_RENDER_CONTROL_INCOMPLETE",
+    "status": "COMPLETED"
+   },
+   {
+    "run_id": 36103599807,
+    "job_ids": [
+     107971184469
+    ],
+    "ledger": "out/gpt_unknown_run_36103599807.json",
+    "counts": {
+     "INCOMPLETE": 2
+    },
+    "summary": "UNCHANGED_PARSER_REJECTS_LEGACY_SEED_UUID",
+    "status": "COMPLETED"
+   },
+   {
+    "run_id": 36105734698,
+    "job_ids": [
+     107977705679
+    ],
+    "ledger": "out/gpt_unknown_run_36105734698.json",
+    "counts": {
+     "INCOMPLETE": 4
+    },
+    "summary": "FIXTURE_PRIVATE_POLICY_EXECUTE_REFUSED",
+    "status": "COMPLETED"
+   },
+   {
+    "run_id": 36106777202,
+    "job_ids": [
+     107980988537
+    ],
+    "ledger": "out/gpt_unknown_run_36106777202.json",
+    "counts": {
+     "PASS": 1,
+     "COUNTEREXAMPLE": 1
+    },
+    "summary": "QC_COMPLETE",
+    "status": "COMPLETED"
    }
   ],
   "new_c0_cases": {
@@ -1194,14 +1259,118 @@
    "audit/scenarios/round8/MANIFEST.json",
    "audit/scenarios/c0_round8/MANIFEST.json",
    "audit/scenarios/browser_round8/MANIFEST.json",
-   "audit/scenarios/pickup_round8/MANIFEST.json"
+   "audit/scenarios/pickup_round8/MANIFEST.json",
+   "audit/scenarios/recovery_round8/MANIFEST.json",
+   "audit/scenarios/unknown_round8/MANIFEST.json",
+   "audit/scenarios/unknown_round8/MANIFEST_rev3.json",
+   "audit/scenarios/unknown_round8/MANIFEST_rev4.json",
+   "audit/scenarios/unknown_round8/MANIFEST_rev5.json",
+   "audit/scenarios/unknown_round8/MANIFEST_rev6.json"
   ],
   "next": [
-   "Writer W8 cent residual and W7 race/HTTP strict group; review successor diff and rerun affected cases",
-   "Writer W1 source inventory and revised C6, auditor review, owner D06 ratification",
-   "Reconcile W9 report-marker semantics; integrate W2 fresh oracle group without relabelling history",
-   "Auditor recovery/unknown browser, ALL22states/6families, role/location, remaining payroll/HPP/source paths"
+   "Writer W8 cent residual, W7 race/HTTP strict group, W10 pending request envelope, W13 unknown KPI; review successor diff and rerun only affected cases plus controls",
+   "Writer W1 implementation inventory and revised split C6; auditor review; owner D06 ratification of concrete annex",
+   "Integrate W2 fresh C0 oracle group and reconcile W9 marker semantics without relabelling frozen results",
+   "Auditor ALL22states/6families using out/gpt_all_round8_binding.md, full role/action/location matrix, remaining payroll/BS/source-HPP paths",
+   "W11 parser/network error UX and W12 seed compatibility follow-up by writer on allowed drill/artifacts; no hosted/legacy inspection by auditor"
   ],
-  "boundaries": "No product changes; no writes to writer/main/competition, hosted/legacy/production. No claim of final release evidence."
+  "boundaries": "No product changes; no writes to writer/main/competition, hosted/legacy/production. No claim of final release evidence.",
+  "recovery_cases": {
+   "CP6_05": {
+    "status": "CONFIRMED_NATIVE_BROWSER_SCOPED",
+    "writer_item": "W10",
+    "priority": {
+     "GPT": "P2",
+     "Fable": "P3"
+    },
+    "run_id": 36102303107,
+    "job_id": 107967209608,
+    "counts": {
+     "COUNTEREXAMPLE": 2
+    },
+    "scopes": [
+     "Pattern save",
+     "role duplicate with empty permission set and no assigned users"
+    ],
+    "oracle": "M1679/M3819: retain exact pending request envelope across ambiguous commit and reconcile original result",
+    "actual": "Server truly committed HTTP200; reply dropped afterwards; retry generated new UUID (role also new code), returned409; database retained exactly one row",
+    "limits": "No duplicate row, privilege escalation or financial corruption proven; broader reload/tab-switch routes not accepted"
+   }
+  },
+  "unknown_cases": {
+   "CP6_06": {
+    "status": "CONFIRMED_NATIVE_BROWSER_LAUNDRY_AND_QC",
+    "writer_item": "W13",
+    "priority": "P2",
+    "healthy_controls": {
+     "status": "PASS",
+     "count": 2,
+     "Laundry": 20,
+     "QC": 10
+    },
+    "initial_failed_read": {
+     "status": "COUNTEREXAMPLE",
+     "count": 2,
+     "actual": "four KPI0 with error banner and write lock",
+     "oracle": "M3825: unknown is not zero"
+    },
+    "refetch_controls": {
+     "status": "PASS",
+     "count": 2,
+     "Laundry": 20,
+     "QC": 10
+    },
+    "evidence": [
+     {
+      "scope": "Laundry",
+      "run_id": 36106291785,
+      "job_id": 107979461548,
+      "log_case_lines": [
+       2126,
+       2127
+      ],
+      "log_sha256": "c671cb4ee423900d2f4fb58679850ad756eda9d7b1eb463d584d32142bf99304"
+     },
+     {
+      "scope": "QC",
+      "run_id": 36106777202,
+      "job_id": 107980988537,
+      "log_case_lines": [
+       2126,
+       2127
+      ],
+      "log_sha256": "02e9cf2969ab5958d325bb969364b4e73148065fac8f4a94676c33b7dcb01707"
+     }
+    ],
+    "fixture_scope": "API-created UUIDv4 identities; one invalid-seed product hidden by visibility flag only in disposable browser DB, FG movement rows unchanged by flag; actual UI model search excludes legacy rows; controls apply to this filtered workspace",
+    "parser_and_responses": "Exact candidate parser unchanged; HTTP response bodies not rewritten",
+    "limits": "No refetch defect, mutation bypass or false financial finality proven; no hosted/legacy/production inspection",
+    "prior_raw_results": "All previous INCOMPLETE results retained, including QC rev5; RUN_COMPLETE does not mean product PASS",
+    "details": "out/gpt_recovery_unknown_final.md"
+   }
+  },
+  "diagnostic_followups": [
+   {
+    "id": "W11",
+    "priority": "P3 UX",
+    "status": "OPEN",
+    "issue": "Parser/data exception is presented as network unavailable; preserve validation and distinguish error categories"
+   },
+   {
+    "id": "W12",
+    "priority": "P3 seed/data question",
+    "status": "OPEN_CONTROL_BLOCKER_RESOLVED",
+    "issue": "Nonstandard UUID seed compatibility; writer drill/artifact follow-up, no auditor hosted/legacy access"
+   }
+  ],
+  "current_workflow": {
+   "path": ".github/workflows/gpt-cp6-round8.yml",
+   "phase": "QC_REV6_TWO_CASES_COMPLETED",
+   "latest_run": 36106777202,
+   "in_flight": [],
+   "whole_cp6": false
+  },
+  "current_handoff": "WRITER_HANDOFF_R9_20260925.md",
+  "recovery_unknown_closure": "out/gpt_recovery_unknown_final.md"
  }
 }

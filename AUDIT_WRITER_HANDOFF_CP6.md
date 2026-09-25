@@ -1,14 +1,5 @@
 # Handoff untuk WRITER — CP6 (disusun auditor Fable, 25 September 2026)
 
-## Native CP6-05 confirmed; CP6-06 probe still incomplete
-
-Run **36102303107/job107967209608**, audit6156adb, exact9dd7bc2/a095a9d. Browser recovery Pattern and role duplicate: **2COUNTEREXAMPLE**. Each first save truly committed with HTTP200, then only its reply was dropped. Retrying unchanged form generated a different UUID; role duplicate also generated a different CUSTOM code. Both retries returned409 uniqueness errors; database retained exactly one row. **No duplicate row, privilege escalation or financial corruption claimed.** CP6-05 remains P2, now native browser confirmed under M1679/M3819 (retain exact envelope/replay). Writer action W10: preserve pending UUID/payload/expected-version through ambiguity and reconcile the original result.
-
-Laundry/QC: **2INCOMPLETE**, positive Auth RPCs observed nonzero20/10, but successful-render/refetch assertion remained0 and threw before recording error details. These are not promoted to CP6-06 native proof yet. Add diagnostics preserving the initial UI, response metadata and post-refetch error before evaluating the positive control. Keep oracle fixed; test only these two cases next.
-
-Cleanup:4browser users, Auth counts restored[0,0,0,0], console errors0, browser database0, clone0, primary unchanged. Ledger `out/gpt_recovery_run_36102303107.json`, log SHA2565eef7922fa41727ab263d962731792c3d19542dc6c0963f751743166d860fba4. Previous36101907250 NOT_RUN path failure preserved. LANGKAH BERIKUTNYA: diagnostic-only unknown2retry; then update reports/index without duplicate findings. CP6 HOLD.
-
-
 <!-- GPT_R8_CURRENT_WRITER_BEGIN -->
 ## Tugas aktif setelah audit silang putaran 8
 
@@ -18,6 +9,10 @@ Produk `a095a9d`, alat `9dd7bc2`; **CP6 HOLD, audit_complete=false, production_g
 |---|---|---|
 | **W8 / CP6-03 — writer, P2 produk** | Perbaiki alokasi sen multi-penerimaan sampai qty0 bernilai0 dan seluruh sen dokumen masuk ke pemakaian yang benar. M:835/3820/6625/6632. UP expectedWIP20,02 actual20,01/inventory0,01; DOWN expectedWIP20,00 actual20,01/inventory−0,01. Kasus satu penerimaan sudah PASS. | Rerun empat `G8:MULTI_CENT_*` dari `audit/scenarios/round8/gpt_round8.py` pada successor, plus kasus single-receipt dan regresi biaya yang terdampak. Expected tidak dilonggarkan. Bukti sekarang36097284096/job107952094985. |
 | **W7 / CP6-10 / R8-B1-01 — writer, P2 alat** | Terapkan validasi ID unik, kosakata status dan planned/final pada `run_races` dan `run_http`; jangan biarkan INCOMPLETE hilang akibat overwrite. Ordinary strict-group sudah lulus. | `audit/scenarios/round8/gpt_tool_modes.py` harus menghasilkan penolakan grup/INCOMPLETE yang jelas; tidak RUN_COMPLETE. Bukti sekarang36097284096/job107952095197. |
+| **W10 / CP6-05 — writer, P2 GPT / P3 Fable** | Pertahankan exact pending envelope pada Pola/duplikasi Role setelah balasan commit hilang; jangan membuat UUID/kode baru untuk retry yang sama. M:1679/3819. | Dua kasus `G8UI:RECOVERY:*` harus replay identitas/payload yang sama dan merekonsiliasi satu efek. Bukti kini36102303107/job107967209608:2CE, HTTP409 setelah request baru; DB tetap satu row. Tidak mengklaim duplikasi data. |
+| **W13 / CP6-06 — writer, P2 produk** | Tampilkan unknown saat workspace belum diketahui; angka0 hanya untuk bacaan berhasil bernilai0. Pertahankan banner dan write lock. M:3825. | Laundry36106291785/job107979461548 healthy20/refetch20PASS; QC36106777202/job107980988537 healthy10/refetch10PASS; initial failure keduanyaCE karena KPI0. Rerun pasangan healthy/unknown pada successor; simpan revisi skenario baru dengan setup merek unik rev6 untuk kedua scope. |
+| **W11 — writer, P3 UX** | Bedakan error data/parser dari gangguan jaringan pada `normalizeClientError`; jangan menyembunyikan penolakan UUID sebagai layanan tidak dapat dihubungi. Pertahankan validasi dan write lock. | Rev3 parser asli menolak ID Mandor/model QC seed; respons200 sudah sampai. Verifikasi kategori/pesan pada browser dengan input tidak valid yang terkendali. |
+| **W12 — writer, P3 pertanyaan seed/data** | Perbaiki seed UUID non-standar atau dokumentasikan kompatibilitasnya pada drill/artifact yang diizinkan. Perubahan seed adalah alat dan harus diberi tool head baru. | Hambatan kontrol auditor sudah selesai dengan API UUIDv4, satu seed product disisihkan dan pencarian UI nyata di salinan. Ini tidak membuktikan hosted/legacy bebas UUID tersebut dan tidak memberi auditor izin memeriksanya. |
 | **W1 / C6 — writer, lalu auditor, lalu owner** | Split ACC-04 dan LAU-05 antara perilaku existing dan perluasan baru. Ganti LAU-07 dengan LAU-DEC01–06 yang spesifik; lengkapi sub-keputusan terkait. Lampirkan entrypoint publik, storage dan status implementasi setiap CR; tautkan75ID asli. Jangan menunda bug existing atau membuka ulang keputusan vendor-master. | Ikuti `out/gpt_c6_scope_amendment.md` dan `out/gpt_c6_75_case_crosswalk.md`; Fable menerima split tersebut. Auditor cocokkan revised annex; owner baru mengesahkan D06 atas lingkup konkret. GATE-16 dinilai dari scope sah + bukti baseline, bukan tanda tangan saja. |
 | **W2 / C0 regression — writer** | Integrasikan oracle pasca-addendum sebagai grup baru agar bisa direproduksi rutin; pertahankan hasil/assertion beku. Gunakan angka dan prefix dalam `audit/scenarios/c0_round8/gpt_c0_oracles.py`. | **Verifikasi native25/25 sudah selesai**:24kasus36098555186 + adjustment36099496005. Fixture adjustment retry hanya mengembalikan USAGE yang dicabut helper pada koneksi native; tidak boleh diterapkan untuk mengubah hak aktor HTTP. Tidak perlu meminta keputusan D01 lagi atau mengulangi25kasus tanpa perubahan yang relevan. |
 | **W9 / penanda laporan — writer, review auditor** | Jelaskan penerapan C0§3.4: laporan AO tertutup memberi `changed_since_filing=false` setelah koreksi; AW:836 hanya menguji readiness. Cocokkan dengan makna penanda yang sudah disahkan atau perbaiki implementasi. | Saat ini UNVERIFIED/P3 pertanyaan semantik, bukan salah nominal/tanggal yang terbukti. Filing immutable dan hasil uang/tanggal PASS. Jika teks benar-benar hendak diubah, owner mengesahkan perubahan konkret, bukan diminta mengesahkan ulang C0 seluruhnya. |
@@ -26,18 +21,29 @@ Produk `a095a9d`, alat `9dd7bc2`; **CP6 HOLD, audit_complete=false, production_g
 | **W5 / A7 — opsional P3** | Perjelas pesan busy/stale bila dipilih; penolakan saat race sudah aman. | Jangan mengubah produk hanya untuk mengganti pesan selama kandidat dibekukan tanpa kebutuhan. |
 | **W6 / identitas kas — auditor dan writer** | Cocokkan CASH_BANK per cash_account_id vs COA dengan kemungkinan alias nyata; pertahankan batas legacy-vs-legacy. | Ini pertanyaan cakupan identitas, belum counterexample baru. Tidak menghapus PASS impor-identitas yang sudah diuji. |
 
-**Tugas audit yang tetap terbuka:** CP6-05 retry/UUID dan CP6-06 unknown (temuan lokal lama, belum native pada kandidat ini); ALL22state/6keluarga; matriks izin/lokasi dan jalur payroll/HPP yang belum tercakup. Ini bukan seluruhnya hambatan writer. Status per kelompok gate ada di `AUDIT_PROGRESS.md`;75crosswalk adalah checklist, bukan75PASS.
+**Pembuktian CP6-05/06 pada kandidat ini selesai; perbaikannya belum.** Semua run GPT sudah selesai, tanpa run yang perlu ditunggu. Review successor dan rerun terdampak mengikuti W10/W13. **Cakupan audit yang tetap terbuka:** ALL22state/6keluarga, matriks izin/lokasi dan jalur payroll/HPP yang belum tercakup. Mulai dari `out/gpt_all_round8_binding.md`; ini bukan seluruhnya hambatan writer. Status per kelompok gate ada di `AUDIT_PROGRESS.md`;75crosswalk adalah checklist, bukan75PASS.
 
 **Yang tidak perlu ditugaskan ulang:** rollback AC..BA dan assert T3 sudah direview dengan127check; A2 browser12/12PASS; C0 uang/tanggal25/25PASS; HTTP valid18cek+revocation/helper PASS; A1/A3/A5/A6/A9/A10 sudah punya kasus auditor yang menutup temuan terdampak. D01–D05 dan D03§5.3 sudah disahkan. Hasil beku historis tidak diganti labelnya.
 
-Untuk owner sekarang: tidak perlu memilih ulang D01–D05. D06 menunggu revisi lampiran yang konkret. Writer dapat mengerjakan W8/W7/W1; auditor melanjutkan celah cakupan dan menguji successor yang benar-benar mengubah bukti.
+Untuk owner sekarang: tidak perlu memilih ulang D01–D05. D06 menunggu revisi lampiran yang konkret. Writer dapat mengerjakan W8/W7/W10/W13/W1; auditor melanjutkan celah cakupan dan menguji successor yang benar-benar mengubah bukti.
+
+
+Ringkasan putaran9 Fable di `WRITER_HANDOFF_R9_20260925.md` memakai ID tugas yang sama. Rincian kontrol baru dan riwayat INCOMPLETE yang dipertahankan: `out/gpt_recovery_unknown_final.md`. Hasil RUN_COMPLETE tidak sama dengan penerimaan produk.
+<!-- GPT_R8_CURRENT_WRITER_END -->
 
 ---
 
-## Arsip handoff sebelumnya — status aktif mengikuti tabel di atas
+## Arsip checkpoint sebelumnya
 
+Catatan di bawah mempertahankan status saat dicatat. Instruksi pending dan penilaian lama yang bertentangan dengan bagian aktif di atas sudah digantikan; hasil run beku tidak dilabel ulang.
 
-<!-- GPT_R8_CURRENT_WRITER_END -->
+## Native CP6-05 confirmed; CP6-06 probe still incomplete
+
+Run **36102303107/job107967209608**, audit6156adb, exact9dd7bc2/a095a9d. Browser recovery Pattern and role duplicate: **2COUNTEREXAMPLE**. Each first save truly committed with HTTP200, then only its reply was dropped. Retrying unchanged form generated a different UUID; role duplicate also generated a different CUSTOM code. Both retries returned409 uniqueness errors; database retained exactly one row. **No duplicate row, privilege escalation or financial corruption claimed.** CP6-05 remains P2, now native browser confirmed under M1679/M3819 (retain exact envelope/replay). Writer action W10: preserve pending UUID/payload/expected-version through ambiguity and reconcile the original result.
+
+Laundry/QC: **2INCOMPLETE**, positive Auth RPCs observed nonzero20/10, but successful-render/refetch assertion remained0 and threw before recording error details. These are not promoted to CP6-06 native proof yet. Add diagnostics preserving the initial UI, response metadata and post-refetch error before evaluating the positive control. Keep oracle fixed; test only these two cases next.
+
+Cleanup:4browser users, Auth counts restored[0,0,0,0], console errors0, browser database0, clone0, primary unchanged. Ledger `out/gpt_recovery_run_36102303107.json`, log SHA2565eef7922fa41727ab263d962731792c3d19542dc6c0963f751743166d860fba4. Previous36101907250 NOT_RUN path failure preserved. LANGKAH BERIKUTNYA: diagnostic-only unknown2retry; then update reports/index without duplicate findings. CP6 HOLD.
 
 > ## Status putaran 8 (25 Sep 2026, head 9dd7bc2 / produk a095a9d) — ditambahkan auditor Fable
 > Rincian: `out/fable_r8_results.md`. **Tertutup pada a095a9d (bukti auditor sendiri):** A1/CP6-09, A3/CP6-02, A4/CP6-03 (kasus satu penerimaan), A5/CP6-04, A6/CP6-24, A9/CP6-07 (D02), A10/CP6-18 (D03); A2/CP6-01 tertutup lewat review sumber **dan browser nyata GPT (run 36099496005: Potongan 4/4, BS 4/4; run 36100064157: Pickup 4/4 — 12/12 lintas 4 zona)**. HTTP: matriks argumen valid GPT 18 cek PASS menggantikan H1 Fable; helper prepare tidak terjangkau lewat HTTP publik. T3 package gate true, rollback AC..BA 127/127, T2 identik dengan referensi (25 beku tetap beku).

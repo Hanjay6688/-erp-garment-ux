@@ -1,26 +1,27 @@
 # Handoff gabungan audit CP6 — mulai di sini
 
 <!-- GPT_R8_CURRENT_HANDOFF_BEGIN -->
-## LANGKAH BERIKUTNYA — checkpoint aktif putaran 8
+## LANGKAH BERIKUTNYA — checkpoint aktif, 25 September 2026
 
-Fase aktif: **konsolidasi audit silang putaran 8 selesai; tindak lanjut temuan dan cakupan belum selesai**. Tidak ada run GPT yang masih ditunggu. CP6 HOLD, audit_complete=false, production_go=false. Kandidat produk a095a9d; alat9dd7bc2; jangan menafsirkan checkpoint ini sebagai penerimaan seluruh CP6.
+Fase aktif: **audit silang putaran8 dan pembuktian CP6-05/06 terpilih selesai; perbaikan serta audit seluruh CP6 belum selesai**. Semua run GPT selesai. Tool `9dd7bc2`, produk `a095a9d`. **CP6 HOLD · audit_complete=false · production_go=false.**
 
-1. Checkout/fetch `audit/cp6-final-20260924-gpt-a0bcadf`. Baca bagian terkini `AUDIT_REPORT_CP6.md`, tugas W1–W9 di `AUDIT_WRITER_HANDOFF_CP6.md`, dan `audit/CP6_COMBINED_INDEX.json` → `gpt_round8`. Bagian historis di bawah tetap disimpan, tetapi instruksi pending yang sudah ditutup tidak dijalankan lagi. Fable juga menulis cabang ini: fetch dahulu, pertahankan editnya, jangan force-push.
-2. Writer mengerjakan W8/CP6-03 dan W7/B1 serta revisi C6/W1. Auditor menyimpan hash successor/diff sebelum rerun empat multi-cent dan sentinel race/HTTP. `gpt_round8.py` memerlukan berkas sibling dalam foldernya; pertahankan seluruh manifest atau bungkus secara eksplisit. Workflow audit saat ini hanya fase pickup; ubah fase dan pin kandidat dengan sengaja, jangan mengira push dokumen menjalankan kasus bisnis.
-3. W2 hanya integrasi oracle C0 baru untuk regresi rutin: **25/25 uang/tanggal sudah PASS**. Hasil beku historis tetap. W9 penanda laporan perlu rekonsiliasi klausul; jangan menganggap25PASS mencakup semantik `changed_since_filing`.
-4. Sesudah revised C6, cocokkan split baseline/CR dengan entrypoint/storage yang nyata dan `out/gpt_c6_75_case_crosswalk.md`; mintakan pengesahan D06 atas dokumen final yang konkret. D01–D05, ALL dan prinsip D03 unknown tidak ditanyakan ulang. Bukti per75ID tetap harus dipetakan atau dijalankan sesuai scope; crosswalk bukan75tes selesai.
-5. Audit dapat melanjutkan celah independen tanpa menunggu writer: CP6-05 retry setelah respons ambigu, CP6-06 unknown/refetch, ALL22state/6keluarga, role/action/location, payroll/BS dan source→HPP. Turunkan oracle dari M/P/BR+C0; jangan mempromosikan hipotesis atau merekayasa akses yang tidak dimiliki pengguna biasa. Prioritas berikutnya recovery/unknown browser karena temuan lokalnya masih terbuka.
-6. Setelah setiap run/temuan, simpan skenario dan SHA256, runID/jobID, expected/actual, cleanup dan gate yang terdampak ke repo; commit+push. Perbarui laporan gabungan tanpa ID temuan duplikat. Tetap tidak menyentuh produk, writer/main/kompetisi, hosted, legacy atau production.
+1. Fetch `audit/cp6-final-20260924-gpt-a0bcadf`. Baca bagian terkini laporan, `out/gpt_recovery_unknown_final.md`, tabel W1–W13 di handoff writer, `WRITER_HANDOFF_R9_20260925.md`, dan `audit/CP6_COMBINED_INDEX.json` → `gpt_round8`. Fable juga menulis cabang ini; pertahankan editnya dan jangan force-push. Checkpoint IN_FLIGHT/NOT_BUILT/owner-belum-sah di arsip bukan status aktif.
+2. Writer: **W8/CP6-03** residu sen; **W7/B1** grup ketat race/HTTP; **W10/CP6-05** envelope commit ambigu; **W13/CP6-06** tampilan unknown; **W1/C6** inventaris dan split scope. Auditor review diff successor lalu bekukan skenario/hash dan rerun kasus terdampak plus kontrol relevan. Hasil beku dan oracle tidak diubah agar cocok produk.
+3. **Kontrol browser unknown selesai:** Laundry rev5 healthy20/refetch20 PASS; QC rev6 healthy10/refetch10 PASS. Keduanya COUNTEREXAMPLE karena KPI0 saat read gagal. Error/write lock tetap bekerja; tidak ada bukti bug refetch, bypass atau false-finality. Rev1–4 dan QC rev5 tetapINCOMPLETE. Jangan ulang diagnosis seed pada kandidat yang sama. W11 error parser/network dan W12 kualitas seed/data adalah tindak lanjut terpisah; W12 hanya drill/artifact yang diizinkan, tidak hosted/legacy/production.
+4. W2 hanya integrasi rutin: **25/25 oracle C0 uang/tanggal sudahPASS**, hasil beku tetap. W9 `changed_since_filing` masihUNVERIFIED. **12/12 browserWIB** dan HTTP valid18cek+revocation/helper selesai. T3 install25/restore/pin dan rollback127check direview; semuanya tetap label T3_PREP.
+5. Sesudah revisi C6/W1, auditor cocokkan75ID dengan entrypoint/storage dan split existing/CR, lalu owner mengesahkan **D06 atas revisi konkret**. D01–D05, ALL dan D03 unknown tidak ditanyakan ulang. Crosswalk75ID bukan75runtimePASS.
+6. Audit berikutnya di luar kasus di atas: **ALL22state/6keluarga, role/action/location, payroll/BS dan sumber→HPP**. Mulai dari `out/gpt_all_round8_binding.md`:9blob sumber tetap pada9dd, tetapi BA dapat mengganti runtime. Cari route/adapter yang sah per state, rekonsiliasikan source→ledger→UI; jangan menganggap ketiadaan di satu keluarga membuktikan ketiadaan global.
+7. Simpan setiap fase/run/temuan: skenario+hash, run/job, per-case expected/actual, cleanup, gate dan langkah lanjut, lalu commit+push. Workflow audit kini **QC rev6 dua kasus**, bukan seluruh CP6. Ubah fase/pin secara sengaja; push dokumen tidak menjalankan bisnis. Semua skenario lama tetap beku.
 
-### Ringkasan eksekusi untuk melanjutkan
+### Bukti untuk melanjutkan
 
-- Native GPT36097284096: job107952094985 bisnis;107952095105 ordinary self-test;107952095197 sentinel race/HTTP. CP6-03 empatCOUNTEREXAMPLE; B1modebelumketat. Ledger `out/gpt_round8_run_36097284096.json`.
-- C0 GPT36098555186/job107955933618:24PASS/1INCOMPLETE helper. Adjustment ditutup36099496005/job107958771209; total25PASS uang/tanggal. Ledger `out/gpt_c0_run_36098555186.json`, `out/gpt_browser_run_36099496005.json`.
-- Browser GPT36099496005 memberi8PASS/4INCOMPLETE locator; pickup retry36100064157/job107960458342 memberi4PASS. Total12browserWIBPASS. Ledger `out/gpt_pickup_run_36100064157.json`. HTTP valid3kasusPASS mencakup matriks18cek.
-- T2 Fable36095707100, T3 Fable36095715362, rollbackFable36095723676, CodeQLwriter36090824553: LOG asli direview GPT, asal bukti tetap REUSED. Rincian/jobID/hash `out/gpt_round8_final_crossreview.json` dan `out/gpt_round8_t3_crossreview.json`.
-- Manifest skenario: `audit/scenarios/round8/MANIFEST.json`, `audit/scenarios/c0_round8/MANIFEST.json`, `audit/scenarios/browser_round8/MANIFEST.json`, `audit/scenarios/pickup_round8/MANIFEST.json`. Jangan mengubah skenario beku saat membaca ulang hasilnya.
+- Bisnis/tool GPT36097284096: job107952094985,107952095105,107952095197. CP6-03 empatCE; B1 race/HTTP belum ketat, ordinary self-testPASS.
+- C0:36098555186/job107955933618 (24PASS) +36099496005/job107958771209 (adjustmentPASS). BrowserWIB:8PASS pada36099496005 +4PASS36100064157/job107960458342. HTTP3kasusPASS.
+- CP6-05:36102303107/job107967209608,2CE native. P2 GPT/P3 Fable; satu row tetap oleh unique guard.
+- CP6-06:36106291785/job107979461548 Laundry healthyPASS/unknownCE;36106777202/job107980988537 QC healthyPASS/unknownCE. **RUN_COMPLETE/job hijau bukanPASS produk.** Ledger lengkap dan hash di `out/gpt_recovery_unknown_final.md`.
+- Reused T2/T3/rollback/CodeQL: `out/gpt_round8_final_crossreview.json`, `out/gpt_round8_t3_crossreview.json`; asal bukti tetap REUSED. CodeQL pada d113bed plus diff alat yang direview, bukan scan tepat9dd.
+- Manifest: `audit/scenarios/round8/MANIFEST.json`, `c0_round8/MANIFEST.json`, `browser_round8/MANIFEST.json`, `pickup_round8/MANIFEST.json`, `recovery_round8/MANIFEST.json` (semuanya di bawah audit/scenarios); `audit/scenarios/unknown_round8/MANIFEST_rev5.json` dan `MANIFEST_rev6.json`. Rev6 browserSHA256 **77044ff34ecd361e8cf18cef24db3ed7a7bd0c83379f73a758d6580e569813bb**, fixture **b85b0ddda85380f3afe59896c11e0685ef3b141506ac2fe79198a01b09322bce**.
 
-Temuan aktif terdeduplikasi: CP6-03/W8 P2 produk; CP6-10/R8-B1-01/W7 P2 alat; R8-C6-01/W1 P2 cakupan dokumen; W9 UNVERIFIED/P3 pertanyaan; CP6-05/06 P2 lokal historis belum diverifikasi ulang. A7P3opsional; A8bukan bypass aplikasi terbukti. Lihat tabel gate aktif tepat di bawah.
 
 ## Gate aktif setelah audit putaran 8
 
@@ -30,7 +31,7 @@ Kelompok C6-01..10 adalah pengelompokan auditor GPT, bukan penomoran baru kontra
 |---|---|---|---|
 | C6-01 identitas/kelengkapan bukti | HOLD | Master Pulih1624–1626,1693,1699,1762–1767,4324 | Run/head/hash sudah terikat; B1 race/HTTP masih dapat menimpa hasil atau menerima status asing. Hasil beku dan oracle baru dipisah. |
 | C6-02 atomik/fakta immutable/state exact | HOLD | Master Pulih3816–3826,5048–5052 | WIP prefix dan duplicate opening terverifikasi pada kasus baru; CP6-03 residu sen tetap terbukti. Belum seluruh lifecycle/reversal. |
-| C6-03 recovery/input/unknown/selector | HOLD | Master Pulih1678–1679,1691,3817–3820,3825–3826,3939 | WIB12browser dan dua selector terverifikasi. CP6-05/06 bukti lokal lama belum direvalidasi; lost response, reload dan unknown belum mendapat penutupan. |
+| C6-03 recovery/input/unknown/selector | HOLD | Master Pulih1678–1679,1691,3817–3820,3825–3826,3939 | WIB12browser dan dua selector terverifikasi. CP6-05 native: envelope berubah setelah commit ambigu. CP6-06 native pada Laundry/QC: healthy dan refetch20/10 PASS, initial read gagal menampilkan0. Kedua temuan tetap terbuka. |
 | C6-04 ALL saldo awal | UNVERIFIED | Master Pulih44–45,359–365,749–755,829–843,934–938,1024–1025,1691; Perubahan Pulih966–967 | ALL sudah disetujui;22state/6keluarga belum semua memiliki bukti source→ledger→UI. Native15 sudah pernah dijalankan; jangan ulang dari snapshot NOT_RUN. |
 | C6-05 tanggal/recost/HPP/jurnal/laporan | HOLD | Master Pulih375,377,837,1022,1059–1065,1666,1691,3816,3820,3825; C0§3 |25oracle C0 uang/tanggal PASS; CP6-03 multi-penerimaan masih gagal; changed_since_filing UNVERIFIED; seluruh turunan biaya belum ditutup. |
 | C6-06 produksi/AP/AR/payroll/uang muka | UNVERIFIED | Master Pulih359–379,629–648,749–757,3822–3824; C0§4–5 | Kasus dated-capacity tiga pihak dan WIP identity/date PASS. P1 lama yang diuji ditutup. Jalur lengkap payroll/BS/settlement dan sumber lain belum selesai; CP6-08 bukan temuan terbukti. |
@@ -40,13 +41,13 @@ Kelompok C6-01..10 adalah pengelompokan auditor GPT, bukan penomoran baru kontra
 | C6-10 install/kompatibilitas/rollback/cleanup | UNVERIFIED | Master Pulih1767,3826,4306–4314,4486,5192–5209 | Subgate teknis T3_PREP install/pin/restore/rollback127PASS telah direview; NOT_BUILT lama ditutup. Kompatibilitas perilaku seluruh legacy/lifecycle belum diterima; ini bukan bukti rilis. |
 
 Rujukan lengkap: `ERP_V3_2_Master_Pulih_20260923.md` (M), `ERP_V3_2_Perubahan_Pulih_20260923.md` (P), `ERP_ADDENDUM_BUSINESS_REPORT_CP7_2026-09-18.md` (BR; batas CP6/CP7). C0 adalah addendum owner25Sep yang disahkan, hash dan sumbernya dicatat di laporan. Tiga kontrak asli tetap dasar gate; dokumen domain/laporan writer hanya konteks atau klaim untuk diuji.
-
-
-## Arsip handoff sebelumnya
-
-Status/kandidat lama berikut dipertahankan untuk provenance; bagian aktif di atas berlaku untuk putaran8.
-
 <!-- GPT_R8_CURRENT_HANDOFF_END -->
+
+---
+
+## Arsip checkpoint sebelumnya
+
+Catatan di bawah mempertahankan status saat dicatat. Instruksi pending dan penilaian lama yang bertentangan dengan bagian aktif di atas sudah digantikan; hasil run beku tidak dilabel ulang.
 
 Tanggal: 24 September 2026 UTC. Kandidat produk: `9add57ea8c2b6b2dc37c0134717d4d39ba30b5dc`; tree: `5d5f833b2e75e23184c643d5ac469781f1c3ce5e`.
 Cabang audit: `audit/cp6-final-20260924-gpt-a0bcadf`.
