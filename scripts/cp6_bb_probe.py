@@ -20,7 +20,7 @@ Each case runs inside the group's rolled-back savepoint; nothing is committed to
 from datetime import timedelta
 from decimal import Decimal
 from pathlib import Path
-import argparse,hashlib,json,os,re,subprocess,sys,traceback,uuid
+import argparse,hashlib,json,os,re,subprocess,sys,tempfile,traceback,uuid
 import psycopg
 
 AUDITOR=Path(__file__).resolve().parents[1]
@@ -1430,8 +1430,51 @@ PLAN=[('F:P02_SETTLE_AND_REVERSE','NO_ROUTE',lambda c,t:settle_cycle(c,t,'SUPPLI
 assert len({k for k,_,_ in PLAN})==len(PLAN),'BB_DUPLICATE_CASE_ID'
 
 
+# Every batch workspace a case reads (and the last state of each batch it touched) is saved and run through the import
+# page's own parser after the group (scripts/cp6_bb_workspace_parse.mjs): the page hides a batch it cannot parse.
+WS=dict(dir=None,case=None,n=0,batches=set(),errors=[])
+_READ=api.read
+
+
+def recording_read(cur,batch=None):
+    result=_READ(cur,batch)
+    if WS['dir'] is not None and batch is not None and isinstance(result,dict) and result.get('batch'):
+        WS['n']+=1;WS['batches'].add(str(batch))
+        name='%s_%03d.json'%(re.sub(r'[^A-Za-z0-9]+','_',WS['case'] or 'SETUP'),WS['n'])
+        (WS['dir']/name).write_text(json.dumps(result,default=str))
+    return result
+
+
+def final_reads(cur):
+    for batch in sorted(WS['batches']):
+        try:cur.execute('savepoint bb_ws_final')
+        except psycopg.Error:return   # the case ended on the aborted transaction of a refusal it expected
+        try:api.read(cur,batch);cur.execute('release savepoint bb_ws_final')
+        except psycopg.Error as exc:
+            cur.execute('rollback to savepoint bb_ws_final');api.admin(cur)
+            WS['errors'].append(dict(case=WS['case'],batch=batch,error=str(exc)[:300]))
+
+
 def cases(cur,today):
-    return [(key,lambda f=fn:f(cur,today)) for key,_,fn in PLAN]
+    def one(key,fn):
+        WS.update(case=key,n=0,batches=set())
+        result=fn(cur,today)
+        if WS['dir'] is not None:final_reads(cur)
+        return result
+    return [(key,lambda k=key,f=fn:one(k,f)) for key,_,fn in PLAN]
+
+
+def workspace_parse(phase):
+    """Run the page parser over the saved workspaces; refused files are kept in the proof directory."""
+    run=subprocess.run(['node',str(AUDITOR/'scripts/cp6_bb_workspace_parse.mjs'),str(WS['dir'])],capture_output=True,text=True,cwd=AUDITOR)
+    lines=run.stdout.strip().splitlines()
+    try:parsed=json.loads(lines[-1])
+    except (IndexError,ValueError):parsed=dict(files=None,refused=None,error=(run.stderr or run.stdout)[-1500:])
+    kept=OUT/('WORKSPACE_REFUSED_'+phase.upper());kept.mkdir(parents=True,exist_ok=True)
+    for item in parsed.get('refused') or []:(kept/item['file']).write_text((WS['dir']/item['file']).read_text())
+    ok=run.returncode==0 and parsed.get('refused')==[] and (parsed.get('files') or 0)>0 and not WS['errors']
+    return dict(status='PASS' if ok else 'FAIL',files=parsed.get('files'),refused=parsed.get('refused'),read_errors=WS['errors'],
+                error=parsed.get('error'),exit=run.returncode)
 
 
 def run(phase):
@@ -1454,12 +1497,16 @@ def run(phase):
         if phase=='after':report['bb_install']=install_bb();verify=bb_verified
         r1.save('RESULT_'+phase.upper(),report)
         print(json.dumps(dict(bb_probe_setup={k:report.get(k) for k in ('au_install','av_install','ba_install','bb_install')}),default=str),flush=True)
+        WS['dir']=Path(tempfile.mkdtemp(prefix='cp6-bb-ws-'));api.read=recording_read
         group=r1.group('BB_CASES_'+phase.upper(),cases,verify)
+        api.read=_READ
         report['bb_cases']={k:group[k] for k in ('status','counts')}
+        report['workspace_parse']=workspace_parse(phase)
+        print(json.dumps(dict(bb_workspace_parse=report['workspace_parse']),default=str),flush=True)
         final={k:v['status'] for k,v in group['cases'].items()}
         report['final']=final
         report['expectation_mismatch']={k:dict(planned=list(e),final=final.get(k)) for k,e in planned.items() if final.get(k) not in e}
-        report['status']='REVIEW_COMPLETE' if group['status']!='INCOMPLETE' and not report['expectation_mismatch'] else 'INCOMPLETE'
+        report['status']='REVIEW_COMPLETE' if group['status']!='INCOMPLETE' and not report['expectation_mismatch'] and report['workspace_parse']['status']=='PASS' else 'INCOMPLETE'
     except Exception as exc:report.update(status='INCOMPLETE',error=str(exc),traceback=traceback.format_exc())
     finally:
         subprocess.run(['docker','exec','supabase_db_cp5-local','dropdb','-U','supabase_admin','--if-exists','--force','--maintenance-db=template1','cp6_rollback'],check=True)

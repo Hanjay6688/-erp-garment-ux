@@ -1,6 +1,6 @@
 -- CP6 BB: open cutover states of ALL (opening settlement, credits and returns, open purchase orders, wages before and after cutover, cutting pickup, BS split, open reworks). Release candidate of the T3 combined package; closed, drained maintenance required.
 begin;
--- Built by scripts/cp6_t3_awx_release.py from supabase/dev/cp6_bb_t1_family.sql (sha256 02e2678d182af7c2d839de7f3210a4bb2c38c3fb09318f90ad294316bdc7198d): the T1 body below is unchanged apart from the
+-- Built by scripts/cp6_t3_awx_release.py from supabase/dev/cp6_bb_t1_family.sql (sha256 32952344e55745748996570f68733d62b9f98743662974b3e3fa56e868990867): the T1 body below is unchanged apart from the
 -- ledger description; guards follow AO..AV. Capsule and catalog pins are placeholders until the T3 capture.
 set local lock_timeout='10s';set local statement_timeout='240s';set local timezone='UTC';set local search_path='';
 set local role postgres;
@@ -496,7 +496,7 @@ AS $function$
     'document_date',c.document_date,'effective_date',c.effective_date,'original_amount',c.original_amount::text,
     'settled_before_cutover',c.settled_before_cutover::text,'amount',c.amount::text,
     'used_amount',u.used::text,'voided',c.voided_at is not null,
-    'remaining_amount',(case when c.voided_at is null then c.amount-u.used else 0 end)::text)
+    'remaining_amount',(case when c.voided_at is null then c.amount-u.used else 0 end)::numeric(20,2)::text)
   from erp.bb_customer_credits_v1 c
   cross join lateral (select coalesce(sum(e.amount),0)::numeric(20,2) used from erp.bb_customer_credit_events_v1 e
     left join erp.opening_subledger_settlements s on s.id=e.settlement_id
@@ -1174,7 +1174,7 @@ AS $function$
         'document_number',f.document_number,'document_date',f.document_date,'due_date',f.due_date,'cutover_date',f.cutover_date,
         'original_amount',f.original_amount::text,'settled_before_cutover',f.settled_before_cutover::text,
         'opening_amount',b.original_amount::text,'settled_amount',b.settled_amount::text,
-        'reserved_amount',erp.bb_opening_balance_reserved_v1(b.id)::text,
+        'reserved_amount',erp.bb_opening_balance_reserved_v1(b.id)::numeric(20,2)::text,
         'remaining_amount',(b.original_amount-b.settled_amount)::text,
         'available_amount',(b.original_amount-b.settled_amount-erp.bb_opening_balance_reserved_v1(b.id))::text,'status',b.status,
         'settlements',coalesce((select jsonb_agg(jsonb_build_object('id',s.id,'number',s.settlement_number,
