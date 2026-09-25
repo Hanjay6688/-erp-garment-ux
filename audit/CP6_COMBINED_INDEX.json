@@ -1474,5 +1474,16 @@
   },
   "fable_status": "T1_CONFIRMED_ON_db9e276: writer 34/34 PASS after, 34 NO_ROUTE+2 CE+3 PASS before; fable 4/4 PASS; P03 substantive true (frozen FAIL = over-strict journal-type check)",
   "gpt_t1_on_72bf53f": "25_of_25_after_PASS_run_36127700002"
+ },
+ "writer_handoff_canonical": {
+  "file": "AUDIT_WRITER_HANDOFF_CP6.md",
+  "version": "2026-09-25T13:00 gabungan Fable+GPT",
+  "superseded": [
+   "WRITER_HANDOFF_R9_20260925.md",
+   "WRITER_HANDOFF_R10_20260925.md",
+   "WRITER_HANDOFF_R10_PASTE_20260925.md",
+   "out/gpt_writer_r9_intake.md"
+  ],
+  "history": "archive/AUDIT_WRITER_HANDOFF_CP6_r8_r9_history.md"
  }
 }

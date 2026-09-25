@@ -1,3 +1,5 @@
+> **DIGANTIKAN (25 Sep 2026 13:00):** versi gabungan dua auditor yang berlaku = `AUDIT_WRITER_HANDOFF_CP6.md`. Berkas ini dipertahankan sebagai riwayat.
+
 Auditor (Fable + GPT, hasil konvergen) → Writer, CP6 (25 Sep 2026, 12:40 WIB)
 Head diaudit: d1bc8ad (BA) dan db9e276 (BB P04/Y02). CP6 HOLD, audit_complete=false, production_go=false.
 Rincian: WRITER_HANDOFF_R10_20260925.md, out/fable_r9_results.md §1–§15, out/fable_crossreview_gpt_r9.md, out/gpt_r9_*.md.

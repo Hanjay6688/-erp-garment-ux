@@ -874,3 +874,6 @@ QC rev6 diverifikasi dari log: healthy PASS (10), unknown COUNTEREXAMPLE (KPI 0)
 ## Fable — cek integrasi GPT + blok tempel writer putaran 10 (2026-09-25T12:40Z)
 - Integrasi GPT atas temuan Fable (sen per PO stok campuran, run 36123155393) diperiksa: akurat; GPT mengklasifikasi UNVERIFIED (lebih ketat dari NOTED P3 Fable) dan menguji varian berurutan 3/3 PASS — konvergen. Tidak ada koreksi.
 - Blok tempel writer: `WRITER_HANDOFF_R10_PASTE_20260925.md` (banner di `AUDIT_WRITER_HANDOFF_CP6.md`).
+
+## Fable — konsolidasi handoff writer (2026-09-25T13:00Z)
+- `AUDIT_WRITER_HANDOFF_CP6.md` ditulis ulang sebagai satu versi gabungan dua auditor (tertutup 14 item dengan run masing-masing; tugas T1–T7; oracle pra-kode dua set; batas). Rekonsiliasi label: W10 tertutup (prioritas P2/P3 tidak lagi relevan); sen per PO = P3 dampak + UNVERIFIED kontrak, bukan blocker; W05 = PARTIAL; W12/W6 = drill hosted oleh writer/operator. R9/R10/paste ditandai DIGANTIKAN; riwayat di `archive/`.

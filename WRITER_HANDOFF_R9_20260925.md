@@ -1,3 +1,5 @@
+> **DIGANTIKAN (25 Sep 2026 13:00):** versi gabungan dua auditor yang berlaku = `AUDIT_WRITER_HANDOFF_CP6.md`. Berkas ini dipertahankan sebagai riwayat.
+
 # Handoff auditor → writer — CP6 putaran 9 (25 September 2026, ~07:35 UTC)
 
 Dari: auditor Fable (audit silang dengan auditor GPT selesai; semua run GPT diverifikasi Fable dari log Actions).

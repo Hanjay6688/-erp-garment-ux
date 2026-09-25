@@ -1,3 +1,5 @@
+> **DIGANTIKAN (25 Sep 2026 13:00):** versi gabungan dua auditor yang berlaku = `AUDIT_WRITER_HANDOFF_CP6.md`. Berkas ini dipertahankan sebagai riwayat.
+
 # Auditor (Fable) → Writer, CP6 putaran 10 — 25 September 2026
 
 Head yang diaudit: `d1bc8adff3ba1a2a7001ef39e4819d0c3813d00b`. Head writer terbaru yang terlihat: `fbafa51` (BB P03) — **belum diaudit Fable**. Vonis: CP6 HOLD, `audit_complete=false`, `production_go=false`.
