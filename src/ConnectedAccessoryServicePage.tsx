@@ -108,7 +108,7 @@ function ServiceWorkspace() {
       </section>}
       {tab === 'record' && <RecordForm data={data} locked={locked} canStock={canStock} send={send} search={refresh}/>}
       {tab === 'returns' && <Returns data={data}/>}
-      {tab === 'documents' && <Documents data={data} locked={locked} filters={filters.current} refresh={refresh} send={send} pages={pages}/>}
+      {tab === 'documents' && <Documents data={data} locked={locked} filters={filters.current} query={query} setQuery={setQuery} refresh={refresh} send={send} pages={pages}/>}
       {tab === 'settings' && <Settings data={data} locked={locked} send={send}/>}
     </>}
   </section>
@@ -337,12 +337,21 @@ function Returns({ data }: { data: AccessoryServiceWorkspace }) {
   </section>
 }
 
-function Documents({ data, locked, filters, refresh, send, pages }: { data: AccessoryServiceWorkspace; locked: boolean; filters: Filters;
+function Documents({ data, locked, filters, query, setQuery, refresh, send, pages }: { data: AccessoryServiceWorkspace; locked: boolean; filters: Filters;
+  query: string; setQuery: (value: string) => void
   refresh: (patch: Partial<Filters>) => void; send: (action: string, payload: Record<string, Json>) => void; pages: (total: number) => number }) {
   const [reason, setReason] = useState(''), [review, setReview] = useState(false), [payroll, setPayroll] = useState(''), [amount, setAmount] = useState('')
   const d = data.document
   const carry = d?.events.find(e => e.kind === 'CREDIT' && e.carry_remaining !== null && Number(e.carry_remaining) > 0)
+  // The search text and location are shared with the stock tab and also narrow this list, so they are shown and can be cleared here.
+  const place = data.locations.find(l => l.id === filters.location_id)
+  const narrowed = filters.query !== '' || filters.location_id !== ''
   return <section className="panel initial-import-table" aria-label="Dokumen aksesori">
+    <form className="initial-import-toolbar" onSubmit={e => { e.preventDefault(); refresh({ query: query.trim(), page: 1 }) }}>
+      <label>Cari nomor, referensi, penanggung jawab, atau alasan<input aria-label="Cari dokumen aksesori" maxLength={120} value={query} onChange={e => setQuery(e.target.value)}/></label>
+      <button disabled={locked}>Cari dokumen</button>
+      {narrowed && <button type="button" disabled={locked} onClick={() => { setQuery(''); refresh({ query: '', location_id: '', page: 1 }) }}>Hapus pencarian</button>}</form>
+    {narrowed && <p role="status">Pencarian aktif{filters.query ? ` "${filters.query}"` : ''}{filters.location_id ? ` · lokasi ${place ? place.name : 'terpilih'}` : ''}: dokumen di luar pencarian ini tidak ditampilkan.</p>}
     <div className="initial-import-toolbar">
       <label>Jenis<select aria-label="Jenis dokumen aksesori" disabled={locked} value={filters.action} onChange={e => refresh({ action: e.target.value, page: 1 })}>
         <option value="">Semua</option>{SERVICE_ACTIONS.map(a => <option key={a} value={a}>{ACTION_LABEL[a]}</option>)}</select></label>

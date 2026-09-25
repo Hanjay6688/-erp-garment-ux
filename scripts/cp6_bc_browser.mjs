@@ -84,6 +84,10 @@ export async function cases(ui, today) {
       const filled = { main: stock(ui, fx, fx.main), post: stock(ui, fx, fx.post), journals: Number(journals()) - Number(j0) }
       const number = ui.sql(`select document_number from erp.bc_documents_v1 where action='FILL_POST' and payload->'items'->0->>'material_id'='${fx.material}'`)
       await p.getByRole('button', { name: 'Dokumen', exact: true }).click()
+      // The stock search text also narrows the document list; the tab shows it (run 36170901705 found it hidden).
+      await ui.expect(p.getByRole('status').filter({ hasText: `Pencarian aktif "${fx.code}"` })).toBeVisible()
+      await p.getByLabel('Cari dokumen aksesori').fill(number)
+      await p.getByRole('button', { name: 'Cari dokumen', exact: true }).click()
       await p.getByRole('button', { name: `Buka ${number}`, exact: true }).click()
       await ui.expect(p.getByRole('heading', { name: new RegExp(number) })).toBeVisible()
       await p.getByLabel('Alasan dokumen aksesori').fill('Salah pos, dibatalkan dari browser')
