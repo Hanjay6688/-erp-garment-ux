@@ -19,6 +19,7 @@ with psycopg.connect('host=/tmp port=55439 user=postgres dbname=%s'%db) as conn,
         except Exception as e:r=dict(status='ERROR',error=str(e)[:600],tb=traceback.format_exc()[-1500:])
         finally:cur.execute('rollback to savepoint c');api.admin(cur);cur.execute('release savepoint c')
         res[key]=r
+        json.dumps(dict(case=key,**r),default=str)  # the CI group prints dict(case=key,**row)
         print(json.dumps(dict(case=key,expected=expected,status=r.get('status'),error=r.get('error') or (r.get('refusal') or {}).get('message')),default=str)[:700],flush=True)
     conn.rollback()
 if len(sys.argv)>4:Path(sys.argv[4]).write_text(json.dumps(res,indent=1,default=str))

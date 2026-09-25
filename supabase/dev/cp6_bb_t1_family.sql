@@ -1091,6 +1091,99 @@ begin
     execute format('revoke all on function %s from public,anon,authenticated,service_role',f);
   end loop;
 end $grants$;
+-- CP6 BB purchase part (ALL-P03). New objects only; changed functions are rebuilt by scripts/cp6_bb_build.py.
+-- P03: one supplier receipt part invoiced before cutover and part still unbilled. The receipt stays one purchase item of
+-- its full quantity; the invoiced part counts as already matched quantity at its invoiced price (so the item cost is the
+-- blend of both parts and GRNI covers only the unbilled part), while the invoiced money stays the imported SUPPLIER_PAYABLE
+-- document of that invoice, settled by the opening settlement route (P02). No supplier invoice, payment or cash row of the
+-- old invoice is created (M:938).
+
+create table erp.bb_receipt_invoiced_parts_v1(
+  purchase_item_id uuid primary key references erp.material_purchase_items(id),
+  source_row_id uuid not null unique references erp.migration_staging_rows(id),
+  financial_source_id uuid not null unique references erp.initial_import_financial_sources(id),
+  invoiced_qty numeric(18,6) not null check(invoiced_qty>0),
+  invoiced_amount numeric(20,2) not null check(invoiced_amount>0),
+  created_at timestamptz not null default statement_timestamp()
+);
+comment on table erp.bb_receipt_invoiced_parts_v1 is 'BB (ALL-P03): the part of an imported receipt line already invoiced before cutover: its quantity counts as matched and its invoiced amount enters the item cost; the money is the linked imported SUPPLIER_PAYABLE document.';
+alter table erp.bb_receipt_invoiced_parts_v1 enable row level security;
+revoke all on erp.bb_receipt_invoiced_parts_v1 from public,anon,authenticated,service_role;
+
+CREATE OR REPLACE FUNCTION erp.bb_guard_receipt_invoiced_part_v1()
+ RETURNS trigger LANGUAGE plpgsql SET search_path TO ''
+AS $function$
+begin
+  raise exception 'BB_RECEIPT_INVOICED_PART_IMMUTABLE: bagian penerimaan yang sudah ditagih sebelum saldo awal tidak diubah atau dihapus';
+end;$function$;
+create trigger trg_bb_receipt_invoiced_part_immutable before update or delete on erp.bb_receipt_invoiced_parts_v1
+  for each row execute function erp.bb_guard_receipt_invoiced_part_v1();
+
+CREATE OR REPLACE FUNCTION erp.bb_receipt_invoiced_qty_v1(p_purchase_item_id uuid)
+ RETURNS numeric LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$ select coalesce((select invoiced_qty from erp.bb_receipt_invoiced_parts_v1 where purchase_item_id=p_purchase_item_id),0)::numeric $function$;
+
+-- The unit cost an imported receipt line brings into opening stock: its estimate, or with an invoiced part the blend of
+-- the unbilled quantity at the estimate and the invoiced amount, over the full quantity (six decimals, the stock column).
+CREATE OR REPLACE FUNCTION erp.bb_receipt_opening_unit_cost_v1(p_purchase_item_id uuid)
+ RETURNS numeric LANGUAGE sql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+  select case when p.purchase_item_id is null then i.unit_price
+    else round(((i.qty-p.invoiced_qty)*i.unit_price+p.invoiced_amount)/i.qty,6) end::numeric
+  from erp.material_purchase_items i left join erp.bb_receipt_invoiced_parts_v1 p on p.purchase_item_id=i.id
+  where i.id=p_purchase_item_id
+$function$;
+
+-- The invoiced part an UNINVOICED_RECEIPT row declares (invoice_document_number + invoiced_qty), read from the batch:
+-- the linked SUPPLIER_PAYABLE document row of the same supplier and its original (gross) amount. Null without a part.
+CREATE OR REPLACE FUNCTION erp.bb_receipt_row_invoiced_part_v1(p_batch uuid,p_row uuid)
+ RETURNS jsonb LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path TO ''
+AS $function$
+declare j jsonb;v_qty numeric;v_doc erp.migration_staging_rows%rowtype;v_amount numeric;v_count integer;
+begin
+  select normalized_payload into j from erp.migration_staging_rows where id=p_row and batch_id=p_batch and entity_type='UNINVOICED_RECEIPT';
+  if nullif(btrim(j->>'invoice_document_number'),'') is null and nullif(btrim(j->>'invoiced_qty'),'') is null then return null;end if;
+  if nullif(btrim(j->>'invoice_document_number'),'') is null or nullif(btrim(j->>'invoiced_qty'),'') is null then
+    raise exception 'P03_INVOICED_PART_INCOMPLETE: isi nomor invoice asal dan jumlah yang sudah ditagih bersama-sama';
+  end if;
+  begin v_qty:=(j->>'invoiced_qty')::numeric;exception when others then v_qty:=null;end;
+  if v_qty is null or v_qty::text in('NaN','Infinity','-Infinity') or v_qty<=0 or v_qty<>round(v_qty,6) then
+    raise exception 'P03_INVOICED_QTY_INVALID: jumlah yang sudah ditagih harus positif, maksimal enam desimal';
+  end if;
+  if lower(btrim(j->>'invoice_document_number'))=lower(btrim(j->>'receipt_number')) then
+    raise exception 'P03_INVOICE_DOC_DUPLICATE: nomor invoice harus berbeda dari nomor penerimaan';
+  end if;
+  select count(*) into v_count from erp.migration_staging_rows d where d.batch_id=p_batch and d.entity_type='OPENING_BALANCE_ITEM'
+    and upper(d.normalized_payload->>'balance_type')='SUPPLIER_PAYABLE' and d.normalized_payload->>'supplier_code'=j->>'supplier_code'
+    and lower(btrim(d.normalized_payload->>'document_number'))=lower(btrim(j->>'invoice_document_number'));
+  if v_count<>1 then
+    raise exception 'P03_INVOICE_DOC_REQUIRED: invoice asal harus tepat satu dokumen hutang supplier yang sama dalam batch ini';
+  end if;
+  select * into v_doc from erp.migration_staging_rows d where d.batch_id=p_batch and d.entity_type='OPENING_BALANCE_ITEM'
+    and upper(d.normalized_payload->>'balance_type')='SUPPLIER_PAYABLE' and d.normalized_payload->>'supplier_code'=j->>'supplier_code'
+    and lower(btrim(d.normalized_payload->>'document_number'))=lower(btrim(j->>'invoice_document_number'));
+  begin v_amount:=replace(v_doc.normalized_payload->>'original_amount',',','.')::numeric;exception when others then v_amount:=null;end;
+  if v_amount is null or v_amount<=0 then
+    raise exception 'P03_INVOICE_DOC_REQUIRED: dokumen invoice asal memerlukan nominal dokumen awal';
+  end if;
+  if exists(select 1 from erp.migration_staging_rows x where x.batch_id=p_batch and x.entity_type='UNINVOICED_RECEIPT' and x.id<>p_row
+      and x.normalized_payload->>'supplier_code'=j->>'supplier_code'
+      and lower(btrim(x.normalized_payload->>'invoice_document_number'))=lower(btrim(j->>'invoice_document_number'))) then
+    raise exception 'P03_INVOICE_DOC_DUPLICATE: satu invoice asal hanya untuk satu baris penerimaan';
+  end if;
+  return jsonb_build_object('invoiced_qty',v_qty,'invoiced_amount',v_amount,'document_row_id',v_doc.id,
+    'document_number',btrim(v_doc.normalized_payload->>'document_number'));
+end;$function$;
+
+do $grants$
+declare f text;
+begin
+  for f in select p.oid::regprocedure::text from pg_proc p join pg_namespace n on n.oid=p.pronamespace
+      where n.nspname='erp' and p.proname in('bb_guard_receipt_invoiced_part_v1','bb_receipt_invoiced_qty_v1',
+        'bb_receipt_opening_unit_cost_v1','bb_receipt_row_invoiced_part_v1') loop
+    execute format('revoke all on function %s from public,anon,authenticated,service_role',f);
+  end loop;
+end $grants$;
 CREATE OR REPLACE FUNCTION erp.post_opening_subledger_settlement(p_settlement_id uuid)
  RETURNS void
  LANGUAGE plpgsql
@@ -2419,7 +2512,7 @@ AS $function$
       where pi.purchase_id=h.id and (l.purchase_id is distinct from h.id or (l.opening_item_id is not null and oh.status is distinct from 'POSTED')
         or (l.opening_item_id is not null and oi.balance_type is distinct from 'MATERIAL')
         or pi.qty is distinct from coalesce(oi.qty,0)+coalesce((select sum(material_qty) from erp.initial_import_cost_origins where purchase_item_id=pi.id),0)
-        or (l.opening_item_id is not null and (pi.material_id is distinct from oi.material_id or pi.unit_price is distinct from oi.unit_cost_snapshot
+        or (l.opening_item_id is not null and (pi.material_id is distinct from oi.material_id or erp.bb_receipt_opening_unit_cost_v1(pi.id) is distinct from oi.unit_cost_snapshot
         or oi.location_id is distinct from h.location_id))
         or (l.opening_item_id is not null and (select count(*) from erp.material_stock_movements m where m.source_type='OPENING_BALANCE_ITEM'
           and m.source_id=oi.id and m.movement_type='OPENING' and m.qty_signed=oi.qty)<>1)
@@ -2428,7 +2521,7 @@ AS $function$
   select 'AP_OPENING_RECEIPT_JOURNAL_DRIFT','CRITICAL',count(*)::bigint,
     'Imported GRNI opening has exact value, opening equity offset, and cutover date'
   from erp.initial_import_receipt_headers rh
-  cross join lateral(select round(sum(qty*unit_price),2) value from erp.material_purchase_items where purchase_id=rh.purchase_id) v
+  cross join lateral(select round(sum((qty-erp.bb_receipt_invoiced_qty_v1(id))*unit_price),2) value from erp.material_purchase_items where purchase_id=rh.purchase_id) v
   where (v.value>0 and not exists(select 1 from erp.journal_entries j where j.source_type='OPENING_UNINVOICED_RECEIPT'
     and j.source_id=rh.purchase_id and j.status='POSTED' and j.economic_date=rh.cutover_date
     and erp._cp6_supplier_cent_ledger(array[j.id])=jsonb_build_object(erp.account_id('OPENING_EQUITY')::text,v.value,erp.account_id('GRNI_MATERIAL')::text,-v.value)))
@@ -2521,6 +2614,321 @@ begin
   return jsonb_build_object('references',coalesce(array_length(v_actual,1),0),'new_stock_fact_tables',v_facts,'registry',v_registry);
 end;
 $function$;
+CREATE OR REPLACE FUNCTION erp.material_purchase_posted_invoice_qty(p_purchase_item_id uuid)
+ RETURNS numeric
+ LANGUAGE sql
+ STABLE SECURITY DEFINER
+ SET search_path TO 'erp', 'public', 'pg_temp'
+AS $function$
+select (coalesce(sum(l.qty_invoiced),0)+erp.bb_receipt_invoiced_qty_v1($1))::numeric
+from erp.material_supplier_invoice_lines l
+join erp.material_supplier_invoices h on h.id=l.invoice_id
+where l.purchase_item_id=$1 and h.status='POSTED'
+$function$;
+CREATE OR REPLACE FUNCTION erp.material_purchase_current_unit_cost(p_purchase_item_id uuid)
+ RETURNS numeric
+ LANGUAGE plpgsql
+ STABLE SECURITY DEFINER
+ SET search_path TO 'erp', 'public', 'pg_temp'
+AS $function$
+declare
+  i erp.material_purchase_items%rowtype;
+  v_basis_qty numeric;
+  v_invoice_delta numeric;
+  v_cost numeric;
+begin
+  select * into i from erp.material_purchase_items where id=p_purchase_item_id;
+  if i.id is null then return null; end if;
+
+  if exists(
+    select 1 from erp.material_supplier_invoice_lines l
+    join erp.material_supplier_invoices h on h.id=l.invoice_id
+    where l.purchase_item_id=i.id and h.status='POSTED'
+  ) or exists(select 1 from erp.bb_receipt_invoiced_parts_v1 p where p.purchase_item_id=i.id) then
+    v_basis_qty:=erp.material_purchase_invoice_capacity(i.id);
+    if v_basis_qty<=0 then return i.unit_price; end if;
+    select coalesce(sum(l.net_amount-(l.qty_invoiced*i.unit_price)),0)
+    into v_invoice_delta
+    from erp.material_supplier_invoice_lines l
+    join erp.material_supplier_invoices h on h.id=l.invoice_id
+    where l.purchase_item_id=i.id and h.status='POSTED';
+    -- BB (ALL-P03): a part invoiced before cutover enters the cost like a posted invoice line at its invoiced amount.
+    v_invoice_delta:=v_invoice_delta+coalesce((select p.invoiced_amount-p.invoiced_qty*i.unit_price from erp.bb_receipt_invoiced_parts_v1 p
+      where p.purchase_item_id=i.id),0);
+    return greatest(((v_basis_qty*i.unit_price)+v_invoice_delta)/v_basis_qty,0);
+  end if;
+
+  select ci.new_unit_price into v_cost
+  from erp.material_purchase_cost_correction_items ci
+  join erp.material_purchase_cost_corrections c on c.id=ci.correction_id
+  where ci.purchase_item_id=i.id and c.status='POSTED'
+  order by c.post_seq desc,c.posted_at desc,c.id desc limit 1;
+  return coalesce(v_cost,i.unit_price);
+end;
+$function$;
+CREATE OR REPLACE FUNCTION erp.refresh_material_purchase_item_match_state(p_purchase_item_id uuid)
+ RETURNS void
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO 'erp', 'public', 'pg_temp'
+AS $function$
+declare
+  i erp.material_purchase_items%rowtype;
+  v_capacity numeric;
+  v_matched numeric;
+  v_actual_avg numeric;
+  v_last_at timestamptz;
+  v_last_by uuid;
+begin
+  perform erp.require_internal();
+  select * into i from erp.material_purchase_items where id=p_purchase_item_id for update;
+  if i.id is null then raise exception 'Material purchase item not found'; end if;
+  if i.invoice_match_state='DIRECT_FINAL' then return; end if;
+
+  v_capacity:=erp.material_purchase_invoice_capacity(i.id);
+  select coalesce(sum(l.qty_invoiced),0),
+         case when coalesce(sum(l.qty_invoiced),0)>0 then sum(l.net_amount)/sum(l.qty_invoiced) end,
+         max(h.posted_at),
+         (array_agg(h.created_by order by h.posted_at desc,h.id desc))[1]
+  into v_matched,v_actual_avg,v_last_at,v_last_by
+  from erp.material_supplier_invoice_lines l
+  join erp.material_supplier_invoices h on h.id=l.invoice_id
+  where l.purchase_item_id=i.id and h.status='POSTED';
+  -- BB (ALL-P03): the part invoiced before cutover is matched quantity at its invoiced price.
+  if exists(select 1 from erp.bb_receipt_invoiced_parts_v1 p where p.purchase_item_id=i.id) then
+    select v_matched+p.invoiced_qty,(coalesce(v_actual_avg*v_matched,0)+p.invoiced_amount)/(v_matched+p.invoiced_qty)
+    into v_matched,v_actual_avg from erp.bb_receipt_invoiced_parts_v1 p where p.purchase_item_id=i.id;
+  end if;
+
+  if v_matched<=0 then
+    update erp.material_purchase_items
+    set invoice_match_state='UNMATCHED',price_state='ESTIMATED',
+        price_source=receipt_price_source_snapshot,
+        supplier_final_unit_price_snapshot=null,
+        price_finalized_at=null,price_finalized_by=null
+    where id=i.id;
+  elsif v_matched<v_capacity then
+    update erp.material_purchase_items
+    set invoice_match_state='PARTIAL',price_state='PARTIAL',price_source='SUPPLIER_INVOICE',
+        supplier_final_unit_price_snapshot=v_actual_avg,
+        price_finalized_at=v_last_at,price_finalized_by=v_last_by
+    where id=i.id;
+  else
+    update erp.material_purchase_items
+    set invoice_match_state='MATCHED',price_state='FINAL',price_source='SUPPLIER_INVOICE',
+        supplier_final_unit_price_snapshot=v_actual_avg,
+        price_finalized_at=v_last_at,price_finalized_by=v_last_by
+    where id=i.id;
+  end if;
+end;
+$function$;
+CREATE OR REPLACE FUNCTION erp.sync_material_purchase_grni_on_status()
+ RETURNS trigger
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+ SET search_path TO 'erp', 'public', 'pg_temp'
+AS $function$
+declare v_estimated numeric(24,6);v_journal uuid;v_reason text;
+begin
+  if old.status='DRAFT' and new.status='POSTED' then
+    if exists(select 1 from erp.initial_import_receipt_headers where purchase_id=new.id) then
+      -- BB (ALL-P03): the opening GRNI covers only the unbilled part; the invoiced part is its imported payable document.
+      select round(sum((qty-erp.bb_receipt_invoiced_qty_v1(id))*unit_price),2) into v_estimated from erp.material_purchase_items where purchase_id=new.id;
+      if v_estimated>0 then
+        perform erp.post_journal('OPENING_UNINVOICED_RECEIPT',new.id,erp._cp3_business_date(new.physical_at),
+          'Opening receipt liability; physical stock already in opening balance',jsonb_build_array(
+            jsonb_build_object('mapping_key','OPENING_EQUITY','debit',v_estimated,'credit',0),
+            jsonb_build_object('mapping_key','GRNI_MATERIAL','debit',0,'credit',v_estimated)));
+      end if;
+      return new;
+    end if;
+
+    select coalesce(sum(i.line_total),0) into v_estimated
+    from erp.material_purchase_items i
+    where i.purchase_id=new.id and i.invoice_match_state<>'DIRECT_FINAL';
+    if v_estimated>0.005 then
+      perform erp.post_journal(
+        'MATERIAL_PURCHASE_GRNI_RECLASS',new.id,erp._cp3_business_date(new.physical_at),
+        'Receipt without final supplier invoice: AP reclassified to GRNI',
+        jsonb_build_array(
+          jsonb_build_object('mapping_key','AP_SUPPLIER','debit',round(v_estimated,2),'credit',0),
+          jsonb_build_object('mapping_key','GRNI_MATERIAL','debit',0,'credit',round(v_estimated,2))
+        )
+      );
+    end if;
+  elsif old.status='POSTED' and new.status='REVERSED' then
+    select id into v_journal from erp.journal_entries
+    where source_type='MATERIAL_PURCHASE_GRNI_RECLASS' and source_id=new.id and status='POSTED'
+    order by posting_at desc,id desc limit 1;
+    if v_journal is not null then
+      v_reason:=coalesce(nullif(current_setting('app.change_reason',true),''),'Material purchase reversal');
+      perform erp.reverse_journal(v_journal,v_reason);
+    end if;
+  end if;
+  return new;
+end;
+$function$;
+CREATE OR REPLACE FUNCTION erp.check_initial_import_receipt_v1(p_batch_id uuid,p_row_id uuid)
+RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path TO '' SET DateStyle TO 'ISO, YMD' AS $function$
+declare r erp.migration_staging_rows%rowtype;s erp.migration_staging_rows%rowtype;
+ j jsonb;v_cutover date;v_party uuid;v_key text;v_number text;v_line text;v_date date;v_qty numeric;v_cost numeric;k text;
+ v_part jsonb;v_invoiced numeric:=0;v_blend numeric;
+begin
+ perform erp.require_owner_admin();
+ select * into r from erp.migration_staging_rows where id=p_row_id and batch_id=p_batch_id and entity_type='UNINVOICED_RECEIPT';
+ if r.id is null then raise exception 'Baris penerimaan tidak ditemukan'; end if;
+ j:=r.normalized_payload;
+ foreach k in array array['receipt_number','receipt_line_number','receipt_date','supplier_code','material_sku','location_code','qty','unit_cost','control_key'] loop
+   if nullif(btrim(j->>k),'') is null then raise exception '%: wajib diisi',k;end if;
+ end loop;
+ v_number:=btrim(j->>'receipt_number');v_line:=btrim(j->>'receipt_line_number');v_key:=nullif(btrim(j->>'opening_source_key'),'');
+ if length(v_number)>120 or length(v_line)>60 or length(v_key)>120 then raise exception 'receipt_number: identitas sumber terlalu panjang';end if;
+ if j->>'receipt_date' !~ '^[0-9]{4}-[0-9]{2}-[0-9]{2}$' or (j->>'receipt_date')::date::text<>j->>'receipt_date' then
+   raise exception 'receipt_date: gunakan YYYY-MM-DD';end if;
+ v_date:=(j->>'receipt_date')::date;
+ select (cutover_at at time zone 'Asia/Jakarta')::date into v_cutover from erp.migration_batches where id=p_batch_id;
+ if v_date>v_cutover then raise exception 'receipt_date: penerimaan melewati cutover';end if;
+ v_qty:=(j->>'qty')::numeric;v_cost:=(j->>'unit_cost')::numeric;
+ if v_qty::text in('NaN','Infinity','-Infinity') or v_cost::text in('NaN','Infinity','-Infinity')
+   or v_qty<=0 or v_cost<0 or v_qty<>round(v_qty,6) or v_cost<>round(v_cost,6) then
+   raise exception 'qty: jumlah positif dan biaya nonnegatif harus tepat, maksimal enam desimal';end if;
+ perform v_qty::numeric(18,6);perform v_cost::numeric(18,6);
+ -- BB (ALL-P03): a part of this line invoiced before cutover (its imported SUPPLIER_PAYABLE document): the line keeps
+ -- its full quantity (unbilled + invoiced = stock + consumed origins) and its stock carries the blended cost.
+ v_part:=erp.bb_receipt_row_invoiced_part_v1(p_batch_id,p_row_id);
+ v_invoiced:=coalesce((v_part->>'invoiced_qty')::numeric,0);
+ v_blend:=case when v_part is null then v_cost else round((v_qty*v_cost+(v_part->>'invoiced_amount')::numeric)/(v_qty+v_invoiced),6) end;
+
+ if v_key is not null then
+  if (select count(*) from erp.migration_staging_rows where batch_id=p_batch_id
+   and entity_type in('MATERIAL_ROLL','OPENING_BALANCE_ITEM') and normalized_payload->>'opening_source_key'=v_key)<>1 then
+   raise exception 'opening_source_key: harus menunjuk tepat satu rincian stok dalam batch ini';end if;
+  select * into s from erp.migration_staging_rows where batch_id=p_batch_id
+   and entity_type in('MATERIAL_ROLL','OPENING_BALANCE_ITEM') and normalized_payload->>'opening_source_key'=v_key;
+  if s.validation_status<>'VALID' or (s.entity_type='OPENING_BALANCE_ITEM' and upper(s.normalized_payload->>'balance_type')<>'MATERIAL') then
+   raise exception 'opening_source_key: sumber harus rincian stok bahan yang valid';end if;
+  if s.normalized_payload->>'material_sku' is distinct from j->>'material_sku'
+   or s.normalized_payload->>'location_code' is distinct from j->>'location_code'
+   or (s.normalized_payload->>'unit_cost')::numeric is distinct from v_blend then
+   raise exception 'opening_source_key: bahan, gudang, dan biaya harus sama dengan stok awal (biaya per satuan %)',v_blend;end if;
+  if nullif(s.normalized_payload->>'supplier_code','') is not null and s.normalized_payload->>'supplier_code'<>j->>'supplier_code' then
+   raise exception 'supplier_code: supplier berbeda dengan stok asal';end if;
+ end if;
+ if v_qty+v_invoiced is distinct from coalesce((s.normalized_payload->>case when s.entity_type='MATERIAL_ROLL' then 'opening_qty' else 'qty' end)::numeric,0)
+   +coalesce((select sum((x.normalized_payload->>'qty')::numeric) from erp.migration_staging_rows x where x.batch_id=p_batch_id
+     and x.entity_type='OPENING_COST_ORIGIN' and x.validation_status='VALID'
+     and x.normalized_payload->>'supplier_code'=j->>'supplier_code'
+     and lower(btrim(x.normalized_payload->>'receipt_number'))=lower(v_number)
+     and lower(btrim(x.normalized_payload->>'receipt_line_number'))=lower(v_line)),0) then
+  raise exception 'opening_source_key: jumlah belum ditagih harus tepat sama dengan sisa bahan + seluruh asal biaya yang sudah terpakai';end if;
+ if not exists(select 1 from erp.materials where material_sku=j->>'material_sku' and is_active)
+   and not exists(select 1 from erp.migration_staging_rows where batch_id=p_batch_id and entity_type='MATERIAL' and validation_status='VALID' and normalized_payload->>'material_sku'=j->>'material_sku') then
+  raise exception 'material_sku: bahan aktif tidak ditemukan';end if;
+ if not exists(select 1 from erp.locations where location_code=j->>'location_code' and is_active and location_type='RAW_MATERIAL_WAREHOUSE')
+   and not exists(select 1 from erp.migration_staging_rows where batch_id=p_batch_id and entity_type='LOCATION' and validation_status='VALID' and normalized_payload->>'location_code'=j->>'location_code' and normalized_payload->>'location_type'='RAW_MATERIAL_WAREHOUSE') then
+  raise exception 'location_code: gudang bahan aktif tidak ditemukan';end if;
+ select id into v_party from erp.suppliers where supplier_code=j->>'supplier_code' and is_active;
+ if v_party is null and not exists(select 1 from erp.migration_staging_rows where batch_id=p_batch_id and entity_type='SUPPLIER'
+   and validation_status='VALID' and normalized_payload->>'supplier_code'=j->>'supplier_code'
+   and coalesce(nullif(normalized_payload->>'is_active','')::boolean,true)) then raise exception 'supplier_code: supplier aktif tidak ditemukan';end if;
+ if exists(select 1 from erp.migration_staging_rows x where x.batch_id=p_batch_id and x.entity_type='UNINVOICED_RECEIPT' and x.id<>r.id
+   and (x.normalized_payload->>'opening_source_key'=v_key or (
+     x.normalized_payload->>'supplier_code'=j->>'supplier_code' and lower(btrim(x.normalized_payload->>'receipt_number'))=lower(v_number)
+     and (lower(btrim(x.normalized_payload->>'receipt_line_number'))=lower(v_line)
+       or x.normalized_payload->>'receipt_date'<>j->>'receipt_date' or x.normalized_payload->>'location_code'<>j->>'location_code'
+       or x.normalized_payload->>'control_key'<>j->>'control_key')))) then
+   raise exception 'receipt_number: sumber ganda atau rincian dokumen tidak konsisten';end if;
+ if exists(select 1 from erp.migration_staging_rows x where x.batch_id=p_batch_id and x.entity_type='OPENING_BALANCE_ITEM'
+   and upper(x.normalized_payload->>'balance_type')='SUPPLIER_PAYABLE' and x.normalized_payload->>'supplier_code'=j->>'supplier_code'
+   and (nullif(btrim(x.normalized_payload->>'document_number'),'') is null or lower(btrim(x.normalized_payload->>'document_number'))=lower(v_number))) then
+   raise exception 'receipt_number: jangan campur kewajiban belum ditagih dengan ringkasan utang atau dokumen asal yang sama';end if;
+ if v_party is not null then
+   if exists(select 1 from erp.initial_import_receipt_headers where supplier_id=v_party and lower(btrim(receipt_number))=lower(v_number))
+      or exists(select 1 from erp.material_purchase_headers where supplier_id=v_party and lower(btrim(purchase_number))=lower(v_number)) then
+     raise exception 'receipt_number: penerimaan sudah tercatat, termasuk pada jalur pembelian';end if;
+   if exists(select 1 from erp.initial_import_financial_sources where balance_type='SUPPLIER_PAYABLE' and party_id=v_party
+     and (source_mode='SUMMARY' or lower(btrim(document_number))=lower(v_number)))
+     or exists(select 1 from erp.opening_balance_items i join erp.opening_balance_headers h on h.id=i.opening_id
+       where i.balance_type='SUPPLIER_PAYABLE' and i.supplier_id=v_party and h.status='POSTED'
+       and not exists(select 1 from erp.initial_import_financial_sources f where f.opening_item_id=i.id)) then
+     raise exception 'receipt_number: kewajiban supplier sudah memiliki opening yang tumpang tindih atau belum terurai';end if;
+ end if;
+end;$function$;
+CREATE OR REPLACE FUNCTION erp.apply_initial_import_receipts_v1(p_batch_id uuid)
+RETURNS void LANGUAGE plpgsql SECURITY DEFINER SET search_path TO '' AS $function$
+declare b erp.migration_batches%rowtype;r record;j jsonb;v_supplier uuid;v_purchase uuid;v_item uuid;v_part jsonb;v_blend numeric;
+ v_opening erp.opening_balance_items%rowtype;v_cutover date;v_material uuid;v_location uuid;v_origin record;v_target uuid;
+begin
+ perform erp.require_owner_admin();
+ select * into b from erp.migration_batches where id=p_batch_id for update;
+ if b.status not in('READY','POSTING') or exists(select 1 from erp.migration_staging_rows where batch_id=b.id and validation_status<>'VALID') then
+   raise exception 'Penerimaan awal memerlukan batch valid terbaru';end if;
+ v_cutover:=(b.cutover_at at time zone 'Asia/Jakarta')::date;
+ -- Same lock as financial opening preparation, plus normalized receipt identity.
+ for r in select distinct s.id supplier_id from erp.migration_staging_rows x join erp.suppliers s on s.supplier_code=x.normalized_payload->>'supplier_code'
+   where x.batch_id=b.id and x.entity_type='UNINVOICED_RECEIPT' order by s.id loop
+   perform pg_advisory_xact_lock(hashtextextended('INITIAL_OPENING_FINANCIAL:SUPPLIER_PAYABLE:'||r.supplier_id::text,0));
+ end loop;
+ for r in select x.*,s.id supplier_id from erp.migration_staging_rows x join erp.suppliers s on s.supplier_code=x.normalized_payload->>'supplier_code'
+   where x.batch_id=b.id and x.entity_type='UNINVOICED_RECEIPT' order by s.id,lower(btrim(x.normalized_payload->>'receipt_number')),x.source_row_no loop
+   perform pg_advisory_xact_lock(hashtextextended('INITIAL_RECEIPT:'||r.supplier_id::text||':'||lower(btrim(r.normalized_payload->>'receipt_number')),0));
+   perform erp.check_initial_import_receipt_v1(b.id,r.id);
+ end loop;
+ for r in select * from erp.migration_staging_rows where batch_id=b.id and entity_type='UNINVOICED_RECEIPT' order by source_row_no loop
+   j:=r.normalized_payload;
+   v_part:=erp.bb_receipt_row_invoiced_part_v1(b.id,r.id);
+   v_blend:=case when v_part is null then (j->>'unit_cost')::numeric else round(((j->>'qty')::numeric*(j->>'unit_cost')::numeric
+     +(v_part->>'invoiced_amount')::numeric)/((j->>'qty')::numeric+(v_part->>'invoiced_qty')::numeric),6) end;
+   select id into strict v_supplier from erp.suppliers where supplier_code=j->>'supplier_code' and is_active;
+   select i.* into v_opening from erp.initial_import_opening_stock_sources s
+     join erp.opening_balance_items i on i.id=s.opening_item_id join erp.opening_balance_headers h on h.id=i.opening_id
+     where s.batch_id=b.id and s.source_key=j->>'opening_source_key' and h.status='POSTED' for update of i;
+   if v_opening.id is not null and (v_opening.unit_cost_snapshot<>v_blend
+     or not exists(select 1 from erp.material_stock_movements m where m.source_type='OPENING_BALANCE_ITEM' and m.source_id=v_opening.id
+       and m.movement_type='OPENING' and m.qty_signed=v_opening.qty and m.material_id=v_opening.material_id
+       and m.location_id=v_opening.location_id and m.roll_id is not distinct from v_opening.roll_id)) then
+     raise exception 'Asal fisik penerimaan tidak cocok dengan stok awal yang dibukukan';end if;
+   select id into strict v_material from erp.materials where material_sku=j->>'material_sku' and is_active;
+   select id into strict v_location from erp.locations where location_code=j->>'location_code' and is_active and location_type='RAW_MATERIAL_WAREHOUSE';
+   select purchase_id into v_purchase from erp.initial_import_receipt_headers where batch_id=b.id and supplier_id=v_supplier
+     and lower(btrim(receipt_number))=lower(btrim(j->>'receipt_number'));
+   if v_purchase is null then
+     v_purchase:=gen_random_uuid();
+     insert into erp.material_purchase_headers(id,purchase_number,supplier_id,physical_at,location_id,notes,created_by)
+       values(v_purchase,'OPEN-'||v_purchase::text,v_supplier,b.cutover_at,v_location,
+         'Saldo awal penerimaan '||(j->>'receipt_number')||' tanggal '||(j->>'receipt_date'),erp.current_app_user_id());
+     insert into erp.initial_import_receipt_headers(purchase_id,batch_id,supplier_id,receipt_number,receipt_date,cutover_date)
+       values(v_purchase,b.id,v_supplier,j->>'receipt_number',(j->>'receipt_date')::date,v_cutover);
+   end if;
+   insert into erp.material_purchase_items(purchase_id,material_id,qty,unit_price,price_state,price_source,notes)
+     values(v_purchase,v_material,(j->>'qty')::numeric+coalesce((v_part->>'invoiced_qty')::numeric,0),(j->>'unit_cost')::numeric,'ESTIMATED','MANUAL_ESTIMATE',j->>'notes') returning id into v_item;
+   insert into erp.initial_import_receipt_lines(purchase_item_id,purchase_id,source_row_id,opening_item_id,receipt_line_number)
+     values(v_item,v_purchase,r.id,v_opening.id,j->>'receipt_line_number');
+   if v_part is not null then
+     insert into erp.bb_receipt_invoiced_parts_v1(purchase_item_id,source_row_id,financial_source_id,invoiced_qty,invoiced_amount)
+     select v_item,r.id,f.id,(v_part->>'invoiced_qty')::numeric,(v_part->>'invoiced_amount')::numeric
+     from erp.initial_import_financial_sources f where f.batch_id=b.id and f.source_row_id=(v_part->>'document_row_id')::uuid
+       and f.balance_type='SUPPLIER_PAYABLE' and f.party_id=v_supplier;
+     if not found then raise exception 'P03_INVOICE_DOC_REQUIRED: dokumen invoice asal belum dibukukan';end if;
+     perform erp.refresh_material_purchase_item_match_state(v_item);
+   end if;
+
+   for v_origin in select * from erp.migration_staging_rows x where x.batch_id=b.id and x.entity_type='OPENING_COST_ORIGIN'
+     and x.normalized_payload->>'supplier_code'=j->>'supplier_code'
+     and lower(btrim(x.normalized_payload->>'receipt_number'))=lower(btrim(j->>'receipt_number'))
+     and lower(btrim(x.normalized_payload->>'receipt_line_number'))=lower(btrim(j->>'receipt_line_number')) loop
+    select opening_item_id into strict v_target from erp.initial_import_opening_stock_sources where batch_id=b.id and source_key=v_origin.normalized_payload->>'target_source_key';
+    insert into erp.initial_import_cost_origins(source_row_id,purchase_item_id,opening_item_id,material_qty,unit_cost_snapshot)
+     values(v_origin.id,v_item,v_target,(v_origin.normalized_payload->>'qty')::numeric,v_blend);
+    update erp.migration_staging_rows set posted_entity_type='OPENING_COST_ORIGIN',posted_entity_id=v_origin.id,posted_at=statement_timestamp(),updated_at=statement_timestamp() where id=v_origin.id;
+   end loop;
+   update erp.migration_staging_rows set posted_entity_type='OPENING_UNINVOICED_RECEIPT_ITEM',posted_entity_id=v_item,
+     posted_at=statement_timestamp(),updated_at=statement_timestamp() where id=r.id;
+ end loop;
+ for r in select purchase_id from erp.initial_import_receipt_headers where batch_id=b.id order by purchase_id loop
+   update erp.material_purchase_headers set status='POSTED' where id=r.purchase_id;
+ end loop;
+end;$function$;
 CREATE OR REPLACE FUNCTION erp.save_initial_import_action_v1(p_action text, p_payload jsonb, p_client_request_id uuid)
  RETURNS jsonb
  LANGUAGE plpgsql
@@ -2532,7 +2940,7 @@ declare
  b erp.migration_batches%rowtype; v_cached jsonb; v_result jsonb; v_row jsonb; v_normal jsonb;
  v_field text; v_text text; v_number numeric; v_line integer; v_seen integer[]:='{}';
  v_total bigint; v_valid bigint; v_errors bigint; v_opening uuid; v_date date;
- v_catalog constant jsonb:='{"LAUNDRY_VENDOR": {"label": "Vendor laundry", "required": ["vendor_code", "vendor_name"], "fields": {"vendor_code": "Kode laundry", "vendor_name": "Nama laundry", "phone": "Telepon", "is_active": "Aktif", "notes": "Catatan"}}, "LOCATION": {"label": "Lokasi dan gudang", "required": ["location_code", "location_name", "location_type"], "fields": {"location_code": "Kode lokasi", "location_name": "Nama lokasi", "location_type": "Jenis lokasi", "is_active": "Aktif"}}, "CHART_ACCOUNT": {"label": "Akun buku besar", "required": ["account_code", "account_name", "account_type", "report_group", "normal_balance"], "fields": {"account_code": "Kode akun", "account_name": "Nama akun", "account_type": "Jenis akun", "report_group": "Kelompok laporan", "normal_balance": "Saldo normal", "parent_account_code": "Kode akun induk", "is_postable": "Boleh dipakai jurnal", "is_active": "Aktif"}}, "CASH_ACCOUNT": {"label": "Rekening kas dan bank", "required": ["cash_account_code", "cash_account_name", "coa_account_code", "account_kind"], "fields": {"cash_account_code": "Kode kas bank", "cash_account_name": "Nama kas bank", "coa_account_code": "Kode akun buku besar", "account_kind": "Jenis rekening", "is_active": "Aktif"}}, "BRAND": {"label": "Merek", "required": ["brand_code", "brand_name"], "fields": {"brand_code": "Kode merek", "brand_name": "Nama merek", "is_active": "Aktif"}}, "SIZE": {"label": "Ukuran", "required": ["size_code"], "fields": {"size_code": "Kode ukuran", "sort_order": "Urutan", "is_active": "Aktif"}}, "MODEL": {"label": "Model produk", "required": ["model_code", "model_name"], "fields": {"model_code": "Kode model", "model_name": "Nama model", "description": "Keterangan", "is_active": "Aktif"}}, "PRODUCT": {"label": "Produk per ukuran", "required": ["sku", "product_name", "model_code", "brand_code", "color_name", "size_code"], "fields": {"sku": "Kode produk", "product_name": "Nama produk", "model_code": "Kode model", "brand_code": "Kode merek", "color_name": "Warna", "size_code": "Kode ukuran", "is_active": "Aktif"}}, "CUSTOMER": {"label": "Pelanggan", "required": ["customer_code", "customer_name"], "fields": {"customer_code": "Kode pelanggan", "customer_name": "Nama pelanggan", "phone": "Telepon", "address": "Alamat", "is_active": "Aktif"}}, "SUPPLIER": {"label": "Supplier", "required": ["supplier_code", "supplier_name"], "fields": {"supplier_code": "Kode supplier", "supplier_name": "Nama supplier", "supplier_type": "Jenis supplier", "phone": "Telepon", "address": "Alamat", "is_active": "Aktif"}}, "CONTRACTOR": {"label": "Mandor", "required": ["contractor_code", "contractor_name"], "fields": {"contractor_code": "Kode mandor", "contractor_name": "Nama mandor", "contractor_type": "Jenis mandor", "attendance_required": "Wajib absensi", "is_active": "Aktif", "notes": "Catatan"}}, "ACCESSORY_CATEGORY": {"label": "Kategori aksesori", "required": ["category_code", "category_name", "base_uom_code"], "fields": {"category_code": "Kode kategori", "category_name": "Nama kategori", "base_uom_code": "Satuan dasar", "is_active": "Aktif", "notes": "Catatan"}}, "MATERIAL": {"label": "Bahan dan aksesori", "required": ["material_sku", "material_name", "material_type", "unit_code"], "fields": {"material_sku": "Kode bahan", "material_name": "Nama bahan", "material_type": "Jenis bahan", "unit_code": "Satuan dasar", "accessory_category_code": "Kode kategori aksesori", "is_active": "Aktif"}}, "MATERIAL_ROLL": {"label": "Stok awal kain per roll", "required": ["material_sku", "roll_number", "opening_qty", "unit_cost", "location_code", "control_key"], "fields": {"material_sku": "Kode bahan", "roll_number": "Nomor roll", "opening_qty": "Jumlah awal", "unit_cost": "Biaya per satuan", "location_code": "Kode gudang", "supplier_code": "Kode supplier", "notes": "Catatan", "control_key": "Kode total pembanding", "opening_source_key": "Kode rincian stok asal"}}, "OPENING_BALANCE_ITEM": {"label": "Stok dan saldo awal", "required": ["balance_type", "control_key"], "fields": {"balance_type": "Jenis saldo", "material_sku": "Kode bahan", "product_sku": "Kode produk", "brand_code": "Kode merek", "model_code": "Kode model", "color_name": "Warna", "size_code": "Kode ukuran", "location_code": "Kode gudang", "contractor_code": "Kode mandor", "customer_code": "Kode pelanggan", "supplier_code": "Kode supplier", "vendor_code": "Kode laundry", "cash_account_code": "Kode kas bank", "stage": "Tahap produksi", "qty": "Jumlah", "unit_cost": "Biaya per satuan", "amount": "Nominal", "quality_grade": "Kualitas", "hpp_input_method": "Cara isi HPP", "hpp_percent_of_price": "Persentase HPP", "notes": "Catatan", "control_key": "Kode total pembanding", "document_number": "Nomor dokumen asal", "document_date": "Tanggal dokumen asal", "due_date": "Tanggal jatuh tempo", "original_amount": "Nominal dokumen awal", "settled_before_cutover": "Sudah dibayar sebelum saldo awal", "opening_source_key": "Kode rincian stok asal", "source_kind": "Jenis sumber saldo", "po_number": "Nomor PO saldo fisik", "accessory_cost_included": "Biaya aksesoris sudah termasuk (true/false)"}}, "OPEN_PO": {"label": "Pesanan produksi berjalan", "required": ["po_number", "model_code", "status", "current_stage"], "fields": {"po_number": "Nomor pesanan", "model_code": "Kode model", "contractor_code": "Kode mandor", "target_qty_pcs": "Target buah", "target_dozens": "Target lusin", "status": "Status", "current_stage": "Tahap produksi", "physical_start_at": "Waktu mulai fisik", "notes": "Catatan"}}, "OPENING_CONTROL": {"label": "Total pembanding saldo awal", "required": ["control_key", "balance_type", "amount"], "fields": {"control_key": "Kode total pembanding", "balance_type": "Jenis saldo", "qty": "Total jumlah", "amount": "Total nominal", "notes": "Catatan"}}, "UNINVOICED_RECEIPT": {"label": "Penerimaan belum ditagih — sisa bahan dan asal biaya", "required": ["receipt_number", "receipt_line_number", "receipt_date", "supplier_code", "material_sku", "location_code", "qty", "unit_cost", "control_key"], "fields": {"receipt_number": "Nomor penerimaan asal", "receipt_line_number": "Nomor baris penerimaan", "receipt_date": "Tanggal penerimaan asal", "supplier_code": "Kode supplier", "material_sku": "Kode bahan", "location_code": "Kode gudang", "qty": "Jumlah belum ditagih", "unit_cost": "Biaya estimasi per satuan", "opening_source_key": "Kode rincian stok asal", "control_key": "Kode total pembanding", "notes": "Catatan"}}, "OPENING_ADVANCE": {"label": "Uang muka tersisa", "required": ["party_type", "party_code", "coa_account_code", "document_number", "document_date", "original_amount", "settled_before_cutover", "amount", "control_key"], "fields": {"party_type": "Jenis pihak", "party_code": "Kode pihak", "coa_account_code": "Kode akun uang muka", "document_number": "Nomor bukti uang muka", "document_date": "Tanggal uang muka", "original_amount": "Nominal asal", "settled_before_cutover": "Terpakai atau kembali sebelum saldo awal", "amount": "Sisa uang muka", "control_key": "Kode total pembanding"}}, "OPENING_COST_ORIGIN": {"label": "Asal biaya yang sudah terpakai sebelum cutover", "fields": {"supplier_code": "Kode supplier", "receipt_number": "Nomor penerimaan asal", "receipt_line_number": "Nomor baris penerimaan", "target_source_key": "Kode rincian WIP/BS/FG tujuan", "qty": "Jumlah bahan yang sudah terpakai", "notes": "Catatan"}, "required": ["supplier_code", "receipt_number", "receipt_line_number", "target_source_key", "qty"]}, "LEGACY_DOCUMENT": {"label": "Dokumen lama yang sudah lunas penuh", "required": ["balance_type", "party_code", "document_number", "document_date", "original_amount", "settled_before_cutover"], "fields": {"balance_type": "Jenis saldo dokumen", "party_code": "Kode pihak", "document_number": "Nomor dokumen asal", "document_date": "Tanggal dokumen asal", "original_amount": "Nominal dokumen awal", "settled_before_cutover": "Sudah dibayar sebelum saldo awal", "notes": "Catatan"}}, "OPENING_CUSTOMER_CREDIT": {"label": "Kredit retur pelanggan yang belum dikembalikan", "required": ["customer_code", "coa_account_code", "document_number", "document_date", "original_amount", "settled_before_cutover", "amount"], "fields": {"customer_code": "Kode pelanggan", "coa_account_code": "Kode akun kredit pelanggan", "document_number": "Nomor nota retur/kredit", "document_date": "Tanggal nota retur/kredit", "original_amount": "Nominal kredit asal", "settled_before_cutover": "Sudah dikembalikan sebelum saldo awal", "amount": "Sisa kredit", "notes": "Catatan"}}, "OPENING_SALE_RETURN": {"label": "Hak retur penjualan lama yang barangnya belum kembali", "required": ["customer_code", "return_number", "invoice_document_number", "product_sku", "qty", "credit_unit_price", "unit_cost", "credit_coa_account_code"], "fields": {"customer_code": "Kode pelanggan", "return_number": "Nomor persetujuan retur", "invoice_document_number": "Nomor invoice asal", "product_sku": "Kode produk", "brand_code": "Kode merek", "model_code": "Kode model", "color_name": "Warna", "size_code": "Kode ukuran", "qty": "Jumlah pcs boleh diretur", "credit_unit_price": "Kredit per pcs", "unit_cost": "Nilai persediaan per pcs", "credit_coa_account_code": "Kode akun kredit pelanggan", "notes": "Catatan"}}}'::jsonb;
+ v_catalog constant jsonb:='{"LAUNDRY_VENDOR": {"label": "Vendor laundry", "required": ["vendor_code", "vendor_name"], "fields": {"vendor_code": "Kode laundry", "vendor_name": "Nama laundry", "phone": "Telepon", "is_active": "Aktif", "notes": "Catatan"}}, "LOCATION": {"label": "Lokasi dan gudang", "required": ["location_code", "location_name", "location_type"], "fields": {"location_code": "Kode lokasi", "location_name": "Nama lokasi", "location_type": "Jenis lokasi", "is_active": "Aktif"}}, "CHART_ACCOUNT": {"label": "Akun buku besar", "required": ["account_code", "account_name", "account_type", "report_group", "normal_balance"], "fields": {"account_code": "Kode akun", "account_name": "Nama akun", "account_type": "Jenis akun", "report_group": "Kelompok laporan", "normal_balance": "Saldo normal", "parent_account_code": "Kode akun induk", "is_postable": "Boleh dipakai jurnal", "is_active": "Aktif"}}, "CASH_ACCOUNT": {"label": "Rekening kas dan bank", "required": ["cash_account_code", "cash_account_name", "coa_account_code", "account_kind"], "fields": {"cash_account_code": "Kode kas bank", "cash_account_name": "Nama kas bank", "coa_account_code": "Kode akun buku besar", "account_kind": "Jenis rekening", "is_active": "Aktif"}}, "BRAND": {"label": "Merek", "required": ["brand_code", "brand_name"], "fields": {"brand_code": "Kode merek", "brand_name": "Nama merek", "is_active": "Aktif"}}, "SIZE": {"label": "Ukuran", "required": ["size_code"], "fields": {"size_code": "Kode ukuran", "sort_order": "Urutan", "is_active": "Aktif"}}, "MODEL": {"label": "Model produk", "required": ["model_code", "model_name"], "fields": {"model_code": "Kode model", "model_name": "Nama model", "description": "Keterangan", "is_active": "Aktif"}}, "PRODUCT": {"label": "Produk per ukuran", "required": ["sku", "product_name", "model_code", "brand_code", "color_name", "size_code"], "fields": {"sku": "Kode produk", "product_name": "Nama produk", "model_code": "Kode model", "brand_code": "Kode merek", "color_name": "Warna", "size_code": "Kode ukuran", "is_active": "Aktif"}}, "CUSTOMER": {"label": "Pelanggan", "required": ["customer_code", "customer_name"], "fields": {"customer_code": "Kode pelanggan", "customer_name": "Nama pelanggan", "phone": "Telepon", "address": "Alamat", "is_active": "Aktif"}}, "SUPPLIER": {"label": "Supplier", "required": ["supplier_code", "supplier_name"], "fields": {"supplier_code": "Kode supplier", "supplier_name": "Nama supplier", "supplier_type": "Jenis supplier", "phone": "Telepon", "address": "Alamat", "is_active": "Aktif"}}, "CONTRACTOR": {"label": "Mandor", "required": ["contractor_code", "contractor_name"], "fields": {"contractor_code": "Kode mandor", "contractor_name": "Nama mandor", "contractor_type": "Jenis mandor", "attendance_required": "Wajib absensi", "is_active": "Aktif", "notes": "Catatan"}}, "ACCESSORY_CATEGORY": {"label": "Kategori aksesori", "required": ["category_code", "category_name", "base_uom_code"], "fields": {"category_code": "Kode kategori", "category_name": "Nama kategori", "base_uom_code": "Satuan dasar", "is_active": "Aktif", "notes": "Catatan"}}, "MATERIAL": {"label": "Bahan dan aksesori", "required": ["material_sku", "material_name", "material_type", "unit_code"], "fields": {"material_sku": "Kode bahan", "material_name": "Nama bahan", "material_type": "Jenis bahan", "unit_code": "Satuan dasar", "accessory_category_code": "Kode kategori aksesori", "is_active": "Aktif"}}, "MATERIAL_ROLL": {"label": "Stok awal kain per roll", "required": ["material_sku", "roll_number", "opening_qty", "unit_cost", "location_code", "control_key"], "fields": {"material_sku": "Kode bahan", "roll_number": "Nomor roll", "opening_qty": "Jumlah awal", "unit_cost": "Biaya per satuan", "location_code": "Kode gudang", "supplier_code": "Kode supplier", "notes": "Catatan", "control_key": "Kode total pembanding", "opening_source_key": "Kode rincian stok asal"}}, "OPENING_BALANCE_ITEM": {"label": "Stok dan saldo awal", "required": ["balance_type", "control_key"], "fields": {"balance_type": "Jenis saldo", "material_sku": "Kode bahan", "product_sku": "Kode produk", "brand_code": "Kode merek", "model_code": "Kode model", "color_name": "Warna", "size_code": "Kode ukuran", "location_code": "Kode gudang", "contractor_code": "Kode mandor", "customer_code": "Kode pelanggan", "supplier_code": "Kode supplier", "vendor_code": "Kode laundry", "cash_account_code": "Kode kas bank", "stage": "Tahap produksi", "qty": "Jumlah", "unit_cost": "Biaya per satuan", "amount": "Nominal", "quality_grade": "Kualitas", "hpp_input_method": "Cara isi HPP", "hpp_percent_of_price": "Persentase HPP", "notes": "Catatan", "control_key": "Kode total pembanding", "document_number": "Nomor dokumen asal", "document_date": "Tanggal dokumen asal", "due_date": "Tanggal jatuh tempo", "original_amount": "Nominal dokumen awal", "settled_before_cutover": "Sudah dibayar sebelum saldo awal", "opening_source_key": "Kode rincian stok asal", "source_kind": "Jenis sumber saldo", "po_number": "Nomor PO saldo fisik", "accessory_cost_included": "Biaya aksesoris sudah termasuk (true/false)"}}, "OPEN_PO": {"label": "Pesanan produksi berjalan", "required": ["po_number", "model_code", "status", "current_stage"], "fields": {"po_number": "Nomor pesanan", "model_code": "Kode model", "contractor_code": "Kode mandor", "target_qty_pcs": "Target buah", "target_dozens": "Target lusin", "status": "Status", "current_stage": "Tahap produksi", "physical_start_at": "Waktu mulai fisik", "notes": "Catatan"}}, "OPENING_CONTROL": {"label": "Total pembanding saldo awal", "required": ["control_key", "balance_type", "amount"], "fields": {"control_key": "Kode total pembanding", "balance_type": "Jenis saldo", "qty": "Total jumlah", "amount": "Total nominal", "notes": "Catatan"}}, "UNINVOICED_RECEIPT": {"label": "Penerimaan belum ditagih — sisa bahan dan asal biaya", "required": ["receipt_number", "receipt_line_number", "receipt_date", "supplier_code", "material_sku", "location_code", "qty", "unit_cost", "control_key"], "fields": {"receipt_number": "Nomor penerimaan asal", "receipt_line_number": "Nomor baris penerimaan", "receipt_date": "Tanggal penerimaan asal", "supplier_code": "Kode supplier", "material_sku": "Kode bahan", "location_code": "Kode gudang", "qty": "Jumlah belum ditagih", "unit_cost": "Biaya estimasi per satuan", "opening_source_key": "Kode rincian stok asal", "control_key": "Kode total pembanding", "notes": "Catatan", "invoice_document_number": "Nomor invoice asal untuk bagian yang sudah ditagih", "invoiced_qty": "Jumlah yang sudah ditagih sebelum saldo awal"}}, "OPENING_ADVANCE": {"label": "Uang muka tersisa", "required": ["party_type", "party_code", "coa_account_code", "document_number", "document_date", "original_amount", "settled_before_cutover", "amount", "control_key"], "fields": {"party_type": "Jenis pihak", "party_code": "Kode pihak", "coa_account_code": "Kode akun uang muka", "document_number": "Nomor bukti uang muka", "document_date": "Tanggal uang muka", "original_amount": "Nominal asal", "settled_before_cutover": "Terpakai atau kembali sebelum saldo awal", "amount": "Sisa uang muka", "control_key": "Kode total pembanding"}}, "OPENING_COST_ORIGIN": {"label": "Asal biaya yang sudah terpakai sebelum cutover", "fields": {"supplier_code": "Kode supplier", "receipt_number": "Nomor penerimaan asal", "receipt_line_number": "Nomor baris penerimaan", "target_source_key": "Kode rincian WIP/BS/FG tujuan", "qty": "Jumlah bahan yang sudah terpakai", "notes": "Catatan"}, "required": ["supplier_code", "receipt_number", "receipt_line_number", "target_source_key", "qty"]}, "LEGACY_DOCUMENT": {"label": "Dokumen lama yang sudah lunas penuh", "required": ["balance_type", "party_code", "document_number", "document_date", "original_amount", "settled_before_cutover"], "fields": {"balance_type": "Jenis saldo dokumen", "party_code": "Kode pihak", "document_number": "Nomor dokumen asal", "document_date": "Tanggal dokumen asal", "original_amount": "Nominal dokumen awal", "settled_before_cutover": "Sudah dibayar sebelum saldo awal", "notes": "Catatan"}}, "OPENING_CUSTOMER_CREDIT": {"label": "Kredit retur pelanggan yang belum dikembalikan", "required": ["customer_code", "coa_account_code", "document_number", "document_date", "original_amount", "settled_before_cutover", "amount"], "fields": {"customer_code": "Kode pelanggan", "coa_account_code": "Kode akun kredit pelanggan", "document_number": "Nomor nota retur/kredit", "document_date": "Tanggal nota retur/kredit", "original_amount": "Nominal kredit asal", "settled_before_cutover": "Sudah dikembalikan sebelum saldo awal", "amount": "Sisa kredit", "notes": "Catatan"}}, "OPENING_SALE_RETURN": {"label": "Hak retur penjualan lama yang barangnya belum kembali", "required": ["customer_code", "return_number", "invoice_document_number", "product_sku", "qty", "credit_unit_price", "unit_cost", "credit_coa_account_code"], "fields": {"customer_code": "Kode pelanggan", "return_number": "Nomor persetujuan retur", "invoice_document_number": "Nomor invoice asal", "product_sku": "Kode produk", "brand_code": "Kode merek", "model_code": "Kode model", "color_name": "Warna", "size_code": "Kode ukuran", "qty": "Jumlah pcs boleh diretur", "credit_unit_price": "Kredit per pcs", "unit_cost": "Nilai persediaan per pcs", "credit_coa_account_code": "Kode akun kredit pelanggan", "notes": "Catatan"}}}'::jsonb;
 begin
  perform erp.require_owner_admin();
  perform erp.require_permission('settings.erp.view');
@@ -2632,12 +3040,12 @@ begin
            raise exception 'Baris %, kolom %: nama kolom atau tipe data tidak valid',v_line,v_field; end if;
          v_text:=btrim(v_text);
          if length(v_text)>20000 then raise exception 'Baris %, kolom % terlalu panjang',v_line,v_field; end if;
-         if v_field in('qty','opening_qty','unit_cost','amount','original_amount','settled_before_cutover','hpp_percent_of_price','target_dozens','target_qty_pcs','sort_order','credit_unit_price') and v_text<>'' then
+         if v_field in('qty','opening_qty','unit_cost','amount','original_amount','settled_before_cutover','hpp_percent_of_price','target_dozens','target_qty_pcs','sort_order','credit_unit_price','invoiced_qty') and v_text<>'' then
            if v_text !~ '^-?[0-9]+([.,][0-9]+)?$' then
              raise exception 'Baris %, kolom %: isi angka tanpa pemisah ribuan',v_line,v_field; end if;
            v_text:=replace(v_text,',','.');v_number:=v_text::numeric;
            if (v_field in('amount','original_amount','settled_before_cutover','credit_unit_price') and v_number<>round(v_number,2))
-             or (v_field in('qty','opening_qty','unit_cost','target_dozens') and v_number<>round(v_number,6))
+             or (v_field in('qty','opening_qty','unit_cost','target_dozens','invoiced_qty') and v_number<>round(v_number,6))
              or (v_field='hpp_percent_of_price' and v_number<>round(v_number,4))
              or (v_field in('target_qty_pcs','sort_order') and v_number<>trunc(v_number)) then
              raise exception 'Baris %, kolom %: ketelitian angka melebihi kolom tujuan; angka tidak dibulatkan otomatis',v_line,v_field; end if;

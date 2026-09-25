@@ -24,6 +24,14 @@ runs (AP, AR, AC migrations and the BA T1 file) with checked substitutions only,
      against its exact counter account (SALES_REVENUE for a customer allowance, MATERIAL_PURCHASE_VARIANCE for a supplier
      allowance, OTHER_INCOME for a laundry vendor allowance, the customer credit account for an applied credit) where a cash
      settlement is checked against its cash account; every other condition of the detector is unchanged.
+  P03 (ALL-P03) one receipt part invoiced before cutover: UNINVOICED_RECEIPT names the imported SUPPLIER_PAYABLE document
+     of the invoiced part (invoice_document_number, invoiced_qty). The receipt stays one purchase item of its full quantity
+     (unbilled + invoiced = stock + consumed origins); the invoiced part counts as matched quantity at its invoiced price
+     (erp.material_purchase_posted_invoice_qty, erp.material_purchase_current_unit_cost, erp.refresh_material_purchase_item_match_state,
+     from the CP4.5a fixture text with v2.6.20q's in-place edit), so the stock carries the blended cost and the opening GRNI
+     (erp.sync_material_purchase_grni_on_status and the AP_OPENING_RECEIPT_* detectors) covers only the unbilled part; the
+     invoiced money stays the imported document, settled by OPENING_SETTLEMENT. erp.check_initial_import_receipt_v1 and
+     erp.apply_initial_import_receipts_v1 carry the part.
   F6 erp.assert_new_stock_cutoff_coverage_v1 (BA's version): the two new product references are classified (a return right
      is a SOURCE_DOCUMENT whose stock fact is the RETURN lot validated as NEW_STOCK at receipt; a receipt is DERIVED).
 Label T1_FAMILY: development install on the disposable chain AN -> AU -> AV -> AW..BA, not a release package.
@@ -32,7 +40,7 @@ Usage: python3 scripts/cp6_bb_build.py            # writes supabase/dev/cp6_bb_t
        python3 scripts/cp6_bb_build.py --check
 """
 from pathlib import Path
-import hashlib,json,re,sys
+import gzip,hashlib,json,re,sys
 
 ROOT=Path(__file__).resolve().parents[1]
 AP=ROOT/'supabase/migrations/20260922135615_erp_v2_6_20ap_cp6_connected_import_materials.sql'
@@ -41,7 +49,8 @@ AC=ROOT/'supabase/migrations/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_c
 BA=ROOT/'supabase/dev/cp6_ba_t1_family.sql'
 CATALOG=ROOT/'src/initialImportCatalog.json'
 CATALOG_BB=ROOT/'src/initialImportCatalogBB.json'
-OBJECTS=[ROOT/'scripts/cp6_bb_objects_financial.sql']
+OBJECTS=[ROOT/'scripts/cp6_bb_objects_financial.sql',ROOT/'scripts/cp6_bb_objects_purchase.sql']
+FIXTURE=ROOT/'supabase/tests/fixtures/erp_enteng_cp45a_catalog_bootstrap.sql.gz'
 OUT=ROOT/'supabase/dev/cp6_bb_t1_family.sql'
 VERSION='v2.6.20bb'
 NEW_ENTITIES=['LEGACY_DOCUMENT','OPENING_CUSTOMER_CREDIT','OPENING_SALE_RETURN']
@@ -171,6 +180,79 @@ ROUTER_VALIDATE_NEW=ROUTER_VALIDATE_OLD+'     perform erp.bb_validate_financial_
 ROUTER_APPLY_OLD='       perform erp.apply_initial_prepayments_v1(b.id);\n'
 ROUTER_APPLY_NEW=ROUTER_APPLY_OLD+'       perform erp.bb_apply_financial_imports_v1(b.id);\n'
 
+# ---------------------------------------------------------------- P03 one receipt, part invoiced before cutover
+# Native purchase helpers restored from the CP4.5a catalog fixture (their current text; v2.6.20q edited the match refresh
+# in place, reproduced below), then checked substitutions.
+POSTED_QTY_HEAD='CREATE OR REPLACE FUNCTION erp.material_purchase_posted_invoice_qty(p_purchase_item_id uuid)'
+POSTED_QTY_OLD='select coalesce(sum(l.qty_invoiced),0)::numeric\nfrom erp.material_supplier_invoice_lines l'
+POSTED_QTY_NEW='select (coalesce(sum(l.qty_invoiced),0)+erp.bb_receipt_invoiced_qty_v1($1))::numeric\nfrom erp.material_supplier_invoice_lines l'
+UNIT_COST_HEAD='CREATE OR REPLACE FUNCTION erp.material_purchase_current_unit_cost(p_purchase_item_id uuid)'
+UNIT_COST_EXISTS_OLD="    where l.purchase_item_id=i.id and h.status='POSTED'\n  ) then"
+UNIT_COST_EXISTS_NEW="    where l.purchase_item_id=i.id and h.status='POSTED'\n  ) or exists(select 1 from erp.bb_receipt_invoiced_parts_v1 p where p.purchase_item_id=i.id) then"
+UNIT_COST_RETURN_OLD='    return greatest(((v_basis_qty*i.unit_price)+v_invoice_delta)/v_basis_qty,0);'
+UNIT_COST_RETURN_NEW=('    -- BB (ALL-P03): a part invoiced before cutover enters the cost like a posted invoice line at its invoiced amount.\n'
+  '    v_invoice_delta:=v_invoice_delta+coalesce((select p.invoiced_amount-p.invoiced_qty*i.unit_price from erp.bb_receipt_invoiced_parts_v1 p\n'
+  '      where p.purchase_item_id=i.id),0);\n'+UNIT_COST_RETURN_OLD)
+MATCH_HEAD='CREATE OR REPLACE FUNCTION erp.refresh_material_purchase_item_match_state(p_purchase_item_id uuid)'
+MATCH_V2620Q=('v_matched<v_capacity-0.000001','v_matched<v_capacity')
+MATCH_OLD="  where l.purchase_item_id=i.id and h.status='POSTED';\n\n  if v_matched<=0 then"
+MATCH_NEW=("  where l.purchase_item_id=i.id and h.status='POSTED';\n"
+  "  -- BB (ALL-P03): the part invoiced before cutover is matched quantity at its invoiced price.\n"
+  "  if exists(select 1 from erp.bb_receipt_invoiced_parts_v1 p where p.purchase_item_id=i.id) then\n"
+  "    select v_matched+p.invoiced_qty,(coalesce(v_actual_avg*v_matched,0)+p.invoiced_amount)/(v_matched+p.invoiced_qty)\n"
+  "    into v_matched,v_actual_avg from erp.bb_receipt_invoiced_parts_v1 p where p.purchase_item_id=i.id;\n"
+  "  end if;\n\n  if v_matched<=0 then")
+GRNI_HEAD='CREATE OR REPLACE FUNCTION erp.sync_material_purchase_grni_on_status()'
+GRNI_OLD='      select round(sum(qty*unit_price),2) into v_estimated from erp.material_purchase_items where purchase_id=new.id;'
+GRNI_NEW=('      -- BB (ALL-P03): the opening GRNI covers only the unbilled part; the invoiced part is its imported payable document.\n'
+  '      select round(sum((qty-erp.bb_receipt_invoiced_qty_v1(id))*unit_price),2) into v_estimated from erp.material_purchase_items where purchase_id=new.id;')
+CHECKS_GRNI_OLD='cross join lateral(select round(sum(qty*unit_price),2) value from erp.material_purchase_items where purchase_id=rh.purchase_id) v'
+CHECKS_GRNI_NEW='cross join lateral(select round(sum((qty-erp.bb_receipt_invoiced_qty_v1(id))*unit_price),2) value from erp.material_purchase_items where purchase_id=rh.purchase_id) v'
+CHECKS_COST_OLD='pi.unit_price is distinct from oi.unit_cost_snapshot'
+CHECKS_COST_NEW='erp.bb_receipt_opening_unit_cost_v1(pi.id) is distinct from oi.unit_cost_snapshot'
+RCHECK_HEAD='CREATE OR REPLACE FUNCTION erp.check_initial_import_receipt_v1(p_batch_id uuid,p_row_id uuid)'
+RCHECK_DECLARE_OLD=' j jsonb;v_cutover date;v_party uuid;v_key text;v_number text;v_line text;v_date date;v_qty numeric;v_cost numeric;k text;'
+RCHECK_DECLARE_NEW=RCHECK_DECLARE_OLD+'\n v_part jsonb;v_invoiced numeric:=0;v_blend numeric;'
+RCHECK_PART_OLD=' perform v_qty::numeric(18,6);perform v_cost::numeric(18,6);\n'
+RCHECK_PART_NEW=RCHECK_PART_OLD+(" -- BB (ALL-P03): a part of this line invoiced before cutover (its imported SUPPLIER_PAYABLE document): the line keeps\n"
+  " -- its full quantity (unbilled + invoiced = stock + consumed origins) and its stock carries the blended cost.\n"
+  " v_part:=erp.bb_receipt_row_invoiced_part_v1(p_batch_id,p_row_id);\n"
+  " v_invoiced:=coalesce((v_part->>'invoiced_qty')::numeric,0);\n"
+  " v_blend:=case when v_part is null then v_cost else round((v_qty*v_cost+(v_part->>'invoiced_amount')::numeric)/(v_qty+v_invoiced),6) end;\n")
+RCHECK_COST_OLD=("   or (s.normalized_payload->>'unit_cost')::numeric is distinct from v_cost then\n"
+  "   raise exception 'opening_source_key: bahan, gudang, dan biaya harus sama dengan stok awal';end if;")
+RCHECK_COST_NEW=("   or (s.normalized_payload->>'unit_cost')::numeric is distinct from v_blend then\n"
+  "   raise exception 'opening_source_key: bahan, gudang, dan biaya harus sama dengan stok awal (biaya per satuan %)',v_blend;end if;")
+RCHECK_QTY_OLD=' if v_qty is distinct from coalesce((s.normalized_payload->>case'
+RCHECK_QTY_NEW=' if v_qty+v_invoiced is distinct from coalesce((s.normalized_payload->>case'
+RAPPLY_HEAD='CREATE OR REPLACE FUNCTION erp.apply_initial_import_receipts_v1(p_batch_id uuid)'
+RAPPLY_DECLARE_OLD='declare b erp.migration_batches%rowtype;r record;j jsonb;v_supplier uuid;v_purchase uuid;v_item uuid;'
+RAPPLY_DECLARE_NEW=RAPPLY_DECLARE_OLD+'v_part jsonb;v_blend numeric;'
+RAPPLY_PART_OLD='   j:=r.normalized_payload;\n   select id into strict v_supplier'
+RAPPLY_PART_NEW=("   j:=r.normalized_payload;\n"
+  "   v_part:=erp.bb_receipt_row_invoiced_part_v1(b.id,r.id);\n"
+  "   v_blend:=case when v_part is null then (j->>'unit_cost')::numeric else round(((j->>'qty')::numeric*(j->>'unit_cost')::numeric\n"
+  "     +(v_part->>'invoiced_amount')::numeric)/((j->>'qty')::numeric+(v_part->>'invoiced_qty')::numeric),6) end;\n"
+  "   select id into strict v_supplier")
+RAPPLY_COST_OLD="if v_opening.id is not null and (v_opening.unit_cost_snapshot<>(j->>'unit_cost')::numeric"
+RAPPLY_COST_NEW="if v_opening.id is not null and (v_opening.unit_cost_snapshot<>v_blend"
+RAPPLY_ITEM_OLD="values(v_purchase,v_material,(j->>'qty')::numeric,(j->>'unit_cost')::numeric,'ESTIMATED','MANUAL_ESTIMATE',j->>'notes') returning id into v_item;"
+RAPPLY_ITEM_NEW="values(v_purchase,v_material,(j->>'qty')::numeric+coalesce((v_part->>'invoiced_qty')::numeric,0),(j->>'unit_cost')::numeric,'ESTIMATED','MANUAL_ESTIMATE',j->>'notes') returning id into v_item;"
+RAPPLY_LINE_OLD="     values(v_item,v_purchase,r.id,v_opening.id,j->>'receipt_line_number');\n"
+RAPPLY_LINE_NEW=RAPPLY_LINE_OLD+("   if v_part is not null then\n"
+  "     insert into erp.bb_receipt_invoiced_parts_v1(purchase_item_id,source_row_id,financial_source_id,invoiced_qty,invoiced_amount)\n"
+  "     select v_item,r.id,f.id,(v_part->>'invoiced_qty')::numeric,(v_part->>'invoiced_amount')::numeric\n"
+  "     from erp.initial_import_financial_sources f where f.batch_id=b.id and f.source_row_id=(v_part->>'document_row_id')::uuid\n"
+  "       and f.balance_type='SUPPLIER_PAYABLE' and f.party_id=v_supplier;\n"
+  "     if not found then raise exception 'P03_INVOICE_DOC_REQUIRED: dokumen invoice asal belum dibukukan';end if;\n"
+  "     perform erp.refresh_material_purchase_item_match_state(v_item);\n"
+  "   end if;\n")
+RAPPLY_ORIGIN_OLD="values(v_origin.id,v_item,v_target,(v_origin.normalized_payload->>'qty')::numeric,(j->>'unit_cost')::numeric);"
+RAPPLY_ORIGIN_NEW="values(v_origin.id,v_item,v_target,(v_origin.normalized_payload->>'qty')::numeric,v_blend);"
+ROUTER_P03_NUMERIC=("'sort_order','credit_unit_price') and v_text<>'' then","'sort_order','credit_unit_price','invoiced_qty') and v_text<>'' then")
+ROUTER_P03_PRECISION=("or (v_field in('qty','opening_qty','unit_cost','target_dozens') and v_number<>round(v_number,6))",
+                      "or (v_field in('qty','opening_qty','unit_cost','target_dozens','invoiced_qty') and v_number<>round(v_number,6))")
+
 # ---------------------------------------------------------------- F6 the AV new-stock coverage registry (BA's version)
 COVER_HEAD='CREATE OR REPLACE FUNCTION erp.assert_new_stock_cutoff_coverage_v1()'
 COVER_OLD='''"erp.fg_stock_movements.product_id":{"class":"MOVEMENT","reason":"Movement of an existing lot"},'''
@@ -188,8 +270,10 @@ REPLACED=['erp.post_opening_subledger_settlement(uuid)','erp.post_opening_financ
           'erp.reverse_paid_payroll(uuid,text)','erp.initial_import_revision_v1(uuid)','erp.get_initial_import_workspace_v1(uuid)',
           'erp.stage_migration_row(uuid,text,integer,text,jsonb,jsonb)','erp._validate_migration_batch_base(uuid)',
           'erp.finalize_migration_batch(uuid)','erp.save_initial_import_action_v1(text,jsonb,uuid)','erp.run_v267_financial_truth_checks()',
-          'erp.assert_new_stock_cutoff_coverage_v1()']
-NEW_TABLES=['bb_legacy_documents_v1','bb_customer_credits_v1','bb_customer_credit_events_v1','bb_opening_sale_return_rights_v1',
+          'erp.assert_new_stock_cutoff_coverage_v1()','erp.material_purchase_posted_invoice_qty(uuid)',
+          'erp.material_purchase_current_unit_cost(uuid)','erp.refresh_material_purchase_item_match_state(uuid)',
+          'erp.sync_material_purchase_grni_on_status()','erp.check_initial_import_receipt_v1(uuid,uuid)','erp.apply_initial_import_receipts_v1(uuid)']
+NEW_TABLES=['bb_receipt_invoiced_parts_v1','bb_legacy_documents_v1','bb_customer_credits_v1','bb_customer_credit_events_v1','bb_opening_sale_return_rights_v1',
             'bb_opening_sale_return_receipts_v1','bb_opening_credits_v1']
 
 
@@ -218,8 +302,24 @@ def function(path,head,subs,end='$function$;'):
 def catalog():
     """The import catalog after BB: the unchanged AP catalog (read by the historical builders) plus the BB entities."""
     base=json.loads(CATALOG.read_text());extra=json.loads(CATALOG_BB.read_text())
+    extend=extra.pop('_extend',{})
     assert not set(base)&set(extra),'BB_CATALOG_OVERLAP'
+    for entity,more in extend.items():
+        assert entity in base and not set(more['fields'])&set(base[entity]['fields']),('BB_CATALOG_EXTEND',entity)
+        base[entity]['fields'].update(more['fields'])
     return {**base,**extra}
+
+
+def fixture_function(head,subs,edits=()):
+    """A function as the CP4.5a catalog fixture defines it, with documented later in-place edits, then substitutions."""
+    text=gzip.open(FIXTURE,'rt').read()
+    assert text.count(head)==1,('FIXTURE',head)
+    start=text.index(head);stop=text.index('$function$;',start)+len('$function$;')
+    body=text[start:stop]
+    for old,new in list(edits)+list(subs):
+        assert body.count(old)==1,(head[:80],old[:70],body.count(old))
+        body=body.replace(old,new)
+    return body
 
 
 def catalog_constant():
@@ -229,7 +329,7 @@ def catalog_constant():
 def router():
     body=function(AR,ROUTER_HEAD,[(ROUTER_ACTIONS_OLD,ROUTER_ACTIONS_NEW),(ROUTER_LOCK_OLD,ROUTER_LOCK_NEW),
         (ROUTER_BRANCH_OLD,ROUTER_BRANCH_NEW),(ROUTER_NUMERIC_OLD,ROUTER_NUMERIC_NEW),(ROUTER_PRECISION_OLD,ROUTER_PRECISION_NEW),
-        (ROUTER_VALIDATE_OLD,ROUTER_VALIDATE_NEW),(ROUTER_APPLY_OLD,ROUTER_APPLY_NEW)])
+        (ROUTER_VALIDATE_OLD,ROUTER_VALIDATE_NEW),(ROUTER_APPLY_OLD,ROUTER_APPLY_NEW),ROUTER_P03_NUMERIC,ROUTER_P03_PRECISION])
     old=re.search(r"v_catalog constant jsonb:=('.*?')::jsonb;",body,re.S)
     assert old and body.count(old.group(0))==1
     merged=catalog()
@@ -250,17 +350,25 @@ def build():
     stage=function(AP,STAGE_HEAD,[(STAGE_OLD,STAGE_NEW)])
     base=function(AP,BASE_HEAD,[(BASE_OLD,BASE_NEW)])
     final=function(AP,FINAL_HEAD,[(FINAL_OLD,FINAL_NEW)])
-    checks=function(AP,CHECKS_HEAD,[(CHECKS_SOURCE_OLD,CHECKS_SOURCE_NEW)])
+    checks=function(AP,CHECKS_HEAD,[(CHECKS_SOURCE_OLD,CHECKS_SOURCE_NEW),(CHECKS_GRNI_OLD,CHECKS_GRNI_NEW),(CHECKS_COST_OLD,CHECKS_COST_NEW)])
     assert checks.count(CHECKS_ACCOUNT_OLD)==2,'BB_CHECKS_ACCOUNT_SITES'
     checks=checks.replace(CHECKS_ACCOUNT_OLD,CHECKS_ACCOUNT_NEW)
     cover=function(BA,COVER_HEAD,[(COVER_OLD,COVER_NEW)])
+    posted_qty=fixture_function(POSTED_QTY_HEAD,[(POSTED_QTY_OLD,POSTED_QTY_NEW)])
+    unit_cost=fixture_function(UNIT_COST_HEAD,[(UNIT_COST_EXISTS_OLD,UNIT_COST_EXISTS_NEW),(UNIT_COST_RETURN_OLD,UNIT_COST_RETURN_NEW)])
+    match=fixture_function(MATCH_HEAD,[(MATCH_OLD,MATCH_NEW)],edits=[MATCH_V2620Q])
+    grni=function(AP,GRNI_HEAD,[(GRNI_OLD,GRNI_NEW)])
+    rcheck=function(AP,RCHECK_HEAD,[(RCHECK_DECLARE_OLD,RCHECK_DECLARE_NEW),(RCHECK_PART_OLD,RCHECK_PART_NEW),(RCHECK_COST_OLD,RCHECK_COST_NEW),
+                                    (RCHECK_QTY_OLD,RCHECK_QTY_NEW)])
+    rapply=function(AP,RAPPLY_HEAD,[(RAPPLY_DECLARE_OLD,RAPPLY_DECLARE_NEW),(RAPPLY_PART_OLD,RAPPLY_PART_NEW),(RAPPLY_COST_OLD,RAPPLY_COST_NEW),
+                                    (RAPPLY_ITEM_OLD,RAPPLY_ITEM_NEW),(RAPPLY_LINE_OLD,RAPPLY_LINE_NEW),(RAPPLY_ORIGIN_OLD,RAPPLY_ORIGIN_NEW)])
     parts=['-- CP6 BB open cutover states of ALL (owner decision 25 Sep 2026): T1_FAMILY development install (NOT a release package).',
            '-- Generated by scripts/cp6_bb_build.py from scripts/cp6_bb_objects_*.sql, the AP/AR/AC migrations and the BA T1 file; do not edit by hand.',
            'begin;',"set local lock_timeout='10s';set local statement_timeout='240s';set local search_path='';",
            'do $t1_guard$','begin',
            f" if not exists(select 1 from erp.schema_migrations where version='v2.6.20ba') then raise exception 'BB_T1_REQUIRES_BA'; end if;",
            f" if exists(select 1 from erp.schema_migrations where version='{VERSION}') or to_regclass('erp.bb_legacy_documents_v1') is not null then raise exception 'BB_T1_ALREADY_INSTALLED'; end if;",
-           'end $t1_guard$;',objects(),oss,corr,uncorr,approve,pay,reverse,revision,workspace,stage,base,final,checks,cover,router(),
+           'end $t1_guard$;',objects(),oss,corr,uncorr,approve,pay,reverse,revision,workspace,stage,base,final,checks,cover,posted_qty,unit_cost,match,grni,rcheck,rapply,router(),
            'do $coverage$ begin perform erp.assert_new_stock_cutoff_coverage_v1(); end $coverage$;',
            f"insert into erp.schema_migrations(version,description) values('{VERSION}',"
            "'T1_FAMILY development install of BB (ALL open cutover states: opening settlement facade with dated guards, credits and allowances, legacy settled documents, customer return credits and rights, imported contractor payables through payroll); not a release package');",'commit;','']

@@ -68,5 +68,13 @@
       "credit_coa_account_code": "Kode akun kredit pelanggan",
       "notes": "Catatan"
     }
+  },
+  "_extend": {
+    "UNINVOICED_RECEIPT": {
+      "fields": {
+        "invoice_document_number": "Nomor invoice asal untuk bagian yang sudah ditagih",
+        "invoiced_qty": "Jumlah yang sudah ditagih sebelum saldo awal"
+      }
+    }
   }
 }

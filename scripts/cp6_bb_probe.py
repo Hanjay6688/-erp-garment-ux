@@ -32,13 +32,15 @@ import cp6_az_probe as azp
 import cp6_ba_probe as bap
 import cp6_bb_build as bb
 import cp6_run_identity as run_identity
+import cp6_initial_import_receipt_trial as receipt_trial
 r1,api,boundary,prior,chain=awp.r1,awp.api,awp.boundary,awp.prior,awp.chain
 
 OUT=AUDITOR/'cp6-proof/bb'
 BB_SQL=AUDITOR/'supabase/dev/cp6_bb_t1_family.sql'
 LABEL='T1_FAMILY'
 D=Decimal
-NO_ROUTE_MESSAGES=('Aksi impor tidak dikenal','Jenis file impor tidak didukung','Unsupported migration entity_type')
+NO_ROUTE_MESSAGES=('Aksi impor tidak dikenal','Jenis file impor tidak didukung','Unsupported migration entity_type',
+                   'nama kolom atau tipe data tidak valid')
 
 
 def dev_source(signature):
@@ -296,9 +298,9 @@ def settle_refusal(cur,today,case):
                      'FUTURE':('10.00',today+timedelta(days=1),'BB_OSS_DATE_OUT_OF_RANGE')}[case]
     payload=dict(operation='SETTLE',balance_id=fx['balances']['INV-R'],amount=amount,effective_date=str(day),cash_account_id=fx['cash'],reason='BB probe refusal')
     if not bb_installed(cur):
-        return no_route(cur,lambda:act(cur,'OPENING_SETTLEMENT',fx['batch'],**payload),case=case)
+        return no_route(cur,lambda:act(cur,'OPENING_SETTLEMENT',fx['batch'],**payload),variant=case)
     r=refused(cur,lambda:act(cur,'OPENING_SETTLEMENT',fx['batch'],**payload),code)
-    return verdict(dict(refused_with_code=r['ok']),case=case,refusal=r['refusal'])
+    return verdict(dict(refused_with_code=r['ok']),variant=case,refusal=r['refusal'])
 
 
 def direct_settlement(cur,fx,number,amount,day):
@@ -322,7 +324,7 @@ def direct_date_finding(cur,today,case):
     sid,(result,error)=direct_settlement(cur,fx,'INV-D','10.00',day)
     api.admin(cur)
     status=cur.execute('select status from erp.opening_subledger_settlements where id=%s',(sid,)).fetchone()[0]
-    evidence=dict(case=case,settlement_date=str(day),cutover=str(fx['cutover']),settlement_status=status,refusal=error)
+    evidence=dict(variant=case,settlement_date=str(day),cutover=str(fx['cutover']),settlement_status=status,refusal=error)
     if bb_installed(cur):
         return dict(evidence,status='PASS' if error is not None and code_of(error)=='BB_OSS_DATE_OUT_OF_RANGE' else ('FAIL' if error is None else 'INCOMPLETE'))
     if case=='FUTURE':
@@ -398,12 +400,12 @@ def legacy_document(cur,today,case):
     if not bb_installed(cur):
         code='BB'+uuid.uuid4().hex[:12]
         batch=api.call(cur,'CREATE',dict(batch_code=code,cutover_date=str(today-timedelta(days=10))))['batch_id']
-        return no_route(cur,lambda:api.upload(cur,batch,'LEGACY_DOCUMENT',[{k:v.replace('{C}',code) for k,v in rows['LEGACY_DOCUMENT'][0].items()}]),case=case)
+        return no_route(cur,lambda:api.upload(cur,batch,'LEGACY_DOCUMENT',[{k:v.replace('{C}',code) for k,v in rows['LEGACY_DOCUMENT'][0].items()}]),variant=case)
     if case in('NOT_SETTLED','SAME_BATCH_OPEN'):
-        try:post_batch(cur,today,rows);return dict(status='FAIL',case=case,note='posted')
+        try:post_batch(cur,today,rows);return dict(status="FAIL",variant=case,note="posted")
         except AssertionError as exc:
             text=str(exc);ok='BB_LEGACY_DOCUMENT_NOT_SETTLED' in text if case=='NOT_SETTLED' else 'BB_LEGACY_DOCUMENT_DUPLICATE' in text
-            return verdict(dict(refused_at_validation=ok),case=case,errors=text[:1500])
+            return verdict(dict(refused_at_validation=ok),variant=case,errors=text[:1500])
     start=now(cur);before=gl(cur)
     batch,code,cutover=post_batch(cur,today,rows)
     api.admin(cur)
@@ -419,7 +421,7 @@ def legacy_document(cur,today,case):
         try:post_batch(cur,today,later,cutover_days=5);checks['later_open_refused']=False
         except AssertionError as exc:checks['later_open_refused']='BB_LEGACY_DOCUMENT_DUPLICATE' in str(exc)
         except psycopg.Error as exc:checks['later_open_refused']='BB_LEGACY_DOCUMENT_DUPLICATE' in str(exc)
-    return verdict(checks,case=case,journals=types)
+    return verdict(checks,variant=case,journals=types)
 
 
 # ---------------------------------------------------------------- S03: customer credits and returns of old sales
@@ -588,6 +590,111 @@ def y01_over(cur,today):
     return verdict(dict(refused_with_code=r['ok']),refusal=r['refusal'])
 
 
+# ---------------------------------------------------------------- P03: one receipt, part invoiced before cutover
+
+def p03_rows(cutover,variant='OK'):
+    """Receipt RCV of 10 units: 4 invoiced before cutover on INV (4 x 2.50 = 10.00, 3.00 paid before cutover, 7.00 open),
+    6 unbilled at the estimate 2.00. All 10 on hand at the blended cost (6 x 2.00 + 10.00) / 10 = 2.20; bank 100."""
+    stock_qty='9' if variant=='EQUATION' else '10'
+    stock_cost='2.00' if variant=='NOT_BLENDED' else '2.2'
+    document='INV-{C}' if variant!='NO_DOCUMENT' else 'INV-MISSING'
+    return {'CHART_ACCOUNT':[dict(account_code='{C}B',account_name='BB P03 bank',account_type='ASSET',report_group='CURRENT_ASSETS',normal_balance='DEBIT')],
+            'CASH_ACCOUNT':[dict(cash_account_code='{C}',cash_account_name='BB P03 bank',coa_account_code='{C}B',account_kind='BANK')],
+            'SUPPLIER':[dict(supplier_code='{C}',supplier_name='BB P03 supplier',supplier_type='MATERIAL')],
+            'LOCATION':[dict(location_code='{C}',location_name='BB P03 gudang',location_type='RAW_MATERIAL_WAREHOUSE')],
+            'MATERIAL':[dict(material_sku='{C}',material_name='BB P03 benang',material_type='OTHER',unit_code='PCS')],
+            'OPENING_BALANCE_ITEM':[
+                dict(balance_type='MATERIAL',material_sku='{C}',location_code='{C}',qty=stock_qty,unit_cost=stock_cost,opening_source_key='STOCK',control_key='STOCK'),
+                dict(balance_type='SUPPLIER_PAYABLE',supplier_code='{C}',amount='7.00',control_key='AP',document_number='INV-{C}',
+                     document_date=str(cutover-timedelta(days=15)),original_amount='10.00',settled_before_cutover='3.00'),
+                dict(balance_type='CASH_BANK',cash_account_code='{C}',amount='100.00',control_key='CASH')],
+            'UNINVOICED_RECEIPT':[dict(receipt_number='RCV-{C}',receipt_line_number='001',receipt_date=str(cutover-timedelta(days=20)),
+                                       supplier_code='{C}',material_sku='{C}',location_code='{C}',qty='6',unit_cost='2',opening_source_key='STOCK',
+                                       control_key='GRNI',invoiced_qty='4',invoice_document_number=document)],
+            'OPENING_CONTROL':[dict(control_key='STOCK',balance_type='MATERIAL',qty=stock_qty,amount=str(D(stock_qty)*D(stock_cost))),
+                               dict(control_key='GRNI',balance_type='GRNI_MATERIAL',qty='6',amount='12.00'),
+                               dict(control_key='AP',balance_type='SUPPLIER_PAYABLE',amount='7.00'),
+                               dict(control_key='CASH',balance_type='CASH_BANK',amount='100.00')]}
+
+
+def p03_state(cur,item):
+    api.admin(cur)
+    row=cur.execute("""select i.qty,erp.material_purchase_posted_invoice_qty(i.id),i.invoice_match_state,
+        erp.material_purchase_current_unit_cost(i.id),erp.material_purchase_grni_total(i.purchase_id),erp.material_purchase_final_ap_total(i.purchase_id)
+        from erp.material_purchase_items i where i.id=%s""",(item,)).fetchone()
+    return dict(qty=row[0],posted=row[1],match=row[2],unit_cost=D(row[3]).quantize(D('.000001')),grni=D(row[4]).quantize(D('.01')),
+                native_ap=D(row[5]).quantize(D('.01')))
+
+
+def detectors_ok(cur):
+    try:receipt_trial.truth(cur);return True
+    except AssertionError as exc:return str(exc)[:600]
+
+
+def p03_split(cur,today):
+    """ALL-P03 (auditor: "One receipt of 10 with 4 already invoiced and 6 unbilled: derive the two nonoverlapping obligations,
+    physical/origin quantities and payments, then prove the combined controls without duplicate AP/GRNI")."""
+    cutover=today-timedelta(days=10);rows=p03_rows(cutover)
+    if not bb_installed(cur):
+        code='BB'+uuid.uuid4().hex[:12]
+        batch=api.call(cur,'CREATE',dict(batch_code=code,cutover_date=str(cutover)))['batch_id']
+        receipt={k:(v.replace('{C}',code) if isinstance(v,str) else v) for k,v in rows['UNINVOICED_RECEIPT'][0].items()}
+        return no_route(cur,lambda:api.upload(cur,batch,'UNINVOICED_RECEIPT',[receipt]))
+    before=gl(cur)
+    batch,code,cutover=post_batch(cur,today,rows)
+    api.admin(cur)
+    supplier,cash=cur.execute('select s.id,c.id from erp.suppliers s cross join erp.cash_accounts c where s.supplier_code=%s and c.cash_account_code=%s',
+                              (code,code)).fetchone()
+    item=cur.execute("""select l.purchase_item_id from erp.initial_import_receipt_lines l join erp.initial_import_receipt_headers h
+        on h.purchase_id=l.purchase_id where h.batch_id=%s""",(batch,)).fetchone()[0]
+    balance=cur.execute("""select b.id from erp.initial_import_financial_sources f join erp.opening_subledger_balances b on b.opening_item_id=f.opening_item_id
+        where f.batch_id=%s and f.balance_type='SUPPLIER_PAYABLE'""",(batch,)).fetchone()[0]
+    imported=p03_state(cur,item);import_delta=moved(before,gl(cur))
+    documents=cur.execute("""select (select count(*) from erp.material_supplier_invoices where supplier_id=%s),
+        (select count(*) from erp.supplier_payments p join erp.material_purchase_headers h on h.id=p.purchase_id where h.supplier_id=%s)""",
+        (supplier,supplier)).fetchone()
+    detectors_import=detectors_ok(cur)
+    row=dict(supplier_id=str(supplier),purchase_item_id=str(item))
+    # Invoice capacity is enforced when an invoice posts (a draft may be saved first): 7 of the 6 unbilled units is refused.
+    over=refused(cur,lambda:receipt_trial.post_invoice(api,cur,receipt_trial.invoice(api,cur,today,row,'7','2.25',date=today-timedelta(days=2))),'ANY')
+    draft=receipt_trial.invoice(api,cur,today,row,'6','2.25',date=today-timedelta(days=2))
+    posted=receipt_trial.post_invoice(api,cur,draft)
+    invoiced=p03_state(cur,item)
+    act(cur,'OPENING_SETTLEMENT',batch,operation='SETTLE',balance_id=str(balance),amount='7.00',effective_date=str(cutover+timedelta(days=1)),
+        cash_account_id=str(cash),reason='BB P03 pay the part invoiced before cutover')
+    api.admin(cur)
+    ap_doc=cur.execute('select original_amount-settled_amount from erp.opening_subledger_balances where id=%s',(balance,)).fetchone()[0]
+    detectors_invoiced=detectors_ok(cur)
+    receipt_trial.rpc(api,cur,'reverse_material_supplier_invoice_v2',posted['supplier_invoice_id'],'BB P03 reverse final invoice',uuid.uuid4(),posted['row_version'])
+    reversed_state=p03_state(cur,item);detectors_reversed=detectors_ok(cur)
+    inventory=account(cur,'MATERIAL_INVENTORY');grni_account=account(cur,'GRNI_MATERIAL');ap_account=account(cur,'AP_SUPPLIER')
+    return verdict(dict(
+        one_item_full_qty=imported['qty']==10,invoiced_part_matched=imported['posted']==4 and imported['match']=='PARTIAL',
+        blended_cost=imported['unit_cost']==D('2.200000'),grni_only_unbilled=imported['grni']==D('12.00'),no_native_ap=imported['native_ap']==0,
+        opening_ledger=import_delta.get(grni_account)=='-12.00' and import_delta.get(ap_account)=='-7.00' and import_delta.get(inventory)=='22.00',
+        no_old_invoice_or_payment=documents==(0,0),detectors_after_import=detectors_import is True,
+        over_capacity_invoice_refused=over['refusal'] is not None,
+        final_invoice_closes_grni=invoiced['grni']==0 and invoiced['native_ap']==D('13.50') and invoiced['match']=='MATCHED',
+        final_cost=invoiced['unit_cost']==D('2.350000'),invoiced_part_paid_once=ap_doc==0,
+        detectors_after_invoice_and_payment=detectors_invoiced is True,
+        reversal_restores=reversed_state['grni']==D('12.00') and reversed_state['unit_cost']==D('2.200000') and reversed_state['match']=='PARTIAL',
+        detectors_after_reversal=detectors_reversed is True),
+        imported={k:str(v) for k,v in imported.items()},invoiced={k:str(v) for k,v in invoiced.items()},
+        reversed={k:str(v) for k,v in reversed_state.items()},import_delta=import_delta,
+        detectors=[detectors_import,detectors_invoiced,detectors_reversed],over=over['refusal'])
+
+
+def p03_refusal(cur,today,variant):
+    cutover=today-timedelta(days=10);rows=p03_rows(cutover,variant)
+    expected={'NO_DOCUMENT':'P03_INVOICE_DOC_REQUIRED','NOT_BLENDED':'biaya per satuan 2.200000','EQUATION':'jumlah belum ditagih harus tepat sama'}[variant]
+    if not bb_installed(cur):
+        return p03_split(cur,today)
+    try:
+        post_batch(cur,today,rows);return dict(status='FAIL',variant=variant,note='posted')
+    except AssertionError as exc:
+        return verdict(dict(refused_at_validation=expected in str(exc)),variant=variant,errors=str(exc)[:1500])
+
+
 # ---------------------------------------------------------------- registration
 
 PLAN=[('F:P02_SETTLE_AND_REVERSE','NO_ROUTE',lambda c,t:settle_cycle(c,t,'SUPPLIER_PAYABLE')),
@@ -613,7 +720,11 @@ PLAN=[('F:P02_SETTLE_AND_REVERSE','NO_ROUTE',lambda c,t:settle_cycle(c,t,'SUPPLI
       ('F:S03_RETURN_RIGHT_LEGACY_INVOICE','NO_ROUTE',lambda c,t:return_right(c,t,'LEGACY')),
       ('F:S03_RETURN_WITHOUT_INVOICE_REFUSED','NO_ROUTE',return_without_invoice),
       ('F:Y01_OPENING_PAYABLE_THROUGH_PAYROLL','NO_ROUTE',y01_payroll),
-      ('F:Y01_OVER_AVAILABLE_REFUSED','NO_ROUTE',y01_over)]
+      ('F:Y01_OVER_AVAILABLE_REFUSED','NO_ROUTE',y01_over),
+      ('P:P03_RECEIPT_PART_INVOICED','NO_ROUTE',p03_split),
+      ('P:P03_INVOICE_DOCUMENT_REQUIRED','NO_ROUTE',lambda c,t:p03_refusal(c,t,'NO_DOCUMENT')),
+      ('P:P03_STOCK_COST_NOT_BLENDED_REFUSED','NO_ROUTE',lambda c,t:p03_refusal(c,t,'NOT_BLENDED')),
+      ('P:P03_QUANTITY_EQUATION_REFUSED','NO_ROUTE',lambda c,t:p03_refusal(c,t,'EQUATION'))]
 assert len({k for k,_,_ in PLAN})==len(PLAN),'BB_DUPLICATE_CASE_ID'
 
 
