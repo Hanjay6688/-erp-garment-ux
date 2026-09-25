@@ -1,5 +1,18 @@
 # CP6 audit — active round 8 checkpoint
 
+## Rev5: CP6-06 Laundry terkonfirmasi native; QC perlu fixture tanpa benturan nama
+
+Run **36106291785/job107979461548**, audit **a4b65b9**, LOG SHA256**c671cb4ee423900d2f4fb58679850ad756eda9d7b1eb463d584d32142bf99304**. Hasil **1PASS +1COUNTEREXAMPLE +2INCOMPLETE**.
+- Laundry healthy: RPC Auth200, parser asli menerima, browser menampilkan**20**. Produk seed yang disisihkan1; ID seed tidak ada pada respons yang dinilai.
+- Laundry unknown: read awal diputus → empat KPI**0**, banner error dan write lock terlihat; gangguan dilepas → HTTP200/parser menerima/UI**20**, error hilang. **CP6-06 native confirmed pada Laundry (M3825)**, tidak ada bug refetch/false-finality/bypass yang diklaim.
+- QC belum masuk browser: nama merek bawaan helper `Cutover brand` bertabrakan dengan fixture Laundry pada database yang sama. Guard unique menolak setup; paired unknown tetapINCOMPLETE.
+- Cleanup:Auth2user/counts pulih, console0, browserDB0, clone0, primary unchanged. Raw status tersimpan utuh di `out/gpt_unknown_run_36106291785.json`.
+
+Rev6 hanya dua kasus QC. Nama merek dibuat unik lewat `SAVE_FILE` sebelum FINALIZE, tanpa mengubah identitas/angka/oracle atau menurunkan unique guard. Laundry tidak diulang. Manifest_rev6; fixtureb85b0ddda85380f3afe59896c11e0685ef3b141506ac2fe79198a01b09322bce; browser77044ff34ecd361e8cf18cef24db3ed7a7bd0c83379f73a758d6580e569813bb.
+LANGKAH BERIKUTNYA: catat run/job QC rev6 dan hasil healthy10→unknown→refetch10; kemudian konsolidasikan CP6-05/06, W11/W12 dan ALL ke laporan/handoff. CP6 HOLD · audit_complete=false · production_go=false.
+
+
+
 ## Rev5 run identity — IN_FLIGHT
 
 Run [36106291785](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36106291785), job **107979461548**, audit **a4b65b9631bb0f316b4420d1882bfa1df2ce44b2**. Tool9dd7bc2 / produka095a9d; manifest_rev5 berisi empat kasus kontrol/unknown. Rev4 telah direkam sebagai4INCOMPLETE akibat pemanggilan API private. Rev5 hanya memakai facade publik kebijakan mandor dengan field/token sesuai master.

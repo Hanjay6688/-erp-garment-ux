@@ -2,15 +2,350 @@
   "run_id": 36106291785,
   "job_id": 107979461548,
   "audit_commit": "a4b65b9631bb0f316b4420d1882bfa1df2ce44b2",
-  "status": "IN_FLIGHT",
+  "status": "INCOMPLETE",
+  "actions_conclusion": "failure",
+  "log_sha256": "c671cb4ee423900d2f4fb58679850ad756eda9d7b1eb463d584d32142bf99304",
+  "run_identity": {
+    "label": "AUDITOR_SCENARIO",
+    "tool_head": "9dd7bc2b9309d008e8a2e50d81876d831f3e5ea7",
+    "product_ref": "a095a9d804d29643721e18635c2c3e26adcd56ea",
+    "product_paths": [
+      "supabase/migrations",
+      "supabase/dev",
+      "supabase/release",
+      "supabase/rollbacks",
+      "src"
+    ],
+    "run_id": "36106291785",
+    "run_attempt": "1",
+    "workflow": "GPT CP6 Round 8 Independent Audit",
+    "job": "phase",
+    "event": "push",
+    "github_sha": "a4b65b9631bb0f316b4420d1882bfa1df2ce44b2",
+    "release_evidence": false,
+    "production_go": false,
+    "phase": "after",
+    "scenario_sha256": "bf60eb539e39e20d5493080376b4139ba046aeb78b20dfbe213457793afa24d5"
+  },
   "manifest": "audit/scenarios/unknown_round8/MANIFEST_rev5.json",
-  "planned": [
-    "G8UI:UNKNOWN:LAUNDRY_HEALTHY_CONTROL:rev5",
-    "G8UI:UNKNOWN:LAUNDRY_INITIAL_READ:rev5",
-    "G8UI:UNKNOWN:QC_HEALTHY_CONTROL:rev5",
-    "G8UI:UNKNOWN:QC_INITIAL_READ:rev5"
+  "records": [
+    {
+      "line": 2123,
+      "json": {
+        "group": "AUDITOR_CASES_AFTER",
+        "planned": [],
+        "final": {},
+        "missing": [],
+        "status": "PASS"
+      }
+    },
+    {
+      "line": 2126,
+      "json": {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "G8UI:UNKNOWN:LAUNDRY_HEALTHY_CONTROL:rev5",
+        "status": "PASS",
+        "scope": "LAUNDRY",
+        "stage": "REAL_BROWSER_RENDER",
+        "fixture": {
+          "scope": "LAUNDRY",
+          "query": "Re3052e3f00",
+          "opening_batch": "bc4393f3-1602-488f-9882-3c0e2890904b",
+          "identities": {
+            "model": "9e10248e-fbae-4188-bbca-8460bc8dfd07",
+            "contractor": "f6edd968-8c66-482e-b719-62302d1240ed",
+            "product": "53177d1c-e7a9-4e4b-a934-d18201740fec",
+            "size": "0ab4fd58-75c4-435d-a117-81ab11aaee55"
+          },
+          "pattern": "10bf4738-cdc3-424a-89ce-92e87f4a6212",
+          "sources": [
+            {
+              "group": "ceed8c3a-271e-4bf2-83c4-9d4dd93367bc",
+              "delivery": "8544576a-a469-4d20-a352-a0a94b727191",
+              "batch": "f4a55872-3e20-4131-8b33-b20d6d8de204"
+            },
+            {
+              "group": "24df2481-3358-449e-890a-a2cb4926f713",
+              "delivery": "d0f08960-1092-400d-a0f3-69f67df0d1d5",
+              "batch": "4a7bfd4e-1891-439a-9a4d-40e96e01072b"
+            }
+          ],
+          "expected_qty": 20,
+          "master_identity_creation": "public initial-import CREATE/SAVE_FILE/VALIDATE/FINALIZE",
+          "pattern_creation": "public.erp_save_pattern_v1",
+          "cutting_creation": "public.erp_save_cutting_group_before_sewing_v2 SAVE_DRAFT/POST",
+          "model_size_association_rows_inserted": 0,
+          "contractor_policy_api": "public.erp_set_contractor_hpp_policy_v1",
+          "setup_sql_notes": [
+            "model/size association before work",
+            "ordinary work drafts from existing recipe",
+            "legacy seed product discovery flag only; transaction selection uses actual UI search"
+          ],
+          "seed_product_visibility": {
+            "before": [
+              [
+                "c8c10000-0000-4000-8000-000000000004",
+                "CP6-RACE-SKU",
+                true,
+                true,
+                "a2000000-0000-0000-0000-000000000001"
+              ]
+            ],
+            "after": [
+              [
+                "c8c10000-0000-4000-8000-000000000004",
+                "CP6-RACE-SKU",
+                true,
+                false,
+                "a2000000-0000-0000-0000-000000000001"
+              ]
+            ],
+            "changed": 1,
+            "fg_movement_rows_unchanged": true
+          },
+          "schema_usage_before": false,
+          "schema_usage_after": false
+        },
+        "auth_rpc": {
+          "status": 200,
+          "parser": {
+            "ok": true,
+            "scope": "LAUNDRY",
+            "source_sha256": "f217cd5a2be8dd42262063733b47626cee841bad75391271b402ed6add167ccb"
+          },
+          "qty": 20,
+          "seed_ids_absent": true,
+          "row_counts": {
+            "products": 1,
+            "ready": 0,
+            "deliveries": 2,
+            "qc": 0
+          }
+        },
+        "browser_rpc": {
+          "status": 200,
+          "parser": {
+            "ok": true,
+            "scope": "LAUNDRY",
+            "source_sha256": "f217cd5a2be8dd42262063733b47626cee841bad75391271b402ed6add167ccb"
+          },
+          "qty": 20,
+          "seed_ids_absent": true,
+          "row_counts": {
+            "products": 1,
+            "ready": 0,
+            "deliveries": 2,
+            "qc": 0
+          }
+        },
+        "rendered_qty": "20",
+        "oracle": "Fresh API UUIDv4 identities; actual filtered Auth RPC and real UI must both show Laundry20/QC10, with unchanged parser accepting all response IDs."
+      }
+    },
+    {
+      "line": 2127,
+      "json": {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "G8UI:UNKNOWN:LAUNDRY_INITIAL_READ:rev5",
+        "status": "COUNTEREXAMPLE",
+        "scope": "LAUNDRY",
+        "healthy_control_pass": true,
+        "fixture": {
+          "scope": "LAUNDRY",
+          "query": "Re3052e3f00",
+          "opening_batch": "bc4393f3-1602-488f-9882-3c0e2890904b",
+          "identities": {
+            "model": "9e10248e-fbae-4188-bbca-8460bc8dfd07",
+            "contractor": "f6edd968-8c66-482e-b719-62302d1240ed",
+            "product": "53177d1c-e7a9-4e4b-a934-d18201740fec",
+            "size": "0ab4fd58-75c4-435d-a117-81ab11aaee55"
+          },
+          "pattern": "10bf4738-cdc3-424a-89ce-92e87f4a6212",
+          "sources": [
+            {
+              "group": "ceed8c3a-271e-4bf2-83c4-9d4dd93367bc",
+              "delivery": "8544576a-a469-4d20-a352-a0a94b727191",
+              "batch": "f4a55872-3e20-4131-8b33-b20d6d8de204"
+            },
+            {
+              "group": "24df2481-3358-449e-890a-a2cb4926f713",
+              "delivery": "d0f08960-1092-400d-a0f3-69f67df0d1d5",
+              "batch": "4a7bfd4e-1891-439a-9a4d-40e96e01072b"
+            }
+          ],
+          "expected_qty": 20,
+          "master_identity_creation": "public initial-import CREATE/SAVE_FILE/VALIDATE/FINALIZE",
+          "pattern_creation": "public.erp_save_pattern_v1",
+          "cutting_creation": "public.erp_save_cutting_group_before_sewing_v2 SAVE_DRAFT/POST",
+          "model_size_association_rows_inserted": 0,
+          "contractor_policy_api": "public.erp_set_contractor_hpp_policy_v1",
+          "setup_sql_notes": [
+            "model/size association before work",
+            "ordinary work drafts from existing recipe",
+            "legacy seed product discovery flag only; transaction selection uses actual UI search"
+          ],
+          "seed_product_visibility": {
+            "before": [
+              [
+                "c8c10000-0000-4000-8000-000000000004",
+                "CP6-RACE-SKU",
+                true,
+                true,
+                "a2000000-0000-0000-0000-000000000001"
+              ]
+            ],
+            "after": [
+              [
+                "c8c10000-0000-4000-8000-000000000004",
+                "CP6-RACE-SKU",
+                true,
+                false,
+                "a2000000-0000-0000-0000-000000000001"
+              ]
+            ],
+            "changed": 1,
+            "fg_movement_rows_unchanged": true
+          },
+          "schema_usage_before": false,
+          "schema_usage_after": false
+        },
+        "stage": "HEALTHY_REFETCH_AFTER_FAULT_REMOVED",
+        "initial_kpis": [
+          {
+            "label": "SIAP DIKIRIM",
+            "value": "0",
+            "text": "SIAP DIKIRIM0pcs selesai jahit, belum dikirim"
+          },
+          {
+            "label": "DI LUAR PABRIK",
+            "value": "0",
+            "text": "DI LUAR PABRIK0pcs belum kembali"
+          },
+          {
+            "label": "TERIKAT KLAIM",
+            "value": "0",
+            "text": "TERIKAT KLAIM0Stuck/Missing aktif"
+          },
+          {
+            "label": "DATA LAMA TERPISAH",
+            "value": "0",
+            "text": "DATA LAMA TERPISAH0tidak ditebak atau digabung"
+          }
+        ],
+        "initial_error": "Layanan UAT belum dapat dihubungi. Coba lagi setelah status diperiksa.\nRefetch",
+        "initial_writer_locked": true,
+        "dropped_reads": 2,
+        "refetch": {
+          "status": 200,
+          "parser": {
+            "ok": true,
+            "scope": "LAUNDRY",
+            "source_sha256": "f217cd5a2be8dd42262063733b47626cee841bad75391271b402ed6add167ccb"
+          },
+          "qty": 20,
+          "seed_ids_absent": true,
+          "row_counts": {
+            "products": 1,
+            "ready": 0,
+            "deliveries": 2,
+            "qc": 0
+          }
+        },
+        "refetched_qty": "20",
+        "positive_control_status": "PASS",
+        "refetch_control_status": "PASS",
+        "oracle": "M3825 unknown is not zero. Healthy Auth/UI and post-fault refetch must render true nonzero20/10; error/write-lock mitigation is recorded, not mistaken for a final financial result.",
+        "mutation_bypass_claimed": false,
+        "false_financial_finality_claimed": false,
+        "refetch_product_defect_claimed": false
+      }
+    },
+    {
+      "line": 2156,
+      "json": {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "G8UI:UNKNOWN:QC_HEALTHY_CONTROL:rev5",
+        "status": "INCOMPLETE",
+        "scope": "QC",
+        "stage": "FIXTURE",
+        "error": "Error: Command failed: python /home/runner/work/-erp-garment-ux/-erp-garment-ux/audit-source/audit/scenarios/unknown_round8/gpt_unknown_fixture_rev5.py QC 2026-09-25\nTraceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/audit-source/audit/scenarios/unknown_round8/gpt_unknown_fixture_rev5.py\", line 123, in <module>\n    print(json.dumps(fixture(sys.argv[1],date.fromisoformat(sys.argv[2])),default=str))\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/audit-source/audit/scenarios/unknown_round8/gpt_unknown_fixture_rev5.py\", line 31, in fixture\n    imports.finalize(api, cur, opening)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_initial_import_production_trial.py\", line 45, in finalize\n    result=a.call(cur,'FINALIZE',payload,key);assert result['status']=='POSTED',a.read(cur,f['batch'])\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/scripts/cp6_ao_ap_installed.py\", line 25, in call\n    result=cur.execute('select public.erp_save_initial_import_action_v1(%s,%s::jsonb,%s)',(action,json.dumps(payload,default=str),key or uuid.uuid4())).fetchone()[0]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_aw_probe.py\", line 323, in execute\n    return self._cur.execute(query,params,**kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.UniqueViolation: duplicate key value violates unique constraint \"brands_brand_name_key\"\nDETAIL:  Key (brand_name)=(Cutover brand) already exists.\nCONTEXT:  SQL statement \"insert into erp.brands(brand_code,brand_name,is_active)\n        values(j->>'brand_code',j->>'brand_name',coalesce(nullif(j->>'is_active','')::boolean,true))\n        on conflict(brand_code) do update set\n          brand_name=excluded.brand_name,is_active=excluded.is_active,updated_at=statement_timestamp()\n        returning id\"\nPL/pgSQL function erp.apply_migration_master_rows(uuid) line 79 at SQL statement\nSQL statement \"SELECT erp.apply_migration_master_rows(b.id)\"\nPL/pgSQL function erp.save_initial_import_action_v1(text,jsonb,uuid) line 124 at PERFORM\nSQL function \"erp_save_initial_import_action_v1\" statement 1\n\n    at genericNodeError (node:internal/errors:983:15)\n    at wrappedFn (node:internal/errors:537:14)\n    at checkExecSyncError (node:child_process:916:11)\n    at execFileSync (node:child_process:952:15)\n    at fixture (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/audit-source/audit/scenarios/unknown_round8/gpt_unknown_browser_rev5.mjs:44:12)\n    at healthy (file:///home/runner/work/-e"
+      }
+    },
+    {
+      "line": 2157,
+      "json": {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "case": "G8UI:UNKNOWN:QC_INITIAL_READ:rev5",
+        "status": "INCOMPLETE",
+        "scope": "QC",
+        "stage": "HEALTHY_CONTROL_REQUIRED",
+        "healthy_control_pass": false
+      }
+    },
+    {
+      "line": 2158,
+      "json": {
+        "group": "AUDITOR_BROWSER_AFTER",
+        "planned": [
+          "G8UI:UNKNOWN:LAUNDRY_HEALTHY_CONTROL:rev5",
+          "G8UI:UNKNOWN:LAUNDRY_INITIAL_READ:rev5",
+          "G8UI:UNKNOWN:QC_HEALTHY_CONTROL:rev5",
+          "G8UI:UNKNOWN:QC_INITIAL_READ:rev5"
+        ],
+        "final": {
+          "G8UI:UNKNOWN:LAUNDRY_HEALTHY_CONTROL:rev5": "PASS",
+          "G8UI:UNKNOWN:LAUNDRY_INITIAL_READ:rev5": "COUNTEREXAMPLE",
+          "G8UI:UNKNOWN:QC_HEALTHY_CONTROL:rev5": "INCOMPLETE",
+          "G8UI:UNKNOWN:QC_INITIAL_READ:rev5": "INCOMPLETE"
+        },
+        "status": "RUN_COMPLETE",
+        "console_errors": 0,
+        "users_created": 2,
+        "auth_cleanup_failures": []
+      }
+    }
   ],
-  "tool_head": "9dd7bc2b9309d008e8a2e50d81876d831f3e5ea7",
-  "product_ref": "a095a9d804d29643721e18635c2c3e26adcd56ea",
+  "cleanup": {
+    "browser": {
+      "status": "INCOMPLETE",
+      "counts": {
+        "PASS": 1,
+        "COUNTEREXAMPLE": 1,
+        "INCOMPLETE": 2
+      },
+      "script_sha256": "fb071a8cb557bdea113a3e3e2f4137d0e561a08c91956f35c4e1617ace4a5a42",
+      "database_remaining": 0,
+      "cleanup": {
+        "users_created": 0,
+        "cleanup_failures": [],
+        "rest_remaining": false
+      },
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "console_errors": 0,
+      "users_created": 2,
+      "error": null
+    },
+    "primary_unchanged": true,
+    "clone_remaining": 0
+  },
+  "conclusions": {
+    "LAUNDRY": "HEALTHY_CONTROL_PASS_20_AND_UNKNOWN_COUNTEREXAMPLE_WITH_REFETCH_PASS_20",
+    "QC": "INCOMPLETE_FIXTURE_BRAND_NAME_COLLISION; paired unknown not evaluated"
+  },
+  "oracle": "M3825 unknown is not zero; actual Auth/HTTP/parser/UI healthy and post-fault refetch controls required",
   "production_go": false
 }
