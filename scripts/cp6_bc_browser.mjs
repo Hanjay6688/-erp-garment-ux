@@ -162,8 +162,10 @@ export async function cases(ui, today) {
         const workspace = u => u.pathname.endsWith('/rpc/erp_get_accessory_issue_workspace_v1')
         await p.route(workspace, r => r.fulfill({ status: 500, contentType: 'application/json', body: JSON.stringify({ code: 'XX000', message: 'uji galat baca nota', details: null, hint: null }) }))
         await p.getByRole('button', { name: 'Muat ulang', exact: true }).click()
-        await ui.expect(p.getByRole('alert')).toBeVisible()
-        const errorState = { alert: await p.getByRole('alert').innerText(), post_enabled: await p.getByRole('button', { name: 'Periksa pengesahan', exact: true }).isEnabled().catch(() => false) }
+        // The page shows the read error and, separately, that the data on screen was not reloaded (two alerts; run 36177120018).
+        const readError = p.getByRole('alert').filter({ hasText: 'uji galat baca nota' })
+        await ui.expect(readError).toBeVisible()
+        const errorState = { alert: await readError.innerText(), stale_notice: await p.getByRole('alert').filter({ hasText: 'Data belum dimuat ulang.' }).count(), post_enabled: await p.getByRole('button', { name: 'Periksa pengesahan', exact: true }).isEnabled().catch(() => false) }
         await p.unroute(workspace)
         let release
         const held = new Promise(resolve => { release = resolve })
@@ -178,7 +180,8 @@ export async function cases(ui, today) {
         release()
         await ui.expect(p.getByRole('button', { name: 'Muat ulang', exact: true })).toBeEnabled()
         await p.unroute(workspace)
-        const recovered = await p.getByRole('alert').count() === 0
+        let recovered = false
+        try { await ui.expect(p.getByRole('alert')).toHaveCount(0, { timeout: 10000 }); recovered = true } catch { recovered = false }
         await p.getByLabel('Cari nota aksesori').fill(number)
         await p.getByRole('button', { name: 'Cari nota', exact: true }).click()
         await ui.expect(p.getByRole('button', { name: `Buka ${number}`, exact: true })).toBeVisible()
