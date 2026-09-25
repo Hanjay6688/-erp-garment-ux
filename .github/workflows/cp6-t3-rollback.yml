@@ -1,4 +1,4 @@
-name: CP6 T3 Rollback (AW..AZ of the release package, hosted-faithful baseline)
+name: CP6 T3 Rollback (AW..BA of the release package, hosted-faithful baseline)
 'on':
   push:
     branches:
@@ -21,10 +21,10 @@ concurrency:
   group: cp6-t3-rollback-${{ github.ref }}
   cancel-in-progress: false
 jobs:
-  # T3_PREP: rollback files for AW, AX, AY and AZ of the committed release package (scripts/cp6_t3_rollback.py).
+  # T3_PREP: rollback files for AW, AX, AY, AZ and BA of the committed release package (scripts/cp6_t3_rollback.py).
   # Without a mode, a push runs capture until the rollback files exist and cycle afterwards.
   rollback:
-    name: Hosted-faithful baseline to AB, committed 24-file package, AW..AZ rollback ${{ inputs.mode || 'auto' }} (T3_PREP)
+    name: Hosted-faithful baseline to AB, committed 25-file package, AW..BA rollback ${{ inputs.mode || 'auto' }} (T3_PREP)
     runs-on: ubuntu-24.04
     timeout-minutes: 120
     env:
@@ -199,7 +199,7 @@ jobs:
         set -euo pipefail
         mode="${MODE_INPUT:-}"
         if [ -z "$mode" ]; then
-          if [ -f ../auditor/supabase/release/cp6-t3-rollbacks/ROLLBACKS.json ]; then mode=cycle; else mode=capture; fi
+          mode=$(python '../auditor/scripts/cp6_t3_rollback.py' auto-mode)
         fi
         case "$mode" in capture|cycle) ;; *) echo "unknown mode $mode"; exit 1;; esac
         echo "mode=$mode"

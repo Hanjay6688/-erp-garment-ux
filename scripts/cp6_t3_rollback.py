@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""T3 rollback of the release package's AW, AX, AY and AZ: pre-use only, exact restore, reverse order.
+"""T3 rollback of the release package's AW, AX, AY, AZ and BA: pre-use only, exact restore, reverse order.
 
-AW..AZ exist only as files of the combined release package (supabase/release/cp6-t3); each keeps a private rollback
+AW..BA exist only as files of the combined release package (supabase/release/cp6-t3); each keeps a private rollback
 capsule of the functions it replaces and a before/after hash of every erp table and of both ledgers, but the package
 shipped no rollback file for them (MANIFEST rollbacks NOT_TESTED). This script adds them, the way AO..AV's rollbacks work:
 closed and drained admission, own ledger row with the exact statements sha256 and no successor, the installed catalog
@@ -10,7 +10,7 @@ rollback is refused: pre-use only), the capsule's functions restored, the new ob
 ledger rows removed, and the predecessor's catalog, data and ledgers proved again before commit.
 
 Modes (database modes run only on the local disposable clone cp6_rollback, asserted by the release applier):
-  capture OUT.json   install the committed package on the aligned clone at AB; around AW..AZ, run each file once in a
+  capture OUT.json   install the committed package on the aligned clone at AB; around AW..BA, run each file once in a
                      rolled-back transaction to learn its catalog delta (added, changed and removed objects of the
                      guard's own object query), describe every changed non-function object in the state before, then
                      install it. Prints the capture in the log (T3_ROLLBACK_CAPTURE_CHUNK lines and its sha256).
@@ -18,7 +18,7 @@ Modes (database modes run only on the local disposable clone cp6_rollback, asser
                      committed release files and the capture (no database); every delta object must be dropped or
                      restored by a reviewed kind, anything else stops the build.
   cycle OUT.json     install the package, then: refusals that change nothing (out of order, open admission), two cycles
-                     of AZ, AY, AX, AW rollback (each state equal to the one before that file's install) and reinstall,
+                     of BA, AZ, AY, AX, AW rollback (each state equal to the one before that file's install) and reinstall,
                      the original AV rollback on the release chain (expected refusal: it pins the test chain), and a
                      refusal after a committed data change.
 Label: T3_PREP (not release evidence). The AC..AV rollbacks of the release package (re-pinned for the hosted-faithful
@@ -37,7 +37,7 @@ import cp6_t3_awx_release as awx
 RELEASE=ROOT/'supabase/release/cp6-t3'
 OUTDIR=ROOT/'supabase/release/cp6-t3-rollbacks'
 CAPTURE=ROOT/'docs/evidence/cp6-t3/rollback_capture.json'
-KEYS=['AW','AX','AY','AZ']
+KEYS=['AW','AX','AY','AZ','BA']
 FILES={f['key']:f for f in awx.FILES}
 sha=package.sha
 q=package.quote
@@ -211,7 +211,7 @@ def build(capture_path=CAPTURE,expected_blob=None,write=True):
         entry=files[key];text=release_text(entry)
         out[key]=(rollback_path(entry),rollback_sql(key,entry,text,cap['files'][key],sha(blob)))
     index=dict(format='CP6_T3_ROLLBACKS_V1',label='T3_PREP',production_go=False,release_evidence=False,
-               order='AZ,AY,AX,AW (reverse install order; each only while it is the last file and before any use)',
+               order=','.join(reversed(KEYS))+' (reverse install order; each only while it is the last file and before any use)',
                capture=dict(file=os.path.relpath(Path(capture_path).resolve(),ROOT),blob_sha256=sha(blob)),
                builder_sha256=sha(Path(__file__).read_bytes()),
                not_built='AC..AV rollbacks re-pinned for the release package (the files in supabase/rollbacks pin the test chain)',
@@ -377,7 +377,7 @@ def cycle(out):
         check('ROLLBACK_FILES_REBUILT_IDENTICALLY',same and index['files']==rollbacks['files'])
         text={f['key']:release_text(f) for f in files}
         rb={k:(ROOT/committed[k]['file']).read_text() for k in KEYS}
-        block=package.catalog_blocks(text['AZ'])[1]
+        block=package.catalog_blocks(text[KEYS[-1]])[1]
         before={};after={}
         for f in files:
             if f['key'] in KEYS:before[f['key']]=state(package.CLONE,block)
@@ -402,8 +402,9 @@ def cycle(out):
                 finally:
                     try:conn.execute('rollback')
                     except psycopg.Error:pass
-        refusal('REFUSED_OUT_OF_ORDER_AY_WHILE_AZ_INSTALLED',lambda:closed_run(rb['AY']),'AY_ROLLBACK_PLATFORM_OR_SUCCESSOR')
-        refusal('REFUSED_OPEN_ADMISSION',lambda:open_run(rb['AZ']),'PACKAGE_REQUIRES_CLOSED_DRAINED_DATABASE')
+        last,previous=KEYS[-1],KEYS[-2]
+        refusal('REFUSED_OUT_OF_ORDER_%s_WHILE_%s_INSTALLED'%(previous,last),lambda:closed_run(rb[previous]),previous+'_ROLLBACK_PLATFORM_OR_SUCCESSOR')
+        refusal('REFUSED_OPEN_ADMISSION',lambda:open_run(rb[last]),'PACKAGE_REQUIRES_CLOSED_DRAINED_DATABASE')
         for n in (1,2):
             for key in reversed(KEYS):
                 error=None
@@ -427,7 +428,7 @@ def cycle(out):
                 d=diff(after[f['key']],state(package.CLONE,block),strict=False)
                 check('CYCLE_%d_REINSTALL_%s'%(n,f['key']),error is None and not d,error=None if error is None else str(error)[:800],differences=d)
         with psycopg.connect(package.CLONE) as conn:conn.execute(PROBE_ROW)
-        refusal('REFUSED_AFTER_COMMITTED_DATA_CHANGE',lambda:closed_run(rb['AZ']),'AZ_POST_USE_ROLLBACK_REFUSED')
+        refusal('REFUSED_AFTER_COMMITTED_DATA_CHANGE',lambda:closed_run(rb[last]),last+'_POST_USE_ROLLBACK_REFUSED')
         report['status']='PASS' if all(c['status']=='PASS' for c in report['checks']) else 'FAIL'
     except Exception as exc:
         report.update(status='INCOMPLETE',error=str(exc)[:3000],traceback=traceback.format_exc()[-3000:])
@@ -462,8 +463,18 @@ def run(mode,out_name):
     assert result.get('status')==('CAPTURED' if mode=='capture' else 'PASS'),(result.get('status'),result.get('error'))
 
 
+def auto_mode():
+    """capture until the committed capture and rollback files cover every key of the committed package, cycle after."""
+    try:cap=json.loads(CAPTURE.read_text());index=json.loads((OUTDIR/'ROLLBACKS.json').read_text())
+    except FileNotFoundError:return 'capture'
+    files=manifest()
+    covered=all(k in cap.get('files',{}) and cap['files'][k]['package_sha256']==files[k]['package_sha256'] for k in KEYS)
+    return 'cycle' if covered and [f['key'] for f in index['files'] if f['key'] in KEYS]==KEYS else 'capture'
+
+
 if __name__=='__main__':
     mode=sys.argv[1] if len(sys.argv)>1 else ''
-    if mode=='build':build(sys.argv[2] if len(sys.argv)>2 else CAPTURE,sys.argv[3] if len(sys.argv)>3 else None)
+    if mode=='auto-mode':print(auto_mode())
+    elif mode=='build':build(sys.argv[2] if len(sys.argv)>2 else CAPTURE,sys.argv[3] if len(sys.argv)>3 else None)
     elif mode in ('capture','cycle'):run(mode,'T3_ROLLBACK_%s.json'%mode.upper())
     else:raise SystemExit(__doc__)
