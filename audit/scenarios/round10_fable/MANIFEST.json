@@ -3,7 +3,8 @@
  "files": [
   {
    "path": "fable_bb_independent.py",
-   "sha256": "14a4b58480a62c2f43920b4a60967a300260f5027eb4deb485c16c00fb7bdb62"
+   "sha256": "61900b50fb6de7d04ac7fa66ea5b714bcdd60a4157c017a423e1c81278dad5f1",
+   "rev": 2
   }
  ],
  "label": "T1_FAMILY/AUDITOR_SCENARIO",

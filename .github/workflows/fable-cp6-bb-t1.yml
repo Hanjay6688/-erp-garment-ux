@@ -1,4 +1,4 @@
-name: Fable CP6 Round 10 BB T1 Independent Rerun (writer PLAN + Fable cases) on head db9e276
+name: Fable CP6 Round 10 BB T1 Independent Rerun (writer PLAN + Fable cases, rev2) on head db9e276
 'on':
   push:
     branches:

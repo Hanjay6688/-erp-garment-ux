@@ -1,4 +1,5 @@
-"""Fable BB T1 independent rerun on the exact writer head (round 10). Label T1_FAMILY / AUDITOR_SCENARIO, never release evidence.
+"""rev2: P03 case query fixed (supplier invoices/payments looked up by supplier; run 36132268786 INCOMPLETE was the auditor SQL, 38/38 other cases PASS).
+Fable BB T1 independent rerun on the exact writer head (round 10). Label T1_FAMILY / AUDITOR_SCENARIO, never release evidence.
 
 Runs the writer's own BB PLAN unchanged (exact head, before and after) and appends Fable cases with oracles from the contract
 and Fable's pre-code ALL oracles (out/fable_all22_oracles_pre_code.md), written without reading the writer's BB SQL:
@@ -99,7 +100,8 @@ def p03_no_duplicate(cur,today):
     api.admin(cur)
     item=cur.execute("select l.purchase_item_id from erp.initial_import_receipt_lines l join erp.initial_import_receipt_headers h on h.purchase_id=l.purchase_id where h.batch_id=%s",(batch,)).fetchone()[0]
     st=bb.p03_state(cur,item)
-    old_docs=cur.execute("select (select count(*) from erp.material_supplier_invoices i join erp.material_purchase_headers h on h.id=i.purchase_id where h.id=(select purchase_id from erp.material_purchase_items where id=%s)),(select count(*) from erp.supplier_payments p where p.purchase_id=(select purchase_id from erp.material_purchase_items where id=%s))",(item,item)).fetchone()
+    supplier=cur.execute('select id from erp.suppliers where supplier_code=%s',(code,)).fetchone()[0]
+    old_docs=cur.execute("select (select count(*) from erp.material_supplier_invoices where supplier_id=%s),(select count(*) from erp.supplier_payments p join erp.material_purchase_headers h on h.id=p.purchase_id where h.supplier_id=%s)",(supplier,supplier)).fetchone()
     checks=dict(inventory_22=delta.get(inv)=='22.00',grni_12_unbilled_only=delta.get(grni)=='-12.00',ap_7_open_part_only=delta.get(ap)=='-7.00',
                 obligation_basis_equals_inventory=D('12.00')+D('7.00')+D('3.00')==D('22.00') and delta.get(inv)=='22.00',
                 native_ap_zero=st['native_ap']==0,no_minted_invoice_or_payment=old_docs==(0,0),only_opening_journal=set(types)<={'OPENING_BALANCE'})
