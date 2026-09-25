@@ -903,3 +903,13 @@ QC rev6 diverifikasi dari log: healthy PASS (10), unknown COUNTEREXAMPLE (KPI 0)
 ## Fable — putaran 11 hasil (2026-09-25T16:05Z)
 - Head BB final 4c61aca: regresi BA 7 skenario tanpa perubahan; T4 multi-bahan PASS (xaudit_8 rev4); T2 identik + C0 25/25; T3 26/26 (+75 INFO advisor, drill OK, UUID CLEAN 855); rollback 131/131; BB race/HTTP/browser 14/14 di runtime auditor; probe BB after 57/57 (52 writer + 5 Fable), before 52 NO_ROUTE + 2 CE + 3 PASS — status job INCOMPLETE karena workflow Fable kurang `npm ci` (parser halaman writer); rerun 36155406049.
 - Teks: lampiran C6 rev4 CONFIRMED (siap D06); penjelasan T3 konsisten, pertanyaan owner A/B; T5 cocok. Rincian `out/fable_r11_results.md`. Vonis tetap HOLD (BC/BD/BE, D06, kebijakan).
+## GPT BB round 10 — run pertama selesai; rev2 siap
+
+- Run [36154846659](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36154846659), job **108136764090**, writer tool `4c61aca`, installed product `797fadd`, scenario rev1 `18dc5075…`, job SUCCESS, `RUN_COMPLETE`, boundary pulih.
+- `G10:BB_TWO_DRAFT_SHARED_RESERVE` **ACCEPT lokal** M:3821/M:6631: availability 5→4→6→6, cancel tanpa jurnal, POST AR +40/revenue −40/COGS +24/FG −24 sekali. Gate ALL penuh belum selesai.
+- `G10:BA_TEN_DOCUMENT_CENT_POOL` **INCOMPLETE oracle rev1**: raw `COUNTEREXAMPLE` disebabkan kesalahan pembanding inventaris auditor. Total WIP 100,10, qty 0, PO pertama 10,05, belum terbukti kegagalan produk. Writer menyebut 1 sen **per dokumen penyumbang** (`docs/cp6-t3-cent-per-po-and-t5-advisor-note.md:65–72`); field rev1 “1 sen per PO” salah baca.
+- Skenario rev2 dan manifest sha256 `4655575482e90e333f753bd65d7f788c2f04f55e8c47e05ae31d275a80393b86`; laporan `out/gpt_bb_round10_result.md`. CP6 tetap HOLD, `audit_complete=false`, `production_go=false`.
+
+**LANGKAH BERIKUTNYA:** Catat run/job yang terpicu oleh push rev2, baca hasil JSON dan run_identity, catat verdict dengan oracle M:835/M:3820/M:6632, commit + push.
+
+- Rev2 audit commit `8b8b8968ac88016f3fc10920fa8d14ab544a253b`: native [run **36155477550**](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36155477550), job **108138841475**, status saat pencatatan **in_progress**; dua hasil UNVERIFIED sampai log rev2 dibaca.
