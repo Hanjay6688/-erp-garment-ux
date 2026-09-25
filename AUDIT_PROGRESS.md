@@ -1,4 +1,12 @@
 # CP6 audit — active round 8 checkpoint
+
+## Round 8 — contract/source checkpoint 2026-09-25T05:00:26.213Z
+- C0 byte integrity ACCEPT: SHA256 e83d56e66812011c9a7a4057bf29987d0bcf62aabc17ad23ab422170abb00c99; approved precursor d39762da0520f30268a73244e7471b7d990138e3cbe36475d639c7cfca8e926d. Sections1–8 identical, only status/§9 changed. D01–D05 used as ratified per owner-supplied handoff; external chat itself not independently retrieved. No business gate accepted.
+- Three original contract hashes reproduced. Product/tool separation a095a9d..9dd7bc2 confirmed (13 doc/tool paths only).
+- **New R8-C6-01 P2 documentation gap / GATE-16 HOLD:** missing original acceptance-ID crosswalk and current CR-MASUK inventory; mixed deferral rows need separation. Oracle M1691–1699,1753–1757,4329–4374,4448–4479,5254–5307. Full eleven-row review: out/gpt_round8_c6_review.md.
+- Scenarios/run/job: no GPT round8 execution yet; no new PASS. Existing current candidate product gates UNVERIFIED; historical HOLD retained.
+- LANGKAH BERIKUTNYA: construct/hash independent after-BA scenario and pin an audit-owned disposable workflow; obtain T2 log for 25 exact IDs/new C0 oracle; review A4 residual, A7/A8 and tool/native evidence. C6 source inventory and owner ratification remain open.
+
 ## Checkpoint aktif — GPT audit silang putaran 8
 Updated 2026-09-25T04:54:39.682Z.
 
