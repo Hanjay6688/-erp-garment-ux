@@ -232,7 +232,7 @@ jobs:
         python - <<'PYVERIFY'
         import hashlib, json, pathlib, subprocess, os
         root = pathlib.Path('audit-source')
-        manifest = json.loads((root/'audit/scenarios/r9_browser/MANIFEST.json').read_text())
+        manifest = json.loads((root/'audit/scenarios/r9_browser/MANIFEST_rev2.json').read_text())
         for entry in manifest['files']:
             actual = hashlib.sha256((root/entry['path']).read_bytes()).hexdigest()
             assert actual == entry['sha256'], (entry['path'], actual, entry['sha256'])
