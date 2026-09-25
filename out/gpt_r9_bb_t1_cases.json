@@ -1,0 +1,185 @@
+{
+  "schema": "CP6_BB_T1_INDEPENDENT_25_V1",
+  "run_id": 36127700002,
+  "writer_head": "72bf53f8d808e18fd3e2866491f28667c1b6193d",
+  "audit_trigger": "0edaebe73e8f3205c2c4582a25c0147beab6f299",
+  "before_job": 108047512931,
+  "after_job": 108047512581,
+  "cases": [
+    {
+      "id": "F:P02_SETTLE_AND_REVERSE",
+      "before": "NO_ROUTE",
+      "after": "PASS",
+      "before_restored": true,
+      "after_restored": true
+    },
+    {
+      "id": "F:S01_SETTLE_AND_REVERSE",
+      "before": "NO_ROUTE",
+      "after": "PASS",
+      "before_restored": true,
+      "after_restored": true
+    },
+    {
+      "id": "F:W05_VENDOR_PAYABLE_SETTLE_AND_REVERSE",
+      "before": "NO_ROUTE",
+      "after": "PASS",
+      "before_restored": true,
+      "after_restored": true
+    },
+    {
+      "id": "F:OSS_OVER_REMAINING_REFUSED",
+      "before": "NO_ROUTE",
+      "after": "PASS",
+      "before_restored": true,
+      "after_restored": true
+    },
+    {
+      "id": "F:OSS_BEFORE_CUTOVER_REFUSED",
+      "before": "NO_ROUTE",
+      "after": "PASS",
+      "before_restored": true,
+      "after_restored": true
+    },
+    {
+      "id": "F:OSS_FUTURE_REFUSED",
+      "before": "NO_ROUTE",
+      "after": "PASS",
+      "before_restored": true,
+      "after_restored": true
+    },
+    {
+      "id": "F:OSS_DIRECT_BEFORE_CUTOVER",
+      "before": "COUNTEREXAMPLE",
+      "after": "PASS",
+      "before_restored": true,
+      "after_restored": true
+    },
+    {
+      "id": "F:OSS_DIRECT_FUTURE_CONTROL",
+      "before": "PASS",
+      "after": "PASS",
+      "before_restored": true,
+      "after_restored": true
+    },
+    {
+      "id": "F:OSS_DATED_CAPACITY",
+      "before": "COUNTEREXAMPLE",
+      "after": "PASS",
+      "before_restored": true,
+      "after_restored": true
+    },
+    {
+      "id": "F:OSS_DATED_CAPACITY_ORDERED_CONTROL",
+      "before": "PASS",
+      "after": "PASS",
+      "before_restored": true,
+      "after_restored": true
+    },
+    {
+      "id": "F:S01_CUSTOMER_ALLOWANCE",
+      "before": "NO_ROUTE",
+      "after": "PASS",
+      "before_restored": true,
+      "after_restored": true
+    },
+    {
+      "id": "F:P02_SUPPLIER_ALLOWANCE",
+      "before": "NO_ROUTE",
+      "after": "PASS",
+      "before_restored": true,
+      "after_restored": true
+    },
+    {
+      "id": "F:W05_VENDOR_ALLOWANCE",
+      "before": "NO_ROUTE",
+      "after": "PASS",
+      "before_restored": true,
+      "after_restored": true
+    },
+    {
+      "id": "F:A03_LEGACY_DOCUMENT_NO_LEDGER",
+      "before": "NO_ROUTE",
+      "after": "PASS",
+      "before_restored": true,
+      "after_restored": true
+    },
+    {
+      "id": "F:A03_LEGACY_THEN_OPEN_LATER_BATCH_REFUSED",
+      "before": "NO_ROUTE",
+      "after": "PASS",
+      "before_restored": true,
+      "after_restored": true
+    },
+    {
+      "id": "F:A03_LEGACY_AND_OPEN_SAME_BATCH_REFUSED",
+      "before": "NO_ROUTE",
+      "after": "PASS",
+      "before_restored": true,
+      "after_restored": true
+    },
+    {
+      "id": "F:A03_LEGACY_NOT_SETTLED_REFUSED",
+      "before": "NO_ROUTE",
+      "after": "PASS",
+      "before_restored": true,
+      "after_restored": true
+    },
+    {
+      "id": "F:S03_IMPORTED_CREDIT_REFUND_CYCLE",
+      "before": "NO_ROUTE",
+      "after": "PASS",
+      "before_restored": true,
+      "after_restored": true
+    },
+    {
+      "id": "F:S03_CREDIT_APPLIED_TO_OPENING_AR",
+      "before": "NO_ROUTE",
+      "after": "PASS",
+      "before_restored": true,
+      "after_restored": true
+    },
+    {
+      "id": "F:S03_RETURN_RIGHT_OPEN_INVOICE",
+      "before": "NO_ROUTE",
+      "after": "PASS",
+      "before_restored": true,
+      "after_restored": true
+    },
+    {
+      "id": "F:S03_RETURN_RIGHT_LEGACY_INVOICE",
+      "before": "NO_ROUTE",
+      "after": "PASS",
+      "before_restored": true,
+      "after_restored": true
+    },
+    {
+      "id": "F:S03_RETURN_WITHOUT_INVOICE_REFUSED",
+      "before": "NO_ROUTE",
+      "after": "PASS",
+      "before_restored": true,
+      "after_restored": true
+    },
+    {
+      "id": "F:Y01_OPENING_PAYABLE_THROUGH_PAYROLL",
+      "before": "NO_ROUTE",
+      "after": "PASS",
+      "before_restored": true,
+      "after_restored": true
+    },
+    {
+      "id": "F:Y01_OVER_AVAILABLE_REFUSED",
+      "before": "NO_ROUTE",
+      "after": "PASS",
+      "before_restored": true,
+      "after_restored": true
+    },
+    {
+      "id": "AUD:ALL_S01_OPENING_AR_SIGN",
+      "before": "PASS",
+      "after": "PASS",
+      "before_restored": true,
+      "after_restored": true
+    }
+  ]
+}
