@@ -46,6 +46,10 @@ checked substitutions only, like the AY and AZ builders:
      materials gives its document-level cent to the lowest material id among its items.
   A6 (CP6-24) erp.close_accounting_through: closing the date that is already closed is refused (filings are immutable, a
      second close would file twice); a close after a reopen stays allowed.
+  LAU-T14 (round 9, found while writing the C6 source inventory; M:4474 LAU-DEC03 "jangan reprice otomatis menurut tanggal
+     kembali") erp.save_laundry_qc_action_v1 POST_RECEIPT: the actual process is priced at the rate effective when the goods
+     were sent, not at the receipt time. The delivery estimate and the failed-wash attempt (its own service event,
+     LAU-T27) keep their own times.
   W9 (independent audit round 9; C0 D01 section 3.4, ratified) erp.get_owner_financial_snapshot_v2: a report dated inside a
      filed period marks changed_since_filing while the date is not READY (AW) and also once a correction whose economic
      date is on or before the report date was booked after the filed period (the controlled adjustment of 3.4: economic
@@ -71,6 +75,7 @@ AP=ROOT/'supabase/migrations/20260922135615_erp_v2_6_20ap_cp6_connected_import_m
 AV=ROOT/'supabase/migrations/20260923110000_erp_v2_6_20av_cp6_identity_new_stock_cutoff.sql'
 CP5=ROOT/'supabase/migrations/20260903070932_erp_v2_6_19_cp5_bs_resolution_recovery.sql'
 AW=ROOT/'supabase/dev/cp6_aw_t1_family.sql'
+AC=ROOT/'supabase/migrations/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.sql'
 AZ=ROOT/'supabase/dev/cp6_az_t1_family.sql'
 OUT=ROOT/'supabase/dev/cp6_ba_t1_family.sql'
 VERSION='v2.6.20ba'
@@ -383,6 +388,36 @@ REVAL_NEW="""    elsif r.source_type='MATERIAL_SUPPLIER_RETURN_ITEM' then
 """
 
 # ---------------------------------------------------------------- A6 erp.close_accounting_through (AW)
+LAUNDRY_HEAD='CREATE OR REPLACE FUNCTION erp.save_laundry_qc_action_v1(p_action text, p_payload jsonb, p_client_request_id uuid, p_expected_version bigint DEFAULT NULL::bigint)'
+LAUNDRY_RATE_OLD="""    select count(*)::integer,min(r.rate_per_pcs) into v_rate_count,v_rate
+    from erp.laundry_vendor_rate_versions r
+    where r.vendor_id=v_delivery.vendor_id and r.wash_process_id=v_process_id
+      and r.effective_from<=v_physical_at
+      and(r.effective_to is null or r.effective_to>v_physical_at);
+    if v_rate_count<>1 then
+      raise exception 'Exactly one authoritative actual Laundry rate must be effective for this vendor/process/time; found %',v_rate_count;
+    end if;
+    perform 1 from erp.laundry_vendor_rate_versions r
+    where r.vendor_id=v_delivery.vendor_id and r.wash_process_id=v_process_id
+      and r.effective_from<=v_physical_at
+      and(r.effective_to is null or r.effective_to>v_physical_at)
+    order by r.id for share;"""
+LAUNDRY_RATE_NEW="""    -- BA (round 9, W1 source inventory; M:4474 LAU-DEC03 / LAU-T14): the receipt prices the actual process at the rate that
+    -- was effective when the goods were sent (the agreement snapshot), not at the return time; a rate version that starts
+    -- between send and return does not reprice the delivery.
+    select count(*)::integer,min(r.rate_per_pcs) into v_rate_count,v_rate
+    from erp.laundry_vendor_rate_versions r
+    where r.vendor_id=v_delivery.vendor_id and r.wash_process_id=v_process_id
+      and r.effective_from<=v_delivery.physical_at
+      and(r.effective_to is null or r.effective_to>v_delivery.physical_at);
+    if v_rate_count<>1 then
+      raise exception 'Exactly one authoritative actual Laundry rate must be effective for this vendor/process/time; found % (rate of the send time)',v_rate_count;
+    end if;
+    perform 1 from erp.laundry_vendor_rate_versions r
+    where r.vendor_id=v_delivery.vendor_id and r.wash_process_id=v_process_id
+      and r.effective_from<=v_delivery.physical_at
+      and(r.effective_to is null or r.effective_to>v_delivery.physical_at)
+    order by r.id for share;"""
 SNAP_HEAD='CREATE OR REPLACE FUNCTION erp.get_owner_financial_snapshot_v2(p_from date, p_to date, p_as_of date DEFAULT'
 SNAP_OLD="""      'filing',v_filing,'changed_since_filing',v_filing is not null and v_readiness->>'status'<>'READY'"""
 SNAP_NEW="""      -- BA (audit round 9, W9; C0 D01 3.4): changed since the filing while the date is not READY, and once a correction of the
@@ -420,7 +455,7 @@ revoke all on erp.initial_import_wip_output_identity_v1 from public,anon,authent
 REPLACED=['erp.post_opening_balance(uuid)','erp.complete_initial_import_wip_v1(jsonb)','erp.manage_initial_prepayment_v1(jsonb)',
           'erp.sync_material_cost_revaluation(uuid)','erp.close_accounting_through(date,text)','erp.assert_new_stock_cutoff_coverage_v1()',
           'erp.get_bs_resolution_workspace_v1(text,text,uuid,text,integer,integer)','erp.get_initial_import_workspace_v1(uuid)',
-          'erp.get_owner_financial_snapshot_v2(date,date,date)']
+          'erp.get_owner_financial_snapshot_v2(date,date,date)','erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)']
 NEW_FUNCTIONS=['erp.initial_prepayment_dated_floor_v1(uuid,date)']
 NEW_TABLES=['initial_import_wip_output_identity_v1']
 
@@ -449,16 +484,17 @@ def build():
     reval=function(AZ,REVAL_HEAD,[(REVAL_DECLARE_OLD,REVAL_DECLARE_NEW),(REVAL_OLD,REVAL_NEW)])
     close=function(AW,CLOSE_HEAD,[(CLOSE_OLD,CLOSE_NEW)])
     snapshot=function(AW,SNAP_HEAD,[(SNAP_OLD,SNAP_NEW)])
+    laundry=function(AC,LAUNDRY_HEAD,[(LAUNDRY_RATE_OLD,LAUNDRY_RATE_NEW)])
     parts=['-- CP6 BA audit closure (writer handoff 25 Sep 2026, owner D02/D03): T1_FAMILY development install (NOT a release package).',
            '-- Generated by scripts/cp6_ba_build.py from the AR/AP/AV/CP5-19 migrations and the AW/AZ T1 files; do not edit by hand.',
            'begin;',"set local lock_timeout='10s';set local statement_timeout='240s';set local search_path='';",
            'do $t1_guard$','begin',
            " if (select count(*) from erp.schema_migrations where version in('v2.6.20av','v2.6.20aw','v2.6.20ax','v2.6.20ay','v2.6.20az'))<>5 then raise exception 'BA_T1_REQUIRES_AV_AW_AX_AY_AZ'; end if;",
            f" if exists(select 1 from erp.schema_migrations where version='{VERSION}') or to_regclass('erp.initial_import_wip_output_identity_v1') is not null then raise exception 'BA_T1_ALREADY_INSTALLED'; end if;",
-           'end $t1_guard$;',SCHEMA,FLOOR.rstrip('\n'),opening,wip,advance,reval,close,snapshot,cover,bs,imports,
+           'end $t1_guard$;',SCHEMA,FLOOR.rstrip('\n'),opening,wip,advance,reval,close,snapshot,laundry,cover,bs,imports,
            'do $coverage$ begin perform erp.assert_new_stock_cutoff_coverage_v1(); end $coverage$;',
            f"insert into erp.schema_migrations(version,description) values('{VERSION}',"
-           "'T1_FAMILY development install of BA (CP6 audit closure: import identity, dated WIP remaining, WIP product binding, dated advance capacity, recost cents, selectors, single close filing, changed since filing); not a release package');",'commit;','']
+           "'T1_FAMILY development install of BA (CP6 audit closure: import identity, dated WIP remaining, WIP product binding, dated advance capacity, recost cents, selectors, single close filing, changed since filing, laundry receipt at the send-time rate); not a release package');",'commit;','']
     return '\n'.join(parts)
 
 

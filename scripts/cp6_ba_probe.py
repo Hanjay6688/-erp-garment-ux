@@ -723,6 +723,48 @@ def w9_changed_since_filing(cur,today,late):
     return dict(evidence,status=status)
 
 
+# ---------------------------------------------------------------- LAU-T14 laundry receipt at the send-time rate
+
+def lau_t14_receipt_rate(cur,today,new_version):
+    """M:4474 (LAU-DEC03, safe action: snapshot the agreement, do not reprice by the return date) / LAU-T14. A process of its
+    own is priced 7 from the day start; the goods go out at 11:00. With new_version=True a version at 9 starts at 11:30
+    (the old one ends there), before the receipt at 12:00. The receipt's actual rate must stay 7. Without BA it takes 9
+    (COUNTEREXAMPLE); with BA 7. Control (new_version=False): 7 in both phases."""
+    base,production=chain.base,chain.production
+    f=chain.work.draft(cur,today,D(0))
+    chain.peer.ordinary(cur);cur.execute('select erp.post_work_completion(%s)',(f['completion'],))
+    production.owner(cur)
+    cur.execute('select public.erp_record_sewing_terminal_v1(%s::jsonb,%s)',
+        (json.dumps(dict(work_completion_id=str(f['completion']),qty_pcs=10,reason='BA LAU-T14 ten original pieces')),uuid.uuid4()))
+    chain.actors.admin(cur)
+    day=cur.execute("select (physical_at at time zone 'Asia/Jakarta')::date from erp.work_completion_events where id=%s",(f['completion'],)).fetchone()[0]
+    batch=cur.execute('select b.id from erp.cutting_distribution_batches b join erp.cutting_pickups p on p.id=b.pickup_id where p.cutting_group_id=%s',(f['group'],)).fetchone()[0]
+    process=str(uuid.uuid4())
+    cur.execute("insert into erp.wash_processes(id,process_code,process_name,is_active) values(%s,%s,'BA LAU-T14 wash',true)",(process,'BA-T14-'+uuid.uuid4().hex[:16]))
+    first=cur.execute("insert into erp.laundry_vendor_rate_versions(vendor_id,wash_process_id,rate_per_pcs,effective_from,notes) values(%s,%s,7,%s,'BA LAU-T14 agreed rate') returning id",
+                      (base.VENDOR,process,production.at(day,0))).fetchone()[0]
+    sent=chain.laundry_action(cur,'POST_DELIVERY',dict(distribution_batch_id=str(batch),vendor_id=base.VENDOR,wash_process_id=process,
+        target_dyeing_color='BA-T14',physical_at=production.at(day,11),reason='BA LAU-T14 ten pieces sent',
+        lines=[dict(size_id=base.SIZE,qty_sent_pcs=10)]),base.group_version(cur,str(f['group'])))['delivery_id']
+    chain.actors.admin(cur)
+    if new_version:
+        cur.execute('update erp.laundry_vendor_rate_versions set effective_to=%s where id=%s',(production.at(day,11,30),first))
+        cur.execute("insert into erp.laundry_vendor_rate_versions(vendor_id,wash_process_id,rate_per_pcs,effective_from,notes) values(%s,%s,9,%s,'BA LAU-T14 later master rate')",
+                    (base.VENDOR,process,production.at(day,11,30)))
+    received=chain.laundry_action(cur,'POST_RECEIPT',dict(delivery_id=sent,wash_process_id=process,physical_at=production.at(day,12),
+        reason='BA LAU-T14 ten pieces back',lines=[dict(delivery_batch_size_line_id=base.delivery_size_line(cur,sent),qty_good_received=10,qty_bs_laundry=0,bs_product_id=None)]),
+        base.delivery_version(cur,sent))
+    chain.actors.admin(cur)
+    estimate=cur.execute('select estimated_rate_snapshot from erp.laundry_delivery_lines where delivery_id=%s',(sent,)).fetchone()[0]
+    actual,cost=cur.execute('select actual_rate_snapshot,actual_cost from erp.laundry_receipt_lines where receipt_id=%s',(received['receipt_id'],)).fetchone()
+    evidence=dict(send_rate='7',later_version_rate='9' if new_version else None,delivery_estimate=str(estimate),receipt_actual_rate=str(actual),
+                  receipt_actual_cost=str(cost),oracle='M:4474 LAU-DEC03 / LAU-T14: the receipt keeps the rate of the send time')
+    kept=D(str(actual))==7 and D(str(cost))==70
+    if not new_version:return control(cur,kept,None,**evidence)
+    status=('PASS' if kept else 'FAIL') if ba_installed(cur) else ('COUNTEREXAMPLE' if D(str(actual))==9 else 'INCOMPLETE')
+    return dict(evidence,status=status)
+
+
 # ---------------------------------------------------------------- registration
 
 PLAN=[('A1:MATERIAL_SECOND_BATCH_SAME_ITEM','COUNTEREXAMPLE',lambda c,t:import_overlap(c,t,'MATERIAL')),
@@ -757,6 +799,8 @@ PLAN+=[('A6:SECOND_CLOSE_SAME_DATE','COUNTEREXAMPLE',lambda c,t:a6_close(c,t,Fal
        ('A6:CLOSE_AGAIN_AFTER_REOPEN_CONTROL','PASS',lambda c,t:a6_close(c,t,True))]
 PLAN+=[('W9:CHANGED_SINCE_FILING_AFTER_PROCESSED_CORRECTION','COUNTEREXAMPLE',lambda c,t:w9_changed_since_filing(c,t,True)),
        ('W9:FILED_DATE_WITHOUT_LATER_CORRECTION_CONTROL','PASS',lambda c,t:w9_changed_since_filing(c,t,False))]
+PLAN+=[('LAU_T14:RECEIPT_AFTER_A_LATER_RATE_VERSION','COUNTEREXAMPLE',lambda c,t:lau_t14_receipt_rate(c,t,True)),
+       ('LAU_T14:RECEIPT_WITHOUT_RATE_CHANGE_CONTROL','PASS',lambda c,t:lau_t14_receipt_rate(c,t,False))]
 assert len({k for k,_,_ in PLAN})==len(PLAN),'BA_DUPLICATE_CASE_ID'
 
 
