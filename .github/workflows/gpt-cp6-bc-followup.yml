@@ -230,6 +230,12 @@ jobs:
         assert head=='62d05c43b981dc031bca260e8b4809aadcd9a01c',head
         print(json.dumps({'gpt_bc_input_sha256':hashes,'tool_head':head}))
         PYVERIFY
+    - name: Install browser dependencies for pinned BC UI
+      working-directory: auditor
+      run: |
+        set -euo pipefail
+        npm ci
+        npx playwright install --with-deps chromium
     - name: Run GPT BC native and browser scenarios
       working-directory: writer
       shell: bash
