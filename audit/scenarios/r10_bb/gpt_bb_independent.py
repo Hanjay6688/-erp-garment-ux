@@ -18,6 +18,7 @@ def pooled_cent_ten(cur, today):
     d = today - timedelta(days=4)
     cut_day = d + timedelta(days=1)
     awp.boundary.historical.prior.set_open_period(cur, d - timedelta(days=1))
+    baseline = azp.ledger_days(cur, [d, cut_day, today], [])
     first = azp.final_receipt(cur, d, qty=1, price="10.005")
     awp.api.admin(cur)
     first["roll"] = cur.execute(
@@ -54,14 +55,13 @@ def pooled_cent_ten(cur, today):
         ).fetchone()
         receipts.append(dict(material=first["material"], location=first["location"],
                              purchase=purchase, item=item, roll=roll))
-    before = azp.ledger_days(cur, [d, cut_day, today], [])
     pos = [azp.cut(cur, fx, cut_day, 1, 11 + i) for i, fx in enumerate(receipts)]
     prod.owner(cur)
     cur.execute("select erp.process_cost_recalc_queue(100)")
     awp.api.admin(cur)
     after = azp.ledger_days(cur, [d, cut_day, today], pos)
     per_po = [Decimal(after[str(today)]["WIP_PO"][str(po)]) for po in pos]
-    stock_value = Decimal(after[str(today)]["MATERIAL_INVENTORY"]) - Decimal(before[str(today)]["MATERIAL_INVENTORY"])
+    stock_value = Decimal(after[str(today)]["MATERIAL_INVENTORY"]) - Decimal(baseline[str(today)]["MATERIAL_INVENTORY"])
     qty = Decimal(str(cur.execute(
         "select coalesce(sum(qty_signed),0) from erp.material_stock_movements where material_id=%s",
         (first["material"],),
@@ -78,12 +78,14 @@ def pooled_cent_ten(cur, today):
         checks=checks, per_po=[str(v) for v in per_po],
         deviation_from_own_document_cents=[str(v) for v in drift],
         max_absolute_po_deviation=str(max(abs(v) for v in drift)),
-        writer_claim_1_cent_per_po_holds=max(abs(v) for v in drift) <= Decimal("0.01"),
+        any_po_more_than_one_cent_from_single_doc=max(abs(v) for v in drift) > Decimal("0.01"),
+        within_aggregate_one_cent_per_document_bound=max(abs(v) for v in drift) <= Decimal("0.10"),
         total_wip=str(total), remaining_material_qty=str(qty), remaining_material_value=str(stock_value),
         purchase_documents=[str(fx["purchase"]) for fx in receipts],
         oracle="Master Pulih M:835, M:3820, M:6632: each purchase document rounds 10.005 to 10.01; "
                "ten docs yield 100.10, all ten one-unit cuts consume stock, inventory is zero. "
-               "Per-PO one-cent bound is a separate writer claim, not assumed to be a contract gate.",
+               "Per-PO allocation is a separate owner choice, not a contract gate. Writer proposed a "
+               "one-cent-per-document aggregate limit: ten docs can contribute up to ten cents to one PO.",
     )
 
 

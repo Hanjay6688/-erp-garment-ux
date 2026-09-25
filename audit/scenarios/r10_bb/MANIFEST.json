@@ -1,12 +1,12 @@
 {
-  "phase": "R10_BB_INDEPENDENT_FIRST_DISPATCH",
+  "phase": "R10_BB_INDEPENDENT_REV2",
   "tool_head": "4c61acad2270e11a2aca762237790a68cf36278a",
   "product_dev_ref": "e6487118bbef5c62fc355835ad5b9baaf525c719",
   "release_tool_head": "4c61acad2270e11a2aca762237790a68cf36278a",
   "files": [
     {
       "path": "audit/scenarios/r10_bb/gpt_bb_independent.py",
-      "sha256": "18dc5075eabb27302b80d7c9919164d1ed371342f6c6c78839d7614f523f8d7c"
+      "sha256": "4655575482e90e333f753bd65d7f788c2f04f55e8c47e05ae31d275a80393b86"
     }
   ],
   "planned_case_ids": [
@@ -17,7 +17,7 @@
     "Master Pulih M:835,M:3820,M:3821,M:6632",
     "Perubahan Pulih and Addendum CP7 remain governing"
   ],
-  "per_po_limit_note": "Writer one-cent-per-PO claim is recorded as a separate observation, not a contract failure by itself",
+  "per_po_limit_note": "Writer suggests up to one cent per contributing document; ten pooled docs may move up to ten cents to a single PO; no per-PO bound is a contract gate",
   "initial_status": "UNVERIFIED",
   "production_go": false
 }

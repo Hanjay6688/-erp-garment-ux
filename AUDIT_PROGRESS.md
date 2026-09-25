@@ -899,3 +899,12 @@ QC rev6 diverifikasi dari log: healthy PASS (10), unknown COUNTEREXAMPLE (KPI 0)
 - Run native GPT BB round 10 **36154846659**, job **108136764090**, trigger audit commit `7199cadb468c0c372118280b98b15c6aabd8efbf`, status saat dicatat **in_progress**. [Actions](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36154846659). Dua kasus masih UNVERIFIED sampai log JSON dibaca.
 
 - **Temuan alat skenario saat run 36154846659 berjalan:** kasus sen rev1 sha `18dc5075…` memakai snapshot stok setelah sepuluh penerimaan sebagai pembanding saldo stok sesudah pemakaian. Ini mengubah expected selisih dari nol menjadi −100,10 secara salah. Maka status sen rev1 **INCOMPLETE sebagai oracle** apa pun label runner; angka per PO masih bisa dibaca, kasus S02 tidak terdampak. Rev2 lokal menggeser snapshot ke sebelum penerimaan (`b8d1dd8f49cb0695d3ec9f59008296f0db78bcb47bc3abbda5b7116fc3788e10`); push dan run terpisah setelah hasil rev1 dicatat.
+
+## GPT BB round 10 — run pertama selesai; rev2 siap
+
+- Run [36154846659](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36154846659), job **108136764090**, writer tool `4c61aca`, installed product `797fadd`, scenario rev1 `18dc5075…`, job SUCCESS, `RUN_COMPLETE`, boundary pulih.
+- `G10:BB_TWO_DRAFT_SHARED_RESERVE` **ACCEPT lokal** M:3821/M:6631: availability 5→4→6→6, cancel tanpa jurnal, POST AR +40/revenue −40/COGS +24/FG −24 sekali. Gate ALL penuh belum selesai.
+- `G10:BA_TEN_DOCUMENT_CENT_POOL` **INCOMPLETE oracle rev1**: raw `COUNTEREXAMPLE` disebabkan kesalahan pembanding inventaris auditor. Total WIP 100,10, qty 0, PO pertama 10,05, belum terbukti kegagalan produk. Writer menyebut 1 sen **per dokumen penyumbang** (`docs/cp6-t3-cent-per-po-and-t5-advisor-note.md:65–72`); field rev1 “1 sen per PO” salah baca.
+- Skenario rev2 dan manifest sha256 `4655575482e90e333f753bd65d7f788c2f04f55e8c47e05ae31d275a80393b86`; laporan `out/gpt_bb_round10_result.md`. CP6 tetap HOLD, `audit_complete=false`, `production_go=false`.
+
+**LANGKAH BERIKUTNYA:** Catat run/job yang terpicu oleh push rev2, baca hasil JSON dan run_identity, catat verdict dengan oracle M:835/M:3820/M:6632, commit + push.
