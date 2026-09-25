@@ -1,4 +1,4 @@
-name: Fable CP6 Round 10 BB T1 Independent Rerun (writer PLAN + Fable cases, rev3) on BB final head 4c61aca
+name: Fable CP6 Round 10 BB T1 Independent Rerun (writer PLAN + Fable cases, rev3, npm ci for the page parser) on BB final head 4c61aca
 'on':
   push:
     branches:
@@ -294,6 +294,9 @@ jobs:
           connection limit 4 password :'cp6_password';
         SQL
         printf 'CP6_ADMISSION_CONTROL_PGURL=%s\n' "$maintenance_pgurl" >> "$GITHUB_ENV"
+    - name: Install candidate node dependencies (BB workspace page parser needs esbuild)
+      working-directory: auditor
+      run: npm ci
     - name: Clone untouched AN for ${{ matrix.key }}
       working-directory: writer
       run: |
