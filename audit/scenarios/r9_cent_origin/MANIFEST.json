@@ -1,0 +1,11 @@
+{
+  "tool_head": "d1bc8adff3ba1a2a7001ef39e4819d0c3813d00b",
+  "product_ref": "61d88ee5224b2fb2da2af6f4df214fbaacf9f161",
+  "oracle": "out/gpt_r9_cent_origin_oracle.md",
+  "files": [
+    {
+      "path": "audit/scenarios/r9_cent_origin/gpt_cent_origin.py",
+      "sha256": "c31bae57e613699d9dafdf7e84b75ec3543e8b384387eda50755dd8856bd4f89"
+    }
+  ]
+}
