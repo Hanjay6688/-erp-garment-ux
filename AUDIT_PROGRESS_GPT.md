@@ -133,3 +133,22 @@ Status per gate penuh tidak berubah: C6-01 HOLD; C6-02 HOLD; C6-03 UNVERIFIED; C
 - Kedua berkas lulus `python -m py_compile` / `node --check`. GBC-3 filter lintas tab masih BELUM ditulis. Run/job belum ada; tidak ada PASS baru. Gate C6-07 HOLD, C6-08 UNVERIFIED; seluruh CP6 HOLD.
 
 **LANGKAH BERIKUTNYA:** dispatch satu workflow native pada head alat BC pinned `62d05c43b981dc031bca260e8b4809aadcd9a01c`; simpan run/job/per-kasus dan `primary_unchanged`. Jika tool atau fixture error, catat INCOMPLETE. Setelah GBC-1/2, tulis/dispatch GBC-3 atau dokumentasikan batasnya; jangan menaikkan BC ke ACCEPT hanya berdasarkan hasil orang lain.
+
+
+## Run GPT BC mandiri dimulai
+
+Workflow `.github/workflows/gpt-cp6-bc-followup.yml` commit `ed741dfdf0ec8933ccb7c2cbbce5943fe70fc09e` memicu run [36182512996](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36182512996), job **108228022712**, pada cabang audit. Ref alat BC dipin ke `62d05c43b981dc031bca260e8b4809aadcd9a01c`; input oracle/Python/browser dicek tiga sha256 sebelum runtime. Saat pencatatan job sedang menyalakan DB disposable; **belum ada hasil per kasus**. GBC-1/2 BELUM; GBC-3 BELUM. Tahan seluruh acceptance BC/CP6.
+
+**LANGKAH BERIKUTNYA:** baca job `108228022712` setelah selesai; bila gagal sebelum kasus, catat tahap dan perbaiki alat tanpa mengganti oracle historis; bila kasus selesai, rekam input/actual/status, cleanup, `primary_unchanged`, dan putuskan prioritas/limit. Commit+push hasil ke progres GPT dan `out/gpt_bc_*`, baru lanjut GBC-3 dan BD.
+
+
+## Run BC 36182512996 selesai — merah, hasil tidak diubah
+
+Job **108228022712** pada product_ref `40d6906358af451711d04574d184d500ab4fa944` **FAIL**. Rincian lengkap dan oracle di `out/gpt_bc_native_followup_run1.md` commit `78a0361cb1467d4b3a9354fd8cda4728af972940`. GBC-1 **INCOMPLETE**: key custody pertama 3 PCS bernilai 6, key kedua diklaim barang sama lewat catatan diterima dan setelah valuasi stok menjadi 6 PCS, jurnal +6 kedua kali; barang fisik baru kontrol +3 menjadi 9. Catatan pemanggil tidak cukup sebagai pembuktian kesamaan fisik: ACC-C12 PARTIAL/UNVERIFIED dan kebijakan identitas sumber tetap dibutuhkan. GBC-2 **INCOMPLETE alat** sebelum browser, `@playwright/test` tidak terpasang; GBC-3 BELUM. `primary_unchanged=true`, DB klon terhapus, 0 lock/sesi bocor, Auth kembali nol. Semua gate penuh tetap HOLD/UNVERIFIED, CP6 HOLD.
+
+**LANGKAH BERIKUTNYA:** perbaiki workflow audit dengan `npm ci` + instal Chromium pada checkout auditor (tanpa kode produk), lalu run baru untuk GBC-2 dengan hash scenario sama. Setelah itu susun GBC-3 dan disposisi. Jangan menaikkan status GBC-1 yang sumber fisiknya belum punya bukti.
+
+
+## BC rerun alat browser dimulai
+
+Workflow audit saja diperbaiki `086246ea8e2831b56301f0d76f338177a1471350`: `npm ci` dan `npx playwright install --with-deps chromium` pada checkout pinned. [Run **36182902112**](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36182902112), job **108229314210**, input oracle/skenario dan tiga hash tetap; saat catat sedang berjalan. GBC-1 run lama tetap INCOMPLETE; GBC-2 belum ada hasil sampai log run 2 dibaca. GBC-3 BELUM. **LANGKAH BERIKUTNYA:** ambil log job setelah selesai; tulis per-kasus, error tooling bila ada, `primary_unchanged` dan keputusan F3 dalam `out/gpt_bc_*` lalu commit+push. CP6 HOLD.
