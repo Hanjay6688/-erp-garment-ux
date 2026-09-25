@@ -1,5 +1,15 @@
 # CP6 audit — active round 8 checkpoint
 
+## Unknown rev4 siap — kontrol API UUIDv4 + isolasi seed yang eksplisit
+
+Menindaklanjuti audit silang Fable dan instruksi owner: siapkan empat kasus (dua healthy control, dua unknown/refetch) pada tool9dd7bc2/produka095a9d. Mandor/model/produk baru melalui public initial-import RPC; Pola/Potongan melalui public RPC. Hanya di salinan browser, produk model seed a2000000… disisihkan dari discovery dengan `is_portal_visible=false`; baris transaksi dibatasi melalui pencarian UI yang sah. Perubahan fixture/asosiasi/draft dan grant dipaparkan di receipt, tidak ada perubahan validator/response/posted quantity. Model/mandor/produk baru harus UUIDv4.
+
+Expected frozen: Laundry20, QC10, parser asli menerima respons penuh dan UI menampilkan angka benar; kemudian fault read awal→unknown, fault dilepas→refetch sehat. Dua healthy control menjadi kasus tersendiri. Semua hasil lama tetap; empat kasus baru BELUM. Oracle `out/gpt_unknown_oracle_rev4.md`; manifest `audit/scenarios/unknown_round8/MANIFEST_rev4.json`; fixture SHA256e63477a36dc4bf89feb1592affa3d2c5ccadb7919f858bb7462bc5f675c28027, browser7fff63729f67d68643a52301caf16619fd4094d6a5f23c24e5fdb43640ab139e.
+
+LANGKAH BERIKUTNYA: catat runID/jobID dari push ini; baca per-case JSON dan cleanup. Bila kontrol sehat gagal, laporkan setup spesifik, jangan relabel bukti lama. Bila kontrol dan refetch sehat lulus, nilai CP6-06 dari KPI awal saja. CP6 HOLD · audit_complete=false · production_go=false.
+
+
+
 ## Unknown rev3 selesai — penyebab fixture terbukti, dua kasus tetap INCOMPLETE
 
 Run **36103599807 / job107971184469**, audit **b2ada06c1a3a26fcfda83d421318b75a9b7f2a73**, tool9dd7bc2 / produka095a9d. LOG attempt1 SHA256 **9568ec0790adde587926edc36ec8c19d84121e92c237a1903aae8187a8cfe4f0**; rincian per kasus dan payload di `out/gpt_unknown_run_36103599807.json`.

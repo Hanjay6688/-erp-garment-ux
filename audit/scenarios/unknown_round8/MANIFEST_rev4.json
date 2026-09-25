@@ -1,0 +1,38 @@
+{
+  "phase": "UNKNOWN_BROWSER_VALID_UUID_REV4",
+  "tool_head": "9dd7bc2b9309d008e8a2e50d81876d831f3e5ea7",
+  "product_ref": "a095a9d804d29643721e18635c2c3e26adcd56ea",
+  "files": [
+    {
+      "path": "gpt_unknown_fixture_rev4.py",
+      "sha256": "e63477a36dc4bf89feb1592affa3d2c5ccadb7919f858bb7462bc5f675c28027"
+    },
+    {
+      "path": "gpt_unknown_browser_rev4.mjs",
+      "sha256": "7fff63729f67d68643a52301caf16619fd4094d6a5f23c24e5fdb43640ab139e"
+    },
+    {
+      "path": "browser_only.py",
+      "sha256": "bf60eb539e39e20d5493080376b4139ba046aeb78b20dfbe213457793afa24d5"
+    }
+  ],
+  "case_ids": [
+    "G8UI:UNKNOWN:LAUNDRY_HEALTHY_CONTROL:rev4",
+    "G8UI:UNKNOWN:LAUNDRY_INITIAL_READ:rev4",
+    "G8UI:UNKNOWN:QC_HEALTHY_CONTROL:rev4",
+    "G8UI:UNKNOWN:QC_INITIAL_READ:rev4"
+  ],
+  "prior_runs_preserved": [
+    36101907250,
+    36102303107,
+    36102938451,
+    36103599807
+  ],
+  "oracle": "M3825 unknown != 0; M3819/3826 sync/caller. Validated actual API/UI positive control and successful real refetch required before classifying full unknown case.",
+  "setup": "New model/contractor/product via public import RPC, pattern and cutting via public RPC. Fixture-only model-size link, ordinary work draft recipe and inherited seed product visibility isolation recorded. Real UI search scopes transaction rows to new model; no response rewriting, validator patch or posted-state update.",
+  "expected": {
+    "LAUNDRY": 20,
+    "QC": 10
+  },
+  "production_go": false
+}
