@@ -52,7 +52,7 @@ begin
   if p_client_request_id is null then raise exception 'BD_REQUEST_REQUIRED: id permintaan wajib';end if;
   if jsonb_typeof(p_payload) is distinct from 'object' then raise exception 'BD_PAYLOAD_INVALID: payload wajib objek';end if;
   if v_action not in('SET_POLICY','SAVE_VENDOR_TERMS','SAVE_COMPONENT','SAVE_COMPONENT_RATE','SAVE_PACKAGE','SAVE_PACKAGE_RATE','SAVE_PROCESS_RATE',
-    'SAVE_SCOPED_RATE','POST_PRICED_DELIVERY','SET_CHARGE_PRICE') then
+    'SAVE_SCOPED_RATE','POST_PRICED_DELIVERY','SET_CHARGE_PRICE','SAVE_INVOICE_DRAFT','CANCEL_INVOICE_DRAFT','POST_INVOICE','REVERSE_INVOICE') then
     raise exception 'BD_ACTION_UNKNOWN: aksi laundry % tidak dikenal',v_action;end if;
   perform pg_advisory_xact_lock(hashtextextended('BDREQ:'||p_client_request_id::text,0));
   select * into v_prior from erp.bd_requests_v1 where request_id=p_client_request_id;
@@ -65,6 +65,10 @@ begin
     when 'SET_POLICY' then erp.bd_set_policy_v1(p_payload,p_client_request_id)
     when 'POST_PRICED_DELIVERY' then erp.bd_post_priced_delivery_v1(p_payload,p_client_request_id)
     when 'SET_CHARGE_PRICE' then erp.bd_set_charge_price_v1(p_payload,p_client_request_id)
+    when 'SAVE_INVOICE_DRAFT' then erp.bd_save_invoice_draft_v1(p_payload,p_client_request_id)
+    when 'CANCEL_INVOICE_DRAFT' then erp.bd_cancel_invoice_draft_v1(p_payload,p_client_request_id)
+    when 'POST_INVOICE' then erp.bd_post_invoice_v1(p_payload,p_client_request_id)
+    when 'REVERSE_INVOICE' then erp.bd_reverse_invoice_v1(p_payload,p_client_request_id)
     else erp.bd_save_master_v1(v_action,p_payload,p_client_request_id) end;
   v_result:=jsonb_build_object('action',v_action,'request_id',p_client_request_id,'status','SAVED')||v_result;
   insert into erp.bd_requests_v1(request_id,action,actor,payload,response) values(p_client_request_id,v_action,erp.current_app_user_id(),p_payload,v_result);
@@ -135,7 +139,7 @@ begin
   foreach t in array array['bd_policy_settings_v1','bd_policy_setting_events_v1','bd_execution_context_v1','bd_laundry_vendor_terms_v1',
     'bd_laundry_components_v1','bd_laundry_component_rates_v1','bd_laundry_packages_v1','bd_laundry_package_components_v1','bd_laundry_package_rates_v1',
     'bd_laundry_scoped_rates_v1','bd_requests_v1','bd_laundry_priced_lines_v1','bd_laundry_charge_lines_v1','bd_laundry_charge_shares_v1',
-    'bd_laundry_size_estimates_v1','bd_laundry_receipt_allocations_v1'] loop
+    'bd_laundry_size_estimates_v1','bd_laundry_receipt_allocations_v1','bd_laundry_invoices_v1','bd_laundry_invoice_lines_v1'] loop
     execute format('alter table erp.%I enable row level security',t);
     execute format('revoke all on erp.%I from public,anon,authenticated,service_role',t);
   end loop;

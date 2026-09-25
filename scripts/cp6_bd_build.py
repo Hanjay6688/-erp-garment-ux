@@ -4,7 +4,7 @@ batch, minimum charge, scoped rates per model/size/colour) and the laundry polic
 25 Sep 2026: every CR and every ALL state built and tested in CP6; policy rows are application settings with a fail-closed
 default).
 
-New objects come from scripts/cp6_bd_objects_{policy,master,pricing,router}.sql; every existing function is taken from the
+New objects come from scripts/cp6_bd_objects_{policy,master,pricing,invoice,router}.sql; every existing function is taken from the
 definition the chain currently runs (AC/20 migrations, the AW, AY and BA T1 files) with checked substitutions only:
   L1 erp.save_laundry_qc_action_v1 (BA):
      POST_DELIVERY  inside the BD facade (context POST_PRICED_DELIVERY) the line takes the priced average rate (NULL while a
@@ -23,6 +23,13 @@ definition the chain currently runs (AC/20 migrations, the AW, AY and BA T1 file
   L5 erp.set_laundry_rate_owner_estimate_v1 (AW): refused for a BD line (its price is set per charge, SET_CHARGE_PRICE).
   L6 erp.validate_laundry_receipt_line (20): a receipt line of a priced delivery costs the sum of its exact size shares
      (ESTIMATED, the known part while a component price is unknown); the old qty x rate rule stays for every other line.
+  L7 erp.cp6_lot_failed_wash_cost_v2620e (AJ): a failed-wash attempt's lot cost includes its invoice product variance.
+  L8 erp.guard_cp6_vendor_invoice_receipt_on_post_v2620 (20): a payable posted by the BD invoice facade is checked against
+     its BD document (same vendor and total, with lines) instead of baseline vendor_invoice_items; every other invoice is
+     checked as before.
+Laundry vendor invoices (scripts/cp6_bd_objects_invoice.sql, LAU-T16..T19, T21..T23): L3 also subtracts the estimate a posted
+invoice line released from the accrual, adds its product-cost variance to HPP (PO, group and lot), and stops a fully invoiced
+source from keeping the HPP pending.
 Label T1_FAMILY: development install on the disposable chain AN -> AU -> AV -> AW..BA -> BB -> BC, not a release package.
 
 Usage: python3 scripts/cp6_bd_build.py            # writes supabase/dev/cp6_bd_t1_family.sql
@@ -40,7 +47,8 @@ AC=ROOT/'supabase/migrations/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_c
 AW=ROOT/'supabase/dev/cp6_aw_t1_family.sql'
 AY=ROOT/'supabase/dev/cp6_ay_t1_family.sql'
 BA=ROOT/'supabase/dev/cp6_ba_t1_family.sql'
-OBJECTS=[ROOT/f'scripts/cp6_bd_objects_{p}.sql' for p in ('policy','master','pricing','router')]
+OBJECTS=[ROOT/f'scripts/cp6_bd_objects_{p}.sql' for p in ('policy','master','pricing','invoice','router')]
+AJ=ROOT/'supabase/migrations/20260916202400_erp_v2_6_20aj_cp6_rework_output_lineage.sql'
 OUT=ROOT/'supabase/dev/cp6_bd_t1_family.sql'
 VERSION='v2.6.20bd'
 
@@ -114,11 +122,27 @@ POST_DELIVERY_SUBS=[("    if v_rate is null and h.target_wash_process_id is not 
                      "       and not exists(select 1 from erp.bd_laundry_priced_lines_v1 bp where bp.delivery_line_id=r.id) then\n")]
 
 # ---------------------------------------------------------------- L3 accrual and HPP
-ACCRUAL_SUBS=[("    select\n      ldl.qty_sent_pcs,\n      ldl.estimated_rate_snapshot,","    select\n      ldl.id,\n      ldl.qty_sent_pcs,\n      ldl.estimated_rate_snapshot,"),
+ACCRUAL_SUBS=[("      coalesce(sum(lrl.actual_cost) filter(\n        where lr.status='POSTED' and lrl.actual_cost_status='ESTIMATED'\n",
+               "      -- BD: less the estimate a posted laundry invoice line has already replaced (erp.bd_released_estimate_v1).\n"
+               "      coalesce(sum(lrl.actual_cost-erp.bd_released_estimate_v1(lrl.id)) filter(\n        where lr.status='POSTED' and lrl.actual_cost_status='ESTIMATED'\n"),
+              ("    select coalesce(sum(rl.actual_cost),0)::numeric amount\n    from erp.laundry_failed_wash_attempts a\n",
+               "    select coalesce(sum(rl.actual_cost-erp.bd_released_estimate_v1(rl.id)),0)::numeric amount\n    from erp.laundry_failed_wash_attempts a\n"),
+              ("    select\n      ldl.qty_sent_pcs,\n      ldl.estimated_rate_snapshot,","    select\n      ldl.id,\n      ldl.qty_sent_pcs,\n      ldl.estimated_rate_snapshot,"),
               ("      +greatest(qty_sent_pcs-costed_qty,0)*coalesce(estimated_rate_snapshot,0)\n",
                "      -- BD: a priced line's estimate less the shares taken by posted receipts; the old formula for any other line.\n"
                "      +erp.bd_uncosted_estimate_v1(id,qty_sent_pcs,costed_qty,estimated_rate_snapshot)\n")]
 REBUILD_SUBS=[
+    ("\n           coalesce(sum(case when lr.status='POSTED' and lrl.actual_cost_status in ('ESTIMATED','FINAL') then coalesce(lrl.actual_cost,0) else 0 end),0) as actual_cost,\n"
+     "           bool_or(lr.status='POSTED' and lrl.actual_cost_status in('PENDING','ESTIMATED')) as has_pending_receipt\n",
+     "\n           -- BD: plus the product-cost variance of posted laundry invoice lines; a fully invoiced source is no longer pending.\n"
+     "           coalesce(sum(case when lr.status='POSTED' and lrl.actual_cost_status in ('ESTIMATED','FINAL') then coalesce(lrl.actual_cost,0)+erp.bd_product_variance_v1(lrl.id) else 0 end),0) as actual_cost,\n"
+     "           bool_or(lr.status='POSTED' and lrl.actual_cost_status in('PENDING','ESTIMATED') and not erp.bd_receipt_invoiced_v1(lrl.id)) as has_pending_receipt\n"),
+    ("\n               coalesce(sum(case when lr.status='POSTED' and lrl.actual_cost_status in ('ESTIMATED','FINAL') then coalesce(lrl.actual_cost,0) else 0 end),0) as actual_cost\n",
+     "\n               coalesce(sum(case when lr.status='POSTED' and lrl.actual_cost_status in ('ESTIMATED','FINAL') then coalesce(lrl.actual_cost,0)+erp.bd_product_variance_v1(lrl.id) else 0 end),0) as actual_cost\n"),
+    ("  select v_laundry+coalesce(sum(rl.actual_cost),0)\n","  select v_laundry+coalesce(sum(rl.actual_cost+erp.bd_product_variance_v1(rl.id)),0)\n"),
+    ("      select v_group_laundry+coalesce(sum(rl.actual_cost),0)\n","      select v_group_laundry+coalesce(sum(rl.actual_cost+erp.bd_product_variance_v1(rl.id)),0)\n"),
+    ("    where ld.po_id=p_po_id and rl.actual_cost_status='ESTIMATED'\n  );\n",
+     "    where ld.po_id=p_po_id and rl.actual_cost_status='ESTIMATED' and not erp.bd_receipt_invoiced_v1(rl.id)\n  );\n"),
     ("  select coalesce(sum(actual_cost+greatest(qty_sent_pcs-qty_costed_actual,0)*coalesce(estimated_rate_snapshot,0)),0),\n"
      "         coalesce(bool_or(has_pending_receipt or qty_sent_pcs>qty_costed_actual),false)\n",
      "  -- BD: uncosted part of a priced line by its exact shares; an unknown component price keeps the HPP pending.\n"
@@ -131,7 +155,14 @@ REBUILD_SUBS=[
     ("            then rl.actual_cost/nullif(rl.qty_good_received+rl.qty_bs_laundry,0)\n",
      "            -- BD: a lot from a priced receipt size takes that size's own amount (sizes may be priced differently).\n"
      "            then coalesce((select ba.amount/nullif(ba.qty,0) from erp.bd_laundry_receipt_allocations_v1 ba where ba.receipt_batch_size_line_id=rx.id),\n"
-     "              rl.actual_cost/nullif(rl.qty_good_received+rl.qty_bs_laundry,0))\n")]
+     "              rl.actual_cost/nullif(rl.qty_good_received+rl.qty_bs_laundry,0))\n"
+     "              +erp.bd_product_variance_v1(rl.id)/nullif(rl.qty_good_received+rl.qty_bs_laundry,0)\n")]
+
+# ---------------------------------------------------------------- L7 failed-wash lot cost (AJ): plus invoice product variance
+ATTEMPT_SUBS=[("    coalesce(rl.actual_cost,a.qty_attempted_pcs*coalesce(rl.actual_rate_snapshot,0))\n      *(ax.qty_attempted_pcs::numeric/nullif(a.qty_attempted_pcs,0)) size_cost,\n",
+               "    -- BD: plus the product-cost variance of posted laundry invoice lines on the attempt.\n"
+               "    (coalesce(rl.actual_cost,a.qty_attempted_pcs*coalesce(rl.actual_rate_snapshot,0))+erp.bd_product_variance_v1(rl.id))\n"
+               "      *(ax.qty_attempted_pcs::numeric/nullif(a.qty_attempted_pcs,0)) size_cost,\n")]
 
 # ---------------------------------------------------------------- L4 close blocker
 BLOCKER_ANCHOR="  -- LAUNDRY: a delivery rate that is not a finite non-negative number is not a known price (P-02).\n"
@@ -163,6 +194,33 @@ ESTIMATE_SUBS=[("  if v_line.estimated_rate_snapshot is not null then raise exce
                 "    raise exception 'BD_USE_CHARGE_PRICE: kiriman ini dihargai per komponen; isi harga komponen yang belum diketahui di halaman harga laundry';\n"
                 "  end if;\n")]
 
+# ---------------------------------------------------------------- L8 vendor invoice status guard (20)
+GUARD_OLD='''  if not(
+    (old.status='DRAFT' and new.status='POSTED')
+    or (old.status='POSTED' and new.status='REVERSED')
+  ) then return new; end if;
+'''
+GUARD_NEW=GUARD_OLD+'''  -- BD (LAU-05b): a laundry invoice posted by the BD facade bills its receipts through erp.bd_laundry_invoice_lines_v1
+  -- (partial quantities, categories, corrections), not through vendor_invoice_items; its payable must match its BD document.
+  if exists(select 1 from erp.bd_laundry_invoices_v1 b where b.id=new.id) then
+    if not exists(select 1 from erp.bd_laundry_invoices_v1 b where b.id=new.id and b.vendor_id=new.vendor_id and b.header_total=new.total_amount
+        and exists(select 1 from erp.bd_laundry_invoice_lines_v1 l where l.invoice_id=b.id)) then
+      raise exception 'BD_VENDOR_INVOICE_MISMATCH: invoice vendor laundry tidak cocok dengan dokumen BD-nya';
+    end if;
+    return new;
+  end if;
+'''
+
+
+def invoice_guard():
+    text=M20.read_text()
+    head='create function erp.guard_cp6_vendor_invoice_receipt_on_post_v2620()'
+    assert text.count(head)==1
+    start=text.index(head);stop=text.index('$function$;',start)+len('$function$;')
+    body='CREATE OR REPLACE FUNCTION'+text[start+len('create function'):stop]
+    return substitute(body,[(GUARD_OLD,GUARD_NEW)],'invoice guard')
+
+
 # ---------------------------------------------------------------- L6 receipt line cost
 RECEIPT_LINE_OLD='''  if new.actual_cost_status='FINAL' and new.actual_cost is not null then
     return new;
@@ -179,11 +237,11 @@ RECEIPT_LINE_SUBS=[(RECEIPT_LINE_OLD,RECEIPT_LINE_NEW)]
 
 REPLACED=['erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)','erp.post_laundry_delivery(uuid)','erp.desired_laundry_accrual(uuid)',
           'erp.rebuild_po_hpp(uuid,text)','erp.period_blockers_v1(date,date)','erp.set_laundry_rate_owner_estimate_v1(uuid,numeric,text)',
-          'erp.validate_laundry_receipt_line()']
+          'erp.validate_laundry_receipt_line()','erp.cp6_lot_failed_wash_cost_v2620e(uuid)','erp.guard_cp6_vendor_invoice_receipt_on_post_v2620()']
 NEW_TABLES=['bd_policy_settings_v1','bd_policy_setting_events_v1','bd_execution_context_v1','bd_laundry_vendor_terms_v1','bd_laundry_components_v1',
             'bd_laundry_component_rates_v1','bd_laundry_packages_v1','bd_laundry_package_components_v1','bd_laundry_package_rates_v1',
             'bd_laundry_scoped_rates_v1','bd_requests_v1','bd_laundry_priced_lines_v1','bd_laundry_charge_lines_v1','bd_laundry_charge_shares_v1',
-            'bd_laundry_size_estimates_v1','bd_laundry_receipt_allocations_v1']
+            'bd_laundry_size_estimates_v1','bd_laundry_receipt_allocations_v1','bd_laundry_invoices_v1','bd_laundry_invoice_lines_v1']
 
 
 def objects():
@@ -202,13 +260,14 @@ def build():
     blockers=substitute(last_definition(AW,'period_blockers_v1'),BLOCKER_SUBS,'blockers')
     estimate=substitute(last_definition(AW,'set_laundry_rate_owner_estimate_v1'),ESTIMATE_SUBS,'owner estimate')
     receipt_line=substitute(last_definition(M20,'validate_laundry_receipt_line'),RECEIPT_LINE_SUBS,'receipt line')
+    attempt=substitute(last_definition(AJ,'cp6_lot_failed_wash_cost_v2620e',end='$function$\n$definition$;')[:-len('\n$definition$;')]+';',ATTEMPT_SUBS,'attempt lot cost')
     parts=['-- CP6 BD priced laundry deliveries (LAU-05b) and laundry policy settings LAU-DEC01..06 (owner decision 25 Sep 2026): T1_FAMILY development install (NOT a release package).',
            '-- Generated by scripts/cp6_bd_build.py from scripts/cp6_bd_objects_*.sql, the 20/AC migrations and the AW/AY/BA T1 files; do not edit by hand.',
            'begin;',"set local lock_timeout='10s';set local statement_timeout='240s';set local search_path='';",
            'do $t1_guard$','begin',
            " if not exists(select 1 from erp.schema_migrations where version='v2.6.20bc') then raise exception 'BD_T1_REQUIRES_BC'; end if;",
            f" if exists(select 1 from erp.schema_migrations where version='{VERSION}') or to_regclass('erp.bd_laundry_priced_lines_v1') is not null then raise exception 'BD_T1_ALREADY_INSTALLED'; end if;",
-           'end $t1_guard$;',objects(),facade,post_delivery,accrual,rebuild,blockers,estimate,receipt_line,
+           'end $t1_guard$;',objects(),facade,post_delivery,accrual,rebuild,blockers,estimate,receipt_line,attempt,invoice_guard(),
            f"insert into erp.schema_migrations(version,description) values('{VERSION}',"
            "'T1_FAMILY development install of BD (priced laundry deliveries: package, components with partial coverage, lump sum per batch, minimum charge, scoped rates; exact per-size receipt shares; policy settings LAU-DEC01..06); not a release package');",
            'commit;','']

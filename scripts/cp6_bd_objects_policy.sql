@@ -2,7 +2,7 @@
 -- Owner decision 25 Sep 2026 (annex C6 rev4 §3.1): LAU-DEC01..06 are application settings with a fail-closed default. Until
 -- the owner sets a value:
 --   LAU-DEC01 only the per-PCS unit (baseline) is used; batch/lump-sum and minimum charge are refused;
---   LAU-DEC02 the invoiceable quantity stays the baseline GOOD+BS returned (documented as baseline, not a final policy);
+--   LAU-DEC02 no laundry invoice is posted (the billable quantities GOOD, BS, failed-wash attempt are undecided);
 --   LAU-DEC03 invoice discount, extra, tax and rounding lines are refused;
 --   LAU-DEC04 a final sale whose goods carry an unknown laundry price is refused (close stays blocked in every case);
 --   LAU-DEC05 SKU/model/size scoped rates are refused;
@@ -103,10 +103,14 @@ begin
     select jsonb_agg(x order by x) into v_units from (select distinct u#>>'{}' x from jsonb_array_elements(p_value->'units') u) s;
     return jsonb_build_object('units',v_units);
   elsif p_key='LAU_DEC02' then
-    perform erp._cp3_assert_closed_json_object(p_value,array['invoice_basis'],array['invoice_basis'],'LAU-DEC02');
-    if p_value->>'invoice_basis' is null or p_value->>'invoice_basis' not in('RETURNED_GOOD_BS','SENT') then
-      raise exception 'BD_POLICY_VALUE: LAU-DEC02 invoice_basis RETURNED_GOOD_BS atau SENT';end if;
-    return jsonb_build_object('invoice_basis',p_value->>'invoice_basis');
+    -- M:4473: the quantities a laundry vendor may bill: GOOD, BS and failed-wash attempts, each a posted receipt source.
+    perform erp._cp3_assert_closed_json_object(p_value,array['billable'],array['billable'],'LAU-DEC02');
+    if jsonb_typeof(p_value->'billable') is distinct from 'array' or jsonb_array_length(p_value->'billable') not between 1 and 3
+      or exists(select 1 from jsonb_array_elements(p_value->'billable') u where jsonb_typeof(u)<>'string' or u#>>'{}' not in('GOOD','BS','FAILED_ATTEMPT'))
+      or (select count(distinct u#>>'{}') from jsonb_array_elements(p_value->'billable') u)<>jsonb_array_length(p_value->'billable') then
+      raise exception 'BD_POLICY_VALUE: LAU-DEC02 billable berisi GOOD, BS dan/atau FAILED_ATTEMPT';end if;
+    select jsonb_agg(x order by x) into v from (select distinct u#>>'{}' x from jsonb_array_elements(p_value->'billable') u) s;
+    return jsonb_build_object('billable',v);
   elsif p_key='LAU_DEC03' then
     perform erp._cp3_assert_closed_json_object(p_value,array['discount','extra','rounding'],array['discount','extra','rounding','tax_account_id'],'LAU-DEC03');
     if p_value->>'discount' is null or p_value->>'discount' not in('ALLOWED','REFUSED')

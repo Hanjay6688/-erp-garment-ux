@@ -99,6 +99,18 @@ def route_call(cur):
     return bd(cur,'SET_POLICY',dict(policy_key='LAU_DEC01',operation='SET',expected_version='1',reason='BD probe route',value=dict(units=['BATCH'])))
 
 
+def internal(cur,name,*args):
+    """A native internal function in the owner's session. Usage on schema erp is granted to authenticated only when it is
+    missing and put back as it was (the BC helper revokes it even when it was granted before the call)."""
+    api.admin(cur)
+    had=cur.execute("select has_schema_privilege('authenticated','erp','usage')").fetchone()[0]
+    if not had:cur.execute('grant usage on schema erp to authenticated')
+    chain.production.owner(cur)
+    value=cur.execute('select erp.'+name+'('+','.join(['%s']*len(args))+')',args).fetchone()[0];api.admin(cur)
+    if not had:cur.execute('revoke usage on schema erp from authenticated')
+    return value
+
+
 def iso(value):
     return value.isoformat()
 
@@ -460,6 +472,187 @@ def replay_and_access(cur,today):
         denied=denied['ok'],grants=anon==(False,False,False),workspace=isinstance(ws,dict)),grants=anon,denied=denied)
 
 
+# ---------------------------------------------------------------- BD-3 laundry vendor invoices
+def plain_delivery(cur,fx,qty,hour):
+    """A baseline (per-PCS) delivery through the ordinary laundry facade (the vendor has no BD terms)."""
+    return chain.laundry_action(cur,'POST_DELIVERY',delivery_payload(fx,qty,hour),chain.base.group_version(cur,fx['group']))['delivery_id']
+
+
+def receipt_line(cur,receipt):
+    return str(one(cur,'select id from erp.laundry_receipt_lines where receipt_id=%s',receipt))
+
+
+def invoice(cur,fx,lines,header,number=None,**extra):
+    """Save a draft and post it; returns (draft, posted or None when post is skipped with post=False)."""
+    post=extra.pop('post',True)
+    payload=dict(vendor_id=fx['vendor'],invoice_number=number or 'INV-'+uuid.uuid4().hex[:10],invoice_date=str(fx['day']),header_total=header,
+                 lines=[dict(line_kind=l.get('kind','BILL'),receipt_line_id=l['line'],category=l.get('category','GOOD'),qty=l.get('qty',0),amount=l['amount'])
+                        for l in lines],**extra)
+    draft=bd(cur,'SAVE_INVOICE_DRAFT',payload)
+    if not post:return draft,None
+    return draft,bd(cur,'POST_INVOICE',dict(invoice_id=draft['invoice_id'],expected_version=draft['row_version']))
+
+
+def post_draft(cur,draft):
+    return bd(cur,'POST_INVOICE',dict(invoice_id=draft['invoice_id'],expected_version=draft['row_version']))
+
+
+def ap(cur,vendor):
+    return str(one(cur,"select coalesce(sum(l.credit-l.debit),0) from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id "
+                       "where j.status in('POSTED','REVERSED') and l.account_id=erp.account_id('AP_VENDOR') and l.vendor_id=%s",vendor))
+
+
+def wip(cur,po):
+    return D(str(one(cur,"select coalesce(sum(l.debit-l.credit),0) from erp.journal_lines l where l.po_id=%s and l.account_id=erp.account_id('WIP')",po)))
+
+
+def pay(cur,invoice_id,amount,day):
+    cash=one(cur,'select id::text from erp.cash_accounts where is_active order by cash_account_code limit 1')
+    pid=one(cur,'insert into erp.vendor_payments(vendor_invoice_id,payment_number,payment_date,amount,cash_account_id) values(%s,%s,%s,%s,%s) returning id::text',
+            invoice_id,'BDPAY-'+uuid.uuid4().hex[:10],str(day)+'T15:00:00+07:00',amount,cash)
+    internal(cur,'post_vendor_payment',pid);return pid
+
+
+def invoice_policies(cur,billable=('GOOD','BS','FAILED_ATTEMPT'),mode='PRODUCT_COST',after='REFUSE',account=None):
+    policy(cur,'LAU_DEC02',dict(billable=list(billable)))
+    value=dict(variance_mode=mode,after_payment=after)
+    if account:value['variance_account_id']=account
+    policy(cur,'LAU_DEC06',value)
+
+
+def t16_invoice_above_estimate(cur,today):
+    """LAU-T16/T10 (M:4354, M:4348): 10 PCS at a synthetic 7,000 accrue 70,000 until the invoice; a draft may wait but posting
+    waits for LAU-DEC02 and LAU-DEC06 (BD_POLICY_PENDING); an invoice of 75,000 replaces the accrual (accrual 0), AP +75,000,
+    and the +5,000 difference stays in product cost (WIP) under PRODUCT_COST; the payable is an ordinary vendor invoice."""
+    fx=fixture(cur,today,'T16')
+    if not bd_installed(cur):return no_route(cur,lambda:route_call(cur))
+    process_rate(cur,fx,'7000.00');d=plain_delivery(cur,fx,10,11);rec=receive(cur,d,fx,10,13);line=receipt_line(cur,rec['receipt_id'])
+    before=dict(accrual=accrual(cur,fx['po']),ap=ap(cur,fx['vendor']),wip=wip(cur,fx['po']))
+    draft,_=invoice(cur,fx,[dict(line=line,qty=10,amount='75000.00')],'75000.00',post=False)
+    pending=refused(cur,lambda:post_draft(cur,draft),'BD_POLICY_PENDING')
+    invoice_policies(cur)
+    posted=post_draft(cur,draft)
+    after=dict(accrual=accrual(cur,fx['po']),ap=ap(cur,fx['vendor']),wip=wip(cur,fx['po']))
+    vi=q(cur,'select status,total_amount from erp.vendor_invoices where id=%s',posted['invoice_id'])[0]
+    l0=posted['lines'][0]
+    return verdict(dict(draft_saved=draft['status']=='DRAFT',pending_refused=pending['ok'],accrued_before=before['accrual']['booked']=='70000.00',
+        accrual_replaced=after['accrual']=={'desired':'0.00','booked':'0.00'} or (D(after['accrual']['desired'])==0 and D(after['accrual']['booked'])==0),
+        ap=D(after['ap'])-D(before['ap'])==75000,variance_in_wip=after['wip']-before['wip']==5000,
+        line=(l0['released_estimate'],l0['variance'],l0['product_variance'],l0['completes_source'])==('70000.00','5000.00','5000.00',True),
+        payable=(vi[0],str(vi[1]))==('POSTED','75000.00')),before=before,after=after,line=l0)
+
+
+def t17_partial_nm_capacity(cur,today):
+    """LAU-T17/T18/T19 (M:4355-4357): two deliveries (6 and 4 PCS at 7,000); invoice A bills 3 of the first and all 4 of the
+    second (one invoice, two deliveries), invoice B bills the other 3 of the first (one delivery, two invoices); a third invoice
+    under a new request key for 1 more piece is refused (capacity is the source's, not the key's); released 21,000 + 28,000
+    then the residual 21,000; accrual 0 at the end."""
+    fx=fixture(cur,today,'T17')
+    if not bd_installed(cur):return no_route(cur,lambda:route_call(cur))
+    process_rate(cur,fx,'7000.00');invoice_policies(cur)
+    d1=plain_delivery(cur,fx,6,11);d2=plain_delivery(cur,fx,4,12)
+    l1=receipt_line(cur,receive(cur,d1,fx,6,13)['receipt_id']);l2=receipt_line(cur,receive(cur,d2,fx,4,14)['receipt_id'])
+    _,a=invoice(cur,fx,[dict(line=l1,qty=3,amount='21000.00'),dict(line=l2,qty=4,amount='28000.00')],'49000.00')
+    mid=accrual(cur,fx['po'])
+    over=refused(cur,lambda:invoice(cur,fx,[dict(line=l1,qty=4,amount='28000.00')],'28000.00'),'BD_INVOICE_CAPACITY')
+    _,b=invoice(cur,fx,[dict(line=l1,qty=3,amount='21000.00')],'21000.00')
+    again=refused(cur,lambda:invoice(cur,fx,[dict(line=l1,qty=1,amount='7000.00')],'7000.00'),'BD_INVOICE_CAPACITY')
+    end=accrual(cur,fx['po'])
+    rel=[(x['qty'],x['released_estimate'],x['completes_source']) for x in a['lines']+b['lines']]
+    return verdict(dict(mid_accrual=mid['booked']=='21000.00',over_refused=over['ok'],again_refused=again['ok'],
+        released=rel==[(3,'21000.00',False),(4,'28000.00',True),(3,'21000.00',True)],end_accrual=D(end['booked'])==0 and D(end['desired'])==0),
+        released=rel,accruals=[mid,end])
+
+
+def t21_discount_tax_rounding(cur,today):
+    """LAU-T21 (M:4359): discount, tax and a rounding line wait for LAU-DEC03 (BD_POLICY_PENDING); refused when the owner
+    refuses discount; a header total that is not lines - discount + rounding + tax is refused; with discount ALLOWED,
+    rounding LAST_LINE and an input tax account: 70,000 - 1,000 - 0.40 + 6,930 = 75,929.60 payable, tax on its account,
+    product cost 68,999.60 (variance -1,000.40)."""
+    fx=fixture(cur,today,'T21')
+    if not bd_installed(cur):return no_route(cur,lambda:route_call(cur))
+    process_rate(cur,fx,'7000.00');invoice_policies(cur)
+    line=receipt_line(cur,receive(cur,plain_delivery(cur,fx,10,11),fx,10,13)['receipt_id'])
+    extra=dict(discount_amount='1000.00',tax_amount='6930.00',rounding_amount='-0.40')
+    pending=refused(cur,lambda:invoice(cur,fx,[dict(line=line,qty=10,amount='70000.00')],'75929.60',**extra),'BD_POLICY_PENDING')
+    tax_account=one(cur,"select id::text from erp.chart_accounts where account_type='ASSET' and is_postable and is_active and account_code='1500'")
+    policy(cur,'LAU_DEC03',dict(discount='REFUSED',extra='REFUSED',rounding='LAST_LINE',tax_account_id=tax_account))
+    no_discount=refused(cur,lambda:invoice(cur,fx,[dict(line=line,qty=10,amount='70000.00')],'75929.60',**extra),'BD_DISCOUNT_REFUSED')
+    policy(cur,'LAU_DEC03',dict(discount='ALLOWED',extra='REFUSED',rounding='LAST_LINE',tax_account_id=tax_account))
+    mismatch=refused(cur,lambda:invoice(cur,fx,[dict(line=line,qty=10,amount='70000.00')],'75930.00',**extra),'BD_INVOICE_TOTAL_MISMATCH')
+    before=dict(ap=ap(cur,fx['vendor']),tax=bcp.gl_account(cur,tax_account))
+    _,posted=invoice(cur,fx,[dict(line=line,qty=10,amount='70000.00')],'75929.60',**extra)
+    l0=posted['lines'][0]
+    return verdict(dict(pending_refused=pending['ok'],discount_refused=no_discount['ok'],mismatch_refused=mismatch['ok'],
+        ap=D(ap(cur,fx['vendor']))-D(before['ap'])==D('75929.60'),tax=bcp.gl_account(cur,tax_account)-before['tax']==D('6930.00'),
+        line=(l0['discount_share'],l0['rounding_share'],l0['net_amount'],l0['variance'])==('1000.00','-0.40','68999.60','-1000.40')),line=l0)
+
+
+def dec06_variance_account(cur,today):
+    """LAU-DEC06 VARIANCE_ACCOUNT (M:4477): the owner's expense variance account takes invoice - estimate (+5,000); WIP keeps
+    the estimate only (no product variance); an asset account is refused as variance account."""
+    fx=fixture(cur,today,'DEC06')
+    if not bd_installed(cur):return no_route(cur,lambda:route_call(cur))
+    process_rate(cur,fx,'7000.00')
+    expense=one(cur,"select id::text from erp.chart_accounts where account_type='EXPENSE' and is_postable and is_active and account_code='5100'")
+    invoice_policies(cur,mode='VARIANCE_ACCOUNT',account=expense)
+    line=receipt_line(cur,receive(cur,plain_delivery(cur,fx,10,11),fx,10,13)['receipt_id'])
+    before=dict(wip=wip(cur,fx['po']),var=bcp.gl_account(cur,expense))
+    _,posted=invoice(cur,fx,[dict(line=line,qty=10,amount='75000.00')],'75000.00')
+    l0=posted['lines'][0]
+    return verdict(dict(variance_account=bcp.gl_account(cur,expense)-before['var']==5000,wip_unchanged=wip(cur,fx['po'])==before['wip'],
+        no_product_variance=l0['product_variance']=='0.00' and l0['variance']=='5000.00',mode=posted['variance_mode']=='VARIANCE_ACCOUNT'),line=l0)
+
+
+def t23_reverse_pay_correct(cur,today):
+    """LAU-T23 (M:4361), LAU-DEC06 after payment: an unpaid invoice is reversed (payable REVERSED, accrual back to 70,000,
+    AP back) and replaced; while posted the receipt cannot be reversed; once paid it cannot be reversed (BD_INVOICE_PAID); a
+    correction line after payment is refused under REFUSE and posted as a linked correction document under
+    CORRECTION_DOCUMENT (+2,000 payable, product cost +2,000)."""
+    fx=fixture(cur,today,'T23')
+    if not bd_installed(cur):return no_route(cur,lambda:route_call(cur))
+    process_rate(cur,fx,'7000.00');invoice_policies(cur)
+    rec=receive(cur,plain_delivery(cur,fx,10,11),fx,10,13);line=receipt_line(cur,rec['receipt_id'])
+    ap0=D(ap(cur,fx['vendor']))
+    _,first=invoice(cur,fx,[dict(line=line,qty=10,amount='72000.00')],'72000.00')
+    rv=one(cur,'select row_version from erp.laundry_receipts where id=%s',rec['receipt_id'])
+    receipt_locked=refused(cur,lambda:chain.laundry_action(cur,'REVERSE_RECEIPT',dict(receipt_id=rec['receipt_id'],reason='BD probe reverse invoiced receipt'),rv),
+                           'BD_RECEIPT_INVOICED')
+    rev=bd(cur,'REVERSE_INVOICE',dict(invoice_id=first['invoice_id'],expected_version=first['row_version'],reason='salah nominal'))
+    back=dict(accrual=accrual(cur,fx['po']),ap=D(ap(cur,fx['vendor']))-ap0,vi=one(cur,'select status from erp.vendor_invoices where id=%s',first['invoice_id']))
+    _,second=invoice(cur,fx,[dict(line=line,qty=10,amount='71000.00')],'71000.00',number=first['invoice_number'])
+    pay(cur,second['invoice_id'],'10000.00',fx['day'])
+    s2=q(cur,'select row_version from erp.bd_laundry_invoices_v1 where id=%s',second['invoice_id'])[0][0]
+    paid=refused(cur,lambda:bd(cur,'REVERSE_INVOICE',dict(invoice_id=second['invoice_id'],expected_version=str(s2),reason='x')),'BD_INVOICE_PAID')
+    refuse=refused(cur,lambda:invoice(cur,fx,[dict(line=line,kind='CORRECTION',amount='2000.00')],'2000.00'),'BD_PAID_CORRECTION_REFUSED')
+    invoice_policies(cur,after='CORRECTION_DOCUMENT')
+    w=wip(cur,fx['po']);a=D(ap(cur,fx['vendor']))
+    _,corr=invoice(cur,fx,[dict(line=line,kind='CORRECTION',amount='2000.00')],'2000.00')
+    return verdict(dict(receipt_locked=receipt_locked['ok'],reversed=rev['status']=='REVERSED' and back['vi']=='REVERSED',
+        accrual_back=back['accrual']['booked']=='70000.00',ap_back=back['ap']==0,replaced=second['status']=='POSTED',paid_refused=paid['ok'],
+        correction_refused=refuse['ok'],correction=corr['status']=='POSTED' and D(ap(cur,fx['vendor']))-a==2000 and wip(cur,fx['po'])-w==2000),
+        back={k:str(v) for k,v in back.items()})
+
+
+def dec02_categories(cur,today):
+    """LAU-DEC02 (M:4473): only the categories the owner makes billable can be billed (GOOD when only BS is billable is refused);
+    a draft is kept; a line with another vendor's receipt is refused; access: GUDANG cannot draft an invoice."""
+    fx=fixture(cur,today,'DEC02')
+    if not bd_installed(cur):return no_route(cur,lambda:route_call(cur))
+    process_rate(cur,fx,'7000.00');invoice_policies(cur,billable=('BS',))
+    line=receipt_line(cur,receive(cur,plain_delivery(cur,fx,10,11),fx,10,13)['receipt_id'])
+    draft,_=invoice(cur,fx,[dict(line=line,qty=10,amount='70000.00')],'70000.00',post=False)
+    cat=refused(cur,lambda:post_draft(cur,draft),'BD_CATEGORY_NOT_BILLABLE')
+    other=dict(fx,vendor=str(uuid.uuid4()))
+    cur.execute("insert into erp.laundry_vendors(id,vendor_code,vendor_name,is_active) values(%s,%s,'BD other vendor',true)",(other['vendor'],'BDV-'+uuid.uuid4().hex[:10]))
+    foreign=refused(cur,lambda:invoice(cur,other,[dict(line=line,qty=1,amount='7000.00')],'7000.00',post=False),'BD_INVOICE_VENDOR')
+    gudang=user(cur,'GUDANG')
+    denied=bcp.denied(cur,lambda:bd(cur,'SAVE_INVOICE_DRAFT',dict(vendor_id=fx['vendor'],invoice_number='X',invoice_date=str(fx['day']),header_total='1.00',
+        lines=[dict(line_kind='BILL',receipt_line_id=line,category='GOOD',qty=1,amount='1.00')]),auth=gudang),'')
+    return verdict(dict(category_refused=cat['ok'],draft_kept=one(cur,'select status from erp.bd_laundry_invoices_v1 where id=%s',draft['invoice_id'])=='DRAFT',
+        foreign_refused=foreign['ok'],denied=denied['ok']),refusals=[cat,foreign,denied])
+
+
 PLAN=[('POLICY:LAU_DEC_SETTINGS_OWNER_VERSIONED_PENDING','NO_ROUTE',policy_settings),
       ('T02:PACKAGE_ONE_CHARGE_PHYSICAL_QTY','NO_ROUTE',t02_package),
       ('T03:COMPONENT_SUM_SAME_PIECES','NO_ROUTE',lambda c,t:t03_t04_components(c,t,False)),
@@ -474,7 +667,13 @@ PLAN=[('POLICY:LAU_DEC_SETTINGS_OWNER_VERSIONED_PENDING','NO_ROUTE',policy_setti
       ('T20:LUMP_SUM_SPLIT_RECEIPTS','NO_ROUTE',t20_lump_sum),
       ('DEC01:MINIMUM_CHARGE_TOPUP','NO_ROUTE',minimum_charge),
       ('T24:SCOPED_SIZE_RATE','NO_ROUTE',t24_scoped),
-      ('T32:REPLAY_ACCESS_GRANTS','NO_ROUTE',replay_and_access)]
+      ('T32:REPLAY_ACCESS_GRANTS','NO_ROUTE',replay_and_access),
+      ('T16:INVOICE_ABOVE_ESTIMATE_PRODUCT_COST','NO_ROUTE',t16_invoice_above_estimate),
+      ('T17:PARTIAL_NM_CAPACITY','NO_ROUTE',t17_partial_nm_capacity),
+      ('T21:DISCOUNT_TAX_ROUNDING','NO_ROUTE',t21_discount_tax_rounding),
+      ('DEC06:VARIANCE_ACCOUNT','NO_ROUTE',dec06_variance_account),
+      ('T23:REVERSE_PAY_CORRECT','NO_ROUTE',t23_reverse_pay_correct),
+      ('DEC02:BILLABLE_CATEGORIES_ACCESS','NO_ROUTE',dec02_categories)]
 assert len({k for k,_,_ in PLAN})==len(PLAN),'BD_DUPLICATE_CASE_ID'
 
 

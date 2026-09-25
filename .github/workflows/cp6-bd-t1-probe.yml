@@ -9,6 +9,7 @@ name: CP6 BD T1 Family Probe
     - scripts/cp6_bd_objects_policy.sql
     - scripts/cp6_bd_objects_master.sql
     - scripts/cp6_bd_objects_pricing.sql
+    - scripts/cp6_bd_objects_invoice.sql
     - scripts/cp6_bd_objects_router.sql
     - supabase/dev/cp6_bd_t1_family.sql
     - scripts/cp6_layers.py
