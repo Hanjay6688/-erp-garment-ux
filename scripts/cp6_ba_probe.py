@@ -514,7 +514,9 @@ def a4_supplier_return_control(cur,today):
         cur.execute("""insert into erp.material_supplier_return_items(return_id,material_id,roll_id,qty,purchase_item_id,supplier_credit_unit_price)
           select %s,i.material_id,r.id,1,i.id,erp.material_purchase_current_unit_cost(i.id)
           from erp.material_purchase_items i join erp.material_rolls r on r.purchase_item_id=i.id where i.id=%s""",(rid,fx['item']))
-        prod.owner(cur);cur.execute('select erp.post_material_supplier_return(%s)',(rid,))
+        # Posted as the T2 lifecycle posts it (supabase/tests/cp6_supplier_cent_lifecycle.sql, database owner): the internal
+        # function is granted to postgres and service_role only (run 36089919585 refused it under the owner's claims).
+        api.admin(cur);cur.execute('select erp.post_material_supplier_return(%s)',(rid,))
     prod.owner(cur);cur.execute('select erp.process_cost_recalc_queue(100)');api.admin(cur)
     after=daily(cur,[today])
     moved_now={k:str(after[str(today)][k]-before[str(today)][k]) for k in KEYS}

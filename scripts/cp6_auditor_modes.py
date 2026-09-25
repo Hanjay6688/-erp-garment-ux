@@ -170,7 +170,11 @@ class Http:
         inspected=json.loads(subprocess.check_output(['docker','inspect',original],text=True))[0]
         config=dict(x.split('=',1) for x in inspected['Config']['Env'])
         uri=urlsplit(config['PGRST_DB_URI'])
-        config['PGRST_DB_URI']=urlunsplit((uri.scheme,uri.netloc,'/'+HTTP_DB,uri.query,uri.fragment))
+        # The container serves the copy this mode made (HTTP or browser copy); run 36089919668 pointed the browser mode's
+        # container at the dropped HTTP copy, so PostgREST never became ready.
+        database=urlsplit(url).path.lstrip('/')
+        assert database in (HTTP_DB,BROWSER_DB),('AUDITOR_HTTP_UNEXPECTED_DATABASE',database)
+        config['PGRST_DB_URI']=urlunsplit((uri.scheme,uri.netloc,'/'+database,uri.query,uri.fragment))
         config.update(PGRST_DB_SCHEMAS='public',PGRST_SERVER_PORT='3000')
         network=next(iter(inspected['NetworkSettings']['Networks']))
         subprocess.run(['docker','rm','-f',REST],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,check=False)
