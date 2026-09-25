@@ -159,3 +159,16 @@ dikecualikan hanya jejak waktu pasang. Diterima; dicatat sebagai pengecualian ek
 - **ACC-C12 key baru:** bila opname pembuka mencatat barang "pending nilai" tanpa identitas fisik, sistem tidak dapat membedakan pengajuan ulang barang yang sama dengan key
   baru dari barang baru. Pilihan: (a) wajibkan rujukan lembar hitung/lot sumber pada setiap item pending (sistem menolak key baru tanpa rujukan), atau (b) terima batas ini
   sebagai kontrol manual gudang dan catat di lampiran C6. Sampai diputuskan: ACC-C12 = PARTIAL.
+
+## 13. Butir 1–2 pasca-BC: race dua sesi yang belum ditulis siapa pun + browser lintas tab (Fable sendiri)
+Skenario `audit/scenarios/round12_fable/fable_bc_modes.py` (rev1 sha 3612a314…) + `fable_bc_browser.mjs`; run **36181745737** (head caeff6f, produk 27e1a05, fase after):
+| Kasus | Hasil | Bukti |
+|---|---|---|
+| USE_FROM_POST vs REVERSE_FILL, sesi 1 commit | PASS | sesi 2 BLOCKED lalu ditolak "stock would become negative … Available 0, requested 5"; gudang 2, pos 0 |
+| … sesi 1 abort | PASS | sesi 2 sukses; gudang 7, pos 0 |
+| TWO_REVERSALS_SAME_FILL, commit | **FAIL (oracle auditor)** | sesi 2 BLOCKED lalu ditolak `STALE_VERSION` (fail-closed, kode berbeda dari dugaan `BC_ALREADY_REVERSED`); stok 7/0 benar; query hitung pembalikan saya salah (pembalikan dicatat pada dokumen asal: status REVERSED) |
+| … abort | **FAIL (oracle auditor)** | sesi 2 sukses; stok 7/0 benar; query hitung salah |
+| TWO_CREDITS_SAME_LOT, commit | PASS | sesi 2 ditolak `BC_QTY_EXCEEDS_BUCKET: USABLE tersedia 0, diminta 4`; lot credited 4 sekali |
+| … abort | PASS | sesi 2 sukses; credited 4 sekali |
+| Browser: filter stok terbawa ke tab Dokumen | PASS | dokumen tersembunyi saat filter aktif (gejala GPT-BC-01), status "Pencarian aktif" tampil, "Hapus pencarian" → dokumen muncul tanpa mengetik nomor (perbaikan 27e1a05 terverifikasi di browser) |
+Detektor (tanpa F2) bersih di semua kasus. Produk benar di ketujuh kasus; dua FAIL adalah oracle auditor dan tetap beku; rev2 (oracle diperbaiki) dijalankan sebagai run beku berikutnya.

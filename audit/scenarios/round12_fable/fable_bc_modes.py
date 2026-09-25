@@ -1,4 +1,7 @@
-"""Fable BC round 12, item 1: two-session races the writer's cp6_bc_modes.py does not cover, run in the auditor runtime (phase after = BC).
+"""rev2: TWO_REVERSALS oracle corrected after run 36181745737 (auditor defect): the second reversal is refused STALE_VERSION (versioned reverse detects the
+stale expected_version before BC_ALREADY_REVERSED) — both are fail-closed refusals; the reversal is recorded on the original document (status REVERSED,
+reversed_at), not as a separate REVERSE row, so the count query was wrong. Product behaved correctly in rev1 (stock 7/0 both directions).
+Fable BC round 12, item 1: two-session races the writer's cp6_bc_modes.py does not cover, run in the auditor runtime (phase after = BC).
 Oracles (contract M §6.3 linked inverse, M:5296 two-session family, no negative stock at any location/date), written before the run:
   FAB_RACE:USE_FROM_POST_VS_REVERSE_FILL  a post holds 5 (fill committed). Session 1 uses 5 from the post; session 2 reverses the fill.
       first commits -> the reversal is refused (stock at the post would go negative) and the post ends at 0 used, warehouse 2;
@@ -53,11 +56,15 @@ def two_reversals(tools,today,commit):
     def rev(cur):return bcp.reverse(cur,doc)['document_id']
     held,contention,outcome=tools.two_sessions(rev,rev,commit)
     s=_stocks(tools,fx);f=_findings(tools)
-    n=_read(tools,lambda cur:bcp.one(cur,"select count(*) from erp.bc_documents_v1 where action='REVERSE' and payload->>'document_id'=%s",doc))
-    state_ok=s=={'main':'7.000000','SERVICE_POST':'0.000000'} and int(n)==1 and not f['without_f2']
-    refused_code=(outcome.get('message') or '')
+    st=_read(tools,lambda cur:cur.execute('select status,(reversed_at is not null) from erp.bc_documents_v1 where id=%s',(doc,)).fetchone())
+    rev_moves=_read(tools,lambda cur:bcp.one(cur,"select count(*) from erp.material_stock_movements where material_id=%s and movement_type='REVERSAL'",fx['material']))
+    orig_moves=_read(tools,lambda cur:bcp.one(cur,"select count(*) from erp.material_stock_movements where material_id=%s and movement_type<>'REVERSAL' and source_type<>'OPENING'",fx['material']))
+    state_ok=s=={'main':'7.000000','SERVICE_POST':'0.000000'} and st[0]=='REVERSED' and st[1] and not f['without_f2']
+    msg=(outcome.get('message') or '')
+    extra=dict(second_refusal_fail_closed=(('STALE_VERSION' in msg) or ('BC_ALREADY_REVERSED' in msg)) if commit else None)
+    if commit and not extra['second_refusal_fail_closed']:state_ok=False
     return _verdict('TWO_REVERSALS_SAME_FILL',commit,held,contention,outcome,expect_second_ok=not commit,state_ok=state_ok,
-                    state=dict(stock=s,reversals=int(n),findings=f),extra=dict(second_refusal_has_code=('BC_ALREADY_REVERSED' in refused_code) if commit else None))
+                    state=dict(stock=s,document=dict(status=st[0],reversed_at_set=st[1]),reversal_movements=int(rev_moves),original_movements=int(orig_moves),findings=f),extra=extra)
 
 def two_credits(tools,today,commit):
     fx=_fx(tools,today,stock_qty=100);d=today-timedelta(days=4)
