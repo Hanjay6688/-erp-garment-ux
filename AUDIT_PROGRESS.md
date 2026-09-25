@@ -1,5 +1,40 @@
 # CP6 audit — active round 8 checkpoint
 
+## GPT round8 — independent native results (25 September 2026)
+**CP6 HOLD · audit_complete=false · production_go=false.** Candidate tool `9dd7bc2`, product `a095a9d`. Historical 12 HOLD unchanged. This section supersedes the earlier IN_FLIGHT entry for run 36097284096 only; it does not relabel old candidates.
+
+Run [36097284096](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36097284096), audit commit `f28a871d`. Full per-case JSON, job IDs, source log line numbers and SHA256: `out/gpt_round8_run_36097284096.json`. Scenario hashes remain in `audit/scenarios/round8/MANIFEST.json`.
+
+| Scope | Evidence | Gate disposition |
+|---|---|---|
+| A1 duplicates, A3 dated WIP and positive dates, A9 three-party dated capacities + controls, A10 WIP identity + positive controls | 28/33 ordinary cases PASS across these and four single-receipt cent cases, import-51 selector, ordinary edit and replay | ACCEPT for the explicitly listed cases only; complete business gates not closed |
+| CP6-03 / A4, multiple receipts, direct + invoice, UP + DOWN | Four COUNTEREXAMPLE, job107952094985 lines1888–1891 | HOLD; existing P2 finding remains open, not a duplicate new finding |
+| A6 close race, WIP race quantity safety | 2 PASS, job107952094985 lines1894–1895 | ACCEPT for safety cases; A7 message specificity remains optional P3 |
+| A8 prepared edit | Ordinary validate→edit→finalize PASS. Exposed prepare→edit explicitly refused: INCOMPLETE for draft editability | UNVERIFIED reachability/editability; no stale successful post proved via this legitimate edit |
+| B1 savepoint strictness | Writer selftest independently executed: SELFTEST_PASS, job107952095105 | ACCEPT for duplicate/status/isolation checks in ordinary mode |
+| B1 race and HTTP strictness, R8-B1-01 | Both duplicate IDs erase earlier INCOMPLETE; unknown statuses accepted; job107952095197 still RUN_COMPLETE | HOLD, P2 tool/evidence integrity |
+| Real Auth HTTP | Revoked and unmapped users PASS; old H1 dummy arguments produce business validation errors | H1 UNVERIFIED, not a promoted product finding; fix arguments before rerun |
+| C6 / GATE-16 | Eleven-row review in out/gpt_round8_c6_review.md; source policy crosswalk incomplete | HOLD; D06 remains unratified |
+
+### Verified residual CP6-03 (P2)
+Two separately rounded one-unit receipts of the same material, both fully consumed; physical stock = 0. UP correction 10.00→10.005 makes two document totals 10.01+10.01=20.02. Actual inventory 0.01 and WIP20.01; required inventory0/WIP20.02. DOWN 10.01→10.004 makes totals10.00+10.00=20.00. Actual inventory−0.01 and WIP20.01; required inventory0/WIP20.00. Reproduced through direct correction and supplier invoice. No return or tolerance-policy ambiguity in these fixtures. Writer's disclosed per-receipt limit describes the remaining defect; it does not authorize closing the contract gate. Oracle: Master Pulih M:835 (cent reconciliation principle), M:3818–3820, M:6625/M:6632 (GRNI/AP/stock/HPP reconciliation, sold-out cents, total/per-date value). Likely mechanism: `supabase/dev/cp6_ba_t1_family.sql:670–684` uses rounded aggregate stock endpoints, losing the sum of individually posted receipt cents.
+
+### R8-B1-01 (P2 tool; extension of existing runner-integrity finding)
+`gpt_tool_modes.py` returns INCOMPLETE then PASS for the same ID, plus NOT_A_VALID_STATUS, independently in race and HTTP. Both first results disappear from final counts; final RUN_COMPLETE/job success. Source `scripts/cp6_auditor_modes.py:99–126,237–267`: dictionaries overwrite and finish checks only INCOMPLETE/cleanup, not uniqueness/status vocabulary. This does not turn our unique-ID business results into failures; it invalidates a claim that all modes enforce B1. Required oracle: each planned case retained once, duplicate IDs rejected, unknown vocabulary→INCOMPLETE, incomplete cannot become complete by overwrite (Master M:1699/M:4324).
+All three jobs: primary unchanged, clones removed; HTTP Auth counts restored. No hosted access.
+
+### HTTP and prepared-draft qualification
+H1 OWNER import read uses a random nonexistent batch; viewer accessory write uses an unknown action. Errors therefore cannot establish either access failure or access success for valid actions. Keep raw COUNTEREXAMPLE for provenance, classify the audit conclusion UNVERIFIED and rerun valid calls. A8 explicitly refused edit establishes no stale post, but does not establish editable prepared drafts required by M:1025/M:3817. Review real public reachability before deciding necessity/severity; retain old P3 distinction.
+
+### LANGKAH BERIKUTNYA
+1. Write/freeze 25 fresh T2 oracles from C0 D01 (8 AS +12 calendar+4 AO+1 adjustment); preserve historical statuses. Assert amounts and dates by prefix, not only current totals or equality to writer output.
+2. Resolve Fable oracle differences explicitly: calendar WIP82.37/FG49.43/COGS32.95 after first partial invoice; inventory remains at E before cutting G; open adjustment recost dated max(E,A), not an early expense at E.
+3. Run the next audit-only workflow phase pinned to the same candidate: C0 cases, valid real-Auth HTTP, and browser timezone/actions. Changing the current workflow and new scenario together avoids rerunning the completed business phase.
+4. Cross-review T3/rollback/CodeQL actual Actions logs with provenance; finish C6 source crosswalk and A7/A8 recommendation. Commit each run/finding, then update combined report and writer handoff without duplicating CP6-03.
+
+
+---
+
 ## GPT active native run — 2026-09-25T05:10:11.953Z
 Run [36097284096](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36097284096), audit commit f28a871d, pinned tool9dd7bc2/producta095a9d. Jobs: 107952094985 (GPT round8 business oracle (AUDITOR_SCENARIO)): in_progress/pending; 107952095105 (Writer runtime strict-group selftest (TOOL evidence)): in_progress/pending; 107952095197 (GPT B1 invalid-mode sentinel probes (TOOL, not product)): in_progress/pending. Full ledger: out/gpt_round8_run_36097284096.json. **No case result inferred from job colour.**
 LANGKAH BERIKUTNYA: fetch these job logs after completion; extract per-case JSON and cleanup into the ledger; evaluate invalid-mode sentinels separately from product cases, then commit. Continue T2 C0 per-case oracle and browser phase. No hosted SQL or product mutation. CP6 HOLD.
